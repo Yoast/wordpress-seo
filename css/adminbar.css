@@ -1,0 +1,27 @@
+.wpseo_score_img {
+	float: right;
+	margin: 6px 0 0 5px !important;
+	width: 16px !important;
+	height: 16px !important;
+	background-image: url(../images/score_buttons.png)  !important;
+	background-repeat: no-repeat  !important;
+	padding: 0 !important;
+}
+.wpseo_score_img.good {
+	background-position: -2px -2px !important;
+}
+.wpseo_score_img.ok {
+	background-position: -25px -2px !important;
+}
+.wpseo_score_img.poor {
+	background-position: -121px -2px !important;
+}
+.wpseo_score_img.bad {
+	background-position: -49px -2px !important;
+}
+.wpseo_score_img.na {
+	background-position: -74px -2px !important;
+}
+.wpseo_score_img.noindex {
+	background-position: -146px -2px !important;
+}
