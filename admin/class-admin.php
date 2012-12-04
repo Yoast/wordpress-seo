@@ -435,7 +435,7 @@ class WPSEO_Admin {
 
 		if ( version_compare( $current_version, '1.2.8', '<' ) ) {
 			$options = get_option( 'wpseo' );
-			if ( isset( $options['presstrends'] ) ) {
+			if ( is_array($options) and isset( $options['presstrends'] ) ) {
 				$options['yoast_tracking'] = 'on';
 				unset( $options['presstrends'] );
 				update_option( 'wpseo', $options );
@@ -444,11 +444,11 @@ class WPSEO_Admin {
 
 		if ( version_compare( $current_version, '1.2.8.2', '<' ) ) {
 			$options = get_option( 'wpseo' );
-			if ( isset( $options['presstrends'] ) ) {
+			if ( is_array($options) and isset( $options['presstrends'] ) ) {
 				$options['yoast_tracking'] = 'on';
 				unset( $options['presstrends'] );
 			}
-			if ( isset( $options['presstrends_popup'] ) ) {
+			if ( is_array($options) and isset( $options['presstrends_popup'] ) ) {
 				$options['tracking_popup'] = 'on';
 				unset( $options['presstrends_popup'] );
 			}
