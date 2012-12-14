@@ -89,7 +89,7 @@ function ptest( str, p, pNoDiacr ) {
     	if (countGen > 0)
     		retStr = retStr + 'Yes (' + countGen + ') ';
     	if (countEq > 0)
-    		retStr = retStr + (countGen > 0)? ', ' : '' + 'D.E. (' + countEq + ')';
+    		retStr = retStr + ((countGen > 0)? ', ' : '') + 'D.E. (' + countEq + ')';
     	return retStr + '</span>';
     } else {
         return '<span class="wrong">No</span>';
