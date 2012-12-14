@@ -3,6 +3,11 @@
  * @package Internals
  */
 
+if ( !defined('WPSEO_VERSION') ) {
+	header('HTTP/1.0 403 Forbidden');
+	die;
+}
+
 /**
  * Flush the rewrite rules.
  */
@@ -69,6 +74,7 @@ function wpseo_defaults() {
 	if ( !is_array( get_option( 'wpseo_xml' ) ) ) {
 		$opt = array(
 			'enablexmlsitemap' => 'on',
+			'post_types-attachment-not_in_sitemap' => true
 		);
 		update_option( 'wpseo_xml', $opt );
 	}

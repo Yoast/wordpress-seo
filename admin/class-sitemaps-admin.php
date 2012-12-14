@@ -3,6 +3,11 @@
  * @package XML_Sitemaps
  */
 
+if ( !defined('WPSEO_VERSION') ) {
+	header('HTTP/1.0 403 Forbidden');
+	die;
+}
+
 /**
  * Class that handles the Admin side of XML sitemaps
  */
@@ -55,11 +60,11 @@ class WPSEO_Sitemaps_Admin {
 			return;
 
 		if ( WP_CACHE )
-			wp_schedule_single_event( time(), 'wpseo_hit_sitemap_index' );
+			wp_schedule_single_event( time() + 300, 'wpseo_hit_sitemap_index' );
 
 		// Allow the pinging to happen slightly after the hit sitemap index so the sitemap is fully regenerated when the ping happens.
 		if ( wpseo_get_value( 'sitemap-include', $post->ID ) != 'never' )
-			wp_schedule_single_event( ( time() + 60 ), 'wpseo_ping_search_engines' );
+			wp_schedule_single_event( ( time() + 300 ), 'wpseo_ping_search_engines' );
 	}
 }
 
