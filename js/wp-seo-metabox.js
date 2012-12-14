@@ -10,19 +10,7 @@ function yst_clean( str ) {
     return str;
 }
 
-function ptest(str, p, isDiacriticsFocuskw) {
-	isDiacriticsFocuskw = ( typeof isDiacriticsFocuskw !== 'undefined' ) ? isDiacriticsFocuskw : false;
-    str = yst_clean( str );
-    str = str.toLowerCase();
-    var r = str.match(p);
-    if (r != null) {
-        return '<span class="good">'+(isDiacriticsFocuskw ? 'Diacritcs Equivalent' : 'Yes')+'('+r.length+')</span>';
-    } else {
-        return '<span class="wrong">No</span>';
-    }
-}
-
-function removeLowerCaseDiacritics ( str ) {
+function removeLowerCaseDiacritics( str ) {
     var defaultDiacriticsRemovalMap = [
         {'base':'a', 'letters':/[\u0061\u24D0\uFF41\u1E9A\u00E0\u00E1\u00E2\u1EA7\u1EA5\u1EAB\u1EA9\u00E3\u0101\u0103\u1EB1\u1EAF\u1EB5\u1EB3\u0227\u01E1\u00E4\u01DF\u1EA3\u00E5\u01FB\u01CE\u0201\u0203\u1EA1\u1EAD\u1EB7\u1E01\u0105\u2C65\u0250]/g},
         {'base':'aa','letters':/[\uA733]/g},
@@ -76,6 +64,38 @@ function removeLowerCaseDiacritics ( str ) {
     return str;
 }
 
+function ptest( str, p, pNoDiacr ) {
+    str = yst_clean( str );
+    str = str.toLowerCase();
+	//str is extracted as is from post content
+	//p is the keyword with eventual diacritics (even when slugged for url test)
+	//let the user know if it's diacritics counterpart is matched somewhere
+    var strNoDiacr = removeLowerCaseDiacritics( str );
+    
+    //matchesAny contains all possible matches
+    var matchesAny = strNoDiacr.match( pNoDiacr );
+    var countAll = (null !== matchesAny)? matchesAny.length : 0;
+    //matchesGenuine contains real matches whose meaning depends on value of isDiacrP
+    var matchesGenuine = str.match(p);
+    var countGen = (null !== matchesGenuine)? matchesGenuine.length : 0;
+    //countEq contains the equivalent diacritics counterparts count
+    //if p has diacritics, countEq is count for p without diacritics ocurrences
+    //else when p has no diacriticcs, countEq counts diacritics occurences
+    //countEq >= 0
+    var countEq = countAll - countGen;
+    
+    if (countAll > 0) {
+    	var retStr = '<span title="If you see D.E. it means: Diacritics Equivalents (Intl. Chars)" class="good">';
+    	if (countGen > 0)
+    		retStr = retStr + 'Yes (' + countGen + ') ';
+    	if (countEq > 0)
+    		retStr = retStr + (countGen > 0)? ', ' : '' + 'D.E. (' + countEq + ')';
+    	return retStr + '</span>';
+    } else {
+        return '<span class="wrong">No</span>';
+    }
+}
+
 function testFocusKw() {
     // Retrieve focus keyword and trim
     var focuskw = jQuery.trim( jQuery('#yoast_wpseo_focuskw').val() );
@@ -83,21 +103,20 @@ function testFocusKw() {
 
     var postname = jQuery('#editable-post-name-full').text();
     var url	= wpseo_permalink_template.replace('%postname%', postname).replace('http://','');
-
-    p = new RegExp("(^|[ \s\n\r\t\.,'\(\"\+;!?:\-])"+focuskw+"($|[ \s\n\r\t.,'\)\"\+!?:;\-])",'gim');
-    //remove diacritics of a lower cased focuskw for url matching in foreign lang
+    
     var focuskwNoDiacritics = removeLowerCaseDiacritics( focuskw );
-    //verify if the focuskw is international with diacritics
-    var isDiacriticsFocuskw = (focuskwNoDiacritics !== focuskw);
-    p2 = new RegExp(focuskwNoDiacritics.replace(/\s+/g,"[-_\\\//]"),'gim');
-
+    p = new RegExp("(^|[ \s\n\r\t\.,'\(\"\+;!?:\-])"+focuskw+"($|[ \s\n\r\t.,'\)\"\+!?:;\-])",'gim');
+    p2 = new RegExp(focuskw.replace(/\s+/g,"[-_\\\//]"),'gim');
+    pNoDiacr = new RegExp("(^|[ \s\n\r\t\.,'\(\"\+;!?:\-])"+focuskwNoDiacritics+"($|[ \s\n\r\t.,'\)\"\+!?:;\-])",'gim');
+    p2NoDiacr = new RegExp(focuskwNoDiacritics.replace(/\s+/g,"[-_\\\//]"),'gim');
+    
     if (focuskw != '') {
         var html = '<p>Your focus keyword was found in:<br/>';
-        html += 'Article Heading: ' + ptest( jQuery('#title').val(), p ) + '<br/>';
-        html += 'Page title: ' + ptest( jQuery('#wpseosnippet .title').text(), p ) + '<br/>';
-        html += 'Page URL: ' + ptest( url, p2, isDiacriticsFocuskw ) + '<br/>';
-        html += 'Content: ' + ptest( jQuery('#content').val(), p ) + '<br/>';
-        html += 'Meta description: ' + ptest( jQuery('#yoast_wpseo_metadesc').val(), p );
+        html += 'Article Heading: ' + ptest( jQuery('#title').val(), p, pNoDiacr ) + '<br/>';
+        html += 'Page title: ' + ptest( jQuery('#wpseosnippet .title').text(), p, pNoDiacr ) + '<br/>';
+        html += 'Page URL: ' + ptest( url, p2, p2NoDiacr ) + '<br/>';
+        html += 'Content: ' + ptest( jQuery('#content').val(), p, pNoDiacr ) + '<br/>';
+        html += 'Meta description: ' + ptest( jQuery('#yoast_wpseo_metadesc').val(), p, pNoDiacr );
         html += '</p>';
         jQuery('#focuskwresults').html(html);
     }
