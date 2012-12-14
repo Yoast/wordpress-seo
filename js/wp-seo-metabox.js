@@ -10,14 +10,16 @@ function yst_clean( str ) {
     return str;
 }
 
-function ptest(str, p) {
+function ptest(str, p, isDiacriticsFocuskw) {
+	isDiacriticsFocuskw = ( typeof isDiacriticsFocuskw !== 'undefined' ) ? isDiacriticsFocuskw : false;
     str = yst_clean( str );
     str = str.toLowerCase();
     var r = str.match(p);
-    if (r != null)
-        return '<span class="good">Yes ('+r.length+')</span>';
-    else
+    if (r != null) {
+        return '<span class="good">'+(isDiacriticsFocuskw ? 'Diacritcs Equivalent' : 'Yes')+'('+r.length+')</span>';
+    } else {
         return '<span class="wrong">No</span>';
+    }
 }
 
 function removeLowerCaseDiacritics ( str ) {
@@ -85,13 +87,15 @@ function testFocusKw() {
     p = new RegExp("(^|[ \s\n\r\t\.,'\(\"\+;!?:\-])"+focuskw+"($|[ \s\n\r\t.,'\)\"\+!?:;\-])",'gim');
     //remove diacritics of a lower cased focuskw for url matching in foreign lang
     var focuskwNoDiacritics = removeLowerCaseDiacritics( focuskw );
+    //verify if the focuskw is international with diacritics
+    var isDiacriticsFocuskw = (focuskwNoDiacritics !== focuskw);
     p2 = new RegExp(focuskwNoDiacritics.replace(/\s+/g,"[-_\\\//]"),'gim');
 
     if (focuskw != '') {
         var html = '<p>Your focus keyword was found in:<br/>';
         html += 'Article Heading: ' + ptest( jQuery('#title').val(), p ) + '<br/>';
         html += 'Page title: ' + ptest( jQuery('#wpseosnippet .title').text(), p ) + '<br/>';
-        html += 'Page URL: ' + ptest( url, p2 ) + '<br/>';
+        html += 'Page URL: ' + ptest( url, p2, isDiacriticsFocuskw ) + '<br/>';
         html += 'Content: ' + ptest( jQuery('#content').val(), p ) + '<br/>';
         html += 'Meta description: ' + ptest( jQuery('#yoast_wpseo_metadesc').val(), p );
         html += '</p>';
