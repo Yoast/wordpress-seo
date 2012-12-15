@@ -71,6 +71,7 @@ function ptest( str, p, pNoDiacr ) {
 	//p is the keyword with eventual diacritics (even when slugged for url test)
 	//let the user know if it's diacritics counterpart is matched somewhere
     var strNoDiacr = removeLowerCaseDiacritics( str );
+    var isDiacrKw = (p.source !== pNoDiacr.source);
     
     //matchesAny contains all possible matches
     var matchesAny = strNoDiacr.match( pNoDiacr );
@@ -85,11 +86,11 @@ function ptest( str, p, pNoDiacr ) {
     var countEq = countAll - countGen;
     
     if (countAll > 0) {
-    	var retStr = '<span title="If you see D.E. it means: Diacritics Equivalents (Intl. Chars)" class="good">';
+    	var retStr = '<span title="Diacritics: the equivalent keyword with or without diacritics (Non-Latin Chars)" class="good">';
     	if (countGen > 0)
     		retStr = retStr + 'Yes (' + countGen + ') ';
     	if (countEq > 0)
-    		retStr = retStr + ((countGen > 0)? ', ' : '') + 'D.E. (' + countEq + ')';
+    		retStr = retStr + ((countGen > 0)? ', ' : '') + ((!isDiacrKw)? 'Diacritics' : '<del>Diacritics</del>') + ' (' + countEq + ')';
     	return retStr + '</span>';
     } else {
         return '<span class="wrong">No</span>';
