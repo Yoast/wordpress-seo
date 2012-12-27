@@ -3,11 +3,12 @@
  * @package Admin
  */
 
-global $wpseo_admin_pages;
-
-if ( isset( $_GET[ 'settings-updated' ] ) ) {
-	delete_option( 'rewrite_rules' );
+if ( !defined('WPSEO_VERSION') ) {
+	header('HTTP/1.0 403 Forbidden');
+	die;
 }
+
+global $wpseo_admin_pages;
 
 $wpseo_admin_pages->admin_header( __( 'Permalinks', 'wordpress-seo' ), true, 'yoast_wpseo_permalinks_options', 'wpseo_permalinks' );
 $content = $wpseo_admin_pages->checkbox( 'stripcategorybase', __( 'Strip the category base (usually <code>/category/</code>) from the category URL.', 'wordpress-seo' ) );

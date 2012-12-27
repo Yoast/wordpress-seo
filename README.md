@@ -1,4 +1,0 @@
-wordpress-seo
-=============
-
-WordPress SEO

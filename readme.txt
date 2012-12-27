@@ -5,8 +5,8 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: seo, SEO, google, meta, meta description, search engine optimization, xml sitemap, xml sitemaps, google sitemap, sitemap, sitemaps, robots meta, rss, rss footer, yahoo, bing, news sitemaps, XML News Sitemaps, WordPress SEO, WordPress SEO by Yoast, yoast, multisite, canonical, nofollow, noindex, keywords, meta keywords, description, webmaster tools, google webmaster tools, seo pack
 Requires at least: 3.1
-Tested up to: 3.4
-Stable tag: 1.2.8.7
+Tested up to: 3.5
+Stable tag: 1.3.3
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the WordPress SEO plugin by Yoast.
 
@@ -140,6 +140,50 @@ rewrite ^/([^/]+?)-sitemap([0-9]+)?\.xml$ /index.php?sitemap=$1&sitemap_n=$2 las
 7. The advanced section of the WordPress SEO meta box.
 
 == Changelog ==
+
+= 1.3.3 =
+
+* Properly `$wpdb->prepare` all queries that need preparing.
+* Fix wrong escaping in admin pointers.
+* Make %%currentdate%% and %%currenttime%% variables respect WP date format settings.
+* Add %%currentday%% format.
+* Force remove Jetpack OpenGraph.
+* Fix the weird addition of `noindex, nofollow` on URLs with ?replytocom that was added in 3.5.
+* Force XML sitemap to be displayed on the proper domain URL, so XSLT works.
+
+= 1.3.2 =
+
+* Updated wordpress-seo.pot
+* Updated Turkish (tr_TR) filename.
+* Updated Spanish (es_ES) translation.
+* Fixed bug where non-admin users couldn't save their profile updates.
+* Fixed bug with the same OpenGraph image appearing multiple times.
+* Fixed bug that would prevent import and export of plugin settings.
+* Try to do a redirect back after saving settings.
+* Properly allow for attachment pages in XML sitemaps, default them to off.
+* Fixed annoying bug where checkboxes wouldn't display as "checked" even when the value was set to true.
+* Show post type name and taxonomy name (as opposed to label) next to labels in XML sitemap settings to more easily identify post types and taxonomies.
+* Switch tracking to a daily cronjob instead of an admin process to prevent tracking from slowing down admin interface.
+* Focus keyword detection now properly works for diacritical focus keywords as well.
+* Properly apply filters to meta desc and titles in admin grid.
+* Properly detect new versions of Facebook plugin too.
+* Allow changing of the number of posts per XML sitemap, to prevent memory issues on certain installs.
+
+= 1.3.1.1 =
+
+* Some of that escaping was too aggressive.
+
+= 1.3.1 =
+
+* Fix somewhat too aggressive escaping of content.
+* Added notice text for non-existing .htaccess file / robots.txt file.
+
+= 1.3 =
+
+* Long list of small fixes and improvements to code best practices after Sucuri review. Fixes 3 small security issues.
+* Updated .pot file
+* Updated Danish (da_DK), Indonesian (id_ID), Chinese (zh_CN), Russian (ru_RU), Norwegian (nb_NO), Turkish (tr_TK), Hebrew (he_IL) and Persian (fa_IR).
+* Added Arabic (ar), Catalan (ca) and Romanian (ro_RO).
 
 = 1.2.8.7 =
 

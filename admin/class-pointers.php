@@ -3,6 +3,11 @@
  * @package Admin
  */
 
+if ( !defined('WPSEO_VERSION') ) {
+	header('HTTP/1.0 403 Forbidden');
+	die;
+}
+
 /**
  * This class handles the pointers used in the introduction tour.
  *
@@ -14,6 +19,10 @@ class WPSEO_Pointers {
 	 * Class constructor.
 	 */
 	function __construct() {
+		global $wp_version;
+		if ( version_compare($wp_version, '3.4', '<') )
+			return false;
+
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue' ) );
 	}
 
@@ -76,8 +85,8 @@ class WPSEO_Pointers {
 					__( 'If you would like to keep up to date regarding the WordPress SEO plugin and other plugins by Yoast, subscribe to the newsletter:', 'wordpress-seo' ) . '</p>' .
 					'<form action="http://yoast.us1.list-manage.com/subscribe/post?u=ffa93edfe21752c921f860358&amp;id=972f1c9122" method="post" id="newsletter-form">' .
 					'<p>' .
-					'<label for="newsletter-name">' . __( 'Name', 'wordpress-seo' ) . ':</label><input style="color:#666" name="MMERGE9" value="' . $current_user->display_name . '" id="newsletter-name" placeholder="' . __( 'Name', 'wordpress-seo' ) . '"/><br/>' .
-					'<label for="newsletter-email">' . __( 'Email', 'wordpress-seo' ) . ':</label><input style="color:#666" name="EMAIL" value="' . $current_user->user_email . '" id="newsletter-email" placeholder="' . __( 'Email', 'wordpress-seo' ) . '"/><br/>' .
+					'<label for="newsletter-name">' . __( 'Name', 'wordpress-seo' ) . ':</label><input style="color:#666" name="MMERGE9" value="' . esc_attr( $current_user->display_name ) . '" id="newsletter-name" placeholder="' . __( 'Name', 'wordpress-seo' ) . '"/><br/>' .
+					'<label for="newsletter-email">' . __( 'Email', 'wordpress-seo' ) . ':</label><input style="color:#666" name="EMAIL" value="' . esc_attr( $current_user->user_email ) . '" id="newsletter-email" placeholder="' . __( 'Email', 'wordpress-seo' ) . '"/><br/>' .
 					'<input type="hidden" name="group" value="2"/>' .
 					'<button type="submit" class="button-primary">' . __( 'Subscribe', 'wordpress-seo' ) . '</button>' .
 					'</p></form>',
@@ -221,13 +230,13 @@ class WPSEO_Pointers {
 				<?php if ( $button2 ) { ?>
 					jQuery('#pointer-close').after('<a id="pointer-primary" class="button-primary">' + '<?php echo $button2; ?>' + '</a>');
 					jQuery('#pointer-primary').click(function () {
-						<?php echo $button2_function; ?>
+						<?php echo esc_js( $button2_function ); ?>
 					});
 					jQuery('#pointer-close').click(function () {
 						<?php if ( $button1_function == '' ) { ?>
 							wpseo_setIgnore("tour", "wp-pointer-0", "<?php echo wp_create_nonce( 'wpseo-ignore' ); ?>");
 							<?php } else { ?>
-							<?php echo $button1_function; ?>
+							<?php echo esc_js( $button1_function ); ?>
 							<?php } ?>
 					});
 					<?php } ?>
