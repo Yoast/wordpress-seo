@@ -224,7 +224,12 @@ class WPSEO_OpenGraph extends WPSEO_Frontend {
 				}
 			}
 
-			if ( function_exists( 'has_post_thumbnail' ) && has_post_thumbnail( $post->ID ) ) {
+			if ($img = get_post_meta($post->ID, "facebook_image", 1)  ) {
+                $img = apply_filters( 'wpseo_opengraph_image', $img );
+                echo "<meta property='og:image' content='" . esc_attr( $img ) . "'/>\n";
+                $shown_imgs[] = $img;
+                return true;
+			} else if ( function_exists( 'has_post_thumbnail' ) && has_post_thumbnail( $post->ID ) ) {
 				$featured_img = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), apply_filters( 'wpseo_opengraph_image_size', 'medium' ) );
 
 				if ( $featured_img ) {
