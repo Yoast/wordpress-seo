@@ -804,7 +804,6 @@ class WPSEO_Metabox {
 				$title = $score;
 			} else {
 				$this->calculate_results( get_post( $post_id ) );
-					
 				$score = wpseo_get_value( 'linkdex', $post_id );
 				if ( !$score || empty( $score ) ) {
 					$score = 'na';
