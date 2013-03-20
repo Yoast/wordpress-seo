@@ -207,7 +207,8 @@ class WPSEO_Sitemaps {
 
 		if (
 			( isset( $options['post_types-' . $post_type . '-not_in_sitemap'] ) && $options['post_types-' . $post_type . '-not_in_sitemap'] )
-			|| in_array( $post_type, array( 'revision', 'nav_menu_item', 'attachment' ) )
+			|| in_array( $post_type, array( 'revision', 'nav_menu_item', 'attachment' )
+			|| apply_filters( 'wpseo_sitemap_exclude_post_type', false, $post_type ) )
 		) {
 			$this->bad_sitemap = true;
 			return;
@@ -443,7 +444,8 @@ class WPSEO_Sitemaps {
 		$options = get_wpseo_options();
 		if (
 			( isset( $options['taxonomies-' . $taxonomy->name . '-not_in_sitemap'] ) && $options['taxonomies-' . $taxonomy->name . '-not_in_sitemap'] )
-			|| in_array( $taxonomy, array( 'link_category', 'nav_menu', 'post_format' ) )
+			|| in_array( $taxonomy, array( 'link_category', 'nav_menu', 'post_format' )
+			|| apply_filters( 'wpseo_sitemap_exclude_taxonomy', false, $taxonomy->name ) )
 		) {
 			$this->bad_sitemap = true;
 			return;
