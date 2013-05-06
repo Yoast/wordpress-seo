@@ -3,6 +3,11 @@
  * @package XML_Sitemaps
  */
 
+if ( !defined( 'WPSEO_VERSION' ) ) {
+	header( 'HTTP/1.0 403 Forbidden' );
+	die;
+}
+
 class WPSEO_Sitemaps {
 	/**
 	 * Content of the sitemap to output.
@@ -15,9 +20,14 @@ class WPSEO_Sitemaps {
 	private $stylesheet = '';
 
 	/**
-	 * 	Flag to indicate if this is an invalid or empty sitemap.
+	 *     Flag to indicate if this is an invalid or empty sitemap.
 	 */
 	private $bad_sitemap = false;
+
+	/**
+	 * The maximum number of entries per sitemap page
+	 */
+	private $max_entries = 1000;
 
 	function __construct() {
 		if ( !defined( 'ENT_XML1' ) )
@@ -27,7 +37,6 @@ class WPSEO_Sitemaps {
 		add_action( 'template_redirect', array( $this, 'redirect' ) );
 		add_filter( 'redirect_canonical', array( $this, 'canonical' ) );
 		add_action( 'wpseo_hit_sitemap_index', array( $this, 'hit_sitemap_index' ) );
-		add_action( 'wpseo_ping_search_engines', array( $this, 'ping_search_engines' ) );
 
 		// default stylesheet
 		$this->stylesheet = '<?xml-stylesheet type="text/xsl" href="' . WPSEO_FRONT_URL . 'css/xml-sitemap-xsl.php"?>';
@@ -81,6 +90,10 @@ class WPSEO_Sitemaps {
 	function init() {
 		$GLOBALS['wp']->add_query_var( 'sitemap' );
 		$GLOBALS['wp']->add_query_var( 'sitemap_n' );
+
+		$options           = get_wpseo_options();
+		$this->max_entries = ( isset( $options['entries-per-page'] ) && $options['entries-per-page'] != '' ) ? intval( $options['entries-per-page'] ) : 1000;
+
 		add_rewrite_rule( 'sitemap_index\.xml$', 'index.php?sitemap=1', 'top' );
 		add_rewrite_rule( '([^/]+?)-sitemap([0-9]+)?\.xml$', 'index.php?sitemap=$matches[1]&sitemap_n=$matches[2]', 'top' );
 	}
@@ -100,6 +113,10 @@ class WPSEO_Sitemaps {
 			return;
 		}
 
+//		$wphost = parse_url( get_site_url(), PHP_URL_HOST );
+//		if ( isset( $_SERVER['SERVER_NAME'] ) && $_SERVER['SERVER_NAME'] != $wphost ) {
+//			wp_redirect( rtrim( get_site_url(), '/' ) . $_SERVER['REQUEST_URI'], 301 );
+//		}
 		$this->output();
 		die();
 	}
@@ -142,25 +159,24 @@ class WPSEO_Sitemaps {
 
 		// reference post type specific sitemaps
 		foreach ( get_post_types( array( 'public' => true ) ) as $post_type ) {
-			if ( $post_type == 'attachment' )
-				continue;
-
 			if ( isset( $options['post_types-' . $post_type . '-not_in_sitemap'] ) && $options['post_types-' . $post_type . '-not_in_sitemap'] )
 				continue;
 
-			$count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(ID) FROM $wpdb->posts WHERE post_type = %s AND post_status = 'publish' LIMIT 1", $post_type ) );
+			$query = $wpdb->prepare( "SELECT COUNT(ID) FROM $wpdb->posts WHERE post_type = '%s' AND post_status IN ('publish','inherit')", $post_type );
+
+			$count = $wpdb->get_var( $query );
 			// don't include post types with no posts
 			if ( !$count )
 				continue;
 
-			$n = ( $count > 1000 ) ? (int) ceil( $count / 1000 ) : 1;
+			$n = ( $count > $this->max_entries ) ? (int) ceil( $count / $this->max_entries ) : 1;
 			for ( $i = 0; $i < $n; $i++ ) {
 				$count = ( $n > 1 ) ? $i + 1 : '';
 
 				if ( empty( $count ) || $count == $n ) {
 					$date = $this->get_last_modified( $post_type );
 				} else {
-					$date = $wpdb->get_var( $wpdb->prepare( "SELECT post_modified_gmt FROM $wpdb->posts WHERE post_status = 'publish' AND post_type = %s ORDER BY post_modified_gmt ASC LIMIT 1 OFFSET %d", $post_type, $i * 1000 + 999 ) );
+					$date = $wpdb->get_var( $wpdb->prepare( "SELECT post_modified_gmt FROM $wpdb->posts WHERE post_status IN ('publish','inherit') AND post_type = %s ORDER BY post_modified_gmt ASC LIMIT 1 OFFSET %d", $post_type, $this->max_entries * ( $i + 1 ) - 1 ) );
 					$date = date( 'c', strtotime( $date ) );
 				}
 
@@ -203,11 +219,13 @@ class WPSEO_Sitemaps {
 	 * @param string $post_type Registered post type's slug
 	 */
 	function build_post_type_map( $post_type ) {
+		global $wpdb;
+
 		$options = get_wpseo_options();
 
 		if (
 			( isset( $options['post_types-' . $post_type . '-not_in_sitemap'] ) && $options['post_types-' . $post_type . '-not_in_sitemap'] )
-			|| in_array( $post_type, array( 'revision', 'nav_menu_item', 'attachment' ) )
+			|| in_array( $post_type, array( 'revision', 'nav_menu_item' ) )
 		) {
 			$this->bad_sitemap = true;
 			return;
@@ -215,43 +233,53 @@ class WPSEO_Sitemaps {
 
 		$output = '';
 
-		$front_id = get_option( 'page_on_front' );
-		if ( !$front_id && ( $post_type == 'post' || $post_type == 'page' ) ) {
-			$output .= $this->sitemap_url( array(
-				'loc' => home_url( '/' ),
-				'pri' => 1,
-				'chf' => 'daily',
-			) );
-		} else if ( $front_id && $post_type == 'post' ) {
-			$page_for_posts = get_option( 'page_for_posts' );
-			if ( $page_for_posts ) {
-				$output .= $this->sitemap_url( array(
-					'loc' => get_permalink( $page_for_posts ),
-					'pri' => 1,
-					'chf' => 'daily',
-				) );
-			}
-		}
-
-		if ( function_exists( 'get_post_type_archive_link' ) ) {
-			$archive = get_post_type_archive_link( $post_type );
-			if ( $archive ) {
-				$output .= $this->sitemap_url( array(
-					'loc' => $archive,
-					'pri' => 0.8,
-					'chf' => 'weekly',
-					'mod' => $this->get_last_modified( $post_type ) // get_lastpostmodified( 'gmt', $post_type ) #17455
-				) );
-			}
-		}
-
-		global $wpdb;
+		$steps  = 25;
+		$n      = (int) get_query_var( 'sitemap_n' );
+		$offset = ( $n > 1 ) ? ( $n - 1 ) * $this->max_entries : 0;
+		$total  = $offset + $this->max_entries;
 
 		$join_filter  = '';
 		$join_filter  = apply_filters( 'wpseo_typecount_join', $join_filter, $post_type );
 		$where_filter = '';
 		$where_filter = apply_filters( 'wpseo_typecount_where', $where_filter, $post_type );
-		$typecount    = $wpdb->get_var( "SELECT COUNT(ID) FROM $wpdb->posts {$join_filter} WHERE post_status = 'publish' AND post_password = '' AND post_type = '$post_type' {$where_filter}" );
+
+		$query = $wpdb->prepare( "SELECT COUNT(ID) FROM $wpdb->posts {$join_filter} WHERE post_status IN ('publish','inherit') AND post_password = '' AND post_type = %s " . $where_filter, $post_type );
+		$typecount = $wpdb->get_var( $query );
+
+		if ( $total > $typecount )
+			$total = $typecount;
+
+		if ( $n == 1 ) {
+			$front_id = get_option( 'page_on_front' );
+			if ( !$front_id && ( $post_type == 'post' || $post_type == 'page' ) ) {
+				$output .= $this->sitemap_url( array(
+					'loc' => home_url( '/' ),
+					'pri' => 1,
+					'chf' => 'daily',
+				) );
+			} else if ( $front_id && $post_type == 'post' ) {
+				$page_for_posts = get_option( 'page_for_posts' );
+				if ( $page_for_posts ) {
+					$output .= $this->sitemap_url( array(
+						'loc' => get_permalink( $page_for_posts ),
+						'pri' => 1,
+						'chf' => 'daily',
+					) );
+				}
+			}
+
+			if ( function_exists( 'get_post_type_archive_link' ) ) {
+				$archive = get_post_type_archive_link( $post_type );
+				if ( $archive ) {
+					$output .= $this->sitemap_url( array(
+						'loc' => $archive,
+						'pri' => 0.8,
+						'chf' => 'weekly',
+						'mod' => $this->get_last_modified( $post_type ) // get_lastpostmodified( 'gmt', $post_type ) #17455
+					) );
+				}
+			}
+		}
 
 		if ( $typecount == 0 && empty( $archive ) ) {
 			$this->bad_sitemap = true;
@@ -260,43 +288,32 @@ class WPSEO_Sitemaps {
 
 		$stackedurls = array();
 
-		$steps  = 25;
-		$n      = (int) get_query_var( 'sitemap_n' );
-		$offset = ( $n > 1 ) ? ( $n - 1 ) * 1000 : 0;
-		$total  = $offset + 1000;
-		if ( $total > $typecount )
-			$total = $typecount;
-
 		// We grab post_date, post_name, post_author and post_status too so we can throw these objects into get_permalink, which saves a get_post call for each permalink.
 		while ( $total > $offset ) {
 
-			$join_filter  = apply_filters( 'wpseo_posts_join', '', $post_type );
-			$where_filter = apply_filters( 'wpseo_posts_where', '', $post_type );
+			// Make sure you're wpdb->preparing everything you throw into this!!
+			$join_filter  = apply_filters( 'wpseo_posts_join', false, $post_type );
+			$where_filter = apply_filters( 'wpseo_posts_where', false, $post_type );
 
 			// Optimized query per this thread: http://wordpress.org/support/topic/plugin-wordpress-seo-by-yoast-performance-suggestion
 			// Also see http://explainextended.com/2009/10/23/mysql-order-by-limit-performance-late-row-lookups/
 
-			$posts = $wpdb->get_results( "SELECT l.ID, post_content, post_name, post_author, post_parent, post_modified_gmt, post_date, post_date_gmt
-			FROM ( 
-				SELECT ID FROM $wpdb->posts {$join_filter}
-						WHERE post_status = 'publish'
+			$status = ( $post_type == 'attachment' ) ? 'inherit' : 'publish';
+
+			$query = $wpdb->prepare( "SELECT l.ID, post_content, post_name, post_author, post_parent, post_modified_gmt, post_date, post_date_gmt
+				FROM (
+					SELECT ID FROM $wpdb->posts {$join_filter}
+						WHERE post_status = '%s'
 						AND	post_password = ''
-						AND post_type = '$post_type'
+						AND post_type = '%s'
 						{$where_filter}
 						ORDER BY post_modified ASC
-						LIMIT $steps OFFSET $offset ) o
-			JOIN $wpdb->posts l
-				ON l.ID = o.ID
-				ORDER BY l.ID" );
+						LIMIT %d OFFSET %d ) o
+					JOIN $wpdb->posts l
+					ON l.ID = o.ID
+					ORDER BY l.ID", $status, $post_type, $steps, $offset );
 
-			/*			$posts = $wpdb->get_results("SELECT ID, post_content, post_name, post_author, post_parent, post_modified_gmt, post_date, post_date_gmt
-			   FROM $wpdb->posts {$join_filter}
-			   WHERE post_status = 'publish'
-			   AND	post_password = ''
-			   AND post_type = '$post_type'
-			   {$where_filter}
-			   ORDER BY post_modified ASC
-			   LIMIT $steps OFFSET $offset"); */
+			$posts = $wpdb->get_results( $query );
 
 			$offset = $offset + $steps;
 
@@ -333,11 +350,10 @@ class WPSEO_Sitemaps {
 				if ( is_numeric( $pri ) )
 					$url['pri'] = $pri;
 				elseif ( $p->post_parent == 0 && $p->post_type == 'page' )
-					$url['pri'] = 0.8;
-				else
+					$url['pri'] = 0.8; else
 					$url['pri'] = 0.6;
 
-				if ( $p->ID == $front_id )
+				if ( isset( $front_id ) && $p->ID == $front_id )
 					$url['pri'] = 1.0;
 
 				$url['images'] = array();
@@ -457,7 +473,7 @@ class WPSEO_Sitemaps {
 			$url = array();
 
 			if ( wpseo_get_term_meta( $c, $c->taxonomy, 'noindex' )
-				&& wpseo_get_term_meta( $c, $c->taxonomy, 'sitemap_include' ) != 'always'
+				&& !in_array( wpseo_get_term_meta( $c, $c->taxonomy, 'sitemap_include' ), array( 'always', '-' ) )
 			)
 				continue;
 
@@ -479,16 +495,16 @@ class WPSEO_Sitemaps {
 			}
 
 			// Grab last modified date
-			$sql        = "SELECT MAX(p.post_date) AS lastmod
+			$sql        = $wpdb->prepare( "SELECT MAX(p.post_date) AS lastmod
 					FROM	$wpdb->posts AS p
 					INNER JOIN $wpdb->term_relationships AS term_rel
 					ON		term_rel.object_id = p.ID
 					INNER JOIN $wpdb->term_taxonomy AS term_tax
 					ON		term_tax.term_taxonomy_id = term_rel.term_taxonomy_id
-					AND		term_tax.taxonomy = '$c->taxonomy'
-					AND		term_tax.term_id = $c->term_id
-					WHERE	p.post_status = 'publish'
-					AND		p.post_password = ''";
+					AND		term_tax.taxonomy = %s
+					AND		term_tax.term_id = %d
+					WHERE	p.post_status IN ('publish','inherit')
+					AND		p.post_password = ''", $c->taxonomy, $c->term_id );
 			$url['mod'] = $wpdb->get_var( $sql );
 			$url['chf'] = 'weekly';
 			$output .= $this->sitemap_url( $url );
@@ -557,25 +573,6 @@ class WPSEO_Sitemaps {
 	}
 
 	/**
-	 * Notify search engines of the updated sitemap.
-	 */
-	function ping_search_engines() {
-		$options    = get_option( 'wpseo_xml' );
-		$base       = $GLOBALS['wp_rewrite']->using_index_permalinks() ? 'index.php/' : '';
-		$sitemapurl = urlencode( home_url( $base . 'sitemap_index.xml' ) );
-
-		// Always ping Google and Bing, optionally ping Ask and Yahoo!
-		wp_remote_get( 'http://www.google.com/webmasters/tools/ping?sitemap=' . $sitemapurl );
-		wp_remote_get( 'http://www.bing.com/webmaster/ping.aspx?sitemap=' . $sitemapurl );
-
-		if ( isset( $options['xml_ping_yahoo'] ) && $options['xml_ping_yahoo'] )
-			wp_remote_get( 'http://search.yahooapis.com/SiteExplorerService/V1/updateNotification?appid=3usdTDLV34HbjQpIBuzMM1UkECFl5KDN7fogidABihmHBfqaebDuZk1vpLDR64I-&url=' . $sitemapurl );
-
-		if ( isset( $options['xml_ping_ask'] ) && $options['xml_ping_ask'] )
-			wp_remote_get( 'http://submissions.ask.com/ping?sitemap=' . $sitemapurl );
-	}
-
-	/**
 	 * Make a request for the sitemap index so as to cache it before the arrival of the search engines.
 	 */
 	function hit_sitemap_index() {
@@ -614,7 +611,7 @@ class WPSEO_Sitemaps {
 			$key  = 'lastpostmodified:gmt:' . $post_type;
 			$date = wp_cache_get( $key, 'timeinfo' );
 			if ( !$date ) {
-				$date = $wpdb->get_var( $wpdb->prepare( "SELECT post_modified_gmt FROM $wpdb->posts WHERE post_status = 'publish' AND post_type = %s ORDER BY post_modified_gmt DESC LIMIT 1", $post_type ) );
+				$date = $wpdb->get_var( $wpdb->prepare( "SELECT post_modified_gmt FROM $wpdb->posts WHERE post_status IN ('publish','inherit') AND post_type = %s ORDER BY post_modified_gmt DESC LIMIT 1", $post_type ) );
 				if ( $date )
 					wp_cache_set( $key, $date, 'timeinfo' );
 			}

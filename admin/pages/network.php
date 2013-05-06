@@ -3,11 +3,18 @@
  * @package Admin
  */
 
+if ( !defined('WPSEO_VERSION') ) {
+	header('HTTP/1.0 403 Forbidden');
+	die;
+}
+
 global $wpseo_admin_pages;
 
 $options = get_site_option( 'wpseo_ms' );
 
 if ( isset( $_POST[ 'wpseo_submit' ] ) ) {
+	check_admin_referer( 'wpseo-network-settings' );
+
 	foreach ( array( 'access', 'defaultblog' ) as $opt ) {
 		$options[ $opt ] = $_POST[ 'wpseo_ms' ][ $opt ];
 	}
@@ -16,6 +23,7 @@ if ( isset( $_POST[ 'wpseo_submit' ] ) ) {
 }
 
 if ( isset( $_POST[ 'wpseo_restore_blog' ] ) ) {
+	check_admin_referer( 'wpseo-network-restore' );
 	if ( isset( $_POST[ 'wpseo_ms' ][ 'restoreblog' ] ) && is_numeric( $_POST[ 'wpseo_ms' ][ 'restoreblog' ] ) ) {
 		$blog = get_blog_details( $_POST[ 'wpseo_ms' ][ 'restoreblog' ] );
 		if ( $blog ) {
@@ -32,6 +40,7 @@ if ( isset( $_POST[ 'wpseo_restore_blog' ] ) ) {
 $wpseo_admin_pages->admin_header( 'MultiSite Settings', false );
 
 $content = '<form method="post">';
+$content .= wp_nonce_field( 'wpseo-network-settings', '_wpnonce', true, false );
 $content .= $wpseo_admin_pages->select( 'access', __( 'Who should have access to the WordPress SEO settings', 'wordpress-seo' ),
 	array(
 		'admin'      => __( 'Site Admins (default)', 'wordpress-seo' ),
@@ -46,6 +55,7 @@ $content .= '</form>';
 $wpseo_admin_pages->postbox( 'wpseo_export', __( 'MultiSite Settings', 'wordpress-seo' ), $content );
 
 $content = '<form method="post">';
+$content .= wp_nonce_field( 'wpseo-network-restore', '_wpnonce', true, false );
 $content .= '<p>' . __( 'Using this form you can reset a site to the default SEO settings.', 'wordpress-seo' ) . '</p>';
 $content .= $wpseo_admin_pages->textinput( 'restoreblog', __( 'Blog ID', 'wordpress-seo' ), 'wpseo_ms' );
 $content .= '<input type="submit" name="wpseo_restore_blog" value="' . __( 'Restore site to defaults', 'wordpress-seo' ) . '" class="button"/>';

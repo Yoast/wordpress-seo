@@ -3,6 +3,11 @@
  * @package Admin
  */
 
+if ( !defined('WPSEO_VERSION') ) {
+	header('HTTP/1.0 403 Forbidden');
+	die;
+}
+
 global $wpseo_admin_pages;
 
 $wpseo_admin_pages->admin_header( __( 'Internal Links', 'wordpress-seo' ), true, 'yoast_wpseo_internallinks_options', 'wpseo_internallinks' );

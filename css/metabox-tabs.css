@@ -97,7 +97,8 @@ ul.wpseo-metabox-tabs li {
 	line-height: 15px !important;
 	font-size: 13px !important;
 	font-style: normal;
-	width: 540px !important;
+	width: auto;
+    max-width: 520px;
 }
 
 #wpseosnippet td {
@@ -169,7 +170,7 @@ ul.wpseo-metabox-tabs li {
 
 table.wpseoanalysis th {
 	text-align: left;
-	font-weight: 14px;
+	font-size: 14px;
 	padding: 15px 0 5px 0;
 }
 
@@ -178,7 +179,7 @@ table.wpseoanalysis th.first {
 }
 
 table.wpseoanalysis td {
-	font-weight: 13px;
+	font-size: 13px;
 	line-height: 16px;
 	margin: 5px 0;
 }
@@ -300,4 +301,8 @@ table.wpseoanalysis td.score {
 }
 .wpseo_score_img.noindex {
 	background-position: -146px -2px;
+}
+
+img.yoast_help {
+    cursor: pointer;
 }

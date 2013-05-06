@@ -3,6 +3,11 @@
  * @package Admin
  */
 
+if ( !defined('WPSEO_VERSION') ) {
+	header('HTTP/1.0 403 Forbidden');
+	die;
+}
+
 global $wpseo_admin_pages;
 
 $options = get_wpseo_options();
