@@ -3,6 +3,11 @@
  * @package Internals
  */
 
+if ( !defined( 'WPSEO_VERSION' ) ) {
+	header( 'HTTP/1.0 403 Forbidden' );
+	die;
+}
+
 /**
  * Get the value from the post custom values
  *
@@ -11,9 +16,10 @@
  * @return bool|mixed
  */
 function wpseo_get_value( $val, $postid = 0 ) {
+	$postid = absint( $postid );
 	if ( $postid === 0 ) {
 		global $post;
-		if ( isset( $post ) )
+		if ( isset( $post ) && isset( $post->post_status ) && $post->post_status != 'auto-draft')
 			$postid = $post->ID;
 		else
 			return false;
@@ -50,10 +56,15 @@ function get_wpseo_options_arr() {
  * @return array of options
  */
 function get_wpseo_options() {
-	$options = array();
-	foreach ( get_wpseo_options_arr() as $opt ) {
-		$options = array_merge( $options, (array) get_option( $opt ) );
+	static $options;
+
+	if ( !isset( $options ) ) {
+		$options = array();
+		foreach ( get_wpseo_options_arr() as $opt ) {
+			$options = array_merge( $options, (array) get_option( $opt ) );
+		}
 	}
+
 	return $options;
 }
 
@@ -78,13 +89,14 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 		$sep = '-';
 
 	$simple_replacements = array(
-		'%%sep%%'                     => $sep,
-		'%%sitename%%'                => get_bloginfo( 'name' ),
-		'%%sitedesc%%'                => get_bloginfo( 'description' ),
-		'%%currenttime%%'             => date( 'H:i' ),
-		'%%currentdate%%'             => date( 'M jS Y' ),
-		'%%currentmonth%%'            => date( 'F' ),
-		'%%currentyear%%'             => date( 'Y' ),
+		'%%sep%%'          => $sep,
+		'%%sitename%%'     => get_bloginfo( 'name' ),
+		'%%sitedesc%%'     => get_bloginfo( 'description' ),
+		'%%currenttime%%'  => date( get_option( 'time_format' ) ),
+		'%%currentdate%%'  => date( get_option( 'date_format' ) ),
+		'%%currentday%%'   => date( 'j' ),
+		'%%currentmonth%%' => date( 'F' ),
+		'%%currentyear%%'  => date( 'Y' ),
 	);
 
 	foreach ( $simple_replacements as $var => $repl ) {
@@ -151,35 +163,35 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 	}
 
 	$replacements = array(
-		'%%date%%'                      => $date,
-		'%%searchphrase%%'              => esc_html( get_query_var( 's' ) ),
-		'%%page%%'                      => ( $max_num_pages > 1 && $pagenum > 1 ) ? sprintf( $sep . ' ' . __( 'Page %d of %d', 'wordpress-seo' ), $pagenum, $max_num_pages ) : '',
-		'%%pagetotal%%'                 => $max_num_pages,
-		'%%pagenumber%%'                => $pagenum,
+		'%%date%%'         => $date,
+		'%%searchphrase%%' => esc_html( get_query_var( 's' ) ),
+		'%%page%%'         => ( $max_num_pages > 1 && $pagenum > 1 ) ? sprintf( $sep . ' ' . __( 'Page %d of %d', 'wordpress-seo' ), $pagenum, $max_num_pages ) : '',
+		'%%pagetotal%%'    => $max_num_pages,
+		'%%pagenumber%%'   => $pagenum,
 	);
 
 	if ( isset( $r->ID ) ) {
 		$replacements = array_merge( $replacements, array(
-			'%%caption%%'                   => $r->post_excerpt,
-			'%%category%%'                  => wpseo_get_terms( $r->ID, 'category' ),
-			'%%excerpt%%'                   => ( !empty( $r->post_excerpt ) ) ? strip_tags( $r->post_excerpt ) : utf8_encode( substr( strip_shortcodes( strip_tags( utf8_decode( $r->post_content ) ) ), 0, 155 ) ),
-			'%%excerpt_only%%'              => strip_tags( $r->post_excerpt ),
-			'%%focuskw%%'                   => wpseo_get_value( 'focuskw', $r->ID ),
-			'%%id%%'                        => $r->ID,
-			'%%modified%%'                  => mysql2date( get_option( 'date_format' ), $r->post_modified ),
-			'%%name%%'                      => get_the_author_meta( 'display_name', !empty( $r->post_author ) ? $r->post_author : get_query_var( 'author' ) ),
-			'%%tag%%'                       => wpseo_get_terms( $r->ID, 'post_tag' ),
-			'%%title%%'                     => stripslashes( $r->post_title ),
-			'%%userid%%'                    => !empty( $r->post_author ) ? $r->post_author : get_query_var( 'author' ),
+			'%%caption%%'      => $r->post_excerpt,
+			'%%category%%'     => wpseo_get_terms( $r->ID, 'category' ),
+			'%%excerpt%%' 	   => ( !empty( $r->post_excerpt ) ) ? strip_tags( $r->post_excerpt ) : ( ( extension_loaded( 'mbstring' ) === true ) ? mb_substr( strip_shortcodes( strip_tags( $r->post_content ) ), 0, 155, 'UTF-8' ) : substr( strip_shortcodes( strip_tags( utf8_decode( $r->post_content ) ) ), 0, 155 ) ),
+			'%%excerpt_only%%' => strip_tags( $r->post_excerpt ),
+			'%%focuskw%%'      => wpseo_get_value( 'focuskw', $r->ID ),
+			'%%id%%'           => $r->ID,
+			'%%modified%%'     => mysql2date( get_option( 'date_format' ), $r->post_modified ),
+			'%%name%%'         => get_the_author_meta( 'display_name', !empty( $r->post_author ) ? $r->post_author : get_query_var( 'author' ) ),
+			'%%tag%%'          => wpseo_get_terms( $r->ID, 'post_tag' ),
+			'%%title%%'        => stripslashes( $r->post_title ),
+			'%%userid%%'       => !empty( $r->post_author ) ? $r->post_author : get_query_var( 'author' ),
 		) );
 	}
 
 	if ( !empty( $r->taxonomy ) ) {
 		$replacements = array_merge( $replacements, array(
-			'%%category_description%%'      => trim( strip_tags( get_term_field( 'description', $r->term_id, $r->taxonomy ) ) ),
-			'%%tag_description%%'           => trim( strip_tags( get_term_field( 'description', $r->term_id, $r->taxonomy ) ) ),
-			'%%term_description%%'          => trim( strip_tags( get_term_field( 'description', $r->term_id, $r->taxonomy ) ) ),
-			'%%term_title%%'                => $r->name,
+			'%%category_description%%' => trim( strip_tags( get_term_field( 'description', $r->term_id, $r->taxonomy ) ) ),
+			'%%tag_description%%'      => trim( strip_tags( get_term_field( 'description', $r->term_id, $r->taxonomy ) ) ),
+			'%%term_description%%'     => trim( strip_tags( get_term_field( 'description', $r->term_id, $r->taxonomy ) ) ),
+			'%%term_title%%'           => $r->name,
 		) );
 	}
 
@@ -306,7 +318,7 @@ function wpseo_strip_shortcode( $text ) {
 /**
  * Initialize sitemaps. Add sitemap rewrite rules and query var
  */
-function xml_sitemaps_init() {
+function wpseo_xml_sitemaps_init() {
 	$options = get_option( 'wpseo_xml' );
 	if ( !isset( $options['enablexmlsitemap'] ) || !$options['enablexmlsitemap'] )
 		return;
@@ -317,4 +329,39 @@ function xml_sitemaps_init() {
 	add_rewrite_rule( '([^/]+?)-sitemap([0-9]+)?\.xml$', 'index.php?sitemap=$matches[1]&sitemap_n=$matches[2]', 'top' );
 }
 
-add_action( 'init', 'xml_sitemaps_init', 1 );
+add_action( 'init', 'wpseo_xml_sitemaps_init', 1 );
+
+/**
+ * Notify search engines of the updated sitemap.
+ */
+function wpseo_ping_search_engines( $sitemapurl = null ) {
+	$options    = get_option( 'wpseo_xml' );
+	$base       = $GLOBALS['wp_rewrite']->using_index_permalinks() ? 'index.php/' : '';
+	if ( $sitemapurl  == null )
+		$sitemapurl = urlencode( home_url( $base . 'sitemap_index.xml' ) );
+
+	// Always ping Google and Bing, optionally ping Ask and Yahoo!
+	wp_remote_get( 'http://www.google.com/webmasters/tools/ping?sitemap=' . $sitemapurl );
+	wp_remote_get( 'http://www.bing.com/webmaster/ping.aspx?sitemap=' . $sitemapurl );
+
+	if ( isset( $options['xml_ping_yahoo'] ) && $options['xml_ping_yahoo'] )
+		wp_remote_get( 'http://search.yahooapis.com/SiteExplorerService/V1/updateNotification?appid=3usdTDLV34HbjQpIBuzMM1UkECFl5KDN7fogidABihmHBfqaebDuZk1vpLDR64I-&url=' . $sitemapurl );
+
+	if ( isset( $options['xml_ping_ask'] ) && $options['xml_ping_ask'] )
+		wp_remote_get( 'http://submissions.ask.com/ping?sitemap=' . $sitemapurl );
+}
+add_action( 'wpseo_ping_search_engines', 'wpseo_ping_search_engines' );
+
+function wpseo_store_tracking_response() {
+	if ( ! wp_verify_nonce( $_POST['nonce'], 'wpseo_activate_tracking' ) )
+		die();
+
+	$options = get_option( 'wpseo' );
+	$options['tracking_popup'] = 'done';
+
+	if ( $_POST['allow_tracking'] == 'yes' )
+		$options['yoast_tracking'] = true;
+
+	update_option( 'wpseo', $options );
+}
+add_action('wp_ajax_wpseo_allow_tracking', 'wpseo_store_tracking_response');
