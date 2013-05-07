@@ -3,6 +3,13 @@
  * @package Internals
  */
 
+include 'class-sitemap-walker.php';
+ 
+if ( !defined( 'WPSEO_VERSION' ) ) {
+	header( 'HTTP/1.0 403 Forbidden' );
+	die;
+}
+
 /**
  * Flush the rewrite rules.
  */
@@ -56,19 +63,20 @@ function wpseo_defaults() {
 			'noindex-post_format' => 'on',
 		);
 		foreach ( get_post_types( array( 'public' => true ), 'objects' ) as $pt ) {
-			$opt[ 'title-' . $pt->name ] = '%%title%% %%page%% %%sep%% %%sitename%%';
+			$opt['title-' . $pt->name] = '%%title%% %%page%% %%sep%% %%sitename%%';
 			if ( $pt->has_archive )
-				$opt[ 'title-ptarchive-' . $pt->name ] = sprintf( __( '%s Archive', 'wordpress-seo' ), '%%pt_plural%%' ) . ' %%page%% %%sep%% %%sitename%%';
+				$opt['title-ptarchive-' . $pt->name] = sprintf( __( '%s Archive', 'wordpress-seo' ), '%%pt_plural%%' ) . ' %%page%% %%sep%% %%sitename%%';
 		}
 		foreach ( get_taxonomies( array( 'public' => true ) ) as $tax ) {
-			$opt[ 'title-' . $tax ] = sprintf( __( '%s Archives', 'wordpress-seo' ), '%%term_title%%' ) . ' %%page%% %%sep%% %%sitename%%';
+			$opt['title-' . $tax] = sprintf( __( '%s Archives', 'wordpress-seo' ), '%%term_title%%' ) . ' %%page%% %%sep%% %%sitename%%';
 		}
 		update_option( 'wpseo_titles', $opt );
 	}
 
 	if ( !is_array( get_option( 'wpseo_xml' ) ) ) {
 		$opt = array(
-			'enablexmlsitemap' => 'on',
+			'enablexmlsitemap'                     => 'on',
+			'post_types-attachment-not_in_sitemap' => true
 		);
 		update_option( 'wpseo_xml', $opt );
 	}
@@ -101,10 +109,10 @@ function wpseo_defaults() {
 function wpseo_title_test() {
 	$options = get_option( 'wpseo_titles' );
 
-	if ( isset( $options[ 'forcerewritetitle' ] ) )
-		unset( $options[ 'forcerewritetitle' ] );
+	if ( isset( $options['forcerewritetitle'] ) )
+		unset( $options['forcerewritetitle'] );
 
-	$options[ 'title_test' ] = true;
+	$options['title_test'] = true;
 	update_option( 'wpseo_titles', $options );
 
 	// Setting title_test to true forces the plugin to output the title below through a filter in class-frontend.php
@@ -118,34 +126,35 @@ function wpseo_title_test() {
 
 	global $wp_version;
 	$args = array(
-	 	'user-agent' => "WordPress/${wp_version}; ".get_site_url()." - Yoast",
+		'user-agent' => "WordPress/${wp_version}; " . get_site_url() . " - Yoast",
 	);
 	$resp = wp_remote_get( get_bloginfo( 'url' ), $args );
 
 	// echo '<pre>'.$resp['body'].'</pre>';
 
-	if ( $resp && !is_wp_error( $resp ) && 200 == $resp[ 'response' ][ 'code' ] ) {
-		$res = preg_match( '/<title>([^<]+)<\/title>/im', $resp[ 'body' ], $matches );
+	if ( $resp && !is_wp_error( $resp ) && 200 == $resp['response']['code'] ) {
+		$res = preg_match( '/<title>([^<]+)<\/title>/im', $resp['body'], $matches );
 
-		if ( $res && strcmp( $matches[ 1 ], $expected_title ) !== 0 ) {
-			$options[ 'forcerewritetitle' ] = 'on';
+		if ( $res && strcmp( $matches[1], $expected_title ) !== 0 ) {
+			$options['forcerewritetitle'] = 'on';
 			update_option( 'wpseo_titles', $options );
 
 			$resp = wp_remote_get( get_bloginfo( 'url' ), $args );
 
-			$res = preg_match( '/<title>([^>]+)<\/title>/im', $resp[ 'body' ], $matches );
+			$res = preg_match( '/<title>([^>]+)<\/title>/im', $resp['body'], $matches );
 		}
 
-		if ( !$res || $matches[ 1 ] != $expected_title )
-			unset( $options[ 'forcerewritetitle' ] );
+		if ( !$res || $matches[1] != $expected_title )
+			unset( $options['forcerewritetitle'] );
 	} else {
 		// If that dies, let's make sure the titles are correct and force the output.
-		$options[ 'forcerewritetitle' ] = 'on';
+		$options['forcerewritetitle'] = 'on';
 	}
 
-	unset( $options[ 'title_test' ] );
+	unset( $options['title_test'] );
 	update_option( 'wpseo_titles', $options );
 }
+
 add_filter( 'switch_theme', 'wpseo_title_test', 0 );
 
 /**
@@ -217,7 +226,7 @@ function wpseo_admin_bar_menu() {
 		$focuskw    = wpseo_get_value( 'focuskw', $post->ID );
 		$perc_score = wpseo_get_value( 'linkdex', $post->ID );
 		$txtscore   = wpseo_translate_score( round( $perc_score / 10 ) );
-		$score      = '<div alt="' . ucfirst( $txtscore ) . '" title="' . ucfirst( $txtscore ) . '" class="wpseo_score_img ' . $txtscore . ' ' . $perc_score . '"></div>';
+		$score      = '<div title="' . ucfirst( $txtscore ) . '" class="wpseo_score_img ' . $txtscore . ' ' . $perc_score . '"></div>';
 		$seo_url    = get_edit_post_link( $post->ID );
 		if ( $txtscore != 'na' )
 			$seo_url .= '#wpseo_linkdex';
@@ -240,7 +249,7 @@ function wpseo_admin_bar_menu() {
 	$admin_menu = false;
 	if ( function_exists( 'is_multisite' ) && is_multisite() ) {
 		$options = get_site_option( 'wpseo_ms' );
-		if ( is_array( $options ) && isset( $options[ 'access' ] ) && $options[ 'access' ] == 'superadmin' ) {
+		if ( is_array( $options ) && isset( $options['access'] ) && $options['access'] == 'superadmin' ) {
 			if ( is_super_admin() )
 				$admin_menu = true;
 			else
@@ -278,3 +287,199 @@ function wpseo_admin_bar_css() {
 }
 
 add_action( 'wp_enqueue_scripts', 'wpseo_admin_bar_css' );
+
+/**
+ * Allows editing of the meta fields through weblog editors like Marsedit.
+ *
+ * @param array $allcaps Capabilities that must all be true to allow action.
+ * @param array $cap     Array of capabilities to be checked, unused here.
+ * @param array $args    List of arguments for the specific cap to be checked.
+ *
+ * @return array $allcaps
+ */
+function allow_custom_field_edits( $allcaps, $cap, $args ) {
+	// $args[0] holds the capability
+	// $args[2] holds the post ID
+	// $args[3] holds the custom field
+
+	// Make sure the request is to edit or add a post meta (this is usually also the second value in $cap,
+	// but this is safer to check).
+	if ( in_array( $args[0], array( "edit_post_meta", "add_post_meta" ) ) ) {
+		// Only allow editing rights for users who have the rights to edit this post and make sure
+		// the meta value starts with _yoast_wpseo.
+		if ( current_user_can( 'edit_post', $args[2] ) && strpos( $args[3], "_yoast_wpseo_" ) === 0 )
+			$allcaps[$args[0]] = true;
+	}
+
+	return $allcaps;
+}
+add_filter( 'user_has_cap', 'allow_custom_field_edits', 0, 3 );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function wpseo_sitemap_handler( $atts, $content = null ) {
+	
+	$display_authors = ($atts['authors'] !== 'no') ? true : false;
+	$display_pages   = ($atts['pages'] !== 'no') ? true : false;
+	$display_posts   = ($atts['posts'] !== 'no') ? true : false;
+	
+	// Delete the transient if any of these are no
+	if ( $authors === 'no' || $pages === 'no' || $posts === 'no' ) {
+		delete_transient( 'html-sitemap' );
+	}
+	
+	// Get any existing copy of our transient data
+	if ( false !== ( $output = get_transient( 'html-sitemap' ) ) ) {
+		// $output .= 'CACHE'; // debug
+		// return $output;
+	}
+
+	
+	$output = '';
+	// create author list
+	if ( $display_authors ) {
+		$output .= '<h2 id="authors">'.__( 'Authors', 'wordpress-seo' ).'</h2><ul>';
+		// use echo => false b/c shortcode format screws up
+		$author_list = wp_list_authors(
+			array(
+				'exclude_admin' => false,
+				'echo' => false,
+			)
+		);
+		$output .= $author_list;
+		$output .= '</ul>';
+	}
+
+	// create page list
+	if ( $display_pages ) {
+		$output .= '<h2 id="pages">'.__( 'Pages', 'wordpress-seo' ).'</h2><ul>';
+		// Add pages you'd like to exclude in the exclude here
+		// possibly have this controlled by shortcode params
+		$page_list = wp_list_pages(
+			array(
+				'exclude' => '',
+				'title_li' => '',
+				'echo' => false,
+			)
+		);
+		$output .= $page_list;
+		$output .= '</ul>';
+	}
+	
+	// create post list
+	if ( $display_posts ) {
+		$output .= '<h2 id="posts">'.__( 'Posts', 'wordpress-seo' ).'</h2><ul>';
+		// Add categories you'd like to exclude in the exclude here
+		// possibly have this controlled by shortcode params
+		$cats = get_categories('exclude=');
+		foreach ( $cats as $cat ) {
+			$output .= "<li><h3>".$cat->cat_name."</h3>";
+			$output .= "<ul>";
+			
+			$args = array(
+				'post_type' => 'post',
+				'post_status' => 'publish',
+				
+				'posts_per_page' => -1,
+				'cat' => $cat->cat_ID,
+				
+				'meta_query' => array(
+					'relation' => 'OR',
+					// include if this key doesn't exists
+					array(
+						'key' => '_yoast_wpseo_meta-robots-noindex',
+						'value' => '', // This is ignored, but is necessary...
+						'compare' => 'NOT EXISTS'
+					),
+					// OR if key does exists include if it is not 1
+					array(
+						'key' => '_yoast_wpseo_meta-robots-noindex',
+						'value' => '1',
+						'compare' => '!='
+					),
+					// OR this key overrides it
+					array(
+						'key' => '_yoast_wpseo_sitemap-html-include',
+						'value' => 'always',
+						'compare' => '='
+					)
+				)
+			);
+
+			$posts = get_posts( $args );
+			
+			foreach ($posts as $post) {
+				$category = get_the_category( $post->ID );
+				
+				// Only display a post link once, even if it's in multiple categories
+				if ($category[0]->cat_ID == $cat->cat_ID) {
+					$output .= '<li><a href="'.get_permalink($post->ID).'">'.get_the_title($post->ID).'</a></li>';
+				}
+			}
+			
+			$output .= "</ul>";
+			$output .= "</li>";
+		}
+	}
+	$output .= '</ul>';
+	
+	
+	// create custom post type list
+	$args = array(
+		'public'   => true,
+		'_builtin' => false
+	); 
+	// get all public non-builtin post types
+	$post_types = get_post_types( $args, 'object', 'and' );
+	
+	foreach ( $post_types as $post_type ) {
+		// if ($post_type->name == 'note') {
+			$output .= create_type_sitemap_template( $post_type );
+		// }
+	}
+	
+	
+	set_transient( 'html-sitemap', $output, 60 );
+	return $output;
+}
+add_shortcode( 'wpseo_sitemap', 'wpseo_sitemap_handler' );
+
+
+
+function create_type_sitemap_template( $post_type ) {
+	$output = '<h2 id="'.$post_type->name.'">'.__( $post_type->label, 'wordpress-seo' ).'</h2><ul>';
+	
+	// Get all registered taxonomy of this post type
+	$taxs = get_object_taxonomies( $post_type->name, 'object' );
+	
+	// Build the taxonomy tree
+	$walker = new Sitemap_Walker();
+	foreach( $taxs as $key => $tax ) {
+		$output .= wp_list_categories(
+			array( 
+				'title_li' => __( $tax->labels->name ),
+				'echo' => false,
+				'taxonomy' => $key,				
+				// 'hierarchical' => 0, // uncomment this for a flat list
+				
+				'walker' => $walker,
+				'post_type' => $post_type->name // arg used by the Walker class
+			)
+		);
+	}
+	
+	$output .= '</ul>';
+	return $output;
+}

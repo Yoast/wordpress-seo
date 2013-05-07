@@ -3,6 +3,11 @@
  * @package Admin
  */
 
+if ( !defined( 'WPSEO_VERSION' ) ) {
+	header( 'HTTP/1.0 403 Forbidden' );
+	die;
+}
+
 /**
  * Class that handles the edit boxes on taxonomy edit pages.
  */
@@ -19,7 +24,7 @@ class WPSEO_Taxonomy {
 		)
 			add_action( $_GET['taxonomy'] . '_edit_form', array( $this, 'term_seo_form' ), 10, 1 );
 
-		add_action( 'edit_term', array( $this, 'update_term' ), 10, 3 );
+		add_action( 'edit_term', array( $this, 'update_term' ), 99, 3 );
 
 		add_action( 'init', array( $this, 'custom_category_descriptions_allow_html' ) );
 		add_filter( 'category_description', array( $this, 'custom_category_descriptions_add_shortcode_support' ) );
@@ -37,7 +42,7 @@ class WPSEO_Taxonomy {
 	 */
 	function form_row( $var, $label, $desc, $tax_meta, $type = 'text', $options = array() ) {
 		$val = '';
-		if ( isset( $tax_meta[$var] ) )
+		if ( isset( $tax_meta[$var] ) && !empty( $tax_meta[$var] ) )
 			$val = stripslashes( $tax_meta[$var] );
 
 		echo '<tr class="form-field">' . "\n";
@@ -45,23 +50,23 @@ class WPSEO_Taxonomy {
 		echo "\t" . '<td>' . "\n";
 		if ( $type == 'text' ) {
 			?>
-		<input name="<?php echo $var; ?>" id="<?php echo $var; ?>" type="text" value="<?php echo $val; ?>" size="40"/>
-		<p class="description"><?php echo $desc; ?></p>
+        <input name="<?php echo $var; ?>" id="<?php echo $var; ?>" type="text" value="<?php echo $val; ?>" size="40"/>
+        <p class="description"><?php echo $desc; ?></p>
 		<?php
 		} else if ( $type == 'checkbox' ) {
 			?>
-		<input name="<?php echo $var; ?>" id="<?php echo $var; ?>" type="checkbox" <?php checked( $val ); ?>/>
+        <input name="<?php echo $var; ?>" id="<?php echo $var; ?>" type="checkbox" <?php checked( $val ); ?>/>
 		<?php
 		} else if ( $type == 'select' ) {
 			?>
-		<select name="<?php echo $var; ?>" id="<?php echo $var; ?>">
+        <select name="<?php echo $var; ?>" id="<?php echo $var; ?>">
 			<?php foreach ( $options as $option => $label ) {
 			$sel = '';
 			if ( $option == $val )
 				$sel = " selected='selected'";
 			echo "<option" . $sel . " value='" . $option . "'>" . $label . "</option>";
 		}?>
-		</select>
+        </select>
 		<?php
 		}
 		echo "\t" . '</td>' . "\n";
@@ -119,16 +124,30 @@ class WPSEO_Taxonomy {
 	function update_term( $term_id, $tt_id, $taxonomy ) {
 		$tax_meta = get_option( 'wpseo_taxonomy_meta' );
 
+		if ( !is_array( $tax_meta[$taxonomy][$term_id] ) )
+			$tax_meta[$taxonomy][$term_id] = array();
+
 		foreach ( array( 'title', 'desc', 'metakey', 'bctitle', 'canonical', 'noindex', 'sitemap_include' ) as $key ) {
-			if ( isset( $_POST['wpseo_' . $key] ) )
-				$tax_meta[$taxonomy][$term_id]['wpseo_' . $key] = $_POST['wpseo_' . $key];
+			if ( isset( $_POST['wpseo_' . $key] ) && !empty( $_POST['wpseo_' . $key] ) ) {
+				$val = trim( $_POST['wpseo_' . $key] );
+
+				if ( $key == 'canonical' )
+					$val = esc_url( $val );
+				else
+					$val = sanitize_text_field( $val );
+
+				$tax_meta[$taxonomy][$term_id]['wpseo_' . $key] = $val;
+			} else {
+				if ( isset( $tax_meta[$taxonomy][$term_id]['wpseo_' . $key] ) )
+					unset( $tax_meta[$taxonomy][$term_id]['wpseo_' . $key] );
+			}
 		}
 
-		update_option( 'wpseo_taxonomy_meta', $tax_meta );
+		update_option( 'wpseo_taxonomy_meta', $tax_meta, 99 );
 
 		if ( defined( 'W3TC_DIR' ) && class_exists( 'W3_ObjectCache' ) ) {
 			require_once W3TC_DIR . '/lib/W3/ObjectCache.php';
-			$w3_objectcache = &W3_ObjectCache::instance();
+			$w3_objectcache = & W3_ObjectCache::instance();
 
 			$w3_objectcache->flush();
 		}

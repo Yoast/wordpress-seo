@@ -3,6 +3,11 @@
  * @package Admin
  */
 
+if ( !defined('WPSEO_VERSION') ) {
+	header('HTTP/1.0 403 Forbidden');
+	die;
+}
+
 /**
  * Function used from AJAX calls, takes it variables from $_POST, dies on exit.
  */
@@ -11,7 +16,7 @@ function wpseo_set_option() {
 		die( '-1' );
 	check_ajax_referer( 'wpseo-setoption' );
 
-	$option = $_POST['option'];
+	$option = esc_attr( $_POST['option'] );
 	if ( $option != 'page_comments' )
 		die( '-1' );
 
