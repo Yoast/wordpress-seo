@@ -28,6 +28,16 @@ if ( isset( $_GET['allow_tracking'] ) && check_admin_referer( 'wpseo_activate_tr
 
 $wpseo_admin_pages->admin_header( __( 'General Settings', 'wordpress-seo' ), true, 'yoast_wpseo_options', 'wpseo' );
 
+
+// detect and handle robots meta here
+robots_meta_handler();
+
+// detect and handle aioseo here
+aioseo_handler();
+
+do_action( 'all_admin_notices' );
+
+
 echo $wpseo_admin_pages->hidden( 'ignore_blog_public_warning' );
 echo $wpseo_admin_pages->hidden( 'ignore_tour' );
 echo $wpseo_admin_pages->hidden( 'ignore_page_comments' );
@@ -138,3 +148,136 @@ echo $wpseo_admin_pages->textinput( 'alexaverify', '<a target="_blank" href="htt
 do_action( 'wpseo_dashboard' );
 
 $wpseo_admin_pages->admin_footer();
+
+
+
+function robots_meta_handler() {
+	global $wpdb;
+
+	// check if robots meta is running
+	if ( is_plugin_active( 'robots-meta/robots-meta.php' ) ) {
+		
+		// deactivate robots meta
+		if ( isset( $_GET['deactivate_robots_meta'] ) && $_GET['deactivate_robots_meta'] == 1 ) {
+			deactivate_plugins( 'robots-meta/robots-meta.php' );
+		
+			// show notice that robots meta has been deactivated
+			add_action( 'all_admin_notices', function() {
+				echo '<div class="updated"><p>' . __( 'Robots-Meta has been deactivated' ) . '</p></div>';
+			} );
+
+		// import the settings
+		} else if ( isset( $_GET['import_robots_meta'] ) && $_GET['import_robots_meta'] == 1 ) {
+			// import robots meta setting for each post
+			$posts = $wpdb->get_results( "SELECT ID, robotsmeta FROM $wpdb->posts" );
+			foreach ( $posts as $post ) {
+				// sync all possible settings
+				if ($post->robotsmeta) {
+					$pieces = explode(',', $post->robotsmeta);
+					foreach($pieces as $meta) {
+						switch ($meta) {
+							case 'noindex':
+								wpseo_set_value( 'meta-robots-noindex', true, $post->ID );
+								break;
+							case 'index':
+								wpseo_set_value( 'meta-robots-noindex', 2, $post->ID );
+								break;
+							case 'nofollow':
+								wpseo_set_value( 'meta-robots-nofollow', true, $post->ID );
+								break;
+							case 'follow':
+								wpseo_set_value( 'meta-robots-nofollow', 0, $post->ID );
+								break;
+							default:
+								// do nothing
+						}
+					}
+				}
+			}
+			
+			// show notice to deactivate robots meta plugin
+			add_action( 'all_admin_notices', function() {
+				echo '<div class="updated"><p>' . sprintf( __( 'Robots-Meta settings has been imported. We recommend %sdisabling the Robots-Meta plugin%s to avoid any conflicts' ), '<a href="' . admin_url( 'admin.php?page=wpseo_dashboard&deactivate_robots_meta=1' ) . '">', '</a>' ) . '</p></div>';			
+			} );
+
+		// show notice to import robots meta settings
+		} else {
+			add_action( 'all_admin_notices', function() {
+				echo '<div class="updated"><p>' . sprintf( __( 'The plugin Robots-Meta has been detected. Do you want to %simport its settings%s.' ), '<a href="' . admin_url( 'admin.php?page=wpseo_dashboard&import_robots_meta=1' ) . '">', '</a>' ) . '</p></div>';			
+			} );
+		}
+	}
+}
+
+
+
+function aioseo_handler() {
+	global $wpdb;
+
+	// check if aioseo is running
+	if ( is_plugin_active( 'all-in-one-seo-pack/all_in_one_seo_pack.php' ) ) {
+		
+		// deactivate aioseo plugin
+		if ( isset( $_GET['deactivate_aioseo'] ) && $_GET['deactivate_aioseo'] == 1 ) {
+			deactivate_plugins( 'all-in-one-seo-pack/all_in_one_seo_pack.php' );
+		
+			// show notice that aioseo has been deactivated
+			add_action( 'all_admin_notices', function() {
+				echo '<div class="updated"><p>' . __( 'All-In-One-SEO has been deactivated' ) . '</p></div>';
+			} );
+
+		// import the settings
+		// TODO: currently not deleting aioseop postmeta or handling old aioseop format
+		} else if ( isset( $_GET['import_aioseo'] ) && $_GET['import_aioseo'] == 1 ) {
+			$replace = false;
+			var_dump($replace);
+			
+			replace_meta( '_aioseop_description', '_yoast_wpseo_metadesc', $replace );
+			replace_meta( '_aioseop_keywords', '_yoast_wpseo_metakeywords', $replace );
+			replace_meta( '_aioseop_title', '_yoast_wpseo_title', $replace );
+			
+			
+			if ( isset( $_POST['wpseo']['importaioseoold'] ) ) {
+				replace_meta( 'description', '_yoast_wpseo_metadesc', $replace );
+				replace_meta( 'keywords', '_yoast_wpseo_metakeywords', $replace );
+				replace_meta( 'title', '_yoast_wpseo_title', $replace );
+				$msg .= __( 'All in One SEO (Old version) data successfully imported.', 'wordpress-seo' );
+			}
+		
+			// show notice to deactivate aioseo plugin
+			add_action( 'all_admin_notices', function() {
+				echo '<div class="updated"><p>' . sprintf( __( 'All in One SEO data successfully imported. Would you like to %sdisable the All in One SEO plugin%s.' ), '<a href="' . admin_url( 'admin.php?page=wpseo_dashboard&deactivate_aioseo=1' ) . '">', '</a>' ) . '</p></div>';			
+			} );
+			
+		// show notice to import aioseo settings
+		} else {
+			add_action( 'all_admin_notices', function() {
+				echo '<div class="updated"><p>' . sprintf( __( 'The plugin All-In-One-SEO has been detected. Do you want to %simport its settings%s.' ), '<a href="' . admin_url( 'admin.php?page=wpseo_dashboard&import_aioseo=1' ) . '">', '</a>' ) . '</p></div>';			
+			} );		
+		}
+	}
+}
+
+
+// TODO: consider moving this to a utility class. Currently being used in import.php also.
+
+/**
+ * Used for imports, this functions either copies $old_metakey into $new_metakey or just plain replaces $old_metakey with $new_metakey
+ *
+ * @param string $old_metakey The old name of the meta value.
+ * @param string $new_metakey The new name of the meta value, usually the WP SEO name.
+ * @param bool   $replace     Whether to replace or to copy the values.
+ */
+function replace_meta( $old_metakey, $new_metakey, $replace = false ) {
+	global $wpdb;
+	$oldies = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $wpdb->postmeta WHERE meta_key = %s", $old_metakey ) );
+	foreach ( $oldies as $old ) {
+		// Prevent inserting new meta values for posts that already have a value for that new meta key
+		$check = get_post_meta( $old->post_id, $new_metakey, true );
+		if ( !$check || empty($check) )
+			update_post_meta( $old->post_id, $new_metakey, $old->meta_value );
+
+		if ( $replace )
+			delete_post_meta( $old->post_id, $old_metakey );
+	}
+}
