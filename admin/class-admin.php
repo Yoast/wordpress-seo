@@ -3,6 +3,11 @@
  * @package Admin
  */
 
+if ( !defined( 'WPSEO_VERSION' ) ) {
+	header( 'HTTP/1.0 403 Forbidden' );
+	die;
+}
+
 /**
  * Class that holds most of the admin functionality for WP SEO.
  */
@@ -24,7 +29,8 @@ class WPSEO_Admin {
 
 		if ( $this->grant_access() ) {
 			add_action( 'admin_init', array( $this, 'options_init' ) );
-			add_action( 'admin_menu', array( $this, 'register_settings_page' ) );
+			// Needs the lower than default priority so other plugins can hook underneath it without issue.
+			add_action( 'admin_menu', array( $this, 'register_settings_page' ), 5 );
 			add_action( 'network_admin_menu', array( $this, 'register_network_settings_page' ) );
 
 			add_filter( 'plugin_action_links', array( $this, 'add_action_link' ), 10, 2 );
@@ -44,6 +50,29 @@ class WPSEO_Admin {
 		add_action( 'edit_user_profile_update', array( $this, 'process_user_option_update' ) );
 		add_filter( 'user_contactmethods', array( $this, 'update_contactmethods' ), 10, 1 );
 
+		add_action( 'update_option_wpseo_titles', array( $this, 'clear_cache' ) );
+		add_action( 'update_option_wpseo', array( $this, 'clear_cache' ) );
+
+		add_action( 'update_option_wpseo_permalinks', array( $this, 'clear_rewrites' ) );
+		add_action( 'update_option_wpseo_xml', array( $this, 'clear_rewrites' ) );
+	}
+
+	/**
+	 * Clears the cache
+	 */
+	function clear_cache() {
+		if ( function_exists( 'w3tc_pgcache_flush' ) ) {
+			w3tc_pgcache_flush();
+		} else if ( function_exists( 'wp_cache_clear_cache' ) ) {
+			wp_cache_clear_cache();
+		}
+	}
+
+	/**
+	 * Clear rewrites
+	 */
+	function clear_rewrites() {
+		delete_option( 'rewrite_rules' );
 	}
 
 	/**
@@ -58,8 +87,11 @@ class WPSEO_Admin {
 		register_setting( 'yoast_wpseo_xml_sitemap_options', 'wpseo_xml' );
 		register_setting( 'yoast_wpseo_social_options', 'wpseo_social' );
 
-		if ( function_exists( 'is_multisite' ) && is_multisite() )
+		if ( function_exists( 'is_multisite' ) && is_multisite() ) {
+			if ( get_option( 'wpseo' ) == '1pseo_social' )
+				delete_option( 'wpseo' );
 			register_setting( 'yoast_wpseo_multisite_options', 'wpseo_multisite' );
+		}
 	}
 
 	function multisite_defaults() {
@@ -67,8 +99,8 @@ class WPSEO_Admin {
 		if ( function_exists( 'is_multisite' ) && is_multisite() && !is_array( $option ) ) {
 			$options = get_site_option( 'wpseo_ms' );
 			if ( is_array( $options ) && isset( $options['defaultblog'] ) && !empty( $options['defaultblog'] ) && $options['defaultblog'] != 0 ) {
-				foreach ( get_wpseo_options_arr() as $option ) {
-					update_option( $option, get_blog_option( $options['defaultblog'], $option ) );
+				foreach ( get_wpseo_options_arr() as $wpseo_option ) {
+					update_option( $wpseo_option, get_blog_option( $options['defaultblog'], $wpseo_option ) );
 				}
 			}
 			$option['ms_defaults_set'] = true;
@@ -220,7 +252,7 @@ class WPSEO_Admin {
 		if ( isset( $options['ignore_blog_public_warning'] ) && $options['ignore_blog_public_warning'] == 'ignore' )
 			return;
 		echo "<div id='message' class='error'>";
-		echo "<p><strong>" . __( "Huge SEO Issue: You're blocking access to robots.", 'wordpress-seo' ) . "</strong> " . sprintf( __( "You must %sgo to your Privacy settings%s and set your blog visible to everyone.", 'wordpress-seo' ), "<a href='options-privacy.php'>", "</a>" ) . " <a href='javascript:wpseo_setIgnore(\"blog_public_warning\",\"message\",\"" . wp_create_nonce( 'wpseo-ignore' ) . "\");' class='button'>" . __( "I know, don't bug me.", 'wordpress-seo' ) . "</a></p></div>";
+		echo "<p><strong>" . __( "Huge SEO Issue: You're blocking access to robots.", 'wordpress-seo' ) . "</strong> " . sprintf( __( "You must %sgo to your Reading Settings%s and uncheck the box for Search Engine Visibility.", 'wordpress-seo' ), "<a href='".admin_url('options-reading.php')."'>", "</a>" ) . " <a href='javascript:wpseo_setIgnore(\"blog_public_warning\",\"message\",\"" . wp_create_nonce( 'wpseo-ignore' ) . "\");' class='button'>" . __( "I know, don't bug me.", 'wordpress-seo' ) . "</a></p></div>";
 	}
 
 	/**
@@ -254,9 +286,12 @@ class WPSEO_Admin {
 	 * @param int $user_id of the updated user
 	 */
 	function process_user_option_update( $user_id ) {
-		update_user_meta( $user_id, 'wpseo_title', ( isset( $_POST['wpseo_author_title'] ) ? $_POST['wpseo_author_title'] : '' ) );
-		update_user_meta( $user_id, 'wpseo_metadesc', ( isset( $_POST['wpseo_author_metadesc'] ) ? $_POST['wpseo_author_metadesc'] : '' ) );
-		update_user_meta( $user_id, 'wpseo_metakey', ( isset( $_POST['wpseo_author_metakey'] ) ? $_POST['wpseo_author_metakey'] : '' ) );
+		if ( isset( $_POST['wpseo_author_title'] ) ) {
+			check_admin_referer( 'wpseo_user_profile_update', 'wpseo_nonce' );
+			update_user_meta( $user_id, 'wpseo_title', ( isset( $_POST['wpseo_author_title'] ) ? esc_html( $_POST['wpseo_author_title'] ) : '' ) );
+			update_user_meta( $user_id, 'wpseo_metadesc', ( isset( $_POST['wpseo_author_metadesc'] ) ? esc_html( $_POST['wpseo_author_metadesc'] ) : '' ) );
+			update_user_meta( $user_id, 'wpseo_metakey', ( isset( $_POST['wpseo_author_metakey'] ) ? esc_html( $_POST['wpseo_author_metakey'] ) : '' ) );
+		}
 	}
 
 	/**
@@ -282,33 +317,36 @@ class WPSEO_Admin {
 	 * @param object $user
 	 */
 	function user_profile( $user ) {
+
 		if ( !current_user_can( 'edit_users' ) )
 			return;
 
 		$options = get_wpseo_options();
+
+		wp_nonce_field( 'wpseo_user_profile_update', 'wpseo_nonce' );
 		?>
-	<h3 id="wordpress-seo"><?php _e( "WordPress SEO settings", 'wordpress-seo' ); ?></h3>
-	<table class="form-table">
-		<tr>
-			<th><?php _e( "Title to use for Author page", 'wordpress-seo' ); ?></th>
-			<td><input class="regular-text" type="text" name="wpseo_author_title"
-					   value="<?php echo esc_attr( get_the_author_meta( 'wpseo_title', $user->ID ) ); ?>"/></td>
-		</tr>
-		<tr>
-			<th><?php _e( "Meta description to use for Author page", 'wordpress-seo' ); ?></th>
-			<td><textarea rows="3" cols="30"
-						  name="wpseo_author_metadesc"><?php echo esc_html( get_the_author_meta( 'wpseo_metadesc', $user->ID ) ); ?></textarea>
-			</td>
-		</tr>
+    <h3 id="wordpress-seo"><?php _e( "WordPress SEO settings", 'wordpress-seo' ); ?></h3>
+    <table class="form-table">
+        <tr>
+            <th><?php _e( "Title to use for Author page", 'wordpress-seo' ); ?></th>
+            <td><input class="regular-text" type="text" name="wpseo_author_title"
+                       value="<?php echo esc_attr( get_the_author_meta( 'wpseo_title', $user->ID ) ); ?>"/></td>
+        </tr>
+        <tr>
+            <th><?php _e( "Meta description to use for Author page", 'wordpress-seo' ); ?></th>
+            <td><textarea rows="3" cols="30"
+                          name="wpseo_author_metadesc"><?php echo esc_html( get_the_author_meta( 'wpseo_metadesc', $user->ID ) ); ?></textarea>
+            </td>
+        </tr>
 		<?php     if ( isset( $options['usemetakeywords'] ) && $options['usemetakeywords'] ) { ?>
-		<tr>
-			<th><?php _e( "Meta keywords to use for Author page", 'wordpress-seo' ); ?></th>
-			<td><input class="regular-text" type="text" name="wpseo_author_metakey"
-					   value="<?php echo esc_attr( get_the_author_meta( 'wpseo_metakey', $user->ID ) ); ?>"/></td>
-		</tr>
+        <tr>
+            <th><?php _e( "Meta keywords to use for Author page", 'wordpress-seo' ); ?></th>
+            <td><input class="regular-text" type="text" name="wpseo_author_metakey"
+                       value="<?php echo esc_attr( get_the_author_meta( 'wpseo_metakey', $user->ID ) ); ?>"/></td>
+        </tr>
 		<?php } ?>
-	</table>
-	<br/><br/>
+    </table>
+    <br/><br/>
 	<?php
 	}
 
@@ -427,7 +465,7 @@ class WPSEO_Admin {
 		// Fix wrongness created by buggy version 1.2.2
 		if ( version_compare( $current_version, '1.2.4', '<' ) ) {
 			$options = get_option( 'wpseo_titles' );
-			if ( isset( $options['title-home'] ) && $options['title-home'] == '%%sitename%% - %%sitedesc%% - 12345' ) {
+			if ( is_array( $options ) && isset( $options['title-home'] ) && $options['title-home'] == '%%sitename%% - %%sitedesc%% - 12345' ) {
 				$options['title-home'] = '%%sitename%% - %%sitedesc%%';
 				update_option( 'wpseo_titles', $options );
 			}
@@ -435,7 +473,7 @@ class WPSEO_Admin {
 
 		if ( version_compare( $current_version, '1.2.8', '<' ) ) {
 			$options = get_option( 'wpseo' );
-			if ( isset( $options['presstrends'] ) ) {
+			if ( is_array( $options ) && isset( $options['presstrends'] ) ) {
 				$options['yoast_tracking'] = 'on';
 				unset( $options['presstrends'] );
 				update_option( 'wpseo', $options );
@@ -444,18 +482,25 @@ class WPSEO_Admin {
 
 		if ( version_compare( $current_version, '1.2.8.2', '<' ) ) {
 			$options = get_option( 'wpseo' );
-			if ( isset( $options['presstrends'] ) ) {
+			if ( is_array( $options ) && isset( $options['presstrends'] ) ) {
 				$options['yoast_tracking'] = 'on';
 				unset( $options['presstrends'] );
 			}
-			if ( isset( $options['presstrends_popup'] ) ) {
+			if ( is_array( $options ) && isset( $options['presstrends_popup'] ) ) {
 				$options['tracking_popup'] = 'on';
 				unset( $options['presstrends_popup'] );
 			}
 			update_option( 'wpseo', $options );
 		}
 
-		$options = get_option( 'wpseo' );
+		if ( version_compare( $current_version, '1.3.2', '<' ) ) {
+			$options = get_option( 'wpseo_xml' );
+
+			$options['post_types-attachment-not_in_sitemap'] = true;
+			update_option( 'wpseo_xml', $options );
+		}
+
+		$options            = get_option( 'wpseo' );
 		$options['version'] = WPSEO_VERSION;
 		update_option( 'wpseo', $options );
 	}

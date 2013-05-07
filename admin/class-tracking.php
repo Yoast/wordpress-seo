@@ -3,8 +3,17 @@
  * @package Admin
  */
 
+if ( !defined( 'WPSEO_VERSION' ) ) {
+	header( 'HTTP/1.0 403 Forbidden' );
+	die;
+}
+
 /**
- * Class that creates the tracking functionality for WP SEO, as the core class might be used in more plugins, it's checked for existence first.
+ * Class that creates the tracking functionality for WP SEO, as the core class might be used in more plugins,
+ * it's checked for existence first.
+ *
+ * NOTE: this functionality is opt-in. Disabling the tracking in the settings or saying no when asked will cause
+ * this file to not even be loaded.
  */
 if ( !class_exists( 'Yoast_Tracking' ) ) {
 	class Yoast_Tracking {
@@ -13,49 +22,26 @@ if ( !class_exists( 'Yoast_Tracking' ) ) {
 		 * Class constructor
 		 */
 		function __construct() {
-			add_action( 'admin_head', array( $this, 'tracking' ), 10 );
-
-			// Invalidate the cache when changes are being made.
-			add_action( 'switch_theme', array( $this, 'delete_cache' ) );
-
-			add_action( 'admin_init', array( $this, 'check_active_plugins' ) );
-		}
-
-		/**
-		 * This is the only current way of doing something when a plugin is activated or updated...
-		 */
-		function check_active_plugins() {
-			$hash     = md5( serialize( get_option( 'active_plugins' ) ) );
-			$old_hash = get_transient( 'yoast_tracking_active_plugins_hash' );
-			if ( $hash != $old_hash ) {
-				add_action( 'admin_footer', array( $this, 'delete_cache' ) );
-				set_transient( 'yoast_tracking_active_plugins_hash', $hash, 7 * 60 * 60 * 24 );
+			// The tracking checks daily, but only sends new data every 7 days.
+			if ( !wp_next_scheduled( 'yoast_tracking' ) ) {
+				wp_schedule_event( time(), 'daily', 'yoast_tracking' );
 			}
-		}
 
-		/**
-		 * This deletes the tracking cache, effectively meaning the tracking will be done again.
-		 */
-		function delete_cache() {
-			delete_transient( 'yoast_tracking_cache' );
+			add_action( 'yoast_tracking', array( $this, 'tracking' ) );
 		}
 
 		/**
 		 * Main tracking function.
 		 */
 		function tracking() {
-			global $pagenow;
-			if ( in_array( $pagenow, array('index.php','plugins.php','update-core.php','themes.php') ) === false )
-				return;
-
 			// Start of Metrics
-			global $wpdb;
+			global $blog_id, $wpdb;
 
-			$options = get_option( 'wpseo' );
+			$hash = get_option( 'Yoast_Tracking_Hash' );
 
-			if ( !isset( $options['hash'] ) || empty( $options['hash'] ) ) {
-				$options['hash'] = md5( site_url() );
-				update_option( 'wpseo', $options );
+			if ( !isset( $hash ) || !$hash || empty( $hash ) ) {
+				$hash = md5( site_url() );
+				update_option( 'Yoast_Tracking_Hash', $hash );
 			}
 
 			$data = get_transient( 'yoast_tracking_cache' );
@@ -73,19 +59,19 @@ if ( !class_exists( 'Yoast_Tracking' ) ) {
 				if ( function_exists( 'wp_get_theme' ) ) {
 					$theme_data = wp_get_theme();
 					$theme      = array(
-						'name'      => $theme_data->display( 'Name', false, false ),
-						'theme_uri' => $theme_data->display( 'ThemeURI', false, false ),
-						'version'   => $theme_data->display( 'Version', false, false ),
-						'author'    => $theme_data->display( 'Author', false, false ),
-						'author_uri'=> $theme_data->display( 'AuthorURI', false, false ),
+						'name'       => $theme_data->display( 'Name', false, false ),
+						'theme_uri'  => $theme_data->display( 'ThemeURI', false, false ),
+						'version'    => $theme_data->display( 'Version', false, false ),
+						'author'     => $theme_data->display( 'Author', false, false ),
+						'author_uri' => $theme_data->display( 'AuthorURI', false, false ),
 					);
 					if ( isset( $theme_data->template ) && !empty( $theme_data->template ) && $theme_data->parent() ) {
 						$theme['template'] = array(
-							'version'   => $theme_data->parent()->display( 'Version', false, false ),
-							'name'      => $theme_data->parent()->display( 'Name', false, false ),
-							'theme_uri' => $theme_data->parent()->display( 'ThemeURI', false, false ),
-							'author'    => $theme_data->parent()->display( 'Author', false, false ),
-							'author_uri'=> $theme_data->parent()->display( 'AuthorURI', false, false ),
+							'version'    => $theme_data->parent()->display( 'Version', false, false ),
+							'name'       => $theme_data->parent()->display( 'Name', false, false ),
+							'theme_uri'  => $theme_data->parent()->display( 'ThemeURI', false, false ),
+							'author'     => $theme_data->parent()->display( 'Author', false, false ),
+							'author_uri' => $theme_data->parent()->display( 'AuthorURI', false, false ),
 						);
 					} else {
 						$theme['template'] = '';
@@ -93,16 +79,19 @@ if ( !class_exists( 'Yoast_Tracking' ) ) {
 				} else {
 					$theme_data = (object) get_theme_data( get_stylesheet_directory() . '/style.css' );
 					$theme      = array(
-						'version'     => $theme_data->Version,
-						'name'        => $theme_data->Name,
-						'author'      => $theme_data->Author,
-						'template'    => $theme_data->Template,
+						'version'  => $theme_data->Version,
+						'name'     => $theme_data->Name,
+						'author'   => $theme_data->Author,
+						'template' => $theme_data->Template,
 					);
 				}
 
 				$plugins = array();
 				foreach ( get_option( 'active_plugins' ) as $plugin_path ) {
-					$plugin_info    = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin_path );
+					if ( !function_exists( 'get_plugin_data' ) )
+						require_once ABSPATH . 'wp-admin/includes/admin.php';
+
+					$plugin_info = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin_path );
 
 					$slug           = str_replace( '/' . basename( $plugin_path ), '', $plugin_path );
 					$plugins[$slug] = array(
@@ -115,25 +104,25 @@ if ( !class_exists( 'Yoast_Tracking' ) ) {
 				}
 
 				$data = array(
-					'site'      => array(
-						'hash'        => $options['hash'],
-						'url'         => site_url(),
-						'name'        => get_bloginfo( 'name' ),
-						'version'     => get_bloginfo( 'version' ),
-						'multisite'   => is_multisite(),
-						'users'       => count( get_users() ),
-						'lang'        => get_locale(),
+					'site'     => array(
+						'hash'      => $hash,
+						'url'       => site_url(),
+						'name'      => get_bloginfo( 'name' ),
+						'version'   => get_bloginfo( 'version' ),
+						'multisite' => is_multisite(),
+						'users'     => $wpdb->get_var( "SELECT COUNT(*) FROM wp_users INNER JOIN wp_usermeta ON (wp_users.ID = wp_usermeta.user_id) WHERE 1 = 1 AND ( wp_usermeta.meta_key = 'wp_{$blog_id}_capabilities' ) " ),
+						'lang'      => get_locale(),
 					),
-					'pts'       => $pts,
-					'comments'  => array(
+					'pts'      => $pts,
+					'comments' => array(
 						'total'    => $comments_count->total_comments,
 						'approved' => $comments_count->approved,
 						'spam'     => $comments_count->spam,
 						'pings'    => $wpdb->get_var( "SELECT COUNT(comment_ID) FROM $wpdb->comments WHERE comment_type = 'pingback'" ),
 					),
-					'options'   => apply_filters( 'yoast_tracking_filters', array() ),
-					'theme'     => $theme,
-					'plugins'   => $plugins,
+					'options'  => apply_filters( 'yoast_tracking_filters', array() ),
+					'theme'    => $theme,
+					'plugins'  => $plugins,
 				);
 
 				$args = array(
@@ -160,12 +149,12 @@ function wpseo_tracking_additions( $options ) {
 	$opt = get_wpseo_options();
 
 	$options['wpseo'] = array(
-		'xml_sitemaps'          => isset( $opt['enablexmlsitemap'] ) ? 1 : 0,
-		'force_rewrite'         => isset( $opt['forcerewritetitle'] ) ? 1 : 0,
-		'opengraph'             => isset( $opt['opengraph'] ) ? 1 : 0,
-		'twitter'               => isset( $opt['twitter'] ) ? 1 : 0,
-		'strip_category_base'   => isset( $opt['stripcategorybase'] ) ? 1 : 0,
-		'on_front'              => get_option( 'show_on_front' ),
+		'xml_sitemaps'        => isset( $opt['enablexmlsitemap'] ) ? 1 : 0,
+		'force_rewrite'       => isset( $opt['forcerewritetitle'] ) ? 1 : 0,
+		'opengraph'           => isset( $opt['opengraph'] ) ? 1 : 0,
+		'twitter'             => isset( $opt['twitter'] ) ? 1 : 0,
+		'strip_category_base' => isset( $opt['stripcategorybase'] ) ? 1 : 0,
+		'on_front'            => get_option( 'show_on_front' ),
 	);
 	return $options;
 }

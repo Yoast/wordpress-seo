@@ -3,6 +3,11 @@
  * @package Frontend
  */
 
+if ( !defined('WPSEO_VERSION') ) {
+	header('HTTP/1.0 403 Forbidden');
+	die;
+}
+
 /**
  * This code handles the category rewrites.
  */
@@ -16,7 +21,6 @@ class WPSEO_Rewrite {
 		add_filter( 'category_link', array( $this, 'no_category_base' ) );
 		add_filter( 'request', array( $this, 'request' ) );
 		add_filter( 'category_rewrite_rules', array( $this, 'category_rewrite_rules' ) );
-
 
 		add_action( 'created_category', array( $this, 'schedule_flush' ) );
 		add_action( 'edited_category', array( $this, 'schedule_flush' ) );
