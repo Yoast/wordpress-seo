@@ -161,7 +161,7 @@ class WPSEO_Sitemaps {
 		foreach ( get_post_types( array( 'public' => true ) ) as $post_type ) {
 			if ( isset( $options['post_types-' . $post_type . '-not_in_sitemap'] ) && $options['post_types-' . $post_type . '-not_in_sitemap'] )
 				continue;
-			if ( apply_filters( 'wpseo_sitemap_exclude_post_type', false, $post_type ) ) )
+			elseif ( apply_filters( 'wpseo_sitemap_exclude_post_type', false, $post_type ) ) )
 				continue;
 
 			$query = $wpdb->prepare( "SELECT COUNT(ID) FROM $wpdb->posts WHERE post_type = '%s' AND post_status IN ('publish','inherit')", $post_type );
@@ -193,7 +193,7 @@ class WPSEO_Sitemaps {
 		foreach ( get_taxonomies( array( 'public' => true ) ) as $tax ) {
 			if ( in_array( $tax, array( 'link_category', 'nav_menu', 'post_format' ) ) )
 				continue;
-			if ( apply_filters( 'wpseo_sitemap_exclude_taxonomy', false, $tax ) ) )
+			elseif ( apply_filters( 'wpseo_sitemap_exclude_taxonomy', false, $tax ) ) )
 				continue;
 
 			if ( isset( $options['taxonomies-' . $tax . '-not_in_sitemap'] ) && $options['taxonomies-' . $tax . '-not_in_sitemap'] )
