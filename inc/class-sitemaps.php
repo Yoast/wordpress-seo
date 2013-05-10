@@ -161,6 +161,8 @@ class WPSEO_Sitemaps {
 		foreach ( get_post_types( array( 'public' => true ) ) as $post_type ) {
 			if ( isset( $options['post_types-' . $post_type . '-not_in_sitemap'] ) && $options['post_types-' . $post_type . '-not_in_sitemap'] )
 				continue;
+			else if ( apply_filters( 'wpseo_sitemap_exclude_post_type', false, $post_type ) )
+				continue;
 
 			$query = $wpdb->prepare( "SELECT COUNT(ID) FROM $wpdb->posts WHERE post_type = '%s' AND post_status IN ('publish','inherit')", $post_type );
 
@@ -190,6 +192,8 @@ class WPSEO_Sitemaps {
 		// reference taxonomy specific sitemaps
 		foreach ( get_taxonomies( array( 'public' => true ) ) as $tax ) {
 			if ( in_array( $tax, array( 'link_category', 'nav_menu', 'post_format' ) ) )
+				continue;
+			else if ( apply_filters( 'wpseo_sitemap_exclude_taxonomy', false, $tax ) )
 				continue;
 
 			if ( isset( $options['taxonomies-' . $tax . '-not_in_sitemap'] ) && $options['taxonomies-' . $tax . '-not_in_sitemap'] )
@@ -226,6 +230,7 @@ class WPSEO_Sitemaps {
 		if (
 			( isset( $options['post_types-' . $post_type . '-not_in_sitemap'] ) && $options['post_types-' . $post_type . '-not_in_sitemap'] )
 			|| in_array( $post_type, array( 'revision', 'nav_menu_item' ) )
+			|| apply_filters( 'wpseo_sitemap_exclude_post_type', false, $post_type )
 		) {
 			$this->bad_sitemap = true;
 			return;
@@ -460,6 +465,7 @@ class WPSEO_Sitemaps {
 		if (
 			( isset( $options['taxonomies-' . $taxonomy->name . '-not_in_sitemap'] ) && $options['taxonomies-' . $taxonomy->name . '-not_in_sitemap'] )
 			|| in_array( $taxonomy, array( 'link_category', 'nav_menu', 'post_format' ) )
+			|| apply_filters( 'wpseo_sitemap_exclude_taxonomy', false, $taxonomy->name )
 		) {
 			$this->bad_sitemap = true;
 			return;
@@ -550,6 +556,7 @@ class WPSEO_Sitemaps {
 			$date = mysql2date( "Y-m-d\TH:i:s+00:00", $url['mod'] );
 		else
 			$date = date( 'c' );
+		$url['loc'] = htmlspecialchars( $url['loc'] );
 		$output = "\t<url>\n";
 		$output .= "\t\t<loc>" . $url['loc'] . "</loc>\n";
 		$output .= "\t\t<lastmod>" . $date . "</lastmod>\n";
