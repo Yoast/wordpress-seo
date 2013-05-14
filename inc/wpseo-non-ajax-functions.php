@@ -315,24 +315,17 @@ function allow_custom_field_edits( $allcaps, $cap, $args ) {
 }
 add_filter( 'user_has_cap', 'allow_custom_field_edits', 0, 3 );
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 function wpseo_sitemap_handler( $atts, $content = null ) {
-	$display_authors = (isset($atts['authors']) && $atts['authors'] === 'no') ? false : true;
-	$display_pages   = (isset($atts['pages']) && $atts['pages'] === 'no') ? false : true;
-	$display_posts   = (isset($atts['posts']) && $atts['posts'] === 'no') ? false : true;
+
+	$atts = shortcode_atts( array(
+		'authors' => true,
+		'pages'   => true,
+		'posts'   => true
+	), $atts );
+
+	$display_authors = ($atts['authors'] === 'no') ? false : true;
+	$display_pages   = ($atts['pages'] === 'no') ? false : true;
+	$display_posts   = ($atts['posts'] === 'no') ? false : true;
 	
 	// Delete the transient if any of these are no
 	if ( $display_authors === 'no' || $display_pages === 'no' || $display_posts === 'no' ) {

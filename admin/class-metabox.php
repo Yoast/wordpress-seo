@@ -396,28 +396,26 @@ class WPSEO_Metabox {
 				),
 			);
 		}
-		if ( wpseo_get_value( 'meta-robots-noindex', $post->ID ) === '1' ) {
-			$mbs['sitemap-html-include'] = array(
-				"name"        => "sitemap-html-include",
-				"std"         => "-",
-				"type"        => "select",
-				"title"       => __( "Include in HTML Sitemap", 'wordpress-seo' ),
-				"description" => __( "Should this page be in the HTML Sitemap at all times, regardless of Robots Meta settings?", 'wordpress-seo' ),
-				"options"     => array(
-					"-"      => __( "Auto detect", 'wordpress-seo' ),
-					"always" => __( "Always include", 'wordpress-seo' ),
-					"never"  => __( "Never include", 'wordpress-seo' ),
-				),
-			);
-		}
-		$mbs['canonical'] = array(
+		$mbs['sitemap-html-include'] = array(
+			"name"        => "sitemap-html-include",
+			"std"         => "-",
+			"type"        => "select",
+			"title"       => __( "Include in HTML Sitemap", 'wordpress-seo' ),
+			"description" => __( "Should this page be in the HTML Sitemap at all times, regardless of Robots Meta settings?", 'wordpress-seo' ),
+			"options"     => array(
+				"-"      => __( "Auto detect", 'wordpress-seo' ),
+				"always" => __( "Always include", 'wordpress-seo' ),
+				"never"  => __( "Never include", 'wordpress-seo' ),
+			),
+		);
+		$mbs['canonical']            = array(
 			"name"        => "canonical",
 			"std"         => "",
 			"type"        => "text",
 			"title"       => __( "Canonical URL", 'wordpress-seo' ),
 			"description" => sprintf( __( "The canonical URL that this page should point to, leave empty to default to permalink. %sCross domain canonical%s supported too.", 'wordpress-seo' ), "<a target='_blank' href='http://googlewebmastercentral.blogspot.com/2009/12/handling-legitimate-cross-domain.html'>", "</a>" )
 		);
-		$mbs['redirect']  = array(
+		$mbs['redirect']             = array(
 			"name"        => "redirect",
 			"std"         => "",
 			"type"        => "text",
