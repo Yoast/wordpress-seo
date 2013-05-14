@@ -75,7 +75,7 @@ class Sitemap_Walker extends Walker_Category {
 			}
 		}
 		$output .= "</ul>";
-		parent::end_el(&$output, $page, $depth, $args);
+		parent::end_el($output, $term, $depth, $args);
 	}
 
 }

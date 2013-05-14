@@ -330,13 +330,12 @@ add_filter( 'user_has_cap', 'allow_custom_field_edits', 0, 3 );
 
 
 function wpseo_sitemap_handler( $atts, $content = null ) {
-	
-	$display_authors = ($atts['authors'] !== 'no') ? true : false;
-	$display_pages   = ($atts['pages'] !== 'no') ? true : false;
-	$display_posts   = ($atts['posts'] !== 'no') ? true : false;
+	$display_authors = (isset($atts['authors']) && $atts['authors'] === 'no') ? false : true;
+	$display_pages   = (isset($atts['pages']) && $atts['pages'] === 'no') ? false : true;
+	$display_posts   = (isset($atts['posts']) && $atts['posts'] === 'no') ? false : true;
 	
 	// Delete the transient if any of these are no
-	if ( $authors === 'no' || $pages === 'no' || $posts === 'no' ) {
+	if ( $display_authors === 'no' || $display_pages === 'no' || $display_posts === 'no' ) {
 		delete_transient( 'html-sitemap' );
 	}
 	
