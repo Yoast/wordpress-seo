@@ -4,7 +4,7 @@ Community made patches, localisations, bug reports and contributions are very we
 
 When contributing please ensure you follow the guidelines below so that we can keep on top of things.
 
-__Please Note:__ GitHub is for bug reports and contributions only - if you have a support question or a request for a customisation don't post here, go to our [Support Forum](http://wordpress.org/support/plugin/wordpress-seo) instead.
+__Please Note:__ GitHub is for bug reports and contributions only - if you have a support question or a request for a customisation don't post here, go to our [Support Forum](http://wordpress.org/support/plugin/wordpress-seo) instead. For localization, please refer to [translate.yoast.com](http://translate.yoast.com/projects/wordpress-seo), though bugs with strings that can't be translated are welcome here.
 
 ## Getting Started
 
