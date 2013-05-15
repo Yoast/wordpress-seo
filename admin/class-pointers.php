@@ -32,7 +32,7 @@ class WPSEO_Pointers {
 	function enqueue() {
 		if ( ! current_user_can('manage_options') )
 			return;
-			
+
 		$options = get_option( 'wpseo' );
 		if ( !isset( $options['yoast_tracking'] ) || ( !isset( $options['ignore_tour'] ) || !$options['ignore_tour'] ) ) {
 			wp_enqueue_style( 'wp-pointer' );
@@ -188,13 +188,24 @@ class WPSEO_Pointers {
 	 * Load a tiny bit of CSS in the head
 	 */
 	function admin_head() {
-		?>
-	<style type="text/css" media="screen">
-		#pointer-primary {
-			margin: 0 5px 0 0;
+		if ( is_rtl() ) { // RTL styling
+			?>
+			<style type="text/css" media="screen">
+				#pointer-primary {
+					margin: 0 5px 0 0;
+				}
+			</style>
+			<?php
 		}
-	</style>
-	<?php
+		else { // Non RTL styling
+			?>
+			<style type="text/css" media="screen">
+				#pointer-primary {
+					margin: 0 0 0 5px;
+				}
+			</style>
+			<?php
+		}
 	}
 
 	/**
