@@ -106,9 +106,9 @@ class WPSEO_Pointers {
 			),
 			'wpseo_social'         => array(
 				'content'  => "<h3>" . __( "Social settings", 'wordpress-seo' ) . "</h3>"
-					. "<p><strong>" . __( 'Facebook OpenGraph', 'wordpress-seo' ) . '</strong><br/>'
-					. __( "On this page you can enable the OpenGraph functionality from this plugin, as well as assign a Facebook user or Application to be the admin of your site, so you can view the Facebook insights.", 'wordpress-seo' ) . "</p>"
-					. '<p>' . sprintf( __( 'Read more about %1$sFacebook OpenGraph%2$s.', 'wordpress-seo' ), '<a target="_blank" href="http://yoast.com/facebook-open-graph-protocol/#utm_source=wpadmin&utm_medium=wpseo_tour&utm_term=link&utm_campaign=wpseoplugin">', '</a>' ) . "</p>"
+					. "<p><strong>" . __( 'Facebook Open Graph', 'wordpress-seo' ) . '</strong><br/>'
+					. __( "On this page you can enable the Open Graph functionality from this plugin, as well as assign a Facebook user or Application to be the admin of your site, so you can view the Facebook insights.", 'wordpress-seo' ) . "</p>"
+					. '<p>' . sprintf( __( 'Read more about %1$sFacebook Open Graph%2$s.', 'wordpress-seo' ), '<a target="_blank" href="http://yoast.com/facebook-open-graph-protocol/#utm_source=wpadmin&utm_medium=wpseo_tour&utm_term=link&utm_campaign=wpseoplugin">', '</a>' ) . "</p>"
 					. "<p><strong>" . __( 'Twitter Cards', 'wordpress-seo' ) . '</strong><br/>'
 					. sprintf( __( 'This functionality is currently in beta, but it allows for %1$sTwitter Cards%2$s.', 'wordpress-seo' ), '<a target="_blank" href="http://yoast.com/twitter-cards/#utm_source=wpadmin&utm_medium=wpseo_tour&utm_term=link&utm_campaign=wpseoplugin">', '</a>' ) . "</p>",
 				'button2'  => __( 'Next', 'wordpress-seo' ),

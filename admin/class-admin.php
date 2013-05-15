@@ -304,7 +304,7 @@ class WPSEO_Admin {
 	 */
 	function update_contactmethods( $contactmethods ) {
 		// Add Google+
-		$contactmethods['googleplus'] = 'Google+';
+		$contactmethods['googleplus'] = __( "Google+", 'wordpress-seo' );
 		// Add Twitter
 		$contactmethods['twitter'] = __( 'Twitter username (without @)', 'wordpress-seo' );
 

@@ -134,7 +134,7 @@ class WPSEO_Metabox {
 			$title = ucfirst( $score );
 		$result = '<div title="' . esc_attr( $title ) . '" alt="' . esc_attr( $title ) . '" class="wpseo_score_img ' . $score . '"></div>';
 
-		echo 'SEO: ' . $result . ' <a class="wpseo_tablink scroll" href="#wpseo_linkdex">Check</a>';
+		echo __( 'SEO: ', 'wordpress-seo' ) . $result . ' <a class="wpseo_tablink scroll" href="#wpseo_linkdex">' . __( 'Check', 'wordpress-seo' ) . '</a>';
 
 		echo '</div>';
 	}
@@ -262,7 +262,7 @@ class WPSEO_Metabox {
 			"type"         => "text",
 			"title"        => __( 'Focus Keyword', 'wordpress-seo' ),
 			"autocomplete" => "off",
-			"help"         => sprintf( "Pick the main keyword or keyphrase that this post/page is about.<br/><br/>Read %sthis post%s for more info.", "<a href='http://yoast.com/focus-keyword/#utm_source=wordpress-seo-metabox&utm_medium=inline-help&utm_campaign=focus-keyword'>", '</a>' ),
+			"help"         => sprintf( __( "Pick the main keyword or keyphrase that this post/page is about.<br/><br/>Read %sthis post%s for more info.", 'wordpress-seo' ), "<a href='http://yoast.com/focus-keyword/#utm_source=wordpress-seo-metabox&utm_medium=inline-help&utm_campaign=focus-keyword'>", '</a>' ),
 			"description"  => "<div id='focuskwresults'></div>",
 		);
 		$mbs['title']          = array(
@@ -326,8 +326,8 @@ class WPSEO_Metabox {
 			"type"    => "select",
 			"options" => array(
 				"0" => sprintf( __( "Default for post type, currently: %s", 'wordpress-seo' ), ( isset( $options['noindex-' . $post_type] ) && $options['noindex-' . $post_type] ) ? 'noindex' : 'index' ),
-				"2" => "index",
-				"1" => "noindex",
+				"2" => __( "index", 'wordpress-seo' ),
+				"1" => __( "noindex", 'wordpress-seo' ),
 			),
 		);
 		$mbs['meta-robots-nofollow'] = array(
@@ -784,7 +784,7 @@ class WPSEO_Metabox {
 			return false;
 
 		echo '<select name="seo_filter">';
-		echo '<option value="">All SEO Scores</option>';
+		echo '<option value="">' . __( "All SEO Scores", 'wordpress-seo' ) . '</option>';
 		foreach ( array(
 					  'na'      => __( 'SEO: No Focus Keyword', 'wordpress-seo' ),
 					  'bad'     => __( 'SEO: Bad', 'wordpress-seo' ),

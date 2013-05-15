@@ -253,7 +253,7 @@ if ( isset( $_POST['import'] ) ) {
 		$msg .= __( ', and meta keywords data deleted.', 'wordpress-seo' );
 }
 
-$wpseo_admin_pages->admin_header( 'Import', false );
+$wpseo_admin_pages->admin_header( __( 'Import & Export', 'wordpress-seo' ), false );
 if ( $msg != '' )
 	echo '<div id="message" class="message updated" style="width:94%;"><p>' . esc_html( $msg ) . '</p></div>';
 

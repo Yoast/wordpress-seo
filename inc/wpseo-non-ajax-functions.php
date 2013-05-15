@@ -180,23 +180,23 @@ function wpseo_deactivate() {
 function wpseo_translate_score( $val ) {
 	switch ( $val ) {
 		case 0:
-			$score = 'na';
+			$score = __( 'na', 'wordpress-seo' );
 			break;
 		case 4:
 		case 5:
-			$score = 'poor';
+			$score = __( 'poor', 'wordpress-seo' );
 			break;
 		case 6:
 		case 7:
-			$score = 'ok';
+			$score = __( 'ok', 'wordpress-seo' );
 			break;
 		case 8:
 		case 9:
 		case 10:
-			$score = 'good';
+			$score = __( 'good', 'wordpress-seo' );
 			break;
 		default:
-			$score = 'bad';
+			$score = __( 'bad', 'wordpress-seo' );
 			break;
 	}
 	return $score;
