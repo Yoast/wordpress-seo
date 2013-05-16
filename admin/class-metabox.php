@@ -101,7 +101,6 @@ class WPSEO_Metabox {
 	 * Outputs the page analysis score in the Publish Box.
 	 */
 	public function publish_box() {
-		echo '<div class="misc-pub-section curtime misc-pub-section-last" style="height:0; padding:0; margin:0; border-top: 1px solid #DFDFDF"></div>';
 		echo '<div class="misc-pub-section misc-yoast misc-pub-section-last">';
 
 		if ( wpseo_get_value( 'meta-robots-noindex' ) == 1 ) {

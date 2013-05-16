@@ -283,6 +283,7 @@ table.wpseoanalysis td.score {
 	background-image: url(../images/score_buttons.png);
 	background-repeat: no-repeat;
 	padding: 0 0 0 0;
+	vertical-align: bottom;
 }
 .wpseo_score_img.good {
 	background-position: -2px -2px;

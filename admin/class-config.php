@@ -261,6 +261,9 @@ class WPSEO_Admin_Pages {
 			wp_enqueue_style( 'global' );
 			wp_enqueue_style( 'wp-admin' );
 			wp_enqueue_style( 'yoast-admin-css', WPSEO_URL . 'css/yst_plugin_tools.css', WPSEO_VERSION );
+
+			if ( is_rtl() )
+				wp_enqueue_style( 'wpseo-rtl', WPSEO_URL . 'css/wpseo-rtl.css', WPSEO_VERSION );
 		}
 	}
 

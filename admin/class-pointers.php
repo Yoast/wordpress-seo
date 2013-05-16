@@ -171,9 +171,10 @@ class WPSEO_Pointers {
 			$function = 'document.location="' . admin_url( 'admin.php?page=wpseo_dashboard' ) . '";';
 		} else {
 			if ( '' != $page && in_array( $page, array_keys( $adminpages ) ) ) {
+				$align = ( is_rtl() ) ? 'right' : 'left';
 				$opt_arr  = array(
 					'content'      => $adminpages[$page]['content'],
-					'position'     => array( 'edge' => 'top', 'align' => 'left' ),
+					'position'     => array( 'edge' => 'top', 'align' => $align ),
 					'pointerWidth' => 400
 				);
 				$button2  = $adminpages[$page]['button2'];
@@ -188,11 +189,10 @@ class WPSEO_Pointers {
 	 * Load a tiny bit of CSS in the head
 	 */
 	function admin_head() {
+	// Depreciated, marked for removal
+	// No longer needed as the original code is now being handle by an external CSS files that supports RTL
 		?>
 	<style type="text/css" media="screen">
-		#pointer-primary {
-			margin: 0 5px 0 0;
-		}
 	</style>
 	<?php
 	}

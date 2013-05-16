@@ -202,3 +202,7 @@ h2 code {
 #wpseo-conf {
 	max-width: 600px;
 }
+
+#pointer-primary {
+	margin: 0 5px 0 0; 
+}
