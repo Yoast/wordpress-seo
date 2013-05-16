@@ -130,7 +130,8 @@ class WPSEO_Metabox {
 			}
 		}
 		if ( !isset( $title ) )
-			$title = ucfirst( $score );
+			$title = wpseo_translate_score( $score, $css = false );
+
 		$result = '<div title="' . esc_attr( $title ) . '" alt="' . esc_attr( $title ) . '" class="wpseo_score_img ' . $score . '"></div>';
 
 		echo __( 'SEO: ', 'wordpress-seo' ) . $result . ' <a class="wpseo_tablink scroll" href="#wpseo_linkdex">' . __( 'Check', 'wordpress-seo' ) . '</a>';
@@ -769,6 +770,16 @@ class WPSEO_Metabox {
 			wp_enqueue_script( 'jquery-ui-autocomplete', WPSEO_URL . 'js/jquery-ui-autocomplete.min.js', array( 'jquery', 'jquery-ui-core' ), WPSEO_VERSION, true );
 			wp_enqueue_script( 'jquery-qtip', WPSEO_URL . 'js/jquery.qtip.min.js', array( 'jquery' ), '1.0.0-RC3', true );
 			wp_enqueue_script( 'wp-seo-metabox', WPSEO_URL . 'js/wp-seo-metabox.js', array( 'jquery', 'jquery-ui-core', 'jquery-ui-autocomplete' ), WPSEO_VERSION, true );
+			
+			// Text strings to pass to metabox for keyword analysis
+			wp_localize_script( 'wp-seo-metabox', 'objectL10n', array(
+				'keyword_header'        => __( 'Your focus keyword was found in:', 'wordpress-seo' ),
+				'article_header_text'   => __( 'Article Heading: ', 'wordpress-seo' ),
+				'page_title_text'       => __( 'Page title: ', 'wordpress-seo' ),
+				'page_url_text'         => __( 'Page URL: ', 'wordpress-seo' ),
+				'content_text'          => __( 'Content: ', 'wordpress-seo' ),
+				'meta_description_text' => __( 'Meta description: ', 'wordpress-seo' ),
+			) );
 		}
 	}
 
@@ -825,7 +836,7 @@ class WPSEO_Metabox {
 					wpseo_set_value( 'linkdex', 0, $post_id );
 			} else if ( $score = wpseo_get_value( 'linkdex', $post_id ) ) {
 				$score = wpseo_translate_score( round( $score / 10 ) );
-				$title = $score;
+				$title = wpseo_translate_score( round( $score / 10 ), $css = false );
 			} else {
 				$this->calculate_results( get_post( $post_id ) );
 				$score = wpseo_get_value( 'linkdex', $post_id );
@@ -834,11 +845,11 @@ class WPSEO_Metabox {
 					$title = __( 'Focus keyword not set.', 'wordpress-seo' );
 				} else {
 					$score = wpseo_translate_score( $score );
-					$title = $score;
+					$title = wpseo_translate_score( $score, $css = false );
 				}
 			}
 
-			echo '<div title="' . $title . '" alt="' . $title . '" class="wpseo_score_img ' . esc_attr( $score ) . '"></div>';
+			echo '<div title="' . esc_attr( $title ) . '" alt="' . esc_attr( $title ) . '" class="wpseo_score_img ' . esc_attr( $score ) . '"></div>';
 		}
 		if ( $column_name == 'wpseo-title' ) {
 			echo esc_html( apply_filters( 'wpseo_title', $this->page_title( $post_id ) ) );
@@ -1240,11 +1251,11 @@ class WPSEO_Metabox {
 		);
 
 		if ( count( $posts ) == 0 )
-			$this->save_score_result( $results, 9, __( "You've never used this focus keyword before, very good." ), 'keyword_overused' );
+			$this->save_score_result( $results, 9, __( "You've never used this focus keyword before, very good." ), 'wordpress-seo' );
 		else if ( count( $posts ) == 1 )
-			$this->save_score_result( $results, 6, sprintf( __( 'You\'ve used this focus keyword %1$sonce before%2$s, be sure to make very clear which URL on your site is the most important for this keyword.' ), '<a href="' . admin_url( 'post.php?post=' . $posts[0] . '&action=edit' ) . '">', '</a>' ), 'keyword_overused' );
+			$this->save_score_result( $results, 6, sprintf( __( 'You\'ve used this focus keyword %1$sonce before%2$s, be sure to make very clear which URL on your site is the most important for this keyword.' ), '<a href="' . admin_url( 'post.php?post=' . $posts[0] . '&action=edit' ) . '">', '</a>' ), 'wordpress-seo' );
 		else
-			$this->save_score_result( $results, 1, sprintf( __( 'You\'ve used this focus keyword %3$s%4$d times before%2$s, it\'s probably a good idea to read %1$sthis post on cornerstone content%2$s and improve your keyword strategy.' ), '<a href="http://yoast.com/cornerstone-content-rank/">', '</a>', '<a href="' . admin_url( 'edit.php?seo_kw_filter=' . urlencode( $job['keyword'] ) ) . '">', count( $posts ) ), 'keyword_overused' );
+			$this->save_score_result( $results, 1, sprintf( __( 'You\'ve used this focus keyword %3$s%4$d times before%2$s, it\'s probably a good idea to read %1$sthis post on cornerstone content%2$s and improve your keyword strategy.' ), '<a href="http://yoast.com/cornerstone-content-rank/">', '</a>', '<a href="' . admin_url( 'edit.php?seo_kw_filter=' . urlencode( $job['keyword'] ) ) . '">', count( $posts ) ), 'wordpress-seo' );
 	}
 
 	/**

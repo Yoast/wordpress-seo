@@ -272,11 +272,21 @@ class WPSEO_Admin_Pages {
 	 */
 	function config_page_scripts() {
 		global $pagenow;
+		
+		wp_localize_script( 'wpseo-admin-script', 'objectL10n', array(
+				'speed'  => $distance / $time,
+				'mytext' => __( 'Submit', 'wordpress-seo' ),
+			) );
+		
 		if ( $pagenow == 'admin.php' && isset( $_GET['page'] ) && in_array( $_GET['page'], $this->adminpages ) ) {
 			wp_enqueue_script( 'wpseo-admin-script', WPSEO_URL . 'js/wp-seo-admin.js', array( 'jquery' ), WPSEO_VERSION, true );
 			wp_enqueue_script( 'postbox' );
 			wp_enqueue_script( 'dashboard' );
 			wp_enqueue_script( 'thickbox' );
+			
+			
+			
+			
 		}
 	}
 

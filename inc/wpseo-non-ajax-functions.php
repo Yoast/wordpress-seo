@@ -177,30 +177,40 @@ function wpseo_deactivate() {
  * @param int $val The decimal score to translate.
  * @return string
  */
-function wpseo_translate_score( $val ) {
+function wpseo_translate_score( $val, $css = true ) {
 	switch ( $val ) {
 		case 0:
-			$score = __( 'na', 'wordpress-seo' );
+			$score = __( 'N/A', 'wordpress-seo' );
+			$css = 'na';
 			break;
 		case 4:
 		case 5:
-			$score = __( 'poor', 'wordpress-seo' );
+			$score = __( 'Poor', 'wordpress-seo' );
+			$css = 'poor';
 			break;
 		case 6:
 		case 7:
-			$score = __( 'ok', 'wordpress-seo' );
+			$score = __( 'OK', 'wordpress-seo' );
+			$css = 'ok';
 			break;
 		case 8:
 		case 9:
 		case 10:
-			$score = __( 'good', 'wordpress-seo' );
+			$score = __( 'Good', 'wordpress-seo' );
+			$css = 'good';
 			break;
 		default:
-			$score = __( 'bad', 'wordpress-seo' );
+			$score = __( 'Bad', 'wordpress-seo' );
+			$css = 'bad';
 			break;
 	}
-	return $score;
+	
+	if ( $css )
+		return $css;
+	else
+		return $score;
 }
+
 
 /**
  * Adds an SEO admin bar menu with several options. If the current user is an admin he can also go straight to several settings menu's from here.
@@ -226,7 +236,9 @@ function wpseo_admin_bar_menu() {
 		$focuskw    = wpseo_get_value( 'focuskw', $post->ID );
 		$perc_score = wpseo_get_value( 'linkdex', $post->ID );
 		$txtscore   = wpseo_translate_score( round( $perc_score / 10 ) );
-		$score      = '<div title="' . ucfirst( $txtscore ) . '" class="wpseo_score_img ' . $txtscore . ' ' . $perc_score . '"></div>';
+		$title 		= wpseo_translate_score( round( $perc_score / 10 ), $css = false );
+		$score      = '<div title="' . esc_attr( $title ) . '" class="wpseo_score_img ' . $txtscore . ' ' . $perc_score . '"></div>';
+		
 		$seo_url    = get_edit_post_link( $post->ID );
 		if ( $txtscore != 'na' )
 			$seo_url .= '#wpseo_linkdex';
@@ -328,13 +340,17 @@ function wpseo_sitemap_handler( $atts ) {
 	$atts = shortcode_atts( array(
 		'authors' => true,
 		'pages'   => true,
-		'posts'   => true
+		'posts'   => true,
+		'archives'   => true
 	), $atts );
 
 	$display_authors = ( $atts['authors'] === 'no' ) ? false : true;
 	$display_pages   = ( $atts['pages'] === 'no' ) ? false : true;
 	$display_posts   = ( $atts['posts'] === 'no' ) ? false : true;
+	$display_archives   = ( $atts['archives'] === 'no' ) ? false : true;
 
+	$options = get_wpseo_options();
+	
 	// Delete the transient if any of these are no
 	if ( $display_authors === 'no' || $display_pages === 'no' || $display_posts === 'no' ) {
 		delete_transient( 'html-sitemap' );
@@ -346,8 +362,8 @@ function wpseo_sitemap_handler( $atts ) {
 		// return $output;
 	}
 
-
 	$output = '';
+	
 	// create author list
 	if ( $display_authors ) {
 		$output .= '<h2 id="authors">' . __( 'Authors', 'wordpress-seo' ) . '</h2><ul>';
@@ -385,7 +401,7 @@ function wpseo_sitemap_handler( $atts ) {
 		// possibly have this controlled by shortcode params
 		$cats = get_categories( 'exclude=' );
 		foreach ( $cats as $cat ) {
-			$output .= "<li><h3>" . $cat->cat_name . "</h3>";
+			$output .= "<li>" . $cat->cat_name;
 			$output .= "<ul>";
 
 			$args = array(
@@ -435,22 +451,45 @@ function wpseo_sitemap_handler( $atts ) {
 	}
 	$output .= '</ul>';
 
-
-	// create custom post type list
+	// get all public non-builtin post types
 	$args = array(
 		'public'   => true,
 		'_builtin' => false
 	);
-	// get all public non-builtin post types
-	$post_types = get_post_types( $args, 'object', 'and' );
-
+	$post_types = get_post_types( $args, 'object' );
+	
+	// create an noindex array of post types and taxonomies
+	$noindex = array();
+	foreach($options as $key => $value) {
+		if ( strpos( $key, 'noindex-' ) === 0 && $value == 'on' )
+			$noindex[] = $key;
+	}
+	
+	// create custom post type list
 	foreach ( $post_types as $post_type ) {
-		// if ($post_type->name == 'note') {
-		$output .= create_type_sitemap_template( $post_type );
-		// }
+		if ( ! in_array( 'noindex-' . $post_type->name, $noindex ) ) {
+			$output .= '<h2 id="' . $post_type->name . '">' . __( $post_type->label, 'wordpress-seo' ) . '</h2><ul>';
+			$output .= create_type_sitemap_template( $post_type );
+			$output .= '</ul>';
+		}
 	}
 
-
+	// $output = '';
+	// create archives list
+	if ( $display_archives ) {
+		$output .= '<h2 id="archives">' . __( 'Archives', 'wordpress-seo' ) . '</h2><ul>';
+		
+		foreach ( $post_types as $post_type ) {
+			if ( $post_type->has_archive && ! in_array( 'noindex-ptarchive-' . $post_type->name, $noindex ) ) {
+				$output .= '<a href="' . get_post_type_archive_link( $post_type->name ) . '">' . $post_type->labels->name . '</a>';
+				
+				$output .= create_type_sitemap_template( $post_type );
+			}
+		}
+		
+		$output .= '</ul>';
+	}
+	
 	set_transient( 'html-sitemap', $output, 60 );
 	return $output;
 }
@@ -459,19 +498,36 @@ add_shortcode( 'wpseo_sitemap', 'wpseo_sitemap_handler' );
 
 
 function create_type_sitemap_template( $post_type ) {
-	$output = '<h2 id="' . $post_type->name . '">' . __( $post_type->label, 'wordpress-seo' ) . '</h2><ul>';
+	// $output = '<h2 id="' . $post_type->name . '">' . __( $post_type->label, 'wordpress-seo' ) . '</h2><ul>';
 
+	$output = '';
 	// Get all registered taxonomy of this post type
 	$taxs = get_object_taxonomies( $post_type->name, 'object' );
 
 	// Build the taxonomy tree
 	$walker = new Sitemap_Walker();
 	foreach ( $taxs as $key => $tax ) {
+		$args = array(
+			'post_type' => $post_type->name,
+			'tax_query' => array(
+				array(
+					'taxonomy' => $key,
+					'field' => 'id',
+					'terms' => -1,
+					'operator' => 'NOT',
+				)
+			)
+		);
+		$query = new WP_Query( $args );
+		
+		$title_li = $query->have_posts() ? $tax->labels->name : '';
+	
 		$output .= wp_list_categories(
 			array(
-				'title_li'  => __( $tax->labels->name ),
+				'title_li'  => $title_li,
 				'echo'      => false,
 				'taxonomy'  => $key,
+				'show_option_none' => '',
 				// 'hierarchical' => 0, // uncomment this for a flat list
 
 				'walker'    => $walker,
@@ -480,6 +536,6 @@ function create_type_sitemap_template( $post_type ) {
 		);
 	}
 
-	$output .= '</ul>';
+	$output .= '<br />';
 	return $output;
 }
