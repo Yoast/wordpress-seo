@@ -463,7 +463,7 @@ class WPSEO_Metabox {
 
 		$this->do_tab( 'linkdex', __( 'Page Analysis', 'wordpress-seo' ), $this->linkdex_output( $post ) );
 
-		if ( current_user_can( 'edit_users' ) || !isset( $options['disableadvanced_meta'] ) || !$options['disableadvanced_meta'] ) {
+		if ( current_user_can( 'manage_options' ) || !isset( $options['disableadvanced_meta'] ) || !$options['disableadvanced_meta'] ) {
 			$content = '';
 			foreach ( $this->get_advanced_meta_boxes() as $meta_box ) {
 				$content .= $this->do_meta_box( $meta_box );
