@@ -40,6 +40,7 @@ class WPSEO_Twitter extends WPSEO_Frontend {
 
 		$this->type();
 		$this->site_twitter();
+		$this->site_domain();
 		$this->author_twitter();
 		// No need to show these when OpenGraph is also showing, as it'd be the same contents and Twitter
 		// would fallback to OpenGraph anyway.
@@ -72,6 +73,13 @@ class WPSEO_Twitter extends WPSEO_Frontend {
 		if ( isset( $this->options['twitter_site'] ) )
 			echo '<meta name="twitter:site" content="@' . trim( $this->options['twitter_site'] ) . '"/>' . "\n";
 	}
+	
+	/**
+	 * Displays the domain tag for the site.
+	 */
+	public function site_domain() {
+		echo '<meta name="twitter:domain" content="' . site_url() . '"/>' . "\n";
+	}
 
 	/**
 	 * Displays the authors Twitter account.
@@ -81,6 +89,9 @@ class WPSEO_Twitter extends WPSEO_Frontend {
 
 		if ( $twitter && !empty( $twitter ) )
 			echo '<meta name="twitter:creator" content="@' . $twitter . '"/>' . "\n";
+			
+		else if ( isset( $this->options['twitter_site'] ) )
+			echo '<meta name="twitter:creator" content="@' . trim( $this->options['twitter_site'] ) . '"/>' . "\n";
 	}
 
 	/**
@@ -127,21 +138,73 @@ class WPSEO_Twitter extends WPSEO_Frontend {
 	 */
 	public function image() {
 		global $post;
-
-		if ( function_exists( 'has_post_thumbnail' ) && has_post_thumbnail( $post->ID ) ) {
-			$featured_img = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), apply_filters( 'wpseo_opengraph_image_size', 'medium' ) );
-
-			if ( $featured_img ) {
-				$img = apply_filters( 'wpseo_opengraph_image', $featured_img[0] );
-				echo "<meta name='twitter:image' content='" . esc_attr( $img ) . "'/>\n";
+		
+		$shown_images = array();
+		
+		if ( is_singular() ) {
+			
+			if ( is_front_page() ) {
+				
+				if ( isset( $this->options['og_frontpage_image'] ) ) {
+					
+					$img = $this->options['og_frontpage_image'];
+					
+					echo '<meta name="twitter:image:src" content="' . esc_attr( $img ) . '"/>' . "\n";
+					
+					// No images yet, don't test
+					array_push( $shown_images, $img );
+					
+				}
+				
 			}
-		} else {
-			$options = get_wpseo_options();
-			if ( isset( $options['og_frontpage_image'] ) && !empty( $options['og_frontpage_image'] ) )
-				echo "<meta name='twitter:image' content='" . esc_attr( $options['og_frontpage_image'] ) . "'/>\n";
+			
+			if ( function_exists( 'has_post_thumbnail' ) && has_post_thumbnail( $post->ID ) ) {
+				
+				$featured_img = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), apply_filters( 'wpseo_opengraph_image_size', 'medium' ) );
+	
+				if ( $featured_img ) {
+					
+					$img = apply_filters( 'wpseo_opengraph_image', $featured_img[0] );
+					
+					if ( ! in_array( $img, $shown_images ) ) {
+						
+						echo '<meta name="twitter:image:src" content="' . esc_attr( $img ) . '"/>' . "\n";
+						
+						array_push( $shown_images, $img );
+						
+					}
+					
+				}
+				
+			}
+			
+			if ( preg_match_all( '/<img [^>]+>/', $post->post_content, $matches ) ) {
+				
+				foreach ( $matches[0] as $img ) {
+					
+					if ( preg_match( '/src=("|\')(.*?)\1/', $img, $match ) ) {
+					
+						if ( ! in_array( $match[2], $shown_images ) ) {
+							
+							echo '<meta name="twitter:image:src" content="' . esc_attr( $match[2] ) . '"/>' . "\n";
+							
+							array_push( $shown_images, $match[2] );
+							
+						}
+					
+					}
+					
+				}
+				
+			}
+			
 		}
+		
+		if ( count( $shown_images ) == 0 && isset( $this->options['og_default_image'] ) )
+			echo '<meta name="twitter:image:src" content="' . esc_attr( $this->options['og_default_image'] ) . '"/>' . "\n";
 
 	}
+	
 }
 
 global $wpseo_twitter;
