@@ -1770,7 +1770,7 @@ class WPSEO_Metabox {
 	 */
 	function get_first_paragraph( $post ) {
 		// To determine the first paragraph we first need to autop the content, then match the first paragraph and return.
-		$res = preg_match( '/<p>(.*)<\/p>/', wpautop( $post->post_content ), $matches );
+		$res = preg_match( '/<p.*?>(.*)<\/p>/', wpautop( $post->post_content ), $matches );
 		if ( $res )
 			return $matches[1];
 		return false;
