@@ -154,6 +154,24 @@ echo $wpseo_admin_pages->checkbox( 'twitter', '<label for="twitter">' . __( 'Add
 echo'<p class="desc">' . __( 'Add Twitter card meta data to your site\'s <code>&lt;head&gt;</code> section.', 'wordpress-seo' ) . '</p>';
 echo $wpseo_admin_pages->textinput( 'twitter_site', __( 'Site Twitter Username', 'wordpress-seo' ) );
 
+echo '<h4>' . __( 'Twitter App Installs - link your App', 'wordpress-seo' ) . '</h4>';
+
+echo'<p class="label">' . __( 'This option is only relevant if you have an app in the App Store or Google Play. For more information about this option see <a href="https://dev.twitter.com/docs/cards/app-installs-and-deep-linking">App Installs and Deep-Linking</a> on Twitter.', 'wordpress-seo' ) . '</p>';
+echo $wpseo_admin_pages->checkbox( 'twitter_app', '<label for="twitter app">' . __( 'Add link to App at the bottom of Twitter card', 'wordpress-seo' ) . '</label>' );
+echo '<h4>' . __( 'iPhone', 'wordpress-seo' ) . '</h4>';
+echo $wpseo_admin_pages->textinput( 'twitter_app_iphone_name', __( 'App Name', 'wordpress-seo' ) );
+echo $wpseo_admin_pages->textinput( 'twitter_app_iphone_id', __( 'App ID (NOT bundle ID)', 'wordpress-seo' ) );
+
+echo '<h4>' . __( 'iPad', 'wordpress-seo' ) . '</h4>';
+echo $wpseo_admin_pages->textinput( 'twitter_app_ipad_name', __( 'App Name', 'wordpress-seo' ) );
+echo $wpseo_admin_pages->textinput( 'twitter_app_ipad_id', __( 'App ID', 'wordpress-seo' ) );
+echo '<p class="desc label">' . __( 'If you don\'t have a separate App for an iPad device enter iPhone App information.', 'wordpress-seo' ) . '</p>';
+
+echo '<h4>' . __( 'Android App', 'wordpress-seo' ) . '</h4>';
+echo $wpseo_admin_pages->textinput( 'twitter_app_google_play_name', __( 'App Name', 'wordpress-seo' ) );
+echo $wpseo_admin_pages->textinput( 'twitter_app_google_play_id', __( 'App ID', 'wordpress-seo' ) );
+echo '<p class="desc label">' . __( 'App ID for Google Play should be the Android package name. looks like: com.example.app.', 'wordpress-seo' ) . '</p>';
+
 do_action('wpseo_admin_twitter_section');
 
 $wpseo_admin_pages->admin_footer();
