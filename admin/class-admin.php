@@ -55,6 +55,9 @@ class WPSEO_Admin {
 
 		add_action( 'update_option_wpseo_permalinks', array( $this, 'clear_rewrites' ) );
 		add_action( 'update_option_wpseo_xml', array( $this, 'clear_rewrites' ) );
+		
+		add_action( 'personal_options_update', array( $this, 'update_user_profile' ) );
+		add_action( 'after_switch_theme', array( $this, 'switch_theme' ) );
 	}
 
 	/**
@@ -561,6 +564,33 @@ class WPSEO_Admin {
 
 		return false;
 	}
+	
+	/**
+	 * Log the timestamp when a user profile has been updated
+	 */
+	function update_user_profile($user_id) {
+		if ( current_user_can( 'edit_user', $user_id ) ) {
+			$user = get_userdata($user_id);
+			
+			$wpseo_xml = get_option('wpseo_xml');
+			$wpseo_xml[ $user->get('user_nicename').'-profile-updated' ] = date( 'c', time() );
+			update_option('wpseo_xml', $wpseo_xml);		
+		}
+	}
+
+	/**
+	 * Log the updated timestamp for user profiles when theme is changed
+	 */
+	function switch_theme() {
+		$wpseo_xml = get_option('wpseo_xml');
+		
+		foreach ( get_users( array( 'who' => 'authors' ) ) as $user ) {
+			$wpseo_xml[ $user->get('user_nicename').'-profile-updated' ] = date( 'c', time() );
+		}
+		
+		update_option('wpseo_xml', $wpseo_xml);		
+	}
+	
 }
 
 // Globalize the var first as it's needed globally.
