@@ -1677,9 +1677,9 @@ class WPSEO_Metabox {
 		}
 
 		$firstp = $this->strtolower_utf8( $firstp );
-
+	
 		// First Paragraph Test
-		if ( stripos( $firstp, $job["keyword"] ) === false && stripos( $firstp, $job["keyword_folded"] ) === false ) {
+		if ( !preg_match('/\b'.$job["keyword"].'\b/', $firstp) && !preg_match('/\b'.$job["keyword_folded"].'\b/', $firstp) ) {
 			$this->save_score_result( $results, 3, $scoreFirstParagraphLow, 'keyword_first_paragraph' );
 		} else {
 			$this->save_score_result( $results, 9, $scoreFirstParagraphHigh, 'keyword_first_paragraph' );
