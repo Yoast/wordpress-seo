@@ -230,12 +230,10 @@ function aioseo_handler() {
 		// TODO: currently not deleting aioseop postmeta or handling old aioseop format
 		} else if ( isset( $_GET['import_aioseo'] ) && $_GET['import_aioseo'] == 1 ) {
 			$replace = false;
-			var_dump($replace);
 			
 			replace_meta( '_aioseop_description', '_yoast_wpseo_metadesc', $replace );
 			replace_meta( '_aioseop_keywords', '_yoast_wpseo_metakeywords', $replace );
 			replace_meta( '_aioseop_title', '_yoast_wpseo_title', $replace );
-			
 			
 			if ( isset( $_POST['wpseo']['importaioseoold'] ) ) {
 				replace_meta( 'description', '_yoast_wpseo_metadesc', $replace );

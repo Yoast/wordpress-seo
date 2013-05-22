@@ -261,6 +261,9 @@ class WPSEO_Admin_Pages {
 			wp_enqueue_style( 'global' );
 			wp_enqueue_style( 'wp-admin' );
 			wp_enqueue_style( 'yoast-admin-css', WPSEO_URL . 'css/yst_plugin_tools.css', WPSEO_VERSION );
+
+			if ( is_rtl() )
+				wp_enqueue_style( 'wpseo-rtl', WPSEO_URL . 'css/wpseo-rtl.css', WPSEO_VERSION );
 		}
 	}
 
@@ -269,6 +272,7 @@ class WPSEO_Admin_Pages {
 	 */
 	function config_page_scripts() {
 		global $pagenow;
+		
 		if ( $pagenow == 'admin.php' && isset( $_GET['page'] ) && in_array( $_GET['page'], $this->adminpages ) ) {
 			wp_enqueue_script( 'wpseo-admin-script', WPSEO_URL . 'js/wp-seo-admin.js', array( 'jquery' ), WPSEO_VERSION, true );
 			wp_enqueue_script( 'postbox' );

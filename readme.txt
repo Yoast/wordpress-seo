@@ -110,6 +110,8 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 * sitemap.xml will now redirect to sitemap_index.xml
 * Added filters 'wpseo_sitemap_exclude_post_type' and 'wpseo_sitemap_exclude_taxonomy'
 to allow themes/plugins to exclude entries in the XML sitemap
+* Many localization fixes
+* Added RTL support, some CSS fixes
 
 = 1.4.7 =
 

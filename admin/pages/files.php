@@ -43,7 +43,7 @@ if ( isset( $_POST[ 'submithtaccess' ] ) ) {
 	}
 }
 
-$wpseo_admin_pages->admin_header( 'Files', false );
+$wpseo_admin_pages->admin_header( __( 'Edit Files', 'wordpress-seo' ), false );
 if ( isset( $msg ) && !empty( $msg ) ) {
 	echo '<div id="message" style="width:94%;" class="updated fade"><p>' . esc_html( $msg ) . '</p></div>';
 }

@@ -10,7 +10,7 @@ if ( !defined('WPSEO_VERSION') ) {
 
 global $wpseo_admin_pages;
 
-$wpseo_admin_pages->admin_header( 'XML Sitemaps', true, 'yoast_wpseo_xml_sitemap_options', 'wpseo_xml' );
+$wpseo_admin_pages->admin_header( __( 'XML Sitemaps', 'wordpress-seo' ), true, 'yoast_wpseo_xml_sitemap_options', 'wpseo_xml' );
 
 $options = get_option( 'wpseo_xml' );
 

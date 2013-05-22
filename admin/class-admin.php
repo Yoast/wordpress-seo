@@ -55,6 +55,9 @@ class WPSEO_Admin {
 
 		add_action( 'update_option_wpseo_permalinks', array( $this, 'clear_rewrites' ) );
 		add_action( 'update_option_wpseo_xml', array( $this, 'clear_rewrites' ) );
+		
+		add_action( 'personal_options_update', array( $this, 'update_user_profile' ) );
+		add_action( 'after_switch_theme', array( $this, 'switch_theme' ) );
 	}
 
 	/**
@@ -133,7 +136,7 @@ class WPSEO_Admin {
 	 * @global array $submenu used to change the label on the first item.
 	 */
 	function register_settings_page() {
-		add_menu_page( __( 'WordPress SEO Configuration', 'wordpress-seo' ), __( 'SEO', 'wordpress-seo' ), 'manage_options', 'wpseo_dashboard', array( $this, 'config_page' ), WPSEO_URL . 'images/yoast-icon.png' );
+		add_menu_page( __( 'WordPress SEO Configuration', 'wordpress-seo' ), __( 'SEO', 'wordpress-seo' ), 'manage_options', 'wpseo_dashboard', array( $this, 'config_page' ), WPSEO_URL . 'images/yoast-icon.png', '99.31337' );
 		add_submenu_page( 'wpseo_dashboard', __( 'Titles &amp; Metas', 'wordpress-seo' ), __( 'Titles &amp; Metas', 'wordpress-seo' ), 'manage_options', 'wpseo_titles', array( $this, 'titles_page' ) );
 		add_submenu_page( 'wpseo_dashboard', __( 'Social', 'wordpress-seo' ), __( 'Social', 'wordpress-seo' ), 'manage_options', 'wpseo_social', array( $this, 'social_page' ) );
 		add_submenu_page( 'wpseo_dashboard', __( 'XML Sitemaps', 'wordpress-seo' ), __( 'XML Sitemaps', 'wordpress-seo' ), 'manage_options', 'wpseo_xml', array( $this, 'xml_sitemaps_page' ) );
@@ -304,7 +307,7 @@ class WPSEO_Admin {
 	 */
 	function update_contactmethods( $contactmethods ) {
 		// Add Google+
-		$contactmethods['googleplus'] = 'Google+';
+		$contactmethods['googleplus'] = __( "Google+", 'wordpress-seo' );
 		// Add Twitter
 		$contactmethods['twitter'] = __( 'Twitter username (without @)', 'wordpress-seo' );
 
@@ -561,6 +564,33 @@ class WPSEO_Admin {
 
 		return false;
 	}
+	
+	/**
+	 * Log the timestamp when a user profile has been updated
+	 */
+	function update_user_profile($user_id) {
+		if ( current_user_can( 'edit_user', $user_id ) ) {
+			$user = get_userdata($user_id);
+			
+			$wpseo_xml = get_option('wpseo_xml');
+			$wpseo_xml[ $user->get('user_nicename').'-profile-updated' ] = date( 'c', time() );
+			update_option('wpseo_xml', $wpseo_xml);		
+		}
+	}
+
+	/**
+	 * Log the updated timestamp for user profiles when theme is changed
+	 */
+	function switch_theme() {
+		$wpseo_xml = get_option('wpseo_xml');
+		
+		foreach ( get_users( array( 'who' => 'authors' ) ) as $user ) {
+			$wpseo_xml[ $user->get('user_nicename').'-profile-updated' ] = date( 'c', time() );
+		}
+		
+		update_option('wpseo_xml', $wpseo_xml);		
+	}
+	
 }
 
 // Globalize the var first as it's needed globally.
