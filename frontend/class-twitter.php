@@ -147,12 +147,15 @@ class WPSEO_Twitter extends WPSEO_Frontend {
 				
 				if ( isset( $this->options['og_frontpage_image'] ) ) {
 					
-					$img = $this->options['og_frontpage_image'];
+					$escaped_img = esc_attr( $this->options['og_frontpage_image'] );
 					
-					echo '<meta name="twitter:image:src" content="' . esc_attr( $img ) . '"/>' . "\n";
+					if ( ! empty( $escaped_img ) ) {
+						echo '<meta name="twitter:image:src" content="' . $escaped_img . '"/>' . "\n";
+						
+						// No images yet, don't test
+						array_push( $shown_images, $escaped_img );
 					
-					// No images yet, don't test
-					array_push( $shown_images, $img );
+					}
 					
 				}
 				
@@ -164,13 +167,13 @@ class WPSEO_Twitter extends WPSEO_Frontend {
 	
 				if ( $featured_img ) {
 					
-					$img = apply_filters( 'wpseo_opengraph_image', $featured_img[0] );
+					$escaped_img = esc_attr( apply_filters( 'wpseo_opengraph_image', $featured_img[0] ) );
 					
-					if ( ! in_array( $img, $shown_images ) ) {
+					if ( ! empty( $escaped_img ) && ! in_array( $escaped_img, $shown_images ) ) {
 						
-						echo '<meta name="twitter:image:src" content="' . esc_attr( $img ) . '"/>' . "\n";
+						echo '<meta name="twitter:image:src" content="' . $escaped_img . '"/>' . "\n";
 						
-						array_push( $shown_images, $img );
+						array_push( $shown_images, $escaped_img );
 						
 					}
 					
@@ -183,12 +186,14 @@ class WPSEO_Twitter extends WPSEO_Frontend {
 				foreach ( $matches[0] as $img ) {
 					
 					if ( preg_match( '/src=("|\')(.*?)\1/', $img, $match ) ) {
+						
+						$escaped_match = esc_attr( $match[2] );
 					
-						if ( ! in_array( $match[2], $shown_images ) ) {
+						if ( ! empty( $escaped_match ) && ! in_array( $escaped_match, $shown_images ) ) {
 							
-							echo '<meta name="twitter:image:src" content="' . esc_attr( $match[2] ) . '"/>' . "\n";
+							echo '<meta name="twitter:image:src" content="' . $escaped_match . '"/>' . "\n";
 							
-							array_push( $shown_images, $match[2] );
+							array_push( $shown_images, $escaped_match );
 							
 						}
 					
