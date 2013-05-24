@@ -114,6 +114,8 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 to allow themes/plugins to exclude entries in the XML sitemap
 * Many localization fixes
 * Added RTL support, some CSS fixes
+* Focus word gets counted in meta description when defined by a template
+* Fixed display bug in SEO Title column when defined by a template ('Page # of #')
 
 = 1.4.7 =
 

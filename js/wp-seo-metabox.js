@@ -87,13 +87,17 @@ function testFocusKw() {
     var focuskwNoDiacritics = removeLowerCaseDiacritics( focuskw );
     p2 = new RegExp(focuskwNoDiacritics.replace(/\s+/g,"[-_\\\//]"),'gim');
 
+    var metadesc = jQuery('#yoast_wpseo_metadesc').val();
+    if ( metadesc == '' )
+        metadesc = jQuery('#wpseosnippet .desc').text();
+    
     if (focuskw != '') {
 		var html = '<p>' + objectL10n.keyword_header + '<br />';
 		html += objectL10n.article_header_text + ptest( jQuery('#title').val(), p ) + '<br/>';
 		html += objectL10n.page_title_text + ptest( jQuery('#wpseosnippet .title').text(), p ) + '<br/>';
 		html += objectL10n.page_url_text + ptest( url, p2 ) + '<br/>';
 		html += objectL10n.content_text + ptest( jQuery('#content').val(), p ) + '<br/>';
-		html += objectL10n.meta_description_text + ptest( jQuery('#yoast_wpseo_metadesc').val(), p );
+		html += objectL10n.meta_description_text + ptest( metadesc, p );
 		html += '</p>';
         jQuery('#focuskwresults').html(html);
     } else {

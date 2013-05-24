@@ -995,10 +995,13 @@ class WPSEO_Metabox {
 		} else {
 			$post    = get_post( $post_id );
 			$options = get_wpseo_options();
-			if ( isset( $options['title-' . $post->post_type] ) && !empty( $options['title-' . $post->post_type] ) )
-				return wpseo_replace_vars( $options['title-' . $post->post_type], (array) $post );
-			else
+			if ( isset( $options['title-' . $post->post_type] ) && !empty( $options['title-' . $post->post_type] ) ) {
+				$title_template = $options['title-' . $post->post_type];
+				$title_template = str_replace( ' %%page%% ', ' ', $title_template);
+				return wpseo_replace_vars( $title_template, (array) $post );
+			} else {
 				return wpseo_replace_vars( '%%title%%', (array) $post );
+			}
 		}
 	}
 
