@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: seo, SEO, google, meta, meta description, search engine optimization, xml sitemap, xml sitemaps, google sitemap, sitemap, sitemaps, robots meta, rss, rss footer, yahoo, bing, news sitemaps, XML News Sitemaps, WordPress SEO, WordPress SEO by Yoast, yoast, multisite, canonical, nofollow, noindex, keywords, meta keywords, description, webmaster tools, google webmaster tools, seo pack
 Requires at least: 3.3
-Tested up to: 3.5
+Tested up to: 3.6
 Stable tag: 1.4.7
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the WordPress SEO plugin by Yoast.
@@ -104,18 +104,29 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 == Changelog ==
 
 = trunk =
-* Updated .pot file
-* Updated ar, da_DK, el_GR, es_ES, fa_IR, id_ID, sv_SE & tr_TK
-* Added hr & sl_SI
-* Fixed sitemap "loc" element to have encoded entities.
-* Honor the language setting if other plugins set the language.
-* sitemap.xml will now redirect to sitemap_index.xml
-* Added filters 'wpseo_sitemap_exclude_post_type' and 'wpseo_sitemap_exclude_taxonomy'
-to allow themes/plugins to exclude entries in the XML sitemap
-* Many localization fixes
-* Added RTL support, some CSS fixes
-* Focus word gets counted in meta description when defined by a template
-* Fixed display bug in SEO Title column when defined by a template ('Page # of #')
+
+* i18n
+    * Updated .pot file
+    * Updated ar, da_DK, el_GR, es_ES, fa_IR, id_ID, sv_SE & tr_TK
+    * Added hr & sl_SI
+    * Many localization fixes
+* Bugfixes
+    * Fixed sitemap "loc" element to have encoded entities.
+    * Honor the language setting if other plugins set the language.
+    * sitemap.xml will now redirect to sitemap_index.xml if it doesn't exist statically.
+    * Added filters 'wpseo_sitemap_exclude_post_type' and 'wpseo_sitemap_exclude_taxonomy' to allow themes/plugins to exclude entries in the XML sitemap.
+    * Added RTL support, some CSS fixes.
+    * Focus word gets counted in meta description when defined by a template.
+    * Fixed some bugs with the focus keyword in the first paragraph test.
+    * Fixed display bug in SEO Title column when defined by a template ('Page # of #').
+    * Fixed a few strict notices that would pop up in WP 3.6.
+    * Prevent other plugins from overriding the WP SEO menu position.
+    * Enabled the advanced tab for site-admins on a multi-site install.
+* Enhancements
+    * Added an HTML sitemap shortcode [wpseo_sitemap].
+    * -pending- Added an XML sitemap listing the author profile URLs.
+    * Added detection of Yoast's robots meta plugin and All In One SEO plugins, plugin now gives a notice to import settings and disable those plugins.
+
 
 = 1.4.7 =
 
