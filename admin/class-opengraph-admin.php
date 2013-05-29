@@ -43,9 +43,11 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 	/**
 	 * Define the meta boxes for the Social tab
 	 *
+	 * @param string $post_type
+	 *
 	 * @return array Array containing the meta boxes
 	 */
-	public function get_meta_boxes() {
+	public function get_meta_boxes( $post_type = 'post' ) {
 		$mbs                              = array();
 		$mbs[ 'opengraph-description' ]   = array(
 			"name"        => "opengraph-description",
