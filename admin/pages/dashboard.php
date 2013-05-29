@@ -75,7 +75,7 @@ if ( isset( $_GET['fixmetadesc'] ) && check_admin_referer( 'wpseo-fix-metadesc',
 				if ( $header_file ) {
 					fwrite( $header_file, $fcontent );
 					fclose( $header_file );
-					$msg .= __( 'removed hardcoded meta description.' );
+					$msg .= __( 'Removed hardcoded meta description.', 'wordpress-seo' );
 				}
 			}
 			unset( $options['theme_check']['description_found'] );
@@ -156,11 +156,11 @@ function robots_meta_handler() {
 
 	// check if robots meta is running
 	if ( is_plugin_active( 'robots-meta/robots-meta.php' ) ) {
-		
+
 		// deactivate robots meta
 		if ( isset( $_GET['deactivate_robots_meta'] ) && $_GET['deactivate_robots_meta'] == 1 ) {
 			deactivate_plugins( 'robots-meta/robots-meta.php' );
-		
+
 			// show notice that robots meta has been deactivated
 			add_action( 'all_admin_notices', function() {
 				echo '<div class="updated"><p>' . __( 'Robots-Meta has been deactivated' ) . '</p></div>';
@@ -194,16 +194,16 @@ function robots_meta_handler() {
 					}
 				}
 			}
-			
+
 			// show notice to deactivate robots meta plugin
 			add_action( 'all_admin_notices', function() {
-				echo '<div class="updated"><p>' . sprintf( __( 'Robots-Meta settings has been imported. We recommend %sdisabling the Robots-Meta plugin%s to avoid any conflicts' ), '<a href="' . admin_url( 'admin.php?page=wpseo_dashboard&deactivate_robots_meta=1' ) . '">', '</a>' ) . '</p></div>';			
+				echo '<div class="updated"><p>' . sprintf( __( 'Robots-Meta settings has been imported. We recommend %sdisabling the Robots-Meta plugin%s to avoid any conflicts' ), '<a href="' . admin_url( 'admin.php?page=wpseo_dashboard&deactivate_robots_meta=1' ) . '">', '</a>' ) . '</p></div>';
 			} );
 
 		// show notice to import robots meta settings
 		} else {
 			add_action( 'all_admin_notices', function() {
-				echo '<div class="updated"><p>' . sprintf( __( 'The plugin Robots-Meta has been detected. Do you want to %simport its settings%s.' ), '<a href="' . admin_url( 'admin.php?page=wpseo_dashboard&import_robots_meta=1' ) . '">', '</a>' ) . '</p></div>';			
+				echo '<div class="updated"><p>' . sprintf( __( 'The plugin Robots-Meta has been detected. Do you want to %simport its settings%s.' ), '<a href="' . admin_url( 'admin.php?page=wpseo_dashboard&import_robots_meta=1' ) . '">', '</a>' ) . '</p></div>';
 			} );
 		}
 	}
@@ -216,11 +216,11 @@ function aioseo_handler() {
 
 	// check if aioseo is running
 	if ( is_plugin_active( 'all-in-one-seo-pack/all_in_one_seo_pack.php' ) ) {
-		
+
 		// deactivate aioseo plugin
 		if ( isset( $_GET['deactivate_aioseo'] ) && $_GET['deactivate_aioseo'] == 1 ) {
 			deactivate_plugins( 'all-in-one-seo-pack/all_in_one_seo_pack.php' );
-		
+
 			// show notice that aioseo has been deactivated
 			add_action( 'all_admin_notices', function() {
 				echo '<div class="updated"><p>' . __( 'All-In-One-SEO has been deactivated' ) . '</p></div>';
@@ -230,28 +230,28 @@ function aioseo_handler() {
 		// TODO: currently not deleting aioseop postmeta or handling old aioseop format
 		} else if ( isset( $_GET['import_aioseo'] ) && $_GET['import_aioseo'] == 1 ) {
 			$replace = false;
-			
+
 			replace_meta( '_aioseop_description', '_yoast_wpseo_metadesc', $replace );
 			replace_meta( '_aioseop_keywords', '_yoast_wpseo_metakeywords', $replace );
 			replace_meta( '_aioseop_title', '_yoast_wpseo_title', $replace );
-			
+
 			if ( isset( $_POST['wpseo']['importaioseoold'] ) ) {
 				replace_meta( 'description', '_yoast_wpseo_metadesc', $replace );
 				replace_meta( 'keywords', '_yoast_wpseo_metakeywords', $replace );
 				replace_meta( 'title', '_yoast_wpseo_title', $replace );
 				$msg .= __( 'All in One SEO (Old version) data successfully imported.', 'wordpress-seo' );
 			}
-		
+
 			// show notice to deactivate aioseo plugin
 			add_action( 'all_admin_notices', function() {
-				echo '<div class="updated"><p>' . sprintf( __( 'All in One SEO data successfully imported. Would you like to %sdisable the All in One SEO plugin%s.' ), '<a href="' . admin_url( 'admin.php?page=wpseo_dashboard&deactivate_aioseo=1' ) . '">', '</a>' ) . '</p></div>';			
+				echo '<div class="updated"><p>' . sprintf( __( 'All in One SEO data successfully imported. Would you like to %sdisable the All in One SEO plugin%s.' ), '<a href="' . admin_url( 'admin.php?page=wpseo_dashboard&deactivate_aioseo=1' ) . '">', '</a>' ) . '</p></div>';
 			} );
-			
+
 		// show notice to import aioseo settings
 		} else {
 			add_action( 'all_admin_notices', function() {
-				echo '<div class="updated"><p>' . sprintf( __( 'The plugin All-In-One-SEO has been detected. Do you want to %simport its settings%s.' ), '<a href="' . admin_url( 'admin.php?page=wpseo_dashboard&import_aioseo=1' ) . '">', '</a>' ) . '</p></div>';			
-			} );		
+				echo '<div class="updated"><p>' . sprintf( __( 'The plugin All-In-One-SEO has been detected. Do you want to %simport its settings%s.' ), '<a href="' . admin_url( 'admin.php?page=wpseo_dashboard&import_aioseo=1' ) . '">', '</a>' ) . '</p></div>';
+			} );
 		}
 	}
 }
