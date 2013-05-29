@@ -21,11 +21,11 @@ class Sitemap_Walker extends Walker_Category {
 	/**
 	 * Code that appends posts when a child node is reached
 	 */
-	function end_el(&$output, $term, $depth, $args) {
+	function end_el(&$output, $object, $depth = 0, $args = array()) {
 		$tax_name = $args['taxonomy'];
 		
 		// use cat_id for category and slug for all other taxonomy
-		$term_id = ($tax_name == 'category') ? $term->cat_ID : $term->slug;
+		$term_id = ($tax_name == 'category') ? $object->cat_ID : $object->slug;
 			
 		$query_args = array(
 			'post_type' => $args['post_type'],
@@ -68,14 +68,14 @@ class Sitemap_Walker extends Walker_Category {
 				$category = reset( $category );
 			
 				// Only display a post link once, even if it's in multiple taxonomies
-				if ( $category->term_id == $term->term_id && !in_array( $post->ID, $this->processed_post_ids ) ) {
+				if ( $category->term_id == $object->term_id && !in_array( $post->ID, $this->processed_post_ids ) ) {
 					$this->processed_post_ids[] = $post->ID;
 					$output .= '<li><a href="'.get_permalink($post->ID).'">'.get_the_title($post->ID).'</a></li>';
 				}
 			}
 		}
 		$output .= "</ul>";
-		parent::end_el($output, $term, $depth, $args);
+		parent::end_el($output, $object, $depth, $args);
 	}
 
 }
