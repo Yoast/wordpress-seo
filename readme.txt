@@ -124,7 +124,7 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
     * Enabled the advanced tab for site-admins on a multi-site install.
 * Enhancements
     * Added an HTML sitemap shortcode [wpseo_sitemap].
-    * -pending- Added an XML sitemap listing the author profile URLs.
+    * Added an XML sitemap listing the author profile URLs.
     * Added detection of Yoast's robots meta plugin and All In One SEO plugins, plugin now gives a notice to import settings and disable those plugins.
 
 

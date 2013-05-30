@@ -48,6 +48,9 @@ class WPSEO_Admin {
 		add_action( 'edit_user_profile', array( $this, 'user_profile' ) );
 		add_action( 'personal_options_update', array( $this, 'process_user_option_update' ) );
 		add_action( 'edit_user_profile_update', array( $this, 'process_user_option_update' ) );
+		add_action( 'personal_options_update', array( $this, 'update_user_profile' ) );
+		add_action( 'edit_user_profile_update', array( $this, 'update_user_profile' ) );
+
 		add_filter( 'user_contactmethods', array( $this, 'update_contactmethods' ), 10, 1 );
 
 		add_action( 'update_option_wpseo_titles', array( $this, 'clear_cache' ) );
@@ -56,8 +59,8 @@ class WPSEO_Admin {
 		add_action( 'update_option_wpseo_permalinks', array( $this, 'clear_rewrites' ) );
 		add_action( 'update_option_wpseo_xml', array( $this, 'clear_rewrites' ) );
 		
-		add_action( 'personal_options_update', array( $this, 'update_user_profile' ) );
 		add_action( 'after_switch_theme', array( $this, 'switch_theme' ) );
+		add_action( 'switch_theme', array( $this, 'switch_theme' ) );
 	}
 
 	/**
@@ -570,11 +573,7 @@ class WPSEO_Admin {
 	 */
 	function update_user_profile($user_id) {
 		if ( current_user_can( 'edit_user', $user_id ) ) {
-			$user = get_userdata($user_id);
-			
-			$wpseo_xml = get_option('wpseo_xml');
-			$wpseo_xml[ $user->get('user_nicename').'-profile-updated' ] = date( 'c', time() );
-			update_option('wpseo_xml', $wpseo_xml);		
+			update_user_meta( $user_id, '_yoast_wpseo_profile_updated', time() );			
 		}
 	}
 
@@ -582,13 +581,9 @@ class WPSEO_Admin {
 	 * Log the updated timestamp for user profiles when theme is changed
 	 */
 	function switch_theme() {
-		$wpseo_xml = get_option('wpseo_xml');
-		
 		foreach ( get_users( array( 'who' => 'authors' ) ) as $user ) {
-			$wpseo_xml[ $user->get('user_nicename').'-profile-updated' ] = date( 'c', time() );
+			update_user_meta( $user->ID, '_yoast_wpseo_profile_updated', time() );
 		}
-		
-		update_option('wpseo_xml', $wpseo_xml);		
 	}
 	
 }
