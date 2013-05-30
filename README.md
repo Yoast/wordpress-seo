@@ -11,11 +11,14 @@ you can browse the source of the project, find and discuss open issues and even
 Installation
 ------------
 
-You can clone the GitHub repository: https://github.com/jdevalk/wordpress-seo.git
-Or download it directly as a ZIP file: https://github.com/jdevalk/wordpress-seo/archive/master.zip
+Here's a [guide on how to install WordPress SEO in your WordPress site](http://yoast.com/wordpress/seo/installation/).
+If you want to run the Git version though, you have two options:
 
-This will download the latest developer copy of WordPress SEO by Yoast, while usually stable, this is not recommended
-for use in a production environment.
+* You can clone the GitHub repository: https://github.com/jdevalk/wordpress-seo.git
+* Download it directly as a ZIP file: https://github.com/jdevalk/wordpress-seo/archive/master.zip
+
+This will download the latest development version of WordPress SEO by Yoast. While this version is usually stable,
+it is not recommended for use in a production environment.
 
 Bugs
 ----
