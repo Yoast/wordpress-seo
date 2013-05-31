@@ -1,8 +1,8 @@
 WordPress SEO by Yoast
 ======================
 
-Welcome to the WordPress SEO by Yoast Github repository
--------------------------------------------------------
+Welcome to the WordPress SEO Github repository
+----------------------------------------------
 
 While the documenation for the [WordPress SEO plugin](http://yoast.com/wordpress/seo/) can be found on yoast.com, here
 you can browse the source of the project, find and discuss open issues and even
