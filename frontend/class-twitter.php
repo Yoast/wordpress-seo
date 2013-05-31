@@ -48,6 +48,8 @@ class WPSEO_Twitter extends WPSEO_Frontend {
 
 		$this->twitter_description();
 
+		$this->twitter_app();
+
 		if ( !isset( $options['opengraph'] ) || !$options['opengraph'] ) {
 			$this->twitter_title();
 			$this->twitter_url();
@@ -141,6 +143,25 @@ class WPSEO_Twitter extends WPSEO_Frontend {
 				echo "<meta name='twitter:image' content='" . esc_attr( $options['og_frontpage_image'] ) . "'/>\n";
 		}
 
+	}
+	/**
+	 * Displays App installs to App store and Google paly.
+	 */
+	public function twitter_app() {
+	    if ( isset( $this->options['twitter_app'] ) ){
+	        if ($this->options['twitter_app_iphone_id']){
+	            echo '<meta name="twitter:app:name:iphone" content="'. $this->options['twitter_app_iphone_name'] .'">' . "\n";
+	            echo '<meta name="twitter:app:id:iphone" content="'. $this->options['twitter_app_iphone_id'] .'">' . "\n";
+	        }
+	        if ($this->options['twitter_app_ipad_id']){
+	            echo '<meta name="twitter:app:name:ipad" content="'. $this->options['twitter_app_ipad_name'] .'">' . "\n";
+	            echo '<meta name="twitter:app:id:ipad" content="'. $this->options['twitter_app_ipad_id'] .'">' . "\n";
+	        }
+	        if ($this->options['twitter_app_google_play_id']){
+	            echo '<meta name="twitter:app:name:googleplay" content="'. $this->options['twitter_app_google_play_name'] .'">' . "\n";
+	            echo '<meta name="twitter:app:id:googleplay" content="'. $this->options['twitter_app_google_play_id'] .'">' . "\n";
+	        }
+	    }
 	}
 }
 
