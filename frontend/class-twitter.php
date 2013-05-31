@@ -71,27 +71,27 @@ class WPSEO_Twitter extends WPSEO_Frontend {
 	 */
 	public function site_twitter() {
 		if ( isset( $this->options['twitter_site'] ) )
-			echo '<meta name="twitter:site" content="@' . trim( $this->options['twitter_site'] ) . '"/>' . "\n";
+			echo '<meta name="twitter:site" content="@' . ltrim( trim( $this->options['twitter_site'] ), '@' ) . '"/>' . "\n";
 	}
 	
 	/**
 	 * Displays the domain tag for the site.
 	 */
 	public function site_domain() {
-		echo '<meta name="twitter:domain" content="' . site_url() . '"/>' . "\n";
+		echo '<meta name="twitter:domain" content="' . preg_replace( '|^https?://|', '', site_url() ) . '"/>' . "\n";
 	}
 
 	/**
 	 * Displays the authors Twitter account.
 	 */
 	public function author_twitter() {
-		$twitter = trim( get_the_author_meta( 'twitter' ) );
+		$twitter = ltrim( trim( get_the_author_meta( 'twitter' ) ), '@' );
 
 		if ( $twitter && !empty( $twitter ) )
 			echo '<meta name="twitter:creator" content="@' . $twitter . '"/>' . "\n";
 			
 		else if ( isset( $this->options['twitter_site'] ) )
-			echo '<meta name="twitter:creator" content="@' . trim( $this->options['twitter_site'] ) . '"/>' . "\n";
+			echo '<meta name="twitter:creator" content="@' . ltrim( trim( $this->options['twitter_site'] ), '@' ) . '"/>' . "\n";
 	}
 
 	/**
