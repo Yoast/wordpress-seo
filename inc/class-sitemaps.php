@@ -139,7 +139,7 @@ class WPSEO_Sitemaps {
 			$this->build_post_type_map( $type );
 		else if ( $tax = get_taxonomy( $type ) )
 			$this->build_tax_map( $tax );
-		else if ( $type = 'author' ) {
+		else if ( $type == 'author' ) {
 			$this->build_user_map();
 		}
 		else if ( has_action( 'wpseo_do_sitemap_' . $type ) )
