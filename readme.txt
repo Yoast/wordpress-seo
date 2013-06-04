@@ -126,6 +126,7 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
     * Added an HTML sitemap shortcode [wpseo_sitemap].
     * Added an XML sitemap listing the author profile URLs.
     * Added detection of Yoast's robots meta plugin and All In One SEO plugins, plugin now gives a notice to import settings and disable those plugins.
+	* Allow authorship to be removed per post type
 
 
 = 1.4.7 =

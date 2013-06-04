@@ -108,6 +108,7 @@ if ( ( isset( $_GET[ 'updated' ] ) && $_GET[ 'updated' ] == 'true' ) || ( isset(
 		if ( isset( $options[ 'usemetakeywords' ] ) && $options[ 'usemetakeywords' ] )
 			echo $wpseo_admin_pages->textinput( 'metakey-' . $name, __( 'Meta keywords template', 'wordpress-seo' ) );
 		echo $wpseo_admin_pages->checkbox( 'noindex-' . $name, '<code>noindex, follow</code>', __( 'Meta Robots', 'wordpress-seo' ) );
+		echo $wpseo_admin_pages->checkbox( 'noauthorship-' . $name, 'No <code>rel="author"</code>', __( 'Authorship', 'wordpress-seo' ) );
 		echo $wpseo_admin_pages->checkbox( 'showdate-' . $name, __( 'Show date in snippet preview?', 'wordpress-seo' ), __( 'Date in Snippet Preview', 'wordpress-seo' ) );
 		echo $wpseo_admin_pages->checkbox( 'hideeditbox-' . $name, __( 'Hide', 'wordpress-seo' ), __( 'WordPress SEO Meta Box', 'wordpress-seo' ) );
 		echo '<br/>';
