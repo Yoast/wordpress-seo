@@ -70,28 +70,31 @@ class WPSEO_Twitter extends WPSEO_Frontend {
 	 * Displays the Twitter account for the site.
 	 */
 	public function site_twitter() {
-		if ( isset( $this->options['twitter_site'] ) )
-			echo '<meta name="twitter:site" content="@' . ltrim( trim( $this->options['twitter_site'] ), '@' ) . '"/>' . "\n";
+		$twitter_site = apply_filters( 'wpseo_twitter_site', $this->options['twitter_site'] );
+		if ( isset( $twitter_site ) )
+			echo '<meta name="twitter:site" content="@' . ltrim( trim( $twitter_site ), '@' ) . '"/>' . "\n";
 	}
-	
+
 	/**
 	 * Displays the domain tag for the site.
 	 */
 	public function site_domain() {
-		echo '<meta name="twitter:domain" content="' . preg_replace( '|^https?://|', '', site_url() ) . '"/>' . "\n";
+		$twitter_domain = apply_filters( 'wpseo_twitter_domain', site_url() );
+		echo '<meta name="twitter:domain" content="' . preg_replace( '|^https?://|', '', $twitter_domain ) . '"/>' . "\n";
 	}
 
 	/**
 	 * Displays the authors Twitter account.
 	 */
 	public function author_twitter() {
-		$twitter = ltrim( trim( get_the_author_meta( 'twitter' ) ), '@' );
+		$twitter_creator = apply_filters( 'wpseo_twitter_creator', get_the_author_meta( 'twitter' ) );
+		$twitter_site = apply_filters( 'wpseo_twitter_site', $this->options['twitter_site'] );
 
-		if ( $twitter && !empty( $twitter ) )
-			echo '<meta name="twitter:creator" content="@' . $twitter . '"/>' . "\n";
-			
-		else if ( isset( $this->options['twitter_site'] ) )
-			echo '<meta name="twitter:creator" content="@' . ltrim( trim( $this->options['twitter_site'] ), '@' ) . '"/>' . "\n";
+		if ( $twitter_creator && !empty( $twitter_creator ) )
+			echo '<meta name="twitter:creator" content="@' . ltrim( trim( $twitter_creator ), '@' ) . '"/>' . "\n";
+
+		else if ( isset( $twitter_site ) )
+			echo '<meta name="twitter:creator" content="@' . ltrim( trim( $twitter_site ), '@' ) . '"/>' . "\n";
 	}
 
 	/**
@@ -100,7 +103,8 @@ class WPSEO_Twitter extends WPSEO_Frontend {
 	 * Only used when OpenGraph is inactive.
 	 */
 	public function twitter_title() {
-		echo '<meta name="twitter:title" content="' . $this->title( '' ) . '"/>' . "\n";
+		$twitter_title = apply_filters( 'wpseo_twitter_title', $this->title( '' ) );
+		echo '<meta name="twitter:title" content="' . $twitter_title . '"/>' . "\n";
 	}
 
 	/**
@@ -109,17 +113,17 @@ class WPSEO_Twitter extends WPSEO_Frontend {
 	 * Only used when OpenGraph is inactive.
 	 */
 	public function twitter_description() {
-		$metadesc = trim( $this->metadesc( false ) );
-		if ( empty( $metadesc ) )
-			$metadesc = false;
-		if ( $metadesc && isset( $options['opengraph'] ) && $options['opengraph'] ) {
+		$twitter_description = apply_filters( 'wpseo_twitter_description', $this->metadesc( false ) );
+		if ( empty( $twitter_description ) )
+			$twitter_description = false;
+		if ( $twitter_description && isset( $options['opengraph'] ) && $options['opengraph'] ) {
 			// Already output the same description in opengraph, no need to repeat.
 			return;
-		} else if ( !$metadesc ) {
-			$metadesc = strip_tags( get_the_excerpt() );
+		} else if ( !$twitter_description ) {
+			$twitter_description = strip_tags( get_the_excerpt() );
 		}
 
-		echo '<meta name="twitter:description" content="' . esc_attr( $metadesc ) . '"/>' . "\n";
+		echo '<meta name="twitter:description" content="' . trim( esc_attr( $twitter_description ) ) . '"/>' . "\n";
 	}
 
 	/**
@@ -128,7 +132,8 @@ class WPSEO_Twitter extends WPSEO_Frontend {
 	 * Only used when OpenGraph is inactive.
 	 */
 	public function twitter_url() {
-		echo '<meta name="twitter:url" content="' . $this->canonical( false ) . '"/>' . "\n";
+		$twitter_url = apply_filters( 'wpseo_twitter_url', $this->canonical( false ) );
+		echo '<meta name="twitter:url" content="' . $twitter_url . '"/>' . "\n";
 	}
 
 	/**
@@ -138,78 +143,78 @@ class WPSEO_Twitter extends WPSEO_Frontend {
 	 */
 	public function image() {
 		global $post;
-		
+
 		$shown_images = array();
-		
+
 		if ( is_singular() ) {
-			
+
 			if ( is_front_page() ) {
-				
+
 				if ( isset( $this->options['og_frontpage_image'] ) ) {
-					
+
 					$escaped_img = esc_attr( $this->options['og_frontpage_image'] );
-					
+
 					if ( ! empty( $escaped_img ) ) {
 						echo '<meta name="twitter:image:src" content="' . $escaped_img . '"/>' . "\n";
-						
+
 						// No images yet, don't test
 						array_push( $shown_images, $escaped_img );
-					
+
 					}
-					
+
 				}
-				
+
 			}
-			
+
 			if ( function_exists( 'has_post_thumbnail' ) && has_post_thumbnail( $post->ID ) ) {
-				
+
 				$featured_img = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), apply_filters( 'wpseo_opengraph_image_size', 'medium' ) );
-	
+
 				if ( $featured_img ) {
-					
+
 					$escaped_img = esc_attr( apply_filters( 'wpseo_opengraph_image', $featured_img[0] ) );
-					
+
 					if ( ! empty( $escaped_img ) && ! in_array( $escaped_img, $shown_images ) ) {
-						
+
 						echo '<meta name="twitter:image:src" content="' . $escaped_img . '"/>' . "\n";
-						
+
 						array_push( $shown_images, $escaped_img );
-						
+
 					}
-					
+
 				}
-				
+
 			}
-			
+
 			if ( preg_match_all( '/<img [^>]+>/', $post->post_content, $matches ) ) {
-				
+
 				foreach ( $matches[0] as $img ) {
-					
+
 					if ( preg_match( '/src=("|\')(.*?)\1/', $img, $match ) ) {
-						
+
 						$escaped_match = esc_attr( $match[2] );
-					
+
 						if ( ! empty( $escaped_match ) && ! in_array( $escaped_match, $shown_images ) ) {
-							
+
 							echo '<meta name="twitter:image:src" content="' . $escaped_match . '"/>' . "\n";
-							
+
 							array_push( $shown_images, $escaped_match );
-							
+
 						}
-					
+
 					}
-					
+
 				}
-				
+
 			}
-			
+
 		}
-		
+
 		if ( count( $shown_images ) == 0 && isset( $this->options['og_default_image'] ) )
 			echo '<meta name="twitter:image:src" content="' . esc_attr( $this->options['og_default_image'] ) . '"/>' . "\n";
 
 	}
-	
+
 }
 
 global $wpseo_twitter;

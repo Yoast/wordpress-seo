@@ -71,9 +71,9 @@ class WPSEO_OpenGraph extends WPSEO_Frontend {
 		// Filter the locale too because the Facebook plugin locale code is not as good as ours.
 		$meta_tags['http://ogp.me/ns#locale'] = $this->locale( false );
 
-		$ogdesc = $this->description( false );
-		if ( !empty( $ogdesc ) )
-			$meta_tags['http://ogp.me/ns#description'] = $ogdesc;
+		$og_desc = $this->description( false );
+		if ( !empty( $og_desc ) )
+			$meta_tags['http://ogp.me/ns#description'] = $og_desc;
 
 		return $meta_tags;
 	}
@@ -113,9 +113,9 @@ class WPSEO_OpenGraph extends WPSEO_Frontend {
 	 * @return string $title
 	 */
 	public function og_title( $echo = true ) {
-		$title = $this->title( '' );
+		$og_title = apply_filters( 'wpseo_opengraph_title', $this->title( '' ) );
 		if ( $echo !== false )
-			echo "<meta property='og:title' content='" . esc_attr( $title ) . "'/>\n";
+			echo "<meta property='og:title' content='" . esc_attr( $og_title ) . "'/>\n";
 		else
 			return $title;
 	}
@@ -124,7 +124,8 @@ class WPSEO_OpenGraph extends WPSEO_Frontend {
 	 * Outputs the canonical URL as OpenGraph URL, which consolidates likes and shares.
 	 */
 	public function url() {
-		echo "<meta property='og:url' content='" . esc_attr( $this->canonical( false ) ) . "'/>\n";
+		$og_url = apply_filters( 'wpseo_opengraph_url', $this->canonical( false ) );
+		echo "<meta property='og:url' content='" . esc_attr( $og_url ) . "'/>\n";
 	}
 
 	/**
@@ -273,21 +274,21 @@ class WPSEO_OpenGraph extends WPSEO_Frontend {
 	 * Output the OpenGraph description, specific OG description first, if not, grab the meta description.
 	 *
 	 * @param bool $echo Whether to echo or return the description
-	 * @return string $ogdesc
+	 * @return string $og_desc
 	 */
 	public function description( $echo = true ) {
-		$ogdesc = wpseo_get_value( 'opengraph-description' );
+		$og_desc = wpseo_get_value( 'opengraph-description' );
 
-		if ( !$ogdesc )
-			$ogdesc = $this->metadesc( false );
+		if ( !$og_desc )
+			$og_desc = $this->metadesc( false );
 
-		$ogdesc = apply_filters( 'wpseo_opengraph_desc', $ogdesc );
+		$og_desc = apply_filters( 'wpseo_opengraph_desc', $og_desc );
 
-		if ( $ogdesc && $ogdesc != '' ) {
+		if ( $og_desc && $og_desc != '' ) {
 			if ( $echo !== false )
-				echo "<meta property='og:description' content='" . esc_attr( $ogdesc ) . "'/>\n";
+				echo "<meta property='og:description' content='" . esc_attr( $og_desc ) . "'/>\n";
 			else
-				return $ogdesc;
+				return $og_desc;
 		}
 
 	}
@@ -296,7 +297,8 @@ class WPSEO_OpenGraph extends WPSEO_Frontend {
 	 * Output the site name straight from the blog info.
 	 */
 	public function site_name() {
-		echo "<meta property='og:site_name' content='" . esc_attr( get_bloginfo( 'name' ) ) . "'/>\n";
+		$og_site_name = apply_filters( 'wpseo_opengraph_site_name', get_bloginfo( 'name' ) );
+		echo "<meta property='og:site_name' content='" . esc_attr( $og_site_name ) . "'/>\n";
 	}
 }
 
