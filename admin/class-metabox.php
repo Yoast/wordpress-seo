@@ -750,6 +750,7 @@ class WPSEO_Metabox {
 		$this->calculate_results( $post );
 
 		do_action( 'wpseo_saved_postdata' );
+		
 	}
 
 	/**
@@ -1077,6 +1078,11 @@ class WPSEO_Metabox {
 			$result = new WP_Error( 'no-focuskw', sprintf( __( 'No focus keyword was set for this %s. If you do not set a focus keyword, no score can be calculated.', 'wordpress-seo' ), $post->post_type ) );
 
 			wpseo_set_value( 'linkdex', 0, $post->ID );
+
+			return $result;
+		}
+		elseif ( apply_filters( 'wpseo_use_page_analysis', true ) !== true ) {
+			$result = new WP_Error( 'page-analysis-disabled', sprintf( __( 'Page Analysis has been disabled.', 'wordpress-seo' ), $post->post_type ) );
 
 			return $result;
 		}
