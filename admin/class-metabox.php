@@ -1079,7 +1079,12 @@ class WPSEO_Metabox {
 			wpseo_set_value( 'linkdex', 0, $post->ID );
 
 			return $result;
-		}
+
+		} elseif ( apply_filters( 'wpseo_use_page_analysis', true ) !== true ) {
+			$result = new WP_Error( 'page-analysis-disabled', sprintf( __( 'Page Analysis has been disabled.', 'wordpress-seo' ), $post->post_type ) );
+
+   			return $result;
+  		}
 
 		$results = array();
 		$job     = array();
