@@ -242,13 +242,14 @@ class WPSEO_OpenGraph extends WPSEO_Frontend {
 	 * @return bool
 	 */
 	public function image() {
-		if ( is_singular() ) {
-			global $post;
+		global $post;
 
-			if ( is_front_page() ) {
-				if ( isset( $this->options['og_frontpage_image'] ) )
-					$this->image_output( $this->options['og_frontpage_image'] );
-			}
+		if ( is_front_page() ) {
+			if ( isset( $this->options['og_frontpage_image'] ) )
+				$this->image_output( $this->options['og_frontpage_image'] );
+		}
+
+		if ( is_singular() ) {
 
 			if ( function_exists( 'has_post_thumbnail' ) && has_post_thumbnail( $post->ID ) ) {
 				$thumb = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), apply_filters( 'wpseo_opengraph_image_size', 'large' ) );
