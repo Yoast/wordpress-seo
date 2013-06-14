@@ -123,6 +123,7 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
     * Prevent other plugins from overriding the WP SEO menu position.
     * Enabled the advanced tab for site-admins on a multi-site install.
 	* Fixed post save error when page analysis is disabled
+	* OpenGraph frontpage og:description and og:image tags now properly added to the frontpage
 * Enhancements
     * Added an HTML sitemap shortcode [wpseo_sitemap].
     * Added an XML sitemap listing the author profile URLs.
