@@ -301,9 +301,9 @@ class WPSEO_Admin {
 	}
 
 	/**
-	 * Filter the $contactmethods array and add Google+ and Twitter.
+	 * Filter the $contactmethods array and add Facebook, Google+ and Twitter.
 	 *
-	 * These are used with the rel="author" and Twitter cards implementation.
+	 * These are used with the Facebook author, rel="author" and Twitter cards implementation.
 	 *
 	 * @param array $contactmethods currently set contactmethods.
 	 * @return array $contactmethods with added contactmethods.
@@ -313,6 +313,8 @@ class WPSEO_Admin {
 		$contactmethods['googleplus'] = __( "Google+", 'wordpress-seo' );
 		// Add Twitter
 		$contactmethods['twitter'] = __( 'Twitter username (without @)', 'wordpress-seo' );
+		// Add Facebook
+		$contactmethods['facebook'] = __( 'Facebook profile URL', 'wordpress-seo' );
 
 		return $contactmethods;
 	}
