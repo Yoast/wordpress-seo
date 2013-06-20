@@ -58,7 +58,7 @@ class WPSEO_Admin {
 
 		add_action( 'update_option_wpseo_permalinks', array( $this, 'clear_rewrites' ) );
 		add_action( 'update_option_wpseo_xml', array( $this, 'clear_rewrites' ) );
-		
+
 		add_action( 'after_switch_theme', array( $this, 'switch_theme' ) );
 		add_action( 'switch_theme', array( $this, 'switch_theme' ) );
 	}
@@ -567,13 +567,13 @@ class WPSEO_Admin {
 
 		return false;
 	}
-	
+
 	/**
 	 * Log the timestamp when a user profile has been updated
 	 */
 	function update_user_profile($user_id) {
 		if ( current_user_can( 'edit_user', $user_id ) ) {
-			update_user_meta( $user_id, '_yoast_wpseo_profile_updated', time() );			
+			update_user_meta( $user_id, '_yoast_wpseo_profile_updated', time() );
 		}
 	}
 
@@ -585,7 +585,7 @@ class WPSEO_Admin {
 			update_user_meta( $user->ID, '_yoast_wpseo_profile_updated', time() );
 		}
 	}
-	
+
 }
 
 // Globalize the var first as it's needed globally.
