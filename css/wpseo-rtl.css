@@ -50,3 +50,21 @@ pre {
 #pointer-primary {
 	margin: 0 0 0 5px;
 }
+
+.wpseo-heading {
+	padding-left: 0;
+	padding-right: 10px;
+}
+
+.wpseo_yahoo_kw {
+	margin: 3px 0 3px 8px;
+}
+
+table.wpseoanalysis th {
+	text-align: right;
+}
+
+table.wpseoanalysis td.score {
+	padding-left: 0;
+	padding-right: 10px;
+}

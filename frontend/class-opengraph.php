@@ -271,14 +271,15 @@ class WPSEO_OpenGraph extends WPSEO_Frontend {
 	 * @return bool
 	 */
 	public function image() {
+		
+		global $post;
+
+		if ( is_front_page() ) {
+			if ( isset( $this->options['og_frontpage_image'] ) )
+				$this->image_output( $this->options['og_frontpage_image'] );
+		}
+
 		if ( is_singular() ) {
-			global $post;
-
-			if ( is_front_page() ) {
-				if ( isset( $this->options['og_frontpage_image'] ) )
-					$this->image_output( $this->options['og_frontpage_image'] );
-			}
-
 			if ( function_exists( 'has_post_thumbnail' ) && has_post_thumbnail( $post->ID ) ) {
 				$thumb = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), apply_filters( 'wpseo_opengraph_image_size', 'large' ) );
 				$this->image_output( $thumb[0] );
@@ -305,10 +306,19 @@ class WPSEO_OpenGraph extends WPSEO_Frontend {
 	 * @return string $ogdesc
 	 */
 	public function description( $echo = true ) {
-		$ogdesc = wpseo_get_value( 'opengraph-description' );
+		$ogdesc = '';
+		
+		if ( is_front_page() ) {
+			if ( isset( $this->options['og_frontpage_desc'] ) )
+				$ogdesc = $this->options['og_frontpage_desc'];
+		}
 
-		if ( !$ogdesc )
-			$ogdesc = $this->metadesc( false );
+		if ( is_singular() ) {
+			$ogdesc = wpseo_get_value( 'opengraph-description' );
+		
+			if ( !$ogdesc )
+				$ogdesc = $this->metadesc( false );
+		}
 
 		$ogdesc = apply_filters( 'wpseo_opengraph_desc', $ogdesc );
 

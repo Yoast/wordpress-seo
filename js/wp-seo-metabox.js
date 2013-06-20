@@ -116,8 +116,8 @@ function updateTitle( force ) {
         jQuery('#yoast_wpseo_title-length').html( '' );
         return;
     }
-
-    title = jQuery('<div />').html(title).text();
+	
+    title = jQuery('<div />').text(title).html();
 
     if ( force )
         jQuery('#yoast_wpseo_title').val( title );
@@ -177,6 +177,9 @@ function updateDesc( desc ) {
             autogen = true;
         }
     }
+    
+    desc = jQuery('<div />').text( desc ).html();
+    desc = yst_clean( desc );
 
     if ( !autogen )
         var len = wpseo_meta_desc_length - desc.length;
@@ -251,6 +254,9 @@ jQuery(document).ready(function(){
 
     jQuery('.'+active_tab).addClass('active');
 
+    var desc = jQuery.trim( yst_clean( jQuery("#yoast_wpseo_metadesc").val() ) );
+    desc = jQuery('<div />').html( desc ).text();
+    jQuery("#yoast_wpseo_metadesc").val( desc );
 
     jQuery('a.wpseo_tablink').click( function($) {
         jQuery('.wpseo-metabox-tabs li').removeClass('active');
