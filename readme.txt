@@ -122,6 +122,8 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
     * Fixed a few strict notices that would pop up in WP 3.6.
     * Prevent other plugins from overriding the WP SEO menu position.
     * Enabled the advanced tab for site-admins on a multi-site install.
+	* Fixed post save error when page analysis is disabled.
+	* OpenGraph frontpage og:description and og:image tags now properly added to the frontpage.
 * Enhancements
     * Added an HTML sitemap shortcode [wpseo_sitemap].
     * Added an XML sitemap listing the author profile URLs.
@@ -129,7 +131,7 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
     * Prevent empty image tags in Twitter Cards - props [Mike Bijon](https://github.com/mbijon).
     * Add new `twitter:domain` tag  - props [Mike Bijon](https://github.com/mbijon).
     * Add support for Facebooks new OG tags for media publishers.
-
+	* Allow authorship to be removed per post type.
 
 = 1.4.7 =
 
