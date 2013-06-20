@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: seo, SEO, google, meta, meta description, search engine optimization, xml sitemap, xml sitemaps, google sitemap, sitemap, sitemaps, robots meta, rss, rss footer, yahoo, bing, news sitemaps, XML News Sitemaps, WordPress SEO, WordPress SEO by Yoast, yoast, multisite, canonical, nofollow, noindex, keywords, meta keywords, description, webmaster tools, google webmaster tools, seo pack
 Requires at least: 3.3
 Tested up to: 3.6
-Stable tag: 1.4.7
+Stable tag: 1.4.8
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the WordPress SEO plugin by Yoast.
 
@@ -103,7 +103,7 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 
 == Changelog ==
 
-= trunk =
+= 1.4.8 =
 
 * i18n
     * Updated .pot file
@@ -122,14 +122,16 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
     * Fixed a few strict notices that would pop up in WP 3.6.
     * Prevent other plugins from overriding the WP SEO menu position.
     * Enabled the advanced tab for site-admins on a multi-site install.
-	* Fixed post save error when page analysis is disabled
-	* OpenGraph frontpage og:description and og:image tags now properly added to the frontpage
+	* Fixed post save error when page analysis is disabled.
+	* OpenGraph frontpage og:description and og:image tags now properly added to the frontpage.
 * Enhancements
     * Added an HTML sitemap shortcode [wpseo_sitemap].
     * Added an XML sitemap listing the author profile URLs.
     * Added detection of Yoast's robots meta plugin and All In One SEO plugins, plugin now gives a notice to import settings and disable those plugins.
-	* Allow authorship to be removed per post type
-
+    * Prevent empty image tags in Twitter Cards - props [Mike Bijon](https://github.com/mbijon).
+    * Add new `twitter:domain` tag  - props [Mike Bijon](https://github.com/mbijon).
+    * Add support for Facebooks new OG tags for media publishers.
+	* Allow authorship to be removed per post type.
 
 = 1.4.7 =
 

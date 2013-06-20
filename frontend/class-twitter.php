@@ -71,14 +71,14 @@ class WPSEO_Twitter extends WPSEO_Frontend {
 	 */
 	public function site_twitter() {
 		if ( isset( $this->options['twitter_site'] ) )
-			echo '<meta name="twitter:site" content="@' . ltrim( trim( $this->options['twitter_site'] ), '@' ) . '"/>' . "\n";
+			echo '<meta name="twitter:site" content="@' . apply_filters( 'wpseo_twitter_site', ltrim( trim( $this->options['twitter_site'] ), '@' ) ) . '"/>' . "\n";
 	}
 	
 	/**
 	 * Displays the domain tag for the site.
 	 */
 	public function site_domain() {
-		echo '<meta name="twitter:domain" content="' . preg_replace( '|^https?://|', '', site_url() ) . '"/>' . "\n";
+		echo '<meta name="twitter:domain" content="' . apply_filters( 'wpseo_twitter_domain', preg_replace( '|^https?://|', '', site_url() ) ) . '"/>' . "\n";
 	}
 
 	/**

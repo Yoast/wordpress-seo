@@ -43,6 +43,9 @@ class WPSEO_OpenGraph extends WPSEO_Frontend {
 			add_action( 'wpseo_opengraph', array( $this, 'description'), 11 );
 			add_action( 'wpseo_opengraph', array( $this, 'url'), 12 );
 			add_action( 'wpseo_opengraph', array( $this, 'site_name'), 13 );
+			add_action( 'wpseo_opengraph', array( $this, 'article_author_facebook'), 14 );
+			add_action( 'wpseo_opengraph', array( $this, 'website_facebook'), 15 );
+
 			add_action( 'wpseo_opengraph', array( $this, 'type'), 5 );
 			add_action( 'wpseo_opengraph', array( $this, 'image'), 30 );
 		}
@@ -86,6 +89,32 @@ class WPSEO_OpenGraph extends WPSEO_Frontend {
 	 */
 	public function add_opengraph_namespace( $input ) {
 		return $input . ' prefix="og: http://ogp.me/ns#' . ( ( isset( $this->options['fbadminapp'] ) || isset( $this->options['fb_admins'] ) ) ? ' fb: http://ogp.me/ns/fb#' : '' ) . '"';
+	}
+
+	/**
+	 * Outputs the authors FB page.
+	 *
+	 * @link https://developers.facebook.com/blog/post/2013/06/19/platform-updates--new-open-graph-tags-for-media-publishers-and-more/
+	 */
+	public function article_author_facebook() {
+		if ( !is_singular() )
+			return;
+
+		global $post;
+		$facebook = get_the_author_meta( 'facebook', $post->post_author );
+
+		if ( $facebook && !empty( $facebook ) )
+			echo "<meta property='article:author' content='" . esc_attr( $facebook ) . "'/>\n";
+	}
+
+	/**
+	 * Outputs the websites FB page.
+	 *
+	 * @link https://developers.facebook.com/blog/post/2013/06/19/platform-updates--new-open-graph-tags-for-media-publishers-and-more/
+	 */
+	public function website_facebook() {
+		if ( isset( $this->options['facebook_site'] ) )
+			echo "<meta property='article:publisher' content='" . esc_attr( $this->options['facebook_site'] ) . "'/>\n";
 	}
 
 	/**
