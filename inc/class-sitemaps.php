@@ -681,13 +681,8 @@ class WPSEO_Sitemaps {
 		$users = apply_filters( 'wpseo_sitemap_exclude_author', $users );		
 
 		// ascending sort
-		usort( $users, function($a, $b) {
-			if ($a->_yoast_wpseo_profile_updated == $b->_yoast_wpseo_profile_updated) {
-		    	return 0;  
-		  	}  
-		  	return ($a->_yoast_wpseo_profile_updated > $b->_yoast_wpseo_profile_updated) ? 1 : -1;  
-		}  );
-			
+		usort( $users, array( $this, 'user_map_sorter') );
+				
 		foreach ($users as $user) {
 			if ($author_link = get_author_posts_url( $user->ID ) ) {
 				$output .= $this->sitemap_url( array(
@@ -834,6 +829,24 @@ class WPSEO_Sitemaps {
 		$user = isset( $pieces[1] ) ? $pieces[1] : '';
 		return get_user_by( 'slug', $user );
 	}
+
+	
+	/**
+	 * Sorts an array of WP_User by the _yoast_wpseo_profile_updated meta field
+	 * 
+	 * since 1.6
+	 *
+	 * @param Wp_User $a The first WP user
+	 * @param Wp_User $b The second WP user
+	 * @return int 0 if equal, 1 if $a is larger else or -1;
+	 */
+	private function user_map_sorter($a, $b) {
+		if ($a->_yoast_wpseo_profile_updated == $b->_yoast_wpseo_profile_updated) {
+	    	return 0;  
+	  	}  
+	  	return ($a->_yoast_wpseo_profile_updated > $b->_yoast_wpseo_profile_updated) ? 1 : -1;  
+	}
+
 }
 
 global $wpseo_sitemaps;
