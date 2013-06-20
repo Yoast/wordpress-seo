@@ -1,6 +1,8 @@
 WordPress SEO by Yoast
 ======================
 
+[![Build Status](https://travis-ci.org/jdevalk/wordpress-seo.png?branch=master)](https://travis-ci.org/jdevalk/wordpress-seo)
+
 Welcome to the WordPress SEO Github repository
 ----------------------------------------------
 
