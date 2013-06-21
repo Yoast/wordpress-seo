@@ -9,7 +9,6 @@ if ( !defined( 'WPSEO_VERSION' ) ) {
 	header( 'HTTP/1.0 403 Forbidden' );
 	die;
 }
-var_dump(WPSEO_URL);
 global $wpseo_admin_pages;
 
 $options = get_option( 'wpseo' );
@@ -30,15 +29,13 @@ if ( isset( $_GET['allow_tracking'] ) && check_admin_referer( 'wpseo_activate_tr
 
 $wpseo_admin_pages->admin_header( __( 'General Settings', 'wordpress-seo' ), true, 'yoast_wpseo_options', 'wpseo' );
 
-
 // detect and handle robots meta here
 robots_meta_handler();
 
 // detect and handle aioseo here
 aioseo_handler();
 
-do_action( 'all_admin_notices' );
-
+do_action( 'wpseo_all_admin_notices' );
 
 echo $wpseo_admin_pages->hidden( 'ignore_blog_public_warning' );
 echo $wpseo_admin_pages->hidden( 'ignore_tour' );
@@ -151,8 +148,11 @@ do_action( 'wpseo_dashboard' );
 
 $wpseo_admin_pages->admin_footer();
 
-
-
+/**
+ * Handle deactivation & import of Robots Meta data
+ *
+ * @ since 1.4.8
+ */
 function robots_meta_handler() {
 	global $wpdb;
 
@@ -164,7 +164,7 @@ function robots_meta_handler() {
 			deactivate_plugins( 'robots-meta/robots-meta.php' );
 
 			// show notice that robots meta has been deactivated
-			add_action( 'all_admin_notices', 'wpseo_deactivate_robots_meta_notice' );
+			add_action( 'wpseo_all_admin_notices', 'wpseo_deactivate_robots_meta_notice' );
 
 			// import the settings
 		} else if ( isset( $_GET['import_robots_meta'] ) && $_GET['import_robots_meta'] == 1 ) {
@@ -196,20 +196,21 @@ function robots_meta_handler() {
 			}
 
 			// show notice to deactivate robots meta plugin
-			add_action( 'all_admin_notices', 'wpseo_deactivate_link_robots_meta_notice' );
+			add_action( 'wpseo_all_admin_notices', 'wpseo_deactivate_link_robots_meta_notice' );
 
 		// show notice to import robots meta settings
 		} else {
-			add_action( 'all_admin_notices', 'wpseo_import_robots_meta_notice' );
+			add_action( 'wpseo_all_admin_notices', 'wpseo_import_robots_meta_notice' );
 		}
 	}
 }
 
-
-
+/**
+ * Handle deactivation & import of AIOSEO data
+ *
+ * @ since 1.4.8
+ */
 function aioseo_handler() {
-	global $wpdb;
-
 	// check if aioseo is running
 	if ( is_plugin_active( 'all-in-one-seo-pack/all_in_one_seo_pack.php' ) ) {
 
@@ -218,7 +219,7 @@ function aioseo_handler() {
 			deactivate_plugins( 'all-in-one-seo-pack/all_in_one_seo_pack.php' );
 
 			// show notice that aioseo has been deactivated
-			add_action( 'all_admin_notices', 'wpseo_deactivate_aioseo_notice' );
+			add_action( 'wpseo_all_admin_notices', 'wpseo_deactivate_aioseo_notice' );
 
 			// import the settings
 			// TODO: currently not deleting aioseop postmeta or handling old aioseop format
@@ -233,20 +234,17 @@ function aioseo_handler() {
 					replace_meta( 'description', '_yoast_wpseo_metadesc', $replace );
 					replace_meta( 'keywords', '_yoast_wpseo_metakeywords', $replace );
 					replace_meta( 'title', '_yoast_wpseo_title', $replace );
-					$msg .= __( 'All in One SEO (Old version) data successfully imported.', 'wordpress-seo' );
 				}
 
 				// show notice to deactivate aioseo plugin
-				add_action( 'all_admin_notices', 'wpseo_deactivate_link_aioseo_notice' );
+				add_action( 'wpseo_all_admin_notices', 'wpseo_deactivate_link_aioseo_notice' );
 
 			// show notice to import aioseo settings
 		} else {
-			add_action( 'all_admin_notices', 'wpseo_import_aioseo_setting_notice' );
+			add_action( 'wpseo_all_admin_notices', 'wpseo_import_aioseo_setting_notice' );
 		}
 	}
 }
-
-
 
 /**
  * Throw a notice to import Robots Meta.
