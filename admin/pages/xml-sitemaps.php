@@ -30,6 +30,8 @@ if ( isset( $options[ 'enablexmlsitemap' ] ) && $options[ 'enablexmlsitemap' ] )
 	$content .= '<p>' . sprintf( __( 'You can find your XML Sitemap here: %sXML Sitemap%s', 'wordpress-seo' ), '<a target="_blank" class="button-secondary" href="' . home_url( $base . 'sitemap_index.xml' ) . '">', '</a>' ) . '<br/><br/>' . __( 'You do <strong>not</strong> need to generate the XML sitemap, nor will it take up time to generate after publishing a post.', 'wordpress-seo' ) . '</p>';
 else
 	$content .= '<p>' . __( 'Save your settings to activate XML Sitemaps.', 'wordpress-seo' ) . '</p>';
+$content .= $wpseo_admin_pages->checkbox( 'disable_author_sitemap', __( "Disable author/user sitemap", 'wordpress-seo' ), false );
+$content .= '<br/>';
 $content .= '<strong>' . __( 'General settings', 'wordpress-seo' ) . '</strong><br/>';
 $content .= '<p>' . __( 'After content publication, the plugin automatically pings Google and Bing, do you need it to ping other search engines too? If so, check the box:', 'wordpress-seo' ) . '</p>';
 $content .= $wpseo_admin_pages->checkbox( 'xml_ping_yahoo', __( "Ping Yahoo!", 'wordpress-seo' ), false );
