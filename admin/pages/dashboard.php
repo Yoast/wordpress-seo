@@ -1,13 +1,15 @@
 <?php
 /**
+ *
+ *
  * @package Admin
  */
 
-if ( !defined('WPSEO_VERSION') ) {
-	header('HTTP/1.0 403 Forbidden');
+if ( !defined( 'WPSEO_VERSION' ) ) {
+	header( 'HTTP/1.0 403 Forbidden' );
 	die;
 }
-
+var_dump(WPSEO_URL);
 global $wpseo_admin_pages;
 
 $options = get_option( 'wpseo' );
@@ -128,7 +130,7 @@ if ( isset( $options['ignore_tour'] ) && $options['ignore_tour'] ) {
 	echo '<p class="desc label">' . __( 'Take this tour to quickly learn about the use of this plugin.', 'wordpress-seo' ) . '</p>';
 }
 
-echo '<label class="select">' . __( 'Default Settings:', 'wordpress-seo' ) . '</label><a class="button-secondary" href="' . admin_url( 'admin.php?page=wpseo_dashboard&wpseo_reset_defaults&nonce='. wp_create_nonce('wpseo_reset_defaults') ) . '">' . __( 'Reset Default Settings', 'wordpress-seo' ) . '</a>';
+echo '<label class="select">' . __( 'Default Settings:', 'wordpress-seo' ) . '</label><a class="button-secondary" href="' . admin_url( 'admin.php?page=wpseo_dashboard&wpseo_reset_defaults&nonce='. wp_create_nonce( 'wpseo_reset_defaults' ) ) . '">' . __( 'Reset Default Settings', 'wordpress-seo' ) . '</a>';
 echo '<p class="desc label">' . __( 'If you want to restore a site to the default WordPress SEO settings, press this button.', 'wordpress-seo' ) . '</p>';
 
 echo '<h2>' . __( 'Tracking', 'wordpress-seo' ) . '</h2>';
@@ -162,49 +164,43 @@ function robots_meta_handler() {
 			deactivate_plugins( 'robots-meta/robots-meta.php' );
 
 			// show notice that robots meta has been deactivated
-			add_action( 'all_admin_notices', function() {
-				echo '<div class="updated"><p>' . __( 'Robots-Meta has been deactivated' ) . '</p></div>';
-			} );
+			add_action( 'all_admin_notices', 'wpseo_deactivate_robots_meta_notice' );
 
-		// import the settings
+			// import the settings
 		} else if ( isset( $_GET['import_robots_meta'] ) && $_GET['import_robots_meta'] == 1 ) {
 			// import robots meta setting for each post
 			$posts = $wpdb->get_results( "SELECT ID, robotsmeta FROM $wpdb->posts" );
 			foreach ( $posts as $post ) {
 				// sync all possible settings
-				if ($post->robotsmeta) {
-					$pieces = explode(',', $post->robotsmeta);
-					foreach($pieces as $meta) {
-						switch ($meta) {
-							case 'noindex':
-								wpseo_set_value( 'meta-robots-noindex', true, $post->ID );
-								break;
-							case 'index':
-								wpseo_set_value( 'meta-robots-noindex', 2, $post->ID );
-								break;
-							case 'nofollow':
-								wpseo_set_value( 'meta-robots-nofollow', true, $post->ID );
-								break;
-							case 'follow':
-								wpseo_set_value( 'meta-robots-nofollow', 0, $post->ID );
-								break;
-							default:
-								// do nothing
+				if ( $post->robotsmeta ) {
+					$pieces = explode( ',', $post->robotsmeta );
+					foreach ( $pieces as $meta ) {
+						switch ( $meta ) {
+						case 'noindex':
+							wpseo_set_value( 'meta-robots-noindex', true, $post->ID );
+							break;
+						case 'index':
+							wpseo_set_value( 'meta-robots-noindex', 2, $post->ID );
+							break;
+						case 'nofollow':
+							wpseo_set_value( 'meta-robots-nofollow', true, $post->ID );
+							break;
+						case 'follow':
+							wpseo_set_value( 'meta-robots-nofollow', 0, $post->ID );
+							break;
+						default:
+							// do nothing
 						}
 					}
 				}
 			}
 
 			// show notice to deactivate robots meta plugin
-			add_action( 'all_admin_notices', function() {
-				echo '<div class="updated"><p>' . sprintf( __( 'Robots-Meta settings has been imported. We recommend %sdisabling the Robots-Meta plugin%s to avoid any conflicts' ), '<a href="' . admin_url( 'admin.php?page=wpseo_dashboard&deactivate_robots_meta=1' ) . '">', '</a>' ) . '</p></div>';
-			} );
+			add_action( 'all_admin_notices', 'wpseo_deactivate_link_robots_meta_notice' );
 
 		// show notice to import robots meta settings
 		} else {
-			add_action( 'all_admin_notices', function() {
-				echo '<div class="updated"><p>' . sprintf( __( 'The plugin Robots-Meta has been detected. Do you want to %simport its settings%s.' ), '<a href="' . admin_url( 'admin.php?page=wpseo_dashboard&import_robots_meta=1' ) . '">', '</a>' ) . '</p></div>';
-			} );
+			add_action( 'all_admin_notices', 'wpseo_import_robots_meta_notice' );
 		}
 	}
 }
@@ -222,49 +218,98 @@ function aioseo_handler() {
 			deactivate_plugins( 'all-in-one-seo-pack/all_in_one_seo_pack.php' );
 
 			// show notice that aioseo has been deactivated
-			add_action( 'all_admin_notices', function() {
-				echo '<div class="updated"><p>' . __( 'All-In-One-SEO has been deactivated' ) . '</p></div>';
-			} );
+			add_action( 'all_admin_notices', 'wpseo_deactivate_aioseo_notice' );
 
-		// import the settings
-		// TODO: currently not deleting aioseop postmeta or handling old aioseop format
+			// import the settings
+			// TODO: currently not deleting aioseop postmeta or handling old aioseop format
 		} else if ( isset( $_GET['import_aioseo'] ) && $_GET['import_aioseo'] == 1 ) {
-			$replace = false;
+				$replace = false;
 
-			replace_meta( '_aioseop_description', '_yoast_wpseo_metadesc', $replace );
-			replace_meta( '_aioseop_keywords', '_yoast_wpseo_metakeywords', $replace );
-			replace_meta( '_aioseop_title', '_yoast_wpseo_title', $replace );
+				replace_meta( '_aioseop_description', '_yoast_wpseo_metadesc', $replace );
+				replace_meta( '_aioseop_keywords', '_yoast_wpseo_metakeywords', $replace );
+				replace_meta( '_aioseop_title', '_yoast_wpseo_title', $replace );
 
-			if ( isset( $_POST['wpseo']['importaioseoold'] ) ) {
-				replace_meta( 'description', '_yoast_wpseo_metadesc', $replace );
-				replace_meta( 'keywords', '_yoast_wpseo_metakeywords', $replace );
-				replace_meta( 'title', '_yoast_wpseo_title', $replace );
-				$msg .= __( 'All in One SEO (Old version) data successfully imported.', 'wordpress-seo' );
-			}
+				if ( isset( $_POST['wpseo']['importaioseoold'] ) ) {
+					replace_meta( 'description', '_yoast_wpseo_metadesc', $replace );
+					replace_meta( 'keywords', '_yoast_wpseo_metakeywords', $replace );
+					replace_meta( 'title', '_yoast_wpseo_title', $replace );
+					$msg .= __( 'All in One SEO (Old version) data successfully imported.', 'wordpress-seo' );
+				}
 
-			// show notice to deactivate aioseo plugin
-			add_action( 'all_admin_notices', function() {
-				echo '<div class="updated"><p>' . sprintf( __( 'All in One SEO data successfully imported. Would you like to %sdisable the All in One SEO plugin%s.' ), '<a href="' . admin_url( 'admin.php?page=wpseo_dashboard&deactivate_aioseo=1' ) . '">', '</a>' ) . '</p></div>';
-			} );
+				// show notice to deactivate aioseo plugin
+				add_action( 'all_admin_notices', 'wpseo_deactivate_link_aioseo_notice' );
 
-		// show notice to import aioseo settings
+			// show notice to import aioseo settings
 		} else {
-			add_action( 'all_admin_notices', function() {
-				echo '<div class="updated"><p>' . sprintf( __( 'The plugin All-In-One-SEO has been detected. Do you want to %simport its settings%s.' ), '<a href="' . admin_url( 'admin.php?page=wpseo_dashboard&import_aioseo=1' ) . '">', '</a>' ) . '</p></div>';
-			} );
+			add_action( 'all_admin_notices', 'wpseo_import_aioseo_setting_notice' );
 		}
 	}
 }
 
+
+
+/**
+ * Throw a notice to import Robots Meta.
+ *
+ * @since 1.4.8
+ */
+function wpseo_import_robots_meta_notice() {
+	echo '<div class="updated"><p>' . sprintf( __( 'The plugin Robots-Meta has been detected. Do you want to %simport its settings%s.' ), '<a href="' . admin_url( 'admin.php?page=wpseo_dashboard&import_robots_meta=1' ) . '">', '</a>' ) . '</p></div>';
+}
+
+/**
+ * Throw a notice to allow the user to deactivate Robots Meta
+ *
+ * @since 1.4.8
+ */
+function wpseo_deactivate_link_robots_meta_notice() {
+	echo '<div class="updated"><p>' . sprintf( __( 'Robots-Meta settings has been imported. We recommend %sdisabling the Robots-Meta plugin%s to avoid any conflicts' ), '<a href="' . admin_url( 'admin.php?page=wpseo_dashboard&deactivate_robots_meta=1' ) . '">', '</a>' ) . '</p></div>';
+}
+
+/**
+ * Throw a notice to inform the user Robots Meta has been deactivated
+ *
+ * @since 1.4.8
+ */
+function wpseo_deactivate_robots_meta_notice() {
+	echo '<div class="updated"><p>' . __( 'Robots-Meta has been deactivated' ) . '</p></div>';
+}
+
+/**
+ * Throw a notice to import AIOSEO.
+ *
+ * @since 1.4.8
+ */
+function wpseo_import_aioseo_setting_notice() {
+	echo '<div class="updated"><p>' . sprintf( __( 'The plugin All-In-One-SEO has been detected. Do you want to %simport its settings%s.' ), '<a href="' . admin_url( 'admin.php?page=wpseo_dashboard&import_aioseo=1' ) . '">', '</a>' ) . '</p></div>';
+}
+
+/**
+ * Throw a notice to allow the user to deactivate AIOSEO
+ *
+ * @since 1.4.8
+ */
+function wpseo_deactivate_link_aioseo_notice( $active ) {
+	echo '<div class="updated"><p>' . sprintf( __( 'All in One SEO data successfully imported. Would you like to %sdisable the All in One SEO plugin%s.' ), '<a href="' . admin_url( 'admin.php?page=wpseo_dashboard&deactivate_aioseo=1' ) . '">', '</a>' ) . '</p></div>';
+}
+
+/**
+ * Throw a notice to inform the user AIOSEO has been deactivated
+ *
+ * @since 1.4.8
+ */
+function wpseo_deactivate_aioseo_notice() {
+	echo '<div class="updated"><p>' . __( 'All-In-One-SEO has been deactivated' ) . '</p></div>';
+}
 
 // TODO: consider moving this to a utility class. Currently being used in import.php also.
 
 /**
  * Used for imports, this functions either copies $old_metakey into $new_metakey or just plain replaces $old_metakey with $new_metakey
  *
- * @param string $old_metakey The old name of the meta value.
- * @param string $new_metakey The new name of the meta value, usually the WP SEO name.
- * @param bool   $replace     Whether to replace or to copy the values.
+ * @param string  $old_metakey The old name of the meta value.
+ * @param string  $new_metakey The new name of the meta value, usually the WP SEO name.
+ * @param bool    $replace     Whether to replace or to copy the values.
  */
 function replace_meta( $old_metakey, $new_metakey, $replace = false ) {
 	global $wpdb;
@@ -272,7 +317,7 @@ function replace_meta( $old_metakey, $new_metakey, $replace = false ) {
 	foreach ( $oldies as $old ) {
 		// Prevent inserting new meta values for posts that already have a value for that new meta key
 		$check = get_post_meta( $old->post_id, $new_metakey, true );
-		if ( !$check || empty($check) )
+		if ( !$check || empty( $check ) )
 			update_post_meta( $old->post_id, $new_metakey, $old->meta_value );
 
 		if ( $replace )
