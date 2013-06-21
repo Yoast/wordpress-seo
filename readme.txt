@@ -107,7 +107,7 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 
 * i18n
     * Updated .pot file
-    * Updated ar, da_DK, el_GR, es_ES, fa_IR, id_ID, sv_SE & tr_TK
+    * Updated ar, da_DK, de_DE, el_GR, es_ES, fa_IR, fr_FR, he_IL, id_ID, nl_NL, ro_RO, sv_SE & tr_TK
     * Added hr & sl_SI
     * Many localization fixes
 * Bugfixes
