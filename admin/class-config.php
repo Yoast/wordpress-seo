@@ -107,6 +107,13 @@ class WPSEO_Admin_Pages {
 				'alt' => 'Banner WordPress SEO Video manual',
 			);
 		}
+		if ( !defined( 'WPSEO_LOCAL_VERSION' ) ) {
+			$banners[] = array(
+				'url' => 'http://yoast.com/wordpress/local-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=local-seo-banner',
+				'img' => 'banner-local-seo.png',
+				'alt' => 'Banner Local SEO plugin',
+			);
+		}
 		shuffle( $banners );
 		?>
 		<div class="postbox-container" style="width:261px;">
