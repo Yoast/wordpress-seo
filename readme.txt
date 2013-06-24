@@ -105,10 +105,13 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 
 = trunk =
 
+* i18n
+	* Updated de_DE, ru_RU, zh_CN
 * Bugfixes
     * Make rel="publisher" markup appear on every page
 	* Prevent empty property='article:publisher' markup from being output 
 	
+
 = 1.4.10 =
 
 * Fixes
