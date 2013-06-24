@@ -103,6 +103,10 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 
 == Changelog ==
 
+= trunk =
+
+* Updated de_DE, ru_RU, zh_CN
+
 = 1.4.10 =
 
 * Fixes
