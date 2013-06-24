@@ -57,6 +57,7 @@ class WPSEO_OpenGraph extends WPSEO_Frontend {
 	 * Main OpenGraph output.
 	 */
 	public function opengraph() {
+		wp_reset_query();
 		do_action( 'wpseo_opengraph' );
 	}
 
@@ -315,9 +316,12 @@ class WPSEO_OpenGraph extends WPSEO_Frontend {
 
 		if ( is_singular() ) {
 			$ogdesc = wpseo_get_value( 'opengraph-description' );
-		
 			if ( !$ogdesc )
 				$ogdesc = $this->metadesc( false );
+
+			// og:description is still blank so grab it from get_the_excerpt()
+			if ( !$ogdesc )
+				$ogdesc = strip_tags( get_the_excerpt() );
 		}
 
 		$ogdesc = apply_filters( 'wpseo_opengraph_desc', $ogdesc );

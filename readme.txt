@@ -109,8 +109,9 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 	* Updated de_DE, ru_RU, zh_CN
 * Bugfixes
     * Make rel="publisher" markup appear on every page
-	* Prevent empty property='article:publisher' markup from being output 
-	
+    * Prevent empty property='article:publisher' markup from being output 
+    * Fixed twitter:description tag should only appears if OpenGraph is inactive
+    * og:description will default to get_the_excerpt when meta description is blank (similar to how twitter:description works)
 
 = 1.4.10 =
 

@@ -47,9 +47,8 @@ class WPSEO_Twitter extends WPSEO_Frontend {
 		$this->image();
 		$options = get_wpseo_options();
 
-		$this->twitter_description();
-
 		if ( !isset( $options['opengraph'] ) || !$options['opengraph'] ) {
+			$this->twitter_description();
 			$this->twitter_title();
 			$this->twitter_url();
 		}
@@ -112,7 +111,7 @@ class WPSEO_Twitter extends WPSEO_Frontend {
 		$metadesc = trim( $this->metadesc( false ) );
 		if ( empty( $metadesc ) )
 			$metadesc = false;
-		if ( $metadesc && isset( $options['opengraph'] ) && $options['opengraph'] ) {
+		if ( $metadesc && isset( $this->options['opengraph'] ) && $this->options['opengraph'] ) {
 			// Already output the same description in opengraph, no need to repeat.
 			return;
 		} else if ( !$metadesc ) {
