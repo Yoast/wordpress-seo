@@ -739,13 +739,11 @@ class WPSEO_Frontend {
 	}
 
 	/**
-	 * Output the rel=publisher code on the frontpage of the site.
+	 * Output the rel=publisher code on every page of the site.
 	 */
 	public function publisher() {
-		if ( is_front_page() ) {
-			if ( isset( $this->options['plus-publisher'] ) && !empty( $this->options['plus-publisher'] ) )
-				echo '<link rel="publisher" href="' . esc_attr( $this->options['plus-publisher'] ) . '"/>' . "\n";
-		}
+		if ( isset( $this->options['plus-publisher'] ) && !empty( $this->options['plus-publisher'] ) )
+			echo '<link rel="publisher" href="' . esc_attr( $this->options['plus-publisher'] ) . '"/>' . "\n";
 	}
 
 	/**
