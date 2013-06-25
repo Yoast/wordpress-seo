@@ -112,6 +112,8 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
     * Prevent empty property='article:publisher' markup from being output 
     * Fixed twitter:description tag should only appears if OpenGraph is inactive
     * og:description will default to get_the_excerpt when meta description is blank (similar to how twitter:description works)
+* Enhancements
+	* Changed Social Admin section to have a tab-layout
 
 = 1.4.10 =
 

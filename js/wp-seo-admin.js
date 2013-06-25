@@ -43,7 +43,7 @@ function wpseo_killBlockingFiles( nonce ) {
 jQuery(document).ready(function(){	
 	var active_tab = window.location.hash.replace('#top#','');
 	if ( active_tab == '' )
-		active_tab = 'general';
+		active_tab = jQuery('.wpseotab').attr('id');
 	jQuery('#'+active_tab).addClass('active');
 	jQuery('#'+active_tab+'-tab').addClass('nav-tab-active');
 	
