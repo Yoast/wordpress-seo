@@ -213,15 +213,13 @@ class WPSEO_Sitemaps {
 			if ( !$wpdb->get_var( $wpdb->prepare( "SELECT term_id FROM $wpdb->term_taxonomy WHERE taxonomy = %s AND count != 0 LIMIT 1", $tax ) ) )
 				continue;
 
-			$steps     = 25;
+			$steps     = $this->max_entries;
 			$all_terms = get_terms( $tax, array( 'hide_empty' => true, 'fields' => 'names' ) );
 			$count     = count( $all_terms );
 			$n         = ( $count > $this->max_entries ) ? (int) ceil( $count / $this->max_entries ) : 1;
 
 			for ( $i = 0; $i < $n; $i++ ) {
 				$count = ( $n > 1 ) ? $i + 1 : '';
-
-				$offset = ( $i > 0 ) ? ( $i ) * $this->max_entries : 0;
 				$taxobj = get_taxonomy( $tax );
 
 				if ( ( empty( $count ) || $count == $n ) && false ) {
@@ -566,7 +564,7 @@ class WPSEO_Sitemaps {
 		global $wpdb;
 		$output = '';
 
-		$steps  = 25;
+		$steps  = $this->max_entries;
 		$n      = (int) get_query_var( 'sitemap_n' );
 		$offset = ( $n > 1 ) ? ( $n - 1 ) * $this->max_entries : 0;
 		$total  = $offset + $this->max_entries;
