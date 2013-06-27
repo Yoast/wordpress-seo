@@ -265,7 +265,8 @@ class WPSEO_Sitemaps {
 		if ( !isset( $this->options['disable-author'] ) && !isset( $this->options['disable_author_sitemap'] ) ) {
 
 			// reference user profile specific sitemaps
-			$users = get_users( array( 'who' => 'authors' ) );
+			$users = get_users( array( 'who' => 'authors', 'fields' => 'id' ) );
+
 			$count = count( $users );
 			$n     = ( $count > $this->max_entries ) ? (int) ceil( $count / $this->max_entries ) : 1;
 
@@ -286,7 +287,7 @@ class WPSEO_Sitemaps {
 					) );
 					$date = date( 'c', $date );
 
-					// Retrieve the newest updated profile timestamp by an offset
+				// Retrieve the newest updated profile timestamp by an offset
 				} else {
 					$date = $wpdb->get_var( $wpdb->prepare( "
 					SELECT mt1.meta_value FROM $wpdb->users
@@ -640,7 +641,7 @@ class WPSEO_Sitemaps {
 
 		$output = '';
 
-		$steps  = 25;
+		$steps  = $this->max_entries;
 		$n      = (int) get_query_var( 'sitemap_n' );
 		$offset = ( $n > 1 ) ? ( $n - 1 ) * $this->max_entries : 0;
 
