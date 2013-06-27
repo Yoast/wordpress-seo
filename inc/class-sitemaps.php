@@ -190,9 +190,10 @@ class WPSEO_Sitemaps {
 					$date = $this->get_last_modified( $post_type );
 				} else {
 					$date = $wpdb->get_var( $wpdb->prepare( "SELECT post_modified_gmt FROM $wpdb->posts WHERE post_status IN ('publish','inherit') AND post_type = %s ORDER BY post_modified_gmt ASC LIMIT 1 OFFSET %d", $post_type, $this->max_entries * ( $i + 1 ) - 1 ) );
-					$date = date( 'c', strtotime( $date ) );
 				}
 
+				$date = date( 'c', strtotime( $date ) );
+				
 				$this->sitemap .= '<sitemap>' . "\n";
 				$this->sitemap .= '<loc>' . home_url( $base . $post_type . '-sitemap' . $count . '.xml' ) . '</loc>' . "\n";
 				$this->sitemap .= '<lastmod>' . htmlspecialchars( $date ) . '</lastmod>' . "\n";
@@ -252,6 +253,7 @@ class WPSEO_Sitemaps {
 				// Retrieve the post_types that are registered to this taxonomy and then retrieve last modified date for all of those combined.
 				// $taxobj = get_taxonomy( $tax );
 				// $date   = $this->get_last_modified( $taxobj->object_type );
+				$date = date( 'c', strtotime( $date ) );
 
 				$this->sitemap .= '<sitemap>' . "\n";
 				$this->sitemap .= '<loc>' . home_url( $base . $tax . '-sitemap' . $count . '.xml' ) . '</loc>' . "\n";
