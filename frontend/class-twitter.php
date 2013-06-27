@@ -77,7 +77,7 @@ class WPSEO_Twitter extends WPSEO_Frontend {
 	 * Displays the domain tag for the site.
 	 */
 	public function site_domain() {
-		echo '<meta name="twitter:domain" content="' . apply_filters( 'wpseo_twitter_domain', preg_replace( '|^https?://|', '', site_url() ) ) . '"/>' . "\n";
+		echo '<meta name="twitter:domain" content="' . apply_filters( 'wpseo_twitter_domain', get_bloginfo( 'name' ) ) . '"/>' . "\n";
 	}
 
 	/**
