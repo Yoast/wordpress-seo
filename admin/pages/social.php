@@ -138,15 +138,16 @@ if ( $error )
 ?>
 
 <h2 class="nav-tab-wrapper" id="wpseo-tabs">
-	<a class="nav-tab" id="facebook-tab" href="#top#facebook"><?php _e( 'Facebook', 'wordpress-seo' );?></a>
+	<a class="nav-tab nav-tab-active" id="facebook-tab" href="#top#facebook"><?php _e( 'Facebook', 'wordpress-seo' );?></a>
 	<a class="nav-tab" id="twitter-tab" href="#top#twitter"><?php _e( 'Twitter', 'wordpress-seo' );?></a>
 	<a class="nav-tab" id="google-tab" href="#top#google"><?php _e( 'Google+', 'wordpress-seo' );?></a>
 </h2>
 
 <div id="facebook" class="wpseotab">
 	<?php
-		echo '<h2>' . __( 'Facebook Open Graph', 'wordpress-seo' ) . '</h2>';
+		echo '<p>';
 		echo $wpseo_admin_pages->checkbox( 'opengraph', '<label for="opengraph">' . __( 'Add Open Graph meta data', 'wordpress-seo' ) . '</label>' );
+		echo '</p>';
 		echo'<p class="desc">' . __( 'Add Open Graph meta data to your site\'s <code>&lt;head&gt;</code> section. You can specify some of the ID\'s that are sometimes needed below:', 'wordpress-seo' ) . '</p>';
 		echo $fbconnect;
 		echo $wpseo_admin_pages->textinput( 'facebook_site', __( 'Facebook Page URL', 'wordpress-seo' ) );
@@ -163,8 +164,9 @@ if ( $error )
 
 <div id="twitter" class="wpseotab">
 	<?php
-		echo '<h2>' . __( 'Twitter', 'wordpress-seo' ) . '</h2>';
+		echo '<p>';
 		echo $wpseo_admin_pages->checkbox( 'twitter', '<label for="twitter">' . __( 'Add Twitter card meta data', 'wordpress-seo' ) . '</label>' );
+		echo '</p>';
 		echo'<p class="desc">' . __( 'Add Twitter card meta data to your site\'s <code>&lt;head&gt;</code> section.', 'wordpress-seo' ) . '</p>';
 		echo $wpseo_admin_pages->textinput( 'twitter_site', __( 'Site Twitter Username', 'wordpress-seo' ) );
 		do_action('wpseo_admin_twitter_section');
@@ -173,10 +175,8 @@ if ( $error )
 
 <div id="google" class="wpseotab">
 	<?php
-		echo '<h2>' . __( 'Google+', 'wordpress-seo' ) . '</h2>';
 		// echo '<h2>' . __( 'Author metadata', 'wordpress-seo' ) . '</h2>';
-		echo '<h4>' . __( 'Frontpage settings', 'wordpress-seo' ) . '</h4>';
-		echo '<label class="select" for="">' . __( 'Author highlighting', 'wordpress-seo' ) . ':</label>';
+		echo '<label class="select" for="">' . __( 'Author for homepage', 'wordpress-seo' ) . ':</label>';
 		wp_dropdown_users( array( 'show_option_none' => __( "Don't show", 'wordpress-seo' ), 'name' => 'wpseo_social[plus-author]', 'class' => 'select', 'selected' => isset( $options[ 'plus-author' ] ) ? $options[ 'plus-author' ] : '' ) );
 		echo '<p class="desc label">' . __( 'Choose the user that should be used for the <code>rel="author"</code> on the blog homepage. Make sure the user has filled out his/her Google+ profile link on their profile page.', 'wordpress-seo' ) . '</p>';
 		echo $wpseo_admin_pages->textinput( 'plus-publisher', __( 'Google Publisher Page', 'wordpress-seo' ) );
