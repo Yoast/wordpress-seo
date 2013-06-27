@@ -118,6 +118,7 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 	* Changed Social Admin section to have a tab-layout.
 	* Moved Google+ section from Homepage tab of Titles & Metas to Social tab.
 	* Make twitter:domain use WordPress site name instead of domainname.
+	* Added more output filters in the Twitter class.
 
 = 1.4.10 =
 

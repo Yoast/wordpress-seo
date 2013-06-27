@@ -90,7 +90,7 @@ class WPSEO_Twitter extends WPSEO_Frontend {
 			echo '<meta name="twitter:creator" content="@' . $twitter . '"/>' . "\n";
 			
 		else if ( isset( $this->options['twitter_site'] ) )
-			echo '<meta name="twitter:creator" content="@' . ltrim( trim( $this->options['twitter_site'] ), '@' ) . '"/>' . "\n";
+			echo '<meta name="twitter:creator" content="@' . apply_filters( 'wpseo_twitter_site_account', ltrim( trim( $this->options['twitter_site'] ), '@' ) ) . '"/>' . "\n";
 	}
 
 	/**
@@ -99,7 +99,7 @@ class WPSEO_Twitter extends WPSEO_Frontend {
 	 * Only used when OpenGraph is inactive.
 	 */
 	public function twitter_title() {
-		echo '<meta name="twitter:title" content="' . $this->title( '' ) . '"/>' . "\n";
+		echo '<meta name="twitter:title" content="' . apply_filters( 'wpseo_twitter_title', $this->title( '' ) ) . '"/>' . "\n";
 	}
 
 	/**
@@ -118,7 +118,7 @@ class WPSEO_Twitter extends WPSEO_Frontend {
 			$metadesc = strip_tags( get_the_excerpt() );
 		}
 
-		echo '<meta name="twitter:description" content="' . esc_attr( $metadesc ) . '"/>' . "\n";
+		echo '<meta name="twitter:description" content="' . apply_filters( 'wpseo_twitter_description', esc_attr( $metadesc ) ) . '"/>' . "\n";
 	}
 
 	/**
