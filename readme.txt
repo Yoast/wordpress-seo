@@ -103,6 +103,10 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 
 == Changelog ==
 
+= trunk =
+* Bugfixes
+	* Submit button displays again on Titles & Metas page
+
 = 1.4.11 =
 
 * i18n
