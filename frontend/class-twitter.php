@@ -87,10 +87,10 @@ class WPSEO_Twitter extends WPSEO_Frontend {
 		$twitter = ltrim( trim( get_the_author_meta( 'twitter' ) ), '@' );
 
 		if ( $twitter && !empty( $twitter ) )
-			echo '<meta name="twitter:creator" content="@' . $twitter . '"/>' . "\n";
+			echo '<meta name="twitter:creator" content="@' . apply_filters( 'wpseo_twitter_creator_account', $twitter ) . '"/>' . "\n";
 			
 		else if ( isset( $this->options['twitter_site'] ) )
-			echo '<meta name="twitter:creator" content="@' . apply_filters( 'wpseo_twitter_site_account', ltrim( trim( $this->options['twitter_site'] ), '@' ) ) . '"/>' . "\n";
+			echo '<meta name="twitter:creator" content="@' . apply_filters( 'wpseo_twitter_creator_account', ltrim( trim( $this->options['twitter_site'] ), '@' ) ) . '"/>' . "\n";
 	}
 
 	/**
