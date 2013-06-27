@@ -103,18 +103,21 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 
 == Changelog ==
 
-= trunk =
+= 1.4.11 =
 
 * i18n
-	* Updated de_DE, ru_RU, zh_CN
+	* Updated de_DE, ru_RU, zh_CN.
 * Bugfixes
-    * Make rel="publisher" markup appear on every page
-    * Prevent empty property='article:publisher' markup from being output 
-    * Fixed twitter:description tag should only appears if OpenGraph is inactive
-    * og:description will default to get_the_excerpt when meta description is blank (similar to how twitter:description works)
-	* Fixes only 25 tags (and other taxonomy) are being indexed in taxonomy sitemaps
+    * Make rel="publisher" markup appear on every page.
+    * Prevent empty property='article:publisher' markup from being output .
+    * Fixed twitter:description tag should only appears if OpenGraph is inactive.
+    * og:description will default to get_the_excerpt when meta description is blank (similar to how twitter:description works).
+	* Fixes only 25 tags (and other taxonomy) are being indexed in taxonomy sitemaps.
+	* Fix lastmod dates for taxonomies in XML sitemap index file.
 * Enhancements
-	* Changed Social Admin section to have a tab-layout
+	* Changed Social Admin section to have a tab-layout.
+	* Moved Google+ section from Homepage tab of Titles & Metas to Social tab.
+	* Make twitter:domain use WordPress site name instead of domainname.
 
 = 1.4.10 =
 
