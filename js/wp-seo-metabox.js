@@ -127,11 +127,12 @@ function updateTitle( force ) {
     title = yst_clean( title );
     title = jQuery.trim( title );
 
+    var len = 70 - title.length;
     if ( title.length > 70 ) {
         var space = title.lastIndexOf( " ", 67 );
         title = title.substring( 0, space ).concat( ' <strong>...</strong>' );
     }
-    var len = 70 - title.length;
+
     if (len < 0)
         len = '<span class="wrong">'+len+'</span>';
     else

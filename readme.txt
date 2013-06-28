@@ -106,6 +106,7 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 = trunk =
 * Bugfixes
 	* Submit button displays again on Titles & Metas page
+	* SEO Title now calculates length correctly
 
 = 1.4.11 =
 
