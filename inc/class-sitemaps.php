@@ -110,12 +110,12 @@ class WPSEO_Sitemaps {
 	}
 
 	/**
-	 * Hijack requests for potential sitemaps.
+	 * Hijack requests for potential sitemaps and XSLT files.
 	 */
 	function redirect() {
 		$xslt = get_query_var( 'xslt' );
 		if ( !empty( $xslt ) ) {
-			$this->xslt_output();
+			$this->xslt_output( $xslt );
 			die;
 		}
 
@@ -715,21 +715,27 @@ class WPSEO_Sitemaps {
 	/**
 	 * Spits out the XSL for the XML sitemap.
 	 *
+	 * @param string $type
+	 *
 	 * @since 1.4.13
 	 */
-	function xslt_output() {
-		header( 'HTTP/1.1 200 OK', true, 200 );
-		// Prevent the search engines from indexing the XML Sitemap.
-		header( 'X-Robots-Tag: noindex, follow', true );
-		header( 'Content-Type: text/xml' );
+	function xslt_output( $type ) {
+		if ( $type == '1' ) {
+			header( 'HTTP/1.1 200 OK', true, 200 );
+			// Prevent the search engines from indexing the XML Sitemap.
+			header( 'X-Robots-Tag: noindex, follow', true );
+			header( 'Content-Type: text/xml' );
 
-		// Make the browser cache this file properly.
-		$expires = 60 * 60 * 24 * 365;
-		header( 'Pragma: public' );
-		header( 'Cache-Control: maxage=' . $expires );
-		header( 'Expires: ' . gmdate( 'D, d M Y H:i:s', time() + $expires ) . ' GMT' );
+			// Make the browser cache this file properly.
+			$expires = 60 * 60 * 24 * 365;
+			header( 'Pragma: public' );
+			header( 'Cache-Control: maxage=' . $expires );
+			header( 'Expires: ' . gmdate( 'D, d M Y H:i:s', time() + $expires ) . ' GMT' );
 
-		require WPSEO_PATH . '/css/xml-sitemap-xsl.php';
+			require WPSEO_PATH . '/css/xml-sitemap-xsl.php';
+		} else {
+			do_action( 'wpseo_xslt_' . $type );
+		}
 	}
 
 	/**
