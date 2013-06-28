@@ -26,7 +26,7 @@ function wpseo_activate() {
 
 	wpseo_flush_rules();
 
-	wpseo_title_test();
+//	wpseo_title_test();
 
 	// Clear cache so the changes are obvious.
 	if ( function_exists( 'w3tc_pgcache_flush' ) ) {
@@ -50,6 +50,8 @@ function wpseo_defaults() {
 			'version'              => WPSEO_VERSION,
 		);
 		update_option( 'wpseo', $opt );
+	} else {
+		return;
 	}
 
 	if ( !is_array( get_option( 'wpseo_titles' ) ) ) {
@@ -71,6 +73,8 @@ function wpseo_defaults() {
 			$opt['title-' . $tax] = sprintf( __( '%s Archives', 'wordpress-seo' ), '%%term_title%%' ) . ' %%page%% %%sep%% %%sitename%%';
 		}
 		update_option( 'wpseo_titles', $opt );
+
+		wpseo_title_test();
 	}
 
 	if ( !is_array( get_option( 'wpseo_xml' ) ) ) {
@@ -100,7 +104,6 @@ function wpseo_defaults() {
 		update_option( 'seo_woo_use_third_party_data', 'true' );
 	}
 
-	wpseo_title_test();
 }
 
 /**
