@@ -43,6 +43,7 @@ if ( ( isset( $_GET[ 'updated' ] ) && $_GET[ 'updated' ] == 'true' ) || ( isset(
 	<a class="nav-tab" id="template_help-tab" href="#top#template_help"><?php _e( 'Help', 'wordpress-seo' );?></a>
 </h2>
 
+<div class="tabwrapper>">
 <div id="general" class="wpseotab">
 	<?php
 	echo '<form action="' . admin_url( 'options.php' ) . '" method="post" id="wpseo-conf">';
@@ -323,7 +324,6 @@ if ( ( isset( $_GET[ 'updated' ] ) && $_GET[ 'updated' ] == 'true' ) || ( isset(
 
 	echo '<h2>' . __( 'Variables', 'wordpress-seo' ) . '</h2>';
 	echo $content;
-	?>
-</div>
-<?php
-$wpseo_admin_pages->admin_footer();
+	echo '</div>';
+	$wpseo_admin_pages->admin_footer();
+	echo '</div>';
