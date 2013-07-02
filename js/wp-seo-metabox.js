@@ -110,6 +110,7 @@ function updateTitle( force ) {
         var title = jQuery("#yoast_wpseo_title").val();
     } else {
         var title = wpseo_title_template.replace('%%title%%', jQuery('#title').val() );
+        title = jQuery('<div />').html(title).text();
     }
     if ( title == '' ) {
         jQuery('#wpseosnippet .title').html( '' );
@@ -117,15 +118,18 @@ function updateTitle( force ) {
         return;
     }
 	
-    title = jQuery('<div />').text(title).html();
-
-    if ( force )
-        jQuery('#yoast_wpseo_title').val( title );
-    else
-        jQuery('#yoast_wpseo_title').attr( 'placeholder', title );
-
     title = yst_clean( title );
     title = jQuery.trim( title );
+    var original_title = title;
+    title = jQuery('<div />').text(title).html();
+
+    if ( force ) {
+        jQuery('#yoast_wpseo_title').val( title );
+    } else {
+        // placeholder needs to be html decoded when being set by jQuery
+        original_title = jQuery('<div />').html(original_title).text();
+        jQuery('#yoast_wpseo_title').attr( 'placeholder', original_title );
+    }
 
     var len = 70 - title.length;
     if ( title.length > 70 ) {
@@ -155,6 +159,7 @@ function updateDesc( desc ) {
             var excerpt = yst_clean( jQuery("#excerpt").val() );
             desc = wpseo_metadesc_template.replace('%%excerpt_only%%', excerpt);
             desc = desc.replace('%%excerpt%%', excerpt);
+            desc = jQuery('<div />').html(desc).text();
         }
 
         desc = jQuery.trim ( desc );

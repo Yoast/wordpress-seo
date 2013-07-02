@@ -103,6 +103,11 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 
 == Changelog ==
 
+= trunk =
+
+* Bugfixes
+	* Fixed ampersand (&) in sitetitle in Title Templates loading as &amp;
+	
 = 1.4.12 =
 
 * Bugfixes
