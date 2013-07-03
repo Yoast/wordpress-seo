@@ -360,8 +360,10 @@ class WPSEO_Frontend {
 				$post_type_obj = get_post_type_object( $post_type );
 				if ( isset( $post_type_obj->labels->menu_name ) )
 					$title_part = $post_type_obj->labels->menu_name;
-				else
+				else if ( isset( $post_type_obj->name ) )
 					$title_part = $post_type_obj->name;
+				else
+					$title_part = ''; //To be determined what this should be
 			}
 		} else if ( is_archive() ) {
 			$title = $this->get_title_from_options( 'title-archive' );
