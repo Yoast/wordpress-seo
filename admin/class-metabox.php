@@ -1506,17 +1506,21 @@ class WPSEO_Metabox {
 	function get_images_alt_text( $post, $imgs ) {
 		preg_match_all( '/<img[^>]+>/im', $post->post_content, $matches );
 		$imgs['alts'] = array();
-		foreach ( $matches[0] as $img ) {
-			if ( preg_match( '/alt=("|\')(.*?)\1/', $img, $alt ) )
-				$imgs['alts'][] = $this->strtolower_utf8( $alt[2] );
+		if( is_array( $matches ) && count( $matches ) > 0 ) {
+			foreach ( $matches[0] as $img ) {
+				if ( preg_match( '`alt=("|\')(.*?)\1`', $img, $alt ) && isset( $alt[2] ) )
+					$imgs['alts'][] = $this->strtolower_utf8( $alt[2] );
+			}
 		}
 		if ( preg_match_all( '/\[gallery/', $post->post_content, $matches ) ) {
 			$attachments = get_children( array( 'post_parent' => $post->ID, 'post_status' => 'inherit', 'post_type' => 'attachment', 'post_mime_type' => 'image', 'fields' => 'ids' ) );
-			foreach ( $attachments as $att_id ) {
-				$alt = get_post_meta( $att_id, '_wp_attachment_image_alt', true );
-				if ( $alt && !empty( $alt ) )
-					$imgs['alts'][] = $alt;
-				$imgs['count']++;
+			if( is_array( $attachments ) && count( $attachments ) > 0 ) {
+				foreach ( $attachments as $att_id ) {
+					$alt = get_post_meta( $att_id, '_wp_attachment_image_alt', true );
+					if ( $alt && !empty( $alt ) )
+						$imgs['alts'][] = $alt;
+					$imgs['count']++;
+				}
 			}
 		}
 		return $imgs;
