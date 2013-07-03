@@ -377,10 +377,33 @@ class WPSEO_Frontend {
 					$title_part = __( 'Archives', 'wordpress-seo' );
 			}
 		} else if ( is_404() ) {
-			$title = $this->get_title_from_options( 'title-404' );
 
-			if ( empty( $title ) )
-				$title_part = __( 'Page not found', 'wordpress-seo' );
+			if ( 0 !== get_query_var( 'year' ) || ( 0 !== get_query_var( 'monthnum' ) || 0 !== get_query_var( 'day' ) ) ) {
+
+				if ( 0 !== get_query_var( 'day' ) ) {
+
+					global $post;
+					$original_p = $post;
+					$post->post_date = sprintf("%04d-%02d-%02d 00:00:00", get_query_var( 'year' ), get_query_var( 'monthnum' ), get_query_var( 'day' ) );
+					$title_part = sprintf( __( '%s Archives', 'wordpress-seo' ), get_the_date() );
+					$post = $original_p;
+				}
+				else if ( 0 !== get_query_var( 'monthnum' ) ) {
+					$title_part = sprintf( __( '%s Archives', 'wordpress-seo' ), single_month_title( ' ', false ) );
+				}
+				else if ( 0 !== get_query_var( 'year' ) ) {
+					$title_part = sprintf( __( '%s Archives', 'wordpress-seo' ), get_query_var( 'year' ) );
+				}
+				else {
+					$title_part = __( 'Archives', 'wordpress-seo' );
+				}
+			}
+			else {
+				$title = $this->get_title_from_options( 'title-404' );
+
+				if ( empty( $title ) )
+					$title_part = __( 'Page not found', 'wordpress-seo' );
+			}
 		} else {
 			// In case the page type is unknown, leave the title alone.
 			$modified_title = false;
