@@ -176,7 +176,7 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 		$replacements = array_merge( $replacements, array(
 			'%%caption%%'      => $r->post_excerpt,
 			'%%category%%'     => wpseo_get_terms( $r->ID, 'category' ),
-			'%%excerpt%%' 	   => ( !empty( $r->post_excerpt ) ) ? strip_tags( $r->post_excerpt ) : ( ( extension_loaded( 'mbstring' ) === true ) ? mb_substr( strip_shortcodes( strip_tags( $r->post_content ) ), 0, 155, 'UTF-8' ) : substr( strip_shortcodes( strip_tags( utf8_decode( $r->post_content ) ) ), 0, 155 ) ),
+			'%%excerpt%%'      => ( !empty( $r->post_excerpt ) ) ? strip_tags( $r->post_excerpt ) : wp_html_excerpt( strip_shortcodes( $r->post_content ),155 ),
 			'%%excerpt_only%%' => strip_tags( $r->post_excerpt ),
 			'%%focuskw%%'      => wpseo_get_value( 'focuskw', $r->ID ),
 			'%%id%%'           => $r->ID,
