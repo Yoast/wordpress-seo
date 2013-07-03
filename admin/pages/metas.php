@@ -305,6 +305,10 @@ if ( ( isset( $_GET[ 'updated' ] ) && $_GET[ 'updated' ] == 'true' ) || ( isset(
 				<td>' . __( 'Replaced with the posts focus keyword', 'wordpress-seo' ) . '</td>
 			</tr>
 			<tr>
+				<th>%%term404%%</th>
+				<td>' . __( 'Replaced with the slug which caused the 404', 'wordpress-seo' ) . '</td>
+			</tr>
+			<tr>
 				<th>%%cf_&lt;custom-field-name&gt;%%</th>
 				<td>' . __( 'Replaced with a posts custom field value', 'wordpress-seo' ) . '</td>
 			</tr>

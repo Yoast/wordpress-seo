@@ -182,11 +182,45 @@ class WPSEO_Breadcrumbs {
 					$bc = __( 'You searched for', 'wordpress-seo' );
 				$links[] = array( 'text' => $bc . ' "' . esc_html( get_search_query() ) . '"' );
 			} elseif ( is_404() ) {
-				if ( isset( $options['breadcrumbs-404crumb'] ) && $options['breadcrumbs-404crumb'] != '' )
-					$crumb404 = $options['breadcrumbs-404crumb'];
-				else
-					$crumb404 = __( 'Error 404: Page not found', 'wordpress-seo' );
-				$links[] = array( 'text' => $crumb404 );
+
+				if ( 0 !== get_query_var( 'year' ) || ( 0 !== get_query_var( 'monthnum' ) || 0 !== get_query_var( 'day' ) ) ) {
+					
+					if ( 'page' == $on_front && !is_home() ) {
+						if ( $blog_page && ( !isset( $options['breadcrumbs-blog-remove'] ) || !$options['breadcrumbs-blog-remove'] ) )
+							$links[] = array( 'id' => $blog_page );
+					}
+
+					if ( isset( $options['breadcrumbs-archiveprefix'] ) )
+						$bc = $options['breadcrumbs-archiveprefix'];
+					else
+						$bc = __( 'Archives for', 'wordpress-seo' );
+
+
+					if ( 0 !== get_query_var( 'day' ) ) {
+						$links[] = array(
+							'url'  => get_month_link( get_query_var( 'year' ), get_query_var( 'monthnum' ) ),
+							'text' => $GLOBALS['wp_locale']->get_month( get_query_var( 'monthnum' ) ) . ' ' . get_query_var( 'year' )
+						);
+						global $post;
+						$original_p = $post;
+						$post->post_date = sprintf("%04d-%02d-%02d 00:00:00", get_query_var( 'year' ), get_query_var( 'monthnum' ), get_query_var( 'day' ) );
+						$links[] = array( 'text' => $bc . ' ' . get_the_date() );
+						$post = $original_p;
+
+					} else if ( 0 !== get_query_var( 'monthnum' ) ) {
+						$links[] = array( 'text' => $bc . ' ' . single_month_title( ' ', false ) );
+					} else if ( 0 !== get_query_var( 'year' ) ) {
+						$links[] = array( 'text' => $bc . ' ' . get_query_var( 'year' ) );
+					}
+				}
+				else {
+					if ( isset( $options['breadcrumbs-404crumb'] ) && '' != $options['breadcrumbs-404crumb'] )
+						$crumb404 = $options['breadcrumbs-404crumb'];
+					else
+						$crumb404 = __( 'Error 404: Page not found', 'wordpress-seo' );
+							
+					$links[] = array( 'text' => $crumb404 );
+				}
 			}
 		}
 

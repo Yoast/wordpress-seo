@@ -107,6 +107,8 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 
 * Bugfixes
 	* Fixed ampersand (&) in sitetitle in Title Templates loading as &amp;
+* Enhancements
+	* Improved breadcrumbs and titles for 404 pages - props [Jrf](http://profiles.wordpress.org/jrf).
 	
 = 1.4.12 =
 
