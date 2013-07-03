@@ -177,8 +177,12 @@ class WPSEO_Pointers {
 					'position'     => array( 'edge' => 'top', 'align' => $align ),
 					'pointerWidth' => 400
 				);
-				$button2  = $adminpages[$page]['button2'];
-				$function = $adminpages[$page]['function'];
+				if( isset( $adminpages[$page]['button2'] ) ) {
+					$button2  = $adminpages[$page]['button2'];
+				}
+				if( isset( $adminpages[$page]['function'] ) ) {
+					$function = $adminpages[$page]['function'];
+				}
 			}
 		}
 
