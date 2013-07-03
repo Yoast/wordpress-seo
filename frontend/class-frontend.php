@@ -777,7 +777,11 @@ class WPSEO_Frontend {
 	public function author() {
 		$gplus   = false;
 
-		if ( is_singular() ) {
+		if ( is_home() || is_front_page()) {
+			if ( isset( $this->options['plus-author'] ) && $this->options['plus-author'] != -1 )
+				$gplus = get_the_author_meta( 'googleplus', $this->options['plus-author'] );
+
+		} else if ( is_singular() ) {
 			global $post;
 			$gplus = get_the_author_meta( 'googleplus', $post->post_author );
 
@@ -785,10 +789,6 @@ class WPSEO_Frontend {
 			if ( isset( $this->options['noauthorship-' . $post->post_type] ) && $this->options['noauthorship-' . $post->post_type] ) {
 				$gplus = false;
 			}
-
-		} else if ( is_home() ) {
-			if ( isset( $this->options['plus-author'] ) )
-				$gplus = get_the_author_meta( 'googleplus', $this->options['plus-author'] );
 		}
 
 		$gplus = apply_filters( 'wpseo_author_link', $gplus );
