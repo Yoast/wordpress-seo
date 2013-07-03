@@ -195,8 +195,8 @@ class WPSEO_Frontend {
 	 *
 	 * All titles pulled from options will be run through the wpseo_replace_vars function.
 	 *
-	 * @param string        $index         name of the page to get the title from the settings for.
-	 * @param object|array  $var_source    possible object to pul variables from.
+	 * @param string       $index         name of the page to get the title from the settings for.
+	 * @param object|array $var_source    possible object to pul variables from.
 	 * @return string
 	 */
 	function get_title_from_options( $index, $var_source = array() ) {
@@ -386,22 +386,18 @@ class WPSEO_Frontend {
 				if ( 0 !== get_query_var( 'day' ) ) {
 
 					global $post;
-					$original_p = $post;
-					$post->post_date = sprintf("%04d-%02d-%02d 00:00:00", get_query_var( 'year' ), get_query_var( 'monthnum' ), get_query_var( 'day' ) );
-					$title_part = sprintf( __( '%s Archives', 'wordpress-seo' ), get_the_date() );
-					$post = $original_p;
-				}
-				else if ( 0 !== get_query_var( 'monthnum' ) ) {
+					$original_p      = $post;
+					$post->post_date = sprintf( "%04d-%02d-%02d 00:00:00", get_query_var( 'year' ), get_query_var( 'monthnum' ), get_query_var( 'day' ) );
+					$title_part      = sprintf( __( '%s Archives', 'wordpress-seo' ), get_the_date() );
+					$post            = $original_p;
+				} else if ( 0 !== get_query_var( 'monthnum' ) ) {
 					$title_part = sprintf( __( '%s Archives', 'wordpress-seo' ), single_month_title( ' ', false ) );
-				}
-				else if ( 0 !== get_query_var( 'year' ) ) {
+				} else if ( 0 !== get_query_var( 'year' ) ) {
 					$title_part = sprintf( __( '%s Archives', 'wordpress-seo' ), get_query_var( 'year' ) );
-				}
-				else {
+				} else {
 					$title_part = __( 'Archives', 'wordpress-seo' );
 				}
-			}
-			else {
+			} else {
 				$title = $this->get_title_from_options( 'title-404' );
 
 				if ( empty( $title ) )
@@ -551,7 +547,7 @@ class WPSEO_Frontend {
 				// Three possible values, index, noindex and default, do nothing for default
 				$term_meta = wpseo_get_term_meta( $term, $term->taxonomy, 'noindex' );
 				if ( 'noindex' == $term_meta || 'on' == $term_meta ) // on is for backwards compatibility
-					$robots['index'] = 'noindex';
+				$robots['index'] = 'noindex';
 
 				if ( 'index' == $term_meta )
 					$robots['index'] = 'index';
@@ -789,9 +785,9 @@ class WPSEO_Frontend {
 	 * Outputs the rel=author
 	 */
 	public function author() {
-		$gplus   = false;
+		$gplus = false;
 
-		if ( is_home() || is_front_page()) {
+		if ( is_home() || is_front_page() ) {
 			if ( isset( $this->options['plus-author'] ) && $this->options['plus-author'] != -1 )
 				$gplus = get_the_author_meta( 'googleplus', $this->options['plus-author'] );
 
@@ -1041,7 +1037,7 @@ class WPSEO_Frontend {
 		if ( isset( $_GET['replytocom'] ) && is_singular() ) {
 			global $post;
 			$url          = get_permalink( $post->ID );
-			$hash = $_GET['replytocom'];
+			$hash         = $_GET['replytocom'];
 			$query_string = remove_query_arg( 'replytocom', $_SERVER['QUERY_STRING'] );
 			if ( !empty( $query_string ) )
 				$url .= '?' . $query_string;
@@ -1304,4 +1300,5 @@ function initialize_wpseo_front() {
 	global $wpseo_front;
 	$wpseo_front = new WPSEO_Frontend;
 }
+
 add_action( 'init', 'initialize_wpseo_front' );
