@@ -1667,6 +1667,7 @@ class WPSEO_Metabox {
 			$this->save_score_result( $results, 9, sprintf( $scoreBodyGoodLength, $wordCount ), 'body_length', $wordCount );
 
 		$body = $this->strtolower_utf8( $body );
+		$job["keyword"] = $this->strtolower_utf8( $job["keyword"] );
 
 		$keywordWordCount = str_word_count( $job["keyword"] );
 		if ( $keywordWordCount > 10 ) {
