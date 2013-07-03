@@ -144,6 +144,7 @@ class WPSEO_OpenGraph extends WPSEO_Frontend {
 	 */
 	public function og_title( $echo = true ) {
 		$title = $this->title( '' );
+		$title = apply_filters( 'wpseo_opengraph_title', $title );
 		if ( $echo !== false )
 			echo "<meta property='og:title' content='" . esc_attr( $title ) . "'/>\n";
 		else

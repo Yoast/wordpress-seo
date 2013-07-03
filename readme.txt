@@ -114,6 +114,7 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 	* Fixed undefined index error for images without alt - props [Jrf](http://profiles.wordpress.org/jrf).
 * Enhancements
 	* Improved breadcrumbs and titles for 404 pages - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Added output filter 'wpseo_opengraph_title' for OpenGraph title - props [Jrf](http://profiles.wordpress.org/jrf).
 
 = 1.4.12 =
 
