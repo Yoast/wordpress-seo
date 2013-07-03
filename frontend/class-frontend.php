@@ -105,9 +105,10 @@ class WPSEO_Frontend {
 		if ( isset( $this->options['title_test'] ) && $this->options['title_test'] )
 			add_filter( 'wpseo_title', array( $this, 'title_test_helper' ) );
 
-		if ( isset( $_GET['replytocom'] ) )
+		if ( isset( $_GET['replytocom'] ) ) {
 			remove_action( 'wp_head', 'wp_no_robots' );
-
+			add_action( 'template_redirect', array( $this, 'replytocom_redirect' ), 1 );
+		}
 	}
 
 	/**
@@ -1025,7 +1026,29 @@ class WPSEO_Frontend {
 	 * @return string
 	 */
 	public function remove_reply_to_com( $link ) {
-		return preg_replace( '/href=\'(.*(\?|&)replytocom=(\d+)#respond)/', 'href=\'#comment-$3', $link );
+		return preg_replace( '/href=\'(.*(\?|&|&#038;)replytocom=(\d+)#respond)/', 'href=\'#comment-$3', $link );
+	}
+
+	/**
+	 * Redirect out the ?replytocom variables when cleanreplytocom is enabled
+	 *
+	 * @since 1.4.13
+	 */
+	function replytocom_redirect() {
+		if ( !isset( $this->options['cleanreplytocom'] ) || !$this->options['cleanreplytocom'] )
+			return;
+
+		if ( isset( $_GET['replytocom'] ) && is_singular() ) {
+			global $post;
+			$url          = get_permalink( $post->ID );
+			$hash = $_GET['replytocom'];
+			$query_string = remove_query_arg( 'replytocom', $_SERVER['QUERY_STRING'] );
+			if ( !empty( $query_string ) )
+				$url .= '?' . $query_string;
+			$url .= '#comment-' . $hash;
+			wp_safe_redirect( $url, 301 );
+			exit;
+		}
 	}
 
 	/**
