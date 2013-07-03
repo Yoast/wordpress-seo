@@ -153,8 +153,6 @@ class WPSEO_Sitemaps {
 	 * @param string $type The requested sitemap's identifier.
 	 */
 	function build_sitemap( $type ) {
-		if ( !is_admin() )
-			@ob_clean();
 
 		$type = apply_filters( 'wpseo_build_sitemap_post_type', $type );
 
@@ -180,8 +178,6 @@ class WPSEO_Sitemaps {
 	 */
 
 	function build_root_map() {
-		if ( !is_admin() )
-			@ob_clean();
 
 		global $wpdb;
 
