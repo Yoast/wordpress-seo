@@ -102,7 +102,7 @@ class WPSEO_OpenGraph extends WPSEO_Frontend {
 			return;
 
 		global $post;
-		$facebook = get_the_author_meta( 'facebook', $post->post_author );
+		$facebook = apply_filters( 'wpseo_opengraph_author_facebook', get_the_author_meta( 'facebook', $post->post_author ) );
 
 		if ( $facebook && !empty( $facebook ) )
 			echo "<meta property='article:author' content='" . esc_attr( $facebook ) . "'/>\n";
@@ -132,6 +132,7 @@ class WPSEO_OpenGraph extends WPSEO_Frontend {
 				else
 					$adminstr = $admin_id;
 			}
+			$adminstr = apply_filters( 'wpseo_opengraph_admin', $adminstr );
 			echo "<meta property='fb:admins' content='" . esc_attr( $adminstr ) . "'/>\n";
 		}
 	}
@@ -143,7 +144,8 @@ class WPSEO_OpenGraph extends WPSEO_Frontend {
 	 * @return string $title
 	 */
 	public function og_title( $echo = true ) {
-		$title = $this->title( '' );
+		$title = apply_filters( 'wpseo_opengraph_title', $this->title( '' ) );
+
 		if ( $echo !== false )
 			echo "<meta property='og:title' content='" . esc_attr( $title ) . "'/>\n";
 		else
@@ -154,7 +156,8 @@ class WPSEO_OpenGraph extends WPSEO_Frontend {
 	 * Outputs the canonical URL as OpenGraph URL, which consolidates likes and shares.
 	 */
 	public function url() {
-		echo "<meta property='og:url' content='" . esc_attr( $this->canonical( false ) ) . "'/>\n";
+		$url = apply_filters( 'wpseo_opengraph_url', $this->canonical( false ) );
+		echo "<meta property='og:url' content='" . esc_attr( $url ) . "'/>\n";
 	}
 
 	/**
@@ -339,7 +342,8 @@ class WPSEO_OpenGraph extends WPSEO_Frontend {
 	 * Output the site name straight from the blog info.
 	 */
 	public function site_name() {
-		echo "<meta property='og:site_name' content='" . esc_attr( get_bloginfo( 'name' ) ) . "'/>\n";
+		$name = apply_filters( 'wpseo_opengraph_site_name', get_bloginfo( 'name' ) );
+		echo "<meta property='og:site_name' content='" . esc_attr( $name ) . "'/>\n";
 	}
 }
 
