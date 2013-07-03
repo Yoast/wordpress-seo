@@ -29,7 +29,7 @@ class WPSEO_OpenGraph extends WPSEO_Frontend {
 	 * Class constructor.
 	 */
 	public function __construct() {
-		$this->options = get_option( 'wpseo_social' );
+		$this->options = get_wpseo_options();
 
 		global $fb_ver;
 		if ( isset( $fb_ver ) || class_exists( 'Facebook_Loader' ) ) {
