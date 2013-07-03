@@ -105,9 +105,10 @@ class WPSEO_Frontend {
 		if ( isset( $this->options['title_test'] ) && $this->options['title_test'] )
 			add_filter( 'wpseo_title', array( $this, 'title_test_helper' ) );
 
-		if ( isset( $_GET['replytocom'] ) )
+		if ( isset( $_GET['replytocom'] ) ) {
 			remove_action( 'wp_head', 'wp_no_robots' );
-
+			add_action( 'template_redirect', array( $this, 'replytocom_redirect' ), 1 );
+		}
 	}
 
 	/**
@@ -194,8 +195,8 @@ class WPSEO_Frontend {
 	 *
 	 * All titles pulled from options will be run through the wpseo_replace_vars function.
 	 *
-	 * @param string        $index         name of the page to get the title from the settings for.
-	 * @param object|array  $var_source    possible object to pul variables from.
+	 * @param string       $index         name of the page to get the title from the settings for.
+	 * @param object|array $var_source    possible object to pul variables from.
 	 * @return string
 	 */
 	function get_title_from_options( $index, $var_source = array() ) {
@@ -379,10 +380,29 @@ class WPSEO_Frontend {
 					$title_part = __( 'Archives', 'wordpress-seo' );
 			}
 		} else if ( is_404() ) {
-			$title = $this->get_title_from_options( 'title-404' );
 
-			if ( empty( $title ) )
-				$title_part = __( 'Page not found', 'wordpress-seo' );
+			if ( 0 !== get_query_var( 'year' ) || ( 0 !== get_query_var( 'monthnum' ) || 0 !== get_query_var( 'day' ) ) ) {
+
+				if ( 0 !== get_query_var( 'day' ) ) {
+
+					global $post;
+					$original_p      = $post;
+					$post->post_date = sprintf( "%04d-%02d-%02d 00:00:00", get_query_var( 'year' ), get_query_var( 'monthnum' ), get_query_var( 'day' ) );
+					$title_part      = sprintf( __( '%s Archives', 'wordpress-seo' ), get_the_date() );
+					$post            = $original_p;
+				} else if ( 0 !== get_query_var( 'monthnum' ) ) {
+					$title_part = sprintf( __( '%s Archives', 'wordpress-seo' ), single_month_title( ' ', false ) );
+				} else if ( 0 !== get_query_var( 'year' ) ) {
+					$title_part = sprintf( __( '%s Archives', 'wordpress-seo' ), get_query_var( 'year' ) );
+				} else {
+					$title_part = __( 'Archives', 'wordpress-seo' );
+				}
+			} else {
+				$title = $this->get_title_from_options( 'title-404' );
+
+				if ( empty( $title ) )
+					$title_part = __( 'Page not found', 'wordpress-seo' );
+			}
 		} else {
 			// In case the page type is unknown, leave the title alone.
 			$modified_title = false;
@@ -527,7 +547,7 @@ class WPSEO_Frontend {
 				// Three possible values, index, noindex and default, do nothing for default
 				$term_meta = wpseo_get_term_meta( $term, $term->taxonomy, 'noindex' );
 				if ( 'noindex' == $term_meta || 'on' == $term_meta ) // on is for backwards compatibility
-					$robots['index'] = 'noindex';
+				$robots['index'] = 'noindex';
 
 				if ( 'index' == $term_meta )
 					$robots['index'] = 'index';
@@ -638,6 +658,10 @@ class WPSEO_Frontend {
 				if ( !$wp_rewrite->using_permalinks() ) {
 					$canonical = add_query_arg( 'paged', get_query_var( 'paged' ), $canonical );
 				} else {
+					if ( is_front_page() ) {
+						$base      = $GLOBALS['wp_rewrite']->using_index_permalinks() ? 'index.php/' : '/';
+						$canonical = home_url( $base );
+					}
 					$canonical = user_trailingslashit( trailingslashit( $canonical ) . trailingslashit( $wp_rewrite->pagination_base ) . get_query_var( 'paged' ) );
 				}
 			}
@@ -678,7 +702,16 @@ class WPSEO_Frontend {
 				if ( 0 == $paged )
 					$paged = 1;
 
-				if ( $paged > 1 )
+				if ( $paged == 2 )
+					$this->adjacent_rel_link( "prev", $url, $paged - 1, true );
+
+				// Make sure to use index.php when needed, done after paged == 2 check so the prev links to homepage will not have index.php erroneously.
+				if ( is_front_page() ) {
+					$base = $GLOBALS['wp_rewrite']->using_index_permalinks() ? 'index.php/' : '/';
+					$url  = home_url( $base );
+				}
+
+				if ( $paged > 2 )
 					$this->adjacent_rel_link( "prev", $url, $paged - 1, true );
 
 				if ( $paged < $wp_query->max_num_pages )
@@ -752,9 +785,13 @@ class WPSEO_Frontend {
 	 * Outputs the rel=author
 	 */
 	public function author() {
-		$gplus   = false;
+		$gplus = false;
 
-		if ( is_singular() ) {
+		if ( is_home() || is_front_page() ) {
+			if ( isset( $this->options['plus-author'] ) && $this->options['plus-author'] != -1 )
+				$gplus = get_the_author_meta( 'googleplus', $this->options['plus-author'] );
+
+		} else if ( is_singular() ) {
 			global $post;
 			$gplus = get_the_author_meta( 'googleplus', $post->post_author );
 
@@ -762,10 +799,6 @@ class WPSEO_Frontend {
 			if ( isset( $this->options['noauthorship-' . $post->post_type] ) && $this->options['noauthorship-' . $post->post_type] ) {
 				$gplus = false;
 			}
-
-		} else if ( is_home() ) {
-			if ( isset( $this->options['plus-author'] ) )
-				$gplus = get_the_author_meta( 'googleplus', $this->options['plus-author'] );
 		}
 
 		$gplus = apply_filters( 'wpseo_author_link', $gplus );
@@ -989,7 +1022,29 @@ class WPSEO_Frontend {
 	 * @return string
 	 */
 	public function remove_reply_to_com( $link ) {
-		return preg_replace( '/href=\'(.*(\?|&)replytocom=(\d+)#respond)/', 'href=\'#comment-$3', $link );
+		return preg_replace( '/href=\'(.*(\?|&|&#038;)replytocom=(\d+)#respond)/', 'href=\'#comment-$3', $link );
+	}
+
+	/**
+	 * Redirect out the ?replytocom variables when cleanreplytocom is enabled
+	 *
+	 * @since 1.4.13
+	 */
+	function replytocom_redirect() {
+		if ( !isset( $this->options['cleanreplytocom'] ) || !$this->options['cleanreplytocom'] )
+			return;
+
+		if ( isset( $_GET['replytocom'] ) && is_singular() ) {
+			global $post;
+			$url          = get_permalink( $post->ID );
+			$hash         = $_GET['replytocom'];
+			$query_string = remove_query_arg( 'replytocom', $_SERVER['QUERY_STRING'] );
+			if ( !empty( $query_string ) )
+				$url .= '?' . $query_string;
+			$url .= '#comment-' . $hash;
+			wp_safe_redirect( $url, 301 );
+			exit;
+		}
 	}
 
 	/**
@@ -1245,4 +1300,5 @@ function initialize_wpseo_front() {
 	global $wpseo_front;
 	$wpseo_front = new WPSEO_Frontend;
 }
+
 add_action( 'init', 'initialize_wpseo_front' );

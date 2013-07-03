@@ -120,6 +120,7 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 		'post_title'    => '',
 		'taxonomy'      => '',
 		'term_id'       => '',
+		'term404'		=> '',
 	);
 
 	if ( isset( $args['post_content'] ) )
@@ -168,6 +169,7 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 		'%%page%%'         => ( $max_num_pages > 1 && $pagenum > 1 ) ? sprintf( $sep . ' ' . __( 'Page %d of %d', 'wordpress-seo' ), $pagenum, $max_num_pages ) : '',
 		'%%pagetotal%%'    => $max_num_pages,
 		'%%pagenumber%%'   => $pagenum,
+		'%%term404%%'	   => sanitize_text_field ( str_replace( '-', ' ', $r->term404 ) ),
 	);
 
 	if ( isset( $r->ID ) ) {

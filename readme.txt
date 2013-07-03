@@ -112,6 +112,8 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 	* Fixed undefined property error - props [Jrf](http://profiles.wordpress.org/jrf).
 	* Fixed undefined index error for the last page of the tour - props [Jrf](http://profiles.wordpress.org/jrf).
 	* Fixed undefined index error for images without alt - props [Jrf](http://profiles.wordpress.org/jrf).
+* Enhancements
+	* Improved breadcrumbs and titles for 404 pages - props [Jrf](http://profiles.wordpress.org/jrf).
 
 = 1.4.12 =
 

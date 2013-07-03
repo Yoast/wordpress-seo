@@ -47,7 +47,7 @@ class WPSEO_Sitemaps {
 		add_action( 'wpseo_hit_sitemap_index', array( $this, 'hit_sitemap_index' ) );
 
 		// default stylesheet
-		$this->stylesheet = '<?xml-stylesheet type="text/xsl" href="' . home_url( 'sitemap.xslt' ) . '"?>';
+		$this->stylesheet = '<?xml-stylesheet type="text/xsl" href="' . home_url( 'sitemap.xsl' ) . '"?>';
 
 		$this->options = get_wpseo_options();
 	}
@@ -63,6 +63,18 @@ class WPSEO_Sitemaps {
 		add_action( 'wpseo_do_sitemap_' . $name, $function );
 		if ( !empty( $rewrite ) )
 			add_rewrite_rule( $rewrite, 'index.php?sitemap=' . $name, 'top' );
+	}
+
+	/**
+	 * Register your own XSL file. Call this during 'init'.
+	 *
+	 * @param string   $name     The name of the XSL file
+	 * @param callback $function Function to build your XSL file
+	 * @param string   $rewrite  Optional. Regular expression to match your sitemap with
+	 */
+	function register_xsl( $name, $function, $rewrite ) {
+		add_action( 'wpseo_xsl_' . $name, $function );
+		add_rewrite_rule( $rewrite, 'index.php?xsl=' . $name, 'top' );
 	}
 
 	/**
@@ -100,22 +112,22 @@ class WPSEO_Sitemaps {
 	function init() {
 		$GLOBALS['wp']->add_query_var( 'sitemap' );
 		$GLOBALS['wp']->add_query_var( 'sitemap_n' );
-		$GLOBALS['wp']->add_query_var( 'xslt' );
+		$GLOBALS['wp']->add_query_var( 'xsl' );
 
 		$this->max_entries = ( isset( $this->options['entries-per-page'] ) && $this->options['entries-per-page'] != '' ) ? intval( $this->options['entries-per-page'] ) : 1000;
 
 		add_rewrite_rule( 'sitemap_index\.xml$', 'index.php?sitemap=1', 'top' );
 		add_rewrite_rule( '([^/]+?)-sitemap([0-9]+)?\.xml$', 'index.php?sitemap=$matches[1]&sitemap_n=$matches[2]', 'top' );
-		add_rewrite_rule( 'sitemap\.xslt$', 'index.php?xslt=1', 'top' );
+		add_rewrite_rule( 'sitemap\.xsl$', 'index.php?xsl=1', 'top' );
 	}
 
 	/**
-	 * Hijack requests for potential sitemaps and XSLT files.
+	 * Hijack requests for potential sitemaps and XSL files.
 	 */
 	function redirect() {
-		$xslt = get_query_var( 'xslt' );
-		if ( !empty( $xslt ) ) {
-			$this->xslt_output( $xslt );
+		$xsl = get_query_var( 'xsl' );
+		if ( !empty( $xsl ) ) {
+			$this->xsl_output( $xsl );
 			die;
 		}
 
@@ -141,8 +153,6 @@ class WPSEO_Sitemaps {
 	 * @param string $type The requested sitemap's identifier.
 	 */
 	function build_sitemap( $type ) {
-		if ( !is_admin() )
-			@ob_clean();
 
 		$type = apply_filters( 'wpseo_build_sitemap_post_type', $type );
 
@@ -168,8 +178,6 @@ class WPSEO_Sitemaps {
 	 */
 
 	function build_root_map() {
-		if ( !is_admin() )
-			@ob_clean();
 
 		global $wpdb;
 
@@ -719,7 +727,7 @@ class WPSEO_Sitemaps {
 	 *
 	 * @since 1.4.13
 	 */
-	function xslt_output( $type ) {
+	function xsl_output( $type ) {
 		if ( $type == '1' ) {
 			header( 'HTTP/1.1 200 OK', true, 200 );
 			// Prevent the search engines from indexing the XML Sitemap.
@@ -734,7 +742,7 @@ class WPSEO_Sitemaps {
 
 			require WPSEO_PATH . '/css/xml-sitemap-xsl.php';
 		} else {
-			do_action( 'wpseo_xslt_' . $type );
+			do_action( 'wpseo_xsl_' . $type );
 		}
 	}
 
@@ -810,8 +818,8 @@ class WPSEO_Sitemaps {
 		if ( !empty( $sitemap ) )
 			return false;
 
-		$xslt = get_query_var( 'xslt' );
-		if ( !empty( $xslt ) )
+		$xsl = get_query_var( 'xsl' );
+		if ( !empty( $xsl ) )
 			return false;
 
 		return $redirect;
