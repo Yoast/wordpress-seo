@@ -387,7 +387,15 @@ function wpseo_store_tracking_response() {
 }
 add_action('wp_ajax_wpseo_allow_tracking', 'wpseo_store_tracking_response');
 
-// WPML: Set titles for custom types / taxonomies as translatable
+/**
+ * WPML plugin support: Set titles for custom types / taxonomies as translatable.
+ * It adds new keys to a wpml-config.xml file for a custom post type title, metadesc, title-ptarchive and metadesc-ptarchive fields translation.
+ * Documentation: http://wpml.org/documentation/support/language-configuration-files/
+ * 
+ * @global $sitepress
+ * @param array $config
+ * @return array
+ */
 function wpseo_wpml_config( $config ) {
     global $sitepress;
 
