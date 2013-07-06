@@ -103,6 +103,9 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 
 == Changelog ==
 
+* Enhancements
+	* Added 'wpseo_breadcrumb_single_link_with_sep' filter which allows users to filter a complete breadcrumb element including the separator - props [Jrf](http://profiles.wordpress.org/jrf).
+
 = 1.4.13 =
 
 * Bugfixes

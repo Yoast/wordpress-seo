@@ -263,8 +263,6 @@ class WPSEO_Breadcrumbs {
 		$output = '';
 
 		foreach ( $links as $i => $link ) {
-			if ( !empty( $output ) )
-				$output .= " $sep ";
 
 			if ( isset( $link['id'] ) ) {
 				$link['url']  = get_permalink( $link['id'] );
@@ -306,7 +304,9 @@ class WPSEO_Breadcrumbs {
 			}
 			$link_output .= '</' . $element . '>';
 
-			$output .= apply_filters( 'wpseo_breadcrumb_single_link', $link_output, $link );
+			$link_sep = ( !empty( $output ) ? " $sep " : '' );
+			$link_output = apply_filters( 'wpseo_breadcrumb_single_link', $link_output, $link );
+			$output .= apply_filters( 'wpseo_breadcrumb_single_link_with_sep', $link_sep . $link_output, $link );
 		}
 
 		$id = apply_filters( 'wpseo_breadcrumb_output_id', false );
