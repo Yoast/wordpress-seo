@@ -613,7 +613,7 @@ class WPSEO_Frontend {
 				if ( get_query_var( 'page' ) > 1 ) {
 					global $wp_rewrite;
 					$numpages = substr_count( $obj->post_content, '<!--nextpage-->' ) + 1;
-					if ( $numpages && get_query_var( 'page' ) < $numpages ) {
+					if ( $numpages && get_query_var( 'page' ) <= $numpages ) {
 						if ( !$wp_rewrite->using_permalinks() ) {
 							$canonical = add_query_arg( 'page', get_query_var( 'page' ), $canonical );
 						} else {
