@@ -4,7 +4,7 @@ function yst_clean( str ) {
 
     try {
         str = str.replace(/<\/?[^>]+>/gi, '');
-        str = str.replace(/\[(.+?)\](.+?\[\/\\1\])?/, '');
+        str = str.replace(/\[(.+?)\](.+?\[\/\\1\])?/g, '');
     } catch(e) {}
 
     return str;
