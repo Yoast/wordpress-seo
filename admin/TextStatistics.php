@@ -67,8 +67,7 @@ class Yoast_TextStatistics {
 	 */
 	public function letter_count( $strText ) {
 		$strText       = $this->clean_text( $strText ); // To clear out newlines etc
-		$strText       = preg_replace( '`[^A-Za-z]+`', '', $strText );
-		$intTextLength = strlen( $strText );
+		$intTextLength = preg_match_all( '`[A-Za-z]`', $strText, $matches );
 		return $intTextLength;
 	}
 

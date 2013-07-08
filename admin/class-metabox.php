@@ -1512,7 +1512,7 @@ class WPSEO_Metabox {
 					$imgs['alts'][] = $this->strtolower_utf8( $alt[2] );
 			}
 		}
-		if ( preg_match_all( '/\[gallery/', $post->post_content, $matches ) ) {
+		if ( strpos( $post->post_content, '[gallery' ) !== false ) {
 			$attachments = get_children( array( 'post_parent' => $post->ID, 'post_status' => 'inherit', 'post_type' => 'attachment', 'post_mime_type' => 'image', 'fields' => 'ids' ) );
 			if( is_array( $attachments ) && count( $attachments ) > 0 ) {
 				foreach ( $attachments as $att_id ) {
