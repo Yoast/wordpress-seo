@@ -1020,11 +1020,13 @@ class WPSEO_Frontend {
 	/**
 	 * Removes the ?replytocom variable from the link, replacing it with a #comment-<number> anchor.
 	 *
+	 * @todo Should this function also allow for relative urls ?
+	 *
 	 * @param string $link The comment link as a string.
 	 * @return string
 	 */
 	public function remove_reply_to_com( $link ) {
-		return preg_replace( '`href=\'(?:.*(?:\?|&|&#038;)replytocom=(\d+)#respond)`', 'href=\'#comment-$1', $link );
+		return preg_replace( '`href=(["\'])(?:.*(?:\?|&|&#038;)replytocom=(\d+)#respond)`', 'href=$1#comment-$2', $link );
 	}
 
 	/**
