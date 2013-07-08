@@ -124,9 +124,9 @@ class Yoast_TextStatistics {
 	public function sentence_count( $strText ) {
 		$strText = $this->clean_text( $strText );
 		// Will be tripped up by "Mr." or "U.K.". Not a major concern at this point.
-		// Will also be tripped up by ... or ?! 
+		// [JRF] Will also be tripped up by ... or ?!
 		// @todo May be replace with something along the lines of this - will at least provide better count in ... and ?! situations:
-		// $intSentences = max( 1, preg_match_all( '`[^\.!?]+[\.!?]+([\s]+|$)`u', $strText, $matches ) );
+		// $intSentences = max( 1, preg_match_all( '`[^\.!?]+[\.!?]+([\s]+|$)`u', $strText, $matches ) ); [/JRF]
 		$intSentences = max( 1, $this->text_length( preg_replace( '`[^\.!?]`', '', $strText ) ) );
 		return $intSentences;
 	}
