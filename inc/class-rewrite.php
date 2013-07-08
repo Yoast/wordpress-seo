@@ -68,7 +68,7 @@ class WPSEO_Rewrite {
 
 		$category_base .= '/';
 
-		return preg_replace( '|' . $category_base . '|', '', $link, 1 );
+		return preg_replace( '`' . preg_quote( $category_base, '`' ) . '`', '', $link, 1 );
 	}
 
 	/**

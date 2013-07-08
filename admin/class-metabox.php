@@ -672,9 +672,9 @@ class WPSEO_Metabox {
 
 		if ( empty( $gplus_profile ) )
 			return false;
-		if ( preg_match( '|u/0/([^/]+)/|', $gplus_profile, $match ) )
+		if ( preg_match( '`u/0/([^/]+)/`', $gplus_profile, $match ) )
 			$gplus_id = $match[1];
-		else if ( preg_match( '|\.com/(\d+)|', $gplus_profile, $match ) )
+		else if ( preg_match( '`\.com/(\d+)`', $gplus_profile, $match ) )
 			$gplus_id = $match[1];
 		else
 			return false;
@@ -1090,7 +1090,7 @@ class WPSEO_Metabox {
 		$job     = array();
 
 		$sampleurl             = get_sample_permalink( $post );
-		$job["pageUrl"]        = preg_replace( '/%(post|page)name%/', $sampleurl[1], $sampleurl[0] );
+		$job["pageUrl"]        = preg_replace( '`%(?:post|page)name%`', $sampleurl[1], $sampleurl[0] );
 		$job["pageSlug"]       = urldecode( $post->post_name );
 		$job["keyword"]        = trim( wpseo_get_value( 'focuskw' ) );
 		$job["keyword_folded"] = $this->strip_separators_and_fold( $job["keyword"] );
@@ -1222,7 +1222,7 @@ class WPSEO_Metabox {
 		$inputString = str_replace( $keywordCharactersAlwaysReplacedBySpace, ' ', $inputString );
 
 		// standardise whitespace
-		$inputString = preg_replace( '/\s+/', ' ', $inputString );
+		$inputString = preg_replace( '`\s+`u', ' ', $inputString );
 
 		// deal with the separators that can be either removed or replaced by space
 		if ( $removeOptionalCharacters ) {
@@ -1235,7 +1235,7 @@ class WPSEO_Metabox {
 		}
 
 		// standardise whitespace again
-		$inputString = preg_replace( '/\s+/', ' ', $inputString );
+		$inputString = preg_replace( '`\s+`u', ' ', $inputString );
 
 		return trim( $inputString );
 	}
@@ -1504,11 +1504,11 @@ class WPSEO_Metabox {
 	 * @return array The updated images array.
 	 */
 	function get_images_alt_text( $post, $imgs ) {
-		preg_match_all( '/<img[^>]+>/im', $post->post_content, $matches );
+		preg_match_all( '`<img[^>]+>`im', $post->post_content, $matches );
 		$imgs['alts'] = array();
 		if( is_array( $matches ) && count( $matches ) > 0 ) {
 			foreach ( $matches[0] as $img ) {
-				if ( preg_match( '`alt=("|\')(.*?)\1`', $img, $alt ) && isset( $alt[2] ) )
+				if ( preg_match( '`alt=(["\'])(.*?)\1`', $img, $alt ) && isset( $alt[2] ) )
 					$imgs['alts'][] = $this->strtolower_utf8( $alt[2] );
 			}
 		}
@@ -1566,9 +1566,9 @@ class WPSEO_Metabox {
 	 * @return array Array of heading texts.
 	 */
 	function get_headings( $postcontent ) {
-		preg_match_all( '/<h([1-6])([^>]+)?>(.*)?<\/h\\1>/i', $postcontent, $matches );
+		preg_match_all( '`<h(?:[1-6])(?:[^>]+)?>(.*)?</h\\1>`i', $postcontent, $matches );
 		$headings = array();
-		foreach ( $matches[3] as $heading ) {
+		foreach ( $matches[1] as $heading ) {
 			$headings[] = $this->strtolower_utf8( $heading );
 		}
 		return $headings;
@@ -1649,7 +1649,7 @@ class WPSEO_Metabox {
 		$scoreFlesch = __( "The copy scores %s in the %s test, which is considered %s to read. %s", 'wordpress-seo' );
 
 		// Replace images with their alt tags, then strip all tags
-		$body = preg_replace( '/(<img([^>]+)?alt="([^"]+)"([^>]+)>)/', '$3', $body );
+		$body = preg_replace( '`<img(?:[^>]+)?alt="([^"]+)"(?:[^>]+)>`', '$1', $body );
 		$body = strip_tags( $body );
 
 		// Copy length check
@@ -1676,7 +1676,7 @@ class WPSEO_Metabox {
 			// Keyword Density check
 			$keywordDensity = 0;
 			if ( $wordCount > 100 ) {
-				$keywordCount = preg_match_all( "/" . preg_quote( $job["keyword"], '/' ) . "/msiU", $body, $res );
+				$keywordCount = preg_match_all( '`' . preg_quote( $job["keyword"], '`' ) . '`msiU', $body, $res );
 				if ( $keywordCount > 0 && $keywordWordCount > 0 )
 					$keywordDensity = number_format( ( ( $keywordCount / ( $wordCount - ( ( $keywordWordCount - 1 ) * $keywordWordCount ) ) ) * 100 ), 2 );
 				if ( $keywordDensity < 1 ) {
@@ -1692,7 +1692,7 @@ class WPSEO_Metabox {
 		$firstp = $this->strtolower_utf8( $firstp );
 	
 		// First Paragraph Test
-		if ( !preg_match('`\b'.$job['keyword'].'\b`', $firstp) && !preg_match('`\b'.$job['keyword_folded'].'\b`', $firstp) ) {
+		if ( !preg_match( '`\b' . preg_quote( $job['keyword'], '`' ) . '\b`', $firstp) && !preg_match( '`\b' . preg_quote( $job['keyword_folded'], '`' ) . '\b`', $firstp) ) {
 			$this->save_score_result( $results, 3, $scoreFirstParagraphLow, 'keyword_first_paragraph' );
 		} else {
 			$this->save_score_result( $results, 9, $scoreFirstParagraphHigh, 'keyword_first_paragraph' );
@@ -1748,25 +1748,25 @@ class WPSEO_Metabox {
 		if ( trim( $origHtml ) == '' )
 			return '';
 
-		$htmdata2 = preg_replace( "/\n|\r/", " ", $origHtml );
+		$htmdata2 = preg_replace( '`[\n\r]`', ' ', $origHtml );
 		if ( $htmdata2 == null )
 			$htmdata2 = $origHtml;
 		else
 			unset( $origHtml );
 
-		$htmdata3 = preg_replace( "/<(\x20*script|script).*?(\/>|\/script>)/", "", $htmdata2 );
+		$htmdata3 = preg_replace( '`<(?:\x20*script|script).*?(?:/>|/script>)`', '', $htmdata2 );
 		if ( $htmdata3 == null )
 			$htmdata3 = $htmdata2;
 		else
 			unset( $htmdata2 );
 
-		$htmdata4 = preg_replace( "/<!--.*?-->/", "", $htmdata3 );
+		$htmdata4 = preg_replace( '`<!--.*?-->`', '', $htmdata3 );
 		if ( $htmdata4 == null )
 			$htmdata4 = $htmdata3;
 		else
 			unset( $htmdata3 );
 
-		$htmdata5 = preg_replace( "/<(\x20*style|style).*?(\/>|\/style>)/", "", $htmdata4 );
+		$htmdata5 = preg_replace( '`<(?:\x20*style|style).*?(?:/>|/style>)`', '', $htmdata4 );
 		if ( $htmdata5 == null )
 			$htmdata5 = $htmdata4;
 		else
@@ -1783,7 +1783,7 @@ class WPSEO_Metabox {
 	 */
 	function get_first_paragraph( $post ) {
 		// To determine the first paragraph we first need to autop the content, then match the first paragraph and return.
-		$res = preg_match( '/<p.*?>(.*)<\/p>/', wpautop( $post->post_content ), $matches );
+		$res = preg_match( '`<p[.]*?>(.*)</p>`', wpautop( $post->post_content ), $matches );
 		if ( $res )
 			return $matches[1];
 		return false;

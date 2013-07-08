@@ -103,6 +103,7 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 
 == Changelog ==
 
+	* Applied best practices to all uses of preg_ functions - props [Jrf](http://profiles.wordpress.org/jrf).
 = 1.4.13 =
 
 * Bugfixes

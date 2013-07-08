@@ -562,7 +562,8 @@ class WPSEO_Admin {
 				$stopWord = str_replace( "'", "", $stopWord );
 
 			// Check whether the stopword appears as a whole word
-			$res = preg_match( "/(^|[ \n\r\t\.,'\(\)\"\+;!?:])" . preg_quote( $stopWord, '/' ) . "($|[ \n\r\t\.,'\(\)\"\+;!?:])/i", $haystack, $match );
+			// @todo check whether the use of \b (=word boundary) would be more efficient ;-)
+			$res = preg_match( "`(^|[ \n\r\t\.,'\(\)\"\+;!?:])" . preg_quote( $stopWord, '`' ) . "($|[ \n\r\t\.,'\(\)\"\+;!?:])`iu", $haystack, $match );
 			if ( $res > 0 )
 				return $stopWord;
 		}

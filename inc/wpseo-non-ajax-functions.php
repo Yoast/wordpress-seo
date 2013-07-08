@@ -136,7 +136,7 @@ function wpseo_title_test() {
 	// echo '<pre>'.$resp['body'].'</pre>';
 
 	if ( $resp && !is_wp_error( $resp ) && 200 == $resp['response']['code'] ) {
-		$res = preg_match( '/<title>([^<]+)<\/title>/im', $resp['body'], $matches );
+		$res = preg_match( '`<title>([^<]+)</title>`im', $resp['body'], $matches );
 
 		if ( $res && strcmp( $matches[1], $expected_title ) !== 0 ) {
 			$options['forcerewritetitle'] = 'on';
@@ -144,7 +144,7 @@ function wpseo_title_test() {
 
 			$resp = wp_remote_get( get_bloginfo( 'url' ), $args );
 
-			$res = preg_match( '/<title>([^>]+)<\/title>/im', $resp['body'], $matches );
+			$res = preg_match( '`/<title>([^>]+)</title>`im', $resp['body'], $matches );
 		}
 
 		if ( !$res || $matches[1] != $expected_title )
@@ -255,7 +255,7 @@ function wpseo_admin_bar_menu() {
 
 	if ( !is_admin() ) {
 		$wp_admin_bar->add_menu( array( 'parent' => 'wpseo-menu', 'id' => 'wpseo-analysis', 'title' => __( 'Analyze this page', 'wordpress-seo' ), '#', ) );
-		$wp_admin_bar->add_menu( array( 'parent' => 'wpseo-analysis', 'id' => 'wpseo-inlinks-ose', 'title' => __( 'Check Inlinks (OSE)', 'wordpress-seo' ), 'href' => 'http://www.opensiteexplorer.org/' . str_replace( '/', '%252F', preg_replace( '/^https?:\/\//', '', $url ) ) . '/a!links', 'meta' => array( 'target' => '_blank' ) ) );
+		$wp_admin_bar->add_menu( array( 'parent' => 'wpseo-analysis', 'id' => 'wpseo-inlinks-ose', 'title' => __( 'Check Inlinks (OSE)', 'wordpress-seo' ), 'href' => 'http://www.opensiteexplorer.org/' . str_replace( '/', '%252F', preg_replace( '`^http[s]?://`', '', $url ) ) . '/a!links', 'meta' => array( 'target' => '_blank' ) ) );
 		$wp_admin_bar->add_menu( array( 'parent' => 'wpseo-analysis', 'id' => 'wpseo-kwdensity', 'title' => __( 'Check Keyword Density', 'wordpress-seo' ), 'href' => 'http://tools.davidnaylor.co.uk/keyworddensity/index.php?url=' . $url . '&keyword=' . urlencode( $focuskw ), 'meta' => array( 'target' => '_blank' ) ) );
 		$wp_admin_bar->add_menu( array( 'parent' => 'wpseo-analysis', 'id' => 'wpseo-cache', 'title' => __( 'Check Google Cache', 'wordpress-seo' ), 'href' => 'http://webcache.googleusercontent.com/search?strip=1&q=cache:' . $url, 'meta' => array( 'target' => '_blank' ) ) );
 		$wp_admin_bar->add_menu( array( 'parent' => 'wpseo-analysis', 'id' => 'wpseo-header', 'title' => __( 'Check Headers', 'wordpress-seo' ), 'href' => 'http://quixapp.com/headers/?r=' . urlencode( $url ), 'meta' => array( 'target' => '_blank' ) ) );
