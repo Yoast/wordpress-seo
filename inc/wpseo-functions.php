@@ -229,7 +229,19 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 		global $post;
 		foreach ( $matches as $match ) {
 			$terms  = get_the_terms( $post->ID, $match[1] );
-			$string = str_replace( $match[0], get_term_field( 'description', $terms[0]->term_id, $match[1] ), $string );
+			if( is_array( $terms ) && count( $terms ) > 0 ) {
+				$string = str_replace( $match[0], get_term_field( 'description', $terms[0]->term_id, $match[1] ), $string );
+			}
+			else {
+				// Make sure that the variable is removed
+				$string = str_replace( $match[0], '', $string );
+
+				/* Check for WP_Error object (=invalid taxonomy entered) and if it's an error,
+				 notify in admin dashboard */
+				if( is_wp_error( $terms ) && is_admin() ) {
+					add_action( 'wpseo_all_admin_notices', 'wpseo_invalid_custom_taxonomy' );
+				}
+			}
 		}
 	}
 
