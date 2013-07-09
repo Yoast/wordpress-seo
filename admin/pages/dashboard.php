@@ -301,15 +301,6 @@ function wpseo_deactivate_aioseo_notice() {
 }
 
 
-/**
- * Throw a notice about an invalid custom taxonomy used
- *
- * @since 1.4.14
- */
-function wpseo_invalid_custom_taxonomy() {
-	echo '<div class="error"><p>' . sprintf( __( 'The taxonomy you used in (one of your) %s variables is <strong>invalid</strong>. Please %sadjust your settings%s.' ), '%%ct_desc_<custom-tax-name>%%', '<a href="' . admin_url( 'admin.php?page=wpseo_titles#top#taxonomies' ) . '">', '</a>' ) . '</p></div>';
-}
-
 
 // TODO: consider moving this to a utility class. Currently being used in import.php also.
 

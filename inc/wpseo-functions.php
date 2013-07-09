@@ -239,7 +239,7 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 				/* Check for WP_Error object (=invalid taxonomy entered) and if it's an error,
 				 notify in admin dashboard */
 				if( is_wp_error( $terms ) && is_admin() ) {
-					add_action( 'wpseo_all_admin_notices', 'wpseo_invalid_custom_taxonomy' );
+					add_action( 'admin_notices', 'wpseo_invalid_custom_taxonomy' );
 				}
 			}
 		}
@@ -259,6 +259,18 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 	$string = preg_replace( '/\s+/u', ' ', $string );
 	return trim( $string );
 }
+
+
+/**
+ * Throw a notice about an invalid custom taxonomy used
+ *
+ * @since 1.4.14
+ */
+function wpseo_invalid_custom_taxonomy() {
+	echo '<div class="error"><p>' . sprintf( __( 'The taxonomy you used in (one of your) %s variables is <strong>invalid</strong>. Please %sadjust your settings%s.' ), '%%ct_desc_<custom-tax-name>%%', '<a href="' . admin_url( 'admin.php?page=wpseo_titles#top#taxonomies' ) . '">', '</a>' ) . '</p></div>';
+}
+
+
 
 /**
  * Retrieve a post's terms, comma delimited.
