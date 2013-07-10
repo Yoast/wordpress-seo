@@ -209,7 +209,7 @@ table.wpseoanalysis td.score {
 
 /* Component containers
 ----------------------------------*/
-.ui-widget-content {
+.ui-widget-content-wpseo {
 	border: 1px solid #dddddd;
 	background: #f1f1f1;
 	color: #333;
