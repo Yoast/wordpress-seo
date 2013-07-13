@@ -298,7 +298,7 @@ add_action( 'admin_bar_menu', 'wpseo_admin_bar_menu', 95 );
  */
 function wpseo_admin_bar_css() {
 	if ( is_admin_bar_showing() && is_singular() )
-		wp_enqueue_style( 'boxes', WPSEO_URL . 'css/adminbar.css', WPSEO_VERSION );
+		wp_enqueue_style( 'boxes', WPSEO_URL . 'css/adminbar.css', array(), WPSEO_VERSION );
 }
 
 add_action( 'wp_enqueue_scripts', 'wpseo_admin_bar_css' );

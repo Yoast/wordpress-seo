@@ -103,6 +103,10 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 
 == Changelog ==
 
+* Bugfixes
+	* Fixed small issue with how styles where enqueued/registered - props [Jrf](http://profiles.wordpress.org/jrf).
+
+
 = 1.4.13 =
 
 * Bugfixes
