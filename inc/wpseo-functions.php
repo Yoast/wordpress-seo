@@ -257,27 +257,35 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
  * @return string either a single term or a comma delimited string of terms.
  */
 function wpseo_get_terms( $id, $taxonomy, $return_single = false ) {
-	// If we're on a specific tag, category or taxonomy page, return that and bail.
+
+	$output = '';
+
+	// If we're on a specific tag, category or taxonomy page, use that.
 	if ( is_category() || is_tag() || is_tax() ) {
 		global $wp_query;
 		$term = $wp_query->get_queried_object();
-		return $term->name;
+		$output = $term->name;
 	}
-
-	if ( empty( $id ) || empty( $taxonomy ) )
-		return '';
-
-	$output = '';
-	$terms  = get_the_terms( $id, $taxonomy );
-	if ( $terms ) {
-		foreach ( $terms as $term ) {
-			if ( $return_single )
-				return $term->name;
-			$output .= $term->name . ', ';
+	else if ( !empty( $id ) && !empty( $taxonomy ) ) {
+		$terms  = get_the_terms( $id, $taxonomy );
+		if ( $terms ) {
+			foreach ( $terms as $term ) {
+				if ( $return_single ) {
+					$output = $term->name;
+					break;
+				}
+				else {
+					$output .= $term->name . ', ';
+				}
+			}
+			$output = rtrim( trim( $output ), ',' );
 		}
-		return rtrim( trim( $output ), ',' );
 	}
-	return '';
+	/**
+	 * Allows filtering of the terms list used to replace %%category%%, %%tag%% and %%ct_<custom-tax-name>%% variables
+	 * @api	string	$output	Comma-delimited string containing the terms
+	 */
+	return apply_filters( 'wpseo_terms', $output );
 }
 
 /**
