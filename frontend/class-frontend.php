@@ -1236,7 +1236,7 @@ class WPSEO_Frontend {
 				$after = ( $after !== '' ) ? '<p>' . $after . '</p>' : '';
 			}
 			if ( $before !== '' || $after !== '' ) {
-				if ( isset( $context ) && $context === 'excerpt' ) {
+				if ( ( isset( $context ) && $context === 'excerpt' ) && trim( $content ) !== '' ) {
 					$content = '<p>' . $content . '</p>';
 				}
 				$content = $before . $content . $after;
