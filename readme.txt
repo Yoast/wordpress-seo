@@ -103,6 +103,8 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 
 == Changelog ==
 
+	* Updated Facebook supported locales list for og:locale
+
 = 1.4.13 =
 
 * Bugfixes
