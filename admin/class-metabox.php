@@ -762,10 +762,10 @@ class WPSEO_Metabox {
 
 		global $pagenow;
 		if ( $pagenow == 'edit.php' ) {
-			wp_enqueue_style( 'edit-page', WPSEO_URL . 'css/edit-page.css', WPSEO_VERSION );
+			wp_enqueue_style( 'edit-page', WPSEO_URL . 'css/edit-page.css', array(), WPSEO_VERSION );
 		} else {
-			wp_enqueue_style( 'metabox-tabs', WPSEO_URL . 'css/metabox-tabs.css', WPSEO_VERSION );
-			wp_enqueue_style( "metabox-$color", WPSEO_URL . 'css/metabox-' . esc_attr( $color ) . '.css', WPSEO_VERSION );
+			wp_enqueue_style( 'metabox-tabs', WPSEO_URL . 'css/metabox-tabs.css', array(), WPSEO_VERSION );
+			wp_enqueue_style( "metabox-$color", WPSEO_URL . 'css/metabox-' . esc_attr( $color ) . '.css', array(), WPSEO_VERSION );
 
 			wp_enqueue_script( 'jquery-ui-autocomplete', WPSEO_URL . 'js/jquery-ui-autocomplete.min.js', array( 'jquery', 'jquery-ui-core' ), WPSEO_VERSION, true );
 			wp_enqueue_script( 'jquery-qtip', WPSEO_URL . 'js/jquery.qtip.min.js', array( 'jquery' ), '1.0.0-RC3', true );
