@@ -5,10 +5,12 @@
  * @package Admin
  */
 
-if ( !defined( 'WPSEO_VERSION' ) ) {
-	header( 'HTTP/1.0 403 Forbidden' );
-	die;
+if ( ! function_exists( 'add_filter' ) ) {
+	header('Status: 403 Forbidden');
+	header('HTTP/1.1 403 Forbidden');
+	exit();
 }
+
 global $wpseo_admin_pages;
 
 $options = get_option( 'wpseo' );

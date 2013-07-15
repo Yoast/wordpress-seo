@@ -5,9 +5,10 @@
  * Main frontend code.
  */
 
-if ( ! defined( 'WPSEO_VERSION' ) ) {
-	header( 'HTTP/1.0 403 Forbidden' );
-	die;
+if ( ! function_exists( 'add_filter' ) ) {
+	header('Status: 403 Forbidden');
+	header('HTTP/1.1 403 Forbidden');
+	exit();
 }
 
 /**
@@ -77,8 +78,8 @@ class WPSEO_Frontend {
 		}
 
 		if ( ( isset( $this->options['disable-date'] ) && $this->options['disable-date'] ) ||
-				( isset( $this->options['disable-author'] ) && $this->options['disable-author'] ) ||
-				( isset( $this->options['disable-post_formats'] ) && $this->options['disable-post_formats'] )
+			( isset( $this->options['disable-author'] ) && $this->options['disable-author'] ) ||
+			( isset( $this->options['disable-post_formats'] ) && $this->options['disable-post_formats'] )
 		)
 			add_action( 'wp', array( $this, 'archive_redirect' ) );
 
@@ -577,9 +578,9 @@ class WPSEO_Frontend {
 					$robots['index'] = 'index';
 			}
 			else if (
-					( is_author() && isset( $this->options['noindex-author'] ) && $this->options['noindex-author'] ) ||
-					( is_date() && isset( $this->options['noindex-archive'] ) && $this->options['noindex-archive'] ) ||
-					( is_home() && get_query_var( 'paged' ) > 1 )
+				( is_author() && isset( $this->options['noindex-author'] ) && $this->options['noindex-author'] ) ||
+				( is_date() && isset( $this->options['noindex-archive'] ) && $this->options['noindex-archive'] ) ||
+				( is_home() && get_query_var( 'paged' ) > 1 )
 			) {
 				$robots['index'] = 'noindex';
 			}
@@ -968,7 +969,7 @@ class WPSEO_Frontend {
 			else if ( is_archive() ) {
 				if ( isset( $this->options['metadesc-archive'] ) && '' != $this->options['metadesc-archive'] ) {
 					$metadesc = wpseo_replace_vars( $this->options['metadesc-archive'], (array) $wp_query->get_queried_object() );
-				}
+		}
 			}
 		}
 
@@ -1039,9 +1040,9 @@ class WPSEO_Frontend {
 		global $wp_query;
 
 		if (
-				( isset( $this->options['disable-date'] ) && $this->options['disable-date'] && $wp_query->is_date ) ||
-				( isset( $this->options['disable-author'] ) && $this->options['disable-author'] && $wp_query->is_author ) ||
-				( isset( $this->options['disable-post_formats'] ) && $this->options['disable-post_formats'] && $wp_query->is_tax( 'post_format' ) )
+			( isset( $this->options['disable-date'] ) && $this->options['disable-date'] && $wp_query->is_date ) ||
+			( isset( $this->options['disable-author'] ) && $this->options['disable-author'] && $wp_query->is_author ) ||
+			( isset( $this->options['disable-post_formats'] ) && $this->options['disable-post_formats'] && $wp_query->is_tax( 'post_format' ) )
 		) {
 			wp_safe_redirect( get_bloginfo( 'url' ), 301 );
 			exit;
