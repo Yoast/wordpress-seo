@@ -287,7 +287,12 @@ class WPSEO_Breadcrumbs {
 					$archive_title = $opt['bctitle-ptarchive-' . $link['ptarchive']];
 				} else {
 					$post_type_obj = get_post_type_object( $link['ptarchive'] );
-					$archive_title = $post_type_obj->labels->menu_name;
+					if( isset( $post_type_obj->label ) && $post_type_obj->label !== '' ) {
+						$archive_title = $post_type_obj->label;
+					}
+					else {
+						$archive_title = $post_type_obj->labels->menu_name;
+					}
 				}
 				$link['url']  = get_post_type_archive_link( $link['ptarchive'] );
 				$link['text'] = $archive_title;
