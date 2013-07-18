@@ -542,3 +542,42 @@ function create_type_sitemap_template( $post_type ) {
 	$output .= '<br />';
 	return $output;
 }
+
+
+/**
+ * Handler for the [yoast_breadcrumb] shortcode, which displays the breadcrumb using a shortcode.
+ *
+ * If the breadcrumb feature is disabled, then this shortcode outputs nothing.
+ *
+ * Supported arguments, both of which are optional:
+ *
+ * before: The prefix for the breadcrumb, usually something like "You're here". Can also be HTML such as <p>.
+ * after:  The suffix for the breadcrumb. Can also be HTML such as </p>.
+ *
+ * Examples:
+ *
+ * [yoast_breadcrumb]
+ * [yoast_breadcrumb before='<p class="breadcrumb">You are here: ' after='</p>']
+ *
+ * @since 1.4.14
+ *
+ * @param array $atts shortcode attributes/arguments
+ *
+ * @return string Shortcode output
+ */
+function yoast_breadcrumb_shortcode_handler( $atts = array() ) {
+	$defaults = array(
+		'before' => '',
+		'after'  => ''
+	);
+
+	if ( function_exists( 'yoast_breadcrumb' ) ) {
+		$atts = shortcode_atts( $defaults, $atts );
+		return yoast_breadcrumb( $atts['before'], $atts['after'], false );
+	} else {
+		// Breadcrumb feature disabled
+		return '';
+	}
+}
+
+add_shortcode( 'yoast_breadcrumb', 'yoast_breadcrumb_shortcode_handler' );

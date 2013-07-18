@@ -103,6 +103,11 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 
 == Changelog ==
 
+= 1.4.14 =
+
+* Enhancements
+	* New [yoast_breadcrumb] shortcode, for displaying the breadcrumb without needing to add a function call to your theme.
+
 = 1.4.13 =
 
 * Bugfixes
