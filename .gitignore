@@ -1,54 +1,49 @@
 # folders and files to be ignored by git
 
-#################
-## Eclipse
-#################
+############
+## IDEs
+############
 
 *.pydevproject
 .project
 .metadata
-bin/
-tmp/
-*.tmp
-*.bak
 *.swp
 *~.nib
 local.properties
 .classpath
 .settings/
 .loadpath
-
-# External tool builders
 .externalToolBuilders/
-
-# Locally stored "Eclipse launch configurations"
 *.launch
-
-# CDT-specific
 .cproject
-
-# PDT-specific
 .buildpath
-
-############
-## OS
-############
-
-# Windows image file caches
-Thumbs.db
-
-# Folder config file
-Desktop.ini
-
-# OSX Desktop Services Store
-.DS_store
-
-#################
-## Misc
-#################
-
-# Netbeans project meta data
 nbproject/
 
-# SVN
+############
+## OSes
+############
+
+[Tt]humbs.db
+[Dd]esktop.ini
+*.DS_store
+.DS_store?
+
+############
+## Misc
+############
+
+bin/
+tmp/
+*.tmp
+*.bak
+*.log
+*.[Cc]ache
+*.cpr
+*.orig
+*.php.in
+.idea/
+temp/
+._*
+.Trashes
+
 .svn
