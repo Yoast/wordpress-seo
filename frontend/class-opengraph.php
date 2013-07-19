@@ -289,7 +289,11 @@ class WPSEO_OpenGraph extends WPSEO_Frontend {
 				$this->image_output( $thumb[0] );
 			}
 
-			if ( preg_match_all( '/<img [^>]+>/', $post->post_content, $matches ) ) {
+			$content = $post->post_content;
+			if( strpos( $content, '[' ) !== false && strpos( $content, ']' ) !== false ) {
+				$content = do_shortcode( $content );
+			}
+			if ( preg_match_all( '/<img [^>]+>/', $content, $matches ) ) {
 				foreach ( $matches[0] as $img ) {
 					if ( preg_match( '/src=("|\')(.*?)\1/', $img, $match ) )
 						$this->image_output( $match[2] );

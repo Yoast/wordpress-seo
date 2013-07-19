@@ -103,6 +103,10 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 
 == Changelog ==
 
+* Enhancements
+	* OpenGraph image tags will now also be added for images added to the post via shortcodes, as suggested by [msebald](http://wordpress.org/support/topic/ogimage-set-to-default-image-but-articlepage-has-own-images?replies=3#post-4436317) - props [Jrf](http://profiles.wordpress.org/jrf).
+
+
 = 1.4.13 =
 
 * Bugfixes
