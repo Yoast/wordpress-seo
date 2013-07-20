@@ -139,7 +139,7 @@ if ( $error )
 
 <h2 class="nav-tab-wrapper" id="wpseo-tabs">
 	<a class="nav-tab nav-tab-active" id="facebook-tab" href="#top#facebook"><?php _e( 'Facebook', 'wordpress-seo' );?></a>
-	<a class="nav-tab" id="twitter-tab" href="#top#twitterbox"><?php _e( 'Twitter', 'wordpress-seo' );?></a>
+	<a class="nav-tab" id="twitterbox-tab" href="#top#twitterbox"><?php _e( 'Twitter', 'wordpress-seo' );?></a>
 	<a class="nav-tab" id="google-tab" href="#top#google"><?php _e( 'Google+', 'wordpress-seo' );?></a>
 </h2>
 
