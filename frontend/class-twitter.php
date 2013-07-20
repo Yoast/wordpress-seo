@@ -65,7 +65,7 @@ class WPSEO_Twitter extends WPSEO_Frontend {
 	 */
 	public function type() {
 		$type = apply_filters( 'wpseo_twitter_card_type', 'summary' );
-		if( !in_array( $type, array( 'summary', 'summary_large_image', 'photo', 'gallery', 'app', 'player', 'product' ) )
+		if( !in_array( $type, array( 'summary', 'summary_large_image', 'photo', 'gallery', 'app', 'player', 'product' ) ) )
 			$type = 'summary';
 
 		echo '<meta name="twitter:card" content="' . esc_attr( $type ) . '"/>' . "\n";
@@ -103,6 +103,7 @@ class WPSEO_Twitter extends WPSEO_Frontend {
 			$twitter = apply_filters( 'wpseo_twitter_creator_account', ltrim( trim( $this->options['twitter_site'] ), '@' ) );
 			if( is_string( $twitter ) && $twitter !== '' )
 				echo '<meta name="twitter:creator" content="@' . esc_attr( $twitter ) . '"/>' . "\n";
+		}
 	}
 
 	/**
