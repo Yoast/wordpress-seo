@@ -38,12 +38,55 @@ aioseo_handler();
 do_action( 'wpseo_all_admin_notices' );
 
 echo $wpseo_admin_pages->hidden( 'ignore_blog_public_warning' );
+echo $wpseo_admin_pages->hidden( 'ignore_meta_description_warning' );
 echo $wpseo_admin_pages->hidden( 'ignore_tour' );
 echo $wpseo_admin_pages->hidden( 'ignore_page_comments' );
 echo $wpseo_admin_pages->hidden( 'ignore_permalink' );
 echo $wpseo_admin_pages->hidden( 'ms_defaults_set' );
 echo $wpseo_admin_pages->hidden( 'version' );
 echo $wpseo_admin_pages->hidden( 'tracking_popup' );
+
+// Fix metadescription if so requested
+if ( isset( $_GET['fixmetadesc'] ) && check_admin_referer( 'wpseo-fix-metadesc', 'nonce' ) && isset( $options['theme_check'] ) && isset( $options['theme_check']['description_found'] ) && $options['theme_check']['description_found'] ) {
+	$path = false;
+	if ( file_exists( get_stylesheet_directory() . '/header.php' ) ) {
+		// theme or child theme
+		$path = get_stylesheet_directory();
+	}
+	else if ( file_exists( get_template_directory() . '/header.php' ) ) {
+		// parent theme in case of a child theme
+		$path = get_template_directory();
+	}
+
+	if ( is_string( $path ) && $path !== '' ) {
+		$fcontent    = file_get_contents( $path . '/header.php' );
+		$msg         = '';
+		$backup_file = date( 'Ymd-H.i.s-' ) . 'header.php.wpseobak';
+		if ( !file_exists( $path . '/' . $backup_file ) ) {
+			$backupfile = fopen( $path . '/' . $backup_file, 'w+' );
+			if ( $backupfile ) {
+				fwrite( $backupfile, $fcontent );
+				fclose( $backupfile );
+				$msg = __( 'Backed up the original file header.php to <strong><em>' . $backup_file . '</em></strong>, ', 'wordpress-seo' );
+	
+				$count    = 0;
+				$fcontent = str_replace( $options['theme_check']['description_found'], '', $fcontent, $count );
+				if ( $count > 0 ) {
+					$header_file = fopen( $path . '/header.php', 'w+' );
+					if ( $header_file ) {
+						fwrite( $header_file, $fcontent );
+						fclose( $header_file );
+						$msg .= __( 'Removed hardcoded meta description.', 'wordpress-seo' );
+					}
+				}
+				unset( $options['theme_check']['description_found'] );
+				update_option( 'wpseo', $options );
+				
+				echo '<div class="updated"><p>' . $msg . '</p></div>';
+			}
+		}
+	}
+}
 
 if ( isset( $options['blocking_files'] ) && is_array( $options['blocking_files'] ) && count( $options['blocking_files'] ) > 0 ) {
 	$options['blocking_files'] = array_unique( $options['blocking_files'] );
@@ -57,56 +100,22 @@ if ( isset( $options['blocking_files'] ) && is_array( $options['blocking_files']
 	echo '</p>';
 }
 
-if ( isset( $_GET['fixmetadesc'] ) && check_admin_referer( 'wpseo-fix-metadesc', 'nonce' ) && isset( $options['theme_check'] ) && isset( $options['theme_check']['description_found'] ) && $options['theme_check']['description_found'] ) {
-	$fcontent = file_get_contents( TEMPLATEPATH . '/header.php' );
-	$msg      = '';
-	if ( !file_exists( TEMPLATEPATH . '/header.php.wpseobak' ) ) {
-		$backupfile = fopen( TEMPLATEPATH . '/header.php.wpseobak', 'w+' );
-		if ( $backupfile ) {
-			fwrite( $backupfile, $fcontent );
-			fclose( $backupfile );
-			$msg = __( 'Backed up the original file header.php to header.php.wpseobak, ', 'wordpress-seo' );
 
-			$count    = 0;
-			$fcontent = str_replace( $options['theme_check']['description_found'], '', $fcontent, $count );
-			if ( $count > 0 ) {
-				$header_file = fopen( TEMPLATEPATH . '/header.php', 'w+' );
-				if ( $header_file ) {
-					fwrite( $header_file, $fcontent );
-					fclose( $header_file );
-					$msg .= __( 'Removed hardcoded meta description.', 'wordpress-seo' );
-				}
-			}
-			unset( $options['theme_check']['description_found'] );
-			update_option( 'wpseo', $options );
-		}
-	}
+if ( ( ( !isset( $options['theme_check']['description'] ) && !isset( $options['theme_check']['description_found'] ) ) || ( ( isset( $options['theme_check'] ) && isset( $options['theme_check']['description'] ) ) && $options['theme_check']['description'] !== true ) ) || ( ( isset( $_GET['checkmetadesc'] ) && check_admin_referer( 'wpseo-check-metadesc', 'nonce' ) ) && ( ( isset( $options['theme_check'] ) && isset( $options['theme_check']['description_found'] ) ) && $options['theme_check']['description_found'] ) ) ) {
+	wpseo_description_test();
+	// Renew the options after the test
+	$options = get_option( 'wpseo' );
 }
 
-if ( !isset( $options['theme_check']['description'] ) ) {
-	if ( file_exists( TEMPLATEPATH . '/header.php' ) ) {
-		$header_file = file_get_contents( TEMPLATEPATH . '/header.php' );
-		$issue       = preg_match_all( '#<\s*meta\s*(name|content)\s*=\s*("|\')(.*)("|\')\s*(name|content)\s*=\s*("|\')(.*)("|\')(\s+)?/?>#i', $header_file, $matches, PREG_SET_ORDER );
-		if ( !$issue ) {
-			$options['theme_check']['description'] = true;
-		} else {
-			foreach ( $matches as $meta ) {
-				if ( ( strtolower( $meta[1] ) == 'name' && strtolower( $meta[3] ) == 'description' ) || ( strtolower( $meta[5] ) == 'name' && strtolower( $meta[7] ) == 'description' ) ) {
-					$options['theme_check']['description_found'] = $meta[0];
-				}
-			}
-		}
-		update_option( 'wpseo', $options );
-	}
-
-	if ( isset( $options['theme_check'] ) && isset( $options['theme_check']['description_found'] ) && $options['theme_check']['description_found'] ) {
-		echo '<p id="metadesc_found notice" class="wrong settings_error">'
-			. '<a href="' . admin_url( 'admin.php?page=wpseo_dashboard&fixmetadesc&nonce=' . wp_create_nonce( 'wpseo-fix-metadesc' ) ) . '" class="button fixit">' . __( 'Fix it.', 'wordpress-seo' ) . '</a>'
-			. __( 'Your theme contains a meta description, which blocks WordPress SEO from working properly, please delete the following line, or press fix it:', 'wordpress-seo' ) . '<br />';
-		echo '<code>' . htmlentities( $options['theme_check']['description_found'] ) . '</code>';
-		echo '</p>';
-	}
+if ( isset( $options['theme_check'] ) && isset( $options['theme_check']['description_found'] ) && $options['theme_check']['description_found'] ) {
+	echo '<p id="metadesc_found notice" class="wrong settings_error">'
+		. '<a href="' . admin_url( 'admin.php?page=wpseo_dashboard&fixmetadesc&nonce=' . wp_create_nonce( 'wpseo-fix-metadesc' ) ) . '" class="button fixit">' . __( 'Fix it.', 'wordpress-seo' ) . '</a>'
+		. ' <a href="' . admin_url( 'admin.php?page=wpseo_dashboard&checkmetadesc&nonce=' . wp_create_nonce( 'wpseo-check-metadesc' ) ) . '" class="button checkit">' . __( 'Re-check theme.', 'wordpress-seo' ) . '</a>'
+		. __( 'Your theme contains a meta description, which blocks WordPress SEO from working properly, please delete the following line, or press fix it:', 'wordpress-seo' ) . '<br />';
+	echo '<code>' . htmlentities( $options['theme_check']['description_found'] ) . '</code>';
+	echo '</p>';
 }
+
 
 if ( strpos( get_option( 'permalink_structure' ), '%postname%' ) === false && !isset( $options['ignore_permalink'] ) )
 	echo '<p id="wrong_permalink" class="wrong">'
