@@ -1676,7 +1676,7 @@ class WPSEO_Metabox {
 			// Keyword Density check
 			$keywordDensity = 0;
 			if ( $wordCount > 100 ) {
-				$keywordCount = preg_match_all( '`' . preg_quote( $job["keyword"], '`' ) . '`msiU', $body, $res );
+				$keywordCount = preg_match_all( '`' . preg_quote( $job["keyword"], '`' ) . '`msiuU', $body, $res );
 				if ( $keywordCount > 0 && $keywordWordCount > 0 )
 					$keywordDensity = number_format( ( ( $keywordCount / ( $wordCount - ( ( $keywordWordCount - 1 ) * $keywordWordCount ) ) ) * 100 ), 2 );
 				if ( $keywordDensity < 1 ) {
@@ -1692,7 +1692,7 @@ class WPSEO_Metabox {
 		$firstp = $this->strtolower_utf8( $firstp );
 	
 		// First Paragraph Test
-		if ( !preg_match( '`\b' . preg_quote( $job['keyword'], '`' ) . '\b`', $firstp) && !preg_match( '`\b' . preg_quote( $job['keyword_folded'], '`' ) . '\b`', $firstp) ) {
+		if ( !preg_match( '`\b' . preg_quote( $job['keyword'], '`' ) . '\b`u', $firstp) && !preg_match( '`\b' . preg_quote( $job['keyword_folded'], '`' ) . '\b`u', $firstp) ) {
 			$this->save_score_result( $results, 3, $scoreFirstParagraphLow, 'keyword_first_paragraph' );
 		} else {
 			$this->save_score_result( $results, 9, $scoreFirstParagraphHigh, 'keyword_first_paragraph' );
