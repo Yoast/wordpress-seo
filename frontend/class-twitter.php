@@ -10,6 +10,8 @@ if ( !defined('WPSEO_VERSION') ) {
 
 /**
  * This class handles the Twitter card functionality.
+ *
+ * @link https://dev.twitter.com/docs/cards
  */
 class WPSEO_Twitter extends WPSEO_Frontend {
 
@@ -62,22 +64,29 @@ class WPSEO_Twitter extends WPSEO_Frontend {
 	 * This defaults to summary but can be filtered using the <code>wpseo_twitter_card_type</code> filter.
 	 */
 	public function type() {
-		echo '<meta name="twitter:card" content="' . apply_filters( 'wpseo_twitter_card_type', 'summary' ) . '"/>' . "\n";
+		$type = apply_filters( 'wpseo_twitter_card_type', 'summary' );
+		if( !in_array( $type, array( 'summary', 'summary_large_image', 'photo', 'gallery', 'app', 'player', 'product' ) )
+			$type = 'summary';
+
+		echo '<meta name="twitter:card" content="' . esc_attr( $type ) . '"/>' . "\n";
 	}
 
 	/**
 	 * Displays the Twitter account for the site.
 	 */
 	public function site_twitter() {
-		if ( isset( $this->options['twitter_site'] ) )
-			echo '<meta name="twitter:site" content="@' . apply_filters( 'wpseo_twitter_site', ltrim( trim( $this->options['twitter_site'] ), '@' ) ) . '"/>' . "\n";
+		$site = apply_filters( 'wpseo_twitter_site', ltrim( trim( $this->options['twitter_site'] ), '@' ) );
+		if ( $site && ( is_string( $site ) && $site !== '' ) )
+			echo '<meta name="twitter:site" content="@' . esc_attr( $site ) . '"/>' . "\n";
 	}
 	
 	/**
 	 * Displays the domain tag for the site.
 	 */
 	public function site_domain() {
-		echo '<meta name="twitter:domain" content="' . apply_filters( 'wpseo_twitter_domain', get_bloginfo( 'name' ) ) . '"/>' . "\n";
+		$domain = apply_filters( 'wpseo_twitter_domain', get_bloginfo( 'name' ) );
+		if( is_string( $domain ) && $domain !== '' )
+			echo '<meta name="twitter:domain" content="' . esc_attr( $domain ) . '"/>' . "\n";
 	}
 
 	/**
@@ -85,12 +94,15 @@ class WPSEO_Twitter extends WPSEO_Frontend {
 	 */
 	public function author_twitter() {
 		$twitter = ltrim( trim( get_the_author_meta( 'twitter' ) ), '@' );
+		$twitter = apply_filters( 'wpseo_twitter_creator_account', $twitter );
 
-		if ( $twitter && !empty( $twitter ) )
-			echo '<meta name="twitter:creator" content="@' . apply_filters( 'wpseo_twitter_creator_account', $twitter ) . '"/>' . "\n";
+		if ( $twitter && ( is_string( $twitter ) && $twitter !== '' ) )
+			echo '<meta name="twitter:creator" content="@' . esc_attr( $twitter ) . '"/>' . "\n";
 			
-		else if ( isset( $this->options['twitter_site'] ) )
-			echo '<meta name="twitter:creator" content="@' . apply_filters( 'wpseo_twitter_creator_account', ltrim( trim( $this->options['twitter_site'] ), '@' ) ) . '"/>' . "\n";
+		else if ( isset( $this->options['twitter_site'] ) ) {
+			$twitter = apply_filters( 'wpseo_twitter_creator_account', ltrim( trim( $this->options['twitter_site'] ), '@' ) );
+			if( is_string( $twitter ) && $twitter !== '' )
+				echo '<meta name="twitter:creator" content="@' . esc_attr( $twitter ) . '"/>' . "\n";
 	}
 
 	/**
@@ -99,7 +111,9 @@ class WPSEO_Twitter extends WPSEO_Frontend {
 	 * Only used when OpenGraph is inactive.
 	 */
 	public function twitter_title() {
-		echo '<meta name="twitter:title" content="' . apply_filters( 'wpseo_twitter_title', $this->title( '' ) ) . '"/>' . "\n";
+		$title = apply_filters( 'wpseo_twitter_title', $this->title( '' ) );
+		if( is_string( $title ) && $title !== '' )
+			echo '<meta name="twitter:title" content="' . esc_attr( $title ) . '"/>' . "\n";
 	}
 
 	/**
@@ -118,7 +132,9 @@ class WPSEO_Twitter extends WPSEO_Frontend {
 			$metadesc = strip_tags( get_the_excerpt() );
 		}
 
-		echo '<meta name="twitter:description" content="' . apply_filters( 'wpseo_twitter_description', esc_attr( $metadesc ) ) . '"/>' . "\n";
+		$metadesc = apply_filters( 'wpseo_twitter_description', $metadesc );
+		if( is_string( $metadesc ) && $metadesc !== '' )
+			echo '<meta name="twitter:description" content="' . esc_attr( $metadesc ) . '"/>' . "\n";
 	}
 
 	/**
@@ -127,7 +143,7 @@ class WPSEO_Twitter extends WPSEO_Frontend {
 	 * Only used when OpenGraph is inactive.
 	 */
 	public function twitter_url() {
-		echo '<meta name="twitter:url" content="' . $this->canonical( false ) . '"/>' . "\n";
+		echo '<meta name="twitter:url" content="' . esc_url( $this->canonical( false ) ) . '"/>' . "\n";
 	}
 
 	/**
@@ -146,9 +162,9 @@ class WPSEO_Twitter extends WPSEO_Frontend {
 				
 				if ( isset( $this->options['og_frontpage_image'] ) ) {
 					
-					$escaped_img = esc_attr( $this->options['og_frontpage_image'] );
+					$escaped_img = esc_url( $this->options['og_frontpage_image'] );
 					
-					if ( ! empty( $escaped_img ) ) {
+					if ( is_string( $escaped_img ) && $escaped_img !== ''  ) {
 						echo '<meta name="twitter:image:src" content="' . $escaped_img . '"/>' . "\n";
 						
 						// No images yet, don't test
@@ -166,9 +182,9 @@ class WPSEO_Twitter extends WPSEO_Frontend {
 	
 				if ( $featured_img ) {
 					
-					$escaped_img = esc_attr( apply_filters( 'wpseo_opengraph_image', $featured_img[0] ) );
-					
-					if ( ! empty( $escaped_img ) && ! in_array( $escaped_img, $shown_images ) ) {
+					$escaped_img = esc_url( apply_filters( 'wpseo_opengraph_image', $featured_img[0] ) );
+
+					if ( ( is_string( $escaped_img ) && $escaped_img !== ''  ) && ! in_array( $escaped_img, $shown_images ) ) {
 						
 						echo '<meta name="twitter:image:src" content="' . $escaped_img . '"/>' . "\n";
 						
@@ -186,9 +202,9 @@ class WPSEO_Twitter extends WPSEO_Frontend {
 					
 					if ( preg_match( '/src=("|\')(.*?)\1/', $img, $match ) ) {
 						
-						$escaped_match = esc_attr( $match[2] );
+						$escaped_match = esc_url( $match[2] );
 					
-						if ( ! empty( $escaped_match ) && ! in_array( $escaped_match, $shown_images ) ) {
+						if ( ( is_string( $escaped_match ) && $escaped_match !== ''  ) && ! in_array( $escaped_match, $shown_images ) ) {
 							
 							echo '<meta name="twitter:image:src" content="' . $escaped_match . '"/>' . "\n";
 							
@@ -204,7 +220,7 @@ class WPSEO_Twitter extends WPSEO_Frontend {
 			
 		}
 		
-		if ( count( $shown_images ) == 0 && isset( $this->options['og_default_image'] ) )
+		if ( ( count( $shown_images ) == 0 && isset( $this->options['og_default_image'] ) ) && ( is_string( $this->options['og_default_image'] ) && $this->options['og_default_image'] !== '' ) )
 			echo '<meta name="twitter:image:src" content="' . esc_attr( $this->options['og_default_image'] ) . '"/>' . "\n";
 
 	}
