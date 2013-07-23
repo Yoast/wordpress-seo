@@ -103,6 +103,9 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 
 == Changelog ==
 
+
+	* Fixed some PHP 5.4. Strict warnings
+
 = 1.4.13 =
 
 * Bugfixes
