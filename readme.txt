@@ -103,6 +103,10 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 
 == Changelog ==
 
+* Bugfixes
+
+	* Fixed adjacent_rel_links() for Genesis users - props [benjamin74](https://github.com/benjamin74) for reporting.
+
 = 1.4.13 =
 
 * Bugfixes
