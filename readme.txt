@@ -103,6 +103,10 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 
 == Changelog ==
 
+* Bugfixes
+
+	* Fixed Author Highlighting to only show authors as possible choice for Google+ Plus author as reported by [Sanoma](https://github.com/jdevalk/wordpress-seo/issues/131) - props [Jrf](http://profiles.wordpress.org/jrf).
+
 = 1.4.13 =
 
 * Bugfixes
