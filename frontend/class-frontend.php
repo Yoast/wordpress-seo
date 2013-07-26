@@ -563,7 +563,7 @@ class WPSEO_Frontend {
 					$robots['index'] = 'noindex';
 			}
 
-			if ( $wp_query->query_vars['paged'] && $wp_query->query_vars['paged'] > 1 && isset( $this->options['noindex-subpages'] ) && $this->options['noindex-subpages'] ) {
+			if ( isset( $wp_query->query_vars['paged'] ) && ( $wp_query->query_vars['paged'] && $wp_query->query_vars['paged'] > 1 ) && ( isset( $this->options['noindex-subpages'] ) && $this->options['noindex-subpages'] ) ) {
 				$robots['index']  = 'noindex';
 				$robots['follow'] = 'follow';
 			}
