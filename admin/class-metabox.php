@@ -1790,4 +1790,5 @@ class WPSEO_Metabox {
 	}
 }
 
+global $wpseo_metabox;
 $wpseo_metabox = new WPSEO_Metabox();
