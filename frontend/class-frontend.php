@@ -908,7 +908,11 @@ class WPSEO_Frontend {
 				if ( isset( $this->options['metadesc-ptarchive-' . $post_type] ) && '' != $this->options['metadesc-ptarchive-' . $post_type] ) {
 					$metadesc = wpseo_replace_vars( $this->options['metadesc-ptarchive-' . $post_type], (array) $wp_query->get_queried_object() );
 				}
-			}
+			} else if ( is_archive() ) {
+				if ( isset( $this->options['metadesc-archive'] ) && '' != $this->options['metadesc-archive'] ) {
+					$metadesc = wpseo_replace_vars( $this->options['metadesc-archive'], (array) $wp_query->get_queried_object() );
+				}                            
+                        }
 		}
 
 		$metadesc = apply_filters( 'wpseo_metadesc', trim( $metadesc ) );
