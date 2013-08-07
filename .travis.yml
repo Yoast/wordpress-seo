@@ -15,7 +15,7 @@ before_install:
     - git submodule update --init --recursive
 
 before_script:
-    - wget https://raw.github.com/Yoast/wordpress-seo/master/tests/install-wp-tests.sh
+    - wget https://raw.github.com/cfoellmann/wordpress-seo/travis-update/tests/install-wp-tests.sh
     - source install-wp-tests.sh
 
 script: phpunit
