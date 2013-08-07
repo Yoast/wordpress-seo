@@ -100,7 +100,8 @@ class WPSEO_Breadcrumbs {
 						// As we could still have two subcategories, from different parent categories, let's pick the one with the lowest ordered ancestor.
                         $parents_count = 0;
                         $term_order = 9999; //because ASC
-                        $deepest_term = array_shift( $terms_by_id );
+                        reset( $terms_by_id );
+                        $deepest_term = current($terms_by_id);
                         foreach ( $terms_by_id as $term ) {
                             $parents = $this->get_term_parents( $term );
 
