@@ -3,12 +3,13 @@ language: php
 php:
     - 5.3
     - 5.4
+    - 5.5
 
 env:
     - WP_VERSION=master WP_MULTISITE=0
     - WP_VERSION=master WP_MULTISITE=1
-    - WP_VERSION=3.5.1 WP_MULTISITE=0
-    - WP_VERSION=3.5.1 WP_MULTISITE=1
+    - WP_VERSION=3.6 WP_MULTISITE=0
+    - WP_VERSION=3.6 WP_MULTISITE=1
 
 before_install:
     - git submodule update --init --recursive
@@ -16,9 +17,11 @@ before_install:
 before_script:
     # set up WP install
     - WP_CORE_DIR=/tmp/wordpress/
+    - WP_CONTENT_DIR=$WP_CORE_DIR/wp-content
     - mkdir -p $WP_CORE_DIR
     - wget -nv -O /tmp/wordpress.tar.gz https://github.com/WordPress/WordPress/tarball/$WP_VERSION
     - tar --strip-components=1 -zxmf /tmp/wordpress.tar.gz -C $WP_CORE_DIR
+    - wget -nv -O $WP_CONTENT_DIR/db.php https://raw.github.com/markoheijnen/wp-mysqli/master/db.php
     # set up testing suite
     - export WP_TESTS_DIR=/tmp/wordpress-tests/
     - svn co --ignore-externals --quiet http://unit-tests.svn.wordpress.org/trunk/ $WP_TESTS_DIR
