@@ -103,6 +103,15 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 
 == Changelog ==
 
+= Trunk =
+
+* Bugfixes
+    * Switch to stock autocomplete file and fix clash with color picker, props [Heinrich Luehrsen](http://www.luehrsen-heinrich.de/).
+    * Prevent strip category base code from breaking Custom Post Type rewrites, props [Steve Hulet](http://about.me/stevehulet).
+* Enhancements
+    * Make `$wpseo_metabox` a global, props [Peter Chester](http://tri.be/).
+    * Make sure WPML works again, props [dominykasgel](https://github.com/dominykasgel).
+
 = 1.4.13 =
 
 * Bugfixes
