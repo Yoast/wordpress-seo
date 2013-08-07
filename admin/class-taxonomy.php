@@ -124,7 +124,7 @@ class WPSEO_Taxonomy {
 	function update_term( $term_id, $tt_id, $taxonomy ) {
 		$tax_meta = get_option( 'wpseo_taxonomy_meta' );
 
-		if ( !isset( $tax_meta[$taxonomy][$term_id] ) || !is_array( $tax_meta[$taxonomy][$term_id] ) )
+		if ( !isset($tax_meta[$taxonomy]) || !isset($tax_meta[$taxonomy][$term_id]) || !is_array( $tax_meta[$taxonomy][$term_id] ) )
 			$tax_meta[$taxonomy][$term_id] = array();
 
 		foreach ( array( 'title', 'desc', 'metakey', 'bctitle', 'canonical', 'noindex', 'sitemap_include' ) as $key ) {
