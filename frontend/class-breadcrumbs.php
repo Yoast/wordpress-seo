@@ -97,9 +97,37 @@ class WPSEO_Breadcrumbs {
 							unset( $terms_by_id[$term->parent] );
 						}
 
-						// As we could still have two subcategories, from different parent categories, let's pick the first.
-						reset( $terms_by_id );
-						$deepest_term = current( $terms_by_id );
+						// As we could still have two subcategories, from different parent categories, let's pick the one with the lowest ordered ancestor.
+                        $parents_count = 0;
+                        $term_order = 9999; //because ASC
+                        $deepest_term = array_shift( $terms_by_id );
+                        foreach ( $terms_by_id as $term ) {
+                            $parents = $this->get_term_parents( $term );
+
+                            if ( sizeof( $parents ) >= $parents_count ) {
+                                $parents_count = sizeof( $parents );
+
+                                //if higher count
+                                if ( sizeof( $parents ) > $parents_count ) {
+                                    //reset order
+                                    $term_order = 9999;
+                                }
+
+                                $parent_order = 9999; //set default order
+                                foreach ( $parents as $parent ) {
+                                    if ( $parent->parent == 0 ) {
+                                        $parent_order = $parent->term_order;
+                                    }
+                                }
+
+                                //check if parent has lowest order
+                                if ( $parent_order < $term_order ) {
+                                    $term_order = $term->term_order;
+
+                                    $deepest_term = $term;
+                                }
+                            }
+                        }
 
 						if ( is_taxonomy_hierarchical( $main_tax ) && $deepest_term->parent != 0 ) {
 							foreach ( $this->get_term_parents( $deepest_term ) as $parent_term ) {
