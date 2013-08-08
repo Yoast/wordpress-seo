@@ -116,14 +116,14 @@ class WPSEO_Breadcrumbs {
 
                                 $parent_order = 9999; //set default order
                                 foreach ( $parents as $parent ) {
-                                    if ( $parent->parent == 0 ) {
+                                    if ( $parent->parent == 0 && isset( $parent->term_order ) ) {
                                         $parent_order = $parent->term_order;
                                     }
                                 }
 
                                 //check if parent has lowest order
                                 if ( $parent_order < $term_order ) {
-                                    $term_order = $term->term_order;
+                                    $term_order = $parent_order;
 
                                     $deepest_term = $term;
                                 }
