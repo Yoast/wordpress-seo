@@ -135,7 +135,7 @@ function wpseo_title_test() {
 
 	// echo '<pre>'.$resp['body'].'</pre>';
 
-	if ( $resp && !is_wp_error( $resp ) && 200 == $resp['response']['code'] ) {
+	if ( ( $resp && !is_wp_error( $resp ) ) && ( 200 == $resp['response']['code'] && isset( $resp['body'] ) ) ) {
 		$res = preg_match( '/<title>([^<]+)<\/title>/im', $resp['body'], $matches );
 
 		if ( $res && strcmp( $matches[1], $expected_title ) !== 0 ) {
