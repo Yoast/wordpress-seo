@@ -453,8 +453,10 @@ class WPSEO_Metabox {
 			<li id="linkdex" class="linkdex"><a class="wpseo_tablink"
 												href="#wpseo_linkdex"><?php _e( "Page Analysis", 'wordpress-seo' ); ?></a>
 			</li>
+		<?php if ( current_user_can( 'manage_options' ) || !isset( $options['disableadvanced_meta'] ) || !$options['disableadvanced_meta'] ): ?>
 			<li class="advanced"><a class="wpseo_tablink"
 									href="#wpseo_advanced"><?php _e( "Advanced", 'wordpress-seo' ); ?></a></li>
+		<?php endif; ?>
 			<?php do_action( 'wpseo_tab_header' ); ?>
 		</ul>
 		<?php
