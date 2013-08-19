@@ -386,3 +386,38 @@ function wpseo_store_tracking_response() {
 	update_option( 'wpseo', $options );
 }
 add_action('wp_ajax_wpseo_allow_tracking', 'wpseo_store_tracking_response');
+
+/**
+ * WPML plugin support: Set titles for custom types / taxonomies as translatable.
+ * It adds new keys to a wpml-config.xml file for a custom post type title, metadesc, title-ptarchive and metadesc-ptarchive fields translation.
+ * Documentation: http://wpml.org/documentation/support/language-configuration-files/
+ * 
+ * @global $sitepress
+ * @param array $config
+ * @return array
+ */
+function wpseo_wpml_config( $config ) {
+    global $sitepress;
+
+    $admin_texts = &$config['wpml-config']['admin-texts']['key'];
+    foreach( $admin_texts as $k => $val ){
+        if ( $val['attr']['name'] == 'wpseo_titles' ) {
+            $translate_cp = array_keys( $sitepress->get_translatable_documents() );
+            foreach( $translate_cp as $post_type ) {
+                $admin_texts[$k]['key'][]['attr']['name'] = 'title-'. $post_type;
+                $admin_texts[$k]['key'][]['attr']['name'] = 'metadesc-'. $post_type;
+                $admin_texts[$k]['key'][]['attr']['name'] = 'title-ptarchive-'. $post_type;
+                $admin_texts[$k]['key'][]['attr']['name'] = 'metadesc-ptarchive-'. $post_type;
+                $translate_tax = $sitepress->get_translatable_taxonomies(false, $post_type);
+                foreach( $translate_tax as $taxonomy ) {
+                    $admin_texts[$k]['key'][]['attr']['name'] = 'title-'. $taxonomy;
+                    $admin_texts[$k]['key'][]['attr']['name'] = 'metadesc-'. $taxonomy;
+                }
+            }
+            break;
+        }
+    }
+
+    return $config;
+}
+add_filter( 'icl_wpml_config_array', 'wpseo_wpml_config' );

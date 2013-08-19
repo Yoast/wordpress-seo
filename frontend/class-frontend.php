@@ -563,7 +563,7 @@ class WPSEO_Frontend {
 					$robots['index'] = 'noindex';
 			}
 
-			if ( $wp_query->query_vars['paged'] && $wp_query->query_vars['paged'] > 1 && isset( $this->options['noindex-subpages'] ) && $this->options['noindex-subpages'] ) {
+			if ( isset( $wp_query->query_vars['paged'] ) && ( $wp_query->query_vars['paged'] && $wp_query->query_vars['paged'] > 1 ) && ( isset( $this->options['noindex-subpages'] ) && $this->options['noindex-subpages'] ) ) {
 				$robots['index']  = 'noindex';
 				$robots['follow'] = 'follow';
 			}
@@ -613,7 +613,7 @@ class WPSEO_Frontend {
 				if ( get_query_var( 'page' ) > 1 ) {
 					global $wp_rewrite;
 					$numpages = substr_count( $obj->post_content, '<!--nextpage-->' ) + 1;
-					if ( $numpages && get_query_var( 'page' ) < $numpages ) {
+					if ( $numpages && get_query_var( 'page' ) <= $numpages ) {
 						if ( !$wp_rewrite->using_permalinks() ) {
 							$canonical = add_query_arg( 'page', get_query_var( 'page' ), $canonical );
 						} else {
@@ -1183,7 +1183,7 @@ class WPSEO_Frontend {
 		$bloglink     = '<a href="' . get_bloginfo( 'url' ) . '">' . get_bloginfo( 'name' ) . '</a>';
 		$blogdesclink = '<a href="' . get_bloginfo( 'url' ) . '">' . get_bloginfo( 'name' ) . ' - ' . get_bloginfo( 'description' ) . '</a>';
 
-		$content = stripslashes( $content );
+		$content = stripslashes( trim( $content ) );
 		$content = str_replace( "%%AUTHORLINK%%", $authorlink, $content );
 		$content = str_replace( "%%POSTLINK%%", $postlink, $content );
 		$content = str_replace( "%%BLOGLINK%%", $bloglink, $content );
@@ -1199,13 +1199,7 @@ class WPSEO_Frontend {
 	 */
 	function embed_rssfooter( $content ) {
 		if ( is_feed() ) {
-
-			if ( isset( $this->options['rssbefore'] ) && !empty( $this->options['rssbefore'] ) ) {
-				$content = "<p>" . $this->rss_replace_vars( $this->options['rssbefore'] ) . "</p>" . $content;
-			}
-			if ( isset( $this->options['rssafter'] ) && !empty( $this->options['rssafter'] ) ) {
-				$content .= "<p>" . $this->rss_replace_vars( $this->options['rssafter'] ) . "</p>";
-			}
+			$content = $this->embed_rss( $content, 'full' );
 		}
 		return $content;
 	}
@@ -1218,16 +1212,43 @@ class WPSEO_Frontend {
 	 */
 	function embed_rssfooter_excerpt( $content ) {
 		if ( is_feed() ) {
+			$content = $this->embed_rss( $content, 'excerpt' );
+		}
+		return $content;
+	}
+	
+	/**
+	 * Adds the RSS footer and/or header to an RSS feed item.
+	 *
+	 * @since 1.4.14
+	 * @param string $content Feed item content.
+	 * @param string $context Feed item context, either 'excerpt' or 'full'.
+	 * @return string
+	 */
+	function embed_rss( $content, $context = 'full' ) {
+		if ( is_feed() ) {
 
-			if ( isset( $this->options['rssbefore'] ) && !empty( $this->options['rssbefore'] ) ) {
-				$content = "<p>" . $this->rss_replace_vars( $this->options['rssbefore'] ) . "</p><p>" . $content . "</p>";
+			$before = '';
+			$after  = '';
+
+			if ( isset( $this->options['rssbefore'] ) && trim( $this->options['rssbefore'] ) !== '' ) {
+				$before = $this->rss_replace_vars( $this->options['rssbefore'] );
+				$before = ( $before !== '' ) ? '<p>' . $before . '</p>' : '';
 			}
-			if ( isset( $this->options['rssafter'] ) && !empty( $this->options['rssafter'] ) ) {
-				$content = "<p>" . $content . "</p><p>" . $this->rss_replace_vars( $this->options['rssafter'] ) . "</p>";
+			if ( isset( $this->options['rssafter'] ) && trim( $this->options['rssafter'] ) !== '' ) {
+				$after = $this->rss_replace_vars( $this->options['rssafter'] );
+				$after = ( $after !== '' ) ? '<p>' . $after . '</p>' : '';
+			}
+			if ( $before !== '' || $after !== '' ) {
+				if ( ( isset( $context ) && $context === 'excerpt' ) && trim( $content ) !== '' ) {
+					$content = '<p>' . $content . '</p>';
+				}
+				$content = $before . $content . $after;
 			}
 		}
 		return $content;
 	}
+
 
 	/**
 	 * Used in the force rewrite functionality this retrieves the output, replaces the title with the proper SEO
