@@ -104,7 +104,7 @@ class WPSEO_Metabox {
 		echo '<div class="misc-pub-section misc-yoast misc-pub-section-last">';
 
 		if ( wpseo_get_value( 'meta-robots-noindex' ) == 1 ) {
-			$score = 'noindex';
+			$score_label = 'noindex';
 			$title = __( 'Post is set to noindex.', 'wordpress-seo' );
 		} else {
 			$score = wpseo_get_value( 'linkdex' );
@@ -112,7 +112,7 @@ class WPSEO_Metabox {
 				$score = round( $score / 10 );
 				if ( $score < 1 )
 					$score = 1;
-				$score = wpseo_translate_score( $score );
+				$score_label = wpseo_translate_score( $score );
 			} else {
 				if ( isset( $_GET['post'] ) ) {
 					$post_id = (int) $_GET['post'];
@@ -124,15 +124,18 @@ class WPSEO_Metabox {
 				$this->calculate_results( $post );
 				$score = wpseo_get_value( 'linkdex' );
 				if ( !$score || empty( $score ) ) {
-					$score = 'na';
+					$score_label = 'na';
 					$title = __( 'No focus keyword set.', 'wordpress-seo' );
+				}
+				else {
+					$score_label = wpseo_translate_score( $score );
 				}
 			}
 		}
 		if ( !isset( $title ) )
 			$title = wpseo_translate_score( $score, $css = false );
 
-		$result = '<div title="' . esc_attr( $title ) . '" alt="' . esc_attr( $title ) . '" class="wpseo_score_img ' . $score . '"></div>';
+		$result = '<div title="' . esc_attr( $title ) . '" alt="' . esc_attr( $title ) . '" class="wpseo_score_img ' . $score_label . '"></div>';
 
 		echo __( 'SEO: ', 'wordpress-seo' ) . $result . ' <a class="wpseo_tablink scroll" href="#wpseo_linkdex">' . __( 'Check', 'wordpress-seo' ) . '</a>';
 
@@ -831,26 +834,26 @@ class WPSEO_Metabox {
 	function column_content( $column_name, $post_id ) {
 		if ( $column_name == 'wpseo-score' ) {
 			if ( wpseo_get_value( 'meta-robots-noindex', $post_id ) == 1 ) {
-				$score = 'noindex';
+				$score_label = 'noindex';
 				$title = __( 'Post is set to noindex.', 'wordpress-seo' );
 				if ( wpseo_get_value( 'meta-robots-noindex', $post_id ) !== 0 )
 					wpseo_set_value( 'linkdex', 0, $post_id );
 			} else if ( $score = wpseo_get_value( 'linkdex', $post_id ) ) {
-				$score = wpseo_translate_score( round( $score / 10 ) );
+				$score_label = wpseo_translate_score( round( $score / 10 ) );
 				$title = wpseo_translate_score( round( $score / 10 ), $css = false );
 			} else {
 				$this->calculate_results( get_post( $post_id ) );
 				$score = wpseo_get_value( 'linkdex', $post_id );
 				if ( !$score || empty( $score ) ) {
-					$score = 'na';
+					$score_label = 'na';
 					$title = __( 'Focus keyword not set.', 'wordpress-seo' );
 				} else {
-					$score = wpseo_translate_score( $score );
+					$score_label = wpseo_translate_score( $score );
 					$title = wpseo_translate_score( $score, $css = false );
 				}
 			}
 
-			echo '<div title="' . esc_attr( $title ) . '" alt="' . esc_attr( $title ) . '" class="wpseo_score_img ' . esc_attr( $score ) . '"></div>';
+			echo '<div title="' . esc_attr( $title ) . '" alt="' . esc_attr( $title ) . '" class="wpseo_score_img ' . esc_attr( $score_label ) . '"></div>';
 		}
 		if ( $column_name == 'wpseo-title' ) {
 			echo esc_html( apply_filters( 'wpseo_title', $this->page_title( $post_id ) ) );
