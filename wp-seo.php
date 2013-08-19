@@ -60,8 +60,8 @@ if ( version_compare( PHP_VERSION, '5.2', '<' ) ) {
 define( 'WPSEO_VERSION', '1.4.13' );
 
 $pluginurl = plugin_dir_url( __FILE__ );
-if ( preg_match( '/^https/', $pluginurl ) && !preg_match( '/^https/', get_bloginfo( 'url' ) ) )
-	$pluginurl = preg_replace( '/^https/', 'http', $pluginurl );
+if ( strpos( $pluginurl, 'https' ) === 0 && strpos( get_bloginfo( 'url' ), 'https' ) !== 0 )
+	$pluginurl = substr_replace( $pluginurl, 'http', 0, 5 );
 define( 'WPSEO_FRONT_URL', $pluginurl );
 unset( $pluginurl );
 
