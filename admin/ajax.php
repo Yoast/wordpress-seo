@@ -78,7 +78,7 @@ function wpseo_get_suggest() {
 	$term   = urlencode( $_GET['term'] );
 	$result = wp_remote_get( 'http://www.google.com/complete/search?output=toolbar&q=' . $term );
 
-	preg_match_all( '/suggestion data="([^"]+)"\/>/u', $result['body'], $matches );
+	preg_match_all( '`suggestion data="([^"]+)"/>`u', $result['body'], $matches );
 
 	$return_arr = array();
 
