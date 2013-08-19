@@ -82,7 +82,7 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 
 	// Let's see if we can bail super early.
 	if ( strpos( $string, '%%' ) === false )
-		return trim( preg_replace( '/\s+/u', ' ', $string ) );
+		return trim( preg_replace( '`\s+`u', ' ', $string ) );
 
 	global $sep;
 	if ( !isset( $sep ) || empty( $sep ) )
@@ -105,7 +105,7 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 
 	// Let's see if we can bail early.
 	if ( strpos( $string, '%%' ) === false )
-		return trim( preg_replace( '/\s+/u', ' ', $string ) );
+		return trim( preg_replace( '`\s+`u', ' ', $string ) );
 
 	global $wp_query;
 
@@ -203,11 +203,11 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 	}
 
 	if ( strpos( $string, '%%' ) === false ) {
-		$string = preg_replace( '/\s+/u', ' ', $string );
+		$string = preg_replace( '`\s+`u', ' ', $string );
 		return trim( $string );
 	}
 
-	if ( isset( $wp_query->query_vars['post_type'] ) && preg_match_all( '/%%pt_([^%]+)%%/u', $string, $matches, PREG_SET_ORDER ) ) {
+	if ( isset( $wp_query->query_vars['post_type'] ) && preg_match_all( '`%%pt_([^%]+)%%`u', $string, $matches, PREG_SET_ORDER ) ) {
 		$pt        = get_post_type_object( $wp_query->query_vars['post_type'] );
 		$pt_plural = $pt_singular = $pt->name;
 		if ( isset( $pt->labels->singular_name ) )
@@ -218,14 +218,14 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 		$string = str_replace( '%%pt_plural%%', $pt_plural, $string );
 	}
 
-	if ( preg_match_all( '/%%cf_([^%]+)%%/u', $string, $matches, PREG_SET_ORDER ) ) {
+	if ( preg_match_all( '`%%cf_([^%]+)%%`u', $string, $matches, PREG_SET_ORDER ) ) {
 		global $post;
 		foreach ( $matches as $match ) {
 			$string = str_replace( $match[0], get_post_meta( $post->ID, $match[1], true ), $string );
 		}
 	}
 
-	if ( preg_match_all( '/%%ct_desc_([^%]+)?%%/u', $string, $matches, PREG_SET_ORDER ) ) {
+	if ( preg_match_all( '`%%ct_desc_([^%]+)?%%`u', $string, $matches, PREG_SET_ORDER ) ) {
 		global $post;
 		foreach ( $matches as $match ) {
 			$terms  = get_the_terms( $post->ID, $match[1] );
@@ -233,7 +233,7 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 		}
 	}
 
-	if ( preg_match_all( '/%%ct_([^%]+)%%(single%%)?/u', $string, $matches, PREG_SET_ORDER ) ) {
+	if ( preg_match_all( '`%%ct_([^%]+)%%(single%%)?`u', $string, $matches, PREG_SET_ORDER ) ) {
 		foreach ( $matches as $match ) {
 			$single = false;
 			if ( isset( $match[2] ) && $match[2] == 'single%%' )
@@ -244,7 +244,7 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 		}
 	}
 
-	$string = preg_replace( '/\s+/u', ' ', $string );
+	$string = preg_replace( '`\s+`u', ' ', $string );
 	return trim( $string );
 }
 
@@ -314,7 +314,7 @@ function wpseo_get_term_meta( $term, $taxonomy, $meta ) {
  * @return string $text string without shortcodes
  */
 function wpseo_strip_shortcode( $text ) {
-	return preg_replace( '|\[[^\]]+\]|s', '', $text );
+	return preg_replace( '`\[[^\]]+\]`s', '', $text );
 }
 
 /**

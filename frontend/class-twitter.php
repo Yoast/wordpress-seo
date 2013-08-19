@@ -180,11 +180,11 @@ class WPSEO_Twitter extends WPSEO_Frontend {
 				
 			}
 			
-			if ( preg_match_all( '/<img [^>]+>/', $post->post_content, $matches ) ) {
+			if ( preg_match_all( '`<img [^>]+>`', $post->post_content, $matches ) ) {
 				
 				foreach ( $matches[0] as $img ) {
 					
-					if ( preg_match( '/src=("|\')(.*?)\1/', $img, $match ) ) {
+					if ( preg_match( '`src=(["\'])(.*?)\1`', $img, $match ) ) {
 						
 						$escaped_match = esc_attr( $match[2] );
 					
