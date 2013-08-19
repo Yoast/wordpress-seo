@@ -120,6 +120,9 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
     * Make `$wpseo_metabox` a global, props [Peter Chester](http://tri.be/).
     * Make sure WPML works again, props [dominykasgel](https://github.com/dominykasgel).
     * Added 'wpseo_breadcrumb_single_link_with_sep' filter which allows users to filter a complete breadcrumb element including the separator - props [Jrf](http://profiles.wordpress.org/jrf).
+    * Updated languages tr_TK, fi, ru_RU & da_DK
+    * Added language hi_IN
+    * Updated wordpress-seo.pot file
 
 = 1.4.13 =
 
