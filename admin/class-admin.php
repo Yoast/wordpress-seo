@@ -38,6 +38,10 @@ class WPSEO_Admin {
 
 			if ( '0' == get_option( 'blog_public' ) )
 				add_action( 'admin_footer', array( $this, 'blog_public_warning' ) );
+				
+			if ( isset( $options['meta_description_warning'] ) && true === $options['meta_description_warning'] )
+				add_action( 'admin_footer', array( $this, 'meta_description_warning' ) );
+
 		}
 
 		add_action( 'admin_init', array( $this, 'maybe_upgrade' ) );
@@ -259,6 +263,27 @@ class WPSEO_Admin {
 			return;
 		echo "<div id='message' class='error'>";
 		echo "<p><strong>" . __( "Huge SEO Issue: You're blocking access to robots.", 'wordpress-seo' ) . "</strong> " . sprintf( __( "You must %sgo to your Reading Settings%s and uncheck the box for Search Engine Visibility.", 'wordpress-seo' ), "<a href='".admin_url('options-reading.php')."'>", "</a>" ) . " <a href='javascript:wpseo_setIgnore(\"blog_public_warning\",\"message\",\"" . wp_create_nonce( 'wpseo-ignore' ) . "\");' class='button'>" . __( "I know, don't bug me.", 'wordpress-seo' ) . "</a></p></div>";
+	}
+
+	/**
+	 * Display an error message when the theme contains a meta description tag.
+	 *
+	 * @since 1.4.14
+	 */
+	function meta_description_warning() {
+		if ( function_exists( 'is_network_admin' ) && is_network_admin() )
+			return;
+	
+		// No need to double display it on the dashboard
+		if ( isset( $_GET['page'] ) && 'wpseo_dashboard' == $_GET['page'] )
+			return;
+
+		$options = get_option( 'wpseo' );
+		if ( isset( $options['ignore_meta_description_warning'] ) && 'ignore' === $options['ignore_meta_description_warning'] )
+			return;
+
+		echo '<div id="metamessage" class="error">';
+		echo '<p><strong>' . __( 'SEO Issue:', 'wordpress-seo' ) . '</strong> ' . sprintf( __( 'Your theme contains a meta description, which blocks WordPress SEO from working properly. Please visit the %sSEO Dashboard%s to fix this.', 'wordpress-seo' ), '<a href="' . admin_url( 'admin.php?page=wpseo_dashboard' ) . '">', '</a>' ) . ' <a href="javascript:wpseo_setIgnore(\'meta_description_warning\',\'metamessage\',\'' . wp_create_nonce( 'wpseo-ignore' ) . '\');" class="button">' . __( "I know, don't bug me.", 'wordpress-seo' ) . '</a></p></div>';
 	}
 
 	/**
@@ -506,6 +531,10 @@ class WPSEO_Admin {
 
 			$options['post_types-attachment-not_in_sitemap'] = true;
 			update_option( 'wpseo_xml', $options );
+		}
+		
+		if ( version_compare( $current_version, '1.4.13', '<' ) ) {
+			wpseo_description_test();
 		}
 
 		$options            = get_option( 'wpseo' );

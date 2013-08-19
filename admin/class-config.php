@@ -60,7 +60,8 @@ class WPSEO_Admin_Pages {
 		}
 		wpseo_defaults();
 
-		wpseo_title_test();
+		//wpseo_title_test(); // is already run in wpseo_defaults
+		//wpseo_description_test(); // is already run in wpseo_defaults
 	}
 
 	/**
