@@ -82,7 +82,7 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 
 	// Let's see if we can bail super early.
 	if ( strpos( $string, '%%' ) === false )
-		return trim( preg_replace( '/\s+/u', ' ', $string ) );
+		return trim( preg_replace( '`\s+`u', ' ', $string ) );
 
 	global $sep;
 	if ( !isset( $sep ) || empty( $sep ) )
@@ -105,7 +105,7 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 
 	// Let's see if we can bail early.
 	if ( strpos( $string, '%%' ) === false )
-		return trim( preg_replace( '/\s+/u', ' ', $string ) );
+		return trim( preg_replace( '`\s+`u', ' ', $string ) );
 
 	global $wp_query;
 
@@ -203,11 +203,11 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 	}
 
 	if ( strpos( $string, '%%' ) === false ) {
-		$string = preg_replace( '/\s+/u', ' ', $string );
+		$string = preg_replace( '`\s+`u', ' ', $string );
 		return trim( $string );
 	}
 
-	if ( isset( $wp_query->query_vars['post_type'] ) && preg_match_all( '/%%pt_([^%]+)%%/u', $string, $matches, PREG_SET_ORDER ) ) {
+	if ( isset( $wp_query->query_vars['post_type'] ) && preg_match_all( '`%%pt_([^%]+)%%`u', $string, $matches, PREG_SET_ORDER ) ) {
 		$pt        = get_post_type_object( $wp_query->query_vars['post_type'] );
 		$pt_plural = $pt_singular = $pt->name;
 		if ( isset( $pt->labels->singular_name ) )
@@ -218,22 +218,35 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 		$string = str_replace( '%%pt_plural%%', $pt_plural, $string );
 	}
 
-	if ( preg_match_all( '/%%cf_([^%]+)%%/u', $string, $matches, PREG_SET_ORDER ) ) {
+	if ( preg_match_all( '`%%cf_([^%]+)%%`u', $string, $matches, PREG_SET_ORDER ) ) {
 		global $post;
 		foreach ( $matches as $match ) {
 			$string = str_replace( $match[0], get_post_meta( $post->ID, $match[1], true ), $string );
 		}
 	}
 
-	if ( preg_match_all( '/%%ct_desc_([^%]+)?%%/u', $string, $matches, PREG_SET_ORDER ) ) {
+	if ( preg_match_all( '`%%ct_desc_([^%]+)?%%`u', $string, $matches, PREG_SET_ORDER ) ) {
 		global $post;
 		foreach ( $matches as $match ) {
 			$terms  = get_the_terms( $post->ID, $match[1] );
-			$string = str_replace( $match[0], get_term_field( 'description', $terms[0]->term_id, $match[1] ), $string );
+			if( is_array( $terms ) && count( $terms ) > 0 ) {
+				$term = current( $terms );
+				$string = str_replace( $match[0], get_term_field( 'description', $term->term_id, $match[1] ), $string );
+			}
+			else {
+				// Make sure that the variable is removed ?
+				$string = str_replace( $match[0], '', $string );
+
+				/* Check for WP_Error object (=invalid taxonomy entered) and if it's an error,
+				 notify in admin dashboard */
+				if( is_wp_error( $terms ) && is_admin() ) {
+					add_action( 'admin_notices', 'wpseo_invalid_custom_taxonomy' );
+				}
+			}
 		}
 	}
 
-	if ( preg_match_all( '/%%ct_([^%]+)%%(single%%)?/u', $string, $matches, PREG_SET_ORDER ) ) {
+	if ( preg_match_all( '`%%ct_([^%]+)%%(single%%)?`u', $string, $matches, PREG_SET_ORDER ) ) {
 		foreach ( $matches as $match ) {
 			$single = false;
 			if ( isset( $match[2] ) && $match[2] == 'single%%' )
@@ -244,9 +257,21 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 		}
 	}
 
-	$string = preg_replace( '/\s+/u', ' ', $string );
+	$string = preg_replace( '`\s+`u', ' ', $string );
 	return trim( $string );
 }
+
+
+/**
+ * Throw a notice about an invalid custom taxonomy used
+ *
+ * @since 1.4.14
+ */
+function wpseo_invalid_custom_taxonomy() {
+	echo '<div class="error"><p>' . sprintf( __( 'The taxonomy you used in (one of your) %s variables is <strong>invalid</strong>. Please %sadjust your settings%s.' ), '%%ct_desc_<custom-tax-name>%%', '<a href="' . admin_url( 'admin.php?page=wpseo_titles#top#taxonomies' ) . '">', '</a>' ) . '</p></div>';
+}
+
+
 
 /**
  * Retrieve a post's terms, comma delimited.
@@ -257,27 +282,35 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
  * @return string either a single term or a comma delimited string of terms.
  */
 function wpseo_get_terms( $id, $taxonomy, $return_single = false ) {
-	// If we're on a specific tag, category or taxonomy page, return that and bail.
+
+	$output = '';
+
+	// If we're on a specific tag, category or taxonomy page, use that.
 	if ( is_category() || is_tag() || is_tax() ) {
 		global $wp_query;
 		$term = $wp_query->get_queried_object();
-		return $term->name;
+		$output = $term->name;
 	}
-
-	if ( empty( $id ) || empty( $taxonomy ) )
-		return '';
-
-	$output = '';
-	$terms  = get_the_terms( $id, $taxonomy );
-	if ( $terms ) {
-		foreach ( $terms as $term ) {
-			if ( $return_single )
-				return $term->name;
-			$output .= $term->name . ', ';
+	else if ( !empty( $id ) && !empty( $taxonomy ) ) {
+		$terms  = get_the_terms( $id, $taxonomy );
+		if ( $terms ) {
+			foreach ( $terms as $term ) {
+				if ( $return_single ) {
+					$output = $term->name;
+					break;
+				}
+				else {
+					$output .= $term->name . ', ';
+				}
+			}
+			$output = rtrim( trim( $output ), ',' );
 		}
-		return rtrim( trim( $output ), ',' );
 	}
-	return '';
+	/**
+	 * Allows filtering of the terms list used to replace %%category%%, %%tag%% and %%ct_<custom-tax-name>%% variables
+	 * @api	string	$output	Comma-delimited string containing the terms
+	 */
+	return apply_filters( 'wpseo_terms', $output );
 }
 
 /**
@@ -314,7 +347,7 @@ function wpseo_get_term_meta( $term, $taxonomy, $meta ) {
  * @return string $text string without shortcodes
  */
 function wpseo_strip_shortcode( $text ) {
-	return preg_replace( '|\[[^\]]+\]|s', '', $text );
+	return preg_replace( '`\[[^\]]+\]`s', '', $text );
 }
 
 /**
@@ -386,3 +419,38 @@ function wpseo_store_tracking_response() {
 	update_option( 'wpseo', $options );
 }
 add_action('wp_ajax_wpseo_allow_tracking', 'wpseo_store_tracking_response');
+
+/**
+ * WPML plugin support: Set titles for custom types / taxonomies as translatable.
+ * It adds new keys to a wpml-config.xml file for a custom post type title, metadesc, title-ptarchive and metadesc-ptarchive fields translation.
+ * Documentation: http://wpml.org/documentation/support/language-configuration-files/
+ * 
+ * @global $sitepress
+ * @param array $config
+ * @return array
+ */
+function wpseo_wpml_config( $config ) {
+    global $sitepress;
+
+    $admin_texts = &$config['wpml-config']['admin-texts']['key'];
+    foreach( $admin_texts as $k => $val ){
+        if ( $val['attr']['name'] == 'wpseo_titles' ) {
+            $translate_cp = array_keys( $sitepress->get_translatable_documents() );
+            foreach( $translate_cp as $post_type ) {
+                $admin_texts[$k]['key'][]['attr']['name'] = 'title-'. $post_type;
+                $admin_texts[$k]['key'][]['attr']['name'] = 'metadesc-'. $post_type;
+                $admin_texts[$k]['key'][]['attr']['name'] = 'title-ptarchive-'. $post_type;
+                $admin_texts[$k]['key'][]['attr']['name'] = 'metadesc-ptarchive-'. $post_type;
+                $translate_tax = $sitepress->get_translatable_taxonomies(false, $post_type);
+                foreach( $translate_tax as $taxonomy ) {
+                    $admin_texts[$k]['key'][]['attr']['name'] = 'title-'. $taxonomy;
+                    $admin_texts[$k]['key'][]['attr']['name'] = 'metadesc-'. $taxonomy;
+                }
+            }
+            break;
+        }
+    }
+
+    return $config;
+}
+add_filter( 'icl_wpml_config_array', 'wpseo_wpml_config' );

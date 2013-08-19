@@ -103,8 +103,44 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 
 == Changelog ==
 
+= Trunk =
+
 * Bugfixes
-	* Mini-fix for plugin_dir_url - props [Jrf](http://profiles.wordpress.org/jrf).
+    * Switch to stock autocomplete file and fix clash with color picker, props [Heinrich Luehrsen](http://www.luehrsen-heinrich.de/).
+    * Prevent strip category base code from breaking Custom Post Type rewrites, props [Steve Hulet](http://about.me/stevehulet).
+    * Fixed [issue with canonical links](http://wordpress.org/support/topic/serious-canonical-issue-with-paginated-posts) on last page of paginated posts - props [maxbugfiy](http://wordpress.org/support/profile/maxbuxfiy)
+    * Fixed bug in shortcode removal from meta description as reported by [professor44](http://profiles.wordpress.org/professor44/) - props [Jrf](http://profiles.wordpress.org/jrf).
+    * Fixed bug preventing saving of taxonomy meta data on first try - props [Jrf](http://profiles.wordpress.org/jrf).
+    * Fixed small (potential) issue in wpseo_title_test() - props [Jrf](http://profiles.wordpress.org/jrf).
+    * Fixed bug where RSS excerpt would be double wrapped in <p> tags as reported by [mikeprince](http://profiles.wordpress.org/mikeprince) - props [Jrf](http://profiles.wordpress.org/jrf).
+    * Fixed HTML validation error: Duplicate id Twitter on Social tab - props [Jrf](http://profiles.wordpress.org/jrf).
+    * Fixed undefined index notice as reported by [szepeviktor](http://profiles.wordpress.org/szepeviktor).
+    * Fixed error in a database query as reported by [Watch Teller](http://wordpress.org/support/profile/watchteller) - props [Jrf](http://profiles.wordpress.org/jrf).
+    * Fixed small issue with how styles where enqueued/registered - props [Jrf](http://profiles.wordpress.org/jrf).
+    * Fixed bug in alt text of score dots as [reported by Rocket Pixels](http://wordpress.org/support/topic/dots-on-hover-over-show-na-tooltip) - props [Jrf](http://profiles.wordpress.org/jrf).
+    * Applied best practices to all uses of preg_ functions fixing some bugs in the process - props [Jrf](http://profiles.wordpress.org/jrf).
+    * Fixed bug in processing of %%ct_<custom-tax-name>%% as [reported by Joy](http://wordpress.org/support/topic/plugin-dies-when-processing-ct_desc_) - props [Jrf](http://profiles.wordpress.org/jrf).
+    * Fixed: no more empty og: or twitter: tags. Also added additional escaping where needed - props [Jrf](http://profiles.wordpress.org/jrf).
+    * Fixed: Meta description tag discovery looked in parent theme header file even when a child theme is the current theme - props [Jrf](http://profiles.wordpress.org/jrf).
+    * Fixed: Using the 'Fix it' button would remove the meta description tag from the parent theme header file, even when a child theme is the current theme - props [Jrf](http://profiles.wordpress.org/jrf).
+    * Fixed repeated unnecessary meta description tag checks on each visit to dashboard page - props [Jrf](http://profiles.wordpress.org/jrf).
+    * Fixed: Using the 'Fix it' button would fail if it had already been used once (i.e. if a wpseo backup file already existed) - props [Jrf](http://profiles.wordpress.org/jrf).
+    * Fixed: Meta description 'Fix it' feedback message was not shown - props [Jrf](http://profiles.wordpress.org/jrf).
+    * Mini-fix for plugin_dir_url - props [Jrf](http://profiles.wordpress.org/jrf).
+
+* Enhancements
+    * Make `$wpseo_metabox` a global, props [Peter Chester](http://tri.be/).
+    * Make sure WPML works again, props [dominykasgel](https://github.com/dominykasgel).
+    * Added checks for the meta description tag on theme switch, on theme update and on (re-)activation of the WP SEO plugin including a visual warning if the check would warrant it - props [Jrf](http://profiles.wordpress.org/jrf).
+    * Added the ability to request re-checking a theme for the meta description tag. Useful when you've manually removed it (to get rid of the warning), inspired by [tzeldin88](http://wordpress.org/support/topic/plugin-wordpress-seo-by-yoast-your-theme-contains-a-meta-description-which-blocks-wordpress-seo) - props [Jrf](http://profiles.wordpress.org/jrf).
+    * Added 'wpseo_breadcrumb_single_link_with_sep' filter which allows users to filter a complete breadcrumb element including the separator - props [Jrf](http://profiles.wordpress.org/jrf).
+    * Added 'wpseo_stopwords' filter which allows users to filter the stopwords list - props [Jrf](http://profiles.wordpress.org/jrf).
+    * Added 'wpseo_terms' filter which allows users to filter the terms string - props [Jrf](http://profiles.wordpress.org/jrf).
+    * Hide advanced tab for users for which it has been disabled, as [suggested by jrgmartin](https://github.com/jdevalk/wordpress-seo/issues/93) - props [Jrf](http://profiles.wordpress.org/jrf).
+    * Updated Facebook supported locales list for og:locale
+    * Updated languages tr_TK, fi, ru_RU & da_DK
+    * Added language hi_IN
+    * Updated wordpress-seo.pot file
 
 = 1.4.13 =
 
