@@ -26,7 +26,7 @@ class WPSEO_Rewrite {
 		add_action( 'edited_category', array( $this, 'schedule_flush' ) );
 		add_action( 'delete_category', array( $this, 'schedule_flush' ) );
 
-		add_action( 'init', array( $this, 'flush' ), 10 );
+		add_action( 'init', array( $this, 'flush' ), 999 );
 	}
 
 	/**
