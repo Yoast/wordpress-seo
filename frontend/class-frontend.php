@@ -956,7 +956,7 @@ class WPSEO_Frontend {
 	 * @since 1.1.7
 	 */
 	public function noindex_feed() {
-		if ( is_feed() )
+		if ( is_feed() && headers_sent() === false )
 			header( "X-Robots-Tag: noindex,follow", true );
 	}
 
