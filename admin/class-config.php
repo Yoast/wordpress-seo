@@ -126,7 +126,7 @@ class WPSEO_Admin_Pages {
 						break;
 					if ( $i != 0 )
 						echo '<hr style="border:none;border-top:dotted 1px #f48500;margin: 30px 0;">';
-					echo '<a target="_blank" href="' . $banner['url'] . '"><img src="' . WPSEO_URL . '/images/' . $banner['img'] . '" alt="' . $banner['alt'] . '"/></a>';
+					echo '<a target="_blank" href="' . $banner['url'] . '"><img src="' . WPSEO_URL . 'images/' . $banner['img'] . '" alt="' . $banner['alt'] . '"/></a>';
 					$i++;
 				}
 				?>
