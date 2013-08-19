@@ -690,7 +690,7 @@ class WPSEO_Frontend {
 	 */
 	public function adjacent_rel_links() {
 		// Don't do this for Genesis, as the way Genesis handles homepage functionality is different and causes issues sometimes.
-		if ( is_home() && function_exists( 'genesis' ) )
+		if ( is_home() && function_exists( 'genesis' ) && apply_filters( 'wpseo_genesis_force_adjacent_rel_home', false ) === false )
 			return;
 
 		global $wp_query;
