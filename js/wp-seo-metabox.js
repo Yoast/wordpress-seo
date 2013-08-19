@@ -4,7 +4,7 @@ function yst_clean( str ) {
 
     try {
         str = str.replace(/<\/?[^>]+>/gi, '');
-        str = str.replace(/\[(.+?)\](.+?\[\/\\1\])?/, '');
+        str = str.replace(/\[(.+?)\](.+?\[\/\\1\])?/g, '');
     } catch(e) {}
 
     return str;
@@ -321,22 +321,22 @@ jQuery(document).ready(function(){
         updateDesc();
     });
 
-    jQuery('#yoast_wpseo_title').live('change', function() {
+    jQuery(document).on('change', '#yoast_wpseo_title', function() {
         updateTitle();
     });
-    jQuery('#yoast_wpseo_metadesc').live('change', function() {
+    jQuery(document).on('change', '#yoast_wpseo_metadesc', function() {
         updateDesc();
     });
-    jQuery('#excerpt').live('change', function() {
+    jQuery(document).on('change', '#excerpt', function() {
         updateDesc();
     });
-    jQuery('#content').live('change', function() {
+    jQuery(document).on('change', '#content', function() {
         updateDesc();
     });
-    jQuery('#tinymce').live('change', function() {
+    jQuery(document).on('change', '#tinymce', function() {
         updateDesc();
     });
-    jQuery('#titlewrap #title').live('change', function() {
+    jQuery(document).on('change', '#titlewrap #title', function() {
         updateTitle();
     });
     jQuery('#wpseo_regen_title').click(function() {
@@ -345,7 +345,7 @@ jQuery(document).ready(function(){
     });
 
     var focuskwhelptriggered = false;
-    jQuery('#yoast_wpseo_focuskw').live('change', function() {
+    jQuery(document).on('change', '#yoast_wpseo_focuskw', function() {
         if ( jQuery('#yoast_wpseo_focuskw').val().search(',') != -1 ) {
             jQuery("#focuskwhelp").click();
             focuskwhelptriggered = true;
