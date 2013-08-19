@@ -115,6 +115,7 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
     * Fixed bug where RSS excerpt would be double wrapped in <p> tags as reported by [mikeprince](http://profiles.wordpress.org/mikeprince) - props [Jrf](http://profiles.wordpress.org/jrf).
     * Fixed HTML validation error: Duplicate id Twitter on Social tab - props [Jrf](http://profiles.wordpress.org/jrf).
     * Fixed undefined index notice as reported by [szepeviktor](http://profiles.wordpress.org/szepeviktor).
+    * Fixed error in a database query as reported by [Watch Teller](http://wordpress.org/support/profile/watchteller) - props [Jrf](http://profiles.wordpress.org/jrf).
 
 * Enhancements
     * Make `$wpseo_metabox` a global, props [Peter Chester](http://tri.be/).
