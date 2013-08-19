@@ -229,7 +229,20 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 		global $post;
 		foreach ( $matches as $match ) {
 			$terms  = get_the_terms( $post->ID, $match[1] );
-			$string = str_replace( $match[0], get_term_field( 'description', $terms[0]->term_id, $match[1] ), $string );
+			if( is_array( $terms ) && count( $terms ) > 0 ) {
+				$term = current( $terms );
+				$string = str_replace( $match[0], get_term_field( 'description', $term->term_id, $match[1] ), $string );
+			}
+			else {
+				// Make sure that the variable is removed ?
+				$string = str_replace( $match[0], '', $string );
+
+				/* Check for WP_Error object (=invalid taxonomy entered) and if it's an error,
+				 notify in admin dashboard */
+				if( is_wp_error( $terms ) && is_admin() ) {
+					add_action( 'admin_notices', 'wpseo_invalid_custom_taxonomy' );
+				}
+			}
 		}
 	}
 
@@ -247,6 +260,18 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 	$string = preg_replace( '`\s+`u', ' ', $string );
 	return trim( $string );
 }
+
+
+/**
+ * Throw a notice about an invalid custom taxonomy used
+ *
+ * @since 1.4.14
+ */
+function wpseo_invalid_custom_taxonomy() {
+	echo '<div class="error"><p>' . sprintf( __( 'The taxonomy you used in (one of your) %s variables is <strong>invalid</strong>. Please %sadjust your settings%s.' ), '%%ct_desc_<custom-tax-name>%%', '<a href="' . admin_url( 'admin.php?page=wpseo_titles#top#taxonomies' ) . '">', '</a>' ) . '</p></div>';
+}
+
+
 
 /**
  * Retrieve a post's terms, comma delimited.
