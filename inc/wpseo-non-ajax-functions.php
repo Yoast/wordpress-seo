@@ -26,7 +26,8 @@ function wpseo_activate() {
 
 	wpseo_flush_rules();
 
-//	wpseo_title_test();
+//	wpseo_title_test(); // is already run in wpseo_defaults
+//  wpseo_description_test(); // is already run in wpseo_defaults
 
 	// Clear cache so the changes are obvious.
 	if ( function_exists( 'w3tc_pgcache_flush' ) ) {
@@ -50,7 +51,12 @@ function wpseo_defaults() {
 			'version'              => WPSEO_VERSION,
 		);
 		update_option( 'wpseo', $opt );
+
+		// Test theme on activate
+		wpseo_description_test();
 	} else {
+		// Re-check theme on re-activate
+		wpseo_description_test();
 		return;
 	}
 
@@ -159,6 +165,140 @@ function wpseo_title_test() {
 }
 
 add_filter( 'switch_theme', 'wpseo_title_test', 0 );
+
+
+/**
+ * Test whether the active theme contains a <meta> description tag.
+ *
+ * @since 1.4.14 Moved from dashboard.php and adjusted - see changelog
+ *
+ * @return void
+ */
+function wpseo_description_test() {
+	$options = get_option( 'wpseo' );
+
+	// Unset any related options
+	if ( isset( $options['theme_check']['description'] ) )
+		unset( $options['theme_check']['description'] );
+		
+	if ( isset( $options['theme_check']['description_found'] ) )
+		unset( $options['theme_check']['description_found'] );
+		
+	if ( isset( $options['meta_description_warning'] ) )
+		unset( $options['meta_description_warning'] );
+		
+	/* Should this be reset too ? Best to do so as test is done on re-activate and switch_theme
+	   as well and new warning would be warranted then. Only might give irritation on theme upgrade. */
+	if ( isset( $options['ignore_meta_description_warning'] ) )
+		unset( $options['ignore_meta_description_warning'] );
+
+
+	$file = false;
+	if ( file_exists( get_stylesheet_directory() . '/header.php' ) ) {
+		// theme or child theme
+		$file = get_stylesheet_directory() . '/header.php';
+	}
+	else if ( file_exists( get_template_directory() . '/header.php' ) ) {
+		// parent theme in case of a child theme
+		$file = get_template_directory() . '/header.php';
+	}
+
+	if ( is_string( $file ) && $file !== '' ) {
+		$header_file = file_get_contents( $file );
+		$issue       = preg_match_all( '#<\s*meta\s*(name|content)\s*=\s*("|\')(.*)("|\')\s*(name|content)\s*=\s*("|\')(.*)("|\')(\s+)?/?>#i', $header_file, $matches, PREG_SET_ORDER );
+		if ( !$issue ) {
+			$options['theme_check']['description'] = true;
+		} else {
+			foreach ( $matches as $meta ) {
+				if ( ( strtolower( $meta[1] ) == 'name' && strtolower( $meta[3] ) == 'description' ) || ( strtolower( $meta[5] ) == 'name' && strtolower( $meta[7] ) == 'description' ) ) {
+					$options['theme_check']['description_found'] = $meta[0];
+					$options['meta_description_warning'] = true;
+					break; // no need to run through the rest of the meta's
+				}
+			}
+			if( !isset( $options['theme_check']['description_found'] ) ) {
+				$options['theme_check']['description'] = true;
+			}
+		}
+	}
+	update_option( 'wpseo', $options );
+}
+
+add_filter( 'after_switch_theme', 'wpseo_description_test', 0 );
+
+if ( version_compare( $GLOBALS['wp_version'], '3.5.99', '>' ) ) {
+	// Use the new action hook
+	add_action( 'upgrader_process_complete', 'wpseo_upgrader_process_complete', 10, 3 );
+}
+else {
+	// Abuse filters to do our action
+	add_filter( 'update_theme_complete_actions', 'wpseo_update_theme_complete_actions', 10, 2 );
+	add_filter( 'update_bulk_theme_complete_actions', 'wpseo_update_theme_complete_actions', 10, 2 );
+}
+
+
+/**
+ * Check if the current theme was updated and if so, test the updated theme
+ * for the meta description tag
+ *
+ * @since 1.4.14
+ *
+ * @return	void
+ */
+function wpseo_upgrader_process_complete( $upgrader_object, $context_array, $themes ) {
+	$options = get_option( 'wpseo' );
+
+	// Break if admin_notice already in place
+	if ( isset( $options['meta_description_warning'] ) && true === $options['meta_description_warning'] ) {
+		return;
+	}
+	// Break if this is not a theme update, not interested in installs as after_switch_theme would still be called
+	if( $context_array['type'] !== 'theme' || $context_array['action'] !== 'update' ) {
+		return;
+	}
+
+	$theme = get_stylesheet();
+
+	if( ( isset( $context_array['bulk'] ) && $context_array['bulk'] === true ) && ( is_array( $themes ) && count( $themes ) > 0 ) ) {
+
+		if( in_array( $theme, $themes ) ) {
+			wpseo_description_test();
+		}
+	}
+	else if( $themes === $theme ) {
+		wpseo_description_test();
+	}
+	return;
+}
+
+/**
+ * Abuse a filter to check if the current theme was updated and if so, test the updated theme
+ * for the meta description tag
+ *
+ * @since 1.4.14
+ *
+ * @return	array	$update_actions		Unchanged array
+ */
+function wpseo_update_theme_complete_actions( $update_actions, $updated_theme ) {
+	$options = get_option( 'wpseo' );
+
+	// Break if admin_notice already in place
+	if ( isset( $options['meta_description_warning'] ) && true === $options['meta_description_warning'] ) {
+		return $update_actions;
+	}
+
+	$theme = get_stylesheet();
+	if( is_object( $updated_theme ) ) {
+		/* Bulk update and $updated_theme only contains info on which theme was last in the list
+		   of updated themes, so go & test */
+		wpseo_description_test();
+	}
+	else if( $updated_theme === $theme ) {
+		/* Single theme update for the active theme */
+		wpseo_description_test();
+	}
+	return $update_actions;
+}
 
 /**
  * On deactivation, flush the rewrite rules so XML sitemaps stop working.
