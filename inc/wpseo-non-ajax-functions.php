@@ -135,7 +135,7 @@ function wpseo_title_test() {
 
 	// echo '<pre>'.$resp['body'].'</pre>';
 
-	if ( $resp && !is_wp_error( $resp ) && 200 == $resp['response']['code'] ) {
+	if ( ( $resp && !is_wp_error( $resp ) ) && ( 200 == $resp['response']['code'] && isset( $resp['body'] ) ) ) {
 		$res = preg_match( '/<title>([^<]+)<\/title>/im', $resp['body'], $matches );
 
 		if ( $res && strcmp( $matches[1], $expected_title ) !== 0 ) {
@@ -298,7 +298,7 @@ add_action( 'admin_bar_menu', 'wpseo_admin_bar_menu', 95 );
  */
 function wpseo_admin_bar_css() {
 	if ( is_admin_bar_showing() && is_singular() )
-		wp_enqueue_style( 'boxes', WPSEO_URL . 'css/adminbar.css', WPSEO_VERSION );
+		wp_enqueue_style( 'boxes', WPSEO_URL . 'css/adminbar.css', array(), WPSEO_VERSION );
 }
 
 add_action( 'wp_enqueue_scripts', 'wpseo_admin_bar_css' );
