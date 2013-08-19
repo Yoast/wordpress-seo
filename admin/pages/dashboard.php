@@ -86,7 +86,7 @@ if ( isset( $_GET['fixmetadesc'] ) && check_admin_referer( 'wpseo-fix-metadesc',
 if ( !isset( $options['theme_check']['description'] ) ) {
 	if ( file_exists( TEMPLATEPATH . '/header.php' ) ) {
 		$header_file = file_get_contents( TEMPLATEPATH . '/header.php' );
-		$issue       = preg_match_all( '#<\s*meta\s*(name|content)\s*=\s*("|\')(.*)("|\')\s*(name|content)\s*=\s*("|\')(.*)("|\')(\s+)?/?>#i', $header_file, $matches, PREG_SET_ORDER );
+		$issue       = preg_match_all( '`<\s*meta\s*(name|content)\s*=\s*(["\'])(.*)(["\'])\s*(name|content)\s*=\s*(["\'])(.*)(["\'])(\s+)?/?>`iu', $header_file, $matches, PREG_SET_ORDER );
 		if ( !$issue ) {
 			$options['theme_check']['description'] = true;
 		} else {
@@ -299,6 +299,8 @@ function wpseo_deactivate_link_aioseo_notice( $active ) {
 function wpseo_deactivate_aioseo_notice() {
 	echo '<div class="updated"><p>' . __( 'All-In-One-SEO has been deactivated' ) . '</p></div>';
 }
+
+
 
 // TODO: consider moving this to a utility class. Currently being used in import.php also.
 

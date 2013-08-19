@@ -318,7 +318,7 @@ if ( ( isset( $_GET[ 'updated' ] ) && $_GET[ 'updated' ] == 'true' ) || ( isset(
 			</tr>
 			<tr>
 				<th>%%ct_desc_&lt;custom-tax-name&gt;%%</th>
-				<td>' . __( 'Replaced with a custom taxonomoies description', 'wordpress-seo' ) . '</td>
+				<td>' . __( 'Replaced with a custom taxonomies description', 'wordpress-seo' ) . '</td>
 			</tr>
 			<tr>
 				<th>%%sep%%</th>
