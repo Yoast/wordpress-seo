@@ -157,8 +157,6 @@ class WPSEO_Metabox {
 
 	/**
 	 * Outputs the scripts needed for the edit / post page overview, snippet preview, etc.
-	 *
-	 * @return bool
 	 */
 	public function script() {
 		if ( isset( $_GET['post'] ) ) {
@@ -169,7 +167,7 @@ class WPSEO_Metabox {
 		}
 
 		if ( !isset( $post ) )
-			return false;
+			return;
 
 		$options = get_wpseo_options();
 
