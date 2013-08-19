@@ -225,9 +225,9 @@ class WPSEO_Frontend {
 	 */
 	function get_default_title( $sep, $seplocation, $title = '' ) {
 		if ( 'right' == $seplocation )
-			$regex = '/\s*' . preg_quote( trim( $sep ), '/' ) . '\s*/';
+			$regex = '`\s*' . preg_quote( trim( $sep ), '`' ) . '\s*`u';
 		else
-			$regex = '/^\s*' . preg_quote( trim( $sep ), '/' ) . '\s*/';
+			$regex = '`^\s*' . preg_quote( trim( $sep ), '`' ) . '\s*`u';
 		$title = preg_replace( $regex, '', $title );
 
 		if ( empty( $title ) ) {
@@ -464,7 +464,7 @@ class WPSEO_Frontend {
 			if ( !empty( $this->options['googleverify'] ) ) {
 				$google_meta = $this->options['googleverify'];
 				if ( strpos( $google_meta, 'content' ) ) {
-					preg_match( '/content="([^"]+)"/', $google_meta, $match );
+					preg_match( '`content="([^"]+)"`', $google_meta, $match );
 					$google_meta = $match[1];
 				}
 				echo "<meta name=\"google-site-verification\" content=\"$google_meta\" />\n";
@@ -473,7 +473,7 @@ class WPSEO_Frontend {
 			if ( !empty( $this->options['msverify'] ) ) {
 				$bing_meta = $this->options['msverify'];
 				if ( strpos( $bing_meta, 'content' ) ) {
-					preg_match( '/content="([^"]+)"/', $bing_meta, $match );
+					preg_match( '`content="([^"]+)"`', $bing_meta, $match );
 					$bing_meta = $match[1];
 				}
 				echo "<meta name=\"msvalidate.01\" content=\"$bing_meta\" />\n";
@@ -563,7 +563,7 @@ class WPSEO_Frontend {
 					$robots['index'] = 'noindex';
 			}
 
-			if ( $wp_query->query_vars['paged'] && $wp_query->query_vars['paged'] > 1 && isset( $this->options['noindex-subpages'] ) && $this->options['noindex-subpages'] ) {
+			if ( isset( $wp_query->query_vars['paged'] ) && ( $wp_query->query_vars['paged'] && $wp_query->query_vars['paged'] > 1 ) && ( isset( $this->options['noindex-subpages'] ) && $this->options['noindex-subpages'] ) ) {
 				$robots['index']  = 'noindex';
 				$robots['follow'] = 'follow';
 			}
@@ -582,7 +582,7 @@ class WPSEO_Frontend {
 			$robotsstr .= ',' . $robot;
 		}
 
-		$robotsstr = preg_replace( '/^index,follow,?/', '', $robotsstr );
+		$robotsstr = preg_replace( '`^index,follow,?`', '', $robotsstr );
 
 		$robotsstr = apply_filters( 'wpseo_robots', $robotsstr );
 
@@ -613,7 +613,7 @@ class WPSEO_Frontend {
 				if ( get_query_var( 'page' ) > 1 ) {
 					global $wp_rewrite;
 					$numpages = substr_count( $obj->post_content, '<!--nextpage-->' ) + 1;
-					if ( $numpages && get_query_var( 'page' ) < $numpages ) {
+					if ( $numpages && get_query_var( 'page' ) <= $numpages ) {
 						if ( !$wp_rewrite->using_permalinks() ) {
 							$canonical = add_query_arg( 'page', get_query_var( 'page' ), $canonical );
 						} else {
@@ -667,8 +667,10 @@ class WPSEO_Frontend {
 			}
 		}
 
-		if ( $canonical && isset( $this->options['force_transport'] ) && 'default' != $this->options['force_transport'] )
-			$canonical = preg_replace( '/https?/', $this->options['force_transport'], $canonical );
+		if ( $canonical && isset( $this->options['force_transport'] ) && 'default' != $this->options['force_transport'] ) {
+			// @todo This might give issues with http(s) occuring in a post title! Probably should be changed to '`^http[s]?`' to only replace at the start of the url. [JRF]
+			$canonical = preg_replace( '`http[s]?`', $this->options['force_transport'], $canonical );
+		}
 
 		$canonical = apply_filters( 'wpseo_canonical', $canonical );
 
@@ -1018,11 +1020,13 @@ class WPSEO_Frontend {
 	/**
 	 * Removes the ?replytocom variable from the link, replacing it with a #comment-<number> anchor.
 	 *
+	 * @todo Should this function also allow for relative urls ?
+	 *
 	 * @param string $link The comment link as a string.
 	 * @return string
 	 */
 	public function remove_reply_to_com( $link ) {
-		return preg_replace( '/href=\'(.*(\?|&|&#038;)replytocom=(\d+)#respond)/', 'href=\'#comment-$3', $link );
+		return preg_replace( '`href=(["\'])(?:.*(?:\?|&|&#038;)replytocom=(\d+)#respond)`', 'href=$1#comment-$2', $link );
 	}
 
 	/**
@@ -1087,7 +1091,7 @@ class WPSEO_Frontend {
 			}
 
 			// Fix reply to comment links, whoever decided this should be a GET variable?
-			$result = preg_match( '/(\?replytocom=[^&]+)/', $_SERVER["REQUEST_URI"], $matches );
+			$result = preg_match( '`(\?replytocom=[^&]+)`', $_SERVER["REQUEST_URI"], $matches );
 			if ( $result )
 				$properurl .= str_replace( '?replytocom=', '#comment-', $matches[0] );
 
@@ -1108,7 +1112,7 @@ class WPSEO_Frontend {
 			else
 				$properurl = get_term_link( $term, $term->taxonomy );
 		} else if ( is_search() ) {
-			$s         = preg_replace( '/(%20|\+)/', ' ', get_search_query() );
+			$s         = preg_replace( '`(%20|\+)`', ' ', get_search_query() );
 			$properurl = get_bloginfo( 'url' ) . '/?s=' . rawurlencode( $s );
 		} else if ( is_404() ) {
 			if ( function_exists( 'is_multisite' ) && is_multisite() && !is_subdomain_install() && is_main_site() ) {
@@ -1179,7 +1183,7 @@ class WPSEO_Frontend {
 		$bloglink     = '<a href="' . get_bloginfo( 'url' ) . '">' . get_bloginfo( 'name' ) . '</a>';
 		$blogdesclink = '<a href="' . get_bloginfo( 'url' ) . '">' . get_bloginfo( 'name' ) . ' - ' . get_bloginfo( 'description' ) . '</a>';
 
-		$content = stripslashes( $content );
+		$content = stripslashes( trim( $content ) );
 		$content = str_replace( "%%AUTHORLINK%%", $authorlink, $content );
 		$content = str_replace( "%%POSTLINK%%", $postlink, $content );
 		$content = str_replace( "%%BLOGLINK%%", $bloglink, $content );
@@ -1195,13 +1199,7 @@ class WPSEO_Frontend {
 	 */
 	function embed_rssfooter( $content ) {
 		if ( is_feed() ) {
-
-			if ( isset( $this->options['rssbefore'] ) && !empty( $this->options['rssbefore'] ) ) {
-				$content = "<p>" . $this->rss_replace_vars( $this->options['rssbefore'] ) . "</p>" . $content;
-			}
-			if ( isset( $this->options['rssafter'] ) && !empty( $this->options['rssafter'] ) ) {
-				$content .= "<p>" . $this->rss_replace_vars( $this->options['rssafter'] ) . "</p>";
-			}
+			$content = $this->embed_rss( $content, 'full' );
 		}
 		return $content;
 	}
@@ -1214,16 +1212,43 @@ class WPSEO_Frontend {
 	 */
 	function embed_rssfooter_excerpt( $content ) {
 		if ( is_feed() ) {
+			$content = $this->embed_rss( $content, 'excerpt' );
+		}
+		return $content;
+	}
+	
+	/**
+	 * Adds the RSS footer and/or header to an RSS feed item.
+	 *
+	 * @since 1.4.14
+	 * @param string $content Feed item content.
+	 * @param string $context Feed item context, either 'excerpt' or 'full'.
+	 * @return string
+	 */
+	function embed_rss( $content, $context = 'full' ) {
+		if ( is_feed() ) {
 
-			if ( isset( $this->options['rssbefore'] ) && !empty( $this->options['rssbefore'] ) ) {
-				$content = "<p>" . $this->rss_replace_vars( $this->options['rssbefore'] ) . "</p><p>" . $content . "</p>";
+			$before = '';
+			$after  = '';
+
+			if ( isset( $this->options['rssbefore'] ) && trim( $this->options['rssbefore'] ) !== '' ) {
+				$before = $this->rss_replace_vars( $this->options['rssbefore'] );
+				$before = ( $before !== '' ) ? '<p>' . $before . '</p>' : '';
 			}
-			if ( isset( $this->options['rssafter'] ) && !empty( $this->options['rssafter'] ) ) {
-				$content = "<p>" . $content . "</p><p>" . $this->rss_replace_vars( $this->options['rssafter'] ) . "</p>";
+			if ( isset( $this->options['rssafter'] ) && trim( $this->options['rssafter'] ) !== '' ) {
+				$after = $this->rss_replace_vars( $this->options['rssafter'] );
+				$after = ( $after !== '' ) ? '<p>' . $after . '</p>' : '';
+			}
+			if ( $before !== '' || $after !== '' ) {
+				if ( ( isset( $context ) && $context === 'excerpt' ) && trim( $content ) !== '' ) {
+					$content = '<p>' . $content . '</p>';
+				}
+				$content = $before . $content . $after;
 			}
 		}
 		return $content;
 	}
+
 
 	/**
 	 * Used in the force rewrite functionality this retrieves the output, replaces the title with the proper SEO
@@ -1244,7 +1269,7 @@ class WPSEO_Frontend {
 		$title = $this->title( '', $sep );
 
 		// Find all titles, strip them out and add the new one in within the debug marker, so it's easily identified whether a site uses force rewrite.
-		if ( preg_match_all( '/<title>(.*)?<\/title>/i', $content, $matches ) ) {
+		if ( preg_match_all( '`<title>(.*)?<\/title>`i', $content, $matches ) ) {
 			$count = count( $matches[0] );
 			if ( $count > 0 ) {
 				$i = 0;

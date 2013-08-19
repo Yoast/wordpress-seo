@@ -44,12 +44,12 @@ class WPSEO_Twitter extends WPSEO_Frontend {
 		$this->site_twitter();
 		$this->site_domain();
 		$this->author_twitter();
-		// No need to show these when OpenGraph is also showing, as it'd be the same contents and Twitter
-		// would fallback to OpenGraph anyway.
-		$this->image();
-		$options = get_wpseo_options();
 
+		// No need to show these when OpenGraph is also showing, as it'd be the same contents and Twitter
+		// would fallback to OpenGraph anyway.	
+		$options = get_wpseo_options();
 		if ( !isset( $options['opengraph'] ) || !$options['opengraph'] ) {
+			$this->image();
 			$this->twitter_description();
 			$this->twitter_title();
 			$this->twitter_url();
@@ -197,11 +197,11 @@ class WPSEO_Twitter extends WPSEO_Frontend {
 				
 			}
 			
-			if ( preg_match_all( '/<img [^>]+>/', $post->post_content, $matches ) ) {
+			if ( preg_match_all( '`<img [^>]+>`', $post->post_content, $matches ) ) {
 				
 				foreach ( $matches[0] as $img ) {
 					
-					if ( preg_match( '/src=("|\')(.*?)\1/', $img, $match ) ) {
+					if ( preg_match( '`src=(["\'])(.*?)\1`', $img, $match ) ) {
 						
 						$escaped_match = esc_url( $match[2] );
 					

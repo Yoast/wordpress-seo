@@ -183,7 +183,7 @@ if ( isset( $_POST['import'] ) ) {
 			if ( isset( $custom['_headspace_noydir'] ) ) {
 				$robotsmeta_adv .= 'noydir';
 			}
-			$robotsmeta_adv = preg_replace( '/,$/', '', $robotsmeta_adv );
+			$robotsmeta_adv = preg_replace( '`,$`', '', $robotsmeta_adv );
 			wpseo_set_value( 'meta-robots-adv', $robotsmeta_adv, $post->ID );
 
 			if ( $replace ) {

@@ -480,10 +480,10 @@ class WPSEO_Sitemaps {
 
 				$host = str_replace( 'www.', '', parse_url( get_bloginfo( 'url' ), PHP_URL_HOST ) );
 
-				if ( preg_match_all( '/<img [^>]+>/', $content, $matches ) ) {
+				if ( preg_match_all( '`<img [^>]+>`', $content, $matches ) ) {
 					foreach ( $matches[0] as $img ) {
-						if ( preg_match( '/src=("|\')([^"|\']+)("|\')/', $img, $match ) ) {
-							$src = $match[2];
+						if ( preg_match( '`src=["\']([^"\']+)["\']`', $img, $match ) ) {
+							$src = $match[1];
 							if ( strpos( $src, 'http' ) !== 0 ) {
 								if ( $src[0] != '/' )
 									continue;
@@ -503,11 +503,11 @@ class WPSEO_Sitemaps {
 								'src' => apply_filters( 'wpseo_xml_sitemap_img_src', $src, $p )
 							);
 
-							if ( preg_match( '/title=("|\')([^"\']+)("|\')/', $img, $match ) )
-								$image['title'] = str_replace( array( '-', '_' ), ' ', $match[2] );
+							if ( preg_match( '`title=["\']([^"\']+)["\']`', $img, $match ) )
+								$image['title'] = str_replace( array( '-', '_' ), ' ', $match[1] );
 
-							if ( preg_match( '/alt=("|\')([^"\']+)("|\')/', $img, $match ) )
-								$image['alt'] = str_replace( array( '-', '_' ), ' ', $match[2] );
+							if ( preg_match( '`alt=["\']([^"\']+)["\']`', $img, $match ) )
+								$image['alt'] = str_replace( array( '-', '_' ), ' ', $match[1] );
 
 							$image = apply_filters( 'wpseo_xml_sitemap_img', $image, $p );
 
@@ -516,7 +516,7 @@ class WPSEO_Sitemaps {
 					}
 				}
 
-				if ( preg_match_all( '/\[gallery/', $p->post_content, $matches ) ) {
+				if ( strpos( $p->post_content, '[gallery' ) !== false ) {
 					$attachments = get_children( array( 'post_parent' => $p->ID, 'post_status' => 'inherit', 'post_type' => 'attachment', 'post_mime_type' => 'image' ) );
 					foreach ( $attachments as $att_id => $attachment ) {
 						$src   = wp_get_attachment_image_src( $att_id, 'large', false );

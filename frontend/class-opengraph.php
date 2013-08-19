@@ -167,6 +167,10 @@ class WPSEO_OpenGraph extends WPSEO_Frontend {
 	/**
 	 * Output the locale, doing some conversions to make sure the proper Facebook locale is outputted.
 	 *
+	 * Last update/compare with FB list done on July 14, 2013 by JRF
+	 * Results: 1 new locale added, found 32 in the below list which are not in the FB list (not removed), 76 OK.
+	 * @see http://www.facebook.com/translations/FacebookLocales.xml for the list of supported locales
+	 *
 	 * @param bool $echo Whether to echo or return the locale
 	 *
 	 * @return string $locale
@@ -203,7 +207,7 @@ class WPSEO_OpenGraph extends WPSEO_Frontend {
 			'hi_IN', 'is_IS', 'id_ID', 'ga_IE', 'jv_ID', 'kn_IN', 'kk_KZ', 'la_VA', 'lv_LV', 'li_NL', 'lt_LT', 'mk_MK', 'mg_MG', 'ms_MY', 'mt_MT',
 			'mr_IN', 'mn_MN', 'ne_NP', 'pa_IN', 'rm_CH', 'sa_IN', 'sr_RS', 'so_SO', 'sw_KE', 'tl_PH', 'ta_IN', 'tt_RU', 'te_IN', 'ml_IN', 'uk_UA',
 			'uz_UZ', 'vi_VN', 'xh_ZA', 'zu_ZA', 'km_KH', 'tg_TJ', 'ar_AR', 'he_IL', 'ur_PK', 'fa_IR', 'sy_SY', 'yi_DE', 'gn_PY', 'qu_PE', 'ay_BO',
-			'se_NO', 'ps_AF', 'tl_ST'
+			'se_NO', 'ps_AF', 'tl_ST', 'fy_NL',
 		);
 
 		// check to see if the locale is a valid FB one, if not, use en_US as a fallback
@@ -295,9 +299,9 @@ class WPSEO_OpenGraph extends WPSEO_Frontend {
 				$this->image_output( $thumb[0] );
 			}
 
-			if ( preg_match_all( '/<img [^>]+>/', $post->post_content, $matches ) ) {
+			if ( preg_match_all( '`<img [^>]+>`', $post->post_content, $matches ) ) {
 				foreach ( $matches[0] as $img ) {
-					if ( preg_match( '/src=("|\')(.*?)\1/', $img, $match ) )
+					if ( preg_match( '`src=(["\'])(.*?)\1`', $img, $match ) )
 						$this->image_output( $match[2] );
 				}
 			}
