@@ -60,13 +60,14 @@ class Yoast_TextStatistics {
 	/**
 	 * Gives letter count (ignores all non-letters).
 	 *
+	 * @todo make this work for utf8 text ?
+	 *
 	 * @param string $strText      Text to be measured
 	 * @return int
 	 */
 	public function letter_count( $strText ) {
 		$strText       = $this->clean_text( $strText ); // To clear out newlines etc
-		$strText       = preg_replace( '/[^A-Za-z]+/', '', $strText );
-		$intTextLength = strlen( $strText );
+		$intTextLength = preg_match_all( '`[A-Za-z]`', $strText, $matches );
 		return $intTextLength;
 	}
 
@@ -83,14 +84,14 @@ class Yoast_TextStatistics {
 			$strText = str_ireplace( '</' . $tag . '>', '.', $strText );
 		}
 		$strText = strip_tags( $strText );
-		$strText = preg_replace( '/[,:;()-]/', ' ', $strText ); // Replace commans, hyphens etc (count them as spaces)
-		$strText = preg_replace( '/[\.!?]/', '.', $strText ); // Unify terminators
+		$strText = preg_replace( '`[,:;\(\)-]`', ' ', $strText ); // Replace commans, hyphens etc (count them as spaces)
+		$strText = preg_replace( '`[\.!?]`', '.', $strText ); // Unify terminators
 		$strText = trim( $strText ) . '.'; // Add final terminator, just in case it's missing.
-		$strText = preg_replace( '/[ ]*(\n|\r\n|\r)[ ]*/', ' ', $strText ); // Replace new lines with spaces
-		$strText = preg_replace( '/([\.])[\. ]+/', '$1', $strText ); // Check for duplicated terminators
-		$strText = trim( preg_replace( '/[ ]*([\.])/', '$1 ', $strText ) ); // Pad sentence terminators
-		$strText = preg_replace( '/[ ]+/', ' ', $strText ); // Remove multiple spaces
-		$strText = preg_replace_callback( '/\. [^ ]+/', create_function( '$matches', 'return strtolower($matches[0]);' ), $strText ); // Lower case all words following terminators (for gunning fog score)
+		$strText = preg_replace( '`[ ]*[\n\r]+[ ]*`', ' ', $strText ); // Replace new lines with spaces
+		$strText = preg_replace( '`([\.])[\. ]+`', '$1', $strText ); // Check for duplicated terminators
+		$strText = trim( preg_replace( '`[ ]*([\.])`', '$1 ', $strText ) ); // Pad sentence terminators
+		$strText = preg_replace( '`[ ]+`', ' ', $strText ); // Remove multiple spaces
+		$strText = preg_replace_callback( '`\. [^ ]+`', create_function( '$matches', 'return strtolower($matches[0]);' ), $strText ); // Lower case all words following terminators (for gunning fog score)
 		return $strText;
 	}
 
@@ -123,7 +124,10 @@ class Yoast_TextStatistics {
 	public function sentence_count( $strText ) {
 		$strText = $this->clean_text( $strText );
 		// Will be tripped up by "Mr." or "U.K.". Not a major concern at this point.
-		$intSentences = max( 1, $this->text_length( preg_replace( '/[^\.!?]/', '', $strText ) ) );
+		// [JRF] Will also be tripped up by ... or ?!
+		// @todo May be replace with something along the lines of this - will at least provide better count in ... and ?! situations:
+		// $intSentences = max( 1, preg_match_all( '`[^\.!?]+[\.!?]+([\s]+|$)`u', $strText, $matches ) ); [/JRF]
+		$intSentences = max( 1, $this->text_length( preg_replace( '`[^\.!?]`', '', $strText ) ) );
 		return $intSentences;
 	}
 
@@ -135,8 +139,8 @@ class Yoast_TextStatistics {
 	 */
 	public function word_count( $strText ) {
 		$strText = $this->clean_text( $strText );
-		// Will be tripped by by em dashes with spaces either side, among other similar characters
-		$intWords = 1 + $this->text_length( preg_replace( '/[^ ]/', '', $strText ) ); // Space count + 1 is word count
+		// Will be tripped by em dashes with spaces either side, among other similar characters
+		$intWords = 1 + $this->text_length( preg_replace( '`[^ ]`', '', $strText ) ); // Space count + 1 is word count
 		return $intWords;
 	}
 
@@ -239,21 +243,21 @@ class Yoast_TextStatistics {
 
 		// Single syllable prefixes and suffixes
 		$arrPrefixSuffix = Array(
-			'/^un/'
-		, '/^fore/'
-		, '/ly$/'
-		, '/less$/'
-		, '/ful$/'
-		, '/ers?$/'
-		, '/ings?$/'
+			'`^un`'
+		, '`^fore`'
+		, '`ly$`'
+		, '`less$`'
+		, '`ful$`'
+		, '`ers?$`'
+		, '`ings?$`'
 		);
 
 		// Remove prefixes and suffixes and count how many were taken
 		$strWord = preg_replace( $arrPrefixSuffix, '', $strWord, -1, $intPrefixSuffixCount );
 
 		// Removed non-word characters from word
-		$strWord          = preg_replace( '/[^a-z]/is', '', $strWord );
-		$arrWordParts     = preg_split( '/[^aeiouy]+/', $strWord );
+		$strWord          = preg_replace( '`[^a-z]`is', '', $strWord );
+		$arrWordParts     = preg_split( '`[^aeiouy]+`', $strWord );
 		$intWordPartCount = 0;
 		foreach ( $arrWordParts as $strWordPart ) {
 			if ( $strWordPart <> '' ) {
@@ -265,10 +269,10 @@ class Yoast_TextStatistics {
 		// Thanks to Joe Kovar for correcting a bug in the following lines
 		$intSyllableCount = $intWordPartCount + $intPrefixSuffixCount;
 		foreach ( $arrSubSyllables as $strSyllable ) {
-			$intSyllableCount -= preg_match( '~' . $strSyllable . '~', $strWord );
+			$intSyllableCount -= preg_match( '`' . $strSyllable . '`', $strWord );
 		}
 		foreach ( $arrAddSyllables as $strSyllable ) {
-			$intSyllableCount += preg_match( '~' . $strSyllable . '~', $strWord );
+			$intSyllableCount += preg_match( '`' . $strSyllable . '`', $strWord );
 		}
 		$intSyllableCount = ( $intSyllableCount == 0 ) ? 1 : $intSyllableCount;
 		return $intSyllableCount;

@@ -156,6 +156,11 @@ table.yoast_help tr:hover {
 	margin: 0 5px;
 	float: right;
 }
+.button.checkit {
+	padding: 5px 8px;
+	margin: 0 5px;
+	float: right;
+}
 
 .button {
 	color: #000 !important;
