@@ -423,6 +423,17 @@ class WPSEO_Metabox {
 			"title"       => __( "301 Redirect", 'wordpress-seo' ),
 			"description" => __( "The URL that this page should redirect to.", 'wordpress-seo' )
 		);
+		$mbs['authorship']             = array(
+			'name'    => 'authorship',
+			'std'     => 'include',
+			'title'   => __( 'Authorship:', 'wordpress-seo' ),
+			'type'    => 'radio',
+			"options" => array(
+				"0" => __( "Include", 'wordpress-seo' ),
+				"1" => __( "Exclude", 'wordpress-seo' ),
+			),
+			'description' => __( 'Include <code>rel="author"</code> on this page?', 'wordpress-seo' ),
+		);
 
 		// Apply filters for in advanced section
 		$mbs = apply_filters( 'wpseo_metabox_entries_advanced', $mbs );

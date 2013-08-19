@@ -802,6 +802,11 @@ class WPSEO_Frontend {
 			}
 		}
 
+		// Unset gplus when authorship is disabled for this entry
+		if ( wpseo_get_value( 'authorship' ) ) {
+			$gplus = false;
+		}
+
 		$gplus = apply_filters( 'wpseo_author_link', $gplus );
 
 		if ( $gplus )
