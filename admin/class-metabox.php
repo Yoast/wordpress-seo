@@ -157,8 +157,6 @@ class WPSEO_Metabox {
 
 	/**
 	 * Outputs the scripts needed for the edit / post page overview, snippet preview, etc.
-	 *
-	 * @return bool
 	 */
 	public function script() {
 		if ( isset( $_GET['post'] ) ) {
@@ -169,7 +167,7 @@ class WPSEO_Metabox {
 		}
 
 		if ( !isset( $post ) )
-			return false;
+			return;
 
 		$options = get_wpseo_options();
 
@@ -1105,7 +1103,7 @@ class WPSEO_Metabox {
 		$dom                      = new domDocument;
 		$dom->strictErrorChecking = false;
 		$dom->preserveWhiteSpace  = false;
-		@$dom->loadHTML( $post->post_content );
+		@$dom->loadHTML( apply_filters( 'wpseo_pre_analysis_post_content', $post->post_content ) );
 		$xpath = new DOMXPath( $dom );
 
 		$statistics = new Yoast_TextStatistics;
@@ -1144,7 +1142,7 @@ class WPSEO_Metabox {
 
 		// Body
 		$body   = $this->get_body( $post );
-		$firstp = $this->get_first_paragraph( $post );
+		$firstp = $this->get_first_paragraph( $body );
 		$this->score_body( $job, $results, $body, $firstp, $statistics );
 		unset( $body );
 		unset( $firstp );
@@ -1748,17 +1746,21 @@ class WPSEO_Metabox {
 	 * @return string The post content.
 	 */
 	function get_body( $post ) {
-		// Strip shortcodes, for obvious reasons
-		$origHtml = wpseo_strip_shortcode( $post->post_content );
+		// This filter allows plugins to add their content to the content to be analyzed.
+		$post_content = apply_filters( 'wpseo_pre_analysis_post_content', $post->post_content );
 
-		if ( trim( $origHtml ) == '' )
+		// Strip shortcodes, for obvious reasons, if plugins think their content should be in the analysis, they should
+		// hook into the above filter.
+		$post_content = wpseo_strip_shortcode( $post_content );
+
+		if ( trim( $post_content ) == '' )
 			return '';
 
-		$htmdata2 = preg_replace( '`[\n\r]`', ' ', $origHtml );
+		$htmdata2 = preg_replace( '`[\n\r]`', ' ', $post_content );
 		if ( $htmdata2 == null )
-			$htmdata2 = $origHtml;
+			$htmdata2 = $post_content;
 		else
-			unset( $origHtml );
+			unset( $post_content );
 
 		$htmdata3 = preg_replace( '`<(?:\x20*script|script).*?(?:/>|/script>)`', '', $htmdata2 );
 		if ( $htmdata3 == null )
@@ -1784,12 +1786,12 @@ class WPSEO_Metabox {
 	/**
 	 * Retrieve the first paragraph from the post.
 	 *
-	 * @param object $post The post to retrieve the first paragraph from.
+	 * @param string $body The post content to retrieve the first paragraph from.
 	 * @return string
 	 */
-	function get_first_paragraph( $post ) {
+	function get_first_paragraph( $body ) {
 		// To determine the first paragraph we first need to autop the content, then match the first paragraph and return.
-		$res = preg_match( '`<p[.]*?>(.*)</p>`', wpautop( $post->post_content ), $matches );
+		$res = preg_match( '`<p[.]*?>(.*)</p>`', wpautop( $body ), $matches );
 		if ( $res )
 			return $matches[1];
 		return false;

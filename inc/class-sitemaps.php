@@ -72,9 +72,10 @@ class WPSEO_Sitemaps {
 	 * @param callback $function Function to build your XSL file
 	 * @param string   $rewrite  Optional. Regular expression to match your sitemap with
 	 */
-	function register_xsl( $name, $function, $rewrite ) {
+	function register_xsl( $name, $function, $rewrite = '' ) {
 		add_action( 'wpseo_xsl_' . $name, $function );
-		add_rewrite_rule( $rewrite, 'index.php?xsl=' . $name, 'top' );
+		if ( !empty( $rewrite ) )
+			add_rewrite_rule( $rewrite, 'index.php?xsl=' . $name, 'top' );
 	}
 
 	/**
@@ -118,7 +119,7 @@ class WPSEO_Sitemaps {
 
 		add_rewrite_rule( 'sitemap_index\.xml$', 'index.php?sitemap=1', 'top' );
 		add_rewrite_rule( '([^/]+?)-sitemap([0-9]+)?\.xml$', 'index.php?sitemap=$matches[1]&sitemap_n=$matches[2]', 'top' );
-		add_rewrite_rule( 'sitemap\.xsl$', 'index.php?xsl=1', 'top' );
+		add_rewrite_rule( '([a-z]+)?-?sitemap\.xsl$', 'index.php?xsl=$matches[1]', 'top' );
 	}
 
 	/**
