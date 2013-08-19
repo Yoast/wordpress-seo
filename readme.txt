@@ -128,6 +128,7 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
     * Fixed: Meta description 'Fix it' feedback message was not shown - props [Jrf](http://profiles.wordpress.org/jrf).
     * Mini-fix for plugin_dir_url - props [Jrf](http://profiles.wordpress.org/jrf).
     * Fixed Author Highlighting to only show authors as possible choice for Google+ Plus author as reported by [Sanoma](https://github.com/jdevalk/wordpress-seo/issues/131) - props [Jrf](http://profiles.wordpress.org/jrf).
+    * Fixed adjacent_rel_links() for Genesis users - props [benjamin74](https://github.com/benjamin74) for reporting.
 
 * Enhancements
     * Make `$wpseo_metabox` a global, props [Peter Chester](http://tri.be/).
