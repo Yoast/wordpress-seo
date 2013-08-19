@@ -668,8 +668,7 @@ class WPSEO_Frontend {
 		}
 
 		if ( $canonical && isset( $this->options['force_transport'] ) && 'default' != $this->options['force_transport'] ) {
-			// @todo This might give issues with http(s) occuring in a post title! Probably should be changed to '`^http[s]?`' to only replace at the start of the url. [JRF]
-			$canonical = preg_replace( '`http[s]?`', $this->options['force_transport'], $canonical );
+			$canonical = preg_replace( '`^http[s]?`', $this->options['force_transport'], $canonical );
 		}
 
 		$canonical = apply_filters( 'wpseo_canonical', $canonical );
