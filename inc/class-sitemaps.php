@@ -111,6 +111,10 @@ class WPSEO_Sitemaps {
 	 * Initialize sitemaps. Add sitemap rewrite rules and query var
 	 */
 	function init() {
+		if ( !is_object( $GLOBALS['wp'] ) ) {
+			return;
+		}
+
 		$GLOBALS['wp']->add_query_var( 'sitemap' );
 		$GLOBALS['wp']->add_query_var( 'sitemap_n' );
 		$GLOBALS['wp']->add_query_var( 'xsl' );
