@@ -117,14 +117,14 @@ This release contains tons and tons of bugfixes, thanks in *large* part to [Jrf]
     * Fixed bug in shortcode removal from meta description as reported by [professor44](http://profiles.wordpress.org/professor44/) - props [Jrf](http://profiles.wordpress.org/jrf).
     * Fixed bug preventing saving of taxonomy meta data on first try - props [Jrf](http://profiles.wordpress.org/jrf).
     * Fixed small (potential) issue in wpseo_title_test() - props [Jrf](http://profiles.wordpress.org/jrf).
-    * Fixed bug where RSS excerpt would be double wrapped in <p> tags as reported by [mikeprince](http://profiles.wordpress.org/mikeprince) - props [Jrf](http://profiles.wordpress.org/jrf).
+    * Fixed bug where RSS excerpt would be double wrapped in `&lt;p&gt;` tags as reported by [mikeprince](http://profiles.wordpress.org/mikeprince) - props [Jrf](http://profiles.wordpress.org/jrf).
     * Fixed HTML validation error: Duplicate id Twitter on Social tab - props [Jrf](http://profiles.wordpress.org/jrf).
     * Fixed undefined index notice as reported by [szepeviktor](http://profiles.wordpress.org/szepeviktor).
     * Fixed error in a database query as reported by [Watch Teller](http://wordpress.org/support/profile/watchteller) - props [Jrf](http://profiles.wordpress.org/jrf).
     * Fixed small issue with how styles where enqueued/registered - props [Jrf](http://profiles.wordpress.org/jrf).
     * Fixed bug in alt text of score dots as [reported by Rocket Pixels](http://wordpress.org/support/topic/dots-on-hover-over-show-na-tooltip) - props [Jrf](http://profiles.wordpress.org/jrf).
     * Applied best practices to all uses of preg_ functions fixing some bugs in the process - props [Jrf](http://profiles.wordpress.org/jrf).
-    * Fixed bug in processing of %%ct_<custom-tax-name>%% as [reported by Joy](http://wordpress.org/support/topic/plugin-dies-when-processing-ct_desc_) - props [Jrf](http://profiles.wordpress.org/jrf).
+    * Fixed bug in processing of `%%ct_<custom-tax-name>%%` as [reported by Joy](http://wordpress.org/support/topic/plugin-dies-when-processing-ct_desc_) - props [Jrf](http://profiles.wordpress.org/jrf).
     * Fixed: no more empty og: or twitter: tags. Also added additional escaping where needed - props [Jrf](http://profiles.wordpress.org/jrf).
     * Fixed: Meta description tag discovery looked in parent theme header file even when a child theme is the current theme - props [Jrf](http://profiles.wordpress.org/jrf).
     * Fixed: Using the 'Fix it' button would remove the meta description tag from the parent theme header file, even when a child theme is the current theme - props [Jrf](http://profiles.wordpress.org/jrf).
@@ -154,7 +154,7 @@ This release contains tons and tons of bugfixes, thanks in *large* part to [Jrf]
     * Hide advanced tab for users for which it has been disabled, as [suggested by jrgmartin](https://github.com/jdevalk/wordpress-seo/issues/93) - props [Jrf](http://profiles.wordpress.org/jrf).
     * Updated Facebook supported locales list for og:locale
 
-*i18n
+* i18n
     * Updated languages tr_TK, fi, ru_RU & da_DK
     * Added language hi_IN
     * Updated wordpress-seo.pot file
