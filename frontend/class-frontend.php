@@ -43,6 +43,7 @@ class WPSEO_Frontend {
 		add_action( 'wpseo_head', array( $this, 'author' ), 22 );
 		add_action( 'wpseo_head', array( $this, 'publisher' ), 23 );
 		add_action( 'wpseo_head', array( $this, 'webmaster_tools_authentication' ), 90 );
+		add_action( 'wpseo_head', array( $this, 'debug_closing_marker' ), 999 );
 
 		// Remove actions that we will handle through our wpseo_head call, and probably change the output of
 		remove_action( 'wp_head', 'rel_canonical' );
@@ -457,6 +458,13 @@ class WPSEO_Frontend {
 	}
 
 	/**
+	 * Output the closing comment marker.
+	 */
+	public function debug_closing_marker() {
+		echo "<!-- / Yoast WordPress SEO plugin. -->\n\n";
+	}
+
+	/**
 	 * Output Webmaster Tools authentication strings
 	 */
 	public function webmaster_tools_authentication() {
@@ -499,8 +507,6 @@ class WPSEO_Frontend {
 		}
 
 		do_action( 'wpseo_head' );
-
-		echo "<!-- / Yoast WordPress SEO plugin. -->\n\n";
 
 		if ( !empty( $old_wp_query ) ) {
 			$GLOBALS['wp_query'] = $old_wp_query;
@@ -1215,7 +1221,7 @@ class WPSEO_Frontend {
 		}
 		return $content;
 	}
-	
+
 	/**
 	 * Adds the RSS footer and/or header to an RSS feed item.
 	 *
