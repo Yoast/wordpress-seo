@@ -136,6 +136,7 @@ This release contains tons and tons of bugfixes, thanks in *large* part to [Jrf]
     * Fixed `adjacent_rel_links()` for Genesis users - props [benjamin74](https://github.com/benjamin74) for reporting.
     * Replace jQuery .live function with .on(), as .live() has been deprecated and deleted. Props [Viktor Kostadinov](http://www.2buy1click.com/) & [Taco Verdonschot](http://yoast.com/about-us/taco-verdonschot/).
     * Fix how breadcrumbs deal with taxonomy orders. Props [Gaya Kessler](http://www.gayadesign.com/).
+    * Fixed some PHP warnings
 
 * Enhancements
     * Added `wpseo_pre_analysis_post_content` filter. This allows plugins to add content to the content that is analyzed by the page analysis functionality.
