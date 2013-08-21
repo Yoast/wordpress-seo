@@ -376,6 +376,10 @@ function wpseo_xml_sitemaps_init() {
 	// redirects sitemap.xml to sitemap_index.xml
 	add_action( 'template_redirect', 'wpseo_xml_redirect_sitemap', 0 );
 
+	if ( !is_object( $GLOBALS['wp'] ) ) {
+		return;
+	}
+
 	$GLOBALS['wp']->add_query_var( 'sitemap' );
 	$GLOBALS['wp']->add_query_var( 'sitemap_n' );
 	$GLOBALS['wp']->add_query_var( 'xslt' );
