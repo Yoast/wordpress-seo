@@ -13,7 +13,7 @@ global $wpseo_admin_pages;
 $options = get_option( 'wpseo_social' );
 
 $fbconnect = '<p><strong>' . __( 'Facebook Insights and Admins', 'wordpress-seo' ) . '</strong><br>';
-$fbconnect .= sprintf( __( 'To be able to access your <a href="%s">Facebook Insights</a> for your site, you need to specify a Facebook Admin. This can be a user, but if you have an app for your site, you could use that. For most people a user will be "good enough" though.', 'wordpress-seo' ), 'https://www.facebook.com/insights' ) . '</p>';
+$fbconnect .= sprintf( __( 'To be able to access your <a href="%s">Facebook Insights</a> for your site, you need to specify a Facebook Admin. This can be a user, but if you have an app for your site you can use that. For most people a user will be "good enough," though.', 'wordpress-seo' ), 'https://www.facebook.com/insights' ) . '</p>';
 
 $error    = false;
 $clearall = false;
@@ -36,7 +36,7 @@ if ( isset( $_GET['fbclearall'] ) ) {
 		die( "I don't think that's really nice of you!." );
 	unset( $options['fb_admins'], $options['fbapps'], $options['fbadminapp'], $options['fbadminpage'] );
 	update_option( 'wpseo_social', $options );
-	add_settings_error( 'yoast_wpseo_social_options', 'success', __( 'Successfully cleared all Facebook Data', 'wordpress-seo' ), 'updated' );
+	add_settings_error( 'yoast_wpseo_social_options', 'success', __( 'Successfully cleared all Facebook data.', 'wordpress-seo' ), 'updated' );
 }
 
 if ( !isset( $options['fbconnectkey'] ) || empty( $options['fbconnectkey'] ) ) {
@@ -148,13 +148,13 @@ if ( $error )
 		echo '<p>';
 		echo $wpseo_admin_pages->checkbox( 'opengraph', '<label for="opengraph">' . __( 'Add Open Graph meta data', 'wordpress-seo' ) . '</label>' );
 		echo '</p>';
-		echo'<p class="desc">' . __( 'Add Open Graph meta data to your site\'s <code>&lt;head&gt;</code> section. You can specify some of the ID\'s that are sometimes needed below:', 'wordpress-seo' ) . '</p>';
+		echo'<p class="desc">' . __( 'Add Open Graph meta data to your site\'s <code>&lt;head&gt;</code> section. You can specify some of the IDs that are sometimes needed below:', 'wordpress-seo' ) . '</p>';
 		echo $fbconnect;
 		echo $wpseo_admin_pages->textinput( 'facebook_site', __( 'Facebook Page URL', 'wordpress-seo' ) );
 		echo '<h4>' . __( 'Frontpage settings', 'wordpress-seo' ) . '</h4>';
 		echo $wpseo_admin_pages->textinput( 'og_frontpage_image', __( 'Image URL', 'wordpress-seo' ) );
 		echo $wpseo_admin_pages->textinput( 'og_frontpage_desc', __( 'Description', 'wordpress-seo' ) );
-		echo '<p class="desc label">' . __( 'These are the image and description used in the Open Graph meta tags on the frontpage of your site.', 'wordpress-seo' ) . '</p>';
+		echo '<p class="desc label">' . __( 'These are the image and description used in the Open Graph meta tags on the front page of your site.', 'wordpress-seo' ) . '</p>';
 		echo '<h4>' . __( 'Default settings', 'wordpress-seo' ) . '</h4>';
 		echo $wpseo_admin_pages->textinput( 'og_default_image', __( 'Image URL', 'wordpress-seo' ) );
 		echo '<p class="desc label">' . __( 'This image is used if the post/page being shared does not contain any images.', 'wordpress-seo' ) . '</p>';
@@ -165,9 +165,9 @@ if ( $error )
 <div id="twitterbox" class="wpseotab">
 	<?php
 		echo '<p>';
-		echo $wpseo_admin_pages->checkbox( 'twitter', '<label for="twitter">' . __( 'Add Twitter card meta data', 'wordpress-seo' ) . '</label>' );
+		echo $wpseo_admin_pages->checkbox( 'twitter', '<label for="twitter">' . __( 'Add Twitter Card meta data', 'wordpress-seo' ) . '</label>' );
 		echo '</p>';
-		echo'<p class="desc">' . __( 'Add Twitter card meta data to your site\'s <code>&lt;head&gt;</code> section.', 'wordpress-seo' ) . '</p>';
+		echo'<p class="desc">' . __( 'Add Twitter Card meta data to your site\'s <code>&lt;head&gt;</code> section.', 'wordpress-seo' ) . '</p>';
 		echo $wpseo_admin_pages->textinput( 'twitter_site', __( 'Site Twitter Username', 'wordpress-seo' ) );
 		do_action('wpseo_admin_twitter_section');
 	?>
@@ -189,7 +189,7 @@ if ( $error )
 		);
 		echo '<p class="desc label">' . __( 'Choose the user that should be used for the <code>rel="author"</code> on the blog homepage. Make sure the user has filled out his/her Google+ profile link on their profile page.', 'wordpress-seo' ) . '</p>';
 		echo $wpseo_admin_pages->textinput( 'plus-publisher', __( 'Google Publisher Page', 'wordpress-seo' ) );
-		echo '<p class="desc label">' . __( 'If you have a Google+ page for your business, add that URL here and link it on your Google+ page\'s about page.', 'wordpress-seo' ) . '</p>';
+		echo '<p class="desc label">' . __( 'If you have a Google+ page for your business, add that URL here and link it on your Google+ page\'s "About" page.', 'wordpress-seo' ) . '</p>';
 		do_action('wpseo_admin_googleplus_section');
 	?>
 </div>

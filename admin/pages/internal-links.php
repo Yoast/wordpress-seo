@@ -15,7 +15,7 @@ $wpseo_admin_pages->admin_header( __( 'Internal Links', 'wordpress-seo' ), true,
 $content = $wpseo_admin_pages->checkbox( 'breadcrumbs-enable', __( 'Enable Breadcrumbs', 'wordpress-seo' ) );
 $content .= '<br/>';
 $content .= $wpseo_admin_pages->textinput( 'breadcrumbs-sep', __( 'Separator between breadcrumbs', 'wordpress-seo' ) );
-$content .= $wpseo_admin_pages->textinput( 'breadcrumbs-home', __( 'Anchor text for the Homepage', 'wordpress-seo' ) );
+$content .= $wpseo_admin_pages->textinput( 'breadcrumbs-home', __( 'Anchor text for the homepage', 'wordpress-seo' ) );
 $content .= $wpseo_admin_pages->textinput( 'breadcrumbs-prefix', __( 'Prefix for the breadcrumb path', 'wordpress-seo' ) );
 $content .= $wpseo_admin_pages->textinput( 'breadcrumbs-archiveprefix', __( 'Prefix for Archive breadcrumbs', 'wordpress-seo' ) );
 $content .= $wpseo_admin_pages->textinput( 'breadcrumbs-searchprefix', __( 'Prefix for Search Page breadcrumbs', 'wordpress-seo' ) );
@@ -51,10 +51,10 @@ foreach ( get_taxonomies( array( 'public'=> true, '_builtin' => false ), 'object
 $content .= $wpseo_admin_pages->checkbox( 'breadcrumbs-boldlast', __( 'Bold the last page in the breadcrumb', 'wordpress-seo' ) );
 
 $content .= '<br class="clear"/>';
-$content .= '<h4>' . __( 'How to insert breadcrumbs in your theme', 'wordpress-seo' ) . '</h4>';
+$content .= '<h4>' . __( 'How to insert breadcrumbs in your theme:', 'wordpress-seo' ) . '</h4>';
 $content .= '<p>' . __( 'Usage of this breadcrumbs feature is explained <a href="http://yoast.com/wordpress/breadcrumbs/">here</a>. For the more code savvy, insert this in your theme:', 'wordpress-seo' ) . '</p>';
-$content .= '<pre>&lt;?php if ( function_exists(&#x27;yoast_breadcrumb&#x27;) ) {
-yoast_breadcrumb(&#x27;&lt;p id=&quot;breadcrumbs&quot;&gt;&#x27;,&#x27;&lt;/p&gt;&#x27;);
+$content .= '<pre>&lt;?php if( function_exists( &#x27;yoast_breadcrumb&#x27; ) ) {
+yoast_breadcrumb( &#x27;&lt;p id=&quot;breadcrumbs&quot;&gt;&#x27;,&#x27;&lt;/p&gt;&#x27; );
 } ?&gt;</pre>';
 $wpseo_admin_pages->postbox( 'internallinks', __( 'Breadcrumbs Settings', 'wordpress-seo' ), $content );
 

@@ -22,7 +22,7 @@ if ( isset( $_POST[ 'submitrobots' ] ) ) {
 			$f = fopen( $robots_file, 'w+' );
 			fwrite( $f, $robotsnew );
 			fclose( $f );
-			$msg = __( 'Updated Robots.txt', 'wordpress-seo' );
+			$msg = __( 'Updated robots.txt', 'wordpress-seo' );
 		}
 	}
 }
@@ -65,7 +65,7 @@ if ( file_exists( get_home_path() . "robots.txt" ) ) {
 		$content .= wp_nonce_field( 'wpseo-robotstxt', '_wpnonce', true, false );
 		$content .= "<p>" . __( "Edit the content of your robots.txt:", 'wordpress-seo' ) . "</p>";
 		$content .= '<textarea style="width: 90%;" rows="15" name="robotsnew">' . $robotstxtcontent . '</textarea><br/>';
-		$content .= '<div class="submit"><input class="button" type="submit" name="submitrobots" value="' . __( "Save changes to Robots.txt", 'wordpress-seo' ) . '" /></div>';
+		$content .= '<div class="submit"><input class="button" type="submit" name="submitrobots" value="' . __( "Save changes to robots.txt", 'wordpress-seo' ) . '" /></div>';
 		$content .= '</form>';
 	}
 

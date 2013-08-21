@@ -111,7 +111,7 @@ if ( isset( $options['theme_check'] ) && isset( $options['theme_check']['descrip
 	echo '<p id="metadesc_found notice" class="wrong settings_error">'
 		. '<a href="' . admin_url( 'admin.php?page=wpseo_dashboard&fixmetadesc&nonce=' . wp_create_nonce( 'wpseo-fix-metadesc' ) ) . '" class="button fixit">' . __( 'Fix it.', 'wordpress-seo' ) . '</a>'
 		. ' <a href="' . admin_url( 'admin.php?page=wpseo_dashboard&checkmetadesc&nonce=' . wp_create_nonce( 'wpseo-check-metadesc' ) ) . '" class="button checkit">' . __( 'Re-check theme.', 'wordpress-seo' ) . '</a>'
-		. __( 'Your theme contains a meta description, which blocks WordPress SEO from working properly, please delete the following line, or press fix it:', 'wordpress-seo' ) . '<br />';
+		. __( 'Your theme contains a meta description, which blocks WordPress SEO from working properly. Please delete the following line or press "Fix it":', 'wordpress-seo' ) . '<br />';
 	echo '<code>' . htmlentities( $options['theme_check']['description_found'] ) . '</code>';
 	echo '</p>';
 }
@@ -121,13 +121,13 @@ if ( strpos( get_option( 'permalink_structure' ), '%postname%' ) === false && !i
 	echo '<p id="wrong_permalink" class="wrong">'
 		. '<a href="' . admin_url( 'options-permalink.php' ) . '" class="button fixit">' . __( 'Fix it.', 'wordpress-seo' ) . '</a>'
 		. '<a href="javascript:wpseo_setIgnore(\'permalink\',\'wrong_permalink\',\'' . wp_create_nonce( 'wpseo-ignore' ) . '\');" class="button fixit">' . __( 'Ignore.', 'wordpress-seo' ) . '</a>'
-		. __( 'You do not have your postname in the URL of your posts and pages, it is highly recommended that you do. Consider setting your permalink structure to <strong>/%postname%/</strong>.', 'wordpress-seo' ) . '</p>';
+		. __( 'You do not have your postname in the URL of your posts and pages; it is highly recommended that you do. Consider setting your permalink structure to <strong>/%postname%/</strong>.', 'wordpress-seo' ) . '</p>';
 
 if ( get_option( 'page_comments' ) && !isset( $options['ignore_page_comments'] ) )
 	echo '<p id="wrong_page_comments" class="wrong">'
 		. '<a href="javascript:setWPOption(\'page_comments\',\'0\',\'wrong_page_comments\',\'' . wp_create_nonce( 'wpseo-setoption' ) . '\');" class="button fixit">' . __( 'Fix it.', 'wordpress-seo' ) . '</a>'
 		. '<a href="javascript:wpseo_setIgnore(\'page_comments\',\'wrong_page_comments\',\'' . wp_create_nonce( 'wpseo-ignore' ) . '\');" class="button fixit">' . __( 'Ignore.', 'wordpress-seo' ) . '</a>'
-		. __( 'Paging comments is enabled, this is not needed in 999 out of 1000 cases, so the suggestion is to disable it, to do that, simply uncheck the box before "Break comments into pages..."', 'wordpress-seo' ) . '</p>';
+		. __( 'Paging comments is enabled, which is not needed in 999 out of 1000 cases. Our suggestion is to disable it. To do so, simply uncheck the box before "Break comments into pages..."', 'wordpress-seo' ) . '</p>';
 
 echo '<h2>' . __( 'General', 'wordpress-seo' ) . '</h2>';
 
@@ -140,15 +140,15 @@ echo '<label class="select">' . __( 'Default Settings:', 'wordpress-seo' ) . '</
 echo '<p class="desc label">' . __( 'If you want to restore a site to the default WordPress SEO settings, press this button.', 'wordpress-seo' ) . '</p>';
 
 echo '<h2>' . __( 'Tracking', 'wordpress-seo' ) . '</h2>';
-echo $wpseo_admin_pages->checkbox( 'yoast_tracking', __( 'Allow tracking of this WordPress installs anonymous data.', 'wordpress-seo' ) );
+echo $wpseo_admin_pages->checkbox( 'yoast_tracking', __( "Allow tracking of this WordPress install's anonymous data.", 'wordpress-seo' ) );
 echo '<p class="desc">' . __( "To maintain a plugin as big as WordPress SEO, we need to know what we're dealing: what kinds of other plugins our users are using, what themes, etc. Please allow us to track that data from your install. It will not track <em>any</em> user details, so your security and privacy are safe with us.", 'wordpress-seo' ) . '</p>';
 
 echo '<h2>' . __( 'Security', 'wordpress-seo' ) . '</h2>';
 echo $wpseo_admin_pages->checkbox( 'disableadvanced_meta', __( 'Disable the Advanced part of the WordPress SEO meta box', 'wordpress-seo' ) );
-echo '<p class="desc">' . __( 'Unchecking this box allows authors and editors to redirect posts, noindex them and do other things you might not want if you don\'t trust your authors.', 'wordpress-seo' ) . '</p>';
+echo '<p class="desc">' . __( "Unchecking this box allows authors and editors to redirect posts, noindex them and do other things you might not want if you don't trust your authors.", 'wordpress-seo' ) . '</p>';
 
 echo '<h2>' . __( 'Webmaster Tools', 'wordpress-seo' ) . '</h2>';
-echo '<p>' . __( 'You can use the boxes below to verify with the different Webmaster Tools, if your site is already verified, you can just forget about these. Enter the verify meta values for:', 'wordpress-seo' ) . '</p>';
+echo '<p>' . __( 'You can use the boxes below to verify with the different Webmaster Tools. If your site is already verified, you can just forget about these. Enter the verify meta values for:', 'wordpress-seo' ) . '</p>';
 echo $wpseo_admin_pages->textinput( 'googleverify', '<a target="_blank" href="https://www.google.com/webmasters/tools/dashboard?hl=en&amp;siteUrl=' . urlencode( get_bloginfo( 'url' ) ) . '%2F">' . __( 'Google Webmaster Tools', 'wordpress-seo' ) . '</a>' );
 echo $wpseo_admin_pages->textinput( 'msverify', '<a target="_blank" href="http://www.bing.com/webmaster/?rfp=1#/Dashboard/?url=' . str_replace( 'http://', '', get_bloginfo( 'url' ) ) . '">' . __( 'Bing Webmaster Tools', 'wordpress-seo' ) . '</a>' );
 echo $wpseo_admin_pages->textinput( 'alexaverify', '<a target="_blank" href="http://www.alexa.com/pro/subscription">' . __( 'Alexa Verification ID', 'wordpress-seo' ) . '</a>' );
@@ -288,7 +288,7 @@ function wpseo_deactivate_robots_meta_notice() {
  * @since 1.4.8
  */
 function wpseo_import_aioseo_setting_notice() {
-	echo '<div class="updated"><p>' . sprintf( __( 'The plugin All-In-One-SEO has been detected. Do you want to %simport its settings%s.' ), '<a href="' . admin_url( 'admin.php?page=wpseo_dashboard&import_aioseo=1' ) . '">', '</a>' ) . '</p></div>';
+	echo '<div class="updated"><p>' . sprintf( __( 'The plugin All in One SEO Pack has been detected. Do you want to %simport its settings%s.' ), '<a href="' . admin_url( 'admin.php?page=wpseo_dashboard&import_aioseo=1' ) . '">', '</a>' ) . '</p></div>';
 }
 
 /**
@@ -297,7 +297,7 @@ function wpseo_import_aioseo_setting_notice() {
  * @since 1.4.8
  */
 function wpseo_deactivate_link_aioseo_notice( $active ) {
-	echo '<div class="updated"><p>' . sprintf( __( 'All in One SEO data successfully imported. Would you like to %sdisable the All in One SEO plugin%s.' ), '<a href="' . admin_url( 'admin.php?page=wpseo_dashboard&deactivate_aioseo=1' ) . '">', '</a>' ) . '</p></div>';
+	echo '<div class="updated"><p>' . sprintf( __( 'All in One SEO Pack data successfully imported. Would you like to %sdisable the All in One SEO plugin%s.' ), '<a href="' . admin_url( 'admin.php?page=wpseo_dashboard&deactivate_aioseo=1' ) . '">', '</a>' ) . '</p></div>';
 }
 
 /**
@@ -306,7 +306,7 @@ function wpseo_deactivate_link_aioseo_notice( $active ) {
  * @since 1.4.8
  */
 function wpseo_deactivate_aioseo_notice() {
-	echo '<div class="updated"><p>' . __( 'All-In-One-SEO has been deactivated' ) . '</p></div>';
+	echo '<div class="updated"><p>' . __( 'All in One SEO Pack has been deactivated' ) . '</p></div>';
 }
 
 

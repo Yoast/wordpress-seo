@@ -16,7 +16,7 @@ $options = get_option( 'wpseo_xml' );
 
 $base = $GLOBALS['wp_rewrite']->using_index_permalinks() ? 'index.php/' : '';
 
-$content = $wpseo_admin_pages->checkbox( 'enablexmlsitemap', __( 'Check this box to enable XML sitemap functionality.', 'wordpress-seo' ), false );
+$content = $wpseo_admin_pages->checkbox( 'enablexmlsitemap', __( 'Check this box to enable XML Sitemap functionality.', 'wordpress-seo' ), false );
 $content .= '<div id="sitemapinfo">';
 if ( isset( $_SERVER['SERVER_SOFTWARE'] ) && stristr( $_SERVER['SERVER_SOFTWARE'], 'nginx' ) !== false ) {
 	$content .= '<div style="margin: 5px 0; padding: 3px 10px; background-color: #ffffe0; border: 1px solid #E6DB55; border-radius: 3px">';
@@ -27,15 +27,15 @@ rewrite ^/([^/]+?)-sitemap([0-9]+)?\.xml$ /index.php?sitemap=$1&sitemap_n=$2 las
 }
 
 if ( isset( $options['enablexmlsitemap'] ) && $options['enablexmlsitemap'] )
-	$content .= '<p>' . sprintf( __( 'You can find your XML Sitemap here: %sXML Sitemap%s', 'wordpress-seo' ), '<a target="_blank" class="button-secondary" href="' . home_url( $base . 'sitemap_index.xml' ) . '">', '</a>' ) . '<br/><br/>' . __( 'You do <strong>not</strong> need to generate the XML sitemap, nor will it take up time to generate after publishing a post.', 'wordpress-seo' ) . '</p>';
+	$content .= '<p>' . sprintf( __( 'You can find your XML Sitemap here: %sXML Sitemap%s', 'wordpress-seo' ), '<a target="_blank" class="button-secondary" href="' . home_url( $base . 'sitemap_index.xml' ) . '">', '</a>' ) . '<br/><br/>' . __( 'You do <strong>NOT</strong> need to manually generate the XML sitemap. It will be created and automatically updated after publishing a post.', 'wordpress-seo' ) . '</p>';
 else
 	$content .= '<p>' . __( 'Save your settings to activate XML Sitemaps.', 'wordpress-seo' ) . '</p>';
 
-$content .= '<h2>' . __( 'User sitemap', 'wordpress-seo' ) . '</h2>';
+$content .= '<h2>' . __( 'User Sitemap', 'wordpress-seo' ) . '</h2>';
 $content .= $wpseo_admin_pages->checkbox( 'disable_author_sitemap', __( "Disable author/user sitemap", 'wordpress-seo' ), false );
 $content .= '<br/>';
 $content .= '<h2>' . __( 'General settings', 'wordpress-seo' ) . '</h2>';
-$content .= '<p>' . __( 'After content publication, the plugin automatically pings Google and Bing, do you need it to ping other search engines too? If so, check the box:', 'wordpress-seo' ) . '</p>';
+$content .= '<p>' . __( 'After content publication, the plugin automatically pings Google and Bing. Do you need it to ping other search engines too? If so, check the box:', 'wordpress-seo' ) . '</p>';
 $content .= $wpseo_admin_pages->checkbox( 'xml_ping_yahoo', __( "Ping Yahoo!", 'wordpress-seo' ), false );
 $content .= $wpseo_admin_pages->checkbox( 'xml_ping_ask', __( "Ping Ask.com", 'wordpress-seo' ), false );
 $content .= '<h2>' . __( 'Exclude post types', 'wordpress-seo' ) . '</h2>';
