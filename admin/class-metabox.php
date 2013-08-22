@@ -1617,11 +1617,15 @@ class WPSEO_Metabox {
 	 * @return array Array of heading texts.
 	 */
 	function get_headings( $postcontent ) {
-		preg_match_all( '`<h([1-6])([^>]+)?>(.*?)</h\\1>`i', $postcontent, $matches );
 		$headings = array();
-		foreach ( $matches[3] as $heading ) {
-			$headings[] = $this->strtolower_utf8( $heading );
+
+		preg_match_all( '`<h([1-6])(?:[^>]+)?>(.*?)</h\\1>`i', $postcontent, $matches );
+		if( isset( $matches ) && isset( $matches[2] ) ) {
+			foreach ( $matches[2] as $heading ) {
+				$headings[] = $this->strtolower_utf8( $heading );
+			}
 		}
+
 		return $headings;
 	}
 
