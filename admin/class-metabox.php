@@ -1685,7 +1685,7 @@ class WPSEO_Metabox {
 		$scoreBodyPoorLimit = 200;
 		$scoreBodyBadLimit  = 100;
 
-		$scoreBodyGoodLength = __( "There are %d words contained in the body copy, this is greater than the 300 word recommended minimum.", 'wordpress-seo' );
+		$scoreBodyGoodLength = __( "There are %d words contained in the body copy, this is more than the 300 word recommended minimum.", 'wordpress-seo' );
 		$scoreBodyPoorLength = __( "There are %d words contained in the body copy, this is below the 300 word recommended minimum. Add more useful content on this topic for readers.", 'wordpress-seo' );
 		$scoreBodyOKLength   = __( "There are %d words contained in the body copy, this is slightly below the 300 word recommended minimum, add a bit more copy.", 'wordpress-seo' );
 		$scoreBodyBadLength  = __( "There are %d words contained in the body copy. This is far too low and should be increased.", 'wordpress-seo' );
@@ -1851,7 +1851,7 @@ class WPSEO_Metabox {
 	 */
 	function get_first_paragraph( $body ) {
 		// To determine the first paragraph we first need to autop the content, then match the first paragraph and return.
-		$res = preg_match( '`<p[.]*?>(.*)</p>`', wpautop( $body ), $matches );
+		$res = preg_match( '`<p[.]*?>(.*)</p>`', wpautop( strip_tags( $body ) ), $matches );
 		if ( $res )
 			return $matches[1];
 		return false;
