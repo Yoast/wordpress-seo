@@ -299,13 +299,8 @@ class WPSEO_OpenGraph extends WPSEO_Frontend {
 				$this->image_output( $thumb[0] );
 			}
 
-			$content = $post->post_content;
-			if( strpos( $content, '[' ) !== false && strpos( $content, ']' ) !== false ) {
-				// Wrap in output buffering to prevent shortcodes that echo stuff instead of return from breaking things.
-				ob_start();
-				$content = do_shortcode( $content );
-				ob_end_clean();
-			}
+			$content = apply_filters( 'wpseo_pre_analysis_post_content', $post->post_content );
+
 			if ( preg_match_all( '`<img [^>]+>`', $content, $matches ) ) {
 				foreach ( $matches[0] as $img ) {
 					if ( preg_match( '`src=(["\'])(.*?)\1`', $img, $match ) )
