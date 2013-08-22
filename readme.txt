@@ -109,6 +109,7 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 	* Fix the white XML sitemap errors caused by non-working XSL.
 	* Fixed the errors in content analysis reporting an H2 was not found when it was really there.
 	* Fix slug stopwords removal, props [amm350](https://github.com/amm350).
+	* Fix PHP Notice logged when site has capabilities created without 3rd value in args array, props [mbijon](https://github.com/mbijon).
 
 = 1.4.14 =
 
