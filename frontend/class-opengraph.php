@@ -301,7 +301,10 @@ class WPSEO_OpenGraph extends WPSEO_Frontend {
 
 			$content = $post->post_content;
 			if( strpos( $content, '[' ) !== false && strpos( $content, ']' ) !== false ) {
+				// Wrap in output buffering to prevent shortcodes that echo stuff instead of return from breaking things.
+				ob_start();
 				$content = do_shortcode( $content );
+				ob_end_clean();
 			}
 			if ( preg_match_all( '`<img [^>]+>`', $content, $matches ) ) {
 				foreach ( $matches[0] as $img ) {

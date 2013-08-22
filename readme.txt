@@ -110,6 +110,8 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 	* Fixed the errors in content analysis reporting an H2 was not found when it was really there.
 	* Fix slug stopwords removal, props [amm350](https://github.com/amm350).
 	* Fix PHP Notice logged when site has capabilities created without 3rd value in args array, props [mbijon](https://github.com/mbijon).
+	* Fix the fact that meta description template for archive pages didn't work, props [MarcQueralt](https://github.com/MarcQueralt).
+	* Prevent wrong shortcodes (that echo instead of return) from causing erroneous output.
 
 = 1.4.14 =
 
