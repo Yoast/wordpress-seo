@@ -541,6 +541,10 @@ class WPSEO_Admin {
 			wpseo_description_test();
 		}
 
+		if ( version_compare( $current_version, '1.4.15', '<' ) ) {
+			flush_rewrite_rules();
+		}
+
 		$options            = get_option( 'wpseo' );
 		$options['version'] = WPSEO_VERSION;
 		update_option( 'wpseo', $options );
