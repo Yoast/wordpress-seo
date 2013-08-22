@@ -52,7 +52,7 @@ if ( ( isset( $_GET[ 'updated' ] ) && $_GET[ 'updated' ] == 'true' ) || ( isset(
 
 	echo '<h2>' . __( 'Title settings', 'wordpress-seo' ) . '</h2>';
 	echo $wpseo_admin_pages->checkbox( 'forcerewritetitle', __( 'Force rewrite titles', 'wordpress-seo' ) );
-	echo '<p class="desc">' . __( 'WordPress SEO has auto-detected whether it needs to force rewrite the titles for your pages, if you think it\'s wrong and you know what you\'re doing, you can change the setting here.', 'wordpress-seo' ) . '</p>';
+	echo '<p class="desc">' . __( 'WordPress SEO has auto-detected whether it needs to force rewrite the titles for your pages. If you think it\'s wrong and you know what you\'re doing, you can change the setting here.', 'wordpress-seo' ) . '</p>';
 
 	echo '<h2>' . __( 'Sitewide <code>meta</code> settings', 'wordpress-seo' ) . '</h2>';
 	echo $wpseo_admin_pages->checkbox( 'noindex-subpages', __( 'Noindex subpages of archives', 'wordpress-seo' ) );
@@ -84,19 +84,11 @@ if ( ( isset( $_GET[ 'updated' ] ) && $_GET[ 'updated' ] == 'true' ) || ( isset(
 			echo $wpseo_admin_pages->textinput( 'metakey-home', __( 'Meta keywords template', 'wordpress-seo' ) );
 	} else {
 		echo '<h2>' . __( 'Homepage &amp; Front page', 'wordpress-seo' ) . '</h2>';
-		echo '<p>' . sprintf( __( 'You can determine the title and description for the front page by %sediting the front page itself &raquo;%s', 'wordpress-seo' ), '<a href="' . get_edit_post_link( get_option( 'page_on_front' ) ) . '">', '</a>' ) . '</p>';
+		echo '<p>' . sprintf( __( 'You can determine the title and description for the front page by %sediting the front page itself &rarr;%s', 'wordpress-seo' ), '<a href="' . get_edit_post_link( get_option( 'page_on_front' ) ) . '">', '</a>' ) . '</p>';
 		if ( is_numeric( get_option( 'page_for_posts' ) ) )
-			echo '<p>' . sprintf( __( 'You can determine the title and description for the blog page by %sediting the blog page itself &raquo;%s', 'wordpress-seo' ), '<a href="' . get_edit_post_link( get_option( 'page_for_posts' ) ) . '">', '</a>' ) . '</p>';
+			echo '<p>' . sprintf( __( 'You can determine the title and description for the blog page by %sediting the blog page itself &rarr;%s', 'wordpress-seo' ), '<a href="' . get_edit_post_link( get_option( 'page_for_posts' ) ) . '">', '</a>' ) . '</p>';
 	}
-
-	// TODO: Please remove...Depreciated: moved over to the social tab
-	// echo '<h2>' . __( 'Author metadata', 'wordpress-seo' ) . '</h2>';
-	// echo '<label class="select" for="">' . __( 'Author highlighting', 'wordpress-seo' ) . ':</label>';
-	// wp_dropdown_users( array( 'show_option_none' => __( "Don't show", 'wordpress-seo' ), 'name' => 'wpseo_titles[plus-author]', 'class' => 'select', 'selected' => isset( $options[ 'plus-author' ] ) ? $options[ 'plus-author' ] : '' ) );
-	// echo '<p class="desc label">' . __( 'Choose the user that should be used for the <code>rel="author"</code> on the blog homepage. Make sure the user has filled out his/her Google+ profile link on their profile page.', 'wordpress-seo' ) . '</p>';
-	// echo $wpseo_admin_pages->textinput( 'plus-publisher-old', __( 'Google Publisher Page', 'wordpress-seo' ) );
-	// echo '<p class="desc label">' . __( 'If you have a Google+ page for your business, add that URL here and link it on your Google+ page\'s about page.', 'wordpress-seo' ) . '</p>';
-	?>
+?>
 </div>
 <div id="post_types" class="wpseotab">
 	<?php
@@ -164,7 +156,7 @@ if ( ( isset( $_GET[ 'updated' ] ) && $_GET[ 'updated' ] == 'true' ) || ( isset(
 		echo $wpseo_admin_pages->textinput( 'metakey-author', __( 'Meta keywords template', 'wordpress-seo' ) );
 	echo $wpseo_admin_pages->checkbox( 'noindex-author', '<code>noindex, follow</code>', __( 'Meta Robots', 'wordpress-seo' ) );
 	echo $wpseo_admin_pages->checkbox( 'disable-author', __( 'Disable the author archives', 'wordpress-seo' ), '' );
-	echo '<p class="desc label">' . __( 'If you\'re running a one author blog, the author archive will always look exactly the same as your homepage. And even though you may not link to it, others might, to do you harm. Disabling them here will make sure any link to those archives will be 301 redirected to the homepage.', 'wordpress-seo' ) . '</p>';
+	echo '<p class="desc label">' . __( 'If you\'re running a one-author blog, the author archive will always look exactly the same as your homepage. And even though you may not link to it, others might &mdash; which may cause ranking problems. Disabling them here will make sure any link to those archives will be 301 redirected to the homepage.', 'wordpress-seo' ) . '</p>';
 	echo '<br/>';
 	echo '<h4>' . __( 'Date Archives', 'wordpress-seo' ) . '</h4>';
 	echo $wpseo_admin_pages->textinput( 'title-archive', __( 'Title template', 'wordpress-seo' ) );
@@ -172,10 +164,10 @@ if ( ( isset( $_GET[ 'updated' ] ) && $_GET[ 'updated' ] == 'true' ) || ( isset(
 	echo '<br/>';
 	echo $wpseo_admin_pages->checkbox( 'noindex-archive', '<code>noindex, follow</code>', __( 'Meta Robots', 'wordpress-seo' ) );
 	echo $wpseo_admin_pages->checkbox( 'disable-date', __( 'Disable the date-based archives', 'wordpress-seo' ), '' );
-	echo '<p class="desc label">' . __( 'For the date based archives, the same applies: they probably look a lot like your homepage, and could thus be seen as duplicate content.', 'wordpress-seo' ) . '</p>';
+	echo '<p class="desc label">' . __( 'For the date-based archives, the same applies: they probably look a lot like your homepage, and could thus be seen as duplicate content.', 'wordpress-seo' ) . '</p>';
 
 	echo '<h2>' . __( 'Special Pages', 'wordpress-seo' ) . '</h2>';
-	echo '<p>' . __( 'These pages will be noindex, followed by default, so they will never show up in search results.', 'wordpress-seo' ) . '</p>';
+	echo '<p>' . sprintf( __( 'These pages will be %snoindex, follow%s by default, so they will never show up in search results.', 'wordpress-seo' ), '<code>', '</code>' ) . '</p>';
 	echo '<h4>' . __( 'Search pages', 'wordpress-seo' ) . '</h4>';
 	echo $wpseo_admin_pages->textinput( 'title-search', __( 'Title template', 'wordpress-seo' ) );
 	echo '<h4>' . __( '404 pages', 'wordpress-seo' ) . '</h4>';
@@ -202,7 +194,7 @@ if ( ( isset( $_GET[ 'updated' ] ) && $_GET[ 'updated' ] == 'true' ) || ( isset(
 			</tr>
 			<tr>
 				<th>%%sitedesc%%</th>
-				<td>' . __( 'The site\'s tagline / description', 'wordpress-seo' ) . '</td>
+				<td>' . __( 'The site\'s tagline/description', 'wordpress-seo' ) . '</td>
 			</tr>
 			<tr>
 				<th>%%excerpt%%</th>
@@ -264,7 +256,7 @@ if ( ( isset( $_GET[ 'updated' ] ) && $_GET[ 'updated' ] == 'true' ) || ( isset(
 				<th>%%searchphrase%%</th>
 				<td>' . __( 'Replaced with the current search phrase', 'wordpress-seo' ) . '</td>
 			</tr>
-			<tr class="alt">
+			<tr>
 				<th>%%currenttime%%</th>
 				<td>' . __( 'Replaced with the current time', 'wordpress-seo' ) . '</td>
 			</tr>
@@ -272,7 +264,7 @@ if ( ( isset( $_GET[ 'updated' ] ) && $_GET[ 'updated' ] == 'true' ) || ( isset(
 				<th>%%currentdate%%</th>
 				<td>' . __( 'Replaced with the current date', 'wordpress-seo' ) . '</td>
 			</tr>
-			<tr class="alt">
+			<tr>
 				<th>%%currentday%%</th>
 				<td>' . __( 'Replaced with the current day', 'wordpress-seo' ) . '</td>
 			</tr>
@@ -280,15 +272,15 @@ if ( ( isset( $_GET[ 'updated' ] ) && $_GET[ 'updated' ] == 'true' ) || ( isset(
 				<th>%%currentmonth%%</th>
 				<td>' . __( 'Replaced with the current month', 'wordpress-seo' ) . '</td>
 			</tr>
-			<tr class="alt">
+			<tr>
 				<th>%%currentyear%%</th>
 				<td>' . __( 'Replaced with the current year', 'wordpress-seo' ) . '</td>
 			</tr>
 			<tr>
 				<th>%%page%%</th>
-				<td>' . __( 'Replaced with the current page number (i.e. page 2 of 4)', 'wordpress-seo' ) . '</td>
+				<td>' . __( 'Replaced with the current page number (e.g., page 2 of 4)', 'wordpress-seo' ) . '</td>
 			</tr>
-			<tr class="alt">
+			<tr>
 				<th>%%pagetotal%%</th>
 				<td>' . __( 'Replaced with the current page total', 'wordpress-seo' ) . '</td>
 			</tr>
@@ -296,13 +288,13 @@ if ( ( isset( $_GET[ 'updated' ] ) && $_GET[ 'updated' ] == 'true' ) || ( isset(
 				<th>%%pagenumber%%</th>
 				<td>' . __( 'Replaced with the current page number', 'wordpress-seo' ) . '</td>
 			</tr>
-			<tr class="alt">
+			<tr>
 				<th>%%caption%%</th>
 				<td>' . __( 'Attachment caption', 'wordpress-seo' ) . '</td>
 			</tr>
 			<tr>
 				<th>%%focuskw%%</th>
-				<td>' . __( 'Replaced with the posts focus keyword', 'wordpress-seo' ) . '</td>
+				<td>' . __( 'Replaced with the post\'s focus keyword', 'wordpress-seo' ) . '</td>
 			</tr>
 			<tr>
 				<th>%%term404%%</th>
@@ -310,11 +302,11 @@ if ( ( isset( $_GET[ 'updated' ] ) && $_GET[ 'updated' ] == 'true' ) || ( isset(
 			</tr>
 			<tr>
 				<th>%%cf_&lt;custom-field-name&gt;%%</th>
-				<td>' . __( 'Replaced with a posts custom field value', 'wordpress-seo' ) . '</td>
+				<td>' . __( 'Replaced with a post\'s custom field value', 'wordpress-seo' ) . '</td>
 			</tr>
 			<tr>
 				<th>%%ct_&lt;custom-tax-name&gt;%%</th>
-				<td>' . __( 'Replaced with a posts custom taxonomies, comma separated.', 'wordpress-seo' ) . '</td>
+				<td>' . __( 'Replaced with a post\'s custom taxonomies, comma separated.', 'wordpress-seo' ) . '</td>
 			</tr>
 			<tr>
 				<th>%%ct_desc_&lt;custom-tax-name&gt;%%</th>
