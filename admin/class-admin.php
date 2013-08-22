@@ -562,7 +562,7 @@ class WPSEO_Admin {
 		$clean_slug = sanitize_title( stripslashes( $_POST['post_title'] ) );
 
 		// Turn it to an array and strip stopwords by comparing against an array of stopwords
-		$clean_slug_array = array_diff( explode( ' ', $clean_slug ), $this->stopwords() );
+		$clean_slug_array = array_diff( explode( '-', $clean_slug ), $this->stopwords() );
 
 		// Turn the sanitized array into a string
 		$clean_slug = join( '-', $clean_slug_array );

@@ -103,6 +103,13 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 
 == Changelog ==
 
+= 1.4.15 =
+
+* Bugfixes
+	* Fix the white XML sitemap errors caused by non-working XSL.
+	* Fixed the errors in content analysis reporting an H2 was not found when it was really there.
+	* Fix slug stopwords removal, props [amm350](https://github.com/amm350).
+
 = 1.4.14 =
 
 This release contains tons and tons of bugfixes, thanks in *large* part to [Jrf](http://profiles.wordpress.org/jrf), who now has commit rights to the code on Github directly. Please join me in thanking her for her efforts!
