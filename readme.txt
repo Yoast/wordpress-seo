@@ -112,6 +112,7 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 	* Fix PHP Notice logged when site has capabilities created without 3rd value in args array, props [mbijon](https://github.com/mbijon).
 	* Fix the fact that meta description template for archive pages didn't work, props [MarcQueralt](https://github.com/MarcQueralt).
 	* Prevent wrong shortcodes (that echo instead of return) from causing erroneous output.
+	* Fix edge cases issue for keyword in first paragraph test not working.
 
 = 1.4.14 =
 

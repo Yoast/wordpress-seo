@@ -3,7 +3,7 @@
  * @package Admin
  */
 
-if ( !defined( 'WPSEO_VERSION' ) ) {
+if ( ! defined( 'WPSEO_VERSION' ) ) {
 	header( 'HTTP/1.0 403 Forbidden' );
 	die;
 }
@@ -38,7 +38,7 @@ class WPSEO_Admin {
 
 			if ( '0' == get_option( 'blog_public' ) )
 				add_action( 'admin_footer', array( $this, 'blog_public_warning' ) );
-				
+
 			if ( isset( $options['meta_description_warning'] ) && true === $options['meta_description_warning'] )
 				add_action( 'admin_footer', array( $this, 'meta_description_warning' ) );
 
@@ -73,7 +73,8 @@ class WPSEO_Admin {
 	function clear_cache() {
 		if ( function_exists( 'w3tc_pgcache_flush' ) ) {
 			w3tc_pgcache_flush();
-		} else if ( function_exists( 'wp_cache_clear_cache' ) ) {
+		}
+		else if ( function_exists( 'wp_cache_clear_cache' ) ) {
 			wp_cache_clear_cache();
 		}
 	}
@@ -106,9 +107,9 @@ class WPSEO_Admin {
 
 	function multisite_defaults() {
 		$option = get_option( 'wpseo' );
-		if ( function_exists( 'is_multisite' ) && is_multisite() && !is_array( $option ) ) {
+		if ( function_exists( 'is_multisite' ) && is_multisite() && ! is_array( $option ) ) {
 			$options = get_site_option( 'wpseo_ms' );
-			if ( is_array( $options ) && isset( $options['defaultblog'] ) && !empty( $options['defaultblog'] ) && $options['defaultblog'] != 0 ) {
+			if ( is_array( $options ) && isset( $options['defaultblog'] ) && ! empty( $options['defaultblog'] ) && $options['defaultblog'] != 0 ) {
 				foreach ( get_wpseo_options_arr() as $wpseo_option ) {
 					update_option( $wpseo_option, get_blog_option( $options['defaultblog'], $wpseo_option ) );
 				}
@@ -124,14 +125,14 @@ class WPSEO_Admin {
 	 * @return boolean
 	 */
 	function grant_access() {
-		if ( !function_exists( 'is_multisite' ) || !is_multisite() )
+		if ( ! function_exists( 'is_multisite' ) || ! is_multisite() )
 			return true;
 
 		$options = get_site_option( 'wpseo_ms' );
-		if ( !is_array( $options ) || !isset( $options['access'] ) )
+		if ( ! is_array( $options ) || ! isset( $options['access'] ) )
 			return true;
 
-		if ( $options['access'] == 'superadmin' && !is_super_admin() )
+		if ( $options['access'] == 'superadmin' && ! is_super_admin() )
 			return false;
 
 		return true;
@@ -152,9 +153,9 @@ class WPSEO_Admin {
 		add_submenu_page( 'wpseo_dashboard', __( 'RSS', 'wordpress-seo' ), __( 'RSS', 'wordpress-seo' ), 'manage_options', 'wpseo_rss', array( $this, 'rss_page' ) );
 		add_submenu_page( 'wpseo_dashboard', __( 'Import & Export', 'wordpress-seo' ), __( 'Import & Export', 'wordpress-seo' ), 'manage_options', 'wpseo_import', array( $this, 'import_page' ) );
 
-		if ( !( defined( 'DISALLOW_FILE_EDIT' ) && DISALLOW_FILE_EDIT ) && !( defined( 'DISALLOW_FILE_MODS' ) && DISALLOW_FILE_MODS ) ) {
+		if ( ! ( defined( 'DISALLOW_FILE_EDIT' ) && DISALLOW_FILE_EDIT ) && ! ( defined( 'DISALLOW_FILE_MODS' ) && DISALLOW_FILE_MODS ) ) {
 			// Make sure on a multi site install only super admins can edit .htaccess and robots.txt
-			if ( !function_exists( 'is_multisite' ) || !is_multisite() )
+			if ( ! function_exists( 'is_multisite' ) || ! is_multisite() )
 				add_submenu_page( 'wpseo_dashboard', __( 'Edit files', 'wordpress-seo' ), __( 'Edit files', 'wordpress-seo' ), 'manage_options', 'wpseo_files', array( $this, 'files_page' ) );
 			else
 				add_submenu_page( 'wpseo_dashboard', __( 'Edit files', 'wordpress-seo' ), __( 'Edit files', 'wordpress-seo' ), 'delete_users', 'wpseo_files', array( $this, 'files_page' ) );
@@ -262,7 +263,7 @@ class WPSEO_Admin {
 		if ( isset( $options['ignore_blog_public_warning'] ) && $options['ignore_blog_public_warning'] == 'ignore' )
 			return;
 		echo "<div id='message' class='error'>";
-		echo "<p><strong>" . __( "Huge SEO Issue: You're blocking access to robots.", 'wordpress-seo' ) . "</strong> " . sprintf( __( "You must %sgo to your Reading Settings%s and uncheck the box for Search Engine Visibility.", 'wordpress-seo' ), "<a href='".admin_url('options-reading.php')."'>", "</a>" ) . " <a href='javascript:wpseo_setIgnore(\"blog_public_warning\",\"message\",\"" . wp_create_nonce( 'wpseo-ignore' ) . "\");' class='button'>" . __( "I know, don't bug me.", 'wordpress-seo' ) . "</a></p></div>";
+		echo "<p><strong>" . __( "Huge SEO Issue: You're blocking access to robots.", 'wordpress-seo' ) . "</strong> " . sprintf( __( "You must %sgo to your Reading Settings%s and uncheck the box for Search Engine Visibility.", 'wordpress-seo' ), "<a href='" . admin_url( 'options-reading.php' ) . "'>", "</a>" ) . " <a href='javascript:wpseo_setIgnore(\"blog_public_warning\",\"message\",\"" . wp_create_nonce( 'wpseo-ignore' ) . "\");' class='button'>" . __( "I know, don't bug me.", 'wordpress-seo' ) . "</a></p></div>";
 	}
 
 	/**
@@ -273,7 +274,7 @@ class WPSEO_Admin {
 	function meta_description_warning() {
 		if ( function_exists( 'is_network_admin' ) && is_network_admin() )
 			return;
-	
+
 		// No need to double display it on the dashboard
 		if ( isset( $_GET['page'] ) && 'wpseo_dashboard' == $_GET['page'] )
 			return;
@@ -290,8 +291,10 @@ class WPSEO_Admin {
 	 * Add a link to the settings page to the plugins list
 	 *
 	 * @staticvar string $this_plugin holds the directory & filename for the plugin
+	 *
 	 * @param array  $links array of links for the plugins, adapted when the current plugin is found.
 	 * @param string $file  the filename for the current plugin, which the filter loops through.
+	 *
 	 * @return array $links
 	 */
 	function add_action_link( $links, $file ) {
@@ -331,6 +334,7 @@ class WPSEO_Admin {
 	 * These are used with the Facebook author, rel="author" and Twitter cards implementation.
 	 *
 	 * @param array $contactmethods currently set contactmethods.
+	 *
 	 * @return array $contactmethods with added contactmethods.
 	 */
 	function update_contactmethods( $contactmethods ) {
@@ -351,35 +355,35 @@ class WPSEO_Admin {
 	 */
 	function user_profile( $user ) {
 
-		if ( !current_user_can( 'edit_users' ) )
+		if ( ! current_user_can( 'edit_users' ) )
 			return;
 
 		$options = get_wpseo_options();
 
 		wp_nonce_field( 'wpseo_user_profile_update', 'wpseo_nonce' );
 		?>
-    <h3 id="wordpress-seo"><?php _e( "WordPress SEO settings", 'wordpress-seo' ); ?></h3>
-    <table class="form-table">
-        <tr>
-            <th><?php _e( "Title to use for Author page", 'wordpress-seo' ); ?></th>
-            <td><input class="regular-text" type="text" name="wpseo_author_title"
-                       value="<?php echo esc_attr( get_the_author_meta( 'wpseo_title', $user->ID ) ); ?>"/></td>
-        </tr>
-        <tr>
-            <th><?php _e( "Meta description to use for Author page", 'wordpress-seo' ); ?></th>
-            <td><textarea rows="3" cols="30"
-                          name="wpseo_author_metadesc"><?php echo esc_html( get_the_author_meta( 'wpseo_metadesc', $user->ID ) ); ?></textarea>
-            </td>
-        </tr>
-		<?php     if ( isset( $options['usemetakeywords'] ) && $options['usemetakeywords'] ) { ?>
-        <tr>
-            <th><?php _e( "Meta keywords to use for Author page", 'wordpress-seo' ); ?></th>
-            <td><input class="regular-text" type="text" name="wpseo_author_metakey"
-                       value="<?php echo esc_attr( get_the_author_meta( 'wpseo_metakey', $user->ID ) ); ?>"/></td>
-        </tr>
-		<?php } ?>
-    </table>
-    <br/><br/>
+		<h3 id="wordpress-seo"><?php _e( "WordPress SEO settings", 'wordpress-seo' ); ?></h3>
+		<table class="form-table">
+			<tr>
+				<th><?php _e( "Title to use for Author page", 'wordpress-seo' ); ?></th>
+				<td><input class="regular-text" type="text" name="wpseo_author_title"
+									 value="<?php echo esc_attr( get_the_author_meta( 'wpseo_title', $user->ID ) ); ?>" /></td>
+			</tr>
+			<tr>
+				<th><?php _e( "Meta description to use for Author page", 'wordpress-seo' ); ?></th>
+				<td><textarea rows="3" cols="30"
+											name="wpseo_author_metadesc"><?php echo esc_html( get_the_author_meta( 'wpseo_metadesc', $user->ID ) ); ?></textarea>
+				</td>
+			</tr>
+			<?php if ( isset( $options['usemetakeywords'] ) && $options['usemetakeywords'] ) { ?>
+				<tr>
+					<th><?php _e( "Meta keywords to use for Author page", 'wordpress-seo' ); ?></th>
+					<td><input class="regular-text" type="text" name="wpseo_author_metakey"
+										 value="<?php echo esc_attr( get_the_author_meta( 'wpseo_metakey', $user->ID ) ); ?>" /></td>
+				</tr>
+			<?php } ?>
+		</table>
+		<br /><br />
 	<?php
 	}
 
@@ -485,7 +489,7 @@ class WPSEO_Admin {
 
 			if ( is_array( $opt ) ) {
 				foreach ( $opt as $key => $val ) {
-					if ( !in_array( $key, array( 'ignore_blog_public_warning', 'ignore_tour', 'ignore_page_comments', 'ignore_permalink', 'ms_defaults_set', 'version', 'disableadvanced_meta', 'googleverify', 'msverify', 'alexaverify' ) ) ) {
+					if ( ! in_array( $key, array( 'ignore_blog_public_warning', 'ignore_tour', 'ignore_page_comments', 'ignore_permalink', 'ms_defaults_set', 'version', 'disableadvanced_meta', 'googleverify', 'msverify', 'alexaverify' ) ) ) {
 						unset( $opt[$key] );
 					}
 				}
@@ -532,7 +536,7 @@ class WPSEO_Admin {
 			$options['post_types-attachment-not_in_sitemap'] = true;
 			update_option( 'wpseo_xml', $options );
 		}
-		
+
 		if ( version_compare( $current_version, '1.4.13', '<' ) ) {
 			wpseo_description_test();
 		}
@@ -548,6 +552,7 @@ class WPSEO_Admin {
 	 * @since 1.1.7
 	 *
 	 * @param string $slug if this isn't empty, the function will return an unaltered slug.
+	 *
 	 * @return string $clean_slug cleaned slug
 	 */
 	function remove_stopwords_from_slug( $slug ) {
@@ -555,7 +560,7 @@ class WPSEO_Admin {
 		if ( isset( $slug ) && $slug !== '' )
 			return $slug;
 
-		if ( !isset( $_POST['post_title'] ) )
+		if ( ! isset( $_POST['post_title'] ) )
 			return $slug;
 
 		// Lowercase the slug and strip slashes
@@ -585,25 +590,33 @@ class WPSEO_Admin {
 		 * Allows filtering of the stop words list
 		 * Especially useful for users on a language in which WPSEO is not available yet
 		 * and/or users who want to turn off stop word filtering
-		 * @api	array	$stopwords	Array of all lowercase stopwords to check and/or remove from slug
+		 * @api  array  $stopwords  Array of all lowercase stopwords to check and/or remove from slug
 		 */
 		$stopwords = apply_filters( 'wpseo_stopwords', $stopwords );
-		
+
 		return $stopwords;
 	}
 
+	/**
+	 * Check whether the stopword appears in the string
+	 *
+	 * @param string $haystack    The string to be checked for the stopword
+	 * @param bool   $checkingUrl Whether or not we're checking a URL
+	 *
+	 * @return bool|mixed
+	 */
 	function stopwords_check( $haystack, $checkingUrl = false ) {
 		$stopWords = $this->stopwords();
 
-		if( is_array( $stopWords ) && count( $stopWords ) > 0 ) {
+		if ( is_array( $stopWords ) && count( $stopWords ) > 0 ) {
 			foreach ( $stopWords as $stopWord ) {
 				// If checking a URL remove the single quotes
 				if ( $checkingUrl )
 					$stopWord = str_replace( "'", '', $stopWord );
-	
+
 				// Check whether the stopword appears as a whole word
-	        		// @todo check whether the use of \b (=word boundary) would be more efficient ;-)
-		        	$res = preg_match( "`(^|[ \n\r\t\.,'\(\)\"\+;!?:])" . preg_quote( $stopWord, '`' ) . "($|[ \n\r\t\.,'\(\)\"\+;!?:])`iu", $haystack, $match );
+				// @todo check whether the use of \b (=word boundary) would be more efficient ;-)
+				$res = preg_match( "`(^|[ \n\r\t\.,'\(\)\"\+;!?:])" . preg_quote( $stopWord, '`' ) . "($|[ \n\r\t\.,'\(\)\"\+;!?:])`iu", $haystack, $match );
 				if ( $res > 0 )
 					return $stopWord;
 			}
@@ -615,7 +628,7 @@ class WPSEO_Admin {
 	/**
 	 * Log the timestamp when a user profile has been updated
 	 */
-	function update_user_profile($user_id) {
+	function update_user_profile( $user_id ) {
 		if ( current_user_can( 'edit_user', $user_id ) ) {
 			update_user_meta( $user_id, '_yoast_wpseo_profile_updated', time() );
 		}
