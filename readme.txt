@@ -113,6 +113,7 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 	* Fix the fact that meta description template for archive pages didn't work, props [MarcQueralt](https://github.com/MarcQueralt).
 	* Prevent wrong shortcodes (that echo instead of return) from causing erroneous output.
 	* Fix edge cases issue for keyword in first paragraph test not working.
+	* Revert change in 1.4.14 that did a `do_shortcode` while in the `head` to retrieve images from posts, as too many plugins crash then, instead added `wpseo_pre_analysis_post_content` filter there as well.
 
 = 1.4.14 =
 
