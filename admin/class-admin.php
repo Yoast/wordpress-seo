@@ -3,9 +3,10 @@
  * @package Admin
  */
 
-if ( ! defined( 'WPSEO_VERSION' ) ) {
-	header( 'HTTP/1.0 403 Forbidden' );
-	die;
+if ( ! function_exists( 'add_filter' ) ) {
+	header('Status: 403 Forbidden');
+	header('HTTP/1.1 403 Forbidden');
+	exit();
 }
 
 /**
@@ -362,27 +363,27 @@ class WPSEO_Admin {
 
 		wp_nonce_field( 'wpseo_user_profile_update', 'wpseo_nonce' );
 		?>
-		<h3 id="wordpress-seo"><?php _e( "WordPress SEO settings", 'wordpress-seo' ); ?></h3>
-		<table class="form-table">
-			<tr>
-				<th><?php _e( "Title to use for Author page", 'wordpress-seo' ); ?></th>
-				<td><input class="regular-text" type="text" name="wpseo_author_title"
+    <h3 id="wordpress-seo"><?php _e( "WordPress SEO settings", 'wordpress-seo' ); ?></h3>
+    <table class="form-table">
+        <tr>
+            <th><?php _e( "Title to use for Author page", 'wordpress-seo' ); ?></th>
+            <td><input class="regular-text" type="text" name="wpseo_author_title"
 									 value="<?php echo esc_attr( get_the_author_meta( 'wpseo_title', $user->ID ) ); ?>" /></td>
-			</tr>
-			<tr>
-				<th><?php _e( "Meta description to use for Author page", 'wordpress-seo' ); ?></th>
-				<td><textarea rows="3" cols="30"
-											name="wpseo_author_metadesc"><?php echo esc_html( get_the_author_meta( 'wpseo_metadesc', $user->ID ) ); ?></textarea>
-				</td>
-			</tr>
-			<?php if ( isset( $options['usemetakeywords'] ) && $options['usemetakeywords'] ) { ?>
-				<tr>
-					<th><?php _e( "Meta keywords to use for Author page", 'wordpress-seo' ); ?></th>
-					<td><input class="regular-text" type="text" name="wpseo_author_metakey"
+        </tr>
+        <tr>
+            <th><?php _e( "Meta description to use for Author page", 'wordpress-seo' ); ?></th>
+            <td><textarea rows="3" cols="30"
+                          name="wpseo_author_metadesc"><?php echo esc_html( get_the_author_meta( 'wpseo_metadesc', $user->ID ) ); ?></textarea>
+            </td>
+        </tr>
+		<?php     if ( isset( $options['usemetakeywords'] ) && $options['usemetakeywords'] ) { ?>
+        <tr>
+            <th><?php _e( "Meta keywords to use for Author page", 'wordpress-seo' ); ?></th>
+            <td><input class="regular-text" type="text" name="wpseo_author_metakey"
 										 value="<?php echo esc_attr( get_the_author_meta( 'wpseo_metakey', $user->ID ) ); ?>" /></td>
-				</tr>
-			<?php } ?>
-		</table>
+        </tr>
+		<?php } ?>
+    </table>
 		<br /><br />
 	<?php
 	}
@@ -594,7 +595,7 @@ class WPSEO_Admin {
 		 * Allows filtering of the stop words list
 		 * Especially useful for users on a language in which WPSEO is not available yet
 		 * and/or users who want to turn off stop word filtering
-		 * @api  array  $stopwords  Array of all lowercase stopwords to check and/or remove from slug
+		 * @api	array	$stopwords	Array of all lowercase stopwords to check and/or remove from slug
 		 */
 		$stopwords = apply_filters( 'wpseo_stopwords', $stopwords );
 
@@ -619,8 +620,8 @@ class WPSEO_Admin {
 					$stopWord = str_replace( "'", '', $stopWord );
 
 				// Check whether the stopword appears as a whole word
-				// @todo check whether the use of \b (=word boundary) would be more efficient ;-)
-				$res = preg_match( "`(^|[ \n\r\t\.,'\(\)\"\+;!?:])" . preg_quote( $stopWord, '`' ) . "($|[ \n\r\t\.,'\(\)\"\+;!?:])`iu", $haystack, $match );
+	        		// @todo check whether the use of \b (=word boundary) would be more efficient ;-)
+		        	$res = preg_match( "`(^|[ \n\r\t\.,'\(\)\"\+;!?:])" . preg_quote( $stopWord, '`' ) . "($|[ \n\r\t\.,'\(\)\"\+;!?:])`iu", $haystack, $match );
 				if ( $res > 0 )
 					return $stopWord;
 			}

@@ -5,9 +5,10 @@
  * This code generates the metabox on the edit post / page as well as contains all page analysis functionality.
  */
 
-if ( ! defined( 'WPSEO_VERSION' ) ) {
-	header( 'HTTP/1.0 403 Forbidden' );
-	die;
+if ( ! function_exists( 'add_filter' ) ) {
+	header('Status: 403 Forbidden');
+	header('HTTP/1.1 403 Forbidden');
+	exit();
 }
 
 /**
@@ -106,7 +107,7 @@ class WPSEO_Metabox {
 
 		if ( wpseo_get_value( 'meta-robots-noindex' ) == 1 ) {
 			$score_label = 'noindex';
-			$title       = __( 'Post is set to noindex.', 'wordpress-seo' );
+			$title = __( 'Post is set to noindex.', 'wordpress-seo' );
 		}
 		else {
 			$score = wpseo_get_value( 'linkdex' );
@@ -129,7 +130,7 @@ class WPSEO_Metabox {
 				$score = wpseo_get_value( 'linkdex' );
 				if ( ! $score || empty( $score ) ) {
 					$score_label = 'na';
-					$title       = __( 'No focus keyword set.', 'wordpress-seo' );
+					$title = __( 'No focus keyword set.', 'wordpress-seo' );
 				}
 				else {
 					$score_label = wpseo_translate_score( $score );
@@ -454,14 +455,14 @@ class WPSEO_Metabox {
 		<div class="wpseo-metabox-tabs-div">
 		<ul class="wpseo-metabox-tabs" id="wpseo-metabox-tabs">
 			<li class="general"><a class="wpseo_tablink"
-														 href="#wpseo_general"><?php _e( "General", 'wordpress-seo' ); ?></a></li>
+								   href="#wpseo_general"><?php _e( "General", 'wordpress-seo' ); ?></a></li>
 			<li id="linkdex" class="linkdex"><a class="wpseo_tablink"
-																					href="#wpseo_linkdex"><?php _e( "Page Analysis", 'wordpress-seo' ); ?></a>
+												href="#wpseo_linkdex"><?php _e( "Page Analysis", 'wordpress-seo' ); ?></a>
 			</li>
 			<?php if ( current_user_can( 'manage_options' ) || ! isset( $options['disableadvanced_meta'] ) || ! $options['disableadvanced_meta'] ): ?>
-				<li class="advanced"><a class="wpseo_tablink"
-																href="#wpseo_advanced"><?php _e( "Advanced", 'wordpress-seo' ); ?></a></li>
-			<?php endif; ?>
+			<li class="advanced"><a class="wpseo_tablink"
+									href="#wpseo_advanced"><?php _e( "Advanced", 'wordpress-seo' ); ?></a></li>
+		<?php endif; ?>
 			<?php do_action( 'wpseo_tab_header' ); ?>
 		</ul>
 		<?php
@@ -818,13 +819,13 @@ class WPSEO_Metabox {
 		echo '<select name="seo_filter">';
 		echo '<option value="">' . __( "All SEO Scores", 'wordpress-seo' ) . '</option>';
 		foreach ( array(
-								'na'      => __( 'SEO: No Focus Keyword', 'wordpress-seo' ),
-								'bad'     => __( 'SEO: Bad', 'wordpress-seo' ),
-								'poor'    => __( 'SEO: Poor', 'wordpress-seo' ),
-								'ok'      => __( 'SEO: OK', 'wordpress-seo' ),
-								'good'    => __( 'SEO: Good', 'wordpress-seo' ),
-								'noindex' => __( 'SEO: Post Noindexed', 'wordpress-seo' )
-							) as $val => $text ) {
+					  'na'      => __( 'SEO: No Focus Keyword', 'wordpress-seo' ),
+					  'bad'     => __( 'SEO: Bad', 'wordpress-seo' ),
+					  'poor'    => __( 'SEO: Poor', 'wordpress-seo' ),
+					  'ok'      => __( 'SEO: OK', 'wordpress-seo' ),
+					  'good'    => __( 'SEO: Good', 'wordpress-seo' ),
+					  'noindex' => __( 'SEO: Post Noindexed', 'wordpress-seo' )
+				  ) as $val => $text ) {
 			$sel = '';
 			if ( isset( $_GET['seo_filter'] ) && $_GET['seo_filter'] == $val )
 				$sel = 'selected ';
@@ -854,24 +855,24 @@ class WPSEO_Metabox {
 		if ( $column_name == 'wpseo-score' ) {
 			if ( wpseo_get_value( 'meta-robots-noindex', $post_id ) == 1 ) {
 				$score_label = 'noindex';
-				$title       = __( 'Post is set to noindex.', 'wordpress-seo' );
+				$title = __( 'Post is set to noindex.', 'wordpress-seo' );
 				if ( wpseo_get_value( 'meta-robots-noindex', $post_id ) !== 0 )
 					wpseo_set_value( 'linkdex', 0, $post_id );
 			}
 			else if ( $score = wpseo_get_value( 'linkdex', $post_id ) ) {
 				$score_label = wpseo_translate_score( round( $score / 10 ) );
-				$title       = wpseo_translate_score( round( $score / 10 ), $css = false );
+				$title = wpseo_translate_score( round( $score / 10 ), $css = false );
 			}
 			else {
 				$this->calculate_results( get_post( $post_id ) );
 				$score = wpseo_get_value( 'linkdex', $post_id );
 				if ( ! $score || empty( $score ) ) {
 					$score_label = 'na';
-					$title       = __( 'Focus keyword not set.', 'wordpress-seo' );
+					$title = __( 'Focus keyword not set.', 'wordpress-seo' );
 				}
 				else {
 					$score_label = wpseo_translate_score( $score );
-					$title       = wpseo_translate_score( $score, $css = false );
+					$title = wpseo_translate_score( $score, $css = false );
 				}
 			}
 
@@ -1118,8 +1119,8 @@ class WPSEO_Metabox {
 		elseif ( apply_filters( 'wpseo_use_page_analysis', true ) !== true ) {
 			$result = new WP_Error( 'page-analysis-disabled', sprintf( __( 'Page Analysis has been disabled.', 'wordpress-seo' ), $post->post_type ) );
 
-			return $result;
-		}
+   			return $result;
+  		}
 
 		$results = array();
 		$job     = array();
@@ -1501,8 +1502,8 @@ class WPSEO_Metabox {
 				}
 				else {
 					$count[$type]['dofollow'] ++;
-				}
 			}
+		}
 		}
 		return $count;
 	}
@@ -1549,7 +1550,7 @@ class WPSEO_Metabox {
 	 *
 	 * @param int    $post_id The post to find images in.
 	 * @param string $body    The post content to find images in.
-	 * @param array  $imgs    The array holding the image information.
+	 * @param array  $imgs The array holding the image information.
 	 *
 	 * @return array The updated images array.
 	 */
@@ -1622,8 +1623,8 @@ class WPSEO_Metabox {
 		preg_match_all( '`<h([1-6])(?:[^>]+)?>(.*?)</h\\1>`i', $postcontent, $matches );
 		if( isset( $matches ) && isset( $matches[2] ) ) {
 			foreach ( $matches[2] as $heading ) {
-				$headings[] = $this->strtolower_utf8( $heading );
-			}
+			$headings[] = $this->strtolower_utf8( $heading );
+		}
 		}
 
 		return $headings;
@@ -1722,7 +1723,7 @@ class WPSEO_Metabox {
 		else
 			$this->save_score_result( $results, 9, sprintf( $scoreBodyGoodLength, $wordCount ), 'body_length', $wordCount );
 
-		$body           = $this->strtolower_utf8( $body );
+		$body = $this->strtolower_utf8( $body );
 		$job["keyword"] = $this->strtolower_utf8( $job["keyword"] );
 
 		$keywordWordCount = str_word_count( $job["keyword"] );
