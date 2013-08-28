@@ -436,7 +436,7 @@ class WPSEO_Frontend {
 		if ( ( $modified_title && empty( $title ) ) || ! empty( $title_part ) )
 			$title = $this->get_default_title( $sep, $seplocation, $title_part );
 
-		return esc_html( strip_tags( stripslashes( apply_filters( 'wpseo_title', $title ) ) ) );
+		return esc_html( strip_tags( stripslashes( apply_filters( 'wpseo_title', __($title) ) ) ) );
 	}
 
 	/**
@@ -901,7 +901,7 @@ class WPSEO_Frontend {
 		$metakey = apply_filters( 'wpseo_metakey', trim( $metakey ) );
 
 		if ( ! empty( $metakey ) )
-			echo '<meta name="keywords" content="' . esc_attr( strip_tags( stripslashes( $metakey ) ) ) . '"/>' . "\n";
+			echo '<meta name="keywords" content="' . esc_attr( strip_tags( stripslashes( __($metakey) ) ) ) . '"/>' . "\n";
 
 	}
 
@@ -976,7 +976,7 @@ class WPSEO_Frontend {
 
 		if ( $echo !== false ) {
 			if ( ! empty( $metadesc ) )
-				echo '<meta name="description" content="' . esc_attr( strip_tags( stripslashes( $metadesc ) ) ) . '"/>' . "\n";
+				echo '<meta name="description" content="' . esc_attr( strip_tags( stripslashes( __($metadesc) ) ) ) . '"/>' . "\n";
 			else if ( current_user_can( 'manage_options' ) && is_singular() )
 				echo '<!-- ' . __( 'Admin only notice: this page doesn\'t show a meta description because it doesn\'t have one, either write it for this page specifically or go into the SEO -> Titles menu and set up a template.', 'wordpress-seo' ) . ' -->' . "\n";
 		}

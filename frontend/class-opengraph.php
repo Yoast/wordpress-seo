@@ -149,7 +149,7 @@ class WPSEO_OpenGraph extends WPSEO_Frontend {
 
 		if( is_string( $title ) && $title !== '' )
 			if ( $echo !== false )
-				echo '<meta property="og:title" content="' . esc_attr( $title ) . "\"/>\n";
+				echo '<meta property="og:title" content="' . esc_attr( __($title) ) . "\"/>\n";
 			else {
 				return $title;
 		}
@@ -343,7 +343,7 @@ class WPSEO_OpenGraph extends WPSEO_Frontend {
 
 		if ( $ogdesc && ( is_string( $ogdesc ) && $ogdesc != '' ) ) {
 			if ( $echo !== false )
-				echo '<meta property="og:description" content="' . esc_attr( $ogdesc ) . "\"/>\n";
+				echo '<meta property="og:description" content="' . esc_attr( __( $ogdesc ) ) . "\"/>\n";
 			else
 				return $ogdesc;
 		}
