@@ -47,7 +47,7 @@ class WPSEO_Sitemaps {
 		add_action( 'wpseo_hit_sitemap_index', array( $this, 'hit_sitemap_index' ) );
 
 		// default stylesheet
-		$this->stylesheet = '<?xml-stylesheet type="text/xsl" href="' . home_url( 'sitemap.xsl' ) . '"?>';
+		$this->stylesheet = '<?xml-stylesheet type="text/xsl" href="' . home_url( 'main-sitemap.xsl' ) . '"?>';
 
 		$this->options = get_wpseo_options();
 	}
@@ -733,7 +733,7 @@ class WPSEO_Sitemaps {
 	 * @since 1.4.13
 	 */
 	function xsl_output( $type ) {
-		if ( $type == '1' ) {
+		if ( $type == 'main' ) {
 			header( 'HTTP/1.1 200 OK', true, 200 );
 			// Prevent the search engines from indexing the XML Sitemap.
 			header( 'X-Robots-Tag: noindex, follow', true );

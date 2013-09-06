@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: seo, SEO, google, meta, meta description, search engine optimization, xml sitemap, xml sitemaps, google sitemap, sitemap, sitemaps, robots meta, rss, rss footer, yahoo, bing, news sitemaps, XML News Sitemaps, WordPress SEO, WordPress SEO by Yoast, yoast, multisite, canonical, nofollow, noindex, keywords, meta keywords, description, webmaster tools, google webmaster tools, seo pack
 Requires at least: 3.3
 Tested up to: 3.6
-Stable tag: 1.4.14
+Stable tag: 1.4.15
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the WordPress SEO plugin by Yoast.
 
@@ -102,6 +102,18 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 7. The advanced section of the WordPress SEO meta box.
 
 == Changelog ==
+
+= 1.4.15 =
+
+* Bugfixes
+	* Fix the white XML sitemap errors caused by non-working XSL.
+	* Fixed the errors in content analysis reporting an H2 was not found when it was really there.
+	* Fix slug stopwords removal, props [amm350](https://github.com/amm350).
+	* Fix PHP Notice logged when site has capabilities created without 3rd value in args array, props [mbijon](https://github.com/mbijon).
+	* Fix the fact that meta description template for archive pages didn't work, props [MarcQueralt](https://github.com/MarcQueralt).
+	* Prevent wrong shortcodes (that echo instead of return) from causing erroneous output.
+	* Fix edge cases issue for keyword in first paragraph test not working.
+	* Revert change in 1.4.14 that did a `do_shortcode` while in the `head` to retrieve images from posts, as too many plugins crash then, instead added `wpseo_pre_analysis_post_content` filter there as well.
 
 = 1.4.14 =
 
