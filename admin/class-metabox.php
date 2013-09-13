@@ -1134,7 +1134,7 @@ class WPSEO_Metabox {
 		$dom                      = new domDocument;
 		$dom->strictErrorChecking = false;
 		$dom->preserveWhiteSpace  = false;
-		@$dom->loadHTML( apply_filters( 'wpseo_pre_analysis_post_content', $post->post_content ) );
+		@$dom->loadHTML( apply_filters( 'wpseo_pre_analysis_post_content', $post->post_content, $post ) );
 		$xpath = new DOMXPath( $dom );
 
 		$statistics = new Yoast_TextStatistics;
@@ -1810,7 +1810,7 @@ class WPSEO_Metabox {
 	 */
 	function get_body( $post ) {
 		// This filter allows plugins to add their content to the content to be analyzed.
-		$post_content = apply_filters( 'wpseo_pre_analysis_post_content', $post->post_content );
+		$post_content = apply_filters( 'wpseo_pre_analysis_post_content', $post->post_content, $post );
 
 		// Strip shortcodes, for obvious reasons, if plugins think their content should be in the analysis, they should
 		// hook into the above filter.
