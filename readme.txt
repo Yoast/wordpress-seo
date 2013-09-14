@@ -103,6 +103,12 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 
 == Changelog ==
 
+= Trunk =
+
+* Enhancements
+	* Add option to enable slug stop word cleaning, find it under SEO -> Permalinks. It's on by default.
+	* Remove tracking variables from the Yoast Tracking that weren't used.
+
 = 1.4.15 =
 
 * Bugfixes

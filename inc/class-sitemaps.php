@@ -746,6 +746,7 @@ class WPSEO_Sitemaps {
 			header( 'Expires: ' . gmdate( 'D, d M Y H:i:s', time() + $expires ) . ' GMT' );
 
 			require WPSEO_PATH . '/css/xml-sitemap-xsl.php';
+			die();
 		} else {
 			do_action( 'wpseo_xsl_' . $type );
 		}

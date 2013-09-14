@@ -299,7 +299,7 @@ class WPSEO_OpenGraph extends WPSEO_Frontend {
 				$this->image_output( $thumb[0] );
 			}
 
-			$content = apply_filters( 'wpseo_pre_analysis_post_content', $post->post_content );
+			$content = apply_filters( 'wpseo_pre_analysis_post_content', $post->post_content, $post );
 
 			if ( preg_match_all( '`<img [^>]+>`', $content, $matches ) ) {
 				foreach ( $matches[0] as $img ) {

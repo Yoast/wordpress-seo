@@ -145,7 +145,10 @@ class WPSEO_Admin {
 	 */
 	function register_settings_page() {
 		add_menu_page( __( 'WordPress SEO Configuration', 'wordpress-seo' ), __( 'SEO', 'wordpress-seo' ), 'manage_options', 'wpseo_dashboard', array( $this, 'config_page' ), WPSEO_URL . 'images/yoast-icon.png', '99.31337' );
-		add_submenu_page( 'wpseo_dashboard', __( 'Titles &amp; Metas', 'wordpress-seo' ), __( 'Titles &amp; Metas', 'wordpress-seo' ), 'manage_options', 'wpseo_titles', array( $this, 'titles_page' ) );
+
+		$admin_page = add_submenu_page( 'wpseo_dashboard', __( 'Titles &amp; Metas', 'wordpress-seo' ), __( 'Titles &amp; Metas', 'wordpress-seo' ), 'manage_options', 'wpseo_titles', array( $this, 'titles_page' ) );
+		add_action( 'load-' . $admin_page, array( $this, 'title_metas_help_tab' ) );
+
 		add_submenu_page( 'wpseo_dashboard', __( 'Social', 'wordpress-seo' ), __( 'Social', 'wordpress-seo' ), 'manage_options', 'wpseo_social', array( $this, 'social_page' ) );
 		add_submenu_page( 'wpseo_dashboard', __( 'XML Sitemaps', 'wordpress-seo' ), __( 'XML Sitemaps', 'wordpress-seo' ), 'manage_options', 'wpseo_xml', array( $this, 'xml_sitemaps_page' ) );
 		add_submenu_page( 'wpseo_dashboard', __( 'Permalinks', 'wordpress-seo' ), __( 'Permalinks', 'wordpress-seo' ), 'manage_options', 'wpseo_permalinks', array( $this, 'permalinks_page' ) );
@@ -164,6 +167,177 @@ class WPSEO_Admin {
 		global $submenu;
 		if ( isset( $submenu['wpseo_dashboard'] ) )
 			$submenu['wpseo_dashboard'][0][0] = __( 'Dashboard', 'wordpress-seo' );
+	}
+
+	/**
+	 * Adds contextual help to the titles & metas page.
+	 */
+	function title_metas_help_tab() {
+		$screen = get_current_screen();
+
+		$screen->set_help_sidebar(
+			'<p><strong>' . __( 'For more information:' ) . '</strong></p>' .
+			'<p><a target="_blank" href="http://yoast.com/articles/wordpress-seo/#titles">' . __( 'Title optimization', 'wordpress-seo' ) . '</a></p>' .
+			'<p><a target="_blank" href="http://yoast.com/google-page-title/">' . __( 'Why Google won\'t display the right page title', 'wordpress-seo' ) . '</a></p>'
+		);
+
+		$screen->add_help_tab( array(
+			'id'      => 'basic-help',
+			'title'   => __( 'Template explanation', 'wordpress-seo' ),
+			'content' => '<p>' . __( 'The title & metas settings for WordPress SEO are made up of variables that are replaced by specific values from the page when the page is displayed. The tabs on the left explain the available variables.', 'wordpress-seo' ) . '</p>'
+		) );
+
+		$screen->add_help_tab( array(
+			'id'      => 'title-vars',
+			'title'   => __( 'Basic Variables', 'wordpress-seo' ),
+			'content' => '
+	<h2>' . __( 'Basic Variables.', 'wordpress-seo' ) . '</h2>
+		<table class="yoast_help">
+			<tr>
+				<th>%%date%%</th>
+				<td>' . __( 'Replaced with the date of the post/page', 'wordpress-seo' ) . '</td>
+			</tr>
+			<tr>
+				<th>%%title%%</th>
+				<td>' . __( 'Replaced with the title of the post/page', 'wordpress-seo' ) . '</td>
+			</tr>
+			<tr>
+				<th>%%sitename%%</th>
+				<td>' . __( 'The site\'s name', 'wordpress-seo' ) . '</td>
+			</tr>
+			<tr>
+				<th>%%sitedesc%%</th>
+				<td>' . __( 'The site\'s tagline / description', 'wordpress-seo' ) . '</td>
+			</tr>
+			<tr>
+				<th>%%excerpt%%</th>
+				<td>' . __( 'Replaced with the post/page excerpt (or auto-generated if it does not exist)', 'wordpress-seo' ) . '</td>
+			</tr>
+			<tr>
+				<th>%%excerpt_only%%</th>
+				<td>' . __( 'Replaced with the post/page excerpt (without auto-generation)', 'wordpress-seo' ) . '</td>
+			</tr>
+			<tr>
+				<th>%%tag%%</th>
+				<td>' . __( 'Replaced with the current tag/tags', 'wordpress-seo' ) . '</td>
+			</tr>
+			<tr>
+				<th>%%category%%</th>
+				<td>' . __( 'Replaced with the post categories (comma separated)', 'wordpress-seo' ) . '</td>
+			</tr>
+			<tr>
+				<th>%%category_description%%</th>
+				<td>' . __( 'Replaced with the category description', 'wordpress-seo' ) . '</td>
+			</tr>
+			<tr>
+				<th>%%tag_description%%</th>
+				<td>' . __( 'Replaced with the tag description', 'wordpress-seo' ) . '</td>
+			</tr>
+			<tr>
+				<th>%%term_description%%</th>
+				<td>' . __( 'Replaced with the term description', 'wordpress-seo' ) . '</td>
+			</tr>
+			<tr>
+				<th>%%term_title%%</th>
+				<td>' . __( 'Replaced with the term name', 'wordpress-seo' ) . '</td>
+			</tr>
+			<tr>
+				<th>%%searchphrase%%</th>
+				<td>' . __( 'Replaced with the current search phrase', 'wordpress-seo' ) . '</td>
+			</tr>
+			<tr>
+				<th>%%sep%%</th>
+				<td>' . __( 'The separator defined in your theme\'s <code>wp_title()</code> tag.', 'wordpress-seo' ) . '</td>
+			</tr>
+			</table>' ) );
+		$screen->add_help_tab( array(
+			'id'      => 'title-vars-advanced',
+			'title'   => __( 'Advanced Variables.', 'wordpress-seo' ),
+			'content' => '
+			<h2>' . __( 'Advanced Variables.', 'wordpress-seo' ) . '</h2>
+			<table class="yoast_help">
+			<tr>
+				<th>%%pt_single%%</th>
+				<td>' . __( 'Replaced with the post type single label', 'wordpress-seo' ) . '</td>
+			</tr>
+			<tr>
+				<th>%%pt_plural%%</th>
+				<td>' . __( 'Replaced with the post type plural label', 'wordpress-seo' ) . '</td>
+			</tr>
+			<tr>
+				<th>%%modified%%</th>
+				<td>' . __( 'Replaced with the post/page modified time', 'wordpress-seo' ) . '</td>
+			</tr>
+			<tr>
+				<th>%%id%%</th>
+				<td>' . __( 'Replaced with the post/page ID', 'wordpress-seo' ) . '</td>
+			</tr>
+			<tr>
+				<th>%%name%%</th>
+				<td>' . __( 'Replaced with the post/page author\'s \'nicename\'', 'wordpress-seo' ) . '</td>
+			</tr>
+			<tr>
+				<th>%%userid%%</th>
+				<td>' . __( 'Replaced with the post/page author\'s userid', 'wordpress-seo' ) . '</td>
+			</tr>
+			<tr class="alt">
+				<th>%%currenttime%%</th>
+				<td>' . __( 'Replaced with the current time', 'wordpress-seo' ) . '</td>
+			</tr>
+			<tr>
+				<th>%%currentdate%%</th>
+				<td>' . __( 'Replaced with the current date', 'wordpress-seo' ) . '</td>
+			</tr>
+			<tr class="alt">
+				<th>%%currentday%%</th>
+				<td>' . __( 'Replaced with the current day', 'wordpress-seo' ) . '</td>
+			</tr>
+			<tr>
+				<th>%%currentmonth%%</th>
+				<td>' . __( 'Replaced with the current month', 'wordpress-seo' ) . '</td>
+			</tr>
+			<tr class="alt">
+				<th>%%currentyear%%</th>
+				<td>' . __( 'Replaced with the current year', 'wordpress-seo' ) . '</td>
+			</tr>
+			<tr>
+				<th>%%page%%</th>
+				<td>' . __( 'Replaced with the current page number (i.e. page 2 of 4)', 'wordpress-seo' ) . '</td>
+			</tr>
+			<tr class="alt">
+				<th>%%pagetotal%%</th>
+				<td>' . __( 'Replaced with the current page total', 'wordpress-seo' ) . '</td>
+			</tr>
+			<tr>
+				<th>%%pagenumber%%</th>
+				<td>' . __( 'Replaced with the current page number', 'wordpress-seo' ) . '</td>
+			</tr>
+			<tr class="alt">
+				<th>%%caption%%</th>
+				<td>' . __( 'Attachment caption', 'wordpress-seo' ) . '</td>
+			</tr>
+			<tr>
+				<th>%%focuskw%%</th>
+				<td>' . __( 'Replaced with the posts focus keyword', 'wordpress-seo' ) . '</td>
+			</tr>
+			<tr>
+				<th>%%term404%%</th>
+				<td>' . __( 'Replaced with the slug which caused the 404', 'wordpress-seo' ) . '</td>
+			</tr>
+			<tr>
+				<th>%%cf_&lt;custom-field-name&gt;%%</th>
+				<td>' . __( 'Replaced with a posts custom field value', 'wordpress-seo' ) . '</td>
+			</tr>
+			<tr>
+				<th>%%ct_&lt;custom-tax-name&gt;%%</th>
+				<td>' . __( 'Replaced with a posts custom taxonomies, comma separated.', 'wordpress-seo' ) . '</td>
+			</tr>
+			<tr>
+				<th>%%ct_desc_&lt;custom-tax-name&gt;%%</th>
+				<td>' . __( 'Replaced with a custom taxonomies description', 'wordpress-seo' ) . '</td>
+			</tr>
+		</table>', //actual help text
+		) );
 	}
 
 	/**
@@ -543,6 +717,16 @@ class WPSEO_Admin {
 
 		if ( version_compare( $current_version, '1.4.15', '<' ) ) {
 			flush_rewrite_rules();
+		}
+
+		if ( version_compare( $current_version, '1.4.16', '<' ) ) {
+			$options = get_option( 'wpseo_permalinks' );
+
+			if ( ! is_array( $options ) )
+				$options = array();
+
+			$options['cleanslugs'] = 'on';
+			update_option( 'wpseo_permalinks', $options );
 		}
 
 		$options            = get_option( 'wpseo' );

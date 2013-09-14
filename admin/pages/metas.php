@@ -40,7 +40,6 @@ if ( ( isset( $_GET[ 'updated' ] ) && $_GET[ 'updated' ] == 'true' ) || ( isset(
 	<a class="nav-tab" id="post_types-tab" href="#top#post_types"><?php _e( 'Post Types', 'wordpress-seo' );?></a>
 	<a class="nav-tab" id="taxonomies-tab" href="#top#taxonomies"><?php _e( 'Taxonomies', 'wordpress-seo' );?></a>
 	<a class="nav-tab" id="archives-tab" href="#top#archives"><?php _e( 'Other', 'wordpress-seo' );?></a>
-	<a class="nav-tab" id="template_help-tab" href="#top#template_help"><?php _e( 'Help', 'wordpress-seo' );?></a>
 </h2>
 
 <div class="tabwrapper>">
@@ -185,149 +184,8 @@ if ( ( isset( $_GET[ 'updated' ] ) && $_GET[ 'updated' ] == 'true' ) || ( isset(
 </div>
 <div id="template_help" class="wpseotab">
 	<?php
-	$content = '
-	<p>' . __( 'These tags can be included in templates and will be replaced by WordPress SEO by Yoast when a page is displayed.', 'wordpress-seo' ) . '</p>
-		<table class="yoast_help">
-			<tr>
-				<th>%%date%%</th>
-				<td>' . __( 'Replaced with the date of the post/page', 'wordpress-seo' ) . '</td>
-			</tr>
-			<tr>
-				<th>%%title%%</th>
-				<td>' . __( 'Replaced with the title of the post/page', 'wordpress-seo' ) . '</td>
-			</tr>
-			<tr>
-				<th>%%sitename%%</th>
-				<td>' . __( 'The site\'s name', 'wordpress-seo' ) . '</td>
-			</tr>
-			<tr>
-				<th>%%sitedesc%%</th>
-				<td>' . __( 'The site\'s tagline / description', 'wordpress-seo' ) . '</td>
-			</tr>
-			<tr>
-				<th>%%excerpt%%</th>
-				<td>' . __( 'Replaced with the post/page excerpt (or auto-generated if it does not exist)', 'wordpress-seo' ) . '</td>
-			</tr>
-			<tr>
-				<th>%%excerpt_only%%</th>
-				<td>' . __( 'Replaced with the post/page excerpt (without auto-generation)', 'wordpress-seo' ) . '</td>
-			</tr>
-			<tr>
-				<th>%%tag%%</th>
-				<td>' . __( 'Replaced with the current tag/tags', 'wordpress-seo' ) . '</td>
-			</tr>
-			<tr>
-				<th>%%category%%</th>
-				<td>' . __( 'Replaced with the post categories (comma separated)', 'wordpress-seo' ) . '</td>
-			</tr>
-			<tr>
-				<th>%%category_description%%</th>
-				<td>' . __( 'Replaced with the category description', 'wordpress-seo' ) . '</td>
-			</tr>
-			<tr>
-				<th>%%tag_description%%</th>
-				<td>' . __( 'Replaced with the tag description', 'wordpress-seo' ) . '</td>
-			</tr>
-			<tr>
-				<th>%%term_description%%</th>
-				<td>' . __( 'Replaced with the term description', 'wordpress-seo' ) . '</td>
-			</tr>
-			<tr>
-				<th>%%term_title%%</th>
-				<td>' . __( 'Replaced with the term name', 'wordpress-seo' ) . '</td>
-			</tr>
-			<tr>
-				<th>%%pt_single%%</th>
-				<td>' . __( 'Replaced with the post type single label', 'wordpress-seo' ) . '</td>
-			</tr>
-			<tr>
-				<th>%%pt_plural%%</th>
-				<td>' . __( 'Replaced with the post type plural label', 'wordpress-seo' ) . '</td>
-			</tr>
-			<tr>
-				<th>%%modified%%</th>
-				<td>' . __( 'Replaced with the post/page modified time', 'wordpress-seo' ) . '</td>
-			</tr>
-			<tr>
-				<th>%%id%%</th>
-				<td>' . __( 'Replaced with the post/page ID', 'wordpress-seo' ) . '</td>
-			</tr>
-			<tr>
-				<th>%%name%%</th>
-				<td>' . __( 'Replaced with the post/page author\'s \'nicename\'', 'wordpress-seo' ) . '</td>
-			</tr>
-			<tr>
-				<th>%%userid%%</th>
-				<td>' . __( 'Replaced with the post/page author\'s userid', 'wordpress-seo' ) . '</td>
-			</tr>
-			<tr>
-				<th>%%searchphrase%%</th>
-				<td>' . __( 'Replaced with the current search phrase', 'wordpress-seo' ) . '</td>
-			</tr>
-			<tr class="alt">
-				<th>%%currenttime%%</th>
-				<td>' . __( 'Replaced with the current time', 'wordpress-seo' ) . '</td>
-			</tr>
-			<tr>
-				<th>%%currentdate%%</th>
-				<td>' . __( 'Replaced with the current date', 'wordpress-seo' ) . '</td>
-			</tr>
-			<tr class="alt">
-				<th>%%currentday%%</th>
-				<td>' . __( 'Replaced with the current day', 'wordpress-seo' ) . '</td>
-			</tr>
-			<tr>
-				<th>%%currentmonth%%</th>
-				<td>' . __( 'Replaced with the current month', 'wordpress-seo' ) . '</td>
-			</tr>
-			<tr class="alt">
-				<th>%%currentyear%%</th>
-				<td>' . __( 'Replaced with the current year', 'wordpress-seo' ) . '</td>
-			</tr>
-			<tr>
-				<th>%%page%%</th>
-				<td>' . __( 'Replaced with the current page number (i.e. page 2 of 4)', 'wordpress-seo' ) . '</td>
-			</tr>
-			<tr class="alt">
-				<th>%%pagetotal%%</th>
-				<td>' . __( 'Replaced with the current page total', 'wordpress-seo' ) . '</td>
-			</tr>
-			<tr>
-				<th>%%pagenumber%%</th>
-				<td>' . __( 'Replaced with the current page number', 'wordpress-seo' ) . '</td>
-			</tr>
-			<tr class="alt">
-				<th>%%caption%%</th>
-				<td>' . __( 'Attachment caption', 'wordpress-seo' ) . '</td>
-			</tr>
-			<tr>
-				<th>%%focuskw%%</th>
-				<td>' . __( 'Replaced with the posts focus keyword', 'wordpress-seo' ) . '</td>
-			</tr>
-			<tr>
-				<th>%%term404%%</th>
-				<td>' . __( 'Replaced with the slug which caused the 404', 'wordpress-seo' ) . '</td>
-			</tr>
-			<tr>
-				<th>%%cf_&lt;custom-field-name&gt;%%</th>
-				<td>' . __( 'Replaced with a posts custom field value', 'wordpress-seo' ) . '</td>
-			</tr>
-			<tr>
-				<th>%%ct_&lt;custom-tax-name&gt;%%</th>
-				<td>' . __( 'Replaced with a posts custom taxonomies, comma separated.', 'wordpress-seo' ) . '</td>
-			</tr>
-			<tr>
-				<th>%%ct_desc_&lt;custom-tax-name&gt;%%</th>
-				<td>' . __( 'Replaced with a custom taxonomies description', 'wordpress-seo' ) . '</td>
-			</tr>
-			<tr>
-				<th>%%sep%%</th>
-				<td>' . __( 'The separator defined in your theme\'s <code>wp_title()</code> tag.', 'wordpress-seo' ) . '</td>
-			</tr>
-		</table>';
 
 	echo '<h2>' . __( 'Variables', 'wordpress-seo' ) . '</h2>';
-	echo $content;
 	echo '</div>';
 	$wpseo_admin_pages->admin_footer();
 	echo '</div>';
