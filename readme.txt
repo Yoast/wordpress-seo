@@ -109,6 +109,9 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 	* Add option to enable slug stop word cleaning, find it under SEO -> Permalinks. It's on by default.
 	* Remove tracking variables from the Yoast Tracking that weren't used.
 
+* i18n
+    * Updated de_DE, fa_IR, fi, hu_HU, it_IT, pl_PL, sv_SE and tr_TK
+
 = 1.4.15 =
 
 * Bugfixes
