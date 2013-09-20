@@ -133,7 +133,6 @@ class WPSEO_Sitemaps {
 	 */
 	function sitemap_close() {
 		global $wp_filter;
-		unset( $wp_filter['wp_footer'], $wp_filter['shutdown'] );
 		$wp_filter['wp_footer'] = 1;
 		die();
 	}
