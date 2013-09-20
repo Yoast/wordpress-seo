@@ -567,7 +567,7 @@ function wpseo_sitemap_handler( $atts ) {
 				'post_type'      => 'post',
 				'post_status'    => 'publish',
 
-				'posts_per_page' => - 1,
+				'posts_per_page' => -1,
 				'cat'            => $cat->cat_ID,
 
 				'meta_query'     => array(
@@ -672,7 +672,7 @@ function create_type_sitemap_template( $post_type ) {
 				array(
 					'taxonomy' => $key,
 					'field'    => 'id',
-					'terms'    => - 1,
+					'terms'    => -1,
 					'operator' => 'NOT',
 				)
 			)

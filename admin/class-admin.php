@@ -46,7 +46,8 @@ class WPSEO_Admin {
 
 		add_action( 'admin_init', array( $this, 'maybe_upgrade' ) );
 
-		add_filter( 'name_save_pre', array( $this, 'remove_stopwords_from_slug' ), 0 );
+		if ( isset( $options['cleanslugs'] ) && $options['cleanslugs'] )
+			add_filter( 'name_save_pre', array( $this, 'remove_stopwords_from_slug' ), 0 );
 
 		add_action( 'show_user_profile', array( $this, 'user_profile' ) );
 		add_action( 'edit_user_profile', array( $this, 'user_profile' ) );
