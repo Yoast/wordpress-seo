@@ -1130,6 +1130,7 @@ class WPSEO_Metabox {
 		$job["keyword"]        = trim( wpseo_get_value( 'focuskw' ) );
 		$job["keyword_folded"] = $this->strip_separators_and_fold( $job["keyword"] );
 		$job["post_id"]        = $post->ID;
+		$job["post_type"]			 = $post->post_type;
 
 		$dom                      = new domDocument;
 		$dom->strictErrorChecking = false;
@@ -1620,7 +1621,7 @@ class WPSEO_Metabox {
 		$headings = array();
 
 		preg_match_all( '`<h([1-6])(?:[^>]+)?>(.*?)</h\\1>`i', $postcontent, $matches );
-		if( isset( $matches ) && isset( $matches[2] ) ) {
+		if ( isset( $matches ) && isset( $matches[2] ) ) {
 			foreach ( $matches[2] as $heading ) {
 				$headings[] = $this->strtolower_utf8( $heading );
 			}
@@ -1684,14 +1685,19 @@ class WPSEO_Metabox {
 	 * @param object $statistics  Object of class Yoast_TextStatistics used to calculate lengths.
 	 */
 	function score_body( $job, &$results, $body, $firstp, $statistics ) {
-		$scoreBodyGoodLimit = 300;
-		$scoreBodyOKLimit   = 250;
-		$scoreBodyPoorLimit = 200;
-		$scoreBodyBadLimit  = 100;
+		$lengthScore = apply_filters( 'wpseo_body_length_score',
+			array(
+				'good' => 300,
+				'ok'   => 250,
+				'poor' => 200,
+				'bad'  => 100
+			),
+			$job
+		);
 
-		$scoreBodyGoodLength = __( "There are %d words contained in the body copy, this is more than the 300 word recommended minimum.", 'wordpress-seo' );
-		$scoreBodyPoorLength = __( "There are %d words contained in the body copy, this is below the 300 word recommended minimum. Add more useful content on this topic for readers.", 'wordpress-seo' );
-		$scoreBodyOKLength   = __( "There are %d words contained in the body copy, this is slightly below the 300 word recommended minimum, add a bit more copy.", 'wordpress-seo' );
+		$scoreBodyGoodLength = __( "There are %d words contained in the body copy, this is more than the %d word recommended minimum.", 'wordpress-seo' );
+		$scoreBodyPoorLength = __( "There are %d words contained in the body copy, this is below the %d word recommended minimum. Add more useful content on this topic for readers.", 'wordpress-seo' );
+		$scoreBodyOKLength   = __( "There are %d words contained in the body copy, this is slightly below the %d word recommended minimum, add a bit more copy.", 'wordpress-seo' );
 		$scoreBodyBadLength  = __( "There are %d words contained in the body copy. This is far too low and should be increased.", 'wordpress-seo' );
 
 		$scoreKeywordDensityLow  = __( "The keyword density is %s%%, which is a bit low, the keyword was found %s times.", 'wordpress-seo' );
@@ -1711,16 +1717,16 @@ class WPSEO_Metabox {
 		// Copy length check
 		$wordCount = $statistics->word_count( $body );
 
-		if ( $wordCount < $scoreBodyBadLimit )
-			$this->save_score_result( $results, - 20, sprintf( $scoreBodyBadLength, $wordCount ), 'body_length', $wordCount );
-		else if ( $wordCount < $scoreBodyPoorLimit )
-			$this->save_score_result( $results, - 10, sprintf( $scoreBodyPoorLength, $wordCount ), 'body_length', $wordCount );
-		else if ( $wordCount < $scoreBodyOKLimit )
-			$this->save_score_result( $results, 5, sprintf( $scoreBodyPoorLength, $wordCount ), 'body_length', $wordCount );
-		else if ( $wordCount < $scoreBodyGoodLimit )
-			$this->save_score_result( $results, 7, sprintf( $scoreBodyOKLength, $wordCount ), 'body_length', $wordCount );
+		if ( $wordCount < $lengthScore['bad'] )
+			$this->save_score_result( $results, - 20, sprintf( $scoreBodyBadLength, $wordCount, $lengthScore['good'] ), 'body_length', $wordCount );
+		else if ( $wordCount < $lengthScore['poor'] )
+			$this->save_score_result( $results, - 10, sprintf( $scoreBodyPoorLength, $wordCount, $lengthScore['good'] ), 'body_length', $wordCount );
+		else if ( $wordCount < $lengthScore['ok'] )
+			$this->save_score_result( $results, 5, sprintf( $scoreBodyPoorLength, $wordCount, $lengthScore['good'] ), 'body_length', $wordCount );
+		else if ( $wordCount < $lengthScore['good'] )
+			$this->save_score_result( $results, 7, sprintf( $scoreBodyOKLength, $wordCount, $lengthScore['good'] ), 'body_length', $wordCount );
 		else
-			$this->save_score_result( $results, 9, sprintf( $scoreBodyGoodLength, $wordCount ), 'body_length', $wordCount );
+			$this->save_score_result( $results, 9, sprintf( $scoreBodyGoodLength, $wordCount, $lengthScore['good'] ), 'body_length', $wordCount );
 
 		$body           = $this->strtolower_utf8( $body );
 		$job["keyword"] = $this->strtolower_utf8( $job["keyword"] );
