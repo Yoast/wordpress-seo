@@ -1138,6 +1138,7 @@ class WPSEO_Metabox {
 		@$dom->loadHTML( apply_filters( 'wpseo_pre_analysis_post_content', $post->post_content, $post ) );
 		$xpath = new DOMXPath( $dom );
 
+		global $statistics;
 		$statistics = new Yoast_TextStatistics;
 
 		// Check if this focus keyword has been used already.
@@ -1157,7 +1158,7 @@ class WPSEO_Metabox {
 				$title_template = '%%title%% - %%sitename%%';
 			$job['title'] = wpseo_replace_vars( $title_template, (array) $post );
 		}
-		$this->score_title( $job, $results, $statistics );
+		$this->score_title( $job, $results );
 
 		// Meta description
 		$description = '';
@@ -1171,17 +1172,17 @@ class WPSEO_Metabox {
 
 		$meta_length = apply_filters( 'wpseo_metadesc_length', 156, $post );
 
-		$this->score_description( $job, $results, $description, $statistics, $meta_length );
+		$this->score_description( $job, $results, $description, $meta_length );
 		unset( $description );
 
 		// Body
 		$body   = $this->get_body( $post );
 		$firstp = $this->get_first_paragraph( $body );
-		$this->score_body( $job, $results, $body, $firstp, $statistics );
+		$this->score_body( $job, $results, $body, $firstp );
 		unset( $firstp );
 
 		// URL
-		$this->score_url( $job, $results, $statistics );
+		$this->score_url( $job, $results );
 
 		// Headings
 		$headings = $this->get_headings( $body );
@@ -1326,10 +1327,9 @@ class WPSEO_Metabox {
 	 *
 	 * @param array  $job        The job array holding both the keyword and the URLs.
 	 * @param array  $results    The results array.
-	 * @param object $statistics Object of class Yoast_TextStatistics used to calculate lengths.
 	 */
-	function score_url( $job, &$results, $statistics ) {
-		global $wpseo_admin;
+	function score_url( $job, &$results ) {
+		global $statistics, $wpseo_admin;
 
 		$urlGood      = __( "The keyword / phrase appears in the URL for this page.", 'wordpress-seo' );
 		$urlMedium    = __( "The keyword / phrase does not appear in the URL for this page. If you decide to rename the URL be sure to check the old URL 301 redirects to the new one!", 'wordpress-seo' );
@@ -1359,9 +1359,10 @@ class WPSEO_Metabox {
 	 *
 	 * @param array  $job        The job array holding both the keyword versions.
 	 * @param array  $results    The results array.
-	 * @param object $statistics Object of class Yoast_TextStatistics used to calculate lengths.
 	 */
-	function score_title( $job, &$results, $statistics ) {
+	function score_title( $job, &$results ) {
+		global $statistics;
+
 		$scoreTitleMinLength    = 40;
 		$scoreTitleMaxLength    = 70;
 		$scoreTitleKeywordLimit = 0;
@@ -1636,10 +1637,11 @@ class WPSEO_Metabox {
 	 * @param array  $job         The array holding the keywords.
 	 * @param array  $results     The results array.
 	 * @param string $description The meta description.
-	 * @param object $statistics  Object of class Yoast_TextStatistics used to calculate lengths.
 	 * @param int    $maxlength   The maximum length of the meta description.
 	 */
-	function score_description( $job, &$results, $description, $statistics, $maxlength = 155 ) {
+	function score_description( $job, &$results, $description, $maxlength = 155 ) {
+		global $statistics;
+
 		$scoreDescriptionMinLength      = 120;
 		$scoreDescriptionCorrectLength  = __( "In the specified meta description, consider: How does it compare to the competition? Could it be made more appealing?", 'wordpress-seo' );
 		$scoreDescriptionTooShort       = __( "The meta description is under 120 characters, however up to %s characters are available. %s", 'wordpress-seo' );
@@ -1682,9 +1684,10 @@ class WPSEO_Metabox {
 	 * @param array  $results     The results array.
 	 * @param string $body        The body.
 	 * @param string $firstp      The first paragraph.
-	 * @param object $statistics  Object of class Yoast_TextStatistics used to calculate lengths.
 	 */
-	function score_body( $job, &$results, $body, $firstp, $statistics ) {
+	function score_body( $job, &$results, $body, $firstp ) {
+		global $statistics;
+
 		$lengthScore = apply_filters( 'wpseo_body_length_score',
 			array(
 				'good' => 300,
