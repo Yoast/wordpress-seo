@@ -106,6 +106,11 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 
 == Changelog ==
 
+= Trunk =
+
+* Bugfixes
+	* Move all rewrite flushing to shutdown, so it doesn't break other plugins who add their rewrites late.
+
 = 1.4.18 =
 
 * Unhooking 'shutdown' (part of the NGG fix in 1.4.16) caused caching plugins to break, fixed while preserving NGG fix.

@@ -45,7 +45,7 @@ class WPSEO_Rewrite {
 	 */
 	function flush() {
 		if ( get_option( 'wpseo_flush_rewrite' ) ) {
-			flush_rewrite_rules();
+			add_action( 'shutdown', 'flush_rewrite_rules' );
 			delete_option( 'wpseo_flush_rewrite' );
 		}
 	}

@@ -22,9 +22,9 @@ class WPSEO_Admin {
 		$options = get_wpseo_options();
 
 		if ( isset( $options['stripcategorybase'] ) && $options['stripcategorybase'] ) {
-			add_action( 'created_category', 'flush_rewrite_rules' );
-			add_action( 'edited_category', 'flush_rewrite_rules' );
-			add_action( 'delete_category', 'flush_rewrite_rules' );
+			add_action( 'created_category', array( $this, 'schedule_rewrite_flush' ) );
+			add_action( 'edited_category', array( $this, 'schedule_rewrite_flush' ) );
+			add_action( 'delete_category', array( $this, 'schedule_rewrite_flush' ) );
 		}
 
 		if ( $this->grant_access() ) {
@@ -66,6 +66,13 @@ class WPSEO_Admin {
 
 		add_action( 'after_switch_theme', array( $this, 'switch_theme' ) );
 		add_action( 'switch_theme', array( $this, 'switch_theme' ) );
+	}
+
+	/**
+	 * Schedules a rewrite flush to happen at shutdown
+	 */
+	function schedule_rewrite_flush() {
+		add_action( 'shutdown', 'flush_rewrite_rules' );
 	}
 
 	/**
@@ -573,11 +580,9 @@ class WPSEO_Admin {
 		if ( version_compare( $current_version, WPSEO_VERSION, '==' ) )
 			return;
 
-		delete_option( 'rewrite_rules' );
-
 		// <= 0.3.5: flush rewrite rules for new XML sitemaps
 		if ( $current_version == 0 ) {
-			flush_rewrite_rules();
+			$this->schedule_rewrite_flush();
 		}
 
 		if ( version_compare( $current_version, '0.4.2', '<' ) ) {
@@ -717,7 +722,7 @@ class WPSEO_Admin {
 		}
 
 		if ( version_compare( $current_version, '1.4.15', '<' ) ) {
-			flush_rewrite_rules();
+			$this->schedule_rewrite_flush();
 		}
 
 		if ( version_compare( $current_version, '1.4.16', '<' ) ) {
