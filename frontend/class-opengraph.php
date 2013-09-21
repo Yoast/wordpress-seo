@@ -339,6 +339,10 @@ class WPSEO_OpenGraph extends WPSEO_Frontend {
 				$ogdesc = strip_tags( get_the_excerpt() );
 		}
 
+		if ( is_tax() ) {
+			$ogdesc = trim( strip_tags( term_description() ) );
+		}
+
 		$ogdesc = apply_filters( 'wpseo_opengraph_desc', $ogdesc );
 
 		if ( $ogdesc && ( is_string( $ogdesc ) && $ogdesc != '' ) ) {
