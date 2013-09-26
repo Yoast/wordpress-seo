@@ -5,7 +5,7 @@
  * This code handles the OpenGraph output.
  */
 
-if ( !defined( 'WPSEO_VERSION' ) ) {
+if ( ! defined( 'WPSEO_VERSION' ) ) {
 	header( 'HTTP/1.0 403 Forbidden' );
 	die;
 }
@@ -34,20 +34,24 @@ class WPSEO_OpenGraph extends WPSEO_Frontend {
 		global $fb_ver;
 		if ( isset( $fb_ver ) || class_exists( 'Facebook_Loader' ) ) {
 			add_filter( 'fb_meta_tags', array( $this, 'facebook_filter' ), 10, 1 );
-		} else {
+		}
+		else {
 			add_filter( 'language_attributes', array( $this, 'add_opengraph_namespace' ) );
 
-			add_action( 'wpseo_opengraph', array( $this, 'locale'), 1 );
-			add_action( 'wpseo_opengraph', array( $this, 'site_owner'), 20 );
-			add_action( 'wpseo_opengraph', array( $this, 'og_title'), 10 );
-			add_action( 'wpseo_opengraph', array( $this, 'description'), 11 );
-			add_action( 'wpseo_opengraph', array( $this, 'url'), 12 );
-			add_action( 'wpseo_opengraph', array( $this, 'site_name'), 13 );
-			add_action( 'wpseo_opengraph', array( $this, 'article_author_facebook'), 14 );
-			add_action( 'wpseo_opengraph', array( $this, 'website_facebook'), 15 );
+			add_action( 'wpseo_opengraph', array( $this, 'locale' ), 1 );
+			add_action( 'wpseo_opengraph', array( $this, 'type' ), 5 );
+			add_action( 'wpseo_opengraph', array( $this, 'og_title' ), 10 );
+			add_action( 'wpseo_opengraph', array( $this, 'site_owner' ), 20 );
+			add_action( 'wpseo_opengraph', array( $this, 'description' ), 11 );
+			add_action( 'wpseo_opengraph', array( $this, 'url' ), 12 );
+			add_action( 'wpseo_opengraph', array( $this, 'site_name' ), 13 );
+			add_action( 'wpseo_opengraph', array( $this, 'website_facebook' ), 14 );
+			add_action( 'wpseo_opengraph', array( $this, 'article_author_facebook' ), 15 );
+			add_action( 'wpseo_opengraph', array( $this, 'tags' ), 16 );
+			add_action( 'wpseo_opengraph', array( $this, 'category' ), 17 );
+			add_action( 'wpseo_opengraph', array( $this, 'publish_date' ), 19 );
 
-			add_action( 'wpseo_opengraph', array( $this, 'type'), 5 );
-			add_action( 'wpseo_opengraph', array( $this, 'image'), 30 );
+			add_action( 'wpseo_opengraph', array( $this, 'image' ), 30 );
 		}
 		remove_action( 'wp_head', 'jetpack_og_tags' );
 		add_action( 'wpseo_head', array( $this, 'opengraph' ), 30 );
@@ -59,6 +63,18 @@ class WPSEO_OpenGraph extends WPSEO_Frontend {
 	public function opengraph() {
 		wp_reset_query();
 		do_action( 'wpseo_opengraph' );
+	}
+
+	/**
+	 * Internal function to output FB tags. This also adds an output filter to each bit of output based on the property.
+	 *
+	 * @param string $property
+	 * @param string $content
+	 */
+	private function og_tag( $property, $content ) {
+		$content = apply_filters( 'wpseo_og_' . str_replace( ':', '_', $property ), $content );
+		if ( ! empty( $content ) )
+			echo '<meta property="' . $property . '" content="' . esc_attr( $content ) . '" />' . "\n";
 	}
 
 	/**
@@ -76,7 +92,7 @@ class WPSEO_OpenGraph extends WPSEO_Frontend {
 		$meta_tags['http://ogp.me/ns#locale'] = $this->locale( false );
 
 		$ogdesc = $this->description( false );
-		if ( !empty( $ogdesc ) )
+		if ( ! empty( $ogdesc ) )
 			$meta_tags['http://ogp.me/ns#description'] = $ogdesc;
 
 		return $meta_tags;
@@ -85,7 +101,10 @@ class WPSEO_OpenGraph extends WPSEO_Frontend {
 	/**
 	 * Filter for the namespace, adding the OpenGraph namespace.
 	 *
+	 * @link https://developers.facebook.com/docs/web/tutorials/scrumptious/open-graph-object/
+	 *
 	 * @param string $input The input namespace string.
+	 *
 	 * @return string
 	 */
 	public function add_opengraph_namespace( $input ) {
@@ -98,14 +117,14 @@ class WPSEO_OpenGraph extends WPSEO_Frontend {
 	 * @link https://developers.facebook.com/blog/post/2013/06/19/platform-updates--new-open-graph-tags-for-media-publishers-and-more/
 	 */
 	public function article_author_facebook() {
-		if ( !is_singular() )
+		if ( ! is_singular() )
 			return;
 
 		global $post;
 		$facebook = apply_filters( 'wpseo_opengraph_author_facebook', get_the_author_meta( 'facebook', $post->post_author ) );
 
 		if ( $facebook && ( is_string( $facebook ) && $facebook !== '' ) )
-			echo '<meta property="article:author" content="' . esc_attr( $facebook ) . "\"/>\n";
+			$this->og_tag( 'article:author', $facebook );
 	}
 
 	/**
@@ -115,7 +134,7 @@ class WPSEO_OpenGraph extends WPSEO_Frontend {
 	 */
 	public function website_facebook() {
 		if ( isset( $this->options['facebook_site'] ) && ( is_string( $this->options['facebook_site'] ) && $this->options['facebook_site'] !== '' ) )
-			echo '<meta property="article:publisher" content="' . esc_attr( $this->options['facebook_site'] ) . "\"/>\n";
+			$this->og_tag( 'article:publisher', $this->options['facebook_site'] );
 	}
 
 	/**
@@ -123,18 +142,19 @@ class WPSEO_OpenGraph extends WPSEO_Frontend {
 	 */
 	public function site_owner() {
 		if ( isset( $this->options['fbadminapp'] ) && 0 != $this->options['fbadminapp'] ) {
-			echo '<meta property="fb:app_id" content="' . esc_attr( $this->options['fbadminapp'] ) . "\"/>\n";
-		} else if ( isset( $this->options['fb_admins'] ) && is_array( $this->options['fb_admins'] ) && ( count( $this->options['fb_admins'] ) > 0 ) ) {
+			$this->og_tag( 'fb:app_id', $this->options['fbadminapp'] );
+		}
+		else if ( isset( $this->options['fb_admins'] ) && is_array( $this->options['fb_admins'] ) && ( count( $this->options['fb_admins'] ) > 0 ) ) {
 			$adminstr = '';
 			foreach ( $this->options['fb_admins'] as $admin_id => $admin ) {
-				if ( !empty( $adminstr ) )
+				if ( ! empty( $adminstr ) )
 					$adminstr .= ',' . $admin_id;
 				else
 					$adminstr = $admin_id;
 			}
 			$adminstr = apply_filters( 'wpseo_opengraph_admin', $adminstr );
-			if( is_string( $adminstr ) && $adminstr !== '' )
-				echo '<meta property="fb:admins" content="' . esc_attr( $adminstr ) . "\"/>\n";
+			if ( is_string( $adminstr ) && $adminstr !== '' )
+				$this->og_tag( 'fb:admins', $adminstr );
 		}
 	}
 
@@ -142,17 +162,18 @@ class WPSEO_OpenGraph extends WPSEO_Frontend {
 	 * Outputs the SEO title as OpenGraph title.
 	 *
 	 * @param bool $echo Whether or not to echo the output.
+	 *
 	 * @return string $title
 	 */
 	public function og_title( $echo = true ) {
 		$title = apply_filters( 'wpseo_opengraph_title', $this->title( '' ) );
 
-		if( is_string( $title ) && $title !== '' )
+		if ( is_string( $title ) && $title !== '' ) {
 			if ( $echo !== false )
-				echo '<meta property="og:title" content="' . esc_attr( $title ) . "\"/>\n";
-			else {
-				return $title;
+				$this->og_tag( 'og:title', $title );
 		}
+
+		return $title;
 	}
 
 	/**
@@ -160,8 +181,8 @@ class WPSEO_OpenGraph extends WPSEO_Frontend {
 	 */
 	public function url() {
 		$url = apply_filters( 'wpseo_opengraph_url', $this->canonical( false ) );
-		if( is_string( $url ) && $url !== '' )
-			echo '<meta property="og:url" content="' . esc_url( $url ) . "\"/>\n";
+		if ( is_string( $url ) && $url !== '' )
+			$this->og_tag( 'og:url', esc_url( $url ) );
 	}
 
 	/**
@@ -211,13 +232,13 @@ class WPSEO_OpenGraph extends WPSEO_Frontend {
 		);
 
 		// check to see if the locale is a valid FB one, if not, use en_US as a fallback
-		if ( !in_array( $locale, $fb_valid_fb_locales ) )
+		if ( ! in_array( $locale, $fb_valid_fb_locales ) )
 			$locale = 'en_US';
 
 		if ( $echo !== false )
-			echo '<meta property="og:locale" content="' . esc_attr( $locale ) . "\"/>\n";
-		else
-			return $locale;
+			$this->og_tag( 'og:locale', $locale );
+
+		return $locale;
 	}
 
 	/**
@@ -230,19 +251,22 @@ class WPSEO_OpenGraph extends WPSEO_Frontend {
 	public function type( $echo = true ) {
 		if ( is_singular() ) {
 			$type = wpseo_get_value( 'og_type' );
-			if ( !$type || $type == '' )
+			if ( ! $type || $type == '' )
 				$type = 'article';
-		} else {
+		}
+		else {
 			$type = 'website';
 		}
 		$type = apply_filters( 'wpseo_opengraph_type', $type );
 
-		if( is_string( $type ) && $type !== '' ) {
+		if ( is_string( $type ) && $type !== '' ) {
 			if ( $echo !== false )
-				echo '<meta property="og:type" content="' . esc_attr( $type ) . "\"/>\n";
+				$this->og_tag( 'og:type', $type );
 			else
 				return $type;
 		}
+
+		return '';
 	}
 
 	/**
@@ -257,7 +281,7 @@ class WPSEO_OpenGraph extends WPSEO_Frontend {
 			return false;
 
 		$img = trim( apply_filters( 'wpseo_opengraph_image', $img ) );
-		if ( !empty( $img ) ) {
+		if ( ! empty( $img ) ) {
 			if ( strpos( $img, 'http' ) !== 0 ) {
 				if ( $img[0] != '/' )
 					return false;
@@ -273,10 +297,10 @@ class WPSEO_OpenGraph extends WPSEO_Frontend {
 
 			array_push( $this->shown_images, $img );
 
-			echo '<meta property="og:image" content="' . esc_url( $img ) . "\"/>\n";
-			return true;
+			$this->og_tag( 'og:image', esc_url( $img ) );
 		}
 
+		return true;
 	}
 
 	/**
@@ -285,7 +309,7 @@ class WPSEO_OpenGraph extends WPSEO_Frontend {
 	 * @return bool
 	 */
 	public function image() {
-		
+
 		global $post;
 
 		if ( is_front_page() ) {
@@ -319,11 +343,12 @@ class WPSEO_OpenGraph extends WPSEO_Frontend {
 	 * Output the OpenGraph description, specific OG description first, if not, grab the meta description.
 	 *
 	 * @param bool $echo Whether to echo or return the description
+	 *
 	 * @return string $ogdesc
 	 */
 	public function description( $echo = true ) {
 		$ogdesc = '';
-		
+
 		if ( is_front_page() ) {
 			if ( isset( $this->options['og_frontpage_desc'] ) )
 				$ogdesc = $this->options['og_frontpage_desc'];
@@ -331,12 +356,13 @@ class WPSEO_OpenGraph extends WPSEO_Frontend {
 
 		if ( is_singular() ) {
 			$ogdesc = wpseo_get_value( 'opengraph-description' );
-			if ( !$ogdesc )
+			if ( ! $ogdesc )
 				$ogdesc = $this->metadesc( false );
 
 			// og:description is still blank so grab it from get_the_excerpt()
-			if ( !$ogdesc )
-				$ogdesc = strip_tags( get_the_excerpt() );
+			if ( ! $ogdesc ) {
+				$ogdesc = str_replace( '[&hellip;]', '&hellip;', strip_tags( get_the_excerpt() ) );
+			}
 		}
 
 		if ( is_tax() ) {
@@ -347,11 +373,9 @@ class WPSEO_OpenGraph extends WPSEO_Frontend {
 
 		if ( $ogdesc && ( is_string( $ogdesc ) && $ogdesc != '' ) ) {
 			if ( $echo !== false )
-				echo '<meta property="og:description" content="' . esc_attr( $ogdesc ) . "\"/>\n";
-			else
-				return $ogdesc;
+				$this->og_tag( 'og:description', $ogdesc );
 		}
-
+		return $ogdesc;
 	}
 
 	/**
@@ -359,9 +383,56 @@ class WPSEO_OpenGraph extends WPSEO_Frontend {
 	 */
 	public function site_name() {
 		$name = apply_filters( 'wpseo_opengraph_site_name', get_bloginfo( 'name' ) );
-		if( is_string( $name ) && $name !== '' )
-			echo '<meta property="og:site_name" content="' . esc_attr( $name ) . "\"/>\n";
+		if ( is_string( $name ) && $name !== '' )
+			$this->og_tag( 'og:sitename', $name );
 	}
+
+	/**
+	 * Output the article tags as article:tag tags.
+	 */
+	public function tags() {
+		if ( ! is_singular() )
+			return;
+
+		$tags = get_the_tags();
+		if ( ! is_wp_error( $tags ) && is_array( $tags ) ) {
+			foreach ( $tags as $tag ) {
+				$this->og_tag( 'article:tag', $tag->name );
+			}
+		}
+	}
+
+	/**
+	 * Output the article category as an article:section tag.
+	 */
+	public function category() {
+		if ( ! is_singular() )
+			return;
+
+		$terms = get_the_category();
+		if ( ! is_wp_error( $terms ) && is_array( $terms ) ) {
+			foreach ( $terms as $term ) {
+				$this->og_tag( 'article:section', $term->name );
+			}
+		}
+	}
+
+	/**
+	 * Output the article publish and last modification date
+	 */
+	public function publish_date() {
+		if ( ! is_singular() )
+			return;
+
+		$pub = get_the_date( 'c' );
+		$this->og_tag( 'article:published_time', $pub );
+
+		$mod = get_the_modified_date( 'c' );
+		if ( $mod != $pub ) {
+			$this->og_tag( 'article:modified_time', $mod );
+		}
+	}
+
 }
 
 global $wpseo_og;
