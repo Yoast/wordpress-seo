@@ -315,7 +315,7 @@ class WPSEO_Sitemaps {
 					$date = $wpdb->get_var( $wpdb->prepare( "
 					SELECT mt1.meta_value FROM $wpdb->users
 					INNER JOIN $wpdb->usermeta ON ($wpdb->users.ID = $wpdb->usermeta.user_id)
-					INNER JOIN $wpdb->usermeta AS mt1 ON ($wpdb->users.ID = mt1.user_id) WHERE 1=1 
+					INNER JOIN $wpdb->usermeta AS mt1 ON ($wpdb->users.ID = mt1.user_id) WHERE 1=1
 					AND ( ($wpdb->usermeta.meta_key = %s AND CAST($wpdb->usermeta.meta_value AS CHAR) != '0')
 					AND mt1.meta_key = '_yoast_wpseo_profile_updated' ) ORDER BY mt1.meta_value DESC LIMIT 1
 					",
@@ -329,7 +329,7 @@ class WPSEO_Sitemaps {
 					$date = $wpdb->get_var( $wpdb->prepare( "
 					SELECT mt1.meta_value FROM $wpdb->users
 					INNER JOIN $wpdb->usermeta ON ($wpdb->users.ID = $wpdb->usermeta.user_id)
-					INNER JOIN $wpdb->usermeta AS mt1 ON ($wpdb->users.ID = mt1.user_id) WHERE 1=1 
+					INNER JOIN $wpdb->usermeta AS mt1 ON ($wpdb->users.ID = mt1.user_id) WHERE 1=1
 					AND ( ($wpdb->usermeta.meta_key = %s AND CAST($wpdb->usermeta.meta_value AS CHAR) != '0')
 					AND mt1.meta_key = '_yoast_wpseo_profile_updated' ) ORDER BY mt1.meta_value ASC LIMIT 1 OFFSET %d
 					",
@@ -562,6 +562,8 @@ class WPSEO_Sitemaps {
 				$url['images'] = apply_filters( 'wpseo_sitemap_urlimages', $url['images'], $p->ID );
 
 				if ( ! in_array( $url['loc'], $stackedurls ) ) {
+					// Use this filter to adjust the entry before it gets added to the sitemap
+					$url = apply_filters( 'wpseo_sitemap_entry', $url, 'post', $p );
 					$output .= $this->sitemap_url( $url );
 					$stackedurls[] = $url['loc'];
 				}
@@ -655,6 +657,10 @@ class WPSEO_Sitemaps {
 					AND		p.post_password = ''", $c->taxonomy, $c->term_id );
 			$url['mod'] = $wpdb->get_var( $sql );
 			$url['chf'] = 'weekly';
+
+			// Use this filter to adjust the entry before it gets added to the sitemap
+			$url = apply_filters( 'wpseo_sitemap_entry', $url, 'term', $c );
+
 			$output .= $this->sitemap_url( $url );
 		}
 
@@ -720,12 +726,15 @@ class WPSEO_Sitemaps {
 
 		foreach ( $users as $user ) {
 			if ( $author_link = get_author_posts_url( $user->ID ) ) {
-				$output .= $this->sitemap_url( array(
+				$url = array(
 					'loc' => $author_link,
 					'pri' => 0.8,
 					'chf' => 'weekly',
 					'mod' => date( 'c', $user->_yoast_wpseo_profile_updated )
-				) );
+				);
+				// Use this filter to adjust the entry before it gets added to the sitemap
+				$url = apply_filters( 'wpseo_sitemap_entry', $url, 'user', $user );
+				$output .= $this->sitemap_url( $url );
 			}
 		}
 
