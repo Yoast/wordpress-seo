@@ -564,8 +564,10 @@ class WPSEO_Sitemaps {
 				if ( ! in_array( $url['loc'], $stackedurls ) ) {
 					// Use this filter to adjust the entry before it gets added to the sitemap
 					$url = apply_filters( 'wpseo_sitemap_entry', $url, 'post', $p );
-					$output .= $this->sitemap_url( $url );
-					$stackedurls[] = $url['loc'];
+					if ( ! empty( $url ) ) {
+						$output .= $this->sitemap_url( $url );
+						$stackedurls[] = $url['loc'];
+					}
 				}
 
 				// Clear the post_meta and the term cache for the post, as we no longer need it now.
@@ -661,7 +663,8 @@ class WPSEO_Sitemaps {
 			// Use this filter to adjust the entry before it gets added to the sitemap
 			$url = apply_filters( 'wpseo_sitemap_entry', $url, 'term', $c );
 
-			$output .= $this->sitemap_url( $url );
+			if ( ! empty( $url ) )
+				$output .= $this->sitemap_url( $url );
 		}
 
 		if ( empty( $output ) ) {
@@ -734,7 +737,9 @@ class WPSEO_Sitemaps {
 				);
 				// Use this filter to adjust the entry before it gets added to the sitemap
 				$url = apply_filters( 'wpseo_sitemap_entry', $url, 'user', $user );
-				$output .= $this->sitemap_url( $url );
+
+				if ( ! empty( $url ) )
+					$output .= $this->sitemap_url( $url );
 			}
 		}
 
