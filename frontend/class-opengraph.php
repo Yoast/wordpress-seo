@@ -318,8 +318,14 @@ class WPSEO_OpenGraph extends WPSEO_Frontend {
 		}
 
 		if ( is_singular() ) {
+			$ogimg = wpseo_get_value( 'opengraph-image' );
+			if ( $ogimg ) {
+				$this->image_output( $ogimg );
+				return;
+			}
+
 			if ( function_exists( 'has_post_thumbnail' ) && has_post_thumbnail( $post->ID ) ) {
-				$thumb = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), apply_filters( 'wpseo_opengraph_image_size', 'large' ) );
+				$thumb = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), apply_filters( 'wpseo_opengraph_image_size', 'original' ) );
 				$this->image_output( $thumb[0] );
 			}
 
@@ -384,7 +390,7 @@ class WPSEO_OpenGraph extends WPSEO_Frontend {
 	public function site_name() {
 		$name = apply_filters( 'wpseo_opengraph_site_name', get_bloginfo( 'name' ) );
 		if ( is_string( $name ) && $name !== '' )
-			$this->og_tag( 'og:sitename', $name );
+			$this->og_tag( 'og:site_name', $name );
 	}
 
 	/**

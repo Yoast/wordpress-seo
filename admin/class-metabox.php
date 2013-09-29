@@ -578,6 +578,15 @@ class WPSEO_Metabox {
 					$content .= '<input type="radio" ' . $selected . ' id="yoast_wpseo_' . $meta_box['name'] . '_' . esc_attr( $val ) . '" name="yoast_wpseo_' . $meta_box['name'] . '" value="' . esc_attr( $val ) . '"/> <label for="yoast_wpseo_' . $meta_box['name'] . '_' . $val . '">' . $option . '</label> ';
 				}
 				break;
+			case "upload":
+				if ( $meta_box_value == '' )
+					$meta_box_value = $meta_box['std'];
+				$content .= '<label for="upload_image">';
+				$content .= '<input id="wpseo_upload_image" type="text" size="36" name="ad_image" value="' . $meta_box_value . '" />';
+				$content .= '<input id="wpseo_upload_image_button" class="button" type="button" value="Upload Image" />';
+				$content .= '</label>';
+				wp_enqueue_media();
+				break;
 			case "divtext":
 				$content .= '<p>' . $meta_box['description'] . '</p>';
 		}
@@ -794,13 +803,14 @@ class WPSEO_Metabox {
 			wp_enqueue_script( 'wp-seo-metabox', WPSEO_URL . 'js/wp-seo-metabox.js', array( 'jquery', 'jquery-ui-core', 'jquery-ui-autocomplete' ), WPSEO_VERSION, true );
 
 			// Text strings to pass to metabox for keyword analysis
-			wp_localize_script( 'wp-seo-metabox', 'objectL10n', array(
+			wp_localize_script( 'wp-seo-metabox', 'wpseoL10n', array(
 				'keyword_header'        => __( 'Your focus keyword was found in:', 'wordpress-seo' ),
 				'article_header_text'   => __( 'Article Heading: ', 'wordpress-seo' ),
 				'page_title_text'       => __( 'Page title: ', 'wordpress-seo' ),
 				'page_url_text'         => __( 'Page URL: ', 'wordpress-seo' ),
 				'content_text'          => __( 'Content: ', 'wordpress-seo' ),
 				'meta_description_text' => __( 'Meta description: ', 'wordpress-seo' ),
+				'choose_image'          => __( 'Choose Image', 'wordpress-seo' )
 			) );
 		}
 	}
@@ -1130,7 +1140,7 @@ class WPSEO_Metabox {
 		$job["keyword"]        = trim( wpseo_get_value( 'focuskw' ) );
 		$job["keyword_folded"] = $this->strip_separators_and_fold( $job["keyword"] );
 		$job["post_id"]        = $post->ID;
-		$job["post_type"]			 = $post->post_type;
+		$job["post_type"]      = $post->post_type;
 
 		$dom                      = new domDocument;
 		$dom->strictErrorChecking = false;
@@ -1325,8 +1335,8 @@ class WPSEO_Metabox {
 	/**
 	 * Check whether the keyword is contained in the URL.
 	 *
-	 * @param array  $job        The job array holding both the keyword and the URLs.
-	 * @param array  $results    The results array.
+	 * @param array $job        The job array holding both the keyword and the URLs.
+	 * @param array $results    The results array.
 	 */
 	function score_url( $job, &$results ) {
 		global $statistics, $wpseo_admin;
@@ -1357,8 +1367,8 @@ class WPSEO_Metabox {
 	/**
 	 * Check whether the keyword is contained in the title.
 	 *
-	 * @param array  $job        The job array holding both the keyword versions.
-	 * @param array  $results    The results array.
+	 * @param array $job        The job array holding both the keyword versions.
+	 * @param array $results    The results array.
 	 */
 	function score_title( $job, &$results ) {
 		global $statistics;
