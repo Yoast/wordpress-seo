@@ -803,7 +803,7 @@ class WPSEO_Metabox {
 			wp_enqueue_script( 'wp-seo-metabox', WPSEO_URL . 'js/wp-seo-metabox.js', array( 'jquery', 'jquery-ui-core', 'jquery-ui-autocomplete' ), WPSEO_VERSION, true );
 
 			// Text strings to pass to metabox for keyword analysis
-			wp_localize_script( 'wp-seo-metabox', 'wpseoL10n', array(
+			wp_localize_script( 'wp-seo-metabox', 'wpseoMetaboxL10n', array(
 				'keyword_header'        => __( 'Your focus keyword was found in:', 'wordpress-seo' ),
 				'article_header_text'   => __( 'Article Heading: ', 'wordpress-seo' ),
 				'page_title_text'       => __( 'Page title: ', 'wordpress-seo' ),

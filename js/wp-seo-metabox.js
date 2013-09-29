@@ -93,12 +93,12 @@ function testFocusKw() {
 		metadesc = jQuery('#wpseosnippet .desc').text();
 
 	if (focuskw != '') {
-		var html = '<p>' + wpseoL10n.keyword_header + '<br />';
-		html += wpseoL10n.article_header_text + ptest(jQuery('#title').val(), p) + '<br/>';
-		html += wpseoL10n.page_title_text + ptest(jQuery('#wpseosnippet .title').text(), p) + '<br/>';
-		html += wpseoL10n.page_url_text + ptest(url, p2) + '<br/>';
-		html += wpseoL10n.content_text + ptest(jQuery('#content').val(), p) + '<br/>';
-		html += wpseoL10n.meta_description_text + ptest(metadesc, p);
+		var html = '<p>' + wpseoMetaboxL10n.keyword_header + '<br />';
+		html += wpseoMetaboxL10n.article_header_text + ptest(jQuery('#title').val(), p) + '<br/>';
+		html += wpseoMetaboxL10n.page_title_text + ptest(jQuery('#wpseosnippet .title').text(), p) + '<br/>';
+		html += wpseoMetaboxL10n.page_url_text + ptest(url, p2) + '<br/>';
+		html += wpseoMetaboxL10n.content_text + ptest(jQuery('#content').val(), p) + '<br/>';
+		html += wpseoMetaboxL10n.meta_description_text + ptest(metadesc, p);
 		html += '</p>';
 		jQuery('#focuskwresults').html(html);
 	} else {
@@ -400,9 +400,9 @@ jQuery(document).ready(function ($) {
 		}
 
 		custom_uploader = wp.media.frames.file_frame = wp.media({
-			title   : wpseoL10n.choose_image,
+			title   : wpseoMetaboxL10n.choose_image,
 			button  : {
-				text: wpseoL10n.choose_image
+				text: wpseoMetaboxL10n.choose_image
 			},
 			multiple: false
 		});
