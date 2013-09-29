@@ -582,10 +582,9 @@ class WPSEO_Metabox {
 				if ( $meta_box_value == '' )
 					$meta_box_value = $meta_box['std'];
 				$content .= '<label for="upload_image">';
-				$content .= '<input id="wpseo_upload_image" type="text" size="36" name="ad_image" value="' . $meta_box_value . '" />';
-				$content .= '<input id="wpseo_upload_image_button" class="button" type="button" value="Upload Image" />';
+				$content .= '<input id="yoast_wpseo_'.$meta_box['name'].'" type="text" size="36" name="yoast_wpseo_'.$meta_box['name'].'" value="' . $meta_box_value . '" />';
+				$content .= '<input id="yoast_wpseo_'.$meta_box['name'].'_button" class="wpseo_image_upload_button button" type="button" value="Upload Image" />';
 				$content .= '</label>';
-				wp_enqueue_media();
 				break;
 			case "divtext":
 				$content .= '<p>' . $meta_box['description'] . '</p>';
@@ -810,7 +809,7 @@ class WPSEO_Metabox {
 				'page_url_text'         => __( 'Page URL: ', 'wordpress-seo' ),
 				'content_text'          => __( 'Content: ', 'wordpress-seo' ),
 				'meta_description_text' => __( 'Meta description: ', 'wordpress-seo' ),
-				'choose_image'          => __( 'Choose Image', 'wordpress-seo' )
+				'choose_image'          => __( 'Use Image', 'wordpress-seo' )
 			) );
 		}
 	}

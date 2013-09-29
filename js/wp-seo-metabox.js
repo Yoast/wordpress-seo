@@ -388,35 +388,23 @@ jQuery(document).ready(function () {
 
 // Taken and adapted from http://www.webmaster-source.com/2013/02/06/using-the-wordpress-3-5-media-uploader-in-your-plugin-or-theme/
 jQuery(document).ready(function ($) {
-	var custom_uploader;
-
-	$('#wpseo_upload_image_button').click(function (e) {
-
+	var wpseo_custom_uploader;
+	$('.wpseo_image_upload_button').click(function (e) {
+		var wpseo_target_id = $(this).attr('id').replace(/_button$/,'');
 		e.preventDefault();
-
-		if (custom_uploader) {
-			custom_uploader.open();
+		if (wpseo_custom_uploader) {
+			wpseo_custom_uploader.open();
 			return;
 		}
-
-		custom_uploader = wp.media.frames.file_frame = wp.media({
+		wpseo_custom_uploader = wp.media.frames.file_frame = wp.media({
 			title   : wpseoMetaboxL10n.choose_image,
-			button  : {
-				text: wpseoMetaboxL10n.choose_image
-			},
+			button  : { text: wpseoMetaboxL10n.choose_image },
 			multiple: false
 		});
-
-		//When a file is selected, grab the URL and set it as the text field's value
-		custom_uploader.on('select', function () {
-			attachment = custom_uploader.state().get('selection').first().toJSON();
-			$('#wpseo_upload_image').val(attachment.url);
+		wpseo_custom_uploader.on('select', function () {
+			attachment = wpseo_custom_uploader.state().get('selection').first().toJSON();
+			$('#'+wpseo_target_id).val(attachment.url);
 		});
-
-		//Open the uploader dialog
-		custom_uploader.open();
-
+		wpseo_custom_uploader.open();
 	});
-
-
 });
