@@ -57,6 +57,13 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 			"title"       => __( "Facebook Description", 'wordpress-seo' ),
 			"description" => __( 'If you don\'t want to use the meta description for sharing the post on Facebook but want another description there, write it here.', 'wordpress-seo' )
 		);
+		$mbs[ 'opengraph-image' ]   = array(
+			"name"        => "opengraph-image",
+			"type"        => "upload",
+			"std"         => "",
+			"title"       => __( "Facebook Image", 'wordpress-seo' ),
+			"description" => __( 'If you want to override the Facebook image for this post, upload / choose an image or add the URL here.', 'wordpress-seo' )
+		);
 		$mbs[ 'google-plus-description' ] = array(
 			"name"        => "google-plus-description",
 			"type"        => "textarea",
