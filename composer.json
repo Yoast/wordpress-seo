@@ -1,0 +1,18 @@
+{
+    "name": "yoast/wordpress-seo",
+    "description": "Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the WordPress SEO plugin by Yoast.",
+    "keywords": ["wordpress", "seo"],
+    "homepage": "http://yoast.com/wordpress/seo",
+    "license": "GPL-2.0+",
+    "authors": [
+        {
+            "name": "Joost de Valk",
+            "email": "support@yoast.com",
+            "homepage": "http://yoast.com"
+        }
+    ],
+    "type": "wordpress-plugin",
+    "require": {
+        "composer/installers": "v1.0.6"
+    }
+}
