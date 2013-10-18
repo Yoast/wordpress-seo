@@ -24,7 +24,7 @@ if ( ( isset( $_GET[ 'updated' ] ) && $_GET[ 'updated' ] == 'true' ) || ( isset(
 
 ?>
 <a href="http://yoast.com/">
-	<div id="top yoast-icon" style="background: url('<?php echo WPSEO_URL; ?>images/wordpress-SEO-32x32.png') no-repeat;"
+	<div id="top yoast-icon" style="background: url('<?php echo plugins_url( 'images/wordpress-SEO-32x32.png', dirname( dirname( __FILE__ ) ) ); ?>') no-repeat;"
 		 class="icon32"><br/></div>
 </a>
 

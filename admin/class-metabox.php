@@ -520,7 +520,7 @@ class WPSEO_Metabox {
 
 		$help = '';
 		if ( isset( $meta_box['help'] ) && $meta_box['help'] )
-			$help = '<img src="' . WPSEO_URL . 'images/question-mark.png" class="alignright yoast_help" id="' . $meta_box['name'] . 'help" alt="' . esc_attr( $meta_box['help'] ) . '" />';
+			$help = '<img src="' . plugins_url( 'images/question-mark.png', dirname( __FILE__ ) ) . '" class="alignright yoast_help" id="' . $meta_box['name'] . 'help" alt="' . esc_attr( $meta_box['help'] ) . '" />';
 
 		$content .= '<tr>';
 		$content .= '<th scope="row"><label for="yoast_wpseo_' . $meta_box['name'] . '">' . $meta_box['title'] . ':</label>' . $help . '</th>';
@@ -791,16 +791,16 @@ class WPSEO_Metabox {
 
 		global $pagenow;
 		if ( $pagenow == 'edit.php' ) {
-			wp_enqueue_style( 'edit-page', WPSEO_URL . 'css/edit-page.css', array(), WPSEO_VERSION );
+			wp_enqueue_style( 'edit-page', plugins_url( 'css/edit-page.css', dirname( __FILE__ ) ), array(), WPSEO_VERSION );
 		}
 		else {
-			wp_enqueue_style( 'metabox-tabs', WPSEO_URL . 'css/metabox-tabs.css', array(), WPSEO_VERSION );
-			wp_enqueue_style( "metabox-$color", WPSEO_URL . 'css/metabox-' . esc_attr( $color ) . '.css', array(), WPSEO_VERSION );
+			wp_enqueue_style( 'metabox-tabs', plugins_url( 'css/metabox-tabs.css', dirname( __FILE__ ) ), array(), WPSEO_VERSION );
+			wp_enqueue_style( "metabox-$color", plugins_url( 'css/metabox-' . esc_attr( $color ) . '.css', dirname( __FILE__ ) ), array(), WPSEO_VERSION );
 
 			wp_enqueue_script( 'jquery-ui-autocomplete' );
 
-			wp_enqueue_script( 'jquery-qtip', WPSEO_URL . 'js/jquery.qtip.min.js', array( 'jquery' ), '1.0.0-RC3', true );
-			wp_enqueue_script( 'wp-seo-metabox', WPSEO_URL . 'js/wp-seo-metabox.js', array( 'jquery', 'jquery-ui-core', 'jquery-ui-autocomplete' ), WPSEO_VERSION, true );
+			wp_enqueue_script( 'jquery-qtip', plugins_url( 'js/jquery.qtip.min.js', dirname( __FILE__ ) ), array( 'jquery' ), '1.0.0-RC3', true );
+			wp_enqueue_script( 'wp-seo-metabox', plugins_url( 'js/wp-seo-metabox.js', dirname( __FILE__ ) ), array( 'jquery', 'jquery-ui-core', 'jquery-ui-autocomplete' ), WPSEO_VERSION, true );
 
 			// Text strings to pass to metabox for keyword analysis
 			wp_localize_script( 'wp-seo-metabox', 'wpseoMetaboxL10n', array(
