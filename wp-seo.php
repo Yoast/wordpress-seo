@@ -33,8 +33,6 @@ if ( !defined( 'DB_NAME' ) ) {
 	die;
 }
 
-if ( !defined( 'WPSEO_URL' ) )
-	define( 'WPSEO_URL', plugin_dir_url( __FILE__ ) );
 if ( !defined( 'WPSEO_PATH' ) )
 	define( 'WPSEO_PATH', plugin_dir_path( __FILE__ ) );
 if ( !defined( 'WPSEO_BASENAME' ) )
