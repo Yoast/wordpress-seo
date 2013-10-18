@@ -782,10 +782,11 @@ class WPSEO_Metabox {
 
 	/**
 	 * Enqueues all the needed JS and CSS.
+	 * @todo create css/metabox-mp6.css file and add it to the below allowed colors array when done
 	 */
 	public function enqueue() {
 		$color = get_user_meta( get_current_user_id(), 'admin_color', true );
-		if ( '' == $color )
+		if ( '' == $color || in_array( $color, array( 'classic', 'fresh' ), true ) === false )
 			$color = 'fresh';
 
 		global $pagenow;
