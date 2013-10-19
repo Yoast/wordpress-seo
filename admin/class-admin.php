@@ -109,7 +109,7 @@ class WPSEO_Admin {
 		if ( function_exists( 'is_multisite' ) && is_multisite() ) {
 			if ( get_option( 'wpseo' ) == '1pseo_social' )
 				delete_option( 'wpseo' );
-			register_setting( 'yoast_wpseo_multisite_options', 'wpseo_multisite' );
+			register_setting( 'yoast_wpseo_multisite_options', 'wpseo_ms' );
 		}
 	}
 
@@ -152,24 +152,24 @@ class WPSEO_Admin {
 	 * @global array $submenu used to change the label on the first item.
 	 */
 	function register_settings_page() {
-		add_menu_page( __( 'WordPress SEO Configuration', 'wordpress-seo' ), __( 'SEO', 'wordpress-seo' ), 'manage_options', 'wpseo_dashboard', array( $this, 'config_page' ), WPSEO_URL . 'images/yoast-icon.png', '99.31337' );
+		add_menu_page( __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'General Settings', 'wordpress-seo' ), __( 'SEO', 'wordpress-seo' ), 'manage_options', 'wpseo_dashboard', array( $this, 'config_page' ), WPSEO_URL . 'images/yoast-icon.png', '99.31337' );
 
-		$admin_page = add_submenu_page( 'wpseo_dashboard', __( 'Titles &amp; Metas', 'wordpress-seo' ), __( 'Titles &amp; Metas', 'wordpress-seo' ), 'manage_options', 'wpseo_titles', array( $this, 'titles_page' ) );
+		$admin_page = add_submenu_page( 'wpseo_dashboard', __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Titles &amp; Metas', 'wordpress-seo' ), __( 'Titles &amp; Metas', 'wordpress-seo' ), 'manage_options', 'wpseo_titles', array( $this, 'titles_page' ) );
 		add_action( 'load-' . $admin_page, array( $this, 'title_metas_help_tab' ) );
 
-		add_submenu_page( 'wpseo_dashboard', __( 'Social', 'wordpress-seo' ), __( 'Social', 'wordpress-seo' ), 'manage_options', 'wpseo_social', array( $this, 'social_page' ) );
-		add_submenu_page( 'wpseo_dashboard', __( 'XML Sitemaps', 'wordpress-seo' ), __( 'XML Sitemaps', 'wordpress-seo' ), 'manage_options', 'wpseo_xml', array( $this, 'xml_sitemaps_page' ) );
-		add_submenu_page( 'wpseo_dashboard', __( 'Permalinks', 'wordpress-seo' ), __( 'Permalinks', 'wordpress-seo' ), 'manage_options', 'wpseo_permalinks', array( $this, 'permalinks_page' ) );
-		add_submenu_page( 'wpseo_dashboard', __( 'Internal Links', 'wordpress-seo' ), __( 'Internal Links', 'wordpress-seo' ), 'manage_options', 'wpseo_internal-links', array( $this, 'internallinks_page' ) );
-		add_submenu_page( 'wpseo_dashboard', __( 'RSS', 'wordpress-seo' ), __( 'RSS', 'wordpress-seo' ), 'manage_options', 'wpseo_rss', array( $this, 'rss_page' ) );
-		add_submenu_page( 'wpseo_dashboard', __( 'Import & Export', 'wordpress-seo' ), __( 'Import & Export', 'wordpress-seo' ), 'manage_options', 'wpseo_import', array( $this, 'import_page' ) );
+		add_submenu_page( 'wpseo_dashboard', __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Social', 'wordpress-seo' ), __( 'Social', 'wordpress-seo' ), 'manage_options', 'wpseo_social', array( $this, 'social_page' ) );
+		add_submenu_page( 'wpseo_dashboard', __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'XML Sitemaps', 'wordpress-seo' ), __( 'XML Sitemaps', 'wordpress-seo' ), 'manage_options', 'wpseo_xml', array( $this, 'xml_sitemaps_page' ) );
+		add_submenu_page( 'wpseo_dashboard', __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Permalinks', 'wordpress-seo' ), __( 'Permalinks', 'wordpress-seo' ), 'manage_options', 'wpseo_permalinks', array( $this, 'permalinks_page' ) );
+		add_submenu_page( 'wpseo_dashboard', __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Internal Links', 'wordpress-seo' ), __( 'Internal Links', 'wordpress-seo' ), 'manage_options', 'wpseo_internal-links', array( $this, 'internallinks_page' ) );
+		add_submenu_page( 'wpseo_dashboard', __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'RSS', 'wordpress-seo' ), __( 'RSS', 'wordpress-seo' ), 'manage_options', 'wpseo_rss', array( $this, 'rss_page' ) );
+		add_submenu_page( 'wpseo_dashboard', __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Import & Export', 'wordpress-seo' ), __( 'Import & Export', 'wordpress-seo' ), 'manage_options', 'wpseo_import', array( $this, 'import_page' ) );
 
 		if ( ! ( defined( 'DISALLOW_FILE_EDIT' ) && DISALLOW_FILE_EDIT ) && ! ( defined( 'DISALLOW_FILE_MODS' ) && DISALLOW_FILE_MODS ) ) {
 			// Make sure on a multi site install only super admins can edit .htaccess and robots.txt
 			if ( ! function_exists( 'is_multisite' ) || ! is_multisite() )
-				add_submenu_page( 'wpseo_dashboard', __( 'Edit files', 'wordpress-seo' ), __( 'Edit files', 'wordpress-seo' ), 'manage_options', 'wpseo_files', array( $this, 'files_page' ) );
+				add_submenu_page( 'wpseo_dashboard', __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Edit Files', 'wordpress-seo' ), __( 'Edit Files', 'wordpress-seo' ), 'manage_options', 'wpseo_files', array( $this, 'files_page' ) );
 			else
-				add_submenu_page( 'wpseo_dashboard', __( 'Edit files', 'wordpress-seo' ), __( 'Edit files', 'wordpress-seo' ), 'delete_users', 'wpseo_files', array( $this, 'files_page' ) );
+				add_submenu_page( 'wpseo_dashboard', __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Edit Files', 'wordpress-seo' ), __( 'Edit Files', 'wordpress-seo' ), 'delete_users', 'wpseo_files', array( $this, 'files_page' ) );
 		}
 
 		global $submenu;
@@ -352,7 +352,7 @@ class WPSEO_Admin {
 	 * Register the settings page for the Network settings.
 	 */
 	function register_network_settings_page() {
-		add_menu_page( __( 'WordPress SEO Configuration', 'wordpress-seo' ), __( 'SEO', 'wordpress-seo' ), 'delete_users', 'wpseo_dashboard', array( $this, 'network_config_page' ), WPSEO_URL . 'images/yoast-icon.png' );
+		add_menu_page( __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'MultiSite Settings', 'wordpress-seo' ), __( 'SEO', 'wordpress-seo' ), 'delete_users', 'wpseo_dashboard', array( $this, 'network_config_page' ), WPSEO_URL . 'images/yoast-icon.png' );
 	}
 
 	/**

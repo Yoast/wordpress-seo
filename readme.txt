@@ -113,9 +113,12 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 	* Added published time, last modified time, tags and categories to OpenGraph output, to work with Pinterests new article pin.
 	* Added a filter for post length requirements in the Analysis tab.
 	* If there is a term description, use it in the OpenGraph description for a term archive page.
+	* Applied a number of settings form best practices - props [Jrf](http://profiles.wordpress.org/jrf).
 * Bugfixes
 	* Move all rewrite flushing to shutdown, so it doesn't break other plugins who add their rewrites late.
 	* Fixed the wrong naming of the L10n JS object, props [Otto](http://profiles.wordpress.org/otto42).
+	* Improved form support for UTF-8 - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Corrected faulty multisite option registration - props [Jrf](http://profiles.wordpress.org/jrf).
 
 = 1.4.18 =
 

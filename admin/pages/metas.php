@@ -15,20 +15,16 @@ $options = get_wpseo_options();
 ?>
 <div class="wrap">
 <?php
-
-if ( ( isset( $_GET[ 'updated' ] ) && $_GET[ 'updated' ] == 'true' ) || ( isset( $_GET[ 'settings-updated' ] ) && $_GET[ 'settings-updated' ] == 'true' ) ) {
-	$msg = __( 'Settings updated', 'wordpress-seo' );
-
-	echo '<div id="message" style="width:94%;" class="message updated"><p><strong>' . $msg . '.</strong></p></div>';
-}
-
+/**
+ * Display the updated/error messages
+ */
+include_once( 'options-head.php' );
 ?>
 <a href="http://yoast.com/">
-	<div id="top yoast-icon" style="background: url('<?php echo WPSEO_URL; ?>images/wordpress-SEO-32x32.png') no-repeat;"
-		 class="icon32"><br/></div>
+<?php screen_icon(); ?>
 </a>
 
-<h2 id="wpseo-title"><?php _e( "Yoast WordPress SEO: Titles &amp; Metas", 'wordpress-seo' ); ?></h2>
+<h2 id="wpseo-title"><?php echo get_admin_page_title(); ?></h2>
 
 <div id="wpseo_content_top" class="postbox-container">
 <div class="metabox-holder" style="max-width: 650px; float: left;">
@@ -45,7 +41,7 @@ if ( ( isset( $_GET[ 'updated' ] ) && $_GET[ 'updated' ] == 'true' ) || ( isset(
 <div class="tabwrapper>">
 <div id="general" class="wpseotab">
 	<?php
-	echo '<form action="' . admin_url( 'options.php' ) . '" method="post" id="wpseo-conf">';
+	echo '<form action="' . admin_url( 'options.php' ) . '" method="post" id="wpseo-conf"' . ( ( defined( 'DB_CHARSET' ) && DB_CHARSET === 'utf8' ) ? ' accept-charset="utf-8"' : '' ) . '>';
 	settings_fields( 'yoast_wpseo_titles_options' );
 	$wpseo_admin_pages->currentoption = 'wpseo_titles';
 
