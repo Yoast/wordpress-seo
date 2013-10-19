@@ -43,19 +43,30 @@ function wpseo_set_value( $meta, $val, $postid ) {
 /**
  * Retrieve an array of all the options the plugin uses. It can't use only one due to limitations of the options API.
  *
+ * @deprecated 1.4.19
+ * @deprecated use WPSEO_Options::get_option_names()
+ * @see WPSEO_Options::get_option_names()
+ *
  * @return array of options.
  */
 function get_wpseo_options_arr() {
-	$optarr = array( 'wpseo', 'wpseo_permalinks', 'wpseo_titles', 'wpseo_rss', 'wpseo_internallinks', 'wpseo_xml', 'wpseo_social' );
-	return apply_filters( 'wpseo_options', $optarr );
+	_deprecated_function( __FUNCTION__, 'WPSEO 1.4.19', 'WPSEO_Options::get_option_names()' );
+	return WPSEO_Options::get_option_names();
 }
 
 /**
  * Retrieve all the options for the SEO plugin in one go.
  *
+ * @deprecated 1.4.19
+ * @deprecated use WPSEO_Options::get_all()
+ * @see WPSEO_Options::get_all()
+ *
  * @return array of options
  */
 function get_wpseo_options() {
+//	_deprecated_function( __FUNCTION__, 'WPSEO 1.4.19', 'WPSEO_Options::get_all()' );
+//	return WPSEO_Options::get_all();
+	
 	static $options;
 
 	if ( !isset( $options ) ) {
