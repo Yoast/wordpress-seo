@@ -3,7 +3,7 @@
  * @package Internals
  */
 
-include 'class-sitemap-walker.php';
+include_once( 'class-sitemap-walker.php' );
 
 if ( ! defined( 'WPSEO_VERSION' ) ) {
 	header( 'HTTP/1.0 403 Forbidden' );

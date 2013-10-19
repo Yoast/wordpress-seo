@@ -49,7 +49,7 @@ add_filter( 'wp_loaded', 'wpseo_load_textdomain' );
 
 if ( version_compare( PHP_VERSION, '5.2', '<' ) ) {
 	if ( is_admin() && ( !defined( 'DOING_AJAX' ) || !DOING_AJAX ) ) {
-		require_once ABSPATH . '/wp-admin/includes/plugin.php';
+		require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 		deactivate_plugins( __FILE__ );
 		wp_die( sprintf( __( 'WordPress SEO requires PHP 5.2 or higher, as does WordPress 3.2 and higher. The plugin has now disabled itself. For more info, %s$1see this post%s$2.', 'wordpress-seo' ), '<a href="http://yoast.com/requires-php-52/">', '</a>' ) );
 	} else {
@@ -66,15 +66,15 @@ define( 'WPSEO_FRONT_URL', $pluginurl );
 unset( $pluginurl );
 
 function wpseo_init() {
-	require WPSEO_PATH . 'inc/wpseo-functions.php';
+	require_once( WPSEO_PATH . 'inc/wpseo-functions.php' );
 
 	$options = get_wpseo_options();
 
 	if ( isset( $options['stripcategorybase'] ) && $options['stripcategorybase'] )
-		require WPSEO_PATH . 'inc/class-rewrite.php';
+		require_once( WPSEO_PATH . 'inc/class-rewrite.php' );
 
 	if ( isset( $options['enablexmlsitemap'] ) && $options['enablexmlsitemap'] )
-		require WPSEO_PATH . 'inc/class-sitemaps.php';
+		require_once( WPSEO_PATH . 'inc/class-sitemaps.php' );
 }
 
 /**
@@ -82,13 +82,13 @@ function wpseo_init() {
  */
 function wpseo_frontend_init() {
 	$options = get_wpseo_options();
-	require WPSEO_PATH . 'frontend/class-frontend.php';
+	require_once( WPSEO_PATH . 'frontend/class-frontend.php' );
 	if ( isset( $options['breadcrumbs-enable'] ) && $options['breadcrumbs-enable'] )
-		require WPSEO_PATH . 'frontend/class-breadcrumbs.php';
+		require_once( WPSEO_PATH . 'frontend/class-breadcrumbs.php' );
 	if ( isset( $options['twitter'] ) && $options['twitter'] )
-		require WPSEO_PATH . 'frontend/class-twitter.php';
+		require_once( WPSEO_PATH . 'frontend/class-twitter.php' );
 	if ( isset( $options['opengraph'] ) && $options['opengraph'] )
-		require WPSEO_PATH . 'frontend/class-opengraph.php';
+		require_once( WPSEO_PATH . 'frontend/class-opengraph.php' );
 }
 
 /**
@@ -102,39 +102,39 @@ function wpseo_admin_init() {
 	}
 
 	if ( isset( $options['yoast_tracking'] ) && $options['yoast_tracking'] ) {
-		require WPSEO_PATH . 'admin/class-tracking.php';
+		require_once( WPSEO_PATH . 'admin/class-tracking.php' );
 	}
 
-	require WPSEO_PATH . 'admin/class-admin.php';
+	require_once( WPSEO_PATH . 'admin/class-admin.php' );
 
 	global $pagenow;
 	if ( in_array( $pagenow, array( 'edit.php', 'post.php', 'post-new.php' ) ) ) {
-		require WPSEO_PATH . 'admin/class-metabox.php';
+		require_once( WPSEO_PATH . 'admin/class-metabox.php' );
 		if ( isset( $options['opengraph'] ) && $options['opengraph'] )
-			require WPSEO_PATH . 'admin/class-opengraph-admin.php';
+			require_once( WPSEO_PATH . 'admin/class-opengraph-admin.php' );
 	}
 
 	if ( in_array( $pagenow, array( 'edit-tags.php' ) ) )
-		require WPSEO_PATH . 'admin/class-taxonomy.php';
+		require_once( WPSEO_PATH . 'admin/class-taxonomy.php' );
 
 	if ( in_array( $pagenow, array( 'admin.php' ) ) )
-		require WPSEO_PATH . 'admin/class-config.php';
+		require_once( WPSEO_PATH . 'admin/class-config.php' );
 
 	if ( !isset( $options['yoast_tracking'] ) || ( !isset( $options['ignore_tour'] ) || !$options['ignore_tour'] ) )
-		require WPSEO_PATH . 'admin/class-pointers.php';
+		require_once( WPSEO_PATH . 'admin/class-pointers.php' );
 
 	if ( isset( $options['enablexmlsitemap'] ) && $options['enablexmlsitemap'] )
-		require WPSEO_PATH . 'admin/class-sitemaps-admin.php';
+		require_once( WPSEO_PATH . 'admin/class-sitemaps-admin.php' );
 }
 
 add_action( 'plugins_loaded', 'wpseo_init', 14 );
 
 if ( !defined( 'DOING_AJAX' ) || !DOING_AJAX )
-	require WPSEO_PATH . 'inc/wpseo-non-ajax-functions.php';
+	require_once( WPSEO_PATH . 'inc/wpseo-non-ajax-functions.php' );
 
 if ( is_admin() ) {
 	if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
-		require WPSEO_PATH . 'admin/ajax.php';
+		require_once( WPSEO_PATH . 'admin/ajax.php' );
 	} else {
 		add_action( 'plugins_loaded', 'wpseo_admin_init', 15 );
 	}

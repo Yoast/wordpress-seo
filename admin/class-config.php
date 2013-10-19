@@ -248,7 +248,7 @@ class WPSEO_Admin_Pages {
 
 		fclose( $handle );
 
-		require_once ( ABSPATH . 'wp-admin/includes/class-pclzip.php' );
+		require_once( ABSPATH . 'wp-admin/includes/class-pclzip.php' );
 
 		chdir( $dir['path'] );
 		$zip = new PclZip( './settings.zip' );
