@@ -153,7 +153,7 @@ class WPSEO_Admin_Pages {
 		 * Only needed as our settings page is not under options, otherwise it will automatically be included
 		 * @see settings_errors()
 		 */
-		include_once( 'options-head.php' );
+		require_once( ABSPATH . 'wp-admin/options-head.php' );
 		?>
 		<a href="http://yoast.com/">
 		<?php screen_icon(); ?>
