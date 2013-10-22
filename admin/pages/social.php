@@ -126,11 +126,10 @@ if ( $clearall ) {
 }
 $fbconnect .= '</p>';
 
-$wpseo_admin_pages->admin_header( __( 'Social', 'wordpress-seo' ), true, WPSEO_Options::$options['wpseo_social']['group'], 'wpseo_social' );
+$wpseo_admin_pages->admin_header( true, WPSEO_Options::$options['wpseo_social']['group'], 'wpseo_social' );
 
 if ( $error )
 	settings_errors();
-
 ?>
 
 <h2 class="nav-tab-wrapper" id="wpseo-tabs">

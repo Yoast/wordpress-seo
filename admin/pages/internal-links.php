@@ -10,7 +10,7 @@ if ( !defined('WPSEO_VERSION') ) {
 
 global $wpseo_admin_pages;
 
-$wpseo_admin_pages->admin_header( __( 'Internal Links', 'wordpress-seo' ), true, WPSEO_Options::$options['wpseo_internallinks']['group'], 'wpseo_internallinks' );
+$wpseo_admin_pages->admin_header( true, WPSEO_Options::$options['wpseo_internallinks']['group'], 'wpseo_internallinks' );
 
 $content = $wpseo_admin_pages->checkbox( 'breadcrumbs-enable', __( 'Enable Breadcrumbs', 'wordpress-seo' ) );
 $content .= '<br/>';

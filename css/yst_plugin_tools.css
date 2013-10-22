@@ -165,6 +165,9 @@ table.yoast_help tr:hover {
 .button {
 	color: #000 !important;
 }
+.button#submit {
+	color: #FFF !important;
+}
 
 .postbox#donate {
 	border-color: green;
@@ -210,6 +213,12 @@ h2 code {
 
 #pointer-primary {
 	margin: 0 5px 0 0; 
+}
+
+/* Add our icon to the Admin pages */
+#icon-wpseo_dashboard.icon32 {
+	background-image: url("../images/wordpress-SEO-32x32.png");
+	background-position: 0 0;
 }
 
 #wpseo-debug-info {

@@ -27,7 +27,7 @@ if ( isset( $_GET['allow_tracking'] ) && check_admin_referer( 'wpseo_activate_tr
 	}
 }
 
-$wpseo_admin_pages->admin_header( __( 'General Settings', 'wordpress-seo' ), true, WPSEO_Options::$options['wpseo']['group'], 'wpseo' );
+$wpseo_admin_pages->admin_header( true, WPSEO_Options::$options['wpseo']['group'], 'wpseo' );
 
 // detect and handle robots meta here
 robots_meta_handler();
