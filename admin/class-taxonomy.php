@@ -17,10 +17,10 @@ class WPSEO_Taxonomy {
 	 * Class constructor
 	 */
 	function __construct() {
-		$options = get_wpseo_options();
+		$options = WPSEO_Options::get_all();
 
 		if ( is_admin() && isset( $_GET['taxonomy'] ) &&
-			( !isset( $options['tax-hideeditbox-' . $_GET['taxonomy']] ) || !$options['tax-hideeditbox-' . $_GET['taxonomy']] )
+			( ! isset( $options['tax-hideeditbox-' . $_GET['taxonomy']] ) || $options['tax-hideeditbox-' . $_GET['taxonomy']] === false )
 		)
 			add_action( $_GET['taxonomy'] . '_edit_form', array( $this, 'term_seo_form' ), 10, 1 );
 
@@ -28,6 +28,20 @@ class WPSEO_Taxonomy {
 
 		add_action( 'init', array( $this, 'custom_category_descriptions_allow_html' ) );
 		add_filter( 'category_description', array( $this, 'custom_category_descriptions_add_shortcode_support' ) );
+	}
+	
+	/**
+	 * Test whether we are on a public taxonomy - no metabox actions needed if we are not
+	 * Unfortunately we have to hook most everything in before the point where all taxonomies are registered and
+	 * we know which taxonomy is being requested, so we need to use this check in nearly every hooked in function.
+	 *
+	 * @since 1.5.0
+	 */
+	function tax_is_public() {
+		// Don't make static as taxonomies may still be added during the run
+		$taxonomies = get_taxonomies( array( 'public' => true ), 'names' );
+
+		return ( isset( $_GET['taxonomy'] ) && in_array( $_GET['taxonomy'], $taxonomies ) );
 	}
 
 	/**
@@ -80,8 +94,11 @@ class WPSEO_Taxonomy {
 	 * @param object $term Term to show the edit boxes for.
 	 */
 	function term_seo_form( $term ) {
+		if( $this->tax_is_public() === false )
+			return;
+
 		$tax_meta = get_option( 'wpseo_taxonomy_meta' );
-		$options  = get_wpseo_options();
+		$options  = WPSEO_Options::get_all();
 
 		if ( isset( $tax_meta[$term->taxonomy][$term->term_id] ) )
 			$tax_meta = $tax_meta[$term->taxonomy][$term->term_id];
@@ -98,7 +115,7 @@ class WPSEO_Taxonomy {
 
 		if ( isset( $tax_meta['wpseo_noindex'] ) && $tax_meta['wpseo_noindex'] == 'on' )
 			$tax_meta['wpseo_noindex'] = 'noindex';
-		$current         = ( isset( $options['noindex-' . $term->taxonomy] ) && $options['noindex-' . $term->taxonomy] ) ? 'noindex' : 'index';
+		$current         = ( isset( $options['noindex-' . $term->taxonomy] ) && $options['noindex-' . $term->taxonomy] === true ) ? 'noindex' : 'index';
 		$noindex_options = array(
 			'default' => sprintf( __( 'Use %s default (Currently: %s)', 'wordpress-seo' ), $term->taxonomy, $current ),
 			'index'   => __( 'Always index', 'wordpress-seo' ),
@@ -184,7 +201,6 @@ class WPSEO_Taxonomy {
 
 		return $desc;
 	}
-
 }
 
 $wpseo_taxonomy = new WPSEO_Taxonomy();

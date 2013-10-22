@@ -29,7 +29,7 @@ class WPSEO_OpenGraph extends WPSEO_Frontend {
 	 * Class constructor.
 	 */
 	public function __construct() {
-		$this->options = get_wpseo_options();
+		$this->options = WPSEO_Options::get_all();
 
 		global $fb_ver;
 		if ( isset( $fb_ver ) || class_exists( 'Facebook_Loader' ) ) {
@@ -108,7 +108,7 @@ class WPSEO_OpenGraph extends WPSEO_Frontend {
 	 * @return string
 	 */
 	public function add_opengraph_namespace( $input ) {
-		return $input . ' prefix="og: http://ogp.me/ns#' . ( ( isset( $this->options['fbadminapp'] ) || isset( $this->options['fb_admins'] ) ) ? ' fb: http://ogp.me/ns/fb#' : '' ) . '"';
+		return $input . ' prefix="og: http://ogp.me/ns#' . ( ( $this->options['fbadminapp'] != 0 || $this->options['fb_admins'] !== array() ) ? ' fb: http://ogp.me/ns/fb#' : '' ) . '"';
 	}
 
 	/**
@@ -133,7 +133,7 @@ class WPSEO_OpenGraph extends WPSEO_Frontend {
 	 * @link https://developers.facebook.com/blog/post/2013/06/19/platform-updates--new-open-graph-tags-for-media-publishers-and-more/
 	 */
 	public function website_facebook() {
-		if ( isset( $this->options['facebook_site'] ) && ( is_string( $this->options['facebook_site'] ) && $this->options['facebook_site'] !== '' ) )
+		if ( $this->options['facebook_site'] !== '' ) )
 			$this->og_tag( 'article:publisher', $this->options['facebook_site'] );
 	}
 
@@ -141,10 +141,10 @@ class WPSEO_OpenGraph extends WPSEO_Frontend {
 	 * Outputs the site owner
 	 */
 	public function site_owner() {
-		if ( isset( $this->options['fbadminapp'] ) && 0 != $this->options['fbadminapp'] ) {
+		if ( 0 != $this->options['fbadminapp'] ) {
 			$this->og_tag( 'fb:app_id', $this->options['fbadminapp'] );
 		}
-		else if ( isset( $this->options['fb_admins'] ) && is_array( $this->options['fb_admins'] ) && ( count( $this->options['fb_admins'] ) > 0 ) ) {
+		else if ( count( $this->options['fb_admins'] ) > 0 ) {
 			$adminstr = '';
 			foreach ( $this->options['fb_admins'] as $admin_id => $admin ) {
 				if ( ! empty( $adminstr ) )
@@ -313,7 +313,7 @@ class WPSEO_OpenGraph extends WPSEO_Frontend {
 		global $post;
 
 		if ( is_front_page() ) {
-			if ( isset( $this->options['og_frontpage_image'] ) )
+			if ( $this->options['og_frontpage_image'] !== '' )
 				$this->image_output( $this->options['og_frontpage_image'] );
 		}
 
@@ -339,7 +339,7 @@ class WPSEO_OpenGraph extends WPSEO_Frontend {
 			}
 		}
 
-		if ( count( $this->shown_images ) == 0 && isset( $this->options['og_default_image'] ) )
+		if ( count( $this->shown_images ) == 0 && $this->options['og_default_image'] !== '' )
 			$this->image_output( $this->options['og_default_image'] );
 
 		// @TODO add G+ image stuff
@@ -356,7 +356,7 @@ class WPSEO_OpenGraph extends WPSEO_Frontend {
 		$ogdesc = '';
 
 		if ( is_front_page() ) {
-			if ( isset( $this->options['og_frontpage_desc'] ) )
+			if ( $this->options['og_frontpage_desc'] !== '' )
 				$ogdesc = $this->options['og_frontpage_desc'];
 		}
 

@@ -35,7 +35,7 @@ function wpseo_set_ignore() {
 	check_ajax_referer( 'wpseo-ignore' );
 
 	$options                               = get_option( 'wpseo' );
-	$options['ignore_' . $_POST['option']] = 'ignore';
+	$options['ignore_' . $_POST['option']] = true;
 	update_option( 'wpseo', $options );
 	die( '1' );
 }
@@ -52,8 +52,9 @@ function wpseo_kill_blocking_files() {
 
 	$message = 'There were no files to delete.';
 	$options = get_option( 'wpseo' );
-	if ( isset( $options['blocking_files'] ) && is_array( $options['blocking_files'] ) && count( $options['blocking_files'] ) > 0 ) {
+	if ( is_array( $options['blocking_files'] ) && count( $options['blocking_files'] ) > 0 ) {
 		$message = 'success';
+		$options['blocking_files'] = array_unique( $options['blocking_files'] );
 		foreach ( $options['blocking_files'] as $k => $file ) {
 			if ( !@unlink( $file ) )
 				$message = __( 'Some files could not be removed. Please remove them via FTP.', 'wordpress-seo' );

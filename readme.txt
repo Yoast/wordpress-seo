@@ -4,9 +4,9 @@ Donate link: http://yoast.com/
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: seo, SEO, google, meta, meta description, search engine optimization, xml sitemap, xml sitemaps, google sitemap, sitemap, sitemaps, robots meta, rss, rss footer, yahoo, bing, news sitemaps, XML News Sitemaps, WordPress SEO, WordPress SEO by Yoast, yoast, multisite, canonical, nofollow, noindex, keywords, meta keywords, description, webmaster tools, google webmaster tools, seo pack
-Requires at least: 3.3
+Requires at least: 3.5
 Tested up to: 3.6
-Stable tag: 1.4.19-beta
+Stable tag: 1.5.0-beta
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the WordPress SEO plugin by Yoast.
 
@@ -105,6 +105,9 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 7. The advanced section of the WordPress SEO meta box.
 
 == Changelog ==
+
+= 1.5.0-beta
+* Major overhaul of the way the plugin deals with options. This should fix a truck-load of bugs and provides improved security. - props [Jrf](http://profiles.wordpress.org/jrf).
 
 = Trunk =
 
@@ -451,3 +454,8 @@ This release contains tons and tons of bugfixes, thanks in *large* part to [Jrf]
 * Updated .pot file
 * Updated Danish (da_DK), Indonesian (id_ID), Chinese (zh_CN), Russian (ru_RU), Norwegian (nb_NO), Turkish (tr_TK), Hebrew (he_IL) and Persian (fa_IR).
 * Added Arabic (ar), Catalan (ca) and Romanian (ro_RO).
+
+== Upgrade Notice ==
+
+= 1.5.0-beta =
+* Major overhaul of the way the plugin deals with option. Upgrade highly recommended. Please do verify your settings after the upgrade.

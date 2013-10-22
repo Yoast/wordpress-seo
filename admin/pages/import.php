@@ -48,7 +48,7 @@ if ( isset( $_POST['import'] ) ) {
 
 		$sep = get_option('seo_woo_seperator');
 
-		$options = get_wpseo_options();
+		$options = WPSEO_Options::get_all();
 
 		switch ( get_option( 'seo_woo_home_layout' ) ) {
 			case 'a':

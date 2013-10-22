@@ -34,16 +34,16 @@ class WPSEO_Pointers {
 			return;
 
 		$options = get_option( 'wpseo' );
-		if ( ! isset( $options['yoast_tracking'] ) || ( ! isset( $options['ignore_tour'] ) || ! $options['ignore_tour'] ) ) {
+		if ( $options['tracking_popup_done'] === false || $options['ignore_tour'] === false ) {
 			wp_enqueue_style( 'wp-pointer' );
 			wp_enqueue_script( 'jquery-ui' );
 			wp_enqueue_script( 'wp-pointer' );
 			wp_enqueue_script( 'utils' );
 		}
-		if ( ! isset( $options['tracking_popup'] ) && ! isset( $_GET['allow_tracking'] ) ) {
+		if ( $options['tracking_popup_done'] === false && ! isset( $_GET['allow_tracking'] ) ) {
 			add_action( 'admin_print_footer_scripts', array( $this, 'tracking_request' ) );
 		}
-		else if ( ! isset( $options['ignore_tour'] ) || ! $options['ignore_tour'] ) {
+		else if ( $options['ignore_tour'] === false ) {
 			add_action( 'admin_print_footer_scripts', array( $this, 'intro_tour' ) );
 			add_action( 'admin_head', array( $this, 'admin_head' ) );
 		}

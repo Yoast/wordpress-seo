@@ -78,9 +78,9 @@ class WPSEO_Rewrite {
 	 * @return array
 	 */
 	function query_vars( $query_vars ) {
-		$options = get_wpseo_options();
+		$options = WPSEO_Options::get_all();
 
-		if ( isset( $options['stripcategorybase'] ) && $options['stripcategorybase'] )
+		if ( $options['stripcategorybase'] === true )
 			$query_vars[] = 'wpseo_category_redirect';
 
 		return $query_vars;

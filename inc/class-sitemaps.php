@@ -49,7 +49,7 @@ class WPSEO_Sitemaps {
 		// default stylesheet
 		$this->stylesheet = '<?xml-stylesheet type="text/xsl" href="' . home_url( 'main-sitemap.xsl' ) . '"?>';
 
-		$this->options = get_wpseo_options();
+		$this->options = WPSEO_Options::get_all();
 	}
 
 	/**
@@ -119,7 +119,7 @@ class WPSEO_Sitemaps {
 		$GLOBALS['wp']->add_query_var( 'sitemap_n' );
 		$GLOBALS['wp']->add_query_var( 'xsl' );
 
-		$this->max_entries = ( isset( $this->options['entries-per-page'] ) && $this->options['entries-per-page'] != '' ) ? intval( $this->options['entries-per-page'] ) : 1000;
+		$this->max_entries = $this->options['entries-per-page'];
 
 		add_rewrite_rule( 'sitemap_index\.xml$', 'index.php?sitemap=1', 'top' );
 		add_rewrite_rule( '([^/]+?)-sitemap([0-9]+)?\.xml$', 'index.php?sitemap=$matches[1]&sitemap_n=$matches[2]', 'top' );
@@ -204,7 +204,7 @@ class WPSEO_Sitemaps {
 
 		// reference post type specific sitemaps
 		foreach ( get_post_types( array( 'public' => true ) ) as $post_type ) {
-			if ( isset( $this->options['post_types-' . $post_type . '-not_in_sitemap'] ) && $this->options['post_types-' . $post_type . '-not_in_sitemap'] )
+			if ( isset( $this->options['post_types-' . $post_type . '-not_in_sitemap'] ) && $this->options['post_types-' . $post_type . '-not_in_sitemap'] === true )
 				continue;
 			else if ( apply_filters( 'wpseo_sitemap_exclude_post_type', false, $post_type ) )
 				continue;
@@ -243,7 +243,7 @@ class WPSEO_Sitemaps {
 			else if ( apply_filters( 'wpseo_sitemap_exclude_taxonomy', false, $tax ) )
 				continue;
 
-			if ( isset( $this->options['taxonomies-' . $tax . '-not_in_sitemap'] ) && $this->options['taxonomies-' . $tax . '-not_in_sitemap'] )
+			if ( isset( $this->options['taxonomies-' . $tax . '-not_in_sitemap'] ) && $this->options['taxonomies-' . $tax . '-not_in_sitemap'] === true )
 				continue;
 			// don't include taxonomies with no terms
 			if ( ! $wpdb->get_var( $wpdb->prepare( "SELECT term_id FROM $wpdb->term_taxonomy WHERE taxonomy = %s AND count != 0 LIMIT 1", $tax ) ) )
@@ -298,7 +298,7 @@ class WPSEO_Sitemaps {
 			}
 		}
 
-		if ( ! isset( $this->options['disable-author'] ) && ! isset( $this->options['disable_author_sitemap'] ) ) {
+		if ( $this->options['disable-author'] === false && $this->options['disable_author_sitemap'] === false ) {
 
 			// reference user profile specific sitemaps
 			$users = get_users( array( 'who' => 'authors', 'fields' => 'id' ) );
@@ -359,7 +359,7 @@ class WPSEO_Sitemaps {
 		global $wpdb;
 
 		if (
-				( isset( $this->options['post_types-' . $post_type . '-not_in_sitemap'] ) && $this->options['post_types-' . $post_type . '-not_in_sitemap'] )
+				( isset( $this->options['post_types-' . $post_type . '-not_in_sitemap'] ) && $this->options['post_types-' . $post_type . '-not_in_sitemap'] === true )
 				|| in_array( $post_type, array( 'revision', 'nav_menu_item' ) )
 				|| apply_filters( 'wpseo_sitemap_exclude_post_type', false, $post_type )
 		) {
@@ -480,7 +480,7 @@ class WPSEO_Sitemaps {
 				}
 				else {
 
-					if ( isset( $this->options['trailingslash'] ) && $this->options['trailingslash'] && $p->post_type != 'post' )
+					if ( $this->options['trailingslash'] === true && $p->post_type != 'post' )
 						$url['loc'] = trailingslashit( $url['loc'] );
 				}
 
@@ -596,7 +596,7 @@ class WPSEO_Sitemaps {
 	 */
 	function build_tax_map( $taxonomy ) {
 		if (
-				( isset( $this->options['taxonomies-' . $taxonomy->name . '-not_in_sitemap'] ) && $this->options['taxonomies-' . $taxonomy->name . '-not_in_sitemap'] )
+				( isset( $this->options['taxonomies-' . $taxonomy->name . '-not_in_sitemap'] ) && $this->options['taxonomies-' . $taxonomy->name . '-not_in_sitemap'] === true )
 				|| in_array( $taxonomy, array( 'link_category', 'nav_menu', 'post_format' ) )
 				|| apply_filters( 'wpseo_sitemap_exclude_taxonomy', false, $taxonomy->name )
 		) {
@@ -629,7 +629,7 @@ class WPSEO_Sitemaps {
 			$url['loc'] = wpseo_get_term_meta( $c, $c->taxonomy, 'canonical' );
 			if ( ! $url['loc'] ) {
 				$url['loc'] = get_term_link( $c, $c->taxonomy );
-				if ( isset( $this->options['trailingslash'] ) && $this->options['trailingslash'] )
+				if ( $this->options['trailingslash'] === true )
 					$url['loc'] = trailingslashit( $url['loc'] );
 			}
 			if ( $c->count > 10 ) {
@@ -676,7 +676,7 @@ class WPSEO_Sitemaps {
 	 * @since 1.4.8
 	 */
 	function build_user_map() {
-		if ( isset( $this->options['disable-author'] ) || isset( $this->options['disable_author_sitemap'] ) ) {
+		if ( $this->options['disable-author'] === true || $this->options['disable_author_sitemap'] === true ) {
 			$this->bad_sitemap = true;
 			return;
 		}

@@ -10,8 +10,6 @@ if ( !defined( 'WPSEO_VERSION' ) ) {
 
 global $wpseo_admin_pages;
 
-$options = get_option( 'wpseo_social' );
-
 $fbconnect = '<p><strong>' . __( 'Facebook Insights and Admins', 'wordpress-seo' ) . '</strong><br>';
 $fbconnect .= sprintf( __( 'To be able to access your <a href="%s">Facebook Insights</a> for your site, you need to specify a Facebook Admin. This can be a user, but if you have an app for your site, you could use that. For most people a user will be "good enough" though.', 'wordpress-seo' ), 'https://www.facebook.com/insights' ) . '</p>';
 
@@ -21,6 +19,8 @@ $clearall = false;
 if ( isset( $_GET['delfbadmin'] ) ) {
 	if ( wp_verify_nonce( $_GET['nonce'], 'delfbadmin' ) != 1 )
 		die( "I don't think that's really nice of you!." );
+		
+	$options = get_option( 'wpseo_social' );
 	$id = $_GET['delfbadmin'];
 	if ( isset( $options['fb_admins'][$id] ) ) {
 		$fbadmin = $options['fb_admins'][$id]['name'];
@@ -34,26 +34,25 @@ if ( isset( $_GET['delfbadmin'] ) ) {
 if ( isset( $_GET['fbclearall'] ) ) {
 	if ( wp_verify_nonce( $_GET['nonce'], 'fbclearall' ) != 1 )
 		die( "I don't think that's really nice of you!." );
-	unset( $options['fb_admins'], $options['fbapps'], $options['fbadminapp'], $options['fbadminpage'] );
+
+	$options = get_option( 'wpseo_social' );
+	$options['fb_admins']	= WPSEO_Options::$defaults['wpseo_social']['fb_admins'];
+	$options['fbapps']		= WPSEO_Options::$defaults['wpseo_social']['fbapps'];
+	$options['fbadminapp']	= WPSEO_Options::$defaults['wpseo_social']['fbadminapp'];
 	update_option( 'wpseo_social', $options );
 	add_settings_error( 'yoast_wpseo_social_options', 'success', __( 'Successfully cleared all Facebook Data', 'wordpress-seo' ), 'updated' );
 }
 
-if ( !isset( $options['fbconnectkey'] ) || empty( $options['fbconnectkey'] ) ) {
-	$options['fbconnectkey'] = md5( get_bloginfo( 'url' ) . rand() );
-	update_option( 'wpseo_social', $options );
-}
-
 if ( isset( $_GET['key'] ) && $_GET['key'] == $options['fbconnectkey'] ) {
 	if ( isset( $_GET['userid'] ) ) {
-		if ( !isset( $options['fb_admins'] ) || !is_array( $options['fb_admins'] ) )
-			$options['fb_admins'] = array();
+		$options 								= get_option( 'wpseo_social' );
 		$user_id                                = $_GET['userid'];
 		$options['fb_admins'][$user_id]['name'] = urldecode( $_GET['userrealname'] );
 		$options['fb_admins'][$user_id]['link'] = urldecode( $_GET['link'] );
 		update_option( 'wpseo_social', $options );
 		add_settings_error( 'yoast_wpseo_social_options', 'success', sprintf( __( 'Successfully added %s as a Facebook Admin!', 'wordpress-seo' ), '<a href="' . esc_url( $options['fb_admins'][$user_id]['link'] ) . '">' . esc_html( $options['fb_admins'][$user_id]['name'] ) . '</a>' ), 'updated' );
 	} else if ( isset( $_GET['apps'] ) ) {
+		$options 		   = get_option( 'wpseo_social' );
 		$apps              = json_decode( stripslashes( $_GET['apps'] ) );
 		$options['fbapps'] = array( '0' => __( 'Do not use a Facebook App as Admin', 'wordpress-seo' ) );
 		foreach ( $apps as $app ) {
@@ -67,14 +66,16 @@ if ( isset( $_GET['key'] ) && $_GET['key'] == $options['fbconnectkey'] ) {
 
 $options = get_option( 'wpseo_social' );
 
-if ( isset( $options['fb_admins'] ) && is_array( $options['fb_admins'] ) ) {
+
+if ( $options['fb_admins'] !== array() ) {
 	foreach ( $options['fb_admins'] as $id => $admin ) {
-		$fbconnect .= '<input type="hidden" name="wpseo_social[fb_admins][' . esc_attr( $id ) . ']" value="' . esc_attr( $admin['link'] ) . '"/>';
+		$fbconnect .= '<input type="hidden" name="wpseo_social[fb_admins][' . esc_attr( $id ) . '][name]" value="' . esc_attr( $admin['name'] ) . '"/>';
+		$fbconnect .= '<input type="hidden" name="wpseo_social[fb_admins][' . esc_attr( $id ) . '][link]" value="' . esc_attr( $admin['link'] ) . '"/>';
 	}
 	$clearall = true;
 }
 
-if ( isset( $options['fbapps'] ) && is_array( $options['fbapps'] ) ) {
+if ( $options['fbapps'] !== array() ) {
 	foreach ( $options['fbapps'] as $id => $page ) {
 		$fbconnect .= '<input type="hidden" name="wpseo_social[fbapps][' . esc_attr( $id ) . ']" value="' . esc_attr( $page ) . '"/>';
 	}
@@ -82,28 +83,22 @@ if ( isset( $options['fbapps'] ) && is_array( $options['fbapps'] ) ) {
 }
 
 $app_button_text = __( 'Use a Facebook App as Admin', 'wordpress-seo' );
-if ( isset( $options['fbapps'] ) && is_array( $options['fbapps'] ) ) {
+if ( $options['fbapps'] !== array() ) {
+	// @todo - use select() method ?
 	$fbconnect .= '<p>' . __( 'Select an app to use as Facebook admin:', 'wordpress-seo' ) . '</p>';
 	$fbconnect .= '<select name="wpseo_social[fbadminapp]" id="fbadminapp">';
 
-	if ( !isset( $options['fbadminapp'] ) )
-		$options['fbadminapp'] = 0;
-
 	foreach ( $options['fbapps'] as $id => $app ) {
-		$sel = '';
-
-		if ( $id == $options['fbadminapp'] )
-			$sel = 'selected="selected"';
-		$fbconnect .= '<option ' . $sel . ' value="' . esc_attr( $id ) . '">' . esc_attr( $app ) . '</option>';
+		$fbconnect .= '<option value="' . esc_attr( $id ) . '" ' . selected( $id, $options['fbadminapp'], false ) . '>' . esc_attr( $app ) . '</option>';
 	}
 	$fbconnect .= '</select><div class="clear"></div><br/>';
 	$app_button_text = __( 'Update Facebook Apps', 'wordpress-seo' );
 }
 
-if ( !isset( $options['fbadminapp'] ) || $options['fbadminapp'] == 0 ) {
+if ( $options['fbadminapp'] == 0 ) {
 	$button_text = __( 'Add Facebook Admin', 'wordpress-seo' );
 	$primary     = true;
-	if ( isset( $options['fb_admins'] ) && is_array( $options['fb_admins'] ) && count( $options['fb_admins'] ) > 0 ) {
+	if ( count( $options['fb_admins'] ) > 0 ) {
 		$fbconnect .= '<p>' . __( 'Currently connected Facebook admins:', 'wordpress-seo' ) . '</p>';
 		$fbconnect .= '<ul>';
 		$nonce = wp_create_nonce( 'delfbadmin' );
@@ -111,8 +106,9 @@ if ( !isset( $options['fbadminapp'] ) || $options['fbadminapp'] == 0 ) {
 		foreach ( $options['fb_admins'] as $admin_id => $admin ) {
 			$admin_id = esc_attr( $admin_id );
 			$fbconnect .= '<li><a href="' . esc_url( $admin['link'] ) . '">' . esc_html( $admin['name'] ) . '</a> - <strong><a  href="' . admin_url( 'admin.php?page=wpseo_social&delfbadmin=' . $admin_id . '&nonce=' . $nonce ) . '">X</a></strong></li>';
-			$fbconnect .= '<input type="hidden" name="wpseo_social[fb_admins][' . $admin_id . '][link]" value="' . esc_attr( $admin['link'] ) . '"/>';
-			$fbconnect .= '<input type="hidden" name="wpseo_social[fb_admins][' . $admin_id . '][name]" value="' . esc_attr( $admin['name'] ) . '"/>';
+			// @todo: check if these hidden fields really need setting - also added on line 79-84
+//			$fbconnect .= '<input type="hidden" name="wpseo_social[fb_admins][' . esc_attr( $admin_id ) . '][link]" value="' . esc_attr( $admin['link'] ) . '"/>';
+//			$fbconnect .= '<input type="hidden" name="wpseo_social[fb_admins][' . esc_attr( $admin_id ) . '][name]" value="' . esc_attr( $admin['name'] ) . '"/>';
 		}
 		$fbconnect .= '</ul>';
 		$button_text = __( 'Add Another Facebook Admin', 'wordpress-seo' );
@@ -130,7 +126,7 @@ if ( $clearall ) {
 }
 $fbconnect .= '</p>';
 
-$wpseo_admin_pages->admin_header( __( 'Social', 'wordpress-seo' ), true, 'yoast_wpseo_social_options', 'wpseo_social' );
+$wpseo_admin_pages->admin_header( __( 'Social', 'wordpress-seo' ), true, WPSEO_Options::$options['wpseo_social']['group'], 'wpseo_social' );
 
 if ( $error )
 	settings_errors();
@@ -182,7 +178,7 @@ if ( $error )
 				'show_option_none' => __( "Don't show", 'wordpress-seo' ),
 				'name' => 'wpseo_social[plus-author]',
 				'class' => 'select',
-				'selected' => ( isset( $options[ 'plus-author' ] ) ) ? $options[ 'plus-author' ] : '',
+				'selected' => $options['plus-author'],
 				'include_selected' => true,
 				'who' => 'authors'
 			)

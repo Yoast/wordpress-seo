@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: WordPress SEO
-Version: 1.4.19-beta
+Version: 1.5.0-beta
 Plugin URI: http://yoast.com/wordpress/seo/#utm_source=wpadmin&utm_medium=plugin&utm_campaign=wpseoplugin
 Description: The first true all-in-one SEO solution for WordPress, including on-page content analysis, XML sitemaps and much more.
 Author: Joost de Valk
@@ -57,7 +57,7 @@ if ( version_compare( PHP_VERSION, '5.2', '<' ) ) {
 	}
 }
 
-define( 'WPSEO_VERSION', '1.4.19-beta' );
+define( 'WPSEO_VERSION', '1.5.0-beta' );
 
 $pluginurl = plugin_dir_url( __FILE__ );
 if ( strpos( $pluginurl, 'https' ) === 0 && strpos( get_bloginfo( 'url' ), 'https' ) !== 0 )
@@ -68,12 +68,12 @@ unset( $pluginurl );
 function wpseo_init() {
 	require WPSEO_PATH . 'inc/wpseo-functions.php';
 
-	$options = get_wpseo_options();
+	$options = WPSEO_Options::get_all();
 
-	if ( isset( $options['stripcategorybase'] ) && $options['stripcategorybase'] )
+	if ( $options['stripcategorybase'] === true )
 		require WPSEO_PATH . 'inc/class-rewrite.php';
 
-	if ( isset( $options['enablexmlsitemap'] ) && $options['enablexmlsitemap'] )
+	if ( $options['enablexmlsitemap'] === true )
 		require WPSEO_PATH . 'inc/class-sitemaps.php';
 }
 
@@ -81,13 +81,13 @@ function wpseo_init() {
  * Used to load the required files on the plugins_loaded hook, instead of immediately.
  */
 function wpseo_frontend_init() {
-	$options = get_wpseo_options();
+	$options = WPSEO_Options::get_all();
 	require WPSEO_PATH . 'frontend/class-frontend.php';
-	if ( isset( $options['breadcrumbs-enable'] ) && $options['breadcrumbs-enable'] )
+	if ( $options['breadcrumbs-enable'] === true )
 		require WPSEO_PATH . 'frontend/class-breadcrumbs.php';
-	if ( isset( $options['twitter'] ) && $options['twitter'] )
+	if ( $options['twitter'] === true )
 		require WPSEO_PATH . 'frontend/class-twitter.php';
-	if ( isset( $options['opengraph'] ) && $options['opengraph'] )
+	if ( $options['opengraph'] === true )
 		require WPSEO_PATH . 'frontend/class-opengraph.php';
 }
 
@@ -95,13 +95,13 @@ function wpseo_frontend_init() {
  * Used to load the required files on the plugins_loaded hook, instead of immediately.
  */
 function wpseo_admin_init() {
-	$options = get_wpseo_options();
+	$options = WPSEO_Options::get_all();
 	if ( isset( $_GET['wpseo_restart_tour'] ) ) {
-		unset( $options['ignore_tour'] );
+		$options['ignore_tour'] = false;
 		update_option( 'wpseo', $options );
 	}
 
-	if ( isset( $options['yoast_tracking'] ) && $options['yoast_tracking'] ) {
+	if ( $options['yoast_tracking'] === true ) {
 		require WPSEO_PATH . 'admin/class-tracking.php';
 	}
 
@@ -110,7 +110,7 @@ function wpseo_admin_init() {
 	global $pagenow;
 	if ( in_array( $pagenow, array( 'edit.php', 'post.php', 'post-new.php' ) ) ) {
 		require WPSEO_PATH . 'admin/class-metabox.php';
-		if ( isset( $options['opengraph'] ) && $options['opengraph'] )
+		if ( $options['opengraph'] === true )
 			require WPSEO_PATH . 'admin/class-opengraph-admin.php';
 	}
 
@@ -120,10 +120,10 @@ function wpseo_admin_init() {
 	if ( in_array( $pagenow, array( 'admin.php' ) ) )
 		require WPSEO_PATH . 'admin/class-config.php';
 
-	if ( !isset( $options['yoast_tracking'] ) || ( !isset( $options['ignore_tour'] ) || !$options['ignore_tour'] ) )
+	if ( $options['tracking_popup_done'] === false || $options['ignore_tour'] === false )
 		require WPSEO_PATH . 'admin/class-pointers.php';
 
-	if ( isset( $options['enablexmlsitemap'] ) && $options['enablexmlsitemap'] )
+	if ( $options['enablexmlsitemap'] === true )
 		require WPSEO_PATH . 'admin/class-sitemaps-admin.php';
 }
 

@@ -211,3 +211,15 @@ h2 code {
 #pointer-primary {
 	margin: 0 5px 0 0; 
 }
+
+#wpseo-debug-info {
+	clear: both;
+}
+
+#wpseo-debug-info .hndle {
+    cursor: auto;
+}
+
+#wpseo-debug-info h3 span:last-child {
+    padding-left: 16px;
+}

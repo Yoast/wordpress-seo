@@ -54,7 +54,7 @@ class WPSEO_Breadcrumbs {
 	 * @return string
 	 */
 	function breadcrumb( $before = '', $after = '', $display = true ) {
-		$options = get_wpseo_options();
+		$options = WPSEO_Options::get_all();
 
 		global $wp_query, $post;
 
@@ -64,12 +64,12 @@ class WPSEO_Breadcrumbs {
 		$links = array(
 			array(
 				'url'  => get_home_url(),
-				'text' => ( isset( $options['breadcrumbs-home'] ) && $options['breadcrumbs-home'] != '' ) ? $options['breadcrumbs-home'] : __( 'Home', 'wordpress-seo' )
+				'text' => $options['breadcrumbs-home'],
 			)
 		);
 
 		if ( "page" == $on_front && 'post' == get_post_type() && !is_home() ) {
-			if ( $blog_page && ( !isset( $options['breadcrumbs-blog-remove'] ) || !$options['breadcrumbs-blog-remove'] ) )
+			if ( $blog_page && $options['breadcrumbs-blog-remove'] === false )
 				$links[] = array( 'id' => $blog_page );
 		}
 
@@ -163,7 +163,7 @@ class WPSEO_Breadcrumbs {
 			} else if ( is_tax() || is_tag() || is_category() ) {
 				$term = $wp_query->get_queried_object();
 
-				if ( isset( $options['taxonomy-' . $term->taxonomy . '-ptparent'] ) && $options['taxonomy-' . $term->taxonomy . '-ptparent'] != '' ) {
+				if ( isset( $options['taxonomy-' . $term->taxonomy . '-ptparent'] ) && $options['taxonomy-' . $term->taxonomy . '-ptparent'] != '0' ) {
 					if ( 'post' == $options['taxonomy-' . $term->taxonomy . '-ptparent'] && get_option( 'show_on_front' ) == 'page' ) {
 						if ( get_option( 'page_for_posts' ) ) {
 							$links[] = array( 'id' => get_option( 'page_for_posts' ) );
@@ -181,49 +181,34 @@ class WPSEO_Breadcrumbs {
 
 				$links[] = array( 'term' => $term );
 			} else if ( is_date() ) {
-				if ( isset( $options['breadcrumbs-archiveprefix'] ) )
-					$bc = esc_html( $options['breadcrumbs-archiveprefix'] );
-				else
-					$bc = __( 'Archives for', 'wordpress-seo' );
+				$bc = esc_html( $options['breadcrumbs-archiveprefix'] );
 				if ( is_day() ) {
 					global $wp_locale;
 					$links[] = array(
 						'url'  => get_month_link( get_query_var( 'year' ), get_query_var( 'monthnum' ) ),
 						'text' => $wp_locale->get_month( get_query_var( 'monthnum' ) ) . ' ' . get_query_var( 'year' )
 					);
-					$links[] = array( 'text' => $bc . " " . get_the_date() );
+					$links[] = array( 'text' => $bc . ' ' . get_the_date() );
 				} else if ( is_month() ) {
-					$links[] = array( 'text' => $bc . " " . single_month_title( ' ', false ) );
+					$links[] = array( 'text' => $bc . ' ' . single_month_title( ' ', false ) );
 				} else if ( is_year() ) {
-					$links[] = array( 'text' => $bc . " " . get_query_var( 'year' ) );
+					$links[] = array( 'text' => $bc . ' ' . get_query_var( 'year' ) );
 				}
 			} elseif ( is_author() ) {
-				if ( isset( $options['breadcrumbs-archiveprefix'] ) )
-					$bc = esc_html( $options['breadcrumbs-archiveprefix'] );
-				else
-					$bc = __( 'Archives for', 'wordpress-seo' );
 				$user    = $wp_query->get_queried_object();
-				$links[] = array( 'text' => $bc . " " . esc_html( $user->display_name ) );
+				$links[] = array( 'text' => esc_html( $options['breadcrumbs-archiveprefix'] ) . ' ' . esc_html( $user->display_name ) );
 			} elseif ( is_search() ) {
-				if ( isset( $options['breadcrumbs-searchprefix'] ) && $options['breadcrumbs-searchprefix'] != '' )
-					$bc = esc_html( $options['breadcrumbs-searchprefix'] );
-				else
-					$bc = __( 'You searched for', 'wordpress-seo' );
-				$links[] = array( 'text' => $bc . ' "' . esc_html( get_search_query() ) . '"' );
+				$links[] = array( 'text' => esc_html( $options['breadcrumbs-searchprefix'] ) . ' "' . esc_html( get_search_query() ) . '"' );
 			} elseif ( is_404() ) {
 
 				if ( 0 !== get_query_var( 'year' ) || ( 0 !== get_query_var( 'monthnum' ) || 0 !== get_query_var( 'day' ) ) ) {
 					
 					if ( 'page' == $on_front && !is_home() ) {
-						if ( $blog_page && ( !isset( $options['breadcrumbs-blog-remove'] ) || !$options['breadcrumbs-blog-remove'] ) )
+						if ( $blog_page && $options['breadcrumbs-blog-remove'] === false )
 							$links[] = array( 'id' => $blog_page );
 					}
 
-					if ( isset( $options['breadcrumbs-archiveprefix'] ) )
-						$bc = $options['breadcrumbs-archiveprefix'];
-					else
-						$bc = __( 'Archives for', 'wordpress-seo' );
-
+					$bc = esc_html( $options['breadcrumbs-archiveprefix'] );
 
 					if ( 0 !== get_query_var( 'day' ) ) {
 						$links[] = array(
@@ -243,12 +228,7 @@ class WPSEO_Breadcrumbs {
 					}
 				}
 				else {
-					if ( isset( $options['breadcrumbs-404crumb'] ) && '' != $options['breadcrumbs-404crumb'] )
-						$crumb404 = $options['breadcrumbs-404crumb'];
-					else
-						$crumb404 = __( 'Error 404: Page not found', 'wordpress-seo' );
-							
-					$links[] = array( 'text' => $crumb404 );
+					$links[] = array( 'text' => esc_html( $options['breadcrumbs-404crumb'] ) );
 				}
 			}
 		}
@@ -257,8 +237,8 @@ class WPSEO_Breadcrumbs {
 
 		$output = $this->create_breadcrumbs_string( $links );
 
-		if ( isset( $options['breadcrumbs-prefix'] ) && $options['breadcrumbs-prefix'] != "" )
-			$output = $options['breadcrumbs-prefix'] . " " . $output;
+		if ( $options['breadcrumbs-prefix'] != '' )
+			$output = $options['breadcrumbs-prefix'] . ' ' . $output;
 
 		if ( $display ) {
 			echo $before . $output . $after;
@@ -287,8 +267,8 @@ class WPSEO_Breadcrumbs {
 	function create_breadcrumbs_string( $links, $wrapper = 'span', $element = 'span' ) {
 		global $paged;
 
-		$opt    = get_wpseo_options();
-		$sep    = ( isset( $opt['breadcrumbs-sep'] ) && $opt['breadcrumbs-sep'] != '' ) ? $opt['breadcrumbs-sep'] : '&raquo;';
+		$opt    = WPSEO_Options::get_all();
+		$sep    = $opt['breadcrumbs-sep'];
 		$output = '';
 
 		foreach ( $links as $i => $link ) {
@@ -310,7 +290,7 @@ class WPSEO_Breadcrumbs {
 			}
 
 			if ( isset( $link['ptarchive'] ) ) {
-				if ( isset( $opt['bctitle-ptarchive-' . $link['ptarchive']] ) && '' != $opt['bctitle-ptarchive-' . $link['ptarchive']] ) {
+				if ( isset( $opt['bctitle-ptarchive-' . $link['ptarchive']] ) && $opt['bctitle-ptarchive-' . $link['ptarchive']] !== '' ) {
 					$archive_title = $opt['bctitle-ptarchive-' . $link['ptarchive']];
 				} else {
 					$post_type_obj = get_post_type_object( $link['ptarchive'] );
@@ -325,7 +305,7 @@ class WPSEO_Breadcrumbs {
 			if ( isset( $link['url'] ) && ( $i < ( count( $links ) - 1 ) || $paged ) ) {
 				$link_output .= '<a href="' . esc_url( $link['url'] ) . '" rel="v:url" property="v:title">' . esc_html( $link['text'] ) . '</a>';
 			} else {
-				if ( isset( $opt['breadcrumbs-boldlast'] ) && $opt['breadcrumbs-boldlast'] ) {
+				if ( $opt['breadcrumbs-boldlast'] === true ) {
 					$link_output .= '<strong class="breadcrumb_last" property="v:title">' . esc_html( $link['text'] ) . '</strong>';
 				} else {
 					$link_output .= '<span class="breadcrumb_last" property="v:title">' . esc_html( $link['text'] ) . '</span>';

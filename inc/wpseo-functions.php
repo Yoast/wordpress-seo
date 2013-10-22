@@ -8,6 +8,8 @@ if ( !defined( 'WPSEO_VERSION' ) ) {
 	die;
 }
 
+require_once( WPSEO_PATH . 'inc/class-wpseo-options.php' );
+
 /**
  * Get the value from the post custom values
  *
@@ -43,40 +45,29 @@ function wpseo_set_value( $meta, $val, $postid ) {
 /**
  * Retrieve an array of all the options the plugin uses. It can't use only one due to limitations of the options API.
  *
- * @deprecated 1.4.19
+ * @deprecated 1.5.0
  * @deprecated use WPSEO_Options::get_option_names()
  * @see WPSEO_Options::get_option_names()
  *
  * @return array of options.
  */
 function get_wpseo_options_arr() {
-	_deprecated_function( __FUNCTION__, 'WPSEO 1.4.19', 'WPSEO_Options::get_option_names()' );
+	_deprecated_function( __FUNCTION__, 'WPSEO 1.5.0', 'WPSEO_Options::get_option_names()' );
 	return WPSEO_Options::get_option_names();
 }
 
 /**
  * Retrieve all the options for the SEO plugin in one go.
  *
- * @deprecated 1.4.19
+ * @deprecated 1.5.0
  * @deprecated use WPSEO_Options::get_all()
  * @see WPSEO_Options::get_all()
  *
  * @return array of options
  */
 function get_wpseo_options() {
-//	_deprecated_function( __FUNCTION__, 'WPSEO 1.4.19', 'WPSEO_Options::get_all()' );
-//	return WPSEO_Options::get_all();
-	
-	static $options;
-
-	if ( !isset( $options ) ) {
-		$options = array();
-		foreach ( get_wpseo_options_arr() as $opt ) {
-			$options = array_merge( $options, (array) get_option( $opt ) );
-		}
-	}
-
-	return $options;
+	_deprecated_function( __FUNCTION__, 'WPSEO 1.5.0', 'WPSEO_Options::get_all()' );
+	return WPSEO_Options::get_all();
 }
 
 /**
@@ -240,7 +231,7 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 		global $post;
 		foreach ( $matches as $match ) {
 			$terms  = get_the_terms( $post->ID, $match[1] );
-			if( is_array( $terms ) && count( $terms ) > 0 ) {
+			if ( is_array( $terms ) && count( $terms ) > 0 ) {
 				$term = current( $terms );
 				$string = str_replace( $match[0], get_term_field( 'description', $term->term_id, $match[1] ), $string );
 			}
@@ -250,7 +241,7 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 
 				/* Check for WP_Error object (=invalid taxonomy entered) and if it's an error,
 				 notify in admin dashboard */
-				if( is_wp_error( $terms ) && is_admin() ) {
+				if ( is_wp_error( $terms ) && is_admin() ) {
 					add_action( 'admin_notices', 'wpseo_invalid_custom_taxonomy' );
 				}
 			}
@@ -381,7 +372,7 @@ function wpseo_xml_redirect_sitemap() {
  */
 function wpseo_xml_sitemaps_init() {
 	$options = get_option( 'wpseo_xml' );
-	if ( !isset( $options['enablexmlsitemap'] ) || !$options['enablexmlsitemap'] )
+	if ( $options['enablexmlsitemap'] !== true )
 		return;
 
 	// redirects sitemap.xml to sitemap_index.xml
@@ -413,23 +404,26 @@ function wpseo_ping_search_engines( $sitemapurl = null ) {
 	wp_remote_get( 'http://www.google.com/webmasters/tools/ping?sitemap=' . $sitemapurl );
 	wp_remote_get( 'http://www.bing.com/webmaster/ping.aspx?sitemap=' . $sitemapurl );
 
-	if ( isset( $options['xml_ping_yahoo'] ) && $options['xml_ping_yahoo'] )
+	if ( $options['xml_ping_yahoo'] === true )
 		wp_remote_get( 'http://search.yahooapis.com/SiteExplorerService/V1/updateNotification?appid=3usdTDLV34HbjQpIBuzMM1UkECFl5KDN7fogidABihmHBfqaebDuZk1vpLDR64I-&url=' . $sitemapurl );
 
-	if ( isset( $options['xml_ping_ask'] ) && $options['xml_ping_ask'] )
+	if ( $options['xml_ping_ask'] === true )
 		wp_remote_get( 'http://submissions.ask.com/ping?sitemap=' . $sitemapurl );
 }
 add_action( 'wpseo_ping_search_engines', 'wpseo_ping_search_engines' );
+
 
 function wpseo_store_tracking_response() {
 	if ( ! wp_verify_nonce( $_POST['nonce'], 'wpseo_activate_tracking' ) )
 		die();
 
 	$options = get_option( 'wpseo' );
-	$options['tracking_popup'] = 'done';
+	$options['tracking_popup_done'] = true;
 
 	if ( $_POST['allow_tracking'] == 'yes' )
 		$options['yoast_tracking'] = true;
+	else
+		$options['yoast_tracking'] = false;
 
 	update_option( 'wpseo', $options );
 }
@@ -448,18 +442,21 @@ function wpseo_wpml_config( $config ) {
     global $sitepress;
 
     $admin_texts = &$config['wpml-config']['admin-texts']['key'];
-    foreach( $admin_texts as $k => $val ){
+    foreach ( $admin_texts as $k => $val ){
         if ( $val['attr']['name'] == 'wpseo_titles' ) {
             $translate_cp = array_keys( $sitepress->get_translatable_documents() );
-            foreach( $translate_cp as $post_type ) {
+            foreach ( $translate_cp as $post_type ) {
                 $admin_texts[$k]['key'][]['attr']['name'] = 'title-'. $post_type;
                 $admin_texts[$k]['key'][]['attr']['name'] = 'metadesc-'. $post_type;
+                $admin_texts[$k]['key'][]['attr']['name'] = 'metakey-'. $post_type;
                 $admin_texts[$k]['key'][]['attr']['name'] = 'title-ptarchive-'. $post_type;
                 $admin_texts[$k]['key'][]['attr']['name'] = 'metadesc-ptarchive-'. $post_type;
+                $admin_texts[$k]['key'][]['attr']['name'] = 'metakey-ptarchive-'. $post_type;
                 $translate_tax = $sitepress->get_translatable_taxonomies(false, $post_type);
-                foreach( $translate_tax as $taxonomy ) {
+                foreach ( $translate_tax as $taxonomy ) {
                     $admin_texts[$k]['key'][]['attr']['name'] = 'title-'. $taxonomy;
                     $admin_texts[$k]['key'][]['attr']['name'] = 'metadesc-'. $taxonomy;
+                    $admin_texts[$k]['key'][]['attr']['name'] = 'metakey-'. $taxonomy;
                 }
             }
             break;

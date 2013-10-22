@@ -10,7 +10,7 @@ if ( !defined('WPSEO_VERSION') ) {
 
 global $wpseo_admin_pages;
 
-$options = get_wpseo_options();
+$options = WPSEO_Options::get_all();
 
 ?>
 <div class="wrap">
@@ -79,7 +79,7 @@ if ( ( isset( $_GET[ 'updated' ] ) && $_GET[ 'updated' ] == 'true' ) || ( isset(
 		echo '<h2>' . __( 'Homepage', 'wordpress-seo' ) . '</h2>';
 		echo $wpseo_admin_pages->textinput( 'title-home', __( 'Title template', 'wordpress-seo' ) );
 		echo $wpseo_admin_pages->textarea( 'metadesc-home', __( 'Meta description template', 'wordpress-seo' ), '', 'metadesc' );
-		if ( isset( $options[ 'usemetakeywords' ] ) && $options[ 'usemetakeywords' ] )
+		if ( $options[ 'usemetakeywords' ] === true )
 			echo $wpseo_admin_pages->textinput( 'metakey-home', __( 'Meta keywords template', 'wordpress-seo' ) );
 	} else {
 		echo '<h2>' . __( 'Homepage &amp; Front page', 'wordpress-seo' ) . '</h2>';
@@ -99,25 +99,30 @@ if ( ( isset( $_GET[ 'updated' ] ) && $_GET[ 'updated' ] == 'true' ) || ( isset(
 </div>
 <div id="post_types" class="wpseotab">
 	<?php
-	foreach ( get_post_types( array( 'public' => true ), 'objects' ) as $posttype ) {
-		if ( isset( $options[ 'redirectattachment' ] ) && $options[ 'redirectattachment' ] && $posttype == 'attachment' )
-			continue;
-		$name = $posttype->name;
-		echo '<h4 id="' . esc_attr( $name ) . '">' . esc_html( ucfirst( $posttype->labels->name ) ) . '</h4>';
-		echo $wpseo_admin_pages->textinput( 'title-' . $name, __( 'Title template', 'wordpress-seo' ) );
-		echo $wpseo_admin_pages->textarea( 'metadesc-' . $name, __( 'Meta description template', 'wordpress-seo' ), '', 'metadesc' );
-		if ( isset( $options[ 'usemetakeywords' ] ) && $options[ 'usemetakeywords' ] )
-			echo $wpseo_admin_pages->textinput( 'metakey-' . $name, __( 'Meta keywords template', 'wordpress-seo' ) );
-		echo $wpseo_admin_pages->checkbox( 'noindex-' . $name, '<code>noindex, follow</code>', __( 'Meta Robots', 'wordpress-seo' ) );
-		echo $wpseo_admin_pages->checkbox( 'noauthorship-' . $name, __( 'Don\'t show <code>rel="author"</code>', 'wordpress-seo' ), __( 'Authorship', 'wordpress-seo' ) );
-		echo $wpseo_admin_pages->checkbox( 'showdate-' . $name, __( 'Show date in snippet preview?', 'wordpress-seo' ), __( 'Date in Snippet Preview', 'wordpress-seo' ) );
-		echo $wpseo_admin_pages->checkbox( 'hideeditbox-' . $name, __( 'Hide', 'wordpress-seo' ), __( 'WordPress SEO Meta Box', 'wordpress-seo' ) );
-		echo '<br/>';
+	$post_types = get_post_types( array( 'public' => true ), 'objects' );
+	if ( is_array( $post_types ) && $post_types !== array() ) {
+		foreach ( $post_types as $pt ) {
+			if ( $options[ 'redirectattachment' ] === true && $posttype == 'attachment' )
+				continue;
+			$name = $pt->name;
+			echo '<h4 id="' . esc_attr( $name ) . '">' . esc_html( ucfirst( $pt->labels->name ) ) . '</h4>';
+			echo $wpseo_admin_pages->textinput( 'title-' . $name, __( 'Title template', 'wordpress-seo' ) );
+			echo $wpseo_admin_pages->textarea( 'metadesc-' . $name, __( 'Meta description template', 'wordpress-seo' ), '', 'metadesc' );
+			if ( $options[ 'usemetakeywords' ] === true )
+				echo $wpseo_admin_pages->textinput( 'metakey-' . $name, __( 'Meta keywords template', 'wordpress-seo' ) );
+			echo $wpseo_admin_pages->checkbox( 'noindex-' . $name, '<code>noindex, follow</code>', __( 'Meta Robots', 'wordpress-seo' ) );
+			echo $wpseo_admin_pages->checkbox( 'noauthorship-' . $name, __( 'Don\'t show <code>rel="author"</code>', 'wordpress-seo' ), __( 'Authorship', 'wordpress-seo' ) );
+			echo $wpseo_admin_pages->checkbox( 'showdate-' . $name, __( 'Show date in snippet preview?', 'wordpress-seo' ), __( 'Date in Snippet Preview', 'wordpress-seo' ) );
+			echo $wpseo_admin_pages->checkbox( 'hideeditbox-' . $name, __( 'Hide', 'wordpress-seo' ), __( 'WordPress SEO Meta Box', 'wordpress-seo' ) );
+			echo '<br/>';
+		}
+		unset( $pt );
 	}
+	unset( $post_types );
+
 
 	$post_types = get_post_types( array( 'public' => true, '_builtin' => false ), 'objects' );
-
-	if ( count( $post_types ) > 0 ) {
+	if ( is_array( $post_types ) && $post_types !== array() ) {
 		echo '<h2>' . __( 'Custom Post Type Archives', 'wordpress-seo' ) . '</h2>';
 		echo '<p>' . __( 'Note: instead of templates these are the actual titles and meta descriptions for these custom post type archive pages.', 'wordpress-seo' ) . '</p>';
 
@@ -130,27 +135,35 @@ if ( ( isset( $_GET[ 'updated' ] ) && $_GET[ 'updated' ] == 'true' ) || ( isset(
 			echo '<h4>' . esc_html( ucfirst( $pt->labels->name ) ) . '</h4>';
 			echo $wpseo_admin_pages->textinput( 'title-ptarchive-' . $name, __( 'Title', 'wordpress-seo' ) );
 			echo $wpseo_admin_pages->textarea( 'metadesc-ptarchive-' . $name, __( 'Meta description', 'wordpress-seo' ), '', 'metadesc' );
-			if ( isset( $options[ 'breadcrumbs-enable' ] ) && $options[ 'breadcrumbs-enable' ] )
+			if ( $options[ 'usemetakeywords' ] === true )
+				echo $wpseo_admin_pages->textinput( 'metakey-ptarchive-' . $name, __( 'Meta keywords', 'wordpress-seo' ) );
+			if ( $options['breadcrumbs-enable'] === true )
 				echo $wpseo_admin_pages->textinput( 'bctitle-ptarchive-' . $name, __( 'Breadcrumbs Title', 'wordpress-seo' ) );
 			echo $wpseo_admin_pages->checkbox( 'noindex-ptarchive-' . $name, '<code>noindex, follow</code>', __( 'Meta Robots', 'wordpress-seo' ) );
 		}
-		unset( $pt, $post_type );
+		unset( $pt );
 	}
+	unset( $post_types );
 
 	?>
 </div>
 <div id="taxonomies" class="wpseotab">
 	<?php
-	foreach ( get_taxonomies( array( 'public' => true ), 'objects' ) as $tax ) {
-		echo '<h4>' . esc_html( ucfirst( $tax->labels->name ) ). '</h4>';
-		echo $wpseo_admin_pages->textinput( 'title-' . $tax->name, __( 'Title template', 'wordpress-seo' ) );
-		echo $wpseo_admin_pages->textarea( 'metadesc-' . $tax->name, __( 'Meta description template', 'wordpress-seo' ), '', 'metadesc' );
-		if ( isset( $options[ 'usemetakeywords' ] ) && $options[ 'usemetakeywords' ] )
-			echo $wpseo_admin_pages->textinput( 'metakey-' . $tax->name, __( 'Meta keywords template', 'wordpress-seo' ) );
-		echo $wpseo_admin_pages->checkbox( 'noindex-' . $tax->name, '<code>noindex, follow</code>', __( 'Meta Robots', 'wordpress-seo' ) );
-		echo $wpseo_admin_pages->checkbox( 'tax-hideeditbox-' . $tax->name, __( 'Hide', 'wordpress-seo' ), __( 'WordPress SEO Meta Box', 'wordpress-seo' ) );
-		echo '<br/>';
+	$taxonomies = get_taxonomies( array( 'public' => true ), 'objects' );
+	if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
+		foreach ( $taxonomies as $tax ) {
+			echo '<h4>' . esc_html( ucfirst( $tax->labels->name ) ). '</h4>';
+			echo $wpseo_admin_pages->textinput( 'title-' . $tax->name, __( 'Title template', 'wordpress-seo' ) );
+			echo $wpseo_admin_pages->textarea( 'metadesc-' . $tax->name, __( 'Meta description template', 'wordpress-seo' ), '', 'metadesc' );
+			if ( $options[ 'usemetakeywords' ] === true )
+				echo $wpseo_admin_pages->textinput( 'metakey-' . $tax->name, __( 'Meta keywords template', 'wordpress-seo' ) );
+			echo $wpseo_admin_pages->checkbox( 'noindex-' . $tax->name, '<code>noindex, follow</code>', __( 'Meta Robots', 'wordpress-seo' ) );
+			echo $wpseo_admin_pages->checkbox( 'tax-hideeditbox-' . $tax->name, __( 'Hide', 'wordpress-seo' ), __( 'WordPress SEO Meta Box', 'wordpress-seo' ) );
+			echo '<br/>';
+		}
+		unset( $tax );
 	}
+	unset( $taxonomies );
 
 	?>
 </div>
@@ -159,7 +172,7 @@ if ( ( isset( $_GET[ 'updated' ] ) && $_GET[ 'updated' ] == 'true' ) || ( isset(
 	echo '<h4>' . __( 'Author Archives', 'wordpress-seo' ) . '</h4>';
 	echo $wpseo_admin_pages->textinput( 'title-author', __( 'Title template', 'wordpress-seo' ) );
 	echo $wpseo_admin_pages->textarea( 'metadesc-author', __( 'Meta description template', 'wordpress-seo' ), '', 'metadesc' );
-	if ( isset( $options[ 'usemetakeywords' ] ) && $options[ 'usemetakeywords' ] )
+	if ( $options[ 'usemetakeywords' ] === true )
 		echo $wpseo_admin_pages->textinput( 'metakey-author', __( 'Meta keywords template', 'wordpress-seo' ) );
 	echo $wpseo_admin_pages->checkbox( 'noindex-author', '<code>noindex, follow</code>', __( 'Meta Robots', 'wordpress-seo' ) );
 	echo $wpseo_admin_pages->checkbox( 'disable-author', __( 'Disable the author archives', 'wordpress-seo' ), '' );

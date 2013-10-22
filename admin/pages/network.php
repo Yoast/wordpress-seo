@@ -12,6 +12,7 @@ global $wpseo_admin_pages;
 
 $options = get_site_option( 'wpseo_ms' );
 
+// @todo May be remove ? in favour of sending in the form via the options.php method - will need change in admin_header() call too
 if ( isset( $_POST[ 'wpseo_submit' ] ) ) {
 	check_admin_referer( 'wpseo-network-settings' );
 
@@ -24,15 +25,15 @@ if ( isset( $_POST[ 'wpseo_submit' ] ) ) {
 
 if ( isset( $_POST[ 'wpseo_restore_blog' ] ) ) {
 	check_admin_referer( 'wpseo-network-restore' );
-	if ( isset( $_POST[ 'wpseo_ms' ][ 'restoreblog' ] ) && is_numeric( $_POST[ 'wpseo_ms' ][ 'restoreblog' ] ) ) {
-		$blog = get_blog_details( $_POST[ 'wpseo_ms' ][ 'restoreblog' ] );
+	if ( isset( $_POST['wpseo_ms']['restoreblog'] ) && is_numeric( $_POST['wpseo_ms']['restoreblog'] ) ) {
+		$blog = get_blog_details( $_POST['wpseo_ms']['restoreblog'] );
 		if ( $blog ) {
-			foreach ( get_wpseo_options_arr() as $option ) {
-				$new_options = get_blog_option( $options[ 'defaultblog' ], $option );
-				if ( count( $new_options ) > 0 )
-					update_blog_option( $_POST[ 'wpseo_ms' ][ 'restoreblog' ], $option, $new_options );
-			}
-			echo '<div id="message" class="updated"><p>' . $blog->blogname . ' ' . __( 'restored to default SEO settings.', 'wordpress-seo' ) . '</p></div>';
+			WPSEO_Options::reset_ms_blog( $_POST['wpseo_ms']['restoreblog'] );
+
+			echo '<div id="message" class="updated"><p>' . sprintf( __( '%s restored to default SEO settings.', 'wordpress-seo' ), esc_html( $blog->blogname ) ) . '</p></div>';
+		}
+		else {
+			echo '<div id="message" class="updated error"><p>' . sprintf( __( 'Blog %s not found.', 'wordpress-seo' ), esc_html( sanitize_text_field( $_POST['wpseo_ms']['restoreblog'] ) ) ) . '</p></div>';
 		}
 	}
 }
@@ -48,7 +49,7 @@ $content .= $wpseo_admin_pages->select( 'access', __( 'Who should have access to
 	), 'wpseo_ms'
 );
 $content .= $wpseo_admin_pages->textinput( 'defaultblog', __( 'New blogs get the SEO settings from this blog', 'wordpress-seo' ), 'wpseo_ms' );
-$content .= '<p>' . __( 'Enter the Blog ID for the site whose settings you want to use as default for all sites that are added to your network. Leave empty for none.', 'wordpress-seo' ) . '</p>';
+$content .= '<p>' . __( 'Enter the Blog ID for the site whose settings you want to use as default for all sites that are added to your network. Leave empty for none (i.e. the normal plugin defaults will be used).', 'wordpress-seo' ) . '</p>';
 $content .= '<input type="submit" name="wpseo_submit" class="button-primary" value="' . __( 'Save MultiSite Settings', 'wordpress-seo' ) . '"/>';
 $content .= '</form>';
 

@@ -10,7 +10,7 @@ if ( !defined('WPSEO_VERSION') ) {
 
 global $wpseo_admin_pages;
 
-$wpseo_admin_pages->admin_header( __( 'Internal Links', 'wordpress-seo' ), true, 'yoast_wpseo_internallinks_options', 'wpseo_internallinks' );
+$wpseo_admin_pages->admin_header( __( 'Internal Links', 'wordpress-seo' ), true, WPSEO_Options::$options['wpseo_internallinks']['group'], 'wpseo_internallinks' );
 
 $content = $wpseo_admin_pages->checkbox( 'breadcrumbs-enable', __( 'Enable Breadcrumbs', 'wordpress-seo' ) );
 $content .= '<br/>';
@@ -23,30 +23,44 @@ $content .= $wpseo_admin_pages->textinput( 'breadcrumbs-404crumb', __( 'Breadcru
 $content .= $wpseo_admin_pages->checkbox( 'breadcrumbs-blog-remove', __( 'Remove Blog page from Breadcrumbs', 'wordpress-seo' ) );
 $content .= '<br/><br/>';
 $content .= '<strong>' . __( 'Taxonomy to show in breadcrumbs for:', 'wordpress-seo' ) . '</strong><br/>';
-foreach ( get_post_types( array( 'public' => true ), 'objects' ) as $pt ) {
-	$taxonomies = get_object_taxonomies( $pt->name, 'objects' );
-	if ( count( $taxonomies ) > 0 ) {
-		$values = array( 0 => __( 'None', 'wordpress-seo' ) );
-		foreach ( $taxonomies as $tax ) {
-			$values[ $tax->name ] = $tax->labels->singular_name;
+$post_types = get_post_types( array( 'public' => true ), 'objects' );
+if ( is_array( $post_types ) && $post_types !== array() ) {
+	foreach ( $post_types as $pt ) {
+		$taxonomies = get_object_taxonomies( $pt->name, 'objects' );
+		if ( is_array( $taxonomies ) && count( $taxonomies ) > 0 ) {
+			$values = array( 0 => __( 'None', 'wordpress-seo' ) );
+			foreach ( $taxonomies as $tax ) {
+				$values[$tax->name] = $tax->labels->singular_name;
+			}
+			$content .= $wpseo_admin_pages->select( 'post_types-' . $pt->name . '-maintax', $pt->labels->name, $values );
+			unset( $values, $tax );
 		}
-		$content .= $wpseo_admin_pages->select( 'post_types-' . $pt->name . '-maintax', $pt->labels->name, $values );
+		unset( $taxonomies );
 	}
+	unset( $pt );
 }
 $content .= '<br/>';
 
 $content .= '<strong>' . __( 'Post type archive to show in breadcrumbs for:', 'wordpress-seo' ) . '</strong><br/>';
-foreach ( get_taxonomies( array( 'public'=> true, '_builtin' => false ), 'objects' ) as $tax ) {
-	$values = array( '' => __( 'None', 'wordpress-seo' ) );
-	if ( get_option( 'show_on_front' ) == 'page' )
-		$values[ 'post' ] = __( 'Blog', 'wordpress-seo' );
+$taxonomies = get_taxonomies( array( 'public'=> true, '_builtin' => false ), 'objects' );
+if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
+	foreach ( $taxonomies as $tax ) {
+		$values = array( 0 => __( 'None', 'wordpress-seo' ) );
+		if ( get_option( 'show_on_front' ) == 'page' )
+			$values['post'] = __( 'Blog', 'wordpress-seo' );
 
-	foreach ( get_post_types( array( 'public' => true ), 'objects' ) as $pt ) {
-		if ( $pt->has_archive )
-			$values[ $pt->name ] = $pt->labels->name;
+		if ( is_array( $post_types ) && $post_types !== array() ) {
+			foreach ( $post_types as $pt ) {
+				if ( $pt->has_archive )
+					$values[ $pt->name ] = $pt->labels->name;
+			}
+			unset( $pt );
+		}
+		$content .= $wpseo_admin_pages->select( 'taxonomy-' . $tax->name . '-ptparent', $tax->labels->singular_name, $values );
+		unset( $values, $tax );
 	}
-	$content .= $wpseo_admin_pages->select( 'taxonomy-' . $tax->name . '-ptparent', $tax->labels->singular_name, $values );
 }
+unset( $taxonomies, $post_types );
 
 $content .= $wpseo_admin_pages->checkbox( 'breadcrumbs-boldlast', __( 'Bold the last page in the breadcrumb', 'wordpress-seo' ) );
 

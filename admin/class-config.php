@@ -53,9 +53,19 @@ class WPSEO_Admin_Pages {
 
 	/**
 	 * Resets the site to the default WordPress SEO settings and runs a title test to check whether force rewrite needs to be on.
+	 *
+	 * @todo - move to options class and check if this is still the way to do it or rather, we know this is not the way
+	 * Also change the function calls to the function! and make this function deprecated
+	 *
+	 * @deprecated 1.5.0
+	 * @deprecated use WPSEO_Options::reset()
+	 * @see WPSEO_Options::reset()
 	 */
 	function reset_defaults() {
-		foreach ( get_wpseo_options_arr() as $opt ) {
+//		_deprecated_function( __FUNCTION__, 'WPSEO 1.5.0', 'WPSEO_Options::reset()' );
+//		WPSEO_Options::reset();
+
+		foreach ( WPSEO_Options::get_option_names() as $opt ) {
 			delete_option( $opt );
 		}
 		wpseo_defaults();
@@ -192,7 +202,24 @@ class WPSEO_Admin_Pages {
 		</div>
 		<?php $this->admin_sidebar(); ?>
 		</div>
-	<?php
+
+		<?php
+		/* Add the current settings array to the page for debugging purposes */
+		if ( WP_DEBUG ) {
+			echo '
+		<div id="poststuff">
+		<div id="wpseo-debug-info" class="postbox">
+
+			<h3 class="hndle"><span>' . __( 'Debug Information', 'wordpress-seo' ) . '</span></h3>
+			<div class="inside">
+				<pre>';
+			var_dump( get_option( $this->currentoption ) );
+			echo '
+				</pre>
+			</div>
+		</div>
+		</div>';
+		}
 	}
 
 	/**
@@ -212,9 +239,9 @@ class WPSEO_Admin_Pages {
 	 * @return bool|string $return False when failed, the URL to the export file when succeeded.
 	 */
 	function export_settings( $include_taxonomy ) {
-		$content = "; " . __( "This is a settings export file for the WordPress SEO plugin by Yoast.com", 'wordpress-seo' ) . " - http://yoast.com/wordpress/seo/ \r\n";
+		$content = "; " . __( 'This is a settings export file for the WordPress SEO plugin by Yoast.com', 'wordpress-seo' ) . " - http://yoast.com/wordpress/seo/ \r\n";
 
-		$optarr = get_wpseo_options_arr();
+		$optarr = WPSEO_Options::get_option_names();
 
 		foreach ( $optarr as $optgroup ) {
 			$content .= "\n" . '[' . $optgroup . ']' . "\n";
@@ -335,7 +362,7 @@ class WPSEO_Admin_Pages {
 			$class        = 'checkbox double';
 		}
 
-		$output_input = "<input class='$class' type='checkbox' id='" . esc_attr( $var ) . "' name='" . esc_attr( $option ) . "[" . esc_attr( $var ) . "]' " . checked( $options[$var], 'on', false ) . '/>';
+		$output_input = '<input class="' . esc_attr( $class ) . '" type="checkbox" id="' . esc_attr( $var ) . '" name="' . esc_attr( $option ) . '[' . esc_attr( $var ) . ']" value="on"' . checked( $options[$var], 'on', false ) . '/>';
 
 		if ( $label_left !== false ) {
 			$output = $output_label . $output_input . '<label class="checkbox" for="' . esc_attr( $var ) . '">' . $label . '</label>';
@@ -358,12 +385,9 @@ class WPSEO_Admin_Pages {
 			$option = $this->currentoption;
 
 		$options = $this->get_option( $option );
+		$val = ( isset( $options[$var] ) ) ? $options[$var] : '';
 
-		$val = '';
-		if ( isset( $options[$var] ) )
-			$val = esc_attr( $options[$var] );
-
-		return '<label class="textinput" for="' . esc_attr( $var ) . '">' . $label . ':</label><input class="textinput" type="text" id="' . esc_attr( $var ) . '" name="' . $option . '[' . esc_attr( $var ) . ']" value="' . $val . '"/>' . '<br class="clear" />';
+		return '<label class="textinput" for="' . esc_attr( $var ) . '">' . $label . ':</label><input class="textinput" type="text" id="' . esc_attr( $var ) . '" name="' . esc_attr( $option ) . '[' . esc_attr( $var ) . ']" value="' . esc_attr( $val ) . '"/>' . '<br class="clear" />';
 	}
 
 	/**
@@ -380,13 +404,9 @@ class WPSEO_Admin_Pages {
 			$option = $this->currentoption;
 
 		$options = $this->get_option( $option );
+		$val = ( isset( $options[$var] ) ) ? $options[$var] : '';
 
-		$val = '';
-		if ( isset( $options[$var] ) )
-			$val = esc_attr( $options[$var] );
-
-
-		return '<label class="textinput" for="' . esc_attr( $var ) . '">' . esc_html( $label ) . ':</label><textarea class="textinput ' . $class . '" id="' . esc_attr( $var ) . '" name="' . $option . '[' . esc_attr( $var ) . ']">' . $val . '</textarea>' . '<br class="clear" />';
+		return '<label class="textinput" for="' . esc_attr( $var ) . '">' . esc_html( $label ) . ':</label><textarea class="textinput ' . esc_attr( $class ) . '" id="' . esc_attr( $var ) . '" name="' . esc_attr( $option ) . '[' . esc_attr( $var ) . ']">' . esc_textarea( $val ) . '</textarea>' . '<br class="clear" />';
 	}
 
 	/**
@@ -402,11 +422,12 @@ class WPSEO_Admin_Pages {
 
 		$options = $this->get_option( $option );
 
-		$val = '';
-		if ( isset( $options[$var] ) )
-			$val = esc_attr( $options[$var] );
+		$val = ( isset( $options[$var] ) ) ? $options[$var] : '';
+		if( is_bool( $val ) ) {
+			$val = ( $val === true ) ? 'true' : 'false';
+		}
 
-		return '<input type="hidden" id="hidden_' . esc_attr( $var ) . '" name="' . $option . '[' . esc_attr( $var ) . ']" value="' . $val . '"/>';
+		return '<input type="hidden" id="hidden_' . esc_attr( $var ) . '" name="' . esc_attr( $option ) . '[' . esc_attr( $var ) . ']" value="' . esc_attr( $val ) . '"/>';
 	}
 
 	/**
@@ -424,17 +445,12 @@ class WPSEO_Admin_Pages {
 
 		$options = $this->get_option( $option );
 
-		$var_esc = esc_attr( $var );
-		$output  = '<label class="select" for="' . $var_esc . '">' . $label . ':</label>';
-		$output .= '<select class="select" name="' . $option . '[' . $var_esc . ']" id="' . $var_esc . '">';
+		$output  = '<label class="select" for="' . esc_attr( $var ) . '">' . $label . ':</label>';
+		$output .= '<select class="select" name="' . esc_attr( $option ) . '[' . esc_attr( $var ) . ']" id="' . esc_attr( $var ) . '">';
 
 		foreach ( $values as $value => $label ) {
-			$sel = '';
-			if ( isset( $options[$var] ) && $options[$var] == $value )
-				$sel = 'selected="selected" ';
-
 			if ( !empty( $label ) )
-				$output .= '<option ' . $sel . 'value="' . esc_attr( $value ) . '">' . $label . '</option>';
+				$output .= '<option value="' . esc_attr( $value ) . '"' . selected( $options[$var], $value, false ) . '>' . $label . '</option>';
 		}
 		$output .= '</select>';
 		return $output . '<br class="clear"/>';
@@ -455,13 +471,13 @@ class WPSEO_Admin_Pages {
 		$options = $this->get_option( $option );
 
 		$val = '';
-		if ( isset( $options[$var] ) && strtolower( gettype( $options[$var] ) ) == 'array' ) {
+		if ( isset( $options[$var] ) && is_array( $options[$var] ) ) {
 			$val = $options[$var]['url'];
 		}
 
 		$var_esc = esc_attr( $var );
 		$output  = '<label class="select" for="' . $var_esc . '">' . esc_html( $label ) . ':</label>';
-		$output .= '<input type="file" value="' . $val . '" class="textinput" name="' . esc_attr( $option ) . '[' . $var_esc . ']" id="' . $var_esc . '"/>';
+		$output .= '<input type="file" value="' . esc_attr( $val ) . '" class="textinput" name="' . esc_attr( $option ) . '[' . $var_esc . ']" id="' . $var_esc . '"/>';
 
 		// Need to save separate array items in hidden inputs, because empty file inputs type will be deleted by settings API.
 		if ( !empty( $options[$var] ) ) {
@@ -496,8 +512,8 @@ class WPSEO_Admin_Pages {
 
 		$output = '<br/><label class="select">' . $label . ':</label>';
 		foreach ( $values as $key => $value ) {
-			$key = esc_attr( $key );
-			$output .= '<input type="radio" class="radio" id="' . $var_esc . '-' . $key . '" name="' . esc_attr( $option ) . '[' . $var_esc . ']" value="' . $key . '" ' . ( $options[$var] == $key ? ' checked="checked"' : '' ) . ' /> <label class="radio" for="' . $var_esc . '-' . $key . '">' . esc_attr( $value ) . '</label>';
+			$key_esc = esc_attr( $key );
+			$output .= '<input type="radio" class="radio" id="' . $var_esc . '-' . $key_esc . '" name="' . esc_attr( $option ) . '[' . $var_esc . ']" value="' . $key_esc . '" ' . checked( $options[$var], $key_esc, false ) . ' /> <label class="radio" for="' . $var_esc . '-' . $key_esc . '">' . esc_html( $value ) . '</label>';
 		}
 		$output .= '<br/>';
 

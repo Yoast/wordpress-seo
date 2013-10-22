@@ -56,3 +56,16 @@ jQuery(document).ready(function(){
 		jQuery(this).addClass('nav-tab-active');
 	});
 });
+
+/*jQuery(document).ready(function(){
+	// Collapsible debug information on the settings pages
+	jQuery('#wpseo-debug-info').accordion({
+		active: false,
+		collapsible: true,
+		icons: {
+			header: 'ui-icon-circle-triangle-e',
+			activeHeader: 'ui-icon-circle-triangle-s'
+		},
+		heightStyle: 'content'
+	});
+});*/

@@ -47,8 +47,8 @@ class WPSEO_Twitter extends WPSEO_Frontend {
 
 		// No need to show these when OpenGraph is also showing, as it'd be the same contents and Twitter
 		// would fallback to OpenGraph anyway.	
-		$options = get_wpseo_options();
-		if ( !isset( $options['opengraph'] ) || !$options['opengraph'] ) {
+		$options = WPSEO_Options::get_all();
+		if ( $options['opengraph'] === false ) {
 			$this->image();
 			$this->twitter_description();
 			$this->twitter_title();
@@ -65,7 +65,7 @@ class WPSEO_Twitter extends WPSEO_Frontend {
 	 */
 	public function type() {
 		$type = apply_filters( 'wpseo_twitter_card_type', 'summary' );
-		if( !in_array( $type, array( 'summary', 'summary_large_image', 'photo', 'gallery', 'app', 'player', 'product' ) ) )
+		if ( !in_array( $type, array( 'summary', 'summary_large_image', 'photo', 'gallery', 'app', 'player', 'product' ) ) )
 			$type = 'summary';
 
 		echo '<meta name="twitter:card" content="' . esc_attr( $type ) . '"/>' . "\n";
@@ -75,8 +75,8 @@ class WPSEO_Twitter extends WPSEO_Frontend {
 	 * Displays the Twitter account for the site.
 	 */
 	public function site_twitter() {
-		$site = apply_filters( 'wpseo_twitter_site', ltrim( trim( $this->options['twitter_site'] ), '@' ) );
-		if ( $site && ( is_string( $site ) && $site !== '' ) )
+		$site = apply_filters( 'wpseo_twitter_site', $this->options['twitter_site'] );
+		if ( is_string( $site ) && $site !== '' )
 			echo '<meta name="twitter:site" content="@' . esc_attr( $site ) . '"/>' . "\n";
 	}
 	
@@ -85,7 +85,7 @@ class WPSEO_Twitter extends WPSEO_Frontend {
 	 */
 	public function site_domain() {
 		$domain = apply_filters( 'wpseo_twitter_domain', get_bloginfo( 'name' ) );
-		if( is_string( $domain ) && $domain !== '' )
+		if ( is_string( $domain ) && $domain !== '' )
 			echo '<meta name="twitter:domain" content="' . esc_attr( $domain ) . '"/>' . "\n";
 	}
 
@@ -99,9 +99,9 @@ class WPSEO_Twitter extends WPSEO_Frontend {
 		if ( $twitter && ( is_string( $twitter ) && $twitter !== '' ) )
 			echo '<meta name="twitter:creator" content="@' . esc_attr( $twitter ) . '"/>' . "\n";
 			
-		else if ( isset( $this->options['twitter_site'] ) ) {
-			$twitter = apply_filters( 'wpseo_twitter_creator_account', ltrim( trim( $this->options['twitter_site'] ), '@' ) );
-			if( is_string( $twitter ) && $twitter !== '' )
+		else if ( $this->options['twitter_site'] !== '' ) {
+			$twitter = apply_filters( 'wpseo_twitter_creator_account', $this->options['twitter_site'] );
+			if ( is_string( $twitter ) && $twitter !== '' )
 				echo '<meta name="twitter:creator" content="@' . esc_attr( $twitter ) . '"/>' . "\n";
 		}
 	}
@@ -113,7 +113,7 @@ class WPSEO_Twitter extends WPSEO_Frontend {
 	 */
 	public function twitter_title() {
 		$title = apply_filters( 'wpseo_twitter_title', $this->title( '' ) );
-		if( is_string( $title ) && $title !== '' )
+		if ( is_string( $title ) && $title !== '' )
 			echo '<meta name="twitter:title" content="' . esc_attr( $title ) . '"/>' . "\n";
 	}
 
@@ -126,7 +126,7 @@ class WPSEO_Twitter extends WPSEO_Frontend {
 		$metadesc = trim( $this->metadesc( false ) );
 		if ( empty( $metadesc ) )
 			$metadesc = false;
-		if ( $metadesc && isset( $this->options['opengraph'] ) && $this->options['opengraph'] ) {
+		if ( $metadesc && $this->options['opengraph'] === true ) {
 			// Already output the same description in opengraph, no need to repeat.
 			return;
 		} else if ( !$metadesc ) {
@@ -134,7 +134,7 @@ class WPSEO_Twitter extends WPSEO_Frontend {
 		}
 
 		$metadesc = apply_filters( 'wpseo_twitter_description', $metadesc );
-		if( is_string( $metadesc ) && $metadesc !== '' )
+		if ( is_string( $metadesc ) && $metadesc !== '' )
 			echo '<meta name="twitter:description" content="' . esc_attr( $metadesc ) . '"/>' . "\n";
 	}
 
@@ -161,7 +161,7 @@ class WPSEO_Twitter extends WPSEO_Frontend {
 			
 			if ( is_front_page() ) {
 				
-				if ( isset( $this->options['og_frontpage_image'] ) ) {
+				if ( $this->options['og_frontpage_image'] !== '' ) {
 					
 					$escaped_img = esc_url( $this->options['og_frontpage_image'] );
 					
@@ -221,8 +221,8 @@ class WPSEO_Twitter extends WPSEO_Frontend {
 			
 		}
 		
-		if ( ( count( $shown_images ) == 0 && isset( $this->options['og_default_image'] ) ) && ( is_string( $this->options['og_default_image'] ) && $this->options['og_default_image'] !== '' ) )
-			echo '<meta name="twitter:image:src" content="' . esc_attr( $this->options['og_default_image'] ) . '"/>' . "\n";
+		if ( count( $shown_images ) == 0 && $this->options['og_default_image'] !== '' )
+			echo '<meta name="twitter:image:src" content="' . esc_url( $this->options['og_default_image'] ) . '"/>' . "\n";
 
 	}
 	

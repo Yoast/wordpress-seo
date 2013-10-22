@@ -10,7 +10,7 @@ if ( !defined('WPSEO_VERSION') ) {
 
 global $wpseo_admin_pages;
 
-$wpseo_admin_pages->admin_header( __( 'Permalinks', 'wordpress-seo' ), true, 'yoast_wpseo_permalinks_options', 'wpseo_permalinks' );
+$wpseo_admin_pages->admin_header( __( 'Permalinks', 'wordpress-seo' ), true, WPSEO_Options::$options['wpseo_permalinks']['group'], 'wpseo_permalinks' );
 $content = $wpseo_admin_pages->checkbox( 'stripcategorybase', __( 'Strip the category base (usually <code>/category/</code>) from the category URL.', 'wordpress-seo' ) );
 $content .= $wpseo_admin_pages->checkbox( 'trailingslash', __( 'Enforce a trailing slash on all category and tag URL\'s', 'wordpress-seo' ) );
 $content .= '<p class="desc">' . __( 'If you choose a permalink for your posts with <code>.html</code>, or anything else but a / on the end, this will force WordPress to add a trailing slash to non-post pages nonetheless.', 'wordpress-seo' ) . '</p>';
@@ -41,7 +41,7 @@ $content .= $wpseo_admin_pages->checkbox( 'cleanpermalink-googlecampaign', __( '
 $content .= '<p class="desc">' . __( 'If you use Google Analytics campaign parameters starting with <code>?utm_</code>, check this box. You shouldn\'t use these btw, you should instead use the hash tagged version instead.', 'wordpress-seo' ) . '</p>';
 
 $content .= $wpseo_admin_pages->textinput( 'cleanpermalink-extravars', __( 'Other variables not to clean', 'wordpress-seo' ) );
-$content .= '<p class="desc">' . __( 'You might have extra variables you want to prevent from cleaning out, add them here, comma separarted.', 'wordpress-seo' ) . '</p>';
+$content .= '<p class="desc">' . __( 'You might have extra variables you want to prevent from cleaning out, add them here, comma separated.', 'wordpress-seo' ) . '</p>';
 
 $wpseo_admin_pages->postbox( 'cleanpermalinksdiv', __( 'Clean Permalink Settings', 'wordpress-seo' ), $content );
 

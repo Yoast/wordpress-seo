@@ -144,14 +144,14 @@ if ( !class_exists( 'Yoast_Tracking' ) ) {
  * @return array
  */
 function wpseo_tracking_additions( $options ) {
-	$opt = get_wpseo_options();
+	$opt = WPSEO_Options::get_all();
 
 	$options['wpseo'] = array(
-		'xml_sitemaps'        => isset( $opt['enablexmlsitemap'] ) ? 1 : 0,
-		'force_rewrite'       => isset( $opt['forcerewritetitle'] ) ? 1 : 0,
-		'opengraph'           => isset( $opt['opengraph'] ) ? 1 : 0,
-		'twitter'             => isset( $opt['twitter'] ) ? 1 : 0,
-		'strip_category_base' => isset( $opt['stripcategorybase'] ) ? 1 : 0,
+		'xml_sitemaps'        => ( $opt['enablexmlsitemap'] === true ) ? 1 : 0,
+		'force_rewrite'       => ( $opt['forcerewritetitle'] === true ) ? 1 : 0,
+		'opengraph'           => ( $opt['opengraph'] === true ) ? 1 : 0,
+		'twitter'             => ( $opt['twitter'] === true ) ? 1 : 0,
+		'strip_category_base' => ( $opt['stripcategorybase'] === true ) ? 1 : 0,
 		'on_front'            => get_option( 'show_on_front' ),
 	);
 	return $options;
