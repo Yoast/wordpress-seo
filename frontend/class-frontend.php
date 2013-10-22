@@ -840,7 +840,7 @@ class WPSEO_Frontend {
 			$gplus = get_the_author_meta( 'googleplus', $post->post_author );
 
 			// unset gplus when authorship is disabled for this post type
-			if ( isset( $this->options['noauthorship-' . $post->post_type] ) ) && $this->options['noauthorship-' . $post->post_type] === true ) {
+			if ( isset( $this->options['noauthorship-' . $post->post_type] ) && $this->options['noauthorship-' . $post->post_type] === true ) {
 				$gplus = false;
 			}
 		}
