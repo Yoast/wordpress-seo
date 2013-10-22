@@ -133,7 +133,7 @@ class WPSEO_OpenGraph extends WPSEO_Frontend {
 	 * @link https://developers.facebook.com/blog/post/2013/06/19/platform-updates--new-open-graph-tags-for-media-publishers-and-more/
 	 */
 	public function website_facebook() {
-		if ( $this->options['facebook_site'] !== '' ) )
+		if ( $this->options['facebook_site'] !== '' )
 			$this->og_tag( 'article:publisher', $this->options['facebook_site'] );
 	}
 
