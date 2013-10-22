@@ -32,7 +32,7 @@ class WPSEO_Metabox {
 	 */
 	function __construct() {
 		if ( ! class_exists( 'Yoast_TextStatistics' ) && apply_filters( 'wpseo_use_page_analysis', true ) === true )
-			require_once( WPSEO_PATH . "/admin/TextStatistics.php" );
+			require_once( WPSEO_PATH . 'admin/TextStatistics.php' );
 
 		add_action( 'add_meta_boxes', array( $this, 'add_meta_box' ) );
 		add_action( 'admin_print_styles-post-new.php', array( $this, 'enqueue' ) );
