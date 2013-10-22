@@ -6,6 +6,8 @@ Plugin URI: http://yoast.com/wordpress/seo/#utm_source=wpadmin&utm_medium=plugin
 Description: The first true all-in-one SEO solution for WordPress, including on-page content analysis, XML sitemaps and much more.
 Author: Joost de Valk
 Author URI: http://yoast.com/
+Text Domain: wordpress-seo
+Domain Path: /languages/
 License: GPL v3
 
 WordPress SEO Plugin
@@ -43,9 +45,10 @@ if ( !defined( 'WPSEO_BASENAME' ) )
 define( 'WPSEO_FILE', __FILE__ );
 
 function wpseo_load_textdomain() {
-	load_plugin_textdomain( 'wordpress-seo', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
+	load_plugin_textdomain( 'wordpress-seo', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 }
 add_filter( 'wp_loaded', 'wpseo_load_textdomain' );
+
 
 if ( version_compare( PHP_VERSION, '5.2', '<' ) ) {
 	if ( is_admin() && ( !defined( 'DOING_AJAX' ) || !DOING_AJAX ) ) {
