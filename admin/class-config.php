@@ -126,7 +126,7 @@ class WPSEO_Admin_Pages {
 						break;
 					if ( $i != 0 )
 						echo '<hr style="border:none;border-top:dotted 1px #f48500;margin: 30px 0;">';
-					echo '<a target="_blank" href="' . $banner['url'] . '"><img src="' . WPSEO_URL . 'images/' . $banner['img'] . '" alt="' . $banner['alt'] . '"/></a>';
+					echo '<a target="_blank" href="' . $banner['url'] . '"><img src="' . plugins_url( 'images/' . $banner['img'], dirname( __FILE__ ) ) . '" alt="' . $banner['alt'] . '"/></a>';
 					$i++;
 				}
 				?>
@@ -242,7 +242,7 @@ class WPSEO_Admin_Pages {
 
 		fclose( $handle );
 
-		require_once ( ABSPATH . 'wp-admin/includes/class-pclzip.php' );
+		require_once( ABSPATH . 'wp-admin/includes/class-pclzip.php' );
 
 		chdir( $dir['path'] );
 		$zip = new PclZip( './settings.zip' );
@@ -262,10 +262,10 @@ class WPSEO_Admin_Pages {
 			wp_enqueue_style( 'thickbox' );
 			wp_enqueue_style( 'global' );
 			wp_enqueue_style( 'wp-admin' );
-			wp_enqueue_style( 'yoast-admin-css', WPSEO_URL . 'css/yst_plugin_tools.css', array(), WPSEO_VERSION );
+			wp_enqueue_style( 'yoast-admin-css', plugins_url( 'css/yst_plugin_tools.css', dirname( __FILE__ ) ), array(), WPSEO_VERSION );
 
 			if ( is_rtl() )
-				wp_enqueue_style( 'wpseo-rtl', WPSEO_URL . 'css/wpseo-rtl.css', array(), WPSEO_VERSION );
+				wp_enqueue_style( 'wpseo-rtl', plugins_url( 'css/wpseo-rtl.css', dirname( __FILE__ ) ), array(), WPSEO_VERSION );
 		}
 	}
 
@@ -276,7 +276,7 @@ class WPSEO_Admin_Pages {
 		global $pagenow;
 		
 		if ( $pagenow == 'admin.php' && isset( $_GET['page'] ) && in_array( $_GET['page'], $this->adminpages ) ) {
-			wp_enqueue_script( 'wpseo-admin-script', WPSEO_URL . 'js/wp-seo-admin.js', array( 'jquery' ), WPSEO_VERSION, true );
+			wp_enqueue_script( 'wpseo-admin-script', plugins_url( 'js/wp-seo-admin.js', dirname( __FILE__ ) ), array( 'jquery' ), WPSEO_VERSION, true );
 			wp_enqueue_script( 'postbox' );
 			wp_enqueue_script( 'dashboard' );
 			wp_enqueue_script( 'thickbox' );
