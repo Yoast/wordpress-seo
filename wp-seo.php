@@ -35,8 +35,6 @@ if ( !defined( 'DB_NAME' ) ) {
 	die;
 }
 
-if ( !defined( 'WPSEO_URL' ) )
-	define( 'WPSEO_URL', plugin_dir_url( __FILE__ ) );
 if ( !defined( 'WPSEO_PATH' ) )
 	define( 'WPSEO_PATH', plugin_dir_path( __FILE__ ) );
 if ( !defined( 'WPSEO_BASENAME' ) )
@@ -61,12 +59,6 @@ if ( version_compare( PHP_VERSION, '5.2', '<' ) ) {
 }
 
 define( 'WPSEO_VERSION', '1.4.19-beta' );
-
-$pluginurl = plugin_dir_url( __FILE__ );
-if ( strpos( $pluginurl, 'https' ) === 0 && strpos( get_bloginfo( 'url' ), 'https' ) !== 0 )
-	$pluginurl = substr_replace( $pluginurl, 'http', 0, 5 );
-define( 'WPSEO_FRONT_URL', $pluginurl );
-unset( $pluginurl );
 
 function wpseo_init() {
 	require WPSEO_PATH . 'inc/wpseo-functions.php';

@@ -116,6 +116,7 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 * Bugfixes
 	* Move all rewrite flushing to shutdown, so it doesn't break other plugins who add their rewrites late.
 	* Fixed the wrong naming of the L10n JS object, props [Otto](http://profiles.wordpress.org/otto42).
+	* Fixed appropriate use of plugins_url() to avoid breaking hooked in filters - props [Jrf](http://profiles.wordpress.org/jrf).
 	* (Temporary) fix for metabox styling for users using the MP6 plugin - props [Jrf](http://profiles.wordpress.org/jrf).
 	* Minor fix in localization loading - props [Jrf](http://profiles.wordpress.org/jrf).
 
