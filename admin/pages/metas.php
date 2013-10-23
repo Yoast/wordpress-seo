@@ -41,7 +41,7 @@ include_once( 'options-head.php' );
 <div class="tabwrapper>">
 <div id="general" class="wpseotab">
 	<?php
-	echo '<form action="' . admin_url( 'options.php' ) . '" method="post" id="wpseo-conf"' . ( ( defined( 'DB_CHARSET' ) && DB_CHARSET === 'utf8' ) ? ' accept-charset="utf-8"' : '' ) . '>';
+	echo '<form action="' . admin_url( 'options.php' ) . '" method="post" id="wpseo-conf" accept-charset="' . get_bloginfo( 'charset' ) . '">';
 	settings_fields( 'yoast_wpseo_titles_options' );
 	$wpseo_admin_pages->currentoption = 'wpseo_titles';
 

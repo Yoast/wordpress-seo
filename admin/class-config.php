@@ -164,7 +164,7 @@ class WPSEO_Admin_Pages {
 		<div class="meta-box-sortables">
 		<?php
 		if ( $form ) {
-			echo '<form action="' . admin_url( 'options.php' ) . '" method="post" id="wpseo-conf"' . ( $contains_files ? ' enctype="multipart/form-data"' : '' ) . ( ( defined( 'DB_CHARSET' ) && DB_CHARSET === 'utf8' ) ? ' accept-charset="utf-8"' : '' ) . '>';
+			echo '<form action="' . admin_url( 'options.php' ) . '" method="post" id="wpseo-conf"' . ( $contains_files ? ' enctype="multipart/form-data"' : '' ) . ' accept-charset="' . get_bloginfo( 'charset' ) . '">';
 			settings_fields( $option );
 			$this->currentoption = $optionshort;
 		}
