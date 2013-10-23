@@ -139,36 +139,32 @@ class WPSEO_Admin_Pages {
 	/**
 	 * Generates the header for admin pages
 	 *
-	 * @param string $title          The title to show in the main heading.
 	 * @param bool   $form           Whether or not the form should be included.
 	 * @param string $option         The long name of the option to use for the current page.
 	 * @param string $optionshort    The short name of the option to use for the current page.
 	 * @param bool   $contains_files Whether the form should allow for file uploads.
 	 */
-	function admin_header( $title, $form = true, $option = 'yoast_wpseo_options', $optionshort = 'wpseo', $contains_files = false ) {
+	function admin_header( $form = true, $option = 'yoast_wpseo_options', $optionshort = 'wpseo', $contains_files = false ) {
 		?>
 		<div class="wrap">
 		<?php
-		if ( ( isset( $_GET['updated'] ) && $_GET['updated'] == 'true' ) || ( isset( $_GET['settings-updated'] ) && $_GET['settings-updated'] == 'true' ) ) {
-			$msg = __( 'Settings updated', 'wordpress-seo' );
-
-			echo '<div id="message" style="width:94%;" class="message updated"><p><strong>' . esc_html( $msg ) . '.</strong></p></div>';
-		}
+		/**
+		 * Display the updated/error messages
+		 * Only needed as our settings page is not under options, otherwise it will automatically be included
+		 * @see settings_errors()
+		 */
+		require_once( ABSPATH . 'wp-admin/options-head.php' );
 		?>
 		<a href="http://yoast.com/">
-			<div id="yoast-icon"
-				 style="background: url('<?php echo plugins_url( 'images/wordpress-SEO-32x32.png', dirname( __FILE__ ) ); ?>') no-repeat;"
-				 class="icon32">
-				<br/>
-			</div>
+		<?php screen_icon(); ?>
 		</a>
-		<h2 id="wpseo-title"><?php _e( "Yoast WordPress SEO: ", 'wordpress-seo' ); echo $title; ?></h2>
+		<h2 id="wpseo-title"><?php echo get_admin_page_title(); ?></h2>
 		<div id="wpseo_content_top" class="postbox-container" style="min-width:400px; max-width:600px; padding: 0 20px 0 0;">
 		<div class="metabox-holder">
 		<div class="meta-box-sortables">
 		<?php
 		if ( $form ) {
-			echo '<form action="' . admin_url( 'options.php' ) . '" method="post" id="wpseo-conf"' . ( $contains_files ? ' enctype="multipart/form-data"' : '' ) . '>';
+			echo '<form action="' . admin_url( 'options.php' ) . '" method="post" id="wpseo-conf"' . ( $contains_files ? ' enctype="multipart/form-data"' : '' ) . ' accept-charset="' . get_bloginfo( 'charset' ) . '">';
 			settings_fields( $option );
 			$this->currentoption = $optionshort;
 		}
@@ -182,10 +178,8 @@ class WPSEO_Admin_Pages {
 	 */
 	function admin_footer( $submit = true ) {
 		if ( $submit ) {
-			?>
-			<div class="submit"><input type="submit" class="button-primary" name="submit"
-									   value="<?php _e( "Save Settings", 'wordpress-seo' ); ?>"/></div>
-		<?php } ?>
+			submit_button();
+		} ?>
 		</form>
 		</div>
 		</div>

@@ -85,7 +85,7 @@ class WPSEO_Pointers {
 				. '<p><strong>' . __( 'Like this plugin?', 'wordpress-seo' ) . '</strong><br/>' . sprintf( __( 'If you like this plugin, please %srate it 5 stars on WordPress.org%s and consider making a donation by clicking the button on the right!', 'wordpress-seo' ), '<a target="_blank" href="http://wordpress.org/extend/plugins/wordpress-seo/">', '</a>' ) . '</p>' .
 				'<p><strong>' . __( 'Newsletter', 'wordpress-seo' ) . '</strong><br/>' .
 				__( 'If you would like to keep up to date regarding the WordPress SEO plugin and other plugins by Yoast, subscribe to the newsletter:', 'wordpress-seo' ) . '</p>' .
-				'<form action="https://nieuwsbrief.it/campaign/proc.php" enctype="multipart/form-data" method="post" id="newsletter-form">' .
+				'<form action="https://nieuwsbrief.it/campaign/proc.php" enctype="multipart/form-data" method="post" id="newsletter-form" accept-charset="' . get_bloginfo( 'charset' ) . '">' .
 				'<p>' .
 				'<input type="hidden" name="f" value="1407">' .
 				'<input type="hidden" name="s" value="">' .
