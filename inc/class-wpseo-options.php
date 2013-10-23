@@ -276,14 +276,13 @@ if ( ! class_exists( 'WPSeo_Options' ) ) {
 
 			foreach ( self::$defaults as $option_key => $default ) {
 				/* Add filters which get applied to the get_options() results */
-				add_filter( 'default_option_' . $option_key, array( __CLASS__, 'filter_defaults_' . $option_key ) );
+				self::add_default_filters( $option_key );
 				add_filter( 'option_' . $option_key, array( __CLASS__, 'filter_' . $option_key ) );
-				add_filter( 'default_site_option_' . $option_key, array( __CLASS__, 'filter_defaults_' . $option_key ) );
 				add_filter( 'site_option_' . $option_key, array( __CLASS__, 'filter_' . $option_key ) );
 			}
 
 			/* The option validation routines remove the default filters to prevent failing to insert an options if it's new. Let's add them back afterwards */
-			add_action( 'update_option', array( __CLASS__, 'reapply_default_filters' ) );
+			add_action( 'update_option', array( __CLASS__, 'add_default_filters' ) );
 
 			self::enrich_options();
 			
@@ -300,7 +299,8 @@ if ( ! class_exists( 'WPSeo_Options' ) ) {
 		/**
 		 * @param $option_key
 		 */
-		static function reapply_default_filters( $option_key ) {
+		static function add_default_filters( $option_key ) {
+			self::$option_names = array_keys( self::$options );
 			if ( in_array( $option_key, self::$option_names ) === true && has_filter( 'default_option_' . $option_key, array( __CLASS__, 'filter_defaults_' . $option_key ) ) === false ) {
 				add_filter( 'default_option_' . $option_key, array( __CLASS__, 'filter_defaults_' . $option_key ) );
 				add_filter( 'default_site_option_' . $option_key, array( __CLASS__, 'filter_defaults_' . $option_key ) );
@@ -527,7 +527,8 @@ if ( ! class_exists( 'WPSeo_Options' ) ) {
 		 * @param $options
 		 *
 		 * @return array
-		 */static function filter_wpseo_permalinks( $options ) {
+		 */
+		static function filter_wpseo_permalinks( $options ) {
 			return self::array_filter_merge( self::$defaults['wpseo_permalinks'], $options );
 		}
 
@@ -536,7 +537,8 @@ if ( ! class_exists( 'WPSeo_Options' ) ) {
 		 * @param $options
 		 *
 		 * @return array
-		 */static function filter_wpseo_titles( $options ) {
+		 */
+		static function filter_wpseo_titles( $options ) {
 			return self::array_filter_merge( self::$defaults['wpseo_titles'], $options );
 		}
 
@@ -545,7 +547,8 @@ if ( ! class_exists( 'WPSeo_Options' ) ) {
 		 * @param $options
 		 *
 		 * @return array
-		 */static function filter_wpseo_rss( $options ) {
+		 */
+		static function filter_wpseo_rss( $options ) {
 			return self::array_filter_merge( self::$defaults['wpseo_rss'], $options );
 		}
 
@@ -563,7 +566,8 @@ if ( ! class_exists( 'WPSeo_Options' ) ) {
 		 * @param $options
 		 *
 		 * @return array
-		 */static function filter_wpseo_xml( $options ) {
+		 */
+		static function filter_wpseo_xml( $options ) {
 			return self::array_filter_merge( self::$defaults['wpseo_xml'], $options );
 		}
 
@@ -581,7 +585,8 @@ if ( ! class_exists( 'WPSeo_Options' ) ) {
 		 * @param $options
 		 *
 		 * @return array
-		 */static function filter_wpseo_ms( $options ) {
+		 */
+		static function filter_wpseo_ms( $options ) {
 			return self::array_filter_merge( self::$defaults['wpseo_ms'], $options );
 		}
 		
@@ -611,16 +616,25 @@ if ( ! class_exists( 'WPSeo_Options' ) ) {
 			return $return;
 		}
 
-
+/*
+@todo - double check that validation will not cause errors when called from upgrade routine (add_settings_error not yet available)
+*/
 		/**
 		 * @param $options
 		 *
 		 * @return mixed
 		 */
 		static function validate_wpseo( $options ) {
-			$option_key = 'wpseo';
 			
+			$option_key = 'wpseo';
+
 			self::remove_default_filters( $option_key );
+
+			/* Don't change anything if user does not have the required capability */
+			if ( false === is_admin() || false === current_user_can( 'manage_options' ) ) {
+				return get_option( $option_key );
+			}
+
 
 			$clean   = self::$defaults[$option_key];
 			$old     = get_option( $option_key );
@@ -741,9 +755,15 @@ if ( ! class_exists( 'WPSeo_Options' ) ) {
 		 * @return mixed
 		 */
 		static function validate_wpseo_permalinks( $options ) {
+
 			$option_key = 'wpseo_permalinks';
 
 			self::remove_default_filters( $option_key );
+
+			/* Don't change anything if user does not have the required capability */
+			if ( false === is_admin() || false === current_user_can( 'manage_options' ) ) {
+				return get_option( $option_key );
+			}
 
 			$clean   = self::$defaults[$option_key];
 			$options = array_map( array( __CLASS__, 'trim_recursive' ), $options );
@@ -800,6 +820,11 @@ if ( ! class_exists( 'WPSeo_Options' ) ) {
 			$option_key = 'wpseo_titles';
 
 			self::remove_default_filters( $option_key );
+
+			/* Don't change anything if user does not have the required capability */
+			if ( false === is_admin() || false === current_user_can( 'manage_options' ) ) {
+				return get_option( $option_key );
+			}
 
 			$clean   = self::$defaults[$option_key];
 			$options = array_map( array( __CLASS__, 'trim_recursive' ), $options );
@@ -912,6 +937,11 @@ if ( ! class_exists( 'WPSeo_Options' ) ) {
 
 			self::remove_default_filters( $option_key );
 
+			/* Don't change anything if user does not have the required capability */
+			if ( false === is_admin() || false === current_user_can( 'manage_options' ) ) {
+				return get_option( $option_key );
+			}
+
 			$clean   = self::$defaults[$option_key];
 			$options = array_map( array( __CLASS__, 'trim_recursive' ), $options );
 
@@ -936,6 +966,11 @@ if ( ! class_exists( 'WPSeo_Options' ) ) {
 			$option_key = 'wpseo_internallinks';
 
 			self::remove_default_filters( $option_key );
+
+			/* Don't change anything if user does not have the required capability */
+			if ( false === is_admin() || false === current_user_can( 'manage_options' ) ) {
+				return get_option( $option_key );
+			}
 
 			$clean   = self::$defaults[$option_key];
 			$options = array_map( array( __CLASS__, 'trim_recursive' ), $options );
@@ -1039,6 +1074,11 @@ if ( ! class_exists( 'WPSeo_Options' ) ) {
 
 			self::remove_default_filters( $option_key );
 
+			/* Don't change anything if user does not have the required capability */
+			if ( false === is_admin() || false === current_user_can( 'manage_options' ) ) {
+				return get_option( $option_key );
+			}
+
 			$clean   = self::$defaults[$option_key];
 			$options = array_map( array( __CLASS__, 'trim_recursive' ), $options );
 			
@@ -1097,6 +1137,11 @@ if ( ! class_exists( 'WPSeo_Options' ) ) {
 			$option_key = 'wpseo_social';
 
 			self::remove_default_filters( $option_key );
+
+			/* Don't change anything if user does not have the required capability */
+			if ( false === is_admin() || false === current_user_can( 'manage_options' ) ) {
+				return get_option( $option_key );
+			}
 
 			$clean   = self::$defaults[$option_key];
 			$old     = get_option( $option_key );
@@ -1273,6 +1318,11 @@ if ( ! class_exists( 'WPSeo_Options' ) ) {
 
 			self::remove_default_filters( $option_key );
 
+			/* Don't change anything if user does not have the required capability */
+			if ( false === is_admin() || false === current_user_can( 'manage_options' ) ) {
+				return get_option( $option_key );
+			}
+
 			$clean   = self::$defaults[$option_key];
 			$options = array_map( array( __CLASS__, 'trim_recursive' ), $options );
 			
@@ -1336,9 +1386,10 @@ if ( ! class_exists( 'WPSeo_Options' ) ) {
 
 
 		/**
-		 * @param $value
+		 * Validate a value as boolean
 		 *
-		 * @return mixed
+		 * @param	mixed	$value
+		 * @return	bool
 		 */
 		static function validate_bool( $value ) {
 			return filter_var( $value, FILTER_VALIDATE_BOOLEAN );
@@ -1346,9 +1397,10 @@ if ( ! class_exists( 'WPSeo_Options' ) ) {
 
 
 		/**
-		 * @param $value
+		 * Validate a value as integer
 		 *
-		 * @return mixed
+		 * @param	mixed	$value
+		 * @return	mixed	int or false in case or failure to convert to int
 		 */
 		static function validate_int( $value ) {
 			return filter_var( $value, FILTER_VALIDATE_INT );

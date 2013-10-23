@@ -40,7 +40,7 @@ if ( isset( $_POST[ 'wpseo_restore_blog' ] ) ) {
 
 $wpseo_admin_pages->admin_header( false );
 
-$content = '<form method="post"' . ( ( defined( 'DB_CHARSET' ) && DB_CHARSET === 'utf8' ) ? ' accept-charset="utf-8"' : '' ) . '>';
+$content = '<form method="post" accept-charset="' . get_bloginfo( 'charset' ) . '">';
 $content .= wp_nonce_field( 'wpseo-network-settings', '_wpnonce', true, false );
 $content .= $wpseo_admin_pages->select( 'access', __( 'Who should have access to the WordPress SEO settings', 'wordpress-seo' ),
 	array(
@@ -55,7 +55,7 @@ $content .= '</form>';
 
 $wpseo_admin_pages->postbox( 'wpseo_export', __( 'MultiSite Settings', 'wordpress-seo' ), $content );
 
-$content = '<form method="post"' . ( ( defined( 'DB_CHARSET' ) && DB_CHARSET === 'utf8' ) ? ' accept-charset="utf-8"' : '' ) . '>';
+$content = '<form method="post" accept-charset="' . get_bloginfo( 'charset' ) . '">';
 $content .= wp_nonce_field( 'wpseo-network-restore', '_wpnonce', true, false );
 $content .= '<p>' . __( 'Using this form you can reset a site to the default SEO settings.', 'wordpress-seo' ) . '</p>';
 $content .= $wpseo_admin_pages->textinput( 'restoreblog', __( 'Blog ID', 'wordpress-seo' ), 'wpseo_ms' );
