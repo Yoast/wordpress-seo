@@ -108,7 +108,7 @@ class WPSEO_OpenGraph extends WPSEO_Frontend {
 	 * @return string
 	 */
 	public function add_opengraph_namespace( $input ) {
-		return $input . ' prefix="og: http://ogp.me/ns#' . ( ( $this->options['fbadminapp'] != 0 || $this->options['fb_admins'] !== array() ) ? ' fb: http://ogp.me/ns/fb#' : '' ) . '"';
+		return $input . ' prefix="og: http://ogp.me/ns#' . ( ( $this->options['fbadminapp'] != 0 || ( is_array( $this->options['fb_admins'] ) && $this->options['fb_admins'] !== array() ) ) ? ' fb: http://ogp.me/ns/fb#' : '' ) . '"';
 	}
 
 	/**

@@ -375,7 +375,7 @@ class WPSEO_Frontend {
 			$post_type = get_query_var( 'post_type' );
 			$title     = $this->get_title_from_options( 'title-ptarchive-' . $post_type );
 
-			if ( empty( $title ) ) {
+			if ( !is_string( $title ) || $title === '' ) {
 				$post_type_obj = get_post_type_object( $post_type );
 				if ( isset( $post_type_obj->labels->menu_name ) )
 					$title_part = $post_type_obj->labels->menu_name;
@@ -545,7 +545,7 @@ class WPSEO_Frontend {
 
 		if ( is_singular() ) {
 			global $post;
-			if ( isset( $this->options['noindex-' . $post->post_type] ) && $this->options['noindex-' . $post->post_type] === true )
+			if ( is_object( $post ) && ( isset( $this->options['noindex-' . $post->post_type] ) && $this->options['noindex-' . $post->post_type] === true ) )
 				$robots['index'] = 'noindex';
 			if ( wpseo_get_value( 'meta-robots-noindex' ) == 1 )
 				$robots['index'] = 'noindex';
@@ -565,7 +565,7 @@ class WPSEO_Frontend {
 			}
 			else if ( is_tax() || is_tag() || is_category() ) {
 				$term = $wp_query->get_queried_object();
-				if ( isset( $this->options['noindex-' . $term->taxonomy] ) && $this->options['noindex-' . $term->taxonomy] === true )
+				if ( is_object( $term ) && ( isset( $this->options['noindex-' . $term->taxonomy] ) && $this->options['noindex-' . $term->taxonomy] === true ) )
 					$robots['index'] = 'noindex';
 
 				// Three possible values, index, noindex and default, do nothing for default
@@ -585,7 +585,7 @@ class WPSEO_Frontend {
 			}
 			else if ( function_exists( 'is_post_type_archive' ) && is_post_type_archive() ) {
 				$post_type = get_query_var( 'post_type' );
-				if ( $this->options['noindex-ptarchive-' . $post_type] === true )
+				if ( isset( $this->options['noindex-ptarchive-' . $post_type] ) && $this->options['noindex-ptarchive-' . $post_type] === true )
 					$robots['index'] = 'noindex';
 			}
 
@@ -828,6 +828,8 @@ class WPSEO_Frontend {
 	 * Outputs the rel=author
 	 */
 	public function author() {
+		global $post;
+
 		$gplus = false;
 
 		if ( is_home() || is_front_page() ) {
@@ -836,12 +838,13 @@ class WPSEO_Frontend {
 
 		}
 		else if ( is_singular() ) {
-			global $post;
-			$gplus = get_the_author_meta( 'googleplus', $post->post_author );
-
-			// unset gplus when authorship is disabled for this post type
-			if ( isset( $this->options['noauthorship-' . $post->post_type] ) && $this->options['noauthorship-' . $post->post_type] === true ) {
-				$gplus = false;
+			if( is_object( $post ) ) {
+				$gplus = get_the_author_meta( 'googleplus', $post->post_author );
+	
+				// unset gplus when authorship is disabled for this post type
+				if ( isset( $this->options['noauthorship-' . $post->post_type] ) && $this->options['noauthorship-' . $post->post_type] === true ) {
+					$gplus = false;
+				}
 			}
 		}
 
@@ -858,7 +861,7 @@ class WPSEO_Frontend {
 	 * @return string
 	 */
 	public function metakeywords() {
-		global $wp_query;
+		global $wp_query, $post;
 
 		if ( ! isset( $this->options['usemetakeywords'] ) || ! $this->options['usemetakeywords'] )
 			return;
@@ -866,9 +869,8 @@ class WPSEO_Frontend {
 		$metakey = '';
 
 		if ( is_singular() ) {
-			global $post;
 			$metakey = wpseo_get_value( 'metakeywords' );
-			if ( ( isset( $this->options['metakey-' . $post->post_type] ) && $this->options['metakey-' . $post->post_type] !== '' ) && ( ! $metakey || empty( $metakey ) ) ) {
+			if ( is_object( $post ) &&  ( ( isset( $this->options['metakey-' . $post->post_type] ) && $this->options['metakey-' . $post->post_type] !== '' ) && ( ! $metakey || empty( $metakey ) ) ) ) {
 				$metakey = wpseo_replace_vars( $this->options['metakey-' . $post->post_type], (array) $post );
 			}
 		}
@@ -877,16 +879,15 @@ class WPSEO_Frontend {
 				$metakey = wpseo_replace_vars( $this->options['metakey-home'], array() );
 			}
 			else if ( $this->is_home_static_page() ) {
-				global $post;
 				$metakey = wpseo_get_value( 'metakey' );
-				if ( ( $metakey == '' || ! $metakey ) && ( isset( $this->options['metakey-' . $post->post_type] ) && $this->options['metakey-' . $post->post_type] !== '' ) )
+				if ( is_object( $post ) && ( ( $metakey == '' || ! $metakey ) && ( isset( $this->options['metakey-' . $post->post_type] ) && $this->options['metakey-' . $post->post_type] !== '' ) ) )
 					$metakey = wpseo_replace_vars( $this->options['metakey-' . $post->post_type], (array) $post );
 			}
 			else if ( is_category() || is_tag() || is_tax() ) {
 				$term = $wp_query->get_queried_object();
 
 				$metakey = wpseo_get_term_meta( $term, $term->taxonomy, 'metakey' );
-				if ( ! $metakey && ( isset( $this->options['metakey-' . $term->taxonomy] ) && $this->options['metakey-' . $term->taxonomy] !== '' ) )
+				if ( is_object( $term ) && ( ! $metakey && ( isset( $this->options['metakey-' . $term->taxonomy] ) && $this->options['metakey-' . $term->taxonomy] !== '' ) ) )
 					$metakey = wpseo_replace_vars( $this->options['metakey-' . $term->taxonomy], (array) $term );
 			}
 			else if ( is_author() ) {
@@ -946,7 +947,6 @@ class WPSEO_Frontend {
 				}
 			}
 			else if ( $this->is_home_static_page() ) {
-				global $post;
 				$metadesc = wpseo_get_value( 'metadesc' );
 				if ( ( $metadesc == '' || ! $metadesc ) && ( is_object( $post ) && ( isset( $this->options['metadesc-' . $post->post_type] ) && $this->options['metadesc-' . $post->post_type] !== '' ) ) )
 					$metadesc = wpseo_replace_vars( $this->options['metadesc-' . $post->post_type], (array) $post );
@@ -955,7 +955,7 @@ class WPSEO_Frontend {
 				$term = $wp_query->get_queried_object();
 
 				$metadesc = wpseo_get_term_meta( $term, $term->taxonomy, 'desc' );
-				if ( ! $metadesc && ( isset( $this->options['metadesc-' . $term->taxonomy] ) && $this->options['metadesc-' . $term->taxonomy] !== '' ) )
+				if ( ! $metadesc && ( is_object( $term->taxonomy ) && ( isset( $this->options['metadesc-' . $term->taxonomy] ) && $this->options['metadesc-' . $term->taxonomy] !== '' ) ) )
 					$metadesc = wpseo_replace_vars( $this->options['metadesc-' . $term->taxonomy], (array) $term );
 			}
 			else if ( is_author() ) {
@@ -999,7 +999,7 @@ class WPSEO_Frontend {
 	function page_redirect() {
 		if ( is_singular() ) {
 			global $post;
-			if ( ! isset( $post ) )
+			if ( ! isset( $post ) || !is_object( $post ) )
 				return;
 			$redir = wpseo_get_value( 'redirect', $post->ID );
 			if ( ! empty( $redir ) ) {
@@ -1060,7 +1060,7 @@ class WPSEO_Frontend {
 	 */
 	function attachment_redirect() {
 		global $post;
-		if ( is_attachment() && isset( $post->post_parent ) && is_numeric( $post->post_parent ) && $post->post_parent != 0 ) {
+		if ( is_attachment() && ( ( is_object( $post ) && isset( $post->post_parent ) ) && ( is_numeric( $post->post_parent ) && $post->post_parent != 0 ) ) ) {
 			wp_safe_redirect( get_permalink( $post->post_parent ), 301 );
 			exit;
 		}
@@ -1256,17 +1256,20 @@ class WPSEO_Frontend {
 	 */
 	function rss_replace_vars( $content ) {
 		global $post;
-
-		$authorlink   = '<a rel="author" href="' . get_author_posts_url( $post->post_author ) . '">' . get_the_author() . '</a>';
+		
+		$authorlink = '';
+		if( is_object( $post ) ) {
+			$authorlink   = '<a rel="author" href="' . get_author_posts_url( $post->post_author ) . '">' . get_the_author() . '</a>';
+		}
 		$postlink     = '<a href="' . get_permalink() . '">' . get_the_title() . "</a>";
 		$bloglink     = '<a href="' . get_bloginfo( 'url' ) . '">' . get_bloginfo( 'name' ) . '</a>';
 		$blogdesclink = '<a href="' . get_bloginfo( 'url' ) . '">' . get_bloginfo( 'name' ) . ' - ' . get_bloginfo( 'description' ) . '</a>';
 
 		$content = stripslashes( trim( $content ) );
-		$content = str_replace( "%%AUTHORLINK%%", $authorlink, $content );
-		$content = str_replace( "%%POSTLINK%%", $postlink, $content );
-		$content = str_replace( "%%BLOGLINK%%", $bloglink, $content );
-		$content = str_replace( "%%BLOGDESCLINK%%", $blogdesclink, $content );
+		$content = str_replace( '%%AUTHORLINK%%', $authorlink, $content );
+		$content = str_replace( '%%POSTLINK%%', $postlink, $content );
+		$content = str_replace( '%%BLOGLINK%%', $bloglink, $content );
+		$content = str_replace( '%%BLOGDESCLINK%%', $blogdesclink, $content );
 		return $content;
 	}
 

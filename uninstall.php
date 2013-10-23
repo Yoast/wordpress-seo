@@ -4,6 +4,8 @@
  *
  * Code used when the plugin is removed (not just deactivated but actively deleted through the WordPress Admin).
  *
+ * @todo - remove cronjobs added!!!
+ * @todo - flush rewrite rules (if they were changed)!
  * @todo remove meta data for posts/pages ?
  * @todo remove wpseo_taxonomy_meta option ?
  * @todo deal with multisite uninstall ?

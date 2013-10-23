@@ -359,16 +359,16 @@ if ( ! class_exists( 'WPSeo_Options' ) ) {
 		static function enrich_defaults() {
 
 			/* wpseo_titles */
-			$post_types = get_post_types( array( 'public' => true ), 'objects' );
+			$post_types = get_post_types( array( 'public' => true ), 'names' );
 			if ( is_array( $post_types ) && $post_types !== array() ) {
 				foreach ( $post_types as $pt ) {
-					self::$defaults['wpseo_titles']['title-' . $pt->name]        = '%%title%% %%page%% %%sep%% %%sitename%%'; // text field
-					self::$defaults['wpseo_titles']['metadesc-' . $pt->name]     = ''; // text area
-					self::$defaults['wpseo_titles']['metakey-' . $pt->name]      = ''; // text field
-					self::$defaults['wpseo_titles']['noindex-' . $pt->name]      = false;
-					self::$defaults['wpseo_titles']['noauthorship-' . $pt->name] = false;
-					self::$defaults['wpseo_titles']['showdate-' . $pt->name]     = false;
-					self::$defaults['wpseo_titles']['hideeditbox-' . $pt->name]  = false;
+					self::$defaults['wpseo_titles']['title-' . $pt]        = '%%title%% %%page%% %%sep%% %%sitename%%'; // text field
+					self::$defaults['wpseo_titles']['metadesc-' . $pt]     = ''; // text area
+					self::$defaults['wpseo_titles']['metakey-' . $pt]      = ''; // text field
+					self::$defaults['wpseo_titles']['noindex-' . $pt]      = false;
+					self::$defaults['wpseo_titles']['noauthorship-' . $pt] = false;
+					self::$defaults['wpseo_titles']['showdate-' . $pt]     = false;
+					self::$defaults['wpseo_titles']['hideeditbox-' . $pt]  = false;
 				}
 				unset( $pt );
 			}
@@ -390,14 +390,14 @@ if ( ! class_exists( 'WPSeo_Options' ) ) {
 			}
 			unset( $post_types );
 
-			$taxonomies = get_taxonomies( array( 'public' => true ), 'objects' );
+			$taxonomies = get_taxonomies( array( 'public' => true ), 'names' );
 			if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
 				foreach ( $taxonomies as $tax ) {
-					self::$defaults['wpseo_titles']['title-' . $tax->name]           = sprintf( __( '%s Archives', 'wordpress-seo' ), '%%term_title%%' ) . ' %%page%% %%sep%% %%sitename%%'; // text field
-					self::$defaults['wpseo_titles']['metadesc-' . $tax->name]        = ''; // text area
-					self::$defaults['wpseo_titles']['metakey-' . $tax->name]         = ''; // text field
-					self::$defaults['wpseo_titles']['noindex-' . $tax->name]         = ( $tax->name !== 'post_format' ) ? false : true;
-					self::$defaults['wpseo_titles']['tax-hideeditbox-' . $tax->name] = false;
+					self::$defaults['wpseo_titles']['title-' . $tax]           = sprintf( __( '%s Archives', 'wordpress-seo' ), '%%term_title%%' ) . ' %%page%% %%sep%% %%sitename%%'; // text field
+					self::$defaults['wpseo_titles']['metadesc-' . $tax]        = ''; // text area
+					self::$defaults['wpseo_titles']['metakey-' . $tax]         = ''; // text field
+					self::$defaults['wpseo_titles']['noindex-' . $tax]         = ( $tax !== 'post_format' ) ? false : true;
+					self::$defaults['wpseo_titles']['tax-hideeditbox-' . $tax] = false;
 				}
 				unset( $tax );
 			}
@@ -406,12 +406,12 @@ if ( ! class_exists( 'WPSeo_Options' ) ) {
 
 			
 			/* wpseo_internallinks */
-			$post_types = get_post_types( array( 'public' => true ), 'objects' );
+			$post_types = get_post_types( array( 'public' => true ), 'names' );
 			if ( is_array( $post_types ) && $post_types !== array() ) {
 				foreach ( $post_types as $pt ) {
-					$taxonomies = get_object_taxonomies( $pt->name, 'objects' );
+					$taxonomies = get_object_taxonomies( $pt, 'names' );
 					if ( count( $taxonomies ) > 0 ) {
-						self::$defaults['wpseo_internallinks']['post_types-' . $pt->name . '-maintax']	= 0; // select box
+						self::$defaults['wpseo_internallinks']['post_types-' . $pt . '-maintax']	= 0; // select box
 					}
 					unset( $taxonomies );
 				}
@@ -419,10 +419,10 @@ if ( ! class_exists( 'WPSeo_Options' ) ) {
 			}
 			unset( $post_types );
 
-			$taxonomies = get_taxonomies( array( 'public' => true, '_builtin' => false ), 'objects' );
+			$taxonomies = get_taxonomies( array( 'public' => true, '_builtin' => false ), 'names' );
 			if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
 				foreach ( $taxonomies as $tax ) {
-					self::$defaults['wpseo_internallinks']['taxonomy-' . $tax->name . '-ptparent'] = 0; // select box;
+					self::$defaults['wpseo_internallinks']['taxonomy-' . $tax . '-ptparent'] = 0; // select box;
 				}
 				unset( $tax );
 			}
@@ -430,14 +430,14 @@ if ( ! class_exists( 'WPSeo_Options' ) ) {
 
 
 			/* wpseo_xml */
-			$post_types = apply_filters( 'wpseo_sitemaps_supported_post_types', get_post_types( array( 'public' => true ), 'objects' ) );
+			$post_types = apply_filters( 'wpseo_sitemaps_supported_post_types', get_post_types( array( 'public' => true ), 'names' ) );
 			if ( is_array( $post_types ) && $post_types !== array() ) {
 				foreach ( $post_types as $pt ) {
-					if ( $pt->name !== 'attachment' ) {
-						self::$defaults['wpseo_xml']['post_types-' . $pt->name . '-not_in_sitemap'] = false;
+					if ( $pt !== 'attachment' ) {
+						self::$defaults['wpseo_xml']['post_types-' . $pt . '-not_in_sitemap'] = false;
 					}
 					else {
-						self::$defaults['wpseo_xml']['post_types-' . $pt->name . '-not_in_sitemap'] = true;
+						self::$defaults['wpseo_xml']['post_types-' . $pt . '-not_in_sitemap'] = true;
 					}
 				}
 				unset( $pt );

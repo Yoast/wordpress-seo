@@ -67,7 +67,7 @@ if ( isset( $_GET['key'] ) && $_GET['key'] == $options['fbconnectkey'] ) {
 $options = get_option( 'wpseo_social' );
 
 
-if ( $options['fb_admins'] !== array() ) {
+if ( is_array( $options['fb_admins'] ) && $options['fb_admins'] !== array() ) {
 	foreach ( $options['fb_admins'] as $id => $admin ) {
 		$fbconnect .= '<input type="hidden" name="wpseo_social[fb_admins][' . esc_attr( $id ) . '][name]" value="' . esc_attr( $admin['name'] ) . '"/>';
 		$fbconnect .= '<input type="hidden" name="wpseo_social[fb_admins][' . esc_attr( $id ) . '][link]" value="' . esc_attr( $admin['link'] ) . '"/>';
@@ -75,7 +75,7 @@ if ( $options['fb_admins'] !== array() ) {
 	$clearall = true;
 }
 
-if ( $options['fbapps'] !== array() ) {
+if ( is_array( $options['fbapps'] ) && $options['fbapps'] !== array() ) {
 	foreach ( $options['fbapps'] as $id => $page ) {
 		$fbconnect .= '<input type="hidden" name="wpseo_social[fbapps][' . esc_attr( $id ) . ']" value="' . esc_attr( $page ) . '"/>';
 	}
@@ -83,7 +83,7 @@ if ( $options['fbapps'] !== array() ) {
 }
 
 $app_button_text = __( 'Use a Facebook App as Admin', 'wordpress-seo' );
-if ( $options['fbapps'] !== array() ) {
+if ( is_array( $options['fbapps'] ) && $options['fbapps'] !== array() ) {
 	// @todo - use select() method ?
 	$fbconnect .= '<p>' . __( 'Select an app to use as Facebook admin:', 'wordpress-seo' ) . '</p>';
 	$fbconnect .= '<select name="wpseo_social[fbadminapp]" id="fbadminapp">';

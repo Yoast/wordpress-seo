@@ -629,7 +629,7 @@ function wpseo_sitemap_handler( $atts ) {
 
 	// create custom post type list
 	foreach ( $post_types as $post_type ) {
-		if ( ! in_array( 'noindex-' . $post_type->name, $noindex ) ) {
+		if ( is_object( $post_type ) && ! in_array( 'noindex-' . $post_type->name, $noindex ) ) {
 			$output .= '<h2 id="' . $post_type->name . '">' . __( $post_type->label, 'wordpress-seo' ) . '</h2><ul>';
 			$output .= create_type_sitemap_template( $post_type );
 			$output .= '</ul>';
@@ -642,7 +642,7 @@ function wpseo_sitemap_handler( $atts ) {
 		$output .= '<h2 id="archives">' . __( 'Archives', 'wordpress-seo' ) . '</h2><ul>';
 
 		foreach ( $post_types as $post_type ) {
-			if ( $post_type->has_archive && ! in_array( 'noindex-ptarchive-' . $post_type->name, $noindex ) ) {
+			if ( is_object( $post_type ) && $post_type->has_archive && ! in_array( 'noindex-ptarchive-' . $post_type->name, $noindex ) ) {
 				$output .= '<a href="' . get_post_type_archive_link( $post_type->name ) . '">' . $post_type->labels->name . '</a>';
 
 				$output .= create_type_sitemap_template( $post_type );

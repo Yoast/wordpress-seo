@@ -8,6 +8,12 @@ if ( !defined('WPSEO_VERSION') ) {
 	die;
 }
 
+/*
+@todo Extensively test the export & import of the (new) settings!
+
+If that all works fine, getting testers to export before and after upgrade will make testing easier.
+*/
+
 global $wpseo_admin_pages;
 
 /**

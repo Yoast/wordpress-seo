@@ -200,7 +200,7 @@ class WPSEO_Metabox {
 			global $post;
 		}
 
-		if ( ! isset( $post ) )
+		if ( ! is_object( $post ) )
 			return;
 
 		$options = WPSEO_Options::get_all();
@@ -352,7 +352,7 @@ class WPSEO_Metabox {
 		if ( isset( $post->post_type ) )
 			$post_type = $post->post_type;
 		else if ( ! isset( $post->post_type ) && isset( $_GET['post_type'] ) )
-			$post_type = $_GET['post_type'];
+			$post_type = sanitize_text_field( $_GET['post_type'] );
 
 		$options = WPSEO_Options::get_all();
 
@@ -663,7 +663,7 @@ class WPSEO_Metabox {
 		$options = WPSEO_Options::get_all();
 
 		$date = '';
-		if ( isset( $options['showdate-' . $post->post_type] ) && $options['showdate-' . $post->post_type] === true )
+		if ( is_object( $post ) && isset( $options['showdate-' . $post->post_type] ) && $options['showdate-' . $post->post_type] === true )
 			$date = $this->get_post_date( $post );
 
 		$title = wpseo_get_value( 'title' );
@@ -1083,7 +1083,7 @@ class WPSEO_Metabox {
 		else {
 			$post    = get_post( $post_id );
 			$options = WPSEO_Options::get_all();
-			if ( isset( $options['title-' . $post->post_type] ) && $options['title-' . $post->post_type] !== '' ) {
+			if ( is_object( $post ) && ( isset( $options['title-' . $post->post_type] ) && $options['title-' . $post->post_type] !== '' ) ) {
 				$title_template = $options['title-' . $post->post_type];
 				$title_template = str_replace( ' %%page%% ', ' ', $title_template );
 				return wpseo_replace_vars( $title_template, (array) $post );
@@ -1164,13 +1164,16 @@ class WPSEO_Metabox {
 			return $result;
 		}
 
-		if ( ! wpseo_get_value( 'focuskw', $post->ID ) ) {
+		if ( ! is_array( $post ) && !is_object( $post ) ) {
+			$result = new WP_Error( 'no-post', __( 'No post content to analyse.', 'wordpress-seo' ) );
+
+			return $result;
+		}
+		elseif ( ! wpseo_get_value( 'focuskw', $post->ID ) ) {
 			$result = new WP_Error( 'no-focuskw', sprintf( __( 'No focus keyword was set for this %s. If you do not set a focus keyword, no score can be calculated.', 'wordpress-seo' ), $post->post_type ) );
 
 			wpseo_set_value( 'linkdex', 0, $post->ID );
-
 			return $result;
-
 		}
 		elseif ( apply_filters( 'wpseo_use_page_analysis', true ) !== true ) {
 			$result = new WP_Error( 'page-analysis-disabled', sprintf( __( 'Page Analysis has been disabled.', 'wordpress-seo' ), $post->post_type ) );

@@ -444,21 +444,27 @@ function wpseo_wpml_config( $config ) {
     $admin_texts = &$config['wpml-config']['admin-texts']['key'];
     foreach ( $admin_texts as $k => $val ){
         if ( $val['attr']['name'] == 'wpseo_titles' ) {
+
             $translate_cp = array_keys( $sitepress->get_translatable_documents() );
-            foreach ( $translate_cp as $post_type ) {
-                $admin_texts[$k]['key'][]['attr']['name'] = 'title-'. $post_type;
-                $admin_texts[$k]['key'][]['attr']['name'] = 'metadesc-'. $post_type;
-                $admin_texts[$k]['key'][]['attr']['name'] = 'metakey-'. $post_type;
-                $admin_texts[$k]['key'][]['attr']['name'] = 'title-ptarchive-'. $post_type;
-                $admin_texts[$k]['key'][]['attr']['name'] = 'metadesc-ptarchive-'. $post_type;
-                $admin_texts[$k]['key'][]['attr']['name'] = 'metakey-ptarchive-'. $post_type;
-                $translate_tax = $sitepress->get_translatable_taxonomies(false, $post_type);
-                foreach ( $translate_tax as $taxonomy ) {
-                    $admin_texts[$k]['key'][]['attr']['name'] = 'title-'. $taxonomy;
-                    $admin_texts[$k]['key'][]['attr']['name'] = 'metadesc-'. $taxonomy;
-                    $admin_texts[$k]['key'][]['attr']['name'] = 'metakey-'. $taxonomy;
-                }
-            }
+            if ( is_array( $translate_cp ) && $translate_cp !== array() ) {
+	            foreach ( $translate_cp as $post_type ) {
+	                $admin_texts[$k]['key'][]['attr']['name'] = 'title-'. $post_type;
+	                $admin_texts[$k]['key'][]['attr']['name'] = 'metadesc-'. $post_type;
+	                $admin_texts[$k]['key'][]['attr']['name'] = 'metakey-'. $post_type;
+	                $admin_texts[$k]['key'][]['attr']['name'] = 'title-ptarchive-'. $post_type;
+	                $admin_texts[$k]['key'][]['attr']['name'] = 'metadesc-ptarchive-'. $post_type;
+	                $admin_texts[$k]['key'][]['attr']['name'] = 'metakey-ptarchive-'. $post_type;
+
+	                $translate_tax = $sitepress->get_translatable_taxonomies(false, $post_type);
+	                if ( is_array( $translate_tax ) && $translate_tax !== array() ) {
+		                foreach ( $translate_tax as $taxonomy ) {
+		                    $admin_texts[$k]['key'][]['attr']['name'] = 'title-'. $taxonomy;
+		                    $admin_texts[$k]['key'][]['attr']['name'] = 'metadesc-'. $taxonomy;
+		                    $admin_texts[$k]['key'][]['attr']['name'] = 'metakey-'. $taxonomy;
+		                }
+					}
+	            }
+			}
             break;
         }
     }
