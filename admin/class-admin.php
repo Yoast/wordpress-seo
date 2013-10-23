@@ -145,7 +145,7 @@ class WPSEO_Admin {
 	 * @global array $submenu used to change the label on the first item.
 	 */
 	function register_settings_page() {
-		add_menu_page( __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'General Settings', 'wordpress-seo' ), __( 'SEO', 'wordpress-seo' ), 'manage_options', 'wpseo_dashboard', array( $this, 'config_page' ), WPSEO_URL . 'images/yoast-icon.png', '99.31337' );
+		add_menu_page( __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'General Settings', 'wordpress-seo' ), __( 'SEO', 'wordpress-seo' ), 'manage_options', 'wpseo_dashboard', array( $this, 'config_page' ), plugins_url( 'images/yoast-icon.png', dirname( __FILE__ ) ), '99.31337' );
 
 		$admin_page = add_submenu_page( 'wpseo_dashboard', __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Titles &amp; Metas', 'wordpress-seo' ), __( 'Titles &amp; Metas', 'wordpress-seo' ), 'manage_options', 'wpseo_titles', array( $this, 'titles_page' ) );
 		add_action( 'load-' . $admin_page, array( $this, 'title_metas_help_tab' ) );
@@ -345,14 +345,14 @@ class WPSEO_Admin {
 	 * Register the settings page for the Network settings.
 	 */
 	function register_network_settings_page() {
-		add_menu_page( __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'MultiSite Settings', 'wordpress-seo' ), __( 'SEO', 'wordpress-seo' ), 'delete_users', 'wpseo_dashboard', array( $this, 'network_config_page' ), WPSEO_URL . 'images/yoast-icon.png' );
+		add_menu_page( __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'MultiSite Settings', 'wordpress-seo' ), __( 'SEO', 'wordpress-seo' ), 'delete_users', 'wpseo_dashboard', array( $this, 'network_config_page' ), plugins_url( 'images/yoast-icon.png', dirname( __FILE__ ) ) );
 	}
 
 	/**
 	 * Loads the form for the network configuration page.
 	 */
 	function network_config_page() {
-		require( WPSEO_PATH . '/admin/pages/network.php' );
+		require_once( WPSEO_PATH . 'admin/pages/network.php' );
 	}
 
 	/**
@@ -360,7 +360,7 @@ class WPSEO_Admin {
 	 */
 	function import_page() {
 		if ( isset( $_GET['page'] ) && 'wpseo_import' == $_GET['page'] )
-			include( WPSEO_PATH . '/admin/pages/import.php' );
+			require_once( WPSEO_PATH . 'admin/pages/import.php' );
 	}
 
 	/**
@@ -368,7 +368,7 @@ class WPSEO_Admin {
 	 */
 	function titles_page() {
 		if ( isset( $_GET['page'] ) && 'wpseo_titles' == $_GET['page'] )
-			include( WPSEO_PATH . '/admin/pages/metas.php' );
+			require_once( WPSEO_PATH . 'admin/pages/metas.php' );
 	}
 
 	/**
@@ -376,7 +376,7 @@ class WPSEO_Admin {
 	 */
 	function permalinks_page() {
 		if ( isset( $_GET['page'] ) && 'wpseo_permalinks' == $_GET['page'] )
-			include( WPSEO_PATH . '/admin/pages/permalinks.php' );
+			require_once( WPSEO_PATH . 'admin/pages/permalinks.php' );
 	}
 
 	/**
@@ -384,7 +384,7 @@ class WPSEO_Admin {
 	 */
 	function internallinks_page() {
 		if ( isset( $_GET['page'] ) && 'wpseo_internal-links' == $_GET['page'] )
-			include( WPSEO_PATH . '/admin/pages/internal-links.php' );
+			require_once( WPSEO_PATH . 'admin/pages/internal-links.php' );
 	}
 
 	/**
@@ -392,7 +392,7 @@ class WPSEO_Admin {
 	 */
 	function files_page() {
 		if ( isset( $_GET['page'] ) && 'wpseo_files' == $_GET['page'] )
-			include( WPSEO_PATH . '/admin/pages/files.php' );
+			require_once( WPSEO_PATH . 'admin/pages/files.php' );
 	}
 
 	/**
@@ -400,7 +400,7 @@ class WPSEO_Admin {
 	 */
 	function rss_page() {
 		if ( isset( $_GET['page'] ) && 'wpseo_rss' == $_GET['page'] )
-			include( WPSEO_PATH . '/admin/pages/rss.php' );
+			require_once( WPSEO_PATH . 'admin/pages/rss.php' );
 	}
 
 	/**
@@ -408,7 +408,7 @@ class WPSEO_Admin {
 	 */
 	function xml_sitemaps_page() {
 		if ( isset( $_GET['page'] ) && 'wpseo_xml' == $_GET['page'] )
-			include( WPSEO_PATH . '/admin/pages/xml-sitemaps.php' );
+			require_once( WPSEO_PATH . 'admin/pages/xml-sitemaps.php' );
 	}
 
 	/**
@@ -416,7 +416,7 @@ class WPSEO_Admin {
 	 */
 	function config_page() {
 		if ( isset( $_GET['page'] ) && 'wpseo_dashboard' == $_GET['page'] )
-			include( WPSEO_PATH . '/admin/pages/dashboard.php' );
+			require_once( WPSEO_PATH . 'admin/pages/dashboard.php' );
 	}
 
 	/**
@@ -424,7 +424,7 @@ class WPSEO_Admin {
 	 */
 	function social_page() {
 		if ( isset( $_GET['page'] ) && 'wpseo_social' == $_GET['page'] )
-			require( WPSEO_PATH . '/admin/pages/social.php' );
+			require_once( WPSEO_PATH . 'admin/pages/social.php' );
 	}
 
 	/**
@@ -486,7 +486,7 @@ class WPSEO_Admin {
 	 * Enqueues the (tiny) global JS needed for the plugin.
 	 */
 	function config_page_scripts() {
-		wp_enqueue_script( 'wpseo-admin-global-script', WPSEO_URL . 'js/wp-seo-admin-global.js', array( 'jquery' ), WPSEO_VERSION, true );
+		wp_enqueue_script( 'wpseo-admin-global-script', plugins_url( 'js/wp-seo-admin-global.js', dirname( __FILE__ ) ), array( 'jquery' ), WPSEO_VERSION, true );
 	}
 
 	/**
@@ -776,7 +776,7 @@ class WPSEO_Admin {
 	 */
 	function stopwords() {
 		/* translators: this should be an array of stopwords for your language, separated by comma's. */
-		$stopwords = explode( ',', __( "a,about,above,after,again,against,all,am,an,and,any,are,aren't,as,at,be,because,been,before,being,below,between,both,but,by,can't,cannot,could,couldn't,did,didn't,do,does,doesn't,doing,don't,down,during,each,few,for,from,further,had,hadn't,has,hasn't,have,haven't,having,he,he'd,he'll,he's,her,here,here's,hers,herself,him,himself,his,how,how's,i,i'd,i'll,i'm,i've,if,in,into,is,isn't,it,it's,its,itself,let's,me,more,most,mustn't,my,myself,no,nor,not,of,off,on,once,only,or,other,ought,our,ours , ourselves,out,over,own,same,shan't,she,she'd,she'll,she's,should,shouldn't,so,some,such,than,that,that's,the,their,theirs,them,themselves,then,there,there's,these,they,they'd,they'll,they're,they've,this,those,through,to,too,under,until,up,very,was,wasn't,we,we'd,we'll,we're,we've,were,weren't,what,what's,when,when's,where,where's,which,while,who,who's,whom,why,why's,with,won't,would,wouldn't,you,you'd,you'll,you're,you've,your,yours,yourself,yourselves", "wordpress-seo" ) );
+		$stopwords = explode( ',', __( "a,about,above,after,again,against,all,am,an,and,any,are,aren't,as,at,be,because,been,before,being,below,between,both,but,by,can't,cannot,could,couldn't,did,didn't,do,does,doesn't,doing,don't,down,during,each,few,for,from,further,had,hadn't,has,hasn't,have,haven't,having,he,he'd,he'll,he's,her,here,here's,hers,herself,him,himself,his,how,how's,i,i'd,i'll,i'm,i've,if,in,into,is,isn't,it,it's,its,itself,let's,me,more,most,mustn't,my,myself,no,nor,not,of,off,on,once,only,or,other,ought,our,ours,ourselves,out,over,own,same,shan't,she,she'd,she'll,she's,should,shouldn't,so,some,such,than,that,that's,the,their,theirs,them,themselves,then,there,there's,these,they,they'd,they'll,they're,they've,this,those,through,to,too,under,until,up,very,was,wasn't,we,we'd,we'll,we're,we've,were,weren't,what,what's,when,when's,where,where's,which,while,who,who's,whom,why,why's,with,won't,would,wouldn't,you,you'd,you'll,you're,you've,your,yours,yourself,yourselves", "wordpress-seo" ) );
 
 		/**
 		 * Allows filtering of the stop words list

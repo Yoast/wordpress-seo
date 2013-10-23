@@ -766,7 +766,7 @@ class WPSEO_Sitemaps {
 			header( 'Cache-Control: maxage=' . $expires );
 			header( 'Expires: ' . gmdate( 'D, d M Y H:i:s', time() + $expires ) . ' GMT' );
 
-			require WPSEO_PATH . '/css/xml-sitemap-xsl.php';
+			require_once( WPSEO_PATH . 'css/xml-sitemap-xsl.php' );
 		}
 		else {
 			do_action( 'wpseo_xsl_' . $type );
