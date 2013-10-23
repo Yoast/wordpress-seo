@@ -146,7 +146,7 @@ class WPSEO_Taxonomy {
 		update_option( 'wpseo_taxonomy_meta', $tax_meta, 99 );
 
 		if ( defined( 'W3TC_DIR' ) && class_exists( 'W3_ObjectCache' ) ) {
-			require_once W3TC_DIR . '/lib/W3/ObjectCache.php';
+			require_once( W3TC_DIR . '/lib/W3/ObjectCache.php' );
 			$w3_objectcache = & W3_ObjectCache::instance();
 
 			$w3_objectcache->flush();

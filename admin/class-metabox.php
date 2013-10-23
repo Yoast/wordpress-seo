@@ -32,7 +32,7 @@ class WPSEO_Metabox {
 	 */
 	function __construct() {
 		if ( ! class_exists( 'Yoast_TextStatistics' ) && apply_filters( 'wpseo_use_page_analysis', true ) === true )
-			require_once( WPSEO_PATH . "/admin/TextStatistics.php" );
+			require_once( WPSEO_PATH . 'admin/TextStatistics.php' );
 
 		add_action( 'add_meta_boxes', array( $this, 'add_meta_box' ) );
 		add_action( 'admin_print_styles-post-new.php', array( $this, 'enqueue' ) );
@@ -649,7 +649,7 @@ class WPSEO_Metabox {
 			<a class="title" href="#">' . esc_html( $title ) . '</a><br/>';
 
 //		if ( isset( $options['breadcrumbs-enable'] ) && $options['breadcrumbs-enable'] == 'on' ) {
-//			require_once WPSEO_PATH . '/frontend/class-breadcrumbs.php';
+//			require_once( WPSEO_PATH . 'frontend/class-breadcrumbs.php' );
 //			$content .= '<span href="#" style="font-size: 13px; color: #282; line-height: 15px;" class="breadcrumb">' . yoast_breadcrumb('','',false) . '</span>';
 //		} else {
 		$content .= '<a href="#" style="font-size: 13px; color: #282; line-height: 15px;" class="url">' . str_replace( 'http://', '', get_bloginfo( 'url' ) ) . '/' . esc_html( $slug ) . '/</a>';

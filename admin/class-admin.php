@@ -359,7 +359,7 @@ class WPSEO_Admin {
 	 * Loads the form for the network configuration page.
 	 */
 	function network_config_page() {
-		require( WPSEO_PATH . '/admin/pages/network.php' );
+		require_once( WPSEO_PATH . 'admin/pages/network.php' );
 	}
 
 	/**
@@ -367,7 +367,7 @@ class WPSEO_Admin {
 	 */
 	function import_page() {
 		if ( isset( $_GET['page'] ) && 'wpseo_import' == $_GET['page'] )
-			include( WPSEO_PATH . '/admin/pages/import.php' );
+			require_once( WPSEO_PATH . 'admin/pages/import.php' );
 	}
 
 	/**
@@ -375,7 +375,7 @@ class WPSEO_Admin {
 	 */
 	function titles_page() {
 		if ( isset( $_GET['page'] ) && 'wpseo_titles' == $_GET['page'] )
-			include( WPSEO_PATH . '/admin/pages/metas.php' );
+			require_once( WPSEO_PATH . 'admin/pages/metas.php' );
 	}
 
 	/**
@@ -383,7 +383,7 @@ class WPSEO_Admin {
 	 */
 	function permalinks_page() {
 		if ( isset( $_GET['page'] ) && 'wpseo_permalinks' == $_GET['page'] )
-			include( WPSEO_PATH . '/admin/pages/permalinks.php' );
+			require_once( WPSEO_PATH . 'admin/pages/permalinks.php' );
 	}
 
 	/**
@@ -391,7 +391,7 @@ class WPSEO_Admin {
 	 */
 	function internallinks_page() {
 		if ( isset( $_GET['page'] ) && 'wpseo_internal-links' == $_GET['page'] )
-			include( WPSEO_PATH . '/admin/pages/internal-links.php' );
+			require_once( WPSEO_PATH . 'admin/pages/internal-links.php' );
 	}
 
 	/**
@@ -399,7 +399,7 @@ class WPSEO_Admin {
 	 */
 	function files_page() {
 		if ( isset( $_GET['page'] ) && 'wpseo_files' == $_GET['page'] )
-			include( WPSEO_PATH . '/admin/pages/files.php' );
+			require_once( WPSEO_PATH . 'admin/pages/files.php' );
 	}
 
 	/**
@@ -407,7 +407,7 @@ class WPSEO_Admin {
 	 */
 	function rss_page() {
 		if ( isset( $_GET['page'] ) && 'wpseo_rss' == $_GET['page'] )
-			include( WPSEO_PATH . '/admin/pages/rss.php' );
+			require_once( WPSEO_PATH . 'admin/pages/rss.php' );
 	}
 
 	/**
@@ -415,7 +415,7 @@ class WPSEO_Admin {
 	 */
 	function xml_sitemaps_page() {
 		if ( isset( $_GET['page'] ) && 'wpseo_xml' == $_GET['page'] )
-			include( WPSEO_PATH . '/admin/pages/xml-sitemaps.php' );
+			require_once( WPSEO_PATH . 'admin/pages/xml-sitemaps.php' );
 	}
 
 	/**
@@ -423,7 +423,7 @@ class WPSEO_Admin {
 	 */
 	function config_page() {
 		if ( isset( $_GET['page'] ) && 'wpseo_dashboard' == $_GET['page'] )
-			include( WPSEO_PATH . '/admin/pages/dashboard.php' );
+			require_once( WPSEO_PATH . 'admin/pages/dashboard.php' );
 	}
 
 	/**
@@ -431,7 +431,7 @@ class WPSEO_Admin {
 	 */
 	function social_page() {
 		if ( isset( $_GET['page'] ) && 'wpseo_social' == $_GET['page'] )
-			require( WPSEO_PATH . '/admin/pages/social.php' );
+			require_once( WPSEO_PATH . 'admin/pages/social.php' );
 	}
 
 	/**
