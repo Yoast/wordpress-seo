@@ -175,14 +175,14 @@ function robots_meta_handler() {
 	if ( is_plugin_active( 'robots-meta/robots-meta.php' ) ) {
 
 		// deactivate robots meta
-		if ( isset( $_GET['deactivate_robots_meta'] ) && $_GET['deactivate_robots_meta'] == 1 ) {
+		if ( isset( $_GET['deactivate_robots_meta'] ) && $_GET['deactivate_robots_meta'] === '1' ) {
 			deactivate_plugins( 'robots-meta/robots-meta.php' );
 
 			// show notice that robots meta has been deactivated
 			add_action( 'wpseo_all_admin_notices', 'wpseo_deactivate_robots_meta_notice' );
 
 			// import the settings
-		} else if ( isset( $_GET['import_robots_meta'] ) && $_GET['import_robots_meta'] == 1 ) {
+		} else if ( isset( $_GET['import_robots_meta'] ) && $_GET['import_robots_meta'] === '1' ) {
 			// import robots meta setting for each post
 			$posts = $wpdb->get_results( "SELECT ID, robotsmeta FROM $wpdb->posts" );
 			foreach ( $posts as $post ) {
@@ -230,7 +230,7 @@ function aioseo_handler() {
 	if ( is_plugin_active( 'all-in-one-seo-pack/all_in_one_seo_pack.php' ) ) {
 
 		// deactivate aioseo plugin
-		if ( isset( $_GET['deactivate_aioseo'] ) && $_GET['deactivate_aioseo'] == 1 ) {
+		if ( isset( $_GET['deactivate_aioseo'] ) && $_GET['deactivate_aioseo'] === '1' ) {
 			deactivate_plugins( 'all-in-one-seo-pack/all_in_one_seo_pack.php' );
 
 			// show notice that aioseo has been deactivated
@@ -238,7 +238,7 @@ function aioseo_handler() {
 
 			// import the settings
 			// TODO: currently not deleting aioseop postmeta or handling old aioseop format
-		} else if ( isset( $_GET['import_aioseo'] ) && $_GET['import_aioseo'] == 1 ) {
+		} else if ( isset( $_GET['import_aioseo'] ) && $_GET['import_aioseo'] === '1' ) {
 				$replace = false;
 
 				replace_meta( '_aioseop_description', '_yoast_wpseo_metadesc', $replace );

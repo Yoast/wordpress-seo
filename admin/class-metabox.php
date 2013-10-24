@@ -141,7 +141,7 @@ class WPSEO_Metabox {
 			}
 			else {
 				if ( isset( $_GET['post'] ) ) {
-					$post_id = (int) $_GET['post'];
+					$post_id = (int) WPSEO_Options::validate_int( $_GET['post'] );
 					$post    = get_post( $post_id );
 				}
 				else {
@@ -193,7 +193,7 @@ class WPSEO_Metabox {
 			return;
 
 		if ( isset( $_GET['post'] ) ) {
-			$post_id = (int) $_GET['post'];
+			$post_id = (int) WPSEO_Options::validate_int( $_GET['post'] );
 			$post    = get_post( $post_id );
 		}
 		else {
@@ -473,7 +473,7 @@ class WPSEO_Metabox {
 	 */
 	function meta_box() {
 		if ( isset( $_GET['post'] ) ) {
-			$post_id = (int) $_GET['post'];
+			$post_id = (int) WPSEO_Options::validate_int( $_GET['post'] );
 			$post    = get_post( $post_id );
 		}
 		else {
@@ -653,7 +653,7 @@ class WPSEO_Metabox {
 	 */
 	function snippet() {
 		if ( isset( $_GET['post'] ) ) {
-			$post_id = (int) $_GET['post'];
+			$post_id = (int) WPSEO_Options::validate_int( $_GET['post'] );
 			$post    = get_post( $post_id );
 		}
 		else {
@@ -756,6 +756,8 @@ class WPSEO_Metabox {
 
 	/**
 	 * Save the WP SEO metadata for posts.
+	 *
+	 * @todo needs proper validation of the $_POST variable
 	 *
 	 * @param int $post_id
 	 *
@@ -874,8 +876,8 @@ class WPSEO_Metabox {
 								'noindex' => __( 'SEO: Post Noindexed', 'wordpress-seo' )
 							) as $val => $text ) {
 			$sel = '';
-			if ( isset( $_GET['seo_filter'] ) && $_GET['seo_filter'] == $val )
-				$sel = 'selected ';
+			if ( isset( $_GET['seo_filter'] ) )
+				$sel = selected( $_GET['seo_filter'], $val, false );
 			echo '<option ' . $sel . 'value="' . $val . '">' . $text . '</option>';
 		}
 		echo '</select>';
@@ -1043,7 +1045,7 @@ class WPSEO_Metabox {
 			$vars = array_merge( $vars, array(
 				'post_type'  => 'any',
 				'meta_key'   => '_yoast_wpseo_focuskw',
-				'meta_value' => $_GET['seo_kw_filter'],
+				'meta_value' => sanitize_text_field( $_GET['seo_kw_filter'] ),
 			) );
 		}
 		if ( isset( $vars['orderby'] ) && 'wpseo-score' == $vars['orderby'] ) {

@@ -58,13 +58,13 @@ if ( isset( $_POST['import'] ) ) {
 
 		switch ( get_option( 'seo_woo_home_layout' ) ) {
 			case 'a':
-				$options['title-home'] = '%%sitename%% '.$sep.' %%sitedesc%%';
+				$options['title-home-wpseo'] = '%%sitename%% '.$sep.' %%sitedesc%%';
 				break;
 			case 'b':
-				$options['title-home'] = '%%sitename%% '.get_option('seo_woo_paged_var').' %%pagenum%%';
+				$options['title-home-wpseo'] = '%%sitename%% '.get_option('seo_woo_paged_var').' %%pagenum%%';
 				break;
 			case 'c':
-				$options['title-home'] = '%%sitedesc%%';
+				$options['title-home-wpseo'] = '%%sitedesc%%';
 				break;
 		}
 		if ( $replace )
@@ -110,6 +110,7 @@ if ( isset( $_POST['import'] ) ) {
 		if ( $replace )
 			delete_option('seo_woo_page_layout');
 
+		// @todo - should the default be the same default as wpseo default ? It currently isn't
 		$template = '%%term_title%% '.$sep.' %%page%% '.$sep.' %%sitename%%';
 		switch ( get_option( 'seo_woo_archive_layout' ) ) {
 			case 'a':
@@ -132,19 +133,19 @@ if ( isset( $_POST['import'] ) ) {
 			delete_option('seo_woo_archive_layout');
 
 		foreach ( get_taxonomies( array( 'public' => true ), 'names' ) as $tax ) {
-			$options['title-'.$tax] = $template;
+			$options['title-tax-'.$tax] = $template;
 		}
 
 			// Import the custom homepage description
 		if ( 'c' == get_option( 'seo_woo_meta_home_desc' ) ) {
-			$options['metadesc-home'] = get_option( 'seo_woo_meta_home_desc_custom' );
+			$options['metadesc-home-wpseo'] = get_option( 'seo_woo_meta_home_desc_custom' );
 		}
 		if ( $replace )
 			delete_option('seo_woo_meta_home_desc');
 
 		// Import the custom homepage keywords
 		if ( 'c' == get_option( 'seo_woo_meta_home_key' ) ) {
-			$options['metakey-home'] = get_option( 'seo_woo_meta_home_key_custom' );
+			$options['metakey-home-wpseo'] = get_option( 'seo_woo_meta_home_key_custom' );
 		}
 		if ( $replace )
 			delete_option('seo_woo_meta_home_key');

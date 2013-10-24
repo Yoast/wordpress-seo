@@ -34,8 +34,9 @@ function wpseo_set_ignore() {
 		die( '-1' );
 	check_ajax_referer( 'wpseo-ignore' );
 
-	$options                               = get_option( 'wpseo' );
-	$options['ignore_' . $_POST['option']] = true;
+	$options                          = get_option( 'wpseo' );
+	$ignore_key 					  = sanitize_text_field( $_POST['option'] );
+	$options['ignore_' . $ignore_key] = true;
 	update_option( 'wpseo', $options );
 	die( '1' );
 }

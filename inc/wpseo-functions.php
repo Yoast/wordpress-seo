@@ -458,9 +458,9 @@ function wpseo_wpml_config( $config ) {
 	                $translate_tax = $sitepress->get_translatable_taxonomies(false, $post_type);
 	                if ( is_array( $translate_tax ) && $translate_tax !== array() ) {
 		                foreach ( $translate_tax as $taxonomy ) {
-		                    $admin_texts[$k]['key'][]['attr']['name'] = 'title-'. $taxonomy;
-		                    $admin_texts[$k]['key'][]['attr']['name'] = 'metadesc-'. $taxonomy;
-		                    $admin_texts[$k]['key'][]['attr']['name'] = 'metakey-'. $taxonomy;
+		                    $admin_texts[$k]['key'][]['attr']['name'] = 'title-tax-'. $taxonomy;
+		                    $admin_texts[$k]['key'][]['attr']['name'] = 'metadesc-tax-'. $taxonomy;
+		                    $admin_texts[$k]['key'][]['attr']['name'] = 'metakey-tax-'. $taxonomy;
 		                }
 					}
 	            }

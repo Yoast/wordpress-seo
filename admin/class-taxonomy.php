@@ -19,10 +19,10 @@ class WPSEO_Taxonomy {
 	function __construct() {
 		$options = WPSEO_Options::get_all();
 
-		if ( is_admin() && isset( $_GET['taxonomy'] ) &&
-			( ! isset( $options['tax-hideeditbox-' . $_GET['taxonomy']] ) || $options['tax-hideeditbox-' . $_GET['taxonomy']] === false )
+		if ( is_admin() && ( isset( $_GET['taxonomy'] ) && $_GET['taxonomy'] !== '' ) &&
+			( ! isset( $options['hideeditbox-tax-' . $_GET['taxonomy']] ) || $options['hideeditbox-tax-' . $_GET['taxonomy']] === false )
 		)
-			add_action( $_GET['taxonomy'] . '_edit_form', array( $this, 'term_seo_form' ), 10, 1 );
+			add_action( sanitize_text_field( $_GET['taxonomy'] ) . '_edit_form', array( $this, 'term_seo_form' ), 10, 1 );
 
 		add_action( 'edit_term', array( $this, 'update_term' ), 99, 3 );
 
@@ -115,7 +115,7 @@ class WPSEO_Taxonomy {
 
 		if ( isset( $tax_meta['wpseo_noindex'] ) && $tax_meta['wpseo_noindex'] == 'on' )
 			$tax_meta['wpseo_noindex'] = 'noindex';
-		$current         = ( isset( $options['noindex-' . $term->taxonomy] ) && $options['noindex-' . $term->taxonomy] === true ) ? 'noindex' : 'index';
+		$current         = ( isset( $options['noindex-tax-' . $term->taxonomy] ) && $options['noindex-tax-' . $term->taxonomy] === true ) ? 'noindex' : 'index';
 		$noindex_options = array(
 			'default' => sprintf( __( 'Use %s default (Currently: %s)', 'wordpress-seo' ), $term->taxonomy, $current ),
 			'index'   => __( 'Always index', 'wordpress-seo' ),

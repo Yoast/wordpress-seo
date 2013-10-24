@@ -15,10 +15,14 @@ if ( ! class_exists( 'WPSeo_Options' ) ) {
 	 * @subpackage Internals
 	 * @since 1.5.0
 	 * @version 1.5.0
+	 *
+	 * Please note: all methods and properties are static. This class is not instantiated and does not have to be.
+	 * Class is basically used as an alternative way of namespacing our functions and variables
 	 */
 	class WPSEO_Options {
 
-/* Found in db, not as form ? -> = taxonomy meta data. Should be kept separate.
+/* @todo
+Found in db, not as form = taxonomy meta data. Should be kept separate, but maybe we should add validation to it too.
 (1697, 'wpseo_taxonomy_meta', 'a:1:{s:8:"category";a:4:{i:4;a:3:{s:13:"wpseo_noindex";s:7:"default";s:21:"wpseo_sitemap_include";s:1:"-";s:10:"wpseo_desc";s:6:"testje";}i:2;a:2:{s:13:"wpseo_noindex";s:7:"default";s:21:"wpseo_sitemap_include";s:1:"-";}i:1;a:2:{s:13:"wpseo_noindex";s:7:"default";s:21:"wpseo_sitemap_include";s:1:"-";}i:7;a:3:{s:10:"wpseo_desc";s:4:"test";s:13:"wpseo_noindex";s:7:"default";s:21:"wpseo_sitemap_include";s:1:"-";}}}', 'yes'),
 */
 
@@ -33,7 +37,7 @@ if ( ! class_exists( 'WPSeo_Options' ) ) {
 		 *					'only_multisite'	=> bool		whether this option is only use if the install is multisite
 		 *				)
 		 */
-		static $options = array(
+		public static $options = array(
 			'wpseo' => array(
 				'group'				=> null,
 				'include_in_all'	=> true,
@@ -81,14 +85,14 @@ if ( ! class_exists( 'WPSeo_Options' ) ) {
 		 * @var	array	Array of all option names - set via WPSEO_Options::enrich_options()
 		 * @see WPSEO_Options::enrich_options();
 		 */
-		static $option_names;
+		public static $option_names = null;
 
 
 		/**
 		 * @static
 		 * @var	array	Array of defaults for all the options the plugin uses
 		 */
-		static $defaults = array(
+		public static $defaults = array(
 			'wpseo'					=> array(
 /*v*/				'ignore_blog_public_warning'		=> false, // 'ignore'
 /*v*/				'ignore_meta_description_warning'	=> false,
@@ -101,7 +105,7 @@ if ( ! class_exists( 'WPSeo_Options' ) ) {
 /*v*/				'tracking_popup_done'					=> false, // 'done'
 /*v*/				'blocking_files' 					=> array(),
 /*v*/				'theme_has_description'				=> null,
-/*v*/				'theme_description_found'			=> '',
+/*v*/				'theme_description_found'			=> '', // set in function, may not be in form
 /*v*/				'yoast_tracking'					=> false,
 /*v*/				'disableadvanced_meta'				=> true, // 'on'
 /*v*/				'googleverify'						=> '', // text field
@@ -133,36 +137,38 @@ if ( ! class_exists( 'WPSeo_Options' ) ) {
 /*v*/				'hide-shortlink'					=> false,
 /*v*/				'hide-feedlinks'					=> false,
 
-/*v*/				'title-home'						=> '%%sitename%% %%page%% %%sep%% %%sitedesc%%', // text field
-/*v*/				'title-author'						=> '', // text field - '%%name%%, Author at %%sitename%% %%page%%' - translated (added?) in enrich_defaults
-/*v*/				'title-archive'						=> '%%date%% %%page%% %%sep%% %%sitename%%', // text field
-/*v*/				'title-search'						=> '', // text field - 'You searched for %%searchphrase%% %%page%% %%sep%% %%sitename%%' - translated (added?) in enrich_defaults
-/*v*/				'title-404'							=> '', // text field - 'Page Not Found %%sep%% %%sitename%%' - translated (added?) in enrich_defaults
+
+
+/*v*/				'title-home-wpseo'					=> '%%sitename%% %%page%% %%sep%% %%sitedesc%%', // text field
+/*v*/				'title-author-wpseo'				=> '', // text field - '%%name%%, Author at %%sitename%% %%page%%' - translated (added?) in enrich_defaults
+/*v*/				'title-archive-wpseo'				=> '%%date%% %%page%% %%sep%% %%sitename%%', // text field
+/*v*/				'title-search-wpseo'				=> '', // text field - 'You searched for %%searchphrase%% %%page%% %%sep%% %%sitename%%' - translated (added?) in enrich_defaults
+/*v*/				'title-404-wpseo'					=> '', // text field - 'Page Not Found %%sep%% %%sitename%%' - translated (added?) in enrich_defaults
 /*v*///				'title-' . $pt->name				=> ''; // text field - '%%title%% %%page%% %%sep%% %%sitename%%' - translated (added) in enrich_defaults
 /*v*///				'title-ptarchive-' . $pt->name		=> ''; // text field - '%%pt_plural%% Archive %%page%% %%sep%% %%sitename%%' - translated (added) in enrich_defaults
-/*v*///				'title-' . $tax->name				=> ''; // text field - '%%term_title%% Archives %%page%% %%sep%% %%sitename%%' - translated (added) in enrich_defaults
+/*v*///				'title-tax-' . $tax->name			=> ''; // text field - '%%term_title%% Archives %%page%% %%sep%% %%sitename%%' - translated (added) in enrich_defaults
 
 
 
 
-/*v*/				'metadesc-home'						=> '', // text area
-/*v*/				'metadesc-author'					=> '', // text area
-/*v*/				'metadesc-archive'					=> '', // text area
+/*v*/				'metadesc-home-wpseo'				=> '', // text area
+/*v*/				'metadesc-author-wpseo'				=> '', // text area
+/*v*/				'metadesc-archive-wpseo'			=> '', // text area
 /*v*///				'metadesc-' . $pt->name				=> ''; // text area
 /*v*///				'metadesc-ptarchive-' . $pt->name	=> ''; // text area
-/*v*///				'metadesc-' . $tax->name			=> ''; // text area
+/*v*///				'metadesc-tax-' . $tax->name		=> ''; // text area
 
-/*v*/				'metakey-home'						=> '', // text field
-/*v*/				'metakey-author'					=> '', // text field
+/*v*/				'metakey-home-wpseo'				=> '', // text field
+/*v*/				'metakey-author-wpseo'				=> '', // text field
 /*v*///				'metakey-' . $pt->name				=> ''; // text field
 /*v*///				'metakey-ptarchive-' . $pt->name	=> ''; // text field
-/*v*///				'metakey-' . $tax->name				=> ''; // text field
+/*v*///				'metakey-tax-' . $tax->name			=> ''; // text field
 
 /*v*///				'bctitle-ptarchive-' . $pt->name	=> ''; // text field
 
-/*v*/				'noindex-subpages'					=> false,
-/*v*/				'noindex-author'					=> false,
-/*v*/				'noindex-archive'					=> true, // 'on'
+/*v*/				'noindex-subpages-wpseo'			=> false,
+/*v*/				'noindex-author-wpseo'				=> false,
+/*v*/				'noindex-archive-wpseo'				=> true, // 'on'
 /*v*///				'noindex-' . $pt->name				=> false;
 /*v*///				'noindex-ptarchive-' . $pt->name	=> false;
 /*v*///				'noindex-' . $tax->name				=> false;
@@ -173,7 +179,7 @@ if ( ! class_exists( 'WPSeo_Options' ) ) {
 /*v*///				'noauthorship-' . $pt->name			=> false;
 /*v*///				'showdate-' . $pt->name				=> false;
 /*v*///				'hideeditbox-' . $pt->name			=> false;
-/*v*///				'tax-hideeditbox-' . $tax->name		=> false;
+/*v*///				'hideeditbox-tax-' . $tax->name		=> false;
 
 
 				/**
@@ -192,11 +198,11 @@ if ( ! class_exists( 'WPSeo_Options' ) ) {
 				 * - 'bctitle-ptarchive-' . $pt->name
 				 * - 'noindex-ptarchive-' . $pt->name
 				 *
-				 * - 'title-' . $tax->name
-				 * - 'metadesc-' . $tax->name
-				 * - 'metakey-' . $tax->name
-				 * - 'noindex-' . $tax->name
-				 * - 'tax-hideeditbox-' . $tax->name
+				 * - 'title-tax-' . $tax->name
+				 * - 'metadesc-tax-' . $tax->name
+				 * - 'metakey-tax-' . $tax->name
+				 * - 'noindex-tax-' . $tax->name
+				 * - 'hideeditbox-tax-' . $tax->name
 				 */
 			),
 			'wpseo_rss'				=> array(
@@ -256,13 +262,36 @@ if ( ! class_exists( 'WPSeo_Options' ) ) {
 		);
 		
 		
+		public static $variable_option_name_patterns = array(
+			'wpseo_titles'			=> array(
+				'title-',
+				'metadesc-',
+				'metakey-',
+				'noindex-',
+				'noauthorship-',
+				'showdate-',
+				'hideeditbox-',
+				'bctitle-ptarchive-',
+			),
+
+			'wpseo_internallinks'	=> array(
+				'post_types-',
+				'taxonomy-',
+			),
+			'wpseo_xml'				=> array(
+				'post_types-',
+				'taxonomies-',
+			),
+		);
+		
+		
 		/**
 		 * @static
 		 * @var		array	Array of all the current wpseo options set via self::get_all()
 		 *					Reset to null by validation routines to ensure that we'll always have the correct
 		 *					up-to-date options
 		 */
-		static $wpseo_options;
+		public static $wpseo_options;
 		
 		
 
@@ -272,55 +301,59 @@ if ( ! class_exists( 'WPSeo_Options' ) ) {
 		 *
 		 * @static
 		 */
-		static function init() {
+		public static function init() {
 
-			foreach ( self::$defaults as $option_key => $default ) {
+			foreach ( self::$options as $option_key => $directives ) {
 				/* Add filters which get applied to the get_options() results */
 				self::add_default_filters( $option_key );
 				add_filter( 'option_' . $option_key, array( __CLASS__, 'filter_' . $option_key ) );
 				add_filter( 'site_option_' . $option_key, array( __CLASS__, 'filter_' . $option_key ) );
+				
+				/* The option validation routines remove the default filters to prevent failing
+				   to insert an options if it's new. Let's add them back afterwards for an UPDATE */
+				/* @todo - figure out a better way to add our filters back if the database update
+				   failed - false is returned without an action hook - not a problem with add_option
+				   Actually, the better fix would be to make the change in core as it is now inconsistent
+				//add_action( 'update_option', array( __CLASS__, 'add_default_filters' ) );
+				   Current solution - abuse a filter:
+				*/
+				add_filter( 'pre_update_option_' . $option_key, array( __CLASS__, 'pre_update_option_' . $option_key ) );
 			}
 
-			/* The option validation routines remove the default filters to prevent failing to insert an options if it's new. Let's add them back afterwards */
-			add_action( 'update_option', array( __CLASS__, 'add_default_filters' ) );
+			/* The option validation routines remove the default filters to prevent failing
+			   to insert an options if it's new. Let's add them back afterwards for an INSERT */
+			add_action( 'add_option', array( __CLASS__, 'add_default_filters' ) );
+
+
+
+			/* @todo - deal with update during upgrading !
+			Something along the lines of the below may work:
+
+			   Lastly, we'll be saving our option during the upgrade routine *before* the setting
+			   is registered (and therefore the validation is registered), so make sure that the
+			   option is validated anyway. */
+/*			foreach ( self::$options as $option_name => $directives ) {
+				add_filter( 'wpseo_save_option_on_upgrade_' . $option_name, array( __CLASS__, 'validate_' . $option_name ) );
+			}*/
+
 
 			self::enrich_options();
 			
-			/* Translate some option as early as possible */
-			add_action( 'init', array( __CLASS__, 'translate_options' ), 1 );
+			/* Translate some defaults as early as possible - textdomain is loaded in init on priority 1 */
+			add_action( 'init', array( __CLASS__, 'translate_defaults' ), 2 );
 
 			// Only enrich defaults once custom post types and taxonomies have been registered
 			// which is normally done on the init action
 			// @todo - verify that none of the options which are only available after enrichment are used before the enriching
 			add_action( 'init', array( __CLASS__, 'enrich_defaults' ), 99 );
+			
+			
+
 		}
 
 
-		/**
-		 * @param $option_key
-		 */
-		static function add_default_filters( $option_key ) {
-			self::$option_names = array_keys( self::$options );
-			if ( in_array( $option_key, self::$option_names ) === true && has_filter( 'default_option_' . $option_key, array( __CLASS__, 'filter_defaults_' . $option_key ) ) === false ) {
-				add_filter( 'default_option_' . $option_key, array( __CLASS__, 'filter_defaults_' . $option_key ) );
-				add_filter( 'default_site_option_' . $option_key, array( __CLASS__, 'filter_defaults_' . $option_key ) );
-			};
-		}
-		
-		/* Called from validation methods */
-		/**
-		 * @param $option_key
-		 */
-		static function remove_default_filters( $option_key ) {
-			/* Remove default filters to allow for inserting of option if it doesn't exist */
-			remove_filter( 'default_option_' . $option_key, array( __CLASS__, 'filter_defaults_' . $option_key ) );
-			remove_filter( 'default_site_option_' . $option_key, array( __CLASS__, 'filter_defaults_' . $option_key ) );
-			/* Reset the all options static */
-			self::$wpseo_options = null;
-		}
 
-		
-		static function enrich_options() {
+		public static function enrich_options() {
 			/* Set option group name if not given */
 			foreach ( self::$options as $option_name => $directives ) {
 				if ( !isset( $directives['group'] ) || $directives['group'] !== '' ) {
@@ -328,15 +361,17 @@ if ( ! class_exists( 'WPSeo_Options' ) ) {
 				}
 			}
 			/* Create re-usable option names property */
-			self::$option_names = array_keys( self::$options );
+			if ( !is_array( self::$option_names ) ) {
+				self::$option_names = array_keys( self::$options );
+			}
 		}
 		
-		static function translate_options() {
+		public static function translate_defaults() {
 			/* Translate default strings */
 			/* wpseo_titles */
-			self::$defaults['wpseo_titles']['title-author'] = sprintf( __( '%s, Author at %s', 'wordpress-seo' ), '%%name%%', '%%sitename%%' ) . ' %%page%% ';
-			self::$defaults['wpseo_titles']['title-search'] = sprintf( __( 'You searched for %s', 'wordpress-seo' ), '%%searchphrase%%' ) . ' %%page%% %%sep%% %%sitename%%';
-			self::$defaults['wpseo_titles']['title-404']    = __( 'Page Not Found', 'wordpress-seo' ) . ' %%sep%% %%sitename%%';
+			self::$defaults['wpseo_titles']['title-author-wpseo'] = sprintf( __( '%s, Author at %s', 'wordpress-seo' ), '%%name%%', '%%sitename%%' ) . ' %%page%% ';
+			self::$defaults['wpseo_titles']['title-search-wpseo'] = sprintf( __( 'You searched for %s', 'wordpress-seo' ), '%%searchphrase%%' ) . ' %%page%% %%sep%% %%sitename%%';
+			self::$defaults['wpseo_titles']['title-404-wpseo']    = __( 'Page Not Found', 'wordpress-seo' ) . ' %%sep%% %%sitename%%';
 
 			/* wpseo_internallinks */
 			self::$defaults['wpseo_internallinks']['breadcrumbs-home']          = __( 'Home', 'wordpress-seo' );
@@ -350,112 +385,144 @@ if ( ! class_exists( 'WPSeo_Options' ) ) {
 			/* Auto-magically set the fb connect key */
 			self::$defaults['wpseo_social']['fbconnectkey'] = self::get_fbconnectkey();
 			
-			/* Reset the all options static */
+			/* Reset the all options static if it would have been set already*/
 			self::$wpseo_options = null;
 		}
 
 
-		// Add to the defaults where options are created dynamically
-		static function enrich_defaults() {
+		/**
+		 * Add dynamically created default options based on available post types and taxonomies
+		 */
+		public static function enrich_defaults( $option_key = null ) {
+
+			// Retrieve all the relevant post type and taxonomy arrays
+			$post_type_names = get_post_types( array( 'public' => true ), 'names' );
+
+			$post_type_objects_custom = array();
+			if ( !isset( $option_key ) || in_array( $option_key, array( 'wpseo_titles' ) ) ) {
+				$post_types_objects_custom = get_post_types( array( 'public' => true, '_builtin' => false ), 'objects' );
+			}
+
+			$taxonomy_names = array();
+			if ( !isset( $option_key ) || in_array( $option_key, array( 'wpseo_titles' ) ) ) {
+				$taxonomy_names = get_taxonomies( array( 'public' => true ), 'names' );
+			}
+
+			$taxonomy_objects = array();
+			if ( !isset( $option_key ) || in_array( $option_key, array( 'wpseo_xml' ) ) ) {
+				$taxonomy_objects = get_taxonomies( array( 'public' => true ), 'objects' );
+			}
+
+			$taxonomy_names_custom = array();
+			if ( !isset( $option_key ) || in_array( $option_key, array( 'wpseo_internallinks' ) ) ) {
+				$taxonomy_names_custom = get_taxonomies( array( 'public' => true, '_builtin' => false ), 'names' );
+			}
+
 
 			/* wpseo_titles */
-			$post_types = get_post_types( array( 'public' => true ), 'names' );
-			if ( is_array( $post_types ) && $post_types !== array() ) {
-				foreach ( $post_types as $pt ) {
-					self::$defaults['wpseo_titles']['title-' . $pt]        = '%%title%% %%page%% %%sep%% %%sitename%%'; // text field
-					self::$defaults['wpseo_titles']['metadesc-' . $pt]     = ''; // text area
-					self::$defaults['wpseo_titles']['metakey-' . $pt]      = ''; // text field
-					self::$defaults['wpseo_titles']['noindex-' . $pt]      = false;
-					self::$defaults['wpseo_titles']['noauthorship-' . $pt] = false;
-					self::$defaults['wpseo_titles']['showdate-' . $pt]     = false;
-					self::$defaults['wpseo_titles']['hideeditbox-' . $pt]  = false;
-				}
-				unset( $pt );
-			}
-			unset( $post_types );
+			if ( !isset( $option_key ) || $option_key === 'wpseo_titles' ) {
 
-			$post_types = get_post_types( array( 'public' => true, '_builtin' => false ), 'objects' );
-			if ( is_array( $post_types ) && $post_types !== array() ) {
-				foreach ( $post_types as $pt ) {
-					if ( !$pt->has_archive )
-						continue;
+				if ( $post_type_names !== array() ) {
+					foreach ( $post_type_names as $pt ) {
+//						if ( $options[ 'redirectattachment' ] === true && $posttype == 'attachment' )
+//							continue;
 
-					self::$defaults['wpseo_titles']['title-ptarchive-' . $pt->name]    = sprintf( __( '%s Archive', 'wordpress-seo' ), '%%pt_plural%%' ) . ' %%page%% %%sep%% %%sitename%%'; // text field
-					self::$defaults['wpseo_titles']['metadesc-ptarchive-' . $pt->name] = ''; // text area
-					self::$defaults['wpseo_titles']['metakey-ptarchive-' . $pt->name]  = ''; // text field
-					self::$defaults['wpseo_titles']['bctitle-ptarchive-' . $pt->name]  = ''; // text field
-					self::$defaults['wpseo_titles']['noindex-ptarchive-' . $pt->name]  = false;
+						self::$defaults['wpseo_titles']['title-' . $pt]        = '%%title%% %%page%% %%sep%% %%sitename%%'; // text field
+						self::$defaults['wpseo_titles']['metadesc-' . $pt]     = ''; // text area
+						self::$defaults['wpseo_titles']['metakey-' . $pt]      = ''; // text field
+						self::$defaults['wpseo_titles']['noindex-' . $pt]      = false;
+						self::$defaults['wpseo_titles']['noauthorship-' . $pt] = false;
+						self::$defaults['wpseo_titles']['showdate-' . $pt]     = false;
+						self::$defaults['wpseo_titles']['hideeditbox-' . $pt]  = false;
+					}
+					unset( $pt );
 				}
-				unset( $pt );
-			}
-			unset( $post_types );
 
-			$taxonomies = get_taxonomies( array( 'public' => true ), 'names' );
-			if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
-				foreach ( $taxonomies as $tax ) {
-					self::$defaults['wpseo_titles']['title-' . $tax]           = sprintf( __( '%s Archives', 'wordpress-seo' ), '%%term_title%%' ) . ' %%page%% %%sep%% %%sitename%%'; // text field
-					self::$defaults['wpseo_titles']['metadesc-' . $tax]        = ''; // text area
-					self::$defaults['wpseo_titles']['metakey-' . $tax]         = ''; // text field
-					self::$defaults['wpseo_titles']['noindex-' . $tax]         = ( $tax !== 'post_format' ) ? false : true;
-					self::$defaults['wpseo_titles']['tax-hideeditbox-' . $tax] = false;
+				if ( $post_type_objects_custom !== array() ) {
+					foreach ( $post_type_objects_custom as $pt ) {
+						if ( !$pt->has_archive )
+							continue;
+
+						self::$defaults['wpseo_titles']['title-ptarchive-' . $pt->name]    = sprintf( __( '%s Archive', 'wordpress-seo' ), '%%pt_plural%%' ) . ' %%page%% %%sep%% %%sitename%%'; // text field
+						self::$defaults['wpseo_titles']['metadesc-ptarchive-' . $pt->name] = ''; // text area
+						self::$defaults['wpseo_titles']['metakey-ptarchive-' . $pt->name]  = ''; // text field
+						self::$defaults['wpseo_titles']['bctitle-ptarchive-' . $pt->name]  = ''; // text field
+						self::$defaults['wpseo_titles']['noindex-ptarchive-' . $pt->name]  = false;
+					}
+					unset( $pt );
 				}
-				unset( $tax );
+
+				if ( $taxonomy_names !== array() ) {
+					foreach ( $taxonomy_names as $tax ) {
+						self::$defaults['wpseo_titles']['title-tax-' . $tax]           = sprintf( __( '%s Archives', 'wordpress-seo' ), '%%term_title%%' ) . ' %%page%% %%sep%% %%sitename%%'; // text field
+						self::$defaults['wpseo_titles']['metadesc-tax-' . $tax]        = ''; // text area
+						self::$defaults['wpseo_titles']['metakey-tax-' . $tax]         = ''; // text field
+						self::$defaults['wpseo_titles']['hideeditbox-tax-' . $tax] = false;
+
+						if ( $tax !== 'post_format' )
+							self::$defaults['wpseo_titles']['noindex-tax-' . $tax] = false;
+						else
+							self::$defaults['wpseo_titles']['noindex-tax-' . $tax] = true;
+
+					}
+					unset( $tax );
+				}
 			}
-			unset( $taxonomies );
 
 
 			
 			/* wpseo_internallinks */
-			$post_types = get_post_types( array( 'public' => true ), 'names' );
-			if ( is_array( $post_types ) && $post_types !== array() ) {
-				foreach ( $post_types as $pt ) {
-					$taxonomies = get_object_taxonomies( $pt, 'names' );
-					if ( count( $taxonomies ) > 0 ) {
-						self::$defaults['wpseo_internallinks']['post_types-' . $pt . '-maintax']	= 0; // select box
-					}
-					unset( $taxonomies );
-				}
-				unset( $pt );
-			}
-			unset( $post_types );
+			if ( !isset( $option_key ) || $option_key === 'wpseo_internallinks' ) {
 
-			$taxonomies = get_taxonomies( array( 'public' => true, '_builtin' => false ), 'names' );
-			if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
-				foreach ( $taxonomies as $tax ) {
-					self::$defaults['wpseo_internallinks']['taxonomy-' . $tax . '-ptparent'] = 0; // select box;
+				if ( $post_type_names !== array() ) {
+					foreach ( $post_type_names as $pt ) {
+						$pto_taxonomies = get_object_taxonomies( $pt, 'names' );
+						if ( count( $pto_taxonomies ) > 0 ) {
+							self::$defaults['wpseo_internallinks']['post_types-' . $pt . '-maintax'] = 0; // select box
+						}
+						unset( $pto_taxonomies );
+					}
+					unset( $pt );
 				}
-				unset( $tax );
+
+				if ( $taxonomy_names_custom !== array() ) {
+					foreach ( $taxonomy_names_custom as $tax ) {
+						self::$defaults['wpseo_internallinks']['taxonomy-' . $tax . '-ptparent'] = 0; // select box;
+					}
+					unset( $tax );
+				}
 			}
-			unset( $taxonomies );
 
 
 			/* wpseo_xml */
-			$post_types = apply_filters( 'wpseo_sitemaps_supported_post_types', get_post_types( array( 'public' => true ), 'names' ) );
-			if ( is_array( $post_types ) && $post_types !== array() ) {
-				foreach ( $post_types as $pt ) {
-					if ( $pt !== 'attachment' ) {
-						self::$defaults['wpseo_xml']['post_types-' . $pt . '-not_in_sitemap'] = false;
+			if ( !isset( $option_key ) || $option_key === 'wpseo_xml' ) {
+				$filtered_post_types = apply_filters( 'wpseo_sitemaps_supported_post_types', $post_type_names );
+				if ( is_array( $filtered_post_types ) && $filtered_post_types !== array() ) {
+					foreach ( $filtered_post_types as $pt ) {
+						if ( $pt !== 'attachment' ) {
+							self::$defaults['wpseo_xml']['post_types-' . $pt . '-not_in_sitemap'] = false;
+						}
+						else {
+							self::$defaults['wpseo_xml']['post_types-' . $pt . '-not_in_sitemap'] = true;
+						}
 					}
-					else {
-						self::$defaults['wpseo_xml']['post_types-' . $pt . '-not_in_sitemap'] = true;
-					}
+					unset( $pt );
 				}
-				unset( $pt );
-			}
-			unset( $post_types );
-
-			$taxonomies = apply_filters( 'wpseo_sitemaps_supported_taxonomies', get_taxonomies( array( 'public' => true ), 'objects' ) );
-			if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
-				foreach ( $taxonomies as $tax ) {
-					if ( isset( $tax->labels->name ) && trim( $tax->labels->name ) != '' ) {
-						self::$defaults['wpseo_xml']['taxonomies-' . $tax->name . '-not_in_sitemap'] = false;
+				unset( $filtered_post_types );
+	
+				$filtered_taxonomies = apply_filters( 'wpseo_sitemaps_supported_taxonomies', $taxonomy_objects );
+				if ( is_array( $filtered_taxonomies ) && $filtered_taxonomies !== array() ) {
+					foreach ( $filtered_taxonomies as $tax ) {
+						if ( isset( $tax->labels->name ) && trim( $tax->labels->name ) != '' ) {
+							self::$defaults['wpseo_xml']['taxonomies-' . $tax->name . '-not_in_sitemap'] = false;
+						}
 					}
+					unset( $tax );
 				}
-				unset( $tax );
+				unset( $filtered_taxonomies );
 			}
-			unset( $taxonomies );
 			
-			// @todo: maybe add a filter for the defaults
+			// @todo: maybe add a apply_filter() for the defaults
 			// If multisite, we could then filter the defaults with the defaultblog settings ?
 			
 			/* Reset the all options static to refresh it after enrichment of the defaults */
@@ -467,7 +534,7 @@ if ( ! class_exists( 'WPSeo_Options' ) ) {
 		 * Register all the options needed for the configuration pages.
 		 * Calling action added in WPSEO_Admin::__construct()
 		 */
-		static function register_settings() {
+		public static function register_settings() {
 
 			foreach ( self::$options as $option_name => $directives ) {
 				if ( $directives['only_multisite'] === false ) {
@@ -486,108 +553,133 @@ if ( ! class_exists( 'WPSeo_Options' ) ) {
 		}
 
 
+		/**
+		 * @param	string	$option_key
+		 */
+		public static function add_default_filters( $option_key ) {
+			if ( !is_array( self::$option_names ) ) {
+				self::$option_names = array_keys( self::$options );
+			}
+			
+			if ( in_array( $option_key, self::$option_names ) === true ) {
+				if ( has_filter( 'default_option_' . $option_key, array( __CLASS__, 'filter_defaults_' . $option_key ) ) === false ) {
+					add_filter( 'default_option_' . $option_key, array( __CLASS__, 'filter_defaults_' . $option_key ) );
+				}
+				if ( has_filter( 'default_site_option_' . $option_key, array( __CLASS__, 'filter_defaults_' . $option_key ) ) === false ) {
+					add_filter( 'default_site_option_' . $option_key, array( __CLASS__, 'filter_defaults_' . $option_key ) );
+				}
+			};
+		}
+		
+
+		public static function pre_update_option_wpseo( $new_value ) {
+			self::add_default_filters( 'wpseo' );
+			return $new_value;
+		}
+		public static function pre_update_option_wpseo_permalinks( $new_value ) {
+			self::add_default_filters( 'wpseo_permalinks' );
+			return $new_value;
+		}
+		public static function pre_update_option_wpseo_titles( $new_value ) {
+			self::add_default_filters( 'wpseo_titles' );
+			return $new_value;
+		}
+		public static function pre_update_option_wpseo_rss( $new_value ) {
+			self::add_default_filters( 'wpseo_rss' );
+			return $new_value;
+		}
+		public static function pre_update_option_wpseo_internallinks( $new_value ) {
+			self::add_default_filters( 'wpseo_internallinks' );
+			return $new_value;
+		}
+		public static function pre_update_option_wpseo_xml( $new_value ) {
+			self::add_default_filters( 'wpseo_xml' );
+			return $new_value;
+		}
+		public static function pre_update_option_wpseo_social( $new_value ) {
+			self::add_default_filters( 'wpseo_social' );
+			return $new_value;
+		}
+		public static function pre_update_option_wpseo_ms( $new_value ) {
+			self::add_default_filters( 'wpseo_ms' );
+			return $new_value;
+		}
 
 
 		
-		static function filter_defaults_wpseo() {
-			return self::$defaults['wpseo'];
+		/* Called from validation methods */
+		/**
+		 * @param	string	$option_key
+		 */
+		public static function remove_default_filters( $option_key ) {
+			/* Remove default filters to allow for inserting of option if it doesn't exist */
+			remove_filter( 'default_option_' . $option_key, array( __CLASS__, 'filter_defaults_' . $option_key ) );
+			remove_filter( 'default_site_option_' . $option_key, array( __CLASS__, 'filter_defaults_' . $option_key ) );
+			/* Reset the all options static as an option is being updated */
+			self::$wpseo_options = null;
 		}
-		static function filter_defaults_wpseo_permalinks() {
-			return self::$defaults['wpseo_permalinks'];
+
+
+
+		public static function filter_defaults_wpseo() {
+			return self::get_defaults( 'wpseo' );
 		}
-		static function filter_defaults_wpseo_titles() {
-			return self::$defaults['wpseo_titles'];
+		public static function filter_defaults_wpseo_permalinks() {
+			return self::get_defaults( 'wpseo_permalinks' );
 		}
-		static function filter_defaults_wpseo_rss() {
-			return self::$defaults['wpseo_rss'];
+		public static function filter_defaults_wpseo_titles() {
+			return self::get_defaults( 'wpseo_titles' );
 		}
-		static function filter_defaults_wpseo_internallinks() {
-			return self::$defaults['wpseo_internallinks'];
+		public static function filter_defaults_wpseo_rss() {
+			return self::get_defaults( 'wpseo_rss' );
 		}
-		static function filter_defaults_wpseo_xml() {
-			return self::$defaults['wpseo_xml'];
+		public static function filter_defaults_wpseo_internallinks() {
+			return self::get_defaults( 'wpseo_internallinks' );
 		}
-		static function filter_defaults_wpseo_social() {
-			return self::$defaults['wpseo_social'];
+		public static function filter_defaults_wpseo_xml() {
+			return self::get_defaults( 'wpseo_xml' );
 		}
-		static function filter_defaults_wpseo_ms() {
-			return self::$defaults['wpseo_ms'];
+		public static function filter_defaults_wpseo_social() {
+			return self::get_defaults( 'wpseo_social' );
+		}
+		public static function filter_defaults_wpseo_ms() {
+			return self::get_defaults( 'wpseo_ms' );
+		}
+
+
+
+		public static function get_defaults( $option_key ) {
+			self::enrich_defaults( $option_key );
+			return self::$defaults[$option_key];
 		}
 
 
 		/**
 		 * These methods should *not* be called directly!!! The are only meant to filter the get_options() results
 		 */
-		static function filter_wpseo( $options ) {
-			return self::array_filter_merge( self::$defaults['wpseo'], $options );
+		public static function filter_wpseo( $options = null ) {
+			return self::array_filter_merge( 'wpseo', $options );
 		}
-
-
-		/**
-		 * @param $options
-		 *
-		 * @return array
-		 */
-		static function filter_wpseo_permalinks( $options ) {
-			return self::array_filter_merge( self::$defaults['wpseo_permalinks'], $options );
+		public static function filter_wpseo_permalinks( $options = null ) {
+			return self::array_filter_merge( 'wpseo_permalinks', $options );
 		}
-
-
-		/**
-		 * @param $options
-		 *
-		 * @return array
-		 */
-		static function filter_wpseo_titles( $options ) {
-			return self::array_filter_merge( self::$defaults['wpseo_titles'], $options );
+		public static function filter_wpseo_titles( $options = null ) {
+			return self::array_filter_merge( 'wpseo_titles', $options );
 		}
-
-
-		/**
-		 * @param $options
-		 *
-		 * @return array
-		 */
-		static function filter_wpseo_rss( $options ) {
-			return self::array_filter_merge( self::$defaults['wpseo_rss'], $options );
+		public static function filter_wpseo_rss( $options = null ) {
+			return self::array_filter_merge( 'wpseo_rss', $options );
 		}
-
-
-		/**
-		 * @param $options
-		 *
-		 * @return array
-		 */static function filter_wpseo_internallinks( $options ) {
-			return self::array_filter_merge( self::$defaults['wpseo_internallinks'], $options );
+		public static function filter_wpseo_internallinks( $options = null ) {
+			return self::array_filter_merge( 'wpseo_internallinks', $options );
 		}
-
-
-		/**
-		 * @param $options
-		 *
-		 * @return array
-		 */
-		static function filter_wpseo_xml( $options ) {
-			return self::array_filter_merge( self::$defaults['wpseo_xml'], $options );
+		public static function filter_wpseo_xml( $options = null ) {
+			return self::array_filter_merge( 'wpseo_xml', $options );
 		}
-
-
-		/**
-		 * @param $options
-		 *
-		 * @return array
-		 */static function filter_wpseo_social( $options ) {
-			return self::array_filter_merge( self::$defaults['wpseo_social'], $options );
+		public static function filter_wpseo_social( $options = null ) {
+			return self::array_filter_merge( 'wpseo_social', $options );
 		}
-
-
-		/**
-		 * @param $options
-		 *
-		 * @return array
-		 */
-		static function filter_wpseo_ms( $options ) {
-			return self::array_filter_merge( self::$defaults['wpseo_ms'], $options );
+		public static function filter_wpseo_ms( $options = null ) {
+			return self::array_filter_merge( 'wpseo_ms', $options );
 		}
 		
 		
@@ -599,22 +691,59 @@ if ( ! class_exists( 'WPSeo_Options' ) ) {
 		 *
 		 * @static
 		 *
-		 * @param	array	$defaults	Entire list of supported defaults.
-		 * @param	array	$options	Current options.
+		 * @param	string	$option_key	Option name of the option we're doing the merge for
+		 * @param	array	$options	(Optional) Current options
+		 * 								- if not set, the option defaults for the $option_key will be returned.
 		 * @return	array	Combined and filtered options array.
 		 */
-		static function array_filter_merge( $defaults, $options ) {
+		public static function array_filter_merge( $option_key, $options = null ) {
+			
+			$defaults = self::get_defaults( $option_key );
+
+			if ( !isset( $options ) || $options === false ) {
+				return $defaults;
+			}
+
 			$options = (array) $options;
-			$return  = array();
-		
+			$filtered  = array();
+
 			foreach ( $defaults as $name => $default ) {
 				if ( array_key_exists( $name, $options ) )
-					$return[$name] = $options[$name];
+					$filtered[$name] = $options[$name];
 				else
-					$return[$name] = $default;
+					$filtered[$name] = $default;
 			}
-			return $return;
+			unset( $name, $default );
+
+			/* If the option contains variable option keys, make sure we don't remove those settings
+			   - even if the defaults are not complete yet.
+			   Unfortunately this means we also won't be removing the settings for post types or taxonomies
+			   which are no longer in the WP install, but rather that than the other way around */
+   			$filtered = self::retain_variable_keys( $option_key, $options, $filtered );
+
+			return $filtered;
 		}
+
+
+		public static function retain_variable_keys( $option_key, $dirty, $clean ) {
+
+			if ( isset( self::$variable_option_name_patterns[$option_key] ) ) {
+				foreach ( $dirty as $name => $value ) {
+					foreach ( self::$variable_option_name_patterns[$option_key] as $pattern ) {
+						if ( strpos( $name, $pattern ) === 0 && ! isset( $clean[$name] ) ) {
+							$clean[$name] = $value;
+						}
+					}
+					unset( $pattern );
+				}
+				unset( $name, $value );
+			}
+
+			return $clean;
+		}
+
+
+
 
 /*
 @todo - double check that validation will not cause errors when called from upgrade routine (add_settings_error not yet available)
@@ -624,7 +753,7 @@ if ( ! class_exists( 'WPSeo_Options' ) ) {
 		 *
 		 * @return mixed
 		 */
-		static function validate_wpseo( $options ) {
+		public static function validate_wpseo( $options ) {
 			
 			$option_key = 'wpseo';
 
@@ -636,7 +765,7 @@ if ( ! class_exists( 'WPSeo_Options' ) ) {
 			}
 
 
-			$clean   = self::$defaults[$option_key];
+			$clean   = self::get_defaults( $option_key );
 			$old     = get_option( $option_key );
 			$options = array_map( array( __CLASS__, 'trim_recursive' ), $options );
 			
@@ -647,7 +776,7 @@ if ( ! class_exists( 'WPSeo_Options' ) ) {
 					// @todo - should given number be allowed for upgrade routine ?
 						$clean[$k] = WPSEO_VERSION;
 						break;
-						
+
 					case 'blocking_files':
 						if ( isset( $options[$k] ) && ( is_array( $options[$k] ) && $options[$k] !== array() ) ) {
 							$clean[$k] = $options[$k];
@@ -736,15 +865,12 @@ if ( ! class_exists( 'WPSeo_Options' ) ) {
 					case 'tracking_popup_done': // 'done'
 					case 'disableadvanced_meta': // 'on'
 					default:
-						// Deal with old values
-						// @todo - maybe move this to clean up method for specific (known) properties ?
-						if ( isset( $options[$k] ) && in_array( $options[$k], array( 'ignore', 'done' ) ) === true ) {
-							$options[$k] = true;
-						}
 						$clean[$k] = ( isset( $options[$k] ) ? self::validate_bool( $options[$k] ) : false );
 						break;
 				}
 			}
+
+   			$clean = self::retain_variable_keys( $option_key, $options, $clean );
 			return $clean;
 		}
 
@@ -754,7 +880,7 @@ if ( ! class_exists( 'WPSeo_Options' ) ) {
 		 *
 		 * @return mixed
 		 */
-		static function validate_wpseo_permalinks( $options ) {
+		public static function validate_wpseo_permalinks( $options ) {
 
 			$option_key = 'wpseo_permalinks';
 
@@ -765,7 +891,8 @@ if ( ! class_exists( 'WPSeo_Options' ) ) {
 				return get_option( $option_key );
 			}
 
-			$clean   = self::$defaults[$option_key];
+			$clean   = self::get_defaults( $option_key );
+			$old     = get_option( $option_key );
 			$options = array_map( array( __CLASS__, 'trim_recursive' ), $options );
 			
 			$allowed_transport = array( 'default', 'http', 'https' );
@@ -807,6 +934,8 @@ if ( ! class_exists( 'WPSeo_Options' ) ) {
 						break;
 				}
 			}
+
+   			$clean = self::retain_variable_keys( $option_key, $options, $clean );
 			return $clean;
 		}
 
@@ -816,7 +945,7 @@ if ( ! class_exists( 'WPSeo_Options' ) ) {
 		 *
 		 * @return mixed
 		 */
-		static function validate_wpseo_titles( $options ) {
+		public static function validate_wpseo_titles( $options ) {
 			$option_key = 'wpseo_titles';
 
 			self::remove_default_filters( $option_key );
@@ -826,49 +955,30 @@ if ( ! class_exists( 'WPSeo_Options' ) ) {
 				return get_option( $option_key );
 			}
 
-			$clean   = self::$defaults[$option_key];
+			$clean   = self::get_defaults( $option_key );
+			$old     = get_option( $option_key );
 			$options = array_map( array( __CLASS__, 'trim_recursive' ), $options );
 
 
 			foreach ( $clean as $k => $v ) {
 				$switch_key = $k;
 
-				if ( strpos( $k, 'title-' ) === 0 ) {
-					$switch_key = 'title-';
+				foreach ( self::$variable_option_name_patterns[$option_key] as $pattern ) {
+					if ( strpos( $k, $pattern ) === 0 ) {
+						$switch_key = $pattern;
+					}
 				}
-				else if ( strpos( $k, 'metadesc-' ) === 0 ) {
-					$switch_key = 'metadesc-';
-				}
-				else if ( strpos( $k, 'metakey-' ) === 0 ) {
-					$switch_key = 'metakey-';
-				}
-				else if ( strpos( $k, 'bctitle-' ) === 0 ) {
-					$switch_key = 'bctitle-';
-				}
-				else if ( strpos( $k, 'noindex-' ) === 0 ) {
-					$switch_key = 'noindex-';
-				}
-				else if ( strpos( $k, 'noauthorship-' ) === 0 ) {
-					$switch_key = 'noauthorship-';
-				}
-				else if ( strpos( $k, 'showdate-' ) === 0 ) {
-					$switch_key = 'showdate-';
-				}
-				else if ( strpos( $k, 'hideeditbox-' ) === 0 ) {
-					$switch_key = 'hideeditbox-';
-				}
-				else if ( strpos( $k, 'tax-hideeditbox-' ) === 0 ) {
-					$switch_key = 'tax-hideeditbox-';
-				}
+				unset( $pattern );
 
 
 				switch ( $switch_key ) {
 					/* text fields */
 					/* Covers:
-					   'title-home', 'title-author', 'title-archive', 'title-search', 'title-404'
+					   'title-home-wpseo', 'title-author-wpseo', 'title-archive-wpseo',
+					   'title-search-wpseo', 'title-404-wpseo'
 					   'title-' . $pt->name
 					   'title-ptarchive-' . $pt->name
-					   'title-' . $tax->name */
+					   'title-tax-' . $tax->name */
 					case 'title-':
 						if ( isset( $options[$k] ) ) {
 							$clean[$k] = sanitize_text_field( $options[$k] );
@@ -876,20 +986,20 @@ if ( ! class_exists( 'WPSeo_Options' ) ) {
 						break;
 
 					/* Covers:
-					   'metadesc-home', 'metadesc-author', 'metadesc-archive'
+					   'metadesc-home-wpseo', 'metadesc-author-wpseo', 'metadesc-archive-wpseo'
 					   'metadesc-' . $pt->name
 					   'metadesc-ptarchive-' . $pt->name
-					   'metadesc-' . $tax->name */
+					   'metadesc-tax-' . $tax->name */
 					case 'metadesc-':
 					/* Covers:
-					   'metakey-home', 'metakey-author'
+					   'metakey-home-wpseo', 'metakey-author-wpseo'
 					   'metakey-' . $pt->name
 					   'metakey-ptarchive-' . $pt->name
-					   'metakey-' . $tax->name */
+					   'metakey-tax-' . $tax->name */
 					case 'metakey-':
 					/* Covers:
 					   ''bctitle-ptarchive-' . $pt->name */
-					case 'bctitle-':
+					case 'bctitle-ptarchive-':
 						if ( isset( $options[$k] ) && $options[$k] !== '' ) {
 							$clean[$k] = sanitize_text_field( $options[$k] );
 						}
@@ -909,20 +1019,23 @@ if ( ! class_exists( 'WPSeo_Options' ) ) {
 					case 'disable-author':
 					case 'disable-date':
 					/* Covers:
-					   'noindex-subpages', 'noindex-author', 'noindex-archive'
+					   'noindex-subpages-wpseo', 'noindex-author-wpseo', 'noindex-archive-wpseo'
 					   'noindex-' . $pt->name
 					   'noindex-ptarchive-' . $pt->name
-					   'noindex-' . $tax->name */
+					   'noindex-tax-' . $tax->name */
 					case 'noindex-':
 					case 'noauthorship-': /* 'noauthorship-' . $pt->name */
 					case 'showdate-': /* 'showdate-'. $pt->name */
-					case 'hideeditbox-': /* 'hideeditbox-'. $pt->name */
-					case 'tax-hideeditbox-': /* 'tax-hideeditbox-' . $tax->name */
+					 /* 'hideeditbox-'. $pt->name */
+					 /* 'hideeditbox-tax-' . $tax->name */
+					case 'hideeditbox-':
 					default:
 						$clean[$k] = ( isset( $options[$k] ) ? self::validate_bool( $options[$k] ) : false );
 						break;
 				}
 			}
+
+   			$clean = self::retain_variable_keys( $option_key, $options, $clean );
 			return $clean;
 		}
 
@@ -932,7 +1045,7 @@ if ( ! class_exists( 'WPSeo_Options' ) ) {
 		 *
 		 * @return mixed
 		 */
-		static function validate_wpseo_rss( $options ) {
+		public static function validate_wpseo_rss( $options ) {
 			$option_key = 'wpseo_rss';
 
 			self::remove_default_filters( $option_key );
@@ -942,7 +1055,8 @@ if ( ! class_exists( 'WPSeo_Options' ) ) {
 				return get_option( $option_key );
 			}
 
-			$clean   = self::$defaults[$option_key];
+			$clean   = self::get_defaults( $option_key );
+			$old     = get_option( $option_key );
 			$options = array_map( array( __CLASS__, 'trim_recursive' ), $options );
 
 			foreach ( $clean as $k => $v ) {
@@ -950,6 +1064,8 @@ if ( ! class_exists( 'WPSeo_Options' ) ) {
 					$clean[$k] = wp_kses_post( $options[$k] );
 				}
 			}
+			
+   			$clean = self::retain_variable_keys( $option_key, $options, $clean );
 			return $clean;
 		}
 
@@ -959,10 +1075,8 @@ if ( ! class_exists( 'WPSeo_Options' ) ) {
 		 *
 		 * @return mixed
 		 */
-		static function validate_wpseo_internallinks( $options ) {
+		public static function validate_wpseo_internallinks( $options ) {
 			
-			static $allowed_post_types;
-
 			$option_key = 'wpseo_internallinks';
 
 			self::remove_default_filters( $option_key );
@@ -972,7 +1086,8 @@ if ( ! class_exists( 'WPSeo_Options' ) ) {
 				return get_option( $option_key );
 			}
 
-			$clean   = self::$defaults[$option_key];
+			$clean   = self::get_defaults( $option_key );
+			$old     = get_option( $option_key );
 			$options = array_map( array( __CLASS__, 'trim_recursive' ), $options );
 
 			if ( !isset( $allowed_post_types ) ) {
@@ -992,12 +1107,14 @@ if ( ! class_exists( 'WPSeo_Options' ) ) {
 
 			foreach ( $clean as $k => $v ) {
 				$switch_key = $k;
-				if ( strpos( $k, 'post_types-' ) === 0 ) {
-					$switch_key = 'post_types-';
+				
+				foreach ( self::$variable_option_name_patterns[$option_key] as $pattern ) {
+					if ( strpos( $k, $pattern ) === 0 ) {
+						$switch_key = $pattern;
+					}
 				}
-				if ( strpos( $k, 'taxonomy-' ) === 0 ) {
-					$switch_key = 'taxonomy-';
-				}
+				unset( $pattern );
+				
 
 				switch ( $switch_key ) {
 					/* text fields */
@@ -1012,6 +1129,7 @@ if ( ! class_exists( 'WPSeo_Options' ) ) {
 						}
 						break;
 						
+
 					/* 'post_types-' . $pt->name . '-maintax' fields */
 					case 'post_types-':
 						$post_type  = str_replace( 'post_types-', '', $k );
@@ -1032,6 +1150,7 @@ if ( ! class_exists( 'WPSeo_Options' ) ) {
 						unset( $taxonomies, $post_type );
 						break;
 
+
 					/* 'taxonomy-' . $tax->name . '-ptparent' fields */
 					case 'taxonomy-':
 						if ( isset( $options[$k] ) && ( in_array( $options[$k], $allowed_post_types, true ) === true || $options[$k] == 0 ) ) {
@@ -1051,6 +1170,7 @@ if ( ! class_exists( 'WPSeo_Options' ) ) {
 						}
 						break;
 
+
 					/* boolean fields */
 					case 'breadcrumbs-enable':
 					case 'breadcrumbs-blog-remove':
@@ -1060,6 +1180,8 @@ if ( ! class_exists( 'WPSeo_Options' ) ) {
 						break;
 				}
 			}
+			
+   			$clean = self::retain_variable_keys( $option_key, $options, $clean );
 			return $clean;
 		}
 
@@ -1069,7 +1191,7 @@ if ( ! class_exists( 'WPSeo_Options' ) ) {
 		 *
 		 * @return mixed
 		 */
-		static function validate_wpseo_xml( $options ) {
+		public static function validate_wpseo_xml( $options ) {
 			$option_key = 'wpseo_xml';
 
 			self::remove_default_filters( $option_key );
@@ -1079,17 +1201,19 @@ if ( ! class_exists( 'WPSeo_Options' ) ) {
 				return get_option( $option_key );
 			}
 
-			$clean   = self::$defaults[$option_key];
+			$clean   = self::get_defaults( $option_key );
+			$old     = get_option( $option_key );
 			$options = array_map( array( __CLASS__, 'trim_recursive' ), $options );
 			
 			foreach ( $clean as $k => $v ) {
 				$switch_key = $k;
-				if ( strpos( $k, 'post_types-' ) === 0 ) {
-					$switch_key = 'post_types-';
+				
+				foreach ( self::$variable_option_name_patterns[$option_key] as $pattern ) {
+					if ( strpos( $k, $pattern ) === 0 )
+						$switch_key = $pattern;
 				}
-				if ( strpos( $k, 'taxonomies-' ) === 0 ) {
-					$switch_key = 'taxonomies-';
-				}
+				unset( $pattern );
+
 
 				switch ( $switch_key ) {
 					/* integer fields */
@@ -1124,6 +1248,8 @@ if ( ! class_exists( 'WPSeo_Options' ) ) {
 						break;
 				}
 			}
+			
+   			$clean = self::retain_variable_keys( $option_key, $options, $clean );
 			return $clean;
 		}
 
@@ -1133,7 +1259,7 @@ if ( ! class_exists( 'WPSeo_Options' ) ) {
 		 *
 		 * @return mixed
 		 */
-		static function validate_wpseo_social( $options ) {
+		public static function validate_wpseo_social( $options ) {
 			$option_key = 'wpseo_social';
 
 			self::remove_default_filters( $option_key );
@@ -1143,7 +1269,7 @@ if ( ! class_exists( 'WPSeo_Options' ) ) {
 				return get_option( $option_key );
 			}
 
-			$clean   = self::$defaults[$option_key];
+			$clean   = self::get_defaults( $option_key );
 			$old     = get_option( $option_key );
 			$options = array_map( array( __CLASS__, 'trim_recursive' ), $options );
 
@@ -1304,6 +1430,8 @@ if ( ! class_exists( 'WPSeo_Options' ) ) {
 						break;
 				}
 			}
+			
+   			$clean = self::retain_variable_keys( $option_key, $options, $clean );
 			return $clean;
 		}
 
@@ -1313,7 +1441,7 @@ if ( ! class_exists( 'WPSeo_Options' ) ) {
 		 *
 		 * @return mixed
 		 */
-		static function validate_wpseo_ms( $options ) {
+		public static function validate_wpseo_ms( $options ) {
 			$option_key = 'wpseo_ms';
 
 			self::remove_default_filters( $option_key );
@@ -1323,7 +1451,8 @@ if ( ! class_exists( 'WPSeo_Options' ) ) {
 				return get_option( $option_key );
 			}
 
-			$clean   = self::$defaults[$option_key];
+			$clean   = self::get_defaults( $option_key );
+			$old     = get_option( $option_key );
 			$options = array_map( array( __CLASS__, 'trim_recursive' ), $options );
 			
 			$allowed_access = array( 'admin', 'superadmin' );
@@ -1381,6 +1510,8 @@ if ( ! class_exists( 'WPSeo_Options' ) ) {
 						break;
 				}
 			}
+
+			$clean = self::retain_variable_keys( $option_key, $options, $clean );
 			return $clean;
 		}
 
@@ -1391,7 +1522,7 @@ if ( ! class_exists( 'WPSeo_Options' ) ) {
 		 * @param	mixed	$value
 		 * @return	bool
 		 */
-		static function validate_bool( $value ) {
+		public static function validate_bool( $value ) {
 			return filter_var( $value, FILTER_VALIDATE_BOOLEAN );
 		}
 
@@ -1402,7 +1533,7 @@ if ( ! class_exists( 'WPSeo_Options' ) ) {
 		 * @param	mixed	$value
 		 * @return	mixed	int or false in case or failure to convert to int
 		 */
-		static function validate_int( $value ) {
+		public static function validate_int( $value ) {
 			return filter_var( $value, FILTER_VALIDATE_INT );
 		}
 
@@ -1410,7 +1541,7 @@ if ( ! class_exists( 'WPSeo_Options' ) ) {
 		/**
 		 * @return string
 		 */
-		static function get_fbconnectkey(){
+		public static function get_fbconnectkey(){
 			return md5( get_bloginfo( 'url' ) . rand() );
 		}
 
@@ -1421,7 +1552,7 @@ if ( ! class_exists( 'WPSeo_Options' ) ) {
 		 * @param   mixed   $value  Value to trim or array of values to trim
 		 * @return  mixed   Trimmed value or array of trimmed values
 		 */
-		static function trim_recursive( $value ) {
+		public static function trim_recursive( $value ) {
 			if ( !is_array( $value ) && !is_object( $value ) ) {
 				$value = trim( $value );
 			}
@@ -1439,7 +1570,7 @@ if ( ! class_exists( 'WPSeo_Options' ) ) {
 		 * @static
 		 * @return array of option names.
 		 */
-		static function get_option_names() {
+		public static function get_option_names() {
 			static $option_names = array();
 			
 			if ( $option_names === array() ) {
@@ -1460,7 +1591,7 @@ if ( ! class_exists( 'WPSeo_Options' ) ) {
 		 * @static
 		 * @return array of options
 		 */
-		static function get_all() {
+		public static function get_all() {
 
 			if ( !isset( self::$wpseo_options ) ) {
 				self::$wpseo_options = array();
@@ -1477,7 +1608,7 @@ if ( ! class_exists( 'WPSeo_Options' ) ) {
 		 * Initialize default values for a new multisite blog
 		 * @static
 		 */
-		static function set_multisite_defaults() {
+		public static function set_multisite_defaults() {
 			$option = get_option( 'wpseo' );
 	
 			if ( function_exists( 'is_multisite' ) && is_multisite() && $option['ms_defaults_set'] === false ) {
@@ -1495,7 +1626,8 @@ if ( ! class_exists( 'WPSeo_Options' ) ) {
 		 * @todo add check for multisite and only add multisite option if applicable - currently will not add it
 		 * @todo may be check for default blog option if multisite and restore based on that if available ?
 		 */
-		static function reset() {
+		public static function reset() {
+			//@todo - better: may be make sure it's just not called before the init hook ;-)
 			self::register_settings(); // Make sure that the validation routines are registered even if this function is called before the init hook
 			foreach ( self::get_option_names() as $key => $directives ) {
 				delete_option( $key );
@@ -1506,8 +1638,9 @@ if ( ! class_exists( 'WPSeo_Options' ) ) {
 		/**
 		 * Reset all options for a specific multisite blog to their default values based upon a specified default blog
 		 */
-		static function reset_ms_blog( $blog_id ) {
-			self::register_settings(); // Make sure that the validation routines are registered even if this function is called before the init hook
+		public static function reset_ms_blog( $blog_id ) {
+			//@todo - better: may be make sure it's just not called before the admin_init hook ;-)
+			self::register_settings(); // Make sure that the validation routines are registered even if this function is called before the admin_init hook
 			$options = get_site_option( 'wpseo_ms' );
 
 			if ( $options['defaultblog'] !== '' && $options['defaultblog'] != 0 ) {
@@ -1535,40 +1668,221 @@ if ( ! class_exists( 'WPSeo_Options' ) ) {
 		 * - Removes lingering options which may be in the wrong option key
 		 * - Makes sure that all options are set using default values if no valid value is found
 		 *
-		 * @todo check whether the settings_errors will be displayed if this is called from upgrade and if not, figure out a way to show them anyway
+		 * @todo check whether the settings_errors can be displayed if this is called from upgrade and if not, figure out a way to show them anyway
 		 */
-		static function clean_up() {
-			self::register_settings(); // Make sure that the validation routines are registered even if this function is called before the init hook
-			foreach ( self::$options as $key => $directives ) {
-				$settings = get_option( $key );
+		public static function clean_up() {
 
-				// Deal with renaming of some options without losing the settings
-				if ( $key === 'wpseo' && isset( $settings['tracking_popup'] ) ) {
-					$settings['tracking_popup_done'] = $settings['tracking_popup'];
-				}
+			//@todo - better: may be make sure it's just not called before the admin_init hook ;-)
+			self::register_settings(); // Make sure that the validation routines are registered even if this function is called before the admin_init hook -
 
-				if ( $key === 'wpseo' && ( isset( $settings['theme_check'] ) && isset( $settings['theme_check']['description'] ) ) ) {
-					$settings['theme_has_description'] = ! $settings['theme_check']['description'];
-				}
-				if ( $key === 'wpseo' && ( isset( $settings['theme_check'] ) && isset( $settings['theme_check']['description_found'] ) ) ) {
-					$settings['theme_description_found'] = $settings['theme_check']['description_found'];
+
+			foreach ( self::$options as $option_key => $directives ) {
+				$settings = get_option( $option_key );
+
+
+				if ( $option_key === 'wpseo' ) {
+					// Deal with renaming of some options without losing the settings
+					if ( isset( $settings['tracking_popup'] ) ) {
+						$settings['tracking_popup_done'] = $settings['tracking_popup'];
+					}
+	
+					if ( isset( $settings['theme_check'] ) && isset( $settings['theme_check']['description'] ) ) {
+						$settings['theme_has_description'] = ! $settings['theme_check']['description'];
+					}
+					if ( isset( $settings['theme_check'] ) && isset( $settings['theme_check']['description_found'] ) ) {
+						$settings['theme_description_found'] = $settings['theme_check']['description_found'];
+					}
+
+					// Deal with value change from text string to boolean
+					$value_change = array(
+						'ignore_blog_public_warning',
+						'ignore_meta_description_warning',
+						'ignore_tour',
+						'ignore_page_comments',
+						'ignore_permalink',
+						'tracking_popup_done',
+//						'disableadvanced_meta', ?
+					);
+
+					foreach ( $value_change as $sub_option_key ) {
+						if ( isset( $settings[$sub_option_key] ) && in_array( $settings[$sub_option_key], array( 'ignore', 'done' ) ) === true ) {
+							$settings[$sub_option_key] = true;
+						}
+					}
+					unset( $sub_option_key, $value_change );
 				}
 				
-/*
-					case 'ignore_blog_public_warning': // 'ignore'
-					case 'ignore_meta_description_warning':
-					case 'ignore_tour': // 'ignore'
-					case 'ignore_page_comments':
-					case 'ignore_permalink':
-					case 'ms_defaults_set':
-					case 'tracking_popup_done': // 'done'
-					case 'disableadvanced_meta': // 'on'
 
-				if( isset( $options[$k] ) && in_array( $options[$k], array( 'ignore', 'done' ) ) === true ) {
-					$options[$k] = true;
+
+				if ( $option_key === 'wpseo_titles' ) {
+					/* Renaming these options to avoid ever overwritting these if a (bloody stupid) user
+					   would use any of the following as a custom post type or custom taxonomy:
+					   'home', 'author', 'archive', 'search', '404', 'subpages'
+	
+					   Similarly, renaming the tax options to avoid a custom post type and a taxonomy
+					   with the same name occupying the same option */
+
+					$rename = array(
+						'title-home'		=> 'title-home-wpseo',
+						'title-author'		=> 'title-author-wpseo',
+						'title-archive'		=> 'title-archive-wpseo',
+						'title-search'		=> 'title-search-wpseo',
+						'title-404'			=> 'title-404-wpseo',
+						'metadesc-home'		=> 'metadesc-home-wpseo',
+						'metadesc-author'	=> 'metadesc-author-wpseo',
+						'metadesc-archive'	=> 'metadesc-archive-wpseo',
+						'metakey-home'		=> 'metakey-home-wpseo',
+						'metakey-author'	=> 'metakey-author-wpseo',
+						'noindex-subpages'	=> 'noindex-subpages-wpseo',
+						'noindex-author'	=> 'noindex-author-wpseo',
+						'noindex-archive'	=> 'noindex-archive-wpseo',
+					);
+					foreach ( $rename as $old => $new ) {
+						if ( isset( $settings[$old] ) ) {
+							$settings[$new] = $settings[$old];
+							unset( $settings[$old] );
+						}
+					}
+					unset( $old, $new );
+
+
+					$rename = array(
+						'title-'			=> 'title-tax-',
+						'metadesc-'			=> 'metadesc-tax-',
+						'metakey-'			=> 'metakey-tax-',
+						'noindex-'			=> 'noindex-tax-',
+						'tax-hideeditbox-'	=> 'hideeditbox-tax-',
+
+					);
+
+					$taxonomy_names  = get_taxonomies( array( 'public' => true ), 'names' );
+					$post_type_names = get_post_types( array( 'public' => true ), 'names' );
+					if ( $taxonomy_names !== array() ) {
+						foreach ( $taxonomy_names as $tax ) {
+							foreach ( $rename as $old_prefix => $new_prefix ) {
+								if ( isset( $settings[$old_prefix . $tax] ) ) {
+									$settings[$new_prefix . $tax] = $settings[$old_prefix . $tax];
+
+									/* Check if there is a cpt with the same name as the tax,
+									   if so, we shouldn't remove the old setting */
+									if ( ! isset( $post_type_names[$tax] ) ) {
+										unset( $settings[$old_prefix . $tax] );
+									}
+								}
+							}
+							unset( $old_prefix, $new_prefix );
+						}
+						unset( $tax );
+					}
+					unset( $taxonomy_names, $post_type_names );
+					
+					unset( $rename );
+					
+					
+					
+					/* Make sure the values of the variable option key options are cleaned as they
+				 	   may be retained and would not be cleaned/validated then */
+					foreach ( $settings as $sub_option_key => $value ) {
+						$switch_key = $sub_option_key;
+		
+						foreach ( self::$variable_option_name_patterns[$option_key] as $pattern ) {
+							if ( strpos( $sub_option_key, $pattern ) === 0 ) {
+								$switch_key = $pattern;
+							}
+						}
+						unset( $pattern );
+		
+						// Similar to validation routine - any changes made there should be made here too
+						switch ( $switch_key ) {
+							/* text fields */
+							case 'title-':
+							case 'metadesc-':
+							case 'metakey-':
+							case 'bctitle-ptarchive-':
+								if ( isset( $options[$k] ) ) {
+									$settings[$sub_option_key] = sanitize_text_field( $value );
+								}
+								break;
+
+		
+							/* boolean fields */
+							// new = bool
+							// old = ? needs checking
+							case 'noindex-':
+							case 'noauthorship-':
+							case 'showdate-':
+							case 'hideeditbox-':
+							default:
+								$settings[$sub_option_key] = self::validate_bool( $value );
+								break;
+						}
+					}
 				}
-*/
-				update_option( $key, $settings );
+
+
+				if ( $option_key === 'wpseo_internallinks' ) {
+					
+					// Validate old values for 'post_types-' and 'taxonomy-' fields
+					// Default should be int 0
+					// @todo How to deal with possibility of not all post_types / taxonomies being registered at the
+					// time this upgrade is run ?
+					
+					/* 'post_types-' . $pt->name . '-maintax' fields */
+/*					case 'post_types-':
+						$post_type  = str_replace( 'post_types-', '', $k );
+						$post_type  = str_replace( '-maintax', '', $post_type );
+						$taxonomies = get_object_taxonomies( $post_type, 'names' );
+						if ( isset( $options[$k] ) && ( in_array( $options[$k], $taxonomies, true ) === true || $options[$k] == 0 ) ) {
+							$clean[$k] = $options[$k];
+						}
+						else {
+							// @todo maybe change the untranslated $pt name in the error message to the nicely translated label ?
+							add_settings_error(
+								WPSEO_Options::$options['wpseo_internallinks']['group'], // slug title of the setting
+								'_' . $k, // suffix-id for the error message box
+								sprintf( __( 'Please select a valid taxonomy for post type "%s"', 'wordpress-seo' ), $post_type ), // the error message
+								'error' // error type, either 'error' or 'updated'
+							);
+						}
+						unset( $taxonomies, $post_type );
+						break;
+
+					/* 'taxonomy-' . $tax->name . '-ptparent' fields */
+/*					case 'taxonomy-':
+						if ( isset( $options[$k] ) && ( in_array( $options[$k], $allowed_post_types, true ) === true || $options[$k] == 0 ) ) {
+							$clean[$k] = $options[$k];
+						}
+						else {
+							// @todo maybe change the untranslated $tax name in the error message to the nicely translated label ?
+							$tax = str_replace( 'taxonomy-', '', $k );
+							$tax = str_replace( '-ptparent', '', $tax );
+							add_settings_error(
+								WPSEO_Options::$options['wpseo_internallinks']['group'], // slug title of the setting
+								'_' . $tax, // suffix-id for the error message box
+								sprintf( __( 'Please select a valid post type for taxonomy "%s"', 'wordpress-seo' ), $tax ), // the error message
+								'error' // error type, either 'error' or 'updated'
+							);
+							unset( $tax );
+						}
+						break;*/
+				}
+
+
+				if ( $option_key === 'wpseo_xml' ) {
+					
+					foreach ( $settings as $sub_option_key => $value ) {
+						if ( strpos( $sub_option_key, 'post_types-' ) === 0 || strpos( $sub_option_key, 'taxonomies-' ) === 0 ) {
+							// Check for old value type and change to new value type
+							// new = bool
+							// old = ? needs checking
+							$settings[$sub_option_key] = self::validate_bool( $options[$k] );
+						}
+					}
+				}
+
+
+
+				update_option( $option_key, $settings );
 			}
 		}
 
@@ -1601,13 +1915,13 @@ function wpseo_defaults() {
 
 	if ( ! is_array( get_option( 'wpseo_titles' ) ) ) {
 		$opt = array(
-			'title-home'          => '%%sitename%% %%page%% %%sep%% %%sitedesc%%',
-			'title-author'        => sprintf( __( '%s, Author at %s', 'wordpress-seo' ), '%%name%%', '%%sitename%%' ) . ' %%page%% ',
-			'title-archive'       => '%%date%% %%page%% %%sep%% %%sitename%%',
-			'title-search'        => sprintf( __( 'You searched for %s', 'wordpress-seo' ), '%%searchphrase%%' ) . ' %%page%% %%sep%% %%sitename%%',
-			'title-404'           => __( 'Page Not Found', 'wordpress-seo' ) . ' %%sep%% %%sitename%%',
-			'noindex-archive'     => 'on',
-			'noindex-post_format' => 'on',
+			'title-home-wpseo'          => '%%sitename%% %%page%% %%sep%% %%sitedesc%%',
+			'title-author-wpseo'        => sprintf( __( '%s, Author at %s', 'wordpress-seo' ), '%%name%%', '%%sitename%%' ) . ' %%page%% ',
+			'title-archive-wpseo'       => '%%date%% %%page%% %%sep%% %%sitename%%',
+			'title-search-wpseo'        => sprintf( __( 'You searched for %s', 'wordpress-seo' ), '%%searchphrase%%' ) . ' %%page%% %%sep%% %%sitename%%',
+			'title-404-wpseo'           => __( 'Page Not Found', 'wordpress-seo' ) . ' %%sep%% %%sitename%%',
+			'noindex-archive-wpseo'     => 'on',
+			'noindex-tax-post_format' => 'on',
 		);
 		foreach ( get_post_types( array( 'public' => true ), 'objects' ) as $pt ) {
 			$opt['title-' . $pt->name] = '%%title%% %%page%% %%sep%% %%sitename%%';
@@ -1615,7 +1929,7 @@ function wpseo_defaults() {
 				$opt['title-ptarchive-' . $pt->name] = sprintf( __( '%s Archive', 'wordpress-seo' ), '%%pt_plural%%' ) . ' %%page%% %%sep%% %%sitename%%';
 		}
 		foreach ( get_taxonomies( array( 'public' => true ) ) as $tax ) {
-			$opt['title-' . $tax] = sprintf( __( '%s Archives', 'wordpress-seo' ), '%%term_title%%' ) . ' %%page%% %%sep%% %%sitename%%';
+			$opt['title-tax-' . $tax] = sprintf( __( '%s Archives', 'wordpress-seo' ), '%%term_title%%' ) . ' %%page%% %%sep%% %%sitename%%';
 		}
 		update_option( 'wpseo_titles', $opt );
 

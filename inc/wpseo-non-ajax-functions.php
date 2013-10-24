@@ -67,14 +67,14 @@ function wpseo_defaults() {
 
 	if ( ! is_array( get_option( 'wpseo_titles' ) ) ) {
 /*		$opt = array(
-/*			'title-home'          => '%%sitename%% %%page%% %%sep%% %%sitedesc%%',
-			'title-author'        => sprintf( __( '%s, Author at %s', 'wordpress-seo' ), '%%name%%', '%%sitename%%' ) . ' %%page%% ',
-			'title-archive'       => '%%date%% %%page%% %%sep%% %%sitename%%',
-			'title-search'        => sprintf( __( 'You searched for %s', 'wordpress-seo' ), '%%searchphrase%%' ) . ' %%page%% %%sep%% %%sitename%%',
-			'title-404'           => __( 'Page Not Found', 'wordpress-seo' ) . ' %%sep%% %%sitename%%',
+/*			'title-home-wpseo'          => '%%sitename%% %%page%% %%sep%% %%sitedesc%%',
+			'title-author-wpseo'        => sprintf( __( '%s, Author at %s', 'wordpress-seo' ), '%%name%%', '%%sitename%%' ) . ' %%page%% ',
+			'title-archive-wpseo'       => '%%date%% %%page%% %%sep%% %%sitename%%',
+			'title-search-wpseo'        => sprintf( __( 'You searched for %s', 'wordpress-seo' ), '%%searchphrase%%' ) . ' %%page%% %%sep%% %%sitename%%',
+			'title-404-wpseo'           => __( 'Page Not Found', 'wordpress-seo' ) . ' %%sep%% %%sitename%%',
 
-//			'noindex-archive'     => 'on',
-//			'noindex-post_format' => 'on',
+//			'noindex-archive-wpseo'     => 'on',
+//			'noindex-tax-post_format' => 'on',
 		);*/
 /*		foreach ( get_post_types( array( 'public' => true ), 'objects' ) as $pt ) {
 			$opt['title-' . $pt->name] = '%%title%% %%page%% %%sep%% %%sitename%%';
@@ -82,7 +82,7 @@ function wpseo_defaults() {
 				$opt['title-ptarchive-' . $pt->name] = sprintf( __( '%s Archive', 'wordpress-seo' ), '%%pt_plural%%' ) . ' %%page%% %%sep%% %%sitename%%';
 		}
 		foreach ( get_taxonomies( array( 'public' => true ) ) as $tax ) {
-			$opt['title-' . $tax] = sprintf( __( '%s Archives', 'wordpress-seo' ), '%%term_title%%' ) . ' %%page%% %%sep%% %%sitename%%';
+			$opt['title-tax-' . $tax] = sprintf( __( '%s Archives', 'wordpress-seo' ), '%%term_title%%' ) . ' %%page%% %%sep%% %%sitename%%';
 		}
 		update_option( 'wpseo_titles', $opt );
 */

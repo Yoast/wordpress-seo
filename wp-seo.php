@@ -45,7 +45,7 @@ define( 'WPSEO_FILE', __FILE__ );
 function wpseo_load_textdomain() {
 	load_plugin_textdomain( 'wordpress-seo', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 }
-add_filter( 'wp_loaded', 'wpseo_load_textdomain' );
+add_filter( 'init', 'wpseo_load_textdomain', 1 );
 
 
 if ( version_compare( PHP_VERSION, '5.2', '<' ) ) {

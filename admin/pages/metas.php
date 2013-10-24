@@ -50,7 +50,7 @@ include_once( 'options-head.php' );
 	echo '<p class="desc">' . __( 'WordPress SEO has auto-detected whether it needs to force rewrite the titles for your pages, if you think it\'s wrong and you know what you\'re doing, you can change the setting here.', 'wordpress-seo' ) . '</p>';
 
 	echo '<h2>' . __( 'Sitewide <code>meta</code> settings', 'wordpress-seo' ) . '</h2>';
-	echo $wpseo_admin_pages->checkbox( 'noindex-subpages', __( 'Noindex subpages of archives', 'wordpress-seo' ) );
+	echo $wpseo_admin_pages->checkbox( 'noindex-subpages-wpseo', __( 'Noindex subpages of archives', 'wordpress-seo' ) );
 	echo '<p class="desc">' . __( 'If you want to prevent /page/2/ and further of any archive to show up in the search results, enable this.', 'wordpress-seo' ) . '</p>';
 
 	echo $wpseo_admin_pages->checkbox( 'usemetakeywords', __( 'Use <code>meta</code> keywords tag?', 'wordpress-seo' ) );
@@ -73,10 +73,10 @@ include_once( 'options-head.php' );
 	<?php
 	if ( 'page' != get_option( 'show_on_front' ) ) {
 		echo '<h2>' . __( 'Homepage', 'wordpress-seo' ) . '</h2>';
-		echo $wpseo_admin_pages->textinput( 'title-home', __( 'Title template', 'wordpress-seo' ) );
-		echo $wpseo_admin_pages->textarea( 'metadesc-home', __( 'Meta description template', 'wordpress-seo' ), '', 'metadesc' );
+		echo $wpseo_admin_pages->textinput( 'title-home-wpseo', __( 'Title template', 'wordpress-seo' ) );
+		echo $wpseo_admin_pages->textarea( 'metadesc-home-wpseo', __( 'Meta description template', 'wordpress-seo' ), '', 'metadesc' );
 		if ( $options[ 'usemetakeywords' ] === true )
-			echo $wpseo_admin_pages->textinput( 'metakey-home', __( 'Meta keywords template', 'wordpress-seo' ) );
+			echo $wpseo_admin_pages->textinput( 'metakey-home-wpseo', __( 'Meta keywords template', 'wordpress-seo' ) );
 	} else {
 		echo '<h2>' . __( 'Homepage &amp; Front page', 'wordpress-seo' ) . '</h2>';
 		echo '<p>' . sprintf( __( 'You can determine the title and description for the front page by %sediting the front page itself &raquo;%s', 'wordpress-seo' ), '<a href="' . get_edit_post_link( get_option( 'page_on_front' ) ) . '">', '</a>' ) . '</p>';
@@ -149,12 +149,12 @@ include_once( 'options-head.php' );
 	if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
 		foreach ( $taxonomies as $tax ) {
 			echo '<h4>' . esc_html( ucfirst( $tax->labels->name ) ). '</h4>';
-			echo $wpseo_admin_pages->textinput( 'title-' . $tax->name, __( 'Title template', 'wordpress-seo' ) );
-			echo $wpseo_admin_pages->textarea( 'metadesc-' . $tax->name, __( 'Meta description template', 'wordpress-seo' ), '', 'metadesc' );
+			echo $wpseo_admin_pages->textinput( 'title-tax-' . $tax->name, __( 'Title template', 'wordpress-seo' ) );
+			echo $wpseo_admin_pages->textarea( 'metadesc-tax-' . $tax->name, __( 'Meta description template', 'wordpress-seo' ), '', 'metadesc' );
 			if ( $options[ 'usemetakeywords' ] === true )
-				echo $wpseo_admin_pages->textinput( 'metakey-' . $tax->name, __( 'Meta keywords template', 'wordpress-seo' ) );
-			echo $wpseo_admin_pages->checkbox( 'noindex-' . $tax->name, '<code>noindex, follow</code>', __( 'Meta Robots', 'wordpress-seo' ) );
-			echo $wpseo_admin_pages->checkbox( 'tax-hideeditbox-' . $tax->name, __( 'Hide', 'wordpress-seo' ), __( 'WordPress SEO Meta Box', 'wordpress-seo' ) );
+				echo $wpseo_admin_pages->textinput( 'metakey-tax-' . $tax->name, __( 'Meta keywords template', 'wordpress-seo' ) );
+			echo $wpseo_admin_pages->checkbox( 'noindex-tax-' . $tax->name, '<code>noindex, follow</code>', __( 'Meta Robots', 'wordpress-seo' ) );
+			echo $wpseo_admin_pages->checkbox( 'hideeditbox-tax-' . $tax->name, __( 'Hide', 'wordpress-seo' ), __( 'WordPress SEO Meta Box', 'wordpress-seo' ) );
 			echo '<br/>';
 		}
 		unset( $tax );
@@ -166,28 +166,28 @@ include_once( 'options-head.php' );
 <div id="archives" class="wpseotab">
 	<?php
 	echo '<h4>' . __( 'Author Archives', 'wordpress-seo' ) . '</h4>';
-	echo $wpseo_admin_pages->textinput( 'title-author', __( 'Title template', 'wordpress-seo' ) );
-	echo $wpseo_admin_pages->textarea( 'metadesc-author', __( 'Meta description template', 'wordpress-seo' ), '', 'metadesc' );
+	echo $wpseo_admin_pages->textinput( 'title-author-wpseo', __( 'Title template', 'wordpress-seo' ) );
+	echo $wpseo_admin_pages->textarea( 'metadesc-author-wpseo', __( 'Meta description template', 'wordpress-seo' ), '', 'metadesc' );
 	if ( $options[ 'usemetakeywords' ] === true )
-		echo $wpseo_admin_pages->textinput( 'metakey-author', __( 'Meta keywords template', 'wordpress-seo' ) );
-	echo $wpseo_admin_pages->checkbox( 'noindex-author', '<code>noindex, follow</code>', __( 'Meta Robots', 'wordpress-seo' ) );
+		echo $wpseo_admin_pages->textinput( 'metakey-author-wpseo', __( 'Meta keywords template', 'wordpress-seo' ) );
+	echo $wpseo_admin_pages->checkbox( 'noindex-author-wpseo', '<code>noindex, follow</code>', __( 'Meta Robots', 'wordpress-seo' ) );
 	echo $wpseo_admin_pages->checkbox( 'disable-author', __( 'Disable the author archives', 'wordpress-seo' ), '' );
 	echo '<p class="desc label">' . __( 'If you\'re running a one author blog, the author archive will always look exactly the same as your homepage. And even though you may not link to it, others might, to do you harm. Disabling them here will make sure any link to those archives will be 301 redirected to the homepage.', 'wordpress-seo' ) . '</p>';
 	echo '<br/>';
 	echo '<h4>' . __( 'Date Archives', 'wordpress-seo' ) . '</h4>';
-	echo $wpseo_admin_pages->textinput( 'title-archive', __( 'Title template', 'wordpress-seo' ) );
-	echo $wpseo_admin_pages->textarea( 'metadesc-archive', __( 'Meta description template', 'wordpress-seo' ), '', 'metadesc' );
+	echo $wpseo_admin_pages->textinput( 'title-archive-wpseo', __( 'Title template', 'wordpress-seo' ) );
+	echo $wpseo_admin_pages->textarea( 'metadesc-archive-wpseo', __( 'Meta description template', 'wordpress-seo' ), '', 'metadesc' );
 	echo '<br/>';
-	echo $wpseo_admin_pages->checkbox( 'noindex-archive', '<code>noindex, follow</code>', __( 'Meta Robots', 'wordpress-seo' ) );
+	echo $wpseo_admin_pages->checkbox( 'noindex-archive-wpseo', '<code>noindex, follow</code>', __( 'Meta Robots', 'wordpress-seo' ) );
 	echo $wpseo_admin_pages->checkbox( 'disable-date', __( 'Disable the date-based archives', 'wordpress-seo' ), '' );
 	echo '<p class="desc label">' . __( 'For the date based archives, the same applies: they probably look a lot like your homepage, and could thus be seen as duplicate content.', 'wordpress-seo' ) . '</p>';
 
 	echo '<h2>' . __( 'Special Pages', 'wordpress-seo' ) . '</h2>';
 	echo '<p>' . __( 'These pages will be noindex, followed by default, so they will never show up in search results.', 'wordpress-seo' ) . '</p>';
 	echo '<h4>' . __( 'Search pages', 'wordpress-seo' ) . '</h4>';
-	echo $wpseo_admin_pages->textinput( 'title-search', __( 'Title template', 'wordpress-seo' ) );
+	echo $wpseo_admin_pages->textinput( 'title-search-wpseo', __( 'Title template', 'wordpress-seo' ) );
 	echo '<h4>' . __( '404 pages', 'wordpress-seo' ) . '</h4>';
-	echo $wpseo_admin_pages->textinput( 'title-404', __( 'Title template', 'wordpress-seo' ) );
+	echo $wpseo_admin_pages->textinput( 'title-404-wpseo', __( 'Title template', 'wordpress-seo' ) );
 	echo '<br class="clear"/>';
 	?>
 </div>

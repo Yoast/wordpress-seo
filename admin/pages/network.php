@@ -26,15 +26,17 @@ if ( isset( $_POST[ 'wpseo_submit' ] ) ) {
 if ( isset( $_POST[ 'wpseo_restore_blog' ] ) ) {
 	check_admin_referer( 'wpseo-network-restore' );
 	if ( isset( $_POST['wpseo_ms']['restoreblog'] ) && is_numeric( $_POST['wpseo_ms']['restoreblog'] ) ) {
-		$blog = get_blog_details( $_POST['wpseo_ms']['restoreblog'] );
+		$restoreblog = (int) WPSEO_Options::validate_int( $_POST['wpseo_ms']['restoreblog'] );
+		$blog = get_blog_details( $restoreblog );
 		if ( $blog ) {
-			WPSEO_Options::reset_ms_blog( $_POST['wpseo_ms']['restoreblog'] );
+			WPSEO_Options::reset_ms_blog( $restoreblog );
 
 			echo '<div id="message" class="updated"><p>' . sprintf( __( '%s restored to default SEO settings.', 'wordpress-seo' ), esc_html( $blog->blogname ) ) . '</p></div>';
 		}
 		else {
-			echo '<div id="message" class="updated error"><p>' . sprintf( __( 'Blog %s not found.', 'wordpress-seo' ), esc_html( sanitize_text_field( $_POST['wpseo_ms']['restoreblog'] ) ) ) . '</p></div>';
+			echo '<div id="message" class="updated error"><p>' . sprintf( __( 'Blog %s not found.', 'wordpress-seo' ), esc_html( $restoreblog ) ) . '</p></div>';
 		}
+		unset( $restoreblog );
 	}
 }
 

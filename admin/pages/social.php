@@ -46,9 +46,9 @@ if ( isset( $_GET['fbclearall'] ) ) {
 if ( isset( $_GET['key'] ) && $_GET['key'] == $options['fbconnectkey'] ) {
 	if ( isset( $_GET['userid'] ) ) {
 		$options 								= get_option( 'wpseo_social' );
-		$user_id                                = $_GET['userid'];
-		$options['fb_admins'][$user_id]['name'] = urldecode( $_GET['userrealname'] );
-		$options['fb_admins'][$user_id]['link'] = urldecode( $_GET['link'] );
+		$user_id                                = sanitize_text_field( $_GET['userid'] );
+		$options['fb_admins'][$user_id]['name'] = sanitize_text_field( urldecode( $_GET['userrealname'] ) );
+		$options['fb_admins'][$user_id]['link'] = sanitize_text_field( urldecode( $_GET['link'] ) );
 		update_option( 'wpseo_social', $options );
 		add_settings_error( 'yoast_wpseo_social_options', 'success', sprintf( __( 'Successfully added %s as a Facebook Admin!', 'wordpress-seo' ), '<a href="' . esc_url( $options['fb_admins'][$user_id]['link'] ) . '">' . esc_html( $options['fb_admins'][$user_id]['name'] ) . '</a>' ), 'updated' );
 	} else if ( isset( $_GET['apps'] ) ) {

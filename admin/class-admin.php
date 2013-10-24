@@ -359,7 +359,7 @@ class WPSEO_Admin {
 	 * Loads the form for the import/export page.
 	 */
 	function import_page() {
-		if ( isset( $_GET['page'] ) && 'wpseo_import' == $_GET['page'] )
+		if ( isset( $_GET['page'] ) && 'wpseo_import' === $_GET['page'] )
 			require_once( WPSEO_PATH . 'admin/pages/import.php' );
 	}
 
@@ -367,7 +367,7 @@ class WPSEO_Admin {
 	 * Loads the form for the titles & metas page.
 	 */
 	function titles_page() {
-		if ( isset( $_GET['page'] ) && 'wpseo_titles' == $_GET['page'] )
+		if ( isset( $_GET['page'] ) && 'wpseo_titles' === $_GET['page'] )
 			require_once( WPSEO_PATH . 'admin/pages/metas.php' );
 	}
 
@@ -375,7 +375,7 @@ class WPSEO_Admin {
 	 * Loads the form for the permalinks page.
 	 */
 	function permalinks_page() {
-		if ( isset( $_GET['page'] ) && 'wpseo_permalinks' == $_GET['page'] )
+		if ( isset( $_GET['page'] ) && 'wpseo_permalinks' === $_GET['page'] )
 			require_once( WPSEO_PATH . 'admin/pages/permalinks.php' );
 	}
 
@@ -383,7 +383,7 @@ class WPSEO_Admin {
 	 * Loads the form for the internal links / breadcrumbs page.
 	 */
 	function internallinks_page() {
-		if ( isset( $_GET['page'] ) && 'wpseo_internal-links' == $_GET['page'] )
+		if ( isset( $_GET['page'] ) && 'wpseo_internal-links' === $_GET['page'] )
 			require_once( WPSEO_PATH . 'admin/pages/internal-links.php' );
 	}
 
@@ -391,7 +391,7 @@ class WPSEO_Admin {
 	 * Loads the form for the file edit page.
 	 */
 	function files_page() {
-		if ( isset( $_GET['page'] ) && 'wpseo_files' == $_GET['page'] )
+		if ( isset( $_GET['page'] ) && 'wpseo_files' === $_GET['page'] )
 			require_once( WPSEO_PATH . 'admin/pages/files.php' );
 	}
 
@@ -399,7 +399,7 @@ class WPSEO_Admin {
 	 * Loads the form for the RSS page.
 	 */
 	function rss_page() {
-		if ( isset( $_GET['page'] ) && 'wpseo_rss' == $_GET['page'] )
+		if ( isset( $_GET['page'] ) && 'wpseo_rss' === $_GET['page'] )
 			require_once( WPSEO_PATH . 'admin/pages/rss.php' );
 	}
 
@@ -407,7 +407,7 @@ class WPSEO_Admin {
 	 * Loads the form for the XML Sitemaps page.
 	 */
 	function xml_sitemaps_page() {
-		if ( isset( $_GET['page'] ) && 'wpseo_xml' == $_GET['page'] )
+		if ( isset( $_GET['page'] ) && 'wpseo_xml' === $_GET['page'] )
 			require_once( WPSEO_PATH . 'admin/pages/xml-sitemaps.php' );
 	}
 
@@ -415,7 +415,7 @@ class WPSEO_Admin {
 	 * Loads the form for the Dashboard page.
 	 */
 	function config_page() {
-		if ( isset( $_GET['page'] ) && 'wpseo_dashboard' == $_GET['page'] )
+		if ( isset( $_GET['page'] ) && 'wpseo_dashboard' === $_GET['page'] )
 			require_once( WPSEO_PATH . 'admin/pages/dashboard.php' );
 	}
 
@@ -423,7 +423,7 @@ class WPSEO_Admin {
 	 * Loads the form for the Social Settings page.
 	 */
 	function social_page() {
-		if ( isset( $_GET['page'] ) && 'wpseo_social' == $_GET['page'] )
+		if ( isset( $_GET['page'] ) && 'wpseo_social' === $_GET['page'] )
 			require_once( WPSEO_PATH . 'admin/pages/social.php' );
 	}
 
@@ -451,7 +451,7 @@ class WPSEO_Admin {
 			return;
 
 		// No need to double display it on the dashboard
-		if ( isset( $_GET['page'] ) && 'wpseo_dashboard' == $_GET['page'] )
+		if ( isset( $_GET['page'] ) && 'wpseo_dashboard' === $_GET['page'] )
 			return;
 
 		$options = get_option( 'wpseo' );
@@ -467,10 +467,9 @@ class WPSEO_Admin {
 	 *
 	 * @staticvar string $this_plugin holds the directory & filename for the plugin
 	 *
-	 * @param array  $links array of links for the plugins, adapted when the current plugin is found.
-	 * @param string $file  the filename for the current plugin, which the filter loops through.
-	 *
-	 * @return array $links
+	 * @param	array	$links array of links for the plugins, adapted when the current plugin is found.
+	 * @param	string	$file  the filename for the current plugin, which the filter loops through.
+	 * @return	array	$links
 	 */
 	function add_action_link( $links, $file ) {
 		static $this_plugin;
@@ -492,14 +491,16 @@ class WPSEO_Admin {
 	/**
 	 * Updates the user metas that (might) have been set on the user profile page.
 	 *
-	 * @param int $user_id of the updated user
+	 * @todo check if there is a way we can hook validation to a specific user field ?
+	 *
+	 * @param	int	$user_id of the updated user
 	 */
 	function process_user_option_update( $user_id ) {
 		if ( isset( $_POST['wpseo_author_title'] ) ) {
 			check_admin_referer( 'wpseo_user_profile_update', 'wpseo_nonce' );
-			update_user_meta( $user_id, 'wpseo_title', ( isset( $_POST['wpseo_author_title'] ) ? esc_html( $_POST['wpseo_author_title'] ) : '' ) );
-			update_user_meta( $user_id, 'wpseo_metadesc', ( isset( $_POST['wpseo_author_metadesc'] ) ? esc_html( $_POST['wpseo_author_metadesc'] ) : '' ) );
-			update_user_meta( $user_id, 'wpseo_metakey', ( isset( $_POST['wpseo_author_metakey'] ) ? esc_html( $_POST['wpseo_author_metakey'] ) : '' ) );
+			update_user_meta( $user_id, 'wpseo_title', ( isset( $_POST['wpseo_author_title'] ) ? sanitize_text_field( $_POST['wpseo_author_title'] ) : '' ) );
+			update_user_meta( $user_id, 'wpseo_metadesc', ( isset( $_POST['wpseo_author_metadesc'] ) ? sanitize_text_field( $_POST['wpseo_author_metadesc'] ) : '' ) );
+			update_user_meta( $user_id, 'wpseo_metakey', ( isset( $_POST['wpseo_author_metakey'] ) ? sanitize_text_field( $_POST['wpseo_author_metakey'] ) : '' ) );
 		}
 	}
 
@@ -508,9 +509,8 @@ class WPSEO_Admin {
 	 *
 	 * These are used with the Facebook author, rel="author" and Twitter cards implementation.
 	 *
-	 * @param array $contactmethods currently set contactmethods.
-	 *
-	 * @return array $contactmethods with added contactmethods.
+	 * @param	array	$contactmethods currently set contactmethods.
+	 * @return	array	$contactmethods with added contactmethods.
 	 */
 	function update_contactmethods( $contactmethods ) {
 		// Add Google+
@@ -526,7 +526,7 @@ class WPSEO_Admin {
 	/**
 	 * Add the inputs needed for SEO values to the User Profile page
 	 *
-	 * @param object $user
+	 * @param	object	$user
 	 */
 	function user_profile( $user ) {
 
@@ -546,7 +546,7 @@ class WPSEO_Admin {
 			</tr>
 			<tr>
 				<th><?php _e( "Meta description to use for Author page", 'wordpress-seo' ); ?></th>
-				<td><textarea rows="3" cols="30" name="wpseo_author_metadesc"><?php echo esc_html( get_the_author_meta( 'wpseo_metadesc', $user->ID ) ); ?></textarea>
+				<td><textarea rows="3" cols="30" name="wpseo_author_metadesc"><?php echo esc_textarea( get_the_author_meta( 'wpseo_metadesc', $user->ID ) ); ?></textarea>
 				</td>
 			</tr>
 			<?php if ( $options['usemetakeywords'] === true ) { ?>
@@ -676,8 +676,8 @@ class WPSEO_Admin {
 		// Fix wrongness created by buggy version 1.2.2
 		if ( version_compare( $current_version, '1.2.4', '<' ) ) {
 			$options = get_option( 'wpseo_titles' );
-			if ( is_array( $options ) && isset( $options['title-home'] ) && $options['title-home'] == '%%sitename%% - %%sitedesc%% - 12345' ) {
-				$options['title-home'] = '%%sitename%% - %%sitedesc%%';
+			if ( is_array( $options ) && isset( $options['title-home-wpseo'] ) && $options['title-home-wpseo'] == '%%sitename%% - %%sitedesc%% - 12345' ) {
+				$options['title-home-wpseo'] = '%%sitename%% - %%sitedesc%%';
 				update_option( 'wpseo_titles', $options );
 			}
 		}
