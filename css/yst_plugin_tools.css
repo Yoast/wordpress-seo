@@ -232,3 +232,9 @@ h2 code {
 #wpseo-debug-info h3 span:last-child {
     padding-left: 16px;
 }
+
+#wpseo-debug-info .wpseo-debug {
+	display: inline-block;
+	padding-left: 20px;
+	color: #CC0000;
+}

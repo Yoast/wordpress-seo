@@ -199,6 +199,7 @@ class WPSEO_Admin_Pages {
 
 		<?php
 		/* Add the current settings array to the page for debugging purposes */
+		// @todo - figure out way to *not* display the 'default' wpseo options on import and files pages as that doesn't make sense
 		if ( WP_DEBUG === true || ( defined( 'WPSEO_DEBUG' ) && WPSEO_DEBUG === true ) ) {
 			echo '
 		<div id="poststuff">
@@ -206,6 +207,7 @@ class WPSEO_Admin_Pages {
 
 			<h3 class="hndle"><span>' . __( 'Debug Information', 'wordpress-seo' ) . '</span></h3>
 			<div class="inside">
+				<h4>' . esc_html( __( 'Current option:', 'wordpress-seo' ) ) . ' <span class="wpseo-debug">' . esc_html( $this->currentoption ) . '</span></h4>
 				<pre>';
 			var_dump( get_option( $this->currentoption ) );
 			echo '
