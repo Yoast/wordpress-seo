@@ -22,11 +22,6 @@ if ( !class_exists( 'Yoast_Tracking' ) ) {
 		 * Class constructor
 		 */
 		function __construct() {
-			// The tracking checks daily, but only sends new data every 7 days.
-			if ( !wp_next_scheduled( 'yoast_tracking' ) ) {
-				wp_schedule_event( time(), 'daily', 'yoast_tracking' );
-			}
-
 			add_action( 'yoast_tracking', array( $this, 'tracking' ) );
 		}
 

@@ -318,6 +318,12 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 				   Current solution - abuse a filter:
 				*/
 				add_filter( 'pre_update_option_' . $option_key, array( __CLASS__, 'pre_update_option_' . $option_key ) );
+				
+				if( $option_key === 'wpseo' ) {
+					/* Add/remove the yoast tracking cron job on succesfull option add/update */
+					add_action( 'add_option_' . $option_key, array( __CLASS__, 'schedule_yoast_tracking' ), 10, 2 );
+					add_action( 'update_option_' . $option_key, array( __CLASS__, 'schedule_yoast_tracking' ), 10, 2 );
+				}
 			}
 
 			/* The option validation routines remove the default filters to prevent failing
@@ -338,7 +344,7 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 
 
 			self::enrich_options();
-			
+
 			/* Translate some defaults as early as possible - textdomain is loaded in init on priority 1 */
 			add_action( 'init', array( __CLASS__, 'translate_defaults' ), 2 );
 
@@ -741,6 +747,31 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 
 			return $clean;
 		}
+
+
+
+		/**
+		 * (Un-)schedule the yoast tracking cronjob if the tracking option has changed
+		 * 
+		 * Needs to be done here, rather than in the Yoast_Tracking class as class-tracking.php may not be loaded
+		 *
+		 * @param	mixed	$disregard	Not needed - Option name if option was added, old value if option was updated
+		 * @param	array	$value		The new value of the option after add/update
+		 * @return	void
+		 */
+		public static function schedule_yoast_tracking( $disregard, $value ) {
+			$current_schedule = wp_next_scheduled( 'yoast_tracking' );
+
+			if( $value['yoast_tracking'] === true && $current_schedule === false ) {
+				// The tracking checks daily, but only sends new data every 7 days.
+				wp_schedule_event( time(), 'daily', 'yoast_tracking' );
+			}
+			else if( $value['yoast_tracking'] === false && $current_schedule !== false ){
+				wp_clear_scheduled_hook( 'yoast_tracking' );
+			}
+		}
+
+
 
 
 
