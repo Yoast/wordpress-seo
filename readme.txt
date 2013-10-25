@@ -125,6 +125,7 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 	* Fixed appropriate use of plugins_url() to avoid breaking hooked in filters - props [Jrf](http://profiles.wordpress.org/jrf).
 	* (Temporary) fix for metabox styling for users using the MP6 plugin - props [Jrf](http://profiles.wordpress.org/jrf).
 	* Minor fix in localization loading - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Yoast tracking cron job will now unschedule on disallowing of tracking and on uninstall, inspired by [Bluebird Blvd.](http://wordpress.org/support/topic/found-active-tracking-device-after-deleting-wp-seo-months-ago) - props [Jrf](http://profiles.wordpress.org/jrf).
 
 = 1.4.18 =
 
