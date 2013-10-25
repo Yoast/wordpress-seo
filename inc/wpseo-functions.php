@@ -469,7 +469,7 @@ add_filter( 'icl_wpml_config_array', 'wpseo_wpml_config' );
  * @param	array	$value		The new value of the option after add/update
  * @return	void
  */
-public static function schedule_yoast_tracking( $disregard, $value ) {
+function schedule_yoast_tracking( $disregard, $value ) {
 	$current_schedule = wp_next_scheduled( 'yoast_tracking' );
 	$tracking = ( isset( $value['yoast_tracking'] ) && $value['yoast_tracking'] ) ? true : false;
 
