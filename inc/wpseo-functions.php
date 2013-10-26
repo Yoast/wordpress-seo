@@ -458,4 +458,3 @@ function wpseo_wpml_config( $config ) {
     return $config;
 }
 add_filter( 'icl_wpml_config_array', 'wpseo_wpml_config' );
-
