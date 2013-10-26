@@ -4,7 +4,7 @@
  *
  * Code used when the plugin is removed (not just deactivated but actively deleted through the WordPress Admin).
  *
- * @todo - flush rewrite rules (if they were changed)!
+ * // flush rewrite rules => not needed, is done on deactivate
  *
  * @todo remove meta data for posts/pages ?
  * @todo remove wpseo_taxonomy_meta option ?
@@ -23,6 +23,7 @@ foreach ( array( 'wpseo', 'wpseo_indexation', 'wpseo_permalinks', 'wpseo_titles'
 	delete_option( $option );
 }
 
+/* Should already have been removed on deactivate, but let's make double sure */
 if( wp_next_scheduled( 'yoast_tracking' ) !== false ) {
 	wp_clear_scheduled_hook( 'yoast_tracking' );
 }
