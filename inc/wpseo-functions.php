@@ -465,6 +465,10 @@ add_filter( 'icl_wpml_config_array', 'wpseo_wpml_config' );
  * 
  * Needs to be done here, rather than in the Yoast_Tracking class as class-tracking.php may not be loaded
  *
+ * @todo - check if this has any impact on other Yoast plugins which may use the same tracking schedule
+ * hook. If so, may be get any other yoast plugin options, check for the tracking status and
+ * unschedule based on the combined status
+ *
  * @param	mixed	$disregard	Not needed - Option name if option was added, old value if option was updated
  * @param	array	$value		The new value of the option after add/update
  * @return	void
