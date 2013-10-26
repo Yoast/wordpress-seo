@@ -714,7 +714,7 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 			$filtered  = array();
 
 			foreach ( $defaults as $name => $default ) {
-				if ( array_key_exists( $name, $options ) )
+				if ( isset( $options[$name] ) )
 					$filtered[$name] = $options[$name];
 				else
 					$filtered[$name] = $default;
@@ -812,16 +812,16 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 						if ( isset( $options[$k] ) && ( is_array( $options[$k] ) && $options[$k] !== array() ) ) {
 							$clean[$k] = $options[$k];
 						}
-						else {
+						else if( isset( $old[$k] ) ) {
 							$clean[$k] = $old[$k];
 						}
 						break;
-						
+
 					case 'theme_description_found':
 						if ( isset( $options[$k] ) && is_string( $options[$k] ) ) {
 							$clean[$k] = $options[$k]; // @todo maybe do wp_kses ?
 						}
-						else {
+						else if( isset( $old[$k] ) ) {
 							$clean[$k] = $old[$k];
 						}
 						break;
@@ -1336,7 +1336,7 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 								}
 							}
 						}
-						else {
+						else if( isset( $old[$k] ) ) {
 							$clean[$k] = $old[$k];
 						}
 						break;
@@ -1350,7 +1350,7 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 								$clean[$k][$app_id] = sanitize_text_field( $display_name );
 							}
 						}
-						else {
+						else if( isset( $old[$k] ) ) {
 							$clean[$k] = $old[$k];
 						}
 						break;
@@ -1830,9 +1830,7 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 							case 'metadesc-':
 							case 'metakey-':
 							case 'bctitle-ptarchive-':
-								if ( isset( $options[$k] ) ) {
-									$settings[$sub_option_key] = sanitize_text_field( $value );
-								}
+								$settings[$sub_option_key] = sanitize_text_field( $value );
 								break;
 
 		
@@ -1906,7 +1904,7 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 							// Check for old value type and change to new value type
 							// new = bool
 							// old = ? needs checking
-							$settings[$sub_option_key] = self::validate_bool( $options[$k] );
+							$settings[$sub_option_key] = self::validate_bool( $value );
 						}
 					}
 				}

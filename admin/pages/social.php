@@ -98,7 +98,7 @@ if ( is_array( $options['fbapps'] ) && $options['fbapps'] !== array() ) {
 if ( $options['fbadminapp'] == 0 ) {
 	$button_text = __( 'Add Facebook Admin', 'wordpress-seo' );
 	$primary     = true;
-	if ( count( $options['fb_admins'] ) > 0 ) {
+	if ( is_array( $options['fb_admins'] ) && count( $options['fb_admins'] ) > 0 ) {
 		$fbconnect .= '<p>' . __( 'Currently connected Facebook admins:', 'wordpress-seo' ) . '</p>';
 		$fbconnect .= '<ul>';
 		$nonce = wp_create_nonce( 'delfbadmin' );

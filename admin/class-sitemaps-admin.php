@@ -33,7 +33,7 @@ class WPSEO_Sitemaps_Admin {
 		$options = WPSEO_Options::get_all();
 		if ( $options[ 'enablexmlsitemap' ] === true ) {
 			$file = ABSPATH . 'sitemap_index.xml';
-			if ( ( $options['blocking_files'] === array() || in_array( $file, $options[ 'blocking_files'] ) === false ) &&
+			if ( ( $options['blocking_files'] === array() || ( $options['blocking_files'] !== array() && in_array( $file, $options[ 'blocking_files'] ) === false ) ) &&
 				file_exists( $file )
 			) {
 				$options['blocking_files'][] = $file;

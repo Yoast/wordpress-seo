@@ -144,7 +144,7 @@ class WPSEO_OpenGraph extends WPSEO_Frontend {
 		if ( 0 != $this->options['fbadminapp'] ) {
 			$this->og_tag( 'fb:app_id', $this->options['fbadminapp'] );
 		}
-		else if ( count( $this->options['fb_admins'] ) > 0 ) {
+		else if ( is_array( $this->options['fb_admins'] ) && count( $this->options['fb_admins'] ) > 0 ) {
 			$adminstr = '';
 			foreach ( $this->options['fb_admins'] as $admin_id => $admin ) {
 				if ( ! empty( $adminstr ) )
