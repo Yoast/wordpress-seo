@@ -418,7 +418,7 @@ function wpseo_store_tracking_response() {
 	$options['tracking_popup'] = 'done';
 
 	if ( $_POST['allow_tracking'] == 'yes' )
-		$options['yoast_tracking'] = 'on';
+		$options['yoast_tracking'] = true;
 
 	update_option( 'wpseo', $options );
 }
@@ -459,27 +459,3 @@ function wpseo_wpml_config( $config ) {
 }
 add_filter( 'icl_wpml_config_array', 'wpseo_wpml_config' );
 
-
-/**
- * (Un-)schedule the yoast tracking cronjob if the tracking option has changed
- * 
- * Needs to be done here, rather than in the Yoast_Tracking class as class-tracking.php may not be loaded
- *
- * @param	mixed	$disregard	Not needed - Option name if option was added, old value if option was updated
- * @param	array	$value		The new value of the option after add/update
- * @return	void
- */
-function schedule_yoast_tracking( $disregard, $value ) {
-	$current_schedule = wp_next_scheduled( 'yoast_tracking' );
-	$tracking = ( isset( $value['yoast_tracking'] ) && $value['yoast_tracking'] ) ? true : false;
-
-	if( $tracking === true && $current_schedule === false ) {
-		// The tracking checks daily, but only sends new data every 7 days.
-		wp_schedule_event( time(), 'daily', 'yoast_tracking' );
-	}
-	else if( $tracking === false && $current_schedule !== false ){
-		wp_clear_scheduled_hook( 'yoast_tracking' );
-	}
-}
-add_action( 'add_option_wpseo', 'schedule_yoast_tracking', 10, 2 );
-add_action( 'update_option_wpseo', 'schedule_yoast_tracking', 10, 2 );
