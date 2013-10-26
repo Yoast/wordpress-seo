@@ -2,6 +2,13 @@
 /**
  * @package Admin
  */
+ 
+/*
+@todo - check for other sitemap plugins which may conflict ?
+@todo - check for existance of .xls rewrite rule in .htaccess from google-sitemaps-plugin/generator and remove as it will cause errors for our sitemaps (or inform the user and disallow enabling of sitemaps )
+@todo - check if anything along these lines is already being done
+*/
+
 
 if ( !defined( 'WPSEO_VERSION' ) ) {
 	header( 'HTTP/1.0 403 Forbidden' );
