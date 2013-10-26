@@ -44,7 +44,7 @@ function wpseo_set_ignore() {
 add_action( 'wp_ajax_wpseo_set_ignore', 'wpseo_set_ignore' );
 
 /**
- * Function used to remove the admin notices for several purposes, dies on exit.
+ * Function used to delete blocking files, dies on exit.
  */
 function wpseo_kill_blocking_files() {
 	if ( !current_user_can( 'manage_options' ) )

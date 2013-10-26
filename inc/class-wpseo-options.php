@@ -102,7 +102,7 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 /*v*/				'ms_defaults_set'					=> false, // ''
 				'version'							=> '', // leave default as empty to ensure activation/upgrade works
 				// renamed: was tracking_popup
-/*v*/				'tracking_popup_done'					=> false, // 'done'
+/*v*/				'tracking_popup_done'				=> false, // 'done'
 /*v*/				'blocking_files' 					=> array(),
 /*v*/				'theme_has_description'				=> null,
 /*v*/				'theme_description_found'			=> '', // set in function, may not be in form

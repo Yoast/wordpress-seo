@@ -28,16 +28,45 @@ class WPSEO_Sitemaps_Admin {
 
 	/**
 	 * Remove sitemaps residing on disk as they will block our rewrite.
+	 *
+	 * @todo - I suggest we change this to a simple directory walker with a preg_match() on any files which would
+	 * match our rewrite rule expressions.
+	 * Still we wouldn't want *that* to run each and every time a page loads, so we should change the way this
+	 * function is called
+	 *
+	 * Ideas on when/how to call it alternatively:
+	 * - always on dashboard.php ?
+	 * - if the enablexmlssitemap option is set to true (on option update)
+	 * - on (re-)activation and/or upgrade
+	 * - via a weekly cronjob to keep an eye on things in the mean time (for if a user would install another sitemap
+	 *   plugin while WP SEO is installed and enablexmlsitemap == true
+	 *
+	 * Would also need a warning (+ignore setting) to be displayed on every admin page if a blocking file
+	 * would be found (like via cron) as otherwise the user may not see it.
+	 *
+	 * Warning message reset logic would need a good think though, if ignore is set to true and new files are found,
+	 * what should be done ?
+	 *
+	 * Also: the method should be renamed, it currently does not delete the sitemaps (that's done in the ajax file),
+	 * it only tries to find them. So : find_blocking_file() would be the better name
 	 */
 	function delete_sitemaps() {
 		$options = WPSEO_Options::get_all();
 		if ( $options[ 'enablexmlsitemap' ] === true ) {
-			$file = ABSPATH . 'sitemap_index.xml';
-			if ( ( $options['blocking_files'] === array() || ( $options['blocking_files'] !== array() && in_array( $file, $options[ 'blocking_files'] ) === false ) ) &&
-				file_exists( $file )
-			) {
-				$options['blocking_files'][] = $file;
-				update_option( 'wpseo', $options );
+			
+			$file_to_check_for = array(
+//				ABSPATH . 'sitemap.xml',
+				ABSPATH . 'sitemap_index.xml',
+//				ABSPATH . 'sitemap.xslt',
+//				ABSPATH . 'sitemap.xsl',
+			);
+			
+			foreach ( $file_to_check_for as $file ) {
+
+				if ( ( $options['blocking_files'] === array() || ( $options['blocking_files'] !== array() && in_array( $file, $options[ 'blocking_files'] ) === false ) ) && file_exists( $file ) ) {
+					$options['blocking_files'][] = $file;
+					update_option( 'wpseo', $options );
+				}
 			}
 		}
 	}
