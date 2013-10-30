@@ -2055,33 +2055,43 @@ msgid ""
 msgstr ""
 
 #: ../admin/pages/permalinks.php:18
-msgid "Redirect attachment URL's to parent post URL."
+msgid "Remove stop words from slugs."
 msgstr ""
 
 #: ../admin/pages/permalinks.php:19
+msgid ""
+"This helps you to create cleaner URLs by automatically removing the "
+"stopwords from them."
+msgstr ""
+
+#: ../admin/pages/permalinks.php:21
+msgid "Redirect attachment URL's to parent post URL."
+msgstr ""
+
+#: ../admin/pages/permalinks.php:22
 msgid ""
 "Attachments to posts are stored in the database as posts, this means they're "
 "accessible under their own URL's if you do not redirect them, enabling this "
 "will redirect them to the post they were attached to."
 msgstr ""
 
-#: ../admin/pages/permalinks.php:21
+#: ../admin/pages/permalinks.php:24
 msgid "Remove the <code>?replytocom</code> variables."
 msgstr ""
 
-#: ../admin/pages/permalinks.php:22
+#: ../admin/pages/permalinks.php:25
 msgid ""
 "This prevents threaded replies from working when the user has JavaScript "
 "disabled, but on a large site can mean a <em>huge</em> improvement in crawl "
 "efficiency for search engines when you have a lot of comments."
 msgstr ""
 
-#: ../admin/pages/permalinks.php:24
+#: ../admin/pages/permalinks.php:27
 msgid ""
 "Redirect ugly URL's to clean permalinks. (Not recommended in many cases!)"
 msgstr ""
 
-#: ../admin/pages/permalinks.php:25
+#: ../admin/pages/permalinks.php:28
 msgid ""
 "People make mistakes in their links towards you sometimes, or unwanted "
 "parameters are added to the end of your URLs, this allows you to redirect "
@@ -2091,63 +2101,63 @@ msgid ""
 "this plugin."
 msgstr ""
 
-#: ../admin/pages/permalinks.php:29
+#: ../admin/pages/permalinks.php:32
 msgid "Force Transport"
 msgstr ""
 
-#: ../admin/pages/permalinks.php:29
+#: ../admin/pages/permalinks.php:32
 msgid "Leave default"
 msgstr ""
 
-#: ../admin/pages/permalinks.php:29
+#: ../admin/pages/permalinks.php:32
 msgid "Force http"
 msgstr ""
 
-#: ../admin/pages/permalinks.php:29
+#: ../admin/pages/permalinks.php:32
 msgid "Force https"
 msgstr ""
 
-#: ../admin/pages/permalinks.php:30
+#: ../admin/pages/permalinks.php:33
 msgid ""
 "Force the canonical to either http or https, when your blog runs under both."
 msgstr ""
 
-#: ../admin/pages/permalinks.php:32
+#: ../admin/pages/permalinks.php:35
 msgid "Canonical Settings"
 msgstr ""
 
-#: ../admin/pages/permalinks.php:34
+#: ../admin/pages/permalinks.php:37
 msgid "Prevent cleaning out Google Site Search URL's."
 msgstr ""
 
-#: ../admin/pages/permalinks.php:35
+#: ../admin/pages/permalinks.php:38
 msgid ""
 "Google Site Search URL's look weird, and ugly, but if you're using Google "
 "Site Search, you probably do not want them cleaned out."
 msgstr ""
 
-#: ../admin/pages/permalinks.php:37
+#: ../admin/pages/permalinks.php:40
 msgid "Prevent cleaning out Google Analytics Campaign Parameters."
 msgstr ""
 
-#: ../admin/pages/permalinks.php:38
+#: ../admin/pages/permalinks.php:41
 msgid ""
 "If you use Google Analytics campaign parameters starting with <code>?utm_</"
 "code>, check this box. You shouldn't use these btw, you should instead use "
 "the hash tagged version instead."
 msgstr ""
 
-#: ../admin/pages/permalinks.php:40
+#: ../admin/pages/permalinks.php:43
 msgid "Other variables not to clean"
 msgstr ""
 
-#: ../admin/pages/permalinks.php:41
+#: ../admin/pages/permalinks.php:44
 msgid ""
 "You might have extra variables you want to prevent from cleaning out, add "
 "them here, comma separarted."
 msgstr ""
 
-#: ../admin/pages/permalinks.php:43
+#: ../admin/pages/permalinks.php:46
 msgid "Clean Permalink Settings"
 msgstr ""
 
