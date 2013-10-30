@@ -459,7 +459,7 @@ class WPSEO_Sitemaps {
 				$p->post_status = 'publish';
 				$p->filter      = 'sample';
 
-				if ( wpseo_get_value( 'meta-robots-noindex', $p->ID ) && wpseo_get_value( 'sitemap-include', $p->ID ) != 'always' )
+				if ( wpseo_get_value( 'meta-robots-noindex', $p->ID ) == 1 && wpseo_get_value( 'sitemap-include', $p->ID ) != 'always' )
 					continue;
 				if ( wpseo_get_value( 'sitemap-include', $p->ID ) == 'never' )
 					continue;
