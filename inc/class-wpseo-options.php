@@ -310,15 +310,11 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 				add_filter( 'site_option_' . $option_key, array( __CLASS__, 'filter_' . $option_key ) );
 				
 				/* The option validation routines remove the default filters to prevent failing
-				   to insert an options if it's new. Let's add them back afterwards for an UPDATE */
-				/* @todo - figure out a better way to add our filters back if the database update
-				   failed - false is returned without an action hook - not a problem with add_option
-				   Actually, the better fix would be to make the change in core as it is now inconsistent
-				//add_action( 'update_option', array( __CLASS__, 'add_default_filters' ) );
-				   Current solution - abuse a filter:
-				*/
-				add_filter( 'pre_update_option_' . $option_key, array( __CLASS__, 'pre_update_option_' . $option_key ) );
-				
+				   to insert an options if it's new. Let's add them back afterwards for an UPDATE (only WP 3.7)*/
+				if( version_compare( $GLOBALS['wp_version'], '3.7', '==' ) ) {
+					add_filter( 'pre_update_option_' . $option_key, array( __CLASS__, 'pre_update_option_' . $option_key ) );
+				}
+
 				if( $option_key === 'wpseo' ) {
 					/* Add/remove the yoast tracking cron job on succesfull option add/update */
 					add_action( 'add_option_' . $option_key, array( __CLASS__, 'schedule_yoast_tracking' ), 10, 2 );
@@ -329,6 +325,12 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 			/* The option validation routines remove the default filters to prevent failing
 			   to insert an options if it's new. Let's add them back afterwards for an INSERT */
 			add_action( 'add_option', array( __CLASS__, 'add_default_filters' ) );
+
+			/* The option validation routines remove the default filters to prevent failing
+			   to insert an options if it's new. Let's add them back afterwards for an UPDATE (not WP 3.7) */
+			if( version_compare( $GLOBALS['wp_version'], '3.7', '!=' ) ) {
+				add_action( 'update_option', array( __CLASS__, 'add_default_filter' ) );
+			}
 
 
 
@@ -578,6 +580,7 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 		}
 		
 
+		/* WP 3.7 specific as update_option action hook was in the wrong place temporarily */
 		public static function pre_update_option_wpseo( $new_value ) {
 			self::add_default_filters( 'wpseo' );
 			return $new_value;
