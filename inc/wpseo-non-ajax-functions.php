@@ -266,7 +266,7 @@ function wpseo_upgrader_process_complete( $upgrader_object, $context_array, $the
 		return;
 	}
 	// Break if this is not a theme update, not interested in installs as after_switch_theme would still be called
-	if ( $context_array['type'] !== 'theme' || $context_array['action'] !== 'update' ) {
+	if ( ! isset( $context_array['type'] || $context_array['type'] !== 'theme' || !isset( $context_array['action'] ) || $context_array['action'] !== 'update' ) {
 		return;
 	}
 
