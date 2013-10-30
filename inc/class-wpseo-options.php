@@ -580,7 +580,8 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 		}
 		
 
-		/* WP 3.7 specific as update_option action hook was in the wrong place temporarily */
+		/* WP 3.7 specific as update_option action hook was in the wrong place temporarily
+		   @see http://core.trac.wordpress.org/ticket/25705 */
 		public static function pre_update_option_wpseo( $new_value ) {
 			self::add_default_filters( 'wpseo' );
 			return $new_value;
