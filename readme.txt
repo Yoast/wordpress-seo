@@ -107,6 +107,10 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 == Changelog ==
 
 = Trunk =
+* Bugfixes
+	* Fix _Invalid argument supplied for foreach()_ notice for WPML as reported by [pbearne](https://github.com/pbearne) - props [Jrf](http://profiles.wordpress.org/jrf).
+
+= 1.4.19 =
 
 * Enhancements
 	* Added the option to upload a separate image for Facebook in the Social tab.
