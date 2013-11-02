@@ -329,7 +329,7 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 			/* The option validation routines remove the default filters to prevent failing
 			   to insert an options if it's new. Let's add them back afterwards for an UPDATE (not WP 3.7) */
 			if( version_compare( $GLOBALS['wp_version'], '3.7', '!=' ) ) {
-				add_action( 'update_option', array( __CLASS__, 'add_default_filter' ) );
+				add_action( 'update_option', array( __CLASS__, 'add_default_filters' ) );
 			}
 
 
@@ -2024,5 +2024,6 @@ function wpseo_defaults() {
 	}
 */
 	}
+	// File is loaded from wpseo-functions.php on action plugins_loaded set in wp-seo.php
 	WPSEO_Options::init();
 }
