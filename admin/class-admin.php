@@ -44,7 +44,11 @@ class WPSEO_Admin {
 
 		}
 
-		add_action( 'admin_init', array( $this, 'maybe_upgrade' ) );
+		/* Should be run on init (was admin_init) as otherwise multisite installs will not get the upgrade
+		   until an admin logs in.
+		   Upgrade run as prio 100 to ensure enrich_defaults has run ?
+		*/
+		add_action( 'init', array( $this, 'maybe_upgrade' ), 100 );
 
 		if ( $options['cleanslugs'] === true )
 			add_filter( 'name_save_pre', array( $this, 'remove_stopwords_from_slug' ), 0 );
@@ -565,6 +569,10 @@ class WPSEO_Admin {
 	 * the upgrade procedures.
 	 *
 	 * @todo - Check, check, double-check!
+	 *
+	 * @todo - check: if upgrade is run on multi-site installation, upgrade for all sites ?
+	 * May be not necessary as hook now changed from admin_init to init, so upgrade will run as soon as any page
+	 * on a site is requested.
 	 */
 	function maybe_upgrade() {
 		$options         = get_option( 'wpseo' );
