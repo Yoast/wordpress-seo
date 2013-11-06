@@ -301,7 +301,7 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 		 *
 		 * @static
 		 */
-		public static function init() {
+		public static function plugins_loaded() {
 
 			foreach ( self::$options as $option_key => $directives ) {
 				/* Add filters which get applied to the get_options() results */
@@ -355,8 +355,6 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 			// @todo - verify that none of the options which are only available after enrichment are used before the enriching
 			add_action( 'init', array( __CLASS__, 'enrich_defaults' ), 99 );
 			
-			
-
 		}
 
 
@@ -2025,5 +2023,5 @@ function wpseo_defaults() {
 */
 	}
 	// File is loaded from wpseo-functions.php on action plugins_loaded set in wp-seo.php
-	WPSEO_Options::init();
+	WPSEO_Options::plugins_loaded();
 }
