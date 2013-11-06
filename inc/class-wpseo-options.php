@@ -1709,10 +1709,6 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 		 */
 		public static function clean_up() {
 
-			//@todo - better: may be make sure it's just not called before the admin_init hook ;-)
-			self::register_settings(); // Make sure that the validation routines are registered even if this function is called before the admin_init hook -
-
-
 			foreach ( self::$options as $option_key => $directives ) {
 				$settings = get_option( $option_key );
 
@@ -1916,7 +1912,19 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 				}
 
 
-
+				// @todo - deal with multisite option!
+/*				if ( $directives['only_multisite'] === false ) {
+					...
+				}
+				else {
+					if ( function_exists( 'is_multisite' ) && is_multisite() ) {
+						...
+					}
+				}
+*/
+  				/* Validate & save the new values */
+				$validation_method = 'validate_' . $option_key;
+				$settings = self::$validation_method( $settings );
 				update_option( $option_key, $settings );
 			}
 		}
