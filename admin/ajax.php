@@ -90,3 +90,119 @@ function wpseo_get_suggest() {
 }
 
 add_action( 'wp_ajax_wpseo_get_suggest', 'wpseo_get_suggest' );
+
+/**
+ * Save an individual SEO title from the Bulk Editor.
+ */
+function wpseo_save_title() {
+
+	$new_title = $_POST['new_title'] ;
+	$id = intval( $_POST['wpseo_post_id'] );
+	$original_title = $_POST['existing_title'];
+
+	$results = wpseo_upsert_new_title( $id, $new_title, $original_title );
+
+	echo json_encode( $results );
+	die();
+}
+
+add_action( 'wp_ajax_wpseo_save_title', 'wpseo_save_title' );
+
+/**
+ * Helper function for updating an existing seo title or create a new one
+ * if it doesn't already exist.
+ */
+function wpseo_upsert_new_title( $post_id, $new_title, $original_title) {
+
+	$meta_key = '_yoast_wpseo_title';
+	$return_key = 'title';
+	return wpseo_upsert_meta( $post_id, $new_title, $original_title, $meta_key, $return_key );
+}
+
+/**
+ * Helper function to update a post's meta data, returning relevant information
+ * about the information updated and the results or the meta update.
+ */
+function wpseo_upsert_meta( $post_id, $new_meta_value, $orig_meta_value, $meta_key, $return_key ) {
+
+	$res = update_post_meta( $post_id, $meta_key, $new_meta_value );
+
+	return array(
+		'status' => ( ( $res !== false ) ? 'success' : 'failure'),
+		'post_id' => $post_id,
+		"new_{$return_key}" => $new_meta_value,
+		"original_{$return_key}" => $orig_meta_value,
+		'results' => $res
+	);
+}
+
+/**
+ * Save all titles sent from the Bulk Editor.
+ */
+function wpseo_save_all_titles() {
+	global $wpdb;
+
+	$new_titles = $_POST['titles'];
+	$original_titles = $_POST['existing_titles'];
+
+	$results = array();
+
+	foreach( $new_titles as $id => $new_title ) {
+		$original_title = $original_titles[ $id ];
+		$results[] = wpseo_upsert_new_title( $id, $new_title, $original_title );
+	}
+	echo json_encode( $results );
+
+	die();
+}
+
+add_action( 'wp_ajax_wpseo_save_all_titles', 'wpseo_save_all_titles' );
+
+/**
+ * Save an individual meta description from the Bulk Editor.
+ */
+function wpseo_save_description() {
+
+	$new_metadesc = $_POST['new_metadesc'] ;
+	$id = intval( $_POST['wpseo_post_id'] );
+	$original_metadesc = $_POST['existing_metadesc'];
+
+	$results = wpseo_upsert_new_description( $id, $new_metadesc, $original_metadesc );
+
+	echo json_encode( $results );
+	die();
+}
+
+add_action( 'wp_ajax_wpseo_save_desc', 'wpseo_save_description' );
+
+/**
+ * Helper function to create or update a post's meta description.
+ */
+function wpseo_upsert_new_description( $post_id, $new_metadesc, $original_metadesc) {
+
+	$meta_key = '_yoast_wpseo_metadesc';
+	$return_key = 'metadesc';
+	return wpseo_upsert_meta( $post_id, $new_metadesc, $original_metadesc, $meta_key, $return_key );
+}
+
+/**
+ * Save all description sent from the Bulk Editor.
+ */
+function wpseo_save_all_descriptions() {
+	global $wpdb;
+
+	$new_metadescs = $_POST['metadescs'];
+	$original_metadescs = $_POST['existing_metadescs'];
+
+	$results = array();
+
+	foreach( $new_metadescs as $id => $new_metadesc ) {
+		$original_metadesc = $original_metadescs[ $id ];
+		$results[] = wpseo_upsert_new_description( $id, $new_metadesc, $original_metadesc );
+	}
+	echo json_encode( $results );
+
+	die();
+}
+
+add_action( 'wp_ajax_wpseo_save_all_descs', 'wpseo_save_all_descriptions' );
