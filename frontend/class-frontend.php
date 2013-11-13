@@ -99,7 +99,7 @@ class WPSEO_Frontend {
 
 		if ( isset( $this->options['forcerewritetitle'] ) && $this->options['forcerewritetitle'] ) {
 			add_action( 'get_header', array( $this, 'force_rewrite_output_buffer' ) );
-			add_action( 'wp_footer', array( $this, 'flush_cache' ) );
+			add_action( 'wp_footer', array( $this, 'flush_cache' ), -1 );
 		}
 
 		if ( isset( $this->options['title_test'] ) && $this->options['title_test'] )
