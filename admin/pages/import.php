@@ -31,6 +31,62 @@ function replace_meta( $old_metakey, $new_metakey, $replace = false ) {
 	}
 }
 
+/**
+ * Used for imports, this specialized function either 'copies' $old_metakey into $new_metakey or just plain replaces $old_metakey with $new_metakey
+ *
+ * @param string  $old_metakey The old name of the meta value.
+ * @param string  $new_metakey The new name of the meta value, usually the WP SEO name.
+ * @param bool    $replace     Whether to replace or to copy the values.
+ */
+function replace_noindex_nofollow_meta ( $old_metakey, $new_metakey, $replace = false ) {
+	global $wpdb;
+	$oldies = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $wpdb->postmeta WHERE meta_key = %s", $old_metakey ) );
+	foreach ( $oldies as $old ) {
+		// Prevent inserting new meta values for posts that already have a value for that new meta key
+		$check = get_post_meta( $old->post_id, $new_metakey, true );
+		if ( !$check || empty( $check ) ) {
+			if ($old->meta_value == 'on') {
+				update_post_meta( $old->post_id, $new_metakey, '1' );
+			}
+		} else {
+			update_post_meta( $old->post_id, $new_metakey, '0' );
+		}
+
+		if ( $replace )
+			delete_post_meta( $old->post_id, $old_metakey );
+	}
+}
+
+/**
+ * Used for imports, this function checks if opendir-settings exist and parses them to WPSEO comma-separated format
+ *
+ * @param string  $old_metakey The old name of the meta value.
+ * @param string  $new_metakey The new name of the meta value, usually the WP SEO name.
+ * @param bool    $replace     Whether to replace or to copy the values.
+ */
+function replace_opendir_meta ( $old_noodp, $old_noydir, $new_metakey, $replace = false ) {
+	global $wpdb;
+	$new_metavalue = '';
+	$oldies = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $wpdb->postmeta WHERE meta_key = %s OR meta_key = %s", $old_noodp, $old_noydir ) );
+	foreach ( $oldies as $old ) {
+		// Prevent inserting new meta values for posts that already have a value for that new meta key
+		$check = get_post_meta( $old->post_id, $new_metakey, true );
+		if ( !$check || empty( $check ) || $check = 'noodp,' ) {
+			if ($old->meta_key == $old_noodp) {
+				$new_metavalue = 'noodp,';
+			}
+			if ($old->meta_key == $old_noydir) {
+				$new_metavalue .= 'noydir';
+			}
+			update_post_meta( $old->post_id, $new_metakey, $new_metavalue );
+		}
+		if ( $replace ) {
+			delete_post_meta( $old->post_id, $old_noodp );
+			delete_post_meta( $old->post_id, $old_noydir );
+		}
+	}
+}
+
 $msg = '';
 if ( isset( $_POST['import'] ) ) {
 
@@ -198,6 +254,9 @@ if ( isset( $_POST['import'] ) ) {
 		replace_meta( '_aioseop_description', '_yoast_wpseo_metadesc', $replace );
 		replace_meta( '_aioseop_keywords', '_yoast_wpseo_metakeywords', $replace );
 		replace_meta( '_aioseop_title', '_yoast_wpseo_title', $replace );
+		replace_noindex_nofollow_meta( '_aioseop_noindex', '_yoast_wpseo_meta-robots-noindex', $replace );
+		replace_noindex_nofollow_meta( '_aioseop_nofollow', '_yoast_wpseo_meta-robots-nofollow', $replace );
+		replace_opendir_meta( '_aioseop_noodp', '_aioseop_noydir', '_yoast_wpseo_meta-robots-adv', $replace );
 		$msg .= __( 'All in One SEO data successfully imported.', 'wordpress-seo' );
 	}
 	if ( isset( $_POST['wpseo']['importaioseoold'] ) ) {
