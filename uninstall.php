@@ -11,3 +11,7 @@ if( !defined( 'ABSPATH') && !defined('WP_UNINSTALL_PLUGIN') )
 foreach ( array('wpseo', 'wpseo_indexation', 'wpseo_permalinks', 'wpseo_titles', 'wpseo_rss', 'wpseo_internallinks', 'wpseo_xml', 'wpseo_social') as $option) {
 	delete_option( $option );
 }
+
+if( wp_next_scheduled( 'yoast_tracking' ) !== false ) {
+	wp_clear_scheduled_hook( 'yoast_tracking' );
+}
