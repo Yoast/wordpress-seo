@@ -120,6 +120,7 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 	* Applied a number of settings form best practices - props [Jrf](http://profiles.wordpress.org/jrf).
 	* File inclusion best practices applied - props [Jrf](http://profiles.wordpress.org/jrf).
     * Breadcrumbs for Custom Post Types now take the CPT->label instead of CPT->labels->menu_name as text parameter, as suggested by [katart17](http://wordpress.org/support/profile/katart17) and [Robbert V](http://wordpress.org/support/profile/robbert-v) - props [Jrf](http://profiles.wordpress.org/jrf).
+  * Default to nofollowing links in RSS feed footers.
 
 * Bugfixes
 	* Move all rewrite flushing to shutdown, so it doesn't break other plugins who add their rewrites late.
@@ -132,7 +133,10 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 	* Fixed [Missing argument 3 for wpseo_upgrader_process_complete](https://github.com/Yoast/wordpress-seo/issues/327) notice for WP 3.7+, thanks [vickyindo](https://github.com/vickyindo), [Wendyhihi](https://github.com/Wendihihi) and [Theressa1](https://github.com/Theressa1) for reporting - props [Jrf](http://profiles.wordpress.org/jrf).
 
 * i18n
-    * Updated ru_RU, tr_TK and Hr
+  * Updated ru_RU, tr_TK and Hr
+
+* Misc
+	* Switch back to MailChimp for newsletter subscribe.
 
 = 1.4.18 =
 
