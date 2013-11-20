@@ -1249,16 +1249,26 @@ class WPSEO_Frontend {
 	function rss_replace_vars( $content ) {
 		global $post;
 
-		$authorlink   = '<a rel="author" href="' . get_author_posts_url( $post->post_author ) . '">' . get_the_author() . '</a>';
-		$postlink     = '<a href="' . get_permalink() . '">' . get_the_title() . "</a>";
-		$bloglink     = '<a href="' . get_bloginfo( 'url' ) . '">' . get_bloginfo( 'name' ) . '</a>';
-		$blogdesclink = '<a href="' . get_bloginfo( 'url' ) . '">' . get_bloginfo( 'name' ) . ' - ' . get_bloginfo( 'description' ) . '</a>';
+		/**
+		 * @param bool $unsigned Whether or not to follow the links in RSS feed, defaults to true.
+		 *
+		 * @since 1.4.20
+		 */
+		$no_follow      = apply_filters( 'nofollow_rss_links', true );
+		$no_follow_attr = '';
+		if ( $no_follow )
+			$no_follow_attr = 'rel="nofollow" ';
+
+		$author_link   = '<a rel="' . ( ( $no_follow ) ? 'nofollow ' : '' ) . 'author" href="' . get_author_posts_url( $post->post_author ) . '">' . get_the_author() . '</a>';
+		$post_link     = '<a ' . $no_follow_attr . 'href="' . get_permalink() . '">' . get_the_title() . "</a>";
+		$blog_link     = '<a ' . $no_follow_attr . 'href="' . get_bloginfo( 'url' ) . '">' . get_bloginfo( 'name' ) . '</a>';
+		$blog_desc_link = '<a ' . $no_follow_attr . 'href="' . get_bloginfo( 'url' ) . '">' . get_bloginfo( 'name' ) . ' - ' . get_bloginfo( 'description' ) . '</a>';
 
 		$content = stripslashes( trim( $content ) );
-		$content = str_replace( "%%AUTHORLINK%%", $authorlink, $content );
-		$content = str_replace( "%%POSTLINK%%", $postlink, $content );
-		$content = str_replace( "%%BLOGLINK%%", $bloglink, $content );
-		$content = str_replace( "%%BLOGDESCLINK%%", $blogdesclink, $content );
+		$content = str_replace( "%%AUTHORLINK%%", $author_link, $content );
+		$content = str_replace( "%%POSTLINK%%", $post_link, $content );
+		$content = str_replace( "%%BLOGLINK%%", $blog_link, $content );
+		$content = str_replace( "%%BLOGDESCLINK%%", $blog_desc_link, $content );
 		return $content;
 	}
 
