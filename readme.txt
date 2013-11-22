@@ -113,6 +113,12 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 	* Fix _Invalid argument supplied for foreach()_ notice for WPML as reported by [pbearne](https://github.com/pbearne) - props [Jrf](http://profiles.wordpress.org/jrf).
 	* Yoast tracking cron job will now unschedule on disallowing of tracking, on deactivation and on uninstall, inspired by [Bluebird Blvd.](http://wordpress.org/support/topic/found-active-tracking-device-after-deleting-wp-seo-months-ago) - props [Jrf](http://profiles.wordpress.org/jrf).
 
+* Enhancements
+	* XML Sitemap now loads before theme files are loaded to prevent issues.
+
+* Misc
+	* Switch back to MailChimp for newsletter subscribe.
+
 
 = 1.4.19 =
 
@@ -138,9 +144,6 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 
 * i18n
   * Updated ru_RU, tr_TK and Hr
-
-* Misc
-	* Switch back to MailChimp for newsletter subscribe.
 
 = 1.4.18 =
 
