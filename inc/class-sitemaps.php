@@ -55,7 +55,8 @@ class WPSEO_Sitemaps {
 		add_action( 'wpseo_hit_sitemap_index', array( $this, 'hit_sitemap_index' ) );
 
 		// default stylesheet
-		$this->stylesheet = '<?xml-stylesheet type="text/xsl" href="' . home_url( 'main-sitemap.xsl' ) . '"?>';
+		$abs_main_sitemap_url = str_replace( get_option( 'home' ), $_SERVER['SERVER_NAME'], home_url( 'main-sitemap.xsl' ) );
+		$this->stylesheet = '<?xml-stylesheet type="text/xsl" href="' . $abs_main_sitemap_url . '"?>';
 
 		$this->options = get_wpseo_options();
 	}
