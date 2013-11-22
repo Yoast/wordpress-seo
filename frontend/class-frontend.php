@@ -196,8 +196,8 @@ class WPSEO_Frontend {
 	 *
 	 * All titles pulled from options will be run through the wpseo_replace_vars function.
 	 *
-	 * @param string       $index         name of the page to get the title from the settings for.
-	 * @param object|array $var_source    possible object to pul variables from.
+	 * @param string       $index      name of the page to get the title from the settings for.
+	 * @param object|array $var_source possible object to pul variables from.
 	 *
 	 * @return string
 	 */
@@ -547,10 +547,8 @@ class WPSEO_Frontend {
 			global $post;
 			if ( isset( $this->options['noindex-' . $post->post_type] ) && $this->options['noindex-' . $post->post_type] )
 				$robots['index'] = 'noindex';
-			if ( wpseo_get_value( 'meta-robots-noindex' ) == 1 )
+			if ( wpseo_get_value( 'meta-robots-noindex' ) === 1 )
 				$robots['index'] = 'noindex';
-			if ( wpseo_get_value( 'meta-robots-noindex' ) == 2 )
-				$robots['index'] = 'index';
 			if ( wpseo_get_value( 'meta-robots-nofollow' ) )
 				$robots['follow'] = 'nofollow';
 			if ( wpseo_get_value( 'meta-robots-adv' ) && wpseo_get_value( 'meta-robots-adv' ) != 'none' ) {
@@ -571,7 +569,7 @@ class WPSEO_Frontend {
 				// Three possible values, index, noindex and default, do nothing for default
 				$term_meta = wpseo_get_term_meta( $term, $term->taxonomy, 'noindex' );
 				if ( 'noindex' == $term_meta || 'on' == $term_meta ) // on is for backwards compatibility
-				$robots['index'] = 'noindex';
+					$robots['index'] = 'noindex';
 
 				if ( 'index' == $term_meta )
 					$robots['index'] = 'index';
