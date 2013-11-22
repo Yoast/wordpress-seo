@@ -104,7 +104,7 @@ class WPSEO_Metabox {
 	public function publish_box() {
 		echo '<div class="misc-pub-section misc-yoast misc-pub-section-last">';
 
-		if ( wpseo_get_value( 'meta-robots-noindex' ) === 1 ) {
+		if ( (int) wpseo_get_value( 'meta-robots-noindex' ) === 1 ) {
 			$score_label = 'noindex';
 			$title       = __( 'Post is set to noindex.', 'wordpress-seo' );
 		}
@@ -862,11 +862,10 @@ class WPSEO_Metabox {
 	 */
 	function column_content( $column_name, $post_id ) {
 		if ( $column_name == 'wpseo-score' ) {
-			if ( wpseo_get_value( 'meta-robots-noindex', $post_id ) === 1 ) {
+			if ( (int) wpseo_get_value( 'meta-robots-noindex', $post_id ) === 1 ) {
 				$score_label = 'noindex';
 				$title       = __( 'Post is set to noindex.', 'wordpress-seo' );
-				if ( wpseo_get_value( 'meta-robots-noindex', $post_id ) === 1 )
-					wpseo_set_value( 'linkdex', 0, $post_id );
+				wpseo_set_value( 'linkdex', 0, $post_id );
 			}
 			else if ( $score = wpseo_get_value( 'linkdex', $post_id ) ) {
 				$score_label = wpseo_translate_score( round( $score / 10 ) );
