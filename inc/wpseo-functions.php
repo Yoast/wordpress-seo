@@ -418,7 +418,7 @@ function wpseo_store_tracking_response() {
 	$options['tracking_popup'] = 'done';
 
 	if ( $_POST['allow_tracking'] == 'yes' )
-		$options['yoast_tracking'] = true;
+		$options['yoast_tracking'] = 'on';
 
 	update_option( 'wpseo', $options );
 }
@@ -436,25 +436,62 @@ add_action('wp_ajax_wpseo_allow_tracking', 'wpseo_store_tracking_response');
 function wpseo_wpml_config( $config ) {
     global $sitepress;
 
-    $admin_texts = &$config['wpml-config']['admin-texts']['key'];
-    foreach( $admin_texts as $k => $val ){
-        if ( $val['attr']['name'] == 'wpseo_titles' ) {
-            $translate_cp = array_keys( $sitepress->get_translatable_documents() );
-            foreach( $translate_cp as $post_type ) {
-                $admin_texts[$k]['key'][]['attr']['name'] = 'title-'. $post_type;
-                $admin_texts[$k]['key'][]['attr']['name'] = 'metadesc-'. $post_type;
-                $admin_texts[$k]['key'][]['attr']['name'] = 'title-ptarchive-'. $post_type;
-                $admin_texts[$k]['key'][]['attr']['name'] = 'metadesc-ptarchive-'. $post_type;
-                $translate_tax = $sitepress->get_translatable_taxonomies(false, $post_type);
-                foreach( $translate_tax as $taxonomy ) {
-                    $admin_texts[$k]['key'][]['attr']['name'] = 'title-'. $taxonomy;
-                    $admin_texts[$k]['key'][]['attr']['name'] = 'metadesc-'. $taxonomy;
-                }
-            }
-            break;
-        }
-    }
+	if ( ( is_array( $config ) && isset( $config['wpml-config']['admin-texts']['key'] ) ) && ( is_array( $config['wpml-config']['admin-texts']['key'] ) && $config['wpml-config']['admin-texts']['key'] !== array() ) ) {
+	    $admin_texts = $config['wpml-config']['admin-texts']['key'];
+	    foreach ( $admin_texts as $k => $val ) {
+	        if ( $val['attr']['name'] === 'wpseo_titles' ) {
+	            $translate_cp = array_keys( $sitepress->get_translatable_documents() );
+	            if ( is_array( $translate_cp ) && $translate_cp !== array() ) {
+		            foreach ( $translate_cp as $post_type ) {
+		                $admin_texts[$k]['key'][]['attr']['name'] = 'title-'. $post_type;
+		                $admin_texts[$k]['key'][]['attr']['name'] = 'metadesc-'. $post_type;
+		                $admin_texts[$k]['key'][]['attr']['name'] = 'title-ptarchive-'. $post_type;
+		                $admin_texts[$k]['key'][]['attr']['name'] = 'metadesc-ptarchive-'. $post_type;
+
+		                $translate_tax = $sitepress->get_translatable_taxonomies(false, $post_type);
+		                if ( is_array( $translate_tax ) && $translate_tax !== array() ) {
+			                foreach ( $translate_tax as $taxonomy ) {
+			                    $admin_texts[$k]['key'][]['attr']['name'] = 'title-'. $taxonomy;
+			                    $admin_texts[$k]['key'][]['attr']['name'] = 'metadesc-'. $taxonomy;
+			                }
+						}
+		            }
+				}
+	            break;
+	        }
+	    }
+	    $config['wpml-config']['admin-texts']['key'] = $admin_texts;
+	}
 
     return $config;
 }
 add_filter( 'icl_wpml_config_array', 'wpseo_wpml_config' );
+
+
+/**
+ * (Un-)schedule the yoast tracking cronjob if the tracking option has changed
+ * 
+ * Needs to be done here, rather than in the Yoast_Tracking class as class-tracking.php may not be loaded
+ *
+ * @todo - check if this has any impact on other Yoast plugins which may use the same tracking schedule
+ * hook. If so, may be get any other yoast plugin options, check for the tracking status and
+ * unschedule based on the combined status
+ *
+ * @param	mixed	$disregard	Not needed - Option name if option was added, old value if option was updated
+ * @param	array	$value		The new value of the option after add/update
+ * @return	void
+ */
+function schedule_yoast_tracking( $disregard, $value ) {
+	$current_schedule = wp_next_scheduled( 'yoast_tracking' );
+	$tracking = ( isset( $value['yoast_tracking'] ) && $value['yoast_tracking'] ) ? true : false;
+
+	if( $tracking === true && $current_schedule === false ) {
+		// The tracking checks daily, but only sends new data every 7 days.
+		wp_schedule_event( time(), 'daily', 'yoast_tracking' );
+	}
+	else if( $tracking === false && $current_schedule !== false ){
+		wp_clear_scheduled_hook( 'yoast_tracking' );
+	}
+}
+add_action( 'add_option_wpseo', 'schedule_yoast_tracking', 10, 2 );
+add_action( 'update_option_wpseo', 'schedule_yoast_tracking', 10, 2 );

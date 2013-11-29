@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: seo, SEO, google, meta, meta description, search engine optimization, xml sitemap, xml sitemaps, google sitemap, sitemap, sitemaps, robots meta, rss, rss footer, yahoo, bing, news sitemaps, XML News Sitemaps, WordPress SEO, WordPress SEO by Yoast, yoast, multisite, canonical, nofollow, noindex, keywords, meta keywords, description, webmaster tools, google webmaster tools, seo pack
 Requires at least: 3.3
 Tested up to: 3.6
-Stable tag: 1.4.19-beta
+Stable tag: 1.4.20-beta
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the WordPress SEO plugin by Yoast.
 
@@ -108,6 +108,20 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 
 = Trunk =
 
+* Bugfixes
+	* Fixed bug where posts set to _always_ index would not end up in XML sitemap.
+	* Fix _Invalid argument supplied for foreach()_ notice for WPML as reported by [pbearne](https://github.com/pbearne) - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Yoast tracking cron job will now unschedule on disallowing of tracking, on deactivation and on uninstall, inspired by [Bluebird Blvd.](http://wordpress.org/support/topic/found-active-tracking-device-after-deleting-wp-seo-months-ago) - props [Jrf](http://profiles.wordpress.org/jrf).
+
+* Enhancements
+	* XML Sitemap now loads before theme files are loaded to prevent issues.
+
+* Misc
+	* Switch back to MailChimp for newsletter subscribe.
+
+
+= 1.4.19 =
+
 * Enhancements
 	* Added the option to upload a separate image for Facebook in the Social tab.
 	* Added published time, last modified time, tags and categories to OpenGraph output, to work with Pinterests new article pin.
@@ -116,6 +130,7 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 	* Applied a number of settings form best practices - props [Jrf](http://profiles.wordpress.org/jrf).
 	* File inclusion best practices applied - props [Jrf](http://profiles.wordpress.org/jrf).
     * Breadcrumbs for Custom Post Types now take the CPT->label instead of CPT->labels->menu_name as text parameter, as suggested by [katart17](http://wordpress.org/support/profile/katart17) and [Robbert V](http://wordpress.org/support/profile/robbert-v) - props [Jrf](http://profiles.wordpress.org/jrf).
+  * Default to nofollowing links in RSS feed footers.
 
 * Bugfixes
 	* Move all rewrite flushing to shutdown, so it doesn't break other plugins who add their rewrites late.
@@ -128,7 +143,7 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 	* Fixed [Missing argument 3 for wpseo_upgrader_process_complete](https://github.com/Yoast/wordpress-seo/issues/327) notice for WP 3.7+, thanks [vickyindo](https://github.com/vickyindo), [Wendyhihi](https://github.com/Wendihihi) and [Theressa1](https://github.com/Theressa1) for reporting - props [Jrf](http://profiles.wordpress.org/jrf).
 
 * i18n
-    * Updated ru_RU, tr_TK and Hr
+  * Updated ru_RU, tr_TK and Hr
 
 = 1.4.18 =
 

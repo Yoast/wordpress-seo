@@ -247,7 +247,7 @@ class WPSEO_Breadcrumbs {
 						$crumb404 = $options['breadcrumbs-404crumb'];
 					else
 						$crumb404 = __( 'Error 404: Page not found', 'wordpress-seo' );
-							
+
 					$links[] = array( 'text' => $crumb404 );
 				}
 			}
@@ -310,6 +310,10 @@ class WPSEO_Breadcrumbs {
 			}
 
 			if ( isset( $link['ptarchive'] ) ) {
+				/* @todo add something along the lines of the below to make it work with WooCommerce.. ?
+				if( false === $link['ptarchive'] && true === is_post_type_archive( 'product' ) ) {
+					$link['ptarchive'] = 'product'; // translate ?
+				}*/
 				if ( isset( $opt['bctitle-ptarchive-' . $link['ptarchive']] ) && '' != $opt['bctitle-ptarchive-' . $link['ptarchive']] ) {
 					$archive_title = $opt['bctitle-ptarchive-' . $link['ptarchive']];
 				} else {
