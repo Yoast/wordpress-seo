@@ -547,7 +547,7 @@ class WPSEO_Frontend {
 			global $post;
 			if ( isset( $this->options['noindex-' . $post->post_type] ) && $this->options['noindex-' . $post->post_type] )
 				$robots['index'] = 'noindex';
-			if ( wpseo_get_value( 'meta-robots-noindex' ) === 1 )
+			if ( (int) wpseo_get_value( 'meta-robots-noindex' ) === 1 )
 				$robots['index'] = 'noindex';
 			if ( wpseo_get_value( 'meta-robots-nofollow' ) )
 				$robots['follow'] = 'nofollow';
