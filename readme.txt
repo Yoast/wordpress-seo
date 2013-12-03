@@ -120,6 +120,8 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 * Misc
 	* Switch back to MailChimp for newsletter subscribe.
 
+* i18n
+  * Updated es_ES
 
 = 1.4.19 =
 
