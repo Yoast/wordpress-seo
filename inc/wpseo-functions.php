@@ -421,7 +421,7 @@ function wpseo_store_tracking_response() {
 	$options['tracking_popup_done'] = true;
 
 	if ( $_POST['allow_tracking'] == 'yes' )
-		$options['yoast_tracking'] = 'on';
+		$options['yoast_tracking'] = true;
 	else
 		$options['yoast_tracking'] = false;
 
@@ -462,9 +462,9 @@ function wpseo_wpml_config( $config ) {
 			                    $admin_texts[$k]['key'][]['attr']['name'] = 'metadesc-tax-'. $taxonomy;
 			                    $admin_texts[$k]['key'][]['attr']['name'] = 'metakey-tax-'. $taxonomy;
 		        	        }
+						}
+					}
 				}
-		            }
-            	    }
 	            break;
 	        }
 	    }
