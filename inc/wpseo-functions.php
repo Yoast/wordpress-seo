@@ -421,7 +421,7 @@ function wpseo_store_tracking_response() {
 	$options['tracking_popup_done'] = true;
 
 	if ( $_POST['allow_tracking'] == 'yes' )
-		$options['yoast_tracking'] = true;
+		$options['yoast_tracking'] = 'on';
 	else
 		$options['yoast_tracking'] = false;
 
@@ -441,33 +441,35 @@ add_action('wp_ajax_wpseo_allow_tracking', 'wpseo_store_tracking_response');
 function wpseo_wpml_config( $config ) {
     global $sitepress;
 
-    $admin_texts = &$config['wpml-config']['admin-texts']['key'];
-    foreach ( $admin_texts as $k => $val ){
-        if ( $val['attr']['name'] == 'wpseo_titles' ) {
+	if ( ( is_array( $config ) && isset( $config['wpml-config']['admin-texts']['key'] ) ) && ( is_array( $config['wpml-config']['admin-texts']['key'] ) && $config['wpml-config']['admin-texts']['key'] !== array() ) ) {
+	    $admin_texts = $config['wpml-config']['admin-texts']['key'];
+	    foreach ( $admin_texts as $k => $val ) {
+	        if ( $val['attr']['name'] === 'wpseo_titles' ) {
+	            $translate_cp = array_keys( $sitepress->get_translatable_documents() );
+	            if ( is_array( $translate_cp ) && $translate_cp !== array() ) {
+		            foreach ( $translate_cp as $post_type ) {
+		                $admin_texts[$k]['key'][]['attr']['name'] = 'title-'. $post_type;
+		                $admin_texts[$k]['key'][]['attr']['name'] = 'metadesc-'. $post_type;
+ 		                $admin_texts[$k]['key'][]['attr']['name'] = 'metakey-'. $post_type;
+		                $admin_texts[$k]['key'][]['attr']['name'] = 'title-ptarchive-'. $post_type;
+		                $admin_texts[$k]['key'][]['attr']['name'] = 'metadesc-ptarchive-'. $post_type;
+		                $admin_texts[$k]['key'][]['attr']['name'] = 'metakey-ptarchive-'. $post_type;
 
-            $translate_cp = array_keys( $sitepress->get_translatable_documents() );
-            if ( is_array( $translate_cp ) && $translate_cp !== array() ) {
-	            foreach ( $translate_cp as $post_type ) {
-	                $admin_texts[$k]['key'][]['attr']['name'] = 'title-'. $post_type;
-	                $admin_texts[$k]['key'][]['attr']['name'] = 'metadesc-'. $post_type;
-	                $admin_texts[$k]['key'][]['attr']['name'] = 'metakey-'. $post_type;
-	                $admin_texts[$k]['key'][]['attr']['name'] = 'title-ptarchive-'. $post_type;
-	                $admin_texts[$k]['key'][]['attr']['name'] = 'metadesc-ptarchive-'. $post_type;
-	                $admin_texts[$k]['key'][]['attr']['name'] = 'metakey-ptarchive-'. $post_type;
-
-	                $translate_tax = $sitepress->get_translatable_taxonomies(false, $post_type);
-	                if ( is_array( $translate_tax ) && $translate_tax !== array() ) {
-		                foreach ( $translate_tax as $taxonomy ) {
-		                    $admin_texts[$k]['key'][]['attr']['name'] = 'title-tax-'. $taxonomy;
-		                    $admin_texts[$k]['key'][]['attr']['name'] = 'metadesc-tax-'. $taxonomy;
-		                    $admin_texts[$k]['key'][]['attr']['name'] = 'metakey-tax-'. $taxonomy;
-		                }
-					}
-	            }
-			}
-            break;
-        }
-    }
+		                $translate_tax = $sitepress->get_translatable_taxonomies(false, $post_type);
+		                if ( is_array( $translate_tax ) && $translate_tax !== array() ) {
+			                foreach ( $translate_tax as $taxonomy ) {
+			                    $admin_texts[$k]['key'][]['attr']['name'] = 'title-tax-'. $taxonomy;
+			                    $admin_texts[$k]['key'][]['attr']['name'] = 'metadesc-tax-'. $taxonomy;
+			                    $admin_texts[$k]['key'][]['attr']['name'] = 'metakey-tax-'. $taxonomy;
+		        	        }
+				}
+		            }
+            	    }
+	            break;
+	        }
+	    }
+	    $config['wpml-config']['admin-texts']['key'] = $admin_texts;
+	}
 
     return $config;
 }

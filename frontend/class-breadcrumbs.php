@@ -290,7 +290,12 @@ class WPSEO_Breadcrumbs {
 			}
 
 			if ( isset( $link['ptarchive'] ) ) {
+				/* @todo add something along the lines of the below to make it work with WooCommerce.. ?
+				if( false === $link['ptarchive'] && true === is_post_type_archive( 'product' ) ) {
+					$link['ptarchive'] = 'product'; // translate ?
+				}*/
 				if ( isset( $opt['bctitle-ptarchive-' . $link['ptarchive']] ) && $opt['bctitle-ptarchive-' . $link['ptarchive']] !== '' ) {
+
 					$archive_title = $opt['bctitle-ptarchive-' . $link['ptarchive']];
 				} else {
 					$post_type_obj = get_post_type_object( $link['ptarchive'] );

@@ -25,6 +25,8 @@ function wpseo_activate() {
 	wpseo_defaults();
 
 	wpseo_flush_rules();
+	
+	schedule_yoast_tracking( null, get_option( 'wpseo' ) );
 
 	WPSEO_Options::schedule_yoast_tracking( null, get_option( 'wpseo' ) );
 
@@ -333,6 +335,8 @@ function wpseo_update_theme_complete_actions( $update_actions, $updated_theme ) 
  */
 function wpseo_deactivate() {
 	wpseo_flush_rules();
+	
+	schedule_yoast_tracking( null, get_option( 'wpseo' ) );
 
 	WPSEO_Options::schedule_yoast_tracking( null, get_option( 'wpseo' ) );
 

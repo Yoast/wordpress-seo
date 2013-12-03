@@ -37,17 +37,26 @@ class WPSEO_Sitemaps {
 	 */
 	private $options = array();
 
+	/**
+	 * Holds the n variable
+	 */
+	private $n = 1;
+
+	/**
+	 * Class constructor
+	 */
 	function __construct() {
 		if ( ! defined( 'ENT_XML1' ) )
 			define( "ENT_XML1", 16 );
 
 		add_action( 'init', array( $this, 'init' ), 1 );
-		add_action( 'template_redirect', array( $this, 'redirect' ) );
+		add_action( 'setup_theme', array( $this, 'redirect' ), 11 );
 		add_filter( 'redirect_canonical', array( $this, 'canonical' ) );
 		add_action( 'wpseo_hit_sitemap_index', array( $this, 'hit_sitemap_index' ) );
 
 		// default stylesheet
-		$this->stylesheet = '<?xml-stylesheet type="text/xsl" href="' . home_url( 'main-sitemap.xsl' ) . '"?>';
+		$abs_main_sitemap_url = str_replace( get_option( 'home' ), $_SERVER['SERVER_NAME'], home_url( 'main-sitemap.xsl' ) );
+		$this->stylesheet = '<?xml-stylesheet type="text/xsl" href="' . $abs_main_sitemap_url . '"?>';
 
 		$this->options = WPSEO_Options::get_all();
 	}
@@ -142,25 +151,33 @@ class WPSEO_Sitemaps {
 	 */
 	function redirect() {
 
-		$xsl = get_query_var( 'xsl' );
-		if ( ! empty( $xsl ) ) {
-			$this->xsl_output( $xsl );
+		if ( preg_match( '/.*?([^\/]+)?sitemap(.*?).(xsl|xml)$/', $_SERVER['REQUEST_URI'], $match ) ) {
+
+			$this->n = $match[2];
+
+			$match[1] = ltrim( rtrim( $match[1], '-' ), '/' );
+
+			if ( $match[3] == 'xsl' ) {
+				$this->xsl_output( $match[1] );
+				$this->sitemap_close();
+			} else if ( $match[3] == 'xml' ) {
+				if ( empty( $match[1]) )
+					$match[1] = 1;
+
+				$this->build_sitemap( $match[1] );
+			} else {
+				return;
+			}
+
+			// 404 for invalid or emtpy sitemaps
+			if ( $this->bad_sitemap ) {
+				$GLOBALS['wp_query']->is_404 = true;
+				return;
+			}
+
+			$this->output();
 			$this->sitemap_close();
 		}
-
-		$type = get_query_var( 'sitemap' );
-		if ( empty( $type ) )
-			return;
-
-		$this->build_sitemap( $type );
-		// 404 for invalid or emtpy sitemaps
-		if ( $this->bad_sitemap ) {
-			$GLOBALS['wp_query']->is_404 = true;
-			return;
-		}
-
-		$this->output();
-		$this->sitemap_close();
 	}
 
 	/**
@@ -370,7 +387,7 @@ class WPSEO_Sitemaps {
 		$output = '';
 
 		$steps  = 25;
-		$n      = (int) get_query_var( 'sitemap_n' );
+		$n      = (int) $this->n;
 		$offset = ( $n > 1 ) ? ( $n - 1 ) * $this->max_entries : 0;
 		$total  = $offset + $this->max_entries;
 
@@ -380,6 +397,7 @@ class WPSEO_Sitemaps {
 		$where_filter = apply_filters( 'wpseo_typecount_where', $where_filter, $post_type );
 
 		$query     = $wpdb->prepare( "SELECT COUNT(ID) FROM $wpdb->posts {$join_filter} WHERE post_status IN ('publish','inherit') AND post_password = '' AND post_type = %s " . $where_filter, $post_type );
+
 		$typecount = $wpdb->get_var( $query );
 
 		if ( $total > $typecount )
@@ -425,18 +443,18 @@ class WPSEO_Sitemaps {
 
 		$stackedurls = array();
 
-		// We grab post_date, post_name, post_author and post_status too so we can throw these objects into get_permalink, which saves a get_post call for each permalink.
-		while ( $total > $offset ) {
+		// Make sure you're wpdb->preparing everything you throw into this!!
+		$join_filter  = apply_filters( 'wpseo_posts_join', false, $post_type );
+		$where_filter = apply_filters( 'wpseo_posts_where', false, $post_type );
 
-			// Make sure you're wpdb->preparing everything you throw into this!!
-			$join_filter  = apply_filters( 'wpseo_posts_join', false, $post_type );
-			$where_filter = apply_filters( 'wpseo_posts_where', false, $post_type );
+		$status = ( $post_type == 'attachment' ) ? 'inherit' : 'publish';
+
+		// We grab post_date, post_name, post_author and post_status too so we can throw these objects into get_permalink, which saves a get_post call for each permalink.
+		$i = 0;
+		while ( $total > $offset ) {
 
 			// Optimized query per this thread: http://wordpress.org/support/topic/plugin-wordpress-seo-by-yoast-performance-suggestion
 			// Also see http://explainextended.com/2009/10/23/mysql-order-by-limit-performance-late-row-lookups/
-
-			$status = ( $post_type == 'attachment' ) ? 'inherit' : 'publish';
-
 			$query = $wpdb->prepare( "SELECT l.ID, post_content, post_name, post_author, post_parent, post_modified_gmt, post_date, post_date_gmt
 				FROM (
 					SELECT ID FROM $wpdb->posts {$join_filter}
@@ -459,12 +477,15 @@ class WPSEO_Sitemaps {
 				$p->post_status = 'publish';
 				$p->filter      = 'sample';
 
-				if ( wpseo_get_value( 'meta-robots-noindex', $p->ID ) && wpseo_get_value( 'sitemap-include', $p->ID ) != 'always' )
+				if ( (int) wpseo_get_value( 'meta-robots-noindex', $p->ID ) === 1 && wpseo_get_value( 'sitemap-include', $p->ID ) != 'always' ) {
 					continue;
-				if ( wpseo_get_value( 'sitemap-include', $p->ID ) == 'never' )
+				}
+				if ( wpseo_get_value( 'sitemap-include', $p->ID ) == 'never' ) {
 					continue;
-				if ( wpseo_get_value( 'redirect', $p->ID ) && strlen( wpseo_get_value( 'redirect', $p->ID ) ) > 0 )
+				}
+				if ( wpseo_get_value( 'redirect', $p->ID ) && strlen( wpseo_get_value( 'redirect', $p->ID ) ) > 0 ) {
 					continue;
+				}
 
 				$url = array();
 
@@ -608,7 +629,7 @@ class WPSEO_Sitemaps {
 		$output = '';
 
 		$steps  = $this->max_entries;
-		$n      = (int) get_query_var( 'sitemap_n' );
+		$n      = (int) $this->n;
 		$offset = ( $n > 1 ) ? ( $n - 1 ) * $this->max_entries : 0;
 		$total  = $offset + $this->max_entries;
 
@@ -684,7 +705,7 @@ class WPSEO_Sitemaps {
 		$output = '';
 
 		$steps  = $this->max_entries;
-		$n      = (int) get_query_var( 'sitemap_n' );
+		$n      = (int) $this->n;
 		$offset = ( $n > 1 ) ? ( $n - 1 ) * $this->max_entries : 0;
 
 		// initial query to fill in missing usermeta with the current timestamp
@@ -788,7 +809,7 @@ class WPSEO_Sitemaps {
 		echo "\n" . '<!-- XML Sitemap generated by Yoast WordPress SEO -->';
 
 		if ( WP_DEBUG )
-			echo "\n" . '<!-- Built in ' . timer_stop() . ' seconds | ' . memory_get_peak_usage() . ' | ' . count( $GLOBALS['wpdb']->queries ) . ' -->';
+			echo "\n" . '<!-- ' . memory_get_peak_usage() . ' | ' . count( $GLOBALS['wpdb']->queries ) . ' -->';
 	}
 
 	/**
@@ -893,8 +914,7 @@ class WPSEO_Sitemaps {
 	 *
 	 * @return string $user a WP_User object or false
 	 */
-	private
-	function is_user_sitemap( $type ) {
+	private function is_user_sitemap( $type ) {
 		$pieces = explode( '-', $type, 2 );
 		$user   = isset( $pieces[1] ) ? $pieces[1] : '';
 		return get_user_by( 'slug', $user );

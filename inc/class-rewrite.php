@@ -112,6 +112,8 @@ class WPSEO_Rewrite {
 
 		$category_rewrite = array();
 
+		$taxonomy = get_taxonomy('category');
+
 		$blog_prefix = '';
 		if ( function_exists( 'is_multisite' ) && is_multisite() && !is_subdomain_install() && is_main_site() )
 			$blog_prefix = 'blog/';
@@ -120,7 +122,7 @@ class WPSEO_Rewrite {
 			$category_nicename = $category->slug;
 			if ( $category->parent == $category->cat_ID ) // recursive recursion
 				$category->parent = 0;
-			elseif ( $category->parent != 0 )
+			elseif ( $taxonomy->rewrite['hierarchical'] != 0 && $category->parent != 0 )
 				$category_nicename = get_category_parents( $category->parent, false, '/', true ) . $category_nicename;
 
 			$category_rewrite[$blog_prefix . '(' . $category_nicename . ')/(?:feed/)?(feed|rdf|rss|rss2|atom)/?$'] = 'index.php?category_name=$matches[1]&feed=$matches[2]';

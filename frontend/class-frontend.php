@@ -547,10 +547,8 @@ class WPSEO_Frontend {
 			global $post;
 			if ( is_object( $post ) && ( isset( $this->options['noindex-' . $post->post_type] ) && $this->options['noindex-' . $post->post_type] === true ) )
 				$robots['index'] = 'noindex';
-			if ( wpseo_get_value( 'meta-robots-noindex' ) == 1 )
+			if ( (int) wpseo_get_value( 'meta-robots-noindex' ) === 1 )
 				$robots['index'] = 'noindex';
-			if ( wpseo_get_value( 'meta-robots-noindex' ) == 2 )
-				$robots['index'] = 'index';
 			if ( wpseo_get_value( 'meta-robots-nofollow' ) )
 				$robots['follow'] = 'nofollow';
 			if ( wpseo_get_value( 'meta-robots-adv' ) && wpseo_get_value( 'meta-robots-adv' ) != 'none' ) {
@@ -571,7 +569,7 @@ class WPSEO_Frontend {
 				// Three possible values, index, noindex and default, do nothing for default
 				$term_meta = wpseo_get_term_meta( $term, $term->taxonomy, 'noindex' );
 				if ( 'noindex' == $term_meta || 'on' == $term_meta ) // on is for backwards compatibility
-				$robots['index'] = 'noindex';
+					$robots['index'] = 'noindex';
 
 				if ( 'index' == $term_meta )
 					$robots['index'] = 'index';
@@ -833,7 +831,7 @@ class WPSEO_Frontend {
 		$gplus = false;
 
 		if ( is_home() || is_front_page() ) {
-			if ( $this->options['plus-author'] !== - 1 )
+			if ( $this->options['plus-author'] !== -1 )
 				$gplus = get_the_author_meta( 'googleplus', $this->options['plus-author'] );
 
 		}
@@ -1257,19 +1255,31 @@ class WPSEO_Frontend {
 	function rss_replace_vars( $content ) {
 		global $post;
 		
-		$authorlink = '';
+		/**
+		 * @param bool $unsigned Whether or not to follow the links in RSS feed, defaults to true.
+		 *
+		 * @since 1.4.20
+		 */
+		$no_follow      = apply_filters( 'nofollow_rss_links', true );
+		$no_follow_attr = '';
+		if ( $no_follow )
+			$no_follow_attr = 'rel="nofollow" ';
+
+//		$author_link   = '<a rel="' . ( ( $no_follow ) ? 'nofollow ' : '' ) . 'author" href="' . get_author_posts_url( $post->post_author ) . '">' . get_the_author() . '</a>';
+		$author_link = '';
 		if( is_object( $post ) ) {
-			$authorlink   = '<a rel="author" href="' . get_author_posts_url( $post->post_author ) . '">' . get_the_author() . '</a>';
+			$author_link   = '<a rel="author" href="' . get_author_posts_url( $post->post_author ) . '">' . get_the_author() . '</a>';
 		}
-		$postlink     = '<a href="' . get_permalink() . '">' . get_the_title() . "</a>";
-		$bloglink     = '<a href="' . get_bloginfo( 'url' ) . '">' . get_bloginfo( 'name' ) . '</a>';
-		$blogdesclink = '<a href="' . get_bloginfo( 'url' ) . '">' . get_bloginfo( 'name' ) . ' - ' . get_bloginfo( 'description' ) . '</a>';
+
+				$post_link     = '<a ' . $no_follow_attr . 'href="' . get_permalink() . '">' . get_the_title() . "</a>";
+		$blog_link     = '<a ' . $no_follow_attr . 'href="' . get_bloginfo( 'url' ) . '">' . get_bloginfo( 'name' ) . '</a>';
+		$blog_desc_link = '<a ' . $no_follow_attr . 'href="' . get_bloginfo( 'url' ) . '">' . get_bloginfo( 'name' ) . ' - ' . get_bloginfo( 'description' ) . '</a>';
 
 		$content = stripslashes( trim( $content ) );
-		$content = str_replace( '%%AUTHORLINK%%', $authorlink, $content );
-		$content = str_replace( '%%POSTLINK%%', $postlink, $content );
-		$content = str_replace( '%%BLOGLINK%%', $bloglink, $content );
-		$content = str_replace( '%%BLOGDESCLINK%%', $blogdesclink, $content );
+		$content = str_replace( '%%AUTHORLINK%%', $author_link, $content );
+		$content = str_replace( '%%POSTLINK%%', $post_link, $content );
+		$content = str_replace( '%%BLOGLINK%%', $blog_link, $content );
+		$content = str_replace( '%%BLOGDESCLINK%%', $blog_desc_link, $content );
 		return $content;
 	}
 
