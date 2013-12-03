@@ -804,6 +804,8 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 
 			$clean   = self::get_defaults( $option_key );
 			$old     = get_option( $option_key );
+			// @todo - triple check that trim does not cause issues !!!!
+			// changes everything to a string which may be undesired, so check if possible better to use selectively
 			$options = array_map( array( __CLASS__, 'trim_recursive' ), $options );
 			
 
@@ -930,6 +932,8 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 
 			$clean   = self::get_defaults( $option_key );
 			$old     = get_option( $option_key );
+			// @todo - triple check that trim does not cause issues !!!!
+			// changes everything to a string which may be undesired, so check if possible better to use selectively
 			$options = array_map( array( __CLASS__, 'trim_recursive' ), $options );
 			
 			$allowed_transport = array( 'default', 'http', 'https' );
@@ -994,6 +998,8 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 
 			$clean   = self::get_defaults( $option_key );
 			$old     = get_option( $option_key );
+			// @todo - triple check that trim does not cause issues !!!!
+			// changes everything to a string which may be undesired, so check if possible better to use selectively
 			$options = array_map( array( __CLASS__, 'trim_recursive' ), $options );
 
 
@@ -1125,6 +1131,8 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 
 			$clean   = self::get_defaults( $option_key );
 			$old     = get_option( $option_key );
+			// @todo - triple check that trim does not cause issues !!!!
+			// changes everything to a string which may be undesired, so check if possible better to use selectively
 			$options = array_map( array( __CLASS__, 'trim_recursive' ), $options );
 
 			if ( !isset( $allowed_post_types ) ) {
@@ -1240,6 +1248,8 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 
 			$clean   = self::get_defaults( $option_key );
 			$old     = get_option( $option_key );
+			// @todo - triple check that trim does not cause issues !!!!
+			// changes everything to a string which may be undesired, so check if possible better to use selectively
 			$options = array_map( array( __CLASS__, 'trim_recursive' ), $options );
 			
 			foreach ( $clean as $k => $v ) {
@@ -1308,6 +1318,8 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 
 			$clean   = self::get_defaults( $option_key );
 			$old     = get_option( $option_key );
+			// @todo - triple check that trim does not cause issues !!!!
+			// changes everything to a string which may be undesired, so check if possible better to use selectively
 			$options = array_map( array( __CLASS__, 'trim_recursive' ), $options );
 
 
@@ -1490,6 +1502,8 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 
 			$clean   = self::get_defaults( $option_key );
 			$old     = get_option( $option_key );
+			// @todo - triple check that trim does not cause issues !!!!
+			// changes everything to a string which may be undesired, so check if possible better to use selectively
 			$options = array_map( array( __CLASS__, 'trim_recursive' ), $options );
 			
 			$allowed_access = array( 'admin', 'superadmin' );
@@ -1706,6 +1720,7 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 		 * - Makes sure that all options are set using default values if no valid value is found
 		 *
 		 * @todo check whether the settings_errors can be displayed if this is called from upgrade and if not, figure out a way to show them anyway
+		 * Set $settings['upgrading'] to indicate upgrade and catch this in validation to use as switch (may not always be set), or better use function_exists() on add_settings_error() and if not set transient ?
 		 */
 		public static function clean_up() {
 
