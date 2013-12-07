@@ -1,3 +1,19 @@
+Wordpress SEO (compatible with qTranslate)
+==========================================
+
+Welcome
+-------
+First of all I'd like to thank Yoast for creating such a good SEO plugin! We've just started using it and we find it great. On this fork we've add a few changes based on [Yoast's own FAQ](http://yoast.com/wordpress/seo/faq/#why-doesnt-the-wordpress-seo-plugin-with-qtranslate) and [erlangb's stackoverflow answer](http://stackoverflow.com/a/20428667/2948043) to make it compatible with qTranslate.
+
+We'll try to keep up to date as much as possible but feel free to contribute.
+
+How to use with qTranslate
+--------------------------
+To use Wordpress SEO to edit your multilingual title and meta descriptions, use the [:lang] tag, for example:
+
+[:en]Hello[:pt]Olá
+
+
 WordPress SEO by Yoast
 ======================
 
