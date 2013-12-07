@@ -634,8 +634,14 @@ class WPSEO_Metabox {
 		if ( isset( $options['showdate-' . $post->post_type] ) && $options['showdate-' . $post->post_type] )
 			$date = $this->get_post_date( $post );
 
-		$title = wpseo_get_value( 'title' );
-		$desc  = wpseo_get_value( 'metadesc' );
+		
+		if ( isset( $options['qtranslate'] ) && $options['qtranslate'] ){
+			$title = __( wpseo_get_value( 'title' ) );
+			$desc = __( wpseo_get_value( 'metadesc' ) );
+		} else {
+			$title = wpseo_get_value( 'title' );
+			$desc  = wpseo_get_value( 'metadesc' );
+		}
 
 		$slug = $post->post_name;
 		if ( empty( $slug ) )
@@ -1158,7 +1164,11 @@ class WPSEO_Metabox {
 
 		// Title
 		if ( wpseo_get_value( 'title' ) ) {
-			$job['title'] = wpseo_get_value( 'title' );
+			if ( isset( $options['qtranslate'] ) && $options['qtranslate'] ){
+				$job['title'] = __(wpseo_get_value( 'title' ));
+			} else {
+				$job['title'] = wpseo_get_value( 'title' );
+			}
 		}
 		else {
 			if ( isset( $options['title-' . $post->post_type] ) && $options['title-' . $post->post_type] != '' )
@@ -1172,7 +1182,11 @@ class WPSEO_Metabox {
 		// Meta description
 		$description = '';
 		if ( wpseo_get_value( 'metadesc' ) ) {
-			$description = wpseo_get_value( 'metadesc' );
+			if ( isset( $options['qtranslate'] ) && $options['qtranslate'] ){
+				$description = __( wpseo_get_value( 'metadesc' ));
+			} else {
+				$description = wpseo_get_value( 'metadesc' );
+			}
 		}
 		else {
 			if ( isset( $options['metadesc-' . $post->post_type] ) && ! empty( $options['metadesc-' . $post->post_type] ) )
