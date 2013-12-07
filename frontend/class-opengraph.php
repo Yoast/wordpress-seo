@@ -55,6 +55,10 @@ class WPSEO_OpenGraph extends WPSEO_Frontend {
 		}
 		remove_action( 'wp_head', 'jetpack_og_tags' );
 		add_action( 'wpseo_head', array( $this, 'opengraph' ), 30 );
+		
+		if ( isset( $this->options['qtranslate'] ) && $this->options['qtranslate'] ){
+			add_filter( 'wpseo_opengraph_title', array( $this, 'qtranslate_filter'), 10, 1 );
+		}
 	}
 
 	/**

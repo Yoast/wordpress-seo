@@ -153,6 +153,10 @@ echo $wpseo_admin_pages->textinput( 'googleverify', '<a target="_blank" href="ht
 echo $wpseo_admin_pages->textinput( 'msverify', '<a target="_blank" href="http://www.bing.com/webmaster/?rfp=1#/Dashboard/?url=' . str_replace( 'http://', '', get_bloginfo( 'url' ) ) . '">' . __( 'Bing Webmaster Tools', 'wordpress-seo' ) . '</a>' );
 echo $wpseo_admin_pages->textinput( 'alexaverify', '<a target="_blank" href="http://www.alexa.com/pro/subscription">' . __( 'Alexa Verification ID', 'wordpress-seo' ) . '</a>' );
 
+echo '<h2>' . __( 'qTranslate', 'wordpress-seo' ) . '</h2>';
+echo $wpseo_admin_pages->checkbox( 'qtranslate', __( 'Enable qTranslate Support (experimental)', 'wordpress-seo' ) );
+echo '<p class="desc">' . __( 'Checking this box will enable (limited) support for qTranslate. This feature is still experimental so please be sure to check that all your titles and meta descriptions show as you expect.', 'wordpress-seo' ) . '</p>';
+
 do_action( 'wpseo_dashboard' );
 
 $wpseo_admin_pages->admin_footer();

@@ -2,11 +2,11 @@ function yst_clean(str) {
 	if (str == '' || str == undefined)
 		return '';
 
-	try {
-		str = str.replace(/<\/?[^>]+>/gi, '');
-		str = str.replace(/\[(.+?)\](.+?\[\/\\1\])?/g, '');
-	} catch (e) {
-	}
+	// try {
+		// str = str.replace(/<\/?[^>]+>/gi, '');
+		// str = str.replace(/\[(.+?)\](.+?\[\/\\1\])?/g, '');
+	// } catch (e) {
+	// }
 
 	return str;
 }

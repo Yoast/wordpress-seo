@@ -109,6 +109,12 @@ class WPSEO_Frontend {
 			remove_action( 'wp_head', 'wp_no_robots' );
 			add_action( 'template_redirect', array( $this, 'replytocom_redirect' ), 1 );
 		}
+
+		if ( isset( $this->options['qtranslate'] ) && $this->options['qtranslate'] ){
+			add_filter( 'wpseo_title', array( $this, 'qtranslate_filter'), 10, 1 );
+			add_filter( 'wpseo_metadesc', array( $this, 'qtranslate_filter'), 10, 1 );
+			add_filter( 'wpseo_metakey', array( $this, 'qtranslate_filter'), 10, 1 );
+		}
 	}
 
 	/**
@@ -1401,6 +1407,17 @@ class WPSEO_Frontend {
 		if ( $_SERVER['HTTP_USER_AGENT'] == "WordPress/${wp_version}; " . get_bloginfo( 'url' ) . " - Yoast" )
 			return 'This is a Yoast Test Title';
 		return $title;
+	}
+
+	/**
+	 * Enable qTranslate for WordPress SEO
+	 *
+	 * @param string $text The string to translate
+	 * 
+	 * @return string
+	 */
+	public function qtranslate_filter( $text ) {
+		 return __( $text );
 	}
 
 }
