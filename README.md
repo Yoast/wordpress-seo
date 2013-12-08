@@ -7,11 +7,7 @@ First of all I'd like to thank Yoast for creating such a good SEO plugin! We've 
 
 We'll try to keep it up to date as much as possible and please feel free to contribute.
 
-How to use with qTranslate
---------------------------
-To use Wordpress SEO to edit your multilingual title and meta descriptions, use the [:lang] tag, for example:
-
-[:en]Hello[:pt]Olá
+The below is from the original plugin.
 
 
 WordPress SEO by Yoast
@@ -22,7 +18,7 @@ WordPress SEO by Yoast
 Welcome to the WordPress SEO Github repository
 ----------------------------------------------
 
-While the documenation for the [WordPress SEO plugin](http://yoast.com/wordpress/seo/) can be found on yoast.com, here
+While the documentation for the [WordPress SEO plugin](http://yoast.com/wordpress/seo/) can be found on yoast.com, here
 you can browse the source of the project, find and discuss open issues and even
 [contribute yourself](https://github.com/yoast/wordpress-seo/blob/master/CONTRIBUTING.md).
 
