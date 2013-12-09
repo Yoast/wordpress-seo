@@ -1389,6 +1389,16 @@ class WPSEO_Frontend {
 	 * @return string
 	 */
 	function title_test_helper( $title ) {
+		$this->options['title_test']++;
+		update_option( 'wpseo_titles', $this->options );
+
+		// Prevent this setting from being on forever when something breaks, as it breaks caching.
+		if ( $this->options['title_test'] > 10 ) {
+			unset( $this->options['title_test'] );
+			update_option( 'wpseo_titles', $this->options );
+			return $title;
+		}
+
 		if ( ! defined( 'DONOTCACHEPAGE' ) )
 			define( 'DONOTCACHEPAGE', true );
 

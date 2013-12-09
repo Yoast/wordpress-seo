@@ -131,7 +131,7 @@ function wpseo_title_test() {
 	if ( isset( $options['forcerewritetitle'] ) )
 		unset( $options['forcerewritetitle'] );
 
-	$options['title_test'] = true;
+	$options['title_test'] = 1;
 	update_option( 'wpseo_titles', $options );
 
 	// Setting title_test to true forces the plugin to output the title below through a filter in class-frontend.php
