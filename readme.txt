@@ -116,6 +116,7 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 
 * Enhancements
 	* XML Sitemap now loads before theme files are loaded to prevent issues.
+	* Fix padding on fix it buttons with 3.8 design, issue [#400](https://github.com/Yoast/wordpress-seo/issues/400).
 
 * Misc
 	* Switch back to MailChimp for newsletter subscribe.
