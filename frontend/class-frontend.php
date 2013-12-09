@@ -156,7 +156,8 @@ class WPSEO_Frontend {
 		if ( ! empty( $title ) )
 			return wpseo_replace_vars( $title, (array) $object );
 
-		return $this->get_title_from_options( 'title-' . $object->post_type, $object );
+		$post_type = ( isset( $object->post_type ) ? $object->post_type : $object->query_var );
+		return $this->get_title_from_options( 'title-' . $post_type, $object );
 	}
 
 	/**
