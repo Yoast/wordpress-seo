@@ -122,7 +122,8 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 	* Switch back to MailChimp for newsletter subscribe.
 
 * i18n
-  * Updated es_ES
+  * Updated es_ES, pt_BR & ru_RU
+  * Added sk_SK
 
 = 1.4.19 =
 
