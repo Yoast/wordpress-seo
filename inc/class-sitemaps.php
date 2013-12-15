@@ -747,7 +747,7 @@ class WPSEO_Sitemaps {
 					'loc' => $author_link,
 					'pri' => 0.8,
 					'chf' => 'weekly',
-					'mod' => date( 'c', $user->_yoast_wpseo_profile_updated )
+					'mod' => date( 'c', isset( $user->_yoast_wpseo_profile_updated ) ? $user->_yoast_wpseo_profile_updated : time() )
 				) );
 			}
 		}
@@ -935,6 +935,13 @@ class WPSEO_Sitemaps {
 	 */
 	private
 	function user_map_sorter( $a, $b ) {
+		if ( ! isset( $a->_yoast_wpseo_profile_updated ) ) {
+			$a->_yoast_wpseo_profile_updated = time();
+		}
+		if ( ! isset( $b->_yoast_wpseo_profile_updated ) ) {
+			$b->_yoast_wpseo_profile_updated = time();
+		}
+		
 		if ( $a->_yoast_wpseo_profile_updated == $b->_yoast_wpseo_profile_updated ) {
 			return 0;
 		}
