@@ -117,6 +117,7 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 	* Fixed a bug where manually set canonicals would end up in `rel="next"` and `rel="prev"` tags.
 	* Fixed a bug [#450](https://github.com/Yoast/wordpress-seo/issues/450) where noindexed pages would appear in the HTML sitemap.
 	* Fixed a bug where non-public taxonomies would appear in the HTML sitemap.
+	* Fixed quotes not working in meta title and description for terms, issue [#405](https://github.com/Yoast/wordpress-seo/issues/405).
 
 * Enhancements
 	* XML Sitemap now loads before theme files are loaded to prevent issues.

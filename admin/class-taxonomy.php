@@ -134,7 +134,7 @@ class WPSEO_Taxonomy {
 				if ( $key == 'canonical' )
 					$val = esc_url( $val );
 				else
-					$val = sanitize_text_field( $val );
+					$val = esc_html( $val );
 
 				$tax_meta[$taxonomy][$term_id]['wpseo_' . $key] = $val;
 			} else {
