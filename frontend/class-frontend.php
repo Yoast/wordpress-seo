@@ -626,13 +626,14 @@ class WPSEO_Frontend {
 	 */
 	public function canonical( $echo = true, $unpaged = false ) {
 		$canonical = false;
+		$skip_pagination = false;
 
 		// Set decent canonicals for homepage, singulars and taxonomy pages
 		if ( is_singular() ) {
 			if ( wpseo_get_value( 'canonical' ) && wpseo_get_value( 'canonical' ) != '' ) {
 				$canonical = wpseo_get_value( 'canonical' );
-			}
-			else {
+				$skip_pagination = true;
+			} else {
 				$obj       = get_queried_object();
 				$canonical = get_permalink( $obj->ID );
 
@@ -664,7 +665,9 @@ class WPSEO_Frontend {
 			else if ( is_tax() || is_tag() || is_category() ) {
 				$term      = get_queried_object();
 				$canonical = wpseo_get_term_meta( $term, $term->taxonomy, 'canonical' );
-				if ( ! $canonical )
+				if ( $canonical )
+					$skip_pagination = true;
+				else
 					$canonical = get_term_link( $term, $term->taxonomy );
 			}
 			else if ( function_exists( 'get_post_type_archive_link' ) && is_post_type_archive() ) {
@@ -690,7 +693,7 @@ class WPSEO_Frontend {
 			if ( $canonical && $unpaged )
 				return $canonical;
 
-			if ( $canonical && get_query_var( 'paged' ) > 1 ) {
+			if ( $canonical && ! $skip_pagination && get_query_var( 'paged' ) > 1 ) {
 				global $wp_rewrite;
 				if ( ! $wp_rewrite->using_permalinks() ) {
 					$canonical = add_query_arg( 'paged', get_query_var( 'paged' ), $canonical );
