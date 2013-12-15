@@ -620,17 +620,18 @@ class WPSEO_Frontend {
 	 * for the current page.
 	 *
 	 * @param bool $echo    Whether or not to output the canonical element.
-	 * @param bool $unpaged Whether or not to return the canonical with or without pagination added to the URL.
+	 * @param bool $un_paged Whether or not to return the canonical with or without pagination added to the URL.
+	 * @param bool $no_override Whether or not to return a manually overridden canonical
 	 *
 	 * @return string $canonical
 	 */
-	public function canonical( $echo = true, $unpaged = false ) {
+	public function canonical( $echo = true, $un_paged = false, $no_override = false ) {
 		$canonical = false;
 		$skip_pagination = false;
 
 		// Set decent canonicals for homepage, singulars and taxonomy pages
 		if ( is_singular() ) {
-			if ( wpseo_get_value( 'canonical' ) && wpseo_get_value( 'canonical' ) != '' ) {
+			if ( ! $no_override && wpseo_get_value( 'canonical' ) && wpseo_get_value( 'canonical' ) != '' ) {
 				$canonical = wpseo_get_value( 'canonical' );
 				$skip_pagination = true;
 			} else {
@@ -664,10 +665,12 @@ class WPSEO_Frontend {
 			}
 			else if ( is_tax() || is_tag() || is_category() ) {
 				$term      = get_queried_object();
-				$canonical = wpseo_get_term_meta( $term, $term->taxonomy, 'canonical' );
-				if ( $canonical )
-					$skip_pagination = true;
-				else
+				if ( ! $no_override ) {
+					$canonical = wpseo_get_term_meta( $term, $term->taxonomy, 'canonical' );
+					if ( $canonical )
+						$skip_pagination = true;
+				}
+				if ( ! $canonical )
 					$canonical = get_term_link( $term, $term->taxonomy );
 			}
 			else if ( function_exists( 'get_post_type_archive_link' ) && is_post_type_archive() ) {
@@ -690,7 +693,7 @@ class WPSEO_Frontend {
 				}
 			}
 
-			if ( $canonical && $unpaged )
+			if ( $canonical && $un_paged )
 				return $canonical;
 
 			if ( $canonical && ! $skip_pagination && get_query_var( 'paged' ) > 1 ) {
@@ -736,7 +739,7 @@ class WPSEO_Frontend {
 		global $wp_query;
 
 		if ( ! is_singular() ) {
-			$url = $this->canonical( false, true );
+			$url = $this->canonical( false, true, true );
 
 			if ( $url ) {
 				$paged = get_query_var( 'paged' );
