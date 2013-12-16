@@ -129,6 +129,7 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 
 * Misc
 	* Switch back to MailChimp for newsletter subscribe.
+    * Default to nofollowing links in RSS feed footers.
 
 * i18n
   * Updated es_ES, pt_BR & ru_RU
