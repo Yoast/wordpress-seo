@@ -159,7 +159,7 @@ class WPSEO_Breadcrumbs {
 			$links[] = array( 'id' => $post->ID );
 		} else {
 			if ( is_post_type_archive() ) {
-				$links[] = array( 'ptarchive' => get_post_type() );
+				$links[] = array( 'ptarchive' => $wp_query->query['post_type'] );
 			} else if ( is_tax() || is_tag() || is_category() ) {
 				$term = $wp_query->get_queried_object();
 

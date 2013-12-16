@@ -156,7 +156,8 @@ class WPSEO_Frontend {
 		if ( ! empty( $title ) )
 			return wpseo_replace_vars( $title, (array) $object );
 
-		return $this->get_title_from_options( 'title-' . $object->post_type, $object );
+		$post_type = ( isset( $object->post_type ) ? $object->post_type : $object->query_var );
+		return $this->get_title_from_options( 'title-' . $post_type, $object );
 	}
 
 	/**
@@ -436,6 +437,9 @@ class WPSEO_Frontend {
 		if ( ( $modified_title && empty( $title ) ) || ! empty( $title_part ) )
 			$title = $this->get_default_title( $sep, $seplocation, $title_part );
 
+		if ( defined( 'ICL_LANGUAGE_CODE' ) && false !== strpos( $title, ICL_LANGUAGE_CODE ) )
+			$title = str_replace( ' @' . ICL_LANGUAGE_CODE, '', $title );
+
 		return esc_html( strip_tags( stripslashes( apply_filters( 'wpseo_title', $title ) ) ) );
 	}
 
@@ -619,19 +623,21 @@ class WPSEO_Frontend {
 	 * for the current page.
 	 *
 	 * @param bool $echo    Whether or not to output the canonical element.
-	 * @param bool $unpaged Whether or not to return the canonical with or without pagination added to the URL.
+	 * @param bool $un_paged Whether or not to return the canonical with or without pagination added to the URL.
+	 * @param bool $no_override Whether or not to return a manually overridden canonical
 	 *
 	 * @return string $canonical
 	 */
-	public function canonical( $echo = true, $unpaged = false ) {
+	public function canonical( $echo = true, $un_paged = false, $no_override = false ) {
 		$canonical = false;
+		$skip_pagination = false;
 
 		// Set decent canonicals for homepage, singulars and taxonomy pages
 		if ( is_singular() ) {
-			if ( wpseo_get_value( 'canonical' ) && wpseo_get_value( 'canonical' ) != '' ) {
+			if ( ! $no_override && wpseo_get_value( 'canonical' ) && wpseo_get_value( 'canonical' ) != '' ) {
 				$canonical = wpseo_get_value( 'canonical' );
-			}
-			else {
+				$skip_pagination = true;
+			} else {
 				$obj       = get_queried_object();
 				$canonical = get_permalink( $obj->ID );
 
@@ -662,7 +668,11 @@ class WPSEO_Frontend {
 			}
 			else if ( is_tax() || is_tag() || is_category() ) {
 				$term      = get_queried_object();
-				$canonical = wpseo_get_term_meta( $term, $term->taxonomy, 'canonical' );
+				if ( ! $no_override ) {
+					$canonical = wpseo_get_term_meta( $term, $term->taxonomy, 'canonical' );
+					if ( $canonical )
+						$skip_pagination = true;
+				}
 				if ( ! $canonical )
 					$canonical = get_term_link( $term, $term->taxonomy );
 			}
@@ -686,10 +696,10 @@ class WPSEO_Frontend {
 				}
 			}
 
-			if ( $canonical && $unpaged )
+			if ( $canonical && $un_paged )
 				return $canonical;
 
-			if ( $canonical && get_query_var( 'paged' ) > 1 ) {
+			if ( $canonical && ! $skip_pagination && get_query_var( 'paged' ) > 1 ) {
 				global $wp_rewrite;
 				if ( ! $wp_rewrite->using_permalinks() ) {
 					$canonical = add_query_arg( 'paged', get_query_var( 'paged' ), $canonical );
@@ -732,7 +742,7 @@ class WPSEO_Frontend {
 		global $wp_query;
 
 		if ( ! is_singular() ) {
-			$url = $this->canonical( false, true );
+			$url = $this->canonical( false, true, true );
 
 			if ( $url ) {
 				$paged = get_query_var( 'paged' );
@@ -1388,6 +1398,16 @@ class WPSEO_Frontend {
 	 * @return string
 	 */
 	function title_test_helper( $title ) {
+		$this->options['title_test']++;
+		update_option( 'wpseo_titles', $this->options );
+
+		// Prevent this setting from being on forever when something breaks, as it breaks caching.
+		if ( $this->options['title_test'] > 10 ) {
+			unset( $this->options['title_test'] );
+			update_option( 'wpseo_titles', $this->options );
+			return $title;
+		}
+
 		if ( ! defined( 'DONOTCACHEPAGE' ) )
 			define( 'DONOTCACHEPAGE', true );
 

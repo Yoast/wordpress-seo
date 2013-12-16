@@ -50,7 +50,7 @@ class WPSEO_Sitemaps {
 			define( "ENT_XML1", 16 );
 
 		add_action( 'init', array( $this, 'init' ), 1 );
-		add_action( 'setup_theme', array( $this, 'redirect' ), 11 );
+		add_action( 'wp_loaded', array( $this, 'redirect' ), 1 );
 		add_filter( 'redirect_canonical', array( $this, 'canonical' ) );
 		add_action( 'wpseo_hit_sitemap_index', array( $this, 'hit_sitemap_index' ) );
 
@@ -315,7 +315,8 @@ class WPSEO_Sitemaps {
 			}
 		}
 
-		if ( ! isset( $this->options['disable-author'] ) && ! isset( $this->options['disable_author_sitemap'] ) ) {
+		if ( ! ( isset( $this->options['disable-author'] ) && $this->options['disable-author'] ) ||
+				! ( isset( $this->options['disable_author_sitemap'] ) && $this->options['disable_author_sitemap'] ) ) {
 
 			// reference user profile specific sitemaps
 			$users = get_users( array( 'who' => 'authors', 'fields' => 'id' ) );
@@ -697,7 +698,8 @@ class WPSEO_Sitemaps {
 	 * @since 1.4.8
 	 */
 	function build_user_map() {
-		if ( isset( $this->options['disable-author'] ) || isset( $this->options['disable_author_sitemap'] ) ) {
+		if ( ( isset( $this->options['disable-author'] ) && $this->options['disable-author'] ) ||
+				( isset( $this->options['disable_author_sitemap'] ) && $this->options['disable_author_sitemap'] ) ) {
 			$this->bad_sitemap = true;
 			return;
 		}
@@ -745,7 +747,7 @@ class WPSEO_Sitemaps {
 					'loc' => $author_link,
 					'pri' => 0.8,
 					'chf' => 'weekly',
-					'mod' => date( 'c', $user->_yoast_wpseo_profile_updated )
+					'mod' => date( 'c', isset( $user->_yoast_wpseo_profile_updated ) ? $user->_yoast_wpseo_profile_updated : time() )
 				) );
 			}
 		}
@@ -933,6 +935,13 @@ class WPSEO_Sitemaps {
 	 */
 	private
 	function user_map_sorter( $a, $b ) {
+		if ( ! isset( $a->_yoast_wpseo_profile_updated ) ) {
+			$a->_yoast_wpseo_profile_updated = time();
+		}
+		if ( ! isset( $b->_yoast_wpseo_profile_updated ) ) {
+			$b->_yoast_wpseo_profile_updated = time();
+		}
+		
 		if ( $a->_yoast_wpseo_profile_updated == $b->_yoast_wpseo_profile_updated ) {
 			return 0;
 		}
