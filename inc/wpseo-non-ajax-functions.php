@@ -336,6 +336,9 @@ function wpseo_update_theme_complete_actions( $update_actions, $updated_theme ) 
 function wpseo_deactivate() {
 	wpseo_flush_rules();
 	
+	if ( ! function_exists( 'schedule_yoast_tracking' ) )
+		require_once 'wpseo-functions.php';
+
 	schedule_yoast_tracking( null, get_option( 'wpseo' ) );
 
 	// Clear cache so the changes are obvious.
