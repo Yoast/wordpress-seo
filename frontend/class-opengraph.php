@@ -358,6 +358,9 @@ class WPSEO_OpenGraph extends WPSEO_Frontend {
 		if ( is_front_page() ) {
 			if ( $this->options['og_frontpage_desc'] !== '' )
 				$ogdesc = $this->options['og_frontpage_desc'];
+			} else {
+				$ogdesc = $this->metadesc( false );
+			}
 		}
 
 		if ( is_singular() ) {

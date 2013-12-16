@@ -26,8 +26,9 @@ function wpseo_activate() {
 
 	wpseo_flush_rules();
 	
-	schedule_yoast_tracking( null, get_option( 'wpseo' ) );
-
+	if ( ! method_exists( 'WPSEO_Options', 'schedule_yoast_tracking' ) )
+		require_once( WPSEO_PATH . 'inc/class-wpseo-options.php' );
+		
 	WPSEO_Options::schedule_yoast_tracking( null, get_option( 'wpseo' ) );
 
 //	wpseo_title_test(); // is already run in wpseo_defaults
@@ -136,7 +137,7 @@ function wpseo_title_test() {
 	$options = get_option( 'wpseo_titles' );
 
 	$options['forcerewritetitle'] = false;
-	$options['title_test'] = true;
+	$options['title_test'] = 1;
 	update_option( 'wpseo_titles', $options );
 
 	// Setting title_test to true forces the plugin to output the title below through a filter in class-frontend.php
@@ -336,7 +337,8 @@ function wpseo_update_theme_complete_actions( $update_actions, $updated_theme ) 
 function wpseo_deactivate() {
 	wpseo_flush_rules();
 	
-	schedule_yoast_tracking( null, get_option( 'wpseo' ) );
+	if ( ! method_exists( 'WPSEO_Options', 'schedule_yoast_tracking' ) )
+		require_once( WPSEO_PATH . 'inc/class-wpseo-options.php' );
 
 	WPSEO_Options::schedule_yoast_tracking( null, get_option( 'wpseo' ) );
 
@@ -521,7 +523,7 @@ add_filter( 'user_has_cap', 'allow_custom_field_edits', 0, 3 );
  */
 function wpseo_sitemap_handler( $atts ) {
 
-	$atts = shortcode_atts( array(
+		$atts = shortcode_atts( array(
 		'authors'  => true,
 		'pages'    => true,
 		'posts'    => true,
@@ -565,15 +567,38 @@ function wpseo_sitemap_handler( $atts ) {
 	// create page list
 	if ( $display_pages ) {
 		$output .= '<h2 id="pages">' . __( 'Pages', 'wordpress-seo' ) . '</h2><ul>';
-		// Add pages you'd like to exclude in the exclude here
-		// possibly have this controlled by shortcode params
+
+		// Some query magic to retrieve all pages that should be excluded, while preventing noindex pages that are set to
+		// "always" include in HTML sitemap from being excluded.
+
+		$exclude_query  = "SELECT DISTINCT( post_id ) FROM wp_postmeta
+												WHERE ( ( meta_key = '_yoast_wpseo_sitemap-html-include' AND meta_value = 'never' )
+												  OR ( meta_key = '_yoast_wpseo_meta-robots-noindex' AND meta_value = 1 ) )
+												AND post_id NOT IN
+													( SELECT pm2.post_id FROM wp_postmeta pm2
+															WHERE pm2.meta_key = '_yoast_wpseo_sitemap-html-include' AND pm2.meta_value = 'always')
+												ORDER BY post_id ASC";
+		$excluded_pages = $GLOBALS['wpdb']->get_results( $exclude_query );
+
+		$exclude = array();
+		foreach ( $excluded_pages as $page ) {
+			$exclude[] = $page->post_id;
+		}
+		unset( $excluded_pages, $page );
+
+		/**
+		 * This filter allows excluding more pages should you wish to from the HTML sitemap.
+		 */
+		$exclude = implode( ',', apply_filters( 'wpseo_html_sitemap_page_exclude', $exclude ) );
+
 		$page_list = wp_list_pages(
 			array(
-				'exclude'  => '',
+				'exclude'  => $exclude,
 				'title_li' => '',
 				'echo'     => false,
 			)
 		);
+
 		$output .= $page_list;
 		$output .= '</ul>';
 	}
@@ -585,7 +610,7 @@ function wpseo_sitemap_handler( $atts ) {
 		// possibly have this controlled by shortcode params
 		$cats = get_categories( 'exclude=' );
 		foreach ( $cats as $cat ) {
-			$output .= "<li>" . $cat->cat_name;
+			$output .= "<li><h3>" . $cat->cat_name . "</h3>";
 			$output .= "<ul>";
 
 			$args = array(
@@ -606,7 +631,7 @@ function wpseo_sitemap_handler( $atts ) {
 					// OR if key does exists include if it is not 1
 					array(
 						'key'     => '_yoast_wpseo_meta-robots-noindex',
-						'value'   => '1',
+						'value'   => 1,
 						'compare' => '!='
 					),
 					// OR this key overrides it
@@ -691,6 +716,9 @@ function create_type_sitemap_template( $post_type ) {
 	// Build the taxonomy tree
 	$walker = new Sitemap_Walker();
 	foreach ( $taxs as $key => $tax ) {
+		if ( $tax->public !== 1 )
+			continue;
+
 		$args  = array(
 			'post_type' => $post_type->name,
 			'tax_query' => array(
