@@ -26,6 +26,9 @@ function wpseo_activate() {
 
 	wpseo_flush_rules();
 	
+	if ( ! function_exists( 'schedule_yoast_tracking' ) )
+		require_once 'wpseo-functions.php';
+		
 	schedule_yoast_tracking( null, get_option( 'wpseo' ) );
 
 //	wpseo_title_test(); // is already run in wpseo_defaults
