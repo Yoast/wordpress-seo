@@ -437,6 +437,9 @@ class WPSEO_Frontend {
 		if ( ( $modified_title && empty( $title ) ) || ! empty( $title_part ) )
 			$title = $this->get_default_title( $sep, $seplocation, $title_part );
 
+		if ( defined( ICL_LANGUAGE_CODE ) && false !== strpos( $title, ICL_LANGUAGE_CODE ) )
+			$title = str_replace( ' @' . ICL_LANGUAGE_CODE, '', $title );
+
 		return esc_html( strip_tags( stripslashes( apply_filters( 'wpseo_title', $title ) ) ) );
 	}
 
