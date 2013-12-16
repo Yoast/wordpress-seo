@@ -356,7 +356,7 @@ class WPSEO_OpenGraph extends WPSEO_Frontend {
 		$ogdesc = '';
 
 		if ( is_front_page() ) {
-			if ( $this->options['og_frontpage_desc'] !== '' )
+			if ( $this->options['og_frontpage_desc'] !== '' ) {
 				$ogdesc = $this->options['og_frontpage_desc'];
 			} else {
 				$ogdesc = $this->metadesc( false );
