@@ -315,8 +315,7 @@ class WPSEO_Sitemaps {
 			}
 		}
 
-		if ( ! ( isset( $this->options['disable-author'] ) && $this->options['disable-author'] ) ||
-				! ( isset( $this->options['disable_author_sitemap'] ) && $this->options['disable_author_sitemap'] ) ) {
+		if ( ! isset( $this->options['disable-author'] ) && ! isset( $this->options['disable_author_sitemap'] ) ) {
 
 			// reference user profile specific sitemaps
 			$users = get_users( array( 'who' => 'authors', 'fields' => 'id' ) );
@@ -698,9 +697,7 @@ class WPSEO_Sitemaps {
 	 * @since 1.4.8
 	 */
 	function build_user_map() {
-		if ( ( isset( $this->options['disable-author'] ) && $this->options['disable-author'] ) ||
-				( isset( $this->options['disable_author_sitemap'] ) && $this->options['disable_author_sitemap'] ) ) {
-			$this->bad_sitemap = true;
+		if ( isset( $this->options['disable-author'] ) || isset( $this->options['disable_author_sitemap'] ) ) {			$this->bad_sitemap = true;
 			return;
 		}
 
