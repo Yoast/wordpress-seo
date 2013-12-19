@@ -151,7 +151,6 @@ class WPSEO_Sitemaps {
 	 */
 	function redirect() {
 
-		//if ( preg_match( '/.*?([^\/]+)?sitemap(.*?).(xsl|xml)$/', $_SERVER['REQUEST_URI'], $match ) ) {
 		if ( preg_match( '/.*?([^\/]+)?(sitemap|locations)(.*?).(xsl|xml|kml)$/', $_SERVER['REQUEST_URI'], $match ) ) {
 
 			$this->n = $match[3];
