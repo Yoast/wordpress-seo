@@ -55,7 +55,7 @@ class WPSEO_Sitemaps {
 			define( "ENT_XML1", 16 );
 
 		add_action( 'init', array( $this, 'init' ), 1 );
-		add_action( 'wp_loaded', array( $this, 'redirect' ), 1 );
+		add_action( 'wp_loaded', array( $this, 'redirect' ), 11 );
 		add_filter( 'redirect_canonical', array( $this, 'canonical' ) );
 		add_action( 'wpseo_hit_sitemap_index', array( $this, 'hit_sitemap_index' ) );
 
