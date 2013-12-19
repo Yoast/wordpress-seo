@@ -151,18 +151,21 @@ class WPSEO_Sitemaps {
 	 */
 	function redirect() {
 
-		if ( preg_match( '/.*?([^\/]+)?sitemap(.*?).(xsl|xml)$/', $_SERVER['REQUEST_URI'], $match ) ) {
+		if ( preg_match( '/.*?([^\/]+)?(sitemap|locations)(.*?).(xsl|xml|kml)$/', $_SERVER['REQUEST_URI'], $match ) ) {
 
-			$this->n = $match[2];
+			$this->n = $match[3];
 
 			$match[1] = ltrim( rtrim( $match[1], '-' ), '/' );
 
-			if ( $match[3] == 'xsl' ) {
+			if ( $match[4] == 'xsl' ) {
 				$this->xsl_output( $match[1] );
 				$this->sitemap_close();
-			} else if ( $match[3] == 'xml' ) {
-				if ( empty( $match[1]) )
+			} else if ( $match[4] == 'xml' || $match[4] == 'kml' ) {
+				if( $match[4] == 'kml' ) {
+					$match[1] = 'locations';
+				} else if ( empty( $match[1]) ) {
 					$match[1] = 1;
+				}
 
 				$this->build_sitemap( $match[1] );
 			} else {
@@ -189,18 +192,18 @@ class WPSEO_Sitemaps {
 	function build_sitemap( $type ) {
 
 		$type = apply_filters( 'wpseo_build_sitemap_post_type', $type );
-
-		if ( $type == 1 )
+		
+		if ( $type == 1 ) {
 			$this->build_root_map();
-		else if ( post_type_exists( $type ) )
+		} else if ( post_type_exists( $type ) ) {
 			$this->build_post_type_map( $type );
-		else if ( $tax = get_taxonomy( $type ) )
+		} else if ( $tax = get_taxonomy( $type ) ) {
 			$this->build_tax_map( $tax );
-		else if ( $type == 'author' ) {
+		} else if ( $type == 'author' ) {
 			$this->build_user_map();
-		}
-		else if ( has_action( 'wpseo_do_sitemap_' . $type ) )
+		} else if ( has_action( 'wpseo_do_sitemap_' . $type ) ) {
 			do_action( 'wpseo_do_sitemap_' . $type );
+		}
 		else
 			$this->bad_sitemap = true;
 	}
