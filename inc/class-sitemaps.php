@@ -43,6 +43,11 @@ class WPSEO_Sitemaps {
 	private $n = 1;
 
 	/**
+	 * Allowed values for changefreq
+	 */
+	private $changefreqs = array('always','hourly','daily','weekly','monthly','yearly','never');
+
+	/**
 	 * Class constructor
 	 */
 	function __construct() {
@@ -426,10 +431,12 @@ class WPSEO_Sitemaps {
 			if ( function_exists( 'get_post_type_archive_link' ) ) {
 				$archive = get_post_type_archive_link( $post_type );
 				if ( $archive ) {
+					$changefreq = apply_filters( 'wpseo_sitemap_' . $post_type . '_archive_changefreq', 'weekly');
+					$changefreq = in_array( $changefreq, $this->changefreqs ) ? $changefreq : 'weekly';
 					$output .= $this->sitemap_url( array(
 						'loc' => $archive,
 						'pri' => 0.8,
-						'chf' => 'weekly',
+						'chf' => $changefreq,
 						'mod' => $this->get_last_modified( $post_type ) // get_lastpostmodified( 'gmt', $post_type ) #17455
 					) );
 				}
@@ -490,7 +497,8 @@ class WPSEO_Sitemaps {
 				$url = array();
 
 				$url['mod'] = ( isset( $p->post_modified_gmt ) && $p->post_modified_gmt != '0000-00-00 00:00:00' ) ? $p->post_modified_gmt : $p->post_date_gmt;
-				$url['chf'] = 'weekly';
+				$changefreq = apply_filters( 'wpseo_sitemap_' . $post_type . '_changefreq', 'weekly');
+				$url['chf'] = in_array( $changefreq, $this->changefreqs ) ? $changefreq : 'weekly';				
 				$url['loc'] = get_permalink( $p );
 
 				$canonical = wpseo_get_value( 'canonical', $p->ID );
@@ -675,7 +683,8 @@ class WPSEO_Sitemaps {
 					WHERE	p.post_status IN ('publish','inherit')
 					AND		p.post_password = ''", $c->taxonomy, $c->term_id );
 			$url['mod'] = $wpdb->get_var( $sql );
-			$url['chf'] = 'weekly';
+			$changefreq = apply_filters( 'wpseo_sitemap_' . $taxonomy->name . '_changefreq', 'weekly');
+			$url['chf'] = in_array( $changefreq, $this->changefreqs ) ? $changefreq : 'weekly';				
 			$output .= $this->sitemap_url( $url );
 		}
 
@@ -740,10 +749,12 @@ class WPSEO_Sitemaps {
 
 		foreach ( $users as $user ) {
 			if ( $author_link = get_author_posts_url( $user->ID ) ) {
+				$changefreq = apply_filters( 'wpseo_sitemap_user_changefreq', 'weekly');
+				$changefreq = in_array( $changefreq, $this->changefreqs ) ? $changefreq : 'weekly';
 				$output .= $this->sitemap_url( array(
 					'loc' => $author_link,
 					'pri' => 0.8,
-					'chf' => 'weekly',
+					'chf' => $changefreq,
 					'mod' => date( 'c', isset( $user->_yoast_wpseo_profile_updated ) ? $user->_yoast_wpseo_profile_updated : time() )
 				) );
 			}
