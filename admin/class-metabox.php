@@ -806,7 +806,10 @@ class WPSEO_Metabox {
 					continue;
 			}
 
-			wpseo_set_value( $meta_box['name'], sanitize_text_field( $data ), $post_id );
+			// Prevent saving "empty" values.
+			if ( ! in_array( $data, array( '', '0', 'none', '-', 'index,follow' ) ) ) {
+				wpseo_set_value( $meta_box['name'], sanitize_text_field( $data ), $post_id );
+			}
 		}
 
 		$this->calculate_results( $post );

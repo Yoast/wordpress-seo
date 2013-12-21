@@ -231,7 +231,7 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 		global $post;
 		foreach ( $matches as $match ) {
 			$terms  = get_the_terms( $post->ID, $match[1] );
-			if ( is_array( $terms ) && count( $terms ) > 0 ) {
+			if ( is_array( $terms ) && $terms !== array() ) {
 				$term = current( $terms );
 				$string = str_replace( $match[0], get_term_field( 'description', $term->term_id, $match[1] ), $string );
 			}
@@ -462,9 +462,9 @@ function wpseo_wpml_config( $config ) {
 			                    $admin_texts[$k]['key'][]['attr']['name'] = 'metadesc-tax-'. $taxonomy;
 			                    $admin_texts[$k]['key'][]['attr']['name'] = 'metakey-tax-'. $taxonomy;
 		        	        }
-						}
-					}
 				}
+			}
+		    }
 	            break;
 	        }
 	    }
@@ -578,7 +578,6 @@ function wpseo_sitemap_handler( $atts ) {
 			$args = array(
 				'post_type'      => 'post',
 				'post_status'    => 'publish',
-
 				'posts_per_page' => -1,
 				'cat'            => $cat->cat_ID,
 
@@ -657,7 +656,6 @@ function wpseo_sitemap_handler( $atts ) {
 				$output .= create_type_sitemap_template( $post_type );
 			}
 		}
-
 		$output .= '</ul>';
 	}
 
@@ -666,3 +664,51 @@ function wpseo_sitemap_handler( $atts ) {
 }
 
 add_shortcode( 'wpseo_sitemap', 'wpseo_sitemap_handler' );
+
+
+function create_type_sitemap_template( $post_type ) {
+	// $output = '<h2 id="' . $post_type->name . '">' . __( $post_type->label, 'wordpress-seo' ) . '</h2><ul>';
+
+	$output = '';
+	// Get all registered taxonomy of this post type
+	$taxs = get_object_taxonomies( $post_type->name, 'object' );
+
+	// Build the taxonomy tree
+	require_once( WPSEO_PATH . 'inc/class-sitemap-walker.php' );
+	$walker = new Sitemap_Walker();
+	foreach ( $taxs as $key => $tax ) {
+		if ( $tax->public !== 1 )
+			continue;
+
+		$args  = array(
+			'post_type' => $post_type->name,
+			'tax_query' => array(
+				array(
+					'taxonomy' => $key,
+					'field'    => 'id',
+					'terms'    => -1,
+					'operator' => 'NOT',
+				)
+			)
+		);
+		$query = new WP_Query( $args );
+
+		$title_li = $query->have_posts() ? $tax->labels->name : '';
+
+		$output .= wp_list_categories(
+			array(
+				'title_li'         => $title_li,
+				'echo'             => false,
+				'taxonomy'         => $key,
+				'show_option_none' => '',
+				// 'hierarchical' => 0, // uncomment this for a flat list
+
+				'walker'           => $walker,
+				'post_type'        => $post_type->name // arg used by the Walker class
+			)
+		);
+	}
+
+	$output .= '<br />';
+	return $output;
+}

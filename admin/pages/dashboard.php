@@ -201,7 +201,7 @@ function robots_meta_handler() {
 							wpseo_set_value( 'meta-robots-nofollow', true, $post->ID );
 							break;
 						case 'follow':
-							wpseo_set_value( 'meta-robots-nofollow', 0, $post->ID );
+							// No need to store it
 							break;
 						default:
 							// do nothing

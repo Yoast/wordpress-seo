@@ -25,7 +25,7 @@ class WPSEO_Sitemaps {
 	/**
 	 *     Flag to indicate if this is an invalid or empty sitemap.
 	 */
-	private $bad_sitemap = false;
+	public $bad_sitemap = false;
 
 	/**
 	 * The maximum number of entries per sitemap page
@@ -50,13 +50,12 @@ class WPSEO_Sitemaps {
 			define( "ENT_XML1", 16 );
 
 		add_action( 'init', array( $this, 'init' ), 1 );
-		add_action( 'wp_loaded', array( $this, 'redirect' ), 1 );
+		add_action( 'template_redirect', array( $this, 'redirect' ) );
 		add_filter( 'redirect_canonical', array( $this, 'canonical' ) );
 		add_action( 'wpseo_hit_sitemap_index', array( $this, 'hit_sitemap_index' ) );
 
 		// default stylesheet
-		$abs_main_sitemap_url = str_replace( get_option( 'home' ), $_SERVER['SERVER_NAME'], home_url( 'main-sitemap.xsl' ) );
-		$this->stylesheet = '<?xml-stylesheet type="text/xsl" href="' . $abs_main_sitemap_url . '"?>';
+		$this->stylesheet = '<?xml-stylesheet type="text/xsl" href="' . home_url( 'main-sitemap.xsl' ) . '"?>';
 
 		$this->options = WPSEO_Options::get_all();
 	}
@@ -150,34 +149,25 @@ class WPSEO_Sitemaps {
 	 * Hijack requests for potential sitemaps and XSL files.
 	 */
 	function redirect() {
-
-		if ( preg_match( '/.*?([^\/]+)?sitemap(.*?).(xsl|xml)$/', $_SERVER['REQUEST_URI'], $match ) ) {
-
-			$this->n = $match[2];
-
-			$match[1] = ltrim( rtrim( $match[1], '-' ), '/' );
-
-			if ( $match[3] == 'xsl' ) {
-				$this->xsl_output( $match[1] );
-				$this->sitemap_close();
-			} else if ( $match[3] == 'xml' ) {
-				if ( empty( $match[1]) )
-					$match[1] = 1;
-
-				$this->build_sitemap( $match[1] );
-			} else {
-				return;
-			}
-
-			// 404 for invalid or emtpy sitemaps
-			if ( $this->bad_sitemap ) {
-				$GLOBALS['wp_query']->is_404 = true;
-				return;
-			}
-
-			$this->output();
+		$xsl = get_query_var( 'xsl' );
+		if ( ! empty( $xsl ) ) {
+			$this->xsl_output( $xsl );
 			$this->sitemap_close();
 		}
+
+		$type = get_query_var( 'sitemap' );
+		if ( empty( $type ) )
+			return;
+
+		$this->build_sitemap( $type );
+		// 404 for invalid or emtpy sitemaps
+		if ( $this->bad_sitemap ) {
+			$GLOBALS['wp_query']->is_404 = true;
+			return;
+		}
+
+		$this->output();
+		$this->sitemap_close();
 	}
 
 	/**

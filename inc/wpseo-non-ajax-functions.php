@@ -28,6 +28,7 @@ function wpseo_activate() {
 	
 	if ( ! method_exists( 'WPSEO_Options', 'schedule_yoast_tracking' ) )
 		require_once( WPSEO_PATH . 'inc/class-wpseo-options.php' );
+
 		
 	WPSEO_Options::schedule_yoast_tracking( null, get_option( 'wpseo' ) );
 
@@ -513,49 +514,3 @@ function allow_custom_field_edits( $allcaps, $cap, $args ) {
 }
 
 add_filter( 'user_has_cap', 'allow_custom_field_edits', 0, 3 );
-
-function create_type_sitemap_template( $post_type ) {
-	// $output = '<h2 id="' . $post_type->name . '">' . __( $post_type->label, 'wordpress-seo' ) . '</h2><ul>';
-
-	$output = '';
-	// Get all registered taxonomy of this post type
-	$taxs = get_object_taxonomies( $post_type->name, 'object' );
-
-	// Build the taxonomy tree
-	$walker = new Sitemap_Walker();
-	foreach ( $taxs as $key => $tax ) {
-		if ( $tax->public !== 1 )
-			continue;
-
-		$args  = array(
-			'post_type' => $post_type->name,
-			'tax_query' => array(
-				array(
-					'taxonomy' => $key,
-					'field'    => 'id',
-					'terms'    => -1,
-					'operator' => 'NOT',
-				)
-			)
-		);
-		$query = new WP_Query( $args );
-
-		$title_li = $query->have_posts() ? $tax->labels->name : '';
-
-		$output .= wp_list_categories(
-			array(
-				'title_li'         => $title_li,
-				'echo'             => false,
-				'taxonomy'         => $key,
-				'show_option_none' => '',
-				// 'hierarchical' => 0, // uncomment this for a flat list
-
-				'walker'           => $walker,
-				'post_type'        => $post_type->name // arg used by the Walker class
-			)
-		);
-	}
-
-	$output .= '<br />';
-	return $output;
-}

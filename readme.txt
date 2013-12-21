@@ -111,6 +111,24 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 
 = Trunk =
 
+* Enhancement: Shortcode now also available to ajax requests - props [Jrf](http://profiles.wordpress.org/jrf).
+
+
+= 1.4.22 =
+
+* Bugfixes
+	* Reverted change to XML sitemaps stylesheet URL as that was giving issues on multisite installs.
+	* Reverted change to XML sitemap loading as we were no longer exposing some variables that other plugins relied upon.
+	* Fix bug with author sitemap showing for everyone.
+
+* Enhancement
+	* No longer save empty meta post variables, issue [#463](https://github.com/Yoast/wordpress-seo/issues/463). Clean up of DB is coming in future release, if you want to clean your DB now, see that issue for SQL queries.
+
+= 1.4.21 =
+
+* Bugfixes
+	* Fix notice for `ICL_LANGUAGE_CODE` not being defined.
+	* Fix missing function in install by adding a require.
 
 = 1.4.20 =
 
@@ -135,6 +153,7 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 
 * Misc
 	* Switch back to MailChimp for newsletter subscribe.
+    * Default to nofollowing links in RSS feed footers.
 
 * i18n
   * Updated es_ES, pt_BR & ru_RU
