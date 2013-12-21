@@ -106,6 +106,11 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 
 == Changelog ==
 
+= Trunk =
+
+* Enhancement: Shortcode now also available to ajax requests - props [Jrf](http://profiles.wordpress.org/jrf).
+
+
 = 1.4.22 =
 
 * Bugfixes
