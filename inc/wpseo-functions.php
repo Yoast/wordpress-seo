@@ -474,3 +474,195 @@ function wpseo_wpml_config( $config ) {
     return $config;
 }
 add_filter( 'icl_wpml_config_array', 'wpseo_wpml_config' );
+
+
+/**
+ * Generate an HTML sitemap
+ *
+ * @param array $atts The attributes passed to the shortcode.
+ *
+ * @return string
+ */
+function wpseo_sitemap_handler( $atts ) {
+
+		$atts = shortcode_atts( array(
+		'authors'  => true,
+		'pages'    => true,
+		'posts'    => true,
+		'archives' => true
+	), $atts );
+
+	$display_authors  = ( $atts['authors'] === 'no' ) ? false : true;
+	$display_pages    = ( $atts['pages'] === 'no' ) ? false : true;
+	$display_posts    = ( $atts['posts'] === 'no' ) ? false : true;
+	$display_archives = ( $atts['archives'] === 'no' ) ? false : true;
+
+	$options = WPSEO_Options::get_all();
+
+	// Delete the transient if any of these are no
+	if ( $display_authors === 'no' || $display_pages === 'no' || $display_posts === 'no' ) {
+		delete_transient( 'html-sitemap' );
+	}
+
+	// Get any existing copy of our transient data
+	if ( false !== ( $output = get_transient( 'html-sitemap' ) ) ) {
+		// $output .= 'CACHE'; // debug
+		// return $output;
+	}
+
+	$output = '';
+
+	// create author list
+	if ( $display_authors ) {
+		$output .= '<h2 id="authors">' . __( 'Authors', 'wordpress-seo' ) . '</h2><ul>';
+		// use echo => false b/c shortcode format screws up
+		$author_list = wp_list_authors(
+			array(
+				'exclude_admin' => false,
+				'echo'          => false,
+			)
+		);
+		$output .= $author_list;
+		$output .= '</ul>';
+	}
+
+	// create page list
+	if ( $display_pages ) {
+		$output .= '<h2 id="pages">' . __( 'Pages', 'wordpress-seo' ) . '</h2><ul>';
+
+		// Some query magic to retrieve all pages that should be excluded, while preventing noindex pages that are set to
+		// "always" include in HTML sitemap from being excluded.
+
+		$exclude_query  = "SELECT DISTINCT( post_id ) FROM wp_postmeta
+												WHERE ( ( meta_key = '_yoast_wpseo_sitemap-html-include' AND meta_value = 'never' )
+												  OR ( meta_key = '_yoast_wpseo_meta-robots-noindex' AND meta_value = 1 ) )
+												AND post_id NOT IN
+													( SELECT pm2.post_id FROM wp_postmeta pm2
+															WHERE pm2.meta_key = '_yoast_wpseo_sitemap-html-include' AND pm2.meta_value = 'always')
+												ORDER BY post_id ASC";
+		$excluded_pages = $GLOBALS['wpdb']->get_results( $exclude_query );
+
+		$exclude = array();
+		foreach ( $excluded_pages as $page ) {
+			$exclude[] = $page->post_id;
+		}
+		unset( $excluded_pages, $page );
+
+		/**
+		 * This filter allows excluding more pages should you wish to from the HTML sitemap.
+		 */
+		$exclude = implode( ',', apply_filters( 'wpseo_html_sitemap_page_exclude', $exclude ) );
+
+		$page_list = wp_list_pages(
+			array(
+				'exclude'  => $exclude,
+				'title_li' => '',
+				'echo'     => false,
+			)
+		);
+
+		$output .= $page_list;
+		$output .= '</ul>';
+	}
+
+	// create post list
+	if ( $display_posts ) {
+		$output .= '<h2 id="posts">' . __( 'Posts', 'wordpress-seo' ) . '</h2><ul>';
+		// Add categories you'd like to exclude in the exclude here
+		// possibly have this controlled by shortcode params
+		$cats = get_categories( 'exclude=' );
+		foreach ( $cats as $cat ) {
+			$output .= "<li><h3>" . $cat->cat_name . "</h3>";
+			$output .= "<ul>";
+
+			$args = array(
+				'post_type'      => 'post',
+				'post_status'    => 'publish',
+
+				'posts_per_page' => -1,
+				'cat'            => $cat->cat_ID,
+
+				'meta_query'     => array(
+					'relation' => 'OR',
+					// include if this key doesn't exists
+					array(
+						'key'     => '_yoast_wpseo_meta-robots-noindex',
+						'value'   => '', // This is ignored, but is necessary...
+						'compare' => 'NOT EXISTS'
+					),
+					// OR if key does exists include if it is not 1
+					array(
+						'key'     => '_yoast_wpseo_meta-robots-noindex',
+						'value'   => 1,
+						'compare' => '!='
+					),
+					// OR this key overrides it
+					array(
+						'key'     => '_yoast_wpseo_sitemap-html-include',
+						'value'   => 'always',
+						'compare' => '='
+					)
+				)
+			);
+
+			$posts = get_posts( $args );
+
+			foreach ( $posts as $post ) {
+				$category = get_the_category( $post->ID );
+
+				// Only display a post link once, even if it's in multiple categories
+				if ( $category[0]->cat_ID == $cat->cat_ID ) {
+					$output .= '<li><a href="' . get_permalink( $post->ID ) . '">' . get_the_title( $post->ID ) . '</a></li>';
+				}
+			}
+
+			$output .= "</ul>";
+			$output .= "</li>";
+		}
+	}
+	$output .= '</ul>';
+
+	// get all public non-builtin post types
+	$args       = array(
+		'public'   => true,
+		'_builtin' => false
+	);
+	$post_types = get_post_types( $args, 'object' );
+
+	// create an noindex array of post types and taxonomies
+	$noindex = array();
+	foreach ( $options as $key => $value ) {
+		if ( strpos( $key, 'noindex-' ) === 0 && $value === true )
+			$noindex[] = $key;
+	}
+
+	// create custom post type list
+	foreach ( $post_types as $post_type ) {
+		if ( is_object( $post_type ) && ! in_array( 'noindex-' . $post_type->name, $noindex ) ) {
+			$output .= '<h2 id="' . $post_type->name . '">' . __( $post_type->label, 'wordpress-seo' ) . '</h2><ul>';
+			$output .= create_type_sitemap_template( $post_type );
+			$output .= '</ul>';
+		}
+	}
+
+	// $output = '';
+	// create archives list
+	if ( $display_archives ) {
+		$output .= '<h2 id="archives">' . __( 'Archives', 'wordpress-seo' ) . '</h2><ul>';
+
+		foreach ( $post_types as $post_type ) {
+			if ( is_object( $post_type ) && $post_type->has_archive && ! in_array( 'noindex-ptarchive-' . $post_type->name, $noindex ) ) {
+				$output .= '<a href="' . get_post_type_archive_link( $post_type->name ) . '">' . $post_type->labels->name . '</a>';
+
+				$output .= create_type_sitemap_template( $post_type );
+			}
+		}
+
+		$output .= '</ul>';
+	}
+
+	set_transient( 'html-sitemap', $output, 60 );
+	return $output;
+}
+
+add_shortcode( 'wpseo_sitemap', 'wpseo_sitemap_handler' );
