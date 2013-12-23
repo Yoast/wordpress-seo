@@ -416,6 +416,7 @@ function wpseo_admin_bar_menu() {
 		$wp_admin_bar->add_menu( array( 'parent' => 'wpseo-analysis', 'id' => 'wpseo-richsnippets', 'title' => __( 'Check Rich Snippets', 'wordpress-seo' ), 'href' => 'http://www.google.com/webmasters/tools/richsnippets?q=' . urlencode( $url ), 'meta' => array( 'target' => '_blank' ) ) );
 		$wp_admin_bar->add_menu( array( 'parent' => 'wpseo-analysis', 'id' => 'wpseo-htmlvalidation', 'title' => __( 'Check HTML Validation', 'wordpress-seo' ), 'href' => 'http://validator.w3.org/check?verbose=1&uri=' . urlencode( $url ), 'meta' => array( 'target' => '_blank' ) ) );
 		$wp_admin_bar->add_menu( array( 'parent' => 'wpseo-analysis', 'id' => 'wpseo-cssvalidation', 'title' => __( 'Check CSS Validation', 'wordpress-seo' ), 'href' => 'http://jigsaw.w3.org/css-validator/validator?profile=css3&warning=0&uri=' . urlencode( $url ), 'meta' => array( 'target' => '_blank' ) ) );
+		$wp_admin_bar->add_menu( array( 'parent' => 'wpseo-analysis', 'id' => 'wpseo-facebookdebug', 'title' => __( 'Facebook Debugger', 'wordpress-seo' ), 'href' => 'https://developers.facebook.com/tools/debug/og/object?q=' . urlencode( $url ), 'meta' => array( 'target' => '_blank' ) ) );
 	}
 
 	$admin_menu = false;
