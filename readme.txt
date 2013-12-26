@@ -111,9 +111,13 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 
 = Trunk =
 
-* Enhancement: Shortcode now also available to ajax requests - props [Jrf](http://profiles.wordpress.org/jrf).
+* Bugfixes
+	* Fix for serious sitemap issue which caused all pages of a split sitemap to be the same (show the first 1000 urls) - props [Jrf](http://profiles.wordpress.org/jrf).
+	
+* Enhancement
+	* Shortcode now also available to ajax requests - props [Jrf](http://profiles.wordpress.org/jrf).
 
-
+	
 = 1.4.22 =
 
 * Bugfixes

@@ -158,6 +158,11 @@ class WPSEO_Sitemaps {
 		$type = get_query_var( 'sitemap' );
 		if ( empty( $type ) )
 			return;
+			
+		$n = get_query_var( 'sitemap_n' );
+		if( is_scalar( $n ) && intval( $n ) > 0 ) {
+			$this->n = intval( $n );
+		}
 
 		$this->build_sitemap( $type );
 		// 404 for invalid or emtpy sitemaps
@@ -376,7 +381,7 @@ class WPSEO_Sitemaps {
 
 		$output = '';
 
-		$steps  = 25;
+		$steps  = ( 25 > $this->max_entries ) ? $this->max_entries : 25;
 		$n      = (int) $this->n;
 		$offset = ( $n > 1 ) ? ( $n - 1 ) * $this->max_entries : 0;
 		$total  = $offset + $this->max_entries;
