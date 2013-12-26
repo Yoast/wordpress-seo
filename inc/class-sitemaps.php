@@ -160,7 +160,9 @@ class WPSEO_Sitemaps {
 			return;
 			
 		$n = get_query_var( 'sitemap_n' );
-		$this->n = $n;
+		if( is_scalar( $n ) && intval( $n ) > 0 ) {
+			$this->n = intval( $n );
+		}
 
 		$this->build_sitemap( $type );
 		// 404 for invalid or emtpy sitemaps
