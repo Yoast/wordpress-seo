@@ -533,11 +533,11 @@ function wpseo_sitemap_handler( $atts ) {
 		// Some query magic to retrieve all pages that should be excluded, while preventing noindex pages that are set to
 		// "always" include in HTML sitemap from being excluded.
 
-		$exclude_query  = "SELECT DISTINCT( post_id ) FROM wp_postmeta
+		$exclude_query  = "SELECT DISTINCT( post_id ) FROM $wpdb->postmeta
 												WHERE ( ( meta_key = '_yoast_wpseo_sitemap-html-include' AND meta_value = 'never' )
 												  OR ( meta_key = '_yoast_wpseo_meta-robots-noindex' AND meta_value = 1 ) )
 												AND post_id NOT IN
-													( SELECT pm2.post_id FROM wp_postmeta pm2
+													( SELECT pm2.post_id FROM $wpdb->postmeta pm2
 															WHERE pm2.meta_key = '_yoast_wpseo_sitemap-html-include' AND pm2.meta_value = 'always')
 												ORDER BY post_id ASC";
 		$excluded_pages = $GLOBALS['wpdb']->get_results( $exclude_query );
