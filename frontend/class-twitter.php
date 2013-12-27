@@ -144,7 +144,10 @@ class WPSEO_Twitter extends WPSEO_Frontend {
 	 * Only used when OpenGraph is inactive.
 	 */
 	public function twitter_url() {
-		echo '<meta name="twitter:url" content="' . esc_url( $this->canonical( false ) ) . '"/>' . "\n";
+		$url = $this->canonical( false );
+		if( is_string( $url ) && $url !== '' ) {
+			echo '<meta name="twitter:url" content="' . esc_url( $url ) . '"/>' . "\n";
+		}
 	}
 
 	/**
