@@ -1,3 +1,11 @@
+/**
+ * Escape a string literal to be used in a regex
+ * Source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions
+ */
+RegExp.quoteString = function( string ) {
+	return string.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
+}
+
 function yst_clean(str) {
 	if (str == '' || str == undefined)
 		return '';
@@ -83,7 +91,7 @@ function testFocusKw() {
 	var postname = jQuery('#editable-post-name-full').text();
 	var url = wpseo_permalink_template.replace('%postname%', postname).replace('http://', '');
 
-	p = new RegExp("(^|[ \s\n\r\t\.,'\(\"\+;!?:\-])" + focuskw + "($|[ \s\n\r\t.,'\)\"\+!?:;\-])", 'gim');
+	p = new RegExp("(^|[ \s\n\r\t\.,'\(\"\+;!?:\-])" + RegExp.quoteString( focuskw ) + "($|[ \s\n\r\t.,'\)\"\+!?:;\-])", 'gim');
 	//remove diacritics of a lower cased focuskw for url matching in foreign lang
 	var focuskwNoDiacritics = removeLowerCaseDiacritics(focuskw);
 	p2 = new RegExp(focuskwNoDiacritics.replace(/\s+/g, "[-_\\\//]"), 'gim');
@@ -171,7 +179,7 @@ function updateDesc(desc) {
 
 			var focuskw = jQuery.trim(jQuery('#yoast_wpseo_focuskw').val());
 			if (focuskw != '') {
-				var descsearch = new RegExp(focuskw, 'gim');
+				var descsearch = new RegExp( RegExp.quoteString( focuskw ), 'gim');
 				if (desc.search(descsearch) != -1 && desc.length > wpseo_meta_desc_length) {
 					desc = desc.substr(desc.search(descsearch), wpseo_meta_desc_length);
 				} else {
@@ -237,9 +245,9 @@ function boldKeywords(str, url) {
 		var kw = yst_clean(keywords[i]);
 		if (url) {
 			var kw = kw.replace(' ', '-').toLowerCase();
-			kwregex = new RegExp("([-/])(" + kw + ")([-/])?");
+			kwregex = new RegExp("([-/])(" + RegExp.quoteString( kw ) + ")([-/])?");
 		} else {
-			kwregex = new RegExp("(^|[ \s\n\r\t\.,'\(\"\+;!?:\-]+)(" + kw + ")($|[ \s\n\r\t\.,'\)\"\+;!?:\-]+)", 'gim');
+			kwregex = new RegExp("(^|[ \s\n\r\t\.,'\(\"\+;!?:\-]+)(" + RegExp.quoteString( kw ) + ")($|[ \s\n\r\t\.,'\)\"\+;!?:\-]+)", 'gim');
 		}
 		str = str.replace(kwregex, "$1<strong>$2</strong>$3");
 	}
