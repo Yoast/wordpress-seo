@@ -106,6 +106,12 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 
 == Changelog ==
 
+= Trunk =
+
+* Bugfixes
+	* Escape string literals for use in js regular expressions - [issue #507](https://github.com/Yoast/wordpress-seo/issues/507) as reported by [blafrance](https://github.com/blafrance) - props [Jrf](http://profiles.wordpress.org/jrf).
+
+
 = 1.4.22 =
 
 * Bugfixes

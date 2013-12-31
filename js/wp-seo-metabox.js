@@ -3,7 +3,7 @@
  * Source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions
  */
 RegExp.quoteString = function( string ) {
-	return string.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
+	return string.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
 }
 
 function yst_clean(str) {
