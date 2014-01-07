@@ -4,8 +4,7 @@
 		var $this = this;
 
 		this.edit_row = function (row) {
-			console.info('edit');
-			console.info(row);
+			$this.save_redirects();
 		};
 
 		this.delete_row = function (row) {
@@ -16,6 +15,27 @@
 		};
 
 		this.save_redirects = function () {
+
+			// Build the json string
+			var redirects = {};
+			$.each($this.find('tr'), function (k, tr) {
+				if (undefined != $(tr).find('.val').eq(0).html()) {
+					redirects[ $(tr).find('.val').eq(0).html() ] = $(tr).find('.val').eq(1).html();
+				}
+
+			});
+
+			$.post(
+					ajaxurl,
+					{
+						action    : 'wpseo_save_redirects',
+						ajax_nonce: $('.wpseo_redirects_ajax_nonce').val(),
+						redirects : redirects
+					},
+					function( response ) {
+						console.log( response );
+					}
+			);
 
 		};
 
@@ -36,5 +56,6 @@
 
 	$(window).load(function () {
 		$('.seo_page_wpseo_redirects').wpseo_redirects();
-	})
+	});
+
 })(jQuery);
