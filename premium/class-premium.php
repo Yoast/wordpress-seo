@@ -13,7 +13,7 @@ if ( ! defined( 'WPSEO_PREMIUM_PATH' ) ) {
 }
 
 if ( ! defined( 'WPSEO_PREMIUM_FILE' ) ) {
-	define( 'WPSEO_PREMIUM_FILE',  __FILE__ );
+	define( 'WPSEO_PREMIUM_FILE', __FILE__ );
 }
 
 
@@ -31,7 +31,11 @@ class WPSEO_Premium {
 	 * Setup the premium WordPress SEO plugin
 	 */
 	private function setup() {
+		// Sub Menu pages
 		add_filter( 'wpseo_submenu_pages', array( $this, 'add_submenu_pages' ) );
+
+		// AJAX
+		add_action( 'wp_ajax_wpseo_save_redirects', array( 'WPSEO_Redirect_Manager', 'ajax_handle_redirects_save' ) );
 	}
 
 	/**
@@ -46,7 +50,7 @@ class WPSEO_Premium {
 		if ( is_admin() ) {
 			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-redirect-table.php' );
 			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/pages/class-page-redirect.php' );
-		}else {
+		} else {
 
 		}
 
