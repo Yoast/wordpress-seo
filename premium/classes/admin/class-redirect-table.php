@@ -18,6 +18,7 @@ if ( ! class_exists( 'WP_List_Table' ) ) {
  * @todo Create pagination
  * @todo Create default post top tab to adjust posts per page backend param
  * @todo Fix sorting in combination with search
+ * @todo Create a define for not autoloading
  */
 class WPSEO_Redirect_Table extends WP_List_Table {
 
