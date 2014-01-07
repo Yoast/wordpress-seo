@@ -10,6 +10,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 
 class WPSEO_Page_Redirect {
 
+
 	public static function display() {
 		global $wpseo_admin_pages;
 
@@ -28,6 +29,9 @@ class WPSEO_Page_Redirect {
 		// Open <form>
 		echo "<form id='wpseo-redirects-table-form' method='post'>\n";
 
+		// AJAX nonce
+		echo "<input type='hidden' class='wpseo_redirects_ajax_nonce' value='" . wp_create_nonce( 'wpseo-redirects-ajax-security' ) . "' />\n";
+
 		// The list table
 		$list_table = new WPSEO_Redirect_Table();
 		$list_table->set_search( $search );
@@ -41,7 +45,6 @@ class WPSEO_Page_Redirect {
 		// Admin footer
 		$wpseo_admin_pages->admin_footer( false );
 	}
-
 	public static function page_load() {
 		add_action( 'admin_enqueue_scripts', array( 'WPSEO_Page_Redirect', 'page_scripts' ) );
 	}
