@@ -42,4 +42,12 @@ class WPSEO_Page_Redirect {
 		$wpseo_admin_pages->admin_footer( false );
 	}
 
+	public static function page_load() {
+		add_action( 'admin_enqueue_scripts', array( 'WPSEO_Page_Redirect', 'page_scripts' ) );
+	}
+
+	public static function page_scripts() {
+		wp_enqueue_script( 'recipes', plugin_dir_url( WPSEO_PREMIUM_FILE ) . '/assets/js/wp-seo-premium-admin-redirects.js', array( 'jquery' ), '1.0.0' );
+	}
+
 }
