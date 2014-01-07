@@ -70,8 +70,9 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	 */
 	public function get_columns() {
 		$columns = array(
-				'old' => __( 'Old URL', 'wordpress-seo' ),
-				'new' => __( 'New URL', 'wordpress-seo' )
+				'cb'      => '<input type="checkbox" />',
+				'old'     => __( 'Old URL', 'wordpress-seo' ),
+				'new'     => __( 'New URL', 'wordpress-seo' ),
 		);
 
 		return $columns;
@@ -153,27 +154,44 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 		return ( $order === 'asc' ) ? $result : - $result;
 	}
 
-	/*
-	public function column_title( $item ) {
+	public function column_old( $item ) {
 		$actions = array(
-				'edit'  => sprintf(
-						'<a href="%sadmin.php?page=sub_posts_edit&id=%s">' . __( 'Edit', 'sub-posts' ) . '</a>',
-						get_admin_url(),
-						$item['ID']
-				),
-				'trash' => sprintf(
-						'<a href="javascript:;" id="%s">' . __( 'Delete', 'sub-posts' ) . '</a>',
-						$item['ID']
-				),
+				'edit'  => '<a href="javascript:;">' . __( 'Edit', 'sub-posts' ) . '</a>',
+				'trash' => '<a href="javascript:;" >' . __( 'Delete', 'sub-posts' ) . '</a>',
 		);
 
 		return sprintf(
 				'%1$s %2$s',
-				'<strong><a href="' . get_admin_url() . 'admin.php?page=sub_posts_edit&id=' . $item['ID'] . '">' . $item['title'] . '</a></strong>',
+				$item['old'],
 				$this->row_actions( $actions )
 		);
 	}
-	*/
+
+	/**
+	 * Checkbox column
+	 *
+	 * @param $item
+	 *
+	 * @return string
+	 */
+	public function column_cb( $item ) {
+		return sprintf(
+				'<input type="checkbox" name="wpseo_redirects_bulk[]" value="%s" />', $item['ID']
+		);
+	}
+
+	/**
+	 * Checkbox column
+	 *
+	 * @param $item
+	 *
+	 * @return string
+	 */
+	public function column_actions( $item ) {
+		return sprintf(
+				'<a href="javascript:;">' . __( 'Edit', 'wordpress-seo' ). '</a> | <a href="javascript:;">' . __( 'Delete', 'wordpress-seo' ). '</a>'
+		);
+	}
 
 	/**
 	 * Default method to display a column
