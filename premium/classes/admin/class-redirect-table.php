@@ -25,6 +25,7 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	 */
 	public function __construct() {
 		parent::__construct();
+		$this->handle_bulk_action();
 	}
 
 	/**
@@ -87,7 +88,7 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 		$this->_column_headers = array( $columns, $hidden, $sortable );
 
 		// Get the items
-		$redirect_items = get_option( WPSEO_Redirect_Manager::OPTION_REDIRECTS );
+		$redirect_items = WPSEO_Redirect_Manager::get_redirects();
 
 		// Handle the search
 		if ( null != $this->search_string ) {
@@ -96,7 +97,7 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 
 		// Format the data
 		$formatted_items = array();
-		if ( count( $redirect_items ) > 0 ) {
+		if ( is_array( $redirect_items ) && count( $redirect_items ) > 0 ) {
 			foreach ( $redirect_items as $old => $new ) {
 				$formatted_items[] = array( 'old' => $old, 'new' => $new );
 			}
@@ -169,7 +170,7 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	 */
 	public function column_cb( $item ) {
 		return sprintf(
-				'<input type="checkbox" name="wpseo_redirects_bulk[]" value="%s" />', $item['ID']
+				'<input type="checkbox" name="wpseo_redirects_bulk_delete[]" value="%s" />', $item['old']
 		);
 	}
 
@@ -216,6 +217,22 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 		);
 
 		return $actions;
+	}
+
+	/**
+	 * Function that handles bulk action
+	 */
+	private function handle_bulk_action() {
+		if ( isset( $_POST['action'] ) ) {
+
+			switch ( $_POST['action'] ) {
+				case 'delete':
+					if ( is_array( $_POST['wpseo_redirects_bulk_delete'] ) && count( $_POST['wpseo_redirects_bulk_delete'] ) > 0 ) {
+						WPSEO_Redirect_Manager::delete_redirects( $_POST['wpseo_redirects_bulk_delete'] );
+					}
+					break;
+			}
+		}
 	}
 
 }

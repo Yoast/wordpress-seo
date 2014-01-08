@@ -14,30 +14,50 @@ class WPSEO_Redirect_Manager {
 	const OPTION_REDIRECTS = 'wpseo-premium-redirects';
 
 	public function __construct() {
-
 	}
 
+	/**
+	 * Get the redirects
+	 *
+	 * @return array
+	 */
 	public static function get_redirects() {
-		return get_option( self::OPTION_REDIRECTS );
+		return get_option( self::OPTION_REDIRECTS, array() );
 	}
 
-	public static function save_redirects() {
-		update_option( self::OPTION_REDIRECTS, $_POST['redirects'] );
+	/**
+	 * Save the redirects
+	 *
+	 * @param array	$redirects
+	 */
+	public static function save_redirects( $redirects ) {
+		update_option( self::OPTION_REDIRECTS, $redirects );
 	}
 
-	public static function delete_redirects( $redirects ) {
+	/**
+	 * Delete the redirects
+	 *
+	 * @param array	$delete_redirects
+	 */
+	public static function delete_redirects( $delete_redirects ) {
 
-		$db_redirects = self::get_redirects();
+		$redirects = self::get_redirects();
 
-		if ( count( $db_redirects ) > 0 ) {
-			if ( is_array( $redirects ) && count( $redirects ) > 0 ) {
-				foreach ( $redirects as $redirect ) {
-					unset( $db_redirects[$redirect] );
+		if ( count( $redirects ) > 0 ) {
+			if ( is_array( $delete_redirects ) && count( $delete_redirects ) > 0 ) {
+				foreach ( $delete_redirects as $delete_redirects ) {
+					unset( $redirects[$delete_redirects] );
 				}
 			}
 		}
+
+		self::save_redirects( $redirects );
+
 	}
 
+	/**
+	 * Function that handles the AJAX 'handle_redirects_save' action
+	 */
 	public static function ajax_handle_redirects_save() {
 
 		// Check nonce
