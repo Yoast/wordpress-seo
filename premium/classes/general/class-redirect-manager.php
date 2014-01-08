@@ -22,7 +22,7 @@ class WPSEO_Redirect_Manager {
 	 * @return array
 	 */
 	public static function get_redirects() {
-		return get_option( self::OPTION_REDIRECTS, array() );
+		return apply_filters( 'wpseo_premium_get_redirects', get_option( self::OPTION_REDIRECTS, array() ) );
 	}
 
 	/**
@@ -31,7 +31,7 @@ class WPSEO_Redirect_Manager {
 	 * @param array	$redirects
 	 */
 	public static function save_redirects( $redirects ) {
-		update_option( self::OPTION_REDIRECTS, $redirects );
+		update_option( self::OPTION_REDIRECTS, apply_filters( 'wpseo_premium_save_redirects', $redirects ) );
 	}
 
 	/**
