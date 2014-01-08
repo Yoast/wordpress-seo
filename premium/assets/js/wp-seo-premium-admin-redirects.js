@@ -61,7 +61,7 @@
 			})
 		};
 
-		this.unbind_submit = function(row) {
+		this.unbind_submit = function (row) {
 			$wpseo_redirects.closest('form').unbind('submit');
 		};
 
@@ -161,17 +161,26 @@
 			// Bind action to row
 			$wpseo_redirects.bind_row(tr);
 
+			$this.find('#wpseo_redirects_new_old').val('');
+			$this.find('#wpseo_redirects_new_new').val('');
+			$wpseo_redirects.save_redirects();
+
 			return true;
 		};
 
 		this.setup = function () {
 			$this.find('a').click(function () {
-				if ($this.add_redirect($this.find('#wpseo_redirects_new_old').val(), $this.find('#wpseo_redirects_new_new').val())) {
-					$this.find('#wpseo_redirects_new_old').val('');
-					$this.find('#wpseo_redirects_new_new').val('');
-					$wpseo_redirects.save_redirects();
-				}
+				$this.add_redirect($this.find('#wpseo_redirects_new_old').val(), $this.find('#wpseo_redirects_new_new').val());
 				return false;
+			});
+
+			console.log($this);
+
+			$this.find("input").keypress(function(event) {
+				if (event.which == 13) {
+					event.preventDefault();
+					$this.add_redirect($this.find('#wpseo_redirects_new_old').val(), $this.find('#wpseo_redirects_new_new').val());
+				}
 			});
 		};
 
