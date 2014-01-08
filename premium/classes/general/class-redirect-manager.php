@@ -1,6 +1,17 @@
 <?php
+/**
+ * @package Premium\Redirect
+ */
+
+if ( ! defined( 'WPSEO_VERSION' ) ) {
+	header( 'HTTP/1.0 403 Forbidden' );
+	die;
+}
+
 
 class WPSEO_Redirect_Manager {
+
+	const OPTION_REDIRECTS = 'wpseo-premium-redirects';
 
 	public function __construct() {
 
@@ -18,7 +29,7 @@ class WPSEO_Redirect_Manager {
 		}
 
 		// Save redirects in database
-		update_option( 'wpseo-premium-redirects', $_POST['redirects'] );
+		update_option( self::OPTION_REDIRECTS, $_POST['redirects'] );
 
 		// Response
 		echo '1';
