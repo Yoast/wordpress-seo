@@ -10,7 +10,9 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 
 class WPSEO_Page_Redirect {
 
-
+	/**
+	 * Function that outputs the redirect page
+	 */
 	public static function display() {
 		global $wpseo_admin_pages;
 
@@ -45,12 +47,19 @@ class WPSEO_Page_Redirect {
 		// Admin footer
 		$wpseo_admin_pages->admin_footer( false );
 	}
+
+	/**
+	 * Function that is triggered when the redirect page loads
+	 */
 	public static function page_load() {
 		add_action( 'admin_enqueue_scripts', array( 'WPSEO_Page_Redirect', 'page_scripts' ) );
 	}
 
+	/**
+	 * Load the admin redirects scripts
+	 */
 	public static function page_scripts() {
-		wp_enqueue_script( 'recipes', plugin_dir_url( WPSEO_PREMIUM_FILE ) . '/assets/js/wp-seo-premium-admin-redirects.js', array( 'jquery' ), '1.0.0' );
+		wp_enqueue_script( 'wp-seo-premium-admin-redirects', plugin_dir_url( WPSEO_PREMIUM_FILE ) . '/assets/js/wp-seo-premium-admin-redirects.js', array( 'jquery' ), '1.0.0' );
 	}
 
 }

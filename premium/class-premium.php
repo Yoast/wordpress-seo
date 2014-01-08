@@ -71,5 +71,5 @@ class WPSEO_Premium {
 
 }
 
-// Load the WordPress SEO Premium class the correct way, that is later then the WordPress SEO priority
+// Load the WordPress SEO Premium class the correct way, which is later than the WordPress SEO priority
 add_action( 'plugins_loaded', create_function( '', 'new WPSEO_Premium();' ), 15 );
