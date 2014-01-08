@@ -5,27 +5,29 @@
 
 		this.edit_row = function(row) {
 
+			var ti = 1;
 			$.each( $(row).find('.val'), function(k,v) {
 				var current_val = $(v).html().toString();
 				$(v).empty().append(
-					$('<input>').val(current_val)
+					$('<input>').val(current_val).attr('tabindex', ti)
 				);
+				ti++;
 			});
 			$(row).find('.row-actions').hide();
+
 			$(row).find('.row-actions').parent().append(
-				$('<button>').addClass('button').addClass('button-primary').html('Save').click(function() {
-
-					$.each( $(row).find('.val'), function(k,v) {
-						var new_val = $(v).find('input').val().toString();
-						$(v).empty().html(new_val);
-					});
-
-					$(row).find('.row-actions').parent().find('.button-primary').remove();
-					$(row).find('.row-actions').show();
-					$this.save_redirects();
-
-					return false;
-				})
+				$('<div>').addClass('edit-actions').append(
+					$('<button>').addClass('button').addClass('button-primary').attr('tabindex', 3).html('Save').click(function() {
+						$this.restore_row(row);
+						$this.save_redirects();
+						return false;
+					})
+				).append(
+						$('<button>').addClass('button').attr('tabindex', 4).html('Cancel').click(function() {
+							$this.restore_row(row);
+							return false;
+						})
+				)
 			);
 		};
 
@@ -34,6 +36,16 @@
 				$(this).remove();
 				$this.save_redirects();
 			});
+		};
+
+		this.restore_row = function(row) {
+			$.each( $(row).find('.val'), function(k,v) {
+				var new_val = $(v).find('input').val().toString();
+				$(v).empty().html(new_val);
+			});
+
+			$(row).find('.edit-actions').remove();
+			$(row).find('.row-actions').show();
 		};
 
 		this.save_redirects = function () {
