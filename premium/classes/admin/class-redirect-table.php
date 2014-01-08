@@ -14,11 +14,6 @@ if ( ! class_exists( 'WP_List_Table' ) ) {
 
 /**
  * Class WPSEO_Redirect_Table
- *
- * @todo Create pagination
- * @todo Create default post top tab to adjust posts per page backend param
- * @todo Fix sorting in combination with search
- * @todo Create a define for not autoloading
  */
 class WPSEO_Redirect_Table extends WP_List_Table {
 
@@ -92,10 +87,7 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 		$this->_column_headers = array( $columns, $hidden, $sortable );
 
 		// Get the items
-		$redirect_items = array();
-		for ( $i = 0; $i < 100; $i ++ ) {
-			$redirect_items[$i . ' OLD_URL'] = $i . ' NEW_URL';
-		}
+		$redirect_items = get_option( WPSEO_Redirect_Manager::OPTION_REDIRECTS );
 
 		// Handle the search
 		if ( null != $this->search_string ) {
