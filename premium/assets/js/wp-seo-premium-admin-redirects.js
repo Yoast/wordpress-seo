@@ -3,15 +3,37 @@
 	$.fn.wpseo_redirects = function () {
 		var $this = this;
 
-		this.edit_row = function (row) {
-			$this.save_redirects();
+		this.edit_row = function(row) {
+
+			$.each( $(row).find('.val'), function(k,v) {
+				var current_val = $(v).html().toString();
+				$(v).empty().append(
+					$('<input>').val(current_val)
+				);
+			});
+			$(row).find('.row-actions').hide();
+			$(row).find('.row-actions').parent().append(
+				$('<button>').addClass('button').addClass('button-primary').html('Save').click(function() {
+
+					$.each( $(row).find('.val'), function(k,v) {
+						var new_val = $(v).find('input').val().toString();
+						$(v).empty().html(new_val);
+					});
+
+					$(row).find('.row-actions').parent().find('.button-primary').remove();
+					$(row).find('.row-actions').show();
+					$this.save_redirects();
+
+					return false;
+				})
+			);
 		};
 
 		this.delete_row = function (row) {
 			$(row).fadeTo('fast', 0).slideUp(function () {
 				$(this).remove();
+				$this.save_redirects();
 			});
-			$this.save_redirects();
 		};
 
 		this.save_redirects = function () {
@@ -33,7 +55,6 @@
 						redirects : redirects
 					},
 					function( response ) {
-						console.log( response );
 					}
 			);
 
