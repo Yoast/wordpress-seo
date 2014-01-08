@@ -17,6 +17,27 @@ class WPSEO_Redirect_Manager {
 
 	}
 
+	public static function get_redirects() {
+		return get_option( self::OPTION_REDIRECTS );
+	}
+
+	public static function save_redirects() {
+		update_option( self::OPTION_REDIRECTS, $_POST['redirects'] );
+	}
+
+	public static function delete_redirects( $redirects ) {
+
+		$db_redirects = self::get_redirects();
+
+		if ( count( $db_redirects ) > 0 ) {
+			if ( is_array( $redirects ) && count( $redirects ) > 0 ) {
+				foreach ( $redirects as $redirect ) {
+					unset( $db_redirects[$redirect] );
+				}
+			}
+		}
+	}
+
 	public static function ajax_handle_redirects_save() {
 
 		// Check nonce
@@ -29,7 +50,7 @@ class WPSEO_Redirect_Manager {
 		}
 
 		// Save redirects in database
-		update_option( self::OPTION_REDIRECTS, $_POST['redirects'] );
+		self::save_redirects( $_POST['redirects'] );
 
 		// Response
 		echo '1';
