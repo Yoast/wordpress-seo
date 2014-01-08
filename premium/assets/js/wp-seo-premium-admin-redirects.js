@@ -6,6 +6,8 @@
 
 		this.edit_row = function (row) {
 
+			$wpseo_redirects.bind_submit(row);
+
 			var ti = 1;
 			$.each($(row).find('.val'), function (k, v) {
 				var current_val = $(v).html().toString();
@@ -47,6 +49,20 @@
 
 			$(row).find('.edit-actions').remove();
 			$(row).find('.row-actions').show();
+			$wpseo_redirects.unbind_submit();
+		};
+
+		this.bind_submit = function (row) {
+			$wpseo_redirects.closest('form').submit(function (e) {
+				e.preventDefault();
+				$wpseo_redirects.restore_row(row);
+				$wpseo_redirects.save_redirects();
+				return false;
+			})
+		};
+
+		this.unbind_submit = function(row) {
+			$wpseo_redirects.closest('form').unbind('submit');
 		};
 
 		this.save_redirects = function () {
