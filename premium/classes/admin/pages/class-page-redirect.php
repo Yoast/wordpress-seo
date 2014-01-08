@@ -28,6 +28,24 @@ class WPSEO_Page_Redirect {
 			$search = $_POST['s'];
 		}
 
+		// Add new redirect HTML
+		echo "<form id='wpseo-new-redirects-form' method='post'>\n";
+			echo "<div class='wpseo_redirects_new'>\n";
+			echo "<h2>" . __( 'Add new redirect', 'wordpress-seo' ) . "</h2>\n";
+
+			echo "<label class='textinput' for='wpseo_redirects_new_old'>" . __( 'Old URL', 'wordpress-seo' ) . "</label>\n";
+			echo "<input type='text' class='textinput' name='wpseo_redirects_new_old' id='wpseo_redirects_new_old' value='' />\n";
+			echo "<br class='clear'/>\n";
+
+			echo "<label class='textinput' for='wpseo_redirects_new_new'>" . __( 'New URL', 'wordpress-seo' ) . "</label>\n";
+			echo "<input type='text' class='textinput' name='wpseo_redirects_new_new' id='wpseo_redirects_new_new' value='' />\n";
+			echo "<br class='clear'/>\n";
+
+			echo "<a href='javascript:;' class='button-primary'>" . __( 'Add redirect', 'wordpress-seo' ) . "</a>\n";
+
+			echo "</div>\n";
+		echo "</form>\n";
+
 		// Open <form>
 		echo "<form id='wpseo-redirects-table-form' method='post'>\n";
 
