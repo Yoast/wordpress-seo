@@ -31,8 +31,13 @@ class WPSEO_Premium {
 	 * Setup the premium WordPress SEO plugin
 	 */
 	private function setup() {
-		// Sub Menu pages
+
+		// Add Sub Menu page and add redirect page to admin page array
+		// This should be possible in one method in the future, see #535
 		add_filter( 'wpseo_submenu_pages', array( $this, 'add_submenu_pages' ) );
+
+		// Add Redirect page as admin page
+		add_filter( 'wpseo_admin_pages', array( $this, 'add_admin_pages' ) );
 
 		// AJAX
 		add_action( 'wp_ajax_wpseo_save_redirects', array( 'WPSEO_Redirect_Manager', 'ajax_handle_redirects_save' ) );
@@ -67,6 +72,12 @@ class WPSEO_Premium {
 		$submenu_pages[] = array( 'wpseo_dashboard', __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Redirects', 'wordpress-seo' ), __( 'Redirects', 'wordpress-seo' ), 'manage_options', 'wpseo_redirects', array( WPSEO_Page_Redirect, 'display' ), array( array( 'WPSEO_Page_Redirect', 'page_load' ) ) );
 
 		return $submenu_pages;
+	}
+
+	public function add_admin_pages( $admin_pages ) {
+		$admin_pages[] = 'wpseo_redirects';
+
+		return $admin_pages;
 	}
 
 }
