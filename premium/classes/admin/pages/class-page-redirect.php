@@ -40,6 +40,8 @@ class WPSEO_Page_Redirect {
 			echo "</div>\n";
 		echo "</form>\n";
 
+		echo "<p class='desc'>&nbsp;</p>\n";
+
 		// Open <form>
 		echo "<form id='wpseo-redirects-table-form' method='post'>\n";
 
