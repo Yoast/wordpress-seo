@@ -108,7 +108,11 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 
 = Trunk =
 
-* Enhancement: Shortcode now also available to ajax requests - props [Jrf](http://profiles.wordpress.org/jrf).
+* Bugfixes
+	* Sitemap shortcode had hard-coded table name which could easily cause problem. Fixed. - props [Jrf](http://profiles.wordpress.org/jrf).
+
+* Enhancement
+	* Shortcode now also available to ajax requests - props [Jrf](http://profiles.wordpress.org/jrf).
 
 * i18n
 	* Updated cs_CZ, fa_IR, fr_FR, hu, hu_HU, pl_PL, ru_RU & zh_CN
