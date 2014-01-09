@@ -775,6 +775,9 @@ class WPSEO_Metabox {
 			// Prevent saving "empty" values.
 			if ( ! in_array( $data, array( '', '0', 'none', '-', 'index,follow' ) ) ) {
 				wpseo_set_value( $meta_box['name'], sanitize_text_field( $data ), $post_id );
+			} else if ( $data == '' ) {
+				// If we don't do this, we prevent people from reverting to the default title or description.
+				delete_post_meta( $post_id, '_yoast_wpseo_' . $meta_box['name'] );
 			}
 		}
 
