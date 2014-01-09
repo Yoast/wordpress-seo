@@ -109,7 +109,7 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 = Trunk =
 
 * Bugfixes
-	* Sitemap shortcode had hard-coded table name which could easily cause problem. Fixed. - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Sitemap shortcode sql had hard-coded table name which could easily cause the shortcode display to fail. Fixed. - props [Jrf](http://profiles.wordpress.org/jrf).
 
 * Enhancement
 	* Shortcode now also available to ajax requests - props [Jrf](http://profiles.wordpress.org/jrf).
