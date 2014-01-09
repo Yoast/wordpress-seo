@@ -26,7 +26,7 @@
 
 			$(row).find('.row-actions').parent().append(
 					$('<div>').addClass('edit-actions').append(
-									$('<button>').addClass('button').addClass('button-primary').attr('tabindex', 3).html('Save').click(function () {
+									$('<button>').addClass('button-primary').attr('tabindex', 3).html('Save').click(function () {
 										$wpseo_redirects.restore_row(row);
 										$wpseo_redirects.save_redirects();
 										return false;
