@@ -22,12 +22,6 @@ class WPSEO_Page_Redirect {
 		// Admin header
 		$wpseo_admin_pages->admin_header( false, 'yoast_wpseo_redirects_options', 'wpseo_redirects' );
 
-		// Check/set the search
-		$search = null;
-		if ( isset( $_POST['s'] ) && $_POST['s'] != '' ) {
-			$search = $_POST['s'];
-		}
-
 		// Add new redirect HTML
 		echo "<form id='wpseo-new-redirects-form' method='post'>\n";
 			echo "<div class='wpseo_redirects_new'>\n";
@@ -54,7 +48,6 @@ class WPSEO_Page_Redirect {
 
 		// The list table
 		$list_table = new WPSEO_Redirect_Table();
-		$list_table->set_search( $search );
 		$list_table->prepare_items();
 		$list_table->search_box( __( 'Search', 'wordpress-seo' ), 'wpseo-redirect-search' );
 		$list_table->display();

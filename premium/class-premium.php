@@ -39,6 +39,9 @@ class WPSEO_Premium {
 		// Add Redirect page as admin page
 		add_filter( 'wpseo_admin_pages', array( $this, 'add_admin_pages' ) );
 
+		// Post to Get on search
+		add_action( 'admin_init', array( $this, 'redirects_search_post_to_get' ) );
+
 		// AJAX
 		add_action( 'wp_ajax_wpseo_save_redirects', array( 'WPSEO_Redirect_Manager', 'ajax_handle_redirects_save' ) );
 	}
@@ -74,10 +77,48 @@ class WPSEO_Premium {
 		return $submenu_pages;
 	}
 
+	/**
+	 * Add redirects to admin pages so the Yoast scripts are loaded
+	 *
+	 * @param $admin_pages
+	 *
+	 * @return array
+	 */
 	public function add_admin_pages( $admin_pages ) {
 		$admin_pages[] = 'wpseo_redirects';
 
 		return $admin_pages;
+	}
+
+	/**
+	 * Catch the redirects search post and redirect it to a search get
+	 */
+	public function redirects_search_post_to_get() {
+		if ( isset( $_POST['s'] ) ) {
+
+			// Base URL
+			$url = get_admin_url() . 'admin.php?page=' . $_GET['page'];
+
+			// Add search or reset it
+			if ( $_POST['s'] != '' ) {
+				$url .= '&s=' . $_POST['s'];
+			}
+
+
+			// Orderby
+			if ( isset( $_GET['orderby'] ) ) {
+				$url .= '&orderby=' . $_GET['orderby'];
+			}
+
+			// Order
+			if ( isset( $_GET['order'] ) ) {
+				$url .= '&order=' . $_GET['order'];
+			}
+
+			// Do the redirect
+			wp_redirect( $url );
+			exit;
+		}
 	}
 
 }

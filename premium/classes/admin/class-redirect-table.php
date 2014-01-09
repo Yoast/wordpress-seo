@@ -26,6 +26,10 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	public function __construct() {
 		parent::__construct();
 		$this->handle_bulk_action();
+
+		if ( isset( $_GET['s'] ) && $_GET['s'] != '' ) {
+			$this->search_string = $_GET['s'];
+		}
 	}
 
 	/**
@@ -49,15 +53,6 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 		}
 
 		return $results;
-	}
-
-	/**
-	 * Set the search string
-	 *
-	 * @param $search_string
-	 */
-	public function set_search( $search_string ) {
-		$this->search_string = $search_string;
 	}
 
 	/**
