@@ -20,6 +20,23 @@ if ( ! defined( 'WPSEO_PREMIUM_FILE' ) ) {
 class WPSEO_Premium {
 
 	/**
+	 * Function that will be executed when plugin is activated
+	 */
+	public static function install() {
+
+		// Check if WordPress SOE is installed and activated
+		if ( is_plugin_active( 'wordpress-seo/wp-seo.php' ) ) {
+			// Deactivate WPSEO
+		}
+
+		// Load the Redirect File Manager
+		require_once WPSEO_PREMIUM_PATH . 'classes/admin/class-redirect-file-manager.php';
+
+		// Create the upload directory
+		WPSEO_Redirect_File_Manager::create_upload_dir();
+	}
+
+	/**
 	 * WPSEO_Premium Constructor
 	 */
 	public function __construct() {
@@ -44,10 +61,22 @@ class WPSEO_Premium {
 
 		// AJAX
 		add_action( 'wp_ajax_wpseo_save_redirects', array( 'WPSEO_Redirect_Manager', 'ajax_handle_redirects_save' ) );
+
+		// TESTING
+		add_action( 'admin_init', function () {
+			if ( isset( $_GET['test_redirect'] ) ) {
+//				$apache_file = new WPSEO_Apache_Redirect_File();
+				$apache_file = new WPSEO_Nginx_Redirect_File();
+				$apache_file->save_file();
+				exit;
+			}
+		} );
 	}
 
 	/**
 	 * Include all required files
+	 *
+	 * This will be removed once the autoloader is created
 	 */
 	private function includes() {
 
@@ -56,6 +85,9 @@ class WPSEO_Premium {
 
 		// Separate backend and frontend files
 		if ( is_admin() ) {
+			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-redirect-file.php' );
+			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-nginx-redirect-file.php' );
+			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-apache-redirect-file.php' );
 			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-redirect-table.php' );
 			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/pages/class-page-redirect.php' );
 		} else {
@@ -125,3 +157,6 @@ class WPSEO_Premium {
 
 // Load the WordPress SEO Premium class the correct way, which is later than the WordPress SEO priority
 add_action( 'plugins_loaded', create_function( '', 'new WPSEO_Premium();' ), 15 );
+
+// Activation hook
+register_activation_hook( WPSEO_Premium, array( 'WPSEO_Premium', 'install' ) );
