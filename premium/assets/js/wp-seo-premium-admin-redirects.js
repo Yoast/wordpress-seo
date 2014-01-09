@@ -6,7 +6,13 @@
 
 		this.edit_row = function (row) {
 
+			// Restore previous rows
+			$.each($wpseo_redirects.find('.row_edit'), function(k,v) { $wpseo_redirects.restore_row(v); });
+
+			// Bind form submit
 			$wpseo_redirects.bind_submit(row);
+
+			$(row).addClass('row_edit');
 
 			var ti = 1;
 			$.each($(row).find('.val'), function (k, v) {
@@ -42,6 +48,9 @@
 		};
 
 		this.restore_row = function (row) {
+
+			$(row).removeClass('row_edit');
+
 			$.each($(row).find('.val'), function (k, v) {
 				var new_val = $(v).find('input').val().toString();
 				$(v).empty().html(new_val);
@@ -173,8 +182,6 @@
 				$this.add_redirect($this.find('#wpseo_redirects_new_old').val(), $this.find('#wpseo_redirects_new_new').val());
 				return false;
 			});
-
-			console.log($this);
 
 			$this.find("input").keypress(function(event) {
 				if (event.which == 13) {
