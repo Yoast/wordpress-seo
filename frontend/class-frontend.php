@@ -1141,7 +1141,7 @@ class WPSEO_Frontend {
 			$cururl .= "s";
 		}
 		$cururl .= "://";
-		if ( $_SERVER["SERVER_PORT"] != "80" )
+		if ( $_SERVER["SERVER_PORT"] != "80" && $_SERVER["SERVER_PORT"] != "443")
 			$cururl .= $_SERVER["SERVER_NAME"] . ":" . $_SERVER["SERVER_PORT"] . $_SERVER["REQUEST_URI"];
 		else
 			$cururl .= $_SERVER["SERVER_NAME"] . $_SERVER["REQUEST_URI"];
