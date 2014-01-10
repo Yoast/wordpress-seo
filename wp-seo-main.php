@@ -43,10 +43,6 @@ function wpseo_init() {
 
 	if ( isset( $options['enablexmlsitemap'] ) && $options['enablexmlsitemap'] )
 		require_once( WPSEO_PATH . 'inc/class-sitemaps.php' );
-
-	if( file_exists( WPSEO_PATH . 'premium/class-premium.php' ) ) {
-		require_once( WPSEO_PATH . 'premium/class-premium.php' );
-	}
 }
 
 /**

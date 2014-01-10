@@ -158,6 +158,3 @@ class WPSEO_Premium {
 
 // Load the WordPress SEO Premium class the correct way, which is later than the WordPress SEO priority
 add_action( 'plugins_loaded', create_function( '', 'new WPSEO_Premium();' ), 15 );
-
-// Activation hook
-register_activation_hook( WPSEO_Premium, array( 'WPSEO_Premium', 'install' ) );

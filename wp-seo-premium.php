@@ -27,4 +27,19 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+// Load the WordPress SEO plugin
 require_once( 'wp-seo-main.php' );
+
+// Premium setup
+function wpseo_premium_init() {
+	if( file_exists( WPSEO_PATH . 'premium/class-premium.php' ) ) {
+		require_once( WPSEO_PATH . 'premium/class-premium.php' );
+	}
+}
+add_action( 'plugins_loaded', 'wpseo_premium_init', 14 );
+
+// Activation hook
+if ( is_admin() ) {
+	require_once( WPSEO_PATH . 'premium/class-premium.php' );
+	register_activation_hook( __FILE__, array( 'WPSEO_Premium', 'install' ) );
+}
