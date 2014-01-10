@@ -2,12 +2,20 @@
 
 class WPSEO_Redirect_File_Manager {
 
+	/**
+	 * Function that returns the WPSEO redirects directory path
+	 *
+	 * @return string
+	 */
 	public static function get_dir() {
 		$wp_upload_dir = wp_upload_dir();
 
 		return $wp_upload_dir['basedir'] . '/wpseo-redirects';
 	}
 
+	/**
+	 * Function that creates the WPSEO redirect directory
+	 */
 	public static function create_upload_dir() {
 		// Create the Redirect file dir
 		wp_mkdir_p( self::get_dir() );
