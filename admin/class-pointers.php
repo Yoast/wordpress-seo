@@ -145,12 +145,18 @@ class WPSEO_Pointers {
 			),
 		);
 
-		if ( ( defined( 'DISALLOW_FILE_EDIT' ) && DISALLOW_FILE_EDIT ) || ( defined( 'DISALLOW_FILE_MODS' ) && DISALLOW_FILE_MODS ) ) {
+		// Remove the last step and add tour end to import page if file editing is disallowed or if the site is a multisite and the current user isn't a superadmin
+		if (
+			( ( defined( 'DISALLOW_FILE_EDIT' ) && DISALLOW_FILE_EDIT ) || ( defined( 'DISALLOW_FILE_MODS' ) && DISALLOW_FILE_MODS ) )
+			||
+			( ( is_multisite() && !is_super_admin() ) )
+		) {
 			unset( $adminpages['wpseo_files'] );
 			$adminpages['wpseo_import']['function'] = '';
 			unset( $adminpages['wpseo_import']['button2'] );
 			$adminpages['wpseo_import']['content'] .= '<p>' . sprintf( __( 'The tour ends here,thank you for using my plugin and good luck with your SEO!<br/><br/>Best,<br/>Joost de Valk - %1$sYoast.com%2$s', 'wordpress-seo' ), '<a href="http://yoast.com/">', '</a>' ) . '</p>';
 		}
+
 		$page = '';
 		if ( isset( $_GET['page'] ) )
 			$page = $_GET['page'];
