@@ -171,17 +171,23 @@ class WPSEO_Admin {
 				add_submenu_page( 'wpseo_dashboard', __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Edit Files', 'wordpress-seo' ), __( 'Edit Files', 'wordpress-seo' ), 'delete_users', 'wpseo_files', array( $this, 'files_page' ) );
 		}
 
-		$bulk_title_hook = add_submenu_page( 'wpseo_dashboard', __( 'Bulk Title Editor', 'wordpress-seo' ), __( 'Bulk Title Editor', 'wordpress-seo' ), 'manage_options', 'wpseo_bulk-title-editor', array( $this, 'bulk_title_editor_page' ) );
+		/**
+		 * @todo double check whether the capability is the right one
+		 * Shouldn't this functionality be made available to all editors/authors for those posts they have authority to edit ?
+		 * If so, the queries in the buld editor classes need changing too to reflect this
+		 */
+		$bulk_title_hook = add_submenu_page( 'wpseo_dashboard', __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Bulk Title Editor', 'wordpress-seo' ), __( 'Bulk Title Editor', 'wordpress-seo' ), 'manage_options', 'wpseo_bulk-title-editor', array( $this, 'bulk_title_editor_page' ) );
 
-		add_action( "load-{$bulk_title_hook}", array( $this, 'bulk_edit_options' ) );
+		$bulk_description_hook = add_submenu_page( 'wpseo_dashboard', __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Bulk Description Editor', 'wordpress-seo' ), __( 'Bulk Description Editor', 'wordpress-seo' ), 'manage_options', 'wpseo_bulk-description-editor', array( $this, 'bulk_description_editor_page' ) );
 
-		$bulk_description_hook = add_submenu_page( 'wpseo_dashboard', __( 'Bulk Description Editor', 'wordpress-seo' ), __( 'Bulk Description Editor', 'wordpress-seo' ), 'manage_options', 'wpseo_bulk-description-editor', array( $this, 'bulk_description_editor_page' ) );
+		add_action( 'load-' . $bulk_title_hook, array( $this, 'bulk_edit_options' ) );
+		add_action( 'load-' . $bulk_description_hook, array( $this, 'bulk_edit_options' ) );
 
-		add_action( "load-{$bulk_description_hook}", array( $this, 'bulk_edit_options' ) );
 
 		global $submenu;
-		if ( isset( $submenu['wpseo_dashboard'] ) )
+		if ( isset( $submenu['wpseo_dashboard'] ) ) {
 			$submenu['wpseo_dashboard'][0][0] = __( 'Dashboard', 'wordpress-seo' );
+		}
 	}
 
 	/**
@@ -445,9 +451,8 @@ class WPSEO_Admin {
 	 * Loads the Bulk Title Editor page.
 	 */
 	function bulk_title_editor_page() {
-		if ( isset( $_GET['page'] ) && 'wpseo_bulk-title-editor' == $_GET['page'] ) {
-			wp_enqueue_script( 'wpseo-bulk-editor', plugins_url( 'js/wp-seo-bulk-editor.js', dirname( __FILE__ ) ), array( 'jquery' ), WPSEO_VERSION, true );
-			require( WPSEO_PATH . '/admin/pages/bulk-title-editor.php' );
+		if ( isset( $_GET['page'] ) && 'wpseo_bulk-title-editor' === $_GET['page'] ) {
+			require_once( WPSEO_PATH . 'admin/pages/bulk-title-editor.php' );
 		}
 	}
 
@@ -455,9 +460,8 @@ class WPSEO_Admin {
 	 * Loads the Bulk Title Editor page.
 	 */
 	function bulk_description_editor_page() {
-		if ( isset( $_GET['page'] ) && 'wpseo_bulk-description-editor' == $_GET['page'] ) {
-			wp_enqueue_script( 'wpseo-bulk-editor', plugins_url( 'js/wp-seo-bulk-editor.js', dirname( __FILE__ ) ), array( 'jquery' ), WPSEO_VERSION, true );
-			require( WPSEO_PATH . '/admin/pages/bulk-description-editor.php' );
+		if ( isset( $_GET['page'] ) && 'wpseo_bulk-description-editor' === $_GET['page'] ) {
+			require_once( WPSEO_PATH . 'admin/pages/bulk-description-editor.php' );
 		}
 	}
 
@@ -468,9 +472,9 @@ class WPSEO_Admin {
 	function bulk_edit_options() {
 		$option = 'per_page';
 		$args = array(
-			'label' => 'Posts',
+			'label'	  => 'Posts',
 			'default' => 10,
-			'option' => 'wpseo_posts_per_page'
+			'option'  => 'wpseo_posts_per_page'
 		);
 		add_screen_option( $option, $args );
 	}
@@ -479,7 +483,7 @@ class WPSEO_Admin {
 	 * Saves the posts per page limit for bulk edit pages.
 	 */
 	function save_bulk_edit_options( $status, $option, $value ) {
-		if( 'wpseo_posts_per_page' == $option ) {
+		if( 'wpseo_posts_per_page' === $option ) {
 			return $value;
 		}
 	}

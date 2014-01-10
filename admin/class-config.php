@@ -23,7 +23,17 @@ class WPSEO_Admin_Pages {
 	/**
 	 * @var array $adminpages Array of admin pages that the plugin uses.
 	 */
-	var $adminpages = array( 'wpseo_dashboard', 'wpseo_rss', 'wpseo_files', 'wpseo_permalinks', 'wpseo_internal-links', 'wpseo_import', 'wpseo_titles', 'wpseo_xml', 'wpseo_social' );
+	var $adminpages = array(
+		'wpseo_dashboard',
+		'wpseo_rss',
+		'wpseo_files',
+		'wpseo_permalinks',
+		'wpseo_internal-links',
+		'wpseo_import',
+		'wpseo_titles',
+		'wpseo_xml',
+		'wpseo_social'
+	);
 
 	/**
 	 * Class constructor, which basically only hooks the init function on the init hook
@@ -296,6 +306,10 @@ class WPSEO_Admin_Pages {
 			if ( is_rtl() )
 				wp_enqueue_style( 'wpseo-rtl', plugins_url( 'css/wpseo-rtl.css', dirname( __FILE__ ) ), array(), WPSEO_VERSION );
 		}
+
+		if ( $pagenow == 'admin.php' && isset( $_GET['page'] ) && in_array( $_GET['page'], array( 'wpseo_bulk-title-editor', 'wpseo_bulk-description-editor' ) ) ) {
+			wp_enqueue_style( 'yoast-admin-css', plugins_url( 'css/yst_plugin_tools.css', dirname( __FILE__ ) ), array(), WPSEO_VERSION );
+		}
 	}
 
 	/**
@@ -309,6 +323,10 @@ class WPSEO_Admin_Pages {
 			wp_enqueue_script( 'postbox' );
 			wp_enqueue_script( 'dashboard' );
 			wp_enqueue_script( 'thickbox' );
+		}
+
+		if ( $pagenow == 'admin.php' && isset( $_GET['page'] ) && in_array( $_GET['page'], array( 'wpseo_bulk-title-editor', 'wpseo_bulk-description-editor' ) ) ) {
+			wp_enqueue_script( 'wpseo-bulk-editor', plugins_url( 'js/wp-seo-bulk-editor.js', dirname( __FILE__ ) ), array( 'jquery' ), WPSEO_VERSION, true );
 		}
 	}
 

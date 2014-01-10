@@ -926,8 +926,7 @@ class WPSEO_Sitemaps {
 	 *
 	 * @return int 0 if equal, 1 if $a is larger else or -1;
 	 */
-	private
-	function user_map_sorter( $a, $b ) {
+	private function user_map_sorter( $a, $b ) {
 		if ( ! isset( $a->_yoast_wpseo_profile_updated ) ) {
 			$a->_yoast_wpseo_profile_updated = time();
 		}
