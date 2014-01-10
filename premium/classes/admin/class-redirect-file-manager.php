@@ -19,7 +19,7 @@ class WPSEO_Redirect_File_Manager {
 	 * @return string
 	 */
 	public static function get_file_path() {
-		return self::get_dir() . '/redirects.conf';
+		return self::get_dir() . '/.redirects';
 	}
 
 	/**
@@ -29,14 +29,14 @@ class WPSEO_Redirect_File_Manager {
 		// Create the Redirect file dir
 		wp_mkdir_p( self::get_dir() );
 
-		// Create an empty .htaccess file
+		// Create the .htaccess file
 		if ( ! file_exists( self::get_dir() . '/.htaccess' ) ) {
-			@file_put_contents( self::get_dir() . '/.htaccess', '' );
+			@file_put_contents( self::get_dir() . '/.htaccess', "Options -Indexes\ndeny fron all" );
 		}
 
 		// Create an empty index.php file
 		if ( ! file_exists( self::get_dir() . '/index.php' ) ) {
-			@file_put_contents( self::get_dir() . '/index.php', '' );
+			@file_put_contents( self::get_dir() . '/index.php', '<?php' . PHP_EOL . '// Silence is golden.' );
 		}
 
 		// Create an empty redirect file
