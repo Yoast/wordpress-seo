@@ -26,7 +26,7 @@ class WPSEO_Premium {
 
 		// Check if WordPress SOE is installed and activated
 		if ( is_plugin_active( 'wordpress-seo/wp-seo.php' ) ) {
-			// Deactivate WPSEO
+			deactivate_plugins( 'wordpress-seo/wp-seo.php' );
 		}
 
 		// Load the Redirect File Manager
