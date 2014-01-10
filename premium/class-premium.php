@@ -30,7 +30,7 @@ class WPSEO_Premium {
 		}
 
 		// Load the Redirect File Manager
-		require_once WPSEO_PREMIUM_PATH . 'classes/admin/class-redirect-file-manager.php';
+		require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-redirect-file-manager.php' );
 
 		// Create the upload directory
 		WPSEO_Redirect_File_Manager::create_upload_dir();
@@ -85,6 +85,7 @@ class WPSEO_Premium {
 
 		// Separate backend and frontend files
 		if ( is_admin() ) {
+			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-redirect-file-manager.php' );
 			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-redirect-file.php' );
 			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-nginx-redirect-file.php' );
 			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-apache-redirect-file.php' );
