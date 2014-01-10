@@ -3,7 +3,7 @@
 class WPSEO_Redirect_File_Manager {
 
 	/**
-	 * Function that returns the WPSEO redirects directory path
+	 * Get the full path to the WPSEO redirect directory
 	 *
 	 * @return string
 	 */
@@ -11,6 +11,15 @@ class WPSEO_Redirect_File_Manager {
 		$wp_upload_dir = wp_upload_dir();
 
 		return $wp_upload_dir['basedir'] . '/wpseo-redirects';
+	}
+
+	/**
+	 * Get the full path to the redirect file
+	 *
+	 * @return string
+	 */
+	public static function get_file_path() {
+		return self::get_dir() . '/redirects.conf';
 	}
 
 	/**
@@ -28,6 +37,11 @@ class WPSEO_Redirect_File_Manager {
 		// Create an empty index.php file
 		if ( ! file_exists( self::get_file_dir() . '/index.php' ) ) {
 			@file_put_contents( self::get_file_dir() . '/index.php', '' );
+		}
+
+		// Create an empty redirect file
+		if ( ! file_exists( self::get_file_path() ) ) {
+			@file_put_contents( self::get_file_path(), '' );
 		}
 	}
 
