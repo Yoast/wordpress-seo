@@ -22,50 +22,72 @@ class WPSEO_Page_Redirect {
 		// Admin header
 		$wpseo_admin_pages->admin_header( false, 'yoast_wpseo_redirects_options', 'wpseo_redirects' );
 
-		echo '<div style="margin: 5px 0; padding: 3px 10px; background-color: #ffffe0; border: 1px solid #E6DB55; border-radius: 3px">';
-		if ( wpseo_is_nginx() ) {
-			echo '<p>' . __( "As you're on NGINX, you should add the following include to the website Nginx config file:", 'wordpress-seo' ) . '</p>';
-			echo '<pre>include ' . WPSEO_Redirect_File_Manager::get_file_path() . ';</pre>';
-		}else if( wpseo_is_apache() ) {
-			echo '<p>' . __( "As you're on Apache, you should add the following include to the website httpd config file:", 'wordpress-seo' ) . '</p>';
-			echo '<pre>Include ' . WPSEO_Redirect_File_Manager::get_file_path() . '</pre>';
-		}
-		echo '</div>';
+		?>
+		<h2 class="nav-tab-wrapper" id="wpseo-tabs">
+			<a class="nav-tab" id="redirects-tab" href="#top#redirects"><?php _e( 'Redirects', 'wordpress-seo' );?></a>
+			<a class="nav-tab" id="google-wmt-tab" href="#top#google-wmt"><?php _e( 'Google Web Master Tools', 'wordpress-seo' );?></a>
+			<a class="nav-tab" id="settings-tab" href="#top#settings"><?php _e( 'Settings', 'wordpress-seo' );?></a>
+		</h2>
 
-		// Add new redirect HTML
-		echo "<form id='wpseo-new-redirects-form' method='post'>\n";
-			echo "<div class='wpseo_redirects_new'>\n";
-			echo "<h2>" . __( 'Add new redirect', 'wordpress-seo' ) . "</h2>\n";
+		<div class="tabwrapper>">
+			<div id="redirects" class="wpseotab">
+				<?php
+					echo '<div style="margin: 5px 0; padding: 3px 10px; background-color: #ffffe0; border: 1px solid #E6DB55; border-radius: 3px">';
+					if ( wpseo_is_nginx() ) {
+						echo '<p>' . __( "As you're on NGINX, you should add the following include to the website Nginx config file:", 'wordpress-seo' ) . '</p>';
+						echo '<pre>include ' . WPSEO_Redirect_File_Manager::get_file_path() . ';</pre>';
+					}else if( wpseo_is_apache() ) {
+						echo '<p>' . __( "As you're on Apache, you should add the following include to the website httpd config file:", 'wordpress-seo' ) . '</p>';
+						echo '<pre>Include ' . WPSEO_Redirect_File_Manager::get_file_path() . '</pre>';
+					}
+					echo '</div>';
 
-			echo "<label class='textinput' for='wpseo_redirects_new_old'>" . __( 'Old URL', 'wordpress-seo' ) . "</label>\n";
-			echo "<input type='text' class='textinput' name='wpseo_redirects_new_old' id='wpseo_redirects_new_old' value='' />\n";
-			echo "<br class='clear'/>\n";
+					// Add new redirect HTML
+					echo "<form id='wpseo-new-redirects-form' method='post'>\n";
+						echo "<div class='wpseo_redirects_new'>\n";
+						echo "<h2>" . __( 'Add new redirect', 'wordpress-seo' ) . "</h2>\n";
 
-			echo "<label class='textinput' for='wpseo_redirects_new_new'>" . __( 'New URL', 'wordpress-seo' ) . "</label>\n";
-			echo "<input type='text' class='textinput' name='wpseo_redirects_new_new' id='wpseo_redirects_new_new' value='' />\n";
-			echo "<br class='clear'/>\n";
+						echo "<label class='textinput' for='wpseo_redirects_new_old'>" . __( 'Old URL', 'wordpress-seo' ) . "</label>\n";
+						echo "<input type='text' class='textinput' name='wpseo_redirects_new_old' id='wpseo_redirects_new_old' value='' />\n";
+						echo "<br class='clear'/>\n";
 
-			echo "<a href='javascript:;' class='button-primary'>" . __( 'Add redirect', 'wordpress-seo' ) . "</a>\n";
+						echo "<label class='textinput' for='wpseo_redirects_new_new'>" . __( 'New URL', 'wordpress-seo' ) . "</label>\n";
+						echo "<input type='text' class='textinput' name='wpseo_redirects_new_new' id='wpseo_redirects_new_new' value='' />\n";
+						echo "<br class='clear'/>\n";
 
-			echo "</div>\n";
-		echo "</form>\n";
+						echo "<a href='javascript:;' class='button-primary'>" . __( 'Add redirect', 'wordpress-seo' ) . "</a>\n";
 
-		echo "<p class='desc'>&nbsp;</p>\n";
+						echo "</div>\n";
+					echo "</form>\n";
 
-		// Open <form>
-		echo "<form id='wpseo-redirects-table-form' method='post'>\n";
+					echo "<p class='desc'>&nbsp;</p>\n";
 
-		// AJAX nonce
-		echo "<input type='hidden' class='wpseo_redirects_ajax_nonce' value='" . wp_create_nonce( 'wpseo-redirects-ajax-security' ) . "' />\n";
+					// Open <form>
+					echo "<form id='wpseo-redirects-table-form' method='post'>\n";
 
-		// The list table
-		$list_table = new WPSEO_Redirect_Table();
-		$list_table->prepare_items();
-		$list_table->search_box( __( 'Search', 'wordpress-seo' ), 'wpseo-redirect-search' );
-		$list_table->display();
+					// AJAX nonce
+					echo "<input type='hidden' class='wpseo_redirects_ajax_nonce' value='" . wp_create_nonce( 'wpseo-redirects-ajax-security' ) . "' />\n";
 
-		// Close <form>
-		echo "</form>\n";
+					// The list table
+					$list_table = new WPSEO_Redirect_Table();
+					$list_table->prepare_items();
+					$list_table->search_box( __( 'Search', 'wordpress-seo' ), 'wpseo-redirect-search' );
+					$list_table->display();
+
+					// Close <form>
+					echo "</form>\n";
+				?>
+			</div>
+			<div id="google-wmt" class="wpseotab">
+				<h2>Google Web Master Tools</h2>
+			</div>
+			<div id="settings" class="wpseotab">
+				<h2>Redirect Settings</h2>
+			</div>
+			</div>
+		</div>
+
+		<?php
 
 		// Admin footer
 		$wpseo_admin_pages->admin_footer( false );
