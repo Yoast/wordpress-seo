@@ -22,12 +22,15 @@ class WPSEO_Page_Redirect {
 		// Admin header
 		$wpseo_admin_pages->admin_header( false, 'yoast_wpseo_redirects_options', 'wpseo_redirects' );
 
+		echo '<div style="margin: 5px 0; padding: 3px 10px; background-color: #ffffe0; border: 1px solid #E6DB55; border-radius: 3px">';
 		if ( wpseo_is_nginx() ) {
-			echo '<div style="margin: 5px 0; padding: 3px 10px; background-color: #ffffe0; border: 1px solid #E6DB55; border-radius: 3px">';
 			echo '<p>' . __( "As you're on NGINX, you should add the following include to the website Nginx config file:", 'wordpress-seo' ) . '</p>';
 			echo '<pre>include ' . WPSEO_Redirect_File_Manager::get_file_path() . ';</pre>';
-			echo '</div>';
+		}else if( wpseo_is_apache() ) {
+			echo '<p>' . __( "As you're on Apache, you should add the following include to the website httpd config file:", 'wordpress-seo' ) . '</p>';
+			echo '<pre>Include ' . WPSEO_Redirect_File_Manager::get_file_path() . '</pre>';
 		}
+		echo '</div>';
 
 		// Add new redirect HTML
 		echo "<form id='wpseo-new-redirects-form' method='post'>\n";
