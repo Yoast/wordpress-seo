@@ -28,8 +28,7 @@ abstract class WPSEO_Redirect_File implements iWPSEO_Redirect_File {
 		}
 
 		// Save the actual file
-
-		var_dump( $file_content );
+		@file_put_contents( WPSEO_Redirect_File_Manager::get_file_path(), $file_content );
 	}
 
 }
