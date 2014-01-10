@@ -39,7 +39,6 @@ class WPSEO_Metabox {
 		add_action( 'admin_print_styles-post.php', array( $this, 'enqueue' ) );
 		add_action( 'admin_print_styles-edit.php', array( $this, 'enqueue' ) );
 		add_action( 'admin_head', array( $this, 'script' ) );
-		add_action( 'add_meta_boxes', array( $this, 'add_custom_box' ) );
 		add_action( 'wp_insert_post', array( $this, 'save_postdata' ) );
 		add_action( 'edit_attachment', array( $this, 'save_postdata' ) );
 		add_action( 'add_attachment', array( $this, 'save_postdata' ) );
@@ -147,9 +146,9 @@ class WPSEO_Metabox {
 	}
 
 	/**
-	 * Adds the WordPress SEO box to the edit boxes in the edit post / page overview.
+	 * Adds the WordPress SEO meta box to the edit boxes in the post / page / cpt edit page.
 	 */
-	public function add_custom_box() {
+	public function add_meta_box() {
 		$options = get_wpseo_options();
 
 		foreach ( get_post_types( array( 'public' => true ) ) as $posttype ) {
@@ -158,6 +157,7 @@ class WPSEO_Metabox {
 			add_meta_box( 'wpseo_meta', __( 'WordPress SEO by Yoast', 'wordpress-seo' ), array( $this, 'meta_box' ), $posttype, 'normal', apply_filters( 'wpseo_metabox_prio', 'high' ) );
 		}
 	}
+
 
 	/**
 	 * Outputs the scripts needed for the edit / post page overview, snippet preview, etc.
@@ -216,18 +216,6 @@ class WPSEO_Metabox {
 	<?php
 	}
 
-	/**
-	 * Add the meta box
-	 */
-	public function add_meta_box() {
-		$options = get_wpseo_options();
-
-		foreach ( get_post_types( array( 'public' => true ) ) as $posttype ) {
-			if ( isset( $options['hideeditbox-' . $posttype] ) && $options['hideeditbox-' . $posttype] )
-				continue;
-			add_meta_box( 'wpseo_meta', __( 'WordPress SEO by Yoast', 'wordpress-seo' ), array( $this, 'meta_box' ), $posttype, 'normal', apply_filters( 'wpseo_metabox_prio', 'high' ) );
-		}
-	}
 
 	/**
 	 * Output a tab in the WP SEO Metabox
