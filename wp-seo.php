@@ -60,6 +60,57 @@ if ( version_compare( PHP_VERSION, '5.2', '<' ) ) {
 
 define( 'WPSEO_VERSION', '1.5.0-beta' );
 
+/**
+ * Auto load our class files
+ *
+ * @todo add all classes and remove includes, but make sure that they are all initiated when needed
+ * either through a static call or a new instance
+ *
+ * @param   string  $class  Class name
+ * @return    void
+ */
+function wpseo_auto_load( $class ) {
+	static $classes = null;
+
+	if ( $classes === null ) {
+		$classes = array(
+			'wpseo_admin'							=> WPSEO_PATH . 'admin/class-admin.php',
+			'wpseo_bulk_title_editor_list_table'	=> WPSEO_PATH . 'admin/class-bulk-title-editor-list-table.php',
+			'wpseo_bulk_description_list_table'		=> WPSEO_PATH . 'admin/class-bulk-description-editor-list-table.php',
+			'wpseo_admin_pages'						=> WPSEO_PATH . 'admin/class-config.php',
+			'wpseo_metabox'							=> WPSEO_PATH . 'admin/class-metabox.php',
+			'wpseo_social_admin'					=> WPSEO_PATH . 'admin/class-opengraph-admin.php',
+			'wpseo_pointers'						=> WPSEO_PATH . 'admin/class-pointers.php',
+			'wpseo_sitemaps_admin'					=> WPSEO_PATH . 'admin/class-sitemaps-admin.php',
+			'wpseo_taxonomy'						=> WPSEO_PATH . 'admin/class-taxonomy.php',
+			'yoast_tracking'						=> WPSEO_PATH . 'admin/class-tracking.php',
+			'yoast_textstatistics'					=> WPSEO_PATH . 'admin/TextStatistics.php',
+			'wpseo_breadcrumbs'						=> WPSEO_PATH . 'frontend/class-breadcrumbs.php',
+			'wpseo_frontend'						=> WPSEO_PATH . 'frontend/class-frontend.php',
+			'wpseo_opengraph'						=> WPSEO_PATH . 'frontend/class-opengraph.php',
+			'wpseo_twitter'							=> WPSEO_PATH . 'frontend/class-twitter.php',
+			'wpseo_rewrite'							=> WPSEO_PATH . 'inc/class-rewrite.php',
+			'wpseo_sitemaps'						=> WPSEO_PATH . 'inc/class-sitemaps.php',
+			'sitemap_walker'						=> WPSEO_PATH . 'inc/class-sitemap-walker.php',
+			'wpseo_options'							=> WPSEO_PATH . 'inc/class-wpseo-options.php',
+			'wpseo_meta'							=> WPSEO_PATH . 'inc/class-wpseo-meta.php',
+			
+			'wp_list_table'							=> ABSPATH . 'wp-admin/includes/class-wp-list-table.php',
+		);
+	}
+
+	$cn = strtolower( $class );
+
+	if ( isset( $classes[$cn] ) ) {
+		require_once( $classes[$cn] );
+	}
+}
+spl_autoload_register( 'wpseo_auto_load' );
+
+
+
+
+
 function wpseo_init() {
 	require_once( WPSEO_PATH . 'inc/wpseo-functions.php' );
 

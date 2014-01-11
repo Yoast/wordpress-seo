@@ -15,22 +15,16 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
  *
  * The class that generates the metabox on the edit post / page as well as contains all page analysis functionality.
  */
-class WPSEO_Metabox {
-
-	/**
-	 * @var int $meta_length Allowed length of the meta description.
-	 */
-	var $meta_length = 156;
-
-	/**
-	 * @var string $meta_length_reason Reason the meta description is not the default length.
-	 */
-	var $meta_length_reason = '';
+class WPSEO_Metabox extends WPSEO_Meta {
 
 	/**
 	 * Class constructor
 	 */
 	function __construct() {
+		/* Translate some meta box info for use on the admin side */
+		$this->translate_meta_boxes();
+
+
 		if ( ! class_exists( 'Yoast_TextStatistics' ) && apply_filters( 'wpseo_use_page_analysis', true ) === true )
 			require_once( WPSEO_PATH . 'admin/TextStatistics.php' );
 
@@ -39,12 +33,95 @@ class WPSEO_Metabox {
 		add_action( 'admin_print_styles-post.php', array( $this, 'enqueue' ) );
 		add_action( 'admin_print_styles-edit.php', array( $this, 'enqueue' ) );
 		add_action( 'admin_head', array( $this, 'script' ) );
-		add_action( 'add_meta_boxes', array( $this, 'add_custom_box' ) );
 		add_action( 'wp_insert_post', array( $this, 'save_postdata' ) );
 		add_action( 'edit_attachment', array( $this, 'save_postdata' ) );
 		add_action( 'add_attachment', array( $this, 'save_postdata' ) );
 		add_action( 'admin_init', array( $this, 'setup_page_analysis' ) );
 	}
+	
+	
+	/**
+	 * Translate text strings for use in the meta box
+	 *
+	 * IMPORTANT: if you want to add a new string (option) somewhere, make sure you add that array key to
+	 * the main meta box definition array in the class WPSEO_Meta() as well!!!!
+	 *
+	 */
+	public static function translate_meta_boxes() {
+		self::$metaboxes['general']['snippetpreview']['title'] = __( 'Snippet Preview', 'wordpress-seo' );
+
+		self::$metaboxes['general']['focuskw']['title'] 	   = __( 'Focus Keyword', 'wordpress-seo' );
+		self::$metaboxes['general']['focuskw']['help']		   = sprintf( __( 'Pick the main keyword or keyphrase that this post/page is about.<br/><br/>Read %sthis post%s for more info.', 'wordpress-seo' ), '<a href="http://yoast.com/focus-keyword/#utm_source=wordpress-seo-metabox&amp;utm_medium=inline-help&amp;utm_campaign=focus-keyword">', '</a>' );
+
+		self::$metaboxes['general']['title']['title']   	   = __( 'SEO Title', 'wordpress-seo' );
+		self::$metaboxes['general']['title']['description']    = sprintf( __( 'Title display in search engines is limited to 70 chars, %s chars left.', 'wordpress-seo' ), '<span id="yoast_wpseo_title-length"></span>' );
+		self::$metaboxes['general']['title']['help']		   = __( 'The SEO Title defaults to what is generated based on this sites title template for this posttype.', 'wordpress-seo' );
+
+		self::$metaboxes['general']['metadesc']['title']   	   = __( 'Meta Description', 'wordpress-seo' );
+		self::$metaboxes['general']['metadesc']['description'] = sprintf( __( 'The <code>meta</code> description will be limited to %s chars%s, %s chars left.', 'wordpress-seo' ), self::$meta_length, self::$meta_length_reason, '<span id="yoast_wpseo_metadesc-length"></span>' ) . ' <div id="yoast_wpseo_metadesc_notice"></div>';
+		self::$metaboxes['general']['metadesc']['help'] 	   = __( 'If the meta description is empty, the snippet preview above shows what is generated based on this sites meta description template.', 'wordpress-seo' );
+
+		self::$metaboxes['general']['metakeywords']['title']       = __( 'Meta Keywords', 'wordpress-seo' );
+		self::$metaboxes['general']['metakeywords']['description'] = __( 'If you type something above it will override your %smeta keywords template%s.', 'wordpress-seo' );
+
+
+		self::$metaboxes['advanced']['meta-robots-noindex']['title'] = __( 'Meta Robots Index', 'wordpress-seo' );
+		self::$metaboxes['advanced']['meta-robots-noindex']['options']['0'] = __( 'Default for post type, currently: %s', 'wordpress-seo' );
+		self::$metaboxes['advanced']['meta-robots-noindex']['options']['2'] = __( 'index', 'wordpress-seo' );
+		self::$metaboxes['advanced']['meta-robots-noindex']['options']['1'] = __( 'noindex', 'wordpress-seo' );
+
+		self::$metaboxes['advanced']['meta-robots-nofollow']['title'] = __( 'Meta Robots Follow', 'wordpress-seo' );
+		self::$metaboxes['advanced']['meta-robots-nofollow']['options']['0'] = __( 'Follow', 'wordpress-seo' );
+		self::$metaboxes['advanced']['meta-robots-nofollow']['options']['1'] = __( 'Nofollow', 'wordpress-seo' );
+
+		self::$metaboxes['advanced']['meta-robots-adv']['title'] = __( 'Meta Robots Advanced', 'wordpress-seo' );
+		self::$metaboxes['advanced']['meta-robots-adv']['description'] = __( 'Advanced <code>meta</code> robots settings for this page.', 'wordpress-seo' );
+		self::$metaboxes['advanced']['meta-robots-adv']['options']['noodp']	= __( 'NO ODP', 'wordpress-seo' );
+		self::$metaboxes['advanced']['meta-robots-adv']['options']['noydir'] = __( 'NO YDIR', 'wordpress-seo' );
+		self::$metaboxes['advanced']['meta-robots-adv']['options']['noarchive'] = __( 'No Archive', 'wordpress-seo' );
+		self::$metaboxes['advanced']['meta-robots-adv']['options']['nosnippet'] = __( 'No Snippet', 'wordpress-seo' );
+
+		self::$metaboxes['advanced']['bctitle']['title'] 	   = __( 'Breadcrumbs title', 'wordpress-seo' );
+		self::$metaboxes['advanced']['bctitle']['description'] = __( 'Title to use for this page in breadcrumb paths', 'wordpress-seo' );
+		self::$metaboxes['advanced']['sitemap-include']['title'] = __( 'Include in Sitemap', 'wordpress-seo' );
+		self::$metaboxes['advanced']['sitemap-include']['description'] = __( 'Should this page be in the XML Sitemap at all times, regardless of Robots Meta settings?', 'wordpress-seo' );
+		self::$metaboxes['advanced']['sitemap-include']['options']['-'] = __( 'Auto detect', 'wordpress-seo' );
+		self::$metaboxes['advanced']['sitemap-include']['options']['always'] = __( 'Always include', 'wordpress-seo' );
+		self::$metaboxes['advanced']['sitemap-include']['options']['never'] = __( 'Never include', 'wordpress-seo' );
+
+		self::$metaboxes['advanced']['sitemap-prio']['title'] 	  = __( 'Sitemap Priority', 'wordpress-seo' );
+		self::$metaboxes['advanced']['sitemap-prio']['description'] = __( 'The priority given to this page in the XML sitemap.', 'wordpress-seo' );
+		self::$metaboxes['advanced']['sitemap-prio']['options']['-'] = __( 'Automatic prioritization', 'wordpress-seo' );
+		self::$metaboxes['advanced']['sitemap-prio']['options']['1'] = __( '1 - Highest priority', 'wordpress-seo' );
+		self::$metaboxes['advanced']['sitemap-prio']['options']['0.8'] .= __( 'Default for first tier pages', 'wordpress-seo' );
+		self::$metaboxes['advanced']['sitemap-prio']['options']['0.6'] .= __( 'Default for second tier pages and posts', 'wordpress-seo' );
+		self::$metaboxes['advanced']['sitemap-prio']['options']['0.5'] .= __( 'Medium priority', 'wordpress-seo' );
+		self::$metaboxes['advanced']['sitemap-prio']['options']['0.1'] .= __( 'Lowest priority', 'wordpress-seo' );
+
+		self::$metaboxes['advanced']['sitemap-html-include']['title']   = __( 'Include in HTML Sitemap', 'wordpress-seo' );
+		self::$metaboxes['advanced']['sitemap-html-include']['description'] = __( 'Should this page be in the HTML Sitemap at all times, regardless of Robots Meta settings?', 'wordpress-seo' );
+		self::$metaboxes['advanced']['sitemap-html-include']['options']['-'] = __( 'Auto detect', 'wordpress-seo' );
+		self::$metaboxes['advanced']['sitemap-html-include']['options']['always'] = __( 'Always include', 'wordpress-seo' );
+		self::$metaboxes['advanced']['sitemap-html-include']['options']['never'] = __( 'Never include', 'wordpress-seo' );
+
+		self::$metaboxes['advanced']['canonical']['title'] 	  = __( 'Canonical URL', 'wordpress-seo' );
+		self::$metaboxes['advanced']['canonical']['description'] = sprintf( __( 'The canonical URL that this page should point to, leave empty to default to permalink. %sCross domain canonical%s supported too.', 'wordpress-seo' ), '<a target="_blank" href="http://googlewebmastercentral.blogspot.com/2009/12/handling-legitimate-cross-domain.html">', '</a>' );
+
+		self::$metaboxes['advanced']['redirect']['title'] 	  = __( '301 Redirect', 'wordpress-seo' );
+		self::$metaboxes['advanced']['redirect']['description'] = __( 'The URL that this page should redirect to.', 'wordpress-seo' );
+
+
+		self::$metaboxes['social']['opengraph-description']['title']  = __( 'Facebook Description', 'wordpress-seo' );
+		self::$metaboxes['social']['opengraph-description']['description'] = __( 'If you don\'t want to use the meta description for sharing the post on Facebook but want another description there, write it here.', 'wordpress-seo' );
+
+		self::$metaboxes['social']['opengraph-image']['title'] 	  = __( 'Facebook Image', 'wordpress-seo' );
+		self::$metaboxes['social']['opengraph-image']['description'] = __( 'If you want to override the Facebook image for this post, upload / choose an image or add the URL here.', 'wordpress-seo' );
+
+		self::$metaboxes['social']['google-plus-description']['title'] 	  = __( 'Google+ Description', 'wordpress-seo' );
+		self::$metaboxes['social']['google-plus-description']['description'] = __( 'If you don\'t want to use the meta description for sharing the post on Google+ but want another description there, write it here.', 'wordpress-seo' );
+
+	}
+
 
 	/**
 	 * Test whether we are on a public post type - no metabox actions needed if we are not
@@ -170,9 +247,9 @@ class WPSEO_Metabox {
 	}
 
 	/**
-	 * Adds the WordPress SEO box to the edit boxes in the edit post / page overview.
+	 * Adds the WordPress SEO meta box to the edit boxes in the edit post / page  / cpt pages.
 	 */
-	public function add_custom_box() {
+	public function add_meta_box() {
 		if( $this->pt_is_public() === false )
 			return;
 
@@ -184,6 +261,20 @@ class WPSEO_Metabox {
 			add_meta_box( 'wpseo_meta', __( 'WordPress SEO by Yoast', 'wordpress-seo' ), array( $this, 'meta_box' ), $posttype, 'normal', apply_filters( 'wpseo_metabox_prio', 'high' ) );
 		}
 	}
+	
+	/**
+	 * Adds the WordPress SEO box
+	 *
+	 * @deprecated 1.4.23
+	 * @deprecated use WPSEO_Metabox::add_meta_box()
+	 * @see WPSEO_Meta::get_general_meta_boxes()
+	 */
+	public function add_custom_box() {
+		_deprecated_function( __FUNCTION__, 'WPSEO 1.4.23', 'WPSEO_Metabox::add_meta_box()' );
+		$this->add_meta_box();
+	}
+
+
 
 	/**
 	 * Outputs the scripts needed for the edit / post page overview, snippet preview, etc.
@@ -209,12 +300,12 @@ class WPSEO_Metabox {
 		if ( isset( $options['showdate-' . $post->post_type] ) && $options['showdate-' . $post->post_type] === true ) {
 			$date = $this->get_post_date( $post );
 
-			$this->meta_length        = $this->meta_length - ( strlen( $date ) + 5 );
-			$this->meta_length_reason = __( ' (because of date display)', 'wordpress-seo' );
+			self::$meta_length        = self::$meta_length - ( strlen( $date ) + 5 );
+			self::$meta_length_reason = __( ' (because of date display)', 'wordpress-seo' );
 		}
 
-		$this->meta_length_reason = apply_filters( 'wpseo_metadesc_length_reason', $this->meta_length_reason, $post );
-		$this->meta_length        = apply_filters( 'wpseo_metadesc_length', $this->meta_length, $post );
+		self::$meta_length_reason = apply_filters( 'wpseo_metadesc_length_reason', self::$meta_length_reason, $post );
+		self::$meta_length        = apply_filters( 'wpseo_metadesc_length', self::$meta_length, $post );
 
 		unset( $date );
 
@@ -236,7 +327,7 @@ class WPSEO_Metabox {
 		?>
 		<script type="text/javascript">
 			var wpseo_lang = '<?php echo substr( get_locale(), 0, 2 ); ?>';
-			var wpseo_meta_desc_length = '<?php echo $this->meta_length; ?>';
+			var wpseo_meta_desc_length = '<?php echo self::$meta_length; ?>';
 			var wpseo_title_template = '<?php echo esc_attr( $title_template ); ?>';
 			var wpseo_metadesc_template = '<?php echo esc_attr( $metadesc_template ); ?>';
 			var wpseo_permalink_template = '<?php echo esc_url( $sample_permalink ); ?>';
@@ -245,21 +336,7 @@ class WPSEO_Metabox {
 	<?php
 	}
 
-	/**
-	 * Add the meta box
-	 */
-	public function add_meta_box() {
-		if( $this->pt_is_public() === false )
-			return;
 
-		$options = WPSEO_Options::get_all();
-
-		foreach ( get_post_types( array( 'public' => true ) ) as $posttype ) {
-			if ( isset( $options['hideeditbox-' . $posttype] ) && $options['hideeditbox-' . $posttype] === true )
-				continue;
-			add_meta_box( 'wpseo_meta', __( 'WordPress SEO by Yoast', 'wordpress-seo' ), array( $this, 'meta_box' ), $posttype, 'normal', apply_filters( 'wpseo_metabox_prio', 'high' ) );
-		}
-	}
 
 	/**
 	 * Output a tab in the WP SEO Metabox
@@ -282,191 +359,18 @@ class WPSEO_Metabox {
 	/**
 	 * Retrieve the meta boxes for the given post type.
 	 *
-	 * @param string $post_type
+	 * @deprecated 1.5.0
+	 * @deprecated use WPSEO_Meta::get_general_meta_boxes()
+	 * @see WPSEO_Meta::get_general_meta_boxes()
 	 *
-	 * @return array
+	 * @param	string	$post_type
+	 * @return	array
 	 */
 	public function get_meta_boxes( $post_type = 'post' ) {
-		$options = WPSEO_Options::get_all();
-
-		$mbs                   = array();
-		$mbs['snippetpreview'] = array(
-			'name'  => 'snippetpreview',
-			'type'  => 'snippetpreview',
-			'title' => __( 'Snippet Preview', 'wordpress-seo' ),
-		);
-		$mbs['focuskw']        = array(
-			'name'         => 'focuskw',
-			'std'          => '',
-			'type'         => 'text',
-			'title'        => __( 'Focus Keyword', 'wordpress-seo' ),
-			'autocomplete' => 'off',
-			'help'         => sprintf( __( 'Pick the main keyword or keyphrase that this post/page is about.<br/><br/>Read %sthis post%s for more info.', 'wordpress-seo' ), '<a href="http://yoast.com/focus-keyword/#utm_source=wordpress-seo-metabox&utm_medium=inline-help&utm_campaign=focus-keyword">', '</a>' ),
-			'description'  => '<div id="focuskwresults"></div>',
-		);
-		$mbs['title']          = array(
-			'name'        => 'title',
-			'std'         => '',
-			'type'        => 'text',
-			'title'       => __( 'SEO Title', 'wordpress-seo' ),
-			'description' => sprintf( __( 'Title display in search engines is limited to 70 chars, %s chars left.', 'wordpress-seo' ), '<span id="yoast_wpseo_title-length"></span>' ),
-			'help'        => __( 'The SEO Title defaults to what is generated based on this sites title template for this posttype.', 'wordpress-seo' )
-		);
-		$mbs['metadesc']       = array(
-			'name'        => 'metadesc',
-			'std'         => '',
-			'class'       => 'metadesc',
-			'type'        => 'textarea',
-			'title'       => __( 'Meta Description', 'wordpress-seo' ),
-			'rows'        => 2,
-			'richedit'    => false,
-			'description' => sprintf( __( 'The <code>meta</code> description will be limited to %s chars%s, %s chars left.', 'wordpress-seo' ), $this->meta_length, $this->meta_length_reason, '<span id="yoast_wpseo_metadesc-length"></span>' ) . ' <div id="yoast_wpseo_metadesc_notice"></div>',
-			'help'        => __( 'If the meta description is empty, the snippet preview above shows what is generated based on this sites meta description template.', 'wordpress-seo' ),
-		);
-		if ( $options['usemetakeywords'] === true ) {
-			$mbs['metakeywords'] = array(
-				'name'        => 'metakeywords',
-				'std'         => '',
-				'class'       => 'metakeywords',
-				'type'        => 'text',
-				'title'       => __( 'Meta Keywords', 'wordpress-seo' ),
-				'description' => sprintf( __( 'If you type something above it will override your %smeta keywords template%s.', 'wordpress-seo' ), '<a target="_blank" href="' . admin_url( 'admin.php?page=wpseo_titles#' . esc_url( $post_type ) ) . '">', '</a>' )
-			);
-		}
-
-		// Apply filters before entering the advanced section
-		$mbs = apply_filters( 'wpseo_metabox_entries', $mbs );
-
-		return $mbs;
+		_deprecated_function( __FUNCTION__, 'WPSEO 1.5.0', 'WPSEO_Meta::get_general_meta_boxes()' );
+		return $this->get_general_meta_boxes( $post_type );
 	}
 
-	/**
-	 * Retrieve the meta boxes for the advanced tab.
-	 *
-	 * @return array
-	 */
-	function get_advanced_meta_boxes() {
-		global $post;
-
-		$post_type = '';
-		if ( isset( $post->post_type ) )
-			$post_type = $post->post_type;
-		else if ( ! isset( $post->post_type ) && isset( $_GET['post_type'] ) )
-			$post_type = sanitize_text_field( $_GET['post_type'] );
-
-		$options = WPSEO_Options::get_all();
-
-		$mbs = array();
-
-		$mbs['meta-robots-noindex']  = array(
-			'name'    => 'meta-robots-noindex',
-			'std'     => '-',
-			'type'    => 'select',
-			'title'   => __( 'Meta Robots Index', 'wordpress-seo' ),
-			'options' => array(
-				'0' => sprintf( __( 'Default for post type, currently: %s', 'wordpress-seo' ), ( ( isset( $options['noindex-' . $post_type] ) && $options['noindex-' . $post_type] === true ) ? 'noindex' : 'index' ) ),
-				'2' => __( 'index', 'wordpress-seo' ),
-				'1' => __( 'noindex', 'wordpress-seo' ),
-			),
-		);
-		$mbs['meta-robots-nofollow'] = array(
-			'name'    => 'meta-robots-nofollow',
-			'std'     => 'follow',
-			'type'    => 'radio',
-			'title'   => __( 'Meta Robots Follow', 'wordpress-seo' ),
-			'options' => array(
-				'0' => __( 'Follow', 'wordpress-seo' ),
-				'1' => __( 'Nofollow', 'wordpress-seo' ),
-			),
-		);
-		$mbs['meta-robots-adv']      = array(
-			'name'        => 'meta-robots-adv',
-			'std'         => 'none',
-			'type'        => 'multiselect',
-			'title'       => __( 'Meta Robots Advanced', 'wordpress-seo' ),
-			'description' => __( 'Advanced <code>meta</code> robots settings for this page.', 'wordpress-seo' ),
-			'options'     => array(
-				'noodp'     => __( 'NO ODP', 'wordpress-seo' ),
-				'noydir'    => __( 'NO YDIR', 'wordpress-seo' ),
-				'noarchive' => __( 'No Archive', 'wordpress-seo' ),
-				'nosnippet' => __( 'No Snippet', 'wordpress-seo' ),
-			),
-		);
-		if ( $options['breadcrumbs-enable'] === true ) {
-			$mbs['bctitle'] = array(
-				'name'        => 'bctitle',
-				'std'         => '',
-				'type'        => 'text',
-				'title'       => __( 'Breadcrumbs title', 'wordpress-seo' ),
-				'description' => __( 'Title to use for this page in breadcrumb paths', 'wordpress-seo' ),
-			);
-		}
-		if ( $options['enablexmlsitemap'] === true ) {
-			$mbs['sitemap-include'] = array(
-				'name'        => 'sitemap-include',
-				'std'         => '-',
-				'type'        => 'select',
-				'title'       => __( 'Include in Sitemap', 'wordpress-seo' ),
-				'description' => __( 'Should this page be in the XML Sitemap at all times, regardless of Robots Meta settings?', 'wordpress-seo' ),
-				'options'     => array(
-					'-'      => __( 'Auto detect', 'wordpress-seo' ),
-					'always' => __( 'Always include', 'wordpress-seo' ),
-					'never'  => __( 'Never include', 'wordpress-seo' ),
-				),
-			);
-			$mbs['sitemap-prio']    = array(
-				'name'        => 'sitemap-prio',
-				'std'         => '-',
-				'type'        => 'select',
-				'title'       => __( 'Sitemap Priority', 'wordpress-seo' ),
-				'description' => __( 'The priority given to this page in the XML sitemap.', 'wordpress-seo' ),
-				'options'     => array(
-					'-'   => __( 'Automatic prioritization', 'wordpress-seo' ),
-					'1'   => __( '1 - Highest priority', 'wordpress-seo' ),
-					'0.9' => '0.9',
-					'0.8' => '0.8 - ' . __( 'Default for first tier pages', 'wordpress-seo' ),
-					'0.7' => '0.7',
-					'0.6' => '0.6 - ' . __( 'Default for second tier pages and posts', 'wordpress-seo' ),
-					'0.5' => '0.5 - ' . __( 'Medium priority', 'wordpress-seo' ),
-					'0.4' => '0.4',
-					'0.3' => '0.3',
-					'0.2' => '0.2',
-					'0.1' => '0.1 - ' . __( 'Lowest priority', 'wordpress-seo' ),
-				),
-			);
-		}
-		$mbs['sitemap-html-include'] = array(
-			'name'        => 'sitemap-html-include',
-			'std'         => '-',
-			'type'        => 'select',
-			'title'       => __( 'Include in HTML Sitemap', 'wordpress-seo' ),
-			'description' => __( 'Should this page be in the HTML Sitemap at all times, regardless of Robots Meta settings?', 'wordpress-seo' ),
-			'options'     => array(
-				'-'      => __( 'Auto detect', 'wordpress-seo' ),
-				'always' => __( 'Always include', 'wordpress-seo' ),
-				'never'  => __( 'Never include', 'wordpress-seo' ),
-			),
-		);
-		$mbs['canonical']            = array(
-			'name'        => 'canonical',
-			'std'         => '',
-			'type'        => 'text',
-			'title'       => __( 'Canonical URL', 'wordpress-seo' ),
-			'description' => sprintf( __( 'The canonical URL that this page should point to, leave empty to default to permalink. %sCross domain canonical%s supported too.', 'wordpress-seo' ), '<a target="_blank" href="http://googlewebmastercentral.blogspot.com/2009/12/handling-legitimate-cross-domain.html">', '</a>' )
-		);
-		$mbs['redirect']             = array(
-			'name'        => 'redirect',
-			'std'         => '',
-			'type'        => 'text',
-			'title'       => __( '301 Redirect', 'wordpress-seo' ),
-			'description' => __( 'The URL that this page should redirect to.', 'wordpress-seo' )
-		);
-
-		// Apply filters for in advanced section
-		$mbs = apply_filters( 'wpseo_metabox_entries_advanced', $mbs );
-
-		return $mbs;
-	}
 
 	/**
 	 * Output the meta box
@@ -498,7 +402,7 @@ class WPSEO_Metabox {
 		</ul>
 		<?php
 		$content = '';
-		foreach ( $this->get_meta_boxes( $post->post_type ) as $meta_box ) {
+		foreach ( $this->get_general_meta_boxes( $post->post_type ) as $meta_box ) {
 			$content .= $this->do_meta_box( $meta_box );
 		}
 		$this->do_tab( 'general', __( 'General', 'wordpress-seo' ), $content );
@@ -774,7 +678,7 @@ class WPSEO_Metabox {
 		clean_post_cache( $post_id );
 		$post = get_post( $post_id );
 
-		$metaboxes = array_merge( $this->get_meta_boxes( $post->post_type ), $this->get_advanced_meta_boxes() );
+		$metaboxes = array_merge( $this->get_general_meta_boxes( $post->post_type ), $this->get_advanced_meta_boxes() );
 
 		$metaboxes = apply_filters( 'wpseo_save_metaboxes', $metaboxes );
 
@@ -1938,5 +1842,4 @@ class WPSEO_Metabox {
 	}
 }
 
-global $wpseo_metabox;
-$wpseo_metabox = new WPSEO_Metabox();
+$GLOBALS['wpseo_metabox'] = new WPSEO_Metabox();

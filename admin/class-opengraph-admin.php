@@ -34,45 +34,26 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 	 */
 	public function tab_content() {
 		$content = '';
-		foreach ( $this->get_meta_boxes() as $meta_box ) {
+		foreach ( $this->get_social_meta_boxes() as $meta_box ) {
 			$content .= $this->do_meta_box( $meta_box );
 		}
 		$this->do_tab( 'social', __( 'Social', 'wordpress-seo' ), $content );
 	}
 
+
 	/**
 	 * Define the meta boxes for the Social tab
 	 *
-	 * @param string $post_type
+	 * @deprecated 1.5.0
+	 * @deprecated use WPSEO_Meta::get_social_meta_boxes()
+	 * @see WPSEO_Meta::get_social_meta_boxes()
 	 *
-	 * @return array Array containing the meta boxes
+	 * @param	string	$post_type
+	 * @return	array	Array containing the meta boxes
 	 */
 	public function get_meta_boxes( $post_type = 'post' ) {
-		$mbs                              = array();
-		$mbs[ 'opengraph-description' ]   = array(
-			'name'        => 'opengraph-description',
-			'type'        => 'textarea',
-			'std'         => '',
-			'richedit'    => false,
-			'title'       => __( 'Facebook Description', 'wordpress-seo' ),
-			'description' => __( 'If you don\'t want to use the meta description for sharing the post on Facebook but want another description there, write it here.', 'wordpress-seo' )
-		);
-		$mbs[ 'opengraph-image' ]   = array(
-			'name'        => 'opengraph-image',
-			'type'        => 'upload',
-			'std'         => '',
-			'title'       => __( 'Facebook Image', 'wordpress-seo' ),
-			'description' => __( 'If you want to override the Facebook image for this post, upload / choose an image or add the URL here.', 'wordpress-seo' )
-		);
-		$mbs[ 'google-plus-description' ] = array(
-			'name'        => 'google-plus-description',
-			'type'        => 'textarea',
-			'std'         => '',
-			'richedit'    => false,
-			'title'       => __( 'Google+ Description', 'wordpress-seo' ),
-			'description' => __( 'If you don\'t want to use the meta description for sharing the post on Google+ but want another description there, write it here.', 'wordpress-seo' )
-		);
-		return $mbs;
+		_deprecated_function( __FUNCTION__, 'WPSEO 1.5.0', 'WPSEO_Meta::get_social_meta_boxes()' );
+		return $this->get_social_meta_boxes( $post_type );
 	}
 
 	/**
@@ -82,7 +63,7 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 	 * @return array
 	 */
 	public function save_meta_boxes( $mbs ) {
-		return array_merge( $mbs, $this->get_meta_boxes() );
+		return array_merge( $mbs, $this->get_social_meta_boxes() );
 	}
 
 }

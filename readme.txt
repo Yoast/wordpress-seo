@@ -107,7 +107,53 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 == Changelog ==
 
 = 1.5.0-beta
-* Major overhaul of the way the plugin deals with options. This should fix a truck-load of bugs and provides improved security. - props [Jrf](http://profiles.wordpress.org/jrf).
+
+**This version contains a lot of changes under the hood which will break backward compatibility, i.e. once you've upgraded, downgrading will break things.** So make sure you make a backup of your settings before upgrading.
+
+
+* Bugfixes
+	* Major overhaul of the way the plugin deals with options. This should fix a truck-load of bugs and provides improved security. - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Major overhaul of the way the plugin deals with post meta values. This should fix a truck-load of bugs and provides improved security. - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Bow out early from displaying the post/taxonomy metabox if the post/taxonomy is not public (no use adding meta data which will never be displayed) - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Added error message when user tries to restore to defaults a non-existent blog (only applies to multi-site installations) - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fix bug in delete_sitemaps() - wrong retrieval of needed options - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Failed meta description removal would still change the relevant option as if it had succeeded - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Corrected adding of hidden fb_admins fields to social form - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Renamed a number of options as they ran the risk of being overwritten by post type/taxonomy options which could get the same name - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Added sanitation/improved validation to $_GET and $_POST variables if/when they are used in a manner which could cause security issues - props [Jrf](http://profiles.wordpress.org/jrf).
+
+
+* Enhancements
+	* The [SEO Extended](http://wordpress.org/plugins/seo-extended/) plugin functionality has now been integrated into WP SEO, with graceful thanks to [Faison](http://profiles.wordpress.org/faison/) and [Scott Offord](http://profiles.wordpress.org/scottofford/) for their great work on this plugin.
+	* If WP_DEBUG is on or if you have set the special constant WPSEO_DEBUG, a block with the currently saved options will be shown on the settings pages - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Added error message for when meta description removal fails - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Added option to add meta keywords to post type archives - props [Jrf](http://profiles.wordpress.org/jrf).
+
+
+
+= To do =
+Deal with version number
+Double-check that I've caught each and every option in use
+Double-check that the forms send in all options, if one is missed, fall back to $old value
+Rewrite the wpseo_defaults() function
+Rewrite & move the reset_defaults() function
+Double-check the maybe_upgrade() function
+Double-check option-import from other plugins
+
+
+/**
+ * @todo Add minified versions of css and js files
+ * @todo Code style review (codesniffer)
+ * @todo auto-loading
+ */
+
+
+
+
+
+
+
+
 
 = Trunk =
 

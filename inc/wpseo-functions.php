@@ -8,15 +8,27 @@ if ( !defined( 'WPSEO_VERSION' ) ) {
 	die;
 }
 
-require_once( WPSEO_PATH . 'inc/class-wpseo-options.php' );
+//require_once( WPSEO_PATH . 'inc/class-wpseo-options.php' );
+//require_once( WPSEO_PATH . 'inc/class-wpseo-meta.php' );
+
+// Ensure that the validation routines for meta values are registered
+WPSEO_Meta::init();
 
 /**
  * Get the value from the post custom values
+ *
+ * @deprecated 1.5.0
+ * @deprecated use WPSEO_Meta::get_value()
+ * @see WPSEO_Meta::get_value()
  *
  * @param string $val    name of the value to get
  * @param int    $postid post ID of the post to get the value for
  * @return bool|mixed
  */
+/*function wpseo_get_value( $val, $postid = 0 ) {
+	_deprecated_function( __FUNCTION__, 'WPSEO 1.5.0', 'WPSEO_Meta::get_value()' );
+	return WPSEO_Meta::get_value( $val, $postid );
+}*/
 function wpseo_get_value( $val, $postid = 0 ) {
 	$postid = absint( $postid );
 	if ( $postid === 0 ) {
@@ -33,14 +45,25 @@ function wpseo_get_value( $val, $postid = 0 ) {
 		return false;
 }
 
+
 /**
+ * @deprecated 1.5.0
+ * @deprecated use WPSEO_Meta::set_value()
+ * @see WPSEO_Meta::set_value()
+ *
  * @param string $meta   the meta to change
  * @param mixed  $val    the value to set the meta to
  * @param int    $postid the ID of the post to change the meta for.
  */
+/*function wpseo_set_value( $meta, $val, $postid ) {
+	_deprecated_function( __FUNCTION__, 'WPSEO 1.5.0', 'WPSEO_Meta::set_value()' );
+	return WPSEO_Meta::set_value( $meta, $val, $postid );
+}*/
 function wpseo_set_value( $meta, $val, $postid ) {
 	update_post_meta( $postid, '_yoast_wpseo_' . $meta, $val );
 }
+
+
 
 /**
  * Retrieve an array of all the options the plugin uses. It can't use only one due to limitations of the options API.
