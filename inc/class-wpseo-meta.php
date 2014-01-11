@@ -80,7 +80,7 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 		 *
 		 * Titles, help texts, description text etc are added via translate_meta_boxes() method in class-metabox.php
 		 */
-		public static $meta_boxes = array(
+		public static $meta_fields = array(
 			'general'	=> array(
 				'snippetpreview'	=> array(
 					'name'				=> 'snippetpreview',
@@ -276,7 +276,7 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 		 */
 		public function get_general_meta_boxes( $post_type = 'post' ) {
 			
-			$mbs = self::$meta_boxes['general'];
+			$mbs = self::$meta_fields['general'];
 
 			$options = get_option( 'wpseo_titles' );
 			if ( $options['usemetakeywords'] === true ) {
@@ -323,7 +323,7 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 
 			$options = WPSEO_Options::get_all();
 	
-			$mbs = self::$meta_boxes['advanced'];
+			$mbs = self::$meta_fields['advanced'];
 	
 			$mbs['meta-robots-noindex']['options']['0'] = sprintf( $mbs['meta-robots-noindex']['options']['0'], ( ( isset( $options['noindex-' . $post_type] ) && $options['noindex-' . $post_type] === true ) ? 'noindex' : 'index' ) );
 
@@ -347,7 +347,7 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 		 */
 		public function get_social_meta_boxes( $post_type = 'post' ) {
 			// Apply filters for in social section and return the result
-			return apply_filters( 'wpseo_metabox_entries_social', self::$meta_boxes['social'] );
+			return apply_filters( 'wpseo_metabox_entries_social', self::$meta_fields['social'] );
 		}
 
 

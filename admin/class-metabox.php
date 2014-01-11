@@ -48,77 +48,77 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 *
 	 */
 	public static function translate_meta_boxes() {
-		self::$metaboxes['general']['snippetpreview']['title'] = __( 'Snippet Preview', 'wordpress-seo' );
+		self::$meta_fields['general']['snippetpreview']['title'] = __( 'Snippet Preview', 'wordpress-seo' );
 
-		self::$metaboxes['general']['focuskw']['title'] 	   = __( 'Focus Keyword', 'wordpress-seo' );
-		self::$metaboxes['general']['focuskw']['help']		   = sprintf( __( 'Pick the main keyword or keyphrase that this post/page is about.<br/><br/>Read %sthis post%s for more info.', 'wordpress-seo' ), '<a href="http://yoast.com/focus-keyword/#utm_source=wordpress-seo-metabox&amp;utm_medium=inline-help&amp;utm_campaign=focus-keyword">', '</a>' );
+		self::$meta_fields['general']['focuskw']['title'] 	   = __( 'Focus Keyword', 'wordpress-seo' );
+		self::$meta_fields['general']['focuskw']['help']		   = sprintf( __( 'Pick the main keyword or keyphrase that this post/page is about.<br/><br/>Read %sthis post%s for more info.', 'wordpress-seo' ), '<a href="http://yoast.com/focus-keyword/#utm_source=wordpress-seo-metabox&amp;utm_medium=inline-help&amp;utm_campaign=focus-keyword">', '</a>' );
 
-		self::$metaboxes['general']['title']['title']   	   = __( 'SEO Title', 'wordpress-seo' );
-		self::$metaboxes['general']['title']['description']    = sprintf( __( 'Title display in search engines is limited to 70 chars, %s chars left.', 'wordpress-seo' ), '<span id="yoast_wpseo_title-length"></span>' );
-		self::$metaboxes['general']['title']['help']		   = __( 'The SEO Title defaults to what is generated based on this sites title template for this posttype.', 'wordpress-seo' );
+		self::$meta_fields['general']['title']['title']   	   = __( 'SEO Title', 'wordpress-seo' );
+		self::$meta_fields['general']['title']['description']    = sprintf( __( 'Title display in search engines is limited to 70 chars, %s chars left.', 'wordpress-seo' ), '<span id="yoast_wpseo_title-length"></span>' );
+		self::$meta_fields['general']['title']['help']		   = __( 'The SEO Title defaults to what is generated based on this sites title template for this posttype.', 'wordpress-seo' );
 
-		self::$metaboxes['general']['metadesc']['title']   	   = __( 'Meta Description', 'wordpress-seo' );
-		self::$metaboxes['general']['metadesc']['description'] = sprintf( __( 'The <code>meta</code> description will be limited to %s chars%s, %s chars left.', 'wordpress-seo' ), self::$meta_length, self::$meta_length_reason, '<span id="yoast_wpseo_metadesc-length"></span>' ) . ' <div id="yoast_wpseo_metadesc_notice"></div>';
-		self::$metaboxes['general']['metadesc']['help'] 	   = __( 'If the meta description is empty, the snippet preview above shows what is generated based on this sites meta description template.', 'wordpress-seo' );
+		self::$meta_fields['general']['metadesc']['title']   	   = __( 'Meta Description', 'wordpress-seo' );
+		self::$meta_fields['general']['metadesc']['description'] = sprintf( __( 'The <code>meta</code> description will be limited to %s chars%s, %s chars left.', 'wordpress-seo' ), self::$meta_length, self::$meta_length_reason, '<span id="yoast_wpseo_metadesc-length"></span>' ) . ' <div id="yoast_wpseo_metadesc_notice"></div>';
+		self::$meta_fields['general']['metadesc']['help'] 	   = __( 'If the meta description is empty, the snippet preview above shows what is generated based on this sites meta description template.', 'wordpress-seo' );
 
-		self::$metaboxes['general']['metakeywords']['title']       = __( 'Meta Keywords', 'wordpress-seo' );
-		self::$metaboxes['general']['metakeywords']['description'] = __( 'If you type something above it will override your %smeta keywords template%s.', 'wordpress-seo' );
-
-
-		self::$metaboxes['advanced']['meta-robots-noindex']['title'] = __( 'Meta Robots Index', 'wordpress-seo' );
-		self::$metaboxes['advanced']['meta-robots-noindex']['options']['0'] = __( 'Default for post type, currently: %s', 'wordpress-seo' );
-		self::$metaboxes['advanced']['meta-robots-noindex']['options']['2'] = __( 'index', 'wordpress-seo' );
-		self::$metaboxes['advanced']['meta-robots-noindex']['options']['1'] = __( 'noindex', 'wordpress-seo' );
-
-		self::$metaboxes['advanced']['meta-robots-nofollow']['title'] = __( 'Meta Robots Follow', 'wordpress-seo' );
-		self::$metaboxes['advanced']['meta-robots-nofollow']['options']['0'] = __( 'Follow', 'wordpress-seo' );
-		self::$metaboxes['advanced']['meta-robots-nofollow']['options']['1'] = __( 'Nofollow', 'wordpress-seo' );
-
-		self::$metaboxes['advanced']['meta-robots-adv']['title'] = __( 'Meta Robots Advanced', 'wordpress-seo' );
-		self::$metaboxes['advanced']['meta-robots-adv']['description'] = __( 'Advanced <code>meta</code> robots settings for this page.', 'wordpress-seo' );
-		self::$metaboxes['advanced']['meta-robots-adv']['options']['noodp']	= __( 'NO ODP', 'wordpress-seo' );
-		self::$metaboxes['advanced']['meta-robots-adv']['options']['noydir'] = __( 'NO YDIR', 'wordpress-seo' );
-		self::$metaboxes['advanced']['meta-robots-adv']['options']['noarchive'] = __( 'No Archive', 'wordpress-seo' );
-		self::$metaboxes['advanced']['meta-robots-adv']['options']['nosnippet'] = __( 'No Snippet', 'wordpress-seo' );
-
-		self::$metaboxes['advanced']['bctitle']['title'] 	   = __( 'Breadcrumbs title', 'wordpress-seo' );
-		self::$metaboxes['advanced']['bctitle']['description'] = __( 'Title to use for this page in breadcrumb paths', 'wordpress-seo' );
-		self::$metaboxes['advanced']['sitemap-include']['title'] = __( 'Include in Sitemap', 'wordpress-seo' );
-		self::$metaboxes['advanced']['sitemap-include']['description'] = __( 'Should this page be in the XML Sitemap at all times, regardless of Robots Meta settings?', 'wordpress-seo' );
-		self::$metaboxes['advanced']['sitemap-include']['options']['-'] = __( 'Auto detect', 'wordpress-seo' );
-		self::$metaboxes['advanced']['sitemap-include']['options']['always'] = __( 'Always include', 'wordpress-seo' );
-		self::$metaboxes['advanced']['sitemap-include']['options']['never'] = __( 'Never include', 'wordpress-seo' );
-
-		self::$metaboxes['advanced']['sitemap-prio']['title'] 	  = __( 'Sitemap Priority', 'wordpress-seo' );
-		self::$metaboxes['advanced']['sitemap-prio']['description'] = __( 'The priority given to this page in the XML sitemap.', 'wordpress-seo' );
-		self::$metaboxes['advanced']['sitemap-prio']['options']['-'] = __( 'Automatic prioritization', 'wordpress-seo' );
-		self::$metaboxes['advanced']['sitemap-prio']['options']['1'] = __( '1 - Highest priority', 'wordpress-seo' );
-		self::$metaboxes['advanced']['sitemap-prio']['options']['0.8'] .= __( 'Default for first tier pages', 'wordpress-seo' );
-		self::$metaboxes['advanced']['sitemap-prio']['options']['0.6'] .= __( 'Default for second tier pages and posts', 'wordpress-seo' );
-		self::$metaboxes['advanced']['sitemap-prio']['options']['0.5'] .= __( 'Medium priority', 'wordpress-seo' );
-		self::$metaboxes['advanced']['sitemap-prio']['options']['0.1'] .= __( 'Lowest priority', 'wordpress-seo' );
-
-		self::$metaboxes['advanced']['sitemap-html-include']['title']   = __( 'Include in HTML Sitemap', 'wordpress-seo' );
-		self::$metaboxes['advanced']['sitemap-html-include']['description'] = __( 'Should this page be in the HTML Sitemap at all times, regardless of Robots Meta settings?', 'wordpress-seo' );
-		self::$metaboxes['advanced']['sitemap-html-include']['options']['-'] = __( 'Auto detect', 'wordpress-seo' );
-		self::$metaboxes['advanced']['sitemap-html-include']['options']['always'] = __( 'Always include', 'wordpress-seo' );
-		self::$metaboxes['advanced']['sitemap-html-include']['options']['never'] = __( 'Never include', 'wordpress-seo' );
-
-		self::$metaboxes['advanced']['canonical']['title'] 	  = __( 'Canonical URL', 'wordpress-seo' );
-		self::$metaboxes['advanced']['canonical']['description'] = sprintf( __( 'The canonical URL that this page should point to, leave empty to default to permalink. %sCross domain canonical%s supported too.', 'wordpress-seo' ), '<a target="_blank" href="http://googlewebmastercentral.blogspot.com/2009/12/handling-legitimate-cross-domain.html">', '</a>' );
-
-		self::$metaboxes['advanced']['redirect']['title'] 	  = __( '301 Redirect', 'wordpress-seo' );
-		self::$metaboxes['advanced']['redirect']['description'] = __( 'The URL that this page should redirect to.', 'wordpress-seo' );
+		self::$meta_fields['general']['metakeywords']['title']       = __( 'Meta Keywords', 'wordpress-seo' );
+		self::$meta_fields['general']['metakeywords']['description'] = __( 'If you type something above it will override your %smeta keywords template%s.', 'wordpress-seo' );
 
 
-		self::$metaboxes['social']['opengraph-description']['title']  = __( 'Facebook Description', 'wordpress-seo' );
-		self::$metaboxes['social']['opengraph-description']['description'] = __( 'If you don\'t want to use the meta description for sharing the post on Facebook but want another description there, write it here.', 'wordpress-seo' );
+		self::$meta_fields['advanced']['meta-robots-noindex']['title'] = __( 'Meta Robots Index', 'wordpress-seo' );
+		self::$meta_fields['advanced']['meta-robots-noindex']['options']['0'] = __( 'Default for post type, currently: %s', 'wordpress-seo' );
+		self::$meta_fields['advanced']['meta-robots-noindex']['options']['2'] = __( 'index', 'wordpress-seo' );
+		self::$meta_fields['advanced']['meta-robots-noindex']['options']['1'] = __( 'noindex', 'wordpress-seo' );
 
-		self::$metaboxes['social']['opengraph-image']['title'] 	  = __( 'Facebook Image', 'wordpress-seo' );
-		self::$metaboxes['social']['opengraph-image']['description'] = __( 'If you want to override the Facebook image for this post, upload / choose an image or add the URL here.', 'wordpress-seo' );
+		self::$meta_fields['advanced']['meta-robots-nofollow']['title'] = __( 'Meta Robots Follow', 'wordpress-seo' );
+		self::$meta_fields['advanced']['meta-robots-nofollow']['options']['0'] = __( 'Follow', 'wordpress-seo' );
+		self::$meta_fields['advanced']['meta-robots-nofollow']['options']['1'] = __( 'Nofollow', 'wordpress-seo' );
 
-		self::$metaboxes['social']['google-plus-description']['title'] 	  = __( 'Google+ Description', 'wordpress-seo' );
-		self::$metaboxes['social']['google-plus-description']['description'] = __( 'If you don\'t want to use the meta description for sharing the post on Google+ but want another description there, write it here.', 'wordpress-seo' );
+		self::$meta_fields['advanced']['meta-robots-adv']['title'] = __( 'Meta Robots Advanced', 'wordpress-seo' );
+		self::$meta_fields['advanced']['meta-robots-adv']['description'] = __( 'Advanced <code>meta</code> robots settings for this page.', 'wordpress-seo' );
+		self::$meta_fields['advanced']['meta-robots-adv']['options']['noodp']	= __( 'NO ODP', 'wordpress-seo' );
+		self::$meta_fields['advanced']['meta-robots-adv']['options']['noydir'] = __( 'NO YDIR', 'wordpress-seo' );
+		self::$meta_fields['advanced']['meta-robots-adv']['options']['noarchive'] = __( 'No Archive', 'wordpress-seo' );
+		self::$meta_fields['advanced']['meta-robots-adv']['options']['nosnippet'] = __( 'No Snippet', 'wordpress-seo' );
+
+		self::$meta_fields['advanced']['bctitle']['title'] 	   = __( 'Breadcrumbs title', 'wordpress-seo' );
+		self::$meta_fields['advanced']['bctitle']['description'] = __( 'Title to use for this page in breadcrumb paths', 'wordpress-seo' );
+		self::$meta_fields['advanced']['sitemap-include']['title'] = __( 'Include in Sitemap', 'wordpress-seo' );
+		self::$meta_fields['advanced']['sitemap-include']['description'] = __( 'Should this page be in the XML Sitemap at all times, regardless of Robots Meta settings?', 'wordpress-seo' );
+		self::$meta_fields['advanced']['sitemap-include']['options']['-'] = __( 'Auto detect', 'wordpress-seo' );
+		self::$meta_fields['advanced']['sitemap-include']['options']['always'] = __( 'Always include', 'wordpress-seo' );
+		self::$meta_fields['advanced']['sitemap-include']['options']['never'] = __( 'Never include', 'wordpress-seo' );
+
+		self::$meta_fields['advanced']['sitemap-prio']['title'] 	  = __( 'Sitemap Priority', 'wordpress-seo' );
+		self::$meta_fields['advanced']['sitemap-prio']['description'] = __( 'The priority given to this page in the XML sitemap.', 'wordpress-seo' );
+		self::$meta_fields['advanced']['sitemap-prio']['options']['-'] = __( 'Automatic prioritization', 'wordpress-seo' );
+		self::$meta_fields['advanced']['sitemap-prio']['options']['1'] = __( '1 - Highest priority', 'wordpress-seo' );
+		self::$meta_fields['advanced']['sitemap-prio']['options']['0.8'] .= __( 'Default for first tier pages', 'wordpress-seo' );
+		self::$meta_fields['advanced']['sitemap-prio']['options']['0.6'] .= __( 'Default for second tier pages and posts', 'wordpress-seo' );
+		self::$meta_fields['advanced']['sitemap-prio']['options']['0.5'] .= __( 'Medium priority', 'wordpress-seo' );
+		self::$meta_fields['advanced']['sitemap-prio']['options']['0.1'] .= __( 'Lowest priority', 'wordpress-seo' );
+
+		self::$meta_fields['advanced']['sitemap-html-include']['title']   = __( 'Include in HTML Sitemap', 'wordpress-seo' );
+		self::$meta_fields['advanced']['sitemap-html-include']['description'] = __( 'Should this page be in the HTML Sitemap at all times, regardless of Robots Meta settings?', 'wordpress-seo' );
+		self::$meta_fields['advanced']['sitemap-html-include']['options']['-'] = __( 'Auto detect', 'wordpress-seo' );
+		self::$meta_fields['advanced']['sitemap-html-include']['options']['always'] = __( 'Always include', 'wordpress-seo' );
+		self::$meta_fields['advanced']['sitemap-html-include']['options']['never'] = __( 'Never include', 'wordpress-seo' );
+
+		self::$meta_fields['advanced']['canonical']['title'] 	  = __( 'Canonical URL', 'wordpress-seo' );
+		self::$meta_fields['advanced']['canonical']['description'] = sprintf( __( 'The canonical URL that this page should point to, leave empty to default to permalink. %sCross domain canonical%s supported too.', 'wordpress-seo' ), '<a target="_blank" href="http://googlewebmastercentral.blogspot.com/2009/12/handling-legitimate-cross-domain.html">', '</a>' );
+
+		self::$meta_fields['advanced']['redirect']['title'] 	  = __( '301 Redirect', 'wordpress-seo' );
+		self::$meta_fields['advanced']['redirect']['description'] = __( 'The URL that this page should redirect to.', 'wordpress-seo' );
+
+
+		self::$meta_fields['social']['opengraph-description']['title']  = __( 'Facebook Description', 'wordpress-seo' );
+		self::$meta_fields['social']['opengraph-description']['description'] = __( 'If you don\'t want to use the meta description for sharing the post on Facebook but want another description there, write it here.', 'wordpress-seo' );
+
+		self::$meta_fields['social']['opengraph-image']['title'] 	  = __( 'Facebook Image', 'wordpress-seo' );
+		self::$meta_fields['social']['opengraph-image']['description'] = __( 'If you want to override the Facebook image for this post, upload / choose an image or add the URL here.', 'wordpress-seo' );
+
+		self::$meta_fields['social']['google-plus-description']['title'] 	  = __( 'Google+ Description', 'wordpress-seo' );
+		self::$meta_fields['social']['google-plus-description']['description'] = __( 'If you don\'t want to use the meta description for sharing the post on Google+ but want another description there, write it here.', 'wordpress-seo' );
 
 	}
 
