@@ -158,7 +158,19 @@ class WPSEO_Metabox {
 		}
 	}
 
-
+	/**
+	 * Adds the WordPress SEO box
+	 *
+	 * @deprecated 1.4.23
+	 * @deprecated use WPSEO_Metabox::add_meta_box()
+	 * @see WPSEO_Meta::get_general_meta_boxes()
+	 */
+	public function add_custom_box() {
+		_deprecated_function( __FUNCTION__, 'WPSEO 1.5.0', 'WPSEO_Metabox::add_meta_box()' );
+		$this->add_meta_box();
+	}
+	
+	
 	/**
 	 * Outputs the scripts needed for the edit / post page overview, snippet preview, etc.
 	 */
