@@ -16,7 +16,7 @@
  * @todo deal with multisite uninstall ?
  */
 
-if ( !current_user_can( 'activate_plugins' ) || ( !defined( 'ABSPATH' ) || !defined( 'WP_UNINSTALL_PLUGIN' ) ) )
+if ( ! current_user_can( 'activate_plugins' ) || ( ! defined( 'ABSPATH' ) || ! defined( 'WP_UNINSTALL_PLUGIN' ) ) )
 	exit();
 
 // @todo change code to deal with wpseo_ms option as a (multi) site option
@@ -25,6 +25,6 @@ foreach ( array( 'wpseo', 'wpseo_indexation', 'wpseo_permalinks', 'wpseo_titles'
 }
 
 /* Should already have been removed on deactivate, but let's make double sure */
-if( wp_next_scheduled( 'yoast_tracking' ) !== false ) {
+if ( wp_next_scheduled( 'yoast_tracking' ) !== false ) {
 	wp_clear_scheduled_hook( 'yoast_tracking' );
 }

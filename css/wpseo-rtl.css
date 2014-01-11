@@ -30,6 +30,7 @@ input.textinput, textarea.textinput, select.select, input.checkbox {
 	margin: 12px 0 0 3px;
 }
 
+/* @todo: ??? which one do we want ? */
 label.radio {
 	margin-left: 20px;
 	margin-left: auto;

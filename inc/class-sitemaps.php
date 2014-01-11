@@ -47,7 +47,7 @@ class WPSEO_Sitemaps {
 	 */
 	function __construct() {
 		if ( ! defined( 'ENT_XML1' ) )
-			define( "ENT_XML1", 16 );
+			define( 'ENT_XML1', 16 );
 
 		add_action( 'init', array( $this, 'init' ), 1 );
 		add_action( 'template_redirect', array( $this, 'redirect' ) );
@@ -55,7 +55,7 @@ class WPSEO_Sitemaps {
 		add_action( 'wpseo_hit_sitemap_index', array( $this, 'hit_sitemap_index' ) );
 
 		// default stylesheet
-		$this->stylesheet = '<?xml-stylesheet type="text/xsl" href="' . home_url( 'main-sitemap.xsl' ) . '"?>';
+		$this->stylesheet = '<?xml-stylesheet type="text/xsl" href="' . esc_url( home_url( 'main-sitemap.xsl' ) ) . '"?>';
 
 		$this->options = WPSEO_Options::get_all();
 	}
@@ -160,7 +160,7 @@ class WPSEO_Sitemaps {
 			return;
 			
 		$n = get_query_var( 'sitemap_n' );
-		if( is_scalar( $n ) && intval( $n ) > 0 ) {
+		if ( is_scalar( $n ) && intval( $n ) > 0 ) {
 			$this->n = intval( $n );
 		}
 
@@ -215,7 +215,8 @@ class WPSEO_Sitemaps {
 		$base          = $GLOBALS['wp_rewrite']->using_index_permalinks() ? 'index.php/' : '';
 
 		// reference post type specific sitemaps
-		foreach ( get_post_types( array( 'public' => true ) ) as $post_type ) {
+		$post_types = get_post_types( array( 'public' => true ) );
+		foreach ( $post_types as $post_type ) {
 			if ( isset( $this->options['post_types-' . $post_type . '-not_in_sitemap'] ) && $this->options['post_types-' . $post_type . '-not_in_sitemap'] === true )
 				continue;
 			else if ( apply_filters( 'wpseo_sitemap_exclude_post_type', false, $post_type ) )
@@ -271,6 +272,7 @@ class WPSEO_Sitemaps {
 				$taxobj = get_taxonomy( $tax );
 
 				if ( ( empty( $count ) || $count == $n ) && false ) {
+					// @todo: check as $post_type might not be defined or rather, will always take last post type from the above foreach loop, is this what is desired ?
 					$date = $this->get_last_modified( $post_type );
 				}
 				else {
@@ -284,8 +286,8 @@ class WPSEO_Sitemaps {
 							array(
 								'taxonomy' => $tax,
 								'field'    => 'slug',
-								'terms'    => $terms
-							)
+								'terms'    => $terms,
+							),
 						),
 						'orderby'   => 'modified',
 						'order'     => 'DESC',
@@ -293,9 +295,9 @@ class WPSEO_Sitemaps {
 					$query = new WP_Query( $args );
 
 					$date = '';
-					if ( $query->have_posts() )
+					if ( $query->have_posts() ) {
 						$date = $query->posts[0]->post_modified_gmt;
-
+					}
 				}
 
 				// Retrieve the post_types that are registered to this taxonomy and then retrieve last modified date for all of those combined.
@@ -324,29 +326,36 @@ class WPSEO_Sitemaps {
 				// must use custom raw query because WP User Query does not support ordering by usermeta
 				// Retrieve the newest updated profile timestamp overall
 				if ( empty( $count ) || $count == $n ) {
-					$date = $wpdb->get_var( $wpdb->prepare( "
-					SELECT mt1.meta_value FROM $wpdb->users
-					INNER JOIN $wpdb->usermeta ON ($wpdb->users.ID = $wpdb->usermeta.user_id)
-					INNER JOIN $wpdb->usermeta AS mt1 ON ($wpdb->users.ID = mt1.user_id) WHERE 1=1 
-					AND ( ($wpdb->usermeta.meta_key = %s AND CAST($wpdb->usermeta.meta_value AS CHAR) != '0')
-					AND mt1.meta_key = '_yoast_wpseo_profile_updated' ) ORDER BY mt1.meta_value DESC LIMIT 1
-					",
+					$date = $wpdb->get_var(
+						$wpdb->prepare(
+							"
+							SELECT mt1.meta_value FROM $wpdb->users
+							INNER JOIN $wpdb->usermeta ON ($wpdb->users.ID = $wpdb->usermeta.user_id)
+							INNER JOIN $wpdb->usermeta AS mt1 ON ($wpdb->users.ID = mt1.user_id) WHERE 1=1
+							AND ( ($wpdb->usermeta.meta_key = %s AND CAST($wpdb->usermeta.meta_value AS CHAR) != '0')
+							AND mt1.meta_key = '_yoast_wpseo_profile_updated' ) ORDER BY mt1.meta_value DESC LIMIT 1
+							",
 							$wpdb->get_blog_prefix() . 'user_level'
-					) );
+						)
+					);
 					$date = date( 'c', $date );
 
 					// Retrieve the newest updated profile timestamp by an offset
 				}
 				else {
-					$date = $wpdb->get_var( $wpdb->prepare( "
-					SELECT mt1.meta_value FROM $wpdb->users
-					INNER JOIN $wpdb->usermeta ON ($wpdb->users.ID = $wpdb->usermeta.user_id)
-					INNER JOIN $wpdb->usermeta AS mt1 ON ($wpdb->users.ID = mt1.user_id) WHERE 1=1 
-					AND ( ($wpdb->usermeta.meta_key = %s AND CAST($wpdb->usermeta.meta_value AS CHAR) != '0')
-					AND mt1.meta_key = '_yoast_wpseo_profile_updated' ) ORDER BY mt1.meta_value ASC LIMIT 1 OFFSET %d
-					",
+					$date = $wpdb->get_var(
+						$wpdb->prepare(
+							"
+							SELECT mt1.meta_value FROM $wpdb->users
+							INNER JOIN $wpdb->usermeta ON ($wpdb->users.ID = $wpdb->usermeta.user_id)
+							INNER JOIN $wpdb->usermeta AS mt1 ON ($wpdb->users.ID = mt1.user_id) WHERE 1=1
+							AND ( ($wpdb->usermeta.meta_key = %s AND CAST($wpdb->usermeta.meta_value AS CHAR) != '0')
+							AND mt1.meta_key = '_yoast_wpseo_profile_updated' ) ORDER BY mt1.meta_value ASC LIMIT 1 OFFSET %d
+							",
 							$wpdb->get_blog_prefix() . 'user_level',
-							$this->max_entries * ( $i + 1 ) - 1 ) );
+							$this->max_entries * ( $i + 1 ) - 1
+						)
+					);
 					$date = date( 'c', $date );
 				}
 
@@ -391,7 +400,7 @@ class WPSEO_Sitemaps {
 		$where_filter = '';
 		$where_filter = apply_filters( 'wpseo_typecount_where', $where_filter, $post_type );
 
-		$query     = $wpdb->prepare( "SELECT COUNT(ID) FROM $wpdb->posts {$join_filter} WHERE post_status IN ('publish','inherit') AND post_password = '' AND post_type = %s " . $where_filter, $post_type );
+		$query = $wpdb->prepare( "SELECT COUNT(ID) FROM $wpdb->posts {$join_filter} WHERE post_status IN ('publish','inherit') AND post_password = '' AND post_type = %s " . $where_filter, $post_type );
 
 		$typecount = $wpdb->get_var( $query );
 
@@ -405,7 +414,8 @@ class WPSEO_Sitemaps {
 					'loc' => home_url( '/' ),
 					'pri' => 1,
 					'chf' => 'daily',
-				) );
+					)
+				);
 			}
 			else if ( $front_id && $post_type == 'post' ) {
 				$page_for_posts = get_option( 'page_for_posts' );
@@ -414,7 +424,8 @@ class WPSEO_Sitemaps {
 						'loc' => get_permalink( $page_for_posts ),
 						'pri' => 1,
 						'chf' => 'daily',
-					) );
+						)
+					);
 				}
 			}
 
@@ -425,8 +436,9 @@ class WPSEO_Sitemaps {
 						'loc' => $archive,
 						'pri' => 0.8,
 						'chf' => 'weekly',
-						'mod' => $this->get_last_modified( $post_type ) // get_lastpostmodified( 'gmt', $post_type ) #17455
-					) );
+						'mod' => $this->get_last_modified( $post_type ), // get_lastpostmodified( 'gmt', $post_type ) #17455
+						)
+					);
 				}
 			}
 		}
@@ -445,12 +457,14 @@ class WPSEO_Sitemaps {
 		$status = ( $post_type == 'attachment' ) ? 'inherit' : 'publish';
 
 		// We grab post_date, post_name, post_author and post_status too so we can throw these objects into get_permalink, which saves a get_post call for each permalink.
-		$i = 0;
+		$i = 0; // @todo check: does not seem to be used
 		while ( $total > $offset ) {
 
 			// Optimized query per this thread: http://wordpress.org/support/topic/plugin-wordpress-seo-by-yoast-performance-suggestion
 			// Also see http://explainextended.com/2009/10/23/mysql-order-by-limit-performance-late-row-lookups/
-			$query = $wpdb->prepare( "SELECT l.ID, post_content, post_name, post_author, post_parent, post_modified_gmt, post_date, post_date_gmt
+			$query = $wpdb->prepare(
+				"
+				SELECT l.ID, post_content, post_name, post_author, post_parent, post_modified_gmt, post_date, post_date_gmt
 				FROM (
 					SELECT ID FROM $wpdb->posts {$join_filter}
 						WHERE post_status = '%s'
@@ -461,7 +475,10 @@ class WPSEO_Sitemaps {
 						LIMIT %d OFFSET %d ) o
 					JOIN $wpdb->posts l
 					ON l.ID = o.ID
-					ORDER BY l.ID", $status, $post_type, $steps, $offset );
+					ORDER BY l.ID
+				",
+				$status, $post_type, $steps, $offset
+			);
 
 			$posts = $wpdb->get_results( $query );
 
@@ -593,7 +610,7 @@ class WPSEO_Sitemaps {
 			return;
 		}
 
-		$this->sitemap = '<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" ';
+		$this->sitemap  = '<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" ';
 		$this->sitemap .= 'xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" ';
 		$this->sitemap .= 'xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
 		$this->sitemap .= $output;
@@ -626,6 +643,7 @@ class WPSEO_Sitemaps {
 		$steps  = $this->max_entries;
 		$n      = (int) $this->n;
 		$offset = ( $n > 1 ) ? ( $n - 1 ) * $this->max_entries : 0;
+		// @todo: check if this variable setting makes sense as it does not seem to be used in this instance
 		$total  = $offset + $this->max_entries;
 
 		$terms = get_terms( $taxonomy->name, array( 'hide_empty' => true ) );
@@ -659,19 +677,24 @@ class WPSEO_Sitemaps {
 			}
 
 			// Grab last modified date
-			$sql        = $wpdb->prepare( "SELECT MAX(p.post_modified_gmt) AS lastmod
-					FROM	$wpdb->posts AS p
-					INNER JOIN $wpdb->term_relationships AS term_rel
+			$sql        = $wpdb->prepare(
+				"
+				SELECT MAX(p.post_modified_gmt) AS lastmod
+				FROM	$wpdb->posts AS p
+				INNER JOIN $wpdb->term_relationships AS term_rel
 					ON		term_rel.object_id = p.ID
-					INNER JOIN $wpdb->term_taxonomy AS term_tax
+				INNER JOIN $wpdb->term_taxonomy AS term_tax
 					ON		term_tax.term_taxonomy_id = term_rel.term_taxonomy_id
 					AND		term_tax.taxonomy = %s
 					AND		term_tax.term_id = %d
-					WHERE	p.post_status IN ('publish','inherit')
-					AND		p.post_password = ''", $c->taxonomy, $c->term_id );
+				WHERE	p.post_status IN ('publish','inherit')
+					AND		p.post_password = ''",
+				$c->taxonomy,
+				$c->term_id
+			);
 			$url['mod'] = $wpdb->get_var( $sql );
 			$url['chf'] = 'weekly';
-			$output .= $this->sitemap_url( $url );
+			$output    .= $this->sitemap_url( $url );
 		}
 
 		if ( empty( $output ) ) {
@@ -679,7 +702,7 @@ class WPSEO_Sitemaps {
 			return;
 		}
 
-		$this->sitemap = '<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ';
+		$this->sitemap  = '<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ';
 		$this->sitemap .= 'xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" ';
 		$this->sitemap .= 'xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
 		$this->sitemap .= $output . '</urlset>';
@@ -704,16 +727,18 @@ class WPSEO_Sitemaps {
 		$offset = ( $n > 1 ) ? ( $n - 1 ) * $this->max_entries : 0;
 
 		// initial query to fill in missing usermeta with the current timestamp
-		$users = get_users( array(
-			'who'        => 'authors',
-			'meta_query' => array(
-				array(
-					'key'     => '_yoast_wpseo_profile_updated',
-					'value'   => '', // This is ignored, but is necessary...
-					'compare' => 'NOT EXISTS'
+		$users = get_users(
+			array(
+				'who'        => 'authors',
+				'meta_query' => array(
+					array(
+						'key'     => '_yoast_wpseo_profile_updated',
+						'value'   => '', // This is ignored, but is necessary...
+						'compare' => 'NOT EXISTS',
+					),
 				)
 			)
-		) );
+		);
 
 		foreach ( $users as $user ) {
 			update_user_meta( $user->ID, '_yoast_wpseo_profile_updated', time() );
@@ -727,7 +752,8 @@ class WPSEO_Sitemaps {
 			'meta_key' => '_yoast_wpseo_profile_updated',
 			'orderby'  => 'meta_value_num',
 			'order'    => 'ASC',
-		) );
+			)
+		);
 
 		$users = apply_filters( 'wpseo_sitemap_exclude_author', $users );
 
@@ -740,8 +766,9 @@ class WPSEO_Sitemaps {
 					'loc' => $author_link,
 					'pri' => 0.8,
 					'chf' => 'weekly',
-					'mod' => date( 'c', isset( $user->_yoast_wpseo_profile_updated ) ? $user->_yoast_wpseo_profile_updated : time() )
-				) );
+					'mod' => date( 'c', isset( $user->_yoast_wpseo_profile_updated ) ? $user->_yoast_wpseo_profile_updated : time() ),
+					)
+				);
 			}
 		}
 
@@ -750,7 +777,7 @@ class WPSEO_Sitemaps {
 			return;
 		}
 
-		$this->sitemap = '<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" ';
+		$this->sitemap  = '<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" ';
 		$this->sitemap .= 'xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" ';
 		$this->sitemap .= 'xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
 		$this->sitemap .= $output;
@@ -815,26 +842,32 @@ class WPSEO_Sitemaps {
 	 * @return string
 	 */
 	function sitemap_url( $url ) {
-		if ( isset( $url['mod'] ) )
-			$date = mysql2date( "Y-m-d\TH:i:s+00:00", $url['mod'] );
-		else
+		if ( isset( $url['mod'] ) ) {
+			$date = mysql2date( 'Y-m-d\TH:i:s+00:00', $url['mod'] );
+		}
+		else {
 			$date = date( 'c' );
+		}
 		$url['loc'] = htmlspecialchars( $url['loc'] );
-		$output     = "\t<url>\n";
+
+		$output  = "\t<url>\n";
 		$output .= "\t\t<loc>" . $url['loc'] . "</loc>\n";
 		$output .= "\t\t<lastmod>" . $date . "</lastmod>\n";
 		$output .= "\t\t<changefreq>" . $url['chf'] . "</changefreq>\n";
 		$output .= "\t\t<priority>" . str_replace( ',', '.', $url['pri'] ) . "</priority>\n";
+
 		if ( isset( $url['images'] ) && count( $url['images'] ) > 0 ) {
 			foreach ( $url['images'] as $img ) {
 				if ( ! isset( $img['src'] ) || empty( $img['src'] ) )
 					continue;
 				$output .= "\t\t<image:image>\n";
 				$output .= "\t\t\t<image:loc>" . esc_html( $img['src'] ) . "</image:loc>\n";
-				if ( isset( $img['title'] ) && ! empty( $img['title'] ) )
+				if ( isset( $img['title'] ) && ! empty( $img['title'] ) ) {
 					$output .= "\t\t\t<image:title>" . _wp_specialchars( html_entity_decode( $img['title'], ENT_QUOTES, get_bloginfo( 'charset' ) ) ) . "</image:title>\n";
-				if ( isset( $img['alt'] ) && ! empty( $img['alt'] ) )
+				}
+				if ( isset( $img['alt'] ) && ! empty( $img['alt'] ) ) {
 					$output .= "\t\t\t<image:caption>" . _wp_specialchars( html_entity_decode( $img['alt'], ENT_QUOTES, get_bloginfo( 'charset' ) ) ) . "</image:caption>\n";
+				}
 				$output .= "\t\t</image:image>\n";
 			}
 		}
@@ -903,6 +936,8 @@ class WPSEO_Sitemaps {
 	/**
 	 * Parse the requested sitemap's identifier to check for a user sitemap pattern
 	 *
+	 * @todo check if this method is still needed as it does not seem to be used
+	 * *
 	 * since 1.6
 	 *
 	 * @param string $type The requested sitemap's identifier.

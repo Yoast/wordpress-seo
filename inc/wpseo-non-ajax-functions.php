@@ -153,7 +153,7 @@ function wpseo_title_test() {
 
 	global $wp_version;
 	$args = array(
-		'user-agent' => "WordPress/${wp_version}; " . get_site_url() . " - Yoast",
+		'user-agent' => "WordPress/${wp_version}; " . get_site_url() . ' - Yoast',
 	);
 	$resp = wp_remote_get( get_bloginfo( 'url' ), $args );
 
@@ -263,8 +263,11 @@ else {
  * Check if the current theme was updated and if so, test the updated theme
  * for the meta description tag
  *
- * @since 1.4.14
+ * @since	1.4.14
  *
+ * @param   object  $upgrader_object
+ * @param   array   $context_array
+ * @param   mixed   $themes
  * @return  void
  */
 function wpseo_upgrader_process_complete( $upgrader_object, $context_array, $themes = null ) {
@@ -275,7 +278,7 @@ function wpseo_upgrader_process_complete( $upgrader_object, $context_array, $the
 		return;
 	}
 	// Break if this is not a theme update, not interested in installs as after_switch_theme would still be called
-	if ( ! isset( $context_array['type'] ) || $context_array['type'] !== 'theme' || !isset( $context_array['action'] ) || $context_array['action'] !== 'update' ) {
+	if ( ! isset( $context_array['type'] ) || $context_array['type'] !== 'theme' || ! isset( $context_array['action'] ) || $context_array['action'] !== 'update' ) {
 		return;
 	}
 
@@ -309,6 +312,8 @@ function wpseo_upgrader_process_complete( $upgrader_object, $context_array, $the
  *
  * @since 1.4.14
  *
+ * @param   array   $update_actions
+ * @param   mixed   $updated_theme
  * @return  array  $update_actions    Unchanged array
  */
 function wpseo_update_theme_complete_actions( $update_actions, $updated_theme ) {
@@ -358,11 +363,11 @@ function wpseo_deactivate() {
  * Translates a decimal analysis score into a textual one.
  *
  * @param int  $val The decimal score to translate.
- * @param bool $css Whether to return the i18n translated score or the CSS class value.
+ * @param bool $css_value Whether to return the i18n translated score or the CSS class value.
  *
  * @return string
  */
-function wpseo_translate_score( $val, $css = true ) {
+function wpseo_translate_score( $val, $css_value = true ) {
 	switch ( $val ) {
 		case 0:
 			$score = __( 'N/A', 'wordpress-seo' );
@@ -389,7 +394,7 @@ function wpseo_translate_score( $val, $css = true ) {
 			$css   = 'bad';
 	}
 
-	if ( $css )
+	if ( $css_value )
 		return $css;
 	else
 		return $score;
@@ -437,7 +442,7 @@ function wpseo_admin_bar_menu() {
 
 	if ( ! is_admin() ) {
 		$wp_admin_bar->add_menu( array( 'parent' => 'wpseo-menu', 'id' => 'wpseo-analysis', 'title' => __( 'Analyze this page', 'wordpress-seo' ), '#', ) );
-		if( is_string( $url ) ) {
+		if ( is_string( $url ) ) {
 			$wp_admin_bar->add_menu( array( 'parent' => 'wpseo-analysis', 'id' => 'wpseo-inlinks-ose', 'title' => __( 'Check Inlinks (OSE)', 'wordpress-seo' ), 'href' => 'http://www.opensiteexplorer.org/' . str_replace( '/', '%252F', preg_replace( '`^http[s]?://`', '', $url ) ) . '/a!links', 'meta' => array( 'target' => '_blank' ) ) );
 			$wp_admin_bar->add_menu( array( 'parent' => 'wpseo-analysis', 'id' => 'wpseo-kwdensity', 'title' => __( 'Check Keyword Density', 'wordpress-seo' ), 'href' => 'http://tools.davidnaylor.co.uk/keyworddensity/index.php?url=' . $url . '&keyword=' . urlencode( $focuskw ), 'meta' => array( 'target' => '_blank' ) ) );
 			$wp_admin_bar->add_menu( array( 'parent' => 'wpseo-analysis', 'id' => 'wpseo-cache', 'title' => __( 'Check Google Cache', 'wordpress-seo' ), 'href' => 'http://webcache.googleusercontent.com/search?strip=1&q=cache:' . $url, 'meta' => array( 'target' => '_blank' ) ) );
@@ -468,7 +473,7 @@ function wpseo_admin_bar_menu() {
 
 	if ( $admin_menu ) {
 		$wp_admin_bar->add_menu( array( 'parent' => 'wpseo-menu', 'id' => 'wpseo-settings', 'title' => __( 'SEO Settings', 'wordpress-seo' ), 'href' => admin_url( 'admin.php?page=wpseo_titles' ), ) );
-		$wp_admin_bar->add_menu( array( 'parent' => 'wpseo-settings', 'id' => 'wpseo-titles', 'title' => __( "Titles & Metas", 'wordpress-seo' ), 'href' => admin_url( 'admin.php?page=wpseo_titles' ), ) );
+		$wp_admin_bar->add_menu( array( 'parent' => 'wpseo-settings', 'id' => 'wpseo-titles', 'title' => __( 'Titles &amp; Metas', 'wordpress-seo' ), 'href' => admin_url( 'admin.php?page=wpseo_titles' ), ) );
 		$wp_admin_bar->add_menu( array( 'parent' => 'wpseo-settings', 'id' => 'wpseo-social', 'title' => __( 'Social', 'wordpress-seo' ), 'href' => admin_url( 'admin.php?page=wpseo_social' ), ) );
 		$wp_admin_bar->add_menu( array( 'parent' => 'wpseo-settings', 'id' => 'wpseo-xml', 'title' => __( 'XML Sitemaps', 'wordpress-seo' ), 'href' => admin_url( 'admin.php?page=wpseo_xml' ), ) );
 		$wp_admin_bar->add_menu( array( 'parent' => 'wpseo-settings', 'id' => 'wpseo-permalinks', 'title' => __( 'Permalinks', 'wordpress-seo' ), 'href' => admin_url( 'admin.php?page=wpseo_permalinks' ), ) );

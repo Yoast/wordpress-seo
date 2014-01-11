@@ -3,15 +3,16 @@
  * @package Admin
  */
 
-if ( !defined('WPSEO_VERSION') ) {
-	header('HTTP/1.0 403 Forbidden');
+if ( ! defined( 'WPSEO_VERSION' ) ) {
+	header( 'HTTP/1.0 403 Forbidden' );
 	die;
 }
 
 global $wpseo_admin_pages;
 
 $wpseo_admin_pages->admin_header( true, WPSEO_Options::$options['wpseo_permalinks']['group'], 'wpseo_permalinks' );
-$content = $wpseo_admin_pages->checkbox( 'stripcategorybase', __( 'Strip the category base (usually <code>/category/</code>) from the category URL.', 'wordpress-seo' ) );
+
+$content  = $wpseo_admin_pages->checkbox( 'stripcategorybase', __( 'Strip the category base (usually <code>/category/</code>) from the category URL.', 'wordpress-seo' ) );
 $content .= $wpseo_admin_pages->checkbox( 'trailingslash', __( 'Enforce a trailing slash on all category and tag URL\'s', 'wordpress-seo' ) );
 $content .= '<p class="desc">' . __( 'If you choose a permalink for your posts with <code>.html</code>, or anything else but a / on the end, this will force WordPress to add a trailing slash to non-post pages nonetheless.', 'wordpress-seo' ) . '</p>';
 
@@ -29,12 +30,14 @@ $content .= '<p class="desc">' . __( 'People make mistakes in their links toward
 
 $wpseo_admin_pages->postbox( 'permalinks', __( 'Permalink Settings', 'wordpress-seo' ), $content );
 
-$content = $wpseo_admin_pages->select( 'force_transport', __( 'Force Transport', 'wordpress-seo' ), array( 'default' => __( 'Leave default', 'wordpress-seo' ), 'http' => __( 'Force http', 'wordpress-seo' ), 'https' => __( 'Force https', 'wordpress-seo' ) ) );
+
+$content  = $wpseo_admin_pages->select( 'force_transport', __( 'Force Transport', 'wordpress-seo' ), array( 'default' => __( 'Leave default', 'wordpress-seo' ), 'http' => __( 'Force http', 'wordpress-seo' ), 'https' => __( 'Force https', 'wordpress-seo' ) ) );
 $content .= '<p class="desc label">' . __( 'Force the canonical to either http or https, when your blog runs under both.', 'wordpress-seo' ) . '</p>';
 
 $wpseo_admin_pages->postbox( 'canonical', __( 'Canonical Settings', 'wordpress-seo' ), $content );
 
-$content = $wpseo_admin_pages->checkbox( 'cleanpermalink-googlesitesearch', __( 'Prevent cleaning out Google Site Search URL\'s.', 'wordpress-seo' ) );
+
+$content  = $wpseo_admin_pages->checkbox( 'cleanpermalink-googlesitesearch', __( 'Prevent cleaning out Google Site Search URL\'s.', 'wordpress-seo' ) );
 $content .= '<p class="desc">' . __( 'Google Site Search URL\'s look weird, and ugly, but if you\'re using Google Site Search, you probably do not want them cleaned out.', 'wordpress-seo' ) . '</p>';
 
 $content .= $wpseo_admin_pages->checkbox( 'cleanpermalink-googlecampaign', __( 'Prevent cleaning out Google Analytics Campaign Parameters.', 'wordpress-seo' ) );
@@ -44,5 +47,6 @@ $content .= $wpseo_admin_pages->textinput( 'cleanpermalink-extravars', __( 'Othe
 $content .= '<p class="desc">' . __( 'You might have extra variables you want to prevent from cleaning out, add them here, comma separated.', 'wordpress-seo' ) . '</p>';
 
 $wpseo_admin_pages->postbox( 'cleanpermalinksdiv', __( 'Clean Permalink Settings', 'wordpress-seo' ), $content );
+
 
 $wpseo_admin_pages->admin_footer();

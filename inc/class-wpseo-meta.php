@@ -280,7 +280,7 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 
 			$options = get_option( 'wpseo_titles' );
 			if ( $options['usemetakeywords'] === true ) {
-				$mbs['metakeywords']['description'] = sprintf( $mbs['metakeywords']['description'], '<a target="_blank" href="' . admin_url( 'admin.php?page=wpseo_titles#' . esc_url( $post_type ) ) . '">', '</a>' );
+				$mbs['metakeywords']['description'] = sprintf( $mbs['metakeywords']['description'], '<a target="_blank" href="' . esc_url( admin_url( 'admin.php?page=wpseo_titles#' . urlencode( $post_type ) ) ) . '">', '</a>' );
 			}
 			else {
 				unset( $mbs['metakeywords'] );
@@ -342,10 +342,9 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 		/**
 		 * Define the meta boxes for the Social tab
 		 *
-		 * @param	string	$post_type
 		 * @return	array	Array containing the meta box field definitions
 		 */
-		public function get_social_meta_boxes( $post_type = 'post' ) {
+		public function get_social_meta_boxes() {
 			// Apply filters for in social section and return the result
 			return apply_filters( 'wpseo_metabox_entries_social', self::$meta_fields['social'] );
 		}
@@ -462,7 +461,7 @@ add_action( 'init', 'myplugin_init' );
 					return false;
 			}
 			$custom = get_post_custom( $postid );
-			if ( !empty( $custom['_yoast_wpseo_' . $val][0] ) )
+			if ( ! empty( $custom['_yoast_wpseo_' . $val][0] ) )
 				return maybe_unserialize( $custom['_yoast_wpseo_' . $val][0] );
 			else
 				return false;

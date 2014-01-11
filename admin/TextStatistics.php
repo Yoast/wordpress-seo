@@ -3,8 +3,8 @@
  * @package Admin
  */
 
-if ( !defined('WPSEO_VERSION') ) {
-	header('HTTP/1.0 403 Forbidden');
+if ( ! defined( 'WPSEO_VERSION' ) ) {
+	header( 'HTTP/1.0 403 Forbidden' );
 	die;
 }
 
@@ -188,10 +188,10 @@ class Yoast_TextStatistics {
 
 		// Specific common exceptions that don't follow the rule set below are handled individually
 		// Array of problem words (with word as key, syllable count as value)
-		$arrProblemWords = Array(
-			'simile'  => 3
-		, 'forever'   => 3
-		, 'shoreline' => 2
+		$arrProblemWords = array(
+			'simile'    => 3,
+			'forever'   => 3,
+			'shoreline' => 2,
 		);
 		if ( isset( $arrProblemWords[$strWord] ) ) {
 			$intSyllableCount = $arrProblemWords[$strWord];
@@ -201,55 +201,55 @@ class Yoast_TextStatistics {
 		}
 
 		// These syllables would be counted as two but should be one
-		$arrSubSyllables = Array(
-			'cial'
-		, 'tia'
-		, 'cius'
-		, 'cious'
-		, 'giu'
-		, 'ion'
-		, 'iou'
-		, 'sia$'
-		, '[^aeiuoyt]{2,}ed$'
-		, '.ely$'
-		, '[cg]h?e[rsd]?$'
-		, 'rved?$'
-		, '[aeiouy][dt]es?$'
-		, '[aeiouy][^aeiouydt]e[rsd]?$'
-		, '^[dr]e[aeiou][^aeiou]+$' // Sorts out deal, deign etc
-		, '[aeiouy]rse$' // Purse, hearse
+		$arrSubSyllables = array(
+			'cial',
+			'tia',
+			'cius',
+			'cious',
+			'giu',
+			'ion',
+			'iou',
+			'sia$',
+			'[^aeiuoyt]{2,}ed$',
+			'.ely$',
+			'[cg]h?e[rsd]?$',
+			'rved?$',
+			'[aeiouy][dt]es?$',
+			'[aeiouy][^aeiouydt]e[rsd]?$',
+			'^[dr]e[aeiou][^aeiou]+$', // Sorts out deal, deign etc
+			'[aeiouy]rse$', // Purse, hearse
 		);
 
 		// These syllables would be counted as one but should be two
-		$arrAddSyllables = Array(
-			'ia'
-		, 'riet'
-		, 'dien'
-		, 'iu'
-		, 'io'
-		, 'ii'
-		, '[aeiouym]bl$'
-		, '[aeiou]{3}'
-		, '^mc'
-		, 'ism$'
-		, '([^aeiouy])\1l$'
-		, '[^l]lien'
-		, '^coa[dglx].'
-		, '[^gq]ua[^auieo]'
-		, 'dnt$'
-		, 'uity$'
-		, 'ie(r|st)$'
+		$arrAddSyllables = array(
+			'ia',
+			'riet',
+			'dien',
+			'iu',
+			'io',
+			'ii',
+			'[aeiouym]bl$',
+			'[aeiou]{3}',
+			'^mc',
+			'ism$',
+			'([^aeiouy])\1l$',
+			'[^l]lien',
+			'^coa[dglx].',
+			'[^gq]ua[^auieo]',
+			'dnt$',
+			'uity$',
+			'ie(r|st)$',
 		);
 
 		// Single syllable prefixes and suffixes
-		$arrPrefixSuffix = Array(
-			'`^un`'
-		, '`^fore`'
-		, '`ly$`'
-		, '`less$`'
-		, '`ful$`'
-		, '`ers?$`'
-		, '`ings?$`'
+		$arrPrefixSuffix = array(
+			'`^un`',
+			'`^fore`',
+			'`ly$`',
+			'`less$`',
+			'`ful$`',
+			'`ers?$`',
+			'`ings?$`',
 		);
 
 		// Remove prefixes and suffixes and count how many were taken

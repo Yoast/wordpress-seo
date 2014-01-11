@@ -174,7 +174,7 @@ class WPSEO_Admin {
 		/**
 		 * @todo double check whether the capability is the right one
 		 * Shouldn't this functionality be made available to all editors/authors for those posts they have authority to edit ?
-		 * If so, the queries in the buld editor classes need changing too to reflect this
+		 * If so, the queries in the bulk editor classes need changing too to reflect this
 		 */
 		$bulk_title_hook = add_submenu_page( 'wpseo_dashboard', __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Bulk Title Editor', 'wordpress-seo' ), __( 'Bulk Title Editor', 'wordpress-seo' ), 'manage_options', 'wpseo_bulk-title-editor', array( $this, 'bulk_title_editor_page' ) );
 
@@ -205,7 +205,7 @@ class WPSEO_Admin {
 		$screen->add_help_tab( array(
 			'id'      => 'basic-help',
 			'title'   => __( 'Template explanation', 'wordpress-seo' ),
-			'content' => '<p>' . __( 'The title & metas settings for WordPress SEO are made up of variables that are replaced by specific values from the page when the page is displayed. The tabs on the left explain the available variables.', 'wordpress-seo' ) . '</p>'
+			'content' => '<p>' . __( 'The title &amp; metas settings for WordPress SEO are made up of variables that are replaced by specific values from the page when the page is displayed. The tabs on the left explain the available variables.', 'wordpress-seo' ) . '</p>',
 		) );
 
 		$screen->add_help_tab( array(
@@ -270,7 +270,9 @@ class WPSEO_Admin {
 				<th>%%sep%%</th>
 				<td>' . __( 'The separator defined in your theme\'s <code>wp_title()</code> tag.', 'wordpress-seo' ) . '</td>
 			</tr>
-			</table>' ) );
+			</table>',
+		) );
+
 		$screen->add_help_tab( array(
 			'id'      => 'title-vars-advanced',
 			'title'   => __( 'Advanced Variables.', 'wordpress-seo' ),
@@ -358,7 +360,8 @@ class WPSEO_Admin {
 				<td>' . __( 'Replaced with a custom taxonomies description', 'wordpress-seo' ) . '</td>
 			</tr>
 		</table>', //actual help text
-		) );
+			)
+		);
 	}
 
 	/**
@@ -471,10 +474,10 @@ class WPSEO_Admin {
 	 */
 	function bulk_edit_options() {
 		$option = 'per_page';
-		$args = array(
+		$args   = array(
 			'label'	  => 'Posts',
 			'default' => 10,
-			'option'  => 'wpseo_posts_per_page'
+			'option'  => 'wpseo_posts_per_page',
 		);
 		add_screen_option( $option, $args );
 	}
@@ -483,7 +486,7 @@ class WPSEO_Admin {
 	 * Saves the posts per page limit for bulk edit pages.
 	 */
 	function save_bulk_edit_options( $status, $option, $value ) {
-		if( 'wpseo_posts_per_page' === $option ) {
+		if ( 'wpseo_posts_per_page' === $option ) {
 			return $value;
 		}
 	}
@@ -498,8 +501,8 @@ class WPSEO_Admin {
 		$options = get_option( 'wpseo' );
 		if ( $options['ignore_blog_public_warning'] === true )
 			return;
-		echo "<div id='message' class='error'>";
-		echo "<p><strong>" . __( "Huge SEO Issue: You're blocking access to robots.", 'wordpress-seo' ) . "</strong> " . sprintf( __( "You must %sgo to your Reading Settings%s and uncheck the box for Search Engine Visibility.", 'wordpress-seo' ), "<a href='" . admin_url( 'options-reading.php' ) . "'>", "</a>" ) . " <a href='javascript:wpseo_setIgnore(\"blog_public_warning\",\"message\",\"" . wp_create_nonce( 'wpseo-ignore' ) . "\");' class='button'>" . __( "I know, don't bug me.", 'wordpress-seo' ) . "</a></p></div>";
+		echo '<div id="message" class="error">';
+		echo '<p><strong>' . __( 'Huge SEO Issue: You\'re blocking access to robots.', 'wordpress-seo' ) . '</strong> ' . sprintf( __( 'You must %sgo to your Reading Settings%s and uncheck the box for Search Engine Visibility.', 'wordpress-seo' ), '<a href="' . esc_url( admin_url( 'options-reading.php' ) ) . '">', '</a>' ) . ' <a href="javascript:wpseo_setIgnore(\'blog_public_warning\',\'message\',\'' . esc_js( wp_create_nonce( 'wpseo-ignore' ) ) . '\');" class="button">' . __( 'I know, don\'t bug me.', 'wordpress-seo' ) . '</a></p></div>';
 	}
 
 	/**
@@ -520,7 +523,7 @@ class WPSEO_Admin {
 			return;
 
 		echo '<div id="metamessage" class="error">';
-		echo '<p><strong>' . __( 'SEO Issue:', 'wordpress-seo' ) . '</strong> ' . sprintf( __( 'Your theme contains a meta description, which blocks WordPress SEO from working properly. Please visit the %sSEO Dashboard%s to fix this.', 'wordpress-seo' ), '<a href="' . admin_url( 'admin.php?page=wpseo_dashboard' ) . '">', '</a>' ) . ' <a href="javascript:wpseo_setIgnore(\'meta_description_warning\',\'metamessage\',\'' . wp_create_nonce( 'wpseo-ignore' ) . '\');" class="button">' . __( "I know, don't bug me.", 'wordpress-seo' ) . '</a></p></div>';
+		echo '<p><strong>' . __( 'SEO Issue:', 'wordpress-seo' ) . '</strong> ' . sprintf( __( 'Your theme contains a meta description, which blocks WordPress SEO from working properly. Please visit the %sSEO Dashboard%s to fix this.', 'wordpress-seo' ), '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_dashboard' ) ) . '">', '</a>' ) . ' <a href="javascript:wpseo_setIgnore(\'meta_description_warning\',\'metamessage\',\'' . esc_js( wp_create_nonce( 'wpseo-ignore' ) ) . '\');" class="button">' . __( 'I know, don\'t bug me.', 'wordpress-seo' ) . '</a></p></div>';
 	}
 
 	/**
@@ -536,7 +539,7 @@ class WPSEO_Admin {
 		static $this_plugin;
 		if ( empty( $this_plugin ) ) $this_plugin = 'wordpress-seo/wp-seo.php';
 		if ( $file == $this_plugin ) {
-			$settings_link = '<a href="' . admin_url( 'admin.php?page=wpseo_dashboard' ) . '">' . __( 'Settings', 'wordpress-seo' ) . '</a>';
+			$settings_link = '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_dashboard' ) ) . '">' . __( 'Settings', 'wordpress-seo' ) . '</a>';
 			array_unshift( $links, $settings_link );
 		}
 		return $links;
@@ -575,7 +578,7 @@ class WPSEO_Admin {
 	 */
 	function update_contactmethods( $contactmethods ) {
 		// Add Google+
-		$contactmethods['googleplus'] = __( "Google+", 'wordpress-seo' );
+		$contactmethods['googleplus'] = __( 'Google+', 'wordpress-seo' );
 		// Add Twitter
 		$contactmethods['twitter'] = __( 'Twitter username (without @)', 'wordpress-seo' );
 		// Add Facebook
@@ -598,22 +601,22 @@ class WPSEO_Admin {
 
 		wp_nonce_field( 'wpseo_user_profile_update', 'wpseo_nonce' );
 		?>
-		<h3 id="wordpress-seo"><?php _e( "WordPress SEO settings", 'wordpress-seo' ); ?></h3>
+		<h3 id="wordpress-seo"><?php _e( 'WordPress SEO settings', 'wordpress-seo' ); ?></h3>
 		<table class="form-table">
 			<tr>
-				<th><?php _e( "Title to use for Author page", 'wordpress-seo' ); ?></th>
-				<td><input class="regular-text" type="text" name="wpseo_author_title"
+				<th><label for="wpseo_author_title"><?php _e( 'Title to use for Author page', 'wordpress-seo' ); ?></label></th>
+				<td><input class="regular-text" type="text" id="wpseo_author_title" name="wpseo_author_title"
 									 value="<?php echo esc_attr( get_the_author_meta( 'wpseo_title', $user->ID ) ); ?>" /></td>
 			</tr>
 			<tr>
-				<th><?php _e( "Meta description to use for Author page", 'wordpress-seo' ); ?></th>
-				<td><textarea rows="3" cols="30" name="wpseo_author_metadesc"><?php echo esc_textarea( get_the_author_meta( 'wpseo_metadesc', $user->ID ) ); ?></textarea>
+				<th><label for="wpseo_author_metadesc"><?php _e( 'Meta description to use for Author page', 'wordpress-seo' ); ?></label></th>
+				<td><textarea rows="3" cols="30" id="wpseo_author_metadesc" name="wpseo_author_metadesc"><?php echo esc_textarea( get_the_author_meta( 'wpseo_metadesc', $user->ID ) ); ?></textarea>
 				</td>
 			</tr>
 			<?php if ( $options['usemetakeywords'] === true ) { ?>
 				<tr>
-					<th><?php _e( "Meta keywords to use for Author page", 'wordpress-seo' ); ?></th>
-					<td><input class="regular-text" type="text" name="wpseo_author_metakey" value="<?php echo esc_attr( get_the_author_meta( 'wpseo_metakey', $user->ID ) ); ?>" /></td>
+					<th><label for="wpseo_author_metakey"><?php _e( 'Meta keywords to use for Author page', 'wordpress-seo' ); ?></label></th>
+					<td><input class="regular-text" type="text" id="wpseo_author_metakey" name="wpseo_author_metakey" value="<?php echo esc_attr( get_the_author_meta( 'wpseo_metakey', $user->ID ) ); ?>" /></td>
 				</tr>
 			<?php } ?>
 		</table>
@@ -841,7 +844,7 @@ class WPSEO_Admin {
 	 */
 	function stopwords() {
 		/* translators: this should be an array of stopwords for your language, separated by comma's. */
-		$stopwords = explode( ',', __( "a,about,above,after,again,against,all,am,an,and,any,are,aren't,as,at,be,because,been,before,being,below,between,both,but,by,can't,cannot,could,couldn't,did,didn't,do,does,doesn't,doing,don't,down,during,each,few,for,from,further,had,hadn't,has,hasn't,have,haven't,having,he,he'd,he'll,he's,her,here,here's,hers,herself,him,himself,his,how,how's,i,i'd,i'll,i'm,i've,if,in,into,is,isn't,it,it's,its,itself,let's,me,more,most,mustn't,my,myself,no,nor,not,of,off,on,once,only,or,other,ought,our,ours,ourselves,out,over,own,same,shan't,she,she'd,she'll,she's,should,shouldn't,so,some,such,than,that,that's,the,their,theirs,them,themselves,then,there,there's,these,they,they'd,they'll,they're,they've,this,those,through,to,too,under,until,up,very,was,wasn't,we,we'd,we'll,we're,we've,were,weren't,what,what's,when,when's,where,where's,which,while,who,who's,whom,why,why's,with,won't,would,wouldn't,you,you'd,you'll,you're,you've,your,yours,yourself,yourselves", "wordpress-seo" ) );
+		$stopwords = explode( ',', __( "a,about,above,after,again,against,all,am,an,and,any,are,aren't,as,at,be,because,been,before,being,below,between,both,but,by,can't,cannot,could,couldn't,did,didn't,do,does,doesn't,doing,don't,down,during,each,few,for,from,further,had,hadn't,has,hasn't,have,haven't,having,he,he'd,he'll,he's,her,here,here's,hers,herself,him,himself,his,how,how's,i,i'd,i'll,i'm,i've,if,in,into,is,isn't,it,it's,its,itself,let's,me,more,most,mustn't,my,myself,no,nor,not,of,off,on,once,only,or,other,ought,our,ours,ourselves,out,over,own,same,shan't,she,she'd,she'll,she's,should,shouldn't,so,some,such,than,that,that's,the,their,theirs,them,themselves,then,there,there's,these,they,they'd,they'll,they're,they've,this,those,through,to,too,under,until,up,very,was,wasn't,we,we'd,we'll,we're,we've,were,weren't,what,what's,when,when's,where,where's,which,while,who,who's,whom,why,why's,with,won't,would,wouldn't,you,you'd,you'll,you're,you've,your,yours,yourself,yourselves", 'wordpress-seo' ) );
 
 		/**
 		 * Allows filtering of the stop words list

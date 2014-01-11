@@ -3,8 +3,8 @@
  * @package Admin
  */
 
-if ( !defined('WPSEO_VERSION') ) {
-	header('HTTP/1.0 403 Forbidden');
+if ( ! defined( 'WPSEO_VERSION' ) ) {
+	header( 'HTTP/1.0 403 Forbidden' );
 	die;
 }
 
@@ -12,7 +12,7 @@ if ( !defined('WPSEO_VERSION') ) {
  * Function used from AJAX calls, takes it variables from $_POST, dies on exit.
  */
 function wpseo_set_option() {
-	if ( !current_user_can( 'manage_options' ) )
+	if ( ! current_user_can( 'manage_options' ) )
 		die( '-1' );
 	check_ajax_referer( 'wpseo-setoption' );
 
@@ -30,7 +30,7 @@ add_action( 'wp_ajax_wpseo_set_option', 'wpseo_set_option' );
  * Function used to remove the admin notices for several purposes, dies on exit.
  */
 function wpseo_set_ignore() {
-	if ( !current_user_can( 'manage_options' ) )
+	if ( ! current_user_can( 'manage_options' ) )
 		die( '-1' );
 	check_ajax_referer( 'wpseo-ignore' );
 
@@ -47,7 +47,7 @@ add_action( 'wp_ajax_wpseo_set_ignore', 'wpseo_set_ignore' );
  * Function used to delete blocking files, dies on exit.
  */
 function wpseo_kill_blocking_files() {
-	if ( !current_user_can( 'manage_options' ) )
+	if ( ! current_user_can( 'manage_options' ) )
 		die( '-1' );
 	check_ajax_referer( 'wpseo-blocking-files' );
 
@@ -57,7 +57,7 @@ function wpseo_kill_blocking_files() {
 		$message = 'success';
 		$options['blocking_files'] = array_unique( $options['blocking_files'] );
 		foreach ( $options['blocking_files'] as $k => $file ) {
-			if ( !@unlink( $file ) )
+			if ( ! @unlink( $file ) )
 				$message = __( 'Some files could not be removed. Please remove them via FTP.', 'wordpress-seo' );
 			else
 				unset( $options['blocking_files'][$k] );
@@ -85,13 +85,17 @@ function wpseo_get_suggest() {
 	$return_arr = array();
 
 	foreach ( $matches[1] as $match ) {
-		$return_arr[] = html_entity_decode( $match, ENT_COMPAT, "UTF-8" );
+		$return_arr[] = html_entity_decode( $match, ENT_COMPAT, 'UTF-8' );
 	}
 	echo json_encode( $return_arr );
 	die();
 }
 
 add_action( 'wp_ajax_wpseo_get_suggest', 'wpseo_get_suggest' );
+
+/**
+ * @todo: add capacity check for below ajax methods, something along the lines of user_can_edit_post()
+ */
 
 /**
  * Save an individual SEO title from the Bulk Editor.
@@ -114,7 +118,7 @@ add_action( 'wp_ajax_wpseo_save_title', 'wpseo_save_title' );
  * Helper function for updating an existing seo title or create a new one
  * if it doesn't already exist.
  */
-function wpseo_upsert_new_title( $post_id, $new_title, $original_title) {
+function wpseo_upsert_new_title( $post_id, $new_title, $original_title ) {
 
 	$meta_key   = '_yoast_wpseo_title';
 	$return_key = 'title';
@@ -142,14 +146,12 @@ function wpseo_upsert_meta( $post_id, $new_meta_value, $orig_meta_value, $meta_k
  * Save all titles sent from the Bulk Editor.
  */
 function wpseo_save_all_titles() {
-	global $wpdb;
-
 	$new_titles      = $_POST['titles'];
 	$original_titles = $_POST['existing_titles'];
 
 	$results = array();
 
-	foreach( $new_titles as $id => $new_title ) {
+	foreach ( $new_titles as $id => $new_title ) {
 		$original_title = $original_titles[ $id ];
 		$results[]      = wpseo_upsert_new_title( $id, $new_title, $original_title );
 	}
@@ -180,7 +182,7 @@ add_action( 'wp_ajax_wpseo_save_desc', 'wpseo_save_description' );
 /**
  * Helper function to create or update a post's meta description.
  */
-function wpseo_upsert_new_description( $post_id, $new_metadesc, $original_metadesc) {
+function wpseo_upsert_new_description( $post_id, $new_metadesc, $original_metadesc ) {
 
 	$meta_key   = '_yoast_wpseo_metadesc';
 	$return_key = 'metadesc';
@@ -191,14 +193,12 @@ function wpseo_upsert_new_description( $post_id, $new_metadesc, $original_metade
  * Save all description sent from the Bulk Editor.
  */
 function wpseo_save_all_descriptions() {
-	global $wpdb;
-
 	$new_metadescs      = $_POST['metadescs'];
 	$original_metadescs = $_POST['existing_metadescs'];
 
 	$results = array();
 
-	foreach( $new_metadescs as $id => $new_metadesc ) {
+	foreach ( $new_metadescs as $id => $new_metadesc ) {
 		$original_metadesc = $original_metadescs[ $id ];
 		$results[]         = wpseo_upsert_new_description( $id, $new_metadesc, $original_metadesc );
 	}

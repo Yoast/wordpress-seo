@@ -3,7 +3,7 @@
  * @package Admin
  */
 
-if ( !defined( 'WPSEO_VERSION' ) ) {
+if ( ! defined( 'WPSEO_VERSION' ) ) {
 	header( 'HTTP/1.0 403 Forbidden' );
 	die;
 }
@@ -32,7 +32,7 @@ class WPSEO_Admin_Pages {
 		'wpseo_import',
 		'wpseo_titles',
 		'wpseo_xml',
-		'wpseo_social'
+		'wpseo_social',
 	);
 
 	/**
@@ -93,7 +93,7 @@ class WPSEO_Admin_Pages {
 				'url' => 'https://yoast.com/hire-us/website-review/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=website-review-banner',
 				'img' => 'banner-website-review.png',
 				'alt' => 'Website Review banner',
-			)
+			),
 		);
 		if ( 'nl_NL' == get_locale() ) {
 			$rand = rand( 1, 2 );
@@ -114,21 +114,21 @@ class WPSEO_Admin_Pages {
 					break;
 			}
 		}
-		if ( !class_exists( 'wpseo_Video_Sitemap' ) ) {
+		if ( ! class_exists( 'wpseo_Video_Sitemap' ) ) {
 			$banners[] = array(
 				'url' => 'http://yoast.com/wordpress/video-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=video-seo-banner',
 				'img' => 'banner-video-seo.png',
 				'alt' => 'Banner WordPress SEO Video SEO extension',
 			);
 		}
-		if ( !class_exists( 'wpseo_Video_Manual' ) ) {
+		if ( ! class_exists( 'wpseo_Video_Manual' ) ) {
 			$banners[] = array(
 				'url' => 'http://yoast.com/wordpress/video-manual-wordpress-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=video-manual-banner',
 				'img' => 'banner-video-seo-manual.png',
 				'alt' => 'Banner WordPress SEO Video manual',
 			);
 		}
-		if ( !defined( 'WPSEO_LOCAL_VERSION' ) ) {
+		if ( ! defined( 'WPSEO_LOCAL_VERSION' ) ) {
 			$banners[] = array(
 				'url' => 'http://yoast.com/wordpress/local-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=local-seo-banner',
 				'img' => 'banner-local-seo.png',
@@ -146,7 +146,7 @@ class WPSEO_Admin_Pages {
 						break;
 					if ( $i != 0 )
 						echo '<hr style="border:none;border-top:dotted 1px #f48500;margin: 30px 0;">';
-					echo '<a target="_blank" href="' . $banner['url'] . '"><img src="' . plugins_url( 'images/' . $banner['img'], dirname( __FILE__ ) ) . '" alt="' . $banner['alt'] . '"/></a>';
+					echo '<a target="_blank" href="' . esc_url( $banner['url'] ) . '"><img src="' . plugins_url( 'images/' . $banner['img'], dirname( __FILE__ ) ) . '" alt="' . esc_attr( $banner['alt'] ) . '"/></a>';
 					$i++;
 				}
 				?>
@@ -184,7 +184,7 @@ class WPSEO_Admin_Pages {
 		<div class="meta-box-sortables">
 		<?php
 		if ( $form ) {
-			echo '<form action="' . admin_url( 'options.php' ) . '" method="post" id="wpseo-conf"' . ( $contains_files ? ' enctype="multipart/form-data"' : '' ) . ' accept-charset="' . get_bloginfo( 'charset' ) . '">';
+			echo '<form action="' . esc_url( admin_url( 'options.php' ) ) . '" method="post" id="wpseo-conf"' . ( $contains_files ? ' enctype="multipart/form-data"' : '' ) . ' accept-charset="' . esc_attr( get_bloginfo( 'charset' ) ) . '">';
 			settings_fields( $option );
 			$this->currentoption = $optionshort;
 		}
@@ -245,38 +245,38 @@ class WPSEO_Admin_Pages {
 	 * @return bool|string $return False when failed, the URL to the export file when succeeded.
 	 */
 	function export_settings( $include_taxonomy ) {
-		$content = "; " . __( 'This is a settings export file for the WordPress SEO plugin by Yoast.com', 'wordpress-seo' ) . " - http://yoast.com/wordpress/seo/ \r\n";
+		$content = '; ' . __( 'This is a settings export file for the WordPress SEO plugin by Yoast.com', 'wordpress-seo' ) . " - http://yoast.com/wordpress/seo/ \r\n";
 
 		$optarr = WPSEO_Options::get_option_names();
 
 		foreach ( $optarr as $optgroup ) {
 			$content .= "\n" . '[' . $optgroup . ']' . "\n";
-			$options = get_option( $optgroup );
-			if ( !is_array( $options ) )
+			$options  = get_option( $optgroup );
+			if ( ! is_array( $options ) )
 				continue;
 			foreach ( $options as $key => $elem ) {
 				if ( is_array( $elem ) ) {
 					for ( $i = 0; $i < count( $elem ); $i++ ) {
-						$content .= $key . "[] = \"" . $elem[$i] . "\"\n";
+						$content .= $key . '[] = "' . $elem[$i] . "\"\n";
 					}
-				} else if ( $elem == "" )
+				} else if ( $elem == '' )
 					$content .= $key . " = \n";
 				else
-					$content .= $key . " = \"" . $elem . "\"\n";
+					$content .= $key . ' = \"' . $elem . "\"\n";
 			}
 		}
 
 		if ( $include_taxonomy ) {
 			$content .= "\r\n\r\n[wpseo_taxonomy_meta]\r\n";
-			$content .= "wpseo_taxonomy_meta = \"" . urlencode( json_encode( get_option( 'wpseo_taxonomy_meta' ) ) ) . "\"";
+			$content .= 'wpseo_taxonomy_meta = "' . urlencode( json_encode( get_option( 'wpseo_taxonomy_meta' ) ) ) . '"';
 		}
 
 		$dir = wp_upload_dir();
 
-		if ( !$handle = fopen( $dir['path'] . '/settings.ini', 'w' ) )
+		if ( ! $handle = fopen( $dir['path'] . '/settings.ini', 'w' ) )
 			die();
 
-		if ( !fwrite( $handle, $content ) )
+		if ( ! fwrite( $handle, $content ) )
 			die();
 
 		fclose( $handle );
@@ -360,14 +360,14 @@ class WPSEO_Admin_Pages {
 
 		$options = $this->get_option( $option );
 
-		if ( !isset( $options[$var] ) )
+		if ( ! isset( $options[$var] ) )
 			$options[$var] = false;
 
 		if ( $options[$var] === true )
 			$options[$var] = 'on';
 
 		if ( $label_left !== false ) {
-			if ( !empty( $label_left ) )
+			if ( ! empty( $label_left ) )
 				$label_left .= ':';
 			$output_label = '<label class="checkbox" for="' . esc_attr( $var ) . '">' . $label_left . '</label>';
 			$class        = 'checkbox';
@@ -399,7 +399,7 @@ class WPSEO_Admin_Pages {
 			$option = $this->currentoption;
 
 		$options = $this->get_option( $option );
-		$val = ( isset( $options[$var] ) ) ? $options[$var] : '';
+		$val     = ( isset( $options[$var] ) ) ? $options[$var] : '';
 
 		return '<label class="textinput" for="' . esc_attr( $var ) . '">' . $label . ':</label><input class="textinput" type="text" id="' . esc_attr( $var ) . '" name="' . esc_attr( $option ) . '[' . esc_attr( $var ) . ']" value="' . esc_attr( $val ) . '"/>' . '<br class="clear" />';
 	}
@@ -418,7 +418,7 @@ class WPSEO_Admin_Pages {
 			$option = $this->currentoption;
 
 		$options = $this->get_option( $option );
-		$val = ( isset( $options[$var] ) ) ? $options[$var] : '';
+		$val     = ( isset( $options[$var] ) ) ? $options[$var] : '';
 
 		return '<label class="textinput" for="' . esc_attr( $var ) . '">' . esc_html( $label ) . ':</label><textarea class="textinput ' . esc_attr( $class ) . '" id="' . esc_attr( $var ) . '" name="' . esc_attr( $option ) . '[' . esc_attr( $var ) . ']">' . esc_textarea( $val ) . '</textarea>' . '<br class="clear" />';
 	}
@@ -437,7 +437,7 @@ class WPSEO_Admin_Pages {
 		$options = $this->get_option( $option );
 
 		$val = ( isset( $options[$var] ) ) ? $options[$var] : '';
-		if( is_bool( $val ) ) {
+		if ( is_bool( $val ) ) {
 			$val = ( $val === true ) ? 'true' : 'false';
 		}
 
@@ -463,7 +463,7 @@ class WPSEO_Admin_Pages {
 		$output .= '<select class="select" name="' . esc_attr( $option ) . '[' . esc_attr( $var ) . ']" id="' . esc_attr( $var ) . '">';
 
 		foreach ( $values as $value => $label ) {
-			if ( !empty( $label ) )
+			if ( ! empty( $label ) )
 				$output .= '<option value="' . esc_attr( $value ) . '"' . selected( $options[$var], $value, false ) . '>' . $label . '</option>';
 		}
 		$output .= '</select>';
@@ -494,7 +494,7 @@ class WPSEO_Admin_Pages {
 		$output .= '<input type="file" value="' . esc_attr( $val ) . '" class="textinput" name="' . esc_attr( $option ) . '[' . $var_esc . ']" id="' . $var_esc . '"/>';
 
 		// Need to save separate array items in hidden inputs, because empty file inputs type will be deleted by settings API.
-		if ( !empty( $options[$var] ) ) {
+		if ( ! empty( $options[$var] ) ) {
 			$output .= '<input class="hidden" type="hidden" id="' . $var_esc . '_file" name="wpseo_local[' . $var_esc . '][file]" value="' . esc_attr( $options[$var]['file'] ) . '"/>';
 			$output .= '<input class="hidden" type="hidden" id="' . $var_esc . '_url" name="wpseo_local[' . $var_esc . '][url]" value="' . esc_attr( $options[$var]['url'] ) . '"/>';
 			$output .= '<input class="hidden" type="hidden" id="' . $var_esc . '_type" name="wpseo_local[' . $var_esc . '][type]" value="' . esc_attr( $options[$var]['type'] ) . '"/>';
@@ -519,7 +519,7 @@ class WPSEO_Admin_Pages {
 
 		$options = $this->get_option( $option );
 
-		if ( !isset( $options[$var] ) )
+		if ( ! isset( $options[$var] ) )
 			$options[$var] = false;
 
 		$var_esc = esc_attr( $var );
@@ -560,13 +560,16 @@ class WPSEO_Admin_Pages {
 	function form_table( $rows ) {
 		$content = '<table class="form-table">';
 		foreach ( $rows as $row ) {
-			$content .= '<tr><th valign="top" scrope="row">';
-			if ( isset( $row['id'] ) && $row['id'] != '' )
+			$content .= '<tr><th valign="top" scope="row">';
+			if ( isset( $row['id'] ) && $row['id'] != '' ) {
 				$content .= '<label for="' . esc_attr( $row['id'] ) . '">' . esc_html( $row['label'] ) . ':</label>';
-			else
+			}
+			else {
 				$content .= esc_html( $row['label'] );
-			if ( isset( $row['desc'] ) && $row['desc'] != '' )
+			}
+			if ( isset( $row['desc'] ) && $row['desc'] != '' ) {
 				$content .= '<br/><small>' . esc_html( $row['desc'] ) . '</small>';
+			}
 			$content .= '</th><td valign="top">';
 			$content .= $row['content'];
 			$content .= '</td></tr>';

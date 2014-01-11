@@ -3,8 +3,8 @@
  * @package Admin
  */
 
-if ( !defined('WPSEO_VERSION') ) {
-	header('HTTP/1.0 403 Forbidden');
+if ( ! defined( 'WPSEO_VERSION' ) ) {
+	header( 'HTTP/1.0 403 Forbidden' );
 	die;
 }
 
@@ -42,13 +42,16 @@ if ( isset( $_POST[ 'wpseo_restore_blog' ] ) ) {
 
 $wpseo_admin_pages->admin_header( false );
 
-$content = '<form method="post" accept-charset="' . get_bloginfo( 'charset' ) . '">';
+$content  = '<form method="post" accept-charset="' . esc_attr( get_bloginfo( 'charset' ) ) . '">';
 $content .= wp_nonce_field( 'wpseo-network-settings', '_wpnonce', true, false );
-$content .= $wpseo_admin_pages->select( 'access', __( 'Who should have access to the WordPress SEO settings', 'wordpress-seo' ),
+$content .= $wpseo_admin_pages->select(
+	'access',
+	__( 'Who should have access to the WordPress SEO settings', 'wordpress-seo' ),
 	array(
 		'admin'      => __( 'Site Admins (default)', 'wordpress-seo' ),
 		'superadmin' => __( 'Super Admins only', 'wordpress-seo' )
-	), 'wpseo_ms'
+	),
+	'wpseo_ms'
 );
 $content .= $wpseo_admin_pages->textinput( 'defaultblog', __( 'New blogs get the SEO settings from this blog', 'wordpress-seo' ), 'wpseo_ms' );
 $content .= '<p>' . __( 'Enter the Blog ID for the site whose settings you want to use as default for all sites that are added to your network. Leave empty for none (i.e. the normal plugin defaults will be used).', 'wordpress-seo' ) . '</p>';
@@ -57,7 +60,7 @@ $content .= '</form>';
 
 $wpseo_admin_pages->postbox( 'wpseo_export', __( 'MultiSite Settings', 'wordpress-seo' ), $content );
 
-$content = '<form method="post" accept-charset="' . get_bloginfo( 'charset' ) . '">';
+$content  = '<form method="post" accept-charset="' . esc_attr( get_bloginfo( 'charset' ) ) . '">';
 $content .= wp_nonce_field( 'wpseo-network-restore', '_wpnonce', true, false );
 $content .= '<p>' . __( 'Using this form you can reset a site to the default SEO settings.', 'wordpress-seo' ) . '</p>';
 $content .= $wpseo_admin_pages->textinput( 'restoreblog', __( 'Blog ID', 'wordpress-seo' ), 'wpseo_ms' );

@@ -3,8 +3,8 @@
  * @package Admin
  */
 
-if ( !defined('WPSEO_VERSION') ) {
-	header('HTTP/1.0 403 Forbidden');
+if ( ! defined( 'WPSEO_VERSION' ) ) {
+	header( 'HTTP/1.0 403 Forbidden' );
 	die;
 }
 
@@ -12,7 +12,7 @@ global $wpseo_admin_pages;
 
 $wpseo_admin_pages->admin_header( true, WPSEO_Options::$options['wpseo_internallinks']['group'], 'wpseo_internallinks' );
 
-$content = $wpseo_admin_pages->checkbox( 'breadcrumbs-enable', __( 'Enable Breadcrumbs', 'wordpress-seo' ) );
+$content  = $wpseo_admin_pages->checkbox( 'breadcrumbs-enable', __( 'Enable Breadcrumbs', 'wordpress-seo' ) );
 $content .= '<br/>';
 $content .= $wpseo_admin_pages->textinput( 'breadcrumbs-sep', __( 'Separator between breadcrumbs', 'wordpress-seo' ) );
 $content .= $wpseo_admin_pages->textinput( 'breadcrumbs-home', __( 'Anchor text for the Homepage', 'wordpress-seo' ) );
@@ -23,6 +23,7 @@ $content .= $wpseo_admin_pages->textinput( 'breadcrumbs-404crumb', __( 'Breadcru
 $content .= $wpseo_admin_pages->checkbox( 'breadcrumbs-blog-remove', __( 'Remove Blog page from Breadcrumbs', 'wordpress-seo' ) );
 $content .= '<br/><br/>';
 $content .= '<strong>' . __( 'Taxonomy to show in breadcrumbs for:', 'wordpress-seo' ) . '</strong><br/>';
+
 $post_types = get_post_types( array( 'public' => true ), 'objects' );
 if ( is_array( $post_types ) && $post_types !== array() ) {
 	foreach ( $post_types as $pt ) {
@@ -41,8 +42,8 @@ if ( is_array( $post_types ) && $post_types !== array() ) {
 }
 $content .= '<br/>';
 
-$content .= '<strong>' . __( 'Post type archive to show in breadcrumbs for:', 'wordpress-seo' ) . '</strong><br/>';
-$taxonomies = get_taxonomies( array( 'public'=> true, '_builtin' => false ), 'objects' );
+$content   .= '<strong>' . __( 'Post type archive to show in breadcrumbs for:', 'wordpress-seo' ) . '</strong><br/>';
+$taxonomies = get_taxonomies( array( 'public' => true, '_builtin' => false ), 'objects' );
 if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
 	foreach ( $taxonomies as $tax ) {
 		$values = array( 0 => __( 'None', 'wordpress-seo' ) );

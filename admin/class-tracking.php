@@ -3,7 +3,7 @@
  * @package Admin
  */
 
-if ( !defined( 'WPSEO_VERSION' ) ) {
+if ( ! defined( 'WPSEO_VERSION' ) ) {
 	header( 'HTTP/1.0 403 Forbidden' );
 	die;
 }
@@ -15,7 +15,7 @@ if ( !defined( 'WPSEO_VERSION' ) ) {
  * NOTE: this functionality is opt-in. Disabling the tracking in the settings or saying no when asked will cause
  * this file to not even be loaded.
  */
-if ( !class_exists( 'Yoast_Tracking' ) ) {
+if ( ! class_exists( 'Yoast_Tracking' ) ) {
 	class Yoast_Tracking {
 
 		/**
@@ -34,13 +34,13 @@ if ( !class_exists( 'Yoast_Tracking' ) ) {
 
 			$hash = get_option( 'Yoast_Tracking_Hash' );
 
-			if ( !isset( $hash ) || !$hash || empty( $hash ) ) {
+			if ( ! isset( $hash ) || ! $hash || empty( $hash ) ) {
 				$hash = md5( site_url() );
 				update_option( 'Yoast_Tracking_Hash', $hash );
 			}
 
 			$data = get_transient( 'yoast_tracking_cache' );
-			if ( !$data ) {
+			if ( ! $data ) {
 
 				$pts = array();
 				foreach ( get_post_types( array( 'public' => true ) ) as $pt ) {
@@ -60,7 +60,8 @@ if ( !class_exists( 'Yoast_Tracking' ) ) {
 						'author'     => $theme_data->display( 'Author', false, false ),
 						'author_uri' => $theme_data->display( 'AuthorURI', false, false ),
 					);
-					if ( isset( $theme_data->template ) && !empty( $theme_data->template ) && $theme_data->parent() ) {
+					$theme_template = $theme_data->get_template();
+					if ( $theme_template !== '' && $theme_data->parent() ) {
 						$theme['template'] = array(
 							'version'    => $theme_data->parent()->display( 'Version', false, false ),
 							'name'       => $theme_data->parent()->display( 'Name', false, false ),
@@ -71,19 +72,12 @@ if ( !class_exists( 'Yoast_Tracking' ) ) {
 					} else {
 						$theme['template'] = '';
 					}
-				} else {
-					$theme_data = (object) get_theme_data( get_stylesheet_directory() . '/style.css' );
-					$theme      = array(
-						'version'  => $theme_data->Version,
-						'name'     => $theme_data->Name,
-						'author'   => $theme_data->Author,
-						'template' => $theme_data->Template,
-					);
+					unset( $theme_template );
 				}
 
 				$plugins = array();
 				foreach ( get_option( 'active_plugins' ) as $plugin_path ) {
-					if ( !function_exists( 'get_plugin_data' ) )
+					if ( ! function_exists( 'get_plugin_data' ) )
 						require_once( ABSPATH . 'wp-admin/includes/admin.php' );
 
 					$plugin_info = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin_path );
@@ -119,7 +113,7 @@ if ( !class_exists( 'Yoast_Tracking' ) ) {
 				);
 
 				$args = array(
-					'body' => $data
+					'body' => $data,
 				);
 				wp_remote_post( 'https://tracking.yoast.com/', $args );
 

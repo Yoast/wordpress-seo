@@ -5,7 +5,7 @@
  * @package Admin
  */
 
-if ( !defined( 'WPSEO_VERSION' ) ) {
+if ( ! defined( 'WPSEO_VERSION' ) ) {
 	header( 'HTTP/1.0 403 Forbidden' );
 	die;
 }
@@ -61,7 +61,7 @@ if ( isset( $_GET['fixmetadesc'] ) && check_admin_referer( 'wpseo-fix-metadesc',
 		$fcontent    = file_get_contents( $path . '/header.php' );
 		$msg         = '';
 		$backup_file = date( 'Ymd-H.i.s-' ) . 'header.php.wpseobak';
-		if ( !file_exists( $path . '/' . $backup_file ) ) {
+		if ( ! file_exists( $path . '/' . $backup_file ) ) {
 			$backupfile = fopen( $path . '/' . $backup_file, 'w+' );
 			if ( $backupfile ) {
 				fwrite( $backupfile, $fcontent );
@@ -73,7 +73,7 @@ if ( isset( $_GET['fixmetadesc'] ) && check_admin_referer( 'wpseo-fix-metadesc',
 				if ( $count > 0 ) {
 					$header_file = fopen( $path . '/header.php', 'w+' );
 					if ( $header_file ) {
-						if( fwrite( $header_file, $fcontent ) !== false ) {
+						if ( fwrite( $header_file, $fcontent ) !== false ) {
 							$msg .= __( 'Removed hardcoded meta description.', 'wordpress-seo' );
 							$options['theme_has_description']   = false;
 							$options['theme_description_found'] = '';
@@ -94,7 +94,7 @@ if ( isset( $_GET['fixmetadesc'] ) && check_admin_referer( 'wpseo-fix-metadesc',
 if ( is_array( $options['blocking_files'] ) && count( $options['blocking_files'] ) > 0 ) {
 	$options['blocking_files'] = array_unique( $options['blocking_files'] );
 	echo '<p id="blocking_files" class="wrong">'
-		. '<a href="javascript:wpseo_killBlockingFiles(\'' . wp_create_nonce( 'wpseo-blocking-files' ) . '\')" class="button fixit">' . __( 'Fix it.', 'wordpress-seo' ) . '</a>'
+		. '<a href="javascript:wpseo_killBlockingFiles(\'' . esc_js( wp_create_nonce( 'wpseo-blocking-files' ) ) . '\')" class="button fixit">' . __( 'Fix it.', 'wordpress-seo' ) . '</a>'
 		. __( 'The following file(s) is/are blocking your XML sitemaps from working properly:', 'wordpress-seo' ) . '<br />';
 	foreach ( $options['blocking_files'] as $file ) {
 		echo esc_html( $file ) . '<br/>';
@@ -104,7 +104,7 @@ if ( is_array( $options['blocking_files'] ) && count( $options['blocking_files']
 }
 
 
-if ( ( !isset( $options['theme_has_description'] ) || ( ( isset( $options['theme_has_description'] ) && $options['theme_has_description'] === true ) || $options['theme_description_found'] !== '' ) ) || ( isset( $_GET['checkmetadesc'] ) && check_admin_referer( 'wpseo-check-metadesc', 'nonce' ) ) ) {
+if ( ( ! isset( $options['theme_has_description'] ) || ( ( isset( $options['theme_has_description'] ) && $options['theme_has_description'] === true ) || $options['theme_description_found'] !== '' ) ) || ( isset( $_GET['checkmetadesc'] ) && check_admin_referer( 'wpseo-check-metadesc', 'nonce' ) ) ) {
 	wpseo_description_test();
 	// Renew the options after the test
 	$options = get_option( 'wpseo' );
@@ -115,8 +115,8 @@ echo $wpseo_admin_pages->hidden( 'ignore_meta_description_warning' );
 
 if ( $options['theme_description_found'] !== '' ) {
 	echo '<p id="metadesc_found notice" class="wrong settings_error">'
-		. '<a href="' . admin_url( 'admin.php?page=wpseo_dashboard&fixmetadesc&nonce=' . wp_create_nonce( 'wpseo-fix-metadesc' ) ) . '" class="button fixit">' . __( 'Fix it.', 'wordpress-seo' ) . '</a>'
-		. ' <a href="' . admin_url( 'admin.php?page=wpseo_dashboard&checkmetadesc&nonce=' . wp_create_nonce( 'wpseo-check-metadesc' ) ) . '" class="button checkit">' . __( 'Re-check theme.', 'wordpress-seo' ) . '</a>'
+		. '<a href="' . esc_url( add_query_arg( array( 'nonce' => wp_create_nonce( 'wpseo-fix-metadesc' ) ), admin_url( 'admin.php?page=wpseo_dashboard&fixmetadesc' ) ) ) . '" class="button fixit">' . __( 'Fix it.', 'wordpress-seo' ) . '</a>'
+		. ' <a href="' . esc_url( add_query_arg( array( 'nonce' => wp_create_nonce( 'wpseo-check-metadesc' ) ), admin_url( 'admin.php?page=wpseo_dashboard&checkmetadesc' ) ) ) . '" class="button checkit">' . __( 'Re-check theme.', 'wordpress-seo' ) . '</a>'
 		. __( 'Your theme contains a meta description, which blocks WordPress SEO from working properly, please delete the following line, or press fix it:', 'wordpress-seo' ) . '<br />';
 	echo '<code>' . esc_html( $options['theme_description_found'] ) . '</code>';
 	echo '</p>';
@@ -125,24 +125,24 @@ if ( $options['theme_description_found'] !== '' ) {
 
 if ( strpos( get_option( 'permalink_structure' ), '%postname%' ) === false && $options['ignore_permalink'] === false )
 	echo '<p id="wrong_permalink" class="wrong">'
-		. '<a href="' . admin_url( 'options-permalink.php' ) . '" class="button fixit">' . __( 'Fix it.', 'wordpress-seo' ) . '</a>'
-		. '<a href="javascript:wpseo_setIgnore(\'permalink\',\'wrong_permalink\',\'' . wp_create_nonce( 'wpseo-ignore' ) . '\');" class="button fixit">' . __( 'Ignore.', 'wordpress-seo' ) . '</a>'
+		. '<a href="' . esc_url( admin_url( 'options-permalink.php' ) ) . '" class="button fixit">' . __( 'Fix it.', 'wordpress-seo' ) . '</a>'
+		. '<a href="javascript:wpseo_setIgnore(\'permalink\',\'wrong_permalink\',\'' . esc_js( wp_create_nonce( 'wpseo-ignore' ) ) . '\');" class="button fixit">' . __( 'Ignore.', 'wordpress-seo' ) . '</a>'
 		. __( 'You do not have your postname in the URL of your posts and pages, it is highly recommended that you do. Consider setting your permalink structure to <strong>/%postname%/</strong>.', 'wordpress-seo' ) . '</p>';
 
 if ( get_option( 'page_comments' ) && $options['ignore_page_comments'] === false )
 	echo '<p id="wrong_page_comments" class="wrong">'
-		. '<a href="javascript:setWPOption(\'page_comments\',\'0\',\'wrong_page_comments\',\'' . wp_create_nonce( 'wpseo-setoption' ) . '\');" class="button fixit">' . __( 'Fix it.', 'wordpress-seo' ) . '</a>'
-		. '<a href="javascript:wpseo_setIgnore(\'page_comments\',\'wrong_page_comments\',\'' . wp_create_nonce( 'wpseo-ignore' ) . '\');" class="button fixit">' . __( 'Ignore.', 'wordpress-seo' ) . '</a>'
+		. '<a href="javascript:setWPOption(\'page_comments\',\'0\',\'wrong_page_comments\',\'' . esc_js( wp_create_nonce( 'wpseo-setoption' ) ) . '\');" class="button fixit">' . __( 'Fix it.', 'wordpress-seo' ) . '</a>'
+		. '<a href="javascript:wpseo_setIgnore(\'page_comments\',\'wrong_page_comments\',\'' . esc_js( wp_create_nonce( 'wpseo-ignore' ) ) . '\');" class="button fixit">' . __( 'Ignore.', 'wordpress-seo' ) . '</a>'
 		. __( 'Paging comments is enabled, this is not needed in 999 out of 1000 cases, so the suggestion is to disable it, to do that, simply uncheck the box before "Break comments into pages..."', 'wordpress-seo' ) . '</p>';
 
 echo '<h2>' . __( 'General', 'wordpress-seo' ) . '</h2>';
 
 if ( $options['ignore_tour'] === true ) {
-	echo '<label class="select">' . __( 'Introduction Tour:', 'wordpress-seo' ) . '</label><a class="button-secondary" href="' . admin_url( 'admin.php?page=wpseo_dashboard&wpseo_restart_tour' ) . '">' . __( 'Start Tour', 'wordpress-seo' ) . '</a>';
+	echo '<label class="select">' . __( 'Introduction Tour:', 'wordpress-seo' ) . '</label><a class="button-secondary" href="' . esc_url( admin_url( 'admin.php?page=wpseo_dashboard&wpseo_restart_tour' ) ) . '">' . __( 'Start Tour', 'wordpress-seo' ) . '</a>';
 	echo '<p class="desc label">' . __( 'Take this tour to quickly learn about the use of this plugin.', 'wordpress-seo' ) . '</p>';
 }
 
-echo '<label class="select">' . __( 'Default Settings:', 'wordpress-seo' ) . '</label><a class="button-secondary" href="' . admin_url( 'admin.php?page=wpseo_dashboard&wpseo_reset_defaults&nonce='. wp_create_nonce( 'wpseo_reset_defaults' ) ) . '">' . __( 'Reset Default Settings', 'wordpress-seo' ) . '</a>';
+echo '<label class="select">' . __( 'Default Settings:', 'wordpress-seo' ) . '</label><a class="button-secondary" href="' . esc_url( add_query_arg( array( 'nonce' => wp_create_nonce( 'wpseo_reset_defaults' ) ), admin_url( 'admin.php?page=wpseo_dashboard&wpseo_reset_defaults' ) ) ) . '">' . __( 'Reset Default Settings', 'wordpress-seo' ) . '</a>';
 echo '<p class="desc label">' . __( 'If you want to restore a site to the default WordPress SEO settings, press this button.', 'wordpress-seo' ) . '</p>';
 
 echo '<h2>' . __( 'Tracking', 'wordpress-seo' ) . '</h2>';
@@ -156,7 +156,7 @@ echo '<p class="desc">' . __( 'Unchecking this box allows authors and editors to
 echo '<h2>' . __( 'Webmaster Tools', 'wordpress-seo' ) . '</h2>';
 echo '<p>' . __( 'You can use the boxes below to verify with the different Webmaster Tools, if your site is already verified, you can just forget about these. Enter the verify meta values for:', 'wordpress-seo' ) . '</p>';
 echo $wpseo_admin_pages->textinput( 'googleverify', '<a target="_blank" href="' . esc_url( 'https://www.google.com/webmasters/verification/verification?hl=en&siteUrl=' . urlencode( get_bloginfo( 'url' ) ) . '/' ) . '">' . __( 'Google Webmaster Tools', 'wordpress-seo' ) . '</a>' );
-echo $wpseo_admin_pages->textinput( 'msverify', '<a target="_blank" href="' . esc_url( 'http://www.bing.com/webmaster/?rfp=1#/Dashboard/?url=' . str_replace( 'http://', '', get_bloginfo( 'url' ) ) ) . '">' . __( 'Bing Webmaster Tools', 'wordpress-seo' ) . '</a>' );
+echo $wpseo_admin_pages->textinput( 'msverify', '<a target="_blank" href="' . esc_url( 'http://www.bing.com/webmaster/?rfp=1#/Dashboard/?url=' . urlencode( str_replace( 'http://', '', get_bloginfo( 'url' ) ) ) ) . '">' . __( 'Bing Webmaster Tools', 'wordpress-seo' ) . '</a>' );
 echo $wpseo_admin_pages->textinput( 'alexaverify', '<a target="_blank" href="http://www.alexa.com/siteowners/claim">' . __( 'Alexa Verification ID', 'wordpress-seo' ) . '</a>' );
 
 do_action( 'wpseo_dashboard' );
@@ -191,20 +191,20 @@ function robots_meta_handler() {
 					$pieces = explode( ',', $post->robotsmeta );
 					foreach ( $pieces as $meta ) {
 						switch ( $meta ) {
-						case 'noindex':
-							wpseo_set_value( 'meta-robots-noindex', true, $post->ID );
-							break;
-						case 'index':
-							wpseo_set_value( 'meta-robots-noindex', 2, $post->ID );
-							break;
-						case 'nofollow':
-							wpseo_set_value( 'meta-robots-nofollow', true, $post->ID );
-							break;
-						case 'follow':
-							// No need to store it
-							break;
-						default:
-							// do nothing
+							case 'noindex':
+								wpseo_set_value( 'meta-robots-noindex', true, $post->ID );
+								break;
+							case 'index':
+								wpseo_set_value( 'meta-robots-noindex', 2, $post->ID );
+								break;
+							case 'nofollow':
+								wpseo_set_value( 'meta-robots-nofollow', true, $post->ID );
+								break;
+							case 'follow':
+								// No need to store it
+								break;
+							default:
+								// do nothing
 						}
 					}
 				}
@@ -212,9 +212,9 @@ function robots_meta_handler() {
 
 			// show notice to deactivate robots meta plugin
 			add_action( 'wpseo_all_admin_notices', 'wpseo_deactivate_link_robots_meta_notice' );
-
+		}
 		// show notice to import robots meta settings
-		} else {
+		else {
 			add_action( 'wpseo_all_admin_notices', 'wpseo_import_robots_meta_notice' );
 		}
 	}
@@ -235,27 +235,27 @@ function aioseo_handler() {
 
 			// show notice that aioseo has been deactivated
 			add_action( 'wpseo_all_admin_notices', 'wpseo_deactivate_aioseo_notice' );
+		}
+		// import the settings
+		// TODO: currently not deleting aioseop postmeta or handling old aioseop format
+		else if ( isset( $_GET['import_aioseo'] ) && $_GET['import_aioseo'] === '1' ) {
+			$replace = false;
 
-			// import the settings
-			// TODO: currently not deleting aioseop postmeta or handling old aioseop format
-		} else if ( isset( $_GET['import_aioseo'] ) && $_GET['import_aioseo'] === '1' ) {
-				$replace = false;
+			replace_meta( '_aioseop_description', '_yoast_wpseo_metadesc', $replace );
+			replace_meta( '_aioseop_keywords', '_yoast_wpseo_metakeywords', $replace );
+			replace_meta( '_aioseop_title', '_yoast_wpseo_title', $replace );
 
-				replace_meta( '_aioseop_description', '_yoast_wpseo_metadesc', $replace );
-				replace_meta( '_aioseop_keywords', '_yoast_wpseo_metakeywords', $replace );
-				replace_meta( '_aioseop_title', '_yoast_wpseo_title', $replace );
+			if ( isset( $_POST['wpseo']['importaioseoold'] ) ) {
+				replace_meta( 'description', '_yoast_wpseo_metadesc', $replace );
+				replace_meta( 'keywords', '_yoast_wpseo_metakeywords', $replace );
+				replace_meta( 'title', '_yoast_wpseo_title', $replace );
+			}
 
-				if ( isset( $_POST['wpseo']['importaioseoold'] ) ) {
-					replace_meta( 'description', '_yoast_wpseo_metadesc', $replace );
-					replace_meta( 'keywords', '_yoast_wpseo_metakeywords', $replace );
-					replace_meta( 'title', '_yoast_wpseo_title', $replace );
-				}
-
-				// show notice to deactivate aioseo plugin
-				add_action( 'wpseo_all_admin_notices', 'wpseo_deactivate_link_aioseo_notice' );
-
-			// show notice to import aioseo settings
-		} else {
+			// show notice to deactivate aioseo plugin
+			add_action( 'wpseo_all_admin_notices', 'wpseo_deactivate_link_aioseo_notice' );
+		}
+		// show notice to import aioseo settings
+		else {
 			add_action( 'wpseo_all_admin_notices', 'wpseo_import_aioseo_setting_notice' );
 		}
 	}
@@ -267,7 +267,7 @@ function aioseo_handler() {
  * @since 1.4.8
  */
 function wpseo_import_robots_meta_notice() {
-	echo '<div class="updated"><p>' . sprintf( __( 'The plugin Robots-Meta has been detected. Do you want to %simport its settings%s.' ), '<a href="' . admin_url( 'admin.php?page=wpseo_dashboard&import_robots_meta=1' ) . '">', '</a>' ) . '</p></div>';
+	echo '<div class="updated"><p>' . sprintf( __( 'The plugin Robots-Meta has been detected. Do you want to %simport its settings%s.' ), '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_dashboard&import_robots_meta=1' ) ) . '">', '</a>' ) . '</p></div>';
 }
 
 /**
@@ -276,7 +276,7 @@ function wpseo_import_robots_meta_notice() {
  * @since 1.4.8
  */
 function wpseo_deactivate_link_robots_meta_notice() {
-	echo '<div class="updated"><p>' . sprintf( __( 'Robots-Meta settings has been imported. We recommend %sdisabling the Robots-Meta plugin%s to avoid any conflicts' ), '<a href="' . admin_url( 'admin.php?page=wpseo_dashboard&deactivate_robots_meta=1' ) . '">', '</a>' ) . '</p></div>';
+	echo '<div class="updated"><p>' . sprintf( __( 'Robots-Meta settings has been imported. We recommend %sdisabling the Robots-Meta plugin%s to avoid any conflicts' ), '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_dashboard&deactivate_robots_meta=1' ) ) . '">', '</a>' ) . '</p></div>';
 }
 
 /**
@@ -294,7 +294,7 @@ function wpseo_deactivate_robots_meta_notice() {
  * @since 1.4.8
  */
 function wpseo_import_aioseo_setting_notice() {
-	echo '<div class="updated"><p>' . sprintf( __( 'The plugin All-In-One-SEO has been detected. Do you want to %simport its settings%s.' ), '<a href="' . admin_url( 'admin.php?page=wpseo_dashboard&import_aioseo=1' ) . '">', '</a>' ) . '</p></div>';
+	echo '<div class="updated"><p>' . sprintf( __( 'The plugin All-In-One-SEO has been detected. Do you want to %simport its settings%s.' ), '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_dashboard&import_aioseo=1' ) ) . '">', '</a>' ) . '</p></div>';
 }
 
 /**
@@ -303,7 +303,7 @@ function wpseo_import_aioseo_setting_notice() {
  * @since 1.4.8
  */
 function wpseo_deactivate_link_aioseo_notice( $active ) {
-	echo '<div class="updated"><p>' . sprintf( __( 'All in One SEO data successfully imported. Would you like to %sdisable the All in One SEO plugin%s.' ), '<a href="' . admin_url( 'admin.php?page=wpseo_dashboard&deactivate_aioseo=1' ) . '">', '</a>' ) . '</p></div>';
+	echo '<div class="updated"><p>' . sprintf( __( 'All in One SEO data successfully imported. Would you like to %sdisable the All in One SEO plugin%s.' ), '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_dashboard&deactivate_aioseo=1' ) ) . '">', '</a>' ) . '</p></div>';
 }
 
 /**
@@ -332,7 +332,7 @@ function replace_meta( $old_metakey, $new_metakey, $replace = false ) {
 	foreach ( $oldies as $old ) {
 		// Prevent inserting new meta values for posts that already have a value for that new meta key
 		$check = get_post_meta( $old->post_id, $new_metakey, true );
-		if ( !$check || empty( $check ) )
+		if ( ! $check || empty( $check ) )
 			update_post_meta( $old->post_id, $new_metakey, $old->meta_value );
 
 		if ( $replace )

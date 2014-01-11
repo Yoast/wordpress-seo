@@ -229,10 +229,12 @@ class WPSEO_Frontend {
 	 * @return string
 	 */
 	function get_default_title( $sep, $seplocation, $title = '' ) {
-		if ( 'right' == $seplocation )
+		if ( 'right' == $seplocation ) {
 			$regex = '`\s*' . preg_quote( trim( $sep ), '`' ) . '\s*`u';
-		else
+		}
+		else {
 			$regex = '`^\s*' . preg_quote( trim( $sep ), '`' ) . '\s*`u';
+		}
 		$title = preg_replace( $regex, '', $title );
 
 		if ( empty( $title ) ) {
@@ -376,7 +378,7 @@ class WPSEO_Frontend {
 			$post_type = get_query_var( 'post_type' );
 			$title     = $this->get_title_from_options( 'title-ptarchive-' . $post_type );
 
-			if ( !is_string( $title ) || $title === '' ) {
+			if ( ! is_string( $title ) || $title === '' ) {
 				$post_type_obj = get_post_type_object( $post_type );
 				if ( isset( $post_type_obj->labels->menu_name ) )
 					$title_part = $post_type_obj->labels->menu_name;
@@ -411,7 +413,7 @@ class WPSEO_Frontend {
 
 					global $post;
 					$original_p      = $post;
-					$post->post_date = sprintf( "%04d-%02d-%02d 00:00:00", get_query_var( 'year' ), get_query_var( 'monthnum' ), get_query_var( 'day' ) );
+					$post->post_date = sprintf( '%04d-%02d-%02d 00:00:00', get_query_var( 'year' ), get_query_var( 'monthnum' ), get_query_var( 'day' ) );
 					$title_part      = sprintf( __( '%s Archives', 'wordpress-seo' ), get_the_date() );
 					$post            = $original_p;
 				}
@@ -636,6 +638,7 @@ class WPSEO_Frontend {
 		if ( is_singular() ) {
 			if ( ! $no_override && wpseo_get_value( 'canonical' ) && wpseo_get_value( 'canonical' ) != '' ) {
 				$canonical = wpseo_get_value( 'canonical' );
+				// @todo: check if this variable setting makes sense as it does not seem to be used in this instance
 				$skip_pagination = true;
 			} else {
 				$obj       = get_queried_object();
@@ -667,7 +670,7 @@ class WPSEO_Frontend {
 				$canonical = get_permalink( get_option( 'page_for_posts' ) );
 			}
 			else if ( is_tax() || is_tag() || is_category() ) {
-				$term      = get_queried_object();
+				$term = get_queried_object();
 				if ( ! $no_override ) {
 					$canonical = wpseo_get_term_meta( $term, $term->taxonomy, 'canonical' );
 					if ( $canonical )
@@ -706,7 +709,7 @@ class WPSEO_Frontend {
 				}
 				else {
 					if ( is_front_page() ) {
-						$base      = $GLOBALS['wp_rewrite']->using_index_permalinks() ? 'index.php/' : '/';
+						$base      = $wp_rewrite->using_index_permalinks() ? 'index.php/' : '/';
 						$canonical = home_url( $base );
 					}
 					$canonical = user_trailingslashit( trailingslashit( $canonical ) . trailingslashit( $wp_rewrite->pagination_base ) . get_query_var( 'paged' ) );
@@ -754,7 +757,7 @@ class WPSEO_Frontend {
 					$paged = 1;
 
 				if ( $paged == 2 )
-					$this->adjacent_rel_link( "prev", $url, $paged - 1, true );
+					$this->adjacent_rel_link( 'prev', $url, $paged - 1, true );
 
 				// Make sure to use index.php when needed, done after paged == 2 check so the prev links to homepage will not have index.php erroneously.
 				if ( is_front_page() ) {
@@ -763,10 +766,10 @@ class WPSEO_Frontend {
 				}
 
 				if ( $paged > 2 )
-					$this->adjacent_rel_link( "prev", $url, $paged - 1, true );
+					$this->adjacent_rel_link( 'prev', $url, $paged - 1, true );
 
 				if ( $paged < $wp_query->max_num_pages )
-					$this->adjacent_rel_link( "next", $url, $paged + 1, true );
+					$this->adjacent_rel_link( 'next', $url, $paged + 1, true );
 			}
 		}
 		else {
@@ -788,9 +791,9 @@ class WPSEO_Frontend {
 					$usebase = false;
 
 				if ( $page > 1 )
-					$this->adjacent_rel_link( "prev", $url, $page - 1, $usebase, 'single_paged' );
+					$this->adjacent_rel_link( 'prev', $url, $page - 1, $usebase, 'single_paged' );
 				if ( $page < $numpages )
-					$this->adjacent_rel_link( "next", $url, $page + 1, $usebase, 'single_paged' );
+					$this->adjacent_rel_link( 'next', $url, $page + 1, $usebase, 'single_paged' );
 			}
 		}
 	}
@@ -816,12 +819,13 @@ class WPSEO_Frontend {
 		else {
 			if ( $page > 1 ) {
 				$base = '';
-				if ( $incl_pagination_base )
+				if ( $incl_pagination_base ) {
 					$base = trailingslashit( $wp_rewrite->pagination_base );
+				}
 				$url = user_trailingslashit( trailingslashit( $url ) . $base . $page );
 			}
 		}
-		$link = apply_filters( "wpseo_" . $rel . "_rel_link", "<link rel=\"$rel\" href=\"$url\" />\n" );
+		$link = apply_filters( 'wpseo_' . $rel . '_rel_link', '<link rel="' . $rel . '" href="' . esc_url( $url ) . "\" />\n" );
 
 		if ( $link )
 			echo $link;
@@ -832,7 +836,7 @@ class WPSEO_Frontend {
 	 */
 	public function publisher() {
 		if ( $this->options['plus-publisher'] !== '' )
-			echo '<link rel="publisher" href="' . esc_attr( $this->options['plus-publisher'] ) . '"/>' . "\n";
+			echo '<link rel="publisher" href="' . esc_url( $this->options['plus-publisher'] ) . '"/>' . "\n";
 	}
 
 	/**
@@ -849,7 +853,7 @@ class WPSEO_Frontend {
 
 		}
 		else if ( is_singular() ) {
-			if( is_object( $post ) ) {
+			if ( is_object( $post ) ) {
 				$gplus = get_the_author_meta( 'googleplus', $post->post_author );
 	
 				// unset gplus when authorship is disabled for this post type
@@ -862,7 +866,7 @@ class WPSEO_Frontend {
 		$gplus = apply_filters( 'wpseo_author_link', $gplus );
 
 		if ( $gplus && $gplus !== '' )
-			echo '<link rel="author" href="' . $gplus . '"/>' . "\n";
+			echo '<link rel="author" href="' . esc_url( $gplus ) . '"/>' . "\n";
 
 	}
 
@@ -1010,7 +1014,7 @@ class WPSEO_Frontend {
 	function page_redirect() {
 		if ( is_singular() ) {
 			global $post;
-			if ( ! isset( $post ) || !is_object( $post ) )
+			if ( ! isset( $post ) || ! is_object( $post ) )
 				return;
 			$redir = wpseo_get_value( 'redirect', $post->ID );
 			if ( ! empty( $redir ) ) {
@@ -1034,7 +1038,7 @@ class WPSEO_Frontend {
 	 */
 	public function noindex_feed() {
 		if ( is_feed() && headers_sent() === false )
-			header( "X-Robots-Tag: noindex,follow", true );
+			header( 'X-Robots-Tag: noindex,follow', true );
 	}
 
 	/**
@@ -1123,8 +1127,9 @@ class WPSEO_Frontend {
 			$url          = get_permalink( $post->ID );
 			$hash         = sanitize_text_field( $_GET['replytocom'] );
 			$query_string = remove_query_arg( 'replytocom', $_SERVER['QUERY_STRING'] );
-			if ( ! empty( $query_string ) )
+			if ( ! empty( $query_string ) ) {
 				$url .= '?' . $query_string;
+			}
 			$url .= '#comment-' . $hash;
 			wp_safe_redirect( $url, 301 );
 			exit;
@@ -1142,14 +1147,14 @@ class WPSEO_Frontend {
 
 		// Recreate current URL
 		$cururl = 'http';
-		if ( isset( $_SERVER["HTTPS"] ) && $_SERVER["HTTPS"] == "on" ) {
-			$cururl .= "s";
+		if ( isset( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] == 'on' ) {
+			$cururl .= 's';
 		}
-		$cururl .= "://";
-		if ( $_SERVER["SERVER_PORT"] != "80" && $_SERVER["SERVER_PORT"] != "443")
-			$cururl .= $_SERVER["SERVER_NAME"] . ":" . $_SERVER["SERVER_PORT"] . $_SERVER["REQUEST_URI"];
+		$cururl .= '://';
+		if ( $_SERVER['SERVER_PORT'] != '80' && $_SERVER['SERVER_PORT'] != '443')
+			$cururl .= $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'] . $_SERVER['REQUEST_URI'];
 		else
-			$cururl .= $_SERVER["SERVER_NAME"] . $_SERVER["REQUEST_URI"];
+			$cururl .= $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
 
 		$properurl = '';
 
@@ -1171,7 +1176,7 @@ class WPSEO_Frontend {
 			}
 
 			// Fix reply to comment links, whoever decided this should be a GET variable?
-			$result = preg_match( '`(\?replytocom=[^&]+)`', $_SERVER["REQUEST_URI"], $matches );
+			$result = preg_match( '`(\?replytocom=[^&]+)`', $_SERVER['REQUEST_URI'], $matches );
 			if ( $result )
 				$properurl .= str_replace( '?replytocom=', '#comment-', $matches[0] );
 
@@ -1280,13 +1285,13 @@ class WPSEO_Frontend {
 
 //		$author_link   = '<a rel="' . ( ( $no_follow ) ? 'nofollow ' : '' ) . 'author" href="' . get_author_posts_url( $post->post_author ) . '">' . get_the_author() . '</a>';
 		$author_link = '';
-		if( is_object( $post ) ) {
-			$author_link   = '<a rel="author" href="' . get_author_posts_url( $post->post_author ) . '">' . get_the_author() . '</a>';
+		if ( is_object( $post ) ) {
+			$author_link = '<a rel="author" href="' . esc_url( get_author_posts_url( $post->post_author ) ) . '">' . get_the_author() . '</a>';
 		}
 
-				$post_link     = '<a ' . $no_follow_attr . 'href="' . get_permalink() . '">' . get_the_title() . "</a>";
-		$blog_link     = '<a ' . $no_follow_attr . 'href="' . get_bloginfo( 'url' ) . '">' . get_bloginfo( 'name' ) . '</a>';
-		$blog_desc_link = '<a ' . $no_follow_attr . 'href="' . get_bloginfo( 'url' ) . '">' . get_bloginfo( 'name' ) . ' - ' . get_bloginfo( 'description' ) . '</a>';
+		$post_link     = '<a ' . $no_follow_attr . 'href="' . esc_url( get_permalink() ) . '">' . get_the_title() . '</a>';
+		$blog_link     = '<a ' . $no_follow_attr . 'href="' . esc_url( get_bloginfo( 'url' ) ) . '">' . get_bloginfo( 'name' ) . '</a>';
+		$blog_desc_link = '<a ' . $no_follow_attr . 'href="' . esc_url( get_bloginfo( 'url' ) ) . '">' . get_bloginfo( 'name' ) . ' - ' . get_bloginfo( 'description' ) . '</a>';
 
 		$content = stripslashes( trim( $content ) );
 		$content = str_replace( '%%AUTHORLINK%%', $author_link, $content );
@@ -1434,7 +1439,7 @@ class WPSEO_Frontend {
 			define( 'DONOTMINIFY', true );
 
 		global $wp_version;
-		if ( $_SERVER['HTTP_USER_AGENT'] == "WordPress/${wp_version}; " . get_bloginfo( 'url' ) . " - Yoast" )
+		if ( $_SERVER['HTTP_USER_AGENT'] == "WordPress/${wp_version}; " . get_bloginfo( 'url' ) . ' - Yoast' )
 			return 'This is a Yoast Test Title';
 		return $title;
 	}

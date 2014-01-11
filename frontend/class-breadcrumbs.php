@@ -3,8 +3,8 @@
  * @package Frontend
  */
 
-if ( !defined('WPSEO_VERSION') ) {
-	header('HTTP/1.0 403 Forbidden');
+if ( ! defined( 'WPSEO_VERSION' ) ) {
+	header( 'HTTP/1.0 403 Forbidden' );
 	die;
 }
 
@@ -65,17 +65,17 @@ class WPSEO_Breadcrumbs {
 			array(
 				'url'  => get_home_url(),
 				'text' => $options['breadcrumbs-home'],
-			)
+			),
 		);
 
-		if ( "page" == $on_front && 'post' == get_post_type() && !is_home() ) {
+		if ( 'page' == $on_front && 'post' == get_post_type() && ! is_home() ) {
 			if ( $blog_page && $options['breadcrumbs-blog-remove'] === false )
 				$links[] = array( 'id' => $blog_page );
 		}
 
-		if ( ( $on_front == "page" && is_front_page() ) || ( $on_front == "posts" && is_home() ) ) {
+		if ( ( $on_front == 'page' && is_front_page() ) || ( $on_front == 'posts' && is_home() ) ) {
 
-		} else if ( $on_front == "page" && is_home() ) {
+		} else if ( $on_front == 'page' && is_home() ) {
 			$links[] = array( 'id' => $blog_page );
 		} else if ( is_singular() ) {
 			if ( get_post_type_archive_link( $post->post_type ) ) {
@@ -98,37 +98,37 @@ class WPSEO_Breadcrumbs {
 						}
 
 						// As we could still have two subcategories, from different parent categories, let's pick the one with the lowest ordered ancestor.
-                        $parents_count = 0;
-                        $term_order = 9999; //because ASC
-                        reset( $terms_by_id );
-                        $deepest_term = current($terms_by_id);
-                        foreach ( $terms_by_id as $term ) {
-                            $parents = $this->get_term_parents( $term );
+						$parents_count = 0;
+						$term_order    = 9999; //because ASC
+						reset( $terms_by_id );
+						$deepest_term = current( $terms_by_id );
+						foreach ( $terms_by_id as $term ) {
+							$parents = $this->get_term_parents( $term );
 
-                            if ( sizeof( $parents ) >= $parents_count ) {
-                                $parents_count = sizeof( $parents );
+							if ( sizeof( $parents ) >= $parents_count ) {
+								$parents_count = sizeof( $parents );
 
-                                //if higher count
-                                if ( sizeof( $parents ) > $parents_count ) {
-                                    //reset order
-                                    $term_order = 9999;
-                                }
+								//if higher count
+								if ( sizeof( $parents ) > $parents_count ) {
+									//reset order
+									$term_order = 9999;
+								}
 
-                                $parent_order = 9999; //set default order
-                                foreach ( $parents as $parent ) {
-                                    if ( $parent->parent == 0 && isset( $parent->term_order ) ) {
-                                        $parent_order = $parent->term_order;
-                                    }
-                                }
+								$parent_order = 9999; //set default order
+								foreach ( $parents as $parent ) {
+									if ( $parent->parent == 0 && isset( $parent->term_order ) ) {
+										$parent_order = $parent->term_order;
+									}
+								}
 
-                                //check if parent has lowest order
-                                if ( $parent_order < $term_order ) {
-                                    $term_order = $parent_order;
+								//check if parent has lowest order
+								if ( $parent_order < $term_order ) {
+									$term_order = $parent_order;
 
-                                    $deepest_term = $term;
-                                }
-                            }
-                        }
+									$deepest_term = $term;
+								}
+							}
+						}
 
 						if ( is_taxonomy_hierarchical( $main_tax ) && $deepest_term->parent != 0 ) {
 							foreach ( $this->get_term_parents( $deepest_term ) as $parent_term ) {
@@ -137,7 +137,6 @@ class WPSEO_Breadcrumbs {
 						}
 						$links[] = array( 'term' => $deepest_term );
 					}
-
 				}
 			} else {
 				if ( isset( $post->ancestors ) ) {
@@ -186,7 +185,7 @@ class WPSEO_Breadcrumbs {
 					global $wp_locale;
 					$links[] = array(
 						'url'  => get_month_link( get_query_var( 'year' ), get_query_var( 'monthnum' ) ),
-						'text' => $wp_locale->get_month( get_query_var( 'monthnum' ) ) . ' ' . get_query_var( 'year' )
+						'text' => $wp_locale->get_month( get_query_var( 'monthnum' ) ) . ' ' . get_query_var( 'year' ),
 					);
 					$links[] = array( 'text' => $bc . ' ' . get_the_date() );
 				} else if ( is_month() ) {
@@ -203,7 +202,7 @@ class WPSEO_Breadcrumbs {
 
 				if ( 0 !== get_query_var( 'year' ) || ( 0 !== get_query_var( 'monthnum' ) || 0 !== get_query_var( 'day' ) ) ) {
 					
-					if ( 'page' == $on_front && !is_home() ) {
+					if ( 'page' == $on_front && ! is_home() ) {
 						if ( $blog_page && $options['breadcrumbs-blog-remove'] === false )
 							$links[] = array( 'id' => $blog_page );
 					}
@@ -213,11 +212,11 @@ class WPSEO_Breadcrumbs {
 					if ( 0 !== get_query_var( 'day' ) ) {
 						$links[] = array(
 							'url'  => get_month_link( get_query_var( 'year' ), get_query_var( 'monthnum' ) ),
-							'text' => $GLOBALS['wp_locale']->get_month( get_query_var( 'monthnum' ) ) . ' ' . get_query_var( 'year' )
+							'text' => $GLOBALS['wp_locale']->get_month( get_query_var( 'monthnum' ) ) . ' ' . get_query_var( 'year' ),
 						);
 						global $post;
 						$original_p = $post;
-						$post->post_date = sprintf("%04d-%02d-%02d 00:00:00", get_query_var( 'year' ), get_query_var( 'monthnum' ), get_query_var( 'day' ) );
+						$post->post_date = sprintf( '%04d-%02d-%02d 00:00:00', get_query_var( 'year' ), get_query_var( 'monthnum' ), get_query_var( 'day' ) );
 						$links[] = array( 'text' => $bc . ' ' . get_the_date() );
 						$post = $original_p;
 
@@ -276,15 +275,17 @@ class WPSEO_Breadcrumbs {
 			if ( isset( $link['id'] ) ) {
 				$link['url']  = get_permalink( $link['id'] );
 				$link['text'] = wpseo_get_value( 'bctitle', $link['id'] );
-				if ( empty( $link['text'] ) )
+				if ( empty( $link['text'] ) ) {
 					$link['text'] = strip_tags( get_the_title( $link['id'] ) );
+				}
 				$link['text'] = apply_filters( 'wp_seo_get_bc_title', $link['text'], $link['id'] );
 			}
 
 			if ( isset( $link['term'] ) ) {
 				$bctitle = wpseo_get_term_meta( $link['term'], $link['term']->taxonomy, 'bctitle' );
-				if ( !$bctitle )
+				if ( ! $bctitle ) {
 					$bctitle = $link['term']->name;
+				}
 				$link['url']  = get_term_link( $link['term'] );
 				$link['text'] = $bctitle;
 			}
@@ -297,9 +298,10 @@ class WPSEO_Breadcrumbs {
 				if ( isset( $opt['bctitle-ptarchive-' . $link['ptarchive']] ) && $opt['bctitle-ptarchive-' . $link['ptarchive']] !== '' ) {
 
 					$archive_title = $opt['bctitle-ptarchive-' . $link['ptarchive']];
-				} else {
+				}
+				else {
 					$post_type_obj = get_post_type_object( $link['ptarchive'] );
-					if( isset( $post_type_obj->label ) && $post_type_obj->label !== '' ) {
+					if ( isset( $post_type_obj->label ) && $post_type_obj->label !== '' ) {
 						$archive_title = $post_type_obj->label;
 					}
 					else {
@@ -323,17 +325,17 @@ class WPSEO_Breadcrumbs {
 			}
 			$link_output .= '</' . $element . '>';
 
-			$link_sep = ( !empty( $output ) ? " $sep " : '' );
+			$link_sep    = ( ! empty( $output ) ? " $sep " : '' );
 			$link_output = apply_filters( 'wpseo_breadcrumb_single_link', $link_output, $link );
-			$output .= apply_filters( 'wpseo_breadcrumb_single_link_with_sep', $link_sep . $link_output, $link );
+			$output     .= apply_filters( 'wpseo_breadcrumb_single_link_with_sep', $link_sep . $link_output, $link );
 		}
 
 		$id = apply_filters( 'wpseo_breadcrumb_output_id', false );
-		if ( !empty( $id ) )
+		if ( ! empty( $id ) )
 			$id = ' id="' . esc_attr( $id ) . '"';
 
 		$class = apply_filters( 'wpseo_breadcrumb_output_class', false );
-		if ( !empty( $class ) )
+		if ( ! empty( $class ) )
 			$class = ' class="' . esc_attr( $class ) . '"';
 
 		$wrapper = apply_filters( 'wpseo_breadcrumb_output_wrapper', $wrapper );
@@ -345,7 +347,7 @@ class WPSEO_Breadcrumbs {
 global $wpseo_bc;
 $wpseo_bc = new WPSEO_Breadcrumbs();
 
-if ( !function_exists( 'yoast_breadcrumb' ) ) {
+if ( ! function_exists( 'yoast_breadcrumb' ) ) {
 	/**
 	 * Template tag for breadcrumbs.
 	 *

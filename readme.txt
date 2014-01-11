@@ -108,26 +108,40 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 
 = 1.5.0-beta
 
+This release contains tons and tons of bugfixes and security improvements. Credits for this release go to Juliette Reinders Folmer aka [Jrf](http://profiles.wordpress.org/jrf).
+Also a heartfelt thanks go out to the beta testers who tested all the changes.
+
+This version also incorporates the [SEO Extended](http://wordpress.org/plugins/seo-extended/) plugin functionality into WP SEO with graceful thanks to [Faison](http://profiles.wordpress.org/faison/) and [Scott Offord](http://profiles.wordpress.org/scottofford/) for their great work on this plugin.
+
 **This version contains a lot of changes under the hood which will break backward compatibility, i.e. once you've upgraded, downgrading will break things.** So make sure you make a backup of your settings before upgrading.
 
 
 * Bugfixes
-	* Major overhaul of the way the plugin deals with options. This should fix a truck-load of bugs and provides improved security. - props [Jrf](http://profiles.wordpress.org/jrf).
-	* Major overhaul of the way the plugin deals with post meta values. This should fix a truck-load of bugs and provides improved security. - props [Jrf](http://profiles.wordpress.org/jrf).
-	* Bow out early from displaying the post/taxonomy metabox if the post/taxonomy is not public (no use adding meta data which will never be displayed) - props [Jrf](http://profiles.wordpress.org/jrf).
-	* Added error message when user tries to restore to defaults a non-existent blog (only applies to multi-site installations) - props [Jrf](http://profiles.wordpress.org/jrf).
-	* Fix bug in delete_sitemaps() - wrong retrieval of needed options - props [Jrf](http://profiles.wordpress.org/jrf).
-	* Failed meta description removal would still change the relevant option as if it had succeeded - props [Jrf](http://profiles.wordpress.org/jrf).
-	* Corrected adding of hidden fb_admins fields to social form - props [Jrf](http://profiles.wordpress.org/jrf).
-	* Renamed a number of options as they ran the risk of being overwritten by post type/taxonomy options which could get the same name - props [Jrf](http://profiles.wordpress.org/jrf).
-	* Added sanitation/improved validation to $_GET and $_POST variables if/when they are used in a manner which could cause security issues - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Major overhaul of the way the plugin deals with options. This should fix a truck-load of bugs and provides improved security.
+	* Major overhaul of the way the plugin deals with post meta values. This should fix a truck-load of bugs and provides improved security.
+	* Bow out early from displaying the post/taxonomy metabox if the post/taxonomy is not public (no use adding meta data which will never be displayed).
+	* Added error message when user tries to restore to defaults a non-existent blog (only applies to multi-site installations).
+	* Fix bug in delete_sitemaps() - wrong retrieval of needed options.
+	* Failed meta description removal would still change the relevant option as if it had succeeded.
+	* Corrected adding of hidden fb_admins fields to social form.
+	* Renamed a number of options as they ran the risk of being overwritten by post type/taxonomy options which could get the same name.
+	* Added sanitation/improved validation to $_GET and $_POST variables if/when they are used in a manner which could cause security issues.
+	* Admin -> Titles & Meta's -> Post types would show attachments even when attachment redirection to post was enabled
+	* Fixed: wpseo_invalid_custom_taxonomy() message (html issue)
+	* Fixed: wpseo_translate_score would never return score, but always the css value
 
 
 * Enhancements
-	* The [SEO Extended](http://wordpress.org/plugins/seo-extended/) plugin functionality has now been integrated into WP SEO, with graceful thanks to [Faison](http://profiles.wordpress.org/faison/) and [Scott Offord](http://profiles.wordpress.org/scottofford/) for their great work on this plugin.
-	* If WP_DEBUG is on or if you have set the special constant WPSEO_DEBUG, a block with the currently saved options will be shown on the settings pages - props [Jrf](http://profiles.wordpress.org/jrf).
-	* Added error message for when meta description removal fails - props [Jrf](http://profiles.wordpress.org/jrf).
-	* Added option to add meta keywords to post type archives - props [Jrf](http://profiles.wordpress.org/jrf).
+	* The [SEO Extended](http://wordpress.org/plugins/seo-extended/) plugin functionality has now been integrated into WP SEO.
+	* If WP_DEBUG is on or if you have set the special constant WPSEO_DEBUG, a block with the currently saved options will be shown on the settings pages.
+	* Added error message for when meta description removal fails.
+	* Added option to add meta keywords to post type archives.
+	* [Usability] Proper field labels for user profile form fields
+	* General jQuery efficiency improvements.
+
+* Other:
+	* Removed statement for compatibility with WP < 3.4 as minimum requirement for WP SEO is now 3.5
+	* Removed some old (commented out) code
 
 
 
@@ -143,7 +157,7 @@ Double-check option-import from other plugins
 
 /**
  * @todo Add minified versions of css and js files
- * @todo Code style review (codesniffer)
+ * @todo Double-check Code style review (codesniffer)
  * @todo auto-loading
  */
 
@@ -334,7 +348,7 @@ This release contains tons and tons of bugfixes, thanks in *large* part to [Jrf]
 = 1.4.13 =
 
 * Bugfixes
-	* Fixed ampersand (&) in sitetitle in Title Templates loading as &amp;
+	* Fixed ampersand (&) in site title in Title Templates loading as &amp;
 	* Fixed error when focus keyword contains a / - props [Jrf](http://profiles.wordpress.org/jrf).
 	* Fixed issue with utf8 characters in meta description - props [Jrf](http://profiles.wordpress.org/jrf).
 	* Fixed undefined property error - props [Jrf](http://profiles.wordpress.org/jrf).
@@ -373,7 +387,7 @@ This release contains tons and tons of bugfixes, thanks in *large* part to [Jrf]
 * Enhancements
 	* Changed Social Admin section to have a tab-layout.
 	* Moved Google+ section from Homepage tab of Titles & Metas to Social tab.
-	* Make twitter:domain use WordPress site name instead of domainname.
+	* Make twitter:domain use WordPress site name instead of domain name.
 	* Added more output filters in the Twitter class.
 
 = 1.4.10 =

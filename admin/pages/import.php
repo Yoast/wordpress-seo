@@ -3,8 +3,8 @@
  * @package Admin
  */
 
-if ( !defined('WPSEO_VERSION') ) {
-	header('HTTP/1.0 403 Forbidden');
+if ( ! defined( 'WPSEO_VERSION' ) ) {
+	header( 'HTTP/1.0 403 Forbidden' );
 	die;
 }
 
@@ -29,7 +29,7 @@ function replace_meta( $old_metakey, $new_metakey, $replace = false ) {
 	foreach ( $oldies as $old ) {
 		// Prevent inserting new meta values for posts that already have a value for that new meta key
 		$check = get_post_meta( $old->post_id, $new_metakey, true );
-		if ( !$check || empty($check) )
+		if ( ! $check || empty($check) )
 			update_post_meta( $old->post_id, $new_metakey, $old->meta_value );
 
 		if ( $replace )
@@ -52,85 +52,89 @@ if ( isset( $_POST['import'] ) ) {
 	if ( isset( $_POST['wpseo']['importwoo'] ) ) {
 		wpseo_defaults();
 
-		$sep = get_option('seo_woo_seperator');
+		$sep = get_option( 'seo_woo_seperator' );
 
 		$options = WPSEO_Options::get_all();
 
 		switch ( get_option( 'seo_woo_home_layout' ) ) {
 			case 'a':
-				$options['title-home-wpseo'] = '%%sitename%% '.$sep.' %%sitedesc%%';
+				$options['title-home-wpseo'] = '%%sitename%% ' . $sep . ' %%sitedesc%%';
 				break;
 			case 'b':
-				$options['title-home-wpseo'] = '%%sitename%% '.get_option('seo_woo_paged_var').' %%pagenum%%';
+				$options['title-home-wpseo'] = '%%sitename%% ' . get_option( 'seo_woo_paged_var' ) . ' %%pagenum%%';
 				break;
 			case 'c':
 				$options['title-home-wpseo'] = '%%sitedesc%%';
 				break;
 		}
-		if ( $replace )
-			delete_option('seo_woo_home_layout');
+		if ( $replace ) {
+			delete_option( 'seo_woo_home_layout' );
+		}
 
 		switch ( get_option( 'seo_woo_single_layout' ) ) {
 			case 'a':
-				$options['title-post'] = '%%title%% '.$sep.' %%sitename%%';
+				$options['title-post'] = '%%title%% ' . $sep . ' %%sitename%%';
 				break;
 			case 'b':
 				$options['title-post'] = '%%title%%';
 				break;
 			case 'c':
-				$options['title-post'] = '%%sitename%% '.$sep.' %%title%%';
+				$options['title-post'] = '%%sitename%% ' . $sep . ' %%title%%';
 				break;
 			case 'd':
-				$options['title-post'] = '%%title%% '.$sep.' %%sitedesc%%';
+				$options['title-post'] = '%%title%% ' . $sep . ' %%sitedesc%%';
 				break;
 			case 'e':
-				$options['title-post'] = '%%sitename%% '.$sep.' %%title%% '.$sep.' %%sitedesc%%';
+				$options['title-post'] = '%%sitename%% ' . $sep . ' %%title%% ' . $sep . ' %%sitedesc%%';
 				break;
 		}
-		if ( $replace )
-			delete_option('seo_woo_single_layout');
+		if ( $replace ) {
+			delete_option( 'seo_woo_single_layout' );
+		}
 
 		switch ( get_option( 'seo_woo_page_layout' ) ) {
 			case 'a':
-				$options['title-page'] = '%%title%% '.$sep.' %%sitename%%';
+				$options['title-page'] = '%%title%% ' . $sep . ' %%sitename%%';
 				break;
 			case 'b':
 				$options['title-page'] = '%%title%%';
 				break;
 			case 'c':
-				$options['title-page'] = '%%sitename%% '.$sep.' %%title%%';
+				$options['title-page'] = '%%sitename%% ' . $sep . ' %%title%%';
 				break;
 			case 'd':
-				$options['title-page'] = '%%title%% '.$sep.' %%sitedesc%%';
+				$options['title-page'] = '%%title%% ' . $sep . ' %%sitedesc%%';
 				break;
 			case 'e':
-				$options['title-page'] = '%%sitename%% '.$sep.' %%title%% '.$sep.' %%sitedesc%%';
+				$options['title-page'] = '%%sitename%% ' . $sep . ' %%title%% ' . $sep . ' %%sitedesc%%';
 				break;
 		}
-		if ( $replace )
-			delete_option('seo_woo_page_layout');
+		if ( $replace ) {
+			delete_option( 'seo_woo_page_layout' );
+		}
 
 		// @todo - should the default be the same default as wpseo default ? It currently isn't
-		$template = '%%term_title%% '.$sep.' %%page%% '.$sep.' %%sitename%%';
+		$template = '%%term_title%% ' . $sep . ' %%page%% ' . $sep . ' %%sitename%%';
 		switch ( get_option( 'seo_woo_archive_layout' ) ) {
 			case 'a':
-				$template = '%%term_title%% '.$sep.' %%page%% '.$sep.' %%sitename%%';
+				$template = '%%term_title%% ' . $sep . ' %%page%% ' . $sep . ' %%sitename%%';
 				break;
 			case 'b':
 				$template = '%%term_title%%';
 				break;
 			case 'c':
-				$template = '%%sitename%% '.$sep.' %%term_title%% '.$sep.' %%page%%';
+				$template = '%%sitename%% ' . $sep . ' %%term_title%% ' . $sep . ' %%page%%';
 				break;
 			case 'd':
-				$template = '%%term_title%% '.$sep.' %%page%%'.$sep.' %%sitedesc%%';
+				$template = '%%term_title%% ' . $sep . ' %%page%%' . $sep . ' %%sitedesc%%';
 				break;
 			case 'e':
-				$template = '%%sitename%% '.$sep.' %%term_title%% '.$sep.' %%page%% '.$sep.' %%sitedesc%%';
+				$template = '%%sitename%% ' . $sep . ' %%term_title%% ' . $sep . ' %%page%% ' . $sep . ' %%sitedesc%%';
 				break;
 		}
-		if ( $replace )
-			delete_option('seo_woo_archive_layout');
+		if ( $replace ) {
+			delete_option( 'seo_woo_archive_layout' );
+		}
 
 		foreach ( get_taxonomies( array( 'public' => true ), 'names' ) as $tax ) {
 			$options['title-tax-'.$tax] = $template;
@@ -140,15 +144,17 @@ if ( isset( $_POST['import'] ) ) {
 		if ( 'c' == get_option( 'seo_woo_meta_home_desc' ) ) {
 			$options['metadesc-home-wpseo'] = get_option( 'seo_woo_meta_home_desc_custom' );
 		}
-		if ( $replace )
-			delete_option('seo_woo_meta_home_desc');
+		if ( $replace ) {
+			delete_option( 'seo_woo_meta_home_desc' );
+		}
 
 		// Import the custom homepage keywords
 		if ( 'c' == get_option( 'seo_woo_meta_home_key' ) ) {
 			$options['metakey-home-wpseo'] = get_option( 'seo_woo_meta_home_key_custom' );
 		}
-		if ( $replace )
-			delete_option('seo_woo_meta_home_key');
+		if ( $replace ) {
+			delete_option( 'seo_woo_meta_home_key' );
+		}
 
 		// If WooSEO is set to use the Woo titles, import those
 		if ( 'true' == get_option( 'seo_woo_wp_title' ) ) {
@@ -199,7 +205,7 @@ if ( isset( $_POST['import'] ) ) {
 				}
 			}
 		}
-		$msg .= __('HeadSpace2 data successfully imported','wordpress-seo');
+		$msg .= __( 'HeadSpace2 data successfully imported', 'wordpress-seo' );
 	}
 	if ( isset( $_POST['wpseo']['importaioseo'] ) ) {
 		replace_meta( '_aioseop_description', '_yoast_wpseo_metadesc', $replace );
@@ -261,12 +267,13 @@ if ( isset( $_POST['import'] ) ) {
 }
 
 $wpseo_admin_pages->admin_header( false );
-if ( $msg != '' )
+if ( $msg != '' ) {
 	echo '<div id="message" class="message updated" style="width:94%;"><p>' . esc_html( $msg ) . '</p></div>';
+}
 
-$content = "<p>" . __( "No doubt you've used an SEO plugin before if this site isn't new. Let's make it easy on you, you can import the data below. If you want, you can import first, check if it was imported correctly, and then import &amp; delete. No duplicate data will be imported.", 'wordpress-seo' ) . "</p>";
-$content .= '<p>' . sprintf( __( "If you've used another SEO plugin, try the %sSEO Data Transporter%s plugin to move your data into this plugin, it rocks!", 'wordpress-seo' ), "<a href='http://wordpress.org/extend/plugins/seo-data-transporter/'>", "</a>" ) . '</p>';
-$content .= '<form action="" method="post" accept-charset="' . get_bloginfo( 'charset' ) . '">';
+$content  = '<p>' . __( 'No doubt you\'ve used an SEO plugin before if this site isn\'t new. Let\'s make it easy on you, you can import the data below. If you want, you can import first, check if it was imported correctly, and then import &amp; delete. No duplicate data will be imported.', 'wordpress-seo' ) . '</p>';
+$content .= '<p>' . sprintf( __( 'If you\'ve used another SEO plugin, try the %sSEO Data Transporter%s plugin to move your data into this plugin, it rocks!', 'wordpress-seo' ), '<a href="http://wordpress.org/extend/plugins/seo-data-transporter/">', '</a>' ) . '</p>';
+$content .= '<form action="" method="post" accept-charset="' . esc_attr( get_bloginfo( 'charset' ) ) . '">';
 $content .= wp_nonce_field( 'wpseo-import', '_wpnonce', true, false );
 $content .= $wpseo_admin_pages->checkbox( 'importheadspace', __( 'Import from HeadSpace2?', 'wordpress-seo' ) );
 $content .= $wpseo_admin_pages->checkbox( 'importaioseo', __( 'Import from All-in-One SEO?', 'wordpress-seo' ) );
@@ -289,12 +296,13 @@ $wpseo_admin_pages->postbox( 'import', __( 'Import', 'wordpress-seo' ), $content
 
 do_action( 'wpseo_import', $this );
 
-$content = '<h4>' . __( 'Export', 'wordpress-seo' ) . '</h4>';
-$content .= '<form method="post" accept-charset="' . get_bloginfo( 'charset' ) . '">';
+$content  = '<h4>' . __( 'Export', 'wordpress-seo' ) . '</h4>';
+$content .= '<form method="post" accept-charset="' . esc_attr( get_bloginfo( 'charset' ) ) . '">';
 $content .= wp_nonce_field( 'wpseo-export', '_wpnonce', true, false );
 $content .= '<p>' . __( 'Export your WordPress SEO settings here, to import them again later or to import them on another site.', 'wordpress-seo' ) . '</p>';
-if ( phpversion() > 5.2 )
+if ( phpversion() > 5.2 ) {
 	$content .= $wpseo_admin_pages->checkbox( 'include_taxonomy_meta', __( 'Include Taxonomy Metadata', 'wordpress-seo' ) );
+}
 $content .= '<br/><input type="submit" class="button" name="wpseo_export" value="' . __( 'Export settings', 'wordpress-seo' ) . '"/>';
 $content .= '</form>';
 if ( isset( $_POST['wpseo_export'] ) ) {
@@ -313,9 +321,9 @@ if ( isset( $_POST['wpseo_export'] ) ) {
 }
 
 $content .= '<h4>' . __( 'Import', 'wordpress-seo' ) . '</h4>';
-if ( !isset( $_FILES['settings_import_file'] ) || empty( $_FILES['settings_import_file'] ) ) {
+if ( ! isset( $_FILES['settings_import_file'] ) || empty( $_FILES['settings_import_file'] ) ) {
 	$content .= '<p>' . __( 'Import settings by locating <em>settings.zip</em> and clicking', 'wordpress-seo' ) . ' "' . __( 'Import settings', 'wordpress-seo' ) . '":</p>';
-	$content .= '<form method="post" enctype="multipart/form-data" accept-charset="' . get_bloginfo( 'charset' ) . '">';
+	$content .= '<form method="post" enctype="multipart/form-data" accept-charset="' . esc_attr( get_bloginfo( 'charset' ) ) . '">';
 	$content .= wp_nonce_field( 'wpseo-import-file', '_wpnonce', true, false );
 	$content .= '<input type="file" name="settings_import_file"/>';
 	$content .= '<input type="hidden" name="action" value="wp_handle_upload"/>';
@@ -325,7 +333,7 @@ if ( !isset( $_FILES['settings_import_file'] ) || empty( $_FILES['settings_impor
 	check_admin_referer( 'wpseo-import-file' );
 	$file = wp_handle_upload( $_FILES['settings_import_file'] );
 
-	if ( isset( $file['file'] ) && !is_wp_error( $file ) ) {
+	if ( isset( $file['file'] ) && ! is_wp_error( $file ) ) {
 		require_once( ABSPATH . 'wp-admin/includes/class-pclzip.php' );
 		$zip      = new PclZip( $file['file'] );
 		$unzipped = $zip->extract( $p_path = WP_CONTENT_DIR . '/wpseo-import/' );

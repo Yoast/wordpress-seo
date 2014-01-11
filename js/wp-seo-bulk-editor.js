@@ -44,7 +44,7 @@ jQuery(document).ready( function() {
 		jQuery.each( resps, function() {
 			handle_response( this );
 		});
-	}
+	};
 
 	var submit_new = function( id ) {
 		if( jQuery( '.wpseo_bulk_titles' ).length == 1 ) {
@@ -53,7 +53,7 @@ jQuery(document).ready( function() {
 		else if( jQuery( '.wpseo_bulk_descriptions').length == 1 ) {
 			submit_new_metadesc( id );
 		}
-	}
+	};
 
 	var submit_new_title = function( id ) {
 		var data = {
@@ -93,7 +93,7 @@ jQuery(document).ready( function() {
 			}
 			jQuery.post( ajaxurl, data, handle_response );
 		}
-	}
+	};
 
 	jQuery.each( jQuery( new_title_class + ', ' + new_metadesc_class ), function() {
 		jQuery(this).keypress( function(event) {

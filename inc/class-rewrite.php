@@ -3,8 +3,8 @@
  * @package Frontend
  */
 
-if ( !defined('WPSEO_VERSION') ) {
-	header('HTTP/1.0 403 Forbidden');
+if ( ! defined( 'WPSEO_VERSION' ) ) {
+	header( 'HTTP/1.0 403 Forbidden' );
 	die;
 }
 
@@ -112,13 +112,13 @@ class WPSEO_Rewrite {
 
 		$category_rewrite = array();
 
-		$taxonomy = get_taxonomy('category');
+		$taxonomy = get_taxonomy( 'category' );
 
 		$blog_prefix = '';
-		if ( function_exists( 'is_multisite' ) && is_multisite() && !is_subdomain_install() && is_main_site() )
+		if ( function_exists( 'is_multisite' ) && is_multisite() && ! is_subdomain_install() && is_main_site() )
 			$blog_prefix = 'blog/';
 
-		foreach ( get_categories( array( 'hide_empty'=> false ) ) as $category ) {
+		foreach ( get_categories( array( 'hide_empty' => false ) ) as $category ) {
 			$category_nicename = $category->slug;
 			if ( $category->parent == $category->cat_ID ) // recursive recursion
 				$category->parent = 0;

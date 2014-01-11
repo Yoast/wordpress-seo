@@ -83,10 +83,10 @@ function testFocusKw() {
 	var postname = jQuery('#editable-post-name-full').text();
 	var url = wpseo_permalink_template.replace('%postname%', postname).replace('http://', '');
 
-	p = new RegExp("(^|[ \s\n\r\t\.,'\(\"\+;!?:\-])" + focuskw + "($|[ \s\n\r\t.,'\)\"\+!?:;\-])", 'gim');
+	var p = new RegExp("(^|[ \s\n\r\t\.,'\(\"\+;!?:\-])" + focuskw + "($|[ \s\n\r\t.,'\)\"\+!?:;\-])", 'gim');
 	//remove diacritics of a lower cased focuskw for url matching in foreign lang
 	var focuskwNoDiacritics = removeLowerCaseDiacritics(focuskw);
-	p2 = new RegExp(focuskwNoDiacritics.replace(/\s+/g, "[-_\\\//]"), 'gim');
+	var p2 = new RegExp(focuskwNoDiacritics.replace(/\s+/g, "[-_\\\//]"), 'gim');
 
 	var metadesc = jQuery('#yoast_wpseo_metadesc').val();
 	if (metadesc == '')
@@ -107,10 +107,11 @@ function testFocusKw() {
 }
 
 function updateTitle(force) {
+	var title = '';
 	if (jQuery("#yoast_wpseo_title").val()) {
-		var title = jQuery("#yoast_wpseo_title").val();
+		title = jQuery("#yoast_wpseo_title").val();
 	} else {
-		var title = wpseo_title_template.replace('%%title%%', jQuery('#title').val());
+		title = wpseo_title_template.replace('%%title%%', jQuery('#title').val());
 		title = jQuery('<div />').html(title).text();
 	}
 	if (title == '') {
@@ -152,6 +153,7 @@ function updateTitle(force) {
 
 function updateDesc(desc) {
 	var autogen = false;
+	// @todo check as variable declaration overwrites passed variable
 	var desc = jQuery.trim(yst_clean(jQuery("#yoast_wpseo_metadesc").val()));
 	var color = '#000';
 
@@ -180,7 +182,7 @@ function updateDesc(desc) {
 			} else {
 				desc = desc.substr(0, wpseo_meta_desc_length);
 			}
-			var color = "#888";
+			color = "#888";
 			autogen = true;
 		}
 	}
@@ -188,10 +190,11 @@ function updateDesc(desc) {
 	desc = jQuery('<div />').text(desc).html();
 	desc = yst_clean(desc);
 
+	var len = -1;
 	if (!autogen)
-		var len = wpseo_meta_desc_length - desc.length;
+		len = wpseo_meta_desc_length - desc.length;
 	else
-		var len = wpseo_meta_desc_length;
+		len = wpseo_meta_desc_length;
 
 	if (len < 0)
 		len = '<span class="wrong">' + len + '</span>';
@@ -199,10 +202,11 @@ function updateDesc(desc) {
 		len = '<span class="good">' + len + '</span>';
 
 	if (autogen || desc.length > wpseo_meta_desc_length) {
+		var space;
 		if (desc.length > wpseo_meta_desc_length)
-			var space = desc.lastIndexOf(" ", ( wpseo_meta_desc_length - 3 ));
+			space = desc.lastIndexOf(" ", ( wpseo_meta_desc_length - 3 ));
 		else
-			var space = wpseo_meta_desc_length;
+			space = wpseo_meta_desc_length;
 		desc = desc.substring(0, space).concat(' <strong>...</strong>');
 	}
 
@@ -223,23 +227,24 @@ function updateURL() {
 }
 
 function boldKeywords(str, url) {
-	focuskw = jQuery.trim(jQuery('#yoast_wpseo_focuskw').val());
+	var focuskw = jQuery.trim(jQuery('#yoast_wpseo_focuskw').val());
+	var keywords;
 
 	if (focuskw == '')
 		return str;
 
 	if (focuskw.search(' ') != -1) {
-		var keywords = focuskw.split(' ');
+		keywords = focuskw.split(' ');
 	} else {
-		var keywords = new Array(focuskw);
+		keywords = new Array(focuskw);
 	}
 	for (var i = 0; i < keywords.length; i++) {
 		var kw = yst_clean(keywords[i]);
 		if (url) {
-			var kw = kw.replace(' ', '-').toLowerCase();
-			kwregex = new RegExp("([-/])(" + kw + ")([-/])?");
+			kw = kw.replace(' ', '-').toLowerCase();
+			var kwregex = new RegExp("([-/])(" + kw + ")([-/])?");
 		} else {
-			kwregex = new RegExp("(^|[ \s\n\r\t\.,'\(\"\+;!?:\-]+)(" + kw + ")($|[ \s\n\r\t\.,'\)\"\+;!?:\-]+)", 'gim');
+			var kwregex = new RegExp("(^|[ \s\n\r\t\.,'\(\"\+;!?:\-]+)(" + kw + ")($|[ \s\n\r\t\.,'\)\"\+;!?:\-]+)", 'gim');
 		}
 		str = str.replace(kwregex, "$1<strong>$2</strong>$3");
 	}
@@ -402,7 +407,7 @@ jQuery(document).ready(function ($) {
 			multiple: false
 		});
 		wpseo_custom_uploader.on('select', function () {
-			attachment = wpseo_custom_uploader.state().get('selection').first().toJSON();
+			var attachment = wpseo_custom_uploader.state().get('selection').first().toJSON();
 			$('#'+wpseo_target_id).val(attachment.url);
 		});
 		wpseo_custom_uploader.open();

@@ -3,8 +3,8 @@
  * @package Admin
  */
 
-if ( !defined('WPSEO_VERSION') ) {
-	header('HTTP/1.0 403 Forbidden');
+if ( ! defined( 'WPSEO_VERSION' ) ) {
+	header( 'HTTP/1.0 403 Forbidden' );
 	die;
 }
 
@@ -53,7 +53,7 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 	 */
 	public function get_meta_boxes( $post_type = 'post' ) {
 		_deprecated_function( __FUNCTION__, 'WPSEO 1.5.0', 'WPSEO_Meta::get_social_meta_boxes()' );
-		return $this->get_social_meta_boxes( $post_type );
+		return $this->get_social_meta_boxes();
 	}
 
 	/**

@@ -11,7 +11,7 @@ global $wpseo_admin_pages;
 
 $options = get_option( 'wpseo' );
 
-if( ! class_exists( 'WPSEO_Bulk_Title_Editor_List_Table' ) ) {
+if ( ! class_exists( 'WPSEO_Bulk_Title_Editor_List_Table' ) ) {
 	require_once( WPSEO_PATH . 'admin/class-bulk-title-editor-list-table.php' );
 }
 

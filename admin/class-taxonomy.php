@@ -3,7 +3,7 @@
  * @package Admin
  */
 
-if ( !defined( 'WPSEO_VERSION' ) ) {
+if ( ! defined( 'WPSEO_VERSION' ) ) {
 	header( 'HTTP/1.0 403 Forbidden' );
 	die;
 }
@@ -56,15 +56,17 @@ class WPSEO_Taxonomy {
 	 */
 	function form_row( $var, $label, $desc, $tax_meta, $type = 'text', $options = array() ) {
 		$val = '';
-		if ( isset( $tax_meta[$var] ) && !empty( $tax_meta[$var] ) )
+		if ( isset( $tax_meta[$var] ) && ! empty( $tax_meta[$var] ) )
 			$val = stripslashes( $tax_meta[$var] );
+			
+		$var = esc_attr( $var );
 
 		echo '<tr class="form-field">' . "\n";
 		echo "\t" . '<th scope="row" valign="top"><label for="' . $var . '">' . $label . ':</label></th>' . "\n";
 		echo "\t" . '<td>' . "\n";
 		if ( $type == 'text' ) {
 			?>
-        <input name="<?php echo $var; ?>" id="<?php echo $var; ?>" type="text" value="<?php echo $val; ?>" size="40"/>
+        <input name="<?php echo $var; ?>" id="<?php echo $var; ?>" type="text" value="<?php echo esc_attr( $val ); ?>" size="40"/>
         <p class="description"><?php echo $desc; ?></p>
 		<?php
 		} else if ( $type == 'checkbox' ) {
@@ -74,12 +76,14 @@ class WPSEO_Taxonomy {
 		} else if ( $type == 'select' ) {
 			?>
         <select name="<?php echo $var; ?>" id="<?php echo $var; ?>">
-			<?php foreach ( $options as $option => $label ) {
-			$sel = '';
-			if ( $option == $val )
-				$sel = " selected='selected'";
-			echo "<option" . $sel . " value='" . $option . "'>" . $label . "</option>";
-		}?>
+			<?php
+			foreach ( $options as $option => $label ) {
+				$sel = '';
+				if ( $option == $val ) {
+					$sel = ' selected="selected"';
+				}
+				echo '<option' . $sel . ' value="' . esc_attr( $option ) . '">' . $label . '</option>';
+			}?>
         </select>
 		<?php
 		}
@@ -94,7 +98,7 @@ class WPSEO_Taxonomy {
 	 * @param object $term Term to show the edit boxes for.
 	 */
 	function term_seo_form( $term ) {
-		if( $this->tax_is_public() === false )
+		if ( $this->tax_is_public() === false )
 			return;
 
 		$tax_meta = get_option( 'wpseo_taxonomy_meta' );
@@ -123,10 +127,11 @@ class WPSEO_Taxonomy {
 		$this->form_row( 'wpseo_noindex', sprintf( __( 'Noindex this %s', 'wordpress-seo' ), $term->taxonomy ), sprintf( __( 'This %s follows the indexation rules set under Metas and Titles, you can override it here.', 'wordpress-seo' ), $term->taxonomy ), $tax_meta, 'select', $noindex_options );
 
 		$this->form_row( 'wpseo_sitemap_include', __( 'Include in sitemap?', 'wordpress-seo' ), '', $tax_meta, 'select', array(
-			"-"      => __( "Auto detect", 'wordpress-seo' ),
-			"always" => __( "Always include", 'wordpress-seo' ),
-			"never"  => __( "Never include", 'wordpress-seo' ),
-		) );
+			'-'      => __( 'Auto detect', 'wordpress-seo' ),
+			'always' => __( 'Always include', 'wordpress-seo' ),
+			'never'  => __( 'Never include', 'wordpress-seo' ),
+			)
+		);
 
 		echo '</table>';
 	}
@@ -141,11 +146,11 @@ class WPSEO_Taxonomy {
 	function update_term( $term_id, $tt_id, $taxonomy ) {
 		$tax_meta = get_option( 'wpseo_taxonomy_meta' );
 
-		if ( !isset($tax_meta[$taxonomy]) || !isset($tax_meta[$taxonomy][$term_id]) || !is_array( $tax_meta[$taxonomy][$term_id] ) )
+		if ( ! isset($tax_meta[$taxonomy]) || ! isset($tax_meta[$taxonomy][$term_id]) || ! is_array( $tax_meta[$taxonomy][$term_id] ) )
 			$tax_meta[$taxonomy][$term_id] = array();
 
 		foreach ( array( 'title', 'desc', 'metakey', 'bctitle', 'canonical', 'noindex', 'sitemap_include' ) as $key ) {
-			if ( isset( $_POST['wpseo_' . $key] ) && !empty( $_POST['wpseo_' . $key] ) ) {
+			if ( isset( $_POST['wpseo_' . $key] ) && ! empty( $_POST['wpseo_' . $key] ) ) {
 				$val = trim( $_POST['wpseo_' . $key] );
 
 				if ( $key == 'canonical' )
@@ -178,7 +183,7 @@ class WPSEO_Taxonomy {
 			'pre_term_description',
 			'pre_link_description',
 			'pre_link_notes',
-			'pre_user_description'
+			'pre_user_description',
 		);
 
 		foreach ( $filters as $filter ) {

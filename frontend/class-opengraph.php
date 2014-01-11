@@ -209,7 +209,7 @@ class WPSEO_OpenGraph extends WPSEO_Frontend {
 			'sq' => 'sq_AL',
 			'uk' => 'uk_UA',
 			'vi' => 'vi_VN',
-			'zh' => 'zh_CN'
+			'zh' => 'zh_CN',
 		);
 
 		if ( isset( $fix_locales[$locale] ) )

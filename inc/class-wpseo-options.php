@@ -4,8 +4,8 @@
  */
 
 // Avoid direct calls to this file
-if ( !defined('WPSEO_VERSION') ) {
-	header('HTTP/1.0 403 Forbidden');
+if ( ! defined( 'WPSEO_VERSION' ) ) {
+	header( 'HTTP/1.0 403 Forbidden' );
 	die;
 }
 
@@ -311,11 +311,11 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 				
 				/* The option validation routines remove the default filters to prevent failing
 				   to insert an options if it's new. Let's add them back afterwards for an UPDATE (only WP 3.7)*/
-				if( version_compare( $GLOBALS['wp_version'], '3.7', '==' ) ) {
+				if ( version_compare( $GLOBALS['wp_version'], '3.7', '==' ) ) {
 					add_filter( 'pre_update_option_' . $option_key, array( __CLASS__, 'pre_update_option_' . $option_key ) );
 				}
 
-				if( $option_key === 'wpseo' ) {
+				if ( $option_key === 'wpseo' ) {
 					/* Add/remove the yoast tracking cron job on succesfull option add/update */
 					add_action( 'add_option_' . $option_key, array( __CLASS__, 'schedule_yoast_tracking' ), 10, 2 );
 					add_action( 'update_option_' . $option_key, array( __CLASS__, 'schedule_yoast_tracking' ), 10, 2 );
@@ -328,7 +328,7 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 
 			/* The option validation routines remove the default filters to prevent failing
 			   to insert an options if it's new. Let's add them back afterwards for an UPDATE (not WP 3.7) */
-			if( version_compare( $GLOBALS['wp_version'], '3.7', '!=' ) ) {
+			if ( version_compare( $GLOBALS['wp_version'], '3.7', '!=' ) ) {
 				add_action( 'update_option', array( __CLASS__, 'add_default_filters' ) );
 			}
 
@@ -362,12 +362,12 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 		public static function enrich_options() {
 			/* Set option group name if not given */
 			foreach ( self::$options as $option_name => $directives ) {
-				if ( !isset( $directives['group'] ) || $directives['group'] !== '' ) {
+				if ( ! isset( $directives['group'] ) || $directives['group'] !== '' ) {
 					self::$options[$option_name]['group'] = 'yoast_' . $option_name . '_options';
 				}
 			}
 			/* Create re-usable option names property */
-			if ( !is_array( self::$option_names ) ) {
+			if ( ! is_array( self::$option_names ) ) {
 				self::$option_names = array_keys( self::$options );
 			}
 		}
@@ -405,28 +405,28 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 			$post_type_names = get_post_types( array( 'public' => true ), 'names' );
 
 			$post_type_objects_custom = array();
-			if ( !isset( $option_key ) || in_array( $option_key, array( 'wpseo_titles' ) ) ) {
-				$post_types_objects_custom = get_post_types( array( 'public' => true, '_builtin' => false ), 'objects' );
+			if ( ! isset( $option_key ) || in_array( $option_key, array( 'wpseo_titles' ) ) ) {
+				$post_type_objects_custom = get_post_types( array( 'public' => true, '_builtin' => false ), 'objects' );
 			}
 
 			$taxonomy_names = array();
-			if ( !isset( $option_key ) || in_array( $option_key, array( 'wpseo_titles' ) ) ) {
+			if ( ! isset( $option_key ) || in_array( $option_key, array( 'wpseo_titles' ) ) ) {
 				$taxonomy_names = get_taxonomies( array( 'public' => true ), 'names' );
 			}
 
 			$taxonomy_objects = array();
-			if ( !isset( $option_key ) || in_array( $option_key, array( 'wpseo_xml' ) ) ) {
+			if ( ! isset( $option_key ) || in_array( $option_key, array( 'wpseo_xml' ) ) ) {
 				$taxonomy_objects = get_taxonomies( array( 'public' => true ), 'objects' );
 			}
 
 			$taxonomy_names_custom = array();
-			if ( !isset( $option_key ) || in_array( $option_key, array( 'wpseo_internallinks' ) ) ) {
+			if ( ! isset( $option_key ) || in_array( $option_key, array( 'wpseo_internallinks' ) ) ) {
 				$taxonomy_names_custom = get_taxonomies( array( 'public' => true, '_builtin' => false ), 'names' );
 			}
 
 
 			/* wpseo_titles */
-			if ( !isset( $option_key ) || $option_key === 'wpseo_titles' ) {
+			if ( ! isset( $option_key ) || $option_key === 'wpseo_titles' ) {
 
 				if ( $post_type_names !== array() ) {
 					foreach ( $post_type_names as $pt ) {
@@ -446,7 +446,7 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 
 				if ( $post_type_objects_custom !== array() ) {
 					foreach ( $post_type_objects_custom as $pt ) {
-						if ( !$pt->has_archive )
+						if ( ! $pt->has_archive )
 							continue;
 
 						self::$defaults['wpseo_titles']['title-ptarchive-' . $pt->name]    = sprintf( __( '%s Archive', 'wordpress-seo' ), '%%pt_plural%%' ) . ' %%page%% %%sep%% %%sitename%%'; // text field
@@ -460,16 +460,17 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 
 				if ( $taxonomy_names !== array() ) {
 					foreach ( $taxonomy_names as $tax ) {
-						self::$defaults['wpseo_titles']['title-tax-' . $tax]           = sprintf( __( '%s Archives', 'wordpress-seo' ), '%%term_title%%' ) . ' %%page%% %%sep%% %%sitename%%'; // text field
-						self::$defaults['wpseo_titles']['metadesc-tax-' . $tax]        = ''; // text area
-						self::$defaults['wpseo_titles']['metakey-tax-' . $tax]         = ''; // text field
+						self::$defaults['wpseo_titles']['title-tax-' . $tax]       = sprintf( __( '%s Archives', 'wordpress-seo' ), '%%term_title%%' ) . ' %%page%% %%sep%% %%sitename%%'; // text field
+						self::$defaults['wpseo_titles']['metadesc-tax-' . $tax]    = ''; // text area
+						self::$defaults['wpseo_titles']['metakey-tax-' . $tax]     = ''; // text field
 						self::$defaults['wpseo_titles']['hideeditbox-tax-' . $tax] = false;
 
-						if ( $tax !== 'post_format' )
+						if ( $tax !== 'post_format' ) {
 							self::$defaults['wpseo_titles']['noindex-tax-' . $tax] = false;
-						else
+						}
+						else {
 							self::$defaults['wpseo_titles']['noindex-tax-' . $tax] = true;
-
+						}
 					}
 					unset( $tax );
 				}
@@ -478,7 +479,7 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 
 			
 			/* wpseo_internallinks */
-			if ( !isset( $option_key ) || $option_key === 'wpseo_internallinks' ) {
+			if ( ! isset( $option_key ) || $option_key === 'wpseo_internallinks' ) {
 
 				if ( $post_type_names !== array() ) {
 					foreach ( $post_type_names as $pt ) {
@@ -501,7 +502,7 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 
 
 			/* wpseo_xml */
-			if ( !isset( $option_key ) || $option_key === 'wpseo_xml' ) {
+			if ( ! isset( $option_key ) || $option_key === 'wpseo_xml' ) {
 				$filtered_post_types = apply_filters( 'wpseo_sitemaps_supported_post_types', $post_type_names );
 				if ( is_array( $filtered_post_types ) && $filtered_post_types !== array() ) {
 					foreach ( $filtered_post_types as $pt ) {
@@ -563,7 +564,7 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 		 * @param	string	$option_key
 		 */
 		public static function add_default_filters( $option_key ) {
-			if ( !is_array( self::$option_names ) ) {
+			if ( ! is_array( self::$option_names ) ) {
 				self::$option_names = array_keys( self::$options );
 			}
 			
@@ -708,18 +709,20 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 			
 			$defaults = self::get_defaults( $option_key );
 
-			if ( !isset( $options ) || $options === false ) {
+			if ( ! isset( $options ) || $options === false ) {
 				return $defaults;
 			}
 
-			$options = (array) $options;
-			$filtered  = array();
+			$options  = (array) $options;
+			$filtered = array();
 
 			foreach ( $defaults as $name => $default ) {
-				if ( isset( $options[$name] ) )
+				if ( isset( $options[$name] ) ) {
 					$filtered[$name] = $options[$name];
-				else
+				}
+				else {
 					$filtered[$name] = $default;
+				}
 			}
 			unset( $name, $default );
 
@@ -727,7 +730,7 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 			   - even if the defaults are not complete yet.
 			   Unfortunately this means we also won't be removing the settings for post types or taxonomies
 			   which are no longer in the WP install, but rather that than the other way around */
-   			$filtered = self::retain_variable_keys( $option_key, $options, $filtered );
+			$filtered = self::retain_variable_keys( $option_key, $options, $filtered );
 
 			return $filtered;
 		}
@@ -768,11 +771,11 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 		public static function schedule_yoast_tracking( $disregard, $value ) {
 			$current_schedule = wp_next_scheduled( 'yoast_tracking' );
 
-			if( $value['yoast_tracking'] === true && $current_schedule === false ) {
+			if ( $value['yoast_tracking'] === true && $current_schedule === false ) {
 				// The tracking checks daily, but only sends new data every 7 days.
 				wp_schedule_event( time(), 'daily', 'yoast_tracking' );
 			}
-			else if( $value['yoast_tracking'] === false && $current_schedule !== false ){
+			else if ( $value['yoast_tracking'] === false && $current_schedule !== false ){
 				wp_clear_scheduled_hook( 'yoast_tracking' );
 			}
 		}
@@ -802,8 +805,8 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 			}
 
 
-			$clean   = self::get_defaults( $option_key );
-			$old     = get_option( $option_key );
+			$clean = self::get_defaults( $option_key );
+			$old   = get_option( $option_key );
 			// @todo - triple check that trim does not cause issues !!!!
 			// changes everything to a string which may be undesired, so check if possible better to use selectively
 			$options = array_map( array( __CLASS__, 'trim_recursive' ), $options );
@@ -820,7 +823,7 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 						if ( isset( $options[$k] ) && ( is_array( $options[$k] ) && $options[$k] !== array() ) ) {
 							$clean[$k] = $options[$k];
 						}
-						else if( isset( $old[$k] ) ) {
+						else if ( isset( $old[$k] ) ) {
 							$clean[$k] = $old[$k];
 						}
 						break;
@@ -829,7 +832,7 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 						if ( isset( $options[$k] ) && is_string( $options[$k] ) ) {
 							$clean[$k] = $options[$k]; // @todo maybe do wp_kses ?
 						}
-						else if( isset( $old[$k] ) ) {
+						else if ( isset( $old[$k] ) ) {
 							$clean[$k] = $old[$k];
 						}
 						break;
@@ -909,7 +912,7 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 				}
 			}
 
-   			$clean = self::retain_variable_keys( $option_key, $options, $clean );
+			$clean = self::retain_variable_keys( $option_key, $options, $clean );
 			return $clean;
 		}
 
@@ -930,8 +933,8 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 				return get_option( $option_key );
 			}
 
-			$clean   = self::get_defaults( $option_key );
-			$old     = get_option( $option_key );
+			$clean = self::get_defaults( $option_key );
+			$old   = get_option( $option_key );
 			// @todo - triple check that trim does not cause issues !!!!
 			// changes everything to a string which may be undesired, so check if possible better to use selectively
 			$options = array_map( array( __CLASS__, 'trim_recursive' ), $options );
@@ -976,7 +979,7 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 				}
 			}
 
-   			$clean = self::retain_variable_keys( $option_key, $options, $clean );
+			$clean = self::retain_variable_keys( $option_key, $options, $clean );
 			return $clean;
 		}
 
@@ -996,8 +999,8 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 				return get_option( $option_key );
 			}
 
-			$clean   = self::get_defaults( $option_key );
-			$old     = get_option( $option_key );
+			$clean = self::get_defaults( $option_key );
+			$old   = get_option( $option_key );
 			// @todo - triple check that trim does not cause issues !!!!
 			// changes everything to a string which may be undesired, so check if possible better to use selectively
 			$options = array_map( array( __CLASS__, 'trim_recursive' ), $options );
@@ -1069,8 +1072,8 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 					case 'noindex-':
 					case 'noauthorship-': /* 'noauthorship-' . $pt->name */
 					case 'showdate-': /* 'showdate-'. $pt->name */
-					 /* 'hideeditbox-'. $pt->name */
-					 /* 'hideeditbox-tax-' . $tax->name */
+					/* 'hideeditbox-'. $pt->name */
+					/* 'hideeditbox-tax-' . $tax->name */
 					case 'hideeditbox-':
 					default:
 						$clean[$k] = ( isset( $options[$k] ) ? self::validate_bool( $options[$k] ) : false );
@@ -1078,7 +1081,7 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 				}
 			}
 
-   			$clean = self::retain_variable_keys( $option_key, $options, $clean );
+			$clean = self::retain_variable_keys( $option_key, $options, $clean );
 			return $clean;
 		}
 
@@ -1108,7 +1111,7 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 				}
 			}
 			
-   			$clean = self::retain_variable_keys( $option_key, $options, $clean );
+			$clean = self::retain_variable_keys( $option_key, $options, $clean );
 			return $clean;
 		}
 
@@ -1129,13 +1132,13 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 				return get_option( $option_key );
 			}
 
-			$clean   = self::get_defaults( $option_key );
-			$old     = get_option( $option_key );
+			$clean = self::get_defaults( $option_key );
+			$old   = get_option( $option_key );
 			// @todo - triple check that trim does not cause issues !!!!
 			// changes everything to a string which may be undesired, so check if possible better to use selectively
 			$options = array_map( array( __CLASS__, 'trim_recursive' ), $options );
 
-			if ( !isset( $allowed_post_types ) ) {
+			if ( ! isset( $allowed_post_types ) ) {
 				$post_types = get_post_types( array( 'public' => true ), 'objects' );
 
 				$allowed_post_types = array();
@@ -1226,7 +1229,7 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 				}
 			}
 			
-   			$clean = self::retain_variable_keys( $option_key, $options, $clean );
+			$clean = self::retain_variable_keys( $option_key, $options, $clean );
 			return $clean;
 		}
 
@@ -1246,8 +1249,8 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 				return get_option( $option_key );
 			}
 
-			$clean   = self::get_defaults( $option_key );
-			$old     = get_option( $option_key );
+			$clean = self::get_defaults( $option_key );
+			$old   = get_option( $option_key );
 			// @todo - triple check that trim does not cause issues !!!!
 			// changes everything to a string which may be undesired, so check if possible better to use selectively
 			$options = array_map( array( __CLASS__, 'trim_recursive' ), $options );
@@ -1296,7 +1299,7 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 				}
 			}
 			
-   			$clean = self::retain_variable_keys( $option_key, $options, $clean );
+			$clean = self::retain_variable_keys( $option_key, $options, $clean );
 			return $clean;
 		}
 
@@ -1316,8 +1319,8 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 				return get_option( $option_key );
 			}
 
-			$clean   = self::get_defaults( $option_key );
-			$old     = get_option( $option_key );
+			$clean = self::get_defaults( $option_key );
+			$old   = get_option( $option_key );
 			// @todo - triple check that trim does not cause issues !!!!
 			// changes everything to a string which may be undesired, so check if possible better to use selectively
 			$options = array_map( array( __CLASS__, 'trim_recursive' ), $options );
@@ -1354,7 +1357,7 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 								}
 							}
 						}
-						else if( isset( $old[$k] ) ) {
+						else if ( isset( $old[$k] ) ) {
 							$clean[$k] = $old[$k];
 						}
 						break;
@@ -1368,7 +1371,7 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 								$clean[$k][$app_id] = sanitize_text_field( $display_name );
 							}
 						}
-						else if( isset( $old[$k] ) ) {
+						else if ( isset( $old[$k] ) ) {
 							$clean[$k] = $old[$k];
 						}
 						break;
@@ -1480,7 +1483,7 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 				}
 			}
 			
-   			$clean = self::retain_variable_keys( $option_key, $options, $clean );
+			$clean = self::retain_variable_keys( $option_key, $options, $clean );
 			return $clean;
 		}
 
@@ -1500,8 +1503,8 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 				return get_option( $option_key );
 			}
 
-			$clean   = self::get_defaults( $option_key );
-			$old     = get_option( $option_key );
+			$clean = self::get_defaults( $option_key );
+			$old   = get_option( $option_key );
 			// @todo - triple check that trim does not cause issues !!!!
 			// changes everything to a string which may be undesired, so check if possible better to use selectively
 			$options = array_map( array( __CLASS__, 'trim_recursive' ), $options );
@@ -1604,7 +1607,7 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 		 * @return  mixed   Trimmed value or array of trimmed values
 		 */
 		public static function trim_recursive( $value ) {
-			if ( !is_array( $value ) && !is_object( $value ) ) {
+			if ( ! is_array( $value ) && ! is_object( $value ) ) {
 				$value = trim( $value );
 			}
 			else if ( is_array( $value ) ) {
@@ -1644,7 +1647,7 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 		 */
 		public static function get_all() {
 
-			if ( !isset( self::$wpseo_options ) ) {
+			if ( ! isset( self::$wpseo_options ) ) {
 				self::$wpseo_options = array();
 				foreach ( self::get_option_names() as $option_name ) {
 					self::$wpseo_options = array_merge( self::$wpseo_options, (array) get_option( $option_name ) );
@@ -1937,7 +1940,7 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 					}
 				}
 */
-  				/* Validate & save the new values */
+				/* Validate & save the new values */
 				$validation_method = 'validate_' . $option_key;
 				$settings = self::$validation_method( $settings );
 				update_option( $option_key, $settings );

@@ -1,16 +1,18 @@
 jQuery(document).ready(function () {
 	jQuery("#enablexmlsitemap").change(function() {
+		var sitemapInfoBlock = jQuery("#sitemapinfo");
 		if (jQuery("#enablexmlsitemap").is(':checked')) {
-			jQuery("#sitemapinfo").css("display","block");
+			sitemapInfoBlock.css("display","block");
 		} else {
-			jQuery("#sitemapinfo").css("display","none");
+			sitemapInfoBlock.css("display","none");
 		}
 	}).change();
 	jQuery("#cleanpermalinks").change(function() {
+		var cleanPermalinksDiv = jQuery("#cleanpermalinksdiv");
 		if (jQuery("#cleanpermalinks").is(':checked')) {
-			jQuery("#cleanpermalinksdiv").css("display","block");
+			cleanPermalinksDiv.css("display","block");
 		} else {
-			jQuery("#cleanpermalinksdiv").css("display","none");
+			cleanPermalinksDiv.css("display","none");
 		}
 	}).change();		
 });

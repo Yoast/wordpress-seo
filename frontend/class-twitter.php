@@ -3,8 +3,8 @@
  * @package Frontend
  */
 
-if ( !defined('WPSEO_VERSION') ) {
-	header('HTTP/1.0 403 Forbidden');
+if ( ! defined( 'WPSEO_VERSION' ) ) {
+	header( 'HTTP/1.0 403 Forbidden' );
 	die;
 }
 
@@ -32,10 +32,10 @@ class WPSEO_Twitter extends WPSEO_Frontend {
 	/**
 	 * Outputs the Twitter Card code on singular pages.
 	 *
-	 * @return false Only shows on singular pages, false on non-singular pages.
+	 * @return mixed|false Only shows on singular pages, false on non-singular pages.
 	 */
 	public function twitter() {
-		if ( !is_singular() )
+		if ( ! is_singular() )
 			return false;
 
 		wp_reset_query();
@@ -65,7 +65,7 @@ class WPSEO_Twitter extends WPSEO_Frontend {
 	 */
 	public function type() {
 		$type = apply_filters( 'wpseo_twitter_card_type', 'summary' );
-		if ( !in_array( $type, array( 'summary', 'summary_large_image', 'photo', 'gallery', 'app', 'player', 'product' ) ) )
+		if ( ! in_array( $type, array( 'summary', 'summary_large_image', 'photo', 'gallery', 'app', 'player', 'product' ) ) )
 			$type = 'summary';
 
 		echo '<meta name="twitter:card" content="' . esc_attr( $type ) . '"/>' . "\n";
@@ -129,7 +129,7 @@ class WPSEO_Twitter extends WPSEO_Frontend {
 		if ( $metadesc && $this->options['opengraph'] === true ) {
 			// Already output the same description in opengraph, no need to repeat.
 			return;
-		} else if ( !$metadesc ) {
+		} else if ( ! $metadesc ) {
 			$metadesc = strip_tags( get_the_excerpt() );
 		}
 
@@ -145,7 +145,7 @@ class WPSEO_Twitter extends WPSEO_Frontend {
 	 */
 	public function twitter_url() {
 		$url = $this->canonical( false );
-		if( is_string( $url ) && $url !== '' ) {
+		if ( is_string( $url ) && $url !== '' ) {
 			echo '<meta name="twitter:url" content="' . esc_url( $url ) . '"/>' . "\n";
 		}
 	}
@@ -161,74 +161,52 @@ class WPSEO_Twitter extends WPSEO_Frontend {
 		$shown_images = array();
 		
 		if ( is_singular() ) {
-			
 			if ( is_front_page() ) {
-				
 				if ( $this->options['og_frontpage_image'] !== '' ) {
-					
 					$escaped_img = esc_url( $this->options['og_frontpage_image'] );
-					
+
 					if ( is_string( $escaped_img ) && $escaped_img !== ''  ) {
 						echo '<meta name="twitter:image:src" content="' . $escaped_img . '"/>' . "\n";
-						
+
 						// No images yet, don't test
 						array_push( $shown_images, $escaped_img );
-					
 					}
-					
 				}
-				
 			}
-			
+
 			if ( function_exists( 'has_post_thumbnail' ) && has_post_thumbnail( $post->ID ) ) {
-				
 				$featured_img = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), apply_filters( 'wpseo_opengraph_image_size', 'medium' ) );
-	
+
 				if ( $featured_img ) {
-					
 					$escaped_img = esc_url( apply_filters( 'wpseo_opengraph_image', $featured_img[0] ) );
 
 					if ( ( is_string( $escaped_img ) && $escaped_img !== ''  ) && ! in_array( $escaped_img, $shown_images ) ) {
-						
 						echo '<meta name="twitter:image:src" content="' . $escaped_img . '"/>' . "\n";
-						
+
 						array_push( $shown_images, $escaped_img );
-						
 					}
-					
 				}
-				
 			}
-			
+
 			if ( preg_match_all( '`<img [^>]+>`', $post->post_content, $matches ) ) {
-				
 				foreach ( $matches[0] as $img ) {
-					
 					if ( preg_match( '`src=(["\'])(.*?)\1`', $img, $match ) ) {
-						
 						$escaped_match = esc_url( $match[2] );
-					
+
 						if ( ( is_string( $escaped_match ) && $escaped_match !== ''  ) && ! in_array( $escaped_match, $shown_images ) ) {
-							
 							echo '<meta name="twitter:image:src" content="' . $escaped_match . '"/>' . "\n";
-							
+
 							array_push( $shown_images, $escaped_match );
-							
 						}
-					
 					}
-					
 				}
-				
 			}
-			
 		}
 		
-		if ( count( $shown_images ) == 0 && $this->options['og_default_image'] !== '' )
+		if ( count( $shown_images ) == 0 && $this->options['og_default_image'] !== '' ) {
 			echo '<meta name="twitter:image:src" content="' . esc_url( $this->options['og_default_image'] ) . '"/>' . "\n";
-
+		}
 	}
-	
 }
 
 global $wpseo_twitter;

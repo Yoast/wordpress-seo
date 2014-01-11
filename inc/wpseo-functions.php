@@ -3,7 +3,7 @@
  * @package Internals
  */
 
-if ( !defined( 'WPSEO_VERSION' ) ) {
+if ( ! defined( 'WPSEO_VERSION' ) ) {
 	header( 'HTTP/1.0 403 Forbidden' );
 	die;
 }
@@ -39,7 +39,7 @@ function wpseo_get_value( $val, $postid = 0 ) {
 			return false;
 	}
 	$custom = get_post_custom( $postid );
-	if ( !empty( $custom['_yoast_wpseo_' . $val][0] ) )
+	if ( ! empty( $custom['_yoast_wpseo_' . $val][0] ) )
 		return maybe_unserialize( $custom['_yoast_wpseo_' . $val][0] );
 	else
 		return false;
@@ -110,7 +110,7 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 		return trim( preg_replace( '`\s+`u', ' ', $string ) );
 
 	global $sep;
-	if ( !isset( $sep ) || empty( $sep ) )
+	if ( ! isset( $sep ) || empty( $sep ) )
 		$sep = '-';
 
 	$simple_replacements = array(
@@ -156,7 +156,7 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 	$r = (object) wp_parse_args( $args, $defaults );
 
 	$max_num_pages = 1;
-	if ( !is_single() ) {
+	if ( ! is_single() ) {
 		$pagenum = get_query_var( 'paged' );
 		if ( $pagenum === 0 )
 			$pagenum = 1;
@@ -194,37 +194,40 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 		'%%page%%'         => ( $max_num_pages > 1 && $pagenum > 1 ) ? sprintf( $sep . ' ' . __( 'Page %d of %d', 'wordpress-seo' ), $pagenum, $max_num_pages ) : '',
 		'%%pagetotal%%'    => $max_num_pages,
 		'%%pagenumber%%'   => $pagenum,
-		'%%term404%%'	   => sanitize_text_field ( str_replace( '-', ' ', $r->term404 ) ),
+		'%%term404%%'	   => sanitize_text_field( str_replace( '-', ' ', $r->term404 ) ),
 	);
 
 	if ( isset( $r->ID ) ) {
 		$replacements = array_merge( $replacements, array(
 			'%%caption%%'      => $r->post_excerpt,
 			'%%category%%'     => wpseo_get_terms( $r->ID, 'category' ),
-			'%%excerpt%%'      => ( !empty( $r->post_excerpt ) ) ? strip_tags( $r->post_excerpt ) : wp_html_excerpt( strip_shortcodes( $r->post_content ),155 ),
+			'%%excerpt%%'      => ( ! empty( $r->post_excerpt ) ) ? strip_tags( $r->post_excerpt ) : wp_html_excerpt( strip_shortcodes( $r->post_content ),155 ),
 			'%%excerpt_only%%' => strip_tags( $r->post_excerpt ),
 			'%%focuskw%%'      => wpseo_get_value( 'focuskw', $r->ID ),
 			'%%id%%'           => $r->ID,
 			'%%modified%%'     => mysql2date( get_option( 'date_format' ), $r->post_modified ),
-			'%%name%%'         => get_the_author_meta( 'display_name', !empty( $r->post_author ) ? $r->post_author : get_query_var( 'author' ) ),
+			'%%name%%'         => get_the_author_meta( 'display_name', ! empty( $r->post_author ) ? $r->post_author : get_query_var( 'author' ) ),
 			'%%tag%%'          => wpseo_get_terms( $r->ID, 'post_tag' ),
 			'%%title%%'        => stripslashes( $r->post_title ),
-			'%%userid%%'       => !empty( $r->post_author ) ? $r->post_author : get_query_var( 'author' ),
-		) );
+			'%%userid%%'       => ! empty( $r->post_author ) ? $r->post_author : get_query_var( 'author' ),
+			)
+		);
 	}
 
-	if ( !empty( $r->taxonomy ) ) {
+	if ( ! empty( $r->taxonomy ) ) {
 		$replacements = array_merge( $replacements, array(
 			'%%category_description%%' => trim( strip_tags( get_term_field( 'description', $r->term_id, $r->taxonomy ) ) ),
 			'%%tag_description%%'      => trim( strip_tags( get_term_field( 'description', $r->term_id, $r->taxonomy ) ) ),
 			'%%term_description%%'     => trim( strip_tags( get_term_field( 'description', $r->term_id, $r->taxonomy ) ) ),
 			'%%term_title%%'           => $r->name,
-		) );
+			)
+		);
 	}
 
 	foreach ( $replacements as $var => $repl ) {
-		if ( !in_array( $var, $omit ) )
+		if ( ! in_array( $var, $omit ) ) {
 			$string = str_replace( $var, $repl, $string );
+		}
 	}
 
 	if ( strpos( $string, '%%' ) === false ) {
@@ -235,10 +238,12 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 	if ( isset( $wp_query->query_vars['post_type'] ) && preg_match_all( '`%%pt_([^%]+)%%`u', $string, $matches, PREG_SET_ORDER ) ) {
 		$pt        = get_post_type_object( $wp_query->query_vars['post_type'] );
 		$pt_plural = $pt_singular = $pt->name;
-		if ( isset( $pt->labels->singular_name ) )
+		if ( isset( $pt->labels->singular_name ) ) {
 			$pt_singular = $pt->labels->singular_name;
-		if ( isset( $pt->labels->name ) )
+		}
+		if ( isset( $pt->labels->name ) ) {
 			$pt_plural = $pt->labels->name;
+		}
 		$string = str_replace( '%%pt_single%%', $pt_singular, $string );
 		$string = str_replace( '%%pt_plural%%', $pt_plural, $string );
 	}
@@ -253,9 +258,9 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 	if ( preg_match_all( '`%%ct_desc_([^%]+)?%%`u', $string, $matches, PREG_SET_ORDER ) ) {
 		global $post;
 		foreach ( $matches as $match ) {
-			$terms  = get_the_terms( $post->ID, $match[1] );
+			$terms = get_the_terms( $post->ID, $match[1] );
 			if ( is_array( $terms ) && $terms !== array() ) {
-				$term = current( $terms );
+				$term   = current( $terms );
 				$string = str_replace( $match[0], get_term_field( 'description', $term->term_id, $match[1] ), $string );
 			}
 			else {
@@ -274,8 +279,9 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 	if ( preg_match_all( '`%%ct_([^%]+)%%(single%%)?`u', $string, $matches, PREG_SET_ORDER ) ) {
 		foreach ( $matches as $match ) {
 			$single = false;
-			if ( isset( $match[2] ) && $match[2] == 'single%%' )
+			if ( isset( $match[2] ) && $match[2] == 'single%%' ) {
 				$single = true;
+			}
 			$ct_terms = wpseo_get_terms( $r->ID, $match[1], $single );
 
 			$string = str_replace( $match[0], $ct_terms, $string );
@@ -293,7 +299,7 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
  * @since 1.4.14
  */
 function wpseo_invalid_custom_taxonomy() {
-	echo '<div class="error"><p>' . sprintf( __( 'The taxonomy you used in (one of your) %s variables is <strong>invalid</strong>. Please %sadjust your settings%s.' ), '%%ct_desc_<custom-tax-name>%%', '<a href="' . admin_url( 'admin.php?page=wpseo_titles#top#taxonomies' ) . '">', '</a>' ) . '</p></div>';
+	echo '<div class="error"><p>' . sprintf( __( 'The taxonomy you used in (one of your) %s variables is <strong>invalid</strong>. Please %sadjust your settings%s.' ), '%%ct_desc_&lt;custom-tax-name&gt;%%', '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_titles#top#taxonomies' ) ) . '">', '</a>' ) . '</p></div>';
 }
 
 
@@ -313,11 +319,11 @@ function wpseo_get_terms( $id, $taxonomy, $return_single = false ) {
 	// If we're on a specific tag, category or taxonomy page, use that.
 	if ( is_category() || is_tag() || is_tax() ) {
 		global $wp_query;
-		$term = $wp_query->get_queried_object();
+		$term   = $wp_query->get_queried_object();
 		$output = $term->name;
 	}
-	else if ( !empty( $id ) && !empty( $taxonomy ) ) {
-		$terms  = get_the_terms( $id, $taxonomy );
+	else if ( ! empty( $id ) && ! empty( $taxonomy ) ) {
+		$terms = get_the_terms( $id, $taxonomy );
 		if ( $terms ) {
 			foreach ( $terms as $term ) {
 				if ( $return_single ) {
@@ -381,11 +387,11 @@ function wpseo_strip_shortcode( $text ) {
 function wpseo_xml_redirect_sitemap() {
 	global $wp_query;
 	
-	$current_url =( isset($_SERVER["HTTPS"] ) && $_SERVER["HTTPS"]=='on' ) ? 'https://' : 'http://';
-	$current_url .= $_SERVER["SERVER_NAME"] . $_SERVER["REQUEST_URI"];
+	$current_url  = ( isset( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] == 'on' ) ? 'https://' : 'http://';
+	$current_url .= $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
 
 	// must be 'sitemap.xml' and must be 404
-	if ( home_url( '/sitemap.xml' ) == $current_url && $wp_query->is_404) {
+	if ( home_url( '/sitemap.xml' ) == $current_url && $wp_query->is_404 ) {
 		wp_redirect( home_url( '/sitemap_index.xml' ) );
 	}
 }
@@ -401,7 +407,7 @@ function wpseo_xml_sitemaps_init() {
 	// redirects sitemap.xml to sitemap_index.xml
 	add_action( 'template_redirect', 'wpseo_xml_redirect_sitemap', 0 );
 
-	if ( !is_object( $GLOBALS['wp'] ) ) {
+	if ( ! is_object( $GLOBALS['wp'] ) ) {
 		return;
 	}
 
@@ -418,20 +424,23 @@ add_action( 'init', 'wpseo_xml_sitemaps_init', 1 );
  * Notify search engines of the updated sitemap.
  */
 function wpseo_ping_search_engines( $sitemapurl = null ) {
-	$options    = get_option( 'wpseo_xml' );
-	$base       = $GLOBALS['wp_rewrite']->using_index_permalinks() ? 'index.php/' : '';
-	if ( $sitemapurl  == null )
+	$options = get_option( 'wpseo_xml' );
+	$base    = $GLOBALS['wp_rewrite']->using_index_permalinks() ? 'index.php/' : '';
+	if ( $sitemapurl == null ) {
 		$sitemapurl = urlencode( home_url( $base . 'sitemap_index.xml' ) );
+	}
 
 	// Always ping Google and Bing, optionally ping Ask and Yahoo!
 	wp_remote_get( 'http://www.google.com/webmasters/tools/ping?sitemap=' . $sitemapurl );
 	wp_remote_get( 'http://www.bing.com/webmaster/ping.aspx?sitemap=' . $sitemapurl );
 
-	if ( $options['xml_ping_yahoo'] === true )
+	if ( $options['xml_ping_yahoo'] === true ) {
 		wp_remote_get( 'http://search.yahooapis.com/SiteExplorerService/V1/updateNotification?appid=3usdTDLV34HbjQpIBuzMM1UkECFl5KDN7fogidABihmHBfqaebDuZk1vpLDR64I-&url=' . $sitemapurl );
+	}
 
-	if ( $options['xml_ping_ask'] === true )
+	if ( $options['xml_ping_ask'] === true ) {
 		wp_remote_get( 'http://submissions.ask.com/ping?sitemap=' . $sitemapurl );
+	}
 }
 add_action( 'wpseo_ping_search_engines', 'wpseo_ping_search_engines' );
 
@@ -443,14 +452,16 @@ function wpseo_store_tracking_response() {
 	$options = get_option( 'wpseo' );
 	$options['tracking_popup_done'] = true;
 
-	if ( $_POST['allow_tracking'] == 'yes' )
+	if ( $_POST['allow_tracking'] == 'yes' ) {
 		$options['yoast_tracking'] = true;
-	else
+	}
+	else {
 		$options['yoast_tracking'] = false;
+	}
 
 	update_option( 'wpseo', $options );
 }
-add_action('wp_ajax_wpseo_allow_tracking', 'wpseo_store_tracking_response');
+add_action( 'wp_ajax_wpseo_allow_tracking', 'wpseo_store_tracking_response' );
 
 /**
  * WPML plugin support: Set titles for custom types / taxonomies as translatable.
@@ -462,39 +473,39 @@ add_action('wp_ajax_wpseo_allow_tracking', 'wpseo_store_tracking_response');
  * @return array
  */
 function wpseo_wpml_config( $config ) {
-    global $sitepress;
+	global $sitepress;
 
 	if ( ( is_array( $config ) && isset( $config['wpml-config']['admin-texts']['key'] ) ) && ( is_array( $config['wpml-config']['admin-texts']['key'] ) && $config['wpml-config']['admin-texts']['key'] !== array() ) ) {
-	    $admin_texts = $config['wpml-config']['admin-texts']['key'];
-	    foreach ( $admin_texts as $k => $val ) {
-	        if ( $val['attr']['name'] === 'wpseo_titles' ) {
-	            $translate_cp = array_keys( $sitepress->get_translatable_documents() );
-	            if ( is_array( $translate_cp ) && $translate_cp !== array() ) {
-		            foreach ( $translate_cp as $post_type ) {
-		                $admin_texts[$k]['key'][]['attr']['name'] = 'title-'. $post_type;
-		                $admin_texts[$k]['key'][]['attr']['name'] = 'metadesc-'. $post_type;
- 		                $admin_texts[$k]['key'][]['attr']['name'] = 'metakey-'. $post_type;
-		                $admin_texts[$k]['key'][]['attr']['name'] = 'title-ptarchive-'. $post_type;
-		                $admin_texts[$k]['key'][]['attr']['name'] = 'metadesc-ptarchive-'. $post_type;
-		                $admin_texts[$k]['key'][]['attr']['name'] = 'metakey-ptarchive-'. $post_type;
+		$admin_texts = $config['wpml-config']['admin-texts']['key'];
+		foreach ( $admin_texts as $k => $val ) {
+			if ( $val['attr']['name'] === 'wpseo_titles' ) {
+				$translate_cp = array_keys( $sitepress->get_translatable_documents() );
+				if ( is_array( $translate_cp ) && $translate_cp !== array() ) {
+					foreach ( $translate_cp as $post_type ) {
+						$admin_texts[$k]['key'][]['attr']['name'] = 'title-'. $post_type;
+						$admin_texts[$k]['key'][]['attr']['name'] = 'metadesc-'. $post_type;
+						$admin_texts[$k]['key'][]['attr']['name'] = 'metakey-'. $post_type;
+						$admin_texts[$k]['key'][]['attr']['name'] = 'title-ptarchive-'. $post_type;
+						$admin_texts[$k]['key'][]['attr']['name'] = 'metadesc-ptarchive-'. $post_type;
+						$admin_texts[$k]['key'][]['attr']['name'] = 'metakey-ptarchive-'. $post_type;
 
-		                $translate_tax = $sitepress->get_translatable_taxonomies(false, $post_type);
-		                if ( is_array( $translate_tax ) && $translate_tax !== array() ) {
-			                foreach ( $translate_tax as $taxonomy ) {
-			                    $admin_texts[$k]['key'][]['attr']['name'] = 'title-tax-'. $taxonomy;
-			                    $admin_texts[$k]['key'][]['attr']['name'] = 'metadesc-tax-'. $taxonomy;
-			                    $admin_texts[$k]['key'][]['attr']['name'] = 'metakey-tax-'. $taxonomy;
-		        	        }
+						$translate_tax = $sitepress->get_translatable_taxonomies( false, $post_type );
+						if ( is_array( $translate_tax ) && $translate_tax !== array() ) {
+							foreach ( $translate_tax as $taxonomy ) {
+								$admin_texts[$k]['key'][]['attr']['name'] = 'title-tax-'. $taxonomy;
+								$admin_texts[$k]['key'][]['attr']['name'] = 'metadesc-tax-'. $taxonomy;
+								$admin_texts[$k]['key'][]['attr']['name'] = 'metakey-tax-'. $taxonomy;
+							}
+						}
+					}
 				}
+				break;
 			}
-		    }
-	            break;
-	        }
-	    }
-	    $config['wpml-config']['admin-texts']['key'] = $admin_texts;
+		}
+		$config['wpml-config']['admin-texts']['key'] = $admin_texts;
 	}
 
-    return $config;
+	return $config;
 }
 add_filter( 'icl_wpml_config_array', 'wpseo_wpml_config' );
 
@@ -508,12 +519,15 @@ add_filter( 'icl_wpml_config_array', 'wpseo_wpml_config' );
  */
 function wpseo_sitemap_handler( $atts ) {
 
-		$atts = shortcode_atts( array(
-		'authors'  => true,
-		'pages'    => true,
-		'posts'    => true,
-		'archives' => true
-	), $atts );
+	$atts = shortcode_atts(
+		array(
+			'authors'  => true,
+			'pages'    => true,
+			'posts'    => true,
+			'archives' => true,
+		),
+		$atts
+	);
 
 	$display_authors  = ( $atts['authors'] === 'no' ) ? false : true;
 	$display_pages    = ( $atts['pages'] === 'no' ) ? false : true;
@@ -556,13 +570,13 @@ function wpseo_sitemap_handler( $atts ) {
 		// Some query magic to retrieve all pages that should be excluded, while preventing noindex pages that are set to
 		// "always" include in HTML sitemap from being excluded.
 
-		$exclude_query  = "SELECT DISTINCT( post_id ) FROM $wpdb->postmeta
-												WHERE ( ( meta_key = '_yoast_wpseo_sitemap-html-include' AND meta_value = 'never' )
-												  OR ( meta_key = '_yoast_wpseo_meta-robots-noindex' AND meta_value = 1 ) )
-												AND post_id NOT IN
-													( SELECT pm2.post_id FROM $wpdb->postmeta pm2
-															WHERE pm2.meta_key = '_yoast_wpseo_sitemap-html-include' AND pm2.meta_value = 'always')
-												ORDER BY post_id ASC";
+		$exclude_query  = "SELECT DISTINCT( post_id ) FROM {$GLOBALS['wpdb']->postmeta}
+			WHERE ( ( meta_key = '_yoast_wpseo_sitemap-html-include' AND meta_value = 'never' )
+			  OR ( meta_key = '_yoast_wpseo_meta-robots-noindex' AND meta_value = 1 ) )
+			AND post_id NOT IN
+				( SELECT pm2.post_id FROM {$GLOBALS['wpdb']->postmeta} pm2
+						WHERE pm2.meta_key = '_yoast_wpseo_sitemap-html-include' AND pm2.meta_value = 'always')
+			ORDER BY post_id ASC";
 		$excluded_pages = $GLOBALS['wpdb']->get_results( $exclude_query );
 
 		$exclude = array();
@@ -595,8 +609,8 @@ function wpseo_sitemap_handler( $atts ) {
 		// possibly have this controlled by shortcode params
 		$cats = get_categories( 'exclude=' );
 		foreach ( $cats as $cat ) {
-			$output .= "<li><h3>" . $cat->cat_name . "</h3>";
-			$output .= "<ul>";
+			$output .= '<li><h3>' . $cat->cat_name . '</h3>';
+			$output .= '<ul>';
 
 			$args = array(
 				'post_type'      => 'post',
@@ -610,21 +624,21 @@ function wpseo_sitemap_handler( $atts ) {
 					array(
 						'key'     => '_yoast_wpseo_meta-robots-noindex',
 						'value'   => '', // This is ignored, but is necessary...
-						'compare' => 'NOT EXISTS'
+						'compare' => 'NOT EXISTS',
 					),
 					// OR if key does exists include if it is not 1
 					array(
 						'key'     => '_yoast_wpseo_meta-robots-noindex',
 						'value'   => 1,
-						'compare' => '!='
+						'compare' => '!=',
 					),
 					// OR this key overrides it
 					array(
 						'key'     => '_yoast_wpseo_sitemap-html-include',
 						'value'   => 'always',
-						'compare' => '='
-					)
-				)
+						'compare' => '=',
+					),
+				),
 			);
 
 			$posts = get_posts( $args );
@@ -634,12 +648,12 @@ function wpseo_sitemap_handler( $atts ) {
 
 				// Only display a post link once, even if it's in multiple categories
 				if ( $category[0]->cat_ID == $cat->cat_ID ) {
-					$output .= '<li><a href="' . get_permalink( $post->ID ) . '">' . get_the_title( $post->ID ) . '</a></li>';
+					$output .= '<li><a href="' . esc_url( get_permalink( $post->ID ) ) . '">' . get_the_title( $post->ID ) . '</a></li>';
 				}
 			}
 
-			$output .= "</ul>";
-			$output .= "</li>";
+			$output .= '</ul>';
+			$output .= '</li>';
 		}
 	}
 	$output .= '</ul>';
@@ -647,7 +661,7 @@ function wpseo_sitemap_handler( $atts ) {
 	// get all public non-builtin post types
 	$args       = array(
 		'public'   => true,
-		'_builtin' => false
+		'_builtin' => false,
 	);
 	$post_types = get_post_types( $args, 'object' );
 
@@ -674,7 +688,7 @@ function wpseo_sitemap_handler( $atts ) {
 
 		foreach ( $post_types as $post_type ) {
 			if ( is_object( $post_type ) && $post_type->has_archive && ! in_array( 'noindex-ptarchive-' . $post_type->name, $noindex ) ) {
-				$output .= '<a href="' . get_post_type_archive_link( $post_type->name ) . '">' . $post_type->labels->name . '</a>';
+				$output .= '<a href="' . esc_url( get_post_type_archive_link( $post_type->name ) ) . '">' . $post_type->labels->name . '</a>';
 
 				$output .= create_type_sitemap_template( $post_type );
 			}
@@ -711,8 +725,8 @@ function create_type_sitemap_template( $post_type ) {
 					'field'    => 'id',
 					'terms'    => -1,
 					'operator' => 'NOT',
-				)
-			)
+				),
+			),
 		);
 		$query = new WP_Query( $args );
 
@@ -727,7 +741,7 @@ function create_type_sitemap_template( $post_type ) {
 				// 'hierarchical' => 0, // uncomment this for a flat list
 
 				'walker'           => $walker,
-				'post_type'        => $post_type->name // arg used by the Walker class
+				'post_type'        => $post_type->name, // arg used by the Walker class
 			)
 		);
 	}

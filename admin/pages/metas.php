@@ -3,8 +3,8 @@
  * @package Admin
  */
 
-if ( !defined('WPSEO_VERSION') ) {
-	header('HTTP/1.0 403 Forbidden');
+if ( ! defined( 'WPSEO_VERSION' ) ) {
+	header( 'HTTP/1.0 403 Forbidden' );
 	die;
 }
 
@@ -41,7 +41,7 @@ include_once( 'options-head.php' );
 <div class="tabwrapper>">
 <div id="general" class="wpseotab">
 	<?php
-	echo '<form action="' . admin_url( 'options.php' ) . '" method="post" id="wpseo-conf" accept-charset="' . get_bloginfo( 'charset' ) . '">';
+	echo '<form action="' . admin_url( 'options.php' ) . '" method="post" id="wpseo-conf" accept-charset="' . esc_attr( get_bloginfo( 'charset' ) ) . '">';
 	settings_fields( 'yoast_wpseo_titles_options' );
 	$wpseo_admin_pages->currentoption = 'wpseo_titles';
 
@@ -75,22 +75,17 @@ include_once( 'options-head.php' );
 		echo '<h2>' . __( 'Homepage', 'wordpress-seo' ) . '</h2>';
 		echo $wpseo_admin_pages->textinput( 'title-home-wpseo', __( 'Title template', 'wordpress-seo' ) );
 		echo $wpseo_admin_pages->textarea( 'metadesc-home-wpseo', __( 'Meta description template', 'wordpress-seo' ), '', 'metadesc' );
-		if ( $options[ 'usemetakeywords' ] === true )
+		if ( $options[ 'usemetakeywords' ] === true ) {
 			echo $wpseo_admin_pages->textinput( 'metakey-home-wpseo', __( 'Meta keywords template', 'wordpress-seo' ) );
-	} else {
-		echo '<h2>' . __( 'Homepage &amp; Front page', 'wordpress-seo' ) . '</h2>';
-		echo '<p>' . sprintf( __( 'You can determine the title and description for the front page by %sediting the front page itself &raquo;%s', 'wordpress-seo' ), '<a href="' . get_edit_post_link( get_option( 'page_on_front' ) ) . '">', '</a>' ) . '</p>';
-		if ( is_numeric( get_option( 'page_for_posts' ) ) )
-			echo '<p>' . sprintf( __( 'You can determine the title and description for the blog page by %sediting the blog page itself &raquo;%s', 'wordpress-seo' ), '<a href="' . get_edit_post_link( get_option( 'page_for_posts' ) ) . '">', '</a>' ) . '</p>';
+		}
 	}
-
-	// TODO: Please remove...Depreciated: moved over to the social tab
-	// echo '<h2>' . __( 'Author metadata', 'wordpress-seo' ) . '</h2>';
-	// echo '<label class="select" for="">' . __( 'Author highlighting', 'wordpress-seo' ) . ':</label>';
-	// wp_dropdown_users( array( 'show_option_none' => __( "Don't show", 'wordpress-seo' ), 'name' => 'wpseo_titles[plus-author]', 'class' => 'select', 'selected' => isset( $options[ 'plus-author' ] ) ? $options[ 'plus-author' ] : '' ) );
-	// echo '<p class="desc label">' . __( 'Choose the user that should be used for the <code>rel="author"</code> on the blog homepage. Make sure the user has filled out his/her Google+ profile link on their profile page.', 'wordpress-seo' ) . '</p>';
-	// echo $wpseo_admin_pages->textinput( 'plus-publisher-old', __( 'Google Publisher Page', 'wordpress-seo' ) );
-	// echo '<p class="desc label">' . __( 'If you have a Google+ page for your business, add that URL here and link it on your Google+ page\'s about page.', 'wordpress-seo' ) . '</p>';
+	else {
+		echo '<h2>' . __( 'Homepage &amp; Front page', 'wordpress-seo' ) . '</h2>';
+		echo '<p>' . sprintf( __( 'You can determine the title and description for the front page by %sediting the front page itself &raquo;%s', 'wordpress-seo' ), '<a href="' . esc_url( get_edit_post_link( get_option( 'page_on_front' ) ) ) . '">', '</a>' ) . '</p>';
+		if ( is_numeric( get_option( 'page_for_posts' ) ) ) {
+			echo '<p>' . sprintf( __( 'You can determine the title and description for the blog page by %sediting the blog page itself &raquo;%s', 'wordpress-seo' ), '<a href="' . esc_url( get_edit_post_link( get_option( 'page_for_posts' ) ) ) . '">', '</a>' ) . '</p>';
+		}
+	}
 	?>
 </div>
 <div id="post_types" class="wpseotab">
@@ -98,8 +93,9 @@ include_once( 'options-head.php' );
 	$post_types = get_post_types( array( 'public' => true ), 'objects' );
 	if ( is_array( $post_types ) && $post_types !== array() ) {
 		foreach ( $post_types as $pt ) {
-			if ( $options[ 'redirectattachment' ] === true && $posttype == 'attachment' )
+			if ( $options[ 'redirectattachment' ] === true && $pt->name == 'attachment' ) {
 				continue;
+			}
 			$name = $pt->name;
 			echo '<h4 id="' . esc_attr( $name ) . '">' . esc_html( ucfirst( $pt->labels->name ) ) . '</h4>';
 			echo $wpseo_admin_pages->textinput( 'title-' . $name, __( 'Title template', 'wordpress-seo' ) );
@@ -123,7 +119,7 @@ include_once( 'options-head.php' );
 		echo '<p>' . __( 'Note: instead of templates these are the actual titles and meta descriptions for these custom post type archive pages.', 'wordpress-seo' ) . '</p>';
 
 		foreach ( $post_types as $pt ) {
-			if ( !$pt->has_archive )
+			if ( ! $pt->has_archive )
 				continue;
 
 			$name = $pt->name;

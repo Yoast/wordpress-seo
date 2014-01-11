@@ -111,7 +111,7 @@ $xsl = '<?xml version="1.0" encoding="UTF-8"?>
 						<p class="expl">
 							This XML Sitemap contains <xsl:value-of select="count(sitemap:urlset/sitemap:url)"/> URLs.
 						</p>
-						<p class="expl"><a href="'.home_url('sitemap_index.xml').'">&#8593; Sitemap Index</a></p>
+						<p class="expl"><a href="' . esc_url( home_url( 'sitemap_index.xml' ) ) . '">&#8593; Sitemap Index</a></p>
 						<table id="sitemap" cellpadding="3">
 							<thead>
 								<tr>

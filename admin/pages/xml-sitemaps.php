@@ -2,7 +2,7 @@
 /**
  * @package Admin
  */
- 
+
 /*
 @todo - check for other sitemap plugins which may conflict ?
 @todo - check for existance of .xls rewrite rule in .htaccess from google-sitemaps-plugin/generator and remove as it will cause errors for our sitemaps (or inform the user and disallow enabling of sitemaps )
@@ -10,7 +10,7 @@
 */
 
 
-if ( !defined( 'WPSEO_VERSION' ) ) {
+if ( ! defined( 'WPSEO_VERSION' ) ) {
 	header( 'HTTP/1.0 403 Forbidden' );
 	die;
 }
@@ -23,10 +23,10 @@ $options = get_option( 'wpseo_xml' );
 
 $base = $GLOBALS['wp_rewrite']->using_index_permalinks() ? 'index.php/' : '';
 
-$content = $wpseo_admin_pages->checkbox( 'enablexmlsitemap', __( 'Check this box to enable XML sitemap functionality.', 'wordpress-seo' ), false );
+$content  = $wpseo_admin_pages->checkbox( 'enablexmlsitemap', __( 'Check this box to enable XML sitemap functionality.', 'wordpress-seo' ), false );
 $content .= '<div id="sitemapinfo">';
 if ( isset( $_SERVER['SERVER_SOFTWARE'] ) && stristr( $_SERVER['SERVER_SOFTWARE'], 'nginx' ) !== false ) {
-	$content .= '<div style="margin: 5px 0; padding: 3px 10px; background-color: #ffffe0; border: 1px solid #E6DB55; border-radius: 3px">';
+	$content .= '<div style="margin: 5px 0; padding: 3px 10px; background-color: #ffffe0; border: 1px solid #E6DB55; border-radius: 3px;">';
 	$content .= '<p>' . __( 'As you\'re on NGINX, you\'ll need the following rewrites:', 'wordpress-seo' ) . '</p>';
 	$content .= '<pre>rewrite ^/sitemap_index\.xml$ /index.php?sitemap=1 last;
 rewrite ^/([^/]+?)-sitemap([0-9]+)?\.xml$ /index.php?sitemap=$1&sitemap_n=$2 last;</pre>';
@@ -34,12 +34,12 @@ rewrite ^/([^/]+?)-sitemap([0-9]+)?\.xml$ /index.php?sitemap=$1&sitemap_n=$2 las
 }
 
 if ( $options['enablexmlsitemap'] === true )
-	$content .= '<p>' . sprintf( __( 'You can find your XML Sitemap here: %sXML Sitemap%s', 'wordpress-seo' ), '<a target="_blank" class="button-secondary" href="' . home_url( $base . 'sitemap_index.xml' ) . '">', '</a>' ) . '<br/><br/>' . __( 'You do <strong>not</strong> need to generate the XML sitemap, nor will it take up time to generate after publishing a post.', 'wordpress-seo' ) . '</p>';
+	$content .= '<p>' . sprintf( __( 'You can find your XML Sitemap here: %sXML Sitemap%s', 'wordpress-seo' ), '<a target="_blank" class="button-secondary" href="' . esc_url( home_url( $base . 'sitemap_index.xml' ) ) . '">', '</a>' ) . '<br/><br/>' . __( 'You do <strong>not</strong> need to generate the XML sitemap, nor will it take up time to generate after publishing a post.', 'wordpress-seo' ) . '</p>';
 else
 	$content .= '<p>' . __( 'Save your settings to activate XML Sitemaps.', 'wordpress-seo' ) . '</p>';
 
 $content .= '<h2>' . __( 'User sitemap', 'wordpress-seo' ) . '</h2>';
-$content .= $wpseo_admin_pages->checkbox( 'disable_author_sitemap', __( "Disable author/user sitemap", 'wordpress-seo' ), false );
+$content .= $wpseo_admin_pages->checkbox( 'disable_author_sitemap', __( 'Disable author/user sitemap', 'wordpress-seo' ), false );
 $content .= '<br/>';
 $content .= '<h2>' . __( 'General settings', 'wordpress-seo' ) . '</h2>';
 $content .= '<p>' . __( 'After content publication, the plugin automatically pings Google and Bing, do you need it to ping other search engines too? If so, check the box:', 'wordpress-seo' ) . '</p>';
