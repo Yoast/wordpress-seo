@@ -13,6 +13,9 @@ if ( ! class_exists( 'WP_List_Table' ) ) {
 
 class WPSEO_Bulk_Description_List_Table extends WP_List_Table {
 
+	/**
+	 *
+	 */
 	function __construct() {
 		parent::__construct( array(
 			'singular' => 'wpseo_bulk_description',
@@ -22,6 +25,10 @@ class WPSEO_Bulk_Description_List_Table extends WP_List_Table {
 		);
 	}
 
+
+	/**
+	 * @param $which
+	 */
 	function display_tablenav( $which ) {
 		?>
 		<div class="tablenav <?php echo esc_attr( $which ); ?>">
@@ -44,6 +51,10 @@ class WPSEO_Bulk_Description_List_Table extends WP_List_Table {
 		<?php
 	}
 
+
+	/**
+	 * @return array
+	 */
 	function get_views() {
 		global $wpdb;
 
@@ -89,6 +100,10 @@ class WPSEO_Bulk_Description_List_Table extends WP_List_Table {
 		return $status_links;
 	}
 
+
+	/**
+	 * @param $which
+	 */
 	function extra_tablenav( $which ) {
 
 		if ( 'top' === $which ) {
@@ -126,6 +141,10 @@ class WPSEO_Bulk_Description_List_Table extends WP_List_Table {
 
 	}
 
+
+	/**
+	 * @return array
+	 */
 	function get_columns() {
 		return $columns = array(
 			'col_page_title'                  => __( 'WP Page Title' ),
@@ -138,6 +157,10 @@ class WPSEO_Bulk_Description_List_Table extends WP_List_Table {
 		);
 	}
 
+
+	/**
+	 * @return array
+	 */
 	function get_sortable_columns() {
 		return $sortable = array(
 			'col_page_title'                  => array( 'post_title', true ),

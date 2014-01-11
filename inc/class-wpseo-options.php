@@ -656,7 +656,11 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 		}
 
 
-
+		/**
+		 * @param $option_key
+		 *
+		 * @return mixed
+		 */
 		public static function get_defaults( $option_key ) {
 			self::enrich_defaults( $option_key );
 			return self::$defaults[$option_key];
@@ -736,6 +740,13 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 		}
 
 
+		/**
+		 * @param $option_key
+		 * @param $dirty
+		 * @param $clean
+		 *
+		 * @return mixed
+		 */
 		public static function retain_variable_keys( $option_key, $dirty, $clean ) {
 
 			if ( isset( self::$variable_option_name_patterns[$option_key] ) ) {

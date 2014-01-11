@@ -703,6 +703,11 @@ function wpseo_sitemap_handler( $atts ) {
 add_shortcode( 'wpseo_sitemap', 'wpseo_sitemap_handler' );
 
 
+/**
+ * @param $post_type
+ *
+ * @return string
+ */
 function create_type_sitemap_template( $post_type ) {
 	// $output = '<h2 id="' . $post_type->name . '">' . __( $post_type->label, 'wordpress-seo' ) . '</h2><ul>';
 
