@@ -129,6 +129,7 @@ This version also incorporates the [SEO Extended](http://wordpress.org/plugins/s
 	* Admin -> Titles & Meta's -> Post types would show attachments even when attachment redirection to post was enabled
 	* Fixed: wpseo_invalid_custom_taxonomy() message (html issue)
 	* Fixed: wpseo_translate_score would never return score, but always the css value
+	* Fixed: category rewrite rules could have errors for categories without parent categories
 
 
 * Enhancements
