@@ -185,19 +185,24 @@ class WPSEO_Sitemaps {
 
 		$type = apply_filters( 'wpseo_build_sitemap_post_type', $type );
 
-		if ( $type == 1 )
+		if ( $type == 1 ) {
 			$this->build_root_map();
-		else if ( post_type_exists( $type ) )
+		}
+		else if ( post_type_exists( $type ) ) {
 			$this->build_post_type_map( $type );
-		else if ( $tax = get_taxonomy( $type ) )
+		}
+		else if ( $tax = get_taxonomy( $type ) ) {
 			$this->build_tax_map( $tax );
+		}
 		else if ( $type == 'author' ) {
 			$this->build_user_map();
 		}
-		else if ( has_action( 'wpseo_do_sitemap_' . $type ) )
+		else if ( has_action( 'wpseo_do_sitemap_' . $type ) ) {
 			do_action( 'wpseo_do_sitemap_' . $type );
-		else
+		}
+		else {
 			$this->bad_sitemap = true;
+		}
 	}
 
 	/**
@@ -262,10 +267,11 @@ class WPSEO_Sitemaps {
 			if ( ! $wpdb->get_var( $wpdb->prepare( "SELECT term_id FROM $wpdb->term_taxonomy WHERE taxonomy = %s AND count != 0 LIMIT 1", $tax ) ) )
 				continue;
 
-			$steps     = $this->max_entries;
 			$all_terms = get_terms( $tax, array( 'hide_empty' => true, 'fields' => 'names' ) );
-			$count     = count( $all_terms );
-			$n         = ( $count > $this->max_entries ) ? (int) ceil( $count / $this->max_entries ) : 1;
+
+			$steps = $this->max_entries;
+			$count = count( $all_terms );
+			$n     = ( $count > $this->max_entries ) ? (int) ceil( $count / $this->max_entries ) : 1;
 
 			for ( $i = 0; $i < $n; $i ++ ) {
 				$count  = ( $n > 1 ) ? $i + 1 : '';
@@ -581,8 +587,11 @@ class WPSEO_Sitemaps {
 							'src' => apply_filters( 'wpseo_xml_sitemap_img_src', $src[0], $p )
 						);
 
-						if ( $alt = get_post_meta( $att_id, '_wp_attachment_image_alt', true ) )
+						$alt = get_post_meta( $att_id, '_wp_attachment_image_alt', true );
+						if ( $alt !== '' ) {
 							$image['alt'] = $alt;
+						}
+						unset( $alt );
 
 						$image['title'] = $attachment->post_title;
 
@@ -761,16 +770,19 @@ class WPSEO_Sitemaps {
 		usort( $users, array( $this, 'user_map_sorter' ) );
 
 		foreach ( $users as $user ) {
-			if ( $author_link = get_author_posts_url( $user->ID ) ) {
-				$output .= $this->sitemap_url( array(
-					'loc' => $author_link,
-					'pri' => 0.8,
-					'chf' => 'weekly',
-					'mod' => date( 'c', isset( $user->_yoast_wpseo_profile_updated ) ? $user->_yoast_wpseo_profile_updated : time() ),
+			$author_link = get_author_posts_url( $user->ID );
+			if ( $author_link !== '' ) {
+				$output .= $this->sitemap_url(
+					array(
+						'loc' => $author_link,
+						'pri' => 0.8,
+						'chf' => 'weekly',
+						'mod' => date( 'c', isset( $user->_yoast_wpseo_profile_updated ) ? $user->_yoast_wpseo_profile_updated : time() ),
 					)
 				);
 			}
 		}
+		unset( $author_link );
 
 		if ( empty( $output ) ) {
 			$this->bad_sitemap = true;

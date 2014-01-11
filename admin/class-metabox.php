@@ -644,19 +644,24 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return object $gplus An object with the users Google+ data.
 	 */
 	function get_gplus_data( $user_id ) {
-		if ( $gplus = get_transient( 'gplus_' . $user_id ) )
+		$gplus = get_transient( 'gplus_' . $user_id );
+		if ( $gplus !== false )
 			return $gplus;
 
 		$gplus_profile = get_the_author_meta( 'googleplus', $user_id );
 
-		if ( empty( $gplus_profile ) )
+		if ( empty( $gplus_profile ) ) {
 			return false;
-		if ( preg_match( '`u/0/([^/]+)/`', $gplus_profile, $match ) )
+		}
+		if ( preg_match( '`u/0/([^/]+)/`', $gplus_profile, $match ) ) {
 			$gplus_id = $match[1];
-		else if ( preg_match( '`\.com/(\d+)`', $gplus_profile, $match ) )
+		}
+		else if ( preg_match( '`\.com/(\d+)`', $gplus_profile, $match ) ) {
 			$gplus_id = $match[1];
-		else
+		}
+		else {
 			return false;
+		}
 
 		$args = array(
 			'headers' => array(
@@ -668,14 +673,14 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		if ( ! is_wp_error( $resp ) ) {
 			$gplus = json_decode( $resp['body'] );
 
+			/**
+			 * @todo do we really need to retrieve this every week ? why not change it
+			 * to month ? or make it an option variable and let the user decide based
+			 * on how they use gplus
+			 */
 			set_transient( 'gplus_' . $user_id, $gplus, ( 7 * 24 * 60 * 60 ) );
-
-			return $gplus;
 		}
-		else {
-			return false;
-		}
-
+		return $gplus;
 	}
 
 	/**
@@ -839,12 +844,14 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			return;
 
 		if ( $column_name == 'wpseo-score' ) {
+			$score = wpseo_get_value( 'linkdex', $post_id );
 			if ( (int) wpseo_get_value( 'meta-robots-noindex', $post_id ) === 1 ) {
 				$score_label = 'noindex';
 				$title       = __( 'Post is set to noindex.', 'wordpress-seo' );
 				wpseo_set_value( 'linkdex', 0, $post_id );
 			}
-			else if ( $score = wpseo_get_value( 'linkdex', $post_id ) ) {
+			else if ( $score !== false ) {
+				// @todo: check if we should use bcmath!
 				$score_label = wpseo_translate_score( round( $score / 10 ) );
 				$title       = wpseo_translate_score( round( $score / 10 ), $css = false );
 			}
