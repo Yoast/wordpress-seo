@@ -9,26 +9,26 @@ jQuery(document).ready( function() {
 	var new_metadesc_class	 = ".wpseo-new-metadesc";
 
 	var handle_response = function( response, status ) {
-		if( status != "success") { return; }
+		if (status != "success") { return; }
 
 		var resp = response;
 
-		if( typeof resp == "string") {
+		if (typeof resp == "string") {
 			resp = JSON.parse( response );
 		}
 
-		if( resp instanceof Array ) {
+		if ( resp instanceof Array ) {
 			jQuery.each( resp, function() {
 				handle_response( this, status );
 			});
 		}
 		else {
-			if( resp.status == 'success' ) {
-				if( jQuery( '.wpseo_bulk_titles' ).length ) {
+			if ( resp.status == 'success' ) {
+				if ( jQuery( '.wpseo_bulk_titles' ).length ) {
 					jQuery( existing_title_id + resp.post_id ).html( resp.new_title.replace(/\\(?!\\)/g, '') );
 					jQuery( new_title_id + resp.post_id ).val( '' ).focus();
 				}
-				else if( jQuery( '.wpseo_bulk_descriptions').length ) {
+				else if ( jQuery( '.wpseo_bulk_descriptions').length ) {
 					jQuery( existing_metadesc_id + resp.post_id ).html( resp.new_metadesc.replace(/\\(?!\\)/g, '') );
 					jQuery( new_metadesc_id + resp.post_id ).val( '' ).focus();
 				}
@@ -47,10 +47,10 @@ jQuery(document).ready( function() {
 	};
 
 	var submit_new = function( id ) {
-		if( jQuery( '.wpseo_bulk_titles' ).length == 1 ) {
+		if ( jQuery( '.wpseo_bulk_titles' ).length == 1 ) {
 			submit_new_title( id );
 		}
-		else if( jQuery( '.wpseo_bulk_descriptions').length == 1 ) {
+		else if ( jQuery( '.wpseo_bulk_descriptions').length == 1 ) {
 			submit_new_metadesc( id );
 		}
 	};
@@ -63,11 +63,11 @@ jQuery(document).ready( function() {
 			'existing_title' : jQuery( existing_title_id + id ).html()
 		};
 		
-		if( data.new_title == data.existing_title ) {
+		if ( data.new_title == data.existing_title ) {
 			jQuery( new_title_id + id ).val('').focus();
 		}
 		else {
-			if( ( data.new_title == '' ) && !confirm( "Are you sure you want to remove the existing Yoast SEO Title?" ) ) {
+			if ( ( data.new_title == '' ) && !confirm( "Are you sure you want to remove the existing Yoast SEO Title?" ) ) {
 				jQuery( new_title_id + id ).focus();
 				return;
 			}
@@ -83,11 +83,11 @@ jQuery(document).ready( function() {
 			'existing_metadesc' : jQuery( existing_metadesc_id + id ).html()
 		};
 		
-		if( data.new_metadesc == data.existing_metadesc ) {
+		if ( data.new_metadesc == data.existing_metadesc ) {
 			jQuery( new_metadesc_id + id ).val('').focus();
 		}
 		else {
-			if( data.new_metadesc == '' && !confirm( "Are you sure you want to remove the existing Yoast SEO Description?" ) ) {
+			if ( data.new_metadesc == '' && !confirm( "Are you sure you want to remove the existing Yoast SEO Description?" ) ) {
 				jQuery( data.new_metadesc + id ).focus();
 				return;
 			}
@@ -128,8 +128,8 @@ jQuery(document).ready( function() {
 				var value = jQuery(this).val();
 				var existing_title = jQuery( existing_title_id + id ).html();
 
-				if( value != '' ) {
-					if( value == existing_title ) {
+				if ( value != '' ) {
+					if ( value == existing_title ) {
 						jQuery( new_title_id + id ).val('').focus();
 					}
 					else {
@@ -140,7 +140,7 @@ jQuery(document).ready( function() {
 				}
 			});
 
-			if( data.send ) {
+			if ( data.send ) {
 				jQuery.post( ajaxurl, data, handle_response );
 			}
 		};
@@ -160,8 +160,8 @@ jQuery(document).ready( function() {
 				var value = jQuery(this).val();
 				var existing_metadesc = jQuery( existing_metadesc_id + id ).html();
 
-				if( value != '' ) {
-					if( value == existing_metadesc ) {
+				if ( value != '' ) {
+					if ( value == existing_metadesc ) {
 						jQuery( new_metadesc_id + id ).val('').focus();
 					}
 					else {
@@ -172,15 +172,15 @@ jQuery(document).ready( function() {
 				}
 			});
 
-			if( data.send ) {
+			if ( data.send ) {
 				jQuery.post( ajaxurl, data, handle_response );
 			}
 		};
 
-		if( jQuery( '.wpseo_bulk_titles' ).length ) {
+		if ( jQuery( '.wpseo_bulk_titles' ).length ) {
 			jQuery(this).on( 'click', save_all_titles );
 		}
-		else if( jQuery( '.wpseo_bulk_descriptions').length ) {
+		else if ( jQuery( '.wpseo_bulk_descriptions').length ) {
 			jQuery(this).on( 'click', save_all_metadescs );
 		}
 	});
