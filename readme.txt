@@ -106,10 +106,12 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 
 == Changelog ==
 
-= Trunk =
+= 1.4.23 =
 
 * Bugfixes
 	* Fix for serious sitemap issue which caused all pages of a split sitemap to be the same (show the first 1000 urls) - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fixed a bug in the WPSEO tour in WP Network installs
+	* clean_permalink 301 redirect issue when using https - props [pirategaspard](https://github.com/pirategaspard)
 	
 * i18n
 	* Updated cs_CZ, fa_IR, fr_FR, hu, hu_HU, pl_PL, ru_RU & zh_CN
