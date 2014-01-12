@@ -69,7 +69,8 @@ if ( ! class_exists( 'Yoast_Tracking' ) ) {
 							'author'     => $theme_data->parent()->display( 'Author', false, false ),
 							'author_uri' => $theme_data->parent()->display( 'AuthorURI', false, false ),
 						);
-					} else {
+					}
+					else {
 						$theme['template'] = '';
 					}
 					unset( $theme_template );

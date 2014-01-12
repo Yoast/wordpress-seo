@@ -197,7 +197,7 @@ if ( isset( $_POST['import'] ) ) {
 				$robotsmeta_adv .= 'noydir';
 			}
 			$robotsmeta_adv = preg_replace( '`,$`', '', $robotsmeta_adv );
-			wpseo_set_value( 'meta-robots-adv', $robotsmeta_adv, $post->ID );
+			WPSEO_Meta::set_value( 'meta-robots-adv', $robotsmeta_adv, $post->ID );
 
 			if ( $replace ) {
 				foreach ( array( 'noindex', 'nofollow', 'noarchive', 'noodp', 'noydir' ) as $meta ) {
@@ -222,11 +222,13 @@ if ( isset( $_POST['import'] ) ) {
 	if ( isset( $_POST['wpseo']['importrobotsmeta'] ) ) {
 		$posts = $wpdb->get_results( "SELECT ID, robotsmeta FROM $wpdb->posts" );
 		foreach ( $posts as $post ) {
-			if ( strpos( $post->robotsmeta, 'noindex' ) !== false )
-				wpseo_set_value( 'meta-robots-noindex', true, $post->ID );
+			if ( strpos( $post->robotsmeta, 'noindex' ) !== false ) {
+				WPSEO_Meta::set_value( 'meta-robots-noindex', true, $post->ID );
+			}
 
-			if ( strpos( $post->robotsmeta, 'nofollow' ) !== false )
-				wpseo_set_value( 'meta-robots-nofollow', true, $post->ID );
+			if ( strpos( $post->robotsmeta, 'nofollow' ) !== false ) {
+				WPSEO_Meta::set_value( 'meta-robots-nofollow', true, $post->ID );
+			}
 		}
 		$msg .= __( 'Robots Meta values imported.', 'wordpress-seo' );
 	}
@@ -234,11 +236,14 @@ if ( isset( $_POST['import'] ) ) {
 		$optold = get_option( 'RSSFooterOptions' );
 		$optnew = get_option( 'wpseo_rss' );
 		if ( $optold['position'] == 'after' ) {
-			if ( empty( $optnew['rssafter'] ) )
+			if ( empty( $optnew['rssafter'] ) ) {
 				$optnew['rssafter'] = $optold['footerstring'];
-		} else {
-			if ( empty( $optnew['rssbefore'] ) )
+			}
+		}
+		else {
+			if ( empty( $optnew['rssbefore'] ) ) {
 				$optnew['rssbefore'] = $optold['footerstring'];
+			}
 		}
 		update_option( 'wpseo_rss', $optnew );
 		$msg .= __( 'RSS Footer options imported successfully.', 'wordpress-seo' );
@@ -249,21 +254,26 @@ if ( isset( $_POST['import'] ) ) {
 
 		if ( is_array( $optold ) ) {
 			foreach ( $optold as $opt => $val ) {
-				if ( is_bool( $val ) && $val == true )
+				if ( is_bool( $val ) && $val == true ) {
 					$optnew['breadcrumbs-' . $opt] = 'on';
-				else
+				}
+				else {
 					$optnew['breadcrumbs-' . $opt] = $val;
+				}
 			}
 			update_option( 'wpseo_internallinks', $optnew );
 			$msg .= __( 'Yoast Breadcrumbs options imported successfully.', 'wordpress-seo' );
-		} else {
+		}
+		else {
 			$msg .= __( 'Yoast Breadcrumbs options could not be found', 'wordpress-seo' );
 		}
 	}
-	if ( $replace )
+	if ( $replace ) {
 		$msg .= __( ', and old data deleted.', 'wordpress-seo' );
-	if ( $deletekw )
+	}
+	if ( $deletekw ) {
 		$msg .= __( ', and meta keywords data deleted.', 'wordpress-seo' );
+	}
 }
 
 $wpseo_admin_pages->admin_header( false );
@@ -308,14 +318,16 @@ $content .= '</form>';
 if ( isset( $_POST['wpseo_export'] ) ) {
 	check_admin_referer( 'wpseo-export' );
 	$include_taxonomy = false;
-	if ( isset( $_POST['wpseo']['include_taxonomy_meta'] ) )
+	if ( isset( $_POST['wpseo']['include_taxonomy_meta'] ) ) {
 		$include_taxonomy = true;
+	}
 	$url = $wpseo_admin_pages->export_settings( $include_taxonomy );
 	if ( $url ) {
 		$content .= '<script type="text/javascript">
 			document.location = \'' . $url . '\';
 		</script>';
-	} else {
+	}
+	else {
 		$content .= 'Error: ' . $url;
 	}
 }
@@ -329,7 +341,8 @@ if ( ! isset( $_FILES['settings_import_file'] ) || empty( $_FILES['settings_impo
 	$content .= '<input type="hidden" name="action" value="wp_handle_upload"/>';
 	$content .= '<input type="submit" class="button" value="' . __( 'Import settings', 'wordpress-seo' ) . '"/>';
 	$content .= '</form><br/>';
-} else if ( isset( $_FILES['settings_import_file'] ) ) {
+}
+else if ( isset( $_FILES['settings_import_file'] ) ) {
 	check_admin_referer( 'wpseo-import-file' );
 	$file = wp_handle_upload( $_FILES['settings_import_file'] );
 
@@ -342,7 +355,8 @@ if ( ! isset( $_FILES['settings_import_file'] ) || empty( $_FILES['settings_impo
 			foreach ( $options as $name => $optgroup ) {
 				if ( $name != 'wpseo_taxonomy_meta' ) {
 					update_option( $name, $optgroup );
-				} else {
+				}
+				else {
 					update_option( $name, json_decode( urldecode( $optgroup['wpseo_taxonomy_meta'] ), true ) );
 				}
 			}
@@ -350,14 +364,18 @@ if ( ! isset( $_FILES['settings_import_file'] ) || empty( $_FILES['settings_impo
 			@unlink( $file['file'] );
 
 			$content .= '<p><strong>' . __( 'Settings successfully imported.', 'wordpress-seo' ) . '</strong></p>';
-		} else {
+		}
+		else {
 			$content .= '<p><strong>' . __( 'Settings could not be imported:', 'wordpress-seo' ) . ' ' . __( 'Unzipping failed.', 'wordpress-seo' ) . '</strong></p>';
 		}
-	} else {
-		if ( is_wp_error( $file ) )
+	}
+	else {
+		if ( is_wp_error( $file ) ) {
 			$content .= '<p><strong>' . __( 'Settings could not be imported:', 'wordpress-seo' ) . ' ' . $file['error'] . '</strong></p>';
-		else
+		}
+		else {
 			$content .= '<p><strong>' . __( 'Settings could not be imported:', 'wordpress-seo' ) . ' ' . __( 'Upload failed.', 'wordpress-seo' ) . '</strong></p>';
+		}
 	}
 }
 $wpseo_admin_pages->postbox( 'wpseo_export', __( 'Export & Import SEO Settings', 'wordpress-seo' ), $content );

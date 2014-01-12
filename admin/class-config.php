@@ -259,10 +259,13 @@ class WPSEO_Admin_Pages {
 					for ( $i = 0; $i < count( $elem ); $i++ ) {
 						$content .= $key . '[] = "' . $elem[$i] . "\"\n";
 					}
-				} else if ( $elem == '' )
+				}
+				else if ( $elem == '' ) {
 					$content .= $key . " = \n";
-				else
+				}
+				else {
 					$content .= $key . ' = \"' . $elem . "\"\n";
+				}
 			}
 		}
 
@@ -360,18 +363,22 @@ class WPSEO_Admin_Pages {
 
 		$options = $this->get_option( $option );
 
-		if ( ! isset( $options[$var] ) )
+		if ( ! isset( $options[$var] ) ) {
 			$options[$var] = false;
+		}
 
-		if ( $options[$var] === true )
+		if ( $options[$var] === true ) {
 			$options[$var] = 'on';
+		}
 
 		if ( $label_left !== false ) {
-			if ( ! empty( $label_left ) )
+			if ( ! empty( $label_left ) ) {
 				$label_left .= ':';
+			}
 			$output_label = '<label class="checkbox" for="' . esc_attr( $var ) . '">' . $label_left . '</label>';
 			$class        = 'checkbox';
-		} else {
+		}
+		else {
 			$output_label = '<label for="' . esc_attr( $var ) . '">' . $label . '</label>';
 			$class        = 'checkbox double';
 		}
@@ -380,7 +387,8 @@ class WPSEO_Admin_Pages {
 
 		if ( $label_left !== false ) {
 			$output = $output_label . $output_input . '<label class="checkbox" for="' . esc_attr( $var ) . '">' . $label . '</label>';
-		} else {
+		}
+		else {
 			$output = $output_input . $output_label;
 		}
 		return $output . '<br class="clear" />';

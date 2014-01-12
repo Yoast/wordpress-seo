@@ -46,8 +46,9 @@ class WPSEO_Sitemaps {
 	 * Class constructor
 	 */
 	function __construct() {
-		if ( ! defined( 'ENT_XML1' ) )
+		if ( ! defined( 'ENT_XML1' ) ) {
 			define( 'ENT_XML1', 16 );
+		}
 
 		add_action( 'init', array( $this, 'init' ), 1 );
 		add_action( 'template_redirect', array( $this, 'redirect' ) );
@@ -211,7 +212,6 @@ class WPSEO_Sitemaps {
 	 *
 	 * @todo lastmod for sitemaps?
 	 */
-
 	function build_root_map() {
 
 		global $wpdb;
@@ -518,21 +518,25 @@ class WPSEO_Sitemaps {
 					continue;
 				}
 				else {
-
-					if ( $this->options['trailingslash'] === true && $p->post_type != 'post' )
+					if ( $this->options['trailingslash'] === true && $p->post_type != 'post' ) {
 						$url['loc'] = trailingslashit( $url['loc'] );
+					}
 				}
 
 				$pri = wpseo_get_value( 'sitemap-prio', $p->ID );
-				if ( is_numeric( $pri ) )
+				if ( is_numeric( $pri ) ) {
 					$url['pri'] = $pri;
-				elseif ( $p->post_parent == 0 && $p->post_type == 'page' )
+				}
+				else if ( $p->post_parent == 0 && $p->post_type == 'page' ) {
 					$url['pri'] = 0.8;
-				else
+				}
+				else {
 					$url['pri'] = 0.6;
+				}
 
-				if ( isset( $front_id ) && $p->ID == $front_id )
+				if ( isset( $front_id ) && $p->ID == $front_id ) {
 					$url['pri'] = 1.0;
+				}
 
 				$url['images'] = array();
 
@@ -548,29 +552,35 @@ class WPSEO_Sitemaps {
 						if ( preg_match( '`src=["\']([^"\']+)["\']`', $img, $match ) ) {
 							$src = $match[1];
 							if ( strpos( $src, 'http' ) !== 0 ) {
-								if ( $src[0] != '/' )
+								if ( $src[0] != '/' ) {
 									continue;
+								}
 								$src = get_bloginfo( 'url' ) . $src;
 							}
 
-							if ( strpos( $src, $host ) === false )
+							if ( strpos( $src, $host ) === false ) {
 								continue;
+							}
 
-							if ( $src != esc_url( $src ) )
+							if ( $src != esc_url( $src ) ) {
 								continue;
+							}
 
-							if ( isset( $url['images'][$src] ) )
+							if ( isset( $url['images'][$src] ) ) {
 								continue;
+							}
 
 							$image = array(
 								'src' => apply_filters( 'wpseo_xml_sitemap_img_src', $src, $p )
 							);
 
-							if ( preg_match( '`title=["\']([^"\']+)["\']`', $img, $match ) )
+							if ( preg_match( '`title=["\']([^"\']+)["\']`', $img, $match ) ) {
 								$image['title'] = str_replace( array( '-', '_' ), ' ', $match[1] );
+							}
 
-							if ( preg_match( '`alt=["\']([^"\']+)["\']`', $img, $match ) )
+							if ( preg_match( '`alt=["\']([^"\']+)["\']`', $img, $match ) ) {
 								$image['alt'] = str_replace( array( '-', '_' ), ' ', $match[1] );
+							}
 
 							$image = apply_filters( 'wpseo_xml_sitemap_img', $image, $p );
 

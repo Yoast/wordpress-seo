@@ -34,7 +34,7 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 	 */
 	public function tab_content() {
 		$content = '';
-		foreach ( $this->get_social_meta_boxes() as $meta_box ) {
+		foreach ( $this->get_meta_field_defs( 'social' ) as $meta_box ) {
 			$content .= $this->do_meta_box( $meta_box );
 		}
 		$this->do_tab( 'social', __( 'Social', 'wordpress-seo' ), $content );
@@ -45,15 +45,15 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 	 * Define the meta boxes for the Social tab
 	 *
 	 * @deprecated 1.5.0
-	 * @deprecated use WPSEO_Meta::get_social_meta_boxes()
-	 * @see WPSEO_Meta::get_social_meta_boxes()
+	 * @deprecated use WPSEO_Meta::get_meta_field_defs()
+	 * @see WPSEO_Meta::get_meta_field_defs()
 	 *
 	 * @param	string	$post_type
 	 * @return	array	Array containing the meta boxes
 	 */
 	public function get_meta_boxes( $post_type = 'post' ) {
-		_deprecated_function( __FUNCTION__, 'WPSEO 1.5.0', 'WPSEO_Meta::get_social_meta_boxes()' );
-		return $this->get_social_meta_boxes();
+		_deprecated_function( __FUNCTION__, 'WPSEO 1.5.0', 'WPSEO_Meta::get_meta_field_defs()' );
+		return $this->get_meta_field_defs( 'social' );
 	}
 
 	/**
@@ -62,8 +62,8 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 	 * @param array $mbs Array of metaboxes to save.
 	 * @return array
 	 */
-	public function save_meta_boxes( $mbs ) {
-		return array_merge( $mbs, $this->get_social_meta_boxes() );
+	public function save_meta_boxes( $field_defs ) {
+		return array_merge( $field_defs, $this->get_meta_field_defs( 'social' ) );
 	}
 
 }

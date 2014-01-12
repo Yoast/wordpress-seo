@@ -198,7 +198,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	/**
 	 * Outputs the page analysis score in the Publish Box.
 	 *
-	 * @todo check $score setting as it is used in wp_translate_score, but not always set
 	 */
 	public function publish_box() {
 		if ( $this->pt_is_public() === false )
@@ -214,8 +213,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$score = wpseo_get_value( 'linkdex' );
 			if ( $score ) {
 				$score = round( $score / 10 );
-				if ( $score < 1 )
+				if ( $score < 1 ) {
 					$score = 1;
+				}
 				$score_label = wpseo_translate_score( $score );
 			}
 			else {
@@ -237,9 +237,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 					$score_label = wpseo_translate_score( $score );
 				}
 			}
+
+			if ( ! isset( $title ) ) {
+				$title = wpseo_translate_score( $score, $css = false );
+			}
 		}
-		if ( ! isset( $title ) )
-			$title = wpseo_translate_score( $score, $css = false );
 
 		$result = '<div title="' . esc_attr( $title ) . '" alt="' . esc_attr( $title ) . '" class="wpseo_score_img ' . $score_label . '"></div>';
 
@@ -269,7 +271,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 *
 	 * @deprecated 1.4.23
 	 * @deprecated use WPSEO_Metabox::add_meta_box()
-	 * @see WPSEO_Meta::get_general_meta_boxes()
+	 * @see WPSEO_Meta::add_meta_box()
 	 */
 	public function add_custom_box() {
 		_deprecated_function( __FUNCTION__, 'WPSEO 1.4.23', 'WPSEO_Metabox::add_meta_box()' );
@@ -312,8 +314,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		unset( $date );
 
 		$title_template = '';
-		if ( isset( $options['title-' . $post->post_type] ) && $options['title-' . $post->post_type] !== '' )
+		if ( isset( $options['title-' . $post->post_type] ) && $options['title-' . $post->post_type] !== '' ) {
 			$title_template = $options['title-' . $post->post_type];
+		}
 
 		// If there's no title template set, use the default, otherwise title preview won't work.
 		if ( $title_template == '' ) {
@@ -363,15 +366,15 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * Retrieve the meta boxes for the given post type.
 	 *
 	 * @deprecated 1.5.0
-	 * @deprecated use WPSEO_Meta::get_general_meta_boxes()
-	 * @see WPSEO_Meta::get_general_meta_boxes()
+	 * @deprecated use WPSEO_Meta::get_meta_field_defs()
+	 * @see WPSEO_Meta::get_meta_field_defs()
 	 *
 	 * @param	string	$post_type
 	 * @return	array
 	 */
 	public function get_meta_boxes( $post_type = 'post' ) {
-		_deprecated_function( __FUNCTION__, 'WPSEO 1.5.0', 'WPSEO_Meta::get_general_meta_boxes()' );
-		return $this->get_general_meta_boxes( $post_type );
+		_deprecated_function( __FUNCTION__, 'WPSEO 1.5.0', 'WPSEO_Meta::get_meta_field_defs()' );
+		return $this->get_meta_field_defs( 'general', $post_type );
 	}
 
 
@@ -402,7 +405,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		</ul>
 		<?php
 		$content = '';
-		foreach ( $this->get_general_meta_boxes( $post->post_type ) as $meta_box ) {
+		foreach ( $this->get_meta_field_defs( 'general', $post->post_type ) as $meta_box ) {
 			$content .= $this->do_meta_box( $meta_box );
 		}
 		$this->do_tab( 'general', __( 'General', 'wordpress-seo' ), $content );
@@ -411,7 +414,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		if ( current_user_can( 'manage_options' ) || $options['disableadvanced_meta'] === false ) {
 			$content = '';
-			foreach ( $this->get_advanced_meta_boxes() as $meta_box ) {
+			foreach ( $this->get_meta_field_defs( 'advanced' ) as $meta_box ) {
 				$content .= $this->do_meta_box( $meta_box );
 			}
 			$this->do_tab( 'advanced', __( 'Advanced', 'wordpress-seo' ), $content );
@@ -440,8 +443,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			if ( wpseo_get_value( $meta_box['name'] ) !== false ) {
 				$meta_box_value = wpseo_get_value( $meta_box['name'] );
 			}
-			else if ( isset( $meta_box['std'] ) ) {
-				$meta_box_value = $meta_box['std'];
+			else if ( isset( $meta_box['default_value'] ) ) {
+				$meta_box_value = $meta_box['default_value'];
 			}
 			$meta_box['name'] = esc_attr( $meta_box['name'] );
 		}
@@ -516,7 +519,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 			case 'radio':
 				if ( $meta_box_value == '' ) {
-					$meta_box_value = $meta_box['std'];
+					$meta_box_value = $meta_box['default_value'];
 				}
 				foreach ( $meta_box['options'] as $val => $option ) {
 					$selected = '';
@@ -529,7 +532,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 			case 'upload':
 				if ( $meta_box_value == '' ) {
-					$meta_box_value = $meta_box['std'];
+					$meta_box_value = $meta_box['default_value'];
 				}
 				$content .= '<label for="yoast_wpseo_'.$meta_box['name'].'">';
 				$content .= '<input id="yoast_wpseo_' . $meta_box['name'] . '" type="text" size="36" name="yoast_wpseo_'.$meta_box['name'].'" value="' . $meta_box_value . '" />';
@@ -693,17 +696,23 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return mixed
 	 */
 	function save_postdata( $post_id ) {
-
-		if ( $post_id == null )
+		if ( $post_id === null )
 			return false;
 
-		if ( wp_is_post_revision( $post_id ) )
+		// @todo: check if this is really needed as update_post_meta() already does this
+		if ( wp_is_post_revision( $post_id ) ) {
 			$post_id = wp_is_post_revision( $post_id );
+		}
 
 		clean_post_cache( $post_id );
 		$post = get_post( $post_id );
+		
+		if( ! is_object( $post ) ) {
+			// non-existant post
+			return false;
+		}
 
-		$metaboxes = array_merge( $this->get_general_meta_boxes( $post->post_type ), $this->get_advanced_meta_boxes() );
+		$metaboxes = array_merge( $this->get_meta_field_defs( 'general', $post->post_type ), $this->get_meta_field_defs( 'advanced' ) );
 
 		$metaboxes = apply_filters( 'wpseo_save_metaboxes', $metaboxes );
 
@@ -737,8 +746,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 			// Prevent saving "empty" values.
 			if ( ! in_array( $data, array( '', '0', 'none', '-', 'index,follow' ) ) ) {
-				wpseo_set_value( $meta_box['name'], sanitize_text_field( $data ), $post_id );
-			} else if ( $data == '' ) {
+				WPSEO_Meta::set_value( $meta_box['name'], sanitize_text_field( $data ), $post_id );
+			}
+			else if ( $data == '' ) {
 				// If we don't do this, we prevent people from reverting to the default title or description.
 				delete_post_meta( $post_id, '_yoast_wpseo_' . $meta_box['name'] );
 			}
@@ -848,7 +858,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			if ( (int) wpseo_get_value( 'meta-robots-noindex', $post_id ) === 1 ) {
 				$score_label = 'noindex';
 				$title       = __( 'Post is set to noindex.', 'wordpress-seo' );
-				wpseo_set_value( 'linkdex', 0, $post_id );
+				WPSEO_Meta::set_value( 'linkdex', 0, $post_id );
 			}
 			else if ( $score !== false ) {
 				// @todo: check if we should use bcmath!
@@ -1112,13 +1122,13 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 			return $result;
 		}
-		elseif ( ! wpseo_get_value( 'focuskw', $post->ID ) ) {
+		else if ( ! wpseo_get_value( 'focuskw', $post->ID ) ) {
 			$result = new WP_Error( 'no-focuskw', sprintf( __( 'No focus keyword was set for this %s. If you do not set a focus keyword, no score can be calculated.', 'wordpress-seo' ), $post->post_type ) );
 
-			wpseo_set_value( 'linkdex', 0, $post->ID );
+			WPSEO_Meta::set_value( 'linkdex', 0, $post->ID );
 			return $result;
 		}
-		elseif ( apply_filters( 'wpseo_use_page_analysis', true ) !== true ) {
+		else if ( apply_filters( 'wpseo_use_page_analysis', true ) !== true ) {
 			$result = new WP_Error( 'page-analysis-disabled', sprintf( __( 'Page Analysis has been disabled.', 'wordpress-seo' ), $post->post_type ) );
 
 			return $result;
@@ -1225,7 +1235,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 		$score = round( ( $overall / $overall_max ) * 100 );
 
-		wpseo_set_value( 'linkdex', absint( $score ), $post->ID );
+		WPSEO_Meta::set_value( 'linkdex', absint( $score ), $post->ID );
 
 		return $results;
 	}
@@ -1393,7 +1403,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			else
 				$this->save_score_result( $results, 9, $scoreTitleCorrectLength, 'title_length' );
 
-			// TODO MA Keyword/Title matching is exact match with separators removed, but should extend to distributed match
+			// @todo MA Keyword/Title matching is exact match with separators removed, but should extend to distributed match
 			$needle_position = stripos( $job['title'], $job['keyword_folded'] );
 
 			if ( $needle_position === false ) {
@@ -1691,7 +1701,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				$this->save_score_result( $results, 6, sprintf( $scoreDescriptionTooLong, $maxlength, $metaShorter ), 'description_length' );
 			}
 
-			// TODO MA Keyword/Title matching is exact match with separators removed, but should extend to distributed match
+			// @todo MA Keyword/Title matching is exact match with separators removed, but should extend to distributed match
 			$haystack1 = $this->strip_separators_and_fold( $description, true );
 			$haystack2 = $this->strip_separators_and_fold( $description, false );
 			if ( strrpos( $haystack1, $job['keyword_folded'] ) === false && strrpos( $haystack2, $job['keyword_folded'] ) === false ) {

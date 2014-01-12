@@ -113,8 +113,9 @@ class WPSEO_Twitter extends WPSEO_Frontend {
 	 */
 	public function twitter_title() {
 		$title = apply_filters( 'wpseo_twitter_title', $this->title( '' ) );
-		if ( is_string( $title ) && $title !== '' )
+		if ( is_string( $title ) && $title !== '' ) {
 			echo '<meta name="twitter:title" content="' . esc_attr( $title ) . '"/>' . "\n";
+		}
 	}
 
 	/**
@@ -124,18 +125,21 @@ class WPSEO_Twitter extends WPSEO_Frontend {
 	 */
 	public function twitter_description() {
 		$metadesc = trim( $this->metadesc( false ) );
-		if ( empty( $metadesc ) )
+		if ( empty( $metadesc ) ) {
 			$metadesc = false;
+		}
 		if ( $metadesc && $this->options['opengraph'] === true ) {
 			// Already output the same description in opengraph, no need to repeat.
 			return;
-		} else if ( ! $metadesc ) {
+		}
+		else if ( ! $metadesc ) {
 			$metadesc = strip_tags( get_the_excerpt() );
 		}
 
 		$metadesc = apply_filters( 'wpseo_twitter_description', $metadesc );
-		if ( is_string( $metadesc ) && $metadesc !== '' )
+		if ( is_string( $metadesc ) && $metadesc !== '' ) {
 			echo '<meta name="twitter:description" content="' . esc_attr( $metadesc ) . '"/>' . "\n";
+		}
 	}
 
 	/**

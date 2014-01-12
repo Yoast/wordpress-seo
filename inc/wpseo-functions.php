@@ -48,19 +48,17 @@ function wpseo_get_value( $val, $postid = 0 ) {
 
 /**
  * @deprecated 1.5.0
- * @deprecated use WPSEO_Meta::set_value()
+ * @deprecated use WPSEO_Meta::set_value() or just use update_post_meta()
  * @see WPSEO_Meta::set_value()
  *
- * @param string $meta   the meta to change
- * @param mixed  $val    the value to set the meta to
- * @param int    $postid the ID of the post to change the meta for.
+ * @param	string	$meta_key		the meta to change
+ * @param	mixed	$meta_value		the value to set the meta to
+ * @param	int		$post_id		the ID of the post to change the meta for.
+ * @return	bool	whether the value was changed
  */
-/*function wpseo_set_value( $meta, $val, $postid ) {
+function wpseo_set_value( $meta_key, $meta_value, $post_id ) {
 	_deprecated_function( __FUNCTION__, 'WPSEO 1.5.0', 'WPSEO_Meta::set_value()' );
-	return WPSEO_Meta::set_value( $meta, $val, $postid );
-}*/
-function wpseo_set_value( $meta, $val, $postid ) {
-	update_post_meta( $postid, '_yoast_wpseo_' . $meta, $val );
+	return WPSEO_Meta::set_value( $meta_key, $meta_value, $post_id );
 }
 
 
@@ -163,7 +161,8 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 
 		if ( isset( $wp_query->max_num_pages ) && $wp_query->max_num_pages != '' && $wp_query->max_num_pages != 0 )
 			$max_num_pages = $wp_query->max_num_pages;
-	} else {
+	}
+	else {
 		global $post;
 		$pagenum       = get_query_var( 'page' );
 		$max_num_pages = ( isset( $post->post_content ) ) ? substr_count( $post->post_content, '<!--nextpage-->' ) : 1;
@@ -174,15 +173,19 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 	// Let's do date first as it's a bit more work to get right.
 	if ( $r->post_date != '' ) {
 		$date = mysql2date( get_option( 'date_format' ), $r->post_date );
-	} else {
+	}
+	else {
 		if ( get_query_var( 'day' ) && get_query_var( 'day' ) != '' ) {
 			$date = get_the_date();
-		} else {
+		}
+		else {
 			if ( single_month_title( ' ', false ) && single_month_title( ' ', false ) != '' ) {
 				$date = single_month_title( ' ', false );
-			} else if ( get_query_var( 'year' ) != '' ) {
+			}
+			else if ( get_query_var( 'year' ) != '' ) {
 				$date = get_query_var( 'year' );
-			} else {
+			}
+			else {
 				$date = '';
 			}
 		}

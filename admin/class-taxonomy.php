@@ -69,11 +69,13 @@ class WPSEO_Taxonomy {
         <input name="<?php echo $var; ?>" id="<?php echo $var; ?>" type="text" value="<?php echo esc_attr( $val ); ?>" size="40"/>
         <p class="description"><?php echo $desc; ?></p>
 		<?php
-		} else if ( $type == 'checkbox' ) {
+		}
+		else if ( $type == 'checkbox' ) {
 			?>
         <input name="<?php echo $var; ?>" id="<?php echo $var; ?>" type="checkbox" <?php checked( $val ); ?>/>
 		<?php
-		} else if ( $type == 'select' ) {
+		}
+		else if ( $type == 'select' ) {
 			?>
         <select name="<?php echo $var; ?>" id="<?php echo $var; ?>">
 			<?php
@@ -146,22 +148,21 @@ class WPSEO_Taxonomy {
 	function update_term( $term_id, $tt_id, $taxonomy ) {
 		$tax_meta = get_option( 'wpseo_taxonomy_meta' );
 
-		if ( ! isset($tax_meta[$taxonomy]) || ! isset($tax_meta[$taxonomy][$term_id]) || ! is_array( $tax_meta[$taxonomy][$term_id] ) )
+		if ( ! isset($tax_meta[$taxonomy]) || ! isset($tax_meta[$taxonomy][$term_id]) || ! is_array( $tax_meta[$taxonomy][$term_id] ) ) {
 			$tax_meta[$taxonomy][$term_id] = array();
+		}
 
 		foreach ( array( 'title', 'desc', 'metakey', 'bctitle', 'canonical', 'noindex', 'sitemap_include' ) as $key ) {
 			if ( isset( $_POST['wpseo_' . $key] ) && ! empty( $_POST['wpseo_' . $key] ) ) {
 				$val = trim( $_POST['wpseo_' . $key] );
-
-				if ( $key == 'canonical' )
-					$val = esc_url( $val );
-				else
-					$val = esc_html( $val );
+				$val = ( $key === 'canonical' ) ? esc_url( $val ) : $val = esc_html( $val );
 
 				$tax_meta[$taxonomy][$term_id]['wpseo_' . $key] = $val;
-			} else {
-				if ( isset( $tax_meta[$taxonomy][$term_id]['wpseo_' . $key] ) )
+			}
+			else {
+				if ( isset( $tax_meta[$taxonomy][$term_id]['wpseo_' . $key] ) ) {
 					unset( $tax_meta[$taxonomy][$term_id]['wpseo_' . $key] );
+				}
 			}
 		}
 

@@ -78,7 +78,10 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 		/**
 		 * @var	array	$metaboxes	Meta box definitions for form
 		 *
-		 * Titles, help texts, description text etc are added via translate_meta_boxes() method in class-metabox.php
+		 * - Titles, help texts, description text etc are added via translate_meta_boxes() method in class-metabox.php
+		 * - Beware: even though the meta keys are divided into subsets, they still have to be uniquely named!
+		 *
+		 * @todo check if we can get rid of the 'name' item as it is the same as the array key
 		 */
 		public static $meta_fields = array(
 			'general'	=> array(
@@ -89,7 +92,7 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 				),
 				'focuskw' 	   		=> array(
 /*v*/					'name'				=> 'focuskw',
-					'std'				=> '',
+					'default_value'		=> '',
 					'type'				=> 'text',
 					'title'				=> '', // translation added later
 					'autocomplete'		=> 'off',
@@ -98,7 +101,7 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 				),
 				'title'				=> array(
 /*v*/					'name'				=> 'title',
-					'std'				=> '',
+					'default_value'		=> '',
 					'type'				=> 'text',
 					'title'				=> '', // translation added later
 					'description'		=> '', // translation added later
@@ -106,7 +109,7 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 				),
 				'metadesc'			=> array(
 /*v*/					'name'				=> 'metadesc',
-					'std'				=> '',
+					'default_value'		=> '',
 					'class'				=> 'metadesc',
 					'type'				=> 'textarea',
 					'title'				=> '', // translation added later
@@ -117,7 +120,7 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 				),
 				'metakeywords'		=> array(
 /*v*/					'name'				=> 'metakeywords',
-					'std'				=> '',
+					'default_value'		=> '',
 					'class'				=> 'metakeywords',
 					'type'				=> 'text',
 					'title'				=> '', // translation added later
@@ -126,65 +129,65 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 			),
 			'advanced'	=> array(
 				'meta-robots-noindex'	=> array(
-/*xxx*/					'name'	  => 'meta-robots-noindex',
-					'std'	  => '-',
-					'type'	  => 'select',
-					'title'   => '', // translation added later
-					'options' => array(
-						'0' => '', // translation added later
-						'2' => '', // translation added later
-						'1' => '', // translation added later
+/*xxx*/					'name'			=> 'meta-robots-noindex',
+					'default_value'	=> '-',
+					'type'			=> 'select',
+					'title' 		=> '', // translation added later
+					'options'		=> array(
+						'0' 	=> '', // translation added later
+						'2' 	=> '', // translation added later
+						'1' 	=> '', // translation added later
 					),
 				),
 				'meta-robots-nofollow'	=> array(
-/*xxx*/					'name'	  => 'meta-robots-nofollow',
-					'std'	  => 'follow',
-					'type'	  => 'radio',
-					'title'   => '', // translation added later
-					'options' => array(
-						'0' => '', // translation added later
-						'1' => '', // translation added later
+/*xxx*/					'name'			=> 'meta-robots-nofollow',
+					'default_value'	=> 'follow',
+					'type'			=> 'radio',
+					'title'			=> '', // translation added later
+					'options'		=> array(
+						'0' 	=> '', // translation added later
+						'1' 	=> '', // translation added later
 					),
 				),
 				'meta-robots-adv'		=> array(
-/*v*/					'name'		  => 'meta-robots-adv',
-					'std'		  => 'none',
-					'type'		  => 'multiselect',
-					'title' 	  => '', // translation added later
-					'description' => '', // translation added later
-					'options'	  => array(
-						'noodp' 	=> '', // translation added later
-						'noydir'	=> '', // translation added later
-						'noarchive' => '', // translation added later
-						'nosnippet' => '', // translation added later
+/*v*/					'name'				=> 'meta-robots-adv',
+					'default_value'	=> 'none',
+					'type'			=> 'multiselect',
+					'title' 		=> '', // translation added later
+					'description'	=> '', // translation added later
+					'options'		=> array(
+						'noodp' 		=> '', // translation added later
+						'noydir'		=> '', // translation added later
+						'noarchive' 	=> '', // translation added later
+						'nosnippet' 	=> '', // translation added later
 					),
 				),
 				'bctitle'				=> array(
-/*v*/					'name'		  => 'bctitle',
-					'std'		  => '',
-					'type'		  => 'text',
-					'title' 	  => '', // translation added later
-					'description' => '', // translation added later
+/*v*/					'name'			=> 'bctitle',
+					'default_value'	=> '',
+					'type'			=> 'text',
+					'title' 		=> '', // translation added later
+					'description'	=> '', // translation added later
 				),
 				'sitemap-include' 		=> array(
-/*v*/					'name'		  => 'sitemap-include',
-					'std'		  => '-',
-					'type'		  => 'select',
-					'title' 	  => '', // translation added later
-					'description' => '', // translation added later
-					'options'	  => array(
+/*v*/					'name'			  => 'sitemap-include',
+					'default_value'	=> '-',
+					'type'		  	=> 'select',
+					'title' 	  	=> '', // translation added later
+					'description' 	=> '', // translation added later
+					'options'	  	=> array(
 						'-' 	 => '', // translation added later
 						'always' => '', // translation added later
 						'never'  => '', // translation added later
 					),
 				),
 				'sitemap-prio'			=> array(
-/*v*/					'name'		  => 'sitemap-prio',
-					'std'		  => '-',
-					'type'		  => 'select',
-					'title' 	  => '', // translation added later
-					'description' => '', // translation added later
-					'options'	  => array(
+/*v*/					'name'			=> 'sitemap-prio',
+					'default_value'	=> '-',
+					'type'			=> 'select',
+					'title' 		=> '', // translation added later
+					'description'	=> '', // translation added later
+					'options'		=> array(
 						'-'   => '', // translation added later
 						'1'   => '', // translation added later
 						'0.9' => '0.9',
@@ -199,58 +202,61 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 					),
 				),
 				'sitemap-html-include'	=> array(
-/*v*/					'name'		  => 'sitemap-html-include',
-					'std'		  => '-',
-					'type'		  => 'select',
-					'title' 	  => '', // translation added later
-					'description' => '', // translation added later
-					'options'	  => array(
-						'-' 	 => '', // translation added later
-						'always' => '', // translation added later
-						'never'  => '', // translation added later
+/*v*/					'name'			=> 'sitemap-html-include',
+					'default_value'	=> '-',
+					'type'			=> 'select',
+					'title' 		=> '', // translation added later
+					'description'	=> '', // translation added later
+					'options'		=> array(
+						'-' 			=> '', // translation added later
+						'always'		=> '', // translation added later
+						'never' 		=> '', // translation added later
 					),
 				),
 				'canonical'			 	=> array(
-/*v*/					'name'		  => 'canonical',
-					'std'		  => '',
-					'type'		  => 'text',
-					'title' 	  => '', // translation added later
-					'description' => '', // translation added later
+/*v*/					'name'			=> 'canonical',
+					'default_value'	=> '',
+					'type'			=> 'text',
+					'title' 		=> '', // translation added later
+					'description'	=> '', // translation added later
 				),
 				'redirect'			 	=> array(
-/*v*/					'name'		  => 'redirect',
-					'std'		  => '',
-					'type'		  => 'text',
-					'title' 	  => '', // translation added later
-					'description' => '', // translation added later
+/*v*/					'name'			=> 'redirect',
+					'default_value'	=> '',
+					'type'			=> 'text',
+					'title' 		=> '', // translation added later
+					'description'	=> '', // translation added later
 				),
 			),
 			'social'	=> array(
 				'opengraph-description'		=> array(
-/*v*/					'name'		  => 'opengraph-description',
-					'type'		  => 'textarea',
-					'std'		  => '',
-					'richedit'	  => false,
-					'title' 	  => '', // translation added later
-					'description' => '', // translation added later
+/*v*/					'name'			=> 'opengraph-description',
+					'type'			=> 'textarea',
+					'default_value'	=> '',
+					'richedit'		=> false,
+					'title' 		=> '', // translation added later
+					'description'	=> '', // translation added later
 				),
 				'opengraph-image'			=> array(
-/*v*/					'name'		  => 'opengraph-image',
-					'type'		  => 'upload',
-					'std'		  => '',
-					'title' 	  => '', // translation added later
-					'description' => '', // translation added later
+/*v*/					'name'			=> 'opengraph-image',
+					'type'			=> 'upload',
+					'default_value'	=> '',
+					'title' 		=> '', // translation added later
+					'description'	=> '', // translation added later
 				),
 				'google-plus-description'	=> array(
-/*v*/					'name'		  => 'google-plus-description',
-					'type'		  => 'textarea',
-					'std'		  => '',
-					'richedit'	  => false,
-					'title' 	  => '', // translation added later
-					'description' => '', // translation added later
+/*v*/					'name'			=> 'google-plus-description',
+					'type'			=> 'textarea',
+					'default_value'	=> '',
+					'richedit'		=> false,
+					'title' 		=> '', // translation added later
+					'description'	=> '', // translation added later
 				),
 			),
 		);
+		
+		
+		public static $fields_index = array();
 
 
 
@@ -258,7 +264,28 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 
 		public static function init() {
 
-			
+			foreach( self::$meta_fields as $subset => $field_group ) {
+				foreach( $field_group as $key => $field_def ) {
+					if( isset( $field_def['default_value'] ) ) {
+						//add_filter( 'sanitize_post_meta_' . self::$meta_prefix . $key, array( __CLASS__, 'sanitize_post_meta' ), 10, 2 );
+						// Probably better to use: (undocumented function), this adds the sanitation callback
+						register_meta( 'post', self::$meta_prefix . $key, array( __CLASS__, 'sanitize_post_meta' ) );
+						
+						// Set the $fields_index property for efficiency
+						self::$fields_index[self::$meta_prefix . $key] = array(
+							'subset' => $subset,
+							'key'	 => $key,
+						);
+
+					}
+				}
+			}
+
+			add_filter( 'update_post_metadata', array( __CLASS__, 'remove_meta_if_default' ), 10, 5 );
+			add_filter( 'add_post_metadata', array( __CLASS__, 'dont_save_meta_if_default' ), 10, 5 );
+
+
+
 			add_filter( 'wpseo_metabox_entries_general', array( __CLASS__, 'deprecated_filter_wpseo_metabox_entries' ) );
 		}
 
@@ -269,25 +296,54 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 
 
 		/**
-		 * Retrieve the meta boxes for the given post type.
+		 * Retrieve the meta box form field definitions for the given post type.
 		 *
 		 * @param	string	$post_type
 		 * @return	array	Array containing the meta box field definitions
 		 */
-		public function get_general_meta_boxes( $post_type = 'post' ) {
+		public function get_meta_field_defs( $tab, $post_type = 'post' ) {
+			if ( ! isset( self::$meta_fields[$tab] ) ) {
+				return array();
+			}
 			
-			$mbs = self::$meta_fields['general'];
+			$field_defs = self::$meta_fields[$tab];
 
-			$options = get_option( 'wpseo_titles' );
-			if ( $options['usemetakeywords'] === true ) {
-				$mbs['metakeywords']['description'] = sprintf( $mbs['metakeywords']['description'], '<a target="_blank" href="' . esc_url( admin_url( 'admin.php?page=wpseo_titles#' . urlencode( $post_type ) ) ) . '">', '</a>' );
-			}
-			else {
-				unset( $mbs['metakeywords'] );
+			switch( $tab ) {
+				case 'general':
+					$options = get_option( 'wpseo_titles' );
+					if ( $options['usemetakeywords'] === true ) {
+						$field_defs['metakeywords']['description'] = sprintf( $field_defs['metakeywords']['description'], '<a target="_blank" href="' . esc_url( admin_url( 'admin.php?page=wpseo_titles#' . urlencode( $post_type ) ) ) . '">', '</a>' );
+					}
+					else {
+						unset( $field_defs['metakeywords'] );
+					}
+					break;
+
+				case 'advanced':
+					global $post;
+
+					$post_type = '';
+					if ( isset( $post->post_type ) ) {
+						$post_type = $post->post_type;
+					}
+					else if ( ! isset( $post->post_type ) && isset( $_GET['post_type'] ) ) {
+						$post_type = sanitize_text_field( $_GET['post_type'] );
+					}
+			
+					$options = WPSEO_Options::get_all();
+			
+					$field_defs['meta-robots-noindex']['options']['0'] = sprintf( $field_defs['meta-robots-noindex']['options']['0'], ( ( isset( $options['noindex-' . $post_type] ) && $options['noindex-' . $post_type] === true ) ? 'noindex' : 'index' ) );
+			
+					if ( $options['breadcrumbs-enable'] !== true ) {
+						unset( $field_defs['bctitle'] );
+					}
+					if ( $options['enablexmlsitemap'] !== true ) {
+						unset( $field_defs['sitemap-include'], $field_defs['sitemap-prio'] );
+					}
+					break;
 			}
 
-			// Apply filters before entering the advanced section and return the result
-			return apply_filters( 'wpseo_metabox_entries_general', $mbs );
+			return apply_filters( 'wpseo_metabox_entries_' . $tab, $field_defs );
 		}
 		
 		
@@ -296,58 +352,239 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 		 *
 		 * @deprecated 1.5.0
 		 * @deprecated use the 'wpseo_metabox_entries_general' filter instead
-		 * @see WPSEO_Meta::get_meta_boxes()
+		 * @see WPSEO_Meta::get_meta_field_defs()
 		 *
-		 * @param	array	$mbs    metabox form definitions
+		 * @param	array	$field_defs    metabox form definitions
 		 * @return	array
 		 */
-		public static function deprecated_filter_wpseo_metabox_entries( $mbs ) {
-			_deprecated_function( 'Filter "wpseo_metabox_entries"', 'WPSEO 1.5.0', 'wpseo_metabox_entries_general' );
-			return apply_filters( 'wpseo_metabox_entries', $mbs ); // old deprecated
+		public static function deprecated_filter_wpseo_metabox_entries( $field_defs ) {
+//			_deprecated_function( 'Filter "wpseo_metabox_entries"', 'WPSEO 1.5.0', 'wpseo_metabox_entries_general' );
+			return apply_filters( 'wpseo_metabox_entries', $field_defs ); // old deprecated
 		}
 
 
-		/**
-		 * Retrieve the meta boxes for the advanced tab.
-		 *
-		 * @return	array	Array containing the meta box field definitions
-		 */
-		public function get_advanced_meta_boxes() {
-			global $post;
-	
-			$post_type = '';
-			if ( isset( $post->post_type ) )
-				$post_type = $post->post_type;
-			else if ( ! isset( $post->post_type ) && isset( $_GET['post_type'] ) )
-				$post_type = sanitize_text_field( $_GET['post_type'] );
 
-			$options = WPSEO_Options::get_all();
-	
-			$mbs = self::$meta_fields['advanced'];
-	
-			$mbs['meta-robots-noindex']['options']['0'] = sprintf( $mbs['meta-robots-noindex']['options']['0'], ( ( isset( $options['noindex-' . $post_type] ) && $options['noindex-' . $post_type] === true ) ? 'noindex' : 'index' ) );
 
-			if ( $options['breadcrumbs-enable'] !== true ) {
-				unset( $mbs['bctitle'] );
+		public static function sanitize_post_meta( $meta_value, $meta_key ) {
+			$internal_key = self::$fields_index[$meta_key]['key'];
+			$field_def    = self::$meta_fields[self::$fields_index[$meta_key]['subset']][$internal_key];
+			
+			$clean = $field_def['default_value'];
+
+
+			switch( $field_def['type'] ) {
+				case '':
+					break;
+					
+				case '':
+					break;
+					
+				case '':
+					break;
 			}
-			if ( $options['enablexmlsitemap'] !== true ) {
-				unset( $mbs['sitemap-include'], $mbs['sitemap-prio'] );
+			
+			return $clean;
+			
+			
+			
+/*
+			if ( 'checkbox' == $meta_box['type'] ) {
+				if ( isset( $_POST['yoast_wpseo_' . $meta_box['name']] ) )
+					$data = 'on';
+				else
+					$data = 'off';
+			}
+			else if ( 'multiselect' == $meta_box['type'] ) {
+				if ( isset( $_POST['yoast_wpseo_' . $meta_box['name']] ) ) {
+					if ( is_array( $_POST['yoast_wpseo_' . $meta_box['name']] ) )
+						$data = implode( ',', $_POST['yoast_wpseo_' . $meta_box['name']] );
+					else
+						$data = $_POST['yoast_wpseo_' . $meta_box['name']];
+				}
+				else {
+					continue;
+				}
+			}
+			else {
+				if ( isset( $_POST['yoast_wpseo_' . $meta_box['name']] ) )
+					$data = $_POST['yoast_wpseo_' . $meta_box['name']];
+				else
+					continue;
 			}
 
-			// Apply filters for in advanced section and return the result
-			return apply_filters( 'wpseo_metabox_entries_advanced', $mbs );
+			// Prevent saving "empty" values.
+			if ( ! in_array( $data, array( '', '0', 'none', '-', 'index,follow' ) ) ) {
+				self::set_value( $meta_box['name'], sanitize_text_field( $data ), $post_id );
+			}
+			else if ( $data == '' ) {
+				// If we don't do this, we prevent people from reverting to the default title or description.
+				delete_post_meta( $post_id, '_yoast_wpseo_' . $meta_box['name'] );
+			}
+*/
 		}
-	
 
-		/**
-		 * Define the meta boxes for the Social tab
-		 *
-		 * @return	array	Array containing the meta box field definitions
-		 */
-		public function get_social_meta_boxes() {
-			// Apply filters for in social section and return the result
-			return apply_filters( 'wpseo_metabox_entries_social', self::$meta_fields['social'] );
+
+		public static function sanitize_general_focuskw() {
+/*
+					'default_value'		=> '',
+					'type'				=> 'text',
+*/
 		}
+
+		public static function sanitize_general_title() {
+/*
+					'default_value'		=> '',
+					'type'				=> 'text',
+*/
+		}
+
+		public static function sanitize_general_metadesc() {
+/*
+					'default_value'		=> '',
+					'type'				=> 'textarea',
+					'richedit'			=> false,
+*/
+		}
+		public static function sanitize_general_metakeywords() {
+/*
+					'default_value'		=> '',
+					'type'				=> 'text',
+*/
+		}
+
+		public static function sanitize_advanced_meta_robots_noindex() {
+/*
+					'default_value'	=> '-',
+					'type'			=> 'select',
+					'options'		=> array(
+						'0' 	=> '', // translation added later
+						'2' 	=> '', // translation added later
+						'1' 	=> '', // translation added later
+					),
+
+/*xxx* /			'_yoast_wpseo_meta-robots-noindex'		=> '0', // vs '-'
+*/
+		}
+
+
+		public static function sanitize_advanced_meta_robots_nofollow() {
+/*
+					'default_value'	=> 'follow',
+					'type'			=> 'radio',
+					'options'		=> array(
+						'0' 	=> '', // translation added later
+						'1' 	=> '', // translation added later
+					),
+
+/*xxx* /			'_yoast_wpseo_meta-robots-nofollow'		=> '0', // vs 'follow'
+*/
+		}
+
+		public static function sanitize_advanced_meta_robots_adv() {
+/*
+					'default_value'	=> 'none',
+					'type'			=> 'multiselect',
+					'options'		=> array(
+						'noodp' 		=> '', // translation added later
+						'noydir'		=> '', // translation added later
+						'noarchive' 	=> '', // translation added later
+						'nosnippet' 	=> '', // translation added later
+					),
+*/
+		}
+
+		public static function sanitize_advanced_bctitle() {
+/*
+					'default_value'	=> '',
+					'type'			=> 'text',
+*/
+		}
+
+		public static function sanitize_advanced_sitemap_include() {
+/*
+					'default_value'	=> '-',
+					'type'		  	=> 'select',
+					'options'	  	=> array(
+						'-' 	 => '', // translation added later
+						'always' => '', // translation added later
+						'never'  => '', // translation added later
+					),
+*/
+		}
+
+		public static function sanitize_advanced_sitemap_prio() {
+/*
+					'default_value'	=> '-',
+					'type'			=> 'select',
+					'options'		=> array(
+						'-'   => '', // translation added later
+						'1'   => '', // translation added later
+						'0.9' => '0.9',
+						'0.8' => '0.8 - ', // translation added later
+						'0.7' => '0.7',
+						'0.6' => '0.6 - ', // translation added later
+						'0.5' => '0.5 - ', // translation added later
+						'0.4' => '0.4',
+						'0.3' => '0.3',
+						'0.2' => '0.2',
+						'0.1' => '0.1 - ', // translation added later
+					),
+*/
+		}
+
+		public static function sanitize_advanced_sitemap_html_include() {
+/*
+					'default_value'	=> '-',
+					'type'			=> 'select',
+					'options'		=> array(
+						'-' 			=> '', // translation added later
+						'always'		=> '', // translation added later
+						'never' 		=> '', // translation added later
+					),
+*/
+		}
+
+		public static function sanitize_advanced_canonical() {
+/*
+					'default_value'	=> '',
+					'type'			=> 'text',
+*/
+		}
+		
+		public static function sanitize_advanced_redirect() {
+/*
+					'default_value'	=> '',
+					'type'			=> 'text',
+*/
+		}
+
+		public static function sanitize_social_opengraph_description() {
+/*
+					'type'			=> 'textarea',
+					'default_value'	=> '',
+					'richedit'		=> false,
+*/
+		}
+		
+		public static function sanitize_social_opengraph_image() {
+/*
+					'type'			=> 'upload',
+					'default_value'	=> '',
+*/
+		}
+		
+		public static function sanitize_social_google_plus_description() {
+/*
+					'type'			=> 'textarea',
+					'default_value'	=> '',
+					'richedit'		=> false,
+*/
+		}
+
+
+
+
+
 
 
 
@@ -398,29 +635,45 @@ add_filter( 'sanitize_user_meta_birth-year', 'sanitize_birth_year_meta' );
 	
 	
 	
-/**
- * To use for checking for default value
- *
- * If = default value, stop the saving and delete existing key if exists
- */
-	
-/*function myplugin_init() {
-	add_filter( 'update_user_metadata', 'myplugin_update_foo', 10, 5 );
-}
-
-function myplugin_update_foo( $null, $object_id, $meta_key, $meta_value, $prev_value ) {
-
-	if ( 'foo' == $meta_key && empty( $meta_value ) ) {
-		return true; // this means: stop saving the value into the database
-	}
-
-	return null; // this means: go on with the normal execution in meta.php
-
-}
-
-add_action( 'init', 'myplugin_init' );
-
+		public static function remove_meta_if_default( $null, $object_id, $meta_key, $meta_value, $prev_value = '' ) {
+			// If it's one of our meta fields, check against default
+			if ( isset( self::$fields_index[$meta_key] ) && self::meta_value_is_default( $meta_key, $meta_value ) === true ) {
+				if( $prev_value !== '' ) {
+/*
+* @param mixed $meta_value Optional. Metadata value. Must be serializable if non-scalar. If specified, only delete metadata entries with this value. Otherwise, delete all entries with the specified meta_key.
 */
+					delete_post_meta( $object_id, $meta_key, $prev_value );
+				}
+				else {
+					delete_post_meta( $object_id, $meta_key );
+				}
+				return true; // stop saving the value
+			}
+
+			return null; // go on with the normal execution (update) in meta.php
+		}
+
+		public static function dont_save_meta_if_default( $null, $object_id, $meta_key, $meta_value, $unique = false ) {
+			// If it's one of our meta fields, check against default
+			if ( isset( self::$fields_index[$meta_key] ) && self::meta_value_is_default( $meta_key, $meta_value ) === true ) {
+				return true; // stop saving the value
+			}
+			return null; // go on with the normal execution (add) in meta.php
+		}
+
+
+		/**
+		 * Is the given meta value the same as the default value ?
+		 *
+		 * @param	string	$meta_key	Meta key to check against
+		 * @param	mixed	$meta_value	The value to check
+		 * @return	bool
+		 */
+		public static function meta_value_is_default( $meta_key, $meta_value ) {
+			return ( isset( self::$fields_index[$meta_key] ) && $meta_value === self::$meta_fields[self::$fields_index[$meta_key]['subset']][self::$fields_index[$meta_key]['key']]['default_value'] );
+		}
+
+
 
 /*  	   on get all meta: array_merge with defaults
 
@@ -468,12 +721,15 @@ add_action( 'init', 'myplugin_init' );
 		}
 		
 		/**
-		 * @param string $meta	 the meta to change
-		 * @param mixed  $val	 the value to set the meta to
-		 * @param int	 $postid the ID of the post to change the meta for.
+		 * Update a meta value for a post
+		 *
+		 * @param	string	$meta_key		the meta to change
+		 * @param	mixed	$meta_value		the value to set the meta to
+		 * @param	int		$post_id		the ID of the post to change the meta for.
+		 * @return	bool	whether the value was changed
 		 */
-		public static function set_value( $meta, $val, $postid ) {
-			update_post_meta( $postid, '_yoast_wpseo_' . $meta, $val );
+		public static function set_value( $meta_key, $meta_value, $post_id ) {
+			return update_post_meta( $post_id, self::prefix . $meta_key, $meta_value );
 		}
 		
 		

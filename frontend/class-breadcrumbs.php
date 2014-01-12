@@ -69,15 +69,18 @@ class WPSEO_Breadcrumbs {
 		);
 
 		if ( 'page' == $on_front && 'post' == get_post_type() && ! is_home() ) {
-			if ( $blog_page && $options['breadcrumbs-blog-remove'] === false )
+			if ( $blog_page && $options['breadcrumbs-blog-remove'] === false ) {
 				$links[] = array( 'id' => $blog_page );
+			}
 		}
 
 		if ( ( $on_front == 'page' && is_front_page() ) || ( $on_front == 'posts' && is_home() ) ) {
 
-		} else if ( $on_front == 'page' && is_home() ) {
+		}
+		else if ( $on_front == 'page' && is_home() ) {
 			$links[] = array( 'id' => $blog_page );
-		} else if ( is_singular() ) {
+		}
+		else if ( is_singular() ) {
 			if ( get_post_type_archive_link( $post->post_type ) ) {
 				$links[] = array( 'ptarchive' => $post->post_type );
 			}
@@ -138,13 +141,17 @@ class WPSEO_Breadcrumbs {
 						$links[] = array( 'term' => $deepest_term );
 					}
 				}
-			} else {
+			}
+			else {
 				if ( isset( $post->ancestors ) ) {
-					if ( is_array( $post->ancestors ) )
+					if ( is_array( $post->ancestors ) ) {
 						$ancestors = array_values( $post->ancestors );
-					else
+					}
+					else {
 						$ancestors = array( $post->ancestors );
-				} else {
+					}
+				}
+				else {
 					$ancestors = array( $post->post_parent );
 				}
 
@@ -156,10 +163,12 @@ class WPSEO_Breadcrumbs {
 				}
 			}
 			$links[] = array( 'id' => $post->ID );
-		} else {
+		}
+		else {
 			if ( is_post_type_archive() ) {
 				$links[] = array( 'ptarchive' => $wp_query->query['post_type'] );
-			} else if ( is_tax() || is_tag() || is_category() ) {
+			}
+			else if ( is_tax() || is_tag() || is_category() ) {
 				$term = $wp_query->get_queried_object();
 
 				if ( isset( $options['taxonomy-' . $term->taxonomy . '-ptparent'] ) && $options['taxonomy-' . $term->taxonomy . '-ptparent'] != '0' ) {
@@ -167,7 +176,8 @@ class WPSEO_Breadcrumbs {
 						if ( get_option( 'page_for_posts' ) ) {
 							$links[] = array( 'id' => get_option( 'page_for_posts' ) );
 						}
-					} else {
+					}
+					else {
 						$links[] = array( 'ptarchive' => $options['taxonomy-' . $term->taxonomy . '-ptparent'] );
 					}
 				}
@@ -179,7 +189,8 @@ class WPSEO_Breadcrumbs {
 				}
 
 				$links[] = array( 'term' => $term );
-			} else if ( is_date() ) {
+			}
+			else if ( is_date() ) {
 				$bc = esc_html( $options['breadcrumbs-archiveprefix'] );
 				if ( is_day() ) {
 					global $wp_locale;
@@ -188,17 +199,22 @@ class WPSEO_Breadcrumbs {
 						'text' => $wp_locale->get_month( get_query_var( 'monthnum' ) ) . ' ' . get_query_var( 'year' ),
 					);
 					$links[] = array( 'text' => $bc . ' ' . get_the_date() );
-				} else if ( is_month() ) {
+				}
+				else if ( is_month() ) {
 					$links[] = array( 'text' => $bc . ' ' . single_month_title( ' ', false ) );
-				} else if ( is_year() ) {
+				}
+				else if ( is_year() ) {
 					$links[] = array( 'text' => $bc . ' ' . get_query_var( 'year' ) );
 				}
-			} elseif ( is_author() ) {
+			}
+			else if ( is_author() ) {
 				$user    = $wp_query->get_queried_object();
 				$links[] = array( 'text' => esc_html( $options['breadcrumbs-archiveprefix'] ) . ' ' . esc_html( $user->display_name ) );
-			} elseif ( is_search() ) {
+			}
+			else if ( is_search() ) {
 				$links[] = array( 'text' => esc_html( $options['breadcrumbs-searchprefix'] ) . ' "' . esc_html( get_search_query() ) . '"' );
-			} elseif ( is_404() ) {
+			}
+			else if ( is_404() ) {
 
 				if ( 0 !== get_query_var( 'year' ) || ( 0 !== get_query_var( 'monthnum' ) || 0 !== get_query_var( 'day' ) ) ) {
 					
@@ -220,9 +236,11 @@ class WPSEO_Breadcrumbs {
 						$links[] = array( 'text' => $bc . ' ' . get_the_date() );
 						$post = $original_p;
 
-					} else if ( 0 !== get_query_var( 'monthnum' ) ) {
+					}
+					else if ( 0 !== get_query_var( 'monthnum' ) ) {
 						$links[] = array( 'text' => $bc . ' ' . single_month_title( ' ', false ) );
-					} else if ( 0 !== get_query_var( 'year' ) ) {
+					}
+					else if ( 0 !== get_query_var( 'year' ) ) {
 						$links[] = array( 'text' => $bc . ' ' . get_query_var( 'year' ) );
 					}
 				}
@@ -242,7 +260,8 @@ class WPSEO_Breadcrumbs {
 		if ( $display ) {
 			echo $before . $output . $after;
 			return true;
-		} else {
+		}
+		else {
 			return $before . $output . $after;
 		}
 	}
@@ -316,10 +335,12 @@ class WPSEO_Breadcrumbs {
 			$link_output = '<' . $element . ' typeof="v:Breadcrumb">';
 			if ( isset( $link['url'] ) && ( $i < ( count( $links ) - 1 ) || $paged ) ) {
 				$link_output .= '<a href="' . esc_url( $link['url'] ) . '" rel="v:url" property="v:title">' . esc_html( $link['text'] ) . '</a>';
-			} else {
+			}
+			else {
 				if ( $opt['breadcrumbs-boldlast'] === true ) {
 					$link_output .= '<strong class="breadcrumb_last" property="v:title">' . esc_html( $link['text'] ) . '</strong>';
-				} else {
+				}
+				else {
 					$link_output .= '<span class="breadcrumb_last" property="v:title">' . esc_html( $link['text'] ) . '</span>';
 				}
 			}

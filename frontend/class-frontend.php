@@ -205,6 +205,7 @@ class WPSEO_Frontend {
 	function get_title_from_options( $index, $var_source = array() ) {
 		if ( ! isset( $this->options[$index] ) || $this->options[$index] === '' ) {
 			if ( is_singular() )
+				// @todo shouldn't this use one of the defaults from options ?
 				return wpseo_replace_vars( '%%title%% %%sep%% %%sitename%%', (array) $var_source );
 			else
 				return '';
@@ -640,7 +641,8 @@ class WPSEO_Frontend {
 				$canonical = wpseo_get_value( 'canonical' );
 				// @todo: check if this variable setting makes sense as it does not seem to be used in this instance
 				$skip_pagination = true;
-			} else {
+			}
+			else {
 				$obj       = get_queried_object();
 				$canonical = get_permalink( $obj->ID );
 
@@ -1188,7 +1190,7 @@ class WPSEO_Frontend {
 			if ( $this->is_home_posts_page() ) {
 				$properurl = get_bloginfo( 'url' ) . '/';
 			}
-			elseif ( $this->is_home_static_page() ) {
+			else if ( $this->is_home_static_page() ) {
 				global $post;
 				$properurl = get_permalink( $post->ID );
 			}

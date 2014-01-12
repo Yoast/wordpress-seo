@@ -356,17 +356,14 @@ class WPSEO_OpenGraph extends WPSEO_Frontend {
 		$ogdesc = '';
 
 		if ( is_front_page() ) {
-			if ( $this->options['og_frontpage_desc'] !== '' ) {
-				$ogdesc = $this->options['og_frontpage_desc'];
-			} else {
-				$ogdesc = $this->metadesc( false );
-			}
+			$ogdesc = ( $this->options['og_frontpage_desc'] !== '' ) ? $this->options['og_frontpage_desc'] : $this->metadesc( false );
 		}
 
 		if ( is_singular() ) {
 			$ogdesc = wpseo_get_value( 'opengraph-description' );
-			if ( ! $ogdesc )
+			if ( ! $ogdesc ) {
 				$ogdesc = $this->metadesc( false );
+			}
 
 			// og:description is still blank so grab it from get_the_excerpt()
 			if ( ! $ogdesc ) {

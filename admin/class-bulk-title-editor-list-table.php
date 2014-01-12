@@ -88,10 +88,9 @@ class WPSEO_Bulk_Title_Editor_List_Table extends WP_List_Table {
 				continue;
 			}
 
+			$class = '';
 			if ( isset( $_REQUEST['post_status'] ) && $status_name == $_REQUEST['post_status'] ) {
 				$class = ' class="current"';
-			} else {
-				$class = '';
 			}
 
 			$status_links[$status_name] = '<a href="' . esc_url( add_query_arg( array( 'post_status' => $status_name ), admin_url( 'admin.php?page=wpseo_bulk-title-editor' ) ) ) . '"' . $class . '>' . sprintf( translate_nooped_plural( $status->label_count, $total ), number_format_i18n( $total ) ) . '</a>';
@@ -191,7 +190,8 @@ class WPSEO_Bulk_Title_Editor_List_Table extends WP_List_Table {
 
 		if ( ! empty( $_REQUEST['post_type_filter'] ) && get_post_type_object( $_REQUEST['post_type_filter'] ) ) {
 			$query .= " AND post_type='{$_REQUEST['post_type_filter']}'";
-		} else {
+		}
+		else {
 			$query .= " AND post_type IN ($post_types)";
 		}
 
@@ -209,11 +209,13 @@ class WPSEO_Bulk_Title_Editor_List_Table extends WP_List_Table {
 
 		if ( empty( $_REQUEST['post_status'] ) ) {
 			$query = sprintf( $query, $all_states );
-		} else {
+		}
+		else {
 			$requested_state = $_REQUEST['post_status'];
 			if ( in_array( $requested_state, $states ) ) {
 				$query = sprintf( $query, "'$requested_state'" );
-			} else {
+			}
+			else {
 				$query = sprintf( $query, $all_states );
 			}
 		}
@@ -290,7 +292,8 @@ class WPSEO_Bulk_Title_Editor_List_Table extends WP_List_Table {
 								if ( in_array( $rec->post_status, array( 'pending', 'draft', 'future' ) ) ) {
 									if ( $can_edit_post )
 										$actions['view'] = '<a href="' . esc_url( add_query_arg( 'preview', 'true', get_permalink( $rec->ID ) ) ) . '" title="' . esc_attr( sprintf( __( 'Preview &#8220;%s&#8221;' ), $rec->post_title ) ) . '" rel="permalink">' . __( 'Preview' ) . '</a>';
-								} elseif ( 'trash' != $rec->post_status ) {
+								}
+								else if ( 'trash' != $rec->post_status ) {
 									$actions['view'] = '<a href="' . esc_url( get_permalink( $rec->ID ) ) . '" title="' . esc_attr( sprintf( __( 'View &#8220;%s&#8221;' ), $rec->post_title ) ) . '" rel="permalink">' . __( 'View' ) . '</a>';
 								}
 							}

@@ -11,7 +11,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 /**
  * This class handles the pointers used in the introduction tour.
  *
- * @todo Add an introdutory pointer on the edit post page too.
+ * @todo Add an introductory pointer on the edit post page too.
  */
 class WPSEO_Pointers {
 

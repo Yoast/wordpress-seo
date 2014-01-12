@@ -182,7 +182,8 @@ function robots_meta_handler() {
 			add_action( 'wpseo_all_admin_notices', 'wpseo_deactivate_robots_meta_notice' );
 
 			// import the settings
-		} else if ( isset( $_GET['import_robots_meta'] ) && $_GET['import_robots_meta'] === '1' ) {
+		}
+		else if ( isset( $_GET['import_robots_meta'] ) && $_GET['import_robots_meta'] === '1' ) {
 			// import robots meta setting for each post
 			$posts = $wpdb->get_results( "SELECT ID, robotsmeta FROM $wpdb->posts" );
 			foreach ( $posts as $post ) {
@@ -192,13 +193,13 @@ function robots_meta_handler() {
 					foreach ( $pieces as $meta ) {
 						switch ( $meta ) {
 							case 'noindex':
-								wpseo_set_value( 'meta-robots-noindex', true, $post->ID );
+								WPSEO_Meta::set_value( 'meta-robots-noindex', true, $post->ID );
 								break;
 							case 'index':
-								wpseo_set_value( 'meta-robots-noindex', 2, $post->ID );
+								WPSEO_Meta::set_value( 'meta-robots-noindex', 2, $post->ID );
 								break;
 							case 'nofollow':
-								wpseo_set_value( 'meta-robots-nofollow', true, $post->ID );
+								WPSEO_Meta::set_value( 'meta-robots-nofollow', true, $post->ID );
 								break;
 							case 'follow':
 								// No need to store it
@@ -237,7 +238,7 @@ function aioseo_handler() {
 			add_action( 'wpseo_all_admin_notices', 'wpseo_deactivate_aioseo_notice' );
 		}
 		// import the settings
-		// TODO: currently not deleting aioseop postmeta or handling old aioseop format
+		// @todo: currently not deleting aioseop postmeta or handling old aioseop format
 		else if ( isset( $_GET['import_aioseo'] ) && $_GET['import_aioseo'] === '1' ) {
 			$replace = false;
 

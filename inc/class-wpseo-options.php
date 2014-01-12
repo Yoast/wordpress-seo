@@ -310,7 +310,7 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 				add_filter( 'site_option_' . $option_key, array( __CLASS__, 'filter_' . $option_key ) );
 				
 				/* The option validation routines remove the default filters to prevent failing
-				   to insert an options if it's new. Let's add them back afterwards for an UPDATE (only WP 3.7)*/
+				   to insert an option if it's new. Let's add them back afterwards for an UPDATE (only WP 3.7)*/
 				if ( version_compare( $GLOBALS['wp_version'], '3.7', '==' ) ) {
 					add_filter( 'pre_update_option_' . $option_key, array( __CLASS__, 'pre_update_option_' . $option_key ) );
 				}
@@ -323,11 +323,11 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 			}
 
 			/* The option validation routines remove the default filters to prevent failing
-			   to insert an options if it's new. Let's add them back afterwards for an INSERT */
+			   to insert an option if it's new. Let's add them back afterwards for an INSERT */
 			add_action( 'add_option', array( __CLASS__, 'add_default_filters' ) );
 
 			/* The option validation routines remove the default filters to prevent failing
-			   to insert an options if it's new. Let's add them back afterwards for an UPDATE (not WP 3.7) */
+			   to insert an option if it's new. Let's add them back afterwards for an UPDATE (not WP 3.7) */
 			if ( version_compare( $GLOBALS['wp_version'], '3.7', '!=' ) ) {
 				add_action( 'update_option', array( __CLASS__, 'add_default_filters' ) );
 			}
