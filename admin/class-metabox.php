@@ -21,13 +21,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * Class constructor
 	 */
 	function __construct() {
-		/* Translate some meta box info for use on the admin side */
-		$this->translate_meta_boxes();
-
-
-		if ( ! class_exists( 'Yoast_TextStatistics' ) && apply_filters( 'wpseo_use_page_analysis', true ) === true )
+		if ( ! class_exists( 'Yoast_TextStatistics' ) && apply_filters( 'wpseo_use_page_analysis', true ) === true ) {
 			require_once( WPSEO_PATH . 'admin/TextStatistics.php' );
-
+		}
 		add_action( 'add_meta_boxes', array( $this, 'add_meta_box' ) );
 		add_action( 'admin_print_styles-post-new.php', array( $this, 'enqueue' ) );
 		add_action( 'admin_print_styles-post.php', array( $this, 'enqueue' ) );
@@ -37,6 +33,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		add_action( 'edit_attachment', array( $this, 'save_postdata' ) );
 		add_action( 'add_attachment', array( $this, 'save_postdata' ) );
 		add_action( 'admin_init', array( $this, 'setup_page_analysis' ) );
+		add_action( 'admin_init', array( $this, 'translate_meta_boxes' ) );
 	}
 	
 	
@@ -110,16 +107,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		self::$meta_fields['advanced']['redirect']['title'] 	  = __( '301 Redirect', 'wordpress-seo' );
 		self::$meta_fields['advanced']['redirect']['description'] = __( 'The URL that this page should redirect to.', 'wordpress-seo' );
 
-
-		self::$meta_fields['social']['opengraph-description']['title']       = __( 'Facebook Description', 'wordpress-seo' );
-		self::$meta_fields['social']['opengraph-description']['description'] = __( 'If you don\'t want to use the meta description for sharing the post on Facebook but want another description there, write it here.', 'wordpress-seo' );
-
-		self::$meta_fields['social']['opengraph-image']['title'] 	   = __( 'Facebook Image', 'wordpress-seo' );
-		self::$meta_fields['social']['opengraph-image']['description'] = __( 'If you want to override the Facebook image for this post, upload / choose an image or add the URL here.', 'wordpress-seo' );
-
-		self::$meta_fields['social']['google-plus-description']['title'] 	   = __( 'Google+ Description', 'wordpress-seo' );
-		self::$meta_fields['social']['google-plus-description']['description'] = __( 'If you don\'t want to use the meta description for sharing the post on Google+ but want another description there, write it here.', 'wordpress-seo' );
-
+		do_action( 'wpseo_tab_translate' );
 	}
 
 
@@ -212,6 +200,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		else {
 			$score = wpseo_get_value( 'linkdex' );
 			if ( $score ) {
+				// @todo should we use bcmath ?
 				$score = round( $score / 10 );
 				if ( $score < 1 ) {
 					$score = 1;
@@ -282,6 +271,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 	/**
 	 * Outputs the scripts needed for the edit / post page overview, snippet preview, etc.
+	 *
+	 * @todo does this really need to be in admin_head ? or would it be better to use wp_localize_script for this ?
 	 */
 	public function script() {
 		if ( $this->pt_is_public() === false )
@@ -1152,7 +1143,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$xpath = new DOMXPath( $dom );
 
 		global $statistics;
-		$statistics = new Yoast_TextStatistics;
+		$statistics = new Yoast_TextStatistics( get_bloginfo( 'charset' ) );
 
 		// Check if this focus keyword has been used already.
 		$this->check_double_focus_keyword( $job, $results );

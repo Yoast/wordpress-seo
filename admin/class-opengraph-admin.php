@@ -17,9 +17,27 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 	 * Class constructor
 	 */
 	public function __construct() {
+		add_action( 'wpseo_tab_translate', array( $this, 'translate_meta_boxes' ) );
 		add_action( 'wpseo_tab_header', array( $this, 'tab_header' ), 60 );
 		add_action( 'wpseo_tab_content', array( $this, 'tab_content' ) );
 		add_filter( 'wpseo_save_metaboxes', array( $this, 'save_meta_boxes' ), 10, 1 );
+	}
+	
+	/**
+	 * Translate text strings for use in the meta box
+	 *
+	 * IMPORTANT: if you want to add a new string (option) somewhere, make sure you add that array key to
+	 * the main meta box definition array in the class WPSEO_Meta() as well!!!!
+	 */
+	public static function translate_meta_boxes() {
+		self::$meta_fields['social']['opengraph-description']['title']       = __( 'Facebook Description', 'wordpress-seo' );
+		self::$meta_fields['social']['opengraph-description']['description'] = __( 'If you don\'t want to use the meta description for sharing the post on Facebook but want another description there, write it here.', 'wordpress-seo' );
+
+		self::$meta_fields['social']['opengraph-image']['title'] 	   = __( 'Facebook Image', 'wordpress-seo' );
+		self::$meta_fields['social']['opengraph-image']['description'] = __( 'If you want to override the Facebook image for this post, upload / choose an image or add the URL here.', 'wordpress-seo' );
+
+		self::$meta_fields['social']['google-plus-description']['title'] 	   = __( 'Google+ Description', 'wordpress-seo' );
+		self::$meta_fields['social']['google-plus-description']['description'] = __( 'If you don\'t want to use the meta description for sharing the post on Google+ but want another description there, write it here.', 'wordpress-seo' );
 	}
 
 	/**

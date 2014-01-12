@@ -317,6 +317,17 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 					else {
 						unset( $field_defs['metakeywords'] );
 					}
+					/**
+					 * Filter the WPSEO metabox form field definitions for the general tab, backward compatibility
+					 *
+					 * @deprecated 1.5.0
+					 * @deprecated use the 'wpseo_metabox_entries_general' filter instead
+					 * @see WPSEO_Meta::get_meta_field_defs()
+					 *
+					 * @param	array	$field_defs    metabox form definitions
+					 * @return	array
+					 */
+					$field_defs = apply_filters( 'wpseo_metabox_entries', $field_defs );
 					break;
 
 				case 'advanced':
@@ -343,24 +354,16 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 					break;
 			}
 
+			/**
+			 * Filter the WPSEO metabox form field definitions for a tab
+			 * {tab} can be 'general', 'advanced' or 'social'
+			 *
+			 * @param	array	$field_defs    metabox form definitions
+			 * @return	array
+			 */
 			return apply_filters( 'wpseo_metabox_entries_' . $tab, $field_defs );
 		}
-		
-		
-		/**
-		 * Apply the 'wpseo_metabox_entries' filter, backward compatibility
-		 *
-		 * @deprecated 1.5.0
-		 * @deprecated use the 'wpseo_metabox_entries_general' filter instead
-		 * @see WPSEO_Meta::get_meta_field_defs()
-		 *
-		 * @param	array	$field_defs    metabox form definitions
-		 * @return	array
-		 */
-		public static function deprecated_filter_wpseo_metabox_entries( $field_defs ) {
-//			_deprecated_function( 'Filter "wpseo_metabox_entries"', 'WPSEO 1.5.0', 'wpseo_metabox_entries_general' );
-			return apply_filters( 'wpseo_metabox_entries', $field_defs ); // old deprecated
-		}
+
 
 
 
@@ -373,7 +376,7 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 
 
 			switch( $field_def['type'] ) {
-				case '':
+				case 'checkbox':
 					break;
 					
 				case '':
