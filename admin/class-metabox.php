@@ -163,7 +163,7 @@ class WPSEO_Metabox {
 	 *
 	 * @deprecated 1.4.23
 	 * @deprecated use WPSEO_Metabox::add_meta_box()
-	 * @see WPSEO_Meta::get_general_meta_boxes()
+	 * @see WPSEO_Metabox::add_meta_box()
 	 */
 	public function add_custom_box() {
 		_deprecated_function( __FUNCTION__, 'WPSEO 1.5.0', 'WPSEO_Metabox::add_meta_box()' );
