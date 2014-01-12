@@ -8,23 +8,24 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	die;
 }
 
-/**
- * Class that creates the tracking functionality for WP SEO, as the core class might be used in more plugins,
- * it's checked for existence first.
- *
- * NOTE: this functionality is opt-in. Disabling the tracking in the settings or saying no when asked will cause
- * this file to not even be loaded.
- *
- * @todo check if tracking still works if an old version of the Yoast Tracking class was loaded (i.e. another plugin loaded their version first)
- */
 if ( ! class_exists( 'Yoast_Tracking' ) ) {
+	/**
+	 * Class that creates the tracking functionality for WP SEO, as the core class might be used in more plugins,
+	 * it's checked for existence first.
+	 *
+	 * NOTE: this functionality is opt-in. Disabling the tracking in the settings or saying no when asked will cause
+	 * this file to not even be loaded.
+	 *
+	 * @todo check if tracking still works if an old version of the Yoast Tracking class was loaded
+	 * (i.e. another plugin loaded their version first)
+	 */
 	class Yoast_Tracking {
 
 		/**
 		 * @var	object	Instance of this class
 		 */
 		public static $instance;
-		
+
 
 		/**
 		 * Class constructor

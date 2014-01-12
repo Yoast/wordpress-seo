@@ -744,7 +744,9 @@ add_filter( 'sanitize_user_meta_birth-year', 'sanitize_birth_year_meta' );
 		}
 
 
-	}
+	} /* End of class */
+	
 	// File is loaded from wpseo-functions.php on action plugins_loaded set in wp-seo.php
 //	WPSEO_Meta::plugins_loaded();
-}
+
+} /* End of class-exists wrapper */

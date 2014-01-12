@@ -2059,7 +2059,9 @@ function wpseo_defaults() {
 		}
 	}
 */
-	}
+	} /* End of class */
+
 	// File is loaded from wpseo-functions.php on action plugins_loaded set in wp-seo.php
 	WPSEO_Options::plugins_loaded();
-}
+
+} /* End of class-exists wrapper */
