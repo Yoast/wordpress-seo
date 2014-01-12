@@ -151,9 +151,8 @@ function updateTitle(force) {
 	testFocusKw();
 }
 
-function updateDesc(desc) {
+function updateDesc() {
 	var autogen = false;
-	// @todo check as variable declaration overwrites passed variable
 	var desc = jQuery.trim(yst_clean(jQuery("#yoast_wpseo_metadesc").val()));
 	var color = '#000';
 
