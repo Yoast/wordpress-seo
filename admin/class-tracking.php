@@ -14,15 +14,42 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
  *
  * NOTE: this functionality is opt-in. Disabling the tracking in the settings or saying no when asked will cause
  * this file to not even be loaded.
+ *
+ * @todo check if tracking still works if an old version of the Yoast Tracking class was loaded (i.e. another plugin loaded their version first)
  */
 if ( ! class_exists( 'Yoast_Tracking' ) ) {
 	class Yoast_Tracking {
 
 		/**
+		 * @var	object	Instance of this class
+		 */
+		public static $instance;
+		
+
+		/**
 		 * Class constructor
 		 */
 		function __construct() {
-			add_action( 'yoast_tracking', array( $this, 'tracking' ) );
+			// Constructor is called from WP SEO
+			if ( current_filter( 'yoast_tracking' ) ) {
+				$this->tracking();
+			}
+			// Backward compatibility - constructor is called from other Yoast plugin
+			else if ( ! has_action( 'yoast_tracking', array( $this, 'tracking' ) ) ) {
+				add_action( 'yoast_tracking', array( $this, 'tracking' ) );
+			}
+		}
+
+		/**
+		 * Get the singleton instance of this class
+		 *
+		 * @return object
+		 */
+		public static function get_instance() {
+			if ( ! ( self::$instance instanceof self ) ) {
+				self::$instance = new self();
+			}
+			return self::$instance;
 		}
 
 		/**
@@ -122,10 +149,8 @@ if ( ! class_exists( 'Yoast_Tracking' ) ) {
 				set_transient( 'yoast_tracking_cache', true, 7 * 60 * 60 * 24 );
 			}
 		}
-	}
-
-	$yoast_tracking = new Yoast_Tracking;
-}
+	} /* End of class */
+} /* End of class-exists wrapper */
 
 /**
  * Adds tracking parameters for WP SEO settings. Outside of the main class as the class could also be in use in other plugins.

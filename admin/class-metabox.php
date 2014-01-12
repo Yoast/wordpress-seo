@@ -16,14 +16,17 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
  * The class that generates the metabox on the edit post / page as well as contains all page analysis functionality.
  */
 class WPSEO_Metabox extends WPSEO_Meta {
+	
+	/**
+	 * Property holding the Text statistics object
+	 */
+	protected $statistics;
+
 
 	/**
 	 * Class constructor
 	 */
 	function __construct() {
-		if ( ! class_exists( 'Yoast_TextStatistics' ) && apply_filters( 'wpseo_use_page_analysis', true ) === true ) {
-			require_once( WPSEO_PATH . 'admin/TextStatistics.php' );
-		}
 		add_action( 'add_meta_boxes', array( $this, 'add_meta_box' ) );
 		add_action( 'admin_print_styles-post-new.php', array( $this, 'enqueue' ) );
 		add_action( 'admin_print_styles-post.php', array( $this, 'enqueue' ) );
@@ -35,7 +38,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		add_action( 'admin_init', array( $this, 'setup_page_analysis' ) );
 		add_action( 'admin_init', array( $this, 'translate_meta_boxes' ) );
 	}
-	
 	
 	/**
 	 * Translate text strings for use in the meta box
@@ -154,6 +156,16 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			add_action( 'post_submitbox_misc_actions', array( $this, 'publish_box' ) );
 		}
 	}
+	
+	private function statistics() {
+		if( ! isset( $this->statistics ) ) {
+			$this->statistics = new Yoast_TextStatistics( get_bloginfo( 'charset' ) );
+		}
+		return $this->statistics;
+	}
+	
+	
+
 
 	/**
 	 * Lowercase a sentence while preserving "weird" characters.
@@ -1142,9 +1154,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		@$dom->loadHTML( apply_filters( 'wpseo_pre_analysis_post_content', $post->post_content, $post ) );
 		$xpath = new DOMXPath( $dom );
 
-		global $statistics;
-		$statistics = new Yoast_TextStatistics( get_bloginfo( 'charset' ) );
-
 		// Check if this focus keyword has been used already.
 		$this->check_double_focus_keyword( $job, $results );
 
@@ -1336,7 +1345,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @param array $results    The results array.
 	 */
 	function score_url( $job, &$results ) {
-		global $statistics, $wpseo_admin;
+		global $wpseo_admin;
 
 		$urlGood      = __( 'The keyword / phrase appears in the URL for this page.', 'wordpress-seo' );
 		$urlMedium    = __( 'The keyword / phrase does not appear in the URL for this page. If you decide to rename the URL be sure to check the old URL 301 redirects to the new one!', 'wordpress-seo' );
@@ -1357,7 +1366,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$this->save_score_result( $results, 5, $urlStopWords, 'url_stopword' );
 
 		// Check if the slug isn't too long relative to the length of the keyword
-		if ( ( $statistics->text_length( $job['keyword'] ) + 20 ) < $statistics->text_length( $job['pageSlug'] ) && 40 < $statistics->text_length( $job['pageSlug'] ) )
+		if ( ( $this->statistics()->text_length( $job['keyword'] ) + 20 ) < $this->statistics()->text_length( $job['pageSlug'] ) && 40 < $this->statistics()->text_length( $job['pageSlug'] ) )
 			$this->save_score_result( $results, 5, $longSlug, 'url_length' );
 	}
 
@@ -1368,8 +1377,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @param array $results    The results array.
 	 */
 	function score_title( $job, &$results ) {
-		global $statistics;
-
 		$scoreTitleMinLength    = 40;
 		$scoreTitleMaxLength    = 70;
 		$scoreTitleKeywordLimit = 0;
@@ -1386,7 +1393,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$this->save_score_result( $results, 1, $scoreTitleMissing, 'title' );
 		}
 		else {
-			$length = $statistics->text_length( $job['title'] );
+			$length = $this->statistics()->text_length( $job['title'] );
 			if ( $length < $scoreTitleMinLength )
 				$this->save_score_result( $results, 6, sprintf( $scoreTitleTooShort, $length ), 'title_length' );
 			else if ( $length > $scoreTitleMaxLength )
@@ -1661,8 +1668,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @param int    $maxlength   The maximum length of the meta description.
 	 */
 	function score_description( $job, &$results, $description, $maxlength = 155 ) {
-		global $statistics;
-
 		$scoreDescriptionMinLength      = 120;
 		$scoreDescriptionCorrectLength  = __( 'In the specified meta description, consider: How does it compare to the competition? Could it be made more appealing?', 'wordpress-seo' );
 		$scoreDescriptionTooShort       = __( 'The meta description is under 120 characters, however up to %s characters are available. %s', 'wordpress-seo' );
@@ -1680,7 +1685,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$this->save_score_result( $results, 1, $scoreDescriptionMissing, 'description_length' );
 		}
 		else {
-			$length = $statistics->text_length( $description );
+			$length = $this->statistics()->text_length( $description );
 
 			if ( $length < $scoreDescriptionMinLength ) {
 				$this->save_score_result( $results, 6, sprintf( $scoreDescriptionTooShort, $maxlength, $metaShorter ), 'description_length' );
@@ -1713,8 +1718,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @param string $firstp      The first paragraph.
 	 */
 	function score_body( $job, &$results, $body, $firstp ) {
-		global $statistics;
-
 		$lengthScore = apply_filters(
 			'wpseo_body_length_score',
 			array(
@@ -1746,7 +1749,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$body = strip_tags( $body );
 
 		// Copy length check
-		$wordCount = $statistics->word_count( $body );
+		$wordCount = $this->statistics()->word_count( $body );
 
 		if ( $wordCount < $lengthScore['bad'] ) {
 			$this->save_score_result( $results, - 20, sprintf( $scoreBodyBadLength, $wordCount, $lengthScore['good'] ), 'body_length', $wordCount );
@@ -1804,7 +1807,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$lang = get_bloginfo( 'language' );
 		if ( substr( $lang, 0, 2 ) == 'en' && $wordCount > 100 ) {
 			// Flesch Reading Ease check
-			$flesch = $statistics->flesch_kincaid_reading_ease( $body );
+			$flesch = $this->statistics()->flesch_kincaid_reading_ease( $body );
 
 			$note  = '';
 			$level = '';

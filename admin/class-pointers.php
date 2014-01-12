@@ -8,6 +8,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	die;
 }
 
+
 /**
  * This class handles the pointers used in the introduction tour.
  *
@@ -16,23 +17,14 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 class WPSEO_Pointers {
 
 	/**
-	 * Class constructor.
+	 * @var	object	Instance of this class
 	 */
-	function __construct() {
-		global $wp_version;
-		if ( version_compare( $wp_version, '3.4', '<' ) )
-			return false;
-
-		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue' ) );
-	}
+	public static $instance;
 
 	/**
-	 * Enqueue styles and scripts needed for the pointers.
+	 * Class constructor.
 	 */
-	function enqueue() {
-		if ( ! current_user_can( 'manage_options' ) )
-			return;
-
+	private function __construct() {
 		$options = get_option( 'wpseo' );
 		if ( $options['tracking_popup_done'] === false || $options['ignore_tour'] === false ) {
 			wp_enqueue_style( 'wp-pointer' );
@@ -48,6 +40,19 @@ class WPSEO_Pointers {
 			add_action( 'admin_head', array( $this, 'admin_head' ) );
 		}
 	}
+
+	/**
+	 * Get the singleton instance of this class
+	 *
+	 * @return object
+	 */
+	public static function get_instance() {
+		if ( ! ( self::$instance instanceof self ) ) {
+			self::$instance = new self();
+		}
+		return self::$instance;
+	}
+
 
 	/**
 	 * Shows a popup that asks for permission to allow tracking.
@@ -274,6 +279,4 @@ class WPSEO_Pointers {
 		</script>
 	<?php
 	}
-}
-
-$wpseo_pointers = new WPSEO_Pointers;
+} /* End of class */

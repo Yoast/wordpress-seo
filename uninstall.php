@@ -12,8 +12,10 @@
  * => may be add an options page where users can choose whether or not to remove this kind of data ?
  * or try and hook into the uninstall routine and ask the user there & then
  *
+ * @todo remove option Yoast_Tracking_Hash ?
+ * @todo remove transients created by this plugin ?
  *
- * @todo deal with multisite uninstall ?
+ * @todo deal with multisite uninstall - the options and other data will need to be removed for all blogs ?
  */
 
 if ( ! current_user_can( 'activate_plugins' ) || ( ! defined( 'ABSPATH' ) || ! defined( 'WP_UNINSTALL_PLUGIN' ) ) )

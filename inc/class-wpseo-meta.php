@@ -266,7 +266,7 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 
 			foreach( self::$meta_fields as $subset => $field_group ) {
 				foreach( $field_group as $key => $field_def ) {
-					if( isset( $field_def['default_value'] ) ) {
+					if ( isset( $field_def['default_value'] ) ) {
 						//add_filter( 'sanitize_post_meta_' . self::$meta_prefix . $key, array( __CLASS__, 'sanitize_post_meta' ), 10, 2 );
 						// Probably better to use: (undocumented function), this adds the sanitation callback
 						register_meta( 'post', self::$meta_prefix . $key, array( __CLASS__, 'sanitize_post_meta' ) );
@@ -641,7 +641,7 @@ add_filter( 'sanitize_user_meta_birth-year', 'sanitize_birth_year_meta' );
 		public static function remove_meta_if_default( $null, $object_id, $meta_key, $meta_value, $prev_value = '' ) {
 			// If it's one of our meta fields, check against default
 			if ( isset( self::$fields_index[$meta_key] ) && self::meta_value_is_default( $meta_key, $meta_value ) === true ) {
-				if( $prev_value !== '' ) {
+				if ( $prev_value !== '' ) {
 /*
 * @param mixed $meta_value Optional. Metadata value. Must be serializable if non-scalar. If specified, only delete metadata entries with this value. Otherwise, delete all entries with the specified meta_key.
 */

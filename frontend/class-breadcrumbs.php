@@ -8,6 +8,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	die;
 }
 
+
 /**
  * This class handles the Breadcrumbs generation and display
  */
@@ -21,6 +22,7 @@ class WPSEO_Breadcrumbs {
 		// to have bbPress breadcrumbs as well.
 		add_filter( 'bbp_get_breadcrumb', '__return_false' );
 	}
+
 
 	/**
 	 * Wrapper function for the breadcrumb so it can be output for the supported themes.
@@ -311,7 +313,7 @@ class WPSEO_Breadcrumbs {
 
 			if ( isset( $link['ptarchive'] ) ) {
 				/* @todo add something along the lines of the below to make it work with WooCommerce.. ?
-				if( false === $link['ptarchive'] && true === is_post_type_archive( 'product' ) ) {
+				if ( false === $link['ptarchive'] && true === is_post_type_archive( 'product' ) ) {
 					$link['ptarchive'] = 'product'; // translate ?
 				}*/
 				if ( isset( $opt['bctitle-ptarchive-' . $link['ptarchive']] ) && $opt['bctitle-ptarchive-' . $link['ptarchive']] !== '' ) {
@@ -363,10 +365,8 @@ class WPSEO_Breadcrumbs {
 		return apply_filters( 'wpseo_breadcrumb_output', '<' . $wrapper . $id . $class . ' xmlns:v="http://rdf.data-vocabulary.org/#">' . $output . '</' . $wrapper . '>' );
 	}
 
-}
+} /* End of class */
 
-global $wpseo_bc;
-$wpseo_bc = new WPSEO_Breadcrumbs();
 
 if ( ! function_exists( 'yoast_breadcrumb' ) ) {
 	/**
@@ -378,7 +378,6 @@ if ( ! function_exists( 'yoast_breadcrumb' ) ) {
 	 * @return string
 	 */
 	function yoast_breadcrumb( $before = '', $after = '', $display = true ) {
-		global $wpseo_bc;
-		return $wpseo_bc->breadcrumb( $before, $after, $display );
+		return $GLOBALS['wpseo_bc']->breadcrumb( $before, $after, $display );
 	}
 }

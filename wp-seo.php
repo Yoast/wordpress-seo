@@ -76,17 +76,17 @@ function wpseo_auto_load( $class ) {
 	if ( $classes === null ) {
 		$classes = array(
 			'wpseo_admin'                        => WPSEO_PATH . 'admin/class-admin.php',
-			'wpseo_bulk_title_editor_list_table' => WPSEO_PATH . 'admin/class-bulk-title-editor-list-table.php',
-			'wpseo_bulk_description_list_table'  => WPSEO_PATH . 'admin/class-bulk-description-editor-list-table.php',
+			'wpseo_bulk_title_editor_list_table' => WPSEO_PATH . 'admin/class-bulk-title-editor-list-table.php', //done
+			'wpseo_bulk_description_list_table'  => WPSEO_PATH . 'admin/class-bulk-description-editor-list-table.php', //done
 			'wpseo_admin_pages'                  => WPSEO_PATH . 'admin/class-config.php',
 			'wpseo_metabox'                      => WPSEO_PATH . 'admin/class-metabox.php',
 			'wpseo_social_admin'                 => WPSEO_PATH . 'admin/class-opengraph-admin.php',
-			'wpseo_pointers'                     => WPSEO_PATH . 'admin/class-pointers.php',
+			'wpseo_pointers'                     => WPSEO_PATH . 'admin/class-pointers.php', //done
 			'wpseo_sitemaps_admin'               => WPSEO_PATH . 'admin/class-sitemaps-admin.php',
 			'wpseo_taxonomy'                     => WPSEO_PATH . 'admin/class-taxonomy.php',
-			'yoast_tracking'                     => WPSEO_PATH . 'admin/class-tracking.php',
-			'yoast_textstatistics'               => WPSEO_PATH . 'admin/TextStatistics.php',
-			'wpseo_breadcrumbs'                  => WPSEO_PATH . 'frontend/class-breadcrumbs.php',
+			'yoast_tracking'                     => WPSEO_PATH . 'admin/class-tracking.php', //done
+			'yoast_textstatistics'               => WPSEO_PATH . 'admin/TextStatistics.php', //done
+			'wpseo_breadcrumbs'                  => WPSEO_PATH . 'frontend/class-breadcrumbs.php', //done
 			'wpseo_frontend'                     => WPSEO_PATH . 'frontend/class-frontend.php',
 			'wpseo_opengraph'                    => WPSEO_PATH . 'frontend/class-opengraph.php',
 			'wpseo_twitter'                      => WPSEO_PATH . 'frontend/class-twitter.php',
@@ -96,7 +96,7 @@ function wpseo_auto_load( $class ) {
 			'wpseo_options'                      => WPSEO_PATH . 'inc/class-wpseo-options.php',
 			'wpseo_meta'                         => WPSEO_PATH . 'inc/class-wpseo-meta.php',
 
-			'wp_list_table'                      => ABSPATH . 'wp-admin/includes/class-wp-list-table.php',
+			'wp_list_table'                      => ABSPATH . 'wp-admin/includes/class-wp-list-table.php', //done
 		);
 	}
 
@@ -130,12 +130,16 @@ function wpseo_init() {
 function wpseo_frontend_init() {
 	$options = WPSEO_Options::get_all();
 	require_once( WPSEO_PATH . 'frontend/class-frontend.php' );
-	if ( $options['breadcrumbs-enable'] === true )
-		require_once( WPSEO_PATH . 'frontend/class-breadcrumbs.php' );
-	if ( $options['twitter'] === true )
+
+	if ( $options['breadcrumbs-enable'] === true ) {
+		$GLOBALS['wpseo_bc'] = new WPSEO_Breadcrumbs();
+	}
+	if ( $options['twitter'] === true ) {
 		require_once( WPSEO_PATH . 'frontend/class-twitter.php' );
-	if ( $options['opengraph'] === true )
+	}
+	if ( $options['opengraph'] === true ) {
 		require_once( WPSEO_PATH . 'frontend/class-opengraph.php' );
+	}
 }
 
 /**
@@ -149,7 +153,17 @@ function wpseo_admin_init() {
 	}
 
 	if ( $options['yoast_tracking'] === true ) {
-		require_once( WPSEO_PATH . 'admin/class-tracking.php' );
+		/**
+		 * @internal this is not a proper lean loading implementation (method_exist will autoload the class),
+		 * but it can't be helped as there are other plugins out there which also use versions
+		 * of the Yoast Tracking class and we need to take that into account unfortunately
+		 */
+		if ( method_exists( 'Yoast_Tracking', 'get_instance' ) ) {
+			add_action( 'yoast_tracking', array( 'Yoast_Tracking', 'get_instance' ) );
+		}
+		else {
+			$yoast_tracking = new Yoast_Tracking;
+		}
 	}
 
 	require_once( WPSEO_PATH . 'admin/class-admin.php' );
@@ -167,8 +181,9 @@ function wpseo_admin_init() {
 	if ( in_array( $pagenow, array( 'admin.php' ) ) )
 		require_once( WPSEO_PATH . 'admin/class-config.php' );
 
-	if ( $options['tracking_popup_done'] === false || $options['ignore_tour'] === false )
-		require_once( WPSEO_PATH . 'admin/class-pointers.php' );
+	if ( ( version_compare( $GLOBALS['wp_version'], '3.4', '>=' ) && current_user_can( 'manage_options' ) ) && ( $options['tracking_popup_done'] === false || $options['ignore_tour'] === false ) ) {
+		add_action( 'admin_enqueue_scripts', array( 'WPSEO_Pointers', 'get_instance' ) );
+	}
 
 	if ( $options['enablexmlsitemap'] === true )
 		require_once( WPSEO_PATH . 'admin/class-sitemaps-admin.php' );

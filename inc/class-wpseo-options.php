@@ -769,7 +769,8 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 		/**
 		 * (Un-)schedule the yoast tracking cronjob if the tracking option has changed
 		 * 
-		 * Needs to be done here, rather than in the Yoast_Tracking class as class-tracking.php may not be loaded
+		 * Better to be done here, rather than in the Yoast_Tracking class as class-tracking.php may not be loaded
+		 * and might not need to be (lean loading).
 		 *
 		 * @todo - check if this has any impact on other Yoast plugins which may use the same tracking schedule
 		 * hook. If so, may be get any other yoast plugin options, check for the tracking status and

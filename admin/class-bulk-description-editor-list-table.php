@@ -7,10 +7,10 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	header( 'HTTP/1.0 403 Forbidden' );
 	die;
 }
-if ( ! class_exists( 'WP_List_Table' ) ) {
-	require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
-}
 
+/**
+ *
+ */
 class WPSEO_Bulk_Description_List_Table extends WP_List_Table {
 
 	/**
