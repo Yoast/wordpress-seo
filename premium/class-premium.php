@@ -72,16 +72,6 @@ class WPSEO_Premium {
 		add_action( 'wp_ajax_wpseo_save_redirect', array( 'WPSEO_Redirect_Manager', 'ajax_handle_redirect_save' ) );
 		add_action( 'wp_ajax_wpseo_delete_redirect', array( 'WPSEO_Redirect_Manager', 'ajax_handle_redirect_delete' ) );
 		add_action( 'wp_ajax_wpseo_create_redirect', array( 'WPSEO_Redirect_Manager', 'ajax_handle_redirect_create' ) );
-
-		// TESTING
-		add_action( 'admin_init', function () {
-			if ( isset( $_GET['test_redirect'] ) ) {
-//				$apache_file = new WPSEO_Apache_Redirect_File();
-				$apache_file = new WPSEO_Nginx_Redirect_File();
-				$apache_file->save_file();
-				exit;
-			}
-		} );
 	}
 
 	/**
@@ -173,6 +163,3 @@ class WPSEO_Premium {
 	}
 
 }
-
-// Load the WordPress SEO Premium class the correct way, which is later than the WordPress SEO priority
-add_action( 'plugins_loaded', create_function( '', 'new WPSEO_Premium();' ), 15 );

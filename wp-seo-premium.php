@@ -34,6 +34,9 @@ require_once( 'wp-seo-main.php' );
 function wpseo_premium_init() {
 	if( file_exists( WPSEO_PATH . 'premium/class-premium.php' ) ) {
 		require_once( WPSEO_PATH . 'premium/class-premium.php' );
+
+		// Load the WordPress SEO Premium class the correct way, which is later than the WordPress SEO priority
+		add_action( 'plugins_loaded', create_function( '', 'new WPSEO_Premium();' ), 15 );
 	}
 }
 add_action( 'plugins_loaded', 'wpseo_premium_init', 14 );

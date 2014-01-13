@@ -64,7 +64,24 @@ class WPSEO_Redirect_Manager {
 	 * @param array $redirects
 	 */
 	public static function save_redirects( $redirects ) {
+
+		// Update the database option
 		update_option( self::OPTION_REDIRECTS, apply_filters( 'wpseo_premium_save_redirects', $redirects ) );
+
+		// Create the correct file object
+		$file = null;
+		if ( wpseo_is_apache() ) {
+			$file = new WPSEO_Apache_Redirect_File();
+		} else {
+			if ( wpseo_is_nginx() ) {
+				$file = new WPSEO_Nginx_Redirect_File();
+			}
+		}
+
+		// Save the file
+		if ( null !== $file ) {
+			$file->save_file();
+		}
 	}
 
 	/**
