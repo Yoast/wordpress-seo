@@ -141,6 +141,7 @@ This version also incorporates the [SEO Extended](http://wordpress.org/plugins/s
 	* Added option to add meta keywords to post type archives.
 	* [Usability] Proper field labels for user profile form fields
 	* General jQuery efficiency improvements.
+	* Improved lazy loading of plugin files using autoload.
 
 * Other:
 	* Removed statement for compatibility with WP < 3.4 as minimum requirement for WP SEO is now 3.5

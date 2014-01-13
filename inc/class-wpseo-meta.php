@@ -40,32 +40,32 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 		public static $meta_length_reason = '';
 
 
-
+/*
 		public $defaults = array(
 
-/*v*/			'_yoast_wpseo_focuskw'					=> '',
-/*v*/			'_yoast_wpseo_title'					=> '',
-/*v*/			'_yoast_wpseo_metadesc'					=> '',
-/*v*/			'_yoast_wpseo_metakeywords'				=> '',
+/*v* /			'_yoast_wpseo_focuskw'					=> '',
+/*v* /			'_yoast_wpseo_title'					=> '',
+/*v* /			'_yoast_wpseo_metadesc'					=> '',
+/*v* /			'_yoast_wpseo_metakeywords'				=> '',
 
 
-/*xxx*/			'_yoast_wpseo_meta-robots-noindex'		=> '0', // vs '-'
-/*xxx*/			'_yoast_wpseo_meta-robots-nofollow'		=> '0', // vs 'follow'
-/*v*/			'_yoast_wpseo_meta-robots-adv'			=> 'none',
+/*xxx* /			'_yoast_wpseo_meta-robots-noindex'		=> '0', // vs '-'
+/*xxx* /			'_yoast_wpseo_meta-robots-nofollow'		=> '0', // vs 'follow'
+/*v* /			'_yoast_wpseo_meta-robots-adv'			=> 'none',
 			'_yoast_wpseo_meta-robots-adv'			=> '', // ????
 
-/*v*/			'_yoast_wpseo_bctitle'					=> '',
-/*v*/			'_yoast_wpseo_sitemap-prio'				=> '-',
-/*v*/			'_yoast_wpseo_sitemap-include'			=> '-',
-/*v*/			'_yoast_wpseo_sitemap-html-include'		=> '-',
-/*v*/			'_yoast_wpseo_canonical'				=> '',
-/*v*/			'_yoast_wpseo_redirect'					=> '',
+/*v* /			'_yoast_wpseo_bctitle'					=> '',
+/*v* /			'_yoast_wpseo_sitemap-prio'				=> '-',
+/*v* /			'_yoast_wpseo_sitemap-include'			=> '-',
+/*v* /			'_yoast_wpseo_sitemap-html-include'		=> '-',
+/*v* /			'_yoast_wpseo_canonical'				=> '',
+/*v* /			'_yoast_wpseo_redirect'					=> '',
 
 
 
-/*v*/			'_yoast_wpseo_opengraph-description'	=> '',
-/*v*/			'_yoast_wpseo_opengraph-image'			=> '',
-/*v*/			'_yoast_wpseo_google-plus-description'	=> '',
+/*v* /			'_yoast_wpseo_opengraph-description'	=> '',
+/*v* /			'_yoast_wpseo_opengraph-image'			=> '',
+/*v* /			'_yoast_wpseo_google-plus-description'	=> '',
 
 
 
@@ -73,7 +73,7 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 			'_yoast_wpseo_linkdex'					=> '0',
 			'_yoast_wpseo_meta-robots'				=> 'index,follow',
 		);
-
+*/
 
 		/**
 		 * @var	array	$metaboxes	Meta box definitions for form
@@ -257,26 +257,37 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 		
 		
 		public static $fields_index = array();
+		
+		
+		public static $defaults = array();
 
 
 
 
 
 		public static function init() {
+			$register = function_exists( 'register_meta' );
 
 			foreach ( self::$meta_fields as $subset => $field_group ) {
 				foreach ( $field_group as $key => $field_def ) {
 					if ( isset( $field_def['default_value'] ) ) {
-						//add_filter( 'sanitize_post_meta_' . self::$meta_prefix . $key, array( __CLASS__, 'sanitize_post_meta' ), 10, 2 );
-						// Probably better to use: (undocumented function), this adds the sanitation callback
-						register_meta( 'post', self::$meta_prefix . $key, array( __CLASS__, 'sanitize_post_meta' ) );
-						
+						/* register_meta() is undocumented and not used by WP internally, wrapped in
+						   function_exists as a precaution in case they remove it. */
+						if( $register === true ) {
+							register_meta( 'post', self::$meta_prefix . $key, array( __CLASS__, 'sanitize_post_meta' ) );
+						}
+						else {
+							add_filter( 'sanitize_post_meta_' . self::$meta_prefix . $key, array( __CLASS__, 'sanitize_post_meta' ), 10, 2 );
+						}
+
 						// Set the $fields_index property for efficiency
 						self::$fields_index[self::$meta_prefix . $key] = array(
 							'subset' => $subset,
 							'key'	 => $key,
 						);
-
+						
+						// Set the $defaults property for efficiency
+						self::$defaults[self::$meta_prefix . $key] = $field_def['default_value'];
 					}
 				}
 			}
@@ -285,22 +296,15 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 			add_filter( 'add_post_metadata', array( __CLASS__, 'dont_save_meta_if_default' ), 10, 5 );
 
 
-
-			add_filter( 'wpseo_metabox_entries_general', array( __CLASS__, 'deprecated_filter_wpseo_metabox_entries' ) );
 		}
-
-
-
-
-
 
 
 		/**
 		 * Retrieve the meta box form field definitions for the given post type.
 		 *
-		 * @param   string  $tab        Tab for which to retrieve the field definitions
-		 * @param	string	$post_type
-		 * @return	array	Array containing the meta box field definitions
+		 * @param   string     $tab        Tab for which to retrieve the field definitions
+		 * @param    string    $post_type
+		 * @return    array    Array containing the meta box field definitions
 		 */
 		public function get_meta_field_defs( $tab, $post_type = 'post' ) {
 			if ( ! isset( self::$meta_fields[$tab] ) ) {
@@ -704,9 +708,9 @@ add_filter( 'sanitize_user_meta_birth-year', 'sanitize_birth_year_meta' );
 		/**
 		 * Get the value from the post custom values
 		 *
-		 * @param string $val	 name of the value to get
-		 * @param int	 $postid post ID of the post to get the value for
-		 * @return bool|mixed
+		 * @param   string  $val    name of the value to get
+		 * @param   int     $postid post ID of the post to get the value for
+		 * @return  bool|mixed
 		 */
 		public static function get_value( $val, $postid = 0 ) {
 			$postid = absint( $postid );
@@ -733,16 +737,9 @@ add_filter( 'sanitize_user_meta_birth-year', 'sanitize_birth_year_meta' );
 		 * @return	bool	whether the value was changed
 		 */
 		public static function set_value( $meta_key, $meta_value, $post_id ) {
-			return update_post_meta( $post_id, self::prefix . $meta_key, $meta_value );
+			return update_post_meta( $post_id, self::$meta_prefix . $meta_key, $meta_value );
 		}
-		
-		
-		
-		
-		public static function save_post() {
-			// Validate & save
-			// = action, not filter, do call update_post_meta/delete_post_meta
-		}
+
 
 
 	} /* End of class */

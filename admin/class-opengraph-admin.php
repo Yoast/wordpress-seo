@@ -63,8 +63,8 @@ if ( ! class_exists( 'WPSEO_Social_Admin' ) ) {
 		/**
 		 * Filter over the meta boxes to save, this function adds the Social meta boxes.
 		 *
-		 * @param array $mbs Array of metaboxes to save.
-		 * @return array
+		 * @param   array $field_defs Array of metaboxes to save.
+		 * @return  array
 		 */
 		public function save_meta_boxes( $field_defs ) {
 			return array_merge( $field_defs, $this->get_meta_field_defs( 'social' ) );

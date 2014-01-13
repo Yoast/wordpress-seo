@@ -26,17 +26,21 @@ if ( ! class_exists( 'WPSEO_Sitemaps_Admin' ) ) {
 		 * Remove sitemaps residing on disk as they will block our rewrite.
 		 *
 		 * @todo - I suggest we change this to a simple directory walker with a preg_match() on any files which would
-		 * match our rewrite rule expressions.
+		 * match our sitemap rewrite rule expressions. Now only sitemap_index.xml is looked for and that may not be
+		 * enough.
+		 * Also we may want to check for other plugins which are known to generate sitemap files rather than
+		 * just the files themselves. If one of those plugins is installed, there is a problem anyway.
 		 * Still we wouldn't want *that* to run each and every time an admin page loads, so we
 		 * should change the way this function is called. It's a bit silly running this on every admin page load
 		 * now anyways.
 		 *
 		 * Ideas on when/how to call it alternatively:
 		 * - always on dashboard.php ?
-		 * - if the enablexmlssitemap option is set to true (on option update)
+		 * - when the enablexmlssitemap option is set to true (on option update)
 		 * - on (re-)activation and/or upgrade
 		 * - via a weekly cronjob to keep an eye on things in the mean time (for if a user would install another sitemap
-		 *   plugin while WP SEO is installed and enablexmlsitemap == true
+		 *   plugin while WP SEO is installed and enablexmlsitemap === true
+		 * - when a plugin is installed to check that it is not one of the blocking plugins (which generate sitemap files)
 		 *
 		 * Would also need a warning (+ignore setting) to be displayed on every admin page if a blocking file
 		 * would be found (like via cron) as otherwise the user may not see it.

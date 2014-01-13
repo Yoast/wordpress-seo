@@ -157,7 +157,13 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 				add_action( 'post_submitbox_misc_actions', array( $this, 'publish_box' ) );
 			}
 		}
-		
+
+
+		/**
+		 * Get an instance of the text statistics class
+		 *
+		 * @return Yoast_TextStatistics
+		 */
 		private function statistics() {
 			if ( ! isset( $this->statistics ) ) {
 				$this->statistics = new Yoast_TextStatistics( get_bloginfo( 'charset' ) );
@@ -726,7 +732,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 	
 				// Prevent saving "empty" values.
 				if ( ! in_array( $data, array( '', '0', 'none', '-', 'index,follow' ) ) ) {
-					WPSEO_Meta::set_value( $meta_box['name'], sanitize_text_field( $data ), $post_id );
+					self::set_value( $meta_box['name'], sanitize_text_field( $data ), $post_id );
 				}
 				else if ( $data == '' ) {
 					// If we don't do this, we prevent people from reverting to the default title or description.
@@ -840,7 +846,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 				if ( (int) wpseo_get_value( 'meta-robots-noindex', $post_id ) === 1 ) {
 					$score_label = 'noindex';
 					$title       = __( 'Post is set to noindex.', 'wordpress-seo' );
-					WPSEO_Meta::set_value( 'linkdex', 0, $post_id );
+					self::set_value( 'linkdex', 0, $post_id );
 				}
 				else if ( $score !== false ) {
 					// @todo: check if we should use bcmath!
@@ -1111,7 +1117,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			else if ( ! wpseo_get_value( 'focuskw', $post->ID ) ) {
 				$result = new WP_Error( 'no-focuskw', sprintf( __( 'No focus keyword was set for this %s. If you do not set a focus keyword, no score can be calculated.', 'wordpress-seo' ), $post->post_type ) );
 	
-				WPSEO_Meta::set_value( 'linkdex', 0, $post->ID );
+				self::set_value( 'linkdex', 0, $post->ID );
 				return $result;
 			}
 			else if ( apply_filters( 'wpseo_use_page_analysis', true ) !== true ) {
@@ -1218,7 +1224,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			}
 			$score = round( ( $overall / $overall_max ) * 100 );
 	
-			WPSEO_Meta::set_value( 'linkdex', absint( $score ), $post->ID );
+			self::set_value( 'linkdex', absint( $score ), $post->ID );
 	
 			return $results;
 		}
