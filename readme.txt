@@ -110,9 +110,10 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 
 * Bugfixes
 	* Removed screen_icon() calls
+	* Fixed a bug in robots meta tag on singular items
 
 * i18n
-	* 
+	*
 
 = 1.4.23 =
 
