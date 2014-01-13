@@ -560,17 +560,31 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 	
 			if ( is_singular() ) {
 				global $post;
-				if ( is_object( $post ) && ( isset( $this->options['noindex-' . $post->post_type] ) && $this->options['noindex-' . $post->post_type] === true ) )
-					$robots['index'] = 'noindex';
-				if ( (int) wpseo_get_value( 'meta-robots-noindex' ) === 1 )
-					$robots['index'] = 'noindex';
-				if ( wpseo_get_value( 'meta-robots-nofollow' ) )
-					$robots['follow'] = 'nofollow';
+
+				if (  is_object( $post ) && ( isset( $this->options['noindex-' . $post->post_type] ) && $this->options['noindex-' . $post->post_type] === true ) ) {
+						$robots['index'] = 'noindex';
+				}
+	
+				if ( (int) wpseo_get_value( 'meta-robots-noindex' ) === 1 ) {
+						$robots['index'] = 'noindex';
+				}
+				else if ( (int) wpseo_get_value( 'meta-robots-noindex' ) === 2 ) {
+					$robots['index'] = 'index';
+				}
+	
+				if ( (int) wpseo_get_value( 'meta-robots-nofollow' ) === 0 ) {
+					$robots['follow'] = 'follow';
+				}
+				else if ( (int) wpseo_get_value( 'meta-robots-nofollow' ) === 1 ) {
+						$robots['follow'] = 'nofollow';
+				}
+
 				if ( wpseo_get_value( 'meta-robots-adv' ) && wpseo_get_value( 'meta-robots-adv' ) != 'none' ) {
 					foreach ( explode( ',', wpseo_get_value( 'meta-robots-adv' ) ) as $r ) {
 						$robots['other'][] = $r;
 					}
 				}
+
 			}
 			else {
 				if ( is_search() ) {
@@ -619,6 +633,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 				}
 			}
 	
+
 			$robotsstr = $robots['index'] . ',' . $robots['follow'];
 	
 			$robots['other'] = array_unique( $robots['other'] );
@@ -630,8 +645,9 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 	
 			$robotsstr = apply_filters( 'wpseo_robots', $robotsstr );
 	
-			if ( $robotsstr != '' )
+			if ( $robotsstr != '' ) {
 				echo '<meta name="robots" content="' . esc_attr( $robotsstr ) . '"/>' . "\n";
+			}
 		}
 	
 		/**
