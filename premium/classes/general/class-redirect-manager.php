@@ -23,8 +23,17 @@ class WPSEO_Redirect_Manager {
 			return;
 		}
 
-		var_dump($_SERVER);
-//		exit;
+		// Load redirects
+		$redirects = get_option( self::OPTION_REDIRECTS, array() );
+
+		// Do the actual redirect
+		if ( count( $redirects ) > 0 ) {
+			if ( isset ( $redirects[ $_SERVER[ 'REQUEST_URI' ] ] ) ) {
+				wp_redirect( $redirects[ $_SERVER[ 'REQUEST_URI' ] ], 301 );
+				exit;
+			}
+		}
+		
 	}
 
 	/**
@@ -39,7 +48,7 @@ class WPSEO_Redirect_Manager {
 	/**
 	 * Save the redirects
 	 *
-	 * @param array	$redirects
+	 * @param array $redirects
 	 */
 	public static function save_redirects( $redirects ) {
 		update_option( self::OPTION_REDIRECTS, apply_filters( 'wpseo_premium_save_redirects', $redirects ) );
@@ -48,7 +57,7 @@ class WPSEO_Redirect_Manager {
 	/**
 	 * Delete the redirects
 	 *
-	 * @param array	$delete_redirects
+	 * @param array $delete_redirects
 	 */
 	public static function delete_redirects( $delete_redirects ) {
 

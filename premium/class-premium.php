@@ -56,6 +56,9 @@ class WPSEO_Premium {
 		// Add Redirect page as admin page
 		add_filter( 'wpseo_admin_pages', array( $this, 'add_admin_pages' ) );
 
+		// Catch redirect
+		add_action( 'template_redirect', array( 'WPSEO_Redirect_Manager', 'do_redirects' ) );
+
 		// Post to Get on search
 		add_action( 'admin_init', array( $this, 'redirects_search_post_to_get' ) );
 
