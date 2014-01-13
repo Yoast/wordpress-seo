@@ -16,6 +16,17 @@ class WPSEO_Redirect_Manager {
 	public function __construct() {
 	}
 
+	public static function do_redirects() {
+
+		// Skip complete step if WPSEO_DISABLE_PHP_REDIRECTS is true
+		if ( defined( 'WPSEO_DISABLE_PHP_REDIRECTS' ) && WPSEO_DISABLE_PHP_REDIRECTS ) {
+			return;
+		}
+
+		var_dump($_SERVER);
+//		exit;
+	}
+
 	/**
 	 * Get the redirects
 	 *
