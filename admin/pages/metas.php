@@ -20,10 +20,6 @@ $options = WPSEO_Options::get_all();
  */
 include_once( 'options-head.php' );
 ?>
-<a href="http://yoast.com/">
-<?php screen_icon(); ?>
-</a>
-
 <h2 id="wpseo-title"><?php echo get_admin_page_title(); ?></h2>
 
 <div id="wpseo_content_top" class="postbox-container">
