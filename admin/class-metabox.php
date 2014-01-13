@@ -381,7 +381,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			</ul>
 			<?php
 			$content = '';
-			if( is_object( $post ) && isset( $post->post_type ) ) {
+			if ( is_object( $post ) && isset( $post->post_type ) ) {
 				foreach ( $this->get_meta_field_defs( 'general', $post->post_type ) as $meta_box ) {
 					$content .= $this->do_meta_box( $meta_box );
 				}
@@ -765,14 +765,16 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 				wp_enqueue_script( 'wp-seo-metabox', plugins_url( 'js/wp-seo-metabox.js', dirname( __FILE__ ) ), array( 'jquery', 'jquery-ui-core', 'jquery-ui-autocomplete' ), WPSEO_VERSION, true );
 	
 				// Text strings to pass to metabox for keyword analysis
-				wp_localize_script( 'wp-seo-metabox', 'wpseoMetaboxL10n', array(
-					'keyword_header'        => __( 'Your focus keyword was found in:', 'wordpress-seo' ),
-					'article_header_text'   => __( 'Article Heading: ', 'wordpress-seo' ),
-					'page_title_text'       => __( 'Page title: ', 'wordpress-seo' ),
-					'page_url_text'         => __( 'Page URL: ', 'wordpress-seo' ),
-					'content_text'          => __( 'Content: ', 'wordpress-seo' ),
-					'meta_description_text' => __( 'Meta description: ', 'wordpress-seo' ),
-					'choose_image'          => __( 'Use Image', 'wordpress-seo' ),
+				wp_localize_script(
+					'wp-seo-metabox', 'wpseoMetaboxL10n',
+					array(
+						'keyword_header'        => __( 'Your focus keyword was found in:', 'wordpress-seo' ),
+						'article_header_text'   => __( 'Article Heading: ', 'wordpress-seo' ),
+						'page_title_text'       => __( 'Page title: ', 'wordpress-seo' ),
+						'page_url_text'         => __( 'Page URL: ', 'wordpress-seo' ),
+						'content_text'          => __( 'Content: ', 'wordpress-seo' ),
+						'meta_description_text' => __( 'Meta description: ', 'wordpress-seo' ),
+						'choose_image'          => __( 'Use Image', 'wordpress-seo' ),
 					)
 				);
 			}
@@ -969,31 +971,35 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 				}
 			}
 			if ( isset( $_GET['seo_kw_filter'] ) ) {
-				$vars = array_merge( $vars, array(
-					'post_type'  => 'any',
-					'meta_key'   => '_yoast_wpseo_focuskw',
-					'meta_value' => sanitize_text_field( $_GET['seo_kw_filter'] ),
+				$vars = array_merge(
+					$vars, array(
+						'post_type'  => 'any',
+						'meta_key'   => '_yoast_wpseo_focuskw',
+						'meta_value' => sanitize_text_field( $_GET['seo_kw_filter'] ),
 					)
 				);
 			}
 			if ( isset( $vars['orderby'] ) && 'wpseo-score' == $vars['orderby'] ) {
-				$vars = array_merge( $vars, array(
-					'meta_key' => '_yoast_wpseo_linkdex',
-					'orderby'  => 'meta_value_num',
+				$vars = array_merge(
+					$vars, array(
+						'meta_key' => '_yoast_wpseo_linkdex',
+						'orderby'  => 'meta_value_num',
 					)
 				);
 			}
 			if ( isset( $vars['orderby'] ) && 'wpseo-metadesc' == $vars['orderby'] ) {
-				$vars = array_merge( $vars, array(
-					'meta_key' => '_yoast_wpseo_metadesc',
-					'orderby'  => 'meta_value',
+				$vars = array_merge(
+					$vars, array(
+						'meta_key' => '_yoast_wpseo_metadesc',
+						'orderby'  => 'meta_value',
 					)
 				);
 			}
 			if ( isset( $vars['orderby'] ) && 'wpseo-focuskw' == $vars['orderby'] ) {
-				$vars = array_merge( $vars, array(
-					'meta_key' => '_yoast_wpseo_focuskw',
-					'orderby'  => 'meta_value',
+				$vars = array_merge(
+					$vars, array(
+						'meta_key' => '_yoast_wpseo_focuskw',
+						'orderby'  => 'meta_value',
 					)
 				);
 			}

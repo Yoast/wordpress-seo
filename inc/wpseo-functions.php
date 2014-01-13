@@ -10,7 +10,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 
 
 
-if( ! function_exists( 'initialize_wpseo_front' ) ) {
+if ( ! function_exists( 'initialize_wpseo_front' ) ) {
 	function initialize_wpseo_front() {
 		$GLOBALS['wpseo_front'] = new WPSEO_Frontend;
 	}
@@ -146,28 +146,30 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 	);
 
 	if ( isset( $r->ID ) ) {
-		$replacements = array_merge( $replacements, array(
-			'%%caption%%'      => $r->post_excerpt,
-			'%%category%%'     => wpseo_get_terms( $r->ID, 'category' ),
-			'%%excerpt%%'      => ( ! empty( $r->post_excerpt ) ) ? strip_tags( $r->post_excerpt ) : wp_html_excerpt( strip_shortcodes( $r->post_content ),155 ),
-			'%%excerpt_only%%' => strip_tags( $r->post_excerpt ),
-			'%%focuskw%%'      => wpseo_get_value( 'focuskw', $r->ID ),
-			'%%id%%'           => $r->ID,
-			'%%modified%%'     => mysql2date( get_option( 'date_format' ), $r->post_modified ),
-			'%%name%%'         => get_the_author_meta( 'display_name', ! empty( $r->post_author ) ? $r->post_author : get_query_var( 'author' ) ),
-			'%%tag%%'          => wpseo_get_terms( $r->ID, 'post_tag' ),
-			'%%title%%'        => stripslashes( $r->post_title ),
-			'%%userid%%'       => ! empty( $r->post_author ) ? $r->post_author : get_query_var( 'author' ),
+		$replacements = array_merge(
+			$replacements, array(
+				'%%caption%%'      => $r->post_excerpt,
+				'%%category%%'     => wpseo_get_terms( $r->ID, 'category' ),
+				'%%excerpt%%'      => ( ! empty( $r->post_excerpt ) ) ? strip_tags( $r->post_excerpt ) : wp_html_excerpt( strip_shortcodes( $r->post_content ),155 ),
+				'%%excerpt_only%%' => strip_tags( $r->post_excerpt ),
+				'%%focuskw%%'      => wpseo_get_value( 'focuskw', $r->ID ),
+				'%%id%%'           => $r->ID,
+				'%%modified%%'     => mysql2date( get_option( 'date_format' ), $r->post_modified ),
+				'%%name%%'         => get_the_author_meta( 'display_name', ! empty( $r->post_author ) ? $r->post_author : get_query_var( 'author' ) ),
+				'%%tag%%'          => wpseo_get_terms( $r->ID, 'post_tag' ),
+				'%%title%%'        => stripslashes( $r->post_title ),
+				'%%userid%%'       => ! empty( $r->post_author ) ? $r->post_author : get_query_var( 'author' ),
 			)
 		);
 	}
 
 	if ( ! empty( $r->taxonomy ) ) {
-		$replacements = array_merge( $replacements, array(
-			'%%category_description%%' => trim( strip_tags( get_term_field( 'description', $r->term_id, $r->taxonomy ) ) ),
-			'%%tag_description%%'      => trim( strip_tags( get_term_field( 'description', $r->term_id, $r->taxonomy ) ) ),
-			'%%term_description%%'     => trim( strip_tags( get_term_field( 'description', $r->term_id, $r->taxonomy ) ) ),
-			'%%term_title%%'           => $r->name,
+		$replacements = array_merge(
+			$replacements, array(
+				'%%category_description%%' => trim( strip_tags( get_term_field( 'description', $r->term_id, $r->taxonomy ) ) ),
+				'%%tag_description%%'      => trim( strip_tags( get_term_field( 'description', $r->term_id, $r->taxonomy ) ) ),
+				'%%term_description%%'     => trim( strip_tags( get_term_field( 'description', $r->term_id, $r->taxonomy ) ) ),
+				'%%term_title%%'           => $r->name,
 			)
 		);
 	}

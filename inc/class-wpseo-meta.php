@@ -264,8 +264,8 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 
 		public static function init() {
 
-			foreach( self::$meta_fields as $subset => $field_group ) {
-				foreach( $field_group as $key => $field_def ) {
+			foreach ( self::$meta_fields as $subset => $field_group ) {
+				foreach ( $field_group as $key => $field_def ) {
 					if ( isset( $field_def['default_value'] ) ) {
 						//add_filter( 'sanitize_post_meta_' . self::$meta_prefix . $key, array( __CLASS__, 'sanitize_post_meta' ), 10, 2 );
 						// Probably better to use: (undocumented function), this adds the sanitation callback
@@ -298,6 +298,7 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 		/**
 		 * Retrieve the meta box form field definitions for the given post type.
 		 *
+		 * @param   string  $tab        Tab for which to retrieve the field definitions
 		 * @param	string	$post_type
 		 * @return	array	Array containing the meta box field definitions
 		 */
@@ -308,7 +309,7 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 			
 			$field_defs = self::$meta_fields[$tab];
 
-			switch( $tab ) {
+			switch ( $tab ) {
 				case 'general':
 					$options = get_option( 'wpseo_titles' );
 					if ( $options['usemetakeywords'] === true ) {
@@ -375,7 +376,7 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 			$clean = $field_def['default_value'];
 
 
-			switch( $field_def['type'] ) {
+			switch ( $field_def['type'] ) {
 				case 'checkbox':
 					break;
 					

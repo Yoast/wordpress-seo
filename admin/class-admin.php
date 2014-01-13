@@ -178,16 +178,19 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 				'<p><a target="_blank" href="http://yoast.com/google-page-title/">' . __( 'Why Google won\'t display the right page title', 'wordpress-seo' ) . '</a></p>'
 			);
 	
-			$screen->add_help_tab( array(
-				'id'      => 'basic-help',
-				'title'   => __( 'Template explanation', 'wordpress-seo' ),
-				'content' => '<p>' . __( 'The title &amp; metas settings for WordPress SEO are made up of variables that are replaced by specific values from the page when the page is displayed. The tabs on the left explain the available variables.', 'wordpress-seo' ) . '</p>',
-			) );
+			$screen->add_help_tab(
+				array(
+					'id'      => 'basic-help',
+					'title'   => __( 'Template explanation', 'wordpress-seo' ),
+					'content' => '<p>' . __( 'The title &amp; metas settings for WordPress SEO are made up of variables that are replaced by specific values from the page when the page is displayed. The tabs on the left explain the available variables.', 'wordpress-seo' ) . '</p>',
+				)
+			);
 	
-			$screen->add_help_tab( array(
-				'id'      => 'title-vars',
-				'title'   => __( 'Basic Variables', 'wordpress-seo' ),
-				'content' => '
+			$screen->add_help_tab(
+				array(
+					'id'      => 'title-vars',
+					'title'   => __( 'Basic Variables', 'wordpress-seo' ),
+					'content' => '
 		<h2>' . __( 'Basic Variables.', 'wordpress-seo' ) . '</h2>
 			<table class="yoast_help">
 				<tr>
@@ -247,12 +250,14 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 					<td>' . __( 'The separator defined in your theme\'s <code>wp_title()</code> tag.', 'wordpress-seo' ) . '</td>
 				</tr>
 				</table>',
-			) );
+				)
+			);
 	
-			$screen->add_help_tab( array(
-				'id'      => 'title-vars-advanced',
-				'title'   => __( 'Advanced Variables.', 'wordpress-seo' ),
-				'content' => '
+			$screen->add_help_tab(
+				array(
+					'id'      => 'title-vars-advanced',
+					'title'   => __( 'Advanced Variables.', 'wordpress-seo' ),
+					'content' => '
 				<h2>' . __( 'Advanced Variables.', 'wordpress-seo' ) . '</h2>
 				<table class="yoast_help">
 				<tr>
@@ -353,7 +358,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		 */
 		function load_page() {
 			if ( isset( $_GET['page'] ) ) {
-				switch( $_GET['page'] ) {
+				switch ( $_GET['page'] ) {
 					case 'wpseo_titles':
 						require_once( WPSEO_PATH . 'admin/pages/metas.php' );
 						break;

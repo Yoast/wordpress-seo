@@ -130,10 +130,16 @@ if ( ! class_exists( 'WPSEO_Taxonomy' ) ) {
 				'noindex' => __( 'Always noindex', 'wordpress-seo' ) );
 			$this->form_row( 'wpseo_noindex', sprintf( __( 'Noindex this %s', 'wordpress-seo' ), $term->taxonomy ), sprintf( __( 'This %s follows the indexation rules set under Metas and Titles, you can override it here.', 'wordpress-seo' ), $term->taxonomy ), $tax_meta, 'select', $noindex_options );
 	
-			$this->form_row( 'wpseo_sitemap_include', __( 'Include in sitemap?', 'wordpress-seo' ), '', $tax_meta, 'select', array(
-				'-'      => __( 'Auto detect', 'wordpress-seo' ),
-				'always' => __( 'Always include', 'wordpress-seo' ),
-				'never'  => __( 'Never include', 'wordpress-seo' ),
+			$this->form_row(
+				'wpseo_sitemap_include',
+				__( 'Include in sitemap?', 'wordpress-seo' ),
+				'',
+				$tax_meta,
+				'select',
+				array(
+					'-'      => __( 'Auto detect', 'wordpress-seo' ),
+					'always' => __( 'Always include', 'wordpress-seo' ),
+					'never'  => __( 'Never include', 'wordpress-seo' ),
 				)
 			);
 	

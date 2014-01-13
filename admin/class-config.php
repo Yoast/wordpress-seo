@@ -142,17 +142,17 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 			?>
 			<div class="postbox-container" style="width:261px;">
 				<div id="sidebar">
-					<?php
-					$i = 0;
-					foreach ( $banners as $banner ) {
-						if ( $i == 3 )
-							break;
-						if ( $i != 0 )
-							echo '<hr style="border:none;border-top:dotted 1px #f48500;margin: 30px 0;">';
-						echo '<a target="_blank" href="' . esc_url( $banner['url'] ) . '"><img src="' . plugins_url( 'images/' . $banner['img'], dirname( __FILE__ ) ) . '" alt="' . esc_attr( $banner['alt'] ) . '"/></a>';
-						$i++;
-					}
-					?>
+			<?php
+			$i = 0;
+			foreach ( $banners as $banner ) {
+				if ( $i == 3 )
+					break;
+				if ( $i != 0 )
+					echo '<hr style="border:none;border-top:dotted 1px #f48500;margin: 30px 0;">';
+				echo '<a target="_blank" href="' . esc_url( $banner['url'] ) . '"><img src="' . plugins_url( 'images/' . $banner['img'], dirname( __FILE__ ) ) . '" alt="' . esc_attr( $banner['alt'] ) . '"/></a>';
+				$i++;
+			}
+			?>
 					<br/><br/><br/>
 				</div>
 			</div>

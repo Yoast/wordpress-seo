@@ -418,20 +418,22 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 			if ( $n == 1 ) {
 				$front_id = get_option( 'page_on_front' );
 				if ( ! $front_id && ( $post_type == 'post' || $post_type == 'page' ) ) {
-					$output .= $this->sitemap_url( array(
-						'loc' => home_url( '/' ),
-						'pri' => 1,
-						'chf' => 'daily',
+					$output .= $this->sitemap_url(
+						array(
+							'loc' => home_url( '/' ),
+							'pri' => 1,
+							'chf' => 'daily',
 						)
 					);
 				}
 				else if ( $front_id && $post_type == 'post' ) {
 					$page_for_posts = get_option( 'page_for_posts' );
 					if ( $page_for_posts ) {
-						$output .= $this->sitemap_url( array(
-							'loc' => get_permalink( $page_for_posts ),
-							'pri' => 1,
-							'chf' => 'daily',
+						$output .= $this->sitemap_url(
+							array(
+								'loc' => get_permalink( $page_for_posts ),
+								'pri' => 1,
+								'chf' => 'daily',
 							)
 						);
 					}
@@ -440,11 +442,12 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 				if ( function_exists( 'get_post_type_archive_link' ) ) {
 					$archive = get_post_type_archive_link( $post_type );
 					if ( $archive ) {
-						$output .= $this->sitemap_url( array(
-							'loc' => $archive,
-							'pri' => 0.8,
-							'chf' => 'weekly',
-							'mod' => $this->get_last_modified( $post_type ), // get_lastpostmodified( 'gmt', $post_type ) #17455
+						$output .= $this->sitemap_url(
+							array(
+								'loc' => $archive,
+								'pri' => 0.8,
+								'chf' => 'weekly',
+								'mod' => $this->get_last_modified( $post_type ), // get_lastpostmodified( 'gmt', $post_type ) #17455
 							)
 						);
 					}
@@ -766,13 +769,14 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 			}
 	
 			// query for users with this meta
-			$users = get_users( array(
-				'who'      => 'authors',
-				'offset'   => $offset,
-				'number'   => $steps,
-				'meta_key' => '_yoast_wpseo_profile_updated',
-				'orderby'  => 'meta_value_num',
-				'order'    => 'ASC',
+			$users = get_users(
+				array(
+					'who'      => 'authors',
+					'offset'   => $offset,
+					'number'   => $steps,
+					'meta_key' => '_yoast_wpseo_profile_updated',
+					'orderby'  => 'meta_value_num',
+					'order'    => 'ASC',
 				)
 			);
 	

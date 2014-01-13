@@ -70,7 +70,7 @@ include_once( 'options-head.php' );
 	?>
 </div>
 <div id="home" class="wpseotab">
-	<?php
+<?php
 	if ( 'page' != get_option( 'show_on_front' ) ) {
 		echo '<h2>' . __( 'Homepage', 'wordpress-seo' ) . '</h2>';
 		echo $wpseo_admin_pages->textinput( 'title-home-wpseo', __( 'Title template', 'wordpress-seo' ) );

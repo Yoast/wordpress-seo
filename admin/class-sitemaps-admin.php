@@ -52,10 +52,10 @@ if ( ! class_exists( 'WPSEO_Sitemaps_Admin' ) ) {
 			if ( $options[ 'enablexmlsitemap' ] === true ) {
 				
 				$file_to_check_for = array(
-	//				ABSPATH . 'sitemap.xml',
+//					ABSPATH . 'sitemap.xml',
 					ABSPATH . 'sitemap_index.xml',
-	//				ABSPATH . 'sitemap.xslt',
-	//				ABSPATH . 'sitemap.xsl',
+//					ABSPATH . 'sitemap.xslt',
+//					ABSPATH . 'sitemap.xsl',
 				);
 				
 				foreach ( $file_to_check_for as $file ) {

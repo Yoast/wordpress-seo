@@ -19,10 +19,11 @@ if ( ! class_exists( 'WPSEO_Bulk_Description_List_Table' ) ) {
 		 *
 		 */
 		function __construct() {
-			parent::__construct( array(
-				'singular' => 'wpseo_bulk_description',
-				'plural'   => 'wpseo_bulk_descriptions',
-				'ajax'     => true,
+			parent::__construct(
+				array(
+					'singular' => 'wpseo_bulk_description',
+					'plural'   => 'wpseo_bulk_descriptions',
+					'ajax'     => true,
 				)
 			);
 		}
@@ -238,10 +239,11 @@ if ( ! class_exists( 'WPSEO_Bulk_Description_List_Table' ) ) {
 				$query .= ' LIMIT ' . (int)$offset . ',' . (int)$per_page;
 			}
 	
-			$this->set_pagination_args( array(
-				'total_items' => $total_items,
-				'total_pages' => $total_pages,
-				'per_page'    => $per_page,
+			$this->set_pagination_args(
+				array(
+					'total_items' => $total_items,
+					'total_pages' => $total_pages,
+					'per_page'    => $per_page,
 				)
 			);
 	
