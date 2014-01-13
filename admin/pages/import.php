@@ -186,17 +186,17 @@ if ( isset( $_POST['import'] ) ) {
 		}
 		$msg .= __( 'HeadSpace2 data successfully imported', 'wordpress-seo' );
 	}
-	if ( isset( $_POST['wpseo']['importaioseoold'] ) ) {
-		WPSEO_Meta::replace_meta( 'description', WPSEO_Meta::$meta_prefix . 'metadesc', $replace );
-		WPSEO_Meta::replace_meta( 'keywords', WPSEO_Meta::$meta_prefix . 'metakeywords', $replace );
-		WPSEO_Meta::replace_meta( 'title', WPSEO_Meta::$meta_prefix . 'title', $replace );
-		$msg .= __( 'All in One SEO (Old version) data successfully imported.', 'wordpress-seo' );
-	}
 	if ( isset( $_POST['wpseo']['importaioseo'] ) ) {
 		WPSEO_Meta::replace_meta( '_aioseop_description', WPSEO_Meta::$meta_prefix . 'metadesc', $replace );
 		WPSEO_Meta::replace_meta( '_aioseop_keywords', WPSEO_Meta::$meta_prefix . 'metakeywords', $replace );
 		WPSEO_Meta::replace_meta( '_aioseop_title', WPSEO_Meta::$meta_prefix . 'title', $replace );
 		$msg .= __( 'All in One SEO data successfully imported.', 'wordpress-seo' );
+	}
+	if ( isset( $_POST['wpseo']['importaioseoold'] ) ) {
+		WPSEO_Meta::replace_meta( 'description', WPSEO_Meta::$meta_prefix . 'metadesc', $replace );
+		WPSEO_Meta::replace_meta( 'keywords', WPSEO_Meta::$meta_prefix . 'metakeywords', $replace );
+		WPSEO_Meta::replace_meta( 'title', WPSEO_Meta::$meta_prefix . 'title', $replace );
+		$msg .= __( 'All in One SEO (Old version) data successfully imported.', 'wordpress-seo' );
 	}
 	if ( isset( $_POST['wpseo']['importrobotsmeta'] ) ) {
 		$posts = $wpdb->get_results( "SELECT ID, robotsmeta FROM $wpdb->posts" );
