@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: WordPress SEO
-Version: 1.4.22
+Version: 1.4.23
 Plugin URI: http://yoast.com/wordpress/seo/#utm_source=wpadmin&utm_medium=plugin&utm_campaign=wpseoplugin
 Description: The first true all-in-one SEO solution for WordPress, including on-page content analysis, XML sitemaps and much more.
 Author: Joost de Valk
@@ -11,7 +11,7 @@ Domain Path: /languages/
 License: GPL v3
 
 WordPress SEO Plugin
-Copyright (C) 2008-2013, Joost de Valk - joost@yoast.com
+Copyright (C) 2008-2014, Joost de Valk - joost@yoast.com
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -58,7 +58,7 @@ if ( version_compare( PHP_VERSION, '5.2', '<' ) ) {
 	}
 }
 
-define( 'WPSEO_VERSION', '1.4.22' );
+define( 'WPSEO_VERSION', '1.4.23' );
 
 function wpseo_init() {
 	require_once( WPSEO_PATH . 'inc/wpseo-functions.php' );
