@@ -28,8 +28,8 @@ class WPSEO_Redirect_Manager {
 
 		// Do the actual redirect
 		if ( count( $redirects ) > 0 ) {
-			if ( isset ( $redirects[ $_SERVER[ 'REQUEST_URI' ] ] ) ) {
-				wp_redirect( $redirects[ $_SERVER[ 'REQUEST_URI' ] ], 301 );
+			if ( isset ( $redirects[$_SERVER['REQUEST_URI']] ) ) {
+				wp_redirect( $redirects[$_SERVER['REQUEST_URI']], 301 );
 				exit;
 			}
 		}
@@ -46,7 +46,7 @@ class WPSEO_Redirect_Manager {
 	}
 
 	/**
-	 * Save the redirects
+	 * Save the redirect
 	 *
 	 * @param array $redirects
 	 */
@@ -55,11 +55,53 @@ class WPSEO_Redirect_Manager {
 	}
 
 	/**
+	 * Save the redirect
+	 *
+	 * @param $old_redirect
+	 * @param $new_redirect
+	 */
+	public static function save_redirect( $old_redirect_arr, $new_redirect_arr ) {
+
+		// Get redirects
+		$redirects = self::get_redirects();
+
+		// Remove old redirect
+		if ( isset( $redirects[$old_redirect_arr['key']] ) ) {
+			unset( $redirects[$old_redirect_arr['key']] );
+		}
+
+		// Add new redirect
+		$redirects[$new_redirect_arr['key']] = $new_redirect_arr['value'];
+
+		// Save redirects
+		self::save_redirects( $redirects );
+	}
+
+	/**
+	 * Create a new redirect
+	 *
+	 * @param $old_value
+	 * @param $new_value
+	 */
+	public static function create_redirect( $old_value, $new_value ) {
+
+		// Get redirects
+		$redirects = self::get_redirects();
+
+		// Add new redirect
+		$redirects[$old_value] = $new_value;
+
+		// Save redirects
+		self::save_redirects( $redirects );
+
+	}
+
+	/**
 	 * Delete the redirects
 	 *
 	 * @param array $delete_redirects
 	 */
-	public static function delete_redirects( $delete_redirects ) {
+	public static function delete_redirect( $delete_redirects ) {
 
 		$redirects = self::get_redirects();
 
@@ -76,9 +118,9 @@ class WPSEO_Redirect_Manager {
 	}
 
 	/**
-	 * Function that handles the AJAX 'handle_redirects_save' action
+	 * Function that handles the AJAX 'wpseo_save_redirect' action
 	 */
-	public static function ajax_handle_redirects_save() {
+	public static function ajax_handle_redirect_save() {
 
 		// Check nonce
 		check_ajax_referer( 'wpseo-redirects-ajax-security', 'ajax_nonce' );
@@ -89,8 +131,61 @@ class WPSEO_Redirect_Manager {
 			exit;
 		}
 
-		// Save redirects in database
-		self::save_redirects( $_POST['redirects'] );
+		// Save the redirect
+		if ( isset( $_POST['old_redirect'] ) && isset( $_POST['new_redirect'] ) ) {
+			// Save redirects in database
+			self::save_redirect( $_POST['old_redirect'], $_POST['new_redirect'] );
+		}
+
+		// Response
+		echo '1';
+		exit;
+
+	}
+
+	/**
+	 * Function that handles the AJAX 'wpseo_delete_redirect' action
+	 */
+	public static function ajax_handle_redirect_delete() {
+
+		// Check nonce
+		check_ajax_referer( 'wpseo-redirects-ajax-security', 'ajax_nonce' );
+
+		// Permission check
+		if ( ! current_user_can( 'edit_posts' ) ) {
+			echo '0';
+			exit;
+		}
+
+		// Delete the redirect
+		if ( isset( $_POST['redirect'] ) ) {
+			self::delete_redirect( array( $_POST['redirect']['key'] ) );
+		}
+
+		// Response
+		echo '1';
+		exit;
+
+	}
+
+	/**
+	 * Function that handles the AJAX 'wpseo_delete_redirect' action
+	 */
+	public static function ajax_handle_redirect_create() {
+
+		// Check nonce
+		check_ajax_referer( 'wpseo-redirects-ajax-security', 'ajax_nonce' );
+
+		// Permission check
+		if ( ! current_user_can( 'edit_posts' ) ) {
+			echo '0';
+			exit;
+		}
+
+		// Save the redirect
+		if ( isset( $_POST['old_redirect'] ) && isset( $_POST['new_redirect'] ) ) {
+			self::create_redirect( $_POST['old_redirect'], $_POST['new_redirect'] );
+		}
 
 		// Response
 		echo '1';

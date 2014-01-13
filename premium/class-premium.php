@@ -66,7 +66,9 @@ class WPSEO_Premium {
 		add_filter( 'set-screen-option', array( 'WPSEO_Page_Redirect', 'set_screen_option' ), 10, 3 );
 
 		// AJAX
-		add_action( 'wp_ajax_wpseo_save_redirects', array( 'WPSEO_Redirect_Manager', 'ajax_handle_redirects_save' ) );
+		add_action( 'wp_ajax_wpseo_save_redirect', array( 'WPSEO_Redirect_Manager', 'ajax_handle_redirect_save' ) );
+		add_action( 'wp_ajax_wpseo_delete_redirect', array( 'WPSEO_Redirect_Manager', 'ajax_handle_redirect_delete' ) );
+		add_action( 'wp_ajax_wpseo_create_redirect', array( 'WPSEO_Redirect_Manager', 'ajax_handle_redirect_create' ) );
 
 		// TESTING
 		add_action( 'admin_init', function () {

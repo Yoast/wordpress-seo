@@ -7,13 +7,20 @@
 		this.edit_row = function (row) {
 
 			// Restore previous rows
-			$.each($wpseo_redirects.find('.row_edit'), function(k,v) { $wpseo_redirects.restore_row(v); });
+			$.each($wpseo_redirects.find('.row_edit'), function (k, v) {
+				$wpseo_redirects.restore_row(v);
+			});
 
 			// Bind form submit
 			$wpseo_redirects.bind_submit(row);
 
+			// Add row edit class
 			$(row).addClass('row_edit');
 
+			// Add current redirect as data to the row
+			$(row).data('old_redirect', { key: $(row).find('.val').eq(0).html().toString(), value: $(row).find('.val').eq(1).html().toString() });
+
+			// Add input fields
 			var ti = 1;
 			$.each($(row).find('.val'), function (k, v) {
 				var current_val = $(v).html().toString();
@@ -28,7 +35,7 @@
 					$('<div>').addClass('edit-actions').append(
 									$('<button>').addClass('button-primary').attr('tabindex', 3).html('Save').click(function () {
 										$wpseo_redirects.restore_row(row);
-										$wpseo_redirects.save_redirects();
+										$wpseo_redirects.save_redirect(row);
 										return false;
 									})
 							).append(
@@ -43,7 +50,16 @@
 		this.delete_row = function (row) {
 			$(row).fadeTo('fast', 0).slideUp(function () {
 				$(this).remove();
-				$wpseo_redirects.save_redirects();
+				$.post(
+						ajaxurl,
+						{
+							action    : 'wpseo_delete_redirect',
+							ajax_nonce: $('.wpseo_redirects_ajax_nonce').val(),
+							redirect  : { key: $(row).find('.val').eq(0).html().toString(), value: $(row).find('.val').eq(1).html().toString() }
+						},
+						function (response) {
+						}
+				);
 			});
 		};
 
@@ -65,7 +81,7 @@
 			$wpseo_redirects.closest('form').submit(function (e) {
 				e.preventDefault();
 				$wpseo_redirects.restore_row(row);
-				$wpseo_redirects.save_redirects();
+				$wpseo_redirects.save_redirect(row);
 				return false;
 			})
 		};
@@ -74,7 +90,7 @@
 			$wpseo_redirects.closest('form').unbind('submit');
 		};
 
-		this.save_redirects = function () {
+		this.save_redirect = function (row) {
 
 			// Build the json string
 			var redirects = {};
@@ -88,9 +104,10 @@
 			$.post(
 					ajaxurl,
 					{
-						action    : 'wpseo_save_redirects',
-						ajax_nonce: $('.wpseo_redirects_ajax_nonce').val(),
-						redirects : redirects
+						action      : 'wpseo_save_redirect',
+						ajax_nonce  : $('.wpseo_redirects_ajax_nonce').val(),
+						old_redirect: $(row).data('old_redirect'),
+						new_redirect: { key: $(row).find('.val').eq(0).html().toString(), value: $(row).find('.val').eq(1).html().toString() }
 					},
 					function (response) {
 					}
@@ -170,9 +187,22 @@
 			// Bind action to row
 			$wpseo_redirects.bind_row(tr);
 
+			// Empty fields
 			$this.find('#wpseo_redirects_new_old').val('');
 			$this.find('#wpseo_redirects_new_new').val('');
-			$wpseo_redirects.save_redirects();
+
+			// Do post
+			$.post(
+					ajaxurl,
+					{
+						action      : 'wpseo_create_redirect',
+						ajax_nonce  : $('.wpseo_redirects_ajax_nonce').val(),
+						old_redirect: old_redirect,
+						new_redirect: new_redirect
+					},
+					function (response) {
+					}
+			);
 
 			return true;
 		};
@@ -183,7 +213,7 @@
 				return false;
 			});
 
-			$this.find("input").keypress(function(event) {
+			$this.find("input").keypress(function (event) {
 				if (event.which == 13) {
 					event.preventDefault();
 					$this.add_redirect($this.find('#wpseo_redirects_new_old').val(), $this.find('#wpseo_redirects_new_new').val());

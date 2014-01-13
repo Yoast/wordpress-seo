@@ -17,7 +17,6 @@ if ( ! class_exists( 'WP_List_Table' ) ) {
  */
 class WPSEO_Redirect_Table extends WP_List_Table {
 
-	private $data;
 	private $search_string;
 
 	/**
