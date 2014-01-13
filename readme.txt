@@ -1,5 +1,5 @@
 === WordPress SEO by Yoast ===
-Contributors: joostdevalk
+Contributors: joostdevalk, barrykooij
 Donate link: http://yoast.com/
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
@@ -115,7 +115,6 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 	
 * i18n
 	* Updated cs_CZ, fa_IR, fr_FR, hu, hu_HU, pl_PL, ru_RU & zh_CN
-
 
 = 1.4.22 =
 
