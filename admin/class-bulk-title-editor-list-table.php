@@ -183,7 +183,7 @@ if ( ! class_exists( 'WPSEO_Bulk_Title_Editor_List_Table' ) ) {
 			$post_types = get_post_types( array( 'exclude_from_search' => false ) );
 			$post_types = "'" . implode( "', '", $post_types ) . "'";
 	
-			$query = "SELECT ID, post_title, post_type, meta_value AS seo_title, post_status, post_modified FROM $wpdb->posts LEFT JOIN (SELECT * FROM $wpdb->postmeta WHERE meta_key = '_yoast_wpseo_title')a ON a.post_id = $wpdb->posts.ID WHERE post_status IN (%s)";
+			$query = "SELECT ID, post_title, post_type, meta_value AS seo_title, post_status, post_modified FROM {$wpdb->posts} LEFT JOIN (SELECT * FROM {$wpdb->postmeta} WHERE meta_key = '" . WPSEO_Meta::$meta_prefix . "title')a ON a.post_id = {$wpdb->posts}.ID WHERE post_status IN (%s)";
 	
 			//	Filter Block
 	

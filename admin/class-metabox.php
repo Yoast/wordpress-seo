@@ -736,7 +736,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 				}
 				else if ( $data == '' ) {
 					// If we don't do this, we prevent people from reverting to the default title or description.
-					delete_post_meta( $post_id, '_yoast_wpseo_' . $meta_box['name'] );
+					delete_post_meta( $post_id, self::$meta_prefix . $meta_box['name'] );
 				}
 			}
 	
@@ -946,12 +946,12 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 							'meta_query' => array(
 								'relation' => 'AND',
 								array(
-									'key'     => '_yoast_wpseo_meta-robots-noindex',
+									'key'     => self::$meta_prefix . 'meta-robots-noindex',
 									'value'   => 1,
 									'compare' => '!=',
 								),
 								array(
-									'key'     => '_yoast_wpseo_linkdex',
+									'key'     => self::$meta_prefix . 'linkdex',
 									'value'   => array( $low, $high ),
 									'type'    => 'numeric',
 									'compare' => 'BETWEEN',
@@ -967,7 +967,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 							'meta_query' => array(
 								'relation' => 'AND',
 								array(
-									'key'     => '_yoast_wpseo_meta-robots-noindex',
+									'key'     => self::$meta_prefix . 'meta-robots-noindex',
 									'value'   => 1,
 									'compare' => '=',
 								),
@@ -980,7 +980,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 				$vars = array_merge(
 					$vars, array(
 						'post_type'  => 'any',
-						'meta_key'   => '_yoast_wpseo_focuskw',
+						'meta_key'   => self::$meta_prefix . 'focuskw',
 						'meta_value' => sanitize_text_field( $_GET['seo_kw_filter'] ),
 					)
 				);
@@ -988,7 +988,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			if ( isset( $vars['orderby'] ) && 'wpseo-score' == $vars['orderby'] ) {
 				$vars = array_merge(
 					$vars, array(
-						'meta_key' => '_yoast_wpseo_linkdex',
+						'meta_key' => self::$meta_prefix . 'linkdex',
 						'orderby'  => 'meta_value_num',
 					)
 				);
@@ -996,7 +996,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			if ( isset( $vars['orderby'] ) && 'wpseo-metadesc' == $vars['orderby'] ) {
 				$vars = array_merge(
 					$vars, array(
-						'meta_key' => '_yoast_wpseo_metadesc',
+						'meta_key' => self::$meta_prefix . 'metadesc',
 						'orderby'  => 'meta_value',
 					)
 				);
@@ -1004,7 +1004,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			if ( isset( $vars['orderby'] ) && 'wpseo-focuskw' == $vars['orderby'] ) {
 				$vars = array_merge(
 					$vars, array(
-						'meta_key' => '_yoast_wpseo_focuskw',
+						'meta_key' => self::$meta_prefix . 'focuskw',
 						'orderby'  => 'meta_value',
 					)
 				);
@@ -1295,7 +1295,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		function check_double_focus_keyword( $job, &$results ) {
 			$posts = get_posts(
 				array(
-					'meta_key'    => '_yoast_wpseo_focuskw',
+					'meta_key'    => self::$meta_prefix . 'focuskw',
 					'meta_value'  => $job['keyword'],
 					'exclude'     => $job['post_id'],
 					'fields'      => 'ids',

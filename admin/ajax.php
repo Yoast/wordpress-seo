@@ -120,7 +120,7 @@ add_action( 'wp_ajax_wpseo_save_title', 'wpseo_save_title' );
  */
 function wpseo_upsert_new_title( $post_id, $new_title, $original_title ) {
 
-	$meta_key   = '_yoast_wpseo_title';
+	$meta_key   = WPSEO_Meta::$meta_prefix . 'title';
 	$return_key = 'title';
 	return wpseo_upsert_meta( $post_id, $new_title, $original_title, $meta_key, $return_key );
 }
@@ -184,7 +184,7 @@ add_action( 'wp_ajax_wpseo_save_desc', 'wpseo_save_description' );
  */
 function wpseo_upsert_new_description( $post_id, $new_metadesc, $original_metadesc ) {
 
-	$meta_key   = '_yoast_wpseo_metadesc';
+	$meta_key   = WPSEO_Meta::$meta_prefix . 'metadesc';
 	$return_key = 'metadesc';
 	return wpseo_upsert_meta( $post_id, $new_metadesc, $original_metadesc, $meta_key, $return_key );
 }

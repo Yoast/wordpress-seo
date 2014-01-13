@@ -40,19 +40,19 @@ if ( ! class_exists( 'Sitemap_Walker' ) ) {
 					'relation' => 'OR',
 					// include if this key doesn't exists
 					array(
-						'key'     => '_yoast_wpseo_meta-robots-noindex',
+						'key'     => WPSEO_Meta::$meta_prefix . 'meta-robots-noindex',
 						'value'   => '', // This is ignored, but is necessary...
 						'compare' => 'NOT EXISTS',
 					),
 					// OR if key does exists include if it is not 1
 					array(
-						'key'     => '_yoast_wpseo_meta-robots-noindex',
+						'key'     => WPSEO_Meta::$meta_prefix . 'meta-robots-noindex',
 						'value'   => '1',
 						'compare' => '!=',
 					),
 					// OR this key overrides it
 					array(
-						'key'     => '_yoast_wpseo_sitemap-html-include',
+						'key'     => WPSEO_Meta::$meta_prefix . 'sitemap-html-include',
 						'value'   => 'always',
 						'compare' => '=',
 					),

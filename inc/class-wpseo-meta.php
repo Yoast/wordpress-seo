@@ -26,6 +26,13 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 (1697, 'wpseo_taxonomy_meta', 'a:1:{s:8:"category";a:4:{i:4;a:3:{s:13:"wpseo_noindex";s:7:"default";s:21:"wpseo_sitemap_include";s:1:"-";s:10:"wpseo_desc";s:6:"testje";}i:2;a:2:{s:13:"wpseo_noindex";s:7:"default";s:21:"wpseo_sitemap_include";s:1:"-";}i:1;a:2:{s:13:"wpseo_noindex";s:7:"default";s:21:"wpseo_sitemap_include";s:1:"-";}i:7;a:3:{s:10:"wpseo_desc";s:4:"test";s:13:"wpseo_noindex";s:7:"default";s:21:"wpseo_sitemap_include";s:1:"-";}}}', 'yes'),
 */
 
+
+		/**
+		 * Prefix for all WPSEO meta values
+		 * 
+		 * @internal if at any point this would change, quite apart from an upgrade routine, this also will need to
+		 * be changed in the wpml-config.xml file.
+		 */
 		public static $meta_prefix = '_yoast_wpseo_';
 
 
@@ -722,8 +729,8 @@ add_filter( 'sanitize_user_meta_birth-year', 'sanitize_birth_year_meta' );
 					return false;
 			}
 			$custom = get_post_custom( $postid );
-			if ( ! empty( $custom['_yoast_wpseo_' . $val][0] ) )
-				return maybe_unserialize( $custom['_yoast_wpseo_' . $val][0] );
+			if ( ! empty( $custom[self::$meta_prefix . $val][0] ) )
+				return maybe_unserialize( $custom[self::$meta_prefix . $val][0] );
 			else
 				return false;
 		}
@@ -740,6 +747,30 @@ add_filter( 'sanitize_user_meta_birth-year', 'sanitize_birth_year_meta' );
 			return update_post_meta( $post_id, self::$meta_prefix . $meta_key, $meta_value );
 		}
 
+
+		/**
+		 * Used for imports, this functions either copies $old_metakey into $new_metakey
+		 * or just plain replaces $old_metakey with $new_metakey
+		 *
+		 * @todo rewrite
+		 *
+		 * @param string  $old_metakey The old name of the meta value.
+		 * @param string  $new_metakey The new name of the meta value, usually the WP SEO name.
+		 * @param bool    $replace     Whether to replace or to copy the values.
+		 */
+		public static function replace_meta( $old_metakey, $new_metakey, $replace = false ) {
+			global $wpdb;
+			$oldies = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $wpdb->postmeta WHERE meta_key = %s", $old_metakey ) );
+			foreach ( $oldies as $old ) {
+				// Prevent inserting new meta values for posts that already have a value for that new meta key
+				$check = get_post_meta( $old->post_id, $new_metakey, true );
+				if ( ! $check || empty( $check ) )
+					update_post_meta( $old->post_id, $new_metakey, $old->meta_value );
+		
+				if ( $replace )
+					delete_post_meta( $old->post_id, $old_metakey );
+			}
+		}
 
 
 	} /* End of class */

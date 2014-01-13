@@ -242,14 +242,14 @@ function aioseo_handler() {
 		else if ( isset( $_GET['import_aioseo'] ) && $_GET['import_aioseo'] === '1' ) {
 			$replace = false;
 
-			replace_meta( '_aioseop_description', '_yoast_wpseo_metadesc', $replace );
-			replace_meta( '_aioseop_keywords', '_yoast_wpseo_metakeywords', $replace );
-			replace_meta( '_aioseop_title', '_yoast_wpseo_title', $replace );
+			WPSEO_Meta::replace_meta( '_aioseop_description', WPSEO_Meta::$meta_prefix . 'metadesc', $replace );
+			WPSEO_Meta::replace_meta( '_aioseop_keywords', WPSEO_Meta::$meta_prefix . 'metakeywords', $replace );
+			WPSEO_Meta::replace_meta( '_aioseop_title', WPSEO_Meta::$meta_prefix . 'title', $replace );
 
 			if ( isset( $_POST['wpseo']['importaioseoold'] ) ) {
-				replace_meta( 'description', '_yoast_wpseo_metadesc', $replace );
-				replace_meta( 'keywords', '_yoast_wpseo_metakeywords', $replace );
-				replace_meta( 'title', '_yoast_wpseo_title', $replace );
+				WPSEO_Meta::replace_meta( 'description', WPSEO_Meta::$meta_prefix . 'metadesc', $replace );
+				WPSEO_Meta::replace_meta( 'keywords', WPSEO_Meta::$meta_prefix . 'metakeywords', $replace );
+				WPSEO_Meta::replace_meta( 'title', WPSEO_Meta::$meta_prefix . 'title', $replace );
 			}
 
 			// show notice to deactivate aioseo plugin
@@ -314,29 +314,4 @@ function wpseo_deactivate_link_aioseo_notice( $active ) {
  */
 function wpseo_deactivate_aioseo_notice() {
 	echo '<div class="updated"><p>' . __( 'All-In-One-SEO has been deactivated' ) . '</p></div>';
-}
-
-
-
-// TODO: consider moving this to a utility class. Currently being used in import.php also.
-
-/**
- * Used for imports, this functions either copies $old_metakey into $new_metakey or just plain replaces $old_metakey with $new_metakey
- *
- * @param string  $old_metakey The old name of the meta value.
- * @param string  $new_metakey The new name of the meta value, usually the WP SEO name.
- * @param bool    $replace     Whether to replace or to copy the values.
- */
-function replace_meta( $old_metakey, $new_metakey, $replace = false ) {
-	global $wpdb;
-	$oldies = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $wpdb->postmeta WHERE meta_key = %s", $old_metakey ) );
-	foreach ( $oldies as $old ) {
-		// Prevent inserting new meta values for posts that already have a value for that new meta key
-		$check = get_post_meta( $old->post_id, $new_metakey, true );
-		if ( ! $check || empty( $check ) )
-			update_post_meta( $old->post_id, $new_metakey, $old->meta_value );
-
-		if ( $replace )
-			delete_post_meta( $old->post_id, $old_metakey );
-	}
 }

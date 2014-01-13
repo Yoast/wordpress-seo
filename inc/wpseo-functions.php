@@ -521,11 +521,11 @@ function wpseo_sitemap_handler( $atts ) {
 		// "always" include in HTML sitemap from being excluded.
 
 		$exclude_query  = "SELECT DISTINCT( post_id ) FROM {$GLOBALS['wpdb']->postmeta}
-			WHERE ( ( meta_key = '_yoast_wpseo_sitemap-html-include' AND meta_value = 'never' )
-			  OR ( meta_key = '_yoast_wpseo_meta-robots-noindex' AND meta_value = 1 ) )
+			WHERE ( ( meta_key = '" . WPSEO_Meta::$meta_prefix . "sitemap-html-include' AND meta_value = 'never' )
+			  OR ( meta_key = '" . WPSEO_Meta::$meta_prefix . "meta-robots-noindex' AND meta_value = 1 ) )
 			AND post_id NOT IN
 				( SELECT pm2.post_id FROM {$GLOBALS['wpdb']->postmeta} pm2
-						WHERE pm2.meta_key = '_yoast_wpseo_sitemap-html-include' AND pm2.meta_value = 'always')
+						WHERE pm2.meta_key = '" . WPSEO_Meta::$meta_prefix . "sitemap-html-include' AND pm2.meta_value = 'always')
 			ORDER BY post_id ASC";
 		$excluded_pages = $GLOBALS['wpdb']->get_results( $exclude_query );
 
@@ -572,19 +572,19 @@ function wpseo_sitemap_handler( $atts ) {
 					'relation' => 'OR',
 					// include if this key doesn't exists
 					array(
-						'key'     => '_yoast_wpseo_meta-robots-noindex',
+						'key'     => WPSEO_Meta::$meta_prefix . 'meta-robots-noindex',
 						'value'   => '', // This is ignored, but is necessary...
 						'compare' => 'NOT EXISTS',
 					),
 					// OR if key does exists include if it is not 1
 					array(
-						'key'     => '_yoast_wpseo_meta-robots-noindex',
+						'key'     => WPSEO_Meta::$meta_prefix . 'meta-robots-noindex',
 						'value'   => 1,
 						'compare' => '!=',
 					),
 					// OR this key overrides it
 					array(
-						'key'     => '_yoast_wpseo_sitemap-html-include',
+						'key'     => WPSEO_Meta::$meta_prefix . 'sitemap-html-include',
 						'value'   => 'always',
 						'compare' => '=',
 					),
@@ -788,4 +788,21 @@ function get_wpseo_options_arr() {
 function get_wpseo_options() {
 	_deprecated_function( __FUNCTION__, 'WPSEO 1.5.0', 'WPSEO_Options::get_all()' );
 	return WPSEO_Options::get_all();
+}
+
+/**
+ * Used for imports, both in dashboard and import settings pages, this functions either copies
+ * $old_metakey into $new_metakey or just plain replaces $old_metakey with $new_metakey
+ *
+ * @deprecated 1.5.0
+ * @deprecated use WPSEO_Meta::replace_meta()
+ * @see WPSEO_Meta::replace_meta()
+ *
+ * @param string  $old_metakey The old name of the meta value.
+ * @param string  $new_metakey The new name of the meta value, usually the WP SEO name.
+ * @param bool    $replace     Whether to replace or to copy the values.
+ */
+function replace_meta( $old_metakey, $new_metakey, $replace = false ) {
+	_deprecated_function( __FUNCTION__, 'WPSEO 1.5.0', 'WPSEO_Meta::replace_meta()' );
+	return WPSEO_Meta::replace_meta( $old_metakey, $new_metakey, $replace );
 }

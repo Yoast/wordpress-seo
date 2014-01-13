@@ -132,6 +132,7 @@ This version also incorporates the [SEO Extended](http://wordpress.org/plugins/s
 	* Fixed: category rewrite rules could have errors for categories without parent categories
 	* Fixed: text analysis did not respect the blog character encoding. This may or may not solve a number of related bugs.
 	* Fixed: wrong file was loaded for the get_plugin_data() function.
+	* Fixed: On import, older All-in-One SEO data would overwrite already imported current All-in-One SEO data
 
 
 * Enhancements

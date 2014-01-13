@@ -16,27 +16,6 @@ If that all works fine, getting testers to export before and after upgrade will 
 
 global $wpseo_admin_pages;
 
-/**
- * Used for imports, this functions either copies $old_metakey into $new_metakey or just plain replaces $old_metakey with $new_metakey
- *
- * @param string $old_metakey The old name of the meta value.
- * @param string $new_metakey The new name of the meta value, usually the WP SEO name.
- * @param bool   $replace     Whether to replace or to copy the values.
- */
-function replace_meta( $old_metakey, $new_metakey, $replace = false ) {
-	global $wpdb;
-	$oldies = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $wpdb->postmeta WHERE meta_key = %s", $old_metakey ) );
-	foreach ( $oldies as $old ) {
-		// Prevent inserting new meta values for posts that already have a value for that new meta key
-		$check = get_post_meta( $old->post_id, $new_metakey, true );
-		if ( ! $check || empty($check) )
-			update_post_meta( $old->post_id, $new_metakey, $old->meta_value );
-
-		if ( $replace )
-			delete_post_meta( $old->post_id, $old_metakey );
-	}
-}
-
 $msg = '';
 if ( isset( $_POST['import'] ) ) {
 
@@ -158,30 +137,30 @@ if ( isset( $_POST['import'] ) ) {
 
 		// If WooSEO is set to use the Woo titles, import those
 		if ( 'true' == get_option( 'seo_woo_wp_title' ) ) {
-			replace_meta( 'seo_title', '_yoast_wpseo_title', $replace );
+			WPSEO_Meta::replace_meta( 'seo_title', WPSEO_Meta::$meta_prefix . 'title', $replace );
 		}
 
 		// If WooSEO is set to use the Woo meta descriptions, import those
 		if ( 'b' == get_option( 'seo_woo_meta_single_desc' ) ) {
-			replace_meta( 'seo_description', '_yoast_wpseo_metadesc', $replace );
+			WPSEO_Meta::replace_meta( 'seo_description', WPSEO_Meta::$meta_prefix . 'metadesc', $replace );
 		}
 
 		// If WooSEO is set to use the Woo meta keywords, import those
 		if ( 'b' == get_option( 'seo_woo_meta_single_key' ) ) {
-			replace_meta( 'seo_keywords', '_yoast_wpseo_metakeywords', $replace );
+			WPSEO_Meta::replace_meta( 'seo_keywords', WPSEO_Meta::$meta_prefix . 'metakeywords', $replace );
 		}
 
-		replace_meta( 'seo_follow', '_yoast_wpseo_meta-robots-nofollow', $replace );
-		replace_meta( 'seo_noindex', '_yoast_wpseo_meta-robots-noindex', $replace );
+		WPSEO_Meta::replace_meta( 'seo_follow', WPSEO_Meta::$meta_prefix . 'meta-robots-nofollow', $replace );
+		WPSEO_Meta::replace_meta( 'seo_noindex', WPSEO_Meta::$meta_prefix . 'meta-robots-noindex', $replace );
 
 		$msg .= __( 'WooThemes SEO framework settings &amp; data successfully imported.', 'wordpress-seo' );
 	}
 	if ( isset( $_POST['wpseo']['importheadspace'] ) ) {
-		replace_meta( '_headspace_description', '_yoast_wpseo_metadesc', $replace );
-		replace_meta( '_headspace_keywords', '_yoast_wpseo_metakeywords', $replace );
-		replace_meta( '_headspace_page_title', '_yoast_wpseo_title', $replace );
-		replace_meta( '_headspace_noindex', '_yoast_wpseo_meta-robots-noindex', $replace );
-		replace_meta( '_headspace_nofollow', '_yoast_wpseo_meta-robots-nofollow', $replace );
+		WPSEO_Meta::replace_meta( '_headspace_description', WPSEO_Meta::$meta_prefix . 'metadesc', $replace );
+		WPSEO_Meta::replace_meta( '_headspace_keywords', WPSEO_Meta::$meta_prefix . 'metakeywords', $replace );
+		WPSEO_Meta::replace_meta( '_headspace_page_title', WPSEO_Meta::$meta_prefix . 'title', $replace );
+		WPSEO_Meta::replace_meta( '_headspace_noindex', WPSEO_Meta::$meta_prefix . 'meta-robots-noindex', $replace );
+		WPSEO_Meta::replace_meta( '_headspace_nofollow', WPSEO_Meta::$meta_prefix . 'meta-robots-nofollow', $replace );
 
 		$posts = $wpdb->get_results( "SELECT ID FROM $wpdb->posts" );
 		foreach ( $posts as $post ) {
@@ -207,17 +186,17 @@ if ( isset( $_POST['import'] ) ) {
 		}
 		$msg .= __( 'HeadSpace2 data successfully imported', 'wordpress-seo' );
 	}
-	if ( isset( $_POST['wpseo']['importaioseo'] ) ) {
-		replace_meta( '_aioseop_description', '_yoast_wpseo_metadesc', $replace );
-		replace_meta( '_aioseop_keywords', '_yoast_wpseo_metakeywords', $replace );
-		replace_meta( '_aioseop_title', '_yoast_wpseo_title', $replace );
-		$msg .= __( 'All in One SEO data successfully imported.', 'wordpress-seo' );
-	}
 	if ( isset( $_POST['wpseo']['importaioseoold'] ) ) {
-		replace_meta( 'description', '_yoast_wpseo_metadesc', $replace );
-		replace_meta( 'keywords', '_yoast_wpseo_metakeywords', $replace );
-		replace_meta( 'title', '_yoast_wpseo_title', $replace );
+		WPSEO_Meta::replace_meta( 'description', WPSEO_Meta::$meta_prefix . 'metadesc', $replace );
+		WPSEO_Meta::replace_meta( 'keywords', WPSEO_Meta::$meta_prefix . 'metakeywords', $replace );
+		WPSEO_Meta::replace_meta( 'title', WPSEO_Meta::$meta_prefix . 'title', $replace );
 		$msg .= __( 'All in One SEO (Old version) data successfully imported.', 'wordpress-seo' );
+	}
+	if ( isset( $_POST['wpseo']['importaioseo'] ) ) {
+		WPSEO_Meta::replace_meta( '_aioseop_description', WPSEO_Meta::$meta_prefix . 'metadesc', $replace );
+		WPSEO_Meta::replace_meta( '_aioseop_keywords', WPSEO_Meta::$meta_prefix . 'metakeywords', $replace );
+		WPSEO_Meta::replace_meta( '_aioseop_title', WPSEO_Meta::$meta_prefix . 'title', $replace );
+		$msg .= __( 'All in One SEO data successfully imported.', 'wordpress-seo' );
 	}
 	if ( isset( $_POST['wpseo']['importrobotsmeta'] ) ) {
 		$posts = $wpdb->get_results( "SELECT ID, robotsmeta FROM $wpdb->posts" );
