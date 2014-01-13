@@ -109,8 +109,9 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 = trunk =
 
 * Bugfixes
-	* Removed screen_icon() calls
-	* Fixed a bug in robots meta tag on singular items
+	* Removed screen_icon() calls.
+	* Fixed a bug in robots meta tag on singular items.
+	* Fix double robots header, WP native settings will be respected - props [Jrf](http://profiles.wordpress.org/jrf).
 
 * i18n
 	*
