@@ -132,7 +132,10 @@ if ( is_admin() ) {
 		require_once( WPSEO_PATH . 'admin/ajax.php' );
 
 		global $pagenow;
-		if ( in_array( $pagenow, array( 'admin-ajax.php' ) ) ) {
+		if ( ! empty( $_SERVER['HTTP_REFERER'] ) && false !== strstr( $_SERVER['HTTP_REFERER'], 'edit.php' ) && in_array( $pagenow, array( 'admin-ajax.php' ) ) ) {
+			require_once( WPSEO_PATH . 'inc/wpseo-functions.php' );
+			require_once( WPSEO_PATH . 'inc/wpseo-non-ajax-functions.php' );
+			require_once( WPSEO_PATH . 'admin/class-admin.php' );
 			require_once( WPSEO_PATH . 'admin/class-metabox.php' );
 		}
 	} else {
