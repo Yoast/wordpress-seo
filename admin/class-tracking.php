@@ -106,8 +106,9 @@ if ( ! class_exists( 'Yoast_Tracking' ) ) {
 
 				$plugins = array();
 				foreach ( get_option( 'active_plugins' ) as $plugin_path ) {
-					if ( ! function_exists( 'get_plugin_data' ) )
-						require_once( ABSPATH . 'wp-admin/includes/admin.php' );
+					if ( ! function_exists( 'get_plugin_data' ) ) {
+						require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+					}
 
 					$plugin_info = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin_path );
 

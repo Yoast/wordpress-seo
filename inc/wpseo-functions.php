@@ -8,88 +8,33 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	die;
 }
 
-//require_once( WPSEO_PATH . 'inc/class-wpseo-options.php' );
-//require_once( WPSEO_PATH . 'inc/class-wpseo-meta.php' );
 
-// Ensure that the validation routines for meta values are registered
-WPSEO_Meta::init();
 
-/**
- * Get the value from the post custom values
- *
- * @deprecated 1.5.0
- * @deprecated use WPSEO_Meta::get_value()
- * @see WPSEO_Meta::get_value()
- *
- * @param string $val    name of the value to get
- * @param int    $postid post ID of the post to get the value for
- * @return bool|mixed
- */
-/*function wpseo_get_value( $val, $postid = 0 ) {
-	_deprecated_function( __FUNCTION__, 'WPSEO 1.5.0', 'WPSEO_Meta::get_value()' );
-	return WPSEO_Meta::get_value( $val, $postid );
-}*/
-function wpseo_get_value( $val, $postid = 0 ) {
-	$postid = absint( $postid );
-	if ( $postid === 0 ) {
-		global $post;
-		if ( isset( $post ) && isset( $post->post_status ) && $post->post_status != 'auto-draft')
-			$postid = $post->ID;
-		else
-			return false;
+if( ! function_exists( 'initialize_wpseo_front' ) ) {
+	function initialize_wpseo_front() {
+		$GLOBALS['wpseo_front'] = new WPSEO_Frontend;
 	}
-	$custom = get_post_custom( $postid );
-	if ( ! empty( $custom['_yoast_wpseo_' . $val][0] ) )
-		return maybe_unserialize( $custom['_yoast_wpseo_' . $val][0] );
-	else
-		return false;
 }
 
 
-/**
- * @deprecated 1.5.0
- * @deprecated use WPSEO_Meta::set_value() or just use update_post_meta()
- * @see WPSEO_Meta::set_value()
- *
- * @param	string	$meta_key		the meta to change
- * @param	mixed	$meta_value		the value to set the meta to
- * @param	int		$post_id		the ID of the post to change the meta for.
- * @return	bool	whether the value was changed
- */
-function wpseo_set_value( $meta_key, $meta_value, $post_id ) {
-	_deprecated_function( __FUNCTION__, 'WPSEO 1.5.0', 'WPSEO_Meta::set_value()' );
-	return WPSEO_Meta::set_value( $meta_key, $meta_value, $post_id );
+if ( ! function_exists( 'yoast_breadcrumb' ) ) {
+	/**
+	 * Template tag for breadcrumbs.
+	 *
+	 * @param string $before  What to show before the breadcrumb.
+	 * @param string $after   What to show after the breadcrumb.
+	 * @param bool   $display Whether to display the breadcrumb (true) or return it (false).
+	 * @return string
+	 */
+	function yoast_breadcrumb( $before = '', $after = '', $display = true ) {
+		if ( ! isset( $GLOBALS['wpseo_bc'] ) ) {
+			$GLOBALS['wpseo_bc'] = new WPSEO_Breadcrumbs;
+		}
+		return $GLOBALS['wpseo_bc']->breadcrumb( $before, $after, $display );
+	}
 }
 
 
-
-/**
- * Retrieve an array of all the options the plugin uses. It can't use only one due to limitations of the options API.
- *
- * @deprecated 1.5.0
- * @deprecated use WPSEO_Options::get_option_names()
- * @see WPSEO_Options::get_option_names()
- *
- * @return array of options.
- */
-function get_wpseo_options_arr() {
-	_deprecated_function( __FUNCTION__, 'WPSEO 1.5.0', 'WPSEO_Options::get_option_names()' );
-	return WPSEO_Options::get_option_names();
-}
-
-/**
- * Retrieve all the options for the SEO plugin in one go.
- *
- * @deprecated 1.5.0
- * @deprecated use WPSEO_Options::get_all()
- * @see WPSEO_Options::get_all()
- *
- * @return array of options
- */
-function get_wpseo_options() {
-	_deprecated_function( __FUNCTION__, 'WPSEO 1.5.0', 'WPSEO_Options::get_all()' );
-	return WPSEO_Options::get_all();
-}
 
 /**
  * @param string $string the string to replace the variables in.
@@ -719,8 +664,7 @@ function create_type_sitemap_template( $post_type ) {
 	$taxs = get_object_taxonomies( $post_type->name, 'object' );
 
 	// Build the taxonomy tree
-	require_once( WPSEO_PATH . 'inc/class-sitemap-walker.php' );
-	$walker = new Sitemap_Walker();
+	$walker = new Sitemap_Walker;
 	foreach ( $taxs as $key => $tax ) {
 		if ( $tax->public !== 1 )
 			continue;
@@ -756,4 +700,90 @@ function create_type_sitemap_template( $post_type ) {
 
 	$output .= '<br />';
 	return $output;
+}
+
+
+
+
+
+/********************** DEPRECATED FUNCTIONS **********************/
+
+
+/**
+ * Get the value from the post custom values
+ *
+ * @deprecated 1.5.0
+ * @deprecated use WPSEO_Meta::get_value()
+ * @see WPSEO_Meta::get_value()
+ *
+ * @param string $val    name of the value to get
+ * @param int    $postid post ID of the post to get the value for
+ * @return bool|mixed
+ */
+/*function wpseo_get_value( $val, $postid = 0 ) {
+	_deprecated_function( __FUNCTION__, 'WPSEO 1.5.0', 'WPSEO_Meta::get_value()' );
+	return WPSEO_Meta::get_value( $val, $postid );
+}*/
+function wpseo_get_value( $val, $postid = 0 ) {
+	$postid = absint( $postid );
+	if ( $postid === 0 ) {
+		global $post;
+		if ( isset( $post ) && isset( $post->post_status ) && $post->post_status != 'auto-draft')
+			$postid = $post->ID;
+		else
+			return false;
+	}
+	$custom = get_post_custom( $postid );
+	if ( ! empty( $custom['_yoast_wpseo_' . $val][0] ) )
+		return maybe_unserialize( $custom['_yoast_wpseo_' . $val][0] );
+	else
+		return false;
+}
+
+
+/**
+ * Save a custom meta value
+ *
+ * @deprecated 1.5.0
+ * @deprecated use WPSEO_Meta::set_value() or just use update_post_meta()
+ * @see WPSEO_Meta::set_value()
+ *
+ * @param	string	$meta_key		the meta to change
+ * @param	mixed	$meta_value		the value to set the meta to
+ * @param	int		$post_id		the ID of the post to change the meta for.
+ * @return	bool	whether the value was changed
+ */
+function wpseo_set_value( $meta_key, $meta_value, $post_id ) {
+	_deprecated_function( __FUNCTION__, 'WPSEO 1.5.0', 'WPSEO_Meta::set_value()' );
+	return WPSEO_Meta::set_value( $meta_key, $meta_value, $post_id );
+}
+
+
+/**
+ * Retrieve an array of all the options the plugin uses. It can't use only one due to limitations of the options API.
+ *
+ * @deprecated 1.5.0
+ * @deprecated use WPSEO_Options::get_option_names()
+ * @see WPSEO_Options::get_option_names()
+ *
+ * @return array of options.
+ */
+function get_wpseo_options_arr() {
+	_deprecated_function( __FUNCTION__, 'WPSEO 1.5.0', 'WPSEO_Options::get_option_names()' );
+	return WPSEO_Options::get_option_names();
+}
+
+
+/**
+ * Retrieve all the options for the SEO plugin in one go.
+ *
+ * @deprecated 1.5.0
+ * @deprecated use WPSEO_Options::get_all()
+ * @see WPSEO_Options::get_all()
+ *
+ * @return array of options
+ */
+function get_wpseo_options() {
+	_deprecated_function( __FUNCTION__, 'WPSEO 1.5.0', 'WPSEO_Options::get_all()' );
+	return WPSEO_Options::get_all();
 }

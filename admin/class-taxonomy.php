@@ -171,6 +171,10 @@ if ( ! class_exists( 'WPSEO_Taxonomy' ) ) {
 			update_option( 'wpseo_taxonomy_meta', $tax_meta, 99 );
 	
 			if ( defined( 'W3TC_DIR' ) && class_exists( 'W3_ObjectCache' ) ) {
+				/**
+				 * @todo: check logic - if class_exists, then the file require shouldn't be needed anymore
+				 * Then again, maybe the check should not be above, but wrapped around the require as `! class_exists()`
+				 */
 				require_once( W3TC_DIR . '/lib/W3/ObjectCache.php' );
 				$w3_objectcache = & W3_ObjectCache::instance();
 	
@@ -210,7 +214,5 @@ if ( ! class_exists( 'WPSEO_Taxonomy' ) ) {
 			return $desc;
 		}
 	} /* End of class */
-	
-	$wpseo_taxonomy = new WPSEO_Taxonomy();
 
 } /* End of class-exists wrapper */

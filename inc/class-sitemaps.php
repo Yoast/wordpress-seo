@@ -1001,7 +1001,4 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 	
 	} /* End of class */
 	
-	global $wpseo_sitemaps;
-	$wpseo_sitemaps = new WPSEO_Sitemaps();
-
 } /* End of class-exists wrapper */

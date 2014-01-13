@@ -61,6 +61,19 @@ if ( ! class_exists( 'WPSEO_Social_Admin' ) ) {
 	
 	
 		/**
+		 * Filter over the meta boxes to save, this function adds the Social meta boxes.
+		 *
+		 * @param array $mbs Array of metaboxes to save.
+		 * @return array
+		 */
+		public function save_meta_boxes( $field_defs ) {
+			return array_merge( $field_defs, $this->get_meta_field_defs( 'social' ) );
+		}
+
+
+		/********************** DEPRECATED METHODS **********************/
+		
+		/**
 		 * Define the meta boxes for the Social tab
 		 *
 		 * @deprecated 1.5.0
@@ -74,19 +87,7 @@ if ( ! class_exists( 'WPSEO_Social_Admin' ) ) {
 			_deprecated_function( __FUNCTION__, 'WPSEO 1.5.0', 'WPSEO_Meta::get_meta_field_defs()' );
 			return $this->get_meta_field_defs( 'social' );
 		}
-	
-		/**
-		 * Filter over the meta boxes to save, this function adds the Social meta boxes.
-		 *
-		 * @param array $mbs Array of metaboxes to save.
-		 * @return array
-		 */
-		public function save_meta_boxes( $field_defs ) {
-			return array_merge( $field_defs, $this->get_meta_field_defs( 'social' ) );
-		}
-	
+
 	} /* End of class */
-	
-	$wpseo_social = new WPSEO_Social_Admin();
 
 } /* End of class-exists wrapper */

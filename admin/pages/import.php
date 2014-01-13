@@ -347,7 +347,6 @@ else if ( isset( $_FILES['settings_import_file'] ) ) {
 	$file = wp_handle_upload( $_FILES['settings_import_file'] );
 
 	if ( isset( $file['file'] ) && ! is_wp_error( $file ) ) {
-		require_once( ABSPATH . 'wp-admin/includes/class-pclzip.php' );
 		$zip      = new PclZip( $file['file'] );
 		$unzipped = $zip->extract( $p_path = WP_CONTENT_DIR . '/wpseo-import/' );
 		if ( $unzipped[0]['stored_filename'] == 'settings.ini' ) {

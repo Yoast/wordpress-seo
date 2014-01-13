@@ -15,16 +15,6 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 	class WPSEO_Breadcrumbs {
 	
 		/**
-		 * Class constructor
-		 */
-		function __construct() {
-			// If breadcrumbs are active (which they are otherwise this class wouldn't be instantiated), there's no reason
-			// to have bbPress breadcrumbs as well.
-			add_filter( 'bbp_get_breadcrumb', '__return_false' );
-		}
-	
-	
-		/**
 		 * Wrapper function for the breadcrumb so it can be output for the supported themes.
 		 */
 		function breadcrumb_output() {
@@ -366,20 +356,5 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 		}
 	
 	} /* End of class */
-	
-	
-	if ( ! function_exists( 'yoast_breadcrumb' ) ) {
-		/**
-		 * Template tag for breadcrumbs.
-		 *
-		 * @param string $before  What to show before the breadcrumb.
-		 * @param string $after   What to show after the breadcrumb.
-		 * @param bool   $display Whether to display the breadcrumb (true) or return it (false).
-		 * @return string
-		 */
-		function yoast_breadcrumb( $before = '', $after = '', $display = true ) {
-			return $GLOBALS['wpseo_bc']->breadcrumb( $before, $after, $display );
-		}
-	}
-	
+
 } /* End of class-exists wrapper */

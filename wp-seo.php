@@ -35,31 +35,26 @@ if ( ! defined( 'DB_NAME' ) ) {
 	die;
 }
 
-if ( ! defined( 'WPSEO_PATH' ) )
-	define( 'WPSEO_PATH', plugin_dir_path( __FILE__ ) );
-if ( ! defined( 'WPSEO_BASENAME' ) )
-	define( 'WPSEO_BASENAME', plugin_basename( __FILE__ ) );
-
-define( 'WPSEO_FILE', __FILE__ );
-
-function wpseo_load_textdomain() {
-	load_plugin_textdomain( 'wordpress-seo', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
-}
-add_filter( 'init', 'wpseo_load_textdomain', 1 );
-
-
 if ( version_compare( PHP_VERSION, '5.2', '<' ) ) {
 	if ( is_admin() && ( ! defined( 'DOING_AJAX' ) || ! DOING_AJAX ) ) {
 		require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 		deactivate_plugins( __FILE__ );
 		wp_die( sprintf( __( 'WordPress SEO requires PHP 5.2 or higher, as does WordPress 3.2 and higher. The plugin has now disabled itself. For more info, %s$1see this post%s$2.', 'wordpress-seo' ), '<a href="http://yoast.com/requires-php-52/">', '</a>' ) );
 	}
-	else {
-		return;
-	}
 }
 
+
+if ( ! defined( 'WPSEO_PATH' ) ) {
+	define( 'WPSEO_PATH', plugin_dir_path( __FILE__ ) );
+}
+if ( ! defined( 'WPSEO_BASENAME' ) ) {
+	define( 'WPSEO_BASENAME', plugin_basename( __FILE__ ) );
+}
+
+define( 'WPSEO_FILE', __FILE__ );
+
 define( 'WPSEO_VERSION', '1.5.0-beta' );
+
 
 /**
  * Auto load our class files
@@ -76,17 +71,17 @@ function wpseo_auto_load( $class ) {
 	if ( $classes === null ) {
 		$classes = array(
 			'wpseo_admin'                        => WPSEO_PATH . 'admin/class-admin.php',
-			'wpseo_bulk_title_editor_list_table' => WPSEO_PATH . 'admin/class-bulk-title-editor-list-table.php', //done
-			'wpseo_bulk_description_list_table'  => WPSEO_PATH . 'admin/class-bulk-description-editor-list-table.php', //done
+			'wpseo_bulk_title_editor_list_table' => WPSEO_PATH . 'admin/class-bulk-title-editor-list-table.php',
+			'wpseo_bulk_description_list_table'  => WPSEO_PATH . 'admin/class-bulk-description-editor-list-table.php',
 			'wpseo_admin_pages'                  => WPSEO_PATH . 'admin/class-config.php',
 			'wpseo_metabox'                      => WPSEO_PATH . 'admin/class-metabox.php',
 			'wpseo_social_admin'                 => WPSEO_PATH . 'admin/class-opengraph-admin.php',
-			'wpseo_pointers'                     => WPSEO_PATH . 'admin/class-pointers.php', //done
+			'wpseo_pointers'                     => WPSEO_PATH . 'admin/class-pointers.php',
 			'wpseo_sitemaps_admin'               => WPSEO_PATH . 'admin/class-sitemaps-admin.php',
 			'wpseo_taxonomy'                     => WPSEO_PATH . 'admin/class-taxonomy.php',
-			'yoast_tracking'                     => WPSEO_PATH . 'admin/class-tracking.php', //done
-			'yoast_textstatistics'               => WPSEO_PATH . 'admin/TextStatistics.php', //done
-			'wpseo_breadcrumbs'                  => WPSEO_PATH . 'frontend/class-breadcrumbs.php', //done
+			'yoast_tracking'                     => WPSEO_PATH . 'admin/class-tracking.php',
+			'yoast_textstatistics'               => WPSEO_PATH . 'admin/TextStatistics.php',
+			'wpseo_breadcrumbs'                  => WPSEO_PATH . 'frontend/class-breadcrumbs.php',
 			'wpseo_frontend'                     => WPSEO_PATH . 'frontend/class-frontend.php',
 			'wpseo_opengraph'                    => WPSEO_PATH . 'frontend/class-opengraph.php',
 			'wpseo_twitter'                      => WPSEO_PATH . 'frontend/class-twitter.php',
@@ -96,7 +91,9 @@ function wpseo_auto_load( $class ) {
 			'wpseo_options'                      => WPSEO_PATH . 'inc/class-wpseo-options.php',
 			'wpseo_meta'                         => WPSEO_PATH . 'inc/class-wpseo-meta.php',
 
-			'wp_list_table'                      => ABSPATH . 'wp-admin/includes/class-wp-list-table.php', //done
+			'wp_list_table'                      => ABSPATH . 'wp-admin/includes/class-wp-list-table.php',
+			'walker_category'                    => ABSPATH . 'wp-includes/category-template.php',
+			'pclzip'                             => ABSPATH . 'wp-admin/includes/class-pclzip.php',
 		);
 	}
 
@@ -109,36 +106,68 @@ function wpseo_auto_load( $class ) {
 spl_autoload_register( 'wpseo_auto_load' );
 
 
+/**
+ * Load translations
+ */
+function wpseo_load_textdomain() {
+	load_plugin_textdomain( 'wordpress-seo', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+}
+add_filter( 'init', 'wpseo_load_textdomain', 1 );
 
 
 
+/**
+ * On plugins_loaded: load the minimum amount of essential files for this plugin
+ */
 function wpseo_init() {
 	require_once( WPSEO_PATH . 'inc/wpseo-functions.php' );
 
+	// Make sure our option validation routine and default values are always registered and available
+	WPSEO_Options::plugins_loaded();
+
+	// Ensure that the validation routines for meta values are always registered
+	WPSEO_Meta::init();
+
 	$options = WPSEO_Options::get_all();
 
-	if ( $options['stripcategorybase'] === true )
-		require_once( WPSEO_PATH . 'inc/class-rewrite.php' );
+	if ( $options['stripcategorybase'] === true ) {
+		$GLOBALS['wpseo_rewrite'] = new WPSEO_Rewrite;
+	}
 
-	if ( $options['enablexmlsitemap'] === true )
-		require_once( WPSEO_PATH . 'inc/class-sitemaps.php' );
+	if ( $options['enablexmlsitemap'] === true ) {
+		$GLOBALS['wpseo_sitemaps'] = new WPSEO_Sitemaps;
+	}
+
+	if ( ! defined( 'DOING_AJAX' ) || ! DOING_AJAX ) {
+		require_once( WPSEO_PATH . 'inc/wpseo-non-ajax-functions.php' );
+	}
 }
 
 /**
  * Used to load the required files on the plugins_loaded hook, instead of immediately.
  */
 function wpseo_frontend_init() {
-	$options = WPSEO_Options::get_all();
-	require_once( WPSEO_PATH . 'frontend/class-frontend.php' );
+	add_action( 'init', 'initialize_wpseo_front' );
 
+	$options = WPSEO_Options::get_all();
 	if ( $options['breadcrumbs-enable'] === true ) {
-		$GLOBALS['wpseo_bc'] = new WPSEO_Breadcrumbs();
+		/**
+		 * If breadcrumbs are active (which they supposedly are if the users has enabled this settings,
+		 * there's no reason to have bbPress breadcrumbs as well.
+		 *
+		 * @internal The class itself is only loaded when the template tag is encountered via
+		 * the template tag function in the wpseo-functions.php file
+		 */
+		add_filter( 'bbp_get_breadcrumb', '__return_false' );
 	}
-	if ( $options['twitter'] === true ) {
-		require_once( WPSEO_PATH . 'frontend/class-twitter.php' );
+
+	if ( $options['twitter'] === true && is_singular() ) {
+		add_action( 'wpseo_head', array( 'WPSEO_Twitter', 'get_instance' ), 40 );
 	}
+
 	if ( $options['opengraph'] === true ) {
-		require_once( WPSEO_PATH . 'frontend/class-opengraph.php' );
+		// @todo check if this can be loaded at a later point via an action
+		$GLOBALS['wpseo_og'] = new WPSEO_OpenGraph;
 	}
 }
 
@@ -146,6 +175,10 @@ function wpseo_frontend_init() {
  * Used to load the required files on the plugins_loaded hook, instead of immediately.
  */
 function wpseo_admin_init() {
+	global $pagenow;
+
+	$GLOBALS['wpseo_admin'] = new WPSEO_Admin;
+
 	$options = WPSEO_Options::get_all();
 	if ( isset( $_GET['wpseo_restart_tour'] ) ) {
 		$options['ignore_tour'] = false;
@@ -162,37 +195,36 @@ function wpseo_admin_init() {
 			add_action( 'yoast_tracking', array( 'Yoast_Tracking', 'get_instance' ) );
 		}
 		else {
-			$yoast_tracking = new Yoast_Tracking;
+			$GLOBALS['yoast_tracking'] = new Yoast_Tracking;
 		}
 	}
 
-	require_once( WPSEO_PATH . 'admin/class-admin.php' );
-
-	global $pagenow;
 	if ( in_array( $pagenow, array( 'edit.php', 'post.php', 'post-new.php' ) ) ) {
-		require_once( WPSEO_PATH . 'admin/class-metabox.php' );
-		if ( $options['opengraph'] === true )
-			require_once( WPSEO_PATH . 'admin/class-opengraph-admin.php' );
+		$GLOBALS['wpseo_metabox'] = new WPSEO_Metabox;
+		if ( $options['opengraph'] === true ) {
+			$GLOBALS['wpseo_social'] = new WPSEO_Social_Admin;
+		}
 	}
 
-	if ( in_array( $pagenow, array( 'edit-tags.php' ) ) )
-		require_once( WPSEO_PATH . 'admin/class-taxonomy.php' );
+	if ( in_array( $pagenow, array( 'edit-tags.php' ) ) ) {
+		$GLOBALS['wpseo_taxonomy'] = new WPSEO_Taxonomy;
+	}
 
-	if ( in_array( $pagenow, array( 'admin.php' ) ) )
-		require_once( WPSEO_PATH . 'admin/class-config.php' );
+	if ( in_array( $pagenow, array( 'admin.php' ) ) ) {
+		// @todo Can we load this more selectively ? like only when $_GET['page'] is one of ours ?
+		$GLOBALS['wpseo_admin_pages'] = new WPSEO_Admin_Pages;
+	}
 
 	if ( ( version_compare( $GLOBALS['wp_version'], '3.4', '>=' ) && current_user_can( 'manage_options' ) ) && ( $options['tracking_popup_done'] === false || $options['ignore_tour'] === false ) ) {
 		add_action( 'admin_enqueue_scripts', array( 'WPSEO_Pointers', 'get_instance' ) );
 	}
 
-	if ( $options['enablexmlsitemap'] === true )
-		require_once( WPSEO_PATH . 'admin/class-sitemaps-admin.php' );
+	if ( $options['enablexmlsitemap'] === true ) {
+		$GLOBALS['wpseo_sitemaps_admin'] = new WPSEO_Sitemaps_Admin;
+	}
 }
 
 add_action( 'plugins_loaded', 'wpseo_init', 14 );
-
-if ( ! defined( 'DOING_AJAX' ) || ! DOING_AJAX )
-	require_once( WPSEO_PATH . 'inc/wpseo-non-ajax-functions.php' );
 
 if ( is_admin() ) {
 	if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
@@ -208,4 +240,3 @@ if ( is_admin() ) {
 else {
 	add_action( 'plugins_loaded', 'wpseo_frontend_init', 15 );
 }
-unset( $options );

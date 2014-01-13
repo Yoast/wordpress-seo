@@ -1450,12 +1450,5 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 		}
 	
 	} /* End of class */
-	
-	function initialize_wpseo_front() {
-		global $wpseo_front;
-		$wpseo_front = new WPSEO_Frontend;
-	}
-	
-	add_action( 'init', 'initialize_wpseo_front' );
 
 } /* End of class-exists wrapper */

@@ -18,11 +18,6 @@ if ( ! class_exists( 'WPSEO_Sitemaps_Admin' ) ) {
 		 * Class constructor
 		 */
 		function __construct() {
-	
-			$options = get_option( 'wpseo_xml' );
-			if ( $options[ 'enablexmlsitemap' ] !== true )
-				return;
-	
 			add_action( 'transition_post_status', array( $this, 'status_transition' ), 10, 3 );
 			add_action( 'admin_init', array( $this, 'delete_sitemaps' ) );
 		}
@@ -32,8 +27,9 @@ if ( ! class_exists( 'WPSEO_Sitemaps_Admin' ) ) {
 		 *
 		 * @todo - I suggest we change this to a simple directory walker with a preg_match() on any files which would
 		 * match our rewrite rule expressions.
-		 * Still we wouldn't want *that* to run each and every time a page loads, so we should change the way this
-		 * function is called
+		 * Still we wouldn't want *that* to run each and every time an admin page loads, so we
+		 * should change the way this function is called. It's a bit silly running this on every admin page load
+		 * now anyways.
 		 *
 		 * Ideas on when/how to call it alternatively:
 		 * - always on dashboard.php ?
@@ -84,23 +80,24 @@ if ( ! class_exists( 'WPSEO_Sitemaps_Admin' ) ) {
 			wp_cache_delete( 'lastpostmodified:gmt:' . $post->post_type, 'timeinfo' ); // #17455
 	
 			$options = WPSEO_Options::get_all();
-			if ( isset( $options[ 'post_types-' . $post->post_type . '-not_in_sitemap' ] ) && $options[ 'post_types-' . $post->post_type . '-not_in_sitemap' ] === true )
+			if ( isset( $options[ 'post_types-' . $post->post_type . '-not_in_sitemap' ] ) && $options[ 'post_types-' . $post->post_type . '-not_in_sitemap' ] === true ) {
 				return;
+			}
 	
-			if ( WP_CACHE )
+			if ( WP_CACHE ) {
 				wp_schedule_single_event( time() + 300, 'wpseo_hit_sitemap_index' );
+			}
 	
 			// Allow the pinging to happen slightly after the hit sitemap index so the sitemap is fully regenerated when the ping happens.
 			if ( wpseo_get_value( 'sitemap-include', $post->ID ) != 'never' ) {
-				if ( defined( 'YOAST_SEO_PING_IMMEDIATELY' ) && YOAST_SEO_PING_IMMEDIATELY )
+				if ( defined( 'YOAST_SEO_PING_IMMEDIATELY' ) && YOAST_SEO_PING_IMMEDIATELY ) {
 					wpseo_ping_search_engines();
-				else
+				}
+				else {
 					wp_schedule_single_event( ( time() + 300 ), 'wpseo_ping_search_engines' );
+				}
 			}
 		}
 	} /* End of class */
-	
-	// Instantiate class
-	$wpseo_sitemaps_admin = new WPSEO_Sitemaps_Admin();
 
 } /* End of class-exists wrapper */

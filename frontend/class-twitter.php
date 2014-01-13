@@ -16,6 +16,11 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 	 * @link https://dev.twitter.com/docs/cards
 	 */
 	class WPSEO_Twitter extends WPSEO_Frontend {
+		
+		/**
+		 * @var	object	Instance of this class
+		 */
+		public static $instance;
 	
 		/**
 		 * @var array $options Holds the options for the Twitter Card functionality
@@ -27,8 +32,19 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 		 */
 		public function __construct() {
 			$this->options = get_option( 'wpseo_social' );
-	
-			add_action( 'wpseo_head', array( $this, 'twitter' ), 40 );
+			$this->twitter();
+		}
+		
+		/**
+		 * Get the singleton instance of this class
+		 *
+		 * @return object
+		 */
+		public static function get_instance() {
+			if ( ! ( self::$instance instanceof self ) ) {
+				self::$instance = new self();
+			}
+			return self::$instance;
 		}
 	
 		/**
@@ -37,9 +53,6 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 		 * @return mixed|false Only shows on singular pages, false on non-singular pages.
 		 */
 		public function twitter() {
-			if ( ! is_singular() )
-				return false;
-	
 			wp_reset_query();
 	
 			$this->type();
@@ -214,8 +227,5 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 			}
 		}
 	} /* End of class */
-	
-	global $wpseo_twitter;
-	$wpseo_twitter = new WPSEO_Twitter();
 
 } /* End of class-exists wrapper */

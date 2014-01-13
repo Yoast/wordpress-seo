@@ -9,7 +9,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	die;
 }
 
-if ( ! class_exists( 'WPSeo_Options' ) ) {
+if ( ! class_exists( 'WPSEO_Options' ) ) {
 	/**
 	 * @package WordPress\Plugins\WPSeo
 	 * @subpackage Internals
@@ -539,7 +539,7 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 		
 		/**
 		 * Register all the options needed for the configuration pages.
-		 * Calling action added in WPSEO_Admin::__construct()
+		 * Called from action in WPSEO_Admin::__construct()
 		 */
 		public static function register_settings() {
 
@@ -1597,7 +1597,7 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 		 * Validate a value as integer
 		 *
 		 * @param	mixed	$value
-		 * @return	mixed	int or false in case or failure to convert to int
+		 * @return	mixed	int or false in case of failure to convert to int
 		 */
 		public static function validate_int( $value ) {
 			return filter_var( $value, FILTER_VALIDATE_INT );
@@ -2060,8 +2060,5 @@ function wpseo_defaults() {
 	}
 */
 	} /* End of class */
-
-	// File is loaded from wpseo-functions.php on action plugins_loaded set in wp-seo.php
-	WPSEO_Options::plugins_loaded();
 
 } /* End of class-exists wrapper */

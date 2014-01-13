@@ -268,20 +268,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			}
 		}
 		
-		/**
-		 * Adds the WordPress SEO box
-		 *
-		 * @deprecated 1.4.23
-		 * @deprecated use WPSEO_Metabox::add_meta_box()
-		 * @see WPSEO_Meta::add_meta_box()
-		 */
-		public function add_custom_box() {
-			_deprecated_function( __FUNCTION__, 'WPSEO 1.4.23', 'WPSEO_Metabox::add_meta_box()' );
-			$this->add_meta_box();
-		}
-	
-	
-	
+
 		/**
 		 * Outputs the scripts needed for the edit / post page overview, snippet preview, etc.
 		 *
@@ -366,28 +353,13 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		<?php
 		}
 	
-		/**
-		 * Retrieve the meta boxes for the given post type.
-		 *
-		 * @deprecated 1.5.0
-		 * @deprecated use WPSEO_Meta::get_meta_field_defs()
-		 * @see WPSEO_Meta::get_meta_field_defs()
-		 *
-		 * @param	string	$post_type
-		 * @return	array
-		 */
-		public function get_meta_boxes( $post_type = 'post' ) {
-			_deprecated_function( __FUNCTION__, 'WPSEO 1.5.0', 'WPSEO_Meta::get_meta_field_defs()' );
-			return $this->get_meta_field_defs( 'general', $post_type );
-		}
-	
-	
+
 		/**
 		 * Output the meta box
 		 */
 		function meta_box() {
 			if ( isset( $_GET['post'] ) ) {
-				$post_id = (int) WPSEO_Options::validate_int( $_GET['post'] );
+				$post_id = WPSEO_Options::validate_int( $_GET['post'] );
 				$post    = get_post( $post_id );
 			}
 			else {
@@ -409,8 +381,10 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			</ul>
 			<?php
 			$content = '';
-			foreach ( $this->get_meta_field_defs( 'general', $post->post_type ) as $meta_box ) {
-				$content .= $this->do_meta_box( $meta_box );
+			if( is_object( $post ) && isset( $post->post_type ) ) {
+				foreach ( $this->get_meta_field_defs( 'general', $post->post_type ) as $meta_box ) {
+					$content .= $this->do_meta_box( $meta_box );
+				}
 			}
 			$this->do_tab( 'general', __( 'General', 'wordpress-seo' ), $content );
 	
@@ -597,7 +571,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			$title = wpseo_get_value( 'title' );
 			$desc  = wpseo_get_value( 'metadesc' );
 	
-			$slug = $post->post_name;
+			$slug = ( is_object( $post ) && isset( $post->post_name ) ) ? $post->post_name : '';
 			if ( empty( $slug ) ) {
 				$slug = sanitize_title( $title );
 			}
@@ -613,7 +587,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 	
 	//		if ( $options['breadcrumbs-enable'] === true ) {
 	//			if ( ! isset( $GLOBALS['wpseo_bc'] ) ) {
-	//				$GLOBALS['wpseo_bc'] = new WPSEO_Breadcrumbs();
+	//				$GLOBALS['wpseo_bc'] = new WPSEO_Breadcrumbs;
 	//			}
 	//			$content .= '<span href="#" style="font-size: 13px; color: #282; line-height: 15px;" class="breadcrumb">' . yoast_breadcrumb('','',false) . '</span>';
 	//		} else {
@@ -1909,8 +1883,42 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 				return $matches[1];
 			return false;
 		}
-	} /* End of class */
+		
+		
+		
+		/********************** DEPRECATED METHODS **********************/
+
+		/**
+		 * Adds the WordPress SEO box
+		 *
+		 * @deprecated 1.4.23
+		 * @deprecated use WPSEO_Metabox::add_meta_box()
+		 * @see WPSEO_Meta::add_meta_box()
+		 */
+		public function add_custom_box() {
+			_deprecated_function( __FUNCTION__, 'WPSEO 1.4.23', 'WPSEO_Metabox::add_meta_box()' );
+			$this->add_meta_box();
+		}
 	
-	$GLOBALS['wpseo_metabox'] = new WPSEO_Metabox();
+
+		/**
+		 * Retrieve the meta boxes for the given post type.
+		 *
+		 * @deprecated 1.5.0
+		 * @deprecated use WPSEO_Meta::get_meta_field_defs()
+		 * @see WPSEO_Meta::get_meta_field_defs()
+		 *
+		 * @param	string	$post_type
+		 * @return	array
+		 */
+		public function get_meta_boxes( $post_type = 'post' ) {
+			_deprecated_function( __FUNCTION__, 'WPSEO 1.5.0', 'WPSEO_Meta::get_meta_field_defs()' );
+			return $this->get_meta_field_defs( 'general', $post_type );
+		}
+
+
+	
+
+	} /* End of class */
 
 } /* End of class-exists wrapper */

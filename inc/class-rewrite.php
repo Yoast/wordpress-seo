@@ -148,8 +148,5 @@ if ( ! class_exists( 'WPSEO_Rewrite' ) ) {
 			return $category_rewrite;
 		}
 	} /* End of class */
-	
-	global $wpseo_rewrite;
-	$wpseo_rewrite = new WPSEO_Rewrite();
 
 } /* End of class-exists wrapper */

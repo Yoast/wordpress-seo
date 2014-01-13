@@ -48,15 +48,15 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 		 * Make sure the needed scripts are loaded for admin pages
 		 */
 		function init() {
+			global $wpseo_admin;
+
 			if ( isset( $_GET['wpseo_reset_defaults'] ) && wp_verify_nonce( $_GET['nonce'], 'wpseo_reset_defaults' ) && current_user_can( 'manage_options' ) ) {
 				$this->reset_defaults();
 				wp_redirect( admin_url( 'admin.php?page=wpseo_dashboard' ) );
 			}
-	
+
 			$this->adminpages = apply_filters( 'wpseo_admin_pages', $this->adminpages );
-	
-			global $wpseo_admin;
-	
+
 			if ( $wpseo_admin->grant_access() ) {
 				add_action( 'admin_print_scripts', array( $this, 'config_page_scripts' ) );
 				add_action( 'admin_print_styles', array( $this, 'config_page_styles' ) );
@@ -64,7 +64,8 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 		}
 	
 		/**
-		 * Resets the site to the default WordPress SEO settings and runs a title test to check whether force rewrite needs to be on.
+		 * Resets the site to the default WordPress SEO settings and runs a title test to check
+		 * whether force rewrite needs to be on.
 		 *
 		 * @todo - move to options class and check if this is still the way to do it or rather, we know this is not the way
 		 * Also change the function calls to the function! and make this function deprecated
@@ -285,8 +286,6 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 				die();
 	
 			fclose( $handle );
-	
-			require_once( ABSPATH . 'wp-admin/includes/class-pclzip.php' );
 	
 			chdir( $dir['path'] );
 			$zip = new PclZip( './settings.zip' );
@@ -589,7 +588,5 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 		}
 	
 	} /* End of class */
-	global $wpseo_admin_pages;
-	$wpseo_admin_pages = new WPSEO_Admin_Pages();
 
 } /* End of class-exists wrapper */

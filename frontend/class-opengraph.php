@@ -442,8 +442,5 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 		}
 	
 	} /* End of class */
-	
-	global $wpseo_og;
-	$wpseo_og = new WPSEO_OpenGraph;
-	
+
 } /* End of class-exists wrapper */

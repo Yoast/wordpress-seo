@@ -3,12 +3,11 @@
  * @package Internals
  */
 
-require_once( WPSEO_PATH . 'inc/class-sitemap-walker.php' );
-
 if ( ! defined( 'WPSEO_VERSION' ) ) {
 	header( 'HTTP/1.0 403 Forbidden' );
 	die;
 }
+
 
 /**
  * Flush the rewrite rules.
@@ -26,10 +25,6 @@ function wpseo_activate() {
 
 	wpseo_flush_rules();
 	
-	if ( ! method_exists( 'WPSEO_Options', 'schedule_yoast_tracking' ) )
-		require_once( WPSEO_PATH . 'inc/class-wpseo-options.php' );
-
-		
 	WPSEO_Options::schedule_yoast_tracking( null, get_option( 'wpseo' ) );
 
 //	wpseo_title_test(); // is already run in wpseo_defaults
@@ -342,9 +337,6 @@ function wpseo_update_theme_complete_actions( $update_actions, $updated_theme ) 
  */
 function wpseo_deactivate() {
 	wpseo_flush_rules();
-	
-	if ( ! method_exists( 'WPSEO_Options', 'schedule_yoast_tracking' ) )
-		require_once( WPSEO_PATH . 'inc/class-wpseo-options.php' );
 
 	WPSEO_Options::schedule_yoast_tracking( null, get_option( 'wpseo' ) );
 
@@ -394,10 +386,12 @@ function wpseo_translate_score( $val, $css_value = true ) {
 			$css   = 'bad';
 	}
 
-	if ( $css_value )
+	if ( $css_value ) {
 		return $css;
-	else
+	}
+	else {
 		return $score;
+	}
 }
 
 
@@ -411,11 +405,9 @@ function wpseo_admin_bar_menu() {
 
 	global $wp_admin_bar, $wpseo_front, $post;
 
+	$url = '';
 	if ( is_object( $wpseo_front ) ) {
 		$url = $wpseo_front->canonical( false );
-	}
-	else {
-		$url = '';
 	}
 
 	$focuskw = '';
