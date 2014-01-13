@@ -106,6 +106,14 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 
 == Changelog ==
 
+= trunk =
+
+* Bugfixes
+	* Removed screen_icon() calls
+
+* i18n
+	* 
+
 = 1.4.23 =
 
 * Bugfixes
