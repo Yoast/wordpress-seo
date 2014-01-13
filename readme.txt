@@ -110,7 +110,7 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 
 * Bugfixes
 	* Removed screen_icon() calls
-	* Fix double robots header - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fix double robots header, WP native settings will be respected - props [Jrf](http://profiles.wordpress.org/jrf).
 
 * i18n
 	* 
