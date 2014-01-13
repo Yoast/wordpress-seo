@@ -62,6 +62,9 @@ class WPSEO_Premium {
 		// Post to Get on search
 		add_action( 'admin_init', array( $this, 'redirects_search_post_to_get' ) );
 
+		// Screen options
+		add_filter( 'set-screen-option', array( 'WPSEO_Page_Redirect', 'set_screen_option' ), 10, 3 );
+
 		// AJAX
 		add_action( 'wp_ajax_wpseo_save_redirects', array( 'WPSEO_Redirect_Manager', 'ajax_handle_redirects_save' ) );
 

@@ -103,6 +103,22 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 			usort( $formatted_items, array( $this, 'do_reorder' ) );
 		}
 
+		// Get variables needed for pagination
+		$per_page    = $this->get_items_per_page( 'redirects_per_page', 25 );
+		$total_items = count( $formatted_items );
+
+		// Set pagination
+		$this->set_pagination_args( array(
+				'total_items' => count( $formatted_items ),
+				'total_pages' => ceil( $total_items / $per_page ),
+				'per_page'    => $per_page,
+		) );
+
+		$current_page = intval( $_GET['paged'] );
+
+		// Apply 'pagination'
+		$formatted_items = array_slice( $formatted_items, ( ( $current_page - 1 ) * $per_page ), $per_page );
+
 		// Set items
 		$this->items = $formatted_items;
 	}

@@ -33,7 +33,7 @@ class WPSEO_Redirect_Manager {
 				exit;
 			}
 		}
-		
+
 	}
 
 	/**
