@@ -65,6 +65,9 @@ class WPSEO_Premium {
 		// Screen options
 		add_filter( 'set-screen-option', array( 'WPSEO_Page_Redirect', 'set_screen_option' ), 10, 3 );
 
+		// Settings
+		add_action( 'admin_init', array( $this, 'register_settings' ) );
+
 		// AJAX
 		add_action( 'wp_ajax_wpseo_save_redirect', array( 'WPSEO_Redirect_Manager', 'ajax_handle_redirect_save' ) );
 		add_action( 'wp_ajax_wpseo_delete_redirect', array( 'WPSEO_Redirect_Manager', 'ajax_handle_redirect_delete' ) );
@@ -129,6 +132,13 @@ class WPSEO_Premium {
 		$admin_pages[] = 'wpseo_redirects';
 
 		return $admin_pages;
+	}
+
+	/**
+	 * Register the premium settings
+	 */
+	public function register_settings() {
+		register_setting( 'yoast_wpseo_redirect_options', 'wpseo_redirect' );
 	}
 
 	/**

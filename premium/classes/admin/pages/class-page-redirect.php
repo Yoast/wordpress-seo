@@ -85,12 +85,16 @@ class WPSEO_Page_Redirect {
 			</div>
 			<div id="settings" class="wpseotab">
 				<h2>Redirect Settings</h2>
-				<?php
-				$wpseo_admin_pages->currentoption = 'wpseo_redirect_options'; // NEED TO CHECK THIS NAME
+				<form action="<?php echo admin_url( 'options.php' ); ?>" method="post">
+					<?php
+					settings_fields( 'yoast_wpseo_redirect_options' );
+					$wpseo_admin_pages->currentoption = 'wpseo_redirect';
 
-				echo $wpseo_admin_pages->checkbox( 'disable_php_redirect', __( 'Disable PHP redirects', 'wordpress-seo' ) );
-				echo '<p class="desc">' . __( "WordPress SEO will generates redirect files that can be included in your website configuration, you can disable PHP redirect if this is done correctly. Only check this option if you know what your doing!", 'wordpress-seo' ) . '</p>';
-				?>
+					echo $wpseo_admin_pages->checkbox( 'disable_php_redirect', __( 'Disable PHP redirects', 'wordpress-seo' ) );
+					echo '<p class="desc">' . __( "WordPress SEO will generates redirect files that can be included in your website configuration, you can disable PHP redirect if this is done correctly. Only check this option if you know what your doing!", 'wordpress-seo' ) . '</p>';
+					?>
+					<p class="submit"><input type="submit" name="submit" id="submit" class="button button-primary" value="<?php _e( 'Save Changes', 'wordpress-seo' ); ?>"></p>
+				</form>
 			</div>
 		</div>
 		<br class="clear">

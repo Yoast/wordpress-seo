@@ -16,10 +16,23 @@ class WPSEO_Redirect_Manager {
 	public function __construct() {
 	}
 
+	private static function get_options() {
+		return apply_filters( 'wpseo_premium_redirect_options', wp_parse_args( get_option( 'wpseo_redirect', array() ), array( 'disable_php_redirect' => 'off' ) ) );
+	}
+
+	/**
+	 * Do the PHP redirect
+	 */
 	public static function do_redirects() {
 
-		// Skip complete step if WPSEO_DISABLE_PHP_REDIRECTS is true
+		// Skip redirect if WPSEO_DISABLE_PHP_REDIRECTS is true
 		if ( defined( 'WPSEO_DISABLE_PHP_REDIRECTS' ) && WPSEO_DISABLE_PHP_REDIRECTS ) {
+			return;
+		}
+
+		// Skip redirect if the 'disable_php_redirect' is set to 'on'
+		$options = self::get_options();
+		if ( $options['disable_php_redirect'] == 'on' ) {
 			return;
 		}
 
