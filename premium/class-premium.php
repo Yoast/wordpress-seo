@@ -19,6 +19,15 @@ if ( ! defined( 'WPSEO_PREMIUM_FILE' ) ) {
 
 class WPSEO_Premium {
 
+	private static $gwt = null; // Not sure if this is the right approach, trying to avoid singleton pattern
+
+	/**
+	 * @return WPSEO_GWT
+	 */
+	public static function gwt() {
+		return self::$gwt;
+	}
+
 	/**
 	 * Function that will be executed when plugin is activated
 	 */
@@ -48,6 +57,9 @@ class WPSEO_Premium {
 	 * Setup the premium WordPress SEO plugin
 	 */
 	private function setup() {
+
+		// Setup GWT object
+		self::$gwt = new WPSEO_GWT();
 
 		// Add Sub Menu page and add redirect page to admin page array
 		// This should be possible in one method in the future, see #535
@@ -101,6 +113,7 @@ class WPSEO_Premium {
 
 		// Separate backend and frontend files
 		if ( is_admin() ) {
+			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-gwt.php' );
 			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-redirect-file-manager.php' );
 			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-redirect-file.php' );
 			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-nginx-redirect-file.php' );

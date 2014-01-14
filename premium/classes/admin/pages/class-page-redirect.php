@@ -81,42 +81,65 @@ class WPSEO_Page_Redirect {
 				?>
 			</div>
 			<div id="google-wmt" class="wpseotab">
-				<h2>Google Web Master Tools</h2>
+				<h2>Authorization Code</h2>
 				<?php
 
-				//$redirect_url_base = admin_url( 'admin.php' );
-				$redirect_url_base = 'http://wpseo-premium.yoast.com/';
-
-				$redirect_url = $redirect_url_base .= "?page={$_GET['page']}";
-
 				$client = new Google_Client();
-				$client->setApplicationName( "WordPress SEO Premium" );
-				// Visit https://code.google.com/apis/console to generate your
-				// oauth2_client_id, oauth2_client_secret, and to register your oauth2_redirect_uri.
-				 $client->setClientId('887668307827-j31cgs4uea9lj6tg4rh2qdbc6plpsid8.apps.googleusercontent.com');
-				 $client->setClientSecret('OqtuQc32Crg1vWekY4eJSbhw');
-//				 $client->setRedirectUri( admin_url( 'admin.php' ) . "?page={$_GET['page']}#top#google-wmt" );
-				 $client->setRedirectUri( $redirect_url );
+				$client->setApplicationName( "WordPress SEO Premium" ); // Not sure if used
+				$client->setClientId( '887668307827-4jhsr06rntrt3g3ss2r72dblf3ca7msv.apps.googleusercontent.com' );
+				$client->setClientSecret( 'pPW5gLoTNtNHyiDH6YRn-CIB' );
+				$client->setRedirectUri( 'urn:ietf:wg:oauth:2.0:oob' );
 				$client->setScopes( array( 'https://www.google.com/webmasters/tools/feeds/' ) );
-				// $client->setDeveloperKey('insert_your_developer_key');
 
-//				var_dump( $client );
-
-
+				// Load access token from database
 				$access_token = null; // This should be loaded from the database
 
+				// If there is a access token in database, set it
 				if ( null !== $access_token ) {
 					$client->setAccessToken( $access_token );
 				}
 
-				if ($client->getAccessToken()) {
+				// Check if there is an access token
+				if ( $client->getAccessToken() ) {
 
-				}else {
+					// Maybe check if access token is OK
+					// Do GWT stuff....
 
-					$oath_url = $client->createAuthUrl();
+				} else {
 
-					echo "<p>No authentication with Google found!</p>\n";
-					echo "<a href='{$oath_url}'>Authenticate with Google</a>\n";
+					// There is no access token!
+					// Check if there is an authorization code
+
+					// Putting the Authorization Code POST to SESSION - This should be done in admin
+
+					// Load authorization code from SESSION
+					$authorization_code = WPSEO_Premium::gwt()->get_authorization_code();
+
+					// Check if there is an authorization code
+					if ( null !== $authorization_code ) {
+
+						var_dump( $authorization_code );
+
+						var_dump( $_SESSION );
+
+						// There is an auhorization code, request access_token and refresh_token from Google and do redirect / refresh when done
+
+					} else {
+
+						// There is no authorization code, ask user to enter one
+						$oath_url = $client->createAuthUrl();
+
+						echo "<p>To allow WordPress SEO Premium to fetch your Google Webmaster Tools information, please enter an Authorization Code.</p>\n";
+						echo "<a href='{$oath_url}'>Get Google Authorization Code</a>\n";
+
+						echo "<p>Please enter the Authorization Code in the field below and press the Auhtenticate button.</p>\n";
+						echo "<form action='' method='post'>\n";
+						echo "<input type='text' name='gwt[authorization_code]' value='' />";
+						echo "<input type='submit' name='gwt[Submit]' value='Authenticate' class='button-primary' />";
+						echo "</form>\n";
+					}
+
+
 				}
 
 				?>
