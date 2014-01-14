@@ -71,6 +71,18 @@ class WPSEO_Premium {
 		// Catch option save
 		add_action( 'admin_init', array( $this, 'catch_option_redirect_save' ) );
 
+		add_action( 'admin_init', function () {
+			if ( isset( $_GET['code'] ) ) {
+
+				var_dump( $_GET );
+				exit;
+
+				$client->authenticate( $_GET['code'] );
+				$_SESSION['access_token'] = $client->getAccessToken();
+				header( 'Location: http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'] );
+			}
+		} );
+
 		// AJAX
 		add_action( 'wp_ajax_wpseo_save_redirect', array( 'WPSEO_Redirect_Manager', 'ajax_handle_redirect_save' ) );
 		add_action( 'wp_ajax_wpseo_delete_redirect', array( 'WPSEO_Redirect_Manager', 'ajax_handle_redirect_delete' ) );

@@ -17,7 +17,7 @@ class WPSEO_Page_Redirect {
 		global $wpseo_admin_pages;
 
 		// Get options
-		$options = get_wpseo_options();
+		//$options = get_wpseo_options();
 
 		// Admin header
 		$wpseo_admin_pages->admin_header( false, 'yoast_wpseo_redirects_options', 'wpseo_redirects' );
@@ -82,9 +82,48 @@ class WPSEO_Page_Redirect {
 			</div>
 			<div id="google-wmt" class="wpseotab">
 				<h2>Google Web Master Tools</h2>
+				<?php
+
+				//$redirect_url_base = admin_url( 'admin.php' );
+				$redirect_url_base = 'http://wpseo-premium.yoast.com/';
+
+				$redirect_url = $redirect_url_base .= "?page={$_GET['page']}";
+
+				$client = new Google_Client();
+				$client->setApplicationName( "WordPress SEO Premium" );
+				// Visit https://code.google.com/apis/console to generate your
+				// oauth2_client_id, oauth2_client_secret, and to register your oauth2_redirect_uri.
+				 $client->setClientId('887668307827-j31cgs4uea9lj6tg4rh2qdbc6plpsid8.apps.googleusercontent.com');
+				 $client->setClientSecret('OqtuQc32Crg1vWekY4eJSbhw');
+//				 $client->setRedirectUri( admin_url( 'admin.php' ) . "?page={$_GET['page']}#top#google-wmt" );
+				 $client->setRedirectUri( $redirect_url );
+				$client->setScopes( array( 'https://www.google.com/webmasters/tools/feeds/' ) );
+				// $client->setDeveloperKey('insert_your_developer_key');
+
+//				var_dump( $client );
+
+
+				$access_token = null; // This should be loaded from the database
+
+				if ( null !== $access_token ) {
+					$client->setAccessToken( $access_token );
+				}
+
+				if ($client->getAccessToken()) {
+
+				}else {
+
+					$oath_url = $client->createAuthUrl();
+
+					echo "<p>No authentication with Google found!</p>\n";
+					echo "<a href='{$oath_url}'>Authenticate with Google</a>\n";
+				}
+
+				?>
 			</div>
 			<div id="settings" class="wpseotab">
 				<h2>Redirect Settings</h2>
+
 				<form action="<?php echo admin_url( 'options.php' ); ?>" method="post">
 					<?php
 					settings_fields( 'yoast_wpseo_redirect_options' );
@@ -93,7 +132,9 @@ class WPSEO_Page_Redirect {
 					echo $wpseo_admin_pages->checkbox( 'disable_php_redirect', __( 'Disable PHP redirects', 'wordpress-seo' ) );
 					echo '<p class="desc">' . __( "WordPress SEO will generates redirect files that can be included in your website configuration, you can disable PHP redirect if this is done correctly. Only check this option if you know what your doing!", 'wordpress-seo' ) . '</p>';
 					?>
-					<p class="submit"><input type="submit" name="submit" id="submit" class="button button-primary" value="<?php _e( 'Save Changes', 'wordpress-seo' ); ?>"></p>
+					<p class="submit">
+						<input type="submit" name="submit" id="submit" class="button button-primary" value="<?php _e( 'Save Changes', 'wordpress-seo' ); ?>">
+					</p>
 				</form>
 			</div>
 		</div>
@@ -109,7 +150,7 @@ class WPSEO_Page_Redirect {
 	 */
 	public static function page_load() {
 		add_action( 'admin_enqueue_scripts', array( 'WPSEO_Page_Redirect', 'page_scripts' ) );
-
+		require_once( WPSEO_PREMIUM_PATH . 'classes/admin/google/Google_Client.php' );
 	}
 
 	/**
