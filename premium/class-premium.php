@@ -102,6 +102,7 @@ class WPSEO_Premium {
 		// Separate backend and frontend files
 		if ( is_admin() ) {
 			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-gwt-google-client.php' );
+			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-webmaster-service.php' );
 			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-gwt.php' );
 			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-redirect-file-manager.php' );
 			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-redirect-file.php' );

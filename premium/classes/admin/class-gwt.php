@@ -1,5 +1,10 @@
 <?php
 
+if ( ! defined( 'WPSEO_VERSION' ) ) {
+	header( 'HTTP/1.0 403 Forbidden' );
+	die;
+}
+
 class WPSEO_GWT {
 
 	const OPTION_REFRESH_TOKEN = 'wpseo-premium-gwt-refresh_token';

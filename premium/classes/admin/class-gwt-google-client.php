@@ -1,5 +1,10 @@
 <?php
 
+if ( ! defined( 'WPSEO_VERSION' ) ) {
+	header( 'HTTP/1.0 403 Forbidden' );
+	die;
+}
+
 require_once( WPSEO_PREMIUM_PATH . 'classes/admin/google/Google_Client.php' );
 
 class WPSEO_GWT_Google_Client extends Google_Client {

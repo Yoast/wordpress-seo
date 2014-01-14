@@ -8,8 +8,12 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	die;
 }
 
+
 class WPSEO_Page_Redirect {
 
+	/**
+	 * @var WPSEO_GWT_Google_Client
+	 */
 	private static $gwt_client = null;
 
 	/**
@@ -150,18 +154,43 @@ class WPSEO_Page_Redirect {
 		// Print
 		echo "<h2>Authorization Code</h2>\n";
 
-		echo "<p>To allow WordPress SEO Premium to fetch your Google Webmaster Tools information, please enter an Authorization Code.</p>\n";
-		echo "<a href='javascript:wpseo_gwt_open_authorize_code_window(\"{$oath_url}\");'>Get Google Authorization Code</a>\n";
+		echo "<p>" . __( 'To allow WordPress SEO Premium to fetch your Google Webmaster Tools information, please enter an Authorization Code.', 'wordpress-seo' ) . "</p>\n";
+		echo "<a href='javascript:wpseo_gwt_open_authorize_code_window(\"{$oath_url}\");'>" . __( 'Get Google Authorization Code', 'wordpress-seo' ) . "</a>\n";
 
-		echo "<p>Please enter the Authorization Code in the field below and press the Auhtenticate button.</p>\n";
+		echo "<p>" . __( 'Please enter the Authorization Code in the field below and press the Auhtenticate button.', 'wordpress-seo' ) . "</p>\n";
 		echo "<form action='' method='post'>\n";
 		echo "<input type='text' name='gwt[authorization_code]' value='' />";
-		echo "<input type='submit' name='gwt[Submit]' value='Authenticate' class='button-primary' />";
+		echo "<input type='submit' name='gwt[Submit]' value='" . __( 'Authenticate', 'wordpress-seo' ) . "' class='button-primary' />";
 		echo "</form>\n";
 	}
 
 	private static function gwt_print_table() {
 		echo "<h2>Google Webmaster Tools Errors</h2>\n";
+
+		// Set site URL
+		$site_url = urlencode( get_site_url() );
+
+		// Do request
+		$request = new Google_HttpRequest( "https://www.google.com/webmasters/tools/feeds/{$site_url}/crawlissues/" );
+
+		// Get response
+		$response = self::$gwt_client->getIo()->authenticatedRequest( $request );
+
+		// Check response code
+		if ( '200' == $response->getResponseHttpCode() ) {
+
+			// Format response body to XML
+			$response = simplexml_load_string( $response->getResponseBody() );
+
+			echo "<pre>";
+			print_r( $response );
+			echo "</pre>";
+
+		} else {
+			// Website not found by Google
+			_e( 'Website not found in Google Webmaster Tools, are you sure you added it?', 'wordpress-seo' );
+		}
+
 	}
 
 	/**

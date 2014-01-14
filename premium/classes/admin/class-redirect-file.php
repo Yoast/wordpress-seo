@@ -1,5 +1,10 @@
 <?php
 
+if ( ! defined( 'WPSEO_VERSION' ) ) {
+	header( 'HTTP/1.0 403 Forbidden' );
+	die;
+}
+
 interface iWPSEO_Redirect_File {
 	public function format_redirect( $old_url, $new_url );
 }
