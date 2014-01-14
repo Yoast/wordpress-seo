@@ -133,6 +133,8 @@ This version also incorporates the [SEO Extended](http://wordpress.org/plugins/s
 	* Fixed: text analysis did not respect the blog character encoding. This may or may not solve a number of related bugs.
 	* Fixed: wrong file was loaded for the get_plugin_data() function.
 	* Fixed: often wrong meta value was shown for meta robots follow and meta robots index in post meta box so it appeared as if the chosen value was not saved correctly
+	* Fixed: meta robots advanced entry could have strange (invalid) values
+	* Fixed: on import/delete of headspace SEO, it was possible that not all old values would be removed
 
 
 
@@ -146,6 +148,8 @@ This version also incorporates the [SEO Extended](http://wordpress.org/plugins/s
 	* General jQuery efficiency improvements.
 	* Improved lazy loading of plugin files using autoload.
 	* Don't show robots index/no-index choice in advanced meta box if there is a blog-wide override in place, i.e. the Settings -> Reading -> Block search engines checkbox is checked
+	* Added 'Site-wide default' option to meta robots advanced
+	* Made the Google+ and Facebook post descriptions translatable by WPML
 
 * Other:
 	* Removed statement for compatibility with WP < 3.4 as minimum requirement for WP SEO is now 3.5

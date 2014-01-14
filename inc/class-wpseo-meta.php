@@ -17,6 +17,7 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 	 * @version 1.5.0
 	 *
 	 * @internal all WP native get_meta() results get cached internally, so no need to cache locally.
+	 * @internal use $key when the key is the WPSEO internal name (without prefix), $meta_key when it includes the prefix
 	 *
 	 */
 	class WPSEO_Meta {
@@ -104,6 +105,8 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 		 *													- if the field is a text field, the default **has** to be
 		 *													  an empty string as otherwise the user can't save
 		 *													  an empty value
+		 *													- if the field is a checkbox, the only valid values
+		 *													  are 'on' or 'off'
 		 *				(semi-required)	'options'		=> (array) options for used with (multi-)select and radio
 		 *													fields, required if that's the field type
 		 *													key = (string) value which will be saved to db
@@ -179,28 +182,29 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 					'type'			=> 'select',
 					'title' 		=> '', // translation added later
 					'options'		=> array(
-						'0' 	=> '', // translation added later
-						'2' 	=> '', // translation added later
-						'1' 	=> '', // translation added later
+						'0' 	=> '', // post type default - translation added later
+						'2' 	=> '', // index - translation added later
+						'1' 	=> '', // no-index - translation added later
 					),
 				),
 				'meta-robots-nofollow'	=> array(
 /*xxx*/					'name'			=> 'meta-robots-nofollow',
-					'default_value'	=> '0',
+					'default_value'	=> '0', // = follow
 					'type'			=> 'radio',
 					'title'			=> '', // translation added later
 					'options'		=> array(
-						'0' 	=> '', // translation added later
-						'1' 	=> '', // translation added later
+						'0' 	=> '', // follow - translation added later
+						'1' 	=> '', // no-follow - translation added later
 					),
 				),
 				'meta-robots-adv'		=> array(
 /*v*/					'name'				=> 'meta-robots-adv',
-					'default_value'	=> 'none',
+					'default_value'	=> '-', // !!!! changed default, was none
 					'type'			=> 'multiselect',
 					'title' 		=> '', // translation added later
 					'description'	=> '', // translation added later
 					'options'		=> array(
+						'-'				=> '', // site-wide default - translation added later
 						'none'			=> '', // translation added later
 						'noodp' 		=> '', // translation added later
 						'noydir'		=> '', // translation added later
@@ -333,7 +337,13 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 						);
 						
 						// Set the $defaults property for efficiency
-						self::$defaults[self::$meta_prefix . $key] = $field_def['default_value'];
+						if( isset( $field_def['default_value'] ) ) {
+							self::$defaults[self::$meta_prefix . $key] = $field_def['default_value'];
+						}
+						else {
+							// meta will be always be string, so let's make the meta meta default also a string
+							self::$defaults[self::$meta_prefix . $key] = '';
+						}
 					}
 				}
 			}
@@ -348,9 +358,9 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 		/**
 		 * Retrieve the meta box form field definitions for the given post type.
 		 *
-		 * @param   string     $tab        Tab for which to retrieve the field definitions
-		 * @param    string    $post_type
-		 * @return    array    Array containing the meta box field definitions
+		 * @param	string	$tab		Tab for which to retrieve the field definitions
+		 * @param	string	$post_type	Post type of the current post
+		 * @return	array				Array containing the meta box field definitions
 		 */
 		public function get_meta_field_defs( $tab, $post_type = 'post' ) {
 			if ( ! isset( self::$meta_fields[$tab] ) ) {
@@ -395,7 +405,25 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 					$options = WPSEO_Options::get_all();
 			
 					$field_defs['meta-robots-noindex']['options']['0'] = sprintf( $field_defs['meta-robots-noindex']['options']['0'], ( ( isset( $options['noindex-' . $post_type] ) && $options['noindex-' . $post_type] === true ) ? 'noindex' : 'index' ) );
-			
+					
+
+					if( $options['noodp'] !== false || $options['noydir'] !== false ) {
+						$robots_adv = array();
+						foreach ( array( 'noodp', 'noydir' ) as $robot ) {
+							if ( $options[$robot] === true ) {
+								// use translation from field def options - mind that $options and $field_def['options'] keys should be the same!
+								$robots_adv[] = $field_defs['meta-robots-adv']['options'][$robot];
+							}
+						}
+						$robots_adv = implode( ', ', $robots_adv );
+					}
+					else {
+						$robots_adv = __( 'None', 'wordpress-seo' );
+					}
+					$field_defs['meta-robots-adv']['options']['-'] = sprintf( $field_defs['meta-robots-adv']['options']['-'], $robots_adv );
+					unset( $robots_adv );
+
+
 					if ( $options['breadcrumbs-enable'] !== true ) {
 						unset( $field_defs['bctitle'] );
 					}
@@ -419,18 +447,62 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 
 
 
+		/**
+		 *
+		 * @param	mixed	$meta_value	The new value
+		 * @param	string	$meta_key	The full meta key (including prefix)
+		 * @return	string				Validated meta value
+		 */
 		public static function sanitize_post_meta( $meta_value, $meta_key ) {
 			$internal_key = self::$fields_index[$meta_key]['key'];
 			$field_def    = self::$meta_fields[self::$fields_index[$meta_key]['subset']][$internal_key];
 			
-			$clean = $field_def['default_value'];
+			$clean = self::$defaults[$meta_key];
 
 
-			switch ( $field_def['type'] ) {
-				case 'checkbox':
+			switch ( true ) {
+				case ( $field_def['type'] === 'checkbox' ):
+					if( in_array( $meta_value, array( 'on', 'off' ), true ) ) {
+						$clean = $meta_value;
+					}
 					break;
-					
-				case '':
+
+				case ( $meta_key === 'meta-robots-adv' && $field_def['type'] === 'multiselect' ):
+					/**
+					 * @todo - upgrade routine: with the old way of saving all sorts of strange values
+					 * could have resulted, the key name as the value, combinations which included none.
+					 * Basically all the values for this key need verifying!
+					 * Also: the default has changed from 'none' to '-', check how we want to deal with that
+					 *
+					 *
+					 * @todo Verify with @yoast that this logic for the prioritisation is correct
+					 */
+					if( is_array( $meta_value ) && $meta_value !== array() ) {
+						if( in_array( 'none', $meta_value, true ) ) {
+							// None is one of the selected values, takes priority over everything else
+							$clean = 'none';
+						}
+						else if( in_array( '-', $meta_value, true ) ) {
+							// Site-wide defaults is one of the selected values, takes priority over
+							// individual selected entries
+							$clean = '-';
+						}
+						else {
+							// Individual selected entries
+							$cleaning = array();
+							foreach( $meta_value as $value ) {
+								if( isset( $field_def['options'][$value] ) ) {
+									$cleaning[] = $value;
+								}
+							}
+							if( $cleaning !== array() ) {
+								$clean = implode( ',', $cleaning );
+							}
+							unset( $cleaning, $value );
+						}
+					}
+
+
 					break;
 					
 				case '':
@@ -534,22 +606,6 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 */
 		}
 
-		public static function sanitize_advanced_meta_robots_adv() {
-/*
-
--> Deal with none
-
-					'default_value'	=> 'none',
-					'type'			=> 'multiselect',
-					'options'		=> array(
-						'none'			=> ''
-						'noodp' 		=> '', // translation added later
-						'noydir'		=> '', // translation added later
-						'noarchive' 	=> '', // translation added later
-						'nosnippet' 	=> '', // translation added later
-					),
-*/
-		}
 
 		public static function sanitize_advanced_bctitle() {
 /*
@@ -693,6 +749,16 @@ add_filter( 'sanitize_user_meta_birth-year', 'sanitize_birth_year_meta' );
 	
 	
 	
+		/**
+		 * Prevent saving of default values and remove potential old value from the database if replaced by a default
+		 *
+		 * @param	null	$null		old, disregard
+		 * @param	int		$object_id	ID of the current object for which the meta is being updated
+		 * @param	string	$meta_key	The full meta key (including prefix)
+		 * @param	string	$meta_value	New meta value
+		 * @param	string	$prev_value	The old meta value
+		 * @retrun	null|true			true = stop saving, null = continue saving
+		 */
 		public static function remove_meta_if_default( $null, $object_id, $meta_key, $meta_value, $prev_value = '' ) {
 			// If it's one of our meta fields, check against default
 			if ( isset( self::$fields_index[$meta_key] ) && self::meta_value_is_default( $meta_key, $meta_value ) === true ) {
@@ -711,6 +777,16 @@ add_filter( 'sanitize_user_meta_birth-year', 'sanitize_birth_year_meta' );
 			return null; // go on with the normal execution (update) in meta.php
 		}
 
+		/**
+		 * Prevent adding of default values to the database
+		 *
+		 * @param	null	$null		old, disregard
+		 * @param	int		$object_id	ID of the current object for which the meta is being added
+		 * @param	string	$meta_key	The full meta key (including prefix)
+		 * @param	string	$meta_value	New meta value
+		 * @param	bool	$unique		Whether there is only one meta value of this key per object or multiple
+		 * @retrun	null|true			true = stop saving, null = continue saving
+		 */
 		public static function dont_save_meta_if_default( $null, $object_id, $meta_key, $meta_value, $unique = false ) {
 			// If it's one of our meta fields, check against default
 			if ( isset( self::$fields_index[$meta_key] ) && self::meta_value_is_default( $meta_key, $meta_value ) === true ) {
@@ -723,7 +799,7 @@ add_filter( 'sanitize_user_meta_birth-year', 'sanitize_birth_year_meta' );
 		/**
 		 * Is the given meta value the same as the default value ?
 		 *
-		 * @param	string	$meta_key	Meta key to check against
+		 * @param	string	$meta_key	The full meta key (including prefix)
 		 * @param	mixed	$meta_value	The value to check
 		 * @return	bool
 		 */
@@ -761,7 +837,7 @@ add_filter( 'sanitize_user_meta_birth-year', 'sanitize_birth_year_meta' );
 		 *
 		 * @todo check all uses!!!!!!
 		 *
-		 * @param   string  $meta_key	name of the value to get
+		 * @param   string  $key		internal key of the value to get (without prefix)
 		 * @param   int     $postid		post ID of the post to get the value for
 		 * @return  string|null			All 'normal' values returned from get_post_meta() are strings.
 		 *								Objects and arrays are possible, but not used by this plugin
@@ -769,7 +845,7 @@ add_filter( 'sanitize_user_meta_birth-year', 'sanitize_birth_year_meta' );
 		 *								Will return null (test with isset() or is_null()) if no default was found
 		 *								either or if the post does not exist
 		 */
-		public static function get_value( $meta_key, $postid = 0 ) {
+		public static function get_value( $key, $postid = 0 ) {
 			global $post;
 
 			$postid = absint( $postid );
@@ -783,11 +859,11 @@ add_filter( 'sanitize_user_meta_birth-year', 'sanitize_birth_year_meta' );
 			}
 
 			$custom = get_post_custom( $postid );
-			if ( isset( $custom[self::$meta_prefix . $meta_key][0] ) && $custom[self::$meta_prefix . $meta_key][0] !== '' ) {
-				return maybe_unserialize( $custom[self::$meta_prefix . $meta_key][0] );
+			if ( isset( $custom[self::$meta_prefix . $key][0] ) && $custom[self::$meta_prefix . $key][0] !== '' ) {
+				return maybe_unserialize( $custom[self::$meta_prefix . $key][0] );
 			}
-			else if ( isset( self::$defaults[self::$meta_prefix . $meta_key] ) ) {
-				return (string) self::$defaults[self::$meta_prefix . $meta_key];
+			else if ( isset( self::$defaults[self::$meta_prefix . $key] ) ) {
+				return (string) self::$defaults[self::$meta_prefix . $key];
 			}
 			else {
 				return null;
@@ -797,13 +873,13 @@ add_filter( 'sanitize_user_meta_birth-year', 'sanitize_birth_year_meta' );
 		/**
 		 * Update a meta value for a post
 		 *
-		 * @param	string	$meta_key		the key of the meta value to change
+		 * @param	string	$key			the internal key of the meta value to change (without prefix)
 		 * @param	mixed	$meta_value		the value to set the meta to
 		 * @param	int		$post_id		the ID of the post to change the meta for.
 		 * @return	bool	whether the value was changed
 		 */
-		public static function set_value( $meta_key, $meta_value, $post_id ) {
-			return update_post_meta( $post_id, self::$meta_prefix . $meta_key, $meta_value );
+		public static function set_value( $key, $meta_value, $post_id ) {
+			return update_post_meta( $post_id, self::$meta_prefix . $key, $meta_value );
 		}
 
 
@@ -813,7 +889,7 @@ add_filter( 'sanitize_user_meta_birth-year', 'sanitize_birth_year_meta' );
 		 * Optionally deletes the $old_metakey values.
 		 *
 		 * @param	string	$old_metakey	The old key of the meta value.
-		 * @param	string	$new_metakey	The new key of the meta value, usually the WP SEO name.
+		 * @param	string	$new_metakey	The new key, usually the WPSEO meta key (including prefix).
 		 * @param	bool	$delete_old		Whether to delete the old meta key/value-sets.
 		 * @return	void
 		 */

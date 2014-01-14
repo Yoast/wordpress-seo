@@ -159,6 +159,8 @@ if ( isset( $_POST['import'] ) ) {
 		WPSEO_Meta::replace_meta( '_headspace_description', WPSEO_Meta::$meta_prefix . 'metadesc', $replace );
 		WPSEO_Meta::replace_meta( '_headspace_keywords', WPSEO_Meta::$meta_prefix . 'metakeywords', $replace );
 		WPSEO_Meta::replace_meta( '_headspace_page_title', WPSEO_Meta::$meta_prefix . 'title', $replace );
+		/* @todo verify how headspace sets these metas ( 'noindex', 'nofollow', 'noarchive', 'noodp', 'noydir' )
+		   and if the values saved are concurrent with the ones we use (i.e. 0/1/2) */
 		WPSEO_Meta::replace_meta( '_headspace_noindex', WPSEO_Meta::$meta_prefix . 'meta-robots-noindex', $replace );
 		WPSEO_Meta::replace_meta( '_headspace_nofollow', WPSEO_Meta::$meta_prefix . 'meta-robots-nofollow', $replace );
 
@@ -177,12 +179,15 @@ if ( isset( $_POST['import'] ) ) {
 			}
 			$robotsmeta_adv = preg_replace( '`,$`', '', $robotsmeta_adv );
 			WPSEO_Meta::set_value( 'meta-robots-adv', $robotsmeta_adv, $post->ID );
+		}
+		unset( $posts, $post, $custom, $robotsmeta_adv );
 
-			if ( $replace ) {
-				foreach ( array( 'noindex', 'nofollow', 'noarchive', 'noodp', 'noydir' ) as $meta ) {
-					delete_post_meta( $post->ID, '_headspace_' . $meta );
-				}
+		if ( $replace ) {
+			// @todo: check - should headspace description/keywords and page_title not also be removed ?
+			foreach ( array( 'noindex', 'nofollow', 'noarchive', 'noodp', 'noydir' ) as $meta ) {
+				delete_post_meta_by_key( '_headspace_' . $meta );
 			}
+			unset( $meta );
 		}
 		$msg .= __( 'HeadSpace2 data successfully imported', 'wordpress-seo' );
 	}

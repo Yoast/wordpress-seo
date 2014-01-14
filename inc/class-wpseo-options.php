@@ -130,6 +130,7 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 /*v*/				'forcerewritetitle'					=> false,
 /*v*/				'title_test'						=> false, /* Not in form, set and unset via wpseo_title_test() function in wpseo-non-ajax-function.php */
 /*v*/				'usemetakeywords'					=> false,
+					// @todo maybe add site-wise default options for noarchive and nosnippet too ?
 /*v*/				'noodp'								=> false,
 /*v*/				'noydir'							=> false,
 /*v*/				'hide-rsdlink'						=> false,

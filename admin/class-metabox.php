@@ -76,6 +76,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 	
 			self::$meta_fields['advanced']['meta-robots-adv']['title']                = __( 'Meta Robots Advanced', 'wordpress-seo' );
 			self::$meta_fields['advanced']['meta-robots-adv']['description']          = __( 'Advanced <code>meta</code> robots settings for this page.', 'wordpress-seo' );
+			self::$meta_fields['advanced']['meta-robots-adv']['options']['-']      = __( 'Site-wide default: %s', 'wordpress-seo' );
 			self::$meta_fields['advanced']['meta-robots-adv']['options']['none']      = __( 'None', 'wordpress-seo' );
 			self::$meta_fields['advanced']['meta-robots-adv']['options']['noodp']     = __( 'NO ODP', 'wordpress-seo' );
 			self::$meta_fields['advanced']['meta-robots-adv']['options']['noydir']    = __( 'NO YDIR', 'wordpress-seo' );
@@ -129,7 +130,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		 */
 		function pt_is_public() {
 			global $post;
-	
+
 			// Don't make static as post_types may still be added during the run
 			$cpts = get_post_types( array( 'public' => true ), 'names' );
 	
@@ -496,7 +497,8 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 						$selectedarr               = explode( ',', $meta_value );
 						$options_count             = count( $meta_field_def['options'] );
 
-						$content .= '<select multiple="multiple" size="' . esc_attr( $options_count ) . '" style="height: ' . esc_attr( $options_count * 16 ) . 'px;" name="' . $esc_meta_key . '[]" id="' . $esc_meta_key . '" class="yoast' . $class . '">';
+						// @todo verify height calculation for older WP versions
+						$content .= '<select multiple="multiple" size="' . esc_attr( $options_count ) . '" style="height: ' . esc_attr( ( $options_count * 20 ) + 4 ) . 'px;" name="' . $esc_meta_key . '[]" id="' . $esc_meta_key . '" class="yoast' . $class . '">';
 						foreach ( $meta_field_def['options'] as $val => $option ) {
 							$selected = '';
 							if ( in_array( $val, $selectedarr ) ) {
@@ -517,7 +519,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 */
 					$checked  = checked( $meta_value, 'on', false );
 					$expl     = ( isset( $meta_field_def['expl'] ) ) ? esc_html( $meta_field_def['expl'] ) : '';
-					$content .= '<input type="checkbox" id="' . $esc_meta_key . '" name="' . $esc_meta_key . '" ' . $checked . ' class="yoast' . $class . '"/> ' . $expl . '<br />';
+					$content .= '<input type="checkbox" id="' . $esc_meta_key . '" name="' . $esc_meta_key . '" ' . $checked . ' value="on" class="yoast' . $class . '"/> ' . $expl . '<br />';
 					break;
 	
 				case 'radio':
@@ -695,6 +697,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 				return false;
 
 
+
 			// @todo: check if this is really needed as update_post_meta() already does this
 			if ( wp_is_post_revision( $post_id ) ) {
 				$post_id = wp_is_post_revision( $post_id );
@@ -717,12 +720,11 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 					continue;
 
 				if ( 'checkbox' == $meta_box['type'] ) {
-					if ( isset( $_POST[self::$form_prefix . $meta_box['name']] ) )
-						$data = 'on';
-					else
+					if ( ! isset( $_POST[self::$form_prefix . $meta_box['name']] ) ) {
 						$data = 'off';
+					}
 				}
-				else if ( 'multiselect' == $meta_box['type'] ) {
+/*				else if ( 'multiselect' == $meta_box['type'] ) {
 					if ( isset( $_POST[self::$form_prefix . $meta_box['name']] ) ) {
 						if ( is_array( $_POST[self::$form_prefix . $meta_box['name']] ) )
 							$data = implode( ',', $_POST[self::$form_prefix . $meta_box['name']] );
@@ -732,7 +734,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 					else {
 						continue;
 					}
-				}
+				}*/
 				else {
 					if ( isset( $_POST[self::$form_prefix . $meta_box['name']] ) )
 						$data = $_POST[self::$form_prefix . $meta_box['name']];

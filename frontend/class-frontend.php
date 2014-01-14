@@ -132,7 +132,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 		function is_home_static_page() {
 			return ( is_front_page() && 'page' == get_option( 'show_on_front' ) && is_page( get_option( 'page_on_front' ) ) );
 		}
-	
+
 		/**
 		 * Determine whether this is the posts page, regardless of whether it's the frontpage or not.
 		 *
@@ -562,26 +562,34 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 						$robots['index'] = 'noindex';
 				}
 	
-				if ( (int) wpseo_get_value( 'meta-robots-noindex' ) === 1 ) {
+				if ( wpseo_get_value( 'meta-robots-noindex' ) === '1' ) {
 						$robots['index'] = 'noindex';
 				}
-				else if ( (int) wpseo_get_value( 'meta-robots-noindex' ) === 2 ) {
+				else if ( wpseo_get_value( 'meta-robots-noindex' ) === '2' ) {
 					$robots['index'] = 'index';
 				}
 	
-				if ( (int) wpseo_get_value( 'meta-robots-nofollow' ) === 0 ) {
+				if ( wpseo_get_value( 'meta-robots-nofollow' ) === '0' ) {
 					$robots['follow'] = 'follow';
 				}
-				else if ( (int) wpseo_get_value( 'meta-robots-nofollow' ) === 1 ) {
-						$robots['follow'] = 'nofollow';
+				else if ( wpseo_get_value( 'meta-robots-nofollow' ) === '1' ) {
+					$robots['follow'] = 'nofollow';
 				}
 
-				if ( wpseo_get_value( 'meta-robots-adv' ) && wpseo_get_value( 'meta-robots-adv' ) != 'none' ) {
-					foreach ( explode( ',', wpseo_get_value( 'meta-robots-adv' ) ) as $r ) {
-						$robots['other'][] = $r;
+				if ( wpseo_get_value( 'meta-robots-adv' ) !== null && ( wpseo_get_value( 'meta-robots-adv' ) !== '-' && wpseo_get_value( 'meta-robots-adv' ) !== 'none' ) ) {
+					foreach ( explode( ',', wpseo_get_value( 'meta-robots-adv' ) ) as $robot ) {
+						$robots['other'][] = $robot;
 					}
+					unset( $robot );
 				}
-
+				else if ( wpseo_get_value( 'meta-robots-adv' ) === null || wpseo_get_value( 'meta-robots-adv' ) === '-' ) {
+					foreach ( array( 'noodp', 'noydir' ) as $robot ) {
+						if ( $this->options[$robot] === true ) {
+							$robots['other'][] = $robot;
+						}
+					}
+					unset( $robot );
+				}
 			}
 			else {
 				if ( is_search() ) {
@@ -617,32 +625,35 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 					$robots['index']  = 'noindex';
 					$robots['follow'] = 'follow';
 				}
+				
+				foreach ( array( 'noodp', 'noydir' ) as $robot ) {
+					if ( $this->options[$robot] === true ) {
+						$robots['other'][] = $robot;
+					}
+				}
+				unset( $robot );
 			}
 
 			// Force override to respect the WP settings
 			if ( '0' == get_option( 'blog_public' ) || isset( $_GET['replytocom'] ) ) {
 				$robots['index'] = 'noindex';
 			}
-	
-			foreach ( array( 'noodp', 'noydir' ) as $robot ) {
-				if ( $this->options[$robot] === true ) {
-					$robots['other'][] = $robot;
-				}
-			}
-	
+
 
 			$robotsstr = $robots['index'] . ',' . $robots['follow'];
 	
-			$robots['other'] = array_unique( $robots['other'] );
-			foreach ( $robots['other'] as $robot ) {
-				$robotsstr .= ',' . $robot;
+			if( $robots['other'] !== array() ) {
+				$robots['other'] = array_unique( $robots['other'] ); // most likely no longer needed, needs testing
+				foreach ( $robots['other'] as $robot ) {
+					$robotsstr .= ',' . $robot;
+				}
 			}
 	
 			$robotsstr = preg_replace( '`^index,follow,?`', '', $robotsstr );
 	
 			$robotsstr = apply_filters( 'wpseo_robots', $robotsstr );
 	
-			if ( $robotsstr != '' ) {
+			if ( $robotsstr !== '' ) {
 				echo '<meta name="robots" content="' . esc_attr( $robotsstr ) . '"/>' . "\n";
 			}
 		}
