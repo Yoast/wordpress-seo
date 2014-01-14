@@ -421,7 +421,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		 */
 		function do_meta_box( $meta_field_def, $meta_key = '' ) {
 			// Don't show the robots index field if it's overruled by a blog-wide option
-			if( $meta_key === 'meta-robots-noindex' && '0' == get_option('blog_public') ) {
+			if ( $meta_key === 'meta-robots-noindex' && '0' == get_option('blog_public') ) {
 				return '';
 			}
 
@@ -481,7 +481,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 					break;
 	
 				case 'select':
-					if( isset( $meta_field_def['options'] ) && is_array( $meta_field_def['options'] ) && $meta_field_def['options'] !== array() ) {
+					if ( isset( $meta_field_def['options'] ) && is_array( $meta_field_def['options'] ) && $meta_field_def['options'] !== array() ) {
 						$content .= '<select name="' . $esc_meta_key . '" id="' . $esc_meta_key . '" class="yoast' . $class . '">';
 						foreach ( $meta_field_def['options'] as $val => $option ) {
 							$selected = selected( $meta_value, $val, false );
@@ -492,7 +492,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 					break;
 	
 				case 'multiselect':
-					if( isset( $meta_field_def['options'] ) && is_array( $meta_field_def['options'] ) && $meta_field_def['options'] !== array() ) {
+					if ( isset( $meta_field_def['options'] ) && is_array( $meta_field_def['options'] ) && $meta_field_def['options'] !== array() ) {
 						$selectedarr               = explode( ',', $meta_value );
 						$options_count             = count( $meta_field_def['options'] );
 
@@ -521,7 +521,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 					break;
 	
 				case 'radio':
-					if( isset( $meta_field_def['options'] ) && is_array( $meta_field_def['options'] ) && $meta_field_def['options'] !== array() ) {
+					if ( isset( $meta_field_def['options'] ) && is_array( $meta_field_def['options'] ) && $meta_field_def['options'] !== array() ) {
 						foreach ( $meta_field_def['options'] as $val => $option ) {
 							$checked  = checked( $meta_value, $val, false );
 							$content .= '<input type="radio" ' . $checked . ' id="' . $esc_meta_key . '_' . esc_attr( $val ) . '" name="' . $esc_meta_key . '" value="' . esc_attr( $val ) . '"/> <label for="' . $esc_meta_key . '_' . esc_attr( $val ) . '">' . esc_html( $option ) . '</label> ';
@@ -693,7 +693,6 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		function save_postdata( $post_id ) {
 			if ( $post_id === null )
 				return false;
-
 
 
 			// @todo: check if this is really needed as update_post_meta() already does this

@@ -319,7 +319,7 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 					if ( $field_def['type'] !== 'snippetpreview' ) {
 						/* register_meta() is undocumented and not used by WP internally, wrapped in
 						   function_exists as a precaution in case they remove it. */
-						if( $register === true ) {
+						if ( $register === true ) {
 							register_meta( 'post', self::$meta_prefix . $key, array( __CLASS__, 'sanitize_post_meta' ) );
 						}
 						else {
