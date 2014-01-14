@@ -150,6 +150,8 @@ if ( isset( $_POST['import'] ) ) {
 			WPSEO_Meta::replace_meta( 'seo_keywords', WPSEO_Meta::$meta_prefix . 'metakeywords', $replace );
 		}
 
+		/* @todo verify how WooSEO sets these metas ( 'noindex', 'follow' )
+		   and if the values saved are concurrent with the ones we use (i.e. 0/1/2) */
 		WPSEO_Meta::replace_meta( 'seo_follow', WPSEO_Meta::$meta_prefix . 'meta-robots-nofollow', $replace );
 		WPSEO_Meta::replace_meta( 'seo_noindex', WPSEO_Meta::$meta_prefix . 'meta-robots-noindex', $replace );
 
@@ -164,6 +166,9 @@ if ( isset( $_POST['import'] ) ) {
 		WPSEO_Meta::replace_meta( '_headspace_noindex', WPSEO_Meta::$meta_prefix . 'meta-robots-noindex', $replace );
 		WPSEO_Meta::replace_meta( '_headspace_nofollow', WPSEO_Meta::$meta_prefix . 'meta-robots-nofollow', $replace );
 
+		/* @todo - check if this can be done more efficiently by querying only the meta table
+		   possibly directly changing it using concat on the existing values
+		*/
 		$posts = $wpdb->get_results( "SELECT ID FROM $wpdb->posts" );
 		foreach ( $posts as $post ) {
 			$custom         = get_post_custom( $post->ID );
@@ -183,8 +188,7 @@ if ( isset( $_POST['import'] ) ) {
 		unset( $posts, $post, $custom, $robotsmeta_adv );
 
 		if ( $replace ) {
-			// @todo: check - should headspace description/keywords and page_title not also be removed ?
-			foreach ( array( 'noindex', 'nofollow', 'noarchive', 'noodp', 'noydir' ) as $meta ) {
+			foreach ( array( 'noarchive', 'noodp', 'noydir' ) as $meta ) {
 				delete_post_meta_by_key( '_headspace_' . $meta );
 			}
 			unset( $meta );
@@ -203,15 +207,28 @@ if ( isset( $_POST['import'] ) ) {
 		WPSEO_Meta::replace_meta( 'title', WPSEO_Meta::$meta_prefix . 'title', $replace );
 		$msg .= __( 'All in One SEO (Old version) data successfully imported.', 'wordpress-seo' );
 	}
+	
+	// @todo how does this corrolate with the robots_meta_handler() function in dashboard ?
+	// isn't one superfluous ? functionality wasn't the same either, changed now.
 	if ( isset( $_POST['wpseo']['importrobotsmeta'] ) ) {
 		$posts = $wpdb->get_results( "SELECT ID, robotsmeta FROM $wpdb->posts" );
 		foreach ( $posts as $post ) {
-			if ( strpos( $post->robotsmeta, 'noindex' ) !== false ) {
-				WPSEO_Meta::set_value( 'meta-robots-noindex', true, $post->ID );
-			}
-
-			if ( strpos( $post->robotsmeta, 'nofollow' ) !== false ) {
-				WPSEO_Meta::set_value( 'meta-robots-nofollow', true, $post->ID );
+			// sync all possible settings
+			if ( $post->robotsmeta ) {
+				$pieces = explode( ',', $post->robotsmeta );
+				foreach ( $pieces as $meta ) {
+					switch ( $meta ) {
+						case 'noindex':
+							WPSEO_Meta::set_value( 'meta-robots-noindex', '1', $post->ID );
+							break;
+						case 'index':
+							WPSEO_Meta::set_value( 'meta-robots-noindex', '2', $post->ID );
+							break;
+						case 'nofollow':
+							WPSEO_Meta::set_value( 'meta-robots-nofollow', '1', $post->ID );
+							break;
+					}
+				}
 			}
 		}
 		$msg .= __( 'Robots Meta values imported.', 'wordpress-seo' );

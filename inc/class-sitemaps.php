@@ -500,10 +500,10 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 					$p->post_status = 'publish';
 					$p->filter      = 'sample';
 	
-					if ( (int) wpseo_get_value( 'meta-robots-noindex', $p->ID ) === 1 && wpseo_get_value( 'sitemap-include', $p->ID ) != 'always' ) {
+					if ( wpseo_get_value( 'meta-robots-noindex', $p->ID ) === '1' && wpseo_get_value( 'sitemap-include', $p->ID ) !== 'always' ) {
 						continue;
 					}
-					if ( wpseo_get_value( 'sitemap-include', $p->ID ) == 'never' ) {
+					if ( wpseo_get_value( 'sitemap-include', $p->ID ) === 'never' ) {
 						continue;
 					}
 					if ( wpseo_get_value( 'redirect', $p->ID ) && strlen( wpseo_get_value( 'redirect', $p->ID ) ) > 0 ) {

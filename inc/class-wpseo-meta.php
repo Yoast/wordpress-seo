@@ -176,9 +176,10 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 				),
 			),
 			'advanced'	=> array(
-				'meta-robots-noindex'	=> array(
+/*verified*/				'meta-robots-noindex'	=> array(
 /*xxx*/					'name'			=> 'meta-robots-noindex',
-					'default_value'	=> '0',
+					// @todo in upgrade routine verify values
+					'default_value'	=> '0', // = post-type default - !!!! changed default, was invalid value '-'
 					'type'			=> 'select',
 					'title' 		=> '', // translation added later
 					'options'		=> array(
@@ -187,9 +188,11 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 						'1' 	=> '', // no-index - translation added later
 					),
 				),
-				'meta-robots-nofollow'	=> array(
+/*verified*/				'meta-robots-nofollow'	=> array(
 /*xxx*/					'name'			=> 'meta-robots-nofollow',
-					'default_value'	=> '0', // = follow
+					// @todo in upgrade routine verify values
+					'default_value'	=> '0', // = follow - there may be some saved 'follow' values floating around
+
 					'type'			=> 'radio',
 					'title'			=> '', // translation added later
 					'options'		=> array(
@@ -197,8 +200,9 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 						'1' 	=> '', // no-follow - translation added later
 					),
 				),
-				'meta-robots-adv'		=> array(
+/*verified*/				'meta-robots-adv'		=> array(
 /*v*/					'name'				=> 'meta-robots-adv',
+					// @todo in upgrade routine verify values and change from single 'none' to '-' to maintain the same behaviour as the olde plugin versions had
 					'default_value'	=> '-', // !!!! changed default, was none
 					'type'			=> 'multiselect',
 					'title' 		=> '', // translation added later
@@ -459,15 +463,24 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 			
 			$clean = self::$defaults[$meta_key];
 
-
+//trigger_error( 'Sanitition routine:: Current meta key: ' . $meta_key . ', meta value: ' . $meta_value );
 			switch ( true ) {
 				case ( $field_def['type'] === 'checkbox' ):
+					// Only allow value if it's one of the predefined options
 					if( in_array( $meta_value, array( 'on', 'off' ), true ) ) {
 						$clean = $meta_value;
 					}
 					break;
 
-				case ( $meta_key === 'meta-robots-adv' && $field_def['type'] === 'multiselect' ):
+
+				case ( $field_def['type'] === 'select' || $field_def['type'] === 'radio' ):
+					// Only allow value if it's one of the predefined options
+					if( isset( $field_def['options'][$meta_value] ) ) {
+						$clean = $meta_value;
+					}
+					break;
+
+				case ( $meta_key === self::$meta_prefix . 'meta-robots-adv' && $field_def['type'] === 'multiselect' ):
 					/**
 					 * @todo - upgrade routine: with the old way of saving all sorts of strange values
 					 * could have resulted, the key name as the value, combinations which included none.
@@ -505,10 +518,15 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 
 					break;
 					
-				case '':
+				case ( $field_def['type'] === 'text' ):
+				default:
+					$clean = sanitize_text_field( $meta_value );
 					break;
 			}
 			
+			
+//trigger_error( 'Sanitition routine:: Current meta key: ' . $meta_key . ', clean value: ' . $meta_value );
+
 			return $clean;
 			
 			
@@ -578,33 +596,6 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 */
 		}
 
-		public static function sanitize_advanced_meta_robots_noindex() {
-/*
-					'default_value'	=> '-',
-					'type'			=> 'select',
-					'options'		=> array(
-						'0' 	=> '', // translation added later
-						'2' 	=> '', // translation added later
-						'1' 	=> '', // translation added later
-					),
-
-/*xxx* /			'_yoast_wpseo_meta-robots-noindex'		=> '0', // vs '-'
-*/
-		}
-
-
-		public static function sanitize_advanced_meta_robots_nofollow() {
-/*
-					'default_value'	=> 'follow',
-					'type'			=> 'radio',
-					'options'		=> array(
-						'0' 	=> '', // translation added later
-						'1' 	=> '', // translation added later
-					),
-
-/*xxx* /			'_yoast_wpseo_meta-robots-nofollow'		=> '0', // vs 'follow'
-*/
-		}
 
 
 		public static function sanitize_advanced_bctitle() {

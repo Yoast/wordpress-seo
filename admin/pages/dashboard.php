@@ -180,11 +180,12 @@ function robots_meta_handler() {
 
 			// show notice that robots meta has been deactivated
 			add_action( 'wpseo_all_admin_notices', 'wpseo_deactivate_robots_meta_notice' );
-
-			// import the settings
 		}
+		// import the settings
 		else if ( isset( $_GET['import_robots_meta'] ) && $_GET['import_robots_meta'] === '1' ) {
 			// import robots meta setting for each post
+			// @todo how does this corrolate with the routine on the import page ?
+			// isn't one superfluous ? functionality wasn't the same either, changed now.
 			$posts = $wpdb->get_results( "SELECT ID, robotsmeta FROM $wpdb->posts" );
 			foreach ( $posts as $post ) {
 				// sync all possible settings
@@ -193,19 +194,14 @@ function robots_meta_handler() {
 					foreach ( $pieces as $meta ) {
 						switch ( $meta ) {
 							case 'noindex':
-								WPSEO_Meta::set_value( 'meta-robots-noindex', true, $post->ID );
+								WPSEO_Meta::set_value( 'meta-robots-noindex', '1', $post->ID );
 								break;
 							case 'index':
-								WPSEO_Meta::set_value( 'meta-robots-noindex', 2, $post->ID );
+								WPSEO_Meta::set_value( 'meta-robots-noindex', '2', $post->ID );
 								break;
 							case 'nofollow':
-								WPSEO_Meta::set_value( 'meta-robots-nofollow', true, $post->ID );
+								WPSEO_Meta::set_value( 'meta-robots-nofollow', '1', $post->ID );
 								break;
-							case 'follow':
-								// No need to store it
-								break;
-							default:
-								// do nothing
 						}
 					}
 				}

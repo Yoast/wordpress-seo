@@ -214,7 +214,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 	
 			echo '<div class="misc-pub-section misc-yoast misc-pub-section-last">';
 	
-			if ( (int) wpseo_get_value( 'meta-robots-noindex' ) === 1 ) {
+			if ( wpseo_get_value( 'meta-robots-noindex' ) === '1' ) {
 				$score_label = 'noindex';
 				$title       = __( 'Post is set to noindex.', 'wordpress-seo' );
 			}
@@ -744,7 +744,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 	
 				// Prevent saving "empty" values.
 				if ( ! in_array( $data, array( '', '0', 'none', '-', 'index,follow' ) ) ) {
-					self::set_value( $meta_box['name'], sanitize_text_field( $data ), $post_id );
+					self::set_value( $meta_box['name'], /*sanitize_text_field(*/ $data /*)*/, $post_id );
 				}
 				else if ( $data == '' ) {
 					// If we don't do this, we prevent people from reverting to the default title or description.
@@ -855,7 +855,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 	
 			if ( $column_name == 'wpseo-score' ) {
 				$score = wpseo_get_value( 'linkdex', $post_id );
-				if ( (int) wpseo_get_value( 'meta-robots-noindex', $post_id ) === 1 ) {
+				if ( wpseo_get_value( 'meta-robots-noindex', $post_id ) === '1' ) {
 					$score_label = 'noindex';
 					$title       = __( 'Post is set to noindex.', 'wordpress-seo' );
 					self::set_value( 'linkdex', 0, $post_id );
@@ -959,7 +959,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 								'relation' => 'AND',
 								array(
 									'key'     => self::$meta_prefix . 'meta-robots-noindex',
-									'value'   => 1,
+									'value'   => '1',
 									'compare' => '!=',
 								),
 								array(
@@ -980,7 +980,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 								'relation' => 'AND',
 								array(
 									'key'     => self::$meta_prefix . 'meta-robots-noindex',
-									'value'   => 1,
+									'value'   => '1',
 									'compare' => '=',
 								),
 							)

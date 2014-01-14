@@ -559,20 +559,17 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 				global $post;
 
 				if (  is_object( $post ) && ( isset( $this->options['noindex-' . $post->post_type] ) && $this->options['noindex-' . $post->post_type] === true ) ) {
-						$robots['index'] = 'noindex';
+					$robots['index'] = 'noindex';
 				}
-	
+
 				if ( wpseo_get_value( 'meta-robots-noindex' ) === '1' ) {
-						$robots['index'] = 'noindex';
+					$robots['index'] = 'noindex';
 				}
 				else if ( wpseo_get_value( 'meta-robots-noindex' ) === '2' ) {
 					$robots['index'] = 'index';
 				}
 	
-				if ( wpseo_get_value( 'meta-robots-nofollow' ) === '0' ) {
-					$robots['follow'] = 'follow';
-				}
-				else if ( wpseo_get_value( 'meta-robots-nofollow' ) === '1' ) {
+				if ( wpseo_get_value( 'meta-robots-nofollow' ) === '1' ) {
 					$robots['follow'] = 'nofollow';
 				}
 
