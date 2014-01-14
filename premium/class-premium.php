@@ -68,6 +68,9 @@ class WPSEO_Premium {
 		// Settings
 		add_action( 'admin_init', array( $this, 'register_settings' ) );
 
+		// Catch option save
+		add_action( 'admin_init', array( $this, 'catch_option_redirect_save' ) );
+
 		// AJAX
 		add_action( 'wp_ajax_wpseo_save_redirect', array( 'WPSEO_Redirect_Manager', 'ajax_handle_redirect_save' ) );
 		add_action( 'wp_ajax_wpseo_delete_redirect', array( 'WPSEO_Redirect_Manager', 'ajax_handle_redirect_delete' ) );
@@ -129,6 +132,16 @@ class WPSEO_Premium {
 	 */
 	public function register_settings() {
 		register_setting( 'yoast_wpseo_redirect_options', 'wpseo_redirect' );
+	}
+
+	/**
+	 * Do custom action when the redirect option is saved
+	 */
+	public function catch_option_redirect_save() {
+		if ( isset ( $_POST['option_page'] ) && $_POST['option_page'] == 'yoast_wpseo_redirect_options' ) {
+			$enable_autoload = ( isset ( $_POST['wpseo_redirect']['disable_php_redirect'] ) ) ? false : true;
+			WPSEO_Redirect_Manager::redirects_change_autoload( $enable_autoload );
+		}
 	}
 
 	/**

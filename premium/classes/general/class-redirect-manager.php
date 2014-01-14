@@ -13,9 +13,16 @@ class WPSEO_Redirect_Manager {
 
 	const OPTION_REDIRECTS = 'wpseo-premium-redirects';
 
-	public function __construct() {
-	}
+	/**
+	 * Private constructor because this class only contains static functions
+	 */
+	private function __construct() {}
 
+	/**
+	 * Get the WordPress SEO options
+	 *
+	 * @return mixed|void
+	 */
 	private static function get_options() {
 		return apply_filters( 'wpseo_premium_redirect_options', wp_parse_args( get_option( 'wpseo_redirect', array() ), array( 'disable_php_redirect' => 'off' ) ) );
 	}
@@ -145,6 +152,32 @@ class WPSEO_Redirect_Manager {
 
 		self::save_redirects( $redirects );
 
+	}
+
+	/**
+	 * Change if the redirect option is autoloaded
+	 *
+	 * @param $enabled
+	 */
+	public static function redirects_change_autoload( $enabled ) {
+		global $wpdb;
+
+		// Default autoload value
+		$autoload = 'yes';
+
+		// Disable auto loading
+		if ( false === $enabled ) {
+			$autoload = 'no';
+		}
+
+		// Do update query
+		$wpdb->update(
+				$wpdb->options,
+				array( 'autoload' => $autoload ),
+				array( 'option_name' => self::OPTION_REDIRECTS ),
+				array( '%s' ),
+				array( '%s' )
+		);
 	}
 
 	/**
