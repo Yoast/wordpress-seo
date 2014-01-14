@@ -10,6 +10,8 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 
 class WPSEO_Page_Redirect {
 
+	private static $gwt_client = null;
+
 	/**
 	 * Function that outputs the redirect page
 	 */
@@ -81,65 +83,32 @@ class WPSEO_Page_Redirect {
 				?>
 			</div>
 			<div id="google-wmt" class="wpseotab">
-				<h2>Authorization Code</h2>
+
 				<?php
 
-				$client = new Google_Client();
-				$client->setApplicationName( "WordPress SEO Premium" ); // Not sure if used
-				$client->setClientId( '887668307827-4jhsr06rntrt3g3ss2r72dblf3ca7msv.apps.googleusercontent.com' );
-				$client->setClientSecret( 'pPW5gLoTNtNHyiDH6YRn-CIB' );
-				$client->setRedirectUri( 'urn:ietf:wg:oauth:2.0:oob' );
-				$client->setScopes( array( 'https://www.google.com/webmasters/tools/feeds/' ) );
+				// Create a new WPSEO GWT Google Client
+				self::$gwt_client = new WPSEO_GWT_Google_Client();
 
 				// Load access token from database
-				$access_token = null; // This should be loaded from the database
+				$access_token = WPSEO_Premium::gwt()->get_access_token();
 
 				// If there is a access token in database, set it
 				if ( null !== $access_token ) {
-					$client->setAccessToken( $access_token );
+					self::$gwt_client->setAccessToken( $access_token );
 				}
 
 				// Check if there is an access token
-				if ( $client->getAccessToken() ) {
+				if ( self::$gwt_client->getAccessToken() ) {
 
 					// Maybe check if access token is OK
 					// Do GWT stuff....
 
+					self::gwt_print_table();
+
 				} else {
 
-					// There is no access token!
-					// Check if there is an authorization code
-
-					// Putting the Authorization Code POST to SESSION - This should be done in admin
-
-					// Load authorization code from SESSION
-					$authorization_code = WPSEO_Premium::gwt()->get_authorization_code();
-
-					// Check if there is an authorization code
-					if ( null !== $authorization_code ) {
-
-						var_dump( $authorization_code );
-
-						var_dump( $_SESSION );
-
-						// There is an auhorization code, request access_token and refresh_token from Google and do redirect / refresh when done
-
-					} else {
-
-						// There is no authorization code, ask user to enter one
-						$oath_url = $client->createAuthUrl();
-
-						echo "<p>To allow WordPress SEO Premium to fetch your Google Webmaster Tools information, please enter an Authorization Code.</p>\n";
-						echo "<a href='{$oath_url}'>Get Google Authorization Code</a>\n";
-
-						echo "<p>Please enter the Authorization Code in the field below and press the Auhtenticate button.</p>\n";
-						echo "<form action='' method='post'>\n";
-						echo "<input type='text' name='gwt[authorization_code]' value='' />";
-						echo "<input type='submit' name='gwt[Submit]' value='Authenticate' class='button-primary' />";
-						echo "</form>\n";
-					}
-
-
+					// Print auth screen
+					self::gwt_print_auth_screen();
 				}
 
 				?>
@@ -169,11 +138,37 @@ class WPSEO_Page_Redirect {
 	}
 
 	/**
+	 * Print the
+	 *
+	 * @param $oath_url
+	 */
+	private static function gwt_print_auth_screen() {
+
+		// Get the oauth URL
+		$oath_url = self::$gwt_client->createAuthUrl();
+
+		// Print
+		echo "<h2>Authorization Code</h2>\n";
+
+		echo "<p>To allow WordPress SEO Premium to fetch your Google Webmaster Tools information, please enter an Authorization Code.</p>\n";
+		echo "<a href='javascript:wpseo_gwt_open_authorize_code_window(\"{$oath_url}\");'>Get Google Authorization Code</a>\n";
+
+		echo "<p>Please enter the Authorization Code in the field below and press the Auhtenticate button.</p>\n";
+		echo "<form action='' method='post'>\n";
+		echo "<input type='text' name='gwt[authorization_code]' value='' />";
+		echo "<input type='submit' name='gwt[Submit]' value='Authenticate' class='button-primary' />";
+		echo "</form>\n";
+	}
+
+	private static function gwt_print_table() {
+		echo "<h2>Google Webmaster Tools Errors</h2>\n";
+	}
+
+	/**
 	 * Function that is triggered when the redirect page loads
 	 */
 	public static function page_load() {
 		add_action( 'admin_enqueue_scripts', array( 'WPSEO_Page_Redirect', 'page_scripts' ) );
-		require_once( WPSEO_PREMIUM_PATH . 'classes/admin/google/Google_Client.php' );
 	}
 
 	/**
