@@ -16,8 +16,8 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 	 * @since 1.5.0
 	 * @version 1.5.0
 	 *
-	 * Please note: all methods and properties are static. This class is not instantiated and does not have to be.
-	 * Class is basically used as an alternative way of namespacing our functions and variables
+	 * @internal all WP native get_meta() results get cached internally, so no need to cache locally.
+	 *
 	 */
 	class WPSEO_Meta {
 
@@ -715,6 +715,8 @@ add_filter( 'sanitize_user_meta_birth-year', 'sanitize_birth_year_meta' );
 		/**
 		 * Get the value from the post custom values
 		 *
+		 * @todo rewrite
+		 *
 		 * @param   string  $val    name of the value to get
 		 * @param   int     $postid post ID of the post to get the value for
 		 * @return  bool|mixed
@@ -749,26 +751,44 @@ add_filter( 'sanitize_user_meta_birth-year', 'sanitize_birth_year_meta' );
 
 
 		/**
-		 * Used for imports, this functions either copies $old_metakey into $new_metakey
-		 * or just plain replaces $old_metakey with $new_metakey
+		 * Used for imports, this functions imports the value of $old_metakey into $new_metakey for those post
+		 * where no WPSEO meta data has been set.
+		 * Optionally deletes the $old_metakey values.
 		 *
-		 * @todo rewrite
-		 *
-		 * @param string  $old_metakey The old name of the meta value.
-		 * @param string  $new_metakey The new name of the meta value, usually the WP SEO name.
-		 * @param bool    $replace     Whether to replace or to copy the values.
+		 * @param	string	$old_metakey	The old name of the meta value.
+		 * @param	string	$new_metakey	The new name of the meta value, usually the WP SEO name.
+		 * @param	bool	$delete_old		Whether to delete the old meta key/values.
+		 * @return	void
 		 */
-		public static function replace_meta( $old_metakey, $new_metakey, $replace = false ) {
+		public static function replace_meta( $old_metakey, $new_metakey, $delete_old = false ) {
 			global $wpdb;
-			$oldies = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $wpdb->postmeta WHERE meta_key = %s", $old_metakey ) );
+			
+			/* Get only those rows where no wpseo meta values exist for the same post
+			   (with the exception of linkdex as that will be set independently of whether the post has been edited)
+			   @internal Query is pretty well optimized this way */
+			$query = $wpdb->prepare( "
+				SELECT `a`.*
+				FROM {$wpdb->postmeta} AS a
+				WHERE `a`.`meta_key` = %s
+					AND NOT	EXISTS (
+						SELECT DISTINCT `post_id` , count( `meta_id` ) AS count
+						FROM {$wpdb->postmeta} AS b
+						WHERE `a`.`post_id` = `b`.`post_id`
+							AND `meta_key` LIKE '" . self::$meta_prefix . "%'
+							AND `meta_key` <> '" . self::$meta_prefix . "linkdex'
+						GROUP BY `post_id`
+					)",
+				$old_metakey
+			);
+			$oldies = $wpdb->get_results( $query );
+
 			foreach ( $oldies as $old ) {
-				// Prevent inserting new meta values for posts that already have a value for that new meta key
-				$check = get_post_meta( $old->post_id, $new_metakey, true );
-				if ( ! $check || empty( $check ) )
-					update_post_meta( $old->post_id, $new_metakey, $old->meta_value );
-		
-				if ( $replace )
-					delete_post_meta( $old->post_id, $old_metakey );
+				update_post_meta( $old->post_id, $new_metakey, $old->meta_value );
+			}
+
+			// Delete old keys
+			if ( $delete_old === true ) {
+				delete_post_meta_by_key( $old_metakey );
 			}
 		}
 
