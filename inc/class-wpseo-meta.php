@@ -28,12 +28,20 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 
 
 		/**
-		 * Prefix for all WPSEO meta values
+		 * Prefix for all WPSEO meta values in the database
 		 * 
 		 * @internal if at any point this would change, quite apart from an upgrade routine, this also will need to
 		 * be changed in the wpml-config.xml file.
 		 */
 		public static $meta_prefix = '_yoast_wpseo_';
+		
+		
+		/**
+		 * Prefix for all WPSEO meta value form field names and ids
+		 *
+		 * @todo - ought to be passed to js via wp_localize_script() and used as a variable for the jQuery stuff
+		 */
+		public static $form_prefix = 'yoast_wpseo_';
 
 
 		/**
@@ -83,9 +91,39 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 */
 
 		/**
-		 * @var	array	$metaboxes	Meta box definitions for form
+		 * @var	array	$metaboxes	Meta box definitions for form fields
 		 *
-		 * - Titles, help texts, description text etc are added via translate_meta_boxes() method in class-metabox.php
+		 *				Array format:
+		 *				(required)		'type'			=> (string) field type. i.e. text / textarea / checkbox /
+		 *													radio / select / multiselect / upload / snippetpreview etc
+		 *				(required)		'title'			=> (string) table row title
+		 *				(recommended)	'default_value' => (string) default value for the field
+		 *													IMPORTANT:
+		 *													- if the field has options, the default has to be the
+		 *													  key of one of the options
+		 *													- if the field is a text field, the default **has** to be
+		 *													  an empty string as otherwise the user can't save
+		 *													  an empty value
+		 *				(semi-required)	'options'		=> (array) options for used with (multi-)select and radio
+		 *													fields, required if that's the field type
+		 *													key = (string) value which will be saved to db
+		 *													value = (string) text label for the option
+		 *				(optional)		'autocomplete'	=> (bool) whether autocomplete is on for text fields,
+		 *													defaults to true
+		 *				(optional)		'class'			=> (string) classname(s) to add to the actual <input> tag
+		 *				(optional)		'description'	=> (string) description to show underneath the field
+		 *				(optional)		'expl'			=> (string) label for a checkbox
+		 *				(optional)		'help'			=> (string) help text to show on mouse over ? image
+		 *				(optional)		'rows'			=> (int) number of rows for a textarea, defaults to 3
+		 *
+		 *				(optional)		'richedit'		=> (bool) seems currently to be unused
+		 *				(optional)		'placeholder'	=> (string) does not seem to be defined anywhere... ?
+		 *
+		 * @todo - check usage of richedit and placeholder and what to do with those
+		 *
+		 *
+		 * - Titles, help texts, description text and option labels are added via a translate_meta_boxes() method
+		 *	 in the relevant child classes (WPSEO_Metabox and WPSEO_Social_admin)
 		 * - Beware: even though the meta keys are divided into subsets, they still have to be uniquely named!
 		 *
 		 * @todo check if we can get rid of the 'name' item as it is the same as the array key
@@ -102,7 +140,7 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 					'default_value'		=> '',
 					'type'				=> 'text',
 					'title'				=> '', // translation added later
-					'autocomplete'		=> 'off',
+					'autocomplete'		=> false,
 					'help'				=> '', // translation added later
 					'description'		=> '<div id="focuskwresults"></div>',
 				),
@@ -137,7 +175,7 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 			'advanced'	=> array(
 				'meta-robots-noindex'	=> array(
 /*xxx*/					'name'			=> 'meta-robots-noindex',
-					'default_value'	=> '-',
+					'default_value'	=> '0',
 					'type'			=> 'select',
 					'title' 		=> '', // translation added later
 					'options'		=> array(
@@ -148,7 +186,7 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 				),
 				'meta-robots-nofollow'	=> array(
 /*xxx*/					'name'			=> 'meta-robots-nofollow',
-					'default_value'	=> 'follow',
+					'default_value'	=> '0',
 					'type'			=> 'radio',
 					'title'			=> '', // translation added later
 					'options'		=> array(
@@ -163,6 +201,7 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 					'title' 		=> '', // translation added later
 					'description'	=> '', // translation added later
 					'options'		=> array(
+						'none'			=> '', // translation added later
 						'noodp' 		=> '', // translation added later
 						'noydir'		=> '', // translation added later
 						'noarchive' 	=> '', // translation added later
@@ -277,7 +316,7 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 
 			foreach ( self::$meta_fields as $subset => $field_group ) {
 				foreach ( $field_group as $key => $field_def ) {
-					if ( isset( $field_def['default_value'] ) ) {
+					if ( $field_def['type'] !== 'snippetpreview' ) {
 						/* register_meta() is undocumented and not used by WP internally, wrapped in
 						   function_exists as a precaution in case they remove it. */
 						if( $register === true ) {
@@ -404,25 +443,25 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 			
 /*
 			if ( 'checkbox' == $meta_box['type'] ) {
-				if ( isset( $_POST['yoast_wpseo_' . $meta_box['name']] ) )
+				if ( isset( $_POST[self::$form_prefix . $meta_box['name']] ) )
 					$data = 'on';
 				else
 					$data = 'off';
 			}
 			else if ( 'multiselect' == $meta_box['type'] ) {
-				if ( isset( $_POST['yoast_wpseo_' . $meta_box['name']] ) ) {
-					if ( is_array( $_POST['yoast_wpseo_' . $meta_box['name']] ) )
-						$data = implode( ',', $_POST['yoast_wpseo_' . $meta_box['name']] );
+				if ( isset( $_POST[self::$form_prefix . $meta_box['name']] ) ) {
+					if ( is_array( $_POST[self::$form_prefix . $meta_box['name']] ) )
+						$data = implode( ',', $_POST[self::$form_prefix . $meta_box['name']] );
 					else
-						$data = $_POST['yoast_wpseo_' . $meta_box['name']];
+						$data = $_POST[self::$form_prefix . $meta_box['name']];
 				}
 				else {
 					continue;
 				}
 			}
 			else {
-				if ( isset( $_POST['yoast_wpseo_' . $meta_box['name']] ) )
-					$data = $_POST['yoast_wpseo_' . $meta_box['name']];
+				if ( isset( $_POST[self::$form_prefix . $meta_box['name']] ) )
+					$data = $_POST[self::$form_prefix . $meta_box['name']];
 				else
 					continue;
 			}
@@ -497,9 +536,13 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 
 		public static function sanitize_advanced_meta_robots_adv() {
 /*
+
+-> Deal with none
+
 					'default_value'	=> 'none',
 					'type'			=> 'multiselect',
 					'options'		=> array(
+						'none'			=> ''
 						'noodp' 		=> '', // translation added later
 						'noydir'		=> '', // translation added later
 						'noarchive' 	=> '', // translation added later
@@ -685,7 +728,7 @@ add_filter( 'sanitize_user_meta_birth-year', 'sanitize_birth_year_meta' );
 		 * @return	bool
 		 */
 		public static function meta_value_is_default( $meta_key, $meta_value ) {
-			return ( isset( self::$fields_index[$meta_key] ) && $meta_value === self::$meta_fields[self::$fields_index[$meta_key]['subset']][self::$fields_index[$meta_key]['key']]['default_value'] );
+			return ( isset( self::$defaults[$meta_key] ) && $meta_value === self::$defaults[$meta_key] );
 		}
 
 
@@ -713,34 +756,48 @@ add_filter( 'sanitize_user_meta_birth-year', 'sanitize_birth_year_meta' );
 
 
 		/**
-		 * Get the value from the post custom values
+		 * Get a custom post meta value
+		 * Returns the default value if the meta value has not been set
 		 *
-		 * @todo rewrite
+		 * @todo check all uses!!!!!!
 		 *
-		 * @param   string  $val    name of the value to get
-		 * @param   int     $postid post ID of the post to get the value for
-		 * @return  bool|mixed
+		 * @param   string  $meta_key	name of the value to get
+		 * @param   int     $postid		post ID of the post to get the value for
+		 * @return  string|null			All 'normal' values returned from get_post_meta() are strings.
+		 *								Objects and arrays are possible, but not used by this plugin
+		 *								Will return the default value if no value was found.
+		 *								Will return null (test with isset() or is_null()) if no default was found
+		 *								either or if the post does not exist
 		 */
-		public static function get_value( $val, $postid = 0 ) {
+		public static function get_value( $meta_key, $postid = 0 ) {
+			global $post;
+
 			$postid = absint( $postid );
 			if ( $postid === 0 ) {
-				global $post;
-				if ( isset( $post ) && isset( $post->post_status ) && $post->post_status != 'auto-draft')
+				if ( ( isset( $post ) && is_object( $post ) ) && ( isset( $post->post_status ) && $post->post_status != 'auto-draft' ) ){
 					$postid = $post->ID;
-				else
-					return false;
+				}
+				else {
+					return null;
+				}
 			}
+
 			$custom = get_post_custom( $postid );
-			if ( ! empty( $custom[self::$meta_prefix . $val][0] ) )
-				return maybe_unserialize( $custom[self::$meta_prefix . $val][0] );
-			else
-				return false;
+			if ( isset( $custom[self::$meta_prefix . $meta_key][0] ) && $custom[self::$meta_prefix . $meta_key][0] !== '' ) {
+				return maybe_unserialize( $custom[self::$meta_prefix . $meta_key][0] );
+			}
+			else if ( isset( self::$defaults[self::$meta_prefix . $meta_key] ) ) {
+				return (string) self::$defaults[self::$meta_prefix . $meta_key];
+			}
+			else {
+				return null;
+			}
 		}
 		
 		/**
 		 * Update a meta value for a post
 		 *
-		 * @param	string	$meta_key		the meta to change
+		 * @param	string	$meta_key		the key of the meta value to change
 		 * @param	mixed	$meta_value		the value to set the meta to
 		 * @param	int		$post_id		the ID of the post to change the meta for.
 		 * @return	bool	whether the value was changed
@@ -755,9 +812,9 @@ add_filter( 'sanitize_user_meta_birth-year', 'sanitize_birth_year_meta' );
 		 * where no WPSEO meta data has been set.
 		 * Optionally deletes the $old_metakey values.
 		 *
-		 * @param	string	$old_metakey	The old name of the meta value.
-		 * @param	string	$new_metakey	The new name of the meta value, usually the WP SEO name.
-		 * @param	bool	$delete_old		Whether to delete the old meta key/values.
+		 * @param	string	$old_metakey	The old key of the meta value.
+		 * @param	string	$new_metakey	The new key of the meta value, usually the WP SEO name.
+		 * @param	bool	$delete_old		Whether to delete the old meta key/value-sets.
 		 * @return	void
 		 */
 		public static function replace_meta( $old_metakey, $new_metakey, $delete_old = false ) {

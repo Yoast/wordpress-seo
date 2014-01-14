@@ -363,7 +363,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 						require_once( WPSEO_PATH . 'admin/pages/metas.php' );
 						break;
 
-					case 'wpseo_wpseo_social':
+					case 'wpseo_social':
 						require_once( WPSEO_PATH . 'admin/pages/social.php' );
 						break;
 

@@ -53,8 +53,8 @@ if ( ! class_exists( 'WPSEO_Social_Admin' ) ) {
 		 */
 		public function tab_content() {
 			$content = '';
-			foreach ( $this->get_meta_field_defs( 'social' ) as $meta_box ) {
-				$content .= $this->do_meta_box( $meta_box );
+			foreach ( $this->get_meta_field_defs( 'social' ) as $meta_key => $meta_field ) {
+				$content .= $this->do_meta_box( $meta_field, $meta_key );
 			}
 			$this->do_tab( 'social', __( 'Social', 'wordpress-seo' ), $content );
 		}

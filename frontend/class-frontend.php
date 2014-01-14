@@ -53,13 +53,10 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 			remove_action( 'wp_head', 'start_post_rel_link' );
 			remove_action( 'wp_head', 'adjacent_posts_rel_link_wp_head' );
 			remove_action( 'wp_head', 'noindex', 1 );
-			if ( isset( $_GET['replytocom'] ) ) {
-				remove_action( 'wp_head', 'wp_no_robots' );
-			}
 		
 			add_filter( 'wp_title', array( $this, 'title' ), 15, 3 );
 			add_filter( 'thematic_doctitle', array( $this, 'title' ), 15 );
-	
+
 			add_action( 'wp', array( $this, 'page_redirect' ), 99, 1 );
 	
 			add_action( 'template_redirect', array( $this, 'noindex_feed' ) );
@@ -623,7 +620,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 			}
 
 			// Force override to respect the WP settings
-			if ( '0' == get_option('blog_public') || isset( $_GET['replytocom'] ) ) {
+			if ( '0' == get_option( 'blog_public' ) || isset( $_GET['replytocom'] ) ) {
 				$robots['index'] = 'noindex';
 			}
 	

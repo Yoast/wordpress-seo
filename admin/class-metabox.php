@@ -76,6 +76,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 	
 			self::$meta_fields['advanced']['meta-robots-adv']['title']                = __( 'Meta Robots Advanced', 'wordpress-seo' );
 			self::$meta_fields['advanced']['meta-robots-adv']['description']          = __( 'Advanced <code>meta</code> robots settings for this page.', 'wordpress-seo' );
+			self::$meta_fields['advanced']['meta-robots-adv']['options']['none']      = __( 'None', 'wordpress-seo' );
 			self::$meta_fields['advanced']['meta-robots-adv']['options']['noodp']     = __( 'NO ODP', 'wordpress-seo' );
 			self::$meta_fields['advanced']['meta-robots-adv']['options']['noydir']    = __( 'NO YDIR', 'wordpress-seo' );
 			self::$meta_fields['advanced']['meta-robots-adv']['options']['noarchive'] = __( 'No Archive', 'wordpress-seo' );
@@ -120,7 +121,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		 * we know which post type is being requested, so we need to use this check in nearly every hooked in function.
 		 *
 		 * Still problematic functions based on tests (i.e. pt_is_public() does not yet return the right info):
-		 * setup_page_analysis()
+		 * setup_page_analysis() -> solved by doing this for the hooked in methods instead
 		 * column_sort_orderby()
 		 * save_postdata() (at least for new posts /autosave)
 		 *
@@ -388,8 +389,8 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			<?php
 			$content = '';
 			if ( is_object( $post ) && isset( $post->post_type ) ) {
-				foreach ( $this->get_meta_field_defs( 'general', $post->post_type ) as $meta_box ) {
-					$content .= $this->do_meta_box( $meta_box );
+				foreach ( $this->get_meta_field_defs( 'general', $post->post_type ) as $meta_key => $meta_field ) {
+					$content .= $this->do_meta_box( $meta_field, $meta_key );
 				}
 			}
 			$this->do_tab( 'general', __( 'General', 'wordpress-seo' ), $content );
@@ -398,8 +399,8 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 	
 			if ( current_user_can( 'manage_options' ) || $options['disableadvanced_meta'] === false ) {
 				$content = '';
-				foreach ( $this->get_meta_field_defs( 'advanced' ) as $meta_box ) {
-					$content .= $this->do_meta_box( $meta_box );
+				foreach ( $this->get_meta_field_defs( 'advanced' ) as $meta_key => $meta_field ) {
+					$content .= $this->do_meta_box( $meta_field, $meta_key );
 				}
 				$this->do_tab( 'advanced', __( 'Advanced', 'wordpress-seo' ), $content );
 			}
@@ -412,128 +413,135 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		/**
 		 * Adds a line in the meta box
 		 *
+		 * @todo check if $class is added appropriately everywhere
+		 *
 		 * @param array $meta_box Contains the vars based on which output is generated.
 		 *
 		 * @return string
 		 */
-		function do_meta_box( $meta_box ) {
-			$content        = '';
-			$meta_box_value = '';
-	
-			if ( ! isset( $meta_box['name'] ) ) {
-				$meta_box['name'] = '';
+		function do_meta_box( $meta_field_def, $meta_key = '' ) {
+			// Don't show the robots index field if it's overruled by a blog-wide option
+			if( $meta_key === 'meta-robots-noindex' && '0' == get_option('blog_public') ) {
+				return '';
 			}
-			else {
-				if ( wpseo_get_value( $meta_box['name'] ) !== false ) {
-					$meta_box_value = wpseo_get_value( $meta_box['name'] );
-				}
-				else if ( isset( $meta_box['default_value'] ) ) {
-					$meta_box_value = $meta_box['default_value'];
-				}
-				$meta_box['name'] = esc_attr( $meta_box['name'] );
+
+			$content      = '';
+			$esc_meta_key = esc_attr( self::$form_prefix . $meta_key );
+			$meta_value   = '';
+			if ( self::get_value( $meta_key ) !== null ) {
+				$meta_value = self::get_value( $meta_key );
 			}
-	
+
+
 			$class = '';
-			if ( ! empty( $meta_box['class'] ) )
-				$class = ' ' . $meta_box['class'];
-	
+			if ( isset( $meta_field_def['class'] ) && $meta_field_def['class'] !== '' ) {
+				$class = ' ' . $meta_field_def['class'];
+			}
+
 			$placeholder = '';
-			if ( isset( $meta_box['placeholder'] ) && ! empty( $meta_box['placeholder'] ) )
-				$placeholder = $meta_box['placeholder'];
+/*	-> does not seem to be ever invoked as none of the field defs contain the key
+			if ( isset( $meta_field_def['placeholder'] ) && ! empty( $meta_field_def['placeholder'] ) )
+				$placeholder = $meta_field_def['placeholder'];
+*/
 	
 			$help = '';
-			if ( isset( $meta_box['help'] ) && $meta_box['help'] )
-				$help = '<img src="' . plugins_url( 'images/question-mark.png', dirname( __FILE__ ) ) . '" class="alignright yoast_help" id="' . $meta_box['name'] . 'help" alt="' . esc_attr( $meta_box['help'] ) . '" />';
+			if ( isset( $meta_field_def['help'] ) && $meta_field_def['help'] !== '' ) {
+				$help = '<img src="' . plugins_url( 'images/question-mark.png', dirname( __FILE__ ) ) . '" class="alignright yoast_help" id="' . esc_attr( $meta_key . 'help' ) . '" alt="' . esc_attr( $meta_field_def['help'] ) . '" />';
+			}
 	
-			$content .= '<tr>';
-			$content .= '<th scope="row"><label for="yoast_wpseo_' . $meta_box['name'] . '">' . $meta_box['title'] . ':</label>' . $help . '</th>';
-			$content .= '<td>';
+			// @todo may be remove label if it's a radio set ? (labels on each button)
+			// @todo may be also for checkbox, would need to add label round $expl
+			$content .= '
+			<tr>
+				<th scope="row"><label for="' . $esc_meta_key . '">' . $meta_field_def['title'] . ':</label>' . $help . '</th>
+				<td>';
+
 	
-			switch ( $meta_box['type'] ) {
+			switch ( $meta_field_def['type'] ) {
 				case 'snippetpreview':
 					$content .= $this->snippet();
 					break;
 	
 				case 'text':
 					$ac = '';
-					if ( isset( $meta_box['autocomplete'] ) && $meta_box['autocomplete'] == 'off' ) {
+					if ( isset( $meta_field_def['autocomplete'] ) && $meta_field_def['autocomplete'] === false ) {
 						$ac = 'autocomplete="off" ';
 					}
-					$content .= '<input type="text" placeholder="' . esc_attr( $placeholder ) . '" id="yoast_wpseo_' . $meta_box['name'] . '" ' . $ac . 'name="yoast_wpseo_' . $meta_box['name'] . '" value="' . esc_attr( $meta_box_value ) . '" class="large-text"/><br />';
+					// @todo check placeholder use
+					$content .= '<input type="text" placeholder="' . esc_attr( $placeholder ) . '" id="' . $esc_meta_key . '" ' . $ac . 'name="' . $esc_meta_key . '" value="' . esc_attr( $meta_value ) . '" class="large-text' . $class . '"/><br />';
 					break;
-	
+
 				case 'textarea':
-					$content .= '<textarea class="large-text" rows="3" id="yoast_wpseo_' . $meta_box['name'] . '" name="yoast_wpseo_' . $meta_box['name'] . '">' . esc_textarea( $meta_box_value ) . '</textarea>';
+					// @todo add check for richedit field def ?
+					$rows = 3;
+					if ( isset( $meta_field_def['rows'] ) && $meta_field_def['rows'] > 0 ) {
+						$rows = $meta_field_def['rows'];
+					}
+					$content .= '<textarea class="large-text' . $class . '" rows="' . esc_attr( $rows ) . '" id="' . $esc_meta_key . '" name="' . $esc_meta_key . '">' . esc_textarea( $meta_value ) . '</textarea>';
 					break;
 	
 				case 'select':
-					$content .= '<select name="yoast_wpseo_' . $meta_box['name'] . '" id="yoast_wpseo_' . $meta_box['name'] . '" class="yoast' . $class . '">';
-					foreach ( $meta_box['options'] as $val => $option ) {
-						$selected = '';
-						if ( $meta_box_value == $val ) {
-							$selected = 'selected="selected"';
+					if( isset( $meta_field_def['options'] ) && is_array( $meta_field_def['options'] ) && $meta_field_def['options'] !== array() ) {
+						$content .= '<select name="' . $esc_meta_key . '" id="' . $esc_meta_key . '" class="yoast' . $class . '">';
+						foreach ( $meta_field_def['options'] as $val => $option ) {
+							$selected = selected( $meta_value, $val, false );
+							$content .= '<option ' . $selected . ' value="' . esc_attr( $val ) . '">' . esc_html( $option ) . '</option>';
 						}
-						$content .= '<option ' . $selected . ' value="' . esc_attr( $val ) . '">' . esc_html( $option ) . '</option>';
+						$content .= '</select>';
 					}
-					$content .= '</select>';
 					break;
 	
 				case 'multiselect':
-					$selectedarr         = explode( ',', $meta_box_value );
-					$meta_box['options'] = array( 'none' => 'None' ) + $meta_box['options'];
-					$content .= '<select multiple="multiple" size="' . count( $meta_box['options'] ) . '" style="height: ' . ( count( $meta_box['options'] ) * 16 ) . 'px;" name="yoast_wpseo_' . $meta_box['name'] . '[]" id="yoast_wpseo_' . $meta_box['name'] . '" class="yoast' . $class . '">';
-					foreach ( $meta_box['options'] as $val => $option ) {
-						$selected = '';
-						if ( in_array( $val, $selectedarr ) ) {
-							$selected = 'selected="selected"';
+					if( isset( $meta_field_def['options'] ) && is_array( $meta_field_def['options'] ) && $meta_field_def['options'] !== array() ) {
+						$selectedarr               = explode( ',', $meta_value );
+						$options_count             = count( $meta_field_def['options'] );
+
+						$content .= '<select multiple="multiple" size="' . esc_attr( $options_count ) . '" style="height: ' . esc_attr( $options_count * 16 ) . 'px;" name="' . $esc_meta_key . '[]" id="' . $esc_meta_key . '" class="yoast' . $class . '">';
+						foreach ( $meta_field_def['options'] as $val => $option ) {
+							$selected = '';
+							if ( in_array( $val, $selectedarr ) ) {
+								$selected = ' selected="selected"';
+							}
+							$content .= '<option ' . $selected . ' value="' . esc_attr( $val ) . '">' . esc_html( $option ) . '</option>';
 						}
-						$content .= '<option ' . $selected . ' value="' . esc_attr( $val ) . '">' . esc_html( $option ) . '</option>';
+						$content .= '</select>';
 					}
-					$content .= '</select>';
 					break;
 	
 				case 'checkbox':
+/*	-> why also check for true ? post meta values are only ever strings when retrieved via get_post_meta()
 					$checked = '';
-					if ( $meta_box_value == 'on' || $meta_box_value == true ) {
+					if ( $meta_value == 'on' || $meta_value == true ) {
 						$checked = 'checked="checked"';
 					}
-					$expl     = ( isset( $meta_box['expl'] ) ) ? esc_html( $meta_box['expl'] ) : '';
-					$content .= '<input type="checkbox" id="yoast_wpseo_' . $meta_box['name'] . '" name="yoast_wpseo_' . $meta_box['name'] . '" ' . $checked . ' class="yoast' . $class . '"/> ' . $expl . '<br />';
+*/
+					$checked  = checked( $meta_value, 'on', false );
+					$expl     = ( isset( $meta_field_def['expl'] ) ) ? esc_html( $meta_field_def['expl'] ) : '';
+					$content .= '<input type="checkbox" id="' . $esc_meta_key . '" name="' . $esc_meta_key . '" ' . $checked . ' class="yoast' . $class . '"/> ' . $expl . '<br />';
 					break;
 	
 				case 'radio':
-					if ( $meta_box_value == '' ) {
-						$meta_box_value = $meta_box['default_value'];
-					}
-					foreach ( $meta_box['options'] as $val => $option ) {
-						$selected = '';
-						if ( $meta_box_value == $val ) {
-							$selected = 'checked="checked"';
+					if( isset( $meta_field_def['options'] ) && is_array( $meta_field_def['options'] ) && $meta_field_def['options'] !== array() ) {
+						foreach ( $meta_field_def['options'] as $val => $option ) {
+							$checked  = checked( $meta_value, $val, false );
+							$content .= '<input type="radio" ' . $checked . ' id="' . $esc_meta_key . '_' . esc_attr( $val ) . '" name="' . $esc_meta_key . '" value="' . esc_attr( $val ) . '"/> <label for="' . $esc_meta_key . '_' . esc_attr( $val ) . '">' . esc_html( $option ) . '</label> ';
 						}
-						$content .= '<input type="radio" ' . $selected . ' id="yoast_wpseo_' . $meta_box['name'] . '_' . esc_attr( $val ) . '" name="yoast_wpseo_' . $meta_box['name'] . '" value="' . esc_attr( $val ) . '"/> <label for="yoast_wpseo_' . $meta_box['name'] . '_' . $val . '">' . $option . '</label> ';
 					}
 					break;
-	
+
 				case 'upload':
-					if ( $meta_box_value == '' ) {
-						$meta_box_value = $meta_box['default_value'];
-					}
-					$content .= '<label for="yoast_wpseo_'.$meta_box['name'].'">';
-					$content .= '<input id="yoast_wpseo_' . $meta_box['name'] . '" type="text" size="36" name="yoast_wpseo_'.$meta_box['name'].'" value="' . $meta_box_value . '" />';
-					$content .= '<input id="yoast_wpseo_' . $meta_box['name'] . '_button" class="wpseo_image_upload_button button" type="button" value="Upload Image" />';
-					$content .= '</label>';
-					break;
-	
-				case 'divtext':
-					$content .= '<p>' . $meta_box['description'] . '</p>';
+					$content .= '<input id="' . $esc_meta_key . '" type="text" size="36" name="' . $esc_meta_key . '" value="' . esc_attr( $meta_value ) . '" />';
+					$content .= '<input id="' . $esc_meta_key . '_button" class="wpseo_image_upload_button button" type="button" value="Upload Image" />';
 					break;
 			}
 	
-			if ( isset( $meta_box['description'] ) )
-				$content .= '<p>' . $meta_box['description'] . '</p>';
+			if ( isset( $meta_field_def['description'] ) ) {
+				$content .= '<p>' . $meta_field_def['description'] . '</p>';
+			}
 	
-			$content .= '</td>';
-			$content .= '</tr>';
+			$content .= '
+				</td>
+			</tr>';
 	
 			return $content;
 		}
@@ -675,6 +683,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		/**
 		 * Save the WP SEO metadata for posts.
 		 *
+		 * @todo needs complete rewrite
 		 * @todo needs proper validation of the $_POST variable
 		 *
 		 * @param int $post_id
@@ -684,7 +693,9 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		function save_postdata( $post_id ) {
 			if ( $post_id === null )
 				return false;
-	
+
+
+
 			// @todo: check if this is really needed as update_post_meta() already does this
 			if ( wp_is_post_revision( $post_id ) ) {
 				$post_id = wp_is_post_revision( $post_id );
@@ -705,27 +716,27 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			foreach ( $metaboxes as $meta_box ) {
 				if ( ! isset( $meta_box['name'] ) )
 					continue;
-	
+
 				if ( 'checkbox' == $meta_box['type'] ) {
-					if ( isset( $_POST['yoast_wpseo_' . $meta_box['name']] ) )
+					if ( isset( $_POST[self::$form_prefix . $meta_box['name']] ) )
 						$data = 'on';
 					else
 						$data = 'off';
 				}
 				else if ( 'multiselect' == $meta_box['type'] ) {
-					if ( isset( $_POST['yoast_wpseo_' . $meta_box['name']] ) ) {
-						if ( is_array( $_POST['yoast_wpseo_' . $meta_box['name']] ) )
-							$data = implode( ',', $_POST['yoast_wpseo_' . $meta_box['name']] );
+					if ( isset( $_POST[self::$form_prefix . $meta_box['name']] ) ) {
+						if ( is_array( $_POST[self::$form_prefix . $meta_box['name']] ) )
+							$data = implode( ',', $_POST[self::$form_prefix . $meta_box['name']] );
 						else
-							$data = $_POST['yoast_wpseo_' . $meta_box['name']];
+							$data = $_POST[self::$form_prefix . $meta_box['name']];
 					}
 					else {
 						continue;
 					}
 				}
 				else {
-					if ( isset( $_POST['yoast_wpseo_' . $meta_box['name']] ) )
-						$data = $_POST['yoast_wpseo_' . $meta_box['name']];
+					if ( isset( $_POST[self::$form_prefix . $meta_box['name']] ) )
+						$data = $_POST[self::$form_prefix . $meta_box['name']];
 					else
 						continue;
 				}
