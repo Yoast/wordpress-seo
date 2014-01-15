@@ -752,6 +752,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 				wp_localize_script(
 					'wp-seo-metabox', 'wpseoMetaboxL10n',
 					array(
+						'field_prefix'			=> self::$form_prefix,
 						'keyword_header'        => __( 'Your focus keyword was found in:', 'wordpress-seo' ),
 						'article_header_text'   => __( 'Article Heading: ', 'wordpress-seo' ),
 						'page_title_text'       => __( 'Page title: ', 'wordpress-seo' ),
