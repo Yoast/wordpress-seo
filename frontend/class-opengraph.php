@@ -252,7 +252,7 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 		 */
 		public function type( $echo = true ) {
 			if ( is_singular() ) {
-				$type = wpseo_get_value( 'og_type' );
+				$type = WPSEO_Meta::get_value( 'og_type' );
 				if ( ! $type || $type == '' )
 					$type = 'article';
 			}
@@ -320,7 +320,7 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 			}
 	
 			if ( is_singular() ) {
-				$ogimg = wpseo_get_value( 'opengraph-image' );
+				$ogimg = WPSEO_Meta::get_value( 'opengraph-image' );
 				if ( is_string( $ogimg ) && $ogimg !== '' ) {
 					$this->image_output( $ogimg );
 					return;
@@ -362,7 +362,7 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 			}
 	
 			if ( is_singular() ) {
-				$ogdesc = wpseo_get_value( 'opengraph-description' );
+				$ogdesc = WPSEO_Meta::get_value( 'opengraph-description' );
 				if ( $ogdesc === '' ) {
 					$ogdesc = $this->metadesc( false );
 				}

@@ -214,12 +214,12 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 	
 			echo '<div class="misc-pub-section misc-yoast misc-pub-section-last">';
 	
-			if ( wpseo_get_value( 'meta-robots-noindex' ) === '1' ) {
+			if ( self::get_value( 'meta-robots-noindex' ) === '1' ) {
 				$score_label = 'noindex';
 				$title       = __( 'Post is set to noindex.', 'wordpress-seo' );
 			}
 			else {
-				$score = wpseo_get_value( 'linkdex' );
+				$score = self::get_value( 'linkdex' );
 				if ( $score !== '' ) {
 					// @todo use bcmath ?
 					$score = round( $score / 10 );
@@ -238,7 +238,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 					}
 	
 					$this->calculate_results( $post );
-					$score = wpseo_get_value( 'linkdex' );
+					$score = self::get_value( 'linkdex' );
 					if ( $score === '' ) {
 						$score_label = 'na';
 						$title       = __( 'No focus keyword set.', 'wordpress-seo' );
@@ -575,8 +575,8 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 				$date = $this->get_post_date( $post );
 			}
 	
-			$title = wpseo_get_value( 'title' );
-			$desc  = wpseo_get_value( 'metadesc' );
+			$title = self::get_value( 'title' );
+			$desc  = self::get_value( 'metadesc' );
 	
 			$slug = ( is_object( $post ) && isset( $post->post_name ) ) ? $post->post_name : '';
 			if ( $slug !== '' ) {
@@ -825,8 +825,8 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 				return;
 	
 			if ( $column_name === 'wpseo-score' ) {
-				$score = wpseo_get_value( 'linkdex', $post_id );
-				if ( wpseo_get_value( 'meta-robots-noindex', $post_id ) === '1' ) {
+				$score = self::get_value( 'linkdex', $post_id );
+				if ( self::get_value( 'meta-robots-noindex', $post_id ) === '1' ) {
 					$score_label = 'noindex';
 					$title       = __( 'Post is set to noindex.', 'wordpress-seo' );
 					self::set_value( 'linkdex', 0, $post_id );
@@ -838,7 +838,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 				}
 				else {
 					$this->calculate_results( get_post( $post_id ) );
-					$score = wpseo_get_value( 'linkdex', $post_id );
+					$score = self::get_value( 'linkdex', $post_id );
 					if ( $score === '' ) {
 						$score_label = 'na';
 						$title       = __( 'Focus keyword not set.', 'wordpress-seo' );
@@ -855,10 +855,10 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 				echo esc_html( apply_filters( 'wpseo_title', $this->page_title( $post_id ) ) );
 			}
 			if ( $column_name == 'wpseo-metadesc' ) {
-				echo esc_html( apply_filters( 'wpseo_metadesc', wpseo_get_value( 'metadesc', $post_id ) ) );
+				echo esc_html( apply_filters( 'wpseo_metadesc', self::get_value( 'metadesc', $post_id ) ) );
 			}
 			if ( $column_name == 'wpseo-focuskw' ) {
-				$focuskw = wpseo_get_value( 'focuskw', $post_id );
+				$focuskw = self::get_value( 'focuskw', $post_id );
 				echo esc_html( $focuskw );
 			}
 		}
@@ -1004,7 +1004,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		 * @return string
 		 */
 		function page_title( $post_id ) {
-			$fixed_title = wpseo_get_value( 'title', $post_id );
+			$fixed_title = self::get_value( 'title', $post_id );
 			if ( $fixed_title !== '' ) {
 				return $fixed_title;
 			}
@@ -1059,7 +1059,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 	
 			$output = '<table class="wpseoanalysis">';
 	
-			$perc_score = absint( wpseo_get_value( 'linkdex' ) );
+			$perc_score = absint( self::get_value( 'linkdex' ) );
 	
 			foreach ( $results as $result ) {
 				$score   = wpseo_translate_score( $result['val'] );
@@ -1097,7 +1097,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 	
 				return $result;
 			}
-			else if ( wpseo_get_value( 'focuskw', $post->ID ) === '' ) {
+			else if ( self::get_value( 'focuskw', $post->ID ) === '' ) {
 				$result = new WP_Error( 'no-focuskw', sprintf( __( 'No focus keyword was set for this %s. If you do not set a focus keyword, no score can be calculated.', 'wordpress-seo' ), $post->post_type ) );
 	
 				self::set_value( 'linkdex', 0, $post->ID );
@@ -1115,7 +1115,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			$sampleurl             = get_sample_permalink( $post );
 			$job['pageUrl']        = preg_replace( '`%(?:post|page)name%`', $sampleurl[1], $sampleurl[0] );
 			$job['pageSlug']       = urldecode( $post->post_name );
-			$job['keyword']        = wpseo_get_value( 'focuskw' );
+			$job['keyword']        = self::get_value( 'focuskw' );
 			$job['keyword_folded'] = $this->strip_separators_and_fold( $job['keyword'] );
 			$job['post_id']        = $post->ID;
 			$job['post_type']      = $post->post_type;
@@ -1133,8 +1133,8 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			$this->score_keyword( $job['keyword'], $results );
 	
 			// Title
-			if ( wpseo_get_value( 'title' ) !== '' ) {
-				$job['title'] = wpseo_get_value( 'title' );
+			if ( self::get_value( 'title' ) !== '' ) {
+				$job['title'] = self::get_value( 'title' );
 			}
 			else {
 				if ( isset( $options['title-' . $post->post_type] ) && $options['title-' . $post->post_type] !== '' ) {
@@ -1149,8 +1149,8 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 	
 			// Meta description
 			$description = '';
-			if ( wpseo_get_value( 'metadesc' ) !== '' ) {
-				$description = wpseo_get_value( 'metadesc' );
+			if ( self::get_value( 'metadesc' ) !== '' ) {
+				$description = self::get_value( 'metadesc' );
 			}
 			else {
 				if ( isset( $options['metadesc-' . $post->post_type] ) && $options['metadesc-' . $post->post_type] !== '' ) {

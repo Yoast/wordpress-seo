@@ -285,7 +285,7 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 	
 				if ( isset( $link['id'] ) ) {
 					$link['url']  = get_permalink( $link['id'] );
-					$link['text'] = wpseo_get_value( 'bctitle', $link['id'] );
+					$link['text'] = WPSEO_Meta::get_value( 'bctitle', $link['id'] );
 					if ( $link['text'] === '' ) {
 						$link['text'] = strip_tags( get_the_title( $link['id'] ) );
 					}

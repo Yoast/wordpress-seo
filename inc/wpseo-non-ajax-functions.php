@@ -416,8 +416,8 @@ function wpseo_admin_bar_menu() {
 
 	// @todo adjust the if() clause to also allow this to work when editing posts on the admin site (i.e. make the keyword research links work with the right keyword which they don't now)
 	if ( is_singular() && isset( $post ) && is_object( $post ) && apply_filters( 'wpseo_use_page_analysis', true ) === true ) {
-		$focuskw    = wpseo_get_value( 'focuskw', $post->ID );
-		$perc_score = wpseo_get_value( 'linkdex', $post->ID );
+		$focuskw    = WPSEO_Meta::get_value( 'focuskw', $post->ID );
+		$perc_score = WPSEO_Meta::get_value( 'linkdex', $post->ID );
 		// @todo use bcmath
 		$txtscore   = wpseo_translate_score( round( $perc_score / 10 ) );
 		$title      = wpseo_translate_score( round( $perc_score / 10 ), false );

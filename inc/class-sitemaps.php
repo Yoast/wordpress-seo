@@ -504,13 +504,13 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 					$p->post_status = 'publish';
 					$p->filter      = 'sample';
 
-					if ( wpseo_get_value( 'meta-robots-noindex', $p->ID ) === '1' && wpseo_get_value( 'sitemap-include', $p->ID ) !== 'always' ) {
+					if ( WPSEO_Meta::get_value( 'meta-robots-noindex', $p->ID ) === '1' && WPSEO_Meta::get_value( 'sitemap-include', $p->ID ) !== 'always' ) {
 						continue;
 					}
-					if ( wpseo_get_value( 'sitemap-include', $p->ID ) === 'never' ) {
+					if ( WPSEO_Meta::get_value( 'sitemap-include', $p->ID ) === 'never' ) {
 						continue;
 					}
-					if ( wpseo_get_value( 'redirect', $p->ID ) !== '' ) {
+					if ( WPSEO_Meta::get_value( 'redirect', $p->ID ) !== '' ) {
 						continue;
 					}
 	
@@ -520,7 +520,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 					$url['chf'] = 'weekly';
 					$url['loc'] = get_permalink( $p );
 	
-					$canonical = wpseo_get_value( 'canonical', $p->ID );
+					$canonical = WPSEO_Meta::get_value( 'canonical', $p->ID );
 					if ( $canonical !== '' && $canonical !== $url['loc'] ) {
 						/* Let's assume that if a canonical is set for this page and it's different from
 						   the URL of this post, that page is either already in the XML sitemap OR is on
@@ -533,7 +533,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 						}
 					}
 	
-					$pri = wpseo_get_value( 'sitemap-prio', $p->ID );
+					$pri = WPSEO_Meta::get_value( 'sitemap-prio', $p->ID );
 					if ( is_numeric( $pri ) ) {
 						$url['pri'] = $pri;
 					}
