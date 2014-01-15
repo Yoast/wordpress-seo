@@ -27,14 +27,11 @@ class WPSEO_Page_Redirect {
 
 		// Admin header
 		$wpseo_admin_pages->admin_header( false, 'yoast_wpseo_redirects_options', 'wpseo_redirects' );
-
-		$page_url = admin_url( 'admin.php' ) . '?page=' . $_GET['page'];
-
 		?>
 		<h2 class="nav-tab-wrapper" id="wpseo-tabs">
-			<a class="nav-tab" id="redirects-tab" href="<?php echo $page_url; ?>#top#redirects"><?php _e( 'Redirects', 'wordpress-seo' ); ?></a>
-			<a class="nav-tab" id="google-wmt-tab" href="<?php echo $page_url; ?>#top#google-wmt"><?php _e( 'Google Web Master Tools', 'wordpress-seo' ); ?></a>
-			<a class="nav-tab" id="settings-tab" href="<?php echo $page_url; ?>#top#settings"><?php _e( 'Settings', 'wordpress-seo' ); ?></a>
+			<a class="nav-tab" id="redirects-tab" href="#top#redirects"><?php _e( 'Redirects', 'wordpress-seo' ); ?></a>
+			<a class="nav-tab" id="google-wmt-tab" href="#top#google-wmt"><?php _e( 'Google Web Master Tools', 'wordpress-seo' ); ?></a>
+			<a class="nav-tab" id="settings-tab" href="#top#settings"><?php _e( 'Settings', 'wordpress-seo' ); ?></a>
 		</h2>
 
 		<div class="tabwrapper>">
