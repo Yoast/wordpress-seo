@@ -11,9 +11,6 @@
 				$wpseo_redirects.restore_row(v);
 			});
 
-			// Bind form submit
-			$wpseo_redirects.bind_submit(row);
-
 			// Add row edit class
 			$(row).addClass('row_edit');
 
@@ -29,8 +26,21 @@
 				);
 				ti++;
 			});
+
+			// Hide default row actions
 			$(row).find('.row-actions').hide();
 
+			// Wrap inputs in form elements
+			var wrap_form = $("<form>").submit(function(e) {
+				e.preventDefault();
+				$wpseo_redirects.restore_row(row);
+				$wpseo_redirects.save_redirect(row);
+				return false;
+			});
+
+			$(row).find('td .val input').wrap(wrap_form);
+
+			// Add buttons
 			$(row).find('.row-actions').parent().append(
 					$('<div>').addClass('edit-actions').append(
 									$('<button>').addClass('button-primary').attr('tabindex', 3).html('Save').click(function () {
@@ -74,20 +84,7 @@
 
 			$(row).find('.edit-actions').remove();
 			$(row).find('.row-actions').show();
-			$wpseo_redirects.unbind_submit();
-		};
-
-		this.bind_submit = function (row) {
-			$wpseo_redirects.closest('form').submit(function (e) {
-				e.preventDefault();
-				$wpseo_redirects.restore_row(row);
-				$wpseo_redirects.save_redirect(row);
-				return false;
-			})
-		};
-
-		this.unbind_submit = function (row) {
-			$wpseo_redirects.closest('form').unbind('submit');
+			//$wpseo_redirects.unbind_submit();
 		};
 
 		this.save_redirect = function (row) {
