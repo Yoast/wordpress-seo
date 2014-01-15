@@ -220,8 +220,8 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			}
 			else {
 				$score = wpseo_get_value( 'linkdex' );
-				if ( $score ) {
-					// @todo should we use bcmath ?
+				if ( $score !== '' ) {
+					// @todo use bcmath ?
 					$score = round( $score / 10 );
 					if ( $score < 1 ) {
 						$score = 1;
@@ -239,7 +239,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 	
 					$this->calculate_results( $post );
 					$score = wpseo_get_value( 'linkdex' );
-					if ( ! $score || empty( $score ) ) {
+					if ( $score === '' ) {
 						$score_label = 'na';
 						$title       = __( 'No focus keyword set.', 'wordpress-seo' );
 					}
@@ -249,7 +249,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 				}
 	
 				if ( ! isset( $title ) ) {
-					$title = wpseo_translate_score( $score, $css = false );
+					$title = wpseo_translate_score( $score, false );
 				}
 			}
 	
@@ -390,8 +390,8 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			<?php
 			$content = '';
 			if ( is_object( $post ) && isset( $post->post_type ) ) {
-				foreach ( $this->get_meta_field_defs( 'general', $post->post_type ) as $meta_key => $meta_field ) {
-					$content .= $this->do_meta_box( $meta_field, $meta_key );
+				foreach ( $this->get_meta_field_defs( 'general', $post->post_type ) as $key => $meta_field ) {
+					$content .= $this->do_meta_box( $meta_field, $key );
 				}
 			}
 			$this->do_tab( 'general', __( 'General', 'wordpress-seo' ), $content );
@@ -400,8 +400,8 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 	
 			if ( current_user_can( 'manage_options' ) || $options['disableadvanced_meta'] === false ) {
 				$content = '';
-				foreach ( $this->get_meta_field_defs( 'advanced' ) as $meta_key => $meta_field ) {
-					$content .= $this->do_meta_box( $meta_field, $meta_key );
+				foreach ( $this->get_meta_field_defs( 'advanced' ) as $key => $meta_field ) {
+					$content .= $this->do_meta_box( $meta_field, $key );
 				}
 				$this->do_tab( 'advanced', __( 'Advanced', 'wordpress-seo' ), $content );
 			}
@@ -416,18 +416,14 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		 *
 		 * @todo check if $class is added appropriately everywhere
 		 *
-		 * @param array $meta_box Contains the vars based on which output is generated.
-		 *
-		 * @return string
+		 * @param   array   $meta_field_def Contains the vars based on which output is generated.
+		 * @param   string  $key			Internal key (without prefix)
+		 * @return  string
 		 */
-		function do_meta_box( $meta_field_def, $meta_key = '' ) {
+		function do_meta_box( $meta_field_def, $key = '' ) {
 			$content      = '';
-			$esc_meta_key = esc_attr( self::$form_prefix . $meta_key );
-			$meta_value   = '';
-			if ( self::get_value( $meta_key ) !== null ) {
-				$meta_value = self::get_value( $meta_key );
-			}
-
+			$esc_form_key = esc_attr( self::$form_prefix . $key );
+			$meta_value   = self::get_value( $key );
 
 			$class = '';
 			if ( isset( $meta_field_def['class'] ) && $meta_field_def['class'] !== '' ) {
@@ -442,14 +438,14 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 	
 			$help = '';
 			if ( isset( $meta_field_def['help'] ) && $meta_field_def['help'] !== '' ) {
-				$help = '<img src="' . plugins_url( 'images/question-mark.png', dirname( __FILE__ ) ) . '" class="alignright yoast_help" id="' . esc_attr( $meta_key . 'help' ) . '" alt="' . esc_attr( $meta_field_def['help'] ) . '" />';
+				$help = '<img src="' . plugins_url( 'images/question-mark.png', dirname( __FILE__ ) ) . '" class="alignright yoast_help" id="' . esc_attr( $key . 'help' ) . '" alt="' . esc_attr( $meta_field_def['help'] ) . '" />';
 			}
 	
 			// @todo may be remove label if it's a radio set ? (labels on each button)
 			// @todo may be also for checkbox, would need to add label round $expl
 			$content .= '
 			<tr>
-				<th scope="row"><label for="' . $esc_meta_key . '">' . $meta_field_def['title'] . ':</label>' . $help . '</th>
+				<th scope="row"><label for="' . $esc_form_key . '">' . $meta_field_def['title'] . ':</label>' . $help . '</th>
 				<td>';
 
 	
@@ -464,7 +460,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 						$ac = 'autocomplete="off" ';
 					}
 					// @todo check placeholder use
-					$content .= '<input type="text" placeholder="' . esc_attr( $placeholder ) . '" id="' . $esc_meta_key . '" ' . $ac . 'name="' . $esc_meta_key . '" value="' . esc_attr( $meta_value ) . '" class="large-text' . $class . '"/><br />';
+					$content .= '<input type="text" placeholder="' . esc_attr( $placeholder ) . '" id="' . $esc_form_key . '" ' . $ac . 'name="' . $esc_form_key . '" value="' . esc_attr( $meta_value ) . '" class="large-text' . $class . '"/><br />';
 					break;
 
 				case 'textarea':
@@ -473,12 +469,12 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 					if ( isset( $meta_field_def['rows'] ) && $meta_field_def['rows'] > 0 ) {
 						$rows = $meta_field_def['rows'];
 					}
-					$content .= '<textarea class="large-text' . $class . '" rows="' . esc_attr( $rows ) . '" id="' . $esc_meta_key . '" name="' . $esc_meta_key . '">' . esc_textarea( $meta_value ) . '</textarea>';
+					$content .= '<textarea class="large-text' . $class . '" rows="' . esc_attr( $rows ) . '" id="' . $esc_form_key . '" name="' . $esc_form_key . '">' . esc_textarea( $meta_value ) . '</textarea>';
 					break;
 	
 				case 'select':
 					if ( isset( $meta_field_def['options'] ) && is_array( $meta_field_def['options'] ) && $meta_field_def['options'] !== array() ) {
-						$content .= '<select name="' . $esc_meta_key . '" id="' . $esc_meta_key . '" class="yoast' . $class . '">';
+						$content .= '<select name="' . $esc_form_key . '" id="' . $esc_form_key . '" class="yoast' . $class . '">';
 						foreach ( $meta_field_def['options'] as $val => $option ) {
 							$selected = selected( $meta_value, $val, false );
 							$content .= '<option ' . $selected . ' value="' . esc_attr( $val ) . '">' . esc_html( $option ) . '</option>';
@@ -489,11 +485,11 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 	
 				case 'multiselect':
 					if ( isset( $meta_field_def['options'] ) && is_array( $meta_field_def['options'] ) && $meta_field_def['options'] !== array() ) {
-						$selectedarr               = explode( ',', $meta_value );
-						$options_count             = count( $meta_field_def['options'] );
+						$selectedarr   = explode( ',', $meta_value );
+						$options_count = count( $meta_field_def['options'] );
 
 						// @todo verify height calculation for older WP versions
-						$content .= '<select multiple="multiple" size="' . esc_attr( $options_count ) . '" style="height: ' . esc_attr( ( $options_count * 20 ) + 4 ) . 'px;" name="' . $esc_meta_key . '[]" id="' . $esc_meta_key . '" class="yoast' . $class . '">';
+						$content .= '<select multiple="multiple" size="' . esc_attr( $options_count ) . '" style="height: ' . esc_attr( ( $options_count * 20 ) + 4 ) . 'px;" name="' . $esc_form_key . '[]" id="' . $esc_form_key . '" class="yoast' . $class . '">';
 						foreach ( $meta_field_def['options'] as $val => $option ) {
 							$selected = '';
 							if ( in_array( $val, $selectedarr ) ) {
@@ -514,21 +510,21 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 */
 					$checked  = checked( $meta_value, 'on', false );
 					$expl     = ( isset( $meta_field_def['expl'] ) ) ? esc_html( $meta_field_def['expl'] ) : '';
-					$content .= '<input type="checkbox" id="' . $esc_meta_key . '" name="' . $esc_meta_key . '" ' . $checked . ' value="on" class="yoast' . $class . '"/> ' . $expl . '<br />';
+					$content .= '<input type="checkbox" id="' . $esc_form_key . '" name="' . $esc_form_key . '" ' . $checked . ' value="on" class="yoast' . $class . '"/> ' . $expl . '<br />';
 					break;
 	
 				case 'radio':
 					if ( isset( $meta_field_def['options'] ) && is_array( $meta_field_def['options'] ) && $meta_field_def['options'] !== array() ) {
 						foreach ( $meta_field_def['options'] as $val => $option ) {
 							$checked  = checked( $meta_value, $val, false );
-							$content .= '<input type="radio" ' . $checked . ' id="' . $esc_meta_key . '_' . esc_attr( $val ) . '" name="' . $esc_meta_key . '" value="' . esc_attr( $val ) . '"/> <label for="' . $esc_meta_key . '_' . esc_attr( $val ) . '">' . esc_html( $option ) . '</label> ';
+							$content .= '<input type="radio" ' . $checked . ' id="' . $esc_form_key . '_' . esc_attr( $val ) . '" name="' . $esc_form_key . '" value="' . esc_attr( $val ) . '"/> <label for="' . $esc_form_key . '_' . esc_attr( $val ) . '">' . esc_html( $option ) . '</label> ';
 						}
 					}
 					break;
 
 				case 'upload':
-					$content .= '<input id="' . $esc_meta_key . '" type="text" size="36" name="' . $esc_meta_key . '" value="' . esc_attr( $meta_value ) . '" />';
-					$content .= '<input id="' . $esc_meta_key . '_button" class="wpseo_image_upload_button button" type="button" value="Upload Image" />';
+					$content .= '<input id="' . $esc_form_key . '" type="text" size="36" name="' . $esc_form_key . '" value="' . esc_attr( $meta_value ) . '" />';
+					$content .= '<input id="' . $esc_form_key . '_button" class="wpseo_image_upload_button button" type="button" value="Upload Image" />';
 					break;
 			}
 	
@@ -583,11 +579,11 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			$desc  = wpseo_get_value( 'metadesc' );
 	
 			$slug = ( is_object( $post ) && isset( $post->post_name ) ) ? $post->post_name : '';
-			if ( empty( $slug ) ) {
+			if ( $slug !== '' ) {
 				$slug = sanitize_title( $title );
 			}
 	
-			if ( ! empty( $date ) ) {
+			if ( is_string( $date ) && $date !== '' ) {
 				$datestr = '<span style="color: #666;">' . $date . '</span> – ';
 			}
 			else {
@@ -680,8 +676,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		/**
 		 * Save the WP SEO metadata for posts.
 		 *
-		 * @todo needs complete rewrite
-		 * @todo needs proper validation of the $_POST variable
+		 * @internal $_POST parameters are validated via sanitize_post_meta()
 		 *
 		 * @param int $post_id
 		 *
@@ -692,66 +687,42 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 				return false;
 
 
-
-			// @todo: check if this is really needed as update_post_meta() already does this
 			if ( wp_is_post_revision( $post_id ) ) {
 				$post_id = wp_is_post_revision( $post_id );
 			}
-	
+
 			clean_post_cache( $post_id );
 			$post = get_post( $post_id );
-			
+
 			if ( ! is_object( $post ) ) {
 				// non-existant post
 				return false;
 			}
-	
+
 			$metaboxes = array_merge( $this->get_meta_field_defs( 'general', $post->post_type ), $this->get_meta_field_defs( 'advanced' ) );
-	
 			$metaboxes = apply_filters( 'wpseo_save_metaboxes', $metaboxes );
 	
 			foreach ( $metaboxes as $meta_box ) {
-				if ( ! isset( $meta_box['name'] ) )
-					continue;
-
-				if ( 'checkbox' == $meta_box['type'] ) {
-					if ( ! isset( $_POST[self::$form_prefix . $meta_box['name']] ) ) {
-						$data = 'off';
-					}
+				$data = null;
+				if ( 'checkbox' === $meta_box['type'] ) {
+					$data = isset( $_POST[self::$form_prefix . $meta_box['name']] ) ? 'on' : 'off';
 				}
-/*				else if ( 'multiselect' == $meta_box['type'] ) {
-					if ( isset( $_POST[self::$form_prefix . $meta_box['name']] ) ) {
-						if ( is_array( $_POST[self::$form_prefix . $meta_box['name']] ) )
-							$data = implode( ',', $_POST[self::$form_prefix . $meta_box['name']] );
-						else
-							$data = $_POST[self::$form_prefix . $meta_box['name']];
-					}
-					else {
-						continue;
-					}
-				}*/
 				else {
-					if ( isset( $_POST[self::$form_prefix . $meta_box['name']] ) )
+					if ( isset( $_POST[self::$form_prefix . $meta_box['name']] ) ) {
 						$data = $_POST[self::$form_prefix . $meta_box['name']];
-					else
-						continue;
+					}
 				}
-	
-				// Prevent saving "empty" values.
-				if ( ! in_array( $data, array( '', '0', 'none', '-', 'index,follow' ) ) ) {
-					self::set_value( $meta_box['name'], /*sanitize_text_field(*/ $data /*)*/, $post_id );
-				}
-				else if ( $data == '' ) {
-					// If we don't do this, we prevent people from reverting to the default title or description.
-					delete_post_meta( $post_id, self::$meta_prefix . $meta_box['name'] );
+				if( isset( $data ) ) {
+					self::set_value( $meta_box['name'], $data, $post_id );
 				}
 			}
-	
+
 			$this->calculate_results( $post );
-	
+
 			do_action( 'wpseo_saved_postdata' );
 		}
-	
+
+
 		/**
 		 * Enqueues all the needed JS and CSS.
 		 * @todo create css/metabox-mp6.css file and add it to the below allowed colors array when done
@@ -792,6 +763,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 				);
 			}
 		}
+
 	
 		/**
 		 * Adds a dropdown that allows filtering on the posts SEO Quality.
@@ -805,20 +777,23 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			global $pagenow;
 			if ( $pagenow == 'upload.php' )
 				return false;
-	
+				
+			$scores_array = array(
+				'na'      => __( 'SEO: No Focus Keyword', 'wordpress-seo' ),
+				'bad'     => __( 'SEO: Bad', 'wordpress-seo' ),
+				'poor'    => __( 'SEO: Poor', 'wordpress-seo' ),
+				'ok'      => __( 'SEO: OK', 'wordpress-seo' ),
+				'good'    => __( 'SEO: Good', 'wordpress-seo' ),
+				'noindex' => __( 'SEO: Post Noindexed', 'wordpress-seo' )
+			);
+
 			echo '<select name="seo_filter">';
 			echo '<option value="">' . __( 'All SEO Scores', 'wordpress-seo' ) . '</option>';
-			foreach ( array(
-									'na'      => __( 'SEO: No Focus Keyword', 'wordpress-seo' ),
-									'bad'     => __( 'SEO: Bad', 'wordpress-seo' ),
-									'poor'    => __( 'SEO: Poor', 'wordpress-seo' ),
-									'ok'      => __( 'SEO: OK', 'wordpress-seo' ),
-									'good'    => __( 'SEO: Good', 'wordpress-seo' ),
-									'noindex' => __( 'SEO: Post Noindexed', 'wordpress-seo' )
-								) as $val => $text ) {
+			foreach ( $scores_array as $val => $text ) {
 				$sel = '';
-				if ( isset( $_GET['seo_filter'] ) )
+				if ( isset( $_GET['seo_filter'] ) ) {
 					$sel = selected( $_GET['seo_filter'], $val, false );
+				}
 				echo '<option ' . $sel . 'value="' . $val . '">' . $text . '</option>';
 			}
 			echo '</select>';
@@ -848,28 +823,28 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			if ( $this->pt_is_public() === false )
 				return;
 	
-			if ( $column_name == 'wpseo-score' ) {
+			if ( $column_name === 'wpseo-score' ) {
 				$score = wpseo_get_value( 'linkdex', $post_id );
 				if ( wpseo_get_value( 'meta-robots-noindex', $post_id ) === '1' ) {
 					$score_label = 'noindex';
 					$title       = __( 'Post is set to noindex.', 'wordpress-seo' );
 					self::set_value( 'linkdex', 0, $post_id );
 				}
-				else if ( $score !== false ) {
-					// @todo: check if we should use bcmath!
+				else if ( $score !== '' ) {
+					// @todo: use bcmath
 					$score_label = wpseo_translate_score( round( $score / 10 ) );
-					$title       = wpseo_translate_score( round( $score / 10 ), $css = false );
+					$title       = wpseo_translate_score( round( $score / 10 ), false );
 				}
 				else {
 					$this->calculate_results( get_post( $post_id ) );
 					$score = wpseo_get_value( 'linkdex', $post_id );
-					if ( ! $score || empty( $score ) ) {
+					if ( $score === '' ) {
 						$score_label = 'na';
 						$title       = __( 'Focus keyword not set.', 'wordpress-seo' );
 					}
 					else {
 						$score_label = wpseo_translate_score( $score );
-						$title       = wpseo_translate_score( $score, $css = false );
+						$title       = wpseo_translate_score( $score, false );
 					}
 				}
 	
@@ -1029,7 +1004,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		 */
 		function page_title( $post_id ) {
 			$fixed_title = wpseo_get_value( 'title', $post_id );
-			if ( $fixed_title ) {
+			if ( $fixed_title !== '' ) {
 				return $fixed_title;
 			}
 			else {
@@ -1121,7 +1096,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 	
 				return $result;
 			}
-			else if ( trim( wpseo_get_value( 'focuskw', $post->ID ) ) === '' ) {
+			else if ( wpseo_get_value( 'focuskw', $post->ID ) === '' ) {
 				$result = new WP_Error( 'no-focuskw', sprintf( __( 'No focus keyword was set for this %s. If you do not set a focus keyword, no score can be calculated.', 'wordpress-seo' ), $post->post_type ) );
 	
 				self::set_value( 'linkdex', 0, $post->ID );
@@ -1129,7 +1104,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			}
 			else if ( apply_filters( 'wpseo_use_page_analysis', true ) !== true ) {
 				$result = new WP_Error( 'page-analysis-disabled', sprintf( __( 'Page Analysis has been disabled.', 'wordpress-seo' ), $post->post_type ) );
-	
+
 				return $result;
 			}
 	
@@ -1139,7 +1114,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			$sampleurl             = get_sample_permalink( $post );
 			$job['pageUrl']        = preg_replace( '`%(?:post|page)name%`', $sampleurl[1], $sampleurl[0] );
 			$job['pageSlug']       = urldecode( $post->post_name );
-			$job['keyword']        = trim( wpseo_get_value( 'focuskw' ) );
+			$job['keyword']        = wpseo_get_value( 'focuskw' );
 			$job['keyword_folded'] = $this->strip_separators_and_fold( $job['keyword'] );
 			$job['post_id']        = $post->ID;
 			$job['post_type']      = $post->post_type;
@@ -1157,7 +1132,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			$this->score_keyword( $job['keyword'], $results );
 	
 			// Title
-			if ( wpseo_get_value( 'title' ) ) {
+			if ( wpseo_get_value( 'title' ) !== '' ) {
 				$job['title'] = wpseo_get_value( 'title' );
 			}
 			else {
@@ -1173,12 +1148,13 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 	
 			// Meta description
 			$description = '';
-			if ( wpseo_get_value( 'metadesc' ) ) {
+			if ( wpseo_get_value( 'metadesc' ) !== '' ) {
 				$description = wpseo_get_value( 'metadesc' );
 			}
 			else {
-				if ( isset( $options['metadesc-' . $post->post_type] ) && $options['metadesc-' . $post->post_type] !== '' )
+				if ( isset( $options['metadesc-' . $post->post_type] ) && $options['metadesc-' . $post->post_type] !== '' ) {
 					$description = wpseo_replace_vars( $options['metadesc-' . $post->post_type], (array) $post );
+				}
 			}
 	
 			$meta_length = apply_filters( 'wpseo_metadesc_length', 156, $post );

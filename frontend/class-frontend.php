@@ -157,8 +157,9 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 	
 			$title = wpseo_get_value( 'title', $object->ID );
 	
-			if ( ! empty( $title ) )
+			if ( $title !== '' ) {
 				return wpseo_replace_vars( $title, (array) $object );
+			}
 	
 			$post_type = ( isset( $object->post_type ) ? $object->post_type : $object->query_var );
 			return $this->get_title_from_options( 'title-' . $post_type, $object );
@@ -172,12 +173,12 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 		function get_taxonomy_title() {
 			global $wp_query;
 			$object = $wp_query->get_queried_object();
-	
+
 			$title = trim( wpseo_get_term_meta( $object, $object->taxonomy, 'title' ) );
 	
-			if ( ! empty( $title ) )
+			if ( $title !== '' ) {
 				return wpseo_replace_vars( $title, (array) $object );
-	
+			}
 			return $this->get_title_from_options( 'title-tax-' . $object->taxonomy, $object );
 		}
 	
@@ -188,11 +189,11 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 		 */
 		function get_author_title() {
 			$author_id = get_query_var( 'author' );
-			$title     = get_the_author_meta( 'wpseo_title', $author_id );
+			$title     = trim( get_the_author_meta( 'wpseo_title', $author_id ) );
 	
-			if ( ! empty( $title ) )
+			if ( $title !== '' ) {
 				return wpseo_replace_vars( $title, array() );
-	
+			}
 			return $this->get_title_from_options( 'title-author-wpseo' );
 		}
 	
@@ -208,11 +209,13 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 		 */
 		function get_title_from_options( $index, $var_source = array() ) {
 			if ( ! isset( $this->options[$index] ) || $this->options[$index] === '' ) {
-				if ( is_singular() )
+				if ( is_singular() ) {
 					// @todo shouldn't this use one of the defaults from options ?
 					return wpseo_replace_vars( '%%title%% %%sep%% %%sitename%%', (array) $var_source );
-				else
+				}
+				else {
 					return '';
+				}
 			}
 			else {
 				return wpseo_replace_vars( $this->options[$index], (array) $var_source );
@@ -242,13 +245,13 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 			}
 			$title = preg_replace( $regex, '', $title );
 	
-			if ( empty( $title ) ) {
+			if ( !is_string( $title ) || ( is_string( $title ) && $title === '' ) ) {
 				$title = get_bloginfo( 'name' );
 				$title = $this->add_paging_to_title( $sep, $seplocation, $title );
 				$title = $this->add_to_title( $sep, $seplocation, $title, get_bloginfo( 'description' ) );
 				return $title;
 			}
-	
+
 			$title = $this->add_paging_to_title( $sep, $seplocation, $title );
 			$title = $this->add_to_title( $sep, $seplocation, $title, get_bloginfo( 'name' ) );
 			return $title;
@@ -283,8 +286,9 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 		 * @return string
 		 */
 		function add_to_title( $sep, $seplocation, $title, $title_part ) {
-			if ( 'right' == $seplocation )
+			if ( 'right' === $seplocation ) {
 				return $title . $sep . $title_part;
+			}
 			return $title_part . $sep . $title;
 		}
 	
@@ -311,14 +315,15 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 	
 			// This conditional ensures that sites that use of wp_title(''); as the plugin
 			// used to suggest will still work properly with these changes.
-			if ( '' == trim( $sep ) && '' == $seplocation ) {
+			if ( '' === trim( $sep ) && '' === $seplocation ) {
 				$sep         = '-';
 				$seplocation = 'right';
 			} // In the event that $seplocation is left empty, the direction will be
 			// determined by whether the site is in rtl mode or not. This is based
 			// upon my findings that rtl sites tend to reverse the flow of the site titles.
-			else if ( '' == $seplocation )
+			else if ( '' === $seplocation ) {
 				$seplocation = ( is_rtl() ) ? 'left' : 'right';
+			}
 	
 			$sep = ' ' . trim( $sep ) . ' ';
 	
@@ -343,8 +348,9 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 			else if ( is_singular() ) {
 				$title = $this->get_content_title();
 	
-				if ( empty( $title ) )
+				if ( ! is_string( $title ) || ( is_string( $title ) && $title === '' ) ) {
 					$title_part = $original_title;
+				}
 			}
 			else if ( is_search() ) {
 				$title = $this->get_title_from_options( 'title-search-wpseo' );
@@ -359,10 +365,12 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 				$title = $this->get_taxonomy_title();
 	
 				if ( empty( $title ) ) {
-					if ( is_category() )
+					if ( is_category() ) {
 						$title_part = single_cat_title( '', false );
-					else if ( is_tag() )
+					}
+					else if ( is_tag() ) {
 						$title_part = single_tag_title( '', false );
+					}
 					else if ( function_exists( 'single_term_title' ) ) {
 						$title_part = single_term_title( '', false );
 					}
@@ -376,8 +384,9 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 			else if ( is_author() ) {
 				$title = $this->get_author_title();
 	
-				if ( empty( $title ) )
+				if ( empty( $title ) ) {
 					$title_part = get_the_author_meta( 'display_name', get_query_var( 'author' ) );
+				}
 			}
 			else if ( function_exists( 'is_post_type_archive' ) && is_post_type_archive() ) {
 				$post_type = get_query_var( 'post_type' );
@@ -400,14 +409,18 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 				// WPSEO_Options::$defaults['wpseo_titles']['title-archive-wpseo']
 				// Replacement would be needed!
 				if ( empty( $title ) ) {
-					if ( is_month() )
+					if ( is_month() ) {
 						$title_part = sprintf( __( '%s Archives', 'wordpress-seo' ), single_month_title( ' ', false ) );
-					else if ( is_year() )
+					}
+					else if ( is_year() ) {
 						$title_part = sprintf( __( '%s Archives', 'wordpress-seo' ), get_query_var( 'year' ) );
-					else if ( is_day() )
+					}
+					else if ( is_day() ) {
 						$title_part = sprintf( __( '%s Archives', 'wordpress-seo' ), get_the_date() );
-					else
+					}
+					else {
 						$title_part = __( 'Archives', 'wordpress-seo' );
+					}
 				}
 			}
 			else if ( is_404() ) {
@@ -438,8 +451,9 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 					// @todo Should these not use the archive default if no title found ?
 					// WPSEO_Options::$defaults['wpseo_titles']['title-404-wpseo']
 					// Replacement would be needed!
-					if ( empty( $title ) )
+					if ( empty( $title ) ) {
 						$title_part = __( 'Page not found', 'wordpress-seo' );
+					}
 				}
 			}
 			else {
@@ -451,11 +465,13 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 				// $title_part = $title;
 			}
 	
-			if ( ( $modified_title && empty( $title ) ) || ! empty( $title_part ) )
+			if ( ( $modified_title && empty( $title ) ) || ! empty( $title_part ) ) {
 				$title = $this->get_default_title( $sep, $seplocation, $title_part );
-	
-			if ( defined( 'ICL_LANGUAGE_CODE' ) && false !== strpos( $title, ICL_LANGUAGE_CODE ) )
+			}
+
+			if ( defined( 'ICL_LANGUAGE_CODE' ) && false !== strpos( $title, ICL_LANGUAGE_CODE ) ) {
 				$title = str_replace( ' @' . ICL_LANGUAGE_CODE, '', $title );
+			}
 	
 			return esc_html( strip_tags( stripslashes( apply_filters( 'wpseo_title', $title ) ) ) );
 		}
@@ -493,10 +509,12 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 		 */
 		public function debug_marker( $echo = true ) {
 			$marker = '<!-- This site is optimized with the Yoast WordPress SEO plugin v' . WPSEO_VERSION . ' - http://yoast.com/wordpress/seo/ -->';
-			if ( $echo === false )
+			if ( $echo === false ) {
 				return $marker;
-			else
+			}
+			else {
 				echo "\n${marker}\n";
+			}
 		}
 	
 		/**
@@ -639,7 +657,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 
 			$robotsstr = $robots['index'] . ',' . $robots['follow'];
 	
-			if( $robots['other'] !== array() ) {
+			if ( $robots['other'] !== array() ) {
 				$robots['other'] = array_unique( $robots['other'] ); // most likely no longer needed, needs testing
 				foreach ( $robots['other'] as $robot ) {
 					$robotsstr .= ',' . $robot;
@@ -671,7 +689,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 	
 			// Set decent canonicals for homepage, singulars and taxonomy pages
 			if ( is_singular() ) {
-				if ( $no_override === false && trim( wpseo_get_value( 'canonical' ) ) !== '' ) {
+				if ( $no_override === false && wpseo_get_value( 'canonical' ) !== '' ) {
 					$canonical = wpseo_get_value( 'canonical' );
 					// @todo: check if this variable setting makes sense as it does not seem to be used in this instance
 					$skip_pagination = true;
@@ -926,7 +944,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 			$keywords = '';
 	
 			if ( is_singular() ) {
-				$keywords = trim( wpseo_get_value( 'metakeywords' ) );
+				$keywords = wpseo_get_value( 'metakeywords' );
 				if ( $keywords === '' && ( is_object( $post ) &&  ( ( isset( $this->options['metakey-' . $post->post_type] ) && $this->options['metakey-' . $post->post_type] !== '' ) ) ) ) {
 					$keywords = wpseo_replace_vars( $this->options['metakey-' . $post->post_type], (array) $post );
 				}
@@ -936,7 +954,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 					$keywords = wpseo_replace_vars( $this->options['metakey-home-wpseo'], array() );
 				}
 				else if ( $this->is_home_static_page() ) {
-					$keywords = trim( wpseo_get_value( 'metakeywords' ) );
+					$keywords = wpseo_get_value( 'metakeywords' );
 					if ( $keywords === '' && ( is_object( $post ) && ( isset( $this->options['metakey-' . $post->post_type] ) && $this->options['metakey-' . $post->post_type] !== '' ) ) ) {
 						$keywords = wpseo_replace_vars( $this->options['metakey-' . $post->post_type], (array) $post );
 					}
@@ -944,7 +962,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 				else if ( is_category() || is_tag() || is_tax() ) {
 					$term = $wp_query->get_queried_object();
 
-					if( is_object( $term ) ) {
+					if ( is_object( $term ) ) {
 						$keywords = wpseo_get_term_meta( $term, $term->taxonomy, 'metakey' );
 						if ( ! $keywords && ( isset( $this->options['metakey-tax-' . $term->taxonomy] ) && $this->options['metakey-tax-' . $term->taxonomy] !== '' ) ) {
 							$keywords = wpseo_replace_vars( $this->options['metakey-tax-' . $term->taxonomy], (array) $term );
@@ -989,10 +1007,8 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 			$metadesc = '';
 			if ( is_singular() ) {
 				$metadesc = wpseo_get_value( 'metadesc' );
-				if ( $metadesc == '' || ! $metadesc ) {
-					if ( is_object( $post ) && ( isset( $this->options['metadesc-' . $post->post_type] ) && $this->options['metadesc-' . $post->post_type] != '' ) ) {
+				if ( $metadesc === '' && ( is_object( $post ) && ( isset( $this->options['metadesc-' . $post->post_type] ) && $this->options['metadesc-' . $post->post_type] != '' ) ) ) {
 						$metadesc = wpseo_replace_vars( $this->options['metadesc-' . $post->post_type], (array) $post );
-					}
 				}
 			}
 			else {
@@ -1004,14 +1020,14 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 				}
 				else if ( $this->is_posts_page() ) {
 					$metadesc = wpseo_get_value( 'metadesc', get_option( 'page_for_posts' ) );
-					if ( ( $metadesc == '' || ! $metadesc ) && ( is_object( $post ) && ( isset( $this->options['metadesc-' . $post->post_type] ) && $this->options['metadesc-' . $post->post_type] !== '' ) ) ) {
+					if ( $metadesc === '' && ( is_object( $post ) && ( isset( $this->options['metadesc-' . $post->post_type] ) && $this->options['metadesc-' . $post->post_type] !== '' ) ) ) {
 						$page     = get_post( get_option( 'page_for_posts' ) );
 						$metadesc = wpseo_replace_vars( $this->options['metadesc-' . $post->post_type], (array) $page );
 					}
 				}
 				else if ( $this->is_home_static_page() ) {
 					$metadesc = wpseo_get_value( 'metadesc' );
-					if ( ( $metadesc == '' || ! $metadesc ) && ( is_object( $post ) && ( isset( $this->options['metadesc-' . $post->post_type] ) && $this->options['metadesc-' . $post->post_type] !== '' ) ) ) {
+					if ( $metadesc === '' && ( is_object( $post ) && ( isset( $this->options['metadesc-' . $post->post_type] ) && $this->options['metadesc-' . $post->post_type] !== '' ) ) ) {
 						$metadesc = wpseo_replace_vars( $this->options['metadesc-' . $post->post_type], (array) $post );
 					}
 				}
@@ -1071,7 +1087,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 					return;
 				}
 				$redir = wpseo_get_value( 'redirect', $post->ID );
-				if ( ! empty( $redir ) ) {
+				if ( $redir !== '' ) {
 					wp_redirect( $redir, 301 );
 					exit;
 				}
@@ -1206,7 +1222,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 				$cururl .= 's';
 			}
 			$cururl .= '://';
-			if ( $_SERVER['SERVER_PORT'] != '80' && $_SERVER['SERVER_PORT'] != '443') {
+			if ( $_SERVER['SERVER_PORT'] != '80' && $_SERVER['SERVER_PORT'] != '443' ) {
 				$cururl .= $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'] . $_SERVER['REQUEST_URI'];
 			}
 			else {

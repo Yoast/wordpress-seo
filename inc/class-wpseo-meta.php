@@ -87,12 +87,12 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 
 // Check:
 			'_yoast_wpseo_linkdex'					=> '0',
-			'_yoast_wpseo_meta-robots'				=> 'index,follow',
+			'_yoast_wpseo_meta-robots'				=> 'index,follow', => looks to be no longer in use
 		);
 */
 
 		/**
-		 * @var	array	$metaboxes	Meta box definitions for form fields
+		 * @var	array	$meta_fields	Meta box field definitions for the meta box form
 		 *
 		 *				Array format:
 		 *				(required)		'type'			=> (string) field type. i.e. text / textarea / checkbox /
@@ -147,7 +147,7 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 					'help'				=> '', // translation added later
 					'description'		=> '<div id="focuskwresults"></div>',
 				),
-				'title'				=> array(
+/*verified*/				'title'				=> array(
 /*v*/					'name'				=> 'title',
 					'default_value'		=> '',
 					'type'				=> 'text',
@@ -155,7 +155,7 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 					'description'		=> '', // translation added later
 					'help'				=> '', // translation added later
 				),
-				'metadesc'			=> array(
+/*verified*/				'metadesc'			=> array(
 /*v*/					'name'				=> 'metadesc',
 					'default_value'		=> '',
 					'class'				=> 'metadesc',
@@ -274,7 +274,7 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 					'title' 		=> '', // translation added later
 					'description'	=> '', // translation added later
 				),
-				'redirect'			 	=> array(
+/*verified*/				'redirect'			 	=> array(
 /*v*/					'name'			=> 'redirect',
 					'default_value'	=> '',
 					'type'			=> 'text',
@@ -306,6 +306,14 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 					'richedit'		=> false,
 					'title' 		=> '', // translation added later
 					'description'	=> '', // translation added later
+				),
+			),
+			
+			/* Fields we should validate & save, but not show on any form */
+			'non_form'	=> array(
+/*verified*/				'linkdex'	=> array(
+					'type'				=> null,
+					'default_value'		=> '0',
 				),
 			),
 		);
@@ -342,7 +350,7 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 						);
 						
 						// Set the $defaults property for efficiency
-						if( isset( $field_def['default_value'] ) ) {
+						if ( isset( $field_def['default_value'] ) ) {
 							self::$defaults[self::$meta_prefix . $key] = $field_def['default_value'];
 						}
 						else {
@@ -355,8 +363,6 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 
 			add_filter( 'update_post_metadata', array( __CLASS__, 'remove_meta_if_default' ), 10, 5 );
 			add_filter( 'add_post_metadata', array( __CLASS__, 'dont_save_meta_if_default' ), 10, 5 );
-
-
 		}
 
 
@@ -375,6 +381,12 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 			$field_defs = self::$meta_fields[$tab];
 
 			switch ( $tab ) {
+				case 'non-form':
+					// prevent non-form fields from being passed to forms
+					$field_defs = array();
+					break;
+
+
 				case 'general':
 					$options = get_option( 'wpseo_titles' );
 					if ( $options['usemetakeywords'] === true ) {
@@ -398,6 +410,7 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 					$field_defs = apply_filters( 'wpseo_metabox_entries', $field_defs );
 					break;
 
+
 				case 'advanced':
 					global $post;
 					
@@ -413,7 +426,7 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 
 
 					/* Don't show the robots index field if it's overruled by a blog-wide option */
-					if ( '0' == get_option('blog_public') ) {
+					if ( '0' == get_option( 'blog_public' ) ) {
 						unset( $field_defs['meta-robots-noindex'] );
 					}
 
@@ -421,7 +434,7 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 					$field_defs['meta-robots-noindex']['options']['0'] = sprintf( $field_defs['meta-robots-noindex']['options']['0'], ( ( isset( $options['noindex-' . $post_type] ) && $options['noindex-' . $post_type] === true ) ? 'noindex' : 'index' ) );
 
 					/* Adjust the robots advanced 'site-wide default' text string based on those settings */
-					if( $options['noodp'] !== false || $options['noydir'] !== false ) {
+					if ( $options['noodp'] !== false || $options['noydir'] !== false ) {
 						$robots_adv = array();
 						foreach ( array( 'noodp', 'noydir' ) as $robot ) {
 							if ( $options[$robot] === true ) {
@@ -479,11 +492,19 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 			
 			$clean = self::$defaults[$meta_key];
 
-//trigger_error( 'Sanitition routine:: Current meta key: ' . $meta_key . ', meta value: ' . $meta_value );
+//trigger_error( 'Sanitation routine:: Current meta key: ' . $meta_key . ', meta value: ' . $meta_value );
 			switch ( true ) {
+				case ( $meta_key === self::$meta_prefix . 'linkdex' ):
+					$int = WPSEO_Options::validate_int( $meta_value );
+					if( $int !== false ) {
+						$clean = $int;
+					}
+					break;
+
+
 				case ( $field_def['type'] === 'checkbox' ):
 					// Only allow value if it's one of the predefined options
-					if( in_array( $meta_value, array( 'on', 'off' ), true ) ) {
+					if ( in_array( $meta_value, array( 'on', 'off' ), true ) ) {
 						$clean = $meta_value;
 					}
 					break;
@@ -491,7 +512,7 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 
 				case ( $field_def['type'] === 'select' || $field_def['type'] === 'radio' ):
 					// Only allow value if it's one of the predefined options
-					if( isset( $field_def['options'][$meta_value] ) ) {
+					if ( isset( $field_def['options'][$meta_value] ) ) {
 						$clean = $meta_value;
 					}
 					break;
@@ -506,12 +527,12 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 					 *
 					 * @todo Verify with @yoast that this logic for the prioritisation is correct
 					 */
-					if( is_array( $meta_value ) && $meta_value !== array() ) {
-						if( in_array( 'none', $meta_value, true ) ) {
+					if ( is_array( $meta_value ) && $meta_value !== array() ) {
+						if ( in_array( 'none', $meta_value, true ) ) {
 							// None is one of the selected values, takes priority over everything else
 							$clean = 'none';
 						}
-						else if( in_array( '-', $meta_value, true ) ) {
+						else if ( in_array( '-', $meta_value, true ) ) {
 							// Site-wide defaults is one of the selected values, takes priority over
 							// individual selected entries
 							$clean = '-';
@@ -519,12 +540,12 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 						else {
 							// Individual selected entries
 							$cleaning = array();
-							foreach( $meta_value as $value ) {
-								if( isset( $field_def['options'][$value] ) ) {
+							foreach ( $meta_value as $value ) {
+								if ( isset( $field_def['options'][$value] ) ) {
 									$cleaning[] = $value;
 								}
 							}
-							if( $cleaning !== array() ) {
+							if ( $cleaning !== array() ) {
 								$clean = implode( ',', $cleaning );
 							}
 							unset( $cleaning, $value );
@@ -532,6 +553,7 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 					}
 					break;
 					
+
 				case ( $field_def['type'] === 'text' && $meta_key === self::$meta_prefix . 'canonical' ):
 				case ( $field_def['type'] === 'text' && $meta_key === self::$meta_prefix . 'redirect' ):
 					// Validate as url(-part)
@@ -542,6 +564,7 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 					}
 					break;
 
+
 				case ( $field_def['type'] === 'upload' && $meta_key === self::$meta_prefix . 'opengraph-image' ):
 					// Validate as url
 					// @todo check/improve url verification
@@ -551,11 +574,9 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 					}
 					break;
 
-					
-					
+
 				case ( $field_def['type'] === 'textarea' ):
-				default:
-					if( is_string( $meta_value ) ) {
+					if ( is_string( $meta_value ) ) {
 						// Remove line breaks and tabs
 						$meta_value = str_replace( array( "\n", "\r", "\t", '  ' ), ' ', $meta_value );
 						$clean      = sanitize_text_field( trim( $meta_value ) );
@@ -565,120 +586,20 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 
 				case ( $field_def['type'] === 'text' ):
 				default:
-					if( is_string( $meta_value ) ) {
+					if ( is_string( $meta_value ) ) {
 						$clean = sanitize_text_field( trim( $meta_value ) );
 					}
 					break;
 			}
 			
 			
-//trigger_error( 'Sanitition routine:: Current meta key: ' . $meta_key . ', clean value: ' . $meta_value );
+//trigger_error( 'Sanitation routine:: Current meta key: ' . $meta_key . ', clean value: ' . $meta_value );
 
 			return $clean;
-			
-			
-			
-/*
-			if ( 'checkbox' == $meta_box['type'] ) {
-				if ( isset( $_POST[self::$form_prefix . $meta_box['name']] ) )
-					$data = 'on';
-				else
-					$data = 'off';
-			}
-			else if ( 'multiselect' == $meta_box['type'] ) {
-				if ( isset( $_POST[self::$form_prefix . $meta_box['name']] ) ) {
-					if ( is_array( $_POST[self::$form_prefix . $meta_box['name']] ) )
-						$data = implode( ',', $_POST[self::$form_prefix . $meta_box['name']] );
-					else
-						$data = $_POST[self::$form_prefix . $meta_box['name']];
-				}
-				else {
-					continue;
-				}
-			}
-			else {
-				if ( isset( $_POST[self::$form_prefix . $meta_box['name']] ) )
-					$data = $_POST[self::$form_prefix . $meta_box['name']];
-				else
-					continue;
-			}
-
-			// Prevent saving "empty" values.
-			if ( ! in_array( $data, array( '', '0', 'none', '-', 'index,follow' ) ) ) {
-				self::set_value( $meta_box['name'], sanitize_text_field( $data ), $post_id );
-			}
-			else if ( $data == '' ) {
-				// If we don't do this, we prevent people from reverting to the default title or description.
-				delete_post_meta( $post_id, '_yoast_wpseo_' . $meta_box['name'] );
-			}
-*/
 		}
 
 
 
-		public static function sanitize_general_title() {
-/*
-					'default_value'		=> '',
-					'type'				=> 'text',
-*/
-		}
-
-		public static function sanitize_general_metadesc() {
-/*
-					'default_value'		=> '',
-					'type'				=> 'textarea',
-					'richedit'			=> false,
-*/
-		}
-
-
-
-
-
-		public static function sanitize_social_opengraph_description() {
-/*
-					'type'			=> 'textarea',
-					'default_value'	=> '',
-					'richedit'		=> false,
-*/
-		}
-
-
-		public static function sanitize_social_google_plus_description() {
-/*
-					'type'			=> 'textarea',
-					'default_value'	=> '',
-					'richedit'		=> false,
-*/
-		}
-
-
-
-
-
-
-
-
-
-/**
- * Use this for adding auto-sanitizion of meta values
- */
-/*$clean_value = sanitize_meta( 'birth-year', $user_input, 'user' );
-
-function sanitize_birth_year_meta( $year ) {
-
-	$now = date( 'Y' );
-	$then = $now - 115; // No users older than 115.
-
-	if ( $then > $year || $year > $now ) {
-
-		wp_die( 'Invalid entry, go back and try again.' );
-	}
-
-	return $year;
-}
-add_filter( 'sanitize_user_meta_birth-year', 'sanitize_birth_year_meta' );
-*/
 
 
 
@@ -703,7 +624,7 @@ add_filter( 'sanitize_user_meta_birth-year', 'sanitize_birth_year_meta' );
 100	 */
 //101	function update_metadata($meta_type, $object_id, $meta_key, $meta_value, $prev_value = '') {
 	
-	
+
 	
 	
 		/**
@@ -714,7 +635,7 @@ add_filter( 'sanitize_user_meta_birth-year', 'sanitize_birth_year_meta' );
 		 * @param	string	$meta_key	The full meta key (including prefix)
 		 * @param	string	$meta_value	New meta value
 		 * @param	string	$prev_value	The old meta value
-		 * @retrun	null|true			true = stop saving, null = continue saving
+		 * @return	null|true			true = stop saving, null = continue saving
 		 */
 		public static function remove_meta_if_default( $null, $object_id, $meta_key, $meta_value, $prev_value = '' ) {
 			// If it's one of our meta fields, check against default
@@ -742,7 +663,7 @@ add_filter( 'sanitize_user_meta_birth-year', 'sanitize_birth_year_meta' );
 		 * @param	string	$meta_key	The full meta key (including prefix)
 		 * @param	string	$meta_value	New meta value
 		 * @param	bool	$unique		Whether there is only one meta value of this key per object or multiple
-		 * @retrun	null|true			true = stop saving, null = continue saving
+		 * @return	null|true			true = stop saving, null = continue saving
 		 */
 		public static function dont_save_meta_if_default( $null, $object_id, $meta_key, $meta_value, $unique = false ) {
 			// If it's one of our meta fields, check against default
@@ -766,27 +687,6 @@ add_filter( 'sanitize_user_meta_birth-year', 'sanitize_birth_year_meta' );
 
 
 
-/*  	   on get all meta: array_merge with defaults
-
-
-	   on save meta:
-	   
-	   array intersect (?) with defaults to only have the values which are not default
-	   then walk through the default values list
-	   foreach
-	   		  switch()
-	   		  		  if exists
-	   		  		  	 -> validate
-
-
-		if not exists in clean: delete
-
-
-
-		// add meta box functions ?
-		
-		// render meta box functions ?
-
 
 		/**
 		 * Get a custom post meta value
@@ -796,22 +696,22 @@ add_filter( 'sanitize_user_meta_birth-year', 'sanitize_birth_year_meta' );
 		 *
 		 * @param   string  $key		internal key of the value to get (without prefix)
 		 * @param   int     $postid		post ID of the post to get the value for
-		 * @return  string|null			All 'normal' values returned from get_post_meta() are strings.
+		 * @return  string				All 'normal' values returned from get_post_meta() are strings.
 		 *								Objects and arrays are possible, but not used by this plugin
 		 *								Will return the default value if no value was found.
-		 *								Will return null (test with isset() or is_null()) if no default was found
-		 *								either or if the post does not exist
+		 *								Will return empty string if no default was found either or
+		 *								if the post does not exist
 		 */
 		public static function get_value( $key, $postid = 0 ) {
 			global $post;
 
 			$postid = absint( $postid );
 			if ( $postid === 0 ) {
-				if ( ( isset( $post ) && is_object( $post ) ) && ( isset( $post->post_status ) && $post->post_status != 'auto-draft' ) ){
+				if ( ( isset( $post ) && is_object( $post ) ) && ( isset( $post->post_status ) && $post->post_status !== 'auto-draft' ) ){
 					$postid = $post->ID;
 				}
 				else {
-					return null;
+					return '';
 				}
 			}
 
@@ -823,10 +723,11 @@ add_filter( 'sanitize_user_meta_birth-year', 'sanitize_birth_year_meta' );
 				return (string) self::$defaults[self::$meta_prefix . $key];
 			}
 			else {
-				return null;
+				return '';
 			}
 		}
-		
+
+
 		/**
 		 * Update a meta value for a post
 		 *
@@ -864,11 +765,14 @@ add_filter( 'sanitize_user_meta_birth-year', 'sanitize_birth_year_meta' );
 						SELECT DISTINCT `post_id` , count( `meta_id` ) AS count
 						FROM {$wpdb->postmeta} AS b
 						WHERE `a`.`post_id` = `b`.`post_id`
-							AND `meta_key` LIKE '" . self::$meta_prefix . "%'
-							AND `meta_key` <> '" . self::$meta_prefix . "linkdex'
+							AND `meta_key` LIKE %s
+							AND `meta_key` <> %s
 						GROUP BY `post_id`
 					)",
-				$old_metakey
+				$old_metakey,
+				self::$meta_prefix . '%',
+				self::$meta_prefix . 'linkdex'
+
 			);
 			$oldies = $wpdb->get_results( $query );
 

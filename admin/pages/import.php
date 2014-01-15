@@ -195,6 +195,7 @@ if ( isset( $_POST['import'] ) ) {
 		}
 		$msg .= __( 'HeadSpace2 data successfully imported', 'wordpress-seo' );
 	}
+	// @todo how does this corrolate with the routine on the import page ? isn't one superfluous ?
 	if ( isset( $_POST['wpseo']['importaioseo'] ) ) {
 		WPSEO_Meta::replace_meta( '_aioseop_description', WPSEO_Meta::$meta_prefix . 'metadesc', $replace );
 		WPSEO_Meta::replace_meta( '_aioseop_keywords', WPSEO_Meta::$meta_prefix . 'metakeywords', $replace );

@@ -362,13 +362,13 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 			}
 	
 			if ( is_singular() ) {
-				$ogdesc = trim( wpseo_get_value( 'opengraph-description' ) );
+				$ogdesc = wpseo_get_value( 'opengraph-description' );
 				if ( $ogdesc === '' ) {
 					$ogdesc = $this->metadesc( false );
 				}
 
 				// og:description is still blank so grab it from get_the_excerpt()
-				if ( ! is_string( $og_desc ) || ( is_string( $og_desc ) && $ogdesc === '' ) ) {
+				if ( ! is_string( $ogdesc ) || ( is_string( $ogdesc ) && $ogdesc === '' ) ) {
 					$ogdesc = str_replace( '[&hellip;]', '&hellip;', strip_tags( get_the_excerpt() ) );
 				}
 			}

@@ -510,7 +510,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 					if ( wpseo_get_value( 'sitemap-include', $p->ID ) === 'never' ) {
 						continue;
 					}
-					if ( trim( wpseo_get_value( 'redirect', $p->ID ) ) !== '' ) {
+					if ( wpseo_get_value( 'redirect', $p->ID ) !== '' ) {
 						continue;
 					}
 	
@@ -520,7 +520,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 					$url['chf'] = 'weekly';
 					$url['loc'] = get_permalink( $p );
 	
-					$canonical = trim( wpseo_get_value( 'canonical', $p->ID ) );
+					$canonical = wpseo_get_value( 'canonical', $p->ID );
 					if ( $canonical !== '' && $canonical !== $url['loc'] ) {
 						/* Let's assume that if a canonical is set for this page and it's different from
 						   the URL of this post, that page is either already in the XML sitemap OR is on

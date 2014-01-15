@@ -418,13 +418,15 @@ function wpseo_admin_bar_menu() {
 	if ( is_singular() && isset( $post ) && is_object( $post ) && apply_filters( 'wpseo_use_page_analysis', true ) === true ) {
 		$focuskw    = wpseo_get_value( 'focuskw', $post->ID );
 		$perc_score = wpseo_get_value( 'linkdex', $post->ID );
+		// @todo use bcmath
 		$txtscore   = wpseo_translate_score( round( $perc_score / 10 ) );
-		$title      = wpseo_translate_score( round( $perc_score / 10 ), $css = false );
+		$title      = wpseo_translate_score( round( $perc_score / 10 ), false );
 		$score      = '<div title="' . esc_attr( $title ) . '" class="wpseo_score_img ' . $txtscore . ' ' . $perc_score . '"></div>';
 
 		$seo_url = get_edit_post_link( $post->ID );
-		if ( $txtscore != 'na' )
+		if ( $txtscore != 'na' ) {
 			$seo_url .= '#wpseo_linkdex';
+		}
 	}
 
 	$wp_admin_bar->add_menu( array( 'id' => 'wpseo-menu', 'title' => __( 'SEO', 'wordpress-seo' ) . $score, 'href' => $seo_url, ) );

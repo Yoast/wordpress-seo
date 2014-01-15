@@ -723,24 +723,9 @@ function create_type_sitemap_template( $post_type ) {
  * @param int    $postid post ID of the post to get the value for
  * @return bool|mixed
  */
-/*function wpseo_get_value( $val, $postid = 0 ) {
+function wpseo_get_value( $val, $postid = 0 ) {
 	_deprecated_function( __FUNCTION__, 'WPSEO 1.5.0', 'WPSEO_Meta::get_value()' );
 	return WPSEO_Meta::get_value( $val, $postid );
-}*/
-function wpseo_get_value( $val, $postid = 0 ) {
-	$postid = absint( $postid );
-	if ( $postid === 0 ) {
-		global $post;
-		if ( isset( $post ) && isset( $post->post_status ) && $post->post_status != 'auto-draft')
-			$postid = $post->ID;
-		else
-			return false;
-	}
-	$custom = get_post_custom( $postid );
-	if ( ! empty( $custom['_yoast_wpseo_' . $val][0] ) )
-		return maybe_unserialize( $custom['_yoast_wpseo_' . $val][0] );
-	else
-		return false;
 }
 
 

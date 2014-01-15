@@ -166,7 +166,7 @@ $wpseo_admin_pages->admin_footer();
 /**
  * Handle deactivation & import of Robots Meta data
  *
- * @ since 1.4.8
+ * @since 1.4.8
  */
 function robots_meta_handler() {
 	global $wpdb;
@@ -220,7 +220,7 @@ function robots_meta_handler() {
 /**
  * Handle deactivation & import of AIOSEO data
  *
- * @ since 1.4.8
+ * @since 1.4.8
  */
 function aioseo_handler() {
 	// check if aioseo is running
@@ -235,6 +235,7 @@ function aioseo_handler() {
 		}
 		// import the settings
 		// @todo: currently not deleting aioseop postmeta or handling old aioseop format
+		// @todo how does this corrolate with the routine on the import page ? isn't one superfluous ?
 		else if ( isset( $_GET['import_aioseo'] ) && $_GET['import_aioseo'] === '1' ) {
 			$replace = false;
 

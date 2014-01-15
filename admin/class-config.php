@@ -178,7 +178,7 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 			 */
 			require_once( ABSPATH . 'wp-admin/options-head.php' );
 			?>
-			<h2 id="wpseo-title"><?php echo get_admin_page_title(); ?></h2>
+			<h2 id="wpseo-title"><?php echo esc_html( get_admin_page_title() ); ?></h2>
 			<div id="wpseo_content_top" class="postbox-container" style="min-width:400px; max-width:600px; padding: 0 20px 0 0;">
 			<div class="metabox-holder">
 			<div class="meta-box-sortables">
