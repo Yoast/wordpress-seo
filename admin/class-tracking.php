@@ -78,31 +78,29 @@ if ( ! class_exists( 'Yoast_Tracking' ) ) {
 
 				$comments_count = wp_count_comments();
 
-				// wp_get_theme was introduced in 3.4, for compatibility with older versions, let's do a workaround for now.
-				if ( function_exists( 'wp_get_theme' ) ) {
-					$theme_data = wp_get_theme();
-					$theme      = array(
-						'name'       => $theme_data->display( 'Name', false, false ),
-						'theme_uri'  => $theme_data->display( 'ThemeURI', false, false ),
-						'version'    => $theme_data->display( 'Version', false, false ),
-						'author'     => $theme_data->display( 'Author', false, false ),
-						'author_uri' => $theme_data->display( 'AuthorURI', false, false ),
+				$theme_data = wp_get_theme();
+				$theme      = array(
+					'name'       => $theme_data->display( 'Name', false, false ),
+					'theme_uri'  => $theme_data->display( 'ThemeURI', false, false ),
+					'version'    => $theme_data->display( 'Version', false, false ),
+					'author'     => $theme_data->display( 'Author', false, false ),
+					'author_uri' => $theme_data->display( 'AuthorURI', false, false ),
+				);
+				$theme_template = $theme_data->get_template();
+				if ( $theme_template !== '' && $theme_data->parent() ) {
+					$theme['template'] = array(
+						'version'    => $theme_data->parent()->display( 'Version', false, false ),
+						'name'       => $theme_data->parent()->display( 'Name', false, false ),
+						'theme_uri'  => $theme_data->parent()->display( 'ThemeURI', false, false ),
+						'author'     => $theme_data->parent()->display( 'Author', false, false ),
+						'author_uri' => $theme_data->parent()->display( 'AuthorURI', false, false ),
 					);
-					$theme_template = $theme_data->get_template();
-					if ( $theme_template !== '' && $theme_data->parent() ) {
-						$theme['template'] = array(
-							'version'    => $theme_data->parent()->display( 'Version', false, false ),
-							'name'       => $theme_data->parent()->display( 'Name', false, false ),
-							'theme_uri'  => $theme_data->parent()->display( 'ThemeURI', false, false ),
-							'author'     => $theme_data->parent()->display( 'Author', false, false ),
-							'author_uri' => $theme_data->parent()->display( 'AuthorURI', false, false ),
-						);
-					}
-					else {
-						$theme['template'] = '';
-					}
-					unset( $theme_template );
 				}
+				else {
+					$theme['template'] = '';
+				}
+				unset( $theme_template );
+
 
 				$plugins = array();
 				foreach ( get_option( 'active_plugins' ) as $plugin_path ) {

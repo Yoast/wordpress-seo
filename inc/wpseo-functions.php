@@ -790,5 +790,5 @@ function get_wpseo_options() {
  */
 function replace_meta( $old_metakey, $new_metakey, $replace = false ) {
 	_deprecated_function( __FUNCTION__, 'WPSEO 1.5.0', 'WPSEO_Meta::replace_meta()' );
-	return WPSEO_Meta::replace_meta( $old_metakey, $new_metakey, $replace );
+	WPSEO_Meta::replace_meta( $old_metakey, $new_metakey, $replace );
 }

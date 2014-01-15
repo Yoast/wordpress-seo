@@ -50,7 +50,7 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 		/**
 		 * Outputs the Twitter Card code on singular pages.
 		 *
-		 * @return mixed|false Only shows on singular pages, false on non-singular pages.
+		 * @return  void   Only shows on singular pages, false on non-singular pages.
 		 */
 		public function twitter() {
 			wp_reset_query();

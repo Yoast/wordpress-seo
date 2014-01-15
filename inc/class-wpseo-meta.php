@@ -362,7 +362,7 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 			}
 
 			add_filter( 'update_post_metadata', array( __CLASS__, 'remove_meta_if_default' ), 10, 5 );
-			add_filter( 'add_post_metadata', array( __CLASS__, 'dont_save_meta_if_default' ), 10, 5 );
+			add_filter( 'add_post_metadata', array( __CLASS__, 'dont_save_meta_if_default' ), 10, 4 );
 		}
 
 
@@ -496,7 +496,7 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 			switch ( true ) {
 				case ( $meta_key === self::$meta_prefix . 'linkdex' ):
 					$int = WPSEO_Options::validate_int( $meta_value );
-					if( $int !== false ) {
+					if ( $int !== false ) {
 						$clean = $int;
 					}
 					break;
@@ -635,7 +635,7 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 		 * @param	string	$meta_key	The full meta key (including prefix)
 		 * @param	string	$meta_value	New meta value
 		 * @param	string	$prev_value	The old meta value
-		 * @return	null|true			true = stop saving, null = continue saving
+		 * @return	null|bool			true = stop saving, null = continue saving
 		 */
 		public static function remove_meta_if_default( $null, $object_id, $meta_key, $meta_value, $prev_value = '' ) {
 			// If it's one of our meta fields, check against default
@@ -662,10 +662,9 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 		 * @param	int		$object_id	ID of the current object for which the meta is being added
 		 * @param	string	$meta_key	The full meta key (including prefix)
 		 * @param	string	$meta_value	New meta value
-		 * @param	bool	$unique		Whether there is only one meta value of this key per object or multiple
-		 * @return	null|true			true = stop saving, null = continue saving
+		 * @return	null|bool			true = stop saving, null = continue saving
 		 */
-		public static function dont_save_meta_if_default( $null, $object_id, $meta_key, $meta_value, $unique = false ) {
+		public static function dont_save_meta_if_default( $null, $object_id, $meta_key, $meta_value ) {
 			// If it's one of our meta fields, check against default
 			if ( isset( self::$fields_index[$meta_key] ) && self::meta_value_is_default( $meta_key, $meta_value ) === true ) {
 				return true; // stop saving the value
@@ -757,7 +756,8 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 			/* Get only those rows where no wpseo meta values exist for the same post
 			   (with the exception of linkdex as that will be set independently of whether the post has been edited)
 			   @internal Query is pretty well optimized this way */
-			$query = $wpdb->prepare( "
+			$query = $wpdb->prepare(
+				"
 				SELECT `a`.*
 				FROM {$wpdb->postmeta} AS a
 				WHERE `a`.`meta_key` = %s
@@ -768,7 +768,8 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 							AND `meta_key` LIKE %s
 							AND `meta_key` <> %s
 						GROUP BY `post_id`
-					)",
+					)
+				;",
 				$old_metakey,
 				self::$meta_prefix . '%',
 				self::$meta_prefix . 'linkdex'

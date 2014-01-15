@@ -712,7 +712,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 						$data = $_POST[self::$form_prefix . $meta_box['name']];
 					}
 				}
-				if( isset( $data ) ) {
+				if ( isset( $data ) ) {
 					self::set_value( $meta_box['name'], $data, $post_id );
 				}
 			}

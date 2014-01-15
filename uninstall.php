@@ -21,8 +21,20 @@
 if ( ! current_user_can( 'activate_plugins' ) || ( ! defined( 'ABSPATH' ) || ! defined( 'WP_UNINSTALL_PLUGIN' ) ) )
 	exit();
 
+
+$wpseo_option_keys = array(
+	'wpseo',
+	'wpseo_indexation',
+	'wpseo_permalinks',
+	'wpseo_titles',
+	'wpseo_rss',
+	'wpseo_internallinks',
+	'wpseo_xml',
+	'wpseo_social',
+	'wpseo_ms',
+);
 // @todo change code to deal with wpseo_ms option as a (multi) site option
-foreach ( array( 'wpseo', 'wpseo_indexation', 'wpseo_permalinks', 'wpseo_titles', 'wpseo_rss', 'wpseo_internallinks', 'wpseo_xml', 'wpseo_social', 'wpseo_ms' ) as $option ) {
+foreach ( $wpseo_option_keys as $option ) {
 	delete_option( $option );
 }
 
@@ -30,3 +42,30 @@ foreach ( array( 'wpseo', 'wpseo_indexation', 'wpseo_permalinks', 'wpseo_titles'
 if ( wp_next_scheduled( 'yoast_tracking' ) !== false ) {
 	wp_clear_scheduled_hook( 'yoast_tracking' );
 }
+
+/*
+$wpseo_meta_keys = array(
+	'_yoast_wpseo_focuskw',
+	'_yoast_wpseo_title',
+	'_yoast_wpseo_metadesc',
+	'_yoast_wpseo_metakeywords',
+	'_yoast_wpseo_meta-robots-noindex',
+	'_yoast_wpseo_meta-robots-nofollow',
+	'_yoast_wpseo_meta-robots-adv',,
+	'_yoast_wpseo_bctitle',
+	'_yoast_wpseo_sitemap-prio',
+	'_yoast_wpseo_sitemap-include',
+	'_yoast_wpseo_sitemap-html-include',
+	'_yoast_wpseo_canonical',
+	'_yoast_wpseo_redirect',
+	'_yoast_wpseo_opengraph-description',
+	'_yoast_wpseo_opengraph-image',
+	'_yoast_wpseo_google-plus-description',
+	'_yoast_wpseo_linkdex',
+	'_yoast_wpseo_meta-robots', // old, may not exists at all
+);
+
+foreach( $wpseo_meta_keys as $key ) {
+	delete_post_meta_by_key( $key );
+}
+*/

@@ -562,6 +562,9 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 
 
 		/**
+		 * Add filters for an option to make sure that the option default is returned if
+		 * the option is not set
+		 *
 		 * @param	string	$option_key
 		 */
 		public static function add_default_filters( $option_key ) {
@@ -580,36 +583,83 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 		}
 		
 
-		/* WP 3.7 specific as update_option action hook was in the wrong place temporarily
-		   @see http://core.trac.wordpress.org/ticket/25705 */
+		/**
+		 * Abusing a filter to re-add our default filters
+		 * WP 3.7 specific as update_option action hook was in the wrong place temporarily
+		 * @see http://core.trac.wordpress.org/ticket/25705
+		 * @param   mixed   $new_value
+		 * @return  mixed   unchanged value
+		 */
 		public static function pre_update_option_wpseo( $new_value ) {
 			self::add_default_filters( 'wpseo' );
 			return $new_value;
 		}
+
+		/**
+		 * @see WPSEO_Options::pre_update_option_wpseo()
+		 * @param   mixed   $new_value
+		 * @return  mixed   unchanged value
+		 */
 		public static function pre_update_option_wpseo_permalinks( $new_value ) {
 			self::add_default_filters( 'wpseo_permalinks' );
 			return $new_value;
 		}
+
+		/**
+		 * @see WPSEO_Options::pre_update_option_wpseo()
+		 * @param   mixed   $new_value
+		 * @return  mixed   unchanged value
+		 */
 		public static function pre_update_option_wpseo_titles( $new_value ) {
 			self::add_default_filters( 'wpseo_titles' );
 			return $new_value;
 		}
+
+		/**
+		 * @see WPSEO_Options::pre_update_option_wpseo()
+		 * @param   mixed   $new_value
+		 * @return  mixed   unchanged value
+		 */
 		public static function pre_update_option_wpseo_rss( $new_value ) {
 			self::add_default_filters( 'wpseo_rss' );
 			return $new_value;
 		}
+
+		/**
+		 * @see WPSEO_Options::pre_update_option_wpseo()
+		 * @param   mixed   $new_value
+		 * @return  mixed   unchanged value
+		 */
 		public static function pre_update_option_wpseo_internallinks( $new_value ) {
 			self::add_default_filters( 'wpseo_internallinks' );
 			return $new_value;
 		}
+
+		/**
+		 * @see WPSEO_Options::pre_update_option_wpseo()
+		 * @param   mixed   $new_value
+		 * @return  mixed   unchanged value
+		 */
 		public static function pre_update_option_wpseo_xml( $new_value ) {
 			self::add_default_filters( 'wpseo_xml' );
 			return $new_value;
 		}
+
+		/**
+		 * @see WPSEO_Options::pre_update_option_wpseo()
+		 * @param   mixed   $new_value
+		 * @return  mixed   unchanged value
+		 */
 		public static function pre_update_option_wpseo_social( $new_value ) {
 			self::add_default_filters( 'wpseo_social' );
 			return $new_value;
 		}
+
+		/**
+		 * @see WPSEO_Options::pre_update_option_wpseo()
+		 * @param   mixed   $new_value
+		 * @return  mixed   unchanged value
+		 */
 		public static function pre_update_option_wpseo_ms( $new_value ) {
 			self::add_default_filters( 'wpseo_ms' );
 			return $new_value;
@@ -630,37 +680,77 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 		}
 
 
-
+		/**
+		 * Get default values for the option
+		 * @usedby default_option_{option_key} and default_site_option_{option_key} filters
+		 * @return array
+		 */
 		public static function filter_defaults_wpseo() {
 			return self::get_defaults( 'wpseo' );
 		}
+
+		/**
+		 * @see WPSEO_Options::filter_defaults_wpseo()
+		 * @return array
+		 */
 		public static function filter_defaults_wpseo_permalinks() {
 			return self::get_defaults( 'wpseo_permalinks' );
 		}
+
+		/**
+		 * @see WPSEO_Options::filter_defaults_wpseo()
+		 * @return array
+		 */
 		public static function filter_defaults_wpseo_titles() {
 			return self::get_defaults( 'wpseo_titles' );
 		}
+
+		/**
+		 * @see WPSEO_Options::filter_defaults_wpseo()
+		 * @return array
+		 */
 		public static function filter_defaults_wpseo_rss() {
 			return self::get_defaults( 'wpseo_rss' );
 		}
+
+		/**
+		 * @see WPSEO_Options::filter_defaults_wpseo()
+		 * @return array
+		 */
 		public static function filter_defaults_wpseo_internallinks() {
 			return self::get_defaults( 'wpseo_internallinks' );
 		}
+
+		/**
+		 * @see WPSEO_Options::filter_defaults_wpseo()
+		 * @return array
+		 */
 		public static function filter_defaults_wpseo_xml() {
 			return self::get_defaults( 'wpseo_xml' );
 		}
+
+		/**
+		 * @see WPSEO_Options::filter_defaults_wpseo()
+		 * @return array
+		 */
 		public static function filter_defaults_wpseo_social() {
 			return self::get_defaults( 'wpseo_social' );
 		}
+
+		/**
+		 * @see WPSEO_Options::filter_defaults_wpseo()
+		 * @return array
+		 */
 		public static function filter_defaults_wpseo_ms() {
 			return self::get_defaults( 'wpseo_ms' );
 		}
 
 
 		/**
-		 * @param $option_key
+		 * Get the enriched default value for an option
 		 *
-		 * @return mixed
+		 * @param   string  $option_key Option key to get the defaults for
+		 * @return  mixed
 		 */
 		public static function get_defaults( $option_key ) {
 			self::enrich_defaults( $option_key );
@@ -669,29 +759,76 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 
 
 		/**
+		 * Merge an option with its default values
+		 *
 		 * These methods should *not* be called directly!!! The are only meant to filter the get_options() results
+		 *
+		 * @param   mixed   $options    Option value
+		 * @return  mixed   Option merged with the default for that option
 		 */
 		public static function filter_wpseo( $options = null ) {
 			return self::array_filter_merge( 'wpseo', $options );
 		}
+
+		/**
+		 * @see WPSEO_Options::filter_wpseo()
+		 * @param   mixed   $options    Option value
+		 * @return  mixed   Option merged with the default for that option
+		 */
 		public static function filter_wpseo_permalinks( $options = null ) {
 			return self::array_filter_merge( 'wpseo_permalinks', $options );
 		}
+
+		/**
+		 * @see WPSEO_Options::filter_wpseo()
+		 * @param   mixed   $options    Option value
+		 * @return  mixed   Option merged with the default for that option
+		 */
 		public static function filter_wpseo_titles( $options = null ) {
 			return self::array_filter_merge( 'wpseo_titles', $options );
 		}
+
+		/**
+		 * @see WPSEO_Options::filter_wpseo()
+		 * @param   mixed   $options    Option value
+		 * @return  mixed   Option merged with the default for that option
+		 */
 		public static function filter_wpseo_rss( $options = null ) {
 			return self::array_filter_merge( 'wpseo_rss', $options );
 		}
+
+		/**
+		 * @see WPSEO_Options::filter_wpseo()
+		 * @param   mixed   $options    Option value
+		 * @return  mixed   Option merged with the default for that option
+		 */
 		public static function filter_wpseo_internallinks( $options = null ) {
 			return self::array_filter_merge( 'wpseo_internallinks', $options );
 		}
+
+		/**
+		 * @see WPSEO_Options::filter_wpseo()
+		 * @param   mixed   $options    Option value
+		 * @return  mixed   Option merged with the default for that option
+		 */
 		public static function filter_wpseo_xml( $options = null ) {
 			return self::array_filter_merge( 'wpseo_xml', $options );
 		}
+
+		/**
+		 * @see WPSEO_Options::filter_wpseo()
+		 * @param   mixed   $options    Option value
+		 * @return  mixed   Option merged with the default for that option
+		 */
 		public static function filter_wpseo_social( $options = null ) {
 			return self::array_filter_merge( 'wpseo_social', $options );
 		}
+
+		/**
+		 * @see WPSEO_Options::filter_wpseo()
+		 * @param   mixed   $options    Option value
+		 * @return  mixed   Option merged with the default for that option
+		 */
 		public static function filter_wpseo_ms( $options = null ) {
 			return self::array_filter_merge( 'wpseo_ms', $options );
 		}

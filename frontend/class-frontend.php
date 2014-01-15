@@ -245,7 +245,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 			}
 			$title = preg_replace( $regex, '', $title );
 	
-			if ( !is_string( $title ) || ( is_string( $title ) && $title === '' ) ) {
+			if ( ! is_string( $title ) || ( is_string( $title ) && $title === '' ) ) {
 				$title = get_bloginfo( 'name' );
 				$title = $this->add_paging_to_title( $sep, $seplocation, $title );
 				$title = $this->add_to_title( $sep, $seplocation, $title, get_bloginfo( 'description' ) );
@@ -1363,14 +1363,13 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 			 */
 			$no_follow      = apply_filters( 'nofollow_rss_links', true );
 			$no_follow_attr = '';
-			if ( $no_follow ) {
+			if ( $no_follow === true ) {
 				$no_follow_attr = 'rel="nofollow" ';
 			}
 	
-	//		$author_link   = '<a rel="' . ( ( $no_follow ) ? 'nofollow ' : '' ) . 'author" href="' . get_author_posts_url( $post->post_author ) . '">' . get_the_author() . '</a>';
 			$author_link = '';
 			if ( is_object( $post ) ) {
-				$author_link = '<a rel="author" href="' . esc_url( get_author_posts_url( $post->post_author ) ) . '">' . get_the_author() . '</a>';
+				$author_link = '<a ' . $no_follow_attr . 'rel="author" href="' . esc_url( get_author_posts_url( $post->post_author ) ) . '">' . get_the_author() . '</a>';
 			}
 	
 			$post_link     = '<a ' . $no_follow_attr . 'href="' . esc_url( get_permalink() ) . '">' . get_the_title() . '</a>';

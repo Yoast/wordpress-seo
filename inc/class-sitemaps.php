@@ -281,6 +281,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 	
 					if ( ( empty( $count ) || $count == $n ) && false ) {
 						// @todo: check as $post_type might not be defined or rather, will always take last post type from the above foreach loop, is this what is desired ?
+						// and what's with the "&& false" ?
 						$date = $this->get_last_modified( $post_type );
 					}
 					else {
@@ -673,7 +674,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 			$n      = (int) $this->n;
 			$offset = ( $n > 1 ) ? ( $n - 1 ) * $this->max_entries : 0;
 			// @todo: check if this variable setting makes sense as it does not seem to be used in this instance
-			$total  = $offset + $this->max_entries;
+			$total  = $offset + $this->max_entries; // @todo check: does not seem to be used
 	
 			$terms = get_terms( $taxonomy->name, array( 'hide_empty' => true ) );
 			$terms = array_splice( $terms, $offset, $steps );
