@@ -105,6 +105,7 @@ class WPSEO_Premium {
 			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-gwt-service.php' );
 			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-gwt.php' );
 			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-crawl-issue.php' );
+			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-crawl-issue-table.php' );
 			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-redirect-file-manager.php' );
 			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-redirect-file.php' );
 			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-nginx-redirect-file.php' );
