@@ -421,11 +421,6 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		 * @return string
 		 */
 		function do_meta_box( $meta_field_def, $meta_key = '' ) {
-			// Don't show the robots index field if it's overruled by a blog-wide option
-			if ( $meta_key === 'meta-robots-noindex' && '0' == get_option('blog_public') ) {
-				return '';
-			}
-
 			$content      = '';
 			$esc_meta_key = esc_attr( self::$form_prefix . $meta_key );
 			$meta_value   = '';
@@ -997,7 +992,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 					)
 				);
 			}
-			if ( isset( $vars['orderby'] ) && 'wpseo-score' == $vars['orderby'] ) {
+			if ( isset( $vars['orderby'] ) && 'wpseo-score' === $vars['orderby'] ) {
 				$vars = array_merge(
 					$vars, array(
 						'meta_key' => self::$meta_prefix . 'linkdex',
@@ -1005,7 +1000,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 					)
 				);
 			}
-			if ( isset( $vars['orderby'] ) && 'wpseo-metadesc' == $vars['orderby'] ) {
+			if ( isset( $vars['orderby'] ) && 'wpseo-metadesc' === $vars['orderby'] ) {
 				$vars = array_merge(
 					$vars, array(
 						'meta_key' => self::$meta_prefix . 'metadesc',
@@ -1013,7 +1008,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 					)
 				);
 			}
-			if ( isset( $vars['orderby'] ) && 'wpseo-focuskw' == $vars['orderby'] ) {
+			if ( isset( $vars['orderby'] ) && 'wpseo-focuskw' === $vars['orderby'] ) {
 				$vars = array_merge(
 					$vars, array(
 						'meta_key' => self::$meta_prefix . 'focuskw',
@@ -1126,7 +1121,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 	
 				return $result;
 			}
-			else if ( ! wpseo_get_value( 'focuskw', $post->ID ) ) {
+			else if ( trim( wpseo_get_value( 'focuskw', $post->ID ) ) === '' ) {
 				$result = new WP_Error( 'no-focuskw', sprintf( __( 'No focus keyword was set for this %s. If you do not set a focus keyword, no score can be calculated.', 'wordpress-seo' ), $post->post_type ) );
 	
 				self::set_value( 'linkdex', 0, $post->ID );

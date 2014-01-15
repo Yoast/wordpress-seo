@@ -285,8 +285,8 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 	
 				if ( isset( $link['id'] ) ) {
 					$link['url']  = get_permalink( $link['id'] );
-					$link['text'] = wpseo_get_value( 'bctitle', $link['id'] );
-					if ( empty( $link['text'] ) ) {
+					$link['text'] = trim( wpseo_get_value( 'bctitle', $link['id'] ) );
+					if ( $link['text'] === '' ) {
 						$link['text'] = strip_tags( get_the_title( $link['id'] ) );
 					}
 					$link['text'] = apply_filters( 'wp_seo_get_bc_title', $link['text'], $link['id'] );

@@ -467,7 +467,10 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 	
 			$status = ( $post_type == 'attachment' ) ? 'inherit' : 'publish';
 	
-			// We grab post_date, post_name, post_author and post_status too so we can throw these objects into get_permalink, which saves a get_post call for each permalink.
+			/**
+			 * We grab post_date, post_name, post_author and post_status too so we can throw these objects
+			 * into get_permalink, which saves a get_post call for each permalink.
+			 */
 			$i = 0; // @todo check: does not seem to be used
 			while ( $total > $offset ) {
 	
@@ -475,7 +478,8 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 				// Also see http://explainextended.com/2009/10/23/mysql-order-by-limit-performance-late-row-lookups/
 				$query = $wpdb->prepare(
 					"
-					SELECT l.ID, post_content, post_name, post_author, post_parent, post_modified_gmt, post_date, post_date_gmt
+					SELECT l.ID, post_content, post_name, post_author, post_parent, post_modified_gmt,
+						post_date, post_date_gmt
 					FROM (
 						SELECT ID FROM $wpdb->posts {$join_filter}
 							WHERE post_status = '%s'
@@ -499,14 +503,14 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 					$p->post_type   = $post_type;
 					$p->post_status = 'publish';
 					$p->filter      = 'sample';
-	
+
 					if ( wpseo_get_value( 'meta-robots-noindex', $p->ID ) === '1' && wpseo_get_value( 'sitemap-include', $p->ID ) !== 'always' ) {
 						continue;
 					}
 					if ( wpseo_get_value( 'sitemap-include', $p->ID ) === 'never' ) {
 						continue;
 					}
-					if ( wpseo_get_value( 'redirect', $p->ID ) && strlen( wpseo_get_value( 'redirect', $p->ID ) ) > 0 ) {
+					if ( trim( wpseo_get_value( 'redirect', $p->ID ) ) !== '' ) {
 						continue;
 					}
 	
@@ -516,10 +520,11 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 					$url['chf'] = 'weekly';
 					$url['loc'] = get_permalink( $p );
 	
-					$canonical = wpseo_get_value( 'canonical', $p->ID );
-					if ( $canonical && $canonical != '' && $canonical != $url['loc'] ) {
-						// Let's assume that if a canonical is set for this page and it's different from the URL of this post, that page is either
-						// already in the XML sitemap OR is on an external site, either way, we shouldn't include it here.
+					$canonical = trim( wpseo_get_value( 'canonical', $p->ID ) );
+					if ( $canonical !== '' && $canonical !== $url['loc'] ) {
+						/* Let's assume that if a canonical is set for this page and it's different from
+						   the URL of this post, that page is either already in the XML sitemap OR is on
+						   an external site, either way, we shouldn't include it here. */
 						continue;
 					}
 					else {
@@ -683,7 +688,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 	
 				if ( wpseo_get_term_meta( $c, $c->taxonomy, 'sitemap_include' ) == 'never' )
 					continue;
-	
+
 				$url['loc'] = wpseo_get_term_meta( $c, $c->taxonomy, 'canonical' );
 				if ( ! $url['loc'] ) {
 					$url['loc'] = get_term_link( $c, $c->taxonomy );
@@ -921,13 +926,15 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 		 */
 		function canonical( $redirect ) {
 			$sitemap = get_query_var( 'sitemap' );
-			if ( ! empty( $sitemap ) )
+			if ( ! empty( $sitemap ) ) {
 				return false;
-	
+			}
+
 			$xsl = get_query_var( 'xsl' );
-			if ( ! empty( $xsl ) )
+			if ( ! empty( $xsl ) ) {
 				return false;
-	
+			}
+
 			return $redirect;
 		}
 	

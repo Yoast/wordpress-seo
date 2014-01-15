@@ -133,12 +133,12 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 		 */
 		public static $meta_fields = array(
 			'general'	=> array(
-				'snippetpreview'	=> array(
+/*verified*/				'snippetpreview'	=> array(
 					'name'				=> 'snippetpreview',
 					'type'				=> 'snippetpreview',
 					'title'				=> '', // translation added later
 				),
-				'focuskw' 	   		=> array(
+/*verified*/				'focuskw' 	   		=> array(
 /*v*/					'name'				=> 'focuskw',
 					'default_value'		=> '',
 					'type'				=> 'text',
@@ -166,7 +166,7 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 					'description'		=> '', // translation added later
 					'help'				=> '', // translation added later
 				),
-				'metakeywords'		=> array(
+/*verified*/				'metakeywords'		=> array(
 /*v*/					'name'				=> 'metakeywords',
 					'default_value'		=> '',
 					'class'				=> 'metakeywords',
@@ -216,14 +216,14 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 						'nosnippet' 	=> '', // translation added later
 					),
 				),
-				'bctitle'				=> array(
+/*verified*/				'bctitle'				=> array(
 /*v*/					'name'			=> 'bctitle',
 					'default_value'	=> '',
 					'type'			=> 'text',
 					'title' 		=> '', // translation added later
 					'description'	=> '', // translation added later
 				),
-				'sitemap-include' 		=> array(
+/*verified*/				'sitemap-include' 		=> array(
 /*v*/					'name'			  => 'sitemap-include',
 					'default_value'	=> '-',
 					'type'		  	=> 'select',
@@ -235,7 +235,7 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 						'never'  => '', // translation added later
 					),
 				),
-				'sitemap-prio'			=> array(
+/*verified*/				'sitemap-prio'			=> array(
 /*v*/					'name'			=> 'sitemap-prio',
 					'default_value'	=> '-',
 					'type'			=> 'select',
@@ -255,7 +255,7 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 						'0.1' => '0.1 - ', // translation added later
 					),
 				),
-				'sitemap-html-include'	=> array(
+/*verified*/				'sitemap-html-include'	=> array(
 /*v*/					'name'			=> 'sitemap-html-include',
 					'default_value'	=> '-',
 					'type'			=> 'select',
@@ -267,7 +267,7 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 						'never' 		=> '', // translation added later
 					),
 				),
-				'canonical'			 	=> array(
+/*verified*/				'canonical'			 	=> array(
 /*v*/					'name'			=> 'canonical',
 					'default_value'	=> '',
 					'type'			=> 'text',
@@ -283,7 +283,7 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 				),
 			),
 			'social'	=> array(
-				'opengraph-description'		=> array(
+/*verified*/				'opengraph-description'		=> array(
 /*v*/					'name'			=> 'opengraph-description',
 					'type'			=> 'textarea',
 					'default_value'	=> '',
@@ -291,14 +291,15 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 					'title' 		=> '', // translation added later
 					'description'	=> '', // translation added later
 				),
-				'opengraph-image'			=> array(
+/*verified*/				'opengraph-image'			=> array(
 /*v*/					'name'			=> 'opengraph-image',
 					'type'			=> 'upload',
 					'default_value'	=> '',
 					'title' 		=> '', // translation added later
 					'description'	=> '', // translation added later
 				),
-				'google-plus-description'	=> array(
+				/* @todo verify where this is used... it doesn't seem to be retrieve anywhere... */
+/*verified*/				'google-plus-description'	=> array(
 /*v*/					'name'			=> 'google-plus-description',
 					'type'			=> 'textarea',
 					'default_value'	=> '',
@@ -377,9 +378,11 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 				case 'general':
 					$options = get_option( 'wpseo_titles' );
 					if ( $options['usemetakeywords'] === true ) {
+						/* Adjust the link in the keywords description text string based on the post type */
 						$field_defs['metakeywords']['description'] = sprintf( $field_defs['metakeywords']['description'], '<a target="_blank" href="' . esc_url( admin_url( 'admin.php?page=wpseo_titles#' . urlencode( $post_type ) ) ) . '">', '</a>' );
 					}
 					else {
+						/* Don't show the keywords field if keywords aren't enabled */
 						unset( $field_defs['metakeywords'] );
 					}
 					/**
@@ -397,6 +400,8 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 
 				case 'advanced':
 					global $post;
+					
+					$options = WPSEO_Options::get_all();
 
 					$post_type = '';
 					if ( isset( $post->post_type ) ) {
@@ -405,12 +410,17 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 					else if ( ! isset( $post->post_type ) && isset( $_GET['post_type'] ) ) {
 						$post_type = sanitize_text_field( $_GET['post_type'] );
 					}
-			
-					$options = WPSEO_Options::get_all();
-			
-					$field_defs['meta-robots-noindex']['options']['0'] = sprintf( $field_defs['meta-robots-noindex']['options']['0'], ( ( isset( $options['noindex-' . $post_type] ) && $options['noindex-' . $post_type] === true ) ? 'noindex' : 'index' ) );
-					
 
+
+					/* Don't show the robots index field if it's overruled by a blog-wide option */
+					if ( '0' == get_option('blog_public') ) {
+						unset( $field_defs['meta-robots-noindex'] );
+					}
+
+					/* Adjust the no-index 'default for post type' text string based on the post type */
+					$field_defs['meta-robots-noindex']['options']['0'] = sprintf( $field_defs['meta-robots-noindex']['options']['0'], ( ( isset( $options['noindex-' . $post_type] ) && $options['noindex-' . $post_type] === true ) ? 'noindex' : 'index' ) );
+
+					/* Adjust the robots advanced 'site-wide default' text string based on those settings */
 					if( $options['noodp'] !== false || $options['noydir'] !== false ) {
 						$robots_adv = array();
 						foreach ( array( 'noodp', 'noydir' ) as $robot ) {
@@ -428,11 +438,17 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 					unset( $robots_adv );
 
 
+					/* Don't show the breadcrumb title field if breadcrumbs aren't enabled */
 					if ( $options['breadcrumbs-enable'] !== true ) {
 						unset( $field_defs['bctitle'] );
 					}
+					
+					/* Don't show the xml sitemap fields, if xml sitemaps aren't enabled */
 					if ( $options['enablexmlsitemap'] !== true ) {
-						unset( $field_defs['sitemap-include'], $field_defs['sitemap-prio'] );
+						unset(
+							$field_defs['sitemap-include'],
+							$field_defs['sitemap-prio']
+						);
 					}
 					break;
 			}
@@ -480,7 +496,7 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 					}
 					break;
 
-				case ( $meta_key === self::$meta_prefix . 'meta-robots-adv' && $field_def['type'] === 'multiselect' ):
+				case ( $field_def['type'] === 'multiselect' && $meta_key === self::$meta_prefix . 'meta-robots-adv' ):
 					/**
 					 * @todo - upgrade routine: with the old way of saving all sorts of strange values
 					 * could have resulted, the key name as the value, combinations which included none.
@@ -514,13 +530,44 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 							unset( $cleaning, $value );
 						}
 					}
-
-
 					break;
 					
+				case ( $field_def['type'] === 'text' && $meta_key === self::$meta_prefix . 'canonical' ):
+				case ( $field_def['type'] === 'text' && $meta_key === self::$meta_prefix . 'redirect' ):
+					// Validate as url(-part)
+					// @todo check/improve url verification
+					$url = esc_url_raw( trim( $meta_value ), array( 'http', 'https' ) );
+					if ( $url !== '' ) {
+						$clean = $url;
+					}
+					break;
+
+				case ( $field_def['type'] === 'upload' && $meta_key === self::$meta_prefix . 'opengraph-image' ):
+					// Validate as url
+					// @todo check/improve url verification
+					$url = esc_url_raw( trim( $meta_value ), array( 'http', 'https', 'ftp', 'ftps' ) );
+					if ( $url !== '' ) {
+						$clean = $url;
+					}
+					break;
+
+					
+					
+				case ( $field_def['type'] === 'textarea' ):
+				default:
+					if( is_string( $meta_value ) ) {
+						// Remove line breaks and tabs
+						$meta_value = str_replace( array( "\n", "\r", "\t", '  ' ), ' ', $meta_value );
+						$clean      = sanitize_text_field( trim( $meta_value ) );
+					}
+					break;
+
+
 				case ( $field_def['type'] === 'text' ):
 				default:
-					$clean = sanitize_text_field( $meta_value );
+					if( is_string( $meta_value ) ) {
+						$clean = sanitize_text_field( trim( $meta_value ) );
+					}
 					break;
 			}
 			
@@ -568,12 +615,6 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 		}
 
 
-		public static function sanitize_general_focuskw() {
-/*
-					'default_value'		=> '',
-					'type'				=> 'text',
-*/
-		}
 
 		public static function sanitize_general_title() {
 /*
@@ -589,79 +630,10 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 					'richedit'			=> false,
 */
 		}
-		public static function sanitize_general_metakeywords() {
-/*
-					'default_value'		=> '',
-					'type'				=> 'text',
-*/
-		}
 
 
 
-		public static function sanitize_advanced_bctitle() {
-/*
-					'default_value'	=> '',
-					'type'			=> 'text',
-*/
-		}
 
-		public static function sanitize_advanced_sitemap_include() {
-/*
-					'default_value'	=> '-',
-					'type'		  	=> 'select',
-					'options'	  	=> array(
-						'-' 	 => '', // translation added later
-						'always' => '', // translation added later
-						'never'  => '', // translation added later
-					),
-*/
-		}
-
-		public static function sanitize_advanced_sitemap_prio() {
-/*
-					'default_value'	=> '-',
-					'type'			=> 'select',
-					'options'		=> array(
-						'-'   => '', // translation added later
-						'1'   => '', // translation added later
-						'0.9' => '0.9',
-						'0.8' => '0.8 - ', // translation added later
-						'0.7' => '0.7',
-						'0.6' => '0.6 - ', // translation added later
-						'0.5' => '0.5 - ', // translation added later
-						'0.4' => '0.4',
-						'0.3' => '0.3',
-						'0.2' => '0.2',
-						'0.1' => '0.1 - ', // translation added later
-					),
-*/
-		}
-
-		public static function sanitize_advanced_sitemap_html_include() {
-/*
-					'default_value'	=> '-',
-					'type'			=> 'select',
-					'options'		=> array(
-						'-' 			=> '', // translation added later
-						'always'		=> '', // translation added later
-						'never' 		=> '', // translation added later
-					),
-*/
-		}
-
-		public static function sanitize_advanced_canonical() {
-/*
-					'default_value'	=> '',
-					'type'			=> 'text',
-*/
-		}
-		
-		public static function sanitize_advanced_redirect() {
-/*
-					'default_value'	=> '',
-					'type'			=> 'text',
-*/
-		}
 
 		public static function sanitize_social_opengraph_description() {
 /*
@@ -670,14 +642,8 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 					'richedit'		=> false,
 */
 		}
-		
-		public static function sanitize_social_opengraph_image() {
-/*
-					'type'			=> 'upload',
-					'default_value'	=> '',
-*/
-		}
-		
+
+
 		public static function sanitize_social_google_plus_description() {
 /*
 					'type'			=> 'textarea',

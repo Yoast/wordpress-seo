@@ -116,8 +116,9 @@ if ( ! class_exists( 'WPSEO_Taxonomy' ) ) {
 	
 			$this->form_row( 'wpseo_title', __( 'SEO Title', 'wordpress-seo' ), __( 'The SEO title is used on the archive page for this term.', 'wordpress-seo' ), $tax_meta );
 			$this->form_row( 'wpseo_desc', __( 'SEO Description', 'wordpress-seo' ), __( 'The SEO description is used for the meta description on the archive page for this term.', 'wordpress-seo' ), $tax_meta );
-			if ( isset( $options['usemetakeywords'] ) && $options['usemetakeywords'] )
+			if ( $options['usemetakeywords'] === true ) {
 				$this->form_row( 'wpseo_metakey', __( 'Meta Keywords', 'wordpress-seo' ), __( 'Meta keywords used on the archive page for this term.', 'wordpress-seo' ), $tax_meta );
+			}
 			$this->form_row( 'wpseo_canonical', __( 'Canonical', 'wordpress-seo' ), __( 'The canonical link is shown on the archive page for this term.', 'wordpress-seo' ), $tax_meta );
 			$this->form_row( 'wpseo_bctitle', __( 'Breadcrumbs Title', 'wordpress-seo' ), sprintf( __( 'The Breadcrumbs title is used in the breadcrumbs where this %s appears.', 'wordpress-seo' ), $term->taxonomy ), $tax_meta );
 	
@@ -173,7 +174,7 @@ if ( ! class_exists( 'WPSEO_Taxonomy' ) ) {
 					}
 				}
 			}
-	
+
 			update_option( 'wpseo_taxonomy_meta', $tax_meta, 99 );
 	
 			if ( defined( 'W3TC_DIR' ) && class_exists( 'W3_ObjectCache' ) ) {

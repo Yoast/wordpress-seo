@@ -321,7 +321,7 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 	
 			if ( is_singular() ) {
 				$ogimg = wpseo_get_value( 'opengraph-image' );
-				if ( $ogimg ) {
+				if ( is_string( $ogimg ) && $ogimg !== '' ) {
 					$this->image_output( $ogimg );
 					return;
 				}
@@ -362,13 +362,13 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 			}
 	
 			if ( is_singular() ) {
-				$ogdesc = wpseo_get_value( 'opengraph-description' );
-				if ( ! $ogdesc ) {
+				$ogdesc = trim( wpseo_get_value( 'opengraph-description' ) );
+				if ( $ogdesc === '' ) {
 					$ogdesc = $this->metadesc( false );
 				}
-	
+
 				// og:description is still blank so grab it from get_the_excerpt()
-				if ( ! $ogdesc ) {
+				if ( ! is_string( $og_desc ) || ( is_string( $og_desc ) && $ogdesc === '' ) ) {
 					$ogdesc = str_replace( '[&hellip;]', '&hellip;', strip_tags( get_the_excerpt() ) );
 				}
 			}
@@ -379,9 +379,10 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 	
 			$ogdesc = apply_filters( 'wpseo_opengraph_desc', $ogdesc );
 	
-			if ( $ogdesc && ( is_string( $ogdesc ) && $ogdesc != '' ) ) {
-				if ( $echo !== false )
+			if ( is_string( $ogdesc ) && $ogdesc !== '' ) {
+				if ( $echo !== false ) {
 					$this->og_tag( 'og:description', $ogdesc );
+				}
 			}
 			return $ogdesc;
 		}

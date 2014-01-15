@@ -126,17 +126,19 @@ This version also incorporates the [SEO Extended](http://wordpress.org/plugins/s
 	* Corrected adding of hidden fb_admins fields to social form.
 	* Renamed a number of options as they ran the risk of being overwritten by post type/taxonomy options which could get the same name.
 	* Added sanitation/improved validation to $_GET and $_POST variables if/when they are used in a manner which could cause security issues.
-	* Admin -> Titles & Meta's -> Post types would show attachments even when attachment redirection to post was enabled
-	* Fixed: wpseo_invalid_custom_taxonomy() message (html issue)
-	* Fixed: wpseo_translate_score would never return score, but always the css value
-	* Fixed: category rewrite rules could have errors for categories without parent categories
+	* Admin -> Titles & Meta's -> Post types would show attachments even when attachment redirection to post was enabled.
+	* Fixed: wpseo_invalid_custom_taxonomy() message (html issue).
+	* Fixed: wpseo_translate_score() would never return score, but always the css value.
+	* Fixed: category rewrite rules could have errors for categories without parent categories.
 	* Fixed: text analysis did not respect the blog character encoding. This may or may not solve a number of related bugs.
 	* Fixed: wrong file was loaded for the get_plugin_data() function.
-	* Fixed: often wrong meta value was shown for meta robots follow and meta robots index in post meta box so it appeared as if the chosen value was not saved correctly
-	* Fixed: meta robots advanced entry could have strange (invalid) values
-	* Fixed: on import/delete of headspace SEO, it was possible that not all old values would be removed
+	* Fixed: often wrong meta value was shown for meta robots follow and meta robots index in post meta box so it appeared as if the chosen value was not saved correctly.
+	* Fixed: meta robots advanced entry could have strange (invalid) values.
+	* Fixed: if page specific keywords were set for a static homepage, they would never be shown.
+	* Fixed: since v1.4.22 importing from other plugins could have imported data when the post already had WP SEO values.
+	* Fixed: A few of the meta values could contain line breaks where those aren't allowed.
 
-
+@to fix: Google Plus description was never added to the html page
 
 
 * Enhancements
@@ -144,12 +146,12 @@ This version also incorporates the [SEO Extended](http://wordpress.org/plugins/s
 	* If WP_DEBUG is on or if you have set the special constant WPSEO_DEBUG, a block with the currently saved options will be shown on the settings pages.
 	* Added error message for when meta description removal fails.
 	* Added option to add meta keywords to post type archives.
-	* [Usability] Proper field labels for user profile form fields
+	* [Usability] Proper field labels for user profile form fields.
 	* General jQuery efficiency improvements.
 	* Improved lazy loading of plugin files using autoload.
-	* Don't show robots index/no-index choice in advanced meta box if there is a blog-wide override in place, i.e. the Settings -> Reading -> Block search engines checkbox is checked
-	* Added 'Site-wide default' option to meta robots advanced
-	* Made the Google+ and Facebook post descriptions translatable by WPML
+	* Don't show robots index/no-index choice in advanced meta box if there is a blog-wide override in place, i.e. the Settings -> Reading -> Block search engines checkbox is checked.
+	* Added 'Site-wide default' option to meta robots advanced.
+	* Made the Google+ and Facebook post descriptions translatable by WPML.
 
 * Other:
 	* Removed statement for compatibility with WP < 3.4 as minimum requirement for WP SEO is now 3.5

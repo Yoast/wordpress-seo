@@ -93,7 +93,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps_Admin' ) ) {
 			}
 	
 			// Allow the pinging to happen slightly after the hit sitemap index so the sitemap is fully regenerated when the ping happens.
-			if ( wpseo_get_value( 'sitemap-include', $post->ID ) != 'never' ) {
+			if ( wpseo_get_value( 'sitemap-include', $post->ID ) !== 'never' ) {
 				if ( defined( 'YOAST_SEO_PING_IMMEDIATELY' ) && YOAST_SEO_PING_IMMEDIATELY ) {
 					wpseo_ping_search_engines();
 				}
