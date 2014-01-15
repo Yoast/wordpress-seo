@@ -28,11 +28,13 @@ class WPSEO_Page_Redirect {
 		// Admin header
 		$wpseo_admin_pages->admin_header( false, 'yoast_wpseo_redirects_options', 'wpseo_redirects' );
 
+		$page_url = admin_url( 'admin.php' ) . '?page=' . $_GET['page'];
+
 		?>
 		<h2 class="nav-tab-wrapper" id="wpseo-tabs">
-			<a class="nav-tab" id="redirects-tab" href="#top#redirects"><?php _e( 'Redirects', 'wordpress-seo' ); ?></a>
-			<a class="nav-tab" id="google-wmt-tab" href="#top#google-wmt"><?php _e( 'Google Web Master Tools', 'wordpress-seo' ); ?></a>
-			<a class="nav-tab" id="settings-tab" href="#top#settings"><?php _e( 'Settings', 'wordpress-seo' ); ?></a>
+			<a class="nav-tab" id="redirects-tab" href="<?php echo $page_url; ?>#top#redirects"><?php _e( 'Redirects', 'wordpress-seo' ); ?></a>
+			<a class="nav-tab" id="google-wmt-tab" href="<?php echo $page_url; ?>#top#google-wmt"><?php _e( 'Google Web Master Tools', 'wordpress-seo' ); ?></a>
+			<a class="nav-tab" id="settings-tab" href="<?php echo $page_url; ?>#top#settings"><?php _e( 'Settings', 'wordpress-seo' ); ?></a>
 		</h2>
 
 		<div class="tabwrapper>">
@@ -167,8 +169,27 @@ class WPSEO_Page_Redirect {
 	private static function gwt_print_table() {
 		echo "<h2>Google Webmaster Tools Errors</h2>\n";
 
+
+		$service = new WPSEO_GWT_Service( self::$gwt_client );
+
+//		$sites = $service->get_sites();
+//		var_dump( $sites );
+
+		$crawl_issues = $service->get_crawl_issues( 'http://www.barrykooij.com/' );
+
+		var_dump( $crawl_issues );
+
+		/*
 		// Set site URL
-		$site_url = urlencode( get_site_url() );
+		$site_url = urlencode( get_site_url() . '/' );
+
+		$site_url = 'http://www.barrykooij.com';
+
+		// Do list sites request
+		$request = new Google_HttpRequest( "https://www.google.com/webmasters/tools/feeds/sites/" );
+
+		// Get list sites response
+		$response = self::$gwt_client->getIo()->authenticatedRequest( $request );
 
 		// Do request
 		$request = new Google_HttpRequest( "https://www.google.com/webmasters/tools/feeds/{$site_url}/crawlissues/" );
@@ -190,6 +211,8 @@ class WPSEO_Page_Redirect {
 			// Website not found by Google
 			_e( 'Website not found in Google Webmaster Tools, are you sure you added it?', 'wordpress-seo' );
 		}
+
+		*/
 
 	}
 
