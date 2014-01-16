@@ -729,7 +729,7 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 			);
 			$oldies = $wpdb->get_results( $query );
 
-			if( is_array( $oldies ) && $oldies !== array() ) {
+			if ( is_array( $oldies ) && $oldies !== array() ) {
 				foreach ( $oldies as $old ) {
 					update_post_meta( $old->post_id, $new_metakey, $old->meta_value );
 				}
@@ -824,15 +824,16 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 
 					$where_or_or = ( $query === array() ? 'WHERE' : 'OR' );
 
-					if( $key === 'meta-robots-adv' ) {
+					if ( $key === 'meta-robots-adv' ) {
 						$query[] = $wpdb->prepare(
 							" $where_or_or ( meta_key = %s AND ( meta_value = 'none' OR meta_value = '-' ) )",
 							self::$meta_prefix . $key
 						);
 					}
 					else if ( isset( $field_def['options'] ) && is_array( $field_def['options'] ) && $field_def['options'] !== array() ) {
-						$valid = array_keys( $field_def['options'] );
+						$valid = $field_def['options'];
 						unset( $valid[$field_def['default_value']] ); // remove the default value
+						$valid = array_keys( $valid );
 
 						$query[] = $wpdb->prepare(
 							" $where_or_or ( meta_key = %s AND meta_value NOT IN ( '" . implode( "','", esc_sql( $valid ) ) . "' ) )",
@@ -840,7 +841,7 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 						);
 						unset( $valid );
 					}
-					else if( $field_def['default_value'] !== '' ) {
+					else if ( $field_def['default_value'] !== '' ) {
 						$query[] = $wpdb->prepare(
 							" $where_or_or ( meta_key = %s AND meta_value = %s )",
 							self::$meta_prefix . $key,
@@ -898,8 +899,8 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 				foreach ( $oldies as $old ) {
 					$clean = self::validate_meta_robots_adv( $old->meta_value );
 					
-					if( $clean !== $old->meta_value ) {
-						if( $clean !== self::$meta_fields['advanced']['meta-robots-adv']['default_value'] ) {
+					if ( $clean !== $old->meta_value ) {
+						if ( $clean !== self::$meta_fields['advanced']['meta-robots-adv']['default_value'] ) {
 							update_metadata_by_mid( 'post', $old->meta_id, $clean );
 						}
 						else {

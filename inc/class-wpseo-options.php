@@ -75,12 +75,6 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 			),
 		);
 		
-		/**
-		 * @static
-		 * @var	array	Array of all option names - set via WPSEO_Options::enrich_options()
-		 * @see WPSEO_Options::enrich_options();
-		 */
-		public static $option_names = null;
 
 
 		/**
@@ -317,11 +311,11 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 					add_action( 'update_option_' . $option_key, array( __CLASS__, 'schedule_yoast_tracking' ), 10, 2 );
 				}
 
-				if( in_array( $option_key, array( 'wpseo', 'wpseo_titles' ), true ) ) {
+				if ( in_array( $option_key, array( 'wpseo', 'wpseo_titles' ), true ) ) {
 					add_action( 'update_option_' . $option_key, array( __CLASS__, 'clear_cache' ) );
 				}
 				
-				if( in_array( $option_key, array( 'wpseo_permalinks', 'wpseo_xml' ), true ) ) {
+				if ( in_array( $option_key, array( 'wpseo_permalinks', 'wpseo_xml' ), true ) ) {
 					add_action( 'update_option_' . $option_key, array( __CLASS__, 'clear_rewrites' ) );
 				}
 			}
@@ -350,6 +344,10 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 			}*/
 
 
+			/* Initialize the Taxonomy Meta Option to ensure validation routines are registered */
+			WPSEO_Taxonomy_Meta::plugins_loaded();
+
+
 			self::enrich_options();
 
 			/* Translate some defaults as early as possible - textdomain is loaded in init on priority 1 */
@@ -359,10 +357,7 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 			// which is normally done on the init action
 			// @todo - verify that none of the options which are only available after enrichment are used before the enriching
 			add_action( 'init', array( __CLASS__, 'enrich_defaults' ), 99 );
-			
-			
-			/* Initialize the Taxonomy Meta Option to ensure validation routines are registered */
-			WPSEO_Taxonomy_Meta::plugins_loaded();
+
 		}
 
 
@@ -374,12 +369,12 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 					self::$options[$option_name]['group'] = 'yoast_' . $option_name . '_options';
 				}
 			}
-			/* Create re-usable option names property */
-			if ( ! is_array( self::$option_names ) ) {
-				self::$option_names = array_keys( self::$options );
-			}
 		}
-		
+
+
+		/**
+		 * Translate strings used in the option defaults
+		 */
 		public static function translate_defaults() {
 			/* Translate default strings */
 			/* wpseo_titles */
@@ -575,11 +570,7 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 		 * @param	string	$option_key
 		 */
 		public static function add_default_filters( $option_key ) {
-			if ( ! is_array( self::$option_names ) ) {
-				self::$option_names = array_keys( self::$options );
-			}
-			
-			if ( in_array( $option_key, self::$option_names ) === true ) {
+			if ( isset( self::$options[$option_key] ) ) {
 				if ( has_filter( 'default_option_' . $option_key, array( __CLASS__, 'filter_defaults_' . $option_key ) ) === false ) {
 					add_filter( 'default_option_' . $option_key, array( __CLASS__, 'filter_defaults_' . $option_key ) );
 				}
@@ -1827,14 +1818,13 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 		 * @return array of options
 		 */
 		public static function get_all() {
-
 			if ( ! isset( self::$wpseo_options ) ) {
 				self::$wpseo_options = array();
-				foreach ( self::get_option_names() as $option_name ) {
+				$option_names        = self::get_option_names();
+				foreach ( $option_names as $option_name ) {
 					self::$wpseo_options = array_merge( self::$wpseo_options, (array) get_option( $option_name ) );
 				}
 			}
-
 			return self::$wpseo_options;
 		}
 
@@ -2263,7 +2253,7 @@ if ( ! class_exists( 'WPSEO_Taxonomy_Meta' ) ) {
 		public static $options = array(
 			'wpseo_taxonomy_meta' => array(
 				'group'				=> null,
-				'include_in_all'	=> true,
+				'include_in_all'	=> false,
 				'only_multisite'	=> false,
 			),
 		);
@@ -2273,7 +2263,7 @@ if ( ! class_exists( 'WPSEO_Taxonomy_Meta' ) ) {
 		 * @var	array	Array of all option names - set via WPSEO_Options::enrich_options()
 		 * @see WPSEO_Options::enrich_options();
 		 */
-		public static $option_names = null;
+//		public static $option_names = null;
 
 
 		/**
@@ -2334,6 +2324,9 @@ if ( ! class_exists( 'WPSEO_Taxonomy_Meta' ) ) {
 		 * @static
 		 */
 		public static function plugins_loaded() {
+			
+			parent::$options  = array_merge( parent::$options, self::$options );
+			parent::$defaults = array_merge( parent::$defaults, self::$defaults );
 
 			foreach ( self::$options as $option_key => $directives ) {
 				/* Add filters which get applied to the get_options() results */
@@ -2378,7 +2371,7 @@ if ( ! class_exists( 'WPSEO_Taxonomy_Meta' ) ) {
 			*/
 
 
-			self::enrich_options();
+//			self::enrich_options();
 		}
 
 
@@ -2431,7 +2424,7 @@ if ( ! class_exists( 'WPSEO_Taxonomy_Meta' ) ) {
 		 * @return	array	Combined and filtered options array.
 		 */
 		public static function array_filter_merge( $option_key, $options = null ) {
-			
+
 			$defaults = self::get_defaults( $option_key );
 
 			if ( ! isset( $options ) || $options === false ) {
@@ -2497,8 +2490,8 @@ if ( ! class_exists( 'WPSEO_Taxonomy_Meta' ) ) {
 
 			/* Don't change anything if user does not have the required capability */
 			// @todo check if there is a capability which will work for all taxonomies
-			// Current 'edit_terms' is a guestimate, but hopefully correct
-			if ( false === is_admin() || false === current_user_can( 'edit_terms' ) ) {
+			// Current 'edit_terms' is a guestimate, but is *not* correct
+			if ( false === is_admin() /*|| false === current_user_can( 'edit_terms' )*/ ) {
 				return get_option( $option_key );
 			}
 			
@@ -2513,11 +2506,15 @@ if ( ! class_exists( 'WPSEO_Taxonomy_Meta' ) ) {
 
 			if ( is_array( $options ) && $options !== array() ) {
 				foreach ( $options as $taxonomy => $terms ) {
-					/* Validate taxonomy */
-					if ( taxonomy_exists( $taxonomy ) && ( is_array( $terms ) && $terms !== array() ) ) {
+					/* Don't validate taxonomy - may not be registered yet and we don't want to remove valid ones */
+					if ( is_array( $terms ) && $terms !== array() ) {
 						foreach ( $terms as $term_id => $meta_data ) {
-							/* Validate term */
-							if ( get_term_by( 'id', $term_id, $taxonomy ) !== false && is_array( $meta_data ) && $meta_data !== array() ) {
+							/* Only validate term if the taxonomy exists */
+							if( taxonomy_exists( $taxonomy ) && get_term_by( 'id', $term_id, $taxonomy ) === false ) {
+								continue;
+							}
+
+							if ( is_array( $meta_data ) && $meta_data !== array() ) {
 								/* Validate meta data */
 								$meta_data = self::validate_term_meta_data( $meta_data );
 								if ( $meta_data !== array() ) {

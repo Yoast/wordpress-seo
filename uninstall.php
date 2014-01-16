@@ -57,7 +57,7 @@ $wpseo_transients = array(
 	'html-sitemap',
 	'yoast_tracking_cache',
 );
-foreach( $wpseo_transients as $transient ) {
+foreach ( $wpseo_transients as $transient ) {
 	delete_transient( $transient );
 }
 
@@ -65,7 +65,7 @@ foreach( $wpseo_transients as $transient ) {
 global $wpdb;
 $query   = "SELECT user_id FROM {$wpdb->usermeta} WHERE meta_key = 'googleplus' AND meta_value != ''";
 $user_ids = $query->get_col( $query );
-foreach( $user_ids as $user_id ) {
+foreach ( $user_ids as $user_id ) {
 	delete_transient( 'gplus_' . $user_id );
 }
 unset( $query, $user_ids, $user_id );
