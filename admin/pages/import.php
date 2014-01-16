@@ -354,7 +354,7 @@ else if ( isset( $_FILES['settings_import_file'] ) ) {
 		if ( $unzipped[0]['stored_filename'] == 'settings.ini' ) {
 			$options = parse_ini_file( WP_CONTENT_DIR . '/wpseo-import/settings.ini', true );
 			foreach ( $options as $name => $optgroup ) {
-				if ( $name != 'wpseo_taxonomy_meta' ) {
+				if ( $name !== 'wpseo_taxonomy_meta' ) {
 					update_option( $name, $optgroup );
 				}
 				else {

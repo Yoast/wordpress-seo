@@ -294,32 +294,6 @@ function wpseo_get_terms( $id, $taxonomy, $return_single = false ) {
 	return apply_filters( 'wpseo_terms', $output );
 }
 
-/**
- * Retrieve a taxonomy term's meta value.
- *
- * @param string|object $term     term to get the meta value for
- * @param string        $taxonomy name of the taxonomy to which the term is attached
- * @param string        $meta     meta value to get
- * @return bool|mixed value when the meta exists, false when it does not
- */
-function wpseo_get_term_meta( $term, $taxonomy, $meta ) {
-	if ( is_string( $term ) )
-		$term = get_term_by( 'slug', $term, $taxonomy );
-
-	if ( is_object( $term ) )
-		$term = $term->term_id;
-	else
-		return false;
-
-	$tax_meta = get_option( 'wpseo_taxonomy_meta' );
-	if ( isset( $tax_meta[$taxonomy][$term] ) )
-		$tax_meta = $tax_meta[$taxonomy][$term];
-	else
-		return false;
-
-	return ( isset( $tax_meta['wpseo_' . $meta] ) ) ? $tax_meta['wpseo_' . $meta] : false;
-}
-
 
 /**
  * Strip out the shortcodes with a filthy regex, because people don't properly register their shortcodes.
@@ -791,4 +765,22 @@ function get_wpseo_options() {
 function replace_meta( $old_metakey, $new_metakey, $replace = false ) {
 	_deprecated_function( __FUNCTION__, 'WPSEO 1.5.0', 'WPSEO_Meta::replace_meta()' );
 	WPSEO_Meta::replace_meta( $old_metakey, $new_metakey, $replace );
+}
+
+
+/**
+ * Retrieve a taxonomy term's meta value.
+ *
+ * @deprecated 1.5.0
+ * @deprecated use WPSEO_Taxonomy_Meta::get_term_meta()
+ * @see WPSEO_Taxonomy_Meta::get_term_meta()
+ *
+ * @param string|object $term     term to get the meta value for
+ * @param string        $taxonomy name of the taxonomy to which the term is attached
+ * @param string        $meta     meta value to get
+ * @return bool|mixed value when the meta exists, false when it does not
+ */
+function wpseo_get_term_meta( $term, $taxonomy, $meta ) {
+	_deprecated_function( __FUNCTION__, 'WPSEO 1.5.0', 'WPSEO_Taxonomy_Meta::get_term_meta' );
+	WPSEO_Taxonomy_Meta::get_term_meta( $term, $taxonomy, $meta );
 }

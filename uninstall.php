@@ -9,7 +9,7 @@
  * @todo remove meta data for posts/pages ?
  * @todo remove wpseo_taxonomy_meta option ?
  * @todo remove meta data added to users ?
- * => may be add an options page where users can choose whether or not to remove this kind of data ?
+ * => maybe add an options page where users can choose whether or not to remove this kind of data ?
  * or try and hook into the uninstall routine and ask the user there & then
  *
  * @todo remove option Yoast_Tracking_Hash ?
@@ -42,6 +42,17 @@ foreach ( $wpseo_option_keys as $option ) {
 if ( wp_next_scheduled( 'yoast_tracking' ) !== false ) {
 	wp_clear_scheduled_hook( 'yoast_tracking' );
 }
+
+
+/**
+ * @todo Some sort of mechanism should be worked out in which we ask the user whether they also want
+ * to delete all entered meta data
+ * If so, the below should be run (for all blog when multi-site uninstall)
+ */
+/*
+	delete_option( 'wpseo_taxonomy_meta' );
+*/
+
 
 /*
 $wpseo_meta_keys = array(

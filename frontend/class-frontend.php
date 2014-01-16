@@ -174,7 +174,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 			global $wp_query;
 			$object = $wp_query->get_queried_object();
 
-			$title = trim( wpseo_get_term_meta( $object, $object->taxonomy, 'title' ) );
+			$title = WPSEO_Taxonomy_Meta::get_term_meta( $object, $object->taxonomy, 'title' );
 	
 			if ( $title !== '' ) {
 				return wpseo_replace_vars( $title, (array) $object );
@@ -613,16 +613,15 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 				}
 				else if ( is_tax() || is_tag() || is_category() ) {
 					$term = $wp_query->get_queried_object();
-					if ( is_object( $term ) && ( isset( $this->options['noindex-tax-' . $term->taxonomy] ) && $this->options['noindex-tax-' . $term->taxonomy] === true ) )
+					if ( is_object( $term ) && ( isset( $this->options['noindex-tax-' . $term->taxonomy] ) && $this->options['noindex-tax-' . $term->taxonomy] === true ) ) {
 						$robots['index'] = 'noindex';
+					}
 	
 					// Three possible values, index, noindex and default, do nothing for default
-					$term_meta = wpseo_get_term_meta( $term, $term->taxonomy, 'noindex' );
-					if ( 'noindex' == $term_meta || 'on' == $term_meta ) // on is for backwards compatibility
-						$robots['index'] = 'noindex';
-	
-					if ( 'index' == $term_meta )
-						$robots['index'] = 'index';
+					$term_meta = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'noindex' );
+					if ( 'default' !== $term_meta ) {
+						$robots['index'] = $term_meta;
+					}
 				}
 				else if (
 						( is_author() && $this->options['noindex-author-wpseo'] === true ) ||
@@ -641,7 +640,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 					$robots['index']  = 'noindex';
 					$robots['follow'] = 'follow';
 				}
-				
+
 				foreach ( array( 'noodp', 'noydir' ) as $robot ) {
 					if ( $this->options[$robot] === true ) {
 						$robots['other'][] = $robot;
@@ -692,7 +691,6 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 			if ( is_singular() ) {
 				if ( $no_override === false && WPSEO_Meta::get_value( 'canonical' ) !== '' ) {
 					$canonical = WPSEO_Meta::get_value( 'canonical' );
-					// @todo: check if this variable setting makes sense as it does not seem to be used in this instance
 					$skip_pagination = true;
 				}
 				else {
@@ -727,12 +725,12 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 				else if ( is_tax() || is_tag() || is_category() ) {
 					$term = get_queried_object();
 					if ( ! $no_override ) {
-						$canonical = wpseo_get_term_meta( $term, $term->taxonomy, 'canonical' );
-						if ( $canonical ) {
+						$canonical = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'canonical' );
+						if ( $canonical !== '' ) {
 							$skip_pagination = true;
 						}
 					}
-					if ( ! $canonical ) {
+					if ( $canonical === false || $canonical === '' ) {
 						$canonical = get_term_link( $term, $term->taxonomy );
 					}
 				}
@@ -755,25 +753,25 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 						}
 					}
 				}
+			}
+			
+			if ( $canonical && $un_paged )
+				return $canonical;
 
-				if ( $canonical && $un_paged )
-					return $canonical;
-	
-				if ( $canonical && ! $skip_pagination && get_query_var( 'paged' ) > 1 ) {
-					global $wp_rewrite;
-					if ( ! $wp_rewrite->using_permalinks() ) {
-						$canonical = add_query_arg( 'paged', get_query_var( 'paged' ), $canonical );
+			if ( $canonical && ! $skip_pagination && get_query_var( 'paged' ) > 1 ) {
+				global $wp_rewrite;
+				if ( ! $wp_rewrite->using_permalinks() ) {
+					$canonical = add_query_arg( 'paged', get_query_var( 'paged' ), $canonical );
+				}
+				else {
+					if ( is_front_page() ) {
+						$base      = $wp_rewrite->using_index_permalinks() ? 'index.php/' : '/';
+						$canonical = home_url( $base );
 					}
-					else {
-						if ( is_front_page() ) {
-							$base      = $wp_rewrite->using_index_permalinks() ? 'index.php/' : '/';
-							$canonical = home_url( $base );
-						}
-						$canonical = user_trailingslashit( trailingslashit( $canonical ) . trailingslashit( $wp_rewrite->pagination_base ) . get_query_var( 'paged' ) );
-					}
+					$canonical = user_trailingslashit( trailingslashit( $canonical ) . trailingslashit( $wp_rewrite->pagination_base ) . get_query_var( 'paged' ) );
 				}
 			}
-	
+
 			if ( $canonical && 'default' !== $this->options['force_transport'] ) {
 				$canonical = preg_replace( '`^http[s]?`', $this->options['force_transport'], $canonical );
 			}
@@ -964,8 +962,8 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 					$term = $wp_query->get_queried_object();
 
 					if ( is_object( $term ) ) {
-						$keywords = wpseo_get_term_meta( $term, $term->taxonomy, 'metakey' );
-						if ( ! $keywords && ( isset( $this->options['metakey-tax-' . $term->taxonomy] ) && $this->options['metakey-tax-' . $term->taxonomy] !== '' ) ) {
+						$keywords = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'metakey' );
+						if ( $keywords === '' && ( isset( $this->options['metakey-tax-' . $term->taxonomy] ) && $this->options['metakey-tax-' . $term->taxonomy] !== '' ) ) {
 							$keywords = wpseo_replace_vars( $this->options['metakey-tax-' . $term->taxonomy], (array) $term );
 						}
 					}
@@ -985,7 +983,8 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 				}
 			}
 	
-			$keywords = apply_filters( 'wpseo_metakey', trim( $keywords ) );
+			$keywords = apply_filters( 'wpseo_metakey', trim( $keywords ) ); // make deprecated
+			$keywords = apply_filters( 'wpseo_metakeywords', trim( $keywords ) ); // more appropriately named
 	
 			if ( is_string( $keywords ) && $keywords !== '' ) {
 				echo '<meta name="keywords" content="' . esc_attr( strip_tags( stripslashes( $keywords ) ) ) . '"/>' . "\n";
@@ -1035,8 +1034,8 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 				else if ( is_category() || is_tag() || is_tax() ) {
 					$term = $wp_query->get_queried_object();
 	
-					$metadesc = wpseo_get_term_meta( $term, $term->taxonomy, 'desc' );
-					if ( ! $metadesc && ( is_object( $term->taxonomy ) && ( isset( $this->options['metadesc-tax-' . $term->taxonomy] ) && $this->options['metadesc-tax-' . $term->taxonomy] !== '' ) ) ) {
+					$metadesc = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'desc' );
+					if ( $metadesc === '' && ( is_object( $term->taxonomy ) && ( isset( $this->options['metadesc-tax-' . $term->taxonomy] ) && $this->options['metadesc-tax-' . $term->taxonomy] !== '' ) ) ) {
 						$metadesc = wpseo_replace_vars( $this->options['metadesc-tax-' . $term->taxonomy], (array) $term );
 					}
 				}

@@ -21,11 +21,6 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 	 */
 	class WPSEO_Options {
 
-/* @todo
-Found in db, not as form = taxonomy meta data. Should be kept separate, but maybe we should add validation to it too.
-(1697, 'wpseo_taxonomy_meta', 'a:1:{s:8:"category";a:4:{i:4;a:3:{s:13:"wpseo_noindex";s:7:"default";s:21:"wpseo_sitemap_include";s:1:"-";s:10:"wpseo_desc";s:6:"testje";}i:2;a:2:{s:13:"wpseo_noindex";s:7:"default";s:21:"wpseo_sitemap_include";s:1:"-";}i:1;a:2:{s:13:"wpseo_noindex";s:7:"default";s:21:"wpseo_sitemap_include";s:1:"-";}i:7;a:3:{s:10:"wpseo_desc";s:4:"test";s:13:"wpseo_noindex";s:7:"default";s:21:"wpseo_sitemap_include";s:1:"-";}}}', 'yes'),
-*/
-
 		/**
 		 * Array of all the options the plugin uses with some usage directives
 		 * The plugin can't use only one due to limitations of the options API.
@@ -356,6 +351,9 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 			// @todo - verify that none of the options which are only available after enrichment are used before the enriching
 			add_action( 'init', array( __CLASS__, 'enrich_defaults' ), 99 );
 			
+			
+			/* Initialize the Taxonomy Meta Option to ensure validation routines are registered */
+			WPSEO_Taxonomy_Meta::plugins_loaded();
 		}
 
 
@@ -551,9 +549,9 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 				else {
 					if ( function_exists( 'is_multisite' ) && is_multisite() ) {
 						// @todo: check if the below if() is still needed...
-						if ( get_option( 'wpseo' ) == '1pseo_social' )
+						if ( get_option( 'wpseo' ) == '1pseo_social' ) {
 							delete_option( 'wpseo' );
-
+						}
 						register_setting( $directives['group'], $option_name, array( __CLASS__, 'validate_' . $option_name ) );
 					}
 				}
@@ -761,7 +759,7 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 		/**
 		 * Merge an option with its default values
 		 *
-		 * These methods should *not* be called directly!!! The are only meant to filter the get_options() results
+		 * These methods should *not* be called directly!!! They are only meant to filter the get_options() results
 		 *
 		 * @param   mixed   $options    Option value
 		 * @return  mixed   Option merged with the default for that option
@@ -858,15 +856,17 @@ Found in db, not as form = taxonomy meta data. Should be kept separate, but mayb
 			$options  = (array) $options;
 			$filtered = array();
 
-			foreach ( $defaults as $name => $default ) {
-				if ( isset( $options[$name] ) ) {
-					$filtered[$name] = $options[$name];
+			if( $defaults !== array() ) {
+				foreach ( $defaults as $name => $default ) {
+					if ( isset( $options[$name] ) ) {
+						$filtered[$name] = $options[$name];
+					}
+					else {
+						$filtered[$name] = $default;
+					}
 				}
-				else {
-					$filtered[$name] = $default;
-				}
+				unset( $name, $default );
 			}
-			unset( $name, $default );
 
 			/* If the option contains variable option keys, make sure we don't remove those settings
 			   - even if the defaults are not complete yet.
@@ -2198,5 +2198,481 @@ function wpseo_defaults() {
 	}
 */
 	} /* End of class */
+
+} /* End of class-exists wrapper */
+
+
+
+
+
+
+if ( ! class_exists( 'WPSEO_Taxonomy_Meta' ) ) {
+	/**
+	 * @package WordPress\Plugins\WPSeo
+	 * @subpackage Internals
+	 * @since 1.5.0
+	 * @version 1.5.0
+	 *
+	 * Please note: all methods and properties are static. This class is not instantiated and does not have to be.
+	 * Class is basically used as an alternative way of namespacing our functions and variables
+	 */
+	class WPSEO_Taxonomy_Meta extends WPSEO_Options {
+
+		/**
+		 * Array of all the taxonomy meta options the plugin uses with some usage directives
+		 *
+		 * @static
+		 * @var	array	'option_name'	=> array(
+		 *					'group'				=> string	option group name for use in settings forms
+		 *													(not used for taxonomy meta option),
+		 *					'include_in_all'	=> bool		whether to include the option in the return for get_all()
+		 *					'only_multisite'	=> bool		whether this option is only use if the install is multisite
+		 *				)
+		 */
+		public static $options = array(
+			'wpseo_taxonomy_meta' => array(
+				'group'				=> null,
+				'include_in_all'	=> true,
+				'only_multisite'	=> false,
+			),
+		);
+		
+		/**
+		 * @static
+		 * @var	array	Array of all option names - set via WPSEO_Options::enrich_options()
+		 * @see WPSEO_Options::enrich_options();
+		 */
+		public static $option_names = null;
+
+
+		/**
+		 * @static
+		 * @var	array	Array of defaults for all the options for taxonomy meta
+		 * @internal	Important: in contrast to the WPSEO_Options version of default, the below array format is
+		 *				very bare. The real option is in the format [taxonomy_name][term_id][...]
+		 *				where [...] is any of the $defaults_per_term options shown below.
+		 *				This is of course taken into account in the below methods.
+		 */
+		public static $defaults = array(
+			'wpseo_taxonomy_meta'		=> array(),
+		);
+
+
+		/**
+		 * @static
+		 * @var	array	Array of defaults for individual taxonomy meta entries
+		 */
+		public static $defaults_per_term = array(
+/*v*/			'wpseo_title'			=> '',
+/*v*/			'wpseo_desc'			=> '',
+/*v*/			'wpseo_metakey'			=> '',
+/*v*/			'wpseo_canonical'		=> '',
+/*v*/			'wpseo_bctitle'			=> '',
+/*v*/			'wpseo_noindex'			=> 'default',
+/*v*/			'wpseo_sitemap_include'	=> '-',
+		);
+
+
+		/**
+		 * @static
+		 * @var	array	Available index options
+		 *				Used for form generation and input validation
+		 * @internal	Labels (translation) added on admin_init via WPSEO_Taxonomy::translate_meta_options()
+		 */
+		public static $no_index_options = array(
+			'default' => '',
+			'index'   => '',
+			'noindex' => '',
+		);
+
+		/**
+		 * @static
+		 * @var	array	Available sitemap include options
+		 *				Used for form generation and input validation
+		 * @internal	Labels (translation) added on admin_init via WPSEO_Taxonomy::translate_meta_options()
+		 */
+		public static $sitemap_include_options = array(
+			'-'      => '',
+			'always' => '',
+			'never'  => '',
+		);
+
+
+		/**
+		 * Add the actions and  filters for our Taxonomy Meta option(s)
+		 * @static
+		 */
+		public static function plugins_loaded() {
+
+			foreach ( self::$options as $option_key => $directives ) {
+				/* Add filters which get applied to the get_options() results */
+				self::add_default_filters( $option_key );
+				add_filter( 'option_' . $option_key, array( __CLASS__, 'filter_' . $option_key ) );
+				add_filter( 'site_option_' . $option_key, array( __CLASS__, 'filter_' . $option_key ) );
+				
+				/* The option validation routine remove the default filters to prevent failing
+				   to insert an option if it's new. Let's add them back afterwards for an UPDATE (only WP 3.7)*/
+				if ( version_compare( $GLOBALS['wp_version'], '3.7', '==' ) ) {
+					add_filter( 'pre_update_option_' . $option_key, array( __CLASS__, 'pre_update_option_' . $option_key ) );
+				}
+				
+				/* On succesfull update/add of the option, flush the W3TC cache */
+				add_action( 'add_option_' . $option_key, array( __CLASS__, 'flush_W3TC_cache' ) );
+				add_action( 'update_option_' . $option_key, array( __CLASS__, 'flush_W3TC_cache' ) );
+			}
+
+
+			/* The option validation routines remove the default filters to prevent failing
+			   to insert an option if it's new. Let's add them back afterwards for an INSERT */
+			add_action( 'add_option', array( __CLASS__, 'add_default_filters' ) );
+
+			/* The option validation routines remove the default filters to prevent failing
+			   to insert an option if it's new. Let's add them back afterwards for an UPDATE (not WP 3.7) */
+			if ( version_compare( $GLOBALS['wp_version'], '3.7', '!=' ) ) {
+				add_action( 'update_option', array( __CLASS__, 'add_default_filters' ) );
+			}
+
+
+
+			/* @todo - deal with update during upgrading !
+			Something along the lines of the below may work:
+
+			   Lastly, we'll be saving our option during the upgrade routine *before* the setting
+			   is registered (and therefore the validation is registered), so make sure that the
+			   option is validated anyway. */
+			/*
+			foreach ( self::$options as $option_name => $directives ) {
+				add_filter( 'wpseo_save_option_on_upgrade_' . $option_name, array( __CLASS__, 'validate_' . $option_name ) );
+			}
+			*/
+
+
+			self::enrich_options();
+		}
+
+
+		/**
+		 * Abusing a filter to re-add our default filters
+		 * WP 3.7 specific as update_option action hook was in the wrong place temporarily
+		 * @see http://core.trac.wordpress.org/ticket/25705
+		 * @param   mixed   $new_value
+		 * @return  mixed   unchanged value
+		 */
+		public static function pre_update_option_wpseo_taxonomy_meta( $new_value ) {
+			self::add_default_filters( 'wpseo_taxonomy_meta' );
+			return $new_value;
+		}
+
+
+		/**
+		 * Get default values for the option
+		 * @usedby default_option_{option_key} and default_site_option_{option_key} filters
+		 * @return array
+		 */
+		public static function filter_defaults_wpseo_taxonomy_meta() {
+			return self::$defaults['wpseo_taxonomy_meta'];
+		}
+
+
+		/**
+		 * Merge an option with its default values
+		 *
+		 * This method should *not* be called directly!!! It is only meant to filter the get_options() results
+		 *
+		 * @param   mixed   $options    Option value
+		 * @return  mixed   Option merged with the default for that option
+		 */
+		public static function filter_wpseo_taxonomy_meta( $options = null ) {
+			return self::array_filter_merge( 'wpseo_taxonomy_meta', $options );
+		}
+
+
+
+		/**
+		 * Helper method - Combines a fixed array of default values with an options array
+		 * while filtering out any keys which are not in the defaults array.
+		 *
+		 * @static
+		 *
+		 * @param	string	$option_key	Option name of the option we're doing the merge for
+		 * @param	array	$options	(Optional) Current options
+		 * 								- if not set, the option defaults for the $option_key will be returned.
+		 * @return	array	Combined and filtered options array.
+		 */
+		public static function array_filter_merge( $option_key, $options = null ) {
+			
+			$defaults = self::get_defaults( $option_key );
+
+			if ( ! isset( $options ) || $options === false ) {
+				return $defaults;
+			}
+
+			/*
+			@internal Adding the defaults to all taxonomy terms each time the option is retrieved
+			will be quite inefficient if there are a lot of taxonomy terms
+			As long as taxonomy_meta is only retrieved via methods in this class, we shouldn't need this
+
+			$options  = (array) $options;
+			$filtered = array();
+
+			if( $options !== array() ) {
+				foreach( $options as $taxonomy => $terms ) {
+					if( is_array( $terms ) && $terms !== array() ) {
+						foreach( $terms as $id => $term_meta ) {
+							foreach( self::$defaults_per_term as $name => $default ) {
+								if ( isset( $options[$taxonomy][$id][$name] ) ) {
+									$filtered[$taxonomy][$id][$name] = $options[$taxonomy][$id][$name];
+								}
+								else {
+									$filtered[$name] = $default;
+								}
+							}
+						}
+					}
+				}
+				unset( $taxonomy, $terms, $id, $term_meta, $name, $default );
+			}
+			// end of may be remove
+
+			return $filtered;
+			*/
+
+			return (array) $options;
+		}
+		
+		
+		/**
+		 * Flush W3TC cache after succesfull update/add of taxonomy meta option
+		 */
+		public static function flush_W3TC_cache() {
+			if ( defined( 'W3TC_DIR' ) ) {
+				$w3_objectcache = & W3_ObjectCache::instance();
+				$w3_objectcache->flush();
+			}
+		}
+
+
+		/**
+		 * Validate the taxonomy meta option
+		 *
+		 * @param	array	$options	New options value
+		 * @return	array				Validated options value
+		 */
+		public static function validate_wpseo_taxonomy_meta( $options ) {
+			
+			$option_key = 'wpseo_taxonomy_meta';
+
+			self::remove_default_filters( $option_key );
+
+			/* Don't change anything if user does not have the required capability */
+			// @todo check if there is a capability which will work for all taxonomies
+			// Current 'edit_terms' is a guestimate, but hopefully correct
+			if ( false === is_admin() || false === current_user_can( 'edit_terms' ) ) {
+				return get_option( $option_key );
+			}
+			
+			/* Prevent complete validation (which can be expensive when there are lots of terms)
+			   if only one item has changed and has already been validated */
+			if( isset( $options['wpseo_already_validated'] ) && $options['wpseo_already_validated'] === true ) {
+				unset( $options['wpseo_already_validated'] );
+				return $options;
+			}
+
+			$clean = self::get_defaults( $option_key ); //= empty array
+
+			if( is_array( $options ) && $options !== array() ) {
+				foreach( $options as $taxonomy => $terms ) {
+					/* Validate taxonomy */
+					if( taxonomy_exists( $taxonomy ) && ( is_array( $terms ) && $terms !== array() ) ) {
+						foreach( $terms as $term_id => $meta_data ) {
+							/* Validate term */
+							if( get_term_by( 'id', $term_id, $taxonomy ) !== false && is_array( $meta_data ) && $meta_data !== array() ) {
+								/* Validate meta data */
+								$meta_data = self::validate_term_meta_data( $meta_data );
+								if( $meta_data !== array() ) {
+									$clean[$taxonomy][$term_id] = $meta_data;
+								}
+							}
+						}
+					}
+				}
+			}
+			return $clean;
+		}
+
+
+		/**
+		 * Validate the meta data for one individual term and removes default values (no need to save those)
+		 *
+		 * @param	array	$meta_data	New values
+		 * @return	array				Validated and filtered value
+		 */
+		public static function validate_term_meta_data( $meta_data ) {
+
+			$clean     = self::$defaults_per_term;
+			$meta_data = array_map( array( __CLASS__, 'trim_recursive' ), $meta_data );
+
+			foreach ( $clean as $k => $v ) {
+				switch ( $k ) {
+					
+					case 'wpseo_noindex':
+						if ( isset( $meta_data[$k] ) && isset( self::$no_index_options[$meta_data[$k]] ) ) {
+							$clean[$k] = $meta_data[$k];
+						}
+						break;
+
+					case 'wpseo_sitemap_include':
+						if ( isset( $meta_data[$k] ) && isset( self::$sitemap_include_options[$meta_data[$k]] ) ) {
+							$clean[$k] = $meta_data[$k];
+						}
+						break;
+						
+					case 'wpseo_canonical':
+						if ( isset( $meta_data[$k] ) && $meta_data[$k] !== '' ) {
+							$url = esc_url_raw( $meta_data[$k], array( 'http', 'https' ) );
+							if ( $url !== '' ) {
+								$clean[$k] = $url;
+							}
+						}
+						break;
+						
+					case 'wpseo_title':
+					case 'wpseo_desc':
+					case 'wpseo_metakey':
+					case 'wpseo_bctitle':
+					default:
+						if ( isset( $meta_data[$k] ) ) {
+							$clean[$k] = sanitize_text_field( $meta_data[$k] );
+						}
+						break;
+				}
+			}
+
+			// Only save the non-default values
+			return array_diff_assoc( $clean, self::$defaults_per_term );
+		}
+
+
+		/**
+		 * Retrieve a taxonomy term's meta value(s).
+		 *
+		 * @param	mixed			$term		Term to get the meta value for
+		 *										either (string) term name, (int) term id or (object) term
+		 * @param	string			$taxonomy	Name of the taxonomy to which the term is attached
+		 * @param	string			$meta		(optional) Meta value to get (without prefix)
+		 * @return	mixed|bool		Value for the $meta if one is given, might be the default
+		 *							if no meta is given, an array of all the meta data for the term
+		 *							or false if the term does not exist or the $meta provided is invalid
+		 */
+		public static function get_term_meta( $term, $taxonomy, $meta = null ) {
+			/* Figure out the term id */
+			if( is_int( $term ) ) {
+				$term = get_term_by( 'id', $term, $taxonomy );
+			}
+			else if( is_string( $term ) ) {
+				$term = get_term_by( 'slug', $term, $taxonomy );
+			}
+
+			if ( is_object( $term ) && isset( $term->term_id ) ) {
+				$term_id = $term->term_id;
+			}
+			else {
+				return false;
+			}
+
+
+			$tax_meta = get_option( 'wpseo_taxonomy_meta' );
+
+			/* If we have data for the term, merge with defaults for complete array, otherwise set defaults */
+			if ( isset( $tax_meta[$taxonomy][$term_id] ) ) {
+				$tax_meta = array_merge( self::$defaults_per_term, $tax_meta[$taxonomy][$term_id] );
+			}
+			else {
+				$tax_meta = self::$defaults_per_term;
+			}
+			
+			/* Either return the complete array or a single value from it or false if the value does not exist
+			   (shouldn't happen after merge with defaults, indicated typo in request) */
+			if( ! isset( $meta ) ) {
+				return $tax_meta;
+			}
+			else {
+				if( isset( $tax_meta['wpseo_' . $meta] ) ) {
+					return $tax_meta['wpseo_' . $meta];
+				}
+				else {
+					return false;
+				}
+			}
+		}
+
+
+		/**
+		 * Re-save all options using the validation routines
+		 * - Convert old option values to new
+		 * - Fixes strings which were escaped (should have been sanitized - escaping is for output)
+		 */
+		public static function clean_up() {
+
+			foreach ( self::$options as $option_key => $directives ) {
+				$settings = get_option( $option_key );
+
+				if ( $option_key === 'wpseo_taxonomy_meta' ) {
+					/* Clean up old values and remove empty arrays */
+					if ( is_array( $settings ) && $settings !== array() ) {
+						foreach ( $settings as $taxonomy => $terms ) {
+							if ( is_array( $terms ) && $terms !== array() ) {
+								foreach ( $terms as $term_id => $meta_data ) {
+									if ( ! is_array( $meta_data ) || $meta_data === array() ) {
+										// Remove empty term arrays
+										unset( $settings[$taxonomy][$term_id] );
+									}
+									else {
+										foreach ( $meta_data as $key => $value ) {
+											switch ( $key ) {
+												case 'noindex':
+													if ( $value === 'on' ) {
+														// Convert 'on' to 'noindex'
+														$settings[$taxonomy][$term_id][$key] = 'noindex';
+													}
+													break;
+
+												case 'canonical':
+													// @todo needs checking, I don't have example data [JRF]
+													if ( $value !== '' ) {
+														// Fix incorrectly saved (encoded) canonical urls
+														$settings[$taxonomy][$term_id][$key] = wp_specialchars_decode( stripslashes( $value ) );
+													}
+													break;
+
+												default:
+													// @todo needs checking, I don't have example data [JRF]
+													if ( $value !== '' ) {
+														// Fix incorrectly saved (escaped) text strings
+														$settings[$taxonomy][$term_id][$key] = wp_specialchars_decode( $value, ENT_QUOTES );
+													}
+													break;
+
+											}
+										}
+									}
+								}
+							}
+							else {
+								// Remove empty taxonomy arrays
+								unset( $settings[$taxonomy] );
+							}
+						}
+					}
+				}
+
+				/* Validate & save the new values */
+				$validation_method = 'validate_' . $option_key;
+				$settings = self::$validation_method( $settings );
+				update_option( $option_key, $settings );
+			}
+		}
+
+	} /* End of class WPSEO_Taxonomy_Meta_Option */
 
 } /* End of class-exists wrapper */

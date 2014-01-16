@@ -119,6 +119,8 @@ This version also incorporates the [SEO Extended](http://wordpress.org/plugins/s
 * Bugfixes
 	* Major overhaul of the way the plugin deals with options. This should fix a truck-load of bugs and provides improved security.
 	* Major overhaul of the way the plugin deals with post meta values. This should fix a truck-load of bugs and provides improved security.
+	* Major overhaul of the way the plugin deals with taxonomy meta values. This should fix a truck-load of bugs and provides improved security.
+
 	* Bow out early from displaying the post/taxonomy metabox if the post/taxonomy is not public (no use adding meta data which will never be displayed).
 	* Added error message when user tries to restore to defaults a non-existent blog (only applies to multi-site installations).
 	* Fix bug in delete_sitemaps() - wrong retrieval of needed options.
@@ -138,6 +140,10 @@ This version also incorporates the [SEO Extended](http://wordpress.org/plugins/s
 	* Fixed: if page specific keywords were set for a static homepage, they would never be shown.
 	* Fixed: since v1.4.22 importing from other plugins could have imported data when the post already had WP SEO values.
 	* Fixed: A few of the meta values could contain line breaks where those aren't allowed.
+	* Fixed: Bug where taxonomies which were on an individual level set to noindex and sitemap include 'auto-detect' would still be shown in the sitemap
+	* Fixed: bug in canonical urls where an essential part of the logic was skipped for singular posts/pages
+	* Fixed: breadcrumb title entry field would show for taxonomy even when breadcrumbs were not enabled
+	* Fixed: bug where W3TC cache for taxonomy meta data wouldn't always be refreshed when it should and sometimes would when it shouldn't
 
 @to fix: Google Plus description was never added to the html page
 

@@ -75,8 +75,9 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 		 */
 		private function og_tag( $property, $content ) {
 			$content = apply_filters( 'wpseo_og_' . str_replace( ':', '_', $property ), $content );
-			if ( ! empty( $content ) )
+			if ( ! empty( $content ) ) {
 				echo '<meta property="' . $property . '" content="' . esc_attr( $content ) . '" />' . "\n";
+			}
 		}
 	
 		/**
@@ -94,8 +95,9 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 			$meta_tags['http://ogp.me/ns#locale'] = $this->locale( false );
 	
 			$ogdesc = $this->description( false );
-			if ( ! empty( $ogdesc ) )
+			if ( ! empty( $ogdesc ) ) {
 				$meta_tags['http://ogp.me/ns#description'] = $ogdesc;
+			}
 	
 			return $meta_tags;
 		}
@@ -125,8 +127,9 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 			global $post;
 			$facebook = apply_filters( 'wpseo_opengraph_author_facebook', get_the_author_meta( 'facebook', $post->post_author ) );
 	
-			if ( $facebook && ( is_string( $facebook ) && $facebook !== '' ) )
+			if ( $facebook && ( is_string( $facebook ) && $facebook !== '' ) ) {
 				$this->og_tag( 'article:author', $facebook );
+			}
 		}
 	
 		/**
@@ -135,8 +138,9 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 		 * @link https://developers.facebook.com/blog/post/2013/06/19/platform-updates--new-open-graph-tags-for-media-publishers-and-more/
 		 */
 		public function website_facebook() {
-			if ( $this->options['facebook_site'] !== '' )
+			if ( $this->options['facebook_site'] !== '' ) {
 				$this->og_tag( 'article:publisher', $this->options['facebook_site'] );
+			}
 		}
 	
 		/**
@@ -149,14 +153,17 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 			else if ( is_array( $this->options['fb_admins'] ) && count( $this->options['fb_admins'] ) > 0 ) {
 				$adminstr = '';
 				foreach ( $this->options['fb_admins'] as $admin_id => $admin ) {
-					if ( ! empty( $adminstr ) )
+					if ( ! empty( $adminstr ) ) {
 						$adminstr .= ',' . $admin_id;
-					else
+					}
+					else {
 						$adminstr = $admin_id;
+					}
 				}
 				$adminstr = apply_filters( 'wpseo_opengraph_admin', $adminstr );
-				if ( is_string( $adminstr ) && $adminstr !== '' )
+				if ( is_string( $adminstr ) && $adminstr !== '' ) {
 					$this->og_tag( 'fb:admins', $adminstr );
+				}
 			}
 		}
 	
@@ -171,20 +178,22 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 			$title = apply_filters( 'wpseo_opengraph_title', $this->title( '' ) );
 	
 			if ( is_string( $title ) && $title !== '' ) {
-				if ( $echo !== false )
+				if ( $echo !== false ) {
 					$this->og_tag( 'og:title', $title );
+				}
 			}
-	
+
 			return $title;
 		}
-	
+
 		/**
 		 * Outputs the canonical URL as OpenGraph URL, which consolidates likes and shares.
 		 */
 		public function url() {
 			$url = apply_filters( 'wpseo_opengraph_url', $this->canonical( false ) );
-			if ( is_string( $url ) && $url !== '' )
+			if ( is_string( $url ) && $url !== '' ) {
 				$this->og_tag( 'og:url', esc_url( $url ) );
+			}
 		}
 	
 		/**
@@ -214,12 +223,14 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 				'zh' => 'zh_CN',
 			);
 	
-			if ( isset( $fix_locales[$locale] ) )
+			if ( isset( $fix_locales[$locale] ) ) {
 				$locale = $fix_locales[$locale];
-	
+			}
+
 			// convert locales like "es" to "es_ES", in case that works for the given locale (sometimes it does)
-			if ( strlen( $locale ) == 2 )
+			if ( strlen( $locale ) == 2 ) {
 				$locale = strtolower( $locale ) . '_' . strtoupper( $locale );
+			}
 	
 			// These are the locales FB supports
 			$fb_valid_fb_locales = array(
@@ -234,11 +245,13 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 			);
 	
 			// check to see if the locale is a valid FB one, if not, use en_US as a fallback
-			if ( ! in_array( $locale, $fb_valid_fb_locales ) )
+			if ( ! in_array( $locale, $fb_valid_fb_locales ) ) {
 				$locale = 'en_US';
-	
-			if ( $echo !== false )
+			}
+
+			if ( $echo !== false ) {
 				$this->og_tag( 'og:locale', $locale );
+			}
 	
 			return $locale;
 		}
@@ -253,8 +266,9 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 		public function type( $echo = true ) {
 			if ( is_singular() ) {
 				$type = WPSEO_Meta::get_value( 'og_type' );
-				if ( ! $type || $type == '' )
+				if ( ! $type || $type == '' ) {
 					$type = 'article';
+				}
 			}
 			else {
 				$type = 'website';
@@ -262,10 +276,12 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 			$type = apply_filters( 'wpseo_opengraph_type', $type );
 	
 			if ( is_string( $type ) && $type !== '' ) {
-				if ( $echo !== false )
+				if ( $echo !== false ) {
 					$this->og_tag( 'og:type', $type );
-				else
+				}
+				else {
 					return $type;
+				}
 			}
 	
 			return '';
@@ -285,8 +301,9 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 			$img = trim( apply_filters( 'wpseo_opengraph_image', $img ) );
 			if ( ! empty( $img ) ) {
 				if ( strpos( $img, 'http' ) !== 0 ) {
-					if ( $img[0] != '/' )
+					if ( $img[0] != '/' ) {
 						return false;
+					}
 	
 					// If it's a relative URL, it's relative to the domain, not necessarily to the WordPress install, we
 					// want to preserve domain name and URL scheme (http / https) though.
@@ -294,8 +311,9 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 					$img        = $parsed_url['scheme'] . '://' . $parsed_url['host'] . $img;
 				}
 	
-				if ( in_array( $img, $this->shown_images ) )
+				if ( in_array( $img, $this->shown_images ) ) {
 					return false;
+				}
 	
 				array_push( $this->shown_images, $img );
 	
@@ -315,8 +333,9 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 			global $post;
 	
 			if ( is_front_page() ) {
-				if ( $this->options['og_frontpage_image'] !== '' )
+				if ( $this->options['og_frontpage_image'] !== '' ) {
 					$this->image_output( $this->options['og_frontpage_image'] );
+				}
 			}
 	
 			if ( is_singular() ) {
@@ -335,14 +354,16 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 	
 				if ( preg_match_all( '`<img [^>]+>`', $content, $matches ) ) {
 					foreach ( $matches[0] as $img ) {
-						if ( preg_match( '`src=(["\'])(.*?)\1`', $img, $match ) )
+						if ( preg_match( '`src=(["\'])(.*?)\1`', $img, $match ) ) {
 							$this->image_output( $match[2] );
+						}
 					}
 				}
 			}
 	
-			if ( count( $this->shown_images ) == 0 && $this->options['og_default_image'] !== '' )
+			if ( count( $this->shown_images ) == 0 && $this->options['og_default_image'] !== '' ) {
 				$this->image_output( $this->options['og_default_image'] );
+			}
 	
 			// @TODO add G+ image stuff
 		}
@@ -392,8 +413,9 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 		 */
 		public function site_name() {
 			$name = apply_filters( 'wpseo_opengraph_site_name', get_bloginfo( 'name' ) );
-			if ( is_string( $name ) && $name !== '' )
+			if ( is_string( $name ) && $name !== '' ) {
 				$this->og_tag( 'og:site_name', $name );
+			}
 		}
 	
 		/**

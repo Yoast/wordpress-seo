@@ -747,6 +747,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 	
 			if ( version_compare( $current_version, '1.5.0', '<' ) ) {
 				WPSEO_Options::clean_up();
+				WPSEO_Taxonomy_Meta::clean_up();
 			}
 	
 			$options            = get_option( 'wpseo' );
@@ -765,11 +766,13 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		 */
 		function remove_stopwords_from_slug( $slug ) {
 			// Don't change an existing slug
-			if ( isset( $slug ) && $slug !== '' )
+			if ( isset( $slug ) && $slug !== '' ) {
 				return $slug;
-	
-			if ( ! isset( $_POST['post_title'] ) )
+			}
+
+			if ( ! isset( $_POST['post_title'] ) ) {
 				return $slug;
+			}
 	
 			// Lowercase the slug and strip slashes
 			$clean_slug = sanitize_title( stripslashes( $_POST['post_title'] ) );

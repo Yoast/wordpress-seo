@@ -14,6 +14,10 @@ if ( ! class_exists( 'WPSEO_Taxonomy' ) ) {
 	 * Class that handles the edit boxes on taxonomy edit pages.
 	 */
 	class WPSEO_Taxonomy {
+		
+		public $no_index_options  = array();
+
+		public $sitemap_include_options = array();
 	
 		/**
 		 * Class constructor
@@ -30,7 +34,32 @@ if ( ! class_exists( 'WPSEO_Taxonomy' ) ) {
 	
 			add_action( 'init', array( $this, 'custom_category_descriptions_allow_html' ) );
 			add_filter( 'category_description', array( $this, 'custom_category_descriptions_add_shortcode_support' ) );
+			add_action( 'admin_init', array( $this, 'translate_meta_options' ) );
 		}
+
+
+		/**
+		 * Translate options text strings for use in the select fields
+		 *
+		 * @internal IMPORTANT: if you want to add a new string (option) somewhere, make sure you add
+		 * that array key to the main options definition array in the class WPSEO_Taxonomy_Meta() as well!!!!
+		 */
+		public static function translate_meta_options() {
+			$this->no_index_options        = WPSEO_Taxonomy_Meta::$no_index_options;
+			$this->sitemap_include_options = WPSEO_Taxonomy_Meta::$sitemap_include_options;
+	
+			$this->no_index_options['default'] = __( 'Use %s default (Currently: %s)', 'wordpress-seo' );
+			$this->no_index_options['index'    = __( 'Always index', 'wordpress-seo' );
+			$this->no_index_options['noindex'  = __( 'Always noindex', 'wordpress-seo' );
+	
+			$this->sitemap_include_options['-']     = __( 'Auto detect', 'wordpress-seo' );
+			$this->sitemap_include_options['always' = __( 'Always include', 'wordpress-seo' );
+			$this->sitemap_include_options['never'  = __( 'Never include', 'wordpress-seo' );
+		}
+
+
+
+
 		
 		/**
 		 * Test whether we are on a public taxonomy - no metabox actions needed if we are not
@@ -58,8 +87,11 @@ if ( ! class_exists( 'WPSEO_Taxonomy' ) ) {
 		 */
 		function form_row( $var, $label, $desc, $tax_meta, $type = 'text', $options = array() ) {
 			$val = '';
-			if ( isset( $tax_meta[$var] ) && ! empty( $tax_meta[$var] ) )
+			if ( isset( $tax_meta[$var] ) && $tax_meta[$var] !== '' ) {
+				// @todo is stripslashes really needed here ?
+				// might be left over from wrongly encoded saved canonical
 				$val = stripslashes( $tax_meta[$var] );
+			}
 				
 			$var = esc_attr( $var );
 	
@@ -82,11 +114,8 @@ if ( ! class_exists( 'WPSEO_Taxonomy' ) ) {
 	        <select name="<?php echo $var; ?>" id="<?php echo $var; ?>">
 				<?php
 				foreach ( $options as $option => $label ) {
-					$sel = '';
-					if ( $option == $val ) {
-						$sel = ' selected="selected"';
-					}
-					echo '<option' . $sel . ' value="' . esc_attr( $option ) . '">' . $label . '</option>';
+					$sel = selected( $option, $val, false );
+					echo '<option ' . $sel . ' value="' . esc_attr( $option ) . '">' . esc_html( $label ) . '</option>';
 				}?>
 	        </select>
 			<?php
@@ -105,45 +134,39 @@ if ( ! class_exists( 'WPSEO_Taxonomy' ) ) {
 			if ( $this->tax_is_public() === false )
 				return;
 	
-			$tax_meta = get_option( 'wpseo_taxonomy_meta' );
+			$tax_meta = WPSEO_Taxonomy_Meta::get_term_meta( (int) $term->term_id, $term->taxonomy );
 			$options  = WPSEO_Options::get_all();
-	
-			if ( isset( $tax_meta[$term->taxonomy][$term->term_id] ) )
-				$tax_meta = $tax_meta[$term->taxonomy][$term->term_id];
-	
+
+
 			echo '<h2>' . __( 'Yoast WordPress SEO Settings', 'wordpress-seo' ) . '</h2>';
 			echo '<table class="form-table">';
 	
 			$this->form_row( 'wpseo_title', __( 'SEO Title', 'wordpress-seo' ), __( 'The SEO title is used on the archive page for this term.', 'wordpress-seo' ), $tax_meta );
 			$this->form_row( 'wpseo_desc', __( 'SEO Description', 'wordpress-seo' ), __( 'The SEO description is used for the meta description on the archive page for this term.', 'wordpress-seo' ), $tax_meta );
+			
 			if ( $options['usemetakeywords'] === true ) {
 				$this->form_row( 'wpseo_metakey', __( 'Meta Keywords', 'wordpress-seo' ), __( 'Meta keywords used on the archive page for this term.', 'wordpress-seo' ), $tax_meta );
 			}
+			
 			$this->form_row( 'wpseo_canonical', __( 'Canonical', 'wordpress-seo' ), __( 'The canonical link is shown on the archive page for this term.', 'wordpress-seo' ), $tax_meta );
-			$this->form_row( 'wpseo_bctitle', __( 'Breadcrumbs Title', 'wordpress-seo' ), sprintf( __( 'The Breadcrumbs title is used in the breadcrumbs where this %s appears.', 'wordpress-seo' ), $term->taxonomy ), $tax_meta );
-	
-			if ( isset( $tax_meta['wpseo_noindex'] ) && $tax_meta['wpseo_noindex'] == 'on' )
-				$tax_meta['wpseo_noindex'] = 'noindex';
-			$current         = ( isset( $options['noindex-tax-' . $term->taxonomy] ) && $options['noindex-tax-' . $term->taxonomy] === true ) ? 'noindex' : 'index';
-			$noindex_options = array(
-				'default' => sprintf( __( 'Use %s default (Currently: %s)', 'wordpress-seo' ), $term->taxonomy, $current ),
-				'index'   => __( 'Always index', 'wordpress-seo' ),
-				'noindex' => __( 'Always noindex', 'wordpress-seo' ) );
+
+			if ( $options['breadcrumbs-enable'] === true ) {
+				$this->form_row( 'wpseo_bctitle', __( 'Breadcrumbs Title', 'wordpress-seo' ), sprintf( __( 'The Breadcrumbs title is used in the breadcrumbs where this %s appears.', 'wordpress-seo' ), $term->taxonomy ), $tax_meta );
+			}
+
+
+			$current = 'index';
+			if( isset( $options['noindex-tax-' . $term->taxonomy] ) && $options['noindex-tax-' . $term->taxonomy] === true ) {
+				$current = 'noindex';
+			}
+			$noindex_options            = $this->no_index_options;
+			$noindex_options['default'] = sprintf( $noindex_options['default'], $term->taxonomy, $current );
+
 			$this->form_row( 'wpseo_noindex', sprintf( __( 'Noindex this %s', 'wordpress-seo' ), $term->taxonomy ), sprintf( __( 'This %s follows the indexation rules set under Metas and Titles, you can override it here.', 'wordpress-seo' ), $term->taxonomy ), $tax_meta, 'select', $noindex_options );
-	
-			$this->form_row(
-				'wpseo_sitemap_include',
-				__( 'Include in sitemap?', 'wordpress-seo' ),
-				'',
-				$tax_meta,
-				'select',
-				array(
-					'-'      => __( 'Auto detect', 'wordpress-seo' ),
-					'always' => __( 'Always include', 'wordpress-seo' ),
-					'never'  => __( 'Never include', 'wordpress-seo' ),
-				)
-			);
-	
+
+
+			$this->form_row( 'wpseo_sitemap_include', __( 'Include in sitemap?', 'wordpress-seo' ), '', $tax_meta, 'select', $this->sitemap_include_options );
+
 			echo '</table>';
 		}
 	
@@ -152,43 +175,39 @@ if ( ! class_exists( 'WPSEO_Taxonomy' ) ) {
 		 *
 		 * @param int    $term_id  ID of the term to save data for
 		 * @param int    $tt_id    The taxonomy_term_id for the term.
-		 * @param string $taxonomy The taxonmy the term belongs to.
+		 * @param string $taxonomy The taxonomy the term belongs to.
 		 */
 		function update_term( $term_id, $tt_id, $taxonomy ) {
 			$tax_meta = get_option( 'wpseo_taxonomy_meta' );
-	
-			if ( ! isset($tax_meta[$taxonomy]) || ! isset($tax_meta[$taxonomy][$term_id]) || ! is_array( $tax_meta[$taxonomy][$term_id] ) ) {
-				$tax_meta[$taxonomy][$term_id] = array();
-			}
-	
-			foreach ( array( 'title', 'desc', 'metakey', 'bctitle', 'canonical', 'noindex', 'sitemap_include' ) as $key ) {
-				if ( isset( $_POST['wpseo_' . $key] ) && ! empty( $_POST['wpseo_' . $key] ) ) {
-					$val = trim( $_POST['wpseo_' . $key] );
-					$val = ( $key === 'canonical' ) ? esc_url( $val ) : $val = esc_html( $val );
-	
-					$tax_meta[$taxonomy][$term_id]['wpseo_' . $key] = $val;
-				}
-				else {
-					if ( isset( $tax_meta[$taxonomy][$term_id]['wpseo_' . $key] ) ) {
-						unset( $tax_meta[$taxonomy][$term_id]['wpseo_' . $key] );
-					}
-				}
-			}
 
-			update_option( 'wpseo_taxonomy_meta', $tax_meta, 99 );
-	
-			if ( defined( 'W3TC_DIR' ) && class_exists( 'W3_ObjectCache' ) ) {
-				/**
-				 * @todo: check logic - if class_exists, then the file require shouldn't be needed anymore
-				 * Then again, maybe the check should not be above, but wrapped around the require as `! class_exists()`
-				 */
-				require_once( W3TC_DIR . '/lib/W3/ObjectCache.php' );
-				$w3_objectcache = & W3_ObjectCache::instance();
-	
-				$w3_objectcache->flush();
+			/* Create post array with only our values */
+			$new_meta_data = array();
+			foreach( WPSEO_Taxonomy_Meta::$defaults_per_term as $key => $default ) {
+				if( isset( $_POST[$key] ) ) {
+					$new_meta_data[$key] = $_POST[$key];
+				}
 			}
+			/* Validate the post values */
+			$clean = WPSEO_Taxonomy_Meta::validate_term_meta_data( $new_meta_data );
+			
+			/* Add/remove the result to/from the original option value */
+			if( $clean !== array() ) {
+				$tax_meta[$taxonomy][$term_id] = $clean;
+			}
+			else {
+				unset( $tax_meta[$taxonomy][$term_id] );
+				if( $tax_meta[$taxonomy] ) === array() ) {
+					unset( $tax_meta[$taxonomy] );
+				}
+			}
+			
+			// Prevent complete array validation
+			$tax_meta['wpseo_already_validated'] = true;
+
+			update_option( 'wpseo_taxonomy_meta', $tax_meta );
 		}
-	
+
+
 		/**
 		 * Allows HTML in descriptions
 		 */

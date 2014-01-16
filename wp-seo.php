@@ -41,6 +41,8 @@ if ( version_compare( PHP_VERSION, '5.2', '<' ) ) {
 		deactivate_plugins( __FILE__ );
 		wp_die( sprintf( __( 'WordPress SEO requires PHP 5.2 or higher, as does WordPress 3.2 and higher. The plugin has now disabled itself. For more info, %s$1see this post%s$2.', 'wordpress-seo' ), '<a href="http://yoast.com/requires-php-52/">', '</a>' ) );
 	}
+	
+	
 }
 
 
@@ -89,12 +91,17 @@ function wpseo_auto_load( $class ) {
 			'wpseo_sitemaps'                     => WPSEO_PATH . 'inc/class-sitemaps.php',
 			'sitemap_walker'                     => WPSEO_PATH . 'inc/class-sitemap-walker.php',
 			'wpseo_options'                      => WPSEO_PATH . 'inc/class-wpseo-options.php',
+			'wpseo_taxonomy_meta'		         => WPSEO_PATH . 'inc/class-wpseo-options.php',
 			'wpseo_meta'                         => WPSEO_PATH . 'inc/class-wpseo-meta.php',
 
 			'wp_list_table'                      => ABSPATH . 'wp-admin/includes/class-wp-list-table.php',
 			'walker_category'                    => ABSPATH . 'wp-includes/category-template.php',
 			'pclzip'                             => ABSPATH . 'wp-admin/includes/class-pclzip.php',
 		);
+
+		if ( defined( 'W3TC_DIR' ) ) {
+			$classes['w3_objectcache'] = W3TC_DIR . '/lib/W3/ObjectCache.php';
+		}
 	}
 
 	$cn = strtolower( $class );

@@ -682,19 +682,22 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 			foreach ( $terms as $c ) {
 				$url = array();
 	
-				if ( wpseo_get_term_meta( $c, $c->taxonomy, 'noindex' )
-						&& ! in_array( wpseo_get_term_meta( $c, $c->taxonomy, 'sitemap_include' ), array( 'always', '-' ) )
-				)
+				if ( WPSEO_Taxonomy_Meta::get_term_meta( $c, $c->taxonomy, 'noindex' ) === 'noindex'
+						&& WPSEO_Taxonomy_Meta::get_term_meta( $c, $c->taxonomy, 'sitemap_include' ) !== 'always'
+				) {
 					continue;
-	
-				if ( wpseo_get_term_meta( $c, $c->taxonomy, 'sitemap_include' ) == 'never' )
-					continue;
+				}
 
-				$url['loc'] = wpseo_get_term_meta( $c, $c->taxonomy, 'canonical' );
-				if ( ! $url['loc'] ) {
+				if ( WPSEO_Taxonomy_Meta::get_term_meta( $c, $c->taxonomy, 'sitemap_include' ) === 'never' ) {
+					continue;
+				}
+
+				$url['loc'] = WPSEO_Taxonomy_Meta::get_term_meta( $c, $c->taxonomy, 'canonical' );
+				if ( $url['loc'] === '' ) {
 					$url['loc'] = get_term_link( $c, $c->taxonomy );
-					if ( $this->options['trailingslash'] === true )
+					if ( $this->options['trailingslash'] === true ) {
 						$url['loc'] = trailingslashit( $url['loc'] );
+					}
 				}
 				if ( $c->count > 10 ) {
 					$url['pri'] = 0.6;

@@ -22,12 +22,6 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 	 */
 	class WPSEO_Meta {
 
-/* @todo
-Found in db, not as form = taxonomy meta data. Should be kept separate, but maybe we should add validation to it too.
-(1697, 'wpseo_taxonomy_meta', 'a:1:{s:8:"category";a:4:{i:4;a:3:{s:13:"wpseo_noindex";s:7:"default";s:21:"wpseo_sitemap_include";s:1:"-";s:10:"wpseo_desc";s:6:"testje";}i:2;a:2:{s:13:"wpseo_noindex";s:7:"default";s:21:"wpseo_sitemap_include";s:1:"-";}i:1;a:2:{s:13:"wpseo_noindex";s:7:"default";s:21:"wpseo_sitemap_include";s:1:"-";}i:7;a:3:{s:10:"wpseo_desc";s:4:"test";s:13:"wpseo_noindex";s:7:"default";s:21:"wpseo_sitemap_include";s:1:"-";}}}', 'yes'),
-*/
-
-
 		/**
 		 * Prefix for all WPSEO meta values in the database
 		 * 
