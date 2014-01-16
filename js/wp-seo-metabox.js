@@ -108,8 +108,8 @@ function testFocusKw() {
 
 function updateTitle(force) {
 	var title = '';
-	if (jQuery("#'+wpseoMetaboxL10n.field_prefix+'title").val()) {
-		title = jQuery("#'+wpseoMetaboxL10n.field_prefix+'title").val();
+	if (jQuery('#'+wpseoMetaboxL10n.field_prefix+'title').val()) {
+		title = jQuery('#'+wpseoMetaboxL10n.field_prefix+'title').val();
 	} else {
 		title = wpseo_title_template.replace('%%title%%', jQuery('#title').val());
 		title = jQuery('<div />').html(title).text();
@@ -153,7 +153,7 @@ function updateTitle(force) {
 
 function updateDesc() {
 	var autogen = false;
-	var desc = jQuery.trim(yst_clean(jQuery("#'+wpseoMetaboxL10n.field_prefix+'metadesc").val()));
+	var desc = jQuery.trim(yst_clean(jQuery('#'+wpseoMetaboxL10n.field_prefix+'metadesc').val()));
 	var color = '#000';
 
 	if (desc == '') {
@@ -265,9 +265,9 @@ jQuery(document).ready(function () {
 
 	jQuery('.' + active_tab).addClass('active');
 
-	var desc = jQuery.trim(yst_clean(jQuery("#'+wpseoMetaboxL10n.field_prefix+'metadesc").val()));
+	var desc = jQuery.trim(yst_clean(jQuery('#'+wpseoMetaboxL10n.field_prefix+'metadesc').val()));
 	desc = jQuery('<div />').html(desc).text();
-	jQuery("#'+wpseoMetaboxL10n.field_prefix+'metadesc").val(desc);
+	jQuery('#'+wpseoMetaboxL10n.field_prefix+'metadesc').val(desc);
 
 	jQuery('a.wpseo_tablink').click(function ($) {
 		jQuery('.wpseo-metabox-tabs li').removeClass('active');
@@ -352,7 +352,7 @@ jQuery(document).ready(function () {
 	var focuskwhelptriggered = false;
 	jQuery(document).on('change', '#'+wpseoMetaboxL10n.field_prefix+'focuskw', function () {
 		if (jQuery('#'+wpseoMetaboxL10n.field_prefix+'focuskw').val().search(',') != -1) {
-			jQuery("#focuskwhelp").click();
+			jQuery('#focuskwhelp').click();
 			focuskwhelptriggered = true;
 		} else if (focuskwhelptriggered) {
 			jQuery('#focuskwhelp').qtip("hide");
