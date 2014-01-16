@@ -73,7 +73,7 @@ $wpseo_meta_keys = array(
 	'_yoast_wpseo_opengraph-image',
 	'_yoast_wpseo_google-plus-description',
 	'_yoast_wpseo_linkdex',
-	'_yoast_wpseo_meta-robots', // old, may not exists at all
+	'_yoast_wpseo_meta-robots', // old, shouldn't exists at all anymore after upgrade to 1.5, but just in case
 );
 
 foreach ( $wpseo_meta_keys as $key ) {
