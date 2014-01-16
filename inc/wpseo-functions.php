@@ -716,7 +716,7 @@ if ( ! function_exists( 'wpseo_calc' ) ) {
 		
 		$bc = extension_loaded( 'bcmath' );
 		
-		if( $bc ) {
+		if ( $bc ) {
 			$number1 = strval( $number1 );
 			$number2 = strval( $number2 );
 		}
@@ -746,14 +746,14 @@ if ( ! function_exists( 'wpseo_calc' ) ) {
 			case '/':
 			case 'div':
 			case 'divide':
-				if( $bc ) {
+				if ( $bc ) {
 					$result = bcdiv( $number1, $number2, $precision ); // string, or NULL if right_operand is 0
 				}
-				else if( $number2 != 0 ) {
+				else if ( $number2 != 0 ) {
 					$result = $number1 / $number2;
 				}
 
-				if( ! isset( $result ) ) {
+				if ( ! isset( $result ) ) {
 					$result = 0;
 				}
 				break;
@@ -761,14 +761,14 @@ if ( ! function_exists( 'wpseo_calc' ) ) {
 			case '%':
 			case 'mod':
 			case 'modulus':
-				if( $bc ) {
+				if ( $bc ) {
 					$result = bcmod( $number1, $number2, $precision ); // string, or NULL if modulus is 0.
 				}
-				else if( $number2 != 0 ) {
+				else if ( $number2 != 0 ) {
 					$result = $number1 % $number2;
 				}
 
-				if( ! isset( $result ) ) {
+				if ( ! isset( $result ) ) {
 					$result = 0;
 				}
 				break;
@@ -777,7 +777,7 @@ if ( ! function_exists( 'wpseo_calc' ) ) {
 			case 'comp':
 			case 'compare':
 				$compare = true;
-				if( $bc ) {
+				if ( $bc ) {
 					$result = bccomp( $number1, $number2, $precision ); // returns int 0, 1 or -1
 				}
 				else {
