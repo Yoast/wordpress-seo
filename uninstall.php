@@ -6,22 +6,21 @@
  *
  * // flush rewrite rules => not needed, is done on deactivate
  *
- * @todo remove meta data for posts/pages ?
- * @todo remove wpseo_taxonomy_meta option ?
- * @todo remove meta data added to users ?
- * => maybe add an options page where users can choose whether or not to remove this kind of data ?
+ * @todo => maybe add an options page where users can choose whether or not to remove meta data ?
  * or try and hook into the uninstall routine and ask the user there & then
+ * (Nearly) all the code needed for a removal of this data for a single blog has been added below (commented out)
  *
- * @todo remove option Yoast_Tracking_Hash ?
- * @todo remove transients created by this plugin ?
+ * @todo what should be done with the 'googleplus', 'twitter', 'facebook' contactmethods added to the user profile page ?
+ *
  *
  * @todo deal with multisite uninstall - the options and other data will need to be removed for all blogs ?
  */
 
-if ( ! current_user_can( 'activate_plugins' ) || ( ! defined( 'ABSPATH' ) || ! defined( 'WP_UNINSTALL_PLUGIN' ) ) )
+if ( ! current_user_can( 'activate_plugins' ) || ( ! defined( 'ABSPATH' ) || ! defined( 'WP_UNINSTALL_PLUGIN' ) ) ) {
 	exit();
+}
 
-
+/* Remove WPSEO options */
 $wpseo_option_keys = array(
 	'wpseo',
 	'wpseo_indexation',
@@ -32,6 +31,8 @@ $wpseo_option_keys = array(
 	'wpseo_xml',
 	'wpseo_social',
 	'wpseo_ms',
+	'wpseo_flush_rewrite',
+//	'Yoast_Tracking_Hash',
 );
 // @todo change code to deal with wpseo_ms option as a (multi) site option
 foreach ( $wpseo_option_keys as $option ) {
@@ -43,18 +44,62 @@ if ( wp_next_scheduled( 'yoast_tracking' ) !== false ) {
 	wp_clear_scheduled_hook( 'yoast_tracking' );
 }
 
+/* Undo change we made to Woo SEO * /
+if ( function_exists( 'woo_version_init' ) ) {
+	update_option( 'seo_woo_use_third_party_data', 'false' );
+}
+*/
+
+
+
+/* Remove transients * /
+$wpseo_transients = array(
+	'html-sitemap',
+	'yoast_tracking_cache',
+);
+foreach( $wpseo_transients as $transient ) {
+	delete_transient( $transient );
+}
+
+
+global $wpdb;
+$query   = "SELECT user_id FROM {$wpdb->usermeta} WHERE meta_key = 'googleplus' AND meta_value != ''";
+$user_ids = $query->get_col( $query );
+foreach( $user_ids as $user_id ) {
+	delete_transient( 'gplus_' . $user_id );
+}
+unset( $query, $user_ids, $user_id );
+*/
+
+
+
 
 /**
  * @todo Some sort of mechanism should be worked out in which we ask the user whether they also want
  * to delete all entered meta data
- * If so, the below should be run (for all blog when multi-site uninstall)
+ * If so, the below should be run (for all blogs when multi-site uninstall)
  */
-/*
-	delete_option( 'wpseo_taxonomy_meta' );
+
+/* Remove taxonomy meta values * /
+delete_option( 'wpseo_taxonomy_meta' );
 */
 
+/* Remove user meta values * /
+$wpseo_user_meta_keys = array(
+	'wpseo_title',
+	'wpseo_metadesc',
+	'wpseo_metakey',
 
-/*
+	'_yoast_wpseo_profile_updated',
+	'wpseo_posts_per_page',
+);
+foreach ( $wpseo_user_meta_keys as $key ) {
+	delete_metadata( 'user', null, $key, '', true );
+//	delete_metadata( 'user', null, $wpdb->get_blog_prefix() . $key, '', true ); // multisite
+}
+*/
+
+/* Remove post meta values * /
 $wpseo_meta_keys = array(
 	'_yoast_wpseo_focuskw',
 	'_yoast_wpseo_title',
