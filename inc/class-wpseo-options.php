@@ -316,7 +316,16 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 					add_action( 'add_option_' . $option_key, array( __CLASS__, 'schedule_yoast_tracking' ), 10, 2 );
 					add_action( 'update_option_' . $option_key, array( __CLASS__, 'schedule_yoast_tracking' ), 10, 2 );
 				}
+
+				if( in_array( $option_key, array( 'wpseo', 'wpseo_titles' ), true ) ) {
+					add_action( 'update_option_' . $option_key, array( __CLASS__, 'clear_cache' ) );
+				}
+				
+				if( in_array( $option_key, array( 'wpseo_permalinks', 'wpseo_xml' ), true ) ) {
+					add_action( 'update_option_' . $option_key, array( __CLASS__, 'clear_rewrites' ) );
+				}
 			}
+
 
 			/* The option validation routines remove the default filters to prevent failing
 			   to insert an option if it's new. Let's add them back afterwards for an INSERT */
@@ -929,6 +938,28 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 				wp_clear_scheduled_hook( 'yoast_tracking' );
 			}
 		}
+
+
+		/**
+		 * Clears the cache
+		 */
+		public static function clear_cache() {
+			if ( function_exists( 'w3tc_pgcache_flush' ) ) {
+				w3tc_pgcache_flush();
+			}
+			else if ( function_exists( 'wp_cache_clear_cache' ) ) {
+				wp_cache_clear_cache();
+			}
+		}
+
+
+		/**
+		 * Clear rewrites
+		 */
+		public static function clear_rewrites() {
+			delete_option( 'rewrite_rules' );
+		}
+	
 
 
 

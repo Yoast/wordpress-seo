@@ -31,12 +31,7 @@ function wpseo_activate() {
 //  wpseo_description_test(); // is already run in wpseo_defaults
 
 	// Clear cache so the changes are obvious.
-	if ( function_exists( 'w3tc_pgcache_flush' ) ) {
-		w3tc_pgcache_flush();
-	}
-	else if ( function_exists( 'wp_cache_clear_cache' ) ) {
-		wp_cache_clear_cache();
-	}
+	WPSEO_Options::clear_cache();
 
 	do_action( 'wpseo_activate' );
 }
@@ -139,12 +134,8 @@ function wpseo_title_test() {
 	// Setting title_test to true forces the plugin to output the title below through a filter in class-frontend.php
 	$expected_title = 'This is a Yoast Test Title';
 
-	if ( function_exists( 'w3tc_pgcache_flush' ) ) {
-		w3tc_pgcache_flush();
-	}
-	else if ( function_exists( 'wp_cache_clear_cache' ) ) {
-		wp_cache_clear_cache();
-	}
+	WPSEO_Options::clear_cache();
+
 
 	global $wp_version;
 	$args = array(
@@ -341,12 +332,7 @@ function wpseo_deactivate() {
 	WPSEO_Options::schedule_yoast_tracking( null, get_option( 'wpseo' ) );
 
 	// Clear cache so the changes are obvious.
-	if ( function_exists( 'w3tc_pgcache_flush' ) ) {
-		w3tc_pgcache_flush();
-	}
-	else if ( function_exists( 'wp_cache_clear_cache' ) ) {
-		wp_cache_clear_cache();
-	}
+	WPSEO_Options::clear_cache();
 	
 	do_action( 'wpseo_deactivate' );
 }

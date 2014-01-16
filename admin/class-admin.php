@@ -62,43 +62,18 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 			add_action( 'edit_user_profile_update', array( $this, 'update_user_profile' ) );
 	
 			add_filter( 'user_contactmethods', array( $this, 'update_contactmethods' ), 10, 1 );
-	
-			add_action( 'update_option_wpseo_titles', array( $this, 'clear_cache' ) );
-			add_action( 'update_option_wpseo', array( $this, 'clear_cache' ) );
-	
-			add_action( 'update_option_wpseo_permalinks', array( $this, 'clear_rewrites' ) );
-			add_action( 'update_option_wpseo_xml', array( $this, 'clear_rewrites' ) );
-	
+
 			add_action( 'after_switch_theme', array( $this, 'switch_theme' ) );
 			add_action( 'switch_theme', array( $this, 'switch_theme' ) );
 			
 			add_filter( 'set-screen-option', array( $this, 'save_bulk_edit_options' ), 10, 3 );
 		}
-	
+
 		/**
 		 * Schedules a rewrite flush to happen at shutdown
 		 */
 		function schedule_rewrite_flush() {
 			add_action( 'shutdown', 'flush_rewrite_rules' );
-		}
-	
-		/**
-		 * Clears the cache
-		 */
-		function clear_cache() {
-			if ( function_exists( 'w3tc_pgcache_flush' ) ) {
-				w3tc_pgcache_flush();
-			}
-			else if ( function_exists( 'wp_cache_clear_cache' ) ) {
-				wp_cache_clear_cache();
-			}
-		}
-	
-		/**
-		 * Clear rewrites
-		 */
-		function clear_rewrites() {
-			delete_option( 'rewrite_rules' );
 		}
 	
 
@@ -858,6 +833,31 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 
 
 		/********************** DEPRECATED METHODS **********************/
+		
+		/**
+		 * Clears the cache
+		 *
+		 * @deprecated 1.5.0
+		 * @deprecated use WPSEO_Options::clear_cache()
+		 * @see WPSEO_Options::clear_cache()
+		 */
+		function clear_cache() {
+			_deprecated_function( __FUNCTION__, 'WPSEO 1.5.0', 'WPSEO_Options::clear_cache()' );
+			WPSEO_Options::clear_cache();
+		}
+	
+		/**
+		 * Clear rewrites
+		 *
+		 * @deprecated 1.5.0
+		 * @deprecated use WPSEO_Options::clear_rewrites()
+		 * @see WPSEO_Options::clear_rewrites()
+		 */
+		function clear_rewrites() {
+			_deprecated_function( __FUNCTION__, 'WPSEO 1.5.0', 'WPSEO_Options::clear_rewrites()' );
+			WPSEO_Options::clear_rewrites();
+		}
+
 
 		/**
 		 * Register all the options needed for the configuration pages.
