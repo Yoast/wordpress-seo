@@ -156,7 +156,7 @@ if ( ! class_exists( 'WPSEO_Taxonomy' ) ) {
 
 
 			$current = 'index';
-			if( isset( $options['noindex-tax-' . $term->taxonomy] ) && $options['noindex-tax-' . $term->taxonomy] === true ) {
+			if ( isset( $options['noindex-tax-' . $term->taxonomy] ) && $options['noindex-tax-' . $term->taxonomy] === true ) {
 				$current = 'noindex';
 			}
 			$noindex_options            = $this->no_index_options;
@@ -182,8 +182,8 @@ if ( ! class_exists( 'WPSEO_Taxonomy' ) ) {
 
 			/* Create post array with only our values */
 			$new_meta_data = array();
-			foreach( WPSEO_Taxonomy_Meta::$defaults_per_term as $key => $default ) {
-				if( isset( $_POST[$key] ) ) {
+			foreach ( WPSEO_Taxonomy_Meta::$defaults_per_term as $key => $default ) {
+				if ( isset( $_POST[$key] ) ) {
 					$new_meta_data[$key] = $_POST[$key];
 				}
 			}
@@ -191,12 +191,12 @@ if ( ! class_exists( 'WPSEO_Taxonomy' ) ) {
 			$clean = WPSEO_Taxonomy_Meta::validate_term_meta_data( $new_meta_data );
 			
 			/* Add/remove the result to/from the original option value */
-			if( $clean !== array() ) {
+			if ( $clean !== array() ) {
 				$tax_meta[$taxonomy][$term_id] = $clean;
 			}
 			else {
 				unset( $tax_meta[$taxonomy][$term_id] );
-				if( $tax_meta[$taxonomy] ) === array() ) {
+				if ( $tax_meta[$taxonomy] ) === array() ) {
 					unset( $tax_meta[$taxonomy] );
 				}
 			}

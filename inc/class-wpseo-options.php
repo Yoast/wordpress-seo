@@ -856,7 +856,7 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 			$options  = (array) $options;
 			$filtered = array();
 
-			if( $defaults !== array() ) {
+			if ( $defaults !== array() ) {
 				foreach ( $defaults as $name => $default ) {
 					if ( isset( $options[$name] ) ) {
 						$filtered[$name] = $options[$name];
@@ -2415,11 +2415,11 @@ if ( ! class_exists( 'WPSEO_Taxonomy_Meta' ) ) {
 			$options  = (array) $options;
 			$filtered = array();
 
-			if( $options !== array() ) {
-				foreach( $options as $taxonomy => $terms ) {
-					if( is_array( $terms ) && $terms !== array() ) {
-						foreach( $terms as $id => $term_meta ) {
-							foreach( self::$defaults_per_term as $name => $default ) {
+			if ( $options !== array() ) {
+				foreach ( $options as $taxonomy => $terms ) {
+					if ( is_array( $terms ) && $terms !== array() ) {
+						foreach ( $terms as $id => $term_meta ) {
+							foreach ( self::$defaults_per_term as $name => $default ) {
 								if ( isset( $options[$taxonomy][$id][$name] ) ) {
 									$filtered[$taxonomy][$id][$name] = $options[$taxonomy][$id][$name];
 								}
@@ -2473,23 +2473,23 @@ if ( ! class_exists( 'WPSEO_Taxonomy_Meta' ) ) {
 			
 			/* Prevent complete validation (which can be expensive when there are lots of terms)
 			   if only one item has changed and has already been validated */
-			if( isset( $options['wpseo_already_validated'] ) && $options['wpseo_already_validated'] === true ) {
+			if ( isset( $options['wpseo_already_validated'] ) && $options['wpseo_already_validated'] === true ) {
 				unset( $options['wpseo_already_validated'] );
 				return $options;
 			}
 
 			$clean = self::get_defaults( $option_key ); //= empty array
 
-			if( is_array( $options ) && $options !== array() ) {
-				foreach( $options as $taxonomy => $terms ) {
+			if ( is_array( $options ) && $options !== array() ) {
+				foreach ( $options as $taxonomy => $terms ) {
 					/* Validate taxonomy */
-					if( taxonomy_exists( $taxonomy ) && ( is_array( $terms ) && $terms !== array() ) ) {
-						foreach( $terms as $term_id => $meta_data ) {
+					if ( taxonomy_exists( $taxonomy ) && ( is_array( $terms ) && $terms !== array() ) ) {
+						foreach ( $terms as $term_id => $meta_data ) {
 							/* Validate term */
-							if( get_term_by( 'id', $term_id, $taxonomy ) !== false && is_array( $meta_data ) && $meta_data !== array() ) {
+							if ( get_term_by( 'id', $term_id, $taxonomy ) !== false && is_array( $meta_data ) && $meta_data !== array() ) {
 								/* Validate meta data */
 								$meta_data = self::validate_term_meta_data( $meta_data );
-								if( $meta_data !== array() ) {
+								if ( $meta_data !== array() ) {
 									$clean[$taxonomy][$term_id] = $meta_data;
 								}
 							}
@@ -2566,10 +2566,10 @@ if ( ! class_exists( 'WPSEO_Taxonomy_Meta' ) ) {
 		 */
 		public static function get_term_meta( $term, $taxonomy, $meta = null ) {
 			/* Figure out the term id */
-			if( is_int( $term ) ) {
+			if ( is_int( $term ) ) {
 				$term = get_term_by( 'id', $term, $taxonomy );
 			}
-			else if( is_string( $term ) ) {
+			else if ( is_string( $term ) ) {
 				$term = get_term_by( 'slug', $term, $taxonomy );
 			}
 
@@ -2593,11 +2593,11 @@ if ( ! class_exists( 'WPSEO_Taxonomy_Meta' ) ) {
 			
 			/* Either return the complete array or a single value from it or false if the value does not exist
 			   (shouldn't happen after merge with defaults, indicated typo in request) */
-			if( ! isset( $meta ) ) {
+			if ( ! isset( $meta ) ) {
 				return $tax_meta;
 			}
 			else {
-				if( isset( $tax_meta['wpseo_' . $meta] ) ) {
+				if ( isset( $tax_meta['wpseo_' . $meta] ) ) {
 					return $tax_meta['wpseo_' . $meta];
 				}
 				else {

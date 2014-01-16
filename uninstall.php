@@ -76,7 +76,7 @@ $wpseo_meta_keys = array(
 	'_yoast_wpseo_meta-robots', // old, may not exists at all
 );
 
-foreach( $wpseo_meta_keys as $key ) {
+foreach ( $wpseo_meta_keys as $key ) {
 	delete_post_meta_by_key( $key );
 }
 */
