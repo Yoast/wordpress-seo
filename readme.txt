@@ -145,6 +145,7 @@ This version also incorporates the [SEO Extended](http://wordpress.org/plugins/s
 	* Fixed: breadcrumb title entry field would show for taxonomy even when breadcrumbs were not enabled
 	* Fixed: bug where W3TC cache for taxonomy meta data wouldn't always be refreshed when it should and sometimes would when it shouldn't
 
+
 @to fix: Google Plus description was never added to the html page
 
 
@@ -159,6 +160,7 @@ This version also incorporates the [SEO Extended](http://wordpress.org/plugins/s
 	* Don't show robots index/no-index choice in advanced meta box if there is a blog-wide override in place, i.e. the Settings -> Reading -> Block search engines checkbox is checked.
 	* Added 'Site-wide default' option to meta robots advanced.
 	* Made the Google+ and Facebook post descriptions translatable by WPML.
+	* Better calculation precision for SEO score
 
 * Other:
 	* Removed statement for compatibility with WP < 3.4 as minimum requirement for WP SEO is now 3.5
