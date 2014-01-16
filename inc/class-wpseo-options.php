@@ -2294,13 +2294,13 @@ if ( ! class_exists( 'WPSEO_Taxonomy_Meta' ) ) {
 		 * @var	array	Array of defaults for individual taxonomy meta entries
 		 */
 		public static $defaults_per_term = array(
-/*v*/			'wpseo_title'			=> '',
-/*v*/			'wpseo_desc'			=> '',
-/*v*/			'wpseo_metakey'			=> '',
-/*v*/			'wpseo_canonical'		=> '',
-/*v*/			'wpseo_bctitle'			=> '',
-/*v*/			'wpseo_noindex'			=> 'default',
-/*v*/			'wpseo_sitemap_include'	=> '-',
+			'wpseo_title'			=> '',
+			'wpseo_desc'			=> '',
+			'wpseo_metakey'			=> '',
+			'wpseo_canonical'		=> '',
+			'wpseo_bctitle'			=> '',
+			'wpseo_noindex'			=> 'default',
+			'wpseo_sitemap_include'	=> '-',
 		);
 
 
@@ -2623,7 +2623,7 @@ if ( ! class_exists( 'WPSEO_Taxonomy_Meta' ) ) {
 			}
 			
 			/* Either return the complete array or a single value from it or false if the value does not exist
-			   (shouldn't happen after merge with defaults, indicated typo in request) */
+			   (shouldn't happen after merge with defaults, indicates typo in request) */
 			if ( ! isset( $meta ) ) {
 				return $tax_meta;
 			}
@@ -2649,10 +2649,14 @@ if ( ! class_exists( 'WPSEO_Taxonomy_Meta' ) ) {
 				$settings = get_option( $option_key );
 
 				if ( $option_key === 'wpseo_taxonomy_meta' ) {
+
 					/* Clean up old values and remove empty arrays */
 					if ( is_array( $settings ) && $settings !== array() ) {
+
 						foreach ( $settings as $taxonomy => $terms ) {
+
 							if ( is_array( $terms ) && $terms !== array() ) {
+
 								foreach ( $terms as $term_id => $meta_data ) {
 									if ( ! is_array( $meta_data ) || $meta_data === array() ) {
 										// Remove empty term arrays
@@ -2660,6 +2664,7 @@ if ( ! class_exists( 'WPSEO_Taxonomy_Meta' ) ) {
 									}
 									else {
 										foreach ( $meta_data as $key => $value ) {
+
 											switch ( $key ) {
 												case 'noindex':
 													if ( $value === 'on' ) {
@@ -2683,7 +2688,6 @@ if ( ! class_exists( 'WPSEO_Taxonomy_Meta' ) ) {
 														$settings[$taxonomy][$term_id][$key] = wp_specialchars_decode( $value, ENT_QUOTES );
 													}
 													break;
-
 											}
 										}
 									}
