@@ -208,9 +208,15 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 			</div>
 	
 			<?php
-			/* Add the current settings array to the page for debugging purposes */
-			// @todo - figure out way to *not* display the 'default' wpseo options on import and files pages as that doesn't make sense
-			if ( WP_DEBUG === true || ( defined( 'WPSEO_DEBUG' ) && WPSEO_DEBUG === true ) ) {
+			/* Add the current settings array to the page for debugging purposes,
+				but not for a limited set of pages were it wouldn't make sense */
+			$excluded = array(
+				'wpseo_import',
+				'wpseo_files',
+				'bulk_title_editor_page',
+				'bulk_description_editor_page',
+			);
+			if ( ( WP_DEBUG === true || ( defined( 'WPSEO_DEBUG' ) && WPSEO_DEBUG === true ) ) && isset( $_GET['page'] ) && ! in_array( $_GET['page'], $excluded, true ) ) {
 				echo '
 			<div id="poststuff">
 			<div id="wpseo-debug-info" class="postbox">

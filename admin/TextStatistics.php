@@ -51,6 +51,8 @@ if ( ! class_exists( 'Yoast_TextStatistics' ) ) {
 		/**
 		 * Gives string length.
 		 *
+		 * @todo allow for non-utf8 text ? or does that already work this way
+		 *
 		 * @param  string $strText      Text to be measured
 		 * @return int
 		 */
@@ -61,7 +63,7 @@ if ( ! class_exists( 'Yoast_TextStatistics' ) ) {
 		/**
 		 * Gives letter count (ignores all non-letters).
 		 *
-		 * @todo make this work for utf8 text ?
+		 * @todo make this work for utf8 text/text in other charsets ?
 		 *
 		 * @param string $strText      Text to be measured
 		 * @return int

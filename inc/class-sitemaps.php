@@ -224,10 +224,12 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 			// reference post type specific sitemaps
 			$post_types = get_post_types( array( 'public' => true ) );
 			foreach ( $post_types as $post_type ) {
-				if ( isset( $this->options['post_types-' . $post_type . '-not_in_sitemap'] ) && $this->options['post_types-' . $post_type . '-not_in_sitemap'] === true )
+				if ( isset( $this->options['post_types-' . $post_type . '-not_in_sitemap'] ) && $this->options['post_types-' . $post_type . '-not_in_sitemap'] === true ) {
 					continue;
-				else if ( apply_filters( 'wpseo_sitemap_exclude_post_type', false, $post_type ) )
+				}
+				else if ( apply_filters( 'wpseo_sitemap_exclude_post_type', false, $post_type ) ) {
 					continue;
+				}
 	
 				$query = $wpdb->prepare( "SELECT COUNT(ID) FROM $wpdb->posts WHERE post_type = '%s' AND post_status IN ('publish','inherit')", $post_type );
 	
@@ -280,7 +282,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 					$taxobj = get_taxonomy( $tax );
 	
 					if ( ( empty( $count ) || $count == $n ) && false ) {
-						// @todo: check as $post_type might not be defined or rather, will always take last post type from the above foreach loop, is this what is desired ?
+						// @todo: check as $post_type might not be defined or rather, will always take last post type from the above foreach loop, is this what is desired ? Shouldn't this check for the last modified of the taxonomy ?
 						// and what's with the "&& false" ?
 						$date = $this->get_last_modified( $post_type );
 					}
@@ -673,8 +675,8 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 			$steps  = $this->max_entries;
 			$n      = (int) $this->n;
 			$offset = ( $n > 1 ) ? ( $n - 1 ) * $this->max_entries : 0;
-			// @todo: check if this variable setting makes sense as it does not seem to be used in this instance
-			$total  = $offset + $this->max_entries; // @todo check: does not seem to be used
+			// @todo: check if setting $total makes sense somehow as it does not seem to be used in this method
+			$total  = $offset + $this->max_entries;
 	
 			$terms = get_terms( $taxonomy->name, array( 'hide_empty' => true ) );
 			$terms = array_splice( $terms, $offset, $steps );

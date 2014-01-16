@@ -14,6 +14,8 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 	/**
 	 * Adds the OpenGraph output
+	 *
+	 * @todo add GooglePlus description output ? User can provide it now via the metabox, but it's not used anywhere yet
 	 */
 	class WPSEO_OpenGraph extends WPSEO_Frontend {
 	

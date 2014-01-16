@@ -421,7 +421,6 @@ function wpseo_admin_bar_menu() {
 		$score      = wpseo_calc( $perc_score, '/', 10, true );
 		$txtscore   = wpseo_translate_score( $score );
 		$title      = wpseo_translate_score( $score, false );
-
 		$score      = '<div title="' . esc_attr( $title ) . '" class="wpseo_score_img ' . $txtscore . ' ' . $perc_score . '"></div>';
 
 		$seo_url = get_edit_post_link( $post->ID );
