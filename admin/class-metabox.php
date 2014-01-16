@@ -677,9 +677,8 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		 *
 		 * @internal $_POST parameters are validated via sanitize_post_meta()
 		 *
-		 * @param int $post_id
-		 *
-		 * @return mixed
+		 * @param	int		$post_id
+		 * @return	false|null
 		 */
 		function save_postdata( $post_id ) {
 			if ( $post_id === null )
@@ -701,18 +700,18 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			$metaboxes = array_merge( $this->get_meta_field_defs( 'general', $post->post_type ), $this->get_meta_field_defs( 'advanced' ) );
 			$metaboxes = apply_filters( 'wpseo_save_metaboxes', $metaboxes );
 	
-			foreach ( $metaboxes as $meta_box ) {
+			foreach ( $metaboxes as $key => $meta_box ) {
 				$data = null;
 				if ( 'checkbox' === $meta_box['type'] ) {
-					$data = isset( $_POST[self::$form_prefix . $meta_box['name']] ) ? 'on' : 'off';
+					$data = isset( $_POST[self::$form_prefix . $key] ) ? 'on' : 'off';
 				}
 				else {
-					if ( isset( $_POST[self::$form_prefix . $meta_box['name']] ) ) {
-						$data = $_POST[self::$form_prefix . $meta_box['name']];
+					if ( isset( $_POST[self::$form_prefix . $key] ) ) {
+						$data = $_POST[self::$form_prefix . $key];
 					}
 				}
 				if ( isset( $data ) ) {
-					self::set_value( $meta_box['name'], $data, $post_id );
+					self::set_value( $key, $data, $post_id );
 				}
 			}
 

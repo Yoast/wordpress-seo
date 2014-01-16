@@ -122,59 +122,51 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 		 * - Titles, help texts, description text and option labels are added via a translate_meta_boxes() method
 		 *	 in the relevant child classes (WPSEO_Metabox and WPSEO_Social_admin)
 		 * - Beware: even though the meta keys are divided into subsets, they still have to be uniquely named!
-		 *
-		 * @todo check if we can get rid of the 'name' item as it is the same as the array key
 		 */
 		public static $meta_fields = array(
 			'general'	=> array(
 				'snippetpreview'	=> array(
-					'name'				=> 'snippetpreview',
 					'type'				=> 'snippetpreview',
 					'title'				=> '', // translation added later
 				),
 				'focuskw' 	   		=> array(
-					'name'				=> 'focuskw',
-					'default_value'		=> '',
 					'type'				=> 'text',
 					'title'				=> '', // translation added later
+					'default_value'		=> '',
 					'autocomplete'		=> false,
 					'help'				=> '', // translation added later
 					'description'		=> '<div id="focuskwresults"></div>',
 				),
 				'title'				=> array(
-					'name'				=> 'title',
-					'default_value'		=> '',
 					'type'				=> 'text',
 					'title'				=> '', // translation added later
+					'default_value'		=> '',
 					'description'		=> '', // translation added later
 					'help'				=> '', // translation added later
 				),
 				'metadesc'			=> array(
-					'name'				=> 'metadesc',
-					'default_value'		=> '',
-					'class'				=> 'metadesc',
 					'type'				=> 'textarea',
 					'title'				=> '', // translation added later
+					'default_value'		=> '',
+					'class'				=> 'metadesc',
 					'rows'				=> 2,
 					'richedit'			=> false,
 					'description'		=> '', // translation added later
 					'help'				=> '', // translation added later
 				),
 				'metakeywords'		=> array(
-					'name'				=> 'metakeywords',
-					'default_value'		=> '',
-					'class'				=> 'metakeywords',
 					'type'				=> 'text',
 					'title'				=> '', // translation added later
+					'default_value'		=> '',
+					'class'				=> 'metakeywords',
 					'description'		=> '', // translation added later
 				),
 			),
 			'advanced'	=> array(
 				'meta-robots-noindex'	=> array(
-					'name'			=> 'meta-robots-noindex',
-					'default_value'	=> '0', // = post-type default
 					'type'			=> 'select',
 					'title' 		=> '', // translation added later
+					'default_value'	=> '0', // = post-type default
 					'options'		=> array(
 						'0' 	=> '', // post type default - translation added later
 						'2' 	=> '', // index - translation added later
@@ -182,20 +174,18 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 					),
 				),
 				'meta-robots-nofollow'	=> array(
-					'name'			=> 'meta-robots-nofollow',
-					'default_value'	=> '0', // = follow
 					'type'			=> 'radio',
 					'title'			=> '', // translation added later
+					'default_value'	=> '0', // = follow
 					'options'		=> array(
 						'0' 	=> '', // follow - translation added later
 						'1' 	=> '', // no-follow - translation added later
 					),
 				),
 				'meta-robots-adv'		=> array(
-					'name'				=> 'meta-robots-adv',
-					'default_value'	=> '-', // = site-wide default
 					'type'			=> 'multiselect',
 					'title' 		=> '', // translation added later
+					'default_value'	=> '-', // = site-wide default
 					'description'	=> '', // translation added later
 					'options'		=> array(
 						'-'				=> '', // site-wide default - translation added later
@@ -207,17 +197,15 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 					),
 				),
 				'bctitle'				=> array(
-					'name'			=> 'bctitle',
-					'default_value'	=> '',
 					'type'			=> 'text',
 					'title' 		=> '', // translation added later
+					'default_value'	=> '',
 					'description'	=> '', // translation added later
 				),
 				'sitemap-include' 		=> array(
-					'name'			  => 'sitemap-include',
-					'default_value'	=> '-',
 					'type'		  	=> 'select',
 					'title' 	  	=> '', // translation added later
+					'default_value'	=> '-',
 					'description' 	=> '', // translation added later
 					'options'	  	=> array(
 						'-' 	 => '', // translation added later
@@ -226,10 +214,9 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 					),
 				),
 				'sitemap-prio'			=> array(
-					'name'			=> 'sitemap-prio',
-					'default_value'	=> '-',
 					'type'			=> 'select',
 					'title' 		=> '', // translation added later
+					'default_value'	=> '-',
 					'description'	=> '', // translation added later
 					'options'		=> array(
 						'-'   => '', // translation added later
@@ -246,10 +233,9 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 					),
 				),
 				'sitemap-html-include'	=> array(
-					'name'			=> 'sitemap-html-include',
-					'default_value'	=> '-',
 					'type'			=> 'select',
 					'title' 		=> '', // translation added later
+					'default_value'	=> '-',
 					'description'	=> '', // translation added later
 					'options'		=> array(
 						'-' 			=> '', // translation added later
@@ -258,43 +244,38 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 					),
 				),
 				'canonical'			 	=> array(
-					'name'			=> 'canonical',
-					'default_value'	=> '',
 					'type'			=> 'text',
 					'title' 		=> '', // translation added later
+					'default_value'	=> '',
 					'description'	=> '', // translation added later
 				),
 				'redirect'			 	=> array(
-					'name'			=> 'redirect',
-					'default_value'	=> '',
 					'type'			=> 'text',
 					'title' 		=> '', // translation added later
+					'default_value'	=> '',
 					'description'	=> '', // translation added later
 				),
 			),
 			'social'	=> array(
 				'opengraph-description'		=> array(
-					'name'			=> 'opengraph-description',
 					'type'			=> 'textarea',
+					'title' 		=> '', // translation added later
 					'default_value'	=> '',
 					'richedit'		=> false,
-					'title' 		=> '', // translation added later
 					'description'	=> '', // translation added later
 				),
 				'opengraph-image'			=> array(
-					'name'			=> 'opengraph-image',
 					'type'			=> 'upload',
-					'default_value'	=> '',
 					'title' 		=> '', // translation added later
+					'default_value'	=> '',
 					'description'	=> '', // translation added later
 				),
 				/* @todo verify where this is used... it doesn't seem to be retrieve anywhere... */
 				'google-plus-description'	=> array(
-					'name'			=> 'google-plus-description',
 					'type'			=> 'textarea',
+					'title' 		=> '', // translation added later
 					'default_value'	=> '',
 					'richedit'		=> false,
-					'title' 		=> '', // translation added later
 					'description'	=> '', // translation added later
 				),
 			),
