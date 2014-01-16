@@ -9,7 +9,27 @@ class WPSEO_GWT {
 
 	const OPTION_REFRESH_TOKEN = 'wpseo-premium-gwt-refresh_token';
 
+	/**
+	 * @var WPSEO_GWT
+	 */
+	private static $instance = null;
+
+	/**
+	 * @var String
+	 */
 	private $access_token = null;
+
+	/**
+	 * Singleton getter
+	 *
+	 * @return WPSEO_GWT
+	 */
+	public static function get() {
+		if( null == self::$instance ) {
+			self::$instance = new self();
+		}
+		return self::$instance;
+	}
 
 	/**
 	 * The constructor

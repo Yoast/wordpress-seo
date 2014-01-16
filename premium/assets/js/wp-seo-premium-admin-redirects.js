@@ -222,7 +222,7 @@
 	};
 
 	$(window).load(function () {
-		$('.seo_page_wpseo_redirects').wpseo_redirects();
+		$('#wpseo-redirects-table-form table').wpseo_redirects();
 		$('#wpseo-new-redirects-form').wpseo_redirect_handle_new();
 	});
 

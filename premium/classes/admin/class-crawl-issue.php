@@ -135,4 +135,13 @@ class WPSEO_Crawl_Issue {
 		return $this->url;
 	}
 
+	/**
+	 * Put class properties in array
+	 *
+	 * @return array
+	 */
+	public function to_array() {
+		return array( 'url' => $this->url, 'crawl_type' => $this->crawl_type, 'issue_type' => $this->issue_type, 'date_detected' => $this->date_detected, 'detail' => $this->detail, 'linked_from' => $this->linked_from );
+	}
+
 }

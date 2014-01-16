@@ -57,6 +57,13 @@ class WPSEO_GWT_Service {
 
 		$crawl_issues = array();
 
+		for ( $i = 0; $i < 10; $i ++ ) {
+			$crawl_issues[] = new WPSEO_Crawl_Issue( $i . '/testing/', 'web-crawl', 'in-sitemap', '13-01-2014', '404 (Not found)', 'n/a' );
+		}
+
+
+		return $crawl_issues;
+
 		// Encode url
 		$site_url = urlencode( $site_url );
 

@@ -160,8 +160,8 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 
 	public function column_old( $item ) {
 		$actions = array(
-				'edit'  => '<a href="javascript:;">' . __( 'Edit', 'sub-posts' ) . '</a>',
-				'trash' => '<a href="javascript:;" >' . __( 'Delete', 'sub-posts' ) . '</a>',
+				'edit'  => '<a href="javascript:;">' . __( 'Edit', 'wordpress-seo' ) . '</a>',
+				'trash' => '<a href="javascript:;" >' . __( 'Delete', 'wordpress-seo' ) . '</a>',
 		);
 
 		return sprintf(
@@ -191,11 +191,13 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	 *
 	 * @return string
 	 */
+	/*
 	public function column_actions( $item ) {
 		return sprintf(
 				'<a href="javascript:;">' . __( 'Edit', 'wordpress-seo' ) . '</a> | <a href="javascript:;">' . __( 'Delete', 'wordpress-seo' ) . '</a>'
 		);
 	}
+	*/
 
 	/**
 	 * Default method to display a column
@@ -209,7 +211,7 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 
 		switch ( $column_name ) {
 			case 'new':
-				return "<div class='val'>" . $item[$column_name] . "</a>";
+				return "<div class='val'>" . $item[$column_name] . "</div>";
 				break;
 			default:
 				return $item[$column_name];

@@ -19,15 +19,6 @@ if ( ! defined( 'WPSEO_PREMIUM_FILE' ) ) {
 
 class WPSEO_Premium {
 
-	private static $gwt = null; // Not sure if this is the right approach, trying to avoid singleton pattern
-
-	/**
-	 * @return WPSEO_GWT
-	 */
-	public static function gwt() {
-		return self::$gwt;
-	}
-
 	/**
 	 * Function that will be executed when plugin is activated
 	 */
@@ -58,9 +49,6 @@ class WPSEO_Premium {
 	 */
 	private function setup() {
 
-		// Setup GWT object
-		self::$gwt = new WPSEO_GWT();
-
 		// Add Sub Menu page and add redirect page to admin page array
 		// This should be possible in one method in the future, see #535
 		add_filter( 'wpseo_submenu_pages', array( $this, 'add_submenu_pages' ) );
@@ -72,10 +60,11 @@ class WPSEO_Premium {
 		add_action( 'template_redirect', array( 'WPSEO_Redirect_Manager', 'do_redirects' ) );
 
 		// Post to Get on search
-		add_action( 'admin_init', array( $this, 'redirects_search_post_to_get' ) );
+		add_action( 'admin_init', array( $this, 'list_table_search_post_to_get' ) );
 
 		// Screen options
 		add_filter( 'set-screen-option', array( 'WPSEO_Page_Redirect', 'set_screen_option' ), 10, 3 );
+		add_filter( 'set-screen-option', array( 'WPSEO_Page_GWT', 'set_screen_option' ), 10, 3 );
 
 		// Settings
 		add_action( 'admin_init', array( $this, 'register_settings' ) );
@@ -104,6 +93,8 @@ class WPSEO_Premium {
 			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-gwt-google-client.php' );
 			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-gwt-service.php' );
 			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-gwt.php' );
+			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/pages/class-page-gwt.php' );
+
 			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-crawl-issue.php' );
 			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-crawl-issue-table.php' );
 			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-redirect-file-manager.php' );
@@ -125,6 +116,7 @@ class WPSEO_Premium {
 	 */
 	public function add_submenu_pages( $submenu_pages ) {
 		$submenu_pages[] = array( 'wpseo_dashboard', __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Redirects', 'wordpress-seo' ), __( 'Redirects', 'wordpress-seo' ), 'manage_options', 'wpseo_redirects', array( WPSEO_Page_Redirect, 'display' ), array( array( 'WPSEO_Page_Redirect', 'page_load' ) ) );
+		$submenu_pages[] = array( 'wpseo_dashboard', __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Webmaster Tools', 'wordpress-seo' ), __( 'Webmaster Tools', 'wordpress-seo' ), 'manage_options', 'wpseo_webmaster_tools', array( WPSEO_Page_GWT, 'display' ), array( array( 'WPSEO_Page_GWT', 'page_load' ) ) );
 
 		return $submenu_pages;
 	}
@@ -138,6 +130,7 @@ class WPSEO_Premium {
 	 */
 	public function add_admin_pages( $admin_pages ) {
 		$admin_pages[] = 'wpseo_redirects';
+		$admin_pages[] = 'wpseo_webmaster_tools';
 
 		return $admin_pages;
 	}
@@ -162,7 +155,7 @@ class WPSEO_Premium {
 	/**
 	 * Catch the redirects search post and redirect it to a search get
 	 */
-	public function redirects_search_post_to_get() {
+	public function list_table_search_post_to_get() {
 		if ( isset( $_POST['s'] ) ) {
 
 			// Base URL

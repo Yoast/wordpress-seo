@@ -12,25 +12,16 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 class WPSEO_Page_Redirect {
 
 	/**
-	 * @var WPSEO_GWT_Google_Client
-	 */
-	private static $gwt_client = null;
-
-	/**
 	 * Function that outputs the redirect page
 	 */
 	public static function display() {
 		global $wpseo_admin_pages;
-
-		// Get options
-		//$options = get_wpseo_options();
 
 		// Admin header
 		$wpseo_admin_pages->admin_header( false, 'yoast_wpseo_redirects_options', 'wpseo_redirects' );
 		?>
 		<h2 class="nav-tab-wrapper" id="wpseo-tabs">
 			<a class="nav-tab" id="redirects-tab" href="#top#redirects"><?php _e( 'Redirects', 'wordpress-seo' ); ?></a>
-			<a class="nav-tab" id="google-wmt-tab" href="#top#google-wmt"><?php _e( 'Google Web Master Tools', 'wordpress-seo' ); ?></a>
 			<a class="nav-tab" id="settings-tab" href="#top#settings"><?php _e( 'Settings', 'wordpress-seo' ); ?></a>
 		</h2>
 
@@ -85,37 +76,6 @@ class WPSEO_Page_Redirect {
 				echo "</form>\n";
 				?>
 			</div>
-			<div id="google-wmt" class="wpseotab">
-
-				<?php
-
-				// Create a new WPSEO GWT Google Client
-				self::$gwt_client = new WPSEO_GWT_Google_Client();
-
-				// Load access token from database
-				$access_token = WPSEO_Premium::gwt()->get_access_token();
-
-				// If there is a access token in database, set it
-				if ( null !== $access_token ) {
-					self::$gwt_client->setAccessToken( $access_token );
-				}
-
-				// Check if there is an access token
-				if ( self::$gwt_client->getAccessToken() ) {
-
-					// Maybe check if access token is OK
-					// Do GWT stuff....
-
-					self::gwt_print_table();
-
-				} else {
-
-					// Print auth screen
-					self::gwt_print_auth_screen();
-				}
-
-				?>
-			</div>
 			<div id="settings" class="wpseotab">
 				<h2>Redirect Settings</h2>
 
@@ -138,79 +98,6 @@ class WPSEO_Page_Redirect {
 
 		// Admin footer
 		$wpseo_admin_pages->admin_footer( false );
-	}
-
-	/**
-	 * Print the
-	 *
-	 * @param $oath_url
-	 */
-	private static function gwt_print_auth_screen() {
-
-		// Get the oauth URL
-		$oath_url = self::$gwt_client->createAuthUrl();
-
-		// Print
-		echo "<h2>Authorization Code</h2>\n";
-
-		echo "<p>" . __( 'To allow WordPress SEO Premium to fetch your Google Webmaster Tools information, please enter an Authorization Code.', 'wordpress-seo' ) . "</p>\n";
-		echo "<a href='javascript:wpseo_gwt_open_authorize_code_window(\"{$oath_url}\");'>" . __( 'Get Google Authorization Code', 'wordpress-seo' ) . "</a>\n";
-
-		echo "<p>" . __( 'Please enter the Authorization Code in the field below and press the Auhtenticate button.', 'wordpress-seo' ) . "</p>\n";
-		echo "<form action='' method='post'>\n";
-		echo "<input type='text' name='gwt[authorization_code]' value='' />";
-		echo "<input type='submit' name='gwt[Submit]' value='" . __( 'Authenticate', 'wordpress-seo' ) . "' class='button-primary' />";
-		echo "</form>\n";
-	}
-
-	private static function gwt_print_table() {
-		echo "<h2>Google Webmaster Tools Errors</h2>\n";
-
-
-		$service = new WPSEO_GWT_Service( self::$gwt_client );
-
-//		$sites = $service->get_sites();
-//		var_dump( $sites );
-
-		$crawl_issues = $service->get_crawl_issues( 'http://www.barrykooij.com/' );
-
-		var_dump( $crawl_issues );
-
-		/*
-		// Set site URL
-		$site_url = urlencode( get_site_url() . '/' );
-
-		$site_url = 'http://www.barrykooij.com';
-
-		// Do list sites request
-		$request = new Google_HttpRequest( "https://www.google.com/webmasters/tools/feeds/sites/" );
-
-		// Get list sites response
-		$response = self::$gwt_client->getIo()->authenticatedRequest( $request );
-
-		// Do request
-		$request = new Google_HttpRequest( "https://www.google.com/webmasters/tools/feeds/{$site_url}/crawlissues/" );
-
-		// Get response
-		$response = self::$gwt_client->getIo()->authenticatedRequest( $request );
-
-		// Check response code
-		if ( '200' == $response->getResponseHttpCode() ) {
-
-			// Format response body to XML
-			$response = simplexml_load_string( $response->getResponseBody() );
-
-			echo "<pre>";
-			print_r( $response );
-			echo "</pre>";
-
-		} else {
-			// Website not found by Google
-			_e( 'Website not found in Google Webmaster Tools, are you sure you added it?', 'wordpress-seo' );
-		}
-
-		*/
-
 	}
 
 	/**
