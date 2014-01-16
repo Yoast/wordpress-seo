@@ -418,9 +418,10 @@ function wpseo_admin_bar_menu() {
 	if ( is_singular() && isset( $post ) && is_object( $post ) && apply_filters( 'wpseo_use_page_analysis', true ) === true ) {
 		$focuskw    = WPSEO_Meta::get_value( 'focuskw', $post->ID );
 		$perc_score = WPSEO_Meta::get_value( 'linkdex', $post->ID );
-		// @todo use bcmath
-		$txtscore   = wpseo_translate_score( round( $perc_score / 10 ) );
-		$title      = wpseo_translate_score( round( $perc_score / 10 ), false );
+		$score      = wpseo_calc( $perc_score, '/', 10, true );
+		$txtscore   = wpseo_translate_score( $score );
+		$title      = wpseo_translate_score( $score, false );
+
 		$score      = '<div title="' . esc_attr( $title ) . '" class="wpseo_score_img ' . $txtscore . ' ' . $perc_score . '"></div>';
 
 		$seo_url = get_edit_post_link( $post->ID );

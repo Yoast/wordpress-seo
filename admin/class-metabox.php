@@ -221,8 +221,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			else {
 				$score = self::get_value( 'linkdex' );
 				if ( $score !== '' ) {
-					// @todo use bcmath ?
-					$score = round( $score / 10 );
+					$score = wpseo_calc( $score, '/', 10, true );
 					if ( $score < 1 ) {
 						$score = 1;
 					}
@@ -832,9 +831,10 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 					self::set_value( 'linkdex', 0, $post_id );
 				}
 				else if ( $score !== '' ) {
-					// @todo: use bcmath
-					$score_label = wpseo_translate_score( round( $score / 10 ) );
-					$title       = wpseo_translate_score( round( $score / 10 ), false );
+					$nr          = wpseo_calc( $score, '/', 10, true );
+					$score_label = wpseo_translate_score( $nr );
+					$title       = wpseo_translate_score( $nr, false );
+					unset( $nr );
 				}
 				else {
 					$this->calculate_results( get_post( $post_id ) );
@@ -1086,7 +1086,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		 */
 		function calculate_results( $post ) {
 			$options = WPSEO_Options::get_all();
-	
+
 			if ( ! class_exists( 'DOMDocument' ) ) {
 				$result = new WP_Error( 'no-domdocument', sprintf( __( "Your hosting environment does not support PHP's %sDocument Object Model%s.", 'wordpress-seo' ), '<a href="http://php.net/manual/en/book.dom.php">', '</a>' ) . ' ' . __( "To enjoy all the benefits of the page analysis feature, you'll need to (get your host to) install it.", 'wordpress-seo' ) );
 				return $result;
@@ -1206,7 +1206,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			if ( $overall < 1 ) {
 				$overall = 1;
 			}
-			$score = round( ( $overall / $overall_max ) * 100 );
+			$score = wpseo_calc( wpseo_calc( $overall, '/', $overall_max ), '*', 100, true );
 	
 			self::set_value( 'linkdex', absint( $score ), $post->ID );
 	
@@ -1753,7 +1753,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 				if ( $wordCount > 100 ) {
 					$keywordCount = preg_match_all( '`' . preg_quote( $job['keyword'], '`' ) . '`msiuU', $body, $res );
 					if ( $keywordCount > 0 && $keywordWordCount > 0 ) {
-						$keywordDensity = number_format( ( ( $keywordCount / ( $wordCount - ( ( $keywordWordCount - 1 ) * $keywordWordCount ) ) ) * 100 ), 2 );
+						$keywordDensity = wpseo_calc( wpseo_calc( $keywordCount, '/', wpseo_calc( $wordCount, '-', ( wpseo_calc( wpseo_calc( $keywordWordCount, '-', 1 ), '*', $keywordWordCount ) ) ) ), '*', 100, true, 2 );
 					}
 					if ( $keywordDensity < 1 ) {
 						$this->save_score_result( $results, 4, sprintf( $scoreKeywordDensityLow, $keywordDensity, $keywordCount ), 'keyword_density' );

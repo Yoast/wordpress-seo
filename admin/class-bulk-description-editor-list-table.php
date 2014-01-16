@@ -235,8 +235,8 @@ if ( ! class_exists( 'WPSEO_Bulk_Description_List_Table' ) ) {
 			$total_pages = ceil( $total_items / $per_page );
 	
 			if ( ! empty( $paged ) && ! empty( $per_page ) ) {
-				$offset = ($paged - 1) * $per_page;
-				$query .= ' LIMIT ' . (int)$offset . ',' . (int)$per_page;
+				$offset = ( $paged - 1 ) * $per_page;
+				$query .= ' LIMIT ' . (int) $offset . ',' . (int) $per_page;
 			}
 	
 			$this->set_pagination_args(
