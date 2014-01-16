@@ -44,17 +44,17 @@ if ( ! class_exists( 'WPSEO_Taxonomy' ) ) {
 		 * @internal IMPORTANT: if you want to add a new string (option) somewhere, make sure you add
 		 * that array key to the main options definition array in the class WPSEO_Taxonomy_Meta() as well!!!!
 		 */
-		public static function translate_meta_options() {
+		public function translate_meta_options() {
 			$this->no_index_options        = WPSEO_Taxonomy_Meta::$no_index_options;
 			$this->sitemap_include_options = WPSEO_Taxonomy_Meta::$sitemap_include_options;
 	
-			$this->no_index_options['default'] = __( 'Use %s default (Currently: %s)', 'wordpress-seo' );
-			$this->no_index_options['index'    = __( 'Always index', 'wordpress-seo' );
-			$this->no_index_options['noindex'  = __( 'Always noindex', 'wordpress-seo' );
+			$this->no_index_options['default']  = __( 'Use %s default (Currently: %s)', 'wordpress-seo' );
+			$this->no_index_options['index']    = __( 'Always index', 'wordpress-seo' );
+			$this->no_index_options['noindex']  = __( 'Always noindex', 'wordpress-seo' );
 	
-			$this->sitemap_include_options['-']     = __( 'Auto detect', 'wordpress-seo' );
-			$this->sitemap_include_options['always' = __( 'Always include', 'wordpress-seo' );
-			$this->sitemap_include_options['never'  = __( 'Never include', 'wordpress-seo' );
+			$this->sitemap_include_options['-']      = __( 'Auto detect', 'wordpress-seo' );
+			$this->sitemap_include_options['always'] = __( 'Always include', 'wordpress-seo' );
+			$this->sitemap_include_options['never']  = __( 'Never include', 'wordpress-seo' );
 		}
 
 
@@ -187,20 +187,21 @@ if ( ! class_exists( 'WPSEO_Taxonomy' ) ) {
 					$new_meta_data[$key] = $_POST[$key];
 				}
 			}
+
 			/* Validate the post values */
 			$clean = WPSEO_Taxonomy_Meta::validate_term_meta_data( $new_meta_data );
-			
+
 			/* Add/remove the result to/from the original option value */
 			if ( $clean !== array() ) {
 				$tax_meta[$taxonomy][$term_id] = $clean;
 			}
 			else {
 				unset( $tax_meta[$taxonomy][$term_id] );
-				if ( $tax_meta[$taxonomy] ) === array() ) {
+				if ( $tax_meta[$taxonomy] === array() ) {
 					unset( $tax_meta[$taxonomy] );
 				}
 			}
-			
+
 			// Prevent complete array validation
 			$tax_meta['wpseo_already_validated'] = true;
 

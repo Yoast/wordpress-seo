@@ -365,8 +365,11 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 		public static function enrich_options() {
 			/* Set option group name if not given */
 			foreach ( self::$options as $option_name => $directives ) {
-				if ( ! isset( $directives['group'] ) || $directives['group'] !== '' ) {
+				if ( ! isset( $directives['group'] ) || $directives['group'] === '' ) {
 					self::$options[$option_name]['group'] = 'yoast_' . $option_name . '_options';
+				}
+				if( ! isset( $directives['class'] ) || $directives['class'] === '' ) {
+					self::$options[$option_name]['class'] = __CLASS__;
 				}
 			}
 		}
@@ -542,13 +545,13 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 		
 		/**
 		 * Register all the options needed for the configuration pages.
-		 * Called from action in WPSEO_Admin::__construct()
+		 * Called from action admin_init in WPSEO_Admin::__construct()
 		 */
 		public static function register_settings() {
 
 			foreach ( self::$options as $option_name => $directives ) {
 				if ( $directives['only_multisite'] === false ) {
-					register_setting( $directives['group'], $option_name, array( __CLASS__, 'validate_' . $option_name )  );
+					register_setting( $directives['group'], $option_name, array( $directives['class'], 'validate_' . $option_name )  );
 				}
 				else {
 					if ( function_exists( 'is_multisite' ) && is_multisite() ) {
@@ -556,7 +559,7 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 						if ( get_option( 'wpseo' ) == '1pseo_social' ) {
 							delete_option( 'wpseo' );
 						}
-						register_setting( $directives['group'], $option_name, array( __CLASS__, 'validate_' . $option_name ) );
+						register_setting( $directives['group'], $option_name, array( $directives['class'], 'validate_' . $option_name ) );
 					}
 				}
 			}
@@ -2255,6 +2258,7 @@ if ( ! class_exists( 'WPSEO_Taxonomy_Meta' ) ) {
 				'group'				=> null,
 				'include_in_all'	=> false,
 				'only_multisite'	=> false,
+				'class'				=> __CLASS__,
 			),
 		);
 		
@@ -2494,7 +2498,7 @@ if ( ! class_exists( 'WPSEO_Taxonomy_Meta' ) ) {
 			if ( false === is_admin() /*|| false === current_user_can( 'edit_terms' )*/ ) {
 				return get_option( $option_key );
 			}
-			
+
 			/* Prevent complete validation (which can be expensive when there are lots of terms)
 			   if only one item has changed and has already been validated */
 			if ( isset( $options['wpseo_already_validated'] ) && $options['wpseo_already_validated'] === true ) {
@@ -2525,6 +2529,7 @@ if ( ! class_exists( 'WPSEO_Taxonomy_Meta' ) ) {
 					}
 				}
 			}
+
 			return $clean;
 		}
 
