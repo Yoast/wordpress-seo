@@ -1,6 +1,8 @@
 <?php
 /**
  * @package Admin
+ *
+ * @todo [JRF => Faison] Implement use of $wpdb->prepare, esc_sql() (for items in an IN clause) and like_escape()
  */
 
 if ( ! defined( 'WPSEO_VERSION' ) ) {
