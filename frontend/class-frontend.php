@@ -920,11 +920,19 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 			}
 			else if ( is_singular() ) {
 				if ( is_object( $post ) ) {
-					$gplus = get_the_author_meta( 'googleplus', $post->post_author );
-		
-					// unset gplus when authorship is disabled for this post type
-					if ( isset( $this->options['noauthorship-' . $post->post_type] ) && $this->options['noauthorship-' . $post->post_type] === true ) {
-						$gplus = false;
+					$have_author = WPSEO_Meta::get_value( 'authorship' );
+
+					switch( $have_author ) {
+						case 'always':
+							$gplus = get_the_author_meta( 'googleplus', $post->post_author );
+							break;
+
+						case '-':
+							// Defer to post_type default
+							if( ! isset( $this->options['noauthorship-' . $post->post_type] ) || $this->options['noauthorship-' . $post->post_type] === false ) {
+								$gplus = get_the_author_meta( 'googleplus', $post->post_author );
+							}
+							break;
 					}
 				}
 			}

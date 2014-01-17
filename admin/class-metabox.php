@@ -74,7 +74,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 	
 			self::$meta_fields['advanced']['meta-robots-adv']['title']                = __( 'Meta Robots Advanced', 'wordpress-seo' );
 			self::$meta_fields['advanced']['meta-robots-adv']['description']          = __( 'Advanced <code>meta</code> robots settings for this page.', 'wordpress-seo' );
-			self::$meta_fields['advanced']['meta-robots-adv']['options']['-']      = __( 'Site-wide default: %s', 'wordpress-seo' );
+			self::$meta_fields['advanced']['meta-robots-adv']['options']['-']         = __( 'Site-wide default: %s', 'wordpress-seo' );
 			self::$meta_fields['advanced']['meta-robots-adv']['options']['none']      = __( 'None', 'wordpress-seo' );
 			self::$meta_fields['advanced']['meta-robots-adv']['options']['noodp']     = __( 'NO ODP', 'wordpress-seo' );
 			self::$meta_fields['advanced']['meta-robots-adv']['options']['noydir']    = __( 'NO YDIR', 'wordpress-seo' );
@@ -83,6 +83,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 	
 			self::$meta_fields['advanced']['bctitle']['title'] 	                   = __( 'Breadcrumbs title', 'wordpress-seo' );
 			self::$meta_fields['advanced']['bctitle']['description']               = __( 'Title to use for this page in breadcrumb paths', 'wordpress-seo' );
+
 			self::$meta_fields['advanced']['sitemap-include']['title']             = __( 'Include in Sitemap', 'wordpress-seo' );
 			self::$meta_fields['advanced']['sitemap-include']['description']       = __( 'Should this page be in the XML Sitemap at all times, regardless of Robots Meta settings?', 'wordpress-seo' );
 			self::$meta_fields['advanced']['sitemap-include']['options']['-']      = __( 'Auto detect', 'wordpress-seo' );
@@ -103,7 +104,13 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			self::$meta_fields['advanced']['sitemap-html-include']['options']['-']      = __( 'Auto detect', 'wordpress-seo' );
 			self::$meta_fields['advanced']['sitemap-html-include']['options']['always'] = __( 'Always include', 'wordpress-seo' );
 			self::$meta_fields['advanced']['sitemap-html-include']['options']['never']  = __( 'Never include', 'wordpress-seo' );
-	
+			
+			self::$meta_fields['advanced']['authorship']['title']             = __( 'Authorship', 'wordpress-seo' );
+			self::$meta_fields['advanced']['authorship']['description']       = __( 'Show <code>rel="author"</code> on this page?', 'wordpress-seo' );
+			self::$meta_fields['advanced']['authorship']['options']['-']      = __( 'Default for post type, currently: %s', 'wordpress-seo' );
+			self::$meta_fields['advanced']['authorship']['options']['always'] = __( 'Always show', 'wordpress-seo' );
+			self::$meta_fields['advanced']['authorship']['options']['never']  = __( 'Never show', 'wordpress-seo' );
+
 			self::$meta_fields['advanced']['canonical']['title'] 	   = __( 'Canonical URL', 'wordpress-seo' );
 			self::$meta_fields['advanced']['canonical']['description'] = sprintf( __( 'The canonical URL that this page should point to, leave empty to default to permalink. %sCross domain canonical%s supported too.', 'wordpress-seo' ), '<a target="_blank" href="http://googlewebmastercentral.blogspot.com/2009/12/handling-legitimate-cross-domain.html">', '</a>' );
 	
