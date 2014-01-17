@@ -145,6 +145,7 @@ This version also incorporates the [SEO Extended](http://wordpress.org/plugins/s
 	* Fixed: breadcrumb title entry field would show for taxonomy even when breadcrumbs were not enabled
 	* Fixed: bug where W3TC cache for taxonomy meta data wouldn't always be refreshed when it should and sometimes would when it shouldn't
 	* Fixed: some small html validation issues
+	* Improved 403 headers for illegal file requests as suggested by [cfoellmann](https://github.com/cfoellmann)
 
 
 @to fix: Google Plus description was never added to the html page

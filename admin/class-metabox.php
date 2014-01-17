@@ -6,8 +6,9 @@
  */
 
 if ( ! defined( 'WPSEO_VERSION' ) ) {
-	header( 'HTTP/1.0 403 Forbidden' );
-	die;
+	header( 'Status: 403 Forbidden' );
+	header( 'HTTP/1.1 403 Forbidden' );
+	exit();
 }
 
 if ( ! class_exists( 'WPSEO_Metabox' ) ) {
@@ -600,32 +601,34 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			$content = '<div id="wpseosnippet">
 				<a class="title" href="#">' . esc_html( $title ) . '</a><br/>';
 	
-	//		if ( $options['breadcrumbs-enable'] === true ) {
-	//			if ( ! isset( $GLOBALS['wpseo_bc'] ) ) {
-	//				$GLOBALS['wpseo_bc'] = new WPSEO_Breadcrumbs;
-	//			}
-	//			$content .= '<span href="#" style="font-size: 13px; color: #282; line-height: 15px;" class="breadcrumb">' . yoast_breadcrumb('','',false) . '</span>';
-	//		} else {
+/*			if ( $options['breadcrumbs-enable'] === true ) {
+				if ( ! isset( $GLOBALS['wpseo_bc'] ) ) {
+					$GLOBALS['wpseo_bc'] = new WPSEO_Breadcrumbs;
+				}
+				$content .= '<span href="#" style="font-size: 13px; color: #282; line-height: 15px;" class="breadcrumb">' . yoast_breadcrumb('','',false) . '</span>';
+			} else {
+*/
 			$content .= '<a href="#" style="font-size: 13px; color: #282; line-height: 15px;" class="url">' . str_replace( 'http://', '', get_bloginfo( 'url' ) ) . '/' . esc_html( $slug ) . '/</a>';
-	//		}
-	//		if ( $gplus = $this->get_gplus_data( $post->post_author ) ) {
-	//			//		$content .= '<a href="https://profiles.google.com/' . $gplus->id . '" style="text-decoration:none;line-height:15px;font-size:13px;font-family:arial,sans-serif">';
-	//			$content .= '<div style="margin-top: 5px; position: relative;"><img style="float: left; margin-right:8px;" src="' . str_replace( 'sz=50', 'sz=44', $gplus->image->url ) . '"/>';
-	//			$content .= '<p class="desc" style="width: 460px; float: left; font-size: 13px; color: #000; line-height: 15px;">';
-	//			$content .= '<span style="color: #666;">by ' . $gplus->displayName . ' - in 12,345 circles - More by ' . $gplus->displayName . '</span><br/>';
-	//			$content .= $datestr . '<span class="content">' . $desc . '</span></p>';
-	//			$content .= '<div style="clear:both;"></div>';
-	////		$content .= '<div class="f" style="display:inline;margin-top:-10px;padding:2px 0;color:#666;font-size:13px">by ' . $gplus->displayName . ' - More by ' . $gplus->displayName . '</div></a>';
-	////		$content .= '</div>';
-	//
-	////		echo '<pre>'.print_r($gplus,1).'</pre>';
-	//
-	//		} else {
+/*			}
+			if ( $gplus = $this->get_gplus_data( $post->post_author ) ) {
+				//$content .= '<a href="https://profiles.google.com/' . $gplus->id . '" style="text-decoration:none;line-height:15px;font-size:13px;font-family:arial,sans-serif">';
+				$content .= '<div style="margin-top: 5px; position: relative;"><img style="float: left; margin-right:8px;" src="' . str_replace( 'sz=50', 'sz=44', $gplus->image->url ) . '"/>';
+				$content .= '<p class="desc" style="width: 460px; float: left; font-size: 13px; color: #000; line-height: 15px;">';
+				$content .= '<span style="color: #666;">by ' . $gplus->displayName . ' - in 12,345 circles - More by ' . $gplus->displayName . '</span><br/>';
+				$content .= $datestr . '<span class="content">' . $desc . '</span></p>';
+				$content .= '<div style="clear:both;"></div>';
+				//$content .= '<div class="f" style="display:inline;margin-top:-10px;padding:2px 0;color:#666;font-size:13px">by ' . $gplus->displayName . ' - More by ' . $gplus->displayName . '</div></a>';
+				//$content .= '</div>';
+
+				//echo '<pre>'.print_r($gplus,1).'</pre>';
+
+			} else {
+*/
 			$content .= '<p class="desc" style="font-size: 13px; color: #000; line-height: 15px;">' . $datestr . '<span class="content">' . esc_html( $desc ) . '</span></p>';
-	//		}
+//			}
 			$content .= '</div>';
-	
-	//		$content .= '<pre>' . print_r( $gplus, 1 ) . '</pre>';
+
+//			$content .= '<pre>' . print_r( $gplus, 1 ) . '</pre>';
 	
 			$content = apply_filters( 'wpseo_snippet', $content, $post, compact( 'title', 'desc', 'date', 'slug' ) );
 	
@@ -800,7 +803,8 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			}
 			echo '</select>';
 		}
-	
+
+
 		/**
 		 * Adds the column headings for the SEO plugin for edit posts / pages overview
 		 *
@@ -814,7 +818,8 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 	
 			return array_merge( $columns, array( 'wpseo-score' => __( 'SEO', 'wordpress-seo' ), 'wpseo-title' => __( 'SEO Title', 'wordpress-seo' ), 'wpseo-metadesc' => __( 'Meta Desc.', 'wordpress-seo' ), 'wpseo-focuskw' => __( 'Focus KW', 'wordpress-seo' ) ) );
 		}
-	
+
+
 		/**
 		 * Display the column content for the given column
 		 *
@@ -864,7 +869,8 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 				echo esc_html( $focuskw );
 			}
 		}
-	
+
+
 		/**
 		 * Indicate which of the SEO columns are sortable.
 		 *
@@ -875,13 +881,14 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		function column_sort( $columns ) {
 			if ( $this->pt_is_public() === false )
 				return $columns;
-	
+
 			$columns['wpseo-score']    = 'wpseo-score';
 			$columns['wpseo-metadesc'] = 'wpseo-metadesc';
 			$columns['wpseo-focuskw']  = 'wpseo-focuskw';
 			return $columns;
 		}
-	
+
+
 		/**
 		 * Modify the query based on the seo_filter variable in $_GET
 		 *
@@ -997,7 +1004,8 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 	
 			return $vars;
 		}
-	
+
+
 		/**
 		 * Retrieve the page title.
 		 *
@@ -1023,7 +1031,8 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 				}
 			}
 		}
-	
+
+
 		/**
 		 * Sort an array by a given key.
 		 *
@@ -1043,7 +1052,8 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			}
 			$array = $ret;
 		}
-	
+
+
 		/**
 		 * Output the page analysis results.
 		 *
@@ -1078,7 +1088,8 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 	
 			return $output;
 		}
-	
+
+
 		/**
 		 * Calculate the page analysis results for post.
 		 *
@@ -1194,19 +1205,19 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			$imgs['count'] = substr_count( $body, '<img' );
 			$imgs          = $this->get_images_alt_text( $post->ID, $body, $imgs );
 
-		// Check featured image
-		if ( has_post_thumbnail() ) {
-			$imgs['count'] += 1;
-
-			if ( empty( $imgs['alts'] ) ) {
-				$imgs['alts'] = array();
+			// Check featured image
+			if ( has_post_thumbnail() ) {
+				$imgs['count'] += 1;
+	
+				if ( empty( $imgs['alts'] ) ) {
+					$imgs['alts'] = array();
+				}
+	
+				$feature_image = get_the_post_thumbnail( $post->ID );
+				if ( preg_match( '`alt=(["\'])(.*?)\1`', $feature_image, $alt ) && isset( $alt[2] ) ) {
+					$imgs['alts'][] = $this->strtolower_utf8( $alt[2] );
+				}
 			}
-
-			$feature_image = get_the_post_thumbnail( $post->ID );
-			if ( preg_match( '`alt=(["\'])(.*?)\1`', $feature_image, $alt ) && isset( $alt[2] ) ) {
-				$imgs['alts'][] = $this->strtolower_utf8( $alt[2] );
-			}
-		}
 		
 			$this->score_images_alt_text( $job, $results, $imgs );
 			unset( $imgs );
@@ -1239,7 +1250,8 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 	
 			return $results;
 		}
-	
+
+
 		/**
 		 * Save the score result to the results array.
 		 *
@@ -1257,7 +1269,8 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			);
 			$results[$scoreLabel] = $score;
 		}
-	
+
+
 		/**
 		 * Clean up the input string.
 		 *
@@ -1296,7 +1309,8 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 	
 			return trim( $inputString );
 		}
-	
+
+
 		/**
 		 * Check whether this focus keyword has been used for other posts before.
 		 *
@@ -1322,7 +1336,8 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			else
 				$this->save_score_result( $results, 1, sprintf( __( 'You\'ve used this focus keyword %3$s%4$d times before%2$s, it\'s probably a good idea to read %1$sthis post on cornerstone content%2$s and improve your keyword strategy.', 'wordpress-seo' ), '<a href="http://yoast.com/cornerstone-content-rank/">', '</a>', '<a href="' . esc_url( add_query_arg( array( 'seo_kw_filter' => $job['keyword'] ), admin_url( 'edit.php' ) ) ) . '">', count( $posts ) ), 'keyword_overused' );
 		}
-	
+
+
 		/**
 		 * Check whether the keyword contains stopwords.
 		 *
@@ -1337,7 +1352,8 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			if ( $wpseo_admin->stopwords_check( $keyword ) !== false )
 				$this->save_score_result( $results, 5, sprintf( $keywordStopWord, '<a href="http://en.wikipedia.org/wiki/Stop_words">', '</a>', $wpseo_admin->stopwords_check( $keyword ) ), 'keyword_stopwords' );
 		}
-	
+
+
 		/**
 		 * Check whether the keyword is contained in the URL.
 		 *
@@ -1369,7 +1385,8 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			if ( ( $this->statistics()->text_length( $job['keyword'] ) + 20 ) < $this->statistics()->text_length( $job['pageSlug'] ) && 40 < $this->statistics()->text_length( $job['pageSlug'] ) )
 				$this->save_score_result( $results, 5, $longSlug, 'url_length' );
 		}
-	
+
+
 		/**
 		 * Check whether the keyword is contained in the title.
 		 *
@@ -1416,7 +1433,8 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 					$this->save_score_result( $results, 6, $scoreTitleKeywordEnd, 'title_keyword' );
 			}
 		}
-	
+
+
 		/**
 		 * Check whether the document contains outbound links and whether it's anchor text matches the keyword.
 		 *
@@ -1455,9 +1473,9 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 					$this->save_score_result( $results, 8, sprintf( $scoreLinks, $count['external']['nofollow'], $count['external']['dofollow'] ), 'links_number' );
 				}
 			}
-	
 		}
-	
+
+
 		/**
 		 * Retrieve the anchor texts used in the current document.
 		 *
@@ -1479,7 +1497,8 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			unset( $dom_objects );
 			return $anchor_texts;
 		}
-	
+
+
 		/**
 		 * Count the number of anchors and group them by type.
 		 *
@@ -1527,7 +1546,8 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			}
 			return $count;
 		}
-	
+
+
 		/**
 		 * Check whether the images alt texts contain the keyword.
 		 *
@@ -1568,7 +1588,8 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			}
 	
 		}
-	
+
+
 		/**
 		 * Retrieve the alt texts from the images.
 		 *
@@ -1600,7 +1621,8 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			}
 			return $imgs;
 		}
-	
+
+
 		/**
 		 * Score the headings for keyword appearance.
 		 *
@@ -1638,7 +1660,8 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 				}
 			}
 		}
-	
+
+
 		/**
 		 * Fetch all headings and return their content.
 		 *
@@ -1658,7 +1681,8 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 	
 			return $headings;
 		}
-	
+
+
 		/**
 		 * Score the meta description for length and keyword appearance.
 		 *
@@ -1708,7 +1732,8 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 				}
 			}
 		}
-	
+
+
 		/**
 		 * Score the body for length and keyword appearance.
 		 *
@@ -1846,7 +1871,8 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 				$this->save_score_result( $results, $score, sprintf( $scoreFlesch, $flesch, $fleschurl, $level, $note ), 'flesch_kincaid' );
 			}
 		}
-	
+
+
 		/**
 		 * Retrieve the body from the post.
 		 *
@@ -1891,7 +1917,8 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 	
 			return $htmdata5;
 		}
-	
+
+
 		/**
 		 * Retrieve the first paragraph from the post.
 		 *
@@ -1914,12 +1941,12 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		/**
 		 * Adds the WordPress SEO box
 		 *
-		 * @deprecated 1.4.23
+		 * @deprecated 1.5.0
 		 * @deprecated use WPSEO_Metabox::add_meta_box()
 		 * @see WPSEO_Meta::add_meta_box()
 		 */
 		public function add_custom_box() {
-			_deprecated_function( __FUNCTION__, 'WPSEO 1.4.23', 'WPSEO_Metabox::add_meta_box()' );
+			_deprecated_function( __FUNCTION__, 'WPSEO 1.5.0', 'WPSEO_Metabox::add_meta_box()' );
 			$this->add_meta_box();
 		}
 	

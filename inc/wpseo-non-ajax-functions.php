@@ -4,8 +4,9 @@
  */
 
 if ( ! defined( 'WPSEO_VERSION' ) ) {
-	header( 'HTTP/1.0 403 Forbidden' );
-	die;
+	header( 'Status: 403 Forbidden' );
+	header( 'HTTP/1.1 403 Forbidden' );
+	exit();
 }
 
 
@@ -404,9 +405,9 @@ function wpseo_admin_bar_menu() {
 	if ( is_singular() && isset( $post ) && is_object( $post ) && apply_filters( 'wpseo_use_page_analysis', true ) === true ) {
 		$focuskw    = WPSEO_Meta::get_value( 'focuskw', $post->ID );
 		$perc_score = WPSEO_Meta::get_value( 'linkdex', $post->ID );
-		$score      = wpseo_calc( $perc_score, '/', 10, true );
-		$txtscore   = wpseo_translate_score( $score );
-		$title      = wpseo_translate_score( $score, false );
+		$calc_score = wpseo_calc( $perc_score, '/', 10, true );
+		$txtscore   = wpseo_translate_score( $calc_score );
+		$title      = wpseo_translate_score( $calc_score, false );
 		$score      = '<div title="' . esc_attr( $title ) . '" class="' . esc_attr( 'wpseo_score_img ' . $txtscore . ' ' . $perc_score ) . '"></div>';
 
 		$seo_url = get_edit_post_link( $post->ID );
