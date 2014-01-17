@@ -484,7 +484,7 @@ class WPSEO_Sitemaps {
 
 				$url = array();
 
-				$url['mod'] = ( isset( $p->post_modified_gmt ) && $p->post_modified_gmt != '0000-00-00 00:00:00' ) ? $p->post_modified_gmt : $p->post_date_gmt;
+				$url['mod'] = ( isset( $p->post_modified_gmt ) && $p->post_modified_gmt != '0000-00-00 00:00:00' && $p->post_modified_gmt > $p->post_date_gmt ) ? $p->post_modified_gmt : $p->post_date_gmt;
 				$url['chf'] = 'weekly';
 				$url['loc'] = get_permalink( $p );
 
