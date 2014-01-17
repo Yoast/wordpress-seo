@@ -82,11 +82,9 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 		$columns = array(
 				'cb'            => '<input type="checkbox" />',
 				'url'           => __( 'URL', 'wordpress-seo' ),
-//				'crawl_type'    => __( 'Crawl Type', 'wordpress-seo' ),
 				'issue_type'    => __( 'Issue Type', 'wordpress-seo' ),
 				'date_detected' => __( 'Date detected', 'wordpress-seo' ),
 				'detail'        => __( 'Details', 'wordpress-seo' ),
-//				'linked_from'   => __( 'Linked from', 'wordpress-seo' ),
 		);
 
 		return $columns;
@@ -110,6 +108,7 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 		/**
 		 * @todo this will be replaced with site_url() + trailing slash
 		 */
+		//$crawl_issues = $service->get_crawl_issues( site_url() . '/' );
 		$crawl_issues = $service->get_crawl_issues( 'http://www.barrykooij.com/' );
 
 		// Handle the search
@@ -191,7 +190,7 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 
 	public function column_url( $item ) {
 		$actions = array(
-				'create_redirect' => '<a href="javascript:;">' . __( 'Create redirect', 'wordpress-seo' ) . '</a>',
+				'create_redirect' => '<a href="' . add_query_arg( 'create_redirect', urlencode( $item['url'] ), admin_url( 'admin.php' ) . '?page=wpseo_redirects' ) . '">' . __( 'Create redirect', 'wordpress-seo' ) . '</a>',
 		);
 
 		return sprintf(

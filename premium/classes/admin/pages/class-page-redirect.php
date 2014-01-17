@@ -66,6 +66,20 @@ class WPSEO_Page_Redirect {
 				// AJAX nonce
 				echo "<input type='hidden' class='wpseo_redirects_ajax_nonce' value='" . wp_create_nonce( 'wpseo-redirects-ajax-security' ) . "' />\n";
 
+				/**
+				 * Catch new redirects sent from crawl issues
+				 */
+				$redirects = array();
+				if ( isset( $_GET['create_redirect'] ) ) {
+					$redirects = array( $_GET['create_redirect'] );
+				} elseif ( isset( $_POST['create_redirects'] ) ) {
+					$redirects = $_POST['create_redirects'];
+				}
+
+				if ( count( $redirects ) > 0 ) {
+					echo "<input type='hidden' class='wpseo_redirects_crawl_issues' value='" . json_encode( $redirects ) . "' />\n";
+				}
+
 				// The list table
 				$list_table = new WPSEO_Redirect_Table();
 				$list_table->prepare_items();
@@ -116,6 +130,15 @@ class WPSEO_Page_Redirect {
 		add_screen_option( 'per_page', array( 'label' => 'Redirects per page', 'default' => 25, 'option' => 'redirects_per_page' ) );
 	}
 
+	/**
+	 * Catch redirects_per_page
+	 *
+	 * @param $status
+	 * @param $option
+	 * @param $value
+	 *
+	 * @return mixed
+	 */
 	public static function set_screen_option( $status, $option, $value ) {
 		if ( 'redirects_per_page' == $option ) {
 			return $value;

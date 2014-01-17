@@ -72,6 +72,9 @@ class WPSEO_Premium {
 		// Catch option save
 		add_action( 'admin_init', array( $this, 'catch_option_redirect_save' ) );
 
+		// Catch crawl issue create redirect GET request and convert it to POST
+		add_action( 'admin_init', array( $this, 'catch_crawl_issue_to_redirect' ) );
+
 		// AJAX
 		add_action( 'wp_ajax_wpseo_save_redirect', array( 'WPSEO_Redirect_Manager', 'ajax_handle_redirect_save' ) );
 		add_action( 'wp_ajax_wpseo_delete_redirect', array( 'WPSEO_Redirect_Manager', 'ajax_handle_redirect_delete' ) );
@@ -152,8 +155,14 @@ class WPSEO_Premium {
 		}
 	}
 
+	public function catch_crawl_issue_to_redirect() {
+
+	}
+
 	/**
 	 * Catch the redirects search post and redirect it to a search get
+	 *
+	 * @todo this will catch all 's' POST
 	 */
 	public function list_table_search_post_to_get() {
 		if ( isset( $_POST['s'] ) ) {
