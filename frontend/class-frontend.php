@@ -49,7 +49,11 @@ class WPSEO_Frontend {
 		remove_action( 'wp_head', 'index_rel_link' );
 		remove_action( 'wp_head', 'start_post_rel_link' );
 		remove_action( 'wp_head', 'adjacent_posts_rel_link_wp_head' );
-
+		remove_action( 'wp_head', 'noindex', 1 );
+		if ( isset( $_GET['replytocom'] ) ) {
+			remove_action( 'wp_head', 'wp_no_robots' );
+		}
+		
 		add_filter( 'wp_title', array( $this, 'title' ), 15, 3 );
 		add_filter( 'thematic_doctitle', array( $this, 'title' ), 15 );
 
@@ -535,6 +539,7 @@ class WPSEO_Frontend {
 
 		return;
 	}
+	
 
 	/**
 	 * Output the meta robots value.
@@ -549,17 +554,29 @@ class WPSEO_Frontend {
 
 		if ( is_singular() ) {
 			global $post;
-			if ( isset( $this->options['noindex-' . $post->post_type] ) && $this->options['noindex-' . $post->post_type] )
+
+			if ( isset( $this->options['noindex-' . $post->post_type] ) && $this->options['noindex-' . $post->post_type] ) {
 				$robots['index'] = 'noindex';
-			if ( (int) wpseo_get_value( 'meta-robots-noindex' ) === 1 )
+			}
+
+			if ( (int) wpseo_get_value( 'meta-robots-noindex' ) === 1 ) {
 				$robots['index'] = 'noindex';
-			if ( wpseo_get_value( 'meta-robots-nofollow' ) )
+			} else if ( (int) wpseo_get_value( 'meta-robots-noindex' ) === 2 ) {
+				$robots['index'] = 'index';
+			}
+
+			if ( (int) wpseo_get_value( 'meta-robots-nofollow' ) === 0 ) {
+				$robots['follow'] = 'follow';
+			}else if ( (int) wpseo_get_value( 'meta-robots-nofollow' ) === 1 ) {
 				$robots['follow'] = 'nofollow';
+			}
+
 			if ( wpseo_get_value( 'meta-robots-adv' ) && wpseo_get_value( 'meta-robots-adv' ) != 'none' ) {
 				foreach ( explode( ',', wpseo_get_value( 'meta-robots-adv' ) ) as $r ) {
 					$robots['other'][] = $r;
 				}
 			}
+
 		}
 		else {
 			if ( is_search() ) {
@@ -597,11 +614,17 @@ class WPSEO_Frontend {
 			}
 		}
 
+		// Force override to respect the WP settings
+		if ( '0' == get_option('blog_public') || isset( $_GET['replytocom'] ) ) {
+			$robots['index'] = 'noindex';
+		}
+
 		foreach ( array( 'noodp', 'noydir' ) as $robot ) {
 			if ( isset( $this->options[$robot] ) && $this->options[$robot] ) {
 				$robots['other'][] = $robot;
 			}
 		}
+
 
 		$robotsstr = $robots['index'] . ',' . $robots['follow'];
 
@@ -614,8 +637,10 @@ class WPSEO_Frontend {
 
 		$robotsstr = apply_filters( 'wpseo_robots', $robotsstr );
 
-		if ( $robotsstr != '' )
+		if ( $robotsstr != '' ) {
 			echo '<meta name="robots" content="' . esc_attr( $robotsstr ) . '"/>' . "\n";
+		}
+
 	}
 
 	/**
