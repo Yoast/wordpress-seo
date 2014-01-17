@@ -221,7 +221,7 @@ function wpseo_admin_init() {
 		$GLOBALS['wpseo_admin_pages'] = new WPSEO_Admin_Pages;
 	}
 
-	if ( ( version_compare( $GLOBALS['wp_version'], '3.4', '>=' ) && current_user_can( 'manage_options' ) ) && ( $options['tracking_popup_done'] === false || $options['ignore_tour'] === false ) ) {
+	if ( current_user_can( 'manage_options' ) && ( $options['tracking_popup_done'] === false || $options['ignore_tour'] === false ) ) {
 		add_action( 'admin_enqueue_scripts', array( 'WPSEO_Pointers', 'get_instance' ) );
 	}
 
