@@ -17,8 +17,42 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 	 * @since 1.5.0
 	 * @version 1.5.0
 	 *
-	 * Please note: all methods and properties are static. This class is not instantiated and does not have to be.
-	 * Class is basically used as an alternative way of namespacing our functions and variables
+	 * This class and it's child-class WPSEO_Taxonomy_Meta implement defaults and value validation for
+	 * all WPSEO Options and subkeys within options.
+	 *
+	 * Some guidelines:
+	 * [Retrieving options]
+	 * - Use the normal get_option() to retrieve an option. You will receive a complete array for the option.
+	 *		Any subkeys which were not set, will have their default values in place.
+	 * - You can also always access the current state of any of the WPSEO options by using the
+	 *		WPSEO_Options::$wpseo_options property.
+	 *		This property is automatically updated when a WPSEO option is changed.
+	 * - In other words, you will normally not have to check whether a subkey isset() as they will *always* be set.
+	 *		They will also *always* be of the correct variable type (as long as the below notes about updating
+	 *		are followed strictly).
+	 *		The only exception to this are the options with variable option names based on post_type or taxonomy
+	 *		as those will not always be available before the taxonomy/post_type is registered.
+	 *		(they will be available if a value was set, they won't be if it wasn't as the class won't know
+	 *		that a default needs to be injected)
+	 *
+	 * [Updating/Adding options]
+	 * - As long as an add/update_option() call is made after the admin_init hook, validation for all options
+	 *		and their subkeys will be automatic.
+	 * - If you *must* make an add/update_option() call from the front-end or before admin_init has run
+	 *		(for example in the upgrade routine), you **MUST** __explicitely__ call the
+	 *		WPSEO_Options::validate_{option_name}() method to make sure all options are validated properly.
+	 * - On (succesfull) update of a number of options, certain related actions will be run automatically.
+	 *		This is independent of whether the option has been registered yet.
+	 *		Some examples:
+	 *			- on change of wpseo[yoast_tracking], the cron schedule will be adjusted accordingly
+	 *			- on change of wpseo_permalinks and wpseo_xml, the rewrite rules will be flushed
+	 *			- on change of wpseo and wpseo_title, some caches will be cleared
+	 *
+	 *
+	 *
+	 * @internal Please note: all methods and properties are static. This class is not instantiated and
+	 * does not have to be. Class is basically used as an alternative way of namespacing our functions
+	 * and variables.
 	 */
 	class WPSEO_Options {
 
@@ -289,8 +323,10 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 
 
 		/**
+		 * Add all the actions and filters for our options
 		 *
 		 * @static
+		 * @return void
 		 */
 		public static function plugins_loaded() {
 
@@ -362,13 +398,19 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 		}
 
 
-
+		/**
+		 * Enrich the $options array
+		 *
+		 * @static
+		 * @return void
+		 */
 		public static function enrich_options() {
-			/* Set option group name if not given */
 			foreach ( self::$options as $option_name => $directives ) {
+				/* Set option group name if not given */
 				if ( ! isset( $directives['group'] ) || $directives['group'] === '' ) {
 					self::$options[$option_name]['group'] = 'yoast_' . $option_name . '_options';
 				}
+				/* Set object class if not given (needed for static vs child classes) */
 				if( ! isset( $directives['class'] ) || $directives['class'] === '' ) {
 					self::$options[$option_name]['class'] = __CLASS__;
 				}
@@ -378,6 +420,9 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 
 		/**
 		 * Translate strings used in the option defaults
+		 *
+		 * @static
+		 * @return void
 		 */
 		public static function translate_defaults() {
 			/* Translate default strings */
@@ -399,12 +444,15 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 			self::$defaults['wpseo_social']['fbconnectkey'] = self::get_fbconnectkey();
 			
 			/* Reset the all options static if it would have been set already*/
-			self::$wpseo_options = null;
+			self::$wpseo_options = self::get_all();
 		}
 
 
 		/**
 		 * Add dynamically created default options based on available post types and taxonomies
+		 *
+		 * @static
+		 * @return void
 		 */
 		public static function enrich_defaults( $option_key = null ) {
 
@@ -540,13 +588,16 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 			// If multisite, we could then filter the defaults with the defaultblog settings ?
 			
 			/* Reset the all options static to refresh it after enrichment of the defaults */
-			self::$wpseo_options = null;
+			self::$wpseo_options = self::get_all();
 		}
 		
 		
 		/**
 		 * Register all the options needed for the configuration pages.
-		 * Called from action admin_init in WPSEO_Admin::__construct()
+		 * Called from action admin_init in WPSEO_Admin::__construct() with prio 1
+		 *
+		 * @static
+		 * @return void
 		 */
 		public static function register_settings() {
 
@@ -571,7 +622,9 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 		 * Add filters for an option to make sure that the option default is returned if
 		 * the option is not set
 		 *
+		 * @static
 		 * @param	string	$option_key
+		 * @return	void
 		 */
 		public static function add_default_filters( $option_key ) {
 			if ( isset( self::$options[$option_key] ) ) {
@@ -589,6 +642,9 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 		 * Abusing a filter to re-add our default filters
 		 * WP 3.7 specific as update_option action hook was in the wrong place temporarily
 		 * @see http://core.trac.wordpress.org/ticket/25705
+		 *
+		 * @static
+		 *
 		 * @param   mixed   $new_value
 		 * @return  mixed   unchanged value
 		 */
@@ -668,10 +724,15 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 		}
 
 
-		
+
 		/* Called from validation methods */
 		/**
+		 * Remove our default filters.
+		 * Called from the validation methods to avoid problems adding new options
+		 *
+		 * @static
 		 * @param	string	$option_key
+		 * @return	void
 		 */
 		public static function remove_default_filters( $option_key ) {
 			/* Remove default filters to allow for inserting of option if it doesn't exist */
@@ -685,6 +746,9 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 		/**
 		 * Get default values for the option
 		 * @usedby default_option_{option_key} and default_site_option_{option_key} filters
+		 *
+		 * @static
+		 *
 		 * @return array
 		 */
 		public static function filter_defaults_wpseo() {
@@ -751,6 +815,8 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 		/**
 		 * Get the enriched default value for an option
 		 *
+		 * @static
+		 *
 		 * @param   string  $option_key Option key to get the defaults for
 		 * @return  mixed
 		 */
@@ -764,6 +830,8 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 		 * Merge an option with its default values
 		 *
 		 * These methods should *not* be called directly!!! They are only meant to filter the get_options() results
+		 *
+		 * @static
 		 *
 		 * @param   mixed   $options    Option value
 		 * @return  mixed   Option merged with the default for that option
@@ -883,11 +951,17 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 
 
 		/**
-		 * @param $option_key
-		 * @param $dirty
-		 * @param $clean
+		 * Make sure that any set option values relating to post_types and/or taxonomies are retained,
+		 * even when that post_type or taxonomy may not yet have been registered.
 		 *
-		 * @return mixed
+		 * @static
+		 *
+		 * @param	string	$option_key		Option name of our option
+		 * @param	array	$dirty			Original option as retrieved from the database
+		 * @param	array	$clean			Filtered option where any options which shouldn't be in our option
+		 *									have already been removed and any options which weren't set
+		 *									have been set to their defaults
+		 * @return	array
 		 */
 		public static function retain_variable_keys( $option_key, $dirty, $clean ) {
 
@@ -911,12 +985,14 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 		/**
 		 * (Un-)schedule the yoast tracking cronjob if the tracking option has changed
 		 * 
-		 * Better to be done here, rather than in the Yoast_Tracking class as class-tracking.php may not be loaded
-		 * and might not need to be (lean loading).
+		 * @internal Better to be done here, rather than in the Yoast_Tracking class as
+		 * class-tracking.php may not be loaded and might not need to be (lean loading).
 		 *
-		 * @todo - [JRF => Yoast] check if this has any impact on other Yoast plugins which may use the same tracking schedule
-		 * hook. If so, may be get any other yoast plugin options, check for the tracking status and
-		 * unschedule based on the combined status
+		 * @todo - [JRF => Yoast] check if this has any impact on other Yoast plugins which may
+		 * use the same tracking schedule hook. If so, maybe get any other yoast plugin options,
+		 * check for the tracking status and unschedule based on the combined status.
+		 *
+		 * @static
 		 *
 		 * @param	mixed	$disregard	Not needed - Option name if option was added, old value if option was updated
 		 * @param	array	$value		The new value of the option after add/update
@@ -936,7 +1012,10 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 
 
 		/**
-		 * Clears the cache
+		 * Clears the WP or W3TC cache depending on which is used
+		 *
+		 * @static
+		 * @return void
 		 */
 		public static function clear_cache() {
 			if ( function_exists( 'w3tc_pgcache_flush' ) ) {
@@ -950,6 +1029,9 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 
 		/**
 		 * Clear rewrites
+		 *
+		 * @static
+		 * @return void
 		 */
 		public static function clear_rewrites() {
 			delete_option( 'rewrite_rules' );
@@ -965,9 +1047,12 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 @todo - [JRF] double check that validation will not cause errors when called from upgrade routine (add_settings_error not yet available)
 */
 		/**
-		 * @param $options
+		 * Validate all subkeys of the wpseo option
 		 *
-		 * @return mixed
+		 * @static
+		 *
+		 * @param	array	$options	New value for the option
+		 * @return	array				Validated clean value for the option to be saved to the database
 		 */
 		public static function validate_wpseo( $options ) {
 			
@@ -1094,9 +1179,12 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 
 
 		/**
-		 * @param $options
+		 * Validate all subkeys of the wpseo_permalinks option
 		 *
-		 * @return mixed
+		 * @static
+		 *
+		 * @param	array	$options	New value for the option
+		 * @return	array				Validated clean value for the option to be saved to the database
 		 */
 		public static function validate_wpseo_permalinks( $options ) {
 
@@ -1161,9 +1249,12 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 
 
 		/**
-		 * @param $options
+		 * Validate all subkeys of the wpseo_titles option
 		 *
-		 * @return mixed
+		 * @static
+		 *
+		 * @param	array	$options	New value for the option
+		 * @return	array				Validated clean value for the option to be saved to the database
 		 */
 		public static function validate_wpseo_titles( $options ) {
 			$option_key = 'wpseo_titles';
@@ -1263,9 +1354,12 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 
 
 		/**
-		 * @param $options
+		 * Validate all subkeys of the wpseo_rss option
 		 *
-		 * @return mixed
+		 * @static
+		 *
+		 * @param	array	$options	New value for the option
+		 * @return	array				Validated clean value for the option to be saved to the database
 		 */
 		public static function validate_wpseo_rss( $options ) {
 			$option_key = 'wpseo_rss';
@@ -1293,9 +1387,12 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 
 
 		/**
-		 * @param $options
+		 * Validate all subkeys of the wpseo_internallinks option
 		 *
-		 * @return mixed
+		 * @static
+		 *
+		 * @param	array	$options	New value for the option
+		 * @return	array				Validated clean value for the option to be saved to the database
 		 */
 		public static function validate_wpseo_internallinks( $options ) {
 			
@@ -1411,9 +1508,12 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 
 
 		/**
-		 * @param $options
+		 * Validate all subkeys of the wpseo_xml option
 		 *
-		 * @return mixed
+		 * @static
+		 *
+		 * @param	array	$options	New value for the option
+		 * @return	array				Validated clean value for the option to be saved to the database
 		 */
 		public static function validate_wpseo_xml( $options ) {
 			$option_key = 'wpseo_xml';
@@ -1481,9 +1581,12 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 
 
 		/**
-		 * @param $options
+		 * Validate all subkeys of the wpseo_social option
 		 *
-		 * @return mixed
+		 * @static
+		 *
+		 * @param	array	$options	New value for the option
+		 * @return	array				Validated clean value for the option to be saved to the database
 		 */
 		public static function validate_wpseo_social( $options ) {
 			$option_key = 'wpseo_social';
@@ -1665,9 +1768,12 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 
 
 		/**
-		 * @param $options
+		 * Validate all subkeys of the wpseo_ms option
 		 *
-		 * @return mixed
+		 * @static
+		 *
+		 * @param	array	$options	New value for the option
+		 * @return	array				Validated clean value for the option to be saved to the database
 		 */
 		public static function validate_wpseo_ms( $options ) {
 			$option_key = 'wpseo_ms';
@@ -1749,6 +1855,8 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 		/**
 		 * Validate a value as boolean
 		 *
+		 * @static
+		 *
 		 * @param	mixed	$value
 		 * @return	bool
 		 */
@@ -1760,6 +1868,8 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 		/**
 		 * Validate a value as integer
 		 *
+		 * @static
+		 *
 		 * @param	mixed	$value
 		 * @return	mixed	int or false in case of failure to convert to int
 		 */
@@ -1769,6 +1879,9 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 
 
 		/**
+		 * Get the Facebook connect key for the blog
+		 *
+		 * @static
 		 * @return string
 		 */
 		public static function get_fbconnectkey(){
@@ -1777,10 +1890,12 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 
 
 		/**
-		 * Trim whitespace round a value
+		 * Recursively trim whitespace round a value or array of values
+		 *
+		 * @static
 		 *
 		 * @param   mixed   $value  Value to trim or array of values to trim
-		 * @return  mixed   Trimmed value or array of trimmed values
+		 * @return  mixed   		Trimmed value or array of trimmed values
 		 */
 		public static function trim_recursive( $value ) {
 			if ( ! is_array( $value ) && ! is_object( $value ) ) {
@@ -1798,7 +1913,7 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 		 * Retrieve an array of all the options the plugin uses.
 		 *
 		 * @static
-		 * @return array of option names.
+		 * @return	array	Array of option names
 		 */
 		public static function get_option_names() {
 			static $option_names = array();
@@ -1819,7 +1934,7 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 		 * Retrieve all the options for the SEO plugin in one go.
 		 *
 		 * @static
-		 * @return array of options
+		 * @return	array	Array combining the values of (nearly) all the options
 		 */
 		public static function get_all() {
 			if ( ! isset( self::$wpseo_options ) ) {
@@ -1835,7 +1950,9 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 
 		/**
 		 * Initialize default values for a new multisite blog
+		 *
 		 * @static
+		 * @return void
 		 */
 		public static function set_multisite_defaults() {
 			$option = get_option( 'wpseo' );
@@ -1852,6 +1969,10 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 
 		/**
 		 * Reset all options to their default values
+		 *
+		 * @static
+		 * @return void
+		 *
 		 * @todo [JRF] add check for multisite and only add multisite option if applicable - currently will not add it
 		 * @todo [JRF => Yoast] may be check for default blog option if multisite and restore based on that if available ?
 		 */
@@ -1866,6 +1987,9 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 
 		/**
 		 * Reset all options for a specific multisite blog to their default values based upon a specified default blog
+		 *
+		 * @static
+		 * @return void
 		 */
 		public static function reset_ms_blog( $blog_id ) {
 			// @todo - [JRF] better: may be make sure it's just not called before the admin_init hook ;-)
@@ -1899,6 +2023,9 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 		 *
 		 * @todo [JRF] check whether the settings_errors can be displayed if this is called from upgrade and if not, figure out a way to show them anyway
 		 * Set $settings['upgrading'] to indicate upgrade and catch this in validation to use as switch (may not always be set), or better use function_exists() on add_settings_error() and if not set transient ?
+		 *
+		 * @static
+		 * @return void
 		 */
 		public static function clean_up() {
 

@@ -17,6 +17,22 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 	 * @since 1.5.0
 	 * @version 1.5.0
 	 *
+	 * This class implements defaults and value validation for all WPSEO Post Meta values.
+	 *
+	 * Some guidelines:
+	 * - To update a meta value, you can just use update_post_meta() with the full (prefixed) meta key
+	 *		or the convenience method WPSEO_Meta::set_value() with the internal key.
+	 *		All updates will be automatically validated.
+	 *		Meta values will only be saved to the database if they are *not* the same as the default to
+	 *		keep database load low.
+	 * - To retrieve a WPSEO meta value, you **must** use WPSEO_Meta::get_value() which will always return a
+	 *		string value, either the saved value or the default.
+	 *		This method can also retrieve a complete set of WPSEO meta values for one specific post, see
+	 *		the method documentation for the parameters.
+	 *
+	 * @internal Unfortunately there isn't a filter available to hook into before returning the results
+	 * for get_post_meta(), get_post_custom() and the likes. That would have been the preferred solution.
+	 *
 	 * @internal all WP native get_meta() results get cached internally, so no need to cache locally.
 	 * @internal use $key when the key is the WPSEO internal name (without prefix), $meta_key when it includes the prefix
 	 *

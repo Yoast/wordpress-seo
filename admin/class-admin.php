@@ -30,7 +30,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 			}
 	
 			if ( $this->grant_access() ) {
-				add_action( 'admin_init', array( 'WPSEO_Options', 'register_settings' ) );
+				add_action( 'admin_init', array( 'WPSEO_Options', 'register_settings' ), 1 );
 				// Needs the lower than default priority so other plugins can hook underneath it without issue.
 				add_action( 'admin_menu', array( $this, 'register_settings_page' ), 5 );
 				add_action( 'network_admin_menu', array( $this, 'register_network_settings_page' ) );
