@@ -192,21 +192,20 @@ Double-check option-import from other plugins
 	* Removed screen_icon() calls.
 	* Fixed a bug in robots meta tag on singular items.
 	* Fix double robots header, WP native settings will be respected - props [Jrf](http://profiles.wordpress.org/jrf).
-	* Fixed a bug in robots meta tag on singular items
 	* When post published data is newer than last modified date, use that in XML sitemap, props [mindingdata](https://github.com/mindingdata).
 	* Check if tab hash is correct after being redirected from Facebook API, props [dannyvankooten](https://github.com/dannyvankooten).
 	* Fix 404 in category rewrites when `pagination_base` was changed, props [raugfer](https://github.com/raugfer).
 	* Make the metabox tabs jQuery only work for WPSEO tabs, props [imageinabox](https://github.com/imageinabox).
-	
-	* Fix issue with user capability authorisation check as reported by [scienceandpoetry](https://github.com/scienceandpoetry) in issue [#492](https://github.com/Yoast/wordpress-seo/issues/492) - props [Jrf](http://profiles.wordpress.org/jrf).
-	* Fixed canonical rel links was causing an error when given an invalid taxonomy, issue [#306](https://github.com/Yoast/wordpress-seo/issues/306) - props [Jrf](http://profiles.wordpress.org/jrf).
 	* Sitemap shortcode sql had hard-coded table name which could easily cause the shortcode display to fail. Fixed. - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fix issue with user capability authorisation check as reported by [scienceandpoetry](https://github.com/scienceandpoetry) in issue [#492](https://github.com/Yoast/wordpress-seo/issues/492) - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fixed canonical rel links was causing an error when given an invalid taxonomy, issue [#306](https://github.com/Yoast/wordpress-seo/issues/306) - props [Jrf](http://profiles.wordpress.org/jrf).	
 	* Removed add_meta_box() function duplication  - props [Jrf](http://profiles.wordpress.org/jrf).
 	* Fix issue "Flesch Reading Ease should only be a positive number". This also fixes the message being unclear. Thanks [eugenmihailescu](https://github.com/eugenmihailescu) for reporting - props [Jrf](http://profiles.wordpress.org/jrf).
-
-
+	* Fixed issue with page analysis not taking feature image into account - props [darrarski](https://github.com/darrarski).
+	
 * Enhancement
 	* Shortcode now also available to ajax requests - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Added gitignores to prevent incorrect commits (Cross platform collab) - props [cfoellmann](https://github.com/cfoellmann).
 
 * i18n
 	*
@@ -217,7 +216,7 @@ Double-check option-import from other plugins
 	* Fix for serious sitemap issue which caused all pages of a split sitemap to be the same (show the first 1000 urls) - props [Jrf](http://profiles.wordpress.org/jrf).
 	* Fixed a bug in the WPSEO tour in WP Network installs
 	* clean_permalink 301 redirect issue when using https - props [pirategaspard](https://github.com/pirategaspard)
-	
+
 * i18n
 	* Updated cs_CZ, fa_IR, fr_FR, hu, hu_HU, pl_PL, ru_RU & zh_CN
 
@@ -393,17 +392,17 @@ This release contains tons and tons of bugfixes, thanks in *large* part to [Jrf]
 	* Fixed undefined property error - props [Jrf](http://profiles.wordpress.org/jrf).
 	* Fixed undefined index error for the last page of the tour - props [Jrf](http://profiles.wordpress.org/jrf).
 	* Fixed undefined index error for images without alt - props [Jrf](http://profiles.wordpress.org/jrf).
-    * Fix output of author for Google+ when using a static front page - props [petervanderdoes](https://github.com/petervanderdoes).
-    * Keyword density calculation not working when special character in focus keyword - props [siriuzwhite](https://github.com/siriuzwhite).
-    * Reverse output buffer cleaning for XML sitemaps, as that collides with WP Super Cache, thanks to [Rarst](https://github.com/Rarst) for finding this.
-    * Fix canonical and rel=prev / rel=next links for paginated home pages using index.php links.
-    * Fixed og:title not following title settings.
+	* Fix output of author for Google+ when using a static front page - props [petervanderdoes](https://github.com/petervanderdoes).
+	* Keyword density calculation not working when special character in focus keyword - props [siriuzwhite](https://github.com/siriuzwhite).
+	* Reverse output buffer cleaning for XML sitemaps, as that collides with WP Super Cache, thanks to [Rarst](https://github.com/Rarst) for finding this.
+	* Fix canonical and rel=prev / rel=next links for paginated home pages using index.php links.
+	* Fixed og:title not following title settings.
 * Enhancements
 	* Improved breadcrumbs and titles for 404 pages - props [Jrf](http://profiles.wordpress.org/jrf).
-    * Moved XSL stylesheet from a static file in wp-content folder to a dynamic one, allowing it to work for sites that prevented the wp-content dir from being opened directly, f.i. through Sucuri's hardening.
-    * Added a link in the XSL pointing back to the sitemap index on individual sitemaps.
-    * When remove replytocom is checked in the permalink settings, these are now also redirected out.
-    * Added filters to OpenGraph output functions that didn't have them yet.
+	* Moved XSL stylesheet from a static file in wp-content folder to a dynamic one, allowing it to work for sites that prevented the wp-content dir from being opened directly, f.i. through Sucuri's hardening.
+	* Added a link in the XSL pointing back to the sitemap index on individual sitemaps.
+	* When remove replytocom is checked in the permalink settings, these are now also redirected out.
+	* Added filters to OpenGraph output functions that didn't have them yet.
 
 = 1.4.12 =
 
@@ -417,10 +416,10 @@ This release contains tons and tons of bugfixes, thanks in *large* part to [Jrf]
 * i18n
 	* Updated de_DE, ru_RU, zh_CN.
 * Bugfixes
-    * Make rel="publisher" markup appear on every page.
-    * Prevent empty property='article:publisher' markup from being output .
-    * Fixed twitter:description tag should only appears if OpenGraph is inactive.
-    * og:description will default to get_the_excerpt when meta description is blank (similar to how twitter:description works).
+	* Make rel="publisher" markup appear on every page.
+	* Prevent empty property='article:publisher' markup from being output .
+	* Fixed twitter:description tag should only appears if OpenGraph is inactive.
+	* og:description will default to get_the_excerpt when meta description is blank (similar to how twitter:description works).
 	* Fixes only 25 tags (and other taxonomy) are being indexed in taxonomy sitemaps.
 	* Fix lastmod dates for taxonomies in XML sitemap index file.
 * Enhancements
