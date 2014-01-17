@@ -578,8 +578,12 @@ class WPSEO_Sitemaps {
 				$url['images'] = apply_filters( 'wpseo_sitemap_urlimages', $url['images'], $p->ID );
 
 				if ( ! in_array( $url['loc'], $stackedurls ) ) {
-					$output .= $this->sitemap_url( $url );
-					$stackedurls[] = $url['loc'];
+					// Use this filter to adjust the entry before it gets added to the sitemap
+					$url = apply_filters( 'wpseo_sitemap_entry', $url, 'post', $p );
+					if ( ! empty( $url ) ) {
+						$output .= $this->sitemap_url( $url );
+						$stackedurls[] = $url['loc'];
+					}
 				}
 
 				// Clear the post_meta and the term cache for the post, as we no longer need it now.
@@ -671,7 +675,12 @@ class WPSEO_Sitemaps {
 					AND		p.post_password = ''", $c->taxonomy, $c->term_id );
 			$url['mod'] = $wpdb->get_var( $sql );
 			$url['chf'] = 'weekly';
-			$output .= $this->sitemap_url( $url );
+
+			// Use this filter to adjust the entry before it gets added to the sitemap
+			$url = apply_filters( 'wpseo_sitemap_entry', $url, 'term', $c );
+
+			if ( ! empty( $url ) )
+				$output .= $this->sitemap_url( $url );
 		}
 
 		if ( empty( $output ) ) {
@@ -735,12 +744,17 @@ class WPSEO_Sitemaps {
 
 		foreach ( $users as $user ) {
 			if ( $author_link = get_author_posts_url( $user->ID ) ) {
-				$output .= $this->sitemap_url( array(
+				$url = array(
 					'loc' => $author_link,
 					'pri' => 0.8,
 					'chf' => 'weekly',
 					'mod' => date( 'c', isset( $user->_yoast_wpseo_profile_updated ) ? $user->_yoast_wpseo_profile_updated : time() )
-				) );
+				);
+				// Use this filter to adjust the entry before it gets added to the sitemap
+				$url = apply_filters( 'wpseo_sitemap_entry', $url, 'user', $user );
+
+				if ( ! empty( $url ) )
+					$output .= $this->sitemap_url( $url );
 			}
 		}
 
