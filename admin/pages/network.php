@@ -12,7 +12,7 @@ global $wpseo_admin_pages;
 
 $options = get_site_option( 'wpseo_ms' );
 
-// @todo May be remove ? in favour of sending in the form via the options.php method - will need change in admin_header() call too
+// @todo [JRF => Yoast/whomever] May be remove ? in favour of sending in the form via the options.php method - will need change in admin_header() call too
 if ( isset( $_POST[ 'wpseo_submit' ] ) ) {
 	check_admin_referer( 'wpseo-network-settings' );
 

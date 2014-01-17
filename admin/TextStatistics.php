@@ -17,6 +17,10 @@ if ( ! class_exists( 'Yoast_TextStatistics' ) ) {
 	 * @link    http://code.google.com/p/php-text-statistics/
 	 * @link	https://github.com/DaveChild/Text-Statistics (new repo location)
 	 * @license http://www.opensource.org/licenses/bsd-license.php New BSD license
+	 *
+	 * @todo [JRF => whomever] Research if a class/library can be found which will offer
+	 * this functionality to a broader scope of languages/charsets.
+	 * Now basically limited to English.
 	 */
 	class Yoast_TextStatistics {
 	
@@ -57,7 +61,7 @@ if ( ! class_exists( 'Yoast_TextStatistics' ) ) {
 		/**
 		 * Gives string length.
 		 *
-		 * @todo allow for non-utf8 text ? or does that already work this way
+		 * @todo [JRF => whomever] allow for non-utf8 text ? or does that already work this way
 		 *
 		 * @param  string $strText      Text to be measured
 		 * @return int
@@ -69,7 +73,7 @@ if ( ! class_exists( 'Yoast_TextStatistics' ) ) {
 		/**
 		 * Gives letter count (ignores all non-letters).
 		 *
-		 * @todo make this work for utf8 text/text in other charsets ?
+		 * @todo [JRF => whomever] make this work for utf8 text/text in other charsets ?
 		 *
 		 * @param string $strText      Text to be measured
 		 * @return int
@@ -134,7 +138,7 @@ if ( ! class_exists( 'Yoast_TextStatistics' ) ) {
 			$strText = $this->clean_text( $strText );
 			// Will be tripped up by "Mr." or "U.K.". Not a major concern at this point.
 			// [JRF] Will also be tripped up by ... or ?!
-			// @todo May be replace with something along the lines of this - will at least provide better count in ... and ?! situations:
+			// @todo [JRF => whomever] May be replace with something along the lines of this - will at least provide better count in ... and ?! situations:
 			// $intSentences = max( 1, preg_match_all( '`[^\.!?]+[\.!?]+([\s]+|$)`u', $strText, $matches ) ); [/JRF]
 			$intSentences = max( 1, $this->text_length( preg_replace( '`[^\.!?]`', '', $strText ) ) );
 			return $intSentences;

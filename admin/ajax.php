@@ -14,6 +14,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 function wpseo_set_option() {
 	if ( ! current_user_can( 'manage_options' ) )
 		die( '-1' );
+
 	check_ajax_referer( 'wpseo-setoption' );
 
 	$option = esc_attr( $_POST['option'] );
@@ -32,6 +33,7 @@ add_action( 'wp_ajax_wpseo_set_option', 'wpseo_set_option' );
 function wpseo_set_ignore() {
 	if ( ! current_user_can( 'manage_options' ) )
 		die( '-1' );
+
 	check_ajax_referer( 'wpseo-ignore' );
 
 	$options                          = get_option( 'wpseo' );
@@ -49,6 +51,7 @@ add_action( 'wp_ajax_wpseo_set_ignore', 'wpseo_set_ignore' );
 function wpseo_kill_blocking_files() {
 	if ( ! current_user_can( 'manage_options' ) )
 		die( '-1' );
+
 	check_ajax_referer( 'wpseo-blocking-files' );
 
 	$message = 'There were no files to delete.';
@@ -93,8 +96,9 @@ function wpseo_get_suggest() {
 
 add_action( 'wp_ajax_wpseo_get_suggest', 'wpseo_get_suggest' );
 
+
 /**
- * @todo: add capacity check for below ajax methods, something along the lines of user_can_edit_post()
+ * @todo: [JRF => Faison] IMPORTANT! add capacity check for the below ajax methods, something along the lines of user_can_edit_post()
  */
 
 /**

@@ -41,7 +41,7 @@ function wpseo_activate() {
  *
  * This uses the currently available custom post types and taxonomies.
  *
- * @todo - check whether this is run from activation, if so, run maybe_upgrade() ?!
+ * @todo - [JRF] check whether this is run from activation, if so, run maybe_upgrade() ?!
  */
 function wpseo_defaults() {
 	$options = get_option( 'wpseo' );
@@ -185,11 +185,11 @@ function wpseo_description_test() {
 	// Reset any related options
 	$options['theme_has_description']   = WPSEO_Options::$defaults['wpseo']['theme_has_description'];
 	$options['theme_description_found'] = WPSEO_Options::$defaults['wpseo']['theme_description_found'];
-// @todo - check if this one still exists and is used ?
+// @todo - [JRF/JRF => Yoast] check if this one still exists and is used ?
 /*	if ( isset( $options['meta_description_warning'] ) )
 		unset( $options['meta_description_warning'] );*/
 
-	/* Should this be reset too ? Best to do so as test is done on re-activate and switch_theme
+	/* @internal Should this be reset too ? Best to do so as test is done on re-activate and switch_theme
 	   as well and new warning would be warranted then. Only might give irritation on theme upgrade. */
 	$options['ignore_meta_description_warning'] = WPSEO_Options::$defaults['wpseo']['ignore_meta_description_warning'];
 
@@ -400,7 +400,7 @@ function wpseo_admin_bar_menu() {
 	$score   = '';
 	$seo_url = get_admin_url( null, 'admin.php?page=wpseo_dashboard' );
 
-	// @todo adjust the if() clause to also allow this to work when editing posts on the admin site (i.e. make the keyword research links work with the right keyword which they don't now)
+	// @todo [JRF] adjust the if() clause to also allow this to work when editing posts on the admin site (i.e. make the keyword research links work with the right keyword which they don't now)
 	if ( is_singular() && isset( $post ) && is_object( $post ) && apply_filters( 'wpseo_use_page_analysis', true ) === true ) {
 		$focuskw    = WPSEO_Meta::get_value( 'focuskw', $post->ID );
 		$perc_score = WPSEO_Meta::get_value( 'linkdex', $post->ID );
@@ -424,7 +424,7 @@ function wpseo_admin_bar_menu() {
 	if ( ! is_admin() ) {
 		$wp_admin_bar->add_menu( array( 'parent' => 'wpseo-menu', 'id' => 'wpseo-analysis', 'title' => __( 'Analyze this page', 'wordpress-seo' ), '#', ) );
 		if ( is_string( $url ) ) {
-			// @todo check if this url shouldn't be encoded either with urlencode or with esc_url or something
+			// @todo [JRF => whomever] check if this url shouldn't be encoded either with urlencode or with esc_url or something
 			$wp_admin_bar->add_menu( array( 'parent' => 'wpseo-analysis', 'id' => 'wpseo-inlinks-ose', 'title' => __( 'Check Inlinks (OSE)', 'wordpress-seo' ), 'href' => 'http://www.opensiteexplorer.org/' . str_replace( '/', '%252F', preg_replace( '`^http[s]?://`', '', $url ) ) . '/a!links', 'meta' => array( 'target' => '_blank' ) ) );
 			$wp_admin_bar->add_menu( array( 'parent' => 'wpseo-analysis', 'id' => 'wpseo-kwdensity', 'title' => __( 'Check Keyword Density', 'wordpress-seo' ), 'href' => 'http://tools.davidnaylor.co.uk/keyworddensity/index.php?url=' . urlencode( $url ) . '&keyword=' . urlencode( $focuskw ), 'meta' => array( 'target' => '_blank' ) ) );
 			$wp_admin_bar->add_menu( array( 'parent' => 'wpseo-analysis', 'id' => 'wpseo-cache', 'title' => __( 'Check Google Cache', 'wordpress-seo' ), 'href' => 'http://webcache.googleusercontent.com/search?strip=1&q=cache:' . urlencode( $url ), 'meta' => array( 'target' => '_blank' ) ) );

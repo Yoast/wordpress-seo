@@ -91,7 +91,7 @@ if ( is_array( $options['fbapps'] ) && $options['fbapps'] !== array() ) {
 
 $app_button_text = __( 'Use a Facebook App as Admin', 'wordpress-seo' );
 if ( is_array( $options['fbapps'] ) && $options['fbapps'] !== array() ) {
-	// @todo - use select() method ?
+	// @todo [JRF => whomever] use WPSEO_Admin_Pages->select() method ?
 	$fbconnect .= '
 	<p>' . __( 'Select an app to use as Facebook admin:', 'wordpress-seo' ) . '</p>
 	<select name="wpseo_social[fbadminapp]" id="fbadminapp">';
@@ -120,7 +120,7 @@ if ( $options['fbadminapp'] == 0 ) {
 			$admin_id   = esc_attr( $admin_id );
 			$fbconnect .= '
 		<li><a href="' . esc_url( $admin['link'] ) . '">' . esc_html( $admin['name'] ) . '</a> - <strong><a href="' . esc_url( add_query_arg( array( 'delfbadmin' => $admin_id, 'nonce' => $nonce ), admin_url( 'admin.php?page=wpseo_social' ) ) ) . '">X</a></strong></li>';
-			// @todo: check if these hidden fields really need setting - also added on line 79-84
+			// @todo: [JRF => Yoast/whomever] check if these hidden fields really need setting - also added on line 79-84
 //			$fbconnect .= '<input type="hidden" name="wpseo_social[fb_admins][' . esc_attr( $admin_id ) . '][link]" value="' . esc_attr( $admin['link'] ) . '"/>';
 //			$fbconnect .= '<input type="hidden" name="wpseo_social[fb_admins][' . esc_attr( $admin_id ) . '][name]" value="' . esc_attr( $admin['name'] ) . '"/>';
 		}

@@ -25,7 +25,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps_Admin' ) ) {
 		/**
 		 * Remove sitemaps residing on disk as they will block our rewrite.
 		 *
-		 * @todo - I suggest we change this to a simple directory walker with a preg_match() on any files which would
+		 * @todo - [JRF => Yoast] I suggest we change this to a simple directory walker with a preg_match() on any files which would
 		 * match our sitemap rewrite rule expressions. Now only sitemap_index.xml is looked for and that may not be
 		 * enough.
 		 * Also we may want to check for other plugins which are known to generate sitemap files rather than

@@ -302,7 +302,7 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 				}
 	
 				if ( isset( $link['ptarchive'] ) ) {
-					/* @todo add something along the lines of the below to make it work with WooCommerce.. ?
+					/* @todo [JRF => whomever] add something along the lines of the below to make it work with WooCommerce.. ?
 					if ( false === $link['ptarchive'] && true === is_post_type_archive( 'product' ) ) {
 						$link['ptarchive'] = 'product'; // translate ?
 					}*/

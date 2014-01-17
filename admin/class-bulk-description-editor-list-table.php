@@ -176,12 +176,12 @@ if ( ! class_exists( 'WPSEO_Bulk_Description_List_Table' ) ) {
 	
 	
 		/**
-		 * @todo: check if global $wp_column_headers is needed as it does not seem to be used
+		 * @todo: [JRF => Faison] check if global $wp_column_headers is needed as it does not seem to be used
 		 */
 		function prepare_items() {
 			global $wpdb, $_wp_column_headers;
 	
-			// @todo: check if this variable setting makes sense as it does not seem to be used in this instance
+			// @todo: [JRF => Faison] check if this variable setting makes sense as it does not seem to be used in this instance
 			$screen = get_current_screen();
 	
 			$post_types = get_post_types( array( 'exclude_from_search' => false ) );

@@ -6,14 +6,14 @@
  *
  * // flush rewrite rules => not needed, is done on deactivate
  *
- * @todo => maybe add an options page where users can choose whether or not to remove meta data ?
+ * @todo [JRF => whomever] maybe add an options page where users can choose whether or not to remove meta data ?
  * or try and hook into the uninstall routine and ask the user there & then
  * (Nearly) all the code needed for a removal of this data for a single blog has been added below (commented out)
  *
- * @todo what should be done with the 'googleplus', 'twitter', 'facebook' contactmethods added to the user profile page ?
+ * @todo [JRF => Yoast] what should be done with the 'googleplus', 'twitter', 'facebook' contactmethods added to the user profile page ?
  *
  *
- * @todo deal with multisite uninstall - the options and other data will need to be removed for all blogs ?
+ * @todo [JRF => whomever] deal with multisite uninstall - the options and other data will need to be removed for all blogs ?
  */
 
 if ( ! current_user_can( 'activate_plugins' ) || ( ! defined( 'ABSPATH' ) || ! defined( 'WP_UNINSTALL_PLUGIN' ) ) ) {
@@ -34,7 +34,7 @@ $wpseo_option_keys = array(
 	'wpseo_flush_rewrite',
 //	'Yoast_Tracking_Hash',
 );
-// @todo change code to deal with wpseo_ms option as a (multi) site option
+// @todo [JRF => whomever] change code to deal with wpseo_ms option as a (multi) site option
 foreach ( $wpseo_option_keys as $option ) {
 	delete_option( $option );
 }
@@ -75,7 +75,7 @@ unset( $query, $user_ids, $user_id );
 
 
 /**
- * @todo Some sort of mechanism should be worked out in which we ask the user whether they also want
+ * @todo [JRF => whomever] Some sort of mechanism should be worked out in which we ask the user whether they also want
  * to delete all entered meta data
  * If so, the below should be run (for all blogs when multi-site uninstall)
  */

@@ -210,7 +210,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 		function get_title_from_options( $index, $var_source = array() ) {
 			if ( ! isset( $this->options[$index] ) || $this->options[$index] === '' ) {
 				if ( is_singular() ) {
-					// @todo shouldn't this use one of the defaults from options ?
+					// @todo [JRF => Yoast] shouldn't this use one of the defaults from options ?
 					return wpseo_replace_vars( '%%title%% %%sep%% %%sitename%%', (array) $var_source );
 				}
 				else {
@@ -355,7 +355,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 			else if ( is_search() ) {
 				$title = $this->get_title_from_options( 'title-search-wpseo' );
 	
-				// @todo Should this not use the default if no title found ?
+				// @todo [JRF => Yoast] Should this not use the default if no title found ?
 				// WPSEO_Options::$defaults['wpseo_titles']['title-search-wpseo']
 				// Replacement would be needed!
 				if ( empty( $title ) )
@@ -405,7 +405,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 			else if ( is_archive() ) {
 				$title = $this->get_title_from_options( 'title-archive-wpseo' );
 	
-				// @todo Should these not use the archive default if no title found ?
+				// @todo [JRF => Yoast] Should these not use the archive default if no title found ?
 				// WPSEO_Options::$defaults['wpseo_titles']['title-archive-wpseo']
 				// Replacement would be needed!
 				if ( empty( $title ) ) {
@@ -426,7 +426,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 			else if ( is_404() ) {
 	
 				if ( 0 !== get_query_var( 'year' ) || ( 0 !== get_query_var( 'monthnum' ) || 0 !== get_query_var( 'day' ) ) ) {
-	
+					// @todo [JRF => Yoast] Should these not use the archive default if no title found ?
 					if ( 0 !== get_query_var( 'day' ) ) {
 	
 						global $post;
@@ -448,7 +448,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 				else {
 					$title = $this->get_title_from_options( 'title-404-wpseo' );
 	
-					// @todo Should these not use the archive default if no title found ?
+					// @todo [JRF => Yoast] Should these not use the 404 default if no title found ?
 					// WPSEO_Options::$defaults['wpseo_titles']['title-404-wpseo']
 					// Replacement would be needed!
 					if ( empty( $title ) ) {

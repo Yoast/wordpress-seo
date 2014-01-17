@@ -69,7 +69,7 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 		 * Resets the site to the default WordPress SEO settings and runs a title test to check
 		 * whether force rewrite needs to be on.
 		 *
-		 * @todo - move to options class and check if this is still the way to do it or rather, we know this is not the way
+		 * @todo - [JRF] move to options class and check if this is still the way to do it or rather, we know this is not the way
 		 * Also change the function calls to the function! and make this function deprecated
 		 *
 		 * @deprecated 1.5.0

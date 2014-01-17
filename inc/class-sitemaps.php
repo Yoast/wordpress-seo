@@ -282,7 +282,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 					$taxobj = get_taxonomy( $tax );
 	
 					if ( ( empty( $count ) || $count == $n ) && false ) {
-						// @todo: check as $post_type might not be defined or rather, will always take last post type from the above foreach loop, is this what is desired ? Shouldn't this check for the last modified of the taxonomy ?
+						// @todo: [JRF => Yoast] check as $post_type might not be defined or rather, will always take last post type from the above foreach loop, is this what is desired ? Shouldn't this check for the last modified of the taxonomy ?
 						// and what's with the "&& false" ?
 						$date = $this->get_last_modified( $post_type );
 					}
@@ -474,7 +474,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 			 * We grab post_date, post_name, post_author and post_status too so we can throw these objects
 			 * into get_permalink, which saves a get_post call for each permalink.
 			 */
-			$i = 0; // @todo check: does not seem to be used
+			$i = 0; // @todo [JRF => Yoast/whomever] check: does not seem to be used
 			while ( $total > $offset ) {
 	
 				// Optimized query per this thread: http://wordpress.org/support/topic/plugin-wordpress-seo-by-yoast-performance-suggestion
@@ -675,7 +675,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 			$steps  = $this->max_entries;
 			$n      = (int) $this->n;
 			$offset = ( $n > 1 ) ? ( $n - 1 ) * $this->max_entries : 0;
-			// @todo: check if setting $total makes sense somehow as it does not seem to be used in this method
+			// @todo: [JRF => Yoast/whomever] check if setting $total makes sense somehow as it does not seem to be used in this method
 			$total  = $offset + $this->max_entries;
 	
 			$terms = get_terms( $taxonomy->name, array( 'hide_empty' => true ) );
@@ -977,7 +977,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 		/**
 		 * Parse the requested sitemap's identifier to check for a user sitemap pattern
 		 *
-		 * @todo check if this method is still needed as it does not seem to be used
+		 * @todo [JRF => Yoast/whomever] check if this method is still needed as it does not seem to be used
 		 * *
 		 * since 1.6
 		 *

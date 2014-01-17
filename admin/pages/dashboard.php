@@ -184,7 +184,7 @@ function robots_meta_handler() {
 		// import the settings
 		else if ( isset( $_GET['import_robots_meta'] ) && $_GET['import_robots_meta'] === '1' ) {
 			// import robots meta setting for each post
-			// @todo how does this corrolate with the routine on the import page ?
+			// @todo [JRF => Yoast] how does this correlate with the routine on the import page ?
 			// isn't one superfluous ? functionality wasn't the same either, changed now.
 			$posts = $wpdb->get_results( "SELECT ID, robotsmeta FROM $wpdb->posts" );
 			foreach ( $posts as $post ) {
@@ -235,7 +235,7 @@ function aioseo_handler() {
 		}
 		// import the settings
 		// @todo: currently not deleting aioseop postmeta or handling old aioseop format
-		// @todo how does this corrolate with the routine on the import page ? isn't one superfluous ?
+		// @todo [JRF => Yoast] how does this correlate with the routine on the import page ? isn't one superfluous ?
 		else if ( isset( $_GET['import_aioseo'] ) && $_GET['import_aioseo'] === '1' ) {
 			$replace = false;
 

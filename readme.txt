@@ -153,18 +153,20 @@ This version also incorporates the [SEO Extended](http://wordpress.org/plugins/s
 * Enhancements
 	* The [SEO Extended](http://wordpress.org/plugins/seo-extended/) plugin functionality has now been integrated into WP SEO.
 	* If WP_DEBUG is on or if you have set the special constant WPSEO_DEBUG, a block with the currently saved options will be shown on the settings pages.
-	* Added error message for when meta description removal fails.
+	* Added error message for when meta description tag removal from theme file fails.
 	* Added option to add meta keywords to post type archives.
 	* [Usability] Proper field labels for user profile form fields.
 	* General jQuery efficiency improvements.
 	* Improved lazy loading of plugin files using autoload.
 	* Don't show robots index/no-index choice in advanced meta box if there is a blog-wide override in place, i.e. the Settings -> Reading -> Block search engines checkbox is checked.
+	* Don't show robots index/no-index choice in taxonomy meta box if there is a blog-wide override in place, i.e. the Settings -> Reading -> Block search engines checkbox is checked.
 	* Added 'Site-wide default' option to meta robots advanced.
 	* Made the Google+ and Facebook post descriptions translatable by WPML.
 	* Better calculation precision for SEO score
+	* CSS and JS files are now minified
 
 * Other:
-	* Removed statement for compatibility with WP < 3.4 as minimum requirement for WP SEO is now 3.5
+	* Removed some backward compatibility with WP < 3.4 as minimum requirement for WP SEO is now 3.5
 	* Removed some old (commented out) code
 
 
@@ -178,12 +180,6 @@ Rewrite & move the reset_defaults() function
 Double-check the maybe_upgrade() function
 Double-check option-import from other plugins
 
-
-/**
- * @todo Add minified versions of css and js files
- * @todo Double-check Code style review (codesniffer)
- * @todo auto-loading
- */
 
 
 

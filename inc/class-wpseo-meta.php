@@ -84,7 +84,7 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 		 *				(optional)		'richedit'		=> (bool) seems currently to be unused
 		 *				(optional)		'placeholder'	=> (string) does not seem to be defined anywhere... ?
 		 *
-		 * @todo - check usage of richedit and placeholder and what to do with those
+		 * @todo - [JRF => Yoast] check usage of richedit and placeholder and what to do with those
 		 *
 		 *
 		 * - Titles, help texts, description text and option labels are added via a translate_meta_boxes() method
@@ -238,7 +238,7 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 					'default_value'	=> '',
 					'description'	=> '', // translation added later
 				),
-				/* @todo verify where this is used... it doesn't seem to be retrieve anywhere... */
+				/* @todo [JRF => Yoast] verify where this is (meant to be) used... it doesn't seem to be retrieve anywhere... */
 				'google-plus-description'	=> array(
 					'type'			=> 'textarea',
 					'title' 		=> '', // translation added later
@@ -479,7 +479,7 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 				case ( $field_def['type'] === 'text' && $meta_key === self::$meta_prefix . 'canonical' ):
 				case ( $field_def['type'] === 'text' && $meta_key === self::$meta_prefix . 'redirect' ):
 					// Validate as url(-part)
-					// @todo check/improve url verification
+					// @todo [JRF/whomever] check/improve url verification
 					$url = esc_url_raw( trim( $meta_value ), array( 'http', 'https' ) );
 					if ( $url !== '' ) {
 						$clean = $url;
@@ -489,7 +489,7 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 
 				case ( $field_def['type'] === 'upload' && $meta_key === self::$meta_prefix . 'opengraph-image' ):
 					// Validate as url
-					// @todo check/improve url verification
+					// @todo [JRF/whomever] check/improve url verification
 					$url = esc_url_raw( trim( $meta_value ), array( 'http', 'https', 'ftp', 'ftps' ) );
 					if ( $url !== '' ) {
 						$clean = $url;
@@ -500,7 +500,7 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 				case ( $field_def['type'] === 'textarea' ):
 					if ( is_string( $meta_value ) ) {
 						// Remove line breaks and tabs
-						// @todo verify with @yoast that those aren't allowed/recommended in meta header fields
+						// @todo [JRF => Yoast] verify that line breaks and the likes aren't allowed/recommended in meta header fields
 						$meta_value = str_replace( array( "\n", "\r", "\t", '  ' ), ' ', $meta_value );
 						$clean      = sanitize_text_field( trim( $meta_value ) );
 					}
@@ -522,7 +522,7 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 		/**
 		 * Validate a meta-robots-adv meta value
 		 *
-		 * @todo Verify with @yoast that this logic for the prioritisation is correct
+		 * @todo [JRF => Yoast] Verify that this logic for the prioritisation is correct
 		 *
 		 * @static
 		 *
@@ -756,7 +756,7 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 			 * Retrieve all '_yoast_wpseo_meta-robots' meta values and convert if no new values found
 			 * @internal Query is pretty well optimized this way
 			 *
-			 * @todo find out all possible values which the old '_yoast_wpseo_meta-robots' could contain
+			 * @todo [JRF => Yoast] find out all possible values which the old '_yoast_wpseo_meta-robots' could contain
 			 * to convert the data correctly
 			 */
 			$query  = $wpdb->prepare(

@@ -119,7 +119,7 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 /*v*/				'forcerewritetitle'					=> false,
 /*v*/				'title_test'						=> false, /* Not in form, set and unset via wpseo_title_test() function in wpseo-non-ajax-function.php */
 /*v*/				'usemetakeywords'					=> false,
-					// @todo maybe add site-wise default options for noarchive and nosnippet too ?
+					// @todo [JRF => Yoast/whomever] maybe add site-wise default options for noarchive and nosnippet too ?
 /*v*/				'noodp'								=> false,
 /*v*/				'noydir'							=> false,
 /*v*/				'hide-rsdlink'						=> false,
@@ -333,7 +333,7 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 
 
 
-			/* @todo - deal with update during upgrading !
+			/* @todo - [JRF] deal with update during upgrading !
 			Something along the lines of the below may work:
 
 			   Lastly, we'll be saving our option during the upgrade routine *before* the setting
@@ -355,7 +355,7 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 
 			// Only enrich defaults once custom post types and taxonomies have been registered
 			// which is normally done on the init action
-			// @todo - verify that none of the options which are only available after enrichment are used before the enriching
+			// @todo - [JRF/testers] verify that none of the options which are only available after enrichment are used before the enriching
 			add_action( 'init', array( __CLASS__, 'enrich_defaults' ), 99 );
 
 		}
@@ -535,7 +535,7 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 				unset( $filtered_taxonomies );
 			}
 			
-			// @todo: maybe add a apply_filter() for the defaults
+			// @todo: [JRF => Yoast] maybe add a apply_filter() for the defaults
 			// If multisite, we could then filter the defaults with the defaultblog settings ?
 			
 			/* Reset the all options static to refresh it after enrichment of the defaults */
@@ -555,7 +555,7 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 				}
 				else {
 					if ( function_exists( 'is_multisite' ) && is_multisite() ) {
-						// @todo: check if the below if() is still needed...
+						// @todo: [JRF => Yoast] check if the below if() is still needed...
 						if ( get_option( 'wpseo' ) == '1pseo_social' ) {
 							delete_option( 'wpseo' );
 						}
@@ -913,7 +913,7 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 		 * Better to be done here, rather than in the Yoast_Tracking class as class-tracking.php may not be loaded
 		 * and might not need to be (lean loading).
 		 *
-		 * @todo - check if this has any impact on other Yoast plugins which may use the same tracking schedule
+		 * @todo - [JRF => Yoast] check if this has any impact on other Yoast plugins which may use the same tracking schedule
 		 * hook. If so, may be get any other yoast plugin options, check for the tracking status and
 		 * unschedule based on the combined status
 		 *
@@ -961,7 +961,7 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 
 
 /*
-@todo - double check that validation will not cause errors when called from upgrade routine (add_settings_error not yet available)
+@todo - [JRF] double check that validation will not cause errors when called from upgrade routine (add_settings_error not yet available)
 */
 		/**
 		 * @param $options
@@ -982,7 +982,7 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 
 			$clean = self::get_defaults( $option_key );
 			$old   = get_option( $option_key );
-			// @todo - triple check that trim does not cause issues !!!!
+			// @todo - [JRF] triple check that trim does not cause issues !!!!
 			// changes everything to a string which may be undesired, so check if possible better to use selectively
 			$options = array_map( array( __CLASS__, 'trim_recursive' ), $options );
 			
@@ -990,7 +990,7 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 			foreach ( $clean as $k => $v ) {
 				switch ( $k ) {
 					case 'version':
-					// @todo - should given number be allowed for upgrade routine ?
+					// @todo - [JRF] should given number be allowed for upgrade routine ?
 						$clean[$k] = WPSEO_VERSION;
 						break;
 
@@ -1005,7 +1005,7 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 
 					case 'theme_description_found':
 						if ( isset( $options[$k] ) && is_string( $options[$k] ) ) {
-							$clean[$k] = $options[$k]; // @todo maybe do wp_kses ?
+							$clean[$k] = $options[$k]; // @todo [JRF/Yoast/whomever] maybe do wp_kses ?
 						}
 						else if ( isset( $old[$k] ) ) {
 							$clean[$k] = $old[$k];
@@ -1057,7 +1057,7 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 										break;
 
 									case 'alexaverify':
-										// @todo - add validation, currently Pattern is unknown
+										// @todo - [JRF/Yoast/whomever] add validation, currently Pattern is unknown
 										$clean[$k] = $meta;
 										break;
 								}
@@ -1110,7 +1110,7 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 
 			$clean = self::get_defaults( $option_key );
 			$old   = get_option( $option_key );
-			// @todo - triple check that trim does not cause issues !!!!
+			// @todo - [JRF] triple check that trim does not cause issues !!!!
 			// changes everything to a string which may be undesired, so check if possible better to use selectively
 			$options = array_map( array( __CLASS__, 'trim_recursive' ), $options );
 			
@@ -1176,7 +1176,7 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 
 			$clean = self::get_defaults( $option_key );
 			$old   = get_option( $option_key );
-			// @todo - triple check that trim does not cause issues !!!!
+			// @todo - [JRF] triple check that trim does not cause issues !!!!
 			// changes everything to a string which may be undesired, so check if possible better to use selectively
 			$options = array_map( array( __CLASS__, 'trim_recursive' ), $options );
 
@@ -1309,7 +1309,7 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 
 			$clean = self::get_defaults( $option_key );
 			$old   = get_option( $option_key );
-			// @todo - triple check that trim does not cause issues !!!!
+			// @todo - [JRF] triple check that trim does not cause issues !!!!
 			// changes everything to a string which may be undesired, so check if possible better to use selectively
 			$options = array_map( array( __CLASS__, 'trim_recursive' ), $options );
 
@@ -1362,7 +1362,7 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 							$clean[$k] = $options[$k];
 						}
 						else {
-							// @todo maybe change the untranslated $pt name in the error message to the nicely translated label ?
+							// @todo [JRF => whomever] maybe change the untranslated $pt name in the error message to the nicely translated label ?
 							add_settings_error(
 								WPSEO_Options::$options['wpseo_internallinks']['group'], // slug title of the setting
 								'_' . $k, // suffix-id for the error message box
@@ -1380,7 +1380,7 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 							$clean[$k] = $options[$k];
 						}
 						else {
-							// @todo maybe change the untranslated $tax name in the error message to the nicely translated label ?
+							// @todo [JRF =? whomever] maybe change the untranslated $tax name in the error message to the nicely translated label ?
 							$tax = str_replace( 'taxonomy-', '', $k );
 							$tax = str_replace( '-ptparent', '', $tax );
 							add_settings_error(
@@ -1426,7 +1426,7 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 
 			$clean = self::get_defaults( $option_key );
 			$old   = get_option( $option_key );
-			// @todo - triple check that trim does not cause issues !!!!
+			// @todo - [JRF] triple check that trim does not cause issues !!!!
 			// changes everything to a string which may be undesired, so check if possible better to use selectively
 			$options = array_map( array( __CLASS__, 'trim_recursive' ), $options );
 			
@@ -1443,7 +1443,7 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 				switch ( $switch_key ) {
 					/* integer fields */
 					case 'entries-per-page':
-					// @todo add some more rules (minimum 50 or something) and add error message
+					// @todo [JRF/JRF => Yoast] add some more rules (minimum 50 or something - what should be the guideline?) and add error message
 						if ( isset( $options[$k] ) && $options[$k] !== '' ) {
 							$int = self::validate_int( $options[$k] );
 							if ( $int !== false && $int > 0 ) {
@@ -1496,7 +1496,7 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 
 			$clean = self::get_defaults( $option_key );
 			$old   = get_option( $option_key );
-			// @todo - triple check that trim does not cause issues !!!!
+			// @todo - [JRF] triple check that trim does not cause issues !!!!
 			// changes everything to a string which may be undesired, so check if possible better to use selectively
 			$options = array_map( array( __CLASS__, 'trim_recursive' ), $options );
 
@@ -1512,14 +1512,14 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 					case 'fb_admins':
 						if ( isset( $options[$k] ) && ( is_array( $options[$k] ) && $options[$k] !== array() ) ) {
 							foreach ( $options[$k] as $user_id => $fb_array ) {
-								// @todo add user_id validation - are these WP user-ids or FB user-ids ?
+								// @todo [JRF/JRF => Yoast/whomever] add user_id validation - are these WP user-ids or FB user-ids ?
 								if ( is_array( $fb_array ) && $fb_array !== array() ) {
 									foreach ( $fb_array as $key => $value ) {
 										switch ( $key ) {
 											case 'name':
 											// @todo add validation for name
 											//$_GET['userrealname']
-												$clean[$k][$user_id][$key] = $value;
+												$clean[$k][$user_id][$key] = sanitize_text_field( $value );
 												break;
 
 											case 'link':
@@ -1541,8 +1541,8 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 					case 'fb_apps':
 						if ( isset( $options[$k] ) && ( is_array( $options[$k] ) && $options[$k] !== array() ) ) {
 							foreach ( $options[$k] as $app_id => $display_name ) {
-								// @todo add app_id validation $app->app_id
-								// @todo add display_name validation $app->display_name
+								// @todo [JRF => Yoast/whomever] add app_id validation $app->app_id
+								// @todo [JRF => Yoast/whomever] add display_name validation $app->display_name
 								$clean[$k][$app_id] = sanitize_text_field( $display_name );
 							}
 						}
@@ -1680,7 +1680,7 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 
 			$clean = self::get_defaults( $option_key );
 			$old   = get_option( $option_key );
-			// @todo - triple check that trim does not cause issues !!!!
+			// @todo - [JRF] triple check that trim does not cause issues !!!!
 			// changes everything to a string which may be undesired, so check if possible better to use selectively
 			$options = array_map( array( __CLASS__, 'trim_recursive' ), $options );
 			
@@ -1708,7 +1708,7 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 							if ( $int !== false && $int > 0 ) {
 								// Check if a valid blog number has been received
 								$exists = get_blog_details( $int, false );
-								// @todo - check what values get_blog_status() returns and improve the validation
+								// @todo - [JRF] check what values get_blog_status() returns and improve the validation
 								if ( $exists && get_blog_status( $int, 'deleted' ) == false ) {
 									$clean[$k] = $int;
 								}
@@ -1851,11 +1851,11 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 
 		/**
 		 * Reset all options to their default values
-		 * @todo add check for multisite and only add multisite option if applicable - currently will not add it
-		 * @todo may be check for default blog option if multisite and restore based on that if available ?
+		 * @todo [JRF] add check for multisite and only add multisite option if applicable - currently will not add it
+		 * @todo [JRF => Yoast] may be check for default blog option if multisite and restore based on that if available ?
 		 */
 		public static function reset() {
-			//@todo - better: may be make sure it's just not called before the init hook ;-)
+			// @todo - [JRF] better: may be make sure it's just not called before the init hook ;-)
 			self::register_settings(); // Make sure that the validation routines are registered even if this function is called before the init hook
 			foreach ( self::get_option_names() as $key => $directives ) {
 				delete_option( $key );
@@ -1867,13 +1867,13 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 		 * Reset all options for a specific multisite blog to their default values based upon a specified default blog
 		 */
 		public static function reset_ms_blog( $blog_id ) {
-			//@todo - better: may be make sure it's just not called before the admin_init hook ;-)
+			// @todo - [JRF] better: may be make sure it's just not called before the admin_init hook ;-)
 			self::register_settings(); // Make sure that the validation routines are registered even if this function is called before the admin_init hook
 			$options = get_site_option( 'wpseo_ms' );
 
 			if ( $options['defaultblog'] !== '' && $options['defaultblog'] != 0 ) {
 				// Reset based upon a default blog
-				// @todo - should social options also be copied over ? things like facebook admin ids and such are privacy sensitive, probably should be excluded
+				// @todo - [JRF => Yoast] should social options also be copied over ? things like facebook admin ids and such are privacy sensitive, probably should be excluded
 				foreach ( self::get_option_names() as $key => $directives ) {
 					delete_blog_option( $blog_id, $key );
 					update_blog_option( $blog_id, $key, get_blog_option( $options['defaultblog'], $key ) );
@@ -1896,7 +1896,7 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 		 * - Removes lingering options which may be in the wrong option key
 		 * - Makes sure that all options are set using default values if no valid value is found
 		 *
-		 * @todo check whether the settings_errors can be displayed if this is called from upgrade and if not, figure out a way to show them anyway
+		 * @todo [JRF] check whether the settings_errors can be displayed if this is called from upgrade and if not, figure out a way to show them anyway
 		 * Set $settings['upgrading'] to indicate upgrade and catch this in validation to use as switch (may not always be set), or better use function_exists() on add_settings_error() and if not set transient ?
 		 */
 		public static function clean_up() {
@@ -2047,7 +2047,7 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 					
 					// Validate old values for 'post_types-' and 'taxonomy-' fields
 					// Default should be int 0
-					// @todo How to deal with possibility of not all post_types / taxonomies being registered at the
+					// @todo [JRF] How to deal with possibility of not all post_types / taxonomies being registered at the
 					// time this upgrade is run ?
 					
 					/* 'post_types-' . $pt->name . '-maintax' fields */
@@ -2059,7 +2059,7 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 							$clean[$k] = $options[$k];
 						}
 						else {
-							// @todo maybe change the untranslated $pt name in the error message to the nicely translated label ?
+							// @todo [JRF => whomever] maybe change the untranslated $pt name in the error message to the nicely translated label ?
 							add_settings_error(
 								WPSEO_Options::$options['wpseo_internallinks']['group'], // slug title of the setting
 								'_' . $k, // suffix-id for the error message box
@@ -2076,7 +2076,7 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 							$clean[$k] = $options[$k];
 						}
 						else {
-							// @todo maybe change the untranslated $tax name in the error message to the nicely translated label ?
+							// @todo [JRF => whomever] maybe change the untranslated $tax name in the error message to the nicely translated label ?
 							$tax = str_replace( 'taxonomy-', '', $k );
 							$tax = str_replace( '-ptparent', '', $tax );
 							add_settings_error(
@@ -2104,7 +2104,7 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 				}
 
 
-				// @todo - deal with multisite option!
+				// @todo - [JRF] deal with multisite option!
 /*				if ( $directives['only_multisite'] === false ) {
 					...
 				}
@@ -2358,7 +2358,7 @@ if ( ! class_exists( 'WPSEO_Taxonomy_Meta' ) ) {
 
 
 
-			/* @todo - deal with update during upgrading !
+			/* @todo - [JRF] deal with update during upgrading !
 			Something along the lines of the below may work:
 
 			   Lastly, we'll be saving our option during the upgrade routine *before* the setting
@@ -2501,7 +2501,7 @@ if ( ! class_exists( 'WPSEO_Taxonomy_Meta' ) ) {
 			self::remove_default_filters( $option_key );
 
 			/* Don't change anything if user does not have the required capability */
-			// @todo check if there is a capability which will work for all taxonomies
+			// @todo [JRF => whomever] check if there is a capability which will work for all taxonomies
 			// Current 'edit_terms' is a guestimate, but is *not* correct
 			if ( false === is_admin() /*|| false === current_user_can( 'edit_terms' )*/ ) {
 				return get_option( $option_key );
@@ -2708,7 +2708,7 @@ if ( ! class_exists( 'WPSEO_Taxonomy_Meta' ) ) {
 													break;
 
 												case 'canonical':
-													// @todo needs checking, I don't have example data [JRF]
+													// @todo [JRF => whomever] needs checking, I don't have example data [JRF]
 													if ( $value !== '' ) {
 														// Fix incorrectly saved (encoded) canonical urls
 														$settings[$taxonomy][$term_id][$key] = wp_specialchars_decode( stripslashes( $value ) );
@@ -2716,7 +2716,7 @@ if ( ! class_exists( 'WPSEO_Taxonomy_Meta' ) ) {
 													break;
 
 												default:
-													// @todo needs checking, I don't have example data [JRF]
+													// @todo [JRF => whomever] needs checking, I don't have example data [JRF]
 													if ( $value !== '' ) {
 														// Fix incorrectly saved (escaped) text strings
 														$settings[$taxonomy][$term_id][$key] = wp_specialchars_decode( $value, ENT_QUOTES );

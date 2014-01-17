@@ -123,9 +123,9 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 			}
 	
 			/**
-			 * @todo double check whether the capability is the right one
+			 * @todo [JRF => Faison] is the capability the right one ?
 			 * Shouldn't this functionality be made available to all editors/authors for those posts they have authority to edit ?
-			 * If so, the queries in the bulk editor classes need changing too to reflect this
+			 * If so, the queries in the bulk editor classes need changing too to reflect this and the below should not just check capability, but also whether a user has any posts at all.
 			 */
 			$bulk_title_hook = add_submenu_page( 'wpseo_dashboard', __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Bulk Title Editor', 'wordpress-seo' ), __( 'Bulk Title Editor', 'wordpress-seo' ), 'manage_options', 'wpseo_bulk-title-editor', array( $this, 'load_page' ) );
 	
@@ -474,13 +474,12 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		function config_page_scripts() {
 			wp_enqueue_script( 'wpseo-admin-global-script', plugins_url( 'js/wp-seo-admin-global' . WPSEO_CSSJS_SUFFIX . '.js', dirname( __FILE__ ) ), array( 'jquery' ), WPSEO_VERSION, true );
 		}
-	
+
+
 		/**
 		 * Updates the user metas that (might) have been set on the user profile page.
 		 *
-		 * @todo check if there is a way we can hook validation to a specific user field ?
-		 *
-		 * @param	int	$user_id of the updated user
+		 * @param    int    $user_id of the updated user
 		 */
 		function process_user_option_update( $user_id ) {
 			if ( isset( $_POST['wpseo_author_title'] ) ) {
@@ -551,9 +550,9 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		 * Determine whether the wpseo option holds the current version, if it doesn't, run
 		 * the upgrade procedures.
 		 *
-		 * @todo - Check, check, double-check!
+		 * @todo - [JRF] Check, check, double-check!
 		 *
-		 * @todo - check: if upgrade is run on multi-site installation, upgrade for all sites ?
+		 * @todo - [JRF] check: if upgrade is run on multi-site installation, upgrade for all sites ?
 		 * May be not necessary as hook now changed from admin_init to init, so upgrade will run as soon as any page
 		 * on a site is requested.
 		 */
@@ -802,7 +801,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 						$stopWord = str_replace( "'", '', $stopWord );
 	
 					// Check whether the stopword appears as a whole word
-					// @todo check whether the use of \b (=word boundary) would be more efficient ;-)
+					// @todo [JRF => whomever] check whether the use of \b (=word boundary) would be more efficient ;-)
 					$res = preg_match( "`(^|[ \n\r\t\.,'\(\)\"\+;!?:])" . preg_quote( $stopWord, '`' ) . "($|[ \n\r\t\.,'\(\)\"\+;!?:])`iu", $haystack, $match );
 					if ( $res > 0 )
 						return $stopWord;

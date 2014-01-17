@@ -16,7 +16,7 @@ if ( ! class_exists( 'Yoast_Tracking' ) ) {
 	 * NOTE: this functionality is opt-in. Disabling the tracking in the settings or saying no when asked will cause
 	 * this file to not even be loaded.
 	 *
-	 * @todo check if tracking still works if an old version of the Yoast Tracking class was loaded
+	 * @todo [JRF => testers] check if tracking still works if an old version of the Yoast Tracking class was loaded
 	 * (i.e. another plugin loaded their version first)
 	 */
 	class Yoast_Tracking {

@@ -92,7 +92,7 @@ if ( isset( $_POST['import'] ) ) {
 			delete_option( 'seo_woo_page_layout' );
 		}
 
-		// @todo - should the default be the same default as wpseo default ? It currently isn't
+		// @todo - [JRF => Yoast] should the default be the same default as wpseo default ? It currently isn't
 		$template = '%%term_title%% ' . $sep . ' %%page%% ' . $sep . ' %%sitename%%';
 		switch ( get_option( 'seo_woo_archive_layout' ) ) {
 			case 'a':
@@ -150,7 +150,7 @@ if ( isset( $_POST['import'] ) ) {
 			WPSEO_Meta::replace_meta( 'seo_keywords', WPSEO_Meta::$meta_prefix . 'metakeywords', $replace );
 		}
 
-		/* @todo verify how WooSEO sets these metas ( 'noindex', 'follow' )
+		/* @todo [JRF => whomever] verify how WooSEO sets these metas ( 'noindex', 'follow' )
 		   and if the values saved are concurrent with the ones we use (i.e. 0/1/2) */
 		WPSEO_Meta::replace_meta( 'seo_follow', WPSEO_Meta::$meta_prefix . 'meta-robots-nofollow', $replace );
 		WPSEO_Meta::replace_meta( 'seo_noindex', WPSEO_Meta::$meta_prefix . 'meta-robots-noindex', $replace );
@@ -161,12 +161,12 @@ if ( isset( $_POST['import'] ) ) {
 		WPSEO_Meta::replace_meta( '_headspace_description', WPSEO_Meta::$meta_prefix . 'metadesc', $replace );
 		WPSEO_Meta::replace_meta( '_headspace_keywords', WPSEO_Meta::$meta_prefix . 'metakeywords', $replace );
 		WPSEO_Meta::replace_meta( '_headspace_page_title', WPSEO_Meta::$meta_prefix . 'title', $replace );
-		/* @todo verify how headspace sets these metas ( 'noindex', 'nofollow', 'noarchive', 'noodp', 'noydir' )
+		/* @todo [JRF => whomever] verify how headspace sets these metas ( 'noindex', 'nofollow', 'noarchive', 'noodp', 'noydir' )
 		   and if the values saved are concurrent with the ones we use (i.e. 0/1/2) */
 		WPSEO_Meta::replace_meta( '_headspace_noindex', WPSEO_Meta::$meta_prefix . 'meta-robots-noindex', $replace );
 		WPSEO_Meta::replace_meta( '_headspace_nofollow', WPSEO_Meta::$meta_prefix . 'meta-robots-nofollow', $replace );
 
-		/* @todo - check if this can be done more efficiently by querying only the meta table
+		/* @todo - [JRF => whomever] check if this can be done more efficiently by querying only the meta table
 		   possibly directly changing it using concat on the existing values
 		*/
 		$posts = $wpdb->get_results( "SELECT ID FROM $wpdb->posts" );
@@ -195,7 +195,7 @@ if ( isset( $_POST['import'] ) ) {
 		}
 		$msg .= __( 'HeadSpace2 data successfully imported', 'wordpress-seo' );
 	}
-	// @todo how does this corrolate with the routine on the import page ? isn't one superfluous ?
+	// @todo [JRF => whomever] how does this correlate with the routine on the import page ? isn't one superfluous ?
 	if ( isset( $_POST['wpseo']['importaioseo'] ) ) {
 		WPSEO_Meta::replace_meta( '_aioseop_description', WPSEO_Meta::$meta_prefix . 'metadesc', $replace );
 		WPSEO_Meta::replace_meta( '_aioseop_keywords', WPSEO_Meta::$meta_prefix . 'metakeywords', $replace );
@@ -209,7 +209,7 @@ if ( isset( $_POST['import'] ) ) {
 		$msg .= __( 'All in One SEO (Old version) data successfully imported.', 'wordpress-seo' );
 	}
 	
-	// @todo how does this corrolate with the robots_meta_handler() function in dashboard ?
+	// @todo [JRF => whomever] how does this correlate with the robots_meta_handler() function in dashboard ?
 	// isn't one superfluous ? functionality wasn't the same either, changed now.
 	if ( isset( $_POST['wpseo']['importrobotsmeta'] ) ) {
 		$posts = $wpdb->get_results( "SELECT ID, robotsmeta FROM $wpdb->posts" );
@@ -285,7 +285,7 @@ if ( $msg != '' ) {
 
 $content  = '<p>' . __( 'No doubt you\'ve used an SEO plugin before if this site isn\'t new. Let\'s make it easy on you, you can import the data below. If you want, you can import first, check if it was imported correctly, and then import &amp; delete. No duplicate data will be imported.', 'wordpress-seo' ) . '</p>';
 $content .= '<p>' . sprintf( __( 'If you\'ve used another SEO plugin, try the %sSEO Data Transporter%s plugin to move your data into this plugin, it rocks!', 'wordpress-seo' ), '<a href="http://wordpress.org/extend/plugins/seo-data-transporter/">', '</a>' ) . '</p>';
-// @todo add action
+// @todo [JRF => whomever] add action for form tag
 $content .= '<form action="" method="post" accept-charset="' . esc_attr( get_bloginfo( 'charset' ) ) . '">';
 $content .= wp_nonce_field( 'wpseo-import', '_wpnonce', true, false );
 $content .= $wpseo_admin_pages->checkbox( 'importheadspace', __( 'Import from HeadSpace2?', 'wordpress-seo' ) );
@@ -309,7 +309,7 @@ $wpseo_admin_pages->postbox( 'import', __( 'Import', 'wordpress-seo' ), $content
 
 do_action( 'wpseo_import', $this );
 
-// @todo add action to form tag
+// @todo [JRF => whomever] add action for form tag
 $content  = '<h4>' . __( 'Export', 'wordpress-seo' ) . '</h4>';
 $content .= '<form action="" method="post" accept-charset="' . esc_attr( get_bloginfo( 'charset' ) ) . '">';
 $content .= wp_nonce_field( 'wpseo-export', '_wpnonce', true, false );
@@ -339,7 +339,7 @@ if ( isset( $_POST['wpseo_export'] ) ) {
 $content .= '<h4>' . __( 'Import', 'wordpress-seo' ) . '</h4>';
 if ( ! isset( $_FILES['settings_import_file'] ) || empty( $_FILES['settings_import_file'] ) ) {
 	$content .= '<p>' . __( 'Import settings by locating <em>settings.zip</em> and clicking', 'wordpress-seo' ) . ' "' . __( 'Import settings', 'wordpress-seo' ) . '":</p>';
-	// @todo add action to form tag
+	// @todo [JRF => whomever] add action for form tag
 	$content .= '<form action="" method="post" enctype="multipart/form-data" accept-charset="' . esc_attr( get_bloginfo( 'charset' ) ) . '">';
 	$content .= wp_nonce_field( 'wpseo-import-file', '_wpnonce', true, false );
 	$content .= '<input type="file" name="settings_import_file"/>';

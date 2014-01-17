@@ -41,7 +41,6 @@ if ( version_compare( PHP_VERSION, '5.2', '<' ) ) {
 		deactivate_plugins( __FILE__ );
 		wp_die( sprintf( __( 'WordPress SEO requires PHP 5.2 or higher, as does WordPress 3.2 and higher. The plugin has now disabled itself. For more info, %s$1see this post%s$2.', 'wordpress-seo' ), '<a href="http://yoast.com/requires-php-52/">', '</a>' ) );
 	}
-	
 }
 
 
@@ -61,9 +60,6 @@ define( 'WPSEO_CSSJS_SUFFIX', ( ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_D
 
 /**
  * Auto load our class files
- *
- * @todo add all classes and remove includes, but make sure that they are all initiated when needed
- * either through a static call or a new instance
  *
  * @param   string  $class  Class name
  * @return    void
@@ -219,7 +215,7 @@ function wpseo_admin_init() {
 	}
 
 	if ( in_array( $pagenow, array( 'admin.php' ) ) ) {
-		// @todo Can we load this more selectively ? like only when $_GET['page'] is one of ours ?
+		// @todo [JRF => whomever] Can we load this more selectively ? like only when $_GET['page'] is one of ours ?
 		$GLOBALS['wpseo_admin_pages'] = new WPSEO_Admin_Pages;
 	}
 

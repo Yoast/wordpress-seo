@@ -419,7 +419,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		/**
 		 * Adds a line in the meta box
 		 *
-		 * @todo check if $class is added appropriately everywhere
+		 * @todo [JRF] check if $class is added appropriately everywhere
 		 *
 		 * @param   array   $meta_field_def Contains the vars based on which output is generated.
 		 * @param   string  $key			Internal key (without prefix)
@@ -467,12 +467,12 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 					if ( isset( $meta_field_def['autocomplete'] ) && $meta_field_def['autocomplete'] === false ) {
 						$ac = 'autocomplete="off" ';
 					}
-					// @todo check placeholder use
+					// @todo [JRF/JRF => Yoast] check placeholder use
 					$content .= '<input type="text" placeholder="' . esc_attr( $placeholder ) . '" id="' . $esc_form_key . '" ' . $ac . 'name="' . $esc_form_key . '" value="' . esc_attr( $meta_value ) . '" class="large-text' . $class . '"/><br />';
 					break;
 
 				case 'textarea':
-					// @todo add check for richedit field def ?
+					// @todo [JRF => Yoast] richedit is set as a field def variable, but not use, this would be the most appropriate place. Should the variable be removed from the field def or added here ?
 					$rows = 3;
 					if ( isset( $meta_field_def['rows'] ) && $meta_field_def['rows'] > 0 ) {
 						$rows = $meta_field_def['rows'];
@@ -496,7 +496,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 						$selectedarr   = explode( ',', $meta_value );
 						$options_count = count( $meta_field_def['options'] );
 
-						// @todo verify height calculation for older WP versions
+						// @todo [JRF => whomever] verify height calculation for older WP versions, was 16x, for WP3.8 20x is more appropriate
 						$content .= '<select multiple="multiple" size="' . esc_attr( $options_count ) . '" style="height: ' . esc_attr( ( $options_count * 20 ) + 4 ) . 'px;" name="' . $esc_form_key . '[]" id="' . $esc_form_key . '" class="yoast' . $class . '">';
 						foreach ( $meta_field_def['options'] as $val => $option ) {
 							$selected = '';
@@ -672,7 +672,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 				$gplus = json_decode( $resp['body'] );
 	
 				/**
-				 * @todo do we really need to retrieve this every week ? why not change it
+				 * @todo [JRF => Yoast] do we really need to retrieve this every week ? why not change it
 				 * to month ? or make it an option variable and let the user decide based
 				 * on how they use gplus
 				 */
@@ -732,7 +732,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 
 		/**
 		 * Enqueues all the needed JS and CSS.
-		 * @todo create css/metabox-mp6.css file and add it to the below allowed colors array when done
+		 * @todo [JRF => whomever] create css/metabox-mp6.css file and add it to the below allowed colors array when done
 		 */
 		public function enqueue() {
 			if ( $this->pt_is_public() === false )

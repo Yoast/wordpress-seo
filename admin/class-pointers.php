@@ -78,7 +78,7 @@ if ( ! class_exists( 'WPSEO_Pointers' ) ) {
 		/**
 		 * Load the introduction tour
 		 *
-		 * @todo add intro tour information for the bulk editor pages
+		 * @todo [JRF => Faison] add intro tour information for the bulk editor pages
 		 */
 		function intro_tour() {
 			global $pagenow, $current_user;

@@ -109,7 +109,7 @@ if ( ! class_exists( 'WPSEO_Taxonomy' ) ) {
 		function form_row( $var, $label, $desc, $tax_meta, $type = 'text', $options = array() ) {
 			$val = '';
 			if ( isset( $tax_meta[$var] ) && $tax_meta[$var] !== '' ) {
-				// @todo is stripslashes really needed here ?
+				// @todo [JRF => Yoast] is stripslashes really needed here ?
 				// might be left over from wrongly encoded saved canonical
 				$val = stripslashes( $tax_meta[$var] );
 			}
