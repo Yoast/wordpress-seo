@@ -751,6 +751,9 @@ class WPSEO_Frontend {
 			else
 				return $canonical;
 		}
+		else {
+			return false;
+		}
 	}
 
 	/**
@@ -769,7 +772,7 @@ class WPSEO_Frontend {
 		if ( ! is_singular() ) {
 			$url = $this->canonical( false, true, true );
 
-			if ( $url ) {
+			if ( is_string( $url ) && $url !== '' ) {
 				$paged = get_query_var( 'paged' );
 
 				if ( 0 == $paged )
