@@ -922,14 +922,14 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 				if ( is_object( $post ) ) {
 					$have_author = WPSEO_Meta::get_value( 'authorship' );
 
-					switch( $have_author ) {
+					switch ( $have_author ) {
 						case 'always':
 							$gplus = get_the_author_meta( 'googleplus', $post->post_author );
 							break;
 
 						case '-':
 							// Defer to post_type default
-							if( ! isset( $this->options['noauthorship-' . $post->post_type] ) || $this->options['noauthorship-' . $post->post_type] === false ) {
+							if ( ! isset( $this->options['noauthorship-' . $post->post_type] ) || $this->options['noauthorship-' . $post->post_type] === false ) {
 								$gplus = get_the_author_meta( 'googleplus', $post->post_author );
 							}
 							break;

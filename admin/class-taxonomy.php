@@ -121,7 +121,7 @@ if ( ! class_exists( 'WPSEO_Taxonomy' ) ) {
 			if ( $type == 'text' ) {
 				$field .= '
 				<input name="' . $esc_var . '" id="' . $esc_var . '" type="text" value="' . esc_attr( $val ) . '" size="40"/>';
-				if( is_string( $desc ) && $desc !== '' ) {
+				if ( is_string( $desc ) && $desc !== '' ) {
 					$field .= '
 		        <p class="description">' . esc_html( $desc ) . '</p>';
 				}
@@ -131,7 +131,7 @@ if ( ! class_exists( 'WPSEO_Taxonomy' ) ) {
 				<input name="' . $esc_var . '" id="' . $esc_var . '" type="checkbox" ' . checked( $val ) . '/>';
 			}
 			else if ( $type == 'select' ) {
-				if( is_array( $options ) && $options !== array() ) {
+				if ( is_array( $options ) && $options !== array() ) {
 					$field .= '
 				<select name="' . $esc_var . '" id="' . $esc_var . '">';
 

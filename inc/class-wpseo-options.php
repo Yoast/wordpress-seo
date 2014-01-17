@@ -411,7 +411,7 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 					self::$options[$option_name]['group'] = 'yoast_' . $option_name . '_options';
 				}
 				/* Set object class if not given (needed for static vs child classes) */
-				if( ! isset( $directives['class'] ) || $directives['class'] === '' ) {
+				if ( ! isset( $directives['class'] ) || $directives['class'] === '' ) {
 					self::$options[$option_name]['class'] = __CLASS__;
 				}
 			}
@@ -2650,7 +2650,7 @@ if ( ! class_exists( 'WPSEO_Taxonomy_Meta' ) ) {
 					if ( is_array( $terms ) && $terms !== array() ) {
 						foreach ( $terms as $term_id => $meta_data ) {
 							/* Only validate term if the taxonomy exists */
-							if( taxonomy_exists( $taxonomy ) && get_term_by( 'id', $term_id, $taxonomy ) === false ) {
+							if ( taxonomy_exists( $taxonomy ) && get_term_by( 'id', $term_id, $taxonomy ) === false ) {
 								continue;
 							}
 
@@ -2690,7 +2690,7 @@ if ( ! class_exists( 'WPSEO_Taxonomy_Meta' ) ) {
 					
 					case 'wpseo_noindex':
 						if ( isset( $meta_data[$k] ) ) {
-							if( isset( self::$no_index_options[$meta_data[$k]] ) ) {
+							if ( isset( self::$no_index_options[$meta_data[$k]] ) ) {
 								$clean[$k] = $meta_data[$k];
 							}
 						}

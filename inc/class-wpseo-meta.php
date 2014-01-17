@@ -700,7 +700,7 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 
 			if ( isset( $custom[self::$meta_prefix . $key][0] ) ) {
 				$unserialized = maybe_unserialize( $custom[self::$meta_prefix . $key][0] );
-				if( $custom[self::$meta_prefix . $key][0] === $unserialized ) {
+				if ( $custom[self::$meta_prefix . $key][0] === $unserialized ) {
 					return $custom[self::$meta_prefix . $key][0];
 				}
 			}
