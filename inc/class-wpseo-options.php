@@ -2262,17 +2262,10 @@ if ( ! class_exists( 'WPSEO_Taxonomy_Meta' ) ) {
 			),
 		);
 		
-		/**
-		 * @static
-		 * @var	array	Array of all option names - set via WPSEO_Options::enrich_options()
-		 * @see WPSEO_Options::enrich_options();
-		 */
-//		public static $option_names = null;
-
 
 		/**
 		 * @static
-		 * @var	array	Array of defaults for all the options for taxonomy meta
+		 * @var	array	Default value for the taxonomy meta data
 		 * @internal	Important: in contrast to the WPSEO_Options version of default, the below array format is
 		 *				very bare. The real option is in the format [taxonomy_name][term_id][...]
 		 *				where [...] is any of the $defaults_per_term options shown below.
@@ -2310,6 +2303,7 @@ if ( ! class_exists( 'WPSEO_Taxonomy_Meta' ) ) {
 			'noindex' => '',
 		);
 
+
 		/**
 		 * @static
 		 * @var	array	Available sitemap include options
@@ -2324,8 +2318,10 @@ if ( ! class_exists( 'WPSEO_Taxonomy_Meta' ) ) {
 
 
 		/**
-		 * Add the actions and  filters for our Taxonomy Meta option(s)
+		 * Add the actions and filters for our Taxonomy Meta option(s)
+		 *
 		 * @static
+		 * @return void
 		 */
 		public static function plugins_loaded() {
 			
@@ -2375,7 +2371,7 @@ if ( ! class_exists( 'WPSEO_Taxonomy_Meta' ) ) {
 			*/
 
 
-//			self::enrich_options();
+			//self::enrich_options();
 		}
 
 
@@ -2383,6 +2379,9 @@ if ( ! class_exists( 'WPSEO_Taxonomy_Meta' ) ) {
 		 * Abusing a filter to re-add our default filters
 		 * WP 3.7 specific as update_option action hook was in the wrong place temporarily
 		 * @see http://core.trac.wordpress.org/ticket/25705
+		 *
+		 * @static
+		 *
 		 * @param   mixed   $new_value
 		 * @return  mixed   unchanged value
 		 */
@@ -2395,6 +2394,9 @@ if ( ! class_exists( 'WPSEO_Taxonomy_Meta' ) ) {
 		/**
 		 * Get default values for the option
 		 * @usedby default_option_{option_key} and default_site_option_{option_key} filters
+		 *
+		 * @static
+		 *
 		 * @return array
 		 */
 		public static function filter_defaults_wpseo_taxonomy_meta() {
@@ -2407,13 +2409,14 @@ if ( ! class_exists( 'WPSEO_Taxonomy_Meta' ) ) {
 		 *
 		 * This method should *not* be called directly!!! It is only meant to filter the get_options() results
 		 *
+		 * @static
+		 *
 		 * @param   mixed   $options    Option value
 		 * @return  mixed   Option merged with the default for that option
 		 */
 		public static function filter_wpseo_taxonomy_meta( $options = null ) {
 			return self::array_filter_merge( 'wpseo_taxonomy_meta', $options );
 		}
-
 
 
 		/**
@@ -2471,6 +2474,9 @@ if ( ! class_exists( 'WPSEO_Taxonomy_Meta' ) ) {
 		
 		/**
 		 * Flush W3TC cache after succesfull update/add of taxonomy meta option
+		 *
+		 * @static
+		 * @return	void
 		 */
 		public static function flush_W3TC_cache() {
 			if ( defined( 'W3TC_DIR' ) ) {
@@ -2483,8 +2489,10 @@ if ( ! class_exists( 'WPSEO_Taxonomy_Meta' ) ) {
 		/**
 		 * Validate the taxonomy meta option
 		 *
-		 * @param	array	$options	New options value
-		 * @return	array				Validated options value
+		 * @static
+		 *
+		 * @param	array	$options	New option value
+		 * @return	array				Validated option value
 		 */
 		public static function validate_wpseo_taxonomy_meta( $options ) {
 			
@@ -2520,7 +2528,8 @@ if ( ! class_exists( 'WPSEO_Taxonomy_Meta' ) ) {
 
 							if ( is_array( $meta_data ) && $meta_data !== array() ) {
 								/* Validate meta data */
-								$meta_data = self::validate_term_meta_data( $meta_data );
+								$old_meta  = self::get_term_meta( $term_id, $taxonomy );
+								$meta_data = self::validate_term_meta_data( $meta_data, $old_meta );
 								if ( $meta_data !== array() ) {
 									$clean[$taxonomy][$term_id] = $meta_data;
 								}
@@ -2537,10 +2546,13 @@ if ( ! class_exists( 'WPSEO_Taxonomy_Meta' ) ) {
 		/**
 		 * Validate the meta data for one individual term and removes default values (no need to save those)
 		 *
+		 * @static
+		 *
 		 * @param	array	$meta_data	New values
+		 * @param	array	$old_meta	The original values
 		 * @return	array				Validated and filtered value
 		 */
-		public static function validate_term_meta_data( $meta_data ) {
+		public static function validate_term_meta_data( $meta_data, $old_meta ) {
 
 			$clean     = self::$defaults_per_term;
 			$meta_data = array_map( array( __CLASS__, 'trim_recursive' ), $meta_data );
@@ -2549,8 +2561,14 @@ if ( ! class_exists( 'WPSEO_Taxonomy_Meta' ) ) {
 				switch ( $k ) {
 					
 					case 'wpseo_noindex':
-						if ( isset( $meta_data[$k] ) && isset( self::$no_index_options[$meta_data[$k]] ) ) {
-							$clean[$k] = $meta_data[$k];
+						if ( isset( $meta_data[$k] ) ) {
+							if( isset( self::$no_index_options[$meta_data[$k]] ) ) {
+								$clean[$k] = $meta_data[$k];
+							}
+						}
+						else {
+							// Retain old value if currently not in use
+							$clean[$k] = $old_meta[$k];
 						}
 						break;
 
@@ -2568,11 +2586,20 @@ if ( ! class_exists( 'WPSEO_Taxonomy_Meta' ) ) {
 							}
 						}
 						break;
-						
-					case 'wpseo_title':
-					case 'wpseo_desc':
+
 					case 'wpseo_metakey':
 					case 'wpseo_bctitle':
+						if ( isset( $meta_data[$k] ) ) {
+							$clean[$k] = sanitize_text_field( $meta_data[$k] );
+						}
+						else {
+							// Retain old value if currently not in use
+							$clean[$k] = $old_meta[$k];
+						}
+						break;
+
+					case 'wpseo_title':
+					case 'wpseo_desc':
 					default:
 						if ( isset( $meta_data[$k] ) ) {
 							$clean[$k] = sanitize_text_field( $meta_data[$k] );
@@ -2589,12 +2616,14 @@ if ( ! class_exists( 'WPSEO_Taxonomy_Meta' ) ) {
 		/**
 		 * Retrieve a taxonomy term's meta value(s).
 		 *
+		 * @static
+		 *
 		 * @param	mixed			$term		Term to get the meta value for
 		 *										either (string) term name, (int) term id or (object) term
 		 * @param	string			$taxonomy	Name of the taxonomy to which the term is attached
 		 * @param	string			$meta		(optional) Meta value to get (without prefix)
 		 * @return	mixed|bool		Value for the $meta if one is given, might be the default
-		 *							if no meta is given, an array of all the meta data for the term
+		 *							If no meta is given, an array of all the meta data for the term
 		 *							or false if the term does not exist or the $meta provided is invalid
 		 */
 		public static function get_term_meta( $term, $taxonomy, $meta = null ) {
@@ -2644,6 +2673,9 @@ if ( ! class_exists( 'WPSEO_Taxonomy_Meta' ) ) {
 		 * Re-save all options using the validation routines
 		 * - Convert old option values to new
 		 * - Fixes strings which were escaped (should have been sanitized - escaping is for output)
+		 *
+		 * @static
+		 * @return void
 		 */
 		public static function clean_up() {
 

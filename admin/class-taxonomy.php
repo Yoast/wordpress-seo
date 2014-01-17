@@ -175,16 +175,17 @@ if ( ! class_exists( 'WPSEO_Taxonomy' ) ) {
 				$this->form_row( 'wpseo_bctitle', __( 'Breadcrumbs Title', 'wordpress-seo' ), sprintf( __( 'The Breadcrumbs title is used in the breadcrumbs where this %s appears.', 'wordpress-seo' ), $term->taxonomy ), $tax_meta );
 			}
 
+			/* Don't show the robots index field if it's overruled by a blog-wide option */
+			if ( '0' != get_option( 'blog_public' ) ) {
+				$current = 'index';
+				if ( isset( $options['noindex-tax-' . $term->taxonomy] ) && $options['noindex-tax-' . $term->taxonomy] === true ) {
+					$current = 'noindex';
+				}
+				$noindex_options            = $this->no_index_options;
+				$noindex_options['default'] = sprintf( $noindex_options['default'], $term->taxonomy, $current );
 
-			$current = 'index';
-			if ( isset( $options['noindex-tax-' . $term->taxonomy] ) && $options['noindex-tax-' . $term->taxonomy] === true ) {
-				$current = 'noindex';
+				$this->form_row( 'wpseo_noindex', sprintf( __( 'Noindex this %s', 'wordpress-seo' ), $term->taxonomy ), sprintf( __( 'This %s follows the indexation rules set under Metas and Titles, you can override it here.', 'wordpress-seo' ), $term->taxonomy ), $tax_meta, 'select', $noindex_options );
 			}
-			$noindex_options            = $this->no_index_options;
-			$noindex_options['default'] = sprintf( $noindex_options['default'], $term->taxonomy, $current );
-
-			$this->form_row( 'wpseo_noindex', sprintf( __( 'Noindex this %s', 'wordpress-seo' ), $term->taxonomy ), sprintf( __( 'This %s follows the indexation rules set under Metas and Titles, you can override it here.', 'wordpress-seo' ), $term->taxonomy ), $tax_meta, 'select', $noindex_options );
-
 
 			$this->form_row( 'wpseo_sitemap_include', __( 'Include in sitemap?', 'wordpress-seo' ), '', $tax_meta, 'select', $this->sitemap_include_options );
 
@@ -210,7 +211,8 @@ if ( ! class_exists( 'WPSEO_Taxonomy' ) ) {
 			}
 
 			/* Validate the post values */
-			$clean = WPSEO_Taxonomy_Meta::validate_term_meta_data( $new_meta_data );
+			$old   = self::get_term_meta( $term_id, $taxonomy );
+			$clean = WPSEO_Taxonomy_Meta::validate_term_meta_data( $new_meta_data, $old );
 
 			/* Add/remove the result to/from the original option value */
 			if ( $clean !== array() ) {
