@@ -55,18 +55,21 @@ if ( ! class_exists( 'WPSEO_Rewrite' ) ) {
 		/**
 		 * Override the category link to remove the category base.
 		 *
-		 * @param string $link     Unused, overridden by the function.
+		 * @param string $link Unused, overridden by the function.
+		 *
 		 * @return string
 		 */
 		function no_category_base( $link ) {
 			$category_base = get_option( 'category_base' );
 	
-			if ( '' == $category_base )
+			if ( '' == $category_base ) {
 				$category_base = 'category';
+			}
 	
 			// Remove initial slash, if there is one (we remove the trailing slash in the regex replacement and don't want to end up short a slash)
-			if ( '/' == substr( $category_base, 0, 1 ) )
+			if ( '/' == substr( $category_base, 0, 1 ) ) {
 				$category_base = substr( $category_base, 1 );
+			}
 	
 			$category_base .= '/';
 	
@@ -77,13 +80,15 @@ if ( ! class_exists( 'WPSEO_Rewrite' ) ) {
 		 * Update the query vars with the redirect var when stripcategorybase is active
 		 *
 		 * @param $query_vars
+		 *
 		 * @return array
 		 */
 		function query_vars( $query_vars ) {
 			$options = WPSEO_Options::get_all();
 	
-			if ( $options['stripcategorybase'] === true )
+			if ( $options['stripcategorybase'] === true ) {
 				$query_vars[] = 'wpseo_category_redirect';
+			}
 	
 			return $query_vars;
 		}
@@ -92,6 +97,7 @@ if ( ! class_exists( 'WPSEO_Rewrite' ) ) {
 		 * Redirect the "old" category URL to the new one.
 		 *
 		 * @param array $query_vars Query vars to check for existence of redirect var
+		 *
 		 * @return array
 		 */
 		function request( $query_vars ) {
@@ -101,6 +107,7 @@ if ( ! class_exists( 'WPSEO_Rewrite' ) ) {
 				wp_redirect( $catlink, 301 );
 				exit;
 			}
+
 			return $query_vars;
 		}
 	
@@ -117,8 +124,9 @@ if ( ! class_exists( 'WPSEO_Rewrite' ) ) {
 			$taxonomy = get_taxonomy( 'category' );
 	
 			$blog_prefix = '';
-			if ( function_exists( 'is_multisite' ) && is_multisite() && ! is_subdomain_install() && is_main_site() )
+			if ( function_exists( 'is_multisite' ) && is_multisite() && ! is_subdomain_install() && is_main_site() ) {
 				$blog_prefix = 'blog/';
+			}
 	
 			foreach ( get_categories( array( 'hide_empty' => false ) ) as $category ) {
 				$category_nicename = $category->slug;
@@ -135,7 +143,7 @@ if ( ! class_exists( 'WPSEO_Rewrite' ) ) {
 				}
 	
 				$category_rewrite[$blog_prefix . '(' . $category_nicename . ')/(?:feed/)?(feed|rdf|rss|rss2|atom)/?$'] = 'index.php?category_name=$matches[1]&feed=$matches[2]';
-				$category_rewrite[$blog_prefix . '(' . $category_nicename . ')/page/?([0-9]{1,})/?$']                  = 'index.php?category_name=$matches[1]&paged=$matches[2]';
+				$category_rewrite[$blog_prefix . '(' . $category_nicename . ')/' . $wp_rewrite->pagination_base . '/?([0-9]{1,})/?$'] = 'index.php?category_name=$matches[1]&paged=$matches[2]';
 				$category_rewrite[$blog_prefix . '(' . $category_nicename . ')/?$']                                    = 'index.php?category_name=$matches[1]';
 			}
 	
