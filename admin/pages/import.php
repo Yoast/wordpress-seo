@@ -285,6 +285,7 @@ if ( $msg != '' ) {
 
 $content  = '<p>' . __( 'No doubt you\'ve used an SEO plugin before if this site isn\'t new. Let\'s make it easy on you, you can import the data below. If you want, you can import first, check if it was imported correctly, and then import &amp; delete. No duplicate data will be imported.', 'wordpress-seo' ) . '</p>';
 $content .= '<p>' . sprintf( __( 'If you\'ve used another SEO plugin, try the %sSEO Data Transporter%s plugin to move your data into this plugin, it rocks!', 'wordpress-seo' ), '<a href="http://wordpress.org/extend/plugins/seo-data-transporter/">', '</a>' ) . '</p>';
+// @todo add action
 $content .= '<form action="" method="post" accept-charset="' . esc_attr( get_bloginfo( 'charset' ) ) . '">';
 $content .= wp_nonce_field( 'wpseo-import', '_wpnonce', true, false );
 $content .= $wpseo_admin_pages->checkbox( 'importheadspace', __( 'Import from HeadSpace2?', 'wordpress-seo' ) );
@@ -309,7 +310,8 @@ $wpseo_admin_pages->postbox( 'import', __( 'Import', 'wordpress-seo' ), $content
 do_action( 'wpseo_import', $this );
 
 $content  = '<h4>' . __( 'Export', 'wordpress-seo' ) . '</h4>';
-$content .= '<form method="post" accept-charset="' . esc_attr( get_bloginfo( 'charset' ) ) . '">';
+// @todo add action
+$content .= '<form action="" method="post" accept-charset="' . esc_attr( get_bloginfo( 'charset' ) ) . '">';
 $content .= wp_nonce_field( 'wpseo-export', '_wpnonce', true, false );
 $content .= '<p>' . __( 'Export your WordPress SEO settings here, to import them again later or to import them on another site.', 'wordpress-seo' ) . '</p>';
 if ( phpversion() > 5.2 ) {
@@ -337,7 +339,8 @@ if ( isset( $_POST['wpseo_export'] ) ) {
 $content .= '<h4>' . __( 'Import', 'wordpress-seo' ) . '</h4>';
 if ( ! isset( $_FILES['settings_import_file'] ) || empty( $_FILES['settings_import_file'] ) ) {
 	$content .= '<p>' . __( 'Import settings by locating <em>settings.zip</em> and clicking', 'wordpress-seo' ) . ' "' . __( 'Import settings', 'wordpress-seo' ) . '":</p>';
-	$content .= '<form method="post" enctype="multipart/form-data" accept-charset="' . esc_attr( get_bloginfo( 'charset' ) ) . '">';
+// @todo add action
+	$content .= '<form action="" method="post" enctype="multipart/form-data" accept-charset="' . esc_attr( get_bloginfo( 'charset' ) ) . '">';
 	$content .= wp_nonce_field( 'wpseo-import-file', '_wpnonce', true, false );
 	$content .= '<input type="file" name="settings_import_file"/>';
 	$content .= '<input type="hidden" name="action" value="wp_handle_upload"/>';

@@ -35,6 +35,8 @@ if ( ! class_exists( 'WPSEO_Taxonomy' ) ) {
 			add_action( 'init', array( $this, 'custom_category_descriptions_allow_html' ) );
 			add_filter( 'category_description', array( $this, 'custom_category_descriptions_add_shortcode_support' ) );
 			add_action( 'admin_init', array( $this, 'translate_meta_options' ) );
+			
+			add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
 		}
 
 
@@ -74,6 +76,19 @@ if ( ! class_exists( 'WPSEO_Taxonomy' ) ) {
 	
 			return ( isset( $_GET['taxonomy'] ) && in_array( $_GET['taxonomy'], $taxonomies ) );
 		}
+		
+		
+		/**
+		 * Add our admin css file
+		 */
+		function admin_enqueue_scripts() {
+			global $pagenow;
+			
+			if( $pagenow === 'edit-tags.php' && ( isset( $_GET['action'] ) && $_GET['action'] === 'edit' ) ) {
+				wp_enqueue_style( 'yoast-admin-css', plugins_url( 'css/yst_plugin_tools.css', dirname( __FILE__ ) ), array(), WPSEO_VERSION );
+			}
+		}
+
 	
 		/**
 		 * Create a row in the form table.
@@ -96,7 +111,7 @@ if ( ! class_exists( 'WPSEO_Taxonomy' ) ) {
 			$var = esc_attr( $var );
 	
 			echo '<tr class="form-field">' . "\n";
-			echo "\t" . '<th scope="row" valign="top"><label for="' . $var . '">' . $label . ':</label></th>' . "\n";
+			echo "\t" . '<th scope="row"><label for="' . $var . '">' . $label . ':</label></th>' . "\n";
 			echo "\t" . '<td>' . "\n";
 			if ( $type == 'text' ) {
 				?>
@@ -139,7 +154,7 @@ if ( ! class_exists( 'WPSEO_Taxonomy' ) ) {
 
 
 			echo '<h2>' . __( 'Yoast WordPress SEO Settings', 'wordpress-seo' ) . '</h2>';
-			echo '<table class="form-table">';
+			echo '<table class="form-table wpseo-taxonomy-form">';
 	
 			$this->form_row( 'wpseo_title', __( 'SEO Title', 'wordpress-seo' ), __( 'The SEO title is used on the archive page for this term.', 'wordpress-seo' ), $tax_meta );
 			$this->form_row( 'wpseo_desc', __( 'SEO Description', 'wordpress-seo' ), __( 'The SEO description is used for the meta description on the archive page for this term.', 'wordpress-seo' ), $tax_meta );

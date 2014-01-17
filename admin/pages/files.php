@@ -62,6 +62,7 @@ if ( file_exists( get_home_path() . 'robots.txt' ) ) {
 		$content .= '<textarea disabled="disabled" style="width: 90%;" rows="15" name="robotsnew">' . $robotstxtcontent . '</textarea><br/>';
 	}
 	else {
+		// @todo add action
 		$content  = '<form action="" method="post" id="robotstxtform">';
 		$content .= wp_nonce_field( 'wpseo-robotstxt', '_wpnonce', true, false );
 		$content .= '<p>' . __( 'Edit the content of your robots.txt:', 'wordpress-seo' ) . '</p>';
@@ -87,6 +88,7 @@ if ( ( isset( $_SERVER['SERVER_SOFTWARE'] ) && stristr( $_SERVER['SERVER_SOFTWAR
 		$content .= '<textarea disabled="disabled" style="width: 90%;" rows="15" name="robotsnew">' . $contentht . '</textarea><br/>';
 	}
 	else {
+		// @todo add action
 		$content  = '<form action="" method="post" id="htaccessform">';
 		$content .= wp_nonce_field( 'wpseo-htaccess', '_wpnonce', true, false );
 		$content .= '<p>' . __( 'Edit the content of your .htaccess:', 'wordpress-seo' ) . '</p>';

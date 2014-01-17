@@ -35,6 +35,8 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 			'wpseo_titles',
 			'wpseo_xml',
 			'wpseo_social',
+			'wpseo_bulk-title-editor',
+			'wpseo_bulk-description-editor',
 		);
 	
 		/**
@@ -58,8 +60,8 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 			$this->adminpages = apply_filters( 'wpseo_admin_pages', $this->adminpages );
 
 			if ( $wpseo_admin->grant_access() ) {
-				add_action( 'admin_print_scripts', array( $this, 'config_page_scripts' ) );
-				add_action( 'admin_print_styles', array( $this, 'config_page_styles' ) );
+				add_action( 'admin_enqueue_scripts', array( $this, 'config_page_scripts' ) );
+				add_action( 'admin_enqueue_scripts', array( $this, 'config_page_styles' ) );
 			}
 		}
 	
@@ -162,14 +164,14 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 		/**
 		 * Generates the header for admin pages
 		 *
-		 * @param bool   $form           Whether or not the form should be included.
+		 * @param bool   $form           Whether or not the form start tag should be included.
 		 * @param string $option         The long name of the option to use for the current page.
 		 * @param string $optionshort    The short name of the option to use for the current page.
 		 * @param bool   $contains_files Whether the form should allow for file uploads.
 		 */
 		function admin_header( $form = true, $option = 'yoast_wpseo_options', $optionshort = 'wpseo', $contains_files = false ) {
 			?>
-			<div class="wrap">
+			<div class="wrap wpseo-admin-page page-<?php echo $optionshort; ?>">
 			<?php
 			/**
 			 * Display the updated/error messages
@@ -179,11 +181,11 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 			require_once( ABSPATH . 'wp-admin/options-head.php' );
 			?>
 			<h2 id="wpseo-title"><?php echo esc_html( get_admin_page_title() ); ?></h2>
-			<div id="wpseo_content_top" class="postbox-container" style="min-width:400px; max-width:600px; padding: 0 20px 0 0;">
+			<div id="wpseo_content_top" class="postbox-container">
 			<div class="metabox-holder">
 			<div class="meta-box-sortables">
 			<?php
-			if ( $form ) {
+			if ( $form === true ) {
 				echo '<form action="' . esc_url( admin_url( 'options.php' ) ) . '" method="post" id="wpseo-conf"' . ( $contains_files ? ' enctype="multipart/form-data"' : '' ) . ' accept-charset="' . esc_attr( get_bloginfo( 'charset' ) ) . '">';
 				settings_fields( $option );
 				$this->currentoption = $optionshort;
@@ -194,20 +196,22 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 		/**
 		 * Generates the footer for admin pages
 		 *
-		 * @param bool $submit Whether or not a submit button should be shown.
+		 * @param bool $submit Whether or not a submit button and form end tag should be shown.
 		 */
 		function admin_footer( $submit = true ) {
 			if ( $submit ) {
 				submit_button();
+			echo '
+			</form>';
 			} ?>
-			</form>
-			</div>
-			</div>
-			</div>
+			</div><!-- end of div meta-box-sortables -->
+			</div><!-- end of div metabox-holder -->
+			</div><!-- end of div wpseo_content_top -->
 			<?php $this->admin_sidebar(); ?>
-			</div>
+
 	
 			<?php
+
 			/* Add the current settings array to the page for debugging purposes,
 				but not for a limited set of pages were it wouldn't make sense */
 			$excluded = array(
@@ -216,6 +220,7 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 				'bulk_title_editor_page',
 				'bulk_description_editor_page',
 			);
+
 			if ( ( WP_DEBUG === true || ( defined( 'WPSEO_DEBUG' ) && WPSEO_DEBUG === true ) ) && isset( $_GET['page'] ) && ! in_array( $_GET['page'], $excluded, true ) ) {
 				echo '
 			<div id="poststuff">
@@ -232,6 +237,9 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 			</div>
 			</div>';
 			}
+			
+			echo '
+			</div><!-- end of wrap -->';
 		}
 	
 		/**
@@ -303,7 +311,7 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 		 */
 		function config_page_styles() {
 			global $pagenow;
-			if ( $pagenow == 'admin.php' && isset( $_GET['page'] ) && in_array( $_GET['page'], $this->adminpages ) ) {
+			if ( $pagenow === 'admin.php' && isset( $_GET['page'] ) && in_array( $_GET['page'], $this->adminpages ) ) {
 				wp_enqueue_style( 'dashboard' );
 				wp_enqueue_style( 'thickbox' );
 				wp_enqueue_style( 'global' );
@@ -572,7 +580,7 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 		function form_table( $rows ) {
 			$content = '<table class="form-table">';
 			foreach ( $rows as $row ) {
-				$content .= '<tr><th valign="top" scope="row">';
+				$content .= '<tr><th scope="row">';
 				if ( isset( $row['id'] ) && $row['id'] != '' ) {
 					$content .= '<label for="' . esc_attr( $row['id'] ) . '">' . esc_html( $row['label'] ) . ':</label>';
 				}
@@ -582,7 +590,7 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 				if ( isset( $row['desc'] ) && $row['desc'] != '' ) {
 					$content .= '<br/><small>' . esc_html( $row['desc'] ) . '</small>';
 				}
-				$content .= '</th><td valign="top">';
+				$content .= '</th><td>';
 				$content .= $row['content'];
 				$content .= '</td></tr>';
 			}

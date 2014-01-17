@@ -12,19 +12,8 @@ global $wpseo_admin_pages;
 
 $options = WPSEO_Options::get_all();
 
+$wpseo_admin_pages->admin_header( true, WPSEO_Options::$options['wpseo_titles']['group'], 'wpseo_titles' );
 ?>
-<div class="wrap">
-<?php
-/**
- * Display the updated/error messages
- */
-include_once( 'options-head.php' );
-?>
-<h2 id="wpseo-title"><?php echo get_admin_page_title(); ?></h2>
-
-<div id="wpseo_content_top" class="postbox-container">
-<div class="metabox-holder" style="max-width: 650px; float: left;">
-<div class="meta-box-sortables">
 
 <h2 class="nav-tab-wrapper" id="wpseo-tabs">
 	<a class="nav-tab" id="general-tab" href="#top#general"><?php _e( 'General', 'wordpress-seo' );?></a>
@@ -34,12 +23,9 @@ include_once( 'options-head.php' );
 	<a class="nav-tab" id="archives-tab" href="#top#archives"><?php _e( 'Other', 'wordpress-seo' );?></a>
 </h2>
 
-<div class="tabwrapper>">
+<div class="tabwrapper">
 <div id="general" class="wpseotab">
 	<?php
-	echo '<form action="' . admin_url( 'options.php' ) . '" method="post" id="wpseo-conf" accept-charset="' . esc_attr( get_bloginfo( 'charset' ) ) . '">';
-	settings_fields( 'yoast_wpseo_titles_options' );
-	$wpseo_admin_pages->currentoption = 'wpseo_titles';
 
 	echo '<h2>' . __( 'Title settings', 'wordpress-seo' ) . '</h2>';
 	echo $wpseo_admin_pages->checkbox( 'forcerewritetitle', __( 'Force rewrite titles', 'wordpress-seo' ) );
@@ -190,5 +176,5 @@ include_once( 'options-head.php' );
 
 	echo '<h2>' . __( 'Variables', 'wordpress-seo' ) . '</h2>';
 	echo '</div>';
-	$wpseo_admin_pages->admin_footer();
 	echo '</div>';
+	$wpseo_admin_pages->admin_footer();

@@ -144,6 +144,7 @@ This version also incorporates the [SEO Extended](http://wordpress.org/plugins/s
 	* Fixed: bug in canonical urls where an essential part of the logic was skipped for singular posts/pages
 	* Fixed: breadcrumb title entry field would show for taxonomy even when breadcrumbs were not enabled
 	* Fixed: bug where W3TC cache for taxonomy meta data wouldn't always be refreshed when it should and sometimes would when it shouldn't
+	* Fixed: some small html validation issues
 
 
 @to fix: Google Plus description was never added to the html page

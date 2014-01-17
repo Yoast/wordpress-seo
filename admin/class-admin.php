@@ -35,7 +35,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 				add_action( 'network_admin_menu', array( $this, 'register_network_settings_page' ) );
 	
 				add_filter( 'plugin_action_links', array( $this, 'add_action_link' ), 10, 2 );
-				add_action( 'admin_print_scripts', array( $this, 'config_page_scripts' ) );
+				add_action( 'admin_enqueue_scripts', array( $this, 'config_page_scripts' ) );
 	
 				if ( '0' == get_option( 'blog_public' ) )
 					add_action( 'admin_footer', array( $this, 'blog_public_warning' ) );
@@ -366,11 +366,11 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 						require_once( WPSEO_PATH . 'admin/pages/files.php' );
 						break;
 
-					case 'bulk_title_editor_page':
+					case 'wpseo_bulk-title-editor':
 						require_once( WPSEO_PATH . 'admin/pages/bulk-title-editor.php' );
 						break;
 
-					case 'bulk_description_editor_page':
+					case 'wpseo_bulk-description-editor':
 						require_once( WPSEO_PATH . 'admin/pages/bulk-description-editor.php' );
 						break;
 

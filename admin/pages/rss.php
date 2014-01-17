@@ -24,13 +24,13 @@ $rows[] = array(
 	'desc'    => __( '(HTML allowed)', 'wordpress-seo' ),
 	'content' => '<textarea cols="50" rows="5" id="rssbefore" name="wpseo_rss[rssbefore]">' . esc_textarea( $rssbefore ) . '</textarea>',
 );
-$rows[ ] = array(
+$rows[] = array(
 	'id'      => 'rssafter',
 	'label'   => __( 'Content to put after each post', 'wordpress-seo' ),
 	'desc'    => __( '(HTML allowed)', 'wordpress-seo' ),
 	'content' => '<textarea cols="50" rows="5" id="rssafter" name="wpseo_rss[rssafter]">' . esc_textarea( $rssafter ) . '</textarea>',
 );
-$rows[ ] = array(
+$rows[] = array(
 	'label'   => __( 'Explanation', 'wordpress-seo' ),
 	'content' => '<p>' . __( 'You can use the following variables within the content, they will be replaced by the value on the right.', 'wordpress-seo' ) . '</p>' .
 		'<table>' .

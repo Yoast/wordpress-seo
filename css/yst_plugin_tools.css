@@ -67,8 +67,31 @@ label.radio {
 	margin-right: 20px;
 }
 
+
+#wpseo_content_top {
+	 min-width: 400px;
+	 max-width: 600px;
+	 padding: 0 20px 0 0;
+}
+
+.page-wpseo_titles #wpseo_content_top {
+	min-width: auto;
+	padding: auto;
+	max-width: 650px;
+	float: left;
+}
+
+.wpseo-admin-page .form-table tr,
+.wpseo-admin-page .form-table th,
+.wpseo-admin-page .form-table td,
+.wpseo-taxonomy-form tr,
+.wpseo-taxonomy-form th,
+.wpseo-taxonomy-form td {
+	vertical-align: top;
+}
+
 .postbox form {
-	line-height: 150%;	
+	line-height: 150%;
 }
 
 div.yoastbox ul li {
@@ -160,6 +183,11 @@ table.yoast_help tr:hover {
 	padding: 5px 8px;
 	margin: 0 5px;
 	float: right;
+}
+
+.fb-buttons .button-primary,
+.fb-buttons .button {
+	margin-right: 8px;
 }
 
 .button {

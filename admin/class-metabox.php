@@ -29,9 +29,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		 */
 		function __construct() {
 			add_action( 'add_meta_boxes', array( $this, 'add_meta_box' ) );
-			add_action( 'admin_print_styles-post-new.php', array( $this, 'enqueue' ) );
-			add_action( 'admin_print_styles-post.php', array( $this, 'enqueue' ) );
-			add_action( 'admin_print_styles-edit.php', array( $this, 'enqueue' ) );
+			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue' ) );
 			add_action( 'admin_head', array( $this, 'script' ) );
 			add_action( 'wp_insert_post', array( $this, 'save_postdata' ) );
 			add_action( 'edit_attachment', array( $this, 'save_postdata' ) );
@@ -252,7 +250,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 				}
 			}
 	
-			$result = '<div title="' . esc_attr( $title ) . '" alt="' . esc_attr( $title ) . '" class="wpseo_score_img ' . $score_label . '"></div>';
+			$result = '<div title="' . esc_attr( $title ) . '" class="wpseo_score_img ' . $score_label . '"></div>';
 	
 			echo __( 'SEO: ', 'wordpress-seo' ) . $result . ' <a class="wpseo_tablink scroll" href="#wpseo_linkdex">' . __( 'Check', 'wordpress-seo' ) . '</a>';
 	
@@ -440,11 +438,14 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 				$help = '<img src="' . plugins_url( 'images/question-mark.png', dirname( __FILE__ ) ) . '" class="alignright yoast_help" id="' . esc_attr( $key . 'help' ) . '" alt="' . esc_attr( $meta_field_def['help'] ) . '" />';
 			}
 	
-			// @todo may be remove label if it's a radio set ? (labels on each button)
-			// @todo may be also for checkbox, would need to add label round $expl
+			$label = esc_html( $meta_field_def['title'] );
+			if( in_array( $meta_field_def['type'], array( 'snippetpreview', 'radio', 'checkbox' ), true ) === false ) {
+				$label = '<label for="' . $esc_form_key . '">' . $label . ':</label>';
+			}
+
 			$content .= '
 			<tr>
-				<th scope="row"><label for="' . $esc_form_key . '">' . $meta_field_def['title'] . ':</label>' . $help . '</th>
+				<th scope="row">' . $label . $help . '</th>
 				<td>';
 
 	
@@ -509,7 +510,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 */
 					$checked  = checked( $meta_value, 'on', false );
 					$expl     = ( isset( $meta_field_def['expl'] ) ) ? esc_html( $meta_field_def['expl'] ) : '';
-					$content .= '<input type="checkbox" id="' . $esc_form_key . '" name="' . $esc_form_key . '" ' . $checked . ' value="on" class="yoast' . $class . '"/> ' . $expl . '<br />';
+					$content .= '<label for="' . $esc_form_key . '"><input type="checkbox" id="' . $esc_form_key . '" name="' . $esc_form_key . '" ' . $checked . ' value="on" class="yoast' . $class . '"/> ' . $expl . '</label><br />';
 					break;
 	
 				case 'radio':
@@ -528,7 +529,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			}
 	
 			if ( isset( $meta_field_def['description'] ) ) {
-				$content .= '<p>' . $meta_field_def['description'] . '</p>';
+				$content .= '<div>' . $meta_field_def['description'] . '</div>';
 			}
 	
 			$content .= '
@@ -728,12 +729,18 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		public function enqueue() {
 			if ( $this->pt_is_public() === false )
 				return;
-	
+				
+			global $pagenow;
+
+			if( ! in_array( $pagenow, array( 'post-new.php', 'post.php', 'edit.php' ), true ) )
+				return;
+
+
 			$color = get_user_meta( get_current_user_id(), 'admin_color', true );
 			if ( '' == $color || in_array( $color, array( 'classic', 'fresh' ), true ) === false )
 				$color = 'fresh';
-	
-			global $pagenow;
+
+
 			if ( $pagenow == 'edit.php' ) {
 				wp_enqueue_style( 'edit-page', plugins_url( 'css/edit-page.css', dirname( __FILE__ ) ), array(), WPSEO_VERSION );
 			}
@@ -848,7 +855,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 					}
 				}
 	
-				echo '<div title="' . esc_attr( $title ) . '" alt="' . esc_attr( $title ) . '" class="wpseo_score_img ' . esc_attr( $score_label ) . '"></div>';
+				echo '<div title="' . esc_attr( $title ) . '" class="wpseo_score_img ' . esc_attr( $score_label ) . '"></div>';
 			}
 			if ( $column_name == 'wpseo-title' ) {
 				echo esc_html( apply_filters( 'wpseo_title', $this->page_title( $post_id ) ) );
@@ -1053,7 +1060,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 	
 			if ( is_wp_error( $results ) ) {
 				$error = $results->get_error_messages();
-				return '<div class="wpseo_msg"><p><strong>' . esc_html( $error[0] ) . '</strong></p></div>';
+				return '<tr><td><div class="wpseo_msg"><p><strong>' . esc_html( $error[0] ) . '</strong></p></div></td></tr>';
 			}
 	
 			$output = '<table class="wpseoanalysis">';

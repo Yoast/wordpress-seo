@@ -36,19 +36,23 @@ if ( ! class_exists( 'WPSEO_Bulk_Description_List_Table' ) ) {
 			?>
 			<div class="tablenav <?php echo esc_attr( $which ); ?>">
 	
+				<?php if ( 'top' === $which ) { ?>
 				<form id="posts-filter" action="" method="get">
 					<input type="hidden" name="page" value="wpseo_bulk-description-editor" />
 					<?php if ( ! empty( $_REQUEST['post_status'] ) ) {?>
 						<input type="hidden" name="post_status" value="<?php echo esc_attr( $_REQUEST['post_status'] ); ?>" />
 					<?php } ?>
-					
+				<?php } ?>
+
 					<?php
 						$this->extra_tablenav( $which );
 						$this->pagination( $which );
 					?>
-	
+
 					<br class="clear" />
+				<?php if ( 'top' === $which ) { ?>
 				</form>
+				<?php } ?>
 			</div>
 	
 			<?php
@@ -130,12 +134,11 @@ if ( ! class_exists( 'WPSEO_Bulk_Description_List_Table' ) ) {
 					$obj      = get_post_type_object( $post_type->post_type );
 					$options .= sprintf( '<option value="%2$s" %3$s>%1$s</option>', $obj->labels->name, $post_type->post_type, selected( $selected, $post_type->post_type, false ) );
 				}
-	
+
 	
 				echo sprintf( '<select name="post_type_filter">%1$s</select>' , $options );
 				submit_button( __( 'Filter' ), 'button', false, false, array( 'id' => 'post-query-submit' ) );
 				echo '</div>';
-				echo '</form>';
 			}
 			else if ( 'bottom' === $which ) {
 				
@@ -293,10 +296,10 @@ if ( ! class_exists( 'WPSEO_Bulk_Description_List_Table' ) ) {
 								if ( $post_type_object->public ) {
 									if ( in_array( $rec->post_status, array( 'pending', 'draft', 'future' ) ) ) {
 										if ( $can_edit_post )
-											$actions['view'] = '<a href="' . esc_url( add_query_arg( 'preview', 'true', get_permalink( $rec->ID ) ) ) . '" title="' . esc_attr( sprintf( __( 'Preview &#8220;%s&#8221;' ), $rec->post_title ) ) . '" rel="permalink">' . __( 'Preview' ) . '</a>';
+											$actions['view'] = '<a href="' . esc_url( add_query_arg( 'preview', 'true', get_permalink( $rec->ID ) ) ) . '" title="' . esc_attr( sprintf( __( 'Preview &#8220;%s&#8221;' ), $rec->post_title ) ) . '">' . __( 'Preview' ) . '</a>';
 									}
 									else if ( 'trash' != $rec->post_status ) {
-										$actions['view'] = '<a href="' . esc_url( get_permalink( $rec->ID ) ) . '" title="' . esc_attr( sprintf( __( 'View &#8220;%s&#8221;' ), $rec->post_title ) ) . '" rel="permalink">' . __( 'View' ) . '</a>';
+										$actions['view'] = '<a href="' . esc_url( get_permalink( $rec->ID ) ) . '" title="' . esc_attr( sprintf( __( 'View &#8220;%s&#8221;' ), $rec->post_title ) ) . '" rel="bookmark">' . __( 'View' ) . '</a>';
 									}
 								}
 	

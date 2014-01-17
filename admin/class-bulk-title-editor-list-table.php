@@ -35,20 +35,24 @@ if ( ! class_exists( 'WPSEO_Bulk_Title_Editor_List_Table' ) ) {
 		function display_tablenav( $which ) {
 			?>
 			<div class="tablenav <?php echo esc_attr( $which ); ?>">
-	
+
+				<?php if ( 'top' === $which ) { ?>
 				<form id="posts-filter" action="" method="get">
 					<input type="hidden" name="page" value="wpseo_bulk-title-editor" />
 					<?php if ( ! empty( $_REQUEST['post_status'] ) ) {?>
 						<input type="hidden" name="post_status" value="<?php echo esc_attr( $_REQUEST['post_status'] ); ?>" />
 					<?php } ?>
-					
+				<?php } ?>
+
 					<?php
 						$this->extra_tablenav( $which );
 						$this->pagination( $which );
 					?>
-	
+
 					<br class="clear" />
+				<?php if ( 'top' === $which ) { ?>
 				</form>
+				<?php } ?>
 			</div>
 	
 			<?php
@@ -111,31 +115,30 @@ if ( ! class_exists( 'WPSEO_Bulk_Title_Editor_List_Table' ) ) {
 			if ( 'top' === $which ) {
 				echo '<div class="alignleft actions">';
 				global $wpdb;
-	
+
 				$post_types = get_post_types( array( 'public' => true, 'exclude_from_search' => false ) );
 				$post_types = "'" . implode( "', '", $post_types ) . "'";
-	
+
 				$states          = get_post_stati( array( 'show_in_admin_all_list' => true ) );
 				$states['trash'] = 'trash';
 				$all_states      = "'" . implode( "', '", $states ) . "'";
-	
+
 				$query      = "SELECT DISTINCT post_type FROM $wpdb->posts WHERE post_status IN ($all_states) AND post_type IN ($post_types) ORDER BY 'post_type' ASC";
 				$post_types = $wpdb->get_results( $query );
-	
+
 				$selected = ! empty( $_REQUEST['post_type_filter'] ) ? $_REQUEST['post_type_filter'] : -1;
-	
+
 				$options = '<option value="-1">Show All Post Types</option>';
-	
+
 				foreach ( $post_types as $post_type ) {
 					$obj      = get_post_type_object( $post_type->post_type );
 					$options .= sprintf( '<option value="%2$s" %3$s>%1$s</option>', $obj->labels->name, $post_type->post_type, selected( $selected, $post_type->post_type, false ) );
 				}
-	
-	
+
+
 				echo sprintf( '<select name="post_type_filter">%1$s</select>' , $options );
 				submit_button( __( 'Filter' ), 'button', false, false, array( 'id' => 'post-query-submit' ) );
 				echo '</div>';
-				echo '</form>';
 			}
 			else if ( 'bottom' === $which ) {
 				
@@ -291,10 +294,10 @@ if ( ! class_exists( 'WPSEO_Bulk_Title_Editor_List_Table' ) ) {
 								if ( $post_type_object->public ) {
 									if ( in_array( $rec->post_status, array( 'pending', 'draft', 'future' ) ) ) {
 										if ( $can_edit_post )
-											$actions['view'] = '<a href="' . esc_url( add_query_arg( 'preview', 'true', get_permalink( $rec->ID ) ) ) . '" title="' . esc_attr( sprintf( __( 'Preview &#8220;%s&#8221;' ), $rec->post_title ) ) . '" rel="permalink">' . __( 'Preview' ) . '</a>';
+											$actions['view'] = '<a href="' . esc_url( add_query_arg( 'preview', 'true', get_permalink( $rec->ID ) ) ) . '" title="' . esc_attr( sprintf( __( 'Preview &#8220;%s&#8221;' ), $rec->post_title ) ) . '">' . __( 'Preview' ) . '</a>';
 									}
 									else if ( 'trash' != $rec->post_status ) {
-										$actions['view'] = '<a href="' . esc_url( get_permalink( $rec->ID ) ) . '" title="' . esc_attr( sprintf( __( 'View &#8220;%s&#8221;' ), $rec->post_title ) ) . '" rel="permalink">' . __( 'View' ) . '</a>';
+										$actions['view'] = '<a href="' . esc_url( get_permalink( $rec->ID ) ) . '" title="' . esc_attr( sprintf( __( 'View &#8220;%s&#8221;' ), $rec->post_title ) ) . '" rel="bookmark">' . __( 'View' ) . '</a>';
 									}
 								}
 	
