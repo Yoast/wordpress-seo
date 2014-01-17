@@ -179,9 +179,6 @@ if ( ! class_exists( 'WPSEO_Bulk_Title_Editor_List_Table' ) ) {
 		function prepare_items() {
 			global $wpdb;
 	
-			// @todo: [JRF => Faison] check if this variable setting makes sense as it does not seem to be used in this instance
-			$screen = get_current_screen();
-	
 			$post_types = get_post_types( array( 'exclude_from_search' => false ) );
 			$post_types = "'" . implode( "', '", $post_types ) . "'";
 	
