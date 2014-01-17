@@ -10,7 +10,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 
 global $wpseo_admin_pages;
 
-$fbconnect  = '
+$fbconnect = '
 	<p><strong>' . __( 'Facebook Insights and Admins', 'wordpress-seo' ) . '</strong><br>
 	' . sprintf( __( 'To be able to access your %sFacebook Insights%s for your site, you need to specify a Facebook Admin. This can be a user, but if you have an app for your site, you could use that. For most people a user will be "good enough" though.', 'wordpress-seo' ), '<a href="https://www.facebook.com/insights">', '</a>' ) . '</p>';
 $fbbuttons = array();
@@ -145,7 +145,7 @@ if ( $clearall ) {
 		<a class="button" href="' . esc_url( add_query_arg( array( 'nonce' => wp_create_nonce( 'fbclearall' ), 'fbclearall' => 'true' ), admin_url( 'admin.php?page=wpseo_social' ) ) ) . '">' . __( 'Clear all Facebook Data', 'wordpress-seo' ) . '</a> ';
 }
 
-if( is_array( $fbbuttons ) && $fbbuttons !== array() ) {
+if ( is_array( $fbbuttons ) && $fbbuttons !== array() ) {
 	$fbconnect .= '
 	<p class="fb-buttons">' . implode( '', $fbbuttons ) . '</p>';
 }

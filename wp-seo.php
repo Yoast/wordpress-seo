@@ -42,7 +42,6 @@ if ( version_compare( PHP_VERSION, '5.2', '<' ) ) {
 		wp_die( sprintf( __( 'WordPress SEO requires PHP 5.2 or higher, as does WordPress 3.2 and higher. The plugin has now disabled itself. For more info, %s$1see this post%s$2.', 'wordpress-seo' ), '<a href="http://yoast.com/requires-php-52/">', '</a>' ) );
 	}
 	
-	
 }
 
 
@@ -56,6 +55,8 @@ if ( ! defined( 'WPSEO_BASENAME' ) ) {
 define( 'WPSEO_FILE', __FILE__ );
 
 define( 'WPSEO_VERSION', '1.5.0-beta' );
+
+define( 'WPSEO_CSSJS_SUFFIX', ( ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min' ) );
 
 
 /**
@@ -129,7 +130,7 @@ add_filter( 'init', 'wpseo_load_textdomain', 1 );
 function wpseo_init() {
 	require_once( WPSEO_PATH . 'inc/wpseo-functions.php' );
 
-	// Make sure our option validation routine and default values are always registered and available
+	// Make sure our option validation routines and default values are always registered and available
 	WPSEO_Options::plugins_loaded();
 
 	// Ensure that the validation routines for meta values are always registered

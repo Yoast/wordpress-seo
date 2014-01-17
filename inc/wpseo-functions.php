@@ -690,7 +690,7 @@ if ( ! function_exists( 'wpseo_calc' ) ) {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @param	scalar	$number1
+	 * @param	mixed   $number1    Scalar (string/int/float/bool)
 	 * @param	string	$action		Calculation action to execute. Valid input:
 	 *								'+' or 'add' or 'addition',
 	 *								'-' or 'sub' or 'subtract',
@@ -698,7 +698,7 @@ if ( ! function_exists( 'wpseo_calc' ) ) {
 	 *								'/' or 'div' or 'divide',
 	 *								'%' or 'mod' or 'modulus'
 	 *								'=' or 'comp' or 'compare'
-	 * @param	scalar	$number2
+	 * @param	mixed	$number2    Scalar (string/int/float/bool)
 	 * @param	bool	$round		Whether or not to round the result. Defaults to false.
 	 *								Will be disregarded for a compare operation
 	 * @param	int		$decimals	Decimals for rounding operation. Defaults to 0.

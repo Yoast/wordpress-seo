@@ -439,7 +439,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			}
 	
 			$label = esc_html( $meta_field_def['title'] );
-			if( in_array( $meta_field_def['type'], array( 'snippetpreview', 'radio', 'checkbox' ), true ) === false ) {
+			if ( in_array( $meta_field_def['type'], array( 'snippetpreview', 'radio', 'checkbox' ), true ) === false ) {
 				$label = '<label for="' . $esc_form_key . '">' . $label . ':</label>';
 			}
 
@@ -678,8 +678,8 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		 *
 		 * @internal $_POST parameters are validated via sanitize_post_meta()
 		 *
-		 * @param	int		$post_id
-		 * @return	false|null
+		 * @param	int		    $post_id
+		 * @return	bool|void   Boolean false if invalid save post request
 		 */
 		function save_postdata( $post_id ) {
 			if ( $post_id === null )
@@ -732,7 +732,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 				
 			global $pagenow;
 
-			if( ! in_array( $pagenow, array( 'post-new.php', 'post.php', 'edit.php' ), true ) )
+			if ( ! in_array( $pagenow, array( 'post-new.php', 'post.php', 'edit.php' ), true ) )
 				return;
 
 
@@ -742,16 +742,16 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 
 
 			if ( $pagenow == 'edit.php' ) {
-				wp_enqueue_style( 'edit-page', plugins_url( 'css/edit-page.css', dirname( __FILE__ ) ), array(), WPSEO_VERSION );
+				wp_enqueue_style( 'edit-page', plugins_url( 'css/edit-page' . WPSEO_CSSJS_SUFFIX . '.css', dirname( __FILE__ ) ), array(), WPSEO_VERSION );
 			}
 			else {
-				wp_enqueue_style( 'metabox-tabs', plugins_url( 'css/metabox-tabs.css', dirname( __FILE__ ) ), array(), WPSEO_VERSION );
-				wp_enqueue_style( "metabox-$color", plugins_url( 'css/metabox-' . esc_attr( $color ) . '.css', dirname( __FILE__ ) ), array(), WPSEO_VERSION );
+				wp_enqueue_style( 'metabox-tabs', plugins_url( 'css/metabox-tabs' . WPSEO_CSSJS_SUFFIX . '.css', dirname( __FILE__ ) ), array(), WPSEO_VERSION );
+				wp_enqueue_style( "metabox-$color", plugins_url( 'css/metabox-' . esc_attr( $color ) . WPSEO_CSSJS_SUFFIX . '.css', dirname( __FILE__ ) ), array(), WPSEO_VERSION );
 	
 				wp_enqueue_script( 'jquery-ui-autocomplete' );
 	
 				wp_enqueue_script( 'jquery-qtip', plugins_url( 'js/jquery.qtip.min.js', dirname( __FILE__ ) ), array( 'jquery' ), '1.0.0-RC3', true );
-				wp_enqueue_script( 'wp-seo-metabox', plugins_url( 'js/wp-seo-metabox.js', dirname( __FILE__ ) ), array( 'jquery', 'jquery-ui-core', 'jquery-ui-autocomplete' ), WPSEO_VERSION, true );
+				wp_enqueue_script( 'wp-seo-metabox', plugins_url( 'js/wp-seo-metabox' . WPSEO_CSSJS_SUFFIX . '.js', dirname( __FILE__ ) ), array( 'jquery', 'jquery-ui-core', 'jquery-ui-autocomplete' ), WPSEO_VERSION, true );
 	
 				// Text strings to pass to metabox for keyword analysis
 				wp_localize_script(
@@ -814,7 +814,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		 */
 		function column_heading( $columns ) {
 			if ( $this->pt_is_public() === false )
-				return;
+				return $columns;
 	
 			return array_merge( $columns, array( 'wpseo-score' => __( 'SEO', 'wordpress-seo' ), 'wpseo-title' => __( 'SEO Title', 'wordpress-seo' ), 'wpseo-metadesc' => __( 'Meta Desc.', 'wordpress-seo' ), 'wpseo-focuskw' => __( 'Focus KW', 'wordpress-seo' ) ) );
 		}
@@ -878,7 +878,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		 */
 		function column_sort( $columns ) {
 			if ( $this->pt_is_public() === false )
-				return;
+				return $columns;
 	
 			$columns['wpseo-score']    = 'wpseo-score';
 			$columns['wpseo-metadesc'] = 'wpseo-metadesc';

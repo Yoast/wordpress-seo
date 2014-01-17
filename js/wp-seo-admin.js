@@ -9,8 +9,8 @@ jQuery(document).ready(function() {
 		jQuery("#cleanpermalinksdiv").toggle(jQuery(this).is(':checked'));
 	}).change();
 
-	jQuery('#wpseo-tabs a').click(function() {
-		jQuery('#wpseo-tabs a').removeClass('nav-tab-active');
+	jQuery('#wpseo-tabs').find('a').click(function() {
+		jQuery('#wpseo-tabs').find('a').removeClass('nav-tab-active');
 		jQuery('.wpseotab').removeClass('active');
 	
 		var id = jQuery(this).attr('id').replace('-tab','');

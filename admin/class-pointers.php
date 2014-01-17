@@ -265,7 +265,7 @@ if ( ! class_exists( 'WPSEO_Pointers' ) ) {
 						});
 						jQuery('#pointer-close').click(function () {
 							<?php if ( $button1_function == '' ) { ?>
-							wpseo_setIgnore("tour", "wp-pointer-0", "<?php echo wp_create_nonce( 'wpseo-ignore' ); ?>");
+							wpseo_setIgnore("tour", "wp-pointer-0", "<?php echo esc_js( wp_create_nonce( 'wpseo-ignore' ) ); ?>");
 							<?php } else { ?>
 							<?php echo $button1_function; ?>
 							<?php } ?>

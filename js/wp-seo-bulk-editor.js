@@ -14,7 +14,7 @@ jQuery(document).ready( function() {
 		var resp = response;
 
 		if (typeof resp == "string") {
-			resp = JSON.parse( response );
+			resp = JSON.parse( resp );
 		}
 
 		if ( resp instanceof Array ) {

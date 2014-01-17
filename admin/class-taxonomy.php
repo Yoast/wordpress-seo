@@ -14,9 +14,15 @@ if ( ! class_exists( 'WPSEO_Taxonomy' ) ) {
 	 * Class that handles the edit boxes on taxonomy edit pages.
 	 */
 	class WPSEO_Taxonomy {
-		
-		public $no_index_options  = array();
 
+		/**
+		 * @var array   Options array for the no-index options, including translated labels
+		 */
+		public $no_index_options = array();
+
+		/**
+		 * @var array   Options array for the sitemap_include options, including translated labels
+		 */
 		public $sitemap_include_options = array();
 	
 		/**
@@ -50,9 +56,9 @@ if ( ! class_exists( 'WPSEO_Taxonomy' ) ) {
 			$this->no_index_options        = WPSEO_Taxonomy_Meta::$no_index_options;
 			$this->sitemap_include_options = WPSEO_Taxonomy_Meta::$sitemap_include_options;
 	
-			$this->no_index_options['default']  = __( 'Use %s default (Currently: %s)', 'wordpress-seo' );
-			$this->no_index_options['index']    = __( 'Always index', 'wordpress-seo' );
-			$this->no_index_options['noindex']  = __( 'Always noindex', 'wordpress-seo' );
+			$this->no_index_options['default'] = __( 'Use %s default (Currently: %s)', 'wordpress-seo' );
+			$this->no_index_options['index']   = __( 'Always index', 'wordpress-seo' );
+			$this->no_index_options['noindex'] = __( 'Always noindex', 'wordpress-seo' );
 	
 			$this->sitemap_include_options['-']      = __( 'Auto detect', 'wordpress-seo' );
 			$this->sitemap_include_options['always'] = __( 'Always include', 'wordpress-seo' );
@@ -84,8 +90,8 @@ if ( ! class_exists( 'WPSEO_Taxonomy' ) ) {
 		function admin_enqueue_scripts() {
 			global $pagenow;
 			
-			if( $pagenow === 'edit-tags.php' && ( isset( $_GET['action'] ) && $_GET['action'] === 'edit' ) ) {
-				wp_enqueue_style( 'yoast-admin-css', plugins_url( 'css/yst_plugin_tools.css', dirname( __FILE__ ) ), array(), WPSEO_VERSION );
+			if ( $pagenow === 'edit-tags.php' && ( isset( $_GET['action'] ) && $_GET['action'] === 'edit' ) ) {
+				wp_enqueue_style( 'yoast-admin-css', plugins_url( 'css/yst_plugin_tools' . WPSEO_CSSJS_SUFFIX . '.css', dirname( __FILE__ ) ), array(), WPSEO_VERSION );
 			}
 		}
 

@@ -981,17 +981,17 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 		 * *
 		 * since 1.6
 		 *
-		 * @param string $type The requested sitemap's identifier.
+		 * @param	string $type The requested sitemap's identifier.
 		 *
-		 * @return string $user a WP_User object or false
+		 * @return	string $user a WP_User object or false
 		 */
 		private function is_user_sitemap( $type ) {
 			$pieces = explode( '-', $type, 2 );
 			$user   = isset( $pieces[1] ) ? $pieces[1] : '';
 			return get_user_by( 'slug', $user );
 		}
-	
-	
+
+
 		/**
 		 * Sorts an array of WP_User by the _yoast_wpseo_profile_updated meta field
 		 *

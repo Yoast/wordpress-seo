@@ -1000,7 +1000,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 		 */
 		public function metadesc( $echo = true ) {
 			if ( get_query_var( 'paged' ) && get_query_var( 'paged' ) > 1 )
-				return;
+				return '';
 	
 			global $post, $wp_query;
 	
@@ -1072,7 +1072,6 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 			else {
 				return $metadesc;
 			}
-	
 		}
 	
 		/**

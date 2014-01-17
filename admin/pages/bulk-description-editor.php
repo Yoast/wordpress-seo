@@ -23,10 +23,7 @@ $wpseo_bulk_descriptions_table->prepare_items();
 
 <div class="wrap wpseo_table_page">
 
-	<a href="http://yoast.com/">
-	<?php screen_icon(); ?>
-	</a>
-	<h2 id="wpseo-title"><?php echo get_admin_page_title(); ?></h2>
+	<h2 id="wpseo-title"><?php echo esc_html( get_admin_page_title() ); ?></h2>
 
 	<?php $wpseo_bulk_descriptions_table->views(); ?>
 	<?php $wpseo_bulk_descriptions_table->display(); ?>

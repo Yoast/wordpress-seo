@@ -45,7 +45,7 @@ if ( ! class_exists( 'Yoast_TextStatistics' ) ) {
 		 */
 		function flesch_kincaid_reading_ease( $strText ) {
 			$strText = $this->clean_text( $strText );
-			$score   =  wpseo_calc( 206.835, '-', wpseo_calc( wpseo_calc( 1.015, '*', $this->average_words_per_sentence( $strText ) ), '-', wpseo_calc( 84.6, '*', $this->average_syllables_per_word( $strText ) ) ), true, 1 );
+			$score   = wpseo_calc( 206.835, '-', wpseo_calc( wpseo_calc( 1.015, '*', $this->average_words_per_sentence( $strText ) ), '-', wpseo_calc( 84.6, '*', $this->average_syllables_per_word( $strText ) ) ), true, 1 );
 			if ( $score > 0 ) {
 				return $score;
 			}

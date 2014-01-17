@@ -39,8 +39,7 @@ ul.wpseo-metabox-tabs li {
 .wpseo-metabox-tabs-div div.wpseo-tabs-panel {
 	overflow: auto;
 	padding: 0.5em 0.9em;
-	border-style: solid;
-	border-width: 1px;
+	border: 1px solid;
 }
 
 .wpseo-heading {

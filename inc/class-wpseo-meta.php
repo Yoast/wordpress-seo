@@ -708,7 +708,7 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 			/* Get only those rows where no wpseo meta values exist for the same post
 			   (with the exception of linkdex as that will be set independently of whether the post has been edited)
 			   @internal Query is pretty well optimized this way */
-			$query = $wpdb->prepare(
+			$query  = $wpdb->prepare(
 				"
 				SELECT `a`.*
 				FROM {$wpdb->postmeta} AS a
@@ -725,7 +725,6 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 				$old_metakey,
 				like_escape( self::$meta_prefix . '%' ),
 				self::$meta_prefix . 'linkdex'
-
 			);
 			$oldies = $wpdb->get_results( $query );
 
@@ -760,7 +759,7 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 			 * @todo find out all possible values which the old '_yoast_wpseo_meta-robots' could contain
 			 * to convert the data correctly
 			 */
-			$query = $wpdb->prepare(
+			$query  = $wpdb->prepare(
 				"
 				SELECT `a`.*
 				FROM {$wpdb->postmeta} AS a
@@ -858,15 +857,15 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 			}
 			unset( $subset, $field_group, $key, $field_def, $where_or_or );
 
-			$query    = "SELECT meta_id FROM {$wpdb->postmeta} " . implode( '', $query ) . ";";
+			$query    = "SELECT meta_id FROM {$wpdb->postmeta} " . implode( '', $query ) . ';';
 			$meta_ids = $wpdb->get_col( $query );
 
 			if ( is_array( $meta_ids ) && $meta_ids !== array() ) {
 				// wp native action
 				do_action( 'delete_post_meta', $meta_ids, null, null, null );
 
-				$query = "DELETE FROM {$wpdb->postmeta} WHERE meta_id IN( " . implode( ',', $meta_ids ) . " )";
-				$count = $wpdb->query($query);
+				$query = "DELETE FROM {$wpdb->postmeta} WHERE meta_id IN( " . implode( ',', $meta_ids ) . ' )';
+				$count = $wpdb->query( $query );
 
 				if ( $count ) {
 					foreach ( $meta_ids as $object_id ) {

@@ -75,8 +75,7 @@ label.radio {
 }
 
 .page-wpseo_titles #wpseo_content_top {
-	min-width: auto;
-	padding: auto;
+	padding: 0;
 	max-width: 650px;
 	float: left;
 }
@@ -198,8 +197,7 @@ table.yoast_help tr:hover {
 }
 
 .postbox#donate {
-	border-color: green;
-	border-width: 2px;
+	border: 2px green;
 }
 
 .wpseotab {

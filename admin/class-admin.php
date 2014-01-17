@@ -472,7 +472,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		 * Enqueues the (tiny) global JS needed for the plugin.
 		 */
 		function config_page_scripts() {
-			wp_enqueue_script( 'wpseo-admin-global-script', plugins_url( 'js/wp-seo-admin-global.js', dirname( __FILE__ ) ), array( 'jquery' ), WPSEO_VERSION, true );
+			wp_enqueue_script( 'wpseo-admin-global-script', plugins_url( 'js/wp-seo-admin-global' . WPSEO_CSSJS_SUFFIX . '.js', dirname( __FILE__ ) ), array( 'jquery' ), WPSEO_VERSION, true );
 		}
 	
 		/**

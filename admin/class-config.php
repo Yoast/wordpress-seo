@@ -316,14 +316,14 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 				wp_enqueue_style( 'thickbox' );
 				wp_enqueue_style( 'global' );
 				wp_enqueue_style( 'wp-admin' );
-				wp_enqueue_style( 'yoast-admin-css', plugins_url( 'css/yst_plugin_tools.css', dirname( __FILE__ ) ), array(), WPSEO_VERSION );
+				wp_enqueue_style( 'yoast-admin-css', plugins_url( 'css/yst_plugin_tools' . WPSEO_CSSJS_SUFFIX . '.css', dirname( __FILE__ ) ), array(), WPSEO_VERSION );
 	
 				if ( is_rtl() )
-					wp_enqueue_style( 'wpseo-rtl', plugins_url( 'css/wpseo-rtl.css', dirname( __FILE__ ) ), array(), WPSEO_VERSION );
+					wp_enqueue_style( 'wpseo-rtl', plugins_url( 'css/wpseo-rtl' . WPSEO_CSSJS_SUFFIX . '.css', dirname( __FILE__ ) ), array(), WPSEO_VERSION );
 			}
 	
 			if ( $pagenow == 'admin.php' && isset( $_GET['page'] ) && in_array( $_GET['page'], array( 'wpseo_bulk-title-editor', 'wpseo_bulk-description-editor' ) ) ) {
-				wp_enqueue_style( 'yoast-admin-css', plugins_url( 'css/yst_plugin_tools.css', dirname( __FILE__ ) ), array(), WPSEO_VERSION );
+				wp_enqueue_style( 'yoast-admin-css', plugins_url( 'css/yst_plugin_tools' . WPSEO_CSSJS_SUFFIX . '.css', dirname( __FILE__ ) ), array(), WPSEO_VERSION );
 			}
 		}
 	
@@ -334,14 +334,14 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 			global $pagenow;
 			
 			if ( $pagenow == 'admin.php' && isset( $_GET['page'] ) && in_array( $_GET['page'], $this->adminpages ) ) {
-				wp_enqueue_script( 'wpseo-admin-script', plugins_url( 'js/wp-seo-admin.js', dirname( __FILE__ ) ), array( 'jquery' ), WPSEO_VERSION, true );
+				wp_enqueue_script( 'wpseo-admin-script', plugins_url( 'js/wp-seo-admin' . WPSEO_CSSJS_SUFFIX . '.js', dirname( __FILE__ ) ), array( 'jquery' ), WPSEO_VERSION, true );
 				wp_enqueue_script( 'postbox' );
 				wp_enqueue_script( 'dashboard' );
 				wp_enqueue_script( 'thickbox' );
 			}
 	
 			if ( $pagenow == 'admin.php' && isset( $_GET['page'] ) && in_array( $_GET['page'], array( 'wpseo_bulk-title-editor', 'wpseo_bulk-description-editor' ) ) ) {
-				wp_enqueue_script( 'wpseo-bulk-editor', plugins_url( 'js/wp-seo-bulk-editor.js', dirname( __FILE__ ) ), array( 'jquery' ), WPSEO_VERSION, true );
+				wp_enqueue_script( 'wpseo-bulk-editor', plugins_url( 'js/wp-seo-bulk-editor' . WPSEO_CSSJS_SUFFIX . '.js', dirname( __FILE__ ) ), array( 'jquery' ), WPSEO_VERSION, true );
 			}
 		}
 	
