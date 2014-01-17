@@ -1209,13 +1209,16 @@ class WPSEO_Metabox {
 		$imgs['count'] = substr_count( $body, '<img' );
 		$imgs          = $this->get_images_alt_text( $post->ID, $body, $imgs );
 
-		if (has_post_thumbnail())
-		{
+		// Check featured image
+		if ( has_post_thumbnail() ) {
 			$imgs['count'] += 1;
-			if (empty($imgs['alts'])) $imgs['alts'] = array();
+
+			if ( empty( $imgs['alts'] ) ) {
+				$imgs['alts'] = array();
+			}
+
 			$feature_image = get_the_post_thumbnail( $post->ID );
-			if ( preg_match( '`alt=(["\'])(.*?)\1`', $feature_image, $alt ) && isset( $alt[2] ) )
-			{
+			if ( preg_match( '`alt=(["\'])(.*?)\1`', $feature_image, $alt ) && isset( $alt[2] ) ) {
 				$imgs['alts'][] = $this->strtolower_utf8( $alt[2] );
 			}
 		}
