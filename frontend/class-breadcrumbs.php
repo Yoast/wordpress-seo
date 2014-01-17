@@ -295,7 +295,7 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 	
 				if ( isset( $link['term'] ) ) {
 					$bctitle = WPSEO_Taxonomy_Meta::get_term_meta( $link['term'], $link['term']->taxonomy, 'bctitle' );
-					if ( $bctitle === '' ) {
+					if ( ! is_string( $bctitle ) || $bctitle === '' ) {
 						$bctitle = $link['term']->name;
 					}
 					$link['url']  = get_term_link( $link['term'] );

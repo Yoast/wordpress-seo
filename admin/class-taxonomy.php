@@ -92,7 +92,7 @@ if ( ! class_exists( 'WPSEO_Taxonomy' ) ) {
 			global $pagenow;
 			
 			if ( $pagenow === 'edit-tags.php' && ( isset( $_GET['action'] ) && $_GET['action'] === 'edit' ) ) {
-				wp_enqueue_style( 'yoast-admin-css', plugins_url( 'css/yst_plugin_tools' . WPSEO_CSSJS_SUFFIX . '.css', dirname( __FILE__ ) ), array(), WPSEO_VERSION );
+				wp_enqueue_style( 'yoast-taxonomy-css', plugins_url( 'css/taxonomy-meta' . WPSEO_CSSJS_SUFFIX . '.css', dirname( __FILE__ ) ), array(), WPSEO_VERSION );
 			}
 		}
 
@@ -115,36 +115,42 @@ if ( ! class_exists( 'WPSEO_Taxonomy' ) ) {
 				$val = stripslashes( $tax_meta[$var] );
 			}
 				
-			$var = esc_attr( $var );
-	
-			echo '<tr class="form-field">' . "\n";
-			echo "\t" . '<th scope="row"><label for="' . $var . '">' . $label . ':</label></th>' . "\n";
-			echo "\t" . '<td>' . "\n";
+			$esc_var = esc_attr( $var );
+			$field   = '';
+
 			if ( $type == 'text' ) {
-				?>
-	        <input name="<?php echo $var; ?>" id="<?php echo $var; ?>" type="text" value="<?php echo esc_attr( $val ); ?>" size="40"/>
-	        <p class="description"><?php echo $desc; ?></p>
-			<?php
+				$field .= '
+				<input name="' . $esc_var . '" id="' . $esc_var . '" type="text" value="' . esc_attr( $val ) . '" size="40"/>';
+				if( is_string( $desc ) && $desc !== '' ) {
+					$field .= '
+		        <p class="description">' . esc_html( $desc ) . '</p>';
+				}
 			}
 			else if ( $type == 'checkbox' ) {
-				?>
-	        <input name="<?php echo $var; ?>" id="<?php echo $var; ?>" type="checkbox" <?php checked( $val ); ?>/>
-			<?php
+				$field .= '
+				<input name="' . $esc_var . '" id="' . $esc_var . '" type="checkbox" ' . checked( $val ) . '/>';
 			}
 			else if ( $type == 'select' ) {
-				?>
-	        <select name="<?php echo $var; ?>" id="<?php echo $var; ?>">
-				<?php
-				foreach ( $options as $option => $label ) {
-					$sel = selected( $option, $val, false );
-					echo '<option ' . $sel . ' value="' . esc_attr( $option ) . '">' . esc_html( $label ) . '</option>';
-				}?>
-	        </select>
-			<?php
+				if( is_array( $options ) && $options !== array() ) {
+					$field .= '
+				<select name="' . $esc_var . '" id="' . $esc_var . '">';
+
+					foreach ( $options as $option => $option_label ) {
+						$selected = selected( $option, $val, false );
+						$field   .= '
+					<option ' . $selected . ' value="' . esc_attr( $option ) . '">' . esc_html( $option_label ) . '</option>';
+					}
+
+					$field .= '
+				</select>';
+				}
 			}
-			echo "\t" . '</td>' . "\n";
-			echo '</tr>' . "\n";
-	
+			
+			echo '
+		<tr class="form-field">
+			<th scope="row"><label for="' . $esc_var . '">' . esc_html( $label ) . ':</label></th>
+			<td>' . $field . '</td>
+		</tr>';
 		}
 	
 		/**

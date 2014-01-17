@@ -2567,8 +2567,8 @@ if ( ! class_exists( 'WPSEO_Taxonomy_Meta' ) ) {
 								$clean[$k] = $meta_data[$k];
 							}
 						}
-						else {
-							// Retain old value if currently not in use
+						else if ( isset( $old_meta[$k] ) ) {
+							// Retain old value if field currently not in use
 							$clean[$k] = $old_meta[$k];
 						}
 						break;
@@ -2593,8 +2593,8 @@ if ( ! class_exists( 'WPSEO_Taxonomy_Meta' ) ) {
 						if ( isset( $meta_data[$k] ) ) {
 							$clean[$k] = sanitize_text_field( $meta_data[$k] );
 						}
-						else {
-							// Retain old value if currently not in use
+						else if ( isset( $old_meta[$k] ) ) {
+							// Retain old value if field currently not in use
 							$clean[$k] = $old_meta[$k];
 						}
 						break;
@@ -2625,7 +2625,7 @@ if ( ! class_exists( 'WPSEO_Taxonomy_Meta' ) ) {
 		 * @param	string			$meta		(optional) Meta value to get (without prefix)
 		 * @return	mixed|bool		Value for the $meta if one is given, might be the default
 		 *							If no meta is given, an array of all the meta data for the term
-		 *							or false if the term does not exist or the $meta provided is invalid
+		 *							False if the term does not exist or the $meta provided is invalid
 		 */
 		public static function get_term_meta( $term, $taxonomy, $meta = null ) {
 			/* Figure out the term id */

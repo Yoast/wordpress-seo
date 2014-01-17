@@ -82,10 +82,7 @@ label.radio {
 
 .wpseo-admin-page .form-table tr,
 .wpseo-admin-page .form-table th,
-.wpseo-admin-page .form-table td,
-.wpseo-taxonomy-form tr,
-.wpseo-taxonomy-form th,
-.wpseo-taxonomy-form td {
+.wpseo-admin-page .form-table td {
 	vertical-align: top;
 }
 

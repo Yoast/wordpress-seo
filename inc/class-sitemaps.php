@@ -684,19 +684,22 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 	
 			foreach ( $terms as $c ) {
 				$url = array();
-	
-				if ( WPSEO_Taxonomy_Meta::get_term_meta( $c, $c->taxonomy, 'noindex' ) === 'noindex'
-						&& WPSEO_Taxonomy_Meta::get_term_meta( $c, $c->taxonomy, 'sitemap_include' ) !== 'always'
+				
+				$tax_noindex     = WPSEO_Taxonomy_Meta::get_term_meta( $c, $c->taxonomy, 'noindex' );
+				$tax_sitemap_inc = WPSEO_Taxonomy_Meta::get_term_meta( $c, $c->taxonomy, 'sitemap_include' );
+
+				if ( ( is_string( $tax_noindex ) && $tax_noindex === 'noindex' )
+						&& ( ! is_string( $tax_sitemap_inc ) || $tax_sitemap_inc !== 'always' )
 				) {
 					continue;
 				}
 
-				if ( WPSEO_Taxonomy_Meta::get_term_meta( $c, $c->taxonomy, 'sitemap_include' ) === 'never' ) {
+				if ( $tax_sitemap_inc === 'never' ) {
 					continue;
 				}
 
 				$url['loc'] = WPSEO_Taxonomy_Meta::get_term_meta( $c, $c->taxonomy, 'canonical' );
-				if ( $url['loc'] === '' ) {
+				if ( ! is_string( $url['loc'] ) || $url['loc'] === '' ) {
 					$url['loc'] = get_term_link( $c, $c->taxonomy );
 					if ( $this->options['trailingslash'] === true ) {
 						$url['loc'] = trailingslashit( $url['loc'] );
