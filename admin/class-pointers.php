@@ -38,7 +38,6 @@ if ( ! class_exists( 'WPSEO_Pointers' ) ) {
 			}
 			else if ( $options['ignore_tour'] === false ) {
 				add_action( 'admin_print_footer_scripts', array( $this, 'intro_tour' ) );
-				add_action( 'admin_head', array( $this, 'admin_head' ) );
 			}
 		}
 	
@@ -204,18 +203,7 @@ if ( ! class_exists( 'WPSEO_Pointers' ) ) {
 			$this->print_scripts( $id, $opt_arr, __( 'Close', 'wordpress-seo' ), $button2, $function );
 		}
 	
-		/**
-		 * Load a tiny bit of CSS in the head
-		 */
-		function admin_head() {
-			// Depreciated, marked for removal
-			// No longer needed as the original code is now being handle by an external CSS files that supports RTL
-			?>
-			<style type="text/css" media="screen">
-			</style>
-		<?php
-		}
-	
+
 		/**
 		 * Prints the pointer script
 		 *
@@ -282,5 +270,18 @@ if ( ! class_exists( 'WPSEO_Pointers' ) ) {
 			</script>
 		<?php
 		}
+		
+		
+		
+		/**
+		 * Load a tiny bit of CSS in the head
+		 *
+		 * @deprecated 1.5.0, now handled by css
+		 */
+		function admin_head() {
+			_deprecated_function( __FUNCTION__, 'WPSEO 1.5.0' );
+			return;
+		}
+
 	} /* End of class */
 } /* End of class-exists wrapper */

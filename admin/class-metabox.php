@@ -30,7 +30,6 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		function __construct() {
 			add_action( 'add_meta_boxes', array( $this, 'add_meta_box' ) );
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue' ) );
-			add_action( 'admin_head', array( $this, 'script' ) );
 			add_action( 'wp_insert_post', array( $this, 'save_postdata' ) );
 			add_action( 'edit_attachment', array( $this, 'save_postdata' ) );
 			add_action( 'add_attachment', array( $this, 'save_postdata' ) );
@@ -275,11 +274,11 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		
 
 		/**
-		 * Outputs the scripts needed for the edit / post page overview, snippet preview, etc.
+		 * Pass some variables to js for the edit / post page overview, snippet preview, etc.
 		 *
-		 * @todo does this really need to be in admin_head ? or would it be better to use wp_localize_script for this ?
+		 * @return	array
 		 */
-		public function script() {
+		public function localize_script() {
 			if ( $this->pt_is_public() === false )
 				return;
 	
@@ -326,16 +325,25 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 	
 			$sample_permalink = get_sample_permalink( $post->ID );
 			$sample_permalink = str_replace( '%page', '%post', $sample_permalink[0] );
-			?>
-			<script type="text/javascript">
-				var wpseo_lang = '<?php echo esc_js( substr( get_locale(), 0, 2 ) ); ?>';
-				var wpseo_meta_desc_length = '<?php echo esc_js( self::$meta_length ); ?>';
-				var wpseo_title_template = '<?php echo esc_attr( $title_template ); ?>';
-				var wpseo_metadesc_template = '<?php echo esc_attr( $metadesc_template ); ?>';
-				var wpseo_permalink_template = '<?php echo esc_js( esc_url( $sample_permalink ) ); ?>';
-				var wpseo_keyword_suggest_nonce = '<?php echo esc_js( wp_create_nonce( 'wpseo-get-suggest' ) ); ?>';
-			</script>
-		<?php
+			
+			
+			return array(
+				'field_prefix'					=> self::$form_prefix,
+				'keyword_header'				=> __( 'Your focus keyword was found in:', 'wordpress-seo' ),
+				'article_header_text'			=> __( 'Article Heading: ', 'wordpress-seo' ),
+				'page_title_text'				=> __( 'Page title: ', 'wordpress-seo' ),
+				'page_url_text'					=> __( 'Page URL: ', 'wordpress-seo' ),
+				'content_text'					=> __( 'Content: ', 'wordpress-seo' ),
+				'meta_description_text'			=> __( 'Meta description: ', 'wordpress-seo' ),
+				'choose_image'					=> __( 'Use Image', 'wordpress-seo' ),
+				// @todo [JRF => Yoast] check: variable 'wpseo_lang' does not seem to be used anywhere anymore
+				'wpseo_lang'					=> substr( get_locale(), 0, 2 ),
+				'wpseo_meta_desc_length'		=> self::$meta_length,
+				'wpseo_title_template'			=> $title_template,
+				'wpseo_metadesc_template'		=> $metadesc_template,
+				'wpseo_permalink_template'		=> $sample_permalink,
+				'wpseo_keyword_suggest_nonce'	=> wp_create_nonce( 'wpseo-get-suggest' ),
+			);
 		}
 	
 	
@@ -754,23 +762,11 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 				wp_enqueue_script( 'wp-seo-metabox', plugins_url( 'js/wp-seo-metabox' . WPSEO_CSSJS_SUFFIX . '.js', dirname( __FILE__ ) ), array( 'jquery', 'jquery-ui-core', 'jquery-ui-autocomplete' ), WPSEO_VERSION, true );
 	
 				// Text strings to pass to metabox for keyword analysis
-				wp_localize_script(
-					'wp-seo-metabox', 'wpseoMetaboxL10n',
-					array(
-						'field_prefix'			=> self::$form_prefix,
-						'keyword_header'        => __( 'Your focus keyword was found in:', 'wordpress-seo' ),
-						'article_header_text'   => __( 'Article Heading: ', 'wordpress-seo' ),
-						'page_title_text'       => __( 'Page title: ', 'wordpress-seo' ),
-						'page_url_text'         => __( 'Page URL: ', 'wordpress-seo' ),
-						'content_text'          => __( 'Content: ', 'wordpress-seo' ),
-						'meta_description_text' => __( 'Meta description: ', 'wordpress-seo' ),
-						'choose_image'          => __( 'Use Image', 'wordpress-seo' ),
-					)
-				);
+				wp_localize_script( 'wp-seo-metabox', 'wpseoMetaboxL10n', $this->localize_script() );
 			}
 		}
 
-	
+
 		/**
 		 * Adds a dropdown that allows filtering on the posts SEO Quality.
 		 *
@@ -1918,7 +1914,17 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			return $this->get_meta_field_defs( 'general', $post_type );
 		}
 
-
+		/**
+		 * Pass some variables to js
+		 *
+		 * @deprecated 1.5.0
+		 * @deprecated use WPSEO_Meta::localize_script()
+		 * @see WPSEO_Meta::localize_script()
+		 */
+		public function script() {
+			_deprecated_function( __FUNCTION__, 'WPSEO 1.5.0', 'WPSEO_Meta::localize_script()' );
+			return $this->localize_script();
+		}
 	
 
 	} /* End of class */
