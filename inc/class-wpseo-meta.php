@@ -18,74 +18,42 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 	 *
 	 * @internal all WP native get_meta() results get cached internally, so no need to cache locally.
 	 * @internal use $key when the key is the WPSEO internal name (without prefix), $meta_key when it includes the prefix
-	 *
 	 */
 	class WPSEO_Meta {
 
 		/**
-		 * Prefix for all WPSEO meta values in the database
-		 * 
+		 * @static
+		 * @var		string	Prefix for all WPSEO meta values in the database
+		 *
 		 * @internal if at any point this would change, quite apart from an upgrade routine, this also will need to
 		 * be changed in the wpml-config.xml file.
 		 */
 		public static $meta_prefix = '_yoast_wpseo_';
-		
-		
+
+
 		/**
-		 * Prefix for all WPSEO meta value form field names and ids
-		 *
-		 * @todo - ought to be passed to js via wp_localize_script() and used as a variable for the jQuery stuff
+		 * @static
+		 * @var	string	Prefix for all WPSEO meta value form field names and ids
 		 */
 		public static $form_prefix = 'yoast_wpseo_';
 
 
 		/**
-		 * @var int $meta_length Allowed length of the meta description.
+		 * @static
+		 * @var	int		Allowed length of the meta description.
 		 */
 		public static $meta_length = 156;
 
+
 		/**
-		 * @var string $meta_length_reason Reason the meta description is not the default length.
+		 * @static
+		 * @var string	Reason the meta description is not the default length.
 		 */
 		public static $meta_length_reason = '';
 
 
-/*
-		public $defaults = array(
-
-/*v* /			'_yoast_wpseo_focuskw'					=> '',
-/*v* /			'_yoast_wpseo_title'					=> '',
-/*v* /			'_yoast_wpseo_metadesc'					=> '',
-/*v* /			'_yoast_wpseo_metakeywords'				=> '',
-
-
-/*xxx* /			'_yoast_wpseo_meta-robots-noindex'		=> '0', // vs '-'
-/*xxx* /			'_yoast_wpseo_meta-robots-nofollow'		=> '0', // vs 'follow'
-/*v* /			'_yoast_wpseo_meta-robots-adv'			=> 'none',
-			'_yoast_wpseo_meta-robots-adv'			=> '', // ????
-
-/*v* /			'_yoast_wpseo_bctitle'					=> '',
-/*v* /			'_yoast_wpseo_sitemap-prio'				=> '-',
-/*v* /			'_yoast_wpseo_sitemap-include'			=> '-',
-/*v* /			'_yoast_wpseo_sitemap-html-include'		=> '-',
-/*v* /			'_yoast_wpseo_canonical'				=> '',
-/*v* /			'_yoast_wpseo_redirect'					=> '',
-
-
-
-/*v* /			'_yoast_wpseo_opengraph-description'	=> '',
-/*v* /			'_yoast_wpseo_opengraph-image'			=> '',
-/*v* /			'_yoast_wpseo_google-plus-description'	=> '',
-
-
-
-// Check:
-			'_yoast_wpseo_linkdex'					=> '0',
-			'_yoast_wpseo_meta-robots'				=> 'index,follow', => looks to be no longer in use
-		);
-*/
-
 		/**
+		 * @static
 		 * @var	array	$meta_fields	Meta box field definitions for the meta box form
 		 *
 		 *				Array format:
@@ -288,17 +256,32 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 				),
 			),
 		);
-		
-		
+
+
+		/**
+		 * @static
+		 * @var	array	Helper property - reverse index of the definition array
+		 *				Format: [full meta key including prefix]	=> array
+		 *								['subset']	=> (string) primary index
+		 *								['key']		=> (string) internal key
+		 */
 		public static $fields_index = array();
-		
-		
+
+
+		/**
+		 * @static
+		 * @var	array	Helper property - array containing only the defaults in the format:
+		 *				[full meta key including prefix]	=> (string) default value
+		 */
 		public static $defaults = array();
 
 
-
-
-
+		/**
+		 * Register our actions and filters
+		 *
+		 * @static
+		 * @return void
+		 */
 		public static function init() {
 			$register = function_exists( 'register_meta' );
 
@@ -339,6 +322,8 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 
 		/**
 		 * Retrieve the meta box form field definitions for the given tab and post type.
+		 *
+		 * @static
 		 *
 		 * @param	string	$tab		Tab for which to retrieve the field definitions
 		 * @param	string	$post_type	Post type of the current post
@@ -448,9 +433,10 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 		}
 
 
-
 		/**
 		 * Validate the post meta values
+		 *
+		 * @static
 		 *
 		 * @param	mixed	$meta_value	The new value
 		 * @param	string	$meta_key	The full meta key (including prefix)
@@ -538,6 +524,8 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 		 *
 		 * @todo Verify with @yoast that this logic for the prioritisation is correct
 		 *
+		 * @static
+		 *
 		 * @param	array|string	$meta_value	The value to validate
 		 * @return	string			Clean value
 		 */
@@ -582,6 +570,8 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 		/**
 		 * Prevent saving of default values and remove potential old value from the database if replaced by a default
 		 *
+		 * @static
+		 *
 		 * @param	null	$null		old, disregard
 		 * @param	int		$object_id	ID of the current object for which the meta is being updated
 		 * @param	string	$meta_key	The full meta key (including prefix)
@@ -608,6 +598,8 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 		/**
 		 * Prevent adding of default values to the database
 		 *
+		 * @static
+		 *
 		 * @param	null	$null		old, disregard
 		 * @param	int		$object_id	ID of the current object for which the meta is being added
 		 * @param	string	$meta_key	The full meta key (including prefix)
@@ -627,6 +619,8 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 		/**
 		 * Is the given meta value the same as the default value ?
 		 *
+		 * @static
+		 *
 		 * @param	string	$meta_key	The full meta key (including prefix)
 		 * @param	mixed	$meta_value	The value to check
 		 * @return	bool
@@ -636,14 +630,14 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 		}
 
 
-
-
 		/**
 		 * Get a custom post meta value
 		 * Returns the default value if the meta value has not been set
 		 *
 		 * @internal Unfortunately there isn't a filter available to hook into before returning the results
 		 * for get_post_meta(), get_post_custom() and the likes. That would have been the preferred solution.
+		 *
+		 * @static
 		 *
 		 * @param   string  $key		internal key of the value to get (without prefix)
 		 * @param   int     $postid		post ID of the post to get the value for
@@ -682,6 +676,8 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 		/**
 		 * Update a meta value for a post
 		 *
+		 * @static
+		 *
 		 * @param	string	$key			the internal key of the meta value to change (without prefix)
 		 * @param	mixed	$meta_value		the value to set the meta to
 		 * @param	int		$post_id		the ID of the post to change the meta for.
@@ -696,6 +692,8 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 		 * Used for imports, this functions imports the value of $old_metakey into $new_metakey for those post
 		 * where no WPSEO meta data has been set.
 		 * Optionally deletes the $old_metakey values.
+		 *
+		 * @static
 		 *
 		 * @param	string	$old_metakey	The old key of the meta value.
 		 * @param	string	$new_metakey	The new key, usually the WPSEO meta key (including prefix).
@@ -741,11 +739,13 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 		}
 
 
-
 		/**
 		 * General clean-up of the saved meta values
 		 * - Remove potentially lingering old meta keys
 		 * - Remove all default and invalid values
+		 *
+		 * @static
+		 * @return void
 		 */
 		public static function clean_up() {
 			global $wpdb;
@@ -796,8 +796,6 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 
 			// Delete old keys
 			delete_post_meta_by_key( self::$meta_prefix . 'meta-robots' );
-
-			
 
 			
 			/**
@@ -878,8 +876,7 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 			}
 			unset( $query, $meta_ids, $count, $object_id );
 			
-			
-			
+
 			/**
 			 * Deal with the multiselect (meta-robots-adv) field
 			 *
