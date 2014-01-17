@@ -538,7 +538,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 	
 					$pri = WPSEO_Meta::get_value( 'sitemap-prio', $p->ID );
 					if ( is_numeric( $pri ) ) {
-						$url['pri'] = $pri;
+						$url['pri'] = (float) $pri;
 					}
 					else if ( $p->post_parent == 0 && $p->post_type == 'page' ) {
 						$url['pri'] = 0.8;

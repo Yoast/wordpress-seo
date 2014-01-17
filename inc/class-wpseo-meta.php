@@ -18,6 +18,9 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 	 *
 	 * @internal all WP native get_meta() results get cached internally, so no need to cache locally.
 	 * @internal use $key when the key is the WPSEO internal name (without prefix), $meta_key when it includes the prefix
+	 *
+	 * @todo [JRF => Yoast/whomever] In frontend opengraph a call is made to retrieve the 'og_type' meta value.
+	 * This is not one of the meta values in use. Should this be added ?
 	 */
 	class WPSEO_Meta {
 
@@ -308,7 +311,7 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 							self::$defaults[self::$meta_prefix . $key] = $field_def['default_value'];
 						}
 						else {
-							// meta will be always be string, so let's make the meta meta default also a string
+							// meta will always be a string, so let's make the meta meta default also a string
 							self::$defaults[self::$meta_prefix . $key] = '';
 						}
 					}
@@ -643,8 +646,9 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 		 * @param   int     $postid		post ID of the post to get the value for
 		 * @return  string				All 'normal' values returned from get_post_meta() are strings.
 		 *								Objects and arrays are possible, but not used by this plugin
+		 &								and therefore disgarded
 		 *								Will return the default value if no value was found.
-		 *								Will return empty string if no default was found either or
+		 *								Will return empty string if no default was found (not one or our keys) or
 		 *								if the post does not exist
 		 */
 		public static function get_value( $key, $postid = 0 ) {
@@ -660,14 +664,22 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 				}
 			}
 
-			$custom = get_post_custom( $postid );
-			if ( isset( $custom[self::$meta_prefix . $key][0] ) && $custom[self::$meta_prefix . $key][0] !== '' ) {
-				return maybe_unserialize( $custom[self::$meta_prefix . $key][0] );
+			$custom = get_post_custom( $postid ); // array of strings or empty array
+
+			if ( isset( $custom[self::$meta_prefix . $key][0] ) ) {
+				$unserialized = maybe_unserialize( $custom[self::$meta_prefix . $key][0] );
+				if( $custom[self::$meta_prefix . $key][0] === $unserialized ) {
+					return $custom[self::$meta_prefix . $key][0];
+				}
 			}
-			else if ( isset( self::$defaults[self::$meta_prefix . $key] ) ) {
+
+			// Meta was either not found or found, but object/array
+			if ( isset( self::$defaults[self::$meta_prefix . $key] ) ) {
 				return (string) self::$defaults[self::$meta_prefix . $key];
 			}
 			else {
+				/* Shouldn't ever happen, means not one of our keys as there will always be a default available
+				   for all our keys */
 				return '';
 			}
 		}

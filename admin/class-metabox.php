@@ -249,7 +249,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 				}
 			}
 	
-			$result = '<div title="' . esc_attr( $title ) . '" class="wpseo_score_img ' . $score_label . '"></div>';
+			$result = '<div title="' . esc_attr( $title ) . '" class="' . esc_attr( 'wpseo_score_img ' . $score_label ) . '"></div>';
 	
 			echo __( 'SEO: ', 'wordpress-seo' ) . $result . ' <a class="wpseo_tablink scroll" href="#wpseo_linkdex">' . __( 'Check', 'wordpress-seo' ) . '</a>';
 	
@@ -590,7 +590,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			if ( $slug !== '' ) {
 				$slug = sanitize_title( $title );
 			}
-	
+
 			if ( is_string( $date ) && $date !== '' ) {
 				$datestr = '<span style="color: #666;">' . $date . '</span> – ';
 			}
@@ -853,13 +853,13 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 	
 				echo '<div title="' . esc_attr( $title ) . '" class="wpseo_score_img ' . esc_attr( $score_label ) . '"></div>';
 			}
-			if ( $column_name == 'wpseo-title' ) {
+			if ( $column_name === 'wpseo-title' ) {
 				echo esc_html( apply_filters( 'wpseo_title', $this->page_title( $post_id ) ) );
 			}
-			if ( $column_name == 'wpseo-metadesc' ) {
+			if ( $column_name === 'wpseo-metadesc' ) {
 				echo esc_html( apply_filters( 'wpseo_metadesc', self::get_value( 'metadesc', $post_id ) ) );
 			}
-			if ( $column_name == 'wpseo-focuskw' ) {
+			if ( $column_name === 'wpseo-focuskw' ) {
 				$focuskw = self::get_value( 'focuskw', $post_id );
 				echo esc_html( $focuskw );
 			}
@@ -1065,7 +1065,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 	
 			foreach ( $results as $result ) {
 				$score   = wpseo_translate_score( $result['val'] );
-				$output .= '<tr><td class="score"><div class="wpseo_score_img ' . esc_attr( $score ) . '"></div></td><td>' . $result['msg'] . '</td></tr>';
+				$output .= '<tr><td class="score"><div class="' . esc_attr( 'wpseo_score_img ' . $score ) . '"></div></td><td>' . $result['msg'] . '</td></tr>';
 			}
 			$output .= '</table>';
 	
@@ -1082,9 +1082,15 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		/**
 		 * Calculate the page analysis results for post.
 		 *
-		 * @param object $post Post to calculate the results for.
+		 * @todo [JRF => whomever] check whether the results of this method are always checked with is_wp_error()
+		 * @todo [JRF => whomever] check the usage of this method as it's quite intense/heavy, see if it's only
+		 * used when really necessary
+		 * @todo [JRF => whomever] see if we can get rid of the passing by reference of $results as it makes
+		 * the code obfuscated
 		 *
-		 * @return array
+		 * @param	object	$post	Post to calculate the results for.
+		 *
+		 * @return	array|WP_Error
 		 */
 		function calculate_results( $post ) {
 			$options = WPSEO_Options::get_all();
@@ -1135,8 +1141,9 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			$this->score_keyword( $job['keyword'], $results );
 	
 			// Title
-			if ( self::get_value( 'title' ) !== '' ) {
-				$job['title'] = self::get_value( 'title' );
+			$title = self::get_value( 'title' );
+			if ( $title !== '' ) {
+				$job['title'] = $title;
 			}
 			else {
 				if ( isset( $options['title-' . $post->post_type] ) && $options['title-' . $post->post_type] !== '' ) {
@@ -1147,18 +1154,21 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 				}
 				$job['title'] = wpseo_replace_vars( $title_template, (array) $post );
 			}
+			unset( $title );
 			$this->score_title( $job, $results );
 	
 			// Meta description
 			$description = '';
-			if ( self::get_value( 'metadesc' ) !== '' ) {
-				$description = self::get_value( 'metadesc' );
+			$desc_meta   = self::get_value( 'metadesc' );
+			if ( $desc_meta !== '' ) {
+				$description = $desc_meta;
 			}
 			else {
 				if ( isset( $options['metadesc-' . $post->post_type] ) && $options['metadesc-' . $post->post_type] !== '' ) {
 					$description = wpseo_replace_vars( $options['metadesc-' . $post->post_type], (array) $post );
 				}
 			}
+			unset( $desc_meta );
 	
 			$meta_length = apply_filters( 'wpseo_metadesc_length', 156, $post );
 	

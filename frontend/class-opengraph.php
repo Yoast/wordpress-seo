@@ -267,8 +267,14 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 		 */
 		public function type( $echo = true ) {
 			if ( is_singular() ) {
+				/**
+				 * @todo [JRF => Yoast/whomever] 'og_type' is currently not a valid meta value field
+				 * within WPSEO, so it will currently always return an empty string UNLESS that
+				 * exact key (including the wpseo prefix) was set by another plugin may be. What should
+				 * be done with this ? Added to meta value form ?
+				 */
 				$type = WPSEO_Meta::get_value( 'og_type' );
-				if ( ! $type || $type == '' ) {
+				if ( $type === '' ) {
 					$type = 'article';
 				}
 			}
@@ -342,7 +348,7 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 	
 			if ( is_singular() ) {
 				$ogimg = WPSEO_Meta::get_value( 'opengraph-image' );
-				if ( is_string( $ogimg ) && $ogimg !== '' ) {
+				if ( $ogimg !== '' ) {
 					$this->image_output( $ogimg );
 					return;
 				}
@@ -379,7 +385,7 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 		 */
 		public function description( $echo = true ) {
 			$ogdesc = '';
-	
+
 			if ( is_front_page() ) {
 				$ogdesc = ( $this->options['og_frontpage_desc'] !== '' ) ? $this->options['og_frontpage_desc'] : $this->metadesc( false );
 			}

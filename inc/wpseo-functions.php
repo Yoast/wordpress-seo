@@ -816,9 +816,9 @@ if ( ! function_exists( 'wpseo_calc' ) ) {
  * @deprecated use WPSEO_Meta::get_value()
  * @see WPSEO_Meta::get_value()
  *
- * @param string $val    name of the value to get
- * @param int    $postid post ID of the post to get the value for
- * @return bool|mixed
+ * @param	string	$val	internal name of the value to get
+ * @param	int		$postid	post ID of the post to get the value for
+ * @return	string
  */
 function wpseo_get_value( $val, $postid = 0 ) {
 	_deprecated_function( __FUNCTION__, 'WPSEO 1.5.0', 'WPSEO_Meta::get_value()' );
