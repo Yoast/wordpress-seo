@@ -45,15 +45,11 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 	/**
 	 * Search through the items
 	 *
-	 * @todo FIX SEARCH
-	 *
 	 * @param $items
 	 *
 	 * @return array
 	 */
 	private function do_search( $items ) {
-
-		return $items;
 
 		$results = array();
 
@@ -61,16 +57,15 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 
 			foreach ( $items as $item ) {
 
-				var_dump( $item );
+				$item_array = $item->to_array();
 
-				if(
-
-						false !== stripos( $old, $this->search_string ) ||
-						1
-				) {
-
-					$results[$old] = $new;
+				foreach ( $item_array as $value ) {
+					if ( false !== stripos( $value, $this->search_string ) ) {
+						$results[] = $item;
+						continue;
+					}
 				}
+
 			}
 
 		}
@@ -110,7 +105,7 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 		$this->_column_headers = array( $columns, $hidden, $sortable );
 
 		// Get the items
-		$service      = new WPSEO_GWT_Service( $this->gwt );
+		$service = new WPSEO_GWT_Service( $this->gwt );
 
 		/**
 		 * @todo this will be replaced with site_url() + trailing slash
@@ -119,7 +114,7 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 
 		// Handle the search
 		if ( null != $this->search_string ) {
-			$redirect_items = $this->do_search( $crawl_issues );
+			$crawl_issues = $this->do_search( $crawl_issues );
 		}
 
 		// Format the data
