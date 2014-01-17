@@ -1,5 +1,5 @@
 === WordPress SEO by Yoast ===
-Contributors: joostdevalk
+Contributors: joostdevalk, barrykooij
 Donate link: http://yoast.com/
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
@@ -109,8 +109,17 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 = Trunk =
 
 * Bugfixes
+	* Removed screen_icon() calls.
+	* Fixed a bug in robots meta tag on singular items.
+	* Fix double robots header, WP native settings will be respected - props [Jrf](http://profiles.wordpress.org/jrf).
+	* When post published data is newer than last modified date, use that in XML sitemap, props [mindingdata](https://github.com/mindingdata).
+	* Check if tab hash is correct after being redirected from Facebook API, props [dannyvankooten](https://github.com/dannyvankooten).
+	* Fix 404 in category rewrites when `pagination_base` was changed, props [raugfer](https://github.com/raugfer).
+	* Make the metabox tabs jQuery only work for WPSEO tabs, props [imageinabox](https://github.com/imageinabox).
 	* Fixed canonical rel links was causing an error when given an invalid taxonomy, issue [#306](https://github.com/Yoast/wordpress-seo/issues/306) - props [Jrf](http://profiles.wordpress.org/jrf).
 
+* i18n
+	*
 
 = 1.4.23 =
 
@@ -121,7 +130,6 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 	
 * i18n
 	* Updated cs_CZ, fa_IR, fr_FR, hu, hu_HU, pl_PL, ru_RU & zh_CN
-
 
 = 1.4.22 =
 
