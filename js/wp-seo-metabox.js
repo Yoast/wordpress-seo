@@ -253,33 +253,35 @@ function updateSnippet() {
 }
 
 jQuery(document).ready(function () {
-	var active_tab = window.location.hash;
-	if (active_tab == '' || active_tab.search('wpseo') == -1)
-		active_tab = 'general';
-	else
-		active_tab = active_tab.replace('#wpseo_', '');
+	if( jQuery( '.wpseo-metabox-tabs-div' ).length > 0 ) {
+		var active_tab = window.location.hash;
+		if (active_tab == '' || active_tab.search('wpseo') == -1)
+			active_tab = 'general';
+		else
+			active_tab = active_tab.replace('#wpseo_', '');
 
-	jQuery('.' + active_tab).addClass('active');
+		jQuery('.' + active_tab).addClass('active');
 
-	var desc = jQuery.trim(yst_clean(jQuery("#yoast_wpseo_metadesc").val()));
-	desc = jQuery('<div />').html(desc).text();
-	jQuery("#yoast_wpseo_metadesc").val(desc);
+		var desc = jQuery.trim(yst_clean(jQuery("#yoast_wpseo_metadesc").val()));
+		desc = jQuery('<div />').html(desc).text();
+		jQuery("#yoast_wpseo_metadesc").val(desc);
 
-	jQuery('a.wpseo_tablink').click(function ($) {
-		jQuery('.wpseo-metabox-tabs li').removeClass('active');
-		jQuery('.wpseotab').removeClass('active');
+		jQuery('a.wpseo_tablink').click(function ($) {
+			jQuery('.wpseo-metabox-tabs li').removeClass('active');
+			jQuery('.wpseotab').removeClass('active');
 
-		var id = jQuery(this).attr('href').replace('#wpseo_', '');
-		jQuery('.' + id).addClass('active');
-		jQuery(this).parent().addClass('active');
+			var id = jQuery(this).attr('href').replace('#wpseo_', '');
+			jQuery('.' + id).addClass('active');
+			jQuery(this).parent().addClass('active');
 
-		if (jQuery(this).hasClass('scroll')) {
-			var scrollto = jQuery(this).attr('href').replace('wpseo_', '');
-			jQuery("html, body").animate({
-				scrollTop: jQuery(scrollto).offset().top
-			}, 500);
-		}
-	});
+			if (jQuery(this).hasClass('scroll')) {
+				var scrollto = jQuery(this).attr('href').replace('wpseo_', '');
+				jQuery("html, body").animate({
+					scrollTop: jQuery(scrollto).offset().top
+				}, 500);
+			}
+		});
+	}
 
 	jQuery('.wpseo-heading').hide();
 	jQuery('.wpseo-metabox-tabs').show();
