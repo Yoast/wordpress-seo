@@ -106,7 +106,7 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 
 == Changelog ==
 
-= trunk =
+= Trunk =
 
 * Bugfixes
 	* Removed screen_icon() calls.
