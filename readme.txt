@@ -168,6 +168,7 @@ This version also incorporates the [SEO Extended](http://wordpress.org/plugins/s
 	* Admin -> If WP_DEBUG is on or if you have set the special constant WPSEO_DEBUG, a block with the currently saved options will be shown on the settings pages.
 	* Admin -> Dashboard -> Added error message for when meta description tag removal from theme file fails.
 	* Admin -> Titles & Meta -> Added option to add meta keywords to post type archives.
+	* Adminbar -> Keyword research links now also search for the set the keyword when editing a post in the back-end.
 	* [Usability] Proper field labels for user profile form fields.
 	* General jQuery efficiency improvements.
 	* Improved lazy loading of plugin files using autoload.

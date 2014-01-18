@@ -387,8 +387,9 @@ function wpseo_translate_score( $val, $css_value = true ) {
  */
 function wpseo_admin_bar_menu() {
 	// If the current user can't write posts, this is all of no use, so let's not output an admin menu
-	if ( ! current_user_can( 'edit_posts' ) )
+	if ( ! current_user_can( 'edit_posts' ) ) {
 		return;
+	}
 
 	global $wp_admin_bar, $wpseo_front, $post;
 
@@ -401,8 +402,7 @@ function wpseo_admin_bar_menu() {
 	$score   = '';
 	$seo_url = get_admin_url( null, 'admin.php?page=wpseo_dashboard' );
 
-	// @todo [JRF] adjust the if() clause to also allow this to work when editing posts on the admin site (i.e. make the keyword research links work with the right keyword which they don't now)
-	if ( is_singular() && isset( $post ) && is_object( $post ) && apply_filters( 'wpseo_use_page_analysis', true ) === true ) {
+	if ( ( is_singular() || ( is_admin() && in_array( $GLOBALS['pagenow'], array( 'post.php', 'post-new.php' ), true ) ) ) && isset( $post ) && is_object( $post ) && apply_filters( 'wpseo_use_page_analysis', true ) === true ) {
 		$focuskw    = WPSEO_Meta::get_value( 'focuskw', $post->ID );
 		$perc_score = WPSEO_Meta::get_value( 'linkdex', $post->ID );
 		$calc_score = wpseo_calc( $perc_score, '/', 10, true );
