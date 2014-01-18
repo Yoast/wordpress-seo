@@ -12,7 +12,7 @@ jQuery(document).ready(function() {
 	jQuery('#wpseo-tabs').find('a').click(function() {
 		jQuery('#wpseo-tabs').find('a').removeClass('nav-tab-active');
 		jQuery('.wpseotab').removeClass('active');
-	
+
 		var id = jQuery(this).attr('id').replace('-tab','');
 		jQuery('#' + id).addClass('active');
 		jQuery(this).addClass('nav-tab-active');
@@ -28,17 +28,17 @@ jQuery(document).ready(function() {
 
 	jQuery('#' + active_tab).addClass('active');
 	jQuery('#' + active_tab + '-tab').addClass('nav-tab-active');
-		
+
 });
 
 
 // global functions
 function setWPOption( option, newval, hide, nonce ) {
-	jQuery.post(ajaxurl, { 
-			action: 'wpseo_set_option', 
+	jQuery.post(ajaxurl, {
+			action: 'wpseo_set_option',
 			option: option,
 			newval: newval,
-			_wpnonce: nonce 
+			_wpnonce: nonce
 		}, function(data) {
 			if (data)
 				jQuery('#'+hide).hide();

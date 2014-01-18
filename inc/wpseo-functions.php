@@ -311,7 +311,7 @@ function wpseo_strip_shortcode( $text ) {
  */
 function wpseo_xml_redirect_sitemap() {
 	global $wp_query;
-	
+
 	$current_url  = ( isset( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] == 'on' ) ? 'https://' : 'http://';
 	$current_url .= $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
 
@@ -392,7 +392,7 @@ add_action( 'wp_ajax_wpseo_allow_tracking', 'wpseo_store_tracking_response' );
  * WPML plugin support: Set titles for custom types / taxonomies as translatable.
  * It adds new keys to a wpml-config.xml file for a custom post type title, metadesc, title-ptarchive and metadesc-ptarchive fields translation.
  * Documentation: http://wpml.org/documentation/support/language-configuration-files/
- * 
+ *
  * @global $sitepress
  * @param array $config
  * @return array
@@ -487,7 +487,7 @@ function wpseo_sitemap_handler( $atts ) {
 				'echo'          => false,
 			)
 		);
-		
+
 		if ( $author_list !== '' ) {
 			$output .= '
 				<h2 id="authors">' . __( 'Authors', 'wordpress-seo' ) . '</h2>
@@ -555,7 +555,7 @@ function wpseo_sitemap_handler( $atts ) {
 					'post_status'    => 'publish',
 					'posts_per_page' => -1,
 					'cat'            => $cat->cat_ID,
-		
+
 					'meta_query'     => array(
 						'relation' => 'OR',
 						// include if this key doesn't exists
@@ -578,22 +578,22 @@ function wpseo_sitemap_handler( $atts ) {
 						),
 					),
 				);
-		
+
 				$posts = get_posts( $args );
-				
+
 				if ( is_array( $posts ) && $posts !== array() ) {
 					$posts_in_cat = '';
 
 					foreach ( $posts as $post ) {
 						$category = get_the_category( $post->ID );
-			
+
 						// Only display a post link once, even if it's in multiple categories
 						if ( $category[0]->cat_ID == $cat->cat_ID ) {
 							$posts_in_cat .= '
 							<li><a href="' . esc_url( get_permalink( $post->ID ) ) . '">' . get_the_title( $post->ID ) . '</a></li>';
 						}
 					}
-					
+
 					if ( $posts_in_cat !== '' ) {
 						$cats_map .= '
 					<li>
@@ -625,7 +625,7 @@ function wpseo_sitemap_handler( $atts ) {
 		'_builtin' => false,
 	);
 	$post_types = get_post_types( $args, 'object' );
-	
+
 	if ( is_array( $post_types ) && $post_types !== array() ) {
 
 		// create an noindex array of post types and taxonomies
@@ -635,7 +635,7 @@ function wpseo_sitemap_handler( $atts ) {
 				$noindex[] = $key;
 			}
 		}
-		
+
 		$archives = '';
 
 		// create custom post type list
@@ -647,7 +647,7 @@ function wpseo_sitemap_handler( $atts ) {
 					' . create_type_sitemap_template( $post_type ) . '
 				</ul>';
 			}
-			
+
 			// create archives list
 			if ( $display_archives ) {
 				if ( is_object( $post_type ) && $post_type->has_archive && ! in_array( 'noindex-ptarchive-' . $post_type->name, $noindex ) ) {
@@ -657,7 +657,7 @@ function wpseo_sitemap_handler( $atts ) {
 				}
 			}
 		}
-	
+
 		if ( $archives !== '' ) {
 			$output .= '
 			<h2 id="archives">' . __( 'Archives', 'wordpress-seo' ) . '</h2>
@@ -694,7 +694,7 @@ function create_type_sitemap_template( $post_type ) {
 			if ( $tax->public !== 1 ) {
 				continue;
 			}
-	
+
 			$args     = array(
 				'post_type' => $post_type->name,
 				'tax_query' => array(
@@ -708,7 +708,7 @@ function create_type_sitemap_template( $post_type ) {
 			);
 			$query    = new WP_Query( $args );
 			$title_li = $query->have_posts() ? $tax->labels->name : '';
-	
+
 			$cats_list = wp_list_categories(
 				array(
 					'title_li'         => $title_li,
@@ -716,7 +716,7 @@ function create_type_sitemap_template( $post_type ) {
 					'taxonomy'         => $key,
 					'show_option_none' => '',
 					// 'hierarchical' => 0, // uncomment this for a flat list
-	
+
 					'walker'           => $walker,
 					'post_type'        => $post_type->name, // arg used by the Walker class
 				)
@@ -726,7 +726,7 @@ function create_type_sitemap_template( $post_type ) {
 				$output .= $cats_list;
 			}
 		}
-		
+
 		if ( $output !== '' ) {
 			$output .= '<br />';
 		}
@@ -768,36 +768,36 @@ if ( ! function_exists( 'wpseo_calc' ) ) {
 		if ( ! is_scalar( $number1 ) || ! is_scalar( $number2 ) ) {
 			return false;
 		}
-		
+
 		$bc = extension_loaded( 'bcmath' );
-		
+
 		if ( $bc ) {
 			$number1 = strval( $number1 );
 			$number2 = strval( $number2 );
 		}
-		
+
 		$result  = null;
 		$compare = false;
-		
+
 		switch ( $action ) {
 			case '+':
 			case 'add':
 			case 'addition':
 				$result = ( $bc ) ? bcadd( $number1, $number2, $precision ) /* string */ : ( $number1 + $number2 );
 				break;
-	
+
 			case '-':
 			case 'sub':
 			case 'subtract':
 				$result = ( $bc ) ? bcsub( $number1, $number2, $precision ) /* string */ : ( $number1 - $number2 );
 				break;
-	
+
 			case '*':
 			case 'mul':
 			case 'multiply':
 				$result = ( $bc ) ? bcmul( $number1, $number2, $precision ) /* string */ : ( $number1 * $number2 );
 				break;
-	
+
 			case '/':
 			case 'div':
 			case 'divide':
@@ -812,7 +812,7 @@ if ( ! function_exists( 'wpseo_calc' ) ) {
 					$result = 0;
 				}
 				break;
-	
+
 			case '%':
 			case 'mod':
 			case 'modulus':
@@ -827,7 +827,7 @@ if ( ! function_exists( 'wpseo_calc' ) ) {
 					$result = 0;
 				}
 				break;
-	
+
 			case '=':
 			case 'comp':
 			case 'compare':
@@ -840,7 +840,7 @@ if ( ! function_exists( 'wpseo_calc' ) ) {
 				}
 				break;
 		}
-		
+
 		if ( isset( $result ) ) {
 			if ( $compare === false ) {
 				if ( $round === true ) {

@@ -115,7 +115,7 @@ if ( isset( $_POST['import'] ) ) {
 		if ( $replace ) {
 			delete_option( 'seo_woo_archive_layout' );
 		}
-		
+
 		$taxonomies = get_taxonomies( array( 'public' => true ), 'names' );
 		if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
 			foreach ( $taxonomies as $tax ) {
@@ -215,7 +215,7 @@ if ( isset( $_POST['import'] ) ) {
 		WPSEO_Meta::replace_meta( 'title', WPSEO_Meta::$meta_prefix . 'title', $replace );
 		$msg .= __( 'All in One SEO (Old version) data successfully imported.', 'wordpress-seo' );
 	}
-	
+
 	// @todo [JRF => whomever] how does this correlate with the robots_meta_handler() function in dashboard ?
 	// isn't one superfluous ? functionality wasn't the same either, changed now.
 	if ( isset( $_POST['wpseo']['importrobotsmeta'] ) ) {

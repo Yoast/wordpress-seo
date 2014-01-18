@@ -24,12 +24,12 @@ if ( ! class_exists( 'Yoast_TextStatistics' ) ) {
 	 * Now basically limited to English.
 	 */
 	class Yoast_TextStatistics {
-	
+
 		/**
 		 * @var string $strEncoding Used to hold character encoding to be used by object, if set
 		 */
 		protected $strEncoding = '';
-	
+
 		/**
 		 * Constructor.
 		 *
@@ -41,7 +41,7 @@ if ( ! class_exists( 'Yoast_TextStatistics' ) ) {
 				$this->strEncoding = $strEncoding;
 			}
 		}
-	
+
 		/**
 		 * Gives the Flesch-Kincaid Reading Ease of text entered rounded to one digit
 		 *
@@ -58,7 +58,7 @@ if ( ! class_exists( 'Yoast_TextStatistics' ) ) {
 				return 0;
 			}
 		}
-	
+
 		/**
 		 * Gives string length.
 		 *
@@ -70,7 +70,7 @@ if ( ! class_exists( 'Yoast_TextStatistics' ) ) {
 		public function text_length( $strText ) {
 			return strlen( utf8_decode( $strText ) );
 		}
-	
+
 		/**
 		 * Gives letter count (ignores all non-letters).
 		 *
@@ -84,7 +84,7 @@ if ( ! class_exists( 'Yoast_TextStatistics' ) ) {
 			$intTextLength = preg_match_all( '`[A-Za-z]`', $strText, $matches );
 			return $intTextLength;
 		}
-	
+
 		/**
 		 * Trims, removes line breaks, multiple spaces and generally cleans text before processing.
 		 *
@@ -108,7 +108,7 @@ if ( ! class_exists( 'Yoast_TextStatistics' ) ) {
 			$strText = preg_replace_callback( '`\. [^ ]+`', create_function( '$matches', 'return strtolower($matches[0]);' ), $strText ); // Lower case all words following terminators (for gunning fog score)
 			return $strText;
 		}
-	
+
 		/**
 		 * Converts string to lower case. Tries mb_strtolower and if that fails uses regular strtolower.
 		 *
@@ -118,7 +118,7 @@ if ( ! class_exists( 'Yoast_TextStatistics' ) ) {
 		protected function lower_case( $strText ) {
 			return strtolower( $strText );
 		}
-	
+
 		/**
 		 * Converts string to upper case. Tries mb_strtoupper and if that fails uses regular strtoupper.
 		 *
@@ -128,7 +128,7 @@ if ( ! class_exists( 'Yoast_TextStatistics' ) ) {
 		protected function upper_case( $strText ) {
 			return strtoupper( $strText );
 		}
-	
+
 		/**
 		 * Returns sentence count for text.
 		 *
@@ -144,7 +144,7 @@ if ( ! class_exists( 'Yoast_TextStatistics' ) ) {
 			$intSentences = max( 1, $this->text_length( preg_replace( '`[^\.!?]`', '', $strText ) ) );
 			return $intSentences;
 		}
-	
+
 		/**
 		 * Returns word count for text.
 		 *
@@ -157,7 +157,7 @@ if ( ! class_exists( 'Yoast_TextStatistics' ) ) {
 			$intWords = 1 + $this->text_length( preg_replace( '`[^ ]`', '', $strText ) ); // Space count + 1 is word count
 			return $intWords;
 		}
-	
+
 		/**
 		 * Returns average words per sentence for text.
 		 *
@@ -170,7 +170,7 @@ if ( ! class_exists( 'Yoast_TextStatistics' ) ) {
 			$intWordCount     = $this->word_count( $strText );
 			return ( wpseo_calc( $intWordCount, '/', $intSentenceCount ) );
 		}
-	
+
 		/**
 		 * Returns average syllables per word for text.
 		 *
@@ -187,7 +187,7 @@ if ( ! class_exists( 'Yoast_TextStatistics' ) ) {
 			}
 			return ( wpseo_calc( $intSyllableCount, '/', $intWordCount ) );
 		}
-	
+
 		/**
 		 * Returns the number of syllables in the word.
 		 * Based in part on Greg Fast's Perl module Lingua::EN::Syllables
@@ -196,10 +196,10 @@ if ( ! class_exists( 'Yoast_TextStatistics' ) ) {
 		 * @return int
 		 */
 		public function syllable_count( $strWord ) {
-	
+
 			$intSyllableCount = 0;
 			$strWord          = $this->lower_case( $strWord );
-	
+
 			// Specific common exceptions that don't follow the rule set below are handled individually
 			// Array of problem words (with word as key, syllable count as value)
 			$arrProblemWords = array(
@@ -213,7 +213,7 @@ if ( ! class_exists( 'Yoast_TextStatistics' ) ) {
 			if ( $intSyllableCount > 0 ) {
 				return $intSyllableCount;
 			}
-	
+
 			// These syllables would be counted as two but should be one
 			$arrSubSyllables = array(
 				'cial',
@@ -233,7 +233,7 @@ if ( ! class_exists( 'Yoast_TextStatistics' ) ) {
 				'^[dr]e[aeiou][^aeiou]+$', // Sorts out deal, deign etc
 				'[aeiouy]rse$', // Purse, hearse
 			);
-	
+
 			// These syllables would be counted as one but should be two
 			$arrAddSyllables = array(
 				'ia',
@@ -254,7 +254,7 @@ if ( ! class_exists( 'Yoast_TextStatistics' ) ) {
 				'uity$',
 				'ie(r|st)$',
 			);
-	
+
 			// Single syllable prefixes and suffixes
 			$arrPrefixSuffix = array(
 				'`^un`',
@@ -265,10 +265,10 @@ if ( ! class_exists( 'Yoast_TextStatistics' ) ) {
 				'`ers?$`',
 				'`ings?$`',
 			);
-	
+
 			// Remove prefixes and suffixes and count how many were taken
 			$strWord = preg_replace( $arrPrefixSuffix, '', $strWord, -1, $intPrefixSuffixCount );
-	
+
 			// Removed non-word characters from word
 			$strWord          = preg_replace( '`[^a-z]`is', '', $strWord );
 			$arrWordParts     = preg_split( '`[^aeiouy]+`', $strWord );
@@ -278,7 +278,7 @@ if ( ! class_exists( 'Yoast_TextStatistics' ) ) {
 					$intWordPartCount++;
 				}
 			}
-	
+
 			// Some syllables do not follow normal rules - check for them
 			// Thanks to Joe Kovar for correcting a bug in the following lines
 			$intSyllableCount = $intWordPartCount + $intPrefixSuffixCount;

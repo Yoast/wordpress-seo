@@ -1,6 +1,6 @@
 h4 {
 	clear: both;
-	margin: 2em 0 0 0;	
+	margin: 2em 0 0 0;
 }
 
 p.desc {
@@ -26,7 +26,7 @@ div.yoastbox ul {
 }
 
 .postbox {
-	margin: 10px 10px 0 0;	
+	margin: 10px 10px 0 0;
 }
 
 label {
@@ -49,7 +49,7 @@ input.checkbox.double {
 }
 
 .textinput.metadesc {
-	height: 50px;	
+	height: 50px;
 }
 
 textarea.import {
@@ -125,7 +125,7 @@ div.yoastbox ul li.email {
 }
 
 div.yoastbox ul li.yoast {
-	list-style-image: url(../images/yoast-16x16.png); 
+	list-style-image: url(../images/yoast-16x16.png);
 }
 
 .text {
@@ -235,7 +235,7 @@ h2 code {
 }
 
 #pointer-primary {
-	margin: 0 5px 0 0; 
+	margin: 0 5px 0 0;
 }
 
 /* Add our icon to the Admin pages */

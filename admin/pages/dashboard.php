@@ -69,7 +69,7 @@ if ( isset( $_GET['fixmetadesc'] ) && check_admin_referer( 'wpseo-fix-metadesc',
 				fwrite( $backupfile, $fcontent );
 				fclose( $backupfile );
 				$msg = __( 'Backed up the original file header.php to <strong><em>' . esc_html( $backup_file ) . '</em></strong>, ', 'wordpress-seo' );
-	
+
 				$count    = 0;
 				$fcontent = str_replace( $options['theme_description_found'], '', $fcontent, $count );
 				if ( $count > 0 ) {

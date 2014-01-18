@@ -62,7 +62,7 @@ jQuery(document).ready( function() {
 			'new_title' : jQuery( new_title_id + id ).val(),
 			'existing_title' : jQuery( existing_title_id + id ).html()
 		};
-		
+
 		if ( data.new_title == data.existing_title ) {
 			jQuery( new_title_id + id ).val('').focus();
 		}
@@ -82,7 +82,7 @@ jQuery(document).ready( function() {
 			'new_metadesc' : jQuery( new_metadesc_id + id ).val(),
 			'existing_metadesc' : jQuery( existing_metadesc_id + id ).html()
 		};
-		
+
 		if ( data.new_metadesc == data.existing_metadesc ) {
 			jQuery( new_metadesc_id + id ).val('').focus();
 		}
@@ -118,7 +118,7 @@ jQuery(document).ready( function() {
 			var data = {
 				'action': 'wpseo_save_all_titles'
 			};
-			
+
 			data.send = false;
 			data.titles = {};
 			data.existing_titles = {};

@@ -17,12 +17,12 @@ if ( ! class_exists( 'WPSEO_Pointers' ) ) {
 	 * @todo Add an introductory pointer on the edit post page too.
 	 */
 	class WPSEO_Pointers {
-	
+
 		/**
 		 * @var	object	Instance of this class
 		 */
 		public static $instance;
-	
+
 		/**
 		 * Class constructor.
 		 */
@@ -41,7 +41,7 @@ if ( ! class_exists( 'WPSEO_Pointers' ) ) {
 				add_action( 'admin_print_footer_scripts', array( $this, 'intro_tour' ) );
 			}
 		}
-	
+
 		/**
 		 * Get the singleton instance of this class
 		 *
@@ -53,15 +53,15 @@ if ( ! class_exists( 'WPSEO_Pointers' ) ) {
 			}
 			return self::$instance;
 		}
-	
-	
+
+
 		/**
 		 * Shows a popup that asks for permission to allow tracking.
 		 */
 		function tracking_request() {
 			$id    = '#wpadminbar';
 			$nonce = wp_create_nonce( 'wpseo_activate_tracking' );
-	
+
 			$content = '<h3>' . __( 'Help improve WordPress SEO', 'wordpress-seo' ) . '</h3>';
 			$content .= '<p>' . __( 'You\'ve just installed WordPress SEO by Yoast. Please helps us improve it by allowing us to gather anonymous usage stats so we know which configurations, plugins and themes to test with.', 'wordpress-seo' ) . '</p>';
 			$opt_arr = array(
@@ -69,13 +69,13 @@ if ( ! class_exists( 'WPSEO_Pointers' ) ) {
 				'position' => array( 'edge' => 'top', 'align' => 'center' )
 			);
 			$button2 = __( 'Allow tracking', 'wordpress-seo' );
-	
+
 			$function2 = 'wpseo_store_answer("yes","' . $nonce . '")';
 			$function1 = 'wpseo_store_answer("no","' . $nonce . '")';
-	
+
 			$this->print_scripts( $id, $opt_arr, __( 'Do not allow tracking', 'wordpress-seo' ), $button2, $function2, $function1 );
 		}
-	
+
 		/**
 		 * Load the introduction tour
 		 *
@@ -83,7 +83,7 @@ if ( ! class_exists( 'WPSEO_Pointers' ) ) {
 		 */
 		function intro_tour() {
 			global $pagenow, $current_user;
-	
+
 			$adminpages = array(
 				'wpseo_dashboard'      => array(
 					'content'  => '<h3>' . __( 'Dashboard', 'wordpress-seo' ) . '</h3><p>' . __( 'This is the WordPress SEO Dashboard, here you can restart this tour or revert the WP SEO settings to default.', 'wordpress-seo' ) . '</p>'
@@ -152,7 +152,7 @@ if ( ! class_exists( 'WPSEO_Pointers' ) ) {
 							. '<p>' . sprintf( __( 'The tour ends here, thank you for using my plugin and good luck with your SEO!<br/><br/>Best,<br/>Joost de Valk - %1$sYoast.com%2$s', 'wordpress-seo' ), '<a target="_blank" href="' . esc_url( 'http://yoast.com/#utm_source=wpadmin&utm_medium=wpseo_tour&utm_term=link&utm_campaign=wpseoplugin' ) . '">', '</a>' ) . '</p>',
 				),
 			);
-	
+
 			// Remove the last step and add tour end to import page if file editing is disallowed or if the site is a multisite and the current user isn't a superadmin
 			if (
 				( ( defined( 'DISALLOW_FILE_EDIT' ) && DISALLOW_FILE_EDIT ) || ( defined( 'DISALLOW_FILE_MODS' ) && DISALLOW_FILE_MODS ) )
@@ -164,11 +164,11 @@ if ( ! class_exists( 'WPSEO_Pointers' ) ) {
 				unset( $adminpages['wpseo_import']['button2'] );
 				$adminpages['wpseo_import']['content'] .= '<p>' . sprintf( __( 'The tour ends here,thank you for using my plugin and good luck with your SEO!<br/><br/>Best,<br/>Joost de Valk - %1$sYoast.com%2$s', 'wordpress-seo' ), '<a href="http://yoast.com/">', '</a>' ) . '</p>';
 			}
-	
+
 			$page = '';
 			if ( isset( $_GET['page'] ) )
 				$page = $_GET['page'];
-	
+
 			$function = '';
 			$button2  = '';
 			$opt_arr  = array();
@@ -200,10 +200,10 @@ if ( ! class_exists( 'WPSEO_Pointers' ) ) {
 					}
 				}
 			}
-	
+
 			$this->print_scripts( $id, $opt_arr, __( 'Close', 'wordpress-seo' ), $button2, $function );
 		}
-	
+
 
 		/**
 		 * Prints the pointer script
@@ -221,7 +221,7 @@ if ( ! class_exists( 'WPSEO_Pointers' ) ) {
 				//<![CDATA[
 				(function ($) {
 					var wpseo_pointer_options = <?php echo json_encode( $options ); ?>, setup;
-	
+
 					function wpseo_store_answer(input, nonce) {
 						var wpseo_tracking_data = {
 							action        : 'wpseo_allow_tracking',
@@ -232,7 +232,7 @@ if ( ! class_exists( 'WPSEO_Pointers' ) ) {
 							jQuery('#wp-pointer-0').remove();
 						});
 					}
-	
+
 					wpseo_pointer_options = $.extend(wpseo_pointer_options, {
 						buttons: function (event, t) {
 							var button = jQuery('<a id="pointer-close" style="margin-left:5px;" class="button-secondary">' + '<?php echo $button1; ?>' + '</a>');
@@ -244,7 +244,7 @@ if ( ! class_exists( 'WPSEO_Pointers' ) ) {
 						close  : function () {
 						}
 					});
-	
+
 					setup = function () {
 						$('<?php echo $selector; ?>').pointer(wpseo_pointer_options).pointer('open');
 						<?php if ( $button2 ) { ?>
@@ -261,7 +261,7 @@ if ( ! class_exists( 'WPSEO_Pointers' ) ) {
 						});
 						<?php } ?>
 					};
-	
+
 					if (wpseo_pointer_options.position && wpseo_pointer_options.position.defer_loading)
 						$(window).bind('load.wp-pointers', setup);
 					else
@@ -271,9 +271,9 @@ if ( ! class_exists( 'WPSEO_Pointers' ) ) {
 			</script>
 		<?php
 		}
-		
-		
-		
+
+
+
 		/**
 		 * Load a tiny bit of CSS in the head
 		 *

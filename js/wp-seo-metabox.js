@@ -15,7 +15,7 @@ function ptest(str, p) {
 	str = yst_clean(str);
 	str = str.toLowerCase();
 	var r = str.match(p);
-	if (r != null)
+	if ('undefined' !== typeof( r ) )
 		return '<span class="good">Yes (' + r.length + ')</span>';
 	else
 		return '<span class="wrong">No</span>';

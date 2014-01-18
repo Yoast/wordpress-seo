@@ -74,9 +74,9 @@ if ( ! class_exists( 'Yoast_Tracking' ) ) {
 				$pts        = array();
 				$post_types = get_post_types( array( 'public' => true ) );
 				if ( is_array( $post_types ) && $post_types !== array() ) {
-					foreach ( $post_types as $pt ) {
-						$count    = wp_count_posts( $pt );
-						$pts[$pt] = $count->publish;
+					foreach ( $post_types as $post_type ) {
+						$count           = wp_count_posts( $post_type );
+						$pts[$post_type] = $count->publish;
 					}
 				}
 				unset( $post_types );

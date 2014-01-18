@@ -24,7 +24,7 @@ $options = get_option( 'wpseo_social' );
 if ( isset( $_GET['delfbadmin'] ) ) {
 	if ( wp_verify_nonce( $_GET['nonce'], 'delfbadmin' ) != 1 )
 		die( "I don't think that's really nice of you!." );
-		
+
 	$options = get_option( 'wpseo_social' );
 	$id      = $_GET['delfbadmin'];
 	if ( isset( $options['fb_admins'][$id] ) ) {
@@ -59,8 +59,8 @@ if ( isset( $_GET['key'] ) && $_GET['key'] == $options['fbconnectkey'] ) {
 		unset( $options, $user_id );
 	}
 	else if ( isset( $_GET['apps'] ) ) {
-		$options 		   = get_option( 'wpseo_social' );
-		$apps              = json_decode( stripslashes( $_GET['apps'] ) );
+		$options = get_option( 'wpseo_social' );
+		$apps    = json_decode( stripslashes( $_GET['apps'] ) );
 		if ( is_array( $apps ) && $apps !== array() ) {
 			$options['fbapps'] = array( '0' => __( 'Do not use a Facebook App as Admin', 'wordpress-seo' ) );
 			foreach ( $apps as $app ) {

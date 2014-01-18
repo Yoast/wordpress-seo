@@ -25,24 +25,24 @@ if ( ! class_exists( 'WPSEO_Taxonomy' ) ) {
 		 * @var array   Options array for the sitemap_include options, including translated labels
 		 */
 		public $sitemap_include_options = array();
-	
+
 		/**
 		 * Class constructor
 		 */
 		function __construct() {
 			$options = WPSEO_Options::get_all();
-	
+
 			if ( is_admin() && ( isset( $_GET['taxonomy'] ) && $_GET['taxonomy'] !== '' ) &&
 				( ! isset( $options['hideeditbox-tax-' . $_GET['taxonomy']] ) || $options['hideeditbox-tax-' . $_GET['taxonomy']] === false )
 			)
 				add_action( sanitize_text_field( $_GET['taxonomy'] ) . '_edit_form', array( $this, 'term_seo_form' ), 10, 1 );
-	
+
 			add_action( 'edit_term', array( $this, 'update_term' ), 99, 3 );
-	
+
 			add_action( 'init', array( $this, 'custom_category_descriptions_allow_html' ) );
 			add_filter( 'category_description', array( $this, 'custom_category_descriptions_add_shortcode_support' ) );
 			add_action( 'admin_init', array( $this, 'translate_meta_options' ) );
-			
+
 			add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
 		}
 
@@ -56,11 +56,11 @@ if ( ! class_exists( 'WPSEO_Taxonomy' ) ) {
 		public function translate_meta_options() {
 			$this->no_index_options        = WPSEO_Taxonomy_Meta::$no_index_options;
 			$this->sitemap_include_options = WPSEO_Taxonomy_Meta::$sitemap_include_options;
-	
+
 			$this->no_index_options['default'] = __( 'Use %s default (Currently: %s)', 'wordpress-seo' );
 			$this->no_index_options['index']   = __( 'Always index', 'wordpress-seo' );
 			$this->no_index_options['noindex'] = __( 'Always noindex', 'wordpress-seo' );
-	
+
 			$this->sitemap_include_options['-']      = __( 'Auto detect', 'wordpress-seo' );
 			$this->sitemap_include_options['always'] = __( 'Always include', 'wordpress-seo' );
 			$this->sitemap_include_options['never']  = __( 'Never include', 'wordpress-seo' );
@@ -69,7 +69,7 @@ if ( ! class_exists( 'WPSEO_Taxonomy' ) ) {
 
 
 
-		
+
 		/**
 		 * Test whether we are on a public taxonomy - no metabox actions needed if we are not
 		 * Unfortunately we have to hook most everything in before the point where all taxonomies are registered and
@@ -80,23 +80,23 @@ if ( ! class_exists( 'WPSEO_Taxonomy' ) ) {
 		function tax_is_public() {
 			// Don't make static as taxonomies may still be added during the run
 			$taxonomies = get_taxonomies( array( 'public' => true ), 'names' );
-	
+
 			return ( isset( $_GET['taxonomy'] ) && in_array( $_GET['taxonomy'], $taxonomies ) );
 		}
-		
-		
+
+
 		/**
 		 * Add our admin css file
 		 */
 		function admin_enqueue_scripts() {
 			global $pagenow;
-			
+
 			if ( $pagenow === 'edit-tags.php' && ( isset( $_GET['action'] ) && $_GET['action'] === 'edit' ) ) {
 				wp_enqueue_style( 'yoast-taxonomy-css', plugins_url( 'css/taxonomy-meta' . WPSEO_CSSJS_SUFFIX . '.css', dirname( __FILE__ ) ), array(), WPSEO_VERSION );
 			}
 		}
 
-	
+
 		/**
 		 * Create a row in the form table.
 		 *
@@ -114,7 +114,7 @@ if ( ! class_exists( 'WPSEO_Taxonomy' ) ) {
 				// might be left over from wrongly encoded saved canonical
 				$val = stripslashes( $tax_meta[$var] );
 			}
-				
+
 			$esc_var = esc_attr( $var );
 			$field   = '';
 
@@ -145,14 +145,14 @@ if ( ! class_exists( 'WPSEO_Taxonomy' ) ) {
 				</select>';
 				}
 			}
-			
+
 			echo '
 		<tr class="form-field">
 			<th scope="row"><label for="' . $esc_var . '">' . esc_html( $label ) . ':</label></th>
 			<td>' . $field . '</td>
 		</tr>';
 		}
-	
+
 		/**
 		 * Show the SEO inputs for term.
 		 *
@@ -161,21 +161,21 @@ if ( ! class_exists( 'WPSEO_Taxonomy' ) ) {
 		function term_seo_form( $term ) {
 			if ( $this->tax_is_public() === false )
 				return;
-	
+
 			$tax_meta = WPSEO_Taxonomy_Meta::get_term_meta( (int) $term->term_id, $term->taxonomy );
 			$options  = WPSEO_Options::get_all();
 
 
 			echo '<h2>' . __( 'Yoast WordPress SEO Settings', 'wordpress-seo' ) . '</h2>';
 			echo '<table class="form-table wpseo-taxonomy-form">';
-	
+
 			$this->form_row( 'wpseo_title', __( 'SEO Title', 'wordpress-seo' ), __( 'The SEO title is used on the archive page for this term.', 'wordpress-seo' ), $tax_meta );
 			$this->form_row( 'wpseo_desc', __( 'SEO Description', 'wordpress-seo' ), __( 'The SEO description is used for the meta description on the archive page for this term.', 'wordpress-seo' ), $tax_meta );
-			
+
 			if ( $options['usemetakeywords'] === true ) {
 				$this->form_row( 'wpseo_metakey', __( 'Meta Keywords', 'wordpress-seo' ), __( 'Meta keywords used on the archive page for this term.', 'wordpress-seo' ), $tax_meta );
 			}
-			
+
 			$this->form_row( 'wpseo_canonical', __( 'Canonical', 'wordpress-seo' ), __( 'The canonical link is shown on the archive page for this term.', 'wordpress-seo' ), $tax_meta );
 
 			if ( $options['breadcrumbs-enable'] === true ) {
@@ -198,7 +198,7 @@ if ( ! class_exists( 'WPSEO_Taxonomy' ) ) {
 
 			echo '</table>';
 		}
-	
+
 		/**
 		 * Update the taxonomy meta data on save.
 		 *
@@ -249,13 +249,13 @@ if ( ! class_exists( 'WPSEO_Taxonomy' ) ) {
 				'pre_link_notes',
 				'pre_user_description',
 			);
-	
+
 			foreach ( $filters as $filter ) {
 				remove_filter( $filter, 'wp_filter_kses' );
 			}
 			remove_filter( 'term_description', 'wp_kses_data' );
 		}
-	
+
 		/**
 		 * Adds shortcode support to category descriptions.
 		 *
@@ -267,7 +267,7 @@ if ( ! class_exists( 'WPSEO_Taxonomy' ) ) {
 			ob_start();
 			$desc = do_shortcode( $desc );
 			ob_end_clean();
-	
+
 			return $desc;
 		}
 	} /* End of class */

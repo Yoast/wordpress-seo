@@ -17,12 +17,12 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 	 * Class with functionality for the WP SEO admin pages.
 	 */
 	class WPSEO_Admin_Pages {
-	
+
 		/**
 		 * @var string $currentoption The option in use for the current admin page.
 		 */
 		var $currentoption = 'wpseo';
-	
+
 		/**
 		 * @var array $adminpages Array of admin pages that the plugin uses.
 		 */
@@ -39,14 +39,14 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 			'wpseo_bulk-title-editor',
 			'wpseo_bulk-description-editor',
 		);
-	
+
 		/**
 		 * Class constructor, which basically only hooks the init function on the init hook
 		 */
 		function __construct() {
 			add_action( 'init', array( $this, 'init' ), 20 );
 		}
-	
+
 		/**
 		 * Make sure the needed scripts are loaded for admin pages
 		 */
@@ -65,7 +65,7 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 				add_action( 'admin_enqueue_scripts', array( $this, 'config_page_styles' ) );
 			}
 		}
-	
+
 		/**
 		 * Resets the site to the default WordPress SEO settings and runs a title test to check
 		 * whether force rewrite needs to be on.
@@ -78,18 +78,18 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 		 * @see WPSEO_Options::reset()
 		 */
 		function reset_defaults() {
-	//		_deprecated_function( __FUNCTION__, 'WPSEO 1.5.0', 'WPSEO_Options::reset()' );
-	//		WPSEO_Options::reset();
-	
+//			_deprecated_function( __FUNCTION__, 'WPSEO 1.5.0', 'WPSEO_Options::reset()' );
+//			WPSEO_Options::reset();
+
 			foreach ( WPSEO_Options::get_option_names() as $opt ) {
 				delete_option( $opt );
 			}
 			wpseo_defaults();
-	
+
 			//wpseo_title_test(); // is already run in wpseo_defaults
 			//wpseo_description_test(); // is already run in wpseo_defaults
 		}
-	
+
 		/**
 		 * Generates the sidebar for admin pages.
 		 */
@@ -161,7 +161,7 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 			</div>
 		<?php
 		}
-	
+
 		/**
 		 * Generates the header for admin pages
 		 *
@@ -191,9 +191,9 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 				settings_fields( $option );
 				$this->currentoption = $optionshort;
 			}
-	
+
 		}
-	
+
 		/**
 		 * Generates the footer for admin pages
 		 *
@@ -202,16 +202,18 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 		function admin_footer( $submit = true ) {
 			if ( $submit ) {
 				submit_button();
-			echo '
+
+				echo '
 			</form>';
-			} ?>
+			}
+
+			echo '
 			</div><!-- end of div meta-box-sortables -->
 			</div><!-- end of div metabox-holder -->
-			</div><!-- end of div wpseo_content_top -->
-			<?php $this->admin_sidebar(); ?>
+			</div><!-- end of div wpseo_content_top -->';
 
-	
-			<?php
+			$this->admin_sidebar();
+
 
 			/* Add the current settings array to the page for debugging purposes,
 				but not for a limited set of pages were it wouldn't make sense */
@@ -226,7 +228,7 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 				echo '
 			<div id="poststuff">
 			<div id="wpseo-debug-info" class="postbox">
-	
+
 				<h3 class="hndle"><span>' . __( 'Debug Information', 'wordpress-seo' ) . '</span></h3>
 				<div class="inside">
 					<h4>' . esc_html( __( 'Current option:', 'wordpress-seo' ) ) . ' <span class="wpseo-debug">' . esc_html( $this->currentoption ) . '</span></h4>
@@ -238,11 +240,11 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 			</div>
 			</div>';
 			}
-			
+
 			echo '
 			</div><!-- end of wrap -->';
 		}
-	
+
 		/**
 		 * Deletes all post meta values with a given meta key from the database
 		 *
@@ -252,7 +254,7 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 			global $wpdb;
 			$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->postmeta WHERE meta_key = %s", $metakey ) );
 		}
-	
+
 		/**
 		 * Exports the current site's WP SEO settings.
 		 *
@@ -261,9 +263,9 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 		 */
 		function export_settings( $include_taxonomy ) {
 			$content = '; ' . __( 'This is a settings export file for the WordPress SEO plugin by Yoast.com', 'wordpress-seo' ) . " - http://yoast.com/wordpress/seo/ \r\n";
-	
+
 			$optarr = WPSEO_Options::get_option_names();
-	
+
 			foreach ( $optarr as $optgroup ) {
 				$content .= "\n" . '[' . $optgroup . ']' . "\n";
 				$options  = get_option( $optgroup );
@@ -284,30 +286,30 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 					}
 				}
 			}
-	
+
 			if ( $include_taxonomy ) {
 				$content .= "\r\n\r\n[wpseo_taxonomy_meta]\r\n";
 				$content .= 'wpseo_taxonomy_meta = "' . urlencode( json_encode( get_option( 'wpseo_taxonomy_meta' ) ) ) . '"';
 			}
-	
+
 			$dir = wp_upload_dir();
-	
+
 			if ( ! $handle = fopen( $dir['path'] . '/settings.ini', 'w' ) )
 				die();
-	
+
 			if ( ! fwrite( $handle, $content ) )
 				die();
-	
+
 			fclose( $handle );
-	
+
 			chdir( $dir['path'] );
 			$zip = new PclZip( './settings.zip' );
 			if ( $zip->create( './settings.ini' ) == 0 )
 				return false;
-	
+
 			return $dir['url'] . '/settings.zip';
 		}
-	
+
 		/**
 		 * Loads the required styles for the config page.
 		 */
@@ -319,34 +321,34 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 				wp_enqueue_style( 'global' );
 				wp_enqueue_style( 'wp-admin' );
 				wp_enqueue_style( 'yoast-admin-css', plugins_url( 'css/yst_plugin_tools' . WPSEO_CSSJS_SUFFIX . '.css', dirname( __FILE__ ) ), array(), WPSEO_VERSION );
-	
+
 				if ( is_rtl() )
 					wp_enqueue_style( 'wpseo-rtl', plugins_url( 'css/wpseo-rtl' . WPSEO_CSSJS_SUFFIX . '.css', dirname( __FILE__ ) ), array(), WPSEO_VERSION );
 			}
-	
+
 			if ( $pagenow == 'admin.php' && isset( $_GET['page'] ) && in_array( $_GET['page'], array( 'wpseo_bulk-title-editor', 'wpseo_bulk-description-editor' ) ) ) {
 				wp_enqueue_style( 'yoast-admin-css', plugins_url( 'css/yst_plugin_tools' . WPSEO_CSSJS_SUFFIX . '.css', dirname( __FILE__ ) ), array(), WPSEO_VERSION );
 			}
 		}
-	
+
 		/**
 		 * Loads the required scripts for the config page.
 		 */
 		function config_page_scripts() {
 			global $pagenow;
-			
+
 			if ( $pagenow == 'admin.php' && isset( $_GET['page'] ) && in_array( $_GET['page'], $this->adminpages ) ) {
 				wp_enqueue_script( 'wpseo-admin-script', plugins_url( 'js/wp-seo-admin' . WPSEO_CSSJS_SUFFIX . '.js', dirname( __FILE__ ) ), array( 'jquery' ), WPSEO_VERSION, true );
 				wp_enqueue_script( 'postbox' );
 				wp_enqueue_script( 'dashboard' );
 				wp_enqueue_script( 'thickbox' );
 			}
-	
+
 			if ( $pagenow == 'admin.php' && isset( $_GET['page'] ) && in_array( $_GET['page'], array( 'wpseo_bulk-title-editor', 'wpseo_bulk-description-editor' ) ) ) {
 				wp_enqueue_script( 'wpseo-bulk-editor', plugins_url( 'js/wp-seo-bulk-editor' . WPSEO_CSSJS_SUFFIX . '.js', dirname( __FILE__ ) ), array( 'jquery' ), WPSEO_VERSION, true );
 			}
 		}
-	
+
 		/**
 		 * Retrieve options based on the option or the class currentoption.
 		 *
@@ -361,7 +363,7 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 			else
 				return get_option( $option );
 		}
-	
+
 		/**
 		 * Create a Checkbox input field.
 		 *
@@ -374,17 +376,17 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 		function checkbox( $var, $label, $label_left = false, $option = '' ) {
 			if ( empty( $option ) )
 				$option = $this->currentoption;
-	
+
 			$options = $this->get_option( $option );
-	
+
 			if ( ! isset( $options[$var] ) ) {
 				$options[$var] = false;
 			}
-	
+
 			if ( $options[$var] === true ) {
 				$options[$var] = 'on';
 			}
-	
+
 			if ( $label_left !== false ) {
 				if ( ! empty( $label_left ) ) {
 					$label_left .= ':';
@@ -396,9 +398,9 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 				$output_label = '<label for="' . esc_attr( $var ) . '">' . $label . '</label>';
 				$class        = 'checkbox double';
 			}
-	
+
 			$output_input = '<input class="' . esc_attr( $class ) . '" type="checkbox" id="' . esc_attr( $var ) . '" name="' . esc_attr( $option ) . '[' . esc_attr( $var ) . ']" value="on"' . checked( $options[$var], 'on', false ) . '/>';
-	
+
 			if ( $label_left !== false ) {
 				$output = $output_label . $output_input . '<label class="checkbox" for="' . esc_attr( $var ) . '">' . $label . '</label>';
 			}
@@ -407,7 +409,7 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 			}
 			return $output . '<br class="clear" />';
 		}
-	
+
 		/**
 		 * Create a Text input field.
 		 *
@@ -419,13 +421,13 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 		function textinput( $var, $label, $option = '' ) {
 			if ( empty( $option ) )
 				$option = $this->currentoption;
-	
+
 			$options = $this->get_option( $option );
 			$val     = ( isset( $options[$var] ) ) ? $options[$var] : '';
-	
+
 			return '<label class="textinput" for="' . esc_attr( $var ) . '">' . $label . ':</label><input class="textinput" type="text" id="' . esc_attr( $var ) . '" name="' . esc_attr( $option ) . '[' . esc_attr( $var ) . ']" value="' . esc_attr( $val ) . '"/>' . '<br class="clear" />';
 		}
-	
+
 		/**
 		 * Create a textarea.
 		 *
@@ -438,13 +440,13 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 		function textarea( $var, $label, $option = '', $class = '' ) {
 			if ( empty( $option ) )
 				$option = $this->currentoption;
-	
+
 			$options = $this->get_option( $option );
 			$val     = ( isset( $options[$var] ) ) ? $options[$var] : '';
-	
+
 			return '<label class="textinput" for="' . esc_attr( $var ) . '">' . esc_html( $label ) . ':</label><textarea class="textinput ' . esc_attr( $class ) . '" id="' . esc_attr( $var ) . '" name="' . esc_attr( $option ) . '[' . esc_attr( $var ) . ']">' . esc_textarea( $val ) . '</textarea>' . '<br class="clear" />';
 		}
-	
+
 		/**
 		 * Create a hidden input field.
 		 *
@@ -455,17 +457,17 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 		function hidden( $var, $option = '' ) {
 			if ( empty( $option ) )
 				$option = $this->currentoption;
-	
+
 			$options = $this->get_option( $option );
-	
+
 			$val = ( isset( $options[$var] ) ) ? $options[$var] : '';
 			if ( is_bool( $val ) ) {
 				$val = ( $val === true ) ? 'true' : 'false';
 			}
-	
+
 			return '<input type="hidden" id="hidden_' . esc_attr( $var ) . '" name="' . esc_attr( $option ) . '[' . esc_attr( $var ) . ']" value="' . esc_attr( $val ) . '"/>';
 		}
-	
+
 		/**
 		 * Create a Select Box.
 		 *
@@ -482,9 +484,9 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 			if ( empty( $option ) ) {
 				$option = $this->currentoption;
 			}
-	
+
 			$options = $this->get_option( $option );
-	
+
 			$output  = '<label class="select" for="' . esc_attr( $var ) . '">' . $label . ':</label>';
 			$output .= '<select class="select" name="' . esc_attr( $option ) . '[' . esc_attr( $var ) . ']" id="' . esc_attr( $var ) . '">';
 
@@ -495,7 +497,7 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 			$output .= '</select>';
 			return $output . '<br class="clear"/>';
 		}
-	
+
 		/**
 		 * Create a File upload field.
 		 *
@@ -507,18 +509,18 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 		function file_upload( $var, $label, $option = '' ) {
 			if ( empty( $option ) )
 				$option = $this->currentoption;
-	
+
 			$options = $this->get_option( $option );
-	
+
 			$val = '';
 			if ( isset( $options[$var] ) && is_array( $options[$var] ) ) {
 				$val = $options[$var]['url'];
 			}
-	
+
 			$var_esc = esc_attr( $var );
 			$output  = '<label class="select" for="' . $var_esc . '">' . esc_html( $label ) . ':</label>';
 			$output .= '<input type="file" value="' . esc_attr( $val ) . '" class="textinput" name="' . esc_attr( $option ) . '[' . $var_esc . ']" id="' . $var_esc . '"/>';
-	
+
 			// Need to save separate array items in hidden inputs, because empty file inputs type will be deleted by settings API.
 			if ( ! empty( $options[$var] ) ) {
 				$output .= '<input class="hidden" type="hidden" id="' . $var_esc . '_file" name="wpseo_local[' . $var_esc . '][file]" value="' . esc_attr( $options[$var]['file'] ) . '"/>';
@@ -526,10 +528,10 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 				$output .= '<input class="hidden" type="hidden" id="' . $var_esc . '_type" name="wpseo_local[' . $var_esc . '][type]" value="' . esc_attr( $options[$var]['type'] ) . '"/>';
 			}
 			$output .= '<br class="clear"/>';
-	
+
 			return $output;
 		}
-	
+
 		/**
 		 * Create a Radio input field.
 		 *
@@ -552,19 +554,19 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 			if ( ! isset( $options[$var] ) ) {
 				$options[$var] = false;
 			}
-	
+
 			$var_esc = esc_attr( $var );
-	
+
 			$output = '<br/><label class="select">' . $label . ':</label>';
 			foreach ( $values as $key => $value ) {
 				$key_esc = esc_attr( $key );
 				$output .= '<input type="radio" class="radio" id="' . $var_esc . '-' . $key_esc . '" name="' . esc_attr( $option ) . '[' . $var_esc . ']" value="' . $key_esc . '" ' . checked( $options[$var], $key_esc, false ) . ' /> <label class="radio" for="' . $var_esc . '-' . $key_esc . '">' . esc_html( $value ) . '</label>';
 			}
 			$output .= '<br/>';
-	
+
 			return $output;
 		}
-	
+
 		/**
 		 * Create a postbox widget.
 		 *
@@ -581,7 +583,7 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 		<?php
 		}
 
-	
+
 		/**
 		 * Create a form table from an array of rows.
 		 *
@@ -612,7 +614,7 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 			$content .= '</table>';
 			return $content;
 		}
-	
+
 	} /* End of class */
 
 } /* End of class-exists wrapper */

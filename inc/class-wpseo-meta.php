@@ -278,7 +278,7 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 					'description'	=> '', // translation added later
 				),
 			),
-			
+
 			/* Fields we should validate & save, but not show on any form */
 			'non_form'	=> array(
 				'linkdex'	=> array(
@@ -333,7 +333,7 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 							'subset' => $subset,
 							'key'	 => $key,
 						);
-						
+
 						// Set the $defaults property for efficiency
 						if ( isset( $field_def['default_value'] ) ) {
 							self::$defaults[self::$meta_prefix . $key] = $field_def['default_value'];
@@ -364,7 +364,7 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 			if ( ! isset( self::$meta_fields[$tab] ) ) {
 				return array();
 			}
-			
+
 			$field_defs = self::$meta_fields[$tab];
 
 			switch ( $tab ) {
@@ -400,7 +400,7 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 
 				case 'advanced':
 					global $post;
-					
+
 					$options = WPSEO_Options::get_all();
 
 					$post_type = '';
@@ -442,7 +442,7 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 					if ( $options['breadcrumbs-enable'] !== true ) {
 						unset( $field_defs['bctitle'] );
 					}
-					
+
 					/* Don't show the xml sitemap fields, if xml sitemaps aren't enabled */
 					if ( $options['enablexmlsitemap'] !== true ) {
 						unset(
@@ -450,7 +450,7 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 							$field_defs['sitemap-prio']
 						);
 					}
-					
+
 					/* Adjust the authorship 'default for post type' text string based on the post type */
 					$field_defs['authorship']['options']['-'] = sprintf( $field_defs['authorship']['options']['-'], ( ( isset( $options['noauthorship-' . $post_type] ) && $options['noauthorship-' . $post_type] === true ) ? __( 'don\'t show', 'wordpress-seo' ) : __( 'show', 'wordpress-seo' ) ) );
 
@@ -509,7 +509,7 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 				case ( $field_def['type'] === 'multiselect' && $meta_key === self::$meta_prefix . 'meta-robots-adv' ):
 					$clean = self::validate_meta_robots_adv( $meta_value );
 					break;
-					
+
 
 				case ( $field_def['type'] === 'text' && $meta_key === self::$meta_prefix . 'canonical' ):
 				case ( $field_def['type'] === 'text' && $meta_key === self::$meta_prefix . 'redirect' ):
@@ -552,8 +552,8 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 
 			return $clean;
 		}
-		
-		
+
+
 		/**
 		 * Validate a meta-robots-adv meta value
 		 *
@@ -597,7 +597,7 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 					unset( $cleaning, $value );
 				}
 			}
-			
+
 			return $clean;
 		}
 
@@ -746,7 +746,7 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 		 */
 		public static function replace_meta( $old_metakey, $new_metakey, $delete_old = false ) {
 			global $wpdb;
-			
+
 			/* Get only those rows where no wpseo meta values exist for the same post
 			   (with the exception of linkdex as that will be set independently of whether the post has been edited)
 			   @internal Query is pretty well optimized this way */
@@ -841,7 +841,7 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 			// Delete old keys
 			delete_post_meta_by_key( self::$meta_prefix . 'meta-robots' );
 
-			
+
 			/**
 			 * Remove all default values and (most) invalid option values
 			 * Invalid option values for the multiselect (meta-robots-adv) field will be dealt with seperately
@@ -919,7 +919,7 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 				}
 			}
 			unset( $query, $meta_ids, $count, $object_id );
-			
+
 
 			/**
 			 * Deal with the multiselect (meta-robots-adv) field
@@ -938,7 +938,7 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 			if ( is_array( $oldies ) && $oldies !== array() ) {
 				foreach ( $oldies as $old ) {
 					$clean = self::validate_meta_robots_adv( $old->meta_value );
-					
+
 					if ( $clean !== $old->meta_value ) {
 						if ( $clean !== self::$meta_fields['advanced']['meta-robots-adv']['default_value'] ) {
 							update_metadata_by_mid( 'post', $old->meta_id, $clean );

@@ -25,7 +25,7 @@ function wpseo_activate() {
 	wpseo_defaults();
 
 	wpseo_flush_rules();
-	
+
 	WPSEO_Options::schedule_yoast_tracking( null, get_option( 'wpseo' ) );
 
 //	wpseo_title_test(); // is already run in wpseo_defaults
@@ -334,7 +334,7 @@ function wpseo_deactivate() {
 
 	// Clear cache so the changes are obvious.
 	WPSEO_Options::clear_cache();
-	
+
 	do_action( 'wpseo_deactivate' );
 }
 
