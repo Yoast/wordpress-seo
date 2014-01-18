@@ -135,15 +135,28 @@ function wpseo_upsert_new_title( $post_id, $new_title, $original_title ) {
  */
 function wpseo_upsert_meta( $post_id, $new_meta_value, $orig_meta_value, $meta_key, $return_key ) {
 
-	$res = update_post_meta( $post_id, $meta_key, $new_meta_value );
-
-	return array(
-		'status'                 => ( ( $res !== false ) ? 'success' : 'failure'),
+	$upsert_results = array(
+		'status'                 => 'success',
 		'post_id'                => $post_id,
 		"new_{$return_key}"      => $new_meta_value,
-		"original_{$return_key}" => $orig_meta_value,
-		'results'                => $res,
+		"original_{$return_key}" => $orig_meta_value
 	);
+
+	$the_post = get_post( $post_id );
+	if ( empty( $the_post ) ) {
+		
+		$upsert_results['status']  = 'failure';
+		$upsert_results['results'] = "Post doesn't exist.";
+
+		return $upsert_results;
+	}
+
+	$res = update_post_meta( $post_id, $meta_key, $new_meta_value );
+
+	$upsert_results['status']  = ( $res !== false ) ? 'success' : 'failure';
+	$upsert_results['results'] = $res;
+
+	return $upsert_results;
 }
 
 /**
