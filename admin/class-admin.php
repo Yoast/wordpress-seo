@@ -561,8 +561,9 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 			$options         = get_option( 'wpseo' );
 			$current_version = isset( $options['version'] ) ? $options['version'] : 0;
 	
-			if ( version_compare( $current_version, WPSEO_VERSION, '==' ) )
+			if ( version_compare( $current_version, WPSEO_VERSION, '==' ) ) {
 				return;
+			}
 	
 			// <= 0.3.5: flush rewrite rules for new XML sitemaps
 			if ( $current_version == 0 ) {
@@ -579,27 +580,40 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 					}
 				}
 				// Per post type settings
-				foreach ( get_post_types() as $post_type ) {
-					if ( in_array( $post_type, array( 'revision', 'nav_menu_item', 'attachment' ) ) )
-						continue;
-	
-					if ( isset( $options['post_types-' . $post_type . '-not_in_sitemap'] ) ) {
-						$xml_opt['post_types-' . $post_type . '-not_in_sitemap'] = $options['post_types-' . $post_type . '-not_in_sitemap'];
-						unset( $options['post_types-' . $post_type . '-not_in_sitemap'] );
+				$post_types = get_post_types();
+				if ( is_array( $post_types ) && $post_types !== array() ) {
+					foreach ( $post_types as $post_type ) {
+						if ( in_array( $post_type, array( 'revision', 'nav_menu_item', 'attachment' ) ) ) {
+							continue;
+						}
+
+						if ( isset( $options['post_types-' . $post_type . '-not_in_sitemap'] ) ) {
+							$xml_opt['post_types-' . $post_type . '-not_in_sitemap'] = $options['post_types-' . $post_type . '-not_in_sitemap'];
+							unset( $options['post_types-' . $post_type . '-not_in_sitemap'] );
+						}
 					}
 				}
+				unset( $post_types, $post_type );
+
 				// Per taxonomy settings
-				foreach ( get_taxonomies() as $taxonomy ) {
-					if ( in_array( $taxonomy, array( 'nav_menu', 'link_category', 'post_format' ) ) )
-						continue;
-	
-					if ( isset( $options['taxonomies-' . $taxonomy . '-not_in_sitemap'] ) ) {
-						$xml_opt['taxonomies-' . $taxonomy . '-not_in_sitemap'] = $options['taxonomies-' . $taxonomy . '-not_in_sitemap'];
-						unset( $options['taxonomies-' . $taxonomy . '-not_in_sitemap'] );
+				$taxonomies = get_taxonomies();
+				if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
+					foreach ( $taxonomies as $taxonomy ) {
+						if ( in_array( $taxonomy, array( 'nav_menu', 'link_category', 'post_format' ) ) ) {
+							continue;
+						}
+		
+						if ( isset( $options['taxonomies-' . $taxonomy . '-not_in_sitemap'] ) ) {
+							$xml_opt['taxonomies-' . $taxonomy . '-not_in_sitemap'] = $options['taxonomies-' . $taxonomy . '-not_in_sitemap'];
+							unset( $options['taxonomies-' . $taxonomy . '-not_in_sitemap'] );
+						}
 					}
 				}
-				if ( get_option( 'wpseo_xml' ) === false )
+				unset( $taxonomies, $taxonomy );
+				
+				if ( get_option( 'wpseo_xml' ) === false ) {
 					update_option( 'wpseo_xml', $xml_opt );
+				}
 				unset( $xml_opt );
 	
 				// Clean up other no longer used settings
@@ -795,7 +809,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		function stopwords_check( $haystack, $checkingUrl = false ) {
 			$stopWords = $this->stopwords();
 	
-			if ( is_array( $stopWords ) && count( $stopWords ) > 0 ) {
+			if ( is_array( $stopWords ) && $stopWords !== array() ) {
 				foreach ( $stopWords as $stopWord ) {
 					// If checking a URL remove the single quotes
 					if ( $checkingUrl )
@@ -825,8 +839,11 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		 * Log the updated timestamp for user profiles when theme is changed
 		 */
 		function switch_theme() {
-			foreach ( get_users( array( 'who' => 'authors' ) ) as $user ) {
-				update_user_meta( $user->ID, '_yoast_wpseo_profile_updated', time() );
+			$users = get_users( array( 'who' => 'authors' ) );
+			if ( is_array( $users ) && $users !== array() ) {
+				foreach ( $users as $user ) {
+					update_user_meta( $user->ID, '_yoast_wpseo_profile_updated', time() );
+				}
 			}
 		}
 

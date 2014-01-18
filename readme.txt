@@ -128,6 +128,7 @@ This version also incorporates the [SEO Extended](http://wordpress.org/plugins/s
 	* Fixed: bug in canonical urls where an essential part of the logic was skipped for singular posts/pages
 	* Fixed: category rewrite rules could have errors for categories without parent categories.
 	* Fixed: bug in delete_sitemaps() - wrong retrieval of needed options.
+	* Fixed: HTML sitemaps would sometimes display headers without a link list.
 
 	* Fixed: Admin -> Dashboard -> Failed removal of the meta description from a theme file would still change the relevant internal option as if it had succeeded.
 	* Fixed: Admin -> Titles & Meta's -> Post types would show attachments even when attachment redirection to post was enabled.
@@ -149,8 +150,10 @@ This version also incorporates the [SEO Extended](http://wordpress.org/plugins/s
 
 	* Added sanitation/improved validation to $_GET and $_POST variables if/when they are used in a manner which could cause security issues.
 	* Fixed: wrong file was loaded for the get_plugin_data() function.
-	* Fixed: several html validation issues
-	* Improved 403 headers for illegal file requests as suggested by [cfoellmann](https://github.com/cfoellmann)
+	* Fixed: several bug-sensitive code constructs. This will probably get rid of a number of hard to figure out bugs.
+	* Fixed: several html validation issues.
+
+
 
 
 @to fix: Google Plus description was never added to the html page
@@ -170,6 +173,7 @@ This version also incorporates the [SEO Extended](http://wordpress.org/plugins/s
 	* Improved lazy loading of plugin files using autoload.
 	* Made the Google+ and Facebook post descriptions translatable by WPML.
 	* Better calculation precision for SEO score
+	* Improved 403 headers for illegal file requests as suggested by [cfoellmann](https://github.com/cfoellmann)
 	* CSS and JS files are now minified
 
 * Other:

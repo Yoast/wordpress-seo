@@ -29,7 +29,7 @@ $post_types = get_post_types( array( 'public' => true ), 'objects' );
 if ( is_array( $post_types ) && $post_types !== array() ) {
 	foreach ( $post_types as $pt ) {
 		$taxonomies = get_object_taxonomies( $pt->name, 'objects' );
-		if ( is_array( $taxonomies ) && count( $taxonomies ) > 0 ) {
+		if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
 			$values = array( 0 => __( 'None', 'wordpress-seo' ) );
 			foreach ( $taxonomies as $tax ) {
 				$values[$tax->name] = $tax->labels->singular_name;

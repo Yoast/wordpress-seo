@@ -224,105 +224,120 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 	
 			// reference post type specific sitemaps
 			$post_types = get_post_types( array( 'public' => true ) );
-			foreach ( $post_types as $post_type ) {
-				if ( isset( $this->options['post_types-' . $post_type . '-not_in_sitemap'] ) && $this->options['post_types-' . $post_type . '-not_in_sitemap'] === true ) {
-					continue;
-				}
-				else if ( apply_filters( 'wpseo_sitemap_exclude_post_type', false, $post_type ) ) {
-					continue;
-				}
-	
-				$query = $wpdb->prepare( "SELECT COUNT(ID) FROM $wpdb->posts WHERE post_type = '%s' AND post_status IN ('publish','inherit')", $post_type );
-	
-				$count = $wpdb->get_var( $query );
-				// don't include post types with no posts
-				if ( ! $count )
-					continue;
-	
-				$n = ( $count > $this->max_entries ) ? (int) ceil( $count / $this->max_entries ) : 1;
-				for ( $i = 0; $i < $n; $i ++ ) {
-					$count = ( $n > 1 ) ? $i + 1 : '';
-	
-					if ( empty( $count ) || $count == $n ) {
-						$date = $this->get_last_modified( $post_type );
+			if ( is_array( $post_types ) && $post_types !== array() ) {
+				foreach ( $post_types as $post_type ) {
+					if ( isset( $this->options['post_types-' . $post_type . '-not_in_sitemap'] ) && $this->options['post_types-' . $post_type . '-not_in_sitemap'] === true ) {
+						continue;
 					}
-					else {
-						$date = $wpdb->get_var( $wpdb->prepare( "SELECT post_modified_gmt FROM $wpdb->posts WHERE post_status IN ('publish','inherit') AND post_type = %s ORDER BY post_modified_gmt ASC LIMIT 1 OFFSET %d", $post_type, $this->max_entries * ( $i + 1 ) - 1 ) );
+					else if ( apply_filters( 'wpseo_sitemap_exclude_post_type', false, $post_type ) ) {
+						continue;
 					}
-	
-					$date = date( 'c', strtotime( $date ) );
-	
-					$this->sitemap .= '<sitemap>' . "\n";
-					$this->sitemap .= '<loc>' . home_url( $base . $post_type . '-sitemap' . $count . '.xml' ) . '</loc>' . "\n";
-					$this->sitemap .= '<lastmod>' . htmlspecialchars( $date ) . '</lastmod>' . "\n";
-					$this->sitemap .= '</sitemap>' . "\n";
+		
+					$query = $wpdb->prepare( "SELECT COUNT(ID) FROM $wpdb->posts WHERE post_type = '%s' AND post_status IN ('publish','inherit')", $post_type );
+		
+					$count = $wpdb->get_var( $query );
+					// don't include post types with no posts
+					if ( ! $count ) {
+						continue;
+					}
+		
+					$n = ( $count > $this->max_entries ) ? (int) ceil( $count / $this->max_entries ) : 1;
+					for ( $i = 0; $i < $n; $i ++ ) {
+						$count = ( $n > 1 ) ? $i + 1 : '';
+		
+						if ( empty( $count ) || $count == $n ) {
+							$date = $this->get_last_modified( $post_type );
+						}
+						else {
+							$date = $wpdb->get_var( $wpdb->prepare( "SELECT post_modified_gmt FROM $wpdb->posts WHERE post_status IN ('publish','inherit') AND post_type = %s ORDER BY post_modified_gmt ASC LIMIT 1 OFFSET %d", $post_type, $this->max_entries * ( $i + 1 ) - 1 ) );
+						}
+		
+						$date = date( 'c', strtotime( $date ) );
+		
+						$this->sitemap .= '<sitemap>' . "\n";
+						$this->sitemap .= '<loc>' . home_url( $base . $post_type . '-sitemap' . $count . '.xml' ) . '</loc>' . "\n";
+						$this->sitemap .= '<lastmod>' . htmlspecialchars( $date ) . '</lastmod>' . "\n";
+						$this->sitemap .= '</sitemap>' . "\n";
+					}
 				}
 			}
+			unset( $post_types, /*$post_type,*/ $query, $count, $n, $i, $date );
 	
 			// reference taxonomy specific sitemaps
-			foreach ( get_taxonomies( array( 'public' => true ) ) as $tax ) {
-				if ( in_array( $tax, array( 'link_category', 'nav_menu', 'post_format' ) ) )
-					continue;
-				else if ( apply_filters( 'wpseo_sitemap_exclude_taxonomy', false, $tax ) )
-					continue;
-	
-				if ( isset( $this->options['taxonomies-' . $tax . '-not_in_sitemap'] ) && $this->options['taxonomies-' . $tax . '-not_in_sitemap'] === true )
-					continue;
-				// don't include taxonomies with no terms
-				if ( ! $wpdb->get_var( $wpdb->prepare( "SELECT term_id FROM $wpdb->term_taxonomy WHERE taxonomy = %s AND count != 0 LIMIT 1", $tax ) ) )
-					continue;
-	
-				$all_terms = get_terms( $tax, array( 'hide_empty' => true, 'fields' => 'names' ) );
-	
-				$steps = $this->max_entries;
-				$count = count( $all_terms );
-				$n     = ( $count > $this->max_entries ) ? (int) ceil( $count / $this->max_entries ) : 1;
-	
-				for ( $i = 0; $i < $n; $i ++ ) {
-					$count  = ( $n > 1 ) ? $i + 1 : '';
-					$taxobj = get_taxonomy( $tax );
-	
-					if ( ( empty( $count ) || $count == $n ) && false ) {
-						// @todo: [JRF => Yoast] check as $post_type might not be defined or rather, will always take last post type from the above foreach loop, is this what is desired ? Shouldn't this check for the last modified of the taxonomy ?
-						// and what's with the "&& false" ?
-						$date = $this->get_last_modified( $post_type );
+			$taxonomies = get_taxonomies( array( 'public' => true ) );
+			if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
+				foreach ( $taxonomies as $tax ) {
+					if ( in_array( $tax, array( 'link_category', 'nav_menu', 'post_format' ) ) ) {
+						continue;
 					}
-					else {
-						$terms = array_splice( $all_terms, 0, $steps );
-						if ( ! $terms )
-							continue;
+					else if ( apply_filters( 'wpseo_sitemap_exclude_taxonomy', false, $tax ) ) {
+						continue;
+					}
 	
-						$args  = array(
-							'post_type' => $taxobj->object_type,
-							'tax_query' => array(
-								array(
-									'taxonomy' => $tax,
-									'field'    => 'slug',
-									'terms'    => $terms,
-								),
-							),
-							'orderby'   => 'modified',
-							'order'     => 'DESC',
-						);
-						$query = new WP_Query( $args );
-	
-						$date = '';
-						if ( $query->have_posts() ) {
-							$date = $query->posts[0]->post_modified_gmt;
+					if ( isset( $this->options['taxonomies-' . $tax . '-not_in_sitemap'] ) && $this->options['taxonomies-' . $tax . '-not_in_sitemap'] === true ) {
+						continue;
+					}
+					// don't include taxonomies with no terms
+					if ( ! $wpdb->get_var( $wpdb->prepare( "SELECT term_id FROM $wpdb->term_taxonomy WHERE taxonomy = %s AND count != 0 LIMIT 1", $tax ) ) ) {
+						continue;
+					}
+		
+					$all_terms = get_terms( $tax, array( 'hide_empty' => true, 'fields' => 'names' ) );
+		
+					$steps = $this->max_entries;
+					$count = count( $all_terms );
+					$n     = ( $count > $this->max_entries ) ? (int) ceil( $count / $this->max_entries ) : 1;
+		
+					for ( $i = 0; $i < $n; $i ++ ) {
+						$count  = ( $n > 1 ) ? $i + 1 : '';
+						$taxobj = get_taxonomy( $tax );
+		
+						if ( ( empty( $count ) || $count == $n ) && false ) {
+							/* @todo: [JRF => Yoast] check as $post_type might not be defined or rather,
+							   will always take last post type from the previous foreach loop, is this what
+							   is desired ? Shouldn't this check for the last modified of the taxonomy ?
+							   and what's with the "&& false" ? */
+							$date = $this->get_last_modified( $post_type );
 						}
+						else {
+							$terms = array_splice( $all_terms, 0, $steps );
+							if ( ! $terms ) {
+								continue;
+							}
+		
+							$args  = array(
+								'post_type' => $taxobj->object_type,
+								'tax_query' => array(
+									array(
+										'taxonomy' => $tax,
+										'field'    => 'slug',
+										'terms'    => $terms,
+									),
+								),
+								'orderby'   => 'modified',
+								'order'     => 'DESC',
+							);
+							$query = new WP_Query( $args );
+		
+							$date = '';
+							if ( $query->have_posts() ) {
+								$date = $query->posts[0]->post_modified_gmt;
+							}
+						}
+		
+						// Retrieve the post_types that are registered to this taxonomy and then retrieve last modified date for all of those combined.
+						// $taxobj = get_taxonomy( $tax );
+						// $date   = $this->get_last_modified( $taxobj->object_type );
+						$date = date( 'c', strtotime( $date ) );
+		
+						$this->sitemap .= '<sitemap>' . "\n";
+						$this->sitemap .= '<loc>' . home_url( $base . $tax . '-sitemap' . $count . '.xml' ) . '</loc>' . "\n";
+						$this->sitemap .= '<lastmod>' . htmlspecialchars( $date ) . '</lastmod>' . "\n";
+						$this->sitemap .= '</sitemap>' . "\n";
 					}
-	
-					// Retrieve the post_types that are registered to this taxonomy and then retrieve last modified date for all of those combined.
-					// $taxobj = get_taxonomy( $tax );
-					// $date   = $this->get_last_modified( $taxobj->object_type );
-					$date = date( 'c', strtotime( $date ) );
-	
-					$this->sitemap .= '<sitemap>' . "\n";
-					$this->sitemap .= '<loc>' . home_url( $base . $tax . '-sitemap' . $count . '.xml' ) . '</loc>' . "\n";
-					$this->sitemap .= '<lastmod>' . htmlspecialchars( $date ) . '</lastmod>' . "\n";
-					$this->sitemap .= '</sitemap>' . "\n";
 				}
 			}
+			unset( $taxonomies, $tax, $all_terms, $steps, $count, $n, $i, $taxobj, $date, $terms, $args, $query );
 	
 			if ( $this->options['disable-author'] === false && $this->options['disable_author_sitemap'] === false ) {
 	
@@ -376,6 +391,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 					$this->sitemap .= '<lastmod>' . htmlspecialchars( $date ) . '</lastmod>' . "\n";
 					$this->sitemap .= '</sitemap>' . "\n";
 				}
+				unset( $users, $count, $n, $i, $date );
 			}
 	
 			// allow other plugins to add their sitemaps to the index
@@ -500,141 +516,146 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 				);
 	
 				$posts = $wpdb->get_results( $query );
-	
-				$offset = $offset + $steps;
-	
-				foreach ( $posts as $p ) {
-					$p->post_type   = $post_type;
-					$p->post_status = 'publish';
-					$p->filter      = 'sample';
 
-					if ( WPSEO_Meta::get_value( 'meta-robots-noindex', $p->ID ) === '1' && WPSEO_Meta::get_value( 'sitemap-include', $p->ID ) !== 'always' ) {
-						continue;
-					}
-					if ( WPSEO_Meta::get_value( 'sitemap-include', $p->ID ) === 'never' ) {
-						continue;
-					}
-					if ( WPSEO_Meta::get_value( 'redirect', $p->ID ) !== '' ) {
-						continue;
-					}
+				$offset = $offset + $steps;
+				
+				if ( is_array( $posts ) && $posts !== array() ) {
+					foreach ( $posts as $p ) {
+						$p->post_type   = $post_type;
+						$p->post_status = 'publish';
+						$p->filter      = 'sample';
 	
-					$url = array();
-	
-					$url['mod'] = ( isset( $p->post_modified_gmt ) && $p->post_modified_gmt != '0000-00-00 00:00:00' && $p->post_modified_gmt > $p->post_date_gmt ) ? $p->post_modified_gmt : $p->post_date_gmt;
-					$url['chf'] = 'weekly';
-					$url['loc'] = get_permalink( $p );
-	
-					$canonical = WPSEO_Meta::get_value( 'canonical', $p->ID );
-					if ( $canonical !== '' && $canonical !== $url['loc'] ) {
-						/* Let's assume that if a canonical is set for this page and it's different from
-						   the URL of this post, that page is either already in the XML sitemap OR is on
-						   an external site, either way, we shouldn't include it here. */
-						continue;
-					}
-					else {
-						if ( $this->options['trailingslash'] === true && $p->post_type != 'post' ) {
-							$url['loc'] = trailingslashit( $url['loc'] );
+						if ( WPSEO_Meta::get_value( 'meta-robots-noindex', $p->ID ) === '1' && WPSEO_Meta::get_value( 'sitemap-include', $p->ID ) !== 'always' ) {
+							continue;
 						}
-					}
-	
-					$pri = WPSEO_Meta::get_value( 'sitemap-prio', $p->ID );
-					if ( is_numeric( $pri ) ) {
-						$url['pri'] = (float) $pri;
-					}
-					else if ( $p->post_parent == 0 && $p->post_type == 'page' ) {
-						$url['pri'] = 0.8;
-					}
-					else {
-						$url['pri'] = 0.6;
-					}
-	
-					if ( isset( $front_id ) && $p->ID == $front_id ) {
-						$url['pri'] = 1.0;
-					}
-	
-					$url['images'] = array();
-	
-					$content = $p->post_content;
-					if ( function_exists( 'get_the_post_thumbnail' ) ) {
-						$content = '<p>' . get_the_post_thumbnail( $p->ID, 'full' ) . '</p>' . $content;
-					}
-	
-					$host = str_replace( 'www.', '', parse_url( get_bloginfo( 'url' ), PHP_URL_HOST ) );
-	
-					if ( preg_match_all( '`<img [^>]+>`', $content, $matches ) ) {
-						foreach ( $matches[0] as $img ) {
-							if ( preg_match( '`src=["\']([^"\']+)["\']`', $img, $match ) ) {
-								$src = $match[1];
-								if ( strpos( $src, 'http' ) !== 0 ) {
-									if ( $src[0] != '/' ) {
+						if ( WPSEO_Meta::get_value( 'sitemap-include', $p->ID ) === 'never' ) {
+							continue;
+						}
+						if ( WPSEO_Meta::get_value( 'redirect', $p->ID ) !== '' ) {
+							continue;
+						}
+		
+						$url = array();
+		
+						$url['mod'] = ( isset( $p->post_modified_gmt ) && $p->post_modified_gmt != '0000-00-00 00:00:00' && $p->post_modified_gmt > $p->post_date_gmt ) ? $p->post_modified_gmt : $p->post_date_gmt;
+						$url['chf'] = 'weekly';
+						$url['loc'] = get_permalink( $p );
+		
+						$canonical = WPSEO_Meta::get_value( 'canonical', $p->ID );
+						if ( $canonical !== '' && $canonical !== $url['loc'] ) {
+							/* Let's assume that if a canonical is set for this page and it's different from
+							   the URL of this post, that page is either already in the XML sitemap OR is on
+							   an external site, either way, we shouldn't include it here. */
+							continue;
+						}
+						else {
+							if ( $this->options['trailingslash'] === true && $p->post_type != 'post' ) {
+								$url['loc'] = trailingslashit( $url['loc'] );
+							}
+						}
+		
+						$pri = WPSEO_Meta::get_value( 'sitemap-prio', $p->ID );
+						if ( is_numeric( $pri ) ) {
+							$url['pri'] = (float) $pri;
+						}
+						else if ( $p->post_parent == 0 && $p->post_type == 'page' ) {
+							$url['pri'] = 0.8;
+						}
+						else {
+							$url['pri'] = 0.6;
+						}
+		
+						if ( isset( $front_id ) && $p->ID == $front_id ) {
+							$url['pri'] = 1.0;
+						}
+		
+						$url['images'] = array();
+		
+						$content = $p->post_content;
+						if ( function_exists( 'get_the_post_thumbnail' ) ) {
+							$content = '<p>' . get_the_post_thumbnail( $p->ID, 'full' ) . '</p>' . $content;
+						}
+		
+						$host = str_replace( 'www.', '', parse_url( get_bloginfo( 'url' ), PHP_URL_HOST ) );
+		
+						if ( preg_match_all( '`<img [^>]+>`', $content, $matches ) ) {
+							foreach ( $matches[0] as $img ) {
+								if ( preg_match( '`src=["\']([^"\']+)["\']`', $img, $match ) ) {
+									$src = $match[1];
+									if ( strpos( $src, 'http' ) !== 0 ) {
+										if ( $src[0] != '/' ) {
+											continue;
+										}
+										$src = get_bloginfo( 'url' ) . $src;
+									}
+		
+									if ( strpos( $src, $host ) === false ) {
 										continue;
 									}
-									$src = get_bloginfo( 'url' ) . $src;
+		
+									if ( $src != esc_url( $src ) ) {
+										continue;
+									}
+		
+									if ( isset( $url['images'][$src] ) ) {
+										continue;
+									}
+		
+									$image = array(
+										'src' => apply_filters( 'wpseo_xml_sitemap_img_src', $src, $p )
+									);
+		
+									if ( preg_match( '`title=["\']([^"\']+)["\']`', $img, $match ) ) {
+										$image['title'] = str_replace( array( '-', '_' ), ' ', $match[1] );
+									}
+
+									if ( preg_match( '`alt=["\']([^"\']+)["\']`', $img, $match ) ) {
+										$image['alt'] = str_replace( array( '-', '_' ), ' ', $match[1] );
+									}
+		
+									$image = apply_filters( 'wpseo_xml_sitemap_img', $image, $p );
+		
+									$url['images'][] = $image;
 								}
-	
-								if ( strpos( $src, $host ) === false ) {
-									continue;
-								}
-	
-								if ( $src != esc_url( $src ) ) {
-									continue;
-								}
-	
-								if ( isset( $url['images'][$src] ) ) {
-									continue;
-								}
-	
-								$image = array(
-									'src' => apply_filters( 'wpseo_xml_sitemap_img_src', $src, $p )
-								);
-	
-								if ( preg_match( '`title=["\']([^"\']+)["\']`', $img, $match ) ) {
-									$image['title'] = str_replace( array( '-', '_' ), ' ', $match[1] );
-								}
-	
-								if ( preg_match( '`alt=["\']([^"\']+)["\']`', $img, $match ) ) {
-									$image['alt'] = str_replace( array( '-', '_' ), ' ', $match[1] );
-								}
-	
-								$image = apply_filters( 'wpseo_xml_sitemap_img', $image, $p );
-	
-								$url['images'][] = $image;
 							}
 						}
-					}
-	
-					if ( strpos( $p->post_content, '[gallery' ) !== false ) {
-						$attachments = get_children( array( 'post_parent' => $p->ID, 'post_status' => 'inherit', 'post_type' => 'attachment', 'post_mime_type' => 'image' ) );
-						foreach ( $attachments as $att_id => $attachment ) {
-							$src   = wp_get_attachment_image_src( $att_id, 'large', false );
-							$image = array(
-								'src' => apply_filters( 'wpseo_xml_sitemap_img_src', $src[0], $p )
-							);
-	
-							$alt = get_post_meta( $att_id, '_wp_attachment_image_alt', true );
-							if ( $alt !== '' ) {
-								$image['alt'] = $alt;
+
+						if ( strpos( $p->post_content, '[gallery' ) !== false ) {
+							$attachments = get_children( array( 'post_parent' => $p->ID, 'post_status' => 'inherit', 'post_type' => 'attachment', 'post_mime_type' => 'image' ) );
+							if ( is_array( $attachments ) && $attachments !== array() ) {
+								foreach ( $attachments as $att_id => $attachment ) {
+									$src   = wp_get_attachment_image_src( $att_id, 'large', false );
+									$image = array(
+										'src' => apply_filters( 'wpseo_xml_sitemap_img_src', $src[0], $p )
+									);
+			
+									$alt = get_post_meta( $att_id, '_wp_attachment_image_alt', true );
+									if ( $alt !== '' ) {
+										$image['alt'] = $alt;
+									}
+									unset( $alt );
+			
+									$image['title'] = $attachment->post_title;
+			
+									$image = apply_filters( 'wpseo_xml_sitemap_img', $image, $p );
+			
+									$url['images'][] = $image;
+								}
 							}
-							unset( $alt );
-	
-							$image['title'] = $attachment->post_title;
-	
-							$image = apply_filters( 'wpseo_xml_sitemap_img', $image, $p );
-	
-							$url['images'][] = $image;
+							unset( $attachments, $att_id, $attachment, $src, $image, $alt );
 						}
+		
+						$url['images'] = apply_filters( 'wpseo_sitemap_urlimages', $url['images'], $p->ID );
+		
+						if ( ! in_array( $url['loc'], $stackedurls ) ) {
+							$output .= $this->sitemap_url( $url );
+							$stackedurls[] = $url['loc'];
+						}
+		
+						// Clear the post_meta and the term cache for the post, as we no longer need it now.
+						// wp_cache_delete( $p->ID, 'post_meta' );
+						// clean_object_term_cache( $p->ID, $post_type );
 					}
-	
-					$url['images'] = apply_filters( 'wpseo_sitemap_urlimages', $url['images'], $p->ID );
-	
-					if ( ! in_array( $url['loc'], $stackedurls ) ) {
-						$output .= $this->sitemap_url( $url );
-						$stackedurls[] = $url['loc'];
-					}
-	
-					// Clear the post_meta and the term cache for the post, as we no longer need it now.
-					// wp_cache_delete( $p->ID, 'post_meta' );
-					// clean_object_term_cache( $p->ID, $post_type );
 				}
 			}
 	
@@ -678,62 +699,64 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 			$offset = ( $n > 1 ) ? ( $n - 1 ) * $this->max_entries : 0;
 			// @todo: [JRF => Yoast/whomever] check if setting $total makes sense somehow as it does not seem to be used in this method
 			$total  = $offset + $this->max_entries;
-	
+
 			$terms = get_terms( $taxonomy->name, array( 'hide_empty' => true ) );
 			$terms = array_splice( $terms, $offset, $steps );
+			
+			if ( is_array( $terms ) && $terms !== array() ) {
+				foreach ( $terms as $c ) {
+					$url = array();
+					
+					$tax_noindex     = WPSEO_Taxonomy_Meta::get_term_meta( $c, $c->taxonomy, 'noindex' );
+					$tax_sitemap_inc = WPSEO_Taxonomy_Meta::get_term_meta( $c, $c->taxonomy, 'sitemap_include' );
 	
-			foreach ( $terms as $c ) {
-				$url = array();
-				
-				$tax_noindex     = WPSEO_Taxonomy_Meta::get_term_meta( $c, $c->taxonomy, 'noindex' );
-				$tax_sitemap_inc = WPSEO_Taxonomy_Meta::get_term_meta( $c, $c->taxonomy, 'sitemap_include' );
-
-				if ( ( is_string( $tax_noindex ) && $tax_noindex === 'noindex' )
-						&& ( ! is_string( $tax_sitemap_inc ) || $tax_sitemap_inc !== 'always' )
-				) {
-					continue;
-				}
-
-				if ( $tax_sitemap_inc === 'never' ) {
-					continue;
-				}
-
-				$url['loc'] = WPSEO_Taxonomy_Meta::get_term_meta( $c, $c->taxonomy, 'canonical' );
-				if ( ! is_string( $url['loc'] ) || $url['loc'] === '' ) {
-					$url['loc'] = get_term_link( $c, $c->taxonomy );
-					if ( $this->options['trailingslash'] === true ) {
-						$url['loc'] = trailingslashit( $url['loc'] );
+					if ( ( is_string( $tax_noindex ) && $tax_noindex === 'noindex' )
+							&& ( ! is_string( $tax_sitemap_inc ) || $tax_sitemap_inc !== 'always' )
+					) {
+						continue;
 					}
-				}
-				if ( $c->count > 10 ) {
-					$url['pri'] = 0.6;
-				}
-				else if ( $c->count > 3 ) {
-					$url['pri'] = 0.4;
-				}
-				else {
-					$url['pri'] = 0.2;
-				}
 	
-				// Grab last modified date
-				$sql        = $wpdb->prepare(
-					"
-					SELECT MAX(p.post_modified_gmt) AS lastmod
-					FROM	$wpdb->posts AS p
-					INNER JOIN $wpdb->term_relationships AS term_rel
-						ON		term_rel.object_id = p.ID
-					INNER JOIN $wpdb->term_taxonomy AS term_tax
-						ON		term_tax.term_taxonomy_id = term_rel.term_taxonomy_id
-						AND		term_tax.taxonomy = %s
-						AND		term_tax.term_id = %d
-					WHERE	p.post_status IN ('publish','inherit')
-						AND		p.post_password = ''",
-					$c->taxonomy,
-					$c->term_id
-				);
-				$url['mod'] = $wpdb->get_var( $sql );
-				$url['chf'] = 'weekly';
-				$output    .= $this->sitemap_url( $url );
+					if ( $tax_sitemap_inc === 'never' ) {
+						continue;
+					}
+	
+					$url['loc'] = WPSEO_Taxonomy_Meta::get_term_meta( $c, $c->taxonomy, 'canonical' );
+					if ( ! is_string( $url['loc'] ) || $url['loc'] === '' ) {
+						$url['loc'] = get_term_link( $c, $c->taxonomy );
+						if ( $this->options['trailingslash'] === true ) {
+							$url['loc'] = trailingslashit( $url['loc'] );
+						}
+					}
+					if ( $c->count > 10 ) {
+						$url['pri'] = 0.6;
+					}
+					else if ( $c->count > 3 ) {
+						$url['pri'] = 0.4;
+					}
+					else {
+						$url['pri'] = 0.2;
+					}
+		
+					// Grab last modified date
+					$sql        = $wpdb->prepare(
+						"
+						SELECT MAX(p.post_modified_gmt) AS lastmod
+						FROM	$wpdb->posts AS p
+						INNER JOIN $wpdb->term_relationships AS term_rel
+							ON		term_rel.object_id = p.ID
+						INNER JOIN $wpdb->term_taxonomy AS term_tax
+							ON		term_tax.term_taxonomy_id = term_rel.term_taxonomy_id
+							AND		term_tax.taxonomy = %s
+							AND		term_tax.term_id = %d
+						WHERE	p.post_status IN ('publish','inherit')
+							AND		p.post_password = ''",
+						$c->taxonomy,
+						$c->term_id
+					);
+					$url['mod'] = $wpdb->get_var( $sql );
+					$url['chf'] = 'weekly';
+					$output    .= $this->sitemap_url( $url );
+				}
 			}
 	
 			if ( empty( $output ) ) {
@@ -760,7 +783,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 			}
 	
 			$output = '';
-	
+
 			$steps  = $this->max_entries;
 			$n      = (int) $this->n;
 			$offset = ( $n > 1 ) ? ( $n - 1 ) * $this->max_entries : 0;
@@ -779,9 +802,12 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 				)
 			);
 	
-			foreach ( $users as $user ) {
-				update_user_meta( $user->ID, '_yoast_wpseo_profile_updated', time() );
+			if ( is_array( $users ) && $users !== array() ) {
+				foreach ( $users as $user ) {
+					update_user_meta( $user->ID, '_yoast_wpseo_profile_updated', time() );
+				}
 			}
+			unset( $users, $user );
 	
 			// query for users with this meta
 			$users = get_users(
@@ -800,21 +826,23 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 			// ascending sort
 			usort( $users, array( $this, 'user_map_sorter' ) );
 	
-			foreach ( $users as $user ) {
-				$author_link = get_author_posts_url( $user->ID );
-				if ( $author_link !== '' ) {
-					$output .= $this->sitemap_url(
-						array(
-							'loc' => $author_link,
-							'pri' => 0.8,
-							'chf' => 'weekly',
-							'mod' => date( 'c', isset( $user->_yoast_wpseo_profile_updated ) ? $user->_yoast_wpseo_profile_updated : time() ),
-						)
-					);
+			if ( is_array( $users ) && $users !== array() ) {
+				foreach ( $users as $user ) {
+					$author_link = get_author_posts_url( $user->ID );
+					if ( $author_link !== '' ) {
+						$output .= $this->sitemap_url(
+							array(
+								'loc' => $author_link,
+								'pri' => 0.8,
+								'chf' => 'weekly',
+								'mod' => date( 'c', isset( $user->_yoast_wpseo_profile_updated ) ? $user->_yoast_wpseo_profile_updated : time() ),
+							)
+						);
+					}
 				}
+				unset( $user, $author_link );
 			}
-			unset( $author_link );
-	
+
 			if ( empty( $output ) ) {
 				$this->bad_sitemap = true;
 				return;
@@ -899,10 +927,11 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 			$output .= "\t\t<changefreq>" . $url['chf'] . "</changefreq>\n";
 			$output .= "\t\t<priority>" . str_replace( ',', '.', $url['pri'] ) . "</priority>\n";
 	
-			if ( isset( $url['images'] ) && count( $url['images'] ) > 0 ) {
+			if ( isset( $url['images'] ) && ( is_array( $url['images'] ) && $url['images'] !== array() ) ) {
 				foreach ( $url['images'] as $img ) {
-					if ( ! isset( $img['src'] ) || empty( $img['src'] ) )
+					if ( ! isset( $img['src'] ) || empty( $img['src'] ) ) {
 						continue;
+					}
 					$output .= "\t\t<image:image>\n";
 					$output .= "\t\t\t<image:loc>" . esc_html( $img['src'] ) . "</image:loc>\n";
 					if ( isset( $img['title'] ) && ! empty( $img['title'] ) ) {

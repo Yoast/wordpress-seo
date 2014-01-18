@@ -189,21 +189,25 @@ function robots_meta_handler() {
 			// @todo [JRF => Yoast] how does this correlate with the routine on the import page ?
 			// isn't one superfluous ? functionality wasn't the same either, changed now.
 			$posts = $wpdb->get_results( "SELECT ID, robotsmeta FROM $wpdb->posts" );
-			foreach ( $posts as $post ) {
-				// sync all possible settings
-				if ( $post->robotsmeta ) {
-					$pieces = explode( ',', $post->robotsmeta );
-					foreach ( $pieces as $meta ) {
-						switch ( $meta ) {
-							case 'noindex':
-								WPSEO_Meta::set_value( 'meta-robots-noindex', '1', $post->ID );
-								break;
-							case 'index':
-								WPSEO_Meta::set_value( 'meta-robots-noindex', '2', $post->ID );
-								break;
-							case 'nofollow':
-								WPSEO_Meta::set_value( 'meta-robots-nofollow', '1', $post->ID );
-								break;
+			if ( is_array( $posts ) && $posts !== array() ) {
+				foreach ( $posts as $post ) {
+					// sync all possible settings
+					if ( $post->robotsmeta ) {
+						$pieces = explode( ',', $post->robotsmeta );
+						foreach ( $pieces as $meta ) {
+							switch ( $meta ) {
+								case 'noindex':
+									WPSEO_Meta::set_value( 'meta-robots-noindex', '1', $post->ID );
+									break;
+
+								case 'index':
+									WPSEO_Meta::set_value( 'meta-robots-noindex', '2', $post->ID );
+									break;
+
+								case 'nofollow':
+									WPSEO_Meta::set_value( 'meta-robots-nofollow', '1', $post->ID );
+									break;
+							}
 						}
 					}
 				}

@@ -71,11 +71,15 @@ if ( ! class_exists( 'Yoast_Tracking' ) ) {
 			$data = get_transient( 'yoast_tracking_cache' );
 			if ( ! $data ) {
 
-				$pts = array();
-				foreach ( get_post_types( array( 'public' => true ) ) as $pt ) {
-					$count    = wp_count_posts( $pt );
-					$pts[$pt] = $count->publish;
+				$pts        = array();
+				$post_types = get_post_types( array( 'public' => true ) );
+				if ( is_array( $post_types ) && $post_types !== array() ) {
+					foreach ( $post_types as $pt ) {
+						$count    = wp_count_posts( $pt );
+						$pts[$pt] = $count->publish;
+					}
 				}
+				unset( $post_types );
 
 				$comments_count = wp_count_comments();
 
@@ -104,7 +108,8 @@ if ( ! class_exists( 'Yoast_Tracking' ) ) {
 
 
 				$plugins = array();
-				foreach ( get_option( 'active_plugins' ) as $plugin_path ) {
+				$active_plugin = get_option( 'active_plugins' );
+				foreach ( $active_plugin as $plugin_path ) {
 					if ( ! function_exists( 'get_plugin_data' ) ) {
 						require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 					}
@@ -120,6 +125,7 @@ if ( ! class_exists( 'Yoast_Tracking' ) ) {
 						'author_uri' => $plugin_info['AuthorURI'],
 					);
 				}
+				unset( $active_plugins, $plugin_path );
 
 				$data = array(
 					'site'     => array(

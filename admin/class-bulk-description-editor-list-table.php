@@ -83,25 +83,30 @@ if ( ! class_exists( 'WPSEO_Bulk_Description_List_Table' ) ) {
 	
 			$class               = empty( $_REQUEST['post_status'] ) ? ' class="current"' : '';
 			$status_links['all'] = '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_bulk-description-editor' ) ) . '"' . $class . '>' . sprintf( _nx( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $total_posts, 'posts' ), number_format_i18n( $total_posts ) ) . '</a>';
-	
-			foreach ( get_post_stati( array( 'show_in_admin_all_list' => true ), 'objects' ) as $status ) {
-	
-				$status_name = $status->name;
-	
-				$total = $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->posts WHERE post_status IN ('$status_name') AND post_type IN ($post_types)" );
-	
-				if ( $total == 0 ) {
-					continue;
+
+			$post_stati = get_post_stati( array( 'show_in_admin_all_list' => true ), 'objects' );
+			if ( is_array( $post_stati ) && $post_stati !== array() ) {
+				foreach ( $post_stati as $status ) {
+
+					$status_name = $status->name;
+
+					$total = $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->posts WHERE post_status IN ('$status_name') AND post_type IN ($post_types)" );
+
+					if ( $total == 0 ) {
+						continue;
+					}
+
+					$class = '';
+					if ( isset($_REQUEST['post_status']) && $status_name == $_REQUEST['post_status'] ) {
+						$class = ' class="current"';
+					}
+
+					$status_links[ $status_name ] = '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_bulk-description-editor&post_status=' . $status_name ) ) . '"' . $class . '>' . sprintf( translate_nooped_plural( $status->label_count, $total ), number_format_i18n( $total ) ) . '</a>';
+
 				}
-	
-				$class = '';
-				if ( isset($_REQUEST['post_status']) && $status_name == $_REQUEST['post_status'] ) {
-					$class = ' class="current"';
-				}
-	
-				$status_links[ $status_name ] = '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_bulk-description-editor&post_status=' . $status_name ) ) . '"' . $class . '>' . sprintf( translate_nooped_plural( $status->label_count, $total ), number_format_i18n( $total ) ) . '</a>';
-	
 			}
+			unset( $post_stati, $status, $status_name, $total, $class );
+
 			$trashed_posts         = $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->posts WHERE post_status IN ('trash') AND post_type IN ($post_types)" );
 			$class                 = ( isset($_REQUEST['post_status']) && 'trash' == $_REQUEST['post_status'] ) ? 'class="current"' : '';
 			$status_links['trash'] = '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_bulk-description-editor&post_status=trash' ) ) . '"' . $class . '>' . sprintf( _nx( 'Trash <span class="count">(%s)</span>', 'Trash <span class="count">(%s)</span>', $trashed_posts, 'posts' ), number_format_i18n( $trashed_posts ) ) . '</a>';
@@ -116,32 +121,35 @@ if ( ! class_exists( 'WPSEO_Bulk_Description_List_Table' ) ) {
 		function extra_tablenav( $which ) {
 	
 			if ( 'top' === $which ) {
-				echo '<div class="alignleft actions">';
-				global $wpdb;
-	
 				$post_types = get_post_types( array( 'public' => true, 'exclude_from_search' => false ) );
-				$post_types = "'" . implode( "', '", $post_types ) . "'";
-	
-				$states          = get_post_stati( array( 'show_in_admin_all_list' => true ) );
-				$states['trash'] = 'trash';
-				$all_states      = "'" . implode( "', '", $states ) . "'";
-	
-				$query      = "SELECT DISTINCT post_type FROM $wpdb->posts WHERE post_status IN ($all_states) AND post_type IN ($post_types) ORDER BY 'post_type' ASC";
-				$post_types = $wpdb->get_results( $query );
-	
-				$selected = ! empty( $_REQUEST['post_type_filter'] ) ? $_REQUEST['post_type_filter'] : -1;
-	
-				$options = '<option value="-1">Show All Post Types</option>';
-	
-				foreach ( $post_types as $post_type ) {
-					$obj      = get_post_type_object( $post_type->post_type );
-					$options .= sprintf( '<option value="%2$s" %3$s>%1$s</option>', $obj->labels->name, $post_type->post_type, selected( $selected, $post_type->post_type, false ) );
-				}
 
+				if ( is_array( $post_types ) && $post_types !== array() ) {
+					global $wpdb;
+
+					echo '<div class="alignleft actions">';
+
+					$post_types = "'" . implode( "', '", $post_types ) . "'";
+		
+					$states          = get_post_stati( array( 'show_in_admin_all_list' => true ) );
+					$states['trash'] = 'trash';
+					$all_states      = "'" . implode( "', '", $states ) . "'";
+
+					$query      = "SELECT DISTINCT post_type FROM $wpdb->posts WHERE post_status IN ($all_states) AND post_type IN ($post_types) ORDER BY 'post_type' ASC";
+					$post_types = $wpdb->get_results( $query );
 	
-				echo sprintf( '<select name="post_type_filter">%1$s</select>' , $options );
-				submit_button( __( 'Filter' ), 'button', false, false, array( 'id' => 'post-query-submit' ) );
-				echo '</div>';
+					$selected = ! empty( $_REQUEST['post_type_filter'] ) ? $_REQUEST['post_type_filter'] : -1;
+		
+					$options = '<option value="-1">Show All Post Types</option>';
+		
+					foreach ( $post_types as $post_type ) {
+						$obj      = get_post_type_object( $post_type->post_type );
+						$options .= sprintf( '<option value="%2$s" %3$s>%1$s</option>', $obj->labels->name, $post_type->post_type, selected( $selected, $post_type->post_type, false ) );
+					}
+	
+					echo sprintf( '<select name="post_type_filter">%1$s</select>' , $options );
+					submit_button( __( 'Filter' ), 'button', false, false, array( 'id' => 'post-query-submit' ) );
+					echo '</div>';
+				}
 			}
 			else if ( 'bottom' === $which ) {
 				
@@ -267,11 +275,11 @@ if ( ! class_exists( 'WPSEO_Bulk_Description_List_Table' ) ) {
 			$records = $this->items;
 	
 			list( $columns, $hidden ) = $this->get_column_info();
-	
-			if ( ! empty( $records ) ) {
+
+			if ( ( is_array( $records ) && $records !== array() ) && ( is_array( $columns ) && $columns !== array() ) ) {
 				foreach ( $records as $rec ) {
 					echo '<tr id="record_' . $rec->ID . '">';
-	
+
 					foreach ( $columns as $column_name => $column_display_name ) {
 	
 						$class = sprintf( 'class="%1$s column-%1$s"', $column_name );

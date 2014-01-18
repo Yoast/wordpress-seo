@@ -149,14 +149,18 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 	
 			if ( apply_filters( 'wpseo_use_page_analysis', true ) === true ) {
 	
-				$options = WPSEO_Options::get_all();
-	
-				foreach ( get_post_types( array( 'public' => true ), 'names' ) as $pt ) {
-					if ( isset( $options['hideeditbox-' . $pt] ) && $options['hideeditbox-' . $pt] === true )
-						continue;
-					add_filter( 'manage_' . $pt . '_posts_columns', array( $this, 'column_heading' ), 10, 1 );
-					add_action( 'manage_' . $pt . '_posts_custom_column', array( $this, 'column_content' ), 10, 2 );
-					add_action( 'manage_edit-' . $pt . '_sortable_columns', array( $this, 'column_sort' ), 10, 2 );
+				$options    = WPSEO_Options::get_all();
+				$post_types = get_post_types( array( 'public' => true ), 'names' );
+
+				if ( is_array( $post_types ) && $post_types !== array() ) {
+					foreach ( $post_types as $pt ) {
+						if ( isset( $options['hideeditbox-' . $pt] ) && $options['hideeditbox-' . $pt] === true ) {
+							continue;
+						}
+						add_filter( 'manage_' . $pt . '_posts_columns', array( $this, 'column_heading' ), 10, 1 );
+						add_action( 'manage_' . $pt . '_posts_custom_column', array( $this, 'column_content' ), 10, 2 );
+						add_action( 'manage_edit-' . $pt . '_sortable_columns', array( $this, 'column_sort' ), 10, 2 );
+					}
 				}
 				add_filter( 'request', array( $this, 'column_sort_orderby' ) );
 	
@@ -214,8 +218,9 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		 *
 		 */
 		public function publish_box() {
-			if ( $this->pt_is_public() === false )
+			if ( $this->pt_is_public() === false ) {
 				return;
+			}
 	
 			echo '<div class="misc-pub-section misc-yoast misc-pub-section-last">';
 	
@@ -268,15 +273,20 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		 * Adds the WordPress SEO meta box to the edit boxes in the edit post / page  / cpt pages.
 		 */
 		public function add_meta_box() {
-			if ( $this->pt_is_public() === false )
+			if ( $this->pt_is_public() === false ) {
 				return;
+			}
 	
-			$options = WPSEO_Options::get_all();
-	
-			foreach ( get_post_types( array( 'public' => true ) ) as $posttype ) {
-				if ( isset( $options['hideeditbox-' . $posttype] ) && $options['hideeditbox-' . $posttype] === true )
-					continue;
-				add_meta_box( 'wpseo_meta', __( 'WordPress SEO by Yoast', 'wordpress-seo' ), array( $this, 'meta_box' ), $posttype, 'normal', apply_filters( 'wpseo_metabox_prio', 'high' ) );
+			$options    = WPSEO_Options::get_all();
+			$post_types = get_post_types( array( 'public' => true ) );
+			
+			if ( is_array( $post_types ) && $post_types !== array() ) {
+				foreach ( $post_types as $posttype ) {
+					if ( isset( $options['hideeditbox-' . $posttype] ) && $options['hideeditbox-' . $posttype] === true ) {
+						continue;
+					}
+					add_meta_box( 'wpseo_meta', __( 'WordPress SEO by Yoast', 'wordpress-seo' ), array( $this, 'meta_box' ), $posttype, 'normal', apply_filters( 'wpseo_metabox_prio', 'high' ) );
+				}
 			}
 		}
 		
@@ -287,8 +297,9 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		 * @return	array
 		 */
 		public function localize_script() {
-			if ( $this->pt_is_public() === false )
+			if ( $this->pt_is_public() === false ) {
 				return;
+			}
 	
 			if ( isset( $_GET['post'] ) ) {
 				$post_id = (int) WPSEO_Options::validate_int( $_GET['post'] );
@@ -700,9 +711,9 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		 * @return	bool|void   Boolean false if invalid save post request
 		 */
 		function save_postdata( $post_id ) {
-			if ( $post_id === null )
+			if ( $post_id === null ) {
 				return false;
-
+			}
 
 			if ( wp_is_post_revision( $post_id ) ) {
 				$post_id = wp_is_post_revision( $post_id );
@@ -745,8 +756,9 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		 * @todo [JRF => whomever] create css/metabox-mp6.css file and add it to the below allowed colors array when done
 		 */
 		public function enqueue() {
-			if ( $this->pt_is_public() === false )
+			if ( $this->pt_is_public() === false ) {
 				return;
+			}
 				
 			global $pagenow;
 
@@ -783,12 +795,14 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		 * @return bool
 		 */
 		function posts_filter_dropdown() {
-			if ( $this->pt_is_public() === false )
+			if ( $this->pt_is_public() === false ) {
 				return;
-	
+			}
+
 			global $pagenow;
-			if ( $pagenow == 'upload.php' )
+			if ( $pagenow == 'upload.php' ) {
 				return false;
+			}
 				
 			$scores_array = array(
 				'na'      => __( 'SEO: No Focus Keyword', 'wordpress-seo' ),
@@ -820,8 +834,9 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		 * @return array
 		 */
 		function column_heading( $columns ) {
-			if ( $this->pt_is_public() === false )
+			if ( $this->pt_is_public() === false ) {
 				return $columns;
+			}
 	
 			return array_merge( $columns, array( 'wpseo-score' => __( 'SEO', 'wordpress-seo' ), 'wpseo-title' => __( 'SEO Title', 'wordpress-seo' ), 'wpseo-metadesc' => __( 'Meta Desc.', 'wordpress-seo' ), 'wpseo-focuskw' => __( 'Focus KW', 'wordpress-seo' ) ) );
 		}
@@ -834,8 +849,9 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		 * @param int    $post_id     Post to display the column content for.
 		 */
 		function column_content( $column_name, $post_id ) {
-			if ( $this->pt_is_public() === false )
+			if ( $this->pt_is_public() === false ) {
 				return;
+			}
 	
 			if ( $column_name === 'wpseo-score' ) {
 				$score = self::get_value( 'linkdex', $post_id );
@@ -886,8 +902,9 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		 * @return array
 		 */
 		function column_sort( $columns ) {
-			if ( $this->pt_is_public() === false )
+			if ( $this->pt_is_public() === false ) {
 				return $columns;
+			}
 
 			$columns['wpseo-score']    = 'wpseo-score';
 			$columns['wpseo-metadesc'] = 'wpseo-metadesc';
@@ -1075,19 +1092,23 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 				$error = $results->get_error_messages();
 				return '<tr><td><div class="wpseo_msg"><p><strong>' . esc_html( $error[0] ) . '</strong></p></div></td></tr>';
 			}
-	
-			$output = '<table class="wpseoanalysis">';
-	
-			$perc_score = absint( self::get_value( 'linkdex' ) );
-	
-			foreach ( $results as $result ) {
-				$score   = wpseo_translate_score( $result['val'] );
-				$output .= '<tr><td class="score"><div class="' . esc_attr( 'wpseo_score_img ' . $score ) . '"></div></td><td>' . $result['msg'] . '</td></tr>';
+			$output = '';
+			
+			if ( is_array( $results ) && $results !== array() ) {
+
+				$output     = '<table class="wpseoanalysis">';
+				$perc_score = absint( self::get_value( 'linkdex' ) );
+		
+				foreach ( $results as $result ) {
+					$score   = wpseo_translate_score( $result['val'] );
+					$output .= '<tr><td class="score"><div class="' . esc_attr( 'wpseo_score_img ' . $score ) . '"></div></td><td>' . $result['msg'] . '</td></tr>';
+				}
+				$output .= '</table>';
+		
+				if ( WP_DEBUG || WPSEO_DEBUG ) {
+					$output .= '<p><small>(' . $perc_score . '%)</small></p>';
+				}
 			}
-			$output .= '</table>';
-	
-			if ( WP_DEBUG )
-				$output .= '<p><small>(' . $perc_score . '%)</small></p>';
 	
 			$output = '<div class="wpseo_msg"><p>' . __( 'To update this page analysis, save as draft or update and check this tab again', 'wordpress-seo' ) . '.</p></div>' . $output;
 	
@@ -1463,12 +1484,16 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			}
 			else {
 				$found = false;
-				foreach ( $anchor_texts as $anchor_text ) {
-					if ( $this->strtolower_utf8( $anchor_text ) == $job['keyword_folded'] )
-						$found = true;
+				if ( is_array( $anchor_texts ) && $anchor_texts !== array() ) {
+					foreach ( $anchor_texts as $anchor_text ) {
+						if ( $this->strtolower_utf8( $anchor_text ) == $job['keyword_folded'] ) {
+							$found = true;
+						}
+					}
 				}
-				if ( $found )
+				if ( $found ) {
 					$this->save_score_result( $results, 2, $scoreKeywordInOutboundLink, 'links_focus_keyword' );
+				}
 	
 				if ( $count['external']['nofollow'] == 0 && $count['external']['dofollow'] > 0 ) {
 					$this->save_score_result( $results, 9, sprintf( $scoreLinksDofollow, $count['external']['dofollow'] ), 'links_number' );
@@ -1494,14 +1519,15 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			$query        = "//a|//A";
 			$dom_objects  = $xpath->query( $query );
 			$anchor_texts = array();
-			foreach ( $dom_objects as $dom_object ) {
-				if ( $dom_object->attributes->getNamedItem( 'href' ) ) {
-					$href = $dom_object->attributes->getNamedItem( 'href' )->textContent;
-					if ( substr( $href, 0, 4 ) == 'http' )
-						$anchor_texts['external'] = $dom_object->textContent;
+			if ( is_array( $dom_objects ) && $dom_objects !== array() ) {
+				foreach ( $dom_objects as $dom_object ) {
+					if ( $dom_object->attributes->getNamedItem( 'href' ) ) {
+						$href = $dom_object->attributes->getNamedItem( 'href' )->textContent;
+						if ( substr( $href, 0, 4 ) == 'http' )
+							$anchor_texts['external'] = $dom_object->textContent;
+					}
 				}
 			}
-			unset( $dom_objects );
 			return $anchor_texts;
 		}
 
@@ -1523,31 +1549,33 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 				'other'    => array( 'nofollow' => 0, 'dofollow' => 0 ),
 			);
 	
-			foreach ( $dom_objects as $dom_object ) {
-				$count['total'] ++;
-				if ( $dom_object->attributes->getNamedItem( 'href' ) ) {
-					$href  = $dom_object->attributes->getNamedItem( 'href' )->textContent;
-					$wpurl = get_bloginfo( 'url' );
-					if ( substr( $href, 0, 1 ) == '/' || substr( $href, 0, strlen( $wpurl ) ) == $wpurl ) {
-						$type = 'internal';
-					}
-					else if ( substr( $href, 0, 4 ) == 'http' ) {
-						$type = 'external';
-					}
-					else {
-						$type = 'other';
-					}
-					if ( $dom_object->attributes->getNamedItem( 'rel' ) ) {
-						$link_rel = $dom_object->attributes->getNamedItem( 'rel' )->textContent;
-						if ( stripos( $link_rel, 'nofollow' ) !== false ) {
-							$count[$type]['nofollow'] ++;
+			if ( is_array( $dom_objects ) && $dom_objects !== array() ) {
+				foreach ( $dom_objects as $dom_object ) {
+					$count['total'] ++;
+					if ( $dom_object->attributes->getNamedItem( 'href' ) ) {
+						$href  = $dom_object->attributes->getNamedItem( 'href' )->textContent;
+						$wpurl = get_bloginfo( 'url' );
+						if ( substr( $href, 0, 1 ) == '/' || substr( $href, 0, strlen( $wpurl ) ) == $wpurl ) {
+							$type = 'internal';
+						}
+						else if ( substr( $href, 0, 4 ) == 'http' ) {
+							$type = 'external';
+						}
+						else {
+							$type = 'other';
+						}
+						if ( $dom_object->attributes->getNamedItem( 'rel' ) ) {
+							$link_rel = $dom_object->attributes->getNamedItem( 'rel' )->textContent;
+							if ( stripos( $link_rel, 'nofollow' ) !== false ) {
+								$count[$type]['nofollow'] ++;
+							}
+							else {
+								$count[$type]['dofollow'] ++;
+							}
 						}
 						else {
 							$count[$type]['dofollow'] ++;
 						}
-					}
-					else {
-						$count[$type]['dofollow'] ++;
 					}
 				}
 			}
@@ -1609,7 +1637,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		function get_images_alt_text( $post_id, $body, $imgs ) {
 			preg_match_all( '`<img[^>]+>`im', $body, $matches );
 			$imgs['alts'] = array();
-			if ( is_array( $matches ) && count( $matches ) > 0 ) {
+			if ( isset( $matches[0] ) && is_array( $matches[0] ) && $matches[0] !== array() ) {
 				foreach ( $matches[0] as $img ) {
 					if ( preg_match( '`alt=(["\'])(.*?)\1`', $img, $alt ) && isset( $alt[2] ) )
 						$imgs['alts'][] = $this->strtolower_utf8( $alt[2] );
@@ -1617,7 +1645,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			}
 			if ( strpos( $body, '[gallery' ) !== false ) {
 				$attachments = get_children( array( 'post_parent' => $post_id, 'post_status' => 'inherit', 'post_type' => 'attachment', 'post_mime_type' => 'image', 'fields' => 'ids' ) );
-				if ( is_array( $attachments ) && count( $attachments ) > 0 ) {
+				if ( is_array( $attachments ) && $attachments !== array() ) {
 					foreach ( $attachments as $att_id ) {
 						$alt = get_post_meta( $att_id, '_wp_attachment_image_alt', true );
 						if ( $alt && ! empty( $alt ) )
@@ -1680,12 +1708,12 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			$headings = array();
 	
 			preg_match_all( '`<h([1-6])(?:[^>]+)?>(.*?)</h\\1>`i', $postcontent, $matches );
-			if ( isset( $matches ) && isset( $matches[2] ) ) {
+
+			if ( isset( $matches[2] ) && is_array( $matches[2] ) && $matches[2] !== array() ) {
 				foreach ( $matches[2] as $heading ) {
 					$headings[] = $this->strtolower_utf8( $heading );
 				}
 			}
-	
 			return $headings;
 		}
 

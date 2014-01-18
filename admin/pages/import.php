@@ -115,10 +115,14 @@ if ( isset( $_POST['import'] ) ) {
 		if ( $replace ) {
 			delete_option( 'seo_woo_archive_layout' );
 		}
-
-		foreach ( get_taxonomies( array( 'public' => true ), 'names' ) as $tax ) {
-			$options['title-tax-'.$tax] = $template;
+		
+		$taxonomies = get_taxonomies( array( 'public' => true ), 'names' );
+		if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
+			foreach ( $taxonomies as $tax ) {
+				$options['title-tax-'.$tax] = $template;
+			}
 		}
+		unset( $taxonomies, $tax );
 
 			// Import the custom homepage description
 		if ( 'c' == get_option( 'seo_woo_meta_home_desc' ) ) {
@@ -171,20 +175,22 @@ if ( isset( $_POST['import'] ) ) {
 		   possibly directly changing it using concat on the existing values
 		*/
 		$posts = $wpdb->get_results( "SELECT ID FROM $wpdb->posts" );
-		foreach ( $posts as $post ) {
-			$custom         = get_post_custom( $post->ID );
-			$robotsmeta_adv = '';
-			if ( isset( $custom['_headspace_noarchive'] ) ) {
-				$robotsmeta_adv .= 'noarchive,';
+		if ( is_array( $posts ) && $posts !== array() ) {
+			foreach ( $posts as $post ) {
+				$custom         = get_post_custom( $post->ID );
+				$robotsmeta_adv = '';
+				if ( isset( $custom['_headspace_noarchive'] ) ) {
+					$robotsmeta_adv .= 'noarchive,';
+				}
+				if ( isset( $custom['_headspace_noodp'] ) ) {
+					$robotsmeta_adv .= 'noodp,';
+				}
+				if ( isset( $custom['_headspace_noydir'] ) ) {
+					$robotsmeta_adv .= 'noydir';
+				}
+				$robotsmeta_adv = preg_replace( '`,$`', '', $robotsmeta_adv );
+				WPSEO_Meta::set_value( 'meta-robots-adv', $robotsmeta_adv, $post->ID );
 			}
-			if ( isset( $custom['_headspace_noodp'] ) ) {
-				$robotsmeta_adv .= 'noodp,';
-			}
-			if ( isset( $custom['_headspace_noydir'] ) ) {
-				$robotsmeta_adv .= 'noydir';
-			}
-			$robotsmeta_adv = preg_replace( '`,$`', '', $robotsmeta_adv );
-			WPSEO_Meta::set_value( 'meta-robots-adv', $robotsmeta_adv, $post->ID );
 		}
 		unset( $posts, $post, $custom, $robotsmeta_adv );
 
@@ -214,25 +220,30 @@ if ( isset( $_POST['import'] ) ) {
 	// isn't one superfluous ? functionality wasn't the same either, changed now.
 	if ( isset( $_POST['wpseo']['importrobotsmeta'] ) ) {
 		$posts = $wpdb->get_results( "SELECT ID, robotsmeta FROM $wpdb->posts" );
-		foreach ( $posts as $post ) {
-			// sync all possible settings
-			if ( $post->robotsmeta ) {
-				$pieces = explode( ',', $post->robotsmeta );
-				foreach ( $pieces as $meta ) {
-					switch ( $meta ) {
-						case 'noindex':
-							WPSEO_Meta::set_value( 'meta-robots-noindex', '1', $post->ID );
-							break;
-						case 'index':
-							WPSEO_Meta::set_value( 'meta-robots-noindex', '2', $post->ID );
-							break;
-						case 'nofollow':
-							WPSEO_Meta::set_value( 'meta-robots-nofollow', '1', $post->ID );
-							break;
+		if ( is_array( $posts ) && $posts !== array() ) {
+			foreach ( $posts as $post ) {
+				// sync all possible settings
+				if ( $post->robotsmeta ) {
+					$pieces = explode( ',', $post->robotsmeta );
+					foreach ( $pieces as $meta ) {
+						switch ( $meta ) {
+							case 'noindex':
+								WPSEO_Meta::set_value( 'meta-robots-noindex', '1', $post->ID );
+								break;
+
+							case 'index':
+								WPSEO_Meta::set_value( 'meta-robots-noindex', '2', $post->ID );
+								break;
+
+							case 'nofollow':
+								WPSEO_Meta::set_value( 'meta-robots-nofollow', '1', $post->ID );
+								break;
+						}
 					}
 				}
 			}
 		}
+		unset( $posts, $post, $pieces, $meta );
 		$msg .= __( 'Robots Meta values imported.', 'wordpress-seo' );
 	}
 	if ( isset( $_POST['wpseo']['importrssfooter'] ) ) {
@@ -255,7 +266,7 @@ if ( isset( $_POST['import'] ) ) {
 		$optold = get_option( 'yoast_breadcrumbs' );
 		$optnew = get_option( 'wpseo_internallinks' );
 
-		if ( is_array( $optold ) ) {
+		if ( is_array( $optold ) && $optold !== array() ) {
 			foreach ( $optold as $opt => $val ) {
 				if ( is_bool( $val ) && $val == true ) {
 					$optnew['breadcrumbs-' . $opt] = 'on';
@@ -357,14 +368,17 @@ else if ( isset( $_FILES['settings_import_file'] ) ) {
 		$unzipped = $zip->extract( $p_path = WP_CONTENT_DIR . '/wpseo-import/' );
 		if ( $unzipped[0]['stored_filename'] == 'settings.ini' ) {
 			$options = parse_ini_file( WP_CONTENT_DIR . '/wpseo-import/settings.ini', true );
-			foreach ( $options as $name => $optgroup ) {
-				if ( $name !== 'wpseo_taxonomy_meta' ) {
-					update_option( $name, $optgroup );
-				}
-				else {
-					update_option( $name, json_decode( urldecode( $optgroup['wpseo_taxonomy_meta'] ), true ) );
+			if ( is_array( $options ) && $options !== array() ) {
+				foreach ( $options as $name => $optgroup ) {
+					if ( $name !== 'wpseo_taxonomy_meta' ) {
+						update_option( $name, $optgroup );
+					}
+					else {
+						update_option( $name, json_decode( urldecode( $optgroup['wpseo_taxonomy_meta'] ), true ) );
+					}
 				}
 			}
+			unset( $options, $name, $optgroup );
 			@unlink( WP_CONTENT_DIR . '/wpseo-import/' );
 			@unlink( $file['file'] );
 
@@ -373,6 +387,7 @@ else if ( isset( $_FILES['settings_import_file'] ) ) {
 		else {
 			$content .= '<p><strong>' . __( 'Settings could not be imported:', 'wordpress-seo' ) . ' ' . __( 'Unzipping failed.', 'wordpress-seo' ) . '</strong></p>';
 		}
+		unset( $zip, $unzipped );
 	}
 	else {
 		if ( is_wp_error( $file ) ) {

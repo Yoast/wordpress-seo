@@ -265,7 +265,7 @@ function updateSnippet() {
 }
 
 jQuery(document).ready(function () {
-	if( jQuery( '.wpseo-metabox-tabs-div' ).length > 0 ) {
+	if ( jQuery( '.wpseo-metabox-tabs-div' ).length > 0 ) {
 		var active_tab = window.location.hash;
 		if (active_tab == '' || active_tab.search('wpseo') == -1)
 			active_tab = 'general';

@@ -965,7 +965,7 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 		 */
 		public static function retain_variable_keys( $option_key, $dirty, $clean ) {
 
-			if ( isset( self::$variable_option_name_patterns[$option_key] ) ) {
+			if ( isset( self::$variable_option_name_patterns[$option_key] ) && ( is_array( $dirty ) && $dirty !== array() ) ) {
 				foreach ( $dirty as $name => $value ) {
 					foreach ( self::$variable_option_name_patterns[$option_key] as $pattern ) {
 						if ( strpos( $name, $pattern ) === 0 && ! isset( $clean[$name] ) ) {
@@ -1072,6 +1072,10 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 			// changes everything to a string which may be undesired, so check if possible better to use selectively
 			$options = array_map( array( __CLASS__, 'trim_recursive' ), $options );
 			
+			if ( ! is_array( $options ) || $options === array() ) {
+				return $clean;
+			}
+
 
 			foreach ( $clean as $k => $v ) {
 				switch ( $k ) {
@@ -1203,6 +1207,11 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 			// changes everything to a string which may be undesired, so check if possible better to use selectively
 			$options = array_map( array( __CLASS__, 'trim_recursive' ), $options );
 			
+			if ( ! is_array( $options ) || $options === array() ) {
+				return $clean;
+			}
+
+
 			$allowed_transport = array( 'default', 'http', 'https' );
 
 			foreach ( $clean as $k => $v ) {
@@ -1271,6 +1280,10 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 			// @todo - [JRF] triple check that trim does not cause issues !!!!
 			// changes everything to a string which may be undesired, so check if possible better to use selectively
 			$options = array_map( array( __CLASS__, 'trim_recursive' ), $options );
+
+			if ( ! is_array( $options ) || $options === array() ) {
+				return $clean;
+			}
 
 
 			foreach ( $clean as $k => $v ) {
@@ -1375,6 +1388,12 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 			$old     = get_option( $option_key );
 			$options = array_map( array( __CLASS__, 'trim_recursive' ), $options );
 
+
+			if ( ! is_array( $options ) || $options === array() ) {
+				return $clean;
+			}
+
+
 			foreach ( $clean as $k => $v ) {
 				if ( isset( $options[$k] ) ) {
 					$clean[$k] = wp_kses_post( $options[$k] );
@@ -1411,16 +1430,25 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 			// changes everything to a string which may be undesired, so check if possible better to use selectively
 			$options = array_map( array( __CLASS__, 'trim_recursive' ), $options );
 
+			if ( ! is_array( $options ) || $options === array() ) {
+				return $clean;
+			}
+
+
 			if ( ! isset( $allowed_post_types ) ) {
 				$post_types = get_post_types( array( 'public' => true ), 'objects' );
 
 				$allowed_post_types = array();
-				if ( get_option( 'show_on_front' ) == 'page' )
+				if ( get_option( 'show_on_front' ) == 'page' ) {
 					$allowed_post_types[] = 'post';
-					
-				foreach ( $post_types as $type ) {
-					if ( $type->has_archive )
-						$allowed_post_types[] = $type->name;
+				}
+				
+				if ( is_array( $post_types ) && $post_types !== array() ) {
+					foreach ( $post_types as $type ) {
+						if ( $type->has_archive ) {
+							$allowed_post_types[] = $type->name;
+						}
+					}
 				}
 				unset( $post_types, $type );
 			}
@@ -1531,6 +1559,11 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 			// changes everything to a string which may be undesired, so check if possible better to use selectively
 			$options = array_map( array( __CLASS__, 'trim_recursive' ), $options );
 			
+			if ( ! is_array( $options ) || $options === array() ) {
+				return $clean;
+			}
+
+
 			foreach ( $clean as $k => $v ) {
 				$switch_key = $k;
 				
@@ -1603,6 +1636,10 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 			// @todo - [JRF] triple check that trim does not cause issues !!!!
 			// changes everything to a string which may be undesired, so check if possible better to use selectively
 			$options = array_map( array( __CLASS__, 'trim_recursive' ), $options );
+
+			if ( ! is_array( $options ) || $options === array() ) {
+				return $clean;
+			}
 
 
 			foreach ( $clean as $k => $v ) {
@@ -1790,7 +1827,12 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 			// @todo - [JRF] triple check that trim does not cause issues !!!!
 			// changes everything to a string which may be undesired, so check if possible better to use selectively
 			$options = array_map( array( __CLASS__, 'trim_recursive' ), $options );
-			
+
+			if ( ! is_array( $options ) || $options === array() ) {
+				return $clean;
+			}
+
+
 			$allowed_access = array( 'admin', 'superadmin' );
 
 			foreach ( $clean as $k => $v ) {
@@ -1940,8 +1982,10 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 			if ( ! isset( self::$wpseo_options ) ) {
 				self::$wpseo_options = array();
 				$option_names        = self::get_option_names();
-				foreach ( $option_names as $option_name ) {
-					self::$wpseo_options = array_merge( self::$wpseo_options, (array) get_option( $option_name ) );
+				if ( is_array( $option_names ) && $option_names !== array() ) {
+					foreach ( $option_names as $option_name ) {
+						self::$wpseo_options = array_merge( self::$wpseo_options, (array) get_option( $option_name ) );
+					}
 				}
 			}
 			return self::$wpseo_options;
@@ -1979,9 +2023,13 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 		public static function reset() {
 			// @todo - [JRF] better: may be make sure it's just not called before the init hook ;-)
 			self::register_settings(); // Make sure that the validation routines are registered even if this function is called before the init hook
-			foreach ( self::get_option_names() as $key => $directives ) {
-				delete_option( $key );
-				update_option( $key, get_option( $key ) );
+			$option_names = self::get_option_names();
+			
+			if ( is_array( $option_names ) && $option_names !== array() ) {
+				foreach ( $option_names as $key => $directives ) {
+					delete_option( $key );
+					update_option( $key, get_option( $key ) );
+				}
 			}
 		}
 
@@ -1994,21 +2042,24 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 		public static function reset_ms_blog( $blog_id ) {
 			// @todo - [JRF] better: may be make sure it's just not called before the admin_init hook ;-)
 			self::register_settings(); // Make sure that the validation routines are registered even if this function is called before the admin_init hook
-			$options = get_site_option( 'wpseo_ms' );
-
-			if ( $options['defaultblog'] !== '' && $options['defaultblog'] != 0 ) {
-				// Reset based upon a default blog
-				// @todo - [JRF => Yoast] should social options also be copied over ? things like facebook admin ids and such are privacy sensitive, probably should be excluded
-				foreach ( self::get_option_names() as $key => $directives ) {
-					delete_blog_option( $blog_id, $key );
-					update_blog_option( $blog_id, $key, get_blog_option( $options['defaultblog'], $key ) );
+			$options      = get_site_option( 'wpseo_ms' );
+			$option_names = self::get_option_names();
+			
+			if ( is_array( $option_names ) && $option_names !== array() ) {
+				if ( $options['defaultblog'] !== '' && $options['defaultblog'] != 0 ) {
+					// Reset based upon a default blog
+					// @todo - [JRF => Yoast] should social options also be copied over ? things like facebook admin ids and such are privacy sensitive, probably should be excluded
+					foreach ( $option_names as $key => $directives ) {
+						delete_blog_option( $blog_id, $key );
+						update_blog_option( $blog_id, $key, get_blog_option( $options['defaultblog'], $key ) );
+					}
 				}
-			}
-			else {
-				// Reset based upon the plugin defaults
-				foreach ( self::get_option_names() as $key => $directives ) {
-					delete_blog_option( $blog_id, $key );
-					update_blog_option( $blog_id, $key, get_blog_option( $blog_id, $key ) );
+				else {
+					// Reset based upon the plugin defaults
+					foreach ( $option_names as $key => $directives ) {
+						delete_blog_option( $blog_id, $key );
+						update_blog_option( $blog_id, $key, get_blog_option( $blog_id, $key ) );
+					}
 				}
 			}
 		}
@@ -2135,37 +2186,39 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 					
 					/* Make sure the values of the variable option key options are cleaned as they
 				 	   may be retained and would not be cleaned/validated then */
-					foreach ( $settings as $sub_option_key => $value ) {
-						$switch_key = $sub_option_key;
-		
-						foreach ( self::$variable_option_name_patterns[$option_key] as $pattern ) {
-							if ( strpos( $sub_option_key, $pattern ) === 0 ) {
-								$switch_key = $pattern;
+					if ( is_array( $settings ) && $settings !== array() ) {
+						foreach ( $settings as $sub_option_key => $value ) {
+							$switch_key = $sub_option_key;
+			
+							foreach ( self::$variable_option_name_patterns[$option_key] as $pattern ) {
+								if ( strpos( $sub_option_key, $pattern ) === 0 ) {
+									$switch_key = $pattern;
+								}
 							}
-						}
-						unset( $pattern );
-		
-						// Similar to validation routine - any changes made there should be made here too
-						switch ( $switch_key ) {
-							/* text fields */
-							case 'title-':
-							case 'metadesc-':
-							case 'metakey-':
-							case 'bctitle-ptarchive-':
-								$settings[$sub_option_key] = sanitize_text_field( $value );
-								break;
-
-		
-							/* boolean fields */
-							// new = bool
-							// old = ? needs checking
-							case 'noindex-':
-							case 'noauthorship-':
-							case 'showdate-':
-							case 'hideeditbox-':
-							default:
-								$settings[$sub_option_key] = self::validate_bool( $value );
-								break;
+							unset( $pattern );
+			
+							// Similar to validation routine - any changes made there should be made here too
+							switch ( $switch_key ) {
+								/* text fields */
+								case 'title-':
+								case 'metadesc-':
+								case 'metakey-':
+								case 'bctitle-ptarchive-':
+									$settings[$sub_option_key] = sanitize_text_field( $value );
+									break;
+	
+			
+								/* boolean fields */
+								// new = bool
+								// old = ? needs checking
+								case 'noindex-':
+								case 'noauthorship-':
+								case 'showdate-':
+								case 'hideeditbox-':
+								default:
+									$settings[$sub_option_key] = self::validate_bool( $value );
+									break;
+							}
 						}
 					}
 				}
@@ -2220,13 +2273,15 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 
 
 				if ( $option_key === 'wpseo_xml' ) {
-					
-					foreach ( $settings as $sub_option_key => $value ) {
-						if ( strpos( $sub_option_key, 'post_types-' ) === 0 || strpos( $sub_option_key, 'taxonomies-' ) === 0 ) {
-							// Check for old value type and change to new value type
-							// new = bool
-							// old = ? needs checking
-							$settings[$sub_option_key] = self::validate_bool( $value );
+
+					if ( is_array( $settings ) && $settings !== array() ) {
+						foreach ( $settings as $sub_option_key => $value ) {
+							if ( strpos( $sub_option_key, 'post_types-' ) === 0 || strpos( $sub_option_key, 'taxonomies-' ) === 0 ) {
+								// Check for old value type and change to new value type
+								// new = bool
+								// old = ? needs checking
+								$settings[$sub_option_key] = self::validate_bool( $value );
+							}
 						}
 					}
 				}
@@ -2643,24 +2698,26 @@ if ( ! class_exists( 'WPSEO_Taxonomy_Meta' ) ) {
 			}
 
 			$clean = self::get_defaults( $option_key ); //= empty array
+			
+			if ( ! is_array( $options ) || $options === array() ) {
+				return $clean;
+			}
 
-			if ( is_array( $options ) && $options !== array() ) {
-				foreach ( $options as $taxonomy => $terms ) {
-					/* Don't validate taxonomy - may not be registered yet and we don't want to remove valid ones */
-					if ( is_array( $terms ) && $terms !== array() ) {
-						foreach ( $terms as $term_id => $meta_data ) {
-							/* Only validate term if the taxonomy exists */
-							if ( taxonomy_exists( $taxonomy ) && get_term_by( 'id', $term_id, $taxonomy ) === false ) {
-								continue;
-							}
+			foreach ( $options as $taxonomy => $terms ) {
+				/* Don't validate taxonomy - may not be registered yet and we don't want to remove valid ones */
+				if ( is_array( $terms ) && $terms !== array() ) {
+					foreach ( $terms as $term_id => $meta_data ) {
+						/* Only validate term if the taxonomy exists */
+						if ( taxonomy_exists( $taxonomy ) && get_term_by( 'id', $term_id, $taxonomy ) === false ) {
+							continue;
+						}
 
-							if ( is_array( $meta_data ) && $meta_data !== array() ) {
-								/* Validate meta data */
-								$old_meta  = self::get_term_meta( $term_id, $taxonomy );
-								$meta_data = self::validate_term_meta_data( $meta_data, $old_meta );
-								if ( $meta_data !== array() ) {
-									$clean[$taxonomy][$term_id] = $meta_data;
-								}
+						if ( is_array( $meta_data ) && $meta_data !== array() ) {
+							/* Validate meta data */
+							$old_meta  = self::get_term_meta( $term_id, $taxonomy );
+							$meta_data = self::validate_term_meta_data( $meta_data, $old_meta );
+							if ( $meta_data !== array() ) {
+								$clean[$taxonomy][$term_id] = $meta_data;
 							}
 						}
 					}
@@ -2684,6 +2741,10 @@ if ( ! class_exists( 'WPSEO_Taxonomy_Meta' ) ) {
 
 			$clean     = self::$defaults_per_term;
 			$meta_data = array_map( array( __CLASS__, 'trim_recursive' ), $meta_data );
+
+			if ( ! is_array( $meta_data ) || $meta_data === array() ) {
+				return $clean;
+			}
 
 			foreach ( $clean as $k => $v ) {
 				switch ( $k ) {

@@ -61,23 +61,25 @@ if ( ! class_exists( 'Sitemap_Walker' ) ) {
 			);
 	
 			$posts = get_posts( $query_args );
-	
-			$output .= '<ul>';
-			foreach ( $posts as $post ) {
-				$category = get_the_terms( $post->ID, $tax_name );
-				
-				if ( $category ) {
-					// reset array to get the first element
-					$category = reset( $category );
-				
-					// Only display a post link once, even if it's in multiple taxonomies
-					if ( $category->term_id == $object->term_id && ! in_array( $post->ID, $this->processed_post_ids ) ) {
-						$this->processed_post_ids[] = $post->ID;
-						$output .= '<li><a href="' . esc_url( get_permalink( $post->ID ) ) . '">' . get_the_title( $post->ID ) . '</a></li>';
+			
+			if ( is_array( $posts ) && $posts !== array() ) {
+				$output .= '<ul>';
+				foreach ( $posts as $post ) {
+					$category = get_the_terms( $post->ID, $tax_name );
+					
+					if ( $category ) {
+						// reset array to get the first element
+						$category = reset( $category );
+					
+						// Only display a post link once, even if it's in multiple taxonomies
+						if ( $category->term_id == $object->term_id && ! in_array( $post->ID, $this->processed_post_ids ) ) {
+							$this->processed_post_ids[] = $post->ID;
+							$output .= '<li><a href="' . esc_url( get_permalink( $post->ID ) ) . '">' . get_the_title( $post->ID ) . '</a></li>';
+						}
 					}
 				}
+				$output .= '</ul>';
 			}
-			$output .= '</ul>';
 			parent::end_el( $output, $object, $depth, $args );
 		}
 	

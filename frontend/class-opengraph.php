@@ -153,7 +153,7 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 			if ( 0 != $this->options['fbadminapp'] ) {
 				$this->og_tag( 'fb:app_id', $this->options['fbadminapp'] );
 			}
-			else if ( is_array( $this->options['fb_admins'] ) && count( $this->options['fb_admins'] ) > 0 ) {
+			else if ( is_array( $this->options['fb_admins'] ) && $this->options['fb_admins'] !== array() ) {
 				$adminstr = '';
 				foreach ( $this->options['fb_admins'] as $admin_id => $admin ) {
 					if ( ! empty( $adminstr ) ) {
@@ -435,7 +435,7 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 				return;
 	
 			$tags = get_the_tags();
-			if ( ! is_wp_error( $tags ) && is_array( $tags ) ) {
+			if ( ! is_wp_error( $tags ) && ( is_array( $tags ) && $tags !== array() ) ) {
 				foreach ( $tags as $tag ) {
 					$this->og_tag( 'article:tag', $tag->name );
 				}
@@ -450,7 +450,7 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 				return;
 	
 			$terms = get_the_category();
-			if ( ! is_wp_error( $terms ) && is_array( $terms ) ) {
+			if ( ! is_wp_error( $terms ) && ( is_array( $terms ) && $terms !== array() ) ) {
 				foreach ( $terms as $term ) {
 					$this->og_tag( 'article:section', $term->name );
 				}

@@ -83,7 +83,7 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 						$main_tax = $options['post_types-' . $post->post_type . '-maintax'];
 						$terms    = wp_get_object_terms( $post->ID, $main_tax );
 	
-						if ( count( $terms ) > 0 ) {
+						if ( is_array( $terms ) && $terms !== array() ) {
 							// Let's find the deepest term in this array, by looping through and then unsetting every term that is used as a parent by another one in the array.
 							$terms_by_id = array();
 							foreach ( $terms as $term ) {
@@ -276,6 +276,10 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 		 * @return string
 		 */
 		function create_breadcrumbs_string( $links, $wrapper = 'span', $element = 'span' ) {
+			if ( ! is_array( $links ) || $links === array() ) {
+				return '';
+			}
+
 			global $paged;
 	
 			$opt    = WPSEO_Options::get_all();
@@ -345,12 +349,14 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 			}
 	
 			$id = apply_filters( 'wpseo_breadcrumb_output_id', false );
-			if ( ! empty( $id ) )
+			if ( ! empty( $id ) ) {
 				$id = ' id="' . esc_attr( $id ) . '"';
-	
+			}
+
 			$class = apply_filters( 'wpseo_breadcrumb_output_class', false );
-			if ( ! empty( $class ) )
+			if ( ! empty( $class ) ) {
 				$class = ' class="' . esc_attr( $class ) . '"';
+			}
 	
 			$wrapper = apply_filters( 'wpseo_breadcrumb_output_wrapper', $wrapper );
 			return apply_filters( 'wpseo_breadcrumb_output', '<' . $wrapper . $id . $class . ' xmlns:v="http://rdf.data-vocabulary.org/#">' . $output . '</' . $wrapper . '>' );

@@ -267,8 +267,9 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 			foreach ( $optarr as $optgroup ) {
 				$content .= "\n" . '[' . $optgroup . ']' . "\n";
 				$options  = get_option( $optgroup );
-				if ( ! is_array( $options ) )
+				if ( ! is_array( $options ) ) {
 					continue;
+				}
 				foreach ( $options as $key => $elem ) {
 					if ( is_array( $elem ) ) {
 						for ( $i = 0; $i < count( $elem ); $i++ ) {
@@ -475,14 +476,18 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 		 * @return string
 		 */
 		function select( $var, $label, $values, $option = '' ) {
-			if ( empty( $option ) )
+			if ( ! is_array( $values ) || $values === array() ) {
+				return '';
+			}
+			if ( empty( $option ) ) {
 				$option = $this->currentoption;
+			}
 	
 			$options = $this->get_option( $option );
 	
 			$output  = '<label class="select" for="' . esc_attr( $var ) . '">' . $label . ':</label>';
 			$output .= '<select class="select" name="' . esc_attr( $option ) . '[' . esc_attr( $var ) . ']" id="' . esc_attr( $var ) . '">';
-	
+
 			foreach ( $values as $value => $label ) {
 				if ( ! empty( $label ) )
 					$output .= '<option value="' . esc_attr( $value ) . '"' . selected( $options[$var], $value, false ) . '>' . $label . '</option>';
@@ -535,13 +540,18 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 		 * @return string
 		 */
 		function radio( $var, $values, $label, $option = '' ) {
-			if ( empty( $option ) )
+			if ( ! is_array( $values ) || $values === array() ) {
+				return '';
+			}
+			if ( empty( $option ) ) {
 				$option = $this->currentoption;
-	
+			}
+
 			$options = $this->get_option( $option );
-	
-			if ( ! isset( $options[$var] ) )
+
+			if ( ! isset( $options[$var] ) ) {
 				$options[$var] = false;
+			}
 	
 			$var_esc = esc_attr( $var );
 	
@@ -570,7 +580,7 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 			</div>
 		<?php
 		}
-	
+
 	
 		/**
 		 * Create a form table from an array of rows.
@@ -579,6 +589,10 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 		 * @return string
 		 */
 		function form_table( $rows ) {
+			if ( ! is_array( $rows ) || $rows === array() ) {
+				return '';
+			}
+
 			$content = '<table class="form-table">';
 			foreach ( $rows as $row ) {
 				$content .= '<tr><th scope="row">';

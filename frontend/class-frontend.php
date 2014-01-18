@@ -978,7 +978,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 
 					if ( is_object( $term ) ) {
 						$keywords = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'metakey' );
-						if ( ( ! is_string( $keyword ) || $keywords === '' ) && ( isset( $this->options['metakey-tax-' . $term->taxonomy] ) && $this->options['metakey-tax-' . $term->taxonomy] !== '' ) ) {
+						if ( ( ! is_string( $keywords ) || $keywords === '' ) && ( isset( $this->options['metakey-tax-' . $term->taxonomy] ) && $this->options['metakey-tax-' . $term->taxonomy] !== '' ) ) {
 							$keywords = wpseo_replace_vars( $this->options['metakey-tax-' . $term->taxonomy], (array) $term );
 						}
 					}
@@ -1321,6 +1321,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 			}
 	
 			// Prevent cleaning out the WP Subscription managers interface for everyone
+			// @todo [JRF => Yoast/whomever] why is this wrapped in foreach ???? why not just as straight isset() ?
 			foreach ( array( 'wp-subscription-manager' ) as $get ) {
 				if ( isset( $_GET[$get] ) ) {
 					$properurl = '';
