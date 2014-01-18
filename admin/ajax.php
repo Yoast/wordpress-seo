@@ -4,8 +4,9 @@
  */
 
 if ( ! defined( 'WPSEO_VERSION' ) ) {
-	header( 'HTTP/1.0 403 Forbidden' );
-	die;
+	header( 'Status: 403 Forbidden' );
+	header( 'HTTP/1.1 403 Forbidden' );
+	exit();
 }
 
 /**
@@ -56,7 +57,7 @@ function wpseo_kill_blocking_files() {
 
 	$message = 'There were no files to delete.';
 	$options = get_option( 'wpseo' );
-	if ( is_array( $options['blocking_files'] ) && count( $options['blocking_files'] ) > 0 ) {
+	if ( is_array( $options['blocking_files'] ) && $options['blocking_files'] !== array() ) {
 		$message = 'success';
 		$options['blocking_files'] = array_unique( $options['blocking_files'] );
 		foreach ( $options['blocking_files'] as $k => $file ) {
@@ -87,8 +88,10 @@ function wpseo_get_suggest() {
 
 	$return_arr = array();
 
-	foreach ( $matches[1] as $match ) {
-		$return_arr[] = html_entity_decode( $match, ENT_COMPAT, 'UTF-8' );
+	if ( is_array( $matches[1] ) && $matches[1] !== array() ) {
+		foreach ( $matches[1] as $match ) {
+			$return_arr[] = html_entity_decode( $match, ENT_COMPAT, 'UTF-8' );
+		}
 	}
 	echo json_encode( $return_arr );
 	die();
@@ -168,12 +171,13 @@ function wpseo_save_all_titles() {
 
 	$results = array();
 
-	foreach ( $new_titles as $id => $new_title ) {
-		$original_title = $original_titles[ $id ];
-		$results[]      = wpseo_upsert_new_title( $id, $new_title, $original_title );
+	if ( is_array( $new_titles ) && $new_titles !== array() ) {
+		foreach ( $new_titles as $id => $new_title ) {
+			$original_title = $original_titles[ $id ];
+			$results[]      = wpseo_upsert_new_title( $id, $new_title, $original_title );
+		}
 	}
 	echo json_encode( $results );
-
 	die();
 }
 
@@ -215,12 +219,13 @@ function wpseo_save_all_descriptions() {
 
 	$results = array();
 
-	foreach ( $new_metadescs as $id => $new_metadesc ) {
-		$original_metadesc = $original_metadescs[ $id ];
-		$results[]         = wpseo_upsert_new_description( $id, $new_metadesc, $original_metadesc );
+	if ( is_array( $new_metadescs ) && $new_metadescs !== array() ) {
+		foreach ( $new_metadescs as $id => $new_metadesc ) {
+			$original_metadesc = $original_metadescs[ $id ];
+			$results[]         = wpseo_upsert_new_description( $id, $new_metadesc, $original_metadesc );
+		}
 	}
 	echo json_encode( $results );
-
 	die();
 }
 

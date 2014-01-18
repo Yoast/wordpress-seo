@@ -4,8 +4,9 @@
  */
 
 if ( ! defined( 'WPSEO_VERSION' ) ) {
-	header( 'HTTP/1.0 403 Forbidden' );
-	die;
+	header( 'Status: 403 Forbidden' );
+	header( 'HTTP/1.1 403 Forbidden' );
+	exit();
 }
 
 if ( ! class_exists( 'WPSEO_Social_Admin' ) ) {
@@ -13,7 +14,7 @@ if ( ! class_exists( 'WPSEO_Social_Admin' ) ) {
 	 * This class adds the Social tab to the WP SEO metabox and makes sure the settings are saved.
 	 */
 	class WPSEO_Social_Admin extends WPSEO_Metabox {
-	
+
 		/**
 		 * Class constructor
 		 */
@@ -23,7 +24,7 @@ if ( ! class_exists( 'WPSEO_Social_Admin' ) ) {
 			add_action( 'wpseo_tab_content', array( $this, 'tab_content' ) );
 			add_filter( 'wpseo_save_metaboxes', array( $this, 'save_meta_boxes' ), 10, 1 );
 		}
-		
+
 		/**
 		 * Translate text strings for use in the meta box
 		 *
@@ -33,21 +34,21 @@ if ( ! class_exists( 'WPSEO_Social_Admin' ) ) {
 		public static function translate_meta_boxes() {
 			self::$meta_fields['social']['opengraph-description']['title']       = __( 'Facebook Description', 'wordpress-seo' );
 			self::$meta_fields['social']['opengraph-description']['description'] = __( 'If you don\'t want to use the meta description for sharing the post on Facebook but want another description there, write it here.', 'wordpress-seo' );
-	
+
 			self::$meta_fields['social']['opengraph-image']['title'] 	   = __( 'Facebook Image', 'wordpress-seo' );
 			self::$meta_fields['social']['opengraph-image']['description'] = __( 'If you want to override the Facebook image for this post, upload / choose an image or add the URL here.', 'wordpress-seo' );
-	
+
 			self::$meta_fields['social']['google-plus-description']['title'] 	   = __( 'Google+ Description', 'wordpress-seo' );
 			self::$meta_fields['social']['google-plus-description']['description'] = __( 'If you don\'t want to use the meta description for sharing the post on Google+ but want another description there, write it here.', 'wordpress-seo' );
 		}
-	
+
 		/**
 		 * Output the tab header for the Social tab
 		 */
 		public function tab_header() {
 			echo '<li class="social"><a class="wpseo_tablink" href="#wpseo_social">' . __( 'Social', 'wordpress-seo' ) . '</a></li>';
 		}
-	
+
 		/**
 		 * Output the tab content
 		 */
@@ -58,8 +59,8 @@ if ( ! class_exists( 'WPSEO_Social_Admin' ) ) {
 			}
 			$this->do_tab( 'social', __( 'Social', 'wordpress-seo' ), $content );
 		}
-	
-	
+
+
 		/**
 		 * Filter over the meta boxes to save, this function adds the Social meta boxes.
 		 *
@@ -72,7 +73,7 @@ if ( ! class_exists( 'WPSEO_Social_Admin' ) ) {
 
 
 		/********************** DEPRECATED METHODS **********************/
-		
+
 		/**
 		 * Define the meta boxes for the Social tab
 		 *

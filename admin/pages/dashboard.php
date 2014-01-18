@@ -6,9 +6,11 @@
  */
 
 if ( ! defined( 'WPSEO_VERSION' ) ) {
-	header( 'HTTP/1.0 403 Forbidden' );
-	die;
+	header( 'Status: 403 Forbidden' );
+	header( 'HTTP/1.1 403 Forbidden' );
+	exit();
 }
+
 global $wpseo_admin_pages;
 
 $options = get_option( 'wpseo' );
@@ -67,7 +69,7 @@ if ( isset( $_GET['fixmetadesc'] ) && check_admin_referer( 'wpseo-fix-metadesc',
 				fwrite( $backupfile, $fcontent );
 				fclose( $backupfile );
 				$msg = __( 'Backed up the original file header.php to <strong><em>' . esc_html( $backup_file ) . '</em></strong>, ', 'wordpress-seo' );
-	
+
 				$count    = 0;
 				$fcontent = str_replace( $options['theme_description_found'], '', $fcontent, $count );
 				if ( $count > 0 ) {
@@ -187,21 +189,25 @@ function robots_meta_handler() {
 			// @todo [JRF => Yoast] how does this correlate with the routine on the import page ?
 			// isn't one superfluous ? functionality wasn't the same either, changed now.
 			$posts = $wpdb->get_results( "SELECT ID, robotsmeta FROM $wpdb->posts" );
-			foreach ( $posts as $post ) {
-				// sync all possible settings
-				if ( $post->robotsmeta ) {
-					$pieces = explode( ',', $post->robotsmeta );
-					foreach ( $pieces as $meta ) {
-						switch ( $meta ) {
-							case 'noindex':
-								WPSEO_Meta::set_value( 'meta-robots-noindex', '1', $post->ID );
-								break;
-							case 'index':
-								WPSEO_Meta::set_value( 'meta-robots-noindex', '2', $post->ID );
-								break;
-							case 'nofollow':
-								WPSEO_Meta::set_value( 'meta-robots-nofollow', '1', $post->ID );
-								break;
+			if ( is_array( $posts ) && $posts !== array() ) {
+				foreach ( $posts as $post ) {
+					// sync all possible settings
+					if ( $post->robotsmeta ) {
+						$pieces = explode( ',', $post->robotsmeta );
+						foreach ( $pieces as $meta ) {
+							switch ( $meta ) {
+								case 'noindex':
+									WPSEO_Meta::set_value( 'meta-robots-noindex', '1', $post->ID );
+									break;
+
+								case 'index':
+									WPSEO_Meta::set_value( 'meta-robots-noindex', '2', $post->ID );
+									break;
+
+								case 'nofollow':
+									WPSEO_Meta::set_value( 'meta-robots-nofollow', '1', $post->ID );
+									break;
+							}
 						}
 					}
 				}

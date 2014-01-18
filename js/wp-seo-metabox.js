@@ -15,7 +15,7 @@ function ptest(str, p) {
 	str = yst_clean(str);
 	str = str.toLowerCase();
 	var r = str.match(p);
-	if (r != null)
+	if ('undefined' !== typeof( r ) )
 		return '<span class="good">Yes (' + r.length + ')</span>';
 	else
 		return '<span class="wrong">No</span>';
@@ -265,7 +265,7 @@ function updateSnippet() {
 }
 
 jQuery(document).ready(function () {
-	if( jQuery( '.wpseo-metabox-tabs-div' ).length > 0 ) {
+	if ( jQuery( '.wpseo-metabox-tabs-div' ).length > 0 ) {
 		var active_tab = window.location.hash;
 		if (active_tab == '' || active_tab.search('wpseo') == -1)
 			active_tab = 'general';

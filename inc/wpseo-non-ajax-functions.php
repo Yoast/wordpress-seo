@@ -4,8 +4,9 @@
  */
 
 if ( ! defined( 'WPSEO_VERSION' ) ) {
-	header( 'HTTP/1.0 403 Forbidden' );
-	die;
+	header( 'Status: 403 Forbidden' );
+	header( 'HTTP/1.1 403 Forbidden' );
+	exit();
 }
 
 
@@ -24,7 +25,7 @@ function wpseo_activate() {
 	wpseo_defaults();
 
 	wpseo_flush_rules();
-	
+
 	WPSEO_Options::schedule_yoast_tracking( null, get_option( 'wpseo' ) );
 
 //	wpseo_title_test(); // is already run in wpseo_defaults
@@ -333,7 +334,7 @@ function wpseo_deactivate() {
 
 	// Clear cache so the changes are obvious.
 	WPSEO_Options::clear_cache();
-	
+
 	do_action( 'wpseo_deactivate' );
 }
 
@@ -404,13 +405,13 @@ function wpseo_admin_bar_menu() {
 	if ( is_singular() && isset( $post ) && is_object( $post ) && apply_filters( 'wpseo_use_page_analysis', true ) === true ) {
 		$focuskw    = WPSEO_Meta::get_value( 'focuskw', $post->ID );
 		$perc_score = WPSEO_Meta::get_value( 'linkdex', $post->ID );
-		$score      = wpseo_calc( $perc_score, '/', 10, true );
-		$txtscore   = wpseo_translate_score( $score );
-		$title      = wpseo_translate_score( $score, false );
-		$score      = '<div title="' . esc_attr( $title ) . '" class="wpseo_score_img ' . $txtscore . ' ' . $perc_score . '"></div>';
+		$calc_score = wpseo_calc( $perc_score, '/', 10, true );
+		$txtscore   = wpseo_translate_score( $calc_score );
+		$title      = wpseo_translate_score( $calc_score, false );
+		$score      = '<div title="' . esc_attr( $title ) . '" class="' . esc_attr( 'wpseo_score_img ' . $txtscore . ' ' . $perc_score ) . '"></div>';
 
 		$seo_url = get_edit_post_link( $post->ID );
-		if ( $txtscore != 'na' ) {
+		if ( $txtscore !== 'na' ) {
 			$seo_url .= '#wpseo_linkdex';
 		}
 	}

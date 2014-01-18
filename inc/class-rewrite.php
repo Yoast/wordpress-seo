@@ -4,8 +4,9 @@
  */
 
 if ( ! defined( 'WPSEO_VERSION' ) ) {
-	header( 'HTTP/1.0 403 Forbidden' );
-	die;
+	header( 'Status: 403 Forbidden' );
+	header( 'HTTP/1.1 403 Forbidden' );
+	exit();
 }
 
 
@@ -128,23 +129,26 @@ if ( ! class_exists( 'WPSEO_Rewrite' ) ) {
 				$blog_prefix = 'blog/';
 			}
 	
-			foreach ( get_categories( array( 'hide_empty' => false ) ) as $category ) {
-				$category_nicename = $category->slug;
-				if ( $category->parent == $category->cat_ID ) {
-					// recursive recursion
-					$category->parent = 0;
-				}
-				else if ( $taxonomy->rewrite['hierarchical'] != 0 && $category->parent != 0 ) {
-					$parents = get_category_parents( $category->parent, false, '/', true );
-					if ( ! is_wp_error( $parents ) ) {
-						$category_nicename = $parents . $category_nicename;
+			$categories = get_categories( array( 'hide_empty' => false ) );
+			if ( is_array( $categories ) && $categories !== array() ) {
+				foreach ( $categories as $category ) {
+					$category_nicename = $category->slug;
+					if ( $category->parent == $category->cat_ID ) {
+						// recursive recursion
+						$category->parent = 0;
 					}
-					unset( $parents );
+					else if ( $taxonomy->rewrite['hierarchical'] != 0 && $category->parent != 0 ) {
+						$parents = get_category_parents( $category->parent, false, '/', true );
+						if ( ! is_wp_error( $parents ) ) {
+							$category_nicename = $parents . $category_nicename;
+						}
+						unset( $parents );
+					}
+		
+					$category_rewrite[$blog_prefix . '(' . $category_nicename . ')/(?:feed/)?(feed|rdf|rss|rss2|atom)/?$'] = 'index.php?category_name=$matches[1]&feed=$matches[2]';
+					$category_rewrite[$blog_prefix . '(' . $category_nicename . ')/' . $wp_rewrite->pagination_base . '/?([0-9]{1,})/?$'] = 'index.php?category_name=$matches[1]&paged=$matches[2]';
+					$category_rewrite[$blog_prefix . '(' . $category_nicename . ')/?$']                                    = 'index.php?category_name=$matches[1]';
 				}
-	
-				$category_rewrite[$blog_prefix . '(' . $category_nicename . ')/(?:feed/)?(feed|rdf|rss|rss2|atom)/?$'] = 'index.php?category_name=$matches[1]&feed=$matches[2]';
-				$category_rewrite[$blog_prefix . '(' . $category_nicename . ')/' . $wp_rewrite->pagination_base . '/?([0-9]{1,})/?$'] = 'index.php?category_name=$matches[1]&paged=$matches[2]';
-				$category_rewrite[$blog_prefix . '(' . $category_nicename . ')/?$']                                    = 'index.php?category_name=$matches[1]';
 			}
 	
 			// Redirect support from Old Category Base

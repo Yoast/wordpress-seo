@@ -4,8 +4,9 @@
  */
 
 if ( ! defined( 'WPSEO_VERSION' ) ) {
-	header( 'HTTP/1.0 403 Forbidden' );
-	die;
+	header( 'Status: 403 Forbidden' );
+	header( 'HTTP/1.1 403 Forbidden' );
+	exit();
 }
 
 global $wpseo_admin_pages;
@@ -23,7 +24,7 @@ $options = get_option( 'wpseo_social' );
 if ( isset( $_GET['delfbadmin'] ) ) {
 	if ( wp_verify_nonce( $_GET['nonce'], 'delfbadmin' ) != 1 )
 		die( "I don't think that's really nice of you!." );
-		
+
 	$options = get_option( 'wpseo_social' );
 	$id      = $_GET['delfbadmin'];
 	if ( isset( $options['fb_admins'][$id] ) ) {
@@ -55,16 +56,20 @@ if ( isset( $_GET['key'] ) && $_GET['key'] == $options['fbconnectkey'] ) {
 		$options['fb_admins'][$user_id]['link'] = sanitize_text_field( urldecode( $_GET['link'] ) );
 		update_option( 'wpseo_social', $options );
 		add_settings_error( 'yoast_wpseo_social_options', 'success', sprintf( __( 'Successfully added %s as a Facebook Admin!', 'wordpress-seo' ), '<a href="' . esc_url( $options['fb_admins'][$user_id]['link'] ) . '">' . esc_html( $options['fb_admins'][$user_id]['name'] ) . '</a>' ), 'updated' );
+		unset( $options, $user_id );
 	}
 	else if ( isset( $_GET['apps'] ) ) {
-		$options 		   = get_option( 'wpseo_social' );
-		$apps              = json_decode( stripslashes( $_GET['apps'] ) );
-		$options['fbapps'] = array( '0' => __( 'Do not use a Facebook App as Admin', 'wordpress-seo' ) );
-		foreach ( $apps as $app ) {
-			$options['fbapps'][$app->app_id] = $app->display_name;
+		$options = get_option( 'wpseo_social' );
+		$apps    = json_decode( stripslashes( $_GET['apps'] ) );
+		if ( is_array( $apps ) && $apps !== array() ) {
+			$options['fbapps'] = array( '0' => __( 'Do not use a Facebook App as Admin', 'wordpress-seo' ) );
+			foreach ( $apps as $app ) {
+				$options['fbapps'][$app->app_id] = $app->display_name;
+			}
+			update_option( 'wpseo_social', $options );
+			add_settings_error( 'yoast_wpseo_social_options', 'success', __( 'Successfully retrieved your apps from Facebook, now select an app to use as admin.', 'wordpress-seo' ), 'updated' );
 		}
-		update_option( 'wpseo_social', $options );
-		add_settings_error( 'yoast_wpseo_social_options', 'success', __( 'Successfully retrieved your apps from Facebook, now select an app to use as admin.', 'wordpress-seo' ), 'updated' );
+		unset( $options, $apps, $app );
 	}
 	$error = true;
 }
@@ -78,6 +83,7 @@ if ( is_array( $options['fb_admins'] ) && $options['fb_admins'] !== array() ) {
 	<input type="hidden" name="wpseo_social[fb_admins][' . esc_attr( $id ) . '][name]" value="' . esc_attr( $admin['name'] ) . '"/>
 	<input type="hidden" name="wpseo_social[fb_admins][' . esc_attr( $id ) . '][link]" value="' . esc_attr( $admin['link'] ) . '"/>';
 	}
+	unset( $id, $admin );
 	$clearall = true;
 }
 
@@ -110,7 +116,7 @@ if ( is_array( $options['fbapps'] ) && $options['fbapps'] !== array() ) {
 if ( $options['fbadminapp'] == 0 ) {
 	$button_text = __( 'Add Facebook Admin', 'wordpress-seo' );
 	$primary     = true;
-	if ( is_array( $options['fb_admins'] ) && count( $options['fb_admins'] ) > 0 ) {
+	if ( is_array( $options['fb_admins'] ) && $options['fb_admins'] !== array() ) {
 		$fbconnect .= '
 	<p>' . __( 'Currently connected Facebook admins:', 'wordpress-seo' ) . '</p>
 	<ul>';

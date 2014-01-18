@@ -30,10 +30,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * @package Main
  */
 
-if ( ! defined( 'DB_NAME' ) ) {
-	header( 'HTTP/1.0 403 Forbidden' );
-	die;
+if ( ! function_exists( 'add_filter' ) ) {
+	header( 'Status: 403 Forbidden' );
+	header( 'HTTP/1.1 403 Forbidden' );
+	exit();
 }
+
 
 if ( version_compare( PHP_VERSION, '5.2', '<' ) ) {
 	if ( is_admin() && ( ! defined( 'DOING_AJAX' ) || ! DOING_AJAX ) ) {
@@ -219,7 +221,7 @@ function wpseo_admin_init() {
 		$GLOBALS['wpseo_admin_pages'] = new WPSEO_Admin_Pages;
 	}
 
-	if ( ( version_compare( $GLOBALS['wp_version'], '3.4', '>=' ) && current_user_can( 'manage_options' ) ) && ( $options['tracking_popup_done'] === false || $options['ignore_tour'] === false ) ) {
+	if ( current_user_can( 'manage_options' ) && ( $options['tracking_popup_done'] === false || $options['ignore_tour'] === false ) ) {
 		add_action( 'admin_enqueue_scripts', array( 'WPSEO_Pointers', 'get_instance' ) );
 	}
 
