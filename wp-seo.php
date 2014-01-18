@@ -130,6 +130,14 @@ if ( !defined( 'DOING_AJAX' ) || !DOING_AJAX )
 if ( is_admin() ) {
 	if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
 		require_once( WPSEO_PATH . 'admin/ajax.php' );
+
+		global $pagenow;
+		if ( ! empty( $_SERVER['HTTP_REFERER'] ) && false !== strstr( $_SERVER['HTTP_REFERER'], 'edit.php' ) && in_array( $pagenow, array( 'admin-ajax.php' ) ) ) {
+			require_once( WPSEO_PATH . 'inc/wpseo-functions.php' );
+			require_once( WPSEO_PATH . 'inc/wpseo-non-ajax-functions.php' );
+			require_once( WPSEO_PATH . 'admin/class-admin.php' );
+			require_once( WPSEO_PATH . 'admin/class-metabox.php' );
+		}
 	} else {
 		add_action( 'plugins_loaded', 'wpseo_admin_init', 15 );
 	}
