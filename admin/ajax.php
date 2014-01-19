@@ -154,15 +154,6 @@ function wpseo_upsert_meta( $post_id, $new_meta_value, $orig_meta_value, $meta_k
 		return $upsert_results;
 	}
 
-	$post_type_object = get_post_type_object( $the_post->post_type );
-	if ( ! $post_type_object ) {
-		
-		$upsert_results['status']  = 'failure';
-		$upsert_results['results'] = sprintf( "Post has an invalid Post Type: %s.", $the_post->post_type );
-
-		return $upsert_results;
-	}
-
 	$res = update_post_meta( $post_id, $meta_key, $new_meta_value );
 
 	$upsert_results['status']  = ( $res !== false ) ? 'success' : 'failure';
