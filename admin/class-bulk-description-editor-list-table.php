@@ -217,7 +217,7 @@ if ( ! class_exists( 'WPSEO_Bulk_Description_List_Table' ) ) {
 				$post_types = array( $_GET['post_type_filter'] );
 			}
 
-			esc_sql( $post_types );
+			$post_types = esc_sql( $post_types );
 			$post_types = "'" . implode( "', '", $post_types ) . "'";
 
 			//	Order By block
