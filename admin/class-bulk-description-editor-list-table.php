@@ -137,10 +137,12 @@ if ( ! class_exists( 'WPSEO_Bulk_Description_List_Table' ) ) {
 
 					echo '<div class="alignleft actions">';
 
+					$post_types = esc_sql( $post_types );
 					$post_types = "'" . implode( "', '", $post_types ) . "'";
 
 					$states          = get_post_stati( array( 'show_in_admin_all_list' => true ) );
 					$states['trash'] = 'trash';
+					$states = esc_sql( $states );
 					$all_states      = "'" . implode( "', '", $states ) . "'";
 
 					$query      = "SELECT DISTINCT post_type FROM $wpdb->posts WHERE post_status IN ($all_states) AND post_type IN ($post_types) ORDER BY 'post_type' ASC";
