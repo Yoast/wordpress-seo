@@ -481,19 +481,20 @@ class WPSEO_Sitemaps {
 				if ( wpseo_get_value( 'redirect', $p->ID ) && strlen( wpseo_get_value( 'redirect', $p->ID ) ) > 0 ) {
 					continue;
 				}
-				/**
-				 * Do not include external URLs.
-				 * A plugin like http://wordpress.org/plugins/page-links-to/ can rewrite permalinks to external URLs.
-				 */
-				if ( substr( get_permalink( $p ), 0, strlen( home_url() ) ) !== home_url() ) {
-					continue;
-				}
 
 				$url = array();
 
 				$url['mod'] = ( isset( $p->post_modified_gmt ) && $p->post_modified_gmt != '0000-00-00 00:00:00' && $p->post_modified_gmt > $p->post_date_gmt ) ? $p->post_modified_gmt : $p->post_date_gmt;
 				$url['chf'] = 'weekly';
 				$url['loc'] = get_permalink( $p );
+
+				/**
+				 * Do not include external URLs.
+				 * A plugin like http://wordpress.org/plugins/page-links-to/ can rewrite permalinks to external URLs.
+				 */
+				if ( false === strpos( $url['loc'], home_url() ) ) {
+					continue;
+				}
 
 				$canonical = wpseo_get_value( 'canonical', $p->ID );
 				if ( $canonical && $canonical != '' && $canonical != $url['loc'] ) {
