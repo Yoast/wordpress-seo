@@ -204,7 +204,7 @@ if ( ! class_exists( 'WPSEO_Bulk_Description_List_Table' ) ) {
 
 			//	Filter Block
 
-			if ( ! empty( $GET['post_type_filter'] ) && get_post_type_object( $_GET['post_type_filter'] ) ) {
+			if ( ! empty( $_GET['post_type_filter'] ) && get_post_type_object( $_GET['post_type_filter'] ) ) {
 				$query .= " AND post_type='{$_GET['post_type_filter']}'";
 			}
 			else {
