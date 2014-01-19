@@ -481,6 +481,13 @@ class WPSEO_Sitemaps {
 				if ( wpseo_get_value( 'redirect', $p->ID ) && strlen( wpseo_get_value( 'redirect', $p->ID ) ) > 0 ) {
 					continue;
 				}
+				/**
+				 * Do not include external URLs.
+				 * A plugin like http://wordpress.org/plugins/page-links-to/ can rewrite permalinks to external URLs.
+				 */
+				if ( substr( get_permalink( $p ), 0, strlen( home_url() ) ) !== home_url() ) {
+					continue;
+				}
 
 				$url = array();
 
