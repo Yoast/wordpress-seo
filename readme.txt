@@ -198,7 +198,7 @@ Double-check option-import from other plugins
 
 
 
-= Trunk =
+= 1.4.24 =
 
 * Bugfixes
 	* Removed screen_icon() calls.
