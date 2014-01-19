@@ -77,18 +77,10 @@ if ( ! class_exists( 'WPSEO_Bulk_Description_List_Table' ) ) {
 
 			$states          = get_post_stati( array( 'show_in_admin_all_list' => true ) );
 			$states['trash'] = 'trash';
-			$states = esc_sql( $states );
+			$states          = esc_sql( $states );
 			$all_states      = "'" . implode( "', '", $states ) . "'";
 
-			$total_posts = $wpdb->get_var( $wpdb->prepare(
-				"
-					SELECT COUNT(*)
-					FROM $wpdb->posts
-					WHERE post_status IN (%s) AND post_type IN (%s)
-				",
-				$all_states,
-				$post_types
-			) );
+			$total_posts = $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->posts WHERE post_status IN ($all_states) AND post_type IN ($post_types)" );
 
 
 			$class               = empty( $_REQUEST['post_status'] ) ? ' class="current"' : '';
