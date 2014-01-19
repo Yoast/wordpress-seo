@@ -163,6 +163,23 @@ function wpseo_upsert_meta( $post_id, $new_meta_value, $orig_meta_value, $meta_k
 		return $upsert_results;
 	}
 
+	if ( ! current_user_can( $post_type_object->cap->edit_posts ) ) {
+		
+		$upsert_results['status']  = 'failure';
+		$upsert_results['results'] = sprintf( "You can't edit %s.", $post_type_object->label );
+
+		return $upsert_results;
+	}
+
+	if ( ! current_user_can( $post_type_object->cap->edit_others_posts ) && $the_post->post_author != get_current_user_id() ) {
+		
+		$upsert_results['status']  = 'failure';
+		$upsert_results['results'] = sprintf( "You can't edit %s that aren't yours.", $post_type_object->label );
+
+		return $upsert_results;
+
+	}
+
 	$res = update_post_meta( $post_id, $meta_key, $new_meta_value );
 
 	$upsert_results['status']  = ( $res !== false ) ? 'success' : 'failure';
