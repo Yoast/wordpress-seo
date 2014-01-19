@@ -197,48 +197,67 @@ if ( ! class_exists( 'WPSEO_Bulk_Title_Editor_List_Table' ) ) {
 	
 		function prepare_items() {
 			global $wpdb;
-	
-			$post_types = get_post_types( array( 'exclude_from_search' => false ) );
-			$post_types = "'" . implode( "', '", $post_types ) . "'";
 
-			$query = "SELECT ID, post_title, post_type, meta_value AS seo_title, post_status, post_modified FROM {$wpdb->posts} LEFT JOIN (SELECT * FROM {$wpdb->postmeta} WHERE meta_key = '" . WPSEO_Meta::$meta_prefix . "title')a ON a.post_id = {$wpdb->posts}.ID WHERE post_status IN (%s)";
+			$query = "
+				SELECT ID, post_title, post_type, meta_value AS seo_title, post_status, post_modified
+				FROM {$wpdb->posts}
+				LEFT JOIN (
+					SELECT *
+					FROM {$wpdb->postmeta}
+					WHERE meta_key = %1\$s
+				)a ON a.post_id = {$wpdb->posts}.ID
+				WHERE post_status IN (%2\$s) AND post_type IN (%3\$s)
+				ORDER BY %4\$s %5\$s
+			";
 
 			//	Filter Block
+	
+			$post_types = get_post_types( array( 'exclude_from_search' => false ) );
 
 			if ( ! empty( $_GET['post_type_filter'] ) && get_post_type_object( $_GET['post_type_filter'] ) ) {
-				$query .= " AND post_type='{$_GET['post_type_filter']}'";
+				$post_types = array( $_GET['post_type_filter'] );
 			}
-			else {
-				$query .= " AND post_type IN ($post_types)";
-			}
+
+			$post_types = esc_sql( $post_types );
+			$post_types = "'" . implode( "', '", $post_types ) . "'";
 
 			//	Order By block
-			$orderby = ! empty( $_GET['orderby'] ) ? esc_sql( $_GET['orderby'] ) : 'post_title';
-			$order   = ! empty( $_GET['order'] ) ? esc_sql( $_GET['order'] ) : 'ASC';
-			if ( ! empty( $orderby ) && ! empty($order) ) {
-				$query .= ' ORDER BY ' . $orderby . ' ' . $order;
-			}
 
+			$orderby = ! empty( $_GET['orderby'] ) ? esc_sql( $_GET['orderby'] ) : 'post_title';
+			$order   = 'ASC';
+
+			if( ! empty( $_GET['order'] ) ) {
+				$order = esc_sql( strtoupper( $_GET['order'] ) );
+			}
 
 			$states          = get_post_stati( array( 'show_in_admin_all_list' => true ) );
 			$states['trash'] = 'trash';
-			$all_states      = "'" . implode( "', '", $states ) . "'";
 
-			if ( empty( $_GET['post_status'] ) ) {
-				$query = sprintf( $query, $all_states );
-			}
-			else {
+			if ( ! empty( $_GET['post_status'] ) ) {
 				$requested_state = $_GET['post_status'];
 				if ( in_array( $requested_state, $states ) ) {
-					$query = sprintf( $query, "'$requested_state'" );
-				}
-				else {
-					$query = sprintf( $query, $all_states );
+					$states = array( $requested_state );
 				}
 			}
-			// publish, draft, future, private
 
-			$total_items = $wpdb->query( $query );
+			$states = esc_sql( $states );
+			$all_states      = "'" . implode( "', '", $states ) . "'";
+
+			$query = sprintf(
+				$query,
+				'%s',
+				$all_states,
+				$post_types,
+				$orderby,
+				$order
+			);
+			
+			$total_items = $wpdb->query( $wpdb->prepare(
+				$query,
+				WPSEO_Meta::$meta_prefix . 'title'
+			) );
+
+			$query .= ' LIMIT %d,%d';
 
 			$per_page = $this->get_items_per_page( 'wpseo_posts_per_page', 10 );
 
@@ -250,10 +269,7 @@ if ( ! class_exists( 'WPSEO_Bulk_Title_Editor_List_Table' ) ) {
 
 			$total_pages = ceil( $total_items / $per_page );
 
-			if ( ! empty( $paged ) && ! empty( $per_page ) ) {
-				$offset = ( $paged - 1 ) * $per_page;
-				$query .= ' LIMIT ' . (int) $offset . ',' . (int) $per_page;
-			}
+			$offset = ( $paged - 1 ) * $per_page;
 
 			$this->set_pagination_args(
 				array(
@@ -268,7 +284,12 @@ if ( ! class_exists( 'WPSEO_Bulk_Title_Editor_List_Table' ) ) {
 			$sortable              = $this->get_sortable_columns();
 			$this->_column_headers = array( $columns, $hidden, $sortable );
 
-			$this->items = $wpdb->get_results( $query );
+			$this->items = $wpdb->get_results( $wpdb->prepare( 
+				$query,
+				WPSEO_Meta::$meta_prefix . 'title',
+				$offset,
+				$per_page
+			) );
 
 		}
 
