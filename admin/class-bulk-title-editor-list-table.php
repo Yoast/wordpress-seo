@@ -90,9 +90,16 @@ if ( ! class_exists( 'WPSEO_Bulk_Title_Editor_List_Table' ) ) {
 			if ( is_array( $post_stati ) && $post_stati !== array() ) {
 				foreach ( $post_stati as $status ) {
 
-					$status_name = $status->name;
+					$status_name = esc_sql( $status->name );
 
-					$total = $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->posts WHERE post_status IN ('$status_name') AND post_type IN ($post_types)" );
+					$total = $wpdb->get_var( $wpdb->prepare(
+						"
+							SELECT COUNT(*)
+							FROM $wpdb->posts
+							WHERE post_status = %s AND post_type IN ($post_types)
+						",
+						$status_name
+					) );
 
 					if ( $total == 0 ) {
 						continue;
