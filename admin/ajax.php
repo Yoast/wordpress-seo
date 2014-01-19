@@ -99,11 +99,6 @@ function wpseo_get_suggest() {
 
 add_action( 'wp_ajax_wpseo_get_suggest', 'wpseo_get_suggest' );
 
-
-/**
- * @todo: [JRF => Faison] IMPORTANT! add capacity check for the below ajax methods, something along the lines of user_can_edit_post()
- */
-
 /**
  * Save an individual SEO title from the Bulk Editor.
  */
