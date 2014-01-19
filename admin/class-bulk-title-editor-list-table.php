@@ -42,8 +42,8 @@ if ( ! class_exists( 'WPSEO_Bulk_Title_Editor_List_Table' ) ) {
 				<?php if ( 'top' === $which ) { ?>
 				<form id="posts-filter" action="" method="get">
 					<input type="hidden" name="page" value="wpseo_bulk-title-editor" />
-					<?php if ( ! empty( $_REQUEST['post_status'] ) ) {?>
-						<input type="hidden" name="post_status" value="<?php echo esc_attr( $_REQUEST['post_status'] ); ?>" />
+					<?php if ( ! empty( $_GET['post_status'] ) ) {?>
+						<input type="hidden" name="post_status" value="<?php echo esc_attr( $_GET['post_status'] ); ?>" />
 					<?php } ?>
 				<?php } ?>
 
@@ -83,7 +83,7 @@ if ( ! class_exists( 'WPSEO_Bulk_Title_Editor_List_Table' ) ) {
 			$total_posts = $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->posts WHERE post_status IN ($all_states) AND post_type IN ($post_types)" );
 
 
-			$class               = empty( $_REQUEST['post_status'] ) ? ' class="current"' : '';
+			$class               = empty( $_GET['post_status'] ) ? ' class="current"' : '';
 			$status_links['all'] = '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_bulk-title-editor' ) ) . '"'. $class . '>' . sprintf( _nx( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $total_posts, 'posts' ), number_format_i18n( $total_posts ) ) . '</a>';
 
 			$post_stati = get_post_stati( array( 'show_in_admin_all_list' => true ), 'objects' );
@@ -106,7 +106,7 @@ if ( ! class_exists( 'WPSEO_Bulk_Title_Editor_List_Table' ) ) {
 					}
 
 					$class = '';
-					if ( isset( $_REQUEST['post_status'] ) && $status_name == $_REQUEST['post_status'] ) {
+					if ( isset( $_GET['post_status'] ) && $status_name == $_GET['post_status'] ) {
 						$class = ' class="current"';
 					}
 
@@ -116,7 +116,7 @@ if ( ! class_exists( 'WPSEO_Bulk_Title_Editor_List_Table' ) ) {
 			unset( $post_stati, $status, $status_name, $total, $class );
 
 			$trashed_posts         = $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->posts WHERE post_status IN ('trash') AND post_type IN ($post_types)" );
-			$class                 = ( isset($_REQUEST['post_status']) && 'trash' == $_REQUEST['post_status'] ) ? 'class="current"' : '';
+			$class                 = ( isset($_GET['post_status']) && 'trash' == $_GET['post_status'] ) ? 'class="current"' : '';
 			$status_links['trash'] = '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_bulk-title-editor&post_status=trash' ) ) . '"' . $class . '>' . sprintf( _nx( 'Trash <span class="count">(%s)</span>', 'Trash <span class="count">(%s)</span>', $trashed_posts, 'posts' ), number_format_i18n( $trashed_posts ) ) . '</a>';
 
 			return $status_links;
@@ -145,7 +145,7 @@ if ( ! class_exists( 'WPSEO_Bulk_Title_Editor_List_Table' ) ) {
 					$query      = "SELECT DISTINCT post_type FROM $wpdb->posts WHERE post_status IN ($all_states) AND post_type IN ($post_types) ORDER BY 'post_type' ASC";
 					$post_types = $wpdb->get_results( $query );
 
-					$selected = ! empty( $_REQUEST['post_type_filter'] ) ? $_REQUEST['post_type_filter'] : -1;
+					$selected = ! empty( $_GET['post_type_filter'] ) ? $_GET['post_type_filter'] : -1;
 
 					$options = '<option value="-1">Show All Post Types</option>';
 
@@ -203,8 +203,8 @@ if ( ! class_exists( 'WPSEO_Bulk_Title_Editor_List_Table' ) ) {
 
 			//	Filter Block
 
-			if ( ! empty( $_REQUEST['post_type_filter'] ) && get_post_type_object( $_REQUEST['post_type_filter'] ) ) {
-				$query .= " AND post_type='{$_REQUEST['post_type_filter']}'";
+			if ( ! empty( $_GET['post_type_filter'] ) && get_post_type_object( $_GET['post_type_filter'] ) ) {
+				$query .= " AND post_type='{$_GET['post_type_filter']}'";
 			}
 			else {
 				$query .= " AND post_type IN ($post_types)";
@@ -222,11 +222,11 @@ if ( ! class_exists( 'WPSEO_Bulk_Title_Editor_List_Table' ) ) {
 			$states['trash'] = 'trash';
 			$all_states      = "'" . implode( "', '", $states ) . "'";
 
-			if ( empty( $_REQUEST['post_status'] ) ) {
+			if ( empty( $_GET['post_status'] ) ) {
 				$query = sprintf( $query, $all_states );
 			}
 			else {
-				$requested_state = $_REQUEST['post_status'];
+				$requested_state = $_GET['post_status'];
 				if ( in_array( $requested_state, $states ) ) {
 					$query = sprintf( $query, "'$requested_state'" );
 				}
