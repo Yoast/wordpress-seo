@@ -206,7 +206,7 @@ if ( ! class_exists( 'WPSEO_Bulk_Description_List_Table' ) ) {
 					WHERE meta_key = %1\$s
 				)a ON a.post_id = {$wpdb->posts}.ID
 				WHERE post_status IN (%2\$s) AND post_type IN (%3\$s)
-				ORDER BY %1\$s %1\$s
+				ORDER BY %4\$s %5\$s
 			";
 
 			//	Filter Block
@@ -223,7 +223,11 @@ if ( ! class_exists( 'WPSEO_Bulk_Description_List_Table' ) ) {
 			//	Order By block
 
 			$orderby = ! empty( $_GET['orderby'] ) ? esc_sql( $_GET['orderby'] ) : 'post_title';
-			$order   = ! empty( $_GET['order'] ) ? esc_sql( $_GET['order'] ) : 'ASC';
+			$order   = 'ASC';
+
+			if( ! empty( $_GET['order'] ) ) {
+				$order = esc_sql( strtoupper( $_GET['order'] ) );
+			}
 
 			$states          = get_post_stati( array( 'show_in_admin_all_list' => true ) );
 			$states['trash'] = 'trash';
@@ -242,16 +246,14 @@ if ( ! class_exists( 'WPSEO_Bulk_Description_List_Table' ) ) {
 				$query,
 				'%s',
 				$all_states,
-				$post_types
+				$post_types,
+				$orderby,
+				$order
 			);
 
 			$total_items = $wpdb->query( $wpdb->prepare(
 				$query,
-				WPSEO_Meta::$meta_prefix . 'metadesc',
-				$all_states,
-				$post_types,
-				$orderby,
-				$order
+				WPSEO_Meta::$meta_prefix . 'metadesc'
 			) );
 
 			$query .= ' LIMIT %d,%d';
@@ -284,8 +286,6 @@ if ( ! class_exists( 'WPSEO_Bulk_Description_List_Table' ) ) {
 			$this->items = $wpdb->get_results( $wpdb->prepare(
 				$query,
 				WPSEO_Meta::$meta_prefix . 'metadesc',
-				$orderby,
-				$order,
 				$offset,
 				$per_page
 			) );
