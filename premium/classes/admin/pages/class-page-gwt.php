@@ -37,7 +37,7 @@ class WPSEO_Page_GWT {
 			//echo "<h2>Google Webmaster Tools Errors</h2>\n";
 
 			// Open <form>
-			echo "<form id='wpseo-crawl-issues-table-form' method='post'>\n";
+			echo "<form id='wpseo-crawl-issues-table-form' action='" . admin_url( 'admin.php' ) . '?page=wpseo_redirects' . "' method='post'>\n";
 
 			// AJAX nonce
 			echo "<input type='hidden' class='wpseo_crawl_issues_ajax_nonce' value='" . wp_create_nonce( 'wpseo-crawl-issues-ajax-security' ) . "' />\n";

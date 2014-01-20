@@ -209,7 +209,7 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 	 */
 	public function column_cb( $item ) {
 		return sprintf(
-				'<input type="checkbox" name="wpseo_crawl_issues_bulk[]" value="%s" />', $item['old']
+				'<input type="checkbox" name="create_redirects[]" value="%s" />', $item['url']
 		);
 	}
 
