@@ -51,6 +51,7 @@ $apiConfig = array(
         '/tmp/Google_Client'),
 
     // Definition of service specific values like scopes, oauth token URLs, etc
+	/*
     'services' => array(
       'analytics' => array('scope' => 'https://www.googleapis.com/auth/analytics.readonly'),
       'calendar' => array(
@@ -78,4 +79,5 @@ $apiConfig = array(
       'tasks' => array('scope' => 'https://www.googleapis.com/auth/tasks'),
       'urlshortener' => array('scope' => 'https://www.googleapis.com/auth/urlshortener')
     )
+		*/
 );
