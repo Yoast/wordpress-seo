@@ -25,9 +25,10 @@ class WPSEO_GWT {
 	 * @return WPSEO_GWT
 	 */
 	public static function get() {
-		if( null == self::$instance ) {
+		if ( null == self::$instance ) {
 			self::$instance = new self();
 		}
+
 		return self::$instance;
 	}
 
@@ -99,6 +100,8 @@ class WPSEO_GWT {
 	 * Do authentication with Google servers and store refresh_token
 	 *
 	 * @param $authorization_code
+	 *
+	 * @return bool
 	 */
 	private function authenticate( $authorization_code ) {
 
@@ -106,23 +109,31 @@ class WPSEO_GWT {
 		$client = new WPSEO_GWT_Google_Client();
 
 		// Authenticate client
-		$client->authenticate( $authorization_code );
+		try {
+			$client->authenticate( $authorization_code );
 
-		// Get access response
-		$response = $client->getAccessToken();
+			// Get access response
+			$response = $client->getAccessToken();
 
-		// Check if there is a response body
-		if ( '' != $response ) {
-			$response = json_decode( $response );
+			// Check if there is a response body
+			if ( '' != $response ) {
+				$response = json_decode( $response );
 
-			if ( is_object( $response ) ) {
+				if ( is_object( $response ) ) {
 
-				// Save the refresh token
-				$this->save_refresh_token( $response->refresh_token );
+					// Save the refresh token
+					$this->save_refresh_token( $response->refresh_token );
+
+					return true;
+
+				}
 
 			}
-
+		} catch ( Google_AuthException $exception ) {
 		}
+
+
+		return false;
 
 	}
 
@@ -130,12 +141,17 @@ class WPSEO_GWT {
 	 * Catch the authorization_code POST and authenticate the user
 	 */
 	public function catch_authorization_code_post() {
-		if ( isset ( $_POST['gwt']['authorization_code'] ) ) {
+		if ( isset ( $_POST['gwt']['authorization_code'] ) && trim( $_POST['gwt']['authorization_code'] ) != '' ) {
+
+			$redirect_url_appendix = '';
+
 			// Authenticate user
-			$this->authenticate( $_POST['gwt']['authorization_code'] );
+			if ( ! $this->authenticate( $_POST['gwt']['authorization_code'] ) ) {
+				$redirect_url_appendix = '&error=1';
+			}
 
 			// Redirect user to prevent a post resubmission which causes an oauth error
-			wp_redirect( admin_url( 'admin.php' ) . '?page=' . $_GET['page'] . '#top#google-wmt' );
+			wp_redirect( admin_url( 'admin.php' ) . '?page=' . $_GET['page'] . $redirect_url_appendix );
 			exit;
 		}
 	}

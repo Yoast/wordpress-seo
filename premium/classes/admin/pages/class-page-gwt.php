@@ -57,10 +57,8 @@ class WPSEO_Page_GWT {
 			$oath_url = $gwt_client->createAuthUrl();
 
 			// Print auth screen
-			echo "<h2>Authorization Code</h2>\n";
-
-			echo "<p>" . __( 'To allow WordPress SEO Premium to fetch your Google Webmaster Tools information, please enter an Authorization Code.', 'wordpress-seo' ) . "</p>\n";
-			echo "<a href='javascript:wpseo_gwt_open_authorize_code_window(\"{$oath_url}\");'>" . __( 'Get Google Authorization Code', 'wordpress-seo' ) . "</a>\n";
+			echo "<p>" . __( 'To allow WordPress SEO Premium to fetch your Google Webmaster Tools information, please enter your Google Authorization Code.', 'wordpress-seo' ) . "</p>\n";
+			echo "<a href='javascript:wpseo_gwt_open_authorize_code_window(\"{$oath_url}\");'>" . __( 'Click here to get a Google Authorization Code', 'wordpress-seo' ) . "</a>\n";
 
 			echo "<p>" . __( 'Please enter the Authorization Code in the field below and press the Auhtenticate button.', 'wordpress-seo' ) . "</p>\n";
 			echo "<form action='' method='post'>\n";
@@ -83,13 +81,28 @@ class WPSEO_Page_GWT {
 	 */
 	public static function page_load() {
 		add_action( 'admin_enqueue_scripts', array( 'WPSEO_Page_GWT', 'page_scripts' ) );
+
+		// Check for error message
+		if ( isset( $_GET['error'] ) && $_GET['error'] == '1' ) {
+			add_action( 'admin_notices', array( 'WPSEO_Page_GWT', 'admin_message_body' ) );
+		}
+
+	}
+
+	public static function admin_message_body() {
+	?>
+		<div class="error">
+			<p><b><?php _e( 'Incorrect Google Authorization Code!', 'wordpress-seo' ); ?></b></p>
+		</div>
+	<?php
 	}
 
 	/**
 	 * Load the admin redirects scripts
 	 */
 	public static function page_scripts() {
-		//wp_enqueue_script( 'wp-seo-premium-admin-redirects', plugin_dir_url( WPSEO_PREMIUM_FILE ) . '/assets/js/wp-seo-premium-admin-redirects.js', array( 'jquery' ), '1.0.0' );
+
+		wp_enqueue_script( 'wp-seo-premium-admin-gwt', plugin_dir_url( WPSEO_PREMIUM_FILE ) . '/assets/js/wp-seo-premium-admin-gwt.js', array( 'jquery' ), '1.0.0' );
 
 		add_screen_option( 'per_page', array( 'label' => 'Crawl errors per page', 'default' => 25, 'option' => 'errors_per_page' ) );
 	}
