@@ -168,6 +168,7 @@ This version also incorporates the [SEO Extended](http://wordpress.org/plugins/s
 	* Admin -> If WP_DEBUG is on or if you have set the special constant WPSEO_DEBUG, a block with the currently saved options will be shown on the settings pages.
 	* Admin -> Dashboard -> Added error message for when meta description tag removal from theme file fails.
 	* Admin -> Titles & Meta -> Added option to add meta keywords to post type archives.
+	* Adminbar -> Keyword research links now also search for the set the keyword when editing a post in the back-end.
 	* [Usability] Proper field labels for user profile form fields.
 	* General jQuery efficiency improvements.
 	* Improved lazy loading of plugin files using autoload.
@@ -197,7 +198,7 @@ Double-check option-import from other plugins
 
 
 
-= Trunk =
+= 1.4.24 =
 
 * Bugfixes
 	* Removed screen_icon() calls.
@@ -217,6 +218,7 @@ Double-check option-import from other plugins
 * Enhancement
 	* Shortcode now also available to ajax requests - props [Jrf](http://profiles.wordpress.org/jrf).
 	* Added gitignores to prevent incorrect commits (Cross platform collab) - props [cfoellmann](https://github.com/cfoellmann).
+	* Adding filters to individual sitemap url entries - props [mboynes](https://github.com/mboynes).
 
 * i18n
 	*

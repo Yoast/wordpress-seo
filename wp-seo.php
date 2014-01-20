@@ -172,7 +172,7 @@ function wpseo_frontend_init() {
 	}
 
 	if ( $options['opengraph'] === true ) {
-		// @todo check if this can be loaded at a later point via an action
+		// @todo [JRF => whomever] check if this can be loaded at a later point via an action
 		$GLOBALS['wpseo_og'] = new WPSEO_OpenGraph;
 	}
 }

@@ -455,7 +455,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			}
 
 			$placeholder = '';
-/*	-> does not seem to be ever invoked as none of the field defs contain the key
+/*	@todo [JRF => Yoast/whomever] -> does not seem to be ever invoked as none of the field defs contain the key
 			if ( isset( $meta_field_def['placeholder'] ) && ! empty( $meta_field_def['placeholder'] ) )
 				$placeholder = $meta_field_def['placeholder'];
 */
