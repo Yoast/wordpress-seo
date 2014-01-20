@@ -60,7 +60,7 @@ class WPSEO_Premium {
 		add_action( 'template_redirect', array( 'WPSEO_Redirect_Manager', 'do_redirects' ) );
 
 		// Post to Get on search
-		add_action( 'admin_init', array( $this, 'list_table_search_post_to_get' ) ); // This is causing issues with the crawl issue POST to redirect page
+		add_action( 'admin_init', array( $this, 'list_table_search_post_to_get' ) );
 
 		// Screen options
 		add_filter( 'set-screen-option', array( 'WPSEO_Page_Redirect', 'set_screen_option' ), 10, 3 );
