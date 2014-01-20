@@ -151,6 +151,13 @@
 				$wpseo_redirects.bind_row(tr);
 			});
 			$wpseo_redirects.create_crawl_issue_redirects();
+
+			$(window).on('beforeunload',function() {
+				if($('.row_edit').length > 0) {
+					return "You have unsaved redirects, are you sure you want to leave?";
+				}
+			});
+
 		};
 
 		$wpseo_redirects.setup();
