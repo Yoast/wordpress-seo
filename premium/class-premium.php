@@ -60,7 +60,7 @@ class WPSEO_Premium {
 		add_action( 'template_redirect', array( 'WPSEO_Redirect_Manager', 'do_redirects' ) );
 
 		// Post to Get on search
-		//add_action( 'admin_init', array( $this, 'list_table_search_post_to_get' ) ); // This is causing issues with the crawl issue POST to redirect page
+		add_action( 'admin_init', array( $this, 'list_table_search_post_to_get' ) ); // This is causing issues with the crawl issue POST to redirect page
 
 		// Screen options
 		add_filter( 'set-screen-option', array( 'WPSEO_Page_Redirect', 'set_screen_option' ), 10, 3 );
@@ -165,7 +165,17 @@ class WPSEO_Premium {
 	 * @todo this will catch all 's' POST
 	 */
 	public function list_table_search_post_to_get() {
-		if ( isset( $_POST['s'] ) ) {
+		if ( isset( $_POST['s'] ) && trim( $_POST['s'] ) != '' ) {
+
+			// Check if the POST is on one of our pages
+			if ( ! isset ( $_GET['page'] ) || ( $_GET['page'] != 'wpseo_redirects' && $_GET['page'] != 'wpseo_webmaster_tools' ) ) {
+				return;
+			}
+
+			// Check if there isn't a bulk action post, bulk action post > search post
+			if ( isset ( $_POST['create_redirects'] ) || isset( $_POST['wpseo_redirects_bulk_delete'] ) ) {
+				return;
+			}
 
 			// Base URL
 			$url = get_admin_url() . 'admin.php?page=' . $_GET['page'];
