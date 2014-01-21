@@ -118,7 +118,7 @@ if ( ! class_exists( 'WPSEO_Bulk_Title_Editor_List_Table' ) ) {
 				SELECT *
 				FROM {$wpdb->posts}
 				WHERE post_type IN ({$own_posts_string}) AND post_author = %d
-			)a";
+			)sub_base";
 	
 			return $subquery;
 		}
