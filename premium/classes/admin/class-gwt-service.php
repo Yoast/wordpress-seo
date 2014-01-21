@@ -5,7 +5,6 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	die;
 }
 
-
 class WPSEO_GWT_Service {
 
 	/**
@@ -50,19 +49,18 @@ class WPSEO_GWT_Service {
 		}
 
 		return $sites;
-
 	}
 
+	/**
+	 * Get crawl issues
+	 *
+	 * @param $site_url
+	 *
+	 * @return array
+	 */
 	public function get_crawl_issues( $site_url ) {
 
 		$crawl_issues = array();
-
-		for ( $i = 0; $i < 10; $i ++ ) {
-			$crawl_issues[] = new WPSEO_Crawl_Issue( $i . '/testing/', 'web-crawl', 'in-sitemap', '13-01-2014', '404 (Not found)', 'n/a' );
-		}
-
-
-		return $crawl_issues;
 
 		// Encode url
 		$site_url = urlencode( $site_url );
@@ -79,11 +77,8 @@ class WPSEO_GWT_Service {
 
 			if ( count( $response_xml->entry ) > 0 ) {
 				foreach ( $response_xml->entry as $entry ) {
-
 					$wt = $entry->children( 'wt', true );
-
-					$crawl_issues[] = new WPSEO_Crawl_Issue( (string) $wt->url, (string) $wt->{'crawl-type'}, (string) $wt->{'issue-type'}, (string) $wt->{'date-detected'}, (string) $wt->{'detail'}, (array) $wt->{'linked-from'} );
-
+					$crawl_issues[] = new WPSEO_Crawl_Issue( WPSEO_GWT::get()->format_admin_url( (string) $wt->url ), (string) $wt->{'crawl-type'}, (string) $wt->{'issue-type'}, new DateTime( (string) $wt->{'date-detected'} ), (string) $wt->{'detail'}, (array) $wt->{'linked-from'} );
 				}
 			}
 
@@ -91,7 +86,6 @@ class WPSEO_GWT_Service {
 		}
 
 		return $crawl_issues;
-
 	}
 
 }

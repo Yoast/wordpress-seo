@@ -141,7 +141,7 @@ class WPSEO_Crawl_Issue {
 	 * @return array
 	 */
 	public function to_array() {
-		return array( 'url' => $this->url, 'crawl_type' => $this->crawl_type, 'issue_type' => $this->issue_type, 'date_detected' => $this->date_detected, 'detail' => $this->detail, 'linked_from' => $this->linked_from );
+		return array( 'url' => $this->url, 'crawl_type' => $this->crawl_type, 'issue_type' => $this->issue_type, 'date_detected' => strftime( '%x', $this->date_detected->getTimestamp() ), 'detail' => $this->detail, 'linked_from' => $this->linked_from );
 	}
 
 }
