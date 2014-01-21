@@ -16,6 +16,16 @@ if ( ! class_exists( 'WPSEO_Bulk_Description_List_Table' ) ) {
 	 */
 	class WPSEO_Bulk_Description_List_Table extends WP_List_Table {
 
+		/*
+		 * Array of post types for which the current user has `edit_others_posts` capabilities.
+		 */
+		private $all_posts;
+
+		/*
+		 * Array of post types for which the current user has `edit_posts` capabilities, but not `edit_others_posts`.
+		 */
+		private $own_posts;
+
 		/**
 		 *
 		 */
@@ -27,6 +37,33 @@ if ( ! class_exists( 'WPSEO_Bulk_Description_List_Table' ) ) {
 					'ajax'     => true,
 				)
 			);
+
+			$this->populate_editable_post_types();
+			
+		}
+
+		/*
+		 *	Used in the constructor to build a reference list of post types the current user can edit.
+		 */
+		private function populate_editable_post_types() {
+			$post_types = get_post_types( array( 'public' => true, 'exclude_from_search' => false ), 'object' );
+
+			$this->all_posts = array();
+			$this->own_posts = array();
+
+			foreach ( $post_types as $post_type ) {
+
+				if ( ! current_user_can( $post_type->cap->edit_posts ) ) {
+					continue;
+				}
+
+				if ( current_user_can( $post_type->cap->edit_others_posts ) ) {
+					$this->all_posts[] = esc_sql( $post_type->name );
+				} else {
+					$this->own_posts[] = esc_sql( $post_type->name );
+				}
+
+			}
 		}
 
 
@@ -57,6 +94,33 @@ if ( ! class_exists( 'WPSEO_Bulk_Description_List_Table' ) ) {
 			</div>
 
 			<?php
+		}
+
+		/*
+		 * This function builds the base sql subquery used in this class.
+		 *
+		 * This function takes into account the post types in which the current user can
+		 * edit all posts, and the ones the current user can only edit his/her own.
+		 *
+		 * @return string $subquery The subquery, which should always be used in $wpdb->prepare(), passing the current user_id in as the first parameter.
+		 */
+		function get_base_subquery() {
+			global $wpdb;
+
+			$all_posts_string = "'" . implode( "', '", $this->all_posts ) . "'";
+			$own_posts_string = "'" . implode( "', '", $this->own_posts ) . "'";
+
+			$subquery = "(
+				SELECT *
+				FROM {$wpdb->posts}
+				WHERE post_type IN ({$all_posts_string})
+				UNION ALL
+				SELECT *
+				FROM {$wpdb->posts}
+				WHERE post_type IN ({$own_posts_string}) AND post_author = %d
+			)sub_base";
+	
+			return $subquery;
 		}
 
 
