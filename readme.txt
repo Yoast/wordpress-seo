@@ -106,6 +106,15 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 
 == Changelog ==
 
+= Trunk =
+
+* Bugfixes
+	* Do not include external URLs in XML sitemap (Issue #528) - props [tivnet](https://github.com/tivnet)
+	* Get home_url out of the sitemap loop - props [tivnet](https://github.com/tivnet)
+
+* Enhancement
+	*
+
 = 1.4.24 =
 
 * Bugfixes
@@ -127,9 +136,6 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 	* Shortcode now also available to ajax requests - props [Jrf](http://profiles.wordpress.org/jrf).
 	* Added gitignores to prevent incorrect commits (Cross platform collab) - props [cfoellmann](https://github.com/cfoellmann).
 	* Adding filters to individual sitemap url entries - props [mboynes](https://github.com/mboynes).
-
-* i18n
-	*
 
 = 1.4.23 =
 
