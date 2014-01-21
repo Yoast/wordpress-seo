@@ -5,7 +5,9 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	die;
 }
 
-require_once( WPSEO_PREMIUM_PATH . 'classes/admin/google/Google_Client.php' );
+if ( ! class_exists( 'Google_Client' ) ) {
+	require_once( WPSEO_PREMIUM_PATH . 'classes/admin/google/Google_Client.php' );
+}
 
 class WPSEO_GWT_Google_Client extends Google_Client {
 
