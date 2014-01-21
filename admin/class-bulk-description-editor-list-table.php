@@ -39,7 +39,7 @@ if ( ! class_exists( 'WPSEO_Bulk_Description_List_Table' ) ) {
 			);
 
 			$this->populate_editable_post_types();
-			
+
 		}
 
 		/*
@@ -130,19 +130,23 @@ if ( ! class_exists( 'WPSEO_Bulk_Description_List_Table' ) ) {
 		function get_views() {
 			global $wpdb;
 
-
 			$status_links = array();
-
-			$post_types = get_post_types( array( 'public' => true, 'exclude_from_search' => false ) );
-			$post_types = esc_sql( $post_types );
-			$post_types = "'" . implode( "', '", $post_types ) . "'";
 
 			$states          = get_post_stati( array( 'show_in_admin_all_list' => true ) );
 			$states['trash'] = 'trash';
 			$states          = esc_sql( $states );
 			$all_states      = "'" . implode( "', '", $states ) . "'";
 
-			$total_posts = $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->posts WHERE post_status IN ($all_states) AND post_type IN ($post_types)" );
+			$subquery        = $this->get_base_subquery();
+			$current_user_id = get_current_user_id();
+
+			$total_posts = $wpdb->get_var( $wpdb->prepare(
+				"
+					SELECT COUNT(*) FROM {$subquery}
+					WHERE post_status IN ({$all_states})
+				",
+				$current_user_id
+			) );
 
 
 			$class               = empty( $_GET['post_status'] ) ? ' class="current"' : '';
@@ -156,10 +160,10 @@ if ( ! class_exists( 'WPSEO_Bulk_Description_List_Table' ) ) {
 
 					$total = $wpdb->get_var( $wpdb->prepare(
 						"
-							SELECT COUNT(*)
-							FROM $wpdb->posts
-							WHERE post_status = %s AND post_type IN ($post_types)
+							SELECT COUNT(*) FROM {$subquery}
+							WHERE post_status = %s
 						",
+						$current_user_id,
 						$status_name
 					) );
 
@@ -168,7 +172,7 @@ if ( ! class_exists( 'WPSEO_Bulk_Description_List_Table' ) ) {
 					}
 
 					$class = '';
-					if ( isset( $_GET['post_status']) && $status_name == $_GET['post_status'] ) {
+					if ( isset( $_GET['post_status'] ) && $status_name == $_GET['post_status'] ) {
 						$class = ' class="current"';
 					}
 
@@ -178,7 +182,14 @@ if ( ! class_exists( 'WPSEO_Bulk_Description_List_Table' ) ) {
 			}
 			unset( $post_stati, $status, $status_name, $total, $class );
 
-			$trashed_posts         = $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->posts WHERE post_status IN ('trash') AND post_type IN ($post_types)" );
+			$trashed_posts = $wpdb->get_var( $wpdb->prepare(
+				"
+					SELECT COUNT(*) FROM {$subquery}
+					WHERE post_status IN ('trash')
+				",
+				$current_user_id
+			) );
+
 			$class                 = ( isset( $_GET['post_status'] ) && 'trash' == $_GET['post_status'] ) ? 'class="current"' : '';
 			$status_links['trash'] = '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_bulk-description-editor&post_status=trash' ) ) . '"' . $class . '>' . sprintf( _nx( 'Trash <span class="count">(%s)</span>', 'Trash <span class="count">(%s)</span>', $trashed_posts, 'posts' ), number_format_i18n( $trashed_posts ) ) . '</a>';
 
