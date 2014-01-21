@@ -282,11 +282,11 @@ if ( ! class_exists( 'WPSEO_Bulk_Title_Editor_List_Table' ) ) {
 
 			//	Filter Block
 	
-			$post_types = null;
+			$post_types       = null;
 			$post_type_clause = '';
 
 			if ( ! empty( $_GET['post_type_filter'] ) && get_post_type_object( $_GET['post_type_filter'] ) ) {
-				$post_types = esc_sql( $_GET['post_type_filter'] );
+				$post_types       = esc_sql( $_GET['post_type_filter'] );
 				$post_type_clause = "AND post_type IN ('{$post_types}')";
 			}
 
@@ -309,7 +309,7 @@ if ( ! class_exists( 'WPSEO_Bulk_Title_Editor_List_Table' ) ) {
 				}
 			}
 
-			$states = esc_sql( $states );
+			$states          = esc_sql( $states );
 			$all_states      = "'" . implode( "', '", $states ) . "'";
 
 			$subquery        = $this->get_base_subquery();
