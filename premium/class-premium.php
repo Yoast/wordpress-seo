@@ -16,7 +16,6 @@ if ( ! defined( 'WPSEO_PREMIUM_FILE' ) ) {
 	define( 'WPSEO_PREMIUM_FILE', __FILE__ );
 }
 
-
 class WPSEO_Premium {
 
 	/**
@@ -49,31 +48,33 @@ class WPSEO_Premium {
 	 */
 	private function setup() {
 
-		// Initiate GWT class
-		WPSEO_GWT::get();
+		if ( is_admin() ) {
+			// Initiate GWT class
+			WPSEO_GWT::get();
 
-		// Add Sub Menu page and add redirect page to admin page array
-		// This should be possible in one method in the future, see #535
-		add_filter( 'wpseo_submenu_pages', array( $this, 'add_submenu_pages' ) );
+			// Add Sub Menu page and add redirect page to admin page array
+			// This should be possible in one method in the future, see #535
+			add_filter( 'wpseo_submenu_pages', array( $this, 'add_submenu_pages' ) );
 
-		// Add Redirect page as admin page
-		add_filter( 'wpseo_admin_pages', array( $this, 'add_admin_pages' ) );
+			// Add Redirect page as admin page
+			add_filter( 'wpseo_admin_pages', array( $this, 'add_admin_pages' ) );
 
-		// Catch redirect
-		add_action( 'template_redirect', array( 'WPSEO_Redirect_Manager', 'do_redirects' ) );
+			// Post to Get on search
+			add_action( 'admin_init', array( $this, 'list_table_search_post_to_get' ) );
 
-		// Post to Get on search
-		add_action( 'admin_init', array( $this, 'list_table_search_post_to_get' ) );
+			// Settings
+			add_action( 'admin_init', array( $this, 'register_settings' ) );
 
-		// Screen options
-		add_filter( 'set-screen-option', array( 'WPSEO_Page_Redirect', 'set_screen_option' ), 10, 3 );
-		add_filter( 'set-screen-option', array( 'WPSEO_Page_GWT', 'set_screen_option' ), 10, 3 );
+			// Catch option save
+			add_action( 'admin_init', array( $this, 'catch_option_redirect_save' ) );
 
-		// Settings
-		add_action( 'admin_init', array( $this, 'register_settings' ) );
-
-		// Catch option save
-		add_action( 'admin_init', array( $this, 'catch_option_redirect_save' ) );
+			// Screen options
+			add_filter( 'set-screen-option', array( 'WPSEO_Page_Redirect', 'set_screen_option' ), 10, 3 );
+			add_filter( 'set-screen-option', array( 'WPSEO_Page_GWT', 'set_screen_option' ), 10, 3 );
+		}else {
+			// Catch redirect
+			add_action( 'template_redirect', array( 'WPSEO_Redirect_Manager', 'do_redirects' ) );
+		}
 
 		// AJAX
 		add_action( 'wp_ajax_wpseo_save_redirect', array( 'WPSEO_Redirect_Manager', 'ajax_handle_redirect_save' ) );
