@@ -752,7 +752,7 @@ class WPSEO_Metabox {
 				if ( isset( $_POST['yoast_wpseo_' . $meta_box['name']] ) )
 					$data = 'on';
 				else
-					$data = 'off';
+					$data = '';
 			}
 			else if ( 'multiselect' == $meta_box['type'] ) {
 				if ( isset( $_POST['yoast_wpseo_' . $meta_box['name']] ) ) {
