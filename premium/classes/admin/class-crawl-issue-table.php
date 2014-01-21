@@ -137,7 +137,7 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 				'per_page'    => $per_page,
 		) );
 
-		$current_page = intval( $_GET['paged'] );
+		$current_page = intval( ( ( isset( $_GET['paged'] ) ) ? $_GET['paged'] : 0 ) );
 
 		// Apply 'pagination'
 		$formatted_items = array_slice( $formatted_items, ( ( $current_page - 1 ) * $per_page ), $per_page );
