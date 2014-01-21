@@ -6,13 +6,6 @@
 
 		this.edit_row = function (row) {
 
-			// Restore previous rows
-			/*
-			$.each($wpseo_redirects.find('.row_edit'), function (k, v) {
-				$wpseo_redirects.restore_row(v);
-			});
-			*/
-
 			// Add row edit class
 			$(row).addClass('row_edit');
 
@@ -88,7 +81,6 @@
 
 			$(row).find('.edit-actions').remove();
 			$(row).find('.row-actions').show();
-			//$wpseo_redirects.unbind_submit();
 		};
 
 		this.save_redirect = function (row) {
@@ -191,9 +183,6 @@
 
 			// Add the new row
 			$('.seo_page_wpseo_redirects').find('#the-list').append(tr);
-
-			// Bind action to row
-			//$wpseo_redirects.bind_row(tr);
 
 			// Empty fields
 			$this.find('#wpseo_redirects_new_old').val('');
