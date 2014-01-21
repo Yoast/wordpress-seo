@@ -23,7 +23,7 @@ class WPSEO_Premium {
 	 */
 	public static function install() {
 
-		// Check if WordPress SOE is installed and activated
+		// Check if WordPress SEO is installed and activated
 		if ( is_plugin_active( 'wordpress-seo/wp-seo.php' ) ) {
 			deactivate_plugins( 'wordpress-seo/wp-seo.php' );
 		}
