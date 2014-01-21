@@ -28,20 +28,6 @@ class WPSEO_Page_Redirect {
 		<div class="tabwrapper>">
 			<div id="redirects" class="wpseotab">
 				<?php
-				if ( file_exists( WPSEO_Redirect_File_Manager::get_file_path() ) ) {
-					echo '<div style="margin: 5px 0; padding: 3px 10px; background-color: #ffffe0; border: 1px solid #E6DB55; border-radius: 3px">';
-					if ( wpseo_is_nginx() ) {
-						echo '<p>' . __( "As you're on NGINX, you should add the following include to the website Nginx config file:", 'wordpress-seo' ) . '</p>';
-						echo '<pre>include ' . WPSEO_Redirect_File_Manager::get_file_path() . ';</pre>';
-					} else {
-						if ( wpseo_is_apache() ) {
-							echo '<p>' . __( "As you're on Apache, you should add the following include to the website httpd config file:", 'wordpress-seo' ) . '</p>';
-							echo '<pre>Include ' . WPSEO_Redirect_File_Manager::get_file_path() . '</pre>';
-						}
-					}
-					echo '</div>';
-				}
-
 				// Add new redirect HTML
 				echo "<form id='wpseo-new-redirects-form' method='post'>\n";
 				echo "<div class='wpseo_redirects_new'>\n";
@@ -93,6 +79,22 @@ class WPSEO_Page_Redirect {
 				?>
 			</div>
 			<div id="settings" class="wpseotab">
+				<?php
+					if ( file_exists( WPSEO_Redirect_File_Manager::get_file_path() ) ) {
+						echo '<div style="margin: 5px 0; padding: 3px 10px; background-color: #ffffe0; border: 1px solid #E6DB55; border-radius: 3px">';
+						echo '<p>';
+						_e( "You could use the redirect file we've created, this will increase site performance (recommended for sites with allot of redirects).", 'wordpress-seo' );
+						echo '<br/><br/>';
+						if ( wpseo_is_nginx() ) {
+							_e( "As you're on NGINX, you should add the following include to the website Nginx config file:", 'wordpress-seo' ) . '</p>';
+							echo '<pre>include ' . WPSEO_Redirect_File_Manager::get_file_path() . ';</pre>';
+						} elseif ( wpseo_is_apache() ) {
+							_e( "As you're on Apache, you should add the following include to the website httpd config file:", 'wordpress-seo' ) . '</p>';
+							echo '<pre>Include ' . WPSEO_Redirect_File_Manager::get_file_path() . '</pre>';
+						}
+						echo '</div>';
+					}
+				?>
 				<h2>Redirect Settings</h2>
 
 				<form action="<?php echo admin_url( 'options.php' ); ?>" method="post">
