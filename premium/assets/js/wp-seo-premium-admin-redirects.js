@@ -4,7 +4,7 @@
 
 		$wpseo_redirects = this;
 
-		this.edit_row = function (row) {
+		this.edit_row = function (row, cancellable) {
 
 			// Add row edit class
 			$(row).addClass('row_edit');
@@ -28,7 +28,7 @@
 			// Wrap inputs in form elements
 			var wrap_form = $("<form>").submit(function (e) {
 				e.preventDefault();
-				if( $wpseo_redirects.save_redirect(row) ) {
+				if ($wpseo_redirects.save_redirect(row)) {
 					$wpseo_redirects.restore_row(row);
 				}
 				return false;
@@ -36,22 +36,28 @@
 
 			$(row).find('td .val input').wrap(wrap_form);
 
-			// Add buttons
+			// Add Save Button
 			$(row).find('.row-actions').parent().append(
 					$('<div>').addClass('edit-actions').append(
-									$('<button>').addClass('button-primary').attr('tabindex', 3).html('Save').click(function () {
-										if( $wpseo_redirects.save_redirect(row) ) {
-											$wpseo_redirects.restore_row(row);
-										}
-										return false;
-									})
-							).append(
-									$('<button>').addClass('button').attr('tabindex', 4).html('Cancel').click(function () {
-										$wpseo_redirects.restore_row(row);
-										return false;
-									})
-							)
+							$('<button>').addClass('button-primary').attr('tabindex', 3).html('Save').click(function () {
+								if ($wpseo_redirects.save_redirect(row)) {
+									$wpseo_redirects.restore_row(row);
+								}
+								return false;
+							})
+					)
 			);
+
+			// Add Cancel button
+			if (cancellable) {
+				$(row).find('.edit-actions').append(
+						$('<button>').addClass('button').attr('tabindex', 4).html('Cancel').click(function () {
+							$wpseo_redirects.restore_row(row);
+							return false;
+						})
+				);
+			}
+
 		};
 
 		this.delete_row = function (row) {
@@ -87,15 +93,15 @@
 
 			// Get and check old URL
 			var old_url = $(row).find('.val').eq(0).find('input').val().toString();
-			if( '' == old_url ) {
-				alert( wpseo_premium_strings.error_old_url );
+			if ('' == old_url) {
+				alert(wpseo_premium_strings.error_old_url);
 				return false;
 			}
 
 			// Get and check new URL
 			var new_url = $(row).find('.val').eq(1).find('input').val().toString();
 			if ("" == new_url) {
-				alert( wpseo_premium_strings.error_new_url );
+				alert(wpseo_premium_strings.error_new_url);
 				return false;
 			}
 
@@ -117,7 +123,7 @@
 
 		this.bind_row = function (row) {
 			$(row).find('.edit').click(function () {
-				$wpseo_redirects.edit_row(row);
+				$wpseo_redirects.edit_row(row, true);
 			});
 			$(row).find('.trash').click(function () {
 				$wpseo_redirects.delete_row(row);
@@ -126,13 +132,13 @@
 
 		this.create_crawl_issue_redirects = function () {
 			if ($('.wpseo_redirects_crawl_issues').length > 0) {
-				var new_redirects = JSON.parse( $('.wpseo_redirects_crawl_issues').val() );
-				if( new_redirects.length > 0 ) {
+				var new_redirects = JSON.parse($('.wpseo_redirects_crawl_issues').val());
+				if (new_redirects.length > 0) {
 					var tbody = $wpseo_redirects.find('#the-list');
-					for(var i=0; i<new_redirects.length; i++) {
-						var tr = create_redirect_row( new_redirects[i], '' );
-						$(tbody).append( tr );
-						$wpseo_redirects.edit_row(tr);
+					for (var i = 0; i < new_redirects.length; i++) {
+						var tr = create_redirect_row(new_redirects[i], '');
+						$(tbody).append(tr);
+						$wpseo_redirects.edit_row(tr, false);
 					}
 				}
 			}
@@ -144,8 +150,8 @@
 			});
 			$wpseo_redirects.create_crawl_issue_redirects();
 
-			$(window).on('beforeunload',function() {
-				if($('.row_edit').length > 0) {
+			$(window).on('beforeunload', function () {
+				if ($('.row_edit').length > 0) {
 					return wpseo_premium_strings.unsaved_redirects;
 				}
 			});
@@ -166,12 +172,12 @@
 		this.add_redirect = function (old_redirect, new_redirect) {
 
 			if ("" == old_redirect) {
-				alert( wpseo_premium_strings.error_old_url );
+				alert(wpseo_premium_strings.error_old_url);
 				return false;
 			}
 
 			if ("" == new_redirect) {
-				alert( wpseo_premium_strings.error_new_url );
+				alert(wpseo_premium_strings.error_new_url);
 				return false;
 			}
 
@@ -179,7 +185,7 @@
 			$this.remove_no_items_row();
 
 			// Creating tr
-			var tr = create_redirect_row( old_redirect, new_redirect );
+			var tr = create_redirect_row(old_redirect, new_redirect);
 
 			// Add the new row
 			$('.seo_page_wpseo_redirects').find('#the-list').append(tr);
