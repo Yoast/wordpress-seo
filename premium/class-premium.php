@@ -62,6 +62,19 @@ class WPSEO_Premium {
 			// Post to Get on search
 			add_action( 'admin_init', array( $this, 'list_table_search_post_to_get' ) );
 
+			// Check if WPSEO_DISABLE_PHP_REDIRECTS is defined
+			if ( defined( 'WPSEO_DISABLE_PHP_REDIRECTS' ) && true === WPSEO_DISABLE_PHP_REDIRECTS ) {
+				// Constant is set, change autoload to off
+				WPSEO_Redirect_Manager::redirects_change_autoload( false );
+			} else {
+				$options = WPSEO_Redirect_Manager::get_options();
+
+				// If the disable_php_redirect option is not enabled we should enable auto loading redirects
+				if ( 'off' == $options['disable_php_redirect'] ) {
+					WPSEO_Redirect_Manager::redirects_change_autoload( true );
+				}
+			}
+
 			// Settings
 			add_action( 'admin_init', array( $this, 'register_settings' ) );
 

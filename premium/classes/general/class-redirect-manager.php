@@ -21,9 +21,9 @@ class WPSEO_Redirect_Manager {
 	/**
 	 * Get the WordPress SEO options
 	 *
-	 * @return mixed|void
+	 * @return array
 	 */
-	private static function get_options() {
+	public static function get_options() {
 		return apply_filters( 'wpseo_premium_redirect_options', wp_parse_args( get_option( 'wpseo_redirect', array() ), array( 'disable_php_redirect' => 'off' ) ) );
 	}
 
@@ -117,8 +117,8 @@ class WPSEO_Redirect_Manager {
 	/**
 	 * Create a new redirect
 	 *
-	 * @param $old_value
-	 * @param $new_value
+	 * @param String $old_value
+	 * @param String $new_value
 	 */
 	public static function create_redirect( $old_value, $new_value ) {
 
@@ -157,7 +157,7 @@ class WPSEO_Redirect_Manager {
 	/**
 	 * Change if the redirect option is autoloaded
 	 *
-	 * @param $enabled
+	 * @param bool $enabled
 	 */
 	public static function redirects_change_autoload( $enabled ) {
 		global $wpdb;
