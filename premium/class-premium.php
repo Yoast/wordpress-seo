@@ -23,11 +23,6 @@ class WPSEO_Premium {
 	 */
 	public static function install() {
 
-		// Check if WordPress SEO is installed and activated
-		if ( is_plugin_active( 'wordpress-seo/wp-seo.php' ) ) {
-			deactivate_plugins( 'wordpress-seo/wp-seo.php' );
-		}
-
 		// Load the Redirect File Manager
 		require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-redirect-file-manager.php' );
 
@@ -49,8 +44,12 @@ class WPSEO_Premium {
 	private function setup() {
 
 		if ( is_admin() ) {
+
 			// Initiate GWT class
 			WPSEO_GWT::get();
+
+			// Disable WordPress SEO
+			add_action( 'admin_init', array( $this, 'disable_wordpress_seo' ), 1 );
 
 			// Add Sub Menu page and add redirect page to admin page array
 			// This should be possible in one method in the future, see #535
@@ -124,6 +123,15 @@ class WPSEO_Premium {
 			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-premium-javascript-strings.php' );
 		}
 
+	}
+
+	/**
+	 * Disable WordPress SEO
+	 */
+	public function disable_wordpress_seo() {
+		if ( is_plugin_active( 'wordpress-seo/wp-seo.php' ) ) {
+			deactivate_plugins( 'wordpress-seo/wp-seo.php' );
+		}
 	}
 
 	/**

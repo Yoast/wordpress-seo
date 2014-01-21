@@ -32,17 +32,19 @@ require_once( 'wp-seo-main.php' );
 
 // Premium setup
 function wpseo_premium_init() {
-	if( file_exists( WPSEO_PATH . 'premium/class-premium.php' ) ) {
+	if ( file_exists( WPSEO_PATH . 'premium/class-premium.php' ) ) {
 		require_once( WPSEO_PATH . 'premium/class-premium.php' );
 
-		// Load the WordPress SEO Premium class the correct way, which is later than the WordPress SEO priority
-		add_action( 'plugins_loaded', create_function( '', 'new WPSEO_Premium();' ), 15 );
+		new WPSEO_Premium();
 	}
 }
+
 add_action( 'plugins_loaded', 'wpseo_premium_init', 14 );
 
 // Activation hook
+/*
 if ( is_admin() ) {
 	require_once( WPSEO_PATH . 'premium/class-premium.php' );
 	register_activation_hook( __FILE__, array( 'WPSEO_Premium', 'install' ) );
 }
+*/
