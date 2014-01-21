@@ -101,9 +101,7 @@ class WPSEO_Page_GWT {
 	 * Load the admin redirects scripts
 	 */
 	public static function page_scripts() {
-
 		wp_enqueue_script( 'wp-seo-premium-admin-gwt', plugin_dir_url( WPSEO_PREMIUM_FILE ) . '/assets/js/wp-seo-premium-admin-gwt.js', array( 'jquery' ), '1.0.0' );
-
 		add_screen_option( 'per_page', array( 'label' => 'Crawl errors per page', 'default' => 25, 'option' => 'errors_per_page' ) );
 	}
 

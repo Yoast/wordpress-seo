@@ -96,14 +96,14 @@
 			// Get and check old URL
 			var old_url = $(row).find('.val').eq(0).find('input').val().toString();
 			if( '' == old_url ) {
-				alert("Old URL can't be empty.");
+				alert( wpseo_premium_strings.error_old_url );
 				return false;
 			}
 
 			// Get and check new URL
 			var new_url = $(row).find('.val').eq(1).find('input').val().toString();
 			if ("" == new_url) {
-				alert("New URL can't be empty.");
+				alert( wpseo_premium_strings.error_new_url );
 				return false;
 			}
 
@@ -154,7 +154,7 @@
 
 			$(window).on('beforeunload',function() {
 				if($('.row_edit').length > 0) {
-					return "You have unsaved redirects, are you sure you want to leave?";
+					return wpseo_premium_strings.unsaved_redirects;
 				}
 			});
 
@@ -174,12 +174,12 @@
 		this.add_redirect = function (old_redirect, new_redirect) {
 
 			if ("" == old_redirect) {
-				alert("Old URL can't be empty.");
+				alert( wpseo_premium_strings.error_old_url );
 				return false;
 			}
 
 			if ("" == new_redirect) {
-				alert("New URL can't be empty.");
+				alert( wpseo_premium_strings.error_new_url );
 				return false;
 			}
 

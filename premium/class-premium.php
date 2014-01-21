@@ -120,6 +120,8 @@ class WPSEO_Premium {
 			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-apache-redirect-file.php' );
 			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-redirect-table.php' );
 			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/pages/class-page-redirect.php' );
+
+			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-premium-javascript-strings.php' );
 		}
 
 	}
@@ -132,8 +134,8 @@ class WPSEO_Premium {
 	 * @return array
 	 */
 	public function add_submenu_pages( $submenu_pages ) {
-		$submenu_pages[] = array( 'wpseo_dashboard', __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Redirects', 'wordpress-seo' ), __( 'Redirects', 'wordpress-seo' ), 'manage_options', 'wpseo_redirects', array( WPSEO_Page_Redirect, 'display' ), array( array( 'WPSEO_Page_Redirect', 'page_load' ) ) );
-		$submenu_pages[] = array( 'wpseo_dashboard', __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Webmaster Tools', 'wordpress-seo' ), __( 'Webmaster Tools', 'wordpress-seo' ), 'manage_options', 'wpseo_webmaster_tools', array( WPSEO_Page_GWT, 'display' ), array( array( 'WPSEO_Page_GWT', 'page_load' ) ) );
+		$submenu_pages[] = array( 'wpseo_dashboard', __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Redirects', 'wordpress-seo' ), __( 'Redirects', 'wordpress-seo' ), 'manage_options', 'wpseo_redirects', array( 'WPSEO_Page_Redirect', 'display' ), array( array( 'WPSEO_Page_Redirect', 'page_load' ) ) );
+		$submenu_pages[] = array( 'wpseo_dashboard', __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Webmaster Tools', 'wordpress-seo' ), __( 'Webmaster Tools', 'wordpress-seo' ), 'manage_options', 'wpseo_webmaster_tools', array( 'WPSEO_Page_GWT', 'display' ), array( array( 'WPSEO_Page_GWT', 'page_load' ) ) );
 
 		return $submenu_pages;
 	}
