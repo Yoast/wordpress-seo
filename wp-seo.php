@@ -35,12 +35,17 @@ if ( !defined( 'DB_NAME' ) ) {
 	die;
 }
 
-if ( !defined( 'WPSEO_PATH' ) )
+if ( ! defined( 'WPSEO_PATH' ) ) {
 	define( 'WPSEO_PATH', plugin_dir_path( __FILE__ ) );
-if ( !defined( 'WPSEO_BASENAME' ) )
-	define( 'WPSEO_BASENAME', plugin_basename( __FILE__ ) );
+}
 
-define( 'WPSEO_FILE', __FILE__ );
+if ( ! defined( 'WPSEO_BASENAME' ) ) {
+	define( 'WPSEO_BASENAME', plugin_basename( __FILE__ ) );
+}
+
+if ( ! defined( 'WPSEO_FILE' ) ) {
+	define( 'WPSEO_FILE', __FILE__ );
+}
 
 function wpseo_load_textdomain() {
 	load_plugin_textdomain( 'wordpress-seo', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
@@ -58,7 +63,9 @@ if ( version_compare( PHP_VERSION, '5.2', '<' ) ) {
 	}
 }
 
-define( 'WPSEO_VERSION', '1.4.24' );
+if ( ! defined( 'WPSEO_VERSION' ) ) {
+	define( 'WPSEO_VERSION', '1.4.24' );
+}
 
 function wpseo_init() {
 	require_once( WPSEO_PATH . 'inc/wpseo-functions.php' );

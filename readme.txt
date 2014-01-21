@@ -113,7 +113,8 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 	* Get home_url out of the sitemap loop - props [tivnet](https://github.com/tivnet)
 
 * Enhancement
-	*
+		* WPSEO_FILE now had a 'defined' check.
+  	* WPSEO_VERSION now had a 'defined' check.
 
 = 1.4.24 =
 
