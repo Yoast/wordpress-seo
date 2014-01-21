@@ -280,28 +280,15 @@ if ( ! class_exists( 'WPSEO_Bulk_Title_Editor_List_Table' ) ) {
 		function prepare_items() {
 			global $wpdb;
 
-			$query = "
-				SELECT ID, post_title, post_type, meta_value AS seo_title, post_status, post_modified
-				FROM {$wpdb->posts}
-				LEFT JOIN (
-					SELECT *
-					FROM {$wpdb->postmeta}
-					WHERE meta_key = %1\$s
-				)a ON a.post_id = {$wpdb->posts}.ID
-				WHERE post_status IN (%2\$s) AND post_type IN (%3\$s)
-				ORDER BY %4\$s %5\$s
-			";
-
 			//	Filter Block
 	
-			$post_types = get_post_types( array( 'exclude_from_search' => false ) );
+			$post_types = null;
+			$post_type_clause = '';
 
 			if ( ! empty( $_GET['post_type_filter'] ) && get_post_type_object( $_GET['post_type_filter'] ) ) {
-				$post_types = array( $_GET['post_type_filter'] );
+				$post_types = esc_sql( $_GET['post_type_filter'] );
+				$post_type_clause = "AND post_type IN ('{$post_types}')";
 			}
-
-			$post_types = esc_sql( $post_types );
-			$post_types = "'" . implode( "', '", $post_types ) . "'";
 
 			//	Order By block
 
@@ -325,17 +312,24 @@ if ( ! class_exists( 'WPSEO_Bulk_Title_Editor_List_Table' ) ) {
 			$states = esc_sql( $states );
 			$all_states      = "'" . implode( "', '", $states ) . "'";
 
-			$query = sprintf(
-				$query,
-				'%s',
-				$all_states,
-				$post_types,
-				$orderby,
-				$order
-			);
+			$subquery        = $this->get_base_subquery();
+			$current_user_id = get_current_user_id();
+
+			$query = "
+				SELECT ID, post_title, post_type, meta_value AS seo_title, post_status, post_modified
+				FROM {$subquery}
+				LEFT JOIN (
+					SELECT *
+					FROM {$wpdb->postmeta}
+					WHERE meta_key = %s
+				)a ON a.post_id = ID
+				WHERE post_status IN ({$all_states}) $post_type_clause
+				ORDER BY {$orderby} {$order}
+			";
 			
 			$total_items = $wpdb->query( $wpdb->prepare(
 				$query,
+				$current_user_id,
 				WPSEO_Meta::$meta_prefix . 'title'
 			) );
 
@@ -368,6 +362,7 @@ if ( ! class_exists( 'WPSEO_Bulk_Title_Editor_List_Table' ) ) {
 
 			$this->items = $wpdb->get_results( $wpdb->prepare( 
 				$query,
+				$current_user_id,
 				WPSEO_Meta::$meta_prefix . 'title',
 				$offset,
 				$per_page
