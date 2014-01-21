@@ -218,8 +218,17 @@ if ( ! class_exists( 'WPSEO_Bulk_Description_List_Table' ) ) {
 					$states = esc_sql( $states );
 					$all_states      = "'" . implode( "', '", $states ) . "'";
 
-					$query      = "SELECT DISTINCT post_type FROM $wpdb->posts WHERE post_status IN ($all_states) AND post_type IN ($post_types) ORDER BY 'post_type' ASC";
-					$post_types = $wpdb->get_results( $query );
+					$subquery        = $this->get_base_subquery();
+					$current_user_id = get_current_user_id();
+
+					$post_types = $wpdb->get_results( $wpdb->prepare(
+						"
+							SELECT DISTINCT post_type FROM {$subquery}
+							WHERE post_status IN ({$all_states})
+							ORDER BY 'post_type' ASC
+						",
+						$current_user_id
+					) );
 
 					$selected = ! empty( $_GET['post_type_filter'] ) ? $_GET['post_type_filter'] : -1;
 
