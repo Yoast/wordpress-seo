@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: WordPress SEO
-Version: 1.5.0-beta
+Version: 1.5.0-beta1
 Plugin URI: http://yoast.com/wordpress/seo/#utm_source=wpadmin&utm_medium=plugin&utm_campaign=wpseoplugin
 Description: The first true all-in-one SEO solution for WordPress, including on-page content analysis, XML sitemaps and much more.
 Author: Joost de Valk
@@ -45,19 +45,27 @@ if ( version_compare( PHP_VERSION, '5.2', '<' ) ) {
 	}
 }
 
+/**
+ * @internal Nobody should be able to overrule the real version number as this can cause serious issues
+ * with the options, so no if ( ! defined() )
+ */
+define( 'WPSEO_VERSION', '1.5.0-beta1' );
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
 	define( 'WPSEO_PATH', plugin_dir_path( __FILE__ ) );
 }
+
 if ( ! defined( 'WPSEO_BASENAME' ) ) {
 	define( 'WPSEO_BASENAME', plugin_basename( __FILE__ ) );
 }
 
-define( 'WPSEO_FILE', __FILE__ );
+if ( ! defined( 'WPSEO_FILE' ) ) {
+	define( 'WPSEO_FILE', __FILE__ );
+}
 
-define( 'WPSEO_VERSION', '1.5.0-beta1' );
-
-define( 'WPSEO_CSSJS_SUFFIX', ( ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min' ) );
+if ( ! defined( 'WPSEO_CSSJS_SUFFIX' ) ) {
+	define( 'WPSEO_CSSJS_SUFFIX', ( ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min' ) );
+}
 
 
 /**

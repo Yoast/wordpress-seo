@@ -49,6 +49,12 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 		private $n = 1;
 
 		/**
+		 * Holds the home_url() value to speed up loops
+		 * @var string $home_url
+		 */
+		private $home_url = '';
+
+		/**
 		 * Class constructor
 		 */
 		function __construct() {
@@ -66,6 +72,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 
 			$this->options     = WPSEO_Options::get_all();
 			$this->max_entries = WPSEO_Options::get_default( 'wpseo_xml', 'entries-per-page' );
+			$this->home_url = home_url();
 		}
 
 		/**
@@ -449,7 +456,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 				if ( ! $front_id && ( $post_type == 'post' || $post_type == 'page' ) ) {
 					$output .= $this->sitemap_url(
 						array(
-							'loc' => home_url( '/' ),
+							'loc' => $this->home_url,
 							'pri' => 1,
 							'chf' => 'daily',
 						)
@@ -547,6 +554,14 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 						$url['mod'] = ( isset( $p->post_modified_gmt ) && $p->post_modified_gmt != '0000-00-00 00:00:00' && $p->post_modified_gmt > $p->post_date_gmt ) ? $p->post_modified_gmt : $p->post_date_gmt;
 						$url['chf'] = 'weekly';
 						$url['loc'] = get_permalink( $p );
+
+						/**
+						 * Do not include external URLs.
+						 * @see http://wordpress.org/plugins/page-links-to/ can rewrite permalinks to external URLs.
+						 */
+						if ( false === strpos( $url['loc'], $this->home_url ) ) {
+							continue;
+						}
 
 						$canonical = WPSEO_Meta::get_value( 'canonical', $p->ID );
 						if ( $canonical !== '' && $canonical !== $url['loc'] ) {
