@@ -106,7 +106,7 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 		$service = new WPSEO_GWT_Service( $this->gwt );
 
 		// Get crawl issues
-		$crawl_issues = $service->get_crawl_issues( site_url() . '/' );
+		$crawl_issues = $service->get_crawl_issues( site_url( '/' ) );
 
 		// Handle the search
 		if ( null != $this->search_string ) {
