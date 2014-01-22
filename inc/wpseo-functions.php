@@ -17,10 +17,6 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
  * Maybe not necessary as it is now run on plugins_loaded, so upgrade will run as soon as any page
  * on a site is requested.
  *
- * @todo [JRF] Walk through complete function and move things to clean_up where relevant and check that
- * saving from this will not give problems with the validation being on (it will in it's current form!!!
- * - not only because of validation, but also because of get_option will return a filtered array)
- *
  * @todo [JRF => Yoast] I've removed the upgrade routine for WPSEO < 0.4.2 as it would be pretty complex
  * with how much has changed and considering that that version (0.4.1) was from May 26 2011, it can hardly
  * be considered relevant anymore. Hope you agree.
