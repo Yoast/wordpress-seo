@@ -13,14 +13,16 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
  * Function used from AJAX calls, takes it variables from $_POST, dies on exit.
  */
 function wpseo_set_option() {
-	if ( ! current_user_can( 'manage_options' ) )
+	if ( ! current_user_can( 'manage_options' ) ) {
 		die( '-1' );
+	}
 
 	check_ajax_referer( 'wpseo-setoption' );
 
-	$option = esc_attr( $_POST['option'] );
-	if ( $option != 'page_comments' )
+	$option = sanitize_text_field( $_POST['option'] );
+	if ( $option !== 'page_comments' ) {
 		die( '-1' );
+	}
 
 	update_option( $option, 0 );
 	die( '1' );
@@ -32,8 +34,9 @@ add_action( 'wp_ajax_wpseo_set_option', 'wpseo_set_option' );
  * Function used to remove the admin notices for several purposes, dies on exit.
  */
 function wpseo_set_ignore() {
-	if ( ! current_user_can( 'manage_options' ) )
+	if ( ! current_user_can( 'manage_options' ) ) {
 		die( '-1' );
+	}
 
 	check_ajax_referer( 'wpseo-ignore' );
 
@@ -50,8 +53,9 @@ add_action( 'wp_ajax_wpseo_set_ignore', 'wpseo_set_ignore' );
  * Function used to delete blocking files, dies on exit.
  */
 function wpseo_kill_blocking_files() {
-	if ( ! current_user_can( 'manage_options' ) )
+	if ( ! current_user_can( 'manage_options' ) ) {
 		die( '-1' );
+	}
 
 	check_ajax_referer( 'wpseo-blocking-files' );
 
@@ -59,14 +63,19 @@ function wpseo_kill_blocking_files() {
 	$options = get_option( 'wpseo' );
 	if ( is_array( $options['blocking_files'] ) && $options['blocking_files'] !== array() ) {
 		$message = 'success';
-		$options['blocking_files'] = array_unique( $options['blocking_files'] );
+		$files_removed = 0;
 		foreach ( $options['blocking_files'] as $k => $file ) {
-			if ( ! @unlink( $file ) )
+			if ( ! @unlink( $file ) ) {
 				$message = __( 'Some files could not be removed. Please remove them via FTP.', 'wordpress-seo' );
-			else
+			}
+			else {
 				unset( $options['blocking_files'][$k] );
+				$files_removed++;
+			}
 		}
-		update_option( 'wpseo', $options );
+		if ( $files_removed > 0 ) {
+			update_option( 'wpseo', $options );
+		}
 	}
 
 	die( $message );

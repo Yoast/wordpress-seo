@@ -19,9 +19,11 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		 * Class constructor
 		 */
 		function __construct() {
-			WPSEO_Options::set_multisite_defaults();
-
 			$options = WPSEO_Options::get_all();
+
+			if ( function_exists( 'is_multisite' ) && is_multisite() && $options['ms_defaults_set'] === false ) {
+				WPSEO_Options::set_multisite_defaults();
+			}
 
 			if ( $options['stripcategorybase'] === true ) {
 				add_action( 'created_category', array( $this, 'schedule_rewrite_flush' ) );
@@ -29,8 +31,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 				add_action( 'delete_category', array( $this, 'schedule_rewrite_flush' ) );
 			}
 
-			if ( $this->grant_access() ) {
-				add_action( 'admin_init', array( 'WPSEO_Options', 'register_settings' ), 1 );
+			if ( WPSEO_Options::grant_access() ) {
 				// Needs the lower than default priority so other plugins can hook underneath it without issue.
 				add_action( 'admin_menu', array( $this, 'register_settings_page' ), 5 );
 				add_action( 'network_admin_menu', array( $this, 'register_network_settings_page' ) );
@@ -38,22 +39,18 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 				add_filter( 'plugin_action_links', array( $this, 'add_action_link' ), 10, 2 );
 				add_action( 'admin_enqueue_scripts', array( $this, 'config_page_scripts' ) );
 
-				if ( '0' == get_option( 'blog_public' ) )
+				if ( '0' == get_option( 'blog_public' ) ) {
 					add_action( 'admin_footer', array( $this, 'blog_public_warning' ) );
+				}
 
-				if ( ( ( isset( $options['theme_has_description'] ) && $options['theme_has_description'] === true ) || $options['theme_description_found'] !== '' ) && $options['ignore_meta_description_warning'] !== true )
+				if ( ( ( isset( $options['theme_has_description'] ) && $options['theme_has_description'] === true ) || $options['theme_description_found'] !== '' ) && $options['ignore_meta_description_warning'] !== true ) {
 					add_action( 'admin_footer', array( $this, 'meta_description_warning' ) );
-
+				}
 			}
 
-			/* Should be run on init (was admin_init) as otherwise multisite installs will not get the upgrade
-			   until an admin logs in.
-			   Upgrade run as prio 100 to ensure enrich_defaults has run ?
-			*/
-			add_action( 'init', array( $this, 'maybe_upgrade' ), 100 );
-
-			if ( $options['cleanslugs'] === true )
+			if ( $options['cleanslugs'] === true ) {
 				add_filter( 'name_save_pre', array( $this, 'remove_stopwords_from_slug' ), 0 );
+			}
 
 			add_action( 'show_user_profile', array( $this, 'user_profile' ) );
 			add_action( 'edit_user_profile', array( $this, 'user_profile' ) );
@@ -77,25 +74,6 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 			add_action( 'shutdown', 'flush_rewrite_rules' );
 		}
 
-
-		/**
-		 * Check whether the current user is allowed to access the configuration.
-		 *
-		 * @return boolean
-		 */
-		function grant_access() {
-			if ( ! function_exists( 'is_multisite' ) || ! is_multisite() )
-				return true;
-
-			$options = get_site_option( 'wpseo_ms' );
-			if ( $options['access'] === 'admin' )
-				return true;
-
-			if ( $options['access'] === 'superadmin' && ! is_super_admin() )
-				return false;
-
-			return true;
-		}
 
 		/**
 		 * Register the menu item and its sub menu's.
@@ -419,12 +397,14 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		 * Display an error message when the blog is set to private.
 		 */
 		function blog_public_warning() {
-			if ( function_exists( 'is_network_admin' ) && is_network_admin() )
+			if ( function_exists( 'is_network_admin' ) && is_network_admin() ) {
 				return;
+			}
 
 			$options = get_option( 'wpseo' );
-			if ( $options['ignore_blog_public_warning'] === true )
+			if ( $options['ignore_blog_public_warning'] === true ) {
 				return;
+			}
 			echo '<div id="message" class="error">';
 			echo '<p><strong>' . __( 'Huge SEO Issue: You\'re blocking access to robots.', 'wordpress-seo' ) . '</strong> ' . sprintf( __( 'You must %sgo to your Reading Settings%s and uncheck the box for Search Engine Visibility.', 'wordpress-seo' ), '<a href="' . esc_url( admin_url( 'options-reading.php' ) ) . '">', '</a>' ) . ' <a href="javascript:wpseo_setIgnore(\'blog_public_warning\',\'message\',\'' . esc_js( wp_create_nonce( 'wpseo-ignore' ) ) . '\');" class="button">' . __( 'I know, don\'t bug me.', 'wordpress-seo' ) . '</a></p></div>';
 		}
@@ -435,16 +415,19 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		 * @since 1.4.14
 		 */
 		function meta_description_warning() {
-			if ( function_exists( 'is_network_admin' ) && is_network_admin() )
+			if ( function_exists( 'is_network_admin' ) && is_network_admin() ) {
 				return;
+			}
 
 			// No need to double display it on the dashboard
-			if ( isset( $_GET['page'] ) && 'wpseo_dashboard' === $_GET['page'] )
+			if ( isset( $_GET['page'] ) && 'wpseo_dashboard' === $_GET['page'] ) {
 				return;
+			}
 
 			$options = get_option( 'wpseo' );
-			if ( true === $options['ignore_meta_description_warning'] )
+			if ( true === $options['ignore_meta_description_warning'] ) {
 				return;
+			}
 
 			echo '<div id="metamessage" class="error">';
 			echo '<p><strong>' . __( 'SEO Issue:', 'wordpress-seo' ) . '</strong> ' . sprintf( __( 'Your theme contains a meta description, which blocks WordPress SEO from working properly. Please visit the %sSEO Dashboard%s to fix this.', 'wordpress-seo' ), '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_dashboard' ) ) . '">', '</a>' ) . ' <a href="javascript:wpseo_setIgnore(\'meta_description_warning\',\'metamessage\',\'' . esc_js( wp_create_nonce( 'wpseo-ignore' ) ) . '\');" class="button">' . __( 'I know, don\'t bug me.', 'wordpress-seo' ) . '</a></p></div>';
@@ -548,204 +531,6 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		}
 
 		/**
-		 * Determine whether the wpseo option holds the current version, if it doesn't, run
-		 * the upgrade procedures.
-		 *
-		 * @todo - [JRF] Check, check, double-check!
-		 *
-		 * @todo - [JRF] check: if upgrade is run on multi-site installation, upgrade for all sites ?
-		 * May be not necessary as hook now changed from admin_init to init, so upgrade will run as soon as any page
-		 * on a site is requested.
-		 */
-		function maybe_upgrade() {
-			$options         = get_option( 'wpseo' );
-			$current_version = isset( $options['version'] ) ? $options['version'] : 0;
-
-			if ( version_compare( $current_version, WPSEO_VERSION, '==' ) ) {
-				return;
-			}
-
-			// <= 0.3.5: flush rewrite rules for new XML sitemaps
-			if ( $current_version == 0 ) {
-				$this->schedule_rewrite_flush();
-			}
-
-			if ( version_compare( $current_version, '0.4.2', '<' ) ) {
-				$xml_opt = array();
-				// Move XML Sitemap settings from general array to XML specific array, general settings first
-				foreach ( array( 'enablexmlsitemap', 'xml_include_images', 'xml_ping_google', 'xml_ping_bing', 'xml_ping_yahoo', 'xml_ping_ask', 'xmlnews_posttypes' ) as $opt ) {
-					if ( isset( $options[$opt] ) ) {
-						$xml_opt[$opt] = $options[$opt];
-						unset( $options[$opt] );
-					}
-				}
-				// Per post type settings
-				$post_types = get_post_types();
-				if ( is_array( $post_types ) && $post_types !== array() ) {
-					foreach ( $post_types as $post_type ) {
-						if ( in_array( $post_type, array( 'revision', 'nav_menu_item', 'attachment' ) ) ) {
-							continue;
-						}
-
-						if ( isset( $options['post_types-' . $post_type . '-not_in_sitemap'] ) ) {
-							$xml_opt['post_types-' . $post_type . '-not_in_sitemap'] = $options['post_types-' . $post_type . '-not_in_sitemap'];
-							unset( $options['post_types-' . $post_type . '-not_in_sitemap'] );
-						}
-					}
-				}
-				unset( $post_types, $post_type );
-
-				// Per taxonomy settings
-				$taxonomies = get_taxonomies();
-				if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
-					foreach ( $taxonomies as $taxonomy ) {
-						if ( in_array( $taxonomy, array( 'nav_menu', 'link_category', 'post_format' ) ) ) {
-							continue;
-						}
-
-						if ( isset( $options['taxonomies-' . $taxonomy . '-not_in_sitemap'] ) ) {
-							$xml_opt['taxonomies-' . $taxonomy . '-not_in_sitemap'] = $options['taxonomies-' . $taxonomy . '-not_in_sitemap'];
-							unset( $options['taxonomies-' . $taxonomy . '-not_in_sitemap'] );
-						}
-					}
-				}
-				unset( $taxonomies, $taxonomy );
-
-				if ( get_option( 'wpseo_xml' ) === false ) {
-					update_option( 'wpseo_xml', $xml_opt );
-				}
-				unset( $xml_opt );
-
-				// Clean up other no longer used settings
-				unset( $options['wpseodir'], $options['wpseourl'] );
-			}
-
-			if ( version_compare( $current_version, '1.0.2.2', '<' ) ) {
-				$opt = (array) get_option( 'wpseo_indexation' );
-				unset( $opt['hideindexrel'], $opt['hidestartrel'], $opt['hideprevnextpostlink'], $opt['hidewpgenerator'] );
-				update_option( 'wpseo_indexation', $opt );
-			}
-
-			if ( version_compare( $current_version, '1.0.4', '<' ) ) {
-				$opt    = (array) get_option( 'wpseo_indexation' );
-				$newopt = array(
-					'opengraph'  => isset( $opt['opengraph'] ) ? $opt['opengraph'] : '',
-					'fb_adminid' => isset( $opt['fb_adminid'] ) ? $opt['fb_adminid'] : '',
-					'fb_appid'   => isset( $opt['fb_appid'] ) ? $opt['fb_appid'] : '',
-				);
-				update_option( 'wpseo_social', $newopt );
-				unset( $opt['opengraph'], $opt['fb_pageid'], $opt['fb_adminid'], $opt['fb_appid'] );
-				update_option( 'wpseo_indexation', $opt );
-			}
-
-			if ( version_compare( $current_version, '1.2', '<' ) ) {
-				$opt     = get_option( 'wpseo_indexation' );
-				$metaopt = get_option( 'wpseo_titles' );
-
-				$metaopt['noindex-author']      = isset( $opt['noindexauthor'] ) ? $opt['noindexauthor'] : '';
-				$metaopt['disable-author']      = isset( $opt['disableauthor'] ) ? $opt['disableauthor'] : '';
-				$metaopt['noindex-archive']     = isset( $opt['noindexdate'] ) ? $opt['noindexdate'] : '';
-				$metaopt['noindex-category']    = isset( $opt['noindexcat'] ) ? $opt['noindexcat'] : '';
-				$metaopt['noindex-post_tag']    = isset( $opt['noindextag'] ) ? $opt['noindextag'] : '';
-				$metaopt['noindex-post_format'] = isset( $opt['noindexpostformat'] ) ? $opt['noindexpostformat'] : '';
-				$metaopt['noindex-subpages']    = isset( $opt['noindexsubpages'] ) ? $opt['noindexsubpages'] : '';
-				$metaopt['hide-rsdlink']        = isset( $opt['hidersdlink'] ) ? $opt['hidersdlink'] : '';
-				$metaopt['hide-feedlinks']      = isset( $opt['hidefeedlinks'] ) ? $opt['hidefeedlinks'] : '';
-				$metaopt['hide-wlwmanifest']    = isset( $opt['hidewlwmanifest'] ) ? $opt['hidewlwmanifest'] : '';
-				$metaopt['hide-shortlink']      = isset( $opt['hideshortlink'] ) ? $opt['hideshortlink'] : '';
-
-				update_option( 'wpseo_titles', $metaopt );
-
-				delete_option( 'wpseo_indexation' );
-
-				wpseo_title_test();
-			}
-
-			// Clean up the wrong wpseo options
-			if ( version_compare( $current_version, '1.2.3', '<' ) ) {
-				$opt = get_option( 'wpseo' );
-
-				if ( is_array( $opt ) && $opt !== array() ) {
-					foreach ( $opt as $key => $val ) {
-						if ( ! in_array( $key, array( 'ignore_blog_public_warning', 'ignore_tour', 'ignore_page_comments', 'ignore_permalink', 'ms_defaults_set', 'version', 'disableadvanced_meta', 'googleverify', 'msverify', 'alexaverify' ) ) ) {
-							unset( $opt[$key] );
-						}
-					}
-					unset( $key, $val );
-
-					update_option( 'wpseo', $opt );
-				}
-				unset( $opt );
-			}
-
-			// Fix wrongness created by buggy version 1.2.2
-			if ( version_compare( $current_version, '1.2.4', '<' ) ) {
-				$options = get_option( 'wpseo_titles' );
-				if ( is_array( $options ) && isset( $options['title-home-wpseo'] ) && $options['title-home-wpseo'] == '%%sitename%% - %%sitedesc%% - 12345' ) {
-					$options['title-home-wpseo'] = '%%sitename%% - %%sitedesc%%';
-					update_option( 'wpseo_titles', $options );
-				}
-			}
-
-			if ( version_compare( $current_version, '1.2.8', '<' ) ) {
-				$options = get_option( 'wpseo' );
-				if ( is_array( $options ) && isset( $options['presstrends'] ) ) {
-					$options['yoast_tracking'] = 'on';
-					unset( $options['presstrends'] );
-					update_option( 'wpseo', $options );
-				}
-			}
-
-			if ( version_compare( $current_version, '1.2.8.2', '<' ) ) {
-				$options = get_option( 'wpseo' );
-				if ( is_array( $options ) && isset( $options['presstrends'] ) ) {
-					$options['yoast_tracking'] = 'on';
-					unset( $options['presstrends'] );
-				}
-				if ( is_array( $options ) && isset( $options['presstrends_popup'] ) ) {
-					$options['tracking_popup'] = 'on';
-					unset( $options['presstrends_popup'] );
-				}
-				update_option( 'wpseo', $options );
-			}
-
-			if ( version_compare( $current_version, '1.3.2', '<' ) ) {
-				$options = get_option( 'wpseo_xml' );
-
-				$options['post_types-attachment-not_in_sitemap'] = true;
-				update_option( 'wpseo_xml', $options );
-			}
-
-			if ( version_compare( $current_version, '1.4.13', '<' ) ) {
-				wpseo_description_test();
-			}
-
-			if ( version_compare( $current_version, '1.4.15', '<' ) ) {
-				$this->schedule_rewrite_flush();
-			}
-
-			if ( version_compare( $current_version, '1.4.16', '<' ) ) {
-				$options = get_option( 'wpseo_permalinks' );
-
-				if ( ! is_array( $options ) )
-					$options = array();
-
-				$options['cleanslugs'] = 'on';
-				update_option( 'wpseo_permalinks', $options );
-			}
-
-			if ( version_compare( $current_version, '1.5.0', '<' ) ) {
-				WPSEO_Options::clean_up();
-				WPSEO_Taxonomy_Meta::clean_up();
-				WPSEO_Meta::clean_up();
-			}
-
-			$options            = get_option( 'wpseo' );
-			$options['version'] = WPSEO_VERSION;
-			update_option( 'wpseo', $options );
-		}
-
-		/**
 		 * Cleans stopwords out of the slug, if the slug hasn't been set yet.
 		 *
 		 * @since 1.1.7
@@ -797,6 +582,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 
 			return $stopwords;
 		}
+
 
 		/**
 		 * Check whether the stopword appears in the string
@@ -853,6 +639,34 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		/********************** DEPRECATED METHODS **********************/
 
 		/**
+		 * Check whether the current user is allowed to access the configuration.
+		 *
+		 * @deprecated 1.5.0
+		 * @deprecated use WPSEO_Options::grant_access()
+		 * @see WPSEO_Options::grant_access()
+		 *
+		 * @return boolean
+		 */
+		function grant_access() {
+			_deprecated_function( __CLASS__ . '::' . __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Options::grant_access()' );
+			return WPSEO_Options::grant_access();
+		}
+		
+		/**
+		 * Check whether the current user is allowed to access the configuration.
+		 *
+		 * @deprecated 1.5.0
+		 * @deprecated use wpseo_do_upgrade()
+		 * @see wpseo_do_upgrade()
+		 *
+		 * @return boolean
+		 */
+		function maybe_upgrade() {
+			_deprecated_function( __CLASS__ . '::' . __METHOD__, 'WPSEO 1.5.0', 'wpseo_do_upgrade' );
+			wpseo_do_upgrade();
+		}
+
+		/**
 		 * Clears the cache
 		 *
 		 * @deprecated 1.5.0
@@ -860,7 +674,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		 * @see WPSEO_Options::clear_cache()
 		 */
 		function clear_cache() {
-			_deprecated_function( __FUNCTION__, 'WPSEO 1.5.0', 'WPSEO_Options::clear_cache()' );
+			_deprecated_function( __CLASS__ . '::' . __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Options::clear_cache()' );
 			WPSEO_Options::clear_cache();
 		}
 
@@ -872,23 +686,20 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		 * @see WPSEO_Options::clear_rewrites()
 		 */
 		function clear_rewrites() {
-			_deprecated_function( __FUNCTION__, 'WPSEO 1.5.0', 'WPSEO_Options::clear_rewrites()' );
+			_deprecated_function( __CLASS__ . '::' . __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Options::clear_rewrites()' );
 			WPSEO_Options::clear_rewrites();
 		}
-
 
 		/**
 		 * Register all the options needed for the configuration pages.
 		 *
 		 * @deprecated 1.5.0
-		 * @deprecated use WPSEO_Options::register_settings()
-		 * @see WPSEO_Options::register_settings()
+		 * @deprecated use WPSEO_Option::register_setting() on each individual option
+		 * @see WPSEO_Option::register_setting()
 		 */
 		function options_init() {
-			_deprecated_function( __FUNCTION__, 'WPSEO 1.5.0', 'WPSEO_Options::register_settings()' );
-			WPSEO_Options::register_settings();
+			_deprecated_function( __CLASS__ . '::' . __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Option::register_setting()' );
 		}
-
 
 		/**
 		 * Initialize default values for a new multisite blog.
@@ -898,10 +709,9 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		 * @see WPSEO_Options::set_multisite_defaults()
 		 */
 		function multisite_defaults() {
-			_deprecated_function( __FUNCTION__, 'WPSEO 1.5.0', 'WPSEO_Options::set_multisite_defaults()' );
+			_deprecated_function( __CLASS__ . '::' . __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Options::set_multisite_defaults()' );
 			WPSEO_Options::set_multisite_defaults();
 		}
-
 
 		/**
 		 * Loads the form for the import/export page.
@@ -910,7 +720,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		 * @deprecated use WPSEO_Admin::load_page()
 		 */
 		function import_page() {
-			_deprecated_function( __FUNCTION__, 'WPSEO 1.5.0', 'WPSEO_Admin::load_page()' );
+			_deprecated_function( __CLASS__ . '::' . __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Admin::load_page()' );
 			$this->load_page();
 		}
 
@@ -921,7 +731,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		 * @deprecated use WPSEO_Admin::load_page()
 		 */
 		function titles_page() {
-			_deprecated_function( __FUNCTION__, 'WPSEO 1.5.0', 'WPSEO_Admin::load_page()' );
+			_deprecated_function( __CLASS__ . '::' . __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Admin::load_page()' );
 			$this->load_page();
 		}
 
@@ -932,7 +742,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		 * @deprecated use WPSEO_Admin::load_page()
 		 */
 		function permalinks_page() {
-			_deprecated_function( __FUNCTION__, 'WPSEO 1.5.0', 'WPSEO_Admin::load_page()' );
+			_deprecated_function( __CLASS__ . '::' . __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Admin::load_page()' );
 			$this->load_page();
 		}
 
@@ -943,7 +753,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		 * @deprecated use WPSEO_Admin::load_page()
 		 */
 		function internallinks_page() {
-			_deprecated_function( __FUNCTION__, 'WPSEO 1.5.0', 'WPSEO_Admin::load_page()' );
+			_deprecated_function( __CLASS__ . '::' . __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Admin::load_page()' );
 			$this->load_page();
 		}
 
@@ -954,7 +764,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		 * @deprecated use WPSEO_Admin::load_page()
 		 */
 		function files_page() {
-			_deprecated_function( __FUNCTION__, 'WPSEO 1.5.0', 'WPSEO_Admin::load_page()' );
+			_deprecated_function( __CLASS__ . '::' . __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Admin::load_page()' );
 			$this->load_page();
 		}
 
@@ -965,7 +775,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		 * @deprecated use WPSEO_Admin::load_page()
 		 */
 		function rss_page() {
-			_deprecated_function( __FUNCTION__, 'WPSEO 1.5.0', 'WPSEO_Admin::load_page()' );
+			_deprecated_function( __CLASS__ . '::' . __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Admin::load_page()' );
 			$this->load_page();
 		}
 
@@ -976,7 +786,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		 * @deprecated use WPSEO_Admin::load_page()
 		 */
 		function xml_sitemaps_page() {
-			_deprecated_function( __FUNCTION__, 'WPSEO 1.5.0', 'WPSEO_Admin::load_page()' );
+			_deprecated_function( __CLASS__ . '::' . __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Admin::load_page()' );
 			$this->load_page();
 		}
 
@@ -987,7 +797,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		 * @deprecated use WPSEO_Admin::load_page()
 		 */
 		function config_page() {
-			_deprecated_function( __FUNCTION__, 'WPSEO 1.5.0', 'WPSEO_Admin::load_page()' );
+			_deprecated_function( __CLASS__ . '::' . __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Admin::load_page()' );
 			$this->load_page();
 		}
 
@@ -998,7 +808,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		 * @deprecated use WPSEO_Admin::load_page()
 		 */
 		function social_page() {
-			_deprecated_function( __FUNCTION__, 'WPSEO 1.5.0', 'WPSEO_Admin::load_page()' );
+			_deprecated_function( __CLASS__ . '::' . __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Admin::load_page()' );
 			$this->load_page();
 		}
 

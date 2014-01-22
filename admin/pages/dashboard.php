@@ -17,10 +17,12 @@ $options = get_option( 'wpseo' );
 
 if ( isset( $_GET['allow_tracking'] ) && check_admin_referer( 'wpseo_activate_tracking', 'nonce' ) ) {
 	$options['tracking_popup_done'] = true;
-	if ( $_GET['allow_tracking'] == 'yes' )
+	if ( $_GET['allow_tracking'] == 'yes' ) {
 		$options['yoast_tracking'] = true;
-	else
+	}
+	else {
 		$options['yoast_tracking'] = false;
+	}
 	update_option( 'wpseo', $options );
 
 	if ( isset( $_SERVER['HTTP_REFERER'] ) ) {
@@ -29,7 +31,7 @@ if ( isset( $_GET['allow_tracking'] ) && check_admin_referer( 'wpseo_activate_tr
 	}
 }
 
-$wpseo_admin_pages->admin_header( true, WPSEO_Options::$options['wpseo']['group'], 'wpseo' );
+$wpseo_admin_pages->admin_header( true, WPSEO_Options::get_group_name( 'wpseo' ), 'wpseo' );
 
 // detect and handle robots meta here
 robots_meta_handler();
@@ -39,13 +41,6 @@ aioseo_handler();
 
 do_action( 'wpseo_all_admin_notices' );
 
-echo $wpseo_admin_pages->hidden( 'ignore_blog_public_warning' );
-echo $wpseo_admin_pages->hidden( 'ignore_tour' );
-echo $wpseo_admin_pages->hidden( 'ignore_page_comments' );
-echo $wpseo_admin_pages->hidden( 'ignore_permalink' );
-echo $wpseo_admin_pages->hidden( 'ms_defaults_set' );
-echo $wpseo_admin_pages->hidden( 'version' );
-echo $wpseo_admin_pages->hidden( 'tracking_popup_done' );
 
 // Fix metadescription if so requested
 if ( isset( $_GET['fixmetadesc'] ) && check_admin_referer( 'wpseo-fix-metadesc', 'nonce' ) && $options['theme_description_found'] !== '' ) {
@@ -87,6 +82,10 @@ if ( isset( $_GET['fixmetadesc'] ) && check_admin_referer( 'wpseo-fix-metadesc',
 						fclose( $header_file );
 					}
 				}
+				else {
+					wpseo_description_test();
+					$msg .= '<span class="warning">' . __( 'Earlier found meta description was not found in file. Renewed the description test data.', 'wordpress-seo' ) . '</span>';
+				}
 				echo '<div class="updated"><p>' . $msg . '</p></div>';
 			}
 		}
@@ -94,7 +93,6 @@ if ( isset( $_GET['fixmetadesc'] ) && check_admin_referer( 'wpseo-fix-metadesc',
 }
 
 if ( is_array( $options['blocking_files'] ) && count( $options['blocking_files'] ) > 0 ) {
-	$options['blocking_files'] = array_unique( $options['blocking_files'] );
 	echo '<p id="blocking_files" class="wrong">'
 		. '<a href="javascript:wpseo_killBlockingFiles(\'' . esc_js( wp_create_nonce( 'wpseo-blocking-files' ) ) . '\')" class="button fixit">' . __( 'Fix it.', 'wordpress-seo' ) . '</a>'
 		. __( 'The following file(s) is/are blocking your XML sitemaps from working properly:', 'wordpress-seo' ) . '<br />';
@@ -111,9 +109,7 @@ if ( ( ! isset( $options['theme_has_description'] ) || ( ( isset( $options['them
 	// Renew the options after the test
 	$options = get_option( 'wpseo' );
 }
-echo $wpseo_admin_pages->hidden( 'theme_has_description' );
-//echo $wpseo_admin_pages->hidden( 'theme_description_found' );
-echo $wpseo_admin_pages->hidden( 'ignore_meta_description_warning' );
+
 
 if ( $options['theme_description_found'] !== '' ) {
 	echo '<p id="metadesc_found notice" class="wrong settings_error">'
@@ -167,6 +163,10 @@ $wpseo_admin_pages->admin_footer();
 
 /**
  * Handle deactivation & import of Robots Meta data
+ *
+ * @todo [JRF => Yoast] If it's really important that this plugin be deactivated, shouldn't
+ * this function be added within the WPSEO_Options::initialize() method (= replacement for wpseo_set_defaults)
+ * so the notice is throw on first install/activate ?
  *
  * @since 1.4.8
  */
@@ -225,6 +225,10 @@ function robots_meta_handler() {
 
 /**
  * Handle deactivation & import of AIOSEO data
+ *
+ * @todo [JRF => Yoast] If it's really important that this plugin be deactivated, shouldn't
+ * this function be added within the WPSEO_Options::initialize() method (= replacement for wpseo_set_defaults)
+ * so the notice is throw on first install/activate ?
  *
  * @since 1.4.8
  */

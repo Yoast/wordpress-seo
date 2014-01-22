@@ -11,7 +11,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 
 global $wpseo_admin_pages;
 
-$wpseo_admin_pages->admin_header( true, WPSEO_Options::$options['wpseo_permalinks']['group'], 'wpseo_permalinks' );
+$wpseo_admin_pages->admin_header( true, WPSEO_Options::get_group_name( 'wpseo_permalinks' ), 'wpseo_permalinks' );
 
 $content  = $wpseo_admin_pages->checkbox( 'stripcategorybase', __( 'Strip the category base (usually <code>/category/</code>) from the category URL.', 'wordpress-seo' ) );
 $content .= $wpseo_admin_pages->checkbox( 'trailingslash', __( 'Enforce a trailing slash on all category and tag URL\'s', 'wordpress-seo' ) );
@@ -31,7 +31,7 @@ $content .= '<p class="desc">' . __( 'People make mistakes in their links toward
 
 $wpseo_admin_pages->postbox( 'permalinks', __( 'Permalink Settings', 'wordpress-seo' ), $content );
 
-
+/* @internal Important: Make sure the options added to the array here are in line with the options set in the WPSEO_Option_Permalinks::$force_transport_options property */
 $content  = $wpseo_admin_pages->select( 'force_transport', __( 'Force Transport', 'wordpress-seo' ), array( 'default' => __( 'Leave default', 'wordpress-seo' ), 'http' => __( 'Force http', 'wordpress-seo' ), 'https' => __( 'Force https', 'wordpress-seo' ) ) );
 $content .= '<p class="desc label">' . __( 'Force the canonical to either http or https, when your blog runs under both.', 'wordpress-seo' ) . '</p>';
 

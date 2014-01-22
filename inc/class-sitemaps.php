@@ -13,6 +13,9 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 	/**
 	 * Class WPSEO_Sitemaps
+	 *
+	 * @todo: [JRF => whomever] If at all possible, move the adding of rewrite rules, actions and filters
+	 * elsewhere and only load this file when an actual sitemap is being requested.
 	 */
 	class WPSEO_Sitemaps {
 		/**
@@ -33,7 +36,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 		/**
 		 * The maximum number of entries per sitemap page
 		 */
-		private $max_entries = 1000;
+		private $max_entries;
 
 		/**
 		 * Holds the WP SEO
@@ -61,7 +64,8 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 			// default stylesheet
 			$this->stylesheet = '<?xml-stylesheet type="text/xsl" href="' . esc_url( home_url( 'main-sitemap.xsl' ) ) . '"?>';
 
-			$this->options = WPSEO_Options::get_all();
+			$this->options     = WPSEO_Options::get_all();
+			$this->max_entries = WPSEO_Options::get_default( 'wpseo_xml', 'entries-per-page' );
 		}
 
 		/**
@@ -73,8 +77,9 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 		 */
 		function register_sitemap( $name, $function, $rewrite = '' ) {
 			add_action( 'wpseo_do_sitemap_' . $name, $function );
-			if ( ! empty( $rewrite ) )
+			if ( ! empty( $rewrite ) ) {
 				add_rewrite_rule( $rewrite, 'index.php?sitemap=' . $name, 'top' );
+			}
 		}
 
 		/**
@@ -86,8 +91,9 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 		 */
 		function register_xsl( $name, $function, $rewrite = '' ) {
 			add_action( 'wpseo_xsl_' . $name, $function );
-			if ( ! empty( $rewrite ) )
+			if ( ! empty( $rewrite ) ) {
 				add_rewrite_rule( $rewrite, 'index.php?xsl=' . $name, 'top' );
+			}
 		}
 
 		/**
@@ -121,6 +127,9 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 
 		/**
 		 * Initialize sitemaps. Add sitemap rewrite rules and query var
+		 *
+		 * @todo [JRF => Yoast] The wpseo_xml_sitemaps_init() function in the inc/functions.php file
+		 * looks like a near duplicate of this. Figure out which one to use and remove duplication.
 		 */
 		function init() {
 			if ( ! is_object( $GLOBALS['wp'] ) ) {
@@ -459,18 +468,16 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 					}
 				}
 
-				if ( function_exists( 'get_post_type_archive_link' ) ) {
-					$archive = get_post_type_archive_link( $post_type );
-					if ( $archive ) {
-						$output .= $this->sitemap_url(
-							array(
-								'loc' => $archive,
-								'pri' => 0.8,
-								'chf' => 'weekly',
-								'mod' => $this->get_last_modified( $post_type ), // get_lastpostmodified( 'gmt', $post_type ) #17455
-							)
-						);
-					}
+				$archive = get_post_type_archive_link( $post_type );
+				if ( $archive ) {
+					$output .= $this->sitemap_url(
+						array(
+							'loc' => $archive,
+							'pri' => 0.8,
+							'chf' => 'weekly',
+							'mod' => $this->get_last_modified( $post_type ), // get_lastpostmodified( 'gmt', $post_type ) #17455
+						)
+					);
 				}
 			}
 
@@ -572,9 +579,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 						$url['images'] = array();
 
 						$content = $p->post_content;
-						if ( function_exists( 'get_the_post_thumbnail' ) ) {
-							$content = '<p>' . get_the_post_thumbnail( $p->ID, 'full' ) . '</p>' . $content;
-						}
+						$content = '<p>' . get_the_post_thumbnail( $p->ID, 'full' ) . '</p>' . $content;
 
 						$host = str_replace( 'www.', '', parse_url( get_bloginfo( 'url' ), PHP_URL_HOST ) );
 

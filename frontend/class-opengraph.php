@@ -79,7 +79,7 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 		private function og_tag( $property, $content ) {
 			$content = apply_filters( 'wpseo_og_' . str_replace( ':', '_', $property ), $content );
 			if ( ! empty( $content ) ) {
-				echo '<meta property="' . $property . '" content="' . esc_attr( $content ) . '" />' . "\n";
+				echo '<meta property="' . esc_attr( $property ) . '" content="' . esc_attr( $content ) . '" />' . "\n";
 			}
 		}
 
@@ -154,15 +154,7 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 				$this->og_tag( 'fb:app_id', $this->options['fbadminapp'] );
 			}
 			else if ( is_array( $this->options['fb_admins'] ) && $this->options['fb_admins'] !== array() ) {
-				$adminstr = '';
-				foreach ( $this->options['fb_admins'] as $admin_id => $admin ) {
-					if ( ! empty( $adminstr ) ) {
-						$adminstr .= ',' . $admin_id;
-					}
-					else {
-						$adminstr = $admin_id;
-					}
-				}
+				$adminstr = implode( ',', array_keys( $this->options['fb_admins'] ) );
 				$adminstr = apply_filters( 'wpseo_opengraph_admin', $adminstr );
 				if ( is_string( $adminstr ) && $adminstr !== '' ) {
 					$this->og_tag( 'fb:admins', $adminstr );
@@ -304,8 +296,9 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 		 * @return bool
 		 */
 		function image_output( $img ) {
-			if ( empty( $img ) )
+			if ( empty( $img ) ) {
 				return false;
+			}
 
 			$img = trim( apply_filters( 'wpseo_opengraph_image', $img ) );
 			if ( ! empty( $img ) ) {
@@ -354,7 +347,7 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 					return;
 				}
 
-				if ( function_exists( 'has_post_thumbnail' ) && has_post_thumbnail( $post->ID ) ) {
+				if ( has_post_thumbnail( $post->ID ) ) {
 					$thumb = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), apply_filters( 'wpseo_opengraph_image_size', 'original' ) );
 					$this->image_output( $thumb[0] );
 				}

@@ -10,6 +10,47 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 }
 
 
+/**
+ * Run the upgrade procedures.
+ *
+ * @todo - [JRF => Yoast] check: if upgrade is run on multi-site installation, upgrade for all sites ?
+ * Maybe not necessary as it is now run on plugins_loaded, so upgrade will run as soon as any page
+ * on a site is requested.
+ *
+ * @todo [JRF] Walk through complete function and move things to clean_up where relevant and check that
+ * saving from this will not give problems with the validation being on (it will in it's current form!!!
+ * - not only because of validation, but also because of get_option will return a filtered array)
+ *
+ * @todo [JRF => Yoast] I've removed the upgrade routine for WPSEO < 0.4.2 as it would be pretty complex
+ * with how much has changed and considering that that version (0.4.1) was from May 26 2011, it can hardly
+ * be considered relevant anymore. Hope you agree.
+ * All the other option changes have been moved to their respective clean_option() methods in the option
+ * specific class.
+ */
+function wpseo_do_upgrade() {
+	$option_wpseo = get_option( 'wpseo' );
+
+	if ( $option_wpseo['version'] === '' || version_compare( $option_wpseo['version'], '1.2', '<' ) ) {
+		add_action( 'init', 'wpseo_title_test' );
+	}
+
+	if ( $option_wpseo['version'] === '' || version_compare( $option_wpseo['version'], '1.4.13', '<' ) ) {
+		// Run description test once theme has loaded
+		add_action( 'init', 'wpseo_description_test' );
+	}
+
+	if ( $option_wpseo['version'] === '' || version_compare( $option_wpseo['version'], '1.4.15', '<' ) ) {
+		add_action( 'shutdown', 'flush_rewrite_rules' );
+	}
+
+	if ( version_compare( $option_wpseo['version'], '1.5.0', '<' ) ) {
+		WPSEO_Options::clean_up( null, $option_wpseo['version'] );
+		WPSEO_Meta::clean_up();
+	}
+}
+
+
+
 
 if ( ! function_exists( 'initialize_wpseo_front' ) ) {
 	function initialize_wpseo_front() {
@@ -22,16 +63,37 @@ if ( ! function_exists( 'yoast_breadcrumb' ) ) {
 	/**
 	 * Template tag for breadcrumbs.
 	 *
+	 * @todo [JRF => Yoast/whomever] We could probably get rid of the 'breadcrumbs-enable' option key
+	 * as the file is now only loaded when the template tag is encountered anyway.
+	 * Only issue with that would be the removal of the bbPress crumb from within wpseo_frontend_init()
+	 * in wpseo.php which is also based on this setting.
+	 * Whether or not to show the bctitle field within meta boxes is also based on this setting, but
+	 * showing these when someone hasn't implemented the template tag shouldn't really give cause for concern.
+	 * Other than that, leaving the setting is an easy way to enable/disable the bc without having to
+	 * edit the template files again, but having to manually enable when you've added the template tag
+	 * in your theme is kind of double, so I'm undecided about what to do.
+	 * I guess I'm leaning towards removing the option key in combination with adding the bc shortcode.
+	 *
+	 * @todo [JRF => Yoast] We should probably advise supported themes in advance about the change to file
+	 * autoloading as the $wpseo_bc global will now not be available automatically and if they don't have the
+	 * proper checks in place, their bc call will fail hard. Also refer to the note I added to the
+	 * WPSEO_Breadcrumbs::breadcrumb_output() method for a possible elegant solution.
+	 *
 	 * @param string $before  What to show before the breadcrumb.
 	 * @param string $after   What to show after the breadcrumb.
 	 * @param bool   $display Whether to display the breadcrumb (true) or return it (false).
 	 * @return string
 	 */
 	function yoast_breadcrumb( $before = '', $after = '', $display = true ) {
-		if ( ! isset( $GLOBALS['wpseo_bc'] ) ) {
-			$GLOBALS['wpseo_bc'] = new WPSEO_Breadcrumbs;
+		$options = get_option( 'wpseo_internallinks' );
+
+		if ( $options['breadcrumbs-enable'] === true ) {
+			if ( ! isset( $GLOBALS['wpseo_bc'] ) ) {
+				$GLOBALS['wpseo_bc'] = new WPSEO_Breadcrumbs;
+			}
+			return $GLOBALS['wpseo_bc']->breadcrumb( $before, $after, $display );
 		}
-		return $GLOBALS['wpseo_bc']->breadcrumb( $before, $after, $display );
+		return '';
 	}
 }
 
@@ -323,11 +385,15 @@ function wpseo_xml_redirect_sitemap() {
 
 /**
  * Initialize sitemaps. Add sitemap rewrite rules and query var
+ *
+ * @todo [JRF => Yoast] This looks like a near duplicate of the WPSEO_Sitemaps::init() method.
+ * Figure out which one to use and remove duplication.
  */
 function wpseo_xml_sitemaps_init() {
 	$options = get_option( 'wpseo_xml' );
-	if ( $options['enablexmlsitemap'] !== true )
+	if ( $options['enablexmlsitemap'] !== true ) {
 		return;
+	}
 
 	// redirects sitemap.xml to sitemap_index.xml
 	add_action( 'template_redirect', 'wpseo_xml_redirect_sitemap', 0 );
@@ -371,8 +437,9 @@ add_action( 'wpseo_ping_search_engines', 'wpseo_ping_search_engines' );
 
 
 function wpseo_store_tracking_response() {
-	if ( ! wp_verify_nonce( $_POST['nonce'], 'wpseo_activate_tracking' ) )
+	if ( ! wp_verify_nonce( $_POST['nonce'], 'wpseo_activate_tracking' ) ) {
 		die();
+	}
 
 	$options = get_option( 'wpseo' );
 	$options['tracking_popup_done'] = true;

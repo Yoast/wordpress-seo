@@ -13,7 +13,7 @@ global $wpseo_admin_pages;
 
 $options = WPSEO_Options::get_all();
 
-$wpseo_admin_pages->admin_header( true, WPSEO_Options::$options['wpseo_titles']['group'], 'wpseo_titles' );
+$wpseo_admin_pages->admin_header( true, WPSEO_Options::get_group_name( 'wpseo_titles' ), 'wpseo_titles' );
 ?>
 
 <h2 class="nav-tab-wrapper" id="wpseo-tabs">

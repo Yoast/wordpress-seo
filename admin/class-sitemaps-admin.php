@@ -24,7 +24,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps_Admin' ) ) {
 		}
 
 		/**
-		 * Remove sitemaps residing on disk as they will block our rewrite.
+		 * Find sitemaps residing on disk as they will block our rewrite.
 		 *
 		 * @todo - [JRF => Yoast] I suggest we change this to a simple directory walker with a preg_match() on any files which would
 		 * match our sitemap rewrite rule expressions. Now only sitemap_index.xml is looked for and that may not be
@@ -57,18 +57,22 @@ if ( ! class_exists( 'WPSEO_Sitemaps_Admin' ) ) {
 			if ( $options[ 'enablexmlsitemap' ] === true ) {
 
 				$file_to_check_for = array(
-//					ABSPATH . 'sitemap.xml',
+					//ABSPATH . 'sitemap.xml',
 					ABSPATH . 'sitemap_index.xml',
-//					ABSPATH . 'sitemap.xslt',
-//					ABSPATH . 'sitemap.xsl',
+					//ABSPATH . 'sitemap.xslt',
+					//ABSPATH . 'sitemap.xsl',
 				);
 
-				foreach ( $file_to_check_for as $file ) {
+				$new_files_found = false;
 
+				foreach ( $file_to_check_for as $file ) {
 					if ( ( $options['blocking_files'] === array() || ( $options['blocking_files'] !== array() && in_array( $file, $options[ 'blocking_files'] ) === false ) ) && file_exists( $file ) ) {
 						$options['blocking_files'][] = $file;
-						update_option( 'wpseo', $options );
+						$new_files_found             = true;
 					}
+				}
+				if ( $new_files_found === true ) {
+					update_option( 'wpseo', $options );
 				}
 			}
 		}

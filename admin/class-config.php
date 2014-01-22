@@ -51,43 +51,17 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 		 * Make sure the needed scripts are loaded for admin pages
 		 */
 		function init() {
-			global $wpseo_admin;
-
 			if ( isset( $_GET['wpseo_reset_defaults'] ) && wp_verify_nonce( $_GET['nonce'], 'wpseo_reset_defaults' ) && current_user_can( 'manage_options' ) ) {
-				$this->reset_defaults();
+				WPSEO_Options::reset();
 				wp_redirect( admin_url( 'admin.php?page=wpseo_dashboard' ) );
 			}
 
 			$this->adminpages = apply_filters( 'wpseo_admin_pages', $this->adminpages );
 
-			if ( $wpseo_admin->grant_access() ) {
+			if ( WPSEO_Options::grant_access() ) {
 				add_action( 'admin_enqueue_scripts', array( $this, 'config_page_scripts' ) );
 				add_action( 'admin_enqueue_scripts', array( $this, 'config_page_styles' ) );
 			}
-		}
-
-		/**
-		 * Resets the site to the default WordPress SEO settings and runs a title test to check
-		 * whether force rewrite needs to be on.
-		 *
-		 * @todo - [JRF] move to options class and check if this is still the way to do it or rather, we know this is not the way
-		 * Also change the function calls to the function! and make this function deprecated
-		 *
-		 * @deprecated 1.5.0
-		 * @deprecated use WPSEO_Options::reset()
-		 * @see WPSEO_Options::reset()
-		 */
-		function reset_defaults() {
-//			_deprecated_function( __FUNCTION__, 'WPSEO 1.5.0', 'WPSEO_Options::reset()' );
-//			WPSEO_Options::reset();
-
-			foreach ( WPSEO_Options::get_option_names() as $opt ) {
-				delete_option( $opt );
-			}
-			wpseo_defaults();
-
-			//wpseo_title_test(); // is already run in wpseo_defaults
-			//wpseo_description_test(); // is already run in wpseo_defaults
 		}
 
 		/**
@@ -278,8 +252,11 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 							$content .= $key . '[] = "' . $elem[$i] . "\"\n";
 						}
 					}
-					else if ( $elem == '' ) {
+					else if ( is_string( $elem ) && $elem == '' ) {
 						$content .= $key . " = \n";
+					}
+					else if ( is_bool( $elem ) ) {
+						$content .= $key . ' = \"' . ( ( $elem === true ) ? 'on' : 'off' ) . "\"\n";
 					}
 					else {
 						$content .= $key . ' = \"' . $elem . "\"\n";
@@ -352,16 +329,23 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 		/**
 		 * Retrieve options based on the option or the class currentoption.
 		 *
+		 * @todo [JRF => Yoast/whomever] 1: the method doesn't do what the description above says. Should
+		 * the description be adjusted or the method ?
+		 * 2: we get these options with get_site_option, but are saving with update_option, not
+		 * update_site_option. Is this correct ?
+		 *
 		 * @since 1.2.4
 		 *
 		 * @param string $option The option to retrieve.
 		 * @return array
 		 */
 		function get_option( $option ) {
-			if ( function_exists( 'is_network_admin' ) && is_network_admin() )
+			if ( function_exists( 'is_network_admin' ) && is_network_admin() ) {
 				return get_site_option( $option );
-			else
+			}
+			else {
 				return get_option( $option );
+			}
 		}
 
 		/**
@@ -614,6 +598,24 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 			$content .= '</table>';
 			return $content;
 		}
+
+
+
+		/********************** DEPRECATED METHODS **********************/
+
+		/**
+		 * Resets the site to the default WordPress SEO settings and runs a title test to check
+		 * whether force rewrite needs to be on.
+		 *
+		 * @deprecated 1.5.0
+		 * @deprecated use WPSEO_Options::reset()
+		 * @see WPSEO_Options::reset()
+		 */
+		function reset_defaults() {
+			_deprecated_function( __CLASS__ . '::' . __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Options::reset()' );
+			WPSEO_Options::reset();
+		}
+
 
 	} /* End of class */
 
