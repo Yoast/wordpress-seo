@@ -18,6 +18,15 @@ if ( ! defined( 'WPSEO_PREMIUM_FILE' ) ) {
 
 class WPSEO_Premium {
 
+	const OPTION_LICENSE_KEY    = 'wpseo_license_key';
+	const OPTION_LICENSE_STATUS = 'wpseo_license_status';
+
+	const PLUGIN_VERSION_NAME = '1.0.0';
+	const PLUGIN_VERSION_CODE = '1';
+	const PLUGIN_AUTHOR       = 'Yoast';
+	const EDD_STORE_URL       = 'http://www.yoast.com';
+	const EDD_PLUGIN_NAME     = 'WordPress SEO Premium';
+
 	/**
 	 * Function that will be executed when plugin is activated
 	 */
@@ -44,6 +53,9 @@ class WPSEO_Premium {
 	private function setup() {
 
 		if ( is_admin() ) {
+
+			// Create License_Manager
+			new WPSEO_License_Manager();
 
 			// Initiate GWT class
 			WPSEO_GWT::get();
@@ -83,6 +95,22 @@ class WPSEO_Premium {
 			// Screen options
 			add_filter( 'set-screen-option', array( 'WPSEO_Page_Redirect', 'set_screen_option' ), 10, 3 );
 			add_filter( 'set-screen-option', array( 'WPSEO_Page_GWT', 'set_screen_option' ), 10, 3 );
+
+			// EDD - Retrieve our license key from the DB
+			if ( defined( 'WPSEO_LICENSE' ) ) {
+				$license_key = WPSEO_LICENSE;
+			} else {
+				$license_key = trim( get_option( self::OPTION_LICENSE_KEY ) );
+			}
+
+			// EDD - Setup the updater
+			$edd_updater = new WPSEO_EDD_SL_Plugin_Updater( self::EDD_STORE_URL, WPSEO_FILE, array(
+							'version'   => self::PLUGIN_VERSION_NAME,
+							'license'   => $license_key,
+							'item_name' => self::EDD_PLUGIN_NAME,
+							'author'    => self::PLUGIN_AUTHOR
+					)
+			);
 		} else {
 			// Catch redirect
 			add_action( 'template_redirect', array( 'WPSEO_Redirect_Manager', 'do_redirects' ) );
@@ -106,6 +134,11 @@ class WPSEO_Premium {
 
 		// Separate backend and frontend files
 		if ( is_admin() ) {
+
+			// Load the EDD license handler only if not already loaded. Must be placed in the main plugin file
+			require_once( WPSEO_PREMIUM_PATH . '/classes/admin/edd/EDD_SL_Plugin_Updater.php' );
+			require_once( WPSEO_PREMIUM_PATH . '/classes/admin/class-license-manager.php' );
+
 			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-gwt-google-client.php' );
 			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-gwt-service.php' );
 			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-gwt.php' );
