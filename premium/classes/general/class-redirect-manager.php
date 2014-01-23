@@ -16,7 +16,8 @@ class WPSEO_Redirect_Manager {
 	/**
 	 * Private constructor because this class only contains static functions
 	 */
-	private function __construct() {}
+	private function __construct() {
+	}
 
 	/**
 	 * Get the WordPress SEO options
@@ -108,7 +109,7 @@ class WPSEO_Redirect_Manager {
 		}
 
 		// Add new redirect
-		$redirects[$new_redirect_arr['key']] = $new_redirect_arr['value'];
+		$redirects[self::format_url( $new_redirect_arr['key'] )] = self::format_url( $new_redirect_arr['value'] );
 
 		// Save redirects
 		self::save_redirects( $redirects );
@@ -254,6 +255,20 @@ class WPSEO_Redirect_Manager {
 		echo '1';
 		exit;
 
+	}
+
+	/**
+	 * Format the redirect url
+	 *
+	 * @param $url
+	 *
+	 * @return mixed
+	 */
+	public static function format_url( $url ) {
+		$url = str_ireplace( site_url( '', 'http' ), '', $url );
+		$url = str_ireplace( site_url( '', 'https' ), '', $url );
+
+		return apply_filters( 'wpseo_premium_format_admin_url', $url );
 	}
 
 }

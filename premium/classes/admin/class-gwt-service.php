@@ -78,7 +78,7 @@ class WPSEO_GWT_Service {
 			if ( count( $response_xml->entry ) > 0 ) {
 				foreach ( $response_xml->entry as $entry ) {
 					$wt = $entry->children( 'wt', true );
-					$crawl_issues[] = new WPSEO_Crawl_Issue( WPSEO_GWT::get()->format_admin_url( (string) $wt->url ), (string) $wt->{'crawl-type'}, (string) $wt->{'issue-type'}, new DateTime( (string) $wt->{'date-detected'} ), (string) $wt->{'detail'}, (array) $wt->{'linked-from'} );
+					$crawl_issues[] = new WPSEO_Crawl_Issue( WPSEO_Redirect_Manager::format_url( (string) $wt->url ), (string) $wt->{'crawl-type'}, (string) $wt->{'issue-type'}, new DateTime( (string) $wt->{'date-detected'} ), (string) $wt->{'detail'}, (array) $wt->{'linked-from'} );
 				}
 			}
 

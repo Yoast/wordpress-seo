@@ -156,17 +156,4 @@ class WPSEO_GWT {
 		}
 	}
 
-	/**
-	 * Format the url for admin
-	 *
-	 * @param $url
-	 *
-	 * @return mixed
-	 */
-	public function format_admin_url( $url ) {
-		$url = str_ireplace( site_url(), '', $url );
-		return apply_filters( 'wpseo_premium_format_admin_url', $url );
-	}
-
-
 }
