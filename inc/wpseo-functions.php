@@ -495,3 +495,26 @@ function schedule_yoast_tracking( $disregard, $value ) {
 }
 add_action( 'add_option_wpseo', 'schedule_yoast_tracking', 10, 2 );
 add_action( 'update_option_wpseo', 'schedule_yoast_tracking', 10, 2 );
+
+/**
+ * Check if the web server is running on Apache
+ * @return bool
+ */
+function wpseo_is_apache() {
+	if ( isset( $_SERVER['SERVER_SOFTWARE'] ) && stristr( $_SERVER['SERVER_SOFTWARE'], 'apache' ) !== false ) {
+		return true;
+	}
+	return false;
+}
+
+/**
+ * Check if the web service is running on Nginx
+ *
+ * @return bool
+ */
+function wpseo_is_nginx() {
+	if ( isset( $_SERVER['SERVER_SOFTWARE'] ) && stristr( $_SERVER['SERVER_SOFTWARE'], 'nginx' ) !== false ) {
+		return true;
+	}
+	return false;
+}
