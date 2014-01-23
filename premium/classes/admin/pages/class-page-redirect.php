@@ -59,7 +59,7 @@ class WPSEO_Page_Redirect {
 				*/
 
 				// Open <form>
-				echo "<form id='wpseo-redirects-table-form' method='post'>\n";
+				echo "<form id='wpseo-redirects-table-form' method='post' action=''>\n";
 
 				// AJAX nonce
 				echo "<input type='hidden' class='wpseo_redirects_ajax_nonce' value='" . wp_create_nonce( 'wpseo-redirects-ajax-security' ) . "' />\n";
