@@ -68,6 +68,10 @@ class WPSEO_Admin_Pages {
 	 * Generates the sidebar for admin pages.
 	 */
 	function admin_sidebar() {
+			if ( false === apply_filters( 'wpseo_sidebar_banners', true ) ) {
+			return;
+		}
+
 		$banners = array(
 			array(
 				'url' => 'https://yoast.com/hire-us/website-review/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=website-review-banner',
@@ -94,6 +98,7 @@ class WPSEO_Admin_Pages {
 					break;
 			}
 		}
+
 		if ( !class_exists( 'wpseo_Video_Sitemap' ) ) {
 			$banners[] = array(
 				'url' => 'http://yoast.com/wordpress/video-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=video-seo-banner',
@@ -101,6 +106,7 @@ class WPSEO_Admin_Pages {
 				'alt' => 'Banner WordPress SEO Video SEO extension',
 			);
 		}
+
 		if ( !class_exists( 'wpseo_Video_Manual' ) ) {
 			$banners[] = array(
 				'url' => 'http://yoast.com/wordpress/video-manual-wordpress-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=video-manual-banner',
@@ -108,6 +114,7 @@ class WPSEO_Admin_Pages {
 				'alt' => 'Banner WordPress SEO Video manual',
 			);
 		}
+
 		if ( !defined( 'WPSEO_LOCAL_VERSION' ) ) {
 			$banners[] = array(
 				'url' => 'http://yoast.com/wordpress/local-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=local-seo-banner',
@@ -115,7 +122,9 @@ class WPSEO_Admin_Pages {
 				'alt' => 'Banner Local SEO plugin',
 			);
 		}
+
 		shuffle( $banners );
+
 		?>
 		<div class="postbox-container" style="width:261px;">
 			<div id="sidebar">
@@ -159,7 +168,7 @@ class WPSEO_Admin_Pages {
 		<?php screen_icon(); ?>
 		</a>
 		<h2 id="wpseo-title"><?php echo get_admin_page_title(); ?></h2>
-		<div id="wpseo_content_top" class="postbox-container" style="min-width:400px; max-width:600px; padding: 0 20px 0 0;">
+		<div id="wpseo_content_top" class="postbox-container">
 		<div class="metabox-holder">
 		<div class="meta-box-sortables">
 		<?php
@@ -184,7 +193,7 @@ class WPSEO_Admin_Pages {
 		</div>
 		</div>
 		</div>
-		<?php $this->admin_sidebar(); ?>
+		<?php // $this->admin_sidebar(); ?>
 		</div>
 	<?php
 	}
