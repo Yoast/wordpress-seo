@@ -247,8 +247,8 @@ class WPSEO_Redirect_Manager {
 		}
 
 		// Save the redirect
-		if ( isset( $_POST['old_redirect'] ) && isset( $_POST['new_redirect'] ) ) {
-			self::create_redirect( $_POST['old_redirect'], $_POST['new_redirect'] );
+		if ( isset( $_POST['old_url'] ) && isset( $_POST['new_url'] ) ) {
+			self::create_redirect( $_POST['old_url'], $_POST['new_url'] );
 		}
 
 		// Response

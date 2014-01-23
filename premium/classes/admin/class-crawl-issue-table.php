@@ -80,11 +80,12 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 	 */
 	public function get_columns() {
 		$columns = array(
-				'cb'            => '<input type="checkbox" />',
+			//'cb'            => '<input type="checkbox" />',
 				'url'           => __( 'URL', 'wordpress-seo' ),
 				'issue_type'    => __( 'Issue Type', 'wordpress-seo' ),
 				'date_detected' => __( 'Date detected', 'wordpress-seo' ),
 				'detail'        => __( 'Details', 'wordpress-seo' ),
+				'linked_from'   => __( 'Linked From', 'wordpress-seo' ),
 		);
 
 		return $columns;
@@ -158,7 +159,8 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 //				'crawl_type'    => array( 'crawl_type', false ),
 				'issue_type'    => array( 'issue_type', false ),
 				'date_detected' => array( 'date_detected', false ),
-				'details'       => array( 'details', false ),
+				'detail'        => array( 'detail', false ),
+				'linked_from'   => array( 'linked_from', false ),
 		);
 
 		return $sortable_columns;
@@ -188,7 +190,8 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 
 	public function column_url( $item ) {
 		$actions = array(
-				'create_redirect' => '<a href="' . add_query_arg( 'create_redirect', urlencode( $item['url'] ), admin_url( 'admin.php' ) . '?page=wpseo_redirects' ) . '">' . __( 'Create redirect', 'wordpress-seo' ) . '</a>',
+//				'create_redirect' => '<a href="' . add_query_arg( 'create_redirect', urlencode( $item['url'] ), admin_url( 'admin.php' ) . '?page=wpseo_redirects' ) . '">' . __( 'Create redirect', 'wordpress-seo' ) . '</a>',
+				'create_redirect' => '<a href="javascript:create_redirect(\'' . urlencode( $item['url'] ) . '\');">' . __( 'Create redirect', 'wordpress-seo' ) . '</a>',
 		);
 
 		return sprintf(
@@ -220,10 +223,7 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 	 * @return mixed
 	 */
 	public function column_default( $item, $column_name ) {
-		switch ( $column_name ) {
-			default:
-				return $item[$column_name];
-		}
+		return $item[$column_name];
 	}
 
 	/**
@@ -232,6 +232,7 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 	 * @return array
 	 */
 	public function get_bulk_actions() {
+		return array(); // No bulk action at the moment, please try again later.
 		$actions = array(
 				'create_redirects' => __( 'Create Redirects', 'wordpress-seo' )
 		);
