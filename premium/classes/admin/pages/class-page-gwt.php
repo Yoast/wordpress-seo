@@ -37,10 +37,11 @@ class WPSEO_Page_GWT {
 			//echo "<h2>Google Webmaster Tools Errors</h2>\n";
 
 			// Open <form>
-			echo "<form id='wpseo-crawl-issues-table-form' action='" . admin_url( 'admin.php' ) . '?page=wpseo_redirects' . "' method='post'>\n";
+			//echo "<form id='wpseo-crawl-issues-table-form' action='" . admin_url( 'admin.php' ) . '?page=wpseo_redirects' . "' method='post'>\n";
+			echo "<form id='wpseo-crawl-issues-table-form' action='" . admin_url( 'admin.php' ) . '?page=' . $_GET['page'] . "' method='post'>\n";
 
 			// AJAX nonce
-			echo "<input type='hidden' class='wpseo_crawl_issues_ajax_nonce' value='" . wp_create_nonce( 'wpseo-crawl-issues-ajax-security' ) . "' />\n";
+			echo "<input type='hidden' class='wpseo_redirects_ajax_nonce' value='" . wp_create_nonce( 'wpseo-redirects-ajax-security' ) . "' />\n";
 
 			// The list table
 			$list_table = new WPSEO_Crawl_Issue_Table( $gwt_client );
@@ -129,6 +130,7 @@ class WPSEO_Page_GWT {
 	 */
 	public static function page_scripts() {
 		wp_enqueue_script( 'wp-seo-premium-admin-gwt', plugin_dir_url( WPSEO_PREMIUM_FILE ) . '/assets/js/wp-seo-premium-admin-gwt.js', array( 'jquery' ), '1.0.0' );
+		wp_localize_script( 'wp-seo-premium-admin-gwt', 'wpseo_premium_strings', WPSEO_Premium_Javascript_Strings::strings() );
 		add_screen_option( 'per_page', array( 'label' => 'Crawl errors per page', 'default' => 25, 'option' => 'errors_per_page' ) );
 	}
 

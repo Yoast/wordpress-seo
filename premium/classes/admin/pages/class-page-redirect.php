@@ -67,6 +67,7 @@ class WPSEO_Page_Redirect {
 				/**
 				 * Catch new redirects sent from crawl issues
 				 */
+				/*
 				$redirects = array();
 				if ( isset( $_GET['create_redirect'] ) ) {
 					$redirects = array( $_GET['create_redirect'] );
@@ -86,6 +87,7 @@ class WPSEO_Page_Redirect {
 				if ( count( $redirects ) > 0 ) {
 					echo "<input type='text' class='wpseo_redirects_crawl_issues' value='" . json_encode( $redirects ) . "' />\n";
 				}
+				*/
 
 				// The list table
 				$list_table = new WPSEO_Redirect_Table();

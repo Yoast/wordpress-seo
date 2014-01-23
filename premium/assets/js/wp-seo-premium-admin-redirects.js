@@ -148,7 +148,8 @@
 			$.each($wpseo_redirects.find('tr'), function (k, tr) {
 				$wpseo_redirects.bind_row(tr);
 			});
-			$wpseo_redirects.create_crawl_issue_redirects();
+
+			//$wpseo_redirects.create_crawl_issue_redirects();
 
 			$(window).on('beforeunload', function () {
 				if ($('.row_edit').length > 0) {
@@ -198,10 +199,10 @@
 			$.post(
 					ajaxurl,
 					{
-						action      : 'wpseo_create_redirect',
-						ajax_nonce  : $('.wpseo_redirects_ajax_nonce').val(),
-						old_redirect: old_redirect,
-						new_redirect: new_redirect
+						action    : 'wpseo_create_redirect',
+						ajax_nonce: $('.wpseo_redirects_ajax_nonce').val(),
+						old_url   : old_redirect,
+						new_url   : new_redirect
 					},
 					function (response) {
 					}

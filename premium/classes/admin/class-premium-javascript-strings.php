@@ -5,9 +5,11 @@ class WPSEO_Premium_Javascript_Strings {
 
 	private static function fill() {
 		self::$strings = array(
-				'error_old_url'   => __( "Old URL can't be empty.", 'wordpress-seo' ),
-				'error_new_url'   => __( "New URL can't be empty.", 'wordpress-seo' ),
-				'unsaved_redirects'   => __( "You have unsaved redirects, are you sure you want to leave?", 'wordpress-seo' ),
+				'error_old_url'     => __( "Old URL can't be empty.", 'wordpress-seo' ),
+				'error_new_url'     => __( "New URL can't be empty.", 'wordpress-seo' ),
+				'unsaved_redirects' => __( "You have unsaved redirects, are you sure you want to leave?", 'wordpress-seo' ),
+				'enter_new_url'     => __( "Please enter the new URL", 'wordpress-seo' ),
+				'redirect_saved'     => __( "Redirect saved!", 'wordpress-seo' ),
 		);
 	}
 
@@ -15,6 +17,7 @@ class WPSEO_Premium_Javascript_Strings {
 		if ( self::$strings === null ) {
 			self::fill();
 		}
+
 		return self::$strings;
 	}
 }
