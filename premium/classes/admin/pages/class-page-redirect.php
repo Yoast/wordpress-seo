@@ -47,16 +47,6 @@ class WPSEO_Page_Redirect {
 				echo "</form>\n";
 
 				echo "<p class='desc'>&nbsp;</p>\n";
-				/*
-				?>
-				<ul class="subsubsub">
-					<li class="all"><a href="edit.php?post_type=post" class="current">All <span class="count">(3)</span></a> |
-					</li>
-					<li class="publish"><a href="edit.php?post_status=publish&amp;post_type=post">Published
-							<span class="count">(3)</span></a></li>
-				</ul>
-				<?php
-				*/
 
 				// Open <form>
 				echo "<form id='wpseo-redirects-table-form' method='post' action=''>\n";
@@ -114,6 +104,8 @@ class WPSEO_Page_Redirect {
 						echo '<pre>Include ' . WPSEO_Redirect_File_Manager::get_file_path() . '</pre>';
 					}
 					echo '</div>';
+				} else {
+					echo "<div class='error'><p><b>" . __( sprintf( "We're unable to save the redirect file to %s", WPSEO_Redirect_File_Manager::get_file_path() ), 'wordpress-seo' ) . "</b></p></div>\n";
 				}
 				?>
 				<h2>Redirect Settings</h2>
