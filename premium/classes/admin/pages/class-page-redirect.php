@@ -64,8 +64,17 @@ class WPSEO_Page_Redirect {
 					$redirects = $_POST['create_redirects'];
 				}
 
+				// Remove apostrophes like this because we can't use json_encode options, yah for PHP 5.2.0
 				if ( count( $redirects ) > 0 ) {
-					echo "<input type='hidden' class='wpseo_redirects_crawl_issues' value='" . json_encode( $redirects ) . "' />\n";
+					foreach ( $redirects as $key => $redirect ) {
+						$redirect = str_ireplace( "'", '', $redirect );
+						$redirect = str_ireplace( '"', '', $redirect );
+						$redirects[$key] = $redirect;
+					}
+				}
+
+				if ( count( $redirects ) > 0 ) {
+					echo "<input type='text' class='wpseo_redirects_crawl_issues' value='" . json_encode( $redirects ) . "' />\n";
 				}
 
 				// The list table
