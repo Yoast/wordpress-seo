@@ -216,6 +216,19 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 	}
 
 	/**
+	 * Linked from column
+	 *
+	 * @param $item
+	 *
+	 * @return string
+	 */
+	public function column_linked_from( $item ) {
+	        return sprintf( 
+	                        '<a target="_blank" href="%1$s">%1$s</a>', $item['linked_from']
+	        );
+	}
+        
+	/**
 	 * Default method to display a column
 	 *
 	 * @param $item
