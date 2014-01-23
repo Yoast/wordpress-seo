@@ -53,9 +53,7 @@ function wpseo_premium_init() {
 add_action( 'plugins_loaded', 'wpseo_premium_init', 14 );
 
 // Activation hook
-/*
 if ( is_admin() ) {
 	require_once( WPSEO_PATH . 'premium/class-premium.php' );
 	register_activation_hook( __FILE__, array( 'WPSEO_Premium', 'install' ) );
 }
-*/
