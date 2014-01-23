@@ -3,33 +3,27 @@
  * @package Admin
  */
 
-if ( !defined('WPSEO_VERSION') ) {
-	header('HTTP/1.0 403 Forbidden');
-	die;
+if ( ! defined( 'WPSEO_VERSION' ) ) {
+	header( 'Status: 403 Forbidden' );
+	header( 'HTTP/1.1 403 Forbidden' );
+	exit();
 }
+
+/*
+@todo [JRF => testers] Extensively test the export & import of the (new) settings!
+If that all works fine, getting testers to export before and after upgrade will make testing easier.
+
+@todo [JRF => Yoast] from the looks of it, the original code for the woo import would change the local
+$options variable, but most of the time these settings would not be saved... or am I missing something ?
+(This only applies to the options, the meta data was saved correctly.)
+
+@todo [JRF => Yoast] The import for the RSS Footer plugin checks for data already entered via WP SEO,
+the other import routines do not. Consistency seems appropriate. Also, you may want to add a warning to the
+Import page text about overwriting data already entered in WP SEO. (This only goes for options, not for meta
+data).
+*/
 
 global $wpseo_admin_pages;
-
-/**
- * Used for imports, this functions either copies $old_metakey into $new_metakey or just plain replaces $old_metakey with $new_metakey
- *
- * @param string $old_metakey The old name of the meta value.
- * @param string $new_metakey The new name of the meta value, usually the WP SEO name.
- * @param bool   $replace     Whether to replace or to copy the values.
- */
-function replace_meta( $old_metakey, $new_metakey, $replace = false ) {
-	global $wpdb;
-	$oldies = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $wpdb->postmeta WHERE meta_key = %s", $old_metakey ) );
-	foreach ( $oldies as $old ) {
-		// Prevent inserting new meta values for posts that already have a value for that new meta key
-		$check = get_post_meta( $old->post_id, $new_metakey, true );
-		if ( !$check || empty($check) )
-			update_post_meta( $old->post_id, $new_metakey, $old->meta_value );
-
-		if ( $replace )
-			delete_post_meta( $old->post_id, $old_metakey );
-	}
-}
 
 $msg = '';
 if ( isset( $_POST['import'] ) ) {
@@ -43,223 +37,286 @@ if ( isset( $_POST['import'] ) ) {
 	if ( isset( $_POST['wpseo']['deleteolddata'] ) && $_POST['wpseo']['deleteolddata'] == 'on' ) {
 		$replace = true;
 	}
+
 	if ( isset( $_POST['wpseo']['importwoo'] ) ) {
-		wpseo_defaults();
+		WPSEO_Options::initialize();
 
-		$sep = get_option('seo_woo_seperator');
-
-		$options = get_wpseo_options();
+		$sep     = get_option( 'seo_woo_seperator' );
+		$options = get_option( 'wpseo_titles' );
 
 		switch ( get_option( 'seo_woo_home_layout' ) ) {
 			case 'a':
-				$options['title-home'] = '%%sitename%% '.$sep.' %%sitedesc%%';
+				$options['title-home-wpseo'] = '%%sitename%% ' . $sep . ' %%sitedesc%%';
 				break;
 			case 'b':
-				$options['title-home'] = '%%sitename%% '.get_option('seo_woo_paged_var').' %%pagenum%%';
+				$options['title-home-wpseo'] = '%%sitename%% ' . get_option( 'seo_woo_paged_var' ) . ' %%pagenum%%';
 				break;
 			case 'c':
-				$options['title-home'] = '%%sitedesc%%';
+				$options['title-home-wpseo'] = '%%sitedesc%%';
 				break;
 		}
-		if ( $replace )
-			delete_option('seo_woo_home_layout');
+		if ( $replace ) {
+			delete_option( 'seo_woo_home_layout' );
+		}
 
 		switch ( get_option( 'seo_woo_single_layout' ) ) {
 			case 'a':
-				$options['title-post'] = '%%title%% '.$sep.' %%sitename%%';
+				$options['title-post'] = '%%title%% ' . $sep . ' %%sitename%%';
 				break;
 			case 'b':
 				$options['title-post'] = '%%title%%';
 				break;
 			case 'c':
-				$options['title-post'] = '%%sitename%% '.$sep.' %%title%%';
+				$options['title-post'] = '%%sitename%% ' . $sep . ' %%title%%';
 				break;
 			case 'd':
-				$options['title-post'] = '%%title%% '.$sep.' %%sitedesc%%';
+				$options['title-post'] = '%%title%% ' . $sep . ' %%sitedesc%%';
 				break;
 			case 'e':
-				$options['title-post'] = '%%sitename%% '.$sep.' %%title%% '.$sep.' %%sitedesc%%';
+				$options['title-post'] = '%%sitename%% ' . $sep . ' %%title%% ' . $sep . ' %%sitedesc%%';
 				break;
 		}
-		if ( $replace )
-			delete_option('seo_woo_single_layout');
+		if ( $replace ) {
+			delete_option( 'seo_woo_single_layout' );
+		}
 
 		switch ( get_option( 'seo_woo_page_layout' ) ) {
 			case 'a':
-				$options['title-page'] = '%%title%% '.$sep.' %%sitename%%';
+				$options['title-page'] = '%%title%% ' . $sep . ' %%sitename%%';
 				break;
 			case 'b':
 				$options['title-page'] = '%%title%%';
 				break;
 			case 'c':
-				$options['title-page'] = '%%sitename%% '.$sep.' %%title%%';
+				$options['title-page'] = '%%sitename%% ' . $sep . ' %%title%%';
 				break;
 			case 'd':
-				$options['title-page'] = '%%title%% '.$sep.' %%sitedesc%%';
+				$options['title-page'] = '%%title%% ' . $sep . ' %%sitedesc%%';
 				break;
 			case 'e':
-				$options['title-page'] = '%%sitename%% '.$sep.' %%title%% '.$sep.' %%sitedesc%%';
+				$options['title-page'] = '%%sitename%% ' . $sep . ' %%title%% ' . $sep . ' %%sitedesc%%';
 				break;
 		}
-		if ( $replace )
-			delete_option('seo_woo_page_layout');
+		if ( $replace ) {
+			delete_option( 'seo_woo_page_layout' );
+		}
 
-		$template = '%%term_title%% '.$sep.' %%page%% '.$sep.' %%sitename%%';
+		// @todo - [JRF => Yoast] should the default be the same default as wpseo default ? It currently isn't,
+		$template = '%%term_title%% ' . $sep . ' %%page%% ' . $sep . ' %%sitename%%';
 		switch ( get_option( 'seo_woo_archive_layout' ) ) {
 			case 'a':
-				$template = '%%term_title%% '.$sep.' %%page%% '.$sep.' %%sitename%%';
+				$template = '%%term_title%% ' . $sep . ' %%page%% ' . $sep . ' %%sitename%%';
 				break;
 			case 'b':
 				$template = '%%term_title%%';
 				break;
 			case 'c':
-				$template = '%%sitename%% '.$sep.' %%term_title%% '.$sep.' %%page%%';
+				$template = '%%sitename%% ' . $sep . ' %%term_title%% ' . $sep . ' %%page%%';
 				break;
 			case 'd':
-				$template = '%%term_title%% '.$sep.' %%page%%'.$sep.' %%sitedesc%%';
+				$template = '%%term_title%% ' . $sep . ' %%page%%' . $sep . ' %%sitedesc%%';
 				break;
 			case 'e':
-				$template = '%%sitename%% '.$sep.' %%term_title%% '.$sep.' %%page%% '.$sep.' %%sitedesc%%';
+				$template = '%%sitename%% ' . $sep . ' %%term_title%% ' . $sep . ' %%page%% ' . $sep . ' %%sitedesc%%';
 				break;
 		}
-		if ( $replace )
-			delete_option('seo_woo_archive_layout');
-
-		foreach ( get_taxonomies( array( 'public' => true ), 'names' ) as $tax ) {
-			$options['title-'.$tax] = $template;
+		$taxonomies = get_taxonomies( array( 'public' => true ), 'names' );
+		if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
+			foreach ( $taxonomies as $tax ) {
+				$options['title-tax-'.$tax] = $template;
+			}
+		}
+		unset( $taxonomies, $tax, $template );
+		if ( $replace ) {
+			delete_option( 'seo_woo_archive_layout' );
 		}
 
-			// Import the custom homepage description
+		// Import the custom homepage description
 		if ( 'c' == get_option( 'seo_woo_meta_home_desc' ) ) {
-			$options['metadesc-home'] = get_option( 'seo_woo_meta_home_desc_custom' );
+			$options['metadesc-home-wpseo'] = get_option( 'seo_woo_meta_home_desc_custom' );
 		}
-		if ( $replace )
-			delete_option('seo_woo_meta_home_desc');
+		if ( $replace ) {
+			delete_option( 'seo_woo_meta_home_desc' );
+		}
 
 		// Import the custom homepage keywords
 		if ( 'c' == get_option( 'seo_woo_meta_home_key' ) ) {
-			$options['metakey-home'] = get_option( 'seo_woo_meta_home_key_custom' );
+			$options['metakey-home-wpseo'] = get_option( 'seo_woo_meta_home_key_custom' );
 		}
-		if ( $replace )
-			delete_option('seo_woo_meta_home_key');
+		if ( $replace ) {
+			delete_option( 'seo_woo_meta_home_key' );
+		}
 
 		// If WooSEO is set to use the Woo titles, import those
 		if ( 'true' == get_option( 'seo_woo_wp_title' ) ) {
-			replace_meta( 'seo_title', '_yoast_wpseo_title', $replace );
+			WPSEO_Meta::replace_meta( 'seo_title', WPSEO_Meta::$meta_prefix . 'title', $replace );
 		}
 
 		// If WooSEO is set to use the Woo meta descriptions, import those
 		if ( 'b' == get_option( 'seo_woo_meta_single_desc' ) ) {
-			replace_meta( 'seo_description', '_yoast_wpseo_metadesc', $replace );
+			WPSEO_Meta::replace_meta( 'seo_description', WPSEO_Meta::$meta_prefix . 'metadesc', $replace );
 		}
 
 		// If WooSEO is set to use the Woo meta keywords, import those
 		if ( 'b' == get_option( 'seo_woo_meta_single_key' ) ) {
-			replace_meta( 'seo_keywords', '_yoast_wpseo_metakeywords', $replace );
+			WPSEO_Meta::replace_meta( 'seo_keywords', WPSEO_Meta::$meta_prefix . 'metakeywords', $replace );
 		}
 
-		replace_meta( 'seo_follow', '_yoast_wpseo_meta-robots-nofollow', $replace );
-		replace_meta( 'seo_noindex', '_yoast_wpseo_meta-robots-noindex', $replace );
+		/* @todo [JRF => whomever] verify how WooSEO sets these metas ( 'noindex', 'follow' )
+		   and if the values saved are concurrent with the ones we use (i.e. 0/1/2) */
+		WPSEO_Meta::replace_meta( 'seo_follow', WPSEO_Meta::$meta_prefix . 'meta-robots-nofollow', $replace );
+		WPSEO_Meta::replace_meta( 'seo_noindex', WPSEO_Meta::$meta_prefix . 'meta-robots-noindex', $replace );
 
+		update_option( 'wpseo_titles', $options );
 		$msg .= __( 'WooThemes SEO framework settings &amp; data successfully imported.', 'wordpress-seo' );
+		unset( $options, $sep );
 	}
+
 	if ( isset( $_POST['wpseo']['importheadspace'] ) ) {
-		replace_meta( '_headspace_description', '_yoast_wpseo_metadesc', $replace );
-		replace_meta( '_headspace_keywords', '_yoast_wpseo_metakeywords', $replace );
-		replace_meta( '_headspace_page_title', '_yoast_wpseo_title', $replace );
-		replace_meta( '_headspace_noindex', '_yoast_wpseo_meta-robots-noindex', $replace );
-		replace_meta( '_headspace_nofollow', '_yoast_wpseo_meta-robots-nofollow', $replace );
+		WPSEO_Meta::replace_meta( '_headspace_description', WPSEO_Meta::$meta_prefix . 'metadesc', $replace );
+		WPSEO_Meta::replace_meta( '_headspace_keywords', WPSEO_Meta::$meta_prefix . 'metakeywords', $replace );
+		WPSEO_Meta::replace_meta( '_headspace_page_title', WPSEO_Meta::$meta_prefix . 'title', $replace );
+		/* @todo [JRF => whomever] verify how headspace sets these metas ( 'noindex', 'nofollow', 'noarchive', 'noodp', 'noydir' )
+		   and if the values saved are concurrent with the ones we use (i.e. 0/1/2) */
+		WPSEO_Meta::replace_meta( '_headspace_noindex', WPSEO_Meta::$meta_prefix . 'meta-robots-noindex', $replace );
+		WPSEO_Meta::replace_meta( '_headspace_nofollow', WPSEO_Meta::$meta_prefix . 'meta-robots-nofollow', $replace );
 
+		/* @todo - [JRF => whomever] check if this can be done more efficiently by querying only the meta table
+		   possibly directly changing it using concat on the existing values
+		*/
 		$posts = $wpdb->get_results( "SELECT ID FROM $wpdb->posts" );
-		foreach ( $posts as $post ) {
-			$custom         = get_post_custom( $post->ID );
-			$robotsmeta_adv = '';
-			if ( isset( $custom['_headspace_noarchive'] ) ) {
-				$robotsmeta_adv .= 'noarchive,';
+		if ( is_array( $posts ) && $posts !== array() ) {
+			foreach ( $posts as $post ) {
+				$custom         = get_post_custom( $post->ID );
+				$robotsmeta_adv = '';
+				if ( isset( $custom['_headspace_noarchive'] ) ) {
+					$robotsmeta_adv .= 'noarchive,';
+				}
+				if ( isset( $custom['_headspace_noodp'] ) ) {
+					$robotsmeta_adv .= 'noodp,';
+				}
+				if ( isset( $custom['_headspace_noydir'] ) ) {
+					$robotsmeta_adv .= 'noydir';
+				}
+				$robotsmeta_adv = preg_replace( '`,$`', '', $robotsmeta_adv );
+				WPSEO_Meta::set_value( 'meta-robots-adv', $robotsmeta_adv, $post->ID );
 			}
-			if ( isset( $custom['_headspace_noodp'] ) ) {
-				$robotsmeta_adv .= 'noodp,';
-			}
-			if ( isset( $custom['_headspace_noydir'] ) ) {
-				$robotsmeta_adv .= 'noydir';
-			}
-			$robotsmeta_adv = preg_replace( '`,$`', '', $robotsmeta_adv );
-			wpseo_set_value( 'meta-robots-adv', $robotsmeta_adv, $post->ID );
+		}
+		unset( $posts, $post, $custom, $robotsmeta_adv );
 
-			if ( $replace ) {
-				foreach ( array( 'noindex', 'nofollow', 'noarchive', 'noodp', 'noydir' ) as $meta ) {
-					delete_post_meta( $post->ID, '_headspace_' . $meta );
+		if ( $replace ) {
+			foreach ( array( 'noarchive', 'noodp', 'noydir' ) as $meta ) {
+				delete_post_meta_by_key( '_headspace_' . $meta );
+			}
+			unset( $meta );
+		}
+		$msg .= __( 'HeadSpace2 data successfully imported', 'wordpress-seo' );
+	}
+
+	// @todo [JRF => whomever] how does this correlate with the routine on the dashboard page ? isn't one superfluous ?
+	if ( isset( $_POST['wpseo']['importaioseo'] ) ) {
+		WPSEO_Meta::replace_meta( '_aioseop_description', WPSEO_Meta::$meta_prefix . 'metadesc', $replace );
+		WPSEO_Meta::replace_meta( '_aioseop_keywords', WPSEO_Meta::$meta_prefix . 'metakeywords', $replace );
+		WPSEO_Meta::replace_meta( '_aioseop_title', WPSEO_Meta::$meta_prefix . 'title', $replace );
+		$msg .= __( 'All in One SEO data successfully imported.', 'wordpress-seo' );
+	}
+
+	if ( isset( $_POST['wpseo']['importaioseoold'] ) ) {
+		WPSEO_Meta::replace_meta( 'description', WPSEO_Meta::$meta_prefix . 'metadesc', $replace );
+		WPSEO_Meta::replace_meta( 'keywords', WPSEO_Meta::$meta_prefix . 'metakeywords', $replace );
+		WPSEO_Meta::replace_meta( 'title', WPSEO_Meta::$meta_prefix . 'title', $replace );
+		$msg .= __( 'All in One SEO (Old version) data successfully imported.', 'wordpress-seo' );
+	}
+
+	// @todo [JRF => whomever] how does this correlate with the robots_meta_handler() function in dashboard ?
+	// isn't one superfluous ? functionality wasn't the same either, changed now.
+	if ( isset( $_POST['wpseo']['importrobotsmeta'] ) ) {
+		$posts = $wpdb->get_results( "SELECT ID, robotsmeta FROM $wpdb->posts" );
+		if ( is_array( $posts ) && $posts !== array() ) {
+			foreach ( $posts as $post ) {
+				// sync all possible settings
+				if ( $post->robotsmeta ) {
+					$pieces = explode( ',', $post->robotsmeta );
+					foreach ( $pieces as $meta ) {
+						switch ( $meta ) {
+							case 'noindex':
+								WPSEO_Meta::set_value( 'meta-robots-noindex', '1', $post->ID );
+								break;
+
+							case 'index':
+								WPSEO_Meta::set_value( 'meta-robots-noindex', '2', $post->ID );
+								break;
+
+							case 'nofollow':
+								WPSEO_Meta::set_value( 'meta-robots-nofollow', '1', $post->ID );
+								break;
+						}
+					}
 				}
 			}
 		}
-		$msg .= __('HeadSpace2 data successfully imported','wordpress-seo');
-	}
-	if ( isset( $_POST['wpseo']['importaioseo'] ) ) {
-		replace_meta( '_aioseop_description', '_yoast_wpseo_metadesc', $replace );
-		replace_meta( '_aioseop_keywords', '_yoast_wpseo_metakeywords', $replace );
-		replace_meta( '_aioseop_title', '_yoast_wpseo_title', $replace );
-		$msg .= __( 'All in One SEO data successfully imported.', 'wordpress-seo' );
-	}
-	if ( isset( $_POST['wpseo']['importaioseoold'] ) ) {
-		replace_meta( 'description', '_yoast_wpseo_metadesc', $replace );
-		replace_meta( 'keywords', '_yoast_wpseo_metakeywords', $replace );
-		replace_meta( 'title', '_yoast_wpseo_title', $replace );
-		$msg .= __( 'All in One SEO (Old version) data successfully imported.', 'wordpress-seo' );
-	}
-	if ( isset( $_POST['wpseo']['importrobotsmeta'] ) ) {
-		$posts = $wpdb->get_results( "SELECT ID, robotsmeta FROM $wpdb->posts" );
-		foreach ( $posts as $post ) {
-			if ( strpos( $post->robotsmeta, 'noindex' ) !== false )
-				wpseo_set_value( 'meta-robots-noindex', true, $post->ID );
-
-			if ( strpos( $post->robotsmeta, 'nofollow' ) !== false )
-				wpseo_set_value( 'meta-robots-nofollow', true, $post->ID );
-		}
+		unset( $posts, $post, $pieces, $meta );
 		$msg .= __( 'Robots Meta values imported.', 'wordpress-seo' );
 	}
+
 	if ( isset( $_POST['wpseo']['importrssfooter'] ) ) {
 		$optold = get_option( 'RSSFooterOptions' );
 		$optnew = get_option( 'wpseo_rss' );
 		if ( $optold['position'] == 'after' ) {
-			if ( empty( $optnew['rssafter'] ) )
+			if ( $optnew['rssafter'] === '' || $optnew['rssafter'] === WPSEO_Options::get_default( 'wpseo_rss', 'rssafter' ) ) {
 				$optnew['rssafter'] = $optold['footerstring'];
-		} else {
-			if ( empty( $optnew['rssbefore'] ) )
+			}
+		}
+		else {
+			/* @internal Uncomment the second part if a default would be given to the rssbefore value */
+			if ( $optnew['rssbefore'] === '' /*|| $optnew['rssbefore'] === WPSEO_Options::get_default( 'wpseo_rss', 'rssbefore' )*/ ) {
 				$optnew['rssbefore'] = $optold['footerstring'];
+			}
 		}
 		update_option( 'wpseo_rss', $optnew );
+		unset( $optold, $optnew );
 		$msg .= __( 'RSS Footer options imported successfully.', 'wordpress-seo' );
 	}
+
 	if ( isset( $_POST['wpseo']['importbreadcrumbs'] ) ) {
 		$optold = get_option( 'yoast_breadcrumbs' );
 		$optnew = get_option( 'wpseo_internallinks' );
 
-		if ( is_array( $optold ) ) {
+		if ( is_array( $optold ) && $optold !== array() ) {
 			foreach ( $optold as $opt => $val ) {
-				if ( is_bool( $val ) && $val == true )
-					$optnew['breadcrumbs-' . $opt] = 'on';
-				else
+				if ( is_bool( $val ) && $val == true ) {
+					$optnew['breadcrumbs-' . $opt] = true;
+				}
+				else {
 					$optnew['breadcrumbs-' . $opt] = $val;
+				}
 			}
+			unset( $opt, $val );
 			update_option( 'wpseo_internallinks', $optnew );
 			$msg .= __( 'Yoast Breadcrumbs options imported successfully.', 'wordpress-seo' );
-		} else {
+		}
+		else {
 			$msg .= __( 'Yoast Breadcrumbs options could not be found', 'wordpress-seo' );
 		}
+		unset( $optold, $optnew );
 	}
-	if ( $replace )
+	if ( $replace ) {
 		$msg .= __( ', and old data deleted.', 'wordpress-seo' );
-	if ( $deletekw )
+	}
+	if ( $deletekw ) {
 		$msg .= __( ', and meta keywords data deleted.', 'wordpress-seo' );
+	}
 }
 
 $wpseo_admin_pages->admin_header( false );
-if ( $msg != '' )
+if ( $msg != '' ) {
 	echo '<div id="message" class="message updated" style="width:94%;"><p>' . esc_html( $msg ) . '</p></div>';
+}
 
-$content = "<p>" . __( "No doubt you've used an SEO plugin before if this site isn't new. Let's make it easy on you, you can import the data below. If you want, you can import first, check if it was imported correctly, and then import &amp; delete. No duplicate data will be imported.", 'wordpress-seo' ) . "</p>";
-$content .= '<p>' . sprintf( __( "If you've used another SEO plugin, try the %sSEO Data Transporter%s plugin to move your data into this plugin, it rocks!", 'wordpress-seo' ), "<a href='http://wordpress.org/extend/plugins/seo-data-transporter/'>", "</a>" ) . '</p>';
-$content .= '<form action="" method="post" accept-charset="' . get_bloginfo( 'charset' ) . '">';
+$content  = '<p>' . __( 'No doubt you\'ve used an SEO plugin before if this site isn\'t new. Let\'s make it easy on you, you can import the data below. If you want, you can import first, check if it was imported correctly, and then import &amp; delete. No duplicate data will be imported.', 'wordpress-seo' ) . '</p>';
+$content .= '<p>' . sprintf( __( 'If you\'ve used another SEO plugin, try the %sSEO Data Transporter%s plugin to move your data into this plugin, it rocks!', 'wordpress-seo' ), '<a href="http://wordpress.org/extend/plugins/seo-data-transporter/">', '</a>' ) . '</p>';
+// @todo [JRF => whomever] add action for form tag
+$content .= '<form action="" method="post" accept-charset="' . esc_attr( get_bloginfo( 'charset' ) ) . '">';
 $content .= wp_nonce_field( 'wpseo-import', '_wpnonce', true, false );
 $content .= $wpseo_admin_pages->checkbox( 'importheadspace', __( 'Import from HeadSpace2?', 'wordpress-seo' ) );
 $content .= $wpseo_admin_pages->checkbox( 'importaioseo', __( 'Import from All-in-One SEO?', 'wordpress-seo' ) );
@@ -282,67 +339,81 @@ $wpseo_admin_pages->postbox( 'import', __( 'Import', 'wordpress-seo' ), $content
 
 do_action( 'wpseo_import', $this );
 
-$content = '<h4>' . __( 'Export', 'wordpress-seo' ) . '</h4>';
-$content .= '<form method="post" accept-charset="' . get_bloginfo( 'charset' ) . '">';
+// @todo [JRF => whomever] add action for form tag
+$content  = '<h4>' . __( 'Export', 'wordpress-seo' ) . '</h4>';
+$content .= '<form action="" method="post" accept-charset="' . esc_attr( get_bloginfo( 'charset' ) ) . '">';
 $content .= wp_nonce_field( 'wpseo-export', '_wpnonce', true, false );
 $content .= '<p>' . __( 'Export your WordPress SEO settings here, to import them again later or to import them on another site.', 'wordpress-seo' ) . '</p>';
-if ( phpversion() > 5.2 )
+if ( phpversion() > 5.2 ) {
 	$content .= $wpseo_admin_pages->checkbox( 'include_taxonomy_meta', __( 'Include Taxonomy Metadata', 'wordpress-seo' ) );
+}
 $content .= '<br/><input type="submit" class="button" name="wpseo_export" value="' . __( 'Export settings', 'wordpress-seo' ) . '"/>';
 $content .= '</form>';
 if ( isset( $_POST['wpseo_export'] ) ) {
 	check_admin_referer( 'wpseo-export' );
 	$include_taxonomy = false;
-	if ( isset( $_POST['wpseo']['include_taxonomy_meta'] ) )
+	if ( isset( $_POST['wpseo']['include_taxonomy_meta'] ) ) {
 		$include_taxonomy = true;
+	}
 	$url = $wpseo_admin_pages->export_settings( $include_taxonomy );
 	if ( $url ) {
 		$content .= '<script type="text/javascript">
 			document.location = \'' . $url . '\';
 		</script>';
-	} else {
+	}
+	else {
 		$content .= 'Error: ' . $url;
 	}
 }
 
 $content .= '<h4>' . __( 'Import', 'wordpress-seo' ) . '</h4>';
-if ( !isset( $_FILES['settings_import_file'] ) || empty( $_FILES['settings_import_file'] ) ) {
+if ( ! isset( $_FILES['settings_import_file'] ) || empty( $_FILES['settings_import_file'] ) ) {
 	$content .= '<p>' . __( 'Import settings by locating <em>settings.zip</em> and clicking', 'wordpress-seo' ) . ' "' . __( 'Import settings', 'wordpress-seo' ) . '":</p>';
-	$content .= '<form method="post" enctype="multipart/form-data" accept-charset="' . get_bloginfo( 'charset' ) . '">';
+	// @todo [JRF => whomever] add action for form tag
+	$content .= '<form action="" method="post" enctype="multipart/form-data" accept-charset="' . esc_attr( get_bloginfo( 'charset' ) ) . '">';
 	$content .= wp_nonce_field( 'wpseo-import-file', '_wpnonce', true, false );
 	$content .= '<input type="file" name="settings_import_file"/>';
 	$content .= '<input type="hidden" name="action" value="wp_handle_upload"/>';
 	$content .= '<input type="submit" class="button" value="' . __( 'Import settings', 'wordpress-seo' ) . '"/>';
 	$content .= '</form><br/>';
-} else if ( isset( $_FILES['settings_import_file'] ) ) {
+}
+else if ( isset( $_FILES['settings_import_file'] ) ) {
 	check_admin_referer( 'wpseo-import-file' );
 	$file = wp_handle_upload( $_FILES['settings_import_file'] );
 
-	if ( isset( $file['file'] ) && !is_wp_error( $file ) ) {
-		require_once( ABSPATH . 'wp-admin/includes/class-pclzip.php' );
+	if ( isset( $file['file'] ) && ! is_wp_error( $file ) ) {
 		$zip      = new PclZip( $file['file'] );
 		$unzipped = $zip->extract( $p_path = WP_CONTENT_DIR . '/wpseo-import/' );
 		if ( $unzipped[0]['stored_filename'] == 'settings.ini' ) {
 			$options = parse_ini_file( WP_CONTENT_DIR . '/wpseo-import/settings.ini', true );
-			foreach ( $options as $name => $optgroup ) {
-				if ( $name != 'wpseo_taxonomy_meta' ) {
-					update_option( $name, $optgroup );
-				} else {
-					update_option( $name, json_decode( urldecode( $optgroup['wpseo_taxonomy_meta'] ), true ) );
+			if ( is_array( $options ) && $options !== array() ) {
+				foreach ( $options as $name => $optgroup ) {
+					if ( $name !== 'wpseo_taxonomy_meta' ) {
+						update_option( $name, $optgroup );
+					}
+					else {
+						update_option( $name, json_decode( urldecode( $optgroup['wpseo_taxonomy_meta'] ), true ) );
+					}
 				}
 			}
+			unset( $options, $name, $optgroup );
 			@unlink( WP_CONTENT_DIR . '/wpseo-import/' );
 			@unlink( $file['file'] );
 
 			$content .= '<p><strong>' . __( 'Settings successfully imported.', 'wordpress-seo' ) . '</strong></p>';
-		} else {
+		}
+		else {
 			$content .= '<p><strong>' . __( 'Settings could not be imported:', 'wordpress-seo' ) . ' ' . __( 'Unzipping failed.', 'wordpress-seo' ) . '</strong></p>';
 		}
-	} else {
-		if ( is_wp_error( $file ) )
+		unset( $zip, $unzipped );
+	}
+	else {
+		if ( is_wp_error( $file ) ) {
 			$content .= '<p><strong>' . __( 'Settings could not be imported:', 'wordpress-seo' ) . ' ' . $file['error'] . '</strong></p>';
-		else
+		}
+		else {
 			$content .= '<p><strong>' . __( 'Settings could not be imported:', 'wordpress-seo' ) . ' ' . __( 'Upload failed.', 'wordpress-seo' ) . '</strong></p>';
+		}
 	}
 }
 $wpseo_admin_pages->postbox( 'wpseo_export', __( 'Export & Import SEO Settings', 'wordpress-seo' ), $content );

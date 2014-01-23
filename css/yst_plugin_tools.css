@@ -1,6 +1,6 @@
 h4 {
 	clear: both;
-	margin: 2em 0 0 0;	
+	margin: 2em 0 0 0;
 }
 
 p.desc {
@@ -26,7 +26,7 @@ div.yoastbox ul {
 }
 
 .postbox {
-	margin: 10px 10px 0 0;	
+	margin: 10px 10px 0 0;
 }
 
 label {
@@ -49,7 +49,7 @@ input.checkbox.double {
 }
 
 .textinput.metadesc {
-	height: 50px;	
+	height: 50px;
 }
 
 textarea.import {
@@ -67,8 +67,27 @@ label.radio {
 	margin-right: 20px;
 }
 
+
+#wpseo_content_top {
+	 min-width: 400px;
+	 max-width: 600px;
+	 padding: 0 20px 0 0;
+}
+
+.page-wpseo_titles #wpseo_content_top {
+	padding: 0;
+	max-width: 650px;
+	float: left;
+}
+
+.wpseo-admin-page .form-table tr,
+.wpseo-admin-page .form-table th,
+.wpseo-admin-page .form-table td {
+	vertical-align: top;
+}
+
 .postbox form {
-	line-height: 150%;	
+	line-height: 150%;
 }
 
 div.yoastbox ul li {
@@ -84,28 +103,29 @@ div.yoastbox a, div.yoastbox a.rsswidget {
 div.yoastbox a:hover, div.yoastbox a.rsswidget:hover {
 	text-decoration: underline;
 }
+/* @todo [JRF => Yoast] check: image file does not exist */
 div.yoastbox ul li.rss {
 	list-style-image: url(../images/rss.png);
 }
-
+/* @todo [JRF => Yoast] check: image file does not exist */
 div.yoastbox ul li.twitter {
 	list-style-image: url(../images/twitter-icon.png);
 }
-
+/* @todo [JRF => Yoast] check: image file does not exist */
 div.yoastbox ul li.facebook {
 	list-style-image: url(../images/facebook-icon.png);
 }
-
+/* @todo [JRF => Yoast] check: image file does not exist */
 div.yoastbox ul li.googleplus {
 	list-style-image: url(../images/google-plus-icon.png);
 }
-
+/* @todo [JRF => Yoast] check: image file does not exist */
 div.yoastbox ul li.email {
 	list-style-image: url(../images/email_sub.png);
 }
 
 div.yoastbox ul li.yoast {
-	list-style-image: url(../images/yoast-16x16.png); 
+	list-style-image: url(../images/yoast-16x16.png);
 }
 
 .text {
@@ -161,6 +181,11 @@ table.yoast_help tr:hover {
 	float: right;
 }
 
+.fb-buttons .button-primary,
+.fb-buttons .button {
+	margin-right: 8px;
+}
+
 .button {
 	color: #000 !important;
 }
@@ -169,8 +194,7 @@ table.yoast_help tr:hover {
 }
 
 .postbox#donate {
-	border-color: green;
-	border-width: 2px;
+	border: 2px green;
 }
 
 .wpseotab {
@@ -211,11 +235,29 @@ h2 code {
 }
 
 #pointer-primary {
-	margin: 0 5px 0 0; 
+	margin: 0 5px 0 0;
 }
 
 /* Add our icon to the Admin pages */
 #icon-wpseo_dashboard.icon32 {
 	background-image: url("../images/wordpress-SEO-32x32.png");
 	background-position: 0 0;
+}
+
+#wpseo-debug-info {
+	clear: both;
+}
+
+#wpseo-debug-info .hndle {
+    cursor: auto;
+}
+
+#wpseo-debug-info h3 span:last-child {
+    padding-left: 16px;
+}
+
+#wpseo-debug-info .wpseo-debug {
+	display: inline-block;
+	padding-left: 20px;
+	color: #CC0000;
 }
