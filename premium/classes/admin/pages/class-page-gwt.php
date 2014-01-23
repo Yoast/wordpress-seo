@@ -87,10 +87,37 @@ class WPSEO_Page_GWT {
 			add_action( 'admin_notices', array( 'WPSEO_Page_GWT', 'admin_message_body' ) );
 		}
 
+		// Add views
+		add_filter( 'views_seo_page_wpseo_redirects', array( 'WPSEO_Page_Redirect', 'add_page_views' ) );
 	}
 
+	/**
+	 * Add page views
+	 *
+	 * @param array $views
+	 *
+	 * @return array
+	 */
+	public static function add_page_views( $views ) {
+
+		// Base URL
+		$base_url = admin_url( 'admin.php' ) . "?page=" . $_GET['page'];
+
+		// Add views
+		$new_views = array(
+				'all'     => "<a href='" . $base_url . "' class='current'>All</a>",
+				'done'    => "<a href='" . $base_url . "'>Already redirected</a>",
+				'ignored' => "<a href='" . $base_url . "'>Ignored</a>",
+		);
+
+		return $new_views;
+	}
+
+	/**
+	 * Print Incorrect Google Authorization Code error
+	 */
 	public static function admin_message_body() {
-	?>
+		?>
 		<div class="error">
 			<p><b><?php _e( 'Incorrect Google Authorization Code!', 'wordpress-seo' ); ?></b></p>
 		</div>
@@ -105,6 +132,15 @@ class WPSEO_Page_GWT {
 		add_screen_option( 'per_page', array( 'label' => 'Crawl errors per page', 'default' => 25, 'option' => 'errors_per_page' ) );
 	}
 
+	/**
+	 * Set the screen options
+	 *
+	 * @param $status
+	 * @param $option
+	 * @param $value
+	 *
+	 * @return mixed
+	 */
 	public static function set_screen_option( $status, $option, $value ) {
 		if ( 'errors_per_page' == $option ) {
 			return $value;

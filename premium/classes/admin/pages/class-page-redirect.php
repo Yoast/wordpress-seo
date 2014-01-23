@@ -47,6 +47,16 @@ class WPSEO_Page_Redirect {
 				echo "</form>\n";
 
 				echo "<p class='desc'>&nbsp;</p>\n";
+				/*
+				?>
+				<ul class="subsubsub">
+					<li class="all"><a href="edit.php?post_type=post" class="current">All <span class="count">(3)</span></a> |
+					</li>
+					<li class="publish"><a href="edit.php?post_status=publish&amp;post_type=post">Published
+							<span class="count">(3)</span></a></li>
+				</ul>
+				<?php
+				*/
 
 				// Open <form>
 				echo "<form id='wpseo-redirects-table-form' method='post'>\n";
@@ -89,20 +99,20 @@ class WPSEO_Page_Redirect {
 			</div>
 			<div id="settings" class="wpseotab">
 				<?php
-					if ( file_exists( WPSEO_Redirect_File_Manager::get_file_path() ) ) {
-						echo '<div style="margin: 5px 0; padding: 3px 10px; background-color: #ffffe0; border: 1px solid #E6DB55; border-radius: 3px">';
-						echo '<p>';
-						_e( "You could use the redirect file we've created, this will increase site performance (recommended for sites with allot of redirects).", 'wordpress-seo' );
-						echo '<br/><br/>';
-						if ( wpseo_is_nginx() ) {
-							_e( "As you're on NGINX, you should add the following include to the website Nginx config file:", 'wordpress-seo' ) . '</p>';
-							echo '<pre>include ' . WPSEO_Redirect_File_Manager::get_file_path() . ';</pre>';
-						} elseif ( wpseo_is_apache() ) {
-							_e( "As you're on Apache, you should add the following include to the website httpd config file:", 'wordpress-seo' ) . '</p>';
-							echo '<pre>Include ' . WPSEO_Redirect_File_Manager::get_file_path() . '</pre>';
-						}
-						echo '</div>';
+				if ( file_exists( WPSEO_Redirect_File_Manager::get_file_path() ) ) {
+					echo '<div style="margin: 5px 0; padding: 3px 10px; background-color: #ffffe0; border: 1px solid #E6DB55; border-radius: 3px">';
+					echo '<p>';
+					_e( "You could use the redirect file we've created, this will increase site performance (recommended for sites with allot of redirects).", 'wordpress-seo' );
+					echo '<br/><br/>';
+					if ( wpseo_is_nginx() ) {
+						_e( "As you're on NGINX, you should add the following include to the website Nginx config file:", 'wordpress-seo' ) . '</p>';
+						echo '<pre>include ' . WPSEO_Redirect_File_Manager::get_file_path() . ';</pre>';
+					} elseif ( wpseo_is_apache() ) {
+						_e( "As you're on Apache, you should add the following include to the website httpd config file:", 'wordpress-seo' ) . '</p>';
+						echo '<pre>Include ' . WPSEO_Redirect_File_Manager::get_file_path() . '</pre>';
 					}
+					echo '</div>';
+				}
 				?>
 				<h2>Redirect Settings</h2>
 
