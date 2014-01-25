@@ -65,12 +65,12 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 			add_filter( 'loginout', array( $this, 'nofollow_link' ) );
 			add_filter( 'register', array( $this, 'nofollow_link' ) );
 
-			if ( $this->options['hide-rsdlink'] === true )
+			if ( $this->options['hide-rsdlink'] === true ) {
 				remove_action( 'wp_head', 'rsd_link' );
-
-			if ( $this->options['hide-wlwmanifest'] === true )
+			}
+			if ( $this->options['hide-wlwmanifest'] === true ) {
 				remove_action( 'wp_head', 'wlwmanifest_link' );
-
+			}
 			if ( $this->options['hide-shortlink'] === true ) {
 				remove_action( 'wp_head', 'wp_shortlink_wp_head' );
 				remove_action( 'template_redirect', 'wp_shortlink_header' );
@@ -84,21 +84,21 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 			if ( ( $this->options['disable-date'] === true ||
 					$this->options['disable-author'] === true ) ||
 					( isset( $this->options['disable-post_formats'] ) && $this->options['disable-post_formats'] )
-			)
+			) {
 				add_action( 'wp', array( $this, 'archive_redirect' ) );
-
-			if ( $this->options['redirectattachment'] === true )
+			}
+			if ( $this->options['redirectattachment'] === true ) {
 				add_action( 'template_redirect', array( $this, 'attachment_redirect' ), 1 );
-
-			if ( $this->options['trailingslash'] === true )
+			}
+			if ( $this->options['trailingslash'] === true ) {
 				add_filter( 'user_trailingslashit', array( $this, 'add_trailingslash' ), 10, 2 );
-
-			if ( $this->options['cleanpermalinks'] === true )
+			}
+			if ( $this->options['cleanpermalinks'] === true ) {
 				add_action( 'template_redirect', array( $this, 'clean_permalink' ), 1 );
-
-			if ( $this->options['cleanreplytocom'] === true )
+			}
+			if ( $this->options['cleanreplytocom'] === true ) {
 				add_filter( 'comment_reply_link', array( $this, 'remove_reply_to_com' ) );
-
+			}
 			add_filter( 'the_content_feed', array( $this, 'embed_rssfooter' ) );
 			add_filter( 'the_excerpt_rss', array( $this, 'embed_rssfooter_excerpt' ) );
 
@@ -107,9 +107,9 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 				add_action( 'wp_footer', array( $this, 'flush_cache' ) );
 			}
 
-			if ( $this->options['title_test'] === true )
+			if ( $this->options['title_test'] === true ) {
 				add_filter( 'wpseo_title', array( $this, 'title_test_helper' ) );
-
+			}
 			if ( isset( $_GET['replytocom'] ) ) {
 				remove_action( 'wp_head', 'wp_no_robots' );
 				add_action( 'template_redirect', array( $this, 'replytocom_redirect' ), 1 );
@@ -359,7 +359,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 				$title = $this->get_title_from_options( 'title-search-wpseo' );
 
 				// @todo [JRF => Yoast] Should this not use the default if no title found ?
-				// WPSEO_Options::$defaults['wpseo_titles']['title-search-wpseo']
+				// WPSEO_Options::get_default( 'wpseo_titles', 'title-search-wpseo' )
 				// Replacement would be needed!
 				if ( empty( $title ) )
 					$title_part = sprintf( __( 'Search for "%s"', 'wordpress-seo' ), esc_html( get_search_query() ) );
@@ -374,13 +374,13 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 					else if ( is_tag() ) {
 						$title_part = single_tag_title( '', false );
 					}
-					else if ( function_exists( 'single_term_title' ) ) {
-						$title_part = single_term_title( '', false );
-					}
 					else {
-						global $wp_query;
-						$term       = $wp_query->get_queried_object();
-						$title_part = $term->name;
+						$title_part = single_term_title( '', false );
+						if ( $title_part === '' ) {
+							global $wp_query;
+							$term       = $wp_query->get_queried_object();
+							$title_part = $term->name;
+						}
 					}
 				}
 			}
@@ -391,25 +391,28 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 					$title_part = get_the_author_meta( 'display_name', get_query_var( 'author' ) );
 				}
 			}
-			else if ( function_exists( 'is_post_type_archive' ) && is_post_type_archive() ) {
+			else if ( is_post_type_archive() ) {
 				$post_type = get_query_var( 'post_type' );
 				$title     = $this->get_title_from_options( 'title-ptarchive-' . $post_type );
 
 				if ( ! is_string( $title ) || $title === '' ) {
 					$post_type_obj = get_post_type_object( $post_type );
-					if ( isset( $post_type_obj->labels->menu_name ) )
+					if ( isset( $post_type_obj->labels->menu_name ) ) {
 						$title_part = $post_type_obj->labels->menu_name;
-					else if ( isset( $post_type_obj->name ) )
+					}
+					else if ( isset( $post_type_obj->name ) ) {
 						$title_part = $post_type_obj->name;
-					else
+					}
+					else {
 						$title_part = ''; //To be determined what this should be
+					}
 				}
 			}
 			else if ( is_archive() ) {
 				$title = $this->get_title_from_options( 'title-archive-wpseo' );
 
 				// @todo [JRF => Yoast] Should these not use the archive default if no title found ?
-				// WPSEO_Options::$defaults['wpseo_titles']['title-archive-wpseo']
+				// WPSEO_Options::get_default( 'wpseo_titles', 'title-archive-wpseo' )
 				// Replacement would be needed!
 				if ( empty( $title ) ) {
 					if ( is_month() ) {
@@ -452,7 +455,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 					$title = $this->get_title_from_options( 'title-404-wpseo' );
 
 					// @todo [JRF => Yoast] Should these not use the 404 default if no title found ?
-					// WPSEO_Options::$defaults['wpseo_titles']['title-404-wpseo']
+					// WPSEO_Options::get_default( 'wpseo_titles', 'title-404-wpseo' )
 					// Replacement would be needed!
 					if ( empty( $title ) ) {
 						$title_part = __( 'Page not found', 'wordpress-seo' );
@@ -637,7 +640,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 				) {
 					$robots['index'] = 'noindex';
 				}
-				else if ( function_exists( 'is_post_type_archive' ) && is_post_type_archive() ) {
+				else if ( is_post_type_archive() ) {
 					$post_type = get_query_var( 'post_type' );
 					if ( isset( $this->options['noindex-ptarchive-' . $post_type] ) && $this->options['noindex-ptarchive-' . $post_type] === true )
 						$robots['index'] = 'noindex';
@@ -743,7 +746,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 						$canonical = get_term_link( $term, $term->taxonomy );
 					}
 				}
-				else if ( function_exists( 'get_post_type_archive_link' ) && is_post_type_archive() ) {
+				else if ( is_post_type_archive() ) {
 					$canonical = get_post_type_archive_link( get_query_var( 'post_type' ) );
 				}
 				else if ( is_author() ) {
@@ -764,8 +767,9 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 				}
 			}
 
-			if ( $canonical && $un_paged )
+			if ( $canonical && $un_paged ) {
 				return $canonical;
+			}
 
 			if ( $canonical && ! $skip_pagination && get_query_var( 'paged' ) > 1 ) {
 				global $wp_rewrite;
@@ -992,7 +996,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 						$keywords = wpseo_replace_vars( $this->options['metakey-author-wpseo'], (array) $wp_query->get_queried_object() );
 					}
 				}
-				else if ( function_exists( 'is_post_type_archive' ) && is_post_type_archive() ) {
+				else if ( is_post_type_archive() ) {
 					$post_type = get_query_var( 'post_type' );
 					if ( isset( $this->options['metakey-ptarchive-' . $post_type] ) && $this->options['metakey-ptarchive-' . $post_type] !== '' ) {
 						$keywords = wpseo_replace_vars( $this->options['metakey-ptarchive-' . $post_type], (array) $wp_query->get_queried_object() );
@@ -1063,7 +1067,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 						$metadesc = wpseo_replace_vars( $this->options['metadesc-author-wpseo'], (array) $wp_query->get_queried_object() );
 					}
 				}
-				else if ( function_exists( 'is_post_type_archive' ) && is_post_type_archive() ) {
+				else if ( is_post_type_archive() ) {
 					$post_type = get_query_var( 'post_type' );
 					if ( isset( $this->options['metadesc-ptarchive-' . $post_type] ) && $this->options['metadesc-ptarchive-' . $post_type] !== '' ) {
 						$metadesc = wpseo_replace_vars( $this->options['metadesc-ptarchive-' . $post_type], (array) $wp_query->get_queried_object() );
@@ -1206,8 +1210,9 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 		 * @since 1.4.13
 		 */
 		function replytocom_redirect() {
-			if ( $this->options['cleanreplytocom'] !== true )
+			if ( $this->options['cleanreplytocom'] !== true ) {
 				return;
+			}
 
 			if ( isset( $_GET['replytocom'] ) && is_singular() ) {
 				global $post;
@@ -1343,7 +1348,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 				$whitelisted_extravars = array_merge( $whitelisted_extravars, array( 'utm_campaign', 'utm_medium', 'utm_source', 'utm_content', 'utm_term' ) );
 			}
 
-			if ( strlen( $this->options['cleanpermalink-extravars'] ) > 0 ) {
+			if ( $this->options['cleanpermalink-extravars'] !== '' ) {
 				$extravars = explode( ',', $this->options['cleanpermalink-extravars'] );
 				$extravars = array_map( 'trim', $extravars );
 				$whitelisted_extravars = array_merge( $whitelisted_extravars, $extravars );

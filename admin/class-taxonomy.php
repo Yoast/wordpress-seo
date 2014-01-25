@@ -218,7 +218,7 @@ if ( ! class_exists( 'WPSEO_Taxonomy' ) ) {
 			}
 
 			/* Validate the post values */
-			$old   = self::get_term_meta( $term_id, $taxonomy );
+			$old   = WPSEO_Taxonomy_Meta::get_term_meta( $term_id, $taxonomy );
 			$clean = WPSEO_Taxonomy_Meta::validate_term_meta_data( $new_meta_data, $old );
 
 			/* Add/remove the result to/from the original option value */

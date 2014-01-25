@@ -13,12 +13,12 @@ global $wpseo_admin_pages;
 
 $options = get_site_option( 'wpseo_ms' );
 
-// @todo [JRF => Yoast/whomever] Maybe remove ? in favour of sending in the form via the options.php method - will need change in admin_header() call too
+// @todo [JRF => Yoast/whomever] Maybe remove ? in favour of sending in the form via the options.php method if that would work for site options, needs checking - will need change in admin_header() call too.
 if ( isset( $_POST[ 'wpseo_submit' ] ) ) {
 	check_admin_referer( 'wpseo-network-settings' );
 
 	foreach ( array( 'access', 'defaultblog' ) as $opt ) {
-		$options[ $opt ] = $_POST[ 'wpseo_ms' ][ $opt ];
+		$options[$opt] = $_POST['wpseo_ms'][$opt];
 	}
 	update_site_option( 'wpseo_ms', $options );
 	echo '<div id="message" class="updated"><p>' . __( 'Settings Updated.', 'wordpress-seo' ) . '</p></div>';
@@ -27,7 +27,7 @@ if ( isset( $_POST[ 'wpseo_submit' ] ) ) {
 if ( isset( $_POST[ 'wpseo_restore_blog' ] ) ) {
 	check_admin_referer( 'wpseo-network-restore' );
 	if ( isset( $_POST['wpseo_ms']['restoreblog'] ) && is_numeric( $_POST['wpseo_ms']['restoreblog'] ) ) {
-		$restoreblog = (int) WPSEO_Options::validate_int( $_POST['wpseo_ms']['restoreblog'] );
+		$restoreblog = (int) WPSEO_Option::validate_int( $_POST['wpseo_ms']['restoreblog'] );
 		$blog = get_blog_details( $restoreblog );
 		if ( $blog ) {
 			WPSEO_Options::reset_ms_blog( $restoreblog );
@@ -45,6 +45,8 @@ $wpseo_admin_pages->admin_header( false );
 
 $content  = '<form method="post" accept-charset="' . esc_attr( get_bloginfo( 'charset' ) ) . '">';
 $content .= wp_nonce_field( 'wpseo-network-settings', '_wpnonce', true, false );
+
+/* @internal Important: Make sure the options added to the array here are in line with the options set in the WPSEO_Option_MS::$allowed_access_options property */
 $content .= $wpseo_admin_pages->select(
 	'access',
 	__( 'Who should have access to the WordPress SEO settings', 'wordpress-seo' ),

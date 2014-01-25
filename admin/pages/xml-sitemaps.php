@@ -20,7 +20,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 
 global $wpseo_admin_pages;
 
-$wpseo_admin_pages->admin_header( true, WPSEO_Options::$options['wpseo_xml']['group'], 'wpseo_xml' );
+$wpseo_admin_pages->admin_header( true, WPSEO_Options::get_group_name( 'wpseo_xml' ), 'wpseo_xml' );
 
 $options = get_option( 'wpseo_xml' );
 
@@ -51,6 +51,7 @@ $content .= '<p>' . __( 'After content publication, the plugin automatically pin
 $content .= $wpseo_admin_pages->checkbox( 'xml_ping_yahoo', __( 'Ping Yahoo!', 'wordpress-seo' ), false );
 $content .= $wpseo_admin_pages->checkbox( 'xml_ping_ask', __( 'Ping Ask.com', 'wordpress-seo' ), false );
 
+
 $post_types = apply_filters( 'wpseo_sitemaps_supported_post_types', get_post_types( array( 'public' => true ), 'objects' ) );
 if ( is_array( $post_types ) && $post_types !== array() ) {
 	$content .= '<h2>' . __( 'Exclude post types', 'wordpress-seo' ) . '</h2>';
@@ -59,6 +60,7 @@ if ( is_array( $post_types ) && $post_types !== array() ) {
 		$content .= $wpseo_admin_pages->checkbox( 'post_types-' . $pt->name . '-not_in_sitemap', $pt->labels->name . ' (<code>' . $pt->name . '</code>)' );
 	}
 }
+
 
 $taxonomies = apply_filters( 'wpseo_sitemaps_supported_taxonomies', get_taxonomies( array( 'public' => true ), 'objects' ) );
 if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
@@ -69,9 +71,11 @@ if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
 			$content .= $wpseo_admin_pages->checkbox( 'taxonomies-' . $tax->name . '-not_in_sitemap', $tax->labels->name . ' (<code>' . $tax->name . '</code>)' );
 	}
 }
+
+
 $content .= '<br/>';
 $content .= '<h2>' . __( 'Entries per page', 'wordpress-seo' ) . '</h2>';
-$content .= '<p>' . sprintf( __( 'Please enter the maximum number of entries per sitemap page (defaults to %s, you might want to lower this to prevent memory issues on some installs):', 'wordpress-seo' ), WPSEO_Options::$defaults['wpseo_xml']['entries-per-page'] ) . '</p>';
+$content .= '<p>' . sprintf( __( 'Please enter the maximum number of entries per sitemap page (defaults to %s, you might want to lower this to prevent memory issues on some installs):', 'wordpress-seo' ), WPSEO_Options::get_default( 'wpseo_xml', 'entries-per-page' ) ) . '</p>';
 $content .= $wpseo_admin_pages->textinput( 'entries-per-page', __( 'Max entries per sitemap page', 'wordpress-seo' ) );
 
 $content .= '<br class="clear"/>';

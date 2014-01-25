@@ -129,10 +129,17 @@ This version also incorporates the [SEO Extended](http://wordpress.org/plugins/s
 	* Fixed: category rewrite rules could have errors for categories without parent categories.
 	* Fixed: bug in delete_sitemaps() - wrong retrieval of needed options.
 	* Fixed: HTML sitemaps would sometimes display headers without a link list.
+	* Fixed: Breadcrumbs could potentially output an empty element as part of the chain, resulting in two separators in a row.
+	* Fixed: Breadcrumbs: even when removing the prefix texts from the admin page, they would sometimes still be included.
 
 	* Fixed: Admin -> Dashboard -> Failed removal of the meta description from a theme file would still change the relevant internal option as if it had succeeded.
+	* Fixed: Admin -> Dashboard -> bug where message about files blocking the sitemap from working would not be removed when it should.
 	* Fixed: Admin -> Titles & Meta's -> Post types would show attachments even when attachment redirection to post was enabled.
-	* Fixed: Admin -> Social -> Corrected adding of hidden fb_admins fields to social form.
+	* Fixed: Admin -> Import -> Fixed partially broken import functionality for WooThemes SEO framework
+	* Fixed: Admin -> Export -> Some values were exported in a way that they couldn't be imported properly again.
+	* Fixed: Admin -> Various -> Removed some superfluous hidden fields which could cause issues.
+	* Fixed: Admin -> Social -> The same fb user can no longer be added twice as Facebook admin.
+
 	* Admin -> Multi-site -> Added error message when user tries to restore to defaults a non-existent blog (only applies to multi-site installations).
 
 	* Bow out early from displaying the post/taxonomy metabox if the post/taxonomy is not public (no use adding meta data which will never be displayed).
@@ -148,15 +155,11 @@ This version also incorporates the [SEO Extended](http://wordpress.org/plugins/s
 	* Fixed: taxonomy meta -> breadcrumb title entry field would show for taxonomy even when breadcrumbs were not enabled
 	* Fixed: taxonomy meta -> bug where W3TC cache for taxonomy meta data wouldn't always be refreshed when it should and sometimes would when it shouldn't
 
+	* Fixed: some things should work better now for must-use installations.
 	* Added sanitation/improved validation to $_GET and $_POST variables if/when they are used in a manner which could cause security issues.
 	* Fixed: wrong file was loaded for the get_plugin_data() function.
 	* Fixed: several bug-sensitive code constructs. This will probably get rid of a number of hard to figure out bugs.
 	* Fixed: several html validation issues.
-
-
-
-
-@to fix: Google Plus description was never added to the html page
 
 
 * Enhancements
@@ -168,6 +171,7 @@ This version also incorporates the [SEO Extended](http://wordpress.org/plugins/s
 	* Admin -> If WP_DEBUG is on or if you have set the special constant WPSEO_DEBUG, a block with the currently saved options will be shown on the settings pages.
 	* Admin -> Dashboard -> Added error message for when meta description tag removal from theme file fails.
 	* Admin -> Titles & Meta -> Added option to add meta keywords to post type archives.
+	* Admin -> Social -> Facebook -> Added error messages for if communication with Facebook failed.
 	* Adminbar -> Keyword research links now also search for the set the keyword when editing a post in the back-end.
 	* [Usability] Proper field labels for user profile form fields.
 	* General jQuery efficiency improvements.
@@ -183,20 +187,17 @@ This version also incorporates the [SEO Extended](http://wordpress.org/plugins/s
 
 
 
-= To do =
-Deal with version number
-Double-check that I've caught each and every option in use
-Double-check that the forms send in all options, if one is missed, fall back to $old value
-Rewrite the wpseo_defaults() function
-Rewrite & move the reset_defaults() function
-Double-check the maybe_upgrade() function
-Double-check option-import from other plugins
+= Trunk =
 
+* Bugfixes
+	* Do not include external URLs in XML sitemap (Issue #528) - props [tivnet](https://github.com/tivnet)
+	* Get home_url out of the sitemap loop - props [tivnet](https://github.com/tivnet)
 
+* Enhancement
+	* WPSEO_FILE now had a 'defined' check.
 
-
-
-
+	
+	
 
 = 1.4.24 =
 
@@ -219,9 +220,6 @@ Double-check option-import from other plugins
 	* Shortcode now also available to ajax requests - props [Jrf](http://profiles.wordpress.org/jrf).
 	* Added gitignores to prevent incorrect commits (Cross platform collab) - props [cfoellmann](https://github.com/cfoellmann).
 	* Adding filters to individual sitemap url entries - props [mboynes](https://github.com/mboynes).
-
-* i18n
-	*
 
 = 1.4.23 =
 

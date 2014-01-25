@@ -239,7 +239,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 				}
 				else {
 					if ( isset( $_GET['post'] ) ) {
-						$post_id = (int) WPSEO_Options::validate_int( $_GET['post'] );
+						$post_id = (int) WPSEO_Option::validate_int( $_GET['post'] );
 						$post    = get_post( $post_id );
 					}
 					else {
@@ -302,7 +302,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			}
 
 			if ( isset( $_GET['post'] ) ) {
-				$post_id = (int) WPSEO_Options::validate_int( $_GET['post'] );
+				$post_id = (int) WPSEO_Option::validate_int( $_GET['post'] );
 				$post    = get_post( $post_id );
 			}
 			else {
@@ -391,7 +391,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		 */
 		function meta_box() {
 			if ( isset( $_GET['post'] ) ) {
-				$post_id = WPSEO_Options::validate_int( $_GET['post'] );
+				$post_id = (int) WPSEO_Option::validate_int( $_GET['post'] );
 				$post    = get_post( $post_id );
 			}
 			else {
@@ -455,10 +455,12 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			}
 
 			$placeholder = '';
-/*	@todo [JRF => Yoast/whomever] -> does not seem to be ever invoked as none of the field defs contain the key
-			if ( isset( $meta_field_def['placeholder'] ) && ! empty( $meta_field_def['placeholder'] ) )
+			/* @todo [JRF => Yoast/whomever] -> does not seem to be ever invoked as none of the field defs
+			   contain the key
+			if ( isset( $meta_field_def['placeholder'] ) && ! empty( $meta_field_def['placeholder'] ) ) {
 				$placeholder = $meta_field_def['placeholder'];
-*/
+			}
+			*/
 
 			$help = '';
 			if ( isset( $meta_field_def['help'] ) && $meta_field_def['help'] !== '' ) {
@@ -529,12 +531,13 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 					break;
 
 				case 'checkbox':
-/*	-> why also check for true ? post meta values are only ever strings when retrieved via get_post_meta()
+					/* @todo [JRF => Yoast]-> why also check for true ? post meta values are only ever strings when retrieved via get_post_meta()
 					$checked = '';
 					if ( $meta_value == 'on' || $meta_value == true ) {
 						$checked = 'checked="checked"';
 					}
-*/
+					*/
+
 					$checked  = checked( $meta_value, 'on', false );
 					$expl     = ( isset( $meta_field_def['expl'] ) ) ? esc_html( $meta_field_def['expl'] ) : '';
 					$content .= '<label for="' . $esc_form_key . '"><input type="checkbox" id="' . $esc_form_key . '" name="' . $esc_form_key . '" ' . $checked . ' value="on" class="yoast' . $class . '"/> ' . $expl . '</label><br />';
@@ -588,7 +591,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		 */
 		function snippet() {
 			if ( isset( $_GET['post'] ) ) {
-				$post_id = (int) WPSEO_Options::validate_int( $_GET['post'] );
+				$post_id = (int) WPSEO_Option::validate_int( $_GET['post'] );
 				$post    = get_post( $post_id );
 			}
 			else {
@@ -620,9 +623,6 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 				<a class="title" href="#">' . esc_html( $title ) . '</a><br/>';
 
 /*			if ( $options['breadcrumbs-enable'] === true ) {
-				if ( ! isset( $GLOBALS['wpseo_bc'] ) ) {
-					$GLOBALS['wpseo_bc'] = new WPSEO_Breadcrumbs;
-				}
 				$content .= '<span href="#" style="font-size: 13px; color: #282; line-height: 15px;" class="breadcrumb">' . yoast_breadcrumb('','',false) . '</span>';
 			} else {
 */
@@ -1976,12 +1976,12 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		/**
 		 * Adds the WordPress SEO box
 		 *
-		 * @deprecated 1.5.0
+		 * @deprecated 1.4.24
 		 * @deprecated use WPSEO_Metabox::add_meta_box()
 		 * @see WPSEO_Meta::add_meta_box()
 		 */
 		public function add_custom_box() {
-			_deprecated_function( __FUNCTION__, 'WPSEO 1.5.0', 'WPSEO_Metabox::add_meta_box()' );
+			_deprecated_function( __CLASS__ . '::' . __METHOD__, 'WPSEO 1.4.24', 'WPSEO_Metabox::add_meta_box()' );
 			$this->add_meta_box();
 		}
 
@@ -1997,7 +1997,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		 * @return	array
 		 */
 		public function get_meta_boxes( $post_type = 'post' ) {
-			_deprecated_function( __FUNCTION__, 'WPSEO 1.5.0', 'WPSEO_Meta::get_meta_field_defs()' );
+			_deprecated_function( __CLASS__ . '::' . __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Meta::get_meta_field_defs()' );
 			return $this->get_meta_field_defs( 'general', $post_type );
 		}
 
@@ -2009,7 +2009,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		 * @see WPSEO_Meta::localize_script()
 		 */
 		public function script() {
-			_deprecated_function( __FUNCTION__, 'WPSEO 1.5.0', 'WPSEO_Meta::localize_script()' );
+			_deprecated_function( __CLASS__ . '::' . __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Meta::localize_script()' );
 			return $this->localize_script();
 		}
 

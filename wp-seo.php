@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: WordPress SEO
-Version: 1.5.0-beta
+Version: 1.5.0-beta1
 Plugin URI: http://yoast.com/wordpress/seo/#utm_source=wpadmin&utm_medium=plugin&utm_campaign=wpseoplugin
 Description: The first true all-in-one SEO solution for WordPress, including on-page content analysis, XML sitemaps and much more.
 Author: Joost de Valk
@@ -45,19 +45,27 @@ if ( version_compare( PHP_VERSION, '5.2', '<' ) ) {
 	}
 }
 
+/**
+ * @internal Nobody should be able to overrule the real version number as this can cause serious issues
+ * with the options, so no if ( ! defined() )
+ */
+define( 'WPSEO_VERSION', '1.5.0-beta1' );
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
 	define( 'WPSEO_PATH', plugin_dir_path( __FILE__ ) );
 }
+
 if ( ! defined( 'WPSEO_BASENAME' ) ) {
 	define( 'WPSEO_BASENAME', plugin_basename( __FILE__ ) );
 }
 
-define( 'WPSEO_FILE', __FILE__ );
+if ( ! defined( 'WPSEO_FILE' ) ) {
+	define( 'WPSEO_FILE', __FILE__ );
+}
 
-define( 'WPSEO_VERSION', '1.5.0-beta' );
-
-define( 'WPSEO_CSSJS_SUFFIX', ( ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min' ) );
+if ( ! defined( 'WPSEO_CSSJS_SUFFIX' ) ) {
+	define( 'WPSEO_CSSJS_SUFFIX', ( ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min' ) );
+}
 
 
 /**
@@ -90,6 +98,15 @@ function wpseo_auto_load( $class ) {
 			'wpseo_sitemaps'                     => WPSEO_PATH . 'inc/class-sitemaps.php',
 			'sitemap_walker'                     => WPSEO_PATH . 'inc/class-sitemap-walker.php',
 			'wpseo_options'                      => WPSEO_PATH . 'inc/class-wpseo-options.php',
+			'wpseo_option'                       => WPSEO_PATH . 'inc/class-wpseo-options.php',
+			'wpseo_option_wpseo'                 => WPSEO_PATH . 'inc/class-wpseo-options.php',
+			'wpseo_option_permalinks'            => WPSEO_PATH . 'inc/class-wpseo-options.php',
+			'wpseo_option_titles'                => WPSEO_PATH . 'inc/class-wpseo-options.php',
+			'wpseo_option_social'                => WPSEO_PATH . 'inc/class-wpseo-options.php',
+			'wpseo_option_rss'                   => WPSEO_PATH . 'inc/class-wpseo-options.php',
+			'wpseo_option_internallinks'         => WPSEO_PATH . 'inc/class-wpseo-options.php',
+			'wpseo_option_xml'                   => WPSEO_PATH . 'inc/class-wpseo-options.php',
+			'wpseo_option_ms'	                 => WPSEO_PATH . 'inc/class-wpseo-options.php',
 			'wpseo_taxonomy_meta'		         => WPSEO_PATH . 'inc/class-wpseo-options.php',
 			'wpseo_meta'                         => WPSEO_PATH . 'inc/class-wpseo-meta.php',
 
@@ -128,11 +145,14 @@ add_filter( 'init', 'wpseo_load_textdomain', 1 );
 function wpseo_init() {
 	require_once( WPSEO_PATH . 'inc/wpseo-functions.php' );
 
-	// Make sure our option validation routines and default values are always registered and available
-	WPSEO_Options::plugins_loaded();
-
-	// Ensure that the validation routines for meta values are always registered
+	// Make sure our option and meta value validation routines and default values are always registered and available
+	WPSEO_Options::get_instance();
 	WPSEO_Meta::init();
+
+	$option_wpseo = get_option( 'wpseo' );
+	if ( version_compare( $option_wpseo['version'], WPSEO_VERSION, '<' ) ) {
+		wpseo_do_upgrade( $option_wpseo['version'] );
+	}
 
 	$options = WPSEO_Options::get_all();
 

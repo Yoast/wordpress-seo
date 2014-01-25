@@ -106,9 +106,9 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 		 *
 		 * @todo - [JRF => Yoast] check usage of richedit and placeholder and what to do with those
 		 *
-		 *
+		 * @internal
 		 * - Titles, help texts, description text and option labels are added via a translate_meta_boxes() method
-		 *	 in the relevant child classes (WPSEO_Metabox and WPSEO_Social_admin)
+		 *	 in the relevant child classes (WPSEO_Metabox and WPSEO_Social_admin) as they are only needed there.
 		 * - Beware: even though the meta keys are divided into subsets, they still have to be uniquely named!
 		 */
 		public static $meta_fields = array(
@@ -360,7 +360,7 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 		 * @param	string	$post_type	Post type of the current post
 		 * @return	array				Array containing the meta box field definitions
 		 */
-		public function get_meta_field_defs( $tab, $post_type = 'post' ) {
+		public static function get_meta_field_defs( $tab, $post_type = 'post' ) {
 			if ( ! isset( self::$meta_fields[$tab] ) ) {
 				return array();
 			}
@@ -483,7 +483,7 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 
 			switch ( true ) {
 				case ( $meta_key === self::$meta_prefix . 'linkdex' ):
-					$int = WPSEO_Options::validate_int( $meta_value );
+					$int = WPSEO_Option::validate_int( $meta_value );
 					if ( $int !== false ) {
 						$clean = $int;
 					}
@@ -515,7 +515,7 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 				case ( $field_def['type'] === 'text' && $meta_key === self::$meta_prefix . 'redirect' ):
 					// Validate as url(-part)
 					// @todo [JRF/whomever] check/improve url verification
-					$url = esc_url_raw( trim( $meta_value ), array( 'http', 'https' ) );
+					$url = esc_url_raw( sanitize_text_field( $meta_value ), array( 'http', 'https' ) );
 					if ( $url !== '' ) {
 						$clean = $url;
 					}
@@ -525,7 +525,7 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 				case ( $field_def['type'] === 'upload' && $meta_key === self::$meta_prefix . 'opengraph-image' ):
 					// Validate as url
 					// @todo [JRF/whomever] check/improve url verification
-					$url = esc_url_raw( trim( $meta_value ), array( 'http', 'https', 'ftp', 'ftps' ) );
+					$url = esc_url_raw( sanitize_text_field( $meta_value ), array( 'http', 'https', 'ftp', 'ftps' ) );
 					if ( $url !== '' ) {
 						$clean = $url;
 					}

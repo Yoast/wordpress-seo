@@ -6,6 +6,8 @@
  *
  * // flush rewrite rules => not needed, is done on deactivate
  *
+ * @todo [JRF => whomever] Implement most of the sample code for removing the rest of the data from this plugin
+ *
  * @todo [JRF => whomever] maybe add an options page where users can choose whether or not to remove meta data ?
  * or try and hook into the uninstall routine and ask the user there & then
  * (Nearly) all the code needed for a removal of this data for a single blog has been added below (commented out)
@@ -13,7 +15,7 @@
  * @todo [JRF => Yoast] what should be done with the 'googleplus', 'twitter', 'facebook' contactmethods added to the user profile page ?
  *
  *
- * @todo [JRF => whomever] deal with multisite uninstall - the options and other data will need to be removed for all blogs ?
+ * @todo [JRF => whomever] deal with multisite uninstall - the options and other data will need to be removed for all blogs ? delete_blog_option() on all blogs
  */
 
 if ( ! current_user_can( 'activate_plugins' ) || ( ! defined( 'ABSPATH' ) || ! defined( 'WP_UNINSTALL_PLUGIN' ) ) ) {
@@ -34,7 +36,7 @@ $wpseo_option_keys = array(
 	'wpseo_flush_rewrite',
 //	'Yoast_Tracking_Hash',
 );
-// @todo [JRF => whomever] change code to deal with wpseo_ms option as a (multi) site option
+// @todo [JRF => whomever] change code to deal with wpseo_ms option as a (multi) site option using delete_site_option()
 foreach ( $wpseo_option_keys as $option ) {
 	delete_option( $option );
 }

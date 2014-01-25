@@ -11,7 +11,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 
 global $wpseo_admin_pages;
 
-$wpseo_admin_pages->admin_header( true, WPSEO_Options::$options['wpseo_internallinks']['group'], 'wpseo_internallinks' );
+$wpseo_admin_pages->admin_header( true, WPSEO_Options::get_group_name( 'wpseo_internallinks' ), 'wpseo_internallinks' );
 
 $content  = $wpseo_admin_pages->checkbox( 'breadcrumbs-enable', __( 'Enable Breadcrumbs', 'wordpress-seo' ) );
 $content .= '<br/>';
@@ -22,11 +22,13 @@ $content .= $wpseo_admin_pages->textinput( 'breadcrumbs-archiveprefix', __( 'Pre
 $content .= $wpseo_admin_pages->textinput( 'breadcrumbs-searchprefix', __( 'Prefix for Search Page breadcrumbs', 'wordpress-seo' ) );
 $content .= $wpseo_admin_pages->textinput( 'breadcrumbs-404crumb', __( 'Breadcrumb for 404 Page', 'wordpress-seo' ) );
 $content .= $wpseo_admin_pages->checkbox( 'breadcrumbs-blog-remove', __( 'Remove Blog page from Breadcrumbs', 'wordpress-seo' ) );
+$content .= $wpseo_admin_pages->checkbox( 'breadcrumbs-boldlast', __( 'Bold the last page in the breadcrumb', 'wordpress-seo' ) );
 $content .= '<br/><br/>';
-$content .= '<strong>' . __( 'Taxonomy to show in breadcrumbs for:', 'wordpress-seo' ) . '</strong><br/>';
+
 
 $post_types = get_post_types( array( 'public' => true ), 'objects' );
 if ( is_array( $post_types ) && $post_types !== array() ) {
+	$content .= '<strong>' . __( 'Taxonomy to show in breadcrumbs for:', 'wordpress-seo' ) . '</strong><br/>';
 	foreach ( $post_types as $pt ) {
 		$taxonomies = get_object_taxonomies( $pt->name, 'objects' );
 		if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
@@ -43,9 +45,10 @@ if ( is_array( $post_types ) && $post_types !== array() ) {
 }
 $content .= '<br/>';
 
-$content   .= '<strong>' . __( 'Post type archive to show in breadcrumbs for:', 'wordpress-seo' ) . '</strong><br/>';
+
 $taxonomies = get_taxonomies( array( 'public' => true, '_builtin' => false ), 'objects' );
 if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
+	$content .= '<strong>' . __( 'Post type archive to show in breadcrumbs for:', 'wordpress-seo' ) . '</strong><br/>';
 	foreach ( $taxonomies as $tax ) {
 		$values = array( 0 => __( 'None', 'wordpress-seo' ) );
 		if ( get_option( 'show_on_front' ) == 'page' )
@@ -64,7 +67,6 @@ if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
 }
 unset( $taxonomies, $post_types );
 
-$content .= $wpseo_admin_pages->checkbox( 'breadcrumbs-boldlast', __( 'Bold the last page in the breadcrumb', 'wordpress-seo' ) );
 
 $content .= '<br class="clear"/>';
 $content .= '<h4>' . __( 'How to insert breadcrumbs in your theme', 'wordpress-seo' ) . '</h4>';

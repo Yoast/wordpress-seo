@@ -22,14 +22,11 @@ function wpseo_flush_rules() {
  * Runs on activation of the plugin.
  */
 function wpseo_activate() {
-	wpseo_defaults();
+	WPSEO_Options::initialize();
 
 	wpseo_flush_rules();
 
 	WPSEO_Options::schedule_yoast_tracking( null, get_option( 'wpseo' ) );
-
-//	wpseo_title_test(); // is already run in wpseo_defaults
-//  wpseo_description_test(); // is already run in wpseo_defaults
 
 	// Clear cache so the changes are obvious.
 	WPSEO_Options::clear_cache();
@@ -38,88 +35,18 @@ function wpseo_activate() {
 }
 
 /**
- * Set the default settings.
- *
- * This uses the currently available custom post types and taxonomies.
- *
- * @todo - [JRF] check whether this is run from activation, if so, run maybe_upgrade() ?!
+ * On deactivation, flush the rewrite rules so XML sitemaps stop working.
  */
-function wpseo_defaults() {
-	$options = get_option( 'wpseo' );
-	if ( ! is_array( $options ) ) {
-		$opt = array(
-//			'disableadvanced_meta' => 'on',
-			'version'              => WPSEO_VERSION,
-		);
-		update_option( 'wpseo', $opt );
+function wpseo_deactivate() {
+	wpseo_flush_rules();
 
-		// Test theme on activate
-		wpseo_description_test();
-	}
-	else {
-		// Re-check theme on re-activate
-		wpseo_description_test();
-		return;
-	}
+	// Force unschedule
+	WPSEO_Options::schedule_yoast_tracking( null, get_option( 'wpseo' ), true );
 
-	if ( ! is_array( get_option( 'wpseo_titles' ) ) ) {
-/*		$opt = array(
-/*			'title-home-wpseo'          => '%%sitename%% %%page%% %%sep%% %%sitedesc%%',
-			'title-author-wpseo'        => sprintf( __( '%s, Author at %s', 'wordpress-seo' ), '%%name%%', '%%sitename%%' ) . ' %%page%% ',
-			'title-archive-wpseo'       => '%%date%% %%page%% %%sep%% %%sitename%%',
-			'title-search-wpseo'        => sprintf( __( 'You searched for %s', 'wordpress-seo' ), '%%searchphrase%%' ) . ' %%page%% %%sep%% %%sitename%%',
-			'title-404-wpseo'           => __( 'Page Not Found', 'wordpress-seo' ) . ' %%sep%% %%sitename%%',
+	// Clear cache so the changes are obvious.
+	WPSEO_Options::clear_cache();
 
-//			'noindex-archive-wpseo'     => 'on',
-//			'noindex-tax-post_format' => 'on',
-		);*/
-/*		foreach ( get_post_types( array( 'public' => true ), 'objects' ) as $pt ) {
-			$opt['title-' . $pt->name] = '%%title%% %%page%% %%sep%% %%sitename%%';
-			if ( $pt->has_archive )
-				$opt['title-ptarchive-' . $pt->name] = sprintf( __( '%s Archive', 'wordpress-seo' ), '%%pt_plural%%' ) . ' %%page%% %%sep%% %%sitename%%';
-		}
-		foreach ( get_taxonomies( array( 'public' => true ) ) as $tax ) {
-			$opt['title-tax-' . $tax] = sprintf( __( '%s Archives', 'wordpress-seo' ), '%%term_title%%' ) . ' %%page%% %%sep%% %%sitename%%';
-		}
-		update_option( 'wpseo_titles', $opt );
-*/
-		wpseo_title_test();
-	}
-
-/*	if ( ! is_array( get_option( 'wpseo_xml' ) ) ) {
-		$opt = array(
-			'enablexmlsitemap'                     => 'on',
-			'post_types-attachment-not_in_sitemap' => true
-		);
-		update_option( 'wpseo_xml', $opt );
-	}
-*/
-/*	if ( ! is_array( get_option( 'wpseo_social' ) ) ) {
-		$opt = array(
-			'opengraph' => 'on',
-		);
-		update_option( 'wpseo_social', $opt );
-	}
-*/
-/*	if ( ! is_array( get_option( 'wpseo_rss' ) ) ) {
-		$opt = array(
-			'rssafter' => sprintf( __( 'The post %s appeared first on %s.', 'wordpress-seo' ), '%%POSTLINK%%', '%%BLOGLINK%%' ),
-		);
-		update_option( 'wpseo_rss', $opt );
-	}
-*/
-/*	if ( ! is_array( get_option( 'wpseo_permalinks' ) ) ) {
-		$opt = array(
-			'cleanslugs' => 'on',
-		);
-		update_option( 'wpseo_permalinks', $opt );
-	}
-*/
-	// Force WooThemes to use WordPress SEO data.
-	if ( function_exists( 'woo_version_init' ) ) {
-		update_option( 'seo_woo_use_third_party_data', 'true' );
-	}
-
+	do_action( 'wpseo_deactivate' );
 }
 
 /**
@@ -184,15 +111,11 @@ function wpseo_description_test() {
 	$options = get_option( 'wpseo' );
 
 	// Reset any related options
-	$options['theme_has_description']   = WPSEO_Options::$defaults['wpseo']['theme_has_description'];
-	$options['theme_description_found'] = WPSEO_Options::$defaults['wpseo']['theme_description_found'];
-// @todo - [JRF/JRF => Yoast] check if this one still exists and is used ?
-/*	if ( isset( $options['meta_description_warning'] ) )
-		unset( $options['meta_description_warning'] );*/
-
+	$options['theme_has_description']   = WPSEO_Options::get_default( 'wpseo', 'theme_has_description' );
+	$options['theme_description_found'] = WPSEO_Options::get_default( 'wpseo', 'theme_description_found' );
 	/* @internal Should this be reset too ? Best to do so as test is done on re-activate and switch_theme
 	   as well and new warning would be warranted then. Only might give irritation on theme upgrade. */
-	$options['ignore_meta_description_warning'] = WPSEO_Options::$defaults['wpseo']['ignore_meta_description_warning'];
+	$options['ignore_meta_description_warning'] = WPSEO_Options::get_default( 'wpseo', 'ignore_meta_description_warning' );
 
 	$file = false;
 	if ( file_exists( get_stylesheet_directory() . '/header.php' ) ) {
@@ -248,7 +171,7 @@ else {
 
 /**
  * Check if the current theme was updated and if so, test the updated theme
- * for the meta description tag
+ * for the title and meta description tag
  *
  * @since	1.4.14
  *
@@ -284,10 +207,12 @@ function wpseo_upgrader_process_complete( $upgrader_object, $context_array, $the
 	if ( ( isset( $context_array['bulk'] ) && $context_array['bulk'] === true ) && ( is_array( $themes ) && count( $themes ) > 0 ) ) {
 
 		if ( in_array( $theme, $themes ) ) {
+			wpseo_title_test();
 			wpseo_description_test();
 		}
 	}
 	else if ( is_string( $themes ) && $themes === $theme ) {
+		wpseo_title_test();
 		wpseo_description_test();
 	}
 	return;
@@ -295,7 +220,7 @@ function wpseo_upgrader_process_complete( $upgrader_object, $context_array, $the
 
 /**
  * Abuse a filter to check if the current theme was updated and if so, test the updated theme
- * for the meta description tag
+ * for the title and meta description tag
  *
  * @since 1.4.14
  *
@@ -315,27 +240,15 @@ function wpseo_update_theme_complete_actions( $update_actions, $updated_theme ) 
 	if ( is_object( $updated_theme ) ) {
 		/* Bulk update and $updated_theme only contains info on which theme was last in the list
 		   of updated themes, so go & test */
+		wpseo_title_test();
 		wpseo_description_test();
 	}
 	else if ( $updated_theme === $theme ) {
 		/* Single theme update for the active theme */
+		wpseo_title_test();
 		wpseo_description_test();
 	}
 	return $update_actions;
-}
-
-/**
- * On deactivation, flush the rewrite rules so XML sitemaps stop working.
- */
-function wpseo_deactivate() {
-	wpseo_flush_rules();
-
-	WPSEO_Options::schedule_yoast_tracking( null, get_option( 'wpseo' ) );
-
-	// Clear cache so the changes are obvious.
-	WPSEO_Options::clear_cache();
-
-	do_action( 'wpseo_deactivate' );
 }
 
 /**
@@ -437,21 +350,26 @@ function wpseo_admin_bar_menu() {
 	if ( function_exists( 'is_multisite' ) && is_multisite() ) {
 		$options = get_site_option( 'wpseo_ms' );
 		if ( $options['access'] === 'superadmin' ) {
-			if ( is_super_admin() )
+			if ( is_super_admin() ) {
 				$admin_menu = true;
-			else
+			}
+			else {
 				$admin_menu = false;
+			}
 		}
 		else {
-			if ( current_user_can( 'manage_options' ) )
+			if ( current_user_can( 'manage_options' ) ) {
 				$admin_menu = true;
-			else
+			}
+			else {
 				$admin_menu = false;
+			}
 		}
 	}
 	else {
-		if ( current_user_can( 'manage_options' ) )
+		if ( current_user_can( 'manage_options' ) ) {
 			$admin_menu = true;
+		}
 	}
 
 	if ( $admin_menu ) {
@@ -505,3 +423,18 @@ function allow_custom_field_edits( $allcaps, $cap, $args ) {
 }
 
 add_filter( 'user_has_cap', 'allow_custom_field_edits', 0, 3 );
+
+
+/********************** DEPRECATED FUNCTIONS **********************/
+
+/**
+ * Set the default settings.
+ *
+ * @deprecated 1.5.0
+ * @deprecated use WPSEO_Options::initialize()
+ * @see WPSEO_Options::initialize()
+ */
+function wpseo_defaults() {
+	_deprecated_function( __FUNCTION__, 'WPSEO 1.5.0', 'WPSEO_Options::initialize()' );
+	WPSEO_Options::initialize();
+}

@@ -10,9 +10,17 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 }
 
 /*
-@todo Extensively test the export & import of the (new) settings!
-
+@todo [JRF => testers] Extensively test the export & import of the (new) settings!
 If that all works fine, getting testers to export before and after upgrade will make testing easier.
+
+@todo [JRF => Yoast] from the looks of it, the original code for the woo import would change the local
+$options variable, but most of the time these settings would not be saved... or am I missing something ?
+(This only applies to the options, the meta data was saved correctly.)
+
+@todo [JRF => Yoast] The import for the RSS Footer plugin checks for data already entered via WP SEO,
+the other import routines do not. Consistency seems appropriate. Also, you may want to add a warning to the
+Import page text about overwriting data already entered in WP SEO. (This only goes for options, not for meta
+data).
 */
 
 global $wpseo_admin_pages;
@@ -29,12 +37,12 @@ if ( isset( $_POST['import'] ) ) {
 	if ( isset( $_POST['wpseo']['deleteolddata'] ) && $_POST['wpseo']['deleteolddata'] == 'on' ) {
 		$replace = true;
 	}
+
 	if ( isset( $_POST['wpseo']['importwoo'] ) ) {
-		wpseo_defaults();
+		WPSEO_Options::initialize();
 
-		$sep = get_option( 'seo_woo_seperator' );
-
-		$options = WPSEO_Options::get_all();
+		$sep     = get_option( 'seo_woo_seperator' );
+		$options = get_option( 'wpseo_titles' );
 
 		switch ( get_option( 'seo_woo_home_layout' ) ) {
 			case 'a':
@@ -93,7 +101,7 @@ if ( isset( $_POST['import'] ) ) {
 			delete_option( 'seo_woo_page_layout' );
 		}
 
-		// @todo - [JRF => Yoast] should the default be the same default as wpseo default ? It currently isn't
+		// @todo - [JRF => Yoast] should the default be the same default as wpseo default ? It currently isn't,
 		$template = '%%term_title%% ' . $sep . ' %%page%% ' . $sep . ' %%sitename%%';
 		switch ( get_option( 'seo_woo_archive_layout' ) ) {
 			case 'a':
@@ -112,19 +120,18 @@ if ( isset( $_POST['import'] ) ) {
 				$template = '%%sitename%% ' . $sep . ' %%term_title%% ' . $sep . ' %%page%% ' . $sep . ' %%sitedesc%%';
 				break;
 		}
-		if ( $replace ) {
-			delete_option( 'seo_woo_archive_layout' );
-		}
-
 		$taxonomies = get_taxonomies( array( 'public' => true ), 'names' );
 		if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
 			foreach ( $taxonomies as $tax ) {
 				$options['title-tax-'.$tax] = $template;
 			}
 		}
-		unset( $taxonomies, $tax );
+		unset( $taxonomies, $tax, $template );
+		if ( $replace ) {
+			delete_option( 'seo_woo_archive_layout' );
+		}
 
-			// Import the custom homepage description
+		// Import the custom homepage description
 		if ( 'c' == get_option( 'seo_woo_meta_home_desc' ) ) {
 			$options['metadesc-home-wpseo'] = get_option( 'seo_woo_meta_home_desc_custom' );
 		}
@@ -160,8 +167,11 @@ if ( isset( $_POST['import'] ) ) {
 		WPSEO_Meta::replace_meta( 'seo_follow', WPSEO_Meta::$meta_prefix . 'meta-robots-nofollow', $replace );
 		WPSEO_Meta::replace_meta( 'seo_noindex', WPSEO_Meta::$meta_prefix . 'meta-robots-noindex', $replace );
 
+		update_option( 'wpseo_titles', $options );
 		$msg .= __( 'WooThemes SEO framework settings &amp; data successfully imported.', 'wordpress-seo' );
+		unset( $options, $sep );
 	}
+
 	if ( isset( $_POST['wpseo']['importheadspace'] ) ) {
 		WPSEO_Meta::replace_meta( '_headspace_description', WPSEO_Meta::$meta_prefix . 'metadesc', $replace );
 		WPSEO_Meta::replace_meta( '_headspace_keywords', WPSEO_Meta::$meta_prefix . 'metakeywords', $replace );
@@ -202,13 +212,15 @@ if ( isset( $_POST['import'] ) ) {
 		}
 		$msg .= __( 'HeadSpace2 data successfully imported', 'wordpress-seo' );
 	}
-	// @todo [JRF => whomever] how does this correlate with the routine on the import page ? isn't one superfluous ?
+
+	// @todo [JRF => whomever] how does this correlate with the routine on the dashboard page ? isn't one superfluous ?
 	if ( isset( $_POST['wpseo']['importaioseo'] ) ) {
 		WPSEO_Meta::replace_meta( '_aioseop_description', WPSEO_Meta::$meta_prefix . 'metadesc', $replace );
 		WPSEO_Meta::replace_meta( '_aioseop_keywords', WPSEO_Meta::$meta_prefix . 'metakeywords', $replace );
 		WPSEO_Meta::replace_meta( '_aioseop_title', WPSEO_Meta::$meta_prefix . 'title', $replace );
 		$msg .= __( 'All in One SEO data successfully imported.', 'wordpress-seo' );
 	}
+
 	if ( isset( $_POST['wpseo']['importaioseoold'] ) ) {
 		WPSEO_Meta::replace_meta( 'description', WPSEO_Meta::$meta_prefix . 'metadesc', $replace );
 		WPSEO_Meta::replace_meta( 'keywords', WPSEO_Meta::$meta_prefix . 'metakeywords', $replace );
@@ -246,22 +258,26 @@ if ( isset( $_POST['import'] ) ) {
 		unset( $posts, $post, $pieces, $meta );
 		$msg .= __( 'Robots Meta values imported.', 'wordpress-seo' );
 	}
+
 	if ( isset( $_POST['wpseo']['importrssfooter'] ) ) {
 		$optold = get_option( 'RSSFooterOptions' );
 		$optnew = get_option( 'wpseo_rss' );
 		if ( $optold['position'] == 'after' ) {
-			if ( empty( $optnew['rssafter'] ) ) {
+			if ( $optnew['rssafter'] === '' || $optnew['rssafter'] === WPSEO_Options::get_default( 'wpseo_rss', 'rssafter' ) ) {
 				$optnew['rssafter'] = $optold['footerstring'];
 			}
 		}
 		else {
-			if ( empty( $optnew['rssbefore'] ) ) {
+			/* @internal Uncomment the second part if a default would be given to the rssbefore value */
+			if ( $optnew['rssbefore'] === '' /*|| $optnew['rssbefore'] === WPSEO_Options::get_default( 'wpseo_rss', 'rssbefore' )*/ ) {
 				$optnew['rssbefore'] = $optold['footerstring'];
 			}
 		}
 		update_option( 'wpseo_rss', $optnew );
+		unset( $optold, $optnew );
 		$msg .= __( 'RSS Footer options imported successfully.', 'wordpress-seo' );
 	}
+
 	if ( isset( $_POST['wpseo']['importbreadcrumbs'] ) ) {
 		$optold = get_option( 'yoast_breadcrumbs' );
 		$optnew = get_option( 'wpseo_internallinks' );
@@ -269,18 +285,20 @@ if ( isset( $_POST['import'] ) ) {
 		if ( is_array( $optold ) && $optold !== array() ) {
 			foreach ( $optold as $opt => $val ) {
 				if ( is_bool( $val ) && $val == true ) {
-					$optnew['breadcrumbs-' . $opt] = 'on';
+					$optnew['breadcrumbs-' . $opt] = true;
 				}
 				else {
 					$optnew['breadcrumbs-' . $opt] = $val;
 				}
 			}
+			unset( $opt, $val );
 			update_option( 'wpseo_internallinks', $optnew );
 			$msg .= __( 'Yoast Breadcrumbs options imported successfully.', 'wordpress-seo' );
 		}
 		else {
 			$msg .= __( 'Yoast Breadcrumbs options could not be found', 'wordpress-seo' );
 		}
+		unset( $optold, $optnew );
 	}
 	if ( $replace ) {
 		$msg .= __( ', and old data deleted.', 'wordpress-seo' );

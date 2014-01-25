@@ -288,9 +288,10 @@ if ( ! class_exists( 'WPSEO_Pointers' ) ) {
 		 * @deprecated 1.5.0, now handled by css
 		 */
 		function admin_head() {
-			_deprecated_function( __FUNCTION__, 'WPSEO 1.5.0' );
+			_deprecated_function( __CLASS__ . '::' . __METHOD__, 'WPSEO 1.5.0' );
 			return;
 		}
 
 	} /* End of class */
+
 } /* End of class-exists wrapper */

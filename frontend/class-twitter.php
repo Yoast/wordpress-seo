@@ -63,8 +63,7 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 
 			// No need to show these when OpenGraph is also showing, as it'd be the same contents and Twitter
 			// would fallback to OpenGraph anyway.
-			$options = WPSEO_Options::get_all();
-			if ( $options['opengraph'] === false ) {
+			if ( $this->options['opengraph'] === false ) {
 				$this->image();
 				$this->twitter_description();
 				$this->twitter_title();
@@ -81,8 +80,9 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 		 */
 		public function type() {
 			$type = apply_filters( 'wpseo_twitter_card_type', 'summary' );
-			if ( ! in_array( $type, array( 'summary', 'summary_large_image', 'photo', 'gallery', 'app', 'player', 'product' ) ) )
+			if ( ! in_array( $type, array( 'summary', 'summary_large_image', 'photo', 'gallery', 'app', 'player', 'product' ) ) ) {
 				$type = 'summary';
+			}
 
 			echo '<meta name="twitter:card" content="' . esc_attr( $type ) . '"/>' . "\n";
 		}
@@ -92,8 +92,9 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 		 */
 		public function site_twitter() {
 			$site = apply_filters( 'wpseo_twitter_site', $this->options['twitter_site'] );
-			if ( is_string( $site ) && $site !== '' )
+			if ( is_string( $site ) && $site !== '' ) {
 				echo '<meta name="twitter:site" content="@' . esc_attr( $site ) . '"/>' . "\n";
+			}
 		}
 
 		/**
@@ -101,8 +102,9 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 		 */
 		public function site_domain() {
 			$domain = apply_filters( 'wpseo_twitter_domain', get_bloginfo( 'name' ) );
-			if ( is_string( $domain ) && $domain !== '' )
+			if ( is_string( $domain ) && $domain !== '' ) {
 				echo '<meta name="twitter:domain" content="' . esc_attr( $domain ) . '"/>' . "\n";
+			}
 		}
 
 		/**
@@ -112,13 +114,14 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 			$twitter = ltrim( trim( get_the_author_meta( 'twitter' ) ), '@' );
 			$twitter = apply_filters( 'wpseo_twitter_creator_account', $twitter );
 
-			if ( $twitter && ( is_string( $twitter ) && $twitter !== '' ) )
+			if ( is_string( $twitter ) && $twitter !== '' ) {
 				echo '<meta name="twitter:creator" content="@' . esc_attr( $twitter ) . '"/>' . "\n";
-
+			}
 			else if ( $this->options['twitter_site'] !== '' ) {
 				$twitter = apply_filters( 'wpseo_twitter_creator_account', $this->options['twitter_site'] );
-				if ( is_string( $twitter ) && $twitter !== '' )
+				if ( is_string( $twitter ) && $twitter !== '' ) {
 					echo '<meta name="twitter:creator" content="@' . esc_attr( $twitter ) . '"/>' . "\n";
+				}
 			}
 		}
 
@@ -144,11 +147,8 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 			if ( empty( $metadesc ) ) {
 				$metadesc = false;
 			}
-			if ( $metadesc && $this->options['opengraph'] === true ) {
-				// Already output the same description in opengraph, no need to repeat.
-				return;
-			}
-			else if ( ! $metadesc ) {
+
+			if ( ! $metadesc ) {
 				$metadesc = strip_tags( get_the_excerpt() );
 			}
 
@@ -194,7 +194,7 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 					}
 				}
 
-				if ( function_exists( 'has_post_thumbnail' ) && has_post_thumbnail( $post->ID ) ) {
+				if ( has_post_thumbnail( $post->ID ) ) {
 					$featured_img = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), apply_filters( 'wpseo_opengraph_image_size', 'medium' ) );
 
 					if ( $featured_img ) {
