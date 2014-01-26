@@ -143,6 +143,7 @@ This version also incorporates the [SEO Extended](http://wordpress.org/plugins/s
 	* Admin -> Multi-site -> Added error message when user tries to restore to defaults a non-existent blog (only applies to multi-site installations).
 
 	* Bow out early from displaying the post/taxonomy metabox if the post/taxonomy is not public (no use adding meta data which will never be displayed).
+	* Prevent the SEO score filter from displaying on a post type overview page if the metabox has been hidden for the post type as suggested by [coreyworrell](https://github.com/coreyworrell) in issue [#601](https://github.com/Yoast/wordpress-seo/issues/601).
 
 	* Fixed: post meta -> SEO score indicator -> wpseo_translate_score() would never return score, but always the css value.
 	* Fixed: post meta -> SEO score indicator -> wpseo_translate_score() calls were passing unintended wrong parameters

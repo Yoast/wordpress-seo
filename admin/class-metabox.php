@@ -157,14 +157,15 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 						if ( isset( $options['hideeditbox-' . $pt] ) && $options['hideeditbox-' . $pt] === true ) {
 							continue;
 						}
+
 						add_filter( 'manage_' . $pt . '_posts_columns', array( $this, 'column_heading' ), 10, 1 );
 						add_action( 'manage_' . $pt . '_posts_custom_column', array( $this, 'column_content' ), 10, 2 );
 						add_action( 'manage_edit-' . $pt . '_sortable_columns', array( $this, 'column_sort' ), 10, 2 );
+						add_action( 'restrict_manage_posts', array( $this, 'posts_filter_dropdown' ) );
 					}
 				}
 				add_filter( 'request', array( $this, 'column_sort_orderby' ) );
 
-				add_action( 'restrict_manage_posts', array( $this, 'posts_filter_dropdown' ) );
 				add_action( 'post_submitbox_misc_actions', array( $this, 'publish_box' ) );
 			}
 		}
