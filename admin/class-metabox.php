@@ -122,25 +122,43 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 
 
 		/**
-		 * Test whether we are on a public post type - no metabox actions needed if we are not
-		 * Unfortunately we have to hook most everything in before the point where all post types are registered and
-		 * we know which post type is being requested, so we need to use this check in nearly every hooked in function.
-		 *
-		 * Still problematic functions based on tests (i.e. pt_is_public() does not yet return the right info):
+		 * @todo [JRF => whomever] check if the below comment is still valid
+		 * Still problematic functions based on tests (i.e. is_metabox_hidden() does not yet return the right info):
 		 * setup_page_analysis() -> solved by doing this for the hooked in methods instead
 		 * column_sort_orderby()
 		 * save_postdata() (at least for new posts /autosave)
+		 */
+		/**
+		 * Test whether the metabox should be hidden either by choice of the admin or because
+		 * the post type is not a public post type
 		 *
 		 * @since 1.5.0
+		 *
+		 * @param	string	$post_type	(optional) The post type to test, defaults to the current post post_type
+		 * @return	bool				Whether or not the meta box (and associated columns etc) should be hidden
 		 */
-		function pt_is_public() {
-			global $post;
+		function is_metabox_hidden( $post_type = null ) {
+			if( ! isset( $post_type ) ) {
+				if( isset( $GLOBALS['post'] ) && ( is_object( $GLOBALS['post'] ) && isset( $GLOBALS['post']->post_type ) ) ) {
+					$post_type = $GLOBALS['post']->post_type;
+				}
+				else if( isset( $_GET['post_type'] ) && $_GET['post_type'] !== '' ) {
+					$post_type = sanitize_text_field( $_GET['post_type'] );
+				}
+			}
 
-			// Don't make static as post_types may still be added during the run
-			$cpts = get_post_types( array( 'public' => true ), 'names' );
-
-			return ( is_object( $post ) && in_array( $post->post_type, $cpts ) );
+			if( isset( $post_type ) ) {
+				// Don't make static as post_types may still be added during the run
+				$cpts    = get_post_types( array( 'public' => true ), 'names' );
+				$options = get_option( 'wpseo_titles' );
+	
+				return ( ( isset( $options['hideeditbox-' . $post_type] ) && $options['hideeditbox-' . $post_type] === true ) || in_array( $post_type, $cpts ) === false );
+			}
+			else {
+				return false;
+			}
 		}
+
 
 		/**
 		 * Sets up all the functionality related to the prominence of the page analysis functionality.
@@ -149,21 +167,18 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 
 			if ( apply_filters( 'wpseo_use_page_analysis', true ) === true ) {
 
-				$options    = WPSEO_Options::get_all();
 				$post_types = get_post_types( array( 'public' => true ), 'names' );
 
 				if ( is_array( $post_types ) && $post_types !== array() ) {
 					foreach ( $post_types as $pt ) {
-						if ( isset( $options['hideeditbox-' . $pt] ) && $options['hideeditbox-' . $pt] === true ) {
-							continue;
+						if ( $this->is_metabox_hidden( $pt ) === false ) {
+							add_filter( 'manage_' . $pt . '_posts_columns', array( $this, 'column_heading' ), 10, 1 );
+							add_action( 'manage_' . $pt . '_posts_custom_column', array( $this, 'column_content' ), 10, 2 );
+							add_action( 'manage_edit-' . $pt . '_sortable_columns', array( $this, 'column_sort' ), 10, 2 );
 						}
-
-						add_filter( 'manage_' . $pt . '_posts_columns', array( $this, 'column_heading' ), 10, 1 );
-						add_action( 'manage_' . $pt . '_posts_custom_column', array( $this, 'column_content' ), 10, 2 );
-						add_action( 'manage_edit-' . $pt . '_sortable_columns', array( $this, 'column_sort' ), 10, 2 );
-						add_action( 'restrict_manage_posts', array( $this, 'posts_filter_dropdown' ) );
 					}
 				}
+				add_action( 'restrict_manage_posts', array( $this, 'posts_filter_dropdown' ) );
 				add_filter( 'request', array( $this, 'column_sort_orderby' ) );
 
 				add_action( 'post_submitbox_misc_actions', array( $this, 'publish_box' ) );
@@ -219,7 +234,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		 *
 		 */
 		public function publish_box() {
-			if ( $this->pt_is_public() === false ) {
+			if ( $this->is_metabox_hidden() === true ) {
 				return;
 			}
 
@@ -270,23 +285,18 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			echo '</div>';
 		}
 
+
 		/**
 		 * Adds the WordPress SEO meta box to the edit boxes in the edit post / page  / cpt pages.
 		 */
 		public function add_meta_box() {
-			if ( $this->pt_is_public() === false ) {
-				return;
-			}
-
-			$options    = WPSEO_Options::get_all();
 			$post_types = get_post_types( array( 'public' => true ) );
 
 			if ( is_array( $post_types ) && $post_types !== array() ) {
-				foreach ( $post_types as $posttype ) {
-					if ( isset( $options['hideeditbox-' . $posttype] ) && $options['hideeditbox-' . $posttype] === true ) {
-						continue;
+				foreach ( $post_types as $post_type ) {
+					if ( $this->is_metabox_hidden( $post_type ) === false ) {
+						add_meta_box( 'wpseo_meta', __( 'WordPress SEO by Yoast', 'wordpress-seo' ), array( $this, 'meta_box' ), $post_type, 'normal', apply_filters( 'wpseo_metabox_prio', 'high' ) );
 					}
-					add_meta_box( 'wpseo_meta', __( 'WordPress SEO by Yoast', 'wordpress-seo' ), array( $this, 'meta_box' ), $posttype, 'normal', apply_filters( 'wpseo_metabox_prio', 'high' ) );
 				}
 			}
 		}
@@ -298,10 +308,6 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		 * @return	array
 		 */
 		public function localize_script() {
-			if ( $this->pt_is_public() === false ) {
-				return array();
-			}
-
 			if ( isset( $_GET['post'] ) ) {
 				$post_id = (int) WPSEO_Option::validate_int( $_GET['post'] );
 				$post    = get_post( $post_id );
@@ -310,10 +316,11 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 				global $post;
 			}
 
-			if ( ! is_object( $post ) )
+			if ( ( ! is_object( $post ) || ! isset( $post->post_type ) ) || $this->is_metabox_hidden( $post->post_type ) === true ) {
 				return array();
+			}
 
-			$options = WPSEO_Options::get_all();
+			$options = get_option( 'wpseo_titles' );
 
 			$date = '';
 			if ( isset( $options['showdate-' . $post->post_type] ) && $options['showdate-' . $post->post_type] === true ) {
@@ -757,14 +764,10 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		 * @todo [JRF => whomever] create css/metabox-mp6.css file and add it to the below allowed colors array when done
 		 */
 		public function enqueue() {
-			if ( $this->pt_is_public() === false ) {
+			global $pagenow;
+			if ( ! in_array( $pagenow, array( 'post-new.php', 'post.php', 'edit.php' ), true ) || $this->is_metabox_hidden() === true ) {
 				return;
 			}
-
-			global $pagenow;
-
-			if ( ! in_array( $pagenow, array( 'post-new.php', 'post.php', 'edit.php' ), true ) )
-				return;
 
 
 			$color = get_user_meta( get_current_user_id(), 'admin_color', true );
@@ -796,12 +799,8 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		 * @return bool
 		 */
 		function posts_filter_dropdown() {
-			if ( $this->pt_is_public() === false ) {
-				return;
-			}
-
 			global $pagenow;
-			if ( $pagenow == 'upload.php' ) {
+			if ( $pagenow === 'upload.php' || $this->is_metabox_hidden() === true ) {
 				return;
 			}
 
@@ -835,7 +834,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		 * @return array
 		 */
 		function column_heading( $columns ) {
-			if ( $this->pt_is_public() === false ) {
+			if ( $this->is_metabox_hidden() === true ) {
 				return $columns;
 			}
 
@@ -850,7 +849,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		 * @param int    $post_id     Post to display the column content for.
 		 */
 		function column_content( $column_name, $post_id ) {
-			if ( $this->pt_is_public() === false ) {
+			if ( $this->is_metabox_hidden() === true ) {
 				return;
 			}
 
@@ -903,7 +902,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		 * @return array
 		 */
 		function column_sort( $columns ) {
-			if ( $this->pt_is_public() === false ) {
+			if ( $this->is_metabox_hidden() === true ) {
 				return $columns;
 			}
 
