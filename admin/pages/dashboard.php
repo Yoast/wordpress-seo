@@ -144,8 +144,8 @@ echo '<label class="select">' . __( 'Default Settings:', 'wordpress-seo' ) . '</
 echo '<p class="desc label">' . __( 'If you want to restore a site to the default WordPress SEO settings, press this button.', 'wordpress-seo' ) . '</p>';
 
 echo '<h2>' . __( 'Tracking', 'wordpress-seo' ) . '</h2>';
-echo $wpseo_admin_pages->checkbox( 'yoast_tracking', __( 'Allow tracking of this WordPress installs anonymous data.', 'wordpress-seo' ) );
-echo '<p class="desc">' . __( "To maintain a plugin as big as WordPress SEO, we need to know what we're dealing: what kinds of other plugins our users are using, what themes, etc. Please allow us to track that data from your install. It will not track <em>any</em> user details, so your security and privacy are safe with us.", 'wordpress-seo' ) . '</p>';
+echo $wpseo_admin_pages->checkbox( 'yoast_tracking', __( 'Allow tracking of this WordPress install\'s anonymous data.', 'wordpress-seo' ) );
+echo '<p class="desc">' . __( "To maintain a plugin as big as WordPress SEO, we need to know what we're dealing with: what kinds of other plugins our users are using, what themes, etc. Please allow us to track that data from your install. It will not track <em>any</em> user details, so your security and privacy are safe with us.", 'wordpress-seo' ) . '</p>';
 
 echo '<h2>' . __( 'Security', 'wordpress-seo' ) . '</h2>';
 echo $wpseo_admin_pages->checkbox( 'disableadvanced_meta', __( 'Disable the Advanced part of the WordPress SEO meta box', 'wordpress-seo' ) );
