@@ -15,7 +15,7 @@ function ptest(str, p) {
 	str = yst_clean(str);
 	str = str.toLowerCase();
 	var r = str.match(p);
-	if ('undefined' !== typeof( r ) )
+	if ( r != null )
 		return '<span class="good">Yes (' + r.length + ')</span>';
 	else
 		return '<span class="wrong">No</span>';
@@ -323,6 +323,7 @@ jQuery(document).ready(function () {
 				if (xhr === lastXhr) {
 					response(data);
 				}
+				return;
 			});
 		}
 	});
