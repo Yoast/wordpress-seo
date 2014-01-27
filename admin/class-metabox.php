@@ -1152,7 +1152,8 @@ class WPSEO_Metabox {
 		$dom->preserveWhiteSpace  = false;
 		
 		$html = apply_filters( 'wpseo_pre_analysis_post_content', $post->post_content, $post );
-		@$dom->loadHTML( $html );
+		if ( !empty( $html ) )
+			@$dom->loadHTML( $html );
 		
 		$xpath = new DOMXPath( $dom );
 
