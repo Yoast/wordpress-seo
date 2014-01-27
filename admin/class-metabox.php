@@ -1151,10 +1151,12 @@ class WPSEO_Metabox {
 		$dom->strictErrorChecking = false;
 		$dom->preserveWhiteSpace  = false;
 		
-		$html = apply_filters( 'wpseo_pre_analysis_post_content', $post->post_content, $post );
-		if ( !empty( $html ) )
-			@$dom->loadHTML( $html );
-		
+		$post_content = apply_filters( 'wpseo_pre_analysis_post_content', $post->post_content, $post );
+		if ( !empty( $post_content ) )
+			@$dom->loadHTML( $post_content );
+
+		unset( $post_content );
+
 		$xpath = new DOMXPath( $dom );
 
 		global $statistics;
