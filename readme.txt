@@ -124,6 +124,7 @@ This version also incorporates the [SEO Extended](http://wordpress.org/plugins/s
 	* Fixed: Renamed a number of options as they ran the risk of being overwritten by post type/taxonomy options which could get the same name. This may fix some issues where options did not seem to get saved correctly.
 
 	* Fixed: if page specific keywords were set for a static homepage, they would never be shown.
+	* Fixed: if only one FB admin was selected, the tag would not be added.
 	* Fixed: bug where taxonomies which were on an individual level set to noindex and sitemap include 'auto-detect' would still be shown in the sitemap
 	* Fixed: bug in canonical urls where an essential part of the logic was skipped for singular posts/pages
 	* Fixed: category rewrite rules could have errors for categories without parent categories.
