@@ -63,9 +63,8 @@ if ( version_compare( PHP_VERSION, '5.2', '<' ) ) {
 	}
 }
 
-if ( ! defined( 'WPSEO_VERSION' ) ) {
-	define( 'WPSEO_VERSION', '1.4.24' );
-}
+// WordPress SEO version
+define( 'WPSEO_VERSION', '1.4.24' );
 
 function wpseo_init() {
 	require_once( WPSEO_PATH . 'inc/wpseo-functions.php' );
