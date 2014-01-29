@@ -156,7 +156,7 @@ if ( ! class_exists( 'WPSEO_Pointers' ) ) {
 					'function' => 'window.location="' . admin_url( 'admin.php?page=wpseo_bulk-description-editor' ) . '";',
 				),
 				'wpseo_bulk-description-editor' => array(
-					'content' => '<h3>' . __( 'Bulk Description Editor', 'wordpress-seo' ) . '</h3><p>' . __( 'This page lets you view and edit the meta descriptions of all posts and pages on your site. Just like the Bulk Title Editor, this allows you to edit the meta description of all your pages in one place, rather than have to edit each individual page.', 'wordpress-seo' ) . '</p>'
+					'content' => '<h3>' . __( 'Bulk Description Editor', 'wordpress-seo' ) . '</h3><p>' . __( 'This page lets you view and edit the meta descriptions of all posts and pages on your site. Just like the Bulk Title Editor, this allows you to edit the meta description of all your pages in one place, rather than having to edit each individual page.', 'wordpress-seo' ) . '</p>'
 							. '<p>' . sprintf( __( 'The tour ends here, thank you for using my plugin and good luck with your SEO!<br/><br/>Best,<br/>Joost de Valk - %1$sYoast.com%2$s', 'wordpress-seo' ), '<a target="_blank" href="' . esc_url( 'http://yoast.com/#utm_source=wpadmin&utm_medium=wpseo_tour&utm_term=link&utm_campaign=wpseoplugin' ) . '">', '</a>' ) . '</p>'
 				),
 			);

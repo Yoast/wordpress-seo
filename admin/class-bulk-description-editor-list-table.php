@@ -51,18 +51,19 @@ if ( ! class_exists( 'WPSEO_Bulk_Description_List_Table' ) ) {
 			$this->all_posts = array();
 			$this->own_posts = array();
 
-			foreach ( $post_types as $post_type ) {
+			if ( is_array( $post_types ) && $post_types !== array() ) {
+				foreach ( $post_types as $post_type ) {
+					if ( ! current_user_can( $post_type->cap->edit_posts ) ) {
+						continue;
+					}
 
-				if ( ! current_user_can( $post_type->cap->edit_posts ) ) {
-					continue;
+					if ( current_user_can( $post_type->cap->edit_others_posts ) ) {
+						$this->all_posts[] = esc_sql( $post_type->name );
+					}
+					else {
+						$this->own_posts[] = esc_sql( $post_type->name );
+					}
 				}
-
-				if ( current_user_can( $post_type->cap->edit_others_posts ) ) {
-					$this->all_posts[] = esc_sql( $post_type->name );
-				} else {
-					$this->own_posts[] = esc_sql( $post_type->name );
-				}
-
 			}
 		}
 
@@ -77,8 +78,8 @@ if ( ! class_exists( 'WPSEO_Bulk_Description_List_Table' ) ) {
 				<?php if ( 'top' === $which ) { ?>
 				<form id="posts-filter" action="" method="get">
 					<input type="hidden" name="page" value="wpseo_bulk-description-editor" />
-					<?php if ( ! empty( $_GET['post_status'] ) ) {?>
-						<input type="hidden" name="post_status" value="<?php echo esc_attr( $_GET['post_status'] ); ?>" />
+					<?php if ( ! empty( sanitize_text_field( $_GET['post_status'] ) ) ) {?>
+						<input type="hidden" name="post_status" value="<?php echo esc_attr( sanitize_text_field( $_GET['post_status'] ) ); ?>" />
 					<?php } ?>
 				<?php } ?>
 
@@ -140,13 +141,15 @@ if ( ! class_exists( 'WPSEO_Bulk_Description_List_Table' ) ) {
 			$subquery        = $this->get_base_subquery();
 			$current_user_id = get_current_user_id();
 
-			$total_posts = $wpdb->get_var( $wpdb->prepare(
-				"
-					SELECT COUNT(*) FROM {$subquery}
-					WHERE post_status IN ({$all_states})
-				",
-				$current_user_id
-			) );
+			$total_posts = $wpdb->get_var(
+				$wpdb->prepare(
+					"
+						SELECT COUNT(*) FROM {$subquery}
+						WHERE post_status IN ({$all_states})
+					",
+					$current_user_id
+				)
+			);
 
 
 			$class               = empty( $_GET['post_status'] ) ? ' class="current"' : '';
@@ -158,14 +161,16 @@ if ( ! class_exists( 'WPSEO_Bulk_Description_List_Table' ) ) {
 
 					$status_name = esc_sql( $status->name );
 
-					$total = $wpdb->get_var( $wpdb->prepare(
-						"
-							SELECT COUNT(*) FROM {$subquery}
-							WHERE post_status = %s
-						",
-						$current_user_id,
-						$status_name
-					) );
+					$total = $wpdb->get_var(
+						$wpdb->prepare(
+							"
+								SELECT COUNT(*) FROM {$subquery}
+								WHERE post_status = %s
+							",
+							$current_user_id,
+							$status_name
+						)
+					);
 
 					if ( $total == 0 ) {
 						continue;
@@ -182,13 +187,15 @@ if ( ! class_exists( 'WPSEO_Bulk_Description_List_Table' ) ) {
 			}
 			unset( $post_stati, $status, $status_name, $total, $class );
 
-			$trashed_posts = $wpdb->get_var( $wpdb->prepare(
-				"
-					SELECT COUNT(*) FROM {$subquery}
-					WHERE post_status IN ('trash')
-				",
-				$current_user_id
-			) );
+			$trashed_posts = $wpdb->get_var(
+				$wpdb->prepare(
+					"
+						SELECT COUNT(*) FROM {$subquery}
+						WHERE post_status IN ('trash')
+					",
+					$current_user_id
+				)
+			);
 
 			$class                 = ( isset( $_GET['post_status'] ) && 'trash' == $_GET['post_status'] ) ? 'class="current"' : '';
 			$status_links['trash'] = '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_bulk-description-editor&post_status=trash' ) ) . '"' . $class . '>' . sprintf( _nx( 'Trash <span class="count">(%s)</span>', 'Trash <span class="count">(%s)</span>', $trashed_posts, 'posts' ), number_format_i18n( $trashed_posts ) ) . '</a>';
@@ -221,22 +228,26 @@ if ( ! class_exists( 'WPSEO_Bulk_Description_List_Table' ) ) {
 					$subquery        = $this->get_base_subquery();
 					$current_user_id = get_current_user_id();
 
-					$post_types = $wpdb->get_results( $wpdb->prepare(
-						"
-							SELECT DISTINCT post_type FROM {$subquery}
-							WHERE post_status IN ({$all_states})
-							ORDER BY 'post_type' ASC
-						",
-						$current_user_id
-					) );
+					$post_types = $wpdb->get_results(
+						$wpdb->prepare(
+							"
+								SELECT DISTINCT post_type FROM {$subquery}
+								WHERE post_status IN ({$all_states})
+								ORDER BY 'post_type' ASC
+							",
+							$current_user_id
+						)
+					);
 
-					$selected = ! empty( $_GET['post_type_filter'] ) ? $_GET['post_type_filter'] : -1;
+					$selected = ! empty( $_GET['post_type_filter'] ) ? sanitize_text_field( $_GET['post_type_filter'] ) : -1;
 
 					$options = '<option value="-1">Show All Post Types</option>';
 
-					foreach ( $post_types as $post_type ) {
-						$obj      = get_post_type_object( $post_type->post_type );
-						$options .= sprintf( '<option value="%2$s" %3$s>%1$s</option>', $obj->labels->name, $post_type->post_type, selected( $selected, $post_type->post_type, false ) );
+					if ( is_array( $post_types ) && $post_types !== array() ) {
+						foreach ( $post_types as $post_type ) {
+							$obj      = get_post_type_object( $post_type->post_type );
+							$options .= sprintf( '<option value="%2$s" %3$s>%1$s</option>', $obj->labels->name, $post_type->post_type, selected( $selected, $post_type->post_type, false ) );
+						}
 					}
 
 					echo sprintf( '<select name="post_type_filter">%1$s</select>' , $options );
@@ -286,32 +297,32 @@ if ( ! class_exists( 'WPSEO_Bulk_Description_List_Table' ) ) {
 			$post_types       = null;
 			$post_type_clause = '';
 
-			if ( ! empty( $_GET['post_type_filter'] ) && get_post_type_object( $_GET['post_type_filter'] ) ) {
-				$post_types       = esc_sql( $_GET['post_type_filter'] );
+			if ( ! empty( $_GET['post_type_filter'] ) && get_post_type_object( sanitize_text_field( $_GET['post_type_filter'] ) ) ) {
+				$post_types       = esc_sql( sanitize_text_field( $_GET['post_type_filter'] ) );
 				$post_type_clause = "AND post_type IN ('{$post_types}')";
 			}
 
 			//	Order By block
 
-			$orderby = ! empty( $_GET['orderby'] ) ? esc_sql( $_GET['orderby'] ) : 'post_title';
+			$orderby = ! empty( $_GET['orderby'] ) ? esc_sql( sanitize_text_field( $_GET['orderby'] ) ) : 'post_title';
 			$order   = 'ASC';
 
-			if( ! empty( $_GET['order'] ) ) {
-				$order = esc_sql( strtoupper( $_GET['order'] ) );
+			if ( ! empty( $_GET['order'] ) ) {
+				$order = esc_sql( strtoupper( sanitize_text_field( $_GET['order'] ) ) );
 			}
 
 			$states          = get_post_stati( array( 'show_in_admin_all_list' => true ) );
 			$states['trash'] = 'trash';
 
 			if ( ! empty( $_GET['post_status'] ) ) {
-				$requested_state = $_GET['post_status'];
+				$requested_state = sanitize_text_field( $_GET['post_status'] );
 				if ( in_array( $requested_state, $states ) ) {
 					$states = array( $requested_state );
 				}
 			}
 
-			$states          = esc_sql( $states );
-			$all_states      = "'" . implode( "', '", $states ) . "'";
+			$states     = esc_sql( $states );
+			$all_states = "'" . implode( "', '", $states ) . "'";
 
 			$subquery        = $this->get_base_subquery();
 			$current_user_id = get_current_user_id();
@@ -328,17 +339,19 @@ if ( ! class_exists( 'WPSEO_Bulk_Description_List_Table' ) ) {
 				ORDER BY {$orderby} {$order}
 			";
 
-			$total_items = $wpdb->query( $wpdb->prepare(
-				$query,
-				$current_user_id,
-				WPSEO_Meta::$meta_prefix . 'metadesc'
-			) );
+			$total_items = $wpdb->query(
+				$wpdb->prepare(
+					$query,
+					$current_user_id,
+					WPSEO_Meta::$meta_prefix . 'metadesc'
+				)
+			);
 
 			$query .= ' LIMIT %d,%d';
 
 			$per_page = $this->get_items_per_page( 'wpseo_posts_per_page', 10 );
 
-			$paged = ! empty( $_GET['paged'] ) ? esc_sql( $_GET['paged'] ) : '';
+			$paged = ! empty( $_GET['paged'] ) ? esc_sql( sanitize_text_field( $_GET['paged'] ) ) : '';
 
 			if ( empty( $paged ) || ! is_numeric( $paged ) || $paged <= 0 ) {
 				$paged = 1;
@@ -361,13 +374,15 @@ if ( ! class_exists( 'WPSEO_Bulk_Description_List_Table' ) ) {
 			$sortable              = $this->get_sortable_columns();
 			$this->_column_headers = array( $columns, $hidden, $sortable );
 
-			$this->items = $wpdb->get_results( $wpdb->prepare(
-				$query,
-				$current_user_id,
-				WPSEO_Meta::$meta_prefix . 'metadesc',
-				$offset,
-				$per_page
-			) );
+			$this->items = $wpdb->get_results(
+				$wpdb->prepare(
+					$query,
+					$current_user_id,
+					WPSEO_Meta::$meta_prefix . 'metadesc',
+					$offset,
+					$per_page
+				)
+			);
 
 		}
 
@@ -423,7 +438,7 @@ if ( ! class_exists( 'WPSEO_Bulk_Description_List_Table' ) ) {
 							case 'col_page_slug':
 								$permalink    = get_permalink( $rec->ID );
 								$display_slug = str_replace( get_bloginfo( 'url' ), '', $permalink );
-								echo sprintf( '<td %2$s><a href="%3$s" target="_blank">%1$s</a></td>', stripslashes( $display_slug ), $attributes, $permalink );
+								echo sprintf( '<td %2$s><a href="%3$s" target="_blank">%1$s</a></td>', stripslashes( $display_slug ), $attributes, esc_url( $permalink ) );
 								break;
 
 							case 'col_post_type':
