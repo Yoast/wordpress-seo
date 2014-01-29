@@ -108,11 +108,6 @@ function wpseo_get_suggest() {
 
 add_action( 'wp_ajax_wpseo_get_suggest', 'wpseo_get_suggest' );
 
-
-/**
- * @todo: [JRF => Faison] IMPORTANT! add capacity check for the below ajax methods, something along the lines of user_can_edit_post()
- */
-
 /**
  * Save an individual SEO title from the Bulk Editor.
  */
@@ -147,15 +142,54 @@ function wpseo_upsert_new_title( $post_id, $new_title, $original_title ) {
  */
 function wpseo_upsert_meta( $post_id, $new_meta_value, $orig_meta_value, $meta_key, $return_key ) {
 
-	$res = update_post_meta( $post_id, $meta_key, $new_meta_value );
-
-	return array(
-		'status'                 => ( ( $res !== false ) ? 'success' : 'failure'),
+	$upsert_results = array(
+		'status'                 => 'success',
 		'post_id'                => $post_id,
 		"new_{$return_key}"      => $new_meta_value,
-		"original_{$return_key}" => $orig_meta_value,
-		'results'                => $res,
+		"original_{$return_key}" => $orig_meta_value
 	);
+
+	$the_post = get_post( $post_id );
+	if ( empty( $the_post ) ) {
+		
+		$upsert_results['status']  = 'failure';
+		$upsert_results['results'] = "Post doesn't exist.";
+
+		return $upsert_results;
+	}
+
+	$post_type_object = get_post_type_object( $the_post->post_type );
+	if ( ! $post_type_object ) {
+		
+		$upsert_results['status']  = 'failure';
+		$upsert_results['results'] = sprintf( "Post has an invalid Post Type: %s.", $the_post->post_type );
+
+		return $upsert_results;
+	}
+
+	if ( ! current_user_can( $post_type_object->cap->edit_posts ) ) {
+		
+		$upsert_results['status']  = 'failure';
+		$upsert_results['results'] = sprintf( "You can't edit %s.", $post_type_object->label );
+
+		return $upsert_results;
+	}
+
+	if ( ! current_user_can( $post_type_object->cap->edit_others_posts ) && $the_post->post_author != get_current_user_id() ) {
+		
+		$upsert_results['status']  = 'failure';
+		$upsert_results['results'] = sprintf( "You can't edit %s that aren't yours.", $post_type_object->label );
+
+		return $upsert_results;
+
+	}
+
+	$res = update_post_meta( $post_id, $meta_key, $new_meta_value );
+
+	$upsert_results['status']  = ( $res !== false ) ? 'success' : 'failure';
+	$upsert_results['results'] = $res;
+
+	return $upsert_results;
 }
 
 /**

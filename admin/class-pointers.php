@@ -78,8 +78,6 @@ if ( ! class_exists( 'WPSEO_Pointers' ) ) {
 
 		/**
 		 * Load the introduction tour
-		 *
-		 * @todo [JRF => Faison] add intro tour information for the bulk editor pages
 		 */
 		function intro_tour() {
 			global $pagenow, $current_user;
@@ -148,8 +146,18 @@ if ( ! class_exists( 'WPSEO_Pointers' ) ) {
 					'function' => 'window.location="' . admin_url( 'admin.php?page=wpseo_files' ) . '";',
 				),
 				'wpseo_files'          => array(
-					'content' => '<h3>' . __( 'File Editor', 'wordpress-seo' ) . '</h3><p>' . __( 'Here you can edit the .htaccess and robots.txt files, two of the most powerful files in your WordPress install. Only touch these files if you know what you\'re doing!', 'wordpress-seo' ) . '</p>'
-							. '<p>' . sprintf( __( 'The tour ends here, thank you for using my plugin and good luck with your SEO!<br/><br/>Best,<br/>Joost de Valk - %1$sYoast.com%2$s', 'wordpress-seo' ), '<a target="_blank" href="' . esc_url( 'http://yoast.com/#utm_source=wpadmin&utm_medium=wpseo_tour&utm_term=link&utm_campaign=wpseoplugin' ) . '">', '</a>' ) . '</p>',
+					'content' => '<h3>' . __( 'File Editor', 'wordpress-seo' ) . '</h3><p>' . __( 'Here you can edit the .htaccess and robots.txt files, two of the most powerful files in your WordPress install. Only touch these files if you know what you\'re doing!', 'wordpress-seo' ) . '</p>',
+					'button2'  => __( 'Next', 'wordpress-seo' ),
+					'function' => 'window.location="' . admin_url( 'admin.php?page=wpseo_bulk-title-editor' ) . '";',
+				),
+				'wpseo_bulk-title-editor' => array(
+					'content' => '<h3>' . __( 'Bulk Title Editor', 'wordpress-seo' ) . '</h3><p>' . __( 'This is where you can view and edit the SEO titles of every post and page on your site. If you have a lot of pages that need SEO titles, use this page to save yourself the hassle of editing every page one at a time!', 'wordpress-seo' ) . '</p>',
+					'button2'  => __( 'Next', 'wordpress-seo' ),
+					'function' => 'window.location="' . admin_url( 'admin.php?page=wpseo_bulk-description-editor' ) . '";',
+				),
+				'wpseo_bulk-description-editor' => array(
+					'content' => '<h3>' . __( 'Bulk Description Editor', 'wordpress-seo' ) . '</h3><p>' . __( 'This page lets you view and edit the meta descriptions of all posts and pages on your site. Just like the Bulk Title Editor, this allows you to edit the meta description of all your pages in one place, rather than have to edit each individual page.', 'wordpress-seo' ) . '</p>'
+							. '<p>' . sprintf( __( 'The tour ends here, thank you for using my plugin and good luck with your SEO!<br/><br/>Best,<br/>Joost de Valk - %1$sYoast.com%2$s', 'wordpress-seo' ), '<a target="_blank" href="' . esc_url( 'http://yoast.com/#utm_source=wpadmin&utm_medium=wpseo_tour&utm_term=link&utm_campaign=wpseoplugin' ) . '">', '</a>' ) . '</p>'
 				),
 			);
 

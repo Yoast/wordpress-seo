@@ -1,8 +1,6 @@
 <?php
 /**
  * @package Admin
- *
- * @todo [JRF => Faison] Implement use of $wpdb->prepare, esc_sql() (for items in an IN clause) and like_escape()
  */
 
 if ( ! defined( 'WPSEO_VERSION' ) ) {
@@ -18,6 +16,16 @@ if ( ! class_exists( 'WPSEO_Bulk_Title_Editor_List_Table' ) ) {
 	 */
 	class WPSEO_Bulk_Title_Editor_List_Table extends WP_List_Table {
 
+		/*
+		 * Array of post types for which the current user has `edit_others_posts` capabilities.
+		 */
+		private $all_posts;
+
+		/*
+		 * Array of post types for which the current user has `edit_posts` capabilities, but not `edit_others_posts`.
+		 */
+		private $own_posts;
+
 		/**
 		 * Class constructor
 		 */
@@ -29,6 +37,33 @@ if ( ! class_exists( 'WPSEO_Bulk_Title_Editor_List_Table' ) ) {
 					'ajax'     => true,
 				)
 			);
+
+			$this->populate_editable_post_types();
+
+		}
+
+		/*
+		 *	Used in the constructor to build a reference list of post types the current user can edit.
+		 */
+		private function populate_editable_post_types() {
+			$post_types = get_post_types( array( 'public' => true, 'exclude_from_search' => false ), 'object' );
+
+			$this->all_posts = array();
+			$this->own_posts = array();
+
+			foreach ( $post_types as $post_type ) {
+
+				if ( ! current_user_can( $post_type->cap->edit_posts ) ) {
+					continue;
+				}
+
+				if ( current_user_can( $post_type->cap->edit_others_posts ) ) {
+					$this->all_posts[] = esc_sql( $post_type->name );
+				} else {
+					$this->own_posts[] = esc_sql( $post_type->name );
+				}
+
+			}
 		}
 
 
@@ -42,8 +77,8 @@ if ( ! class_exists( 'WPSEO_Bulk_Title_Editor_List_Table' ) ) {
 				<?php if ( 'top' === $which ) { ?>
 				<form id="posts-filter" action="" method="get">
 					<input type="hidden" name="page" value="wpseo_bulk-title-editor" />
-					<?php if ( ! empty( $_REQUEST['post_status'] ) ) {?>
-						<input type="hidden" name="post_status" value="<?php echo esc_attr( $_REQUEST['post_status'] ); ?>" />
+					<?php if ( ! empty( $_GET['post_status'] ) ) {?>
+						<input type="hidden" name="post_status" value="<?php echo esc_attr( $_GET['post_status'] ); ?>" />
 					<?php } ?>
 				<?php } ?>
 
@@ -61,6 +96,33 @@ if ( ! class_exists( 'WPSEO_Bulk_Title_Editor_List_Table' ) ) {
 			<?php
 		}
 
+		/*
+		 * This function builds the base sql subquery used in this class.
+		 *
+		 * This function takes into account the post types in which the current user can
+		 * edit all posts, and the ones the current user can only edit his/her own.
+		 *
+		 * @return string $subquery The subquery, which should always be used in $wpdb->prepare(), passing the current user_id in as the first parameter.
+		 */
+		function get_base_subquery() {
+			global $wpdb;
+
+			$all_posts_string = "'" . implode( "', '", $this->all_posts ) . "'";
+			$own_posts_string = "'" . implode( "', '", $this->own_posts ) . "'";
+
+			$subquery = "(
+				SELECT *
+				FROM {$wpdb->posts}
+				WHERE post_type IN ({$all_posts_string})
+				UNION ALL
+				SELECT *
+				FROM {$wpdb->posts}
+				WHERE post_type IN ({$own_posts_string}) AND post_author = %d
+			)sub_base";
+	
+			return $subquery;
+		}
+
 
 		/**
 		 * @return array
@@ -68,36 +130,49 @@ if ( ! class_exists( 'WPSEO_Bulk_Title_Editor_List_Table' ) ) {
 		function get_views() {
 			global $wpdb;
 
-
 			$status_links = array();
-
-			$post_types = get_post_types( array( 'public' => true, 'exclude_from_search' => false ) );
-			$post_types = "'" . implode( "', '", $post_types ) . "'";
 
 			$states          = get_post_stati( array( 'show_in_admin_all_list' => true ) );
 			$states['trash'] = 'trash';
+			$states          = esc_sql( $states );
 			$all_states      = "'" . implode( "', '", $states ) . "'";
 
-			$total_posts = $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->posts WHERE post_status IN ($all_states) AND post_type IN ($post_types)" );
+			$subquery        = $this->get_base_subquery();
+			$current_user_id = get_current_user_id();
+
+			$total_posts = $wpdb->get_var( $wpdb->prepare(
+				"
+					SELECT COUNT(*) FROM {$subquery}
+					WHERE post_status IN ({$all_states})
+				",
+				$current_user_id
+			) );
 
 
-			$class               = empty( $_REQUEST['post_status'] ) ? ' class="current"' : '';
+			$class               = empty( $_GET['post_status'] ) ? ' class="current"' : '';
 			$status_links['all'] = '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_bulk-title-editor' ) ) . '"'. $class . '>' . sprintf( _nx( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $total_posts, 'posts' ), number_format_i18n( $total_posts ) ) . '</a>';
 
 			$post_stati = get_post_stati( array( 'show_in_admin_all_list' => true ), 'objects' );
 			if ( is_array( $post_stati ) && $post_stati !== array() ) {
 				foreach ( $post_stati as $status ) {
 
-					$status_name = $status->name;
+					$status_name = esc_sql( $status->name );
 
-					$total = $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->posts WHERE post_status IN ('$status_name') AND post_type IN ($post_types)" );
+					$total = $wpdb->get_var( $wpdb->prepare(
+						"
+							SELECT COUNT(*) FROM {$subquery}
+							WHERE post_status = %s
+						",
+						$current_user_id,
+						$status_name
+					) );
 
 					if ( $total == 0 ) {
 						continue;
 					}
 
 					$class = '';
-					if ( isset( $_REQUEST['post_status'] ) && $status_name == $_REQUEST['post_status'] ) {
+					if ( isset( $_GET['post_status'] ) && $status_name == $_GET['post_status'] ) {
 						$class = ' class="current"';
 					}
 
@@ -106,8 +181,15 @@ if ( ! class_exists( 'WPSEO_Bulk_Title_Editor_List_Table' ) ) {
 			}
 			unset( $post_stati, $status, $status_name, $total, $class );
 
-			$trashed_posts         = $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->posts WHERE post_status IN ('trash') AND post_type IN ($post_types)" );
-			$class                 = ( isset($_REQUEST['post_status']) && 'trash' == $_REQUEST['post_status'] ) ? 'class="current"' : '';
+			$trashed_posts = $wpdb->get_var( $wpdb->prepare(
+				"
+					SELECT COUNT(*) FROM {$subquery}
+					WHERE post_status IN ('trash')
+				",
+				$current_user_id
+			) );
+
+			$class                 = ( isset($_GET['post_status']) && 'trash' == $_GET['post_status'] ) ? 'class="current"' : '';
 			$status_links['trash'] = '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_bulk-title-editor&post_status=trash' ) ) . '"' . $class . '>' . sprintf( _nx( 'Trash <span class="count">(%s)</span>', 'Trash <span class="count">(%s)</span>', $trashed_posts, 'posts' ), number_format_i18n( $trashed_posts ) ) . '</a>';
 
 			return $status_links;
@@ -127,16 +209,27 @@ if ( ! class_exists( 'WPSEO_Bulk_Title_Editor_List_Table' ) ) {
 
 					echo '<div class="alignleft actions">';
 
+					$post_types = esc_sql( $post_types );
 					$post_types = "'" . implode( "', '", $post_types ) . "'";
 
 					$states          = get_post_stati( array( 'show_in_admin_all_list' => true ) );
 					$states['trash'] = 'trash';
+					$states = esc_sql( $states );
 					$all_states      = "'" . implode( "', '", $states ) . "'";
 
-					$query      = "SELECT DISTINCT post_type FROM $wpdb->posts WHERE post_status IN ($all_states) AND post_type IN ($post_types) ORDER BY 'post_type' ASC";
-					$post_types = $wpdb->get_results( $query );
+					$subquery        = $this->get_base_subquery();
+					$current_user_id = get_current_user_id();
 
-					$selected = ! empty( $_REQUEST['post_type_filter'] ) ? $_REQUEST['post_type_filter'] : -1;
+					$post_types = $wpdb->get_results( $wpdb->prepare(
+						"
+							SELECT DISTINCT post_type FROM {$subquery}
+							WHERE post_status IN ({$all_states})
+							ORDER BY 'post_type' ASC
+						",
+						$current_user_id
+					) );
+
+					$selected = ! empty( $_GET['post_type_filter'] ) ? $_GET['post_type_filter'] : -1;
 
 					$options = '<option value="-1">Show All Post Types</option>';
 
@@ -183,57 +276,64 @@ if ( ! class_exists( 'WPSEO_Bulk_Title_Editor_List_Table' ) ) {
 				'col_existing_yoast_seo_title' => array( 'seo_title', false ),
 			);
 		}
-
-		/**
-		 * @todo: [JRF => Faison] check if global $wp_column_headers is needed as it does not seem to be used
-		 */
+	
 		function prepare_items() {
-			global $wpdb, $_wp_column_headers;
-
-			// @todo: [JRF => Faison] check if this variable setting makes sense as it does not seem to be used in this instance
-			$screen = get_current_screen();
-
-			$post_types = get_post_types( array( 'exclude_from_search' => false ) );
-			$post_types = "'" . implode( "', '", $post_types ) . "'";
-
-			$query = "SELECT ID, post_title, post_type, meta_value AS seo_title, post_status, post_modified FROM {$wpdb->posts} LEFT JOIN (SELECT * FROM {$wpdb->postmeta} WHERE meta_key = '" . WPSEO_Meta::$meta_prefix . "title')a ON a.post_id = {$wpdb->posts}.ID WHERE post_status IN (%s)";
+			global $wpdb;
 
 			//	Filter Block
+	
+			$post_types       = null;
+			$post_type_clause = '';
 
-			if ( ! empty( $_REQUEST['post_type_filter'] ) && get_post_type_object( $_REQUEST['post_type_filter'] ) ) {
-				$query .= " AND post_type='{$_REQUEST['post_type_filter']}'";
-			}
-			else {
-				$query .= " AND post_type IN ($post_types)";
+			if ( ! empty( $_GET['post_type_filter'] ) && get_post_type_object( $_GET['post_type_filter'] ) ) {
+				$post_types       = esc_sql( $_GET['post_type_filter'] );
+				$post_type_clause = "AND post_type IN ('{$post_types}')";
 			}
 
 			//	Order By block
-			$orderby = ! empty( $_GET['orderby'] ) ? esc_sql( $_GET['orderby'] ) : 'post_title';
-			$order   = ! empty( $_GET['order'] ) ? esc_sql( $_GET['order'] ) : 'ASC';
-			if ( ! empty( $orderby ) && ! empty($order) ) {
-				$query .= ' ORDER BY ' . $orderby . ' ' . $order;
-			}
 
+			$orderby = ! empty( $_GET['orderby'] ) ? esc_sql( $_GET['orderby'] ) : 'post_title';
+			$order   = 'ASC';
+
+			if( ! empty( $_GET['order'] ) ) {
+				$order = esc_sql( strtoupper( $_GET['order'] ) );
+			}
 
 			$states          = get_post_stati( array( 'show_in_admin_all_list' => true ) );
 			$states['trash'] = 'trash';
+
+			if ( ! empty( $_GET['post_status'] ) ) {
+				$requested_state = $_GET['post_status'];
+				if ( in_array( $requested_state, $states ) ) {
+					$states = array( $requested_state );
+				}
+			}
+
+			$states          = esc_sql( $states );
 			$all_states      = "'" . implode( "', '", $states ) . "'";
 
-			if ( empty( $_REQUEST['post_status'] ) ) {
-				$query = sprintf( $query, $all_states );
-			}
-			else {
-				$requested_state = $_REQUEST['post_status'];
-				if ( in_array( $requested_state, $states ) ) {
-					$query = sprintf( $query, "'$requested_state'" );
-				}
-				else {
-					$query = sprintf( $query, $all_states );
-				}
-			}
-			// publish, draft, future, private
+			$subquery        = $this->get_base_subquery();
+			$current_user_id = get_current_user_id();
 
-			$total_items = $wpdb->query( $query );
+			$query = "
+				SELECT ID, post_title, post_type, meta_value AS seo_title, post_status, post_modified
+				FROM {$subquery}
+				LEFT JOIN (
+					SELECT *
+					FROM {$wpdb->postmeta}
+					WHERE meta_key = %s
+				)a ON a.post_id = ID
+				WHERE post_status IN ({$all_states}) $post_type_clause
+				ORDER BY {$orderby} {$order}
+			";
+			
+			$total_items = $wpdb->query( $wpdb->prepare(
+				$query,
+				$current_user_id,
+				WPSEO_Meta::$meta_prefix . 'title'
+			) );
+
+			$query .= ' LIMIT %d,%d';
 
 			$per_page = $this->get_items_per_page( 'wpseo_posts_per_page', 10 );
 
@@ -245,10 +345,7 @@ if ( ! class_exists( 'WPSEO_Bulk_Title_Editor_List_Table' ) ) {
 
 			$total_pages = ceil( $total_items / $per_page );
 
-			if ( ! empty( $paged ) && ! empty( $per_page ) ) {
-				$offset = ( $paged - 1 ) * $per_page;
-				$query .= ' LIMIT ' . (int) $offset . ',' . (int) $per_page;
-			}
+			$offset = ( $paged - 1 ) * $per_page;
 
 			$this->set_pagination_args(
 				array(
@@ -263,7 +360,13 @@ if ( ! class_exists( 'WPSEO_Bulk_Title_Editor_List_Table' ) ) {
 			$sortable              = $this->get_sortable_columns();
 			$this->_column_headers = array( $columns, $hidden, $sortable );
 
-			$this->items = $wpdb->get_results( $query );
+			$this->items = $wpdb->get_results( $wpdb->prepare( 
+				$query,
+				$current_user_id,
+				WPSEO_Meta::$meta_prefix . 'title',
+				$offset,
+				$per_page
+			) );
 
 		}
 
