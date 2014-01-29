@@ -199,7 +199,7 @@ table.yoast_help tr:hover {
 
 .wpseotab {
 	display: none;
-	max-width: 600px !important;
+	/*max-width: 600px !important;*/
 }
 .wpseotab.active {
 	display: block;
@@ -231,7 +231,7 @@ h2 code {
 }
 
 #wpseo-conf {
-	max-width: 600px;
+	/*max-width: 600px;*/
 }
 
 #pointer-primary {
