@@ -68,6 +68,12 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 		 * Generates the sidebar for admin pages.
 		 */
 		function admin_sidebar() {
+
+			// Make the sidebar filterable
+			if ( false === apply_filters( 'wpseo_sidebar_banners', true ) ) {
+				return;
+			}
+
 			$banners = array(
 				array(
 					'url' => 'https://yoast.com/hire-us/website-review/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=website-review-banner',

@@ -81,38 +81,58 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		 * @global array $submenu used to change the label on the first item.
 		 */
 		function register_settings_page() {
-			add_menu_page( __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'General Settings', 'wordpress-seo' ), __( 'SEO', 'wordpress-seo' ), 'manage_options', 'wpseo_dashboard', array( $this, 'load_page' ), plugins_url( 'images/yoast-icon.png', dirname( __FILE__ ) ), '99.31337' );
 
-			$admin_page = add_submenu_page( 'wpseo_dashboard', __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Titles &amp; Metas', 'wordpress-seo' ), __( 'Titles &amp; Metas', 'wordpress-seo' ), 'manage_options', 'wpseo_titles', array( $this, 'load_page' ) );
+			// Add main page
+			$admin_page = add_menu_page( __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'General Settings', 'wordpress-seo' ), __( 'SEO', 'wordpress-seo' ), 'manage_options', 'wpseo_dashboard', array( $this, 'load_page' ), plugins_url( 'images/yoast-icon.png', dirname( __FILE__ ) ), '99.31337' );
 			add_action( 'load-' . $admin_page, array( $this, 'title_metas_help_tab' ) );
 
-			add_submenu_page( 'wpseo_dashboard', __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Social', 'wordpress-seo' ), __( 'Social', 'wordpress-seo' ), 'manage_options', 'wpseo_social', array( $this, 'load_page' ) );
-			add_submenu_page( 'wpseo_dashboard', __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'XML Sitemaps', 'wordpress-seo' ), __( 'XML Sitemaps', 'wordpress-seo' ), 'manage_options', 'wpseo_xml', array( $this, 'load_page' ) );
-			add_submenu_page( 'wpseo_dashboard', __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Permalinks', 'wordpress-seo' ), __( 'Permalinks', 'wordpress-seo' ), 'manage_options', 'wpseo_permalinks', array( $this, 'load_page' ) );
-			add_submenu_page( 'wpseo_dashboard', __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Internal Links', 'wordpress-seo' ), __( 'Internal Links', 'wordpress-seo' ), 'manage_options', 'wpseo_internal-links', array( $this, 'load_page' ) );
-			add_submenu_page( 'wpseo_dashboard', __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'RSS', 'wordpress-seo' ), __( 'RSS', 'wordpress-seo' ), 'manage_options', 'wpseo_rss', array( $this, 'load_page' ) );
-			add_submenu_page( 'wpseo_dashboard', __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Import & Export', 'wordpress-seo' ), __( 'Import & Export', 'wordpress-seo' ), 'manage_options', 'wpseo_import', array( $this, 'load_page' ) );
+			// Sub menu pages
+			$submenu_pages = array(
+					array( 'wpseo_dashboard', __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Titles &amp; Metas', 'wordpress-seo' ), __( 'Titles &amp; Metas', 'wordpress-seo' ), 'manage_options', 'wpseo_titles', array( $this, 'load_page' ), array( array( $this, 'title_metas_help_tab' ) ) ),
+					array( 'wpseo_dashboard', __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Social', 'wordpress-seo' ), __( 'Social', 'wordpress-seo' ), 'manage_options', 'wpseo_social', array( $this, 'load_page' ), null ),
+					array( 'wpseo_dashboard', __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'XML Sitemaps', 'wordpress-seo' ), __( 'XML Sitemaps', 'wordpress-seo' ), 'manage_options', 'wpseo_xml', array( $this, 'load_page' ), null ),
+					array( 'wpseo_dashboard', __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Permalinks', 'wordpress-seo' ), __( 'Permalinks', 'wordpress-seo' ), 'manage_options', 'wpseo_permalinks', array( $this, 'load_page' ), null ),
+					array( 'wpseo_dashboard', __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Internal Links', 'wordpress-seo' ), __( 'Internal Links', 'wordpress-seo' ), 'manage_options', 'wpseo_internal-links', array( $this, 'load_page' ), null ),
+					array( 'wpseo_dashboard', __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'RSS', 'wordpress-seo' ), __( 'RSS', 'wordpress-seo' ), 'manage_options', 'wpseo_rss', array( $this, 'load_page' ), null ),
+					array( 'wpseo_dashboard', __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Import & Export', 'wordpress-seo' ), __( 'Import & Export', 'wordpress-seo' ), 'manage_options', 'wpseo_import', array( $this, 'load_page' ), null ),
 
+				/**
+				 * @todo [JRF => Faison] is the capability the right one ?
+				 * Shouldn't this functionality be made available to all editors/authors for those posts they have authority to edit ?
+				 * If so, the queries in the bulk editor classes need changing too to reflect this and the below should not just check capability, but also whether a user has any posts at all.
+				 */
+					array( 'wpseo_dashboard', __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Bulk Title Editor', 'wordpress-seo' ), __( 'Bulk Title Editor', 'wordpress-seo' ), 'manage_options', 'wpseo_bulk-title-editor', array( $this, 'load_page' ), array( array( $this, 'bulk_edit_options' ) ) ),
+					array( 'wpseo_dashboard', __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Bulk Description Editor', 'wordpress-seo' ), __( 'Bulk Description Editor', 'wordpress-seo' ), 'manage_options', 'wpseo_bulk-description-editor', array( $this, 'load_page' ), array( array( $this, 'bulk_edit_options' ) ) ),
+			);
+
+			// Check where to add the edit files page
 			if ( ! ( defined( 'DISALLOW_FILE_EDIT' ) && DISALLOW_FILE_EDIT ) && ! ( defined( 'DISALLOW_FILE_MODS' ) && DISALLOW_FILE_MODS ) ) {
 				// Make sure on a multi site install only super admins can edit .htaccess and robots.txt
-				if ( ! function_exists( 'is_multisite' ) || ! is_multisite() )
-					add_submenu_page( 'wpseo_dashboard', __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Edit Files', 'wordpress-seo' ), __( 'Edit Files', 'wordpress-seo' ), 'manage_options', 'wpseo_files', array( $this, 'load_page' ) );
-				else
-					add_submenu_page( 'wpseo_dashboard', __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Edit Files', 'wordpress-seo' ), __( 'Edit Files', 'wordpress-seo' ), 'delete_users', 'wpseo_files', array( $this, 'load_page' ) );
+				if ( ! function_exists( 'is_multisite' ) || ! is_multisite() ) {
+					$submenu_pages[] = array( 'wpseo_dashboard', __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Edit Files', 'wordpress-seo' ), __( 'Edit Files', 'wordpress-seo' ), 'manage_options', 'wpseo_files', array( $this, 'load_page' ) );
+				}else {
+					$submenu_pages[] = array( 'wpseo_dashboard', __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Edit Files', 'wordpress-seo' ), __( 'Edit Files', 'wordpress-seo' ), 'delete_users', 'wpseo_files', array( $this, 'load_page' ) );
+				}
 			}
 
-			/**
-			 * @todo [JRF => Faison] is the capability the right one ?
-			 * Shouldn't this functionality be made available to all editors/authors for those posts they have authority to edit ?
-			 * If so, the queries in the bulk editor classes need changing too to reflect this and the below should not just check capability, but also whether a user has any posts at all.
-			 */
-			$bulk_title_hook = add_submenu_page( 'wpseo_dashboard', __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Bulk Title Editor', 'wordpress-seo' ), __( 'Bulk Title Editor', 'wordpress-seo' ), 'manage_options', 'wpseo_bulk-title-editor', array( $this, 'load_page' ) );
+			// Allow submenu pages manipulation
+			$submenu_pages = apply_filters( 'wpseo_submenu_pages', $submenu_pages );
 
-			$bulk_description_hook = add_submenu_page( 'wpseo_dashboard', __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Bulk Description Editor', 'wordpress-seo' ), __( 'Bulk Description Editor', 'wordpress-seo' ), 'manage_options', 'wpseo_bulk-description-editor', array( $this, 'load_page' ) );
+			// Loop through submenu pages and add them
+			if ( count( $submenu_pages ) ) {
+				foreach ( $submenu_pages as $submenu_page ) {
 
-			add_action( 'load-' . $bulk_title_hook, array( $this, 'bulk_edit_options' ) );
-			add_action( 'load-' . $bulk_description_hook, array( $this, 'bulk_edit_options' ) );
+					// Add submenu page
+					$admin_page = add_submenu_page( $submenu_page[0], $submenu_page[1], $submenu_page[2], $submenu_page[3], $submenu_page[4], $submenu_page[5] );
 
+					// Check if we need to hook
+					if ( isset( $submenu_page[6] ) && null != $submenu_page[6] && is_array( $submenu_page[6] ) && count( $submenu_page[6] ) > 0 ) {
+						foreach ( $submenu_page[6] as $submenu_page_action ) {
+							add_action( 'load-' . $admin_page, $submenu_page_action );
+						}
+					}
+				}
+			}
 
 			global $submenu;
 			if ( isset( $submenu['wpseo_dashboard'] ) ) {
@@ -127,24 +147,24 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 			$screen = get_current_screen();
 
 			$screen->set_help_sidebar(
-				'<p><strong>' . __( 'For more information:' ) . '</strong></p>' .
-				'<p><a target="_blank" href="http://yoast.com/articles/wordpress-seo/#titles">' . __( 'Title optimization', 'wordpress-seo' ) . '</a></p>' .
-				'<p><a target="_blank" href="http://yoast.com/google-page-title/">' . __( 'Why Google won\'t display the right page title', 'wordpress-seo' ) . '</a></p>'
+					'<p><strong>' . __( 'For more information:' ) . '</strong></p>' .
+					'<p><a target="_blank" href="http://yoast.com/articles/wordpress-seo/#titles">' . __( 'Title optimization', 'wordpress-seo' ) . '</a></p>' .
+					'<p><a target="_blank" href="http://yoast.com/google-page-title/">' . __( 'Why Google won\'t display the right page title', 'wordpress-seo' ) . '</a></p>'
 			);
 
 			$screen->add_help_tab(
-				array(
-					'id'      => 'basic-help',
-					'title'   => __( 'Template explanation', 'wordpress-seo' ),
-					'content' => '<p>' . __( 'The title &amp; metas settings for WordPress SEO are made up of variables that are replaced by specific values from the page when the page is displayed. The tabs on the left explain the available variables.', 'wordpress-seo' ) . '</p>',
-				)
+					array(
+							'id'      => 'basic-help',
+							'title'   => __( 'Template explanation', 'wordpress-seo' ),
+							'content' => '<p>' . __( 'The title &amp; metas settings for WordPress SEO are made up of variables that are replaced by specific values from the page when the page is displayed. The tabs on the left explain the available variables.', 'wordpress-seo' ) . '</p>',
+					)
 			);
 
 			$screen->add_help_tab(
-				array(
-					'id'      => 'title-vars',
-					'title'   => __( 'Basic Variables', 'wordpress-seo' ),
-					'content' => '
+					array(
+							'id'      => 'title-vars',
+							'title'   => __( 'Basic Variables', 'wordpress-seo' ),
+							'content' => '
 		<h2>' . __( 'Basic Variables.', 'wordpress-seo' ) . '</h2>
 			<table class="yoast_help">
 				<tr>
@@ -204,14 +224,14 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 					<td>' . __( 'The separator defined in your theme\'s <code>wp_title()</code> tag.', 'wordpress-seo' ) . '</td>
 				</tr>
 				</table>',
-				)
+					)
 			);
 
 			$screen->add_help_tab(
-				array(
-					'id'      => 'title-vars-advanced',
-					'title'   => __( 'Advanced Variables.', 'wordpress-seo' ),
-					'content' => '
+					array(
+							'id'      => 'title-vars-advanced',
+							'title'   => __( 'Advanced Variables.', 'wordpress-seo' ),
+							'content' => '
 				<h2>' . __( 'Advanced Variables.', 'wordpress-seo' ) . '</h2>
 				<table class="yoast_help">
 				<tr>
@@ -295,7 +315,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 					<td>' . __( 'Replaced with a custom taxonomies description', 'wordpress-seo' ) . '</td>
 				</tr>
 			</table>', //actual help text
-				)
+					)
 			);
 		}
 
@@ -377,9 +397,9 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		function bulk_edit_options() {
 			$option = 'per_page';
 			$args   = array(
-				'label'	  => 'Posts',
-				'default' => 10,
-				'option'  => 'wpseo_posts_per_page',
+					'label'	  => 'Posts',
+					'default' => 10,
+					'option'  => 'wpseo_posts_per_page',
 			);
 			add_screen_option( $option, $args );
 		}
@@ -651,7 +671,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 			_deprecated_function( __CLASS__ . '::' . __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Options::grant_access()' );
 			return WPSEO_Options::grant_access();
 		}
-		
+
 		/**
 		 * Check whether the current user is allowed to access the configuration.
 		 *
