@@ -128,7 +128,6 @@ function wpseo_auto_load( $class ) {
 }
 spl_autoload_register( 'wpseo_auto_load' );
 
-
 /**
  * Load translations
  */
@@ -136,8 +135,6 @@ function wpseo_load_textdomain() {
 	load_plugin_textdomain( 'wordpress-seo', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 }
 add_filter( 'init', 'wpseo_load_textdomain', 1 );
-
-
 
 /**
  * On plugins_loaded: load the minimum amount of essential files for this plugin
