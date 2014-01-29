@@ -103,6 +103,9 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 		$sortable              = $this->get_sortable_columns();
 		$this->_column_headers = array( $columns, $hidden, $sortable );
 
+		// Vies
+		$this->views();
+
 		// Get the items
 		$service = new WPSEO_GWT_Service( $this->gwt );
 

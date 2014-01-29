@@ -81,8 +81,6 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 		$sortable              = $this->get_sortable_columns();
 		$this->_column_headers = array( $columns, $hidden, $sortable );
 
-		$this->views();
-
 		// Get the items
 		$redirect_items = WPSEO_Redirect_Manager::get_redirects();
 

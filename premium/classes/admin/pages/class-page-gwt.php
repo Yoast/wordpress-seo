@@ -88,7 +88,7 @@ class WPSEO_Page_GWT {
 		}
 
 		// Add views
-		//add_filter( 'views_seo_page_wpseo_crawl_errors', array( 'WPSEO_Page_GWT', 'add_page_views' ) );
+		add_filter( 'views_seo_page_wpseo_webmaster_tools', array( 'WPSEO_Page_GWT', 'add_page_views' ) );
 	}
 
 	/**
