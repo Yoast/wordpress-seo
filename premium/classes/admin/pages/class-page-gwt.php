@@ -37,7 +37,6 @@ class WPSEO_Page_GWT {
 			//echo "<h2>Google Webmaster Tools Errors</h2>\n";
 
 			// Open <form>
-			//echo "<form id='wpseo-crawl-issues-table-form' action='" . admin_url( 'admin.php' ) . '?page=wpseo_redirects' . "' method='post'>\n";
 			echo "<form id='wpseo-crawl-issues-table-form' action='" . admin_url( 'admin.php' ) . '?page=' . $_GET['page'] . "' method='post'>\n";
 
 			// AJAX nonce
@@ -89,7 +88,7 @@ class WPSEO_Page_GWT {
 		}
 
 		// Add views
-		add_filter( 'views_seo_page_wpseo_crawl_errors', array( 'WPSEO_Page_Redirect', 'add_page_views' ) );
+		//add_filter( 'views_seo_page_wpseo_crawl_errors', array( 'WPSEO_Page_GWT', 'add_page_views' ) );
 	}
 
 	/**
