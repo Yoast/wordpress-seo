@@ -190,9 +190,8 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 
 	public function column_url( $item ) {
 		$actions = array(
-//				'create_redirect' => '<a href="' . add_query_arg( 'create_redirect', urlencode( $item['url'] ), admin_url( 'admin.php' ) . '?page=wpseo_redirects' ) . '">' . __( 'Create redirect', 'wordpress-seo' ) . '</a>',
 				'create_redirect' => '<a href="javascript:create_redirect(\'' . urlencode( $item['url'] ) . '\');">' . __( 'Create redirect', 'wordpress-seo' ) . '</a>',
-				'view' => '<a target="_blank" href="' . $item['url'] . '">' . __( 'View', 'wordpress-seo' ) . '</a>',
+				'view'            => '<a target="_blank" href="' . $item['url'] . '">' . __( 'View', 'wordpress-seo' ) . '</a>',
 		);
 
 		return sprintf(
@@ -223,11 +222,11 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 	 * @return string
 	 */
 	public function column_linked_from( $item ) {
-	        return sprintf( 
-	                        '<a target="_blank" href="%1$s">%1$s</a>', $item['linked_from']
-	        );
+		return sprintf(
+				'<a target="_blank" href="%1$s">%1$s</a>', $item['linked_from']
+		);
 	}
-        
+
 	/**
 	 * Default method to display a column
 	 *

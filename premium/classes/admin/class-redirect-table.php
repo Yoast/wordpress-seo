@@ -187,21 +187,6 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Checkbox column
-	 *
-	 * @param $item
-	 *
-	 * @return string
-	 */
-	/*
-	public function column_actions( $item ) {
-		return sprintf(
-				'<a href="javascript:;">' . __( 'Edit', 'wordpress-seo' ) . '</a> | <a href="javascript:;">' . __( 'Delete', 'wordpress-seo' ) . '</a>'
-		);
-	}
-	*/
-
-	/**
 	 * Default method to display a column
 	 *
 	 * @param $item
