@@ -24,9 +24,9 @@ function wpseo_get_value( $val, $postid = 0 ) {
 		else
 			return false;
 	}
-	$custom = get_post_custom( $postid );
-	if ( !empty( $custom['_yoast_wpseo_' . $val][0] ) )
-		return maybe_unserialize( $custom['_yoast_wpseo_' . $val][0] );
+	$post_meta = get_post_meta( $postid, '_yoast_wpseo_' . $val, true );
+	if ( !empty( $post_meta ) )
+		return $post_meta;
 	else
 		return false;
 }
