@@ -72,14 +72,18 @@ if ( ! class_exists( 'WPSEO_Bulk_Description_List_Table' ) ) {
 		 * @param $which
 		 */
 		function display_tablenav( $which ) {
+			$post_status = '';
+			if ( ! empty( $_GET['post_status'] ) ) {
+				$post_status = sanitize_text_field( $_GET['post_status'] );
+			}
 			?>
 			<div class="tablenav <?php echo esc_attr( $which ); ?>">
 
 				<?php if ( 'top' === $which ) { ?>
 				<form id="posts-filter" action="" method="get">
 					<input type="hidden" name="page" value="wpseo_bulk-description-editor" />
-					<?php if ( ! empty( sanitize_text_field( $_GET['post_status'] ) ) ) {?>
-						<input type="hidden" name="post_status" value="<?php echo esc_attr( sanitize_text_field( $_GET['post_status'] ) ); ?>" />
+					<?php if ( ! empty( $post_status ) ) {?>
+						<input type="hidden" name="post_status" value="<?php echo esc_attr( $post_status ); ?>" />
 					<?php } ?>
 				<?php } ?>
 
