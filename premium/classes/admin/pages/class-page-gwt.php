@@ -103,12 +103,28 @@ class WPSEO_Page_GWT {
 		// Base URL
 		$base_url = admin_url( 'admin.php' ) . "?page=" . $_GET['page'];
 
-		// Add views
-		$new_views = array(
-				'all'     => "<a href='" . $base_url . "' class='current'>All</a>",
-				'done'    => "<a href='" . $base_url . "'>Already redirected</a>",
-				'ignored' => "<a href='" . $base_url . "'>Ignored</a>",
+		$current = ( isset ( $_GET['status'] ) ? $_GET['status'] : '' );
+
+		$views_arr = array(
+				''               => 'All',
+				'not-redirected' => 'Not redirected'
 		);
+
+		// Add views
+		/*
+		$new_views = array(
+				'all'            => "<a href='" . $base_url . "' class='current'>All</a>",
+				'not-redirected' => "<a href='" . $base_url . "&status=not-redirected'>Not redirected</a>",
+			//'ignored' => "<a href='" . $base_url . "'>Ignored</a>",
+		);
+		*/
+
+		$new_views = array();
+
+		foreach ( $views_arr as $key => $val ) {
+			$new_views[$key] = "<a href='" . $base_url . "&status={$key}'" . ( ( $current == $key ) ? " class='current'" : "" ) . ">{$val}</a>";
+		}
+
 
 		return $new_views;
 	}
