@@ -35,9 +35,6 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 	 *
 	 * @internal all WP native get_meta() results get cached internally, so no need to cache locally.
 	 * @internal use $key when the key is the WPSEO internal name (without prefix), $meta_key when it includes the prefix
-	 *
-	 * @todo [JRF => Yoast/whomever] In frontend opengraph a call is made to retrieve the 'og_type' meta value.
-	 * This is not one of the meta values in use. Should this be added ?
 	 */
 	class WPSEO_Meta {
 
@@ -101,10 +98,7 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 		 *				(optional)		'help'			=> (string) help text to show on mouse over ? image
 		 *				(optional)		'rows'			=> (int) number of rows for a textarea, defaults to 3
 		 *
-		 *				(optional)		'richedit'		=> (bool) seems currently to be unused
-		 *				(optional)		'placeholder'	=> (string) does not seem to be defined anywhere... ?
-		 *
-		 * @todo - [JRF => Yoast] check usage of richedit and placeholder and what to do with those
+		 *				(optional)		'placeholder'	=> (string) currently not used in this class
 		 *
 		 * @internal
 		 * - Titles, help texts, description text and option labels are added via a translate_meta_boxes() method
@@ -138,7 +132,6 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 					'default_value'		=> '',
 					'class'				=> 'metadesc',
 					'rows'				=> 2,
-					'richedit'			=> false,
 					'description'		=> '', // translation added later
 					'help'				=> '', // translation added later
 				),
@@ -260,7 +253,6 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 					'type'			=> 'textarea',
 					'title' 		=> '', // translation added later
 					'default_value'	=> '',
-					'richedit'		=> false,
 					'description'	=> '', // translation added later
 				),
 				'opengraph-image'			=> array(
@@ -269,12 +261,10 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 					'default_value'	=> '',
 					'description'	=> '', // translation added later
 				),
-				/* @todo [JRF => Yoast] verify where this is (meant to be) used... it doesn't seem to be retrieve anywhere... */
 				'google-plus-description'	=> array(
 					'type'			=> 'textarea',
 					'title' 		=> '', // translation added later
 					'default_value'	=> '',
-					'richedit'		=> false,
 					'description'	=> '', // translation added later
 				),
 			),

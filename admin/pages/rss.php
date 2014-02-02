@@ -16,9 +16,8 @@ $wpseo_admin_pages->admin_header( true, WPSEO_Options::get_group_name( 'wpseo_rs
 
 $content   = '<p>' . __( "This feature is used to automatically add content to your RSS, more specifically, it's meant to add links back to your blog and your blog posts, so dumb scrapers will automatically add these links too, helping search engines identify you as the original source of the content.", 'wordpress-seo' ) . '</p>';
 $rows      = array();
-// @todo [JRF => Yoast/whomever] are these stripslashes really needed ? doesn't esc_textarea take care of that if needed ?
-$rssbefore = stripslashes( $options[ 'rssbefore' ] );
-$rssafter  = stripslashes( $options[ 'rssafter' ] );
+$rssbefore = esc_textarea( $options[ 'rssbefore' ] );
+$rssafter  = esc_textarea( $options[ 'rssafter' ] );
 
 $rows[] = array(
 	'id'      => 'rssbefore',

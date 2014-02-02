@@ -260,12 +260,7 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 		 */
 		public function type( $echo = true ) {
 			if ( is_singular() ) {
-				/**
-				 * @todo [JRF => Yoast/whomever] 'og_type' is currently not a valid meta value field
-				 * within WPSEO, so it will currently always return an empty string UNLESS that
-				 * exact key (including the wpseo prefix) was set by another plugin may be. What should
-				 * be done with this ? Added to meta value form ?
-				 */
+				// This'll usually only be changed by plugins right now.
 				$type = WPSEO_Meta::get_value( 'og_type' );
 				if ( $type === '' ) {
 					$type = 'article';

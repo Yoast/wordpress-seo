@@ -16,12 +16,6 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
  * @todo - [JRF => Yoast] check: if upgrade is run on multi-site installation, upgrade for all sites ?
  * Maybe not necessary as it is now run on plugins_loaded, so upgrade will run as soon as any page
  * on a site is requested.
- *
- * @todo [JRF => Yoast] I've removed the upgrade routine for WPSEO < 0.4.2 as it would be pretty complex
- * with how much has changed and considering that that version (0.4.1) was from May 26 2011, it can hardly
- * be considered relevant anymore. Hope you agree.
- * All the other option changes have been moved to their respective clean_option() methods in the option
- * specific class.
  */
 function wpseo_do_upgrade() {
 	$option_wpseo = get_option( 'wpseo' );
@@ -69,11 +63,6 @@ if ( ! function_exists( 'yoast_breadcrumb' ) ) {
 	 * edit the template files again, but having to manually enable when you've added the template tag
 	 * in your theme is kind of double, so I'm undecided about what to do.
 	 * I guess I'm leaning towards removing the option key in combination with adding the bc shortcode.
-	 *
-	 * @todo [JRF => Yoast] We should probably advise supported themes in advance about the change to file
-	 * autoloading as the $wpseo_bc global will now not be available automatically and if they don't have the
-	 * proper checks in place, their bc call will fail hard. Also refer to the note I added to the
-	 * WPSEO_Breadcrumbs::breadcrumb_output() method for a possible elegant solution.
 	 *
 	 * @param string $before  What to show before the breadcrumb.
 	 * @param string $after   What to show after the breadcrumb.

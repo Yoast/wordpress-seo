@@ -12,9 +12,6 @@
  * or try and hook into the uninstall routine and ask the user there & then
  * (Nearly) all the code needed for a removal of this data for a single blog has been added below (commented out)
  *
- * @todo [JRF => Yoast] what should be done with the 'googleplus', 'twitter', 'facebook' contactmethods added to the user profile page ?
- *
- *
  * @todo [JRF => whomever] deal with multisite uninstall - the options and other data will need to be removed for all blogs ? delete_blog_option() on all blogs
  */
 

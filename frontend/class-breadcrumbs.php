@@ -20,11 +20,7 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 		/**
 		 * Wrapper function for the breadcrumb so it can be output for the supported themes.
 		 *
-		 * @todo [JRF => Yoast/whomever] maybe make this a static function and advise supported themes
-		 * to change the call to this method to WPSEO_Breadcrumbs::breadcrumb_output(). That way the
-		 * file would still only be (auto)loaded when needed. Or if we want to be really really kind:
-		 * add a mini class with only the below function to the functions file, then instantiate
-		 * that class to the old global variable and have that class load this file only when needed.
+		 * @todo Issue 631 https://github.com/Yoast/wordpress-seo/issues/631
 		 */
 		function breadcrumb_output() {
 			$this->breadcrumb( '<div id="wpseobreadcrumb">', '</div>' );

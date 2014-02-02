@@ -9,18 +9,12 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-/*
-@todo [JRF => testers] Extensively test the export & import of the (new) settings!
-If that all works fine, getting testers to export before and after upgrade will make testing easier.
-
-@todo [JRF => Yoast] from the looks of it, the original code for the woo import would change the local
-$options variable, but most of the time these settings would not be saved... or am I missing something ?
-(This only applies to the options, the meta data was saved correctly.)
-
-@todo [JRF => Yoast] The import for the RSS Footer plugin checks for data already entered via WP SEO,
-the other import routines do not. Consistency seems appropriate. Also, you may want to add a warning to the
-Import page text about overwriting data already entered in WP SEO. (This only goes for options, not for meta
-data).
+/**
+ * @todo [JRF => testers] Extensively test the export & import of the (new) settings!
+ * If that all works fine, getting testers to export before and after upgrade will make testing easier.
+ *
+ * @todo [Yoast] The import for the RSS Footer plugin checks for data already entered via WP SEO,
+ * the other import routines should do that too.
 */
 
 global $wpseo_admin_pages;
@@ -101,7 +95,7 @@ if ( isset( $_POST['import'] ) ) {
 			delete_option( 'seo_woo_page_layout' );
 		}
 
-		// @todo - [JRF => Yoast] should the default be the same default as wpseo default ? It currently isn't,
+		// @todo [Yoast] Change this to the WPSEO default, don't see why it's not.
 		$template = '%%term_title%% ' . $sep . ' %%page%% ' . $sep . ' %%sitename%%';
 		switch ( get_option( 'seo_woo_archive_layout' ) ) {
 			case 'a':

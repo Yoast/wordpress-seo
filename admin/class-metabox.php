@@ -363,8 +363,6 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 				'content_text'					=> __( 'Content: ', 'wordpress-seo' ),
 				'meta_description_text'			=> __( 'Meta description: ', 'wordpress-seo' ),
 				'choose_image'					=> __( 'Use Image', 'wordpress-seo' ),
-				// @todo [JRF => Yoast] check: variable 'wpseo_lang' does not seem to be used anywhere anymore
-				'wpseo_lang'					=> substr( get_locale(), 0, 2 ),
 				'wpseo_meta_desc_length'		=> self::$meta_length,
 				'wpseo_title_template'			=> $title_template,
 				'wpseo_metadesc_template'		=> $metadesc_template,
@@ -463,12 +461,9 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			}
 
 			$placeholder = '';
-			/* @todo [JRF => Yoast/whomever] -> does not seem to be ever invoked as none of the field defs
-			   contain the key
 			if ( isset( $meta_field_def['placeholder'] ) && ! empty( $meta_field_def['placeholder'] ) ) {
 				$placeholder = $meta_field_def['placeholder'];
 			}
-			*/
 
 			$help = '';
 			if ( isset( $meta_field_def['help'] ) && $meta_field_def['help'] !== '' ) {
@@ -496,12 +491,10 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 					if ( isset( $meta_field_def['autocomplete'] ) && $meta_field_def['autocomplete'] === false ) {
 						$ac = 'autocomplete="off" ';
 					}
-					// @todo [JRF/JRF => Yoast] check placeholder use
 					$content .= '<input type="text" placeholder="' . esc_attr( $placeholder ) . '" id="' . $esc_form_key . '" ' . $ac . 'name="' . $esc_form_key . '" value="' . esc_attr( $meta_value ) . '" class="large-text' . $class . '"/><br />';
 					break;
 
 				case 'textarea':
-					// @todo [JRF => Yoast] richedit is set as a field def variable, but not use, this would be the most appropriate place. Should the variable be removed from the field def or added here ?
 					$rows = 3;
 					if ( isset( $meta_field_def['rows'] ) && $meta_field_def['rows'] > 0 ) {
 						$rows = $meta_field_def['rows'];
@@ -539,13 +532,6 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 					break;
 
 				case 'checkbox':
-					/* @todo [JRF => Yoast]-> why also check for true ? post meta values are only ever strings when retrieved via get_post_meta()
-					$checked = '';
-					if ( $meta_value == 'on' || $meta_value == true ) {
-						$checked = 'checked="checked"';
-					}
-					*/
-
 					$checked  = checked( $meta_value, 'on', false );
 					$expl     = ( isset( $meta_field_def['expl'] ) ) ? esc_html( $meta_field_def['expl'] ) : '';
 					$content .= '<label for="' . $esc_form_key . '"><input type="checkbox" id="' . $esc_form_key . '" name="' . $esc_form_key . '" ' . $checked . ' value="on" class="yoast' . $class . '"/> ' . $expl . '</label><br />';
@@ -704,6 +690,8 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 				 * @todo [JRF => Yoast] do we really need to retrieve this every week ? why not change it
 				 * to month ? or make it an option variable and let the user decide based
 				 * on how they use gplus
+				 *
+				 * Note from Yoast: this entire function isn't actually used anywhere in the codebase at the moment.
 				 */
 				set_transient( 'gplus_' . $user_id, $gplus, ( 7 * 24 * 60 * 60 ) );
 			}

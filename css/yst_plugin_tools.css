@@ -103,26 +103,6 @@ div.yoastbox a, div.yoastbox a.rsswidget {
 div.yoastbox a:hover, div.yoastbox a.rsswidget:hover {
 	text-decoration: underline;
 }
-/* @todo [JRF => Yoast] check: image file does not exist */
-div.yoastbox ul li.rss {
-	list-style-image: url(../images/rss.png);
-}
-/* @todo [JRF => Yoast] check: image file does not exist */
-div.yoastbox ul li.twitter {
-	list-style-image: url(../images/twitter-icon.png);
-}
-/* @todo [JRF => Yoast] check: image file does not exist */
-div.yoastbox ul li.facebook {
-	list-style-image: url(../images/facebook-icon.png);
-}
-/* @todo [JRF => Yoast] check: image file does not exist */
-div.yoastbox ul li.googleplus {
-	list-style-image: url(../images/google-plus-icon.png);
-}
-/* @todo [JRF => Yoast] check: image file does not exist */
-div.yoastbox ul li.email {
-	list-style-image: url(../images/email_sub.png);
-}
 
 div.yoastbox ul li.yoast {
 	list-style-image: url(../images/yoast-16x16.png);
