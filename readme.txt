@@ -192,8 +192,9 @@ This version also incorporates the [SEO Extended](http://wordpress.org/plugins/s
 = Trunk =
 
 * Bugfixes
-	* Do not include external URLs in XML sitemap (Issue #528) - props [tivnet](https://github.com/tivnet)
-	* Get home_url out of the sitemap loop - props [tivnet](https://github.com/tivnet)
+	* Do not include external URLs in XML sitemap (Issue #528) - props [tivnet](https://github.com/tivnet).
+	* Get home_url out of the sitemap loop - props [tivnet](https://github.com/tivnet).
+	* Add support for html entities - props [julienmeyer](https://github.com/julienmeyer).
 
 * Enhancement
 	* WPSEO_FILE now had a 'defined' check.

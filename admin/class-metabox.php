@@ -211,6 +211,10 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		 * @return string
 		 */
 		public function strtolower_utf8( $string ) {
+		
+		// Prevent comparison between utf8 characters and html entities (é vs &eacute;)
+		$string = html_entity_decode( $string );
+		
 			$convert_to   = array(
 				'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u',
 				'v', 'w', 'x', 'y', 'z', 'à', 'á', 'â', 'ã', 'ä', 'å', 'æ', 'ç', 'è', 'é', 'ê', 'ë', 'ì', 'í', 'î', 'ï',
