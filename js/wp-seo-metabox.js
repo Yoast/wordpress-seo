@@ -3,6 +3,7 @@ function yst_clean(str) {
 		return '';
 
 	try {
+        str = jQuery('<div/>').html(str).text();
 		str = str.replace(/<\/?[^>]+>/gi, '');
 		str = str.replace(/\[(.+?)\](.+?\[\/\\1\])?/g, '');
 	} catch (e) {
@@ -12,7 +13,7 @@ function yst_clean(str) {
 }
 
 function ptest(str, p) {
-	str = yst_clean(str);
+    str = yst_clean(str);
 	str = str.toLowerCase();
 	var r = str.match(p);
 	if (r != null)
