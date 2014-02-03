@@ -109,8 +109,9 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 = Trunk =
 
 * Bugfixes
-	* Do not include external URLs in XML sitemap (Issue #528) - props [tivnet](https://github.com/tivnet)
-	* Get home_url out of the sitemap loop - props [tivnet](https://github.com/tivnet)
+	* Do not include external URLs in XML sitemap (Issue #528) - props [tivnet](https://github.com/tivnet).
+	* Get home_url out of the sitemap loop - props [tivnet](https://github.com/tivnet).
+	* Add support for html entities - props [julienmeyer](https://github.com/julienmeyer).
 
 * Enhancement
 		* WPSEO_FILE now had a 'defined' check.
