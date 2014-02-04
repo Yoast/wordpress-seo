@@ -154,8 +154,15 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 						$ancestors = array( $post->post_parent );
 					}
 
+					/**
+					 * Allow changing the ancestors
+					 *
+					 * @api array $ancestors Ancestors
+					 */
+					$ancestors = apply_filters( 'wp_seo_get_bc_ancestors', $ancestors );
+
 					// Reverse the order so it's oldest to newest
-					$ancestors = array_reverse( apply_filters( 'wp_seo_get_bc_ancestors', $ancestors ) );
+					$ancestors = array_reverse( $ancestors );
 
 					foreach ( $ancestors as $ancestor ) {
 						$links[] = array( 'id' => $ancestor );
@@ -254,7 +261,9 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 			}
 
 			/**
-			 * @api array $links Allow the developer to filter the breadcrumb links, add to them, change order, etc.
+			 * Filter: 'wpseo_breadcrumb_links' - Allow the developer to filter the breadcrumb links, add to them, change order, etc.
+			 *
+			 * @api array $links The links array
 			 */
 			$links = apply_filters( 'wpseo_breadcrumb_links', $links );
 
@@ -297,13 +306,17 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 			global $paged;
 
 			/**
-			 * @api string $breadcrumbs_sep Allow (theme) developer to change the breadcrumb separator.
+			 * Filter: 'wpseo_breadcrumb_separator' - Allow (theme) developer to change the breadcrumb separator.
+			 *
+			 * @api string $breadcrumbs_sep Breadcrumbs separator
 			 */
 			$sep    = apply_filters( 'wpseo_breadcrumb_separator', $this->options['breadcrumbs-sep'] );
 			$output = '';
 
 			/**
-			 * @api string $element Allow developer to change or wrap each breadcrumb element
+			 * Filter: 'wpseo_breadcrumb_single_link_wrapper' - Allows developer to change or wrap each breadcrumb element
+			 *
+			 * @api string $element
 			 */
 			$element = esc_attr( apply_filters( 'wpseo_breadcrumb_single_link_wrapper', $element ) );
 
@@ -316,7 +329,9 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 						$link['text'] = strip_tags( get_the_title( $link['id'] ) );
 					}
 					/**
-					 * @api string $link_text Allow developer to filter the Breadcrumb title
+					 * Filter: 'wp_seo_get_bc_title' - Allow developer to filter the WP SEO Breadcrumb title.
+					 *
+					 * @api string $link_text The Breadcrumb title text
 					 *
 					 * @param int $link_id The post ID
 					 */
@@ -371,24 +386,55 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 					$link_output .= '</' . $element . '>';
 
 				}
-				$link_sep    = ( ! empty( $output ) ? " $sep " : '' );
+				$link_sep    = ( ( '' != $output ) ? " $sep " : '' );
+				/**
+				 * Filter: 'wpseo_breadcrumb_single_link' - Allow changing of each link being put out by the breadcrumbs class
+				 *
+				 * @api string $link_output The output string
+				 *
+				 * @param array $link The link array
+				 */
 				$link_output = apply_filters( 'wpseo_breadcrumb_single_link', $link_output, $link );
 				if ( is_string( $link_output ) && $link_output !== '' ) {
-					$output .= apply_filters( 'wpseo_breadcrumb_single_link_with_sep', $link_sep . $link_output, $link );
+					$output .= $link_sep . $link_output;
 				}
 			}
 
-			$id = apply_filters( 'wpseo_breadcrumb_output_id', false );
-			if ( ! empty( $id ) ) {
+			/**
+			 * Filter: 'wpseo_breadcrumb_output_id' - Allow changing the HTML ID on the breadcrumbs wrapper element
+			 *
+			 * @api string $id ID to add to the wrapper element
+			 */
+			$id = apply_filters( 'wpseo_breadcrumb_output_id', '' );
+			if ( is_string( $id ) && '' != $id ) {
 				$id = ' id="' . esc_attr( $id ) . '"';
 			}
 
-			$class = apply_filters( 'wpseo_breadcrumb_output_class', false );
-			if ( ! empty( $class ) ) {
+			/**
+			 * Filter: 'wpseo_breadcrumb_output_class' - Allow changing the HTML class on the breadcrumbs wrapper element
+			 *
+			 * @api string $class class to add to the wrapper element
+			 */
+			$class = apply_filters( 'wpseo_breadcrumb_output_class', '' );
+			if ( is_string( $class ) && '' != $class ) {
 				$class = ' class="' . esc_attr( $class ) . '"';
 			}
 
+			/**
+			 * Filter: 'wpseo_breadcrumb_output_wrapper' - Allow changing the HTML wrapper element
+			 *
+			 * @api string $wrapper The wrapper element
+			 */
 			$wrapper = apply_filters( 'wpseo_breadcrumb_output_wrapper', $wrapper );
+			if ( ! is_string( $wrapper ) || '' == $wrapper ) {
+				$wrapper = 'span';
+			}
+
+			/**
+			 * Filter: 'wpseo_breadcrumb_output' - Allow changing the HTML output
+			 *
+			 * @api string $output HTML output
+			 */
 			return apply_filters( 'wpseo_breadcrumb_output', '<' . $wrapper . $id . $class . ' xmlns:v="http://rdf.data-vocabulary.org/#">' . $output . '</' . $wrapper . '>' );
 		}
 
