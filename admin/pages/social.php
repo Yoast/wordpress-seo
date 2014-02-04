@@ -195,7 +195,11 @@ if ( $error )
 
 <div id="google" class="wpseotab">
 	<?php
-		// echo '<h2>' . __( 'Author metadata', 'wordpress-seo' ) . '</h2>';
+		echo '<p>';
+		echo $wpseo_admin_pages->checkbox( 'googleplus', __( 'Add Google+ specific post meta data (excluding author metadata)', 'wordpress-seo' ) );
+		echo '</p>';
+
+	// echo '<h2>' . __( 'Author metadata', 'wordpress-seo' ) . '</h2>';
 		echo '<label class="select" for="wpseo_social_plus_author">' . __( 'Author for homepage', 'wordpress-seo' ) . ':</label>';
 		wp_dropdown_users(
 			array(

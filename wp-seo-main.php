@@ -62,6 +62,7 @@ function wpseo_auto_load( $class ) {
 				'wpseo_frontend'                     => WPSEO_PATH . 'frontend/class-frontend.php',
 				'wpseo_opengraph'                    => WPSEO_PATH . 'frontend/class-opengraph.php',
 				'wpseo_twitter'                      => WPSEO_PATH . 'frontend/class-twitter.php',
+				'wpseo_googleplus'                   => WPSEO_PATH . 'frontend/class-googleplus.php',
 				'wpseo_rewrite'                      => WPSEO_PATH . 'inc/class-rewrite.php',
 				'wpseo_sitemaps'                     => WPSEO_PATH . 'inc/class-sitemaps.php',
 				'sitemap_walker'                     => WPSEO_PATH . 'inc/class-sitemap-walker.php',
@@ -155,13 +156,24 @@ function wpseo_frontend_init() {
 		add_filter( 'bbp_get_breadcrumb', '__return_false' );
 	}
 
+	add_action( 'get_header', 'wpseo_frontend_head_init' );
+}
+
+/**
+ * Instantiate the different social classes on the frontend
+ */
+function wpseo_frontend_head_init() {
+	$options = WPSEO_Options::get_all();
 	if ( $options['twitter'] === true && is_singular() ) {
 		add_action( 'wpseo_head', array( 'WPSEO_Twitter', 'get_instance' ), 40 );
 	}
 
 	if ( $options['opengraph'] === true ) {
-		// @todo [JRF => whomever] check if this can be loaded at a later point via an action
 		$GLOBALS['wpseo_og'] = new WPSEO_OpenGraph;
+	}
+
+	if ( $options['googleplus'] === true && is_singular() ) {
+		add_action( 'wpseo_head', array( 'WPSEO_GooglePlus', 'get_instance' ), 35 );
 	}
 }
 

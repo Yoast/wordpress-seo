@@ -2103,6 +2103,7 @@ if ( ! class_exists( 'WPSEO_Option_Social' ) ) {
 			'og_frontpage_desc'  => '', // text field
 			'og_frontpage_image' => '', // text field
 			'opengraph'          => true,
+			'googleplus'				 => false,
 			'plus-author'        => - 1, // WP user id
 			'plus-publisher'     => '', // text field
 			'twitter'            => false,
@@ -2355,6 +2356,7 @@ if ( ! class_exists( 'WPSEO_Option_Social' ) ) {
 
 
 					/* boolean fields */
+					case 'googleplus':
 					case 'opengraph':
 					case 'twitter':
 					default:
