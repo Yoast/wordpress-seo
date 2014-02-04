@@ -51,6 +51,9 @@ if ( ! class_exists( 'WPSEO_GooglePlus' ) ) {
 		 * Output the Google+ specific content
 		 */
 		public function output() {
+			/**
+			 * Action: 'wpseo_googleplus' - Hook to add all Google+ specific output to.
+			 */
 			do_action( 'wpseo_googleplus' );
 		}
 
@@ -62,7 +65,7 @@ if ( ! class_exists( 'WPSEO_GooglePlus' ) ) {
 				$desc = WPSEO_Meta::get_value( 'google-plus-description' );
 
 				/**
-				 * Allow developers to change the Google+ specific description output
+				 * Filter: 'wpseo_googleplus_desc' - Allow developers to change the Google+ specific description output
 				 *
 				 * @api string $desc The description string
 				 */

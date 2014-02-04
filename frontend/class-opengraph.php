@@ -65,6 +65,9 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 		 */
 		public function opengraph() {
 			wp_reset_query();
+			/**
+			 * Action: 'wpseo_opengraph' - Hook to add all Facebook OpenGraph output to so they're close together.
+			 */
 			do_action( 'wpseo_opengraph' );
 		}
 
@@ -75,6 +78,11 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 		 * @param string $content
 		 */
 		private function og_tag( $property, $content ) {
+			/**
+			 * Filter: 'wpseo_og_' . $property - Allow developers to change the content of specific OG meta tags.
+			 *
+			 * @api string $content The content of the property
+			 */
 			$content = apply_filters( 'wpseo_og_' . str_replace( ':', '_', $property ), $content );
 			if ( ! empty( $content ) ) {
 				echo '<meta property="' . esc_attr( $property ) . '" content="' . esc_attr( $content ) . '" />' . "\n";
@@ -126,6 +134,11 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 				return;
 
 			global $post;
+			/**
+			 * Filter: 'wpseo_opengraph_author_facebook' - Allow developers to filter the WP SEO post authors facebook profile URL
+			 *
+			 * @api bool|string $unsigned The Facebook author URL, return false to disable
+			 */
 			$facebook = apply_filters( 'wpseo_opengraph_author_facebook', get_the_author_meta( 'facebook', $post->post_author ) );
 
 			if ( $facebook && ( is_string( $facebook ) && $facebook !== '' ) ) {
@@ -153,6 +166,11 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 			}
 			else if ( is_array( $this->options['fb_admins'] ) && $this->options['fb_admins'] !== array() ) {
 				$adminstr = implode( ',', array_keys( $this->options['fb_admins'] ) );
+				/**
+				 * Filter: 'wpseo_opengraph_admin' - Allow developer to filter the fb:admins string put out by WP SEO
+				 *
+				 * @api string $adminstr The admin string
+				 */
 				$adminstr = apply_filters( 'wpseo_opengraph_admin', $adminstr );
 				if ( is_string( $adminstr ) && $adminstr !== '' ) {
 					$this->og_tag( 'fb:admins', $adminstr );
@@ -168,6 +186,11 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 		 * @return string $title
 		 */
 		public function og_title( $echo = true ) {
+			/**
+			 * Filter: 'wpseo_opengraph_title' - Allow changing the title specifically for OpenGraph
+			 *
+			 * @api string $unsigned The title string
+			 */
 			$title = apply_filters( 'wpseo_opengraph_title', $this->title( '' ) );
 
 			if ( is_string( $title ) && $title !== '' ) {
@@ -183,6 +206,11 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 		 * Outputs the canonical URL as OpenGraph URL, which consolidates likes and shares.
 		 */
 		public function url() {
+			/**
+			 * Filter: 'wpseo_opengraph_url' - Allow changing the OpenGraph URL
+			 *
+			 * @api string $unsigned Canonical URL
+			 */
 			$url = apply_filters( 'wpseo_opengraph_url', $this->canonical( false ) );
 			if ( is_string( $url ) && $url !== '' ) {
 				$this->og_tag( 'og:url', esc_url( $url ) );
@@ -201,6 +229,11 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 		 * @return string $locale
 		 */
 		public function locale( $echo = true ) {
+			/**
+			 * Filter: 'wpseo_locale' - Allow changing the locale output
+			 *
+			 * @api string $unsigned Locale string
+			 */
 			$locale = apply_filters( 'wpseo_locale', get_locale() );
 
 			// catch some weird locales served out by WP that are not easily doubled up.
@@ -267,6 +300,11 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 			else {
 				$type = 'website';
 			}
+			/**
+			 * Filter: 'wpseo_opengraph_type' - Allow changing the OpenGraph type of the page
+			 *
+			 * @api string $type The OpenGraph type string.
+			 */
 			$type = apply_filters( 'wpseo_opengraph_type', $type );
 
 			if ( is_string( $type ) && $type !== '' ) {
@@ -293,6 +331,11 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 				return false;
 			}
 
+			/**
+			 * Filter: 'wpseo_opengraph_image' - Allow changing the OpenGraph image
+			 *
+			 * @api string $img Image URL string
+			 */
 			$img = trim( apply_filters( 'wpseo_opengraph_image', $img ) );
 			if ( ! empty( $img ) ) {
 				if ( strpos( $img, 'http' ) !== 0 ) {
@@ -341,10 +384,22 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 				}
 
 				if ( has_post_thumbnail( $post->ID ) ) {
+					/**
+					 * Filter: 'wpseo_opengraph_image_size' - Allow changing the image size used for OpenGraph sharing
+					 *
+					 * @api string $unsigned Size string
+					 */
 					$thumb = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), apply_filters( 'wpseo_opengraph_image_size', 'original' ) );
 					$this->image_output( $thumb[0] );
 				}
 
+				/**
+				 * Filter: 'wpseo_pre_analysis_post_content' - Allow filtering the content before analysis
+				 *
+				 * @api string $post_content The Post content string
+				 *
+				 * @param object $post The post object.
+				 */
 				$content = apply_filters( 'wpseo_pre_analysis_post_content', $post->post_content, $post );
 
 				if ( preg_match_all( '`<img [^>]+>`', $content, $matches ) ) {
@@ -393,6 +448,11 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 				$ogdesc = trim( strip_tags( term_description() ) );
 			}
 
+			/**
+			 * Filter: 'wpseo_opengraph_desc' - Allow changing the OpenGraph description
+			 *
+			 * @api string $ogdesc The description string.
+			 */
 			$ogdesc = apply_filters( 'wpseo_opengraph_desc', $ogdesc );
 
 			if ( is_string( $ogdesc ) && $ogdesc !== '' ) {
@@ -407,6 +467,11 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 		 * Output the site name straight from the blog info.
 		 */
 		public function site_name() {
+			/**
+			 * Filter: 'wpseo_opengraph_site_name' - Allow changing the OpenGraph site name
+			 *
+			 * @api string $unsigned Blog name string
+			 */
 			$name = apply_filters( 'wpseo_opengraph_site_name', get_bloginfo( 'name' ) );
 			if ( is_string( $name ) && $name !== '' ) {
 				$this->og_tag( 'og:site_name', $name );

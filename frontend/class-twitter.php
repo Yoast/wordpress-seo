@@ -70,6 +70,9 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 				$this->twitter_url();
 			}
 
+			/**
+			 * Action: 'wpseo_twitter' - Hook to add all WP SEO Twitter output to so they're close together.
+			 */
 			do_action( 'wpseo_twitter' );
 		}
 
@@ -77,8 +80,15 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 		 * Display the Twitter card type.
 		 *
 		 * This defaults to summary but can be filtered using the <code>wpseo_twitter_card_type</code> filter.
+		 *
+		 * @link https://dev.twitter.com/docs/cards
 		 */
 		public function type() {
+			/**
+			 * Filter: 'wpseo_twitter_card_type' - Allow changing the Twitter Card type as output in the Twitter card by WP SEO
+			 *
+			 * @api string $unsigned The type string
+			 */
 			$type = apply_filters( 'wpseo_twitter_card_type', 'summary' );
 			if ( ! in_array( $type, array( 'summary', 'summary_large_image', 'photo', 'gallery', 'app', 'player', 'product' ) ) ) {
 				$type = 'summary';
@@ -91,6 +101,11 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 		 * Displays the Twitter account for the site.
 		 */
 		public function site_twitter() {
+			/**
+			 * Filter: 'wpseo_twitter_site' - Allow changing the Twitter site account as output in the Twitter card by WP SEO
+			 *
+			 * @api string $unsigned Twitter site account string
+			 */
 			$site = apply_filters( 'wpseo_twitter_site', $this->options['twitter_site'] );
 			if ( is_string( $site ) && $site !== '' ) {
 				echo '<meta name="twitter:site" content="@' . esc_attr( $site ) . '"/>' . "\n";
@@ -101,6 +116,11 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 		 * Displays the domain tag for the site.
 		 */
 		public function site_domain() {
+			/**
+			 * Filter: 'wpseo_twitter_domain' - Allow changing the Twitter domain as output in the Twitter card by WP SEO
+			 *
+			 * @api string $unsigned Name string
+			 */
 			$domain = apply_filters( 'wpseo_twitter_domain', get_bloginfo( 'name' ) );
 			if ( is_string( $domain ) && $domain !== '' ) {
 				echo '<meta name="twitter:domain" content="' . esc_attr( $domain ) . '"/>' . "\n";
@@ -112,15 +132,19 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 		 */
 		public function author_twitter() {
 			$twitter = ltrim( trim( get_the_author_meta( 'twitter' ) ), '@' );
+			/**
+			 * Filter: 'wpseo_twitter_creator_account' - Allow changing the Twitter account as output in the Twitter card by WP SEO
+			 *
+			 * @api string $twitter The twitter account name string
+			 */
 			$twitter = apply_filters( 'wpseo_twitter_creator_account', $twitter );
 
 			if ( is_string( $twitter ) && $twitter !== '' ) {
 				echo '<meta name="twitter:creator" content="@' . esc_attr( $twitter ) . '"/>' . "\n";
 			}
 			else if ( $this->options['twitter_site'] !== '' ) {
-				$twitter = apply_filters( 'wpseo_twitter_creator_account', $this->options['twitter_site'] );
-				if ( is_string( $twitter ) && $twitter !== '' ) {
-					echo '<meta name="twitter:creator" content="@' . esc_attr( $twitter ) . '"/>' . "\n";
+				if ( is_string( $this->options['twitter_site'] ) && $this->options['twitter_site'] !== '' ) {
+					echo '<meta name="twitter:creator" content="@' . esc_attr( $this->options['twitter_site'] ) . '"/>' . "\n";
 				}
 			}
 		}
@@ -131,6 +155,11 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 		 * Only used when OpenGraph is inactive.
 		 */
 		public function twitter_title() {
+			/**
+			 * Filter: 'wpseo_twitter_title' - Allow changing the Twitter title as output in the Twitter card by WP SEO
+			 *
+			 * @api string $twitter The title string
+			 */
 			$title = apply_filters( 'wpseo_twitter_title', $this->title( '' ) );
 			if ( is_string( $title ) && $title !== '' ) {
 				echo '<meta name="twitter:title" content="' . esc_attr( $title ) . '"/>' . "\n";
@@ -152,6 +181,11 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 				$metadesc = strip_tags( get_the_excerpt() );
 			}
 
+			/**
+			 * Filter: 'wpseo_twitter_description' - Allow changing the Twitter description as output in the Twitter card by WP SEO
+			 *
+			 * @api string $twitter The description string
+			 */
 			$metadesc = apply_filters( 'wpseo_twitter_description', $metadesc );
 			if ( is_string( $metadesc ) && $metadesc !== '' ) {
 				echo '<meta name="twitter:description" content="' . esc_attr( $metadesc ) . '"/>' . "\n";
@@ -164,7 +198,12 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 		 * Only used when OpenGraph is inactive.
 		 */
 		public function twitter_url() {
-			$url = $this->canonical( false );
+			/**
+			 * Filter: 'wpseo_twitter_url' - Allow changing the URL as output in the Twitter card by WP SEO
+			 *
+			 * @api string $unsigned Canonical URL
+			 */
+			$url = apply_filters( 'wpseo_twitter_url', $this->canonical( false ) );
 			if ( is_string( $url ) && $url !== '' ) {
 				echo '<meta name="twitter:url" content="' . esc_url( $url ) . '"/>' . "\n";
 			}
@@ -195,10 +234,20 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 				}
 
 				if ( has_post_thumbnail( $post->ID ) ) {
-					$featured_img = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), apply_filters( 'wpseo_opengraph_image_size', 'medium' ) );
+					/**
+					 * Filter: 'wpseo_twitter_image_size' - Allow changing the Twitter Card image size
+					 *
+					 * @api string $featured_img Image size string
+					 */
+					$featured_img = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), apply_filters( 'wpseo_twitter_image_size', 'medium' ) );
 
 					if ( $featured_img ) {
-						$escaped_img = esc_url( apply_filters( 'wpseo_opengraph_image', $featured_img[0] ) );
+						/**
+						 * Filter: 'wpseo_twitter_image' - Allow changing the Twitter Card image
+						 *
+						 * @api string $featured_img Image URL string
+						 */
+						$escaped_img = esc_url( apply_filters( 'wpseo_twitter_image', $featured_img[0] ) );
 
 						if ( ( is_string( $escaped_img ) && $escaped_img !== ''  ) && ! in_array( $escaped_img, $shown_images ) ) {
 							echo '<meta name="twitter:image:src" content="' . $escaped_img . '"/>' . "\n";
