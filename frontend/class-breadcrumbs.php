@@ -155,7 +155,7 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 					}
 
 					/**
-					 * Allow changing the ancestors
+					 * Allow changing the ancestors for the WP SEO breadcrumbs output
 					 *
 					 * @api array $ancestors Ancestors
 					 */
@@ -261,7 +261,7 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 			}
 
 			/**
-			 * Filter: 'wpseo_breadcrumb_links' - Allow the developer to filter the breadcrumb links, add to them, change order, etc.
+			 * Filter: 'wpseo_breadcrumb_links' - Allow the developer to filter the WP SEO breadcrumb links, add to them, change order, etc.
 			 *
 			 * @api array $links The links array
 			 */
@@ -306,7 +306,7 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 			global $paged;
 
 			/**
-			 * Filter: 'wpseo_breadcrumb_separator' - Allow (theme) developer to change the breadcrumb separator.
+			 * Filter: 'wpseo_breadcrumb_separator' - Allow (theme) developer to change the WP SEO breadcrumb separator.
 			 *
 			 * @api string $breadcrumbs_sep Breadcrumbs separator
 			 */
@@ -388,7 +388,7 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 				}
 				$link_sep    = ( ( '' != $output ) ? " $sep " : '' );
 				/**
-				 * Filter: 'wpseo_breadcrumb_single_link' - Allow changing of each link being put out by the breadcrumbs class
+				 * Filter: 'wpseo_breadcrumb_single_link' - Allow changing of each link being put out by the WP SEO breadcrumbs class
 				 *
 				 * @api string $link_output The output string
 				 *
@@ -401,9 +401,9 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 			}
 
 			/**
-			 * Filter: 'wpseo_breadcrumb_output_id' - Allow changing the HTML ID on the breadcrumbs wrapper element
+			 * Filter: 'wpseo_breadcrumb_output_id' - Allow changing the HTML ID on the WP SEO breadcrumbs wrapper element
 			 *
-			 * @api string $id ID to add to the wrapper element
+			 * @api string $unsigned ID to add to the wrapper element
 			 */
 			$id = apply_filters( 'wpseo_breadcrumb_output_id', '' );
 			if ( is_string( $id ) && '' != $id ) {
@@ -411,9 +411,9 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 			}
 
 			/**
-			 * Filter: 'wpseo_breadcrumb_output_class' - Allow changing the HTML class on the breadcrumbs wrapper element
+			 * Filter: 'wpseo_breadcrumb_output_class' - Allow changing the HTML class on the WP SEO breadcrumbs wrapper element
 			 *
-			 * @api string $class class to add to the wrapper element
+			 * @api string $unsigned class to add to the wrapper element
 			 */
 			$class = apply_filters( 'wpseo_breadcrumb_output_class', '' );
 			if ( is_string( $class ) && '' != $class ) {
@@ -421,7 +421,7 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 			}
 
 			/**
-			 * Filter: 'wpseo_breadcrumb_output_wrapper' - Allow changing the HTML wrapper element
+			 * Filter: 'wpseo_breadcrumb_output_wrapper' - Allow changing the HTML wrapper element for the WP SEO breadcrumbs output
 			 *
 			 * @api string $wrapper The wrapper element
 			 */
@@ -431,9 +431,9 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 			}
 
 			/**
-			 * Filter: 'wpseo_breadcrumb_output' - Allow changing the HTML output
+			 * Filter: 'wpseo_breadcrumb_output' - Allow changing the HTML output of the WP SEO breadcrumbs class
 			 *
-			 * @api string $output HTML output
+			 * @api string $unsigned HTML output
 			 */
 			return apply_filters( 'wpseo_breadcrumb_output', '<' . $wrapper . $id . $class . ' xmlns:v="http://rdf.data-vocabulary.org/#">' . $output . '</' . $wrapper . '>' );
 		}

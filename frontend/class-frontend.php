@@ -11,7 +11,6 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-
 if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 	/**
 	 * Main frontend class for WordPress SEO, responsible for the SEO output as well as removing
@@ -459,6 +458,11 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 				$title = str_replace( ' @' . ICL_LANGUAGE_CODE, '', $title );
 			}
 
+			/**
+			 * Filter: 'wpseo_title' - Allow changing the WP SEO <title> output
+			 *
+			 * @api string $title The page title being put out.
+			 */
 			return esc_html( strip_tags( stripslashes( apply_filters( 'wpseo_title', $title ) ) ) );
 		}
 
@@ -534,6 +538,9 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 				wp_reset_query();
 			}
 
+			/**
+			 * Action: 'wpseo_head' - Allow other plugins to output inside the WP SEO section of the head section.
+			 */
 			do_action( 'wpseo_head' );
 
 			echo "<!-- / Yoast WordPress SEO plugin. -->\n\n";
@@ -649,6 +656,11 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 
 			$robotsstr = preg_replace( '`^index,follow,?`', '', $robotsstr );
 
+			/**
+			 * Filter: 'wpseo_robots' - Allows filtering of the meta robots output of WP SEO
+			 *
+			 * @api string $robotsstr The meta robots directives to be echoed.
+			 */
 			$robotsstr = apply_filters( 'wpseo_robots', $robotsstr );
 
 			if ( is_string( $robotsstr ) && $robotsstr !== '' ) {
@@ -750,9 +762,14 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 				$canonical = preg_replace( '`^http[s]?`', $this->options['force_transport'], $canonical );
 			}
 
+			/**
+			 * Filter: 'wpseo_canonical' - Allow filtering of the canonical URL put out by WP SEO
+			 *
+			 * @api string $canonical The canonical URL
+			 */
 			$canonical = apply_filters( 'wpseo_canonical', $canonical );
 
-			if ( is_string( $canonical ) && $canonical !== '' && ! is_wp_error( $canonical ) ) {
+			if ( is_string( $canonical ) && $canonical !== '' ) {
 				if ( $echo !== false ) {
 					echo '<link rel="canonical" href="' . esc_url( $canonical, null, 'other' ) . '" />' . "\n";
 				} else {
@@ -771,6 +788,11 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 		 */
 		public function adjacent_rel_links() {
 			// Don't do this for Genesis, as the way Genesis handles homepage functionality is different and causes issues sometimes.
+			/**
+			 * Filter 'wpseo_genesis_force_adjacent_rel_home' - Allows devs to allow echoing rel="next" / rel="prev" by WP SEO on Genesis installs
+			 *
+			 * @api bool $unsigned Whether or not to rel=next / rel=prev
+			 */
 			if ( is_home() && function_exists( 'genesis' ) && apply_filters( 'wpseo_genesis_force_adjacent_rel_home', false ) === false )
 				return;
 
@@ -852,6 +874,11 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 					$url = user_trailingslashit( trailingslashit( $url ) . $base . $page );
 				}
 			}
+			/**
+			 * Filter: 'wpseo_' . $rel . '_rel_link' - Allow changing link rel output by WP SEO
+			 *
+			 * @api string $unsigned The full `<link` element.
+			 */
 			$link = apply_filters( 'wpseo_' . $rel . '_rel_link', '<link rel="' . $rel . '" href="' . esc_url( $url ) . "\" />\n" );
 
 			if ( is_string( $link ) && $link !== '' ) {
@@ -899,6 +926,11 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 				}
 			}
 
+			/**
+			 * Allow changing the rel=author link being put out by WPSEO
+			 *
+			 * @api string $gplus The rel=author link for the current URL.
+			 */
 			$gplus = apply_filters( 'wpseo_author_link', $gplus );
 
 			if ( is_string( $gplus ) && $gplus !== '' ) {
@@ -956,6 +988,12 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 			}
 
 			$keywords = apply_filters( 'wpseo_metakey', trim( $keywords ) ); // make deprecated
+
+			/**
+			 * Filter: 'wpseo_metakeywords' - Allow changing the WP SEO meta keywords
+			 *
+			 * @api string $keywords The meta keywords to be echoed.
+			 */
 			$keywords = apply_filters( 'wpseo_metakeywords', trim( $keywords ) ); // more appropriately named
 
 			if ( is_string( $keywords ) && $keywords !== '' ) {
@@ -1023,6 +1061,11 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 				}
 			}
 
+			/**
+			 * Filter: 'wpseo_metadesc' - Allow changing the WP SEO meta description sentence.
+			 *
+			 * @api string $metadesc The description sentence.
+			 */
 			$metadesc = apply_filters( 'wpseo_metadesc', trim( $metadesc ) );
 
 			if ( $echo !== false ) {
@@ -1262,7 +1305,11 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 				$properurl = '';
 			}
 
-			// Allow plugins to register their own variables not to clean
+			/**
+			 * Filter: 'wpseo_whitelist_permalink_vars' - Allow plugins to register their own variables not to clean
+			 *
+			 * @api array $unsigned Array of permalink variables _not_ to clean. Empty by default.
+			 */
 			$whitelisted_extravars = apply_filters( 'wpseo_whitelist_permalink_vars', array() );
 
 			if ( $this->options['cleanpermalink-googlesitesearch'] === true ) {
@@ -1305,7 +1352,9 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 			global $post;
 
 			/**
-			 * @param bool $unsigned Whether or not to follow the links in RSS feed, defaults to true.
+			 * Allow the developer to determine whether or not to follow the links in the bits WP SEO adds to the RSS feed, defaults to true.
+			 *
+			 * @api bool $unsigned Whether or not to follow the links in RSS feed, defaults to true.
 			 *
 			 * @since 1.4.20
 			 */
