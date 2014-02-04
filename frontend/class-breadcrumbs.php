@@ -253,6 +253,9 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 				}
 			}
 
+			/**
+			 * @api array $links Allow the developer to filter the breadcrumb links, add to them, change order, etc.
+			 */
 			$links = apply_filters( 'wpseo_breadcrumb_links', $links );
 
 			$output = $this->create_breadcrumbs_string( $links );
@@ -293,8 +296,15 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 
 			global $paged;
 
-			$sep     = $this->options['breadcrumbs-sep'];
-			$output  = '';
+			/**
+			 * @api string $breadcrumbs_sep Allow (theme) developer to change the breadcrumb separator.
+			 */
+			$sep    = apply_filters( 'wpseo_breadcrumb_separator', $this->options['breadcrumbs-sep'] );
+			$output = '';
+
+			/**
+			 * @api string $element Allow developer to change or wrap each breadcrumb element
+			 */
 			$element = esc_attr( apply_filters( 'wpseo_breadcrumb_single_link_wrapper', $element ) );
 
 			foreach ( $links as $i => $link ) {
@@ -305,6 +315,11 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 					if ( $link['text'] === '' ) {
 						$link['text'] = strip_tags( get_the_title( $link['id'] ) );
 					}
+					/**
+					 * @api string $link_text Allow developer to filter the Breadcrumb title
+					 *
+					 * @param int $link_id The post ID
+					 */
 					$link['text'] = apply_filters( 'wp_seo_get_bc_title', $link['text'], $link['id'] );
 				}
 
