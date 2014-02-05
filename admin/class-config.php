@@ -80,43 +80,40 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 					'img' => 'banner-website-review.png',
 					'alt' => 'Website Review banner',
 				),
+				array(
+					'url' => 'https://yoast.com/wordpress/seo-premium/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=premium-seo-banner',
+					'img' => 'banner-premium-seo.png',
+					'alt' => 'Banner WordPress SEO Premium',
+				),
 			);
-			if ( 'nl_NL' == get_locale() ) {
-				$rand = rand( 1, 2 );
-				switch ( $rand ) {
-					case 1:
-						$banners[] = array(
-							'url' => 'http://yoast.nl/seo-trainingen/wordpress-seo-training//#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=wpseo-training-banner&utm_content=prijs',
-							'img' => 'banner-wpseo-training.png',
-							'alt' => 'WordPress SEO Training banner',
-						);
-						break;
-					case 2:
-						$banners[] = array(
-							'url' => 'http://yoast.nl/seo-trainingen/wordpress-seo-training//#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=wpseo-training-banner&utm_content=klik-hier',
-							'img' => 'banner-wpseo-training-2.png',
-							'alt' => 'WordPress SEO Training banner',
-						);
-						break;
-				}
-			}
+
 			if ( ! class_exists( 'wpseo_Video_Sitemap' ) ) {
 				$banners[] = array(
-					'url' => 'http://yoast.com/wordpress/video-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=video-seo-banner',
+					'url' => 'https://yoast.com/wordpress/video-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=video-seo-banner',
 					'img' => 'banner-video-seo.png',
 					'alt' => 'Banner WordPress SEO Video SEO extension',
 				);
 			}
+
 			if ( ! class_exists( 'wpseo_Video_Manual' ) ) {
 				$banners[] = array(
-					'url' => 'http://yoast.com/wordpress/video-manual-wordpress-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=video-manual-banner',
+					'url' => 'https://yoast.com/wordpress/video-manual-wordpress-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=video-manual-banner',
 					'img' => 'banner-video-seo-manual.png',
 					'alt' => 'Banner WordPress SEO Video manual',
 				);
 			}
+
+			if ( class_exists( 'Woocommerce' ) ) {
+				$banners[] = array(
+					'url' => 'https://yoast.com/wordpress/yoast-woocommerce-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=woocommerce-seo-banner',
+					'img' => 'banner-woocommerce-seo.png',
+					'alt' => 'Banner WooCommerce SEO plugin',
+				);
+			}
+
 			if ( ! defined( 'WPSEO_LOCAL_VERSION' ) ) {
 				$banners[] = array(
-					'url' => 'http://yoast.com/wordpress/local-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=local-seo-banner',
+					'url' => 'https://yoast.com/wordpress/local-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=local-seo-banner',
 					'img' => 'banner-local-seo.png',
 					'alt' => 'Banner Local SEO plugin',
 				);
@@ -128,11 +125,9 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 			<?php
 			$i = 0;
 			foreach ( $banners as $banner ) {
-				if ( $i == 3 )
+				if ( $i == 2 )
 					break;
-				if ( $i != 0 )
-					echo '<hr style="border:none;border-top:dotted 1px #f48500;margin: 30px 0;">';
-				echo '<a target="_blank" href="' . esc_url( $banner['url'] ) . '"><img src="' . plugins_url( 'images/' . $banner['img'], dirname( __FILE__ ) ) . '" alt="' . esc_attr( $banner['alt'] ) . '"/></a>';
+				echo '<a target="_blank" href="' . esc_url( $banner['url'] ) . '"><img src="' . plugins_url( 'images/' . $banner['img'], dirname( __FILE__ ) ) . '" alt="' . esc_attr( $banner['alt'] ) . '"/></a><br/><br/>';
 				$i++;
 			}
 			?>
