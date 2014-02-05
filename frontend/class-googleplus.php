@@ -20,16 +20,9 @@ if ( ! class_exists( 'WPSEO_GooglePlus' ) ) {
 		public static $instance;
 
 		/**
-		 * @var array $options Options for the OpenGraph Settings
-		 */
-		var $options = array();
-
-		/**
 		 * Class constructor.
 		 */
 		public function __construct() {
-			$this->options = WPSEO_Options::get_all();
-
 			add_action( 'wpseo_googleplus', array( $this, 'description' ) );
 
 			add_action( 'wpseo_head', array( $this, 'output' ), 40 );
