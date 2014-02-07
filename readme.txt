@@ -112,6 +112,7 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 	* Do not include external URLs in XML sitemap (Issue #528) - props [tivnet](https://github.com/tivnet).
 	* Get home_url out of the sitemap loop - props [tivnet](https://github.com/tivnet).
 	* Add support for html entities - props [julienmeyer](https://github.com/julienmeyer).
+	* Prevent error when theme does not support featured images, issue [#639](https://github.com/Yoast/wordpress-seo/issues/639) as reported by [kuzudecoletaje](https://github.com/kuzudecoletaje) - props [Jrf](http://profiles.wordpress.org/jrf).
 
 * Enhancement
 		* WPSEO_FILE now had a 'defined' check.
