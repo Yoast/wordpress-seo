@@ -1206,7 +1206,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			$imgs          = $this->get_images_alt_text( $post->ID, $body, $imgs );
 
 			// Check featured image
-			if ( has_post_thumbnail() ) {
+			if ( function_exists( 'has_post_thumbnail' ) && has_post_thumbnail() ) {
 				$imgs['count'] += 1;
 
 				if ( empty( $imgs['alts'] ) ) {

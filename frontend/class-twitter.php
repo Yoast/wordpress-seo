@@ -233,7 +233,7 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 					}
 				}
 
-				if ( has_post_thumbnail( $post->ID ) ) {
+				if ( function_exists( 'has_post_thumbnail' ) && has_post_thumbnail( $post->ID ) ) {
 					/**
 					 * Filter: 'wpseo_twitter_image_size' - Allow changing the Twitter Card image size
 					 *

@@ -383,7 +383,7 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 					return;
 				}
 
-				if ( has_post_thumbnail( $post->ID ) ) {
+				if ( function_exists( 'has_post_thumbnail' ) && has_post_thumbnail( $post->ID ) ) {
 					/**
 					 * Filter: 'wpseo_opengraph_image_size' - Allow changing the image size used for OpenGraph sharing
 					 *
