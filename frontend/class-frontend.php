@@ -1503,13 +1503,15 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 		 * @return string
 		 */
 		function title_test_helper( $title ) {
-			$this->options['title_test']++;
-			update_option( 'wpseo_titles', $this->options );
+			$wpseo_titles = get_option( $wpseo_titles );
+
+			$wpseo_titles['title_test']++;
+			update_option( 'wpseo_titles', $wpseo_titles );
 
 			// Prevent this setting from being on forever when something breaks, as it breaks caching.
-			if ( $this->options['title_test'] > 5 ) {
-				$this->options['title_test'] = 0;
-				update_option( 'wpseo_titles', $this->options );
+			if ( $wpseo_titles['title_test'] > 5 ) {
+				$wpseo_titles['title_test'] = 0;
+				update_option( 'wpseo_titles', $wpseo_titles );
 
 				remove_filter( 'wpseo_title', array( $this, 'title_test_helper' ) );
 				return $title;
