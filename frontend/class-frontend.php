@@ -1511,6 +1511,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 				$this->options['title_test'] = 0;
 				update_option( 'wpseo_titles', $this->options );
 
+				remove_filter( 'wpseo_title', array( $this, 'title_test_helper' ) );
 				return $title;
 			}
 
