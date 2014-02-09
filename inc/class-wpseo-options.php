@@ -1052,7 +1052,7 @@ if ( ! class_exists( 'WPSEO_Option_Titles' ) ) {
 		 */
 		protected $defaults = array(
 			// Non-form fields, set via (ajax) function
-			'title_test'             => false,
+			'title_test'             => 0,
 
 			// Form fields
 			'forcerewritetitle'      => false,
@@ -1275,13 +1275,19 @@ if ( ! class_exists( 'WPSEO_Option_Titles' ) ) {
 						break;
 
 
-					/* boolean fields - not in form*/
+					/* integer field - not in form*/
 					case 'title_test':
 						if ( isset( $dirty[$key] ) ) {
-							$clean[$key] = self::validate_bool( $dirty[$key] );
+							$int = self::validate_int( $dirty[$key] );
+							if( $int !== false ) {
+								$clean[$key] = $int;
+							}
 						} else {
 							if ( isset( $old[$key] ) ) {
-								$clean[$key] = self::validate_bool( $old[$key] );
+								$int = self::validate_int( $old[$key] );
+								if( $int !== false ) {
+									$clean[$key] = $int;
+								}
 							}
 						}
 						break;

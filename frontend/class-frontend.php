@@ -106,7 +106,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 				add_action( 'wp_footer', array( $this, 'flush_cache' ) );
 			}
 
-			if ( $this->options['title_test'] === true ) {
+			if ( $this->options['title_test'] > 0 ) {
 				add_filter( 'wpseo_title', array( $this, 'title_test_helper' ) );
 			}
 			if ( isset( $_GET['replytocom'] ) ) {
@@ -1503,12 +1503,12 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 		 * @return string
 		 */
 		function title_test_helper( $title ) {
-			$this->options['title_test'] ++;
+			$this->options['title_test']++;
 			update_option( 'wpseo_titles', $this->options );
 
 			// Prevent this setting from being on forever when something breaks, as it breaks caching.
-			if ( $this->options['title_test'] > 10 ) {
-				unset( $this->options['title_test'] );
+			if ( $this->options['title_test'] > 5 ) {
+				$this->options['title_test'] = 0;
 				update_option( 'wpseo_titles', $this->options );
 
 				return $title;

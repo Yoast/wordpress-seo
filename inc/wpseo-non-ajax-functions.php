@@ -85,15 +85,16 @@ function wpseo_title_test() {
 			$res = preg_match( '`/<title>([^>]+)</title>`im', $resp['body'], $matches );
 		}
 
-		if ( ! $res || $matches[1] != $expected_title )
+		if ( ! $res || $matches[1] != $expected_title ) {
 			$options['forcerewritetitle'] = false;
+		}
 	}
 	else {
 		// If that dies, let's make sure the titles are correct and force the output.
 		$options['forcerewritetitle'] = true;
 	}
 
-	$options['title_test'] = false;
+	$options['title_test'] = 0;
 	update_option( 'wpseo_titles', $options );
 }
 
