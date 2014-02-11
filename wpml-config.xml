@@ -10,12 +10,14 @@
         <custom-field action="copy">_yoast_wpseo_meta-robots-adv</custom-field>
         <custom-field action="ignore">_yoast_wpseo_canonical</custom-field>
         <custom-field action="ignore">_yoast_wpseo_redirect</custom-field>
-    </custom-fields>   
+        <custom-field action="translate">_yoast_wpseo_opengraph-description</custom-field>
+        <custom-field action="translate">_yoast_wpseo_google-plus-description</custom-field>
+    </custom-fields>
     <admin-texts>
         <key name="wpseo_titles">
-            <key name="title-home" />
-            <key name="metadesc-home" />
-            <key name="metakey-home" />
+            <key name="title-home-wpseo" />
+            <key name="metadesc-home-wpseo" />
+            <key name="metakey-home-wpseo" />
             <key name="title-post" />
             <key name="metadesc-post" />
             <key name="metakey-post" />
@@ -31,13 +33,13 @@
             <key name="title-post_tag" />
             <key name="metadesc-post_tag" />
             <key name="metakey-post_tag" />
-            <key name="title-author" />
-            <key name="metadesc-author" />
-            <key name="metakey-author" />
-            <key name="title-archive" />
-            <key name="metadesc-archive" />
-            <key name="title-search" />
-            <key name="title-404" />
+            <key name="title-author-wpseo" />
+            <key name="metadesc-author-wpseo" />
+            <key name="metakey-author-wpseo" />
+            <key name="title-archive-wpseo" />
+            <key name="metadesc-archive-wpseo" />
+            <key name="title-search-wpseo" />
+            <key name="title-404-wpseo" />
         </key>
         <key name="wpseo_internallinks">
             <key name="breadcrumbs-sep" />
@@ -53,5 +55,3 @@
         </key>
     </admin-texts>
 </wpml-config>
-
-
