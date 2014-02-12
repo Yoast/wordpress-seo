@@ -132,6 +132,8 @@ This version also incorporates the [SEO Extended](http://wordpress.org/plugins/s
 	* Fixed: HTML sitemaps would sometimes display headers without a link list.
 	* Fixed: Breadcrumbs could potentially output an empty element as part of the chain, resulting in two separators in a row.
 	* Fixed: Breadcrumbs: even when removing the prefix texts from the admin page, they would sometimes still be included.
+	* Improved fixed for possible caching issue when `title_test` option remained set, issue [#627](https://github.com/Yoast/wordpress-seo/issues/627).
+	* Fixed bug in `title_test_helper` where it would pass the wrong information to `update_option()`, related to issue [#627](https://github.com/Yoast/wordpress-seo/issues/627).
 
 	* Fixed: Admin -> Dashboard -> Failed removal of the meta description from a theme file would still change the relevant internal option as if it had succeeded.
 	* Fixed: Admin -> Dashboard -> bug where message about files blocking the sitemap from working would not be removed when it should.

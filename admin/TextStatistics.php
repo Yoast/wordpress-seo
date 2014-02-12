@@ -92,20 +92,34 @@ if ( ! class_exists( 'Yoast_TextStatistics' ) ) {
 		 * @return string
 		 */
 		protected function clean_text( $strText ) {
+			static $clean = array();
+
+			if (isset($clean[$strText])) {
+				return $clean[$strText];
+			}
+
+			$key = $strText;
+
 			// all these tags should be preceeded by a full stop.
 			$fullStopTags = array( 'li', 'p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'dd' );
 			foreach ( $fullStopTags as $tag ) {
 				$strText = str_ireplace( '</' . $tag . '>', '.', $strText );
 			}
 			$strText = strip_tags( $strText );
-			$strText = preg_replace( '`[,:;\(\)-]`', ' ', $strText ); // Replace commans, hyphens etc (count them as spaces)
+			$strText = preg_replace( '`[",:;\(\)-]`', ' ', $strText ); // Replace commas, hyphens etc (count them as spaces)
 			$strText = preg_replace( '`[\.!?]`', '.', $strText ); // Unify terminators
 			$strText = trim( $strText ) . '.'; // Add final terminator, just in case it's missing.
 			$strText = preg_replace( '`[ ]*[\n\r]+[ ]*`', ' ', $strText ); // Replace new lines with spaces
 			$strText = preg_replace( '`([\.])[\. ]+`', '$1', $strText ); // Check for duplicated terminators
 			$strText = trim( preg_replace( '`[ ]*([\.])`', '$1 ', $strText ) ); // Pad sentence terminators
+			$strText = preg_replace( '` [0-9]+ `', ' ', ' ' . $strText . ' '); // Remove "words" comprised only of numbers
 			$strText = preg_replace( '`[ ]+`', ' ', $strText ); // Remove multiple spaces
 			$strText = preg_replace_callback( '`\. [^ ]+`', create_function( '$matches', 'return strtolower($matches[0]);' ), $strText ); // Lower case all words following terminators (for gunning fog score)
+
+			$strText = trim($strText);
+
+			// Cache it and return
+			$clean[$key] = $strText;
 			return $strText;
 		}
 
@@ -136,6 +150,10 @@ if ( ! class_exists( 'Yoast_TextStatistics' ) ) {
 		 * @return int
 		 */
 		public function sentence_count( $strText ) {
+			if ( strlen( trim( $strText ) ) == 0 ) {
+				return 0;
+			}
+
 			$strText = $this->clean_text( $strText );
 			// Will be tripped up by "Mr." or "U.K.". Not a major concern at this point.
 			// [JRF] Will also be tripped up by ... or ?!
@@ -152,6 +170,10 @@ if ( ! class_exists( 'Yoast_TextStatistics' ) ) {
 		 * @return int
 		 */
 		public function word_count( $strText ) {
+			if ( strlen( trim( $strText ) ) == 0 ) {
+				return 0;
+			}
+
 			$strText = $this->clean_text( $strText );
 			// Will be tripped by em dashes with spaces either side, among other similar characters
 			$intWords = 1 + $this->text_length( preg_replace( '`[^ ]`', '', $strText ) ); // Space count + 1 is word count
@@ -196,6 +218,12 @@ if ( ! class_exists( 'Yoast_TextStatistics' ) ) {
 		 * @return int
 		 */
 		public function syllable_count( $strWord ) {
+			if ( strlen( trim( $strWord ) ) == 0 ) {
+				return 0;
+			}
+
+			// Should be no non-alpha characters
+			$strWord = preg_replace( '`[^A_Za-z]`', '', $strWord );
 
 			$intSyllableCount = 0;
 			$strWord          = $this->lower_case( $strWord );

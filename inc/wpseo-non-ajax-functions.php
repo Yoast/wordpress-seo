@@ -59,7 +59,7 @@ function wpseo_title_test() {
 	$options['title_test'] = 1;
 	update_option( 'wpseo_titles', $options );
 
-	// Setting title_test to true forces the plugin to output the title below through a filter in class-frontend.php
+	// Setting title_test to > 0 forces the plugin to output the title below through a filter in class-frontend.php
 	$expected_title = 'This is a Yoast Test Title';
 
 	WPSEO_Options::clear_cache();
@@ -85,15 +85,16 @@ function wpseo_title_test() {
 			$res = preg_match( '`/<title>([^>]+)</title>`im', $resp['body'], $matches );
 		}
 
-		if ( ! $res || $matches[1] != $expected_title )
+		if ( ! $res || $matches[1] != $expected_title ) {
 			$options['forcerewritetitle'] = false;
+		}
 	}
 	else {
 		// If that dies, let's make sure the titles are correct and force the output.
 		$options['forcerewritetitle'] = true;
 	}
 
-	$options['title_test'] = false;
+	$options['title_test'] = 0;
 	update_option( 'wpseo_titles', $options );
 }
 
