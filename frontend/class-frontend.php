@@ -903,11 +903,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 
 			$gplus = false;
 
-			if ( is_home() || is_front_page() ) {
-				if ( $this->options['plus-author'] !== - 1 ) {
-					$gplus = get_the_author_meta( 'googleplus', $this->options['plus-author'] );
-				}
-			} else if ( is_singular() ) {
+			if ( is_singular() ) {
 				if ( is_object( $post ) ) {
 					$have_author = WPSEO_Meta::get_value( 'authorship' );
 
