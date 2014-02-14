@@ -22,7 +22,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		/**
 		 * Property holding the Text statistics object
 		 */
-		protected $statistics;
+		public $statistics;
 
 
 		/**
