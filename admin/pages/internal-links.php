@@ -70,7 +70,7 @@ unset( $taxonomies, $post_types );
 
 $content .= '<br class="clear"/>';
 $content .= '<h4>' . __( 'How to insert breadcrumbs in your theme', 'wordpress-seo' ) . '</h4>';
-$content .= '<p>' . __( 'Usage of this breadcrumbs feature is explained <a href="http://yoast.com/wordpress/breadcrumbs/">here</a>. For the more code savvy, insert this in your theme:', 'wordpress-seo' ) . '</p>';
+$content .= '<p>' . __( 'Usage of this breadcrumbs feature is explained <a href="https://yoast.com/wordpress/plugins/breadcrumbs/">here</a>. For the more code savvy, insert this in your theme:', 'wordpress-seo' ) . '</p>';
 $content .= '<pre>&lt;?php if ( function_exists(&#x27;yoast_breadcrumb&#x27;) ) {
 yoast_breadcrumb(&#x27;&lt;p id=&quot;breadcrumbs&quot;&gt;&#x27;,&#x27;&lt;/p&gt;&#x27;);
 } ?&gt;</pre>';

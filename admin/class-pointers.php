@@ -85,7 +85,7 @@ if ( ! class_exists( 'WPSEO_Pointers' ) ) {
 			$adminpages = array(
 				'wpseo_dashboard'      => array(
 					'content'  => '<h3>' . __( 'Dashboard', 'wordpress-seo' ) . '</h3><p>' . __( 'This is the WordPress SEO Dashboard, here you can restart this tour or revert the WP SEO settings to default.', 'wordpress-seo' ) . '</p>'
-							. '<p><strong>' . __( 'More WordPress SEO', 'wordpress-seo' ) . '</strong><br/>' . sprintf( __( 'There\'s more to learn about WordPress &amp; SEO than just using this plugin. Read our article %1$sthe definitive guide to WordPress SEO%2$s.', 'wordpress-seo' ), '<a target="_blank" href="' . esc_url( 'http://yoast.com/articles/wordpress-seo/#utm_source=wpadmin&utm_medium=wpseo_tour&utm_term=link&utm_campaign=wpseoplugin' ) . '">', '</a>' ) . '</p>'
+							. '<p><strong>' . __( 'More WordPress SEO', 'wordpress-seo' ) . '</strong><br/>' . sprintf( __( 'There\'s more to learn about WordPress &amp; SEO than just using this plugin. Read our article %1$sthe definitive guide to WordPress SEO%2$s.', 'wordpress-seo' ), '<a target="_blank" href="' . esc_url( 'https://yoast.com/articles/wordpress-seo/#utm_source=wpadmin&utm_medium=wpseo_tour&utm_term=link&utm_campaign=wpseoplugin' ) . '">', '</a>' ) . '</p>'
 							. '<p><strong>' . __( 'Webmaster Tools', 'wordpress-seo' ) . '</strong><br/>' . __( 'Underneath the General Settings, you can add the verification codes for the different Webmaster Tools programs, I highly encourage you to check out both Google and Bing\'s Webmaster Tools.', 'wordpress-seo' ) . '</p>'
 							. '<p><strong>' . __( 'About This Tour', 'wordpress-seo' ) . '</strong><br/>' . __( 'Clicking Next below takes you to the next page of the tour. If you want to stop this tour, click "Close".', 'wordpress-seo' ) . '</p>'
 							. '<p><strong>' . __( 'Like this plugin?', 'wordpress-seo' ) . '</strong><br/>' . sprintf( __( 'If you like this plugin, please %srate it 5 stars on WordPress.org%s and consider making a donation by clicking the button on the right!', 'wordpress-seo' ), '<a target="_blank" href="http://wordpress.org/extend/plugins/wordpress-seo/">', '</a>' ) . '</p>' .
@@ -114,9 +114,9 @@ if ( ! class_exists( 'WPSEO_Pointers' ) ) {
 					'content'  => '<h3>' . __( 'Social settings', 'wordpress-seo' ) . '</h3>'
 							. '<p><strong>' . __( 'Facebook Open Graph', 'wordpress-seo' ) . '</strong><br/>'
 							. __( 'On this page you can enable the Open Graph functionality from this plugin, as well as assign a Facebook user or Application to be the admin of your site, so you can view the Facebook insights.', 'wordpress-seo' ) . '</p>'
-							. '<p>' . sprintf( __( 'Read more about %1$sFacebook Open Graph%2$s.', 'wordpress-seo' ), '<a target="_blank" href="'. esc_url( 'http://yoast.com/facebook-open-graph-protocol/#utm_source=wpadmin&utm_medium=wpseo_tour&utm_term=link&utm_campaign=wpseoplugin' ) . '">', '</a>' ) . '</p>'
+							. '<p>' . sprintf( __( 'Read more about %1$sFacebook Open Graph%2$s.', 'wordpress-seo' ), '<a target="_blank" href="'. esc_url( 'https://yoast.com/facebook-open-graph-protocol/#utm_source=wpadmin&utm_medium=wpseo_tour&utm_term=link&utm_campaign=wpseoplugin' ) . '">', '</a>' ) . '</p>'
 							. '<p><strong>' . __( 'Twitter Cards', 'wordpress-seo' ) . '</strong><br/>'
-							. sprintf( __( 'This functionality is currently in beta, but it allows for %1$sTwitter Cards%2$s.', 'wordpress-seo' ), '<a target="_blank" href="' . esc_url( 'http://yoast.com/twitter-cards/#utm_source=wpadmin&utm_medium=wpseo_tour&utm_term=link&utm_campaign=wpseoplugin' ) . '">', '</a>' ) . '</p>',
+							. sprintf( __( 'This functionality is currently in beta, but it allows for %1$sTwitter Cards%2$s.', 'wordpress-seo' ), '<a target="_blank" href="' . esc_url( 'https://yoast.com/twitter-cards/#utm_source=wpadmin&utm_medium=wpseo_tour&utm_term=link&utm_campaign=wpseoplugin' ) . '">', '</a>' ) . '</p>',
 					'button2'  => __( 'Next', 'wordpress-seo' ),
 					'function' => 'window.location="' . admin_url( 'admin.php?page=wpseo_xml' ) . '";',
 				),
@@ -131,7 +131,7 @@ if ( ! class_exists( 'WPSEO_Pointers' ) ) {
 					'function' => 'window.location="' . admin_url( 'admin.php?page=wpseo_internal-links' ) . '";',
 				),
 				'wpseo_internal-links' => array(
-					'content'  => '<h3>' . __( 'Breadcrumbs Settings', 'wordpress-seo' ) . '</h3><p>' . sprintf( __( 'If your theme supports my breadcrumbs, as all Genesis and WooThemes themes as well as a couple of other ones do, you can change the settings for those here. If you want to modify your theme to support them, %sfollow these instructions%s.', 'wordpress-seo' ), '<a target="_blank" href="' . esc_url( 'http://yoast.com/wordpress/breadcrumbs/#utm_source=wpadmin&utm_medium=wpseo_tour&utm_term=link&utm_campaign=wpseoplugin' ) . '">', '</a>' ) . '</p>',
+					'content'  => '<h3>' . __( 'Breadcrumbs Settings', 'wordpress-seo' ) . '</h3><p>' . sprintf( __( 'If your theme supports my breadcrumbs, as all Genesis and WooThemes themes as well as a couple of other ones do, you can change the settings for those here. If you want to modify your theme to support them, %sfollow these instructions%s.', 'wordpress-seo' ), '<a target="_blank" href="' . esc_url( 'https://yoast.com/wordpress/plugins/breadcrumbs/#utm_source=wpadmin&utm_medium=wpseo_tour&utm_term=link&utm_campaign=wpseoplugin' ) . '">', '</a>' ) . '</p>',
 					'button2'  => __( 'Next', 'wordpress-seo' ),
 					'function' => 'window.location="' . admin_url( 'admin.php?page=wpseo_rss' ) . '";',
 				),
@@ -157,7 +157,7 @@ if ( ! class_exists( 'WPSEO_Pointers' ) ) {
 				),
 				'wpseo_bulk-description-editor' => array(
 					'content' => '<h3>' . __( 'Bulk Description Editor', 'wordpress-seo' ) . '</h3><p>' . __( 'This page lets you view and edit the meta descriptions of all posts and pages on your site. Just like the Bulk Title Editor, this allows you to edit the meta description of all your pages in one place, rather than having to edit each individual page.', 'wordpress-seo' ) . '</p>'
-							. '<p>' . sprintf( __( 'The tour ends here, thank you for using my plugin and good luck with your SEO!<br/><br/>Best,<br/>Joost de Valk - %1$sYoast.com%2$s', 'wordpress-seo' ), '<a target="_blank" href="' . esc_url( 'http://yoast.com/#utm_source=wpadmin&utm_medium=wpseo_tour&utm_term=link&utm_campaign=wpseoplugin' ) . '">', '</a>' ) . '</p>'
+							. '<p>' . sprintf( __( 'The tour ends here, thank you for using my plugin and good luck with your SEO!<br/><br/>Best,<br/>Joost de Valk - %1$sYoast.com%2$s', 'wordpress-seo' ), '<a target="_blank" href="' . esc_url( 'https://yoast.com/#utm_source=wpadmin&utm_medium=wpseo_tour&utm_term=link&utm_campaign=wpseoplugin' ) . '">', '</a>' ) . '</p>'
 				),
 			);
 
@@ -170,7 +170,7 @@ if ( ! class_exists( 'WPSEO_Pointers' ) ) {
 				unset( $adminpages['wpseo_files'] );
 				$adminpages['wpseo_import']['function'] = '';
 				unset( $adminpages['wpseo_import']['button2'] );
-				$adminpages['wpseo_import']['content'] .= '<p>' . sprintf( __( 'The tour ends here,thank you for using my plugin and good luck with your SEO!<br/><br/>Best,<br/>Joost de Valk - %1$sYoast.com%2$s', 'wordpress-seo' ), '<a href="http://yoast.com/">', '</a>' ) . '</p>';
+				$adminpages['wpseo_import']['content'] .= '<p>' . sprintf( __( 'The tour ends here,thank you for using my plugin and good luck with your SEO!<br/><br/>Best,<br/>Joost de Valk - %1$sYoast.com%2$s', 'wordpress-seo' ), '<a href="https://yoast.com/">', '</a>' ) . '</p>';
 			}
 
 			$page = '';
