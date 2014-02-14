@@ -1182,7 +1182,12 @@ if ( ! class_exists( 'WPSEO_Option_Titles' ) ) {
 					$this->defaults['metadesc-' . $pt]     = ''; // text area
 					$this->defaults['metakey-' . $pt]      = ''; // text field
 					$this->defaults['noindex-' . $pt]      = false;
-					$this->defaults['noauthorship-' . $pt] = false;
+					if ( 'post' == $pt ) {
+						$this->defaults['noauthorship-' . $pt] = false;
+					} else {
+						$this->defaults['noauthorship-' . $pt] = true;
+					}
+
 					$this->defaults['showdate-' . $pt]     = false;
 					$this->defaults['hideeditbox-' . $pt]  = false;
 				}
@@ -2100,7 +2105,6 @@ if ( ! class_exists( 'WPSEO_Option_Social' ) ) {
 			'og_frontpage_image' => '', // text field
 			'opengraph'          => true,
 			'googleplus'				 => false,
-			'plus-author'        => - 1, // WP user id
 			'plus-publisher'     => '', // text field
 			'twitter'            => false,
 			'twitter_site'       => '', // text field
@@ -2329,29 +2333,6 @@ if ( ! class_exists( 'WPSEO_Option_Social' ) ) {
 							unset( $twitter_id );
 						}
 						break;
-
-
-					/* WP user id */
-					case 'plus-author':
-						if ( isset( $dirty[$key] ) && ( $dirty[$key] !== '' && $dirty[$key] != - 1 ) ) {
-							$int = self::validate_int( $dirty[$key] );
-							if ( $int !== false && $int > 0 && get_user_by( 'id', $int ) !== false ) {
-								$clean[$key] = $int;
-							}
-							else if ( function_exists( 'add_settings_error' ) ) {
-								/* Unlikely to ever happen in a normal situation (only when user was deleted
-									 between when the page was loaded and the settings were saved), but still */
-								add_settings_error(
-									$this->group_name, // slug title of the setting
-										'_' . $key, // suffix-id for the error message box
-									__( 'Invalid user selected for Google+ Homepage author. Please correct.', 'wordpress-seo' ), // the error message
-									'error' // error type, either 'error' or 'updated'
-								);
-							}
-							unset( $int );
-						}
-						break;
-
 
 					/* boolean fields */
 					case 'googleplus':

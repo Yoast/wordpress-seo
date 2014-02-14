@@ -199,20 +199,6 @@ if ( $error )
 		echo $wpseo_admin_pages->checkbox( 'googleplus', __( 'Add Google+ specific post meta data (excluding author metadata)', 'wordpress-seo' ) );
 		echo '</p>';
 
-	// echo '<h2>' . __( 'Author metadata', 'wordpress-seo' ) . '</h2>';
-		echo '<label class="select" for="wpseo_social_plus_author">' . __( 'Author for homepage', 'wordpress-seo' ) . ':</label>';
-		wp_dropdown_users(
-			array(
-				'show_option_none' => __( 'Don\'t show', 'wordpress-seo' ),
-				'name' => 'wpseo_social[plus-author]',
-				'id' => 'wpseo_social_plus_author',
-				'class' => 'select',
-				'selected' => $options['plus-author'],
-				'include_selected' => true,
-				'who' => 'authors',
-			)
-		);
-		echo '<p class="desc label">' . __( 'Choose the user that should be used for the <code>rel="author"</code> on the blog homepage. Make sure the user has filled out his/her Google+ profile link on their profile page.', 'wordpress-seo' ) . '</p>';
 		echo $wpseo_admin_pages->textinput( 'plus-publisher', __( 'Google Publisher Page', 'wordpress-seo' ) );
 		echo '<p class="desc label">' . __( 'If you have a Google+ page for your business, add that URL here and link it on your Google+ page\'s about page.', 'wordpress-seo' ) . '</p>';
 		do_action( 'wpseo_admin_googleplus_section' );
