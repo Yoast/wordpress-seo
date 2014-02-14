@@ -11,45 +11,6 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 
 
 /**
- * Flush the rewrite rules.
- */
-function wpseo_flush_rules() {
-	global $wp_rewrite;
-	$wp_rewrite->flush_rules();
-}
-
-/**
- * Runs on activation of the plugin.
- */
-function wpseo_activate() {
-	WPSEO_Options::initialize();
-
-	wpseo_flush_rules();
-
-	WPSEO_Options::schedule_yoast_tracking( null, get_option( 'wpseo' ) );
-
-	// Clear cache so the changes are obvious.
-	WPSEO_Options::clear_cache();
-
-	do_action( 'wpseo_activate' );
-}
-
-/**
- * On deactivation, flush the rewrite rules so XML sitemaps stop working.
- */
-function wpseo_deactivate() {
-	wpseo_flush_rules();
-
-	// Force unschedule
-	WPSEO_Options::schedule_yoast_tracking( null, get_option( 'wpseo' ), true );
-
-	// Clear cache so the changes are obvious.
-	WPSEO_Options::clear_cache();
-
-	do_action( 'wpseo_deactivate' );
-}
-
-/**
  * Test whether force rewrite should be enabled or not.
  */
 function wpseo_title_test() {

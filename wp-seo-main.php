@@ -99,6 +99,46 @@ spl_autoload_register( 'wpseo_auto_load' );
 
 
 /**
+ * Flush the rewrite rules.
+ */
+function wpseo_flush_rules() {
+	global $wp_rewrite;
+	$wp_rewrite->flush_rules();
+}
+
+/**
+ * Runs on activation of the plugin.
+ */
+function wpseo_activate() {
+	WPSEO_Options::initialize();
+
+	wpseo_flush_rules();
+
+	WPSEO_Options::schedule_yoast_tracking( null, get_option( 'wpseo' ) );
+
+	// Clear cache so the changes are obvious.
+	WPSEO_Options::clear_cache();
+
+	do_action( 'wpseo_activate' );
+}
+
+/**
+ * On deactivation, flush the rewrite rules so XML sitemaps stop working.
+ */
+function wpseo_deactivate() {
+	wpseo_flush_rules();
+
+	// Force unschedule
+	WPSEO_Options::schedule_yoast_tracking( null, get_option( 'wpseo' ), true );
+
+	// Clear cache so the changes are obvious.
+	WPSEO_Options::clear_cache();
+
+	do_action( 'wpseo_deactivate' );
+}
+
+
+/**
  * Load translations
  */
 function wpseo_load_textdomain() {
@@ -239,9 +279,6 @@ if ( is_admin() ) {
 	else {
 		add_action( 'plugins_loaded', 'wpseo_admin_init', 15 );
 	}
-
-	register_activation_hook( __FILE__, 'wpseo_activate' );
-	register_deactivation_hook( __FILE__, 'wpseo_deactivate' );
 }
 else {
 	add_action( 'plugins_loaded', 'wpseo_frontend_init', 15 );
