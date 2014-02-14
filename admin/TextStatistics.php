@@ -93,12 +93,12 @@ if ( ! class_exists( 'Yoast_TextStatistics' ) ) {
 		 */
 		protected function clean_text( $strText ) {
 			static $clean = array();
+			
+			$key = sha1( $strText );
 
-			if (isset($clean[$strText])) {
-				return $clean[$strText];
+			if ( isset( $clean[$key] ) ) {
+				return $clean[$key];
 			}
-
-			$key = $strText;
 
 			// all these tags should be preceeded by a full stop.
 			$fullStopTags = array( 'li', 'p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'dd' );
