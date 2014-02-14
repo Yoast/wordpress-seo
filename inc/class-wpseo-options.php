@@ -3019,7 +3019,7 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 		 */
 		protected function __construct() {
 			foreach ( self::$options as $option_name => $option_class ) {
-				self::$option_instances[$option_name] = $option_class::get_instance();
+				self::$option_instances[$option_name] = call_user_func( array( $option_class, 'get_instance' ) );
 			}
 		}
 
