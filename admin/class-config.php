@@ -172,9 +172,10 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 		/**
 		 * Generates the footer for admin pages
 		 *
-		 * @param bool $submit Whether or not a submit button and form end tag should be shown.
+		 * @param bool $submit       Whether or not a submit button and form end tag should be shown.
+		 * @param bool $show_sidebar Whether or not to show the banner sidebar - used by premium plugins to disable it
 		 */
-		function admin_footer( $submit = true ) {
+		function admin_footer( $submit = true, $show_sidebar = true ) {
 			if ( $submit ) {
 				submit_button();
 
@@ -187,7 +188,9 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 			</div><!-- end of div metabox-holder -->
 			</div><!-- end of div wpseo_content_top -->';
 
-			$this->admin_sidebar();
+			if( $show_sidebar ) {
+				$this->admin_sidebar();
+			}
 
 
 			/* Add the current settings array to the page for debugging purposes,
@@ -200,6 +203,7 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 			);
 
 			if ( ( WP_DEBUG === true || ( defined( 'WPSEO_DEBUG' ) && WPSEO_DEBUG === true ) ) && isset( $_GET['page'] ) && ! in_array( $_GET['page'], $excluded, true ) ) {
+				$xdebug = ( extension_loaded( 'xdebug' ) ? true : false );
 				echo '
 			<div id="poststuff">
 			<div id="wpseo-debug-info" class="postbox">
@@ -207,10 +211,10 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 				<h3 class="hndle"><span>' . __( 'Debug Information', 'wordpress-seo' ) . '</span></h3>
 				<div class="inside">
 					<h4>' . esc_html( __( 'Current option:', 'wordpress-seo' ) ) . ' <span class="wpseo-debug">' . esc_html( $this->currentoption ) . '</span></h4>
-					<pre>';
+					' . ( $xdebug ? '' : '<pre>' );
 				var_dump( get_option( $this->currentoption ) );
 				echo '
-					</pre>
+					' . ( $xdebug ? '' : '</pre>' ) . '
 				</div>
 			</div>
 			</div>';
