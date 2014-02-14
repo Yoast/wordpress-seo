@@ -122,13 +122,6 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 
 
 		/**
-		 * @todo [JRF => whomever] check if the below comment is still valid
-		 * Still problematic functions based on tests (i.e. is_metabox_hidden() does not yet return the right info):
-		 * setup_page_analysis() -> solved by doing this for the hooked in methods instead
-		 * column_sort_orderby()
-		 * save_postdata() (at least for new posts /autosave)
-		 */
-		/**
 		 * Test whether the metabox should be hidden either by choice of the admin or because
 		 * the post type is not a public post type
 		 *
@@ -138,16 +131,16 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		 * @return	bool				Whether or not the meta box (and associated columns etc) should be hidden
 		 */
 		function is_metabox_hidden( $post_type = null ) {
-			if( ! isset( $post_type ) ) {
-				if( isset( $GLOBALS['post'] ) && ( is_object( $GLOBALS['post'] ) && isset( $GLOBALS['post']->post_type ) ) ) {
+			if ( ! isset( $post_type ) ) {
+				if ( isset( $GLOBALS['post'] ) && ( is_object( $GLOBALS['post'] ) && isset( $GLOBALS['post']->post_type ) ) ) {
 					$post_type = $GLOBALS['post']->post_type;
 				}
-				else if( isset( $_GET['post_type'] ) && $_GET['post_type'] !== '' ) {
+				else if ( isset( $_GET['post_type'] ) && $_GET['post_type'] !== '' ) {
 					$post_type = sanitize_text_field( $_GET['post_type'] );
 				}
 			}
 
-			if( isset( $post_type ) ) {
+			if ( isset( $post_type ) ) {
 				// Don't make static as post_types may still be added during the run
 				$cpts    = get_post_types( array( 'public' => true ), 'names' );
 				$options = get_option( 'wpseo_titles' );

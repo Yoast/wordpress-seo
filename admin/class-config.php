@@ -188,7 +188,7 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 			</div><!-- end of div metabox-holder -->
 			</div><!-- end of div wpseo_content_top -->';
 
-			if( $show_sidebar ) {
+			if ( $show_sidebar ) {
 				$this->admin_sidebar();
 			}
 
