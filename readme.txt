@@ -114,8 +114,11 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 	* Add support for html entities - props [julienmeyer](https://github.com/julienmeyer).
 
 * Enhancement
-		* WPSEO_FILE now had a 'defined' check.
+	* WPSEO_FILE now had a 'defined' check.
   	* WPSEO_VERSION now had a 'defined' check.
+
+* i18n
+	* Updated cs_CZ, de_DE, fr_FR & tr_TK
 
 = 1.4.24 =
 
@@ -129,11 +132,11 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 	* Make the metabox tabs jQuery only work for WPSEO tabs, props [imageinabox](https://github.com/imageinabox).
 	* Sitemap shortcode sql had hard-coded table name which could easily cause the shortcode display to fail. Fixed. - props [Jrf](http://profiles.wordpress.org/jrf).
 	* Fix issue with user capability authorisation check as reported by [scienceandpoetry](https://github.com/scienceandpoetry) in issue [#492](https://github.com/Yoast/wordpress-seo/issues/492) - props [Jrf](http://profiles.wordpress.org/jrf).
-	* Fixed canonical rel links was causing an error when given an invalid taxonomy, issue [#306](https://github.com/Yoast/wordpress-seo/issues/306) - props [Jrf](http://profiles.wordpress.org/jrf).	
+	* Fixed canonical rel links was causing an error when given an invalid taxonomy, issue [#306](https://github.com/Yoast/wordpress-seo/issues/306) - props [Jrf](http://profiles.wordpress.org/jrf).
 	* Removed add_meta_box() function duplication  - props [Jrf](http://profiles.wordpress.org/jrf).
 	* Fix issue "Flesch Reading Ease should only be a positive number". This also fixes the message being unclear. Thanks [eugenmihailescu](https://github.com/eugenmihailescu) for reporting - props [Jrf](http://profiles.wordpress.org/jrf).
 	* Fixed issue with page analysis not taking feature image into account - props [darrarski](https://github.com/darrarski).
-	
+
 * Enhancement
 	* Shortcode now also available to ajax requests - props [Jrf](http://profiles.wordpress.org/jrf).
 	* Added gitignores to prevent incorrect commits (Cross platform collab) - props [cfoellmann](https://github.com/cfoellmann).
@@ -149,7 +152,7 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 * i18n
 	* Updated cs_CZ, fa_IR, fr_FR, hu, hu_HU, pl_PL, ru_RU & zh_CN
 
-	
+
 = 1.4.22 =
 
 * Bugfixes
