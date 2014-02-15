@@ -1187,9 +1187,9 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			}
 			unset( $desc_meta );
 
-			$meta_length = apply_filters( 'wpseo_metadesc_length', 156, $post );
+			self::$meta_length = apply_filters( 'wpseo_metadesc_length', self::$meta_length, $post );
 
-			$this->score_description( $job, $results, $description, $meta_length );
+			$this->score_description( $job, $results, $description, self::$meta_length );
 			unset( $description );
 
 			// Body
