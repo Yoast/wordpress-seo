@@ -625,7 +625,7 @@ if ( ! class_exists( 'WPSEO_Option_Wpseo' ) ) {
 		protected function __construct() {
 			/* Dirty fix for making certain defaults available during activation while still only
 			   defining them once */
-			foreach( self::$desc_defaults as $key => $value ) {
+			foreach ( self::$desc_defaults as $key => $value ) {
 				$this->defaults[$key] = $value;
 			}
 
@@ -1293,13 +1293,13 @@ if ( ! class_exists( 'WPSEO_Option_Titles' ) ) {
 					case 'title_test':
 						if ( isset( $dirty[$key] ) ) {
 							$int = self::validate_int( $dirty[$key] );
-							if ( $int !== false ) {
+							if ( $int !== false && $int >= 0 ) {
 								$clean[$key] = $int;
 							}
 						}
 						else if ( isset( $old[$key] ) ) {
 							$int = self::validate_int( $old[$key] );
-							if ( $int !== false ) {
+							if ( $int !== false && $int >= 0 ) {
 								$clean[$key] = $int;
 							}
 						}
