@@ -241,3 +241,8 @@ h2 code {
 	padding-left: 20px;
 	color: #CC0000;
 }
+
+input.wpseo-new-title, textarea.wpseo-new-metadesc {
+	max-width: 100%;
+	width: 100%;
+}
