@@ -104,6 +104,7 @@ spl_autoload_register( 'wpseo_auto_load' );
 function wpseo_activate() {
 	require_once( WPSEO_PATH . 'inc/wpseo-functions.php' );
 
+	WPSEO_Options::get_instance();
 	WPSEO_Options::initialize();
 
 	wpseo_flush_rules();

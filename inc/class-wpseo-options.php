@@ -586,13 +586,13 @@ if ( ! class_exists( 'WPSEO_Option_Wpseo' ) ) {
 			// Non-form fields, set via (ajax) function
 			'blocking_files'                  => array(),
 			'ignore_blog_public_warning'      => false,
-			'ignore_meta_description_warning' => false,
+			'ignore_meta_description_warning' => null, // overwrite in __construct()
 			'ignore_page_comments'            => false,
 			'ignore_permalink'                => false,
 			'ignore_tour'                     => false,
 			'ms_defaults_set'                 => false,
-			'theme_description_found'         => '', //  text string description
-			'theme_has_description'           => null,
+			'theme_description_found'         => null, // overwrite in __construct()
+			'theme_has_description'           => null, // overwrite in __construct()
 			'tracking_popup_done'             => false,
 
 			// Non-form field, should only be set via validation routine
@@ -604,6 +604,12 @@ if ( ! class_exists( 'WPSEO_Option_Wpseo' ) ) {
 			'googleverify'                    => '', // text field
 			'msverify'                        => '', // text field
 			'yoast_tracking'                  => false,
+		);
+		
+		public static $desc_defaults = array(
+			'ignore_meta_description_warning' => false,
+			'theme_description_found'         => '', //  text string description
+			'theme_has_description'           => null,
 		);
 
 
@@ -617,6 +623,12 @@ if ( ! class_exists( 'WPSEO_Option_Wpseo' ) ) {
 		 * @return \WPSEO_Option_Wpseo
 		 */
 		protected function __construct() {
+			/* Dirty fix for making certain defaults available during activation while still only
+			   defining them once */
+			foreach( self::$desc_defaults as $key => $value ) {
+				$this->defaults[$key] = $value;
+			}
+
 			parent::__construct();
 
 			/* Clear the cache on update/add */
@@ -3185,6 +3197,10 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 		 * @return void
 		 */
 		public static function initialize() {
+			/* Make sure title_test and description_test function are available even when called
+			   from the isolated activation */
+			require_once( WPSEO_PATH . 'inc/wpseo-non-ajax-functions.php' );
+
 			wpseo_title_test();
 			wpseo_description_test();
 
