@@ -77,7 +77,7 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 		 *				(required)		'type'			=> (string) field type. i.e. text / textarea / checkbox /
 		 *													radio / select / multiselect / upload / snippetpreview etc
 		 *				(required)		'title'			=> (string) table row title
-		 *				(recommended)	'default_value' => (string) default value for the field
+		 *				(recommended)	'default_value' => (string|array) default value for the field
 		 *													IMPORTANT:
 		 *													- if the field has options, the default has to be the
 		 *													  key of one of the options
@@ -98,7 +98,10 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 		 *				(optional)		'help'			=> (string) help text to show on mouse over ? image
 		 *				(optional)		'rows'			=> (int) number of rows for a textarea, defaults to 3
 		 *
-		 *				(optional)		'placeholder'	=> (string) currently not used in this class
+		 *				(optional)		'placeholder'	=> (string) Currently only used by add-on plugins
+		 *				(optional)		'serialized' 	=> (bool) whether the value is expected to be serialized,
+		 *													 i.e. an array or object, defaults to false
+		 *													 Currently only used by add-on plugins
 		 *
 		 * @internal
 		 * - Titles, help texts, description text and option labels are added via a translate_meta_boxes() method
@@ -304,6 +307,15 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 		 * @return void
 		 */
 		public static function init() {
+			/**
+			 * Allow add-on plugins to register their meta fields for management by this class
+			 * add_filter() calls must be made before plugins_loaded prio 14
+			 */
+			$extra_fields      = apply_filters( 'add_extra_wpseo_meta_fields', array() );
+			if ( is_array( $extra_fields ) ) {
+				self::$meta_fields = self::array_merge_recursive_distinct( $extra_fields, self::$meta_fields );
+			}
+
 			$register = function_exists( 'register_meta' );
 
 			foreach ( self::$meta_fields as $subset => $field_group ) {
@@ -452,9 +464,10 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 			 * {tab} can be 'general', 'advanced' or 'social'
 			 *
 			 * @param	array	$field_defs    metabox form definitions
+			 * @param	string	$post_type     post type of the post the metabox is for, defaults to 'post'
 			 * @return	array
 			 */
-			return apply_filters( 'wpseo_metabox_entries_' . $tab, $field_defs );
+			return apply_filters( 'wpseo_metabox_entries_' . $tab, $field_defs, $post_type );
 		}
 
 
@@ -474,7 +487,7 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 			switch ( true ) {
 				case ( $meta_key === self::$meta_prefix . 'linkdex' ):
 					$int = WPSEO_Option::validate_int( $meta_value );
-					if ( $int !== false ) {
+					if ( $int !== false && $int >= 0 ) {
 						$clean = $int;
 					}
 					break;
@@ -539,6 +552,8 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 					}
 					break;
 			}
+
+			$clean = apply_filters( 'wpseo_sanitize_post_meta_' . $meta_key, $clean, $meta_value, $field_def, $meta_key );
 
 			return $clean;
 		}
@@ -668,7 +683,8 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 		 * @param   int     $postid		post ID of the post to get the value for
 		 * @return  string				All 'normal' values returned from get_post_meta() are strings.
 		 *								Objects and arrays are possible, but not used by this plugin
-		 &								and therefore disgarded
+		 *								and therefore discarted (except when the special 'serialized' field def
+		 *								value is set to true - only used by add-on plugins for now)
 		 *								Will return the default value if no value was found.
 		 *								Will return empty string if no default was found (not one or our keys) or
 		 *								if the post does not exist
@@ -693,11 +709,15 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 				if ( $custom[self::$meta_prefix . $key][0] === $unserialized ) {
 					return $custom[self::$meta_prefix . $key][0];
 				}
+				else if	( isset( $meta_field_def['serialized'] ) && $meta_field_def['serialized'] === true ) {
+					// Ok, serialize value expected/allowed
+					return $unserialized;
+				}
 			}
 
-			// Meta was either not found or found, but object/array
+			// Meta was either not found or found, but object/array while not allowed to be
 			if ( isset( self::$defaults[self::$meta_prefix . $key] ) ) {
-				return (string) self::$defaults[self::$meta_prefix . $key];
+				return self::$defaults[self::$meta_prefix . $key];
 			}
 			else {
 				/* Shouldn't ever happen, means not one of our keys as there will always be a default available
@@ -853,35 +873,34 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 						continue;
 					}
 
-					$where_or_or = ( $query === array() ? 'WHERE' : 'OR' );
-
 					if ( $key === 'meta-robots-adv' ) {
 						$query[] = $wpdb->prepare(
-							" $where_or_or ( meta_key = %s AND ( meta_value = 'none' OR meta_value = '-' ) )",
+							"( meta_key = %s AND ( meta_value = 'none' OR meta_value = '-' ) )",
 							self::$meta_prefix . $key
 						);
 					}
 					else if ( isset( $field_def['options'] ) && is_array( $field_def['options'] ) && $field_def['options'] !== array() ) {
 						$valid = $field_def['options'];
-						unset( $valid[$field_def['default_value']] ); // remove the default value
+						// remove the default value from the valid options
+						unset( $valid[$field_def['default_value']] );
 						$valid = array_keys( $valid );
 
 						$query[] = $wpdb->prepare(
-							" $where_or_or ( meta_key = %s AND meta_value NOT IN ( '" . implode( "','", esc_sql( $valid ) ) . "' ) )",
+							"( meta_key = %s AND meta_value NOT IN ( '" . implode( "','", esc_sql( $valid ) ) . "' ) )",
 							self::$meta_prefix . $key
 						);
 						unset( $valid );
 					}
-					else if ( $field_def['default_value'] !== '' ) {
+					else if ( is_string( $field_def['default_value'] ) && $field_def['default_value'] !== '' ) {
 						$query[] = $wpdb->prepare(
-							" $where_or_or ( meta_key = %s AND meta_value = %s )",
+							"( meta_key = %s AND meta_value = %s )",
 							self::$meta_prefix . $key,
 							$field_def['default_value']
 						);
 					}
 					else {
 						$query[] = $wpdb->prepare(
-							" $where_or_or ( meta_key = %s AND meta_value = '' )",
+							"( meta_key = %s AND meta_value = '' )",
 							self::$meta_prefix . $key
 						);
 					}
@@ -889,7 +908,7 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 			}
 			unset( $subset, $field_group, $key, $field_def, $where_or_or );
 
-			$query    = "SELECT meta_id FROM {$wpdb->postmeta} " . implode( '', $query ) . ';';
+			$query    = "SELECT meta_id FROM {$wpdb->postmeta} WHERE " . implode( ' OR ', $query ) . ';';
 			$meta_ids = $wpdb->get_col( $query );
 
 			if ( is_array( $meta_ids ) && $meta_ids !== array() ) {
@@ -940,6 +959,56 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 				}
 			}
 			unset( $query, $oldies, $old, $clean );
+			
+			do_action( 'wpseo_meta_clean_up' );
+		}
+		
+		
+		/**
+		 * Recursively merge a variable number of arrays, using the left array as base,
+		 * giving priority to the right array.
+		 *
+		 * Difference with native array_merge_recursive():
+		 * array_merge_recursive converts values with duplicate keys to arrays rather than
+		 * overwriting the value in the first array with the duplicate value in the second array.
+		 *
+		 * array_merge_recursive_distinct does not change the data types of the values in the arrays.
+		 * Matching keys' values in the second array overwrite those in the first array, as is the
+		 * case with array_merge.
+		 *
+		 * Freely based on information found on http://www.php.net/manual/en/function.array-merge-recursive.php
+		 *
+		 * @internal Should be moved to a general utility class
+		 *
+		 * @param	array	2 or more arrays to merge
+		 * @return	array
+		 */
+		public static function array_merge_recursive_distinct() {
+
+			$arrays = func_get_args();
+			if ( count( $arrays ) < 2 ) {
+				if ( $arrays === array() ) {
+					return array();
+				}
+				else {
+					return $arrays[0];
+				}
+			}
+
+			$merged = array_shift( $arrays );
+
+			foreach ( $arrays as $array ) {
+				foreach ( $array as $key => $value ) {
+					if ( is_array( $value ) && ( isset( $merged[$key] ) && is_array( $merged[$key] ) ) ) {
+						$merged[$key] = self::array_merge_recursive_distinct( $merged[$key], $value );
+					}
+					else {
+						$merged[$key] = $value;
+					}
+				}
+				unset( $key, $value );
+			}
+			return $merged;
 		}
 
 

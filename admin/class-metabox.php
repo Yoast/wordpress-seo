@@ -458,25 +458,9 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			}
 
 			$placeholder = '';
-			if ( isset( $meta_field_def['placeholder'] ) && ! empty( $meta_field_def['placeholder'] ) ) {
+			if ( isset( $meta_field_def['placeholder'] ) && $meta_field_def['placeholder'] !== '' ) {
 				$placeholder = $meta_field_def['placeholder'];
 			}
-
-			$help = '';
-			if ( isset( $meta_field_def['help'] ) && $meta_field_def['help'] !== '' ) {
-				$help = '<img src="' . plugins_url( 'images/question-mark.png', dirname( __FILE__ ) ) . '" class="alignright yoast_help" id="' . esc_attr( $key . 'help' ) . '" alt="' . esc_attr( $meta_field_def['help'] ) . '" />';
-			}
-
-			$label = esc_html( $meta_field_def['title'] );
-			if ( in_array( $meta_field_def['type'], array( 'snippetpreview', 'radio', 'checkbox' ), true ) === false ) {
-				$label = '<label for="' . $esc_form_key . '">' . $label . ':</label>';
-			}
-
-			$content .= '
-			<tr>
-				<th scope="row">' . $label . $help . '</th>
-				<td>';
-
 
 			switch ( $meta_field_def['type'] ) {
 				case 'snippetpreview':
@@ -488,7 +472,10 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 					if ( isset( $meta_field_def['autocomplete'] ) && $meta_field_def['autocomplete'] === false ) {
 						$ac = 'autocomplete="off" ';
 					}
-					$content .= '<input type="text" placeholder="' . esc_attr( $placeholder ) . '" id="' . $esc_form_key . '" ' . $ac . 'name="' . $esc_form_key . '" value="' . esc_attr( $meta_value ) . '" class="large-text' . $class . '"/><br />';
+					if ( $placeholder !== '' ) {
+						$placeholder = ' placeholder="' . esc_attr( $placeholder ) . '"';
+					}
+					$content .= '<input type="text"' . $placeholder . '" id="' . $esc_form_key . '" ' . $ac . 'name="' . $esc_form_key . '" value="' . esc_attr( $meta_value ) . '" class="large-text' . $class . '"/><br />';
 					break;
 
 				case 'textarea':
@@ -549,15 +536,41 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 					break;
 			}
 
-			if ( isset( $meta_field_def['description'] ) ) {
-				$content .= '<div>' . $meta_field_def['description'] . '</div>';
+
+			$html = '';
+			if ( $content === '' ) {
+				$content = apply_filters( 'wpseo_do_meta_box_field_' . $key, $content, $meta_value, $esc_form_key, $meta_field_def, $key );
 			}
 
-			$content .= '
-				</td>
-			</tr>';
+			if ( $content !== '' ) {
+				
+				$label = esc_html( $meta_field_def['title'] );
+				if ( in_array( $meta_field_def['type'], array( 'snippetpreview', 'radio', 'checkbox' ), true ) === false ) {
+					$label = '<label for="' . $esc_form_key . '">' . $label . ':</label>';
+				}
+	
+				$help = '';
+				if ( isset( $meta_field_def['help'] ) && $meta_field_def['help'] !== '' ) {
+					$help = '<img src="' . plugins_url( 'images/question-mark.png', dirname( __FILE__ ) ) . '" class="alignright yoast_help" id="' . esc_attr( $key . 'help' ) . '" alt="' . esc_attr( $meta_field_def['help'] ) . '" />';
+				}
 
-			return $content;
+				$html = '
+				<tr>
+					<th scope="row">' . $label . $help . '</th>
+					<td>';
+	
+				$html .= $content;
+	
+				if ( isset( $meta_field_def['description'] ) ) {
+					$html .= '<div>' . $meta_field_def['description'] . '</div>';
+				}
+	
+				$html .= '
+					</td>
+				</tr>';
+			}
+
+			return $html;
 		}
 
 		/**
@@ -700,8 +713,8 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 				return false;
 			}
 
-			$meta_boxes = array_merge( $this->get_meta_field_defs( 'general', $post->post_type ), $this->get_meta_field_defs( 'advanced' ) );
-			$meta_boxes = apply_filters( 'wpseo_save_metaboxes', $meta_boxes );
+			$meta_boxes = apply_filters( 'wpseo_save_metaboxes', array() );
+			$meta_boxes = array_merge( $meta_boxes, $this->get_meta_field_defs( 'general', $post->post_type ), $this->get_meta_field_defs( 'advanced' ) );
 
 			foreach ( $meta_boxes as $key => $meta_box ) {
 				$data = null;
