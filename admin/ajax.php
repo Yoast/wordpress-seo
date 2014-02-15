@@ -97,7 +97,7 @@ function wpseo_get_suggest() {
 
 	$return_arr = array();
 
-	if ( is_array( $matches[1] ) && $matches[1] !== array() ) {
+	if ( isset( $matches[1] ) && ( is_array( $matches[1] ) && $matches[1] !== array() ) ) {
 		foreach ( $matches[1] as $match ) {
 			$return_arr[] = html_entity_decode( $match, ENT_COMPAT, 'UTF-8' );
 		}

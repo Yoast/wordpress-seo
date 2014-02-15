@@ -370,7 +370,7 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 				}
 
 				$link_output = '';
-				if ( is_string( $link['text'] ) && $link['text'] !== '' ) {
+				if ( isset( $link['text'] ) && ( is_string( $link['text'] ) && $link['text'] !== '' ) ) {
 					$link_output = '<' . $element . ' typeof="v:Breadcrumb">';
 					if ( ( isset( $link['url'] ) && ( is_string( $link['url'] ) && $link['url'] !== '' ) ) && ( $i < ( count( $links ) - 1 ) || $paged ) ) {
 						$link_output .= '<a href="' . esc_url( $link['url'] ) . '" rel="v:url" property="v:title">' . esc_html( $link['text'] ) . '</a>';
