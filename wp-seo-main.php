@@ -110,6 +110,8 @@ function wpseo_flush_rules() {
  * Runs on activation of the plugin.
  */
 function wpseo_activate() {
+	wpseo_init();
+
 	WPSEO_Options::initialize();
 
 	wpseo_flush_rules();
