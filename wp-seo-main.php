@@ -98,51 +98,6 @@ function wpseo_auto_load( $class ) {
 spl_autoload_register( 'wpseo_auto_load' );
 
 
-
-/**
- * Add the bulk edit capability to the proper default roles.
- */
-function wpseo_add_capabilities() {
-	$roles = array(
-		"administrator",
-		"editor",
-		"author",
-		"contributor"
-	);
-
-	$roles = apply_filters( 'wpseo_bulk_edit_roles', $roles );
-
-	foreach( $roles as $role ) {
-		$r = get_role( $role );
-		if( $r ) {
-			$r->add_cap( 'wpseo_bulk_edit' );
-		}
-	}
-}
-
-add_action( 'wpseo_activate', 'wpseo_add_capabilities' );
-
-/**
- * Remove the bulk edit capability from the proper default roles.
- */
-function wpseo_remove_capabilities() {
-	$roles = array(
-		"administrator",
-		"editor",
-		"author",
-		"contributor"
-	);
-
-	$roles = apply_filters( 'wpseo_bulk_edit_roles', $roles );
-
-	foreach( $roles as $role ) {
-		$r = get_role( $role );
-		if( $r ) {
-			$r->remove_cap( 'wpseo_bulk_edit' );
-		}	
-	}
-}
-
 /**
  * Runs on activation of the plugin.
  */

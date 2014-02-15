@@ -80,12 +80,57 @@ if ( ! function_exists( 'yoast_breadcrumb' ) ) {
 	}
 }
 
+
 /**
  * Flush the rewrite rules.
  */
 function wpseo_flush_rules() {
 	global $wp_rewrite;
 	$wp_rewrite->flush_rules();
+}
+
+
+/**
+ * Add the bulk edit capability to the proper default roles.
+ */
+function wpseo_add_capabilities() {
+	$roles = array(
+		'administrator',
+		'editor',
+		'author',
+		'contributor',
+	);
+
+	$roles = apply_filters( 'wpseo_bulk_edit_roles', $roles );
+
+	foreach( $roles as $role ) {
+		$r = get_role( $role );
+		if( $r ) {
+			$r->add_cap( 'wpseo_bulk_edit' );
+		}
+	}
+}
+
+
+/**
+ * Remove the bulk edit capability from the proper default roles.
+ */
+function wpseo_remove_capabilities() {
+	$roles = array(
+		'administrator',
+		'editor',
+		'author',
+		'contributor',
+	);
+
+	$roles = apply_filters( 'wpseo_bulk_edit_roles', $roles );
+
+	foreach( $roles as $role ) {
+		$r = get_role( $role );
+		if( $r ) {
+			$r->remove_cap( 'wpseo_bulk_edit' );
+		}	
+	}
 }
 
 
