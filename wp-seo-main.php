@@ -98,18 +98,13 @@ function wpseo_auto_load( $class ) {
 spl_autoload_register( 'wpseo_auto_load' );
 
 
-/**
- * Flush the rewrite rules.
- */
-function wpseo_flush_rules() {
-	global $wp_rewrite;
-	$wp_rewrite->flush_rules();
-}
 
 /**
  * Runs on activation of the plugin.
  */
 function wpseo_activate() {
+	require_once( WPSEO_PATH . 'inc/wpseo-functions.php' );
+
 	WPSEO_Options::initialize();
 
 	wpseo_flush_rules();
@@ -126,6 +121,8 @@ function wpseo_activate() {
  * On deactivation, flush the rewrite rules so XML sitemaps stop working.
  */
 function wpseo_deactivate() {
+	require_once( WPSEO_PATH . 'inc/wpseo-functions.php' );
+
 	wpseo_flush_rules();
 
 	// Force unschedule
