@@ -164,9 +164,6 @@ class WPSEO_Admin_Pages {
 		 */
 		require_once( ABSPATH . 'wp-admin/options-head.php' );
 		?>
-		<a href="http://yoast.com/">
-		<?php screen_icon(); ?>
-		</a>
 		<h2 id="wpseo-title"><?php echo get_admin_page_title(); ?></h2>
 		<div id="wpseo_content_top" class="postbox-container">
 		<div class="metabox-holder">
