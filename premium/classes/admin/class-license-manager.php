@@ -174,7 +174,6 @@ class WPSEO_License_Manager {
 	 * Display the license screen
 	 */
 	public function screen_license() {
-		global $wpseo_admin_pages;
 
 		$license = self::get_license_key();
 
@@ -182,10 +181,10 @@ class WPSEO_License_Manager {
 		wp_nonce_field( 'wpseo_license_nonce', 'wpseo_license_nonce' );
 
 		echo '<label class="textinput" for="wpseo_license_key">License key:</label>';
-		echo '<input class="textinput" type="text" id="wpseo_license_key" name="wpseo_license_key[wpseo_license_key]" value="' . self::get_license_key() . '">';
+		echo '<input class="textinput" type="text" id="wpseo_license_key" name="wpseo_license_key[wpseo_license_key]" value="' . $license . '">';
 		echo "<br class='clear' />";
 
-		if ( false !== $license ) {
+		if ( false !== $license && ''  !== $license ) {
 
 			$status = self::get_license_status();
 
