@@ -103,9 +103,9 @@ function wpseo_add_capabilities() {
 
 	$roles = apply_filters( 'wpseo_bulk_edit_roles', $roles );
 
-	foreach( $roles as $role ) {
+	foreach ( $roles as $role ) {
 		$r = get_role( $role );
-		if( $r ) {
+		if ( $r ) {
 			$r->add_cap( 'wpseo_bulk_edit' );
 		}
 	}
@@ -125,9 +125,9 @@ function wpseo_remove_capabilities() {
 
 	$roles = apply_filters( 'wpseo_bulk_edit_roles', $roles );
 
-	foreach( $roles as $role ) {
+	foreach ( $roles as $role ) {
 		$r = get_role( $role );
-		if( $r ) {
+		if ( $r ) {
 			$r->remove_cap( 'wpseo_bulk_edit' );
 		}	
 	}

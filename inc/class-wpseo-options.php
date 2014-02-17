@@ -1190,18 +1190,18 @@ if ( ! class_exists( 'WPSEO_Option_Titles' ) ) {
 
 			if ( $post_type_names !== array() ) {
 				foreach ( $post_type_names as $pt ) {
-					$this->defaults['title-' . $pt]        = '%%title%% %%page%% %%sep%% %%sitename%%'; // text field
-					$this->defaults['metadesc-' . $pt]     = ''; // text area
-					$this->defaults['metakey-' . $pt]      = ''; // text field
-					$this->defaults['noindex-' . $pt]      = false;
+					$this->defaults['title-' . $pt]    = '%%title%% %%page%% %%sep%% %%sitename%%'; // text field
+					$this->defaults['metadesc-' . $pt] = ''; // text area
+					$this->defaults['metakey-' . $pt]  = ''; // text field
+					$this->defaults['noindex-' . $pt]  = false;
 					if ( 'post' == $pt ) {
 						$this->defaults['noauthorship-' . $pt] = false;
 					} else {
 						$this->defaults['noauthorship-' . $pt] = true;
 					}
 
-					$this->defaults['showdate-' . $pt]     = false;
-					$this->defaults['hideeditbox-' . $pt]  = false;
+					$this->defaults['showdate-' . $pt]    = false;
+					$this->defaults['hideeditbox-' . $pt] = false;
 				}
 				unset( $pt );
 			}
