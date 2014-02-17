@@ -2871,7 +2871,7 @@ if ( ! class_exists( 'WPSEO_Taxonomy_Meta' ) ) {
 						break;
 				}
 				
-				$clean[$key] = apply_filters( 'wpseo_sanitize_tax_meta_' . $key, $clean[$key], $meta_data[$key], $old_meta[$key] );
+				$clean[$key] = apply_filters( 'wpseo_sanitize_tax_meta_' . $key, $clean[$key], ( isset( $meta_data[$key] ) ? $meta_data[$key]: null ), ( isset( $old_meta[$key] ) ? $old_meta[$key] : null ) );
 			}
 
 			// Only save the non-default values
