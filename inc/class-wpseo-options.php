@@ -2683,6 +2683,14 @@ if ( ! class_exists( 'WPSEO_Taxonomy_Meta' ) ) {
 
 			return self::$instance;
 		}
+		
+		
+		public function enrich_defaults() {
+			$extra_defaults_per_term = apply_filters( 'wpseo_add_extra_taxmeta_term_defaults', array() );
+			if ( is_array( $extra_defaults_per_term ) ) {
+				self::$defaults_per_term = array_merge( $extra_defaults_per_term, self::$defaults_per_term );
+			}
+		}
 
 
 		/**
@@ -2765,6 +2773,10 @@ if ( ! class_exists( 'WPSEO_Taxonomy_Meta' ) ) {
 					foreach ( $terms as $term_id => $meta_data ) {
 						/* Only validate term if the taxonomy exists */
 						if ( taxonomy_exists( $taxonomy ) && get_term_by( 'id', $term_id, $taxonomy ) === false ) {
+							/* Is this term id a special case ? */
+							if ( has_filter( 'wpseo_tax_meta_special_term_id_validation_' . $term_id ) !== false ) {
+								$clean[$taxonomy][$term_id] = apply_filters( 'wpseo_tax_meta_special_term_id_validation_' . $term_id, $meta_data, $taxonomy, $term_id );
+							}
 							continue;
 						}
 
@@ -2775,6 +2787,11 @@ if ( ! class_exists( 'WPSEO_Taxonomy_Meta' ) ) {
 							if ( $meta_data !== array() ) {
 								$clean[$taxonomy][$term_id] = $meta_data;
 							}
+						}
+						
+						// Deal with special cases (for when taxonomy doesn't exist yet)
+						if ( ! isset( $clean[$taxonomy][$term_id] ) && has_filter( 'wpseo_tax_meta_special_term_id_validation_' . $term_id ) !== false ) {
+							$clean[$taxonomy][$term_id] = apply_filters( 'wpseo_tax_meta_special_term_id_validation_' . $term_id, $meta_data, $taxonomy, $term_id );
 						}
 					}
 				}
@@ -2848,11 +2865,13 @@ if ( ! class_exists( 'WPSEO_Taxonomy_Meta' ) ) {
 					case 'wpseo_title':
 					case 'wpseo_desc':
 					default:
-						if ( isset( $meta_data[$key] ) ) {
+						if ( isset( $meta_data[$key] ) && is_string( $meta_data[$key] ) ) {
 							$clean[$key] = sanitize_text_field( $meta_data[$key] );
 						}
 						break;
 				}
+				
+				$clean[$key] = apply_filters( 'wpseo_sanitize_tax_meta_' . $key, $clean[$key], $meta_data[$key], $old_meta[$key] );
 			}
 
 			// Only save the non-default values
