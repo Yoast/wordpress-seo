@@ -488,7 +488,7 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 				case ( $meta_key === self::$meta_prefix . 'linkdex' ):
 					$int = WPSEO_Option::validate_int( $meta_value );
 					if ( $int !== false && $int >= 0 ) {
-						$clean = str_val( $int ); // Convert to string to make sure default check works
+						$clean = strval( $int ); // Convert to string to make sure default check works
 					}
 					break;
 
