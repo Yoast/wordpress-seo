@@ -27,7 +27,11 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-define( 'WPSEO_VERSION', '1.4.22' );
+define( 'WPSEO_VERSION', '1.4.24' );
+
+if ( ! defined( 'WPSEO_FILE' ) ) {
+	define( 'WPSEO_FILE', __FILE__ );
+}
 
 // Load the WordPress SEO plugin
 require_once( 'wp-seo-main.php' );
