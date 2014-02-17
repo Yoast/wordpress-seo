@@ -311,7 +311,7 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 			 * Allow add-on plugins to register their meta fields for management by this class
 			 * add_filter() calls must be made before plugins_loaded prio 14
 			 */
-			$extra_fields      = apply_filters( 'add_extra_wpseo_meta_fields', array() );
+			$extra_fields = apply_filters( 'add_extra_wpseo_meta_fields', array() );
 			if ( is_array( $extra_fields ) ) {
 				self::$meta_fields = self::array_merge_recursive_distinct( $extra_fields, self::$meta_fields );
 			}
@@ -488,7 +488,7 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 				case ( $meta_key === self::$meta_prefix . 'linkdex' ):
 					$int = WPSEO_Option::validate_int( $meta_value );
 					if ( $int !== false && $int >= 0 ) {
-						$clean = $int;
+						$clean = str_val( $int ); // Convert to string to make sure default check works
 					}
 					break;
 
@@ -709,9 +709,12 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 				if ( $custom[self::$meta_prefix . $key][0] === $unserialized ) {
 					return $custom[self::$meta_prefix . $key][0];
 				}
-				else if	( isset( $meta_field_def['serialized'] ) && $meta_field_def['serialized'] === true ) {
-					// Ok, serialize value expected/allowed
-					return $unserialized;
+				else {
+					$field_def = self::$meta_fields[self::$fields_index[self::$meta_prefix . $key]['subset']][self::$fields_index[self::$meta_prefix . $key]['key']];
+					if	( isset( $field_def['serialized'] ) && $field_def['serialized'] === true ) {
+						// Ok, serialize value expected/allowed
+						return $unserialized;
+					}
 				}
 			}
 
@@ -893,7 +896,7 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 					}
 					else if ( is_string( $field_def['default_value'] ) && $field_def['default_value'] !== '' ) {
 						$query[] = $wpdb->prepare(
-							"( meta_key = %s AND meta_value = %s )",
+							'( meta_key = %s AND meta_value = %s )',
 							self::$meta_prefix . $key,
 							$field_def['default_value']
 						);
