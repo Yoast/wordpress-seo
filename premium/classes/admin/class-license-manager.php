@@ -54,15 +54,7 @@ class WPSEO_License_Manager {
 		}
 
 		// try to activate new license
-		$license_data = $this->activate_license( $new_license_key );
-
-		// activation request succeeded?
-		if ( false !== $license_data ) {
-
-			// Save the new license status
-			update_option( WPSEO_Premium::OPTION_LICENSE_STATUS, $license_data->license );
-
-		}
+		$this->activate_license( $new_license_key );
 
 		// Return new license
 		return $new_license_key;
