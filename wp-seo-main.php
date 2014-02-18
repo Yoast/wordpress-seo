@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package Main
  */
@@ -109,8 +110,8 @@ if ( is_admin() ) {
 		add_action( 'plugins_loaded', 'wpseo_admin_init', 15 );
 	}
 
-	register_activation_hook( __FILE__, 'wpseo_activate' );
-	register_deactivation_hook( __FILE__, 'wpseo_deactivate' );
+	register_activation_hook( WPSEO_FILE, 'wpseo_activate' );
+	register_deactivation_hook( WPSEO_FILE, 'wpseo_deactivate' );
 } else {
 	add_action( 'plugins_loaded', 'wpseo_frontend_init', 15 );
 }

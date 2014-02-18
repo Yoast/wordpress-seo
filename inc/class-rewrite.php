@@ -3,8 +3,8 @@
  * @package Frontend
  */
 
-if ( !defined('WPSEO_VERSION') ) {
-	header('HTTP/1.0 403 Forbidden');
+if ( ! defined( 'WPSEO_VERSION' ) ) {
+	header( 'HTTP/1.0 403 Forbidden' );
 	die;
 }
 
@@ -53,18 +53,21 @@ class WPSEO_Rewrite {
 	/**
 	 * Override the category link to remove the category base.
 	 *
-	 * @param string $link     Unused, overridden by the function.
+	 * @param string $link Unused, overridden by the function.
+	 *
 	 * @return string
 	 */
 	function no_category_base( $link ) {
 		$category_base = get_option( 'category_base' );
 
-		if ( '' == $category_base )
+		if ( '' == $category_base ) {
 			$category_base = 'category';
+		}
 
 		// Remove initial slash, if there is one (we remove the trailing slash in the regex replacement and don't want to end up short a slash)
-		if ( '/' == substr( $category_base, 0, 1 ) )
+		if ( '/' == substr( $category_base, 0, 1 ) ) {
 			$category_base = substr( $category_base, 1 );
+		}
 
 		$category_base .= '/';
 
@@ -75,13 +78,15 @@ class WPSEO_Rewrite {
 	 * Update the query vars with the redirect var when stripcategorybase is active
 	 *
 	 * @param $query_vars
+	 *
 	 * @return array
 	 */
 	function query_vars( $query_vars ) {
 		$options = get_wpseo_options();
 
-		if ( isset( $options['stripcategorybase'] ) && $options['stripcategorybase'] )
+		if ( isset( $options['stripcategorybase'] ) && $options['stripcategorybase'] ) {
 			$query_vars[] = 'wpseo_category_redirect';
+		}
 
 		return $query_vars;
 	}
@@ -90,6 +95,7 @@ class WPSEO_Rewrite {
 	 * Redirect the "old" category URL to the new one.
 	 *
 	 * @param array $query_vars Query vars to check for existence of redirect var
+	 *
 	 * @return array
 	 */
 	function request( $query_vars ) {
@@ -99,6 +105,7 @@ class WPSEO_Rewrite {
 			wp_redirect( $catlink, 301 );
 			exit;
 		}
+
 		return $query_vars;
 	}
 
@@ -112,22 +119,25 @@ class WPSEO_Rewrite {
 
 		$category_rewrite = array();
 
-		$taxonomy = get_taxonomy('category');
+		$taxonomy = get_taxonomy( 'category' );
 
 		$blog_prefix = '';
-		if ( function_exists( 'is_multisite' ) && is_multisite() && !is_subdomain_install() && is_main_site() )
+		if ( function_exists( 'is_multisite' ) && is_multisite() && ! is_subdomain_install() && is_main_site() ) {
 			$blog_prefix = 'blog/';
+		}
 
-		foreach ( get_categories( array( 'hide_empty'=> false ) ) as $category ) {
+		foreach ( get_categories( array( 'hide_empty' => false ) ) as $category ) {
 			$category_nicename = $category->slug;
 			if ( $category->parent == $category->cat_ID ) // recursive recursion
+			{
 				$category->parent = 0;
-			elseif ( $taxonomy->rewrite['hierarchical'] != 0 && $category->parent != 0 )
+			} elseif ( $taxonomy->rewrite['hierarchical'] != 0 && $category->parent != 0 ) {
 				$category_nicename = get_category_parents( $category->parent, false, '/', true ) . $category_nicename;
+			}
 
-			$category_rewrite[$blog_prefix . '(' . $category_nicename . ')/(?:feed/)?(feed|rdf|rss|rss2|atom)/?$'] = 'index.php?category_name=$matches[1]&feed=$matches[2]';
-			$category_rewrite[$blog_prefix . '(' . $category_nicename . ')/page/?([0-9]{1,})/?$']                  = 'index.php?category_name=$matches[1]&paged=$matches[2]';
-			$category_rewrite[$blog_prefix . '(' . $category_nicename . ')/?$']                                    = 'index.php?category_name=$matches[1]';
+			$category_rewrite[$blog_prefix . '(' . $category_nicename . ')/(?:feed/)?(feed|rdf|rss|rss2|atom)/?$']                = 'index.php?category_name=$matches[1]&feed=$matches[2]';
+			$category_rewrite[$blog_prefix . '(' . $category_nicename . ')/' . $wp_rewrite->pagination_base . '/?([0-9]{1,})/?$'] = 'index.php?category_name=$matches[1]&paged=$matches[2]';
+			$category_rewrite[$blog_prefix . '(' . $category_nicename . ')/?$']                                                   = 'index.php?category_name=$matches[1]';
 		}
 
 		// Redirect support from Old Category Base

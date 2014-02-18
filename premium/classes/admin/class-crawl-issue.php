@@ -149,7 +149,7 @@ class WPSEO_Crawl_Issue {
 			$linked_from = array_shift( $copy );
 		}
 
-		return array( 'url' => $this->url, 'crawl_type' => $this->crawl_type, 'issue_type' => $this->issue_type, 'date_detected' => strftime( '%x', $this->date_detected->getTimestamp() ), 'detail' => $this->detail, 'linked_from' => $linked_from );
+		return array( 'url' => $this->url, 'crawl_type' => $this->crawl_type, 'issue_type' => $this->issue_type, 'date_detected' => strftime( '%x', strtotime( $this->date_detected->format( 'Y-m-d H:i:s' ) ) ), 'detail' => $this->detail, 'linked_from' => $linked_from );
 	}
 
 }

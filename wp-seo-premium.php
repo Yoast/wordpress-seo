@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: WordPress SEO Premium
-Version: 1.0.0
+Version: 1.0.2
 Plugin URI: http://yoast.com/wordpress/seo-premium/#utm_source=wpadmin&utm_medium=plugin&utm_campaign=wpseoplugin
 Description: The first true all-in-one SEO solution for WordPress, including on-page content analysis, XML sitemaps and much more.
 Author: Joost de Valk
@@ -27,7 +27,11 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-define( 'WPSEO_VERSION', '1.4.22' );
+define( 'WPSEO_VERSION', '1.4.24' );
+
+if ( ! defined( 'WPSEO_FILE' ) ) {
+	define( 'WPSEO_FILE', __FILE__ );
+}
 
 // Load the WordPress SEO plugin
 require_once( 'wp-seo-main.php' );

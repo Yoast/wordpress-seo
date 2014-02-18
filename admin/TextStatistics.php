@@ -44,7 +44,13 @@ class Yoast_TextStatistics {
 	 */
 	function flesch_kincaid_reading_ease( $strText ) {
 		$strText = $this->clean_text( $strText );
-		return round( ( 206.835 - ( 1.015 * $this->average_words_per_sentence( $strText ) ) - ( 84.6 * $this->average_syllables_per_word( $strText ) ) ), 1 );
+		$score = round( ( 206.835 - ( 1.015 * $this->average_words_per_sentence( $strText ) ) - ( 84.6 * $this->average_syllables_per_word( $strText ) ) ), 1 );
+		if ( $score > 0 ) {
+			return $score;
+		}
+		else {
+			return 0;
+		}
 	}
 
 	/**

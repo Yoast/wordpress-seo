@@ -23,7 +23,7 @@ class WPSEO_License_Manager {
 	 * Register license setting
 	 */
 	public function register_setting() {
-		register_setting( 'wpseo_license', WPSEO_Premium::OPTION_LICENSE_KEY, array( $this, 'sanitize_license' ) );
+		register_setting( 'yoast_wpseo_options', WPSEO_Premium::OPTION_LICENSE_KEY, array( $this, 'sanitize_license' ) );
 	}
 
 	/**
@@ -35,59 +35,29 @@ class WPSEO_License_Manager {
 	 */
 	public function sanitize_license( $new ) {
 
-		// Don't do anything if wpseo_license_deactivate is set
-		if( isset( $_POST['wpseo_license_deactivate'] ) ) {
+		// Checking if it's the correct option. We need to rewrite the complete option setup in WPSEO 1.5
+		if ( ! isset( $new[WPSEO_Premium::OPTION_LICENSE_KEY] ) ) {
 			return $new;
 		}
 
-		// Delete old license
-		delete_option( WPSEO_Premium::OPTION_LICENSE_KEY );
+		// Sanitize posted license key
+		$new_license_key = trim( (string) $new[WPSEO_Premium::OPTION_LICENSE_KEY] );
 
-		/*
-		// Checking new license
-		$license = trim( $new );
-
-		// Setup API parameters
-		$api_params = array(
-				'edd_action' => 'check_license',
-				'license'    => $license,
-				'item_name'  => urlencode( WPSEO_Premium::EDD_PLUGIN_NAME )
-		);
-
-		// Call the custom API.
-		$response = wp_remote_get( add_query_arg( $api_params, WPSEO_Premium::EDD_STORE_URL ), array( 'timeout' => 15, 'sslverify' => false ) );
-
-		// Check error
-		if ( is_wp_error( $response ) ) {
-			return false;
+		// Check if the new license is different than the old license
+		if ( $new_license_key == self::get_license_key() ) {
+			return $new_license_key;
 		}
 
-		// Get the license data
-		$license_data = json_decode( wp_remote_retrieve_body( $response ) );
-		*/
-
-		$license_data = $this->activate_license( trim( $new ) );
-
-		// Try to activate license
-		if ( false === $license_data ) {
-			return false;
+		// Don't do anything if wpseo_license_deactivate is set
+		if ( isset( $_POST['wpseo_license_deactivate'] ) ) {
+			return $new_license_key;
 		}
 
-		// Save the new license
-		update_option( WPSEO_Premium::OPTION_LICENSE_STATUS, $license_data->license );
-
-		/*
-		// Activate the new license if not active
-		$status = self::get_license_status();
-		if ( $status != 'valid' && ! isset( $_POST['wpseo_license_deactivate'] ) ) {
-			if ( false === $this->activate_license() ) {
-				return false;
-			}
-		}
-		*/
+		// try to activate new license
+		$this->activate_license( $new_license_key );
 
 		// Return new license
-		return $new;
+		return $new_license_key;
 
 	}
 
@@ -130,6 +100,7 @@ class WPSEO_License_Manager {
 	 * @return object|bool
 	 */
 	public function activate_license( $license ) {
+
 		// retrieve the license from the database
 		//$license = trim( get_option( WPSEO_Premium::OPTION_LICENSE_KEY ) );
 
@@ -198,14 +169,14 @@ class WPSEO_License_Manager {
 
 		$license = self::get_license_key();
 
-		settings_fields( 'wpseo_license' );
 		echo "<h2>" . __( 'WordPress SEO Premium License', 'wordpress-seo' ) . "</h2>\n";
 		wp_nonce_field( 'wpseo_license_nonce', 'wpseo_license_nonce' );
-		echo "<label class='textinput' for='wpseo_license_key'>" . __( 'License Key', 'wordpress-seo' ) . ":</label>\n";
-		echo "<input class='textinput' type='text' id='wpseo_license_key' name='" . WPSEO_Premium::OPTION_LICENSE_KEY . "' value='" . $license . "' />\n";
+
+		echo '<label class="textinput" for="wpseo_license_key">License key:</label>';
+		echo '<input class="textinput" type="text" id="wpseo_license_key" name="wpseo_license_key[wpseo_license_key]" value="' . $license . '">';
 		echo "<br class='clear' />";
 
-		if ( false !== $license ) {
+		if ( false !== $license && ''  !== $license ) {
 
 			$status = self::get_license_status();
 
