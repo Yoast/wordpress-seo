@@ -39,33 +39,33 @@ class WPSEO_License_Manager {
 		if ( ! isset( $new[WPSEO_Premium::OPTION_LICENSE_KEY] ) ) {
 			return $new;
 		}
-		$new = trim( (string) $new[WPSEO_Premium::OPTION_LICENSE_KEY] );
+
+		// Sanitize posted license key
+		$new_license_key = trim( (string) $new[WPSEO_Premium::OPTION_LICENSE_KEY] );
 
 		// Check if the new license is different than the old license
-		if ( $new == self::get_license_key() ) {
-			return $new;
+		if ( $new_license_key == self::get_license_key() ) {
+			return $new_license_key;
 		}
 
 		// Don't do anything if wpseo_license_deactivate is set
 		if ( isset( $_POST['wpseo_license_deactivate'] ) ) {
-			return $new;
+			return $new_license_key;
 		}
 
-		// Delete old license
-		delete_option( WPSEO_Premium::OPTION_LICENSE_KEY );
+		// try to activate new license
+		$license_data = $this->activate_license( $new_license_key );
 
-		$license_data = $this->activate_license( $new );
+		// activation request succeeded?
+		if ( false !== $license_data ) {
 
-		// Try to activate license
-		if ( false === $license_data ) {
-			return false;
+			// Save the new license status
+			update_option( WPSEO_Premium::OPTION_LICENSE_STATUS, $license_data->license );
+
 		}
-
-		// Save the new license
-		update_option( WPSEO_Premium::OPTION_LICENSE_STATUS, $license_data->license );
 
 		// Return new license
-		return $new;
+		return $new_license_key;
 
 	}
 
