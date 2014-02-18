@@ -72,7 +72,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 
 			$this->options     = WPSEO_Options::get_all();
 			$this->max_entries = WPSEO_Options::get_default( 'wpseo_xml', 'entries-per-page' );
-			$this->home_url = home_url();
+			$this->home_url    = home_url();
 		}
 
 		/**

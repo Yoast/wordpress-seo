@@ -325,7 +325,6 @@ if ( ! class_exists( 'WPSEO_Option' ) ) {
 		/**
 		 * Validate the option
 		 *
-		 * @param  string $option_name  The name of the option being validated (not used)
 		 * @param  mixed  $option_value The unvalidated new value for the option
 		 *
 		 * @return  array          Validated new value for the option

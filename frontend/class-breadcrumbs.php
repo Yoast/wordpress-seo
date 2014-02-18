@@ -386,7 +386,7 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 					$link_output .= '</' . $element . '>';
 
 				}
-				$link_sep    = ( ( '' != $output ) ? " $sep " : '' );
+				$link_sep = ( ( '' != $output ) ? " $sep " : '' );
 				/**
 				 * Filter: 'wpseo_breadcrumb_single_link' - Allow changing of each link being put out by the WP SEO breadcrumbs class
 				 *

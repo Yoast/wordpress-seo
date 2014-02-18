@@ -112,11 +112,11 @@ if ( ! class_exists( 'Yoast_TextStatistics' ) ) {
 			$strText = preg_replace( '`[ ]*[\n\r]+[ ]*`', ' ', $strText ); // Replace new lines with spaces
 			$strText = preg_replace( '`([\.])[\. ]+`', '$1', $strText ); // Check for duplicated terminators
 			$strText = trim( preg_replace( '`[ ]*([\.])`', '$1 ', $strText ) ); // Pad sentence terminators
-			$strText = preg_replace( '` [0-9]+ `', ' ', ' ' . $strText . ' '); // Remove "words" comprised only of numbers
+			$strText = preg_replace( '` [0-9]+ `', ' ', ' ' . $strText . ' ' ); // Remove "words" comprised only of numbers
 			$strText = preg_replace( '`[ ]+`', ' ', $strText ); // Remove multiple spaces
 			$strText = preg_replace_callback( '`\. [^ ]+`', create_function( '$matches', 'return strtolower($matches[0]);' ), $strText ); // Lower case all words following terminators (for gunning fog score)
 
-			$strText = trim($strText);
+			$strText = trim( $strText );
 
 			// Cache it and return
 			$clean[$key] = $strText;

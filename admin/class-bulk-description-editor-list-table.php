@@ -101,7 +101,7 @@ if ( ! class_exists( 'WPSEO_Bulk_Description_List_Table' ) ) {
 			<?php
 		}
 
-		/*
+		/**
 		 * This function builds the base sql subquery used in this class.
 		 *
 		 * This function takes into account the post types in which the current user can
