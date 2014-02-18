@@ -1499,7 +1499,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 		 * @return string
 		 */
 		function title_test_helper( $title ) {
-			$wpseo_titles = get_option( $wpseo_titles );
+			$wpseo_titles = get_option( 'wpseo_titles' );
 
 			$wpseo_titles['title_test']++;
 			update_option( 'wpseo_titles', $wpseo_titles );
