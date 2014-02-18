@@ -500,6 +500,71 @@ if ( ! class_exists( 'WPSEO_Option' ) ) {
 
 
 		/* *********** GENERIC HELPER METHODS *********** */
+		
+		/**
+		 * Emulate the WP native sanitize_text_field function in a %%variable%% safe way
+		 * @see https://core.trac.wordpress.org/browser/trunk/src/wp-includes/formatting.php for the original
+		 *
+		 * Sanitize a string from user input or from the db
+		 *
+		 * check for invalid UTF-8,
+		 * Convert single < characters to entity,
+		 * strip all tags,
+		 * remove line breaks, tabs and extra white space,
+		 * strip octets - BUT DO NOT REMOVE (part of) VARIABLES WHICH WILL BE REPLACED.
+		 *
+		 * @param string $value
+		 * @return string
+		 */
+		public static function sanitize_text_field( $value ) {
+			$filtered = wp_check_invalid_utf8( $value );
+			
+			if ( strpos( $filtered, '<' ) !== false ) {
+				$filtered = wp_pre_kses_less_than( $filtered );
+				// This will strip extra whitespace for us.
+				$filtered = wp_strip_all_tags( $filtered, true );
+			}
+			else {
+				$filtered = trim( preg_replace( '`[\r\n\t ]+`', ' ', $filtered ) );
+			}
+
+			$found = false;
+			while ( preg_match( '`[^%](%[a-f0-9]{2})`i', $filtered, $match ) ) {
+				$filtered = str_replace( $match[1], '', $filtered );
+				$found = true;
+			}
+			
+			if ( $found ) {
+				// Strip out the whitespace that may now exist after removing the octets.
+				$filtered = trim( preg_replace( '` +`', ' ', $filtered ) );
+			}
+
+			/**
+			 * Filter a sanitized text field string.
+			 *
+			 * @since WP 2.9.0
+			 *
+			 * @param string $filtered The sanitized string.
+			 * @param string $str      The string prior to being sanitized.
+			 */
+			return apply_filters( 'sanitize_text_field', $filtered, $value );
+		}
+		
+		
+		/**
+		 * Sanitize a url for saving to the database
+		 * Not to be confused with the old native WP function
+		 *
+		 * @todo [JRF => whomever] check/improve url verification
+		 *
+		 * @param	string	$value
+		 * @param	array	$allowed_protocols
+		 *
+		 * @return	string
+		 */
+		public static function sanitize_url( $value, $allowed_protocols = array( 'http', 'https' ) ) {
+			return esc_url_raw( sanitize_text_field( urldecode( $value ) ), $allowed_protocols );
+		}
 
 		/**
 		 * Validate a value as boolean
@@ -1264,7 +1329,7 @@ if ( ! class_exists( 'WPSEO_Option_Titles' ) ) {
 					   'title-tax-' . $tax->name */
 					case 'title-':
 						if ( isset( $dirty[$key] ) ) {
-							$clean[$key] = sanitize_text_field( $dirty[$key] );
+							$clean[$key] = self::sanitize_text_field( $dirty[$key] );
 						}
 						break;
 
@@ -1284,7 +1349,7 @@ if ( ! class_exists( 'WPSEO_Option_Titles' ) ) {
 							 ''bctitle-ptarchive-' . $pt->name */
 					case 'bctitle-ptarchive-':
 						if ( isset( $dirty[$key] ) && $dirty[$key] !== '' ) {
-							$clean[$key] = sanitize_text_field( $dirty[$key] );
+							$clean[$key] = self::sanitize_text_field( $dirty[$key] );
 						}
 						break;
 
@@ -1463,7 +1528,7 @@ if ( ! class_exists( 'WPSEO_Option_Titles' ) ) {
 						case 'metadesc-':
 						case 'metakey-':
 						case 'bctitle-ptarchive-':
-							$option_value[$key] = sanitize_text_field( $value );
+							$option_value[$key] = self::sanitize_text_field( $value );
 							break;
 
 
@@ -1687,7 +1752,7 @@ if ( ! class_exists( 'WPSEO_Option_InternalLinks' ) ) {
 					case 'breadcrumbs-searchprefix':
 					case 'breadcrumbs-sep':
 						if ( isset( $dirty[$key] ) ) {
-							$clean[$key] = sanitize_text_field( $dirty[$key] );
+							$clean[$key] = self::sanitize_text_field( $dirty[$key] );
 						}
 						break;
 
@@ -2204,9 +2269,7 @@ if ( ! class_exists( 'WPSEO_Option_Social' ) ) {
 													break;
 
 												case 'link':
-													/* @todo [JRF => whomever] check/improve url verification
-													 * Input comes from: $_GET['link'] */
-													$clean[$key][$user_id][$fb_key] = esc_url_raw( sanitize_text_field( $fb_value, array( 'http', 'https' ) ) );
+													$clean[$key][$user_id][$fb_key] = self::sanitize_url( $fb_value );
 													break;
 											}
 										}
@@ -2249,7 +2312,7 @@ if ( ! class_exists( 'WPSEO_Option_Social' ) ) {
 					/* text fields */
 					case 'og_frontpage_desc':
 						if ( isset( $dirty[$key] ) && $dirty[$key] !== '' ) {
-							$clean[$key] = sanitize_text_field( $dirty[$key] );
+							$clean[$key] = self::sanitize_text_field( $dirty[$key] );
 						}
 						break;
 
@@ -2257,24 +2320,24 @@ if ( ! class_exists( 'WPSEO_Option_Social' ) ) {
 					/* url text fields - ftp allowed */
 					case 'og_default_image':
 					case 'og_frontpage_image':
-						// @todo [JRF => whomever] check/improve url verification
 						if ( isset( $dirty[$key] ) && $dirty[$key] !== '' ) {
-							$url = esc_url_raw( sanitize_text_field( $dirty[$key], array( 'http', 'https', 'ftp', 'ftps' ) ) );
+							$url = self::sanitize_url( $dirty[$key], array( 'http', 'https', 'ftp', 'ftps' ) );
 							if ( $url !== '' ) {
 								$clean[$key] = $url;
 							}
 							else {
 								if ( isset( $old[$key] ) && $old[$key] !== '' ) {
-									$url = esc_url_raw( sanitize_text_field( $old[$key], array( 'http', 'https', 'ftp', 'ftps' ) ) );
+									$url = self::sanitize_url( $old[$key], array( 'http', 'https', 'ftp', 'ftps' ) );
 									if ( $url !== '' ) {
 										$clean[$key] = $url;
 									}
 								}
 								if ( function_exists( 'add_settings_error' ) ) {
+									$url = self::sanitize_url( $dirty[$key], array( 'http', 'https', 'ftp', 'ftps' ) );
 									add_settings_error(
 										$this->group_name, // slug title of the setting
 											'_' . $key, // suffix-id for the error message box
-										sprintf( __( '%s does not seem to be a valid url. Please correct.', 'wordpress-seo' ), '<strong>' . esc_html( sanitize_text_field( $dirty[$key] ) ) . '</strong>' ), // the error message
+										sprintf( __( '%s does not seem to be a valid url. Please correct.', 'wordpress-seo' ), '<strong>' . esc_html( $url ) . '</strong>' ), // the error message
 										'error' // error type, either 'error' or 'updated'
 									);
 								}
@@ -2287,24 +2350,24 @@ if ( ! class_exists( 'WPSEO_Option_Social' ) ) {
 					/* url text fields - no ftp allowed */
 					case 'facebook_site':
 					case 'plus-publisher':
-						// @todo [JRF => whomever] check/improve url verification
 						if ( isset( $dirty[$key] ) && $dirty[$key] !== '' ) {
-							$url = esc_url_raw( sanitize_text_field( $dirty[$key], array( 'http', 'https' ) ) );
+							$url = self::sanitize_url( $dirty[$key] );
 							if ( $url !== '' ) {
 								$clean[$key] = $url;
 							}
 							else {
 								if ( isset( $old[$key] ) && $old[$key] !== '' ) {
-									$url = esc_url_raw( sanitize_text_field( $old[$key], array( 'http', 'https' ) ) );
+									$url = self::sanitize_url( $old[$key] );
 									if ( $url !== '' ) {
 										$clean[$key] = $url;
 									}
 								}
 								if ( function_exists( 'add_settings_error' ) ) {
+									$url = self::sanitize_url( $dirty[$key] );
 									add_settings_error(
 										$this->group_name, // slug title of the setting
 											'_' . $key, // suffix-id for the error message box
-										sprintf( __( '%s does not seem to be a valid url. Please correct.', 'wordpress-seo' ), '<strong>' . esc_html( sanitize_text_field( $dirty[$key] ) ) . '</strong>' ), // the error message
+										sprintf( __( '%s does not seem to be a valid url. Please correct.', 'wordpress-seo' ), '<strong>' . esc_html( $url ) . '</strong>' ), // the error message
 										'error' // error type, either 'error' or 'updated'
 									);
 								}
@@ -2842,9 +2905,8 @@ if ( ! class_exists( 'WPSEO_Taxonomy_Meta' ) ) {
 						break;
 
 					case 'wpseo_canonical':
-						// @todo [JRF => whomever] check/improve url verification
 						if ( isset( $meta_data[$key] ) && $meta_data[$key] !== '' ) {
-							$url = esc_url_raw( sanitize_text_field( $meta_data[$key], array( 'http', 'https' ) ) );
+							$url = self::sanitize_url( $meta_data[$key] );
 							if ( $url !== '' ) {
 								$clean[$key] = $url;
 							}
@@ -2854,7 +2916,7 @@ if ( ! class_exists( 'WPSEO_Taxonomy_Meta' ) ) {
 					case 'wpseo_metakey':
 					case 'wpseo_bctitle':
 						if ( isset( $meta_data[$key] ) ) {
-							$clean[$key] = sanitize_text_field( $meta_data[$key] );
+							$clean[$key] = self::sanitize_text_field( $meta_data[$key] );
 						}
 						else if ( isset( $old_meta[$key] ) ) {
 							// Retain old value if field currently not in use
@@ -2866,7 +2928,7 @@ if ( ! class_exists( 'WPSEO_Taxonomy_Meta' ) ) {
 					case 'wpseo_desc':
 					default:
 						if ( isset( $meta_data[$key] ) && is_string( $meta_data[$key] ) ) {
-							$clean[$key] = sanitize_text_field( $meta_data[$key] );
+							$clean[$key] = self::sanitize_text_field( $meta_data[$key] );
 						}
 						break;
 				}

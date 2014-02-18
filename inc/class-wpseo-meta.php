@@ -517,8 +517,7 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 				case ( $field_def['type'] === 'text' && $meta_key === self::$meta_prefix . 'canonical' ):
 				case ( $field_def['type'] === 'text' && $meta_key === self::$meta_prefix . 'redirect' ):
 					// Validate as url(-part)
-					// @todo [JRF/whomever] check/improve url verification
-					$url = esc_url_raw( sanitize_text_field( $meta_value ), array( 'http', 'https' ) );
+					$url = WPSEO_Options::sanitize_url( $meta_value );
 					if ( $url !== '' ) {
 						$clean = $url;
 					}
@@ -527,8 +526,7 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 
 				case ( $field_def['type'] === 'upload' && $meta_key === self::$meta_prefix . 'opengraph-image' ):
 					// Validate as url
-					// @todo [JRF/whomever] check/improve url verification
-					$url = esc_url_raw( sanitize_text_field( $meta_value ), array( 'http', 'https', 'ftp', 'ftps' ) );
+					$url = WPSEO_Options::sanitize_url( $meta_value, array( 'http', 'https', 'ftp', 'ftps' ) );
 					if ( $url !== '' ) {
 						$clean = $url;
 					}
@@ -540,7 +538,7 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 						// Remove line breaks and tabs
 						// @todo [JRF => Yoast] verify that line breaks and the likes aren't allowed/recommended in meta header fields
 						$meta_value = str_replace( array( "\n", "\r", "\t", '  ' ), ' ', $meta_value );
-						$clean      = sanitize_text_field( trim( $meta_value ) );
+						$clean      = WPSEO_Options::sanitize_text_field( trim( $meta_value ) );
 					}
 					break;
 
@@ -548,7 +546,7 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 				case ( $field_def['type'] === 'text' ):
 				default:
 					if ( is_string( $meta_value ) ) {
-						$clean = sanitize_text_field( trim( $meta_value ) );
+						$clean = WPSEO_Options::sanitize_text_field( trim( $meta_value ) );
 					}
 					break;
 			}
