@@ -1864,12 +1864,12 @@ if ( ! class_exists( 'WPSEO_Option_InternalLinks' ) ) {
 							if ( $taxonomies !== array() && in_array( $dirty[$key], $taxonomies, true ) ) {
 								$clean[$key] = $dirty[$key];
 							}
+							else if ( $dirty[$key] === '0' ) {
+								$clean[$key] = 0;
+							}
 							else if ( sanitize_title_with_dashes( $dirty[$key] ) === $dirty[$key] ) {
 								// Allow taxonomies which may not be registered yet
 								$clean[$key] = $dirty[$key];
-							}
-							else if ( $dirty[$key] == 0 ) {
-								$clean[$key] = 0;
 							}
 							else {
 								if ( isset( $old[$key] ) ) {
@@ -1900,12 +1900,12 @@ if ( ! class_exists( 'WPSEO_Option_InternalLinks' ) ) {
 							if ( $allowed_post_types !== array() && in_array( $dirty[$key], $allowed_post_types, true ) ) {
 								$clean[$key] = $dirty[$key];
 							}
+							else if ( $dirty[$key] === '0' ) {
+								$clean[$key] = 0;
+							}
 							else if ( sanitize_key( $dirty[$key] ) === $dirty[$key] ) {
 								// Allow taxonomies which may not be registered yet
 								$clean[$key] = $dirty[$key];
-							}
-							else if ( $dirty[$key] == 0 ) {
-								$clean[$key] = 0;
 							}
 							else {
 								if ( isset( $old[$key] ) ) {
@@ -2004,12 +2004,12 @@ if ( ! class_exists( 'WPSEO_Option_InternalLinks' ) ) {
 							if ( $taxonomies !== array() && in_array( $value, $taxonomies, true ) ) {
 								$option_value[$key] = $value;
 							}
+							else if ( $value === '0' ) {
+								$option_value[$key] = 0;
+							}
 							else if ( sanitize_title_with_dashes( $value ) === $value ) {
 								// Allow taxonomies which may not be registered yet
 								$option_value[$key] = $value;
-							}
-							else if ( $value == 0 ) {
-								$option_value[$key] = 0;
 							}
 							unset( $taxonomies, $post_type );
 							break;
@@ -2020,12 +2020,12 @@ if ( ! class_exists( 'WPSEO_Option_InternalLinks' ) ) {
 							if ( $allowed_post_types !== array() && in_array( $value, $allowed_post_types, true ) ) {
 								$option_value[$key] = $value;
 							}
+							else if ( $value === '0' ) {
+								$option_value[$key] = 0;
+							}
 							else if ( sanitize_key( $option_value[$key] ) === $option_value[$key] ) {
 								// Allow post types which may not be registered yet
 								$option_value[$key] = $value;
-							}
-							else if ( $value == 0 ) {
-								$option_value[$key] = 0;
 							}
 							break;
 					}
