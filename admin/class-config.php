@@ -261,10 +261,10 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 						$content .= $key . " = \n";
 					}
 					else if ( is_bool( $elem ) ) {
-						$content .= $key . ' = \"' . ( ( $elem === true ) ? 'on' : 'off' ) . "\"\n";
+						$content .= $key . ' = "' . ( ( $elem === true ) ? 'on' : 'off' ) . "\"\n";
 					}
 					else {
-						$content .= $key . ' = \"' . $elem . "\"\n";
+						$content .= $key . ' = "' . $elem . "\"\n";
 					}
 				}
 			}
