@@ -152,7 +152,7 @@ class WPSEO_Admin {
 	 * @global array $submenu used to change the label on the first item.
 	 */
 	function register_settings_page() {
-		add_menu_page( __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'General Settings', 'wordpress-seo' ), __( 'SEO', 'wordpress-seo' ), 'manage_options', 'wpseo_dashboard', array( $this, 'config_page' ), plugins_url( 'images/yoast-icon.png', dirname( __FILE__ ) ), '99.31337' );
+		add_menu_page( __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'General Settings', 'wordpress-seo' ), __( 'SEO', 'wordpress-seo' ), 'manage_options', 'wpseo_dashboard', array( $this, 'config_page' ), plugins_url( 'images/yoast-icon.png', dirname( WPSEO_FILE ) ), '99.31337' );
 
 		$admin_page = add_submenu_page( 'wpseo_dashboard', __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Titles &amp; Metas', 'wordpress-seo' ), __( 'Titles &amp; Metas', 'wordpress-seo' ), 'manage_options', 'wpseo_titles', array( $this, 'titles_page' ) );
 		add_action( 'load-' . $admin_page, array( $this, 'title_metas_help_tab' ) );
@@ -352,7 +352,7 @@ class WPSEO_Admin {
 	 * Register the settings page for the Network settings.
 	 */
 	function register_network_settings_page() {
-		add_menu_page( __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'MultiSite Settings', 'wordpress-seo' ), __( 'SEO', 'wordpress-seo' ), 'delete_users', 'wpseo_dashboard', array( $this, 'network_config_page' ), plugins_url( 'images/yoast-icon.png', dirname( __FILE__ ) ) );
+		add_menu_page( __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'MultiSite Settings', 'wordpress-seo' ), __( 'SEO', 'wordpress-seo' ), 'delete_users', 'wpseo_dashboard', array( $this, 'network_config_page' ), plugins_url( 'images/yoast-icon.png', dirname( WPSEO_FILE ) ) );
 	}
 
 	/**
@@ -493,7 +493,7 @@ class WPSEO_Admin {
 	 * Enqueues the (tiny) global JS needed for the plugin.
 	 */
 	function config_page_scripts() {
-		wp_enqueue_script( 'wpseo-admin-global-script', plugins_url( 'js/wp-seo-admin-global.js', dirname( __FILE__ ) ), array( 'jquery' ), WPSEO_VERSION, true );
+		wp_enqueue_script( 'wpseo-admin-global-script', plugins_url( 'js/wp-seo-admin-global.js', dirname( WPSEO_FILE ) ), array( 'jquery' ), WPSEO_VERSION, true );
 	}
 
 	/**
