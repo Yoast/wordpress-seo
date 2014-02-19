@@ -482,9 +482,9 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		function process_user_option_update( $user_id ) {
 			if ( isset( $_POST['wpseo_author_title'] ) ) {
 				check_admin_referer( 'wpseo_user_profile_update', 'wpseo_nonce' );
-				update_user_meta( $user_id, 'wpseo_title', ( isset( $_POST['wpseo_author_title'] ) ? WPSEO_Options::sanitize_text_field( $_POST['wpseo_author_title'] ) : '' ) );
-				update_user_meta( $user_id, 'wpseo_metadesc', ( isset( $_POST['wpseo_author_metadesc'] ) ? WPSEO_Options::sanitize_text_field( $_POST['wpseo_author_metadesc'] ) : '' ) );
-				update_user_meta( $user_id, 'wpseo_metakey', ( isset( $_POST['wpseo_author_metakey'] ) ? WPSEO_Options::sanitize_text_field( $_POST['wpseo_author_metakey'] ) : '' ) );
+				update_user_meta( $user_id, 'wpseo_title', ( isset( $_POST['wpseo_author_title'] ) ? WPSEO_Option::sanitize_text_field( $_POST['wpseo_author_title'] ) : '' ) );
+				update_user_meta( $user_id, 'wpseo_metadesc', ( isset( $_POST['wpseo_author_metadesc'] ) ? WPSEO_Option::sanitize_text_field( $_POST['wpseo_author_metadesc'] ) : '' ) );
+				update_user_meta( $user_id, 'wpseo_metakey', ( isset( $_POST['wpseo_author_metakey'] ) ? WPSEO_Option::sanitize_text_field( $_POST['wpseo_author_metakey'] ) : '' ) );
 			}
 		}
 
