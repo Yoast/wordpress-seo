@@ -285,7 +285,7 @@ if ( ! class_exists( 'WPSEO_Option' ) ) {
 		/**
 		 * Merge an option with its default values
 		 *
-		 * This method should *not* be called directly!!! It is only meant to filter the get_options() results
+		 * This method should *not* be called directly!!! It is only meant to filter the get_option() results
 		 *
 		 * @param   mixed $options Option value
 		 *
@@ -363,18 +363,8 @@ if ( ! class_exists( 'WPSEO_Option' ) ) {
 		/* *********** METHODS for UPGRADING the option *********** */
 
 		/**
-		 * Clean and re-save the option
-		 * @uses clean_option() method from concrete class if it exists
-		 *
-		 * @todo [JRF/whomever] Figure out a way to show settings error during/after the upgrade - maybe
-		 * something along the lines of:
-		 * -> add them to a property in this class
-		 * -> if that property isset at the end of the routine and add_settings_error function does not exist,
-		 *    save as transient (or update the transient if one already exists)
-		 * -> next time an admin is in the WP back-end, show the errors and delete the transient or only delete it
-		 *    once the admin has dismissed the message (add ajax function)
-		 * Important: all validation routines which add_settings_errors would need to be changed for this to work
-		 *
+		 * Retrieve the real old value (unmerged with defaults), clean and re-save the option
+		 * @uses import()
 		 *
 		 * @param  string $current_version (optional) Version from which to upgrade, if not set,
 		 *                                 version specific upgrades will be disregarded
@@ -389,11 +379,37 @@ if ( ! class_exists( 'WPSEO_Option' ) ) {
 			$this->add_option_filters();
 			$this->add_default_filters();
 
+			$this->import( $option_value, $current_version );
+		}
+
+
+		/**
+		 * Clean and re-save the option
+		 * @uses clean_option() method from concrete class if it exists
+		 *
+		 * @todo [JRF/whomever] Figure out a way to show settings error during/after the upgrade - maybe
+		 * something along the lines of:
+		 * -> add them to a property in this class
+		 * -> if that property isset at the end of the routine and add_settings_error function does not exist,
+		 *    save as transient (or update the transient if one already exists)
+		 * -> next time an admin is in the WP back-end, show the errors and delete the transient or only delete it
+		 *    once the admin has dismissed the message (add ajax function)
+		 * Important: all validation routines which add_settings_errors would need to be changed for this to work
+		 *
+		 * @param  array  $option_value    Option value to be imported
+		 * @param  string $current_version (optional) Version from which to upgrade, if not set,
+		 *                                 version specific upgrades will be disregarded
+		 * @param  array  $all_old_option_values   (optional) Only used when importing old options to have
+		 *                                 access to the real old values, in contrast to the saved ones
+		 *
+		 * @return void
+		 */
+		public function import( $option_value, $current_version = null, $all_old_option_values = null ) {
 			if ( $option_value === false ) {
 				$option_value = $this->get_defaults();
 			}
 			else if ( is_array( $option_value ) && method_exists( $this, 'clean_option' ) ) {
-				$option_value = $this->clean_option( $option_value, $current_version );
+				$option_value = $this->clean_option( $option_value, $current_version, $all_old_option_values );
 			}
 
 			/* Save the cleaned value - validation will take care of cleaning out array keys which
@@ -402,11 +418,12 @@ if ( ! class_exists( 'WPSEO_Option' ) ) {
 		}
 
 
+
 		/**
 		 * Concrete classes *may* contain a clean_option method which will clean out old/renamed
 		 * values within the option
 		 */
-		//abstract public function clean_option( $option_value, $current_version = null );
+		//abstract public function clean_option( $option_value, $current_version = null, $all_old_option_values = null );
 
 
 		/* *********** HELPER METHODS for internal use *********** */
@@ -449,6 +466,9 @@ if ( ! class_exists( 'WPSEO_Option' ) ) {
 		/**
 		 * Make sure that any set option values relating to post_types and/or taxonomies are retained,
 		 * even when that post_type or taxonomy may not yet have been registered.
+		 *
+		 * @internal The wpseo_titles concrete class overrules this method. Make sure that any changes
+		 * applied here, also get ported to that version.
 		 *
 		 * @param  array $dirty Original option as retrieved from the database
 		 * @param  array $clean Filtered option where any options which shouldn't be in our option
@@ -875,10 +895,12 @@ if ( ! class_exists( 'WPSEO_Option_Wpseo' ) ) {
 		 *                                 clean according to the rules for this option
 		 * @param  string $current_version (optional) Version from which to upgrade, if not set,
 		 *                                 version specific upgrades will be disregarded
+		 * @param  array  $all_old_option_values   (optional) Only used when importing old options to have
+		 *                                 access to the real old values, in contrast to the saved ones
 		 *
 		 * @return  array            Cleaned option
 		 */
-		protected function clean_option( $option_value, $current_version = null ) {
+		protected function clean_option( $option_value, $current_version = null, $all_old_option_values = null ) {
 
 			// Rename some options *and* change their value
 			$rename = array(
@@ -893,7 +915,7 @@ if ( ! class_exists( 'WPSEO_Option_Wpseo' ) ) {
 			);
 			foreach ( $rename as $old => $new ) {
 				if ( isset( $option_value[$old] ) && ! isset( $option_value[$new['new_name']] ) ) {
-					$option_value[$new['new_name']] = $option_value[$new['new_value']];
+					$option_value[$new['new_name']] = $new['new_value'];
 					unset( $option_value[$old] );
 				}
 			}
@@ -1091,10 +1113,12 @@ if ( ! class_exists( 'WPSEO_Option_Permalinks' ) ) {
 		 *                                 clean according to the rules for this option
 		 * @param  string $current_version (optional) Version from which to upgrade, if not set,
 		 *                                 version specific upgrades will be disregarded
+		 * @param  array  $all_old_option_values   (optional) Only used when importing old options to have
+		 *                                 access to the real old values, in contrast to the saved ones
 		 *
 		 * @return  array            Cleaned option
 		 */
-		/*protected function clean_option( $option_value, $current_version = null ) {
+		/*protected function clean_option( $option_value, $current_version = null, $all_old_option_values = null ) {
 
 			return $option_value;
 		}*/
@@ -1208,6 +1232,15 @@ if ( ! class_exists( 'WPSEO_Option_Titles' ) ) {
 		protected function __construct() {
 			parent::__construct();
 			add_action( 'update_option_' . $this->option_name, array( 'WPSEO_Options', 'clear_cache' ) );
+			add_action( 'init', array( $this, 'end_of_init' ), 999 );
+		}
+		
+		
+		/**
+		 * Make sure we can recognize the right action for the double cleaning
+		 */
+		public function end_of_init() {
+			do_action( 'wpseo_double_clean_titles' );
 		}
 
 
@@ -1410,16 +1443,34 @@ if ( ! class_exists( 'WPSEO_Option_Titles' ) ) {
 		 *                                 clean according to the rules for this option
 		 * @param  string $current_version (optional) Version from which to upgrade, if not set,
 		 *                                 version specific upgrades will be disregarded
+		 * @param  array  $all_old_option_values   (optional) Only used when importing old options to have
+		 *                                 access to the real old values, in contrast to the saved ones
 		 *
 		 * @return  array            Cleaned option
 		 */
-		protected function clean_option( $option_value, $current_version = null ) {
+		protected function clean_option( $option_value, $current_version = null, $all_old_option_values = null ) {
+			static $original = null;
+
+			// Double-run this function to ensure renaming of the taxonomy options will work
+			if( ! isset( $original ) && has_action( 'wpseo_double_clean_titles', array( $this, 'clean' ) ) === false ) {
+				add_action( 'wpseo_double_clean_titles', array( $this, 'clean' ) );
+				$original = $option_value;
+			}
 
 			/* Move options from very old option to this one
 			   @internal Don't rename to the 'current' names straight away as that would prevent
-			   the rename below from working
+			   the rename/unset combi below from working
 			   @todo [JRF] maybe figure out a smarter way to deal with this */
-			$old_option = get_option( 'wpseo_indexation' );
+			$old_option = null;
+			if( isset( $all_old_option_values ) ) {
+				// Ok, we have an import
+				if( isset( $all_old_option_values['wpseo_indexation'] ) && is_array( $all_old_option_values['wpseo_indexation'] ) && $all_old_option_values['wpseo_indexation'] !== array() ) {
+					$old_option = $all_old_option_values['wpseo_indexation'];
+				}
+			}
+			else {
+				$old_option = get_option( 'wpseo_indexation' );
+			}
 			if ( is_array( $old_option ) && $old_option !== array() ) {
 				$move = array(
 					'noindexauthor'     => 'noindex-author',
@@ -1444,13 +1495,9 @@ if ( ! class_exists( 'WPSEO_Option_Titles' ) ) {
 			unset( $old_option );
 
 
-			/* Version specific upgrades */
-			if ( isset( $current_version ) ) {
-
-				// Fix wrongness created by buggy version 1.2.2
-				if ( isset( $option_value['title-home'] ) && $option_value['title-home'] === '%%sitename%% - %%sitedesc%% - 12345' ) {
-					$option_value['title-home-wpseo'] = '%%sitename%% - %%sitedesc%%';
-				}
+			// Fix wrongness created by buggy version 1.2.2
+			if ( isset( $option_value['title-home'] ) && $option_value['title-home'] === '%%sitename%% - %%sitedesc%% - 12345' ) {
+				$option_value['title-home-wpseo'] = '%%sitename%% - %%sitedesc%%';
 			}
 
 
@@ -1484,34 +1531,49 @@ if ( ! class_exists( 'WPSEO_Option_Titles' ) ) {
 			unset( $rename, $old, $new );
 
 
-			/* @todo [JRF => testers] Figure out if this will work if run on plugins_loaded (are the needed functions
-			 * already available ?) If not, maybe add an action to be run later for this ? */
-			$rename          = array(
-				'title-'           => 'title-tax-',
-				'metadesc-'        => 'metadesc-tax-',
-				'metakey-'         => 'metakey-tax-',
-				'noindex-'         => 'noindex-tax-',
-				'tax-hideeditbox-' => 'hideeditbox-tax-',
+			/* @internal This clean-up action can only be done effectively once the taxonomies and post_types
+		 		have been registered, i.e. at the end of the init action. */
+			if( isset( $original ) && current_filter() === 'wpseo_double_clean_titles' || did_action( 'wpseo_double_clean_titles' ) > 0 ) {
+				$rename          = array(
+					'title-'           => 'title-tax-',
+					'metadesc-'        => 'metadesc-tax-',
+					'metakey-'         => 'metakey-tax-',
+					'noindex-'         => 'noindex-tax-',
+					'tax-hideeditbox-' => 'hideeditbox-tax-',
+	
+				);
+				$taxonomy_names  = get_taxonomies( array( 'public' => true ), 'names' );
+				$post_type_names = get_post_types( array( 'public' => true ), 'names' );
+				$defaults = $this->get_defaults();
+				if ( $taxonomy_names !== array() ) {
+					foreach ( $taxonomy_names as $tax ) {
+						foreach ( $rename as $old_prefix => $new_prefix ) {
+							if (
+								( isset( $original[$old_prefix . $tax] ) && ! isset( $original[$new_prefix . $tax] ) )
+								&& ( !isset( $option_value[$new_prefix . $tax] )
+								|| ( isset( $option_value[$new_prefix . $tax] )
+								&& $option_value[$new_prefix . $tax] === $defaults[$new_prefix . $tax] ) ) )
+							{
+								$option_value[$new_prefix . $tax] = $original[$old_prefix . $tax];
+	
+								/* Check if there is a cpt with the same name as the tax,
+								   if so, we should make sure that the old setting hasn't been removed */
+								if( ! isset( $post_type_names[$tax] ) && isset( $option_value[$old_prefix . $tax] ) ) {
+									unset( $option_value[$old_prefix . $tax] );
+								}
+								else if( isset( $post_type_names[$tax] ) && ! isset( $option_value[$old_prefix . $tax] ) ) {
+									$option_value[$old_prefix . $tax] = $original[$old_prefix . $tax];
+								}
 
-			);
-			$taxonomy_names  = get_taxonomies( array( 'public' => true ), 'names' );
-			$post_type_names = get_post_types( array( 'public' => true ), 'names' );
-			if ( $taxonomy_names !== array() ) {
-				foreach ( $taxonomy_names as $tax ) {
-					foreach ( $rename as $old_prefix => $new_prefix ) {
-						if ( isset( $option_value[$old_prefix . $tax] ) && ! isset( $option_value[$new_prefix . $tax] ) ) {
-							$option_value[$new_prefix . $tax] = $option_value[$old_prefix . $tax];
-
-							/* Check if there is a cpt with the same name as the tax,
-							   if so, we shouldn't remove the old setting */
-							if ( ! isset( $post_type_names[$tax] ) ) {
-								unset( $option_value[$old_prefix . $tax] );
+								if ( $old_prefix === 'tax-hideeditbox-' ) {
+									unset( $option_value[$old_prefix . $tax] );
+								}
 							}
 						}
 					}
 				}
+				unset( $rename, $taxonomy_names, $post_type_names, $tax, $old_prefix, $new_prefix );
 			}
-			unset( $rename, $taxonomy_names, $post_type_names, $tax, $old_prefix, $new_prefix );
 
 
 			/* Make sure the values of the variable option key options are cleaned as they
@@ -1544,6 +1606,43 @@ if ( ! class_exists( 'WPSEO_Option_Titles' ) ) {
 			}
 
 			return $option_value;
+		}
+
+
+
+
+		/**
+		 * Make sure that any set option values relating to post_types and/or taxonomies are retained,
+		 * even when that post_type or taxonomy may not yet have been registered.
+		 *
+		 * @internal Overrule the abstract class version of this to make sure one extra renamed variable key
+		 * does not get removed. IMPORTANT: keep this method in line with the parent on which it is based!
+		 *
+		 * @param  array $dirty Original option as retrieved from the database
+		 * @param  array $clean Filtered option where any options which shouldn't be in our option
+		 *                      have already been removed and any options which weren't set
+		 *                      have been set to their defaults
+		 *
+		 * @return  array
+		 */
+		protected function retain_variable_keys( $dirty, $clean ) {
+			if ( ( is_array( $this->variable_array_key_patterns ) && $this->variable_array_key_patterns !== array() ) && ( is_array( $dirty ) && $dirty !== array() ) ) {
+
+				// Add the extra pattern
+				$patterns   = $this->variable_array_key_patterns;
+				$patterns[] = 'tax-hideeditbox-';
+
+				foreach ( $dirty as $key => $value ) {
+					foreach ( $patterns as $pattern ) {
+						if ( strpos( $key, $pattern ) === 0 && ! isset( $clean[$key] ) ) {
+							$clean[$key] = $value;
+							break;
+						}
+					}
+				}
+			}
+
+			return $clean;
 		}
 
 
@@ -1765,12 +1864,12 @@ if ( ! class_exists( 'WPSEO_Option_InternalLinks' ) ) {
 							if ( $taxonomies !== array() && in_array( $dirty[$key], $taxonomies, true ) ) {
 								$clean[$key] = $dirty[$key];
 							}
-							else if ( $dirty[$key] == 0 ) {
-								$clean[$key] = 0;
-							}
 							else if ( sanitize_title_with_dashes( $dirty[$key] ) === $dirty[$key] ) {
 								// Allow taxonomies which may not be registered yet
 								$clean[$key] = $dirty[$key];
+							}
+							else if ( $dirty[$key] == 0 ) {
+								$clean[$key] = 0;
 							}
 							else {
 								if ( isset( $old[$key] ) ) {
@@ -1801,12 +1900,12 @@ if ( ! class_exists( 'WPSEO_Option_InternalLinks' ) ) {
 							if ( $allowed_post_types !== array() && in_array( $dirty[$key], $allowed_post_types, true ) ) {
 								$clean[$key] = $dirty[$key];
 							}
-							else if ( $dirty[$key] == 0 ) {
-								$clean[$key] = 0;
-							}
 							else if ( sanitize_key( $dirty[$key] ) === $dirty[$key] ) {
 								// Allow taxonomies which may not be registered yet
 								$clean[$key] = $dirty[$key];
+							}
+							else if ( $dirty[$key] == 0 ) {
+								$clean[$key] = 0;
 							}
 							else {
 								if ( isset( $old[$key] ) ) {
@@ -1879,10 +1978,12 @@ if ( ! class_exists( 'WPSEO_Option_InternalLinks' ) ) {
 		 *                                 clean according to the rules for this option
 		 * @param  string $current_version (optional) Version from which to upgrade, if not set,
 		 *                                 version specific upgrades will be disregarded
+		 * @param  array  $all_old_option_values   (optional) Only used when importing old options to have
+		 *                                 access to the real old values, in contrast to the saved ones
 		 *
 		 * @return  array            Cleaned option
 		 */
-		protected function clean_option( $option_value, $current_version = null ) {
+		protected function clean_option( $option_value, $current_version = null, $all_old_option_values = null ) {
 
 			/* Make sure the values of the variable option key options are cleaned as they
 		 	   may be retained and would not be cleaned/validated then */
@@ -1903,12 +2004,12 @@ if ( ! class_exists( 'WPSEO_Option_InternalLinks' ) ) {
 							if ( $taxonomies !== array() && in_array( $value, $taxonomies, true ) ) {
 								$option_value[$key] = $value;
 							}
-							else if ( $value == 0 ) {
-								$option_value[$key] = 0;
-							}
 							else if ( sanitize_title_with_dashes( $value ) === $value ) {
 								// Allow taxonomies which may not be registered yet
 								$option_value[$key] = $value;
+							}
+							else if ( $value == 0 ) {
+								$option_value[$key] = 0;
 							}
 							unset( $taxonomies, $post_type );
 							break;
@@ -1919,12 +2020,12 @@ if ( ! class_exists( 'WPSEO_Option_InternalLinks' ) ) {
 							if ( $allowed_post_types !== array() && in_array( $value, $allowed_post_types, true ) ) {
 								$option_value[$key] = $value;
 							}
-							else if ( $value == 0 ) {
-								$option_value[$key] = 0;
-							}
 							else if ( sanitize_key( $option_value[$key] ) === $option_value[$key] ) {
 								// Allow post types which may not be registered yet
 								$option_value[$key] = $value;
+							}
+							else if ( $value == 0 ) {
+								$option_value[$key] = 0;
 							}
 							break;
 					}
@@ -2119,10 +2220,12 @@ if ( ! class_exists( 'WPSEO_Option_XML' ) ) {
 		 *                                 clean according to the rules for this option
 		 * @param  string $current_version (optional) Version from which to upgrade, if not set,
 		 *                                 version specific upgrades will be disregarded
+		 * @param  array  $all_old_option_values   (optional) Only used when importing old options to have
+		 *                                 access to the real old values, in contrast to the saved ones
 		 *
 		 * @return  array            Cleaned option
 		 */
-		protected function clean_option( $option_value, $current_version = null ) {
+		protected function clean_option( $option_value, $current_version = null, $all_old_option_values = null ) {
 
 			/* Make sure the values of the variable option key options are cleaned as they
 		 	   may be retained and would not be cleaned/validated then */
@@ -2216,7 +2319,7 @@ if ( ! class_exists( 'WPSEO_Option_Social' ) ) {
 
 
 		/**
-		 * Get the Facebook connect key for the blog
+		 * Get a Facebook connect key for the blog
 		 *
 		 * @static
 		 * @return string
@@ -2241,7 +2344,12 @@ if ( ! class_exists( 'WPSEO_Option_Social' ) ) {
 				switch ( $key ) {
 					/* Automagic Facebook connect key */
 					case 'fbconnectkey':
-						$clean[$key] = self::get_fbconnectkey();
+						if ( ( isset( $old[$key] ) && $old[$key] !== '' ) && preg_match( '`^[a-f0-9]{32}$`', $old[$key] ) > 0 ) {
+							$clean[$key] = $old[$key];
+						}
+						else {
+							$clean[$key] = self::get_fbconnectkey();
+						}
 						break;
 
 
@@ -2438,13 +2546,24 @@ if ( ! class_exists( 'WPSEO_Option_Social' ) ) {
 		 *                                 clean according to the rules for this option
 		 * @param  string $current_version (optional) Version from which to upgrade, if not set,
 		 *                                 version specific upgrades will be disregarded
+		 * @param  array  $all_old_option_values   (optional) Only used when importing old options to have
+		 *                                 access to the real old values, in contrast to the saved ones
 		 *
 		 * @return  array            Cleaned option
 		 */
-		protected function clean_option( $option_value, $current_version = null ) {
+		protected function clean_option( $option_value, $current_version = null, $all_old_option_values = null ) {
 
 			/* Move options from very old option to this one */
-			$old_option = get_option( 'wpseo_indexation' );
+			$old_option = null;
+			if( isset( $all_old_option_values ) ) {
+				// Ok, we have an import
+				if( isset( $all_old_option_values['wpseo_indexation'] ) && is_array( $all_old_option_values['wpseo_indexation'] ) && $all_old_option_values['wpseo_indexation'] !== array() ) {
+					$old_option = $all_old_option_values['wpseo_indexation'];
+				}
+			}
+			else {
+				$old_option = get_option( 'wpseo_indexation' );
+			}
 			if ( is_array( $old_option ) && $old_option !== array() ) {
 				$move = array(
 					'opengraph',
@@ -2626,10 +2745,12 @@ if ( ! class_exists( 'WPSEO_Option_MS' ) ) {
 		 *                                 clean according to the rules for this option
 		 * @param  string $current_version (optional) Version from which to upgrade, if not set,
 		 *                                 version specific upgrades will be disregarded
+		 * @param  array  $all_old_option_values   (optional) Only used when importing old options to have
+		 *                                 access to the real old values, in contrast to the saved ones
 		 *
 		 * @return  array            Cleaned option
 		 */
-		/*protected function clean_option( $option_value, $current_version = null ) {
+		/*protected function clean_option( $option_value, $current_version = null, $all_old_option_values = null ) {
 
 			return $option_value;
 		}*/
@@ -2949,10 +3070,12 @@ if ( ! class_exists( 'WPSEO_Taxonomy_Meta' ) ) {
 		 *                                 clean according to the rules for this option
 		 * @param  string $current_version (optional) Version from which to upgrade, if not set,
 		 *                                 version specific upgrades will be disregarded
+		 * @param  array  $all_old_option_values   (optional) Only used when importing old options to have
+		 *                                 access to the real old values, in contrast to the saved ones
 		 *
 		 * @return  array            Cleaned option
 		 */
-		protected function clean_option( $option_value, $current_version = null ) {
+		protected function clean_option( $option_value, $current_version = null, $all_old_option_values = null ) {
 
 			/* Clean up old values and remove empty arrays */
 			if ( is_array( $option_value ) && $option_value !== array() ) {
@@ -3163,10 +3286,13 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 		 *
 		 * @param  string $option_name the option for which you want to retrieve the option group name
 		 *
-		 * @return  string
+		 * @return  string|bool
 		 */
 		public static function get_group_name( $option_name ) {
-			return self::$option_instances[$option_name]->group_name;
+			if ( isset( self::$option_instances[$option_name] ) ) {
+				return self::$option_instances[$option_name]->group_name;
+			}
+			return false;
 		}
 
 
@@ -3179,9 +3305,27 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 		 * @return  mixed
 		 */
 		public static function get_default( $option_name, $key ) {
-			$defaults = self::$option_instances[$option_name]->get_defaults();
-
-			return $defaults[$key];
+			if ( isset( self::$option_instances[$option_name] ) ) {
+				$defaults = self::$option_instances[$option_name]->get_defaults();
+				if ( isset( $defaults[$key] ) ) {
+					return $defaults[$key];
+				}
+			}
+			return null;
+		}
+		
+		/**
+		 * Get the instantiated option instance
+		 *
+		 * @param  string $option_name The option for which you want to retrieve the instance
+		 *
+		 * @return  object|bool
+		 */
+		public static function get_option_instance( $option_name ) {
+			if ( isset( self::$option_instances[$option_name] ) ) {
+				return self::$option_instances[$option_name];
+			}
+			return false;
 		}
 
 

@@ -338,9 +338,7 @@ $content  = '<h4>' . __( 'Export', 'wordpress-seo' ) . '</h4>';
 $content .= '<form action="" method="post" accept-charset="' . esc_attr( get_bloginfo( 'charset' ) ) . '">';
 $content .= wp_nonce_field( 'wpseo-export', '_wpnonce', true, false );
 $content .= '<p>' . __( 'Export your WordPress SEO settings here, to import them again later or to import them on another site.', 'wordpress-seo' ) . '</p>';
-if ( phpversion() > 5.2 ) {
-	$content .= $wpseo_admin_pages->checkbox( 'include_taxonomy_meta', __( 'Include Taxonomy Metadata', 'wordpress-seo' ) );
-}
+$content .= $wpseo_admin_pages->checkbox( 'include_taxonomy_meta', __( 'Include Taxonomy Metadata', 'wordpress-seo' ) );
 $content .= '<br/><input type="submit" class="button" name="wpseo_export" value="' . __( 'Export settings', 'wordpress-seo' ) . '"/>';
 $content .= '</form>';
 if ( isset( $_POST['wpseo_export'] ) ) {
@@ -351,9 +349,11 @@ if ( isset( $_POST['wpseo_export'] ) ) {
 	}
 	$url = $wpseo_admin_pages->export_settings( $include_taxonomy );
 	if ( $url ) {
-		$content .= '<script type="text/javascript">
+		$GLOBALS['export_js'] = '
+		<script type="text/javascript">
 			document.location = \'' . $url . '\';
 		</script>';
+		add_action( 'admin_footer-' . $GLOBALS['hook_suffix'], 'wpseo_deliver_export_zip' );
 	}
 	else {
 		$content .= 'Error: ' . $url;
@@ -376,34 +376,66 @@ else if ( isset( $_FILES['settings_import_file'] ) ) {
 	$file = wp_handle_upload( $_FILES['settings_import_file'] );
 
 	if ( isset( $file['file'] ) && ! is_wp_error( $file ) ) {
-		$zip      = new PclZip( $file['file'] );
-		$unzipped = $zip->extract( $p_path = WP_CONTENT_DIR . '/wpseo-import/' );
-		if ( $unzipped[0]['stored_filename'] == 'settings.ini' ) {
-			$options = parse_ini_file( WP_CONTENT_DIR . '/wpseo-import/settings.ini', true );
-			if ( is_array( $options ) && $options !== array() ) {
-				foreach ( $options as $name => $optgroup ) {
-					if ( $name !== 'wpseo_taxonomy_meta' ) {
-						update_option( $name, $optgroup );
-					}
-					else {
-						update_option( $name, json_decode( urldecode( $optgroup['wpseo_taxonomy_meta'] ), true ) );
-					}
-				}
-			}
-			unset( $options, $name, $optgroup );
-			@unlink( WP_CONTENT_DIR . '/wpseo-import/' );
-			@unlink( $file['file'] );
+		$upload_dir = wp_upload_dir();
 
-			$content .= '<p><strong>' . __( 'Settings successfully imported.', 'wordpress-seo' ) . '</strong></p>';
+		if ( ! defined( 'DIRECTORY_SEPARATOR' ) ) {
+			define( 'DIRECTORY_SEPARATOR', '/' );
+		}
+		$p_path   = $upload_dir['basedir'] . DIRECTORY_SEPARATOR . 'wpseo-import' . DIRECTORY_SEPARATOR;
+
+		if ( ! isset( $GLOBALS['wp_filesystem'] ) || ! is_object( $GLOBALS['wp_filesystem'] ) ) {
+			WP_Filesystem();
+		}
+
+		$unzipped = unzip_file( $file['file'], $p_path );
+		if ( ! is_wp_error( $unzipped ) ) {
+			$filename = $p_path . 'settings.ini';
+			if ( @is_file( $filename ) && is_readable( $filename) ) {
+				$options = parse_ini_file( $filename, true );
+
+				if ( is_array( $options ) && $options !== array() ) {
+					$old_wpseo_version = null;
+					if ( isset( $options['wpseo']['version'] ) && $options['wpseo']['version'] !== '' ) {
+						$old_wpseo_version = $options['wpseo']['version'];
+					}
+					foreach ( $options as $name => $optgroup ) {
+						if ( $name === 'wpseo_taxonomy_meta' ) {
+							$optgroup = json_decode( urldecode( $optgroup['wpseo_taxonomy_meta'] ), true );
+						}
+
+						// Make sure that the imported options are cleaned/converted on import
+						$option_instance = WPSEO_Options::get_option_instance( $name );
+						if ( is_object( $option_instance ) && method_exists( $option_instance, 'import' ) ) {
+							$optgroup = $option_instance->import( $optgroup, $old_wpseo_version, $options );
+						}
+						else if ( WP_DEBUG === true || ( defined( 'WPSEO_DEBUG' ) && WPSEO_DEBUG === true ) ) {
+							$content .= '<p><strong>' . sprintf( __( 'Setting "%s" is no longer used and has been discarded.', 'wordpress-seo' ), $name ) . '</strong></p>';
+
+						}
+					}
+					$content .= '<p><strong>' . __( 'Settings successfully imported.', 'wordpress-seo' ) . '</strong></p>';
+				}
+				else {
+					$content .= '<p><strong>' . __( 'Settings could not be imported:', 'wordpress-seo' ) . ' ' . __( 'No settings found in file.', 'wordpress-seo' ) . '</strong></p>';
+	
+				}
+				unset( $options, $name, $optgroup );
+			}
+			else {
+				$content .= '<p><strong>' . __( 'Settings could not be imported:', 'wordpress-seo' ) . ' ' . __( 'Unzipping failed - file settings.ini not found.', 'wordpress-seo' ) . '</strong></p>';
+			}
+			@unlink( $filename );
+			@unlink( $p_path );
 		}
 		else {
-			$content .= '<p><strong>' . __( 'Settings could not be imported:', 'wordpress-seo' ) . ' ' . __( 'Unzipping failed.', 'wordpress-seo' ) . '</strong></p>';
+			$content .= '<p><strong>' . __( 'Settings could not be imported:', 'wordpress-seo' ) . ' ' . sprintf( __( 'Unzipping failed with error "%s".', 'wordpress-seo' ), $unzipped->get_error_message() ) . '</strong></p>';
 		}
 		unset( $zip, $unzipped );
+		@unlink( $file['file'] );
 	}
 	else {
 		if ( is_wp_error( $file ) ) {
-			$content .= '<p><strong>' . __( 'Settings could not be imported:', 'wordpress-seo' ) . ' ' . $file['error'] . '</strong></p>';
+			$content .= '<p><strong>' . __( 'Settings could not be imported:', 'wordpress-seo' ) . ' ' . $file->get_error_message() . '</strong></p>';
 		}
 		else {
 			$content .= '<p><strong>' . __( 'Settings could not be imported:', 'wordpress-seo' ) . ' ' . __( 'Upload failed.', 'wordpress-seo' ) . '</strong></p>';
@@ -413,3 +445,10 @@ else if ( isset( $_FILES['settings_import_file'] ) ) {
 $wpseo_admin_pages->postbox( 'wpseo_export', __( 'Export & Import SEO Settings', 'wordpress-seo' ), $content );
 
 $wpseo_admin_pages->admin_footer( false );
+
+
+function wpseo_deliver_export_zip() {
+	if( isset( $GLOBALS['export_js'] ) && $GLOBALS['export_js'] !== '' ) {
+		echo $GLOBALS['export_js'];
+	}
+}

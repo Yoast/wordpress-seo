@@ -108,8 +108,9 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 
 = 1.5.0-beta
 
-This release contains tons and tons of bugfixes and security improvements. Credits for this release go to Juliette Reinders Folmer aka [Jrf](http://profiles.wordpress.org/jrf).
-Also a heartfelt thanks go out to the beta testers who tested all the changes.
+This release contains tons and tons of bugfixes and security improvements. Credits for this release go to Juliette Reinders Folmer aka [Jrf](http://profiles.wordpress.org/jrf) / [jrfnl](https://github.com/jrfnl).
+
+Also a heartfelt thanks go out to the beta testers who tested all the changes. Special mentions for testers [Woyto](https://github.com/Woyto), [Bnpositive](https://github.com/Bnpositive), [Surbma](https://github.com/Surbma), [DavidCH1](https://github.com/DavidCH1), [TheITJuggler](https://github.com/TheITJuggler), [kletskater](https://github.com/kletskater) who caught a number of bugs and provided us with actionable information to fix these.
 
 This version also incorporates the [SEO Extended](http://wordpress.org/plugins/seo-extended/) plugin functionality into WP SEO with graceful thanks to [Faison](http://profiles.wordpress.org/faison/) and [Scott Offord](http://profiles.wordpress.org/scottofford/) for their great work on this plugin.
 
@@ -140,7 +141,9 @@ This version also incorporates the [SEO Extended](http://wordpress.org/plugins/s
 	* Fixed: Admin -> Dashboard -> bug where message about files blocking the sitemap from working would not be removed when it should.
 	* Fixed: Admin -> Titles & Meta's -> Post types would show attachments even when attachment redirection to post was enabled.
 	* Fixed: Admin -> Import -> Fixed partially broken import functionality for WooThemes SEO framework
+	* Fixed: Admin -> Import -> Importing settings from file would not always work due to file/directory permission issues.
 	* Fixed: Admin -> Export -> Some values were exported in a way that they couldn't be imported properly again.
+	* Fixed: Admin -> Import/Export -> On export, the part of the admin page after export would not be loaded.
 	* Fixed: Admin -> Various -> Removed some superfluous hidden fields which could cause issues.
 	* Fixed: Admin -> Social -> The same fb user can no longer be added twice as Facebook admin.
 
@@ -177,6 +180,7 @@ This version also incorporates the [SEO Extended](http://wordpress.org/plugins/s
 	* Admin -> Dashboard -> Added error message for when meta description tag removal from theme file fails.
 	* Admin -> Titles & Meta -> Added option to add meta keywords to post type archives.
 	* Admin -> Social -> Facebook -> Added error messages for if communication with Facebook failed.
+	* Admin -> Import -> WPSEO settings -> Better error messages for when importing the settings fails and better clean up after itself.
 	* Adminbar -> Keyword research links now also search for the set the keyword when editing a post in the back-end.
 	* [Usability] Proper field labels for user profile form fields.
 	* General jQuery efficiency improvements.
