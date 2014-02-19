@@ -448,7 +448,7 @@ $wpseo_admin_pages->admin_footer( false );
 
 
 function wpseo_deliver_export_zip() {
-	if( isset( $GLOBALS['export_js'] ) && $GLOBALS['export_js'] !== '' ) {
+	if ( isset( $GLOBALS['export_js'] ) && $GLOBALS['export_js'] !== '' ) {
 		echo $GLOBALS['export_js'];
 	}
 }

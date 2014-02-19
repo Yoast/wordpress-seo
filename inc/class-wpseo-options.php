@@ -1452,7 +1452,7 @@ if ( ! class_exists( 'WPSEO_Option_Titles' ) ) {
 			static $original = null;
 
 			// Double-run this function to ensure renaming of the taxonomy options will work
-			if( ! isset( $original ) && has_action( 'wpseo_double_clean_titles', array( $this, 'clean' ) ) === false ) {
+			if ( ! isset( $original ) && has_action( 'wpseo_double_clean_titles', array( $this, 'clean' ) ) === false ) {
 				add_action( 'wpseo_double_clean_titles', array( $this, 'clean' ) );
 				$original = $option_value;
 			}
@@ -1462,9 +1462,9 @@ if ( ! class_exists( 'WPSEO_Option_Titles' ) ) {
 			   the rename/unset combi below from working
 			   @todo [JRF] maybe figure out a smarter way to deal with this */
 			$old_option = null;
-			if( isset( $all_old_option_values ) ) {
+			if ( isset( $all_old_option_values ) ) {
 				// Ok, we have an import
-				if( isset( $all_old_option_values['wpseo_indexation'] ) && is_array( $all_old_option_values['wpseo_indexation'] ) && $all_old_option_values['wpseo_indexation'] !== array() ) {
+				if ( isset( $all_old_option_values['wpseo_indexation'] ) && is_array( $all_old_option_values['wpseo_indexation'] ) && $all_old_option_values['wpseo_indexation'] !== array() ) {
 					$old_option = $all_old_option_values['wpseo_indexation'];
 				}
 			}
@@ -1533,7 +1533,7 @@ if ( ! class_exists( 'WPSEO_Option_Titles' ) ) {
 
 			/* @internal This clean-up action can only be done effectively once the taxonomies and post_types
 		 		have been registered, i.e. at the end of the init action. */
-			if( isset( $original ) && current_filter() === 'wpseo_double_clean_titles' || did_action( 'wpseo_double_clean_titles' ) > 0 ) {
+			if ( isset( $original ) && current_filter() === 'wpseo_double_clean_titles' || did_action( 'wpseo_double_clean_titles' ) > 0 ) {
 				$rename          = array(
 					'title-'           => 'title-tax-',
 					'metadesc-'        => 'metadesc-tax-',
@@ -1558,10 +1558,10 @@ if ( ! class_exists( 'WPSEO_Option_Titles' ) ) {
 	
 								/* Check if there is a cpt with the same name as the tax,
 								   if so, we should make sure that the old setting hasn't been removed */
-								if( ! isset( $post_type_names[$tax] ) && isset( $option_value[$old_prefix . $tax] ) ) {
+								if ( ! isset( $post_type_names[$tax] ) && isset( $option_value[$old_prefix . $tax] ) ) {
 									unset( $option_value[$old_prefix . $tax] );
 								}
-								else if( isset( $post_type_names[$tax] ) && ! isset( $option_value[$old_prefix . $tax] ) ) {
+								else if ( isset( $post_type_names[$tax] ) && ! isset( $option_value[$old_prefix . $tax] ) ) {
 									$option_value[$old_prefix . $tax] = $original[$old_prefix . $tax];
 								}
 
@@ -2555,9 +2555,9 @@ if ( ! class_exists( 'WPSEO_Option_Social' ) ) {
 
 			/* Move options from very old option to this one */
 			$old_option = null;
-			if( isset( $all_old_option_values ) ) {
+			if ( isset( $all_old_option_values ) ) {
 				// Ok, we have an import
-				if( isset( $all_old_option_values['wpseo_indexation'] ) && is_array( $all_old_option_values['wpseo_indexation'] ) && $all_old_option_values['wpseo_indexation'] !== array() ) {
+				if ( isset( $all_old_option_values['wpseo_indexation'] ) && is_array( $all_old_option_values['wpseo_indexation'] ) && $all_old_option_values['wpseo_indexation'] !== array() ) {
 					$old_option = $all_old_option_values['wpseo_indexation'];
 				}
 			}
