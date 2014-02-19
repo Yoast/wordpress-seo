@@ -517,7 +517,7 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 				case ( $field_def['type'] === 'text' && $meta_key === self::$meta_prefix . 'canonical' ):
 				case ( $field_def['type'] === 'text' && $meta_key === self::$meta_prefix . 'redirect' ):
 					// Validate as url(-part)
-					$url = WPSEO_Options::sanitize_url( $meta_value );
+					$url = WPSEO_Option::sanitize_url( $meta_value );
 					if ( $url !== '' ) {
 						$clean = $url;
 					}
@@ -526,7 +526,7 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 
 				case ( $field_def['type'] === 'upload' && $meta_key === self::$meta_prefix . 'opengraph-image' ):
 					// Validate as url
-					$url = WPSEO_Options::sanitize_url( $meta_value, array( 'http', 'https', 'ftp', 'ftps' ) );
+					$url = WPSEO_Option::sanitize_url( $meta_value, array( 'http', 'https', 'ftp', 'ftps' ) );
 					if ( $url !== '' ) {
 						$clean = $url;
 					}
