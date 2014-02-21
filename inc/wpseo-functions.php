@@ -37,6 +37,12 @@ function wpseo_do_upgrade() {
 		WPSEO_Options::clean_up( null, $option_wpseo['version'] );
 		WPSEO_Meta::clean_up();
 	}
+	
+	// Make sure version nr gets updated for any version without specific upgrades
+	$option_wpseo = get_option( 'wpseo' ); // re-get to make sure we have the latest version
+	if ( version_compare( $option_wpseo['version'], WPSEO_VERSION, '<' ) ) {
+		update_option( 'wpseo', $option_wpseo );
+	}
 }
 
 
