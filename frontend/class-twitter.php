@@ -26,7 +26,7 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 		/**
 		 * @var array Images
 		 */
-		var $images;
+		var $shown_images;
 
 		/**
 		 * @var array $options Holds the options for the Twitter Card functionality
