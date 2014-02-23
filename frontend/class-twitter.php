@@ -183,13 +183,13 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 		 * Only used when OpenGraph is inactive.
 		 */
 		public function twitter_description() {
-			$metadesc = trim( $this->metadesc( false ) );
-			if ( empty( $metadesc ) ) {
-				$metadesc = false;
+			$meta_desc = trim( $this->metadesc( false ) );
+			if ( empty( $meta_desc ) ) {
+				$meta_desc = false;
 			}
 
-			if ( ! $metadesc ) {
-				$metadesc = strip_tags( get_the_excerpt() );
+			if ( ! $meta_desc ) {
+				$meta_desc = strip_tags( get_the_excerpt() );
 			}
 
 			/**
@@ -197,9 +197,9 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 			 *
 			 * @api string $twitter The description string
 			 */
-			$metadesc = apply_filters( 'wpseo_twitter_description', $metadesc );
-			if ( is_string( $metadesc ) && $metadesc !== '' ) {
-				echo '<meta name="twitter:description" content="' . esc_attr( $metadesc ) . '"/>' . "\n";
+			$meta_desc = apply_filters( 'wpseo_twitter_description', $meta_desc );
+			if ( is_string( $meta_desc ) && $meta_desc !== '' ) {
+				echo '<meta name="twitter:description" content="' . esc_attr( $meta_desc ) . '"/>' . "\n";
 			}
 		}
 
@@ -226,6 +226,13 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 		 * @param string $img
 		 */
 		public function image_output( $img ) {
+
+			/**
+			 * Filter: 'wpseo_twitter_image' - Allow changing the Twitter Card image
+			 *
+			 * @api string $img Image URL string
+			 */
+			$img = apply_filters( 'wpseo_twitter_image', $img );
 
 			$escaped_img = esc_url( $img );
 
@@ -269,17 +276,12 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 					$featured_img = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), apply_filters( 'wpseo_twitter_image_size', 'full' ) );
 
 					if ( $featured_img ) {
-						/**
-						 * Filter: 'wpseo_twitter_image' - Allow changing the Twitter Card image
-						 *
-						 * @api string $featured_img Image URL string
-						 */
-						$this->image_output( apply_filters( 'wpseo_twitter_image', $featured_img[0] ) );
+						$this->image_output( $featured_img[0] );
 					}
 				} else if ( preg_match_all( '`<img [^>]+>`', $post->post_content, $matches ) ) {
 					foreach ( $matches[0] as $img ) {
 						if ( preg_match( '`src=(["\'])(.*?)\1`', $img, $match ) ) {
-							apply_filters( 'wpseo_twitter_image', $match[2] );
+							$this->image_output( $match[2] );
 						}
 					}
 				}
