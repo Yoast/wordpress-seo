@@ -2,6 +2,13 @@
 /**
  * @package XML_Sitemaps
  */
+
+// This is to prevent issues with New Relics stupid auto injection of code. It's ugly but I don't want
+// to deal with support requests for other people's wrong code...
+if ( extension_loaded( 'newrelic' ) && function_exists('newrelic_disable_autorum') ) {
+	newrelic_disable_autorum();
+}
+
 $xsl = '<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="2.0"
                 xmlns:html="http://www.w3.org/TR/REC-html40"
@@ -154,7 +161,7 @@ $xsl = '<?xml version="1.0" encoding="UTF-8"?>
 					</xsl:if>
 				</div>
 				<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-				<script type="text/javascript" src="'.plugins_url( 'jquery.tablesorter.min.js', __FILE__ ).'"></script>
+				<script type="text/javascript" src="' . plugins_url( 'jquery.tablesorter.min.js', __FILE__ ) . '"></script>
 				<script	type="text/javascript"><![CDATA[
 					$(document).ready(function() {
 				        $("#sitemap").tablesorter( { widgets: [\'zebra\'] } );
