@@ -83,7 +83,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		function register_settings_page() {
 
 			// Add main page
-			$admin_page = add_menu_page( __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'General Settings', 'wordpress-seo' ), __( 'SEO', 'wordpress-seo' ), 'manage_options', 'wpseo_dashboard', array( $this, 'load_page' ), plugins_url( 'images/yoast-icon.png', dirname( __FILE__ ) ), '99.31337' );
+			$admin_page = add_menu_page( __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'General Settings', 'wordpress-seo' ), __( 'SEO', 'wordpress-seo' ), 'manage_options', 'wpseo_dashboard', array( $this, 'load_page' ), plugins_url( 'images/yoast-icon.png', WPSEO_FILE ), '99.31337' );
 			add_action( 'load-' . $admin_page, array( $this, 'title_metas_help_tab' ) );
 
 			// Sub menu pages
