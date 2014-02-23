@@ -511,16 +511,29 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 		 */
 		public function webmaster_tools_authentication() {
 			if ( is_front_page() ) {
-				if ( $this->options['googleverify'] !== '' ) {
-					echo '<meta name="google-site-verification" content="' . esc_attr( $this->options['googleverify'] ) . "\" />\n";
+				// Alexa
+				if ( $this->options['alexaverify'] !== '' ) {
+					echo '<meta name="alexaVerifyID" content="' . esc_attr( $this->options['alexaverify'] ) . "\" />\n";
 				}
 
+				// Bing
 				if ( $this->options['msverify'] !== '' ) {
 					echo '<meta name="msvalidate.01" content="' . esc_attr( $this->options['msverify'] ) . "\" />\n";
 				}
 
-				if ( $this->options['alexaverify'] !== '' ) {
-					echo '<meta name="alexaVerifyID" content="' . esc_attr( $this->options['alexaverify'] ) . "\" />\n";
+				// Google
+				if ( $this->options['googleverify'] !== '' ) {
+					echo '<meta name="google-site-verification" content="' . esc_attr( $this->options['googleverify'] ) . "\" />\n";
+				}
+
+				// Pinterest
+				if ( $this->options['pinterestverify'] !== '' ) {
+					echo '<meta name="p:domain_verify" content="' . esc_attr( $this->options['pinterestverify'] ) . "\" />\n";
+				}
+
+				// Yandex
+				if ( $this->options['yandexverify'] !== '' ) {
+					echo '<meta name=\'yandex-verification\' content=\'' . esc_attr( $this->options['yandexverify'] ) . "' />\n";
 				}
 			}
 		}
