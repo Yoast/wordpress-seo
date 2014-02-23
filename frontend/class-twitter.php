@@ -184,7 +184,7 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 		 */
 		public function twitter_description() {
 			$meta_desc = trim( $this->metadesc( false ) );
-			if ( empty( $meta_desc ) ) {
+			if ( ! is_string( $meta_desc ) || '' == $meta_desc ) {
 				$meta_desc = false;
 			}
 
