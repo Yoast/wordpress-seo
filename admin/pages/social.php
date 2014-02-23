@@ -184,11 +184,18 @@ if ( $error )
 
 <div id="twitterbox" class="wpseotab">
 	<?php
+		echo '<p><strong>';
+		printf( __( 'Note that for the Twitter Cards to work, you have to check the box below and then validate your Twitter Cards through the %1$sTwitter Card Validator%2$s.', 'wordpress-seo' ), '<a target="_blank" href="https://dev.twitter.com/docs/cards/validation/validator">', '</a>' );
+		echo '</p></strong>';
 		echo '<p>';
 		echo $wpseo_admin_pages->checkbox( 'twitter', __( 'Add Twitter card meta data', 'wordpress-seo' ) );
 		echo '</p>';
 		echo'<p class="desc">' . __( 'Add Twitter card meta data to your site\'s <code>&lt;head&gt;</code> section.', 'wordpress-seo' ) . '</p>';
 		echo $wpseo_admin_pages->textinput( 'twitter_site', __( 'Site Twitter Username', 'wordpress-seo' ) );
+		echo $wpseo_admin_pages->select( 'twitter_card_type', __( 'The default card type to use', 'wordpress-seo'), array(
+			'summary' => 'Summary',
+			'summary_large_image' => 'Summary with large image'
+		) );
 		do_action( 'wpseo_admin_twitter_section' );
 	?>
 </div>

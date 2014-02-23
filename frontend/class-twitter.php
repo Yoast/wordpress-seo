@@ -24,6 +24,11 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 		public static $instance;
 
 		/**
+		 * @var array Images
+		 */
+		var $images;
+
+		/**
 		 * @var array $options Holds the options for the Twitter Card functionality
 		 */
 		var $options;
@@ -33,6 +38,7 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 		 */
 		public function __construct() {
 			$this->options = get_option( 'wpseo_social' );
+			$this->shown_images = array(); // Instantiate as empty array
 			$this->twitter();
 		}
 
@@ -60,11 +66,16 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 			$this->site_twitter();
 			$this->site_domain();
 			$this->author_twitter();
+			if ( 'summary_large_image' == $this->options['twitter_card_type'] ) {
+				$this->image();
+			}
 
 			// No need to show these when OpenGraph is also showing, as it'd be the same contents and Twitter
 			// would fallback to OpenGraph anyway.
 			if ( $this->options['opengraph'] === false ) {
-				$this->image();
+				if ( 'summary' == $this->options['twitter_card_type'] ) {
+					$this->image();
+				}
 				$this->twitter_description();
 				$this->twitter_title();
 				$this->twitter_url();
@@ -89,7 +100,7 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 			 *
 			 * @api string $unsigned The type string
 			 */
-			$type = apply_filters( 'wpseo_twitter_card_type', 'summary' );
+			$type = apply_filters( 'wpseo_twitter_card_type', $this->options['twitter_card_type'] );
 			if ( ! in_array( $type, array( 'summary', 'summary_large_image', 'photo', 'gallery', 'app', 'player', 'product' ) ) ) {
 				$type = 'summary';
 			}
@@ -210,36 +221,52 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 		}
 
 		/**
+		 * Outputs a Twitter image tag for a given image
+		 *
+		 * @param string $img
+		 */
+		public function image_output( $img ) {
+
+			$escaped_img = esc_url( $img );
+
+			if ( in_array( $escaped_img, $this->shown_images ) ) {
+				return;
+			}
+
+			if ( is_string( $escaped_img ) && $escaped_img !== ''  ) {
+				echo '<meta name="twitter:image:src" content="' . $escaped_img . '"/>' . "\n";
+
+				array_push( $this->shown_images, $escaped_img );
+			}
+		}
+
+		/**
 		 * Displays the image for Twitter
 		 *
-		 * Only used when OpenGraph is inactive.
+		 * Only used when OpenGraph is inactive or Summary Large Image card is chosen.
 		 */
 		public function image() {
 			global $post;
 
-			$shown_images = array();
-
 			if ( is_singular() ) {
 				if ( is_front_page() ) {
 					if ( $this->options['og_frontpage_image'] !== '' ) {
-						$escaped_img = esc_url( $this->options['og_frontpage_image'] );
-
-						if ( is_string( $escaped_img ) && $escaped_img !== ''  ) {
-							echo '<meta name="twitter:image:src" content="' . $escaped_img . '"/>' . "\n";
-
-							// No images yet, don't test
-							array_push( $shown_images, $escaped_img );
-						}
+						$this->image_output( $this->options['og_frontpage_image'] );
 					}
 				}
 
-				if ( function_exists( 'has_post_thumbnail' ) && has_post_thumbnail( $post->ID ) ) {
+				$twitter_img = WPSEO_Meta::get_value( 'twitter-image' );
+				if ( $twitter_img !== '' ) {
+					$this->image_output( $twitter_img );
+					return;
+				}
+				else if ( function_exists( 'has_post_thumbnail' ) && has_post_thumbnail( $post->ID ) ) {
 					/**
 					 * Filter: 'wpseo_twitter_image_size' - Allow changing the Twitter Card image size
 					 *
 					 * @api string $featured_img Image size string
 					 */
-					$featured_img = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), apply_filters( 'wpseo_twitter_image_size', 'medium' ) );
+					$featured_img = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), apply_filters( 'wpseo_twitter_image_size', 'full' ) );
 
 					if ( $featured_img ) {
 						/**
@@ -247,32 +274,18 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 						 *
 						 * @api string $featured_img Image URL string
 						 */
-						$escaped_img = esc_url( apply_filters( 'wpseo_twitter_image', $featured_img[0] ) );
-
-						if ( ( is_string( $escaped_img ) && $escaped_img !== ''  ) && ! in_array( $escaped_img, $shown_images ) ) {
-							echo '<meta name="twitter:image:src" content="' . $escaped_img . '"/>' . "\n";
-
-							array_push( $shown_images, $escaped_img );
-						}
+						$this->image_output( apply_filters( 'wpseo_twitter_image', $featured_img[0] ) );
 					}
-				}
-
-				if ( preg_match_all( '`<img [^>]+>`', $post->post_content, $matches ) ) {
+				} else if ( preg_match_all( '`<img [^>]+>`', $post->post_content, $matches ) ) {
 					foreach ( $matches[0] as $img ) {
 						if ( preg_match( '`src=(["\'])(.*?)\1`', $img, $match ) ) {
-							$escaped_match = esc_url( $match[2] );
-
-							if ( ( is_string( $escaped_match ) && $escaped_match !== ''  ) && ! in_array( $escaped_match, $shown_images ) ) {
-								echo '<meta name="twitter:image:src" content="' . $escaped_match . '"/>' . "\n";
-
-								array_push( $shown_images, $escaped_match );
-							}
+							apply_filters( 'wpseo_twitter_image', $match[2] );
 						}
 					}
 				}
 			}
 
-			if ( count( $shown_images ) == 0 && $this->options['og_default_image'] !== '' ) {
+			if ( count( $this->shown_images ) == 0 && $this->options['og_default_image'] !== '' ) {
 				echo '<meta name="twitter:image:src" content="' . esc_url( $this->options['og_default_image'] ) . '"/>' . "\n";
 			}
 		}

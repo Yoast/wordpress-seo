@@ -2287,6 +2287,7 @@ if ( ! class_exists( 'WPSEO_Option_Social' ) ) {
 			'plus-publisher'     => '', // text field
 			'twitter'            => false,
 			'twitter_site'       => '', // text field
+			'twitter_card_type'  => 'summary',
 
 			// Form field, but not always available:
 			'fbadminapp'         => 0, // app id from fbapps list
@@ -2513,6 +2514,17 @@ if ( ! class_exists( 'WPSEO_Option_Social' ) ) {
 								}
 							}
 							unset( $twitter_id );
+						}
+						break;
+
+					case 'twitter_card_type':
+						// While we only have the options summary and summary_large_image in the interface now, we might change that at some point.
+						if ( isset( $dirty[$key] ) && $dirty[$key] !== '' ) {
+							if ( ! in_array( $dirty[$key], array( 'summary', 'summary_large_image', 'photo', 'gallery', 'app', 'player', 'product' ) ) ) {
+								$clean[$key] = 'summary';
+							} else {
+								$clean[$key] = $dirty[$key];
+							}
 						}
 						break;
 
