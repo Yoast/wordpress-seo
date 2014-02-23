@@ -227,11 +227,11 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 		/**
 		 * Deletes all post meta values with a given meta key from the database
 		 *
-		 * @param string $metakey Key to delete all meta values for.
+		 * @param string $meta_key Key to delete all meta values for.
 		 */
-		function delete_meta( $metakey ) {
+		function delete_meta( $meta_key ) {
 			global $wpdb;
-			$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->postmeta WHERE meta_key = %s", $metakey ) );
+			$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->postmeta WHERE meta_key = %s", $meta_key ) );
 		}
 
 		/**
@@ -332,12 +332,7 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 		}
 
 		/**
-		 * Retrieve options based on the option or the class currentoption.
-		 *
-		 * @todo [JRF => Yoast/whomever] 1: the method doesn't do what the description above says. Should
-		 * the description be adjusted or the method ?
-		 * 2: we get these options with get_site_option, but are saving with update_option, not
-		 * update_site_option. Is this correct ?
+		 * Retrieve options based on whether we're on multisite or not.
 		 *
 		 * @since 1.2.4
 		 *
