@@ -286,7 +286,7 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 			}
 
 			if ( count( $this->shown_images ) == 0 && $this->options['og_default_image'] !== '' ) {
-				echo '<meta name="twitter:image:src" content="' . esc_url( $this->options['og_default_image'] ) . '"/>' . "\n";
+				$this->image_output( $this->options['og_default_image'] );
 			}
 		}
 	} /* End of class */
