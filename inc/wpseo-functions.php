@@ -86,16 +86,6 @@ if ( ! function_exists( 'yoast_breadcrumb' ) ) {
 	}
 }
 
-
-/**
- * Flush the rewrite rules.
- */
-function wpseo_flush_rules() {
-	global $wp_rewrite;
-	$wp_rewrite->flush_rules();
-}
-
-
 /**
  * Add the bulk edit capability to the proper default roles.
  */
