@@ -3294,9 +3294,7 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 			}
 
 			$options = get_site_option( 'wpseo_ms' );
-			// @todo [JRF => Yoast] Shouldn't this also check whether current_user_can() ?
-			// Now everyone on the back-end would be granted access ?
-			if ( $options['access'] === 'admin' ) {
+			if ( $options['access'] === 'admin' && current_user_can( 'manage_options' ) ) {
 				return true;
 			}
 
