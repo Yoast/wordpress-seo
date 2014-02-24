@@ -208,8 +208,6 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 		/**
 		 * Build the root sitemap -- example.com/sitemap_index.xml -- which lists sub-sitemaps
 		 * for other content types.
-		 *
-		 * @todo lastmod for sitemaps?
 		 */
 		function build_root_map() {
 
