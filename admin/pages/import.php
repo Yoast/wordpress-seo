@@ -371,7 +371,7 @@ if ( ! isset( $_FILES['settings_import_file'] ) || empty( $_FILES['settings_impo
 	$content .= '<input type="submit" class="button" value="' . __( 'Import settings', 'wordpress-seo' ) . '"/>';
 	$content .= '</form><br/>';
 }
-else if ( isset( $_FILES['settings_import_file'] ) ) {
+elseif ( isset( $_FILES['settings_import_file'] ) ) {
 	check_admin_referer( 'wpseo-import-file' );
 	$file = wp_handle_upload( $_FILES['settings_import_file'] );
 
@@ -408,7 +408,7 @@ else if ( isset( $_FILES['settings_import_file'] ) ) {
 						if ( is_object( $option_instance ) && method_exists( $option_instance, 'import' ) ) {
 							$optgroup = $option_instance->import( $optgroup, $old_wpseo_version, $options );
 						}
-						else if ( WP_DEBUG === true || ( defined( 'WPSEO_DEBUG' ) && WPSEO_DEBUG === true ) ) {
+						elseif ( WP_DEBUG === true || ( defined( 'WPSEO_DEBUG' ) && WPSEO_DEBUG === true ) ) {
 							$content .= '<p><strong>' . sprintf( __( 'Setting "%s" is no longer used and has been discarded.', 'wordpress-seo' ), $name ) . '</strong></p>';
 
 						}

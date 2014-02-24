@@ -66,14 +66,14 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 			$this->site_twitter();
 			$this->site_domain();
 			$this->author_twitter();
-			if ( 'summary_large_image' == $this->options['twitter_card_type'] ) {
+			if ( 'summary_large_image' === $this->options['twitter_card_type'] ) {
 				$this->image();
 			}
 
 			// No need to show these when OpenGraph is also showing, as it'd be the same contents and Twitter
 			// would fallback to OpenGraph anyway.
 			if ( $this->options['opengraph'] === false ) {
-				if ( 'summary' == $this->options['twitter_card_type'] ) {
+				if ( 'summary' === $this->options['twitter_card_type'] ) {
 					$this->image();
 				}
 				$this->twitter_description();
@@ -153,7 +153,7 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 			if ( is_string( $twitter ) && $twitter !== '' ) {
 				echo '<meta name="twitter:creator" content="@' . esc_attr( $twitter ) . '"/>' . "\n";
 			}
-			else if ( $this->options['twitter_site'] !== '' ) {
+			elseif ( $this->options['twitter_site'] !== '' ) {
 				if ( is_string( $this->options['twitter_site'] ) && $this->options['twitter_site'] !== '' ) {
 					echo '<meta name="twitter:creator" content="@' . esc_attr( $this->options['twitter_site'] ) . '"/>' . "\n";
 				}
@@ -184,7 +184,7 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 		 */
 		public function twitter_description() {
 			$meta_desc = trim( $this->metadesc( false ) );
-			if ( ! is_string( $meta_desc ) || '' == $meta_desc ) {
+			if ( ! is_string( $meta_desc ) || '' === $meta_desc ) {
 				$meta_desc = false;
 			}
 
@@ -267,7 +267,7 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 					$this->image_output( $twitter_img );
 					return;
 				}
-				else if ( function_exists( 'has_post_thumbnail' ) && has_post_thumbnail( $post->ID ) ) {
+				elseif ( function_exists( 'has_post_thumbnail' ) && has_post_thumbnail( $post->ID ) ) {
 					/**
 					 * Filter: 'wpseo_twitter_image_size' - Allow changing the Twitter Card image size
 					 *
@@ -278,7 +278,7 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 					if ( $featured_img ) {
 						$this->image_output( $featured_img[0] );
 					}
-				} else if ( preg_match_all( '`<img [^>]+>`', $post->post_content, $matches ) ) {
+				} elseif ( preg_match_all( '`<img [^>]+>`', $post->post_content, $matches ) ) {
 					foreach ( $matches[0] as $img ) {
 						if ( preg_match( '`src=(["\'])(.*?)\1`', $img, $match ) ) {
 							$this->image_output( $match[2] );

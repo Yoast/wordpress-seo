@@ -221,7 +221,7 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 			if ( single_month_title( ' ', false ) && single_month_title( ' ', false ) != '' ) {
 				$date = single_month_title( ' ', false );
 			}
-			else if ( get_query_var( 'year' ) != '' ) {
+			elseif ( get_query_var( 'year' ) != '' ) {
 				$date = get_query_var( 'year' );
 			}
 			else {
@@ -366,7 +366,7 @@ function wpseo_get_terms( $id, $taxonomy, $return_single = false ) {
 		$term   = $wp_query->get_queried_object();
 		$output = $term->name;
 	}
-	else if ( ! empty( $id ) && ! empty( $taxonomy ) ) {
+	elseif ( ! empty( $id ) && ! empty( $taxonomy ) ) {
 		$terms = get_the_terms( $id, $taxonomy );
 		if ( is_array( $terms ) && $terms !== array() ) {
 			foreach ( $terms as $term ) {
@@ -900,7 +900,7 @@ if ( ! function_exists( 'wpseo_calc' ) ) {
 				if ( $bc ) {
 					$result = bcdiv( $number1, $number2, $precision ); // string, or NULL if right_operand is 0
 				}
-				else if ( $number2 != 0 ) {
+				elseif ( $number2 != 0 ) {
 					$result = $number1 / $number2;
 				}
 
@@ -915,7 +915,7 @@ if ( ! function_exists( 'wpseo_calc' ) ) {
 				if ( $bc ) {
 					$result = bcmod( $number1, $number2, $precision ); // string, or NULL if modulus is 0.
 				}
-				else if ( $number2 != 0 ) {
+				elseif ( $number2 != 0 ) {
 					$result = $number1 % $number2;
 				}
 

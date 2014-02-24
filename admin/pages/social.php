@@ -38,7 +38,7 @@ if ( isset( $_GET['delfbadmin'] ) ) {
 	unset( $id );
 }
 
-else if ( isset( $_GET['fbclearall'] ) ) {
+elseif ( isset( $_GET['fbclearall'] ) ) {
 	if ( wp_verify_nonce( $_GET['nonce'], 'fbclearall' ) != 1 ) {
 		die( "I don't think that's really nice of you!." );
 	}
@@ -50,7 +50,7 @@ else if ( isset( $_GET['fbclearall'] ) ) {
 	add_settings_error( 'yoast_wpseo_social_options', 'success', __( 'Successfully cleared all Facebook Data', 'wordpress-seo' ), 'updated' );
 }
 
-else if ( isset( $_GET['key'] ) && $_GET['key'] === $options['fbconnectkey'] ) {
+elseif ( isset( $_GET['key'] ) && $_GET['key'] === $options['fbconnectkey'] ) {
 	if ( isset( $_GET['userid'] ) ) {
 		$user_id = sanitize_text_field( $_GET['userid'] );
 		if ( ! isset( $options['fb_admins'][$user_id] ) ) {
@@ -64,7 +64,7 @@ else if ( isset( $_GET['key'] ) && $_GET['key'] === $options['fbconnectkey'] ) {
 		}
 		unset( $user_id );
 	}
-	else if ( isset( $_GET['apps'] ) ) {
+	elseif ( isset( $_GET['apps'] ) ) {
 		$apps = json_decode( stripslashes( $_GET['apps'] ) );
 		if ( is_array( $apps ) && $apps !== array() ) {
 			$options['fbapps'] = array( '0' => __( 'Do not use a Facebook App as Admin', 'wordpress-seo' ) );

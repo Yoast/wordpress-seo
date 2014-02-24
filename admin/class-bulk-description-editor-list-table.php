@@ -259,7 +259,7 @@ if ( ! class_exists( 'WPSEO_Bulk_Description_List_Table' ) ) {
 					echo '</div>';
 				}
 			}
-			else if ( 'bottom' === $which ) {
+			elseif ( 'bottom' === $which ) {
 
 			}
 
@@ -429,7 +429,7 @@ if ( ! class_exists( 'WPSEO_Bulk_Description_List_Table' ) ) {
 										if ( $can_edit_post )
 											$actions['view'] = '<a href="' . esc_url( add_query_arg( 'preview', 'true', get_permalink( $rec->ID ) ) ) . '" title="' . esc_attr( sprintf( __( 'Preview &#8220;%s&#8221;' ), $rec->post_title ) ) . '">' . __( 'Preview' ) . '</a>';
 									}
-									else if ( 'trash' != $rec->post_status ) {
+									elseif ( 'trash' != $rec->post_status ) {
 										$actions['view'] = '<a href="' . esc_url( get_permalink( $rec->ID ) ) . '" title="' . esc_attr( sprintf( __( 'View &#8220;%s&#8221;' ), $rec->post_title ) ) . '" rel="bookmark">' . __( 'View' ) . '</a>';
 									}
 								}

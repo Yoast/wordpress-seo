@@ -128,11 +128,9 @@ if ( ( isset( $_SERVER['SERVER_SOFTWARE'] ) && stristr( $_SERVER['SERVER_SOFTWAR
 		$content .= '</form>';
 	}
 	$wpseo_admin_pages->postbox( 'htaccess', __( '.htaccess file', 'wordpress-seo' ), $content );
-} else {
-	if ( ( isset( $_SERVER['SERVER_SOFTWARE'] ) && stristr( $_SERVER['SERVER_SOFTWARE'], 'nginx' ) === false ) && ! file_exists( get_home_path() . '.htaccess' ) ) {
-		$content = '<p>' . __( 'If you had a .htaccess file and it was editable, you could edit it from here.', 'wordpress-seo' );
-		$wpseo_admin_pages->postbox( 'htaccess', __( '.htaccess file', 'wordpress-seo' ), $content );
-	}
+} elseif ( ( isset( $_SERVER['SERVER_SOFTWARE'] ) && stristr( $_SERVER['SERVER_SOFTWARE'], 'nginx' ) === false ) && ! file_exists( get_home_path() . '.htaccess' ) ) {
+	$content = '<p>' . __( 'If you had a .htaccess file and it was editable, you could edit it from here.', 'wordpress-seo' );
+	$wpseo_admin_pages->postbox( 'htaccess', __( '.htaccess file', 'wordpress-seo' ), $content );
 }
 
 $wpseo_admin_pages->admin_footer( false );

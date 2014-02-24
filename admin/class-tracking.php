@@ -37,7 +37,7 @@ if ( ! class_exists( 'Yoast_Tracking' ) ) {
 				$this->tracking();
 			}
 			// Backward compatibility - constructor is called from other Yoast plugin
-			else if ( ! has_action( 'yoast_tracking', array( $this, 'tracking' ) ) ) {
+			elseif ( ! has_action( 'yoast_tracking', array( $this, 'tracking' ) ) ) {
 				add_action( 'yoast_tracking', array( $this, 'tracking' ) );
 			}
 		}

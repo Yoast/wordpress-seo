@@ -409,7 +409,7 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 					if ( isset( $post->post_type ) ) {
 						$post_type = $post->post_type;
 					}
-					else if ( ! isset( $post->post_type ) && isset( $_GET['post_type'] ) ) {
+					elseif ( ! isset( $post->post_type ) && isset( $_GET['post_type'] ) ) {
 						$post_type = sanitize_text_field( $_GET['post_type'] );
 					}
 
@@ -580,7 +580,7 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 					// None is one of the selected values, takes priority over everything else
 					$clean = 'none';
 				}
-				else if ( in_array( '-', $meta_value, true ) ) {
+				elseif ( in_array( '-', $meta_value, true ) ) {
 					// Site-wide defaults is one of the selected values, takes priority over
 					// individual selected entries
 					$clean = '-';
@@ -841,7 +841,7 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 						if ( $value === 'noindex' ) {
 							update_post_meta( $old->post_id, self::$meta_prefix . 'meta-robots-noindex', 1 );
 						}
-						else if ( $value === 'nofollow' ) {
+						elseif ( $value === 'nofollow' ) {
 							update_post_meta( $old->post_id, self::$meta_prefix . 'meta-robots-nofollow', 1 );
 						}
 					}
@@ -880,7 +880,7 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 							self::$meta_prefix . $key
 						);
 					}
-					else if ( isset( $field_def['options'] ) && is_array( $field_def['options'] ) && $field_def['options'] !== array() ) {
+					elseif ( isset( $field_def['options'] ) && is_array( $field_def['options'] ) && $field_def['options'] !== array() ) {
 						$valid = $field_def['options'];
 						// remove the default value from the valid options
 						unset( $valid[$field_def['default_value']] );
@@ -892,7 +892,7 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 						);
 						unset( $valid );
 					}
-					else if ( is_string( $field_def['default_value'] ) && $field_def['default_value'] !== '' ) {
+					elseif ( is_string( $field_def['default_value'] ) && $field_def['default_value'] !== '' ) {
 						$query[] = $wpdb->prepare(
 							'( meta_key = %s AND meta_value = %s )',
 							self::$meta_prefix . $key,

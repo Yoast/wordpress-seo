@@ -124,11 +124,11 @@ if ( ! class_exists( 'WPSEO_Taxonomy' ) ) {
 		        <p class="description">' . esc_html( $desc ) . '</p>';
 				}
 			}
-			else if ( $type == 'checkbox' ) {
+			elseif ( $type == 'checkbox' ) {
 				$field .= '
 				<input name="' . $esc_var . '" id="' . $esc_var . '" type="checkbox" ' . checked( $val ) . '/>';
 			}
-			else if ( $type == 'select' ) {
+			elseif ( $type == 'select' ) {
 				if ( is_array( $options ) && $options !== array() ) {
 					$field .= '
 				<select name="' . $esc_var . '" id="' . $esc_var . '">';

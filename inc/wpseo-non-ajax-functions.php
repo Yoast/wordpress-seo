@@ -82,7 +82,7 @@ function wpseo_description_test() {
 		// theme or child theme
 		$file = get_stylesheet_directory() . '/header.php';
 	}
-	else if ( file_exists( get_template_directory() . '/header.php' ) ) {
+	elseif ( file_exists( get_template_directory() . '/header.php' ) ) {
 		// parent theme in case of a child theme
 		$file = get_template_directory() . '/header.php';
 	}
@@ -118,7 +118,7 @@ if ( version_compare( $GLOBALS['wp_version'], '3.6.99', '>' ) ) {
 	// Use the new and *sigh* adjusted action hook WP 3.7+
 	add_action( 'upgrader_process_complete', 'wpseo_upgrader_process_complete', 10, 2 );
 }
-else if ( version_compare( $GLOBALS['wp_version'], '3.5.99', '>' ) ) {
+elseif ( version_compare( $GLOBALS['wp_version'], '3.5.99', '>' ) ) {
 	// Use the new action hook WP 3.6+
 	add_action( 'upgrader_process_complete', 'wpseo_upgrader_process_complete', 10, 3 );
 }
@@ -159,7 +159,7 @@ function wpseo_upgrader_process_complete( $upgrader_object, $context_array, $the
 		if ( isset( $context_array['themes'] ) && $context_array['themes'] !== array() ) {
 			$themes = $context_array['themes'];
 		}
-		else if ( isset( $context_array['theme'] ) && $context_array['theme'] !== '' ){
+		elseif ( isset( $context_array['theme'] ) && $context_array['theme'] !== '' ){
 			$themes = $context_array['theme'];
 		}
 	}
@@ -171,7 +171,7 @@ function wpseo_upgrader_process_complete( $upgrader_object, $context_array, $the
 			wpseo_description_test();
 		}
 	}
-	else if ( is_string( $themes ) && $themes === $theme ) {
+	elseif ( is_string( $themes ) && $themes === $theme ) {
 		wpseo_title_test();
 		wpseo_description_test();
 	}
@@ -203,7 +203,7 @@ function wpseo_update_theme_complete_actions( $update_actions, $updated_theme ) 
 		wpseo_title_test();
 		wpseo_description_test();
 	}
-	else if ( $updated_theme === $theme ) {
+	elseif ( $updated_theme === $theme ) {
 		/* Single theme update for the active theme */
 		wpseo_title_test();
 		wpseo_description_test();

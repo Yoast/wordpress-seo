@@ -49,7 +49,7 @@ if ( isset( $_GET['fixmetadesc'] ) && check_admin_referer( 'wpseo-fix-metadesc',
 		// theme or child theme
 		$path = get_stylesheet_directory();
 	}
-	else if ( file_exists( get_template_directory() . '/header.php' ) ) {
+	elseif ( file_exists( get_template_directory() . '/header.php' ) ) {
 		// parent theme in case of a child theme
 		$path = get_template_directory();
 	}
@@ -186,7 +186,7 @@ function robots_meta_handler() {
 			add_action( 'wpseo_all_admin_notices', 'wpseo_deactivate_robots_meta_notice' );
 		}
 		// import the settings
-		else if ( isset( $_GET['import_robots_meta'] ) && $_GET['import_robots_meta'] === '1' ) {
+		elseif ( isset( $_GET['import_robots_meta'] ) && $_GET['import_robots_meta'] === '1' ) {
 			// import robots meta setting for each post
 			// @todo [JRF => Yoast] how does this correlate with the routine on the import page ?
 			// isn't one superfluous ? functionality wasn't the same either, changed now.
@@ -248,7 +248,7 @@ function aioseo_handler() {
 		// import the settings
 		// @todo: currently not deleting aioseop postmeta or handling old aioseop format
 		// @todo [JRF => Yoast] how does this correlate with the routine on the import page ? isn't one superfluous ?
-		else if ( isset( $_GET['import_aioseo'] ) && $_GET['import_aioseo'] === '1' ) {
+		elseif ( isset( $_GET['import_aioseo'] ) && $_GET['import_aioseo'] === '1' ) {
 			$replace = false;
 
 			WPSEO_Meta::replace_meta( '_aioseop_description', WPSEO_Meta::$meta_prefix . 'metadesc', $replace );

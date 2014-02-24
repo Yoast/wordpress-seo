@@ -324,7 +324,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 			} // In the event that $seplocation is left empty, the direction will be
 			// determined by whether the site is in rtl mode or not. This is based
 			// upon my findings that rtl sites tend to reverse the flow of the site titles.
-			else if ( '' === $seplocation ) {
+			elseif ( '' === $seplocation ) {
 				$seplocation = ( is_rtl() ) ? 'left' : 'right';
 			}
 
@@ -341,17 +341,17 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 
 			if ( $this->is_home_static_page() ) {
 				$title = $this->get_content_title();
-			} else if ( $this->is_home_posts_page() ) {
+			} elseif ( $this->is_home_posts_page() ) {
 				$title = $this->get_title_from_options( 'title-home-wpseo' );
-			} else if ( $this->is_posts_page() ) {
+			} elseif ( $this->is_posts_page() ) {
 				$title = $this->get_content_title( get_post( get_option( 'page_for_posts' ) ) );
-			} else if ( is_singular() ) {
+			} elseif ( is_singular() ) {
 				$title = $this->get_content_title();
 
 				if ( ! is_string( $title ) || ( is_string( $title ) && $title === '' ) ) {
 					$title_part = $original_title;
 				}
-			} else if ( is_search() ) {
+			} elseif ( is_search() ) {
 				$title = $this->get_title_from_options( 'title-search-wpseo' );
 
 				// @todo [JRF => Yoast] Should this not use the default if no title found ?
@@ -359,13 +359,13 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 				// Replacement would be needed!
 				if ( empty( $title ) )
 					$title_part = sprintf( __( 'Search for "%s"', 'wordpress-seo' ), esc_html( get_search_query() ) );
-			} else if ( is_category() || is_tag() || is_tax() ) {
+			} elseif ( is_category() || is_tag() || is_tax() ) {
 				$title = $this->get_taxonomy_title();
 
 				if ( empty( $title ) ) {
 					if ( is_category() ) {
 						$title_part = single_cat_title( '', false );
-					} else if ( is_tag() ) {
+					} elseif ( is_tag() ) {
 						$title_part = single_tag_title( '', false );
 					} else {
 						$title_part = single_term_title( '', false );
@@ -376,13 +376,13 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 						}
 					}
 				}
-			} else if ( is_author() ) {
+			} elseif ( is_author() ) {
 				$title = $this->get_author_title();
 
 				if ( empty( $title ) ) {
 					$title_part = get_the_author_meta( 'display_name', get_query_var( 'author' ) );
 				}
-			} else if ( is_post_type_archive() ) {
+			} elseif ( is_post_type_archive() ) {
 				$post_type = get_query_var( 'post_type' );
 				$title     = $this->get_title_from_options( 'title-ptarchive-' . $post_type );
 
@@ -390,13 +390,13 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 					$post_type_obj = get_post_type_object( $post_type );
 					if ( isset( $post_type_obj->labels->menu_name ) ) {
 						$title_part = $post_type_obj->labels->menu_name;
-					} else if ( isset( $post_type_obj->name ) ) {
+					} elseif ( isset( $post_type_obj->name ) ) {
 						$title_part = $post_type_obj->name;
 					} else {
 						$title_part = ''; //To be determined what this should be
 					}
 				}
-			} else if ( is_archive() ) {
+			} elseif ( is_archive() ) {
 				$title = $this->get_title_from_options( 'title-archive-wpseo' );
 
 				// @todo [JRF => Yoast] Should these not use the archive default if no title found ?
@@ -405,15 +405,15 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 				if ( empty( $title ) ) {
 					if ( is_month() ) {
 						$title_part = sprintf( __( '%s Archives', 'wordpress-seo' ), single_month_title( ' ', false ) );
-					} else if ( is_year() ) {
+					} elseif ( is_year() ) {
 						$title_part = sprintf( __( '%s Archives', 'wordpress-seo' ), get_query_var( 'year' ) );
-					} else if ( is_day() ) {
+					} elseif ( is_day() ) {
 						$title_part = sprintf( __( '%s Archives', 'wordpress-seo' ), get_the_date() );
 					} else {
 						$title_part = __( 'Archives', 'wordpress-seo' );
 					}
 				}
-			} else if ( is_404() ) {
+			} elseif ( is_404() ) {
 
 				if ( 0 !== get_query_var( 'year' ) || ( 0 !== get_query_var( 'monthnum' ) || 0 !== get_query_var( 'day' ) ) ) {
 					// @todo [JRF => Yoast] Should these not use the archive default if no title found ?
@@ -424,9 +424,9 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 						$post->post_date = sprintf( '%04d-%02d-%02d 00:00:00', get_query_var( 'year' ), get_query_var( 'monthnum' ), get_query_var( 'day' ) );
 						$title_part      = sprintf( __( '%s Archives', 'wordpress-seo' ), get_the_date() );
 						$post            = $original_p;
-					} else if ( 0 !== get_query_var( 'monthnum' ) ) {
+					} elseif ( 0 !== get_query_var( 'monthnum' ) ) {
 						$title_part = sprintf( __( '%s Archives', 'wordpress-seo' ), single_month_title( ' ', false ) );
-					} else if ( 0 !== get_query_var( 'year' ) ) {
+					} elseif ( 0 !== get_query_var( 'year' ) ) {
 						$title_part = sprintf( __( '%s Archives', 'wordpress-seo' ), get_query_var( 'year' ) );
 					} else {
 						$title_part = __( 'Archives', 'wordpress-seo' );
@@ -589,7 +589,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 
 				if ( WPSEO_Meta::get_value( 'meta-robots-noindex' ) === '1' ) {
 					$robots['index'] = 'noindex';
-				} else if ( WPSEO_Meta::get_value( 'meta-robots-noindex' ) === '2' ) {
+				} elseif ( WPSEO_Meta::get_value( 'meta-robots-noindex' ) === '2' ) {
 					$robots['index'] = 'index';
 				}
 
@@ -604,7 +604,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 						$robots['other'][] = $robot;
 					}
 					unset( $robot );
-				} else if ( $meta_robots_adv === '' || $meta_robots_adv === '-' ) {
+				} elseif ( $meta_robots_adv === '' || $meta_robots_adv === '-' ) {
 					foreach ( array( 'noodp', 'noydir' ) as $robot ) {
 						if ( $this->options[$robot] === true ) {
 							$robots['other'][] = $robot;
@@ -616,7 +616,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 			} else {
 				if ( is_search() ) {
 					$robots['index'] = 'noindex';
-				} else if ( is_tax() || is_tag() || is_category() ) {
+				} elseif ( is_tax() || is_tag() || is_category() ) {
 					$term = $wp_query->get_queried_object();
 					if ( is_object( $term ) && ( isset( $this->options['noindex-tax-' . $term->taxonomy] ) && $this->options['noindex-tax-' . $term->taxonomy] === true ) ) {
 						$robots['index'] = 'noindex';
@@ -627,13 +627,13 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 					if ( is_string( $term_meta ) && 'default' !== $term_meta ) {
 						$robots['index'] = $term_meta;
 					}
-				} else if (
+				} elseif (
 						( is_author() && $this->options['noindex-author-wpseo'] === true ) ||
 						( is_date() && $this->options['noindex-archive-wpseo'] === true ) ||
 						( is_home() && get_query_var( 'paged' ) > 1 )
 				) {
 					$robots['index'] = 'noindex';
-				} else if ( is_post_type_archive() ) {
+				} elseif ( is_post_type_archive() ) {
 					$post_type = get_query_var( 'post_type' );
 					if ( isset( $this->options['noindex-ptarchive-' . $post_type] ) && $this->options['noindex-ptarchive-' . $post_type] === true )
 						$robots['index'] = 'noindex';
@@ -722,11 +722,11 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 			} else {
 				if ( is_search() ) {
 					$canonical = get_search_link();
-				} else if ( is_front_page() ) {
+				} elseif ( is_front_page() ) {
 					$canonical = home_url( '/' );
-				} else if ( $this->is_posts_page() ) {
+				} elseif ( $this->is_posts_page() ) {
 					$canonical = get_permalink( get_option( 'page_for_posts' ) );
-				} else if ( is_tax() || is_tag() || is_category() ) {
+				} elseif ( is_tax() || is_tag() || is_category() ) {
 					$term = get_queried_object();
 					if ( ! $no_override ) {
 						$canonical = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'canonical' );
@@ -737,17 +737,17 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 					if ( ! is_string( $canonical ) || $canonical === '' ) {
 						$canonical = get_term_link( $term, $term->taxonomy );
 					}
-				} else if ( is_post_type_archive() ) {
+				} elseif ( is_post_type_archive() ) {
 					$canonical = get_post_type_archive_link( get_query_var( 'post_type' ) );
-				} else if ( is_author() ) {
+				} elseif ( is_author() ) {
 					$canonical = get_author_posts_url( get_query_var( 'author' ), get_query_var( 'author_name' ) );
-				} else if ( is_archive() ) {
+				} elseif ( is_archive() ) {
 					if ( is_date() ) {
 						if ( is_day() ) {
 							$canonical = get_day_link( get_query_var( 'year' ), get_query_var( 'monthnum' ), get_query_var( 'day' ) );
-						} else if ( is_month() ) {
+						} elseif ( is_month() ) {
 							$canonical = get_month_link( get_query_var( 'year' ), get_query_var( 'monthnum' ) );
-						} else if ( is_year() ) {
+						} elseif ( is_year() ) {
 							$canonical = get_year_link( get_query_var( 'year' ) );
 						}
 					}
@@ -968,12 +968,12 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 			} else {
 				if ( $this->is_home_posts_page() && $this->options['metakey-home-wpseo'] !== '' ) {
 					$keywords = wpseo_replace_vars( $this->options['metakey-home-wpseo'], array() );
-				} else if ( $this->is_home_static_page() ) {
+				} elseif ( $this->is_home_static_page() ) {
 					$keywords = WPSEO_Meta::get_value( 'metakeywords' );
 					if ( $keywords === '' && ( is_object( $post ) && ( isset( $this->options['metakey-' . $post->post_type] ) && $this->options['metakey-' . $post->post_type] !== '' ) ) ) {
 						$keywords = wpseo_replace_vars( $this->options['metakey-' . $post->post_type], (array) $post );
 					}
-				} else if ( is_category() || is_tag() || is_tax() ) {
+				} elseif ( is_category() || is_tag() || is_tax() ) {
 					$term = $wp_query->get_queried_object();
 
 					if ( is_object( $term ) ) {
@@ -982,13 +982,13 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 							$keywords = wpseo_replace_vars( $this->options['metakey-tax-' . $term->taxonomy], (array) $term );
 						}
 					}
-				} else if ( is_author() ) {
+				} elseif ( is_author() ) {
 					$author_id = get_query_var( 'author' );
 					$keywords  = get_the_author_meta( 'metakey', $author_id );
 					if ( ! $keywords && $this->options['metakey-author-wpseo'] !== '' ) {
 						$keywords = wpseo_replace_vars( $this->options['metakey-author-wpseo'], (array) $wp_query->get_queried_object() );
 					}
-				} else if ( is_post_type_archive() ) {
+				} elseif ( is_post_type_archive() ) {
 					$post_type = get_query_var( 'post_type' );
 					if ( isset( $this->options['metakey-ptarchive-' . $post_type] ) && $this->options['metakey-ptarchive-' . $post_type] !== '' ) {
 						$keywords = wpseo_replace_vars( $this->options['metakey-ptarchive-' . $post_type], (array) $wp_query->get_queried_object() );
@@ -1032,38 +1032,38 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 			} else {
 				if ( is_search() ) {
 					$metadesc = '';
-				} else if ( $this->is_home_posts_page() && $this->options['metadesc-home-wpseo'] !== '' ) {
+				} elseif ( $this->is_home_posts_page() && $this->options['metadesc-home-wpseo'] !== '' ) {
 					$metadesc = wpseo_replace_vars( $this->options['metadesc-home-wpseo'], array() );
-				} else if ( $this->is_posts_page() ) {
+				} elseif ( $this->is_posts_page() ) {
 					$metadesc = WPSEO_Meta::get_value( 'metadesc', get_option( 'page_for_posts' ) );
 					if ( $metadesc === '' && ( is_object( $post ) && ( isset( $this->options['metadesc-' . $post->post_type] ) && $this->options['metadesc-' . $post->post_type] !== '' ) ) ) {
 						$page     = get_post( get_option( 'page_for_posts' ) );
 						$metadesc = wpseo_replace_vars( $this->options['metadesc-' . $post->post_type], (array) $page );
 					}
-				} else if ( $this->is_home_static_page() ) {
+				} elseif ( $this->is_home_static_page() ) {
 					$metadesc = WPSEO_Meta::get_value( 'metadesc' );
 					if ( $metadesc === '' && ( is_object( $post ) && ( isset( $this->options['metadesc-' . $post->post_type] ) && $this->options['metadesc-' . $post->post_type] !== '' ) ) ) {
 						$metadesc = wpseo_replace_vars( $this->options['metadesc-' . $post->post_type], (array) $post );
 					}
-				} else if ( is_category() || is_tag() || is_tax() ) {
+				} elseif ( is_category() || is_tag() || is_tax() ) {
 					$term = $wp_query->get_queried_object();
 
 					$metadesc = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'desc' );
 					if ( ( ! is_string( $metadesc ) || $metadesc === '' ) && ( is_object( $term->taxonomy ) && ( isset( $this->options['metadesc-tax-' . $term->taxonomy] ) && $this->options['metadesc-tax-' . $term->taxonomy] !== '' ) ) ) {
 						$metadesc = wpseo_replace_vars( $this->options['metadesc-tax-' . $term->taxonomy], (array) $term );
 					}
-				} else if ( is_author() ) {
+				} elseif ( is_author() ) {
 					$author_id = get_query_var( 'author' );
 					$metadesc  = get_the_author_meta( 'wpseo_metadesc', $author_id );
 					if ( ! $metadesc && $this->options['metadesc-author-wpseo'] !== '' ) {
 						$metadesc = wpseo_replace_vars( $this->options['metadesc-author-wpseo'], (array) $wp_query->get_queried_object() );
 					}
-				} else if ( is_post_type_archive() ) {
+				} elseif ( is_post_type_archive() ) {
 					$post_type = get_query_var( 'post_type' );
 					if ( isset( $this->options['metadesc-ptarchive-' . $post_type] ) && $this->options['metadesc-ptarchive-' . $post_type] !== '' ) {
 						$metadesc = wpseo_replace_vars( $this->options['metadesc-ptarchive-' . $post_type], (array) $wp_query->get_queried_object() );
 					}
-				} else if ( is_archive() ) {
+				} elseif ( is_archive() ) {
 					if ( $this->options['metadesc-archive-wpseo'] !== '' ) {
 						$metadesc = wpseo_replace_vars( $this->options['metadesc-archive-wpseo'], (array) $wp_query->get_queried_object() );
 					}
@@ -1080,7 +1080,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 			if ( $echo !== false ) {
 				if ( is_string( $metadesc ) && $metadesc !== '' ) {
 					echo '<meta name="description" content="' . esc_attr( strip_tags( stripslashes( $metadesc ) ) ) . '"/>' . "\n";
-				} else if ( current_user_can( 'manage_options' ) && is_singular() ) {
+				} elseif ( current_user_can( 'manage_options' ) && is_singular() ) {
 					echo '<!-- ' . __( 'Admin only notice: this page doesn\'t show a meta description because it doesn\'t have one, either write it for this page specifically or go into the SEO -> Titles menu and set up a template.', 'wordpress-seo' ) . ' -->' . "\n";
 				}
 			} else {
@@ -1272,24 +1272,24 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 				if ( isset( $_GET['preview'] ) && isset( $_GET['preview_nonce'] ) && current_user_can( 'edit_post' ) ) {
 					$properurl = '';
 				}
-			} else if ( is_front_page() ) {
+			} elseif ( is_front_page() ) {
 				if ( $this->is_home_posts_page() ) {
 					$properurl = get_bloginfo( 'url' ) . '/';
-				} else if ( $this->is_home_static_page() ) {
+				} elseif ( $this->is_home_static_page() ) {
 					global $post;
 					$properurl = get_permalink( $post->ID );
 				}
-			} else if ( is_category() || is_tag() || is_tax() ) {
+			} elseif ( is_category() || is_tag() || is_tax() ) {
 				$term = $wp_query->get_queried_object();
 				if ( is_feed() ) {
 					$properurl = get_term_feed_link( $term->term_id, $term->taxonomy );
 				} else {
 					$properurl = get_term_link( $term, $term->taxonomy );
 				}
-			} else if ( is_search() ) {
+			} elseif ( is_search() ) {
 				$s         = preg_replace( '`(%20|\+)`', ' ', get_search_query() );
 				$properurl = get_bloginfo( 'url' ) . '/?s=' . rawurlencode( $s );
-			} else if ( is_404() ) {
+			} elseif ( is_404() ) {
 				if ( function_exists( 'is_multisite' ) && is_multisite() && ! is_subdomain_install() && is_main_site() ) {
 					if ( $cururl == get_bloginfo( 'url' ) . '/blog/' || $cururl == get_bloginfo( 'url' ) . '/blog' ) {
 						if ( $this->is_home_static_page() ) {

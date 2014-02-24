@@ -127,7 +127,7 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 			foreach ( $banners as $banner ) {
 				if ( $i == 2 )
 					break;
-				echo '<a target="_blank" href="' . esc_url( $banner['url'] ) . '"><img src="' . plugins_url( 'images/' . $banner['img'], dirname( __FILE__ ) ) . '" alt="' . esc_attr( $banner['alt'] ) . '"/></a><br/><br/>';
+				echo '<a target="_blank" href="' . esc_url( $banner['url'] ) . '"><img src="' . plugins_url( 'images/' . $banner['img'], WPSEO_FILE ) . '" alt="' . esc_attr( $banner['alt'] ) . '"/></a><br/><br/>';
 				$i++;
 			}
 			?>
@@ -257,10 +257,10 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 							$content .= $key . '[] = "' . $elem[$i] . "\"\n";
 						}
 					}
-					else if ( is_string( $elem ) && $elem == '' ) {
+					elseif ( is_string( $elem ) && $elem == '' ) {
 						$content .= $key . " = \n";
 					}
-					else if ( is_bool( $elem ) ) {
+					elseif ( is_bool( $elem ) ) {
 						$content .= $key . ' = "' . ( ( $elem === true ) ? 'on' : 'off' ) . "\"\n";
 					}
 					else {

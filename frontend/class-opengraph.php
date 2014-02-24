@@ -164,7 +164,7 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 			if ( 0 != $this->options['fbadminapp'] ) {
 				$this->og_tag( 'fb:app_id', $this->options['fbadminapp'] );
 			}
-			else if ( is_array( $this->options['fb_admins'] ) && $this->options['fb_admins'] !== array() ) {
+			elseif ( is_array( $this->options['fb_admins'] ) && $this->options['fb_admins'] !== array() ) {
 				$adminstr = implode( ',', array_keys( $this->options['fb_admins'] ) );
 				/**
 				 * Filter: 'wpseo_opengraph_admin' - Allow developer to filter the fb:admins string put out by WP SEO
