@@ -283,10 +283,8 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 							if ( ! isset( $all_dates ) ) {
 								$all_dates = $wpdb->get_col( $wpdb->prepare( "SELECT post_modified_gmt FROM (SELECT @rownum:=@rownum+1 rownum, $wpdb->posts.post_modified_gmt FROM (SELECT @rownum:=0) r, $wpdb->posts WHERE post_status IN ('publish','inherit') AND post_type = %s ORDER BY post_modified_gmt ASC) x WHERE rownum %%%d=0", $post_type, $this->max_entries ) );
 							}
-							$date = strtotime( $all_dates[$i] );
+							$date = date( 'c', strtotime( $all_dates[$i] ) );
 						}
-
-						$date = date( 'c', $date );
 
 						$this->sitemap .= '<sitemap>' . "\n";
 						$this->sitemap .= '<loc>' . home_url( $base . $post_type . '-sitemap' . $count . '.xml' ) . '</loc>' . "\n";
@@ -361,14 +359,9 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 
 							$date = '';
 							if ( $query->have_posts() ) {
-								$date = $query->posts[0]->post_modified_gmt;
+								$date = date( 'c', strtotime( $query->posts[0]->post_modified_gmt ) );
 							}
 						}
-
-						// Retrieve the post_types that are registered to this taxonomy and then retrieve last modified date for all of those combined.
-						// $taxobj = get_taxonomy( $tax );
-						// $date   = $this->get_last_modified( $taxobj->object_type );
-						$date = date( 'c', $date );
 
 						$this->sitemap .= '<sitemap>' . "\n";
 						$this->sitemap .= '<loc>' . home_url( $base . $tax . '-sitemap' . $count . '.xml' ) . '</loc>' . "\n";
@@ -1048,7 +1041,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 		 *
 		 * @param array $post_types Post types to get the last modification date for
 		 *
-		 * @return timestamp
+		 * @return string
 		 */
 		function get_last_modified( $post_types ) {
 			global $wpdb;
@@ -1056,7 +1049,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 				$post_types = array( $post_types );
 			}
 
-			// We need to do this only once, luckily
+			// We need to do this only once, as otherwise we'd be doing a query for each post type
 			if ( ! is_array( $this->post_type_dates ) ) {
 				$this->post_type_dates = array();
 				$query                 = "SELECT post_type, MAX(post_modified_gmt) AS date FROM $wpdb->posts WHERE post_status IN ('publish','inherit') AND post_type IN ('" . implode( "','", get_post_types( array( 'public' => true ) ) ) . "') GROUP BY post_type ORDER BY post_modified_gmt DESC";
@@ -1064,6 +1057,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 				foreach ( $results as $obj ) {
 					$this->post_type_dates[$obj->post_type] = $obj->date;
 				}
+				unset( $results );
 			}
 
 			if ( count( $post_types ) === 1 ) {
@@ -1077,27 +1071,8 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 				}
 			}
 
-			return $result;
+			return date( 'c', $result );
 		}
-
-		/**
-		 * Parse the requested sitemap's identifier to check for a user sitemap pattern
-		 *
-		 * @todo [JRF => Yoast/whomever] check if this method is still needed as it does not seem to be used
-		 * *
-		 * since 1.6
-		 *
-		 * @param  string $type The requested sitemap's identifier.
-		 *
-		 * @return  string $user a WP_User object or false
-		 */
-		private function is_user_sitemap( $type ) {
-			$pieces = explode( '-', $type, 2 );
-			$user   = isset( $pieces[1] ) ? $pieces[1] : '';
-
-			return get_user_by( 'slug', $user );
-		}
-
 
 		/**
 		 * Sorts an array of WP_User by the _yoast_wpseo_profile_updated meta field
