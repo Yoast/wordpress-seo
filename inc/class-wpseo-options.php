@@ -3515,11 +3515,6 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 		 * specified default blog if one was chosen on the network page or the plugin defaults if it was not
 		 *
 		 * @todo [JRF => testers] Double check that this works as it should
-		 * @todo [JRF => Yoast] should social options also be copied over ? things like facebook admin ids
-		 * and such are privacy sensitive, probably should be excluded. Also, the 'ignore warnings' settings
-		 * would be copied over, while those IMHO should be reset for a new blog and the has_meta_description
-		 * settings from 'wpseo' would be copied over too while the new blog might use a different theme.
-		 * N.B.: this also goes for the set_multisite_defaults method above, but that uses the below to do it.
 		 *
 		 * @static
 		 *
@@ -3537,6 +3532,10 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 					$base_blog_id = $options['defaultblog'];
 				}
 				foreach ( $option_names as $option_name ) {
+					// All of these settings shouldn't be copied so easily
+					if ( in_array( $option_name, array( 'ignore_blog_public_warning','ignore_meta_description_warning','ignore_page_comments','ignore_permalink','ignore_tour','theme_description_found','theme_has_description','alexaverify','googleverify','msverify','pinterestverify','yandexverify','fb_admins','fbapps','fbconnectkey','fbadminapp','wpseo_taxonomy_meta' ) ) ) {
+						continue;
+					}
 					delete_blog_option( $blog_id, $option_name );
 					update_blog_option( $blog_id, $option_name, get_blog_option( $base_blog_id, $option_name ) );
 				}
