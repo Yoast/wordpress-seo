@@ -16,6 +16,8 @@ if ( isset( $_POST['create_robots'] ) ) {
 		die( __( 'You cannot create a robots.txt file.', 'wordpress-seo' ) );
 	}
 
+	check_admin_referer( 'wpseo_create_robots' );
+
 	ob_start();
 	error_reporting( 0 );
 	do_robots();
@@ -73,6 +75,7 @@ $robots_file = get_home_path() . 'robots.txt';
 if ( ! file_exists( $robots_file ) ) {
 	if ( is_writable( get_home_path() ) ) {
 		$content = '<form action="' . admin_url( 'admin.php?page=wpseo_files' ) . '" method="post" id="robotstxtcreateform">';
+		$content .= wp_nonce_field( 'wpseo_create_robots', '_wpnonce', true, false );
 		$content .= '<p>' . __( 'You don\'t have a robots.txt file, create one here:', 'wordpress-seo' ) . '</p>';
 		$content .= '<input type="submit" class="button" name="create_robots" value="' . __( 'Create robots.txt file', 'wordpress-seo' ) . '">';
 		$content .= '</form>';
