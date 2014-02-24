@@ -854,8 +854,9 @@ if ( ! class_exists( 'WPSEO_Option_Wpseo' ) ) {
 										break;
 
 									case 'alexaverify':
-										// @todo - [JRF/Yoast/whomever] add validation, currently Pattern is unknown
-										$clean[$key] = $meta;
+										if ( preg_match( '`^[A-Fa-f0-9_-]+$`', $meta ) ) {
+											$clean[$key] = $meta;
+										}
 										break;
 								}
 							}
