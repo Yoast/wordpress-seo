@@ -161,7 +161,7 @@ $xsl = '<?xml version="1.0" encoding="UTF-8"?>
 					</xsl:if>
 				</div>
 				<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-				<script type="text/javascript" src="' . plugins_url( 'jquery.tablesorter.min.js', __FILE__ ) . '"></script>
+				<script type="text/javascript" src="' . plugins_url( 'jquery.tablesorter.min.js', WPSEO_FILE ) . '"></script>
 				<script	type="text/javascript"><![CDATA[
 					$(document).ready(function() {
 				        $("#sitemap").tablesorter( { widgets: [\'zebra\'] } );
