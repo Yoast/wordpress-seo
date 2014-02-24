@@ -425,10 +425,7 @@ function wpseo_xml_redirect_sitemap() {
 }
 
 /**
- * Initialize sitemaps. Add sitemap rewrite rules and query var
- *
- * @todo [JRF => Yoast] This looks like a near duplicate of the WPSEO_Sitemaps::init() method.
- * Figure out which one to use and remove duplication.
+ * Initialize sitemaps. Add sitemap & XSL rewrite rules and query vars
  */
 function wpseo_xml_sitemaps_init() {
 	$options = get_option( 'wpseo_xml' );
@@ -445,11 +442,12 @@ function wpseo_xml_sitemaps_init() {
 
 	$GLOBALS['wp']->add_query_var( 'sitemap' );
 	$GLOBALS['wp']->add_query_var( 'sitemap_n' );
-	$GLOBALS['wp']->add_query_var( 'xslt' );
+	$GLOBALS['wp']->add_query_var( 'xsl' );
 	add_rewrite_rule( 'sitemap_index\.xml$', 'index.php?sitemap=1', 'top' );
 	add_rewrite_rule( '([^/]+?)-sitemap([0-9]+)?\.xml$', 'index.php?sitemap=$matches[1]&sitemap_n=$matches[2]', 'top' );
-	add_rewrite_rule( 'sitemap\.xslt$', 'index.php?xslt=1', 'top' );
+	add_rewrite_rule( 'sitemap\.xsl$', 'index.php?xsl=1', 'top' );
 }
+
 add_action( 'init', 'wpseo_xml_sitemaps_init', 1 );
 
 /**

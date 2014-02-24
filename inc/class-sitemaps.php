@@ -67,7 +67,6 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 				define( 'ENT_XML1', 16 );
 			}
 
-			add_action( 'init', array( $this, 'init' ), 1 );
 			add_action( 'template_redirect', array( $this, 'redirect' ) );
 			add_filter( 'redirect_canonical', array( $this, 'canonical' ) );
 			add_action( 'wpseo_hit_sitemap_index', array( $this, 'hit_sitemap_index' ) );
@@ -78,6 +77,8 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 			$this->options     = WPSEO_Options::get_all();
 			$this->max_entries = WPSEO_Options::get_default( 'wpseo_xml', 'entries-per-page' );
 			$this->home_url    = home_url();
+
+			$this->max_entries = $this->options['entries-per-page'];
 		}
 
 		/**
@@ -135,28 +136,6 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 		 */
 		function set_bad_sitemap( $bool ) {
 			$this->bad_sitemap = (bool) $bool;
-		}
-
-		/**
-		 * Initialize sitemaps. Add sitemap rewrite rules and query var
-		 *
-		 * @todo [JRF => Yoast] The wpseo_xml_sitemaps_init() function in the inc/functions.php file
-		 * looks like a near duplicate of this. Figure out which one to use and remove duplication.
-		 */
-		function init() {
-			if ( ! is_object( $GLOBALS['wp'] ) ) {
-				return;
-			}
-
-			$GLOBALS['wp']->add_query_var( 'sitemap' );
-			$GLOBALS['wp']->add_query_var( 'sitemap_n' );
-			$GLOBALS['wp']->add_query_var( 'xsl' );
-
-			$this->max_entries = $this->options['entries-per-page'];
-
-			add_rewrite_rule( 'sitemap_index\.xml$', 'index.php?sitemap=1', 'top' );
-			add_rewrite_rule( '([^/]+?)-sitemap([0-9]+)?\.xml$', 'index.php?sitemap=$matches[1]&sitemap_n=$matches[2]', 'top' );
-			add_rewrite_rule( '([a-z]+)?-?sitemap\.xsl$', 'index.php?xsl=$matches[1]', 'top' );
 		}
 
 		/**
