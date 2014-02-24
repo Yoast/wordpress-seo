@@ -172,6 +172,7 @@ This version also incorporates the [SEO Extended](http://wordpress.org/plugins/s
 
 * Enhancements
 	* The [SEO Extended](http://wordpress.org/plugins/seo-extended/) plugin functionality has now been integrated into WP SEO.
+	* Added ability to add Pininterest and Yandex site verification tags. You can enter this info on the WPSEO Dashboard and it will auto-generate the relevant meta tags for your webpage headers.
 	* Post meta -> Don't show robots index/no-index choice in advanced meta box if there is a blog-wide override in place, i.e. the Settings -> Reading -> Block search engines checkbox is checked.
 	* Post meta -> Added 'Site-wide default' option to meta robots advanced field in advanced meta box.
 	* Post meta -> Added an option to decide whether to include/exclude `rel="author"` on a per post base as suggested by [GaryJones](https://github.com/GaryJones). (Added to the advanced meta box).
@@ -190,6 +191,7 @@ This version also incorporates the [SEO Extended](http://wordpress.org/plugins/s
 	* Improved 403 headers for illegal file requests as suggested by [cfoellmann](https://github.com/cfoellmann)
 	* CSS and JS files are now minified
 
+
 * Other:
 	* Removed some backward compatibility with WP < 3.5 as minimum requirement for WP SEO is now 3.5
 	* Removed some old (commented out) code
@@ -205,7 +207,7 @@ This version also incorporates the [SEO Extended](http://wordpress.org/plugins/s
 	* Prevent error when theme does not support featured images, issue [#639](https://github.com/Yoast/wordpress-seo/issues/639) as reported by [kuzudecoletaje](https://github.com/kuzudecoletaje) - props [Jrf](http://profiles.wordpress.org/jrf).
 
 * Enhancement
-	* WPSEO_FILE now had a 'defined' check.
+	* WPSEO_FILE now has a 'defined' check.
 
 	
 	
