@@ -192,10 +192,7 @@ if ( $error )
 		echo '</p>';
 		echo'<p class="desc">' . __( 'Add Twitter card meta data to your site\'s <code>&lt;head&gt;</code> section.', 'wordpress-seo' ) . '</p>';
 		echo $wpseo_admin_pages->textinput( 'twitter_site', __( 'Site Twitter Username', 'wordpress-seo' ) );
-		echo $wpseo_admin_pages->select( 'twitter_card_type', __( 'The default card type to use', 'wordpress-seo'), array(
-			'summary' => 'Summary',
-			'summary_large_image' => 'Summary with large image'
-		) );
+		echo $wpseo_admin_pages->select( 'twitter_card_type', __( 'The default card type to use', 'wordpress-seo'), WPSEO_Option_Social::$twitter_card_types );
 		do_action( 'wpseo_admin_twitter_section' );
 	?>
 </div>
