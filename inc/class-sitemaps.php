@@ -75,10 +75,9 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 			$this->stylesheet = '<?xml-stylesheet type="text/xsl" href="' . esc_url( home_url( 'main-sitemap.xsl' ) ) . '"?>';
 
 			$this->options     = WPSEO_Options::get_all();
-			$this->max_entries = WPSEO_Options::get_default( 'wpseo_xml', 'entries-per-page' );
-			$this->home_url    = home_url();
-
 			$this->max_entries = $this->options['entries-per-page'];
+			$this->home_url    = home_url();
+			
 		}
 
 		/**
