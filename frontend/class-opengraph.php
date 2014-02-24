@@ -150,7 +150,7 @@ class WPSEO_OpenGraph extends WPSEO_Frontend {
 				if ( ! empty( $adminstr ) )
 					$adminstr .= ',' . $admin_id;
 				else
-					$adminstr = $admin_id;
+					$adminstr = (string)$admin_id;
 			}
 			$adminstr = apply_filters( 'wpseo_opengraph_admin', $adminstr );
 			if ( is_string( $adminstr ) && $adminstr !== '' )
