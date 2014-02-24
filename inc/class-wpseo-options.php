@@ -2422,13 +2422,9 @@ if ( ! class_exists( 'WPSEO_Option_Social' ) ) {
 								$clean[$key] = array();
 							} else {
 								foreach ( $dirty[$key] as $app_id => $display_name ) {
-									/* @todo [JRF => Yoast/whomever] add app_id validation
-									 * Input comes from json_decoded $_GET['apps']->app_id
-									 *
-									 * @todo [JRF => Yoast/whomever] add display_name validation
-									 * Input comes from json_decoded $_GET['apps']->display_name
-									 */
-									$clean[$key][$app_id] = sanitize_text_field( $display_name );
+									if ( preg_match( '`^\d+$`', $app_id ) ) {
+										$clean[$key][$app_id] = sanitize_text_field( strip_tags( $display_name ) );
+									}
 								}
 								unset( $app_id, $display_name );
 							}
