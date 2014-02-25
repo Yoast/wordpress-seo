@@ -72,7 +72,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 			add_action( 'wpseo_hit_sitemap_index', array( $this, 'hit_sitemap_index' ) );
 
 			// default stylesheet
-			$this->stylesheet = '<?xml-stylesheet type="text/xsl" href="' . preg_replace( '/(^https?:)/', '', esc_url( home_url( 'main-sitemap.xsl' ) ) ) . '"?>';
+			$this->stylesheet = '<?xml-stylesheet type="text/xsl" href="' . preg_replace( '/(^http[s]?:)/', '', esc_url( home_url( 'main-sitemap.xsl' ) ) ) . '"?>';
 
 			$this->options     = WPSEO_Options::get_all();
 			$this->max_entries = $this->options['entries-per-page'];
