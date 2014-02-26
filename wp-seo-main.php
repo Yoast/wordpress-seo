@@ -13,7 +13,7 @@ if ( ! defined( 'WPSEO_PATH' ) ) {
 	define( 'WPSEO_PATH', plugin_dir_path( __FILE__ ) );
 }
 if ( ! defined( 'WPSEO_BASENAME' ) ) {
-	define( 'WPSEO_FILE', __FILE__ );
+	define( 'WPSEO_BASENAME', __FILE__ );
 }
 
 function wpseo_load_textdomain() {
