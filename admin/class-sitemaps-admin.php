@@ -26,7 +26,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps_Admin' ) ) {
 		/**
 		 * Find sitemaps residing on disk as they will block our rewrite.
 		 *
-		 * @todo issue #629 https://github.com/Yoast/wordpress-seo/issues/629
+		 * @todo issue #561 https://github.com/Yoast/wordpress-seo/issues/561
 		 */
 		function delete_sitemaps() {
 			$options = WPSEO_Options::get_all();

@@ -575,6 +575,10 @@ if ( ! class_exists( 'WPSEO_Option' ) ) {
 		 *
 		 * @todo [JRF => whomever] check/improve url verification
 		 *
+		 * @todo [JRF => whomever] when someone would reorganize the classes, this should maybe
+		 * be moved to a general WPSEO_Utils class. Obviously all calls to this method should be
+		 * adjusted in that case.
+		 *
 		 * @param  string $value
 		 * @param  array  $allowed_protocols
 		 *
@@ -3522,10 +3526,6 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 					$base_blog_id = $options['defaultblog'];
 				}
 				foreach ( $option_names as $option_name ) {
-					// All of these settings shouldn't be copied so easily
-					if ( $option_name === 'wpseo_taxonomy_meta' ) {
-						continue;
-					}
 					delete_blog_option( $blog_id, $option_name );
 
 					$new_option = get_blog_option( $base_blog_id, $option_name );

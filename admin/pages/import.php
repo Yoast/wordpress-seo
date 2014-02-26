@@ -95,8 +95,7 @@ if ( isset( $_POST['import'] ) ) {
 			delete_option( 'seo_woo_page_layout' );
 		}
 
-		// @todo [Yoast] Change this to the WPSEO default, don't see why it's not.
-		$template = '%%term_title%% ' . $sep . ' %%page%% ' . $sep . ' %%sitename%%';
+		$template = WPSEO_Options::get_default( 'wpseo_titles', 'title-tax-post' ); // the default is the same for all taxonomies, so post will do
 		switch ( get_option( 'seo_woo_archive_layout' ) ) {
 			case 'a':
 				$template = '%%term_title%% ' . $sep . ' %%page%% ' . $sep . ' %%sitename%%';
