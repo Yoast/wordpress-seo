@@ -106,7 +106,7 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 
 == Changelog ==
 
-= 1.5.25 =
+= 1.4.25 =
 
 * Bugfixes
 	* Do not include external URLs in XML sitemap (Issue #528) - props [tivnet](https://github.com/tivnet).
