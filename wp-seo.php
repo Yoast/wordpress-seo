@@ -45,6 +45,3 @@ if ( ! defined( 'WPSEO_FILE' ) ) {
 
 // Load the WordPress SEO plugin
 require_once( 'wp-seo-main.php' );
-
-register_activation_hook( __FILE__, 'wpseo_activate' );
-register_deactivation_hook( __FILE__, 'wpseo_deactivate' );

@@ -271,3 +271,7 @@ if ( is_admin() ) {
 else {
 	add_action( 'plugins_loaded', 'wpseo_frontend_init', 15 );
 }
+
+// Activation and deactivation hook
+register_activation_hook( WPSEO_FILE, 'wpseo_activate' );
+register_deactivation_hook( WPSEO_FILE, 'wpseo_deactivate' );
