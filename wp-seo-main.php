@@ -13,10 +13,6 @@ if ( ! defined( 'WPSEO_PATH' ) ) {
 	define( 'WPSEO_PATH', plugin_dir_path( __FILE__ ) );
 }
 if ( ! defined( 'WPSEO_BASENAME' ) ) {
-	define( 'WPSEO_BASENAME', plugin_basename( __FILE__ ) );
-}
-
-if ( ! defined( 'WPSEO_FILE' ) ) {
 	define( 'WPSEO_FILE', __FILE__ );
 }
 
@@ -36,6 +32,7 @@ if ( version_compare( PHP_VERSION, '5.2', '<' ) ) {
 	}
 }
 
+// WordPress SEO version
 function wpseo_init() {
 	require_once( WPSEO_PATH . 'inc/wpseo-functions.php' );
 
