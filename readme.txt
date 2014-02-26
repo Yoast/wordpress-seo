@@ -212,6 +212,9 @@ This version also incorporates the [SEO Extended](http://wordpress.org/plugins/s
 	
 	
 
+* i18n
+	* Updated cs_CZ, de_DE, fr_FR & tr_TK
+
 = 1.4.24 =
 
 * Bugfixes
