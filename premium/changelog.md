@@ -2,6 +2,7 @@
 
 * Fixed an incorrect fixed incorrect constant define.
 * Updated WordPress SEO core to 1.4.25.
+* Now using the correct file reference (WPSEO_FILE) in main WPSEO file.
 
 = 1.0.2 =
 
