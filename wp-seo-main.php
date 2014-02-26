@@ -14,21 +14,17 @@ if ( ! function_exists( 'add_filter' ) ) {
 if ( version_compare( PHP_VERSION, '5.2', '<' ) ) {
 	if ( is_admin() && ( ! defined( 'DOING_AJAX' ) || ! DOING_AJAX ) ) {
 		require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-		deactivate_plugins( __FILE__ );
+		deactivate_plugins( WPSEO_FILE );
 		wp_die( sprintf( __( 'WordPress SEO requires PHP 5.2 or higher, as does WordPress 3.2 and higher. The plugin has now disabled itself. For more info, %s$1see this post%s$2.', 'wordpress-seo' ), '<a href="https://yoast.com/requires-php-52/">', '</a>' ) );
 	}
 }
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
-	define( 'WPSEO_PATH', plugin_dir_path( __FILE__ ) );
+	define( 'WPSEO_PATH', plugin_dir_path( WPSEO_FILE ) );
 }
 
 if ( ! defined( 'WPSEO_BASENAME' ) ) {
-	define( 'WPSEO_BASENAME', plugin_basename( __FILE__ ) );
-}
-
-if ( ! defined( 'WPSEO_FILE' ) ) {
-	define( 'WPSEO_FILE', __FILE__ );
+	define( 'WPSEO_BASENAME', plugin_basename( WPSEO_FILE ) );
 }
 
 if ( ! defined( 'WPSEO_CSSJS_SUFFIX' ) ) {
@@ -143,7 +139,7 @@ function wpseo_deactivate() {
  * Load translations
  */
 function wpseo_load_textdomain() {
-	load_plugin_textdomain( 'wordpress-seo', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+	load_plugin_textdomain( 'wordpress-seo', false, dirname( plugin_basename( WPSEO_FILE ) ) . '/languages/' );
 }
 add_filter( 'init', 'wpseo_load_textdomain', 1 );
 

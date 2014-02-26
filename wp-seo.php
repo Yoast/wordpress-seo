@@ -39,6 +39,10 @@ if ( ! function_exists( 'add_filter' ) ) {
  */
 define( 'WPSEO_VERSION', '1.5.0-beta1' );
 
+if ( ! defined( 'WPSEO_FILE' ) ) {
+	define( 'WPSEO_FILE', __FILE__ );
+}
+
 // Load the WordPress SEO plugin
 require_once( 'wp-seo-main.php' );
 
