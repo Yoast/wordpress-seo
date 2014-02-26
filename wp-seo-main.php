@@ -10,15 +10,6 @@ if ( ! function_exists( 'add_filter' ) ) {
 	exit();
 }
 
-
-if ( version_compare( PHP_VERSION, '5.2', '<' ) ) {
-	if ( is_admin() && ( ! defined( 'DOING_AJAX' ) || ! DOING_AJAX ) ) {
-		require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-		deactivate_plugins( WPSEO_FILE );
-		wp_die( sprintf( __( 'WordPress SEO requires PHP 5.2 or higher, as does WordPress 3.2 and higher. The plugin has now disabled itself. For more info, %s$1see this post%s$2.', 'wordpress-seo' ), '<a href="https://yoast.com/requires-php-52/">', '</a>' ) );
-	}
-}
-
 if ( ! defined( 'WPSEO_PATH' ) ) {
 	define( 'WPSEO_PATH', plugin_dir_path( WPSEO_FILE ) );
 }
