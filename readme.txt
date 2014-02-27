@@ -185,6 +185,7 @@ This version also incorporates the [SEO Extended](http://wordpress.org/plugins/s
 	* Admin -> Import -> WPSEO settings -> Better error messages for when importing the settings fails and better clean up after itself.
 	* Adminbar -> Keyword research links now also search for the set the keyword when editing a post in the back-end.
 	* [Usability] Proper field labels for user profile form fields.
+	* New Relic's realtime user monitoring will be turned off for xml/xsl files by default to prevent breaking the sitemaps as suggested by [szepeviktor](https://github.com/szepeviktor) in [issue #603](https://github.com/Yoast/wordpress-seo/issues/603)
 	* General jQuery efficiency improvements.
 	* Improved lazy loading of plugin files using autoload.
 	* Made the Google+ and Facebook post descriptions translatable by WPML.
