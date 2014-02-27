@@ -190,6 +190,7 @@ This version also incorporates the [SEO Extended](http://wordpress.org/plugins/s
 	* Made the Google+ and Facebook post descriptions translatable by WPML.
 	* Better calculation precision for SEO score
 	* Improved 403 headers for illegal file requests as suggested by [cfoellmann](https://github.com/cfoellmann)
+	* Synchronized TextStatistics class with changes from the original, this should provide somewhat better results for non-latin languages.
 	* CSS and JS files are now minified
 
 
