@@ -31,6 +31,17 @@ if ( ! class_exists( 'Yoast_TextStatistics' ) ) {
 		protected $strEncoding = '';
 
 		/**
+		 * @var string $blnMbstring Efficiency: Is the MB String extension loaded ?
+		 */
+		protected $blnMbstring = true;
+
+		/**
+		 * @var bool $normalize Should the result be normalized ?
+		 */
+		public $normalize = true;
+
+
+		/**
 		 * Constructor.
 		 *
 		 * @param string  $strEncoding    Optional character encoding.
@@ -40,48 +51,64 @@ if ( ! class_exists( 'Yoast_TextStatistics' ) ) {
 				// Encoding is given. Use it!
 				$this->strEncoding = $strEncoding;
 			}
+			$this->blnMbstring = extension_loaded( 'mbstring' );
 		}
 
 		/**
 		 * Gives the Flesch-Kincaid Reading Ease of text entered rounded to one digit
 		 *
 		 * @param  string $strText         Text to be checked
-		 * @return float
+		 * @return int|float
 		 */
-		function flesch_kincaid_reading_ease( $strText ) {
+		public function flesch_kincaid_reading_ease( $strText ) {
 			$strText = $this->clean_text( $strText );
-			$score   = wpseo_calc( 206.835, '-', wpseo_calc( wpseo_calc( 1.015, '*', $this->average_words_per_sentence( $strText ) ), '-', wpseo_calc( 84.6, '*', $this->average_syllables_per_word( $strText ) ) ), true, 1 );
-			if ( $score > 0 ) {
-				return $score;
-			}
-			else {
-				return 0;
-			}
+			$score   = wpseo_calc( wpseo_calc( 206.835, '-', wpseo_calc( 1.015, '*', $this->average_words_per_sentence( $strText ) ) ), '-', wpseo_calc( 84.6, '*', $this->average_syllables_per_word( $strText ) ) );
+
+			return $this->normalize_score( $score, 0, 100 );
 		}
 
 		/**
 		 * Gives string length.
 		 *
-		 * @todo [JRF => whomever] allow for non-utf8 text ? or does that already work this way
-		 *
+
 		 * @param  string $strText      Text to be measured
 		 * @return int
 		 */
 		public function text_length( $strText ) {
-			return strlen( utf8_decode( $strText ) );
+			$intTextLength = 0;
+			try {
+				if ( $this->strEncoding == '' ) {
+					$intTextLength = mb_strlen( $strText );
+				} else {
+					$intTextLength = mb_strlen( $strText, $this->strEncoding );
+				}
+			} catch ( Exception $e ) {
+				$intTextLength = strlen( $strText );
+			}
+
+			return $intTextLength;
 		}
 
 		/**
-		 * Gives letter count (ignores all non-letters).
-		 *
-		 * @todo [JRF => whomever] make this work for utf8 text/text in other charsets ?
+		 * Gives letter count (ignores all non-letters). Tries mb_strlen and if that fails uses regular strlen.
 		 *
 		 * @param string $strText      Text to be measured
 		 * @return int
 		 */
 		public function letter_count( $strText ) {
 			$strText       = $this->clean_text( $strText ); // To clear out newlines etc
-			$intTextLength = preg_match_all( '`[A-Za-z]`', $strText, $matches );
+			$intTextLength = 0;
+			$strText	   = preg_replace( '`[^A-Za-z]+`', '', $strText );
+			try {
+				if ( $this->strEncoding == '' ) {
+					$intTextLength = mb_strlen( $strText );
+				} else {
+					$intTextLength = mb_strlen( $strText, $this->strEncoding );
+				}
+			} catch ( Exception $e ) {
+				$intTextLength = strlen( $strText );
+			}
+
 			return $intTextLength;
 		}
 
@@ -93,7 +120,7 @@ if ( ! class_exists( 'Yoast_TextStatistics' ) ) {
 		 */
 		protected function clean_text( $strText ) {
 			static $clean = array();
-			
+
 			$key = sha1( $strText );
 
 			if ( isset( $clean[$key] ) ) {
@@ -109,12 +136,12 @@ if ( ! class_exists( 'Yoast_TextStatistics' ) ) {
 			$strText = preg_replace( '`[",:;\(\)-]`', ' ', $strText ); // Replace commas, hyphens etc (count them as spaces)
 			$strText = preg_replace( '`[\.!?]`', '.', $strText ); // Unify terminators
 			$strText = trim( $strText ) . '.'; // Add final terminator, just in case it's missing.
-			$strText = preg_replace( '`[ ]*[\n\r]+[ ]*`', ' ', $strText ); // Replace new lines with spaces
+			$strText = preg_replace( '`[ ]*(\n|\r\n|\r)[ ]*`', ' ', $strText ); // Replace new lines with spaces
 			$strText = preg_replace( '`([\.])[\. ]+`', '$1', $strText ); // Check for duplicated terminators
 			$strText = trim( preg_replace( '`[ ]*([\.])`', '$1 ', $strText ) ); // Pad sentence terminators
 			$strText = preg_replace( '` [0-9]+ `', ' ', ' ' . $strText . ' ' ); // Remove "words" comprised only of numbers
 			$strText = preg_replace( '`[ ]+`', ' ', $strText ); // Remove multiple spaces
-			$strText = preg_replace_callback( '`\. [^ ]+`', create_function( '$matches', 'return strtolower($matches[0]);' ), $strText ); // Lower case all words following terminators (for gunning fog score)
+			$strText = preg_replace_callback( '`\. [^ ]+?`', create_function( '$matches', 'return strtolower( $matches[0] );' ), $strText ); // Lower case all words following terminators (for gunning fog score)
 
 			$strText = trim( $strText );
 
@@ -130,7 +157,18 @@ if ( ! class_exists( 'Yoast_TextStatistics' ) ) {
 		 * @return string
 		 */
 		protected function lower_case( $strText ) {
-			return strtolower( $strText );
+			$strLowerCaseText = '';
+			try {
+				if ( $this->strEncoding == '' ) {
+					$strLowerCaseText = mb_strtolower( $strText );
+				} else {
+					$strLowerCaseText = mb_strtolower( $strText, $this->strEncoding );
+				}
+			} catch ( Exception $e ) {
+				$strLowerCaseText = strtolower( $strText );
+			}
+
+			return $strLowerCaseText;
 		}
 
 		/**
@@ -140,7 +178,18 @@ if ( ! class_exists( 'Yoast_TextStatistics' ) ) {
 		 * @return string
 		 */
 		protected function upper_case( $strText ) {
-			return strtoupper( $strText );
+			$strUpperCaseText = '';
+			try {
+				if ( $this->strEncoding == '' ) {
+					$strUpperCaseText = mb_strtoupper( $strText );
+				} else {
+					$strUpperCaseText = mb_strtoupper( $strText, $this->strEncoding );
+				}
+			} catch ( Exception $e ) {
+				$strUpperCaseText = strtoupper( $strText );
+			}
+
+			return $strUpperCaseText;
 		}
 
 		/**
@@ -184,7 +233,7 @@ if ( ! class_exists( 'Yoast_TextStatistics' ) ) {
 		 * Returns average words per sentence for text.
 		 *
 		 * @param string $strText      Text to be measured
-		 * @return int
+		 * @return int|float
 		 */
 		public function average_words_per_sentence( $strText ) {
 			$strText          = $this->clean_text( $strText );
@@ -197,7 +246,7 @@ if ( ! class_exists( 'Yoast_TextStatistics' ) ) {
 		 * Returns average syllables per word for text.
 		 *
 		 * @param string  $strText      Text to be measured
-		 * @return int
+		 * @return int|float
 		 */
 		public function average_syllables_per_word( $strText ) {
 			$strText          = $this->clean_text( $strText );
@@ -223,7 +272,7 @@ if ( ! class_exists( 'Yoast_TextStatistics' ) ) {
 			}
 
 			// Should be no non-alpha characters
-			$strWord = preg_replace( '`[^A_Za-z]`', '', $strWord );
+			$strWord = preg_replace( '`[^A-Za-z]`', '', $strWord );
 
 			$intSyllableCount = 0;
 			$strWord          = $this->lower_case( $strWord );
@@ -318,6 +367,32 @@ if ( ! class_exists( 'Yoast_TextStatistics' ) ) {
 			}
 			$intSyllableCount = ( $intSyllableCount == 0 ) ? 1 : $intSyllableCount;
 			return $intSyllableCount;
+		}
+
+		/**
+		 * Normalizes score according to min & max allowed. If score larger
+		 * than max, max is returned. If score less than min, min is returned.
+		 * Also rounds result to specified precision.
+		 * Thanks to github.com/lvil.
+		 *
+		 * @param	int|float  $score	Initial score
+		 * @param	int 	   $min 	Minimum score allowed
+		 * @param	int 	   $max 	Maximum score allowed
+		 * @return	int|float
+		 */
+		public function normalize_score( $score, $min, $max, $dps = 1 ) {
+			$score = wpseo_calc( $score, '+', 0, true, $dps ); // Round
+			if ( ! $this->normalize ) {
+				return $score;
+			}
+
+			if ( $score > $max ) {
+				$score = $max;
+			} elseif ( $score < $min ) {
+				$score = $min;
+			}
+
+			return $score;
 		}
 
 	} /* End of class */
