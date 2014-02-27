@@ -10,14 +10,11 @@ if ( ! function_exists( 'add_filter' ) ) {
 	exit();
 }
 
-
-if ( version_compare( PHP_VERSION, '5.2', '<' ) ) {
-	if ( is_admin() && ( ! defined( 'DOING_AJAX' ) || ! DOING_AJAX ) ) {
-		require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-		deactivate_plugins( WPSEO_FILE );
-		wp_die( sprintf( __( 'WordPress SEO requires PHP 5.2 or higher, as does WordPress 3.2 and higher. The plugin has now disabled itself. For more info, %s$1see this post%s$2.', 'wordpress-seo' ), '<a href="https://yoast.com/requires-php-52/">', '</a>' ) );
-	}
-}
+/**
+ * @internal Nobody should be able to overrule the real version number as this can cause serious issues
+ * with the options, so no if ( ! defined() )
+ */
+define( 'WPSEO_VERSION', '1.5.0-beta1' );
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
 	define( 'WPSEO_PATH', plugin_dir_path( WPSEO_FILE ) );
@@ -280,3 +277,7 @@ if ( is_admin() ) {
 else {
 	add_action( 'plugins_loaded', 'wpseo_frontend_init', 15 );
 }
+
+// Activation and deactivation hook
+register_activation_hook( WPSEO_FILE, 'wpseo_activate' );
+register_deactivation_hook( WPSEO_FILE, 'wpseo_deactivate' );

@@ -108,13 +108,13 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 
 = 1.5.0-beta
 
-This release contains tons and tons of bugfixes and security improvements. Credits for this release go to Juliette Reinders Folmer aka [Jrf](http://profiles.wordpress.org/jrf) / [jrfnl](https://github.com/jrfnl).
+This release contains tons and tons of bugfixes and security improvements. Credits for this release largely go to Juliette Reinders Folmer aka [Jrf](http://profiles.wordpress.org/jrf) / [jrfnl](https://github.com/jrfnl).
 
 Also a heartfelt thanks go out to the beta testers who tested all the changes. Special mentions for testers [Woyto](https://github.com/Woyto), [Bnpositive](https://github.com/Bnpositive), [Surbma](https://github.com/Surbma), [DavidCH1](https://github.com/DavidCH1), [TheITJuggler](https://github.com/TheITJuggler), [kletskater](https://github.com/kletskater) who caught a number of bugs and provided us with actionable information to fix these.
 
 This version also incorporates the [SEO Extended](http://wordpress.org/plugins/seo-extended/) plugin functionality into WP SEO with graceful thanks to [Faison](http://profiles.wordpress.org/faison/) and [Scott Offord](http://profiles.wordpress.org/scottofford/) for their great work on this plugin.
 
-**This version contains a lot of changes under the hood which will break backward compatibility, i.e. once you've upgraded, downgrading will break things.** So make sure you make a backup of your settings/site before upgrading.
+**This version contains a lot of changes under the hood which will break backward compatibility, i.e. once you've upgraded, downgrading will break things.** So make sure you make a backup of your settings/database before upgrading.
 
 
 * Bugfixes
@@ -168,6 +168,7 @@ This version also incorporates the [SEO Extended](http://wordpress.org/plugins/s
 	* Fixed: wrong file was loaded for the get_plugin_data() function.
 	* Fixed: several bug-sensitive code constructs. This will probably get rid of a number of hard to figure out bugs.
 	* Fixed: several html validation issues.
+	* Prevent error when theme does not support featured images, issue [#639](https://github.com/Yoast/wordpress-seo/issues/639) as reported by [kuzudecoletaje](https://github.com/kuzudecoletaje) - props [Jrf](http://profiles.wordpress.org/jrf).
 
 
 * Enhancements
@@ -198,19 +199,20 @@ This version also incorporates the [SEO Extended](http://wordpress.org/plugins/s
 
 
 
-= Trunk =
+= 1.4.25 =
 
 * Bugfixes
 	* Do not include external URLs in XML sitemap (Issue #528) - props [tivnet](https://github.com/tivnet).
 	* Get home_url out of the sitemap loop - props [tivnet](https://github.com/tivnet).
 	* Add support for html entities - props [julienmeyer](https://github.com/julienmeyer).
-	* Prevent error when theme does not support featured images, issue [#639](https://github.com/Yoast/wordpress-seo/issues/639) as reported by [kuzudecoletaje](https://github.com/kuzudecoletaje) - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fixed wrong use of `__FILE__`.
 
 * Enhancement
 	* WPSEO_FILE now has a 'defined' check.
+	* Removed unneeded `dirname` calls.
 
-	
-	
+* i18n
+	* Updated cs_CZ, de_DE, fr_FR & tr_TK
 
 = 1.4.24 =
 

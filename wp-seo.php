@@ -33,18 +33,9 @@ if ( ! function_exists( 'add_filter' ) ) {
 	exit();
 }
 
-/**
- * @internal Nobody should be able to overrule the real version number as this can cause serious issues
- * with the options, so no if ( ! defined() )
- */
-define( 'WPSEO_VERSION', '1.5.0-beta1' );
-
 if ( ! defined( 'WPSEO_FILE' ) ) {
 	define( 'WPSEO_FILE', __FILE__ );
 }
 
 // Load the WordPress SEO plugin
 require_once( 'wp-seo-main.php' );
-
-register_activation_hook( __FILE__, 'wpseo_activate' );
-register_deactivation_hook( __FILE__, 'wpseo_deactivate' );
