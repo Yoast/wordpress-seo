@@ -861,11 +861,15 @@ if ( ! function_exists( 'wpseo_calc' ) ) {
 	 *								or a float
 	 */
 	function wpseo_calc( $number1, $action, $number2, $round = false, $decimals = 0, $precision = 10 ) {
+		static $bc;
+
 		if ( ! is_scalar( $number1 ) || ! is_scalar( $number2 ) ) {
 			return false;
 		}
 
-		$bc = extension_loaded( 'bcmath' );
+		if( ! isset( $bc ) ) {
+			$bc = extension_loaded( 'bcmath' );
+		}
 
 		if ( $bc ) {
 			$number1 = strval( $number1 );
