@@ -3,8 +3,12 @@
 class WPSEO_Option_Test extends WPSEO_UnitTestCase {
 
 	public function test_grant_access_for_non_multisites() {
+		if( is_multisite() ) {
+			return true;
+		}
+
 		// should be true when not running multisite
-		$this->assertEquals( !is_multisite(), WPSEO_Options::grant_access() );
+		$this->assertTrue( WPSEO_Options::grant_access() );
 	}
 
 	public function test_grant_access_for_admins() {
@@ -16,5 +20,7 @@ class WPSEO_Option_Test extends WPSEO_UnitTestCase {
 
 		$this->assertTrue( WPSEO_Options::grant_access() );
 	}
+
+
 	
 }
