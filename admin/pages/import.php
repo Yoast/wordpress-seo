@@ -20,7 +20,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 global $wpseo_admin_pages;
 
 $msg = '';
-if ( isset( $_POST['import'] ) ) {
+if ( isset( $_POST['import'] ) || isset( $_GET['import'] ) ) {
 
 	check_admin_referer( 'wpseo-import' );
 
@@ -207,11 +207,11 @@ if ( isset( $_POST['import'] ) ) {
 	}
 
 	// @todo [JRF => whomever] how does this correlate with the routine on the dashboard page ? isn't one superfluous ?
-	if ( isset( $_POST['wpseo']['importaioseo'] ) ) {
+	if ( isset( $_POST['wpseo']['importaioseo'] ) || isset( $_GET['importaioseo'] ) ) {
 		WPSEO_Meta::replace_meta( '_aioseop_description', WPSEO_Meta::$meta_prefix . 'metadesc', $replace );
 		WPSEO_Meta::replace_meta( '_aioseop_keywords', WPSEO_Meta::$meta_prefix . 'metakeywords', $replace );
 		WPSEO_Meta::replace_meta( '_aioseop_title', WPSEO_Meta::$meta_prefix . 'title', $replace );
-		$msg .= __( 'All in One SEO data successfully imported.', 'wordpress-seo' );
+		$msg .= __( sprintf( 'All in One SEO data successfully imported. Would you like to %sdisable the All in One SEO plugin%s.', '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_import&deactivate_aioseo=1' ) ) . '">', '</a>' ), 'wordpress-seo' );
 	}
 
 	if ( isset( $_POST['wpseo']['importaioseoold'] ) ) {
@@ -221,9 +221,7 @@ if ( isset( $_POST['import'] ) ) {
 		$msg .= __( 'All in One SEO (Old version) data successfully imported.', 'wordpress-seo' );
 	}
 
-	// @todo [JRF => whomever] how does this correlate with the robots_meta_handler() function in dashboard ?
-	// isn't one superfluous ? functionality wasn't the same either, changed now.
-	if ( isset( $_POST['wpseo']['importrobotsmeta'] ) ) {
+	if ( isset( $_POST['wpseo']['importrobotsmeta'] ) || isset( $_GET['importrobotsmeta'] ) ) {
 		$posts = $wpdb->get_results( "SELECT ID, robotsmeta FROM $wpdb->posts" );
 		if ( is_array( $posts ) && $posts !== array() ) {
 			foreach ( $posts as $post ) {
@@ -249,7 +247,7 @@ if ( isset( $_POST['import'] ) ) {
 			}
 		}
 		unset( $posts, $post, $pieces, $meta );
-		$msg .= __( 'Robots Meta values imported.', 'wordpress-seo' );
+		$msg .= __( sprintf( 'Robots Meta values imported. We recommend %sdisabling the Robots-Meta plugin%s to avoid any conflicts.', '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_import&deactivate_robots_meta=1' ) ) . '">', '</a>' ), 'wordpress-seo' );
 	}
 
 	if ( isset( $_POST['wpseo']['importrssfooter'] ) ) {
@@ -303,7 +301,7 @@ if ( isset( $_POST['import'] ) ) {
 
 $wpseo_admin_pages->admin_header( false );
 if ( $msg != '' ) {
-	echo '<div id="message" class="message updated" style="width:94%;"><p>' . esc_html( $msg ) . '</p></div>';
+	echo '<div id="message" class="message updated" style="width:94%;"><p>' . $msg . '</p></div>';
 }
 
 $content  = '<p>' . __( 'No doubt you\'ve used an SEO plugin before if this site isn\'t new. Let\'s make it easy on you, you can import the data below. If you want, you can import first, check if it was imported correctly, and then import &amp; delete. No duplicate data will be imported.', 'wordpress-seo' ) . '</p>';
