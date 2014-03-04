@@ -1,3 +1,7 @@
+== Trunk ==
+
+* Added importing options for AIO -> WP SEO
+
 = 1.2.8.7 =
 
 * Fixed %%category%% and %%tag%% and some other variables that weren't working since 1.2.8.6.
