@@ -20,9 +20,9 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 		/**
 		 * Wrapper function for the breadcrumb so it can be output for the supported themes.
 		 *
-		 * @todo Issue 631 https://github.com/Yoast/wordpress-seo/issues/631
+		 *
 		 */
-		function breadcrumb_output() {
+		public function breadcrumb_output() {
 			$this->breadcrumb( '<div id="wpseobreadcrumb">', '</div>' );
 		}
 
@@ -32,7 +32,7 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 		 * @param	object	$term	Term to get the parents for
 		 * @return	array
 		 */
-		function get_term_parents( $term ) {
+		public function get_term_parents( $term ) {
 			$tax     = $term->taxonomy;
 			$parents = array();
 			while ( $term->parent != 0 ) {
@@ -50,7 +50,7 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 		 * @param	bool	$display	When true, echo the breadcrumb, if not, return it as a string.
 		 * @return	string
 		 */
-		function breadcrumb( $before = '', $after = '', $display = true ) {
+		public function breadcrumb( $before = '', $after = '', $display = true ) {
 			$this->options = WPSEO_Options::get_all();
 
 			global $wp_query, $post;
@@ -299,7 +299,7 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 		 * @param	string	$element	The wrapping element for each individual link.
 		 * @return	string
 		 */
-		function create_breadcrumbs_string( $links, $wrapper = 'span', $element = 'span' ) {
+		public function create_breadcrumbs_string( $links, $wrapper = 'span', $element = 'span' ) {
 			if ( ! is_array( $links ) || $links === array() ) {
 				return '';
 			}
