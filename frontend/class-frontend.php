@@ -1438,16 +1438,14 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 				$after  = '';
 
 				if ( $this->options['rssbefore'] !== '' ) {
-					$before = $this->rss_replace_vars( $this->options['rssbefore'] );
-					$before = ( $before !== '' ) ? '<p>' . $before . '</p>' : '';
+					$before = wpautop( $this->rss_replace_vars( $this->options['rssbefore'] ) );
 				}
 				if ( $this->options['rssafter'] !== '' ) {
-					$after = $this->rss_replace_vars( $this->options['rssafter'] );
-					$after = ( $after !== '' ) ? '<p>' . $after . '</p>' : '';
+					$after = wpautop( $this->rss_replace_vars( $this->options['rssafter'] ) );
 				}
 				if ( $before !== '' || $after !== '' ) {
 					if ( ( isset( $context ) && $context === 'excerpt' ) && trim( $content ) !== '' ) {
-						$content = '<p>' . $content . '</p>';
+						$content = wpautop( $content );
 					}
 					$content = $before . $content . $after;
 				}
