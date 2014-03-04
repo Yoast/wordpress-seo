@@ -20,9 +20,10 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 		/**
 		 * Wrapper function for the breadcrumb so it can be output for the supported themes.
 		 *
-		 *
+		 * @deprecated 1.5.0
 		 */
 		public function breadcrumb_output() {
+			_deprecated_function( __FUNCTION__, '1.5.0', 'yoast_breadcrumb' );
 			$this->breadcrumb( '<div id="wpseobreadcrumb">', '</div>' );
 		}
 
