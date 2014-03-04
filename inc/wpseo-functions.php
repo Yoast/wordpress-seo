@@ -71,17 +71,18 @@ if ( ! function_exists( 'yoast_breadcrumb' ) ) {
 	 * @param string $before  What to show before the breadcrumb.
 	 * @param string $after   What to show after the breadcrumb.
 	 * @param bool   $display Whether to display the breadcrumb (true) or return it (false).
+	 *
 	 * @return string
 	 */
 	function yoast_breadcrumb( $before = '', $after = '', $display = true ) {
 		$options = get_option( 'wpseo_internallinks' );
 
 		if ( $options['breadcrumbs-enable'] === true ) {
-			if ( ! isset( $GLOBALS['wpseo_bc'] ) ) {
-				$GLOBALS['wpseo_bc'] = new WPSEO_Breadcrumbs;
-			}
-			return $GLOBALS['wpseo_bc']->breadcrumb( $before, $after, $display );
+			$breadcrumbs = new WPSEO_Breadcrumbs();
+
+			return $breadcrumbs->breadcrumb( $before, $after, $display );
 		}
+
 		return '';
 	}
 }
