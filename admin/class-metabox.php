@@ -1737,16 +1737,16 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			$body           = $this->strtolower_utf8( $body );
 			$job['keyword'] = $this->strtolower_utf8( $job['keyword'] );
 
-			$keywordWordCount = str_word_count( $job['keyword'] );
+			$keywordWordCount = $this->statistics()->word_count( $job['keyword'] );
 			if ( $keywordWordCount > 10 ) {
 				$this->save_score_result( $results, 0, __( 'Your keyphrase is over 10 words, a keyphrase should be shorter and there can be only one keyphrase.', 'wordpress-seo' ), 'focus_keyword_length' );
 			} else {
 				// Keyword Density check
 				$keywordDensity = 0;
 				if ( $wordCount > 100 ) {
-					$keywordCount = preg_match_all( '`' . preg_quote( $job['keyword'], '`' ) . '`msiuU', $body, $res );
-					if ( $keywordCount > 0 && $keywordWordCount > 0 ) {
-						$keywordDensity = wpseo_calc( wpseo_calc( $keywordCount, '/', wpseo_calc( $wordCount, '-', ( wpseo_calc( wpseo_calc( $keywordWordCount, '-', 1 ), '*', $keywordWordCount ) ) ) ), '*', 100, true, 2 );
+					$keywordCount = preg_match_all( '`' . preg_quote( $job['keyword'], '`' ) . '`miu', $body, $res );
+					if ( ( $keywordCount > 0 && $keywordWordCount > 0 ) && $wordCount > $keywordCount ) {
+						$keywordDensity = wpseo_calc( wpseo_calc( $keywordCount, '/', wpseo_calc( $wordCount, '-', ( wpseo_calc( wpseo_calc( $keywordWordCount, '-', 1 ), '*', $keywordCount ) ) ) ), '*', 100, true, 2 );
 					}
 					if ( $keywordDensity < 1 ) {
 						$this->save_score_result( $results, 4, sprintf( $scoreKeywordDensityLow, $keywordDensity, $keywordCount ), 'keyword_density' );
@@ -1761,7 +1761,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			$firstp = $this->strtolower_utf8( $firstp );
 
 			// First Paragraph Test
-			if ( ! preg_match( '`\b' . preg_quote( $job['keyword'], '`' ) . '\b`u', $firstp ) && ! preg_match( '`\b' . preg_quote( $job['keyword_folded'], '`' ) . '\b`u', $firstp ) ) {
+			if ( ! preg_match( '`\b' . preg_quote( $job['keyword'], '`' ) . '\b`miu', $firstp ) && ! preg_match( '`\b' . preg_quote( $job['keyword_folded'], '`' ) . '\b`miu', $firstp ) ) {
 				$this->save_score_result( $results, 3, $scoreFirstParagraphLow, 'keyword_first_paragraph' );
 			} else {
 				$this->save_score_result( $results, 9, $scoreFirstParagraphHigh, 'keyword_first_paragraph' );
