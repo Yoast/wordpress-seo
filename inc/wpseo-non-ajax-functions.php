@@ -391,7 +391,7 @@ add_filter( 'user_has_cap', 'allow_custom_field_edits', 0, 3 );
  */
 function wpseo_robots_meta_message() {
 	// check if robots meta is running
-	if ( 'wpseo_import' != $_GET['page'] && is_plugin_active( 'robots-meta/robots-meta.php' ) ) {
+	if ( ( ! isset( $_GET['page'] ) || 'wpseo_import' !== $_GET['page'] ) && is_plugin_active( 'robots-meta/robots-meta.php' ) ) {
 		add_action( 'admin_notices', 'wpseo_import_robots_meta_notice' );
 	}
 }
@@ -420,7 +420,7 @@ add_action( 'admin_init', 'wpseo_disable_robots_meta' );
  */
 function wpseo_aioseo_message() {
 	// check if aioseo is running
-	if ( 'wpseo_import' != $_GET['page'] && is_plugin_active( 'all-in-one-seo-pack/all_in_one_seo_pack.php' ) ) {
+	if ( ( ! isset( $_GET['page'] ) || 'wpseo_import' != $_GET['page'] ) && is_plugin_active( 'all-in-one-seo-pack/all_in_one_seo_pack.php' ) ) {
 		add_action( 'admin_notices', 'wpseo_import_aioseo_setting_notice' );
 	}
 }
