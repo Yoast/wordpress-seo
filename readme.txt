@@ -209,6 +209,7 @@ This version also incorporates the [SEO Extended](http://wordpress.org/plugins/s
 	* Get home_url out of the sitemap loop - props [tivnet](https://github.com/tivnet).
 	* Add support for html entities - props [julienmeyer](https://github.com/julienmeyer).
 	* Fixed wrong use of `__FILE__`.
+	* Prevent error when theme does not support featured images, issue [#639](https://github.com/Yoast/wordpress-seo/issues/639) as reported by [kuzudecoletaje](https://github.com/kuzudecoletaje) - props [Jrf](http://profiles.wordpress.org/jrf).
 
 * Enhancement
 	* WPSEO_FILE now has a 'defined' check.
