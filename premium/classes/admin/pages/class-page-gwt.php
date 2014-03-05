@@ -106,7 +106,7 @@ class WPSEO_Page_GWT {
 		$current = ( isset ( $_GET['status'] ) ? $_GET['status'] : '' );
 
 		$views_arr = array(
-				''               => 'All',
+				'all'               => 'All',
 				'not-redirected' => 'Not redirected'
 		);
 
