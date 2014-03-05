@@ -1,3 +1,6 @@
+= trunk =
+*
+
 = 1.0.3 =
 
 * Fixed an incorrect constant define.

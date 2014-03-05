@@ -21,8 +21,8 @@ class WPSEO_Premium {
 	const OPTION_LICENSE_KEY    = 'wpseo_license_key';
 	const OPTION_LICENSE_STATUS = 'wpseo_license_status';
 
-	const PLUGIN_VERSION_NAME = '1.0.3';
-	const PLUGIN_VERSION_CODE = '4';
+	const PLUGIN_VERSION_NAME = '1.1.0-beta1';
+	const PLUGIN_VERSION_CODE = '5';
 	const PLUGIN_AUTHOR       = 'Yoast';
 	const EDD_STORE_URL       = 'http://www.yoast.com';
 	const EDD_PLUGIN_NAME     = 'WordPress SEO Premium';
