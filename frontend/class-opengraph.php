@@ -128,6 +128,7 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 		 * Outputs the authors FB page.
 		 *
 		 * @link https://developers.facebook.com/blog/post/2013/06/19/platform-updates--new-open-graph-tags-for-media-publishers-and-more/
+		 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
 		 */
 		public function article_author_facebook() {
 			if ( ! is_singular() )
@@ -150,6 +151,7 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 		 * Outputs the websites FB page.
 		 *
 		 * @link https://developers.facebook.com/blog/post/2013/06/19/platform-updates--new-open-graph-tags-for-media-publishers-and-more/
+		 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
 		 */
 		public function website_facebook() {
 			if ( $this->options['facebook_site'] !== '' ) {
@@ -159,6 +161,8 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 
 		/**
 		 * Outputs the site owner
+		 *
+		 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
 		 */
 		public function site_owner() {
 			if ( 0 != $this->options['fbadminapp'] ) {
@@ -184,6 +188,8 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 		 * @param bool $echo Whether or not to echo the output.
 		 *
 		 * @return string $title
+		 *
+		 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
 		 */
 		public function og_title( $echo = true ) {
 			/**
@@ -204,6 +210,8 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 
 		/**
 		 * Outputs the canonical URL as OpenGraph URL, which consolidates likes and shares.
+		 *
+		 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
 		 */
 		public function url() {
 			/**
@@ -223,6 +231,8 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 		 * Last update/compare with FB list done on July 14, 2013 by JRF
 		 * Results: 1 new locale added, found 32 in the below list which are not in the FB list (not removed), 76 OK.
 		 * @see http://www.facebook.com/translations/FacebookLocales.xml for the list of supported locales
+		 *
+		 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
 		 *
 		 * @param bool $echo Whether to echo or return the locale
 		 *
@@ -287,6 +297,8 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 		 *
 		 * @param boolean $echo Whether to echo or return the type
 		 *
+		 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/object/
+		 *
 		 * @return string $type
 		 */
 		public function type( $echo = true ) {
@@ -297,8 +309,12 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 					$type = 'article';
 				}
 			}
-			else {
+			elseif ( is_front_page() || is_home() ) {
 				$type = 'website';
+			}
+			// We use "object" for archives etc. as article doesn't apply there
+			else {
+				$type = 'object';
 			}
 			/**
 			 * Filter: 'wpseo_opengraph_type' - Allow changing the OpenGraph type of the page
@@ -483,6 +499,8 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 
 		/**
 		 * Output the article tags as article:tag tags.
+		 *
+		 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
 		 */
 		public function tags() {
 			if ( ! is_singular() )
@@ -498,6 +516,8 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 
 		/**
 		 * Output the article category as an article:section tag.
+		 *
+		 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
 		 */
 		public function category() {
 			if ( ! is_singular() )
@@ -513,6 +533,8 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 
 		/**
 		 * Output the article publish and last modification date
+		 *
+		 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
 		 */
 		public function publish_date() {
 			if ( ! is_singular() )
@@ -524,6 +546,7 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 			$mod = get_the_modified_date( 'c' );
 			if ( $mod != $pub ) {
 				$this->og_tag( 'article:modified_time', $mod );
+				$this->og_tag( 'og:updated_time', $mod );
 			}
 		}
 
