@@ -124,8 +124,9 @@ class WPSEO_Page_GWT {
 		$current = ( isset ( $_GET['status'] ) ? $_GET['status'] : '' );
 
 		$views_arr = array(
-				'all'               => 'All',
-				'not-redirected' => 'Not redirected'
+				'all'            => 'All',
+				'not-redirected' => 'Not redirected',
+				'ignored'        => 'Ignored',
 		);
 
 		// Add views
