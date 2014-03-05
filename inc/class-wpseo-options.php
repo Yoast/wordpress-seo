@@ -1845,7 +1845,7 @@ if ( ! class_exists( 'WPSEO_Option_InternalLinks' ) ) {
 					case 'breadcrumbs-searchprefix':
 					case 'breadcrumbs-sep':
 						if ( isset( $dirty[$key] ) ) {
-							$clean[$key] = wp_filter_post_kses( $dirty[$key] );
+							$clean[$key] = wp_kses_post( $dirty[$key] );
 						}
 						break;
 

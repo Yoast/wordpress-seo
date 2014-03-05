@@ -409,7 +409,7 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 			$options = $this->get_option( $option );
 			$val     = ( isset( $options[$var] ) ) ? $options[$var] : '';
 
-			return '<label class="textinput" for="' . esc_attr( $var ) . '">' . $label . ':</label><input class="textinput" type="text" id="' . esc_attr( $var ) . '" name="' . esc_attr( $option ) . '[' . esc_attr( $var ) . ']" value="' . esc_attr( stripslashes( $val ) ) . '"/>' . '<br class="clear" />';
+			return '<label class="textinput" for="' . esc_attr( $var ) . '">' . $label . ':</label><input class="textinput" type="text" id="' . esc_attr( $var ) . '" name="' . esc_attr( $option ) . '[' . esc_attr( $var ) . ']" value="' . esc_attr( $val ) . '"/>' . '<br class="clear" />';
 		}
 
 		/**
