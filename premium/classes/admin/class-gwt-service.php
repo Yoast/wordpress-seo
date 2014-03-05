@@ -115,7 +115,6 @@ class WPSEO_GWT_Service {
 
 		}
 
-
 		return $crawl_issues;
 	}
 
