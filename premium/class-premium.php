@@ -27,6 +27,8 @@ class WPSEO_Premium {
 	const EDD_STORE_URL       = 'http://www.yoast.com';
 	const EDD_PLUGIN_NAME     = 'WordPress SEO Premium';
 
+	private $page_gwt					= null;
+
 	/**
 	 * Function that will be executed when plugin is activated
 	 */
@@ -57,8 +59,8 @@ class WPSEO_Premium {
 			// Create License_Manager
 			new WPSEO_License_Manager();
 
-			// Initiate GWT class
-			WPSEO_GWT::get();
+			// Create pages
+			$this->page_gwt = new WPSEO_Page_GWT();
 
 			// Disable WordPress SEO
 			add_action( 'admin_init', array( $this, 'disable_wordpress_seo' ), 1 );
@@ -94,7 +96,7 @@ class WPSEO_Premium {
 
 			// Screen options
 			add_filter( 'set-screen-option', array( 'WPSEO_Page_Redirect', 'set_screen_option' ), 10, 3 );
-			add_filter( 'set-screen-option', array( 'WPSEO_Page_GWT', 'set_screen_option' ), 10, 3 );
+			add_filter( 'set-screen-option', array( $this->page_gwt, 'set_screen_option' ), 10, 3 );
 
 			// EDD - Retrieve our license key from the DB
 			if ( defined( 'WPSEO_LICENSE' ) ) {
@@ -176,7 +178,7 @@ class WPSEO_Premium {
 	 */
 	public function add_submenu_pages( $submenu_pages ) {
 		$submenu_pages[] = array( 'wpseo_dashboard', __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Redirects', 'wordpress-seo' ), __( 'Redirects', 'wordpress-seo' ), 'manage_options', 'wpseo_redirects', array( 'WPSEO_Page_Redirect', 'display' ), array( array( 'WPSEO_Page_Redirect', 'page_load' ) ) );
-		$submenu_pages[] = array( 'wpseo_dashboard', __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Webmaster Tools', 'wordpress-seo' ), __( 'Webmaster Tools', 'wordpress-seo' ), 'manage_options', 'wpseo_webmaster_tools', array( 'WPSEO_Page_GWT', 'display' ), array( array( 'WPSEO_Page_GWT', 'page_load' ) ) );
+		$submenu_pages[] = array( 'wpseo_dashboard', __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Webmaster Tools', 'wordpress-seo' ), __( 'Webmaster Tools', 'wordpress-seo' ), 'manage_options', 'wpseo_webmaster_tools', array( $this->page_gwt, 'display' ), array( array( $this->page_gwt, 'page_load' ) ) );
 
 		return $submenu_pages;
 	}

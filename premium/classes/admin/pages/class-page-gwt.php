@@ -79,16 +79,21 @@ class WPSEO_Page_GWT {
 	/**
 	 * Function that is triggered when the redirect page loads
 	 */
-	public static function page_load() {
-		add_action( 'admin_enqueue_scripts', array( 'WPSEO_Page_GWT', 'page_scripts' ) );
+	public function page_load() {
+
+		// Catch the authorization code POST
+		$this->catch_authentication_post();
+
+		add_action( 'admin_enqueue_scripts', array( $this, 'page_scripts' ) );
 
 		// Check for error message
 		if ( isset( $_GET['error'] ) && $_GET['error'] == '1' ) {
-			add_action( 'admin_notices', array( 'WPSEO_Page_GWT', 'admin_message_body' ) );
+			add_action( 'admin_notices', array( $this, 'admin_message_body' ) );
 		}
 
 		// Add views
-		add_filter( 'views_seo_page_wpseo_webmaster_tools', array( 'WPSEO_Page_GWT', 'add_page_views' ) );
+		add_filter( 'views_seo_page_wpseo_webmaster_tools', array( $this, 'add_page_views' ) );
+
 	}
 
 	/**
@@ -98,7 +103,7 @@ class WPSEO_Page_GWT {
 	 *
 	 * @return array
 	 */
-	public static function add_page_views( $views ) {
+	public function add_page_views( $views ) {
 
 		// Base URL
 		$base_url = admin_url( 'admin.php' ) . "?page=" . $_GET['page'];
@@ -132,7 +137,7 @@ class WPSEO_Page_GWT {
 	/**
 	 * Print Incorrect Google Authorization Code error
 	 */
-	public static function admin_message_body() {
+	public function admin_message_body() {
 		?>
 		<div class="error">
 			<p><b><?php _e( 'Incorrect Google Authorization Code!', 'wordpress-seo' ); ?></b></p>
@@ -143,7 +148,7 @@ class WPSEO_Page_GWT {
 	/**
 	 * Load the admin redirects scripts
 	 */
-	public static function page_scripts() {
+	public function page_scripts() {
 		wp_enqueue_script( 'wp-seo-premium-admin-gwt', plugin_dir_url( WPSEO_PREMIUM_FILE ) . '/assets/js/wp-seo-premium-admin-gwt.js', array( 'jquery' ), '1.0.0' );
 		wp_localize_script( 'wp-seo-premium-admin-gwt', 'wpseo_premium_strings', WPSEO_Premium_Javascript_Strings::strings() );
 		add_screen_option( 'per_page', array( 'label' => 'Crawl errors per page', 'default' => 25, 'option' => 'errors_per_page' ) );
@@ -158,7 +163,7 @@ class WPSEO_Page_GWT {
 	 *
 	 * @return mixed
 	 */
-	public static function set_screen_option( $status, $option, $value ) {
+	public function set_screen_option( $status, $option, $value ) {
 		if ( 'errors_per_page' == $option ) {
 			return $value;
 		}
