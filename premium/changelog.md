@@ -1,3 +1,9 @@
+= 1.0.3 =
+
+* Fixed an incorrect constant define.
+* Updated WordPress SEO core to 1.4.25.
+* Now using the correct file reference (WPSEO_FILE) in main WPSEO file.
+
 = 1.0.2 =
 
 * Fixed a bug that prevented options on the WPSEO dashboard from saving.

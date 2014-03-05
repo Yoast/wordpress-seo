@@ -3,6 +3,7 @@ function yst_clean(str) {
 		return '';
 
 	try {
+		str = jQuery('<div/>').html(str).text();
 		str = str.replace(/<\/?[^>]+>/gi, '');
 		str = str.replace(/\[(.+?)\](.+?\[\/\\1\])?/g, '');
 	} catch (e) {

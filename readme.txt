@@ -5,8 +5,8 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: seo, SEO, google, meta, meta description, search engine optimization, xml sitemap, xml sitemaps, google sitemap, sitemap, sitemaps, robots meta, rss, rss footer, yahoo, bing, news sitemaps, XML News Sitemaps, WordPress SEO, WordPress SEO by Yoast, yoast, multisite, canonical, nofollow, noindex, keywords, meta keywords, description, webmaster tools, google webmaster tools, seo pack
 Requires at least: 3.5
-Tested up to: 3.8
-Stable tag: 1.4.24
+Tested up to: 3.8.1
+Stable tag: 1.4.25
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the WordPress SEO plugin by Yoast.
 
@@ -106,6 +106,21 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 
 == Changelog ==
 
+= 1.4.25 =
+
+* Bugfixes
+	* Do not include external URLs in XML sitemap (Issue #528) - props [tivnet](https://github.com/tivnet).
+	* Get home_url out of the sitemap loop - props [tivnet](https://github.com/tivnet).
+	* Add support for html entities - props [julienmeyer](https://github.com/julienmeyer).
+	* Fixed wrong use of `__FILE__`.
+
+* Enhancement
+	* WPSEO_FILE now had a 'defined' check.
+  * Removed unneeded `dirname` calls.
+
+* i18n
+	* Updated cs_CZ, de_DE, fr_FR & tr_TK
+
 = 1.4.24 =
 
 * Bugfixes
@@ -118,18 +133,15 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 	* Make the metabox tabs jQuery only work for WPSEO tabs, props [imageinabox](https://github.com/imageinabox).
 	* Sitemap shortcode sql had hard-coded table name which could easily cause the shortcode display to fail. Fixed. - props [Jrf](http://profiles.wordpress.org/jrf).
 	* Fix issue with user capability authorisation check as reported by [scienceandpoetry](https://github.com/scienceandpoetry) in issue [#492](https://github.com/Yoast/wordpress-seo/issues/492) - props [Jrf](http://profiles.wordpress.org/jrf).
-	* Fixed canonical rel links was causing an error when given an invalid taxonomy, issue [#306](https://github.com/Yoast/wordpress-seo/issues/306) - props [Jrf](http://profiles.wordpress.org/jrf).	
+	* Fixed canonical rel links was causing an error when given an invalid taxonomy, issue [#306](https://github.com/Yoast/wordpress-seo/issues/306) - props [Jrf](http://profiles.wordpress.org/jrf).
 	* Removed add_meta_box() function duplication  - props [Jrf](http://profiles.wordpress.org/jrf).
 	* Fix issue "Flesch Reading Ease should only be a positive number". This also fixes the message being unclear. Thanks [eugenmihailescu](https://github.com/eugenmihailescu) for reporting - props [Jrf](http://profiles.wordpress.org/jrf).
 	* Fixed issue with page analysis not taking feature image into account - props [darrarski](https://github.com/darrarski).
-	
+
 * Enhancement
 	* Shortcode now also available to ajax requests - props [Jrf](http://profiles.wordpress.org/jrf).
 	* Added gitignores to prevent incorrect commits (Cross platform collab) - props [cfoellmann](https://github.com/cfoellmann).
 	* Adding filters to individual sitemap url entries - props [mboynes](https://github.com/mboynes).
-
-* i18n
-	*
 
 = 1.4.23 =
 
@@ -141,7 +153,7 @@ You'll find the [FAQ on Yoast.com](http://yoast.com/wordpress/seo/faq/).
 * i18n
 	* Updated cs_CZ, fa_IR, fr_FR, hu, hu_HU, pl_PL, ru_RU & zh_CN
 
-	
+
 = 1.4.22 =
 
 * Bugfixes
