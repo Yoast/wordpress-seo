@@ -12,9 +12,30 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 class WPSEO_Page_GWT {
 
 	/**
+	 * Catch the authentication post
+	 */
+	private function catch_authentication_post() {
+		// Catch the authorization code POST
+		if ( isset ( $_POST['gwt']['authorization_code'] ) && trim( $_POST['gwt']['authorization_code'] ) != '' ) {
+
+			$redirect_url_appendix = '';
+
+			// Authenticate user
+			$gwt_authentication = new WPSEO_GWT_Authentication();
+			if ( ! $gwt_authentication->authenticate( $_POST['gwt']['authorization_code'] ) ) {
+				$redirect_url_appendix = '&error=1';
+			}
+
+			// Redirect user to prevent a post resubmission which causes an oauth error
+			wp_redirect( admin_url( 'admin.php' ) . '?page=' . $_GET['page'] . $redirect_url_appendix );
+			exit;
+		}
+	}
+
+	/**
 	 * Function that outputs the redirect page
 	 */
-	public static function display() {
+	public function display() {
 		global $wpseo_admin_pages;
 
 		// Admin header
@@ -23,16 +44,8 @@ class WPSEO_Page_GWT {
 		// Create a new WPSEO GWT Google Client
 		$gwt_client = new WPSEO_GWT_Google_Client();
 
-		// Load access token from database
-		$access_token = WPSEO_GWT::get()->get_access_token();
-
-		// If there is a access token in database, set it
-		if ( null !== $access_token ) {
-			$gwt_client->setAccessToken( $access_token );
-		}
-
 		// Check if there is an access token
-		if ( $gwt_client->getAccessToken() ) {
+		if ( null != $gwt_client->getAccessToken() ) {
 
 			//echo "<h2>Google Webmaster Tools Errors</h2>\n";
 
