@@ -1744,7 +1744,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 				// Keyword Density check
 				$keywordDensity = 0;
 				if ( $wordCount > 100 ) {
-					$keywordCount = preg_match_all( '`' . preg_quote( $job['keyword'], '`' ) . '`miu', $body, $res );
+					$keywordCount = preg_match_all( '`\b' . preg_quote( $job['keyword'], '`\b' ) . '`miu', $body, $res );
 					if ( ( $keywordCount > 0 && $keywordWordCount > 0 ) && $wordCount > $keywordCount ) {
 						$keywordDensity = wpseo_calc( wpseo_calc( $keywordCount, '/', wpseo_calc( $wordCount, '-', ( wpseo_calc( wpseo_calc( $keywordWordCount, '-', 1 ), '*', $keywordCount ) ) ) ), '*', 100, true, 2 );
 					}
