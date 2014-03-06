@@ -556,8 +556,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 						 * Note that only absolute local URLs are allowed as the check after this removes external URLs.
 						 *
 						 * @api string $url URL to use in the XML sitemap
-						 *
-*@param object $p Post object for the URL
+						 * @param object $p Post object for the URL
 						 */
 						$url['loc'] = apply_filters( 'wpseo_xml_sitemap_post_url', $url['loc'], $p );
 
