@@ -82,7 +82,7 @@ if ( ! function_exists( 'yoast_breadcrumb' ) ) {
 		if ( $options['breadcrumbs-enable'] === true ) {
 			$breadcrumbs = new WPSEO_Breadcrumbs();
 
-			$breadcrumbs_string = $breadcrumbs->breadcrumb( $before, $after, $display );
+			$breadcrumbs_string = $breadcrumbs->breadcrumb( $before, $after, false );
 		}
 
 		// Output $breadcrumbs_string is $display is true
