@@ -2045,7 +2045,7 @@ if ( ! class_exists( 'WPSEO_Option_XML' ) ) {
 		 *        Shouldn't be requested directly, use $this->get_defaults();
 		 */
 		protected $defaults = array(
-			'disable_author_sitemap' => false,
+			'disable_author_sitemap' => true,
 			'enablexmlsitemap'       => true,
 			'entries-per-page'       => 1000,
 			'xml_ping_yahoo'         => false,

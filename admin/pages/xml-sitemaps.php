@@ -43,6 +43,7 @@ else {
 	$content .= '<p>' . __( 'Save your settings to activate XML Sitemaps.', 'wordpress-seo' ) . '</p>';
 }
 
+// When we write the help tab for this we should definitely reference this plugin :http://wordpress.org/plugins/edit-author-slug/
 $content .= '<h2>' . __( 'User sitemap', 'wordpress-seo' ) . '</h2>';
 $content .= $wpseo_admin_pages->checkbox( 'disable_author_sitemap', __( 'Disable author/user sitemap', 'wordpress-seo' ), false );
 $content .= '<br/>';
