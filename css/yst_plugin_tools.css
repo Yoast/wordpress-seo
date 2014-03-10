@@ -67,11 +67,30 @@ label.radio {
 	margin-right: 20px;
 }
 
-
 #wpseo_content_top {
-	 min-width: 400px;
-	 max-width: 600px;
-	 padding: 0 20px 0 0;
+	 min-width: 800px;
+	 width: 100%;
+	 padding: 0 20px 0 261px;
+	margin-left: -261px;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	float: left;
+}
+
+#sidebar-container {
+	width: 261px;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	float: left;
+}
+
+@media(max-width: 1020px) {
+	#wpseo_content_top {
+		padding-left: 0;
+		margin-left: 0;
+	}
 }
 
 .page-wpseo_titles #wpseo_content_top {

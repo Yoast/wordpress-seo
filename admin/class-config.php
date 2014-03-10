@@ -120,7 +120,7 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 			}
 			shuffle( $banners );
 			?>
-			<div class="postbox-container" style="width:261px;">
+			<div class="postbox-container" id="sidebar-container">
 				<div id="sidebar">
 			<?php
 			$i = 0;
