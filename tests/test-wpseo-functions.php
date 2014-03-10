@@ -12,7 +12,7 @@ class WPSEO_Functions_Test extends WPSEO_UnitTestCase {
 			'enablexmlsitemap' => false
 		);
 
-		update_option('wpseo_xml', $options);
+		update_option( 'wpseo_xml', $options );
 	}
 
 	/*

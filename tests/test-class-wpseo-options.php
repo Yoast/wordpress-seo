@@ -15,8 +15,8 @@ class WPSEO_Option_Test extends WPSEO_UnitTestCase {
 		
 		// correct way to create a user? or use factory method?
 		global $current_user;
-		$current_user = new WP_User(1);
-		$current_user->set_role('administrator');
+		$current_user = new WP_User( 1 );
+		$current_user->set_role( 'administrator' );
 
 		$this->assertTrue( WPSEO_Options::grant_access() );
 	}
