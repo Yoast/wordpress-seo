@@ -169,7 +169,7 @@ class WPSEO_Premium {
 
 			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-premium-javascript-strings.php' );
 
-			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/product-wpseo-premium.php' );
+			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-product-wpseo-premium.php' );
 		}
 
 	}
