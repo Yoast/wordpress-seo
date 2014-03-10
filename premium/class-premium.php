@@ -98,7 +98,7 @@ class WPSEO_Premium {
 			add_filter( 'set-screen-option', array( 'WPSEO_Page_GWT', 'set_screen_option' ), 10, 3 );
 
 			// Licensing part
-			$license_manager = new Yoast_Plugin_License_Manager( new Yoast_WPSEO_Premium() );
+			$license_manager = new Yoast_Plugin_License_Manager( new Yoast_Product_WPSEO_Premium() );
 
 			// Setup constant name
 			$license_manager->set_license_constant_name( 'WPSEO_LICENSE' );
