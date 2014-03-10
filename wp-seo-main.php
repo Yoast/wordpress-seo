@@ -12,11 +12,13 @@ if ( !defined( 'DB_NAME' ) ) {
 if ( ! defined( 'WPSEO_PATH' ) ) {
 	define( 'WPSEO_PATH', plugin_dir_path( WPSEO_FILE ) );
 }
-if ( ! defined( 'WPSEO_BASENAME' ) ) {
+if ( ! function_exists( 'add_filter' ) ) {
 	define( 'WPSEO_BASENAME', WPSEO_FILE );
+	header( 'HTTP/1.1 403 Forbidden' );
+	exit();
 }
 
-function wpseo_load_textdomain() {
+// Load the WordPress SEO plugin
 	load_plugin_textdomain( 'wordpress-seo', false, dirname( plugin_basename( WPSEO_FILE ) ) . '/languages/' );
 }
 add_filter( 'wp_loaded', 'wpseo_load_textdomain' );
