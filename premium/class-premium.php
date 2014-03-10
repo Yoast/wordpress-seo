@@ -20,6 +20,7 @@ class WPSEO_Premium {
 
 	const OPTION_LICENSE_KEY    = 'wpseo_license_key';
 	const OPTION_LICENSE_STATUS = 'wpseo_license_status';
+	const OPTION_CURRENT_VERSION = 'wpseo_current_version';
 
 	const PLUGIN_VERSION_NAME = '1.0.4';
 	const PLUGIN_VERSION_CODE = '5';
