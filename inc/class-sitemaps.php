@@ -551,6 +551,16 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 						$url['loc'] = get_permalink( $p );
 
 						/**
+						 * Filter: 'wpseo_xml_sitemap_post_url' - Allow changing the URL WordPress SEO uses in the XML sitemap.
+						 *
+						 * Note that only absolute local URLs are allowed as the check after this removes external URLs.
+						 *
+						 * @api string $url URL to use in the XML sitemap
+						 * @param object $p Post object for the URL
+						 */
+						$url['loc'] = apply_filters( 'wpseo_xml_sitemap_post_url', $url['loc'], $p );
+
+						/**
 						 * Do not include external URLs.
 						 * @see http://wordpress.org/plugins/page-links-to/ can rewrite permalinks to external URLs.
 						 */

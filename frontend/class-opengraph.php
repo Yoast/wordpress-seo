@@ -37,8 +37,7 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 			global $fb_ver;
 			if ( isset( $fb_ver ) || class_exists( 'Facebook_Loader' ) ) {
 				add_filter( 'fb_meta_tags', array( $this, 'facebook_filter' ), 10, 1 );
-			}
-			else {
+			} else {
 				add_filter( 'language_attributes', array( $this, 'add_opengraph_namespace' ) );
 
 				add_action( 'wpseo_opengraph', array( $this, 'locale' ), 1 );
@@ -49,10 +48,12 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 				add_action( 'wpseo_opengraph', array( $this, 'url' ), 12 );
 				add_action( 'wpseo_opengraph', array( $this, 'site_name' ), 13 );
 				add_action( 'wpseo_opengraph', array( $this, 'website_facebook' ), 14 );
-				add_action( 'wpseo_opengraph', array( $this, 'article_author_facebook' ), 15 );
-				add_action( 'wpseo_opengraph', array( $this, 'tags' ), 16 );
-				add_action( 'wpseo_opengraph', array( $this, 'category' ), 17 );
-				add_action( 'wpseo_opengraph', array( $this, 'publish_date' ), 19 );
+				if ( is_singular() && ! is_front_page() ) {
+					add_action( 'wpseo_opengraph', array( $this, 'article_author_facebook' ), 15 );
+					add_action( 'wpseo_opengraph', array( $this, 'tags' ), 16 );
+					add_action( 'wpseo_opengraph', array( $this, 'category' ), 17 );
+					add_action( 'wpseo_opengraph', array( $this, 'publish_date' ), 19 );
+				}
 
 				add_action( 'wpseo_opengraph', array( $this, 'image' ), 30 );
 			}
@@ -131,8 +132,9 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 		 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
 		 */
 		public function article_author_facebook() {
-			if ( ! is_singular() )
+			if ( ! is_singular() ) {
 				return;
+			}
 
 			global $post;
 			/**
@@ -167,8 +169,7 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 		public function site_owner() {
 			if ( 0 != $this->options['fbadminapp'] ) {
 				$this->og_tag( 'fb:app_id', $this->options['fbadminapp'] );
-			}
-			elseif ( is_array( $this->options['fb_admins'] ) && $this->options['fb_admins'] !== array() ) {
+			} elseif ( is_array( $this->options['fb_admins'] ) && $this->options['fb_admins'] !== array() ) {
 				$adminstr = implode( ',', array_keys( $this->options['fb_admins'] ) );
 				/**
 				 * Filter: 'wpseo_opengraph_admin' - Allow developer to filter the fb:admins string put out by WP SEO
@@ -230,7 +231,7 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 		 *
 		 * Last update/compare with FB list done on July 14, 2013 by JRF
 		 * Results: 1 new locale added, found 32 in the below list which are not in the FB list (not removed), 76 OK.
-		 * @see http://www.facebook.com/translations/FacebookLocales.xml for the list of supported locales
+		 * @see  http://www.facebook.com/translations/FacebookLocales.xml for the list of supported locales
 		 *
 		 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
 		 *
@@ -248,15 +249,15 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 
 			// catch some weird locales served out by WP that are not easily doubled up.
 			$fix_locales = array(
-				'ca' => 'ca_ES',
-				'en' => 'en_US',
-				'el' => 'el_GR',
-				'et' => 'et_EE',
-				'ja' => 'ja_JP',
-				'sq' => 'sq_AL',
-				'uk' => 'uk_UA',
-				'vi' => 'vi_VN',
-				'zh' => 'zh_CN',
+					'ca' => 'ca_ES',
+					'en' => 'en_US',
+					'el' => 'el_GR',
+					'et' => 'et_EE',
+					'ja' => 'ja_JP',
+					'sq' => 'sq_AL',
+					'uk' => 'uk_UA',
+					'vi' => 'vi_VN',
+					'zh' => 'zh_CN',
 			);
 
 			if ( isset( $fix_locales[$locale] ) ) {
@@ -270,14 +271,14 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 
 			// These are the locales FB supports
 			$fb_valid_fb_locales = array(
-				'ca_ES', 'cs_CZ', 'cy_GB', 'da_DK', 'de_DE', 'eu_ES', 'en_PI', 'en_UD', 'ck_US', 'en_US', 'es_LA', 'es_CL', 'es_CO', 'es_ES', 'es_MX',
-				'es_VE', 'fb_FI', 'fi_FI', 'fr_FR', 'gl_ES', 'hu_HU', 'it_IT', 'ja_JP', 'ko_KR', 'nb_NO', 'nn_NO', 'nl_NL', 'pl_PL', 'pt_BR', 'pt_PT',
-				'ro_RO', 'ru_RU', 'sk_SK', 'sl_SI', 'sv_SE', 'th_TH', 'tr_TR', 'ku_TR', 'zh_CN', 'zh_HK', 'zh_TW', 'fb_LT', 'af_ZA', 'sq_AL', 'hy_AM',
-				'az_AZ', 'be_BY', 'bn_IN', 'bs_BA', 'bg_BG', 'hr_HR', 'nl_BE', 'en_GB', 'eo_EO', 'et_EE', 'fo_FO', 'fr_CA', 'ka_GE', 'el_GR', 'gu_IN',
-				'hi_IN', 'is_IS', 'id_ID', 'ga_IE', 'jv_ID', 'kn_IN', 'kk_KZ', 'la_VA', 'lv_LV', 'li_NL', 'lt_LT', 'mk_MK', 'mg_MG', 'ms_MY', 'mt_MT',
-				'mr_IN', 'mn_MN', 'ne_NP', 'pa_IN', 'rm_CH', 'sa_IN', 'sr_RS', 'so_SO', 'sw_KE', 'tl_PH', 'ta_IN', 'tt_RU', 'te_IN', 'ml_IN', 'uk_UA',
-				'uz_UZ', 'vi_VN', 'xh_ZA', 'zu_ZA', 'km_KH', 'tg_TJ', 'ar_AR', 'he_IL', 'ur_PK', 'fa_IR', 'sy_SY', 'yi_DE', 'gn_PY', 'qu_PE', 'ay_BO',
-				'se_NO', 'ps_AF', 'tl_ST', 'fy_NL',
+					'ca_ES', 'cs_CZ', 'cy_GB', 'da_DK', 'de_DE', 'eu_ES', 'en_PI', 'en_UD', 'ck_US', 'en_US', 'es_LA', 'es_CL', 'es_CO', 'es_ES', 'es_MX',
+					'es_VE', 'fb_FI', 'fi_FI', 'fr_FR', 'gl_ES', 'hu_HU', 'it_IT', 'ja_JP', 'ko_KR', 'nb_NO', 'nn_NO', 'nl_NL', 'pl_PL', 'pt_BR', 'pt_PT',
+					'ro_RO', 'ru_RU', 'sk_SK', 'sl_SI', 'sv_SE', 'th_TH', 'tr_TR', 'ku_TR', 'zh_CN', 'zh_HK', 'zh_TW', 'fb_LT', 'af_ZA', 'sq_AL', 'hy_AM',
+					'az_AZ', 'be_BY', 'bn_IN', 'bs_BA', 'bg_BG', 'hr_HR', 'nl_BE', 'en_GB', 'eo_EO', 'et_EE', 'fo_FO', 'fr_CA', 'ka_GE', 'el_GR', 'gu_IN',
+					'hi_IN', 'is_IS', 'id_ID', 'ga_IE', 'jv_ID', 'kn_IN', 'kk_KZ', 'la_VA', 'lv_LV', 'li_NL', 'lt_LT', 'mk_MK', 'mg_MG', 'ms_MY', 'mt_MT',
+					'mr_IN', 'mn_MN', 'ne_NP', 'pa_IN', 'rm_CH', 'sa_IN', 'sr_RS', 'so_SO', 'sw_KE', 'tl_PH', 'ta_IN', 'tt_RU', 'te_IN', 'ml_IN', 'uk_UA',
+					'uz_UZ', 'vi_VN', 'xh_ZA', 'zu_ZA', 'km_KH', 'tg_TJ', 'ar_AR', 'he_IL', 'ur_PK', 'fa_IR', 'sy_SY', 'yi_DE', 'gn_PY', 'qu_PE', 'ay_BO',
+					'se_NO', 'ps_AF', 'tl_ST', 'fy_NL',
 			);
 
 			// check to see if the locale is a valid FB one, if not, use en_US as a fallback
@@ -302,17 +303,16 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 		 * @return string $type
 		 */
 		public function type( $echo = true ) {
-			if ( is_singular() ) {
+			if ( is_front_page() || is_home() ) {
+				$type = 'website';
+			}
+			elseif ( is_singular() ) {
 				// This'll usually only be changed by plugins right now.
 				$type = WPSEO_Meta::get_value( 'og_type' );
 				if ( $type === '' ) {
 					$type = 'article';
 				}
-			}
-			elseif ( is_front_page() || is_home() ) {
-				$type = 'website';
-			}
-			// We use "object" for archives etc. as article doesn't apply there
+			}  // We use "object" for archives etc. as article doesn't apply there
 			else {
 				$type = 'object';
 			}
@@ -326,8 +326,7 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 			if ( is_string( $type ) && $type !== '' ) {
 				if ( $echo !== false ) {
 					$this->og_tag( 'og:type', $type );
-				}
-				else {
+				} else {
 					return $type;
 				}
 			}
@@ -396,6 +395,7 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 				$ogimg = WPSEO_Meta::get_value( 'opengraph-image' );
 				if ( $ogimg !== '' ) {
 					$this->image_output( $ogimg );
+
 					return;
 				}
 
@@ -463,7 +463,7 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 			if ( is_tax() ) {
 				$ogdesc = trim( strip_tags( term_description() ) );
 			}
-			
+
 			// Strip shortcodes if any
 			$ogdesc = strip_shortcodes( $ogdesc );
 
@@ -479,6 +479,7 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 					$this->og_tag( 'og:description', $ogdesc );
 				}
 			}
+
 			return $ogdesc;
 		}
 
@@ -503,8 +504,9 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 		 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
 		 */
 		public function tags() {
-			if ( ! is_singular() )
+			if ( ! is_singular() ) {
 				return;
+			}
 
 			$tags = get_the_tags();
 			if ( ! is_wp_error( $tags ) && ( is_array( $tags ) && $tags !== array() ) ) {
@@ -520,8 +522,9 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 		 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
 		 */
 		public function category() {
-			if ( ! is_singular() )
+			if ( ! is_singular() ) {
 				return;
+			}
 
 			$terms = get_the_category();
 			if ( ! is_wp_error( $terms ) && ( is_array( $terms ) && $terms !== array() ) ) {
@@ -537,8 +540,9 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 		 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
 		 */
 		public function publish_date() {
-			if ( ! is_singular() )
+			if ( ! is_singular() ) {
 				return;
+			}
 
 			$pub = get_the_date( 'c' );
 			$this->og_tag( 'article:published_time', $pub );

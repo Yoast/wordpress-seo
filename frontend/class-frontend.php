@@ -1115,12 +1115,13 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 		}
 
 		/**
-		 * Send a Robots HTTP header preventing feeds from being indexed in the search results while allowing search engines to follow the links in the feed.
+		 * Send a Robots HTTP header preventing URL from being indexed in the search results while allowing search engines
+		 * to follow the links in the object at the URL.
 		 *
 		 * @since 1.1.7
 		 */
 		public function noindex_feed() {
-			if ( is_feed() && headers_sent() === false ) {
+			if ( ( is_feed() || is_robots() ) && headers_sent() === false ) {
 				header( 'X-Robots-Tag: noindex,follow', true );
 			}
 		}
