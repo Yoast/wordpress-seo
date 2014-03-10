@@ -18,8 +18,6 @@ if ( ! defined( 'WPSEO_PREMIUM_FILE' ) ) {
 
 class WPSEO_Premium {
 
-	const OPTION_LICENSE_KEY    = 'wpseo_license_key';
-	const OPTION_LICENSE_STATUS = 'wpseo_license_status';
 	const OPTION_CURRENT_VERSION = 'wpseo_current_version';
 
 	const PLUGIN_VERSION_NAME = '1.0.4';
@@ -55,8 +53,10 @@ class WPSEO_Premium {
 
 		if ( is_admin() ) {
 
-			// Create License_Manager
-			new WPSEO_License_Manager();
+			// Upgrade Manager
+			$plugin_updater = new WPSEO_Upgrade_Manager();
+			$plugin_updater->check_update();
+
 
 			// Initiate GWT class
 			WPSEO_GWT::get();
@@ -109,23 +109,6 @@ class WPSEO_Premium {
 			// Add this plugin to licensing form
 			add_action( 'wpseo_licenses_forms', array( $license_manager, 'show_license_form') );
 
-			// EDD - Retrieve our license key from the DB
-			/*
-			if ( defined( 'WPSEO_LICENSE' ) ) {
-				$license_key = WPSEO_LICENSE;
-			} else {
-				$license_key = trim( get_option( self::OPTION_LICENSE_KEY ) );
-			}
-
-			// EDD - Setup the updater
-			$edd_updater = new WPSEO_EDD_SL_Plugin_Updater( self::EDD_STORE_URL, WPSEO_FILE, array(
-							'version'   => self::PLUGIN_VERSION_NAME,
-							'license'   => $license_key,
-							'item_name' => self::EDD_PLUGIN_NAME,
-							'author'    => self::PLUGIN_AUTHOR
-					)
-			);
-			*/
 		} else {
 			// Catch redirect
 			add_action( 'template_redirect', array( 'WPSEO_Redirect_Manager', 'do_redirects' ) );
@@ -150,10 +133,6 @@ class WPSEO_Premium {
 		// Separate backend and frontend files
 		if ( is_admin() ) {
 
-			// Load the EDD license handler only if not already loaded. Must be placed in the main plugin file
-			require_once( WPSEO_PREMIUM_PATH . '/classes/admin/edd/EDD_SL_Plugin_Updater.php' );
-			require_once( WPSEO_PREMIUM_PATH . '/classes/admin/class-license-manager.php' );
-
 			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-gwt-google-client.php' );
 			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-gwt-service.php' );
 			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-gwt.php' );
@@ -169,6 +148,8 @@ class WPSEO_Premium {
 			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/pages/class-page-redirect.php' );
 
 			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-premium-javascript-strings.php' );
+
+			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-upgrade-manager.php' );
 
 			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-product-wpseo-premium.php' );
 		}
