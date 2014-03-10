@@ -24,7 +24,7 @@ class WPSEO_Premium {
 	const PLUGIN_VERSION_NAME = '1.0.4';
 	const PLUGIN_VERSION_CODE = '5';
 	const PLUGIN_AUTHOR       = 'Yoast';
-	const EDD_STORE_URL       = 'http://www.yoast.com';
+	const EDD_STORE_URL       = 'https://yoast.com';
 	const EDD_PLUGIN_NAME     = 'WordPress SEO Premium';
 
 	/**
@@ -96,7 +96,20 @@ class WPSEO_Premium {
 			add_filter( 'set-screen-option', array( 'WPSEO_Page_Redirect', 'set_screen_option' ), 10, 3 );
 			add_filter( 'set-screen-option', array( 'WPSEO_Page_GWT', 'set_screen_option' ), 10, 3 );
 
+			// Licensing part
+			$license_manager = new Yoast_Plugin_License_Manager( new Yoast_WPSEO_Premium() );
+
+			// Setup constant name
+			$license_manager->set_license_constant_name( 'WPSEO_LICENSE' );
+
+			// Setup hooks
+			$license_manager->setup_hooks();
+
+			// Add this plugin to licensing form
+			add_action( 'wpseo_licenses_forms', array( $license_manager, 'show_license_form') );
+
 			// EDD - Retrieve our license key from the DB
+			/*
 			if ( defined( 'WPSEO_LICENSE' ) ) {
 				$license_key = WPSEO_LICENSE;
 			} else {
@@ -111,6 +124,7 @@ class WPSEO_Premium {
 							'author'    => self::PLUGIN_AUTHOR
 					)
 			);
+			*/
 		} else {
 			// Catch redirect
 			add_action( 'template_redirect', array( 'WPSEO_Redirect_Manager', 'do_redirects' ) );
@@ -154,6 +168,8 @@ class WPSEO_Premium {
 			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/pages/class-page-redirect.php' );
 
 			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-premium-javascript-strings.php' );
+
+			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/product-wpseo-premium.php' );
 		}
 
 	}
