@@ -69,8 +69,8 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 		 */
 		function admin_sidebar() {
 
-			// Make the sidebar filterable
-			if ( false === apply_filters( 'wpseo_sidebar_banners', true ) ) {
+			// No banners in Premium
+			if ( class_exists( 'WPSEO_Premium' ) ) {
 				return;
 			}
 
