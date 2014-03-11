@@ -277,7 +277,6 @@ input.wpseo-new-title, textarea.wpseo-new-metadesc {
 	margin: 10px 20px 10px 0;
 	float: left;
 	border: 1px solid #ccc;
-	background: no-repeat left 10px;
 }
 
 .wpseotab .extension p {
@@ -291,24 +290,29 @@ input.wpseo-new-title, textarea.wpseo-new-metadesc {
 	margin: 0;
 	padding: 20px 10px 0 120px;
 	border-bottom: 1px solid #ccc;
+	background: #fff no-repeat left 10px;
 }
 
-.wpseotab .seo-premium {
+.wpseotab .extension a {
+	text-decoration: none;
+}
+
+.wpseotab .seo-premium h3 {
 	background-image: url(../images/Premium_130x100.png);
 }
 
-.wpseotab .video-seo {
+.wpseotab .video-seo h3 {
 	background-image: url(../images/Video_130x100.png);
 }
 
-.wpseotab .video-manuals {
+.wpseotab .video-manuals h3 {
 	background-image: url(../images/Manual_130x100.png);
 }
 
-.wpseotab .local-seo {
+.wpseotab .local-seo h3 {
 	background-image: url(../images/Local_130x100.png);
 }
 
-.wpseotab .woocommerce-seo {
+.wpseotab .woocommerce-seo h3 {
 	background-image: url(../images/Woo_130x100.png);
 }

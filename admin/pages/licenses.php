@@ -25,29 +25,29 @@ global $wpseo_admin_pages;
 	<div class="tabwrapper">
 		<div id="extensions" class="wpseotab">
 			<div class="extension seo-premium">
-				<h3>WordPress SEO Premium</h3>
+				<a target="_blank" href="https://yoast.com/wordpress/plugins/seo-premium/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=extension-page-banners"><h3>WordPress SEO Premium</h3></a>
 				<p>The premium version of WordPress SEO with more features & support.</p>
-				<p><a href="https://yoast.com/wordpress/plugins/seo-premium/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=extension-page-banners" class="button-primary">Get this extension</a></p>
+				<p><a target="_blank" href="https://yoast.com/wordpress/plugins/seo-premium/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=extension-page-banners" class="button-primary">Get this extension</a></p>
 			</div>
 			<div class="extension video-seo">
-				<h3>Video SEO</h3>
+				<a target="_blank" href="https://yoast.com/wordpress/plugins/video-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=extension-page-banners"><h3>Video SEO</h3></a>
 				<p>Optimize your videos to show them off in search results and get more clicks!</p>
-				<p><a href="https://yoast.com/wordpress/plugins/video-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=extension-page-banners" class="button-primary">Get this extension</a></p>
+				<p><a target="_blank" href="https://yoast.com/wordpress/plugins/video-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=extension-page-banners" class="button-primary">Get this extension</a></p>
 			</div>
 			<div class="extension local-seo">
-				<h3>Local SEO</h3>
+				<a target="_blank" href="https://yoast.com/wordpress/plugins/local-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=extension-page-banners"><h3>Local SEO</h3></a>
 				<p>Rank better locally and in Google Maps, without breaking a sweat!</p>
-				<p><a href="https://yoast.com/wordpress/plugins/local-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=extension-page-banners" class="button-primary">Get this extension</a></p>
+				<p><a target="_blank" href="https://yoast.com/wordpress/plugins/local-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=extension-page-banners" class="button-primary">Get this extension</a></p>
 			</div>
 			<div class="extension video-manuals">
-				<h3>WordPress SEO Training Videos</h3>
+				<a target="_blank" href="https://yoast.com/wordpress/plugins/video-manual-wordpress-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=extension-page-banners"><h3>WordPress SEO Training Videos</h3></a>
 				<p>Spend less time training your clients on how to use the WordPress SEO plugin!</p>
-				<p><a href="https://yoast.com/wordpress/plugins/video-manual-wordpress-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=extension-page-banners" class="button-primary">Get this extension</a></p>
+				<p><a target="_blank" href="https://yoast.com/wordpress/plugins/video-manual-wordpress-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=extension-page-banners" class="button-primary">Get this extension</a></p>
 			</div>
 			<div class="extension woocommerce-seo">
-				<h3>Yoast WooCommerce SEO</h3>
+				<a target="_blank" href="https://yoast.com/wordpress/plugins/yoast-woocommerce-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=extension-page-banners"><h3>Yoast WooCommerce SEO</h3></a>
 				<p>Seamlessly integrate WooCommerce with WordPress SEO and get extra features!</p>
-				<p><a href="https://yoast.com/wordpress/plugins/yoast-woocommerce-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=extension-page-banners" class="button-primary">Get this extension</a></p>
+				<p><a target="_blank" href="https://yoast.com/wordpress/plugins/yoast-woocommerce-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=extension-page-banners" class="button-primary">Get this extension</a></p>
 			</div>
 		</div>
 		<div id="licenses" class="wpseotab">
