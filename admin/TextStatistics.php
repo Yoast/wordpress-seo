@@ -165,7 +165,11 @@ if ( ! class_exists( 'Yoast_TextStatistics' ) ) {
 		 * @return string
 		 */
 		protected function lower_case( $strText ) {
-			$strLowerCaseText = '';
+
+			if ( ! $this->blnMbstring ) {
+				return strtolower( $strText );
+			}
+
 			try {
 				if ( $this->strEncoding == '' ) {
 					$strLowerCaseText = mb_strtolower( $strText );
@@ -186,7 +190,10 @@ if ( ! class_exists( 'Yoast_TextStatistics' ) ) {
 		 * @return string
 		 */
 		protected function upper_case( $strText ) {
-			$strUpperCaseText = '';
+			if ( ! $this->blnMbstring ) {
+				return strtoupper( $strText );
+			}
+
 			try {
 				if ( $this->strEncoding == '' ) {
 					$strUpperCaseText = mb_strtoupper( $strText );
