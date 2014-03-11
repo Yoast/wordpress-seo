@@ -70,9 +70,12 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 		 */
 		function admin_sidebar() {
 
-			// Make the sidebar filterable
-			if ( false === apply_filters( 'wpseo_sidebar_banners', true ) ) {
-				return;
+			// No banners in Premium
+			if ( class_exists( 'Yoast_Product_WPSEO_Premium' ) ) {
+				$license_manager = new Yoast_Plugin_License_Manager( new Yoast_Product_WPSEO_Premium() );
+				if ( $license_manager->license_is_valid() ) {
+					return;
+				}
 			}
 
 			$banners = array(
