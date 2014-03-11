@@ -31,7 +31,6 @@ input.textinput, textarea.textinput, select.select, input.checkbox {
 }
 
 label.radio {
-	margin-left: 20px;
 	margin-left: auto;
 }
 

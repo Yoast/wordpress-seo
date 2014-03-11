@@ -3,15 +3,28 @@
  * @package Admin
  */
 
-if ( !defined('WPSEO_VERSION') ) {
-	header('HTTP/1.0 403 Forbidden');
-	die;
+if ( ! defined( 'WPSEO_VERSION' ) ) {
+	header( 'Status: 403 Forbidden' );
+	header( 'HTTP/1.1 403 Forbidden' );
+	exit();
 }
 
 global $wpseo_admin_pages;
 
-$wpseo_admin_pages->admin_header( true, 'yoast_wpseo_permalinks_options', 'wpseo_permalinks' );
-$content = $wpseo_admin_pages->checkbox( 'stripcategorybase', __( 'Strip the category base (usually <code>/category/</code>) from the category URL.', 'wordpress-seo' ) );
+$wpseo_admin_pages->admin_header( true, WPSEO_Options::get_group_name( 'wpseo_permalinks' ), 'wpseo_permalinks' );
+
+$options = get_option( 'wpseo_permalinks' );
+
+$content = '';
+if ( $options['stripcategorybase'] ) {
+	$content = '<div class="error-message">';
+	$content .= '<p>' . sprintf( __('The feature for stripping the category base will be removed in version 1.6 of WordPress SEO. We suggest using %1$sFV Top Level Categories%2$s if you insist on keeping this but do know that the feature is very error prone and not <em>that</em> important for your SEO.','wordpress-seo'), '<a href="http://wordpress.org/plugins/fv-top-level-cats/">', '</a>' ) .'</p>';
+	$content .= '<p>' . __('As soon as you disable the feature below, the option will no longer be available.','wordpress-seo') . '</p>';
+	$content .= $wpseo_admin_pages->checkbox( 'stripcategorybase', __( 'Strip the category base (usually <code>/category/</code>) from the category URL.', 'wordpress-seo' ) );
+	$content .= '</div>';
+	$content .= '<br/><br/>';
+}
+
 $content .= $wpseo_admin_pages->checkbox( 'trailingslash', __( 'Enforce a trailing slash on all category and tag URL\'s', 'wordpress-seo' ) );
 $content .= '<p class="desc">' . __( 'If you choose a permalink for your posts with <code>.html</code>, or anything else but a / on the end, this will force WordPress to add a trailing slash to non-post pages nonetheless.', 'wordpress-seo' ) . '</p>';
 
@@ -29,20 +42,23 @@ $content .= '<p class="desc">' . __( 'People make mistakes in their links toward
 
 $wpseo_admin_pages->postbox( 'permalinks', __( 'Permalink Settings', 'wordpress-seo' ), $content );
 
-$content = $wpseo_admin_pages->select( 'force_transport', __( 'Force Transport', 'wordpress-seo' ), array( 'default' => __( 'Leave default', 'wordpress-seo' ), 'http' => __( 'Force http', 'wordpress-seo' ), 'https' => __( 'Force https', 'wordpress-seo' ) ) );
+/* @internal Important: Make sure the options added to the array here are in line with the options set in the WPSEO_Option_Permalinks::$force_transport_options property */
+$content  = $wpseo_admin_pages->select( 'force_transport', __( 'Force Transport', 'wordpress-seo' ), array( 'default' => __( 'Leave default', 'wordpress-seo' ), 'http' => __( 'Force http', 'wordpress-seo' ), 'https' => __( 'Force https', 'wordpress-seo' ) ) );
 $content .= '<p class="desc label">' . __( 'Force the canonical to either http or https, when your blog runs under both.', 'wordpress-seo' ) . '</p>';
 
 $wpseo_admin_pages->postbox( 'canonical', __( 'Canonical Settings', 'wordpress-seo' ), $content );
 
-$content = $wpseo_admin_pages->checkbox( 'cleanpermalink-googlesitesearch', __( 'Prevent cleaning out Google Site Search URL\'s.', 'wordpress-seo' ) );
+
+$content  = $wpseo_admin_pages->checkbox( 'cleanpermalink-googlesitesearch', __( 'Prevent cleaning out Google Site Search URL\'s.', 'wordpress-seo' ) );
 $content .= '<p class="desc">' . __( 'Google Site Search URL\'s look weird, and ugly, but if you\'re using Google Site Search, you probably do not want them cleaned out.', 'wordpress-seo' ) . '</p>';
 
 $content .= $wpseo_admin_pages->checkbox( 'cleanpermalink-googlecampaign', __( 'Prevent cleaning out Google Analytics Campaign Parameters.', 'wordpress-seo' ) );
 $content .= '<p class="desc">' . __( 'If you use Google Analytics campaign parameters starting with <code>?utm_</code>, check this box. You shouldn\'t use these btw, you should instead use the hash tagged version instead.', 'wordpress-seo' ) . '</p>';
 
 $content .= $wpseo_admin_pages->textinput( 'cleanpermalink-extravars', __( 'Other variables not to clean', 'wordpress-seo' ) );
-$content .= '<p class="desc">' . __( 'You might have extra variables you want to prevent from cleaning out, add them here, comma separarted.', 'wordpress-seo' ) . '</p>';
+$content .= '<p class="desc">' . __( 'You might have extra variables you want to prevent from cleaning out, add them here, comma separated.', 'wordpress-seo' ) . '</p>';
 
 $wpseo_admin_pages->postbox( 'cleanpermalinksdiv', __( 'Clean Permalink Settings', 'wordpress-seo' ), $content );
+
 
 $wpseo_admin_pages->admin_footer();
