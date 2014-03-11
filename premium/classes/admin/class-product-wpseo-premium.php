@@ -9,7 +9,7 @@ class Yoast_Product_WPSEO_Premium extends Yoast_Product {
 				plugin_basename( WPSEO_FILE ),
 				WPSEO_Premium::PLUGIN_VERSION_NAME,
 				'https://yoast.com/wordpress/plugins/seo-premium/',
-				'admin.php?page=wpseo_licenses',
+				'admin.php?page=wpseo_licenses#top#licenses',
 				'wordpress-seo',
 				WPSEO_Premium::PLUGIN_AUTHOR
 		);
