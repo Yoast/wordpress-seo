@@ -27,18 +27,20 @@ if ( ! class_exists( 'WPSEO_Pointers' ) ) {
 		 * Class constructor.
 		 */
 		private function __construct() {
-			$options = get_option( 'wpseo' );
-			if ( $options['tracking_popup_done'] === false || $options['ignore_tour'] === false ) {
-				wp_enqueue_style( 'wp-pointer' );
-				wp_enqueue_script( 'jquery-ui' );
-				wp_enqueue_script( 'wp-pointer' );
-				wp_enqueue_script( 'utils' );
-			}
-			if ( $options['tracking_popup_done'] === false && ! isset( $_GET['allow_tracking'] ) ) {
-				add_action( 'admin_print_footer_scripts', array( $this, 'tracking_request' ) );
-			}
-			elseif ( $options['ignore_tour'] === false ) {
-				add_action( 'admin_print_footer_scripts', array( $this, 'intro_tour' ) );
+			if ( current_user_can( 'manage_options' ) ) {
+				$options = get_option( 'wpseo' );
+				if ( $options['tracking_popup_done'] === false || $options['ignore_tour'] === false ) {
+					wp_enqueue_style( 'wp-pointer' );
+					wp_enqueue_script( 'jquery-ui' );
+					wp_enqueue_script( 'wp-pointer' );
+					wp_enqueue_script( 'utils' );
+				}
+				if ( $options['tracking_popup_done'] === false && ! isset( $_GET['allow_tracking'] ) ) {
+					add_action( 'admin_print_footer_scripts', array( $this, 'tracking_request' ) );
+				}
+				elseif ( $options['ignore_tour'] === false ) {
+					add_action( 'admin_print_footer_scripts', array( $this, 'intro_tour' ) );
+				}
 			}
 		}
 
