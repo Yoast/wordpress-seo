@@ -109,6 +109,10 @@ class WPSEO_Premium {
 			// Add this plugin to licensing form
 			add_action( 'wpseo_licenses_forms', array( $license_manager, 'show_license_form') );
 
+			if ( $license_manager->license_is_valid() ) {
+				add_action( 'admin_head', array( $this, 'admin_css' ) );
+			}
+
 		} else {
 			// Catch redirect
 			add_action( 'template_redirect', array( 'WPSEO_Redirect_Manager', 'do_redirects' ) );
@@ -249,6 +253,13 @@ class WPSEO_Premium {
 			wp_redirect( $url );
 			exit;
 		}
+	}
+
+	/**
+	 * Output admin css in admin head
+	 */
+	public function admin_css() {
+		echo "<style type='text/css'>#wpseo_content_top{ padding-left: 0; margin-left: 0; }</style>";
 	}
 
 }
