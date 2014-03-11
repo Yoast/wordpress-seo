@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: WordPress SEO Premium
-Version: 1.0.4
+Version: 1.0.5
 Plugin URI: http://yoast.com/wordpress/seo-premium/#utm_source=wpadmin&utm_medium=plugin&utm_campaign=wpseoplugin
 Description: The first true all-in-one SEO solution for WordPress, including on-page content analysis, XML sitemaps and much more.
 Author: Joost de Valk
