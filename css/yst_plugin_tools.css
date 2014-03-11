@@ -93,12 +93,6 @@ label.radio {
 	}
 }
 
-.page-wpseo_titles #wpseo_content_top {
-	padding: 0;
-	max-width: 650px;
-	float: left;
-}
-
 .wpseo-admin-page .form-table tr,
 .wpseo-admin-page .form-table th,
 .wpseo-admin-page .form-table td {
