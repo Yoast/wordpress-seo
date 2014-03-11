@@ -38,6 +38,7 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 			'wpseo_social',
 			'wpseo_bulk-title-editor',
 			'wpseo_bulk-description-editor',
+			'wpseo_licenses',
 		);
 
 		/**
