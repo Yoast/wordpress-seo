@@ -1,0 +1,3 @@
+[submodule "admin/license-manager"]
+	path = admin/license-manager
+	url = git@github.com:Yoast/License-Manager.git

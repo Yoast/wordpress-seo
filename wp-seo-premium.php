@@ -27,8 +27,6 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-define( 'WPSEO_VERSION', '1.4.25' ); // this will be moved to wp-seo-main.php after wordpress-seo/release/1.5 is merged
-
 if ( ! defined( 'WPSEO_FILE' ) ) {
 	define( 'WPSEO_FILE', __FILE__ );
 }

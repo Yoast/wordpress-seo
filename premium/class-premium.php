@@ -18,13 +18,12 @@ if ( ! defined( 'WPSEO_PREMIUM_FILE' ) ) {
 
 class WPSEO_Premium {
 
-	const OPTION_LICENSE_KEY    = 'wpseo_license_key';
-	const OPTION_LICENSE_STATUS = 'wpseo_license_status';
+	const OPTION_CURRENT_VERSION = 'wpseo_current_version';
 
 	const PLUGIN_VERSION_NAME = '1.1.0-beta1';
 	const PLUGIN_VERSION_CODE = '5';
 	const PLUGIN_AUTHOR       = 'Yoast';
-	const EDD_STORE_URL       = 'http://www.yoast.com';
+	const EDD_STORE_URL       = 'https://yoast.com';
 	const EDD_PLUGIN_NAME     = 'WordPress SEO Premium';
 
 	private $page_gwt					= null;
@@ -56,8 +55,10 @@ class WPSEO_Premium {
 
 		if ( is_admin() ) {
 
-			// Create License_Manager
-			new WPSEO_License_Manager();
+			// Upgrade Manager
+			$plugin_updater = new WPSEO_Upgrade_Manager();
+			$plugin_updater->check_update();
+
 
 			// Create pages
 			$this->page_gwt = new WPSEO_Page_GWT();
@@ -98,21 +99,22 @@ class WPSEO_Premium {
 			add_filter( 'set-screen-option', array( 'WPSEO_Page_Redirect', 'set_screen_option' ), 10, 3 );
 			add_filter( 'set-screen-option', array( $this->page_gwt, 'set_screen_option' ), 10, 3 );
 
-			// EDD - Retrieve our license key from the DB
-			if ( defined( 'WPSEO_LICENSE' ) ) {
-				$license_key = WPSEO_LICENSE;
-			} else {
-				$license_key = trim( get_option( self::OPTION_LICENSE_KEY ) );
+			// Licensing part
+			$license_manager = new Yoast_Plugin_License_Manager( new Yoast_Product_WPSEO_Premium() );
+
+			// Setup constant name
+			$license_manager->set_license_constant_name( 'WPSEO_LICENSE' );
+
+			// Setup hooks
+			$license_manager->setup_hooks();
+
+			// Add this plugin to licensing form
+			add_action( 'wpseo_licenses_forms', array( $license_manager, 'show_license_form') );
+
+			if ( $license_manager->license_is_valid() ) {
+				add_action( 'admin_head', array( $this, 'admin_css' ) );
 			}
 
-			// EDD - Setup the updater
-			$edd_updater = new WPSEO_EDD_SL_Plugin_Updater( self::EDD_STORE_URL, WPSEO_FILE, array(
-							'version'   => self::PLUGIN_VERSION_NAME,
-							'license'   => $license_key,
-							'item_name' => self::EDD_PLUGIN_NAME,
-							'author'    => self::PLUGIN_AUTHOR
-					)
-			);
 		} else {
 			// Catch redirect
 			add_action( 'template_redirect', array( 'WPSEO_Redirect_Manager', 'do_redirects' ) );
@@ -137,10 +139,6 @@ class WPSEO_Premium {
 		// Separate backend and frontend files
 		if ( is_admin() ) {
 
-			// Load the EDD license handler only if not already loaded. Must be placed in the main plugin file
-			require_once( WPSEO_PREMIUM_PATH . '/classes/admin/edd/EDD_SL_Plugin_Updater.php' );
-			require_once( WPSEO_PREMIUM_PATH . '/classes/admin/class-license-manager.php' );
-
 			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-gwt-google-client.php' );
 			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-gwt-service.php' );
 			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-gwt.php' );
@@ -159,6 +157,10 @@ class WPSEO_Premium {
 			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/pages/class-page-redirect.php' );
 
 			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-premium-javascript-strings.php' );
+
+			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-upgrade-manager.php' );
+
+			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-product-wpseo-premium.php' );
 		}
 
 	}
@@ -256,6 +258,13 @@ class WPSEO_Premium {
 			wp_redirect( $url );
 			exit;
 		}
+	}
+
+	/**
+	 * Output admin css in admin head
+	 */
+	public function admin_css() {
+		echo "<style type='text/css'>#wpseo_content_top{ padding-left: 0; margin-left: 0; }</style>";
 	}
 
 }

@@ -47,3 +47,8 @@ temp/
 .Trashes
 
 .svn
+
+############
+## WPSEO
+############
+travis.sh
