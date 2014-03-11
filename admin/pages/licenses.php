@@ -22,43 +22,6 @@ global $wpseo_admin_pages;
 		<a class="nav-tab" id="licenses-tab" href="#top#licenses"><?php _e( 'Licenses', 'wordpress-seo' );?></a>
 	</h2>
 
-	<style>
-		.wpseotab .extension {
-			box-sizing: border-box;
-			width: 300px;
-			height: 230px;
-			margin: 10px 20px 10px 0;
-			float: left;
-			border: 1px solid #ccc;
-			background: no-repeat left 10px;
-		}
-		.wpseotab .extension p {
-			margin: 0;
-			padding: 10px;
-		}
-		.wpseotab .extension h3 {
-			box-sizing: border-box;
-			height: 110px;
-			margin: 0;
-			padding: 20px 10px 0 120px;
-			border-bottom: 1px solid #ccc;
-		}
-		.wpseotab .seo-premium {
-			background-image: url(https://yoast.com/wp-content/themes/yoast-theme/images/plugin-banners/Premium_130x100.png);
-		}
-		.wpseotab .video-seo {
-			background-image: url(https://yoast.com/wp-content/themes/yoast-theme/images/plugin-banners/Video_130x100.png);
-		}
-		.wpseotab .video-manuals {
-			background-image: url(https://yoast.com/wp-content/themes/yoast-theme/images/plugin-banners/Manual_130x100.png);
-		}
-		.wpseotab .local-seo {
-			background-image: url(https://yoast.com/wp-content/themes/yoast-theme/images/plugin-banners/Local_130x100.png);
-		}
-		.wpseotab .woocommerce-seo {
-			background-image: url(https://yoast.com/wp-content/themes/yoast-theme/images/plugin-banners/Woo_130x100.png);
-		}
-	</style>
 	<div class="tabwrapper">
 		<div id="extensions" class="wpseotab">
 			<div class="extension seo-premium">
