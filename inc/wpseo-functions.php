@@ -34,8 +34,13 @@ function wpseo_do_upgrade() {
 	}
 
 	if ( version_compare( $option_wpseo['version'], '1.5.0', '<' ) ) {
+
+		// Clean up options and meta
 		WPSEO_Options::clean_up( null, $option_wpseo['version'] );
 		WPSEO_Meta::clean_up();
+
+		// Add new capabilities on upgrade
+		wpseo_add_capabilities();
 	}
 	
 	// Make sure version nr gets updated for any version without specific upgrades
