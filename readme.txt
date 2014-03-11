@@ -106,6 +106,13 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 
 == Changelog ==
 
+= Trunk =
+
+* i18n Updates
+	* Updated nl_NL, id_ID, it_IT, fr_FR and de_DE
+	* Added ko
+	* Updated .pot file.
+
 = 1.5.2 =
 
 Bugfix:
