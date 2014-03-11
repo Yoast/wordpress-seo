@@ -78,7 +78,7 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 			return;
 		}
 
-		
+
 
 			$banners = array(
 				array(
