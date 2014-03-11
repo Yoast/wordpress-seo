@@ -70,12 +70,15 @@ if ( ! class_exists( 'Yoast_TextStatistics' ) ) {
 		/**
 		 * Gives string length.
 		 *
-
-		 * @param  string $strText      Text to be measured
+		 * @param  string $strText Text to be measured
+		 *
 		 * @return int
 		 */
 		public function text_length( $strText ) {
-			$intTextLength = 0;
+			if ( ! $this->blnMbstring ) {
+				return strlen( $strText );
+			}
+
 			try {
 				if ( $this->strEncoding == '' ) {
 					$intTextLength = mb_strlen( $strText );
@@ -92,13 +95,18 @@ if ( ! class_exists( 'Yoast_TextStatistics' ) ) {
 		/**
 		 * Gives letter count (ignores all non-letters). Tries mb_strlen and if that fails uses regular strlen.
 		 *
-		 * @param string $strText      Text to be measured
+		 * @param string $strText Text to be measured
+		 *
 		 * @return int
 		 */
 		public function letter_count( $strText ) {
 			$strText       = $this->clean_text( $strText ); // To clear out newlines etc
-			$intTextLength = 0;
-			$strText	   = preg_replace( '`[^A-Za-z]+`', '', $strText );
+			$strText       = preg_replace( '`[^A-Za-z]+`', '', $strText );
+
+			if ( ! $this->blnMbstring ) {
+				return strlen( $strText );
+			}
+
 			try {
 				if ( $this->strEncoding == '' ) {
 					$intTextLength = mb_strlen( $strText );
