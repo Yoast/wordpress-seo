@@ -171,10 +171,12 @@ if ( $error )
 		echo'<p class="desc">' . __( 'Add Open Graph meta data to your site\'s <code>&lt;head&gt;</code> section. You can specify some of the ID\'s that are sometimes needed below:', 'wordpress-seo' ) . '</p>';
 		echo $fbconnect;
 		echo $wpseo_admin_pages->textinput( 'facebook_site', __( 'Facebook Page URL', 'wordpress-seo' ) );
-		echo '<h4>' . __( 'Frontpage settings', 'wordpress-seo' ) . '</h4>';
-		echo $wpseo_admin_pages->textinput( 'og_frontpage_image', __( 'Image URL', 'wordpress-seo' ) );
-		echo $wpseo_admin_pages->textinput( 'og_frontpage_desc', __( 'Description', 'wordpress-seo' ) );
-		echo '<p class="desc label">' . __( 'These are the image and description used in the Open Graph meta tags on the frontpage of your site.', 'wordpress-seo' ) . '</p>';
+		if ( 'page' != get_option( 'show_on_front' ) ) {
+			echo '<h4>' . __( 'Frontpage settings', 'wordpress-seo' ) . '</h4>';
+			echo $wpseo_admin_pages->textinput( 'og_frontpage_image', __( 'Image URL', 'wordpress-seo' ) );
+			echo $wpseo_admin_pages->textinput( 'og_frontpage_desc', __( 'Description', 'wordpress-seo' ) );
+			echo '<p class="desc label">' . __( 'These are the image and description used in the Open Graph meta tags on the frontpage of your site.', 'wordpress-seo' ) . '</p>';
+		}
 		echo '<h4>' . __( 'Default settings', 'wordpress-seo' ) . '</h4>';
 		echo $wpseo_admin_pages->textinput( 'og_default_image', __( 'Image URL', 'wordpress-seo' ) );
 		echo '<p class="desc label">' . __( 'This image is used if the post/page being shared does not contain any images.', 'wordpress-seo' ) . '</p>';

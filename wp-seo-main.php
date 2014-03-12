@@ -80,10 +80,6 @@ function wpseo_auto_load( $class ) {
 			'walker_category'                    => ABSPATH . 'wp-includes/category-template.php',
 			'pclzip'                             => ABSPATH . 'wp-admin/includes/class-pclzip.php',
 		);
-
-		if ( defined( 'W3TC_DIR' ) ) {
-			$classes['w3_objectcache'] = W3TC_DIR . '/lib/W3/ObjectCache.php';
-		}
 	}
 
 	$cn = strtolower( $class );
@@ -259,7 +255,7 @@ function wpseo_admin_init() {
 		$GLOBALS['wpseo_admin_pages'] = new WPSEO_Admin_Pages;
 	}
 
-	if ( current_user_can( 'manage_options' ) && ( $options['tracking_popup_done'] === false || $options['ignore_tour'] === false ) ) {
+	if ( $options['tracking_popup_done'] === false || $options['ignore_tour'] === false ) {
 		add_action( 'admin_enqueue_scripts', array( 'WPSEO_Pointers', 'get_instance' ) );
 	}
 

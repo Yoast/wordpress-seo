@@ -108,6 +108,21 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 
 = Trunk =
 
+* Bugfixes
+	* Fix for some PHP notices, [issue #747](https://github.com/Yoast/wordpress-seo/issues/747) as reported by [benfreke](https://github.com/benfreke) - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fixed: GooglePlus vanity urls were saved without the `+` as reported by [ronimarin](https://github.com/ronimarin) in [issue #730](https://github.com/Yoast/wordpress-seo/issues/730) - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fix WP Admin menu items no longer clickable when on WPSEO pages as reported in [issue #733](https://github.com/Yoast/wordpress-seo/issues/733) and [#738](https://github.com/Yoast/wordpress-seo/issues/738) - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fix strict warning for W3TC, [issue 721](https://github.com/Yoast/wordpress-seo/issues/721).
+	* Fix RSS text strings on options page being double escaped, [issue #731](https://github.com/Yoast/wordpress-seo/issues/731) as reported by [namaserajesh](https://github.com/namaserajesh) - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Avoid potential confusion over Facebook OpenGraph front page usage, [issue #570](https://github.com/Yoast/wordpress-seo/issues/570) - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Potentially fix [issue 565](https://github.com/Yoast/wordpress-seo/issues/565) bbpress warning message. Thanks [inetbiz](https://github.com/inetbiz) for reporting and [tobylewis](https://github.com/tobylewis) for finding the likely cause.
+	* Filter 'wpseo_pre_analysis_post_content' output is now only loaded in DOM object if not empty. - props [mgmartel](https://github.com/mgmartel).
+	* $post_content is now unset after loading in DOM object. - props [mgmartel](https://github.com/mgmartel).
+
+* Enhancements
+	* Twitter metatag key is now filterable by 'wpseo_twitter_metatag_key' - props [martinernst](https://github.com/martinernst).
+	* Added a filter called "wpseo_replacements" in wpseo_replace_vars to allow customization of the replacements before they are applied
+
 * i18n Updates
 	* Updated nl_NL, id_ID, it_IT, fr_FR and de_DE
 	* Added ko

@@ -585,7 +585,7 @@ if ( ! class_exists( 'WPSEO_Option' ) ) {
 		 * @return  string
 		 */
 		public static function sanitize_url( $value, $allowed_protocols = array( 'http', 'https' ) ) {
-			return esc_url_raw( sanitize_text_field( urldecode( $value ) ), $allowed_protocols );
+			return esc_url_raw( sanitize_text_field( rawurldecode( $value ) ), $allowed_protocols );
 		}
 
 		/**
@@ -3608,9 +3608,8 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 		 * @return  void
 		 */
 		public static function flush_W3TC_cache() {
-			if ( defined( 'W3TC_DIR' ) ) {
-				$w3_objectcache = & W3_ObjectCache::instance();
-				$w3_objectcache->flush();
+			if ( defined( 'W3TC_DIR' ) && function_exists( 'w3tc_objectcache_flush' ) ) {
+				w3tc_objectcache_flush();
 			}
 		}
 
