@@ -55,6 +55,31 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 		}
 
 		/**
+		 * Output the metatag
+		 *
+		 * @param $name
+		 * @param $value
+		 * @param $escaped
+		 */
+		private function output_metatag( $name, $value, $escaped = false ) {
+
+			// Escape the value if not escaped
+			if ( false === $escaped ) {
+				$value = esc_attr( $value );
+			}
+
+			/**
+			 * Filter: 'wpseo_twitter_metatag_key' - Make the Twitter metatag key filterable
+			 *
+			 * @api string $key The Twitter metatag key
+			 */
+			$metatag_key = apply_filters( 'wpseo_twitter_metatag_key', 'name' );
+
+			// Output meta
+			echo '<meta ' . $metatag_key . '="twitter:' . $name . '" content="' . $value . '"/>' . "\n";
+		}
+
+		/**
 		 * Outputs the Twitter Card code on singular pages.
 		 *
 		 * @return  void   Only shows on singular pages, false on non-singular pages.
@@ -105,7 +130,7 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 				$type = 'summary';
 			}
 
-			echo '<meta name="twitter:card" content="' . esc_attr( $type ) . '"/>' . "\n";
+			$this->output_metatag( 'card',  $type );
 		}
 
 		/**
@@ -119,7 +144,7 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 			 */
 			$site = apply_filters( 'wpseo_twitter_site', $this->options['twitter_site'] );
 			if ( is_string( $site ) && $site !== '' ) {
-				echo '<meta name="twitter:site" content="@' . esc_attr( $site ) . '"/>' . "\n";
+				$this->output_metatag( 'site', '@' . $site );
 			}
 		}
 
@@ -134,7 +159,7 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 			 */
 			$domain = apply_filters( 'wpseo_twitter_domain', get_bloginfo( 'name' ) );
 			if ( is_string( $domain ) && $domain !== '' ) {
-				echo '<meta name="twitter:domain" content="' . esc_attr( $domain ) . '"/>' . "\n";
+				$this->output_metatag( 'domain', $domain );
 			}
 		}
 
@@ -151,11 +176,11 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 			$twitter = apply_filters( 'wpseo_twitter_creator_account', $twitter );
 
 			if ( is_string( $twitter ) && $twitter !== '' ) {
-				echo '<meta name="twitter:creator" content="@' . esc_attr( $twitter ) . '"/>' . "\n";
+				$this->output_metatag( 'creator', '@' . $twitter );
 			}
 			elseif ( $this->options['twitter_site'] !== '' ) {
 				if ( is_string( $this->options['twitter_site'] ) && $this->options['twitter_site'] !== '' ) {
-					echo '<meta name="twitter:creator" content="@' . esc_attr( $this->options['twitter_site'] ) . '"/>' . "\n";
+					$this->output_metatag( 'creator', '@' . $this->options['twitter_site'] );
 				}
 			}
 		}
@@ -173,7 +198,7 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 			 */
 			$title = apply_filters( 'wpseo_twitter_title', $this->title( '' ) );
 			if ( is_string( $title ) && $title !== '' ) {
-				echo '<meta name="twitter:title" content="' . esc_attr( $title ) . '"/>' . "\n";
+				$this->output_metatag( 'title', $title );
 			}
 		}
 
@@ -199,7 +224,7 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 			 */
 			$meta_desc = apply_filters( 'wpseo_twitter_description', $meta_desc );
 			if ( is_string( $meta_desc ) && $meta_desc !== '' ) {
-				echo '<meta name="twitter:description" content="' . esc_attr( $meta_desc ) . '"/>' . "\n";
+				$this->output_metatag( 'description', $meta_desc );
 			}
 		}
 
@@ -216,7 +241,7 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 			 */
 			$url = apply_filters( 'wpseo_twitter_url', $this->canonical( false ) );
 			if ( is_string( $url ) && $url !== '' ) {
-				echo '<meta name="twitter:url" content="' . esc_url( $url ) . '"/>' . "\n";
+				$this->output_metatag( 'url', esc_url( $url ), true );
 			}
 		}
 
@@ -241,7 +266,7 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 			}
 
 			if ( is_string( $escaped_img ) && $escaped_img !== ''  ) {
-				echo '<meta name="twitter:image:src" content="' . $escaped_img . '"/>' . "\n";
+				$this->output_metatag( 'image:src', $escaped_img, true );
 
 				array_push( $this->shown_images, $escaped_img );
 			}
