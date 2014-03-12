@@ -418,9 +418,10 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 					if ( '0' == get_option( 'blog_public' ) ) {
 						unset( $field_defs['meta-robots-noindex'] );
 					}
-
-					/* Adjust the no-index 'default for post type' text string based on the post type */
-					$field_defs['meta-robots-noindex']['options']['0'] = sprintf( $field_defs['meta-robots-noindex']['options']['0'], ( ( isset( $options['noindex-' . $post_type] ) && $options['noindex-' . $post_type] === true ) ? 'noindex' : 'index' ) );
+					else {
+						/* Adjust the no-index 'default for post type' text string based on the post type */
+						$field_defs['meta-robots-noindex']['options']['0'] = sprintf( $field_defs['meta-robots-noindex']['options']['0'], ( ( isset( $options['noindex-' . $post_type] ) && $options['noindex-' . $post_type] === true ) ? 'noindex' : 'index' ) );
+					}
 
 					/* Adjust the robots advanced 'site-wide default' text string based on those settings */
 					if ( $options['noodp'] !== false || $options['noydir'] !== false ) {
