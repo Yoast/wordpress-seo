@@ -118,6 +118,7 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 	* Potentially fix [issue 565](https://github.com/Yoast/wordpress-seo/issues/565) bbpress warning message. Thanks [inetbiz](https://github.com/inetbiz) for reporting and [tobylewis](https://github.com/tobylewis) for finding the likely cause.
 	* Filter 'wpseo_pre_analysis_post_content' output is now only loaded in DOM object if not empty. - props [mgmartel](https://github.com/mgmartel).
 	* $post_content is now unset after loading in DOM object. - props [mgmartel](https://github.com/mgmartel).
+	* Fix Alexa ID string validation, as reported by [kyasajin](https://github.com/kyasajin) and [Bubichka](https://github.com/Bubichka) in [issue 736](https://github.com/Yoast/wordpress-seo/issues/736) - props [Jrf](http://profiles.wordpress.org/jrf).
 
 * Enhancements
 	* Twitter metatag key is now filterable by 'wpseo_twitter_metatag_key'.
