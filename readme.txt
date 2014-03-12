@@ -108,6 +108,9 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 
 = Trunk =
 
+* Bugfixes
+	* Fix strict warning for W3TC, [issue 721](https://github.com/Yoast/wordpress-seo/issues/721).
+
 * i18n Updates
 	* Updated nl_NL, id_ID, it_IT, fr_FR and de_DE
 	* Added ko
