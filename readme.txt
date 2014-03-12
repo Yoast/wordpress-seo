@@ -120,8 +120,9 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 	* $post_content is now unset after loading in DOM object. - props [mgmartel](https://github.com/mgmartel).
 
 * Enhancements
-	* Twitter metatag key is now filterable by 'wpseo_twitter_metatag_key' - props [martinernst](https://github.com/martinernst).
-	* Added a filter called "wpseo_replacements" in wpseo_replace_vars to allow customization of the replacements before they are applied
+	* Twitter metatag key is now filterable by 'wpseo_twitter_metatag_key'.
+	* Added a filter called "wpseo_replacements" in wpseo_replace_vars to allow customization of the replacements before they are applied - props [martinernst](https://github.com/martinernst).
+	* Added useful links for page analysis - props [bhubbard](https://github.com/bhubbard).
 
 * i18n Updates
 	* Updated nl_NL, id_ID, it_IT, fr_FR and de_DE
