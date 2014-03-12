@@ -111,6 +111,12 @@ if ( ! class_exists( 'WPSEO_Option' ) ) {
 		 * @var  object  Instance of this class
 		 */
 		protected static $instance;
+		
+		/**
+		 *
+		 * @var	bool Whether the filter extension is loaded
+		 */
+		public static $has_filters = true;
 
 
 		/* *********** INSTANTIATION METHODS *********** */
@@ -121,6 +127,8 @@ if ( ! class_exists( 'WPSEO_Option' ) ) {
 		 * @return \WPSEO_Option
 		 */
 		protected function __construct() {
+			
+			self::$has_filters = extension_loaded( 'filter' );
 
 			/* Add filters which get applied to the get_options() results */
 			$this->add_default_filters(); // return defaults if option not set
@@ -591,9 +599,9 @@ if ( ! class_exists( 'WPSEO_Option' ) ) {
 		/**
 		 * Validate a value as boolean
 		 *
-		 * @todo [JRF => whomever] when someone would reorganize the classes, this should maybe
-		 * be moved to a general WPSEO_Utils class. Obviously all calls to this method should be
-		 * adjusted in that case.
+		 * @todo [JRF => whomever] when someone would reorganize the classes, this (and the emulate method
+		 * below) should maybe be moved to a general WPSEO_Utils class. Obviously all calls to this method
+		 * should be adjusted in that case.
 		 *
 		 * @static
 		 *
@@ -602,16 +610,71 @@ if ( ! class_exists( 'WPSEO_Option' ) ) {
 		 * @return  bool
 		 */
 		public static function validate_bool( $value ) {
-			return filter_var( $value, FILTER_VALIDATE_BOOLEAN );
+			if( self::$has_filters ) {
+				return filter_var( $value, FILTER_VALIDATE_BOOLEAN );
+			}
+			else {
+				return self::emulate_filter_bool( $value );
+			}
+		}
+
+		/**
+		 * Cast a value to bool
+		 *
+		 * @static
+		 *
+		 * @param	mixed	$value			Value to cast
+		 *
+		 * @return	bool
+		 */
+		public static function emulate_filter_bool( $value ) {
+			$true  = array(
+				'1',
+				'true', 'True', 'TRUE',
+				'y', 'Y',
+				'yes', 'Yes', 'YES',
+				'on', 'On', 'On',
+		
+			);
+			$false = array(
+				'0',
+				'false', 'False', 'FALSE',
+				'n', 'N',
+				'no', 'No', 'NO',
+				'off', 'Off', 'OFF',
+			);
+		
+			if ( is_bool( $value ) ) {
+				return $value;
+			}
+			else if ( is_int( $value ) && ( $value === 0 || $value === 1 ) ) {
+				return (bool) $value;
+			}
+			else if ( ( is_float( $value ) && ! is_nan( $value ) ) && ( $value === (float) 0 || $value === (float) 1 ) ) {
+				return (bool) $value;
+			}
+			else if ( is_string( $value ) ) {
+				$value = trim( $value );
+				if ( in_array( $value, $true, true ) ) {
+					return true;
+				}
+				else if ( in_array( $value, $false, true ) ) {
+					return false;
+				}
+				else {
+					return false;
+				}
+			}
+			return false;
 		}
 
 
 		/**
 		 * Validate a value as integer
 		 *
-		 * @todo [JRF => whomever] when someone would reorganize the classes, this should maybe
-		 * be moved to a general WPSEO_Utils class. Obviously all calls to this method should be
-		 * adjusted in that case.
+		 * @todo [JRF => whomever] when someone would reorganize the classes, this (and the emulate method
+		 * below) should maybe be moved to a general WPSEO_Utils class. Obviously all calls to this method
+		 * should be adjusted in that case.
 		 *
 		 * @static
 		 *
@@ -620,7 +683,51 @@ if ( ! class_exists( 'WPSEO_Option' ) ) {
 		 * @return  mixed  int or false in case of failure to convert to int
 		 */
 		public static function validate_int( $value ) {
-			return filter_var( $value, FILTER_VALIDATE_INT );
+			if( self::$has_filters ) {
+				return filter_var( $value, FILTER_VALIDATE_INT );
+			}
+			else {
+				return self::emulate_filter_int( $value );
+			}
+		}
+		
+		/**
+		 * Cast a value to integer
+		 *
+		 * @static
+		 *
+		 * @param	mixed	$value			Value to cast
+		 *
+		 * @return	int|bool
+		 */
+		public static function emulate_filter_int( $value ) {
+			if ( is_int( $value ) ) {
+				return $value;
+			}
+			else if ( is_float( $value ) ) {
+				if ( (int) $value == $value && ! is_nan( $value ) ) {
+					return ( int) $value;
+				}
+				else {
+					return false;
+				}
+			}
+			else if ( is_string( $value ) ) {
+				$value = trim( $value );
+				if ( $value === '' ) {
+					return false;
+				}
+				else if ( ctype_digit( $value ) ) {
+					return (int) $value;
+				}
+				else if ( strpos( $value, '-' ) === 0 && ctype_digit( substr( $value, 1 ) ) ) {
+					return (int) $value ;
+				}
+				else {
+					return false;
+				}
+			}
+			return false;
 		}
 
 
