@@ -108,6 +108,9 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 
 = Trunk =
 
+* Bugfixes
+	* Fixed: GooglePlus vanity urls were saved without the `+` as reported by [ronimarin](https://github.com/ronimarin) in [issue #730](https://github.com/Yoast/wordpress-seo/issues/730) - props [Jrf](http://profiles.wordpress.org/jrf).
+
 * i18n Updates
 	* Updated nl_NL, id_ID, it_IT, fr_FR and de_DE
 	* Added ko
