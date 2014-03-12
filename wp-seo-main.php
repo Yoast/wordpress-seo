@@ -80,10 +80,6 @@ function wpseo_auto_load( $class ) {
 			'walker_category'                    => ABSPATH . 'wp-includes/category-template.php',
 			'pclzip'                             => ABSPATH . 'wp-admin/includes/class-pclzip.php',
 		);
-
-		if ( defined( 'W3TC_DIR' ) ) {
-			$classes['w3_objectcache'] = W3TC_DIR . '/lib/W3/ObjectCache.php';
-		}
 	}
 
 	$cn = strtolower( $class );
