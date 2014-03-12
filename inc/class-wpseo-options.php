@@ -792,6 +792,7 @@ if ( ! class_exists( 'WPSEO_Option_Wpseo' ) ) {
 						if ( isset( $dirty[$key] ) && $dirty[$key] !== '' ) {
 							$meta = $dirty[$key];
 							if ( strpos( $meta, 'content=' ) ) {
+								// Make sure we only have the real key, not a complete meta tag
 								preg_match( '`content=([\'"])([^\'"]+)\1`', $meta, $match );
 								if ( isset( $match[2] ) ) {
 									$meta = $match[2];
@@ -801,49 +802,49 @@ if ( ! class_exists( 'WPSEO_Option_Wpseo' ) ) {
 
 							$meta = sanitize_text_field( $meta );
 							if ( $meta !== '' ) {
+								$regex   = '`^[A-Fa-f0-9_-]+$`';
+								$service = '';
+
 								switch ( $key ) {
 									case 'googleverify':
-										if ( preg_match( '`^[A-Za-z0-9_-]+$`', $meta ) ) {
-											$clean[$key] = $meta;
-										} else {
-											if ( isset( $old[$key] ) && preg_match( '`^[A-Za-z0-9_-]+$`', $old[$key] ) ) {
-												$clean[$key] = $old[$key];
-											}
-											if ( function_exists( 'add_settings_error' ) ) {
-												add_settings_error(
-													$this->group_name, // slug title of the setting
-													'_' . $key, // suffix-id for the error message box
-													sprintf( __( '%s does not seem to be a valid Google Webmaster Tools Verification string. Please correct.', 'wordpress-seo' ), '<strong>' . esc_html( $meta ) . '</strong>' ), // the error message
-													'error' // error type, either 'error' or 'updated'
-												);
-											}
-										}
+										$regex = '`^[A-Za-z0-9_-]+$`';
+										$service = 'Google Webmaster tools';
 										break;
 
 									case 'msverify':
-									case 'pinterestverify':
-									case 'yandexverify':
-									case 'alexaverify':
-										if ( preg_match( '`^[A-Fa-f0-9_-]+$`', $meta ) ) {
-											$clean[$key] = $meta;
-										} else {
-											if ( isset( $old[$key] ) && preg_match( '`^[A-Fa-f0-9_-]+$`', $old[$key] ) ) {
-												$clean[$key] = $old[$key];
-											}
-											if ( function_exists( 'add_settings_error' ) ) {
-												add_settings_error(
-													$this->group_name, // slug title of the setting
-													'_' . $key, // suffix-id for the error message box
-													sprintf( __( '%s does not seem to be a valid %s verification string. Please correct.', 'wordpress-seo' ), '<strong>' . esc_html( $meta ) . '</strong>', $key ), // the error message
-													'error' // error type, either 'error' or 'updated'
-												);
-											}
-										}
+										$service = 'Bing Webmaster tools';
 										break;
 
+									case 'pinterestverify':
+										$service = 'Pinterest';
+										break;
+
+									case 'yandexverify':
+										$service = 'Yandex Webmaster tools';
+										break;
+
+									case 'alexaverify':
+										$regex = '`^[A-Za-z0-9]{20,}$`';
+										$service = 'Alexa ID';
+								}
+								
+								if ( preg_match( $regex, $meta ) ) {
+									$clean[$key] = $meta;
+								} else {
+									if ( isset( $old[$key] ) && preg_match( $regex, $old[$key] ) ) {
+										$clean[$key] = $old[$key];
+									}
+									if ( function_exists( 'add_settings_error' ) ) {
+										add_settings_error(
+											$this->group_name, // slug title of the setting
+											'_' . $key, // suffix-id for the error message box
+											sprintf( __( '%s does not seem to be a valid %s verification string. Please correct.', 'wordpress-seo' ), '<strong>' . esc_html( $meta ) . '</strong>', $service ), // the error message
+											'error' // error type, either 'error' or 'updated'
+										);
+									}
 								}
 							}
-							unset( $meta );
+							unset( $meta, $regex, $service );
 						}
 						break;
 
