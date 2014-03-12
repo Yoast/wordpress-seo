@@ -108,6 +108,9 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 
 = Trunk =
 
+* Bugfixes
+	* Fix RSS text strings on options page being double escaped, [issue #731](https://github.com/Yoast/wordpress-seo/issues/731) as reported by [namaserajesh](https://github.com/namaserajesh) - props [Jrf](http://profiles.wordpress.org/jrf).
+
 * i18n Updates
 	* Updated nl_NL, id_ID, it_IT, fr_FR and de_DE
 	* Added ko
