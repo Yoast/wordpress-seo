@@ -16,20 +16,18 @@ $wpseo_admin_pages->admin_header( true, WPSEO_Options::get_group_name( 'wpseo_rs
 
 $content   = '<p>' . __( "This feature is used to automatically add content to your RSS, more specifically, it's meant to add links back to your blog and your blog posts, so dumb scrapers will automatically add these links too, helping search engines identify you as the original source of the content.", 'wordpress-seo' ) . '</p>';
 $rows      = array();
-$rssbefore = esc_textarea( $options[ 'rssbefore' ] );
-$rssafter  = esc_textarea( $options[ 'rssafter' ] );
 
 $rows[] = array(
 	'id'      => 'rssbefore',
 	'label'   => __( 'Content to put before each post in the feed', 'wordpress-seo' ),
 	'desc'    => __( '(HTML allowed)', 'wordpress-seo' ),
-	'content' => '<textarea cols="50" rows="5" id="rssbefore" name="wpseo_rss[rssbefore]">' . esc_textarea( $rssbefore ) . '</textarea>',
+	'content' => '<textarea cols="50" rows="5" id="rssbefore" name="wpseo_rss[rssbefore]">' . esc_textarea( $options['rssbefore'] ) . '</textarea>',
 );
 $rows[] = array(
 	'id'      => 'rssafter',
 	'label'   => __( 'Content to put after each post', 'wordpress-seo' ),
 	'desc'    => __( '(HTML allowed)', 'wordpress-seo' ),
-	'content' => '<textarea cols="50" rows="5" id="rssafter" name="wpseo_rss[rssafter]">' . esc_textarea( $rssafter ) . '</textarea>',
+	'content' => '<textarea cols="50" rows="5" id="rssafter" name="wpseo_rss[rssafter]">' . esc_textarea( $options['rssafter'] ) . '</textarea>',
 );
 $rows[] = array(
 	'label'   => __( 'Explanation', 'wordpress-seo' ),
