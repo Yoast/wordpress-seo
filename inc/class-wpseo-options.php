@@ -931,7 +931,7 @@ if ( ! class_exists( 'WPSEO_Option_Wpseo' ) ) {
 										break;
 
 									case 'alexaverify':
-										$regex = '`^[A-Za-z0-9]{20,}$`';
+										$regex = '`^[A-Za-z0-9_-]{20,}$`';
 										$service = 'Alexa ID';
 								}
 								
