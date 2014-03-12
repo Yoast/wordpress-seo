@@ -72,20 +72,20 @@ label.radio {
 #wpseo_content_top {
 	min-width: 800px;
 	width: 100%;
-	padding: 0 20px 0 261px;
-	margin-left: -261px;
+	padding: 0 261px 0 0;
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
-	float: left;
 }
 
 #sidebar-container {
+	position: absolute;
+	top: 105px;
+	right: 10px;
 	width: 261px;
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
-	float: left;
 }
 
 @media (max-width: 1020px) {

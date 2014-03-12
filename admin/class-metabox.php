@@ -1090,7 +1090,22 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			$dom                      = new domDocument;
 			$dom->strictErrorChecking = false;
 			$dom->preserveWhiteSpace  = false;
-			@$dom->loadHTML( apply_filters( 'wpseo_pre_analysis_post_content', $post->post_content, $post ) );
+
+			/**
+			 * Filter: 'wpseo_pre_analysis_post_content' - Make the post content filterable before calculating the page analysis
+			 *
+			 * @api string $post_content The post content
+			 * @param object $post The post
+			 */
+			$post_content = apply_filters( 'wpseo_pre_analysis_post_content', $post->post_content, $post );
+
+			// Check if the post content is not empty
+			if ( ! empty( $post_content ) ) {
+				@$dom->loadHTML( $post_content );
+			}
+
+			unset( $post_content );
+
 			$xpath = new DOMXPath( $dom );
 
 			// Check if this focus keyword has been used already.
