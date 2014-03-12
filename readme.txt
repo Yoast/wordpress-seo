@@ -116,12 +116,13 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 	* Fix RSS text strings on options page being double escaped, [issue #731](https://github.com/Yoast/wordpress-seo/issues/731) as reported by [namaserajesh](https://github.com/namaserajesh) - props [Jrf](http://profiles.wordpress.org/jrf).
 	* Avoid potential confusion over Facebook OpenGraph front page usage, [issue #570](https://github.com/Yoast/wordpress-seo/issues/570) - props [Jrf](http://profiles.wordpress.org/jrf).
 	* Potentially fix [issue 565](https://github.com/Yoast/wordpress-seo/issues/565) bbpress warning message. Thanks [inetbiz](https://github.com/inetbiz) for reporting and [tobylewis](https://github.com/tobylewis) for finding the likely cause.
-	* Filter 'wpseo_pre_analysis_post_content' output is now only loaded in DOM object if not empty.
-	* $post_content is now unset after loading in DOM object.
+	* Filter 'wpseo_pre_analysis_post_content' output is now only loaded in DOM object if not empty. - props [mgmartel](https://github.com/mgmartel).
+	* $post_content is now unset after loading in DOM object. - props [mgmartel](https://github.com/mgmartel).
 	* Fix issue with Soliloquy image query, as reported by [osalcedo](https://github.com/osalcedo) and [mattisherwood](https://github.com/mattisherwood) in [issue #733](https://github.com/Yoast/wordpress-seo/issues/733) - props [Jrf](http://profiles.wordpress.org/jrf).
 
 * Enhancements
-	* Twitter metatag key is now filterable by 'wpseo_twitter_metatag_key'
+	* Twitter metatag key is now filterable by 'wpseo_twitter_metatag_key' - props [martinernst](https://github.com/martinernst).
+	* Added a filter called "wpseo_replacements" in wpseo_replace_vars to allow customization of the replacements before they are applied
 
 * i18n Updates
 	* Updated nl_NL, id_ID, it_IT, fr_FR and de_DE
