@@ -585,7 +585,7 @@ if ( ! class_exists( 'WPSEO_Option' ) ) {
 		 * @return  string
 		 */
 		public static function sanitize_url( $value, $allowed_protocols = array( 'http', 'https' ) ) {
-			return esc_url_raw( sanitize_text_field( urldecode( $value ) ), $allowed_protocols );
+			return esc_url_raw( sanitize_text_field( rawurldecode( $value ) ), $allowed_protocols );
 		}
 
 		/**
