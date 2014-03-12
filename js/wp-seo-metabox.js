@@ -332,7 +332,7 @@ jQuery(document).ready(function () {
 	jQuery('#'+wpseoMetaboxL10n.field_prefix+'title').keyup(function () {
 		updateTitle();
 	});
-	descElm.keyup(function () {
+	jQuery('#'+wpseoMetaboxL10n.field_prefix+'metadesc').keyup(function () {
 		updateDesc();
 	});
 	jQuery('#excerpt').keyup(function () {
