@@ -106,6 +106,11 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 
 == Changelog ==
 
+= Trunk =
+
+* Bugfixes
+	* Fix for issue with Soliloquy image slider was not applied to minified js file.
+
 = 1.5.2.1 =
 
 * Bugfixes
