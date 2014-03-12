@@ -196,8 +196,13 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 			'%%term_title%%'           => $r->name,
 		) );
 	}
-	
-	$replacements = apply_filters("wpseo_replacements", $replacements);
+
+	/**
+	* Filter: 'wpseo_replacements' - Allow customization of the replacements before they are applied
+	*
+	* @api array $replacements The replacements
+	*/
+	$replacements = apply_filters( "wpseo_replacements", $replacements );
 
 	foreach ( $replacements as $var => $repl ) {
 		if ( !in_array( $var, $omit ) )
