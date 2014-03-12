@@ -108,6 +108,9 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 
 = Trunk =
 
+* Enhancements
+	* Avoid potential confusion over Facebook OpenGraph front page usage, [issue #570](https://github.com/Yoast/wordpress-seo/issues/570) - props [Jrf](http://profiles.wordpress.org/jrf).
+
 * i18n Updates
 	* Updated nl_NL, id_ID, it_IT, fr_FR and de_DE
 	* Added ko
