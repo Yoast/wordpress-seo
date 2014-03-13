@@ -771,8 +771,10 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 				}
 			}
 
-			if ( $canonical && 'default' !== $this->options['force_transport'] ) {
-				$canonical = preg_replace( '`^http[s]?`', $this->options['force_transport'], $canonical );
+			if ( isset($this->options['force_transport']) ) {
+				if ( $canonical && 'default' !== $this->options['force_transport'] ) {
+					$canonical = preg_replace( '`^http[s]?`', $this->options['force_transport'], $canonical );
+				}
 			}
 
 			/**
