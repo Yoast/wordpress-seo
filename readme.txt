@@ -106,6 +106,11 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 
 == Changelog ==
 
+= Trunk =
+
+* Bugfixes
+	* Fixed some PHP 'undefined index' notices.
+
 = 1.5.2.1 =
 
 * Bugfixes
