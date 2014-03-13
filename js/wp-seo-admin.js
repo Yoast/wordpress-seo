@@ -1,4 +1,9 @@
 jQuery(document).ready(function() {
+	
+	/* Fix banner images overlapping help texts */
+	jQuery('.screen-meta-toggle a').click( function() {
+		jQuery("#sidebar-container").toggle();
+	});
 
 	// events
 	jQuery("#enablexmlsitemap").change(function() {

@@ -111,6 +111,7 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 * Bugfixes
 	* Fix for issue with Soliloquy image slider was not applied to minified js file.
 	* Fixed some PHP 'undefined index' notices.
+	* Fix banner images overlapping text in help tabs.
 
 * Enhancements
 	* Added composer support - props [codekipple](https://github.com/codekipple) and [Rarst](https://github.com/Rarst).
