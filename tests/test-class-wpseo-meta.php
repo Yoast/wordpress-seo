@@ -37,6 +37,46 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	* @covers WPSEO_Meta::set_value()
+	*/
+	public function test_set_value() {
+		WPSEO_Meta::set_value('test_set_value_key', 'test_set_value_value', $this->_post->ID );
+		$this->assertEquals( 'test_set_value_value', get_post_meta( $this->_post->ID, WPSEO_Meta::$meta_prefix . 'test_set_value_key', true ) );
+	}
+
+	/**
+	* @covers WPSEO_Meta::get_value()
+	*/
+	public function test_get_value() {
+
+		update_post_meta( $this->_post->ID, WPSEO_Meta::$meta_prefix . 'test_get_value_key', 'test_get_value_value' );
+
+		$this->assertEquals( 'test_get_value_value', WPSEO_Meta::get_value('test_get_value_key') );
+	}
+
+	/**
+	* If an unexisting field with a default value is given, get_value should return its default value.
+	*
+	* @covers WPSeo_Meta::get_value()
+	*/
+	public function test_get_value_is_not_empty() {
+		$key = 'authorship';
+
+		// test if meta with a default is not empty
+		// get_value should return the default instead
+		$this->assertNotEquals('', WPSEO_Meta::get_value( $key ) );
+	}
+
+	/**
+	* If an unexisting field without a default value is given, get_value should return an empty string.
+	*
+	* @covers WPSEO_Meta::get_value()
+	*/
+	public function test_get_value_is_empty() {
+		$this->assertEmpty( WPSEO_Meta::get_value( md5(rand( ) ) ) );
+	}
+
+	/**
 	* Test if 'linkdex' equals its default (0)
 	*/
 	public function test_linkdex_is_default() {
@@ -111,7 +151,7 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 
 		// default post meta should not be saved
 		$meta_value = get_post_meta( $this->_post->ID, $key );
-		$this->assertEquals(array(), $meta_value );
+		$this->assertEquals( array(), $meta_value );
 	}
 
 	/**
@@ -123,7 +163,6 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 
 		$this->assertTrue( WPSEO_Meta::meta_value_is_default( $meta_key, $meta_value ) );
 	}
-
 
 	/**
 	* Test if two arrays are recursively merged, the latter overwriting the first.
