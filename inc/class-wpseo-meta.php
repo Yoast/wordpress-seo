@@ -590,6 +590,9 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 					// Individual selected entries
 					$cleaning = array();
 					foreach ( $meta_value as $value ) {
+
+						$value = trim( $value );
+
 						if ( isset( $options[$value] ) ) {
 							$cleaning[] = $value;
 						}
