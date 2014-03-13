@@ -14,7 +14,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * @internal Nobody should be able to overrule the real version number as this can cause serious issues
  * with the options, so no if ( ! defined() )
  */
-define( 'WPSEO_VERSION', '1.5.0' );
+define( 'WPSEO_VERSION', '1.5.2.1' );
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
 	define( 'WPSEO_PATH', plugin_dir_path( WPSEO_FILE ) );
@@ -80,10 +80,6 @@ function wpseo_auto_load( $class ) {
 				'walker_category'                    => ABSPATH . 'wp-includes/category-template.php',
 				'pclzip'                             => ABSPATH . 'wp-admin/includes/class-pclzip.php',
 		);
-
-		if ( defined( 'W3TC_DIR' ) ) {
-			$classes['w3_objectcache'] = W3TC_DIR . '/lib/W3/ObjectCache.php';
-		}
 	}
 
 	$cn = strtolower( $class );
@@ -259,7 +255,7 @@ function wpseo_admin_init() {
 		$GLOBALS['wpseo_admin_pages'] = new WPSEO_Admin_Pages;
 	}
 
-	if ( current_user_can( 'manage_options' ) && ( $options['tracking_popup_done'] === false || $options['ignore_tour'] === false ) ) {
+	if ( $options['tracking_popup_done'] === false || $options['ignore_tour'] === false ) {
 		add_action( 'admin_enqueue_scripts', array( 'WPSEO_Pointers', 'get_instance' ) );
 	}
 

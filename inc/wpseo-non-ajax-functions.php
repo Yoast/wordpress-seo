@@ -303,6 +303,8 @@ function wpseo_admin_bar_menu() {
 			$wp_admin_bar->add_menu( array( 'parent' => 'wpseo-analysis', 'id' => 'wpseo-kwdensity', 'title' => __( 'Check Keyword Density', 'wordpress-seo' ), 'href' => 'http://tools.davidnaylor.co.uk/keyworddensity/index.php?url=' . urlencode( $url ) . '&keyword=' . urlencode( $focuskw ), 'meta' => array( 'target' => '_blank' ) ) );
 			$wp_admin_bar->add_menu( array( 'parent' => 'wpseo-analysis', 'id' => 'wpseo-cache', 'title' => __( 'Check Google Cache', 'wordpress-seo' ), 'href' => 'http://webcache.googleusercontent.com/search?strip=1&q=cache:' . urlencode( $url ), 'meta' => array( 'target' => '_blank' ) ) );
 			$wp_admin_bar->add_menu( array( 'parent' => 'wpseo-analysis', 'id' => 'wpseo-header', 'title' => __( 'Check Headers', 'wordpress-seo' ), 'href' => 'http://quixapp.com/headers/?r=' . urlencode( $url ), 'meta' => array( 'target' => '_blank' ) ) );
+			$wp_admin_bar->add_menu( array( 'parent' => 'wpseo-analysis', 'id' => 'wpseo-richsnippets', 'title' => __( 'Check Rich Snippets', 'wordpress-seo' ), 'href' => 'http://www.google.com/webmasters/tools/richsnippets?q=' . urlencode( $url ), 'meta' => array( 'target' => '_blank' ) ) );
+			$wp_admin_bar->add_menu( array( 'parent' => 'wpseo-analysis', 'id' => 'wpseo-facebookdebug', 'title' => __( 'Facebook Debugger', 'wordpress-seo' ), 'href' => 'https://developers.facebook.com/tools/debug/og/object?q=' . urlencode( $url ), 'meta' => array( 'target' => '_blank' ) ) );
 		}
 	}
 

@@ -21,7 +21,7 @@ class WPSEO_Premium {
 	const OPTION_CURRENT_VERSION = 'wpseo_current_version';
 
 	const PLUGIN_VERSION_NAME = '1.1.0-beta1';
-	const PLUGIN_VERSION_CODE = '5';
+	const PLUGIN_VERSION_CODE = '8';
 	const PLUGIN_AUTHOR       = 'Yoast';
 	const EDD_STORE_URL       = 'https://yoast.com';
 	const EDD_PLUGIN_NAME     = 'WordPress SEO Premium';

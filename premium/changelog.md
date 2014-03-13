@@ -1,5 +1,14 @@
-= trunk =
-*
+= 1.0.6 =
+
+* Updated WordPress SEO core to 1.5.2.1
+
+= 1.0.5 =
+
+* Updated WordPress SEO core to 1.5.2
+
+= 1.0.4 =
+
+* Updated WordPress SEO core to 1.5.0
 
 = 1.0.3 =
 
