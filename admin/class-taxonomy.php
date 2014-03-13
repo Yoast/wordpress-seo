@@ -225,7 +225,7 @@ if ( ! class_exists( 'WPSEO_Taxonomy' ) ) {
 			}
 			else {
 				unset( $tax_meta[$taxonomy][$term_id] );
-				if ( $tax_meta[$taxonomy] === array() ) {
+				if ( isset( $tax_meta[$taxonomy] ) && $tax_meta[$taxonomy] === array() ) {
 					unset( $tax_meta[$taxonomy] );
 				}
 			}
