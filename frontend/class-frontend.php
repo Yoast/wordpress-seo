@@ -1018,16 +1018,22 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 		 * @return string
 		 */
 		public function metadesc( $echo = true ) {
-			if ( get_query_var( 'paged' ) && get_query_var( 'paged' ) > 1 )
+			if ( get_query_var( 'paged' ) && get_query_var( 'paged' ) > 1 ) {
 				return '';
+			}
 
 			global $post, $wp_query;
 
-			$metadesc = '';
+			$metadesc  = '';
+			$post_type = '';
+			if ( is_object( $post ) && ( isset( $post->post_type ) && $post->post_type !== '' ) ) {
+				$post_type = $post->post_type;
+			}
+
 			if ( is_singular() ) {
 				$metadesc = WPSEO_Meta::get_value( 'metadesc' );
-				if ( $metadesc === '' && ( is_object( $post ) && ( isset( $this->options['metadesc-' . $post->post_type] ) && $this->options['metadesc-' . $post->post_type] != '' ) ) ) {
-					$metadesc = wpseo_replace_vars( $this->options['metadesc-' . $post->post_type], (array) $post );
+				if ( ( $metadesc === '' && $post_type !== '' ) && ( isset( $this->options['metadesc-' . $post_type] ) && $this->options['metadesc-' . $post_type] !== '' ) ) {
+					$metadesc = wpseo_replace_vars( $this->options['metadesc-' . $post_type], (array) $post );
 				}
 			} else {
 				if ( is_search() ) {
@@ -1036,20 +1042,19 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 					$metadesc = wpseo_replace_vars( $this->options['metadesc-home-wpseo'], array() );
 				} elseif ( $this->is_posts_page() ) {
 					$metadesc = WPSEO_Meta::get_value( 'metadesc', get_option( 'page_for_posts' ) );
-					if ( $metadesc === '' && ( is_object( $post ) && ( isset( $this->options['metadesc-' . $post->post_type] ) && $this->options['metadesc-' . $post->post_type] !== '' ) ) ) {
+					if ( ( $metadesc === '' && $post_type !== '' ) && ( isset( $this->options['metadesc-' . $post_type] ) && $this->options['metadesc-' . $post_type] !== '' ) ) {
 						$page     = get_post( get_option( 'page_for_posts' ) );
-						$metadesc = wpseo_replace_vars( $this->options['metadesc-' . $post->post_type], (array) $page );
+						$metadesc = wpseo_replace_vars( $this->options['metadesc-' . $post_type], (array) $page );
 					}
 				} elseif ( $this->is_home_static_page() ) {
 					$metadesc = WPSEO_Meta::get_value( 'metadesc' );
-					if ( $metadesc === '' && ( is_object( $post ) && ( isset( $this->options['metadesc-' . $post->post_type] ) && $this->options['metadesc-' . $post->post_type] !== '' ) ) ) {
-						$metadesc = wpseo_replace_vars( $this->options['metadesc-' . $post->post_type], (array) $post );
+					if ( ( $metadesc === '' && $post_type !== '' ) && ( isset( $this->options['metadesc-' . $post_type] ) && $this->options['metadesc-' . $post_type] !== '' ) ) {
+						$metadesc = wpseo_replace_vars( $this->options['metadesc-' . $post_type], (array) $post );
 					}
 				} elseif ( is_category() || is_tag() || is_tax() ) {
 					$term = $wp_query->get_queried_object();
-
 					$metadesc = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'desc' );
-					if ( ( ! is_string( $metadesc ) || $metadesc === '' ) && ( is_object( $term->taxonomy ) && ( isset( $this->options['metadesc-tax-' . $term->taxonomy] ) && $this->options['metadesc-tax-' . $term->taxonomy] !== '' ) ) ) {
+					if ( ( ! is_string( $metadesc ) || $metadesc === '' ) && ( ( is_object( $term ) && isset( $term->taxonomy ) ) && ( isset( $this->options['metadesc-tax-' . $term->taxonomy] ) && $this->options['metadesc-tax-' . $term->taxonomy] !== '' ) ) ) {
 						$metadesc = wpseo_replace_vars( $this->options['metadesc-tax-' . $term->taxonomy], (array) $term );
 					}
 				} elseif ( is_author() ) {
