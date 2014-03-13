@@ -577,6 +577,8 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 			}
 
 			if ( is_array( $meta_value ) && $meta_value !== array() ) {
+				$meta_value = array_map( 'trim', $meta_value );
+
 				if ( in_array( 'none', $meta_value, true ) ) {
 					// None is one of the selected values, takes priority over everything else
 					$clean = 'none';
@@ -590,9 +592,6 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 					// Individual selected entries
 					$cleaning = array();
 					foreach ( $meta_value as $value ) {
-
-						$value = trim( $value );
-
 						if ( isset( $options[$value] ) ) {
 							$cleaning[] = $value;
 						}
