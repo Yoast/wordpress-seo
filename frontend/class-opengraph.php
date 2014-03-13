@@ -460,7 +460,7 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 				}
 			}
 
-			if ( is_tax() ) {
+			if ( is_category() || is_tag() || is_tax() ) {
 				$ogdesc = trim( strip_tags( term_description() ) );
 			}
 
