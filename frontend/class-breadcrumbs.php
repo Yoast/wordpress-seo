@@ -363,8 +363,10 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 						if ( isset( $post_type_obj->label ) && $post_type_obj->label !== '' ) {
 							$archive_title = $post_type_obj->label;
 						}
-						else {
+						else if ( isset( $post_type_obj->labels->menu_name ) && $post_type_obj->labels->menu_name !== '' ) {
 							$archive_title = $post_type_obj->labels->menu_name;
+						} else {
+							$archive_title = $post_type_obj->name;
 						}
 					}
 					$link['url']  = get_post_type_archive_link( $link['ptarchive'] );
