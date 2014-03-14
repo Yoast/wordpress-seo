@@ -113,6 +113,7 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 	* Taxonomy sitemap will now also show if empty.
 	* Replaced old AdWords keyword tool link.
 	* Fixed a link count Page Analysis bug.
+	* Fixed OpenGraph/GooglePlus/Twitter tags not showing in a select few themes, [issue #750](https://github.com/Yoast/wordpress-seo/issues/750) as reported by [Jovian](https://github.com/Jovian) and [wwdboer](https://github.com/wwdboer) - props [Jrf](http://profiles.wordpress.org/jrf).
 
 = 1.5.2.2 =
 
