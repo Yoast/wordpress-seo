@@ -304,7 +304,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 				foreach ( $taxonomies as $tax ) {
 
 					$steps = $this->max_entries;
-					$count = count( $all_taxonomies[$tax] );
+					$count = ( isset ( $all_taxonomies[$tax] ) ) ? count( $all_taxonomies[$tax] ) : 1;
 					$n     = ( $count > $this->max_entries ) ? (int) ceil( $count / $this->max_entries ) : 1;
 
 					for ( $i = 0; $i < $n; $i ++ ) {
