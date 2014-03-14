@@ -106,6 +106,12 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 
 == Changelog ==
 
+= Trunk =
+
+* Bugfixes
+	* Added missing settings menu pages to wp admin bar.
+	* Taxonomy sitemap will now also show if empty.
+
 = 1.5.2.2 =
 
 * Bugfixes
