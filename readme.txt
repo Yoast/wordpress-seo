@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: seo, SEO, google, meta, meta description, search engine optimization, xml sitemap, xml sitemaps, google sitemap, sitemap, sitemaps, robots meta, rss, rss footer, yahoo, bing, news sitemaps, XML News Sitemaps, WordPress SEO, WordPress SEO by Yoast, yoast, multisite, canonical, nofollow, noindex, keywords, meta keywords, description, webmaster tools, google webmaster tools, seo pack
 Requires at least: 3.5
 Tested up to: 3.8.1
-Stable tag: 1.5.2.1
+Stable tag: 1.5.2.2
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the WordPress SEO plugin by Yoast.
 
@@ -105,6 +105,18 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 7. The advanced section of the WordPress SEO meta box.
 
 == Changelog ==
+
+= 1.5.2.2 =
+
+* Bugfixes
+	* Fix for issue with Soliloquy image slider was not applied to minified js file.
+	* Fixed some PHP 'undefined index' notices.
+	* Fix banner images overlapping text in help tabs.
+	* Fixed meta description tag not showing for taxonomy (category/tag/etc) pages as reported in [issue #737](https://github.com/Yoast/wordpress-seo/issues/737) and [#780](https://github.com/Yoast/wordpress-seo/issues/780) - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Prevent a fatal error if `wp_remote_get()` fails while testing whether the title needs to be force rewritten as reported by [homeispv](http://wordpress.org/support/profile/homeispv) - props [Jrf](http://profiles.wordpress.org/jrf).
+
+* Enhancements
+	* Added composer support - props [codekipple](https://github.com/codekipple) and [Rarst](https://github.com/Rarst).
 
 = 1.5.2.1 =
 

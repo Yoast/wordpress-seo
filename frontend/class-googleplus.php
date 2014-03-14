@@ -64,7 +64,7 @@ if ( ! class_exists( 'WPSEO_GooglePlus' ) ) {
 				 */
 				$desc = apply_filters( 'wpseo_googleplus_desc', $desc );
 
-				if ( is_string( $desc ) && '' != $desc ) {
+				if ( is_string( $desc ) && '' !== $desc ) {
 					echo '<meta itemprop="description" content="' . $desc . '">' . "\n";
 				}
 			}

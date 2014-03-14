@@ -41,7 +41,10 @@ function wpseo_title_test() {
 			$options['forcerewritetitle'] = true;
 
 			$resp = wp_remote_get( get_bloginfo( 'url' ), $args );
-			$res  = preg_match( '`/<title>([^>]+)</title>`im', $resp['body'], $matches );
+			$res  = false;
+			if ( ( $resp && ! is_wp_error( $resp ) ) && ( 200 == $resp['response']['code'] && isset( $resp['body'] ) ) ) {
+				$res  = preg_match( '`/<title>([^>]+)</title>`im', $resp['body'], $matches );
+			}
 		}
 
 		if ( ! $res || $matches[1] != $expected_title ) {
