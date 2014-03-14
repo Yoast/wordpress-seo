@@ -108,10 +108,11 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 
 		// Get the items
 
-		$crawl_issue_manager = new WPSEO_Crawl_Issue_Manager();
+		$crawl_issue_manager = new WPSEO_Crawl_Issue_Manager( $this->gwt );
 		$crawl_issues = $crawl_issue_manager->get_crawl_issues();
 
 		var_dump( $crawl_issues );
+		exit;
 
 		$service = new WPSEO_GWT_Service( $this->gwt );
 

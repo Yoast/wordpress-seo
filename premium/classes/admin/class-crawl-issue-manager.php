@@ -11,6 +11,20 @@ class WPSEO_Crawl_Issue_Manager {
 	const OPTION_CI_TS				= 'wpseo_crawl_issues_last_checked';
 
 	/**
+	 * @var WPSEO_GWT_Google_Client $gwt
+	 */
+	private $gwt;
+
+	/**
+	 * Constructor
+	 *
+	 * @param WPSEO_GWT_Google_Client $gwt
+	 */
+	public function __construct( WPSEO_GWT_Google_Client $gwt ) {
+		$this->gwt = $gwt;
+	}
+
+	/**
 	 * Get the timestamp of when the crawl errors were last saved
 	 *
 	 * @return int
