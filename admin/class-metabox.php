@@ -1186,6 +1186,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			// Anchors
 			$anchors = $this->get_anchor_texts( $xpath );
 			$count   = $this->get_anchor_count( $xpath );
+
 			$this->score_anchor_texts( $job, $results, $anchors, $count );
 			unset( $anchors, $count, $dom );
 
@@ -1415,7 +1416,6 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			$scoreLinksNofollow         = __( 'This page has %s outbound link(s), all nofollowed.', 'wordpress-seo' );
 			$scoreLinks                 = __( 'This page has %s nofollowed link(s) and %s normal outbound link(s).', 'wordpress-seo' );
 
-
 			if ( $count['external']['nofollow'] == 0 && $count['external']['dofollow'] == 0 ) {
 				$this->save_score_result( $results, 6, $scoreNoLinks, 'links' );
 			} else {
@@ -1453,7 +1453,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			$query        = "//a|//A";
 			$dom_objects  = $xpath->query( $query );
 			$anchor_texts = array();
-			if ( is_array( $dom_objects ) && $dom_objects !== array() ) {
+			if ( is_object( $dom_objects ) && is_a( $dom_objects, 'DOMNodeList' ) && $dom_objects->length > 0 ) {
 				foreach ( $dom_objects as $dom_object ) {
 					if ( $dom_object->attributes->getNamedItem( 'href' ) ) {
 						$href = $dom_object->attributes->getNamedItem( 'href' )->textContent;
@@ -1478,6 +1478,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		function get_anchor_count( &$xpath ) {
 			$query       = "//a|//A";
 			$dom_objects = $xpath->query( $query );
+
 			$count       = array(
 				'total'    => 0,
 				'internal' => array( 'nofollow' => 0, 'dofollow' => 0 ),
@@ -1485,7 +1486,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 				'other'    => array( 'nofollow' => 0, 'dofollow' => 0 ),
 			);
 
-			if ( is_array( $dom_objects ) && $dom_objects !== array() ) {
+			if ( is_object( $dom_objects ) && is_a( $dom_objects, 'DOMNodeList' ) && $dom_objects->length > 0 ) {
 				foreach ( $dom_objects as $dom_object ) {
 					$count['total'] ++;
 					if ( $dom_object->attributes->getNamedItem( 'href' ) ) {
