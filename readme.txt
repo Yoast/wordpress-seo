@@ -111,6 +111,7 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 * Bugfixes
 	* Added missing settings menu pages to wp admin bar.
 	* Taxonomy sitemap will now also show if empty.
+	* Replaced old AdWords keyword tool link.
 
 = 1.5.2.2 =
 
