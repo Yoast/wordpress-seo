@@ -794,16 +794,16 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 				}
 			}
 
-			if ( empty( $output ) ) {
-				$this->bad_sitemap = true;
-
-				return;
-			}
-
 			$this->sitemap = '<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ';
 			$this->sitemap .= 'xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" ';
 			$this->sitemap .= 'xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
-			$this->sitemap .= $output . '</urlset>';
+
+			// Only add $ouput != empty
+			if( ! empty( $output ) ) {
+				$this->sitemap .= $output;
+			}
+
+			$this->sitemap .= '</urlset>';
 		}
 
 
