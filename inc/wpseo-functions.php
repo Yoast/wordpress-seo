@@ -312,7 +312,7 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 		$string = str_replace( '%%pt_plural%%', $pt_plural, $string );
 	}
 
-	if ( preg_match_all( '`%%cf_([^%]+)%%`u', $string, $matches, PREG_SET_ORDER ) ) {
+	if ( is_singular() && preg_match_all( '`%%cf_([^%]+)%%`u', $string, $matches, PREG_SET_ORDER ) ) {
 		global $post;
 		foreach ( $matches as $match ) {
 			$string = str_replace( $match[0], get_post_meta( $post->ID, $match[1], true ), $string );
