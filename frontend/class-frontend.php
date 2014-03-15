@@ -569,8 +569,6 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 
 		/**
 		 * Output the meta robots value.
-		 *
-		 * @todo [JRF => whomever] Always set a post to no-follow/no-index when it's set to private
 		 */
 		public function robots() {
 			global $wp_query;
@@ -584,6 +582,10 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 				global $post;
 
 				if ( is_object( $post ) && ( isset( $this->options['noindex-' . $post->post_type] ) && $this->options['noindex-' . $post->post_type] === true ) ) {
+					$robots['index'] = 'noindex';
+				}
+
+				if ( 'private' == $post->post_status ) {
 					$robots['index'] = 'noindex';
 				}
 
