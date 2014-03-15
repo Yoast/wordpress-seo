@@ -407,6 +407,30 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 		}
 
 		/**
+		 * Function to dynamically filter the change frequency
+		 *
+		 * @param string $filter  Expands to wpseo_sitemap_$filter_change_freq, allowing for a change of the frequency for numerous specific URLs
+		 * @param string $default The default value for the frequency
+		 * @param string $url     The URL of the currenty entry
+		 *
+		 * @return mixed|void
+		 */
+		private function filter_frequency( $filter, $default, $url ) {
+			/**
+			 * Filter: 'wpseo_sitemap_' . $filter . '_change_freq' - Allow filtering of the specific change frequency
+			 *
+			 * @api string $default The default change frequency
+			 */
+			$change_freq = apply_filters( 'wpseo_sitemap_' . $filter . '_change_freq', $default, $url );
+
+			if ( ! in_array( $change_freq, array( 'always', 'hourly', 'daily', 'weekly', 'monthly', 'yearly', 'never' ) ) ) {
+				$change_freq = $default;
+			}
+
+			return $change_freq;
+		}
+
+		/**
 		 * Build a sub-sitemap for a specific post type -- example.com/post_type-sitemap.xml
 		 *
 		 * @param string $post_type Registered post type's slug
@@ -448,22 +472,23 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 				$front_id = get_option( 'page_on_front' );
 				if ( ! $front_id && ( $post_type == 'post' || $post_type == 'page' ) ) {
 					$output .= $this->sitemap_url(
-						array(
-							'loc' => $this->home_url,
-							'pri' => 1,
-							'chf' => 'daily',
-						)
+							array(
+									'loc' => $this->home_url,
+									'pri' => 1,
+									'chf' => $this->filter_frequency( 'homepage', 'daily', $this->home_url ),
+							)
 					);
 				} else {
 					if ( $front_id && $post_type == 'post' ) {
 						$page_for_posts = get_option( 'page_for_posts' );
 						if ( $page_for_posts ) {
+							$page_for_posts_url = get_permalink( $page_for_posts );
 							$output .= $this->sitemap_url(
-								array(
-									'loc' => get_permalink( $page_for_posts ),
-									'pri' => 1,
-									'chf' => 'daily',
-								)
+									array(
+											'loc' => $page_for_posts_url,
+											'pri' => 1,
+											'chf' => $change_freq = $this->filter_frequency( 'blogpage', 'daily', $page_for_posts_url ),
+									)
 							);
 						}
 					}
@@ -472,12 +497,12 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 				$archive = get_post_type_archive_link( $post_type );
 				if ( $archive ) {
 					$output .= $this->sitemap_url(
-						array(
-							'loc' => $archive,
-							'pri' => 0.8,
-							'chf' => 'weekly',
-							'mod' => $this->get_last_modified( $post_type ), // get_lastpostmodified( 'gmt', $post_type ) #17455
-						)
+							array(
+									'loc' => $archive,
+									'pri' => 0.8,
+									'chf' => $this->filter_frequency( $post_type . '_archive', 'weekly', $archive ),
+									'mod' => $this->get_last_modified( $post_type ), // get_lastpostmodified( 'gmt', $post_type ) #17455
+							)
 					);
 				}
 			}
@@ -546,7 +571,6 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 						$url = array();
 
 						$url['mod'] = ( isset( $p->post_modified_gmt ) && $p->post_modified_gmt != '0000-00-00 00:00:00' && $p->post_modified_gmt > $p->post_date_gmt ) ? $p->post_modified_gmt : $p->post_date_gmt;
-						$url['chf'] = 'weekly';
 						$url['loc'] = get_permalink( $p );
 
 						/**
@@ -555,9 +579,12 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 						 * Note that only absolute local URLs are allowed as the check after this removes external URLs.
 						 *
 						 * @api string $url URL to use in the XML sitemap
+						 *
 						 * @param object $p Post object for the URL
 						 */
 						$url['loc'] = apply_filters( 'wpseo_xml_sitemap_post_url', $url['loc'], $p );
+
+						$url['chf'] = $this->filter_frequency( $post_type . '_single', 'weekly', $url['loc'] );
 
 						/**
 						 * Do not include external URLs.
@@ -782,7 +809,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 						$c->term_id
 					);
 					$url['mod'] = $wpdb->get_var( $sql );
-					$url['chf'] = 'weekly';
+					$url['chf'] = $this->filter_frequency( $c->taxonomy . '_term', 'weekly', $url['loc'] );
 
 					// Use this filter to adjust the entry before it gets added to the sitemap
 					$url = apply_filters( 'wpseo_sitemap_entry', $url, 'term', $c );
@@ -867,10 +894,10 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 					$author_link = get_author_posts_url( $user->ID );
 					if ( $author_link !== '' ) {
 						$url = array(
-							'loc' => $author_link,
-							'pri' => 0.8,
-							'chf' => 'weekly',
-							'mod' => date( 'c', isset( $user->_yoast_wpseo_profile_updated ) ? $user->_yoast_wpseo_profile_updated : time() ),
+								'loc' => $author_link,
+								'pri' => 0.8,
+								'chf' => $change_freq = $this->filter_frequency( 'author_archive', 'daily', $author_link ),
+								'mod' => date( 'c', isset( $user->_yoast_wpseo_profile_updated ) ? $user->_yoast_wpseo_profile_updated : time() ),
 						);
 						// Use this filter to adjust the entry before it gets added to the sitemap
 						$url = apply_filters( 'wpseo_sitemap_entry', $url, 'user', $user );
