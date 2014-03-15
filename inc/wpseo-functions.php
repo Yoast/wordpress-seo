@@ -211,7 +211,7 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 	$r = (object) wp_parse_args( $args, $defaults );
 
 	$max_num_pages = 1;
-	if ( ! is_single() && ! is_page() ) {
+	if ( ! is_singular() ) {
 		$pagenum = get_query_var( 'paged' );
 		if ( $pagenum === 0 ) {
 			$pagenum = 1;
