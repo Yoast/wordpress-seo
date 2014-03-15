@@ -17,8 +17,23 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 
 		public $options;
 		
+		public $links = array();
+		
+		public $wrapper = 'span';
+		public $element = 'span';
+		
+		public $show_on_front;
+		public $page_for_posts;
+		
+		public $post;
+
+		
 		public function __construct( $before = '', $after = '', $display = true ) {
 			$this->options = WPSEO_Options::get_all();
+			$this->show_on_front  = get_option( 'show_on_front' );
+			$this->page_for_posts = get_option( 'page_for_posts' );
+			$this->post = $GLOBALS['post'];
+
 			
 			$output = $this->breadcrumb();
 			
@@ -62,10 +77,7 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 		 * @return	string
 		 */
 		public function breadcrumb() {
-			global $wp_query, $post;
-
-			$on_front  = get_option( 'show_on_front' );
-			$blog_page = get_option( 'page_for_posts' );
+			global $wp_query;
 
 			$links = array(
 				array(
@@ -74,27 +86,27 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 				),
 			);
 
-			if ( 'page' == $on_front && 'post' == get_post_type() && ! is_home() ) {
-				if ( $blog_page && $this->options['breadcrumbs-blog-remove'] === false ) {
-					$links[] = array( 'id' => $blog_page );
+			if ( 'page' == $this->show_on_front && 'post' == get_post_type() && ! is_home() ) {
+				if ( $this->page_for_posts && $this->options['breadcrumbs-blog-remove'] === false ) {
+					$links[] = array( 'id' => $this->page_for_posts );
 				}
 			}
 
-			if ( ( $on_front == 'page' && is_front_page() ) || ( $on_front == 'posts' && is_home() ) ) {
+			if ( ( $this->show_on_front == 'page' && is_front_page() ) || ( $this->show_on_front == 'posts' && is_home() ) ) {
 
 			}
-			elseif ( $on_front == 'page' && is_home() ) {
-				$links[] = array( 'id' => $blog_page );
+			elseif ( $this->show_on_front == 'page' && is_home() ) {
+				$links[] = array( 'id' => $this->page_for_posts );
 			}
 			elseif ( is_singular() ) {
-				if ( get_post_type_archive_link( $post->post_type ) ) {
-					$links[] = array( 'ptarchive' => $post->post_type );
+				if ( get_post_type_archive_link( $this->post->post_type ) ) {
+					$links[] = array( 'ptarchive' => $this->post->post_type );
 				}
 
-				if ( 0 == $post->post_parent ) {
-					if ( isset( $this->options['post_types-' . $post->post_type . '-maintax'] ) && $this->options['post_types-' . $post->post_type . '-maintax'] != '0' ) {
-						$main_tax = $this->options['post_types-' . $post->post_type . '-maintax'];
-						$terms    = wp_get_object_terms( $post->ID, $main_tax );
+				if ( 0 == $this->post->post_parent ) {
+					if ( isset( $this->options['post_types-' . $this->post->post_type . '-maintax'] ) && $this->options['post_types-' . $this->post->post_type . '-maintax'] != '0' ) {
+						$main_tax = $this->options['post_types-' . $this->post->post_type . '-maintax'];
+						$terms    = wp_get_object_terms( $this->post->ID, $main_tax );
 
 						if ( is_array( $terms ) && $terms !== array() ) {
 							/* Let's find the deepest term in this array, by looping through and then
@@ -151,16 +163,16 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 					}
 				}
 				else {
-					if ( isset( $post->ancestors ) ) {
-						if ( is_array( $post->ancestors ) ) {
-							$ancestors = array_values( $post->ancestors );
+					if ( isset( $this->post->ancestors ) ) {
+						if ( is_array( $this->post->ancestors ) ) {
+							$ancestors = array_values( $this->post->ancestors );
 						}
 						else {
-							$ancestors = array( $post->ancestors );
+							$ancestors = array( $this->post->ancestors );
 						}
 					}
 					else {
-						$ancestors = array( $post->post_parent );
+						$ancestors = array( $this->post->post_parent );
 					}
 
 					/**
@@ -177,7 +189,7 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 						$links[] = array( 'id' => $ancestor );
 					}
 				}
-				$links[] = array( 'id' => $post->ID );
+				$links[] = array( 'id' => $this->post->ID );
 			}
 			else {
 				if ( is_post_type_archive() ) {
@@ -233,9 +245,9 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 
 					if ( 0 !== get_query_var( 'year' ) || ( 0 !== get_query_var( 'monthnum' ) || 0 !== get_query_var( 'day' ) ) ) {
 
-						if ( 'page' == $on_front && ! is_home() ) {
-							if ( $blog_page && $this->options['breadcrumbs-blog-remove'] === false ) {
-								$links[] = array( 'id' => $blog_page );
+						if ( 'page' == $this->show_on_front && ! is_home() ) {
+							if ( $this->page_for_posts && $this->options['breadcrumbs-blog-remove'] === false ) {
+								$links[] = array( 'id' => $this->page_for_posts );
 							}
 						}
 
@@ -250,11 +262,10 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 							   by reference and this might actually change the real $post object the way
 							   it's done now. Maybe use clone() ? or figure out another way to get round
 							   the get_the_date() function */
-							global $post;
-							$original_p = $post;
-							$post->post_date = sprintf( '%04d-%02d-%02d 00:00:00', get_query_var( 'year' ), get_query_var( 'monthnum' ), get_query_var( 'day' ) );
+							$original_p = $this->post;
+							$this->post->post_date = sprintf( '%04d-%02d-%02d 00:00:00', get_query_var( 'year' ), get_query_var( 'monthnum' ), get_query_var( 'day' ) );
 							$links[] = array( 'text' => $bc . ' ' . get_the_date() );
-							$post = $original_p;
+							$this->post = $original_p;
 
 						}
 						elseif ( 0 !== get_query_var( 'monthnum' ) ) {
@@ -297,13 +308,10 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 		 *
 		 * @link http://support.google.com/webmasters/bin/answer.py?hl=en&answer=185417 Google documentation on RDFA
 		 *
-		 * @param	array	$links		The links that should be contained in the breadcrumb.
-		 * @param	string	$wrapper	The wrapping element for the entire breadcrumb path.
-		 * @param	string	$element	The wrapping element for each individual link.
 		 * @return	string
 		 */
-		public function create_breadcrumbs_string( $links, $wrapper = 'span', $element = 'span' ) {
-			if ( ! is_array( $links ) || $links === array() ) {
+		public function create_breadcrumbs_string() {
+			if ( ! is_array( $this->links ) || $this->links === array() ) {
 				return '';
 			}
 
@@ -322,9 +330,9 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 			 *
 			 * @api string $element
 			 */
-			$element = esc_attr( apply_filters( 'wpseo_breadcrumb_single_link_wrapper', $element ) );
+			$this->element = esc_attr( apply_filters( 'wpseo_breadcrumb_single_link_wrapper', $this->element ) );
 
-			foreach ( $links as $i => $link ) {
+			foreach ( $this->links as $i => $link ) {
 
 				if ( isset( $link['id'] ) ) {
 					$link['url']  = get_permalink( $link['id'] );
@@ -377,7 +385,7 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 
 				$link_output = '';
 				if ( isset( $link['text'] ) && ( is_string( $link['text'] ) && $link['text'] !== '' ) ) {
-					$link_output = '<' . $element . ' typeof="v:Breadcrumb">';
+					$link_output = '<' . $this->element . ' typeof="v:Breadcrumb">';
 					if ( ( isset( $link['url'] ) && ( is_string( $link['url'] ) && $link['url'] !== '' ) ) && ( $i < ( count( $links ) - 1 ) || $paged ) ) {
 						$link_output .= '<a href="' . esc_url( $link['url'] ) . '" rel="v:url" property="v:title">' . esc_html( $link['text'] ) . '</a>';
 					}
@@ -389,7 +397,7 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 							$link_output .= '<span class="breadcrumb_last" property="v:title">' . esc_html( $link['text'] ) . '</span>';
 						}
 					}
-					$link_output .= '</' . $element . '>';
+					$link_output .= '</' . $this->element . '>';
 
 				}
 				$link_sep = ( ( '' != $output ) ? " $sep " : '' );
@@ -406,9 +414,9 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 				}
 			}
 
-			$id      = $this->get_breadcrumb_output_id();
-			$class   = $this->get_breadcrumb_output_class();
-			$wrapper = $this->breadcrumb_output_wrapper( $wrapper );
+			$id      = $this->get_output_id();
+			$class   = $this->get_output_class();
+			$wrapper = $this->get_output_wrapper();
 
 
 			/**
@@ -420,7 +428,7 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 		}
 		
 
-		function get_breadcrumb_output_id() {
+		function get_output_id() {
 			/**
 			 * Filter: 'wpseo_breadcrumb_output_id' - Allow changing the HTML ID on the WP SEO breadcrumbs wrapper element
 			 *
@@ -433,7 +441,7 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 			return $id;
 		}
 		
-		function get_breadcrumb_output_class() {
+		function get_output_class() {
 			/**
 			 * Filter: 'wpseo_breadcrumb_output_class' - Allow changing the HTML class on the WP SEO breadcrumbs wrapper element
 			 *
@@ -446,19 +454,35 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 			return $class;
 		}
 
-		function get_breadcrumb_output_wrapper( $wrapper ) {
+		function get_output_wrapper() {
 			/**
 			 * Filter: 'wpseo_breadcrumb_output_wrapper' - Allow changing the HTML wrapper element for the WP SEO breadcrumbs output
 			 *
 			 * @api string $wrapper The wrapper element
 			 */
-			$wrapper = apply_filters( 'wpseo_breadcrumb_output_wrapper', $wrapper );
+			$wrapper = apply_filters( 'wpseo_breadcrumb_output_wrapper', $this->wrapper );
 			if ( ! is_string( $wrapper ) || '' == $wrapper ) {
 				$wrapper = 'span';
 			}
 			return $wrapper;
 		}
 
+
+/*
+		public function breadcrumb() {
+			_deprecated_function( __CLASS__ . '::' . __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Admin::load_page()' );
+			$this->load_page();
+			//deprecate
+		}
+		public function create_breadcrumbs_string( $links, $wrapper = 'span', $element = 'span' ) {
+			_deprecated_function( __CLASS__ . '::' . __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Admin::load_page()' );
+			$this->element = $element;
+			$this->wrapper = $wrapper;
+			$this->links = $links;
+			$this->load_page();
+			//deprecate
+		}
+*/
 
 	} /* End of class */
 
