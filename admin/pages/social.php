@@ -152,9 +152,6 @@ if ( is_array( $fbbuttons ) && $fbbuttons !== array() ) {
 }
 
 $wpseo_admin_pages->admin_header( true, WPSEO_Options::get_group_name( 'wpseo_social' ), 'wpseo_social' );
-
-if ( $error )
-	settings_errors();
 ?>
 
 <h2 class="nav-tab-wrapper" id="wpseo-tabs">
