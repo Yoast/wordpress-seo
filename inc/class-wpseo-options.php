@@ -2507,12 +2507,11 @@ if ( ! class_exists( 'WPSEO_Option_Social' ) ) {
 							} else {
 								$clean[$key] = array();
 								foreach ( $dirty[$key] as $app_id => $display_name ) {
-									$int = self::validate_int( $app_id );
-									if ( $int !== false && $int > 0 ) {
+									if ( ctype_digit( (string) $app_id ) !== false ) {
 										$clean[$key][$app_id] = sanitize_text_field( $display_name );
 									}
 								}
-								unset( $app_id, $display_name, $int );
+								unset( $app_id, $display_name );
 							}
 						} elseif ( isset( $old[$key] ) && is_array( $old[$key] ) ) {
 							$clean[$key] = $old[$key];
@@ -2691,12 +2690,11 @@ if ( ! class_exists( 'WPSEO_Option_Social' ) ) {
 			if ( isset( $option_value['fbapps'] ) && ( is_array( $option_value['fbapps'] ) && $option_value['fbapps'] !== array() ) ) {
 				$fbapps = array();
 				foreach ( $option_value['fbapps'] as $app_id => $display_name ) {
-					$int = self::validate_int( $app_id );
-					if ( $int !== false && $int > 0 ) {
+					if ( ctype_digit( (string) $app_id ) !== false ) {
 						$fbapps[$app_id] = sanitize_text_field( $display_name );
 					}
 				}
-				unset( $app_id, $display_name, $int );
+				unset( $app_id, $display_name );
 
 				$option_value['fbapps'] = $fbapps;
 			}
