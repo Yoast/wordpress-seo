@@ -103,7 +103,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 
 			if ( $this->options['forcerewritetitle'] === true ) {
 				add_action( 'get_header', array( $this, 'force_rewrite_output_buffer' ) );
-				add_action( 'wp_footer', array( $this, 'flush_cache' ) );
+				add_action( 'wp_footer', array( $this, 'flush_cache' ), -1 );
 			}
 
 			if ( $this->options['title_test'] > 0 ) {

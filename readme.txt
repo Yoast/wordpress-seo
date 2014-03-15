@@ -116,6 +116,7 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 	* Fixed OpenGraph/GooglePlus/Twitter tags not showing in a select few themes, [issue #750](https://github.com/Yoast/wordpress-seo/issues/750) as reported by [Jovian](https://github.com/Jovian) and [wwdboer](https://github.com/wwdboer) - props [Jrf](http://profiles.wordpress.org/jrf).
 	* Fixed duplicate feedback messages on WPSEO -> Social pages as reported by [steverep](https://github.com/steverep) in [issue #743](https://github.com/Yoast/wordpress-seo/issues/743) - props [Jrf](http://profiles.wordpress.org/jrf).
 	* Prevent infinite loop triggered by `sitemap_close()`, fixes [#600](https://github.com/Yoast/wordpress-seo/issues/) as reported and fixed by [pbogdan](https://github.com/pbogdan).
+	* Flush our force rewrite buffer earlier in `wp_footer` so it can be used by other plugins in `wp_footer`. Props [Gabriel Pérez Salazar](http://www.guero.net/).
 
 = 1.5.2.2 =
 
