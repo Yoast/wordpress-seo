@@ -102,7 +102,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 			add_filter( 'the_excerpt_rss', array( $this, 'embed_rssfooter_excerpt' ) );
 
 			if ( $this->options['forcerewritetitle'] === true ) {
-				add_action( 'wp_head', array( $this, 'force_rewrite_output_buffer' ), -1 );
+				add_action( 'template_redirect', array( $this, 'force_rewrite_output_buffer' ), 99999 );
 				add_action( 'wp_footer', array( $this, 'flush_cache' ), -1 );
 			}
 
@@ -569,8 +569,6 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 
 		/**
 		 * Output the meta robots value.
-		 *
-		 * @todo [JRF => whomever] Always set a post to no-follow/no-index when it's set to private
 		 */
 		public function robots() {
 			global $wp_query;
@@ -584,6 +582,10 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 				global $post;
 
 				if ( is_object( $post ) && ( isset( $this->options['noindex-' . $post->post_type] ) && $this->options['noindex-' . $post->post_type] === true ) ) {
+					$robots['index'] = 'noindex';
+				}
+
+				if ( 'private' == $post->post_status ) {
 					$robots['index'] = 'noindex';
 				}
 
