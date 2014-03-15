@@ -71,7 +71,7 @@ if ( ! function_exists( 'yoast_breadcrumb' ) ) {
 	 * Other than that, leaving the setting is an easy way to enable/disable the bc without having to
 	 * edit the template files again, but having to manually enable when you've added the template tag
 	 * in your theme is kind of double, so I'm undecided about what to do.
-	 * I guess I'm leaning towards removing the option key in combination with adding the bc shortcode.
+	 * I guess I'm leaning towards removing the option key.
 	 *
 	 * @param string $before  What to show before the breadcrumb.
 	 * @param string $after   What to show after the breadcrumb.
@@ -82,20 +82,15 @@ if ( ! function_exists( 'yoast_breadcrumb' ) ) {
 	function yoast_breadcrumb( $before = '', $after = '', $display = true ) {
 		$options = get_option( 'wpseo_internallinks' );
 
-		$breadcrumbs_string = "";
-
+		$breadcrumb = '';
 		if ( $options['breadcrumbs-enable'] === true ) {
-			$breadcrumbs = new WPSEO_Breadcrumbs();
-
-			$breadcrumbs_string = $breadcrumbs->breadcrumb( $before, $after, false );
+			$breadcrumb = new WPSEO_Breadcrumbs( $before, $after, $display );
 		}
 
-		// Output $breadcrumbs_string is $display is true
-		if ( true === $display ) {
-			echo $breadcrumbs_string;
+		// Return $breadcrumb if $display is false
+		if ( false === $display ) {
+			return $breadcrumb;
 		}
-
-		return $breadcrumbs_string;
 	}
 }
 
