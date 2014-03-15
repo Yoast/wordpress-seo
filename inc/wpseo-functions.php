@@ -156,12 +156,14 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 	$string = strip_tags( $string );
 
 	// Let's see if we can bail super early.
-	if ( strpos( $string, '%%' ) === false )
+	if ( strpos( $string, '%%' ) === false ) {
 		return trim( preg_replace( '`\s+`u', ' ', $string ) );
+	}
 
 	global $sep;
-	if ( ! isset( $sep ) || empty( $sep ) )
+	if ( ! isset( $sep ) || empty( $sep ) ) {
 		$sep = '-';
+	}
 
 	$simple_replacements = array(
 		'%%sep%%'          => $sep,
@@ -179,8 +181,9 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 	}
 
 	// Let's see if we can bail early.
-	if ( strpos( $string, '%%' ) === false )
+	if ( strpos( $string, '%%' ) === false ) {
 		return trim( preg_replace( '`\s+`u', ' ', $string ) );
+	}
 
 	global $wp_query;
 
@@ -198,28 +201,33 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 		'term404'		=> '',
 	);
 
-	if ( isset( $args['post_content'] ) )
+	if ( isset( $args['post_content'] ) ) {
 		$args['post_content'] = wpseo_strip_shortcode( $args['post_content'] );
-	if ( isset( $args['post_excerpt'] ) )
+	}
+	if ( isset( $args['post_excerpt'] ) ) {
 		$args['post_excerpt'] = wpseo_strip_shortcode( $args['post_excerpt'] );
+	}
 
 	$r = (object) wp_parse_args( $args, $defaults );
 
 	$max_num_pages = 1;
-	if ( ! is_single() ) {
+	if ( ! is_singular() ) {
 		$pagenum = get_query_var( 'paged' );
-		if ( $pagenum === 0 )
+		if ( $pagenum === 0 ) {
 			$pagenum = 1;
+		}
 
-		if ( isset( $wp_query->max_num_pages ) && $wp_query->max_num_pages != '' && $wp_query->max_num_pages != 0 )
+		if ( isset( $wp_query->max_num_pages ) && $wp_query->max_num_pages != '' && $wp_query->max_num_pages != 0 ) {
 			$max_num_pages = $wp_query->max_num_pages;
+		}
 	}
 	else {
 		global $post;
 		$pagenum       = get_query_var( 'page' );
 		$max_num_pages = ( isset( $post->post_content ) ) ? substr_count( $post->post_content, '<!--nextpage-->' ) : 1;
-		if ( $max_num_pages >= 1 )
+		if ( $max_num_pages >= 1 ) {
 			$max_num_pages++;
+		}
 	}
 
 	// Let's do date first as it's a bit more work to get right.
