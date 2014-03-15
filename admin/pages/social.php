@@ -21,6 +21,10 @@ $clearall = false;
 
 $options = get_option( 'wpseo_social' );
 
+if( isset( $_GET ) ) {
+	pr_var( $_GET, '_GET', true );
+}
+
 if ( isset( $_GET['delfbadmin'] ) ) {
 	if ( wp_verify_nonce( $_GET['nonce'], 'delfbadmin' ) != 1 ) {
 		die( "I don't think that's really nice of you!." );
@@ -65,11 +69,11 @@ elseif ( isset( $_GET['key'] ) && $_GET['key'] === $options['fbconnectkey'] ) {
 		unset( $user_id );
 	}
 	elseif ( isset( $_GET['apps'] ) ) {
-		$apps = json_decode( stripslashes( $_GET['apps'] ) );
+		$apps = json_decode( stripslashes( $_GET['apps'] ), true );
 		if ( is_array( $apps ) && $apps !== array() ) {
 			$options['fbapps'] = array( '0' => __( 'Do not use a Facebook App as Admin', 'wordpress-seo' ) );
 			foreach ( $apps as $app ) {
-				$options['fbapps'][$app->app_id] = $app->display_name;
+				$options['fbapps'][$app['app_id']] = $app['display_name'];
 			}
 			update_option( 'wpseo_social', $options );
 			add_settings_error( 'yoast_wpseo_social_options', 'success', __( 'Successfully retrieved your apps from Facebook, now select an app to use as admin.', 'wordpress-seo' ), 'updated' );
