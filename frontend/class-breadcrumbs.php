@@ -16,7 +16,20 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 	class WPSEO_Breadcrumbs {
 
 		public $options;
-
+		
+		public function __construct( $before = '', $after = '', $display = true ) {
+			$this->options = WPSEO_Options::get_all();
+			
+			$output = $this->breadcrumb();
+			
+			if ( $display ) {
+				echo $before . $output . $after;
+			}
+			else {
+				return $before . $output . $after;
+			}
+		}
+		
 		/**
 		 * Wrapper function for the breadcrumb so it can be output for the supported themes.
 		 *
@@ -24,7 +37,7 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 		 */
 		public function breadcrumb_output() {
 			_deprecated_function( __FUNCTION__, '1.5.0', 'yoast_breadcrumb' );
-			$this->breadcrumb( '<div id="wpseobreadcrumb">', '</div>' );
+			$crumb = new self( '<div id="wpseobreadcrumb">', '</div>' );
 		}
 
 		/**
@@ -44,16 +57,11 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 		}
 
 		/**
-		 * Display or return the full breadcrumb path.
+		 * Create the full breadcrumb path.
 		 *
-		 * @param	string	$before		The prefix for the breadcrumb, usually something like "You're here".
-		 * @param	string	$after		The suffix for the breadcrumb.
-		 * @param	bool	$display	When true, echo the breadcrumb, if not, return it as a string.
 		 * @return	string
 		 */
-		public function breadcrumb( $before = '', $after = '', $display = true ) {
-			$this->options = WPSEO_Options::get_all();
-
+		public function breadcrumb() {
 			global $wp_query, $post;
 
 			$on_front  = get_option( 'show_on_front' );
@@ -275,13 +283,7 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 				$output = $this->options['breadcrumbs-prefix'] . ' ' . $output;
 			}
 
-			if ( $display ) {
-				echo $before . $output . $after;
-				return true;
-			}
-			else {
-				return $before . $output . $after;
-			}
+			return $output;
 		}
 
 		/**
@@ -404,26 +406,47 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 				}
 			}
 
+			$id      = $this->get_breadcrumb_output_id();
+			$class   = $this->get_breadcrumb_output_class();
+			$wrapper = $this->breadcrumb_output_wrapper( $wrapper );
+
+
+			/**
+			 * Filter: 'wpseo_breadcrumb_output' - Allow changing the HTML output of the WP SEO breadcrumbs class
+			 *
+			 * @api string $unsigned HTML output
+			 */
+			return apply_filters( 'wpseo_breadcrumb_output', '<' . $wrapper . $id . $class . ' xmlns:v="http://rdf.data-vocabulary.org/#">' . $output . '</' . $wrapper . '>' );
+		}
+		
+
+		function get_breadcrumb_output_id() {
 			/**
 			 * Filter: 'wpseo_breadcrumb_output_id' - Allow changing the HTML ID on the WP SEO breadcrumbs wrapper element
 			 *
 			 * @api string $unsigned ID to add to the wrapper element
 			 */
 			$id = apply_filters( 'wpseo_breadcrumb_output_id', '' );
-			if ( is_string( $id ) && '' != $id ) {
+			if ( is_string( $id ) && '' !== $id ) {
 				$id = ' id="' . esc_attr( $id ) . '"';
 			}
-
+			return $id;
+		}
+		
+		function get_breadcrumb_output_class() {
 			/**
 			 * Filter: 'wpseo_breadcrumb_output_class' - Allow changing the HTML class on the WP SEO breadcrumbs wrapper element
 			 *
 			 * @api string $unsigned class to add to the wrapper element
 			 */
 			$class = apply_filters( 'wpseo_breadcrumb_output_class', '' );
-			if ( is_string( $class ) && '' != $class ) {
+			if ( is_string( $class ) && '' !== $class ) {
 				$class = ' class="' . esc_attr( $class ) . '"';
 			}
+			return $class;
+		}
 
+		function get_breadcrumb_output_wrapper( $wrapper ) {
 			/**
 			 * Filter: 'wpseo_breadcrumb_output_wrapper' - Allow changing the HTML wrapper element for the WP SEO breadcrumbs output
 			 *
@@ -433,14 +456,9 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 			if ( ! is_string( $wrapper ) || '' == $wrapper ) {
 				$wrapper = 'span';
 			}
-
-			/**
-			 * Filter: 'wpseo_breadcrumb_output' - Allow changing the HTML output of the WP SEO breadcrumbs class
-			 *
-			 * @api string $unsigned HTML output
-			 */
-			return apply_filters( 'wpseo_breadcrumb_output', '<' . $wrapper . $id . $class . ' xmlns:v="http://rdf.data-vocabulary.org/#">' . $output . '</' . $wrapper . '>' );
+			return $wrapper;
 		}
+
 
 	} /* End of class */
 
