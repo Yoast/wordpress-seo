@@ -21,10 +21,6 @@ $clearall = false;
 
 $options = get_option( 'wpseo_social' );
 
-if( isset( $_GET ) ) {
-	pr_var( $_GET, '_GET', true );
-}
-
 if ( isset( $_GET['delfbadmin'] ) ) {
 	if ( wp_verify_nonce( $_GET['nonce'], 'delfbadmin' ) != 1 ) {
 		die( "I don't think that's really nice of you!." );
