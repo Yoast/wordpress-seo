@@ -82,14 +82,8 @@ if ( ! function_exists( 'yoast_breadcrumb' ) ) {
 	function yoast_breadcrumb( $before = '', $after = '', $display = true ) {
 		$options = get_option( 'wpseo_internallinks' );
 
-		$breadcrumb = '';
 		if ( $options['breadcrumbs-enable'] === true ) {
-			$breadcrumb = new WPSEO_Breadcrumbs( $before, $after, $display );
-		}
-
-		// Return $breadcrumb if $display is false
-		if ( false === $display ) {
-			return $breadcrumb;
+			return WPSEO_Breadcrumbs::breadcrumb( $before, $after, $display );
 		}
 	}
 }
