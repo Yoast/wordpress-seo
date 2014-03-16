@@ -120,9 +120,12 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 	* Start the force rewrite buffer in `wp_head` instead of `get_header` because of several themes not using `get_header`, issue [#817](https://github.com/Yoast/wordpress-seo/issues/817) as reported by [Jrf](http://profiles.wordpress.org/jrf).
 	* Fixed Facebook Apps not being saved/ "Failed to retrieve your apps from Facebook" as reported by [kevinlisota](https://github.com/kevinlisota) in [issue #812](https://github.com/Yoast/wordpress-seo/issues/812) - props [Jrf](http://profiles.wordpress.org/jrf). **If you already upgraded to v1.5+, you will need to retrieve your Facebook Apps again. Sorry about that.**
 	* Fixed 'Page %d of %d' / %%page%% variable not being replaced when on pages, as reported by [SGr33n](https://github.com/SGr33n) in [issue #801](https://github.com/Yoast/wordpress-seo/issues/801) - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Restore robots meta box per post to its former glory, boolean check for blog indexation was wrong way round.
 
 * Enhancements
 	* Added filters for the change frequencies of different URLs added to the sitemap. Props to [haroldkyle](https://github.com/haroldkyle) for the idea.
+	* Private posts now default to noindex (even though they technically probably couldn't be indexed anyway).
+	* Show a warning message underneath a post's robots meta settings when site is set to noindex sitewide in WP core.
 
 = 1.5.2.2 =
 
