@@ -227,8 +227,6 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 
 		/**
 		 * Create the full breadcrumb path.
-		 *
-		 * @return	string
 		 */
 		private function set_crumbs() {
 			global $wp_query;
@@ -256,95 +254,65 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 			}
 			else {
 				if ( is_post_type_archive() ) {
-					$this->crumbs[] = array(
-						'ptarchive' => $wp_query->query['post_type'],
-					);
+					$this->add_ptarchive_crumb( $wp_query->query['post_type'] );
 				}
 				elseif ( is_tax() || is_tag() || is_category() ) {
 					$this->add_crumbs_for_taxonomy();
 				}
 				elseif ( is_date() ) {
 					if ( is_day() ) {
-						global $wp_locale;
-						$this->crumbs[] = array(
-							'url'  => get_month_link( get_query_var( 'year' ), get_query_var( 'monthnum' ) ),
-							'text' => $wp_locale->get_month( get_query_var( 'monthnum' ) ) . ' ' . get_query_var( 'year' ),
-						);
-						$this->crumbs[] = array(
-							'text'       => trim( $this->options['breadcrumbs-archiveprefix'] . ' ' . get_the_date() ),
-							'allow_html' => true,
-						);
+						$this->add_linked_month_year_crumb();
+						$this->add_date_crumb();
 					}
 					elseif ( is_month() ) {
-						$this->crumbs[] = array(
-							'text'       => trim( $this->options['breadcrumbs-archiveprefix'] . ' ' . single_month_title( ' ', false ) ),
-							'allow_html' => true,
-						);
+						$this->add_month_crumb();
 					}
 					elseif ( is_year() ) {
-						$this->crumbs[] = array(
-							'text'       => trim( $this->options['breadcrumbs-archiveprefix'] . ' ' . get_query_var( 'year' ) ),
-							'allow_html' => true,
-						);
+						$this->add_year_crumb();
 					}
 				}
 				elseif ( is_author() ) {
-					$user    = $wp_query->get_queried_object();
-					$this->crumbs[] = array(
-						'text' => trim( $this->options['breadcrumbs-archiveprefix'] . ' ' . $user->display_name ),
-						'allow_html' => true,
+					$user = $wp_query->get_queried_object();
+					$this->add_predefined_crumb(
+						$this->options['breadcrumbs-archiveprefix'] . ' ' . $user->display_name,
+						null,
+						true
 					);
 				}
 				elseif ( is_search() ) {
-					$this->crumbs[] = array( 'text' => trim( $this->options['breadcrumbs-searchprefix'] . ' "' . get_search_query() . '"' ) );
+					$this->add_predefined_crumb(
+						$this->options['breadcrumbs-searchprefix'] . ' "' . esc_html( get_search_query() ) . '"',
+						null,
+						true
+					);
 				}
 				elseif ( is_404() ) {
 
 					if ( 0 !== get_query_var( 'year' ) || ( 0 !== get_query_var( 'monthnum' ) || 0 !== get_query_var( 'day' ) ) ) {
-
 						if ( 'page' == $this->show_on_front && ! is_home() ) {
 							if ( $this->page_for_posts && $this->options['breadcrumbs-blog-remove'] === false ) {
-								$this->crumbs[] = array(
-									'id' => $this->page_for_posts,
-								);
+								$this->add_blog_crumb();
 							}
 						}
 
 						if ( 0 !== get_query_var( 'day' ) ) {
-							$this->crumbs[] = array(
-								'url'  => get_month_link( get_query_var( 'year' ), get_query_var( 'monthnum' ) ),
-								'text' => $GLOBALS['wp_locale']->get_month( get_query_var( 'monthnum' ) ) . ' ' . get_query_var( 'year' ),
-							);
-							/* @todo [JRF => JRF/whomever] this probably needs fixing as objects are passed
-							   by reference and this might actually change the real $post object the way
-							   it's done now. Maybe use clone() ? or figure out another way to get round
-							   the get_the_date() function */
-							$original_p = $this->post;
-							$this->post->post_date = sprintf( '%04d-%02d-%02d 00:00:00', get_query_var( 'year' ), get_query_var( 'monthnum' ), get_query_var( 'day' ) );
-							$this->crumbs[] = array(
-								'text'       => $this->options['breadcrumbs-archiveprefix'] . ' ' . get_the_date(),
-								'allow_html' => true,
-							);
-							$this->post = $original_p;
+							$this->add_linked_month_year_crumb();
 
+							$date = sprintf( '%04d-%02d-%02d 00:00:00', get_query_var( 'year' ), get_query_var( 'monthnum' ), get_query_var( 'day' ) );
+							$this->add_date_crumb( $date );
 						}
 						elseif ( 0 !== get_query_var( 'monthnum' ) ) {
-							$this->crumbs[] = array(
-								'text' => $this->options['breadcrumbs-archiveprefix'] . ' ' . single_month_title( ' ', false ),
-								'allow_html' => true,
-							);
+							$this->add_month_crumb();
 						}
 						elseif ( 0 !== get_query_var( 'year' ) ) {
-							$this->crumbs[] = array(
-								'text' => $this->options['breadcrumbs-archiveprefix'] . ' ' . get_query_var( 'year' ),
-								'allow_html' => true,
-							);
+							$this->add_year_crumb();
 						}
 					}
 					else {
-						$this->crumbs[] = array(
-							'text' => $this->options['breadcrumbs-404crumb'],
-							'allow_html' => true,
+						$this->add_predefined_crumb(
+							$this->options['breadcrumbs-404crumb'],
+							null,
+							true
 						);
 					}
 				}
@@ -355,7 +323,8 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 			 *
 			 * @api array $crumbs The crumbs array
 			 */
-			$this->crumbs = apply_filters( 'wpseo_breadcrumb_links', $this->crumbs );
+			$this->crumbs      = apply_filters( 'wpseo_breadcrumb_links', $this->crumbs );
+
 			$this->crumb_count = count( $this->crumbs );
 		}
 
@@ -377,12 +346,20 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 				'ptarchive' => $pt,
 			);
 		}
+		
+		private function add_predefined_crumb( $text, $url = '', $allow_html = false ) {
+			$this->crumbs[] = array(
+				'text'       => $text,
+				'url'        => $url,
+				'allow_html' => $allow_html,
+			);
+		}
 
 		private function add_home_crumb() {
-			$this->crumbs[] = array(
-				'url'        => get_home_url(),
-				'text'       => $this->options['breadcrumbs-home'],
-				'allow_html' => true,
+			$this->add_predefined_crumb(
+				$this->options['breadcrumbs-home'],
+				get_home_url(),
+				true
 			);
 		}
 		
@@ -429,8 +406,10 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 
 		private function add_post_ancestor_crumbs() {
 			$ancestors = $this->get_post_ancestors();
-			foreach ( $ancestors as $ancestor ) {
-				$this->add_single_post_crumb( $ancestor );
+			if( is_array( $ancestors ) && $ancestors !== array() ) {
+				foreach ( $ancestors as $ancestor ) {
+					$this->add_single_post_crumb( $ancestor );
+				}
 			}
 		}
 
@@ -470,6 +449,46 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 		}
 
 
+		private function add_linked_month_year_crumb() {
+			global $wp_locale;
+
+			$this->add_predefined_crumb(
+				$wp_locale->get_month( get_query_var( 'monthnum' ) ) . ' ' . get_query_var( 'year' ),
+				get_month_link( get_query_var( 'year' ), get_query_var( 'monthnum' ) )
+			);
+		}
+		
+		private function add_month_crumb() {
+			$this->add_predefined_crumb(
+				$this->options['breadcrumbs-archiveprefix'] . ' ' . esc_html( single_month_title( ' ', false ) ),
+				null,
+				true
+			);
+		}
+		
+		private function add_year_crumb() {
+			$this->add_predefined_crumb(
+				$this->options['breadcrumbs-archiveprefix'] . ' ' . esc_html( get_query_var( 'year' ) ),
+				null,
+				true
+			);
+		}
+
+		private function add_date_crumb( $date = null ) {
+			if( is_null( $date ) ) {
+				$date = get_the_date();
+			}
+			else {
+				$date = mysql2date( get_option( 'date_format' ), $date );
+				$date = apply_filters( 'get_the_date', $date, '' );
+			}
+
+			$this->add_predefined_crumb(
+				$this->options['breadcrumbs-archiveprefix'] . ' ' . esc_html( $date ),
+				null,
+				true
+			);
+		}
 
 
 		/**
@@ -607,6 +626,7 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 
 			if ( isset( $link['text'] ) && ( is_string( $link['text'] ) && $link['text'] !== '' ) ) {
 
+				$link['text'] = trim( $link['text'] );
 				if( ! isset( $link['allow_html'] ) || $link['allow_html'] !== true ) {
 					$link['text'] = esc_html( $link['text'] );
 				}
