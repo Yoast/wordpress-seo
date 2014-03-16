@@ -122,6 +122,7 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 	* Fixed 'Page %d of %d' / %%page%% variable not being replaced when on pages, as reported by [SGr33n](https://github.com/SGr33n) in [issue #801](https://github.com/Yoast/wordpress-seo/issues/801) - props [Jrf](http://profiles.wordpress.org/jrf).
 	* Restore robots meta box per post to its former glory, it now shows even when blog is not set to public.
 	* Fix wp admin bar keyword density check link
+	* Fixed a keyword density problem in the Page Analysis
 
 * Enhancements
 	* Added filters for the change frequencies of different URLs added to the sitemap. Props to [haroldkyle](https://github.com/haroldkyle) for the idea.
