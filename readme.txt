@@ -132,6 +132,7 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 	* Refactored the breadcrumb class - props [Jrf](http://profiles.wordpress.org/jrf).
 	* Fixed: Too aggressive html escaping of the breadcrumbs
 	* Fixed: last breadcrumb wasn't always determined correctly resulting in crumbs not being linked when they should
+	* Fixed: missing separators and default texts
 
 	
 = 1.5.2.2 =
