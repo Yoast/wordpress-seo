@@ -413,15 +413,8 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 						$post_type = sanitize_text_field( $_GET['post_type'] );
 					}
 
-
-					/* Don't show the robots index field if it's overruled by a blog-wide option */
-					if ( '0' == get_option( 'blog_public' ) ) {
-						unset( $field_defs['meta-robots-noindex'] );
-					}
-					else {
-						/* Adjust the no-index 'default for post type' text string based on the post type */
-						$field_defs['meta-robots-noindex']['options']['0'] = sprintf( $field_defs['meta-robots-noindex']['options']['0'], ( ( isset( $options['noindex-' . $post_type] ) && $options['noindex-' . $post_type] === true ) ? 'noindex' : 'index' ) );
-					}
+					/* Adjust the no-index 'default for post type' text string based on the post type */
+					$field_defs['meta-robots-noindex']['options']['0'] = sprintf( $field_defs['meta-robots-noindex']['options']['0'], ( ( isset( $options['noindex-' . $post_type] ) && $options['noindex-' . $post_type] === true ) ? 'noindex' : 'index' ) );
 
 					/* Adjust the robots advanced 'site-wide default' text string based on those settings */
 					if ( $options['noodp'] !== false || $options['noydir'] !== false ) {
