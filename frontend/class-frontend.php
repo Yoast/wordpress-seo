@@ -1336,7 +1336,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 
 			if ( $this->options['cleanpermalink-googlecampaign'] === true ) {
 				// Prevent cleaning out Google Analytics campaign variables
-				$whitelisted_extravars = array_merge( $whitelisted_extravars, array( 'utm_campaign', 'utm_medium', 'utm_source', 'utm_content', 'utm_term' ) );
+				$whitelisted_extravars = array_merge( $whitelisted_extravars, array( 'utm_campaign', 'utm_medium', 'utm_source', 'utm_content', 'utm_term', 'utm_id', 'gclid' ) );
 			}
 
 			if ( $this->options['cleanpermalink-extravars'] !== '' ) {
