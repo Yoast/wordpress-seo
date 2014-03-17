@@ -133,6 +133,7 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 	* Fixed: Last breadcrumb wasn't always determined correctly resulting in crumbs not being linked when they should have been.
 	* Fixed: Breadcrumbs were sometimes missing separators and default texts since v1.5.0.
 	* Fixed: 404 date based breadcrumb and title creation could cause corruption of the `$post` object.
+	* Fixed: Filtering posts based on SEO score via the dropdown at the top of a post/page overview page no longer worked. Fixed. As reported by [gmuehl](https://github.com/gmuehl) in [issue #838](https://github.com/Yoast/wordpress-seo/issues/838) - props [Jrf](http://profiles.wordpress.org/jrf).
 
 * Enhancements
 	* Added filters for the change frequencies of different URLs added to the sitemap. Props to [haroldkyle](https://github.com/haroldkyle) for the idea.
