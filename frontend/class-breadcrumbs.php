@@ -214,7 +214,7 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 			 */
 			$ancestors = apply_filters( 'wp_seo_get_bc_ancestors', $ancestors );
 			
-			if( ! is_array( $ancestors ) ) {
+			if ( ! is_array( $ancestors ) ) {
 				trigger_error( 'The return value for the "wp_seo_get_bc_ancestors" filter should be an array.', E_USER_WARNING );
 				$ancestors = (array) $ancestors;
 			}
@@ -323,7 +323,7 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 			 *
 			 * @api array $crumbs The crumbs array
 			 */
-			$this->crumbs      = apply_filters( 'wpseo_breadcrumb_links', $this->crumbs );
+			$this->crumbs = apply_filters( 'wpseo_breadcrumb_links', $this->crumbs );
 
 			$this->crumb_count = count( $this->crumbs );
 		}
@@ -371,7 +371,7 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 		private function maybe_add_blog_crumb() {
 			if ( 'page' === $this->show_on_front && 'post' === get_post_type() && ! is_home() ) {
 				if ( $this->page_for_posts && $this->options['breadcrumbs-blog-remove'] === false ) {
-					$this-add_blog_crumb();
+					$this->add_blog_crumb();
 				}
 			}
 		}
@@ -406,7 +406,7 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 
 		private function add_post_ancestor_crumbs() {
 			$ancestors = $this->get_post_ancestors();
-			if( is_array( $ancestors ) && $ancestors !== array() ) {
+			if ( is_array( $ancestors ) && $ancestors !== array() ) {
 				foreach ( $ancestors as $ancestor ) {
 					$this->add_single_post_crumb( $ancestor );
 				}
@@ -475,7 +475,7 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 		}
 
 		private function add_date_crumb( $date = null ) {
-			if( is_null( $date ) ) {
+			if ( is_null( $date ) ) {
 				$date = get_the_date();
 			}
 			else {
@@ -620,24 +620,24 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 		 * @return	string
 		 */
 		private function crumb_to_link( $link, $i ) {
-			global $paged;
-//pr_var( $paged, 'paged', true ); -> only works for archives, not for paged articles
+			global $paged; // @todo ? -> only works for archives, not for paged articles
+
 			$link_output = '';
 
 			if ( isset( $link['text'] ) && ( is_string( $link['text'] ) && $link['text'] !== '' ) ) {
 
 				$link['text'] = trim( $link['text'] );
-				if( ! isset( $link['allow_html'] ) || $link['allow_html'] !== true ) {
+				if ( ! isset( $link['allow_html'] ) || $link['allow_html'] !== true ) {
 					$link['text'] = esc_html( $link['text'] );
 				}
 
 				$inner_elm = 'span';
-				if( $this->options['breadcrumbs-boldlast'] === true && $i === ( $this->crumb_count - 1 ) ) {
+				if ( $this->options['breadcrumbs-boldlast'] === true && $i === ( $this->crumb_count - 1 ) ) {
 					$inner_elm = 'strong';
 				}
 				
 				$class = '';
-				if( $i === ( $this->crumb_count - 1 ) ) {
+				if ( $i === ( $this->crumb_count - 1 ) ) {
 					$class = ' class="breadcrumb_last"';
 				}
 
@@ -645,8 +645,7 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 				$link_output = '<' . $this->element . ' typeof="v:Breadcrumb">';
 
 				if ( ( isset( $link['url'] ) && ( is_string( $link['url'] ) && $link['url'] !== '' ) ) &&
-					( $i < ( $this->crumb_count - 1 ) || $paged ) )
-				{
+					( $i < ( $this->crumb_count - 1 ) || $paged ) ) {
 					$link_output .= '<a href="' . esc_url( $link['url'] ) . '"' . $class . ' rel="v:url" property="v:title">' . $link['text'] . '</a>';
 				}
 				else {
@@ -671,7 +670,7 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 		 * Create a complete breadcrumb string from an array of breadcrumb element strings
 		 */
 		private function links_to_string() {
-			if( is_array( $this->links ) && $this->links !== array() ) {
+			if ( is_array( $this->links ) && $this->links !== array() ) {
 				// Remove any effectively empty links
 				$links = array_map( 'trim', $this->links );
 				$links = array_filter( $links );
@@ -684,7 +683,7 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 		 * Wrap a breadcrumb string in a Breadcrumb RDFA wrapper
 		 */
 		private function wrap_breadcrumb() {
-			if( is_string( $this->output ) && $this->output !== '' ) {
+			if ( is_string( $this->output ) && $this->output !== '' ) {
 				$output = '
 		<' . $this->wrapper . $this->get_output_id() . $this->get_output_class() . ' xmlns:v="http://rdf.data-vocabulary.org/#">
 			' . $this->output . '
