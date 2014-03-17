@@ -123,11 +123,13 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 	* Restore robots meta box per post to its former glory, it now shows even when blog is not set to public.
 	* Fix wp admin bar keyword density check link
 	* Fixed a keyword density problem in the Page Analysis
+	* Fixed individual page robots settings not being respected when using a page as blog as reported by [wintersolutions](https://github.com/wintersolutions) in [issue #813](https://github.com/Yoast/wordpress-seo/issues/813) - props [Jrf](http://profiles.wordpress.org/jrf).
 
 * Enhancements
 	* Added filters for the change frequencies of different URLs added to the sitemap. Props to [haroldkyle](https://github.com/haroldkyle) for the idea.
 	* Private posts now default to noindex (even though they technically probably couldn't be indexed anyway).
 	* Show a warning message underneath a post's robots meta settings when site is set to noindex sitewide in WP core.
+	* Updated licensing class to show a notice when requests to yoast.com are blocked because of `WP_HTTP_BLOCK_EXTERNALS`
 
 = 1.5.2.2 =
 
