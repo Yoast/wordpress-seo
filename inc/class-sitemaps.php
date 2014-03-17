@@ -755,8 +755,16 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 			$n      = (int) $this->n;
 			$offset = ( $n > 1 ) ? ( $n - 1 ) * $this->max_entries : 0;
 
-			$terms = get_terms( $taxonomy->name, array( 'hide_empty' => true ) );
-			$terms = array_splice( $terms, $offset, $steps );
+			/**
+			 * Filter: 'wpseo_sitemap_exclude_empty_terms' - Allow people to include empty terms in sitemap
+			 *
+			 * @api bool $hide_empty Whether or not to hide empty terms, defaults to true.
+			 *
+			 * @param object $taxonomy The taxonomy we're getting terms for.
+			 */
+			$hide_empty = apply_filters( 'wpseo_sitemap_exclude_empty_terms', true, $taxonomy );
+			$terms      = get_terms( $taxonomy->name, array( 'hide_empty' => $hide_empty ) );
+			$terms      = array_splice( $terms, $offset, $steps );
 
 			if ( is_array( $terms ) && $terms !== array() ) {
 				foreach ( $terms as $c ) {

@@ -136,6 +136,7 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 
 * Enhancements
 	* Added filters for the change frequencies of different URLs added to the sitemap. Props to [haroldkyle](https://github.com/haroldkyle) for the idea.
+	* Added filter `wpseo_sitemap_exclude_empty_terms` to allow including empty terms in the XML sitemap.
 	* Private posts now default to noindex (even though they technically probably couldn't be indexed anyway).
 	* Show a warning message underneath a post's robots meta settings when site is set to noindex sitewide in WP core.
 	* Updated licensing class to show a notice when requests to yoast.com are blocked because of `WP_HTTP_BLOCK_EXTERNALS`.
