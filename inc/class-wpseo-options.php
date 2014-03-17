@@ -2151,7 +2151,7 @@ if ( ! class_exists( 'WPSEO_Option_InternalLinks' ) ) {
 				'breadcrumbs-sep',
 			);
 			foreach ( $values_to_bring_back as $key ) {
-				if( $option[$key] === '' && $this->defaults[$key] !== '' ) {
+				if ( $option[$key] === '' && $this->defaults[$key] !== '' ) {
 					$option[$key] = $this->defaults[$key];
 				}
 			}
