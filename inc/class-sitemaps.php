@@ -866,7 +866,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 					'meta_query' => array(
 						array(
 							'key'     => '_yoast_wpseo_profile_updated',
-							'value'   => '', // This is ignored, but is necessary...
+							'value'   => 'needs-a-value-anyway', // This is ignored, but is necessary...
 							'compare' => 'NOT EXISTS',
 						),
 					)
