@@ -33,9 +33,24 @@ if ( ! function_exists( 'add_filter' ) ) {
 	exit();
 }
 
-if ( ! defined( 'WPSEO_FILE' ) ) {
-	define( 'WPSEO_FILE', __FILE__ );
+/**
+* Bootstraps the WordPress SEO Plugin
+*
+* Checks if WordPress SEO Premium is activated
+*/ 
+function wpseo_bootstrap() {
+
+	if( defined( "WPSEO_VERSION" ) ) {
+		return false;
+	}
+
+	if ( ! defined( 'WPSEO_FILE' ) ) {
+		define( 'WPSEO_FILE', __FILE__ );
+	}
+
+	// Load the WordPress SEO plugin
+	require_once( 'wp-seo-main.php' );
 }
 
-// Load the WordPress SEO plugin
-require_once( 'wp-seo-main.php' );
+add_action( 'plugins_loaded', 'wpseo_bootstrap', 2 );
+
