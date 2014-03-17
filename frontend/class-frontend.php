@@ -348,21 +348,19 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 			} elseif ( is_singular() ) {
 				$title = $this->get_content_title();
 
-				if ( ! is_string( $title ) || ( is_string( $title ) && $title === '' ) ) {
+				if ( ! is_string( $title ) || '' === $title ) {
 					$title_part = $original_title;
 				}
 			} elseif ( is_search() ) {
 				$title = $this->get_title_from_options( 'title-search-wpseo' );
 
-				// @todo [JRF => Yoast] Should this not use the default if no title found ?
-				// WPSEO_Options::get_default( 'wpseo_titles', 'title-search-wpseo' )
-				// Replacement would be needed!
-				if ( empty( $title ) )
+				if ( ! is_string( $title ) || '' === $title ) {
 					$title_part = sprintf( __( 'Search for "%s"', 'wordpress-seo' ), esc_html( get_search_query() ) );
+				}
 			} elseif ( is_category() || is_tag() || is_tax() ) {
 				$title = $this->get_taxonomy_title();
 
-				if ( empty( $title ) ) {
+				if ( ! is_string( $title ) || '' === $title ) {
 					if ( is_category() ) {
 						$title_part = single_cat_title( '', false );
 					} elseif ( is_tag() ) {
@@ -379,14 +377,14 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 			} elseif ( is_author() ) {
 				$title = $this->get_author_title();
 
-				if ( empty( $title ) ) {
+				if ( ! is_string( $title ) || '' === $title ) {
 					$title_part = get_the_author_meta( 'display_name', get_query_var( 'author' ) );
 				}
 			} elseif ( is_post_type_archive() ) {
 				$post_type = get_query_var( 'post_type' );
 				$title     = $this->get_title_from_options( 'title-ptarchive-' . $post_type );
 
-				if ( ! is_string( $title ) || $title === '' ) {
+				if ( ! is_string( $title ) || '' === $title ) {
 					$post_type_obj = get_post_type_object( $post_type );
 					if ( isset( $post_type_obj->labels->menu_name ) ) {
 						$title_part = $post_type_obj->labels->menu_name;
@@ -587,32 +585,8 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 					$robots['index'] = 'noindex';
 				}
 
-				if ( WPSEO_Meta::get_value( 'meta-robots-noindex' ) === '1' ) {
-					$robots['index'] = 'noindex';
-				} elseif ( WPSEO_Meta::get_value( 'meta-robots-noindex' ) === '2' ) {
-					$robots['index'] = 'index';
-				}
+				$robots = $this->robots_for_single_post( $robots );
 
-				if ( WPSEO_Meta::get_value( 'meta-robots-nofollow' ) === '1' ) {
-					$robots['follow'] = 'nofollow';
-				}
-
-				$meta_robots_adv = WPSEO_Meta::get_value( 'meta-robots-adv' );
-				if ( $meta_robots_adv !== '' && ( $meta_robots_adv !== '-' && $meta_robots_adv !== 'none' ) ) {
-					$meta_robots_adv = explode( ',', $meta_robots_adv );
-					foreach ( $meta_robots_adv as $robot ) {
-						$robots['other'][] = $robot;
-					}
-					unset( $robot );
-				} elseif ( $meta_robots_adv === '' || $meta_robots_adv === '-' ) {
-					foreach ( array( 'noodp', 'noydir' ) as $robot ) {
-						if ( $this->options[$robot] === true ) {
-							$robots['other'][] = $robot;
-						}
-					}
-					unset( $robot );
-				}
-				unset( $meta_robots_adv );
 			} else {
 				if ( is_search() ) {
 					$robots['index'] = 'noindex';
@@ -629,10 +603,20 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 					}
 				} elseif (
 						( is_author() && $this->options['noindex-author-wpseo'] === true ) ||
-						( is_date() && $this->options['noindex-archive-wpseo'] === true ) ||
-						( is_home() && get_query_var( 'paged' ) > 1 )
+						( is_date() && $this->options['noindex-archive-wpseo'] === true )
 				) {
 					$robots['index'] = 'noindex';
+				} elseif ( is_home() ) {
+					if ( get_query_var( 'paged' ) > 1 ) {
+						$robots['index'] = 'noindex';
+					}
+					
+					$page_for_posts = get_option( 'page_for_posts' );
+					if ( $page_for_posts ) {
+						$robots = $this->robots_for_single_post( $robots, $page_for_posts );
+					}
+					unset( $page_for_posts );
+
 				} elseif ( is_post_type_archive() ) {
 					$post_type = get_query_var( 'post_type' );
 					if ( isset( $this->options['noindex-ptarchive-' . $post_type] ) && $this->options['noindex-ptarchive-' . $post_type] === true )
@@ -680,6 +664,47 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 				echo '<meta name="robots" content="' . esc_attr( $robotsstr ) . '"/>' . "\n";
 			}
 		}
+		
+		/**
+		 * Determine $robots values for a single post
+		 *
+		 * @param	array		$robots
+		 * @param	int|string	$postid	The postid for which to determine the $robots values, defaults to
+		 *						the current post
+		 *
+		 * @return	array
+		 */
+		function robots_for_single_post( $robots, $postid = 0 ) {
+			if ( WPSEO_Meta::get_value( 'meta-robots-noindex', $postid ) === '1' ) {
+				$robots['index'] = 'noindex';
+			} elseif ( WPSEO_Meta::get_value( 'meta-robots-noindex', $postid ) === '2' ) {
+				$robots['index'] = 'index';
+			}
+
+			if ( WPSEO_Meta::get_value( 'meta-robots-nofollow', $postid ) === '1' ) {
+				$robots['follow'] = 'nofollow';
+			}
+
+			$meta_robots_adv = WPSEO_Meta::get_value( 'meta-robots-adv', $postid );
+			if ( $meta_robots_adv !== '' && ( $meta_robots_adv !== '-' && $meta_robots_adv !== 'none' ) ) {
+				$meta_robots_adv = explode( ',', $meta_robots_adv );
+				foreach ( $meta_robots_adv as $robot ) {
+					$robots['other'][] = $robot;
+				}
+				unset( $robot );
+			} elseif ( $meta_robots_adv === '' || $meta_robots_adv === '-' ) {
+				foreach ( array( 'noodp', 'noydir' ) as $robot ) {
+					if ( $this->options[$robot] === true ) {
+						$robots['other'][] = $robot;
+					}
+				}
+				unset( $robot );
+			}
+			unset( $meta_robots_adv );
+			
+			return $robots;
+		}
+
 
 		/**
 		 * This function normally outputs the canonical but is also used in other places to retrieve
