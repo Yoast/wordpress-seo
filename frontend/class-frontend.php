@@ -348,21 +348,19 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 			} elseif ( is_singular() ) {
 				$title = $this->get_content_title();
 
-				if ( ! is_string( $title ) || ( is_string( $title ) && $title === '' ) ) {
+				if ( ! is_string( $title ) || '' === $title ) {
 					$title_part = $original_title;
 				}
 			} elseif ( is_search() ) {
 				$title = $this->get_title_from_options( 'title-search-wpseo' );
 
-				// @todo [JRF => Yoast] Should this not use the default if no title found ?
-				// WPSEO_Options::get_default( 'wpseo_titles', 'title-search-wpseo' )
-				// Replacement would be needed!
-				if ( empty( $title ) )
+				if ( ! is_string( $title ) || '' === $title ) {
 					$title_part = sprintf( __( 'Search for "%s"', 'wordpress-seo' ), esc_html( get_search_query() ) );
+				}
 			} elseif ( is_category() || is_tag() || is_tax() ) {
 				$title = $this->get_taxonomy_title();
 
-				if ( empty( $title ) ) {
+				if ( ! is_string( $title ) || '' === $title ) {
 					if ( is_category() ) {
 						$title_part = single_cat_title( '', false );
 					} elseif ( is_tag() ) {
@@ -379,14 +377,14 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 			} elseif ( is_author() ) {
 				$title = $this->get_author_title();
 
-				if ( empty( $title ) ) {
+				if ( ! is_string( $title ) || '' === $title ) {
 					$title_part = get_the_author_meta( 'display_name', get_query_var( 'author' ) );
 				}
 			} elseif ( is_post_type_archive() ) {
 				$post_type = get_query_var( 'post_type' );
 				$title     = $this->get_title_from_options( 'title-ptarchive-' . $post_type );
 
-				if ( ! is_string( $title ) || $title === '' ) {
+				if ( ! is_string( $title ) || '' === $title ) {
 					$post_type_obj = get_post_type_object( $post_type );
 					if ( isset( $post_type_obj->labels->menu_name ) ) {
 						$title_part = $post_type_obj->labels->menu_name;
