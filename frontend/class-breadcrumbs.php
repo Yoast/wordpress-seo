@@ -511,13 +511,13 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 				$link_info = $crumb; // Keep pre-set url/text combis
 
 				if ( isset( $crumb['id'] ) ) {
-					$link_info = get_link_info_for_id( $crumb['id'] );
+					$link_info = $this->get_link_info_for_id( $crumb['id'] );
 				}
 				if ( isset( $crumb['term'] ) ) {
-					$link_info = get_link_info_for_term( $crumb['term'] );
+					$link_info = $this->get_link_info_for_term( $crumb['term'] );
 				}
 				if ( isset( $crumb['ptarchive'] ) ) {
-					$link_info = get_link_info_for_ptarchive( $crumb['ptarchive'] );
+					$link_info = $this->get_link_info_for_ptarchive( $crumb['ptarchive'] );
 				}
 
 				$this->links[] = $this->crumb_to_link( $link_info, $i );

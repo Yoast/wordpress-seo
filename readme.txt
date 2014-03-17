@@ -123,6 +123,10 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 	* Restore robots meta box per post to its former glory, it now shows even when blog is not set to public.
 	* Fix wp admin bar keyword density check link
 	* Fixed a keyword density problem in the Page Analysis
+	* Fixed: Too aggressive html escaping of the breadcrumbs
+	* Fixed: Last breadcrumb wasn't always determined correctly resulting in crumbs not being linked when they should have been
+	* Fixed: Breadcrumbs were sometimes missing separators and default texts since v1.5.0
+	* Fixed: 404 date based title creation could cause corruption of the $post object
 
 * Enhancements
 	* Added filters for the change frequencies of different URLs added to the sitemap. Props to [haroldkyle](https://github.com/haroldkyle) for the idea.
@@ -131,11 +135,7 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 
 * Other
 	* Refactored the breadcrumb class - props [Jrf](http://profiles.wordpress.org/jrf).
-	* Fixed: Too aggressive html escaping of the breadcrumbs
-	* Fixed: last breadcrumb wasn't always determined correctly resulting in crumbs not being linked when they should
-	* Fixed: missing separators and default texts
 
-	
 = 1.5.2.2 =
 
 * Bugfixes
