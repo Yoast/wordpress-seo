@@ -589,32 +589,8 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 					$robots['index'] = 'noindex';
 				}
 
-				if ( WPSEO_Meta::get_value( 'meta-robots-noindex' ) === '1' ) {
-					$robots['index'] = 'noindex';
-				} elseif ( WPSEO_Meta::get_value( 'meta-robots-noindex' ) === '2' ) {
-					$robots['index'] = 'index';
-				}
+				$robots = $this->robots_for_single_post( $robots );
 
-				if ( WPSEO_Meta::get_value( 'meta-robots-nofollow' ) === '1' ) {
-					$robots['follow'] = 'nofollow';
-				}
-
-				$meta_robots_adv = WPSEO_Meta::get_value( 'meta-robots-adv' );
-				if ( $meta_robots_adv !== '' && ( $meta_robots_adv !== '-' && $meta_robots_adv !== 'none' ) ) {
-					$meta_robots_adv = explode( ',', $meta_robots_adv );
-					foreach ( $meta_robots_adv as $robot ) {
-						$robots['other'][] = $robot;
-					}
-					unset( $robot );
-				} elseif ( $meta_robots_adv === '' || $meta_robots_adv === '-' ) {
-					foreach ( array( 'noodp', 'noydir' ) as $robot ) {
-						if ( $this->options[$robot] === true ) {
-							$robots['other'][] = $robot;
-						}
-					}
-					unset( $robot );
-				}
-				unset( $meta_robots_adv );
 			} else {
 				if ( is_search() ) {
 					$robots['index'] = 'noindex';
@@ -638,35 +614,12 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 					if ( get_query_var( 'paged' ) > 1 ) {
 						$robots['index'] = 'noindex';
 					}
-
-					if ( get_option( 'page_for_posts' ) ) {
-						if ( WPSEO_Meta::get_value( 'meta-robots-noindex' ) === '1' ) {
-							$robots['index'] = 'noindex';
-						} elseif ( WPSEO_Meta::get_value( 'meta-robots-noindex' ) === '2' ) {
-							$robots['index'] = 'index';
-						}
-		
-						if ( WPSEO_Meta::get_value( 'meta-robots-nofollow' ) === '1' ) {
-							$robots['follow'] = 'nofollow';
-						}
-		
-						$meta_robots_adv = WPSEO_Meta::get_value( 'meta-robots-adv' );
-						if ( $meta_robots_adv !== '' && ( $meta_robots_adv !== '-' && $meta_robots_adv !== 'none' ) ) {
-							$meta_robots_adv = explode( ',', $meta_robots_adv );
-							foreach ( $meta_robots_adv as $robot ) {
-								$robots['other'][] = $robot;
-							}
-							unset( $robot );
-						} elseif ( $meta_robots_adv === '' || $meta_robots_adv === '-' ) {
-							foreach ( array( 'noodp', 'noydir' ) as $robot ) {
-								if ( $this->options[$robot] === true ) {
-									$robots['other'][] = $robot;
-								}
-							}
-							unset( $robot );
-						}
-						unset( $meta_robots_adv );
+					
+					$page_for_posts = get_option( 'page_for_posts' );
+					if ( $page_for_posts ) {
+						$robots = $this->robots_for_single_post( $robots, $page_for_posts );
 					}
+					unset( $page_for_posts );
 
 				} elseif ( is_post_type_archive() ) {
 					$post_type = get_query_var( 'post_type' );
@@ -715,6 +668,47 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 				echo '<meta name="robots" content="' . esc_attr( $robotsstr ) . '"/>' . "\n";
 			}
 		}
+		
+		/**
+		 * Determine $robots values for a single post
+		 *
+		 * @param	array		$robots
+		 * @param	int|string	$postid	The postid for which to determine the $robots values, defaults to
+		 *						the current post
+		 *
+		 * @return	array
+		 */
+		function robots_for_single_post( $robots, $postid = 0 ) {
+			if ( WPSEO_Meta::get_value( 'meta-robots-noindex', $postid ) === '1' ) {
+				$robots['index'] = 'noindex';
+			} elseif ( WPSEO_Meta::get_value( 'meta-robots-noindex', $postid ) === '2' ) {
+				$robots['index'] = 'index';
+			}
+
+			if ( WPSEO_Meta::get_value( 'meta-robots-nofollow', $postid ) === '1' ) {
+				$robots['follow'] = 'nofollow';
+			}
+
+			$meta_robots_adv = WPSEO_Meta::get_value( 'meta-robots-adv', $postid );
+			if ( $meta_robots_adv !== '' && ( $meta_robots_adv !== '-' && $meta_robots_adv !== 'none' ) ) {
+				$meta_robots_adv = explode( ',', $meta_robots_adv );
+				foreach ( $meta_robots_adv as $robot ) {
+					$robots['other'][] = $robot;
+				}
+				unset( $robot );
+			} elseif ( $meta_robots_adv === '' || $meta_robots_adv === '-' ) {
+				foreach ( array( 'noodp', 'noydir' ) as $robot ) {
+					if ( $this->options[$robot] === true ) {
+						$robots['other'][] = $robot;
+					}
+				}
+				unset( $robot );
+			}
+			unset( $meta_robots_adv );
+			
+			return $robots;
+		}
+
 
 		/**
 		 * This function normally outputs the canonical but is also used in other places to retrieve
