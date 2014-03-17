@@ -631,10 +631,43 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 					}
 				} elseif (
 						( is_author() && $this->options['noindex-author-wpseo'] === true ) ||
-						( is_date() && $this->options['noindex-archive-wpseo'] === true ) ||
-						( is_home() && get_query_var( 'paged' ) > 1 )
+						( is_date() && $this->options['noindex-archive-wpseo'] === true )
 				) {
 					$robots['index'] = 'noindex';
+				} elseif ( is_home() ) {
+					if ( get_query_var( 'paged' ) > 1 ) {
+						$robots['index'] = 'noindex';
+					}
+
+					if ( get_option( 'page_for_posts' ) ) {
+						if ( WPSEO_Meta::get_value( 'meta-robots-noindex' ) === '1' ) {
+							$robots['index'] = 'noindex';
+						} elseif ( WPSEO_Meta::get_value( 'meta-robots-noindex' ) === '2' ) {
+							$robots['index'] = 'index';
+						}
+		
+						if ( WPSEO_Meta::get_value( 'meta-robots-nofollow' ) === '1' ) {
+							$robots['follow'] = 'nofollow';
+						}
+		
+						$meta_robots_adv = WPSEO_Meta::get_value( 'meta-robots-adv' );
+						if ( $meta_robots_adv !== '' && ( $meta_robots_adv !== '-' && $meta_robots_adv !== 'none' ) ) {
+							$meta_robots_adv = explode( ',', $meta_robots_adv );
+							foreach ( $meta_robots_adv as $robot ) {
+								$robots['other'][] = $robot;
+							}
+							unset( $robot );
+						} elseif ( $meta_robots_adv === '' || $meta_robots_adv === '-' ) {
+							foreach ( array( 'noodp', 'noydir' ) as $robot ) {
+								if ( $this->options[$robot] === true ) {
+									$robots['other'][] = $robot;
+								}
+							}
+							unset( $robot );
+						}
+						unset( $meta_robots_adv );
+					}
+
 				} elseif ( is_post_type_archive() ) {
 					$post_type = get_query_var( 'post_type' );
 					if ( isset( $this->options['noindex-ptarchive-' . $post_type] ) && $this->options['noindex-ptarchive-' . $post_type] === true )
