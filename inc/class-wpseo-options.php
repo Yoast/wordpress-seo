@@ -2079,6 +2079,13 @@ if ( ! class_exists( 'WPSEO_Option_InternalLinks' ) ) {
 		 * @return  array            Cleaned option
 		 */
 		protected function clean_option( $option_value, $current_version = null, $all_old_option_values = null ) {
+			
+			/* Make sure the old fall-back defaults for empty option keys are now added to the option */
+			if ( isset( $current_version ) && version_compare( $current_version, '1.5.3', '<' ) ) {
+				if ( has_action( 'init', array( 'WPSEO_Options', 'bring_back_breadcrumb_defaults' ) ) === false ) {
+					add_action( 'init', array( 'WPSEO_Options', 'bring_back_breadcrumb_defaults' ), 3 );
+				}
+			}
 
 			/* Make sure the values of the variable option key options are cleaned as they
 		 	   may be retained and would not be cleaned/validated then */
@@ -2124,6 +2131,31 @@ if ( ! class_exists( 'WPSEO_Option_InternalLinks' ) ) {
 			}
 
 			return $option_value;
+		}
+		
+		/**
+		 * With the changes to v1.5, the defaults for some of the textual breadcrumb settings are added
+		 * dynamically, but empty strings are allowed.
+		 * This caused issues for people who left the fields empty on purpose relying on the defaults.
+		 * This little routine fixes that.
+		 * Needs to be run on 'init' hook at prio 3 to make sure the defaults are translated.
+		 */
+		public function bring_back_defaults() {
+			$option = get_option( $this->option_name );
+
+			$values_to_bring_back = array(
+				'breadcrumbs-404crumb',
+				'breadcrumbs-archiveprefix',
+				'breadcrumbs-home',
+				'breadcrumbs-searchprefix',
+				'breadcrumbs-sep',
+			);
+			foreach ( $values_to_bring_back as $key ) {
+				if ( $option[$key] === '' && $this->defaults[$key] !== '' ) {
+					$option[$key] = $this->defaults[$key];
+				}
+			}
+			update_option( $this->option_name, $option );
 		}
 
 	} /* End of class WPSEO_Option_InternalLinks */
@@ -3515,6 +3547,17 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 
 				// If we've done a full clean-up, we can safely remove this really old option
 				delete_option( 'wpseo_indexation' );
+			}
+		}
+
+		/**
+		 * Correct the inadvertent removal of the fallback to default values from the breadcrumbs
+		 *
+		 * @since 1.5.3
+		 */
+		public static function bring_back_breadcrumb_defaults() {
+			if ( isset( self::$option_instances['wpseo_internallinks'] ) ) {
+				self::$option_instances['wpseo_internallinks']->bring_back_defaults();
 			}
 		}
 

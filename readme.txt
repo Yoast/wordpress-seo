@@ -124,12 +124,19 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 	* Fix wp admin bar keyword density check link
 	* Fixed a keyword density problem in the Page Analysis
 	* Fixed individual page robots settings not being respected when using a page as blog as reported by [wintersolutions](https://github.com/wintersolutions) in [issue #813](https://github.com/Yoast/wordpress-seo/issues/813) - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fixed: Too aggressive html escaping of the breadcrumbs
+	* Fixed: Last breadcrumb wasn't always determined correctly resulting in crumbs not being linked when they should have been
+	* Fixed: Breadcrumbs were sometimes missing separators and default texts since v1.5.0
+	* Fixed: 404 date based breadcrumb and title creation could cause corruption of the $post object
 
 * Enhancements
 	* Added filters for the change frequencies of different URLs added to the sitemap. Props to [haroldkyle](https://github.com/haroldkyle) for the idea.
 	* Private posts now default to noindex (even though they technically probably couldn't be indexed anyway).
 	* Show a warning message underneath a post's robots meta settings when site is set to noindex sitewide in WP core.
 	* Updated licensing class to show a notice when requests to yoast.com are blocked because of `WP_HTTP_BLOCK_EXTERNALS`
+
+* Other
+	* Refactored the breadcrumb class - props [Jrf](http://profiles.wordpress.org/jrf).
 
 = 1.5.2.2 =
 

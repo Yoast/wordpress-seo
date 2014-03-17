@@ -416,12 +416,10 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 				if ( 0 !== get_query_var( 'year' ) || ( 0 !== get_query_var( 'monthnum' ) || 0 !== get_query_var( 'day' ) ) ) {
 					// @todo [JRF => Yoast] Should these not use the archive default if no title found ?
 					if ( 0 !== get_query_var( 'day' ) ) {
-
-						global $post;
-						$original_p      = $post;
-						$post->post_date = sprintf( '%04d-%02d-%02d 00:00:00', get_query_var( 'year' ), get_query_var( 'monthnum' ), get_query_var( 'day' ) );
-						$title_part      = sprintf( __( '%s Archives', 'wordpress-seo' ), get_the_date() );
-						$post            = $original_p;
+						$date = sprintf( '%04d-%02d-%02d 00:00:00', get_query_var( 'year' ), get_query_var( 'monthnum' ), get_query_var( 'day' ) );
+						$date = mysql2date( get_option( 'date_format' ), $date );
+						$date = apply_filters( 'get_the_date', $date, '' );
+						$title_part      = sprintf( __( '%s Archives', 'wordpress-seo' ), $date );
 					} elseif ( 0 !== get_query_var( 'monthnum' ) ) {
 						$title_part = sprintf( __( '%s Archives', 'wordpress-seo' ), single_month_title( ' ', false ) );
 					} elseif ( 0 !== get_query_var( 'year' ) ) {

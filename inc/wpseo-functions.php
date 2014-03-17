@@ -42,6 +42,13 @@ function wpseo_do_upgrade() {
 		// Add new capabilities on upgrade
 		wpseo_add_capabilities();
 	}
+
+	/* Only correct the breadcrumb defaults for upgrades from v1.5+ to v1.5.3, upgrades from earlier version
+	   will already get this functionality in the clean_up routine. */
+	if ( version_compare( $option_wpseo['version'], '1.4.25', '>' ) && version_compare( $option_wpseo['version'], '1.5.3', '<' ) ) {
+		add_action( 'init', array( 'WPSEO_Options', 'bring_back_breadcrumb_defaults' ), 3 );
+	}
+
 	
 	// Make sure version nr gets updated for any version without specific upgrades
 	$option_wpseo = get_option( 'wpseo' ); // re-get to make sure we have the latest version
@@ -71,7 +78,7 @@ if ( ! function_exists( 'yoast_breadcrumb' ) ) {
 	 * Other than that, leaving the setting is an easy way to enable/disable the bc without having to
 	 * edit the template files again, but having to manually enable when you've added the template tag
 	 * in your theme is kind of double, so I'm undecided about what to do.
-	 * I guess I'm leaning towards removing the option key in combination with adding the bc shortcode.
+	 * I guess I'm leaning towards removing the option key.
 	 *
 	 * @param string $before  What to show before the breadcrumb.
 	 * @param string $after   What to show after the breadcrumb.
@@ -82,20 +89,9 @@ if ( ! function_exists( 'yoast_breadcrumb' ) ) {
 	function yoast_breadcrumb( $before = '', $after = '', $display = true ) {
 		$options = get_option( 'wpseo_internallinks' );
 
-		$breadcrumbs_string = "";
-
 		if ( $options['breadcrumbs-enable'] === true ) {
-			$breadcrumbs = new WPSEO_Breadcrumbs();
-
-			$breadcrumbs_string = $breadcrumbs->breadcrumb( $before, $after, false );
+			return WPSEO_Breadcrumbs::breadcrumb( $before, $after, $display );
 		}
-
-		// Output $breadcrumbs_string is $display is true
-		if ( true === $display ) {
-			echo $breadcrumbs_string;
-		}
-
-		return $breadcrumbs_string;
 	}
 }
 
