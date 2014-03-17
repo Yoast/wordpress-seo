@@ -1757,13 +1757,14 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			$job['keyword'] = $this->strtolower_utf8( $job['keyword'] );
 
 			$keywordWordCount = $this->statistics()->word_count( $job['keyword'] );
+
 			if ( $keywordWordCount > 10 ) {
 				$this->save_score_result( $results, 0, __( 'Your keyphrase is over 10 words, a keyphrase should be shorter and there can be only one keyphrase.', 'wordpress-seo' ), 'focus_keyword_length' );
 			} else {
 				// Keyword Density check
 				$keywordDensity = 0;
 				if ( $wordCount > 100 ) {
-					$keywordCount = preg_match_all( '`\b' . preg_quote( $job['keyword'], '`\b' ) . '`miu', $body, $res );
+					$keywordCount = preg_match_all( "`\b" . preg_quote( $job['keyword'], '`\b' ) . "`miu", utf8_encode ( $body ), $res );
 					if ( ( $keywordCount > 0 && $keywordWordCount > 0 ) && $wordCount > $keywordCount ) {
 						$keywordDensity = wpseo_calc( wpseo_calc( $keywordCount, '/', wpseo_calc( $wordCount, '-', ( wpseo_calc( wpseo_calc( $keywordWordCount, '-', 1 ), '*', $keywordCount ) ) ) ), '*', 100, true, 2 );
 					}
