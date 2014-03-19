@@ -2081,7 +2081,7 @@ if ( ! class_exists( 'WPSEO_Option_InternalLinks' ) ) {
 		protected function clean_option( $option_value, $current_version = null, $all_old_option_values = null ) {
 			
 			/* Make sure the old fall-back defaults for empty option keys are now added to the option */
-			if ( isset( $current_version ) && version_compare( $current_version, '1.5.3', '<' ) ) {
+			if ( isset( $current_version ) && version_compare( $current_version, '1.5.2.3', '<' ) ) {
 				if ( has_action( 'init', array( 'WPSEO_Options', 'bring_back_breadcrumb_defaults' ) ) === false ) {
 					add_action( 'init', array( 'WPSEO_Options', 'bring_back_breadcrumb_defaults' ), 3 );
 				}
@@ -3553,7 +3553,7 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 		/**
 		 * Correct the inadvertent removal of the fallback to default values from the breadcrumbs
 		 *
-		 * @since 1.5.3
+		 * @since 1.5.2.3
 		 */
 		public static function bring_back_breadcrumb_defaults() {
 			if ( isset( self::$option_instances['wpseo_internallinks'] ) ) {

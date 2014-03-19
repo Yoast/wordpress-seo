@@ -851,12 +851,12 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 		/**
 		 * Take the links array and return a full breadcrumb string.
 		 *
-		 * @deprecated 1.5.3
+		 * @deprecated 1.5.2.3
 		 *
 		 * @return	string
 		 */
 		public function create_breadcrumbs_string( $links, $wrapper = 'span', $element = 'span' ) {
-			_deprecated_function( __CLASS__ . '::' . __METHOD__, 'WPSEO 1.5.3', 'yoast_breadcrumbs' );
+			_deprecated_function( __CLASS__ . '::' . __METHOD__, 'WPSEO 1.5.2.3', 'yoast_breadcrumbs' );
 		}
 
 
