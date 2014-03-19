@@ -1966,7 +1966,7 @@ if ( ! class_exists( 'WPSEO_Option_InternalLinks' ) ) {
 						if ( isset( $dirty[$key] ) ) {
 							if ( $taxonomies !== array() && in_array( $dirty[$key], $taxonomies, true ) ) {
 								$clean[$key] = $dirty[$key];
-							} elseif ( (string) $dirty[$key] === '0' ) {
+							} elseif ( (string) $dirty[$key] === '0' || (string) $dirty[$key] === '' ) {
 								$clean[$key] = 0;
 							} elseif ( sanitize_title_with_dashes( $dirty[$key] ) === $dirty[$key] ) {
 								// Allow taxonomies which may not be registered yet
@@ -1998,7 +1998,7 @@ if ( ! class_exists( 'WPSEO_Option_InternalLinks' ) ) {
 						if ( isset( $dirty[$key] ) ) {
 							if ( $allowed_post_types !== array() && in_array( $dirty[$key], $allowed_post_types, true ) ) {
 								$clean[$key] = $dirty[$key];
-							} elseif ( (string) $dirty[$key] === '0' ) {
+							} elseif ( (string) $dirty[$key] === '0' || (string) $dirty[$key] === '' ) {
 								$clean[$key] = 0;
 							} elseif ( sanitize_key( $dirty[$key] ) === $dirty[$key] ) {
 								// Allow taxonomies which may not be registered yet
@@ -2105,7 +2105,7 @@ if ( ! class_exists( 'WPSEO_Option_InternalLinks' ) ) {
 
 							if ( $taxonomies !== array() && in_array( $value, $taxonomies, true ) ) {
 								$option_value[$key] = $value;
-							} elseif ( (string) $value === '0' ) {
+							} elseif ( (string) $value === '0' || (string) $dirty[$key] === '' ) {
 								$option_value[$key] = 0;
 							} elseif ( sanitize_title_with_dashes( $value ) === $value ) {
 								// Allow taxonomies which may not be registered yet
@@ -2119,7 +2119,7 @@ if ( ! class_exists( 'WPSEO_Option_InternalLinks' ) ) {
 						case 'taxonomy-':
 							if ( $allowed_post_types !== array() && in_array( $value, $allowed_post_types, true ) ) {
 								$option_value[$key] = $value;
-							} elseif ( (string) $value === '0' ) {
+							} elseif ( (string) $value === '0' || (string) $dirty[$key] === '' ) {
 								$option_value[$key] = 0;
 							} elseif ( sanitize_key( $option_value[$key] ) === $option_value[$key] ) {
 								// Allow post types which may not be registered yet
