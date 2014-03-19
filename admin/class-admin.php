@@ -227,7 +227,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 			$screen->add_help_tab(
 					array(
 							'id'      => 'title-vars-advanced',
-							'title'   => __( 'Advanced Variables.', 'wordpress-seo' ),
+							'title'   => __( 'Advanced Variables', 'wordpress-seo' ),
 							'content' => '
 				<h2>' . __( 'Advanced Variables.', 'wordpress-seo' ) . '</h2>
 				<table class="yoast_help">
