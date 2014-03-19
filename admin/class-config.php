@@ -234,12 +234,14 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 		/**
 		 * Deletes all post meta values with a given meta key from the database
 		 *
+		 * @todo [JRF => whomever] This method does not seem to be used anywhere. Double-check before removal.
+		 *
 		 * @param string $meta_key Key to delete all meta values for.
 		 */
-		function delete_meta( $meta_key ) {
+		/*function delete_meta( $meta_key ) {
 			global $wpdb;
 			$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->postmeta WHERE meta_key = %s", $meta_key ) );
-		}
+		}*/
 
 		/**
 		 * Exports the current site's WP SEO settings.

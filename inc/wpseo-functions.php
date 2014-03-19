@@ -681,7 +681,7 @@ function wpseo_sitemap_handler( $atts ) {
 						// include if this key doesn't exists
 						array(
 							'key'     => WPSEO_Meta::$meta_prefix . 'meta-robots-noindex',
-							'value'   => '', // This is ignored, but is necessary...
+							'value'   => 'needs-a-value-anyway', // This is ignored, but is necessary...
 							'compare' => 'NOT EXISTS',
 						),
 						// OR if key does exists include if it is not 1
