@@ -900,7 +900,7 @@ if ( ! class_exists( 'WPSEO_Option_Wpseo' ) ) {
 							$meta = $dirty[$key];
 							if ( strpos( $meta, 'content=' ) ) {
 								// Make sure we only have the real key, not a complete meta tag
-								preg_match( '`content=([\'"])([^\'"]+)\1`', $meta, $match );
+								preg_match( '`content=([\'"])?([^\'"> ]+)(?:\1|[ />])`', $meta, $match );
 								if ( isset( $match[2] ) ) {
 									$meta = $match[2];
 								}
