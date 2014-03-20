@@ -3184,7 +3184,7 @@ if ( ! class_exists( 'WPSEO_Taxonomy_Meta' ) ) {
 					case 'wpseo_metakey':
 					case 'wpseo_bctitle':
 						if ( isset( $meta_data[$key] ) ) {
-							$clean[$key] = self::sanitize_text_field( $meta_data[$key] );
+							$clean[$key] = self::sanitize_text_field( stripslashes( $meta_data[$key] ) );
 						} elseif ( isset( $old_meta[$key] ) ) {
 							// Retain old value if field currently not in use
 							$clean[$key] = $old_meta[$key];
@@ -3195,7 +3195,7 @@ if ( ! class_exists( 'WPSEO_Taxonomy_Meta' ) ) {
 					case 'wpseo_desc':
 					default:
 						if ( isset( $meta_data[$key] ) && is_string( $meta_data[$key] ) ) {
-							$clean[$key] = self::sanitize_text_field( $meta_data[$key] );
+							$clean[$key] = self::sanitize_text_field( stripslashes( $meta_data[$key] ) );
 						}
 						break;
 				}
@@ -3247,10 +3247,14 @@ if ( ! class_exists( 'WPSEO_Taxonomy_Meta' ) ) {
 											break;
 
 										case 'canonical':
+										case 'wpseo_metakey':
+										case 'wpseo_bctitle':
+										case 'wpseo_title':
+										case 'wpseo_desc':
 											// @todo [JRF => whomever] needs checking, I don't have example data [JRF]
 											if ( $value !== '' ) {
-												// Fix incorrectly saved (encoded) canonical urls
-												$option_value[$taxonomy][$term_id][$key] = wp_specialchars_decode( stripslashes( $value ) );
+												// Fix incorrectly saved (encoded) canonical urls and texts
+												$option_value[$taxonomy][$term_id][$key] = wp_specialchars_decode( stripslashes( $value ), ENT_QUOTES );
 											}
 											break;
 
