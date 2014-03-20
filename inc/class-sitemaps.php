@@ -833,7 +833,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 			$this->sitemap .= 'xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
 
 			// Only add $ouput != empty
-			if( ! empty( $output ) ) {
+			if ( ! empty( $output ) ) {
 				$this->sitemap .= $output;
 			}
 

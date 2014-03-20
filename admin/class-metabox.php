@@ -979,7 +979,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 
 			$new_where = preg_replace( $find, $replace, $where );
 
-			if( $new_where ) {
+			if ( $new_where ) {
 				return $new_where;
 			}
 			else {

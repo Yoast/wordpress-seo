@@ -898,7 +898,7 @@ if ( ! function_exists( 'wpseo_calc' ) ) {
 			return false;
 		}
 
-		if( ! isset( $bc ) ) {
+		if ( ! isset( $bc ) ) {
 			$bc = extension_loaded( 'bcmath' );
 		}
 
