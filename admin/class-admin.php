@@ -162,7 +162,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 							'id'      => 'title-vars',
 							'title'   => __( 'Basic Variables', 'wordpress-seo' ),
 							'content' => '
-		<h2>' . __( 'Basic Variables.', 'wordpress-seo' ) . '</h2>
+		<h2>' . __( 'Basic Variables', 'wordpress-seo' ) . '</h2>
 			<table class="yoast_help">
 				<tr>
 					<th>%%date%%</th>
@@ -227,9 +227,9 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 			$screen->add_help_tab(
 					array(
 							'id'      => 'title-vars-advanced',
-							'title'   => __( 'Advanced Variables.', 'wordpress-seo' ),
+							'title'   => __( 'Advanced Variables', 'wordpress-seo' ),
 							'content' => '
-				<h2>' . __( 'Advanced Variables.', 'wordpress-seo' ) . '</h2>
+				<h2>' . __( 'Advanced Variables', 'wordpress-seo' ) . '</h2>
 				<table class="yoast_help">
 				<tr>
 					<th>%%pt_single%%</th>
