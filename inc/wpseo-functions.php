@@ -43,9 +43,9 @@ function wpseo_do_upgrade() {
 		wpseo_add_capabilities();
 	}
 
-	/* Only correct the breadcrumb defaults for upgrades from v1.5+ to v1.5.3, upgrades from earlier version
+	/* Only correct the breadcrumb defaults for upgrades from v1.5+ to v1.5.2.3, upgrades from earlier version
 	   will already get this functionality in the clean_up routine. */
-	if ( version_compare( $option_wpseo['version'], '1.4.25', '>' ) && version_compare( $option_wpseo['version'], '1.5.3', '<' ) ) {
+	if ( version_compare( $option_wpseo['version'], '1.4.25', '>' ) && version_compare( $option_wpseo['version'], '1.5.2.3', '<' ) ) {
 		add_action( 'init', array( 'WPSEO_Options', 'bring_back_breadcrumb_defaults' ), 3 );
 	}
 
