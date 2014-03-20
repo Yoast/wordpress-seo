@@ -470,6 +470,18 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 				$settings_link = '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_dashboard' ) ) . '">' . __( 'Settings', 'wordpress-seo' ) . '</a>';
 				array_unshift( $links, $settings_link );
 			}
+
+			if ( class_exists( 'Yoast_Product_WPSEO_Premium' ) ) {
+				$license_manager = new Yoast_Plugin_License_Manager( new Yoast_Product_WPSEO_Premium() );
+				if ( $license_manager->license_is_valid() ) {
+					return $links;
+				}
+			}
+
+			// add link to premium support landing page
+			$premium_link = '<a href="https://yoast.com/wordpress/plugins/seo-premium/support/#utm_source=wordpress-seo-settings-link&utm_medium=text-link&utm_campaign=support-link">' . __( 'Premium Support', 'wordpress-seo' ) .'</a>';
+			array_unshift( $links, $premium_link );
+
 			return $links;
 		}
 
