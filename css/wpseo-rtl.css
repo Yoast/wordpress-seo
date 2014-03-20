@@ -67,3 +67,12 @@ table.wpseoanalysis td.score {
 	padding-left: 0;
 	padding-right: 10px;
 }
+
+#wpseo_content_top {
+    padding: 0 0 0 261px;
+}
+
+#sidebar-container {
+    left: 10px;
+    right: auto;
+}
