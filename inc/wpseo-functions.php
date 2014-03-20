@@ -49,7 +49,7 @@ function wpseo_do_upgrade() {
 		add_action( 'init', array( 'WPSEO_Options', 'bring_back_breadcrumb_defaults' ), 3 );
 	}
 
-	if ( version_compare( $option_wpseo['version'], '1.4.25', '>' ) && version_compare( $option_wpseo['version'], '1.5.3', '<' ) ) {
+	if ( version_compare( $option_wpseo['version'], '1.4.25', '>' ) && version_compare( $option_wpseo['version'], '1.5.2.4', '<' ) ) {
 		/* Make sure empty maintax/mainpt strings will convert to 0 */
 		WPSEO_Options::clean_up( 'wpseo_internallinks', $option_wpseo['version'] );
 

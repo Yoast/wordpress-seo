@@ -109,6 +109,12 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 
 == Changelog ==
 
+= Trunk =
+
+* Bugfixes
+	* Fixed: Premium support link was being added to all plugins, not just ours ;-)
+	* Only show the breadcrumbs-blog-remove option if user uses page_for_posts as it's not applicable otherwise and can cause confusion.
+
 = 1.5.2.4 =
 
 * Bugfixes

@@ -36,7 +36,8 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 				add_action( 'admin_menu', array( $this, 'register_settings_page' ), 5 );
 				add_action( 'network_admin_menu', array( $this, 'register_network_settings_page' ) );
 
-				add_filter( 'plugin_action_links', array( $this, 'add_action_link' ), 10, 2 );
+				add_filter( 'plugin_action_links_' . WPSEO_BASENAME, array( $this, 'add_action_link' ), 10, 2 );
+
 				add_action( 'admin_enqueue_scripts', array( $this, 'config_page_scripts' ) );
 
 				if ( '0' == get_option( 'blog_public' ) ) {
@@ -464,9 +465,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		 * @return	array	$links
 		 */
 		function add_action_link( $links, $file ) {
-			static $this_plugin;
-			if ( empty( $this_plugin ) ) $this_plugin = 'wordpress-seo/wp-seo.php';
-			if ( $file == $this_plugin ) {
+			if ( WPSEO_BASENAME === $file && current_user_can( 'manage_options' ) ) {
 				$settings_link = '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_dashboard' ) ) . '">' . __( 'Settings', 'wordpress-seo' ) . '</a>';
 				array_unshift( $links, $settings_link );
 			}
