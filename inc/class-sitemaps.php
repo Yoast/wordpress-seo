@@ -67,7 +67,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 				define( 'ENT_XML1', 16 );
 			}
 
-			add_action( 'template_redirect', array( $this, 'redirect' ) );
+			add_action( 'template_redirect', array( $this, 'redirect' ), 9 );
 			add_filter( 'redirect_canonical', array( $this, 'canonical' ) );
 			add_action( 'wpseo_hit_sitemap_index', array( $this, 'hit_sitemap_index' ) );
 
