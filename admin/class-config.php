@@ -124,7 +124,7 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 			}
 			shuffle( $banners );
 			?>
-			<div class="postbox-container" id="sidebar-container">
+			<div class="wpseo_content_cell" id="sidebar-container">
 				<div id="sidebar">
 			<?php
 			$i = 0;
@@ -164,7 +164,8 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 			require_once( ABSPATH . 'wp-admin/options-head.php' );
 			?>
 			<h2 id="wpseo-title"><?php echo esc_html( get_admin_page_title() ); ?></h2>
-			<div id="wpseo_content_top" class="postbox-container">
+			<div class="wpseo_content_wrapper">
+			<div class="wpseo_content_cell" id="wpseo_content_top">
 			<div class="metabox-holder">
 			<div class="meta-box-sortables">
 			<?php
@@ -198,6 +199,8 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 			if ( $show_sidebar ) {
 				$this->admin_sidebar();
 			}
+
+			echo '</div><!-- end of div wpseo_content_wrapper -->';
 
 
 			/* Add the current settings array to the page for debugging purposes,

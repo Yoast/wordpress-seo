@@ -69,23 +69,25 @@ label.radio {
 	margin-right: 20px;
 }
 
+.wpseo_content_wrapper {
+	display: table;
+	width: 100%;
+}
+.wpseo_content_cell {
+	display: table-cell;
+	height: 500px;
+	padding: 0;
+	margin: 0;
+	vertical-align: top;
+}
+
 #wpseo_content_top {
 	min-width: 800px;
-	width: 100%;
-	padding: 0 261px 0 0;
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	box-sizing: border-box;
 }
 
 #sidebar-container {
-	position: absolute;
-	top: 105px;
-	right: 10px;
 	width: 261px;
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	box-sizing: border-box;
+	padding: 0 0 0 20px;
 }
 
 @media (max-width: 1020px) {
