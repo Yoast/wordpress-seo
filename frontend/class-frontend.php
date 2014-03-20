@@ -646,9 +646,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 
 			if ( $robots['other'] !== array() ) {
 				$robots['other'] = array_unique( $robots['other'] ); // most likely no longer needed, needs testing
-				foreach ( $robots['other'] as $robot ) {
-					$robotsstr .= ',' . $robot;
-				}
+				$robotsstr      .= ',' . implode( ',', $robots['other'] );
 			}
 
 			$robotsstr = preg_replace( '`^index,follow,?`', '', $robotsstr );
