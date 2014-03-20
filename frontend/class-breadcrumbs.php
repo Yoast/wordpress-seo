@@ -633,7 +633,7 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 		 *
 		 * @param	int		$id		Post id
 		 *
-		 * @retun	array	$link	Array of link text and url
+		 * @return	array	$link	Array of link text and url
 		 */
 		private function get_link_info_for_id( $id ) {
 			$link = array();
@@ -661,7 +661,7 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 		 *
 		 * @param	object	$term	Term object
 		 *
-		 * @retun	array	$link	Array of link text and url
+		 * @return	array	$link	Array of link text and url
 		 */
 		private function get_link_info_for_term( $term ) {
 			$link = array();
@@ -682,10 +682,11 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 		 *
 		 * @param	string	$pt		Post type
 		 *
-		 * @retun	array	$link	Array of link text and url
+		 * @return	array	$link	Array of link text and url
 		 */
 		private function get_link_info_for_ptarchive( $pt ) {
-			$link = array();
+			$link          = array();
+			$archive_title = '';
 
 			if ( isset( $this->options['bctitle-ptarchive-' . $pt] ) && $this->options['bctitle-ptarchive-' . $pt] !== '' ) {
 
@@ -693,14 +694,16 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 			}
 			else {
 				$post_type_obj = get_post_type_object( $pt );
-				if ( isset( $post_type_obj->label ) && $post_type_obj->label !== '' ) {
-					$archive_title = $post_type_obj->label;
-				}
-				elseif ( isset( $post_type_obj->labels->menu_name ) && $post_type_obj->labels->menu_name !== '' ) {
-					$archive_title = $post_type_obj->labels->menu_name;
-				}
-				else {
-					$archive_title = $post_type_obj->name;
+				if( is_object( $post_type_obj ) ) {
+					if ( isset( $post_type_obj->label ) && $post_type_obj->label !== '' ) {
+						$archive_title = $post_type_obj->label;
+					}
+					elseif ( isset( $post_type_obj->labels->menu_name ) && $post_type_obj->labels->menu_name !== '' ) {
+						$archive_title = $post_type_obj->labels->menu_name;
+					}
+					else {
+						$archive_title = $post_type_obj->name;
+					}
 				}
 			}
 
