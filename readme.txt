@@ -109,6 +109,11 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 
 == Changelog ==
 
+= Trunk =
+
+* Bugfixes
+	* Fixed: Premium support link was being added to all plugins, not just ours ;-)
+
 = 1.5.2.4 =
 
 * Bugfixes
