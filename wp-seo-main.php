@@ -190,7 +190,7 @@ function wpseo_frontend_init() {
 		add_filter( 'bbp_get_breadcrumb', '__return_false' );
 	}
 
-	add_action( 'wp', 'wpseo_frontend_head_init' );
+	add_action( 'template_redirect', 'wpseo_frontend_head_init' );
 }
 
 /**
