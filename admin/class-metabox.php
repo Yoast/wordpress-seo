@@ -63,7 +63,10 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			self::$meta_fields['general']['metakeywords']['description'] = __( 'If you type something above it will override your %smeta keywords template%s.', 'wordpress-seo' );
 
 
-			self::$meta_fields['advanced']['meta-robots-noindex']['title']        = __( 'Meta Robots Index', 'wordpress-seo' );
+			self::$meta_fields['advanced']['meta-robots-noindex']['title'] = __( 'Meta Robots Index', 'wordpress-seo' );
+			if ( '0' == get_option( 'blog_public' ) ) {
+				self::$meta_fields['advanced']['meta-robots-noindex']['description'] = '<p class="error-message">' . __( 'Warning: even though you can set the meta robots setting here, the entire site is set to noindex in the sitewide privacy settings, so these settings won\'t have an effect.', 'wordpress-seo' ) . '</p>';
+			}
 			self::$meta_fields['advanced']['meta-robots-noindex']['options']['0'] = __( 'Default for post type, currently: %s', 'wordpress-seo' );
 			self::$meta_fields['advanced']['meta-robots-noindex']['options']['2'] = __( 'index', 'wordpress-seo' );
 			self::$meta_fields['advanced']['meta-robots-noindex']['options']['1'] = __( 'noindex', 'wordpress-seo' );
@@ -877,31 +880,40 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 						break;
 				}
 				if ( $low !== false ) {
+					/* @internal DON'T touch the order of these without double-checking/adjusting
+						the seo_score_posts_where() method below! */
 					$vars = array_merge(
 						$vars,
 						array(
 							'meta_query' => array(
 								'relation' => 'AND',
-								array(
-									'key'     => self::$meta_prefix . 'meta-robots-noindex',
-									'value'   => '1',
-									'compare' => '!=',
-								),
 								array(
 									'key'     => self::$meta_prefix . 'linkdex',
 									'value'   => array( $low, $high ),
 									'type'    => 'numeric',
 									'compare' => 'BETWEEN',
-								)
+								),
+								array(
+									'key'     => self::$meta_prefix . 'meta-robots-noindex',
+									'value'   => 'needs-a-value-anyway',
+									'compare' => 'NOT EXISTS',
+								),
+								array(
+									'key'     => self::$meta_prefix . 'meta-robots-noindex',
+									'value'   => '1',
+									'compare' => '!='
+								),
 							)
 						)
 					);
+
+					add_filter( 'posts_where' , array( $this, 'seo_score_posts_where' ) );
+
 				} elseif ( $noindex ) {
 					$vars = array_merge(
 						$vars,
 						array(
 							'meta_query' => array(
-								'relation' => 'AND',
 								array(
 									'key'     => self::$meta_prefix . 'meta-robots-noindex',
 									'value'   => '1',
@@ -912,7 +924,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 					);
 				}
 			}
-			if ( isset( $_GET['seo_kw_filter'] ) ) {
+			if ( isset( $_GET['seo_kw_filter'] ) && $_GET['seo_kw_filter'] !== '' ) {
 				$vars = array_merge(
 					$vars, array(
 						'post_type'  => 'any',
@@ -947,6 +959,32 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			}
 
 			return $vars;
+		}
+
+		/**
+		 * Hacky way to get round the limitation that you can only have AND *or* OR relationship between
+		 * meta key clauses and not a combination - which is what we need.
+		 *
+		 * @param	string	$where
+		 *
+		 * @return	string
+		 */
+		function seo_score_posts_where( $where ) {
+			global $wpdb;
+
+			/* Find the two mutually exclusive noindex clauses which should be changed from AND to OR relation */
+			$find = '`([\s]+AND[\s]+)((?:' . $wpdb->prefix . 'postmeta|mt[0-9]|mt1)\.post_id IS NULL[\s]+)AND([\s]+\([\s]*(?:' . $wpdb->prefix . 'postmeta|mt[0-9])\.meta_key = \'' . self::$meta_prefix . 'meta-robots-noindex\' AND CAST\([^\)]+\)[^\)]+\))`';
+
+			$replace = '$1( $2OR$3 )';
+
+			$new_where = preg_replace( $find, $replace, $where );
+
+			if ( $new_where ) {
+				return $new_where;
+			}
+			else {
+				return $where;
+			}
 		}
 
 
@@ -1186,6 +1224,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			// Anchors
 			$anchors = $this->get_anchor_texts( $xpath );
 			$count   = $this->get_anchor_count( $xpath );
+
 			$this->score_anchor_texts( $job, $results, $anchors, $count );
 			unset( $anchors, $count, $dom );
 
@@ -1415,7 +1454,6 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			$scoreLinksNofollow         = __( 'This page has %s outbound link(s), all nofollowed.', 'wordpress-seo' );
 			$scoreLinks                 = __( 'This page has %s nofollowed link(s) and %s normal outbound link(s).', 'wordpress-seo' );
 
-
 			if ( $count['external']['nofollow'] == 0 && $count['external']['dofollow'] == 0 ) {
 				$this->save_score_result( $results, 6, $scoreNoLinks, 'links' );
 			} else {
@@ -1453,7 +1491,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			$query        = "//a|//A";
 			$dom_objects  = $xpath->query( $query );
 			$anchor_texts = array();
-			if ( is_array( $dom_objects ) && $dom_objects !== array() ) {
+			if ( is_object( $dom_objects ) && is_a( $dom_objects, 'DOMNodeList' ) && $dom_objects->length > 0 ) {
 				foreach ( $dom_objects as $dom_object ) {
 					if ( $dom_object->attributes->getNamedItem( 'href' ) ) {
 						$href = $dom_object->attributes->getNamedItem( 'href' )->textContent;
@@ -1478,6 +1516,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		function get_anchor_count( &$xpath ) {
 			$query       = "//a|//A";
 			$dom_objects = $xpath->query( $query );
+
 			$count       = array(
 				'total'    => 0,
 				'internal' => array( 'nofollow' => 0, 'dofollow' => 0 ),
@@ -1485,7 +1524,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 				'other'    => array( 'nofollow' => 0, 'dofollow' => 0 ),
 			);
 
-			if ( is_array( $dom_objects ) && $dom_objects !== array() ) {
+			if ( is_object( $dom_objects ) && is_a( $dom_objects, 'DOMNodeList' ) && $dom_objects->length > 0 ) {
 				foreach ( $dom_objects as $dom_object ) {
 					$count['total'] ++;
 					if ( $dom_object->attributes->getNamedItem( 'href' ) ) {
@@ -1753,13 +1792,14 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			$job['keyword'] = $this->strtolower_utf8( $job['keyword'] );
 
 			$keywordWordCount = $this->statistics()->word_count( $job['keyword'] );
+
 			if ( $keywordWordCount > 10 ) {
 				$this->save_score_result( $results, 0, __( 'Your keyphrase is over 10 words, a keyphrase should be shorter and there can be only one keyphrase.', 'wordpress-seo' ), 'focus_keyword_length' );
 			} else {
 				// Keyword Density check
 				$keywordDensity = 0;
 				if ( $wordCount > 100 ) {
-					$keywordCount = preg_match_all( '`\b' . preg_quote( $job['keyword'], '`\b' ) . '`miu', $body, $res );
+					$keywordCount = preg_match_all( '`\b' . preg_quote( $job['keyword'], '`' ) . '\b`miu', utf8_encode( $body ), $res );
 					if ( ( $keywordCount > 0 && $keywordWordCount > 0 ) && $wordCount > $keywordCount ) {
 						$keywordDensity = wpseo_calc( wpseo_calc( $keywordCount, '/', wpseo_calc( $wordCount, '-', ( wpseo_calc( wpseo_calc( $keywordWordCount, '-', 1 ), '*', $keywordCount ) ) ) ), '*', 100, true, 2 );
 					}
