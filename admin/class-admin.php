@@ -173,6 +173,10 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 					<td>' . __( 'Replaced with the title of the post/page', 'wordpress-seo' ) . '</td>
 				</tr>
 				<tr>
+					<th>%%parent_title%%</th>
+					<td>' . __( 'Replaced with the title of the parent page of the current page', 'wordpress-seo' ) . '</td>
+				</tr>
+				<tr>
 					<th>%%sitename%%</th>
 					<td>' . __( 'The site\'s name', 'wordpress-seo' ) . '</td>
 				</tr>

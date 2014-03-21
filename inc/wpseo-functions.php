@@ -330,6 +330,14 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 		}
 	}
 
+	if ( is_singular() && false !== strpos( $string, '%%parent_title%%' ) ) {
+		global $post;
+		if ( isset( $post->post_parent ) && 0 != $post->post_parent ) {
+			$parent_title = get_the_title( $post->post_parent );
+			$string = str_replace( '%%parent_title%%', $parent_title, $string );
+		}
+	}
+
 	if ( preg_match_all( '`%%ct_desc_([^%]+)?%%`u', $string, $matches, PREG_SET_ORDER ) ) {
 		global $post;
 		foreach ( $matches as $match ) {
