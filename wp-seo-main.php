@@ -74,7 +74,7 @@ function wpseo_auto_load( $class ) {
 
 			'yoast_license_manager'              => WPSEO_PATH . 'admin/license-manager/class-license-manager.php',
 			'yoast_plugin_license_manager'       =>	WPSEO_PATH . 'admin/license-manager/class-plugin-license-manager.php',
-			'yoast_product'       							=>	WPSEO_PATH . 'admin/license-manager/class-product.php',
+			'yoast_product'                      =>	WPSEO_PATH . 'admin/license-manager/class-product.php',
 
 			'wp_list_table'                      => ABSPATH . 'wp-admin/includes/class-wp-list-table.php',
 			'walker_category'                    => ABSPATH . 'wp-includes/category-template.php',

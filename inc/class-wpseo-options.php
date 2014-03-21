@@ -610,7 +610,7 @@ if ( ! class_exists( 'WPSEO_Option' ) ) {
 		 * @return  bool
 		 */
 		public static function validate_bool( $value ) {
-			if( self::$has_filters ) {
+			if ( self::$has_filters ) {
 				return filter_var( $value, FILTER_VALIDATE_BOOLEAN );
 			}
 			else {
@@ -683,7 +683,7 @@ if ( ! class_exists( 'WPSEO_Option' ) ) {
 		 * @return  mixed  int or false in case of failure to convert to int
 		 */
 		public static function validate_int( $value ) {
-			if( self::$has_filters ) {
+			if ( self::$has_filters ) {
 				return filter_var( $value, FILTER_VALIDATE_INT );
 			}
 			else {
@@ -1477,14 +1477,14 @@ if ( ! class_exists( 'WPSEO_Option_Titles' ) ) {
 					   'metadesc-ptarchive-' . $pt->name
 					   'metadesc-tax-' . $tax->name */
 					case 'metadesc-':
-						/* Covers:
-							 'metakey-home-wpseo', 'metakey-author-wpseo'
-							 'metakey-' . $pt->name
-							 'metakey-ptarchive-' . $pt->name
-							 'metakey-tax-' . $tax->name */
+					/* Covers:
+						 'metakey-home-wpseo', 'metakey-author-wpseo'
+						 'metakey-' . $pt->name
+						 'metakey-ptarchive-' . $pt->name
+						 'metakey-tax-' . $tax->name */
 					case 'metakey-':
-						/* Covers:
-							 ''bctitle-ptarchive-' . $pt->name */
+					/* Covers:
+						 ''bctitle-ptarchive-' . $pt->name */
 					case 'bctitle-ptarchive-':
 						if ( isset( $dirty[$key] ) && $dirty[$key] !== '' ) {
 							$clean[$key] = self::sanitize_text_field( $dirty[$key] );
@@ -1519,17 +1519,17 @@ if ( ! class_exists( 'WPSEO_Option_Titles' ) ) {
 					case 'hide-feedlinks':
 					case 'disable-author':
 					case 'disable-date':
-						/* Covers:
-							 'noindex-subpages-wpseo', 'noindex-author-wpseo', 'noindex-archive-wpseo'
-							 'noindex-' . $pt->name
-							 'noindex-ptarchive-' . $pt->name
-							 'noindex-tax-' . $tax->name */
+					/* Covers:
+						 'noindex-subpages-wpseo', 'noindex-author-wpseo', 'noindex-archive-wpseo'
+						 'noindex-' . $pt->name
+						 'noindex-ptarchive-' . $pt->name
+						 'noindex-tax-' . $tax->name */
 					case 'noindex-':
 					case 'noauthorship-': /* 'noauthorship-' . $pt->name */
 					case 'showdate-': /* 'showdate-'. $pt->name */
-						/* Covers:
-							 'hideeditbox-'. $pt->name
-							 'hideeditbox-tax-' . $tax->name */
+					/* Covers:
+						 'hideeditbox-'. $pt->name
+						 'hideeditbox-tax-' . $tax->name */
 					case 'hideeditbox-':
 					default:
 						$clean[$key] = ( isset( $dirty[$key] ) ? self::validate_bool( $dirty[$key] ) : false );
