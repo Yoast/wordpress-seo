@@ -324,6 +324,9 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		function register_network_settings_page() {
 			if( WPSEO_Options::grant_access() ) {
 				add_menu_page( __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'MultiSite Settings', 'wordpress-seo' ), __( 'SEO', 'wordpress-seo' ), 'delete_users', 'wpseo_dashboard', array( $this, 'network_config_page' ), plugins_url( 'images/yoast-icon.png', WPSEO_FILE ) );
+
+				// Add Extension submenu page
+				add_submenu_page( 'wpseo_dashboard', __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Extensions', 'wordpress-seo'), __('Extensions', 'wordpress-seo' ), 'delete_users', 'wpseo_network_licenses', array( $this, 'load_page' ) );
 			}
 		}
 
@@ -375,6 +378,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 						break;
 
 					case 'wpseo_licenses':
+					case 'wpseo_network_licenses':
 						require_once( WPSEO_PATH . 'admin/pages/licenses.php' );
 						break;
 
