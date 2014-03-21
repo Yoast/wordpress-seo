@@ -114,6 +114,7 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 * Bugfixes
 	* Fixed: Premium support link was being added to all plugins, not just ours ;-)
 	* Only show the breadcrumbs-blog-remove option if user uses page_for_posts as it's not applicable otherwise and can cause confusion.
+	* Fixed: `current_user_can` was being called too early as reported by [satrya](https://github.com/satrya) in [issue #881](https://github.com/Yoast/wordpress-seo/issues/881) - props [Jrf](http://profiles.wordpress.org/jrf).
 
 = 1.5.2.4 =
 
