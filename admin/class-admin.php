@@ -31,21 +31,20 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 				add_action( 'delete_category', array( $this, 'schedule_rewrite_flush' ) );
 			}
 
-			if ( WPSEO_Options::grant_access() ) {
-				// Needs the lower than default priority so other plugins can hook underneath it without issue.
-				add_action( 'admin_menu', array( $this, 'register_settings_page' ), 5 );
-				add_action( 'network_admin_menu', array( $this, 'register_network_settings_page' ) );
+			// Needs the lower than default priority so other plugins can hook underneath it without issue.
+			add_action( 'admin_menu', array( $this, 'register_settings_page' ), 5 );
+			add_action( 'network_admin_menu', array( $this, 'register_network_settings_page' ) );
 
-				add_filter( 'plugin_action_links', array( $this, 'add_action_link' ), 10, 2 );
-				add_action( 'admin_enqueue_scripts', array( $this, 'config_page_scripts' ) );
+			add_filter( 'plugin_action_links_' . WPSEO_BASENAME, array( $this, 'add_action_link' ), 10, 2 );
 
-				if ( '0' == get_option( 'blog_public' ) ) {
-					add_action( 'admin_footer', array( $this, 'blog_public_warning' ) );
-				}
+			add_action( 'admin_enqueue_scripts', array( $this, 'config_page_scripts' ) );
 
-				if ( ( ( isset( $options['theme_has_description'] ) && $options['theme_has_description'] === true ) || $options['theme_description_found'] !== '' ) && $options['ignore_meta_description_warning'] !== true ) {
-					add_action( 'admin_footer', array( $this, 'meta_description_warning' ) );
-				}
+			if ( '0' == get_option( 'blog_public' ) ) {
+				add_action( 'admin_footer', array( $this, 'blog_public_warning' ) );
+			}
+
+			if ( ( ( isset( $options['theme_has_description'] ) && $options['theme_has_description'] === true ) || $options['theme_description_found'] !== '' ) && $options['ignore_meta_description_warning'] !== true ) {
+				add_action( 'admin_footer', array( $this, 'meta_description_warning' ) );
 			}
 
 			if ( $options['cleanslugs'] === true ) {
@@ -81,6 +80,9 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		 * @global array $submenu used to change the label on the first item.
 		 */
 		function register_settings_page() {
+			if( WPSEO_Options::grant_access() !== true ) {
+				return;
+			}
 
 			// Add main page
 			$admin_page = add_menu_page( __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'General Settings', 'wordpress-seo' ), __( 'SEO', 'wordpress-seo' ), 'manage_options', 'wpseo_dashboard', array( $this, 'load_page' ), plugins_url( 'images/yoast-icon.png', WPSEO_FILE ), '99.31337' );
@@ -324,7 +326,12 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		 * Register the settings page for the Network settings.
 		 */
 		function register_network_settings_page() {
-			add_menu_page( __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'MultiSite Settings', 'wordpress-seo' ), __( 'SEO', 'wordpress-seo' ), 'delete_users', 'wpseo_dashboard', array( $this, 'network_config_page' ), plugins_url( 'images/yoast-icon.png', WPSEO_FILE ) );
+			if( WPSEO_Options::grant_access() ) {
+				add_menu_page( __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'MultiSite Settings', 'wordpress-seo' ), __( 'SEO', 'wordpress-seo' ), 'delete_users', 'wpseo_dashboard', array( $this, 'network_config_page' ), plugins_url( 'images/yoast-icon.png', WPSEO_FILE ) );
+
+				// Add Extension submenu page
+				add_submenu_page( 'wpseo_dashboard', __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Extensions', 'wordpress-seo'), __('Extensions', 'wordpress-seo' ), 'delete_users', 'wpseo_network_licenses', array( $this, 'load_page' ) );
+			}
 		}
 
 
@@ -375,6 +382,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 						break;
 
 					case 'wpseo_licenses':
+					case 'wpseo_network_licenses':
 						require_once( WPSEO_PATH . 'admin/pages/licenses.php' );
 						break;
 
@@ -422,7 +430,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		 * Display an error message when the blog is set to private.
 		 */
 		function blog_public_warning() {
-			if ( function_exists( 'is_network_admin' ) && is_network_admin() ) {
+			if ( ( function_exists( 'is_network_admin' ) && is_network_admin() ) || WPSEO_Options::grant_access() !== true ) {
 				return;
 			}
 
@@ -440,7 +448,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		 * @since 1.4.14
 		 */
 		function meta_description_warning() {
-			if ( function_exists( 'is_network_admin' ) && is_network_admin() ) {
+			if ( ( function_exists( 'is_network_admin' ) && is_network_admin() ) || WPSEO_Options::grant_access() !== true ) {
 				return;
 			}
 
@@ -468,9 +476,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		 * @return	array	$links
 		 */
 		function add_action_link( $links, $file ) {
-			static $this_plugin;
-			if ( empty( $this_plugin ) ) $this_plugin = 'wordpress-seo/wp-seo.php';
-			if ( $file == $this_plugin ) {
+			if ( WPSEO_BASENAME === $file && WPSEO_Options::grant_access() ) {
 				$settings_link = '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_dashboard' ) ) . '">' . __( 'Settings', 'wordpress-seo' ) . '</a>';
 				array_unshift( $links, $settings_link );
 			}
@@ -493,7 +499,9 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		 * Enqueues the (tiny) global JS needed for the plugin.
 		 */
 		function config_page_scripts() {
-			wp_enqueue_script( 'wpseo-admin-global-script', plugins_url( 'js/wp-seo-admin-global' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'jquery' ), WPSEO_VERSION, true );
+			if( WPSEO_Options::grant_access() ) {
+				wp_enqueue_script( 'wpseo-admin-global-script', plugins_url( 'js/wp-seo-admin-global' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'jquery' ), WPSEO_VERSION, true );
+			}
 		}
 
 

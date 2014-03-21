@@ -694,7 +694,7 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 			}
 			else {
 				$post_type_obj = get_post_type_object( $pt );
-				if( is_object( $post_type_obj ) ) {
+				if ( is_object( $post_type_obj ) ) {
 					if ( isset( $post_type_obj->label ) && $post_type_obj->label !== '' ) {
 						$archive_title = $post_type_obj->label;
 					}
@@ -847,7 +847,7 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 		 * @deprecated 1.5.0
 		 */
 		public function breadcrumb_output() {
-			_deprecated_function( __FUNCTION__, '1.5.0', 'yoast_breadcrumb' );
+			_deprecated_function( __CLASS__ . '::' . __METHOD__, '1.5.0', 'yoast_breadcrumb' );
 			self::breadcrumb( '<div id="wpseobreadcrumb">', '</div>' );
 		}
 
