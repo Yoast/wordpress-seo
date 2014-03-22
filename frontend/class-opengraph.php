@@ -512,16 +512,16 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 			if ( ! is_wp_error( $tags ) && ( is_array( $tags ) && $tags !== array() ) ) {
 
 				// Declaring the tags array.
-				$tagsArray = array();
+				$tags_array = array();
 
 				foreach ( $tags as $tag ) {
-					
+
 					// Adding current tag to the tags array.
-					array_push($tagsArray, $tag->name);
+					array_push( $tags_array, $tag->name );
 				}
 
 				// Implode tags array and add it to the article:tag
-				$this->og_tag( 'article:tag', implode(",", $tagsArray) );
+				$this->og_tag( 'article:tag', implode( ',', $tags_array ) );
 			}
 		}
 
@@ -539,16 +539,16 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 			if ( ! is_wp_error( $terms ) && ( is_array( $terms ) && $terms !== array() ) ) {
 
 				// Declaring the sections array.
-				$sectionsArray = array();
+				$sections_array = array();
 
 				foreach ( $terms as $term ) {
 
 					// Adding current section to the sections array.
-					array_push($sectionsArray, $term->name);
+					array_push( $sections_array, $term->name );
 				}
 
 				// Implode sections array and add it to the article:section
-				$this->og_tag( 'article:section', implode(",", $sectionsArray) );
+				$this->og_tag( 'article:section', implode( ',', $sections_array ) );
 			}
 		}
 
