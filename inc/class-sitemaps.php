@@ -588,7 +588,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 
 						/**
 						 * Do not include external URLs.
-						 * @see http://wordpress.org/plugins/page-links-to/ can rewrite permalinks to external URLs.
+						 * @see https://wordpress.org/plugins/page-links-to/ can rewrite permalinks to external URLs.
 						 */
 						if ( false === strpos( $url['loc'], $this->home_url ) ) {
 							continue;
