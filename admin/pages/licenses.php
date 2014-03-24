@@ -73,10 +73,36 @@ global $wpseo_admin_pages;
 			?>
 		</div>
 		<div id="licenses" class="wpseotab">
+			<?php
 
-			<?php settings_errors(); ?>
 
-			<?php do_action('wpseo_licenses_forms'); ?>
+			if ( is_multisite() && is_plugin_active_for_network( plugin_basename( WPSEO_FILE ) ) && 'wpseo_network_licenses' != $_GET['page'] ) {
+
+				/**
+				 * Site is a network installation and WPSEO is network activated and the current page is not the network license page
+				 */
+
+				// Check if current user can manage network sites
+				if ( is_super_admin() ) {
+					echo "<p>" . sprintf( __( 'WordPress SEO is network activated, you can manage your licenses in the <a href="%s">network admin license page</a>.', 'wordpress-seo' ), network_admin_url( 'admin.php?page=wpseo_network_licenses#top#licenses' ) ) . "</p>";
+				}else {
+					echo "<p>" . __( 'WordPress SEO is network activated, please contact your site administrator to manage the licenses.', 'wordpress-seo' ) . "</p>";
+				}
+
+			} elseif ( is_multisite() && false == is_plugin_active_for_network( plugin_basename( WPSEO_FILE ) ) && 'wpseo_network_licenses' == $_GET['page'] ) {
+				/**
+				 * Site is a network installation but WPSEO is not network activated and the current page is the network license page
+				 */
+				echo "<p>" . __( 'WordPress SEO is not network activated, you can manage your licenses per site.', 'wordpress-seo' ) . "</p>";
+			} else {
+				/**
+				 * Display license page
+				 */
+				settings_errors();
+				do_action( 'wpseo_licenses_forms' );
+			}
+
+			?>
 		</div>
 	</div>
 

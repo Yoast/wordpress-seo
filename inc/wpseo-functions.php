@@ -297,7 +297,7 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 	*
 	* @api array $replacements The replacements
 	*/
-	$replacements = apply_filters( "wpseo_replacements", $replacements );
+	$replacements = apply_filters( 'wpseo_replacements', $replacements );
 
 	foreach ( $replacements as $var => $repl ) {
 		if ( ! in_array( $var, $omit ) ) {
@@ -323,10 +323,18 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 		$string = str_replace( '%%pt_plural%%', $pt_plural, $string );
 	}
 
-	if ( is_singular() && preg_match_all( '`%%cf_([^%]+)%%`u', $string, $matches, PREG_SET_ORDER ) ) {
+	if ( ( is_singular() || is_admin() ) && preg_match_all( '`%%cf_([^%]+)%%`u', $string, $matches, PREG_SET_ORDER ) ) {
 		global $post;
 		foreach ( $matches as $match ) {
 			$string = str_replace( $match[0], get_post_meta( $post->ID, $match[1], true ), $string );
+		}
+	}
+
+	if ( ( is_singular() || is_admin() ) && false !== strpos( $string, '%%parent_title%%' ) ) {
+		global $post;
+		if ( isset( $post->post_parent ) && 0 != $post->post_parent ) {
+			$parent_title = get_the_title( $post->post_parent );
+			$string = str_replace( '%%parent_title%%', $parent_title, $string );
 		}
 	}
 
@@ -898,7 +906,7 @@ if ( ! function_exists( 'wpseo_calc' ) ) {
 			return false;
 		}
 
-		if( ! isset( $bc ) ) {
+		if ( ! isset( $bc ) ) {
 			$bc = extension_loaded( 'bcmath' );
 		}
 
@@ -990,6 +998,39 @@ if ( ! function_exists( 'wpseo_calc' ) ) {
 	}
 }
 
+/**
+ * Check if the web server is running on Apache
+ * @return bool
+ */
+function wpseo_is_apache() {
+	if ( isset( $_SERVER['SERVER_SOFTWARE'] ) && stristr( $_SERVER['SERVER_SOFTWARE'], 'apache' ) !== false ) {
+		return true;
+	}
+	return false;
+}
+
+/**
+ * Check if the web service is running on Nginx
+ *
+ * @return bool
+ */
+function wpseo_is_nginx() {
+	if ( isset( $_SERVER['SERVER_SOFTWARE'] ) && stristr( $_SERVER['SERVER_SOFTWARE'], 'nginx' ) !== false ) {
+		return true;
+	}
+	return false;
+}
+
+/**
+ * WordPress SEO breadcrumb shortcode
+ * [wpseo_breadcrumb]
+ *
+ * @return string
+ */
+function wpseo_shortcode_yoast_breadcrumb() {
+	return yoast_breadcrumb( '', '', false );
+}
+add_shortcode( 'wpseo_breadcrumb', 'wpseo_shortcode_yoast_breadcrumb' );
 
 
 /********************** DEPRECATED FUNCTIONS **********************/
@@ -1093,37 +1134,3 @@ function wpseo_get_term_meta( $term, $taxonomy, $meta ) {
 	_deprecated_function( __FUNCTION__, 'WPSEO 1.5.0', 'WPSEO_Taxonomy_Meta::get_term_meta' );
 	WPSEO_Taxonomy_Meta::get_term_meta( $term, $taxonomy, $meta );
 }
-
-/**
- * Check if the web server is running on Apache
- * @return bool
- */
-function wpseo_is_apache() {
-	if ( isset( $_SERVER['SERVER_SOFTWARE'] ) && stristr( $_SERVER['SERVER_SOFTWARE'], 'apache' ) !== false ) {
-		return true;
-	}
-	return false;
-}
-
-/**
- * Check if the web service is running on Nginx
- *
- * @return bool
- */
-function wpseo_is_nginx() {
-	if ( isset( $_SERVER['SERVER_SOFTWARE'] ) && stristr( $_SERVER['SERVER_SOFTWARE'], 'nginx' ) !== false ) {
-		return true;
-	}
-	return false;
-}
-
-/**
- * WordPress SEO breadcrumb shortcode
- * [wpseo_breadcrumb]
- *
- * @return string
- */
-function wpseo_shortcode_yoast_breadcrumb() {
-	return yoast_breadcrumb( '', '', false );
-}
-add_shortcode( 'wpseo_breadcrumb', 'wpseo_shortcode_yoast_breadcrumb' );

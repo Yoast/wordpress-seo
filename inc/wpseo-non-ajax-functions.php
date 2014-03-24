@@ -423,6 +423,11 @@ function wpseo_disable_robots_meta() {
 
 		// show notice that robots meta has been deactivated
 		add_action( 'admin_notices', 'wpseo_deactivate_robots_meta_notice' );
+		
+		// Clean up the referrer url for later use
+		if( isset( $_SERVER['REQUEST_URI'] ) ) {
+			$_SERVER['REQUEST_URI'] = remove_query_arg( array( 'deactivate_robots_meta' ), $_SERVER['REQUEST_URI'] );
+		}
 	}
 }
 add_action( 'admin_init', 'wpseo_disable_robots_meta' );
@@ -452,6 +457,11 @@ function wpseo_disable_aioseo() {
 
 		// show notice that aioseo has been deactivated
 		add_action( 'admin_notices', 'wpseo_deactivate_aioseo_notice' );
+		
+		// Clean up the referrer url for later use
+		if( isset( $_SERVER['REQUEST_URI'] ) ) {
+			$_SERVER['REQUEST_URI'] = remove_query_arg( array( 'deactivate_aioseo' ), $_SERVER['REQUEST_URI'] );
+		}
 	}
 }
 add_action( 'admin_init', 'wpseo_disable_aioseo' );

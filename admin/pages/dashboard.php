@@ -31,10 +31,6 @@ if ( isset( $_GET['allow_tracking'] ) && check_admin_referer( 'wpseo_activate_tr
 	}
 }
 
-$wpseo_admin_pages->admin_header( true, WPSEO_Options::get_group_name( 'wpseo' ), 'wpseo' );
-
-do_action( 'wpseo_all_admin_notices' );
-
 
 // Fix metadescription if so requested
 if ( isset( $_GET['fixmetadesc'] ) && check_admin_referer( 'wpseo-fix-metadesc', 'nonce' ) && $options['theme_description_found'] !== '' ) {
@@ -80,11 +76,34 @@ if ( isset( $_GET['fixmetadesc'] ) && check_admin_referer( 'wpseo-fix-metadesc',
 					wpseo_description_test();
 					$msg .= '<span class="warning">' . __( 'Earlier found meta description was not found in file. Renewed the description test data.', 'wordpress-seo' ) . '</span>';
 				}
-				echo '<div class="updated"><p>' . $msg . '</p></div>';
+				add_settings_error( 'yoast_wpseo_dashboard_options', 'error', $msg, 'updated' );
 			}
 		}
 	}
+
+	// Clean up the referrer url for later use
+	if( isset( $_SERVER['REQUEST_URI'] ) ) {
+		$_SERVER['REQUEST_URI'] = remove_query_arg( array( 'nonce', 'fixmetadesc' ), $_SERVER['REQUEST_URI'] );
+	}
 }
+
+if ( ( ! isset( $options['theme_has_description'] ) || ( ( isset( $options['theme_has_description'] ) && $options['theme_has_description'] === true ) || $options['theme_description_found'] !== '' ) ) || ( isset( $_GET['checkmetadesc'] ) && check_admin_referer( 'wpseo-check-metadesc', 'nonce' ) ) ) {
+	wpseo_description_test();
+	// Renew the options after the test
+	$options = get_option( 'wpseo' );
+}
+if( isset( $_GET['checkmetadesc'] ) ) {
+	// Clean up the referrer url for later use
+	if( isset( $_SERVER['REQUEST_URI'] ) ) {
+		$_SERVER['REQUEST_URI'] = remove_query_arg( array( 'nonce', 'checkmetadesc' ), $_SERVER['REQUEST_URI'] );
+	}
+}
+
+
+
+$wpseo_admin_pages->admin_header( true, WPSEO_Options::get_group_name( 'wpseo' ), 'wpseo' );
+
+do_action( 'wpseo_all_admin_notices' );
 
 if ( is_array( $options['blocking_files'] ) && count( $options['blocking_files'] ) > 0 ) {
 	echo '<p id="blocking_files" class="wrong">'
@@ -95,13 +114,6 @@ if ( is_array( $options['blocking_files'] ) && count( $options['blocking_files']
 	}
 	echo __( 'Either delete them (this can be done with the "Fix it" button) or disable WP SEO XML sitemaps.', 'wordpress-seo' );
 	echo '</p>';
-}
-
-
-if ( ( ! isset( $options['theme_has_description'] ) || ( ( isset( $options['theme_has_description'] ) && $options['theme_has_description'] === true ) || $options['theme_description_found'] !== '' ) ) || ( isset( $_GET['checkmetadesc'] ) && check_admin_referer( 'wpseo-check-metadesc', 'nonce' ) ) ) {
-	wpseo_description_test();
-	// Renew the options after the test
-	$options = get_option( 'wpseo' );
 }
 
 

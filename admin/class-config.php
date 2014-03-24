@@ -39,6 +39,7 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 			'wpseo_bulk-title-editor',
 			'wpseo_bulk-description-editor',
 			'wpseo_licenses',
+			'wpseo_network_licenses',
 		);
 
 		/**
@@ -253,7 +254,7 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 		 * @return bool|string $return False when failed, the URL to the export file when succeeded.
 		 */
 		function export_settings( $include_taxonomy ) {
-			$content = '; ' . __( 'This is a settings export file for the WordPress SEO plugin by Yoast.com', 'wordpress-seo' ) . " - http://yoast.com/wordpress/seo/ \r\n";
+			$content = '; ' . __( 'This is a settings export file for the WordPress SEO plugin by Yoast.com', 'wordpress-seo' ) . " - https://yoast.com/wordpress/plugins/seo/ \r\n";
 
 			$optarr = WPSEO_Options::get_option_names();
 

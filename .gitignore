@@ -18,6 +18,9 @@ local.properties
 .cproject
 .buildpath
 nbproject/
+node_modules/*
+Gruntfile.js
+package.json
 
 ############
 ## OSes
@@ -48,9 +51,11 @@ temp/
 
 .svn
 
+
 ############
 ## WPSEO
 ############
 wp-seo-premium.php
 premium/
 travis.sh
+

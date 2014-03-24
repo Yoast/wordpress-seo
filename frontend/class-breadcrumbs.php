@@ -694,7 +694,7 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 			}
 			else {
 				$post_type_obj = get_post_type_object( $pt );
-				if( is_object( $post_type_obj ) ) {
+				if ( is_object( $post_type_obj ) ) {
 					if ( isset( $post_type_obj->label ) && $post_type_obj->label !== '' ) {
 						$archive_title = $post_type_obj->label;
 					}
