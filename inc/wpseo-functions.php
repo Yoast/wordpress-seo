@@ -325,8 +325,10 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 
 	if ( ( is_singular() || is_admin() ) && preg_match_all( '`%%cf_([^%]+)%%`u', $string, $matches, PREG_SET_ORDER ) ) {
 		global $post;
-		foreach ( $matches as $match ) {
-			$string = str_replace( $match[0], get_post_meta( $post->ID, $match[1], true ), $string );
+		if( is_object( $post ) && isset( $post->ID ) ) {
+			foreach ( $matches as $match ) {
+				$string = str_replace( $match[0], get_post_meta( $post->ID, $match[1], true ), $string );
+			}
 		}
 	}
 
