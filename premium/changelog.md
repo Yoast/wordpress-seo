@@ -1,3 +1,11 @@
+= 1.0.8 =
+
+* Updated WordPress SEO core to 1.5.2.5
+
+= 1.0.7 =
+
+* Updated WordPress SEO core to 1.5.2.2
+
 = 1.0.6 =
 
 * Updated WordPress SEO core to 1.5.2.1

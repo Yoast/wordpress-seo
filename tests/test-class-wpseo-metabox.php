@@ -123,6 +123,54 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 		}
 	}
 
+	public function test_save_postdata() {
+
+		// setup
+		$GLOBALS['wpseo_admin'] = new WPSEO_Admin;
+
+		// vars
+		$meta_fields = apply_filters( 'wpseo_save_metaboxes', array() );
+		$meta_fields = array_merge( 
+			$meta_fields, 
+			$this->metabox->get_meta_field_defs( 'general', $this->post->post_type ), 
+			$this->metabox->get_meta_field_defs( 'advanced' ) 
+		);
+
+		// set $_POST data to be saved
+		foreach( $meta_fields as $key => $field ) {
+
+			// set text fields
+			if( $field['type'] === 'text' ) {
+				$_POST[ WPSEO_Metabox::$form_prefix . $key ] = 'text';
+			} elseif( $field['type'] === 'checkbox' ) {
+				$_POST[ WPSEO_Metabox::$form_prefix . $key ] = 'on';
+			}
+			
+		}
+
+		// call method that saves the $_POST data
+		$this->metabox->save_postdata( $this->post->ID );
+
+		// check if output matches
+		$custom = get_post_custom( $this->post->ID );
+		foreach( $meta_fields as $key => $field ) {
+
+			if( ! isset( $custom[ WPSEO_Metabox::$meta_prefix . $key ][0] ) ) {
+				continue;
+			}
+
+			$value = $custom[ WPSEO_Metabox::$meta_prefix . $key ][0];
+
+			// set text fields
+			if( $field['type'] === 'text' ) {
+				$this->assertNotEmpty( $value );
+			} elseif( $field['type'] === 'checkbox' ) {
+				$this->assertEquals( $value, 'on');
+			}
+			
+		}
+	}
+
 
 
 }

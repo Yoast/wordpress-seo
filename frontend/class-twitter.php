@@ -37,7 +37,7 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 		 * Class constructor
 		 */
 		public function __construct() {
-			$this->options = get_option( 'wpseo_social' );
+			$this->options = WPSEO_Options::get_all();
 			$this->shown_images = array(); // Instantiate as empty array
 			$this->twitter();
 		}
