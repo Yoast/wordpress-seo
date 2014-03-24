@@ -77,6 +77,7 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 		 *
 		 * @param string $property
 		 * @param string $content
+		 * @return boolean
 		 */
 		private function og_tag( $property, $content ) {
 			/**
@@ -85,9 +86,12 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 			 * @api string $content The content of the property
 			 */
 			$content = apply_filters( 'wpseo_og_' . str_replace( ':', '_', $property ), $content );
-			if ( ! empty( $content ) ) {
-				echo '<meta property="' . esc_attr( $property ) . '" content="' . esc_attr( $content ) . '" />' . "\n";
+			if ( empty( $content ) ) {
+				return false;
 			}
+
+			echo '<meta property="' . esc_attr( $property ) . '" content="' . esc_attr( $content ) . '" />' . "\n";
+			return true;
 		}
 
 		/**
