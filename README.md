@@ -29,7 +29,7 @@ If you find an issue, [let us know here](https://github.com/yoast/wordpress-seo/
 Support
 -------
 This is a developer's portal for WordPress SEO by Yoast and should not be used for support. Please visit the
-[support forums](http://wordpress.org/support/plugin/wordpress-seo).
+[support forums](https://wordpress.org/support/plugin/wordpress-seo).
 
 Contributions
 -------------
