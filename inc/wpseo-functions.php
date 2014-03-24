@@ -1033,6 +1033,26 @@ function wpseo_shortcode_yoast_breadcrumb() {
 add_shortcode( 'wpseo_breadcrumb', 'wpseo_shortcode_yoast_breadcrumb' );
 
 
+/**
+ * Emulate PHP native ctype_digit() function for when the ctype extension would be disabled *sigh*
+ * Only emulates the behaviour for when the input is a string, does not handle integer input as ascii value
+ *
+ * @param	string	$string
+ *
+ * @return 	bool
+ */
+if ( ! extension_loaded( 'ctype' ) || ! function_exists( 'ctype_digit' ) ) {
+	function ctype_digit( $string ) {
+		$return = false;
+		if ( ( is_string( $string ) && $string !== '' ) && preg_match( '`^\d+$`', $string ) === 1 ){
+			$return = true;
+		}
+		return $return;
+	}
+}
+
+
+
 /********************** DEPRECATED FUNCTIONS **********************/
 
 
