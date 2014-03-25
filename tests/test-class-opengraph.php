@@ -13,6 +13,16 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	private $post_id = 0;
 
 	/**
+	* @var int
+	*/ 
+	private $category_id = 0;
+
+	/**
+	* @var int
+	*/
+	private $user_id = 0;
+
+	/**
 	* Provision tests
 	*/
 	public function setUp() {
@@ -20,19 +30,48 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 
 		$this->class_instance = new WPSEO_OpenGraph();
 
-		$author_id = $this->factory->user->create( array( 'role' => 'administrator' ) );
+		// create admin user
+		$this->user_id = $this->factory->user->create( array( 'role' => 'administrator' ) );
 
+		// create sample post
 		$this->post_id = $this->factory->post->create(
 			array( 
 				'post_title' => 'Sample Post', 
 				'post_type' => 'post', 
 				'post_status' => 'publish',
-				'post_author' => $author_id
+				'post_author' => $this->user_id
 			) 
 		);
 
+		// add category to post
+		$this->category_id = wp_create_category( "WordPress SEO" );
+		wp_set_post_categories( $this->post_id, array( $this->category_id ) );
+
+		// fill global $post
+		global $post;
+		$post = $this->get_post( $this->post_id );
+
 		// go to single post
-		$this->go_to( get_permalink( $this->post_id ) );
+		$this->go_to_post();
+	}
+
+	/**
+	* Clean-up
+	*/
+	public function tearDown() {
+		parent::tearDown();
+
+		// delete post
+		wp_delete_post( $this->post_id );
+
+		// delete category
+		wp_delete_category( $this->category_id );
+
+		// delete author
+		wp_delete_user( $this->user_id );
+
+		// go back to home page
+		$this->go_to_home();
 	}
 
 	/**
@@ -79,11 +118,11 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		$this->assertTrue( $this->class_instance->article_author_facebook() );
 
 		// test not on singular page
-		$this->go_to( home_url() );
+		$this->go_to_home();
 		$this->assertFalse( $this->class_instance->article_author_facebook() );
 
 		// go back to single post
-		$this->go_to( get_permalink( $this->post_id ) );
+		$this->go_to_post();
 	}
 
 	public function test_website_facebook() {
@@ -100,6 +139,8 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 
 	public function test_site_owner() {
 		$this->assertFalse( $this->class_instance->site_owner() );
+
+		// @todo
 	}
 
 	public function test_og_title() {
@@ -120,12 +161,16 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		$this->assertTrue( $this->class_instance->url() );
 	}
 
-	public function test_locale() {
-		// @todo
-	}
-
 	public function test_type() {
-		// @todo
+		
+		$this->go_to_home();
+		$this->assertEquals( 'website', $this->class_instance->type( false ) );
+
+		$this->go_to_category();
+		$this->assertEquals( 'object', $this->class_instance->type( false ) );
+
+		$this->go_to_post();
+		$this->assertEquals( 'article', $this->class_instance->type( false ) );
 	}
 
 	public function test_image_output() {
@@ -162,14 +207,72 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		// test again, this time with tags
 		$this->expectOutputString( $expected_tags );
 		$this->assertTrue( $this->class_instance->tags() );
+
+		// not singular, return false
+		$this->go_to_home();
+		$this->assertFalse( $this->class_instance->tags() );
+
+		// go back to post
+		$this->go_to_post();
 	}
 
-	/**
-	* Placeholder tests to prevent notices
-	*/
-	public function test_class_is_tested() {
-		$this->assertTrue( true );
+	public function test_category() {	
+
+		// Test category
+		$this->expectOutputString( '<meta property="article:section" content="WordPress SEO" />' . "\n" );
+		$this->assertTrue( $this->class_instance->category() );
+
+		// not singular, should return false
+		$this->go_to_home();
+		$this->assertFalse( $this->class_instance->category() );
+
+		// go back to single post
+		$this->go_to_post();
 	}
 
+	public function test_publish_date() {
+
+		// not on singular, should return false
+		$this->go_to_home();
+		$this->assertFalse( $this->class_instance->publish_date() );
+
+		// go back to post
+		$this->go_to_post();
+
+		// test published_time tags output
+		$published_time = get_the_date( 'c' );
+		$published_output = '<meta property="article:published_time" content="' . $published_time . '" />' . "\n";
+		$this->expectOutputString( $published_output );
+		$this->assertTrue( $this->class_instance->publish_date() );	
+
+		ob_clean();
+
+		// modify post time
+		global $post;
+		$post = $this->get_post();
+		$post->post_modified     = gmdate( 'Y-m-d H:i:s', time() + 1 );
+		$post->post_modified_gmt = gmdate( 'Y-m-d H:i:s', ( time() + 1 + ( get_option( 'gmt_offset' ) * HOUR_IN_SECONDS ) ) );
+		
+		// test modified tags output
+		$modified_time = get_the_modified_date( 'c' );
+		$modified_output = '<meta property="article:modified_time" content="' . $modified_time . '" />' . "\n" . '<meta property="og:updated_time" content="' . $modified_time . '" />' . "\n";
+		$this->expectOutputString( $published_output . $modified_output );
+		$this->assertTrue( $this->class_instance->publish_date() );
+
+	}
+
+	private function go_to_post() {
+		$this->go_to( get_permalink( $this->post_id ) );
+	}
+
+	private function go_to_category() {
+		$this->go_to( get_category_link( $this->category_id ) );
+	}
+
+	private function get_post() {
+		global $post;
+		$post = get_post( $this->post_id );
+		return $post;
+	}
 
 }

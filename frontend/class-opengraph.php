@@ -333,19 +333,23 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 		 * @return string $type
 		 */
 		public function type( $echo = true ) {
+
 			if ( is_front_page() || is_home() ) {
 				$type = 'website';
-			}
-			elseif ( is_singular() ) {
+			} elseif ( is_singular() ) {
+
 				// This'll usually only be changed by plugins right now.
 				$type = WPSEO_Meta::get_value( 'og_type' );
+
 				if ( $type === '' ) {
 					$type = 'article';
 				}
-			}  // We use "object" for archives etc. as article doesn't apply there
-			else {
+
+			}  else {
+				// We use "object" for archives etc. as article doesn't apply there
 				$type = 'object';
 			}
+			
 			/**
 			 * Filter: 'wpseo_opengraph_type' - Allow changing the OpenGraph type of the page
 			 *
@@ -556,28 +560,38 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 		 * Output the article category as an article:section tag.
 		 *
 		 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
+		 * @return boolean;
 		 */
 		public function category() {
+
 			if ( ! is_singular() ) {
-				return;
+				return false;
 			}
 
 			$terms = get_the_category();
+
 			if ( ! is_wp_error( $terms ) && ( is_array( $terms ) && $terms !== array() ) ) {
+
 				foreach ( $terms as $term ) {
 					$this->og_tag( 'article:section', $term->name );
 				}
+
+				return true;
 			}
+
+			return false;
 		}
 
 		/**
 		 * Output the article publish and last modification date
 		 *
 		 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
+		 * @return boolean;
 		 */
 		public function publish_date() {
+
 			if ( ! is_singular() ) {
-				return;
+				return false;
 			}
 
 			$pub = get_the_date( 'c' );
@@ -588,6 +602,8 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 				$this->og_tag( 'article:modified_time', $mod );
 				$this->og_tag( 'og:updated_time', $mod );
 			}
+
+			return true;
 		}
 
 	} /* End of class */
