@@ -1,4 +1,5 @@
 <?php
+@error_reporting( E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED );
 
 echo "Welcome to the WordPress SEO Test Suite" . PHP_EOL;
 echo "Version: 1.0" . PHP_EOL . PHP_EOL;

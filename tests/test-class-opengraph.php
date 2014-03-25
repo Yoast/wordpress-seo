@@ -18,6 +18,11 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	private $category_id = 0;
 
 	/**
+	* @var int
+	*/
+	private $user_id = 0;
+
+	/**
 	* Provision tests
 	*/
 	public function setUp() {
@@ -25,24 +30,48 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 
 		$this->class_instance = new WPSEO_OpenGraph();
 
-		$author_id = $this->factory->user->create( array( 'role' => 'administrator' ) );
+		// create admin user
+		$this->user_id = $this->factory->user->create( array( 'role' => 'administrator' ) );
 
+		// create sample post
 		$this->post_id = $this->factory->post->create(
 			array( 
 				'post_title' => 'Sample Post', 
 				'post_type' => 'post', 
 				'post_status' => 'publish',
-				'post_author' => $author_id
+				'post_author' => $this->user_id
 			) 
 		);
 
+		// add category to post
 		$this->category_id = wp_create_category( "WordPress SEO" );
 		wp_set_post_categories( $this->post_id, array( $this->category_id ) );
 
-		$this->get_post( $this->post_id );
+		// fill global $post
+		global $post;
+		$post = $this->get_post( $this->post_id );
 
 		// go to single post
 		$this->go_to_post();
+	}
+
+	/**
+	* Clean-up
+	*/
+	public function tearDown() {
+		parent::tearDown();
+
+		// delete post
+		wp_delete_post( $this->post_id );
+
+		// delete category
+		wp_delete_category( $this->category_id );
+
+		// delete author
+		wp_delete_user( $this->user_id );
+
+		// go back to home page
+		$this->go_to_home();
 	}
 
 	/**
@@ -110,6 +139,8 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 
 	public function test_site_owner() {
 		$this->assertFalse( $this->class_instance->site_owner() );
+
+		// @todo
 	}
 
 	public function test_og_title() {
@@ -228,10 +259,6 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		$this->expectOutputString( $published_output . $modified_output );
 		$this->assertTrue( $this->class_instance->publish_date() );
 
-	}
-
-	private function go_to_home() {
-		$this->go_to( home_url() );
 	}
 
 	private function go_to_post() {
