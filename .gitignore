@@ -19,8 +19,6 @@ local.properties
 .buildpath
 nbproject/
 node_modules/*
-Gruntfile.js
-package.json
 
 ############
 ## OSes
