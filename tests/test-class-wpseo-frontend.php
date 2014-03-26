@@ -43,6 +43,9 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 			) 
 		);
 
+		// Make some posts
+   		$this->factory->post->create_many( 10 );
+
 		// create sample category
 		$this->category_id = wp_create_category( "WordPress SEO" );
 		wp_set_post_categories( $this->post_id, array( $this->category_id ) );
@@ -193,27 +196,224 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	}
 
 	public function test_debug_marker() {
-		// @todo
+		// test if the version number is shown in the debug marker
+		$version_found =  ( stristr( $this->class_instance->debug_marker( false ), WPSEO_VERSION ) !== false );
+		$this->assertTrue( $version_found );
 	}
 
 	public function test_webmaster_tools_authentication() {
-		// @todo
+		
+		$this->go_to_home();
+
+		$this->run_webmaster_tools_authentication_option_test( 'alexaverify', '<meta name="alexaVerifyID" content="alexaverify" />' . "\n" );
+		$this->run_webmaster_tools_authentication_option_test( 'msverify',  '<meta name="msvalidate.01" content="msverify" />' . "\n");
+		$this->run_webmaster_tools_authentication_option_test( 'googleverify', '<meta name="google-site-verification" content="googleverify" />' . "\n" );
+		$this->run_webmaster_tools_authentication_option_test( 'pinterestverify', '<meta name="p:domain_verify" content="pinterestverify" />' . "\n" );
+		$this->run_webmaster_tools_authentication_option_test( 'yandexverify', '<meta name="yandex-verification" content="yandexverify" />' . "\n" );
+
+		// asdasd
+		$this->go_to_post();
+		$this->run_webmaster_tools_authentication_option_test( 'yandexverify', '');
 	}
 
 	public function test_head() {
-		// @todo
+		
+		$this->class_instance->head();
+		ob_clean();
+
+		$this->assertEquals(1, did_action( 'wpseo_head' ) );
 	}
 
+	/**
+	* Test the WPSEO_Frontend::robots() method
+	* @todo cover post type archives
+	* @todo cover test with noodp and noydir option set
+	* @todo test with page_for_posts option
+	* @todo date archives
+	* @todo test search results
+	*/
 	public function test_robots() {
-		// @todo
-	}
+		
+		// go to home
+		$this->go_to_home();
+
+		// test home page with no special options
+		$expected = '';
+		$this->assertEquals( $expected, $this->class_instance->robots() );
+
+		$expected = 'noindex,follow';
+
+		// test WP visibility setting
+		update_option( 'blog_public', '0' );
+		$this->assertEquals( $expected, $this->class_instance->robots() );
+		
+		// clean-up
+		ob_clean();
+		update_option( 'blog_public', '1' );
+
+		// test replytocom
+		$_GET['replytocom'] = '1';
+		$this->assertEquals( $expected, $this->class_instance->robots() );
+		
+		// clean-up
+		ob_clean();
+		unset( $_GET['replytocom'] );
+
+		// test 'paged' query var
+		$this->go_to( home_url('?paged=2') );
+		
+		$expected = 'noindex,follow';
+		$this->assertEquals( $expected, $this->class_instance->robots() );
+		ob_clean();
+	
+		// go to post page
+		$this->go_to_post();
+
+		// test regular post with no special options
+		$expected = '';
+		$this->assertEquals( $expected, $this->class_instance->robots() );
+
+		// test noindex-post option
+		$expected = 'noindex,follow';
+		$this->set_option( 'noindex-post', true );
+		$this->assertEquals( $expected, $this->class_instance->robots() );
+		
+		// clean-up
+		$this->set_option( 'noindex-post', false );
+		ob_clean();
+
+		// test post_status private
+		$expected = 'noindex,follow';
+		$this->set_post_property( 'post_status', 'private' );
+		$this->assertEquals( $expected, $this->class_instance->robots() );
+		ob_clean();
+
+		// go to category page
+		$this->go_to_category();
+
+		// test regular category with no special options
+		$expected = '';
+		$this->assertEquals( $expected, $this->class_instance->robots() );
+
+		// test category with noindex-tax-category option
+		// @todo fix for multisite
+		$expected = 'noindex,follow';
+		$this->set_option( 'noindex-tax-category', true );
+		$this->assertEquals( $expected, $this->class_instance->robots() );
+		
+		// clean-up
+		$this->set_option( 'noindex-tax-category', false );
+		ob_clean();
+
+		// test subpages of category archives
+		$this->set_option( 'noindex-subpages-wpseo', true );
+		$this->go_to( add_query_arg( array( 'paged' => 2 ), get_category_link( $this->category_id ) ) );
+				
+		$expected = 'noindex,follow';
+		$this->assertEquals( $expected, $this->class_instance->robots() );
+
+		// clean-up
+		ob_clean();
+
+		// go to author page
+		$this->go_to_author();
+
+		// test author archive with no special options
+		$expected = '';
+		$this->assertEquals( $expected, $this->class_instance->robots() );
+
+		// test author archive with 'noindex-author-wpseo'
+		$expected = 'noindex,follow';
+		$this->set_option( 'noindex-author-wpseo', true );
+		$this->assertEquals( $expected, $this->class_instance->robots() );
+
+		// clean-up
+		$this->set_option( 'noindex-author-wpseo', false );
+		ob_clean();
+
+		}
 
 	public function test_robots_for_single_post() {
-		// @todo
+		
+		// go to post
+		$this->go_to_post();
+
+		$robots = array( 
+			'index' => 'index', 
+			'follow' => 'follow', 
+			'other' => array( ) 
+		);
+		$expected = $robots;
+
+		// test noindex
+		WPSEO_Meta::set_value( 'meta-robots-noindex', '1', $this->post_id );		
+		$expected['index'] = 'noindex';
+		$this->assertEquals( $expected, $this->class_instance->robots_for_single_post( $robots, $this->post_id ) );
+
+		// test nofollow
+		WPSEO_Meta::set_value( 'meta-robots-nofollow', 1, $this->post_id );
+		$expected['follow'] = 'nofollow';
+		$this->assertEquals( $expected, $this->class_instance->robots_for_single_post( $robots, $this->post_id ) );
+
+		// test noodp with default meta-robots-adv
+		$this->set_option( 'noodp', true );
+		$expected['other'] = array( 'noodp' );
+		$this->assertEquals( $expected, $this->class_instance->robots_for_single_post( $robots, $this->post_id ) );
+
+		// test noydir with default meta-robots-adv
+		$this->set_option( 'noydir', true );
+		$expected['other'] = array( 'noodp', 'noydir' );
+		$this->assertEquals( $expected, $this->class_instance->robots_for_single_post( $robots, $this->post_id ) );
+
+		// test meta-robots adv noodp and nosnippet
+		WPSEO_Meta::set_value( 'meta-robots-adv', 'noodp,nosnippet', $this->post_id );
+		$expected['other'] = array( 'noodp', 'nosnippet' );
+		$this->assertEquals( $expected, $this->class_instance->robots_for_single_post( $robots, $this->post_id ) );
+
+		WPSEO_Meta::set_value( 'meta-robots-noindex', '2', $this->post_id );
+		$expected['index'] = 'index';
+		$this->assertEquals( $expected, $this->class_instance->robots_for_single_post( $robots, $this->post_id ) );
 	}
 
 	public function test_canonical() {
-		// @todo
+		
+		// test singular
+		$this->go_to_post();
+
+		// test default canonical
+		$expected = get_permalink( $this->post_id );
+		$this->assertEquals( $expected, $this->class_instance->canonical( false ) );
+
+		// test manual override while using no override
+		$meta_canon = 'http://canonic.al';
+		WPSEO_Meta::set_value( 'canonical', $meta_canon, $this->post_id );
+		$this->assertEquals( $expected, $this->class_instance->canonical( false, false, true ) );
+
+		// test manual override
+		$this->assertEquals( $meta_canon, $this->class_instance->canonical( false ) );
+
+		// test home page
+		$this->go_to_home();
+		
+		$expected = home_url( '/' );
+		$this->assertEquals( $expected, $this->class_instance->canonical( false, false, true ) );
+
+		// test search
+		$expected = get_search_link( 'sample query' );
+		$this->go_to( $expected );
+		$this->assertEquals( $expected, $this->class_instance->canonical( false ) );
+
+		// test taxonomy pages, category pages and tag pages
+		// @todo fix for multisite
+		$this->go_to_category();
+		$expected = get_category_link( $this->category_id );
+		$this->assertEquals( $expected, $this->class_instance->canonical( false ) );
+
+		// @todo test post type archives
+		// @todo test author archives
+		// @todo test date archives
+		// @todo test pagination
+		// @todo test force_transport
 	}
 
 	public function test_adjacent_rel_links() {
@@ -320,4 +520,41 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		$this->go_to( get_author_posts_url( $this->user_id ) );
 	}
 	
+	/**
+	* @param string $name
+	* @param string $value 
+	*/
+	private function set_option( $name, $value ) {
+		$this->class_instance->options[$name] = $value;
+	}
+
+	/**
+	* @param string $name
+	* @return string
+	*/
+	private function get_option( $name ) {
+		return $this->class_instance->options[$name];
+	}
+
+	/**
+	* @param string $option_name
+	* @param string $expected
+	* @return void
+	*/
+	private function run_webmaster_tools_authentication_option_test( $option_name, $expected ) {
+		$this->set_option( $option_name, $option_name );	
+		$this->expectOutput( $expected, $this->class_instance->webmaster_tools_authentication( ) );
+		$this->set_option( $option_name, '' );				
+	}
+
+	/**
+	* @param string $property_name
+	* @param mixed $value
+	*/
+	private function set_post_property( $property_name, $value ) {
+		global $post;
+		$this->post->{$property_name} = $value;
+		$post = $this->post;
+	}
+
 }

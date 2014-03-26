@@ -529,7 +529,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 
 				// Yandex
 				if ( $this->options['yandexverify'] !== '' ) {
-					echo '<meta name=\'yandex-verification\' content=\'' . esc_attr( $this->options['yandexverify'] ) . "' />\n";
+					echo '<meta name="yandex-verification" content="' . esc_attr( $this->options['yandexverify'] ) . "\" />\n";
 				}
 			}
 		}
@@ -565,6 +565,8 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 
 		/**
 		 * Output the meta robots value.
+		 *
+		 * @return string
 		 */
 		public function robots() {
 			global $wp_query;
@@ -619,8 +621,9 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 
 				} elseif ( is_post_type_archive() ) {
 					$post_type = get_query_var( 'post_type' );
-					if ( isset( $this->options['noindex-ptarchive-' . $post_type] ) && $this->options['noindex-ptarchive-' . $post_type] === true )
+					if ( isset( $this->options['noindex-ptarchive-' . $post_type] ) && $this->options['noindex-ptarchive-' . $post_type] === true ) {
 						$robots['index'] = 'noindex';
+					}
 				}
 
 				if ( isset( $wp_query->query_vars['paged'] ) && ( $wp_query->query_vars['paged'] && $wp_query->query_vars['paged'] > 1 ) && ( $this->options['noindex-subpages-wpseo'] === true ) ) {
@@ -661,6 +664,8 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 			if ( is_string( $robotsstr ) && $robotsstr !== '' ) {
 				echo '<meta name="robots" content="' . esc_attr( $robotsstr ) . '"/>' . "\n";
 			}
+
+			return $robotsstr;
 		}
 		
 		/**
@@ -684,6 +689,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 			}
 
 			$meta_robots_adv = WPSEO_Meta::get_value( 'meta-robots-adv', $postid );
+
 			if ( $meta_robots_adv !== '' && ( $meta_robots_adv !== '-' && $meta_robots_adv !== 'none' ) ) {
 				$meta_robots_adv = explode( ',', $meta_robots_adv );
 				foreach ( $meta_robots_adv as $robot ) {
@@ -751,12 +757,14 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 					$canonical = get_permalink( get_option( 'page_for_posts' ) );
 				} elseif ( is_tax() || is_tag() || is_category() ) {
 					$term = get_queried_object();
-					if ( ! $no_override ) {
+
+					if ( $no_override === false ) {
 						$canonical = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'canonical' );
 						if ( is_string( $canonical ) && $canonical !== '' ) {
 							$skip_pagination = true;
 						}
 					}
+
 					if ( ! is_string( $canonical ) || $canonical === '' ) {
 						$canonical = get_term_link( $term, $term->taxonomy );
 					}
