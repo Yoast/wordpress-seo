@@ -26,7 +26,7 @@ class WPSEO_Premium {
 	const EDD_STORE_URL       = 'https://yoast.com';
 	const EDD_PLUGIN_NAME     = 'WordPress SEO Premium';
 
-	private $page_gwt					= null;
+	private $page_gwt = null;
 
 	/**
 	 * Function that will be executed when plugin is activated
@@ -76,6 +76,9 @@ class WPSEO_Premium {
 			// Post to Get on search
 			add_action( 'admin_init', array( $this, 'list_table_search_post_to_get' ) );
 
+			// Add the GWT crawl error post type
+			add_action( 'admin_init', array( $this, 'register_gwt_crawl_error_post_type' ) );
+
 			// Check if WPSEO_DISABLE_PHP_REDIRECTS is defined
 			if ( defined( 'WPSEO_DISABLE_PHP_REDIRECTS' ) && true === WPSEO_DISABLE_PHP_REDIRECTS ) {
 				// Constant is set, change autoload to off
@@ -96,8 +99,8 @@ class WPSEO_Premium {
 			add_action( 'admin_init', array( $this, 'catch_option_redirect_save' ) );
 
 			// Screen options
-			add_filter( 'set-screen-option', array( 'WPSEO_Page_Redirect', 'set_screen_option' ), 10, 3 );
-			add_filter( 'set-screen-option', array( $this->page_gwt, 'set_screen_option' ), 10, 3 );
+			add_filter( 'set-screen-option', array( 'WPSEO_Page_Redirect', 'set_screen_option' ), 11, 3 );
+			add_filter( 'set-screen-option', array( $this->page_gwt, 'set_screen_option' ), 11, 3 );
 
 			// Licensing part
 			$license_manager = new Yoast_Plugin_License_Manager( new Yoast_Product_WPSEO_Premium() );
@@ -109,7 +112,7 @@ class WPSEO_Premium {
 			$license_manager->setup_hooks();
 
 			// Add this plugin to licensing form
-			add_action( 'wpseo_licenses_forms', array( $license_manager, 'show_license_form') );
+			add_action( 'wpseo_licenses_forms', array( $license_manager, 'show_license_form' ) );
 
 			if ( $license_manager->license_is_valid() ) {
 				add_action( 'admin_head', array( $this, 'admin_css' ) );
@@ -172,6 +175,13 @@ class WPSEO_Premium {
 		if ( is_plugin_active( 'wordpress-seo/wp-seo.php' ) ) {
 			deactivate_plugins( 'wordpress-seo/wp-seo.php' );
 		}
+	}
+
+	/**
+	 * Register the GWT Crawl Error post type
+	 */
+	public function register_gwt_crawl_error_post_type() {
+		register_post_type( WPSEO_Crawl_Issue_Manager::PT_CRAWL_ISSUE, array( 'public' => false, 'label' => 'WordPress SEO GWT Crawl Error' ) );
 	}
 
 	/**

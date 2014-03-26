@@ -6,7 +6,7 @@ function wpseo_gwt_open_authorize_code_window(url) {
 	return window.open(url, 'wpseogwtauthcode', 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=no, copyhistory=no, width=' + w + ', height=' + h + ', top=' + top + ', left=' + left);
 }
 
-function create_redirect(old_url) {
+function create_redirect(old_url, current_view) {
 	var new_url = prompt(wpseo_premium_strings.enter_new_url);
 
 	if (null != new_url) {
@@ -20,12 +20,22 @@ function create_redirect(old_url) {
 						new_url   : new_url
 					},
 					function (response) {
+
+						/**
+						 * @todo create a nice overlay
+						 */
+
 						var update_div = jQuery('<div>').addClass('updated').html('<p><bold>' + wpseo_premium_strings.redirect_saved + '</bold></p>');
 						jQuery('.wrap').prepend(update_div);
 
 						jQuery(update_div).delay(500).fadeOut('slow', function () {
 							jQuery(this).remove();
 						});
+
+						// Remove the redirect row if we're in the not-redirected view
+						if( 'not-redirected' == current_view) {
+							alert("DOEI");
+						}
 					}
 			);
 		} else {

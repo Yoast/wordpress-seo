@@ -104,48 +104,6 @@ class WPSEO_Page_GWT {
 			add_action( 'admin_notices', array( $this, 'admin_message_body' ) );
 		}
 
-		// Add views
-		add_filter( 'views_seo_page_wpseo_webmaster_tools', array( $this, 'add_page_views' ) );
-
-	}
-
-	/**
-	 * Add page views
-	 *
-	 * @param array $views
-	 *
-	 * @return array
-	 */
-	public function add_page_views( $views ) {
-
-		// Base URL
-		$base_url = admin_url( 'admin.php' ) . "?page=" . $_GET['page'];
-
-		$current = ( isset ( $_GET['status'] ) ? $_GET['status'] : '' );
-
-		$views_arr = array(
-				'all'            => 'All',
-				'not-redirected' => 'Not redirected',
-				'ignored'        => 'Ignored',
-		);
-
-		// Add views
-		/*
-		$new_views = array(
-				'all'            => "<a href='" . $base_url . "' class='current'>All</a>",
-				'not-redirected' => "<a href='" . $base_url . "&status=not-redirected'>Not redirected</a>",
-			//'ignored' => "<a href='" . $base_url . "'>Ignored</a>",
-		);
-		*/
-
-		$new_views = array();
-
-		foreach ( $views_arr as $key => $val ) {
-			$new_views[$key] = "<a href='" . $base_url . "&status={$key}'" . ( ( $current == $key ) ? " class='current'" : "" ) . ">{$val}</a>";
-		}
-
-
-		return $new_views;
 	}
 
 	/**
