@@ -382,7 +382,12 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 				}
 			} elseif ( is_post_type_archive() ) {
 				$post_type = get_query_var( 'post_type' );
-				$title     = $this->get_title_from_options( 'title-ptarchive-' . $post_type );
+
+				if ( is_array( $post_type ) ) {
+					$post_type = reset( $post_type );
+				}
+
+				$title = $this->get_title_from_options( 'title-ptarchive-' . $post_type );
 
 				if ( ! is_string( $title ) || '' === $title ) {
 					$post_type_obj = get_post_type_object( $post_type );
@@ -621,6 +626,11 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 
 				} elseif ( is_post_type_archive() ) {
 					$post_type = get_query_var( 'post_type' );
+
+					if ( is_array( $post_type ) ) {
+						$post_type = reset( $post_type );
+					}
+
 					if ( isset( $this->options['noindex-ptarchive-' . $post_type] ) && $this->options['noindex-ptarchive-' . $post_type] === true ) {
 						$robots['index'] = 'noindex';
 					}
@@ -769,7 +779,11 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 						$canonical = get_term_link( $term, $term->taxonomy );
 					}
 				} elseif ( is_post_type_archive() ) {
-					$canonical = get_post_type_archive_link( get_query_var( 'post_type' ) );
+					$post_type = get_query_var( 'post_type' );
+					if ( is_array( $post_type ) ) {
+						$post_type = reset( $post_type );
+					}
+					$canonical = get_post_type_archive_link( $post_type );
 				} elseif ( is_author() ) {
 					$canonical = get_author_posts_url( get_query_var( 'author' ), get_query_var( 'author_name' ) );
 				} elseif ( is_archive() ) {
@@ -1021,6 +1035,9 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 					}
 				} elseif ( is_post_type_archive() ) {
 					$post_type = get_query_var( 'post_type' );
+					if ( is_array( $post_type ) ) {
+						$post_type = reset( $post_type );
+					}
 					if ( isset( $this->options['metakey-ptarchive-' . $post_type] ) && $this->options['metakey-ptarchive-' . $post_type] !== '' ) {
 						$keywords = wpseo_replace_vars( $this->options['metakey-ptarchive-' . $post_type], (array) $wp_query->get_queried_object() );
 					}
@@ -1096,6 +1113,9 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 					}
 				} elseif ( is_post_type_archive() ) {
 					$post_type = get_query_var( 'post_type' );
+					if ( is_array( $post_type ) ) {
+						$post_type = reset( $post_type );
+					}
 					if ( isset( $this->options['metadesc-ptarchive-' . $post_type] ) && $this->options['metadesc-ptarchive-' . $post_type] !== '' ) {
 						$metadesc = wpseo_replace_vars( $this->options['metadesc-ptarchive-' . $post_type], (array) $wp_query->get_queried_object() );
 					}
