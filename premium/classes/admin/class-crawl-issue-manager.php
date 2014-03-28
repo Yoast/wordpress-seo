@@ -7,9 +7,10 @@
  */
 class WPSEO_Crawl_Issue_Manager {
 
-	// Post type related constants
+	// Post Type related constants
 	const PT_CRAWL_ISSUE = 'wpseo_crawl_issue';
 
+	// Post Meta related constants
 	const PM_CI_URL           = 'wpseo_ci_url';
 	const PM_CI_CRAWL_TYPE    = 'wpseo_ci_crawl_type';
 	const PM_CI_ISSUE_TYPE    = 'wpseo_ci_issue_type';
@@ -43,17 +44,6 @@ class WPSEO_Crawl_Issue_Manager {
 	private function save_last_checked() {
 		delete_option( self::OPTION_CI_TS );
 		add_option( self::OPTION_CI_TS, time(), '', 'no' );
-	}
-
-	/**
-	 * Save a crawl issue
-	 *
-	 * @param WPSEO_Crawl_Issue $crawl_issue
-	 *
-	 * @return bool
-	 */
-	private function save_crawl_issue( WPSEO_Crawl_Issue $crawl_issue ) {
-		return true;
 	}
 
 	/**
@@ -137,17 +127,11 @@ class WPSEO_Crawl_Issue_Manager {
 			$this->save_crawl_issues( $gwt );
 		}
 
-		// Get crawl issues from DB
-		// @todo add search here
-
 		// Post Type can't be set in $extra_args
 		unset( $extra_args['post_type'] );
 
 		// Get the crawl issues from db
 		$crawl_issues_db = get_posts( wp_parse_args( $extra_args, array( 'post_type' => self::PT_CRAWL_ISSUE, 'posts_per_page' => - 1 ) ) );
-
-		// Get the ignores
-		// @todo get the ignores
 
 		// Convert WP posts to WPSEO_Crawl_Issue objects
 		if ( count( $crawl_issues_db ) > 0 ) {

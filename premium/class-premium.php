@@ -149,7 +149,6 @@ class WPSEO_Premium {
 
 			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-gwt-google-client.php' );
 			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-gwt-service.php' );
-			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-gwt.php' );
 			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-gwt-authentication.php' );
 			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/pages/class-page-gwt.php' );
 
