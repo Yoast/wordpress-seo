@@ -75,7 +75,7 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 		$new_views = array();
 
 		foreach ( $views_arr as $key => $val ) {
-			$new_views[$key] = "<a href='" . add_query_arg( array( 'status' => $key, 'paged' => 1 ) ) . "'" . ( ( $current == $key ) ? " class='current'" : "" ) . ">{$val}</a>";
+			$new_views[$key] = "<a href='" . add_query_arg( array( 'status' => $key, 'paged' => 0 ) ) . "'" . ( ( $current == $key ) ? " class='current'" : "" ) . ">{$val}</a>";
 		}
 
 		return $new_views;
@@ -147,7 +147,25 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 			}
 		}
 
-//		var_dump( $crawl_errors );
+		return $crawl_errors;
+	}
+
+	/**
+	 * Filter out the redirected URL's
+	 *
+	 * @param $crawl_errors
+	 *
+	 * @return array
+	 */
+	private function filter_out_ignored_urls( $crawl_errors ) {
+		$filtered_errors = array();
+		$redirects       = WPSEO_Redirect_Manager::get_redirects();
+
+		foreach ( $crawl_errors as $key => $crawl_error ) {
+			if ( isset( $redirects[$crawl_error->get_url()] ) ) {
+				unset( $crawl_errors[$key] );
+			}
+		}
 
 		return $crawl_errors;
 	}
@@ -167,13 +185,15 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 		// Vies
 		$this->views();
 
+		// Get current view
+		$current_view = $this->get_current_view();
+
 		// Build crawl issues args
 		$ci_args = array();
 
 		// Set the orderby
-		$orderby             = ( ! empty( $_GET['orderby'] ) ) ? $_GET['orderby'] : 'url';
-		$ci_args['orderby']  = 'meta_value';
-		$ci_args['meta_key'] = 'wpseo_ci_' . $orderby;
+		$orderby            = ( ! empty( $_GET['orderby'] ) ) ? $_GET['orderby'] : 'title';
+		$ci_args['orderby'] = $orderby;
 
 		// Set the order
 		$order            = ( ! empty( $_GET['order'] ) ) ? $_GET['order'] : 'asc';
@@ -187,13 +207,19 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 		$ci_args['posts_per_page'] = $per_page;
 		$ci_args['offset']         = ( ( $current_page ) * $per_page );
 
-
-		// Apply 'pagination'
-		//$formatted_items = array_slice( $formatted_items, ( ( $current_page - 1 ) * $per_page ), $per_page );
+		// Check current view
+		if ( 'ignored' == $current_view ) {
+			$ci_args['post_status'] = 'trash';
+		}
 
 		// Get the crawl issues
-		$crawl_issue_manager = new WPSEO_Crawl_Issue_Manager( $this->gwt );
-		$crawl_issues        = $crawl_issue_manager->get_crawl_issues( $ci_args );
+		$crawl_issue_manager = new WPSEO_Crawl_Issue_Manager();
+		$crawl_issues        = $crawl_issue_manager->get_crawl_issues( $this->gwt, $ci_args );
+
+		// Filter crawl errors
+		if ( 'not-redirected' == $current_view ) {
+			$crawl_issues = $crawl_issue_manager->get_crawl_issues( $this->gwt, $ci_args );
+		}
 
 		// Count the total items
 		$total_items = count( $crawl_issues );
@@ -205,23 +231,6 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 				'per_page'    => $per_page,
 		) );
 
-		/**
-		 * @todo only show specific crawl errors
-		 */
-
-		// Filter crawl errors
-		$current_view = $this->get_current_view();
-		switch ( $current_view ) {
-			case 'all':
-				// Filter out ignored redirects
-				break;
-			case 'not-redirected':
-				$crawl_issues = $this->filter_out_redirected_urls( $crawl_issues );
-				break;
-			case 'ignored':
-				// Filter out non ignored urls
-				break;
-		}
 
 		// START REFACTOR
 
@@ -301,20 +310,36 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 		// Send final sort direction to usort
 		return ( $order === 'asc' ) ? $result : - $result;
 	}
+	*/
 
+	/**
+	 * URL column
+	 *
+	 * @param $item
+	 *
+	 * @return string
+	 */
 	public function column_url( $item ) {
 		$actions = array(
-				'create_redirect' => '<a href="javascript:create_redirect(\'' . urlencode( $item['url'] ) . '\', \'' . $this->get_current_view() . '\');">' . __( 'Create redirect', 'wordpress-seo' ) . '</a>',
-				'view'            => '<a target="_blank" href="' . $item['url'] . '">' . __( 'View', 'wordpress-seo' ) . '</a>',
+				'create_redirect' => '<a href="javascript:wpseo_create_redirect(\'' . urlencode( $item['url'] ) . '\', \'' . $this->get_current_view() . '\');">' . __( 'Create redirect', 'wordpress-seo' ) . '</a>',
+				'view'            => '<a href="' . $item['url'] . '" target="_blank">' . __( 'View', 'wordpress-seo' ) . '</a>',
 		);
 
+		// Current view
+		$current_view = $this->get_current_view();
+
+		if ( 'ignored' == $current_view ) {
+			$actions['unignore'] = '<a href="javascript:wpseo_unignore_redirect(\'' . urlencode( $item['url'] ) . '\');">' . __( 'Unignore', 'wordpress-seo' ) . '</a>';
+		} else {
+			$actions['ignore'] = '<a href="javascript:wpseo_ignore_redirect(\'' . urlencode( $item['url'] ) . '\');">' . __( 'Ignore', 'wordpress-seo' ) . '</a>';
+		}
+
 		return sprintf(
-				'%1$s %2$s',
+				'<span class="value">%1$s</span> %2$s',
 				$item['url'],
 				$this->row_actions( $actions )
 		);
 	}
-	*/
 
 	/**
 	 * Checkbox column
@@ -338,7 +363,7 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 	 */
 	public function column_linked_from( $item ) {
 		return sprintf(
-				'<a target="_blank" href="%1$s">%1$s</a>', $item['linked_from']
+				'<a href="%1$s" target="_blank">%1$s</a>', $item['linked_from']
 		);
 	}
 

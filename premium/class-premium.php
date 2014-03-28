@@ -127,6 +127,11 @@ class WPSEO_Premium {
 		add_action( 'wp_ajax_wpseo_save_redirect', array( 'WPSEO_Redirect_Manager', 'ajax_handle_redirect_save' ) );
 		add_action( 'wp_ajax_wpseo_delete_redirect', array( 'WPSEO_Redirect_Manager', 'ajax_handle_redirect_delete' ) );
 		add_action( 'wp_ajax_wpseo_create_redirect', array( 'WPSEO_Redirect_Manager', 'ajax_handle_redirect_create' ) );
+
+		// Crawl Issue Manager AJAX hooks
+		$crawl_issue_manager = new WPSEO_Crawl_Issue_Manager();
+		add_action( 'wp_ajax_wpseo_ignore_crawl_issue', array( $crawl_issue_manager, 'ajax_ignore_crawl_issue' ) );
+		add_action( 'wp_ajax_wpseo_unignore_crawl_issue', array( $crawl_issue_manager, 'ajax_unignore_crawl_issue' ) );
 	}
 
 	/**

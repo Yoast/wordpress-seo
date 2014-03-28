@@ -80,7 +80,8 @@ class WPSEO_GWT_Service {
 			$has_more_issues = false;
 
 			// Do request
-			$request = new Google_HttpRequest( "https://www.google.com/webmasters/tools/feeds/" . $site_url . "/crawlissues/?max-results=" . $per_page . "&start-index=" . ( ( $per_page * $cur_page ) + 1 ) );
+			$url = "https://www.google.com/webmasters/tools/feeds/" . $site_url . "/crawlissues/?max-results=" . $per_page . "&start-index=" . ( ( $per_page * $cur_page ) + 1 );
+			$request = new Google_HttpRequest( $url );
 
 			// Get list sites response
 			$response = $this->client->getIo()->authenticatedRequest( $request );
