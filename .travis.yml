@@ -20,6 +20,7 @@ before_script:
     - cd $WP_TESTS_DIR
     # setup wp-config.php
     - cp wp-tests-config-sample.php wp-tests-config.php
+    - sed -i "s/WP_DEBUG', true )/WP_DEBUG', false )/" wp-tests-config.php
     - sed -i "s/youremptytestdbnamehere/wordpress_test/" wp-tests-config.php
     - sed -i "s/yourusernamehere/root/" wp-tests-config.php
     - sed -i "s/yourpasswordhere//" wp-tests-config.php
