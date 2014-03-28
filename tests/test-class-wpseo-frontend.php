@@ -15,7 +15,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	/**
 	* @var int
 	*/
-	private $user_id = 0;
+	private $author_id = 0;
 
 	/**
 	* @var int
@@ -31,7 +31,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		$this->class_instance = new WPSEO_Frontend();
 		
 		// create sample user
-		$this->user_id = $this->factory->user->create( array( 'role' => 'administrator' ) );
+		$this->author_id = $this->factory->user->create( array( 'role' => 'administrator' ) );
 
 		// create sample posts
 		$this->post_id = $this->factory->post->create(
@@ -39,9 +39,11 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 				'post_title' => 'Sample Post', 
 				'post_type' => 'post', 
 				'post_status' => 'publish',
-				'post_author' => $author_id
+				'post_author' => $this->author_id
 			) 
 		);
+
+		$this->post = get_post( $this->post_id );
 
 		// Make some posts
    		$this->factory->post->create_many( 10 );
@@ -65,7 +67,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		wp_delete_category( $this->category_id );
 
 		// delete author
-		wp_delete_user( $this->user_id );
+		wp_delete_user( $this->author_id );
 
 		// go back to home page
 		$this->go_to_home();
@@ -143,7 +145,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 
 		// add explicit title to author meta
 		$explicit_title = 'WPSEO Author Title %%sitename%%';
-		add_user_meta( $this->user_id, 'wpseo_title', $explicit_title );
+		add_user_meta( $this->author_id, 'wpseo_title', $explicit_title );
 
 		// test explicit title
 		$expected_title = wpseo_replace_vars( 'WPSEO Author Title %%sitename%%', array() );
@@ -517,7 +519,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	}
 
 	private function go_to_author() {
-		$this->go_to( get_author_posts_url( $this->user_id ) );
+		$this->go_to( get_author_posts_url( $this->author_id ) );
 	}
 	
 	/**

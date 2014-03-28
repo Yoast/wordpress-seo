@@ -13,17 +13,14 @@ env:
 
 before_script:
     # set dir vars
-    - WP_CORE_DIR=tmp/wordpress/
     - export WP_TESTS_DIR=tmp/wordpress-tests/
     - mkdir -p tmp
     # download wordpress + wordpress test suite
-    - svn co --ignore-externals http://core.svn.wordpress.org/trunk/ $WP_CORE_DIR
-    - svn co --ignore-externals http://unit-tests.svn.wordpress.org/trunk/ $WP_TESTS_DIR
+    - svn co http://develop.svn.wordpress.org/trunk/ $WP_TESTS_DIR
     - cd $WP_TESTS_DIR
     # setup wp-config.php
     - cp wp-tests-config-sample.php wp-tests-config.php
-    - sed -i "s:dirname( __FILE__ ) . '/wordpress/':'$WP_CORE_DIR':" wp-tests-config.php
-    - sed -i "s/yourdbnamehere/wordpress_test/" wp-tests-config.php
+    - sed -i "s/youremptytestdbnamehere/wordpress_test/" wp-tests-config.php
     - sed -i "s/yourusernamehere/root/" wp-tests-config.php
     - sed -i "s/yourpasswordhere//" wp-tests-config.php
     - cd -
