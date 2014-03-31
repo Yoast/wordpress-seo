@@ -97,19 +97,15 @@ class WPSEO_Page_GWT {
 
 				<form action="<?php echo admin_url( 'options.php' ); ?>" method="post">
 					<?php
-					settings_fields( 'yoast_wpseo_redirect_options' );
-					$wpseo_admin_pages->currentoption = 'wpseo_redirect';
+					settings_fields( 'yoast_wpseo_gwt_options' );
+					$wpseo_admin_pages->currentoption = 'wpseo-premium-gwt';
 
-					//echo $wpseo_admin_pages->checkbox( 'disable_php_redirect', __( 'Disable PHP redirects', 'wordpress-seo' ) );
-					//echo $wpseo_admin_pages->textinput( 'gwt_profile', 'Google Webmaster Tools profile' );
-
+					// Get the sites
 					$service = new WPSEO_GWT_Service( $gwt_client );
+					$sites = $service->get_sites();
 
-					var_dump( $service );
+					echo $wpseo_admin_pages->select( 'profile', __( 'GWT profile', 'wordpress-seo' ), $sites );
 
-					echo $wpseo_admin_pages->select( 'gwt_profile', __( 'Google Webmaster Tools profile', 'wordpress-seo' ), $values );
-
-					echo '<p class="desc">' . __( "The Google Webmaster Tools profile we fetch the errors from.", 'wordpress-seo' ) . '</p>';
 					?>
 					<p class="submit">
 						<input type="submit" name="submit" id="submit" class="button button-primary" value="<?php _e( 'Save Changes', 'wordpress-seo' ); ?>">

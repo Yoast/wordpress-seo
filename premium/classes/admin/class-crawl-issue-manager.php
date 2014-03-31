@@ -47,6 +47,28 @@ class WPSEO_Crawl_Issue_Manager {
 	}
 
 	/**
+	 * Get the GWT profile
+	 *
+	 * @return string
+	 */
+	public function get_profile() {
+
+		// Get option
+		$option = get_option( 'wpseo-premium-gwt', array( 'profile' => '' ) );
+
+		// Set the profile
+		$profile = $option['profile'];
+
+		// Check if the profile is set
+		if( '' == $profile ) {
+			$profile = "https://www.google.com/webmasters/tools/feeds/" . urlencode( trailingslashit( get_option( 'siteurl' ) ) );
+		}
+
+		// Return the profile
+		return $profile;
+	}
+
+	/**
 	 * Save the crawl issues
 	 *
 	 * @param  array <WPSEO_Crawl_Issue> $crawl_issues
@@ -58,12 +80,8 @@ class WPSEO_Crawl_Issue_Manager {
 		// Create a the service object
 		$service = new WPSEO_GWT_Service( $gwt );
 
-		// Get the site url
-		// @todo This wil be an option in 1.1
-		$site_url = trailingslashit( get_option( 'siteurl' ) );
-
 		// Get crawl issues
-		$crawl_issues = $service->get_crawl_issues( $site_url );
+		$crawl_issues = $service->get_crawl_issues();
 
 		// Delete old crawl issues
 		// @todo might need a custom query here

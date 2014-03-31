@@ -118,6 +118,11 @@ class WPSEO_Premium {
 				add_action( 'admin_head', array( $this, 'admin_css' ) );
 			}
 
+			// Crawl Issue Manager AJAX hooks
+			$crawl_issue_manager = new WPSEO_Crawl_Issue_Manager();
+			add_action( 'wp_ajax_wpseo_ignore_crawl_issue', array( $crawl_issue_manager, 'ajax_ignore_crawl_issue' ) );
+			add_action( 'wp_ajax_wpseo_unignore_crawl_issue', array( $crawl_issue_manager, 'ajax_unignore_crawl_issue' ) );
+
 		} else {
 			// Catch redirect
 			add_action( 'template_redirect', array( 'WPSEO_Redirect_Manager', 'do_redirects' ) );
@@ -128,10 +133,6 @@ class WPSEO_Premium {
 		add_action( 'wp_ajax_wpseo_delete_redirect', array( 'WPSEO_Redirect_Manager', 'ajax_handle_redirect_delete' ) );
 		add_action( 'wp_ajax_wpseo_create_redirect', array( 'WPSEO_Redirect_Manager', 'ajax_handle_redirect_create' ) );
 
-		// Crawl Issue Manager AJAX hooks
-		$crawl_issue_manager = new WPSEO_Crawl_Issue_Manager();
-		add_action( 'wp_ajax_wpseo_ignore_crawl_issue', array( $crawl_issue_manager, 'ajax_ignore_crawl_issue' ) );
-		add_action( 'wp_ajax_wpseo_unignore_crawl_issue', array( $crawl_issue_manager, 'ajax_unignore_crawl_issue' ) );
 	}
 
 	/**
@@ -221,6 +222,7 @@ class WPSEO_Premium {
 	 */
 	public function register_settings() {
 		register_setting( 'yoast_wpseo_redirect_options', 'wpseo_redirect' );
+		register_setting( 'yoast_wpseo_gwt_options', 'wpseo-premium-gwt' );
 	}
 
 	/**
