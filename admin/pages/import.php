@@ -439,6 +439,7 @@ elseif ( isset( $_FILES['settings_import_file'] ) ) {
 		}
 	}
 }
+
 $wpseo_admin_pages->postbox( 'wpseo_export', __( 'Export & Import SEO Settings', 'wordpress-seo' ), $content );
 
 $wpseo_admin_pages->admin_footer( false );
