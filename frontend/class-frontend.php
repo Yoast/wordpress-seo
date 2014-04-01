@@ -1255,7 +1255,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 		 * @return string
 		 */
 		public function remove_reply_to_com( $link ) {
-			return preg_replace( '`href=(["\'])(?:.*(?:\?|&|&#038; )replytocom=(\d+)#respond)`', 'href=$1#comment-$2', $link );
+			return preg_replace( '`href=(["\'])(?:.*(?:\?|&|&#038;)replytocom=(\d+)#respond)`', 'href=$1#comment-$2', $link );
 		}
 
 		/**
