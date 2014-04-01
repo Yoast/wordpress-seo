@@ -95,8 +95,11 @@ class WPSEO_Redirect_Manager {
 	/**
 	 * Save the redirect
 	 *
-	 * @param $old_redirect
-	 * @param $new_redirect
+	 * @param $old_redirect_arr
+	 * @param $new_redirect_arr
+	 * @param $override
+	 *
+	 * @return bool
 	 */
 	public static function save_redirect( $old_redirect_arr, $new_redirect_arr ) {
 
@@ -105,7 +108,9 @@ class WPSEO_Redirect_Manager {
 
 		// Remove old redirect
 		if ( isset( $redirects[$old_redirect_arr['key']] ) ) {
+
 			unset( $redirects[$old_redirect_arr['key']] );
+
 		}
 
 		// Add new redirect
@@ -126,12 +131,19 @@ class WPSEO_Redirect_Manager {
 		// Get redirects
 		$redirects = self::get_redirects();
 
+		// Don't add redirect if already exists
+		if ( isset ( $redirects[$old_value] ) ) {
+			return false;
+		}
+
 		// Add new redirect
 		$redirects[$old_value] = $new_value;
 
 		// Save redirects
 		self::save_redirects( $redirects );
 
+		// Return true if success
+		return true;
 	}
 
 	/**
@@ -266,6 +278,7 @@ class WPSEO_Redirect_Manager {
 	 */
 	public static function format_url( $url ) {
 		$parsed_url = parse_url( $url );
+
 		return apply_filters( 'wpseo_premium_format_admin_url', $parsed_url['path'] );
 	}
 
