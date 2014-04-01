@@ -123,27 +123,14 @@ class WPSEO_Premium {
 			add_action( 'wp_ajax_wpseo_ignore_crawl_issue', array( $crawl_issue_manager, 'ajax_ignore_crawl_issue' ) );
 			add_action( 'wp_ajax_wpseo_unignore_crawl_issue', array( $crawl_issue_manager, 'ajax_unignore_crawl_issue' ) );
 
-			add_action( 'admin_init', function () {
-				if ( isset( $_GET['barry'] ) ) {
+			// Add Premium imports
+			$premium_import_manager = new WPSEO_Premium_Import_Manager();
 
-					global $wpdb;
+			// Allow option of importing from other 'other' plugins
+			add_filter( 'wpseo_import_other_plugins', array( $premium_import_manager, 'filter_add_premium_import_options' ) );
 
-					if ( ! defined( 'REDIRECTION_VERSION' ) ) {
-						return;
-					}
-
-					$items = $wpdb->get_results( "SELECT `url`, `action_data` FROM {$wpdb->prefix}redirection_items WHERE `status` = 'enabled' AND `action_type` = 'url' AND `regex` = 0" );
-
-					if ( count( $items ) > 0 ) {
-						foreach ( $items as $item ) {
-							WPSEO_Redirect_Manager::create_redirect( $item->url, $item->action_data );
-						}
-					}
-
-					var_dump( $items );
-
-				}
-			}, 99 );
+			// Handle premium imports
+			add_action( 'wpseo_handle_import', array( $premium_import_manager, 'do_premium_imports' ) );
 
 		} else {
 			// Catch redirect
@@ -191,6 +178,8 @@ class WPSEO_Premium {
 			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-upgrade-manager.php' );
 
 			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-product-wpseo-premium.php' );
+
+			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-premium-import-manager.php' );
 		}
 
 	}
