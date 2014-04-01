@@ -91,7 +91,7 @@ function wpseo_get_suggest() {
 	check_ajax_referer( 'wpseo-get-suggest' );
 
 	$term   = urlencode( $_GET['term'] );
-	$result = wp_remote_get( 'http://www.google.com/complete/search?output=toolbar&q=' . $term );
+	$result = wp_remote_get( 'https://www.google.com/complete/search?output=toolbar&q=' . $term );
 
 	preg_match_all( '`suggestion data="([^"]+)"/>`u', $result['body'], $matches );
 
