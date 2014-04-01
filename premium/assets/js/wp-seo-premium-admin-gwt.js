@@ -34,7 +34,9 @@ function wpseo_create_redirect(old_url, current_view) {
 
 						// Remove the redirect row if we're in the not-redirected view
 						if ('not-redirected' == current_view) {
-							alert("DOEI");
+							jQuery	( 'span.value:contains("'+old_url+'")').closest('tr').fadeOut('slow', function () {
+								jQuery(this).remove();
+							});
 						}
 					}
 			);
