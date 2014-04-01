@@ -291,12 +291,18 @@ if ( isset( $_POST['import'] ) || isset( $_GET['import'] ) ) {
 		}
 		unset( $optold, $optnew );
 	}
+
+	// Allow custom import actions
+	do_action( 'wpseo_do_import' );
+
+	// Check if we've deleted old data
 	if ( $replace ) {
 		$msg .= __( ', and old data deleted.', 'wordpress-seo' );
 	}
 	if ( $deletekw ) {
 		$msg .= __( ', and meta keywords data deleted.', 'wordpress-seo' );
 	}
+
 }
 
 $wpseo_admin_pages->admin_header( false );
@@ -318,10 +324,15 @@ $content .= $wpseo_admin_pages->checkbox( 'deleteolddata', __( 'Delete the old d
 $content .= '<br/>';
 $content .= '<input type="submit" class="button-primary" name="import" value="' . __( 'Import', 'wordpress-seo' ) . '" />';
 $content .= '<br/><br/>';
+
 $content .= '<h2>' . __( 'Import settings from other plugins', 'wordpress-seo' ) . '</h2>';
 $content .= $wpseo_admin_pages->checkbox( 'importrobotsmeta', __( 'Import from Robots Meta (by Yoast)?', 'wordpress-seo' ) );
 $content .= $wpseo_admin_pages->checkbox( 'importrssfooter', __( 'Import from RSS Footer (by Yoast)?', 'wordpress-seo' ) );
 $content .= $wpseo_admin_pages->checkbox( 'importbreadcrumbs', __( 'Import from Yoast Breadcrumbs?', 'wordpress-seo' ) );
+
+// Allow option of importing from other 'other' plugins
+$content = apply_filters( 'wpseo_import_other_plugins', $content );
+
 $content .= '<br/>';
 $content .= '<input type="submit" class="button-primary" name="import" value="' . __( 'Import', 'wordpress-seo' ) . '" />';
 $content .= '</form><br/>';
