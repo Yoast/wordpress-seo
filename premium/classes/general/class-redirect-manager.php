@@ -265,10 +265,8 @@ class WPSEO_Redirect_Manager {
 	 * @return mixed
 	 */
 	public static function format_url( $url ) {
-		$url = str_ireplace( site_url( '', 'http' ), '', $url );
-		$url = str_ireplace( site_url( '', 'https' ), '', $url );
-
-		return apply_filters( 'wpseo_premium_format_admin_url', $url );
+		$parsed_url = parse_url( $url );
+		return apply_filters( 'wpseo_premium_format_admin_url', $parsed_url['path'] );
 	}
 
 }
