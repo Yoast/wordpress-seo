@@ -211,35 +211,6 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 				'per_page'    => $per_page,
 		) );
 
-
-		// START REFACTOR
-
-		// Handle the search
-		// @todo fix the search
-		/*
-		if ( null != $this->search_string ) {
-			$crawl_issues = $this->do_search( $crawl_issues );
-		}*/
-
-		// Format the data
-		/*
-		$formatted_items = array();
-		if ( is_array( $crawl_issues ) && count( $crawl_issues ) > 0 ) {
-			foreach ( $crawl_issues as $crawl_issue ) {
-				$formatted_items[] = $crawl_issue->to_array();
-			}
-		}
-		*/
-
-		// Sort the results
-		/*
-		if ( count( $formatted_items ) > 0 ) {
-			usort( $formatted_items, array( $this, 'do_reorder' ) );
-		}
-		*/
-
-		// END REFACTOR
-
 		// Set items
 		$items_array = array();
 		if ( is_array( $crawl_issues ) && count( $crawl_issues ) > 0 ) {
@@ -267,30 +238,6 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 
 		return $sortable_columns;
 	}
-
-	/**
-	 * Reorder the items based on user input
-	 *
-	 * @param $a
-	 * @param $b
-	 *
-	 * @return int
-	 */
-	/*
-	public function do_reorder( $a, $b ) {
-		// If no sort, default to title
-		$orderby = ( ! empty( $_GET['orderby'] ) ) ? $_GET['orderby'] : 'url';
-
-		// If no order, default to asc
-		$order = ( ! empty( $_GET['order'] ) ) ? $_GET['order'] : 'asc';
-
-		// Determine sort order
-		$result = strcmp( $a[$orderby], $b[$orderby] );
-
-		// Send final sort direction to usort
-		return ( $order === 'asc' ) ? $result : - $result;
-	}
-	*/
 
 	/**
 	 * URL column
