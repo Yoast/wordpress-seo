@@ -293,7 +293,7 @@ if ( isset( $_POST['import'] ) || isset( $_GET['import'] ) ) {
 	}
 
 	// Allow custom import actions
-	do_action( 'wpseo_do_import' );
+	do_action( 'wpseo_handle_import' );
 
 	// Check if we've deleted old data
 	if ( $replace ) {
@@ -330,7 +330,10 @@ $content .= $wpseo_admin_pages->checkbox( 'importrobotsmeta', __( 'Import from R
 $content .= $wpseo_admin_pages->checkbox( 'importrssfooter', __( 'Import from RSS Footer (by Yoast)?', 'wordpress-seo' ) );
 $content .= $wpseo_admin_pages->checkbox( 'importbreadcrumbs', __( 'Import from Yoast Breadcrumbs?', 'wordpress-seo' ) );
 
-// Allow option of importing from other 'other' plugins
+/**
+ * Allow option of importing from other 'other' plugins
+ * @api  string  $content  The content containing all import and export methods
+ */
 $content = apply_filters( 'wpseo_import_other_plugins', $content );
 
 $content .= '<br/>';
@@ -339,6 +342,7 @@ $content .= '</form><br/>';
 
 $wpseo_admin_pages->postbox( 'import', __( 'Import', 'wordpress-seo' ), $content );
 
+// @todo [Barry => whomever] Are we using this action? Isn't it easier to just add filters to $content above? Might not be able to remove this because of backwards compatibility.
 do_action( 'wpseo_import', $this );
 
 // @todo [JRF => whomever] add action for form tag
