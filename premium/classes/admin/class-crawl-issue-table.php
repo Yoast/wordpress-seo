@@ -151,26 +151,6 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Filter out the redirected URL's
-	 *
-	 * @param $crawl_errors
-	 *
-	 * @return array
-	 */
-	private function filter_out_ignored_urls( $crawl_errors ) {
-		$filtered_errors = array();
-		$redirects       = WPSEO_Redirect_Manager::get_redirects();
-
-		foreach ( $crawl_errors as $key => $crawl_error ) {
-			if ( isset( $redirects[$crawl_error->get_url()] ) ) {
-				unset( $crawl_errors[$key] );
-			}
-		}
-
-		return $crawl_errors;
-	}
-
-	/**
 	 * Setup the table variables, fetch the items from the database, search, sort and format the items.
 	 * Set the items as the WPSEO_Redirect_Table items variable.
 	 */
@@ -218,7 +198,7 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 
 		// Filter crawl errors
 		if ( 'not-redirected' == $current_view ) {
-			$crawl_issues = $crawl_issue_manager->get_crawl_issues( $this->gwt, $ci_args );
+			$crawl_issues = $this->filter_out_redirected_urls( $crawl_issues );
 		}
 
 		// Count the total items

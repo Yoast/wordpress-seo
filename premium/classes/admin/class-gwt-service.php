@@ -45,7 +45,6 @@ class WPSEO_GWT_Service {
 				}
 			}
 
-
 		}
 
 		return $sites;
