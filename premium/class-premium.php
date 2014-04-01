@@ -108,7 +108,7 @@ class WPSEO_Premium {
 			// Setup constant name
 			$license_manager->set_license_constant_name( 'WPSEO_LICENSE' );
 
-			// Setup hooks
+			// Setup license hooks
 			$license_manager->setup_hooks();
 
 			// Add this plugin to licensing form
@@ -122,6 +122,28 @@ class WPSEO_Premium {
 			$crawl_issue_manager = new WPSEO_Crawl_Issue_Manager();
 			add_action( 'wp_ajax_wpseo_ignore_crawl_issue', array( $crawl_issue_manager, 'ajax_ignore_crawl_issue' ) );
 			add_action( 'wp_ajax_wpseo_unignore_crawl_issue', array( $crawl_issue_manager, 'ajax_unignore_crawl_issue' ) );
+
+			add_action( 'admin_init', function () {
+				if ( isset( $_GET['barry'] ) ) {
+
+					global $wpdb;
+
+					if ( ! defined( 'REDIRECTION_VERSION' ) ) {
+						return;
+					}
+
+					$items = $wpdb->get_results( "SELECT `url`, `action_data` FROM {$wpdb->prefix}redirection_items WHERE `status` = 'enabled' AND `action_type` = 'url' AND `regex` = 0" );
+
+					if ( count( $items ) > 0 ) {
+						foreach ( $items as $item ) {
+							WPSEO_Redirect_Manager::create_redirect( $item->url, $item->action_data );
+						}
+					}
+
+					var_dump( $items );
+
+				}
+			}, 99 );
 
 		} else {
 			// Catch redirect
