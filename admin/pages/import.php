@@ -295,7 +295,13 @@ if ( isset( $_POST['import'] ) || isset( $_GET['import'] ) ) {
 	// Allow custom import actions
 	do_action( 'wpseo_handle_import' );
 
-	// Check if we've deleted old data
+	/**
+	 * Allow customization of import&export message
+	 * @api  string  $msg  The message.
+	 */
+	$msg = apply_filters( 'wpseo_import_message', $msg );
+
+	// Check if we've deleted old data and adjust message to match it
 	if ( $replace ) {
 		$msg .= __( ', and old data deleted.', 'wordpress-seo' );
 	}
