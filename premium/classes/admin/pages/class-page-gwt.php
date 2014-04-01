@@ -104,7 +104,7 @@ class WPSEO_Page_GWT {
 					$service = new WPSEO_GWT_Service( $gwt_client );
 					$sites = $service->get_sites();
 
-					echo $wpseo_admin_pages->select( 'profile', __( 'GWT profile', 'wordpress-seo' ), $sites );
+					echo $wpseo_admin_pages->select( 'profile', __( 'Profile', 'wordpress-seo' ), $sites );
 
 					?>
 					<p class="submit">
