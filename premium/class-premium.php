@@ -22,9 +22,9 @@ class WPSEO_Premium {
 
 	const PLUGIN_VERSION_NAME = '1.1.0-beta1';
 	const PLUGIN_VERSION_CODE = '10';
-	const PLUGIN_AUTHOR       = 'Yoast';
-	const EDD_STORE_URL       = 'https://yoast.com';
-	const EDD_PLUGIN_NAME     = 'WordPress SEO Premium';
+	const PLUGIN_AUTHOR = 'Yoast';
+	const EDD_STORE_URL = 'https://yoast.com';
+	const EDD_PLUGIN_NAME = 'WordPress SEO Premium';
 
 	private $page_gwt = null;
 
@@ -121,13 +121,19 @@ class WPSEO_Premium {
 			// Crawl Issue Manager AJAX hooks
 			$crawl_issue_manager = new WPSEO_Crawl_Issue_Manager();
 			add_action( 'wp_ajax_wpseo_ignore_crawl_issue', array( $crawl_issue_manager, 'ajax_ignore_crawl_issue' ) );
-			add_action( 'wp_ajax_wpseo_unignore_crawl_issue', array( $crawl_issue_manager, 'ajax_unignore_crawl_issue' ) );
+			add_action( 'wp_ajax_wpseo_unignore_crawl_issue', array(
+					$crawl_issue_manager,
+					'ajax_unignore_crawl_issue'
+				) );
 
 			// Add Premium imports
 			$premium_import_manager = new WPSEO_Premium_Import_Manager();
 
 			// Allow option of importing from other 'other' plugins
-			add_filter( 'wpseo_import_other_plugins', array( $premium_import_manager, 'filter_add_premium_import_options' ) );
+			add_filter( 'wpseo_import_other_plugins', array(
+					$premium_import_manager,
+					'filter_add_premium_import_options'
+				) );
 
 			// Handle premium imports
 			add_action( 'wpseo_handle_import', array( $premium_import_manager, 'do_premium_imports' ) );
@@ -204,12 +210,16 @@ class WPSEO_Premium {
 		if ( is_404() ) {
 			global $wp, $wp_admin_bar;
 
-			$parsed_url = parse_url( home_url( add_query_arg( NULL, NULL ) ) );
+			$parsed_url = parse_url( home_url( add_query_arg( null, null ) ) );
 
 			if ( false !== $parsed_url ) {
 				$old_url = urlencode( $parsed_url['path'] );
 
-				$wp_admin_bar->add_menu( array( 'id' => 'wpseo-premium-create-redirect', 'title' => __( 'Create Redirect', 'what-the-file' ), 'href' => admin_url( 'admin.php?page=wpseo_redirects&old_url=' . $old_url ) ) );
+				$wp_admin_bar->add_menu( array(
+						'id' => 'wpseo-premium-create-redirect',
+						'title' => __( 'Create Redirect', 'what-the-file' ),
+						'href' => admin_url( 'admin.php?page=wpseo_redirects&old_url=' . $old_url )
+					) );
 			}
 
 		}
@@ -219,7 +229,10 @@ class WPSEO_Premium {
 	 * Register the GWT Crawl Error post type
 	 */
 	public function register_gwt_crawl_error_post_type() {
-		register_post_type( WPSEO_Crawl_Issue_Manager::PT_CRAWL_ISSUE, array( 'public' => false, 'label' => 'WordPress SEO GWT Crawl Error' ) );
+		register_post_type( WPSEO_Crawl_Issue_Manager::PT_CRAWL_ISSUE, array(
+				'public' => false,
+				'label'  => 'WordPress SEO GWT Crawl Error'
+			) );
 	}
 
 	/**
@@ -230,8 +243,24 @@ class WPSEO_Premium {
 	 * @return array
 	 */
 	public function add_submenu_pages( $submenu_pages ) {
-		$submenu_pages[] = array( 'wpseo_dashboard', __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Redirects', 'wordpress-seo' ), __( 'Redirects', 'wordpress-seo' ), 'manage_options', 'wpseo_redirects', array( 'WPSEO_Page_Redirect', 'display' ), array( array( 'WPSEO_Page_Redirect', 'page_load' ) ) );
-		$submenu_pages[] = array( 'wpseo_dashboard', __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Webmaster Tools', 'wordpress-seo' ), __( 'Webmaster Tools', 'wordpress-seo' ), 'manage_options', 'wpseo_webmaster_tools', array( $this->page_gwt, 'display' ), array( array( $this->page_gwt, 'page_load' ) ) );
+		$submenu_pages[] = array(
+			'wpseo_dashboard',
+			__( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Redirects', 'wordpress-seo' ),
+			__( 'Redirects', 'wordpress-seo' ),
+			'manage_options',
+			'wpseo_redirects',
+			array( 'WPSEO_Page_Redirect', 'display' ),
+			array( array( 'WPSEO_Page_Redirect', 'page_load' ) )
+		);
+		$submenu_pages[] = array(
+			'wpseo_dashboard',
+			__( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Webmaster Tools', 'wordpress-seo' ),
+			__( 'Webmaster Tools', 'wordpress-seo' ),
+			'manage_options',
+			'wpseo_webmaster_tools',
+			array( $this->page_gwt, 'display' ),
+			array( array( $this->page_gwt, 'page_load' ) )
+		);
 
 		return $submenu_pages;
 	}
@@ -255,7 +284,18 @@ class WPSEO_Premium {
 	 */
 	public function register_settings() {
 		register_setting( 'yoast_wpseo_redirect_options', 'wpseo_redirect' );
-		register_setting( 'yoast_wpseo_gwt_options', 'wpseo-premium-gwt' );
+		register_setting( 'yoast_wpseo_gwt_options', 'wpseo-premium-gwt', array( $this, 'gwt_sanatize_callback' ) );
+	}
+
+	public function gwt_sanatize_callback( $setting ) {
+		$crawl_issue_manager = new WPSEO_Crawl_Issue_Manager();
+
+		// Remove last check if new profile is selected
+		if ( $crawl_issue_manager->get_profile() != $setting['profile'] ) {
+			$crawl_issue_manager->remove_last_checked();
+		}
+
+		return $setting;
 	}
 
 	/**
