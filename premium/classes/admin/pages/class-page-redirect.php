@@ -17,6 +17,12 @@ class WPSEO_Page_Redirect {
 	public static function display() {
 		global $wpseo_admin_pages;
 
+		// Check if there's an old URL set
+		$old_url = '';
+		if ( isset( $_GET['old_url'] ) ) {
+			$old_url = urldecode( $_GET['old_url'] );
+		}
+
 		// Admin header
 		$wpseo_admin_pages->admin_header( false, 'yoast_wpseo_redirects_options', 'wpseo_redirects' );
 		?>
@@ -34,7 +40,7 @@ class WPSEO_Page_Redirect {
 				echo "<h2>" . __( 'Add new redirect', 'wordpress-seo' ) . "</h2>\n";
 
 				echo "<label class='textinput' for='wpseo_redirects_new_old'>" . __( 'Old URL', 'wordpress-seo' ) . "</label>\n";
-				echo "<input type='text' class='textinput' name='wpseo_redirects_new_old' id='wpseo_redirects_new_old' value='' />\n";
+				echo "<input type='text' class='textinput' name='wpseo_redirects_new_old' id='wpseo_redirects_new_old' value='{$old_url}' />\n";
 				echo "<br class='clear'/>\n";
 
 				echo "<label class='textinput' for='wpseo_redirects_new_new'>" . __( 'New URL', 'wordpress-seo' ) . "</label>\n";

@@ -135,6 +135,9 @@ class WPSEO_Premium {
 		} else {
 			// Catch redirect
 			add_action( 'template_redirect', array( 'WPSEO_Redirect_Manager', 'do_redirects' ) );
+
+			// Add 404 redirect link to WordPress toolbar
+			add_action( 'admin_bar_menu', array( $this, 'admin_bar_menu' ), 96 );
 		}
 
 		// AJAX
@@ -190,6 +193,25 @@ class WPSEO_Premium {
 	public function disable_wordpress_seo() {
 		if ( is_plugin_active( 'wordpress-seo/wp-seo.php' ) ) {
 			deactivate_plugins( 'wordpress-seo/wp-seo.php' );
+		}
+	}
+
+	/**
+	 * Add 'Create Redirect' option to admin bar menu on 404 pages
+	 */
+	public function admin_bar_menu() {
+
+		if ( is_404() ) {
+			global $wp, $wp_admin_bar;
+
+			$parsed_url = parse_url( home_url( add_query_arg( NULL, NULL ) ) );
+
+			if ( false !== $parsed_url ) {
+				$old_url = urlencode( $parsed_url['path'] );
+
+				$wp_admin_bar->add_menu( array( 'id' => 'wpseo-premium-create-redirect', 'title' => __( 'Create Redirect', 'what-the-file' ), 'href' => admin_url( 'admin.php?page=wpseo_redirects&old_url=' . $old_url ) ) );
+			}
+
 		}
 	}
 
