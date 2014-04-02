@@ -136,26 +136,10 @@
 			});
 		};
 
-		this.create_crawl_issue_redirects = function () {
-			if ($('.wpseo_redirects_crawl_issues').length > 0) {
-				var new_redirects = JSON.parse($('.wpseo_redirects_crawl_issues').val());
-				if (new_redirects.length > 0) {
-					var tbody = $wpseo_redirects.find('#the-list');
-					for (var i = 0; i < new_redirects.length; i++) {
-						var tr = create_redirect_row(new_redirects[i], '');
-						$(tbody).append(tr);
-						$wpseo_redirects.edit_row(tr, false);
-					}
-				}
-			}
-		};
-
 		this.setup = function () {
 			$.each($wpseo_redirects.find('tr'), function (k, tr) {
 				$wpseo_redirects.bind_row(tr);
 			});
-
-			//$wpseo_redirects.create_crawl_issue_redirects();
 
 			$(window).on('beforeunload', function () {
 				if ($('.row_edit').length > 0) {
