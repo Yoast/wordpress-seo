@@ -1,3 +1,12 @@
+= 1.1.0 =
+
+* Updated WordPress SEO core to 1.5.x
+* Google Webmaster Tools crawl issues are now cached decreasing load time of issues dramatically.
+* Google Webmaster Tools profile can now manually be selected.
+* Added 'not redirected' filter to crawl issues table.
+* Added option to ignore crawl issues.
+* Added import option from Redirection plugin.
+
 = 1.0.8 =
 
 * Updated WordPress SEO core to 1.5.2.5
