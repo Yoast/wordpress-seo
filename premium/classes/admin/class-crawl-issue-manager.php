@@ -25,14 +25,6 @@ class WPSEO_Crawl_Issue_Manager {
 	private $last_query = null;
 
 	/**
-	 * Constructor
-	 *
-	 * @param WPSEO_GWT_Google_Client $gwt
-	 */
-	public function __construct() {
-	}
-
-	/**
 	 * Get the timestamp of when the crawl errors were last saved
 	 *
 	 * @return int
@@ -45,9 +37,17 @@ class WPSEO_Crawl_Issue_Manager {
 	 * Store the timestamp of when crawl errors were saved
 	 */
 	private function save_last_checked() {
-		delete_option( self::OPTION_CI_TS );
+		$this->remove_last_checked();
 		add_option( self::OPTION_CI_TS, time(), '', 'no' );
 	}
+
+	/**
+	 * Remove the last checked option
+	 */
+	public function remove_last_checked() {
+		delete_option( self::OPTION_CI_TS );
+	}
+
 
 	/**
 	 * Return latest WP_Query object
