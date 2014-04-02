@@ -279,6 +279,11 @@ class WPSEO_Redirect_Manager {
 	public static function format_url( $url ) {
 		$parsed_url = parse_url( $url );
 
+		// Prepend a slash if first char != slash
+		if ( stripos( $parsed_url['path'], '/' ) !== 0 ) {
+			$parsed_url['path']  = '/' . $parsed_url['path'] ;
+		}
+
 		return apply_filters( 'wpseo_premium_format_admin_url', $parsed_url['path'] );
 	}
 

@@ -105,6 +105,12 @@
 				return false;
 			}
 
+			// Add prepending slash if not exists
+			if (old_url.indexOf('/') !== 0) {
+				old_url = '/' + old_url;
+				$(row).find('.val').eq(0).find('input').val(old_url);
+			}
+
 			// Post request
 			$.post(
 					ajaxurl,
@@ -180,6 +186,10 @@
 			if ("" == new_redirect) {
 				alert(wpseo_premium_strings.error_new_url);
 				return false;
+			}
+
+			if (old_redirect.indexOf('/') !== 0) {
+				old_redirect = '/' + old_redirect;
 			}
 
 			// Remove the no items row
