@@ -309,31 +309,28 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 		 *
 		 * @return string
 		 */
-		function title( $title, $sepinput = '-', $seplocation = '' ) {
-			global $sep;
+		function title( $title, $separator = '-', $separator_location = '' ) {
+			global $wpseo_title_separator;
 
-			$sep = $sepinput;
+			if( '' !== trim( $separator ) ) {
+				$wpseo_title_separator = $separator;
+			} else {
+				$separator = $wpseo_title_separator;
+			}
 
-			if ( is_feed() )
+			if ( is_feed() ) {
 				return $title;
+			}
+
+			$separator = ' ' . trim( $separator ) . ' ';
+
+			if ( '' === trim( $separator_location ) ) {
+				$separator_location = ( is_rtl() ) ? 'left' : 'right';
+			}
 
 			// This needs to be kept track of in order to generate
 			// default titles for singular pages.
 			$original_title = $title;
-
-			// This conditional ensures that sites that use of wp_title(''); as the plugin
-			// used to suggest will still work properly with these changes.
-			if ( '' === trim( $sep ) && '' === $seplocation ) {
-				$sep         = '-';
-				$seplocation = 'right';
-			} // In the event that $seplocation is left empty, the direction will be
-			// determined by whether the site is in rtl mode or not. This is based
-			// upon my findings that rtl sites tend to reverse the flow of the site titles.
-			elseif ( '' === $seplocation ) {
-				$seplocation = ( is_rtl() ) ? 'left' : 'right';
-			}
-
-			$sep = ' ' . trim( $sep ) . ' ';
 
 			// This flag is used to determine if any additional
 			// processing should be done to the title after the
@@ -457,7 +454,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 			}
 
 			if ( ( $modified_title && empty( $title ) ) || ! empty( $title_part ) ) {
-				$title = $this->get_default_title( $sep, $seplocation, $title_part );
+				$title = $this->get_default_title( $separator, $separator_location, $title_part );
 			}
 
 			if ( defined( 'ICL_LANGUAGE_CODE' ) && false !== strpos( $title, ICL_LANGUAGE_CODE ) ) {
@@ -1528,7 +1525,8 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 		 * title and then flushes the output.
 		 */
 		function flush_cache() {
-			global $wp_query, $sep;
+
+			global $wp_query, $wpseo_title_separator;
 
 			if ( $this->ob_started !== true ) {
 				return false;
@@ -1541,7 +1539,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 
 			wp_reset_query();
 
-			$title = $this->title( '', $sep );
+			$title = $this->title( '', $wpseo_title_separator );
 
 			// Find all titles, strip them out and add the new one in within the debug marker, so it's easily identified whether a site uses force rewrite.
 			if ( preg_match_all( '`<title>(.*)?<\/title>`i', $content, $matches ) ) {
@@ -1559,6 +1557,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 
 			$GLOBALS['wp_query'] = $old_wp_query;
 
+			echo $content;
 			return true;
 		}
 
