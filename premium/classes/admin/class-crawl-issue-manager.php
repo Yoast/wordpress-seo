@@ -11,15 +11,18 @@ class WPSEO_Crawl_Issue_Manager {
 	const PT_CRAWL_ISSUE = 'wpseo_crawl_issue';
 
 	// Post Meta related constants
-	const PM_CI_URL           = 'wpseo_ci_url';
-	const PM_CI_CRAWL_TYPE    = 'wpseo_ci_crawl_type';
-	const PM_CI_ISSUE_TYPE    = 'wpseo_ci_issue_type';
+	const PM_CI_URL = 'wpseo_ci_url';
+	const PM_CI_CRAWL_TYPE = 'wpseo_ci_crawl_type';
+	const PM_CI_ISSUE_TYPE = 'wpseo_ci_issue_type';
 	const PM_CI_DATE_DETECTED = 'wpseo_ci_date_detected';
-	const PM_CI_DETAIL        = 'wpseo_ci_detail';
-	const PM_CI_LINKED_FROM   = 'wpseo_ci_linked_from';
+	const PM_CI_DETAIL = 'wpseo_ci_detail';
+	const PM_CI_LINKED_FROM = 'wpseo_ci_linked_from';
 
 	// The last checked timestamp
 	const OPTION_CI_TS = 'wpseo_crawl_issues_last_checked';
+
+	// Store the latest query
+	private $last_query = null;
 
 	/**
 	 * Constructor
@@ -47,6 +50,15 @@ class WPSEO_Crawl_Issue_Manager {
 	}
 
 	/**
+	 * Return latest WP_Query object
+	 *
+	 * @return WP_Query
+	 */
+	public function get_latest_query() {
+		return $this->last_query;
+	}
+
+	/**
 	 * Get the GWT profile
 	 *
 	 * @return string
@@ -60,7 +72,7 @@ class WPSEO_Crawl_Issue_Manager {
 		$profile = $option['profile'];
 
 		// Check if the profile is set
-		if( '' == $profile ) {
+		if ( '' == $profile ) {
 			$profile = "https://www.google.com/webmasters/tools/feeds/" . urlencode( trailingslashit( get_option( 'siteurl' ) ) );
 		}
 
@@ -76,6 +88,8 @@ class WPSEO_Crawl_Issue_Manager {
 	 * @todo We might want to return $crawl_issues here, and use that in get_crawl_issues(). Will prevent an extra query.
 	 */
 	private function save_crawl_issues( WPSEO_GWT_Google_Client $gwt ) {
+
+		error_log( 'Checking crawl issues remote', 0 );
 
 		// Create a the service object
 		$service = new WPSEO_GWT_Service( $gwt );
@@ -130,6 +144,24 @@ class WPSEO_Crawl_Issue_Manager {
 	}
 
 	/**
+	 * Add the urls filter
+	 *
+	 * @param $where
+	 *
+	 * @return string
+	 *
+	 */
+	public function filter_crawl_issue_sql_where( $where, $wp_query ) {
+		global $wpdb;
+		if ( $wp_query->get( 'wpseo_urls' ) != '' && is_array( $wp_query->get( 'wpseo_urls' ) ) && count( $wp_query->get( 'wpseo_urls' ) ) > 0 ) {
+			$sql = " AND {$wpdb->posts}.post_title NOT IN(" . implode( ', ', array_fill( 0, count( $wp_query->get( 'wpseo_urls' ) ), '%s' ) ) . ")";
+			$where .= call_user_func_array( array( $wpdb, 'prepare' ), array_merge( array( $sql ), $wp_query->get( 'wpseo_urls' ) ) );
+		}
+
+		return $where;
+	}
+
+	/**
 	 * Get the crawl issues
 	 *
 	 * @return array<WPSEO_Crawl_Issue>
@@ -141,15 +173,25 @@ class WPSEO_Crawl_Issue_Manager {
 		$ci_ts = $this->get_last_checked();
 
 		// Last time we checked the crawl errors more then one day ago? Check again.
-		if ( 1 || $ci_ts <= strtotime( "-1 day" ) ) { // @todo remove the 1 ||
+		if ( $ci_ts <= strtotime( "-1 day" ) ) { // @todo add a $_GET check here
 			$this->save_crawl_issues( $gwt );
 		}
 
 		// Post Type can't be set in $extra_args
 		unset( $extra_args['post_type'] );
 
+		// Add filter to filter out already redirected urls
+		add_filter( 'posts_where', array( $this, 'filter_crawl_issue_sql_where' ), 10, 2 );
+
 		// Get the crawl issues from db
-		$crawl_issues_db = get_posts( wp_parse_args( $extra_args, array( 'post_type' => self::PT_CRAWL_ISSUE, 'posts_per_page' => - 1 ) ) );
+		$crawl_issue_query = new WP_Query( wp_parse_args( $extra_args, array( 'post_type' => self::PT_CRAWL_ISSUE, 'posts_per_page' => - 1, 'suppress_filters' => false ) ) );
+		$crawl_issues_db   = $crawl_issue_query->posts;
+
+		// Remove filter to filter out already redirected urls
+		remove_filter( 'posts_where', array( $this, 'filter_crawl_issue_sql_where' ) );
+
+		// Set the latest query
+		$this->last_query = $crawl_issue_query;
 
 		// Convert WP posts to WPSEO_Crawl_Issue objects
 		if ( count( $crawl_issues_db ) > 0 ) {

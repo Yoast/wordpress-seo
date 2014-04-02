@@ -75,7 +75,7 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 		$new_views = array();
 
 		foreach ( $views_arr as $key => $val ) {
-			$new_views[$key] = "<a href='" . add_query_arg( array( 'status' => $key, 'paged' => 0 ) ) . "'" . ( ( $current == $key ) ? " class='current'" : "" ) . ">{$val}</a>";
+			$new_views[$key] = "<a href='" . add_query_arg( array( 'status' => $key, 'paged' => 1 ) ) . "'" . ( ( $current == $key ) ? " class='current'" : "" ) . ">{$val}</a>";
 		}
 
 		return $new_views;
@@ -131,26 +131,6 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Filter out the redirected URL's
-	 *
-	 * @param $crawl_errors
-	 *
-	 * @return array
-	 */
-	private function filter_out_redirected_urls( $crawl_errors ) {
-		$filtered_errors = array();
-		$redirects       = WPSEO_Redirect_Manager::get_redirects();
-
-		foreach ( $crawl_errors as $key => $crawl_error ) {
-			if ( isset( $redirects[$crawl_error->get_url()] ) ) {
-				unset( $crawl_errors[$key] );
-			}
-		}
-
-		return $crawl_errors;
-	}
-
-	/**
 	 * Setup the table variables, fetch the items from the database, search, sort and format the items.
 	 * Set the items as the WPSEO_Redirect_Table items variable.
 	 */
@@ -171,6 +151,9 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 		// Build crawl issues args
 		$ci_args = array();
 
+		// Set the post status
+		$ci_args['post_status'] = 'publish';
+
 		// Set the orderby
 		$orderby            = ( ! empty( $_GET['orderby'] ) ) ? $_GET['orderby'] : 'title';
 		$ci_args['orderby'] = $orderby;
@@ -181,28 +164,35 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 
 		// Get variables needed for pagination
 		$per_page     = $this->get_items_per_page( 'errors_per_page', 25 );
-		$current_page = intval( ( ( isset( $_GET['paged'] ) ) ? $_GET['paged'] : 0 ) );
+		$current_page = intval( ( ( isset( $_GET['paged'] ) ) ? $_GET['paged'] : 1 ) );
 
 		// Set query pagination
 		$ci_args['posts_per_page'] = $per_page;
-		$ci_args['offset']         = ( ( $current_page ) * $per_page );
+		$ci_args['offset']         = ( ( $current_page - 1 ) * $per_page );
 
 		// Check current view
 		if ( 'ignored' == $current_view ) {
 			$ci_args['post_status'] = 'trash';
 		}
 
+		// Filter crawl errors
+		if ( 'not-redirected' == $current_view ) {
+			$redirects = WPSEO_Redirect_Manager::get_redirects();
+			$wpseo_urls = array();
+			if ( count( $redirects ) > 0 ) {
+				foreach( $redirects as $old_url => $new_url) {
+					$wpseo_urls[] = $old_url;
+				}
+			}
+			$ci_args['wpseo_urls'] = $wpseo_urls;
+		}
+
 		// Get the crawl issues
 		$crawl_issue_manager = new WPSEO_Crawl_Issue_Manager();
 		$crawl_issues        = $crawl_issue_manager->get_crawl_issues( $this->gwt, $ci_args );
 
-		// Filter crawl errors
-		if ( 'not-redirected' == $current_view ) {
-			$crawl_issues = $this->filter_out_redirected_urls( $crawl_issues );
-		}
-
-		// Count the total items
-		$total_items = count( $crawl_issues );
+		// Get the total items
+		$total_items = $crawl_issue_manager->get_latest_query()->found_posts;
 
 		// Set table pagination
 		$this->set_pagination_args( array(
