@@ -163,11 +163,11 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 		return trim( preg_replace( '`\s+`u', ' ', $string ) );
 	}
 
-	global $wpseo_title_separator;
-	if ( ! isset( $wpseo_title_separator ) || empty( $wpseo_title_separator ) ) {
-		$title_separator = '-';
-	} else {
-		$title_separator = $wpseo_title_separator;
+	$options = WPSEO_Options::get_all();
+
+	$title_separator = $options['separator'];
+	if( substr( $title_separator, 0, 3 ) === 'sc-' ) {
+		$title_separator = '&' . substr( $title_separator, 3 ) . ';';
 	}
 
 	$simple_replacements = array(

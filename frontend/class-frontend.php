@@ -304,18 +304,17 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 		 * Main title function.
 		 *
 		 * @param string $title       Title that might have already been set.
-		 * @param string $sepinput    Separator determined in theme.
-		 * @param string $seplocation Whether the separator should be left or right.
+		 * @param string $separator    Separator determined in theme (unused)
+		 * @param string $separator_location Whether the separator should be left or right.
 		 *
 		 * @return string
 		 */
-		function title( $title, $separator = '-', $separator_location = '' ) {
-			global $wpseo_title_separator;
+		function title( $title, $separator = '', $separator_location = '' ) {
 
-			if( '' !== trim( $separator ) ) {
-				$wpseo_title_separator = $separator;
-			} else {
-				$separator = $wpseo_title_separator;
+			$separator = $this->options['separator'];
+
+			if( substr( $separator, 0, 3 ) === 'sc-' ) {
+				$separator = '&' . substr( $separator, 2 ) . ';';
 			}
 
 			if ( is_feed() ) {
@@ -1526,7 +1525,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 		 */
 		function flush_cache() {
 
-			global $wp_query, $wpseo_title_separator;
+			global $wp_query;
 
 			if ( $this->ob_started !== true ) {
 				return false;
@@ -1539,7 +1538,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 
 			wp_reset_query();
 
-			$title = $this->title( '', $wpseo_title_separator );
+			$title = $this->title( '' );
 
 			// Find all titles, strip them out and add the new one in within the debug marker, so it's easily identified whether a site uses force rewrite.
 			if ( preg_match_all( '`<title>(.*)?<\/title>`i', $content, $matches ) ) {
