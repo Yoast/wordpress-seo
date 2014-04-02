@@ -1559,6 +1559,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 
 			$GLOBALS['wp_query'] = $old_wp_query;
 
+			echo $content;
 			return true;
 		}
 
