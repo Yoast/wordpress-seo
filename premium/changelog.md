@@ -6,6 +6,7 @@
 * Added 'not redirected' filter to crawl issues table.
 * Added option to ignore crawl issues.
 * Added import option from Redirection plugin.
+* Added a redirect link to WordPress toolbar on 404 pages.
 
 = 1.0.8 =
 
