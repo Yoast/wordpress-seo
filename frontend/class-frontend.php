@@ -1541,17 +1541,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 			$title = $this->title( '' );
 
 			// Find all titles, strip them out and add the new one in within the debug marker, so it's easily identified whether a site uses force rewrite.
-			if ( preg_match_all( '`<title>(.*)?<\/title>`i', $content, $matches ) ) {
-				$count = count( $matches[0] );
-				if ( $count > 0 ) {
-					$i = 0;
-					while ( $count > $i ) {
-						$content = str_replace( $matches[0][$i], '', $content );
-						$i ++;
-					}
-				}
-			}
-
+			$content = preg_replace( '/<title(.*)\/title>/i', '', $content );
 			$content = str_replace( $this->debug_marker( false ), $this->debug_marker( false ) . "\n" . '<title>' . $title . '</title>', $content );
 
 			$GLOBALS['wp_query'] = $old_wp_query;
