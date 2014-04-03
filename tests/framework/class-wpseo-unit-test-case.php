@@ -29,9 +29,9 @@ class WPSEO_UnitTestCase extends WP_UnitTestCase {
 
 	/**
 	* @param string $string
-	* @param string $function
+	* @param mixed $function
 	*/
-	protected function expectOutput( $string, $function ) {
+	protected function expectOutput( $string, $function = null ) {
 		$output = ob_get_contents();
 		ob_clean();	
 		$this->assertEquals( $output, $string );

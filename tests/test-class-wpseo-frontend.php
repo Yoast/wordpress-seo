@@ -445,11 +445,51 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	}
 
 	public function test_publisher() {
-		// @todo
+
+		// no publisher set
+		$this->assertFalse( $this->class_instance->publisher() );
+
+		// set publisher option
+		$this->class_instance->options['plus-publisher'] = 'https://plus.google.com/+JoostdeValk';
+
+		// publisher set, should echo
+		$expected = '<link rel="publisher" href="' . esc_url( $this->class_instance->options['plus-publisher'] ) . '"/>' . "\n";
+		
+		$this->assertTrue( $this->class_instance->publisher() );
+		$this->expectOutput( $expected );
 	}
 
 	public function test_author() {
-		// @todo
+		
+		$this->assertFalse( $this->class_instance->author() );
+
+		$this->go_to_post();
+
+		// post type default not set
+		$this->assertFalse( $this->class_instance->author() );
+
+		// post type default set but author meta not set
+		$this->class_instance->options['noauthorship-post'] = false;
+		$this->assertFalse( $this->class_instance->author() );
+
+		// post author meta, but not set
+		WPSEO_Meta::set_value( 'authorship', 'always', $this->post_id );
+		$this->assertFalse( $this->class_instance->author() );
+
+		// set author meta
+		$gplus = 'https://plus.google.com/+JoostdeValk';
+		add_user_meta( $this->author_id, 'googleplus', $gplus );
+		$expected = '<link rel="author" href="' . esc_url( $gplus ) . '"/>' . "\n";
+
+		// post author meta and user meta set
+		$this->assertTrue( $this->class_instance->author() );
+		$this->expectOutput( $expected );
+
+		// post type default and user meta set
+		WPSEO_Meta::set_value( 'authorship', '-', $this->post_id );
+		$this->assertTrue( $this->class_instance->author() );
+		$this->expectOutput( $expected );
+
 	}
 
 	public function test_metakeywords() {
@@ -461,7 +501,13 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	}
 
 	public function test_page_redirect() {
-		// @todo
+		// should not redirect on home pages
+		$this->go_to_home();
+		$this->assertFalse( $this->class_instance->page_redirect() );
+
+		// should not redirect when no redirect URL was set
+		$this->go_to_post();
+		$this->assertFalse( $this->class_instance->page_redirect() );
 	}
 
 	public function test_noindex_page() {
@@ -481,11 +527,41 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	}
 
 	public function test_archive_redirect() {
-		// @todo
+		
+		global $wp_query;
+
+		$c = $this->class_instance;
+
+		// test on author, authors enabled -> false
+		$wp_query->is_author = true;
+		$c->options['disable-author'] = false;
+		$this->assertFalse( $c->archive_redirect() );
+
+		// test not on author, authors disabled -> false
+		$wp_query->is_author = false;
+		$c->options['disable-author'] = true;
+		$this->assertFalse( $c->archive_redirect() );
+
+		// test on date, dates enabled -> false
+		$wp_query->is_date = true;
+		$c->options['disable-date'] = false;
+		$this->assertFalse( $c->archive_redirect() );
+
+		// test not on date, dates disabled -> false
+		$wp_query->is_date = false;
+		$c->options['disable-date'] = true;
+		$this->assertFalse( $c->archive_redirect() );
 	}
 
 	public function test_attachment_redirect() {
-		// @todo
+
+		// should not redirect on home page
+		$this->go_to_home();
+		$this->assertFalse( $this->class_instance->attachment_redirect() );
+
+		// should not redirect on regular post pages
+		$this->go_to_post();
+		$this->assertFalse( $this->class_instance->attachment_redirect() );
 	}
 
 	public function test_add_trailingslash() {
@@ -639,31 +715,31 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 
 	public function test_flush_cache() {
 
+		$c = $this->class_instance;
+
 		// should not run when output buffering is not turned on
 		$this->assertFalse( $this->class_instance->flush_cache() );
-
-		/*
-		// go to single posts
-		$this->go_to_post();
 
 		// turn on output buffering
 		$this->class_instance->force_rewrite_output_buffer();
 		
 		$content = '<!DOCTYPE><html><head><title>TITLETOBEREPLACED</title>' . $this->class_instance->debug_marker( false ) . '</head><body>Some body content. Should remain unchanged.</body></html>';
-		echo $content;
-
-		// @todo get rid of $sep
+	
+		// create expected output
 		global $sep;
-
 		$title = $this->class_instance->title( '', $sep );
-		$expected = str_ireplace( '<title>TITLETOBEREPLACED</title>', $this->class_instance->debug_marker( false ) . "\n" . '<title>' . $title . '</title>', $content );		
+		$expected = preg_replace( '/<title(.*)\/title>/i', '', $content );
+		$expected = str_replace( $c->debug_marker( false ), $c->debug_marker( false ) . "\n" . '<title>' . $title . '</title>', $expected );
 		
 		ob_start();	
+		echo $content;
+
+		// run function
 		$result = $this->class_instance->flush_cache();
 
+		// run assertions
 		$this->expectOutput( $expected, $result );
 		$this->assertTrue( $result );
-		*/
 	}
 
 	public function test_force_rewrite_output_buffer() {
