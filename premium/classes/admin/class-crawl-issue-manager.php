@@ -83,11 +83,10 @@ class WPSEO_Crawl_Issue_Manager {
 	/**
 	 * Save the crawl issues
 	 *
-	 * @param  array <WPSEO_Crawl_Issue> $crawl_issues
-	 *
-	 * @todo We might want to return $crawl_issues here, and use that in get_crawl_issues(). Will prevent an extra query.
+	 * @param WPSEO_GWT_Google_Client $gwt
 	 */
 	private function save_crawl_issues( WPSEO_GWT_Google_Client $gwt ) {
+		global $wpdb;
 
 		error_log( 'Checking crawl issues remote', 0 );
 
@@ -97,14 +96,8 @@ class WPSEO_Crawl_Issue_Manager {
 		// Get crawl issues
 		$crawl_issues = $service->get_crawl_issues();
 
-		// Delete old crawl issues
-		// @todo might need a custom query here
-		$current_crawl_issues = get_posts( array( 'post_type' => self::PT_CRAWL_ISSUE, 'posts_per_page' => - 1 ) );
-		if ( count( $current_crawl_issues ) > 0 ) {
-			foreach ( $current_crawl_issues as $current_crawl_issue ) {
-				wp_delete_post( $current_crawl_issue->ID, true );
-			}
-		}
+		// Store the urls of crawl issues
+		$crawl_issue_urls = array();
 
 		// Mutate and save the crawl issues
 		if ( count( $crawl_issues ) > 0 ) {
@@ -122,9 +115,9 @@ class WPSEO_Crawl_Issue_Manager {
 
 					// Create the post
 					$ci_post_id = wp_insert_post( array(
-							'post_type'   => self::PT_CRAWL_ISSUE,
-							'post_title'  => $crawl_issue->get_url(),
-							'post_status' => 'publish'
+						'post_type'   => self::PT_CRAWL_ISSUE,
+						'post_title'  => $crawl_issue->get_url(),
+						'post_status' => 'publish'
 					) );
 
 				}
@@ -136,8 +129,22 @@ class WPSEO_Crawl_Issue_Manager {
 				update_post_meta( $ci_post_id, self::PM_CI_DETAIL, $crawl_issue->get_detail() );
 				update_post_meta( $ci_post_id, self::PM_CI_LINKED_FROM, $crawl_issue->get_linked_from() );
 
+				// Store the url in $crawl_issue_urls
+				if( false == in_array( $crawl_issue->get_url(), $crawl_issue_urls ) ) {
+					$crawl_issue_urls[] = $crawl_issue->get_url();
+				}
+
+
 			}
 		}
+
+		// Remove local crawl issues that are not in the Google response
+		// Format the SQL
+		$sql_raw = "DELETE FROM `{$wpdb->posts}` WHERE `post_type` = '" . self::PT_CRAWL_ISSUE . "' AND `post_title` NOT IN (" . implode( ', ', array_fill( 0, count( $crawl_issue_urls ), '%s' ) ) . ")";
+		$sql = call_user_func_array( array( $wpdb, 'prepare' ), array_merge( array( $sql_raw ), $crawl_issue_urls ) );
+
+		// Run the delete SQL
+		$wpdb->query( $sql );
 
 		// Save the last checked
 		$this->save_last_checked();
@@ -147,15 +154,18 @@ class WPSEO_Crawl_Issue_Manager {
 	 * Add the urls filter
 	 *
 	 * @param $where
+	 * @param $wp_query
 	 *
 	 * @return string
-	 *
 	 */
 	public function filter_crawl_issue_sql_where( $where, $wp_query ) {
 		global $wpdb;
 		if ( $wp_query->get( 'wpseo_urls' ) != '' && is_array( $wp_query->get( 'wpseo_urls' ) ) && count( $wp_query->get( 'wpseo_urls' ) ) > 0 ) {
 			$sql = " AND {$wpdb->posts}.post_title NOT IN(" . implode( ', ', array_fill( 0, count( $wp_query->get( 'wpseo_urls' ) ), '%s' ) ) . ")";
-			$where .= call_user_func_array( array( $wpdb, 'prepare' ), array_merge( array( $sql ), $wp_query->get( 'wpseo_urls' ) ) );
+			$where .= call_user_func_array( array(
+					$wpdb,
+					'prepare'
+				), array_merge( array( $sql ), $wp_query->get( 'wpseo_urls' ) ) );
 		}
 
 		return $where;
@@ -163,6 +173,9 @@ class WPSEO_Crawl_Issue_Manager {
 
 	/**
 	 * Get the crawl issues
+	 *
+	 * @param WPSEO_GWT_Google_Client $gwt
+	 * @param array                   $extra_args
 	 *
 	 * @return array<WPSEO_Crawl_Issue>
 	 */
@@ -184,7 +197,11 @@ class WPSEO_Crawl_Issue_Manager {
 		add_filter( 'posts_where', array( $this, 'filter_crawl_issue_sql_where' ), 10, 2 );
 
 		// Get the crawl issues from db
-		$crawl_issue_query = new WP_Query( wp_parse_args( $extra_args, array( 'post_type' => self::PT_CRAWL_ISSUE, 'posts_per_page' => - 1, 'suppress_filters' => false ) ) );
+		$crawl_issue_query = new WP_Query( wp_parse_args( $extra_args, array(
+					'post_type'        => self::PT_CRAWL_ISSUE,
+					'posts_per_page'   => - 1,
+					'suppress_filters' => false
+				) ) );
 		$crawl_issues_db   = $crawl_issue_query->posts;
 
 		// Remove filter to filter out already redirected urls
@@ -197,13 +214,13 @@ class WPSEO_Crawl_Issue_Manager {
 		if ( count( $crawl_issues_db ) > 0 ) {
 			foreach ( $crawl_issues_db as $crawl_issues_db_item ) {
 				$crawl_issues[] = new WPSEO_Crawl_Issue(
-						$crawl_issues_db_item->post_title,
-						get_post_meta( $crawl_issues_db_item->ID, self::PM_CI_CRAWL_TYPE, true ),
-						get_post_meta( $crawl_issues_db_item->ID, self::PM_CI_ISSUE_TYPE, true ),
-						new DateTime( (string) get_post_meta( $crawl_issues_db_item->ID, self::PM_CI_DATE_DETECTED, true ) ),
-						get_post_meta( $crawl_issues_db_item->ID, self::PM_CI_DETAIL, true ),
-						get_post_meta( $crawl_issues_db_item->ID, self::PM_CI_LINKED_FROM, true ),
-						false // @todo match this with ignore array
+					$crawl_issues_db_item->post_title,
+					get_post_meta( $crawl_issues_db_item->ID, self::PM_CI_CRAWL_TYPE, true ),
+					get_post_meta( $crawl_issues_db_item->ID, self::PM_CI_ISSUE_TYPE, true ),
+					new DateTime( (string) get_post_meta( $crawl_issues_db_item->ID, self::PM_CI_DATE_DETECTED, true ) ),
+					get_post_meta( $crawl_issues_db_item->ID, self::PM_CI_DETAIL, true ),
+					get_post_meta( $crawl_issues_db_item->ID, self::PM_CI_LINKED_FROM, true ),
+					false // @todo match this with ignore array
 				);
 			}
 		}
@@ -214,7 +231,10 @@ class WPSEO_Crawl_Issue_Manager {
 	/**
 	 * Update the crawl issue status
 	 *
-	 * @param $status
+	 * @param string $status
+	 * @param string $url
+	 *
+	 * @return bool
 	 */
 	private function change_crawl_issue_status( $status, $url ) {
 
@@ -228,8 +248,8 @@ class WPSEO_Crawl_Issue_Manager {
 
 		// Update post status
 		wp_update_post( array(
-				'ID'          => $crawl_issue->ID,
-				'post_status' => $status
+			'ID'          => $crawl_issue->ID,
+			'post_status' => $status
 		) );
 
 		return true;
