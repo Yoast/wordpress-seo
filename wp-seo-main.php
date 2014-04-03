@@ -138,7 +138,7 @@ function wpseo_deactivate() {
 function wpseo_load_textdomain() {
 	load_plugin_textdomain( 'wordpress-seo', false, dirname( plugin_basename( WPSEO_FILE ) ) . '/languages/' );
 }
-add_filter( 'init', 'wpseo_load_textdomain', 1 );
+add_action( 'init', 'wpseo_load_textdomain', 1 );
 
 
 
