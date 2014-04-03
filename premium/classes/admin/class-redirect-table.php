@@ -18,12 +18,20 @@ if ( ! class_exists( 'WP_List_Table' ) ) {
 class WPSEO_Redirect_Table extends WP_List_Table {
 
 	private $search_string;
+	private $type;
+
+	private $redirect_manager;
 
 	/**
 	 * WPSEO_Redirect_Table constructor
 	 */
-	public function __construct() {
-		parent::__construct();
+	public function __construct( $type ) {
+		parent::__construct( array( 'plural' => $type ) );
+
+		$this->type = $type;
+		$class_name = 'WPSEO_' . strtoupper($this->type) . '_Redirect_Manager';
+		$this->redirect_manager = new $class_name();
+
 		$this->handle_bulk_action();
 
 		if ( isset( $_GET['s'] ) && $_GET['s'] != '' ) {
@@ -62,7 +70,7 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	public function get_columns() {
 		$columns = array(
 				'cb'  => '<input type="checkbox" />',
-				'old' => __( 'Old URL', 'wordpress-seo' ),
+				'old' => $this->type,
 				'new' => __( 'New URL', 'wordpress-seo' ),
 		);
 
@@ -82,7 +90,7 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 		$this->_column_headers = array( $columns, $hidden, $sortable );
 
 		// Get the items
-		$redirect_items = WPSEO_Redirect_Manager::get_redirects();
+		$redirect_items = $this->redirect_manager->get_redirects();
 
 		// Handle the search
 		if ( null != $this->search_string ) {
@@ -223,7 +231,7 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 		if ( isset( $_POST['action'] ) || isset( $_POST['action2'] ) ) {
 			if ( 'delete' == $_POST['action'] || 'delete' == $_POST['action2'] ) {
 				if ( isset( $_POST['wpseo_redirects_bulk_delete'] ) && is_array( $_POST['wpseo_redirects_bulk_delete'] ) && count( $_POST['wpseo_redirects_bulk_delete'] ) > 0 ) {
-					WPSEO_Redirect_Manager::delete_redirect( $_POST['wpseo_redirects_bulk_delete'] );
+					$this->redirect_manager->delete_redirect( $_POST['wpseo_redirects_bulk_delete'] );
 				}
 			}
 		}

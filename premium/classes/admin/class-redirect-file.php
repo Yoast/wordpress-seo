@@ -13,9 +13,12 @@ abstract class WPSEO_Redirect_File implements iWPSEO_Redirect_File {
 
 	private function generate_file_content() {
 		$file_content = "";
-		$redirects    = WPSEO_Redirect_Manager::get_redirects();
-		if ( count( $redirects ) > 0 ) {
-			foreach ( $redirects as $old_url => $new_url ) {
+
+		$url_redirect_manager = new WPSEO_URL_Redirect_Manager();
+
+		$url_redirects    = $url_redirect_manager->get_redirects();
+		if ( count( $url_redirects ) > 0 ) {
+			foreach ( $url_redirects as $old_url => $new_url ) {
 				$file_content .= $this->format_redirect( $old_url, $new_url ) . "\n";
 			}
 		}

@@ -177,7 +177,8 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 
 		// Filter crawl errors
 		if ( 'not-redirected' == $current_view ) {
-			$redirects = WPSEO_Redirect_Manager::get_redirects();
+			$url_redirect_manager = new WPSEO_URL_Redirect_Manager();
+			$redirects = $url_redirect_manager->get_redirects();
 			$wpseo_urls = array();
 			if ( count( $redirects ) > 0 ) {
 				foreach( $redirects as $old_url => $new_url) {

@@ -81,14 +81,29 @@ class WPSEO_Premium {
 
 			// Check if WPSEO_DISABLE_PHP_REDIRECTS is defined
 			if ( defined( 'WPSEO_DISABLE_PHP_REDIRECTS' ) && true === WPSEO_DISABLE_PHP_REDIRECTS ) {
-				// Constant is set, change autoload to off
-				WPSEO_Redirect_Manager::redirects_change_autoload( false );
+
+				// Change the normal redirect autoload option
+				$normal_redirect_manager = new WPSEO_URL_Redirect_Manager();
+				$normal_redirect_manager->redirects_change_autoload( false );
+
+				// Change the regex redirect autoload option
+				$regex_redirect_manager = new WPSEO_REGEX_Redirect_Manager();
+				$regex_redirect_manager->redirects_change_autoload( false );
+
 			} else {
 				$options = WPSEO_Redirect_Manager::get_options();
 
 				// If the disable_php_redirect option is not enabled we should enable auto loading redirects
 				if ( 'off' == $options['disable_php_redirect'] ) {
-					WPSEO_Redirect_Manager::redirects_change_autoload( true );
+
+					// Change the normal redirect autoload option
+					$normal_redirect_manager = new WPSEO_URL_Redirect_Manager();
+					$normal_redirect_manager->redirects_change_autoload( true );
+
+					// Change the regex redirect autoload option
+					$regex_redirect_manager = new WPSEO_REGEX_Redirect_Manager();
+					$regex_redirect_manager->redirects_change_autoload( true );
+
 				}
 			}
 
@@ -121,35 +136,41 @@ class WPSEO_Premium {
 			// Crawl Issue Manager AJAX hooks
 			$crawl_issue_manager = new WPSEO_Crawl_Issue_Manager();
 			add_action( 'wp_ajax_wpseo_ignore_crawl_issue', array( $crawl_issue_manager, 'ajax_ignore_crawl_issue' ) );
-			add_action( 'wp_ajax_wpseo_unignore_crawl_issue', array(
-					$crawl_issue_manager,
-					'ajax_unignore_crawl_issue'
-				) );
+			add_action( 'wp_ajax_wpseo_unignore_crawl_issue', array( $crawl_issue_manager, 'ajax_unignore_crawl_issue' ) );
 
 			// Add Premium imports
 			$premium_import_manager = new WPSEO_Premium_Import_Manager();
 
 			// Allow option of importing from other 'other' plugins
-			add_filter( 'wpseo_import_other_plugins', array(
-					$premium_import_manager,
-					'filter_add_premium_import_options'
-				) );
+			add_filter( 'wpseo_import_other_plugins', array( $premium_import_manager, 'filter_add_premium_import_options' ) );
 
 			// Handle premium imports
 			add_action( 'wpseo_handle_import', array( $premium_import_manager, 'do_premium_imports' ) );
 
 		} else {
 			// Catch redirect
-			add_action( 'template_redirect', array( 'WPSEO_Redirect_Manager', 'do_redirects' ) );
+			$normal_redirect_manager = new WPSEO_URL_Redirect_Manager();
+			add_action( 'template_redirect', array( $normal_redirect_manager, 'do_redirects' ) );
+
+			// Catch redirect
+			$regex_redirect_manager = new WPSEO_REGEX_Redirect_Manager();
+			add_action( 'template_redirect', array( $regex_redirect_manager, 'do_redirects' ) );
 
 			// Add 404 redirect link to WordPress toolbar
 			add_action( 'admin_bar_menu', array( $this, 'admin_bar_menu' ), 96 );
 		}
 
-		// AJAX
-		add_action( 'wp_ajax_wpseo_save_redirect', array( 'WPSEO_Redirect_Manager', 'ajax_handle_redirect_save' ) );
-		add_action( 'wp_ajax_wpseo_delete_redirect', array( 'WPSEO_Redirect_Manager', 'ajax_handle_redirect_delete' ) );
-		add_action( 'wp_ajax_wpseo_create_redirect', array( 'WPSEO_Redirect_Manager', 'ajax_handle_redirect_create' ) );
+		// Normal Redirect AJAX
+		$redirect_manager = new WPSEO_URL_Redirect_Manager();
+		add_action( 'wp_ajax_wpseo_save_redirect_url', array( $redirect_manager, 'ajax_handle_redirect_save' ) );
+		add_action( 'wp_ajax_wpseo_delete_redirect_url', array( $redirect_manager, 'ajax_handle_redirect_delete' ) );
+		add_action( 'wp_ajax_wpseo_create_redirect_url', array( $redirect_manager, 'ajax_handle_redirect_create' ) );
+
+		// Regex Redirect AJAX
+		$redirect_manager = new WPSEO_REGEX_Redirect_Manager();
+		add_action( 'wp_ajax_wpseo_save_redirect_regex', array( $redirect_manager, 'ajax_handle_redirect_save' ) );
+		add_action( 'wp_ajax_wpseo_delete_redirect_regex', array( $redirect_manager, 'ajax_handle_redirect_delete' ) );
+		add_action( 'wp_ajax_wpseo_create_redirect_regex', array( $redirect_manager, 'ajax_handle_redirect_create' ) );
 
 	}
 
@@ -162,6 +183,8 @@ class WPSEO_Premium {
 
 		// General includes
 		require_once( WPSEO_PREMIUM_PATH . 'classes/general/class-redirect-manager.php' );
+		require_once( WPSEO_PREMIUM_PATH . 'classes/general/class-url-redirect-manager.php' );
+		require_once( WPSEO_PREMIUM_PATH . 'classes/general/class-regex-redirect-manager.php' );
 
 		// Separate backend and frontend files
 		if ( is_admin() ) {
@@ -304,7 +327,15 @@ class WPSEO_Premium {
 	public function catch_option_redirect_save() {
 		if ( isset ( $_POST['option_page'] ) && $_POST['option_page'] == 'yoast_wpseo_redirect_options' ) {
 			$enable_autoload = ( isset ( $_POST['wpseo_redirect']['disable_php_redirect'] ) ) ? false : true;
-			WPSEO_Redirect_Manager::redirects_change_autoload( $enable_autoload );
+
+			// Change the normal redirect autoload option
+			$normal_redirect_manager = new WPSEO_URL_Redirect_Manager();
+			$normal_redirect_manager->redirects_change_autoload( $enable_autoload );
+
+			// Change the regex redirect autoload option
+			$regex_redirect_manager = new WPSEO_REGEX_Redirect_Manager();
+			$regex_redirect_manager->redirects_change_autoload( $enable_autoload );
+
 		}
 	}
 

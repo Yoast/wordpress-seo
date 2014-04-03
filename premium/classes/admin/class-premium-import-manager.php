@@ -52,13 +52,18 @@ class WPSEO_Premium_Import_Manager {
 				return;
 			}
 
+			/**
+			 * @todo also import regex redirects
+			 */
+
 			// Get redirects
 			$items = $wpdb->get_results( "SELECT `url`, `action_data` FROM {$wpdb->prefix}redirection_items WHERE `status` = 'enabled' AND `action_type` = 'url' AND `regex` = 0" );
 
 			// Loop and add redirect to WordPress Premium
 			if ( count( $items ) > 0 ) {
+				$url_redirection_manager = new WPSEO_URL_Redirect_Manager();
 				foreach ( $items as $item ) {
-					WPSEO_Redirect_Manager::create_redirect( $item->url, $item->action_data );
+					$url_redirection_manager->create_redirect( $item->url, $item->action_data );
 				}
 
 				// Add success message
