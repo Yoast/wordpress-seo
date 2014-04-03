@@ -163,13 +163,15 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 		return trim( preg_replace( '`\s+`u', ' ', $string ) );
 	}
 
-	global $sep;
-	if ( ! isset( $sep ) || empty( $sep ) ) {
-		$sep = '-';
+	$options = WPSEO_Options::get_all();
+
+	$title_separator = $options['separator'];
+	if( substr( $title_separator, 0, 3 ) === 'sc-' ) {
+		$title_separator = '&' . substr( $title_separator, 3 ) . ';';
 	}
 
 	$simple_replacements = array(
-		'%%sep%%'          => $sep,
+		'%%sep%%'          => $title_separator,
 		'%%sitename%%'     => get_bloginfo( 'name' ),
 		'%%sitedesc%%'     => get_bloginfo( 'description' ),
 		'%%currenttime%%'  => date( get_option( 'time_format' ) ),

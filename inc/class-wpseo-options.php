@@ -1259,6 +1259,7 @@ if ( ! class_exists( 'WPSEO_Option_Titles' ) ) {
 
 			// Form fields
 			'forcerewritetitle'      => false,
+			'separator'	    	     => 'sc-ndash',
 			'hide-feedlinks'         => false,
 			'hide-rsdlink'           => false,
 			'hide-shortlink'         => false,
@@ -1458,6 +1459,7 @@ if ( ! class_exists( 'WPSEO_Option_Titles' ) ) {
 				$switch_key = $this->get_switch_key( $key );
 
 				switch ( $switch_key ) {
+					case 'separator':
 					/* text fields */
 					/* Covers:
 					   'title-home-wpseo', 'title-author-wpseo', 'title-archive-wpseo',

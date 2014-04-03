@@ -36,6 +36,10 @@ label {
 	margin-left: 6px;
 }
 
+label.radio {
+	float: none;
+}
+
 input.textinput, textarea, select {
 	width: 400px;
 }

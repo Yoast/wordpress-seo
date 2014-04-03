@@ -144,7 +144,8 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	}
 
 	public function test_og_title() {
-		$expected_title = "Sample Post - Test Blog";
+
+		$expected_title = $this->class_instance->title( '' );
 		$expected_html = '<meta property="og:title" content="'.$expected_title.'" />' . "\n";
 
 		$this->expectOutputString( $expected_html );
