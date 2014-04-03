@@ -145,12 +145,6 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 
 	public function test_og_title() {
 
-		$title_seperator = $this->class_instance->options['separator'];
-		if( substr( $title_separator, 0, 3 ) === 'sc-' ) {
-			$title_separator = '&' . substr( $title_separator, 3 ) . ';';
-		}
-
-
 		$expected_title = $this->class_instance->title( '' );
 		$expected_html = '<meta property="og:title" content="'.$expected_title.'" />' . "\n";
 
