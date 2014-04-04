@@ -7,6 +7,7 @@
 * Added option to ignore crawl issues.
 * Added import option from Redirection plugin.
 * Added a redirect link to WordPress toolbar on 404 pages.
+* Added support for REGEX redirects.
 
 = 1.0.8 =
 
