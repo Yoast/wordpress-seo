@@ -18,7 +18,7 @@ $options = get_option( 'wpseo_permalinks' );
 $content = '';
 if ( $options['stripcategorybase'] ) {
 	$content = '<div class="error-message">';
-	$content .= '<p>' . sprintf( __('The feature for stripping the category base will be removed in version 1.6 of WordPress SEO. We suggest using %1$sFV Top Level Categories%2$s if you insist on keeping this but do know that the feature is very error prone and not <em>that</em> important for your SEO.','wordpress-seo'), '<a href="http://wordpress.org/plugins/fv-top-level-cats/">', '</a>' ) .'</p>';
+	$content .= '<p>' . sprintf( __('The feature for stripping the category base will be removed in version 1.6 of WordPress SEO. We suggest using %1$sFV Top Level Categories%2$s if you insist on keeping this but do know that the feature is very error prone and not <em>that</em> important for your SEO.','wordpress-seo'), '<a href="https://wordpress.org/plugins/fv-top-level-cats/">', '</a>' ) .'</p>';
 	$content .= '<p>' . __('As soon as you disable the feature below, the option will no longer be available.','wordpress-seo') . '</p>';
 	$content .= $wpseo_admin_pages->checkbox( 'stripcategorybase', __( 'Strip the category base (usually <code>/category/</code>) from the category URL.', 'wordpress-seo' ) );
 	$content .= '</div>';

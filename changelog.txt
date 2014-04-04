@@ -14,7 +14,7 @@
 * Updated Hebrew (he_IL), Dutch (nl_NL) French (fr_FR), Czech (cs_CZ), Italian (it_IT), Brazilian Portuguese (pt_BR).
 * Added Norwegian (nb_NO) and Portuguese (pt_PT).
 * Added a `wpseo_robots` filter for the robots meta tag.
-* Fixed integration with the [Facebook plugin](http://wordpress.org/extend/plugins/facebook).
+* Fixed integration with the [Facebook plugin](https://wordpress.org/plugins/facebook).
 
 = 1.2.8.4 =
 

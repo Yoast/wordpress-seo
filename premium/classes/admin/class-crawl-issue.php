@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Class WPSEO_Crawl_Issue
+ *
+ * @todo Might want to create a class that accepts the raw Google response as construct parameter.
+ */
 class WPSEO_Crawl_Issue {
 
 	/**
@@ -33,6 +38,11 @@ class WPSEO_Crawl_Issue {
 	private $linked_from;
 
 	/**
+	 * @var boolean
+	 */
+	private $ignored;
+
+	/**
 	 * Constructor
 	 *
 	 * @param $url
@@ -41,14 +51,16 @@ class WPSEO_Crawl_Issue {
 	 * @param $date_detected
 	 * @param $detail
 	 * @param $linked_from
+	 * @param $ignored
 	 */
-	function __construct( $url, $crawl_type, $issue_type, $date_detected, $detail, $linked_from ) {
+	function __construct( $url, $crawl_type, $issue_type, $date_detected, $detail, $linked_from, $ignored ) {
 		$this->crawl_type    = $crawl_type;
 		$this->date_detected = $date_detected;
 		$this->detail        = $detail;
 		$this->issue_type    = $issue_type;
 		$this->linked_from   = $linked_from;
 		$this->url           = $url;
+		$this->ignored       = $ignored;
 	}
 
 	/**
@@ -136,6 +148,20 @@ class WPSEO_Crawl_Issue {
 	}
 
 	/**
+	 * @param boolean $ignored
+	 */
+	public function set_ignored( $ignored ) {
+		$this->ignored = $ignored;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function get_ignored() {
+		return $this->ignored;
+	}
+
+	/**
 	 * Put class properties in array
 	 *
 	 * @return array
@@ -149,7 +175,7 @@ class WPSEO_Crawl_Issue {
 			$linked_from = array_shift( $copy );
 		}
 
-		return array( 'url' => $this->url, 'crawl_type' => $this->crawl_type, 'issue_type' => $this->issue_type, 'date_detected' => strftime( '%x', strtotime( $this->date_detected->format( 'Y-m-d H:i:s' ) ) ), 'detail' => $this->detail, 'linked_from' => $linked_from );
+		return array( 'url' => $this->url, 'crawl_type' => $this->crawl_type, 'issue_type' => $this->issue_type, 'date_detected' => strftime( '%x', strtotime( $this->date_detected->format( 'Y-m-d H:i:s' ) ) ), 'detail' => $this->detail, 'linked_from' => $linked_from, 'ignored' => $this->ignored );
 	}
 
 }

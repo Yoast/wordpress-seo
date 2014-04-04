@@ -1,8 +1,16 @@
 (function ($) {
 
-	$.fn.wpseo_redirects = function () {
+	$.fn.wpseo_redirects = function (arg_type) {
 
-		$wpseo_redirects = this;
+		var object = this;
+
+		var type = arg_type.replace('tab-', '');
+
+		var table = object.find('table');
+
+		this.encode = function (str) {
+			return encodeURIComponent(str);
+		};
 
 		this.edit_row = function (row, cancellable) {
 
@@ -28,8 +36,8 @@
 			// Wrap inputs in form elements
 			var wrap_form = $("<form>").submit(function (e) {
 				e.preventDefault();
-				if ($wpseo_redirects.save_redirect(row)) {
-					$wpseo_redirects.restore_row(row);
+				if (object.save_redirect(row)) {
+					object.restore_row(row);
 				}
 				return false;
 			});
@@ -40,8 +48,8 @@
 			$(row).find('.row-actions').parent().append(
 					$('<div>').addClass('edit-actions').append(
 							$('<button>').addClass('button-primary').attr('tabindex', 3).html('Save').click(function () {
-								if ($wpseo_redirects.save_redirect(row)) {
-									$wpseo_redirects.restore_row(row);
+								if (object.save_redirect(row)) {
+									object.restore_row(row);
 								}
 								return false;
 							})
@@ -52,7 +60,7 @@
 			if (cancellable) {
 				$(row).find('.edit-actions').append(
 						$('<button>').addClass('button').attr('tabindex', 4).html('Cancel').click(function () {
-							$wpseo_redirects.restore_row(row);
+							object.restore_row(row);
 							return false;
 						})
 				);
@@ -66,9 +74,9 @@
 				$.post(
 						ajaxurl,
 						{
-							action    : 'wpseo_delete_redirect',
+							action    : 'wpseo_delete_redirect_' + type,
 							ajax_nonce: $('.wpseo_redirects_ajax_nonce').val(),
-							redirect  : { key: $(row).find('.val').eq(0).html().toString(), value: $(row).find('.val').eq(1).html().toString() }
+							redirect  : { key: object.encode($(row).find('.val').eq(0).html().toString()), value: object.encode($(row).find('.val').eq(1).html().toString()) }
 						},
 						function (response) {
 						}
@@ -105,13 +113,27 @@
 				return false;
 			}
 
+			// Add prepending slash if not exists
+			if ('url' == type && old_url.indexOf('/') !== 0) {
+				old_url = '/' + old_url;
+				$(row).find('.val').eq(0).find('input').val(old_url);
+			}
+
+			// Encode old URL's
+			var data_old_url = object.encode($(row).data('old_redirect').key);
+			var data_new_url = object.encode($(row).data('old_redirect').value);
+
+			// Encode new URL's
+			old_url = object.encode(old_url);
+			new_url = object.encode(new_url);
+
 			// Post request
 			$.post(
 					ajaxurl,
 					{
-						action      : 'wpseo_save_redirect',
+						action      : 'wpseo_save_redirect_' + type,
 						ajax_nonce  : $('.wpseo_redirects_ajax_nonce').val(),
-						old_redirect: $(row).data('old_redirect'),
+						old_redirect: { key: data_old_url, value: data_new_url },
 						new_redirect: { key: old_url, value: new_url }
 					},
 					function (response) {
@@ -123,57 +145,26 @@
 
 		this.bind_row = function (row) {
 			$(row).find('.edit').click(function () {
-				$wpseo_redirects.edit_row(row, true);
+				object.edit_row(row, true);
 			});
 			$(row).find('.trash').click(function () {
-				$wpseo_redirects.delete_row(row);
+				object.delete_row(row);
 			});
 		};
-
-		this.create_crawl_issue_redirects = function () {
-			if ($('.wpseo_redirects_crawl_issues').length > 0) {
-				var new_redirects = JSON.parse($('.wpseo_redirects_crawl_issues').val());
-				if (new_redirects.length > 0) {
-					var tbody = $wpseo_redirects.find('#the-list');
-					for (var i = 0; i < new_redirects.length; i++) {
-						var tr = create_redirect_row(new_redirects[i], '');
-						$(tbody).append(tr);
-						$wpseo_redirects.edit_row(tr, false);
-					}
-				}
-			}
-		};
-
-		this.setup = function () {
-			$.each($wpseo_redirects.find('tr'), function (k, tr) {
-				$wpseo_redirects.bind_row(tr);
-			});
-
-			//$wpseo_redirects.create_crawl_issue_redirects();
-
-			$(window).on('beforeunload', function () {
-				if ($('.row_edit').length > 0) {
-					return wpseo_premium_strings.unsaved_redirects;
-				}
-			});
-
-		};
-
-		$wpseo_redirects.setup();
-
-	};
-
-	$.fn.wpseo_redirect_handle_new = function () {
-		var $this = this;
 
 		this.remove_no_items_row = function () {
-			$('.seo_page_wpseo_redirects').find('.no-items').remove();
+			object.find('.no-items').remove();
 		};
 
 		this.add_redirect = function (old_redirect, new_redirect) {
 
 			if ("" == old_redirect) {
-				alert(wpseo_premium_strings.error_old_url);
+				if ('url' == type) {
+					alert(wpseo_premium_strings.error_old_url);
+				} else {
+					alert(wpseo_premium_strings.error_regex);
+				}
+
 				return false;
 			}
 
@@ -182,24 +173,32 @@
 				return false;
 			}
 
+			if ('url' == type && old_redirect.indexOf('/') !== 0) {
+				old_redirect = '/' + old_redirect;
+			}
+
 			// Remove the no items row
-			$this.remove_no_items_row();
+			object.remove_no_items_row();
 
 			// Creating tr
-			var tr = create_redirect_row(old_redirect, new_redirect);
+			var tr = object.create_redirect_row(old_redirect, new_redirect);
 
 			// Add the new row
-			$('.seo_page_wpseo_redirects').find('#the-list').append(tr);
+			$('form#' + type).find('#the-list').append(tr);
 
 			// Empty fields
-			$this.find('#wpseo_redirects_new_old').val('');
-			$this.find('#wpseo_redirects_new_new').val('');
+			object.find('#wpseo_redirects_new_old').val('');
+			object.find('#wpseo_redirects_new_new').val('');
+
+			// Encode strings
+			old_redirect = object.encode(old_redirect);
+			new_redirect = object.encode(new_redirect);
 
 			// Do post
 			$.post(
 					ajaxurl,
 					{
-						action    : 'wpseo_create_redirect',
+						action    : 'wpseo_create_redirect_' + type,
 						ajax_nonce: $('.wpseo_redirects_ajax_nonce').val(),
 						old_url   : old_redirect,
 						new_url   : new_redirect
@@ -211,56 +210,73 @@
 			return true;
 		};
 
+		this.create_redirect_row = function (old_url, new_url) {
+			var tr = $('<tr>').append(
+					$('<td>').append(
+							$('<input>').attr('type', 'checkbox').val(old_url)
+					)
+			).append(
+					$('<td>').append(
+							$('<div>').addClass('val').html(old_url)
+					).append(
+							$('<div>').addClass('row-actions').append(
+									$('<span>').addClass('edit').append(
+											$('<a>').attr('href', 'javascript:;').html('Edit')
+									).append(' | ')
+							).append(
+									$('<span>').addClass('trash').append(
+											$('<a>').attr('href', 'javascript:;').html('Delete')
+									)
+							)
+					)
+			).append(
+					$('<td>').append(
+							$('<div>').addClass('val').html(new_url)
+					)
+			);
+
+			// bind the tr
+
+			object.bind_row(tr);
+
+			return tr;
+		};
+
 		this.setup = function () {
-			$this.find('a').click(function () {
-				$this.add_redirect($this.find('#wpseo_redirects_new_old').val(), $this.find('#wpseo_redirects_new_new').val());
+			$.each(object.find('table tr'), function (k, tr) {
+				object.bind_row(tr);
+			});
+
+			object.find('.wpseo-new-redirect-form a').click(function () {
+				object.add_redirect(object.find('#wpseo_redirects_new_old').val(), object.find('#wpseo_redirects_new_new').val());
 				return false;
 			});
 
-			$this.find("input").keypress(function (event) {
+			object.find(".wpseo-new-redirect-form input").keypress(function (event) {
 				if (event.which == 13) {
 					event.preventDefault();
-					$this.add_redirect($this.find('#wpseo_redirects_new_old').val(), $this.find('#wpseo_redirects_new_new').val());
+					object.add_redirect(object.find('#wpseo_redirects_new_old').val(), object.find('#wpseo_redirects_new_new').val());
 				}
 			});
+
+			$(window).on('beforeunload', function () {
+				if ($('.row_edit').length > 0) {
+					return wpseo_premium_strings.unsaved_redirects;
+				}
+			});
+
 		};
 
-		this.setup();
-	};
+		object.setup();
 
-	function create_redirect_row(old_url, new_url) {
-		var tr = $('<tr>').append(
-						$('<td>').append(
-								$('<input>').attr('type', 'checkbox').val(old_url)
-						)
-				).append(
-						$('<td>').append(
-										$('<div>').addClass('val').html(old_url)
-								).append(
-										$('<div>').addClass('row-actions').append(
-														$('<span>').addClass('edit').append(
-																$('<a>').attr('href', 'javascript:;').html('Edit')
-														).append(' | ')
-												).append(
-														$('<span>').addClass('trash').append(
-																$('<a>').attr('href', 'javascript:;').html('Delete')
-														)
-												)
-								)
-				).append(
-						$('<td>').append(
-								$('<div>').addClass('val').html(new_url)
-						)
-				);
-
-		$wpseo_redirects.bind_row(tr);
-
-		return tr;
 	};
 
 	$(window).load(function () {
-		$('#wpseo-redirects-table-form table').wpseo_redirects();
-		$('#wpseo-new-redirects-form').wpseo_redirect_handle_new();
+
+		$.each($('.redirect-table-tab'), function (k, v) {
+			$(v).wpseo_redirects($(v).attr('id'));
+		});
+
 	});
 
 })(jQuery);

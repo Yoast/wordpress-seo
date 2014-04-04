@@ -291,12 +291,24 @@ if ( isset( $_POST['import'] ) || isset( $_GET['import'] ) ) {
 		}
 		unset( $optold, $optnew );
 	}
+
+	// Allow custom import actions
+	do_action( 'wpseo_handle_import' );
+
+	/**
+	 * Allow customization of import&export message
+	 * @api  string  $msg  The message.
+	 */
+	$msg = apply_filters( 'wpseo_import_message', $msg );
+
+	// Check if we've deleted old data and adjust message to match it
 	if ( $replace ) {
 		$msg .= __( ', and old data deleted.', 'wordpress-seo' );
 	}
 	if ( $deletekw ) {
 		$msg .= __( ', and meta keywords data deleted.', 'wordpress-seo' );
 	}
+
 }
 
 $wpseo_admin_pages->admin_header( false );
@@ -305,7 +317,7 @@ if ( $msg != '' ) {
 }
 
 $content  = '<p>' . __( 'No doubt you\'ve used an SEO plugin before if this site isn\'t new. Let\'s make it easy on you, you can import the data below. If you want, you can import first, check if it was imported correctly, and then import &amp; delete. No duplicate data will be imported.', 'wordpress-seo' ) . '</p>';
-$content .= '<p>' . sprintf( __( 'If you\'ve used another SEO plugin, try the %sSEO Data Transporter%s plugin to move your data into this plugin, it rocks!', 'wordpress-seo' ), '<a href="http://wordpress.org/extend/plugins/seo-data-transporter/">', '</a>' ) . '</p>';
+$content .= '<p>' . sprintf( __( 'If you\'ve used another SEO plugin, try the %sSEO Data Transporter%s plugin to move your data into this plugin, it rocks!', 'wordpress-seo' ), '<a href="https://wordpress.org/plugins/seo-data-transporter/">', '</a>' ) . '</p>';
 // @todo [JRF => whomever] add action for form tag
 $content .= '<form action="" method="post" accept-charset="' . esc_attr( get_bloginfo( 'charset' ) ) . '">';
 $content .= wp_nonce_field( 'wpseo-import', '_wpnonce', true, false );
@@ -318,16 +330,25 @@ $content .= $wpseo_admin_pages->checkbox( 'deleteolddata', __( 'Delete the old d
 $content .= '<br/>';
 $content .= '<input type="submit" class="button-primary" name="import" value="' . __( 'Import', 'wordpress-seo' ) . '" />';
 $content .= '<br/><br/>';
+
 $content .= '<h2>' . __( 'Import settings from other plugins', 'wordpress-seo' ) . '</h2>';
 $content .= $wpseo_admin_pages->checkbox( 'importrobotsmeta', __( 'Import from Robots Meta (by Yoast)?', 'wordpress-seo' ) );
 $content .= $wpseo_admin_pages->checkbox( 'importrssfooter', __( 'Import from RSS Footer (by Yoast)?', 'wordpress-seo' ) );
 $content .= $wpseo_admin_pages->checkbox( 'importbreadcrumbs', __( 'Import from Yoast Breadcrumbs?', 'wordpress-seo' ) );
+
+/**
+ * Allow option of importing from other 'other' plugins
+ * @api  string  $content  The content containing all import and export methods
+ */
+$content = apply_filters( 'wpseo_import_other_plugins', $content );
+
 $content .= '<br/>';
 $content .= '<input type="submit" class="button-primary" name="import" value="' . __( 'Import', 'wordpress-seo' ) . '" />';
 $content .= '</form><br/>';
 
 $wpseo_admin_pages->postbox( 'import', __( 'Import', 'wordpress-seo' ), $content );
 
+// @todo [Barry => whomever] Are we using this action? Isn't it easier to just add filters to $content above? Might not be able to remove this because of backwards compatibility.
 do_action( 'wpseo_import', $this );
 
 // @todo [JRF => whomever] add action for form tag
@@ -439,6 +460,7 @@ elseif ( isset( $_FILES['settings_import_file'] ) ) {
 		}
 	}
 }
+
 $wpseo_admin_pages->postbox( 'wpseo_export', __( 'Export & Import SEO Settings', 'wordpress-seo' ), $content );
 
 $wpseo_admin_pages->admin_footer( false );

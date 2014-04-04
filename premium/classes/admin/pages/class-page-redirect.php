@@ -17,31 +17,38 @@ class WPSEO_Page_Redirect {
 	public static function display() {
 		global $wpseo_admin_pages;
 
+		// Check if there's an old URL set
+		$old_url = '';
+		if ( isset( $_GET['old_url'] ) ) {
+			$old_url = urldecode( $_GET['old_url'] );
+		}
+
 		// Admin header
 		$wpseo_admin_pages->admin_header( false, 'yoast_wpseo_redirects_options', 'wpseo_redirects' );
 		?>
 		<h2 class="nav-tab-wrapper" id="wpseo-tabs">
-			<a class="nav-tab" id="redirects-tab" href="#top#redirects"><?php _e( 'Redirects', 'wordpress-seo' ); ?></a>
+			<a class="nav-tab" id="tab-url-tab" href="#top#tab-url"><?php _e( 'Redirects', 'wordpress-seo' ); ?></a>
+			<a class="nav-tab" id="tab-regex-tab" href="#top#tab-regex"><?php _e( 'Regex Redirects', 'wordpress-seo' ); ?></a>
 			<a class="nav-tab" id="settings-tab" href="#top#settings"><?php _e( 'Settings', 'wordpress-seo' ); ?></a>
 		</h2>
 
 		<div class="tabwrapper>">
-			<div id="redirects" class="wpseotab">
+			<div id="tab-url" class="wpseotab redirect-table-tab">
 				<?php
 				// Add new redirect HTML
-				echo "<form id='wpseo-new-redirects-form' method='post'>\n";
+				echo "<form class='wpseo-new-redirect-form' method='post'>\n";
 				echo "<div class='wpseo_redirects_new'>\n";
-				echo "<h2>" . __( 'Add new redirect', 'wordpress-seo' ) . "</h2>\n";
+				echo "<h2>" . __( 'Add New Redirect', 'wordpress-seo' ) . "</h2>\n";
 
 				echo "<label class='textinput' for='wpseo_redirects_new_old'>" . __( 'Old URL', 'wordpress-seo' ) . "</label>\n";
-				echo "<input type='text' class='textinput' name='wpseo_redirects_new_old' id='wpseo_redirects_new_old' value='' />\n";
+				echo "<input type='text' class='textinput' name='wpseo_redirects_new_old' id='wpseo_redirects_new_old' value='{$old_url}' />\n";
 				echo "<br class='clear'/>\n";
 
 				echo "<label class='textinput' for='wpseo_redirects_new_new'>" . __( 'New URL', 'wordpress-seo' ) . "</label>\n";
 				echo "<input type='text' class='textinput' name='wpseo_redirects_new_new' id='wpseo_redirects_new_new' value='' />\n";
 				echo "<br class='clear'/>\n";
 
-				echo "<a href='javascript:;' class='button-primary'>" . __( 'Add redirect', 'wordpress-seo' ) . "</a>\n";
+				echo "<a href='javascript:;' class='button-primary'>" . __( 'Add Redirect', 'wordpress-seo' ) . "</a>\n";
 
 				echo "</div>\n";
 				echo "</form>\n";
@@ -49,38 +56,51 @@ class WPSEO_Page_Redirect {
 				echo "<p class='desc'>&nbsp;</p>\n";
 
 				// Open <form>
-				echo "<form id='wpseo-redirects-table-form' method='post' action=''>\n";
+				echo "<form id='url' class='wpseo-redirects-table-form' method='post' action=''>\n";
 
 				// AJAX nonce
 				echo "<input type='hidden' class='wpseo_redirects_ajax_nonce' value='" . wp_create_nonce( 'wpseo-redirects-ajax-security' ) . "' />\n";
 
-				/**
-				 * Catch new redirects sent from crawl issues
-				 */
-				/*
-				$redirects = array();
-				if ( isset( $_GET['create_redirect'] ) ) {
-					$redirects = array( $_GET['create_redirect'] );
-				} elseif ( isset( $_POST['create_redirects'] ) ) {
-					$redirects = $_POST['create_redirects'];
-				}
+				// The list table
+				$list_table = new WPSEO_Redirect_Table( 'URL' );
+				$list_table->prepare_items();
+				$list_table->search_box( __( 'Search', 'wordpress-seo' ), 'wpseo-redirect-search' );
+				$list_table->display();
 
-				// Remove apostrophes like this because we can't use json_encode options, yah for PHP 5.2.0
-				if ( count( $redirects ) > 0 ) {
-					foreach ( $redirects as $key => $redirect ) {
-						$redirect = str_ireplace( "'", '', $redirect );
-						$redirect = str_ireplace( '"', '', $redirect );
-						$redirects[$key] = $redirect;
-					}
-				}
+				// Close <form>
+				echo "</form>\n";
+				?>
+			</div>
+			<div id="tab-regex" class="wpseotab redirect-table-tab">
+				<?php
+				// Add new redirect HTML
+				echo "<form class='wpseo-new-redirect-form' method='post'>\n";
+				echo "<div class='wpseo_redirects_new'>\n";
+				echo "<h2>" . __( 'Add New Regex Redirect', 'wordpress-seo' ) . "</h2>\n";
 
-				if ( count( $redirects ) > 0 ) {
-					echo "<input type='text' class='wpseo_redirects_crawl_issues' value='" . json_encode( $redirects ) . "' />\n";
-				}
-				*/
+				echo "<label class='textinput' for='wpseo_redirects_new_old'>" . __( 'REGEX', 'wordpress-seo' ) . "</label>\n";
+				echo "<input type='text' class='textinput' name='wpseo_redirects_new_old' id='wpseo_redirects_new_old' value='{$old_url}' />\n";
+				echo "<br class='clear'/>\n";
+
+				echo "<label class='textinput' for='wpseo_redirects_new_new'>" . __( 'URL', 'wordpress-seo' ) . "</label>\n";
+				echo "<input type='text' class='textinput' name='wpseo_redirects_new_new' id='wpseo_redirects_new_new' value='' />\n";
+				echo "<br class='clear'/>\n";
+
+				echo "<a href='javascript:;' class='button-primary'>" . __( 'Add Regex Redirect', 'wordpress-seo' ) . "</a>\n";
+
+				echo "</div>\n";
+				echo "</form>\n";
+
+				echo "<p class='desc'>&nbsp;</p>\n";
+
+				// Open <form>
+				echo "<form id='regex' class='wpseo-redirects-table-form' method='post' action=''>\n";
+
+				// AJAX nonce
+				echo "<input type='hidden' class='wpseo_redirects_ajax_nonce' value='" . wp_create_nonce( 'wpseo-redirects-ajax-security' ) . "' />\n";
 
 				// The list table
-				$list_table = new WPSEO_Redirect_Table();
+				$list_table = new WPSEO_Redirect_Table( 'REGEX' );
 				$list_table->prepare_items();
 				$list_table->search_box( __( 'Search', 'wordpress-seo' ), 'wpseo-redirect-search' );
 				$list_table->display();

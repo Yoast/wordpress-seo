@@ -41,10 +41,9 @@ class WPSEO_GWT_Service {
 
 			if ( count( $response_xml->entry ) > 0 ) {
 				foreach ( $response_xml->entry as $entry ) {
-					$sites[(string) $entry->id] = (string) $entry->title;
+					$sites[str_ireplace( 'sites/', '', (string) $entry->id )] = (string) $entry->title;
 				}
 			}
-
 
 		}
 
@@ -58,13 +57,10 @@ class WPSEO_GWT_Service {
 	 *
 	 * @return array
 	 */
-	public function get_crawl_issues( $site_url ) {
+	public function get_crawl_issues() {
 
 		// Setup crawl error list
 		$crawl_issues = array();
-
-		// Encode url
-		$site_url = urlencode( $site_url );
 
 		// Issues per page
 		$per_page = 100;
@@ -73,6 +69,10 @@ class WPSEO_GWT_Service {
 		// We always have issues on first request
 		$has_more_issues = true;
 
+		$crawl_issue_manager = new WPSEO_Crawl_Issue_Manager();
+
+		$profile_url = $crawl_issue_manager->get_profile();
+
 		// Do multiple request
 		while ( true === $has_more_issues ) {
 
@@ -80,7 +80,9 @@ class WPSEO_GWT_Service {
 			$has_more_issues = false;
 
 			// Do request
-			$request = new Google_HttpRequest( "https://www.google.com/webmasters/tools/feeds/" . $site_url . "/crawlissues/?max-results=" . $per_page . "&start-index=" . ( ( $per_page * $cur_page ) + 1 ) );
+//			$url = "https://www.google.com/webmasters/tools/feeds/" . $site_url . "/crawlissues/?max-results=" . $per_page . "&start-index=" . ( ( $per_page * $cur_page ) + 1 );
+			$url = $profile_url . "/crawlissues/?max-results=" . $per_page . "&start-index=" . ( ( $per_page * $cur_page ) + 1 );
+			$request = new Google_HttpRequest( $url );
 
 			// Get list sites response
 			$response = $this->client->getIo()->authenticatedRequest( $request );
@@ -95,7 +97,7 @@ class WPSEO_GWT_Service {
 				if ( count( $response_xml->entry ) > 0 ) {
 
 					// Count, future use itemsperpage in Google reponse
-					if( 100 == count( $response_xml->entry ) ) {
+					if ( 100 == count( $response_xml->entry ) ) {
 						// We have issues
 						$has_more_issues = true;
 					}
@@ -103,7 +105,7 @@ class WPSEO_GWT_Service {
 					// Loop
 					foreach ( $response_xml->entry as $entry ) {
 						$wt             = $entry->children( 'wt', true );
-						$crawl_issues[] = new WPSEO_Crawl_Issue( WPSEO_Redirect_Manager::format_url( (string) $wt->url ), (string) $wt->{'crawl-type'}, (string) $wt->{'issue-type'}, new DateTime( (string) $wt->{'date-detected'} ), (string) $wt->{'detail'}, (array) $wt->{'linked-from'} );
+						$crawl_issues[] = new WPSEO_Crawl_Issue( WPSEO_Redirect_Manager::format_url( (string) $wt->url ), (string) $wt->{'crawl-type'}, (string) $wt->{'issue-type'}, new DateTime( (string) $wt->{'date-detected'} ), (string) $wt->{'detail'}, (array) $wt->{'linked-from'}, false );
 					}
 
 				}
@@ -114,7 +116,6 @@ class WPSEO_GWT_Service {
 			$cur_page ++;
 
 		}
-
 
 		return $crawl_issues;
 	}

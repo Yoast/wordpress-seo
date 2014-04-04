@@ -20,11 +20,13 @@ class WPSEO_Premium {
 
 	const OPTION_CURRENT_VERSION = 'wpseo_current_version';
 
-	const PLUGIN_VERSION_NAME = '1.0.8';
-	const PLUGIN_VERSION_CODE = '9';
-	const PLUGIN_AUTHOR       = 'Yoast';
-	const EDD_STORE_URL       = 'https://yoast.com';
-	const EDD_PLUGIN_NAME     = 'WordPress SEO Premium';
+	const PLUGIN_VERSION_NAME = '1.1.0';
+	const PLUGIN_VERSION_CODE = '10';
+	const PLUGIN_AUTHOR = 'Yoast';
+	const EDD_STORE_URL = 'https://yoast.com';
+	const EDD_PLUGIN_NAME = 'WordPress SEO Premium';
+
+	private $page_gwt = null;
 
 	/**
 	 * Function that will be executed when plugin is activated
@@ -58,8 +60,8 @@ class WPSEO_Premium {
 			$plugin_updater->check_update();
 
 
-			// Initiate GWT class
-			WPSEO_GWT::get();
+			// Create pages
+			$this->page_gwt = new WPSEO_Page_GWT();
 
 			// Disable WordPress SEO
 			add_action( 'admin_init', array( $this, 'disable_wordpress_seo' ), 1 );
@@ -74,16 +76,34 @@ class WPSEO_Premium {
 			// Post to Get on search
 			add_action( 'admin_init', array( $this, 'list_table_search_post_to_get' ) );
 
+			// Add the GWT crawl error post type
+			add_action( 'admin_init', array( $this, 'register_gwt_crawl_error_post_type' ) );
+
 			// Check if WPSEO_DISABLE_PHP_REDIRECTS is defined
 			if ( defined( 'WPSEO_DISABLE_PHP_REDIRECTS' ) && true === WPSEO_DISABLE_PHP_REDIRECTS ) {
-				// Constant is set, change autoload to off
-				WPSEO_Redirect_Manager::redirects_change_autoload( false );
+
+				// Change the normal redirect autoload option
+				$normal_redirect_manager = new WPSEO_URL_Redirect_Manager();
+				$normal_redirect_manager->redirects_change_autoload( false );
+
+				// Change the regex redirect autoload option
+				$regex_redirect_manager = new WPSEO_REGEX_Redirect_Manager();
+				$regex_redirect_manager->redirects_change_autoload( false );
+
 			} else {
 				$options = WPSEO_Redirect_Manager::get_options();
 
 				// If the disable_php_redirect option is not enabled we should enable auto loading redirects
 				if ( 'off' == $options['disable_php_redirect'] ) {
-					WPSEO_Redirect_Manager::redirects_change_autoload( true );
+
+					// Change the normal redirect autoload option
+					$normal_redirect_manager = new WPSEO_URL_Redirect_Manager();
+					$normal_redirect_manager->redirects_change_autoload( true );
+
+					// Change the regex redirect autoload option
+					$regex_redirect_manager = new WPSEO_REGEX_Redirect_Manager();
+					$regex_redirect_manager->redirects_change_autoload( true );
+
 				}
 			}
 
@@ -94,8 +114,8 @@ class WPSEO_Premium {
 			add_action( 'admin_init', array( $this, 'catch_option_redirect_save' ) );
 
 			// Screen options
-			add_filter( 'set-screen-option', array( 'WPSEO_Page_Redirect', 'set_screen_option' ), 10, 3 );
-			add_filter( 'set-screen-option', array( 'WPSEO_Page_GWT', 'set_screen_option' ), 10, 3 );
+			add_filter( 'set-screen-option', array( 'WPSEO_Page_Redirect', 'set_screen_option' ), 11, 3 );
+			add_filter( 'set-screen-option', array( $this->page_gwt, 'set_screen_option' ), 11, 3 );
 
 			// Licensing part
 			$license_manager = new Yoast_Plugin_License_Manager( new Yoast_Product_WPSEO_Premium() );
@@ -103,25 +123,55 @@ class WPSEO_Premium {
 			// Setup constant name
 			$license_manager->set_license_constant_name( 'WPSEO_LICENSE' );
 
-			// Setup hooks
+			// Setup license hooks
 			$license_manager->setup_hooks();
 
 			// Add this plugin to licensing form
-			add_action( 'wpseo_licenses_forms', array( $license_manager, 'show_license_form') );
+			add_action( 'wpseo_licenses_forms', array( $license_manager, 'show_license_form' ) );
 
 			if ( $license_manager->license_is_valid() ) {
 				add_action( 'admin_head', array( $this, 'admin_css' ) );
 			}
 
+			// Crawl Issue Manager AJAX hooks
+			$crawl_issue_manager = new WPSEO_Crawl_Issue_Manager();
+			add_action( 'wp_ajax_wpseo_ignore_crawl_issue', array( $crawl_issue_manager, 'ajax_ignore_crawl_issue' ) );
+			add_action( 'wp_ajax_wpseo_unignore_crawl_issue', array( $crawl_issue_manager, 'ajax_unignore_crawl_issue' ) );
+
+			// Add Premium imports
+			$premium_import_manager = new WPSEO_Premium_Import_Manager();
+
+			// Allow option of importing from other 'other' plugins
+			add_filter( 'wpseo_import_other_plugins', array( $premium_import_manager, 'filter_add_premium_import_options' ) );
+
+			// Handle premium imports
+			add_action( 'wpseo_handle_import', array( $premium_import_manager, 'do_premium_imports' ) );
+
 		} else {
 			// Catch redirect
-			add_action( 'template_redirect', array( 'WPSEO_Redirect_Manager', 'do_redirects' ) );
+			$normal_redirect_manager = new WPSEO_URL_Redirect_Manager();
+			add_action( 'template_redirect', array( $normal_redirect_manager, 'do_redirects' ) );
+
+			// Catch redirect
+			$regex_redirect_manager = new WPSEO_REGEX_Redirect_Manager();
+			add_action( 'template_redirect', array( $regex_redirect_manager, 'do_redirects' ) );
+
+			// Add 404 redirect link to WordPress toolbar
+			add_action( 'admin_bar_menu', array( $this, 'admin_bar_menu' ), 96 );
 		}
 
-		// AJAX
-		add_action( 'wp_ajax_wpseo_save_redirect', array( 'WPSEO_Redirect_Manager', 'ajax_handle_redirect_save' ) );
-		add_action( 'wp_ajax_wpseo_delete_redirect', array( 'WPSEO_Redirect_Manager', 'ajax_handle_redirect_delete' ) );
-		add_action( 'wp_ajax_wpseo_create_redirect', array( 'WPSEO_Redirect_Manager', 'ajax_handle_redirect_create' ) );
+		// Normal Redirect AJAX
+		$redirect_manager = new WPSEO_URL_Redirect_Manager();
+		add_action( 'wp_ajax_wpseo_save_redirect_url', array( $redirect_manager, 'ajax_handle_redirect_save' ) );
+		add_action( 'wp_ajax_wpseo_delete_redirect_url', array( $redirect_manager, 'ajax_handle_redirect_delete' ) );
+		add_action( 'wp_ajax_wpseo_create_redirect_url', array( $redirect_manager, 'ajax_handle_redirect_create' ) );
+
+		// Regex Redirect AJAX
+		$redirect_manager = new WPSEO_REGEX_Redirect_Manager();
+		add_action( 'wp_ajax_wpseo_save_redirect_regex', array( $redirect_manager, 'ajax_handle_redirect_save' ) );
+		add_action( 'wp_ajax_wpseo_delete_redirect_regex', array( $redirect_manager, 'ajax_handle_redirect_delete' ) );
+		add_action( 'wp_ajax_wpseo_create_redirect_regex', array( $redirect_manager, 'ajax_handle_redirect_create' ) );
+
 	}
 
 	/**
@@ -133,17 +183,21 @@ class WPSEO_Premium {
 
 		// General includes
 		require_once( WPSEO_PREMIUM_PATH . 'classes/general/class-redirect-manager.php' );
+		require_once( WPSEO_PREMIUM_PATH . 'classes/general/class-url-redirect-manager.php' );
+		require_once( WPSEO_PREMIUM_PATH . 'classes/general/class-regex-redirect-manager.php' );
 
 		// Separate backend and frontend files
 		if ( is_admin() ) {
 
 			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-gwt-google-client.php' );
 			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-gwt-service.php' );
-			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-gwt.php' );
+			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-gwt-authentication.php' );
 			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/pages/class-page-gwt.php' );
 
 			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-crawl-issue.php' );
 			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-crawl-issue-table.php' );
+			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-crawl-issue-manager.php' );
+
 			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-redirect-file-manager.php' );
 			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-redirect-file.php' );
 			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-nginx-redirect-file.php' );
@@ -156,6 +210,8 @@ class WPSEO_Premium {
 			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-upgrade-manager.php' );
 
 			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-product-wpseo-premium.php' );
+
+			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-premium-import-manager.php' );
 		}
 
 	}
@@ -170,6 +226,39 @@ class WPSEO_Premium {
 	}
 
 	/**
+	 * Add 'Create Redirect' option to admin bar menu on 404 pages
+	 */
+	public function admin_bar_menu() {
+
+		if ( is_404() ) {
+			global $wp, $wp_admin_bar;
+
+			$parsed_url = parse_url( home_url( add_query_arg( null, null ) ) );
+
+			if ( false !== $parsed_url ) {
+				$old_url = urlencode( $parsed_url['path'] );
+
+					$wp_admin_bar->add_menu( array(
+						'id' => 'wpseo-premium-create-redirect',
+						'title' => __( 'Create Redirect', 'what-the-file' ),
+						'href' => admin_url( 'admin.php?page=wpseo_redirects&old_url=' . $old_url )
+					) );
+			}
+
+		}
+	}
+
+	/**
+	 * Register the GWT Crawl Error post type
+	 */
+	public function register_gwt_crawl_error_post_type() {
+		register_post_type( WPSEO_Crawl_Issue_Manager::PT_CRAWL_ISSUE, array(
+				'public' => false,
+				'label'  => 'WordPress SEO GWT Crawl Error'
+			) );
+	}
+
+	/**
 	 * Function adds the premium pages to the WordPress SEO menu
 	 *
 	 * @param $submenu_pages
@@ -177,8 +266,24 @@ class WPSEO_Premium {
 	 * @return array
 	 */
 	public function add_submenu_pages( $submenu_pages ) {
-		$submenu_pages[] = array( 'wpseo_dashboard', __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Redirects', 'wordpress-seo' ), __( 'Redirects', 'wordpress-seo' ), 'manage_options', 'wpseo_redirects', array( 'WPSEO_Page_Redirect', 'display' ), array( array( 'WPSEO_Page_Redirect', 'page_load' ) ) );
-		$submenu_pages[] = array( 'wpseo_dashboard', __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Webmaster Tools', 'wordpress-seo' ), __( 'Webmaster Tools', 'wordpress-seo' ), 'manage_options', 'wpseo_webmaster_tools', array( 'WPSEO_Page_GWT', 'display' ), array( array( 'WPSEO_Page_GWT', 'page_load' ) ) );
+		$submenu_pages[] = array(
+			'wpseo_dashboard',
+			__( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Redirects', 'wordpress-seo' ),
+			__( 'Redirects', 'wordpress-seo' ),
+			'manage_options',
+			'wpseo_redirects',
+			array( 'WPSEO_Page_Redirect', 'display' ),
+			array( array( 'WPSEO_Page_Redirect', 'page_load' ) )
+		);
+		$submenu_pages[] = array(
+			'wpseo_dashboard',
+			__( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Webmaster Tools', 'wordpress-seo' ),
+			__( 'Webmaster Tools', 'wordpress-seo' ),
+			'manage_options',
+			'wpseo_webmaster_tools',
+			array( $this->page_gwt, 'display' ),
+			array( array( $this->page_gwt, 'page_load' ) )
+		);
 
 		return $submenu_pages;
 	}
@@ -202,6 +307,18 @@ class WPSEO_Premium {
 	 */
 	public function register_settings() {
 		register_setting( 'yoast_wpseo_redirect_options', 'wpseo_redirect' );
+		register_setting( 'yoast_wpseo_gwt_options', 'wpseo-premium-gwt', array( $this, 'gwt_sanatize_callback' ) );
+	}
+
+	public function gwt_sanatize_callback( $setting ) {
+		$crawl_issue_manager = new WPSEO_Crawl_Issue_Manager();
+
+		// Remove last check if new profile is selected
+		if ( $crawl_issue_manager->get_profile() != $setting['profile'] ) {
+			$crawl_issue_manager->remove_last_checked();
+		}
+
+		return $setting;
 	}
 
 	/**
@@ -210,7 +327,15 @@ class WPSEO_Premium {
 	public function catch_option_redirect_save() {
 		if ( isset ( $_POST['option_page'] ) && $_POST['option_page'] == 'yoast_wpseo_redirect_options' ) {
 			$enable_autoload = ( isset ( $_POST['wpseo_redirect']['disable_php_redirect'] ) ) ? false : true;
-			WPSEO_Redirect_Manager::redirects_change_autoload( $enable_autoload );
+
+			// Change the normal redirect autoload option
+			$normal_redirect_manager = new WPSEO_URL_Redirect_Manager();
+			$normal_redirect_manager->redirects_change_autoload( $enable_autoload );
+
+			// Change the regex redirect autoload option
+			$regex_redirect_manager = new WPSEO_REGEX_Redirect_Manager();
+			$regex_redirect_manager->redirects_change_autoload( $enable_autoload );
+
 		}
 	}
 
