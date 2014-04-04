@@ -951,15 +951,21 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 
 		/**
 		 * Output the rel=publisher code on every page of the site.
+		 * @return boolean Boolean indicating whether the publisher link was printed
 		 */
 		public function publisher() {
+
 			if ( $this->options['plus-publisher'] !== '' ) {
 				echo '<link rel="publisher" href="' . esc_url( $this->options['plus-publisher'] ) . '"/>' . "\n";
+				return true;
 			}
+
+			return false;
 		}
 
 		/**
 		 * Outputs the rel=author
+		 * @return boolean Boolean indiciting whether the autor link was printed
 		 */
 		public function author() {
 			global $post;
@@ -994,7 +1000,10 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 
 			if ( is_string( $gplus ) && $gplus !== '' ) {
 				echo '<link rel="author" href="' . esc_url( $gplus ) . '"/>' . "\n";
+				return true;
 			}
+
+			return false;
 		}
 
 		/**
@@ -1152,20 +1161,23 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 		/**
 		 * Based on the redirect meta value, this function determines whether it should redirect the current post / page.
 		 *
-		 * @return mixed
+		 * @return boolean
 		 */
 		function page_redirect() {
 			if ( is_singular() ) {
 				global $post;
 				if ( ! isset( $post ) || ! is_object( $post ) ) {
-					return;
+					return false;
 				}
+
 				$redir = WPSEO_Meta::get_value( 'redirect', $post->ID );
 				if ( $redir !== '' ) {
 					wp_redirect( $redir, 301 );
 					exit;
 				}
 			}
+
+			return false;
 		}
 
 		/**
@@ -1180,11 +1192,16 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 		 * to follow the links in the object at the URL.
 		 *
 		 * @since 1.1.7
+		 * @return boolean Boolean indicating whether the noindex header was sent
 		 */
 		public function noindex_feed() {
+
 			if ( ( is_feed() || is_robots() ) && headers_sent() === false ) {
 				header( 'X-Robots-Tag: noindex,follow', true );
+				return true;
 			}
+
+			return false;
 		}
 
 		/**
@@ -1200,6 +1217,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 
 		/**
 		 * When certain archives are disabled, this redirects those to the homepage.
+		 * @return boolean False when no redirect was triggered
 		 */
 		function archive_redirect() {
 			global $wp_query;
@@ -1212,12 +1230,15 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 				wp_safe_redirect( get_bloginfo( 'url' ), 301 );
 				exit;
 			}
+
+			return false;
 		}
 
 		/**
 		 * If the option to redirect attachments to their parent is checked, this performs the redirect.
 		 *
 		 * An extra check is done for when the attachment has no parent.
+		 * @return boolean False when no redirect was triggered
 		 */
 		function attachment_redirect() {
 			global $post;
@@ -1225,6 +1246,8 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 				wp_safe_redirect( get_permalink( $post->post_parent ), 301 );
 				exit;
 			}
+
+			return false;
 		}
 
 		/**
