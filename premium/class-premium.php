@@ -238,7 +238,7 @@ class WPSEO_Premium {
 			if ( false !== $parsed_url ) {
 				$old_url = urlencode( $parsed_url['path'] );
 
-				$wp_admin_bar->add_menu( array(
+					$wp_admin_bar->add_menu( array(
 						'id' => 'wpseo-premium-create-redirect',
 						'title' => __( 'Create Redirect', 'what-the-file' ),
 						'href' => admin_url( 'admin.php?page=wpseo_redirects&old_url=' . $old_url )

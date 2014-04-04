@@ -11,6 +11,11 @@ interface iWPSEO_Redirect_File {
 
 abstract class WPSEO_Redirect_File implements iWPSEO_Redirect_File {
 
+	/**
+	 * Generate file content
+	 *
+	 * @return string
+	 */
 	private function generate_file_content() {
 		$file_content = "";
 
@@ -25,6 +30,11 @@ abstract class WPSEO_Redirect_File implements iWPSEO_Redirect_File {
 		return $file_content;
 	}
 
+	/**
+	 * Save the redirect file
+	 *
+	 * @return bool
+	 */
 	public function save_file() {
 
 		// Generate file content
