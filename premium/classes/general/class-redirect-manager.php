@@ -92,10 +92,8 @@ abstract class WPSEO_Redirect_Manager {
 		$file = null;
 		if ( wpseo_is_apache() ) {
 			$file = new WPSEO_Apache_Redirect_File();
-		} else {
-			if ( wpseo_is_nginx() ) {
-				$file = new WPSEO_Nginx_Redirect_File();
-			}
+		} elseif ( wpseo_is_nginx() ) {
+			$file = new WPSEO_Nginx_Redirect_File();
 		}
 
 		// Save the file
@@ -118,14 +116,14 @@ abstract class WPSEO_Redirect_Manager {
 		$redirects = $this->get_redirects();
 
 		// Remove old redirect
-		if ( isset( $redirects[$old_redirect_arr['key']] ) ) {
+		if ( isset( $redirects[ $old_redirect_arr['key'] ] ) ) {
 
-			unset( $redirects[$old_redirect_arr['key']] );
+			unset( $redirects[ $old_redirect_arr['key'] ] );
 
 		}
 
 		// Format the URL is it's an URL
-		if( $this instanceof WPSEO_URL_Redirect_Manager ) {
+		if ( $this instanceof WPSEO_URL_Redirect_Manager ) {
 			$new_redirect_arr['key'] = self::format_url( $new_redirect_arr['key'] );
 		}
 
@@ -151,12 +149,12 @@ abstract class WPSEO_Redirect_Manager {
 		$redirects = $this->get_redirects();
 
 		// Don't add redirect if already exists
-		if ( isset ( $redirects[$old_value] ) ) {
+		if ( isset ( $redirects[ $old_value ] ) ) {
 			return false;
 		}
 
 		// Add new redirect
-		$redirects[$old_value] = $new_value;
+		$redirects[ $old_value ] = $new_value;
 
 		// Save redirects
 		$this->save_redirects( $redirects );
@@ -177,7 +175,7 @@ abstract class WPSEO_Redirect_Manager {
 		if ( count( $redirects ) > 0 ) {
 			if ( is_array( $delete_redirects ) && count( $delete_redirects ) > 0 ) {
 				foreach ( $delete_redirects as $delete_redirects ) {
-					unset( $redirects[$delete_redirects] );
+					unset( $redirects[ $delete_redirects ] );
 				}
 			}
 		}
@@ -291,7 +289,7 @@ abstract class WPSEO_Redirect_Manager {
 
 		// Prepend a slash if first char != slash
 		if ( stripos( $parsed_url['path'], '/' ) !== 0 ) {
-			$parsed_url['path']  = '/' . $parsed_url['path'] ;
+			$parsed_url['path'] = '/' . $parsed_url['path'];
 		}
 
 		return apply_filters( 'wpseo_premium_format_admin_url', $parsed_url['path'] );
