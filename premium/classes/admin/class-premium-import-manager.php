@@ -52,18 +52,22 @@ class WPSEO_Premium_Import_Manager {
 				return;
 			}
 
-			/**
-			 * @todo also import regex redirects
-			 */
-
 			// Get redirects
-			$items = $wpdb->get_results( "SELECT `url`, `action_data` FROM {$wpdb->prefix}redirection_items WHERE `status` = 'enabled' AND `action_type` = 'url' AND `regex` = 0" );
+			$items = $wpdb->get_results( "SELECT `url`, `action_data`, `regex` FROM {$wpdb->prefix}redirection_items WHERE `status` = 'enabled' AND `action_type` = 'url'" );
 
 			// Loop and add redirect to WordPress Premium
 			if ( count( $items ) > 0 ) {
-				$url_redirection_manager = new WPSEO_URL_Redirect_Manager();
+				$url_redirection_manager    = new WPSEO_URL_Redirect_Manager();
+				$regex_redirection_manager  = new WPSEO_REGEX_Redirect_Manager();
 				foreach ( $items as $item ) {
-					$url_redirection_manager->create_redirect( $item->url, $item->action_data );
+
+					//
+					if ( 1 == $item->regex ) {
+						$regex_redirection_manager->create_redirect( $item->url, $item->action_data );
+					} else {
+						$url_redirection_manager->create_redirect( $item->url, $item->action_data );
+					}
+
 				}
 
 				// Add success message
