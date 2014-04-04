@@ -87,18 +87,16 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	public function test_og_tag() {
 		
 		// there should be no output when $content is empty
-		$this->expectOutputString( '' );
-		$this->assertFalse( $this->class_instance->og_tag( 'property', '' ) );	
+		$this->assertFalse( $this->class_instance->og_tag( 'property', '' ) );
+		$this->expectOutput( '' );	
 
 		// true when $content is not empty
-		$this->expectOutputString( '<meta property="property" content="content" />' . "\n" );
 		$this->assertTrue( $this->class_instance->og_tag( 'property', 'content' ) );	
-		ob_clean();
+		$this->expectOutput( '<meta property="property" content="content" />' . "\n" );
 
 		// test escaping
-		$this->expectOutputString( '<meta property="property &quot;with quotes&quot;" content="content &quot;with quotes&quot;" />' . "\n" );
 		$this->assertTrue( $this->class_instance->og_tag( 'property "with quotes"', 'content "with quotes"' ) );	
-		
+		$this->expectOutput( '<meta property="property &quot;with quotes&quot;" content="content &quot;with quotes&quot;" />' . "\n" );
 	}
 
 	/**
@@ -114,8 +112,8 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		add_user_meta( $author, 'facebook', 'facebook_author' );
 
 		// test final output
-		$this->expectOutputString( '<meta property="article:author" content="facebook_author" />' . "\n" );
 		$this->assertTrue( $this->class_instance->article_author_facebook() );
+		$this->expectOutput( '<meta property="article:author" content="facebook_author" />' . "\n" );
 
 		// test not on singular page
 		$this->go_to_home();
@@ -133,8 +131,8 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		$this->class_instance->options['facebook_site'] = 'http://facebook.com/mysite/';
 
 		// test output
-		$this->expectOutputString( '<meta property="article:publisher" content="http://facebook.com/mysite/" />' . "\n" );
 		$this->assertTrue( $this->class_instance->website_facebook() );
+		$this->expectOutput( '<meta property="article:publisher" content="http://facebook.com/mysite/" />' . "\n" );
 	}
 
 	public function test_site_owner() {
@@ -144,11 +142,11 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	}
 
 	public function test_og_title() {
-		$expected_title = "Sample Post - Test Blog";
+		$expected_title = $this->class_instance->title( '' );
 		$expected_html = '<meta property="og:title" content="'.$expected_title.'" />' . "\n";
 
-		$this->expectOutputString( $expected_html );
 		$this->assertTrue( $this->class_instance->og_title() );
+		$this->expectOutput( $expected_html );
 
 		$this->assertEquals( $this->class_instance->og_title( false ), $expected_title );
 
@@ -157,8 +155,8 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	public function test_url() {
 		$expected_url = get_permalink( $this->post_id );
 
-		$this->expectOutputString( '<meta property="og:url" content="' . $expected_url . '" />' . "\n" );
 		$this->assertTrue( $this->class_instance->url() );
+		$this->expectOutput( '<meta property="og:url" content="' . $expected_url . '" />' . "\n" );
 	}
 
 	public function test_type() {
@@ -181,8 +179,8 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		$img_url = home_url('absolute-image.jpg');
 
 		// test with absolute image
-		$this->expectOutputString( '<meta property="og:image" content="' . $img_url . '" />' . "\n" );
 		$this->assertTrue( $this->class_instance->image_output( $img_url ) );
+		$this->expectOutput( '<meta property="og:image" content="' . $img_url . '" />' . "\n" );
 
 		// do not output same image twice
 		$this->assertFalse( $this->class_instance->image_output( $img_url ) );
@@ -191,8 +189,8 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		ob_clean();
 		$relative_img_url = '/relative-image.jpg';
 		$absolute_img_url = home_url( $relative_img_url );
-		$this->expectOutputString( '<meta property="og:image" content="' . $absolute_img_url . '" />' . "\n" );
 		$this->assertTrue( $this->class_instance->image_output( $relative_img_url ) );
+		$this->expectOutput( '<meta property="og:image" content="' . $absolute_img_url . '" />' . "\n" );
 	}
 
 	public function test_tags() {
@@ -205,8 +203,8 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		$expected_tags = '<meta property="article:tag" content="Tag1" />' . "\n" . '<meta property="article:tag" content="Tag2" />' . "\n";
 		
 		// test again, this time with tags
-		$this->expectOutputString( $expected_tags );
 		$this->assertTrue( $this->class_instance->tags() );
+		$this->expectOutput( $expected_tags );
 
 		// not singular, return false
 		$this->go_to_home();
@@ -219,8 +217,8 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	public function test_category() {	
 
 		// Test category
-		$this->expectOutputString( '<meta property="article:section" content="WordPress SEO" />' . "\n" );
 		$this->assertTrue( $this->class_instance->category() );
+		$this->expectOutput( '<meta property="article:section" content="WordPress SEO" />' . "\n" );
 
 		// not singular, should return false
 		$this->go_to_home();
@@ -242,8 +240,8 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		// test published_time tags output
 		$published_time = get_the_date( 'c' );
 		$published_output = '<meta property="article:published_time" content="' . $published_time . '" />' . "\n";
-		$this->expectOutputString( $published_output );
 		$this->assertTrue( $this->class_instance->publish_date() );	
+		$this->expectOutput( $published_output );
 
 		ob_clean();
 
@@ -256,9 +254,8 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		// test modified tags output
 		$modified_time = get_the_modified_date( 'c' );
 		$modified_output = '<meta property="article:modified_time" content="' . $modified_time . '" />' . "\n" . '<meta property="og:updated_time" content="' . $modified_time . '" />' . "\n";
-		$this->expectOutputString( $published_output . $modified_output );
 		$this->assertTrue( $this->class_instance->publish_date() );
-
+		$this->expectOutput( $published_output . $modified_output );
 	}
 
 	private function go_to_post() {
