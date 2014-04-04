@@ -25,7 +25,7 @@ class WPSEO_GWT_Google_Client extends Google_Client {
 		$this->setScopes( array( 'https://www.google.com/webmasters/tools/feeds/' ) );
 
 		// Let's get an access token if we've got a refresh token
-		$refresh_token = get_option( self::OPTION_REFRESH_TOKEN, '' );
+		$refresh_token = $this->get_refresh_token();
 		if ( '' != $refresh_token ) {
 
 			// Refresh the token
@@ -47,6 +47,24 @@ class WPSEO_GWT_Google_Client extends Google_Client {
 
 		}
 
+	}
+
+	/**
+	 * Save the refresh token
+	 *
+	 * @param $refresh_token
+	 */
+	public function save_refresh_token( $refresh_token ) {
+		update_option( self::OPTION_REFRESH_TOKEN, $refresh_token );
+	}
+
+	/**
+	 * Return refresh token
+	 *
+	 * @return string
+	 */
+	public function get_refresh_token() {
+		return get_option( self::OPTION_REFRESH_TOKEN, '' );
 	}
 
 }

@@ -28,7 +28,7 @@ class WPSEO_GWT_Authentication {
 				if ( is_object( $response ) ) {
 
 					// Save the refresh token
-					$this->save_refresh_token( $response->refresh_token );
+					$client->save_refresh_token( $response->refresh_token );
 
 					return true;
 
