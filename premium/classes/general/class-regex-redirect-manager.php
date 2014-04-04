@@ -45,7 +45,7 @@ class WPSEO_REGEX_Redirect_Manager extends WPSEO_Redirect_Manager {
 			foreach ( $redirects as $regex => $target_url ) {
 
 				// Check if the URL matches the $regex
-				if ( 1 === @preg_match( "/{$regex}/", $url, $this->url_matches ) ) {
+				if ( 1 === @preg_match( "`{$regex}`", $url, $this->url_matches ) ) {
 
 					// Replace the $regex vars with URL matches
 					$redirect_url = preg_replace_callback( "/[\$0-9]+/", array(
