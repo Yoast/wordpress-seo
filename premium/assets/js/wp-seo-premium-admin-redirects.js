@@ -8,6 +8,10 @@
 
 		var table = object.find('table');
 
+		this.encode = function( str ) {
+			return encodeURIComponent( str );
+		};
+
 		this.edit_row = function (row, cancellable) {
 
 			// Add row edit class
@@ -72,7 +76,7 @@
 						{
 							action    : 'wpseo_delete_redirect_' + type,
 							ajax_nonce: $('.wpseo_redirects_ajax_nonce').val(),
-							redirect  : { key: encodeURI($(row).find('.val').eq(0).html().toString()), value: encodeURI($(row).find('.val').eq(1).html().toString()) }
+							redirect  : { key: object.encode($(row).find('.val').eq(0).html().toString()), value: object.encode($(row).find('.val').eq(1).html().toString()) }
 						},
 						function (response) {
 						}
@@ -116,12 +120,12 @@
 			}
 
 			// Encode old URL's
-			var data_old_url = encodeURI($(row).data('old_redirect').key);
-			var data_new_url = encodeURI($(row).data('old_redirect').value);
+			var data_old_url = object.encode($(row).data('old_redirect').key);
+			var data_new_url = object.encode($(row).data('old_redirect').value);
 
 			// Encode new URL's
-			old_url = encodeURI(old_url);
-			new_url = encodeURI(new_url);
+			old_url = object.encode(old_url);
+			new_url = object.encode(new_url);
 
 			// Post request
 			$.post(
@@ -187,8 +191,8 @@
 			object.find('#wpseo_redirects_new_new').val('');
 
 			// Encode strings
-			old_redirect = encodeURI(old_redirect);
-			new_redirect = encodeURI(new_redirect);
+			old_redirect = object.encode(old_redirect);
+			new_redirect = object.encode(new_redirect);
 
 			// Do post
 			$.post(
