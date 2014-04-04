@@ -484,8 +484,14 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 
 			if ( is_singular() ) {
 				$ogdesc = WPSEO_Meta::get_value( 'opengraph-description' );
+
+
+
 				if ( $ogdesc === '' ) {
 					$ogdesc = $this->metadesc( false );
+				} else {
+					// Replace WP SEO Variables
+					$ogdesc = wpseo_replace_vars( $ogdesc, get_post() );
 				}
 
 				// og:description is still blank so grab it from get_the_excerpt()
