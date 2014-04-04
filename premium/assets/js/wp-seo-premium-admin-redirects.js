@@ -8,8 +8,8 @@
 
 		var table = object.find('table');
 
-		this.encode = function( str ) {
-			return encodeURIComponent( str );
+		this.encode = function (str) {
+			return encodeURIComponent(str);
 		};
 
 		this.edit_row = function (row, cancellable) {
@@ -236,6 +236,8 @@
 			);
 
 			// bind the tr
+
+			object.bind_row(tr);
 
 			return tr;
 		};
