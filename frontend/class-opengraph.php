@@ -21,12 +21,12 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 		/**
 		 * @var array $options Options for the OpenGraph Settings
 		 */
-		var $options = array();
+		public $options = array();
 
 		/**
 		 * @var array $shown_images Holds the images that have been put out as OG image.
 		 */
-		var $shown_images = array();
+		public $shown_images = array();
 
 		/**
 		 * Class constructor.

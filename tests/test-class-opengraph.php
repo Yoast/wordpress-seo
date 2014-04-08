@@ -81,6 +81,12 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		$this->assertNotEmpty( $this->class_instance->options );
 	}
 
+	public function test_opengraph() {
+		$this->class_instance->opengraph();
+		$this->assertEquals( 1, did_action( 'wpseo_opengraph' ) );
+		ob_clean();
+	}
+
 	/**
 	* Test the output of the WPSEO_OpenGraph_Test->og_tag() method.
 	*/ 
@@ -97,6 +103,30 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		// test escaping
 		$this->assertTrue( $this->class_instance->og_tag( 'property "with quotes"', 'content "with quotes"' ) );	
 		$this->expectOutput( '<meta property="property &quot;with quotes&quot;" content="content &quot;with quotes&quot;" />' . "\n" );
+	}
+
+	public function test_facebook_filter() {
+		
+		$c = $this->class_instance;
+		$result = $c->facebook_filter( array() );
+
+		// test if values were filtered
+		$this->assertArrayHasKey( 'http://ogp.me/ns#type', $result );
+		$this->assertArrayHasKey( 'http://ogp.me/ns#title', $result );
+		$this->assertArrayHasKey( 'http://ogp.me/ns#locale', $result );
+		$this->assertArrayHasKey( 'http://ogp.me/ns#description', $result );
+
+		// test filter values
+		$this->assertEquals( $result['http://ogp.me/ns#type'], $c->type( false ) );
+		$this->assertEquals( $result['http://ogp.me/ns#title'], $c->og_title( false ) );
+		$this->assertEquals( $result['http://ogp.me/ns#locale'], $c->locale( false ) );
+		$this->assertEquals( $result['http://ogp.me/ns#description'], $c->description( false ) );
+	}
+
+	public function test_add_opengraph_namespace() {
+		$c = $this->class_instance;
+		$expected = ' prefix="og: http://ogp.me/ns#' . ( ( $c->options['fbadminapp'] != 0 || ( is_array( $c->options['fb_admins'] ) && $c->options['fb_admins'] !== array() ) ) ? ' fb: http://ogp.me/ns/fb#' : '' ) . '"';
+		$this->assertEquals( $c->add_opengraph_namespace( '' ), $expected );
 	}
 
 	/**
@@ -159,6 +189,22 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		$this->expectOutput( '<meta property="og:url" content="' . $expected_url . '" />' . "\n" );
 	}
 
+	public function test_locale() {
+		 global $locale;
+
+		 $this->assertEquals( 'en_US', $this->class_instance->locale( false ) );
+
+		 $locale = 'ca';
+		 $this->assertEquals( 'ca_ES', $this->class_instance->locale( false ) );	
+
+		 $locale = 'nl';
+		 $this->assertEquals( 'nl_NL', $this->class_instance->locale( false ) );
+
+		 $locale = 'nl_NL';
+		 $this->assertEquals( 'nl_NL', $this->class_instance->locale( true ) );
+		 $this->expectOutput( '<meta property="og:locale" content="nl_NL" />' . "\n" );
+	}
+
 	public function test_type() {
 		
 		$this->go_to_home();
@@ -191,6 +237,18 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		$absolute_img_url = home_url( $relative_img_url );
 		$this->assertTrue( $this->class_instance->image_output( $relative_img_url ) );
 		$this->expectOutput( '<meta property="og:image" content="' . $absolute_img_url . '" />' . "\n" );
+	}
+
+	public function test_image() {
+
+	}
+
+	public function test_description() {
+
+	}
+
+	public function test_site_name() {
+
 	}
 
 	public function test_tags() {
