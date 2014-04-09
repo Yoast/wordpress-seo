@@ -323,7 +323,7 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 		$string = str_replace( '%%pt_plural%%', $pt_plural, $string );
 	}
 
-	if ( ( is_singular() || is_admin() ) && preg_match_all( '`%%cf_([^%]+)%%`u', $string, $matches, PREG_SET_ORDER ) ) {
+        if ( preg_match_all( '`%%cf_([^%]+)%%`u', $string, $matches, PREG_SET_ORDER ) ) {
 		global $post;
 		if( is_object( $post ) && isset( $post->ID ) ) {
 			foreach ( $matches as $match ) {
@@ -332,7 +332,7 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 		}
 	}
 
-	if ( ( is_singular() || is_admin() ) && false !== strpos( $string, '%%parent_title%%' ) ) {
+        if ( false !== strpos( $string, '%%parent_title%%' ) ) {
 		global $post;
 		if ( isset( $post->post_parent ) && 0 != $post->post_parent ) {
 			$parent_title = get_the_title( $post->post_parent );
