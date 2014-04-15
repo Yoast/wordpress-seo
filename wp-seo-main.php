@@ -14,7 +14,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * @internal Nobody should be able to overrule the real version number as this can cause serious issues
  * with the options, so no if ( ! defined() )
  */
-define( 'WPSEO_VERSION', '1.5.2.6' );
+define( 'WPSEO_VERSION', '1.5.2.7' );
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
 	define( 'WPSEO_PATH', plugin_dir_path( WPSEO_FILE ) );
@@ -138,7 +138,7 @@ function wpseo_deactivate() {
 function wpseo_load_textdomain() {
 	load_plugin_textdomain( 'wordpress-seo', false, dirname( plugin_basename( WPSEO_FILE ) ) . '/languages/' );
 }
-add_filter( 'init', 'wpseo_load_textdomain', 1 );
+add_action( 'init', 'wpseo_load_textdomain', 1 );
 
 
 
