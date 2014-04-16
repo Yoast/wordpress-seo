@@ -11,7 +11,7 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 		parent::setUp();
 
 		// Create a sample post
-		$post_id = $this->factory->post->create( 
+		$post_id = $this->factory->post->create(
 			array( 
 				'post_title' => 'Sample Post', 
 				'post_type' => 'post', 
@@ -35,6 +35,12 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 		global $post;
 		$this->_post = $post = get_post( $post_id );
 	}
+
+    public function tearDown() {
+        parent::tearDown();
+
+        wp_delete_post( $this->_post->ID );
+    }
 
 	/**
 	* @covers WPSEO_Meta::set_value()

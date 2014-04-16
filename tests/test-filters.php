@@ -2,14 +2,16 @@
 
 class Filters_Test extends WPSEO_UnitTestCase {
 
-	private $filters;
+    /**
+     * @var array
+     */
+    private $wp_filter;
 
 	public function setUp() {
 		parent::setUp();
 
 		global $wp_filter;
 		$this->wp_filter = $wp_filter;
-		$this->options = WPSEO_Options::get_all();
 	}
 
 	public function test_wp_head() {

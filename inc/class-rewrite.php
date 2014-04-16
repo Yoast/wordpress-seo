@@ -45,12 +45,18 @@ if ( ! class_exists( 'WPSEO_Rewrite' ) ) {
 		 * If the flush option is set, flush the rewrite rules.
 		 *
 		 * @since 1.2.8
+         * @return bool
 		 */
 		function flush() {
 			if ( get_option( 'wpseo_flush_rewrite' ) ) {
+
 				add_action( 'shutdown', 'flush_rewrite_rules' );
 				delete_option( 'wpseo_flush_rewrite' );
+
+                return true;
 			}
+
+            return false;
 		}
 
 		/**

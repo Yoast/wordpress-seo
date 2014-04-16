@@ -81,15 +81,18 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		$this->assertNotEmpty( $this->class_instance->options );
 	}
 
+    /**
+     * @covers WPSEO_OpenGraph::opengraph
+     */
 	public function test_opengraph() {
 		$this->class_instance->opengraph();
 		$this->assertEquals( 1, did_action( 'wpseo_opengraph' ) );
 		ob_clean();
 	}
 
-	/**
-	* Test the output of the WPSEO_OpenGraph_Test->og_tag() method.
-	*/ 
+    /**
+     * @covers WPSEO_OpenGraph::og_tag
+     */
 	public function test_og_tag() {
 		
 		// there should be no output when $content is empty
@@ -105,6 +108,9 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		$this->expectOutput( '<meta property="property &quot;with quotes&quot;" content="content &quot;with quotes&quot;" />' . "\n" );
 	}
 
+    /**
+     * @covers WPSEO_OpenGraph::facebook_filter
+     */
 	public function test_facebook_filter() {
 		
 		$c = $this->class_instance;
@@ -123,15 +129,18 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( $result['http://ogp.me/ns#description'], $c->description( false ) );
 	}
 
+    /**
+     * @covers WPSEO_OpenGraph::add_opengraph_namespace
+     */
 	public function test_add_opengraph_namespace() {
 		$c = $this->class_instance;
 		$expected = ' prefix="og: http://ogp.me/ns#' . ( ( $c->options['fbadminapp'] != 0 || ( is_array( $c->options['fb_admins'] ) && $c->options['fb_admins'] !== array() ) ) ? ' fb: http://ogp.me/ns/fb#' : '' ) . '"';
 		$this->assertEquals( $c->add_opengraph_namespace( '' ), $expected );
 	}
 
-	/**
-	* Tests the article_author_facebook method
-	*/
+    /**
+     * @covers WPSEO_OpenGraph::article_author_facebook
+     */
 	public function test_article_author_facebook() {
 		// on post page but facebook meta not set.
 		$this->assertFalse( $this->class_instance->article_author_facebook() );
@@ -153,6 +162,9 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		$this->go_to_post();
 	}
 
+    /**
+     * @covers WPSEO_OpenGraph::website_facebook
+     */
 	public function test_website_facebook() {
 		// option not set
 		$this->assertFalse( $this->class_instance->website_facebook() );
@@ -165,12 +177,18 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		$this->expectOutput( '<meta property="article:publisher" content="http://facebook.com/mysite/" />' . "\n" );
 	}
 
+    /**
+     * @covers WPSEO_OpenGraph::site_owner
+     */
 	public function test_site_owner() {
 		$this->assertFalse( $this->class_instance->site_owner() );
 
 		// @todo
 	}
 
+    /**
+     * @covers WPSEO_OpenGraph::og_title
+     */
 	public function test_og_title() {
 		$expected_title = $this->class_instance->title( '' );
 		$expected_html = '<meta property="og:title" content="'.$expected_title.'" />' . "\n";
@@ -182,6 +200,9 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 
 	}
 
+    /**
+     * @covers WPSEO_OpenGraph::url
+     */
 	public function test_url() {
 		$expected_url = get_permalink( $this->post_id );
 
@@ -189,6 +210,9 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		$this->expectOutput( '<meta property="og:url" content="' . $expected_url . '" />' . "\n" );
 	}
 
+    /**
+     * @covers WPSEO_OpenGraph::locale
+     */
 	public function test_locale() {
 		 global $locale;
 
@@ -205,6 +229,9 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		 $this->expectOutput( '<meta property="og:locale" content="nl_NL" />' . "\n" );
 	}
 
+    /**
+     * @covers WPSEO_OpenGraph::type
+     */
 	public function test_type() {
 		
 		$this->go_to_home();
@@ -217,6 +244,9 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( 'article', $this->class_instance->type( false ) );
 	}
 
+    /**
+     * @covers WPSEO_OpenGraph::image_output
+     */
 	public function test_image_output() {
 		$this->assertFalse( $this->class_instance->image_output( '' ) );
 
@@ -239,18 +269,30 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		$this->expectOutput( '<meta property="og:image" content="' . $absolute_img_url . '" />' . "\n" );
 	}
 
+    /**
+     * @covers WPSEO_OpenGraph::image
+     */
 	public function test_image() {
 
 	}
 
+    /**
+     * @covers WPSEO_OpenGraph::description
+     */
 	public function test_description() {
 
 	}
 
+    /**
+     * @covers WPSEO_OpenGraph::site_name
+     */
 	public function test_site_name() {
 
 	}
 
+    /**
+     * @covers WPSEO_OpenGraph::tags
+     */
 	public function test_tags() {
 
 		// no tags, should return false
@@ -272,6 +314,9 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		$this->go_to_post();
 	}
 
+    /**
+     * @covers WPSEO_OpenGraph::category
+     */
 	public function test_category() {	
 
 		// Test category
@@ -286,6 +331,9 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		$this->go_to_post();
 	}
 
+    /**
+     * @covers WPSEO_OpenGraph::publish_date
+     */
 	public function test_publish_date() {
 
 		// not on singular, should return false
@@ -316,14 +364,23 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		$this->expectOutput( $published_output . $modified_output );
 	}
 
+	/**
+	 * Fake a request to a post page
+	 */
 	private function go_to_post() {
 		$this->go_to( get_permalink( $this->post_id ) );
 	}
 
+	/**
+	 * Fake a request to a category page
+	 */
 	private function go_to_category() {
 		$this->go_to( get_category_link( $this->category_id ) );
 	}
 
+	/**
+	 * @return null|WP_Post
+	 */
 	private function get_post() {
 		global $post;
 		$post = get_post( $this->post_id );
