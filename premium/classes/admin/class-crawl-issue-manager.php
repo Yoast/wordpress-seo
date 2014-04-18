@@ -138,9 +138,15 @@ class WPSEO_Crawl_Issue_Manager {
 			}
 		}
 
+		$sql_raw = "DELETE FROM `{$wpdb->posts}` WHERE `post_type` = '" . self::PT_CRAWL_ISSUE . "'";
+
+		$crawl_issue_count = count( $crawl_issue_urls );
+		if( $crawl_issue_count > 0 ) {
+			$sql_raw .= " AND `post_title` NOT IN (" . implode( ', ', array_fill( 0, count( $crawl_issue_urls ), '%s' ) ) . ")";
+		}
+
 		// Remove local crawl issues that are not in the Google response
 		// Format the SQL
-		$sql_raw = "DELETE FROM `{$wpdb->posts}` WHERE `post_type` = '" . self::PT_CRAWL_ISSUE . "' AND `post_title` NOT IN (" . implode( ', ', array_fill( 0, count( $crawl_issue_urls ), '%s' ) ) . ")";
 		$sql = call_user_func_array( array( $wpdb, 'prepare' ), array_merge( array( $sql_raw ), $crawl_issue_urls ) );
 
 		// Run the delete SQL
