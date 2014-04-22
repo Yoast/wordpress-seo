@@ -1252,26 +1252,18 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		}
 		
 		/**
-		 * Get sample permalink, fall back to front-end permalink functions for front-end updates
-		 *
-		 * @internal This presumes that updates are being done on existing posts.
-		 * get_permalink() could return false if a plugin is doing front-end post creation
-		 * without loading all the required files, but so far I haven't come across this yet.
+		 * Get sample permalink
 		 *
 		 * @param	object	$post
 		 * @return	array
 		 */
 		function get_sample_permalink( $post ) {
-			// Back-end post update
-			if( function_exists( 'get_sample_permalink' ) ) {
-				return get_sample_permalink( $post );
+			if( ! function_exists( 'get_sample_permalink' ) ) {
+				// Front-end post update
+				include_once( ABSPATH . 'wp-admin/includes/post.php' );
 			}
 
-			// Front-end post update
-			$permalink = get_permalink( $post );
-			$permalink = array( $permalink, apply_filters( 'editable_slug', $post->post_name ) );
-
-			return $permalink;
+			return get_sample_permalink( $post );
 		}
 
 
