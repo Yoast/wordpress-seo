@@ -1118,7 +1118,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			$results = array();
 			$job     = array();
 
-			$sampleurl             = get_sample_permalink( $post );
+			$sampleurl             = $this->get_sample_permalink( $post );
 			$job['pageUrl']        = preg_replace( '`%(?:post|page)name%`', $sampleurl[1], $sampleurl[0] );
 			$job['pageSlug']       = urldecode( $post->post_name );
 			$job['keyword']        = self::get_value( 'focuskw' );
@@ -1249,6 +1249,29 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			self::set_value( 'linkdex', absint( $score ), $post->ID );
 
 			return $results;
+		}
+		
+		/**
+		 * Get sample permalink, fall back to front-end permalink functions for front-end updates
+		 *
+		 * @internal This presumes that updates are being done on existing posts.
+		 * get_permalink() could return false if a plugin is doing front-end post creation
+		 * without loading all the required files, but so far I haven't come across this yet.
+		 *
+		 * @param	object	$post
+		 * @return	array
+		 */
+		function get_sample_permalink( $post ) {
+			// Back-end post update
+			if( function_exists( 'get_sample_permalink' ) ) {
+				return get_sample_permalink( $post );
+			}
+
+			// Front-end post update
+			$permalink = get_permalink( $post );
+			$permalink = array( $permalink, apply_filters( 'editable_slug', $post->post_name ) );
+
+			return $permalink;
 		}
 
 
