@@ -109,6 +109,11 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 
 == Changelog ==
 
+= trunk =
+
+* i18n
+	* Updated el_GR, hu_HU, nl_NL and pl_PL
+
 = 1.5.2.7 =
 
 * Bugfixes
