@@ -419,7 +419,9 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		 * Saves the posts per page limit for bulk edit pages.
 		 */
 		function save_bulk_edit_options( $status, $option, $value ) {
-			if ( 'wpseo_posts_per_page' === $option && ( $value > 0 && $value < 1000 ) ) return $value;
+			if ( 'wpseo_posts_per_page' === $option && ( $value > 0 && $value < 1000 ) ) {
+				return $value;
+			}
 			return $status;
 		}
 
