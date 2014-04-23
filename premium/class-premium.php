@@ -310,6 +310,13 @@ class WPSEO_Premium {
 		register_setting( 'yoast_wpseo_gwt_options', 'wpseo-premium-gwt', array( $this, 'gwt_sanatize_callback' ) );
 	}
 
+	/**
+	 * Remove the last check timestamp if the profile is switched
+	 *
+	 * @param $setting
+	 *
+	 * @return mixed
+	 */
 	public function gwt_sanatize_callback( $setting ) {
 		$crawl_issue_manager = new WPSEO_Crawl_Issue_Manager();
 
