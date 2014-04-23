@@ -262,7 +262,6 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		$this->assertFalse( $this->class_instance->image_output( $img_url ) );
 
 		// test with relative image url
-		ob_clean();
 		$relative_img_url = '/relative-image.jpg';
 		$absolute_img_url = home_url( $relative_img_url );
 		$this->assertTrue( $this->class_instance->image_output( $relative_img_url ) );
@@ -348,8 +347,6 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		$published_output = '<meta property="article:published_time" content="' . $published_time . '" />' . "\n";
 		$this->assertTrue( $this->class_instance->publish_date() );	
 		$this->expectOutput( $published_output );
-
-		ob_clean();
 
 		// modify post time
 		global $post;

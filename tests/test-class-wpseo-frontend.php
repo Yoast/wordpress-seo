@@ -309,7 +309,6 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( $expected, $this->class_instance->robots() );
 
 		// clean-up
-		ob_clean();
 		update_option( 'blog_public', '1' );
 
 		// test replytocom
@@ -317,7 +316,6 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( $expected, $this->class_instance->robots() );
 
 		// clean-up
-		ob_clean();
 		unset( $_GET['replytocom'] );
 
 		// test 'paged' query var
@@ -325,7 +323,6 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 
 		$expected = 'noindex,follow';
 		$this->assertEquals( $expected, $this->class_instance->robots() );
-		ob_clean();
 
 		// go to post page
 		$this->go_to_post();
@@ -341,13 +338,11 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 
 		// clean-up
 		$this->set_option( 'noindex-post', false );
-		ob_clean();
 
 		// test post_status private
 		$expected = 'noindex,follow';
 		$this->set_post_property( 'post_status', 'private' );
 		$this->assertEquals( $expected, $this->class_instance->robots() );
-		ob_clean();
 
 		// go to category page
 		$this->go_to_category();
@@ -364,7 +359,6 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 
 		// clean-up
 		$this->set_option( 'noindex-tax-category', false );
-		ob_clean();
 
 		// test subpages of category archives
 		$this->set_option( 'noindex-subpages-wpseo', true );
@@ -372,9 +366,6 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 
 		$expected = 'noindex,follow';
 		$this->assertEquals( $expected, $this->class_instance->robots() );
-
-		// clean-up
-		ob_clean();
 
 		// go to author page
 		$this->go_to_author();
@@ -390,6 +381,8 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 
 		// clean-up
 		$this->set_option( 'noindex-author-wpseo', false );
+
+		// clean output buffer
 		ob_clean();
 
 	}
@@ -842,8 +835,6 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		$title = $this->class_instance->title( '', $sep );
 		$expected = preg_replace( '/<title(.*)\/title>/i', '', $content );
 		$expected = str_replace( $c->debug_marker( false ), $c->debug_marker( false ) . "\n" . '<title>' . $title . '</title>', $expected );
-
-		ob_start();
 		echo $content;
 
 		// run function
