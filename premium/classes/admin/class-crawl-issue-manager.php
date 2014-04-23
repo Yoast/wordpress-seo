@@ -2,8 +2,6 @@
 
 /**
  * Class WPSEO_Crawl_Issue_Manager
- *
- * @todo Put the ignores in an option so we safely remove all posts
  */
 class WPSEO_Crawl_Issue_Manager {
 
@@ -11,12 +9,12 @@ class WPSEO_Crawl_Issue_Manager {
 	const PT_CRAWL_ISSUE = 'wpseo_crawl_issue';
 
 	// Post Meta related constants
-	const PM_CI_URL = 'wpseo_ci_url';
-	const PM_CI_CRAWL_TYPE = 'wpseo_ci_crawl_type';
-	const PM_CI_ISSUE_TYPE = 'wpseo_ci_issue_type';
+	const PM_CI_URL           = 'wpseo_ci_url';
+	const PM_CI_CRAWL_TYPE    = 'wpseo_ci_crawl_type';
+	const PM_CI_ISSUE_TYPE    = 'wpseo_ci_issue_type';
 	const PM_CI_DATE_DETECTED = 'wpseo_ci_date_detected';
-	const PM_CI_DETAIL = 'wpseo_ci_detail';
-	const PM_CI_LINKED_FROM = 'wpseo_ci_linked_from';
+	const PM_CI_DETAIL        = 'wpseo_ci_detail';
+	const PM_CI_LINKED_FROM   = 'wpseo_ci_linked_from';
 
 	// The last checked timestamp
 	const OPTION_CI_TS = 'wpseo_crawl_issues_last_checked';
@@ -115,9 +113,9 @@ class WPSEO_Crawl_Issue_Manager {
 
 					// Create the post
 					$ci_post_id = wp_insert_post( array(
-						'post_type'   => self::PT_CRAWL_ISSUE,
-						'post_title'  => $crawl_issue->get_url(),
-						'post_status' => 'publish'
+							'post_type'   => self::PT_CRAWL_ISSUE,
+							'post_title'  => $crawl_issue->get_url(),
+							'post_status' => 'publish'
 					) );
 
 				}
@@ -130,7 +128,7 @@ class WPSEO_Crawl_Issue_Manager {
 				update_post_meta( $ci_post_id, self::PM_CI_LINKED_FROM, $crawl_issue->get_linked_from() );
 
 				// Store the url in $crawl_issue_urls
-				if( false == in_array( $crawl_issue->get_url(), $crawl_issue_urls ) ) {
+				if ( false == in_array( $crawl_issue->get_url(), $crawl_issue_urls ) ) {
 					$crawl_issue_urls[] = $crawl_issue->get_url();
 				}
 
@@ -142,7 +140,7 @@ class WPSEO_Crawl_Issue_Manager {
 		$sql_raw = "DELETE FROM `{$wpdb->posts}` WHERE `post_type` = '" . self::PT_CRAWL_ISSUE . "'";
 
 		$crawl_issue_count = count( $crawl_issue_urls );
-		if( $crawl_issue_count > 0 ) {
+		if ( $crawl_issue_count > 0 ) {
 			$sql_raw .= " AND `post_title` NOT IN (" . implode( ', ', array_fill( 0, count( $crawl_issue_urls ), '%s' ) ) . ")";
 
 			// Format the SQL
@@ -173,7 +171,7 @@ class WPSEO_Crawl_Issue_Manager {
 			$where .= call_user_func_array( array(
 					$wpdb,
 					'prepare'
-				), array_merge( array( $sql ), $wp_query->get( 'wpseo_urls' ) ) );
+			), array_merge( array( $sql ), $wp_query->get( 'wpseo_urls' ) ) );
 		}
 
 		return $where;
@@ -206,10 +204,10 @@ class WPSEO_Crawl_Issue_Manager {
 
 		// Get the crawl issues from db
 		$crawl_issue_query = new WP_Query( wp_parse_args( $extra_args, array(
-					'post_type'        => self::PT_CRAWL_ISSUE,
-					'posts_per_page'   => - 1,
-					'suppress_filters' => false
-				) ) );
+				'post_type'        => self::PT_CRAWL_ISSUE,
+				'posts_per_page'   => - 1,
+				'suppress_filters' => false
+		) ) );
 		$crawl_issues_db   = $crawl_issue_query->posts;
 
 		// Remove filter to filter out already redirected urls
@@ -222,13 +220,13 @@ class WPSEO_Crawl_Issue_Manager {
 		if ( count( $crawl_issues_db ) > 0 ) {
 			foreach ( $crawl_issues_db as $crawl_issues_db_item ) {
 				$crawl_issues[] = new WPSEO_Crawl_Issue(
-					$crawl_issues_db_item->post_title,
-					get_post_meta( $crawl_issues_db_item->ID, self::PM_CI_CRAWL_TYPE, true ),
-					get_post_meta( $crawl_issues_db_item->ID, self::PM_CI_ISSUE_TYPE, true ),
-					new DateTime( (string) get_post_meta( $crawl_issues_db_item->ID, self::PM_CI_DATE_DETECTED, true ) ),
-					get_post_meta( $crawl_issues_db_item->ID, self::PM_CI_DETAIL, true ),
-					get_post_meta( $crawl_issues_db_item->ID, self::PM_CI_LINKED_FROM, true ),
-					false // @todo match this with ignore array
+						$crawl_issues_db_item->post_title,
+						get_post_meta( $crawl_issues_db_item->ID, self::PM_CI_CRAWL_TYPE, true ),
+						get_post_meta( $crawl_issues_db_item->ID, self::PM_CI_ISSUE_TYPE, true ),
+						new DateTime( (string) get_post_meta( $crawl_issues_db_item->ID, self::PM_CI_DATE_DETECTED, true ) ),
+						get_post_meta( $crawl_issues_db_item->ID, self::PM_CI_DETAIL, true ),
+						get_post_meta( $crawl_issues_db_item->ID, self::PM_CI_LINKED_FROM, true ),
+						false
 				);
 			}
 		}
@@ -256,8 +254,8 @@ class WPSEO_Crawl_Issue_Manager {
 
 		// Update post status
 		wp_update_post( array(
-			'ID'          => $crawl_issue->ID,
-			'post_status' => $status
+				'ID'          => $crawl_issue->ID,
+				'post_status' => $status
 		) );
 
 		return true;
