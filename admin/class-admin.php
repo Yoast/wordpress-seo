@@ -408,7 +408,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		function bulk_edit_options() {
 			$option = 'per_page';
 			$args   = array(
-					'label'	  => 'Posts',
+					'label'	  => __( 'Posts', 'wordpress-seo' ),
 					'default' => 10,
 					'option'  => 'wpseo_posts_per_page',
 			);
