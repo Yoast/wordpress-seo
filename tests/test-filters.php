@@ -7,8 +7,9 @@ class Filters_Test extends WPSEO_UnitTestCase {
      */
     private $wp_filter;
 
-	public function setUp() {
-		parent::setUp();
+	public function __construct() {
+
+		parent::__construct();
 
 		global $wp_filter;
 		$this->wp_filter = $wp_filter;

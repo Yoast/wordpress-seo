@@ -7,25 +7,17 @@ class WPSEO_Rewrite_Test extends WPSEO_UnitTestCase {
     /**
      * @var WPSEO_Rewrite
      */
-    private $class_instance;
+    private static $class_instance;
 
-    public function __construct() {
-        $this->class_instance = new WPSEO_Rewrite;
-    }
-
-    public function setUp() {
-        parent::setUp();
-    }
-
-    public function tearDown() {
-        parent::tearDown();
-    }
+	public static function setUpBeforeClass() {
+		self::$class_instance = new WPSEO_Rewrite;
+	}
 
     /**
      * @covers WPSEO_Rewrite::schedule_flush
      */
     public function test_schedule_flush() {
-        $this->class_instance->schedule_flush();
+        self::$class_instance->schedule_flush();
         $this->assertTrue( get_option( $this->flush_option_name ) == true );
     }
 
@@ -35,10 +27,10 @@ class WPSEO_Rewrite_Test extends WPSEO_UnitTestCase {
     public function test_flush() {
         delete_option( $this->flush_option_name );
 
-        $this->assertFalse( $this->class_instance->flush() );
+        $this->assertFalse( self::$class_instance->flush() );
 
-        $this->class_instance->schedule_flush();
-        $this->assertTrue( $this->class_instance->flush() );
+        self::$class_instance->schedule_flush();
+        $this->assertTrue( self::$class_instance->flush() );
     }
 
     /**
@@ -61,19 +53,19 @@ class WPSEO_Rewrite_Test extends WPSEO_UnitTestCase {
         $category_base .= '/';
 
         $expected = preg_replace( '`' . preg_quote( $category_base, '`' ) . '`u', '', $input, 1 );
-        $this->assertEquals( $expected, $this->class_instance->no_category_base( $input ) );
+        $this->assertEquals( $expected, self::$class_instance->no_category_base( $input ) );
     }
 
     /**
      * @covers WPSEO_Rewrite::query_vars
      */
     public function test_query_vars() {
-        $this->assertEquals( array( ), $this->class_instance->query_vars( array( ) ) );
+        $this->assertEquals( array( ), self::$class_instance->query_vars( array( ) ) );
 
         $options = WPSEO_Options::get_all();
         $options['stripcategorybase'] = true;
         update_option( WPSEO_Option_Permalinks::get_instance()->option_name, $options );
-        $this->assertEquals( array( 'wpseo_category_redirect' ), $this->class_instance->query_vars( array( ) ) );
+        $this->assertEquals( array( 'wpseo_category_redirect' ), self::$class_instance->query_vars( array( ) ) );
     }
 
     /**
@@ -88,7 +80,7 @@ class WPSEO_Rewrite_Test extends WPSEO_UnitTestCase {
      */
     public function test_category_rewrite_rules() {
 
-        $c = $this->class_instance;
+        $c = self::$class_instance;
 
         $categories = get_categories( array( 'hide_empty' => false ) );
 

@@ -3,24 +3,12 @@
 class WPSEO_GooglePlus_Test extends WPSEO_UnitTestCase {
 
 	/**
-	 * @var WPSEO_Twitter
+	 * @var WPSEO_GooglePlus
 	 */
-	private $class_instance;
+	private static $class_instance;
 
-	/**
-	 * Provision tests
-	 */
-	public function setUp() {
-		parent::setUp();
-
-		$this->class_instance = new WPSEO_GooglePlus();
-	}
-
-	/**
-	 * Clean-up
-	 */
-	public function tearDown() {
-		parent::tearDown();
+	public static function setUpBeforeClass() {
+		self::$class_instance = new WPSEO_GooglePlus;
 	}
 
 	/**

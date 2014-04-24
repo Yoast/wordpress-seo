@@ -5,12 +5,10 @@ class Sitemap_Walker_Test extends WPSEO_UnitTestCase {
 	/**
 	 * @var Sitemap_Walker
 	 */
-	private $class_instance;
+	private static $class_instance;
 
-	public function setUp() {
-		parent::setUp();
-
-		$this->class_instance = new Sitemap_Walker;
+	public static function setUpBeforeClass() {
+		self::$class_instance = new Sitemap_Walker;
 	}
 
 	/**
