@@ -114,8 +114,6 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 * Bugfixes
 	* Added some missing textdomains.
 	* Fixed a license manager request bug.
-
-* Bugfixes
 	* Work-around for fatal error caused by other plugins doing front-end post updates without loading all the required WP files, such as the WP Google Forms plugin - props [Jrf](http://profiles.wordpress.org/jrf).
 
 * i18n
