@@ -93,13 +93,15 @@ function wpseo_get_suggest() {
 	$term   = urlencode( $_GET['term'] );
 	$result = wp_remote_get( 'https://www.google.com/complete/search?output=toolbar&q=' . $term );
 
-	preg_match_all( '`suggestion data="([^"]+)"/>`u', $result['body'], $matches );
-
 	$return_arr = array();
 
-	if ( isset( $matches[1] ) && ( is_array( $matches[1] ) && $matches[1] !== array() ) ) {
-		foreach ( $matches[1] as $match ) {
-			$return_arr[] = html_entity_decode( $match, ENT_COMPAT, 'UTF-8' );
+	if ( ! is_wp_error( $result ) ) {
+		preg_match_all( '`suggestion data="([^"]+)"/>`u', $result['body'], $matches );
+
+		if ( isset( $matches[1] ) && ( is_array( $matches[1] ) && $matches[1] !== array() ) ) {
+			foreach ( $matches[1] as $match ) {
+				$return_arr[] = html_entity_decode( $match, ENT_COMPAT, 'UTF-8' );
+			}
 		}
 	}
 	echo json_encode( $return_arr );

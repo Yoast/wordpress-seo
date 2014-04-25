@@ -2,8 +2,19 @@
 
 class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 
-	private $post;
-	private $metabox;
+	/**
+	 * @var int
+	 */
+	private $post_id;
+
+	/**
+	 * @var WPSEO_Metabox
+	 */
+	private static $class_instance;
+
+	public static function setUpBeforeClass() {
+		self::$class_instance = new WPSEO_Metabox;
+	}
 
 	/**
 	* Setup test fixtures
@@ -20,11 +31,15 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 			) 
 		);
 
-		// store post and metabox object
-		global $post, $wpseo_metabox;
-		$this->metabox = $wpseo_metabox = new WPSEO_Metabox;
-		$this->post = get_post( $post_id );
+		// store post object
+		$this->post_id = $post_id;
 	}
+
+    public function tearDown() {
+        parent::tearDown();
+
+        wp_delete_post( $this->_post->ID );
+    }
 
 	/**
 	* Placeholder test to prevent PHPUnit throwing warnings.
@@ -37,8 +52,11 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 	* @covers WPSEO_Metabox::get_post_date()
 	*/
 	public function test_get_post_date() {
-		$expected_date = date( 'j M Y', strtotime( $this->post->post_date ) );
-		$this->assertEquals( $expected_date, $this->metabox->get_post_date( $this->post ) );
+
+		$post = get_post( $this->post_id );
+
+		$expected_date = date( 'j M Y', strtotime( $post->post_date ) );
+		$this->assertEquals( $expected_date, self::$class_instance->get_post_date( $post ) );
 	}
 		
 	/**
@@ -49,7 +67,7 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 		$pagenow = 'options.php';
 
 		// call enqueue function
-		$this->metabox->enqueue();
+		self::$class_instance->enqueue();
 
 		$enqueued = wp_script_is( 'wp-seo-metabox', 'enqueued' );
 		$this->assertFalse( $enqueued );		
@@ -63,7 +81,7 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 		$pagenow = 'post-new.php';
 
 		// call enqueue function
-		$this->metabox->enqueue();
+		self::$class_instance->enqueue();
 
 		$enqueued = wp_script_is( 'wp-seo-metabox', 'enqueued' );
 		$this->assertTrue( $enqueued );		
@@ -71,8 +89,8 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 
 	public function test_column_heading_is_hooked() {
 
-		$this->metabox->setup_page_analysis();
-		$hooked = !! has_filter( 'manage_post_posts_columns', array( $this->metabox, 'column_heading') );
+		self::$class_instance->setup_page_analysis();
+		$hooked = !! has_filter( 'manage_post_posts_columns', array( self::$class_instance, 'column_heading') );
 
 		$this->assertTrue( $hooked );
 	}
@@ -81,7 +99,7 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 	* @covers WPSEO_Metabox::column_heading()
 	*/
 	public function test_column_heading_has_score( ) {
-		$columns = $this->metabox->column_heading( array() );
+		$columns = self::$class_instance->column_heading( array() );
 		$this->assertArrayHasKey( 'wpseo-score', $columns );
 	}
 
@@ -89,7 +107,7 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 	* @covers WPSEO_Metabox::column_heading()
 	*/
 	public function test_column_heading_has_focuskw( ) {
-		$columns = $this->metabox->column_heading( array() );
+		$columns = self::$class_instance->column_heading( array() );
 		$this->assertArrayHasKey( 'wpseo-focuskw', $columns );
 	}
 
@@ -97,7 +115,7 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 	* @covers WPSEO_Metabox::column_heading()
 	*/
 	public function test_column_heading_has_metadesc( ) {
-		$columns = $this->metabox->column_heading( array() );
+		$columns = self::$class_instance->column_heading( array() );
 		$this->assertArrayHasKey( 'wpseo-metadesc', $columns );
 	}
 
@@ -107,13 +125,13 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 	public function test_strtolower_utf8() {
 		$input = 'ABCDEFGHIJKLMNOPQRSTUVWXYZÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЪЬЭЮЯĄĆĘŁŃÓŚŹŻ';
 		$expected_output = 'abcdefghijklmnopqrstuvwxyzàáâãäåæçèéêëìíîïðñòóôõöøùúûüýабвгдеёжзийклмнопрстуфхцчшщъъьэюяąćęłńóśźż';
-		$this->assertEquals( $expected_output, $this->metabox->strtolower_utf8( $input ) );
+		$this->assertEquals( $expected_output, self::$class_instance->strtolower_utf8( $input ) );
 	}
 
 	public function test_add_metabox() {
 		global $wp_meta_boxes;
 
-		$this->metabox->add_meta_box();
+		self::$class_instance->add_meta_box();
 
 		$post_types = get_post_types( array( 'public' => true ) );
 
@@ -125,6 +143,8 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 
 	public function test_save_postdata() {
 
+		$post = get_post( $this->post_id );
+
 		// setup
 		$GLOBALS['wpseo_admin'] = new WPSEO_Admin;
 
@@ -132,8 +152,8 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 		$meta_fields = apply_filters( 'wpseo_save_metaboxes', array() );
 		$meta_fields = array_merge( 
 			$meta_fields, 
-			$this->metabox->get_meta_field_defs( 'general', $this->post->post_type ), 
-			$this->metabox->get_meta_field_defs( 'advanced' ) 
+			self::$class_instance->get_meta_field_defs( 'general', $post->post_type ),
+			self::$class_instance->get_meta_field_defs( 'advanced' )
 		);
 
 		// set $_POST data to be saved
@@ -149,10 +169,10 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 		}
 
 		// call method that saves the $_POST data
-		$this->metabox->save_postdata( $this->post->ID );
+		self::$class_instance->save_postdata( $post->ID );
 
 		// check if output matches
-		$custom = get_post_custom( $this->post->ID );
+		$custom = get_post_custom( $post->ID );
 		foreach( $meta_fields as $key => $field ) {
 
 			if( ! isset( $custom[ WPSEO_Metabox::$meta_prefix . $key ][0] ) ) {

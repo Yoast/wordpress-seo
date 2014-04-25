@@ -11,6 +11,9 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 
 global $wpseo_admin_pages;
 
+$robots_file    = get_home_path() . 'robots.txt';
+$ht_access_file = get_home_path() . '.htaccess';
+
 if ( isset( $_POST['create_robots'] ) ) {
 	if ( ! current_user_can( 'manage_options' ) ) {
 		die( __( 'You cannot create a robots.txt file.', 'wordpress-seo' ) );
@@ -23,8 +26,7 @@ if ( isset( $_POST['create_robots'] ) ) {
 	do_robots();
 	$robots_content = ob_get_clean();
 
-	$robots_file = get_home_path() . 'robots.txt';
-	$f           = fopen( $robots_file, 'x' );
+	$f = fopen( $robots_file, 'x' );
 	fwrite( $f, $robots_content );
 }
 
@@ -35,9 +37,8 @@ if ( isset( $_POST['submitrobots'] ) ) {
 
 	check_admin_referer( 'wpseo-robotstxt' );
 
-	if ( file_exists( get_home_path() . 'robots.txt' ) ) {
-		$robots_file = get_home_path() . 'robots.txt';
-		$robotsnew   = stripslashes( $_POST['robotsnew'] );
+	if ( file_exists( $robots_file ) ) {
+		$robotsnew = stripslashes( $_POST['robotsnew'] );
 		if ( is_writable( $robots_file ) ) {
 			$f = fopen( $robots_file, 'w+' );
 			fwrite( $f, $robotsnew );
@@ -54,8 +55,7 @@ if ( isset( $_POST['submithtaccess'] ) ) {
 
 	check_admin_referer( 'wpseo-htaccess' );
 
-	if ( file_exists( get_home_path() . '.htaccess' ) ) {
-		$ht_access_file = get_home_path() . '.htaccess';
+	if ( file_exists( $ht_access_file ) ) {
 		$ht_access_new   = stripslashes( $_POST['htaccessnew'] );
 		if ( is_writeable( $ht_access_file ) ) {
 			$f = fopen( $ht_access_file, 'w+' );
@@ -70,7 +70,6 @@ if ( isset( $msg ) && ! empty( $msg ) ) {
 	echo '<div id="message" style="width:94%;" class="updated fade"><p>' . esc_html( $msg ) . '</p></div>';
 }
 
-$robots_file = get_home_path() . 'robots.txt';
 
 if ( ! file_exists( $robots_file ) ) {
 	if ( is_writable( get_home_path() ) ) {
@@ -84,15 +83,13 @@ if ( ! file_exists( $robots_file ) ) {
 		$content = '<p>' . __( 'If you had a robots.txt file and it was editable, you could edit it from here.', 'wordpress-seo' );
 	}
 }
-elseif ( file_exists( $robots_file ) ) {
+else {
 	$f = fopen( $robots_file, 'r' );
 
+	$content = '';
 	if ( filesize( $robots_file ) > 0 ) {
 		$content = fread( $f, filesize( $robots_file ) );
-	} else {
-		$content = '';
 	}
-
 	$robots_txt_content = esc_textarea( $content );
 
 	if ( ! is_writable( $robots_file ) ) {
@@ -110,11 +107,14 @@ elseif ( file_exists( $robots_file ) ) {
 
 $wpseo_admin_pages->postbox( 'robotstxt', __( 'Robots.txt', 'wordpress-seo' ), $content );
 
-if ( ( isset( $_SERVER['SERVER_SOFTWARE'] ) && stristr( $_SERVER['SERVER_SOFTWARE'], 'nginx' ) === false ) && file_exists( get_home_path() . '.htaccess' ) ) {
-	$ht_access_file = ABSPATH . '.htaccess';
-	$f             = fopen( $ht_access_file, 'r' );
-	$contentht     = fread( $f, filesize( $ht_access_file ) );
-	$contentht     = esc_textarea( $contentht );
+if ( ( isset( $_SERVER['SERVER_SOFTWARE'] ) && stristr( $_SERVER['SERVER_SOFTWARE'], 'nginx' ) === false ) && file_exists( $ht_access_file ) ) {
+	$f         = fopen( $ht_access_file, 'r' );
+	
+	$contentht = '';
+	if ( filesize( $ht_access_file ) > 0 ) {
+		$contentht = fread( $f, filesize( $ht_access_file ) );
+	}
+	$contentht = esc_textarea( $contentht );
 
 	if ( ! is_writable( $ht_access_file ) ) {
 		$content = '<p><em>' . __( 'If your .htaccess were writable, you could edit it from here.', 'wordpress-seo' ) . '</em></p>';
@@ -128,7 +128,7 @@ if ( ( isset( $_SERVER['SERVER_SOFTWARE'] ) && stristr( $_SERVER['SERVER_SOFTWAR
 		$content .= '</form>';
 	}
 	$wpseo_admin_pages->postbox( 'htaccess', __( '.htaccess file', 'wordpress-seo' ), $content );
-} elseif ( ( isset( $_SERVER['SERVER_SOFTWARE'] ) && stristr( $_SERVER['SERVER_SOFTWARE'], 'nginx' ) === false ) && ! file_exists( get_home_path() . '.htaccess' ) ) {
+} elseif ( ( isset( $_SERVER['SERVER_SOFTWARE'] ) && stristr( $_SERVER['SERVER_SOFTWARE'], 'nginx' ) === false ) && ! file_exists( $ht_access_file ) ) {
 	$content = '<p>' . __( 'If you had a .htaccess file and it was editable, you could edit it from here.', 'wordpress-seo' );
 	$wpseo_admin_pages->postbox( 'htaccess', __( '.htaccess file', 'wordpress-seo' ), $content );
 }

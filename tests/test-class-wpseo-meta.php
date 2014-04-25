@@ -11,7 +11,7 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 		parent::setUp();
 
 		// Create a sample post
-		$post_id = $this->factory->post->create( 
+		$post_id = $this->factory->post->create(
 			array( 
 				'post_title' => 'Sample Post', 
 				'post_type' => 'post', 
@@ -35,6 +35,12 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 		global $post;
 		$this->_post = $post = get_post( $post_id );
 	}
+
+    public function tearDown() {
+        parent::tearDown();
+
+        wp_delete_post( $this->_post->ID );
+    }
 
 	/**
 	* @covers WPSEO_Meta::set_value()
@@ -139,7 +145,7 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 
 	/**
 	* Test if default meta values aren't saved when updating post_meta
-	* @covers WPSEO_Meta::dont_save_meta_if_default()
+	* @covers WPSEO_Meta::dont_save_meta_if_default
 	*/
 	public function test_dont_save_meta_if_default() {
 		// generate key
@@ -155,7 +161,7 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	* @covers WPSEO_Meta::meta_value_is_default()
+	* @covers WPSEO_Meta::meta_value_is_default
 	*/
 	public function test_meta_value_is_default() {
 		$meta_key = WPSEO_Meta::$meta_prefix . 'sitemap-html-include';
@@ -167,7 +173,7 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 	/**
 	* Test if two arrays are recursively merged, the latter overwriting the first.
 	*
-	* @covers WPSEO_Meta::array_merge_recursive_distinct()
+	* @covers WPSEO_Meta::array_merge_recursive_distinct
 	*/
 	public function test_array_merge_recursive_distinct() {
 

@@ -7,12 +7,30 @@ class WPSEO_Functions_Test extends WPSEO_UnitTestCase {
 	*/
 	public function setUp() {
 		parent::setUp();
+	}
 
-		$options = array(
-			'enablexmlsitemap' => false
-		);
+	public function test_wpseo_add_capabilities() {
+		// TODO
+	}
 
-		update_option( 'wpseo_xml', $options );
+	public function test_wpseo_remove_capabilities() {
+		// TODO
+	}
+
+	public function test_wpseo_replace_vars() {
+		// TODO
+	}
+
+	public function test_wpseo_get_terms() {
+		// TODO
+	}
+
+	public function test_wpseo_strip_shortcodes() {
+		// TODO
+	}
+
+	public function test_wpseo_wpml_config() {
+		// TODO
 	}
 
 	/**
@@ -35,13 +53,6 @@ class WPSEO_Functions_Test extends WPSEO_UnitTestCase {
 
 		$_SERVER['SERVER_SOFTWARE'] = 'Apache/2.2.22';
 		$this->assertFalse( wpseo_is_nginx() );
-	}
-
-	/*
-	* dummy test to prevent warning
-	*/
-	public function test_true_is_true() {
-		$this->assertTrue( true );
 	}
 
 }
