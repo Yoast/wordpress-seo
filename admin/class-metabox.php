@@ -1118,7 +1118,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			$results = array();
 			$job     = array();
 
-			$sampleurl             = get_sample_permalink( $post );
+			$sampleurl             = $this->get_sample_permalink( $post );
 			$job['pageUrl']        = preg_replace( '`%(?:post|page)name%`', $sampleurl[1], $sampleurl[0] );
 			$job['pageSlug']       = urldecode( $post->post_name );
 			$job['keyword']        = self::get_value( 'focuskw' );
@@ -1249,6 +1249,21 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			self::set_value( 'linkdex', absint( $score ), $post->ID );
 
 			return $results;
+		}
+		
+		/**
+		 * Get sample permalink
+		 *
+		 * @param	object	$post
+		 * @return	array
+		 */
+		function get_sample_permalink( $post ) {
+			if( ! function_exists( 'get_sample_permalink' ) ) {
+				// Front-end post update
+				include_once( ABSPATH . 'wp-admin/includes/post.php' );
+			}
+
+			return get_sample_permalink( $post );
 		}
 
 
