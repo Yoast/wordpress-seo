@@ -115,6 +115,11 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 	* Added some missing textdomains.
 	* Fixed a license manager request bug.
 	* Work-around for fatal error caused by other plugins doing front-end post updates without loading all the required WP files, such as the WP Google Forms plugin - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fixed incorrect link to Issues in CONTRIBUTING.md - props [GaryJones](https://github.com/GaryJones).
+	* Fixed a fatal error caused by not checking if Google Suggest request reponse is valid - props [jeremyfelt](https://github.com/jeremyfelt).
+	* Fixed a screen option bug in bulk edit options - props [designerken](https://github.com/designerken).
+	* Fixed warnings on edit files section - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fixed a warning when post_type is an array - props [unr](https://github.com/unr).
 
 * i18n
 	* Updated el_GR, hu_HU, nl_NL and pl_PL
