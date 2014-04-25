@@ -1,5 +1,6 @@
-### TRUNK
+### 1.1.2: April 25th, 2014
 * Fixed notices when fetching remote crawl issues and there are now crawl issues from remote.
+* Updated WordPress SEO core to 1.5.2.8
 
 ### 1.1.1: April 15th, 2014
 * Updated WordPress SEO core to 1.5.2.7
