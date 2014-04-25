@@ -1,9 +1,10 @@
-= 1.1.1 =
+### TRUNK
+* Fixed notices when fetching remote crawl issues and there are now crawl issues from remote.
 
+### 1.1.1: April 15th, 2014
 * Updated WordPress SEO core to 1.5.2.7
 
-= 1.1.0 =
-
+### 1.1.0: April 4st, 2014
 * Updated WordPress SEO core to 1.5.x
 * Google Webmaster Tools crawl issues are now cached decreasing load time of issues dramatically.
 * Google Webmaster Tools profile can now manually be selected.
@@ -13,41 +14,32 @@
 * Added a redirect link to WordPress toolbar on 404 pages.
 * Added support for REGEX redirects.
 
-= 1.0.8 =
-
+### 1.0.8: March 21st, 2014
 * Updated WordPress SEO core to 1.5.2.5
 
-= 1.0.7 =
-
+### 1.0.7: March 14st, 2014
 * Updated WordPress SEO core to 1.5.2.2
 
-= 1.0.6 =
-
+### 1.0.6: March 12st, 2014
 * Updated WordPress SEO core to 1.5.2.1
 
-= 1.0.5 =
-
+### 1.0.5: March 11st, 2014
 * Updated WordPress SEO core to 1.5.2
 
-= 1.0.4 =
-
+### 1.0.4: March 11st, 2014
 * Updated WordPress SEO core to 1.5.0
 
-= 1.0.3 =
-
+### 1.0.3: Feb 26st, 2014
 * Fixed an incorrect constant define.
 * Updated WordPress SEO core to 1.4.25.
 * Now using the correct file reference (WPSEO_FILE) in main WPSEO file.
 
-= 1.0.2 =
-
+### 1.0.2: Feb 18st, 2014
 * Fixed a bug that prevented options on the WPSEO dashboard from saving.
 * Updated WordPress SEO core to 1.4.24.
 
-= 1.0.1 =
-
+### 1.0.1: Jan 31st, 2014
 * Remove dependency on PHP 5.3 function DateTime::getTimestamp() so plugin works on PHP 5.2 installs too.
 
-= 1.0 =
-
+### 1.0: Jan 23rd, 2014
 * Initial release.
