@@ -311,7 +311,13 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 	}
 
 	if ( isset( $wp_query->query_vars['post_type'] ) && preg_match_all( '`%%pt_([^%]+)%%`u', $string, $matches, PREG_SET_ORDER ) ) {
-		$pt        = get_post_type_object( $wp_query->query_vars['post_type'] );
+		$post_type = $wp_query->query_vars['post_type'];
+
+		if ( is_array( $post_type ) ) {
+			$post_type = reset( $post_type );
+		}
+
+		$pt        = get_post_type_object( $post_type );
 		$pt_plural = $pt_singular = $pt->name;
 		if ( isset( $pt->labels->singular_name ) ) {
 			$pt_singular = $pt->labels->singular_name;
