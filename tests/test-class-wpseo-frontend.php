@@ -3,91 +3,30 @@
 class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 
 	/**
-	* @var int
-	*/
-	private $post_id = 0;
-
-	/**
-	* @var int
-	*/
-	private $author_id = 0;
-
-	/**
-	* @var int
-	*/
-	private $category_id = 0;
-
-	/**
-	* @var WP_Post
-	*/ 
-	private $post;
-
-	/**
 	 * @var WPSEO_Frontend
 	 */
 	private static $class_instance;
 
 	public static function setUpBeforeClass() {
 		self::$class_instance = new WPSEO_Frontend;
-		self::$class_instance->options['rssbefore'] = "Some RSS before text";
-	}
-
-	/**
-	* Provision
-	*/
-	public function setUp() {
-		parent::setUp();
-
-		// create sample user
-		$this->author_id = $this->factory->user->create( array( 'role' => 'administrator' ) );
-
-		// create sample posts
-		$this->post_id = $this->factory->post->create(
-			array( 
-				'post_title' => 'Sample Post', 
-				'post_type' => 'post', 
-				'post_status' => 'publish',
-				'post_author' => $this->author_id
-			) 
-		);
-
-		$this->post = get_post( $this->post_id );
-
-		// Make some posts
-   		$this->factory->post->create_many( 10 );
-
-		// create sample category
-		$this->category_id = wp_create_category( "WordPress SEO" );
-		wp_set_post_categories( $this->post_id, array( $this->category_id ) );
-	}
-
-	/**
-	* Clean-up
-	*/
-	public function tearDown() {
-		parent::tearDown();
-
-		// delete post
-		wp_delete_post( $this->post_id );
-
-		// delete category
-		wp_delete_category( $this->category_id );
-
-		// delete author
-		wp_delete_user( $this->author_id );
-
-		// go back to home page
-		$this->go_to_home();
-
-		self::$class_instance->options['rssbefore'] = '';
 	}
 
     /**
      * @covers WPSEO_Frontend::is_home_posts_page
      */
 	public function test_is_home_posts_page() {
-		$expected = ( is_home() && 'page' != get_option( 'show_on_front' ) );
-		$this->assertEquals( $expected, self::$class_instance->is_home_posts_page() );
+
+		$this->go_to_home();
+		$this->assertTrue( self::$class_instance->is_home_posts_page() );
+
+		update_option( 'show_on_front', 'page' );
+		$this->assertFalse( self::$class_instance->is_home_posts_page() );
+
+		// create and go to post
+		update_option( 'show_on_front', 'notapage' );
+		$post_id = $this->factory->post->create();
+		$this->go_to( get_permalink( $post_id ) );
+		$this->assertFalse( self::$class_instance->is_home_posts_page() );
 	}
 
     /**
@@ -106,27 +45,15 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( $expected, self::$class_instance->is_posts_page() );
 	}
 
-	/**
-	* Test if action hooks are properly added, according to the plugin options.
-	*/
-	public function test_actions() {
-		// @todo
-	}
-
-	/**
-	* Test if filter hooks are properly added, according to the plugin options.
-	*/
-	public function test_filters() {
-		// @todo
-	}
-
     /**
      * @covers WPSEO_Frontend::get_content_title
      */
 	public function test_get_content_title() {
 
-		// go to a singular post
-		$this->go_to_post();
+		// create and go to post
+		$post_id = $this->factory->post->create();
+		$this->go_to( get_permalink( $post_id ) );
+		$this->assertFalse( self::$class_instance->is_home_posts_page() );
 
 		// test title according to format
 		$expected_title = self::$class_instance->get_title_from_options( 'title-post', get_queried_object() );
@@ -134,9 +61,10 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 
 		// test explicit post title
 		$explicit_title = 'WPSEO Post Title %%sitename%%';
-		WPSEO_Meta::set_value( 'title', $explicit_title, $this->post_id );
+		WPSEO_Meta::set_value( 'title', $explicit_title, $post_id );
 
-		$expected_title = wpseo_replace_vars( $explicit_title, (array) $object );
+		$post = get_post( $post_id );
+		$expected_title = wpseo_replace_vars( $explicit_title, $post );
 		$this->assertEquals( $expected_title, self::$class_instance->get_content_title() );
 	}
 
@@ -146,10 +74,13 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	public function test_get_taxonomy_title() {
 
 		// @todo fix for multisite
-		if( is_multisite() ) { return; }
+		if( is_multisite() ) {
+			return;
+		}
 
-		// go to category page
-		$this->go_to_category();
+		// create and go to cat archive
+		$category_id = wp_create_category( "Category Name" );
+		$this->go_to( get_category_link( $category_id ) );
 
 		// test title according to format
 		$expected_title = self::$class_instance->get_title_from_options( 'title-tax-category', (array) get_queried_object() );
@@ -164,7 +95,9 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
      */
 	public function test_get_author_title() {
 
-		$this->go_to_author();
+		// create and go to author
+		$user_id = $this->factory->user->create( );
+		$this->go_to( get_author_posts_url( $user_id ) );
 
 		// test general author title
 		$expected_title = self::$class_instance->get_title_from_options( 'title-author-wpseo' );
@@ -172,7 +105,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 
 		// add explicit title to author meta
 		$explicit_title = 'WPSEO Author Title %%sitename%%';
-		add_user_meta( $this->author_id, 'wpseo_title', $explicit_title );
+		add_user_meta( $user_id, 'wpseo_title', $explicit_title );
 
 		// test explicit title
 		$expected_title = wpseo_replace_vars( 'WPSEO Author Title %%sitename%%', array() );
@@ -186,7 +119,9 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		// should return an empty string
 		$this->assertEmpty( self::$class_instance->get_title_from_options( '__not-existing-index' ) );
 
-		$this->go_to_post();
+		// create and go to post
+		$post_id = $this->factory->post->create();
+		$this->go_to( get_permalink( $post_id ) );
 
 		$var_source = (array) get_queried_object();
 		$expected_title = wpseo_replace_vars( '%%title%% %%sep%% %%sitename%%', $var_source );
@@ -264,8 +199,10 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		$this->run_webmaster_tools_authentication_option_test( 'pinterestverify', '<meta name="p:domain_verify" content="pinterestverify" />' . "\n" );
 		$this->run_webmaster_tools_authentication_option_test( 'yandexverify', '<meta name="yandex-verification" content="yandexverify" />' . "\n" );
 
-		// asdasd
-		$this->go_to_post();
+		// create and go to post
+		$post_id = $this->factory->post->create();
+		$this->go_to( get_permalink( $post_id ) );
+
 		$this->run_webmaster_tools_authentication_option_test( 'yandexverify', '');
 	}
 
@@ -290,12 +227,6 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	 * @todo test search results
 	 */
 	public function test_robots() {
-
-		// @todo: fix for multisite
-		if( is_multisite() ) {
-			return;
-		}
-
 		// go to home
 		$this->go_to_home();
 
@@ -320,13 +251,16 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		unset( $_GET['replytocom'] );
 
 		// test 'paged' query var
-		$this->go_to( home_url('?paged=2') );
-
+		set_query_var( 'paged', 2 );
 		$expected = 'noindex,follow';
 		$this->assertEquals( $expected, self::$class_instance->robots() );
 
-		// go to post page
-		$this->go_to_post();
+		// clean-up
+		set_query_var( 'paged', 0 );
+
+		// create and go to post
+		$post_id = $this->factory->post->create();
+		$this->go_to( get_permalink( $post_id ) );
 
 		// test regular post with no special options
 		$expected = '';
@@ -334,11 +268,11 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 
 		// test noindex-post option
 		$expected = 'noindex,follow';
-		$this->set_option( 'noindex-post', true );
+		self::$class_instance->options['noindex-post'] = true;
 		$this->assertEquals( $expected, self::$class_instance->robots() );
 
 		// clean-up
-		$this->set_option( 'noindex-post', false );
+		self::$class_instance->options['noindex-post'] = false;
 
 		// test post_status private
 		$expected = 'noindex,follow';
@@ -346,30 +280,34 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( $expected, self::$class_instance->robots() );
 
 		// go to category page
-		$this->go_to_category();
+		$category_id = wp_create_category( "Category Name" );
+		$category_link = get_category_link( $category_id );
+		$this->go_to( $category_link );
 
 		// test regular category with no special options
 		$expected = '';
 		$this->assertEquals( $expected, self::$class_instance->robots() );
 
 		// test category with noindex-tax-category option
-		// @todo fix for multisite
-		$expected = 'noindex,follow';
-		$this->set_option( 'noindex-tax-category', true );
-		$this->assertEquals( $expected, self::$class_instance->robots() );
+		if( is_multisite() ) {
+			$expected                                              = 'noindex,follow';
+			self::$class_instance->options['noindex-tax-category'] = true;
+			$this->assertEquals( $expected, self::$class_instance->robots() );
+		}
 
 		// clean-up
-		$this->set_option( 'noindex-tax-category', false );
+		self::$class_instance->options['noindex-tax-category'] = false;
 
 		// test subpages of category archives
-		$this->set_option( 'noindex-subpages-wpseo', true );
-		$this->go_to( add_query_arg( array( 'paged' => 2 ), get_category_link( $this->category_id ) ) );
+		self::$class_instance->options['noindex-subpages-wpseo'] = true;
+		$this->go_to( add_query_arg( array( 'paged' => 2 ), $category_link ) );
 
 		$expected = 'noindex,follow';
 		$this->assertEquals( $expected, self::$class_instance->robots() );
 
 		// go to author page
-		$this->go_to_author();
+		$user_id = $this->factory->user->create();
+		$this->go_to( get_author_posts_url( $user_id ) );
 
 		// test author archive with no special options
 		$expected = '';
@@ -377,15 +315,14 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 
 		// test author archive with 'noindex-author-wpseo'
 		$expected = 'noindex,follow';
-		$this->set_option( 'noindex-author-wpseo', true );
+		self::$class_instance->options['noindex-author-wpseo'] = true;
 		$this->assertEquals( $expected, self::$class_instance->robots() );
 
 		// clean-up
-		$this->set_option( 'noindex-author-wpseo', false );
+		self::$class_instance->options['noindex-author-wpseo'] = false;
 
 		// clean output buffer
 		ob_clean();
-
 	}
 
     /**
@@ -393,8 +330,9 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
      */
 	public function test_robots_for_single_post() {
 
-		// go to post
-		$this->go_to_post();
+		// create and go to post
+		$post_id = $this->factory->post->create();
+		$this->go_to( get_permalink( $post_id ) );
 
 		$robots = array(
 			'index' => 'index',
@@ -404,31 +342,31 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		$expected = $robots;
 
 		// test noindex
-		WPSEO_Meta::set_value( 'meta-robots-noindex', '1', $this->post_id );
+		WPSEO_Meta::set_value( 'meta-robots-noindex', '1', $post_id );
 		$expected['index'] = 'noindex';
 		$this->assertEquals( $expected, self::$class_instance->robots_for_single_post( $robots, $this->post_id ) );
 
 		// test nofollow
-		WPSEO_Meta::set_value( 'meta-robots-nofollow', 1, $this->post_id );
+		WPSEO_Meta::set_value( 'meta-robots-nofollow', 1, $post_id );
 		$expected['follow'] = 'nofollow';
 		$this->assertEquals( $expected, self::$class_instance->robots_for_single_post( $robots, $this->post_id ) );
 
 		// test noodp with default meta-robots-adv
-		$this->set_option( 'noodp', true );
+		self::$class_instance->options['noodp'] = true;
 		$expected['other'] = array( 'noodp' );
 		$this->assertEquals( $expected, self::$class_instance->robots_for_single_post( $robots, $this->post_id ) );
 
 		// test noydir with default meta-robots-adv
-		$this->set_option( 'noydir', true );
+		self::$class_instance->options['noydir'] = true;
 		$expected['other'] = array( 'noodp', 'noydir' );
 		$this->assertEquals( $expected, self::$class_instance->robots_for_single_post( $robots, $this->post_id ) );
 
 		// test meta-robots adv noodp and nosnippet
-		WPSEO_Meta::set_value( 'meta-robots-adv', 'noodp,nosnippet', $this->post_id );
+		WPSEO_Meta::set_value( 'meta-robots-adv', 'noodp,nosnippet', $post_id );
 		$expected['other'] = array( 'noodp', 'nosnippet' );
 		$this->assertEquals( $expected, self::$class_instance->robots_for_single_post( $robots, $this->post_id ) );
 
-		WPSEO_Meta::set_value( 'meta-robots-noindex', '2', $this->post_id );
+		WPSEO_Meta::set_value( 'meta-robots-noindex', '2', $post_id );
 		$expected['index'] = 'index';
 		$this->assertEquals( $expected, self::$class_instance->robots_for_single_post( $robots, $this->post_id ) );
 	}
@@ -443,16 +381,17 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 			return;
 		}
 
-		// test singular
-		$this->go_to_post();
+		// create and go to post
+		$post_id = $this->factory->post->create();
+		$this->go_to( get_permalink( $post_id ) );
 
 		// test default canonical
-		$expected = get_permalink( $this->post_id );
+		$expected = get_permalink( $post_id );
 		$this->assertEquals( $expected, self::$class_instance->canonical( false ) );
 
 		// test manual override while using no override
 		$meta_canon = 'http://canonic.al';
-		WPSEO_Meta::set_value( 'canonical', $meta_canon, $this->post_id );
+		WPSEO_Meta::set_value( 'canonical', $meta_canon, $post_id );
 		$this->assertEquals( $expected, self::$class_instance->canonical( false, false, true ) );
 
 		// test manual override
@@ -470,9 +409,11 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( $expected, self::$class_instance->canonical( false ) );
 
 		// test taxonomy pages, category pages and tag pages
-		// @todo fix for multisite
-		$this->go_to_category();
-		$expected = get_category_link( $this->category_id );
+		$category_id = wp_create_category( "Category Name" );
+		$category_link = get_category_link( $category_id );
+		$this->go_to( $category_link );
+
+		$expected = $category_link;
 		$this->assertEquals( $expected, self::$class_instance->canonical( false ) );
 
 		// @todo test post type archives
@@ -521,7 +462,10 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 
 		$this->assertFalse( self::$class_instance->author() );
 
-		$this->go_to_post();
+		// create and go to post
+		$author_id = $this->factory->user->create( array( 'role' => 'administrator' ) );
+		$post_id = $this->factory->post->create( array( 'post_author' => $author_id ) );
+		$this->go_to( get_permalink( $post_id ) );
 
 		// post type default not set
 		$this->assertFalse( self::$class_instance->author() );
@@ -531,12 +475,12 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		$this->assertFalse( self::$class_instance->author() );
 
 		// post author meta, but not set
-		WPSEO_Meta::set_value( 'authorship', 'always', $this->post_id );
+		WPSEO_Meta::set_value( 'authorship', 'always', $post_id );
 		$this->assertFalse( self::$class_instance->author() );
 
 		// set author meta
 		$gplus = 'https://plus.google.com/+JoostdeValk';
-		add_user_meta( $this->author_id, 'googleplus', $gplus );
+		add_user_meta( $author_id, 'googleplus', $gplus );
 		$expected = '<link rel="author" href="' . esc_url( $gplus ) . '"/>' . "\n";
 
 		// post author meta and user meta set
@@ -544,7 +488,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		$this->expectOutput( $expected );
 
 		// post type default and user meta set
-		WPSEO_Meta::set_value( 'authorship', '-', $this->post_id );
+		WPSEO_Meta::set_value( 'authorship', '-', $post_id );
 		$this->assertTrue( self::$class_instance->author() );
 		$this->expectOutput( $expected );
 
@@ -572,8 +516,11 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		$this->go_to_home();
 		$this->assertFalse( self::$class_instance->page_redirect() );
 
+		// create and go to post
+		$post_id = $this->factory->post->create();
+		$this->go_to( get_permalink( $post_id ) );
+
 		// should not redirect when no redirect URL was set
-		$this->go_to_post();
 		$this->assertFalse( self::$class_instance->page_redirect() );
 	}
 
@@ -641,8 +588,11 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		$this->go_to_home();
 		$this->assertFalse( self::$class_instance->attachment_redirect() );
 
+		// create and go to post
+		$post_id = $this->factory->post->create();
+		$this->go_to( get_permalink( $post_id ) );
+
 		// should not redirect on regular post pages
-		$this->go_to_post();
 		$this->assertFalse( self::$class_instance->attachment_redirect() );
 	}
 
@@ -685,8 +635,9 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		// enable clean replytocom
 		$c->options['cleanreplytocom'] = true;
 
-		// go to singular page
-		$this->go_to_post();
+		// create and go to post
+		$post_id = $this->factory->post->create();
+		$this->go_to( get_permalink( $post_id ) );
 
 		// test with no replytocom set in $_GET
 		$this->assertFalse( $c->replytocom_redirect() );
@@ -730,7 +681,9 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 
 		$c = self::$class_instance;
 
-		$this->go_to_post();
+		// create and go to post
+		$post_id = $this->factory->post->create();
+		$this->go_to( get_permalink( $post_id ) );
 
 		// input
 		$text = 'Some text with some RSS Variables. Written by %%AUTHORLINK%%, the post is %%POSTLINK%% on the blog %%BLOGLINK%%. %%BLOGDESCLINK%%.';
@@ -812,6 +765,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		$this->go_to( get_bloginfo( 'rss2_url' ) );
 
 		// test if input was changed
+		self::$class_instance->options['rssbefore'] = "Some RSS before text";
 		$expected = wpautop( self::$class_instance->options['rssbefore'] ) . $input;
 		$this->assertEquals( $expected, self::$class_instance->embed_rss( $input, 'full' ) );
 	}
@@ -870,44 +824,16 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Fake a request to a category page
-	 */
-	private function go_to_category() {
-		$this->go_to( get_category_link( $this->category_id ) );
-	}
-
-	/**
-	 * Fake a request to a post page
-	 */
-	private function go_to_post() {
-		$this->go_to( get_permalink( $this->post_id ) );
-	}
-
-	/**
-	 * Fake a request to an author page
-	 */
-	private function go_to_author() {
-		$this->go_to( get_author_posts_url( $this->author_id ) );
-	}
-
-	/**
 	 * @param string $option_name
 	 * @param string $expected
 	 * @return void
 	 */
 	private function run_webmaster_tools_authentication_option_test( $option_name, $expected ) {
-		$this->set_option( $option_name, $option_name );
+		self::$class_instance->options[$option_name] = $option_name;
 		$this->expectOutput( $expected, self::$class_instance->webmaster_tools_authentication( ) );
-		$this->set_option( $option_name, '' );
+		self::$class_instance->options[$option_name] = '';
 	}
 
-	/**
-	 * @param string $name
-	 * @param string $value
-	 */
-	private function set_option( $name, $value ) {
-		self::$class_instance->options[$name] = $value;
-	}
 
 	/**
 	 * @param string $property_name
