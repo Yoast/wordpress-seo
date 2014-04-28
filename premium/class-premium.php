@@ -240,7 +240,7 @@ class WPSEO_Premium {
 
 					$wp_admin_bar->add_menu( array(
 						'id' => 'wpseo-premium-create-redirect',
-						'title' => __( 'Create Redirect', 'what-the-file' ),
+						'title' => __( 'Create Redirect', 'wordpress-seo' ),
 						'href' => admin_url( 'admin.php?page=wpseo_redirects&old_url=' . $old_url )
 					) );
 			}
