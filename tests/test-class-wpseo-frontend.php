@@ -276,7 +276,10 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 
 		// test post_status private
 		$expected = 'noindex,follow';
-		$this->set_post_property( 'post_status', 'private' );
+
+		// test private posts
+		global $post;
+		$post->post_status = 'private';
 		$this->assertEquals( $expected, self::$class_instance->robots() );
 
 		// go to category page
@@ -835,15 +838,5 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		self::$class_instance->options[$option_name] = '';
 	}
 
-
-	/**
-	 * @param string $property_name
-	 * @param mixed $value
-	 */
-	private function set_post_property( $property_name, $value ) {
-		global $post;
-		$this->post->{$property_name} = $value;
-		$post = $this->post;
-	}
 
 }
