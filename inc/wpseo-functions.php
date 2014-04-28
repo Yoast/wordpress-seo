@@ -491,6 +491,11 @@ add_action( 'init', 'wpseo_xml_sitemaps_init', 1 );
  * Notify search engines of the updated sitemap.
  */
 function wpseo_ping_search_engines( $sitemapurl = null ) {
+	// Don't ping if blog is not public
+	if ( '0' == get_option( 'blog_public' ) ) {
+		return;
+	}
+
 	$options = get_option( 'wpseo_xml' );
 	$base    = $GLOBALS['wp_rewrite']->using_index_permalinks() ? 'index.php/' : '';
 	if ( $sitemapurl == null ) {
