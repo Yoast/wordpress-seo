@@ -80,8 +80,8 @@ class WPSEO_GWT_Service {
 			$has_more_issues = false;
 
 			// Do request
-//			$url = "https://www.google.com/webmasters/tools/feeds/" . $site_url . "/crawlissues/?max-results=" . $per_page . "&start-index=" . ( ( $per_page * $cur_page ) + 1 );
-			$url = $profile_url . "/crawlissues/?max-results=" . $per_page . "&start-index=" . ( ( $per_page * $cur_page ) + 1 );
+			$url = $profile_url . "/crawlissues/?start-index=" . ( ( $per_page * $cur_page ) + 1 ) . "&amp;max-results=" . $per_page;
+
 			$request = new Google_HttpRequest( $url );
 
 			// Get list sites response
@@ -92,6 +92,7 @@ class WPSEO_GWT_Service {
 
 				// Create XML object from reponse body
 				$response_xml = simplexml_load_string( $response->getResponseBody() );
+
 
 				// Check if we got entries
 				if ( count( $response_xml->entry ) > 0 ) {
@@ -104,7 +105,8 @@ class WPSEO_GWT_Service {
 
 					// Loop
 					foreach ( $response_xml->entry as $entry ) {
-						$wt             = $entry->children( 'wt', true );
+						$wt = $entry->children( 'wt', true );
+
 						$crawl_issues[] = new WPSEO_Crawl_Issue( WPSEO_Redirect_Manager::format_url( (string) $wt->url ), (string) $wt->{'crawl-type'}, (string) $wt->{'issue-type'}, new DateTime( (string) $wt->{'date-detected'} ), (string) $wt->{'detail'}, (array) $wt->{'linked-from'}, false );
 					}
 
