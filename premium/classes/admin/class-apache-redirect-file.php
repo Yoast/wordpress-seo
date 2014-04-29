@@ -28,7 +28,7 @@ class WPSEO_Apache_Redirect_File extends WPSEO_Redirect_File {
 	 * @return string
 	 */
 	public function format_regex_redirect( $regex, $url ) {
-		return "RewriteRule " . $regex . " " . $url . " [L]";
+		return "RewriteRule " . $regex . " " . $url . " [R=301,L]";
 	}
 
 }
