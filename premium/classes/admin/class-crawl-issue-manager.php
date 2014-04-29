@@ -203,7 +203,7 @@ class WPSEO_Crawl_Issue_Manager {
 		// Get the crawl issues from db
 		$crawl_issue_query = new WP_Query( wp_parse_args( $extra_args, array(
 				'post_type'        => self::PT_CRAWL_ISSUE,
-				'posts_per_page'   => - 1,
+				'posts_per_page'   => -1,
 				'suppress_filters' => false
 		) ) );
 		$crawl_issues_db   = $crawl_issue_query->posts;
