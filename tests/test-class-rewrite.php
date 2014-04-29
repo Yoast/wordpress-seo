@@ -2,7 +2,10 @@
 
 class WPSEO_Rewrite_Test extends WPSEO_UnitTestCase {
 
-    private $flush_option_name = 'wpseo_flush_rewrite';
+	/**
+	 * @var string
+	 */
+	private $flush_option_name = 'wpseo_flush_rewrite';
 
     /**
      * @var WPSEO_Rewrite

@@ -348,7 +348,10 @@ $content .= '</form><br/>';
 
 $wpseo_admin_pages->postbox( 'import', __( 'Import', 'wordpress-seo' ), $content );
 
-// @todo [Barry => whomever] Are we using this action? Isn't it easier to just add filters to $content above? Might not be able to remove this because of backwards compatibility.
+/**
+ * Allow adding a custom import block
+ * @api  WPSEO_Admin  $this  The WPSEO_Admin object
+ */
 do_action( 'wpseo_import', $this );
 
 // @todo [JRF => whomever] add action for form tag
