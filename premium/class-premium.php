@@ -22,9 +22,9 @@ class WPSEO_Premium {
 
 	const PLUGIN_VERSION_NAME = '1.1.2';
 	const PLUGIN_VERSION_CODE = '12';
-	const PLUGIN_AUTHOR = 'Yoast';
-	const EDD_STORE_URL = 'https://yoast.com';
-	const EDD_PLUGIN_NAME = 'WordPress SEO Premium';
+	const PLUGIN_AUTHOR       = 'Yoast';
+	const EDD_STORE_URL       = 'https://yoast.com';
+	const EDD_PLUGIN_NAME     = 'WordPress SEO Premium';
 
 	private $page_gwt = null;
 
@@ -238,11 +238,11 @@ class WPSEO_Premium {
 			if ( false !== $parsed_url ) {
 				$old_url = urlencode( $parsed_url['path'] );
 
-					$wp_admin_bar->add_menu( array(
-						'id' => 'wpseo-premium-create-redirect',
+				$wp_admin_bar->add_menu( array(
+						'id'    => 'wpseo-premium-create-redirect',
 						'title' => __( 'Create Redirect', 'what-the-file' ),
-						'href' => admin_url( 'admin.php?page=wpseo_redirects&old_url=' . $old_url )
-					) );
+						'href'  => admin_url( 'admin.php?page=wpseo_redirects&old_url=' . $old_url )
+				) );
 			}
 
 		}
@@ -255,7 +255,7 @@ class WPSEO_Premium {
 		register_post_type( WPSEO_Crawl_Issue_Manager::PT_CRAWL_ISSUE, array(
 				'public' => false,
 				'label'  => 'WordPress SEO GWT Crawl Error'
-			) );
+		) );
 	}
 
 	/**
@@ -267,22 +267,22 @@ class WPSEO_Premium {
 	 */
 	public function add_submenu_pages( $submenu_pages ) {
 		$submenu_pages[] = array(
-			'wpseo_dashboard',
-			__( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Redirects', 'wordpress-seo' ),
-			__( 'Redirects', 'wordpress-seo' ),
-			'manage_options',
-			'wpseo_redirects',
-			array( 'WPSEO_Page_Redirect', 'display' ),
-			array( array( 'WPSEO_Page_Redirect', 'page_load' ) )
+				'wpseo_dashboard',
+				__( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Redirects', 'wordpress-seo' ),
+				__( 'Redirects', 'wordpress-seo' ),
+				'manage_options',
+				'wpseo_redirects',
+				array( 'WPSEO_Page_Redirect', 'display' ),
+				array( array( 'WPSEO_Page_Redirect', 'page_load' ) )
 		);
 		$submenu_pages[] = array(
-			'wpseo_dashboard',
-			__( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Webmaster Tools', 'wordpress-seo' ),
-			__( 'Webmaster Tools', 'wordpress-seo' ),
-			'manage_options',
-			'wpseo_webmaster_tools',
-			array( $this->page_gwt, 'display' ),
-			array( array( $this->page_gwt, 'page_load' ) )
+				'wpseo_dashboard',
+				__( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Webmaster Tools', 'wordpress-seo' ),
+				__( 'Webmaster Tools', 'wordpress-seo' ),
+				'manage_options',
+				'wpseo_webmaster_tools',
+				array( $this->page_gwt, 'display' ),
+				array( array( $this->page_gwt, 'page_load' ) )
 		);
 
 		return $submenu_pages;
