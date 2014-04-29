@@ -86,8 +86,6 @@ class WPSEO_Crawl_Issue_Manager {
 	private function save_crawl_issues( WPSEO_GWT_Google_Client $gwt ) {
 		global $wpdb;
 
-		error_log( 'Checking crawl issues remote', 0 );
-
 		// Create a the service object
 		$service = new WPSEO_GWT_Service( $gwt );
 
