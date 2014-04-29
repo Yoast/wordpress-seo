@@ -10,7 +10,7 @@ class WPSEO_Premium_Import_Manager {
 	 * @return string
 	 */
 	public function message_redirection_success( $message ) {
-		return $message . __ ( 'Redirection redirects have been imported.', 'wordpress-seo' );
+		return $message . __( 'Redirection redirects have been imported.', 'wordpress-seo' );
 	}
 
 	/**
@@ -21,7 +21,7 @@ class WPSEO_Premium_Import_Manager {
 	 * @return string
 	 */
 	public function message_redirection_plugin_not_find( $message ) {
-		return $message . __ ( 'Redirection import failed: Redirection plugin not installed or activated.', 'wordpress-seo' );
+		return $message . __( 'Redirection import failed: Redirection plugin not installed or activated.', 'wordpress-seo' );
 	}
 
 	/**
@@ -32,9 +32,30 @@ class WPSEO_Premium_Import_Manager {
 	 * @return string
 	 */
 	public function message_redirection_no_redirects( $message ) {
-		return $message . __ ( 'Redirection import failed: No redirects found.', 'wordpress-seo' );
+		return $message . __( 'Redirection import failed: No redirects found.', 'wordpress-seo' );
 	}
 
+	/**
+	 * Apache import success message
+	 *
+	 * @param $message
+	 *
+	 * @return string
+	 */
+	public function message_htaccess_success( $message ) {
+		return $message . __( '.htaccess redirects have been imported.', 'wordpress-seo' );
+	}
+
+	/**
+	 * Apache import no redirects found message
+	 *
+	 * @param $message
+	 *
+	 * @return string
+	 */
+	public function message_htaccess_no_redirects( $message ) {
+		return $message . __( '.htaccess import failed: No redirects found.', 'wordpress-seo' );
+	}
 
 	/**
 	 * Do redirection(http://wordpress.org/plugins/redirection/) import.
@@ -49,6 +70,7 @@ class WPSEO_Premium_Import_Manager {
 			if ( ! defined( 'REDIRECTION_VERSION' ) ) {
 				// Add plugin not found message
 				add_filter( 'wpseo_import_message', array( $this, 'message_redirection_plugin_not_find' ) );
+
 				return;
 			}
 
@@ -57,11 +79,11 @@ class WPSEO_Premium_Import_Manager {
 
 			// Loop and add redirect to WordPress Premium
 			if ( count( $items ) > 0 ) {
-				$url_redirection_manager    = new WPSEO_URL_Redirect_Manager();
-				$regex_redirection_manager  = new WPSEO_REGEX_Redirect_Manager();
+				$url_redirection_manager   = new WPSEO_URL_Redirect_Manager();
+				$regex_redirection_manager = new WPSEO_REGEX_Redirect_Manager();
 				foreach ( $items as $item ) {
 
-					//
+					// Check if redirect is a regex redirect
 					if ( 1 == $item->regex ) {
 						$regex_redirection_manager->create_redirect( $item->url, $item->action_data );
 					} else {
@@ -72,9 +94,74 @@ class WPSEO_Premium_Import_Manager {
 
 				// Add success message
 				add_filter( 'wpseo_import_message', array( $this, 'message_redirection_success' ) );
-			}else {
+			} else {
 				// Add no redirects found message
 				add_filter( 'wpseo_import_message', array( $this, 'message_redirection_no_redirects' ) );
+			}
+
+		}
+
+		if ( isset( $_POST['htaccess'] ) ) {
+
+			// The htaccess post
+			$htaccess = $_POST['htaccess'];
+
+			// Regexpressions
+			$regex_patterns = array(
+				'url'   => "`Redirect [0-9]+ ([^\s]+) ([^\s]+)`i",
+				'regex' => "`(?:RewriteRule|RedirectMatch) ([^\s]+) ([^\s]+)`i"
+			);
+
+			// Create redirect manager objects
+			$url_redirection_manager   = new WPSEO_URL_Redirect_Manager();
+			$regex_redirection_manager = new WPSEO_REGEX_Redirect_Manager();
+
+			// Bool if we've imported redirects
+			$redirects_imported = false;
+
+			// Loop through patterns
+			foreach ( $regex_patterns as $regex_type => $regex_pattern ) {
+				// Get all redirects
+				if ( preg_match_all( $regex_pattern, $htaccess, $redirects ) ) {
+
+					// Remove first match
+					array_shift( $redirects );
+
+					if ( count( $redirects ) > 0 ) {
+
+						// Loop through redirects
+						for ( $i = 0; $i < count( $redirects[0] ); $i ++ ) {
+
+							// Get source && target
+							$source = trim( $redirects[0][ $i ] );
+							$target = trim( $redirects[1][ $i ] );
+
+							// Check if both source and target are not empty
+							if ( '' != $source && '' != $target ) {
+
+								// Check redirect type
+								if ( 'regex' == $regex_type ) {
+									$regex_redirection_manager->create_redirect( $source, $target );
+								} else {
+									$url_redirection_manager->create_redirect( $source, $target );
+								}
+
+								$redirects_imported = true;
+
+							}
+						}
+
+					}
+				}
+			}
+
+			// Check if we've imported any redirects
+			if ( $redirects_imported ) {
+				// Display success message
+				add_filter( 'wpseo_import_message', array( $this, 'message_htaccess_success' ) );
+			} else {
+				// Display fail message
+				add_filter( 'wpseo_import_message', array( $this, 'message_htaccess_no_redirects' ) );
 			}
 
 		}
@@ -98,7 +185,27 @@ class WPSEO_Premium_Import_Manager {
 	public function filter_add_premium_import_options( $content ) {
 		global $wpseo_admin_pages;
 		$content .= $wpseo_admin_pages->checkbox( 'import_redirection', __( 'Import from Redirection?', 'wordpress-seo' ) );
+
 		return $content;
+	}
+
+	public function add_htaccess_import_block( $admin_object ) {
+
+		// Attemp to load the htaccess file
+		$textarea_value = "";
+		if ( 1 || wpseo_is_apache() ) {
+			if ( file_exists( ABSPATH . '.htaccess' ) ) {
+				$textarea_value = file_get_contents( ABSPATH . '.htaccess' );
+			}
+		}
+
+		// Display the form
+		echo '<form action="" method="post" accept-charset="' . esc_attr( get_bloginfo( 'charset' ) ) . '">' . PHP_EOL;
+		echo wp_nonce_field( 'wpseo-import', '_wpnonce', true, false );
+		echo '<h2>' . __( 'Import redirects from .htaccess', 'wordpress-seo' ) . '</h2>' . PHP_EOL;
+		echo '<textarea name="htaccess" rows="4" cols="50" style="width:70%; height: 200px;">' . $textarea_value . '</textarea><br/>' . PHP_EOL;
+		echo '<input type="submit" class="button-primary" name="import" value="' . __( 'Import .htaccess', 'wordpress-seo' ) . '"/>' . PHP_EOL;
+		echo '</form>' . PHP_EOL;
 	}
 
 }
