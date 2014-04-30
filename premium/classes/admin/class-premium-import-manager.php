@@ -112,8 +112,8 @@ class WPSEO_Premium_Import_Manager {
 
 			// Regexpressions
 			$regex_patterns = array(
-				'url'   => "`Redirect [0-9]+ ([^\s]+) ([^\s]+)`i",
-				'regex' => "`(?:RewriteRule|RedirectMatch) ([^\s]+) ([^\s]+)`i"
+				'url'   => "`[^# ]Redirect [0-9]+ ([^\s]+) ([^\s]+)`i",
+				'regex' => "`[^# ](?:RewriteRule|RedirectMatch) ([^\s]+) ([^\s]+)`i"
 			);
 
 			// Create redirect manager objects
@@ -163,7 +163,7 @@ class WPSEO_Premium_Import_Manager {
 			if ( $redirects_imported ) {
 
 				// Set the filesystem URL
-				$url = wp_nonce_url('admin.php?page=wpseo_import', 'update-htaccess');
+				$url = wp_nonce_url( 'admin.php?page=wpseo_import', 'update-htaccess' );
 
 				// Get the credentials
 				$credentials = request_filesystem_credentials( $url, '', false, ABSPATH );
@@ -174,7 +174,7 @@ class WPSEO_Premium_Import_Manager {
 					// WP_Filesystem not working, request filesystem credentials
 					request_filesystem_credentials( $url, '', true, ABSPATH );
 
-				}else {
+				} else {
 
 					// Update the .htaccess file
 					$wp_filesystem->put_contents(
