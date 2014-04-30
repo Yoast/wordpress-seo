@@ -62,6 +62,7 @@ class WPSEO_Premium_Import_Manager {
 	 * We're not importing regex redirects at the moment because we don't support them yet.
 	 */
 	private function redirection_import() {
+		global $wp_filesystem;
 
 		if ( isset( $_POST['wpseo']['import_redirection'] ) ) {
 			global $wpdb;
@@ -106,6 +107,9 @@ class WPSEO_Premium_Import_Manager {
 			// The htaccess post
 			$htaccess = $_POST['htaccess'];
 
+			// The new .htaccess file
+			$new_htaccess = $htaccess;
+
 			// Regexpressions
 			$regex_patterns = array(
 				'url'   => "`Redirect [0-9]+ ([^\s]+) ([^\s]+)`i",
@@ -124,17 +128,14 @@ class WPSEO_Premium_Import_Manager {
 				// Get all redirects
 				if ( preg_match_all( $regex_pattern, $htaccess, $redirects ) ) {
 
-					// Remove first match
-					array_shift( $redirects );
-
 					if ( count( $redirects ) > 0 ) {
 
 						// Loop through redirects
-						for ( $i = 0; $i < count( $redirects[0] ); $i ++ ) {
+						for ( $i = 0; $i < count( $redirects[1] ); $i ++ ) {
 
 							// Get source && target
-							$source = trim( $redirects[0][ $i ] );
-							$target = trim( $redirects[1][ $i ] );
+							$source = trim( $redirects[1][ $i ] );
+							$target = trim( $redirects[2][ $i ] );
 
 							// Check if both source and target are not empty
 							if ( '' != $source && '' != $target ) {
@@ -148,6 +149,9 @@ class WPSEO_Premium_Import_Manager {
 
 								$redirects_imported = true;
 
+								// Comment out added redirect in our new .htaccess file
+								$new_htaccess = str_ireplace( $redirects[0][ $i ], '#' . $redirects[0][ $i ], $new_htaccess );
+
 							}
 						}
 
@@ -157,8 +161,32 @@ class WPSEO_Premium_Import_Manager {
 
 			// Check if we've imported any redirects
 			if ( $redirects_imported ) {
+
+				// Set the filesystem URL
+				$url = wp_nonce_url('admin.php?page=wpseo_import', 'update-htaccess');
+
+				// Get the credentials
+				$credentials = request_filesystem_credentials( $url, '', false, ABSPATH );
+
+				// Check if WP_Filesystem is working
+				if ( ! WP_Filesystem( $credentials, ABSPATH ) ) {
+
+					// WP_Filesystem not working, request filesystem credentials
+					request_filesystem_credentials( $url, '', true, ABSPATH );
+
+				}else {
+
+					// Update the .htaccess file
+					$wp_filesystem->put_contents(
+						ABSPATH . '.htaccess',
+						$new_htaccess,
+						FS_CHMOD_FILE // predefined mode settings for WP files
+					);
+				}
+
 				// Display success message
 				add_filter( 'wpseo_import_message', array( $this, 'message_htaccess_success' ) );
+
 			} else {
 				// Display fail message
 				add_filter( 'wpseo_import_message', array( $this, 'message_htaccess_no_redirects' ) );
