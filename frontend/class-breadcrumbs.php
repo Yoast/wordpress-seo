@@ -126,9 +126,9 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 			// Remember the last used before/after for use in case the object goes __toString()
 			self::$before = $before;
 			self::$after  = $after;
-			
-			$output = $before . "\n" . self::$instance->output . "\n" . $after;
-			
+
+			$output = $before . self::$instance->output . $after;
+
 			if ( $display === true ) {
 				echo $output;
 				return true;
