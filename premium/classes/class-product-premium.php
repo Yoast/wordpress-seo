@@ -1,6 +1,6 @@
 <?php
 
-class Yoast_Product_WPSEO_Premium extends Yoast_Product {
+class WPSEO_Product_Premium extends Yoast_Product {
 
 	public function __construct() {
 		parent::__construct(

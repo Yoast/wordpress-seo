@@ -165,7 +165,10 @@ class WPSEO_Page_Redirect {
 		wp_enqueue_script( 'wp-seo-premium-admin-redirects', plugin_dir_url( WPSEO_PREMIUM_FILE ) . '/assets/js/wp-seo-premium-admin-redirects.js', array( 'jquery' ), '1.0.0' );
 		wp_localize_script( 'wp-seo-premium-admin-redirects', 'wpseo_premium_strings', WPSEO_Premium_Javascript_Strings::strings() );
 
-		add_screen_option( 'per_page', array( 'label' => 'Redirects per page', 'default' => 25, 'option' => 'redirects_per_page' ) );
+		add_screen_option( 'per_page', array( 'label'   => __( 'Redirects per page', 'wordpress-seo' ),
+		                                      'default' => 25,
+		                                      'option'  => 'redirects_per_page'
+			) );
 	}
 
 	/**

@@ -22,9 +22,9 @@ class WPSEO_Premium {
 
 	const PLUGIN_VERSION_NAME = '1.1.2';
 	const PLUGIN_VERSION_CODE = '12';
-	const PLUGIN_AUTHOR       = 'Yoast';
-	const EDD_STORE_URL       = 'https://yoast.com';
-	const EDD_PLUGIN_NAME     = 'WordPress SEO Premium';
+	const PLUGIN_AUTHOR = 'Yoast';
+	const EDD_STORE_URL = 'https://yoast.com';
+	const EDD_PLUGIN_NAME = 'WordPress SEO Premium';
 
 	private $page_gwt = null;
 
@@ -44,7 +44,7 @@ class WPSEO_Premium {
 	 * WPSEO_Premium Constructor
 	 */
 	public function __construct() {
-		$this->includes();
+//		$this->includes();
 		$this->setup();
 	}
 
@@ -52,6 +52,11 @@ class WPSEO_Premium {
 	 * Setup the premium WordPress SEO plugin
 	 */
 	private function setup() {
+
+		// Setup autoloader
+		require_once( dirname( __FILE__ ) . '/classes/class-premium-autoloader.php' );
+		$autoloader = new WPSEO_Premium_Autoloader();
+		spl_autoload_register( array( $autoloader, 'load' ) );
 
 		if ( is_admin() ) {
 
@@ -118,7 +123,7 @@ class WPSEO_Premium {
 			add_filter( 'set-screen-option', array( $this->page_gwt, 'set_screen_option' ), 11, 3 );
 
 			// Licensing part
-			$license_manager = new Yoast_Plugin_License_Manager( new Yoast_Product_WPSEO_Premium() );
+			$license_manager = new Yoast_Plugin_License_Manager( new WPSEO_Product_Premium() );
 
 			// Setup constant name
 			$license_manager->set_license_constant_name( 'WPSEO_LICENSE' );
@@ -136,13 +141,19 @@ class WPSEO_Premium {
 			// Crawl Issue Manager AJAX hooks
 			$crawl_issue_manager = new WPSEO_Crawl_Issue_Manager();
 			add_action( 'wp_ajax_wpseo_ignore_crawl_issue', array( $crawl_issue_manager, 'ajax_ignore_crawl_issue' ) );
-			add_action( 'wp_ajax_wpseo_unignore_crawl_issue', array( $crawl_issue_manager, 'ajax_unignore_crawl_issue' ) );
+			add_action( 'wp_ajax_wpseo_unignore_crawl_issue', array(
+					$crawl_issue_manager,
+					'ajax_unignore_crawl_issue'
+				) );
 
 			// Add Premium imports
 			$premium_import_manager = new WPSEO_Premium_Import_Manager();
 
 			// Allow option of importing from other 'other' plugins
-			add_filter( 'wpseo_import_other_plugins', array( $premium_import_manager, 'filter_add_premium_import_options' ) );
+			add_filter( 'wpseo_import_other_plugins', array(
+					$premium_import_manager,
+					'filter_add_premium_import_options'
+				) );
 
 			// Handle premium imports
 			add_action( 'wpseo_handle_import', array( $premium_import_manager, 'do_premium_imports' ) );
@@ -178,48 +189,6 @@ class WPSEO_Premium {
 	}
 
 	/**
-	 * Include all required files
-	 *
-	 * This will be removed once the autoloader is created
-	 */
-	private function includes() {
-
-		// General includes
-		require_once( WPSEO_PREMIUM_PATH . 'classes/general/class-redirect-manager.php' );
-		require_once( WPSEO_PREMIUM_PATH . 'classes/general/class-url-redirect-manager.php' );
-		require_once( WPSEO_PREMIUM_PATH . 'classes/general/class-regex-redirect-manager.php' );
-
-		// Separate backend and frontend files
-		if ( is_admin() ) {
-
-			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-gwt-google-client.php' );
-			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-gwt-service.php' );
-			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-gwt-authentication.php' );
-			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/pages/class-page-gwt.php' );
-
-			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-crawl-issue.php' );
-			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-crawl-issue-table.php' );
-			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-crawl-issue-manager.php' );
-
-			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-redirect-file-manager.php' );
-			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-redirect-file.php' );
-			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-nginx-redirect-file.php' );
-			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-apache-redirect-file.php' );
-			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-redirect-table.php' );
-			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/pages/class-page-redirect.php' );
-
-			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-premium-javascript-strings.php' );
-
-			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-upgrade-manager.php' );
-
-			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-product-wpseo-premium.php' );
-
-			require_once( WPSEO_PREMIUM_PATH . 'classes/admin/class-premium-import-manager.php' );
-		}
-
-	}
-
-	/**
 	 * Disable WordPress SEO
 	 */
 	public function disable_wordpress_seo() {
@@ -242,9 +211,9 @@ class WPSEO_Premium {
 				$old_url = urlencode( $parsed_url['path'] );
 
 				$wp_admin_bar->add_menu( array(
-						'id'    => 'wpseo-premium-create-redirect',
-						'title' => __( 'Create Redirect', 'wordpress-seo' ),
-						'href'  => admin_url( 'admin.php?page=wpseo_redirects&old_url=' . $old_url )
+					'id' => 'wpseo-premium-create-redirect',
+					'title' => __( 'Create Redirect', 'wordpress-seo' ),
+					'href' => admin_url( 'admin.php?page=wpseo_redirects&old_url=' . $old_url )
 				) );
 			}
 
@@ -256,8 +225,8 @@ class WPSEO_Premium {
 	 */
 	public function register_gwt_crawl_error_post_type() {
 		register_post_type( WPSEO_Crawl_Issue_Manager::PT_CRAWL_ISSUE, array(
-				'public' => false,
-				'label'  => 'WordPress SEO GWT Crawl Error'
+			'public' => false,
+			'label'  => 'WordPress SEO GWT Crawl Error'
 		) );
 	}
 
@@ -270,22 +239,22 @@ class WPSEO_Premium {
 	 */
 	public function add_submenu_pages( $submenu_pages ) {
 		$submenu_pages[] = array(
-				'wpseo_dashboard',
-				__( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Redirects', 'wordpress-seo' ),
-				__( 'Redirects', 'wordpress-seo' ),
-				'manage_options',
-				'wpseo_redirects',
-				array( 'WPSEO_Page_Redirect', 'display' ),
-				array( array( 'WPSEO_Page_Redirect', 'page_load' ) )
+			'wpseo_dashboard',
+			__( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Redirects', 'wordpress-seo' ),
+			__( 'Redirects', 'wordpress-seo' ),
+			'manage_options',
+			'wpseo_redirects',
+			array( 'WPSEO_Page_Redirect', 'display' ),
+			array( array( 'WPSEO_Page_Redirect', 'page_load' ) )
 		);
 		$submenu_pages[] = array(
-				'wpseo_dashboard',
-				__( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Webmaster Tools', 'wordpress-seo' ),
-				__( 'Webmaster Tools', 'wordpress-seo' ),
-				'manage_options',
-				'wpseo_webmaster_tools',
-				array( $this->page_gwt, 'display' ),
-				array( array( $this->page_gwt, 'page_load' ) )
+			'wpseo_dashboard',
+			__( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Webmaster Tools', 'wordpress-seo' ),
+			__( 'Webmaster Tools', 'wordpress-seo' ),
+			'manage_options',
+			'wpseo_webmaster_tools',
+			array( $this->page_gwt, 'display' ),
+			array( array( $this->page_gwt, 'page_load' ) )
 		);
 
 		return $submenu_pages;

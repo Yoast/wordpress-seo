@@ -52,7 +52,7 @@ require_once 'external/URITemplateParser.php';
 require_once 'auth/Google_Auth.php';
 require_once 'cache/Google_Cache.php';
 require_once 'io/Google_IO.php';
-require_once('service/Google_MediaFileUpload.php');
+require_once( 'service/Google_MediaFileUpload.php' );
 
 /**
  * The Google API Client

@@ -174,7 +174,7 @@ class WPSEO_Page_GWT {
 		wp_enqueue_script( 'wp-seo-premium-admin-gwt', plugin_dir_url( WPSEO_PREMIUM_FILE ) . '/assets/js/wp-seo-premium-admin-gwt.js', array( 'jquery' ), '1.0.0' );
 		wp_localize_script( 'wp-seo-premium-admin-gwt', 'wpseo_premium_strings', WPSEO_Premium_Javascript_Strings::strings() );
 		add_screen_option( 'per_page', array(
-			'label'   => 'Crawl errors per page',
+			'label'   => __( 'Crawl errors per page', 'wordpress-seo' ),
 			'default' => 25,
 			'option'  => 'errors_per_page'
 		) );
