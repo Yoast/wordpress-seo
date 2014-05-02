@@ -161,6 +161,20 @@ class WPSEO_Premium {
 			// Add htaccess import block
 			add_action( 'wpseo_import', array( $premium_import_manager, 'add_htaccess_import_block' ) );
 
+			// Only activate post watcher if permalink structure is enabled
+			if ( get_option( 'permalink_structure' ) ) {
+				// The Post Watcher
+				$post_watcher = new WPSEO_Post_Watcher();
+
+				// Add old URL field to post edit screen
+				add_action( 'edit_form_advanced', array( $post_watcher, 'old_url_field' ) );
+				add_action( 'edit_page_form', array( $post_watcher, 'old_url_field' ) );
+
+				// Detect the slug change
+				add_action( 'post_updated', array( $post_watcher, 'detect_slug_change' ), 12, 3 );
+			}
+
+
 		} else {
 			// Catch redirect
 			$normal_redirect_manager = new WPSEO_URL_Redirect_Manager();
