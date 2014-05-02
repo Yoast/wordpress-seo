@@ -15,10 +15,15 @@ class WPSEO_Post_Watcher {
 	 */
 	public function old_url_field() {
 		global $post;
+
+		// $post must be set
 		if ( null != $post ) {
 
+			// Use the correct URL path
 			$url = parse_url( get_permalink() );
 			$url = $url['path'];
+
+			// Output the hidden field
 			echo '<input type="hidden" name="wpseo_old_url" value="'.esc_attr( $url ).'"/>';
 
 		}
@@ -52,6 +57,13 @@ class WPSEO_Post_Watcher {
 
 			// Create the redirect
 			$redirect_manager->create_redirect( $old_url, $new_url );
+
+			// Redirect URL
+			$redirect_url = new WPSEO_Post_Edit_Redirect_Url( $old_url );
+
+			// Display message
+			add_filter( 'redirect_post_location', array( $redirect_url, 'add_yoast_message' ) );
+
 		}
 
 	}

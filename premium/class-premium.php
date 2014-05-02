@@ -142,18 +142,18 @@ class WPSEO_Premium {
 			$crawl_issue_manager = new WPSEO_Crawl_Issue_Manager();
 			add_action( 'wp_ajax_wpseo_ignore_crawl_issue', array( $crawl_issue_manager, 'ajax_ignore_crawl_issue' ) );
 			add_action( 'wp_ajax_wpseo_unignore_crawl_issue', array(
-					$crawl_issue_manager,
-					'ajax_unignore_crawl_issue'
-				) );
+				$crawl_issue_manager,
+				'ajax_unignore_crawl_issue'
+			) );
 
 			// Add Premium imports
 			$premium_import_manager = new WPSEO_Premium_Import_Manager();
 
 			// Allow option of importing from other 'other' plugins
 			add_filter( 'wpseo_import_other_plugins', array(
-					$premium_import_manager,
-					'filter_add_premium_import_options'
-				) );
+				$premium_import_manager,
+				'filter_add_premium_import_options'
+			) );
 
 			// Handle premium imports
 			add_action( 'wpseo_handle_import', array( $premium_import_manager, 'do_premium_imports' ) );
@@ -172,6 +172,16 @@ class WPSEO_Premium {
 
 				// Detect the slug change
 				add_action( 'post_updated', array( $post_watcher, 'detect_slug_change' ), 12, 3 );
+
+				// Check if we need to display an admin message
+				if ( isset( $_GET['yoast-redirect-created'] ) ) {
+
+					// Message object
+					$message = new WPSEO_Message_Redirect_Created( $_GET['yoast-redirect-created'] );
+					add_action( 'all_admin_notices', array( $message, 'display' ) );
+
+				}
+
 			}
 
 
@@ -225,9 +235,9 @@ class WPSEO_Premium {
 				$old_url = urlencode( $parsed_url['path'] );
 
 				$wp_admin_bar->add_menu( array(
-					'id' => 'wpseo-premium-create-redirect',
+					'id'    => 'wpseo-premium-create-redirect',
 					'title' => __( 'Create Redirect', 'wordpress-seo' ),
-					'href' => admin_url( 'admin.php?page=wpseo_redirects&old_url=' . $old_url )
+					'href'  => admin_url( 'admin.php?page=wpseo_redirects&old_url=' . $old_url )
 				) );
 			}
 
