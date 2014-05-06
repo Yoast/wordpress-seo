@@ -5,53 +5,53 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	die;
 }
 
-class WPSEO_Post_Watcher {
+class WPSEO_Term_Watcher {
 
 	public function __construct() {
 	}
 
 	/**
-	 * Add an extra field to post edit screen so we know the old url in the 'post_updated' hook
+	 * Add an extra field to term edit screen
 	 *
-	 * @param $post
+	 * @param $tag
+	 * @oaram $taxonomy
 	 */
-	public function old_url_field( $post ) {
+	public function old_url_field( $tag, $taxonomy ) {
 
-		// $post must be set
-		if ( null != $post ) {
+		// Use the correct URL path
+		$url = parse_url( get_term_link( $tag, $taxonomy ) );
+		$url = $url['path'];
 
-			// Use the correct URL path
-			$url = parse_url( get_permalink( $post->ID ) );
-			$url = $url['path'];
-
-			// Output the hidden field
-			echo '<input type="hidden" name="wpseo_old_url" value="'.esc_attr( $url ).'"/>';
-
-		}
+		echo '<input type="hidden" name="wpseo_old_url" value="' . esc_attr( $url ) . '"/>';
 
 	}
 
 	/**
 	 * Detect if the slug changed, hooked into 'post_updated'
 	 *
-	 * @param $post_id
-	 * @param $post
-	 * @param $post_before
+	 * @param $term_id
+	 * @param $tt_id
+	 * @param $taxonomy
 	 */
-	public function detect_slug_change( $post_id, $post, $post_before ) {
+	public function detect_slug_change( $term_id, $tt_id, $taxonomy ) {
+
+		// Check if the old page is set
+		if ( ! isset( $_POST['wpseo_old_url'] ) ) {
+			return;
+		}
 
 		// Get the new URL
-		$new_url = parse_url( get_permalink( $post_id ) );
+		$new_url = parse_url( get_term_link( $term_id, $taxonomy ) );
 		$new_url = $new_url['path'];
 
 		// Get the old URL
 		$old_url = esc_url( $_POST['wpseo_old_url'] );
 
 		// Get the site URL
-		$site   = parse_url( get_site_url() );
+		$site = parse_url( get_site_url() );
 
 		// Check if we should create a redirect
-		if ( in_array( $post->post_status, array( 'publish', 'static' ) ) && $old_url != $new_url && $old_url != '/' && ( !isset( $site['path'] ) || ( isset( $site['path'] ) && $old_url != $site['path'].'/' ) ) ) {
+		if ( $old_url != $new_url && $old_url != '/' && ( ! isset( $site['path'] ) || ( isset( $site['path'] ) && $old_url != $site['path'] . '/' ) ) ) {
 
 			// The URL redirect manager
 			$redirect_manager = new WPSEO_URL_Redirect_Manager();
@@ -64,6 +64,7 @@ class WPSEO_Post_Watcher {
 
 			// Add the message to the notifications center
 			Yoast_Notification_Center::add_notice( new Yoast_Notification( $message ) );
+
 		}
 
 	}
