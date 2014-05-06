@@ -76,6 +76,9 @@ function wpseo_auto_load( $class ) {
 			'yoast_plugin_license_manager'       =>	WPSEO_PATH . 'admin/license-manager/class-plugin-license-manager.php',
 			'yoast_product'                      =>	WPSEO_PATH . 'admin/license-manager/class-product.php',
 
+			'yoast_notification_center'          =>	WPSEO_PATH . 'admin/class-yoast-notification-center.php',
+			'yoast_notification'                 =>	WPSEO_PATH . 'admin/class-yoast-notification.php',
+
 			'wp_list_table'                      => ABSPATH . 'wp-admin/includes/class-wp-list-table.php',
 			'walker_category'                    => ABSPATH . 'wp-includes/category-template.php',
 			'pclzip'                             => ABSPATH . 'wp-admin/includes/class-pclzip.php',
@@ -262,6 +265,9 @@ function wpseo_admin_init() {
 	if ( $options['enablexmlsitemap'] === true ) {
 		$GLOBALS['wpseo_sitemaps_admin'] = new WPSEO_Sitemaps_Admin;
 	}
+
+	// Display Yoast notifications
+	Yoast_Notification_Center::display_notices();
 }
 
 add_action( 'plugins_loaded', 'wpseo_init', 14 );
