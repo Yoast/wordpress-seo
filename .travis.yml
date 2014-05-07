@@ -28,4 +28,4 @@ before_script:
     #set up database
     - mysql -e 'CREATE DATABASE wordpress_test;' -uroot
 
-script: phpunit
+script: phpunit -c phpunit.xml
