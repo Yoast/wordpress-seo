@@ -62,7 +62,8 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 			add_filter( 'wp_title', array( $this, 'title' ), 15, 3 );
 			add_filter( 'thematic_doctitle', array( $this, 'title' ), 15 );
 
-			add_action( 'wp', array( $this, 'page_redirect' ), 99, 1 );
+			add_action( 'wp', array( $this, 'page_redirect' ), 99 );
+			add_action( 'wp', array( $this, 'pagination_overflow_redirect' ), 99 );
 
 			add_action( 'template_redirect', array( $this, 'noindex_feed' ) );
 
@@ -1213,6 +1214,19 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 		 */
 		public function nofollow_link( $input ) {
 			return str_replace( '<a ', '<a rel="nofollow" ', $input );
+		}
+
+		/**
+		 * If the paginated result doesn't exist, redirect to the same URL without pagination.
+		 */
+		function pagination_overflow_redirect() {
+			$pagenum = get_query_var( 'paged' );
+
+			if ( is_404() && $pagenum > 1  ) {
+				$new_url = home_url() . preg_replace( '`/' . $GLOBALS['wp_rewrite']->pagination_base . '/' . $pagenum . '/?$`', '/', $_SERVER['REQUEST_URI'] );
+				wp_safe_redirect( $new_url, 301 );
+				exit;
+			}
 		}
 
 		/**
