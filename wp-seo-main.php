@@ -266,8 +266,6 @@ function wpseo_admin_init() {
 		$GLOBALS['wpseo_sitemaps_admin'] = new WPSEO_Sitemaps_Admin;
 	}
 
-	// Display Yoast notifications
-	Yoast_Notification_Center::display_notices();
 }
 
 add_action( 'plugins_loaded', 'wpseo_init', 14 );
@@ -283,6 +281,12 @@ if ( is_admin() ) {
 else {
 	add_action( 'plugins_loaded', 'wpseo_frontend_init', 15 );
 }
+
+function load_yoast_notifications() {
+	// Init Yoast_Notification_Center class
+	Yoast_Notification_Center::get();
+}
+add_action( 'admin_init', 'load_yoast_notifications' );
 
 // Activation and deactivation hook
 register_activation_hook( WPSEO_FILE, 'wpseo_activate' );
