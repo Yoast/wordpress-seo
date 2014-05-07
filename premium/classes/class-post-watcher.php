@@ -60,7 +60,7 @@ class WPSEO_Post_Watcher {
 			$redirect_manager->create_redirect( $old_url, $new_url );
 
 			// Format the message
-			$message = sprintf( __( "WordPress SEO Premium created a redirect from the old post URL to the new post URL. <a href='%s'>Click here to undo this</a>.", 'wordpress-seo' ), 'javascript:wpseo_undo_redirect("' . urlencode( $old_url ) . '", "' . wp_create_nonce( 'wpseo-redirects-ajax-security' ) . '");' );
+			$message = sprintf( __( "WordPress SEO Premium created a <a href='%s'>redirect</a> from the old post URL to the new post URL. <a href='%s'>Click here to undo this</a>.", 'wordpress-seo' ), admin_url( 'admin.php?page=wpseo_redirects&s=' . urlencode( $old_url ) ), 'javascript:wpseo_undo_redirect("' . urlencode( $old_url ) . '", "' . wp_create_nonce( 'wpseo-redirects-ajax-security' ) . '");' );
 
 			// Add the message to the notifications center
 			Yoast_Notification_Center::add_notice( new Yoast_Notification( $message ) );
