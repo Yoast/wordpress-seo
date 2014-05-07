@@ -72,7 +72,7 @@ class Yoast_Notification_Center {
 		}
 
 		// Set the cookie with notifications
-		setcookie( self::COOKIE_KEY, json_encode( $arr_notifications ), time() * 60 * 10 );
+		setcookie( self::COOKIE_KEY, json_encode( $arr_notifications ), time() + 60 * 10 );
 	}
 
 }
