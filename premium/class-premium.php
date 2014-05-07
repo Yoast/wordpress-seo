@@ -123,7 +123,7 @@ class WPSEO_Premium {
 			add_filter( 'set-screen-option', array( $this->page_gwt, 'set_screen_option' ), 11, 3 );
 
 			// Enqueue Post and Term overview script
-			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_undo_script' ) );
+			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_overview_script' ) );
 
 			// Licensing part
 			$license_manager = new Yoast_Plugin_License_Manager( new WPSEO_Product_Premium() );
@@ -176,6 +176,8 @@ class WPSEO_Premium {
 
 				// Detect the post slug change
 				add_action( 'post_updated', array( $post_watcher, 'detect_slug_change' ), 12, 3 );
+
+				add_action( 'delete_post', array( $post_watcher, 'detect_post_delete' ) );
 
 				// The Term Watcher
 				$term_watcher = new WPSEO_Term_Watcher();
@@ -247,11 +249,11 @@ class WPSEO_Premium {
 	 *
 	 * @param $hook
 	 */
-	public function enqueue_undo_script( $hook ) {
+	public function enqueue_overview_script( $hook ) {
 
 		if ( 'edit.php' == $hook || 'edit-tags.php' == $hook ) {
-			wp_enqueue_script( 'wp-seo-premium-admin-undo-redirect', plugin_dir_url( WPSEO_PREMIUM_FILE ) . '/assets/js/wp-seo-premium-admin-undo-redirect.js', array( 'jquery' ), '1.0.0' );
-			wp_localize_script( 'wp-seo-premium-admin-undo-redirect', 'wpseo_premium_strings', WPSEO_Premium_Javascript_Strings::strings() );
+			wp_enqueue_script( 'wpseo-premium-admin-overview', plugin_dir_url( WPSEO_PREMIUM_FILE ) . '/assets/js/wpseo-premium-admin-overview.js', array( 'jquery' ), '1.0.0' );
+			wp_localize_script( 'wpseo-premium-admin-overview', 'wpseo_premium_strings', WPSEO_Premium_Javascript_Strings::strings() );
 		}
 
 	}

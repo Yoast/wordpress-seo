@@ -7,9 +7,6 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 
 class WPSEO_Post_Watcher {
 
-	public function __construct() {
-	}
-
 	/**
 	 * Add an extra field to post edit screen so we know the old url in the 'post_updated' hook
 	 *
@@ -25,7 +22,7 @@ class WPSEO_Post_Watcher {
 			$url = $url['path'];
 
 			// Output the hidden field
-			echo '<input type="hidden" name="wpseo_old_url" value="'.esc_attr( $url ).'"/>';
+			echo '<input type="hidden" name="wpseo_old_url" value="' . esc_attr( $url ) . '"/>';
 
 		}
 
@@ -48,10 +45,14 @@ class WPSEO_Post_Watcher {
 		$old_url = esc_url( $_POST['wpseo_old_url'] );
 
 		// Get the site URL
-		$site   = parse_url( get_site_url() );
+		$site = parse_url( get_site_url() );
 
 		// Check if we should create a redirect
-		if ( in_array( $post->post_status, array( 'publish', 'static' ) ) && $old_url != $new_url && $old_url != '/' && ( !isset( $site['path'] ) || ( isset( $site['path'] ) && $old_url != $site['path'].'/' ) ) ) {
+		if ( in_array( $post->post_status, array(
+				'publish',
+				'static'
+			) ) && $old_url != $new_url && $old_url != '/' && ( ! isset( $site['path'] ) || ( isset( $site['path'] ) && $old_url != $site['path'] . '/' ) )
+		) {
 
 			// The URL redirect manager
 			$redirect_manager = new WPSEO_URL_Redirect_Manager();
@@ -65,6 +66,26 @@ class WPSEO_Post_Watcher {
 			// Add the message to the notifications center
 			Yoast_Notification_Center::add_notice( new Yoast_Notification( $message ) );
 		}
+
+	}
+
+	/**
+	 * Offer to create a redirect from the slug that is about to get deleted
+	 *
+	 * @param $post_id
+	 */
+	public function detect_post_delete( $post_id ) {
+
+		// Get the right URL
+		$url = parse_url( get_permalink( $post_id ) );
+		$url = $url['path'];
+
+		// Format the message
+		$message = sprintf( __( "WordPress SEO Premium detected that you deleted a post. <a href='%s'>Click here to create a redirect from the old post URL</a>.", 'wordpress-seo' ), 'javascript:wpseo_create_redirect("' . urlencode( $url ) . '", "' . wp_create_nonce( 'wpseo-redirects-ajax-security' ) . '");' );
+
+		// Add the message to the notifications center
+		Yoast_Notification_Center::add_notice( new Yoast_Notification( $message ) );
+
 
 	}
 
