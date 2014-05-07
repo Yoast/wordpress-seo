@@ -76,10 +76,9 @@
 						{
 							action    : 'wpseo_delete_redirect_' + type,
 							ajax_nonce: $('.wpseo_redirects_ajax_nonce').val(),
-							redirect  : { key: object.encode($(row).find('.val').eq(0).html().toString()), value: object.encode($(row).find('.val').eq(1).html().toString()) }
+							redirect  : { key: object.encode($(row).find('.val').eq(0).html().toString()) }
 						},
-						function (response) {
-						}
+						function (response) {}
 				);
 			});
 		};

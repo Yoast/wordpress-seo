@@ -122,6 +122,9 @@ class WPSEO_Premium {
 			add_filter( 'set-screen-option', array( 'WPSEO_Page_Redirect', 'set_screen_option' ), 11, 3 );
 			add_filter( 'set-screen-option', array( $this->page_gwt, 'set_screen_option' ), 11, 3 );
 
+			// Enqueue Post and Term overview script
+			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_undo_script' ) );
+
 			// Licensing part
 			$license_manager = new Yoast_Plugin_License_Manager( new WPSEO_Product_Premium() );
 
@@ -237,6 +240,20 @@ class WPSEO_Premium {
 		if ( is_plugin_active( 'wordpress-seo/wp-seo.php' ) ) {
 			deactivate_plugins( 'wordpress-seo/wp-seo.php' );
 		}
+	}
+
+	/**
+	 * Enqueue post en term overview script
+	 *
+	 * @param $hook
+	 */
+	public function enqueue_undo_script( $hook ) {
+
+		if ( 'edit.php' == $hook || 'edit-tags.php' == $hook ) {
+			wp_enqueue_script( 'wp-seo-premium-admin-undo-redirect', plugin_dir_url( WPSEO_PREMIUM_FILE ) . '/assets/js/wp-seo-premium-admin-undo-redirect.js', array( 'jquery' ), '1.0.0' );
+			wp_localize_script( 'wp-seo-premium-admin-undo-redirect', 'wpseo_premium_strings', WPSEO_Premium_Javascript_Strings::strings() );
+		}
+
 	}
 
 	/**
