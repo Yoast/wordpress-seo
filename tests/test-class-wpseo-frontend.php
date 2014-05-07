@@ -11,6 +11,10 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		self::$class_instance = new WPSEO_Frontend;
 	}
 
+	public function tearDown() {
+		ob_clean();
+	}
+
     /**
      * @covers WPSEO_Frontend::is_home_posts_page
      */
@@ -327,6 +331,10 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 
 		// go to category page
 		$category_id = wp_create_category( "Category Name" );
+
+		// add posts to category
+		$this->factory->post->create_many( 6, array( 'post_category' => array( $category_id ) ) );
+
 		$category_link = get_category_link( $category_id );
 		$this->go_to( $category_link );
 
@@ -340,18 +348,18 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 			$expected = 'noindex,follow';
 			self::$class_instance->options['noindex-tax-category'] = true;
 			$this->assertEquals( $expected, self::$class_instance->robots() );
+		
+			// clean-up
+			self::$class_instance->options['noindex-tax-category'] = false;
+
+			// test subpages of category archives
+			update_site_option( 'posts_per_page', 1 );
+			self::$class_instance->options['noindex-subpages-wpseo'] = true;
+			$this->go_to( add_query_arg( array( 'paged' => 2 ), $category_link ) );
+
+			$expected = 'noindex,follow';
+			$this->assertEquals( $expected, self::$class_instance->robots() );
 		}
-
-		// clean-up
-		self::$class_instance->options['noindex-tax-category'] = false;
-
-		// test subpages of category archives
-		self::$class_instance->options['noindex-subpages-wpseo'] = true;
-		$this->go_to( add_query_arg( array( 'paged' => 2 ), $category_link ) );
-
-		$expected = 'noindex,follow';
-		$this->assertEquals( $expected, self::$class_instance->robots() );
-
 		// go to author page
 		$user_id = $this->factory->user->create();
 		$this->go_to( get_author_posts_url( $user_id ) );
@@ -367,9 +375,6 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 
 		// clean-up
 		self::$class_instance->options['noindex-author-wpseo'] = false;
-
-		// clean output buffer
-		ob_clean();
 	}
 
     /**
