@@ -174,9 +174,10 @@ class WPSEO_Premium {
 				add_action( 'edit_form_advanced', array( $post_watcher, 'old_url_field' ), 10, 1 );
 				add_action( 'edit_page_form', array( $post_watcher, 'old_url_field' ), 10, 1 );
 
-				// Detect the post slug change
+				// Detect a post slug change
 				add_action( 'post_updated', array( $post_watcher, 'detect_slug_change' ), 12, 3 );
 
+				// Detect a post delete
 				add_action( 'delete_post', array( $post_watcher, 'detect_post_delete' ) );
 
 				// The Term Watcher
@@ -195,6 +196,9 @@ class WPSEO_Premium {
 
 				// Detect the term slug change
 				add_action( 'edited_term', array( $term_watcher, 'detect_slug_change' ), 10, 3 );
+
+				// Detect a term delete
+				add_action( 'delete_term_taxonomy', array( $term_watcher, 'detect_term_delete' ) );
 
 				// Check if we need to display an admin message
 				if ( isset( $_GET['yoast-redirect-created'] ) ) {
@@ -232,7 +236,6 @@ class WPSEO_Premium {
 		add_action( 'wp_ajax_wpseo_save_redirect_regex', array( $redirect_manager, 'ajax_handle_redirect_save' ) );
 		add_action( 'wp_ajax_wpseo_delete_redirect_regex', array( $redirect_manager, 'ajax_handle_redirect_delete' ) );
 		add_action( 'wp_ajax_wpseo_create_redirect_regex', array( $redirect_manager, 'ajax_handle_redirect_create' ) );
-
 	}
 
 	/**
@@ -251,7 +254,7 @@ class WPSEO_Premium {
 	 */
 	public function enqueue_overview_script( $hook ) {
 
-		if ( 'edit.php' == $hook || 'edit-tags.php' == $hook ) {
+		if ( 'edit.php' == $hook || 'edit-tags.php' == $hook || 'post.php' == $hook ) {
 			wp_enqueue_script( 'wpseo-premium-admin-overview', plugin_dir_url( WPSEO_PREMIUM_FILE ) . '/assets/js/wpseo-premium-admin-overview.js', array( 'jquery' ), '1.0.0' );
 			wp_localize_script( 'wpseo-premium-admin-overview', 'wpseo_premium_strings', WPSEO_Premium_Javascript_Strings::strings() );
 		}

@@ -8,7 +8,7 @@ function wpseo_undo_redirect(url, nonce) {
 				redirect  : { key: url }
 			},
 			function (response) {
-				jQuery('.yoast-redirect-message').fadeOut('normal',function() {
+				jQuery('.yoast-notice').fadeOut('normal', function () {
 					jQuery(this).remove();
 				});
 			}
@@ -16,7 +16,7 @@ function wpseo_undo_redirect(url, nonce) {
 
 }
 
-function wpseo_create_redirect( url, nonce ) {
+function wpseo_create_redirect(url, nonce) {
 	var new_url = prompt(wpseo_premium_strings.enter_new_url);
 
 	if (null != new_url) {
@@ -38,7 +38,7 @@ function wpseo_create_redirect( url, nonce ) {
 							jQuery(this).remove();
 						});
 
-						jQuery('.yoast-redirect-message').fadeOut('normal',function() {
+						jQuery('.yoast-notice').fadeOut('normal', function () {
 							jQuery(this).remove();
 						});
 
@@ -49,3 +49,28 @@ function wpseo_create_redirect( url, nonce ) {
 		}
 	}
 }
+
+(function ($) {
+
+	$(window).load(function () {
+
+		$('.wp-list-table.tags tbody').on('DOMNodeRemoved', function () {
+
+			jQuery.post(
+					ajaxurl,
+					{
+						action: 'yoast_get_notifications'
+					},
+					function (response) {
+						if ('' != response) {
+							$('#ajax-response').append(response);
+						}
+					}
+			);
+
+
+		});
+
+	});
+
+})(jQuery);

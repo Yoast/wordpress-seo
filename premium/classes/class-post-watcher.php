@@ -64,28 +64,34 @@ class WPSEO_Post_Watcher {
 			$message = sprintf( __( "WordPress SEO Premium created a <a href='%s'>redirect</a> from the old post URL to the new post URL. <a href='%s'>Click here to undo this</a>.", 'wordpress-seo' ), admin_url( 'admin.php?page=wpseo_redirects&s=' . urlencode( $old_url ) ), 'javascript:wpseo_undo_redirect("' . urlencode( $old_url ) . '", "' . wp_create_nonce( 'wpseo-redirects-ajax-security' ) . '");' );
 
 			// Add the message to the notifications center
-			Yoast_Notification_Center::add_notice( new Yoast_Notification( $message ) );
+			Yoast_Notification_Center::get()->add_notification( new Yoast_Notification( $message ) );
+
 		}
 
 	}
 
 	/**
-	 * Offer to create a redirect from the slug that is about to get deleted
+	 * Offer to create a redirect from the post that is about to get deleted
 	 *
 	 * @param $post_id
 	 */
 	public function detect_post_delete( $post_id ) {
 
-		// Get the right URL
-		$url = parse_url( get_permalink( $post_id ) );
-		$url = $url['path'];
+		// Get the post
+		$post = get_post( $post_id );
 
-		// Format the message
-		$message = sprintf( __( "WordPress SEO Premium detected that you deleted a post. <a href='%s'>Click here to create a redirect from the old post URL</a>.", 'wordpress-seo' ), 'javascript:wpseo_create_redirect("' . urlencode( $url ) . '", "' . wp_create_nonce( 'wpseo-redirects-ajax-security' ) . '");' );
+		// No revisions please
+		if ( $post->post_status != 'inherit' ) {
+			// Get the right URL
+			$url = parse_url( get_permalink( $post_id ) );
+			$url = $url['path'];
 
-		// Add the message to the notifications center
-		Yoast_Notification_Center::add_notice( new Yoast_Notification( $message ) );
+			// Format the message
+			$message = sprintf( __( "WordPress SEO Premium detected that you deleted a post. <a href='%s'>Click here to create a redirect from the old post URL</a>.", 'wordpress-seo' ), 'javascript:wpseo_create_redirect("' . urlencode( $url ) . '", "' . wp_create_nonce( 'wpseo-redirects-ajax-security' ) . '");' );
 
+			// Add the message to the notifications center
+			Yoast_Notification_Center::get()->add_notification( new Yoast_Notification( $message ) );
+		}
 
 	}
 
