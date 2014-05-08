@@ -263,7 +263,7 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 		'%%term404%%'	   => sanitize_text_field( str_replace( '-', ' ', $r->term404 ) ),
 	);
 
-	if ( isset( $r->ID ) ) {
+	if ( isset( $r->ID ) && ! empty( $r->ID ) ) {
 		$replacements = array_merge(
 			$replacements, array(
 				'%%caption%%'      => $r->post_excerpt,
