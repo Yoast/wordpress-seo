@@ -581,9 +581,9 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		 */
 		function get_post_date( $post ) {
 			if ( isset( $post->post_date ) && $post->post_status == 'publish' ) {
-				$date = date( 'j M Y', strtotime( $post->post_date ) );
+				$date = date_i18n( 'j M Y', strtotime( $post->post_date ) );
 			} else {
-				$date = date( 'j M Y' );
+				$date = date_i18n( 'j M Y' );
 			}
 
 			return $date;

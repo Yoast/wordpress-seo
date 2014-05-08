@@ -589,7 +589,7 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 				$date = get_the_date();
 			}
 			else {
-				$date = mysql2date( get_option( 'date_format' ), $date );
+				$date = mysql2date( get_option( 'date_format' ), $date, true );
 				$date = apply_filters( 'get_the_date', $date, '' );
 			}
 
