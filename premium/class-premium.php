@@ -164,7 +164,7 @@ class WPSEO_Premium {
 			// Add htaccess import block
 			add_action( 'wpseo_import', array( $premium_import_manager, 'add_htaccess_import_block' ) );
 
-			// Only activate post watcher if permalink structure is enabled
+			// Only activate post and term watcher if permalink structure is enabled
 			if ( get_option( 'permalink_structure' ) ) {
 
 				// The Post Watcher
@@ -342,8 +342,36 @@ class WPSEO_Premium {
 	 * Register the premium settings
 	 */
 	public function register_settings() {
-		register_setting( 'yoast_wpseo_redirect_options', 'wpseo_redirect' );
+		register_setting( 'yoast_wpseo_redirect_options', 'wpseo_redirect', array(
+			$this,
+			'redirect_sanatize_callback'
+		) );
 		register_setting( 'yoast_wpseo_gwt_options', 'wpseo-premium-gwt', array( $this, 'gwt_sanatize_callback' ) );
+	}
+
+	/**
+	 * @param $settings
+	 *
+	 * @return array
+	 */
+	public function redirect_sanatize_callback( $settings ) {
+
+		// Check if we need to save a file
+		if ( isset( $settings['disable_php_redirect'] ) && 'on' == $settings['disable_php_redirect'] ) {
+			if ( wpseo_is_apache() ) {
+
+				if ( isset( $settings['separate_file'] ) && 'on' == $settings['separate_file'] ) {
+					$redirect_manager = new WPSEO_URL_Redirect_Manager();
+					$redirect_manager->save_redirects( $redirect_manager->get_redirects() );
+				}
+
+			} else if ( wpseo_is_nginx() ) {
+				$redirect_manager = new WPSEO_URL_Redirect_Manager();
+				$redirect_manager->save_redirects( $redirect_manager->get_redirects() );
+			}
+		}
+
+		return $settings;
 	}
 
 	/**

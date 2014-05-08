@@ -28,6 +28,15 @@ class WPSEO_Redirect_File_Manager {
 	}
 
 	/**
+	 * Get the full path to the .htaccess file
+	 *
+	 * @return bool
+	 */
+	public static function get_htaccess_file_path() {
+		return get_home_path() . '.htaccess';
+	}
+
+	/**
 	 * Function that creates the WPSEO redirect directory
 	 */
 	public static function create_upload_dir() {

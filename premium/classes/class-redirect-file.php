@@ -17,7 +17,7 @@ abstract class WPSEO_Redirect_File implements iWPSEO_Redirect_File {
 	 *
 	 * @return string
 	 */
-	private function generate_file_content() {
+	protected function generate_file_content() {
 		$file_content = "";
 
 		// Generate URL redirects

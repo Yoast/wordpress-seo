@@ -19,7 +19,10 @@ abstract class WPSEO_Redirect_Manager {
 	 * @return array
 	 */
 	public static function get_options() {
-		return apply_filters( 'wpseo_premium_redirect_options', wp_parse_args( get_option( 'wpseo_redirect', array() ), array( 'disable_php_redirect' => 'off' ) ) );
+		return apply_filters( 'wpseo_premium_redirect_options', wp_parse_args( get_option( 'wpseo_redirect', array() ), array(
+					'disable_php_redirect' => 'off',
+					'separate_file'        => 'off'
+				) ) );
 	}
 
 	/**
@@ -88,18 +91,33 @@ abstract class WPSEO_Redirect_Manager {
 		// Update the database option
 		update_option( $this->option_redirects, apply_filters( 'wpseo_premium_save_redirects', $redirects ) );
 
-		// Create the correct file object
-		$file = null;
-		if ( wpseo_is_apache() ) {
-			$file = new WPSEO_Apache_Redirect_File();
-		} elseif ( wpseo_is_nginx() ) {
-			$file = new WPSEO_Nginx_Redirect_File();
+		// Options
+		$options = self::get_options();
+
+		if ( 'on' == $options['disable_php_redirect'] ) {
+
+			// Create the correct file object
+			$file = null;
+			if ( wpseo_is_apache() ) {
+
+				if ( 'on' == $options['separate_file'] ) {
+					$file = new WPSEO_Apache_Redirect_File();
+				}else {
+					$file = new WPSEO_Htaccess_Redirect_File();
+				}
+
+			} elseif ( wpseo_is_nginx() ) {
+				$file = new WPSEO_Nginx_Redirect_File();
+			}
+
+			// Save the file
+			if ( null !== $file ) {
+				$file->save_file();
+			}
+
 		}
 
-		// Save the file
-		if ( null !== $file ) {
-			$file->save_file();
-		}
+
 	}
 
 	/**
