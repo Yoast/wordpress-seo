@@ -1085,7 +1085,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 			} else {
 				$result = 0;
 				foreach ( $post_types as $post_type ) {
-					if ( strotime( $this->post_type_dates[$post_type] ) > $result ) {
+					if ( isset( $this->post_type_dates[$post_type] ) && strtotime( $this->post_type_dates[$post_type] ) > $result ) {
 						$result = strtotime( $this->post_type_dates[$post_type] );
 					}
 				}
