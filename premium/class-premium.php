@@ -272,7 +272,13 @@ class WPSEO_Premium {
 			$parsed_url = parse_url( home_url( add_query_arg( null, null ) ) );
 
 			if ( false !== $parsed_url ) {
-				$old_url = urlencode( $parsed_url['path'] );
+				$old_url = $parsed_url['path'];
+
+				if ( isset( $parsed_url['query'] ) && $parsed_url['query'] != '' ) {
+					$old_url .= "?" . $parsed_url['query'];
+				}
+
+				$old_url = urlencode( $old_url );
 
 				$wp_admin_bar->add_menu( array(
 					'id'    => 'wpseo-premium-create-redirect',
