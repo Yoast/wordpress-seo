@@ -5,6 +5,11 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	die;
 }
 
+/**
+ * Class WPSEO_Nginx_Redirect_File
+ *
+ * @todo Add redirect type to NGINX redirects
+ */
 class WPSEO_Nginx_Redirect_File extends WPSEO_Redirect_File {
 
 	/**
@@ -12,10 +17,11 @@ class WPSEO_Nginx_Redirect_File extends WPSEO_Redirect_File {
 	 *
 	 * @param $old_url
 	 * @param $new_url
+	 * @param $type
 	 *
 	 * @return string
 	 */
-	public function format_url_redirect( $old_url, $new_url ) {
+	public function format_url_redirect( $old_url, $new_url, $type ) {
 		return "location " . $old_url . " { rewrite ^ " . $new_url . " permanent; }";
 	}
 
@@ -24,10 +30,11 @@ class WPSEO_Nginx_Redirect_File extends WPSEO_Redirect_File {
 	 *
 	 * @param $regex
 	 * @param $url
+	 * @param $type
 	 *
 	 * @return string
 	 */
-	public function format_regex_redirect( $regex, $url ) {
+	public function format_regex_redirect( $regex, $url, $type ) {
 		return 'rewrite "' . $regex . '" ' . $url . ' permanent;';
 	}
 

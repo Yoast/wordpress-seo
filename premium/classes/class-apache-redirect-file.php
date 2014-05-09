@@ -12,11 +12,12 @@ class WPSEO_Apache_Redirect_File extends WPSEO_Redirect_File {
 	 *
 	 * @param $old_url
 	 * @param $new_url
+	 * @param $type
 	 *
 	 * @return string
 	 */
-	public function format_url_redirect( $old_url, $new_url ) {
-		return "Redirect 301 " . $old_url . " " . $new_url;
+	public function format_url_redirect( $old_url, $new_url, $type ) {
+		return "Redirect " . $type . " " . $old_url . " " . $new_url;
 	}
 
 	/**
@@ -24,11 +25,12 @@ class WPSEO_Apache_Redirect_File extends WPSEO_Redirect_File {
 	 *
 	 * @param $regex
 	 * @param $url
+	 * @param $type
 	 *
 	 * @return string
 	 */
-	public function format_regex_redirect( $regex, $url ) {
-		return "RewriteRule " . $regex . " " . $url . " [R=301,L]";
+	public function format_regex_redirect( $regex, $url, $type ) {
+		return "RewriteRule " . $regex . " " . $url . " [ R = " . $type . ", L ]";
 	}
 
 }

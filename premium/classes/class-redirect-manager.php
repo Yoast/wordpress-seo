@@ -22,6 +22,10 @@ abstract class WPSEO_Redirect_Manager {
 		return apply_filters( 'wpseo_premium_redirect_options', wp_parse_args( get_option( 'wpseo_redirect', array() ), array( 'disable_php_redirect' => 'off' ) ) );
 	}
 
+	public static function get_redirect_types() {
+		return apply_filters( 'wpseo_premium_redirect_types', array( '301', '302', '303', '304' ) );
+	}
+
 	/**
 	 * Change if the redirect option is autoloaded
 	 *
@@ -105,6 +109,8 @@ abstract class WPSEO_Redirect_Manager {
 	/**
 	 * Save the redirect
 	 *
+	 * @todo fix this method to work with the new redirect setup
+	 *
 	 * @param $old_redirect_arr
 	 * @param $new_redirect_arr
 	 *
@@ -140,10 +146,11 @@ abstract class WPSEO_Redirect_Manager {
 	 *
 	 * @param String $old_value
 	 * @param String $new_value
+	 * @param $type
 	 *
 	 * @return bool
 	 */
-	public function create_redirect( $old_value, $new_value ) {
+	public function create_redirect( $old_value, $new_value, $type ) {
 
 		// Get redirects
 		$redirects = $this->get_redirects();
@@ -154,7 +161,7 @@ abstract class WPSEO_Redirect_Manager {
 		}
 
 		// Add new redirect
-		$redirects[ $old_value ] = $new_value;
+		$redirects[ $old_value ] = array( 'url' => $new_value, 'type' => $type );
 
 		// Save redirects
 		$this->save_redirects( $redirects );
@@ -264,11 +271,12 @@ abstract class WPSEO_Redirect_Manager {
 		}
 
 		// Save the redirect
-		if ( isset( $_POST['old_url'] ) && isset( $_POST['new_url'] ) ) {
+		if ( isset( $_POST['old_url'] ) && isset( $_POST['new_url'] ) && isset( $_POST['type'] ) ) {
 			$old_url = urldecode( $_POST['old_url'] );
 			$new_url = urldecode( $_POST['new_url'] );
+			$type    = $_POST['type'];
 
-			$this->create_redirect( $old_url, $new_url );
+			$this->create_redirect( $old_url, $new_url, $type );
 		}
 
 		// Response

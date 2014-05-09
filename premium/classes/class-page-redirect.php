@@ -23,6 +23,9 @@ class WPSEO_Page_Redirect {
 			$old_url = urldecode( $_GET['old_url'] );
 		}
 
+		// Get the redirect types
+		$redirect_types = WPSEO_Redirect_Manager::get_redirect_types();
+
 		// Admin header
 		$wpseo_admin_pages->admin_header( false, 'yoast_wpseo_redirects_options', 'wpseo_redirects' );
 		?>
@@ -38,7 +41,7 @@ class WPSEO_Page_Redirect {
 				// Add new redirect HTML
 				echo "<form class='wpseo-new-redirect-form' method='post'>\n";
 				echo "<div class='wpseo_redirects_new'>\n";
-				echo "<h2>" . __( 'Add New Redirect', 'wordpress-seo' ) . "</h2>\n";
+//				echo "<h2>" . __( 'Add New Redirect', 'wordpress-seo' ) . "</h2>\n";
 
 				echo "<label class='textinput' for='wpseo_redirects_new_old'>" . __( 'Old URL', 'wordpress-seo' ) . "</label>\n";
 				echo "<input type='text' class='textinput' name='wpseo_redirects_new_old' id='wpseo_redirects_new_old' value='{$old_url}' />\n";
@@ -46,6 +49,23 @@ class WPSEO_Page_Redirect {
 
 				echo "<label class='textinput' for='wpseo_redirects_new_new'>" . __( 'New URL', 'wordpress-seo' ) . "</label>\n";
 				echo "<input type='text' class='textinput' name='wpseo_redirects_new_new' id='wpseo_redirects_new_new' value='' />\n";
+				echo "<br class='clear'/>\n";
+
+				echo "<label class='textinput' for='wpseo_redirects_new_type'>" . __( 'Type', 'wordpress-seo' ) . "</label>\n";
+
+				// Redirect type select element
+				echo "<select name='wpseo_redirects_new_type' id='wpseo_redirects_new_type' class='select'>" . PHP_EOL;
+
+				// Loop through the redirect types
+				if ( count( $redirect_types ) > 0 ) {
+					foreach ( $redirect_types as $type ) {
+						echo "<option value='" . $type . "'>" . $type . "</option>" . PHP_EOL;
+					}
+
+				}
+
+				echo "</select>" . PHP_EOL;
+
 				echo "<br class='clear'/>\n";
 
 				echo "<a href='javascript:;' class='button-primary'>" . __( 'Add Redirect', 'wordpress-seo' ) . "</a>\n";
@@ -76,7 +96,7 @@ class WPSEO_Page_Redirect {
 				// Add new redirect HTML
 				echo "<form class='wpseo-new-redirect-form' method='post'>\n";
 				echo "<div class='wpseo_redirects_new'>\n";
-				echo "<h2>" . __( 'Add New Regex Redirect', 'wordpress-seo' ) . "</h2>\n";
+//				echo "<h2>" . __( 'Add New Regex Redirect', 'wordpress-seo' ) . "</h2>\n";
 
 				echo "<label class='textinput' for='wpseo_redirects_new_old'>" . __( 'REGEX', 'wordpress-seo' ) . "</label>\n";
 				echo "<input type='text' class='textinput' name='wpseo_redirects_new_old' id='wpseo_redirects_new_old' value='{$old_url}' />\n";
@@ -84,6 +104,22 @@ class WPSEO_Page_Redirect {
 
 				echo "<label class='textinput' for='wpseo_redirects_new_new'>" . __( 'URL', 'wordpress-seo' ) . "</label>\n";
 				echo "<input type='text' class='textinput' name='wpseo_redirects_new_new' id='wpseo_redirects_new_new' value='' />\n";
+				echo "<br class='clear'/>\n";
+
+
+				echo "<label class='textinput' for='wpseo_redirects_new_type'>" . __( 'Type', 'wordpress-seo' ) . "</label>\n";
+				// Redirect type select element
+				echo "<select name='wpseo_redirects_new_type' id='wpseo_redirects_new_type' class='select'>" . PHP_EOL;
+
+				// Loop through the redirect types
+				if ( count( $redirect_types ) > 0 ) {
+					foreach ( $redirect_types as $type ) {
+						echo "<option value='" . $type . "'>" . $type . "</option>" . PHP_EOL;
+					}
+
+				}
+
+				echo "</select>" . PHP_EOL;
 				echo "<br class='clear'/>\n";
 
 				echo "<a href='javascript:;' class='button-primary'>" . __( 'Add Regex Redirect', 'wordpress-seo' ) . "</a>\n";
@@ -165,10 +201,11 @@ class WPSEO_Page_Redirect {
 		wp_enqueue_script( 'wp-seo-premium-admin-redirects', plugin_dir_url( WPSEO_PREMIUM_FILE ) . '/assets/js/wp-seo-premium-admin-redirects.js', array( 'jquery' ), '1.0.0' );
 		wp_localize_script( 'wp-seo-premium-admin-redirects', 'wpseo_premium_strings', WPSEO_Premium_Javascript_Strings::strings() );
 
-		add_screen_option( 'per_page', array( 'label'   => __( 'Redirects per page', 'wordpress-seo' ),
-		                                      'default' => 25,
-		                                      'option'  => 'redirects_per_page'
-			) );
+		add_screen_option( 'per_page', array(
+			'label'   => __( 'Redirects per page', 'wordpress-seo' ),
+			'default' => 25,
+			'option'  => 'redirects_per_page'
+		) );
 	}
 
 	/**

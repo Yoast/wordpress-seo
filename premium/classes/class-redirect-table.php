@@ -28,8 +28,8 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	public function __construct( $type ) {
 		parent::__construct( array( 'plural' => $type ) );
 
-		$this->type = $type;
-		$class_name = 'WPSEO_' . strtoupper($this->type) . '_Redirect_Manager';
+		$this->type             = $type;
+		$class_name             = 'WPSEO_' . strtoupper( $this->type ) . '_Redirect_Manager';
 		$this->redirect_manager = new $class_name();
 
 		$this->handle_bulk_action();
@@ -51,9 +51,9 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 
 		if ( is_array( $items ) ) {
 
-			foreach ( $items as $old => $new ) {
-				if ( false !== stripos( $old, $this->search_string ) || false !== stripos( $new, $this->search_string ) ) {
-					$results[$old] = $new;
+			foreach ( $items as $old => $redirect ) {
+				if ( false !== stripos( $old, $this->search_string ) || false !== stripos( $redirect['url'], $this->search_string ) ) {
+					$results[ $old ] = $redirect;
 				}
 			}
 
@@ -69,9 +69,10 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	 */
 	public function get_columns() {
 		$columns = array(
-				'cb'  => '<input type="checkbox" />',
-				'old' => $this->type,
-				'new' => __( 'New URL', 'wordpress-seo' ),
+			'cb'   => '<input type="checkbox" />',
+			'old'  => $this->type,
+			'new'  => __( 'New URL', 'wordpress-seo' ),
+			'type' => __( 'Type', 'wordpress-seo' )
 		);
 
 		return $columns;
@@ -100,8 +101,8 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 		// Format the data
 		$formatted_items = array();
 		if ( is_array( $redirect_items ) && count( $redirect_items ) > 0 ) {
-			foreach ( $redirect_items as $old => $new ) {
-				$formatted_items[] = array( 'old' => $old, 'new' => $new );
+			foreach ( $redirect_items as $old => $redirect ) {
+				$formatted_items[] = array( 'old' => $old, 'new' => $redirect['url'], 'type' => $redirect['type'] );
 			}
 		}
 
@@ -116,9 +117,9 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 
 		// Set pagination
 		$this->set_pagination_args( array(
-				'total_items' => count( $formatted_items ),
-				'total_pages' => ceil( $total_items / $per_page ),
-				'per_page'    => $per_page,
+			'total_items' => count( $formatted_items ),
+			'total_pages' => ceil( $total_items / $per_page ),
+			'per_page'    => $per_page,
 		) );
 
 		$current_page = intval( ( ( isset( $_GET['paged'] ) ) ? $_GET['paged'] : 0 ) );
@@ -137,8 +138,9 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	 */
 	public function get_sortable_columns() {
 		$sortable_columns = array(
-				'old' => array( 'old', false ),
-				'new' => array( 'new', false )
+			'old' => array( 'old', false ),
+			'new' => array( 'new', false ),
+			'type' => array( 'type', false )
 		);
 
 		return $sortable_columns;
@@ -160,7 +162,7 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 		$order = ( ! empty( $_GET['order'] ) ) ? $_GET['order'] : 'asc';
 
 		// Determine sort order
-		$result = strcmp( $a[$orderby], $b[$orderby] );
+		$result = strcmp( $a[ $orderby ], $b[ $orderby ] );
 
 		// Send final sort direction to usort
 		return ( $order === 'asc' ) ? $result : - $result;
@@ -168,14 +170,14 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 
 	public function column_old( $item ) {
 		$actions = array(
-				'edit'  => '<a href="javascript:;">' . __( 'Edit', 'wordpress-seo' ) . '</a>',
-				'trash' => '<a href="javascript:;" >' . __( 'Delete', 'wordpress-seo' ) . '</a>',
+			'edit'  => '<a href="javascript:;">' . __( 'Edit', 'wordpress-seo' ) . '</a>',
+			'trash' => '<a href="javascript:;" >' . __( 'Delete', 'wordpress-seo' ) . '</a>',
 		);
 
 		return sprintf(
-				'<div class="val">%1$s</div> %2$s',
-				$item['old'],
-				$this->row_actions( $actions )
+			'<div class="val">%1$s</div> %2$s',
+			$item['old'],
+			$this->row_actions( $actions )
 		);
 	}
 
@@ -188,7 +190,7 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	 */
 	public function column_cb( $item ) {
 		return sprintf(
-				'<input type="checkbox" name="wpseo_redirects_bulk_delete[]" value="%s" />', $item['old']
+			'<input type="checkbox" name="wpseo_redirects_bulk_delete[]" value="%s" />', $item['old']
 		);
 	}
 
@@ -204,10 +206,10 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 
 		switch ( $column_name ) {
 			case 'new':
-				return "<div class='val'>" . $item[$column_name] . "</div>";
+				return "<div class='val'>" . $item[ $column_name ] . "</div>";
 				break;
 			default:
-				return $item[$column_name];
+				return $item[ $column_name ];
 		}
 	}
 
@@ -218,7 +220,7 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	 */
 	public function get_bulk_actions() {
 		$actions = array(
-				'delete' => __( 'Delete', 'wordpress-seo' )
+			'delete' => __( 'Delete', 'wordpress-seo' )
 		);
 
 		return $actions;
