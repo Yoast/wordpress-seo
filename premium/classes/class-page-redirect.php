@@ -147,22 +147,51 @@ class WPSEO_Page_Redirect {
 			</div>
 			<div id="settings" class="wpseotab">
 				<?php
-				if ( file_exists( WPSEO_Redirect_File_Manager::get_file_path() ) ) {
-					echo '<div style="margin: 5px 0; padding: 3px 10px; background-color: #ffffe0; border: 1px solid #E6DB55; border-radius: 3px">';
-					echo '<p>';
-					_e( "You could use the redirect file we've created, this will increase site performance (recommended for sites with allot of redirects).", 'wordpress-seo' );
-					echo '<br/><br/>';
-					if ( wpseo_is_nginx() ) {
-						_e( "As you're on NGINX, you should add the following include to the website Nginx config file:", 'wordpress-seo' ) . '</p>';
-						echo '<pre>include ' . WPSEO_Redirect_File_Manager::get_file_path() . ';</pre>';
-					} elseif ( wpseo_is_apache() ) {
-						_e( "As you're on Apache, you should add the following include to the website httpd config file:", 'wordpress-seo' ) . '</p>';
-						echo '<pre>Include ' . WPSEO_Redirect_File_Manager::get_file_path() . '</pre>';
+
+				// Get redirect options
+				$redirect_options = WPSEO_Redirect_Manager::get_options();
+
+				// Do file checks
+				if ( 'on' == $redirect_options['disable_php_redirect'] ) {
+
+					$file_write_error = false;
+
+					if ( wpseo_is_apache() ) {
+
+						if ( 'on' == $redirect_options['separate_file'] ) {
+							if ( file_exists( WPSEO_Redirect_File_Manager::get_file_path() ) ) {
+								echo '<div style="margin: 5px 0; padding: 3px 10px; background-color: #ffffe0; border: 1px solid #E6DB55; border-radius: 3px">';
+								echo '<p>' . __( "As you're on Apache, you should add the following include to the website httpd config file:", 'wordpress-seo' ) . '</p>';
+								echo '<pre>Include ' . WPSEO_Redirect_File_Manager::get_file_path() . '</pre>';
+								echo '</div>';
+							} else {
+								$file_write_error = true;
+							}
+						} else {
+							if ( ! is_writable( WPSEO_Redirect_File_Manager::get_htaccess_file_path() ) ) {
+								echo "<div class='error'><p><b>" . __( "We're unable to save the redirects to your .htaccess file, please make the file writable.", 'wordpress-seo' ) . "</b></p></div>\n";
+							}
+						}
+
+					} else if ( wpseo_is_nginx() ) {
+						if ( file_exists( WPSEO_Redirect_File_Manager::get_file_path() ) ) {
+							echo '<div style="margin: 5px 0; padding: 3px 10px; background-color: #ffffe0; border: 1px solid #E6DB55; border-radius: 3px">';
+							echo '<p>' . __( "As you're on NGINX, you should add the following include to the website Nginx config file:", 'wordpress-seo' ) . '</p>';
+							echo '<pre>include ' . WPSEO_Redirect_File_Manager::get_file_path() . ';</pre>';
+							echo '</div>';
+						} else {
+							$file_write_error = true;
+						}
 					}
-					echo '</div>';
-				} else {
-					echo "<div class='error'><p><b>" . __( sprintf( "We're unable to save the redirect file to %s", WPSEO_Redirect_File_Manager::get_file_path() ), 'wordpress-seo' ) . "</b></p></div>\n";
+
+					if ( $file_write_error ) {
+						echo "<div class='error'><p><b>" . __( sprintf( "We're unable to save the redirect file to %s", WPSEO_Redirect_File_Manager::get_file_path() ), 'wordpress-seo' ) . "</b></p></div>\n";
+					}
+
 				}
+
+
+
 				?>
 				<h2>Redirect Settings</h2>
 
@@ -173,6 +202,12 @@ class WPSEO_Page_Redirect {
 
 					echo $wpseo_admin_pages->checkbox( 'disable_php_redirect', __( 'Disable PHP redirects', 'wordpress-seo' ) );
 					echo '<p class="desc">' . __( "WordPress SEO will generates redirect files that can be included in your website configuration, you can disable PHP redirect if this is done correctly. Only check this option if you know what your doing!", 'wordpress-seo' ) . '</p>';
+
+					if ( wpseo_is_apache() ) {
+						echo $wpseo_admin_pages->checkbox( 'separate_file', __( 'Generate a separate redirect file', 'wordpress-seo' ) );
+						echo '<p class="desc">' . __( "By default we write the redirects to your .htaccess file, check this if you want a the redirects writen to a separate file.", 'wordpress-seo' ) . '</p>';
+					}
+
 					?>
 					<p class="submit">
 						<input type="submit" name="submit" id="submit" class="button button-primary" value="<?php _e( 'Save Changes', 'wordpress-seo' ); ?>">
