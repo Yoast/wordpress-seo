@@ -5,7 +5,10 @@
 
 if ( ! defined( 'WPSEO_VERSION' ) ) {
 	header( 'Status: 403 Forbidden' );
-	header( 'HTTP/1.1 403 Forbidden' );
+	
+	// use the server protocol if available
+	$protocol = ( isset( $_SERVER['SERVER_PROTOCOL'] ) && $_SERVER['SERVER_PROTOCOL'] !== '' ) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.1';
+	header( $protocol.' 403 Forbidden' );
 	exit();
 }
 
@@ -946,7 +949,9 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 		 */
 		function xsl_output( $type ) {
 			if ( $type == 'main' ) {
-				header( 'HTTP/1.1 200 OK', true, 200 );
+				// use the server protocol if available
+				$protocol = ( isset( $_SERVER['SERVER_PROTOCOL'] ) && $_SERVER['SERVER_PROTOCOL'] !== '' ) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.1';
+				header( $protocol.' 200 OK', true, 200 );
 				// Prevent the search engines from indexing the XML Sitemap.
 				header( 'X-Robots-Tag: noindex, follow', true );
 				header( 'Content-Type: text/xml' );
@@ -967,7 +972,9 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 		 * Spit out the generated sitemap and relevant headers and encoding information.
 		 */
 		function output() {
-			header( 'HTTP/1.1 200 OK', true, 200 );
+			// use the server protocol if available
+			$protocol = ( isset( $_SERVER['SERVER_PROTOCOL'] ) && $_SERVER['SERVER_PROTOCOL'] !== '' ) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.1';
+			header( $protocol.' 200 OK', true, 200 );
 			// Prevent the search engines from indexing the XML Sitemap.
 			header( 'X-Robots-Tag: noindex, follow', true );
 			header( 'Content-Type: text/xml' );
