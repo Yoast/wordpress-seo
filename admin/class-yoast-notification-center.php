@@ -78,7 +78,6 @@ class Yoast_Notification_Center {
 	 * Clear the cookie
 	 */
 	private function remove_transient() {
-		error_log('remove_transient');
 		delete_transient( self::TRANSIENT_KEY );
 	}
 
