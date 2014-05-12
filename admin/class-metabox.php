@@ -618,16 +618,16 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			}
 
 			if ( is_string( $date ) && $date !== '' ) {
-				$datestr = '<span style="color: #666;">' . $date . '</span> – ';
+				$datestr = '<span class="date">' . $date . ' - </span>';
 			} else {
 				$datestr = '';
 			}
 			$content = '<div id="wpseosnippet">
 				<a class="title" href="#">' . esc_html( $title ) . '</a><br/>';
 
-			$content .= '<a href="#" style="font-size: 13px; color: #282; line-height: 15px;" class="url">' . str_replace( 'http://', '', get_bloginfo( 'url' ) ) . '/' . esc_html( $slug ) . '/</a>';
+			$content .= '<span class="url">' . str_replace( 'http://', '', get_bloginfo( 'url' ) ) . '/' . esc_html( $slug ) . '/</span>';
 
-			$content .= '<p class="desc" style="font-size: 13px; color: #000; line-height: 15px;">' . $datestr . '<span class="content">' . esc_html( $desc ) . '</span></p>';
+			$content .= '<p class="desc">' . $datestr . '<span class="content">' . esc_html( $desc ) . '</span></p>';
 
 			$content .= '</div>';
 
