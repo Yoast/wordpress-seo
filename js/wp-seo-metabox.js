@@ -112,7 +112,7 @@ function testFocusKw() {
 function updateTitle(force) {
 	var title = '';
 	var titleElm = jQuery('#'+wpseoMetaboxL10n.field_prefix+'title');
-	var titleLengthElm = jQuery('#'+wpseoMetaboxL10n.field_prefix+'title-length');
+	var titleLengthError = jQuery('#'+wpseoMetaboxL10n.field_prefix+'title-length-warning');
 	var divHtml = jQuery('<div />');
 	var snippetTitle = jQuery('#wpseosnippet').find('.title');
 
@@ -124,7 +124,7 @@ function updateTitle(force) {
 	}
 	if (title == '') {
 		snippetTitle.html('');
-		titleLengthElm.html('');
+		titleLengthError.hide();
 		return;
 	}
 
@@ -141,21 +141,16 @@ function updateTitle(force) {
 		titleElm.attr('placeholder', original_title);
 	}
 
-	var len = 70 - title.length;
-	if (title.length > 70) {
-		var space = title.lastIndexOf(" ", 67);
-		title = title.substring(0, space).concat(' <strong>...</strong>');
+	var e = document.getElementById('wpseosnippet_title');
+	if (e.scrollWidth > e.clientWidth) {
+		titleLengthError.show();
+	} else {
+		titleLengthError.hide();
 	}
-
-	if (len < 0)
-		len = '<span class="wrong">' + len + '</span>';
-	else
-		len = '<span class="good">' + len + '</span>';
 
 	title = boldKeywords(title, false);
 
 	snippetTitle.html(title);
-	titleLengthElm.html(len);
 	testFocusKw();
 }
 

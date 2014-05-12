@@ -92,10 +92,10 @@ ul.wpseo-metabox-tabs li {
 #wpseosnippet {
 	margin: 0 0 10px;
 	padding: 0 5px;
-	font-family: arial, sans-serif;
+	font-family: Arial, Helvetica, sans-serif;
 	font-style: normal;
 	width: auto;
-    max-width: 520px;
+	max-width: 520px;
 }
 
 #wpseosnippet td {
@@ -113,9 +113,14 @@ ul.wpseo-metabox-tabs li {
 }
 
 #wpseosnippet .title {
-	color: #1a0dab;
+	color: #1e0fbe;
 	font-size: 18px !important;
 	line-height: 1.2;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+	display: block;
+	width: 512px;
 }
 
 #wpseosnippet .desc {
