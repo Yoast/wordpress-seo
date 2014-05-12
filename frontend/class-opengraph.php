@@ -313,12 +313,12 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 
 			// check to see if the locale is a valid FB one, if not, use en_US as a fallback
 			// check to see if the locale is a valid FB one, if not, use en_US as a fallback
-            if ( ! in_array( $locale, $fb_valid_fb_locales ) ) {
-                $locale = strtolower( substr($locale, 0, 2) ) . '_' . strtoupper( substr($locale, 0, 2) );
-                if ( ! in_array( $locale, $fb_valid_fb_locales ) ) {
-                    $locale = 'en_US';
-                }
-            }
+			if ( ! in_array( $locale, $fb_valid_fb_locales ) ) {
+				$locale = strtolower( substr($locale, 0, 2) ) . '_' . strtoupper( substr($locale, 0, 2) );
+				if ( ! in_array( $locale, $fb_valid_fb_locales ) ) {
+					$locale = 'en_US';
+				}
+			}
 
 			if ( $echo !== false ) {
 				$this->og_tag( 'og:locale', $locale );
