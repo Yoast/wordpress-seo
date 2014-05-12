@@ -117,7 +117,8 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 	* Use the correct HTTP protocol for responses - props [Fab1en](https://github.com/Fab1en).
 	* Better OG locale handling - props [maiis](https://github.com/maiis).
 	* Fixed: 'breadcrumb_last' class was missing on homepage, as reported by [uprise10](https://github.com/uprise10) in [issue #1045](https://github.com/Yoast/wordpress-seo/issues/1045) - props [Jrf](http://profiles.wordpress.org/jrf).
-
+	* Fix empty post id notice, [issue #1080](https://github.com/Yoast/wordpress-seo/issues/1080) as reported by [sosada](https://github.com/sosada).
+	
 * Enhancement
 	* Redirect paginated archive pages with a pagination number that doesn't exist to the first page of that archive.
 	* Only show article publication time for posts, not for pages or other post types, introduce a new filter to _do_ allow them when needed.
