@@ -1002,7 +1002,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 		 */
 		function sitemap_url( $url ) {
 			if ( isset( $url['mod'] ) ) {
-				$date = mysql2date( 'Y-m-d\TH:i:s+00:00', $url['mod'] );
+				$date = mysql2date( 'Y-m-d\TH:i:s+00:00', $url['mod'], false );
 			} else {
 				$date = date( 'c' );
 			}
