@@ -329,7 +329,3 @@ input.wpseo-new-title, textarea.wpseo-new-metadesc {
 	background-image: url(../images/post-connector.png);
 	background-size: 115px 100px;
 }
-
-#adminmenu #toplevel_page_wpseo_dashboard ul li:last-child a {
-	color: #f18500;
-}
