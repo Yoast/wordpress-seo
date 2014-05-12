@@ -297,7 +297,7 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 			$this->maybe_add_blog_crumb();
 
 			if ( ( $this->show_on_front === 'page' && is_front_page() ) || ( $this->show_on_front === 'posts' && is_home() ) ) {
-				return;
+				// do nothing
 			}
 			elseif ( $this->show_on_front == 'page' && is_home() ) {
 				$this->add_blog_crumb();
