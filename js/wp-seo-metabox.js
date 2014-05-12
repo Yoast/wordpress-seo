@@ -79,7 +79,7 @@ function removeLowerCaseDiacritics(str) {
 function testFocusKw() {
 	// Retrieve focus keyword and trim
 	var focuskw = jQuery.trim(jQuery('#'+wpseoMetaboxL10n.field_prefix+'focuskw').val());
-	focuskw = focuskw.toLowerCase();
+	focuskw = escapeFocusKw(focuskw).toLowerCase();
 
 	var postname = jQuery('#editable-post-name-full').text();
 	var url = wpseoMetaboxL10n.wpseo_permalink_template.replace('%postname%', postname).replace('http://', '');
@@ -179,7 +179,7 @@ function updateDesc() {
 			desc = jQuery("#content").val();
 			desc = yst_clean(desc);
 
-			var focuskw = jQuery.trim(jQuery('#'+wpseoMetaboxL10n.field_prefix+'focuskw').val());
+			var focuskw = escapeFocusKw(jQuery.trim(jQuery('#'+wpseoMetaboxL10n.field_prefix+'focuskw').val()));
 			if (focuskw != '') {
 				var descsearch = new RegExp(focuskw, 'gim');
 				if (desc.search(descsearch) != -1 && desc.length > wpseoMetaboxL10n.wpseo_meta_desc_length) {
@@ -233,7 +233,7 @@ function updateURL() {
 }
 
 function boldKeywords(str, url) {
-	var focuskw = jQuery.trim(jQuery('#'+wpseoMetaboxL10n.field_prefix+'focuskw').val());
+	var focuskw = escapeFocusKw(jQuery.trim(jQuery('#'+wpseoMetaboxL10n.field_prefix+'focuskw').val()));
 	var keywords;
 
 	if (focuskw == '')
@@ -262,6 +262,10 @@ function updateSnippet() {
 	updateURL();
 	updateTitle();
 	updateDesc();
+}
+
+function escapeFocusKw( str ) {
+	return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
 }
 
 jQuery(document).ready(function () {
