@@ -121,6 +121,7 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 	
 * Enhancement
 	* Redirect paginated archive pages with a pagination number that doesn't exist to the first page of that archive.
+	* Update score circle icon to look great on HiDPI displays, as well as fitting better with WordPress 3.8+ design - props [paulwilde](https://github.com/paulwilde).
 	* Only show article publication time for posts, not for pages or other post types, introduce a new filter to _do_ allow them when needed.
 	* Load of improvements to banners and licenses page.
 	* Update snippet preview to use latest Google design changes - props [paulwilde](https://github.com/paulwilde).
