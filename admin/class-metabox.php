@@ -267,14 +267,17 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 					}
 				}
 
+				$score_title = wpseo_translate_score( $score, false );
 				if ( ! isset( $title ) ) {
-					$title = wpseo_translate_score( $score, false );
+					$title = $score_title;
 				}
 			}
 
-			$result = '<div title="' . esc_attr( $title ) . '" class="' . esc_attr( 'wpseo_score_img ' . $score_label ) . '"></div>';
+			echo '<div title="' . esc_attr( $title ) . '" class="' . esc_attr( 'wpseo-score-icon ' . $score_label ) . '"></div>';
 
-			echo __( 'SEO: ', 'wordpress-seo' ) . $result . ' <a class="wpseo_tablink scroll" href="#wpseo_linkdex">' . __( 'Check', 'wordpress-seo' ) . '</a>';
+			echo __( 'SEO: ', 'wordpress-seo' ) . '<span class="wpseo-score-title">' . $score_title . '</span>';
+			
+			echo ' <a class="wpseo_tablink scroll" href="#wpseo_linkdex">' . __( 'Check', 'wordpress-seo' ) . '</a>';
 
 			echo '</div>';
 		}
@@ -803,7 +806,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 					}
 				}
 
-				echo '<div title="' . esc_attr( $title ) . '" class="wpseo_score_img ' . esc_attr( $score_label ) . '"></div>';
+				echo '<div title="' . esc_attr( $title ) . '" class="wpseo-score-icon ' . esc_attr( $score_label ) . '"></div>';
 			}
 			if ( $column_name === 'wpseo-title' ) {
 				echo esc_html( apply_filters( 'wpseo_title', $this->page_title( $post_id ) ) );
@@ -1060,7 +1063,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 
 				foreach ( $results as $result ) {
 					$score = wpseo_translate_score( $result['val'] );
-					$output .= '<tr><td class="score"><div class="' . esc_attr( 'wpseo_score_img ' . $score ) . '"></div></td><td>' . $result['msg'] . '</td></tr>';
+					$output .= '<tr><td class="score"><div class="' . esc_attr( 'wpseo-score-icon ' . $score ) . '"></div></td><td>' . $result['msg'] . '</td></tr>';
 				}
 				$output .= '</table>';
 
