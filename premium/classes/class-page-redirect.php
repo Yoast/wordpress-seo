@@ -205,7 +205,7 @@ class WPSEO_Page_Redirect {
 
 					if ( wpseo_is_apache() ) {
 						echo $wpseo_admin_pages->checkbox( 'separate_file', __( 'Generate a separate redirect file', 'wordpress-seo' ) );
-						echo '<p class="desc">' . __( "By default we write the redirects to your .htaccess file, check this if you want a the redirects writen to a separate file.", 'wordpress-seo' ) . '</p>';
+						echo '<p class="desc">' . __( "By default we write the redirects to your .htaccess file, check this if you want a the redirects written to a separate file.", 'wordpress-seo' ) . '</p>';
 					}
 
 					?>
