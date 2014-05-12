@@ -268,14 +268,17 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 					}
 				}
 
+				$score_title = wpseo_translate_score( $score, false );
 				if ( ! isset( $title ) ) {
-					$title = wpseo_translate_score( $score, false );
+					$title = $score_title;
 				}
 			}
 
-			$result = '<div title="' . esc_attr( $title ) . '" class="' . esc_attr( 'wpseo_score_img ' . $score_label ) . '"></div>';
+			echo '<div title="' . esc_attr( $title ) . '" class="' . esc_attr( 'wpseo-score-icon ' . $score_label ) . '"></div>';
 
-			echo __( 'SEO: ', 'wordpress-seo' ) . $result . ' <a class="wpseo_tablink scroll" href="#wpseo_linkdex">' . __( 'Check', 'wordpress-seo' ) . '</a>';
+			echo __( 'SEO: ', 'wordpress-seo' ) . '<span class="wpseo-score-title">' . $score_title . '</span>';
+			
+			echo ' <a class="wpseo_tablink scroll" href="#wpseo_linkdex">' . __( 'Check', 'wordpress-seo' ) . '</a>';
 
 			echo '</div>';
 		}
@@ -619,16 +622,16 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			}
 
 			if ( is_string( $date ) && $date !== '' ) {
-				$datestr = '<span style="color: #666;">' . $date . '</span> – ';
+				$datestr = '<span class="date">' . $date . ' - </span>';
 			} else {
 				$datestr = '';
 			}
 			$content = '<div id="wpseosnippet">
 				<a class="title" href="#">' . esc_html( $title ) . '</a><br/>';
 
-			$content .= '<a href="#" style="font-size: 13px; color: #282; line-height: 15px;" class="url">' . str_replace( 'http://', '', get_bloginfo( 'url' ) ) . '/' . esc_html( $slug ) . '/</a>';
+			$content .= '<span class="url">' . str_replace( 'http://', '', get_bloginfo( 'url' ) ) . '/' . esc_html( $slug ) . '/</span>';
 
-			$content .= '<p class="desc" style="font-size: 13px; color: #000; line-height: 15px;">' . $datestr . '<span class="content">' . esc_html( $desc ) . '</span></p>';
+			$content .= '<p class="desc">' . $datestr . '<span class="content">' . esc_html( $desc ) . '</span></p>';
 
 			$content .= '</div>';
 
@@ -804,7 +807,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 					}
 				}
 
-				echo '<div title="' . esc_attr( $title ) . '" class="wpseo_score_img ' . esc_attr( $score_label ) . '"></div>';
+				echo '<div title="' . esc_attr( $title ) . '" class="wpseo-score-icon ' . esc_attr( $score_label ) . '"></div>';
 			}
 			if ( $column_name === 'wpseo-title' ) {
 				echo esc_html( apply_filters( 'wpseo_title', $this->page_title( $post_id ) ) );
@@ -1061,7 +1064,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 
 				foreach ( $results as $result ) {
 					$score = wpseo_translate_score( $result['val'] );
-					$output .= '<tr><td class="score"><div class="' . esc_attr( 'wpseo_score_img ' . $score ) . '"></div></td><td>' . $result['msg'] . '</td></tr>';
+					$output .= '<tr><td class="score"><div class="' . esc_attr( 'wpseo-score-icon ' . $score ) . '"></div></td><td>' . $result['msg'] . '</td></tr>';
 				}
 				$output .= '</table>';
 

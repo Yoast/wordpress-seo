@@ -90,11 +90,9 @@ ul.wpseo-metabox-tabs li {
 }
 
 #wpseosnippet {
-	margin: 0 0 10px 0;
+	margin: 0 0 10px;
 	padding: 0 5px;
 	font-family: arial, sans-serif;
-	line-height: 15px !important;
-	font-size: 13px !important;
 	font-style: normal;
 	width: auto;
     max-width: 520px;
@@ -115,19 +113,30 @@ ul.wpseo-metabox-tabs li {
 }
 
 #wpseosnippet .title {
-	color: #11c;
-	font-size: 16px !important;
-	line-height: 19px;
-	text-decoration: underline;
+	color: #1a0dab;
+	font-size: 18px !important;
+	line-height: 1.2;
 }
 
 #wpseosnippet .desc {
-	color: #000;
+	line-height: 1.4;
+	word-wrap: break-word;
+	font-size: small;
+}
+#wpseosnippet .date {
+	color: #808080;
+}
+#wpseosnippet .desc p {
+	color: #545454;
+	line-height: 1.4;
+	word-wrap: break-word;
+	font-size: small;
 }
 
 #wpseosnippet .url {
-	color: #093;
+	color: #006621;
 	font-size: 13px;
+	line-height: 16px;
 }
 
 #wpseosnippet .meta {
@@ -144,10 +153,6 @@ ul.wpseo-metabox-tabs li {
 
 #wpseosnippet a:hover {
 	text-decoration: underline;
-}
-
-#wpseosnippet {
-	margin-bottom: 10px;
 }
 
 .wpseo_yahoo_kw {
@@ -274,33 +279,36 @@ table.wpseoanalysis td.score {
 	margin: -1px;
 }
 
-.wpseo_score_img {
+.wpseo-score-icon {
 	display: inline-block;
-	margin: 3px 0 0 0;
-	width: 16px;
-	height: 16px;
-	background-image: url(../images/score_buttons.png);
-	background-repeat: no-repeat;
-	padding: 0 0 0 0;
-	vertical-align: bottom;
+	margin: 3px 10px 0 3px;
+	width: 12px;
+	height: 12px;
+	-webkit-border-radius: 50%;
+	border-radius: 50%;
+	background: #888;
+	vertical-align: top;
 }
-.wpseo_score_img.good {
-	background-position: -2px -2px;
+.wpseo-score-icon.good {
+	background-color: #7ad03a;
 }
-.wpseo_score_img.ok {
-	background-position: -25px -2px;
+.wpseo-score-icon.ok {
+	background-color: #ffba00;
 }
-.wpseo_score_img.poor {
-	background-position: -121px -2px;
+.wpseo-score-icon.poor {
+	background-color: #ee7c1b;
 }
-.wpseo_score_img.bad {
-	background-position: -49px -2px;
+.wpseo-score-icon.bad {
+	background-color: #dd3d36;
 }
-.wpseo_score_img.na {
-	background-position: -74px -2px;
+.wpseo-score-icon.na {
+	background-color: #888;
 }
-.wpseo_score_img.noindex {
-	background-position: -146px -2px;
+.wpseo-score-icon.noindex {
+	background-color: #1e8cbe;
+}
+.wpseo-score-title {
+	font-weight: 600;
 }
 
 img.yoast_help {

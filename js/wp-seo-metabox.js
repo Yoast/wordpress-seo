@@ -190,7 +190,6 @@ function updateDesc() {
 			} else {
 				desc = desc.substr(0, wpseoMetaboxL10n.wpseo_meta_desc_length);
 			}
-			color = "#888";
 			autogen = true;
 		}
 	}
@@ -215,13 +214,13 @@ function updateDesc() {
 			space = desc.lastIndexOf(" ", ( wpseoMetaboxL10n.wpseo_meta_desc_length - 3 ));
 		else
 			space = wpseoMetaboxL10n.wpseo_meta_desc_length;
-		desc = desc.substring(0, space).concat(' <strong>...</strong>');
+		desc = desc.substring(0, space).concat(' ...');
 	}
 
 	desc = boldKeywords(desc, false);
 
 	jQuery('#'+wpseoMetaboxL10n.field_prefix+'metadesc-length').html(len);
-	jQuery('#wpseosnippet').find('.desc span.content').css('color', color).html(desc);
+	jQuery('#wpseosnippet').find('.desc span.content').html(desc);
 	testFocusKw();
 }
 

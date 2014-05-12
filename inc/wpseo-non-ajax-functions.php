@@ -284,7 +284,7 @@ function wpseo_admin_bar_menu() {
 		$calc_score = wpseo_calc( $perc_score, '/', 10, true );
 		$txtscore   = wpseo_translate_score( $calc_score );
 		$title      = wpseo_translate_score( $calc_score, false );
-		$score      = '<div title="' . esc_attr( $title ) . '" class="' . esc_attr( 'wpseo_score_img ' . $txtscore . ' ' . $perc_score ) . '"></div>';
+		$score      = '<div title="' . esc_attr( $title ) . '" class="' . esc_attr( 'wpseo-score-icon ' . $txtscore . ' ' . $perc_score ) . '"></div>';
 
 		$seo_url = get_edit_post_link( $post->ID );
 		if ( $txtscore !== 'na' ) {
