@@ -113,7 +113,14 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 
 * Bugfixes
 	* Don't ping search engines if the blog is set to 'discourage search engines from indexing this site' - props [Jrf](http://profiles.wordpress.org/jrf).
-	* Fix error in sitemap_index.xml if post type does not contain any posts as reported by [sebastiaandegeus](https://github.com/sebastiaandegeus) in [issue #1068](https://github.com/Yoast/wordpress-seo/issues/1068)
+	* Fix error in sitemap_index.xml if post type does not contain any posts as reported by [sebastiaandegeus](https://github.com/sebastiaandegeus).
+	* Use the correct HTTP protocol for responses - props [Fab1en](https://github.com/Fab1en).
+	* Better OG locale handling - props [maiis](https://github.com/maiis).
+
+* Enhancement
+	* Redirect paginated archive pages with a pagination number that doesn't exist to the first page of that archive.
+	* Only show article publication time for posts, not for pages or other post types, introduce a new filter to _do_ allow them when needed.
+	* Load of improvements to banners and licenses page.
 
 = 1.5.2.8 =
 
