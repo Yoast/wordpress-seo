@@ -152,7 +152,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 		 * @since 1.4.16
 		 */
 		function sitemap_close() {
-			remove_all_actions("wp_footer");
+			remove_all_actions('wp_footer');
 			die();
 		}
 

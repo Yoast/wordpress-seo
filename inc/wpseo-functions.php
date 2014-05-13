@@ -141,7 +141,7 @@ function wpseo_remove_capabilities() {
 		$r = get_role( $role );
 		if ( $r ) {
 			$r->remove_cap( 'wpseo_bulk_edit' );
-		}	
+		}
 	}
 }
 
@@ -153,7 +153,7 @@ function wpseo_remove_capabilities() {
  * @return string
  */
 function wpseo_replace_vars( $string, $args, $omit = array() ) {
-
+	
 	$args = (array) $args;
 
 	$string = strip_tags( $string );
@@ -277,6 +277,12 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 				'%%title%%'        => stripslashes( $r->post_title ),
 				'%%userid%%'       => ! empty( $r->post_author ) ? $r->post_author : get_query_var( 'author' ),
 			)
+		);
+	}
+
+	if ( isset( $r->cat_name ) && ! empty( $r->cat_name ) ) {
+		$replacements = array_merge(
+			$replacements, array( '%%category%%' => $r->cat_name )
 		);
 	}
 
