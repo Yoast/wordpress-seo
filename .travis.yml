@@ -40,4 +40,4 @@ script:
     - phpcs -p -s -v -n . --standard=./codesniffer.xml --extensions=php
 
 notifications:
-    slack: yoast:VwgWYD9MshkXtJyebtcRtCny
+    slack: 'yoast:VwgWYD9MshkXtJyebtcRtCny#dev'
