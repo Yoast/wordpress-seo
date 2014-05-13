@@ -38,3 +38,6 @@ before_script:
 script:
     - phpunit -c phpunit.xml
     - phpcs -p -s -v -n . --standard=./codesniffer.xml --extensions=php
+
+notifications:
+    slack: yoast:VwgWYD9MshkXtJyebtcRtCny
