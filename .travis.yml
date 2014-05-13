@@ -37,4 +37,4 @@ before_script:
 
 script:
     - phpunit -c phpunit.xml
-    - phpcs -p -s -v . --standard=./codesniffer.xml --extensions=php
+    - phpcs -p -s -v -n . --standard=./codesniffer.xml --extensions=php
