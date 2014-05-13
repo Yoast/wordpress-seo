@@ -1508,7 +1508,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		 * @return array
 		 */
 		function get_anchor_texts( &$xpath ) {
-			$query        = "//a|//A";
+			$query        = '//a|//A';
 			$dom_objects  = $xpath->query( $query );
 			$anchor_texts = array();
 			if ( is_object( $dom_objects ) && is_a( $dom_objects, 'DOMNodeList' ) && $dom_objects->length > 0 ) {
@@ -1534,7 +1534,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		 * @return array
 		 */
 		function get_anchor_count( &$xpath ) {
-			$query       = "//a|//A";
+			$query       = '//a|//A';
 			$dom_objects = $xpath->query( $query );
 
 			$count       = array(
