@@ -260,9 +260,12 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 		'%%pagetotal%%'    => $max_num_pages,
 		'%%pagenumber%%'   => $pagenum,
 		'%%term404%%'	   => sanitize_text_field( str_replace( '-', ' ', $r->term404 ) ),
+		'%%name%%'         => get_the_author_meta( 'display_name', ! empty( $r->post_author ) ? $r->post_author : get_query_var( 'author' ) ),
+		'%%userid%%'       => ! empty( $r->post_author ) ? $r->post_author : get_query_var( 'author' ),
+
 	);
 
-	if ( isset( $r->ID ) && ! empty( $r->ID ) ) {
+	if ( ! empty( $r->ID ) ) {
 		$replacements = array_merge(
 			$replacements, array(
 				'%%caption%%'      => $r->post_excerpt,
@@ -271,14 +274,20 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 				'%%excerpt_only%%' => strip_tags( $r->post_excerpt ),
 				'%%focuskw%%'      => WPSEO_Meta::get_value( 'focuskw', $r->ID ),
 				'%%id%%'           => $r->ID,
-				'%%modified%%'     => mysql2date( get_option( 'date_format' ), $r->post_modified, true ),
-				'%%name%%'         => get_the_author_meta( 'display_name', ! empty( $r->post_author ) ? $r->post_author : get_query_var( 'author' ) ),
 				'%%tag%%'          => wpseo_get_terms( $r->ID, 'post_tag' ),
 				'%%title%%'        => stripslashes( $r->post_title ),
-				'%%userid%%'       => ! empty( $r->post_author ) ? $r->post_author : get_query_var( 'author' ),
 			)
 		);
 	}
+	
+	if ( ! empty( $r->post_modified ) ) {
+		$replacements = array_merge(
+			$replacements, array(
+				'%%modified%%'     => mysql2date( get_option( 'date_format' ), $r->post_modified, true ),
+			)
+		);
+	}
+	
 
 	if ( isset( $r->cat_name ) && ! empty( $r->cat_name ) ) {
 		$replacements = array_merge(
