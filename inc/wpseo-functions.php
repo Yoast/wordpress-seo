@@ -402,7 +402,6 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 	}
 
 	$string = preg_replace( '`\s+`u', ' ', $string );
-    $string = preg_replace( '^[%]{2}[a-zA-Z0-9\-_]+[%]{2}^', '', $string);
 	return trim( $string );
 }
 
