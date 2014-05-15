@@ -274,8 +274,16 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 				'%%excerpt_only%%' => strip_tags( $r->post_excerpt ),
 				'%%focuskw%%'      => WPSEO_Meta::get_value( 'focuskw', $r->ID ),
 				'%%id%%'           => $r->ID,
-				'%%tag%%'          => wpseo_get_terms( $r->ID, 'post_tag' ),
 				'%%title%%'        => stripslashes( $r->post_title ),
+			)
+		);
+	}
+
+	// Support %%tag%% even if the ID is empty
+	if ( isset( $r->ID ) ) {
+		$replacements = array_merge(
+			$replacements, array(
+				'%%tag%%' => wpseo_get_terms( $r->ID, 'post_tag' ),
 			)
 		);
 	}
