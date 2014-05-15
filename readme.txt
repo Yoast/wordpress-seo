@@ -113,6 +113,7 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 	* Fix regression issue - non-replacement of %%name%% variable as reported in [issue #1104](https://github.com/Yoast/wordpress-seo/issues/1104) by [firstinflight](https://github.com/firstinflight) - props [Jrf](http://profiles.wordpress.org/jrf).
 	* Fixed an issue where %%category%% was not replaced on certain pages.
 	* Added support for %%tag%% even if the ID is empty.
+	* All remaining not replaced title vars are now stripped from the title.
 	* Added a fallback to post_date in the sitemap 'mod' property for when a post is lacking the post_date_gmt value.
 
 = 1.5.3 =
