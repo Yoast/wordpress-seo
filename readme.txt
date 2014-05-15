@@ -110,6 +110,9 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 == Changelog ==
 
 = 1.5.3.1 =
+Release Date: May 15th, 2014
+
+* Bugfixes
 	* Fix regression issue - non-replacement of %%name%% variable as reported in [issue #1104](https://github.com/Yoast/wordpress-seo/issues/1104) by [firstinflight](https://github.com/firstinflight) - props [Jrf](http://profiles.wordpress.org/jrf).
 	* Fixed an issue where %%category%% was not replaced on certain pages.
 	* Added support for %%tag%% even if the ID is empty.
