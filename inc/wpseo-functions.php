@@ -385,6 +385,7 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 	}
 
 	$string = preg_replace( '`\s+`u', ' ', $string );
+    $string = preg_replace( '^%%[a-z]+%%^', '', $string);
 	return trim( $string );
 }
 
