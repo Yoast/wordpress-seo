@@ -109,6 +109,12 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 
 == Changelog ==
 
+= 1.5.3.2 =
+Release Date: May 16th, 2014
+
+* Bugfixes
+	* Backing out earlier change, as this breaks the snippet preview.
+
 = 1.5.3.1 =
 Release Date: May 15th, 2014
 
