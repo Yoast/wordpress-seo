@@ -115,6 +115,9 @@ Release Date: May 16th, 2014
 * Bugfixes
 	* Backing out earlier change, as this breaks the snippet preview.
 
+* Enhancement
+	* Reintroduced the 'Strip the category base (usually /category/) from the category URL.' option.
+
 = 1.5.3.1 =
 Release Date: May 15th, 2014
 
