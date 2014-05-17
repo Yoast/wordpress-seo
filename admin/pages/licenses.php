@@ -43,6 +43,15 @@ global $wpseo_admin_pages;
 			</div>
 			<?php
 				}
+				if ( ! class_exists( 'WPSEO_News' ) ) {
+			?>
+			<div class="extension news-seo">
+				<a target="_blank" href="https://yoast.com/wordpress/plugins/news-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=extension-page-banners"><h3>News SEO</h3></a>
+				<p>Are you in Google News? Increase your traffic from Google News by optimizing for it!</p>
+				<p><a target="_blank" href="https://yoast.com/wordpress/plugins/news-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=extension-page-banners" class="button-primary">Get this extension</a></p>
+			</div>
+			<?php
+				}
 				if ( ! defined( 'WPSEO_LOCAL_VERSION' ) ) {
 			?>
 			<div class="extension local-seo">
@@ -67,6 +76,15 @@ global $wpseo_admin_pages;
 				<a target="_blank" href="https://yoast.com/wordpress/plugins/yoast-woocommerce-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=extension-page-banners"><h3>Yoast WooCommerce SEO</h3></a>
 				<p>Seamlessly integrate WooCommerce with WordPress SEO and get extra features!</p>
 				<p><a target="_blank" href="https://yoast.com/wordpress/plugins/yoast-woocommerce-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=extension-page-banners" class="button-primary">Get this extension</a></p>
+			</div>
+			<?php
+				}
+				if ( ! class_exists( 'Post_Connector' ) ) {
+			?>
+			<div class="extension post-connector">
+				<a target="_blank" href="https://yoast.com/wordpress/plugins/post-connector/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=extension-page-banners"><h3>Post Connector</h3></a>
+				<p>Easily create related posts that don't lag your server!</p>
+				<p><a target="_blank" href="https://yoast.com/wordpress/plugins/post-connector/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=extension-page-banners" class="button-primary">Get this extension</a></p>
 			</div>
 			<?php
 				}

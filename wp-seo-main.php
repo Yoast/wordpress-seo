@@ -14,7 +14,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * @internal Nobody should be able to overrule the real version number as this can cause serious issues
  * with the options, so no if ( ! defined() )
  */
-define( 'WPSEO_VERSION', '1.5.2.8' );
+define( 'WPSEO_VERSION', '1.5.3.2' );
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
 	define( 'WPSEO_PATH', plugin_dir_path( WPSEO_FILE ) );
@@ -75,6 +75,9 @@ function wpseo_auto_load( $class ) {
 			'yoast_license_manager'              => WPSEO_PATH . 'admin/license-manager/class-license-manager.php',
 			'yoast_plugin_license_manager'       =>	WPSEO_PATH . 'admin/license-manager/class-plugin-license-manager.php',
 			'yoast_product'                      =>	WPSEO_PATH . 'admin/license-manager/class-product.php',
+
+			'yoast_notification_center'          =>	WPSEO_PATH . 'admin/class-yoast-notification-center.php',
+			'yoast_notification'                 =>	WPSEO_PATH . 'admin/class-yoast-notification.php',
 
 			'wp_list_table'                      => ABSPATH . 'wp-admin/includes/class-wp-list-table.php',
 			'walker_category'                    => ABSPATH . 'wp-includes/category-template.php',
@@ -262,6 +265,7 @@ function wpseo_admin_init() {
 	if ( $options['enablexmlsitemap'] === true ) {
 		$GLOBALS['wpseo_sitemaps_admin'] = new WPSEO_Sitemaps_Admin;
 	}
+
 }
 
 add_action( 'plugins_loaded', 'wpseo_init', 14 );
@@ -277,6 +281,12 @@ if ( is_admin() ) {
 else {
 	add_action( 'plugins_loaded', 'wpseo_frontend_init', 15 );
 }
+
+function load_yoast_notifications() {
+	// Init Yoast_Notification_Center class
+	Yoast_Notification_Center::get();
+}
+add_action( 'admin_init', 'load_yoast_notifications' );
 
 // Activation and deactivation hook
 register_activation_hook( WPSEO_FILE, 'wpseo_activate' );
