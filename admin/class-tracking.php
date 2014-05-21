@@ -172,7 +172,8 @@ if ( ! class_exists( 'Yoast_Tracking' ) ) {
  * @return array
  */
 function wpseo_tracking_additions( $options ) {
-	$opt = WPSEO_Options::get_all();
+	$opt    =   WPSEO_Options::get_all();
+    $curl   =   curl_version();
 
 	$options['wpseo'] = array(
 		'xml_sitemaps'        => ( $opt['enablexmlsitemap'] === true ) ? 1 : 0,
@@ -181,7 +182,10 @@ function wpseo_tracking_additions( $options ) {
 		'twitter'             => ( $opt['twitter'] === true ) ? 1 : 0,
 		'strip_category_base' => ( $opt['stripcategorybase'] === true ) ? 1 : 0,
 		'on_front'            => get_option( 'show_on_front' ),
+		'php_version'         => phpversion(),
+        'php_curl'            => ( !is_null( $curl ) ) ? $curl['version'] : 0,
 	);
+
 	return $options;
 }
 
