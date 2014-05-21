@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: seo, SEO, google, meta, meta description, search engine optimization, xml sitemap, xml sitemaps, google sitemap, sitemap, sitemaps, robots meta, rss, rss footer, yahoo, bing, news sitemaps, XML News Sitemaps, WordPress SEO, WordPress SEO by Yoast, yoast, multisite, canonical, nofollow, noindex, keywords, meta keywords, description, webmaster tools, google webmaster tools, seo pack
 Requires at least: 3.5
 Tested up to: 3.9.1
-Stable tag: 1.5.3
+Stable tag: 1.5.3.2
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the WordPress SEO plugin by Yoast.
 
@@ -108,6 +108,25 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 7. The advanced section of the WordPress SEO meta box.
 
 == Changelog ==
+
+= 1.5.3.2 =
+Release Date: May 16th, 2014
+
+* Bugfixes
+	* Backing out earlier change, as this breaks the snippet preview.
+
+* Enhancement
+	* Reintroduced the 'Strip the category base (usually /category/) from the category URL.' option.
+
+= 1.5.3.1 =
+Release Date: May 15th, 2014
+
+* Bugfixes
+	* Fix regression issue - non-replacement of %%name%% variable as reported in [issue #1104](https://github.com/Yoast/wordpress-seo/issues/1104) by [firstinflight](https://github.com/firstinflight) - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fixed an issue where %%category%% was not replaced on certain pages.
+	* Added support for %%tag%% even if the ID is empty.
+	* All remaining not replaced title vars are now stripped from the title.
+	* Added a fallback to post_date in the sitemap 'mod' property for when a post is lacking the post_date_gmt value.
 
 = 1.5.3 =
 

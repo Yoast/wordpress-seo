@@ -59,12 +59,16 @@ if ( ! class_exists( 'Yoast_Tracking' ) ) {
 		 */
 		function tracking() {
 
-			$data = get_transient( 'yoast_tracking_cache' );
+			$transient_key = 'yoast_tracking_cache';
+			$data = get_transient( $transient_key );
 
 			// bail if transient is set and valid
 			if( $data !== false ) {
 				return;
 			}
+
+			// Make sure to only send tracking data once a week
+			set_transient( $transient_key, 1, WEEK_IN_SECONDS );
 
 			// Start of Metrics
 			global $blog_id, $wpdb;
@@ -155,11 +159,11 @@ if ( ! class_exists( 'Yoast_Tracking' ) ) {
 
 			$args = array(
 				'body' => $data,
+				'blocking' => false,
+				'sslverify' => false
 			);
-			wp_remote_post( 'https://tracking.yoast.com/', $args );
 
-			// Store for a week, then push data again.
-			set_transient( 'yoast_tracking_cache', true, 60 * 60 * 24 * 7 );
+			wp_remote_post( 'https://tracking.yoast.com/', $args );
 
 		}
 	} /* End of class */
