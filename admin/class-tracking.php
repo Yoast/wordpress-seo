@@ -176,8 +176,12 @@ if ( ! class_exists( 'Yoast_Tracking' ) ) {
  * @return array
  */
 function wpseo_tracking_additions( $options ) {
-	$opt  = WPSEO_Options::get_all();
-	$curl = curl_version();
+	$opt = WPSEO_Options::get_all();
+	if ( function_exists( 'curl_version' ) ) {
+		$curl = curl_version();
+	} else {
+		$curl = NULL;
+	}
 
 	$options['wpseo'] = array(
 		'xml_sitemaps'        => ( $opt['enablexmlsitemap'] === true ) ? 1 : 0,
