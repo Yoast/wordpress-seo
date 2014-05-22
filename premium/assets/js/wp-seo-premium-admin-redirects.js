@@ -188,15 +188,18 @@
 			$('form#' + type).find('#the-list').append(tr);
 
 			// Empty fields
-			object.find('#wpseo_redirects_new_old').val('');
-			object.find('#wpseo_redirects_new_new').val('');
-			//object.find('#wpseo_redirects_new_type');
+//			object.find('#wpseo_redirects_new_old').val('');
+//			object.find('#wpseo_redirects_new_new').val('');
 
 			// Encode strings
 			old_redirect = object.encode(old_redirect);
 			new_redirect = object.encode(new_redirect);
 
+			// Check the destination URL
+			object.check_url_status(new_redirect);
+
 			// Do post
+			return true;
 			$.post(
 					ajaxurl,
 					{
@@ -212,6 +215,11 @@
 
 			return true;
 		};
+
+		this.check_url_status = function(url) {
+			console.log(url);
+		};
+
 
 		this.create_redirect_row = function (old_url, new_url, redirect_type) {
 			var tr = $('<tr>').append(
