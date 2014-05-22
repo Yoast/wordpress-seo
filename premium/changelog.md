@@ -1,3 +1,6 @@
+### 1.1.3: May 22nd, 2014
+* Updated WordPress SEO core to 1.5.3.2
+
 ### 1.1.2: April 25th, 2014
 * Fixed notices when fetching remote crawl issues and there are now crawl issues from remote.
 * Updated WordPress SEO core to 1.5.2.8
