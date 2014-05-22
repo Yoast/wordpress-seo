@@ -14,7 +14,7 @@ env:
 before_script:
 - export WP_TESTS_DIR=tmp/wordpress-tests/
 - mkdir -p tmp
-- if [ "$WP_VERSION" == "master" ]
+- if [ "$WP_VERSION" = "master" ]
 - then
 - SVN_DIR="trunk"
 - else
