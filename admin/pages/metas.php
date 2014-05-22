@@ -27,7 +27,6 @@ $wpseo_admin_pages->admin_header( true, WPSEO_Options::get_group_name( 'wpseo_ti
 <div class="tabwrapper">
 <div id="general" class="wpseotab">
 	<?php
-
 	echo '<h2>' . __( 'Title settings', 'wordpress-seo' ) . '</h2>';
 	echo $wpseo_admin_pages->checkbox( 'forcerewritetitle', __( 'Force rewrite titles', 'wordpress-seo' ) );
 	echo '<p class="desc">' . __( 'WordPress SEO has auto-detected whether it needs to force rewrite the titles for your pages, if you think it\'s wrong and you know what you\'re doing, you can change the setting here.', 'wordpress-seo' ) . '</p>';

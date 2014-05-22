@@ -62,7 +62,8 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 			add_filter( 'wp_title', array( $this, 'title' ), 15, 3 );
 			add_filter( 'thematic_doctitle', array( $this, 'title' ), 15 );
 
-			add_action( 'wp', array( $this, 'page_redirect' ), 99, 1 );
+			add_action( 'wp', array( $this, 'page_redirect' ), 99 );
+			add_action( 'wp', array( $this, 'pagination_overflow_redirect' ), 99 );
 
 			add_action( 'template_redirect', array( $this, 'noindex_feed' ) );
 
@@ -427,7 +428,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 					// @todo [JRF => Yoast] Should these not use the archive default if no title found ?
 					if ( 0 !== get_query_var( 'day' ) ) {
 						$date = sprintf( '%04d-%02d-%02d 00:00:00', get_query_var( 'year' ), get_query_var( 'monthnum' ), get_query_var( 'day' ) );
-						$date = mysql2date( get_option( 'date_format' ), $date );
+						$date = mysql2date( get_option( 'date_format' ), $date, true );
 						$date = apply_filters( 'get_the_date', $date, '' );
 						$title_part      = sprintf( __( '%s Archives', 'wordpress-seo' ), $date );
 					} elseif ( 0 !== get_query_var( 'monthnum' ) ) {
@@ -1213,6 +1214,19 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 		 */
 		public function nofollow_link( $input ) {
 			return str_replace( '<a ', '<a rel="nofollow" ', $input );
+		}
+
+		/**
+		 * If the paginated result doesn't exist, redirect to the same URL without pagination.
+		 */
+		function pagination_overflow_redirect() {
+			$pagenum = get_query_var( 'paged' );
+
+			if ( is_404() && $pagenum > 1  ) {
+				$new_url = home_url() . preg_replace( '`/' . $GLOBALS['wp_rewrite']->pagination_base . '/' . $pagenum . '/?$`', '/', $_SERVER['REQUEST_URI'] );
+				wp_safe_redirect( $new_url, 301 );
+				exit;
+			}
 		}
 
 		/**

@@ -45,7 +45,7 @@ if ( ! class_exists( 'WPSEO_Rewrite' ) ) {
 		 * If the flush option is set, flush the rewrite rules.
 		 *
 		 * @since 1.2.8
-         * @return bool
+		 * @return bool
 		 */
 		function flush() {
 			if ( get_option( 'wpseo_flush_rewrite' ) ) {
@@ -53,10 +53,10 @@ if ( ! class_exists( 'WPSEO_Rewrite' ) ) {
 				add_action( 'shutdown', 'flush_rewrite_rules' );
 				delete_option( 'wpseo_flush_rewrite' );
 
-                return true;
+				return true;
 			}
 
-            return false;
+			return false;
 		}
 
 		/**
@@ -142,8 +142,7 @@ if ( ! class_exists( 'WPSEO_Rewrite' ) ) {
 					if ( $category->parent == $category->cat_ID ) {
 						// recursive recursion
 						$category->parent = 0;
-					}
-					elseif ( $taxonomy->rewrite['hierarchical'] != 0 && $category->parent != 0 ) {
+					} elseif ( $taxonomy->rewrite['hierarchical'] != 0 && $category->parent != 0 ) {
 						$parents = get_category_parents( $category->parent, false, '/', true );
 						if ( ! is_wp_error( $parents ) ) {
 							$category_nicename = $parents . $category_nicename;
@@ -151,17 +150,17 @@ if ( ! class_exists( 'WPSEO_Rewrite' ) ) {
 						unset( $parents );
 					}
 
-					$category_rewrite[$blog_prefix . '(' . $category_nicename . ')/(?:feed/)?(feed|rdf|rss|rss2|atom)/?$'] = 'index.php?category_name=$matches[1]&feed=$matches[2]';
-					$category_rewrite[$blog_prefix . '(' . $category_nicename . ')/' . $wp_rewrite->pagination_base . '/?([0-9]{1,})/?$'] = 'index.php?category_name=$matches[1]&paged=$matches[2]';
-					$category_rewrite[$blog_prefix . '(' . $category_nicename . ')/?$']                                    = 'index.php?category_name=$matches[1]';
+					$category_rewrite[ $blog_prefix . '(' . $category_nicename . ')/(?:feed/)?(feed|rdf|rss|rss2|atom)/?$' ]                = 'index.php?category_name=$matches[1]&feed=$matches[2]';
+					$category_rewrite[ $blog_prefix . '(' . $category_nicename . ')/' . $wp_rewrite->pagination_base . '/?([0-9]{1,})/?$' ] = 'index.php?category_name=$matches[1]&paged=$matches[2]';
+					$category_rewrite[ $blog_prefix . '(' . $category_nicename . ')/?$' ]                                                   = 'index.php?category_name=$matches[1]';
 				}
 			}
 
 			// Redirect support from Old Category Base
-			$old_base                          = $wp_rewrite->get_category_permastruct();
-			$old_base                          = str_replace( '%category%', '(.+)', $old_base );
-			$old_base                          = trim( $old_base, '/' );
-			$category_rewrite[$old_base . '$'] = 'index.php?wpseo_category_redirect=$matches[1]';
+			$old_base                            = $wp_rewrite->get_category_permastruct();
+			$old_base                            = str_replace( '%category%', '(.+)', $old_base );
+			$old_base                            = trim( $old_base, '/' );
+			$category_rewrite[ $old_base . '$' ] = 'index.php?wpseo_category_redirect=$matches[1]';
 
 			return $category_rewrite;
 		}

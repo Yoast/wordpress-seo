@@ -293,6 +293,7 @@ input.wpseo-new-title, textarea.wpseo-new-metadesc {
 	padding: 20px 10px 0 120px;
 	border-bottom: 1px solid #ccc;
 	background: #fff no-repeat left 10px;
+	background-size: 130px 100px;
 }
 
 .wpseotab .extension a {
@@ -317,4 +318,14 @@ input.wpseo-new-title, textarea.wpseo-new-metadesc {
 
 .wpseotab .woocommerce-seo h3 {
 	background-image: url(../images/Woo_130x100.png);
+}
+
+.wpseotab .news-seo h3 {
+	background-image: url(../images/News_SEO.png);
+	background-size: 115px 100px;
+}
+
+.wpseotab .post-connector h3 {
+	background-image: url(../images/post-connector.png);
+	background-size: 115px 100px;
 }

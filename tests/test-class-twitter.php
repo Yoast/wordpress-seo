@@ -3,11 +3,6 @@
 class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 
 	/**
-	 * @var int
-	 */
-	private $post_id;
-
-	/**
 	 * @var WPSEO_Twitter
 	 */
 	private static $class_instance;
@@ -22,60 +17,6 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 		// clean output which was outputted by WPSEO_Twitter constructor
 		ob_end_clean();
 	}
-
-	/**
-	 * Provision tests
-	 */
-	public function setUp() {
-
-		parent::setUp();
-
-		// create sample post
-		$this->post_id = $this->factory->post->create(
-			array(
-				'post_title' => 'Sample Post',
-				'post_type' => 'post',
-				'post_status' => 'publish',
-			)
-		);
-
-		// go to single post
-		$this->go_to( get_permalink( $this->post_id ) );
-	}
-
-	/**
-	 * Clean-up
-	 */
-	public function tearDown() {
-		parent::tearDown();
-
-		// delete post
-		wp_delete_post( $this->post_id );
-
-		// go back to home page
-		$this->go_to_home();
-	}
-
-	/**
-	 * Placeholder test to prevent PHPUnit from throwing errors
-	 */
-	public function test_class_is_tested() {
-		$this->assertTrue( true );
-	}
-
-	/**
-	 * @covers WPSEO_Twitter::output_metatag
-	 */
-	/*
-	public function test_output_metatag() {
-		$name = 'card';
-		$value = 'summary';
-		$expected = $this->metatag( $name, $value );
-
-		self::$class_instance->output_metatag( $name, $value );
-		$this->expectOutput( $expected );
-	}
-	*/
 
 	/**
 	 * @covers WPSEO_Twitter::twitter
@@ -170,6 +111,10 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Twitter::twitter_title
 	 */
 	public function test_twitter_title() {
+		// create and go to post
+		$post_id = $this->factory->post->create();
+		$this->go_to( get_permalink( $post_id ) );
+
 		$expected = $this->metatag( 'title', self::$class_instance->title( '' ) );
 		self::$class_instance->twitter_title();
 		$this->expectOutput( $expected );
@@ -180,6 +125,10 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_twitter_description() {
 
+		// create and go to post
+		$post_id = $this->factory->post->create();
+		$this->go_to( get_permalink( $post_id ) );
+
 		// test excerpt
 		$expected = $this->metatag( 'description', get_the_excerpt() );
 		self::$class_instance->twitter_description();
@@ -187,7 +136,7 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 
 
 		// test wpseo meta
-		WPSEO_Meta::set_value( 'metadesc', 'Meta description', $this->post_id );
+		WPSEO_Meta::set_value( 'metadesc', 'Meta description', $post_id );
 		$expected = $this->metatag( 'description', self::$class_instance->metadesc( false ) );
 		self::$class_instance->twitter_description();
 		$this->expectOutput( $expected );
@@ -197,6 +146,10 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Twitter::twitter_url
 	 */
 	public function test_twitter_url() {
+		// create and go to post
+		$post_id = $this->factory->post->create();
+		$this->go_to( get_permalink( $post_id ) );
+
 		$expected = $this->metatag( 'url', esc_url( self::$class_instance->canonical( false ) ) );
 		self::$class_instance->twitter_url();
 		$this->expectOutput( $expected );
@@ -223,6 +176,11 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Twitter::site_domain
 	 */
 	public function test_image() {
+
+		// create and go to post
+		$post_id = $this->factory->post->create();
+		$this->go_to( get_permalink( $post_id ) );
+
 		// test default image
 		$image_url = 'http://url-default-image.jpg';
 
@@ -239,7 +197,7 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 
 		// test wpseo meta value
 		$image_url = 'http://url-singular-meta-image.jpg';
-		WPSEO_Meta::set_value( 'twitter-image', $image_url, $this->post_id );
+		WPSEO_Meta::set_value( 'twitter-image', $image_url, $post_id );
 		$expected = $this->get_expected_image_output( $image_url );
 
 		self::$class_instance->image();

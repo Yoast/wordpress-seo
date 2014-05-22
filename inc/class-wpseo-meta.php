@@ -113,6 +113,7 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 				'snippetpreview'	=> array(
 					'type'				=> 'snippetpreview',
 					'title'				=> '', // translation added later
+					'help'				=> '', // translation added later
 				),
 				'focuskw' 	   		=> array(
 					'type'				=> 'text',

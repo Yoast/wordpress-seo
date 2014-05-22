@@ -5,10 +5,10 @@
 
 if ( ! defined( 'WPSEO_VERSION' ) ) {
 	header( 'Status: 403 Forbidden' );
-	header( 'HTTP/1.1 403 Forbidden' );
+
+	header( 'HTTP/1.1 403 Forbidden', true, 403 );
 	exit();
 }
-
 
 if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 	/**
@@ -81,6 +81,15 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 		}
 
 		/**
+		 * Returns the server HTTP protocol to use for output, if it's set.
+		 *
+		 * @return string
+		 */
+		private function http_protocol() {
+			return ( isset( $_SERVER['SERVER_PROTOCOL'] ) && $_SERVER['SERVER_PROTOCOL'] !== '' ) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.1';
+		}
+
+		/**
 		 * Register your own sitemap. Call this during 'init'.
 		 *
 		 * @param string   $name     The name of the sitemap
@@ -143,7 +152,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 		 * @since 1.4.16
 		 */
 		function sitemap_close() {
-			remove_all_actions("wp_footer");
+			remove_all_actions('wp_footer');
 			die();
 		}
 
@@ -570,7 +579,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 
 						$url = array();
 
-						$url['mod'] = ( isset( $p->post_modified_gmt ) && $p->post_modified_gmt != '0000-00-00 00:00:00' && $p->post_modified_gmt > $p->post_date_gmt ) ? $p->post_modified_gmt : $p->post_date_gmt;
+						$url['mod'] = ( isset( $p->post_modified_gmt ) && $p->post_modified_gmt != '0000-00-00 00:00:00' && $p->post_modified_gmt > $p->post_date_gmt ) ? $p->post_modified_gmt : ( '0000-00-00 00:00:00' != $p->post_date_gmt ) ? $p->post_date_gmt : $p->post_date;
 						$url['loc'] = get_permalink( $p );
 
 						/**
@@ -946,7 +955,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 		 */
 		function xsl_output( $type ) {
 			if ( $type == 'main' ) {
-				header( 'HTTP/1.1 200 OK', true, 200 );
+				header( $this->http_protocol() .' 200 OK', true, 200 );
 				// Prevent the search engines from indexing the XML Sitemap.
 				header( 'X-Robots-Tag: noindex, follow', true );
 				header( 'Content-Type: text/xml' );
@@ -967,7 +976,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 		 * Spit out the generated sitemap and relevant headers and encoding information.
 		 */
 		function output() {
-			header( 'HTTP/1.1 200 OK', true, 200 );
+			header( $this->http_protocol() .' 200 OK', true, 200 );
 			// Prevent the search engines from indexing the XML Sitemap.
 			header( 'X-Robots-Tag: noindex, follow', true );
 			header( 'Content-Type: text/xml' );
@@ -993,7 +1002,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 		 */
 		function sitemap_url( $url ) {
 			if ( isset( $url['mod'] ) ) {
-				$date = mysql2date( 'Y-m-d\TH:i:s+00:00', $url['mod'] );
+				$date = mysql2date( 'Y-m-d\TH:i:s+00:00', $url['mod'], false );
 			} else {
 				$date = date( 'c' );
 			}
@@ -1085,7 +1094,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 			} else {
 				$result = 0;
 				foreach ( $post_types as $post_type ) {
-					if ( strotime( $this->post_type_dates[$post_type] ) > $result ) {
+					if ( isset( $this->post_type_dates[$post_type] ) && strtotime( $this->post_type_dates[$post_type] ) > $result ) {
 						$result = strtotime( $this->post_type_dates[$post_type] );
 					}
 				}
