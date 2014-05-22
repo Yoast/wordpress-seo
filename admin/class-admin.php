@@ -260,7 +260,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 					<th>%%userid%%</th>
 					<td>' . __( 'Replaced with the post/page author\'s userid', 'wordpress-seo' ) . '</td>
 				</tr>
-				<tr class="alt">
+				<tr>
 					<th>%%currenttime%%</th>
 					<td>' . __( 'Replaced with the current time', 'wordpress-seo' ) . '</td>
 				</tr>
@@ -268,7 +268,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 					<th>%%currentdate%%</th>
 					<td>' . __( 'Replaced with the current date', 'wordpress-seo' ) . '</td>
 				</tr>
-				<tr class="alt">
+				<tr>
 					<th>%%currentday%%</th>
 					<td>' . __( 'Replaced with the current day', 'wordpress-seo' ) . '</td>
 				</tr>
@@ -276,7 +276,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 					<th>%%currentmonth%%</th>
 					<td>' . __( 'Replaced with the current month', 'wordpress-seo' ) . '</td>
 				</tr>
-				<tr class="alt">
+				<tr>
 					<th>%%currentyear%%</th>
 					<td>' . __( 'Replaced with the current year', 'wordpress-seo' ) . '</td>
 				</tr>
@@ -284,7 +284,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 					<th>%%page%%</th>
 					<td>' . __( 'Replaced with the current page number (i.e. page 2 of 4)', 'wordpress-seo' ) . '</td>
 				</tr>
-				<tr class="alt">
+				<tr>
 					<th>%%pagetotal%%</th>
 					<td>' . __( 'Replaced with the current page total', 'wordpress-seo' ) . '</td>
 				</tr>
@@ -292,7 +292,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 					<th>%%pagenumber%%</th>
 					<td>' . __( 'Replaced with the current page number', 'wordpress-seo' ) . '</td>
 				</tr>
-				<tr class="alt">
+				<tr>
 					<th>%%caption%%</th>
 					<td>' . __( 'Attachment caption', 'wordpress-seo' ) . '</td>
 				</tr>
