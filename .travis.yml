@@ -14,12 +14,7 @@ env:
 before_script:
 - export WP_TESTS_DIR=tmp/wordpress-tests/
 - mkdir -p tmp
-- if [ "$WP_VERSION" = "master" ]
-- then
-- SVN_DIR="trunk"
-- else
-- SVN_DIR="tags/$WP_VERSION"
-- fi
+- if [ "$WP_VERSION" = "master" ]; then SVN_DIR="trunk"; else SVN_DIR="tags/$WP_VERSION"; fi
 - svn co http://develop.svn.wordpress.org/$SVN_DIR/ $WP_TESTS_DIR --ignore-externals
 - cd $WP_TESTS_DIR
 - cp wp-tests-config-sample.php wp-tests-config.php
