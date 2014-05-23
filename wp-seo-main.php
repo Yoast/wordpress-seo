@@ -71,6 +71,7 @@ function wpseo_auto_load( $class ) {
 			'wpseo_option_ms'	                 => WPSEO_PATH . 'inc/class-wpseo-options.php',
 			'wpseo_taxonomy_meta'		         => WPSEO_PATH . 'inc/class-wpseo-options.php',
 			'wpseo_meta'                         => WPSEO_PATH . 'inc/class-wpseo-meta.php',
+			'wpseo_replace_vars'                 => WPSEO_PATH . 'inc/class-wpseo-replace-vars.php',
 
 			'yoast_license_manager'              => WPSEO_PATH . 'admin/license-manager/class-license-manager.php',
 			'yoast_plugin_license_manager'       =>	WPSEO_PATH . 'admin/license-manager/class-plugin-license-manager.php',

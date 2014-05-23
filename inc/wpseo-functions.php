@@ -407,58 +407,6 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 
 
 /**
- * Throw a notice about an invalid custom taxonomy used
- *
- * @since 1.4.14
- */
-function wpseo_invalid_custom_taxonomy() {
-	echo '<div class="error"><p>' . sprintf( __( 'The taxonomy you used in (one of your) %s variables is <strong>invalid</strong>. Please %sadjust your settings%s.' ), '%%ct_desc_&lt;custom-tax-name&gt;%%', '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_titles#top#taxonomies' ) ) . '">', '</a>' ) . '</p></div>';
-}
-
-
-
-/**
- * Retrieve a post's terms, comma delimited.
- *
- * @param int    $id            ID of the post to get the terms for.
- * @param string $taxonomy      The taxonomy to get the terms for this post from.
- * @param bool   $return_single If true, return the first term.
- * @return string either a single term or a comma delimited string of terms.
- */
-function wpseo_get_terms( $id, $taxonomy, $return_single = false ) {
-
-	$output = '';
-
-	// If we're on a specific tag, category or taxonomy page, use that.
-	if ( is_category() || is_tag() || is_tax() ) {
-		global $wp_query;
-		$term   = $wp_query->get_queried_object();
-		$output = $term->name;
-	}
-	elseif ( ! empty( $id ) && ! empty( $taxonomy ) ) {
-		$terms = get_the_terms( $id, $taxonomy );
-		if ( is_array( $terms ) && $terms !== array() ) {
-			foreach ( $terms as $term ) {
-				if ( $return_single ) {
-					$output = $term->name;
-					break;
-				}
-				else {
-					$output .= $term->name . ', ';
-				}
-			}
-			$output = rtrim( trim( $output ), ',' );
-		}
-	}
-	/**
-	 * Allows filtering of the terms list used to replace %%category%%, %%tag%% and %%ct_<custom-tax-name>%% variables
-	 * @api	string	$output	Comma-delimited string containing the terms
-	 */
-	return apply_filters( 'wpseo_terms', $output );
-}
-
-
-/**
  * Strip out the shortcodes with a filthy regex, because people don't properly register their shortcodes.
  *
  * @param string $text input string that might contain shortcodes
@@ -1188,4 +1136,36 @@ function replace_meta( $old_metakey, $new_metakey, $replace = false ) {
 function wpseo_get_term_meta( $term, $taxonomy, $meta ) {
 	_deprecated_function( __FUNCTION__, 'WPSEO 1.5.0', 'WPSEO_Taxonomy_Meta::get_term_meta' );
 	WPSEO_Taxonomy_Meta::get_term_meta( $term, $taxonomy, $meta );
+}
+
+/**
+ * Throw a notice about an invalid custom taxonomy used
+ *
+ * @since 1.4.14
+ * @deprecated 1.5.4
+ * @deprecated use WPSEO_Replace_Vars::notify_invalid_custom_taxonomy()
+ * @see WPSEO_Replace_Vars::notify_invalid_custom_taxonomy()
+ */
+function wpseo_invalid_custom_taxonomy() {
+	_deprecated_function( __FUNCTION__, 'WPSEO 1.5.4', 'WPSEO_Replace_Vars::notify_invalid_custom_taxonomy' );
+	$singleton = WPSEO_Replace_Vars::get_instance();
+	$singleton->notify_invalid_custom_taxonomy();
+}
+
+/**
+ * Retrieve a post's terms, comma delimited.
+ *
+ * @deprecated 1.5.4
+ * @deprecated use WPSEO_Replace_Vars::get_terms()
+ * @see WPSEO_Replace_Vars::get_terms()
+ *
+ * @param int    $id            ID of the post to get the terms for.
+ * @param string $taxonomy      The taxonomy to get the terms for this post from.
+ * @param bool   $return_single If true, return the first term.
+ * @return string either a single term or a comma delimited string of terms.
+ */
+function wpseo_get_terms( $id, $taxonomy, $return_single = false ) {
+	_deprecated_function( __FUNCTION__, 'WPSEO 1.5.4', 'WPSEO_Replace_Vars::get_terms' );
+	$singleton = WPSEO_Replace_Vars::get_instance();
+	return $singleton->get_terms();
 }
