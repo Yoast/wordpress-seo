@@ -5,8 +5,8 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: seo, SEO, google, meta, meta description, search engine optimization, xml sitemap, xml sitemaps, google sitemap, sitemap, sitemaps, robots meta, rss, rss footer, yahoo, bing, news sitemaps, XML News Sitemaps, WordPress SEO, WordPress SEO by Yoast, yoast, multisite, canonical, nofollow, noindex, keywords, meta keywords, description, webmaster tools, google webmaster tools, seo pack
 Requires at least: 3.5
-Tested up to: 3.9
-Stable tag: 1.5.2.8
+Tested up to: 3.9.1
+Stable tag: 1.5.3.2
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the WordPress SEO plugin by Yoast.
 
@@ -108,6 +108,44 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 7. The advanced section of the WordPress SEO meta box.
 
 == Changelog ==
+
+= 1.5.3.2 =
+Release Date: May 16th, 2014
+
+* Bugfixes
+	* Backing out earlier change, as this breaks the snippet preview.
+
+* Enhancement
+	* Reintroduced the 'Strip the category base (usually /category/) from the category URL.' option.
+
+= 1.5.3.1 =
+Release Date: May 15th, 2014
+
+* Bugfixes
+	* Fix regression issue - non-replacement of %%name%% variable as reported in [issue #1104](https://github.com/Yoast/wordpress-seo/issues/1104) by [firstinflight](https://github.com/firstinflight) - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fixed an issue where %%category%% was not replaced on certain pages.
+	* Added support for %%tag%% even if the ID is empty.
+	* All remaining not replaced title vars are now stripped from the title.
+	* Added a fallback to post_date in the sitemap 'mod' property for when a post is lacking the post_date_gmt value.
+
+= 1.5.3 =
+
+* Bugfixes
+	* Don't ping search engines if the blog is set to 'discourage search engines from indexing this site' - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fix error in sitemap_index.xml if post type does not contain any posts as reported by [sebastiaandegeus](https://github.com/sebastiaandegeus).
+	* Use the correct HTTP protocol for responses - props [Fab1en](https://github.com/Fab1en).
+	* Better OG locale handling - props [maiis](https://github.com/maiis).
+	* Fixed: 'breadcrumb_last' class was missing on homepage, as reported by [uprise10](https://github.com/uprise10) in [issue #1045](https://github.com/Yoast/wordpress-seo/issues/1045) - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fix empty post id notice, [issue #1080](https://github.com/Yoast/wordpress-seo/issues/1080) as reported by [sosada](https://github.com/sosada).
+	* Localize dates where appropriate as suggested by [allankronmark](https://github.com/allankronmark) in [issue #1073](https://github.com/Yoast/wordpress-seo/issues/1073).
+	* Fix for escaping str literals in JS regexes - props [MarventusWP](https://github.com/MarventusWP).
+	
+* Enhancement
+	* Redirect paginated archive pages with a pagination number that doesn't exist to the first page of that archive.
+	* Update score circle icon to look great on HiDPI displays, as well as fitting better with WordPress 3.8+ design - props [paulwilde](https://github.com/paulwilde).
+	* Only show article publication time for posts, not for pages or other post types, introduce a new filter to _do_ allow them when needed.
+	* Load of improvements to banners and licenses page.
+	* Update snippet preview to use latest Google design changes - props [paulwilde](https://github.com/paulwilde).
 
 = 1.5.2.8 =
 

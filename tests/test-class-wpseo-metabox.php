@@ -3,11 +3,6 @@
 class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 
 	/**
-	 * @var int
-	 */
-	private $post_id;
-
-	/**
 	 * @var WPSEO_Metabox
 	 */
 	private static $class_instance;
@@ -17,43 +12,15 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	* Setup test fixtures
-	*/
-	public function setUp() {
-		parent::setUp();
-
-		// Create a sample post
-		$post_id = $this->factory->post->create( 
-			array( 
-				'post_title' => 'Sample Post', 
-				'post_type' => 'post', 
-				'post_status' => 'publish' 
-			) 
-		);
-
-		// store post object
-		$this->post_id = $post_id;
-	}
-
-    public function tearDown() {
-        parent::tearDown();
-
-        wp_delete_post( $this->_post->ID );
-    }
-
-	/**
-	* Placeholder test to prevent PHPUnit throwing warnings.
-	*/
-	public function test_class_is_tested() {
-		$this->assertTrue( true );
-	}
-
-	/**
 	* @covers WPSEO_Metabox::get_post_date()
 	*/
 	public function test_get_post_date() {
 
-		$post = get_post( $this->post_id );
+		// create and go to post
+		$post_id = $this->factory->post->create();
+		$this->go_to( get_permalink( $post_id ) );
+
+		$post = get_post( $post_id );
 
 		$expected_date = date( 'j M Y', strtotime( $post->post_date ) );
 		$this->assertEquals( $expected_date, self::$class_instance->get_post_date( $post ) );
@@ -143,7 +110,11 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 
 	public function test_save_postdata() {
 
-		$post = get_post( $this->post_id );
+		// create and go to post
+		$post_id = $this->factory->post->create();
+		$this->go_to( get_permalink( $post_id ) );
+
+		$post = get_post( $post_id );
 
 		// setup
 		$GLOBALS['wpseo_admin'] = new WPSEO_Admin;

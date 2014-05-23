@@ -79,7 +79,7 @@ function removeLowerCaseDiacritics(str) {
 function testFocusKw() {
 	// Retrieve focus keyword and trim
 	var focuskw = jQuery.trim(jQuery('#'+wpseoMetaboxL10n.field_prefix+'focuskw').val());
-	focuskw = focuskw.toLowerCase();
+	focuskw = escapeFocusKw(focuskw).toLowerCase();
 
 	var postname = jQuery('#editable-post-name-full').text();
 	var url = wpseoMetaboxL10n.wpseo_permalink_template.replace('%postname%', postname).replace('http://', '');
@@ -112,7 +112,7 @@ function testFocusKw() {
 function updateTitle(force) {
 	var title = '';
 	var titleElm = jQuery('#'+wpseoMetaboxL10n.field_prefix+'title');
-	var titleLengthElm = jQuery('#'+wpseoMetaboxL10n.field_prefix+'title-length');
+	var titleLengthError = jQuery('#'+wpseoMetaboxL10n.field_prefix+'title-length-warning');
 	var divHtml = jQuery('<div />');
 	var snippetTitle = jQuery('#wpseosnippet').find('.title');
 
@@ -124,7 +124,7 @@ function updateTitle(force) {
 	}
 	if (title == '') {
 		snippetTitle.html('');
-		titleLengthElm.html('');
+		titleLengthError.hide();
 		return;
 	}
 
@@ -141,21 +141,16 @@ function updateTitle(force) {
 		titleElm.attr('placeholder', original_title);
 	}
 
-	var len = 70 - title.length;
-	if (title.length > 70) {
-		var space = title.lastIndexOf(" ", 67);
-		title = title.substring(0, space).concat(' <strong>...</strong>');
+	var e = document.getElementById('wpseosnippet_title');
+	if (e.scrollWidth > e.clientWidth) {
+		titleLengthError.show();
+	} else {
+		titleLengthError.hide();
 	}
-
-	if (len < 0)
-		len = '<span class="wrong">' + len + '</span>';
-	else
-		len = '<span class="good">' + len + '</span>';
 
 	title = boldKeywords(title, false);
 
 	snippetTitle.html(title);
-	titleLengthElm.html(len);
 	testFocusKw();
 }
 
@@ -179,7 +174,7 @@ function updateDesc() {
 			desc = jQuery("#content").val();
 			desc = yst_clean(desc);
 
-			var focuskw = jQuery.trim(jQuery('#'+wpseoMetaboxL10n.field_prefix+'focuskw').val());
+			var focuskw = escapeFocusKw(jQuery.trim(jQuery('#'+wpseoMetaboxL10n.field_prefix+'focuskw').val()));
 			if (focuskw != '') {
 				var descsearch = new RegExp(focuskw, 'gim');
 				if (desc.search(descsearch) != -1 && desc.length > wpseoMetaboxL10n.wpseo_meta_desc_length) {
@@ -190,7 +185,6 @@ function updateDesc() {
 			} else {
 				desc = desc.substr(0, wpseoMetaboxL10n.wpseo_meta_desc_length);
 			}
-			color = "#888";
 			autogen = true;
 		}
 	}
@@ -215,13 +209,13 @@ function updateDesc() {
 			space = desc.lastIndexOf(" ", ( wpseoMetaboxL10n.wpseo_meta_desc_length - 3 ));
 		else
 			space = wpseoMetaboxL10n.wpseo_meta_desc_length;
-		desc = desc.substring(0, space).concat(' <strong>...</strong>');
+		desc = desc.substring(0, space).concat(' ...');
 	}
 
 	desc = boldKeywords(desc, false);
 
 	jQuery('#'+wpseoMetaboxL10n.field_prefix+'metadesc-length').html(len);
-	jQuery('#wpseosnippet').find('.desc span.content').css('color', color).html(desc);
+	jQuery('#wpseosnippet').find('.desc span.content').html(desc);
 	testFocusKw();
 }
 
@@ -234,7 +228,7 @@ function updateURL() {
 }
 
 function boldKeywords(str, url) {
-	var focuskw = jQuery.trim(jQuery('#'+wpseoMetaboxL10n.field_prefix+'focuskw').val());
+	var focuskw = escapeFocusKw(jQuery.trim(jQuery('#'+wpseoMetaboxL10n.field_prefix+'focuskw').val()));
 	var keywords;
 
 	if (focuskw == '')
@@ -263,6 +257,10 @@ function updateSnippet() {
 	updateURL();
 	updateTitle();
 	updateDesc();
+}
+
+function escapeFocusKw( str ) {
+	return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
 }
 
 jQuery(document).ready(function () {

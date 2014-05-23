@@ -3,21 +3,6 @@
 class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 
 	/**
-	* @var int
-	*/
-	private $post_id = 0;
-
-	/**
-	* @var int
-	*/ 
-	private $category_id = 0;
-
-	/**
-	* @var int
-	*/
-	private $user_id = 0;
-
-	/**
 	 * @var WPSEO_OpenGraph
 	 */
 	private static $class_instance;
@@ -26,55 +11,13 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		self::$class_instance = new WPSEO_OpenGraph;
 	}
 
-
 	/**
 	* Provision tests
 	*/
 	public function setUp() {
 		parent::setUp();
 
-		// create admin user
-		$this->user_id = $this->factory->user->create( array( 'role' => 'administrator' ) );
-
-		// create sample post
-		$this->post_id = $this->factory->post->create(
-			array(
-				'post_title' => 'Sample Post',
-				'post_type' => 'post',
-				'post_status' => 'publish',
-				'post_author' => $this->user_id
-			)
-		);
-
-		// add category to post
-		$this->category_id = wp_create_category( "WordPress SEO" );
-		wp_set_post_categories( $this->post_id, array( $this->category_id ) );
-
-		// fill global $post
-		global $post;
-		$post = $this->get_post( $this->post_id );
-
-		// go to single post
-		$this->go_to_post();
-
-	}
-
-	/**
-	* Clean-up
-	*/
-	public function tearDown() {
-		parent::tearDown();
-
-		// delete post
-		wp_delete_post( $this->post_id );
-
-		// delete category
-		wp_delete_category( $this->category_id );
-
-		// delete author
-		wp_delete_user( $this->user_id );
-
-		// go back to home page
+		// start each test on the home page
 		$this->go_to_home();
 	}
 
@@ -116,6 +59,9 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
      * @covers WPSEO_OpenGraph::facebook_filter
      */
 	public function test_facebook_filter() {
+
+		$post_id = $this->factory->post->create();
+		$this->go_to( get_permalink( $post_id ) );
 		
 		$c = self::$class_instance;
 		$result = $c->facebook_filter( array() );
@@ -146,24 +92,26 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
      * @covers WPSEO_OpenGraph::article_author_facebook
      */
 	public function test_article_author_facebook() {
+
+		// test not on singular page
+		$this->assertFalse( self::$class_instance->article_author_facebook() );
+
+		// create post with author
+		$author_id = $this->factory->user->create( array( 'role' => 'administrator' ) );
+		$post_id = $this->factory->post->create( array( 'post_author' => $author_id ));
+		$this->go_to( get_permalink( $post_id ) );
+
 		// on post page but facebook meta not set.
 		$this->assertFalse( self::$class_instance->article_author_facebook() );
 
 		// add facebook meta to post author
-		$post = get_post( $this->post_id );
+		$post = get_post( $post_id );
 		$author = $post->post_author;
 		add_user_meta( $author, 'facebook', 'facebook_author' );
 
 		// test final output
 		$this->assertTrue( self::$class_instance->article_author_facebook() );
 		$this->expectOutput( '<meta property="article:author" content="facebook_author" />' . "\n" );
-
-		// test not on singular page
-		$this->go_to_home();
-		$this->assertFalse( self::$class_instance->article_author_facebook() );
-
-		// go back to single post
-		$this->go_to_post();
 	}
 
     /**
@@ -194,6 +142,11 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
      * @covers WPSEO_OpenGraph::og_title
      */
 	public function test_og_title() {
+
+		// create and go to post
+		$post_id = $this->factory->post->create();
+		$this->go_to( get_permalink( $post_id ) );
+
 		$expected_title = self::$class_instance->title( '' );
 		$expected_html = '<meta property="og:title" content="'.$expected_title.'" />' . "\n";
 
@@ -208,7 +161,12 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
      * @covers WPSEO_OpenGraph::url
      */
 	public function test_url() {
-		$expected_url = get_permalink( $this->post_id );
+
+		// create and go to post
+		$post_id = $this->factory->post->create();
+		$url = get_permalink( $post_id );
+		$this->go_to( $url );
+		$expected_url = $url;
 
 		$this->assertTrue( self::$class_instance->url() );
 		$this->expectOutput( '<meta property="og:url" content="' . $expected_url . '" />' . "\n" );
@@ -237,14 +195,15 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
      * @covers WPSEO_OpenGraph::type
      */
 	public function test_type() {
-		
-		$this->go_to_home();
 		$this->assertEquals( 'website', self::$class_instance->type( false ) );
 
-		$this->go_to_category();
+		$category_id = wp_create_category( "WordPress SEO" );
+		$this->go_to( get_category_link( $category_id ) );
 		$this->assertEquals( 'object', self::$class_instance->type( false ) );
 
-		$this->go_to_post();
+		// create and go to post
+		$post_id = $this->factory->post->create();
+		$this->go_to( get_permalink( $post_id ) );
 		$this->assertEquals( 'article', self::$class_instance->type( false ) );
 	}
 
@@ -298,40 +257,40 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
      */
 	public function test_tags() {
 
+		// not singular, return false
+		$this->assertFalse( self::$class_instance->tags() );
+
+		// create post, without tags
+		$post_id = $this->factory->post->create();
+		$this->go_to( get_permalink( $post_id ) );
+
 		// no tags, should return false
 		$this->assertFalse( self::$class_instance->tags() );
 		
 		// add tags to post
-		wp_set_post_tags( $this->post_id, 'Tag1, Tag2' );
+		wp_set_post_tags( $post_id, 'Tag1, Tag2' );
 		$expected_tags = '<meta property="article:tag" content="Tag1" />' . "\n" . '<meta property="article:tag" content="Tag2" />' . "\n";
 		
 		// test again, this time with tags
 		$this->assertTrue( self::$class_instance->tags() );
 		$this->expectOutput( $expected_tags );
-
-		// not singular, return false
-		$this->go_to_home();
-		$this->assertFalse( self::$class_instance->tags() );
-
-		// go back to post
-		$this->go_to_post();
 	}
 
     /**
      * @covers WPSEO_OpenGraph::category
      */
-	public function test_category() {	
-
-		// Test category
-		$this->assertTrue( self::$class_instance->category() );
-		$this->expectOutput( '<meta property="article:section" content="WordPress SEO" />' . "\n" );
+	public function test_category() {
 
 		// not singular, should return false
-		$this->go_to_home();
 		$this->assertFalse( self::$class_instance->category() );
 
-		// go back to single post
-		$this->go_to_post();
+		// Create post in category, go to post.
+		$category_id = wp_create_category( 'Category Name' );
+		$post_id = $this->factory->post->create( array( 'post_category' => array( $category_id ) ) );
+		$this->go_to( get_permalink( $post_id ) );
+
+		$this->assertTrue( self::$class_instance->category() );
+		$this->expectOutput( '<meta property="article:section" content="Category Name" />' . "\n" );
 	}
 
     /**
@@ -340,11 +299,11 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	public function test_publish_date() {
 
 		// not on singular, should return false
-		$this->go_to_home();
 		$this->assertFalse( self::$class_instance->publish_date() );
 
-		// go back to post
-		$this->go_to_post();
+		// create post, without tags
+		$post_id = $this->factory->post->create();
+		$this->go_to( get_permalink( $post_id ) );
 
 		// test published_time tags output
 		$published_time = get_the_date( 'c' );
@@ -354,7 +313,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 
 		// modify post time
 		global $post;
-		$post = $this->get_post();
+		$post = get_post( $post_id );
 		$post->post_modified     = gmdate( 'Y-m-d H:i:s', time() + 1 );
 		$post->post_modified_gmt = gmdate( 'Y-m-d H:i:s', ( time() + 1 + ( get_option( 'gmt_offset' ) * HOUR_IN_SECONDS ) ) );
 		
@@ -363,29 +322,6 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		$modified_output = '<meta property="article:modified_time" content="' . $modified_time . '" />' . "\n" . '<meta property="og:updated_time" content="' . $modified_time . '" />' . "\n";
 		$this->assertTrue( self::$class_instance->publish_date() );
 		$this->expectOutput( $published_output . $modified_output );
-	}
-
-	/**
-	 * Fake a request to a post page
-	 */
-	private function go_to_post() {
-		$this->go_to( get_permalink( $this->post_id ) );
-	}
-
-	/**
-	 * Fake a request to a category page
-	 */
-	private function go_to_category() {
-		$this->go_to( get_category_link( $this->category_id ) );
-	}
-
-	/**
-	 * @return null|WP_Post
-	 */
-	private function get_post() {
-		global $post;
-		$post = get_post( $this->post_id );
-		return $post;
 	}
 
 }
