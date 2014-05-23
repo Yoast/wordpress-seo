@@ -242,6 +242,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			if ( self::get_value( 'meta-robots-noindex' ) === '1' ) {
 				$score_label = 'noindex';
 				$title       = __( 'Post is set to noindex.', 'wordpress-seo' );
+				$score_title = $title;
 			} else {
 				$score = self::get_value( 'linkdex' );
 				if ( $score !== '' ) {
