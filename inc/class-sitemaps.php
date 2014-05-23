@@ -734,7 +734,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 			$this->sitemap .= $output;
 
 			// Filter to allow adding extra URLs, only do this on the first XML sitemap, not on all.
-			if ( $n == 0 ) {
+			if ( $n == 1 ) {
 				$this->sitemap .= apply_filters( 'wpseo_sitemap_' . $post_type . '_content', '' );
 			}
 
