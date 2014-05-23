@@ -109,6 +109,11 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 
 == Changelog ==
 
+= Trunk =
+
+* Enhancements:
+	* Auto-deactivate plugin in the rare case that the SPL (Standard PHP Library) extension is not available.
+
 = 1.5.3.2 =
 Release Date: May 16th, 2014
 
