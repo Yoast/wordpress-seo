@@ -42,7 +42,7 @@ class WPSEO_REGEX_Redirect_Manager extends WPSEO_Redirect_Manager {
 
 			$url = $_SERVER['REQUEST_URI'];
 
-			foreach ( $redirects as $regex => $target_url ) {
+			foreach ( $redirects as $regex => $redirect ) {
 
 				// Check if the URL matches the $regex
 				if ( 1 === @preg_match( "`{$regex}`", $url, $this->url_matches ) ) {
@@ -51,10 +51,10 @@ class WPSEO_REGEX_Redirect_Manager extends WPSEO_Redirect_Manager {
 					$redirect_url = preg_replace_callback( "/[\$0-9]+/", array(
 						$this,
 						'format_redirect_url'
-					), $target_url );
+					), $redirect['url'] );
 
 					// Do the redirect
-					wp_redirect( $redirect_url, 301 );
+					wp_redirect( $redirect_url, $redirect['type'] );
 					exit;
 
 				}
