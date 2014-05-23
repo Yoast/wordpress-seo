@@ -1,5 +1,9 @@
 (function ($) {
 
+	function yoast_overlay(title, text) {
+		alert(text);
+	}
+
 	$.fn.wpseo_redirects = function (arg_type) {
 
 		var object = this;
@@ -199,7 +203,6 @@
 			object.check_url_status(new_redirect);
 
 			// Do post
-			return true;
 			$.post(
 					ajaxurl,
 					{
@@ -216,8 +219,29 @@
 			return true;
 		};
 
-		this.check_url_status = function(url) {
-			console.log(url);
+		this.check_url_status = function (url) {
+
+			// Add the domain
+			if (0 == url.indexOf(object.encode('/'))) {
+				url = object.encode(window.location.protocol + '//' + window.location.host) + url;
+			}
+
+			// Do the AJAX call
+			$.post(
+					ajaxurl,
+					{
+						action    : 'wpseo_check_url',
+						ajax_nonce: $('.wpseo_redirects_ajax_nonce').val(),
+						url       : url
+					},
+					function (response) {
+						var response_obj = $.parseJSON(response);
+						if ('200' != response_obj.reponse_code) {
+							yoast_overlay('Incorrect URL', 'The URL you entered returns an HTTP code different than 200(OK) : ' + response_obj.reponse_code);
+						}
+					}
+			);
+
 		};
 
 
