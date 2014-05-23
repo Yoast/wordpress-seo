@@ -1167,5 +1167,5 @@ function wpseo_invalid_custom_taxonomy() {
 function wpseo_get_terms( $id, $taxonomy, $return_single = false ) {
 	_deprecated_function( __FUNCTION__, 'WPSEO 1.5.4', 'WPSEO_Replace_Vars::get_terms' );
 	$singleton = WPSEO_Replace_Vars::get_instance();
-	return $singleton->get_terms();
+	return $singleton->get_terms( $id, $taxonomy, $return_single );
 }
