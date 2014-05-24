@@ -51,6 +51,11 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		 * @var	array
 		 */
 		protected $help_texts = array();
+		
+		/**
+		 * @var array
+		 */
+		protected $external_replacements = array();
 
 
 
@@ -61,6 +66,8 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		protected function __construct() {
 			$this->set_basic_help_texts();
 			$this->set_advanced_help_texts();
+			
+			do_action( 'wpseo_register_extra_replacements' );
 		}
 
 
@@ -75,6 +82,32 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 			}
 
 			return self::$instance;
+		}
+		
+		/**
+		 *
+		 */
+		public function register_replacement( $var, $replace_function, $type = 'advanced', $help_text = '' ) {
+			$success = false;
+
+			if ( is_string( $var ) && $var !== '' ) {
+				$var = trim( $var, '%' );
+
+				if ( ! method_exists( $this, 'retrieve_' . $var ) ) {
+					if ( ! isset( $this->external_replacements[$var] ) ) {
+						$this->external_replacements[$var] = $replace_function;
+						$this->register_help_text( $type, $var, $help_text );
+						$success = true;
+					}
+					else {
+						trigger_error( __( 'A replacement variable with the same name has already been registered. Try making your variable name more unique.', 'wordpress-seo' ), E_NOTICE );
+					}
+				}
+				else {
+					trigger_error( __( 'You cannot overrule a WPSEO standard variable replacement by registering a variable with the same name. Use the "wpseo_replacements" filter instead to adjust the replacement value.', 'wordpress-seo' ), E_WARNING );
+				}
+			}
+			return $success;
 		}
 		
 		
@@ -105,8 +138,21 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 
 			$replacements = array();
 
-			if ( preg_match( '`%%[a-z0-9_-]+%%`i', $string, $matches ) ) {
+			if ( preg_match_all( '`%%([a-z0-9_-]+)%%`i', $string, $matches ) ) {
+				foreach ( $matches[x] as $match ) {
+					if ( method_exists( $this, 'retrieve_' . $match ) ) {
+						$method_name = 'retrieve_' . $match;
+						$replacement = $this->$method_name();
+					}
+					elseif ( isset( $this->external_replacements[$match] ) && ! is_null( $this->external_replacements[$match] ) ) {
+						$replacement = call_user_func( $this->external_replacements[$match] );
+					}
 
+					// Replacement retrievals can return null if no replacement can be determined, root those outs
+					if( isset( $replacement ) ) {
+						$replacements['%%' . $match . '%%'] = $replacement;
+					}
+				}
 			}
 
 
@@ -133,6 +179,10 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 				}
 			}
 */
+
+
+			if ( $final === true ) {
+			}
 
 		}
 
@@ -1061,9 +1111,9 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 		/**
 		 * Set the help text for a user/plugin defined extra variable.
 		 *
-		 * @param        $type
-		 * @param        $replace
-		 * @param string $help_text
+		 * @param  string  $type       Type of variable: 'basic' or 'advanced'
+		 * @param  string  $replace    Variable to replace, i.e. '%%var%%'
+		 * @param  string  $help_text  The actual help text string
 		 */
 		public function register_help_text( $type, $replace, $help_text = '' ) {
 			if ( is_string( $replace ) && $replace !== '' ) {

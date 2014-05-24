@@ -158,6 +158,44 @@ function wpseo_replace_vars( $string, $args, $omit = array(), $final = false ) {
 }
 
 /**
+ * Register a new variable replacement
+ *
+ * This function is for use by other plugins/themes to easily add their own additional variables to replace.
+ * This function should be called from a function on the 'wpseo_register_extra_replacements' action hook.
+ * The use of this function is preferred over the older 'wpseo_replacements' filter as a way to add new replacements.
+ * The 'wpseo_replacements' filter should still be used to adjust standard WPSEO replacement values.
+ * The function can not be used to replace standard WPSEO replacement value functions and will thrown a warning
+ * if you accidently try.
+ * To avoid conflicts with variables registered by WPSEO and other themes/plugins, try and make the
+ * name of your variable unique.
+ *
+ * Example code:
+ * <code>
+ * <?php
+ * function register_my_plugin_extra_replacements() {
+ *		wpseo_register_var_replacement( '%%myvar1%%', 'function_name', 'advanced', 'this is a help text for myvar1' );
+ *		wpseo_register_var_replacement( 'myvar2', array( 'class', 'method_name' ), 'basic', 'this is a help text for myvar2' );
+ * }
+ * add_action( 'wpseo_register_extra_replacements', 'register_my_plugin_extra_replacements' );
+ * ?>
+ * </code>
+ *
+ * @since 1.5.4
+ *
+ * @param  string   $var               The name of the variable to replace, i.e. '%%var%%'
+ *                                      - the surrounding %% are optional
+ * @param  mixed    $replace_function  Function or method to call to retrieve the replacement value for the variable
+ *					                   Uses the same format as add_filter/add_action function parameter
+ * @param  string   $type              Type of variable: 'basic' or 'advanced', defaults to 'advanced'
+ * @param  string   $help_text         Help text to be added to the help tab for this variable
+ * @return bool     Whether the replacement function was succesfully registered
+ */
+function wpseo_register_var_replacement( $var, $replace_function, $type = 'advanced', $help_text = '' ) {
+	$singleton = WPSEO_Replace_Vars::get_instance();
+	return $singleton->register_replacement( $var, $replace_function, $type, $help_text );
+}
+
+/**
  * Strip out the shortcodes with a filthy regex, because people don't properly register their shortcodes.
  *
  * @param string $text input string that might contain shortcodes
