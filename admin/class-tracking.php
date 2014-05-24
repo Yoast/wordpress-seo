@@ -63,7 +63,7 @@ if ( ! class_exists( 'Yoast_Tracking' ) ) {
 			$data = get_transient( $transient_key );
 
 			// bail if transient is set and valid
-			if( $data !== false ) {
+			if ( $data !== false ) {
 				return;
 			}
 
