@@ -85,16 +85,15 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		 * @return string
 		 */
 		public function replace( $string, $args, $omit = array(), $final = false ) {
-			$args = (array) $args;
-		
+
 			$string = strip_tags( $string );
-		
+
 			// Let's see if we can bail super early.
 			if ( strpos( $string, '%%' ) === false ) {
 				return trim( preg_replace( '`\s+`u', ' ', $string ) );
 			}
-			
 
+			$args = (array) $args;
 			if ( isset( $args['post_content'] ) && ! empty( $args['post_content'] ) ) {
 				$args['post_content'] = wpseo_strip_shortcode( $args['post_content'] );
 			}
@@ -104,9 +103,36 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		
 			$this->args = (object) wp_parse_args( $args, $this->defaults );
 
+			$replacements = array();
+
+			if ( preg_match( '`%%[a-z0-9_-]+%%`i', $string, $matches ) ) {
+
+			}
 
 
 
+
+
+			/**
+			 * Filter: 'wpseo_replacements' - Allow customization of the replacements before they are applied
+			 *
+			 * @api array $replacements The replacements
+			 */
+			$replacements = apply_filters( 'wpseo_replacements', $replacements );
+			
+			/*
+			if ( is_array( $omit ) && $omit !== array() ) {
+			 array_diff $replacements with $omit
+			}
+			*/
+			// str_replace( array_keys(), array_values(), $string );
+
+/*			foreach ( $replacements as $var => $repl ) {
+				if ( ! in_array( $var, $omit ) ) {
+					$string = str_replace( $var, $repl, $string );
+				}
+			}
+*/
 
 		}
 
@@ -176,7 +202,7 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 
 	$r = (object) wp_parse_args( $args, $defaults );
 */
-	$max_num_pages = 1;
+/*	$max_num_pages = 1;
 	if ( ! is_singular() ) {
 		$pagenum = get_query_var( 'paged' );
 		if ( $pagenum === 0 ) {
@@ -195,10 +221,10 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 			$max_num_pages++;
 		}
 	}
-
+*/
 	// Let's do date first as it's a bit more work to get right.
-/*	if ( $r->post_date != '' ) {
-		$date = mysql2date( get_option( 'date_format' ), $r->post_date, true );
+/*	if ( $this->args->post_date != '' ) {
+		$date = mysql2date( get_option( 'date_format' ), $this->args->post_date, true );
 	}
 	else {
 		if ( get_query_var( 'day' ) && get_query_var( 'day' ) != '' ) {
@@ -217,72 +243,72 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 		}
 	}
 */
-	$replacements = array(
+/*	$replacements = array(
 //		'%%date%%'         => $date,
 //		'%%searchphrase%%' => esc_html( get_query_var( 's' ) ),
 		'%%page%%'         => ( $max_num_pages > 1 && $pagenum > 1 ) ? sprintf( $sep . ' ' . __( 'Page %d of %d', 'wordpress-seo' ), $pagenum, $max_num_pages ) : '',
 		'%%pagetotal%%'    => $max_num_pages,
 		'%%pagenumber%%'   => $pagenum,
-//		'%%term404%%'	   => sanitize_text_field( str_replace( '-', ' ', $r->term404 ) ),
-//		'%%name%%'         => get_the_author_meta( 'display_name', ! empty( $r->post_author ) ? $r->post_author : get_query_var( 'author' ) ),
-//		'%%userid%%'       => ! empty( $r->post_author ) ? $r->post_author : get_query_var( 'author' ),
+//		'%%term404%%'	   => sanitize_text_field( str_replace( '-', ' ', $this->args->term404 ) ),
+//		'%%name%%'         => get_the_author_meta( 'display_name', ! empty( $this->args->post_author ) ? $this->args->post_author : get_query_var( 'author' ) ),
+//		'%%userid%%'       => ! empty( $this->args->post_author ) ? $this->args->post_author : get_query_var( 'author' ),
 
 	);
-
-	if ( ! empty( $r->ID ) ) {
+*/
+	if ( ! empty( $this->args->ID ) ) {
 		$replacements = array_merge(
 			$replacements, array(
-				'%%caption%%'      => $r->post_excerpt,
-				'%%category%%'     => $this->get_terms( $r->ID, 'category' ),
-				'%%excerpt%%'      => ( ! empty( $r->post_excerpt ) ) ? strip_tags( $r->post_excerpt ) : wp_html_excerpt( strip_shortcodes( $r->post_content ),155 ),
-				'%%excerpt_only%%' => strip_tags( $r->post_excerpt ),
-				'%%focuskw%%'      => WPSEO_Meta::get_value( 'focuskw', $r->ID ),
-				'%%id%%'           => $r->ID,
-				'%%title%%'        => stripslashes( $r->post_title ),
+				'%%caption%%'      => $this->args->post_excerpt,
+				'%%category%%'     => $this->get_terms( $this->args->ID, 'category' ),
+				'%%excerpt%%'      => ( ! empty( $this->args->post_excerpt ) ) ? strip_tags( $this->args->post_excerpt ) : wp_html_excerpt( strip_shortcodes( $this->args->post_content ),155 ),
+				'%%excerpt_only%%' => strip_tags( $this->args->post_excerpt ),
+				'%%focuskw%%'      => WPSEO_Meta::get_value( 'focuskw', $this->args->ID ),
+				'%%id%%'           => $this->args->ID,
+				'%%title%%'        => stripslashes( $this->args->post_title ),
 			)
 		);
 	}
 
 	// Support %%tag%% even if the ID is empty
-	if ( isset( $r->ID ) ) {
+	if ( isset( $this->args->ID ) ) {
 		$replacements = array_merge(
 			$replacements, array(
-				'%%tag%%' => $this->get_terms( $r->ID, 'post_tag' ),
+				'%%tag%%' => $this->get_terms( $this->args->ID, 'post_tag' ),
 			)
 		);
 	}
 	
-	if ( ! empty( $r->post_modified ) ) {
+	if ( ! empty( $this->args->post_modified ) ) {
 		$replacements = array_merge(
 			$replacements, array(
-				'%%modified%%'     => mysql2date( get_option( 'date_format' ), $r->post_modified, true ),
+				'%%modified%%'     => mysql2date( get_option( 'date_format' ), $this->args->post_modified, true ),
 			)
 		);
 	}
 	
 
-	if ( isset( $r->cat_name ) && ! empty( $r->cat_name ) ) {
+	if ( isset( $this->args->cat_name ) && ! empty( $this->args->cat_name ) ) {
 		$replacements = array_merge(
-			$replacements, array( '%%category%%' => $r->cat_name )
+			$replacements, array( '%%category%%' => $this->args->cat_name )
 		);
 	}
 
-	if ( ! empty( $r->taxonomy ) ) {
+	if ( ! empty( $this->args->taxonomy ) ) {
 		$replacements = array_merge(
 			$replacements, array(
-				'%%category_description%%' => trim( strip_tags( get_term_field( 'description', $r->term_id, $r->taxonomy ) ) ),
-				'%%tag_description%%'      => trim( strip_tags( get_term_field( 'description', $r->term_id, $r->taxonomy ) ) ),
-				'%%term_description%%'     => trim( strip_tags( get_term_field( 'description', $r->term_id, $r->taxonomy ) ) ),
-				'%%term_title%%'           => $r->name,
+				'%%category_description%%' => trim( strip_tags( get_term_field( 'description', $this->args->term_id, $this->args->taxonomy ) ) ),
+				'%%tag_description%%'      => trim( strip_tags( get_term_field( 'description', $this->args->term_id, $this->args->taxonomy ) ) ),
+				'%%term_description%%'     => trim( strip_tags( get_term_field( 'description', $this->args->term_id, $this->args->taxonomy ) ) ),
+				'%%term_title%%'           => $this->args->name,
 			)
 		);
 	}
 
 	/**
-	* Filter: 'wpseo_replacements' - Allow customization of the replacements before they are applied
-	*
-	* @api array $replacements The replacements
-	*/
+	 * Filter: 'wpseo_replacements' - Allow customization of the replacements before they are applied
+	 *
+	 * @api array $replacements The replacements
+	 */
 	$replacements = apply_filters( 'wpseo_replacements', $replacements );
 
 	foreach ( $replacements as $var => $repl ) {
@@ -317,7 +343,7 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 
 	if ( ( is_singular() || is_admin() ) && preg_match_all( '`%%cf_([^%]+)%%`u', $string, $matches, PREG_SET_ORDER ) ) {
 		global $post;
-		if( is_object( $post ) && isset( $post->ID ) ) {
+		if ( is_object( $post ) && isset( $post->ID ) ) {
 			foreach ( $matches as $match ) {
 				$string = str_replace( $match[0], get_post_meta( $post->ID, $match[1], true ), $string );
 			}
@@ -359,7 +385,7 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 			if ( isset( $match[2] ) && $match[2] == 'single%%' ) {
 				$single = true;
 			}
-			$ct_terms = $this->get_terms( $r->ID, $match[1], $single );
+			$ct_terms = $this->get_terms( $this->args->ID, $match[1], $single );
 
 			$string = str_replace( $match[0], $ct_terms, $string );
 		}
@@ -380,7 +406,7 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 		private function retrieve_date() {
 			static $replacement;
 
-			if( ! isset( $replacement ) ) {
+			if ( ! isset( $replacement ) ) {
 				if ( $this->args->post_date != '' ) {
 					$replacement = mysql2date( get_option( 'date_format' ), $this->args->post_date, true );
 				}
@@ -413,7 +439,7 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 		private function retrieve_title() {
 			static $replacement;
 
-			if( ! isset( $replacement ) ) {
+			if ( ! isset( $replacement ) ) {
 				$replacement = ''; //...tbd...
 			}
 
@@ -429,7 +455,7 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 		private function retrieve_parent_title() {
 			static $replacement;
 
-			if( ! isset( $replacement ) ) {
+			if ( ! isset( $replacement ) ) {
 				$replacement = ''; //...tbd...
 			}
 
@@ -444,7 +470,7 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 		private function retrieve_sitename() {
 			static $replacement;
 			
-			if( ! isset( $replacement ) ) {
+			if ( ! isset( $replacement ) ) {
 				$replacement = get_bloginfo( 'name' );
 			}
 
@@ -459,7 +485,7 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 		private function retrieve_sitedesc() {
 			static $replacement;
 			
-			if( ! isset( $replacement ) ) {
+			if ( ! isset( $replacement ) ) {
 				$replacement = get_bloginfo( 'description' );
 			}
 
@@ -475,7 +501,7 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 		private function retrieve_excerpt() {
 			static $replacement;
 
-			if( ! isset( $replacement ) ) {
+			if ( ! isset( $replacement ) ) {
 				$replacement = ''; //...tbd...
 			}
 
@@ -490,7 +516,7 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 		private function retrieve_excerpt_only() {
 			static $replacement;
 
-			if( ! isset( $replacement ) ) {
+			if ( ! isset( $replacement ) ) {
 				$replacement = ''; //...tbd...
 			}
 
@@ -505,7 +531,7 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 		private function retrieve_tag() {
 			static $replacement;
 
-			if( ! isset( $replacement ) ) {
+			if ( ! isset( $replacement ) ) {
 				$replacement = ''; //...tbd...
 			}
 
@@ -520,7 +546,7 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 		private function retrieve_category() {
 			static $replacement;
 
-			if( ! isset( $replacement ) ) {
+			if ( ! isset( $replacement ) ) {
 				$replacement = ''; //...tbd...
 			}
 
@@ -535,7 +561,7 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 		private function retrieve_category_description() {
 			static $replacement;
 
-			if( ! isset( $replacement ) ) {
+			if ( ! isset( $replacement ) ) {
 				$replacement = ''; //...tbd...
 			}
 
@@ -550,7 +576,7 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 		private function retrieve_tag_description() {
 			static $replacement;
 
-			if( ! isset( $replacement ) ) {
+			if ( ! isset( $replacement ) ) {
 				$replacement = ''; //...tbd...
 			}
 
@@ -565,7 +591,7 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 		private function retrieve_term_description() {
 			static $replacement;
 
-			if( ! isset( $replacement ) ) {
+			if ( ! isset( $replacement ) ) {
 				$replacement = ''; //...tbd...
 			}
 
@@ -580,7 +606,7 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 		private function retrieve_term_title() {
 			static $replacement;
 
-			if( ! isset( $replacement ) ) {
+			if ( ! isset( $replacement ) ) {
 				$replacement = ''; //...tbd...
 			}
 
@@ -595,7 +621,7 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 		private function retrieve_searchphrase() {
 			static $replacement;
 
-			if( ! isset( $replacement ) ) {
+			if ( ! isset( $replacement ) ) {
 				$replacement = esc_html( get_query_var( 's' ) );
 			}
 
@@ -631,7 +657,7 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 		private function retrieve_pt_single() {
 			static $replacement;
 
-			if( ! isset( $replacement ) ) {
+			if ( ! isset( $replacement ) ) {
 				$replacement = ''; //...tbd...
 			}
 
@@ -646,7 +672,7 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 		private function retrieve_pt_plural() {
 			static $replacement;
 
-			if( ! isset( $replacement ) ) {
+			if ( ! isset( $replacement ) ) {
 				$replacement = ''; //...tbd...
 			}
 
@@ -661,7 +687,7 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 		private function retrieve_modified() {
 			static $replacement;
 
-			if( ! isset( $replacement ) ) {
+			if ( ! isset( $replacement ) ) {
 				$replacement = ''; //...tbd...
 			}
 
@@ -676,7 +702,7 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 		private function retrieve_id() {
 			static $replacement;
 
-			if( ! isset( $replacement ) ) {
+			if ( ! isset( $replacement ) ) {
 				$replacement = ''; //...tbd...
 			}
 
@@ -691,7 +717,7 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 		private function retrieve_name() {
 			static $replacement;
 
-			if( ! isset( $replacement ) ) {
+			if ( ! isset( $replacement ) ) {
 				$replacement = get_the_author_meta( 'display_name', ! empty( $this->args->post_author ) ? $this->args->post_author : get_query_var( 'author' ) );
 			}
 
@@ -706,7 +732,7 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 		private function retrieve_userid() {
 			static $replacement;
 
-			if( ! isset( $replacement ) ) {
+			if ( ! isset( $replacement ) ) {
 				$replacement = ! empty( $this->args->post_author ) ? $this->args->post_author : get_query_var( 'author' );
 			}
 
@@ -721,7 +747,7 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 		private function retrieve_currenttime() {
 			static $replacement;
 			
-			if( ! isset( $replacement ) ) {
+			if ( ! isset( $replacement ) ) {
 				$replacement = date_i18n( get_option( 'time_format' ) );
 			}
 
@@ -736,7 +762,7 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 		private function retrieve_currentdate() {
 			static $replacement;
 			
-			if( ! isset( $replacement ) ) {
+			if ( ! isset( $replacement ) ) {
 				$replacement = date_i18n( get_option( 'date_format' ) );
 			}
 
@@ -751,7 +777,7 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 		private function retrieve_currentday() {
 			static $replacement;
 			
-			if( ! isset( $replacement ) ) {
+			if ( ! isset( $replacement ) ) {
 				$replacement = date_i18n( 'j' );
 			}
 
@@ -766,7 +792,7 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 		private function retrieve_currentmonth() {
 			static $replacement;
 			
-			if( ! isset( $replacement ) ) {
+			if ( ! isset( $replacement ) ) {
 				$replacement = date_i18n( 'F' );
 			}
 
@@ -781,7 +807,7 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 		private function retrieve_currentyear() {
 			static $replacement;
 			
-			if( ! isset( $replacement ) ) {
+			if ( ! isset( $replacement ) ) {
 				$replacement = date_i18n( 'Y' );
 			}
 
@@ -789,15 +815,23 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 		}
 
 		/**
-		 * Retrieve the current page number (i.e. page 2 of 4) for use as replacement string.
+		 * Retrieve the current page number with context (i.e. 'page 2 of 4') for use as replacement string.
 		 *
 		 * @return string
 		 */
 		private function retrieve_page() {
 			static $replacement;
 
-			if( ! isset( $replacement ) ) {
-				$replacement = ''; //...tbd...
+			if ( ! isset( $replacement ) ) {
+				$max = $this->determine_pagenumbering( 'max' );
+				$nr  = $this->determine_pagenumbering( 'nr' );
+				$sep = $this->retrieve_sep();
+				
+				$replacement = '';
+				if ( $max > 1 && $nr > 1 ) {
+					$replacement = sprintf( $sep . ' ' . __( 'Page %d of %d', 'wordpress-seo' ), $nr, $max );
+				}
+				unset( $max, $nr, $sep );
 			}
 
 			return $replacement;
@@ -811,8 +845,8 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 		private function retrieve_pagetotal() {
 			static $replacement;
 
-			if( ! isset( $replacement ) ) {
-				$replacement = ''; //...tbd...
+			if ( ! isset( $replacement ) ) {
+				$replacement = (string) $this->determine_pagenumbering( 'max' );
 			}
 
 			return $replacement;
@@ -826,12 +860,57 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 		private function retrieve_pagenumber() {
 			static $replacement;
 
-			if( ! isset( $replacement ) ) {
-				$replacement = ''; //...tbd...
+			if ( ! isset( $replacement ) ) {
+				$replacement = (string) $this->determine_pagenumbering( 'nr' );
 			}
 
 			return $replacement;
 		}
+
+		/**
+		 *
+		 * @return int|null
+		 */
+		private function determine_pagenumbering( $request ) {
+			global $wp_query, $post;
+			static $max_num_pages, $page_number;
+
+			if ( ! isset( $max_num_pages ) || ! isset( $page_number ) ) {
+				$max_num_pages = 1;
+
+				if ( ! is_singular() ) {
+					$page_number = get_query_var( 'paged' );
+					if ( $page_number === 0 ) {
+						$page_number = 1;
+					}
+
+					if ( isset( $wp_query->max_num_pages ) && ( $wp_query->max_num_pages != '' && $wp_query->max_num_pages != 0 ) ) {
+						$max_num_pages = $wp_query->max_num_pages;
+					}
+				}
+				else {
+					$page_number   = get_query_var( 'page' );
+					$max_num_pages = ( isset( $post->post_content ) ) ? substr_count( $post->post_content, '<!--nextpage-->' ) : 1;
+
+					if ( $max_num_pages >= 1 ) {
+						$max_num_pages++;
+					}
+				}
+			}
+			
+			$return = null;
+
+			switch( $request ) {
+				case 'nr':
+					$return = $page_number;
+					break;
+				case 'max':
+					$return = $max_num_pages;
+					break;
+			}
+			return $return;
+		}
+		
 
 		/**
 		 * Retrieve the attachment caption for use as replacement string.
@@ -841,7 +920,7 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 		private function retrieve_caption() {
 			static $replacement;
 
-			if( ! isset( $replacement ) ) {
+			if ( ! isset( $replacement ) ) {
 				$replacement = ''; //...tbd...
 			}
 
@@ -856,7 +935,7 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 		private function retrieve_focuskw() {
 			static $replacement;
 
-			if( ! isset( $replacement ) ) {
+			if ( ! isset( $replacement ) ) {
 				$replacement = ''; //...tbd...
 			}
 
@@ -871,7 +950,7 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 		private function retrieve_term404() {
 			static $replacement;
 
-			if( ! isset( $replacement ) ) {
+			if ( ! isset( $replacement ) ) {
 				$replacement = sanitize_text_field( str_replace( '-', ' ', $this->args->term404 ) );
 			}
 
@@ -886,7 +965,7 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 		private function retrieve_cf_custom_field_name() {
 			static $replacement;
 
-			if( ! isset( $replacement ) ) {
+			if ( ! isset( $replacement ) ) {
 				$replacement = ''; //...tbd...
 			}
 
@@ -901,7 +980,7 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 		private function retrieve_ct_custom_tax_name() {
 			static $replacement;
 
-			if( ! isset( $replacement ) ) {
+			if ( ! isset( $replacement ) ) {
 				$replacement = ''; //...tbd...
 			}
 
@@ -916,7 +995,7 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 		private function retrieve_ct_desc_custom_tax_name() {
 			static $replacement;
 
-			if( ! isset( $replacement ) ) {
+			if ( ! isset( $replacement ) ) {
 				$replacement = ''; //...tbd...
 			}
 
@@ -966,7 +1045,7 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
 				'currentday'                => __( 'Replaced with the current day', 'wordpress-seo' ),
 				'currentmonth'              => __( 'Replaced with the current month', 'wordpress-seo' ),
 				'currentyear'               => __( 'Replaced with the current year', 'wordpress-seo' ),
-				'page'                      => __( 'Replaced with the current page number (i.e. page 2 of 4)', 'wordpress-seo' ),
+				'page'                      => __( 'Replaced with the current page number with context (i.e. page 2 of 4)', 'wordpress-seo' ),
 				'pagetotal'                 => __( 'Replaced with the current page total', 'wordpress-seo' ),
 				'pagenumber'                => __( 'Replaced with the current page number', 'wordpress-seo' ),
 				'caption'                   => __( 'Attachment caption', 'wordpress-seo' ),
