@@ -66,10 +66,7 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		protected function __construct() {
 			$this->set_basic_help_texts();
 			$this->set_advanced_help_texts();
-			
-			do_action( 'wpseo_register_extra_replacements' );
 		}
-
 
 		/**
 		 * Get the singleton instance of this class
@@ -82,16 +79,6 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 			}
 
 			return self::$instance;
-		}
-		
-		/**
-		 * Remove the '%%' delimiters from a variable string
-		 *
-		 * @param  string  $string Variable string to be cleaned
-		 * @return string
-		 */
-		private function remove_var_delimiter( $string ) {
-			return trim( $string, '%' );
 		}
 		
 		/**
@@ -153,8 +140,13 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 
 
 			$replacements = array();
-			if ( preg_match_all( '`%%([^%]+)%%`iu', $string, $matches ) ) {
-				$replacements = $this->set_up_replacements( $matches[x], $omit );
+			if ( preg_match_all( '`%%([^%]+(%%single)?)%%?`iu', $string, $matches ) ) {
+				// Only register the external replacements once
+				if ( $this->external_replacements === array() ) {
+					do_action( 'wpseo_register_extra_replacements' );
+				}
+
+				$replacements = $this->set_up_replacements( $matches, $omit );
 			}
 
 			/**
@@ -164,13 +156,14 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 			 */
 			$replacements = apply_filters( 'wpseo_replacements', $replacements );
 			
-			if( is_array( $replacements ) && $replacements !== array() ) {
+			if ( is_array( $replacements ) && $replacements !== array() ) {
 				$string = str_replace( array_keys( $replacements ), array_values( $replacements ), $string );
 			}
 
 			// Remove non-replaced variables if resulting string is send to front-end
+			// @todo - check with function calls if we can make this work, if not, maybe use !is_admin() ?
 			if ( apply_filters( 'wpseo_replacements_final', $final ) === true ) {
-				$string = preg_replace( '`%%[a-z0-9_-]+%%`iu', '', $string);
+				$string = preg_replace( '`%%[a-z0-9_-]+%%`iu', '', $string );
 			}
 
 			$string = preg_replace( '`\s+`u', ' ', $string );
@@ -181,11 +174,12 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		/**
 		 *
 		 */
-		private function set_up_replacements( $variables, $omit ) {
+		private function set_up_replacements( $matches, $omit ) {
+
 			$replacements = array();
 
 			// @todo -> figure out a way to deal with external functions starting with cf_/ct_
-			foreach ( $variables as $var ) {
+			foreach ( $matches[1] as $k => $var ) {
 				
 				// Don't set up replacements which should be omitted
 				if ( in_array( $var, $omit, true ) ) {
@@ -194,13 +188,14 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 
 				// Deal with variable variable names first
 				if ( strpos( $var, 'cf_' ) === 0 ) {
-					//retrieve_cf_custom_field_name()
+					$replacement = $this->retrieve_cf_custom_field_name( $var );
 				}
 				elseif ( strpos( $var, 'ct_desc_' ) === 0 ) {
-					//retrieve_ct_desc_custom_tax_name()
+					$replacement = $this->retrieve_ct_desc_custom_tax_name( $var );
 				}
 				elseif ( strpos( $var, 'ct_' ) === 0 ) {
-					//retrieve_ct_custom_tax_name()
+					$single      = ( isset( $matches[2][$k] ) && $matches[2][$k] !== '' )? true : false;
+					$replacement = $this->retrieve_ct_custom_tax_name( $var, $single );
 				}
 				// Deal with non-variable variable names
 				elseif ( method_exists( $this, 'retrieve_' . $var ) ) {
@@ -213,7 +208,7 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 				}
 
 				// Replacement retrievals can return null if no replacement can be determined, root those outs
-				if( isset( $replacement ) ) {
+				if ( isset( $replacement ) ) {
 					$replacements['%%' . $var . '%%'] = $replacement;
 				}
 			}
@@ -226,9 +221,42 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		/* *********************** BASIC VARIABLES ************************** */
 
 		/**
+		 * Retrieve the post/cpt categories (comma separated) for use as replacement string.
+		 *
+		 * @return string|null
+		 */
+		private function retrieve_category() {
+			static $replacement;
+
+			if ( ! isset( $replacement ) ) {
+				if ( ! empty( $this->args->ID ) ) {
+					$cat = $this->get_terms( $this->args->ID, 'category' );
+					if ( $cat !== '' ) {
+						$replacement = $cat;
+					}
+				}
+				
+				if ( ( ! isset( $replacement ) || $replacement === '' ) && ( isset( $this->args->cat_name ) && ! empty( $this->args->cat_name ) ) ) {
+					$replacement = $this->args->cat_name;
+				}
+			}
+
+			return $replacement;
+		}
+
+		/**
+		 * Retrieve the category description for use as replacement string.
+		 *
+		 * @return string|null
+		 */
+		private function retrieve_category_description() {
+			return $this->retrieve_term_description();
+		}
+
+		/**
 		 * Retrieve the date of the post/page/cpt for use as replacement string.
 		 *
-		 * @return string
+		 * @return string|null
 		 */
 		private function retrieve_date() {
 			static $replacement;
@@ -248,74 +276,8 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 						elseif ( get_query_var( 'year' ) != '' ) {
 							$replacement = get_query_var( 'year' );
 						}
-						else {
-							$replacement = '';
-						}
 					}
 				}
-			}
-
-			return $replacement;
-		}
-
-		/**
-		 * Retrieve the title of the post/page/cpt for use as replacement string.
-		 *
-		 * @return string
-		 */
-		private function retrieve_title() {
-			static $replacement;
-
-			if ( ! isset( $replacement ) && ! empty( $this->args->ID ) && $this->args->post_title !== '' ) {
-				$replacement = stripslashes( $this->args->post_title );
-			}
-
-			return $replacement;
-		}
-
-		/**
-		 * Retrieve the title of the parent page of the current page/cpt for use as replacement string.
-		 * Only applicable for hierarchical post types.
-		 *
-		 * @return string
-		 */
-		private function retrieve_parent_title() {
-			static $replacement;
-
-			if ( ! isset( $replacement ) && ( ( is_singular() || is_admin() ) && isset( $GLOBALS['post'] ) ) ) {
-				if ( isset( $GLOBALS['post']->post_parent ) && 0 != $GLOBALS['post']->post_parent ) {
-					$replacement = get_the_title( $GLOBALS['post']->post_parent );
-				}
-			}
-
-			return $replacement;
-		}
-
-		/**
-		 * Retrieve the site's name for use as replacement string.
-		 *
-		 * @return string
-		 */
-		private function retrieve_sitename() {
-			static $replacement;
-			
-			if ( ! isset( $replacement ) ) {
-				$replacement = get_bloginfo( 'name' );
-			}
-
-			return $replacement;
-		}
-
-		/**
-		 * Retrieve the site's tagline / description for use as replacement string.
-		 *
-		 * @return string
-		 */
-		private function retrieve_sitedesc() {
-			static $replacement;
-			
-			if ( ! isset( $replacement ) ) {
-				$replacement = get_bloginfo( 'description' );
 			}
 
 			return $replacement;
@@ -325,7 +287,7 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		 * Retrieve the post/page/cpt excerpt for use as replacement string.
 		 * The excerpt will be auto-generated if it does not exist.
 		 *
-		 * @return string
+		 * @return string|null
 		 */
 		private function retrieve_excerpt() {
 			static $replacement;
@@ -345,7 +307,7 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		/**
 		 * Retrieve the post/page/cpt excerpt for use as replacement string (without auto-generation).
 		 *
-		 * @return string
+		 * @return string|null
 		 */
 		private function retrieve_excerpt_only() {
 			static $replacement;
@@ -358,84 +320,18 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		}
 
 		/**
-		 * Retrieve the current tag/tags for use as replacement string.
+		 * Retrieve the title of the parent page of the current page/cpt for use as replacement string.
+		 * Only applicable for hierarchical post types.
 		 *
-		 * @return string
+		 * @return string|null
 		 */
-		private function retrieve_tag() {
+		private function retrieve_parent_title() {
 			static $replacement;
 
-			if ( ! isset( $replacement ) && isset( $this->args->ID ) ) {
-				$replacement = $this->get_terms( $this->args->ID, 'post_tag' );
-			}
-
-			return $replacement;
-		}
-
-		/**
-		 * Retrieve the post/cpt categories (comma separated) for use as replacement string.
-		 *
-		 * @return string
-		 */
-		private function retrieve_category() {
-			static $replacement;
-
-			if ( ! isset( $replacement ) ) {
-				if( ! empty( $this->args->ID ) ) {
-					$replacement = $this->get_terms( $this->args->ID, 'category' );
+			if ( ! isset( $replacement ) && ( ( is_singular() || is_admin() ) && isset( $GLOBALS['post'] ) ) ) {
+				if ( isset( $GLOBALS['post']->post_parent ) && 0 != $GLOBALS['post']->post_parent ) {
+					$replacement = get_the_title( $GLOBALS['post']->post_parent );
 				}
-				
-				if ( ( ! isset( $replacement ) || $replacement === '' ) && ( isset( $this->args->cat_name ) && ! empty( $this->args->cat_name ) ) ) {
-					$replacement = $this->args->cat_name;
-				}
-			}
-
-			return $replacement;
-		}
-
-		/**
-		 * Retrieve the category description for use as replacement string.
-		 *
-		 * @return string
-		 */
-		private function retrieve_category_description() {
-			return $this->retrieve_term_description();
-		}
-
-		/**
-		 * Retrieve the tag description for use as replacement string.
-		 *
-		 * @return string
-		 */
-		private function retrieve_tag_description() {
-			return $this->retrieve_term_description();
-		}
-
-		/**
-		 * Retrieve the term description for use as replacement string.
-		 *
-		 * @return string
-		 */
-		private function retrieve_term_description() {
-			static $replacement;
-
-			if ( ! isset( $replacement ) && ( isset( $this->args->term_id ) && ! empty( $this->args->taxonomy ) ) ) {
-				$replacement = trim( strip_tags( get_term_field( 'description', $this->args->term_id, $this->args->taxonomy ) ) );
-			}
-
-			return $replacement;
-		}
-
-		/**
-		 * Retrieve the term name for use as replacement string.
-		 *
-		 * @return string
-		 */
-		private function retrieve_term_title() {
-			static $replacement;
-
-			if ( ! isset( $replacement ) && ( ! empty( $this->args->taxonomy ) && ! empty( $this->args->name ) ) ) {
-				$replacement = $this->args->name;
 			}
 
 			return $replacement;
@@ -444,13 +340,16 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		/**
 		 * Retrieve the current search phrase for use as replacement string.
 		 *
-		 * @return string
+		 * @return string|null
 		 */
 		private function retrieve_searchphrase() {
 			static $replacement;
 
 			if ( ! isset( $replacement ) ) {
-				$replacement = esc_html( get_query_var( 's' ) );
+				$search = get_query_var( 's' );
+				if ( $search !== '' ) {
+					$replacement = esc_html( $search );
+				}
 			}
 
 			return $replacement;
@@ -474,149 +373,289 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 			return $replacement;
 		}
 
+		/**
+		 * Retrieve the site's tagline / description for use as replacement string.
+		 *
+		 * @return string|null
+		 */
+		private function retrieve_sitedesc() {
+			static $replacement;
+			
+			if ( ! isset( $replacement ) ) {
+				$description = get_bloginfo( 'description' );
+				if ( $description !== '' ) {
+					$replacement = $description;
+				}
+			}
+
+			return $replacement;
+		}
+
+
+		/**
+		 * Retrieve the site's name for use as replacement string.
+		 *
+		 * @return string|null
+		 */
+		private function retrieve_sitename() {
+			static $replacement;
+			
+			if ( ! isset( $replacement ) ) {
+				$sitename = get_bloginfo( 'name' );
+				if ( $sitename !== '' ) {
+					$replacement = $sitename;
+				}
+			}
+
+			return $replacement;
+		}
+
+		/**
+		 * Retrieve the current tag/tags for use as replacement string.
+		 *
+		 * @return string|null
+		 */
+		private function retrieve_tag() {
+			static $replacement;
+
+			if ( ! isset( $replacement ) && isset( $this->args->ID ) ) {
+				$tags = $this->get_terms( $this->args->ID, 'post_tag' );
+				if ( $tags !== '' ) {
+					$replacement = $tags;
+				}
+			}
+
+			return $replacement;
+		}
+
+		/**
+		 * Retrieve the tag description for use as replacement string.
+		 *
+		 * @return string|null
+		 */
+		private function retrieve_tag_description() {
+			return $this->retrieve_term_description();
+		}
+
+		/**
+		 * Retrieve the term description for use as replacement string.
+		 *
+		 * @return string|null
+		 */
+		private function retrieve_term_description() {
+			static $replacement;
+
+			if ( ! isset( $replacement ) && ( isset( $this->args->term_id ) && ! empty( $this->args->taxonomy ) ) ) {
+				$term_desc = get_term_field( 'description', $this->args->term_id, $this->args->taxonomy );
+				if ( $term_desc !== '' ) {
+					$replacement = trim( strip_tags( $term_desc ) );
+				}
+			}
+
+			return $replacement;
+		}
+
+		/**
+		 * Retrieve the term name for use as replacement string.
+		 *
+		 * @return string|null
+		 */
+		private function retrieve_term_title() {
+			static $replacement;
+
+			if ( ! isset( $replacement ) && ( ! empty( $this->args->taxonomy ) && ! empty( $this->args->name ) ) ) {
+				$replacement = $this->args->name;
+			}
+
+			return $replacement;
+		}
+
+		/**
+		 * Retrieve the title of the post/page/cpt for use as replacement string.
+		 *
+		 * @return string|null
+		 */
+		private function retrieve_title() {
+			static $replacement;
+
+			if ( ! isset( $replacement ) && ! empty( $this->args->ID ) && $this->args->post_title !== '' ) {
+				$replacement = stripslashes( $this->args->post_title );
+			}
+
+			return $replacement;
+		}
+
+
 
 		/* *********************** ADVANCED VARIABLES ************************** */
 
 		/**
-		 * Retrieve the post type single label for use as replacement string.
 		 *
-		 * @return string
+		 * @return int|null
 		 */
-		private function retrieve_pt_single() {
+		private function determine_pagenumbering( $request = 'nr' ) {
+			global $wp_query, $post;
+			static $max_num_pages, $page_number;
+
+			if ( ! isset( $max_num_pages ) || ! isset( $page_number ) ) {
+				$max_num_pages = 1;
+
+				if ( ! is_singular() ) {
+					$page_number = get_query_var( 'paged' );
+					if ( $page_number === 0 ) {
+						$page_number = 1;
+					}
+
+					if ( isset( $wp_query->max_num_pages ) && ( $wp_query->max_num_pages != '' && $wp_query->max_num_pages != 0 ) ) {
+						$max_num_pages = $wp_query->max_num_pages;
+					}
+				}
+				else {
+					$page_number   = get_query_var( 'page' );
+					$max_num_pages = ( isset( $post->post_content ) ) ? substr_count( $post->post_content, '<!--nextpage-->' ) : 1;
+
+					if ( $max_num_pages >= 1 ) {
+						$max_num_pages++;
+					}
+				}
+			}
+
+			$return = null;
+
+			switch ( $request ) {
+				case 'nr':
+					$return = $page_number;
+					break;
+				case 'max':
+					$return = $max_num_pages;
+					break;
+			}
+			return $return;
+		}
+		
+
+		private function determine_pt_names( $request = 'single' ) {
+			global $wp_query;
+			static $pt_single, $pt_plural;
+
+			if ( ! isset( $pt_single ) || ! isset( $pt_plural ) ) {
+				if ( isset( $wp_query->query_vars['post_type'] ) && ( ( is_string( $wp_query->query_vars['post_type'] ) && $wp_query->query_vars['post_type'] !== '' ) || ( is_array( $wp_query->query_vars['post_type'] ) && $wp_query->query_vars['post_type'] !== array() ) ) ) {
+					$post_type = $wp_query->query_vars['post_type'];
+				}
+				else {
+					// Make it work in preview mode
+					$post_type = $wp_query->get_queried_object()->post_type;
+				}
+
+				if ( is_array( $post_type ) ) {
+					$post_type = reset( $post_type );
+				}
+
+				if ( $post_type !== '' ) {
+					$pt        = get_post_type_object( $post_type );
+					$pt_plural = $pt_single = $pt->name;
+					if ( isset( $pt->labels->singular_name ) ) {
+						$pt_single = $pt->labels->singular_name;
+					}
+					if ( isset( $pt->labels->name ) ) {
+						$pt_plural = $pt->labels->name;
+					}
+				}
+			}
+
+			$return = null;
+
+			switch ( $request ) {
+				case 'single':
+					$return = $pt_single;
+					break;
+				case 'plural':
+					$return = $pt_plural;
+					break;
+			}
+			return $return;
+		}
+
+		/**
+		 * Retrieve the attachment caption for use as replacement string.
+		 *
+		 * @return string|null
+		 */
+		private function retrieve_caption() {
 			static $replacement;
 
 			if ( ! isset( $replacement ) ) {
-				$replacement = ''; //...tbd...
-	if ( isset( $wp_query->query_vars['post_type'] ) && preg_match_all( '`%%pt_([^%]+)%%`u', $string, $matches, PREG_SET_ORDER ) ) {
-		$post_type = $wp_query->query_vars['post_type'];
-
-		if ( is_array( $post_type ) ) {
-			$post_type = reset( $post_type );
-		}
-
-		$pt        = get_post_type_object( $post_type );
-		$pt_plural = $pt_singular = $pt->name;
-		if ( isset( $pt->labels->singular_name ) ) {
-			$pt_singular = $pt->labels->singular_name;
-		}
-		if ( isset( $pt->labels->name ) ) {
-			$pt_plural = $pt->labels->name;
-		}
-		$string = str_replace( '%%pt_single%%', $pt_singular, $string );
-		$string = str_replace( '%%pt_plural%%', $pt_plural, $string );
-	}
+				$replacement = $this->retrieve_excerpt_only();
 			}
 
 			return $replacement;
 		}
 
 		/**
-		 * Retrieve the post type plural label for use as replacement string.
+		 * Retrieve a post/page/cpt's custom field value for use as replacement string
 		 *
-		 * @return string
+		 * @return string|null
 		 */
-		private function retrieve_pt_plural() {
-			static $replacement;
+		private function retrieve_cf_custom_field_name( $var ) {
+			global $post;
+			static $replacement = array();
 
-			if ( ! isset( $replacement ) ) {
-				$replacement = ''; //...tbd...
-	if ( isset( $wp_query->query_vars['post_type'] ) && preg_match_all( '`%%pt_([^%]+)%%`u', $string, $matches, PREG_SET_ORDER ) ) {
-		$post_type = $wp_query->query_vars['post_type'];
-
-		if ( is_array( $post_type ) ) {
-			$post_type = reset( $post_type );
-		}
-
-		$pt        = get_post_type_object( $post_type );
-		$pt_plural = $pt_singular = $pt->name;
-		if ( isset( $pt->labels->singular_name ) ) {
-			$pt_singular = $pt->labels->singular_name;
-		}
-		if ( isset( $pt->labels->name ) ) {
-			$pt_plural = $pt->labels->name;
-		}
-		$string = str_replace( '%%pt_single%%', $pt_singular, $string );
-		$string = str_replace( '%%pt_plural%%', $pt_plural, $string );
-	}
+			if ( ( is_string( $var ) && $var !== '' ) && ! isset( $replacement[$var] ) ) {
+				$field = substr( $var, 3 );
+				if ( ( is_singular() || is_admin() ) && ( is_object( $post ) && isset( $post->ID ) ) ) {
+					$name = get_post_meta( $post->ID, $field, true );
+					if ( $name !== '' ) {
+						$replacement[$var] = $name;
+					}
+				}
 			}
 
-			return $replacement;
+			return ( isset( $replacement[$var] ) ? $replacement[$var] : null );
 		}
 
 		/**
-		 * Retrieve the post/page/cpt modified time for use as replacement string.
+		 * Retrieve a post/page/cpt's custom taxonomies for use as replacement string
 		 *
-		 * @return string
+		 * @return string|null
 		 */
-		private function retrieve_modified() {
-			static $replacement;
+		private function retrieve_ct_custom_tax_name( $var, $single = false ) {
+			static $replacement = array();
 
-			if ( ! isset( $replacement ) && ! empty( $this->args->post_modified ) ) {
-				$replacement = mysql2date( get_option( 'date_format' ), $this->args->post_modified, true );
+			if ( ( is_string( $var ) && $var !== '' ) && ( ! isset( $replacement[$var] ) && ! empty( $this->args->ID ) ) ) {
+				$tax  = substr( $var, 3 );
+				$name = $this->get_terms( $this->args->ID, $tax, $single );
+				if ( $name !== '' ) {
+					$replacement[$var] = $name;
+				}
 			}
 
-			return $replacement;
+			return ( isset( $replacement[$var] ) ? $replacement[$var] : null );
 		}
 
 		/**
-		 * Retrieve the post/page/cpt ID for use as replacement string.
+		 * Retrieve a post/page/cpt's custom taxonomies description for use as replacement string
 		 *
-		 * @return string
+		 * @return string|null
 		 */
-		private function retrieve_id() {
-			static $replacement;
+		private function retrieve_ct_desc_custom_tax_name( $var ) {
+			global $post;
+			static $replacement = array();
 
-			if ( ! isset( $replacement ) && ! empty( $this->args->ID ) ) {
-				$replacement = $this->args->ID;
+			if ( ( is_string( $var ) && $var !== '' ) && ! isset( $replacement[$var] ) ) {
+				$tax = substr( $var, 8 );
+				if ( is_object( $post ) && isset( $post->ID ) ) {
+					$terms = get_the_terms( $post->ID, $tax );
+					if ( is_array( $terms ) && $terms !== array() ) {
+						$term      = current( $terms );
+						$term_desc = get_term_field( 'description', $term->term_id, $tax );
+						if ( $term_desc !== '' ) {
+							$replacement[$var] = $term_desc;
+						}
+					}
+				}
 			}
 
-			return $replacement;
-		}
-
-		/**
-		 * Retrieve the post/page/cpt author's "nicename" for use as replacement string.
-		 *
-		 * @return string
-		 */
-		private function retrieve_name() {
-			static $replacement;
-
-			if ( ! isset( $replacement ) ) {
-				$user_id     = $this->retrieve_userid();
-				$replacement = get_the_author_meta( 'display_name', $user_id );
-			}
-
-			return $replacement;
-		}
-
-		/**
-		 * Retrieve the post/page/cpt author's userid for use as replacement string.
-		 *
-		 * @return string
-		 */
-		private function retrieve_userid() {
-			static $replacement;
-
-			if ( ! isset( $replacement ) ) {
-				$replacement = ! empty( $this->args->post_author ) ? $this->args->post_author : get_query_var( 'author' );
-			}
-
-			return $replacement;
-		}
-
-		/**
-		 * Retrieve the current time for use as replacement string.
-		 *
-		 * @return string
-		 */
-		private function retrieve_currenttime() {
-			static $replacement;
-			
-			if ( ! isset( $replacement ) ) {
-				$replacement = date_i18n( get_option( 'time_format' ) );
-			}
-
-			return $replacement;
+			return ( isset( $replacement[$var] ) ? $replacement[$var] : null );
 		}
 
 		/**
@@ -665,6 +704,21 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		}
 
 		/**
+		 * Retrieve the current time for use as replacement string.
+		 *
+		 * @return string
+		 */
+		private function retrieve_currenttime() {
+			static $replacement;
+			
+			if ( ! isset( $replacement ) ) {
+				$replacement = date_i18n( get_option( 'time_format' ) );
+			}
+
+			return $replacement;
+		}
+
+		/**
 		 * Retrieve the current year for use as replacement string.
 		 *
 		 * @return string
@@ -680,9 +734,76 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		}
 
 		/**
+		 * Retrieve the post/page/cpt's focus keyword for use as replacement string.
+		 *
+		 * @return string|null
+		 */
+		private function retrieve_focuskw() {
+			static $replacement;
+
+			if ( ! isset( $replacement ) && ! empty( $this->args->ID ) ) {
+				$focuskw = WPSEO_Meta::get_value( 'focuskw', $this->args->ID );
+				if ( $focuskw !== '' ) {
+					$replacement = $focuskw;
+				}
+			}
+
+			return $replacement;
+		}
+
+		/**
+		 * Retrieve the post/page/cpt ID for use as replacement string.
+		 *
+		 * @return string|null
+		 */
+		private function retrieve_id() {
+			static $replacement;
+
+			if ( ! isset( $replacement ) && ! empty( $this->args->ID ) ) {
+				$replacement = $this->args->ID;
+			}
+
+			return $replacement;
+		}
+
+		/**
+		 * Retrieve the post/page/cpt modified time for use as replacement string.
+		 *
+		 * @return string|null
+		 */
+		private function retrieve_modified() {
+			static $replacement;
+
+			if ( ! isset( $replacement ) && ! empty( $this->args->post_modified ) ) {
+				$replacement = mysql2date( get_option( 'date_format' ), $this->args->post_modified, true );
+			}
+
+			return $replacement;
+		}
+
+		/**
+		 * Retrieve the post/page/cpt author's "nicename" for use as replacement string.
+		 *
+		 * @return string|null
+		 */
+		private function retrieve_name() {
+			static $replacement;
+
+			if ( ! isset( $replacement ) ) {
+				$user_id = $this->retrieve_userid();
+				$name    = get_the_author_meta( 'display_name', $user_id );
+				if ( $name !== '' ) {
+					$replacement = $name;
+				}
+			}
+
+			return $replacement;
+		}
+
+		/**
 		 * Retrieve the current page number with context (i.e. 'page 2 of 4') for use as replacement string.
 		 *
-		 * @return string
+		 * @return string|null
 		 */
 		private function retrieve_page() {
 			static $replacement;
@@ -692,7 +813,6 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 				$nr  = $this->determine_pagenumbering( 'nr' );
 				$sep = $this->retrieve_sep();
 				
-				$replacement = '';
 				if ( $max > 1 && $nr > 1 ) {
 					$replacement = sprintf( $sep . ' ' . __( 'Page %d of %d', 'wordpress-seo' ), $nr, $max );
 				}
@@ -703,105 +823,72 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		}
 
 		/**
-		 * Retrieve the current page total for use as replacement string.
-		 *
-		 * @return string
-		 */
-		private function retrieve_pagetotal() {
-			static $replacement;
-
-			if ( ! isset( $replacement ) ) {
-				$replacement = (string) $this->determine_pagenumbering( 'max' );
-			}
-
-			return $replacement;
-		}
-
-		/**
 		 * Retrieve the current page number for use as replacement string.
 		 *
-		 * @return string
+		 * @return string|null
 		 */
 		private function retrieve_pagenumber() {
 			static $replacement;
 
 			if ( ! isset( $replacement ) ) {
-				$replacement = (string) $this->determine_pagenumbering( 'nr' );
+				$nr = $this->determine_pagenumbering( 'nr' );
+				if ( isset( $nr ) && $nr > 0 ) {
+					$replacement = (string) $nr;
+				}
 			}
 
 			return $replacement;
 		}
 
 		/**
+		 * Retrieve the current page total for use as replacement string.
 		 *
-		 * @return int|null
+		 * @return string|null
 		 */
-		private function determine_pagenumbering( $request ) {
-			global $wp_query, $post;
-			static $max_num_pages, $page_number;
+		private function retrieve_pagetotal() {
+			static $replacement;
 
-			if ( ! isset( $max_num_pages ) || ! isset( $page_number ) ) {
-				$max_num_pages = 1;
-
-				if ( ! is_singular() ) {
-					$page_number = get_query_var( 'paged' );
-					if ( $page_number === 0 ) {
-						$page_number = 1;
-					}
-
-					if ( isset( $wp_query->max_num_pages ) && ( $wp_query->max_num_pages != '' && $wp_query->max_num_pages != 0 ) ) {
-						$max_num_pages = $wp_query->max_num_pages;
-					}
-				}
-				else {
-					$page_number   = get_query_var( 'page' );
-					$max_num_pages = ( isset( $post->post_content ) ) ? substr_count( $post->post_content, '<!--nextpage-->' ) : 1;
-
-					if ( $max_num_pages >= 1 ) {
-						$max_num_pages++;
-					}
+			if ( ! isset( $replacement ) ) {
+				$max = $this->determine_pagenumbering( 'max' );
+				if ( isset( $max ) && $max > 0 ) {
+					$replacement = (string) $max;
 				}
 			}
-			
-			$return = null;
 
-			switch( $request ) {
-				case 'nr':
-					$return = $page_number;
-					break;
-				case 'max':
-					$return = $max_num_pages;
-					break;
+			return $replacement;
+		}
+
+		/**
+		 * Retrieve the post type plural label for use as replacement string.
+		 *
+		 * @return string|null
+		 */
+		private function retrieve_pt_plural() {
+			static $replacement;
+
+			if ( ! isset( $replacement ) ) {
+				$name = $this->determine_pt_names( 'plural' );
+				if ( isset( $name ) && $name !== '' ) {
+					$replacement = $name;
+				}
 			}
-			return $return;
+
+			return $replacement;
 		}
 		
-
 		/**
-		 * Retrieve the attachment caption for use as replacement string.
+		 * Retrieve the post type single label for use as replacement string.
 		 *
-		 * @return string
+		 * @return string|null
 		 */
-		private function retrieve_caption() {
+		private function retrieve_pt_single() {
 			static $replacement;
 
-			if ( ! isset( $replacement ) && ( ! empty( $this->args->ID ) && $this->args->post_excerpt !== '' ) ) {
-				$replacement = $this->args->post_excerpt;
-			}
-
-			return $replacement;
-		}
-
-		/**
-		 * Retrieve the post/page/cpt's focus keyword for use as replacement string.
-		 *
-		 * @return string
-		 */
-		private function retrieve_focuskw() {
-			static $replacement;
-
-			if ( ! isset( $replacement ) && ! empty( $this->args->ID ) ) {
-				$replacement = WPSEO_Meta::get_value( 'focuskw', $this->args->ID );
+			if ( ! isset( $replacement ) ) {
+				$name = $this->determine_pt_names( 'single' );
+				if ( isset( $name ) && $name !== '' ) {
+					$replacement = $name;
+				}
 			}
 
 			return $replacement;
@@ -810,7 +897,7 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		/**
 		 * Retrieve the slug which caused the 404 for use as replacement string.
 		 *
-		 * @return string
+		 * @return string|null
 		 */
 		private function retrieve_term404() {
 			static $replacement;
@@ -823,84 +910,15 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		}
 
 		/**
-		 * Retrieve a post/page/cpt's custom field value for use as replacement string
+		 * Retrieve the post/page/cpt author's userid for use as replacement string.
 		 *
 		 * @return string
 		 */
-		private function retrieve_cf_custom_field_name() {
+		private function retrieve_userid() {
 			static $replacement;
 
 			if ( ! isset( $replacement ) ) {
-				$replacement = ''; //...tbd...
-	if ( ( is_singular() || is_admin() ) && preg_match_all( '`%%cf_([^%]+)%%`u', $string, $matches, PREG_SET_ORDER ) ) {
-		global $post;
-		if ( is_object( $post ) && isset( $post->ID ) ) {
-			foreach ( $matches as $match ) {
-				$string = str_replace( $match[0], get_post_meta( $post->ID, $match[1], true ), $string );
-			}
-		}
-	}
-			}
-
-			return $replacement;
-		}
-
-		/**
-		 * Retrieve a post/page/cpt's custom taxonomies for use as replacement string
-		 *
-		 * @return string
-		 */
-		private function retrieve_ct_custom_tax_name() {
-			static $replacement;
-
-			if ( ! isset( $replacement ) ) {
-				$replacement = ''; //...tbd...
-	if ( preg_match_all( '`%%ct_([^%]+)%%(single%%)?`u', $string, $matches, PREG_SET_ORDER ) ) {
-		foreach ( $matches as $match ) {
-			$single = false;
-			if ( isset( $match[2] ) && $match[2] == 'single%%' ) {
-				$single = true;
-			}
-			$ct_terms = $this->get_terms( $this->args->ID, $match[1], $single );
-
-			$string = str_replace( $match[0], $ct_terms, $string );
-		}
-	}
-			}
-
-			return $replacement;
-		}
-
-		/**
-		 * Retrieve a post/page/cpt's custom taxonomies description for use as replacement string
-		 *
-		 * @return string
-		 */
-		private function retrieve_ct_desc_custom_tax_name() {
-			static $replacement;
-
-			if ( ! isset( $replacement ) ) {
-				$replacement = ''; //...tbd...
-	if ( preg_match_all( '`%%ct_desc_([^%]+)?%%`u', $string, $matches, PREG_SET_ORDER ) ) {
-		global $post;
-		foreach ( $matches as $match ) {
-			$terms = get_the_terms( $post->ID, $match[1] );
-			if ( is_array( $terms ) && $terms !== array() ) {
-				$term   = current( $terms );
-				$string = str_replace( $match[0], get_term_field( 'description', $term->term_id, $match[1] ), $string );
-			}
-			else {
-				// Make sure that the variable is removed ?
-				$string = str_replace( $match[0], '', $string );
-
-				/* Check for WP_Error object (=invalid taxonomy entered) and if it's an error,
-				 notify in admin dashboard */
-				if ( is_wp_error( $terms ) && is_admin() ) {
-					add_action( 'admin_notices', 'wpseo_invalid_custom_taxonomy' );
-				}
-			}
-		}
-	}
+				$replacement = ! empty( $this->args->post_author ) ? $this->args->post_author : get_query_var( 'author' );
 			}
 
 			return $replacement;
@@ -909,6 +927,79 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 
 
 		/* *********************** HELP TEXT RELATED ************************** */
+
+		/**
+		 * Create a variable help text table
+		 *
+		 * @param	string	$type	Either 'basic' or 'advanced'
+		 *
+		 * @return	string			Help text table
+		 */
+		private function create_variable_help_table( $type ) {
+			if ( ! in_array( $type, array( 'basic', 'advanced' ), true ) ) {
+				return '';
+			}
+			
+			// Only register the external replacements once
+			if ( $this->external_replacements === array() ) {
+				do_action( 'wpseo_register_extra_replacements' );
+			}
+
+
+			$table = '
+			<table class="yoast_help">';
+
+			foreach ( $this->help_texts[$type] as $replace => $help_text ) {
+				$table .= '
+				<tr>
+					<th>%%' . esc_html( $replace ) . '%%</th>
+					<td>' . $help_text . '</td>
+				</tr>';
+			}
+
+			$table .= '
+			</table>';
+
+			return $table;
+		}
+
+		/**
+		 * Create the help text table for the basic variables for use in a help tab
+		 *
+		 * @return string
+		 */
+		public function get_basic_help_texts() {
+			return $this->create_variable_help_table( 'basic' );
+		}
+
+
+		/**
+		 * Create the help text table for the advanced variables for use in a help tab
+		 *
+		 * @return string
+		 */
+		public function get_advanced_help_texts() {
+			return $this->create_variable_help_table( 'advanced' );
+		}
+
+
+		/**
+		 * Set the help text for a user/plugin defined extra variable.
+		 *
+		 * @param  string  $type       Type of variable: 'basic' or 'advanced'
+		 * @param  string  $replace    Variable to replace, i.e. '%%var%%'
+		 * @param  string  $help_text  The actual help text string
+		 */
+		public function register_help_text( $type, $replace, $help_text = '' ) {
+			if ( is_string( $replace ) && $replace !== '' ) {
+				$replace = $this->remove_var_delimiter( $replace );
+				
+				if ( ( is_string( $type ) && in_array( $type, array( 'basic', 'advanced' ), true ) ) && ( $replace !== '' && ! isset( $this->help_texts[$type][$replace] ) ) ) {
+					$this->help_texts[$type][$replace] = $help_text;
+				}
+			}
+		}
+
 
 		/**
 		 * Set/translate the help texts for the WPSEO standard basic variables.
@@ -962,74 +1053,20 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		}
 
 
-		/**
-		 * Set the help text for a user/plugin defined extra variable.
-		 *
-		 * @param  string  $type       Type of variable: 'basic' or 'advanced'
-		 * @param  string  $replace    Variable to replace, i.e. '%%var%%'
-		 * @param  string  $help_text  The actual help text string
-		 */
-		public function register_help_text( $type, $replace, $help_text = '' ) {
-			if ( is_string( $replace ) && $replace !== '' ) {
-				$replace = $this->remove_var_delimiter( $replace );
-				
-				if ( ( is_string( $type ) && in_array( $type, array( 'basic', 'advanced' ), true ) ) && ( $replace !== '' && ! isset( $this->help_texts[$type][$replace] ) ) ) {
-					$this->help_texts[$type][$replace] = $help_text;
-				}
-			}
-		}
 
 
+		/* *********************** GENERAL HELPER METHODS ************************** */
+
 		/**
-		 * Create the help text table for the basic variables for use in a help tab
+		 * Remove the '%%' delimiters from a variable string
 		 *
+		 * @param  string  $string Variable string to be cleaned
 		 * @return string
 		 */
-		protected function get_basic_help_texts() {
-			return $this->create_variable_help_table( 'basic' );
+		private function remove_var_delimiter( $string ) {
+			return trim( $string, '%' );
 		}
-
-
-		/**
-		 * Create the help text table for the advanced variables for use in a help tab
-		 *
-		 * @return string
-		 */
-		protected function get_advanced_help_texts() {
-			return $this->create_variable_help_table( 'advanced' );
-		}
-
-
-		/**
-		 * Create a variable help text table
-		 *
-		 * @param	string	$type	Either 'basic' or 'advanced'
-		 *
-		 * @return	string			Help text table
-		 */
-		private function create_variable_help_table( $type ) {
-			if ( ! in_array( $type, array( 'basic', 'advanced' ), true ) ) {
-				return '';
-			}
-
-			$table = '
-			<table class="yoast_help">';
-
-			foreach ( $this->help_texts[$type] as $replace => $help_text ) {
-				$table .= '
-				<tr>
-					<th>%%' . esc_html( $replace ) . '%%</th>
-					<td>' . $help_text . '</td>
-				</tr>';
-			}
-
-			$table .= '
-			</table>';
-
-			return $table;
-		}
-
-
+		
 		/**
 		 * Throw a notice about an invalid custom taxonomy used
 		 *

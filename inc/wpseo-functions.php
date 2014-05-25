@@ -185,7 +185,8 @@ function wpseo_replace_vars( $string, $args, $omit = array(), $final = false ) {
  * @param  string   $var               The name of the variable to replace, i.e. '%%var%%'
  *                                      - the surrounding %% are optional
  * @param  mixed    $replace_function  Function or method to call to retrieve the replacement value for the variable
- *					                   Uses the same format as add_filter/add_action function parameter
+ *					                   Uses the same format as add_filter/add_action function parameter and
+ *					                   should *return* the replacement value. DON'T echo it!
  * @param  string   $type              Type of variable: 'basic' or 'advanced', defaults to 'advanced'
  * @param  string   $help_text         Help text to be added to the help tab for this variable
  * @return bool     Whether the replacement function was succesfully registered

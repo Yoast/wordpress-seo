@@ -114,6 +114,7 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 * Bugfixes
 	* Refactored the variable replacement function for better results and more stability. This should fix most if not all problems users where having with variables not being replaced in the title, meta description, snippet preview etc - props [Jrf](http://profiles.wordpress.org/jrf).
 	* Fixed: `wpseo_replacements` filter was being run before all replacements were known.
+	* Fixed: `%%pt_single%%` and `%%pt_plural%%` didn't work in preview mode.
 
 * Enhancements
 	* New `wpseo_register_extra_replacements` action hook which lets plugin/theme builders add new `%%...%%` replacement variables - including relevant help texts -.
