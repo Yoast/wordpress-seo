@@ -341,11 +341,11 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			if ( $title_template == '' ) {
 				$title_template = '%%title%% - %%sitename%%';
 			}
-			$title_template = wpseo_replace_vars( $title_template, (array) $post, array( '%%title%%' ) );
+			$title_template = wpseo_replace_vars( $title_template, (array) $post, array( '%%title%%' ), false );
 
 			$metadesc_template = '';
 			if ( isset( $options['metadesc-' . $post->post_type] ) && $options['metadesc-' . $post->post_type] !== '' ) {
-				$metadesc_template = wpseo_replace_vars( $options['metadesc-' . $post->post_type], (array) $post, array( '%%excerpt%%', '%%excerpt_only%%' ) );
+				$metadesc_template = wpseo_replace_vars( $options['metadesc-' . $post->post_type], (array) $post, array( '%%excerpt%%', '%%excerpt_only%%' ), false );
 			}
 
 			$sample_permalink = get_sample_permalink( $post->ID );
@@ -1177,10 +1177,8 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			$desc_meta   = self::get_value( 'metadesc' );
 			if ( $desc_meta !== '' ) {
 				$description = $desc_meta;
-			} else {
-				if ( isset( $options['metadesc-' . $post->post_type] ) && $options['metadesc-' . $post->post_type] !== '' ) {
-					$description = wpseo_replace_vars( $options['metadesc-' . $post->post_type], (array) $post );
-				}
+			} elseif ( isset( $options['metadesc-' . $post->post_type] ) && $options['metadesc-' . $post->post_type] !== '' ) {
+				$description = wpseo_replace_vars( $options['metadesc-' . $post->post_type], (array) $post );
 			}
 			unset( $desc_meta );
 

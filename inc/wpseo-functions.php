@@ -152,7 +152,7 @@ function wpseo_remove_capabilities() {
  * @param array  $omit   variables that should not be replaced by this function.
  * @return string
  */
-function wpseo_replace_vars( $string, $args, $omit = array(), $final = false ) {
+function wpseo_replace_vars( $string, $args, $omit = array(), $final = true ) {
 	$singleton = WPSEO_Replace_Vars::get_instance();
 	return $singleton->replace( $string, $args, $omit, $final );
 }

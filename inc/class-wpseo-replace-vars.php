@@ -114,7 +114,7 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		 * @param array  $omit   variables that should not be replaced by this function.
 		 * @return string
 		 */
-		public function replace( $string, $args, $omit = array(), $final = false ) {
+		public function replace( $string, $args, $omit = array(), $final = true ) {
 
 			$string = strip_tags( $string );
 
@@ -161,7 +161,7 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 			}
 
 			// Remove non-replaced variables if resulting string is send to front-end
-			// @todo - check with function calls if we can make this work, if not, maybe use !is_admin() ?
+			// @todo - maybe make this so that it will respect $omit ?
 			if ( apply_filters( 'wpseo_replacements_final', $final ) === true ) {
 				$string = preg_replace( '`%%[a-z0-9_-]+%%`iu', '', $string );
 			}
