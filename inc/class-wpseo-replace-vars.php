@@ -24,7 +24,7 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		 * @var  object  Instance of this class
 		 */
 		protected static $instance;
-		
+
 		/**
 		 * @var	array
 		 */
@@ -51,7 +51,7 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		 * @var	array
 		 */
 		protected $help_texts = array();
-		
+
 		/**
 		 * @var array
 		 */
@@ -80,7 +80,7 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 
 			return self::$instance;
 		}
-		
+
 		/**
 		 *
 		 */
@@ -106,8 +106,8 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 			}
 			return $success;
 		}
-		
-		
+
+
 		/**
 		 * @param string $string the string to replace the variables in.
 		 * @param array  $args   the object some of the replacement values might come from, could be a post, taxonomy or term.
@@ -155,7 +155,7 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 			 * @api array $replacements The replacements
 			 */
 			$replacements = apply_filters( 'wpseo_replacements', $replacements );
-			
+
 			if ( is_array( $replacements ) && $replacements !== array() ) {
 				$string = str_replace( array_keys( $replacements ), array_values( $replacements ), $string );
 			}
@@ -170,7 +170,7 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 			return trim( $string );
 		}
 
-		
+
 		/**
 		 *
 		 */
@@ -180,7 +180,7 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 
 			// @todo -> figure out a way to deal with external functions starting with cf_/ct_
 			foreach ( $matches[1] as $k => $var ) {
-				
+
 				// Don't set up replacements which should be omitted
 				if ( in_array( $var, $omit, true ) ) {
 					continue;
@@ -212,7 +212,7 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 					$replacements['%%' . $var . '%%'] = $replacement;
 				}
 			}
-			
+
 			return $replacements;
 		}
 
@@ -235,7 +235,7 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 						$replacement = $cat;
 					}
 				}
-				
+
 				if ( ( ! isset( $replacement ) || $replacement === '' ) && ( isset( $this->args->cat_name ) && ! empty( $this->args->cat_name ) ) ) {
 					$replacement = $this->args->cat_name;
 				}
@@ -362,7 +362,7 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		 */
 		private function retrieve_sep() {
 			static $replacement;
-			
+
 			if ( ! isset( $replacement ) ) {
 				$replacement = '-';
 				if ( isset( $GLOBALS['sep'] ) && is_string( $GLOBALS['sep'] ) && $GLOBALS['sep'] !== '' ) {
@@ -380,7 +380,7 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		 */
 		private function retrieve_sitedesc() {
 			static $replacement;
-			
+
 			if ( ! isset( $replacement ) ) {
 				$description = get_bloginfo( 'description' );
 				if ( $description !== '' ) {
@@ -399,7 +399,7 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		 */
 		private function retrieve_sitename() {
 			static $replacement;
-			
+
 			if ( ! isset( $replacement ) ) {
 				$sitename = get_bloginfo( 'name' );
 				if ( $sitename !== '' ) {
@@ -502,7 +502,7 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 
 				if ( ! is_singular() ) {
 					$page_number = get_query_var( 'paged' );
-					if ( $page_number === 0 ) {
+					if ( $page_number === 0 || $page_number === '' ) {
 						$page_number = 1;
 					}
 
@@ -512,10 +512,12 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 				}
 				else {
 					$page_number   = get_query_var( 'page' );
-					$max_num_pages = ( isset( $post->post_content ) ) ? substr_count( $post->post_content, '<!--nextpage-->' ) : 1;
+					if ( $page_number === 0 || $page_number === '' ) {
+						$page_number = 1;
+					}
 
-					if ( $max_num_pages >= 1 ) {
-						$max_num_pages++;
+					if ( isset( $post->post_content ) ) {
+						$max_num_pages = substr_count( $post->post_content, '<!--nextpage-->' ) + 1;
 					}
 				}
 			}
@@ -532,7 +534,7 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 			}
 			return $return;
 		}
-		
+
 
 		private function determine_pt_names( $request = 'single' ) {
 			global $wp_query;
@@ -665,7 +667,7 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		 */
 		private function retrieve_currentdate() {
 			static $replacement;
-			
+
 			if ( ! isset( $replacement ) ) {
 				$replacement = date_i18n( get_option( 'date_format' ) );
 			}
@@ -680,7 +682,7 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		 */
 		private function retrieve_currentday() {
 			static $replacement;
-			
+
 			if ( ! isset( $replacement ) ) {
 				$replacement = date_i18n( 'j' );
 			}
@@ -695,7 +697,7 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		 */
 		private function retrieve_currentmonth() {
 			static $replacement;
-			
+
 			if ( ! isset( $replacement ) ) {
 				$replacement = date_i18n( 'F' );
 			}
@@ -710,7 +712,7 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		 */
 		private function retrieve_currenttime() {
 			static $replacement;
-			
+
 			if ( ! isset( $replacement ) ) {
 				$replacement = date_i18n( get_option( 'time_format' ) );
 			}
@@ -725,7 +727,7 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		 */
 		private function retrieve_currentyear() {
 			static $replacement;
-			
+
 			if ( ! isset( $replacement ) ) {
 				$replacement = date_i18n( 'Y' );
 			}
@@ -803,16 +805,18 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		/**
 		 * Retrieve the current page number with context (i.e. 'page 2 of 4') for use as replacement string.
 		 *
-		 * @return string|null
+		 * @return string
 		 */
 		private function retrieve_page() {
 			static $replacement;
 
 			if ( ! isset( $replacement ) ) {
+				$replacement = '';
+
 				$max = $this->determine_pagenumbering( 'max' );
 				$nr  = $this->determine_pagenumbering( 'nr' );
 				$sep = $this->retrieve_sep();
-				
+
 				if ( $max > 1 && $nr > 1 ) {
 					$replacement = sprintf( $sep . ' ' . __( 'Page %d of %d', 'wordpress-seo' ), $nr, $max );
 				}
@@ -875,7 +879,7 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 
 			return $replacement;
 		}
-		
+
 		/**
 		 * Retrieve the post type single label for use as replacement string.
 		 *
@@ -939,7 +943,7 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 			if ( ! in_array( $type, array( 'basic', 'advanced' ), true ) ) {
 				return '';
 			}
-			
+
 			// Only register the external replacements once
 			if ( $this->external_replacements === array() ) {
 				do_action( 'wpseo_register_extra_replacements' );
@@ -993,7 +997,7 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		public function register_help_text( $type, $replace, $help_text = '' ) {
 			if ( is_string( $replace ) && $replace !== '' ) {
 				$replace = $this->remove_var_delimiter( $replace );
-				
+
 				if ( ( is_string( $type ) && in_array( $type, array( 'basic', 'advanced' ), true ) ) && ( $replace !== '' && ! isset( $this->help_texts[$type][$replace] ) ) ) {
 					$this->help_texts[$type][$replace] = $help_text;
 				}
@@ -1023,7 +1027,7 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 				'sep'                  => __( 'The separator defined in your theme\'s <code>wp_title()</code> tag.', 'wordpress-seo' ),
 			);
 		}
-		
+
 		/**
 		 * Set/translate the help texts for the WPSEO standard advanced variables.
 		 */
@@ -1066,7 +1070,7 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		private function remove_var_delimiter( $string ) {
 			return trim( $string, '%' );
 		}
-		
+
 		/**
 		 * Throw a notice about an invalid custom taxonomy used
 		 *
@@ -1076,7 +1080,7 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 			echo '<div class="error"><p>' . sprintf( __( 'The taxonomy you used in (one of your) %s variables is <strong>invalid</strong>. Please %sadjust your settings%s.' ), '%%ct_desc_&lt;custom-tax-name&gt;%%', '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_titles#top#taxonomies' ) ) . '">', '</a>' ) . '</p></div>';
 		}
 
-		
+
 		/**
 		 * Retrieve a post's terms, comma delimited.
 		 *
@@ -1086,9 +1090,9 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		 * @return string either a single term or a comma delimited string of terms.
 		 */
 		public function get_terms( $id, $taxonomy, $return_single = false ) {
-		
+
 			$output = '';
-		
+
 			// If we're on a specific tag, category or taxonomy page, use that.
 			if ( is_category() || is_tag() || is_tax() ) {
 				global $wp_query;
