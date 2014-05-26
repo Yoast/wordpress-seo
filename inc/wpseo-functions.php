@@ -172,8 +172,12 @@ function wpseo_replace_vars( $string, $args, $omit = array(), $final = true ) {
  * Example code:
  * <code>
  * <?php
+ * function retrieve_var1_replacement() {
+ *		return 'your replacement value';
+ * }
+ *
  * function register_my_plugin_extra_replacements() {
- *		wpseo_register_var_replacement( '%%myvar1%%', 'function_name', 'advanced', 'this is a help text for myvar1' );
+ *		wpseo_register_var_replacement( '%%myvar1%%', 'retrieve_var1_replacement', 'advanced', 'this is a help text for myvar1' );
  *		wpseo_register_var_replacement( 'myvar2', array( 'class', 'method_name' ), 'basic', 'this is a help text for myvar2' );
  * }
  * add_action( 'wpseo_register_extra_replacements', 'register_my_plugin_extra_replacements' );
