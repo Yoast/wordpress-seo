@@ -1,6 +1,6 @@
 <?php
 
-if ( ! defined( 'WPSEO_VERSION' ) ) {
+if ( !defined( 'WPSEO_VERSION' ) ) {
 	header( 'HTTP/1.0 403 Forbidden' );
 	die;
 }
@@ -30,7 +30,7 @@ class WPSEO_Apache_Redirect_File extends WPSEO_Redirect_File {
 	 * @return string
 	 */
 	public function format_regex_redirect( $regex, $url, $type ) {
-		return "RewriteRule " . $regex . " " . $url . " [ R = " . $type . ", L ]";
+		return 'RedirectMatch ' . $type . ' ' . $regex . ' ' . $url;
 	}
 
 }
