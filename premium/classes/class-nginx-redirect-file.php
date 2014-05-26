@@ -1,6 +1,6 @@
 <?php
 
-if ( ! defined( 'WPSEO_VERSION' ) ) {
+if ( !defined( 'WPSEO_VERSION' ) ) {
 	header( 'HTTP/1.0 403 Forbidden' );
 	die;
 }
@@ -22,7 +22,7 @@ class WPSEO_Nginx_Redirect_File extends WPSEO_Redirect_File {
 	 * @return string
 	 */
 	public function format_url_redirect( $old_url, $new_url, $type ) {
-		return "location " . $old_url . " { rewrite ^ " . $new_url . " permanent; }";
+		return "location " . $old_url . " { return " . $type . " " . $new_url . "; }";
 	}
 
 	/**
@@ -35,7 +35,7 @@ class WPSEO_Nginx_Redirect_File extends WPSEO_Redirect_File {
 	 * @return string
 	 */
 	public function format_regex_redirect( $regex, $url, $type ) {
-		return 'rewrite "' . $regex . '" ' . $url . ' permanent;';
+		return 'location ~ ' . $regex . ' { return ' . $type . ' ' . $url . '; }';
 	}
 
 }
