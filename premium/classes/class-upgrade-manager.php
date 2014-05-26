@@ -55,7 +55,7 @@ class WPSEO_Upgrade_Manager {
 		}
 
 		// Upgrade to version 1.2.0
-		if ( $current_version < 13 ) {
+		if ( $current_version < 14 ) {
 
 			/**
 			 * Upgrade redirects
