@@ -906,8 +906,16 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		private function retrieve_term404() {
 			static $replacement;
 
-			if ( ! isset( $replacement ) && $this->args->term404 !== '' ) {
-				$replacement = sanitize_text_field( str_replace( '-', ' ', $this->args->term404 ) );
+			if ( ! isset( $replacement ) ) {
+				if( $this->args->term404 !== '' ) {
+					$replacement = sanitize_text_field( str_replace( '-', ' ', $this->args->term404 ) );
+				}
+				else {
+					$error_request = get_query_var( 'pagename' );
+					if( $error_request !== '' ) {
+						$replacement = sanitize_text_field( $error_request );
+					}
+				}
 			}
 
 			return $replacement;
