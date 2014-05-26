@@ -26,7 +26,7 @@ abstract class WPSEO_Redirect_Manager {
 	}
 
 	public static function get_redirect_types() {
-		return apply_filters( 'wpseo_premium_redirect_types', array( '301', '302', '303', '304' ) );
+		return apply_filters( 'wpseo_premium_redirect_types', array( '301', '302', '307' ) );
 	}
 
 	/**
