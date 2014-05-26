@@ -44,7 +44,7 @@ class WPSEO_Upgrade_Manager {
 			 */
 
 			// Save the old license to the new license option
-			$license_manager = new Yoast_Plugin_License_Manager( new Yoast_Product_WPSEO_Premium() );
+			$license_manager = new Yoast_Plugin_License_Manager( new WPSEO_Product_Premium() );
 			$license_manager->set_license_key( trim( get_option( 'wpseo_license_key', '' ) ) );
 			$license_manager->set_license_status( trim( get_option( 'wpseo_license_status', '' ) ) );
 
