@@ -95,6 +95,16 @@ abstract class WPSEO_Redirect_Manager {
 		// Update the database option
 		update_option( $this->option_redirects, apply_filters( 'wpseo_premium_save_redirects', $redirects ) );
 
+		// Save the redirect file
+		$this->save_redirect_file();
+
+	}
+
+	/**
+	 * Create the redirect file
+	 */
+	public function save_redirect_file() {
+
 		// Options
 		$options = self::get_options();
 
@@ -121,6 +131,34 @@ abstract class WPSEO_Redirect_Manager {
 
 		}
 
+	}
+
+	/**
+	 * Clear the WPSEO added entries added in the .htaccess file
+	 */
+	public function clear_htaccess_entries() {
+
+		$htaccess = '';
+		if ( file_exists( WPSEO_Redirect_File_Manager::get_htaccess_file_path() ) ) {
+			$htaccess = file_get_contents( WPSEO_Redirect_File_Manager::get_htaccess_file_path() );
+		}
+
+		$htaccess = preg_replace( "`# BEGIN YOAST REDIRECTS.*# END YOAST REDIRECTS" . PHP_EOL . "`is", "", $htaccess );
+
+		// Get the $wp_filesystem object
+		$wp_filesystem = WPSEO_Redirect_File_Manager::get_wp_filesystem_object();
+
+		// Check if the $wp_filesystem is correct
+		if( null != $wp_filesystem ) {
+
+			// Update the .htaccess file
+			$wp_filesystem->put_contents(
+				WPSEO_Redirect_File_Manager::get_htaccess_file_path(),
+				$htaccess,
+				FS_CHMOD_FILE // predefined mode settings for WP files
+			);
+
+		}
 
 	}
 

@@ -3,16 +3,16 @@
  * @package Premium
  */
 
-if ( ! defined( 'WPSEO_VERSION' ) ) {
+if ( !defined( 'WPSEO_VERSION' ) ) {
 	header( 'HTTP/1.0 403 Forbidden' );
 	die;
 }
 
-if ( ! defined( 'WPSEO_PREMIUM_PATH' ) ) {
+if ( !defined( 'WPSEO_PREMIUM_PATH' ) ) {
 	define( 'WPSEO_PREMIUM_PATH', plugin_dir_path( __FILE__ ) );
 }
 
-if ( ! defined( 'WPSEO_PREMIUM_FILE' ) ) {
+if ( !defined( 'WPSEO_PREMIUM_FILE' ) ) {
 	define( 'WPSEO_PREMIUM_FILE', __FILE__ );
 }
 
@@ -44,7 +44,6 @@ class WPSEO_Premium {
 	 * WPSEO_Premium Constructor
 	 */
 	public function __construct() {
-//		$this->includes();
 		$this->setup();
 	}
 
@@ -114,6 +113,9 @@ class WPSEO_Premium {
 
 			// Settings
 			add_action( 'admin_init', array( $this, 'register_settings' ) );
+
+			// Check if we need to save files after updating options
+			add_action( 'update_option_wpseo_redirect', array( $this, 'save_redirect_files' ), 10, 2 );
 
 			// Catch option save
 			add_action( 'admin_init', array( $this, 'catch_option_redirect_save' ) );
@@ -351,36 +353,46 @@ class WPSEO_Premium {
 	 * Register the premium settings
 	 */
 	public function register_settings() {
-		register_setting( 'yoast_wpseo_redirect_options', 'wpseo_redirect', array(
-			$this,
-			'redirect_sanatize_callback'
-		) );
+		register_setting( 'yoast_wpseo_redirect_options', 'wpseo_redirect' );
 		register_setting( 'yoast_wpseo_gwt_options', 'wpseo-premium-gwt', array( $this, 'gwt_sanatize_callback' ) );
 	}
 
 	/**
-	 * @param $settings
+	 * Hook that runs after the 'wpseo_redirect' option is updated
 	 *
-	 * @return array
+	 * @param $old_value
+	 * @param $value
 	 */
-	public function redirect_sanatize_callback( $settings ) {
+	public function save_redirect_files( $old_value, $value ) {
 
-		// Check if we need to save a file
-		if ( isset( $settings['disable_php_redirect'] ) && 'on' == $settings['disable_php_redirect'] ) {
-			if ( wpseo_is_apache() ) {
+		// Check if we need to remove the WPSEO redirect entries from the .htacccess file
+		$remove_htaccess_entries = false;
 
-				if ( isset( $settings['separate_file'] ) && 'on' == $settings['separate_file'] ) {
-					$redirect_manager = new WPSEO_URL_Redirect_Manager();
-					$redirect_manager->save_redirects( $redirect_manager->get_redirects() );
-				}
+		// Check if the 'disable_php_redirect' option set to true/on
+		if ( null != $value && isset( $value['disable_php_redirect'] ) && 'on' == $value['disable_php_redirect'] ) {
 
-			} else if ( wpseo_is_nginx() ) {
-				$redirect_manager = new WPSEO_URL_Redirect_Manager();
-				$redirect_manager->save_redirects( $redirect_manager->get_redirects() );
+			// Remove .htaccess entries if the 'separate_file' option is set to true
+			if( wpseo_is_apache() && isset( $value['separate_file'] ) && 'on' == $value['separate_file'] ) {
+				$remove_htaccess_entries = true;
 			}
+
+			// The 'disable_php_redirect' option is set to true(on) so we need to generate a file.
+			// The Redirect Manager will figure out what file needs to be created.
+			$redirect_manager = new WPSEO_URL_Redirect_Manager();
+			$redirect_manager->save_redirect_file();
+
+		}else if( wpseo_is_apache() ) {
+			// No settings are set so we should also strip the .htaccess redirect entries in this case
+			$remove_htaccess_entries = true;
 		}
 
-		return $settings;
+		// Check if we need to remove the .htaccess redirect entries
+		if( $remove_htaccess_entries ) {
+			// Remove the .htaccess redirect entries
+			$redirect_manager = new WPSEO_URL_Redirect_Manager();
+			$redirect_manager->clear_htaccess_entries();
+		}
+
 	}
 
 	/**
@@ -426,7 +438,7 @@ class WPSEO_Premium {
 		if ( isset( $_POST['s'] ) && trim( $_POST['s'] ) != '' ) {
 
 			// Check if the POST is on one of our pages
-			if ( ! isset ( $_GET['page'] ) || ( $_GET['page'] != 'wpseo_redirects' && $_GET['page'] != 'wpseo_webmaster_tools' ) ) {
+			if ( !isset ( $_GET['page'] ) || ( $_GET['page'] != 'wpseo_redirects' && $_GET['page'] != 'wpseo_webmaster_tools' ) ) {
 				return;
 			}
 
