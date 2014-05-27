@@ -147,14 +147,16 @@ function wpseo_remove_capabilities() {
 
 
 /**
+ * Replace `%%variable_placeholders%%` with their real value based on the current requested page/post/cpt
+ *
  * @param string $string the string to replace the variables in.
  * @param array  $args   the object some of the replacement values might come from, could be a post, taxonomy or term.
  * @param array  $omit   variables that should not be replaced by this function.
  * @return string
  */
-function wpseo_replace_vars( $string, $args, $omit = array(), $final = true ) {
+function wpseo_replace_vars( $string, $args, $omit = array() ) {
 	$singleton = WPSEO_Replace_Vars::get_instance();
-	return $singleton->replace( $string, $args, $omit, $final );
+	return $singleton->replace( $string, $args, $omit );
 }
 
 /**
@@ -167,12 +169,16 @@ function wpseo_replace_vars( $string, $args, $omit = array(), $final = true ) {
  * The function can not be used to replace standard WPSEO replacement value functions and will thrown a warning
  * if you accidently try.
  * To avoid conflicts with variables registered by WPSEO and other themes/plugins, try and make the
- * name of your variable unique.
+ * name of your variable unique. Variable names also can not start with "%%cf_" or "%%ct_" as these are reserved
+ * for the standard WPSEO variable variables 'cf_<custom-field-name>', 'ct_<custom-tax-name>' and
+ * 'ct_desc_<custom-tax-name>'.
+ * The replacement function will be passed the undelimited name (i.e. stripped of the %%) of the variable
+ * to replace in case you need it.
  *
  * Example code:
  * <code>
  * <?php
- * function retrieve_var1_replacement() {
+ * function retrieve_var1_replacement( $var1 ) {
  *		return 'your replacement value';
  * }
  *

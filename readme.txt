@@ -120,6 +120,7 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 
 * Enhancements
 	* New `wpseo_register_extra_replacements` action hook which lets plugin/theme builders add new `%%...%%` replacement variables - including relevant help texts -. See [function documentation](https://github.com/Yoast/wordpress-seo/blob/master/inc/wpseo-functions.php) for an example of how to use this new functionality.
+	* If the final string - after replacement - would contain two separators with nothing between them, this extra separator will be removed.
 
 
 = 1.5.3.2 =

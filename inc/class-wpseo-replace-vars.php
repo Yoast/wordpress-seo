@@ -103,19 +103,22 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 
 			if ( is_string( $var ) && $var !== '' ) {
 				$var = $this->remove_var_delimiter( $var );
-
-				if ( ! method_exists( $this, 'retrieve_' . $var ) ) {
+				
+				if ( strpos( $var, 'cf_' ) === 0 || strpos( $var, 'ct_' ) === 0 ) {
+					trigger_error( __( 'A replacement variable can not start with "%%cf_" or "%%ct_" as these are reserved for the WPSEO standard variable variables for custom fields and custom taxonomies. Try making your variable name unique.', 'wordpress-seo' ), E_USER_WARNING );
+				}
+				elseif ( ! method_exists( $this, 'retrieve_' . $var ) ) {
 					if ( ! isset( $this->external_replacements[$var] ) ) {
 						$this->external_replacements[$var] = $replace_function;
 						$this->register_help_text( $type, $var, $help_text );
 						$success = true;
 					}
 					else {
-						trigger_error( __( 'A replacement variable with the same name has already been registered. Try making your variable name more unique.', 'wordpress-seo' ), E_NOTICE );
+						trigger_error( __( 'A replacement variable with the same name has already been registered. Try making your variable name more unique.', 'wordpress-seo' ), E_USER_WARNING );
 					}
 				}
 				else {
-					trigger_error( __( 'You cannot overrule a WPSEO standard variable replacement by registering a variable with the same name. Use the "wpseo_replacements" filter instead to adjust the replacement value.', 'wordpress-seo' ), E_WARNING );
+					trigger_error( __( 'You cannot overrule a WPSEO standard variable replacement by registering a variable with the same name. Use the "wpseo_replacements" filter instead to adjust the replacement value.', 'wordpress-seo' ), E_USER_WARNING );
 				}
 			}
 			return $success;
@@ -123,16 +126,16 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 
 
 		/**
-		 * Replace `%%variable_placeholder%%` with their real value based on the current requested page/post/cpt
+		 * Replace `%%variable_placeholders%%` with their real value based on the current requested page/post/cpt/etc
 		 *
 		 * @param string $string the string to replace the variables in.
-		 * @param array  $args   the object some of the replacement values might come from, could be a post, taxonomy or term.
+		 * @param array  $args   the object some of the replacement values might come from,
+		 *                       could be a post, taxonomy or term.
 		 * @param array  $omit   variables that should not be replaced by this function.
-		 * @param bool   $final  whether or not to remove placeholders which didn't yield a replacement
 		 *
 		 * @return string
 		 */
-		public function replace( $string, $args, $omit = array(), $final = true ) {
+		public function replace( $string, $args, $omit = array() ) {
 
 			$string = strip_tags( $string );
 
@@ -179,22 +182,32 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 			 */
 			$replacements = apply_filters( 'wpseo_replacements', $replacements );
 
+			// Do the actual replacements
 			if ( is_array( $replacements ) && $replacements !== array() ) {
 				$string = str_replace( array_keys( $replacements ), array_values( $replacements ), $string );
 			}
 
-			// Remove non-replaced variables if resulting string is send to front-end
-			// @todo - maybe make this so that it will respect $omit ?
+
 			/**
 			 * Filter: 'wpseo_replacements_final' - Allow overruling of whether or not to remove placeholders
 			 * which didn't yield a replacement
 			 *
+			 * @example <code>add_filter( 'wpseo_replacements_final', '__return_false' );</code>
+			 *
 			 * @api bool $final
 			 */
-			if ( apply_filters( 'wpseo_replacements_final', $final ) === true ) {
-				$string = preg_replace( '`%%[a-z0-9_-]+%%`iu', '', $string );
+			if ( apply_filters( 'wpseo_replacements_final', true ) === true ) {
+				// Remove non-replaced variables
+				$remove = array_diff( $matches[1], $omit ); // Make sure the $omit variables do not get removed
+				$remove = array_map( array( $this, 'add_var_delimiter' ), $remove );
+				$string = str_replace( $remove, '', $string );
 			}
+			
+			// Undouble separators which have nothing between them, i.e. where a non-replaced variable was removed
+			$q_sep  = preg_quote( $this->retrieve_sep(), '`' );
+			$string = preg_replace( '`' . $q_sep . '(?:\s*' . $q_sep . ')*`u', $this->retrieve_sep(), $string );
 
+			// Remove superfluous whitespace
 			$string = preg_replace( '`\s+`u', ' ', $string );
 			return trim( $string );
 		}
@@ -239,12 +252,13 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 				}
 				// Deal with externally defined variable names
 				elseif ( isset( $this->external_replacements[$var] ) && ! is_null( $this->external_replacements[$var] ) ) {
-					$replacement = call_user_func( $this->external_replacements[$var] );
+					$replacement = call_user_func( $this->external_replacements[$var], $var );
 				}
 
 				// Replacement retrievals can return null if no replacement can be determined, root those outs
 				if ( isset( $replacement ) ) {
-					$replacements['%%' . $var . '%%'] = $replacement;
+					$var                = $this->add_var_delimiter( $var );
+					$replacements[$var] = $replacement;
 				}
 			}
 
@@ -1139,6 +1153,16 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		 */
 		private function remove_var_delimiter( $string ) {
 			return trim( $string, '%' );
+		}
+		
+		/**
+		 * Add the '%%' delimiters to a variable string
+		 *
+		 * @param  string  $string Variable string to be delimited
+		 * @return string
+		 */
+		private function add_var_delimiter( $string ) {
+			return '%%' . $string . '%%';
 		}
 
 		/**
