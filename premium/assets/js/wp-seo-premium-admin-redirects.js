@@ -189,11 +189,11 @@
 			var tr = object.create_redirect_row(old_redirect, new_redirect, redirect_type);
 
 			// Add the new row
-			$('form#' + type).find('#the-list').append(tr);
+			$('form#' + type).find('#the-list').prepend(tr);
 
 			// Empty fields
-//			object.find('#wpseo_redirects_new_old').val('');
-//			object.find('#wpseo_redirects_new_new').val('');
+			object.find('#wpseo_redirects_new_old').val('');
+			object.find('#wpseo_redirects_new_new').val('');
 
 			// Encode strings
 			old_redirect = object.encode(old_redirect);
