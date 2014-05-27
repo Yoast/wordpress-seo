@@ -942,14 +942,10 @@ function wpseo_get_term_meta( $term, $taxonomy, $meta ) {
  * Throw a notice about an invalid custom taxonomy used
  *
  * @since 1.4.14
- * @deprecated 1.5.4
- * @deprecated use WPSEO_Replace_Vars::notify_invalid_custom_taxonomy()
- * @see WPSEO_Replace_Vars::notify_invalid_custom_taxonomy()
+ * @deprecated 1.5.4 (removed)
  */
 function wpseo_invalid_custom_taxonomy() {
 	_deprecated_function( __FUNCTION__, 'WPSEO 1.5.4', 'WPSEO_Replace_Vars::notify_invalid_custom_taxonomy' );
-	$singleton = WPSEO_Replace_Vars::get_instance();
-	$singleton->notify_invalid_custom_taxonomy();
 }
 
 /**

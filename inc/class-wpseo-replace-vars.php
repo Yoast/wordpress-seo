@@ -1166,16 +1166,6 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		}
 
 		/**
-		 * Throw a notice about an invalid custom taxonomy used
-		 *
-		 * @since 1.4.14
-		 */
-		public function notify_invalid_custom_taxonomy() {
-			echo '<div class="error"><p>' . sprintf( __( 'The taxonomy you used in (one of your) %s variables is <strong>invalid</strong>. Please %sadjust your settings%s.' ), '%%ct_desc_&lt;custom-tax-name&gt;%%', '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_titles#top#taxonomies' ) ) . '">', '</a>' ) . '</p></div>';
-		}
-
-
-		/**
 		 * Retrieve a post's terms, comma delimited.
 		 *
 		 * @param int    $id            ID of the post to get the terms for.
