@@ -22,7 +22,10 @@
 			$(row).addClass('row_edit');
 
 			// Add current redirect as data to the row
-			$(row).data('old_redirect', { key: $(row).find('.val').eq(0).html().toString(), value: $(row).find('.val').eq(1).html().toString() });
+			$(row).data('old_redirect', {
+				key  : $(row).find('.val').eq(0).html().toString(),
+				value: $(row).find('.val').eq(1).html().toString()
+			});
 
 			// Add input fields
 			var ti = 1;
@@ -80,7 +83,7 @@
 						{
 							action    : 'wpseo_delete_redirect_' + type,
 							ajax_nonce: $('.wpseo_redirects_ajax_nonce').val(),
-							redirect  : { key: object.encode($(row).find('.val').eq(0).html().toString()) }
+							redirect  : {key: object.encode($(row).find('.val').eq(0).html().toString())}
 						},
 						function (response) {
 						}
@@ -137,8 +140,8 @@
 					{
 						action      : 'wpseo_save_redirect_' + type,
 						ajax_nonce  : $('.wpseo_redirects_ajax_nonce').val(),
-						old_redirect: { key: data_old_url, value: data_new_url },
-						new_redirect: { key: old_url, value: new_url }
+						old_redirect: {key: data_old_url, value: data_new_url},
+						new_redirect: {key: old_url, value: new_url}
 					},
 					function (response) {
 					}
@@ -200,7 +203,10 @@
 			new_redirect = object.encode(new_redirect);
 
 			// Check the destination URL
-			object.check_url_status(new_redirect);
+			if ('url' == type) {
+				object.check_url_status(new_redirect);
+			}
+
 
 			// Do post
 			$.post(
