@@ -112,7 +112,7 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 = Trunk / 1.5.4 =
 
 * Bugfixes
-	* Refactored the variable replacement function for better results and more stability. This should fix most if not all problems users where having with variables not being replaced in the title, meta description, snippet preview etc - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Refactored the variable replacement function for better and faster results and more stability. This should fix most if not all problems users where having with variables not being replaced in the title, meta description, snippet preview etc - props [Jrf](http://profiles.wordpress.org/jrf).
 	* Fixed: `wpseo_replacements` filter was being run before all replacements were known.
 	* Fixed: `%%pt_single%%` and `%%pt_plural%%` didn't work in preview mode.
 	* Fixed: `%%page_total%%` would sometimes be one short.
@@ -121,6 +121,7 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 * Enhancements
 	* New `wpseo_register_extra_replacements` action hook which lets plugin/theme builders add new `%%...%%` replacement variables - including relevant help texts -. See [function documentation](https://github.com/Yoast/wordpress-seo/blob/master/inc/wpseo-functions.php) for an example of how to use this new functionality.
 	* If the final string - after replacement - would contain two separators with nothing between them, this extra separator will be removed.
+	* All remaining not replaced replacement vars are now stripped from the strings (without breaking the snippet preview).
 
 
 = 1.5.3.2 =
