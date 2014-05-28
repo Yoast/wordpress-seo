@@ -3,7 +3,7 @@
  * @package Premium\Redirect
  */
 
-if ( ! defined( 'WPSEO_VERSION' ) ) {
+if ( !defined( 'WPSEO_VERSION' ) ) {
 	header( 'HTTP/1.0 403 Forbidden' );
 	die;
 }
@@ -20,9 +20,9 @@ abstract class WPSEO_Redirect_Manager {
 	 */
 	public static function get_options() {
 		return apply_filters( 'wpseo_premium_redirect_options', wp_parse_args( get_option( 'wpseo_redirect', array() ), array(
-					'disable_php_redirect' => 'off',
-					'separate_file'        => 'off'
-				) ) );
+			'disable_php_redirect' => 'off',
+			'separate_file'        => 'off'
+		) ) );
 	}
 
 	public static function get_redirect_types() {
@@ -116,7 +116,7 @@ abstract class WPSEO_Redirect_Manager {
 
 				if ( 'on' == $options['separate_file'] ) {
 					$file = new WPSEO_Apache_Redirect_File();
-				}else {
+				} else {
 					$file = new WPSEO_Htaccess_Redirect_File();
 				}
 
@@ -149,7 +149,7 @@ abstract class WPSEO_Redirect_Manager {
 		$wp_filesystem = WPSEO_Redirect_File_Manager::get_wp_filesystem_object();
 
 		// Check if the $wp_filesystem is correct
-		if( null != $wp_filesystem ) {
+		if ( null != $wp_filesystem ) {
 
 			// Update the .htaccess file
 			$wp_filesystem->put_contents(
@@ -190,8 +190,7 @@ abstract class WPSEO_Redirect_Manager {
 		}
 
 		// Add new redirect
-		$redirects[ $new_redirect_arr['key'] ] = $new_redirect_arr['value'];
-
+		$redirects[ $new_redirect_arr['key'] ] = array( 'url'  => $new_redirect_arr['value'], 'type' => $new_redirect_arr['type'] );
 
 		// Save redirects
 		$this->save_redirects( $redirects );
@@ -202,7 +201,7 @@ abstract class WPSEO_Redirect_Manager {
 	 *
 	 * @param String $old_value
 	 * @param String $new_value
-	 * @param $type
+	 * @param        $type
 	 *
 	 * @return bool
 	 */
@@ -256,7 +255,7 @@ abstract class WPSEO_Redirect_Manager {
 		check_ajax_referer( 'wpseo-redirects-ajax-security', 'ajax_nonce' );
 
 		// Permission check
-		if ( ! current_user_can( 'edit_posts' ) ) {
+		if ( !current_user_can( 'edit_posts' ) ) {
 			echo '0';
 			exit;
 		}
@@ -267,13 +266,15 @@ abstract class WPSEO_Redirect_Manager {
 			// Decode old redirect
 			$old_redirect = array(
 				'key'   => urldecode( $_POST['old_redirect']['key'] ),
-				'value' => urldecode( $_POST['old_redirect']['value'] )
+				'value' => urldecode( $_POST['old_redirect']['value'] ),
+				'type'  => urldecode( $_POST['old_redirect']['type'] ),
 			);
 
 			// Decode new redirect
 			$new_redirect = array(
 				'key'   => urldecode( $_POST['new_redirect']['key'] ),
-				'value' => urldecode( $_POST['new_redirect']['value'] )
+				'value' => urldecode( $_POST['new_redirect']['value'] ),
+				'type'  => urldecode( $_POST['new_redirect']['type'] ),
 			);
 
 			// Save redirects in database
@@ -295,7 +296,7 @@ abstract class WPSEO_Redirect_Manager {
 		check_ajax_referer( 'wpseo-redirects-ajax-security', 'ajax_nonce' );
 
 		// Permission check
-		if ( ! current_user_can( 'edit_posts' ) ) {
+		if ( !current_user_can( 'edit_posts' ) ) {
 			echo '0';
 			exit;
 		}
@@ -321,7 +322,7 @@ abstract class WPSEO_Redirect_Manager {
 		check_ajax_referer( 'wpseo-redirects-ajax-security', 'ajax_nonce' );
 
 		// Permission check
-		if ( ! current_user_can( 'edit_posts' ) ) {
+		if ( !current_user_can( 'edit_posts' ) ) {
 			echo '0';
 			exit;
 		}

@@ -24,16 +24,32 @@
 			// Add current redirect as data to the row
 			$(row).data('old_redirect', {
 				key  : $(row).find('.val').eq(0).html().toString(),
-				value: $(row).find('.val').eq(1).html().toString()
+				value: $(row).find('.val').eq(1).html().toString(),
+				type : $(row).find('.val').eq(2).html().toString()
 			});
 
 			// Add input fields
 			var ti = 1;
 			$.each($(row).find('.val'), function (k, v) {
 				var current_val = $(v).html().toString();
-				$(v).empty().append(
-						$('<input>').val(current_val).attr('tabindex', ti)
-				);
+
+				var new_el = null;
+				if ($(v).hasClass('type')) {
+
+					new_el = $('<select>').attr('tabindex', ti);
+					$.each($(object).find('#wpseo_redirects_new_type option'), function (k, v) {
+						var el_option = $(v).clone();
+						if ($(el_option).val() == current_val) {
+							$(el_option).attr('selected', 'selected');
+						}
+						$(new_el).append(el_option);
+					});
+
+				} else {
+					new_el = $('<input>').val(current_val).attr('tabindex', ti);
+				}
+
+				$(v).empty().append(new_el);
 				ti++;
 			});
 
@@ -54,7 +70,7 @@
 			// Add Save Button
 			$(row).find('.row-actions').parent().append(
 					$('<div>').addClass('edit-actions').append(
-							$('<button>').addClass('button-primary').attr('tabindex', 3).html('Save').click(function () {
+							$('<button>').addClass('button-primary').attr('tabindex', 4).html('Save').click(function () {
 								if (object.save_redirect(row)) {
 									object.restore_row(row);
 								}
@@ -66,7 +82,7 @@
 			// Add Cancel button
 			if (cancellable) {
 				$(row).find('.edit-actions').append(
-						$('<button>').addClass('button').attr('tabindex', 4).html('Cancel').click(function () {
+						$('<button>').addClass('button').attr('tabindex', 5).html('Cancel').click(function () {
 							object.restore_row(row);
 							return false;
 						})
@@ -96,7 +112,14 @@
 			$(row).removeClass('row_edit');
 
 			$.each($(row).find('.val'), function (k, v) {
-				var new_val = $(v).find('input').val().toString();
+
+				var new_val = null;
+				if ($(v).hasClass('type')) {
+					new_val = $(v).find('select option:selected').val().toString();
+				} else {
+					new_val = $(v).find('input').val().toString();
+				}
+
 				$(v).empty().html(new_val);
 			});
 
@@ -120,6 +143,13 @@
 				return false;
 			}
 
+			// Get and check the new type
+			var redirect_type = $(row).find('.val').eq(2).find('select option:selected').val().toString();
+			if ("" == redirect_type) {
+				alert(wpseo_premium_strings.error_new_type);
+				return false;
+			}
+
 			// Add prepending slash if not exists
 			if ('url' == type && old_url.indexOf('/') !== 0) {
 				old_url = '/' + old_url;
@@ -129,10 +159,12 @@
 			// Encode old URL's
 			var data_old_url = object.encode($(row).data('old_redirect').key);
 			var data_new_url = object.encode($(row).data('old_redirect').value);
+			var data_type = object.encode($(row).data('old_redirect').type);
 
 			// Encode new URL's
 			old_url = object.encode(old_url);
 			new_url = object.encode(new_url);
+			redirect_type = object.encode(redirect_type);
 
 			// Post request
 			$.post(
@@ -140,8 +172,8 @@
 					{
 						action      : 'wpseo_save_redirect_' + type,
 						ajax_nonce  : $('.wpseo_redirects_ajax_nonce').val(),
-						old_redirect: {key: data_old_url, value: data_new_url},
-						new_redirect: {key: old_url, value: new_url}
+						old_redirect: {key: data_old_url, value: data_new_url, type: data_type},
+						new_redirect: {key: old_url, value: new_url, type: redirect_type}
 					},
 					function (response) {
 					}
