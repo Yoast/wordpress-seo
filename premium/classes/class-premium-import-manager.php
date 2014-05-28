@@ -86,9 +86,9 @@ class WPSEO_Premium_Import_Manager {
 
 					// Check if redirect is a regex redirect
 					if ( 1 == $item->regex ) {
-						$regex_redirection_manager->create_redirect( $item->url, $item->action_data );
+						$regex_redirection_manager->create_redirect( $item->url, $item->action_data, 301 );
 					} else {
-						$url_redirection_manager->create_redirect( $item->url, $item->action_data );
+						$url_redirection_manager->create_redirect( $item->url, $item->action_data, 301 );
 					}
 
 				}
@@ -142,9 +142,9 @@ class WPSEO_Premium_Import_Manager {
 
 								// Check redirect type
 								if ( 'regex' == $regex_type ) {
-									$regex_redirection_manager->create_redirect( $source, $target );
+									$regex_redirection_manager->create_redirect( $source, $target, 301 );
 								} else {
-									$url_redirection_manager->create_redirect( $source, $target );
+									$url_redirection_manager->create_redirect( $source, $target, 301 );
 								}
 
 								$redirects_imported = true;
