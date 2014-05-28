@@ -72,8 +72,8 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 		function admin_sidebar() {
 
 			// No banners in Premium
-			if ( class_exists( 'Yoast_Product_WPSEO_Premium' ) ) {
-				$license_manager = new Yoast_Plugin_License_Manager( new Yoast_Product_WPSEO_Premium() );
+			if ( class_exists( 'WPSEO_Product_Premium' ) ) {
+				$license_manager = new Yoast_Plugin_License_Manager( new WPSEO_Product_Premium() );
 				if ( $license_manager->license_is_valid() ) {
 					return;
 				}
