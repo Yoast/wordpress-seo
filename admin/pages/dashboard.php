@@ -82,7 +82,7 @@ if ( isset( $_GET['fixmetadesc'] ) && check_admin_referer( 'wpseo-fix-metadesc',
 	}
 
 	// Clean up the referrer url for later use
-	if( isset( $_SERVER['REQUEST_URI'] ) ) {
+	if ( isset( $_SERVER['REQUEST_URI'] ) ) {
 		$_SERVER['REQUEST_URI'] = remove_query_arg( array( 'nonce', 'fixmetadesc' ), $_SERVER['REQUEST_URI'] );
 	}
 }
@@ -92,9 +92,9 @@ if ( ( ! isset( $options['theme_has_description'] ) || ( ( isset( $options['them
 	// Renew the options after the test
 	$options = get_option( 'wpseo' );
 }
-if( isset( $_GET['checkmetadesc'] ) ) {
+if ( isset( $_GET['checkmetadesc'] ) ) {
 	// Clean up the referrer url for later use
-	if( isset( $_SERVER['REQUEST_URI'] ) ) {
+	if ( isset( $_SERVER['REQUEST_URI'] ) ) {
 		$_SERVER['REQUEST_URI'] = remove_query_arg( array( 'nonce', 'checkmetadesc' ), $_SERVER['REQUEST_URI'] );
 	}
 }

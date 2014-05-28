@@ -571,7 +571,6 @@ if ( ! class_exists( 'WPSEO_Option' ) ) {
 			 * @param string $filtered The sanitized string.
 			 * @param string $str      The string prior to being sanitized.
 			 */
-
 			return apply_filters( 'sanitize_text_field', $filtered, $value );
 		}
 

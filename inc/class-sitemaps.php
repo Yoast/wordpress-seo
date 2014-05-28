@@ -477,7 +477,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 				$total = $typecount;
 			}
 
-			if ( $n == 1 ) {
+			if ( $n === 1 ) {
 				$front_id = get_option( 'page_on_front' );
 				if ( ! $front_id && ( $post_type == 'post' || $post_type == 'page' ) ) {
 					$output .= $this->sitemap_url(
@@ -579,7 +579,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 
 						$url = array();
 
-						$url['mod'] = ( isset( $p->post_modified_gmt ) && $p->post_modified_gmt != '0000-00-00 00:00:00' && $p->post_modified_gmt > $p->post_date_gmt ) ? $p->post_modified_gmt : ( '0000-00-00 00:00:00' != $p->post_date_gmt ) ? $p->post_date_gmt : $p->post_date;
+						$url['mod'] = ( isset( $p->post_modified_gmt ) && $p->post_modified_gmt != '0000-00-00 00:00:00' && $p->post_modified_gmt > $p->post_date_gmt ) ? $p->post_modified_gmt : ( ( '0000-00-00 00:00:00' != $p->post_date_gmt ) ? $p->post_date_gmt : $p->post_date );
 						$url['loc'] = get_permalink( $p );
 
 						/**
@@ -734,7 +734,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 			$this->sitemap .= $output;
 
 			// Filter to allow adding extra URLs, only do this on the first XML sitemap, not on all.
-			if ( $n == 0 ) {
+			if ( $n === 1 ) {
 				$this->sitemap .= apply_filters( 'wpseo_sitemap_' . $post_type . '_content', '' );
 			}
 
@@ -939,7 +939,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 			$this->sitemap .= $output;
 
 			// Filter to allow adding extra URLs, only do this on the first XML sitemap, not on all.
-			if ( $n == 0 ) {
+			if ( $n === 1 ) {
 				$this->sitemap .= apply_filters( 'wpseo_sitemap_author_content', '' );
 			}
 
