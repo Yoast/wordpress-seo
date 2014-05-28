@@ -92,7 +92,9 @@ function wpseo_auto_load( $class ) {
 		require_once( $classes[$cn] );
 	}
 }
-spl_autoload_register( 'wpseo_auto_load' );
+if( function_exists( 'spl_autoload_register' ) ) {
+	spl_autoload_register( 'wpseo_auto_load' );
+}
 
 
 /**
@@ -269,26 +271,54 @@ function wpseo_admin_init() {
 
 }
 
-add_action( 'plugins_loaded', 'wpseo_init', 14 );
-
-if ( is_admin() ) {
-	if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
-		require_once( WPSEO_PATH . 'admin/ajax.php' );
-	}
-	else {
-		add_action( 'plugins_loaded', 'wpseo_admin_init', 15 );
-	}
+if ( ! function_exists( 'spl_autoload_register' ) ) {
+	add_action( 'admin_init', 'yoast_wpseo_self_deactivate', 1 );
 }
 else {
-	add_action( 'plugins_loaded', 'wpseo_frontend_init', 15 );
+	add_action( 'plugins_loaded', 'wpseo_init', 14 );
+	
+	if ( is_admin() ) {
+		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+			require_once( WPSEO_PATH . 'admin/ajax.php' );
+		}
+		else {
+			add_action( 'plugins_loaded', 'wpseo_admin_init', 15 );
+		}
+	}
+	else {
+		add_action( 'plugins_loaded', 'wpseo_frontend_init', 15 );
+	}
+
+	add_action( 'admin_init', 'load_yoast_notifications' );
 }
+
+// Activation and deactivation hook
+register_activation_hook( WPSEO_FILE, 'wpseo_activate' );
+register_deactivation_hook( WPSEO_FILE, 'wpseo_deactivate' );
+
 
 function load_yoast_notifications() {
 	// Init Yoast_Notification_Center class
 	Yoast_Notification_Center::get();
 }
-add_action( 'admin_init', 'load_yoast_notifications' );
 
-// Activation and deactivation hook
-register_activation_hook( WPSEO_FILE, 'wpseo_activate' );
-register_deactivation_hook( WPSEO_FILE, 'wpseo_deactivate' );
+
+/**
+ * Throw an error if the PHP SPL extension is disabled (prevent white screens) and self-deactivate plugin
+ *
+ * @since 1.5.4
+ *
+ * @param	string	Error message
+ * @return	void
+ */
+function yoast_wpseo_self_deactivate() {
+	if ( is_admin() ) {
+		$message = esc_html__( 'The Standard PHP Library (SPL) extension seem to be unavailable. Please ask your web host to enable it.', 'wordpress-seo' );
+		add_action( 'admin_notices', create_function( $message, 'echo \'<div class="error"><p>\' . __( \'Activation failed:\', \'wordpress-seo\' ) . \' \' . $message . \'</p></div>\';' ) );
+
+		deactivate_plugins( plugin_basename( WPSEO_FILE ) );
+		if ( isset( $_GET['activate'] ) ) {
+			unset( $_GET['activate'] );
+		}
+	}
+}
