@@ -3,7 +3,7 @@
  * @package Premium\Redirect
  */
 
-if ( ! defined( 'WPSEO_VERSION' ) ) {
+if ( !defined( 'WPSEO_VERSION' ) ) {
 	header( 'HTTP/1.0 403 Forbidden' );
 	die;
 }
@@ -41,7 +41,7 @@ class WPSEO_Page_Redirect {
 				// Add new redirect HTML
 				echo "<form class='wpseo-new-redirect-form' method='post'>\n";
 				echo "<div class='wpseo_redirects_new'>\n";
-//				echo "<h2>" . __( 'Add New Redirect', 'wordpress-seo' ) . "</h2>\n";
+				//				echo "<h2>" . __( 'Add New Redirect', 'wordpress-seo' ) . "</h2>\n";
 
 				echo "<label class='textinput' for='wpseo_redirects_new_old'>" . __( 'Old URL', 'wordpress-seo' ) . "</label>\n";
 				echo "<input type='text' class='textinput' name='wpseo_redirects_new_old' id='wpseo_redirects_new_old' value='{$old_url}' />\n";
@@ -65,6 +65,8 @@ class WPSEO_Page_Redirect {
 				}
 
 				echo "</select>" . PHP_EOL;
+
+				echo '<img src="' . plugins_url( 'images/question-mark.png', WPSEO_FILE ) . '" class="yoast_help" style="margin:17px 0 0 5px" alt="'. __( sprintf( 'The redirect type is de HTTP response code send to the browser telling the browser what type of redirect is served.<br/><br/>Read <a href=\'%s\'>this page</a> for more info.', 'https://yoast.com/focus-keyword/#utm_source=wordpress-seo-premium-redirects&amp;utm_medium=inline-help&amp;utm_campaign=redirect-types' ), 'wordpress-seo' ) . '">';
 
 				echo "<br class='clear'/>\n";
 
@@ -96,7 +98,7 @@ class WPSEO_Page_Redirect {
 				// Add new redirect HTML
 				echo "<form class='wpseo-new-redirect-form' method='post'>\n";
 				echo "<div class='wpseo_redirects_new'>\n";
-//				echo "<h2>" . __( 'Add New Regex Redirect', 'wordpress-seo' ) . "</h2>\n";
+				//				echo "<h2>" . __( 'Add New Regex Redirect', 'wordpress-seo' ) . "</h2>\n";
 
 				echo "<label class='textinput' for='wpseo_redirects_new_old'>" . __( 'REGEX', 'wordpress-seo' ) . "</label>\n";
 				echo "<input type='text' class='textinput' name='wpseo_redirects_new_old' id='wpseo_redirects_new_old' value='{$old_url}' />\n";
@@ -120,6 +122,9 @@ class WPSEO_Page_Redirect {
 				}
 
 				echo "</select>" . PHP_EOL;
+
+				echo '<img src="' . plugins_url( 'images/question-mark.png', WPSEO_FILE ) . '" class="yoast_help" style="margin:17px 0 0 5px" alt="'. __( sprintf( 'The redirect type is de HTTP response code send to the browser telling the browser what type of redirect is served.<br/><br/>Read <a href=\'%s\'>this page</a> for more info.', 'https://yoast.com/focus-keyword/#utm_source=wordpress-seo-premium-redirects&amp;utm_medium=inline-help&amp;utm_campaign=redirect-types' ), 'wordpress-seo' ) . '">';
+
 				echo "<br class='clear'/>\n";
 
 				echo "<a href='javascript:;' class='button-primary'>" . __( 'Add Regex Redirect', 'wordpress-seo' ) . "</a>\n";
@@ -168,7 +173,7 @@ class WPSEO_Page_Redirect {
 								$file_write_error = true;
 							}
 						} else {
-							if ( ! is_writable( WPSEO_Redirect_File_Manager::get_htaccess_file_path() ) ) {
+							if ( !is_writable( WPSEO_Redirect_File_Manager::get_htaccess_file_path() ) ) {
 								echo "<div class='error'><p><b>" . __( "We're unable to save the redirects to your .htaccess file, please make the file writable.", 'wordpress-seo' ) . "</b></p></div>\n";
 							}
 						}
@@ -233,6 +238,7 @@ class WPSEO_Page_Redirect {
 	 * Load the admin redirects scripts
 	 */
 	public static function page_scripts() {
+		wp_enqueue_script( 'jquery-qtip', plugins_url( 'js/jquery.qtip.min.js', WPSEO_FILE ), array( 'jquery' ), '1.0.0-RC3', true );
 		wp_enqueue_script( 'wp-seo-premium-admin-redirects', plugin_dir_url( WPSEO_PREMIUM_FILE ) . '/assets/js/wp-seo-premium-admin-redirects.js', array( 'jquery' ), '1.0.0' );
 		wp_localize_script( 'wp-seo-premium-admin-redirects', 'wpseo_premium_strings', WPSEO_Premium_Javascript_Strings::strings() );
 

@@ -342,6 +342,29 @@
 				}
 			});
 
+			$(object).find(".yoast_help").qtip({
+				position: {
+					corner: {
+						target : 'topMiddle',
+						tooltip: 'bottomLeft'
+					}
+				},
+				show    : {
+					when: {
+						event: 'click'
+					}
+				},
+				hide    : {
+					when: {
+						event: 'click'
+					}
+				},
+				style   : {
+					tip : 'bottomLeft',
+					name: 'blue'
+				}
+			});
+
 		};
 
 		object.setup();
