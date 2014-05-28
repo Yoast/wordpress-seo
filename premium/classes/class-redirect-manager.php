@@ -274,7 +274,7 @@ abstract class WPSEO_Redirect_Manager {
 			$new_redirect = array(
 				'key'   => urldecode( $_POST['new_redirect']['key'] ),
 				'value' => urldecode( $_POST['new_redirect']['value'] ),
-				'type'  => urldecode( $_POST['new_redirect']['type'] ),
+				'type'  => urldecode( $_POST['new_redirectajax_handle_redirect_create']['type'] ),
 			);
 
 			// Save redirects in database

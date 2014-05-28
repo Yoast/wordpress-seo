@@ -27,7 +27,8 @@ function wpseo_create_redirect(url, nonce) {
 						action    : 'wpseo_create_redirect_url',
 						ajax_nonce: nonce,
 						old_url   : url,
-						new_url   : new_url
+						new_url   : new_url,
+						type			: '301'
 					},
 					function (response) {
 

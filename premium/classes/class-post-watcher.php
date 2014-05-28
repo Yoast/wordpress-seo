@@ -1,6 +1,6 @@
 <?php
 
-if ( ! defined( 'WPSEO_VERSION' ) ) {
+if ( !defined( 'WPSEO_VERSION' ) ) {
 	header( 'HTTP/1.0 403 Forbidden' );
 	die;
 }
@@ -37,6 +37,10 @@ class WPSEO_Post_Watcher {
 	 */
 	public function detect_slug_change( $post_id, $post, $post_before ) {
 
+		if ( !isset( $_POST['wpseo_old_url'] ) ) {
+			return;
+		}
+
 		// Get the new URL
 		$new_url = parse_url( get_permalink( $post_id ) );
 		$new_url = $new_url['path'];
@@ -51,14 +55,14 @@ class WPSEO_Post_Watcher {
 		if ( in_array( $post->post_status, array(
 				'publish',
 				'static'
-			) ) && $old_url != $new_url && $old_url != '/' && ( ! isset( $site['path'] ) || ( isset( $site['path'] ) && $old_url != $site['path'] . '/' ) )
+			) ) && $old_url != $new_url && $old_url != '/' && ( !isset( $site['path'] ) || ( isset( $site['path'] ) && $old_url != $site['path'] . '/' ) )
 		) {
 
 			// The URL redirect manager
 			$redirect_manager = new WPSEO_URL_Redirect_Manager();
 
 			// Create the redirect
-			$redirect_manager->create_redirect( $old_url, $new_url );
+			$redirect_manager->create_redirect( $old_url, $new_url, 301 );
 
 			// Format the message
 			$message = sprintf( __( "WordPress SEO Premium created a <a href='%s'>redirect</a> from the old post URL to the new post URL. <a href='%s'>Click here to undo this</a>.", 'wordpress-seo' ), admin_url( 'admin.php?page=wpseo_redirects&s=' . urlencode( $old_url ) ), 'javascript:wpseo_undo_redirect("' . urlencode( $old_url ) . '", "' . wp_create_nonce( 'wpseo-redirects-ajax-security' ) . '");' );

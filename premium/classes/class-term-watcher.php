@@ -57,7 +57,7 @@ class WPSEO_Term_Watcher {
 			$redirect_manager = new WPSEO_URL_Redirect_Manager();
 
 			// Create the redirect
-			$redirect_manager->create_redirect( $old_url, $new_url );
+			$redirect_manager->create_redirect( $old_url, $new_url, 301 );
 
 			// Format the message
 			$message = sprintf( __( "WordPress SEO Premium created a <a href='%s'>redirect</a> from the old term URL to the new term URL. <a href='%s'>Click here to undo this</a>.", 'wordpress-seo' ), admin_url( 'admin.php?page=wpseo_redirects&s=' . urlencode( $old_url ) ), 'javascript:wpseo_undo_redirect("' . urlencode( $old_url ) . '", "' . wp_create_nonce( 'wpseo-redirects-ajax-security' ) . '");' );
