@@ -1262,7 +1262,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		 * @return	array
 		 */
 		function get_sample_permalink( $post ) {
-			if( ! function_exists( 'get_sample_permalink' ) ) {
+			if ( ! function_exists( 'get_sample_permalink' ) ) {
 				// Front-end post update
 				include_once( ABSPATH . 'wp-admin/includes/post.php' );
 			}
