@@ -41,7 +41,7 @@ function wpseo_create_redirect(old_url, current_view) {
 					}
 			);
 		} else {
-			alert(wpseo_premium_strings.error_new_url);
+			yoast_overlay.add_message(wpseo_premium_strings.error_saving_redirect, wpseo_premium_strings.error_new_url, 5);
 		}
 	}
 }

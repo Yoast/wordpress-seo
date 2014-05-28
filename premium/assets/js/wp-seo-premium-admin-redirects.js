@@ -1,9 +1,5 @@
 (function ($) {
 
-	function yoast_overlay(title, text) {
-		alert(text);
-	}
-
 	$.fn.wpseo_redirects = function (arg_type) {
 
 		var object = this;
@@ -132,21 +128,21 @@
 			// Get and check old URL
 			var old_url = $(row).find('.val').eq(0).find('input').val().toString();
 			if ('' == old_url) {
-				alert(wpseo_premium_strings.error_old_url);
+				yoast_overlay.add_message(wpseo_premium_strings.error_saving_redirect, wpseo_premium_strings.error_old_url, 5);
 				return false;
 			}
 
 			// Get and check new URL
 			var new_url = $(row).find('.val').eq(1).find('input').val().toString();
 			if ("" == new_url) {
-				alert(wpseo_premium_strings.error_new_url);
+				yoast_overlay.add_message(wpseo_premium_strings.error_saving_redirect, wpseo_premium_strings.error_new_url, 5);
 				return false;
 			}
 
 			// Get and check the new type
 			var redirect_type = $(row).find('.val').eq(2).find('select option:selected').val().toString();
 			if ("" == redirect_type) {
-				alert(wpseo_premium_strings.error_new_type);
+				yoast_overlay.add_message(wpseo_premium_strings.error_saving_redirect, wpseo_premium_strings.error_new_type, 5);
 				return false;
 			}
 
@@ -199,16 +195,16 @@
 
 			if ("" == old_redirect) {
 				if ('url' == type) {
-					alert(wpseo_premium_strings.error_old_url);
+					yoast_overlay.add_message(wpseo_premium_strings.error_saving_redirect, wpseo_premium_strings.error_old_url, 5);
 				} else {
-					alert(wpseo_premium_strings.error_regex);
+					yoast_overlay.add_message(wpseo_premium_strings.error_saving_redirect, wpseo_premium_strings.error_regex, 5);
 				}
 
 				return false;
 			}
 
 			if ("" == new_redirect) {
-				alert(wpseo_premium_strings.error_new_url);
+				yoast_overlay.add_message(wpseo_premium_strings.error_saving_redirect, wpseo_premium_strings.error_new_url, 5);
 				return false;
 			}
 
@@ -275,7 +271,7 @@
 					function (response) {
 						var response_obj = $.parseJSON(response);
 						if ('200' != response_obj.reponse_code) {
-							yoast_overlay('Incorrect URL', 'The URL you entered returns an HTTP code different than 200(OK) : ' + response_obj.reponse_code);
+							yoast_overlay.add_message(wpseo_premium_strings.redirect_possibly_bad, wpseo_premium_strings.redirect_not_ok + ( ( response_obj.reponse_code != '' ) ? '<br/><br/><b>HTTP Code: ' + response_obj.reponse_code + '</b>' : '' ) );
 						}
 					}
 			);
@@ -313,7 +309,6 @@
 			);
 
 			// bind the tr
-
 			object.bind_row(tr);
 
 			return tr;
