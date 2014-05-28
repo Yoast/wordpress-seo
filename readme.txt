@@ -109,6 +109,11 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 
 == Changelog ==
 
+= Trunk =
+
+* Bugfixes
+	* Check whether snippet preview is shown on page before hiding / showing errors, deducted from [#1178](https://github.com/Yoast/wordpress-seo/issues/1178)
+
 = 1.5.3.2 =
 Release Date: May 16th, 2014
 

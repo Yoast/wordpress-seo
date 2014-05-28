@@ -142,10 +142,12 @@ function updateTitle(force) {
 	}
 
 	var e = document.getElementById('wpseosnippet_title');
-	if (e.scrollWidth > e.clientWidth) {
-		titleLengthError.show();
-	} else {
-		titleLengthError.hide();
+	if ( e != null ) {
+		if (e.scrollWidth > e.clientWidth) {
+			titleLengthError.show();
+		} else {
+			titleLengthError.hide();
+		}
 	}
 
 	title = boldKeywords(title, false);
