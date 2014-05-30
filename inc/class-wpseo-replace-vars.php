@@ -275,19 +275,17 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		 * @return string|null
 		 */
 		private function retrieve_category() {
-			static $replacement;
+			$replacement = null;
 
-			if ( ! isset( $replacement ) ) {
-				if ( ! empty( $this->args->ID ) ) {
-					$cat = $this->get_terms( $this->args->ID, 'category' );
-					if ( $cat !== '' ) {
-						$replacement = $cat;
-					}
+			if ( ! empty( $this->args->ID ) ) {
+				$cat = $this->get_terms( $this->args->ID, 'category' );
+				if ( $cat !== '' ) {
+					$replacement = $cat;
 				}
+			}
 
-				if ( ( ! isset( $replacement ) || $replacement === '' ) && ( isset( $this->args->cat_name ) && ! empty( $this->args->cat_name ) ) ) {
-					$replacement = $this->args->cat_name;
-				}
+			if ( ( ! isset( $replacement ) || $replacement === '' ) && ( isset( $this->args->cat_name ) && ! empty( $this->args->cat_name ) ) ) {
+				$replacement = $this->args->cat_name;
 			}
 
 			return $replacement;
@@ -308,23 +306,21 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		 * @return string|null
 		 */
 		private function retrieve_date() {
-			static $replacement;
+			$replacement = null;
 
-			if ( ! isset( $replacement ) ) {
-				if ( $this->args->post_date != '' ) {
-					$replacement = mysql2date( get_option( 'date_format' ), $this->args->post_date, true );
+			if ( $this->args->post_date != '' ) {
+				$replacement = mysql2date( get_option( 'date_format' ), $this->args->post_date, true );
+			}
+			else {
+				if ( get_query_var( 'day' ) && get_query_var( 'day' ) != '' ) {
+					$replacement = get_the_date();
 				}
 				else {
-					if ( get_query_var( 'day' ) && get_query_var( 'day' ) != '' ) {
-						$replacement = get_the_date();
+					if ( single_month_title( ' ', false ) && single_month_title( ' ', false ) != '' ) {
+						$replacement = single_month_title( ' ', false );
 					}
-					else {
-						if ( single_month_title( ' ', false ) && single_month_title( ' ', false ) != '' ) {
-							$replacement = single_month_title( ' ', false );
-						}
-						elseif ( get_query_var( 'year' ) != '' ) {
-							$replacement = get_query_var( 'year' );
-						}
+					elseif ( get_query_var( 'year' ) != '' ) {
+						$replacement = get_query_var( 'year' );
 					}
 				}
 			}
@@ -339,9 +335,9 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		 * @return string|null
 		 */
 		private function retrieve_excerpt() {
-			static $replacement;
+			$replacement = null;
 
-			if ( ! isset( $replacement ) && ! empty( $this->args->ID ) ) {
+			if ( ! empty( $this->args->ID ) ) {
 				if ( $this->args->post_excerpt !== '' ) {
 					$replacement = strip_tags( $this->args->post_excerpt );
 				}
@@ -359,9 +355,9 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		 * @return string|null
 		 */
 		private function retrieve_excerpt_only() {
-			static $replacement;
+			$replacement = null;
 
-			if ( ! isset( $replacement ) && ! empty( $this->args->ID ) && $this->args->post_excerpt !== '' ) {
+			if ( ! empty( $this->args->ID ) && $this->args->post_excerpt !== '' ) {
 				$replacement = strip_tags( $this->args->post_excerpt );
 			}
 
@@ -371,6 +367,8 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		/**
 		 * Retrieve the title of the parent page of the current page/cpt for use as replacement string.
 		 * Only applicable for hierarchical post types.
+		 *
+		 * @todo - check: shouldn't this use $this->args as well ?
 		 *
 		 * @return string|null
 		 */
@@ -405,7 +403,7 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		}
 
 		/**
-		 * Retrieve he separator defined in your theme's <code>wp_title()</code> tag for use as replacement string.
+		 * Retrieve the separator defined in your theme's <code>wp_title()</code> tag for use as replacement string.
 		 *
 		 * @return string
 		 */
@@ -465,9 +463,9 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		 * @return string|null
 		 */
 		private function retrieve_tag() {
-			static $replacement;
+			$replacement = null;
 
-			if ( ! isset( $replacement ) && isset( $this->args->ID ) ) {
+			if ( isset( $this->args->ID ) ) {
 				$tags = $this->get_terms( $this->args->ID, 'post_tag' );
 				if ( $tags !== '' ) {
 					$replacement = $tags;
@@ -492,9 +490,9 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		 * @return string|null
 		 */
 		private function retrieve_term_description() {
-			static $replacement;
+			$replacement = null;
 
-			if ( ! isset( $replacement ) && ( isset( $this->args->term_id ) && ! empty( $this->args->taxonomy ) ) ) {
+			if ( isset( $this->args->term_id ) && ! empty( $this->args->taxonomy ) ) {
 				$term_desc = get_term_field( 'description', $this->args->term_id, $this->args->taxonomy );
 				if ( $term_desc !== '' ) {
 					$replacement = trim( strip_tags( $term_desc ) );
@@ -510,9 +508,9 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		 * @return string|null
 		 */
 		private function retrieve_term_title() {
-			static $replacement;
+			$replacement = null;
 
-			if ( ! isset( $replacement ) && ( ! empty( $this->args->taxonomy ) && ! empty( $this->args->name ) ) ) {
+			if ( ! empty( $this->args->taxonomy ) && ! empty( $this->args->name ) ) {
 				$replacement = $this->args->name;
 			}
 
@@ -525,9 +523,9 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		 * @return string|null
 		 */
 		private function retrieve_title() {
-			static $replacement;
+			$replacement = null;
 
-			if ( ! isset( $replacement ) && ! empty( $this->args->ID ) && $this->args->post_title !== '' ) {
+			if ( ! empty( $this->args->ID ) && $this->args->post_title !== '' ) {
 				$replacement = stripslashes( $this->args->post_title );
 			}
 
@@ -547,30 +545,29 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		 */
 		private function determine_pagenumbering( $request = 'nr' ) {
 			global $wp_query, $post;
-			static $max_num_pages, $page_number;
+			$max_num_pages = null;
+			$page_number   = null;
 
-			if ( ! isset( $max_num_pages ) || ! isset( $page_number ) ) {
-				$max_num_pages = 1;
+			$max_num_pages = 1;
 
-				if ( ! is_singular() ) {
-					$page_number = get_query_var( 'paged' );
-					if ( $page_number === 0 || $page_number === '' ) {
-						$page_number = 1;
-					}
-
-					if ( isset( $wp_query->max_num_pages ) && ( $wp_query->max_num_pages != '' && $wp_query->max_num_pages != 0 ) ) {
-						$max_num_pages = $wp_query->max_num_pages;
-					}
+			if ( ! is_singular() ) {
+				$page_number = get_query_var( 'paged' );
+				if ( $page_number === 0 || $page_number === '' ) {
+					$page_number = 1;
 				}
-				else {
-					$page_number = get_query_var( 'page' );
-					if ( $page_number === 0 || $page_number === '' ) {
-						$page_number = 1;
-					}
 
-					if ( isset( $post->post_content ) ) {
-						$max_num_pages = substr_count( $post->post_content, '<!--nextpage-->' ) + 1;
-					}
+				if ( isset( $wp_query->max_num_pages ) && ( $wp_query->max_num_pages != '' && $wp_query->max_num_pages != 0 ) ) {
+					$max_num_pages = $wp_query->max_num_pages;
+				}
+			}
+			else {
+				$page_number = get_query_var( 'page' );
+				if ( $page_number === 0 || $page_number === '' ) {
+					$page_number = 1;
+				}
+
+				if ( isset( $post->post_content ) ) {
+					$max_num_pages = substr_count( $post->post_content, '<!--nextpage-->' ) + 1;
 				}
 			}
 
@@ -597,30 +594,29 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		 */
 		private function determine_pt_names( $request = 'single' ) {
 			global $wp_query;
-			static $pt_single, $pt_plural;
+			$pt_single = null;
+			$pt_plural = null;
 
-			if ( ! isset( $pt_single ) || ! isset( $pt_plural ) ) {
-				if ( isset( $wp_query->query_vars['post_type'] ) && ( ( is_string( $wp_query->query_vars['post_type'] ) && $wp_query->query_vars['post_type'] !== '' ) || ( is_array( $wp_query->query_vars['post_type'] ) && $wp_query->query_vars['post_type'] !== array() ) ) ) {
-					$post_type = $wp_query->query_vars['post_type'];
-				}
-				else {
-					// Make it work in preview mode
-					$post_type = $wp_query->get_queried_object()->post_type;
-				}
+			if ( isset( $wp_query->query_vars['post_type'] ) && ( ( is_string( $wp_query->query_vars['post_type'] ) && $wp_query->query_vars['post_type'] !== '' ) || ( is_array( $wp_query->query_vars['post_type'] ) && $wp_query->query_vars['post_type'] !== array() ) ) ) {
+				$post_type = $wp_query->query_vars['post_type'];
+			}
+			else {
+				// Make it work in preview mode
+				$post_type = $wp_query->get_queried_object()->post_type;
+			}
 
-				if ( is_array( $post_type ) ) {
-					$post_type = reset( $post_type );
-				}
+			if ( is_array( $post_type ) ) {
+				$post_type = reset( $post_type );
+			}
 
-				if ( $post_type !== '' ) {
-					$pt        = get_post_type_object( $post_type );
-					$pt_plural = $pt_single = $pt->name;
-					if ( isset( $pt->labels->singular_name ) ) {
-						$pt_single = $pt->labels->singular_name;
-					}
-					if ( isset( $pt->labels->name ) ) {
-						$pt_plural = $pt->labels->name;
-					}
+			if ( $post_type !== '' ) {
+				$pt        = get_post_type_object( $post_type );
+				$pt_plural = $pt_single = $pt->name;
+				if ( isset( $pt->labels->singular_name ) ) {
+					$pt_single = $pt->labels->singular_name;
+				}
+				if ( isset( $pt->labels->name ) ) {
+					$pt_plural = $pt->labels->name;
 				}
 			}
 
@@ -643,13 +639,7 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		 * @return string|null
 		 */
 		private function retrieve_caption() {
-			static $replacement;
-
-			if ( ! isset( $replacement ) ) {
-				$replacement = $this->retrieve_excerpt_only();
-			}
-
-			return $replacement;
+			return $this->retrieve_excerpt_only();
 		}
 
 
@@ -663,19 +653,19 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		 */
 		private function retrieve_cf_custom_field_name( $var ) {
 			global $post;
-			static $replacement = array();
+			$replacement = null;
 
-			if ( ( is_string( $var ) && $var !== '' ) && ! isset( $replacement[$var] ) ) {
+			if ( is_string( $var ) && $var !== '' ) {
 				$field = substr( $var, 3 );
 				if ( ( is_singular() || is_admin() ) && ( is_object( $post ) && isset( $post->ID ) ) ) {
 					$name = get_post_meta( $post->ID, $field, true );
 					if ( $name !== '' ) {
-						$replacement[$var] = $name;
+						$replacement = $name;
 					}
 				}
 			}
 
-			return ( isset( $replacement[$var] ) ? $replacement[$var] : null );
+			return $replacement;
 		}
 
 
@@ -689,17 +679,17 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		 * @return string|null
 		 */
 		private function retrieve_ct_custom_tax_name( $var, $single = false ) {
-			static $replacement = array();
+			$replacement = null;
 
-			if ( ( is_string( $var ) && $var !== '' ) && ( ! isset( $replacement[$var] ) && ! empty( $this->args->ID ) ) ) {
+			if ( ( is_string( $var ) && $var !== '' ) && ! empty( $this->args->ID ) ) {
 				$tax  = substr( $var, 3 );
 				$name = $this->get_terms( $this->args->ID, $tax, $single );
 				if ( $name !== '' ) {
-					$replacement[$var] = $name;
+					$replacement = $name;
 				}
 			}
 
-			return ( isset( $replacement[$var] ) ? $replacement[$var] : null );
+			return $replacement;
 		}
 
 
@@ -713,9 +703,9 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		 */
 		private function retrieve_ct_desc_custom_tax_name( $var ) {
 			global $post;
-			static $replacement = array();
+			$replacement = null;
 
-			if ( ( is_string( $var ) && $var !== '' ) && ! isset( $replacement[$var] ) ) {
+			if ( is_string( $var ) && $var !== '' ) {
 				$tax = substr( $var, 8 );
 				if ( is_object( $post ) && isset( $post->ID ) ) {
 					$terms = get_the_terms( $post->ID, $tax );
@@ -723,13 +713,13 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 						$term      = current( $terms );
 						$term_desc = get_term_field( 'description', $term->term_id, $tax );
 						if ( $term_desc !== '' ) {
-							$replacement[$var] = $term_desc;
+							$replacement = $term_desc;
 						}
 					}
 				}
 			}
 
-			return ( isset( $replacement[$var] ) ? $replacement[$var] : null );
+			return $replacement;
 		}
 
 		/**
@@ -813,9 +803,9 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		 * @return string|null
 		 */
 		private function retrieve_focuskw() {
-			static $replacement;
+			$replacement = null;
 
-			if ( ! isset( $replacement ) && ! empty( $this->args->ID ) ) {
+			if ( ! empty( $this->args->ID ) ) {
 				$focus_kw = WPSEO_Meta::get_value( 'focuskw', $this->args->ID );
 				if ( $focus_kw !== '' ) {
 					$replacement = $focus_kw;
@@ -831,9 +821,9 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		 * @return string|null
 		 */
 		private function retrieve_id() {
-			static $replacement;
+			$replacement = null;
 
-			if ( ! isset( $replacement ) && ! empty( $this->args->ID ) ) {
+			if ( ! empty( $this->args->ID ) ) {
 				$replacement = $this->args->ID;
 			}
 
@@ -846,9 +836,9 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		 * @return string|null
 		 */
 		private function retrieve_modified() {
-			static $replacement;
+			$replacement = null;
 
-			if ( ! isset( $replacement ) && ! empty( $this->args->post_modified ) ) {
+			if ( ! empty( $this->args->post_modified ) ) {
 				$replacement = mysql2date( get_option( 'date_format' ), $this->args->post_modified, true );
 			}
 
@@ -861,14 +851,12 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		 * @return string|null
 		 */
 		private function retrieve_name() {
-			static $replacement;
+			$replacement = null;
 
-			if ( ! isset( $replacement ) ) {
-				$user_id = $this->retrieve_userid();
-				$name    = get_the_author_meta( 'display_name', $user_id );
-				if ( $name !== '' ) {
-					$replacement = $name;
-				}
+			$user_id = $this->retrieve_userid();
+			$name    = get_the_author_meta( 'display_name', $user_id );
+			if ( $name !== '' ) {
+				$replacement = $name;
 			}
 
 			return $replacement;
@@ -880,19 +868,14 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		 * @return string
 		 */
 		private function retrieve_page() {
-			static $replacement;
+			$replacement = null;
 
-			if ( ! isset( $replacement ) ) {
-				$replacement = '';
+			$max = $this->determine_pagenumbering( 'max' );
+			$nr  = $this->determine_pagenumbering( 'nr' );
+			$sep = $this->retrieve_sep();
 
-				$max = $this->determine_pagenumbering( 'max' );
-				$nr  = $this->determine_pagenumbering( 'nr' );
-				$sep = $this->retrieve_sep();
-
-				if ( $max > 1 && $nr > 1 ) {
-					$replacement = sprintf( $sep . ' ' . __( 'Page %d of %d', 'wordpress-seo' ), $nr, $max );
-				}
-				unset( $max, $nr, $sep );
+			if ( $max > 1 && $nr > 1 ) {
+				$replacement = sprintf( $sep . ' ' . __( 'Page %d of %d', 'wordpress-seo' ), $nr, $max );
 			}
 
 			return $replacement;
@@ -904,13 +887,11 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		 * @return string|null
 		 */
 		private function retrieve_pagenumber() {
-			static $replacement;
+			$replacement = null;
 
-			if ( ! isset( $replacement ) ) {
-				$nr = $this->determine_pagenumbering( 'nr' );
-				if ( isset( $nr ) && $nr > 0 ) {
-					$replacement = (string) $nr;
-				}
+			$nr = $this->determine_pagenumbering( 'nr' );
+			if ( isset( $nr ) && $nr > 0 ) {
+				$replacement = (string) $nr;
 			}
 
 			return $replacement;
@@ -922,13 +903,11 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		 * @return string|null
 		 */
 		private function retrieve_pagetotal() {
-			static $replacement;
+			$replacement = null;
 
-			if ( ! isset( $replacement ) ) {
-				$max = $this->determine_pagenumbering( 'max' );
-				if ( isset( $max ) && $max > 0 ) {
-					$replacement = (string) $max;
-				}
+			$max = $this->determine_pagenumbering( 'max' );
+			if ( isset( $max ) && $max > 0 ) {
+				$replacement = (string) $max;
 			}
 
 			return $replacement;
@@ -940,13 +919,11 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		 * @return string|null
 		 */
 		private function retrieve_pt_plural() {
-			static $replacement;
+			$replacement = null;
 
-			if ( ! isset( $replacement ) ) {
-				$name = $this->determine_pt_names( 'plural' );
-				if ( isset( $name ) && $name !== '' ) {
-					$replacement = $name;
-				}
+			$name = $this->determine_pt_names( 'plural' );
+			if ( isset( $name ) && $name !== '' ) {
+				$replacement = $name;
 			}
 
 			return $replacement;
@@ -958,13 +935,11 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		 * @return string|null
 		 */
 		private function retrieve_pt_single() {
-			static $replacement;
+			$replacement = null;
 
-			if ( ! isset( $replacement ) ) {
-				$name = $this->determine_pt_names( 'single' );
-				if ( isset( $name ) && $name !== '' ) {
-					$replacement = $name;
-				}
+			$name = $this->determine_pt_names( 'single' );
+			if ( isset( $name ) && $name !== '' ) {
+				$replacement = $name;
 			}
 
 			return $replacement;
@@ -976,17 +951,15 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		 * @return string|null
 		 */
 		private function retrieve_term404() {
-			static $replacement;
+			$replacement = null;
 
-			if ( ! isset( $replacement ) ) {
-				if ( $this->args->term404 !== '' ) {
-					$replacement = sanitize_text_field( str_replace( '-', ' ', $this->args->term404 ) );
-				}
-				else {
-					$error_request = get_query_var( 'pagename' );
-					if ( $error_request !== '' ) {
-						$replacement = sanitize_text_field( $error_request );
-					}
+			if ( $this->args->term404 !== '' ) {
+				$replacement = sanitize_text_field( str_replace( '-', ' ', $this->args->term404 ) );
+			}
+			else {
+				$error_request = get_query_var( 'pagename' );
+				if ( $error_request !== '' ) {
+					$replacement = sanitize_text_field( $error_request );
 				}
 			}
 
@@ -999,12 +972,7 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		 * @return string
 		 */
 		private function retrieve_userid() {
-			static $replacement;
-
-			if ( ! isset( $replacement ) ) {
-				$replacement = ! empty( $this->args->post_author ) ? $this->args->post_author : get_query_var( 'author' );
-			}
-
+			$replacement = ! empty( $this->args->post_author ) ? $this->args->post_author : get_query_var( 'author' );
 			return $replacement;
 		}
 
