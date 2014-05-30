@@ -399,6 +399,7 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 				// If it's a relative URL, it's relative to the domain, not necessarily to the WordPress install, we
 				// want to preserve domain name and URL scheme (http / https) though.
 				$parsed_url = parse_url( home_url() );
+				$parsed_url = apply_filters( 'wpseo_opengraph_image', $parsed_url );
 				$img        = $parsed_url['scheme'] . '://' . $parsed_url['host'] . $img;
 			}
 
