@@ -27,5 +27,5 @@ class WPSEO_Option_Test extends WPSEO_UnitTestCase {
 		// $this->assertTrue( WPSEO_Options::grant_access() );
 	}
 
-	
+
 }

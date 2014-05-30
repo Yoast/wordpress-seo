@@ -25,7 +25,7 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 		$expected_date = date( 'j M Y', strtotime( $post->post_date ) );
 		$this->assertEquals( $expected_date, self::$class_instance->get_post_date( $post ) );
 	}
-		
+
 	/**
 	* @covers WPSEO_Metabox::enqueue()
 	*/
@@ -37,7 +37,7 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 		self::$class_instance->enqueue();
 
 		$enqueued = wp_script_is( 'wp-seo-metabox', 'enqueued' );
-		$this->assertFalse( $enqueued );		
+		$this->assertFalse( $enqueued );
 	}
 
 	/**
@@ -51,7 +51,7 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 		self::$class_instance->enqueue();
 
 		$enqueued = wp_script_is( 'wp-seo-metabox', 'enqueued' );
-		$this->assertTrue( $enqueued );		
+		$this->assertTrue( $enqueued );
 	}
 
 	public function test_column_heading_is_hooked() {
@@ -121,8 +121,8 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 
 		// vars
 		$meta_fields = apply_filters( 'wpseo_save_metaboxes', array() );
-		$meta_fields = array_merge( 
-			$meta_fields, 
+		$meta_fields = array_merge(
+			$meta_fields,
 			self::$class_instance->get_meta_field_defs( 'general', $post->post_type ),
 			self::$class_instance->get_meta_field_defs( 'advanced' )
 		);
@@ -136,7 +136,7 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 			} elseif( $field['type'] === 'checkbox' ) {
 				$_POST[ WPSEO_Metabox::$form_prefix . $key ] = 'on';
 			}
-			
+
 		}
 
 		// call method that saves the $_POST data
@@ -158,7 +158,7 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 			} elseif( $field['type'] === 'checkbox' ) {
 				$this->assertEquals( $value, 'on');
 			}
-			
+
 		}
 	}
 

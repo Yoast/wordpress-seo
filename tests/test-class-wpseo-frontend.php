@@ -15,9 +15,9 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		ob_clean();
 	}
 
-    /**
-     * @covers WPSEO_Frontend::is_home_posts_page
-     */
+	/**
+	 * @covers WPSEO_Frontend::is_home_posts_page
+	 */
 	public function test_is_home_posts_page() {
 
 		$this->go_to_home();
@@ -33,9 +33,9 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		$this->assertFalse( self::$class_instance->is_home_posts_page() );
 	}
 
-    /**
-     * @covers WPSEO_Frontend::is_home_static_page
-     */
+	/**
+	 * @covers WPSEO_Frontend::is_home_static_page
+	 */
 	public function test_is_home_static_page() {
 
 		// on front page
@@ -62,9 +62,9 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		$this->assertFalse( self::$class_instance->is_home_static_page() );
 	}
 
-    /**
-     * @covers WPSEO_Frontend::is_posts_page
-     */
+	/**
+	 * @covers WPSEO_Frontend::is_posts_page
+	 */
 	public function test_is_posts_page() {
 
 		// on home with show_on_front != page
@@ -82,9 +82,9 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		$this->assertFalse( self::$class_instance->is_posts_page() );
 	}
 
-    /**
-     * @covers WPSEO_Frontend::get_content_title
-     */
+	/**
+	 * @covers WPSEO_Frontend::get_content_title
+	 */
 	public function test_get_content_title() {
 
 		// create and go to post
@@ -105,9 +105,9 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( $expected_title, self::$class_instance->get_content_title() );
 	}
 
-    /**
-     * @covers WPSEO_Frontend::get_taxonomy_title
-     */
+	/**
+	 * @covers WPSEO_Frontend::get_taxonomy_title
+	 */
 	public function test_get_taxonomy_title() {
 
 		// @todo fix for multisite
@@ -127,9 +127,9 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		// we need an easy way to set taxonomy meta though...
 	}
 
-    /**
-     * @covers WPSEO_Frontend::get_author_title
-     */
+	/**
+	 * @covers WPSEO_Frontend::get_author_title
+	 */
 	public function test_get_author_title() {
 
 		// create and go to author
@@ -149,9 +149,9 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( $expected_title, self::$class_instance->get_author_title() );
 	}
 
-    /**
-     * @covers WPSEO_Frontend::get_title_from_options
-     */
+	/**
+	 * @covers WPSEO_Frontend::get_title_from_options
+	 */
 	public function test_get_title_from_options() {
 		// should return an empty string
 		$this->assertEmpty( self::$class_instance->get_title_from_options( '__not-existing-index' ) );
@@ -170,16 +170,16 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( $expected_title, self::$class_instance->get_title_from_options( $index, $var_source ) );
 	}
 
-    /**
-     * @covers WPSEO_Frontend::get_default_title
-     */
+	/**
+	 * @covers WPSEO_Frontend::get_default_title
+	 */
 	public function test_get_default_title() {
 		// TODO
 	}
 
-    /**
-     * @covers WPSEO_Frontend::add_paging_to_title
-     */
+	/**
+	 * @covers WPSEO_Frontend::add_paging_to_title
+	 */
 	public function test_add_paging_to_title() {
 		$input = 'Initial title';
 
@@ -194,9 +194,9 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( $expected, self::$class_instance->add_paging_to_title( '', '', $input) );
 	}
 
-    /**
-     * @covers WPSEO_Frontend::add_to_title
-     */
+	/**
+	 * @covers WPSEO_Frontend::add_to_title
+	 */
 	public function test_add_to_title() {
 
 		$title = "Title";
@@ -210,38 +210,38 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( $expected, self::$class_instance->add_to_title( $sep, 'left', $title, $title_part ) );
 	}
 
-    /**
-     * @covers WPSEO_Frontend::title
-     */
+	/**
+	 * @covers WPSEO_Frontend::title
+	 */
 	public function test_title() {
 		// @todo
 	}
 
-    /**
-     * @covers WPSEO_Frontend::wp_title
-     */
+	/**
+	 * @covers WPSEO_Frontend::wp_title
+	 */
 	public function force_wp_title() {
 		// @todo
 	}
 
-    /**
-     * @covers WPSEO_Frontend::debug_marker
-     */
+	/**
+	 * @covers WPSEO_Frontend::debug_marker
+	 */
 	public function test_debug_marker() {
 		// test if the version number is shown in the debug marker
 		$version_found =  ( stristr( self::$class_instance->debug_marker( false ), WPSEO_VERSION ) !== false );
 		$this->assertTrue( $version_found );
 	}
 
-    /**
-     * @covers WPSEO_Frontend::webmaster_tools_authentication
-     */
+	/**
+	 * @covers WPSEO_Frontend::webmaster_tools_authentication
+	 */
 	public function test_webmaster_tools_authentication() {
 
 		$this->go_to_home();
 
 		$this->run_webmaster_tools_authentication_option_test( 'alexaverify', '<meta name="alexaVerifyID" content="alexaverify" />' . "\n" );
-		$this->run_webmaster_tools_authentication_option_test( 'msverify',  '<meta name="msvalidate.01" content="msverify" />' . "\n");
+		$this->run_webmaster_tools_authentication_option_test( 'msverify', '<meta name="msvalidate.01" content="msverify" />' . "\n");
 		$this->run_webmaster_tools_authentication_option_test( 'googleverify', '<meta name="google-site-verification" content="googleverify" />' . "\n" );
 		$this->run_webmaster_tools_authentication_option_test( 'pinterestverify', '<meta name="p:domain_verify" content="pinterestverify" />' . "\n" );
 		$this->run_webmaster_tools_authentication_option_test( 'yandexverify', '<meta name="yandex-verification" content="yandexverify" />' . "\n" );
@@ -253,9 +253,9 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		$this->run_webmaster_tools_authentication_option_test( 'yandexverify', '');
 	}
 
-    /**
-     * @covers WPSEO_Frontend::head
-     */
+	/**
+	 * @covers WPSEO_Frontend::head
+	 */
 	public function test_head() {
 
 		self::$class_instance->head();
@@ -266,7 +266,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * @covers WPSEO_Frontend::robots
-     *
+	 *
 	 * @todo test post type archives
 	 * @todo test with noodp and noydir option set
 	 * @todo test with page_for_posts option
@@ -348,7 +348,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 			$expected = 'noindex,follow';
 			self::$class_instance->options['noindex-tax-category'] = true;
 			$this->assertEquals( $expected, self::$class_instance->robots() );
-		
+
 			// clean-up
 			self::$class_instance->options['noindex-tax-category'] = false;
 
@@ -377,9 +377,9 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		self::$class_instance->options['noindex-author-wpseo'] = false;
 	}
 
-    /**
-     * @covers WPSEO_Frontend::robots_for_single_post
-     */
+	/**
+	 * @covers WPSEO_Frontend::robots_for_single_post
+	 */
 	public function test_robots_for_single_post() {
 
 		// create and go to post

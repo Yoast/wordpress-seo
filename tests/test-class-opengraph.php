@@ -28,41 +28,41 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		$this->assertNotEmpty( self::$class_instance->options );
 	}
 
-    /**
-     * @covers WPSEO_OpenGraph::opengraph
-     */
+	/**
+	 * @covers WPSEO_OpenGraph::opengraph
+	 */
 	public function test_opengraph() {
 		self::$class_instance->opengraph();
 		$this->assertEquals( 1, did_action( 'wpseo_opengraph' ) );
 		ob_clean();
 	}
 
-    /**
-     * @covers WPSEO_OpenGraph::og_tag
-     */
+	/**
+	 * @covers WPSEO_OpenGraph::og_tag
+	 */
 	public function test_og_tag() {
-		
+
 		// there should be no output when $content is empty
 		$this->assertFalse( self::$class_instance->og_tag( 'property', '' ) );
-		$this->expectOutput( '' );	
+		$this->expectOutput( '' );
 
 		// true when $content is not empty
-		$this->assertTrue( self::$class_instance->og_tag( 'property', 'content' ) );	
+		$this->assertTrue( self::$class_instance->og_tag( 'property', 'content' ) );
 		$this->expectOutput( '<meta property="property" content="content" />' . "\n" );
 
 		// test escaping
-		$this->assertTrue( self::$class_instance->og_tag( 'property "with quotes"', 'content "with quotes"' ) );	
+		$this->assertTrue( self::$class_instance->og_tag( 'property "with quotes"', 'content "with quotes"' ) );
 		$this->expectOutput( '<meta property="property &quot;with quotes&quot;" content="content &quot;with quotes&quot;" />' . "\n" );
 	}
 
-    /**
-     * @covers WPSEO_OpenGraph::facebook_filter
-     */
+	/**
+	 * @covers WPSEO_OpenGraph::facebook_filter
+	 */
 	public function test_facebook_filter() {
 
 		$post_id = $this->factory->post->create();
 		$this->go_to( get_permalink( $post_id ) );
-		
+
 		$c = self::$class_instance;
 		$result = $c->facebook_filter( array() );
 
@@ -79,18 +79,18 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( $result['http://ogp.me/ns#description'], $c->description( false ) );
 	}
 
-    /**
-     * @covers WPSEO_OpenGraph::add_opengraph_namespace
-     */
+	/**
+	 * @covers WPSEO_OpenGraph::add_opengraph_namespace
+	 */
 	public function test_add_opengraph_namespace() {
 		$c = self::$class_instance;
 		$expected = ' prefix="og: http://ogp.me/ns#' . ( ( $c->options['fbadminapp'] != 0 || ( is_array( $c->options['fb_admins'] ) && $c->options['fb_admins'] !== array() ) ) ? ' fb: http://ogp.me/ns/fb#' : '' ) . '"';
 		$this->assertEquals( $c->add_opengraph_namespace( '' ), $expected );
 	}
 
-    /**
-     * @covers WPSEO_OpenGraph::article_author_facebook
-     */
+	/**
+	 * @covers WPSEO_OpenGraph::article_author_facebook
+	 */
 	public function test_article_author_facebook() {
 
 		// test not on singular page
@@ -114,9 +114,9 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		$this->expectOutput( '<meta property="article:author" content="facebook_author" />' . "\n" );
 	}
 
-    /**
-     * @covers WPSEO_OpenGraph::website_facebook
-     */
+	/**
+	 * @covers WPSEO_OpenGraph::website_facebook
+	 */
 	public function test_website_facebook() {
 		// option not set
 		$this->assertFalse( self::$class_instance->website_facebook() );
@@ -129,18 +129,18 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		$this->expectOutput( '<meta property="article:publisher" content="http://facebook.com/mysite/" />' . "\n" );
 	}
 
-    /**
-     * @covers WPSEO_OpenGraph::site_owner
-     */
+	/**
+	 * @covers WPSEO_OpenGraph::site_owner
+	 */
 	public function test_site_owner() {
 		$this->assertFalse( self::$class_instance->site_owner() );
 
 		// @todo
 	}
 
-    /**
-     * @covers WPSEO_OpenGraph::og_title
-     */
+	/**
+	 * @covers WPSEO_OpenGraph::og_title
+	 */
 	public function test_og_title() {
 
 		// create and go to post
@@ -157,9 +157,9 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 
 	}
 
-    /**
-     * @covers WPSEO_OpenGraph::url
-     */
+	/**
+	 * @covers WPSEO_OpenGraph::url
+	 */
 	public function test_url() {
 
 		// create and go to post
@@ -172,16 +172,16 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		$this->expectOutput( '<meta property="og:url" content="' . $expected_url . '" />' . "\n" );
 	}
 
-    /**
-     * @covers WPSEO_OpenGraph::locale
-     */
+	/**
+	 * @covers WPSEO_OpenGraph::locale
+	 */
 	public function test_locale() {
 		 global $locale;
 
 		 $this->assertEquals( 'en_US', self::$class_instance->locale( false ) );
 
 		 $locale = 'ca';
-		 $this->assertEquals( 'ca_ES', self::$class_instance->locale( false ) );	
+		 $this->assertEquals( 'ca_ES', self::$class_instance->locale( false ) );
 
 		 $locale = 'nl';
 		 $this->assertEquals( 'nl_NL', self::$class_instance->locale( false ) );
@@ -191,9 +191,9 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		 $this->expectOutput( '<meta property="og:locale" content="nl_NL" />' . "\n" );
 	}
 
-    /**
-     * @covers WPSEO_OpenGraph::type
-     */
+	/**
+	 * @covers WPSEO_OpenGraph::type
+	 */
 	public function test_type() {
 		$this->assertEquals( 'website', self::$class_instance->type( false ) );
 
@@ -207,9 +207,9 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( 'article', self::$class_instance->type( false ) );
 	}
 
-    /**
-     * @covers WPSEO_OpenGraph::image_output
-     */
+	/**
+	 * @covers WPSEO_OpenGraph::image_output
+	 */
 	public function test_image_output() {
 		$this->assertFalse( self::$class_instance->image_output( '' ) );
 
@@ -231,30 +231,30 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		$this->expectOutput( '<meta property="og:image" content="' . $absolute_img_url . '" />' . "\n" );
 	}
 
-    /**
-     * @covers WPSEO_OpenGraph::image
-     */
+	/**
+	 * @covers WPSEO_OpenGraph::image
+	 */
 	public function test_image() {
 
 	}
 
-    /**
-     * @covers WPSEO_OpenGraph::description
-     */
+	/**
+	 * @covers WPSEO_OpenGraph::description
+	 */
 	public function test_description() {
 
 	}
 
-    /**
-     * @covers WPSEO_OpenGraph::site_name
-     */
+	/**
+	 * @covers WPSEO_OpenGraph::site_name
+	 */
 	public function test_site_name() {
 
 	}
 
-    /**
-     * @covers WPSEO_OpenGraph::tags
-     */
+	/**
+	 * @covers WPSEO_OpenGraph::tags
+	 */
 	public function test_tags() {
 
 		// not singular, return false
@@ -266,19 +266,19 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 
 		// no tags, should return false
 		$this->assertFalse( self::$class_instance->tags() );
-		
+
 		// add tags to post
 		wp_set_post_tags( $post_id, 'Tag1, Tag2' );
 		$expected_tags = '<meta property="article:tag" content="Tag1" />' . "\n" . '<meta property="article:tag" content="Tag2" />' . "\n";
-		
+
 		// test again, this time with tags
 		$this->assertTrue( self::$class_instance->tags() );
 		$this->expectOutput( $expected_tags );
 	}
 
-    /**
-     * @covers WPSEO_OpenGraph::category
-     */
+	/**
+	 * @covers WPSEO_OpenGraph::category
+	 */
 	public function test_category() {
 
 		// not singular, should return false
@@ -293,9 +293,9 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		$this->expectOutput( '<meta property="article:section" content="Category Name" />' . "\n" );
 	}
 
-    /**
-     * @covers WPSEO_OpenGraph::publish_date
-     */
+	/**
+	 * @covers WPSEO_OpenGraph::publish_date
+	 */
 	public function test_publish_date() {
 
 		// not on singular, should return false
@@ -308,7 +308,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		// test published_time tags output
 		$published_time = get_the_date( 'c' );
 		$published_output = '<meta property="article:published_time" content="' . $published_time . '" />' . "\n";
-		$this->assertTrue( self::$class_instance->publish_date() );	
+		$this->assertTrue( self::$class_instance->publish_date() );
 		$this->expectOutput( $published_output );
 
 		// modify post time
@@ -316,7 +316,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		$post = get_post( $post_id );
 		$post->post_modified     = gmdate( 'Y-m-d H:i:s', time() + 1 );
 		$post->post_modified_gmt = gmdate( 'Y-m-d H:i:s', ( time() + 1 + ( get_option( 'gmt_offset' ) * HOUR_IN_SECONDS ) ) );
-		
+
 		// test modified tags output
 		$modified_time = get_the_modified_date( 'c' );
 		$modified_output = '<meta property="article:modified_time" content="' . $modified_time . '" />' . "\n" . '<meta property="og:updated_time" content="' . $modified_time . '" />' . "\n";

@@ -2,10 +2,10 @@
 
 class Filters_Test extends WPSEO_UnitTestCase {
 
-    /**
-     * @var array
-     */
-    private $wp_filter;
+	/**
+	 * @var array
+	 */
+	private $wp_filter;
 
 	public function __construct() {
 
