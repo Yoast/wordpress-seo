@@ -83,7 +83,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_OpenGraph::add_opengraph_namespace
 	 */
 	public function test_add_opengraph_namespace() {
-		$c = self::$class_instance;
+		$c		  = self::$class_instance;
 		$expected = ' prefix="og: http://ogp.me/ns#' . ( ( $c->options['fbadminapp'] != 0 || ( is_array( $c->options['fb_admins'] ) && $c->options['fb_admins'] !== array() ) ) ? ' fb: http://ogp.me/ns/fb#' : '' ) . '"';
 		$this->assertEquals( $c->add_opengraph_namespace( '' ), $expected );
 	}
@@ -98,14 +98,14 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 
 		// create post with author
 		$author_id = $this->factory->user->create( array( 'role' => 'administrator' ) );
-		$post_id = $this->factory->post->create( array( 'post_author' => $author_id ));
+		$post_id = $this->factory->post->create( array( 'post_author' => $author_id ) );
 		$this->go_to( get_permalink( $post_id ) );
 
 		// on post page but facebook meta not set.
 		$this->assertFalse( self::$class_instance->article_author_facebook() );
 
 		// add facebook meta to post author
-		$post = get_post( $post_id );
+		$post   = get_post( $post_id );
 		$author = $post->post_author;
 		add_user_meta( $author, 'facebook', 'facebook_author' );
 
@@ -148,7 +148,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		$this->go_to( get_permalink( $post_id ) );
 
 		$expected_title = self::$class_instance->title( '' );
-		$expected_html = '<meta property="og:title" content="'.$expected_title.'" />' . "\n";
+		$expected_html  = '<meta property="og:title" content="' . $expected_title . '" />' . "\n";
 
 		$this->assertTrue( self::$class_instance->og_title() );
 		$this->expectOutput( $expected_html );
@@ -164,7 +164,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 
 		// create and go to post
 		$post_id = $this->factory->post->create();
-		$url = get_permalink( $post_id );
+		$url     = get_permalink( $post_id );
 		$this->go_to( $url );
 		$expected_url = $url;
 
@@ -176,19 +176,19 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_OpenGraph::locale
 	 */
 	public function test_locale() {
-		 global $locale;
+		global $locale;
 
-		 $this->assertEquals( 'en_US', self::$class_instance->locale( false ) );
+		$this->assertEquals( 'en_US', self::$class_instance->locale( false ) );
 
-		 $locale = 'ca';
-		 $this->assertEquals( 'ca_ES', self::$class_instance->locale( false ) );
+		$locale = 'ca';
+		$this->assertEquals( 'ca_ES', self::$class_instance->locale( false ) );
 
-		 $locale = 'nl';
-		 $this->assertEquals( 'nl_NL', self::$class_instance->locale( false ) );
+		$locale = 'nl';
+		$this->assertEquals( 'nl_NL', self::$class_instance->locale( false ) );
 
-		 $locale = 'nl_NL';
-		 $this->assertEquals( 'nl_NL', self::$class_instance->locale( true ) );
-		 $this->expectOutput( '<meta property="og:locale" content="nl_NL" />' . "\n" );
+		$locale = 'nl_NL';
+		$this->assertEquals( 'nl_NL', self::$class_instance->locale( true ) );
+		$this->expectOutput( '<meta property="og:locale" content="nl_NL" />' . "\n" );
 	}
 
 	/**
@@ -197,7 +197,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	public function test_type() {
 		$this->assertEquals( 'website', self::$class_instance->type( false ) );
 
-		$category_id = wp_create_category( "WordPress SEO" );
+		$category_id = wp_create_category( 'WordPress SEO' );
 		$this->go_to( get_category_link( $category_id ) );
 		$this->assertEquals( 'object', self::$class_instance->type( false ) );
 
@@ -213,9 +213,9 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	public function test_image_output() {
 		$this->assertFalse( self::$class_instance->image_output( '' ) );
 
-		$this->assertFalse( self::$class_instance->image_output('malformed-relative-url') );
+		$this->assertFalse( self::$class_instance->image_output( 'malformed-relative-url' ) );
 
-		$img_url = home_url('absolute-image.jpg');
+		$img_url = home_url( 'absolute-image.jpg' );
 
 		// test with absolute image
 		$this->assertTrue( self::$class_instance->image_output( $img_url ) );
@@ -286,7 +286,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 
 		// Create post in category, go to post.
 		$category_id = wp_create_category( 'Category Name' );
-		$post_id = $this->factory->post->create( array( 'post_category' => array( $category_id ) ) );
+		$post_id     = $this->factory->post->create( array( 'post_category' => array( $category_id ) ) );
 		$this->go_to( get_permalink( $post_id ) );
 
 		$this->assertTrue( self::$class_instance->category() );
@@ -306,19 +306,19 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		$this->go_to( get_permalink( $post_id ) );
 
 		// test published_time tags output
-		$published_time = get_the_date( 'c' );
+		$published_time   = get_the_date( 'c' );
 		$published_output = '<meta property="article:published_time" content="' . $published_time . '" />' . "\n";
 		$this->assertTrue( self::$class_instance->publish_date() );
 		$this->expectOutput( $published_output );
 
 		// modify post time
 		global $post;
-		$post = get_post( $post_id );
+		$post                    = get_post( $post_id );
 		$post->post_modified     = gmdate( 'Y-m-d H:i:s', time() + 1 );
 		$post->post_modified_gmt = gmdate( 'Y-m-d H:i:s', ( time() + 1 + ( get_option( 'gmt_offset' ) * HOUR_IN_SECONDS ) ) );
 
 		// test modified tags output
-		$modified_time = get_the_modified_date( 'c' );
+		$modified_time   = get_the_modified_date( 'c' );
 		$modified_output = '<meta property="article:modified_time" content="' . $modified_time . '" />' . "\n" . '<meta property="og:updated_time" content="' . $modified_time . '" />' . "\n";
 		$this->assertTrue( self::$class_instance->publish_date() );
 		$this->expectOutput( $published_output . $modified_output );

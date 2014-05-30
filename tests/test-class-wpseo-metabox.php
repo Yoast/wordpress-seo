@@ -57,7 +57,8 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 	public function test_column_heading_is_hooked() {
 
 		self::$class_instance->setup_page_analysis();
-		$hooked = !! has_filter( 'manage_post_posts_columns', array( self::$class_instance, 'column_heading') );
+		// @todo -> is this double ! correct ?
+		$hooked = !! has_filter( 'manage_post_posts_columns', array( self::$class_instance, 'column_heading' ) );
 
 		$this->assertTrue( $hooked );
 	}
@@ -103,7 +104,7 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 		$post_types = get_post_types( array( 'public' => true ) );
 
 		// test if all post types have the wpseo_meta metabox
-		foreach( $post_types as $post_type) {
+		foreach ( $post_types as $post_type ) {
 			$this->assertArrayHasKey( 'wpseo_meta', $wp_meta_boxes[$post_type]['normal']['high'] );
 		}
 	}
@@ -128,15 +129,14 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 		);
 
 		// set $_POST data to be saved
-		foreach( $meta_fields as $key => $field ) {
+		foreach ( $meta_fields as $key => $field ) {
 
 			// set text fields
-			if( $field['type'] === 'text' ) {
+			if ( $field['type'] === 'text' ) {
 				$_POST[ WPSEO_Metabox::$form_prefix . $key ] = 'text';
-			} elseif( $field['type'] === 'checkbox' ) {
+			} elseif ( $field['type'] === 'checkbox' ) {
 				$_POST[ WPSEO_Metabox::$form_prefix . $key ] = 'on';
 			}
-
 		}
 
 		// call method that saves the $_POST data
@@ -144,21 +144,20 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 
 		// check if output matches
 		$custom = get_post_custom( $post->ID );
-		foreach( $meta_fields as $key => $field ) {
+		foreach ( $meta_fields as $key => $field ) {
 
-			if( ! isset( $custom[ WPSEO_Metabox::$meta_prefix . $key ][0] ) ) {
+			if ( ! isset( $custom[ WPSEO_Metabox::$meta_prefix . $key ][0] ) ) {
 				continue;
 			}
 
 			$value = $custom[ WPSEO_Metabox::$meta_prefix . $key ][0];
 
 			// set text fields
-			if( $field['type'] === 'text' ) {
+			if ( $field['type'] === 'text' ) {
 				$this->assertNotEmpty( $value );
-			} elseif( $field['type'] === 'checkbox' ) {
-				$this->assertEquals( $value, 'on');
+			} elseif ( $field['type'] === 'checkbox' ) {
+				$this->assertEquals( $value, 'on' );
 			}
-
 		}
 	}
 

@@ -63,12 +63,12 @@ class WPSEO_Rewrite_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Rewrite::query_vars
 	 */
 	public function test_query_vars() {
-		$this->assertEquals( array( ), self::$class_instance->query_vars( array( ) ) );
+		$this->assertEquals( array(), self::$class_instance->query_vars( array() ) );
 
 		$options                      = WPSEO_Options::get_all();
 		$options['stripcategorybase'] = true;
 		update_option( WPSEO_Option_Permalinks::get_instance()->option_name, $options );
-		$this->assertEquals( array( 'wpseo_category_redirect' ), self::$class_instance->query_vars( array( ) ) );
+		$this->assertEquals( array( 'wpseo_category_redirect' ), self::$class_instance->query_vars( array() ) );
 	}
 
 	/**
@@ -87,22 +87,22 @@ class WPSEO_Rewrite_Test extends WPSEO_UnitTestCase {
 
 		$categories = get_categories( array( 'hide_empty' => false ) );
 
-		if( false == is_multisite() ) {
+		if ( false == is_multisite() ) {
 			$expected = array(
 				'(uncategorized)/(?:feed/)?(feed|rdf|rss|rss2|atom)/?$' => 'index.php?category_name=$matches[1]&feed=$matches[2]',
 				'(uncategorized)/page/?([0-9]{1,})/?$' => 'index.php?category_name=$matches[1]&paged=$matches[2]',
 				'(uncategorized)/?$' => 'index.php?category_name=$matches[1]',
-				'$' => 'index.php?wpseo_category_redirect=$matches[1]'
+				'$' => 'index.php?wpseo_category_redirect=$matches[1]',
 			);
 		} else {
 			$expected = array(
 				'blog/(uncategorized)/(?:feed/)?(feed|rdf|rss|rss2|atom)/?$' => 'index.php?category_name=$matches[1]&feed=$matches[2]',
 				'blog/(uncategorized)/page/?([0-9]{1,})/?$' => 'index.php?category_name=$matches[1]&paged=$matches[2]',
-				'blog/(uncategorized)/?$' => 'index.php?category_name=$matches[1]'
+				'blog/(uncategorized)/?$' => 'index.php?category_name=$matches[1]',
 			);
 
 			global $wp_rewrite;
-			$old_base                    = trim( str_replace( '%category%', '(.+)', $wp_rewrite->get_category_permastruct() ), '/' );
+			$old_base = trim( str_replace( '%category%', '(.+)', $wp_rewrite->get_category_permastruct() ), '/' );
 
 			$expected[ $old_base . '$' ] = 'index.php?wpseo_category_redirect=$matches[1]';
 		}

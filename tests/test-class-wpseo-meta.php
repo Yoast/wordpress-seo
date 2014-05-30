@@ -10,7 +10,7 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 		$post_id = $this->factory->post->create();
 		$this->go_to( get_permalink( $post_id ) );
 
-		WPSEO_Meta::set_value('test_set_value_key', 'test_set_value_value', $post_id );
+		WPSEO_Meta::set_value( 'test_set_value_key', 'test_set_value_value', $post_id );
 		$this->assertEquals( 'test_set_value_value', get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'test_set_value_key', true ) );
 	}
 
@@ -25,7 +25,7 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 
 		update_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'test_get_value_key', 'test_get_value_value' );
 
-		$this->assertEquals( 'test_get_value_value', WPSEO_Meta::get_value('test_get_value_key') );
+		$this->assertEquals( 'test_get_value_value', WPSEO_Meta::get_value( 'test_get_value_key' ) );
 
 		// TODO test for defaults
 
@@ -49,7 +49,7 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 
 		// default post meta should not be saved
 		$meta_value = get_post_meta( $post_id, $key, true );
-		$this->assertEquals('', $meta_value );
+		$this->assertEquals( '', $meta_value );
 	}
 
 	/**
@@ -77,7 +77,7 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 	* @covers WPSEO_Meta::meta_value_is_default
 	*/
 	public function test_meta_value_is_default() {
-		$meta_key = WPSEO_Meta::$meta_prefix . 'sitemap-html-include';
+		$meta_key   = WPSEO_Meta::$meta_prefix . 'sitemap-html-include';
 		$meta_value = WPSEO_Meta::$defaults[ $meta_key ];
 
 		$this->assertTrue( WPSEO_Meta::meta_value_is_default( $meta_key, $meta_value ) );
@@ -92,18 +92,18 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 
 		$inputArray1 = array(
 			'one' => array(
-				'one-one' => array()
-			)
+				'one-one' => array(),
+			),
 		);
 
 		$inputArray2 = array(
 			'one' => array(
-				'one-one' => 'string'
-			)
+				'one-one' => 'string',
+			),
 		);
 
 		$output = WPSEO_Meta::array_merge_recursive_distinct( $inputArray1, $inputArray2 );
-		$this->assertEquals( $output['one']['one-one'], 'string');
+		$this->assertEquals( $output['one']['one-one'], 'string' );
 	}
 
 	/**

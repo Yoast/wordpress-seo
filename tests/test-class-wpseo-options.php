@@ -8,7 +8,7 @@ class WPSEO_Option_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_grant_access() {
 
-		if( is_multisite() ) {
+		if ( is_multisite() ) {
 			// should be true when not running multisite
 			$this->assertTrue( WPSEO_Options::grant_access() );
 			return; // stop testing, not multisite
