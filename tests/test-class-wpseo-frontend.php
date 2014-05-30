@@ -396,31 +396,31 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		// test noindex
 		WPSEO_Meta::set_value( 'meta-robots-noindex', '1', $post_id );
 		$expected['index'] = 'noindex';
-		$this->assertEquals( $expected, self::$class_instance->robots_for_single_post( $robots, $this->post_id ) );
+		$this->assertEquals( $expected, self::$class_instance->robots_for_single_post( $robots, $post_id ) );
 
 		// test nofollow
 		WPSEO_Meta::set_value( 'meta-robots-nofollow', 1, $post_id );
 		$expected['follow'] = 'nofollow';
-		$this->assertEquals( $expected, self::$class_instance->robots_for_single_post( $robots, $this->post_id ) );
+		$this->assertEquals( $expected, self::$class_instance->robots_for_single_post( $robots, $post_id ) );
 
 		// test noodp with default meta-robots-adv
 		self::$class_instance->options['noodp'] = true;
 		$expected['other'] = array( 'noodp' );
-		$this->assertEquals( $expected, self::$class_instance->robots_for_single_post( $robots, $this->post_id ) );
+		$this->assertEquals( $expected, self::$class_instance->robots_for_single_post( $robots, $post_id ) );
 
 		// test noydir with default meta-robots-adv
 		self::$class_instance->options['noydir'] = true;
 		$expected['other'] = array( 'noodp', 'noydir' );
-		$this->assertEquals( $expected, self::$class_instance->robots_for_single_post( $robots, $this->post_id ) );
+		$this->assertEquals( $expected, self::$class_instance->robots_for_single_post( $robots, $post_id ) );
 
 		// test meta-robots adv noodp and nosnippet
 		WPSEO_Meta::set_value( 'meta-robots-adv', 'noodp,nosnippet', $post_id );
 		$expected['other'] = array( 'noodp', 'nosnippet' );
-		$this->assertEquals( $expected, self::$class_instance->robots_for_single_post( $robots, $this->post_id ) );
+		$this->assertEquals( $expected, self::$class_instance->robots_for_single_post( $robots, $post_id ) );
 
 		WPSEO_Meta::set_value( 'meta-robots-noindex', '2', $post_id );
 		$expected['index'] = 'index';
-		$this->assertEquals( $expected, self::$class_instance->robots_for_single_post( $robots, $this->post_id ) );
+		$this->assertEquals( $expected, self::$class_instance->robots_for_single_post( $robots, $post_id ) );
 	}
 
 	/**
@@ -715,7 +715,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		$c = self::$class_instance;
 
 		// test requests to the robots file
-		$this->go_to( add_query_arg( array( 'robots' => 1 ), home_url() ) );
+		$this->go_to( add_query_arg( array( 'robots' => 1 ), home_url( '/' ) ) );
 		$this->assertFalse( $c->clean_permalink() );
 
 		// test requests to the sitemap
@@ -735,13 +735,14 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 
 		// create and go to post
 		$post_id = $this->factory->post->create();
+		$post    = $this->factory->post->get_object_by_id( $post_id );
 		$this->go_to( get_permalink( $post_id ) );
 
 		// input
 		$text = 'Some text with some RSS Variables. Written by %%AUTHORLINK%%, the post is %%POSTLINK%% on the blog %%BLOGLINK%%. %%BLOGDESCLINK%%.';
 
 		// generate expected output
-		$author_link = '<a rel="nofollow" rel="author" href="' . esc_url( get_author_posts_url( $this->post->post_author ) ) . '">' . get_the_author() . '</a>';
+		$author_link = '<a rel="nofollow" rel="author" href="' . esc_url( get_author_posts_url( $post->post_author ) ) . '">' . get_the_author() . '</a>';
 		$post_link = '<a rel="nofollow" href="' . esc_url( get_permalink() ) . '">' . get_the_title() . '</a>';
 		$blog_link = '<a rel="nofollow" href="' . esc_url( get_bloginfo( 'url' ) ) . '">' . get_bloginfo( 'name' ) . '</a>';
 		$blog_desc_link = '<a rel="nofollow" href="' . esc_url( get_bloginfo( 'url' ) ) . '">' . get_bloginfo( 'name' ) . ' - ' . get_bloginfo( 'description' ) . '</a>';
