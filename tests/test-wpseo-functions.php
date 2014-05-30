@@ -42,7 +42,7 @@ class WPSEO_Functions_Test extends WPSEO_UnitTestCase {
 		);
 
 		// get post
-		$post = $this->factory->post->get_object_by_id( $post_id );
+		$post = get_post( $post_id );
 
 		$input    = '%%title%% %%excerpt%% %%date%% %%name%%';
 		$expected = 'Post_Title Post_Excerpt '. mysql2date( get_option( 'date_format' ), $post->post_date , true ) . ' User_Nicename';

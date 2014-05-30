@@ -735,13 +735,13 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 
 		// create and go to post
 		$post_id = $this->factory->post->create();
-		$post    = $this->factory->post->get_object_by_id( $post_id );
 		$this->go_to( get_permalink( $post_id ) );
 
 		// input
 		$text = 'Some text with some RSS Variables. Written by %%AUTHORLINK%%, the post is %%POSTLINK%% on the blog %%BLOGLINK%%. %%BLOGDESCLINK%%.';
 
 		// generate expected output
+		$post           = get_post( $post_id );
 		$author_link    = '<a rel="nofollow" rel="author" href="' . esc_url( get_author_posts_url( $post->post_author ) ) . '">' . get_the_author() . '</a>';
 		$post_link      = '<a rel="nofollow" href="' . esc_url( get_permalink() ) . '">' . get_the_title() . '</a>';
 		$blog_link      = '<a rel="nofollow" href="' . esc_url( get_bloginfo( 'url' ) ) . '">' . get_bloginfo( 'name' ) . '</a>';
