@@ -408,13 +408,9 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		 * @return string
 		 */
 		private function retrieve_sep() {
-			static $replacement;
-
-			if ( ! isset( $replacement ) ) {
-				$replacement = '-';
-				if ( isset( $GLOBALS['sep'] ) && is_string( $GLOBALS['sep'] ) && $GLOBALS['sep'] !== '' ) {
-					$replacement = $GLOBALS['sep'];
-				}
+			$replacement = '-';
+			if ( isset( $GLOBALS['sep'] ) && is_string( $GLOBALS['sep'] ) && $GLOBALS['sep'] !== '' ) {
+				$replacement = $GLOBALS['sep'];
 			}
 
 			return $replacement;
@@ -959,7 +955,13 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 			else {
 				$error_request = get_query_var( 'pagename' );
 				if ( $error_request !== '' ) {
-					$replacement = sanitize_text_field( $error_request );
+					$replacement = sanitize_text_field( str_replace( '-', ' ', $error_request ) );
+				}
+				else {
+					$error_request = get_query_var( 'name' );
+					if ( $error_request !== '' ) {
+						$replacement = sanitize_text_field( str_replace( '-', ' ', $error_request ) );
+					}
 				}
 			}
 
