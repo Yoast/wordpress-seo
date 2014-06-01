@@ -63,7 +63,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 			add_filter( 'thematic_doctitle', array( $this, 'title' ), 15 );
 
 			add_action( 'wp', array( $this, 'page_redirect' ), 99 );
-			add_action( 'wp', array( $this, 'pagination_overflow_redirect' ), 99 );
+			add_action( 'get_header', array( $this, 'pagination_overflow_redirect' ), 99 );
 
 			add_action( 'template_redirect', array( $this, 'noindex_feed' ) );
 
