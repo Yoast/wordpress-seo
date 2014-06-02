@@ -114,6 +114,7 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 * Enhancements
 	* We've added some options and some host specific info to our tracking class. Most notably, we're tracking the PHP version for our users now, so we can see whether we, at some point, might drop PHP 5.2 support before WordPress does.
 	* Auto-deactivate plugin in the rare case that the SPL (Standard PHP Library) extension is not available.
+	* Switch from inline `xmlns` to inline use of the `prefix` attribute for breadcrumbs as that makes validation work. Fixes [Issue 1186]((https://github.com/Yoast/wordpress-seo/issues/1186).
 
 * Bugfixes
 	* Check whether snippet preview is shown on page before hiding / showing errors, deducted from [#1178](https://github.com/Yoast/wordpress-seo/issues/1178)
