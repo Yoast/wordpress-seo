@@ -1,3 +1,17 @@
+### 1.2.0: June 3rd, 2014
+* The redirect type (HTTP code) can now set per redirect.
+* Redirects can now be imported from the .htaccess file.
+* Redirects can now be written to the .htaccess file.
+* A redirect is automatically added when a post slug change.
+* The possibility to add a redirect is offered when a post is deleted.
+* A redirect is automatically added when a category/term slug change.
+* The possibility to add a redirect is offered when a category/term is deleted.
+* Added support to redirect URL's with special characters.
+* Response code of redirects is now checked while adding redirects to avoid incorrect redirects.
+* Created a Yoast overlay for a more user friendly way of displaying errors.
+* Implemented autoloader to enhance plugin performance.
+* Updated WordPress SEO core to 1.5.3.3.
+
 ### 1.1.3: May 22nd, 2014
 * Updated WordPress SEO core to 1.5.3.2
 
