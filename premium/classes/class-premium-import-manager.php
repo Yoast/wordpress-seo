@@ -112,8 +112,8 @@ class WPSEO_Premium_Import_Manager {
 
 			// Regexpressions
 			$regex_patterns = array(
-				'url'   => "`[^# ]Redirect [0-9]+ ([^\s]+) ([^\s]+)`i",
-				'regex' => "`[^# ](?:RewriteRule|RedirectMatch) ([^\s]+) ([^\s]+)`i"
+				'url'   => "`[^# ]Redirect ([0-9]+) ([^\s]+) ([^\s]+)`i",
+				'regex' => "`[^# ]RedirectMatch ([0-9]+) ([^\s]+) ([^\s]+)`i"
 			);
 
 			// Create redirect manager objects
@@ -134,23 +134,27 @@ class WPSEO_Premium_Import_Manager {
 						for ( $i = 0; $i < count( $redirects[1] ); $i ++ ) {
 
 							// Get source && target
-							$source = trim( $redirects[1][ $i ] );
-							$target = trim( $redirects[2][ $i ] );
+							$type   = trim( $redirects[1][ $i ] );
+							$source = trim( $redirects[2][ $i ] );
+							$target = trim( $redirects[3][ $i ] );
 
 							// Check if both source and target are not empty
 							if ( '' != $source && '' != $target ) {
 
 								// Check redirect type
 								if ( 'regex' == $regex_type ) {
-									$regex_redirection_manager->create_redirect( $source, $target, 301 );
+									$regex_redirection_manager->create_redirect( $source, $target, $type );
 								} else {
-									$url_redirection_manager->create_redirect( $source, $target, 301 );
+									$url_redirection_manager->create_redirect( $source, $target, $type );
 								}
 
 								$redirects_imported = true;
 
+								// Trim the original redirect
+								$original_redirect = trim( $redirects[0][ $i ] );
+
 								// Comment out added redirect in our new .htaccess file
-								$new_htaccess = str_ireplace( $redirects[0][ $i ], '#' . $redirects[0][ $i ], $new_htaccess );
+								$new_htaccess = str_ireplace( $original_redirect, '#' . $original_redirect, $new_htaccess );
 
 							}
 						}
