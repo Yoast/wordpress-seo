@@ -105,7 +105,7 @@ class WPSEO_Premium_Import_Manager {
 		if ( isset( $_POST['htaccess'] ) ) {
 
 			// The htaccess post
-			$htaccess = $_POST['htaccess'];
+			$htaccess = stripcslashes($_POST['htaccess']);
 
 			// The new .htaccess file
 			$new_htaccess = $htaccess;
