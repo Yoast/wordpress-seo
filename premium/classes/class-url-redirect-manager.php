@@ -19,8 +19,12 @@ class WPSEO_URL_Redirect_Manager extends WPSEO_Redirect_Manager {
 
 		// Do the actual redirect
 		if ( count( $redirects ) > 0 ) {
-			if ( isset ( $redirects[$_SERVER['REQUEST_URI']] ) ) {
-				wp_redirect( $redirects[$_SERVER['REQUEST_URI']]['url'], $redirects[$_SERVER['REQUEST_URI']]['type'] );
+
+			// Decode the URL
+			$url = urldecode( $_SERVER['REQUEST_URI'] );
+
+			if ( isset ( $redirects[$url] ) ) {
+				wp_redirect( $redirects[$url]['url'], $redirects[$url]['type'] );
 				exit;
 			}
 		}
