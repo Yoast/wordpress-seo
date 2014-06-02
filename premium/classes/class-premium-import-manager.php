@@ -59,10 +59,8 @@ class WPSEO_Premium_Import_Manager {
 
 	/**
 	 * Do redirection(http://wordpress.org/plugins/redirection/) import.
-	 * We're not importing regex redirects at the moment because we don't support them yet.
 	 */
 	private function redirection_import() {
-		global $wp_filesystem;
 
 		if ( isset( $_POST['wpseo']['import_redirection'] ) ) {
 			global $wpdb;
@@ -101,6 +99,14 @@ class WPSEO_Premium_Import_Manager {
 			}
 
 		}
+
+	}
+
+	/**
+	 * Do .htaccess file import.
+	 */
+	private function htaccess_import() {
+		global $wp_filesystem;
 
 		if ( isset( $_POST['htaccess'] ) ) {
 
@@ -205,6 +211,7 @@ class WPSEO_Premium_Import_Manager {
 	 */
 	public function do_premium_imports() {
 		$this->redirection_import();
+		$this->htaccess_import();
 	}
 
 	/**
