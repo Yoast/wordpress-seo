@@ -110,6 +110,7 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 == Changelog ==
 
 = 1.5.3.3 =
+Release Date: June 2nd, 2014
 
 * Enhancements
 	* We've added some options and some host specific info to our tracking class. Most notably, we're tracking the PHP version for our users now, so we can see whether we, at some point, might drop PHP 5.2 support before WordPress does.
