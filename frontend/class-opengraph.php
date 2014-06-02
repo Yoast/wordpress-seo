@@ -227,7 +227,7 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 				}
 			}
 
-			if( $echo === false ) {
+			if ( $echo === false ) {
 				return $title; 
 			} 
 

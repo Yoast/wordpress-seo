@@ -242,6 +242,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			if ( self::get_value( 'meta-robots-noindex' ) === '1' ) {
 				$score_label = 'noindex';
 				$title       = __( 'Post is set to noindex.', 'wordpress-seo' );
+				$score_title = $title;
 			} else {
 				$score = self::get_value( 'linkdex' );
 				if ( $score !== '' ) {
@@ -709,7 +710,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			if ( $pagenow == 'edit.php' ) {
 				wp_enqueue_style( 'edit-page', plugins_url( 'css/edit-page' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
 			} else {
-				wp_enqueue_media(); // enqueue files needed for upload functionality
+				wp_enqueue_media( array( 'post' => get_queried_object_id() ) ); // enqueue files needed for upload functionality
 				wp_enqueue_style( 'metabox-tabs', plugins_url( 'css/metabox-tabs' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
 				wp_enqueue_style( "metabox-$color", plugins_url( 'css/metabox-' . esc_attr( $color ) . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
 
@@ -1262,7 +1263,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		 * @return	array
 		 */
 		function get_sample_permalink( $post ) {
-			if( ! function_exists( 'get_sample_permalink' ) ) {
+			if ( ! function_exists( 'get_sample_permalink' ) ) {
 				// Front-end post update
 				include_once( ABSPATH . 'wp-admin/includes/post.php' );
 			}

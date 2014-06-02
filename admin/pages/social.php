@@ -36,7 +36,7 @@ if ( isset( $_GET['delfbadmin'] ) ) {
 	unset( $id );
 	
 	// Clean up the referrer url for later use
-	if( isset( $_SERVER['REQUEST_URI'] ) ) {
+	if ( isset( $_SERVER['REQUEST_URI'] ) ) {
 		$_SERVER['REQUEST_URI'] = remove_query_arg( array( 'nonce', 'delfbadmin' ), $_SERVER['REQUEST_URI'] );
 	}
 }
@@ -53,7 +53,7 @@ elseif ( isset( $_GET['fbclearall'] ) ) {
 	add_settings_error( 'yoast_wpseo_social_options', 'success', __( 'Successfully cleared all Facebook Data', 'wordpress-seo' ), 'updated' );
 	
 	// Clean up the referrer url for later use
-	if( isset( $_SERVER['REQUEST_URI'] ) ) {
+	if ( isset( $_SERVER['REQUEST_URI'] ) ) {
 		$_SERVER['REQUEST_URI'] = remove_query_arg( array( 'nonce', 'fbclearall' ), $_SERVER['REQUEST_URI'] );
 	}
 }
@@ -91,7 +91,7 @@ elseif ( isset( $_GET['key'] ) ) {
 	}
 	
 	// Clean up the referrer url for later use
-	if( isset( $_SERVER['REQUEST_URI'] ) ) {
+	if ( isset( $_SERVER['REQUEST_URI'] ) ) {
 		$_SERVER['REQUEST_URI'] = remove_query_arg( array( 'key', 'userid', 'userrealname', 'link', 'apps' ), $_SERVER['REQUEST_URI'] );
 	}
 }
@@ -182,7 +182,7 @@ $wpseo_admin_pages->admin_header( true, WPSEO_Options::get_group_name( 'wpseo_so
 		echo'<p class="desc">' . __( 'Add Open Graph meta data to your site\'s <code>&lt;head&gt;</code> section. You can specify some of the ID\'s that are sometimes needed below:', 'wordpress-seo' ) . '</p>';
 		echo $fbconnect;
 		echo $wpseo_admin_pages->textinput( 'facebook_site', __( 'Facebook Page URL', 'wordpress-seo' ) );
-		if( 'page' != get_option( 'show_on_front' ) ) {
+		if ( 'page' != get_option( 'show_on_front' ) ) {
 			echo '<h4>' . __( 'Frontpage settings', 'wordpress-seo' ) . '</h4>';
 			echo $wpseo_admin_pages->textinput( 'og_frontpage_image', __( 'Image URL', 'wordpress-seo' ) );
 			echo $wpseo_admin_pages->textinput( 'og_frontpage_desc', __( 'Description', 'wordpress-seo' ) );
