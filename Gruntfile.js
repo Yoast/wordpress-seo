@@ -74,7 +74,7 @@ module.exports = function(grunt) {
             php: {
                 files: {
                     src: [
-                        '**/*.php'
+                        '*php', '**/*.php', '!admin/license-manager/**'
                     ]
                 }
             }
