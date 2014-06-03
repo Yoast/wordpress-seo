@@ -206,7 +206,7 @@ class WPSEO_Page_Redirect {
 					$wpseo_admin_pages->currentoption = 'wpseo_redirect';
 
 					echo $wpseo_admin_pages->checkbox( 'disable_php_redirect', __( 'Disable PHP redirects', 'wordpress-seo' ) );
-					echo '<p class="desc">' . __( "WordPress SEO will generates redirect files that can be included in your website configuration, you can disable PHP redirect if this is done correctly. Only check this option if you know what your doing!", 'wordpress-seo' ) . '</p>';
+					echo '<p class="desc">' . __( "WordPress SEO will generate redirect files that can be included in your website configuration, you can disable PHP redirect if this is done correctly. Only check this option if you know what your doing!", 'wordpress-seo' ) . '</p>';
 
 					if ( wpseo_is_apache() ) {
 						echo $wpseo_admin_pages->checkbox( 'separate_file', __( 'Generate a separate redirect file', 'wordpress-seo' ) );
