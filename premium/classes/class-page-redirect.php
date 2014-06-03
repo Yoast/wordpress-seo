@@ -58,8 +58,8 @@ class WPSEO_Page_Redirect {
 
 				// Loop through the redirect types
 				if ( count( $redirect_types ) > 0 ) {
-					foreach ( $redirect_types as $type ) {
-						echo "<option value='" . $type . "'>" . $type . "</option>" . PHP_EOL;
+					foreach ( $redirect_types as $type => $desc ) {
+						echo "<option value='" . $type . "'>" . $desc . "</option>" . PHP_EOL;
 					}
 
 				}

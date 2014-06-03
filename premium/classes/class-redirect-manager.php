@@ -26,7 +26,12 @@ abstract class WPSEO_Redirect_Manager {
 	}
 
 	public static function get_redirect_types() {
-		return apply_filters( 'wpseo_premium_redirect_types', array( '301', '302', '307' ) );
+		$redirect_types = array(
+			'301' => '301 Moved Permanently',
+			'302' => '302 Found',
+			'307' => '307 Temporary Redirect'
+		);
+		return apply_filters( 'wpseo_premium_redirect_types', $redirect_types );
 	}
 
 	/**
