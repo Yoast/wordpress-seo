@@ -146,19 +146,13 @@ class WPSEO_Premium {
 			// Crawl Issue Manager AJAX hooks
 			$crawl_issue_manager = new WPSEO_Crawl_Issue_Manager();
 			add_action( 'wp_ajax_wpseo_ignore_crawl_issue', array( $crawl_issue_manager, 'ajax_ignore_crawl_issue' ) );
-			add_action( 'wp_ajax_wpseo_unignore_crawl_issue', array(
-				$crawl_issue_manager,
-				'ajax_unignore_crawl_issue'
-			) );
+			add_action( 'wp_ajax_wpseo_unignore_crawl_issue', array( $crawl_issue_manager, 'ajax_unignore_crawl_issue' ) );
 
 			// Add Premium imports
 			$premium_import_manager = new WPSEO_Premium_Import_Manager();
 
 			// Allow option of importing from other 'other' plugins
-			add_filter( 'wpseo_import_other_plugins', array(
-				$premium_import_manager,
-				'filter_add_premium_import_options'
-			) );
+			add_filter( 'wpseo_import_other_plugins', array( $premium_import_manager, 'filter_add_premium_import_options' ) );
 
 			// Handle premium imports
 			add_action( 'wpseo_handle_import', array( $premium_import_manager, 'do_premium_imports' ) );
