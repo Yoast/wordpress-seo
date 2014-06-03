@@ -278,10 +278,9 @@
 
 		};
 
-
 		this.create_redirect_row = function (old_url, new_url, redirect_type) {
 			var tr = $('<tr>').append(
-					$('<td>').append(
+					$('<th>').addClass('check-column').attr('role', 'row').append(
 							$('<input>').attr('type', 'checkbox').val(old_url)
 					)
 			).append(
@@ -304,7 +303,7 @@
 					)
 			).append(
 					$('<td>').append(
-							$('<div>').addClass('val').html(redirect_type)
+							$('<div>').addClass('val type').html(redirect_type)
 					)
 			);
 
