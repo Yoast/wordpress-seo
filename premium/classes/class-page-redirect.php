@@ -205,12 +205,18 @@ class WPSEO_Page_Redirect {
 					settings_fields( 'yoast_wpseo_redirect_options' );
 					$wpseo_admin_pages->currentoption = 'wpseo_redirect';
 
-					echo $wpseo_admin_pages->checkbox( 'disable_php_redirect', __( 'Disable PHP redirects', 'wordpress-seo' ) );
-					echo '<p class="desc">' . __( "WordPress SEO will generate redirect files that can be included in your website configuration, you can disable PHP redirect if this is done correctly. Only check this option if you know what your doing!", 'wordpress-seo' ) . '</p>';
+
 
 					if ( wpseo_is_apache() ) {
+
+						echo $wpseo_admin_pages->checkbox( 'disable_php_redirect', __( 'Disable PHP redirects', 'wordpress-seo' ) );
+						echo '<p class="desc">' . __( "Write redirects to the .htaccess file. Make sure the .htaccess file is writable!", 'wordpress-seo' ) . '</p>';
+
 						echo $wpseo_admin_pages->checkbox( 'separate_file', __( 'Generate a separate redirect file', 'wordpress-seo' ) );
-						echo '<p class="desc">' . __( "By default we write the redirects to your .htaccess file, check this if you want a the redirects written to a separate file.", 'wordpress-seo' ) . '</p>';
+						echo '<p class="desc">' . __( "By default we write the redirects to your .htaccess file, check this if you want a the redirects written to a separate file. Only check this option if you know what your doing!", 'wordpress-seo' ) . '</p>';
+					}else {
+						echo $wpseo_admin_pages->checkbox( 'disable_php_redirect', __( 'Disable PHP redirects', 'wordpress-seo' ) );
+						echo '<p class="desc">' . __( "WordPress SEO will generate redirect files that can be included in your website configuration, you can disable PHP redirect if this is done correctly. Only check this option if you know what your doing!", 'wordpress-seo' ) . '</p>';
 					}
 
 					?>
