@@ -12,6 +12,24 @@ module.exports = function(grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
 
+        // Watch source files
+        watch: {
+            gruntfile: {
+                files: ['Gruntfile.js'],
+                tasks: ['jshint:grunt', 'jsvalidate', 'jscs']
+            },
+            php: {
+                files: ['**/*.php', '*/*.php'],
+                tasks: ['phplint']
+            },
+            js: {
+                files: [
+                    'js/*.js'
+                ],
+                tasks: ['build:js', 'jshint', 'jsvalidate', 'jscs']
+            }
+        },
+
         // JavaScript
 
         // Lint JS code practices
@@ -63,6 +81,40 @@ module.exports = function(grunt) {
                         'Gruntfile.js'
                     ]
                 }
+            }
+        },
+
+        // PHP
+
+        // Lint .php files for syntax errors
+        phplint: {
+            all: ['**/*.php']
+        },
+
+        // Lint .php files for code standards
+        phpcs: {
+            all: {
+                //adjust these to the folder you do and don't want to be treated
+                dir: ['**/*.php', '!admin/license-manager/**']
+            },
+            options: {
+                standard: 'ruleset.xml',
+                reportFile: 'phpcs.txt',
+                ignoreExitCode: true
+            }
+        },
+
+        // Optimize images to save bytes
+        imagemin: {
+            images: {
+                files: [{
+                    expand: true,
+                    // this would require the addition of a assets folder from which the images are
+                    // processed and put inside the images folder
+                    cwd: 'assets/images/',
+                    src: ['*.*'],
+                    dest: 'images'
+                }]
             }
         },
 
@@ -150,10 +202,6 @@ module.exports = function(grunt) {
 
     grunt.registerTask('default', [
         'build'
-    ]);
-
-    grunt.registerTask('fucking', [
-        'grunt-jsbeautifier'
     ]);
 
 };
