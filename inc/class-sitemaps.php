@@ -320,7 +320,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 					for ( $i = 0; $i < $n; $i ++ ) {
 						$count = ( $n > 1 ) ? $i + 1 : '';
 
-						if ( !is_array( $tax->object_type ) || count( $tax->object_type ) == 0 ) {
+						if ( ! is_array( $tax->object_type ) || count( $tax->object_type ) == 0 ) {
 							continue;
 						}
 
@@ -328,7 +328,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 							$date = $this->get_last_modified( $tax->object_type );
 						} else {
 							$terms = array_splice( $all_taxonomies[ $tax_name ], 0, $steps );
-							if ( !$terms ) {
+							if ( ! $terms ) {
 								continue;
 							}
 
