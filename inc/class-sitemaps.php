@@ -469,7 +469,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 			$where_filter = '';
 			$where_filter = apply_filters( 'wpseo_typecount_where', $where_filter, $post_type );
 
-			$query = $wpdb->prepare( "SELECT COUNT(ID) FROM $wpdb->posts {$join_filter} WHERE post_status IN ('publish','inherit') AND post_password = '' AND post_type = %s " . $where_filter, $post_type );
+			$query = $wpdb->prepare( "SELECT COUNT(ID) FROM $wpdb->posts {$join_filter} WHERE post_status IN ('publish','inherit') AND post_password = '' AND post_author != 0 AND post_date != '0000-00-00 00:00:00' AND post_type = %s " . $where_filter, $post_type );
 
 			$typecount = $wpdb->get_var( $query );
 
@@ -547,6 +547,8 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 							WHERE post_status = '%s'
 							AND	post_password = ''
 							AND post_type = '%s'
+							AND post_author != 0
+							AND post_date != '0000-00-00 00:00:00'
 							{$where_filter}
 							ORDER BY post_modified ASC
 							LIMIT %d OFFSET %d ) o
