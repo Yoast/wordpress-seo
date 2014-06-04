@@ -281,57 +281,62 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 			unset( $post_types, $query, $count, $n, $i, $date );
 
 			// reference taxonomy specific sitemaps
-			$taxonomies = get_taxonomies( array( 'public' => true ) );
+			$taxonomies     = get_taxonomies( array( 'public' => true ), 'objects' );
+			$taxonomy_names = array_keys( $taxonomies );
+
 			if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
-				foreach ( $taxonomies as $tax ) {
+				foreach ( $taxonomy_names as $tax ) {
 					if ( in_array( $tax, array( 'link_category', 'nav_menu', 'post_format' ) ) ) {
-						unset( $taxonomies[$tax] );
+						unset( $taxonomy_names[ $tax ], $taxonomies[ $tax ] );
 						continue;
 					}
 
 					if ( apply_filters( 'wpseo_sitemap_exclude_taxonomy', false, $tax ) ) {
-						unset( $taxonomies[$tax] );
+						unset( $taxonomy_names[ $tax ], $taxonomies[ $tax ] );
 						continue;
 					}
 
-					if ( isset( $this->options['taxonomies-' . $tax . '-not_in_sitemap'] ) && $this->options['taxonomies-' . $tax . '-not_in_sitemap'] === true ) {
-						unset( $taxonomies[$tax] );
+					if ( isset( $this->options[ 'taxonomies-' . $tax . '-not_in_sitemap' ] ) && $this->options[ 'taxonomies-' . $tax . '-not_in_sitemap' ] === true ) {
+						unset( $taxonomy_names[ $tax ], $taxonomies[ $tax ] );
 						continue;
 					}
 				}
 
 				// Retrieve all the taxonomies and their terms so we can do a proper count on them.
-				$query              = "SELECT taxonomy, term_id FROM $wpdb->term_taxonomy WHERE count != 0 AND taxonomy IN ('" . implode( "','", $taxonomies ) . "');";
+				$query              = "SELECT taxonomy, term_id FROM $wpdb->term_taxonomy WHERE count != 0 AND taxonomy IN ('" . implode( "','", $taxonomy_names ) . "');";
 				$all_taxonomy_terms = $wpdb->get_results( $query );
 				$all_taxonomies     = array();
 				foreach ( $all_taxonomy_terms as $obj ) {
-					$all_taxonomies[$obj->taxonomy][] = $obj->term_id;
+					$all_taxonomies[ $obj->taxonomy ][] = $obj->term_id;
 				}
 				unset( $all_taxonomy_terms );
 
-				foreach ( $taxonomies as $tax ) {
+				foreach ( $taxonomies as $tax_name => $tax ) {
 
 					$steps = $this->max_entries;
-					$count = ( isset ( $all_taxonomies[$tax] ) ) ? count( $all_taxonomies[$tax] ) : 1;
+					$count = ( isset ( $all_taxonomies[ $tax_name ] ) ) ? count( $all_taxonomies[ $tax_name ] ) : 1;
 					$n     = ( $count > $this->max_entries ) ? (int) ceil( $count / $this->max_entries ) : 1;
 
 					for ( $i = 0; $i < $n; $i ++ ) {
-						$count  = ( $n > 1 ) ? $i + 1 : '';
-						$taxobj = get_taxonomy( $tax );
+						$count = ( $n > 1 ) ? $i + 1 : '';
+
+						if ( !is_array( $tax->object_type ) || count( $tax->object_type ) == 0 ) {
+							continue;
+						}
 
 						if ( ( empty( $count ) || $count == $n ) ) {
-							$date = $this->get_last_modified( $post_type );
+							$date = $this->get_last_modified( $tax->object_type );
 						} else {
-							$terms = array_splice( $all_taxonomies[$tax], 0, $steps );
-							if ( ! $terms ) {
+							$terms = array_splice( $all_taxonomies[ $tax_name ], 0, $steps );
+							if ( !$terms ) {
 								continue;
 							}
 
 							$args  = array(
-								'post_type' => $taxobj->object_type,
+								'post_type' => $tax->object_type,
 								'tax_query' => array(
 									array(
-										'taxonomy' => $tax,
+										'taxonomy' => $tax_name,
 										'field'    => 'slug',
 										'terms'    => $terms,
 									),
@@ -348,13 +353,13 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 						}
 
 						$this->sitemap .= '<sitemap>' . "\n";
-						$this->sitemap .= '<loc>' . home_url( $base . $tax . '-sitemap' . $count . '.xml' ) . '</loc>' . "\n";
+						$this->sitemap .= '<loc>' . home_url( $base . $tax_name . '-sitemap' . $count . '.xml' ) . '</loc>' . "\n";
 						$this->sitemap .= '<lastmod>' . htmlspecialchars( $date ) . '</lastmod>' . "\n";
 						$this->sitemap .= '</sitemap>' . "\n";
 					}
 				}
 			}
-			unset( $taxonomies, $tax, $all_terms, $steps, $count, $n, $i, $taxobj, $date, $terms, $args, $query );
+			unset( $taxonomies, $tax, $all_terms, $steps, $count, $n, $i, $tax_object, $date, $terms, $args, $query );
 
 			if ( $this->options['disable-author'] === false && $this->options['disable_author_sitemap'] === false ) {
 
