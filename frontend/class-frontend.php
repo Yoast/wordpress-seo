@@ -767,7 +767,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 				if ( is_search() ) {
 					$canonical = get_search_link();
 				} elseif ( is_front_page() ) {
-					$canonical = home_url( '/' );
+					$canonical = home_url();
 				} elseif ( $this->is_posts_page() ) {
 					$canonical = get_permalink( get_option( 'page_for_posts' ) );
 				} elseif ( is_tax() || is_tag() || is_category() ) {
