@@ -1,3 +1,7 @@
+### 1.2.1: June 6th, 2014
+* Fixed a REGEX redirect type bug that prevented REGEX redirects from working.
+* Fixed a bug involving the & sign in redirects.
+
 ### 1.2.0: June 3rd, 2014
 * The redirect type (HTTP code) can now set per redirect.
 * Redirects can now be imported from the .htaccess file.
