@@ -23,7 +23,7 @@ if ( ! class_exists( 'Yoast_Tracking' ) ) {
 	class Yoast_Tracking {
 
 		/**
-		 * @var	object	Instance of this class
+		 * @var    object    Instance of this class
 		 */
 		public static $instance;
 
@@ -35,8 +35,7 @@ if ( ! class_exists( 'Yoast_Tracking' ) ) {
 			// Constructor is called from WP SEO
 			if ( current_filter( 'yoast_tracking' ) ) {
 				$this->tracking();
-			}
-			// Backward compatibility - constructor is called from other Yoast plugin
+			} // Backward compatibility - constructor is called from other Yoast plugin
 			elseif ( ! has_action( 'yoast_tracking', array( $this, 'tracking' ) ) ) {
 				add_action( 'yoast_tracking', array( $this, 'tracking' ) );
 			}
@@ -51,6 +50,7 @@ if ( ! class_exists( 'Yoast_Tracking' ) ) {
 			if ( ! ( self::$instance instanceof self ) ) {
 				self::$instance = new self();
 			}
+
 			return self::$instance;
 		}
 
@@ -59,12 +59,16 @@ if ( ! class_exists( 'Yoast_Tracking' ) ) {
 		 */
 		function tracking() {
 
-			$data = get_transient( 'yoast_tracking_cache' );
+			$transient_key = 'yoast_tracking_cache';
+			$data          = get_transient( $transient_key );
 
 			// bail if transient is set and valid
-			if( $data !== false ) {
+			if ( $data !== false ) {
 				return;
 			}
+
+			// Make sure to only send tracking data once a week
+			set_transient( $transient_key, 1, WEEK_IN_SECONDS );
 
 			// Start of Metrics
 			global $blog_id, $wpdb;
@@ -89,8 +93,8 @@ if ( ! class_exists( 'Yoast_Tracking' ) ) {
 
 			$comments_count = wp_count_comments();
 
-			$theme_data = wp_get_theme();
-			$theme      = array(
+			$theme_data     = wp_get_theme();
+			$theme          = array(
 				'name'       => $theme_data->display( 'Name', false, false ),
 				'theme_uri'  => $theme_data->display( 'ThemeURI', false, false ),
 				'version'    => $theme_data->display( 'Version', false, false ),
@@ -106,14 +110,13 @@ if ( ! class_exists( 'Yoast_Tracking' ) ) {
 					'author'     => $theme_data->parent()->display( 'Author', false, false ),
 					'author_uri' => $theme_data->parent()->display( 'AuthorURI', false, false ),
 				);
-			}
-			else {
+			} else {
 				$theme['template'] = '';
 			}
 			unset( $theme_template );
 
 
-			$plugins = array();
+			$plugins       = array();
 			$active_plugin = get_option( 'active_plugins' );
 			foreach ( $active_plugin as $plugin_path ) {
 				if ( ! function_exists( 'get_plugin_data' ) ) {
@@ -154,12 +157,12 @@ if ( ! class_exists( 'Yoast_Tracking' ) ) {
 			);
 
 			$args = array(
-				'body' => $data,
+				'body'      => $data,
+				'blocking'  => false,
+				'sslverify' => false
 			);
-			wp_remote_post( 'https://tracking.yoast.com/', $args );
 
-			// Store for a week, then push data again.
-			set_transient( 'yoast_tracking_cache', true, 60 * 60 * 24 * 7 );
+			wp_remote_post( 'https://tracking.yoast.com/', $args );
 
 		}
 	} /* End of class */
@@ -169,10 +172,16 @@ if ( ! class_exists( 'Yoast_Tracking' ) ) {
  * Adds tracking parameters for WP SEO settings. Outside of the main class as the class could also be in use in other plugins.
  *
  * @param array $options
+ *
  * @return array
  */
 function wpseo_tracking_additions( $options ) {
 	$opt = WPSEO_Options::get_all();
+	if ( function_exists( 'curl_version' ) ) {
+		$curl = curl_version();
+	} else {
+		$curl = NULL;
+	}
 
 	$options['wpseo'] = array(
 		'xml_sitemaps'        => ( $opt['enablexmlsitemap'] === true ) ? 1 : 0,
@@ -181,7 +190,16 @@ function wpseo_tracking_additions( $options ) {
 		'twitter'             => ( $opt['twitter'] === true ) ? 1 : 0,
 		'strip_category_base' => ( $opt['stripcategorybase'] === true ) ? 1 : 0,
 		'on_front'            => get_option( 'show_on_front' ),
+		'php_version'         => phpversion(),
+		'php_curl'            => ( ! is_null( $curl ) ) ? $curl['version'] : 0,
+		'wmt_alexa'           => ( ! empty( $opt['alexaverify'] ) ) ? 1 : 0,
+		'wmt_bing'            => ( ! empty( $opt['msverify'] ) ) ? 1 : 0,
+		'wmt_google'          => ( ! empty( $opt['googleverify'] ) ) ? 1 : 0,
+		'wmt_pinterest'       => ( ! empty( $opt['pinterestverify'] ) ) ? 1 : 0,
+		'wmt_yandex'          => ( ! empty( $opt['yandexverify'] ) ) ? 1 : 0,
+		'permalinks_clean'    => ( $opt['cleanpermalinks'] == 1 ) ? 1 : 0
 	);
+
 	return $options;
 }
 

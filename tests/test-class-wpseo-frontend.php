@@ -452,7 +452,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		// test home page
 		$this->go_to_home();
 
-		$expected = home_url( '/' );
+		$expected = home_url();
 		$this->assertEquals( $expected, self::$class_instance->canonical( false, false, true ) );
 
 		// test search
