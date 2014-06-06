@@ -41,7 +41,10 @@ class WPSEO_REGEX_Redirect_Manager extends WPSEO_Redirect_Manager {
 		if ( count( $redirects ) > 0 ) {
 
 			// Decode the URL
-			$url = urldecode($_SERVER['REQUEST_URI']);
+			$url = htmlspecialchars_decode( urldecode($_SERVER['REQUEST_URI']) );
+
+			var_dump($url);
+			exit;
 
 			foreach ( $redirects as $regex => $redirect ) {
 

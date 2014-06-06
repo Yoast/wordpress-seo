@@ -270,15 +270,15 @@ abstract class WPSEO_Redirect_Manager {
 
 			// Decode old redirect
 			$old_redirect = array(
-				'key'   => urldecode( $_POST['old_redirect']['key'] ),
-				'value' => urldecode( $_POST['old_redirect']['value'] ),
+				'key'   => htmlspecialchars_decode( urldecode( $_POST['old_redirect']['key'] ) ),
+				'value' => htmlspecialchars_decode( urldecode( $_POST['old_redirect']['value'] ) ),
 				'type'  => urldecode( $_POST['old_redirect']['type'] ),
 			);
 
 			// Decode new redirect
 			$new_redirect = array(
-				'key'   => urldecode( $_POST['new_redirect']['key'] ),
-				'value' => urldecode( $_POST['new_redirect']['value'] ),
+				'key'   => htmlspecialchars_decode( urldecode( $_POST['new_redirect']['key'] ) ),
+				'value' => htmlspecialchars_decode( urldecode( $_POST['new_redirect']['value'] ) ),
 				'type'  => urldecode( $_POST['new_redirect']['type'] ),
 			);
 
@@ -308,7 +308,8 @@ abstract class WPSEO_Redirect_Manager {
 
 		// Delete the redirect
 		if ( isset( $_POST['redirect'] ) ) {
-			$redirect = urldecode( $_POST['redirect']['key'] );
+			$redirect = htmlspecialchars_decode( urldecode( $_POST['redirect']['key'] ) );
+
 			$this->delete_redirect( array( $redirect ) );
 		}
 
@@ -334,8 +335,8 @@ abstract class WPSEO_Redirect_Manager {
 
 		// Save the redirect
 		if ( isset( $_POST['old_url'] ) && isset( $_POST['new_url'] ) && isset( $_POST['type'] ) ) {
-			$old_url = urldecode( $_POST['old_url'] );
-			$new_url = urldecode( $_POST['new_url'] );
+			$old_url = htmlspecialchars_decode( urldecode( $_POST['old_url'] ) );
+			$new_url = htmlspecialchars_decode( urldecode( $_POST['new_url'] ) );
 			$type    = $_POST['type'];
 
 			$this->create_redirect( $old_url, $new_url, $type );
