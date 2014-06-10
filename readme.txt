@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: seo, SEO, google, meta, meta description, search engine optimization, xml sitemap, xml sitemaps, google sitemap, sitemap, sitemaps, robots meta, rss, rss footer, yahoo, bing, news sitemaps, XML News Sitemaps, WordPress SEO, WordPress SEO by Yoast, yoast, multisite, canonical, nofollow, noindex, keywords, meta keywords, description, webmaster tools, google webmaster tools, seo pack
 Requires at least: 3.5
 Tested up to: 3.9.1
-Stable tag: 1.5.3.2
+Stable tag: 1.5.3.3
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the WordPress SEO plugin by Yoast.
 
@@ -109,11 +109,13 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 
 == Changelog ==
 
-= Trunk =
+= 1.5.3.3 =
+Release Date: June 2nd, 2014
 
 * Enhancements
 	* We've added some options and some host specific info to our tracking class. Most notably, we're tracking the PHP version for our users now, so we can see whether we, at some point, might drop PHP 5.2 support before WordPress does.
 	* Auto-deactivate plugin in the rare case that the SPL (Standard PHP Library) extension is not available.
+	* Switch from inline `xmlns` to inline use of the `prefix` attribute for breadcrumbs as that makes validation work. Fixes [Issue 1186]((https://github.com/Yoast/wordpress-seo/issues/1186).
 
 * Bugfixes
 	* Check whether snippet preview is shown on page before hiding / showing errors, deducted from [#1178](https://github.com/Yoast/wordpress-seo/issues/1178)
@@ -121,6 +123,7 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 	* Specify post ID when using `wp_enqueue_media()` to set up correctly for the post being edited. [Pull #1165](https://github.com/Yoast/wordpress-seo/pull/1165), props [benhuson](https://github.com/benhuson).
 	* Fixed unreachable filter `wpseo_sitemap_[post_type]_content` as reported in [pull #1163](https://github.com/Yoast/wordpress-seo/pull/1163), also fixes unreachable filter `wpseo_sitemap_author_content`. Props [jakub-klapka](https://github.com/jakub-klapka).
 	* Fixed PHP notice as reported by [maxiwheat](https://github.com/maxiwheat) in [issue #1160](https://github.com/Yoast/wordpress-seo/issues/1160).
+	* Backed out pagination overflow redirect as it's causing too many issues.
 
 * i18n
  	* Make sure extensions menu is fully i18n compatible.

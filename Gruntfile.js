@@ -1,35 +1,207 @@
+/* global require */
 module.exports = function(grunt) {
+    'use strict';
 
-  // Project configuration.
-  grunt.initConfig({
-    pkg: grunt.file.readJSON('package.json'),
-    makepot: {
-           target: {
-               options: {
-                   domainPath: '/languages',
-                   potFilename: 'wordpress-seo.pot',
-                   processPot: function( pot, options ) {
-                                  pot.headers['report-msgid-bugs-to'] = 'http://wordpress.org/support/plugin/wordpress-seo\n';
-                                  pot.headers['plural-forms'] = 'nplurals=2; plural=n != 1;';
-                                  pot.headers['last-translator'] = 'Remkus de Vries <translations@yoast.com>\n';
-                                  pot.headers['language-team'] = 'Yoast Translate <translations@yoast.com>\n';
-                                  pot.headers['x-generator'] = 'CSL v1.x\n';
-                                  pot.headers['x-poedit-basepath'] = '.\n';
-                                  pot.headers['x-poedit-language'] = 'English\n';
-                                  pot.headers['x-poedit-country'] = 'UNITED STATES\n';
-                                  pot.headers['x-poedit-sourcecharset'] = 'utf-8\n';
-                                  pot.headers['x-poedit-keywordslist'] = '__;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;\n';
-                                  pot.headers['x-poedit-bookmarks'] = '\n';
-                                  pot.headers['x-poedit-searchpath-0'] = '.\n';
-                                  pot.headers['x-textdomain-support'] = 'yes\n';
-                                  return pot;
-                               },
-                   type: 'wp-plugin'
-               }
-           }
-       }
-  });
+    require('load-grunt-tasks')(grunt, {
+        pattern: ['grunt-*', 'assemble-less']
+    });
 
-  grunt.loadNpmTasks( 'grunt-wp-i18n' );
+    require('time-grunt')(grunt);
+
+    // Project configuration.
+    grunt.initConfig({
+        pkg: grunt.file.readJSON('package.json'),
+
+        // Watch source files
+        watch: {
+            gruntfile: {
+                files: ['Gruntfile.js'],
+                tasks: ['jshint:grunt', 'jsvalidate', 'jscs']
+            },
+            php: {
+                files: ['**/*.php', '*/*.php'],
+                tasks: ['phplint']
+            },
+            js: {
+                files: [
+                    'js/*.js'
+                ],
+                tasks: ['build:js', 'jshint', 'jsvalidate', 'jscs']
+            }
+        },
+
+        // JavaScript
+
+        // Lint JS code practices
+        jshint: {
+            grunt: {
+                options: {
+                    jshintrc: '.gruntjshintrc'
+                },
+                src: ['Gruntfile.js']
+            }
+        },
+
+        // Lint JS for code standards
+        jscs: {
+            options: {
+                config: '.jscsrc'
+            },
+            all: {
+                files: {
+                    src: [
+                        'Gruntfile.js',
+                        '.gruntjshintrc',
+                        '.jshintrc',
+                        'package.json'
+                    ]
+                }
+            }
+        },
+
+        // Lint JSON files for syntax errors
+        jsonlint: {
+            all: {
+                src: [
+                    '.gruntjshintrc',
+                    '.jshintrc',
+                    'package.json'
+                ]
+            }
+        },
+
+        // Lint .js files for syntax errors
+        jsvalidate: {
+            all: {
+                options: {
+                    verbose: true
+                },
+                files: {
+                    src: [
+                        'Gruntfile.js'
+                    ]
+                }
+            }
+        },
+
+        // PHP
+
+        // Lint .php files for syntax errors
+        phplint: {
+            all: ['**/*.php']
+        },
+
+        // Lint .php files for code standards
+        phpcs: {
+            all: {
+                //adjust these to the folder you do and don't want to be treated
+                dir: ['**/*.php', '!admin/license-manager/**']
+            },
+            options: {
+                standard: 'ruleset.xml',
+                reportFile: 'phpcs.txt',
+                ignoreExitCode: true
+            }
+        },
+
+        // Optimize images to save bytes
+        imagemin: {
+            images: {
+                files: [{
+                    expand: true,
+                    // this would require the addition of a assets folder from which the images are
+                    // processed and put inside the images folder
+                    cwd: 'assets/images/',
+                    src: ['*.*'],
+                    dest: 'images'
+                }]
+            }
+        },
+
+        // I18n
+        addtextdomain: {
+            options: {
+                textdomain: 'wordpress-seo'
+            },
+            php: {
+                files: {
+                    src: [
+                        '*php', '**/*.php', '!admin/license-manager/**'
+                    ]
+                }
+            }
+        },
+
+        checktextdomain: {
+            options: {
+                text_domain: 'wordpress-seo',
+                keywords: [
+                    '__:1,2d',
+                    '_e:1,2d',
+                    '_x:1,2c,3d',
+                    '_ex:1,2c,3d',
+                    '_n:1,2,4d',
+                    '_nx:1,2,4c,5d',
+                    '_n_noop:1,2,3d',
+                    '_nx_noop:1,2,3c,4d',
+                    'esc_attr__:1,2d',
+                    'esc_html__:1,2d',
+                    'esc_attr_e:1,2d',
+                    'esc_html_e:1,2d',
+                    'esc_attr_x:1,2c,3d',
+                    'esc_html_x:1,2c,3d'
+                ]
+            },
+            files: {
+                expand: true,
+                src: [
+                    '**/*.php'
+                ]
+            }
+        },
+
+        makepot: {
+            theme: {
+                options: {
+                    domainPath: '/languages',
+                    potFilename: 'wordpress-seo.pot',
+                    processPot: function(pot) {
+                        pot.headers['report-msgid-bugs-to'] = 'http://wordpress.org/support/plugin/wordpress-seo\n';
+                        pot.headers['plural-forms'] = 'nplurals=2; plural=n != 1;';
+                        pot.headers['last-translator'] = 'Remkus de Vries <translations@yoast.com>\n';
+                        pot.headers['language-team'] = 'Yoast Translate <translations@yoast.com>\n';
+                        pot.headers['x-generator'] = 'grunt-wp-i18n 0.4.4';
+                        pot.headers['x-poedit-basepath'] = '.';
+                        pot.headers['x-poedit-language'] = 'English';
+                        pot.headers['x-poedit-country'] = 'UNITED STATES';
+                        pot.headers['x-poedit-sourcecharset'] = 'utf-8';
+                        pot.headers['x-poedit-keywordslist'] = '__;_e;_x:1,2c;_ex:1,2c;_n:1,2; _nx:1,2,4c;_n_noop:1,2;_nx_noop:1,2,3c;esc_attr__; esc_html__;esc_attr_e; esc_html_e;esc_attr_x:1,2c; esc_html_x:1,2c;';
+                        pot.headers['x-poedit-bookmarks'] = '';
+                        pot.headers['x-poedit-searchpath-0'] = '.';
+                        pot.headers['x-textdomain-support'] = 'yes';
+                        return pot;
+                    },
+                    type: 'wp-plugin'
+                }
+            }
+        }
+
+    });
+
+    grunt.registerTask('check', [
+        'jshint',
+        'jsonlint',
+        'jsvalidate',
+        'checktextdomain'
+    ]);
+
+    grunt.registerTask('build:i18n', [
+        'addtextdomain',
+        'makepot'
+    ]);
+
+    grunt.registerTask('default', [
+        'build'
+    ]);
 
 };
