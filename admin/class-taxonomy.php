@@ -119,10 +119,6 @@ if ( ! class_exists( 'WPSEO_Taxonomy' ) ) {
 			if ( $type == 'text' ) {
 				$field .= '
 				<input name="' . $esc_var . '" id="' . $esc_var . '" type="text" value="' . esc_attr( $val ) . '" size="40"/>';
-				if ( is_string( $desc ) && $desc !== '' ) {
-					$field .= '
-		        <p class="description">' . esc_html( $desc ) . '</p>';
-				}
 			}
 			elseif ( $type == 'checkbox' ) {
 				$field .= '
@@ -142,6 +138,11 @@ if ( ! class_exists( 'WPSEO_Taxonomy' ) ) {
 					$field .= '
 				</select>';
 				}
+			}
+
+			if ( $field !== '' && ( is_string( $desc ) && $desc !== '' ) ) {
+				$field .= '
+	        <p class="description">' . esc_html( $desc ) . '</p>';
 			}
 
 			echo '
@@ -186,6 +187,7 @@ if ( ! class_exists( 'WPSEO_Taxonomy' ) ) {
 				if ( isset( $options['noindex-tax-' . $term->taxonomy] ) && $options['noindex-tax-' . $term->taxonomy] === true ) {
 					$current = 'noindex';
 				}
+
 				$noindex_options            = $this->no_index_options;
 				$noindex_options['default'] = sprintf( $noindex_options['default'], $term->taxonomy, $current );
 
