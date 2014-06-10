@@ -1381,7 +1381,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 				$s         = preg_replace( '`(%20|\+)`', ' ', get_search_query() );
 				$properurl = get_bloginfo( 'url' ) . '/?s=' . rawurlencode( $s );
 			} elseif ( is_404() ) {
-				if ( function_exists( 'is_multisite' ) && is_multisite() && ! is_subdomain_install() && is_main_site() ) {
+				if ( is_multisite() && ! is_subdomain_install() && is_main_site() ) {
 					if ( $cururl == get_bloginfo( 'url' ) . '/blog/' || $cururl == get_bloginfo( 'url' ) . '/blog' ) {
 						if ( $this->is_home_static_page() ) {
 							$properurl = get_permalink( get_option( 'page_for_posts' ) );

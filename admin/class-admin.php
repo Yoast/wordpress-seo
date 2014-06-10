@@ -21,7 +21,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		function __construct() {
 			$options = WPSEO_Options::get_all();
 
-			if ( function_exists( 'is_multisite' ) && is_multisite() && $options['ms_defaults_set'] === false ) {
+			if ( is_multisite() && $options['ms_defaults_set'] === false ) {
 				WPSEO_Options::set_multisite_defaults();
 			}
 

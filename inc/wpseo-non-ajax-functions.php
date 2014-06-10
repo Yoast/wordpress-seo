@@ -340,7 +340,7 @@ function wpseo_admin_bar_menu() {
 	}
 
 	$admin_menu = false;
-	if ( function_exists( 'is_multisite' ) && is_multisite() ) {
+	if ( is_multisite() ) {
 		$options = get_site_option( 'wpseo_ms' );
 		if ( $options['access'] === 'superadmin' ) {
 			if ( is_super_admin() ) {
