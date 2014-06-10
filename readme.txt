@@ -109,6 +109,11 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 
 == Changelog ==
 
+= Trunk =
+
+* Bugfixes
+	* Check for whether to show the admin 'Edit files' screen has been improved & made consistent, [issue #1197](https://github.com/Yoast/wordpress-seo/issues/1197) - props [hostliketoast](https://github.com/hostliketoast) and [Jrf](http://profiles.wordpress.org/jrf).
+
 = 1.5.3.3 =
 Release Date: June 2nd, 2014
 
