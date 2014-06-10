@@ -259,6 +259,34 @@ function wpseo_translate_score( $val, $css_value = true ) {
 
 
 /**
+ * Check whether file editing is allowed for the .htaccess and robots.txt files
+ *
+ * @return bool
+ */
+function wpseo_allow_system_file_edit() {
+	$allowed = true;
+
+	if ( defined( 'DISALLOW_FILE_EDIT' ) && DISALLOW_FILE_EDIT ) {
+		$allowed = false;
+	}
+	elseif ( defined( 'DISALLOW_FILE_MODS' ) && DISALLOW_FILE_MODS ) {
+		$allowed = false;
+	}
+	elseif ( is_multisite() && ! is_super_admin() ) {
+		$allowed = false;
+	}
+
+	/**
+	 * Filter: 'wpseo_allow_system_file_edit' - Allow developers to change whether the editing of
+	 * .htaccess and robots.txt is allowed
+	 *
+	 * @api bool $allowed Whether file editing is allowed
+	 */
+	return apply_filters( 'wpseo_allow_system_file_edit', $allowed );
+}
+
+
+/**
  * Adds an SEO admin bar menu with several options. If the current user is an admin he can also go straight to several settings menu's from here.
  */
 function wpseo_admin_bar_menu() {
@@ -349,7 +377,7 @@ function wpseo_admin_bar_menu() {
 		$wp_admin_bar->add_menu( array( 'parent' => 'wpseo-settings', 'id' => 'wpseo-import', 'title' => __( 'Import & Export', 'wordpress-seo' ), 'href' => admin_url( 'admin.php?page=wpseo_import' ), ) );
 		
 		// Check where to add the edit files page
-		if ( ! ( defined( 'DISALLOW_FILE_EDIT' ) && DISALLOW_FILE_EDIT ) && ! ( defined( 'DISALLOW_FILE_MODS' ) && DISALLOW_FILE_MODS ) ) {
+		if ( wpseo_allow_system_file_edit() === true ) {
 			$wp_admin_bar->add_menu( array( 'parent' => 'wpseo-settings', 'id' => 'wpseo-files', 'title' => __( 'Edit Files', 'wordpress-seo'), 'href' => admin_url( 'admin.php?page=wpseo_files' ), ) );
 		}	
 
