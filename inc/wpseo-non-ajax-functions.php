@@ -266,13 +266,7 @@ function wpseo_translate_score( $val, $css_value = true ) {
 function wpseo_allow_system_file_edit() {
 	$allowed = true;
 
-	if ( defined( 'DISALLOW_FILE_EDIT' ) && DISALLOW_FILE_EDIT ) {
-		$allowed = false;
-	}
-	elseif ( defined( 'DISALLOW_FILE_MODS' ) && DISALLOW_FILE_MODS ) {
-		$allowed = false;
-	}
-	elseif ( is_multisite() && ! is_super_admin() ) {
+	if ( current_user_can( 'edit_files' ) === false ) {
 		$allowed = false;
 	}
 
