@@ -537,6 +537,10 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 					}
 					break;
 
+				case ( 'multiselect' ===  $field_def['type'] ) :
+					$clean = $meta_value;
+					break;
+
 
 				case ( $field_def['type'] === 'text' ):
 				default:
