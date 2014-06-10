@@ -142,7 +142,7 @@ if ( ! class_exists( 'WPSEO_Taxonomy' ) ) {
 
 			if ( $field !== '' && ( is_string( $desc ) && $desc !== '' ) ) {
 				$field .= '
-	        <p class="description">' . esc_html( $desc ) . '</p>';
+	        <p class="description">' . $desc . '</p>';
 			}
 
 			echo '
@@ -168,17 +168,17 @@ if ( ! class_exists( 'WPSEO_Taxonomy' ) ) {
 			echo '<h2>' . __( 'Yoast WordPress SEO Settings', 'wordpress-seo' ) . '</h2>';
 			echo '<table class="form-table wpseo-taxonomy-form">';
 
-			$this->form_row( 'wpseo_title', __( 'SEO Title', 'wordpress-seo' ), __( 'The SEO title is used on the archive page for this term.', 'wordpress-seo' ), $tax_meta );
-			$this->form_row( 'wpseo_desc', __( 'SEO Description', 'wordpress-seo' ), __( 'The SEO description is used for the meta description on the archive page for this term.', 'wordpress-seo' ), $tax_meta );
+			$this->form_row( 'wpseo_title', __( 'SEO Title', 'wordpress-seo' ), esc_html__( 'The SEO title is used on the archive page for this term.', 'wordpress-seo' ), $tax_meta );
+			$this->form_row( 'wpseo_desc', __( 'SEO Description', 'wordpress-seo' ), esc_html__( 'The SEO description is used for the meta description on the archive page for this term.', 'wordpress-seo' ), $tax_meta );
 
 			if ( $options['usemetakeywords'] === true ) {
-				$this->form_row( 'wpseo_metakey', __( 'Meta Keywords', 'wordpress-seo' ), __( 'Meta keywords used on the archive page for this term.', 'wordpress-seo' ), $tax_meta );
+				$this->form_row( 'wpseo_metakey', __( 'Meta Keywords', 'wordpress-seo' ), esc_html__( 'Meta keywords used on the archive page for this term.', 'wordpress-seo' ), $tax_meta );
 			}
 
-			$this->form_row( 'wpseo_canonical', __( 'Canonical', 'wordpress-seo' ), __( 'The canonical link is shown on the archive page for this term.', 'wordpress-seo' ), $tax_meta );
+			$this->form_row( 'wpseo_canonical', __( 'Canonical', 'wordpress-seo' ), esc_html__( 'The canonical link is shown on the archive page for this term.', 'wordpress-seo' ), $tax_meta );
 
 			if ( $options['breadcrumbs-enable'] === true ) {
-				$this->form_row( 'wpseo_bctitle', __( 'Breadcrumbs Title', 'wordpress-seo' ), sprintf( __( 'The Breadcrumbs title is used in the breadcrumbs where this %s appears.', 'wordpress-seo' ), $term->taxonomy ), $tax_meta );
+				$this->form_row( 'wpseo_bctitle', __( 'Breadcrumbs Title', 'wordpress-seo' ), sprintf( esc_html__( 'The Breadcrumbs title is used in the breadcrumbs where this %s appears.', 'wordpress-seo' ), $term->taxonomy ), $tax_meta );
 			}
 
 			$current = 'index';
@@ -189,9 +189,9 @@ if ( ! class_exists( 'WPSEO_Taxonomy' ) ) {
 			$noindex_options            = $this->no_index_options;
 			$noindex_options['default'] = sprintf( $noindex_options['default'], $term->taxonomy, $current );
 			
-			$desc = sprintf( __( 'This %s follows the indexation rules set under Metas and Titles, you can override it here.', 'wordpress-seo' ), $term->taxonomy );
+			$desc = sprintf( esc_html__( 'This %s follows the indexation rules set under Metas and Titles, you can override it here.', 'wordpress-seo' ), $term->taxonomy );
 			if ( '0' == get_option( 'blog_public' ) ) {
-				$desc .= '<br /><span class="error-message">' . __( 'Warning: even though you can set the meta robots setting here, the entire site is set to noindex in the sitewide privacy settings, so these settings won\'t have an effect.', 'wordpress-seo' ) . '</span>';
+				$desc .= '<br /><span class="error-message">' . esc_html__( 'Warning: even though you can set the meta robots setting here, the entire site is set to noindex in the sitewide privacy settings, so these settings won\'t have an effect.', 'wordpress-seo' ) . '</span>';
 			}
 
 			$this->form_row( 'wpseo_noindex', sprintf( __( 'Noindex this %s', 'wordpress-seo' ), $term->taxonomy ), $desc, $tax_meta, 'select', $noindex_options );
