@@ -12,12 +12,11 @@ env:
 - WP_VERSION=3.8.3 WP_MULTISITE=1
 
 before_script:
-# move into tmp directory
+# create tmp dir
 - mkdir -p tmp
-- cd tmp
-# declare some directories
-- WP_TESTS_DIR=wordpress-tests/
-- WP_DIR=wordpress-tests/wordpress
+# declare some directory paths
+- export WP_TESTS_DIR=tmp/wordpress-tests/
+- WP_DIR=tmp/wordpress-tests/wordpress
 # download WordPress + WP Test Suite
 - if [ "$WP_VERSION" = "master" ]; then SVN_DIR="trunk"; else SVN_DIR="tags/$WP_VERSION"; fi
 - svn co --ignore-externals http://unit-tests.svn.wordpress.org/trunk/ $WP_TESTS_DIR
@@ -30,7 +29,7 @@ before_script:
 - sed -i "s/yourusernamehere/root/" wp-tests-config.php
 - sed -i "s/yourpasswordhere//" wp-tests-config.php
 # move back into plugin root folder
-- cd ../..
+- cd -
 # create database
 - mysql -e 'CREATE DATABASE wordpress_test;' -uroot
 # install PHP_CodeSniffer
