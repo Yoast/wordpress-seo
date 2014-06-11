@@ -1189,3 +1189,47 @@ function wpseo_get_term_meta( $term, $taxonomy, $meta ) {
 	_deprecated_function( __FUNCTION__, 'WPSEO 1.5.0', 'WPSEO_Taxonomy_Meta::get_term_meta' );
 	WPSEO_Taxonomy_Meta::get_term_meta( $term, $taxonomy, $meta );
 }
+
+/**
+ * This invalidates our XML Sitemaps cache.
+ *
+ * @param $type
+ */
+function wpseo_invalidate_sitemap_cache( $type ) {
+	// Always delete the main index sitemaps cache, as that's always invalidated by any other change
+	delete_transient( 'wpseo_sitemap_cache_1' );
+	delete_transient( 'wpseo_sitemap_cache_' . $type );
+}
+
+add_action( 'deleted_term_relationships', 'wpseo_invalidate_sitemap_cache' );
+
+/**
+ * Invalidate XML sitemap cache for taxonomy / term actions
+ *
+ * @param unsigned $unused
+ * @param string $type
+ */
+function wpseo_invalidate_sitemap_cache_terms( $unused, $type ) {
+	wpseo_invalidate_sitemap_cache( $type );
+}
+
+add_action( 'edited_terms', 'wpseo_invalidate_sitemap_cache_terms', 10, 2 );
+add_action( 'clean_term_cache', 'wpseo_invalidate_sitemap_cache_terms', 10, 2 );
+add_action( 'clean_object_term_cache', 'wpseo_invalidate_sitemap_cache_terms', 10, 2 );
+
+/**
+ * Invalidate the XML sitemap cache for a post type when publishing or updating a post
+ *
+ * @param int $post_id
+ */
+function wpseo_invalidate_sitemap_cache_on_save_post( $post_id ) {
+
+	// If this is just a revision, don't invalidate the sitemap cache yet.
+	if ( wp_is_post_revision( $post_id ) )
+		return;
+
+	wpseo_invalidate_sitemap_cache( get_post_type( $post_id ) );
+}
+
+add_action( 'save_post', 'wpseo_invalidate_sitemap_cache_on_save_post' );
+
