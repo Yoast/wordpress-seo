@@ -34,6 +34,11 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 		public $bad_sitemap = false;
 
 		/**
+		 * Whether or not the XML sitemap was served from a transient or not.
+		 */
+		private $transient = false;
+
+		/**
 		 * The maximum number of entries per sitemap page
 		 */
 		private $max_entries;
@@ -67,8 +72,10 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 				define( 'ENT_XML1', 16 );
 			}
 
-			add_action( 'after_setup_theme', array( $this, 'reduce_query_load' ), 90 );
-			add_action( 'template_redirect', array( $this, 'redirect' ), 9 );
+			add_action( 'after_setup_theme', array( $this, 'reduce_query_load' ), 99 );
+			add_filter( 'posts_where', array( $this, 'invalidate_main_query' ) );
+
+			add_action( 'pre_get_posts', array( $this, 'redirect' ), 1 );
 			add_filter( 'redirect_canonical', array( $this, 'canonical' ) );
 			add_action( 'wpseo_hit_sitemap_index', array( $this, 'hit_sitemap_index' ) );
 
@@ -91,9 +98,24 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 				) ) )
 			) {
 				remove_all_actions( 'widgets_init' );
-				// @todo need to bail the main query here....
 			}
 		}
+
+		/**
+		 * This query invalidates the main query on purpose so it returns nice and quickly
+		 *
+		 * @param string $where
+		 *
+		 * @return string
+		 */
+		function invalidate_main_query( $where ) {
+			if ( get_query_var( 'sitemap' ) != '' || get_query_var( 'xsl' ) != '' ) {
+				$where = ' AND 0=1 ' . $where;
+			}
+
+			return $where;
+		}
+
 
 		/**
 		 * Returns the server HTTP protocol to use for output, if it's set.
@@ -191,12 +213,32 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 				$this->n = intval( $n );
 			}
 
-			$this->build_sitemap( $type );
-			// 404 for invalid or emtpy sitemaps
-			if ( $this->bad_sitemap ) {
-				$GLOBALS['wp_query']->is_404 = true;
+			/**
+			 * Filter: 'wpseo_enable_xml_sitemap_transient_caching' - Allow disabling the transient cache
+			 *
+			 * @api bool $unsigned Enable cache or not, defaults to true
+			 */
+			$caching = apply_filters( 'wpseo_enable_xml_sitemap_transient_caching', true );
 
-				return;
+			if ( $caching ) {
+				$this->sitemap = get_transient( 'wpseo_sitemap_cache_' . $type );
+			}
+
+			if ( ! $this->sitemap || '' == $this->sitemap ) {
+				$this->build_sitemap( $type );
+
+				// 404 for invalid or emtpy sitemaps
+				if ( $this->bad_sitemap ) {
+					$GLOBALS['wp_query']->is_404 = true;
+
+					return;
+				}
+
+				if ( $caching ) {
+					set_transient( 'wpseo_sitemap_cache_' . $type, $this->sitemap, DAY_IN_SECONDS );
+				}
+			} else {
+				$this->transient = true;
 			}
 
 			$this->output();
@@ -568,24 +610,20 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 
 				// Optimized query per this thread: http://wordpress.org/support/topic/plugin-wordpress-seo-by-yoast-performance-suggestion
 				// Also see http://explainextended.com/2009/10/23/mysql-order-by-limit-performance-late-row-lookups/
-				$query = $wpdb->prepare(
-					"
-					SELECT l.ID, post_title, post_content, post_name, post_author, post_parent, post_modified_gmt,
-						post_date, post_date_gmt
-					FROM (
-						SELECT ID FROM $wpdb->posts {$join_filter}
-							WHERE post_status = '%s'
-							AND	post_password = ''
-							AND post_type = '%s'
-							AND post_author != 0
-							AND post_date != '0000-00-00 00:00:00'
-							{$where_filter}
-							ORDER BY post_modified ASC
-							LIMIT %d OFFSET %d ) o
-						JOIN $wpdb->posts l
-						ON l.ID = o.ID
-						ORDER BY l.ID
-					",
+				$query = $wpdb->prepare( "SELECT l.ID, post_title, post_content, post_name, post_author, post_parent, post_modified_gmt, post_date, post_date_gmt"
+				                         . " FROM ("
+				                         . " SELECT ID FROM $wpdb->posts {$join_filter} "
+				                         . " WHERE post_status = '%s'"
+				                         . " AND post_password = ''"
+				                         . " AND post_type = '%s'"
+				                         . " AND post_author != 0"
+				                         . " AND post_date != '0000-00-00 00:00:00'"
+				                         . " {$where_filter}"
+				                         . " ORDER BY post_modified ASC"
+				                         . " LIMIT %d OFFSET %d ) o"
+				                         . " JOIN $wpdb->posts l"
+				                         . " ON l.ID = o.ID"
+				                         . " ORDER BY l.ID",
 					$status, $post_type, $steps, $offset
 				);
 
@@ -597,12 +635,12 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 				}
 				update_meta_cache( 'post', $post_ids );
 
-				$child_query = "SELECT ID, post_parent FROM $wpdb->posts WHERE post_status = 'inherit' AND post_type = 'attachment' AND post_parent IN (" . implode( $post_ids, ',' ) . ")";
+				$child_query = "SELECT ID, post_parent FROM $wpdb->posts WHERE post_status = 'inherit' AND post_type = 'attachment' AND post_parent IN (" . implode( $post_ids, ',' ) . ')';
 				$wpdb->query( $child_query );
 				$attachments    = $wpdb->get_results( $child_query );
 				$attachment_ids = wp_list_pluck( $attachments, 'ID' );
 
-				$thumbnail_query = "SELECT meta_value FROM $wpdb->postmeta WHERE meta_key = '_thumbnail_id' AND post_id IN (" . implode( $post_ids, ',' ) . ")";
+				$thumbnail_query = "SELECT meta_value FROM $wpdb->postmeta WHERE meta_key = '_thumbnail_id' AND post_id IN (" . implode( $post_ids, ',' ) . ')';
 				$wpdb->query( $thumbnail_query );
 				$thumbnails    = $wpdb->get_results( $thumbnail_query );
 				$thumbnail_ids = wp_list_pluck( $thumbnails, 'meta_value' );
@@ -1034,7 +1072,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 		function output() {
 			header( $this->http_protocol() . ' 200 OK', true, 200 );
 			// Prevent the search engines from indexing the XML Sitemap.
-			header( 'X-Robots-Tag: noindex, follow', true );
+			header( 'X-Robots-Tag: noindex,follow', true );
 			header( 'Content-Type: text/xml' );
 			echo '<?xml version="1.0" encoding="' . get_bloginfo( 'charset' ) . '"?>';
 			if ( $this->stylesheet ) {
@@ -1044,10 +1082,14 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 			echo "\n" . '<!-- XML Sitemap generated by Yoast WordPress SEO -->';
 
 			if ( defined( 'WP_DEBUG' ) && WP_DEBUG === true || ( defined( 'WPSEO_DEBUG' ) && WPSEO_DEBUG === true ) ) {
-				global $wpdb;
-				echo "\n" . '<!-- ' . number_format( ( memory_get_peak_usage() / 1024 / 1024 ), 2 ) . 'MB | ' . $wpdb->num_queries . ' -->';
-				if ( defined( 'SAVEQUERIES' ) && SAVEQUERIES ) {
-					echo "\n" . '<!--' . print_r( $wpdb->queries, 1 ) . '-->';
+				if ( $this->transient ) {
+					echo "\n" . '<!-- ' . number_format( ( memory_get_peak_usage() / 1024 / 1024 ), 2 ) . 'MB | Served from transient cache -->';
+				} else {
+					global $wpdb;
+					echo "\n" . '<!-- ' . number_format( ( memory_get_peak_usage() / 1024 / 1024 ), 2 ) . 'MB | ' . $wpdb->num_queries . ' -->';
+					if ( defined( 'SAVEQUERIES' ) && SAVEQUERIES ) {
+						echo "\n" . '<!--' . print_r( $wpdb->queries, 1 ) . '-->';
+					}
 				}
 			}
 		}
@@ -1187,18 +1229,29 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 			return ( $a->_yoast_wpseo_profile_updated > $b->_yoast_wpseo_profile_updated ) ? 1 : - 1;
 		}
 
+		/**
+		 * Get attached image URL - Adapted from core for speed
+		 *
+		 * @param int $post_id
+		 *
+		 * @return string
+		 */
 		private function image_url( $post_id ) {
 			$url = '';
-			if ( $file = get_post_meta( $post_id, '_wp_attached_file', true) ) { //Get attached file
-				if ( ($uploads = wp_upload_dir()) && false === $uploads['error'] ) { //Get upload directory
-					if ( 0 === strpos($file, $uploads['basedir']) ) //Check that the upload base exists in the file location
-						$url = str_replace($uploads['basedir'], $uploads['baseurl'], $file); //replace file location with url location
-					elseif ( false !== strpos($file, 'wp-content/uploads') )
-						$url = $uploads['baseurl'] . substr( $file, strpos($file, 'wp-content/uploads') + 18 );
-					else
-						$url = $uploads['baseurl'] . "/$file"; //Its a newly uploaded file, therefor $file is relative to the basedir.
+			if ( $file = get_post_meta( $post_id, '_wp_attached_file', true ) ) { //Get attached file
+				if ( ( $uploads = wp_upload_dir() ) && false === $uploads['error'] ) { //Get upload directory
+					if ( 0 === strpos( $file, $uploads['basedir'] ) ) //Check that the upload base exists in the file location
+					{
+						$url = str_replace( $uploads['basedir'], $uploads['baseurl'], $file );
+					} //replace file location with url location
+					elseif ( false !== strpos( $file, 'wp-content/uploads' ) ) {
+						$url = $uploads['baseurl'] . substr( $file, strpos( $file, 'wp-content/uploads' ) + 18 );
+					} else {
+						$url = $uploads['baseurl'] . "/$file";
+					} //Its a newly uploaded file, therefor $file is relative to the basedir.
 				}
 			}
+
 			return $url;
 		}
 
