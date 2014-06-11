@@ -12,6 +12,9 @@ env:
 - WP_VERSION=3.8.3 WP_MULTISITE=1
 
 before_script:
+# install and run composer to install phpunit 3.7.*
+- composer self-update
+- composer global require "phpunit/phpunit=3.7.*"
 # create tmp dir
 - mkdir -p tmp
 # declare some directory paths
