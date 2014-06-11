@@ -8,39 +8,25 @@ php:
 env:
 - WP_VERSION=master WP_MULTISITE=0
 - WP_VERSION=master WP_MULTISITE=1
-- WP_VERSION=3.8.3 WP_MULTISITE=0
-- WP_VERSION=3.8.3 WP_MULTISITE=1
+#- WP_VERSION=3.5.1 WP_MULTISITE=0
+#- WP_VERSION=3.5.1 WP_MULTISITE=1
 
 before_script:
-# install and run composer to install phpunit 3.7.*
-- composer self-update
-- composer global require "phpunit/phpunit=3.7.*"
-# create tmp dir
-- mkdir -p tmp
-# declare some directory paths
 - export WP_TESTS_DIR=tmp/wordpress-tests/
-- WP_DIR=tmp/wordpress-tests/wordpress
-# download WordPress + WP Test Suite
+- mkdir -p tmp
 - if [ "$WP_VERSION" = "master" ]; then SVN_DIR="trunk"; else SVN_DIR="tags/$WP_VERSION"; fi
-- svn co --ignore-externals http://unit-tests.svn.wordpress.org/trunk/ $WP_TESTS_DIR
-- svn co --ignore-externals http://core.svn.wordpress.org/$SVN_DIR $WP_DIR
-# move into wp test suite folder and edit wp-tests-config.php
+- svn co http://develop.svn.wordpress.org/$SVN_DIR/ $WP_TESTS_DIR --ignore-externals
 - cd $WP_TESTS_DIR
 - cp wp-tests-config-sample.php wp-tests-config.php
 - sed -i "s/WP_DEBUG', true )/WP_DEBUG', false )/" wp-tests-config.php
-- sed -i "s/yourdbnamehere/wordpress_test/" wp-tests-config.php
+- sed -i "s/youremptytestdbnamehere/wordpress_test/" wp-tests-config.php
 - sed -i "s/yourusernamehere/root/" wp-tests-config.php
 - sed -i "s/yourpasswordhere//" wp-tests-config.php
-# move back into plugin root folder
 - cd -
-# create database
 - mysql -e 'CREATE DATABASE wordpress_test;' -uroot
-# install PHP_CodeSniffer
 - pear config-set auto_discover 1
 - pear install PHP_CodeSniffer
-# download WP Coding Standards
 - git clone git://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards.git $(pear config-get php_dir)/PHP/CodeSniffer/Standards/WordPress
-# rehash travis environment
 - phpenv rehash
 
 script:
