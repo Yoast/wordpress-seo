@@ -17,7 +17,7 @@ before_script:
 - cd tmp
 # declare some directories
 - WP_TESTS_DIR=wordpress-tests/
-- WP_DIR = wordpress-tests/wordpress
+- WP_DIR=wordpress-tests/wordpress
 # download WordPress + WP Test Suite
 - if [ "$WP_VERSION" = "master" ]; then SVN_DIR="trunk"; else SVN_DIR="tags/$WP_VERSION"; fi
 - svn co --ignore-externals http://unit-tests.svn.wordpress.org/trunk/ $WP_TESTS_DIR
