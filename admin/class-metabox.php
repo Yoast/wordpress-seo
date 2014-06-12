@@ -1178,10 +1178,8 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			$desc_meta   = self::get_value( 'metadesc' );
 			if ( $desc_meta !== '' ) {
 				$description = $desc_meta;
-			} else {
-				if ( isset( $options['metadesc-' . $post->post_type] ) && $options['metadesc-' . $post->post_type] !== '' ) {
-					$description = wpseo_replace_vars( $options['metadesc-' . $post->post_type], (array) $post );
-				}
+			} elseif ( isset( $options['metadesc-' . $post->post_type] ) && $options['metadesc-' . $post->post_type] !== '' ) {
+				$description = wpseo_replace_vars( $options['metadesc-' . $post->post_type], (array) $post );
 			}
 			unset( $desc_meta );
 
