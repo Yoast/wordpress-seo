@@ -75,7 +75,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 			add_action( 'after_setup_theme', array( $this, 'reduce_query_load' ), 99 );
 			add_filter( 'posts_where', array( $this, 'invalidate_main_query' ) );
 
-			add_action( 'wp', array( $this, 'redirect' ), 1 );
+			add_action( 'pre_get_posts', array( $this, 'redirect' ), 1 );
 			add_filter( 'redirect_canonical', array( $this, 'canonical' ) );
 			add_action( 'wpseo_hit_sitemap_index', array( $this, 'hit_sitemap_index' ) );
 
@@ -204,7 +204,12 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 		/**
 		 * Hijack requests for potential sitemaps and XSL files.
 		 */
-		function redirect() {
+		function redirect( $query ) {
+
+			if( ! $query->is_main_query() ) {
+				return;
+			}
+
 			$xsl = get_query_var( 'xsl' );
 			if ( ! empty( $xsl ) ) {
 				$this->xsl_output( $xsl );
