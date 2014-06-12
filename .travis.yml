@@ -12,38 +12,25 @@ env:
 - WP_VERSION=3.8.3 WP_MULTISITE=1
 
 before_script:
-# create tmp dir
-- mkdir -p tmp
-# declare some directory paths
-- export WP_TESTS_DIR=tmp/wordpress-tests/
-- WP_DIR=tmp/wordpress-tests/wordpress
-# download WordPress + WP Test Suite
-- if [ "$WP_VERSION" = "master" ]; then SVN_DIR="trunk"; else SVN_DIR="tags/$WP_VERSION"; fi
-- svn co --ignore-externals http://unit-tests.svn.wordpress.org/trunk/ $WP_TESTS_DIR
-- svn co --ignore-externals http://core.svn.wordpress.org/$SVN_DIR $WP_DIR
-# move into wp test suite folder and edit wp-tests-config.php
-- cd $WP_TESTS_DIR
+- PLUGIN_SLUG=$(basename $(pwd))
+- export WP_DEVELOP_DIR=/tmp/wordpress/
+- git clone --depth=50 --branch="$WP_VERSION" git://develop.git.wordpress.org/ /tmp/wordpress
+- cd ..
+- cp -r "$PLUGIN_SLUG" "/tmp/wordpress/src/wp-content/plugins/$PLUGIN_SLUG"
+- cd /tmp/wordpress/
 - cp wp-tests-config-sample.php wp-tests-config.php
 - sed -i "s/WP_DEBUG', true )/WP_DEBUG', false )/" wp-tests-config.php
-- sed -i "s/yourdbnamehere/wordpress_test/" wp-tests-config.php
+- sed -i "s/youremptytestdbnamehere/wordpress_tests/" wp-tests-config.php
 - sed -i "s/yourusernamehere/root/" wp-tests-config.php
-- sed -i "s/yourpasswordhere//" wp-tests-config.php
-# move back into plugin root folder
-- cd -
-# create database
-- mysql -e 'CREATE DATABASE wordpress_test;' -uroot
-# install PHP_CodeSniffer
+- sed -i "s/yourpasswordhere/root/" wp-tests-config.php
+- mysql -e "CREATE DATABASE wordpress_tests;" -uroot
 - pear config-set auto_discover 1
 - pear install PHP_CodeSniffer
-# install phpunit 3.7.35
-- pear update-channels
-- pear install --alldeps phpunit/phpunit-3.7.35
-# download WP Coding Standards
 - git clone git://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards.git $(pear config-get php_dir)/PHP/CodeSniffer/Standards/WordPress
-# rehash travis environment
 - phpenv rehash
 
 script:
+- cd "/tmp/wordpress/src/wp-content/plugins/$PLUGIN_SLUG"
 - phpunit -c phpunit.xml
 - phpcs -p -s -v -n . --standard=./codesniffer.xml --extensions=php
 
