@@ -109,7 +109,15 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 		 * @return string
 		 */
 		function invalidate_main_query( $where ) {
-			if ( get_query_var( 'sitemap' ) != '' || get_query_var( 'xsl' ) != '' ) {
+
+			global $wp_query;
+
+			// check if $wp_query is properly set which isn't always the case in older WP development versions
+			if( ! is_object( $wp_query ) ) {
+				return $where;
+			}
+
+			if ( is_main_query() && ( get_query_var( 'sitemap' ) != '' || get_query_var( 'xsl' ) != '' ) ) {
 				$where = ' AND 0=1 ' . $where;
 			}
 
@@ -196,7 +204,12 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 		/**
 		 * Hijack requests for potential sitemaps and XSL files.
 		 */
-		function redirect() {
+		function redirect( $query ) {
+
+			if( ! $query->is_main_query() ) {
+				return;
+			}
+
 			$xsl = get_query_var( 'xsl' );
 			if ( ! empty( $xsl ) ) {
 				$this->xsl_output( $xsl );
