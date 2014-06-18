@@ -17,7 +17,8 @@ function wpseo_create_redirect(old_url, current_view) {
 						action    : 'wpseo_create_redirect_url',
 						ajax_nonce: jQuery('.wpseo_redirects_ajax_nonce').val(),
 						old_url   : old_url,
-						new_url   : new_url
+						new_url   : new_url,
+						type	  : '301'
 					},
 					function (response) {
 
