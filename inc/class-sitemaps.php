@@ -792,7 +792,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 
 									$src   = wp_get_attachment_url( $attachment->ID );
 									$image = array(
-										'src' => apply_filters( 'wpseo_xml_sitemap_img_src', $src[0], $p )
+										'src' => apply_filters( 'wpseo_xml_sitemap_img_src', $src, $p )
 									);
 
 									$alt = get_post_meta( $attachment->ID, '_wp_attachment_image_alt', true );
