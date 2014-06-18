@@ -135,31 +135,72 @@ if ( ! class_exists( 'Yoast_Tracking' ) ) {
 				);
 			}
 			unset( $active_plugins, $plugin_path );
+			
+			
+			if ( function_exists( 'curl_version' ) ) {
+				$curl = curl_version();
+			} else {
+				$curl = NULL;
+			}
+
 
 			$data = array(
-				'site'     => array(
+				'site'      => array(
 					'hash'      => $hash,
 					'version'   => get_bloginfo( 'version' ),
 					'multisite' => is_multisite(),
 					'users'     => $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM $wpdb->users INNER JOIN $wpdb->usermeta ON ({$wpdb->users}.ID = {$wpdb->usermeta}.user_id) WHERE 1 = 1 AND ( {$wpdb->usermeta}.meta_key = %s )", 'wp_' . $blog_id . '_capabilities' ) ),
 					'lang'      => get_locale(),
+					'db_charset' => DB_CHARSET,
 				),
-				'pts'      => $pts,
-				'comments' => array(
+				'pts'       => $pts,
+				'comments'  => array(
 					'total'    => $comments_count->total_comments,
 					'approved' => $comments_count->approved,
 					'spam'     => $comments_count->spam,
 					'pings'    => $wpdb->get_var( "SELECT COUNT(comment_ID) FROM $wpdb->comments WHERE comment_type = 'pingback'" ),
 				),
-				'options'  => apply_filters( 'yoast_tracking_filters', array() ),
-				'theme'    => $theme,
-				'plugins'  => $plugins,
+				'options'   => apply_filters( 'yoast_tracking_filters', array() ),
+				'theme'     => $theme,
+				'plugins'   => $plugins,
+				'webserver' => array(
+					'apache'            => wpseo_is_apache() ? 1 : 0,
+					'apache_version'    => function_exists( 'apache_get_version' ) ? apache_get_version() : 0,
+					'nginx'             => wpseo_is_nginx() ? 1 : 0,
+
+					'server_software'   => $_SERVER['SERVER_SOFTWARE'],
+					'gateway_interface' => $_SERVER['GATEWAY_INTERFACE'],
+					'server_protocol'   => $_SERVER['SERVER_PROTOCOL'],
+				),
+				'php'       => array(
+					'php_version'        => phpversion(),
+
+					'max_execution_time' => ini_get( 'max_execution_time' ),
+					'memory_limit'       => ini_get( 'memory_limit' ),
+					'open_basedir'       => ini_get( 'open_basedir' ),
+
+					'bcmath_enabled'     => extension_loaded( 'bcmath' ) ? 1 : 0,
+					'ctype_enabled'      => extension_loaded( 'ctype' ) ? 1 : 0,
+					'curl_enabled'       => extension_loaded( 'curl' ) ? 1 : 0,
+					'curl_version_a'     => phpversion( 'curl' ),
+					'curl_version_b'     => ( ! is_null( $curl ) ) ? $curl['version'] : 0,
+					'dom_enabled'        => extension_loaded( 'dom' ) ? 1 : 0,
+					'dom_version'        => phpversion( 'dom' ),
+					'filter_enabled'     => extension_loaded( 'filter' ) ? 1 : 0,
+					'mbstring_enabled'   => extension_loaded( 'mbstring' ) ? 1 : 0,
+					'mbstring_version'   => phpversion( 'mbstring' ),
+					'pcre_enabled'       => extension_loaded( 'pcre' ) ? 1 : 0,
+					'pcre_version'       => phpversion( 'pcre' ),
+					'pcre_with_utf8_a'   => @preg_match( '/^.{1}$/u','ñ', $UTF8_ar ),
+					'pcre_with_utf8_b'   => defined( 'PREG_BAD_UTF8_ERROR' ),
+					'spl_enabled'        => extension_loaded( 'spl' ) ? 1 : 0,
+				),
 			);
 
 			$args = array(
 				'body'      => $data,
 				'blocking'  => false,
-				'sslverify' => false
+				'sslverify' => false,
 			);
 
 			wp_remote_post( 'https://tracking.yoast.com/', $args );
@@ -177,11 +218,6 @@ if ( ! class_exists( 'Yoast_Tracking' ) ) {
  */
 function wpseo_tracking_additions( $options ) {
 	$opt = WPSEO_Options::get_all();
-	if ( function_exists( 'curl_version' ) ) {
-		$curl = curl_version();
-	} else {
-		$curl = NULL;
-	}
 
 	$options['wpseo'] = array(
 		'xml_sitemaps'        => ( $opt['enablexmlsitemap'] === true ) ? 1 : 0,
@@ -190,14 +226,12 @@ function wpseo_tracking_additions( $options ) {
 		'twitter'             => ( $opt['twitter'] === true ) ? 1 : 0,
 		'strip_category_base' => ( $opt['stripcategorybase'] === true ) ? 1 : 0,
 		'on_front'            => get_option( 'show_on_front' ),
-		'php_version'         => phpversion(),
-		'php_curl'            => ( ! is_null( $curl ) ) ? $curl['version'] : 0,
 		'wmt_alexa'           => ( ! empty( $opt['alexaverify'] ) ) ? 1 : 0,
 		'wmt_bing'            => ( ! empty( $opt['msverify'] ) ) ? 1 : 0,
 		'wmt_google'          => ( ! empty( $opt['googleverify'] ) ) ? 1 : 0,
 		'wmt_pinterest'       => ( ! empty( $opt['pinterestverify'] ) ) ? 1 : 0,
 		'wmt_yandex'          => ( ! empty( $opt['yandexverify'] ) ) ? 1 : 0,
-		'permalinks_clean'    => ( $opt['cleanpermalinks'] == 1 ) ? 1 : 0
+		'permalinks_clean'    => ( $opt['cleanpermalinks'] == 1 ) ? 1 : 0,
 	);
 
 	return $options;
