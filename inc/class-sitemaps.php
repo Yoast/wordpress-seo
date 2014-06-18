@@ -808,7 +808,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 									$url['images'][] = $image;
 								}
 							}
-							unset( $attachments, $att_id, $attachment, $src, $image, $alt );
+							unset( $att_id, $attachment, $src, $image, $alt );
 						}
 
 						$url['images'] = apply_filters( 'wpseo_sitemap_urlimages', $url['images'], $p->ID );
