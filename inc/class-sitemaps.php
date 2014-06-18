@@ -785,17 +785,17 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 						if ( strpos( $p->post_content, '[gallery' ) !== false ) {
 							if ( is_array( $attachments ) && $attachments !== array() ) {
 
-								foreach ( $attachments as $att_id => $attachment ) {
+								foreach ( $attachments as $attachment ) {
 									if ( $attachment->post_parent !== $p->ID ) {
 										continue;
 									}
 
-									$src   = wp_get_attachment_url( $att_id );
+									$src   = wp_get_attachment_url( $attachment->ID );
 									$image = array(
 										'src' => apply_filters( 'wpseo_xml_sitemap_img_src', $src[0], $p )
 									);
 
-									$alt = get_post_meta( $att_id, '_wp_attachment_image_alt', true );
+									$alt = get_post_meta( $attachment->ID, '_wp_attachment_image_alt', true );
 									if ( $alt !== '' ) {
 										$image['alt'] = $alt;
 									}
@@ -808,7 +808,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 									$url['images'][] = $image;
 								}
 							}
-							unset( $att_id, $attachment, $src, $image, $alt );
+							unset( $attachment, $src, $image, $alt );
 						}
 
 						$url['images'] = apply_filters( 'wpseo_sitemap_urlimages', $url['images'], $p->ID );
