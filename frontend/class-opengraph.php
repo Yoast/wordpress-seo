@@ -80,12 +80,13 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 		 * @return boolean
 		 */
 		public function og_tag( $property, $content ) {
+			$og_property = str_replace( ':', '_', $property );
 			/**
-			 * Filter: 'wpseo_og_' . $property - Allow developers to change the content of specific OG meta tags.
+			 * Filter: 'wpseo_og_' . $og_property - Allow developers to change the content of specific OG meta tags.
 			 *
 			 * @api string $content The content of the property
 			 */
-			$content = apply_filters( 'wpseo_og_' . str_replace( ':', '_', $property ), $content );
+			$content = apply_filters( 'wpseo_og_' . $og_property, $content );
 			if ( empty( $content ) ) {
 				return false;
 			}
