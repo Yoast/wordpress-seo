@@ -96,6 +96,7 @@ class WPSEO_Page_Redirect {
 			<div id="tab-regex" class="wpseotab redirect-table-tab">
 				<?php
 				// Add new redirect HTML
+				echo "<p>" . __( 'Regex Redirects are extremely powerful redirects. You should only use them if you know what you are doing.<br />If you don\'t know what Regular Expressions (REGEX) are, please refer to ', 'wordpress-seo' ) . "<a href=\"http://kb.yoast.com/article/142-what-are-regex-redirects\" target=\"_blank\">" . __( 'our knowledge base', 'wordpress-seo') . "</a>.</p>\n";
 				echo "<form class='wpseo-new-redirect-form' method='post'>\n";
 				echo "<div class='wpseo_redirects_new'>\n";
 				//				echo "<h2>" . __( 'Add New Regex Redirect', 'wordpress-seo' ) . "</h2>\n";
