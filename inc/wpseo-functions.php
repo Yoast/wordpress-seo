@@ -155,8 +155,8 @@ function wpseo_remove_capabilities() {
  * @return string
  */
 function wpseo_replace_vars( $string, $args, $omit = array() ) {
-	$singleton = WPSEO_Replace_Vars::get_instance();
-	return $singleton->replace( $string, $args, $omit );
+	$replacer = new WPSEO_Replace_Vars;
+	return $replacer->replace( $string, $args, $omit );
 }
 
 /**
@@ -202,8 +202,7 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
  * @return bool     Whether the replacement function was succesfully registered
  */
 function wpseo_register_var_replacement( $var, $replace_function, $type = 'advanced', $help_text = '' ) {
-	$singleton = WPSEO_Replace_Vars::get_instance();
-	return $singleton->register_replacement( $var, $replace_function, $type, $help_text );
+	return WPSEO_Replace_Vars::register_replacement( $var, $replace_function, $type, $help_text );
 }
 
 /**
@@ -989,7 +988,7 @@ function wpseo_get_term_meta( $term, $taxonomy, $meta ) {
  * @deprecated 1.5.4 (removed)
  */
 function wpseo_invalid_custom_taxonomy() {
-	_deprecated_function( __FUNCTION__, 'WPSEO 1.5.4', 'WPSEO_Replace_Vars::notify_invalid_custom_taxonomy' );
+	_deprecated_function( __FUNCTION__, 'WPSEO 1.5.4' );
 }
 
 /**
@@ -1006,6 +1005,6 @@ function wpseo_invalid_custom_taxonomy() {
  */
 function wpseo_get_terms( $id, $taxonomy, $return_single = false ) {
 	_deprecated_function( __FUNCTION__, 'WPSEO 1.5.4', 'WPSEO_Replace_Vars::get_terms' );
-	$singleton = WPSEO_Replace_Vars::get_instance();
-	return $singleton->get_terms( $id, $taxonomy, $return_single );
+	$replacer = new WPSEO_Replace_Vars;
+	return $replacer->get_terms( $id, $taxonomy, $return_single );
 }
