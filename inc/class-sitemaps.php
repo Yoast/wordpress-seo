@@ -234,7 +234,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 			$caching = apply_filters( 'wpseo_enable_xml_sitemap_transient_caching', true );
 
 			if ( $caching ) {
-				$this->sitemap = get_transient( 'wpseo_sitemap_cache_' . $type );
+				$this->sitemap = get_transient( 'wpseo_sitemap_cache_' . $type . '_' . $n );
 			}
 
 			if ( ! $this->sitemap || '' == $this->sitemap ) {
@@ -248,7 +248,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 				}
 
 				if ( $caching ) {
-					set_transient( 'wpseo_sitemap_cache_' . $type, $this->sitemap, DAY_IN_SECONDS );
+					set_transient( 'wpseo_sitemap_cache_' . $type . '_' . $n, $this->sitemap, DAY_IN_SECONDS );
 				}
 			} else {
 				$this->transient = true;
