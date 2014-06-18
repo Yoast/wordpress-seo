@@ -648,7 +648,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 				}
 				update_meta_cache( 'post', $post_ids );
 
-				$child_query = "SELECT ID, post_parent FROM $wpdb->posts WHERE post_status = 'inherit' AND post_type = 'attachment' AND post_parent IN (" . implode( $post_ids, ',' ) . ')';
+				$child_query = "SELECT ID, post_title, post_parent FROM $wpdb->posts WHERE post_status = 'inherit' AND post_type = 'attachment' AND post_parent IN (" . implode( $post_ids, ',' ) . ')';
 				$wpdb->query( $child_query );
 				$attachments    = $wpdb->get_results( $child_query );
 				$attachment_ids = wp_list_pluck( $attachments, 'ID' );
