@@ -738,7 +738,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 						$content = $p->post_content;
 						$content = '<p><img src="' . $this->image_url( get_post_thumbnail_id( $p->ID ) ) . '" alt="' . $p->post_title . '" /></p>' . $content;
 
-						$host = str_replace( 'www.', '', parse_url( get_bloginfo( 'url' ), PHP_URL_HOST ) );
+						$host = str_replace( 'www.', '', parse_url( $this->home_url, PHP_URL_HOST ) );
 
 						if ( preg_match_all( '`<img [^>]+>`', $content, $matches ) ) {
 							foreach ( $matches[0] as $img ) {
@@ -748,7 +748,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 										if ( $src[0] != '/' ) {
 											continue;
 										}
-										$src = get_bloginfo( 'url' ) . $src;
+										$src = $this->home_url . $src;
 									}
 
 									if ( strpos( $src, $host ) === false ) {
