@@ -790,7 +790,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 										continue;
 									}
 
-									$src   = wp_get_attachment_url( $attachment->ID );
+									$src   = $this->image_url( $attachment->ID );
 									$image = array(
 										'src' => apply_filters( 'wpseo_xml_sitemap_img_src', $src, $p )
 									);
