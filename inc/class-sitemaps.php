@@ -65,6 +65,13 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 		private $home_url = '';
 
 		/**
+		 * Holds the get_bloginfo( 'charset' ) value to reuse for performance
+		 *
+		 * @var string $charset
+		 */
+		private $charset = '';
+
+		/**
 		 * Class constructor
 		 */
 		function __construct() {
@@ -85,6 +92,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 			$this->options     = WPSEO_Options::get_all();
 			$this->max_entries = $this->options['entries-per-page'];
 			$this->home_url    = home_url();
+			$this->charset     = get_bloginfo( 'charset' );
 
 		}
 
@@ -1087,7 +1095,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 			// Prevent the search engines from indexing the XML Sitemap.
 			header( 'X-Robots-Tag: noindex,follow', true );
 			header( 'Content-Type: text/xml' );
-			echo '<?xml version="1.0" encoding="' . get_bloginfo( 'charset' ) . '"?>';
+			echo '<?xml version="1.0" encoding="' . $this->charset . '"?>';
 			if ( $this->stylesheet ) {
 				echo apply_filters( 'wpseo_stylesheet_url', $this->stylesheet ) . "\n";
 			}
@@ -1140,10 +1148,10 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 					$output .= "\t\t<image:image>\n";
 					$output .= "\t\t\t<image:loc>" . esc_html( $img['src'] ) . "</image:loc>\n";
 					if ( isset( $img['title'] ) && ! empty( $img['title'] ) ) {
-						$output .= "\t\t\t<image:title>" . _wp_specialchars( html_entity_decode( $img['title'], ENT_QUOTES, get_bloginfo( 'charset' ) ) ) . "</image:title>\n";
+						$output .= "\t\t\t<image:title>" . _wp_specialchars( html_entity_decode( $img['title'], ENT_QUOTES, $this->charset ) ) . "</image:title>\n";
 					}
 					if ( isset( $img['alt'] ) && ! empty( $img['alt'] ) ) {
-						$output .= "\t\t\t<image:caption>" . _wp_specialchars( html_entity_decode( $img['alt'], ENT_QUOTES, get_bloginfo( 'charset' ) ) ) . "</image:caption>\n";
+						$output .= "\t\t\t<image:caption>" . _wp_specialchars( html_entity_decode( $img['alt'], ENT_QUOTES, $this->charset ) ) . "</image:caption>\n";
 					}
 					$output .= "\t\t</image:image>\n";
 				}
