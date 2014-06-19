@@ -1254,19 +1254,28 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 		 * @return string
 		 */
 		private function image_url( $post_id ) {
+
+			static $uploads;
+
+			if ( empty( $uploads ) ) {
+				$uploads = wp_upload_dir();
+			}
+
+			if ( false !== $uploads['error'] ) {
+				return '';
+			}
+
 			$url = '';
+
 			if ( $file = get_post_meta( $post_id, '_wp_attached_file', true ) ) { //Get attached file
-				if ( ( $uploads = wp_upload_dir() ) && false === $uploads['error'] ) { //Get upload directory
-					if ( 0 === strpos( $file, $uploads['basedir'] ) ) //Check that the upload base exists in the file location
-					{
-						$url = str_replace( $uploads['basedir'], $uploads['baseurl'], $file );
-					} //replace file location with url location
-					elseif ( false !== strpos( $file, 'wp-content/uploads' ) ) {
-						$url = $uploads['baseurl'] . substr( $file, strpos( $file, 'wp-content/uploads' ) + 18 );
-					} else {
-						$url = $uploads['baseurl'] . "/$file";
-					} //Its a newly uploaded file, therefor $file is relative to the basedir.
-				}
+				if ( 0 === strpos( $file, $uploads['basedir'] ) ) { //Check that the upload base exists in the file location
+					$url = str_replace( $uploads['basedir'], $uploads['baseurl'], $file );
+				} //replace file location with url location
+				elseif ( false !== strpos( $file, 'wp-content/uploads' ) ) {
+					$url = $uploads['baseurl'] . substr( $file, strpos( $file, 'wp-content/uploads' ) + 18 );
+				} else {
+					$url = $uploads['baseurl'] . "/$file";
+				} //Its a newly uploaded file, therefor $file is relative to the basedir.
 			}
 
 			return $url;
