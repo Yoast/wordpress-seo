@@ -556,7 +556,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		 * @return boolean
 		 */
 		function grant_access() {
-			_deprecated_function( __CLASS__ . '::' . __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Options::grant_access()' );
+			_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Options::grant_access()' );
 			return WPSEO_Options::grant_access();
 		}
 
@@ -570,7 +570,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		 * @return boolean
 		 */
 		function maybe_upgrade() {
-			_deprecated_function( __CLASS__ . '::' . __METHOD__, 'WPSEO 1.5.0', 'wpseo_do_upgrade' );
+			_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'wpseo_do_upgrade' );
 			wpseo_do_upgrade();
 		}
 
@@ -582,7 +582,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		 * @see WPSEO_Options::clear_cache()
 		 */
 		function clear_cache() {
-			_deprecated_function( __CLASS__ . '::' . __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Options::clear_cache()' );
+			_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Options::clear_cache()' );
 			WPSEO_Options::clear_cache();
 		}
 
@@ -594,7 +594,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		 * @see WPSEO_Options::clear_rewrites()
 		 */
 		function clear_rewrites() {
-			_deprecated_function( __CLASS__ . '::' . __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Options::clear_rewrites()' );
+			_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Options::clear_rewrites()' );
 			WPSEO_Options::clear_rewrites();
 		}
 
@@ -606,7 +606,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		 * @see WPSEO_Option::register_setting()
 		 */
 		function options_init() {
-			_deprecated_function( __CLASS__ . '::' . __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Option::register_setting()' );
+			_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Option::register_setting()' );
 		}
 
 		/**
@@ -617,7 +617,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		 * @see WPSEO_Options::set_multisite_defaults()
 		 */
 		function multisite_defaults() {
-			_deprecated_function( __CLASS__ . '::' . __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Options::set_multisite_defaults()' );
+			_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Options::set_multisite_defaults()' );
 			WPSEO_Options::set_multisite_defaults();
 		}
 
@@ -628,7 +628,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		 * @deprecated use WPSEO_Admin::load_page()
 		 */
 		function import_page() {
-			_deprecated_function( __CLASS__ . '::' . __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Admin::load_page()' );
+			_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Admin::load_page()' );
 			$this->load_page();
 		}
 
@@ -639,7 +639,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		 * @deprecated use WPSEO_Admin::load_page()
 		 */
 		function titles_page() {
-			_deprecated_function( __CLASS__ . '::' . __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Admin::load_page()' );
+			_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Admin::load_page()' );
 			$this->load_page();
 		}
 
@@ -650,7 +650,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		 * @deprecated use WPSEO_Admin::load_page()
 		 */
 		function permalinks_page() {
-			_deprecated_function( __CLASS__ . '::' . __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Admin::load_page()' );
+			_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Admin::load_page()' );
 			$this->load_page();
 		}
 
@@ -661,7 +661,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		 * @deprecated use WPSEO_Admin::load_page()
 		 */
 		function internallinks_page() {
-			_deprecated_function( __CLASS__ . '::' . __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Admin::load_page()' );
+			_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Admin::load_page()' );
 			$this->load_page();
 		}
 
@@ -672,7 +672,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		 * @deprecated use WPSEO_Admin::load_page()
 		 */
 		function files_page() {
-			_deprecated_function( __CLASS__ . '::' . __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Admin::load_page()' );
+			_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Admin::load_page()' );
 			$this->load_page();
 		}
 
@@ -683,7 +683,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		 * @deprecated use WPSEO_Admin::load_page()
 		 */
 		function rss_page() {
-			_deprecated_function( __CLASS__ . '::' . __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Admin::load_page()' );
+			_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Admin::load_page()' );
 			$this->load_page();
 		}
 
@@ -694,7 +694,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		 * @deprecated use WPSEO_Admin::load_page()
 		 */
 		function xml_sitemaps_page() {
-			_deprecated_function( __CLASS__ . '::' . __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Admin::load_page()' );
+			_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Admin::load_page()' );
 			$this->load_page();
 		}
 
@@ -705,7 +705,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		 * @deprecated use WPSEO_Admin::load_page()
 		 */
 		function config_page() {
-			_deprecated_function( __CLASS__ . '::' . __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Admin::load_page()' );
+			_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Admin::load_page()' );
 			$this->load_page();
 		}
 
@@ -716,7 +716,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		 * @deprecated use WPSEO_Admin::load_page()
 		 */
 		function social_page() {
-			_deprecated_function( __CLASS__ . '::' . __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Admin::load_page()' );
+			_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Admin::load_page()' );
 			$this->load_page();
 		}
 

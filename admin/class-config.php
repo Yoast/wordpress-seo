@@ -656,7 +656,7 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 		 * @see WPSEO_Options::reset()
 		 */
 		function reset_defaults() {
-			_deprecated_function( __CLASS__ . '::' . __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Options::reset()' );
+			_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Options::reset()' );
 			WPSEO_Options::reset();
 		}
 

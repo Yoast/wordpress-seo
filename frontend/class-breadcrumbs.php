@@ -847,7 +847,7 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 		 * @deprecated 1.5.0
 		 */
 		public function breadcrumb_output() {
-			_deprecated_function( __CLASS__ . '::' . __METHOD__, '1.5.0', 'yoast_breadcrumb' );
+			_deprecated_function( __METHOD__, '1.5.0', 'yoast_breadcrumb' );
 			self::breadcrumb( '<div id="wpseobreadcrumb">', '</div>' );
 		}
 
@@ -859,7 +859,7 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 		 * @return	string
 		 */
 		public function create_breadcrumbs_string( $links, $wrapper = 'span', $element = 'span' ) {
-			_deprecated_function( __CLASS__ . '::' . __METHOD__, 'WPSEO 1.5.2.3', 'yoast_breadcrumbs' );
+			_deprecated_function( __METHOD__, 'WPSEO 1.5.2.3', 'yoast_breadcrumbs' );
 		}
 
 
