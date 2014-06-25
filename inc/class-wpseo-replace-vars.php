@@ -404,7 +404,7 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 				$replacement = $GLOBALS['sep'];
 			}
 
-			return $replacement;
+			return apply_filters( 'wpseo_replacements_filter_sep', $replacement );
 		}
 
 		/**

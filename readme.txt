@@ -122,6 +122,7 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 	* New `wpseo_register_extra_replacements` action hook which lets plugin/theme builders add new `%%...%%` replacement variables - including relevant help texts -. See [function documentation](https://github.com/Yoast/wordpress-seo/blob/master/inc/wpseo-functions.php) for an example of how to use this new functionality.
 	* If the final string - after replacement - would contain two separators with nothing between them, this extra separator will be removed.
 	* All remaining not replaced replacement vars are now stripped from the strings (without breaking the snippet preview).
+	* New filter `wpseo_replacements_filter_sep` which can be used to change the seperator character passed by the theme.
 
 
 = 1.5.3.3 =
