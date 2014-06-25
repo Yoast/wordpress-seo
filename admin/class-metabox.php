@@ -907,7 +907,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 								array(
 									'key'     => self::$meta_prefix . 'meta-robots-noindex',
 									'value'   => '1',
-									'compare' => '!='
+									'compare' => '!=',
 								),
 							)
 						)
