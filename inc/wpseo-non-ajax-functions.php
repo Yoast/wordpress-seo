@@ -350,10 +350,10 @@ function wpseo_admin_bar_menu() {
 		
 		// Check where to add the edit files page
 		if ( ! ( defined( 'DISALLOW_FILE_EDIT' ) && DISALLOW_FILE_EDIT ) && ! ( defined( 'DISALLOW_FILE_MODS' ) && DISALLOW_FILE_MODS ) ) {
-			$wp_admin_bar->add_menu( array( 'parent' => 'wpseo-settings', 'id' => 'wpseo-files', 'title' => __( 'Edit Files', 'wordpress-seo'), 'href' => admin_url( 'admin.php?page=wpseo_files' ), ) );
+			$wp_admin_bar->add_menu( array( 'parent' => 'wpseo-settings', 'id' => 'wpseo-files', 'title' => __( 'Edit Files', 'wordpress-seo' ), 'href' => admin_url( 'admin.php?page=wpseo_files' ), ) );
 		}	
 
-		$wp_admin_bar->add_menu( array( 'parent' => 'wpseo-settings', 'id' => 'wpseo-licenses', 'title' => __( 'Extensions', 'wordpress-seo'), 'href' => admin_url( 'admin.php?page=wpseo_licenses' ), ) );	
+		$wp_admin_bar->add_menu( array( 'parent' => 'wpseo-settings', 'id' => 'wpseo-licenses', 'title' => __( 'Extensions', 'wordpress-seo' ), 'href' => admin_url( 'admin.php?page=wpseo_licenses' ), ) );
 	}
 }
 
@@ -363,8 +363,9 @@ add_action( 'admin_bar_menu', 'wpseo_admin_bar_menu', 95 );
  * Enqueue a tiny bit of CSS to show so the adminbar shows right.
  */
 function wpseo_admin_bar_css() {
-	if ( is_admin_bar_showing() && is_singular() )
+	if ( is_admin_bar_showing() && is_singular() ) {
 		wp_enqueue_style( 'boxes', plugins_url( 'css/adminbar' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
+	}
 }
 
 add_action( 'wp_enqueue_scripts', 'wpseo_admin_bar_css' );

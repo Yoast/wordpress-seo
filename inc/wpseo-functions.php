@@ -851,8 +851,9 @@ add_action( 'clean_object_term_cache', 'wpseo_invalidate_sitemap_cache_terms', 1
 function wpseo_invalidate_sitemap_cache_on_save_post( $post_id ) {
 
 	// If this is just a revision, don't invalidate the sitemap cache yet.
-	if ( wp_is_post_revision( $post_id ) )
+	if ( wp_is_post_revision( $post_id ) ) {
 		return;
+	}
 
 	wpseo_invalidate_sitemap_cache( get_post_type( $post_id ) );
 }
