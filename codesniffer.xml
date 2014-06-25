@@ -16,5 +16,4 @@
 	</rule>
 	<rule ref="WordPress.Arrays.ArrayAssignmentRestrictions"/>
 	<rule ref="WordPress.Functions.FunctionRestrictions"/>
-	<rule ref="WordPress.Variables.VariableRestrictions"/>
 </ruleset>
