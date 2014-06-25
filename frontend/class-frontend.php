@@ -833,6 +833,11 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 			 */
 			$canonical = apply_filters( 'wpseo_canonical', $canonical );
 
+			// Force canonical links to be absolute, relative is NOT an option.
+			if ( '/' == substr( $canonical, 0, 1 ) ) {
+				$canonical = untrailingslashit( get_site_url() ) . $canonical;
+			}
+
 			if ( is_string( $canonical ) && $canonical !== '' ) {
 				if ( $echo !== false ) {
 					echo '<link rel="canonical" href="' . esc_url( $canonical, null, 'other' ) . '" />' . "\n";
