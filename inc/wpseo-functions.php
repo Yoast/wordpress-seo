@@ -228,6 +228,7 @@ function wpseo_xml_redirect_sitemap() {
 	// must be 'sitemap.xml' and must be 404
 	if ( home_url( '/sitemap.xml' ) == $current_url && $wp_query->is_404 ) {
 		wp_redirect( home_url( '/sitemap_index.xml' ) );
+		exit;
 	}
 }
 
