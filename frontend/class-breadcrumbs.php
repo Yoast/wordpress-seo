@@ -452,7 +452,7 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 		 * Add Blog crumb to the crumbs property for single posts where Home != blogpage
 		 */
 		private function maybe_add_blog_crumb() {
-			if ( 'page' === $this->show_on_front && 'post' === get_post_type() && ! is_home() ) {
+			if ( ( 'page' === $this->show_on_front && 'post' === get_post_type() ) && ( ! is_home() && ! is_search() ) ) {
 				if ( $this->page_for_posts && $this->options['breadcrumbs-blog-remove'] === false ) {
 					$this->add_blog_crumb();
 				}
