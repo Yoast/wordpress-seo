@@ -1148,10 +1148,10 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 					$output .= "\t\t<image:image>\n";
 					$output .= "\t\t\t<image:loc>" . esc_html( $img['src'] ) . "</image:loc>\n";
 					if ( isset( $img['title'] ) && ! empty( $img['title'] ) ) {
-						$output .= "\t\t\t<image:title>" . _wp_specialchars( html_entity_decode( $img['title'], ENT_QUOTES, $this->charset ) ) . "</image:title>\n";
+						$output .= "\t\t\t<image:title><![CDATA[" . _wp_specialchars( html_entity_decode( $img['title'], ENT_QUOTES, $this->charset ) ) . "]]></image:title>\n";
 					}
 					if ( isset( $img['alt'] ) && ! empty( $img['alt'] ) ) {
-						$output .= "\t\t\t<image:caption>" . _wp_specialchars( html_entity_decode( $img['alt'], ENT_QUOTES, $this->charset ) ) . "</image:caption>\n";
+						$output .= "\t\t\t<image:caption><![CDATA[" . _wp_specialchars( html_entity_decode( $img['alt'], ENT_QUOTES, $this->charset ) ) . "]]></image:caption>\n";
 					}
 					$output .= "\t\t</image:image>\n";
 				}
