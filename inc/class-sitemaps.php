@@ -597,10 +597,17 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 
 				$archive = get_post_type_archive_link( $post_type );
 				if ( $archive ) {
+					/**
+					 * Filter: 'wpseo_xml_post_type_archive_priority' - Allow changing the priority of the URL WordPress SEO uses in the XML sitemap.
+					 *
+					 * @api float $priority The priority for this URL, ranging from 0 to 1
+					 *
+					 * @param string $post_type The post type this archive is for
+					 */
 					$output .= $this->sitemap_url(
 						array(
 							'loc' => $archive,
-							'pri' => 0.8,
+							'pri' => apply_filters( 'wpseo_xml_post_type_archive_priority', 0.8, $post_type ),
 							'chf' => $this->filter_frequency( $post_type . '_archive', 'weekly', $archive ),
 							'mod' => $this->get_last_modified( $post_type ),
 							// get_lastpostmodified( 'gmt', $post_type ) #17455
@@ -740,6 +747,16 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 						if ( isset( $front_id ) && $p->ID == $front_id ) {
 							$url['pri'] = 1.0;
 						}
+
+						/**
+						 * Filter: 'wpseo_xml_post_type_archive_priority' - Allow changing the priority of the URL WordPress SEO uses in the XML sitemap.
+						 *
+						 * @api float $priority The priority for this URL, ranging from 0 to 1
+						 *
+						 * @param string $post_type The post type this archive is for
+						 * @param object $p         The post object
+						 */
+						$url['pri'] = apply_filters( 'wpseo_xml_sitemap_post_priority', $url['pri'], $p->post_type, $p );
 
 						$url['images'] = array();
 
