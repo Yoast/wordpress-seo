@@ -314,8 +314,9 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 
 			$sep = $sepinput;
 
-			if ( is_feed() )
+			if ( is_feed() ) {
 				return $title;
+			}
 
 			// This needs to be kept track of in order to generate
 			// default titles for singular pages.
@@ -856,8 +857,9 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 			 *
 			 * @api bool $unsigned Whether or not to rel=next / rel=prev
 			 */
-			if ( is_home() && function_exists( 'genesis' ) && apply_filters( 'wpseo_genesis_force_adjacent_rel_home', false ) === false )
+			if ( is_home() && function_exists( 'genesis' ) && apply_filters( 'wpseo_genesis_force_adjacent_rel_home', false ) === false ) {
 				return;
+			}
 
 			global $wp_query;
 
@@ -867,11 +869,13 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 				if ( is_string( $url ) && $url !== '' ) {
 					$paged = get_query_var( 'paged' );
 
-					if ( 0 == $paged )
+					if ( 0 == $paged ) {
 						$paged = 1;
+					}
 
-					if ( $paged == 2 )
+					if ( $paged == 2 ) {
 						$this->adjacent_rel_link( 'prev', $url, $paged - 1, true );
+					}
 
 					// Make sure to use index.php when needed, done after paged == 2 check so the prev links to homepage will not have index.php erroneously.
 					if ( is_front_page() ) {
@@ -879,11 +883,13 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 						$url  = home_url( $base );
 					}
 
-					if ( $paged > 2 )
+					if ( $paged > 2 ) {
 						$this->adjacent_rel_link( 'prev', $url, $paged - 1, true );
+					}
 
-					if ( $paged < $wp_query->max_num_pages )
+					if ( $paged < $wp_query->max_num_pages ) {
 						$this->adjacent_rel_link( 'next', $url, $paged + 1, true );
+					}
 				}
 			} else {
 				$numpages = 0;
@@ -892,21 +898,26 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 				}
 				if ( $numpages > 1 ) {
 					$page = get_query_var( 'page' );
-					if ( ! $page )
+					if ( ! $page ) {
 						$page = 1;
+					}
 
 					$url = get_permalink( $wp_query->post->ID );
 
 					// If the current page is the frontpage, pagination should use /base/
-					if ( $this->is_home_static_page() )
+					if ( $this->is_home_static_page() ) {
 						$usebase = true;
-					else
+					}
+					else {
 						$usebase = false;
+					}
 
-					if ( $page > 1 )
+					if ( $page > 1 ) {
 						$this->adjacent_rel_link( 'prev', $url, $page - 1, $usebase, 'single_paged' );
-					if ( $page < $numpages )
+					}
+					if ( $page < $numpages ) {
 						$this->adjacent_rel_link( 'next', $url, $page + 1, $usebase, 'single_paged' );
+					}
 				}
 			}
 		}
@@ -926,8 +937,9 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 		private function adjacent_rel_link( $rel, $url, $page, $incl_pagination_base ) {
 			global $wp_rewrite;
 			if ( ! $wp_rewrite->using_permalinks() ) {
-				if ( $page > 1 )
+				if ( $page > 1 ) {
 					$url = add_query_arg( 'paged', $page, $url );
+				}
 			} else {
 				if ( $page > 1 ) {
 					$base = '';
@@ -1014,8 +1026,9 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 		public function metakeywords() {
 			global $wp_query, $post;
 
-			if ( $this->options['usemetakeywords'] === false )
+			if ( $this->options['usemetakeywords'] === false ) {
 				return;
+			}
 
 			$keywords = '';
 

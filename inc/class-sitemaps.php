@@ -102,7 +102,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 		public function reduce_query_load() {
 			if ( isset( $_SERVER['REQUEST_URI'] ) && ( in_array( substr( $_SERVER['REQUEST_URI'], - 4 ), array(
 					'.xml',
-					'.xsl'
+					'.xsl',
 				) ) )
 			) {
 				remove_all_actions( 'widgets_init' );
@@ -121,7 +121,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 			global $wp_query;
 
 			// check if $wp_query is properly set which isn't always the case in older WP development versions
-			if( ! is_object( $wp_query ) ) {
+			if ( ! is_object( $wp_query ) ) {
 				return $where;
 			}
 
@@ -214,7 +214,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 		 */
 		function redirect( $query ) {
 
-			if( ! $query->is_main_query() ) {
+			if ( ! $query->is_main_query() ) {
 				return;
 			}
 
@@ -522,7 +522,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 				'weekly',
 				'monthly',
 				'yearly',
-				'never'
+				'never',
 			) )
 			) {
 				$change_freq = $default;
@@ -639,19 +639,19 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 				// Optimized query per this thread: http://wordpress.org/support/topic/plugin-wordpress-seo-by-yoast-performance-suggestion
 				// Also see http://explainextended.com/2009/10/23/mysql-order-by-limit-performance-late-row-lookups/
 				$query = $wpdb->prepare( 'SELECT l.ID, post_title, post_content, post_name, post_author, post_parent, post_modified_gmt, post_date, post_date_gmt'
-				                         . ' FROM ('
-				                         . " SELECT ID FROM $wpdb->posts {$join_filter} "
-				                         . " WHERE post_status = '%s'"
-				                         . " AND post_password = ''"
-				                         . " AND post_type = '%s'"
-				                         . ' AND post_author != 0'
-				                         . " AND post_date != '0000-00-00 00:00:00'"
-				                         . " {$where_filter}"
-				                         . ' ORDER BY post_modified ASC'
-				                         . ' LIMIT %d OFFSET %d ) o'
-				                         . " JOIN $wpdb->posts l"
-				                         . ' ON l.ID = o.ID'
-				                         . ' ORDER BY l.ID',
+										. ' FROM ('
+										. " SELECT ID FROM $wpdb->posts {$join_filter} "
+										. " WHERE post_status = '%s'"
+										. " AND post_password = ''"
+										. " AND post_type = '%s'"
+										. ' AND post_author != 0'
+										. " AND post_date != '0000-00-00 00:00:00'"
+										. " {$where_filter}"
+										. ' ORDER BY post_modified ASC'
+										. ' LIMIT %d OFFSET %d ) o'
+										. " JOIN $wpdb->posts l"
+										. ' ON l.ID = o.ID'
+										. ' ORDER BY l.ID',
 					$status, $post_type, $steps, $offset
 				);
 
@@ -915,7 +915,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 					$tax_sitemap_inc = WPSEO_Taxonomy_Meta::get_term_meta( $c, $c->taxonomy, 'sitemap_include' );
 
 					if ( ( is_string( $tax_noindex ) && $tax_noindex === 'noindex' )
-					     && ( ! is_string( $tax_sitemap_inc ) || $tax_sitemap_inc !== 'always' )
+						&& ( ! is_string( $tax_sitemap_inc ) || $tax_sitemap_inc !== 'always' )
 					) {
 						continue;
 					}
@@ -968,16 +968,17 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 					}
 				}
 			}
+			
+			if ( empty( $output ) ) {
+				$this->bad_sitemap = true;
+
+				return;
+			}
 
 			$this->sitemap = '<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ';
 			$this->sitemap .= 'xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" ';
 			$this->sitemap .= 'xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
-
-			// Only add $ouput != empty
-			if ( ! empty( $output ) ) {
-				$this->sitemap .= $output;
-			}
-
+			$this->sitemap .= $output;
 			$this->sitemap .= '</urlset>';
 		}
 
@@ -1165,10 +1166,10 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 					$output .= "\t\t<image:image>\n";
 					$output .= "\t\t\t<image:loc>" . esc_html( $img['src'] ) . "</image:loc>\n";
 					if ( isset( $img['title'] ) && ! empty( $img['title'] ) ) {
-						$output .= "\t\t\t<image:title>" . _wp_specialchars( html_entity_decode( $img['title'], ENT_QUOTES, $this->charset ) ) . "</image:title>\n";
+						$output .= "\t\t\t<image:title><![CDATA[" . _wp_specialchars( html_entity_decode( $img['title'], ENT_QUOTES, $this->charset ) ) . "]]></image:title>\n";
 					}
 					if ( isset( $img['alt'] ) && ! empty( $img['alt'] ) ) {
-						$output .= "\t\t\t<image:caption>" . _wp_specialchars( html_entity_decode( $img['alt'], ENT_QUOTES, $this->charset ) ) . "</image:caption>\n";
+						$output .= "\t\t\t<image:caption><![CDATA[" . _wp_specialchars( html_entity_decode( $img['alt'], ENT_QUOTES, $this->charset ) ) . "]]></image:caption>\n";
 					}
 					$output .= "\t\t</image:image>\n";
 				}

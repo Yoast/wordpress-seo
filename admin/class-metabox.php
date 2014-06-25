@@ -907,7 +907,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 								array(
 									'key'     => self::$meta_prefix . 'meta-robots-noindex',
 									'value'   => '1',
-									'compare' => '!='
+									'compare' => '!=',
 								),
 							)
 						)
@@ -1762,16 +1762,13 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		 * @param string $firstp  The first paragraph.
 		 */
 		function score_body( $job, &$results, $body, $firstp ) {
-			$lengthScore = apply_filters(
-				'wpseo_body_length_score',
-				array(
-					'good' => 300,
-					'ok'   => 250,
-					'poor' => 200,
-					'bad'  => 100,
-				),
-				$job
+			$lengthScore = array(
+				'good' => 300,
+				'ok'   => 250,
+				'poor' => 200,
+				'bad'  => 100,
 			);
+			$lengthScore = apply_filters( 'wpseo_body_length_score', $lengthScore, $job );
 
 			$scoreBodyGoodLength = __( 'There are %d words contained in the body copy, this is more than the %d word recommended minimum.', 'wordpress-seo' );
 			$scoreBodyPoorLength = __( 'There are %d words contained in the body copy, this is below the %d word recommended minimum. Add more useful content on this topic for readers.', 'wordpress-seo' );

@@ -176,8 +176,9 @@ if ( ! class_exists( 'WPSEO_Pointers' ) ) {
 			}
 
 			$page = '';
-			if ( isset( $_GET['page'] ) )
+			if ( isset( $_GET['page'] ) ) {
 				$page = $_GET['page'];
+			}
 
 			$function = '';
 			$button2  = '';
