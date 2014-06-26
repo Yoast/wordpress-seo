@@ -59,8 +59,9 @@ if ( ! class_exists( 'WPSEO_Sitemaps_Admin' ) ) {
 		 * and is a post that is included in sitemaps.
 		 */
 		function status_transition( $new_status, $old_status, $post ) {
-			if ( $new_status != 'publish' )
+			if ( $new_status != 'publish' ) {
 				return;
+			}
 
 			wp_cache_delete( 'lastpostmodified:gmt:' . $post->post_type, 'timeinfo' ); // #17455
 
