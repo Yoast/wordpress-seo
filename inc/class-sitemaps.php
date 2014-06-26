@@ -540,9 +540,9 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 			global $wpdb;
 
 			if (
-				( isset( $this->options[ 'post_types-' . $post_type . '-not_in_sitemap' ] ) && $this->options[ 'post_types-' . $post_type . '-not_in_sitemap' ] === true )
+				isset( $this->options[ 'post_types-' . $post_type . '-not_in_sitemap' ] ) && $this->options[ 'post_types-' . $post_type . '-not_in_sitemap' ] === true )
 				|| in_array( $post_type, array( 'revision', 'nav_menu_item' ) )
-				|| apply_filters( 'wpseo_sitemap_exclude_post_type', false, $post_type )
+				|| apply_filters( 'wpseo_sitemap_exclude_post_type', false, $post_type
 			) {
 				$this->bad_sitemap = true;
 
