@@ -53,13 +53,15 @@ if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
 	$content .= '<strong>' . __( 'Post type archive to show in breadcrumbs for:', 'wordpress-seo' ) . '</strong><br/>';
 	foreach ( $taxonomies as $tax ) {
 		$values = array( 0 => __( 'None', 'wordpress-seo' ) );
-		if ( get_option( 'show_on_front' ) == 'page' )
+		if ( get_option( 'show_on_front' ) == 'page' ) {
 			$values['post'] = __( 'Blog', 'wordpress-seo' );
+		}
 
 		if ( is_array( $post_types ) && $post_types !== array() ) {
 			foreach ( $post_types as $pt ) {
-				if ( $pt->has_archive )
+				if ( $pt->has_archive ) {
 					$values[ $pt->name ] = $pt->labels->name;
+				}
 			}
 			unset( $pt );
 		}

@@ -135,25 +135,26 @@ if ( ! class_exists( 'Yoast_Tracking' ) ) {
 				);
 			}
 			unset( $active_plugins, $plugin_path );
-
+			
+			
 			$data = array(
-				'site'     => array(
+				'site'      => array(
 					'hash'      => $hash,
 					'version'   => get_bloginfo( 'version' ),
 					'multisite' => is_multisite(),
 					'users'     => $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM $wpdb->users INNER JOIN $wpdb->usermeta ON ({$wpdb->users}.ID = {$wpdb->usermeta}.user_id) WHERE 1 = 1 AND ( {$wpdb->usermeta}.meta_key = %s )", 'wp_' . $blog_id . '_capabilities' ) ),
 					'lang'      => get_locale(),
 				),
-				'pts'      => $pts,
-				'comments' => array(
+				'pts'       => $pts,
+				'comments'  => array(
 					'total'    => $comments_count->total_comments,
 					'approved' => $comments_count->approved,
 					'spam'     => $comments_count->spam,
 					'pings'    => $wpdb->get_var( "SELECT COUNT(comment_ID) FROM $wpdb->comments WHERE comment_type = 'pingback'" ),
 				),
-				'options'  => apply_filters( 'yoast_tracking_filters', array() ),
-				'theme'    => $theme,
-				'plugins'  => $plugins,
+				'options'   => apply_filters( 'yoast_tracking_filters', array() ),
+				'theme'     => $theme,
+				'plugins'   => $plugins,
 			);
 
 			$args = array(
@@ -176,28 +177,60 @@ if ( ! class_exists( 'Yoast_Tracking' ) ) {
  * @return array
  */
 function wpseo_tracking_additions( $options ) {
-	$opt = WPSEO_Options::get_all();
 	if ( function_exists( 'curl_version' ) ) {
 		$curl = curl_version();
 	} else {
 		$curl = null;
 	}
 
+
+	$opt = WPSEO_Options::get_all();
+
 	$options['wpseo'] = array(
-		'xml_sitemaps'        => ( $opt['enablexmlsitemap'] === true ) ? 1 : 0,
-		'force_rewrite'       => ( $opt['forcerewritetitle'] === true ) ? 1 : 0,
-		'opengraph'           => ( $opt['opengraph'] === true ) ? 1 : 0,
-		'twitter'             => ( $opt['twitter'] === true ) ? 1 : 0,
-		'strip_category_base' => ( $opt['stripcategorybase'] === true ) ? 1 : 0,
-		'on_front'            => get_option( 'show_on_front' ),
-		'php_version'         => phpversion(),
-		'php_curl'            => ( ! is_null( $curl ) ) ? $curl['version'] : 0,
-		'wmt_alexa'           => ( ! empty( $opt['alexaverify'] ) ) ? 1 : 0,
-		'wmt_bing'            => ( ! empty( $opt['msverify'] ) ) ? 1 : 0,
-		'wmt_google'          => ( ! empty( $opt['googleverify'] ) ) ? 1 : 0,
-		'wmt_pinterest'       => ( ! empty( $opt['pinterestverify'] ) ) ? 1 : 0,
-		'wmt_yandex'          => ( ! empty( $opt['yandexverify'] ) ) ? 1 : 0,
-		'permalinks_clean'    => ( $opt['cleanpermalinks'] == 1 ) ? 1 : 0,
+		'xml_sitemaps'                => ( $opt['enablexmlsitemap'] === true ) ? 1 : 0,
+		'force_rewrite'               => ( $opt['forcerewritetitle'] === true ) ? 1 : 0,
+		'opengraph'                   => ( $opt['opengraph'] === true ) ? 1 : 0,
+		'twitter'                     => ( $opt['twitter'] === true ) ? 1 : 0,
+		'strip_category_base'         => ( $opt['stripcategorybase'] === true ) ? 1 : 0,
+		'on_front'                    => get_option( 'show_on_front' ),
+		'wmt_alexa'                   => ( ! empty( $opt['alexaverify'] ) ) ? 1 : 0,
+		'wmt_bing'                    => ( ! empty( $opt['msverify'] ) ) ? 1 : 0,
+		'wmt_google'                  => ( ! empty( $opt['googleverify'] ) ) ? 1 : 0,
+		'wmt_pinterest'               => ( ! empty( $opt['pinterestverify'] ) ) ? 1 : 0,
+		'wmt_yandex'                  => ( ! empty( $opt['yandexverify'] ) ) ? 1 : 0,
+		'permalinks_clean'            => ( $opt['cleanpermalinks'] == 1 ) ? 1 : 0,
+
+		'site_db_charset'             => DB_CHARSET,
+
+		'webserver_apache'            => wpseo_is_apache() ? 1 : 0,
+		'webserver_apache_version'    => function_exists( 'apache_get_version' ) ? apache_get_version() : 0,
+		'webserver_nginx'             => wpseo_is_nginx() ? 1 : 0,
+
+		'webserver_server_software'   => $_SERVER['SERVER_SOFTWARE'],
+		'webserver_gateway_interface' => $_SERVER['GATEWAY_INTERFACE'],
+		'webserver_server_protocol'   => $_SERVER['SERVER_PROTOCOL'],
+
+		'php_version'                 => phpversion(),
+
+		'php_max_execution_time'      => ini_get( 'max_execution_time' ),
+		'php_memory_limit'            => ini_get( 'memory_limit' ),
+		'php_open_basedir'            => ini_get( 'open_basedir' ),
+
+		'php_bcmath_enabled'          => extension_loaded( 'bcmath' ) ? 1 : 0,
+		'php_ctype_enabled'           => extension_loaded( 'ctype' ) ? 1 : 0,
+		'php_curl_enabled'            => extension_loaded( 'curl' ) ? 1 : 0,
+		'php_curl_version_a'          => phpversion( 'curl' ),
+		'php_curl'                    => ( ! is_null( $curl ) ) ? $curl['version'] : 0,
+		'php_dom_enabled'             => extension_loaded( 'dom' ) ? 1 : 0,
+		'php_dom_version'             => phpversion( 'dom' ),
+		'php_filter_enabled'          => extension_loaded( 'filter' ) ? 1 : 0,
+		'php_mbstring_enabled'        => extension_loaded( 'mbstring' ) ? 1 : 0,
+		'php_mbstring_version'        => phpversion( 'mbstring' ),
+		'php_pcre_enabled'            => extension_loaded( 'pcre' ) ? 1 : 0,
+		'php_pcre_version'            => phpversion( 'pcre' ),
+		'php_pcre_with_utf8_a'        => @preg_match( '/^.{1}$/u','ñ', $UTF8_ar ),
+		'php_pcre_with_utf8_b'        => defined( 'PREG_BAD_UTF8_ERROR' ),
+		'php_spl_enabled'             => extension_loaded( 'spl' ) ? 1 : 0,
 	);
 
 	return $options;
