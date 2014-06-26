@@ -151,8 +151,9 @@ $wpseo_admin_pages->admin_header( true, WPSEO_Options::get_group_name( 'wpseo_ti
 	echo '<h4>' . __( 'Author Archives', 'wordpress-seo' ) . '</h4>';
 	echo $wpseo_admin_pages->textinput( 'title-author-wpseo', __( 'Title template', 'wordpress-seo' ) );
 	echo $wpseo_admin_pages->textarea( 'metadesc-author-wpseo', __( 'Meta description template', 'wordpress-seo' ), '', 'metadesc' );
-	if ( $options[ 'usemetakeywords' ] === true )
+	if ( $options[ 'usemetakeywords' ] === true ) {
 		echo $wpseo_admin_pages->textinput( 'metakey-author-wpseo', __( 'Meta keywords template', 'wordpress-seo' ) );
+	}
 	echo $wpseo_admin_pages->checkbox( 'noindex-author-wpseo', '<code>noindex, follow</code>', __( 'Meta Robots', 'wordpress-seo' ) );
 	echo $wpseo_admin_pages->checkbox( 'disable-author', __( 'Disable the author archives', 'wordpress-seo' ), '' );
 	echo '<p class="desc label">' . __( 'If you\'re running a one author blog, the author archive will always look exactly the same as your homepage. And even though you may not link to it, others might, to do you harm. Disabling them here will make sure any link to those archives will be 301 redirected to the homepage.', 'wordpress-seo' ) . '</p>';

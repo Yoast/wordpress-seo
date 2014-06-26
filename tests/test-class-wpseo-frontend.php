@@ -15,9 +15,9 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		ob_clean();
 	}
 
-    /**
-     * @covers WPSEO_Frontend::is_home_posts_page
-     */
+	/**
+	 * @covers WPSEO_Frontend::is_home_posts_page
+	 */
 	public function test_is_home_posts_page() {
 
 		$this->go_to_home();
@@ -33,9 +33,9 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		$this->assertFalse( self::$class_instance->is_home_posts_page() );
 	}
 
-    /**
-     * @covers WPSEO_Frontend::is_home_static_page
-     */
+	/**
+	 * @covers WPSEO_Frontend::is_home_static_page
+	 */
 	public function test_is_home_static_page() {
 
 		// on front page
@@ -62,9 +62,9 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		$this->assertFalse( self::$class_instance->is_home_static_page() );
 	}
 
-    /**
-     * @covers WPSEO_Frontend::is_posts_page
-     */
+	/**
+	 * @covers WPSEO_Frontend::is_posts_page
+	 */
 	public function test_is_posts_page() {
 
 		// on home with show_on_front != page
@@ -82,9 +82,9 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		$this->assertFalse( self::$class_instance->is_posts_page() );
 	}
 
-    /**
-     * @covers WPSEO_Frontend::get_content_title
-     */
+	/**
+	 * @covers WPSEO_Frontend::get_content_title
+	 */
 	public function test_get_content_title() {
 
 		// create and go to post
@@ -100,23 +100,23 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		$explicit_title = 'WPSEO Post Title %%sitename%%';
 		WPSEO_Meta::set_value( 'title', $explicit_title, $post_id );
 
-		$post = get_post( $post_id );
+		$post           = get_post( $post_id );
 		$expected_title = wpseo_replace_vars( $explicit_title, $post );
 		$this->assertEquals( $expected_title, self::$class_instance->get_content_title() );
 	}
 
-    /**
-     * @covers WPSEO_Frontend::get_taxonomy_title
-     */
+	/**
+	 * @covers WPSEO_Frontend::get_taxonomy_title
+	 */
 	public function test_get_taxonomy_title() {
 
 		// @todo fix for multisite
-		if( is_multisite() ) {
+		if ( is_multisite() ) {
 			return;
 		}
 
 		// create and go to cat archive
-		$category_id = wp_create_category( "Category Name" );
+		$category_id = wp_create_category( 'Category Name' );
 		$this->go_to( get_category_link( $category_id ) );
 
 		// test title according to format
@@ -127,9 +127,9 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		// we need an easy way to set taxonomy meta though...
 	}
 
-    /**
-     * @covers WPSEO_Frontend::get_author_title
-     */
+	/**
+	 * @covers WPSEO_Frontend::get_author_title
+	 */
 	public function test_get_author_title() {
 
 		// create and go to author
@@ -149,9 +149,9 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( $expected_title, self::$class_instance->get_author_title() );
 	}
 
-    /**
-     * @covers WPSEO_Frontend::get_title_from_options
-     */
+	/**
+	 * @covers WPSEO_Frontend::get_title_from_options
+	 */
 	public function test_get_title_from_options() {
 		// should return an empty string
 		$this->assertEmpty( self::$class_instance->get_title_from_options( '__not-existing-index' ) );
@@ -160,48 +160,48 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		$post_id = $this->factory->post->create();
 		$this->go_to( get_permalink( $post_id ) );
 
-		$var_source = (array) get_queried_object();
+		$var_source     = (array) get_queried_object();
 		$expected_title = wpseo_replace_vars( '%%title%% %%sep%% %%sitename%%', $var_source );
 		$this->assertEquals( $expected_title, self::$class_instance->get_title_from_options( '__not-existing-index', $var_source ) );
 
 		// test with an option that exists
-		$index = 'title-post';
+		$index          = 'title-post';
 		$expected_title = wpseo_replace_vars( self::$class_instance->options[ $index ], $var_source );
 		$this->assertEquals( $expected_title, self::$class_instance->get_title_from_options( $index, $var_source ) );
 	}
 
-    /**
-     * @covers WPSEO_Frontend::get_default_title
-     */
+	/**
+	 * @covers WPSEO_Frontend::get_default_title
+	 */
 	public function test_get_default_title() {
 		// TODO
 	}
 
-    /**
-     * @covers WPSEO_Frontend::add_paging_to_title
-     */
+	/**
+	 * @covers WPSEO_Frontend::add_paging_to_title
+	 */
 	public function test_add_paging_to_title() {
 		$input = 'Initial title';
 
 		// test without paged query var set
 		$expected = $input;
-		$this->assertEquals( $input, self::$class_instance->add_paging_to_title('', '', $input ) );
+		$this->assertEquals( $input, self::$class_instance->add_paging_to_title( '', '', $input ) );
 
 		// test with paged set
 		set_query_var( 'paged', 2 );
 		global $wp_query;
 		$expected = self::$class_instance->add_to_title( '', '', $input, $wp_query->query_vars['paged'] . '/' . $wp_query->max_num_pages );
-		$this->assertEquals( $expected, self::$class_instance->add_paging_to_title( '', '', $input) );
+		$this->assertEquals( $expected, self::$class_instance->add_paging_to_title( '', '', $input ) );
 	}
 
-    /**
-     * @covers WPSEO_Frontend::add_to_title
-     */
+	/**
+	 * @covers WPSEO_Frontend::add_to_title
+	 */
 	public function test_add_to_title() {
 
-		$title = "Title";
-		$sep = " >> ";
-		$title_part = "Title Part";
+		$title      = 'Title';
+		$sep        = ' >> ';
+		$title_part = 'Title Part';
 
 		$expected = $title . $sep . $title_part;
 		$this->assertEquals( $expected, self::$class_instance->add_to_title( $sep, 'right', $title, $title_part ) );
@@ -210,38 +210,38 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( $expected, self::$class_instance->add_to_title( $sep, 'left', $title, $title_part ) );
 	}
 
-    /**
-     * @covers WPSEO_Frontend::title
-     */
+	/**
+	 * @covers WPSEO_Frontend::title
+	 */
 	public function test_title() {
 		// @todo
 	}
 
-    /**
-     * @covers WPSEO_Frontend::wp_title
-     */
+	/**
+	 * @covers WPSEO_Frontend::wp_title
+	 */
 	public function force_wp_title() {
 		// @todo
 	}
 
-    /**
-     * @covers WPSEO_Frontend::debug_marker
-     */
+	/**
+	 * @covers WPSEO_Frontend::debug_marker
+	 */
 	public function test_debug_marker() {
 		// test if the version number is shown in the debug marker
-		$version_found =  ( stristr( self::$class_instance->debug_marker( false ), WPSEO_VERSION ) !== false );
+		$version_found = ( stristr( self::$class_instance->debug_marker( false ), WPSEO_VERSION ) !== false );
 		$this->assertTrue( $version_found );
 	}
 
-    /**
-     * @covers WPSEO_Frontend::webmaster_tools_authentication
-     */
+	/**
+	 * @covers WPSEO_Frontend::webmaster_tools_authentication
+	 */
 	public function test_webmaster_tools_authentication() {
 
 		$this->go_to_home();
 
 		$this->run_webmaster_tools_authentication_option_test( 'alexaverify', '<meta name="alexaVerifyID" content="alexaverify" />' . "\n" );
-		$this->run_webmaster_tools_authentication_option_test( 'msverify',  '<meta name="msvalidate.01" content="msverify" />' . "\n");
+		$this->run_webmaster_tools_authentication_option_test( 'msverify', '<meta name="msvalidate.01" content="msverify" />' . "\n" );
 		$this->run_webmaster_tools_authentication_option_test( 'googleverify', '<meta name="google-site-verification" content="googleverify" />' . "\n" );
 		$this->run_webmaster_tools_authentication_option_test( 'pinterestverify', '<meta name="p:domain_verify" content="pinterestverify" />' . "\n" );
 		$this->run_webmaster_tools_authentication_option_test( 'yandexverify', '<meta name="yandex-verification" content="yandexverify" />' . "\n" );
@@ -250,23 +250,23 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		$post_id = $this->factory->post->create();
 		$this->go_to( get_permalink( $post_id ) );
 
-		$this->run_webmaster_tools_authentication_option_test( 'yandexverify', '');
+		$this->run_webmaster_tools_authentication_option_test( 'yandexverify', '' );
 	}
 
-    /**
-     * @covers WPSEO_Frontend::head
-     */
+	/**
+	 * @covers WPSEO_Frontend::head
+	 */
 	public function test_head() {
 
 		self::$class_instance->head();
 		ob_clean();
 
-		$this->assertEquals(1, did_action( 'wpseo_head' ) );
+		$this->assertEquals( 1, did_action( 'wpseo_head' ) );
 	}
 
 	/**
 	 * @covers WPSEO_Frontend::robots
-     *
+	 *
 	 * @todo test post type archives
 	 * @todo test with noodp and noydir option set
 	 * @todo test with page_for_posts option
@@ -314,7 +314,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( $expected, self::$class_instance->robots() );
 
 		// test noindex-post option
-		$expected = 'noindex,follow';
+		$expected                                      = 'noindex,follow';
 		self::$class_instance->options['noindex-post'] = true;
 		$this->assertEquals( $expected, self::$class_instance->robots() );
 
@@ -330,7 +330,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( $expected, self::$class_instance->robots() );
 
 		// go to category page
-		$category_id = wp_create_category( "Category Name" );
+		$category_id = wp_create_category( 'Category Name' );
 
 		// add posts to category
 		$this->factory->post->create_many( 6, array( 'post_category' => array( $category_id ) ) );
@@ -344,11 +344,11 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 
 		// test category with noindex-tax-category option
 		// TODO fix test for multisite (or code?)
-		if( false === is_multisite() ) {
-			$expected = 'noindex,follow';
+		if ( false === is_multisite() ) {
+			$expected                                              = 'noindex,follow';
 			self::$class_instance->options['noindex-tax-category'] = true;
 			$this->assertEquals( $expected, self::$class_instance->robots() );
-		
+
 			// clean-up
 			self::$class_instance->options['noindex-tax-category'] = false;
 
@@ -369,7 +369,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( $expected, self::$class_instance->robots() );
 
 		// test author archive with 'noindex-author-wpseo'
-		$expected = 'noindex,follow';
+		$expected                                              = 'noindex,follow';
 		self::$class_instance->options['noindex-author-wpseo'] = true;
 		$this->assertEquals( $expected, self::$class_instance->robots() );
 
@@ -377,9 +377,9 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		self::$class_instance->options['noindex-author-wpseo'] = false;
 	}
 
-    /**
-     * @covers WPSEO_Frontend::robots_for_single_post
-     */
+	/**
+	 * @covers WPSEO_Frontend::robots_for_single_post
+	 */
 	public function test_robots_for_single_post() {
 
 		// create and go to post
@@ -389,38 +389,38 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		$robots = array(
 			'index' => 'index',
 			'follow' => 'follow',
-			'other' => array( )
+			'other' => array(),
 		);
 		$expected = $robots;
 
 		// test noindex
 		WPSEO_Meta::set_value( 'meta-robots-noindex', '1', $post_id );
 		$expected['index'] = 'noindex';
-		$this->assertEquals( $expected, self::$class_instance->robots_for_single_post( $robots, $this->post_id ) );
+		$this->assertEquals( $expected, self::$class_instance->robots_for_single_post( $robots, $post_id ) );
 
 		// test nofollow
 		WPSEO_Meta::set_value( 'meta-robots-nofollow', 1, $post_id );
 		$expected['follow'] = 'nofollow';
-		$this->assertEquals( $expected, self::$class_instance->robots_for_single_post( $robots, $this->post_id ) );
+		$this->assertEquals( $expected, self::$class_instance->robots_for_single_post( $robots, $post_id ) );
 
 		// test noodp with default meta-robots-adv
 		self::$class_instance->options['noodp'] = true;
 		$expected['other'] = array( 'noodp' );
-		$this->assertEquals( $expected, self::$class_instance->robots_for_single_post( $robots, $this->post_id ) );
+		$this->assertEquals( $expected, self::$class_instance->robots_for_single_post( $robots, $post_id ) );
 
 		// test noydir with default meta-robots-adv
 		self::$class_instance->options['noydir'] = true;
 		$expected['other'] = array( 'noodp', 'noydir' );
-		$this->assertEquals( $expected, self::$class_instance->robots_for_single_post( $robots, $this->post_id ) );
+		$this->assertEquals( $expected, self::$class_instance->robots_for_single_post( $robots, $post_id ) );
 
 		// test meta-robots adv noodp and nosnippet
 		WPSEO_Meta::set_value( 'meta-robots-adv', 'noodp,nosnippet', $post_id );
 		$expected['other'] = array( 'noodp', 'nosnippet' );
-		$this->assertEquals( $expected, self::$class_instance->robots_for_single_post( $robots, $this->post_id ) );
+		$this->assertEquals( $expected, self::$class_instance->robots_for_single_post( $robots, $post_id ) );
 
 		WPSEO_Meta::set_value( 'meta-robots-noindex', '2', $post_id );
 		$expected['index'] = 'index';
-		$this->assertEquals( $expected, self::$class_instance->robots_for_single_post( $robots, $this->post_id ) );
+		$this->assertEquals( $expected, self::$class_instance->robots_for_single_post( $robots, $post_id ) );
 	}
 
 	/**
@@ -429,7 +429,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	public function test_canonical() {
 
 		// @todo: fix for multisite
-		if( is_multisite() ) {
+		if ( is_multisite() ) {
 			return;
 		}
 
@@ -461,7 +461,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( $expected, self::$class_instance->canonical( false ) );
 
 		// test taxonomy pages, category pages and tag pages
-		$category_id = wp_create_category( "Category Name" );
+		$category_id   = wp_create_category( 'Category Name' );
 		$category_link = get_category_link( $category_id );
 		$this->go_to( $category_link );
 
@@ -596,7 +596,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Frontend::nofollow_link
 	 */
 	public function test_nofollow_link() {
-		$input = '<a href="#">A link</a>';
+		$input    = '<a href="#">A link</a>';
 		$expected = str_replace( '<a ', '<a rel="nofollow" ', $input );
 		$this->assertEquals( $expected, self::$class_instance->nofollow_link( $input ) );
 	}
@@ -668,7 +668,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_remove_reply_to_com() {
 
-		$link = '<a href="http://yoast.com/post?replytocom=123#respond">Reply to Comment</a>';
+		$link     = '<a href="http://yoast.com/post?replytocom=123#respond">Reply to Comment</a>';
 		$expected = '<a href="#comment-123">Reply to Comment</a>';
 
 		$this->assertEquals( $expected, self::$class_instance->remove_reply_to_com( $link ) );
@@ -715,7 +715,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		$c = self::$class_instance;
 
 		// test requests to the robots file
-		$this->go_to( add_query_arg( array( 'robots' => 1 ), home_url() ) );
+		$this->go_to( add_query_arg( array( 'robots' => 1 ), home_url( '/' ) ) );
 		$this->assertFalse( $c->clean_permalink() );
 
 		// test requests to the sitemap
@@ -741,13 +741,14 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		$text = 'Some text with some RSS Variables. Written by %%AUTHORLINK%%, the post is %%POSTLINK%% on the blog %%BLOGLINK%%. %%BLOGDESCLINK%%.';
 
 		// generate expected output
-		$author_link = '<a rel="nofollow" rel="author" href="' . esc_url( get_author_posts_url( $this->post->post_author ) ) . '">' . get_the_author() . '</a>';
-		$post_link = '<a rel="nofollow" href="' . esc_url( get_permalink() ) . '">' . get_the_title() . '</a>';
-		$blog_link = '<a rel="nofollow" href="' . esc_url( get_bloginfo( 'url' ) ) . '">' . get_bloginfo( 'name' ) . '</a>';
+		$post           = get_post( $post_id );
+		$author_link    = '<a rel="nofollow" rel="author" href="' . esc_url( get_author_posts_url( $post->post_author ) ) . '">' . get_the_author() . '</a>';
+		$post_link      = '<a rel="nofollow" href="' . esc_url( get_permalink() ) . '">' . get_the_title() . '</a>';
+		$blog_link      = '<a rel="nofollow" href="' . esc_url( get_bloginfo( 'url' ) ) . '">' . get_bloginfo( 'name' ) . '</a>';
 		$blog_desc_link = '<a rel="nofollow" href="' . esc_url( get_bloginfo( 'url' ) ) . '">' . get_bloginfo( 'name' ) . ' - ' . get_bloginfo( 'description' ) . '</a>';
-		$expected = stripslashes( trim( $text ) );
-		$expected = str_replace(
-			array( '%%AUTHORLINK%%', '%%POSTLINK%%', '%%BLOGLINK%%', '%%BLOGDESCLINK%%'),
+		$expected       = stripslashes( trim( $text ) );
+		$expected       = str_replace(
+			array( '%%AUTHORLINK%%', '%%POSTLINK%%', '%%BLOGLINK%%', '%%BLOGDESCLINK%%' ),
 			array( $author_link, $post_link, $blog_link, $blog_desc_link ),
 			$expected
 		);
@@ -817,7 +818,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		$this->go_to( get_bloginfo( 'rss2_url' ) );
 
 		// test if input was changed
-		self::$class_instance->options['rssbefore'] = "Some RSS before text";
+		self::$class_instance->options['rssbefore'] = 'Some RSS before text';
 		$expected = wpautop( self::$class_instance->options['rssbefore'] ) . $input;
 		$this->assertEquals( $expected, self::$class_instance->embed_rss( $input, 'full' ) );
 	}
@@ -839,7 +840,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 
 		// create expected output
 		global $sep;
-		$title = self::$class_instance->title( '', $sep );
+		$title    = self::$class_instance->title( '', $sep );
 		$expected = preg_replace( '/<title(.*)\/title>/i', '', $content );
 		$expected = str_replace( $c->debug_marker( false ), $c->debug_marker( false ) . "\n" . '<title>' . $title . '</title>', $expected );
 		echo $content;

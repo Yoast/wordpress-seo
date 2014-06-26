@@ -68,8 +68,9 @@ if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
 	$content .= '<h2>' . __( 'Exclude taxonomies', 'wordpress-seo' ) . '</h2>';
 	$content .= '<p>' . __( 'Please check the appropriate box below if there\'s a taxonomy that you do <strong>NOT</strong> want to include in your sitemap:', 'wordpress-seo' ) . '</p>';
 	foreach ( $taxonomies as $tax ) {
-		if ( isset( $tax->labels->name ) && trim( $tax->labels->name ) != '' )
+		if ( isset( $tax->labels->name ) && trim( $tax->labels->name ) != '' ) {
 			$content .= $wpseo_admin_pages->checkbox( 'taxonomies-' . $tax->name . '-not_in_sitemap', $tax->labels->name . ' (<code>' . $tax->name . '</code>)' );
+		}
 	}
 }
 
