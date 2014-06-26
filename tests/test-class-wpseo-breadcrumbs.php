@@ -12,12 +12,12 @@ class WPSEO_Breadcrumbs_Test extends WPSEO_UnitTestCase {
 		$this->assertEmpty( $output );
 
 		// test before argument
-		$output = WPSEO_Breadcrumbs::breadcrumb( 'before', '', false );
+		$output   = WPSEO_Breadcrumbs::breadcrumb( 'before', '', false );
 		$expected = 'before';
 		$this->assertStringStartsWith( $expected, $output );
 
 		// test after argument
-		$output = WPSEO_Breadcrumbs::breadcrumb( '', 'after', false );
+		$output   = WPSEO_Breadcrumbs::breadcrumb( '', 'after', false );
 		$expected = 'after';
 		$this->assertStringEndsWith( $expected, $output );
 
