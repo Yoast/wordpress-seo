@@ -3,17 +3,17 @@
 	<description>WordPress SEO rules for PHP_CodeSniffer</description>
 
 	<exclude-pattern>tests/*</exclude-pattern>
-	<exclude-pattern>tmp/*</exclude-pattern>
 	<exclude-pattern>admin/pages/*</exclude-pattern>
 	<exclude-pattern>admin/license-manager/*</exclude-pattern>
 
-	<rule ref="WordPress">
-		<exclude name="WordPress.WhiteSpace.ControlStructureSpacing" />
+	<rule ref="WordPressExtra">
+		<exclude name="Generic.Files.LineEndings" />
+		<exclude name="Squiz.WhiteSpace.SuperfluousWhitespace" />
 		<exclude name="WordPress.Arrays.ArrayDeclaration" />
-		<exclude name="WordPress.Functions.FunctionCallSignature" />
-		<exclude name="WordPress.Objects.ObjectInstantiation" />
-		<exclude name="WordPress.Formatting.MultipleStatementAlignment" />
-		<exclude name="WordPress.XSS.EscapeOutput" />
 		<exclude name="WordPress.WhiteSpace.ScopeIndent.Incorrect" />
+		<exclude name="WordPress.WhiteSpace.ControlStructureSpacing" />
+		<exclude name="WordPress.XSS.EscapeOutput" />
 	</rule>
+	<rule ref="WordPress.Arrays.ArrayAssignmentRestrictions"/>
+	<rule ref="WordPress.Functions.FunctionRestrictions"/>
 </ruleset>

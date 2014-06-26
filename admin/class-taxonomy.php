@@ -34,8 +34,9 @@ if ( ! class_exists( 'WPSEO_Taxonomy' ) ) {
 
 			if ( is_admin() && ( isset( $_GET['taxonomy'] ) && $_GET['taxonomy'] !== '' ) &&
 				( ! isset( $options['hideeditbox-tax-' . $_GET['taxonomy']] ) || $options['hideeditbox-tax-' . $_GET['taxonomy']] === false )
-			)
+			) {
 				add_action( sanitize_text_field( $_GET['taxonomy'] ) . '_edit_form', array( $this, 'term_seo_form' ), 10, 1 );
+			}
 
 			add_action( 'edit_term', array( $this, 'update_term' ), 99, 3 );
 
@@ -157,8 +158,9 @@ if ( ! class_exists( 'WPSEO_Taxonomy' ) ) {
 		 * @param object $term Term to show the edit boxes for.
 		 */
 		function term_seo_form( $term ) {
-			if ( $this->tax_is_public() === false )
+			if ( $this->tax_is_public() === false ) {
 				return;
+			}
 
 			$tax_meta = WPSEO_Taxonomy_Meta::get_term_meta( (int) $term->term_id, $term->taxonomy );
 			$options  = WPSEO_Options::get_all();

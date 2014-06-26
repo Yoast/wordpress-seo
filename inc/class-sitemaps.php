@@ -34,6 +34,11 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 		public $bad_sitemap = false;
 
 		/**
+		 * Whether or not the XML sitemap was served from a transient or not.
+		 */
+		private $transient = false;
+
+		/**
 		 * The maximum number of entries per sitemap page
 		 */
 		private $max_entries;
@@ -60,6 +65,13 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 		private $home_url = '';
 
 		/**
+		 * Holds the get_bloginfo( 'charset' ) value to reuse for performance
+		 *
+		 * @var string $charset
+		 */
+		private $charset = '';
+
+		/**
 		 * Class constructor
 		 */
 		function __construct() {
@@ -67,8 +79,10 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 				define( 'ENT_XML1', 16 );
 			}
 
-			add_action( 'after_setup_theme', array( $this, 'reduce_query_load' ), 90 );
-			add_action( 'template_redirect', array( $this, 'redirect' ), 9 );
+			add_action( 'after_setup_theme', array( $this, 'reduce_query_load' ), 99 );
+			add_filter( 'posts_where', array( $this, 'invalidate_main_query' ) );
+
+			add_action( 'pre_get_posts', array( $this, 'redirect' ), 1 );
 			add_filter( 'redirect_canonical', array( $this, 'canonical' ) );
 			add_action( 'wpseo_hit_sitemap_index', array( $this, 'hit_sitemap_index' ) );
 
@@ -78,6 +92,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 			$this->options     = WPSEO_Options::get_all();
 			$this->max_entries = $this->options['entries-per-page'];
 			$this->home_url    = home_url();
+			$this->charset     = get_bloginfo( 'charset' );
 
 		}
 
@@ -87,13 +102,36 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 		public function reduce_query_load() {
 			if ( isset( $_SERVER['REQUEST_URI'] ) && ( in_array( substr( $_SERVER['REQUEST_URI'], - 4 ), array(
 					'.xml',
-					'.xsl'
+					'.xsl',
 				) ) )
 			) {
 				remove_all_actions( 'widgets_init' );
-				// @todo need to bail the main query here....
 			}
 		}
+
+		/**
+		 * This query invalidates the main query on purpose so it returns nice and quickly
+		 *
+		 * @param string $where
+		 *
+		 * @return string
+		 */
+		function invalidate_main_query( $where ) {
+
+			global $wp_query;
+
+			// check if $wp_query is properly set which isn't always the case in older WP development versions
+			if ( ! is_object( $wp_query ) ) {
+				return $where;
+			}
+
+			if ( is_main_query() && ( get_query_var( 'sitemap' ) != '' || get_query_var( 'xsl' ) != '' ) ) {
+				$where = ' AND 0=1 ' . $where;
+			}
+
+			return $where;
+		}
+
 
 		/**
 		 * Returns the server HTTP protocol to use for output, if it's set.
@@ -174,7 +212,12 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 		/**
 		 * Hijack requests for potential sitemaps and XSL files.
 		 */
-		function redirect() {
+		function redirect( $query ) {
+
+			if ( ! $query->is_main_query() ) {
+				return;
+			}
+
 			$xsl = get_query_var( 'xsl' );
 			if ( ! empty( $xsl ) ) {
 				$this->xsl_output( $xsl );
@@ -191,12 +234,32 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 				$this->n = intval( $n );
 			}
 
-			$this->build_sitemap( $type );
-			// 404 for invalid or emtpy sitemaps
-			if ( $this->bad_sitemap ) {
-				$GLOBALS['wp_query']->is_404 = true;
+			/**
+			 * Filter: 'wpseo_enable_xml_sitemap_transient_caching' - Allow disabling the transient cache
+			 *
+			 * @api bool $unsigned Enable cache or not, defaults to true
+			 */
+			$caching = apply_filters( 'wpseo_enable_xml_sitemap_transient_caching', true );
 
-				return;
+			if ( $caching ) {
+				$this->sitemap = get_transient( 'wpseo_sitemap_cache_' . $type . '_' . $n );
+			}
+
+			if ( ! $this->sitemap || '' == $this->sitemap ) {
+				$this->build_sitemap( $type );
+
+				// 404 for invalid or emtpy sitemaps
+				if ( $this->bad_sitemap ) {
+					$GLOBALS['wp_query']->is_404 = true;
+
+					return;
+				}
+
+				if ( $caching ) {
+					set_transient( 'wpseo_sitemap_cache_' . $type . '_' . $n, $this->sitemap, DAY_IN_SECONDS );
+				}
+			} else {
+				$this->transient = true;
 			}
 
 			$this->output();
@@ -459,7 +522,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 				'weekly',
 				'monthly',
 				'yearly',
-				'never'
+				'never',
 			) )
 			) {
 				$change_freq = $default;
@@ -534,10 +597,17 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 
 				$archive = get_post_type_archive_link( $post_type );
 				if ( $archive ) {
+					/**
+					 * Filter: 'wpseo_xml_post_type_archive_priority' - Allow changing the priority of the URL WordPress SEO uses in the XML sitemap.
+					 *
+					 * @api float $priority The priority for this URL, ranging from 0 to 1
+					 *
+					 * @param string $post_type The post type this archive is for
+					 */
 					$output .= $this->sitemap_url(
 						array(
 							'loc' => $archive,
-							'pri' => 0.8,
+							'pri' => apply_filters( 'wpseo_xml_post_type_archive_priority', 0.8, $post_type ),
 							'chf' => $this->filter_frequency( $post_type . '_archive', 'weekly', $archive ),
 							'mod' => $this->get_last_modified( $post_type ),
 							// get_lastpostmodified( 'gmt', $post_type ) #17455
@@ -568,24 +638,20 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 
 				// Optimized query per this thread: http://wordpress.org/support/topic/plugin-wordpress-seo-by-yoast-performance-suggestion
 				// Also see http://explainextended.com/2009/10/23/mysql-order-by-limit-performance-late-row-lookups/
-				$query = $wpdb->prepare(
-					"
-					SELECT l.ID, post_title, post_content, post_name, post_author, post_parent, post_modified_gmt,
-						post_date, post_date_gmt
-					FROM (
-						SELECT ID FROM $wpdb->posts {$join_filter}
-							WHERE post_status = '%s'
-							AND	post_password = ''
-							AND post_type = '%s'
-							AND post_author != 0
-							AND post_date != '0000-00-00 00:00:00'
-							{$where_filter}
-							ORDER BY post_modified ASC
-							LIMIT %d OFFSET %d ) o
-						JOIN $wpdb->posts l
-						ON l.ID = o.ID
-						ORDER BY l.ID
-					",
+				$query = $wpdb->prepare( 'SELECT l.ID, post_title, post_content, post_name, post_author, post_parent, post_modified_gmt, post_date, post_date_gmt'
+										. ' FROM ('
+										. " SELECT ID FROM $wpdb->posts {$join_filter} "
+										. " WHERE post_status = '%s'"
+										. " AND post_password = ''"
+										. " AND post_type = '%s'"
+										. ' AND post_author != 0'
+										. " AND post_date != '0000-00-00 00:00:00'"
+										. " {$where_filter}"
+										. ' ORDER BY post_modified ASC'
+										. ' LIMIT %d OFFSET %d ) o'
+										. " JOIN $wpdb->posts l"
+										. ' ON l.ID = o.ID'
+										. ' ORDER BY l.ID',
 					$status, $post_type, $steps, $offset
 				);
 
@@ -597,12 +663,12 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 				}
 				update_meta_cache( 'post', $post_ids );
 
-				$child_query = "SELECT ID, post_parent FROM $wpdb->posts WHERE post_status = 'inherit' AND post_type = 'attachment' AND post_parent IN (" . implode( $post_ids, ',' ) . ")";
+				$child_query = "SELECT ID, post_title, post_parent FROM $wpdb->posts WHERE post_status = 'inherit' AND post_type = 'attachment' AND post_parent IN (" . implode( $post_ids, ',' ) . ')';
 				$wpdb->query( $child_query );
 				$attachments    = $wpdb->get_results( $child_query );
 				$attachment_ids = wp_list_pluck( $attachments, 'ID' );
 
-				$thumbnail_query = "SELECT meta_value FROM $wpdb->postmeta WHERE meta_key = '_thumbnail_id' AND post_id IN (" . implode( $post_ids, ',' ) . ")";
+				$thumbnail_query = "SELECT meta_value FROM $wpdb->postmeta WHERE meta_key = '_thumbnail_id' AND post_id IN (" . implode( $post_ids, ',' ) . ')';
 				$wpdb->query( $thumbnail_query );
 				$thumbnails    = $wpdb->get_results( $thumbnail_query );
 				$thumbnail_ids = wp_list_pluck( $thumbnails, 'meta_value' );
@@ -682,12 +748,22 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 							$url['pri'] = 1.0;
 						}
 
+						/**
+						 * Filter: 'wpseo_xml_post_type_archive_priority' - Allow changing the priority of the URL WordPress SEO uses in the XML sitemap.
+						 *
+						 * @api float $priority The priority for this URL, ranging from 0 to 1
+						 *
+						 * @param string $post_type The post type this archive is for
+						 * @param object $p         The post object
+						 */
+						$url['pri'] = apply_filters( 'wpseo_xml_sitemap_post_priority', $url['pri'], $p->post_type, $p );
+
 						$url['images'] = array();
 
 						$content = $p->post_content;
 						$content = '<p><img src="' . $this->image_url( get_post_thumbnail_id( $p->ID ) ) . '" alt="' . $p->post_title . '" /></p>' . $content;
 
-						$host = str_replace( 'www.', '', parse_url( get_bloginfo( 'url' ), PHP_URL_HOST ) );
+						$host = str_replace( 'www.', '', parse_url( $this->home_url, PHP_URL_HOST ) );
 
 						if ( preg_match_all( '`<img [^>]+>`', $content, $matches ) ) {
 							foreach ( $matches[0] as $img ) {
@@ -697,7 +773,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 										if ( $src[0] != '/' ) {
 											continue;
 										}
-										$src = get_bloginfo( 'url' ) . $src;
+										$src = $this->home_url . $src;
 									}
 
 									if ( strpos( $src, $host ) === false ) {
@@ -734,17 +810,17 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 						if ( strpos( $p->post_content, '[gallery' ) !== false ) {
 							if ( is_array( $attachments ) && $attachments !== array() ) {
 
-								foreach ( $attachments as $att_id => $attachment ) {
+								foreach ( $attachments as $attachment ) {
 									if ( $attachment->post_parent !== $p->ID ) {
 										continue;
 									}
 
-									$src   = wp_get_attachment_url( $att_id );
+									$src   = $this->image_url( $attachment->ID );
 									$image = array(
-										'src' => apply_filters( 'wpseo_xml_sitemap_img_src', $src[0], $p )
+										'src' => apply_filters( 'wpseo_xml_sitemap_img_src', $src, $p )
 									);
 
-									$alt = get_post_meta( $att_id, '_wp_attachment_image_alt', true );
+									$alt = get_post_meta( $attachment->ID, '_wp_attachment_image_alt', true );
 									if ( $alt !== '' ) {
 										$image['alt'] = $alt;
 									}
@@ -757,7 +833,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 									$url['images'][] = $image;
 								}
 							}
-							unset( $attachments, $att_id, $attachment, $src, $image, $alt );
+							unset( $attachment, $src, $image, $alt );
 						}
 
 						$url['images'] = apply_filters( 'wpseo_sitemap_urlimages', $url['images'], $p->ID );
@@ -839,7 +915,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 					$tax_sitemap_inc = WPSEO_Taxonomy_Meta::get_term_meta( $c, $c->taxonomy, 'sitemap_include' );
 
 					if ( ( is_string( $tax_noindex ) && $tax_noindex === 'noindex' )
-					     && ( ! is_string( $tax_sitemap_inc ) || $tax_sitemap_inc !== 'always' )
+						&& ( ! is_string( $tax_sitemap_inc ) || $tax_sitemap_inc !== 'always' )
 					) {
 						continue;
 					}
@@ -892,16 +968,17 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 					}
 				}
 			}
+			
+			if ( empty( $output ) ) {
+				$this->bad_sitemap = true;
+
+				return;
+			}
 
 			$this->sitemap = '<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ';
 			$this->sitemap .= 'xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" ';
 			$this->sitemap .= 'xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
-
-			// Only add $ouput != empty
-			if ( ! empty( $output ) ) {
-				$this->sitemap .= $output;
-			}
-
+			$this->sitemap .= $output;
 			$this->sitemap .= '</urlset>';
 		}
 
@@ -1034,20 +1111,28 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 		function output() {
 			header( $this->http_protocol() . ' 200 OK', true, 200 );
 			// Prevent the search engines from indexing the XML Sitemap.
-			header( 'X-Robots-Tag: noindex, follow', true );
+			header( 'X-Robots-Tag: noindex,follow', true );
 			header( 'Content-Type: text/xml' );
-			echo '<?xml version="1.0" encoding="' . get_bloginfo( 'charset' ) . '"?>';
+			echo '<?xml version="1.0" encoding="' . $this->charset . '"?>';
 			if ( $this->stylesheet ) {
 				echo apply_filters( 'wpseo_stylesheet_url', $this->stylesheet ) . "\n";
 			}
 			echo $this->sitemap;
 			echo "\n" . '<!-- XML Sitemap generated by Yoast WordPress SEO -->';
 
-			if ( defined( 'WP_DEBUG' ) && WP_DEBUG === true || ( defined( 'WPSEO_DEBUG' ) && WPSEO_DEBUG === true ) ) {
-				global $wpdb;
-				echo "\n" . '<!-- ' . number_format( ( memory_get_peak_usage() / 1024 / 1024 ), 2 ) . 'MB | ' . $wpdb->num_queries . ' -->';
-				if ( defined( 'SAVEQUERIES' ) && SAVEQUERIES ) {
-					echo "\n" . '<!--' . print_r( $wpdb->queries, 1 ) . '-->';
+			$debug_display = defined( 'WP_DEBUG_DISPLAY' ) && true === WP_DEBUG_DISPLAY;
+			$debug         = defined( 'WP_DEBUG' ) && true === WP_DEBUG;
+			$wpseo_debug   = defined( 'WPSEO_DEBUG' ) && true === WPSEO_DEBUG;
+
+			if ( $debug_display && ( $debug || $wpseo_debug ) ) {
+				if ( $this->transient ) {
+					echo "\n" . '<!-- ' . number_format( ( memory_get_peak_usage() / 1024 / 1024 ), 2 ) . 'MB | Served from transient cache -->';
+				} else {
+					global $wpdb;
+					echo "\n" . '<!-- ' . number_format( ( memory_get_peak_usage() / 1024 / 1024 ), 2 ) . 'MB | ' . $wpdb->num_queries . ' -->';
+					if ( defined( 'SAVEQUERIES' ) && SAVEQUERIES ) {
+						echo "\n" . '<!--' . print_r( $wpdb->queries, 1 ) . '-->';
+					}
 				}
 			}
 		}
@@ -1081,10 +1166,10 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 					$output .= "\t\t<image:image>\n";
 					$output .= "\t\t\t<image:loc>" . esc_html( $img['src'] ) . "</image:loc>\n";
 					if ( isset( $img['title'] ) && ! empty( $img['title'] ) ) {
-						$output .= "\t\t\t<image:title>" . _wp_specialchars( html_entity_decode( $img['title'], ENT_QUOTES, get_bloginfo( 'charset' ) ) ) . "</image:title>\n";
+						$output .= "\t\t\t<image:title><![CDATA[" . _wp_specialchars( html_entity_decode( $img['title'], ENT_QUOTES, $this->charset ) ) . "]]></image:title>\n";
 					}
 					if ( isset( $img['alt'] ) && ! empty( $img['alt'] ) ) {
-						$output .= "\t\t\t<image:caption>" . _wp_specialchars( html_entity_decode( $img['alt'], ENT_QUOTES, get_bloginfo( 'charset' ) ) ) . "</image:caption>\n";
+						$output .= "\t\t\t<image:caption><![CDATA[" . _wp_specialchars( html_entity_decode( $img['alt'], ENT_QUOTES, $this->charset ) ) . "]]></image:caption>\n";
 					}
 					$output .= "\t\t</image:image>\n";
 				}
@@ -1187,18 +1272,38 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 			return ( $a->_yoast_wpseo_profile_updated > $b->_yoast_wpseo_profile_updated ) ? 1 : - 1;
 		}
 
+		/**
+		 * Get attached image URL - Adapted from core for speed
+		 *
+		 * @param int $post_id
+		 *
+		 * @return string
+		 */
 		private function image_url( $post_id ) {
-			$url = '';
-			if ( $file = get_post_meta( $post_id, '_wp_attached_file', true) ) { //Get attached file
-				if ( ($uploads = wp_upload_dir()) && false === $uploads['error'] ) { //Get upload directory
-					if ( 0 === strpos($file, $uploads['basedir']) ) //Check that the upload base exists in the file location
-						$url = str_replace($uploads['basedir'], $uploads['baseurl'], $file); //replace file location with url location
-					elseif ( false !== strpos($file, 'wp-content/uploads') )
-						$url = $uploads['baseurl'] . substr( $file, strpos($file, 'wp-content/uploads') + 18 );
-					else
-						$url = $uploads['baseurl'] . "/$file"; //Its a newly uploaded file, therefor $file is relative to the basedir.
-				}
+
+			static $uploads;
+
+			if ( empty( $uploads ) ) {
+				$uploads = wp_upload_dir();
 			}
+
+			if ( false !== $uploads['error'] ) {
+				return '';
+			}
+
+			$url = '';
+
+			if ( $file = get_post_meta( $post_id, '_wp_attached_file', true ) ) { //Get attached file
+				if ( 0 === strpos( $file, $uploads['basedir'] ) ) { //Check that the upload base exists in the file location
+					$url = str_replace( $uploads['basedir'], $uploads['baseurl'], $file );
+				} //replace file location with url location
+				elseif ( false !== strpos( $file, 'wp-content/uploads' ) ) {
+					$url = $uploads['baseurl'] . substr( $file, strpos( $file, 'wp-content/uploads' ) + 18 );
+				} else {
+					$url = $uploads['baseurl'] . "/$file";
+				} //Its a newly uploaded file, therefor $file is relative to the basedir.
+			}
+
 			return $url;
 		}
 

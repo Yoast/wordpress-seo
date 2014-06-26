@@ -19,7 +19,7 @@ module.exports = function(grunt) {
                 tasks: ['jshint:grunt', 'jsvalidate', 'jscs']
             },
             php: {
-                files: ['**/*.php', '*/*.php'],
+                files: ['**/*.php', '*/*.php', '!node_modules/**'],
                 tasks: ['phplint']
             },
             js: {
@@ -88,14 +88,14 @@ module.exports = function(grunt) {
 
         // Lint .php files for syntax errors
         phplint: {
-            all: ['**/*.php']
+            all: ['**/*.php', '!node_modules/**']
         },
 
         // Lint .php files for code standards
         phpcs: {
             all: {
                 //adjust these to the folder you do and don't want to be treated
-                dir: ['**/*.php', '!admin/license-manager/**']
+                dir: ['**/*.php', '!admin/license-manager/**', '!node_modules/**']
             },
             options: {
                 standard: 'ruleset.xml',
@@ -126,7 +126,7 @@ module.exports = function(grunt) {
             php: {
                 files: {
                     src: [
-                        '*php', '**/*.php', '!admin/license-manager/**'
+                        '*php', '**/*.php', '!admin/license-manager/**', '!node_modules/**'
                     ]
                 }
             }
@@ -155,7 +155,7 @@ module.exports = function(grunt) {
             files: {
                 expand: true,
                 src: [
-                    '**/*.php'
+                    '**/*.php', '!node_modules/**'
                 ]
             }
         },

@@ -111,7 +111,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 			}
 
 			// Add Extension submenu page
-			$submenu_pages[] = array( 'wpseo_dashboard', __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Extensions', 'wordpress-seo'), __('<span style="color:#f18500">'.__( 'Extensions', 'wordpress-seo' ) .'</span>', 'wordpress-seo' ), 'manage_options', 'wpseo_licenses', array( $this, 'load_page' ), null );
+			$submenu_pages[] = array( 'wpseo_dashboard', __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Extensions', 'wordpress-seo' ), '<span style="color:#f18500">' . __( 'Extensions', 'wordpress-seo' ) . '</span>', 'manage_options', 'wpseo_licenses', array( $this, 'load_page' ), null );
 
 			// Allow submenu pages manipulation
 			$submenu_pages = apply_filters( 'wpseo_submenu_pages', $submenu_pages );
@@ -157,75 +157,16 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 							'content' => '<p>' . __( 'The title &amp; metas settings for WordPress SEO are made up of variables that are replaced by specific values from the page when the page is displayed. The tabs on the left explain the available variables.', 'wordpress-seo' ) . '</p>',
 					)
 			);
+			
+			$replace_singleton = WPSEO_Replace_Vars::get_instance();
 
 			$screen->add_help_tab(
 					array(
 							'id'      => 'title-vars',
 							'title'   => __( 'Basic Variables', 'wordpress-seo' ),
 							'content' => '
-		<h2>' . __( 'Basic Variables', 'wordpress-seo' ) . '</h2>
-			<table class="yoast_help">
-				<tr>
-					<th>%%date%%</th>
-					<td>' . __( 'Replaced with the date of the post/page', 'wordpress-seo' ) . '</td>
-				</tr>
-				<tr>
-					<th>%%title%%</th>
-					<td>' . __( 'Replaced with the title of the post/page', 'wordpress-seo' ) . '</td>
-				</tr>
-				<tr>
-					<th>%%parent_title%%</th>
-					<td>' . __( 'Replaced with the title of the parent page of the current page', 'wordpress-seo' ) . '</td>
-				</tr>
-				<tr>
-					<th>%%sitename%%</th>
-					<td>' . __( 'The site\'s name', 'wordpress-seo' ) . '</td>
-				</tr>
-				<tr>
-					<th>%%sitedesc%%</th>
-					<td>' . __( 'The site\'s tagline / description', 'wordpress-seo' ) . '</td>
-				</tr>
-				<tr>
-					<th>%%excerpt%%</th>
-					<td>' . __( 'Replaced with the post/page excerpt (or auto-generated if it does not exist)', 'wordpress-seo' ) . '</td>
-				</tr>
-				<tr>
-					<th>%%excerpt_only%%</th>
-					<td>' . __( 'Replaced with the post/page excerpt (without auto-generation)', 'wordpress-seo' ) . '</td>
-				</tr>
-				<tr>
-					<th>%%tag%%</th>
-					<td>' . __( 'Replaced with the current tag/tags', 'wordpress-seo' ) . '</td>
-				</tr>
-				<tr>
-					<th>%%category%%</th>
-					<td>' . __( 'Replaced with the post categories (comma separated)', 'wordpress-seo' ) . '</td>
-				</tr>
-				<tr>
-					<th>%%category_description%%</th>
-					<td>' . __( 'Replaced with the category description', 'wordpress-seo' ) . '</td>
-				</tr>
-				<tr>
-					<th>%%tag_description%%</th>
-					<td>' . __( 'Replaced with the tag description', 'wordpress-seo' ) . '</td>
-				</tr>
-				<tr>
-					<th>%%term_description%%</th>
-					<td>' . __( 'Replaced with the term description', 'wordpress-seo' ) . '</td>
-				</tr>
-				<tr>
-					<th>%%term_title%%</th>
-					<td>' . __( 'Replaced with the term name', 'wordpress-seo' ) . '</td>
-				</tr>
-				<tr>
-					<th>%%searchphrase%%</th>
-					<td>' . __( 'Replaced with the current search phrase', 'wordpress-seo' ) . '</td>
-				</tr>
-				<tr>
-					<th>%%sep%%</th>
-					<td>' . __( 'The separator defined in your theme\'s <code>wp_title()</code> tag.', 'wordpress-seo' ) . '</td>
-				</tr>
-				</table>',
+		<h2>' . __( 'Basic Variables', 'wordpress-seo' ) . '</h2>' .
+		$replace_singleton->get_basic_help_texts(), //actual help text
 					)
 			);
 
@@ -234,89 +175,8 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 							'id'      => 'title-vars-advanced',
 							'title'   => __( 'Advanced Variables', 'wordpress-seo' ),
 							'content' => '
-				<h2>' . __( 'Advanced Variables', 'wordpress-seo' ) . '</h2>
-				<table class="yoast_help">
-				<tr>
-					<th>%%pt_single%%</th>
-					<td>' . __( 'Replaced with the post type single label', 'wordpress-seo' ) . '</td>
-				</tr>
-				<tr>
-					<th>%%pt_plural%%</th>
-					<td>' . __( 'Replaced with the post type plural label', 'wordpress-seo' ) . '</td>
-				</tr>
-				<tr>
-					<th>%%modified%%</th>
-					<td>' . __( 'Replaced with the post/page modified time', 'wordpress-seo' ) . '</td>
-				</tr>
-				<tr>
-					<th>%%id%%</th>
-					<td>' . __( 'Replaced with the post/page ID', 'wordpress-seo' ) . '</td>
-				</tr>
-				<tr>
-					<th>%%name%%</th>
-					<td>' . __( 'Replaced with the post/page author\'s \'nicename\'', 'wordpress-seo' ) . '</td>
-				</tr>
-				<tr>
-					<th>%%userid%%</th>
-					<td>' . __( 'Replaced with the post/page author\'s userid', 'wordpress-seo' ) . '</td>
-				</tr>
-				<tr class="alt">
-					<th>%%currenttime%%</th>
-					<td>' . __( 'Replaced with the current time', 'wordpress-seo' ) . '</td>
-				</tr>
-				<tr>
-					<th>%%currentdate%%</th>
-					<td>' . __( 'Replaced with the current date', 'wordpress-seo' ) . '</td>
-				</tr>
-				<tr class="alt">
-					<th>%%currentday%%</th>
-					<td>' . __( 'Replaced with the current day', 'wordpress-seo' ) . '</td>
-				</tr>
-				<tr>
-					<th>%%currentmonth%%</th>
-					<td>' . __( 'Replaced with the current month', 'wordpress-seo' ) . '</td>
-				</tr>
-				<tr class="alt">
-					<th>%%currentyear%%</th>
-					<td>' . __( 'Replaced with the current year', 'wordpress-seo' ) . '</td>
-				</tr>
-				<tr>
-					<th>%%page%%</th>
-					<td>' . __( 'Replaced with the current page number (i.e. page 2 of 4)', 'wordpress-seo' ) . '</td>
-				</tr>
-				<tr class="alt">
-					<th>%%pagetotal%%</th>
-					<td>' . __( 'Replaced with the current page total', 'wordpress-seo' ) . '</td>
-				</tr>
-				<tr>
-					<th>%%pagenumber%%</th>
-					<td>' . __( 'Replaced with the current page number', 'wordpress-seo' ) . '</td>
-				</tr>
-				<tr class="alt">
-					<th>%%caption%%</th>
-					<td>' . __( 'Attachment caption', 'wordpress-seo' ) . '</td>
-				</tr>
-				<tr>
-					<th>%%focuskw%%</th>
-					<td>' . __( 'Replaced with the posts focus keyword', 'wordpress-seo' ) . '</td>
-				</tr>
-				<tr>
-					<th>%%term404%%</th>
-					<td>' . __( 'Replaced with the slug which caused the 404', 'wordpress-seo' ) . '</td>
-				</tr>
-				<tr>
-					<th>%%cf_&lt;custom-field-name&gt;%%</th>
-					<td>' . __( 'Replaced with a posts custom field value', 'wordpress-seo' ) . '</td>
-				</tr>
-				<tr>
-					<th>%%ct_&lt;custom-tax-name&gt;%%</th>
-					<td>' . __( 'Replaced with a posts custom taxonomies, comma separated.', 'wordpress-seo' ) . '</td>
-				</tr>
-				<tr>
-					<th>%%ct_desc_&lt;custom-tax-name&gt;%%</th>
-					<td>' . __( 'Replaced with a custom taxonomies description', 'wordpress-seo' ) . '</td>
-				</tr>
-			</table>', //actual help text
+		<h2>' . __( 'Advanced Variables', 'wordpress-seo' ) . '</h2>' .
+		$replace_singleton->get_advanced_help_texts(), //actual help text
 					)
 			);
 		}
@@ -329,7 +189,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 				add_menu_page( __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'MultiSite Settings', 'wordpress-seo' ), __( 'SEO', 'wordpress-seo' ), 'delete_users', 'wpseo_dashboard', array( $this, 'network_config_page' ), plugins_url( 'images/yoast-icon.png', WPSEO_FILE ) );
 
 				// Add Extension submenu page
-				add_submenu_page( 'wpseo_dashboard', __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Extensions', 'wordpress-seo'), __('Extensions', 'wordpress-seo' ), 'delete_users', 'wpseo_licenses', array( $this, 'load_page' ) );
+				add_submenu_page( 'wpseo_dashboard', __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Extensions', 'wordpress-seo' ), __( 'Extensions', 'wordpress-seo' ), 'delete_users', 'wpseo_licenses', array( $this, 'load_page' ) );
 			}
 		}
 
@@ -548,8 +408,9 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		 */
 		function user_profile( $user ) {
 
-			if ( ! current_user_can( 'edit_users' ) )
+			if ( ! current_user_can( 'edit_users' ) ) {
 				return;
+			}
 
 			$options = WPSEO_Options::get_all();
 
@@ -646,14 +507,16 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 			if ( is_array( $stopWords ) && $stopWords !== array() ) {
 				foreach ( $stopWords as $stopWord ) {
 					// If checking a URL remove the single quotes
-					if ( $checkingUrl )
+					if ( $checkingUrl ) {
 						$stopWord = str_replace( "'", '', $stopWord );
+					}
 
 					// Check whether the stopword appears as a whole word
 					// @todo [JRF => whomever] check whether the use of \b (=word boundary) would be more efficient ;-)
 					$res = preg_match( "`(^|[ \n\r\t\.,'\(\)\"\+;!?:])" . preg_quote( $stopWord, '`' ) . "($|[ \n\r\t\.,'\(\)\"\+;!?:])`iu", $haystack, $match );
-					if ( $res > 0 )
+					if ( $res > 0 ) {
 						return $stopWord;
+					}
 				}
 			}
 
@@ -696,7 +559,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		 * @return boolean
 		 */
 		function grant_access() {
-			_deprecated_function( __CLASS__ . '::' . __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Options::grant_access()' );
+			_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Options::grant_access()' );
 			return WPSEO_Options::grant_access();
 		}
 
@@ -710,7 +573,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		 * @return boolean
 		 */
 		function maybe_upgrade() {
-			_deprecated_function( __CLASS__ . '::' . __METHOD__, 'WPSEO 1.5.0', 'wpseo_do_upgrade' );
+			_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'wpseo_do_upgrade' );
 			wpseo_do_upgrade();
 		}
 
@@ -722,7 +585,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		 * @see WPSEO_Options::clear_cache()
 		 */
 		function clear_cache() {
-			_deprecated_function( __CLASS__ . '::' . __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Options::clear_cache()' );
+			_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Options::clear_cache()' );
 			WPSEO_Options::clear_cache();
 		}
 
@@ -734,7 +597,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		 * @see WPSEO_Options::clear_rewrites()
 		 */
 		function clear_rewrites() {
-			_deprecated_function( __CLASS__ . '::' . __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Options::clear_rewrites()' );
+			_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Options::clear_rewrites()' );
 			WPSEO_Options::clear_rewrites();
 		}
 
@@ -746,7 +609,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		 * @see WPSEO_Option::register_setting()
 		 */
 		function options_init() {
-			_deprecated_function( __CLASS__ . '::' . __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Option::register_setting()' );
+			_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Option::register_setting()' );
 		}
 
 		/**
@@ -757,7 +620,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		 * @see WPSEO_Options::set_multisite_defaults()
 		 */
 		function multisite_defaults() {
-			_deprecated_function( __CLASS__ . '::' . __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Options::set_multisite_defaults()' );
+			_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Options::set_multisite_defaults()' );
 			WPSEO_Options::set_multisite_defaults();
 		}
 
@@ -768,7 +631,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		 * @deprecated use WPSEO_Admin::load_page()
 		 */
 		function import_page() {
-			_deprecated_function( __CLASS__ . '::' . __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Admin::load_page()' );
+			_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Admin::load_page()' );
 			$this->load_page();
 		}
 
@@ -779,7 +642,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		 * @deprecated use WPSEO_Admin::load_page()
 		 */
 		function titles_page() {
-			_deprecated_function( __CLASS__ . '::' . __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Admin::load_page()' );
+			_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Admin::load_page()' );
 			$this->load_page();
 		}
 
@@ -790,7 +653,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		 * @deprecated use WPSEO_Admin::load_page()
 		 */
 		function permalinks_page() {
-			_deprecated_function( __CLASS__ . '::' . __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Admin::load_page()' );
+			_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Admin::load_page()' );
 			$this->load_page();
 		}
 
@@ -801,7 +664,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		 * @deprecated use WPSEO_Admin::load_page()
 		 */
 		function internallinks_page() {
-			_deprecated_function( __CLASS__ . '::' . __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Admin::load_page()' );
+			_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Admin::load_page()' );
 			$this->load_page();
 		}
 
@@ -812,7 +675,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		 * @deprecated use WPSEO_Admin::load_page()
 		 */
 		function files_page() {
-			_deprecated_function( __CLASS__ . '::' . __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Admin::load_page()' );
+			_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Admin::load_page()' );
 			$this->load_page();
 		}
 
@@ -823,7 +686,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		 * @deprecated use WPSEO_Admin::load_page()
 		 */
 		function rss_page() {
-			_deprecated_function( __CLASS__ . '::' . __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Admin::load_page()' );
+			_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Admin::load_page()' );
 			$this->load_page();
 		}
 
@@ -834,7 +697,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		 * @deprecated use WPSEO_Admin::load_page()
 		 */
 		function xml_sitemaps_page() {
-			_deprecated_function( __CLASS__ . '::' . __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Admin::load_page()' );
+			_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Admin::load_page()' );
 			$this->load_page();
 		}
 
@@ -845,7 +708,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		 * @deprecated use WPSEO_Admin::load_page()
 		 */
 		function config_page() {
-			_deprecated_function( __CLASS__ . '::' . __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Admin::load_page()' );
+			_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Admin::load_page()' );
 			$this->load_page();
 		}
 
@@ -856,7 +719,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		 * @deprecated use WPSEO_Admin::load_page()
 		 */
 		function social_page() {
-			_deprecated_function( __CLASS__ . '::' . __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Admin::load_page()' );
+			_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Admin::load_page()' );
 			$this->load_page();
 		}
 

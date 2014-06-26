@@ -150,6 +150,10 @@ table.yoast_help th, table.yoast_help td {
 	padding: 5px 10px;
 }
 
+table.yoast_help tr:nth-child(2n) {
+	background-color: #FBFBFE;
+}
+
 table.yoast_help tr:hover {
 	background-color: #ddd;
 }
