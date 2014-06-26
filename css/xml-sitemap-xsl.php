@@ -5,7 +5,7 @@
 
 // This is to prevent issues with New Relics stupid auto injection of code. It's ugly but I don't want
 // to deal with support requests for other people's wrong code...
-if ( extension_loaded( 'newrelic' ) && function_exists('newrelic_disable_autorum') ) {
+if ( extension_loaded( 'newrelic' ) && function_exists( 'newrelic_disable_autorum' ) ) {
 	newrelic_disable_autorum();
 }
 
