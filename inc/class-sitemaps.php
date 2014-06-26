@@ -156,7 +156,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 		 *
 		 * @return string valid PHP timezone string
 		 */
-		private function wp_get_timezone_string() {
+		private function determine_timezone_string() {
 
 			// if site timezone string exists, return it
 			if ( $timezone = get_option( 'timezone_string' ) ) {
@@ -189,6 +189,18 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 
 			// fallback to UTC
 			return 'UTC';
+		}
+
+		/**
+		 * Returns the correct timezone string
+		 *
+		 * @return string
+		 */
+		private function get_timezone_string() {
+			if ( '' == $this->timezone_string ) {
+				$this->timezone_string = $this->determine_timezone_string();
+			}
+			return $this->timezone_string;
 		}
 
 		/**
@@ -394,7 +406,8 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 							if ( ! isset( $all_dates ) ) {
 								$all_dates = $wpdb->get_col( $wpdb->prepare( "SELECT post_modified_gmt FROM (SELECT @rownum:=@rownum+1 rownum, $wpdb->posts.post_modified_gmt FROM (SELECT @rownum:=0) r, $wpdb->posts WHERE post_status IN ('publish','inherit') AND post_type = %s ORDER BY post_modified_gmt ASC) x WHERE rownum %%%d=0", $post_type, $this->max_entries ) );
 							}
-							$date = date( 'c', strtotime( $all_dates[ $i ] ) );
+							$datetime = new DateTime( $all_dates[ $i ], new DateTimeZone( $this->get_timezone_string() ) );
+							$date = $datetime->format( 'c' );
 						}
 
 						$this->sitemap .= '<sitemap>' . "\n";
@@ -475,7 +488,8 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 
 							$date = '';
 							if ( $query->have_posts() ) {
-								$date = date( 'c', strtotime( $query->posts[0]->post_modified_gmt ) );
+								$datetime = new DateTime( $query->posts[0]->post_modified_gmt, new DateTimeZone( $this->get_timezone_string() ) );
+								$date = $datetime->format( 'c' );
 							}
 						}
 
@@ -514,7 +528,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 								$wpdb->get_blog_prefix() . 'user_level'
 							)
 						);
-						$date = date( 'c', $date );
+						$date = new DateTime( $date, new DateTimeZone( $this->get_timezone_string() ) );
 
 						// Retrieve the newest updated profile timestamp by an offset
 					} else {
@@ -531,12 +545,12 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 								$this->max_entries * ( $i + 1 ) - 1
 							)
 						);
-						$date = date( 'c', $date );
+						$date = new DateTime( $date, new DateTimeZone( $this->get_timezone_string() ) );
 					}
 
 					$this->sitemap .= '<sitemap>' . "\n";
 					$this->sitemap .= '<loc>' . home_url( $base . 'author-sitemap' . $count . '.xml' ) . '</loc>' . "\n";
-					$this->sitemap .= '<lastmod>' . htmlspecialchars( $date ) . '</lastmod>' . "\n";
+					$this->sitemap .= '<lastmod>' . htmlspecialchars( $date->format( 'c' ) ) . '</lastmod>' . "\n";
 					$this->sitemap .= '</sitemap>' . "\n";
 				}
 				unset( $users, $count, $n, $i, $date );
@@ -1195,16 +1209,11 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 		 */
 		function sitemap_url( $url ) {
 
-			// Set the timezone string
-			if ( '' == $this->timezone_string ) {
-				$this->timezone_string = $this->wp_get_timezone_string();
-			}
-
 			// Create a DateTime object date in the correct timezone
 			if ( isset( $url['mod'] ) ) {
-				$date = new DateTime( $url['mod'], new DateTimeZone( $this->timezone_string ) );
+				$date = new DateTime( $url['mod'], new DateTimeZone( $this->get_timezone_string() ) );
 			} else {
-				$date = new DateTime( time(), new DateTimeZone( $this->timezone_string ) );
+				$date = new DateTime( time(), new DateTimeZone( $this->get_timezone_string() ) );
 			}
 
 			$url['loc'] = htmlspecialchars( $url['loc'] );
@@ -1291,17 +1300,18 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 			}
 
 			if ( count( $post_types ) === 1 ) {
-				$result = strtotime( $this->post_type_dates[ $post_types[0] ] );
+				$result = $this->post_type_dates[ $post_types[0] ];
 			} else {
 				$result = 0;
 				foreach ( $post_types as $post_type ) {
 					if ( isset( $this->post_type_dates[ $post_type ] ) && strtotime( $this->post_type_dates[ $post_type ] ) > $result ) {
-						$result = strtotime( $this->post_type_dates[ $post_type ] );
+						$result = $this->post_type_dates[ $post_type ];
 					}
 				}
 			}
 
-			return date( 'c', $result );
+			$date = new DateTime( $result, new DateTimeZone( $this->get_timezone_string() ) );
+			return $date->format( 'c' );
 		}
 
 		/**
