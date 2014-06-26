@@ -13,7 +13,8 @@
         "grunt-checktextdomain": "^0.1.1",
         "grunt-wp-i18n": "^0.4.5",
         "load-grunt-tasks": "^0.4.0",
-        "time-grunt": "^0.3.1"
+        "time-grunt": "^0.3.1",
+        "grunt-shell": "~0.6.4"
     },
     "engines": {
         "node": ">=0.8.0"
