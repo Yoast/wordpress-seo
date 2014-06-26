@@ -21,11 +21,6 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 	class WPSEO_Replace_Vars {
 
 		/**
-		 * @var  object  Instance of this class
-		 */
-		protected static $instance;
-
-		/**
 		 * @var	array	Default post/page/cpt information
 		 */
 		protected $defaults = array(
@@ -50,12 +45,12 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		/**
 		 * @var	array	Help texts for use in WPSEO -> Titles and Meta's help tabs
 		 */
-		protected $help_texts = array();
+		protected static $help_texts = array();
 
 		/**
 		 * @var array	Register of additional variable replacements registered by other plugins/themes
 		 */
-		protected $external_replacements = array();
+		protected static $external_replacements = array();
 
 
 
@@ -64,23 +59,28 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		 *
 		 * @return \WPSEO_Replace_Vars
 		 */
-		protected function __construct() {
-			$this->set_basic_help_texts();
-			$this->set_advanced_help_texts();
-		}
-
+		public function __construct() {}
+		
+		
 		/**
-		 * Get the singleton instance of this class
-		 *
-		 * @return object
+		 * Setup the help texts and external replacements as statics so they will be available to all instances
 		 */
-		public static function get_instance() {
-			if ( ! ( self::$instance instanceof self ) ) {
-				self::$instance = new self();
+		public static function setup_statics_once() {
+			//
+			if ( self::$help_texts === array() ) {
+				self::set_basic_help_texts();
+				self::set_advanced_help_texts();
 			}
-
-			return self::$instance;
+			
+			if ( self::$external_replacements === array() ) {
+				/**
+				 * Action: 'wpseo_register_extra_replacements' - Allows for registration of additional
+				 * variables to replace
+				 */
+				do_action( 'wpseo_register_extra_replacements' );
+			}
 		}
+
 
 
 		/**
@@ -98,19 +98,19 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		 * @param  string   $help_text         Help text to be added to the help tab for this variable
 		 * @return bool     Whether the replacement function was succesfully registered
 		 */
-		public function register_replacement( $var, $replace_function, $type = 'advanced', $help_text = '' ) {
+		public static function register_replacement( $var, $replace_function, $type = 'advanced', $help_text = '' ) {
 			$success = false;
 
 			if ( is_string( $var ) && $var !== '' ) {
-				$var = $this->remove_var_delimiter( $var );
+				$var = self::remove_var_delimiter( $var );
 				
 				if ( strpos( $var, 'cf_' ) === 0 || strpos( $var, 'ct_' ) === 0 ) {
 					trigger_error( __( 'A replacement variable can not start with "%%cf_" or "%%ct_" as these are reserved for the WPSEO standard variable variables for custom fields and custom taxonomies. Try making your variable name unique.', 'wordpress-seo' ), E_USER_WARNING );
 				}
-				elseif ( ! method_exists( $this, 'retrieve_' . $var ) ) {
-					if ( ! isset( $this->external_replacements[$var] ) ) {
-						$this->external_replacements[$var] = $replace_function;
-						$this->register_help_text( $type, $var, $help_text );
+				elseif ( ! method_exists( __CLASS__, 'retrieve_' . $var ) ) {
+					if ( ! isset( self::$external_replacements[$var] ) ) {
+						self::$external_replacements[$var] = $replace_function;
+						self::register_help_text( $type, $var, $help_text );
 						$success = true;
 					}
 					else {
@@ -156,22 +156,13 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 
 			// Clean $omit array
 			if ( is_array( $omit ) && $omit !== array() ) {
-				$omit = array_map( array( $this, 'remove_var_delimiter' ), $omit );
+				$omit = array_map( array( __CLASS__, 'remove_var_delimiter' ), $omit );
 			}
 
 
 			$replacements = array();
 
 			if ( preg_match_all( '`%%([^%]+(%%single)?)%%?`iu', $string, $matches ) ) {
-				// Only register the external replacements once
-				if ( $this->external_replacements === array() ) {
-					/**
-					 * Action: 'wpseo_register_extra_replacements' - Allows for registration of additional
-					 * variables to replace
-					 */
-					do_action( 'wpseo_register_extra_replacements' );
-				}
-
 				$replacements = $this->set_up_replacements( $matches, $omit );
 			}
 
@@ -199,7 +190,7 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 			if ( apply_filters( 'wpseo_replacements_final', true ) === true ) {
 				// Remove non-replaced variables
 				$remove = array_diff( $matches[1], $omit ); // Make sure the $omit variables do not get removed
-				$remove = array_map( array( $this, 'add_var_delimiter' ), $remove );
+				$remove = array_map( array( __CLASS__, 'add_var_delimiter' ), $remove );
 				$string = str_replace( $remove, '', $string );
 			}
 			
@@ -251,13 +242,13 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 					$replacement = $this->$method_name();
 				}
 				// Deal with externally defined variable names
-				elseif ( isset( $this->external_replacements[$var] ) && ! is_null( $this->external_replacements[$var] ) ) {
-					$replacement = call_user_func( $this->external_replacements[$var], $var );
+				elseif ( isset( self::$external_replacements[$var] ) && ! is_null( self::$external_replacements[$var] ) ) {
+					$replacement = call_user_func( self::$external_replacements[$var], $var );
 				}
 
 				// Replacement retrievals can return null if no replacement can be determined, root those outs
 				if ( isset( $replacement ) ) {
-					$var                = $this->add_var_delimiter( $var );
+					$var                = self::add_var_delimiter( $var );
 					$replacements[$var] = $replacement;
 				}
 			}
@@ -373,7 +364,7 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		 * @return string|null
 		 */
 		private function retrieve_parent_title() {
-			static $replacement;
+			$replacement = null;
 
 			if ( ! isset( $replacement ) && ( ( is_singular() || is_admin() ) && isset( $GLOBALS['post'] ) ) ) {
 				if ( isset( $GLOBALS['post']->post_parent ) && 0 != $GLOBALS['post']->post_parent ) {
@@ -390,7 +381,7 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		 * @return string|null
 		 */
 		private function retrieve_searchphrase() {
-			static $replacement;
+			$replacement = null;
 
 			if ( ! isset( $replacement ) ) {
 				$search = get_query_var( 's' );
@@ -413,7 +404,12 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 				$replacement = $GLOBALS['sep'];
 			}
 
-			return $replacement;
+			/**
+			 * Filter: 'wpseo_replacements_filter_sep' - Allow customization of the separator character(s)
+			 *
+			 * @api string $replacement The current separator
+			 */
+			return apply_filters( 'wpseo_replacements_filter_sep', $replacement );
 		}
 
 		/**
@@ -521,7 +517,7 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		private function retrieve_title() {
 			$replacement = null;
 
-			if ( ! empty( $this->args->ID ) && $this->args->post_title !== '' ) {
+			if ( is_string( $this->args->post_title ) && $this->args->post_title !== '' ) {
 				$replacement = stripslashes( $this->args->post_title );
 			}
 
@@ -989,25 +985,15 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		 *
 		 * @return	string			Help text table
 		 */
-		private function create_variable_help_table( $type ) {
+		private static function create_variable_help_table( $type ) {
 			if ( ! in_array( $type, array( 'basic', 'advanced' ), true ) ) {
 				return '';
 			}
 
-			// Only register the external replacements once
-			if ( $this->external_replacements === array() ) {
-				/**
-				 * Action: 'wpseo_register_extra_replacements' - Allows for registration of additional
-				 * variables to replace
-				 */
-				do_action( 'wpseo_register_extra_replacements' );
-			}
-
-
 			$table = '
 			<table class="yoast_help">';
 
-			foreach ( $this->help_texts[$type] as $replace => $help_text ) {
+			foreach ( self::$help_texts[$type] as $replace => $help_text ) {
 				$table .= '
 				<tr>
 					<th>%%' . esc_html( $replace ) . '%%</th>
@@ -1026,8 +1012,8 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		 *
 		 * @return string
 		 */
-		public function get_basic_help_texts() {
-			return $this->create_variable_help_table( 'basic' );
+		public static function get_basic_help_texts() {
+			return self::create_variable_help_table( 'basic' );
 		}
 
 
@@ -1036,8 +1022,8 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		 *
 		 * @return string
 		 */
-		public function get_advanced_help_texts() {
-			return $this->create_variable_help_table( 'advanced' );
+		public static function get_advanced_help_texts() {
+			return self::create_variable_help_table( 'advanced' );
 		}
 
 
@@ -1048,12 +1034,12 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		 * @param  string  $replace    Variable to replace, i.e. '%%var%%'
 		 * @param  string  $help_text  The actual help text string
 		 */
-		public function register_help_text( $type, $replace, $help_text = '' ) {
+		private static function register_help_text( $type, $replace, $help_text = '' ) {
 			if ( is_string( $replace ) && $replace !== '' ) {
-				$replace = $this->remove_var_delimiter( $replace );
+				$replace = self::remove_var_delimiter( $replace );
 
-				if ( ( is_string( $type ) && in_array( $type, array( 'basic', 'advanced' ), true ) ) && ( $replace !== '' && ! isset( $this->help_texts[$type][$replace] ) ) ) {
-					$this->help_texts[$type][$replace] = $help_text;
+				if ( ( is_string( $type ) && in_array( $type, array( 'basic', 'advanced' ), true ) ) && ( $replace !== '' && ! isset( self::$help_texts[$type][$replace] ) ) ) {
+					self::$help_texts[$type][$replace] = $help_text;
 				}
 			}
 		}
@@ -1062,8 +1048,8 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		/**
 		 * Set/translate the help texts for the WPSEO standard basic variables.
 		 */
-		private function set_basic_help_texts() {
-			$this->help_texts['basic'] = array(
+		private static function set_basic_help_texts() {
+			self::$help_texts['basic'] = array(
 				'date'                 => __( 'Replaced with the date of the post/page', 'wordpress-seo' ),
 				'title'                => __( 'Replaced with the title of the post/page', 'wordpress-seo' ),
 				'parent_title'         => __( 'Replaced with the title of the parent page of the current page', 'wordpress-seo' ),
@@ -1085,8 +1071,8 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		/**
 		 * Set/translate the help texts for the WPSEO standard advanced variables.
 		 */
-		private function set_advanced_help_texts() {
-			$this->help_texts['advanced'] = array(
+		private static function set_advanced_help_texts() {
+			self::$help_texts['advanced'] = array(
 				'pt_single'                 => __( 'Replaced with the post type single label', 'wordpress-seo' ),
 				'pt_plural'                 => __( 'Replaced with the post type plural label', 'wordpress-seo' ),
 				'modified'                  => __( 'Replaced with the post/page modified time', 'wordpress-seo' ),
@@ -1121,7 +1107,7 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		 * @param  string  $string Variable string to be cleaned
 		 * @return string
 		 */
-		private function remove_var_delimiter( $string ) {
+		private static function remove_var_delimiter( $string ) {
 			return trim( $string, '%' );
 		}
 		
@@ -1131,7 +1117,7 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		 * @param  string  $string Variable string to be delimited
 		 * @return string
 		 */
-		private function add_var_delimiter( $string ) {
+		private static function add_var_delimiter( $string ) {
 			return '%%' . $string . '%%';
 		}
 
@@ -1176,5 +1162,11 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		}
 
 	} /* End of class WPSEO_Replace_Vars */
+	
+
+	/**
+	 * Setup the class statics when the file is first loaded
+	 */
+	WPSEO_Replace_Vars::setup_statics_once();
 
 } /* End of class-exists wrapper */

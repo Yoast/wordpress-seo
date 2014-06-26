@@ -158,7 +158,6 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 					)
 			);
 			
-			$replace_singleton = WPSEO_Replace_Vars::get_instance();
 
 			$screen->add_help_tab(
 					array(
@@ -166,7 +165,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 							'title'   => __( 'Basic Variables', 'wordpress-seo' ),
 							'content' => '
 		<h2>' . __( 'Basic Variables', 'wordpress-seo' ) . '</h2>' .
-		$replace_singleton->get_basic_help_texts(), //actual help text
+		WPSEO_Replace_Vars::get_basic_help_texts(), //actual help text
 					)
 			);
 
@@ -176,7 +175,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 							'title'   => __( 'Advanced Variables', 'wordpress-seo' ),
 							'content' => '
 		<h2>' . __( 'Advanced Variables', 'wordpress-seo' ) . '</h2>' .
-		$replace_singleton->get_advanced_help_texts(), //actual help text
+		WPSEO_Replace_Vars::get_advanced_help_texts(), //actual help text
 					)
 			);
 		}
