@@ -85,7 +85,7 @@ if ( ! class_exists( 'WPSEO_Social_Admin' ) ) {
 		 * @return	array	Array containing the meta boxes
 		 */
 		public function get_meta_boxes( $post_type = 'post' ) {
-			_deprecated_function( __CLASS__ . '::' . __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Meta::get_meta_field_defs()' );
+			_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Meta::get_meta_field_defs()' );
 			return $this->get_meta_field_defs( 'social' );
 		}
 

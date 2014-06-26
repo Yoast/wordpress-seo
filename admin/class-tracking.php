@@ -159,7 +159,7 @@ if ( ! class_exists( 'Yoast_Tracking' ) ) {
 			$args = array(
 				'body'      => $data,
 				'blocking'  => false,
-				'sslverify' => false
+				'sslverify' => false,
 			);
 
 			wp_remote_post( 'https://tracking.yoast.com/', $args );
@@ -180,7 +180,7 @@ function wpseo_tracking_additions( $options ) {
 	if ( function_exists( 'curl_version' ) ) {
 		$curl = curl_version();
 	} else {
-		$curl = NULL;
+		$curl = null;
 	}
 
 	$options['wpseo'] = array(
@@ -197,7 +197,7 @@ function wpseo_tracking_additions( $options ) {
 		'wmt_google'          => ( ! empty( $opt['googleverify'] ) ) ? 1 : 0,
 		'wmt_pinterest'       => ( ! empty( $opt['pinterestverify'] ) ) ? 1 : 0,
 		'wmt_yandex'          => ( ! empty( $opt['yandexverify'] ) ) ? 1 : 0,
-		'permalinks_clean'    => ( $opt['cleanpermalinks'] == 1 ) ? 1 : 0
+		'permalinks_clean'    => ( $opt['cleanpermalinks'] == 1 ) ? 1 : 0,
 	);
 
 	return $options;

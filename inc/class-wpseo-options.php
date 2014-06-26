@@ -835,11 +835,11 @@ if ( ! class_exists( 'WPSEO_Option_Wpseo' ) ) {
 			/* Check if the yoast tracking cron job needs adding/removing on successfull option add/update */
 			add_action( 'add_option_' . $this->option_name, array(
 					'WPSEO_Options',
-					'schedule_yoast_tracking'
+					'schedule_yoast_tracking',
 				), 15, 2 );
 			add_action( 'update_option_' . $this->option_name, array(
 					'WPSEO_Options',
-					'schedule_yoast_tracking'
+					'schedule_yoast_tracking',
 				), 15, 2 );
 		}
 
@@ -1067,13 +1067,13 @@ if ( ! class_exists( 'WPSEO_Option_Wpseo' ) ) {
 				'ignore_page_comments',
 				'ignore_permalink',
 				'ignore_tour',
-				'tracking_popup_done',
 				//'disableadvanced_meta', => not needed as is 'on' which will auto-convert to true
+				'tracking_popup_done',
 			);
 			foreach ( $value_change as $key ) {
 				if ( isset( $option_value[ $key ] ) && in_array( $option_value[ $key ], array(
 							'ignore',
-							'done'
+							'done',
 						), true )
 				) {
 					$option_value[ $key ] = true;
@@ -1566,7 +1566,7 @@ if ( ! class_exists( 'WPSEO_Option_Titles' ) ) {
 			// Double-run this function to ensure renaming of the taxonomy options will work
 			if ( ! isset( $original ) && has_action( 'wpseo_double_clean_titles', array(
 						$this,
-						'clean'
+						'clean',
 					) ) === false
 			) {
 				add_action( 'wpseo_double_clean_titles', array( $this, 'clean' ) );
@@ -1666,8 +1666,8 @@ if ( ! class_exists( 'WPSEO_Option_Titles' ) ) {
 							if (
 								( isset( $original[ $old_prefix . $tax ] ) && ! isset( $original[ $new_prefix . $tax ] ) )
 								&& ( ! isset( $option_value[ $new_prefix . $tax ] )
-								     || ( isset( $option_value[ $new_prefix . $tax ] )
-								          && $option_value[ $new_prefix . $tax ] === $defaults[ $new_prefix . $tax ] ) )
+									|| ( isset( $option_value[ $new_prefix . $tax ] )
+										&& $option_value[ $new_prefix . $tax ] === $defaults[ $new_prefix . $tax ] ) )
 							) {
 								$option_value[ $new_prefix . $tax ] = $original[ $old_prefix . $tax ];
 
@@ -2587,7 +2587,7 @@ if ( ! class_exists( 'WPSEO_Option_Social' ) ) {
 											'http',
 											'https',
 											'ftp',
-											'ftps'
+											'ftps',
 										) );
 									add_settings_error(
 										$this->group_name, // slug title of the setting
@@ -3059,7 +3059,7 @@ if ( ! class_exists( 'WPSEO_Taxonomy_Meta' ) ) {
 				return $defaults;
 			}
 
-			/**
+			/*
 			@internal Adding the defaults to all taxonomy terms each time the option is retrieved
 			will be quite inefficient if there are a lot of taxonomy terms
 			As long as taxonomy_meta is only retrieved via methods in this class, we shouldn't need this
