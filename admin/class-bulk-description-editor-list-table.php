@@ -426,8 +426,9 @@ if ( ! class_exists( 'WPSEO_Bulk_Description_List_Table' ) ) {
 
 								if ( $post_type_object->public ) {
 									if ( in_array( $rec->post_status, array( 'pending', 'draft', 'future' ) ) ) {
-										if ( $can_edit_post )
+										if ( $can_edit_post ) {
 											$actions['view'] = '<a href="' . esc_url( add_query_arg( 'preview', 'true', get_permalink( $rec->ID ) ) ) . '" title="' . esc_attr( sprintf( __( 'Preview &#8220;%s&#8221;', 'wordpress-seo' ), $rec->post_title ) ) . '">' . __( 'Preview', 'wordpress-seo' ) . '</a>';
+										}
 									}
 									elseif ( 'trash' != $rec->post_status ) {
 										$actions['view'] = '<a href="' . esc_url( get_permalink( $rec->ID ) ) . '" title="' . esc_attr( sprintf( __( 'View &#8220;%s&#8221;', 'wordpress-seo' ), $rec->post_title ) ) . '" rel="bookmark">' . __( 'View', 'wordpress-seo' ) . '</a>';

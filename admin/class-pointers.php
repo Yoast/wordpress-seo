@@ -176,8 +176,9 @@ if ( ! class_exists( 'WPSEO_Pointers' ) ) {
 			}
 
 			$page = '';
-			if ( isset( $_GET['page'] ) )
+			if ( isset( $_GET['page'] ) ) {
 				$page = $_GET['page'];
+			}
 
 			$function = '';
 			$button2  = '';
@@ -290,7 +291,7 @@ if ( ! class_exists( 'WPSEO_Pointers' ) ) {
 		 * @deprecated 1.5.0, now handled by css
 		 */
 		function admin_head() {
-			_deprecated_function( __CLASS__ . '::' . __METHOD__, 'WPSEO 1.5.0' );
+			_deprecated_function( __METHOD__, 'WPSEO 1.5.0' );
 			return;
 		}
 
