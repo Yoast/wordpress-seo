@@ -193,10 +193,12 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 				$remove = array_map( array( __CLASS__, 'add_var_delimiter' ), $remove );
 				$string = str_replace( $remove, '', $string );
 			}
-			
+
 			// Undouble separators which have nothing between them, i.e. where a non-replaced variable was removed
-			$q_sep  = preg_quote( $this->retrieve_sep(), '`' );
-			$string = preg_replace( '`' . $q_sep . '(?:\s*' . $q_sep . ')*`u', $this->retrieve_sep(), $string );
+			if ( isset( $replacements['%%sep%%'] ) && ( is_string( $replacements['%%sep%%'] ) && $replacements['%%sep%%'] !== '' ) ) {
+				$q_sep  = preg_quote( $replacements['%%sep%%'], '`' );
+				$string = preg_replace( '`' . $q_sep . '(?:\s*' . $q_sep . ')*`u', $replacements['%%sep%%'], $string );
+			}
 
 			// Remove superfluous whitespace
 			$string = preg_replace( '`\s+`u', ' ', $string );
