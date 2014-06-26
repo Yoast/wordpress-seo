@@ -18,7 +18,7 @@ $options = get_option( 'wpseo_permalinks' );
 $content = '';
 
 $content .= $wpseo_admin_pages->checkbox( 'stripcategorybase', __( 'Strip the category base (usually <code>/category/</code>) from the category URL.', 'wordpress-seo' ) );
-$content .= '<p class="desc">' . sprintf( __('We suggest using %1$sFV Top Level Categories%2$s, if you insist on keeping this but do know that the feature is very error prone and not <em>that</em> important for your SEO.','wordpress-seo'), '<a href="https://wordpress.org/plugins/fv-top-level-cats/">', '</a>' ) . '</p>';
+$content .= '<p class="desc">' . sprintf( __( 'We suggest using %1$sFV Top Level Categories%2$s, if you insist on keeping this but do know that the feature is very error prone and not <em>that</em> important for your SEO.', 'wordpress-seo' ), '<a href="https://wordpress.org/plugins/fv-top-level-cats/">', '</a>' ) . '</p>';
 
 $content .= $wpseo_admin_pages->checkbox( 'trailingslash', __( 'Enforce a trailing slash on all category and tag URL\'s', 'wordpress-seo' ) );
 $content .= '<p class="desc">' . __( 'If you choose a permalink for your posts with <code>.html</code>, or anything else but a / on the end, this will force WordPress to add a trailing slash to non-post pages nonetheless.', 'wordpress-seo' ) . '</p>';

@@ -65,8 +65,8 @@ if ( ! class_exists( 'WPSEO_Option' ) ) {
 	 *    a method by defining it in the concrete class.
 	 *
 	 *
-	 * @todo       - [JRF => testers] double check that validation will not cause errors when called from upgrade routine
-	 * (some of the WP functions may not yet be available)
+	 * @todo       - [JRF => testers] double check that validation will not cause errors when called
+	 *               from upgrade routine (some of the WP functions may not yet be available)
 	 */
 	abstract class WPSEO_Option {
 
@@ -367,11 +367,42 @@ if ( ! class_exists( 'WPSEO_Option' ) ) {
 		abstract protected function validate_option( $dirty, $clean, $old );
 
 
-		/* *********** METHODS for UPGRADING the option *********** */
+		/* *********** METHODS for ADDING/UPGRADING the option *********** */
+		
+		/**
+		 * Retrieve the real old value (unmerged with defaults)
+		 *
+		 * @return array|bool the original option value (which can be false if the option doesn't exist)
+		 */
+		protected function get_original_option() {
+			$this->remove_default_filters();
+			$this->remove_option_filters();
+			$option_value = get_option( $this->option_name ); // = (unvalidated) array, NOT merged with defaults
+			$this->add_option_filters();
+			$this->add_default_filters();
+			
+			return $option_value;
+		}
+		
+		/**
+		 * Add the option if it doesn't exist for some strange reason
+		 *
+		 * @uses WPSEO_Option::get_original_option()
+		 *
+		 * @return void
+		 */
+		public function maybe_add_option() {
+			if ( $this->get_original_option() === false ) {
+				update_option( $this->option_name, $this->get_defaults() );
+			}
+		}
+
 
 		/**
 		 * Retrieve the real old value (unmerged with defaults), clean and re-save the option
-		 * @uses import()
+		 *
+		 * @uses WPSEO_Option::get_original_option()
+		 * @uses WPSEO_Option::import()
 		 *
 		 * @param  string $current_version (optional) Version from which to upgrade, if not set,
 		 *                                 version specific upgrades will be disregarded
@@ -379,13 +410,7 @@ if ( ! class_exists( 'WPSEO_Option' ) ) {
 		 * @return void
 		 */
 		public function clean( $current_version = null ) {
-
-			$this->remove_default_filters();
-			$this->remove_option_filters();
-			$option_value = get_option( $this->option_name ); // = (unvalidated) array, NOT merged with defaults
-			$this->add_option_filters();
-			$this->add_default_filters();
-
+			$option_value = $this->get_original_option();
 			$this->import( $option_value, $current_version );
 		}
 
@@ -449,7 +474,7 @@ if ( ! class_exists( 'WPSEO_Option' ) ) {
 
 			$defaults = $this->get_defaults();
 
-			if ( ! isset( $options ) || $options === false ) {
+			if ( ! isset( $options ) || $options === false || $options === array() ) {
 				return $defaults;
 			}
 
@@ -3567,6 +3592,19 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 				delete_option( 'wpseo_indexation' );
 			}
 		}
+		
+		
+		/**
+		 * Check that all options exist in the database and add any which don't
+		 *
+		 * @return  void
+		 */
+		public static function ensure_options_exist() {
+			foreach ( self::$option_instances as $instance ) {
+				$instance->maybe_add_option();
+			}
+		}
+
 
 		/**
 		 * Correct the inadvertent removal of the fallback to default values from the breadcrumbs

@@ -24,7 +24,7 @@ class WPSEO_UnitTestCase extends WP_UnitTestCase {
 	* Fake a request to the WP front page
 	*/
 	protected function go_to_home() {
-		$this->go_to( home_url() );
+		$this->go_to( home_url( '/' ) );
 	}
 
 	/**
@@ -33,7 +33,7 @@ class WPSEO_UnitTestCase extends WP_UnitTestCase {
 	*/
 	protected function expectOutput( $string, $function = null ) {
 		$output = ob_get_contents();
-		ob_clean();	
+		ob_clean();
 		$this->assertEquals( $output, $string );
 	}
 

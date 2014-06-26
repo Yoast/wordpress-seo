@@ -503,7 +503,15 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 
 				case 'multiselect':
 					if ( isset( $meta_field_def['options'] ) && is_array( $meta_field_def['options'] ) && $meta_field_def['options'] !== array() ) {
-						$selectedarr   = explode( ',', $meta_value );
+
+						// Set $meta_value as $selectedarr
+						$selectedarr = $meta_value;
+
+						// If the multiselect field is 'meta-robots-adv' we should explode on ,
+						if( 'meta-robots-adv' === $key ) {
+							$selectedarr   = explode( ',', $meta_value );
+						}
+
 						$options_count = count( $meta_field_def['options'] );
 
 						// @todo [JRF => whomever] verify height calculation for older WP versions, was 16x, for WP3.8 20x is more appropriate

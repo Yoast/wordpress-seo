@@ -32,14 +32,14 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 
 		// test invalid option, should default to summary
 		self::$class_instance->options['twitter_card_type'] = 'something_invalid';
-		$expected = $this->metatag( 'card', 'summary' );
+		$expected                                           = $this->metatag( 'card', 'summary' );
 
 		self::$class_instance->type();
 		$this->expectOutput( $expected );
 
 		// test valid option
 		self::$class_instance->options['twitter_card_type'] = 'photo';
-		$expected = $this->metatag( 'card', 'photo' );
+		$expected                                           = $this->metatag( 'card', 'photo' );
 
 		self::$class_instance->type();
 		$this->expectOutput( $expected );
@@ -51,7 +51,7 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	public function test_site_twitter() {
 		// test valid option
 		self::$class_instance->options['twitter_site'] = 'yoast';
-		$expected = $this->metatag( 'site', '@yoast' );
+		$expected                                      = $this->metatag( 'site', '@yoast' );
 
 		self::$class_instance->site_twitter();
 		$this->expectOutput( $expected );
@@ -62,7 +62,7 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_site_domain() {
 		// test valid option
-		$expected = $this->metatag( 'domain', get_bloginfo('name') );
+		$expected = $this->metatag( 'domain', get_bloginfo( 'name' ) );
 
 		self::$class_instance->site_domain();
 		$this->expectOutput( $expected );
@@ -73,7 +73,7 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_author_twitter() {
 
-		$name = 'yoast';
+		$name     = 'yoast';
 		$expected = $this->metatag( 'creator', '@' . $name );
 
 		// test option
@@ -163,7 +163,7 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 
 		// test image url
 		$expected = $this->metatag( 'image:src', $image_url );
-		$result = self::$class_instance->image_output( $image_url );
+		$result   = self::$class_instance->image_output( $image_url );
 		$this->assertTrue( $result );
 		$this->expectOutput( $expected );
 
