@@ -2854,7 +2854,7 @@ if ( ! class_exists( 'WPSEO_Option_MS' ) ) {
 		 * @return void
 		 */
 		public function register_setting() {
-			if ( ( function_exists( 'is_multisite' ) && is_multisite() ) && WPSEO_Options::grant_access() ) {
+			if ( is_multisite() && WPSEO_Options::grant_access() ) {
 				register_setting( $this->group_name, $this->option_name );
 			}
 		}
@@ -3445,7 +3445,7 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 		 * @return boolean
 		 */
 		public static function grant_access() {
-			if ( ! function_exists( 'is_multisite' ) || ! is_multisite() ) {
+			if ( ! is_multisite() ) {
 				return true;
 			}
 
@@ -3675,7 +3675,7 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 		public static function set_multisite_defaults() {
 			$option = get_option( 'wpseo' );
 
-			if ( function_exists( 'is_multisite' ) && is_multisite() && $option['ms_defaults_set'] === false ) {
+			if ( is_multisite() && $option['ms_defaults_set'] === false ) {
 				$current_site = get_current_site();
 				self::reset_ms_blog( $current_site->id );
 

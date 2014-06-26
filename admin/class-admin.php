@@ -21,7 +21,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		function __construct() {
 			$options = WPSEO_Options::get_all();
 
-			if ( function_exists( 'is_multisite' ) && is_multisite() && $options['ms_defaults_set'] === false ) {
+			if ( is_multisite() && $options['ms_defaults_set'] === false ) {
 				WPSEO_Options::set_multisite_defaults();
 			}
 
@@ -101,13 +101,8 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 			);
 
 			// Check where to add the edit files page
-			if ( ! ( defined( 'DISALLOW_FILE_EDIT' ) && DISALLOW_FILE_EDIT ) && ! ( defined( 'DISALLOW_FILE_MODS' ) && DISALLOW_FILE_MODS ) ) {
-				// Make sure on a multi site install only super admins can edit .htaccess and robots.txt
-				if ( ! function_exists( 'is_multisite' ) || ! is_multisite() ) {
-					$submenu_pages[] = array( 'wpseo_dashboard', __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Edit Files', 'wordpress-seo' ), __( 'Edit Files', 'wordpress-seo' ), 'manage_options', 'wpseo_files', array( $this, 'load_page' ) );
-				}else {
-					$submenu_pages[] = array( 'wpseo_dashboard', __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Edit Files', 'wordpress-seo' ), __( 'Edit Files', 'wordpress-seo' ), 'delete_users', 'wpseo_files', array( $this, 'load_page' ) );
-				}
+			if ( wpseo_allow_system_file_edit() === true ) {
+				$submenu_pages[] = array( 'wpseo_dashboard', __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Edit Files', 'wordpress-seo' ), __( 'Edit Files', 'wordpress-seo' ), 'manage_options', 'wpseo_files', array( $this, 'load_page' ) );
 			}
 
 			// Add Extension submenu page
