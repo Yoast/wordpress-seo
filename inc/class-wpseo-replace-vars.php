@@ -60,8 +60,8 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		 * @return \WPSEO_Replace_Vars
 		 */
 		public function __construct() {}
-		
-		
+
+
 		/**
 		 * Setup the help texts and external replacements as statics so they will be available to all instances
 		 */
@@ -71,7 +71,7 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 				self::set_basic_help_texts();
 				self::set_advanced_help_texts();
 			}
-			
+
 			if ( self::$external_replacements === array() ) {
 				/**
 				 * Action: 'wpseo_register_extra_replacements' - Allows for registration of additional
@@ -103,7 +103,7 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 
 			if ( is_string( $var ) && $var !== '' ) {
 				$var = self::remove_var_delimiter( $var );
-				
+
 				if ( strpos( $var, 'cf_' ) === 0 || strpos( $var, 'ct_' ) === 0 ) {
 					trigger_error( __( 'A replacement variable can not start with "%%cf_" or "%%ct_" as these are reserved for the WPSEO standard variable variables for custom fields and custom taxonomies. Try making your variable name unique.', 'wordpress-seo' ), E_USER_WARNING );
 				}
@@ -1112,7 +1112,7 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		private static function remove_var_delimiter( $string ) {
 			return trim( $string, '%' );
 		}
-		
+
 		/**
 		 * Add the '%%' delimiters to a variable string
 		 *
@@ -1164,7 +1164,7 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		}
 
 	} /* End of class WPSEO_Replace_Vars */
-	
+
 
 	/**
 	 * Setup the class statics when the file is first loaded
