@@ -92,7 +92,7 @@ function wpseo_auto_load( $class ) {
 		require_once( $classes[$cn] );
 	}
 }
-if( function_exists( 'spl_autoload_register' ) ) {
+if ( function_exists( 'spl_autoload_register' ) ) {
 	spl_autoload_register( 'wpseo_auto_load' );
 }
 
