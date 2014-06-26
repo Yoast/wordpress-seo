@@ -181,8 +181,9 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 
 				foreach ( timezone_abbreviations_list() as $abbr ) {
 					foreach ( $abbr as $city ) {
-						if ( $city['dst'] == $is_dst && $city['offset'] == $utc_offset )
+						if ( $city['dst'] == $is_dst && $city['offset'] == $utc_offset ) {
 							return $city['timezone_id'];
+						}
 					}
 				}
 			}
