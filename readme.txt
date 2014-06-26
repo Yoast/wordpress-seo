@@ -121,11 +121,14 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 	* Fixed: if first result of a search is a post, the blog page was incorrectly added to the breadcrumb, as reported in [issue #1248](https://github.com/Yoast/wordpress-seo/issues/1248) by [Nikoya](https://github.com/Nikoya) - props [Jrf](http://profiles.wordpress.org/jrf).
 	* Fixed: ensure that all our options exist always, fixes rare case in which this wouldn't be so. As reported by [bonny](https://github.com/bonny) in [issue #1245](https://github.com/Yoast/wordpress-seo/issues/1245) - props [Jrf](http://profiles.wordpress.org/jrf).
 	* Fixed: Media title and meta settings could not be set when 'attachment URLs redirect to parent post' was selected which let to issues for attachments without a parent, as reported by [Firebird75](https://github.com/Firebird75) in [issue #1243](https://github.com/Yoast/wordpress-seo/issues/1243) - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Improved and more consistent check for whether to show the admin 'Edit files' screen, [issue #1197](https://github.com/Yoast/wordpress-seo/issues/1197) - props [hostliketoast](https://github.com/hostliketoast) and [Jrf](http://profiles.wordpress.org/jrf).
+	* Restore robots meta box per taxonomy to its former glory, it now shows even when blog is not set to public, as reported by [Lumieredelune](https://github.com/Lumieredelune) in [issue #1158](https://github.com/Yoast/wordpress-seo/issues/1158) - props [Jrf](http://profiles.wordpress.org/jrf).
 
 * Enhancements
 	* New `wpseo_register_extra_replacements` action hook which lets plugin/theme builders add new `%%...%%` replacement variables - including relevant help texts -. See [function documentation](https://github.com/Yoast/wordpress-seo/blob/master/inc/wpseo-functions.php) for an example of how to use this new functionality.
 	* If the final string - after replacement - would contain two separators with nothing between them, this extra separator will be removed.
 	* All remaining not replaced replacement vars are now stripped from the strings (without breaking the snippet preview).
+	* New filter `wpseo_replacements_filter_sep` which can be used to change the seperator character passed by the theme.
 	
 * Other enhancements
 	* We've added server specific info to our tracking class. Most notably, we're tracking whether a number of PHP extensions are enabled for our users now.
@@ -150,7 +153,6 @@ Release Date: June 2nd, 2014
 
 * i18n
  	* Make sure extensions menu is fully i18n compatible.
-
 
 = 1.5.3.2 =
 Release Date: May 16th, 2014
