@@ -75,11 +75,21 @@ $wpseo_admin_pages->admin_header( true, WPSEO_Options::get_group_name( 'wpseo_ti
 	$post_types = get_post_types( array( 'public' => true ), 'objects' );
 	if ( is_array( $post_types ) && $post_types !== array() ) {
 		foreach ( $post_types as $pt ) {
+			$warn = false;
 			if ( $options[ 'redirectattachment' ] === true && $pt->name == 'attachment' ) {
-				continue;
+				echo '<div class="wpseo-warning">';
+				$warn = true;
 			}
+
 			$name = $pt->name;
 			echo '<h4 id="' . esc_attr( $name ) . '">' . esc_html( ucfirst( $pt->labels->name ) ) . '</h4>';
+			if ( $warn === true ) {
+				echo '<h4 class="error-message">' . __( 'Take note:', 'wordpress-seo' ) . '</h4>';
+
+				echo '<p class="error-message">' . __( 'As you are redirecting attachment URLs to parent post URLs, these settings will currently only have an effect on <strong>unattached</strong> media items!', 'wordpress-seo' ) . '</p>';
+				echo '<p class="error-message">' . sprintf( __( 'So remember: If you change the %sattachment redirection setting%s in the future, the below settings will take effect for *all* media items.', 'wordpress-seo' ), '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_permalinks' ) ) . '">', '</a>' ) . '</p>';
+			}
+
 			echo $wpseo_admin_pages->textinput( 'title-' . $name, __( 'Title template', 'wordpress-seo' ) );
 			echo $wpseo_admin_pages->textarea( 'metadesc-' . $name, __( 'Meta description template', 'wordpress-seo' ), '', 'metadesc' );
 			if ( $options[ 'usemetakeywords' ] === true ) {
@@ -90,6 +100,10 @@ $wpseo_admin_pages->admin_header( true, WPSEO_Options::get_group_name( 'wpseo_ti
 			echo $wpseo_admin_pages->checkbox( 'showdate-' . $name, __( 'Show date in snippet preview?', 'wordpress-seo' ), __( 'Date in Snippet Preview', 'wordpress-seo' ) );
 			echo $wpseo_admin_pages->checkbox( 'hideeditbox-' . $name, __( 'Hide', 'wordpress-seo' ), __( 'WordPress SEO Meta Box', 'wordpress-seo' ) );
 			echo '<br/>';
+			if ( $warn === true ) {
+				echo '</div>';
+			}
+			unset( $warn );
 		}
 		unset( $pt );
 	}

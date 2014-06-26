@@ -85,6 +85,22 @@ label.radio {
 	min-width: 800px;
 }
 
+.wpseo_content_wrapper div.wpseo-warning {
+	border: 2px solid red;
+	padding-left: 10px;
+	padding-right: 10px;
+	background-color: #DEDEDE;
+	margin: 2em 0 0 0;
+}
+
+.wpseo_content_wrapper div.wpseo-warning h4 {
+	margin: 1em 0 0 0;
+}
+
+.wpseo_content_wrapper div.wpseo-warning p.error-message {
+	font-weight: normal;
+}
+
 #sidebar-container {
 	width: 261px;
 	padding: 0 0 0 20px;
