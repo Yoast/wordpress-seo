@@ -81,9 +81,9 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 
 			$service_banners = array(
 				array(
-				'url' => 'https://yoast.com/hire-us/website-review/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=website-review-banner',
-				'img' => 'banner-website-review.png',
-				'alt' => 'Website Review banner'
+					'url' => 'https://yoast.com/hire-us/website-review/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=website-review-banner',
+					'img' => 'banner-website-review.png',
+					'alt' => 'Website Review banner',
 				)
 			);
 
@@ -156,15 +156,16 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 
 			$i = 0;
 			foreach ( $plugin_banners as $banner ) {
-				if ( $i == 2 )
+				if ( $i == 2 ) {
 					break;
+				}
 				echo '<a target="_blank" href="' . esc_url( $banner['url'] ) . '"><img width="261" src="' . plugins_url( 'images/' . $banner['img'], WPSEO_FILE ) . '" alt="' . esc_attr( $banner['alt'] ) . '"/></a><br/><br/>';
 				$i++;
 			}
 			?>
 					<?php
 						echo __( 'Remove these ads?', 'wordpress-seo' ) . '<br/>';
-						echo '<a target="_blank" href="https://yoast.com/wordpress/plugins/seo-premium/#utm_source=wordpress-seo-config&utm_medium=textlink&utm_campaign=remove-ads-link">' . __('Upgrade to WordPress SEO Premium &raquo;', 'wordpress-seo') . '</a><br/><br/>';
+						echo '<a target="_blank" href="https://yoast.com/wordpress/plugins/seo-premium/#utm_source=wordpress-seo-config&utm_medium=textlink&utm_campaign=remove-ads-link">' . __( 'Upgrade to WordPress SEO Premium &raquo;', 'wordpress-seo' ) . '</a><br/><br/>';
 					?>
 				</div>
 			</div>
@@ -315,18 +316,21 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 
 			$dir = wp_upload_dir();
 
-			if ( ! $handle = fopen( $dir['path'] . '/settings.ini', 'w' ) )
+			if ( ! $handle = fopen( $dir['path'] . '/settings.ini', 'w' ) ) {
 				die();
+			}
 
-			if ( ! fwrite( $handle, $content ) )
+			if ( ! fwrite( $handle, $content ) ) {
 				die();
+			}
 
 			fclose( $handle );
 
 			chdir( $dir['path'] );
 			$zip = new PclZip( './settings.zip' );
-			if ( $zip->create( './settings.ini' ) == 0 )
+			if ( $zip->create( './settings.ini' ) == 0 ) {
 				return false;
+			}
 
 			return $dir['url'] . '/settings.zip';
 		}
@@ -343,8 +347,9 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 				wp_enqueue_style( 'wp-admin' );
 				wp_enqueue_style( 'yoast-admin-css', plugins_url( 'css/yst_plugin_tools' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
 
-				if ( is_rtl() )
+				if ( is_rtl() ) {
 					wp_enqueue_style( 'wpseo-rtl', plugins_url( 'css/wpseo-rtl' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
+				}
 			}
 
 			if ( $pagenow == 'admin.php' && isset( $_GET['page'] ) && in_array( $_GET['page'], array( 'wpseo_bulk-title-editor', 'wpseo_bulk-description-editor' ) ) ) {
@@ -518,8 +523,9 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 			$output .= '<select class="select" name="' . esc_attr( $option ) . '[' . esc_attr( $var ) . ']" id="' . esc_attr( $var ) . '">';
 
 			foreach ( $values as $value => $label ) {
-				if ( ! empty( $label ) )
+				if ( ! empty( $label ) ) {
 					$output .= '<option value="' . esc_attr( $value ) . '"' . selected( $options[$var], $value, false ) . '>' . $label . '</option>';
+				}
 			}
 			$output .= '</select>';
 			return $output . '<br class="clear"/>';
@@ -656,7 +662,7 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 		 * @see WPSEO_Options::reset()
 		 */
 		function reset_defaults() {
-			_deprecated_function( __CLASS__ . '::' . __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Options::reset()' );
+			_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Options::reset()' );
 			WPSEO_Options::reset();
 		}
 
