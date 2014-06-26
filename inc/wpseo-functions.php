@@ -18,6 +18,9 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
  * on a site is requested.
  */
 function wpseo_do_upgrade() {
+	/* Make sure title_test and description_test functions are available */
+	require_once( WPSEO_PATH . 'inc/wpseo-non-ajax-functions.php' );
+
 	$option_wpseo = get_option( 'wpseo' );
 
 	if ( $option_wpseo['version'] === '' || version_compare( $option_wpseo['version'], '1.2', '<' ) ) {
@@ -62,6 +65,9 @@ function wpseo_do_upgrade() {
 	if ( version_compare( $option_wpseo['version'], WPSEO_VERSION, '<' ) ) {
 		update_option( 'wpseo', $option_wpseo );
 	}
+	
+	// Make sure all our options always exist - issue #1245
+	WPSEO_Options::ensure_options_exist();
 }
 
 

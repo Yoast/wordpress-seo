@@ -98,7 +98,7 @@ module.exports = function(grunt) {
                 dir: ['**/*.php', '!admin/license-manager/**', '!node_modules/**']
             },
             options: {
-                standard: 'ruleset.xml',
+                standard: 'codesniffer.xml',
                 reportFile: 'phpcs.txt',
                 ignoreExitCode: true
             }
