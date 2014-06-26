@@ -72,6 +72,13 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 		private $charset = '';
 
 		/**
+		 * Holds the timezone string value to reuse for performance
+		 *
+		 * @var string $timezone_string
+		 */
+		private $timezone_string = '';
+
+		/**
 		 * Class constructor
 		 */
 		function __construct() {
@@ -140,6 +147,48 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 		 */
 		private function http_protocol() {
 			return ( isset( $_SERVER['SERVER_PROTOCOL'] ) && $_SERVER['SERVER_PROTOCOL'] !== '' ) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.1';
+		}
+
+		/**
+		 * Returns the timezone string for a site, even if it's set to a UTC offset
+		 *
+		 * Adapted from http://www.php.net/manual/en/function.timezone-name-from-abbr.php#89155
+		 *
+		 * @return string valid PHP timezone string
+		 */
+		private function wp_get_timezone_string() {
+
+			// if site timezone string exists, return it
+			if ( $timezone = get_option( 'timezone_string' ) ) {
+				return $timezone;
+			}
+
+			// get UTC offset, if it isn't set then return UTC
+			if ( 0 === ( $utc_offset = get_option( 'gmt_offset', 0 ) ) ) {
+				return 'UTC';
+			}
+
+			// adjust UTC offset from hours to seconds
+			$utc_offset *= 3600;
+
+			// attempt to guess the timezone string from the UTC offset
+			$timezone = timezone_name_from_abbr( '', $utc_offset );
+
+			// last try, guess timezone string manually
+			if ( false === $timezone ) {
+
+				$is_dst = date( 'I' );
+
+				foreach ( timezone_abbreviations_list() as $abbr ) {
+					foreach ( $abbr as $city ) {
+						if ( $city['dst'] == $is_dst && $city['offset'] == $utc_offset )
+							return $city['timezone_id'];
+					}
+				}
+			}
+
+			// fallback to UTC
+			return 'UTC';
 		}
 
 		/**
@@ -1145,16 +1194,24 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 		 * @return string
 		 */
 		function sitemap_url( $url ) {
-			if ( isset( $url['mod'] ) ) {
-				$date = mysql2date( 'Y-m-d\TH:i:s+00:00', $url['mod'], false );
-			} else {
-				$date = date( 'c' );
+
+			// Set the timezone string
+			if ( '' == $this->timezone_string ) {
+				$this->timezone_string = $this->wp_get_timezone_string();
 			}
+
+			// Create a DateTime object date in the correct timezone
+			if ( isset( $url['mod'] ) ) {
+				$date = new DateTime( $url['mod'], new DateTimeZone( $this->timezone_string ) );
+			} else {
+				$date = new DateTime( time(), new DateTimeZone( $this->timezone_string ) );
+			}
+
 			$url['loc'] = htmlspecialchars( $url['loc'] );
 
 			$output = "\t<url>\n";
 			$output .= "\t\t<loc>" . $url['loc'] . "</loc>\n";
-			$output .= "\t\t<lastmod>" . $date . "</lastmod>\n";
+			$output .= "\t\t<lastmod>" . $date->format( 'c' ) . "</lastmod>\n";
 			$output .= "\t\t<changefreq>" . $url['chf'] . "</changefreq>\n";
 			$output .= "\t\t<priority>" . str_replace( ',', '.', $url['pri'] ) . "</priority>\n";
 
