@@ -368,7 +368,7 @@ if ( ! class_exists( 'WPSEO_Option' ) ) {
 
 
 		/* *********** METHODS for ADDING/UPGRADING the option *********** */
-		
+
 		/**
 		 * Retrieve the real old value (unmerged with defaults)
 		 *
@@ -380,10 +380,10 @@ if ( ! class_exists( 'WPSEO_Option' ) ) {
 			$option_value = get_option( $this->option_name ); // = (unvalidated) array, NOT merged with defaults
 			$this->add_option_filters();
 			$this->add_default_filters();
-			
+
 			return $option_value;
 		}
-		
+
 		/**
 		 * Add the option if it doesn't exist for some strange reason
 		 *
@@ -2899,7 +2899,7 @@ if ( ! class_exists( 'WPSEO_Option_MS' ) ) {
 									add_settings_error(
 										$this->group_name, // slug title of the setting
 										'_' . $key, // suffix-id for the error message box
-										__( 'The default blog setting must be the numeric blog id of the blog you want to use as default.', 'wordpress-seo' ) . '<br>' . sprintf( __( 'This must be an existing blog. Blog %s does not exist or has been marked as deleted.', 'wordpress-seo' ), '<strong>' . esc_html( sanitize_text_field( $dirty[ $key ] ) ) . '</strong>' ), // the error message
+										esc_html__( 'The default blog setting must be the numeric blog id of the blog you want to use as default.', 'wordpress-seo' ) . '<br>' . sprintf( esc_html__( 'This must be an existing blog. Blog %s does not exist or has been marked as deleted.', 'wordpress-seo' ), '<strong>' . esc_html( sanitize_text_field( $dirty[ $key ] ) ) . '</strong>' ), // the error message
 										'error' // error type, either 'error' or 'updated'
 									);
 								}
@@ -2908,7 +2908,7 @@ if ( ! class_exists( 'WPSEO_Option_MS' ) ) {
 								add_settings_error(
 									$this->group_name, // slug title of the setting
 									'_' . $key, // suffix-id for the error message box
-									__( 'The default blog setting must be the numeric blog id of the blog you want to use as default.', 'wordpress-seo' ) . '<br>' . __( 'No numeric value was received.', 'wordpress-seo' ), // the error message
+									esc_html__( 'The default blog setting must be the numeric blog id of the blog you want to use as default.', 'wordpress-seo' ) . '<br>' . esc_html__( 'No numeric value was received.', 'wordpress-seo' ), // the error message
 									'error' // error type, either 'error' or 'updated'
 								);
 							}
@@ -3084,7 +3084,7 @@ if ( ! class_exists( 'WPSEO_Taxonomy_Meta' ) ) {
 				return $defaults;
 			}
 
-			/*
+			/ *
 			@internal Adding the defaults to all taxonomy terms each time the option is retrieved
 			will be quite inefficient if there are a lot of taxonomy terms
 			As long as taxonomy_meta is only retrieved via methods in this class, we shouldn't need this
@@ -3592,8 +3592,8 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 				delete_option( 'wpseo_indexation' );
 			}
 		}
-		
-		
+
+
 		/**
 		 * Check that all options exist in the database and add any which don't
 		 *

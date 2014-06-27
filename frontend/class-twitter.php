@@ -76,7 +76,7 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 			$metatag_key = apply_filters( 'wpseo_twitter_metatag_key', 'name' );
 
 			// Output meta
-			echo '<meta ' . $metatag_key . '="twitter:' . $name . '" content="' . $value . '"/>' . "\n";
+			echo '<meta ' . esc_attr( $metatag_key ) . '="twitter:' . esc_attr( $name ) . '" content="' . $value . '"/>' . "\n";
 		}
 
 		/**

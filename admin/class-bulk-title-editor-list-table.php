@@ -124,7 +124,7 @@ if ( ! class_exists( 'WPSEO_Bulk_Title_Editor_List_Table' ) ) {
 				FROM {$wpdb->posts}
 				WHERE post_type IN ({$own_posts_string}) AND post_author = %d
 			)sub_base";
-	
+
 			return $subquery;
 		}
 
@@ -291,12 +291,12 @@ if ( ! class_exists( 'WPSEO_Bulk_Title_Editor_List_Table' ) ) {
 				'col_existing_yoast_seo_title' => array( 'seo_title', false ),
 			);
 		}
-	
+
 		function prepare_items() {
 			global $wpdb;
 
 			//	Filter Block
-	
+
 			$post_types       = null;
 			$post_type_clause = '';
 
@@ -341,7 +341,7 @@ if ( ! class_exists( 'WPSEO_Bulk_Title_Editor_List_Table' ) ) {
 				WHERE post_status IN ({$all_states}) $post_type_clause
 				ORDER BY {$orderby} {$order}
 			";
-			
+
 			$total_items = $wpdb->query(
 				$wpdb->prepare(
 					$query,

@@ -65,7 +65,7 @@ function wpseo_do_upgrade() {
 	if ( version_compare( $option_wpseo['version'], WPSEO_VERSION, '<' ) ) {
 		update_option( 'wpseo', $option_wpseo );
 	}
-	
+
 	// Make sure all our options always exist - issue #1245
 	WPSEO_Options::ensure_options_exist();
 }
@@ -228,7 +228,7 @@ function wpseo_xml_redirect_sitemap() {
 	global $wp_query;
 
 	$current_url  = ( isset( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] == 'on' ) ? 'https://' : 'http://';
-	$current_url .= $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
+	$current_url .= sanitize_text_field( $_SERVER['SERVER_NAME'] ) . sanitize_text_field( $_SERVER['REQUEST_URI'] );
 
 	// must be 'sitemap.xml' and must be 404
 	if ( home_url( '/sitemap.xml' ) == $current_url && $wp_query->is_404 ) {

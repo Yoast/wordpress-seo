@@ -84,7 +84,7 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 					'url' => 'https://yoast.com/hire-us/website-review/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=website-review-banner',
 					'img' => 'banner-website-review.png',
 					'alt' => 'Website Review banner',
-				)
+				),
 			);
 
 			$plugin_banners = array(

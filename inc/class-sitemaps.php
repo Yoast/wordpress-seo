@@ -146,7 +146,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 		 * @return string
 		 */
 		private function http_protocol() {
-			return ( isset( $_SERVER['SERVER_PROTOCOL'] ) && $_SERVER['SERVER_PROTOCOL'] !== '' ) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.1';
+			return ( isset( $_SERVER['SERVER_PROTOCOL'] ) && $_SERVER['SERVER_PROTOCOL'] !== '' ) ? sanitize_text_field( $_SERVER['SERVER_PROTOCOL'] ) : 'HTTP/1.1';
 		}
 
 		/**
@@ -1032,7 +1032,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 					}
 				}
 			}
-			
+
 			if ( empty( $output ) ) {
 				$this->bad_sitemap = true;
 
@@ -1177,7 +1177,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 			// Prevent the search engines from indexing the XML Sitemap.
 			header( 'X-Robots-Tag: noindex,follow', true );
 			header( 'Content-Type: text/xml' );
-			echo '<?xml version="1.0" encoding="' . $this->charset . '"?>';
+			echo '<?xml version="1.0" encoding="' . esc_attr( $this->charset ) . '"?>';
 			if ( $this->stylesheet ) {
 				echo apply_filters( 'wpseo_stylesheet_url', $this->stylesheet ) . "\n";
 			}
@@ -1193,9 +1193,9 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 					echo "\n" . '<!-- ' . number_format( ( memory_get_peak_usage() / 1024 / 1024 ), 2 ) . 'MB | Served from transient cache -->';
 				} else {
 					global $wpdb;
-					echo "\n" . '<!-- ' . number_format( ( memory_get_peak_usage() / 1024 / 1024 ), 2 ) . 'MB | ' . $wpdb->num_queries . ' -->';
+					echo "\n" . '<!-- ' . number_format( ( memory_get_peak_usage() / 1024 / 1024 ), 2 ) . 'MB | ' . esc_attr( $wpdb->num_queries ) . ' -->';
 					if ( defined( 'SAVEQUERIES' ) && SAVEQUERIES ) {
-						echo "\n" . '<!--' . print_r( $wpdb->queries, 1 ) . '-->';
+						echo "\n" . '<!--' . print_r( $wpdb->queries, true ) . '-->';
 					}
 				}
 			}

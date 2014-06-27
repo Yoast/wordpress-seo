@@ -276,7 +276,7 @@ if ( ! function_exists( 'spl_autoload_register' ) ) {
 }
 else {
 	add_action( 'plugins_loaded', 'wpseo_init', 14 );
-	
+
 	if ( is_admin() ) {
 		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
 			require_once( WPSEO_PATH . 'admin/ajax.php' );

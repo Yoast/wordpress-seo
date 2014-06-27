@@ -135,8 +135,8 @@ if ( ! class_exists( 'Yoast_Tracking' ) ) {
 				);
 			}
 			unset( $active_plugins, $plugin_path );
-			
-			
+
+
 			$data = array(
 				'site'      => array(
 					'hash'      => $hash,

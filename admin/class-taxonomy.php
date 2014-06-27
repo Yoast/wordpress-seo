@@ -190,7 +190,7 @@ if ( ! class_exists( 'WPSEO_Taxonomy' ) ) {
 
 			$noindex_options            = $this->no_index_options;
 			$noindex_options['default'] = sprintf( $noindex_options['default'], $term->taxonomy, $current );
-			
+
 			$desc = sprintf( esc_html__( 'This %s follows the indexation rules set under Metas and Titles, you can override it here.', 'wordpress-seo' ), $term->taxonomy );
 			if ( '0' == get_option( 'blog_public' ) ) {
 				$desc .= '<br /><span class="error-message">' . esc_html__( 'Warning: even though you can set the meta robots setting here, the entire site is set to noindex in the sitewide privacy settings, so these settings won\'t have an effect.', 'wordpress-seo' ) . '</span>';

@@ -153,15 +153,12 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 			}
 			$this->args = (object) wp_parse_args( $args, $this->defaults );
 
-
 			// Clean $omit array
 			if ( is_array( $omit ) && $omit !== array() ) {
 				$omit = array_map( array( __CLASS__, 'remove_var_delimiter' ), $omit );
 			}
 
-
 			$replacements = array();
-
 			if ( preg_match_all( '`%%([^%]+(%%single)?)%%?`iu', $string, $matches ) ) {
 				$replacements = $this->set_up_replacements( $matches, $omit );
 			}
@@ -177,7 +174,6 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 			if ( is_array( $replacements ) && $replacements !== array() ) {
 				$string = str_replace( array_keys( $replacements ), array_values( $replacements ), $string );
 			}
-
 
 			/**
 			 * Filter: 'wpseo_replacements_final' - Allow overruling of whether or not to remove placeholders

@@ -308,8 +308,8 @@ if ( isset( $_POST['import'] ) || isset( $_GET['import'] ) ) {
 	if ( $deletekw ) {
 		$msg .= __( ', and meta keywords data deleted.', 'wordpress-seo' );
 	}
-
 }
+
 
 $wpseo_admin_pages->admin_header( false );
 if ( $msg != '' ) {
@@ -438,7 +438,6 @@ elseif ( isset( $_FILES['settings_import_file'] ) ) {
 				}
 				else {
 					$content .= '<p><strong>' . __( 'Settings could not be imported:', 'wordpress-seo' ) . ' ' . __( 'No settings found in file.', 'wordpress-seo' ) . '</strong></p>';
-	
 				}
 				unset( $options, $name, $optgroup );
 			}

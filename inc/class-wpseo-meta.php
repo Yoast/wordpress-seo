@@ -34,7 +34,8 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 	 * for get_post_meta(), get_post_custom() and the likes. That would have been the preferred solution.
 	 *
 	 * @internal all WP native get_meta() results get cached internally, so no need to cache locally.
-	 * @internal use $key when the key is the WPSEO internal name (without prefix), $meta_key when it includes the prefix
+	 * @internal use $key when the key is the WPSEO internal name (without prefix), $meta_key when it 
+	 *           includes the prefix
 	 */
 	class WPSEO_Meta {
 
@@ -961,11 +962,11 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 				}
 			}
 			unset( $query, $oldies, $old, $clean );
-			
+
 			do_action( 'wpseo_meta_clean_up' );
 		}
-		
-		
+
+
 		/**
 		 * Recursively merge a variable number of arrays, using the left array as base,
 		 * giving priority to the right array.

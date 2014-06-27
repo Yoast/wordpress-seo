@@ -34,9 +34,9 @@ if ( ! class_exists( 'WPSEO_Sitemaps_Admin' ) ) {
 
 				$file_to_check_for = array(
 					//ABSPATH . 'sitemap.xml',
-					ABSPATH . 'sitemap_index.xml',
 					//ABSPATH . 'sitemap.xslt',
 					//ABSPATH . 'sitemap.xsl',
+					ABSPATH . 'sitemap_index.xml',
 				);
 
 				$new_files_found = false;

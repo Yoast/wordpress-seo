@@ -623,7 +623,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 					if ( get_query_var( 'paged' ) > 1 ) {
 						$robots['index'] = 'noindex';
 					}
-					
+
 					$page_for_posts = get_option( 'page_for_posts' );
 					if ( $page_for_posts ) {
 						$robots = $this->robots_for_single_post( $robots, $page_for_posts );
@@ -683,7 +683,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 
 			return $robotsstr;
 		}
-		
+
 		/**
 		 * Determine $robots values for a single post
 		 *
@@ -721,7 +721,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 				unset( $robot );
 			}
 			unset( $meta_robots_adv );
-			
+
 			return $robots;
 		}
 
@@ -1315,7 +1315,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 				global $post;
 				$url          = get_permalink( $post->ID );
 				$hash         = sanitize_text_field( $_GET['replytocom'] );
-				$query_string = remove_query_arg( 'replytocom', $_SERVER['QUERY_STRING'] );
+				$query_string = remove_query_arg( 'replytocom', sanitize_text_field( $_SERVER['QUERY_STRING'] ) );
 				if ( ! empty( $query_string ) ) {
 					$url .= '?' . $query_string;
 				}
@@ -1345,9 +1345,9 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 			}
 			$cururl .= '://';
 			if ( $_SERVER['SERVER_PORT'] != '80' && $_SERVER['SERVER_PORT'] != '443' ) {
-				$cururl .= $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'] . $_SERVER['REQUEST_URI'];
+				$cururl .= sanitize_text_field( $_SERVER['SERVER_NAME'] ) . ':' . sanitize_text_field( $_SERVER['SERVER_PORT'] ) . sanitize_text_field( $_SERVER['REQUEST_URI'] );
 			} else {
-				$cururl .= $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
+				$cururl .= sanitize_text_field( $_SERVER['SERVER_NAME'] ) . sanitize_text_field( $_SERVER['REQUEST_URI'] );
 			}
 
 			$properurl = '';
@@ -1372,7 +1372,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 				}
 
 				// Fix reply to comment links, whoever decided this should be a GET variable?
-				$result = preg_match( '`(\?replytocom=[^&]+)`', $_SERVER['REQUEST_URI'], $matches );
+				$result = preg_match( '`(\?replytocom=[^&]+)`', sanitize_text_field( $_SERVER['REQUEST_URI'] ), $matches );
 				if ( $result ) {
 					$properurl .= str_replace( '?replytocom=', '#comment-', $matches[0] );
 				}

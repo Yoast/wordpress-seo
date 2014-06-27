@@ -14,7 +14,7 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 	 * This class handles the Breadcrumbs generation and display
 	 */
 	class WPSEO_Breadcrumbs {
-		
+
 		/**
 		 * @var	object	Instance of this class
 		 */
@@ -137,7 +137,7 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 				return $output;
 			}
 		}
-		
+
 		/**
 		 * Magic method to use in case the class would be send to string
 		 *
@@ -147,7 +147,7 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 			return self::$before . $this->output . self::$after;
 		}
 
-		
+
 		/**
 		 * Filter: 'wpseo_breadcrumb_single_link_wrapper' - Allows developer to change or wrap each breadcrumb element
 		 *
@@ -196,7 +196,7 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 			}
 			return array_reverse( $parents );
 		}
-		
+
 		/**
 		 * Find the deepest term in an array of term objects
 		 *
@@ -250,7 +250,7 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 			}
 			return $deepest_term;
 		}
-		
+
 		/**
 		 * Retrieve the hierachical ancestors for the current 'post'
 		 *
@@ -275,7 +275,7 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 			 * @api array $ancestors Ancestors
 			 */
 			$ancestors = apply_filters( 'wp_seo_get_bc_ancestors', $ancestors );
-			
+
 			if ( ! is_array( $ancestors ) ) {
 				trigger_error( 'The return value for the "wp_seo_get_bc_ancestors" filter should be an array.', E_USER_WARNING );
 				$ancestors = (array) $ancestors;
@@ -292,7 +292,7 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 		 */
 		private function set_crumbs() {
 			global $wp_query;
-			
+
 			$this->add_home_crumb();
 			$this->maybe_add_blog_crumb();
 
@@ -408,7 +408,7 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 				'term' => $term,
 			);
 		}
-		
+
 		/**
 		 * Add a ptarchive based crumb to the crumbs property
 		 */
@@ -417,7 +417,7 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 				'ptarchive' => $pt,
 			);
 		}
-		
+
 		/**
 		 * Add a predefined crumb to the crumbs property
 		 */
@@ -446,7 +446,6 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 		private function add_blog_crumb() {
 			$this->add_single_post_crumb( $this->page_for_posts );
 		}
-
 
 		/**
 		 * Add Blog crumb to the crumbs property for single posts where Home != blogpage
@@ -569,7 +568,7 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 				true
 			);
 		}
-		
+
 		/**
 		 * Add (non-link) year crumb to crumbs property
 		 */
@@ -627,7 +626,7 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 				$this->links[] = $this->crumb_to_link( $link_info, $i );
 			}
 		}
-		
+
 		/**
 		 * Retrieve link url and text based on post id
 		 *
@@ -709,7 +708,7 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 
 			$link['url']  = get_post_type_archive_link( $pt );
 			$link['text'] = $archive_title;
-			
+
 			return $link;
 		}
 
@@ -742,7 +741,7 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 				if ( $this->options['breadcrumbs-boldlast'] === true && $i === ( $this->crumb_count - 1 ) ) {
 					$inner_elm = 'strong';
 				}
-				
+
 				$class = '';
 				if ( $i === ( $this->crumb_count - 1 ) ) {
 					$class = ' class="breadcrumb_last"';
@@ -781,7 +780,7 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 				// Remove any effectively empty links
 				$links = array_map( 'trim', $this->links );
 				$links = array_filter( $links );
-	
+
 				$this->output = implode( $this->separator, $links );
 			}
 		}
@@ -795,22 +794,22 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 		<' . $this->wrapper . $this->get_output_id() . $this->get_output_class() . ' prefix="v: http://rdf.data-vocabulary.org/#">
 			' . $this->output . '
 		</' . $this->wrapper . '>';
-	
+
 				/**
 				 * Filter: 'wpseo_breadcrumb_output' - Allow changing the HTML output of the WP SEO breadcrumbs class
 				 *
 				 * @api string $unsigned HTML output
 				 */
 				$output = apply_filters( 'wpseo_breadcrumb_output', $output );
-				
+
 				if ( $this->options['breadcrumbs-prefix'] !== '' ) {
 					$output = "\t" . $this->options['breadcrumbs-prefix'] . "\n" . $output;
 				}
-	
+
 				$this->output = $output;
 			}
 		}
-		
+
 
 		/**
 		 * Filter: 'wpseo_breadcrumb_output_id' - Allow changing the HTML ID on the WP SEO breadcrumbs wrapper element

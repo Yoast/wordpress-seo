@@ -278,7 +278,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			echo '<div title="' . esc_attr( $title ) . '" class="' . esc_attr( 'wpseo-score-icon ' . $score_label ) . '"></div>';
 
 			echo __( 'SEO: ', 'wordpress-seo' ) . '<span class="wpseo-score-title">' . $score_title . '</span>';
-			
+
 			echo ' <a class="wpseo_tablink scroll" href="#wpseo_linkdex">' . __( 'Check', 'wordpress-seo' ) . '</a>';
 
 			echo '</div>';
@@ -508,7 +508,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 						$selectedarr = $meta_value;
 
 						// If the multiselect field is 'meta-robots-adv' we should explode on ,
-						if( 'meta-robots-adv' === $key ) {
+						if ( 'meta-robots-adv' === $key ) {
 							$selectedarr   = explode( ',', $meta_value );
 						}
 
@@ -1261,7 +1261,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 
 			return $results;
 		}
-		
+
 		/**
 		 * Get sample permalink
 		 *

@@ -152,7 +152,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 							'content' => '<p>' . __( 'The title &amp; metas settings for WordPress SEO are made up of variables that are replaced by specific values from the page when the page is displayed. The tabs on the left explain the available variables.', 'wordpress-seo' ) . '</p>',
 					)
 			);
-			
+
 
 			$screen->add_help_tab(
 					array(
@@ -160,7 +160,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 							'title'   => __( 'Basic Variables', 'wordpress-seo' ),
 							'content' => '
 		<h2>' . __( 'Basic Variables', 'wordpress-seo' ) . '</h2>' .
-		WPSEO_Replace_Vars::get_basic_help_texts(), //actual help text
+		WPSEO_Replace_Vars::get_basic_help_texts(),
 					)
 			);
 
@@ -170,7 +170,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 							'title'   => __( 'Advanced Variables', 'wordpress-seo' ),
 							'content' => '
 		<h2>' . __( 'Advanced Variables', 'wordpress-seo' ) . '</h2>' .
-		WPSEO_Replace_Vars::get_advanced_help_texts(), //actual help text
+		WPSEO_Replace_Vars::get_advanced_help_texts(),
 					)
 			);
 		}

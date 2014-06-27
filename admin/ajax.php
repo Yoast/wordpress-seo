@@ -153,7 +153,7 @@ function wpseo_upsert_meta( $post_id, $new_meta_value, $orig_meta_value, $meta_k
 
 	$the_post = get_post( $post_id );
 	if ( empty( $the_post ) ) {
-		
+
 		$upsert_results['status']  = 'failure';
 		$upsert_results['results'] = __( 'Post doesn\'t exist.', 'wordpress-seo' );
 
@@ -162,7 +162,7 @@ function wpseo_upsert_meta( $post_id, $new_meta_value, $orig_meta_value, $meta_k
 
 	$post_type_object = get_post_type_object( $the_post->post_type );
 	if ( ! $post_type_object ) {
-		
+
 		$upsert_results['status']  = 'failure';
 		$upsert_results['results'] = sprintf( __( 'Post has an invalid Post Type: %s.', 'wordpress-seo' ), $the_post->post_type );
 
@@ -170,7 +170,7 @@ function wpseo_upsert_meta( $post_id, $new_meta_value, $orig_meta_value, $meta_k
 	}
 
 	if ( ! current_user_can( $post_type_object->cap->edit_posts ) ) {
-		
+
 		$upsert_results['status']  = 'failure';
 		$upsert_results['results'] = sprintf( __( 'You can\'t edit %s.', 'wordpress-seo' ), $post_type_object->label );
 
@@ -178,7 +178,7 @@ function wpseo_upsert_meta( $post_id, $new_meta_value, $orig_meta_value, $meta_k
 	}
 
 	if ( ! current_user_can( $post_type_object->cap->edit_others_posts ) && $the_post->post_author != get_current_user_id() ) {
-		
+
 		$upsert_results['status']  = 'failure';
 		$upsert_results['results'] = sprintf( __( 'You can\'t edit %s that aren\'t yours.', 'wordpress-seo' ), $post_type_object->label );
 

@@ -124,7 +124,7 @@ if ( ! class_exists( 'WPSEO_Bulk_Description_List_Table' ) ) {
 				FROM {$wpdb->posts}
 				WHERE post_type IN ({$own_posts_string}) AND post_author = %d
 			)sub_base";
-	
+
 			return $subquery;
 		}
 
@@ -292,12 +292,12 @@ if ( ! class_exists( 'WPSEO_Bulk_Description_List_Table' ) ) {
 				'col_existing_yoast_seo_metadesc' => array( 'meta_desc', false )
 			);
 		}
-	
+
 		function prepare_items() {
 			global $wpdb;
 
 			//	Filter Block
-	
+
 			$post_types       = null;
 			$post_type_clause = '';
 

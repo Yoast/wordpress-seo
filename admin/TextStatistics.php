@@ -322,8 +322,10 @@ if ( ! class_exists( 'Yoast_TextStatistics' ) ) {
 				'rved?$',
 				'[aeiouy][dt]es?$',
 				'[aeiouy][^aeiouydt]e[rsd]?$',
-				'^[dr]e[aeiou][^aeiou]+$', // Sorts out deal, deign etc
-				'[aeiouy]rse$', // Purse, hearse
+				// Sorts out deal, deign etc
+				'^[dr]e[aeiou][^aeiou]+$',
+				// Purse, hearse
+				'[aeiouy]rse$',
 			);
 
 			// These syllables would be counted as one but should be two

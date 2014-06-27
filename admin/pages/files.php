@@ -109,7 +109,7 @@ $wpseo_admin_pages->postbox( 'robotstxt', __( 'Robots.txt', 'wordpress-seo' ), $
 
 if ( ( isset( $_SERVER['SERVER_SOFTWARE'] ) && stristr( $_SERVER['SERVER_SOFTWARE'], 'nginx' ) === false ) && file_exists( $ht_access_file ) ) {
 	$f         = fopen( $ht_access_file, 'r' );
-	
+
 	$contentht = '';
 	if ( filesize( $ht_access_file ) > 0 ) {
 		$contentht = fread( $f, filesize( $ht_access_file ) );
