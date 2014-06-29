@@ -101,15 +101,15 @@ $content .= $wpseo_admin_pages->select(
 if ( $use_dropdown === true ) {
 	$content .= $wpseo_admin_pages->select(
 		'defaultblog',
-		__( 'New blogs get the SEO settings from this blog', 'wordpress-seo' ),
+		__( 'New sites in the network get the SEO settings from this site', 'wordpress-seo' ),
 		$dropdown_input,
 		'wpseo_ms'
 	);
 	$content .= '<p>' . __( 'Choose the site whose settings you want to use as default for all sites that are added to your network. If you choose \'None\', the normal plugin defaults will be used.', 'wordpress-seo' ) . '</p>';
 }
 else {
-	$content .= $wpseo_admin_pages->textinput( 'defaultblog', __( 'New blogs get the SEO settings from this blog', 'wordpress-seo' ), 'wpseo_ms' );
-	$content .= '<p>' . __( 'Enter the Blog ID for the site whose settings you want to use as default for all sites that are added to your network. Leave empty for none (i.e. the normal plugin defaults will be used).', 'wordpress-seo' ) . '</p>';
+	$content .= $wpseo_admin_pages->textinput( 'defaultblog', __( 'New sites in the network get the SEO settings from this site', 'wordpress-seo' ), 'wpseo_ms' );
+	$content .= '<p>' . sprintf( __( 'Enter the %sSite ID%s for the site whose settings you want to use as default for all sites that are added to your network. Leave empty for none (i.e. the normal plugin defaults will be used).', 'wordpress-seo' ), '<a href="' . esc_url( network_admin_url( 'sites.php' ) ) . '">', '</a>' ) . '</p>';
 }
 	$content .= '<p><strong>' . __( 'Take note :', 'wordpress-seo' ) . '</strong> ' . __( 'Privacy sensitive (FB admins and such), theme specific (title rewrite) and a few very site specific settings will not be imported to new blogs.', 'wordpress-seo' ) . '</p>';
 
@@ -128,7 +128,7 @@ if ( $use_dropdown === true ) {
 	unset( $dropdown_input['-'] );
 	$content .= $wpseo_admin_pages->select(
 		'restoreblog',
-		__( 'Blog ID', 'wordpress-seo' ),
+		__( 'Site ID', 'wordpress-seo' ),
 		$dropdown_input,
 		'wpseo_ms'
 	);
