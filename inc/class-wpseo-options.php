@@ -78,15 +78,15 @@ if ( ! class_exists( 'WPSEO_Option' ) ) {
 
 		/**
 		 * @var  string  Option group name for use in settings forms
-		 *         - will be set automagically if not set in concrete class
-		 *          (i.e. if it confirm to the normal pattern 'yoast' . $option_name . 'options',
-		 *          only set in conrete class if it doesn't)
+		 *               - will be set automagically if not set in concrete class
+		 *               (i.e. if it confirm to the normal pattern 'yoast' . $option_name . 'options',
+		 *               only set in conrete class if it doesn't)
 		 */
 		public $group_name;
 
 		/**
 		 * @var  bool  Whether to include the option in the return for WPSEO_Options::get_all().
-		 *        Also determines which options are copied over for ms_(re)set_blog().
+		 *             Also determines which options are copied over for ms_(re)set_blog().
 		 */
 		public $include_in_all = true;
 
@@ -97,16 +97,21 @@ if ( ! class_exists( 'WPSEO_Option' ) ) {
 
 		/**
 		 * @var  array  Array of defaults for the option - MUST be set in concrete class.
-		 *        Shouldn't be requested directly, use $this->get_defaults();
+		 *              Shouldn't be requested directly, use $this->get_defaults();
 		 */
 		protected $defaults;
 
 		/**
 		 * @var  array  Array of variable option name patterns for the option - if any -
-		 *        Set this when the option contains array keys which vary based on post_type
-		 *        or taxonomy
+		 *              Set this when the option contains array keys which vary based on post_type
+		 *              or taxonomy
 		 */
 		protected $variable_array_key_patterns;
+
+		/**
+		 * @var array  Array of sub-options which should not be overloaded with multi-site defaults
+		 */
+		public $ms_exclude = array();
 
 		/**
 		 * @var  object  Instance of this class
@@ -150,7 +155,7 @@ if ( ! class_exists( 'WPSEO_Option' ) ) {
 			else if ( is_multisite() ) {
 				/* The option validation routines remove the default filters to prevent failing
 				   to insert an option if it's new. Let's add them back afterwards.
-				   
+
 				   For site_options, this method is not foolproof as these actions are not fired
 				   on an insert/update failure. Please use the WPSEO_Options::update_site_option() method
 				   for updating site options to make sure the filters are in place. */
@@ -380,7 +385,7 @@ if ( ! class_exists( 'WPSEO_Option' ) ) {
 
 
 		/* *********** METHODS for ADDING/UPDATING/UPGRADING the option *********** */
-		
+
 		/**
 		 * Retrieve the real old value (unmerged with defaults)
 		 *
@@ -400,10 +405,10 @@ if ( ! class_exists( 'WPSEO_Option' ) ) {
 
 			$this->add_option_filters();
 			$this->add_default_filters();
-			
+
 			return $option_value;
 		}
-		
+
 		/**
 		 * Add the option if it doesn't exist for some strange reason
 		 *
@@ -886,6 +891,28 @@ if ( ! class_exists( 'WPSEO_Option_Wpseo' ) ) {
 			'ignore_meta_description_warning' => false,
 			'theme_description_found'         => '', //  text string description
 			'theme_has_description'           => null,
+		);
+
+		/**
+		 * @var array  Array of sub-options which should not be overloaded with multi-site defaults
+		 */
+		public $ms_exclude = array(
+			'ignore_blog_public_warning',
+			'ignore_meta_description_warning',
+			'ignore_page_comments',
+			'ignore_permalink',
+			'ignore_tour',
+
+			/* theme dependent */
+			'theme_description_found',
+			'theme_has_description',
+
+			/* privacy */
+			'alexaverify',
+			'googleverify',
+			'msverify',
+			'pinterestverify',
+			'yandexverify',
 		);
 
 
@@ -1412,6 +1439,16 @@ if ( ! class_exists( 'WPSEO_Option_Titles' ) ) {
 			'hideeditbox-',
 			'bctitle-ptarchive-',
 		);
+
+		/**
+		 * @var array  Array of sub-options which should not be overloaded with multi-site defaults
+		 */
+		public $ms_exclude = array(
+			/* theme dependent */
+			'title_test',
+			'forcerewritetitle',
+		);
+
 
 
 		/**
@@ -2502,6 +2539,18 @@ if ( ! class_exists( 'WPSEO_Option_Social' ) ) {
 			// Form field, but not always available:
 			'fbadminapp'         => 0, // app id from fbapps list
 		);
+
+		/**
+		 * @var array  Array of sub-options which should not be overloaded with multi-site defaults
+		 */
+		public $ms_exclude = array(
+			/* privacy */
+			'fb_admins',
+			'fbapps',
+			'fbconnectkey',
+			'fbadminapp',
+		);
+
 
 		/**
 		 * @var  array  Array of allowed twitter card types
@@ -3599,8 +3648,8 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 
 			return null;
 		}
-		
-		
+
+
 		/**
 		 * Update a site_option
 		 *
@@ -3720,8 +3769,8 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 				delete_option( 'wpseo_indexation' );
 			}
 		}
-		
-		
+
+
 		/**
 		 * Check that all options exist in the database and add any which don't
 		 *
@@ -3760,6 +3809,7 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 			wpseo_title_test();
 			wpseo_description_test();
 
+
 			/* Force WooThemes to use WordPress SEO data. */
 			if ( function_exists( 'woo_version_init' ) ) {
 				update_option( 'seo_woo_use_third_party_data', 'true' );
@@ -3786,10 +3836,6 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 			else {
 				// Reset MS blog based on network default blog setting
 				self::reset_ms_blog( get_current_blog_id() );
-
-				$option                    = get_option( 'wpseo' ); // Renew option after reset
-				$option['ms_defaults_set'] = true;
-				update_option( 'wpseo', $option );
 			}
 
 			self::initialize();
@@ -3799,23 +3845,22 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 		/**
 		 * Initialize default values for a new multisite blog
 		 *
-		 * @todo [JRF => testers] Double check that this works as it should, in the old situation,
-		 * the call to initialize (title/description test) was not made
-		 *
 		 * @static
+		 *
+		 * @param  bool  $force_init  Whether to always do the initialization routine (title/desc test)
 		 * @return void
 		 */
-		public static function set_multisite_defaults() {
+		public static function maybe_set_multisite_defaults( $force_init = false ) {
 			$option = get_option( 'wpseo' );
 
-			if ( is_multisite() && $option['ms_defaults_set'] === false ) {
-				self::reset_ms_blog( get_current_blog_id() );
-
-				$option                    = get_option( 'wpseo' ); // Renew option after reset
-				$option['ms_defaults_set'] = true;
-				update_option( 'wpseo', $option );
-
-				self::initialize();
+			if ( is_multisite() ) {
+				if ( $option['ms_defaults_set'] === false ) {
+					self::reset_ms_blog( get_current_blog_id() );
+					self::initialize();
+				}
+				else if ( $force_init === true ) {
+					self::initialize();
+				}
 			}
 		}
 
@@ -3823,8 +3868,6 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 		/**
 		 * Reset all options for a specific multisite blog to their default values based upon a
 		 * specified default blog if one was chosen on the network page or the plugin defaults if it was not
-		 *
-		 * @todo [JRF => testers] Double check that this works as it should
 		 *
 		 * @static
 		 *
@@ -3836,34 +3879,7 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 			if ( is_multisite() ) {
 				$options      = get_site_option( 'wpseo_ms' );
 				$option_names = self::get_option_names();
-				// All of these settings shouldn't be copied so easily
-				// @todo [JRF => Yoast] Would it be an idea to move and split this to be a class property of each option class, so as to keep the information contained in the most logical place ?
-				// Let me know and I'll implement.
-				$exclude = array(
-					'ignore_blog_public_warning',
-					'ignore_meta_description_warning',
-					'ignore_page_comments',
-					'ignore_permalink',
-					'ignore_tour',
-					
-					/* theme dependent */
-					'title_test',
-					'forcerewritetitle',
-					'theme_description_found',
-					'theme_has_description',
 
-					/* privacy */
-					'alexaverify',
-					'googleverify',
-					'msverify',
-					'pinterestverify',
-					'yandexverify',
-					'fb_admins',
-					'fbapps',
-					'fbconnectkey',
-					'fbadminapp',
-				);
-	
 				if ( is_array( $option_names ) && $option_names !== array() ) {
 					$base_blog_id = $blog_id;
 					if ( $options['defaultblog'] !== '' && $options['defaultblog'] != 0 ) {
@@ -3872,11 +3888,20 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 
 					foreach ( $option_names as $option_name ) {
 						delete_blog_option( $blog_id, $option_name );
-	
+
 						$new_option = get_blog_option( $base_blog_id, $option_name );
-						foreach ( $exclude as $key ) {
-							unset( $new_option[ $key ] );
+
+						/* Remove sensitive, theme dependent and site dependent info */
+						if ( isset( self::$option_instances[ $option_name ] ) && self::$option_instances[ $option_name ]->ms_exclude !== array() ) {
+							foreach ( self::$option_instances[ $option_name ]->ms_exclude as $key ) {
+								unset( $new_option[ $key ] );
+							}
 						}
+
+						if ( $option_name === 'wpseo' ) {
+							$new_option['ms_defaults_set'] = true;
+						}
+
 						update_blog_option( $blog_id, $option_name, $new_option );
 					}
 				}

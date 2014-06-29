@@ -126,7 +126,7 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 	* Fixed: Multisite issues, as reported by [GaryJones](https://github.com/GaryJones) and [chrisfromthelc](https://github.com/chrisfromthelc) in [issue #935](https://github.com/Yoast/wordpress-seo/issues/935) - props [Jrf](http://profiles.wordpress.org/jrf).
 		- saving of settings on the multisite settings page was not working.
 		- restoring site to default settings from multisite settings page was not working.
-		- initializing new blogs with settings from a chosen default blog was not working.
+		- initializing new blogs with settings from a chosen default blog was not working (might still not be completely stable for WP multisite with WPSEO in must-use plugins directory, stable in all other cases).
 		- wrong option debug information shown on multisite settings page
 
 
@@ -192,7 +192,7 @@ Release Date: May 15th, 2014
 	* Fix empty post id notice, [issue #1080](https://github.com/Yoast/wordpress-seo/issues/1080) as reported by [sosada](https://github.com/sosada).
 	* Localize dates where appropriate as suggested by [allankronmark](https://github.com/allankronmark) in [issue #1073](https://github.com/Yoast/wordpress-seo/issues/1073).
 	* Fix for escaping str literals in JS regexes - props [MarventusWP](https://github.com/MarventusWP).
-	
+
 * Enhancement
 	* Redirect paginated archive pages with a pagination number that doesn't exist to the first page of that archive.
 	* Update score circle icon to look great on HiDPI displays, as well as fitting better with WordPress 3.8+ design - props [paulwilde](https://github.com/paulwilde).

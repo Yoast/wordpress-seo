@@ -104,7 +104,12 @@ function wpseo_activate() {
 	require_once( WPSEO_PATH . 'inc/wpseo-functions.php' );
 
 	WPSEO_Options::get_instance();
-	WPSEO_Options::initialize();
+	if ( ! is_multisite() ) {
+		WPSEO_Options::initialize();
+	}
+	else {
+		WPSEO_Options::maybe_set_multisite_defaults( true );
+	}
 
 	flush_rewrite_rules();
 
@@ -137,6 +142,41 @@ function wpseo_deactivate() {
 	do_action( 'wpseo_deactivate' );
 }
 
+/**
+ * Run wpseo activation routine on creation / activation of a multisite blog
+ * Will only be called by multisite actions.
+ * @internal Unfortunately will fail if the plugin is in the must-use directory
+ * @see https://core.trac.wordpress.org/ticket/24205
+ */
+function wpseo_on_activate_blog( $blog_id ) {
+	if ( ! function_exists( 'is_plugin_active_for_network' ) ) {
+		require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
+	}
+
+	if ( is_plugin_active_for_network( plugin_basename( WPSEO_FILE ) ) ) {
+		switch_to_blog( $blog_id );
+		wpseo_activate();
+		restore_current_blog();
+	}
+}
+
+/**
+ * Run wpseo deactivation routine on deactivation of a multisite blog
+ * Will only be called by multisite actions.
+ * @internal Unfortunately will fail if the plugin is in the must-use directory
+ * @see https://core.trac.wordpress.org/ticket/24205
+ */
+function wpseo_on_deactivate_blog( $blog_id ) {
+	if ( ! function_exists( 'is_plugin_active_for_network' ) ) {
+		require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
+	}
+
+	if ( is_plugin_active_for_network( plugin_basename( WPSEO_FILE ) ) ) {
+		switch_to_blog( $blog_id );
+		wpseo_deactivate();
+		restore_current_blog();
+	}
+}
 
 /**
  * Load translations
@@ -276,7 +316,7 @@ if ( ! function_exists( 'spl_autoload_register' ) ) {
 }
 else {
 	add_action( 'plugins_loaded', 'wpseo_init', 14 );
-	
+
 	if ( is_admin() ) {
 		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
 			require_once( WPSEO_PATH . 'admin/ajax.php' );
@@ -295,6 +335,9 @@ else {
 // Activation and deactivation hook
 register_activation_hook( WPSEO_FILE, 'wpseo_activate' );
 register_deactivation_hook( WPSEO_FILE, 'wpseo_deactivate' );
+add_action( 'wpmu_new_blog', 'wpseo_on_activate_blog' );
+add_action( 'activate_blog', 'wpseo_on_activate_blog' );
+add_action( 'deactivate_blog', 'wpseo_on_deactivate_blog' );
 
 
 function load_yoast_notifications() {

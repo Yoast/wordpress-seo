@@ -21,8 +21,8 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		function __construct() {
 			$options = WPSEO_Options::get_all();
 
-			if ( is_multisite() && $options['ms_defaults_set'] === false ) {
-				WPSEO_Options::set_multisite_defaults();
+			if ( is_multisite() ) {
+				WPSEO_Options::maybe_set_multisite_defaults( false );
 			}
 
 			if ( $options['stripcategorybase'] === true ) {
@@ -152,7 +152,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 							'content' => '<p>' . __( 'The title &amp; metas settings for WordPress SEO are made up of variables that are replaced by specific values from the page when the page is displayed. The tabs on the left explain the available variables.', 'wordpress-seo' ) . '</p>',
 					)
 			);
-			
+
 
 			$screen->add_help_tab(
 					array(
