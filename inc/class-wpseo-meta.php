@@ -333,18 +333,18 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 						}
 
 						// Set the $fields_index property for efficiency
-						self::$fields_index[self::$meta_prefix . $key] = array(
+						self::$fields_index[ self::$meta_prefix . $key ] = array(
 							'subset' => $subset,
 							'key'	 => $key,
 						);
 
 						// Set the $defaults property for efficiency
 						if ( isset( $field_def['default_value'] ) ) {
-							self::$defaults[self::$meta_prefix . $key] = $field_def['default_value'];
+							self::$defaults[ self::$meta_prefix . $key ] = $field_def['default_value'];
 						}
 						else {
 							// meta will always be a string, so let's make the meta meta default also a string
-							self::$defaults[self::$meta_prefix . $key] = '';
+							self::$defaults[ self::$meta_prefix . $key ] = '';
 						}
 					}
 				}
@@ -477,7 +477,7 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 		 * @return	string				Validated meta value
 		 */
 		public static function sanitize_post_meta( $meta_value, $meta_key ) {
-			$field_def = self::$meta_fields[self::$fields_index[ $meta_key ]['subset']][self::$fields_index[ $meta_key ]['key']];
+			$field_def = self::$meta_fields[ self::$fields_index[ $meta_key ]['subset'] ][ self::$fields_index[ $meta_key ]['key'] ];
 			$clean     = self::$defaults[ $meta_key ];
 
 			switch ( true ) {
@@ -704,13 +704,13 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 
 			$custom = get_post_custom( $postid ); // array of strings or empty array
 
-			if ( isset( $custom[self::$meta_prefix . $key][0] ) ) {
-				$unserialized = maybe_unserialize( $custom[self::$meta_prefix . $key][0] );
-				if ( $custom[self::$meta_prefix . $key][0] === $unserialized ) {
-					return $custom[self::$meta_prefix . $key][0];
+			if ( isset( $custom[ self::$meta_prefix . $key ][0] ) ) {
+				$unserialized = maybe_unserialize( $custom[ self::$meta_prefix . $key ][0] );
+				if ( $custom[ self::$meta_prefix . $key ][0] === $unserialized ) {
+					return $custom[ self::$meta_prefix . $key ][0];
 				}
 				else {
-					$field_def = self::$meta_fields[self::$fields_index[self::$meta_prefix . $key]['subset']][self::$fields_index[self::$meta_prefix . $key]['key']];
+					$field_def = self::$meta_fields[ self::$fields_index[ self::$meta_prefix . $key ]['subset'] ][ self::$fields_index[ self::$meta_prefix . $key ]['key'] ];
 					if	( isset( $field_def['serialized'] ) && $field_def['serialized'] === true ) {
 						// Ok, serialize value expected/allowed
 						return $unserialized;
@@ -719,8 +719,8 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 			}
 
 			// Meta was either not found or found, but object/array while not allowed to be
-			if ( isset( self::$defaults[self::$meta_prefix . $key] ) ) {
-				return self::$defaults[self::$meta_prefix . $key];
+			if ( isset( self::$defaults[ self::$meta_prefix . $key ] ) ) {
+				return self::$defaults[ self::$meta_prefix . $key ];
 			}
 			else {
 				/* Shouldn't ever happen, means not one of our keys as there will always be a default available

@@ -681,10 +681,10 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			foreach ( $meta_boxes as $key => $meta_box ) {
 				$data = null;
 				if ( 'checkbox' === $meta_box['type'] ) {
-					$data = isset( $_POST[self::$form_prefix . $key] ) ? 'on' : 'off';
+					$data = isset( $_POST[ self::$form_prefix . $key ] ) ? 'on' : 'off';
 				} else {
-					if ( isset( $_POST[self::$form_prefix . $key] ) ) {
-						$data = $_POST[self::$form_prefix . $key];
+					if ( isset( $_POST[ self::$form_prefix . $key ] ) ) {
+						$data = $_POST[ self::$form_prefix . $key ];
 					}
 				}
 				if ( isset( $data ) ) {
