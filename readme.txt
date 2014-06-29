@@ -123,7 +123,7 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 	* Fixed: Media title and meta settings could not be set when 'attachment URLs redirect to parent post' was selected which let to issues for attachments without a parent, as reported by [Firebird75](https://github.com/Firebird75) in [issue #1243](https://github.com/Yoast/wordpress-seo/issues/1243) - props [Jrf](http://profiles.wordpress.org/jrf).
 	* Improved and more consistent check for whether to show the admin 'Edit files' screen, [issue #1197](https://github.com/Yoast/wordpress-seo/issues/1197) - props [hostliketoast](https://github.com/hostliketoast) and [Jrf](http://profiles.wordpress.org/jrf).
 	* Restore robots meta box per taxonomy to its former glory, it now shows even when blog is not set to public, as reported by [Lumieredelune](https://github.com/Lumieredelune) in [issue #1158](https://github.com/Yoast/wordpress-seo/issues/1158) - props [Jrf](http://profiles.wordpress.org/jrf).
-	* Fixed: Multisite issues, as reported in [issue #]() and [issue #]() - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fixed: Multisite issues, as reported by [GaryJones](https://github.com/GaryJones) and [chrisfromthelc](https://github.com/chrisfromthelc) in [issue #935](https://github.com/Yoast/wordpress-seo/issues/935) - props [Jrf](http://profiles.wordpress.org/jrf).
 		- saving of settings on the multisite settings page was not working.
 		- restoring site to default settings from multisite settings page was not working.
 		- initializing new blogs with settings from a chosen default blog was not working.
