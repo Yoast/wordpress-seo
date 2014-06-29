@@ -59,6 +59,10 @@ function wpseo_do_upgrade() {
 		/* Remove slashes from taxonomy meta texts */
 		WPSEO_Options::clean_up( 'wpseo_taxonomy_meta', $option_wpseo['version'] );
 	}
+	
+	/* Clean up stray wpseo_ms options from the options table, option should only exist in the sitemeta table */
+	delete_option( 'wpseo_ms' );
+
 
 	// Make sure version nr gets updated for any version without specific upgrades
 	$option_wpseo = get_option( 'wpseo' ); // re-get to make sure we have the latest version
