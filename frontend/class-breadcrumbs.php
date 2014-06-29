@@ -209,10 +209,10 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 			   unsetting every term that is used as a parent by another one in the array. */
 			$terms_by_id = array();
 			foreach ( $terms as $term ) {
-				$terms_by_id[$term->term_id] = $term;
+				$terms_by_id[ $term->term_id ] = $term;
 			}
 			foreach ( $terms as $term ) {
-				unset( $terms_by_id[$term->parent] );
+				unset( $terms_by_id[ $term->parent ] );
 			}
 
 			/* As we could still have two subcategories, from different parent categories,

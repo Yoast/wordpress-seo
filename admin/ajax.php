@@ -69,7 +69,7 @@ function wpseo_kill_blocking_files() {
 				$message = __( 'Some files could not be removed. Please remove them via FTP.', 'wordpress-seo' );
 			}
 			else {
-				unset( $options['blocking_files'][$k] );
+				unset( $options['blocking_files'][ $k ] );
 				$files_removed++;
 			}
 		}

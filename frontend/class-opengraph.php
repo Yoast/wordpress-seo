@@ -291,8 +291,8 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 					'zh' => 'zh_CN',
 			);
 
-			if ( isset( $fix_locales[$locale] ) ) {
-				$locale = $fix_locales[$locale];
+			if ( isset( $fix_locales[ $locale ] ) ) {
+				$locale = $fix_locales[ $locale ];
 			}
 
 			// convert locales like "es" to "es_ES", in case that works for the given locale (sometimes it does)

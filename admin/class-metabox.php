@@ -1039,11 +1039,11 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			$ret    = array();
 			reset( $array );
 			foreach ( $array as $ii => $va ) {
-				$sorter[$ii] = $va[$key];
+				$sorter[ $ii ] = $va[ $key ];
 			}
 			asort( $sorter );
 			foreach ( $sorter as $ii => $va ) {
-				$ret[$ii] = $array[$ii];
+				$ret[ $ii ] = $array[ $ii ];
 			}
 			$array = $ret;
 		}
@@ -1288,12 +1288,12 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		 * @param string $rawScore     The raw score, to be used by other filters.
 		 */
 		function save_score_result( &$results, $scoreValue, $scoreMessage, $scoreLabel, $rawScore = null ) {
-			$score                = array(
+			$score = array(
 				'val' => $scoreValue,
 				'msg' => $scoreMessage,
 				'raw' => $rawScore,
 			);
-			$results[$scoreLabel] = $score;
+			$results[ $scoreLabel ] = $score;
 		}
 
 
@@ -1568,12 +1568,12 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 						if ( $dom_object->attributes->getNamedItem( 'rel' ) ) {
 							$link_rel = $dom_object->attributes->getNamedItem( 'rel' )->textContent;
 							if ( stripos( $link_rel, 'nofollow' ) !== false ) {
-								$count[$type]['nofollow'] ++;
+								$count[ $type ]['nofollow'] ++;
 							} else {
-								$count[$type]['dofollow'] ++;
+								$count[ $type ]['dofollow'] ++;
 							}
 						} else {
-							$count[$type]['dofollow'] ++;
+							$count[ $type ]['dofollow'] ++;
 						}
 					}
 				}

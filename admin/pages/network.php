@@ -17,7 +17,7 @@ if ( isset( $_POST[ 'wpseo_submit' ] ) ) {
 	check_admin_referer( 'wpseo-network-settings' );
 
 	foreach ( array( 'access', 'defaultblog' ) as $opt ) {
-		$options[$opt] = $_POST['wpseo_ms'][$opt];
+		$options[ $opt ] = $_POST['wpseo_ms'][ $opt ];
 	}
 	update_site_option( 'wpseo_ms', $options );
 	echo '<div id="message" class="updated"><p>' . __( 'Settings Updated.', 'wordpress-seo' ) . '</p></div>';

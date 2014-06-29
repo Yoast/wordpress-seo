@@ -216,14 +216,14 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 		 * @return string
 		 */
 		function get_title_from_options( $index, $var_source = array() ) {
-			if ( ! isset( $this->options[$index] ) || $this->options[$index] === '' ) {
+			if ( ! isset( $this->options[ $index ] ) || $this->options[ $index ] === '' ) {
 				if ( is_singular() ) {
 					return wpseo_replace_vars( '%%title%% %%sep%% %%sitename%%', $var_source );
 				} else {
 					return '';
 				}
 			} else {
-				return wpseo_replace_vars( $this->options[$index], $var_source );
+				return wpseo_replace_vars( $this->options[ $index ], $var_source );
 			}
 		}
 
@@ -648,7 +648,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 				}
 
 				foreach ( array( 'noodp', 'noydir' ) as $robot ) {
-					if ( $this->options[$robot] === true ) {
+					if ( $this->options[ $robot ] === true ) {
 						$robots['other'][] = $robot;
 					}
 				}
@@ -714,7 +714,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 				unset( $robot );
 			} elseif ( $meta_robots_adv === '' || $meta_robots_adv === '-' ) {
 				foreach ( array( 'noodp', 'noydir' ) as $robot ) {
-					if ( $this->options[$robot] === true ) {
+					if ( $this->options[ $robot ] === true ) {
 						$robots['other'][] = $robot;
 					}
 				}
@@ -1590,7 +1590,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 				if ( $count > 0 ) {
 					$i = 0;
 					while ( $count > $i ) {
-						$content = str_replace( $matches[0][$i], '', $content );
+						$content = str_replace( $matches[0][ $i ], '', $content );
 						$i ++;
 					}
 				}

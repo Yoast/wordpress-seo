@@ -110,8 +110,8 @@ if ( ! class_exists( 'WPSEO_Taxonomy' ) ) {
 		 */
 		function form_row( $var, $label, $desc, $tax_meta, $type = 'text', $options = array() ) {
 			$val = '';
-			if ( isset( $tax_meta[$var] ) && $tax_meta[$var] !== '' ) {
-				$val = $tax_meta[$var];
+			if ( isset( $tax_meta[ $var ] ) && $tax_meta[ $var ] !== '' ) {
+				$val = $tax_meta[ $var ];
 			}
 
 			$esc_var = esc_attr( $var );
@@ -218,8 +218,8 @@ if ( ! class_exists( 'WPSEO_Taxonomy' ) ) {
 			/* Create post array with only our values */
 			$new_meta_data = array();
 			foreach ( WPSEO_Taxonomy_Meta::$defaults_per_term as $key => $default ) {
-				if ( isset( $_POST[$key] ) ) {
-					$new_meta_data[$key] = $_POST[$key];
+				if ( isset( $_POST[ $key ] ) ) {
+					$new_meta_data[ $key ] = $_POST[ $key ];
 				}
 			}
 
@@ -229,12 +229,12 @@ if ( ! class_exists( 'WPSEO_Taxonomy' ) ) {
 
 			/* Add/remove the result to/from the original option value */
 			if ( $clean !== array() ) {
-				$tax_meta[$taxonomy][$term_id] = $clean;
+				$tax_meta[ $taxonomy ][ $term_id ] = $clean;
 			}
 			else {
-				unset( $tax_meta[$taxonomy][$term_id] );
-				if ( isset( $tax_meta[$taxonomy] ) && $tax_meta[$taxonomy] === array() ) {
-					unset( $tax_meta[$taxonomy] );
+				unset( $tax_meta[ $taxonomy ][ $term_id ] );
+				if ( isset( $tax_meta[ $taxonomy ] ) && $tax_meta[ $taxonomy ] === array() ) {
+					unset( $tax_meta[ $taxonomy ] );
 				}
 			}
 

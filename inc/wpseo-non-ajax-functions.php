@@ -412,7 +412,7 @@ function allow_custom_field_edits( $allcaps, $cap, $args ) {
 		// Only allow editing rights for users who have the rights to edit this post and make sure
 		// the meta value starts with _yoast_wpseo (WPSEO_Meta::$meta_prefix).
 		if ( ( isset( $args[2] ) && current_user_can( 'edit_post', $args[2] ) ) && ( ( isset( $args[3] ) && $args[3] !== '' ) && strpos( $args[3], WPSEO_Meta::$meta_prefix ) === 0 ) ) {
-			$allcaps[$args[0]] = true;
+			$allcaps[ $args[0] ] = true;
 		}
 	}
 

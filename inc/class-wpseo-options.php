@@ -484,7 +484,7 @@ if ( ! class_exists( 'WPSEO_Option' ) ) {
 			if ( $defaults !== array() ) {
 				foreach ( $defaults as $key => $default_value ) {
 					// @todo should this walk through array subkeys ?
-					$filtered[$key] = ( isset( $options[$key] ) ? $options[$key] : $default_value );
+					$filtered[ $key ] = ( isset( $options[ $key ] ) ? $options[ $key ] : $default_value );
 				}
 			}*/
 			$filtered = array_merge( $defaults, $options );
@@ -3097,11 +3097,11 @@ if ( ! class_exists( 'WPSEO_Taxonomy_Meta' ) ) {
 					if ( is_array( $terms ) && $terms !== array() ) {
 						foreach ( $terms as $id => $term_meta ) {
 							foreach ( self::$defaults_per_term as $name => $default ) {
-								if ( isset( $options[$taxonomy][$id][$name] ) ) {
-									$filtered[$taxonomy][$id][$name] = $options[$taxonomy][$id][$name];
+								if ( isset( $options[ $taxonomy ][ $id ][ $name ] ) ) {
+									$filtered[ $taxonomy ][ $id ][ $name ] = $options[ $taxonomy ][ $id ][ $name ];
 								}
 								else {
-									$filtered[$name] = $default;
+									$filtered[ $name ] = $default;
 								}
 							}
 						}

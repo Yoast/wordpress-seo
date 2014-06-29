@@ -195,15 +195,15 @@ if ( ! class_exists( 'WPSEO_Pointers' ) ) {
 				if ( '' != $page && in_array( $page, array_keys( $adminpages ) ) ) {
 					$align   = ( is_rtl() ) ? 'right' : 'left';
 					$opt_arr = array(
-						'content'      => $adminpages[$page]['content'],
+						'content'      => $adminpages[ $page ]['content'],
 						'position'     => array( 'edge' => 'top', 'align' => $align ),
 						'pointerWidth' => 400,
 					);
-					if ( isset( $adminpages[$page]['button2'] ) ) {
-						$button2 = $adminpages[$page]['button2'];
+					if ( isset( $adminpages[ $page ]['button2'] ) ) {
+						$button2 = $adminpages[ $page ]['button2'];
 					}
-					if ( isset( $adminpages[$page]['function'] ) ) {
-						$function = $adminpages[$page]['function'];
+					if ( isset( $adminpages[ $page ]['function'] ) ) {
+						$function = $adminpages[ $page ]['function'];
 					}
 				}
 			}

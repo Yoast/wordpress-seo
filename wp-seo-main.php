@@ -88,8 +88,8 @@ function wpseo_auto_load( $class ) {
 
 	$cn = strtolower( $class );
 
-	if ( isset( $classes[$cn] ) ) {
-		require_once( $classes[$cn] );
+	if ( isset( $classes[ $cn ] ) ) {
+		require_once( $classes[ $cn ] );
 	}
 }
 if ( function_exists( 'spl_autoload_register' ) ) {
