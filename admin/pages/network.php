@@ -101,7 +101,7 @@ $content .= $wpseo_admin_pages->select(
 if ( $use_dropdown === true ) {
 	$content .= $wpseo_admin_pages->select(
 		'defaultblog',
-		__( 'New sites in the network get the SEO settings from this site', 'wordpress-seo' ),
+		__( 'New sites in the network inherit their SEO settings from this site', 'wordpress-seo' ),
 		$dropdown_input,
 		'wpseo_ms'
 	);
