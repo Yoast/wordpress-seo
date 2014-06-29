@@ -21,6 +21,7 @@
 		<!-- Turned off because of known & reported bugs in the Sniffs, should be turned on once the bugs are fixed. -->
 		<exclude name="WordPress.Arrays.ArrayDeclaration" />
 		<exclude name="WordPress.VIP.ValidatedSanitizedInput"/>
+		<exclude name="WordPress.Variables.VariableRestrictions"/><!-- fails on PHP5.2 -->
 	</rule>
 	<rule ref="WordPress.PHP.DiscouragedFunctions"/>
 </ruleset>
