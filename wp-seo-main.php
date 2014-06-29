@@ -274,7 +274,7 @@ function wpseo_admin_init() {
 if ( ! function_exists( 'spl_autoload_register' ) ) {
 	add_action( 'admin_init', 'yoast_wpseo_self_deactivate', 1 );
 }
-else {
+else if ( ! defined( 'WP_INSTALLING' ) || WP_INSTALLING === false ) {
 	add_action( 'plugins_loaded', 'wpseo_init', 14 );
 	
 	if ( is_admin() ) {
