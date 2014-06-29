@@ -245,7 +245,7 @@ function wpseo_admin_init() {
 		}
 	}
 
-	if ( in_array( $pagenow, array( 'edit.php', 'post.php', 'post-new.php' ) ) ) {
+	if ( in_array( $pagenow, array( 'edit.php', 'post.php', 'post-new.php' ) ) || apply_filters( 'wpseo_always_load_metaboxes_on_admin', false ) ) {
 		$GLOBALS['wpseo_metabox'] = new WPSEO_Metabox;
 		if ( $options['opengraph'] === true ) {
 			$GLOBALS['wpseo_social'] = new WPSEO_Social_Admin;
