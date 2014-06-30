@@ -108,7 +108,7 @@ if ( function_exists( 'spl_autoload_register' ) ) {
  * @param bool $networkwide  Whether the plugin is being activated network-wide
  */
 function wpseo_activate( $networkwide ) {
-	if ( ! is_multi_site() || ! $networkwide ) {
+	if ( ! is_multisite() || ! $networkwide ) {
 		_wpseo_activate();
 	}
 	else {
@@ -123,7 +123,7 @@ function wpseo_activate( $networkwide ) {
  * @param bool $networkwide  Whether the plugin is being de-activated network-wide
  */
 function wpseo_deactivate( $networkwide ) {
-	if ( ! is_multi_site() || ! $networkwide ) {
+	if ( ! is_multisite() || ! $networkwide ) {
 		_wpseo_deactivate();
 	}
 	else {
