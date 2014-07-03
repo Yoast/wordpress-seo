@@ -7,6 +7,8 @@ class WPSEO_Breadcrumbs_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_breadcrumb() {
 
+		$this->go_to_home();
+
 		// test for empty breadcrumb
 		$output = WPSEO_Breadcrumbs::breadcrumb( '', '', false );
 		$this->assertEmpty( $output );
