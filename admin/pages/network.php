@@ -54,7 +54,7 @@ else {
 
 		foreach ( $sites as $site ) {
 			$dropdown_input[ $site['blog_id'] ] = $site['blog_id'] . ': ' . $site['domain'];
-			
+
 			$blog_states = array();
 			if ( $site['public'] === '1' ) {
 				$blog_states[] = __( 'public', 'wordpress-seo' );

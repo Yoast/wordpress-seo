@@ -12,6 +12,7 @@
 		<exclude name="WordPress.VIP.FileSystemWritesDisallow"/>
 		<exclude name="WordPress.VIP.RestrictedFunctions.user_meta" />
 		<exclude name="WordPress.VIP.RestrictedVariables.user_meta"/>
+		<exclude name="WordPress.VIP.RestrictedFunctions.switch_to_blog"/>
 
 		<!-- We should probably want to turn the below rules on, but these give issues with the current code base. -->
 		<exclude name="WordPress.WhiteSpace.ScopeIndent.Incorrect" />
