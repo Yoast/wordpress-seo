@@ -58,7 +58,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 
 			self::$meta_fields['general']['metadesc']['title']       = __( 'Meta Description', 'wordpress-seo' );
 			self::$meta_fields['general']['metadesc']['description'] = sprintf( __( 'The <code>meta</code> description will be limited to %s chars%s, %s chars left.', 'wordpress-seo' ), self::$meta_length, self::$meta_length_reason, '<span id="yoast_wpseo_metadesc-length"></span>' ) . ' <div id="yoast_wpseo_metadesc_notice"></div>';
-			self::$meta_fields['general']['metadesc']['help']        = __( 'If the meta description is empty, the snippet preview above shows what is generated based on this sites meta description template.', 'wordpress-seo' );
+			self::$meta_fields['general']['metadesc']['help']        = sprintf( __( 'The meta description is often shown as the black text under the title in a search result. For this to work it has to contain the keyword that was searched for.<br/><br/>Read %sthis post%s for more info.', 'wordpress-seo' ), '<a href="https://yoast.com/snippet-preview/#utm_source=wordpress-seo-metabox&amp;utm_medium=inline-help&amp;utm_campaign=focus-keyword">', '</a>' );
 
 			self::$meta_fields['general']['metakeywords']['title']       = __( 'Meta Keywords', 'wordpress-seo' );
 			self::$meta_fields['general']['metakeywords']['description'] = __( 'If you type something above it will override your %smeta keywords template%s.', 'wordpress-seo' );
@@ -342,11 +342,11 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			if ( $title_template == '' ) {
 				$title_template = '%%title%% - %%sitename%%';
 			}
-			$title_template = wpseo_replace_vars( $title_template, $post, array( '%%title%%' ) );
+			$title_template = wpseo_replace_vars( $title_template, $post, array( '%%title%%', '%%sitename%%', '%%sitedesc%%' ) );
 
 			$metadesc_template = '';
 			if ( isset( $options['metadesc-' . $post->post_type] ) && $options['metadesc-' . $post->post_type] !== '' ) {
-				$metadesc_template = wpseo_replace_vars( $options['metadesc-' . $post->post_type], $post, array( '%%excerpt%%', '%%excerpt_only%%' ) );
+				$metadesc_template = wpseo_replace_vars( $options['metadesc-' . $post->post_type], $post, array( '%%excerpt%%', '%%excerpt_only%%', '%%sitename%%', '%%sitedesc%%' ) );
 			}
 
 			$sample_permalink = get_sample_permalink( $post->ID );
@@ -366,7 +366,10 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 				'wpseo_title_template'        => $title_template,
 				'wpseo_metadesc_template'     => $metadesc_template,
 				'wpseo_permalink_template'    => $sample_permalink,
+				'sitename'                    => get_bloginfo( 'name' ),
+				'sitedesc'                    => get_bloginfo( 'description' ),
 				'wpseo_keyword_suggest_nonce' => wp_create_nonce( 'wpseo-get-suggest' ),
+				'wpseo_replace_vars_nonce'    => wp_create_nonce( 'wpseo-replace-vars' ),
 			);
 		}
 
@@ -599,7 +602,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 				$date = date_i18n( 'j M Y' );
 			}
 
-			return $date;
+			return (string) $date;
 		}
 
 		/**
@@ -640,7 +643,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 
 			$content .= '<span class="url">' . str_replace( 'http://', '', get_bloginfo( 'url' ) ) . '/' . esc_html( $slug ) . '/</span>';
 
-			$content .= '<p class="desc">' . $datestr . '<span class="content">' . esc_html( $desc ) . '</span></p>';
+			$content .= '<p class="desc">' . $datestr . '<span class="autogen"></span><span class="content">' . esc_html( $desc ) . '</span></p>';
 
 			$content .= '</div>';
 
@@ -819,10 +822,10 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 				echo '<div title="' . esc_attr( $title ) . '" class="wpseo-score-icon ' . esc_attr( $score_label ) . '"></div>';
 			}
 			if ( $column_name === 'wpseo-title' ) {
-				echo esc_html( apply_filters( 'wpseo_title', $this->page_title( $post_id ) ) );
+				echo esc_html( apply_filters( 'wpseo_title', wpseo_replace_vars( $this->page_title( $post_id ), get_post( $post_id, ARRAY_A ) ) ) );
 			}
 			if ( $column_name === 'wpseo-metadesc' ) {
-				echo esc_html( apply_filters( 'wpseo_metadesc', self::get_value( 'metadesc', $post_id ) ) );
+				echo esc_html( apply_filters( 'wpseo_metadesc', wpseo_replace_vars( self::get_value( 'metadesc', $post_id ), get_post( $post_id, ARRAY_A ) ) ) );
 			}
 			if ( $column_name === 'wpseo-focuskw' ) {
 				$focuskw = self::get_value( 'focuskw', $post_id );

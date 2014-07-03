@@ -128,6 +128,9 @@ ul.wpseo-metabox-tabs li {
 	word-wrap: break-word;
 	font-size: small;
 }
+#wpseosnippet .desc .autogen {
+	color: #777;
+}
 #wpseosnippet .date {
 	color: #808080;
 }
@@ -160,15 +163,17 @@ ul.wpseo-metabox-tabs li {
 	text-decoration: underline;
 }
 
-.wpseo_yahoo_kw {
-	display: block;
-	float: left;
-	border-radius: 5px;
-	-moz-border-radius: 5px;
-	-webkit-border-radius: 5px;
-	background-color: #ddd;
-	margin: 3px 8px 3px 0;
-	padding: 3px;
+#focuskwresults ul {
+	margin: 0;
+}
+
+#focuskwresults p, #focuskwresults li {
+	font-size: 13px;
+}
+
+#focuskwresults li {
+	list-style-type: disc;
+	margin: 0 0 0 20px;
 }
 
 .wpseo_hidden {
