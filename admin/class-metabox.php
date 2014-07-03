@@ -342,11 +342,11 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			if ( $title_template == '' ) {
 				$title_template = '%%title%% - %%sitename%%';
 			}
-			$title_template = wpseo_replace_vars( $title_template, $post, array( '%%title%%', '%%sitename%%', '%%sitedesc%%' ) );
+			$title_template = wpseo_replace_vars( $title_template, $post, array( '%%title%%', '%%sitename%%', '%%sitedesc%%', '%%sep%%' ) );
 
 			$metadesc_template = '';
 			if ( isset( $options['metadesc-' . $post->post_type] ) && $options['metadesc-' . $post->post_type] !== '' ) {
-				$metadesc_template = wpseo_replace_vars( $options['metadesc-' . $post->post_type], $post, array( '%%excerpt%%', '%%excerpt_only%%', '%%sitename%%', '%%sitedesc%%' ) );
+				$metadesc_template = wpseo_replace_vars( $options['metadesc-' . $post->post_type], $post, array( '%%excerpt%%', '%%excerpt_only%%', '%%sitename%%', '%%sitedesc%%', '%%sep%%' ) );
 			}
 
 			$sample_permalink = get_sample_permalink( $post->ID );
@@ -368,6 +368,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 				'wpseo_permalink_template'    => $sample_permalink,
 				'sitename'                    => get_bloginfo( 'name' ),
 				'sitedesc'                    => get_bloginfo( 'description' ),
+				'sep'                         => wpseo_replace_vars( '%%sep%%', array() ),
 				'wpseo_keyword_suggest_nonce' => wp_create_nonce( 'wpseo-get-suggest' ),
 				'wpseo_replace_vars_nonce'    => wp_create_nonce( 'wpseo-replace-vars' ),
 			);

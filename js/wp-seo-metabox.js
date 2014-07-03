@@ -114,6 +114,7 @@ function replaceVariables(str,callback) {
 	// These are added in the head for performance reasons.
 	str = str.replace(/%%sitedesc%%/g, wpseoMetaboxL10n.sitedesc);
 	str = str.replace(/%%sitename%%/g, wpseoMetaboxL10n.sitename);
+	str = str.replace(/%%sep%%/g, wpseoMetaboxL10n.sep);
 
 	// excerpt
 	var excerpt = yst_clean(jQuery("#excerpt").val());
