@@ -111,6 +111,20 @@ function wpseo_get_suggest() {
 add_action( 'wp_ajax_wpseo_get_suggest', 'wpseo_get_suggest' );
 
 /**
+ * Used in the editor to replace vars for the snippet preview
+ */
+function wpseo_ajax_replace_vars() {
+	check_ajax_referer( 'wpseo-replace-vars' );
+
+	$args = get_post( $_POST['post_id'] );
+	$omit = array( 'excerpt', 'excerpt_only', 'title' );
+	echo wpseo_replace_vars( $_POST['string'], $args, $omit );
+	die;
+}
+
+add_action( 'wp_ajax_wpseo_replace_vars', 'wpseo_ajax_replace_vars' );
+
+/**
  * Save an individual SEO title from the Bulk Editor.
  */
 function wpseo_save_title() {
