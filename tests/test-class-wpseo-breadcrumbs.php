@@ -5,7 +5,7 @@ class WPSEO_Breadcrumbs_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Placeholder test to prevent PHPUnit from throwing errors
 	 */
-	public function test_breadcrumb_home() {
+	/*public function test_breadcrumb_home() {
 
 		// test for home breadcrumb
 		$expected = '<span prefix="v: http://rdf.data-vocabulary.org/#">
@@ -15,7 +15,7 @@ class WPSEO_Breadcrumbs_Test extends WPSEO_UnitTestCase {
 		$this->assertSame( $expected, trim( $output ) );
 
 		// todo test actual breadcrumb output..
-	}
+	}*/
 
 
 	/**
