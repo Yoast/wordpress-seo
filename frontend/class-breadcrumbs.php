@@ -100,7 +100,7 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 		 */
 		private function __construct() {
 			$this->options        = WPSEO_Options::get_all();
-			$this->post           = $GLOBALS['post'];
+			$this->post           = ( isset( $GLOBALS['post'] ) ? $GLOBALS['post'] : null );
 			$this->show_on_front  = get_option( 'show_on_front' );
 			$this->page_for_posts = get_option( 'page_for_posts' );
 
@@ -265,7 +265,7 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 					$ancestors = array( $this->post->ancestors );
 				}
 			}
-			else {
+			elseif ( isset( $this->post->post_parent ) ) {
 				$ancestors = array( $this->post->post_parent );
 			}
 
@@ -305,14 +305,16 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 			elseif ( is_singular() ) {
 				$this->maybe_add_pt_archive_crumb_for_post();
 
-				if ( 0 == $this->post->post_parent ) {
+				if ( isset( $this->post->post_parent ) && 0 == $this->post->post_parent ) {
 					$this->maybe_add_taxonomy_crumbs_for_post();
 				}
 				else {
 					$this->add_post_ancestor_crumbs();
 				}
 
-				$this->add_single_post_crumb( $this->post->ID );
+				if ( isset( $this->post->ID ) ) {
+					$this->add_single_post_crumb( $this->post->ID );
+				}
 			}
 			else {
 				if ( is_post_type_archive() ) {
@@ -462,7 +464,7 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 		 * Add ptarchive crumb to the crumbs property if it can be linked to, for a single post
 		 */
 		private function maybe_add_pt_archive_crumb_for_post() {
-			if ( get_post_type_archive_link( $this->post->post_type ) ) {
+			if ( isset( $this->post->post_type ) && get_post_type_archive_link( $this->post->post_type ) ) {
 				$this->add_ptarchive_crumb( $this->post->post_type );
 			}
 		}
@@ -473,20 +475,22 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 		private function maybe_add_taxonomy_crumbs_for_post() {
 			if ( isset( $this->options['post_types-' . $this->post->post_type . '-maintax'] ) && $this->options['post_types-' . $this->post->post_type . '-maintax'] != '0' ) {
 				$main_tax = $this->options['post_types-' . $this->post->post_type . '-maintax'];
-				$terms    = wp_get_object_terms( $this->post->ID, $main_tax );
+				if ( isset( $this->post->ID ) ) {
+					$terms    = wp_get_object_terms( $this->post->ID, $main_tax );
 
-				if ( is_array( $terms ) && $terms !== array() ) {
+					if ( is_array( $terms ) && $terms !== array() ) {
 
-					$deepest_term = $this->find_deepest_term( $terms );
+						$deepest_term = $this->find_deepest_term( $terms );
 
-					if ( is_taxonomy_hierarchical( $main_tax ) && $deepest_term->parent != 0 ) {
-						$parent_terms = $this->get_term_parents( $deepest_term );
-						foreach ( $parent_terms as $parent_term ) {
-							$this->add_term_crumb( $parent_term );
+						if ( is_taxonomy_hierarchical( $main_tax ) && $deepest_term->parent != 0 ) {
+							$parent_terms = $this->get_term_parents( $deepest_term );
+							foreach ( $parent_terms as $parent_term ) {
+								$this->add_term_crumb( $parent_term );
+							}
 						}
-					}
 
-					$this->add_term_crumb( $deepest_term );
+						$this->add_term_crumb( $deepest_term );
+					}
 				}
 			}
 		}
