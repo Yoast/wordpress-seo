@@ -46,6 +46,10 @@ input.textinput, textarea.textinput, select.select, input.checkbox {
 	padding: 5px;
 }
 
+select.select {
+	padding: 3px;
+}
+
 input.checkbox.double {
 	margin-top: 2px;
 }

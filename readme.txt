@@ -123,12 +123,20 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 	* Fixed: Media title and meta settings could not be set when 'attachment URLs redirect to parent post' was selected which let to issues for attachments without a parent, as reported by [Firebird75](https://github.com/Firebird75) in [issue #1243](https://github.com/Yoast/wordpress-seo/issues/1243) - props [Jrf](http://profiles.wordpress.org/jrf).
 	* Improved and more consistent check for whether to show the admin 'Edit files' screen, [issue #1197](https://github.com/Yoast/wordpress-seo/issues/1197) - props [hostliketoast](https://github.com/hostliketoast) and [Jrf](http://profiles.wordpress.org/jrf).
 	* Restore robots meta box per taxonomy to its former glory, it now shows even when blog is not set to public, as reported by [Lumieredelune](https://github.com/Lumieredelune) in [issue #1158](https://github.com/Yoast/wordpress-seo/issues/1158) - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fixed: Multisite issues, as reported by [GaryJones](https://github.com/GaryJones) and [chrisfromthelc](https://github.com/chrisfromthelc) in [issue #935](https://github.com/Yoast/wordpress-seo/issues/935) - props [Jrf](http://profiles.wordpress.org/jrf).
+		- saving of settings on the multisite settings page was not working.
+		- restoring site to default settings from multisite settings page was not working.
+		- initializing new blogs with settings from a chosen default blog was not working (might still not be completely stable for WP multisite with WPSEO in must-use plugins directory, stable in all other cases).
+		- wrong option debug information shown on multisite settings page
+
 
 * Enhancements
 	* New `wpseo_register_extra_replacements` action hook which lets plugin/theme builders add new `%%...%%` replacement variables - including relevant help texts -. See [function documentation](https://github.com/Yoast/wordpress-seo/blob/master/inc/wpseo-functions.php) for an example of how to use this new functionality.
 	* If the final string - after replacement - would contain two separators with nothing between them, this extra separator will be removed.
 	* All remaining not replaced replacement vars are now stripped from the strings (without breaking the snippet preview).
 	* New filter `wpseo_replacements_filter_sep` which can be used to change the seperator character passed by the theme.
+	* When using the 'Reset default settings' button on a blog in a network while another blog has been chosen to be used as a basis for the settings for all new blogs, the reset will respect that setting and reset the blog to the settings from the chosen blog.
+	* For small networks ( < 100 sites ), the network page user interface has been improved, by offering drop-down lists of the blogs for blog selection fields. For larger networks, the interface remains the same.
 
 * Other enhancements
 	* Security improvement: As the .htaccess / robots.txt files are site-wide files, on a multi-site WP installation they will no longer be available for editing to individual site owners. For super-admins, the 'SEO -> Edit Files' admin page will now be accessible through the Network Admin.
@@ -185,7 +193,7 @@ Release Date: May 15th, 2014
 	* Fix empty post id notice, [issue #1080](https://github.com/Yoast/wordpress-seo/issues/1080) as reported by [sosada](https://github.com/sosada).
 	* Localize dates where appropriate as suggested by [allankronmark](https://github.com/allankronmark) in [issue #1073](https://github.com/Yoast/wordpress-seo/issues/1073).
 	* Fix for escaping str literals in JS regexes - props [MarventusWP](https://github.com/MarventusWP).
-	
+
 * Enhancement
 	* Redirect paginated archive pages with a pagination number that doesn't exist to the first page of that archive.
 	* Update score circle icon to look great on HiDPI displays, as well as fitting better with WordPress 3.8+ design - props [paulwilde](https://github.com/paulwilde).

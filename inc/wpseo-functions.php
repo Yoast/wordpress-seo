@@ -23,6 +23,8 @@ function wpseo_do_upgrade() {
 
 	$option_wpseo = get_option( 'wpseo' );
 
+	WPSEO_Options::maybe_set_multisite_defaults( false );
+
 	if ( $option_wpseo['version'] === '' || version_compare( $option_wpseo['version'], '1.2', '<' ) ) {
 		add_action( 'init', 'wpseo_title_test' );
 	}
@@ -60,12 +62,16 @@ function wpseo_do_upgrade() {
 		WPSEO_Options::clean_up( 'wpseo_taxonomy_meta', $option_wpseo['version'] );
 	}
 
+	/* Clean up stray wpseo_ms options from the options table, option should only exist in the sitemeta table */
+	delete_option( 'wpseo_ms' );
+
+
 	// Make sure version nr gets updated for any version without specific upgrades
 	$option_wpseo = get_option( 'wpseo' ); // re-get to make sure we have the latest version
 	if ( version_compare( $option_wpseo['version'], WPSEO_VERSION, '<' ) ) {
 		update_option( 'wpseo', $option_wpseo );
 	}
-	
+
 	// Make sure all our options always exist - issue #1245
 	WPSEO_Options::ensure_options_exist();
 }
