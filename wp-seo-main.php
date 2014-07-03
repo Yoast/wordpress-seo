@@ -245,7 +245,14 @@ function wpseo_admin_init() {
 		}
 	}
 
-	if ( in_array( $pagenow, array( 'edit.php', 'post.php', 'post-new.php' ) ) ) {
+	/**
+	 * Filter: 'wpseo_always_register_metaboxes_on_admint' - Allow developers to change whether
+	 * the WPSEO metaboxes are only registered on the typical pages (lean loading) or always
+	 * registered when in admin.
+	 *
+	 * @api bool Whether to always register the metaboxes or not. Defaults to false.
+	 */
+	if ( in_array( $pagenow, array( 'edit.php', 'post.php', 'post-new.php' ) ) || apply_filters( 'wpseo_always_register_metaboxes_on_admin', false ) ) {
 		$GLOBALS['wpseo_metabox'] = new WPSEO_Metabox;
 		if ( $options['opengraph'] === true ) {
 			$GLOBALS['wpseo_social'] = new WPSEO_Social_Admin;
@@ -268,7 +275,6 @@ function wpseo_admin_init() {
 	if ( $options['enablexmlsitemap'] === true ) {
 		$GLOBALS['wpseo_sitemaps_admin'] = new WPSEO_Sitemaps_Admin;
 	}
-
 }
 
 if ( ! function_exists( 'spl_autoload_register' ) ) {
