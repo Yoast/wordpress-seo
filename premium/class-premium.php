@@ -63,7 +63,6 @@ class WPSEO_Premium {
 			$plugin_updater = new WPSEO_Upgrade_Manager();
 			$plugin_updater->check_update();
 
-
 			// Create pages
 			$this->page_gwt = new WPSEO_Page_GWT();
 
@@ -82,6 +81,11 @@ class WPSEO_Premium {
 
 			// Add the GWT crawl error post type
 			add_action( 'admin_init', array( $this, 'register_gwt_crawl_error_post_type' ) );
+
+			// Add input fields to page meta post types
+			add_action( 'wpseo_admin_page_meta_post_types', array( $this, 'admin_page_meta_post_types_checkboxes' ), 10, 2 );
+
+			add_filter( 'wpseo_pre_analysis_post_content', array( $this, 'filter_page_analysis' ) );
 
 			// Check if WPSEO_DISABLE_PHP_REDIRECTS is defined
 			if ( defined( 'WPSEO_DISABLE_PHP_REDIRECTS' ) && true === WPSEO_DISABLE_PHP_REDIRECTS ) {
@@ -287,6 +291,25 @@ class WPSEO_Premium {
 			}
 
 		}
+	}
+
+	/**
+	 * Filter the page analysis content
+	 *
+	 * @param $page_content
+	 */
+	public function filter_page_analysis( $page_content ) {
+
+	}
+
+	/**
+	 * Add checkboxes via 'wpseo_admin_page_meta_post_types' hook
+	 *
+	 * @param $wpseo_admin_pages
+	 * @param $name
+	 */
+	public function admin_page_meta_post_types_checkboxes( $wpseo_admin_pages, $name ) {
+		echo $wpseo_admin_pages->textinput( 'page-analyse-extra-' . $name, __( 'Extra page analysis tags', 'wordpress-seo' ) );
 	}
 
 	/**
