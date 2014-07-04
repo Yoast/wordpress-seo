@@ -1,3 +1,7 @@
+### 1.2.2: July 4th, 2014
+* Added link to Yoast Knowledge Base to regex redirects.
+* Fixed bug when creating redirects from Webmaster Tools.
+
 ### 1.2.1: June 6th, 2014
 * Fixed a REGEX redirect type bug that prevented REGEX redirects from working.
 * Fixed a bug involving the & sign in redirects.
