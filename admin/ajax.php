@@ -116,9 +116,9 @@ add_action( 'wp_ajax_wpseo_get_suggest', 'wpseo_get_suggest' );
 function wpseo_ajax_replace_vars() {
 	check_ajax_referer( 'wpseo-replace-vars' );
 
-	$args = get_post( $_POST['post_id'] );
+	$post = get_post( $_POST['post_id'] );
 	$omit = array( 'excerpt', 'excerpt_only', 'title' );
-	echo wpseo_replace_vars( $_POST['string'], $args, $omit );
+	echo wpseo_replace_vars( $_POST['string'], $post, $omit );
 	die;
 }
 
