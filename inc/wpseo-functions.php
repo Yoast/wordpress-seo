@@ -162,7 +162,7 @@ function wpseo_remove_capabilities() {
  * Replace `%%variable_placeholders%%` with their real value based on the current requested page/post/cpt
  *
  * @param string $string the string to replace the variables in.
- * @param array  $args   the object some of the replacement values might come from, could be a post, taxonomy or term.
+ * @param object $args   the object some of the replacement values might come from, could be a post, taxonomy or term.
  * @param array  $omit   variables that should not be replaced by this function.
  * @return string
  */
