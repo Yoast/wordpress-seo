@@ -200,9 +200,8 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 			if ( $form === true ) {
 				echo '<form action="' . esc_url( admin_url( 'options.php' ) ) . '" method="post" id="wpseo-conf"' . ( $contains_files ? ' enctype="multipart/form-data"' : '' ) . ' accept-charset="' . esc_attr( get_bloginfo( 'charset' ) ) . '">';
 				settings_fields( $option );
-				$this->currentoption = $optionshort;
 			}
-
+			$this->currentoption = $optionshort;
 		}
 
 		/**
@@ -250,7 +249,7 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 				<div class="inside">
 					<h4>' . esc_html( __( 'Current option:', 'wordpress-seo' ) ) . ' <span class="wpseo-debug">' . esc_html( $this->currentoption ) . '</span></h4>
 					' . ( $xdebug ? '' : '<pre>' );
-				var_dump( get_option( $this->currentoption ) );
+				var_dump( $this->get_option( $this->currentoption ) );
 				echo '
 					' . ( $xdebug ? '' : '</pre>' ) . '
 				</div>
@@ -384,7 +383,7 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 		 * @return array
 		 */
 		function get_option( $option ) {
-			if ( function_exists( 'is_network_admin' ) && is_network_admin() ) {
+			if ( is_network_admin() ) {
 				return get_site_option( $option );
 			}
 			else {
@@ -518,13 +517,14 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 			}
 
 			$options = $this->get_option( $option );
+			$val     = ( isset( $options[$var] ) ) ? $options[$var] : '';
 
 			$output  = '<label class="select" for="' . esc_attr( $var ) . '">' . $label . ':</label>';
 			$output .= '<select class="select" name="' . esc_attr( $option ) . '[' . esc_attr( $var ) . ']" id="' . esc_attr( $var ) . '">';
 
 			foreach ( $values as $value => $label ) {
 				if ( ! empty( $label ) ) {
-					$output .= '<option value="' . esc_attr( $value ) . '"' . selected( $options[$var], $value, false ) . '>' . $label . '</option>';
+					$output .= '<option value="' . esc_attr( $value ) . '"' . selected( $val, $value, false ) . '>' . $label . '</option>';
 				}
 			}
 			$output .= '</select>';

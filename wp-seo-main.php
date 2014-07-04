@@ -29,6 +29,8 @@ if ( ! defined( 'WPSEO_CSSJS_SUFFIX' ) ) {
 }
 
 
+/* ***************************** CLASS AUTOLOADING *************************** */
+
 /**
  * Auto load our class files
  *
@@ -97,14 +99,79 @@ if ( function_exists( 'spl_autoload_register' ) ) {
 }
 
 
+
+/* ***************************** PLUGIN (DE-)ACTIVATION *************************** */
+
+/**
+ * Run single site / network-wide activation of the plugin.
+ *
+ * @param bool $networkwide  Whether the plugin is being activated network-wide
+ */
+function wpseo_activate( $networkwide ) {
+	if ( ! is_multisite() || ! $networkwide ) {
+		_wpseo_activate();
+	}
+	else {
+		/* Multi-site network activation - activate the plugin for all blogs */
+		wpseo_network_activate_deactivate( true );
+	}
+}
+
+/**
+ * Run single site / network-wide de-activation of the plugin.
+ *
+ * @param bool $networkwide  Whether the plugin is being de-activated network-wide
+ */
+function wpseo_deactivate( $networkwide ) {
+	if ( ! is_multisite() || ! $networkwide ) {
+		_wpseo_deactivate();
+	}
+	else {
+		/* Multi-site network activation - de-activate the plugin for all blogs */
+		wpseo_network_activate_deactivate( false );
+	}
+}
+
+/**
+ * Run network-wide (de-)activation of the plugin
+ *
+ * @param bool $activate  True for plugin activation, false for de-activation
+ */
+function wpseo_network_activate_deactivate( $activate = true ) {
+	global $wpdb;
+
+	$original_blog_id = get_current_blog_id(); // alternatively use: $wpdb->blogid
+	$all_blogs        = $wpdb->get_col( "SELECT blog_id FROM $wpdb->blogs" );
+
+	if ( is_array( $all_blogs ) && $all_blogs !== array() ) {
+		foreach ( $all_blogs as $blog_id ) {
+			switch_to_blog( $blog_id );
+
+			if ( $activate === true ) {
+				_wpseo_activate();
+			}
+			else {
+				_wpseo_deactivate();
+			}
+		}
+		// Restore back to original blog
+		switch_to_blog( $original_blog_id );
+	}
+}
+
 /**
  * Runs on activation of the plugin.
  */
-function wpseo_activate() {
+function _wpseo_activate() {
 	require_once( WPSEO_PATH . 'inc/wpseo-functions.php' );
 
 	WPSEO_Options::get_instance();
-	WPSEO_Options::initialize();
+	if ( ! is_multisite() ) {
+		WPSEO_Options::initialize();
+	}
+	else {
+		WPSEO_Options::maybe_set_multisite_defaults( true );
+	}
 
 	flush_rewrite_rules();
 
@@ -121,7 +188,7 @@ function wpseo_activate() {
 /**
  * On deactivation, flush the rewrite rules so XML sitemaps stop working.
  */
-function wpseo_deactivate() {
+function _wpseo_deactivate() {
 	require_once( WPSEO_PATH . 'inc/wpseo-functions.php' );
 
 	flush_rewrite_rules();
@@ -137,6 +204,29 @@ function wpseo_deactivate() {
 	do_action( 'wpseo_deactivate' );
 }
 
+/**
+ * Run wpseo activation routine on creation / activation of a multisite blog if WPSEO is activated
+ * network-wide.
+ *
+ * Will only be called by multisite actions.
+ * @internal Unfortunately will fail if the plugin is in the must-use directory
+ * @see https://core.trac.wordpress.org/ticket/24205
+ */
+function wpseo_on_activate_blog( $blog_id ) {
+	if ( ! function_exists( 'is_plugin_active_for_network' ) ) {
+		require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
+	}
+
+	if ( is_plugin_active_for_network( plugin_basename( WPSEO_FILE ) ) ) {
+		switch_to_blog( $blog_id );
+		wpseo_activate();
+		restore_current_blog();
+	}
+}
+
+
+
+/* ***************************** PLUGIN LOADING *************************** */
 
 /**
  * Load translations
@@ -245,7 +335,14 @@ function wpseo_admin_init() {
 		}
 	}
 
-	if ( in_array( $pagenow, array( 'edit.php', 'post.php', 'post-new.php' ) ) ) {
+	/**
+	 * Filter: 'wpseo_always_register_metaboxes_on_admint' - Allow developers to change whether
+	 * the WPSEO metaboxes are only registered on the typical pages (lean loading) or always
+	 * registered when in admin.
+	 *
+	 * @api bool Whether to always register the metaboxes or not. Defaults to false.
+	 */
+	if ( in_array( $pagenow, array( 'edit.php', 'post.php', 'post-new.php' ) ) || apply_filters( 'wpseo_always_register_metaboxes_on_admin', false ) ) {
 		$GLOBALS['wpseo_metabox'] = new WPSEO_Metabox;
 		if ( $options['opengraph'] === true ) {
 			$GLOBALS['wpseo_social'] = new WPSEO_Social_Admin;
@@ -268,15 +365,18 @@ function wpseo_admin_init() {
 	if ( $options['enablexmlsitemap'] === true ) {
 		$GLOBALS['wpseo_sitemaps_admin'] = new WPSEO_Sitemaps_Admin;
 	}
-
 }
+
+
+
+/* ***************************** BOOTSTRAP / HOOK INTO WP *************************** */
 
 if ( ! function_exists( 'spl_autoload_register' ) ) {
 	add_action( 'admin_init', 'yoast_wpseo_self_deactivate', 1 );
 }
-else {
+else if ( ! defined( 'WP_INSTALLING' ) || WP_INSTALLING === false ) {
 	add_action( 'plugins_loaded', 'wpseo_init', 14 );
-	
+
 	if ( is_admin() ) {
 		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
 			require_once( WPSEO_PATH . 'admin/ajax.php' );
@@ -295,6 +395,8 @@ else {
 // Activation and deactivation hook
 register_activation_hook( WPSEO_FILE, 'wpseo_activate' );
 register_deactivation_hook( WPSEO_FILE, 'wpseo_deactivate' );
+add_action( 'wpmu_new_blog', 'wpseo_on_activate_blog' );
+add_action( 'activate_blog', 'wpseo_on_activate_blog' );
 
 
 function load_yoast_notifications() {

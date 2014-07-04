@@ -23,6 +23,8 @@ function wpseo_do_upgrade() {
 
 	$option_wpseo = get_option( 'wpseo' );
 
+	WPSEO_Options::maybe_set_multisite_defaults( false );
+
 	if ( $option_wpseo['version'] === '' || version_compare( $option_wpseo['version'], '1.2', '<' ) ) {
 		add_action( 'init', 'wpseo_title_test' );
 	}
@@ -60,12 +62,16 @@ function wpseo_do_upgrade() {
 		WPSEO_Options::clean_up( 'wpseo_taxonomy_meta', $option_wpseo['version'] );
 	}
 
+	/* Clean up stray wpseo_ms options from the options table, option should only exist in the sitemeta table */
+	delete_option( 'wpseo_ms' );
+
+
 	// Make sure version nr gets updated for any version without specific upgrades
 	$option_wpseo = get_option( 'wpseo' ); // re-get to make sure we have the latest version
 	if ( version_compare( $option_wpseo['version'], WPSEO_VERSION, '<' ) ) {
 		update_option( 'wpseo', $option_wpseo );
 	}
-	
+
 	// Make sure all our options always exist - issue #1245
 	WPSEO_Options::ensure_options_exist();
 }
@@ -280,7 +286,7 @@ function wpseo_ping_search_engines( $sitemapurl = null ) {
 
 	// Always ping Google and Bing, optionally ping Ask and Yahoo!
 	wp_remote_get( 'http://www.google.com/webmasters/tools/ping?sitemap=' . $sitemapurl );
-	wp_remote_get( 'http://www.bing.com/webmaster/ping.aspx?sitemap=' . $sitemapurl );
+	wp_remote_get( 'http://www.bing.com/ping?sitemap=' . $sitemapurl );
 
 	if ( $options['xml_ping_yahoo'] === true ) {
 		wp_remote_get( 'http://search.yahooapis.com/SiteExplorerService/V1/updateNotification?appid=3usdTDLV34HbjQpIBuzMM1UkECFl5KDN7fogidABihmHBfqaebDuZk1vpLDR64I-&url=' . $sitemapurl );
