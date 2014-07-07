@@ -84,18 +84,18 @@ class WPSEO_Premium {
 
 			// Add input fields to page meta post types
 			add_action( 'wpseo_admin_page_meta_post_types', array(
-					$this,
-					'admin_page_meta_post_types_checkboxes'
-				), 10, 2 );
+				$this,
+				'admin_page_meta_post_types_checkboxes'
+			), 10, 2 );
 
 			// Add page analysis fields to variable array key patterns
 			add_filter( 'wpseo_option_titles_variable_array_key_patterns', array(
-					$this,
-					'add_variable_array_key_pattern'
-				) );
+				$this,
+				'add_variable_array_key_pattern'
+			) );
 
 			// Filter the Page Analysis content
-			add_filter( 'wpseo_pre_analysis_post_content', array( $this, 'filter_page_analysis' ) );
+			add_filter( 'wpseo_pre_analysis_post_content', array( $this, 'filter_page_analysis' ), 10, 2 );
 
 			// Check if WPSEO_DISABLE_PHP_REDIRECTS is defined
 			if ( defined( 'WPSEO_DISABLE_PHP_REDIRECTS' ) && true === WPSEO_DISABLE_PHP_REDIRECTS ) {
@@ -161,18 +161,18 @@ class WPSEO_Premium {
 			$crawl_issue_manager = new WPSEO_Crawl_Issue_Manager();
 			add_action( 'wp_ajax_wpseo_ignore_crawl_issue', array( $crawl_issue_manager, 'ajax_ignore_crawl_issue' ) );
 			add_action( 'wp_ajax_wpseo_unignore_crawl_issue', array(
-					$crawl_issue_manager,
-					'ajax_unignore_crawl_issue'
-				) );
+				$crawl_issue_manager,
+				'ajax_unignore_crawl_issue'
+			) );
 
 			// Add Premium imports
 			$premium_import_manager = new WPSEO_Premium_Import_Manager();
 
 			// Allow option of importing from other 'other' plugins
 			add_filter( 'wpseo_import_other_plugins', array(
-					$premium_import_manager,
-					'filter_add_premium_import_options'
-				) );
+				$premium_import_manager,
+				'filter_add_premium_import_options'
+			) );
 
 			// Handle premium imports
 			add_action( 'wpseo_handle_import', array( $premium_import_manager, 'do_premium_imports' ) );
@@ -300,9 +300,9 @@ class WPSEO_Premium {
 				$old_url = urlencode( $old_url );
 
 				$wp_admin_bar->add_menu( array(
-					'id' => 'wpseo-premium-create-redirect',
+					'id'    => 'wpseo-premium-create-redirect',
 					'title' => __( 'Create Redirect', 'wordpress-seo' ),
-					'href' => admin_url( 'admin.php?page=wpseo_redirects&old_url=' . $old_url )
+					'href'  => admin_url( 'admin.php?page=wpseo_redirects&old_url=' . $old_url )
 				) );
 			}
 
