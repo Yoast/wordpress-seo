@@ -327,8 +327,13 @@ class WPSEO_Premium {
 	 *
 	 * @param $page_content
 	 */
-	public function filter_page_analysis( $page_content ) {
+	public function filter_page_analysis( $page_content, $post ) {
+		$options = get_option( WPSEO_Options::get_option_instance( 'wpseo_titles' )->option_name, array() );
+		if ( isset( $options[ 'page-analyse-extra-' . $post->post_type ] ) ) {
+			$page_content .= ' ' . $options[ 'page-analyse-extra-' . $post->post_type ];
+		}
 
+		return $page_content;
 	}
 
 	/**
