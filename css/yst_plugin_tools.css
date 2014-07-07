@@ -46,6 +46,10 @@ input.textinput, textarea.textinput, select.select, input.checkbox {
 	padding: 5px;
 }
 
+select.select {
+	padding: 3px;
+}
+
 input.checkbox.double {
 	margin-top: 2px;
 }
@@ -83,6 +87,22 @@ label.radio {
 
 #wpseo_content_top {
 	min-width: 800px;
+}
+
+.wpseo_content_wrapper div.wpseo-warning {
+	border: 2px solid red;
+	padding-left: 10px;
+	padding-right: 10px;
+	background-color: #DEDEDE;
+	margin: 2em 0 0 0;
+}
+
+.wpseo_content_wrapper div.wpseo-warning h4 {
+	margin: 1em 0 0 0;
+}
+
+.wpseo_content_wrapper div.wpseo-warning p.error-message {
+	font-weight: normal;
 }
 
 #sidebar-container {
@@ -148,6 +168,10 @@ table.yoast_help th, table.yoast_help td {
 	vertical-align: text-top;
 	text-align: left;
 	padding: 5px 10px;
+}
+
+table.yoast_help tr:nth-child(2n) {
+	background-color: #FBFBFE;
 }
 
 table.yoast_help tr:hover {

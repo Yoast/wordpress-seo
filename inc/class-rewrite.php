@@ -131,7 +131,7 @@ if ( ! class_exists( 'WPSEO_Rewrite' ) ) {
 			$taxonomy = get_taxonomy( 'category' );
 
 			$blog_prefix = '';
-			if ( function_exists( 'is_multisite' ) && is_multisite() && ! is_subdomain_install() && is_main_site() ) {
+			if ( is_multisite() && ! is_subdomain_install() && is_main_site() ) {
 				$blog_prefix = 'blog/';
 			}
 

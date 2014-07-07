@@ -18,10 +18,10 @@ class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 		$url = site_url();
 		$this->assertNotEmpty( self::$class_instance->canonical( $url ) );
 
-		set_query_var('sitemap', 'sitemap_value');
+		set_query_var( 'sitemap', 'sitemap_value' );
 		$this->assertFalse( self::$class_instance->canonical( $url ) );
 
-		set_query_var('xsl', 'xsl_value');
+		set_query_var( 'xsl', 'xsl_value' );
 		$this->assertFalse( self::$class_instance->canonical( $url ) );
 	}
 

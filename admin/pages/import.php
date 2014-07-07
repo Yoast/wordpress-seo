@@ -411,7 +411,7 @@ elseif ( isset( $_FILES['settings_import_file'] ) ) {
 		$unzipped = unzip_file( $file['file'], $p_path );
 		if ( ! is_wp_error( $unzipped ) ) {
 			$filename = $p_path . 'settings.ini';
-			if ( @is_file( $filename ) && is_readable( $filename) ) {
+			if ( @is_file( $filename ) && is_readable( $filename ) ) {
 				$options = parse_ini_file( $filename, true );
 
 				if ( is_array( $options ) && $options !== array() ) {

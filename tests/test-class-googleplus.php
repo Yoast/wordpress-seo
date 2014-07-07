@@ -24,7 +24,7 @@ class WPSEO_GooglePlus_Test extends WPSEO_UnitTestCase {
 	public function test_description() {
 
 		self::$class_instance->description();
-		$this->expectOutput('');
+		$this->expectOutput( '' );
 
 		// create and go to post
 		$post_id = $this->factory->post->create();
