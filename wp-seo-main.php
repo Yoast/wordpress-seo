@@ -165,6 +165,7 @@ function wpseo_network_activate_deactivate( $activate = true ) {
 function _wpseo_activate() {
 	require_once( WPSEO_PATH . 'inc/wpseo-functions.php' );
 
+	wpseo_load_textdomain(); // Make sure we have our translations available for the defaults
 	WPSEO_Options::get_instance();
 	if ( ! is_multisite() ) {
 		WPSEO_Options::initialize();
@@ -172,6 +173,7 @@ function _wpseo_activate() {
 	else {
 		WPSEO_Options::maybe_set_multisite_defaults( true );
 	}
+	WPSEO_Options::ensure_options_exist();
 
 	flush_rewrite_rules();
 
