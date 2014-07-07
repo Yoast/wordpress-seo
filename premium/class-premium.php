@@ -284,9 +284,9 @@ class WPSEO_Premium {
 				$old_url = urlencode( $old_url );
 
 				$wp_admin_bar->add_menu( array(
-					'id'    => 'wpseo-premium-create-redirect',
+					'id' => 'wpseo-premium-create-redirect',
 					'title' => __( 'Create Redirect', 'wordpress-seo' ),
-					'href'  => admin_url( 'admin.php?page=wpseo_redirects&old_url=' . $old_url )
+					'href' => admin_url( 'admin.php?page=wpseo_redirects&old_url=' . $old_url )
 				) );
 			}
 
@@ -389,7 +389,7 @@ class WPSEO_Premium {
 		if ( null != $value && isset( $value['disable_php_redirect'] ) && 'on' == $value['disable_php_redirect'] ) {
 
 			// Remove .htaccess entries if the 'separate_file' option is set to true
-			if( wpseo_is_apache() && isset( $value['separate_file'] ) && 'on' == $value['separate_file'] ) {
+			if ( wpseo_is_apache() && isset( $value['separate_file'] ) && 'on' == $value['separate_file'] ) {
 				$remove_htaccess_entries = true;
 			}
 
@@ -398,13 +398,13 @@ class WPSEO_Premium {
 			$redirect_manager = new WPSEO_URL_Redirect_Manager();
 			$redirect_manager->save_redirect_file();
 
-		}else if( wpseo_is_apache() ) {
+		} else if ( wpseo_is_apache() ) {
 			// No settings are set so we should also strip the .htaccess redirect entries in this case
 			$remove_htaccess_entries = true;
 		}
 
 		// Check if we need to remove the .htaccess redirect entries
-		if( $remove_htaccess_entries ) {
+		if ( $remove_htaccess_entries ) {
 			// Remove the .htaccess redirect entries
 			$redirect_manager = new WPSEO_URL_Redirect_Manager();
 			$redirect_manager->clear_htaccess_entries();
