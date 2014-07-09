@@ -1214,7 +1214,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 			if ( isset( $url['mod'] ) ) {
 				$date = new DateTime( $url['mod'], new DateTimeZone( $this->get_timezone_string() ) );
 			} else {
-				$date = new DateTime( time(), new DateTimeZone( $this->get_timezone_string() ) );
+				$date = new DateTime( date( 'y-m-d H:i:s' ), new DateTimeZone( $this->get_timezone_string() ) );
 			}
 
 			$url['loc'] = htmlspecialchars( $url['loc'] );
