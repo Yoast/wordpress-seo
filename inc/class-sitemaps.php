@@ -247,7 +247,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 		 *
 		 * @param string $stylesheet Full xml-stylesheet declaration
 		 */
-		function set_stylesheet( $stylesheet ) {
+		public function set_stylesheet( $stylesheet ) {
 			$this->stylesheet = $stylesheet;
 		}
 
@@ -304,7 +304,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 			$caching = apply_filters( 'wpseo_enable_xml_sitemap_transient_caching', true );
 
 			if ( $caching ) {
-				$this->sitemap = get_transient( 'wpseo_sitemap_cache_' . $type . '_' . $n );
+				$this->sitemap = get_transient( 'wpseo_sitemap_cache_' . $type . '_' . $this->n );
 			}
 
 			if ( ! $this->sitemap || '' == $this->sitemap ) {
