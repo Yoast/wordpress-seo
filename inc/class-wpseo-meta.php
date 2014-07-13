@@ -416,7 +416,7 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 					}
 
 					/* Adjust the no-index 'default for post type' text string based on the post type */
-					$field_defs['meta-robots-noindex']['options']['0'] = sprintf( $field_defs['meta-robots-noindex']['options']['0'], ( ( isset( $options['noindex-' . $post_type] ) && $options['noindex-' . $post_type] === true ) ? 'noindex' : 'index' ) );
+					$field_defs['meta-robots-noindex']['options']['0'] = sprintf( $field_defs['meta-robots-noindex']['options']['0'], ( ( isset( $options[ 'noindex-' . $post_type ] ) && $options[ 'noindex-' . $post_type ] === true ) ? 'noindex' : 'index' ) );
 
 					/* Adjust the robots advanced 'site-wide default' text string based on those settings */
 					if ( $options['noodp'] !== false || $options['noydir'] !== false ) {
@@ -450,7 +450,7 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 					}
 
 					/* Adjust the authorship 'default for post type' text string based on the post type */
-					$field_defs['authorship']['options']['-'] = sprintf( $field_defs['authorship']['options']['-'], ( ( isset( $options['noauthorship-' . $post_type] ) && $options['noauthorship-' . $post_type] === true ) ? __( 'don\'t show', 'wordpress-seo' ) : __( 'show', 'wordpress-seo' ) ) );
+					$field_defs['authorship']['options']['-'] = sprintf( $field_defs['authorship']['options']['-'], ( ( isset( $options[ 'noauthorship-' . $post_type ] ) && $options[ 'noauthorship-' . $post_type ] === true ) ? __( 'don\'t show', 'wordpress-seo' ) : __( 'show', 'wordpress-seo' ) ) );
 
 					break;
 			}

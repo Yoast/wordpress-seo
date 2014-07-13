@@ -132,7 +132,7 @@ if ( $options['fbadminapp'] == 0 ) {
 		$fbconnect .= '
 	<p>' . __( 'Currently connected Facebook admins:', 'wordpress-seo' ) . '</p>
 	<ul>';
-		$nonce = wp_create_nonce( 'delfbadmin' );
+		$nonce      = wp_create_nonce( 'delfbadmin' );
 
 		foreach ( $options['fb_admins'] as $admin_id => $admin ) {
 			$admin_id   = esc_attr( $admin_id );

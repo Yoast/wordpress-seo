@@ -64,13 +64,13 @@ if ( ! class_exists( 'WPSEO_Pointers' ) ) {
 			$id    = '#wpadminbar';
 			$nonce = wp_create_nonce( 'wpseo_activate_tracking' );
 
-			$content = '<h3>' . __( 'Help improve WordPress SEO', 'wordpress-seo' ) . '</h3>';
+			$content  = '<h3>' . __( 'Help improve WordPress SEO', 'wordpress-seo' ) . '</h3>';
 			$content .= '<p>' . __( 'You\'ve just installed WordPress SEO by Yoast. Please helps us improve it by allowing us to gather anonymous usage stats so we know which configurations, plugins and themes to test with.', 'wordpress-seo' ) . '</p>';
-			$opt_arr = array(
+			$opt_arr  = array(
 				'content'  => $content,
 				'position' => array( 'edge' => 'top', 'align' => 'center' )
 			);
-			$button2 = __( 'Allow tracking', 'wordpress-seo' );
+			$button2  = __( 'Allow tracking', 'wordpress-seo' );
 
 			$function2 = 'wpseo_store_answer("yes","' . $nonce . '")';
 			$function1 = 'wpseo_store_answer("no","' . $nonce . '")';
@@ -181,8 +181,8 @@ if ( ! class_exists( 'WPSEO_Pointers' ) ) {
 			$opt_arr  = array();
 			$id       = '#wpseo-title';
 			if ( 'admin.php' != $pagenow || ! array_key_exists( $page, $adminpages ) ) {
-				$id      = 'li.toplevel_page_wpseo_dashboard';
-				$content = '<h3>' . __( 'Congratulations!', 'wordpress-seo' ) . '</h3>';
+				$id       = 'li.toplevel_page_wpseo_dashboard';
+				$content  = '<h3>' . __( 'Congratulations!', 'wordpress-seo' ) . '</h3>';
 				$content .= '<p>' . __( 'You\'ve just installed WordPress SEO by Yoast! Click "Start Tour" to view a quick introduction of this plugins core functionality.', 'wordpress-seo' ) . '</p>';
 				$opt_arr  = array(
 					'content'  => $content,

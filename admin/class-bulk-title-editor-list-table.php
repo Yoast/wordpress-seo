@@ -225,7 +225,7 @@ if ( ! class_exists( 'WPSEO_Bulk_Title_Editor_List_Table' ) ) {
 
 					$states          = get_post_stati( array( 'show_in_admin_all_list' => true ) );
 					$states['trash'] = 'trash';
-					$states = esc_sql( $states );
+					$states          = esc_sql( $states );
 					$all_states      = "'" . implode( "', '", $states ) . "'";
 
 					$subquery        = $this->get_base_subquery();
@@ -253,7 +253,7 @@ if ( ! class_exists( 'WPSEO_Bulk_Title_Editor_List_Table' ) ) {
 						}
 					}
 
-					echo sprintf( '<select name="post_type_filter">%1$s</select>' , $options );
+					echo sprintf( '<select name="post_type_filter">%1$s</select>', $options );
 					submit_button( __( 'Filter', 'wordpress-seo' ), 'button', false, false, array( 'id' => 'post-query-submit' ) );
 					echo '</div>';
 				}
@@ -460,12 +460,12 @@ if ( ! class_exists( 'WPSEO_Bulk_Title_Editor_List_Table' ) ) {
 
 							case 'col_new_yoast_seo_title':
 								$input = sprintf( '<input type="text" id="%1$s" name="%1$s" class="wpseo-new-title" data-id="%2$s" />', 'wpseo-new-title-' . $rec->ID, $rec->ID );
-								echo sprintf( '<td %2$s>%1$s</td>', $input , $attributes );
+								echo sprintf( '<td %2$s>%1$s</td>', $input, $attributes );
 								break;
 
 							case 'col_row_action':
 								$actions = sprintf( '<a href="#" class="wpseo-save" data-id="%1$s">Save</a> | <a href="#" class="wpseo-save-all">Save All</a>', $rec->ID );
-								echo sprintf( '<td %2$s>%1$s</td>', $actions , $attributes );
+								echo sprintf( '<td %2$s>%1$s</td>', $actions, $attributes );
 								break;
 						}
 					}

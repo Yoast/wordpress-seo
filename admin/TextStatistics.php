@@ -100,8 +100,8 @@ if ( ! class_exists( 'Yoast_TextStatistics' ) ) {
 		 * @return int
 		 */
 		public function letter_count( $strText ) {
-			$strText       = $this->clean_text( $strText ); // To clear out newlines etc
-			$strText       = preg_replace( '`[^A-Za-z]+`', '', $strText );
+			$strText = $this->clean_text( $strText ); // To clear out newlines etc
+			$strText = preg_replace( '`[^A-Za-z]+`', '', $strText );
 
 			if ( ! $this->blnMbstring ) {
 				return strlen( $strText );

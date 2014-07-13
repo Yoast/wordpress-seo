@@ -246,7 +246,7 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 
 				// Replacement retrievals can return null if no replacement can be determined, root those outs
 				if ( isset( $replacement ) ) {
-					$var                = self::add_var_delimiter( $var );
+					$var                  = self::add_var_delimiter( $var );
 					$replacements[ $var ] = $replacement;
 				}
 			}

@@ -224,11 +224,11 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 			foreach ( $terms_by_id as $term ) {
 				$parents = $this->get_term_parents( $term );
 
-				if ( sizeof( $parents ) >= $parents_count ) {
-					$parents_count = sizeof( $parents );
+				if ( count( $parents ) >= $parents_count ) {
+					$parents_count = count( $parents );
 
 					//if higher count
-					if ( sizeof( $parents ) > $parents_count ) {
+					if ( count( $parents ) > $parents_count ) {
 						//reset order
 						$term_order = 9999;
 					}
@@ -473,10 +473,10 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 		 * Add taxonomy crumbs to the crumbs property for a single post
 		 */
 		private function maybe_add_taxonomy_crumbs_for_post() {
-			if ( isset( $this->options['post_types-' . $this->post->post_type . '-maintax'] ) && $this->options['post_types-' . $this->post->post_type . '-maintax'] != '0' ) {
-				$main_tax = $this->options['post_types-' . $this->post->post_type . '-maintax'];
+			if ( isset( $this->options[ 'post_types-' . $this->post->post_type . '-maintax' ] ) && $this->options[ 'post_types-' . $this->post->post_type . '-maintax' ] != '0' ) {
+				$main_tax = $this->options[ 'post_types-' . $this->post->post_type . '-maintax' ];
 				if ( isset( $this->post->ID ) ) {
-					$terms    = wp_get_object_terms( $this->post->ID, $main_tax );
+					$terms = wp_get_object_terms( $this->post->ID, $main_tax );
 
 					if ( is_array( $terms ) && $terms !== array() ) {
 
@@ -527,14 +527,14 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 		 * Add parent taxonomy crumb based on user defined preference
 		 */
 		private function maybe_add_preferred_term_parent_crumb( $term ) {
-			if ( isset( $this->options['taxonomy-' . $term->taxonomy . '-ptparent'] ) && $this->options['taxonomy-' . $term->taxonomy . '-ptparent'] != '0' ) {
-				if ( 'post' == $this->options['taxonomy-' . $term->taxonomy . '-ptparent'] && get_option( 'show_on_front' ) == 'page' ) {
+			if ( isset( $this->options[ 'taxonomy-' . $term->taxonomy . '-ptparent' ] ) && $this->options[ 'taxonomy-' . $term->taxonomy . '-ptparent' ] != '0' ) {
+				if ( 'post' == $this->options[ 'taxonomy-' . $term->taxonomy . '-ptparent' ] && get_option( 'show_on_front' ) == 'page' ) {
 					if ( $this->page_for_posts ) {
 						$this->add_blog_crumb();
 					}
 				}
 				else {
-					$this->add_ptarchive_crumb( $this->options['taxonomy-' . $term->taxonomy . '-ptparent'] );
+					$this->add_ptarchive_crumb( $this->options[ 'taxonomy-' . $term->taxonomy . '-ptparent' ] );
 				}
 			}
 		}
@@ -691,9 +691,9 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 			$link          = array();
 			$archive_title = '';
 
-			if ( isset( $this->options['bctitle-ptarchive-' . $pt] ) && $this->options['bctitle-ptarchive-' . $pt] !== '' ) {
+			if ( isset( $this->options[ 'bctitle-ptarchive-' . $pt ] ) && $this->options[ 'bctitle-ptarchive-' . $pt ] !== '' ) {
 
-				$archive_title = $this->options['bctitle-ptarchive-' . $pt];
+				$archive_title = $this->options[ 'bctitle-ptarchive-' . $pt ];
 			}
 			else {
 				$post_type_obj = get_post_type_object( $pt );

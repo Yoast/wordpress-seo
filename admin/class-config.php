@@ -284,7 +284,8 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 				}
 				foreach ( $options as $key => $elem ) {
 					if ( is_array( $elem ) ) {
-						for ( $i = 0; $i < count( $elem ); $i++ ) {
+						$elm_count = count( $elem );
+						for ( $i = 0; $i < $elm_count; $i++ ) {
 							$content .= $key . '[] = "' . $elem[ $i ] . "\"\n";
 						}
 					}
@@ -509,7 +510,7 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 			}
 
 			$options = $this->get_option( $option );
-			$val     = ( isset( $options[$var] ) ) ? $options[$var] : '';
+			$val     = ( isset( $options[ $var ] ) ) ? $options[ $var ] : '';
 
 			$output  = '<label class="select" for="' . esc_attr( $var ) . '">' . $label . ':</label>';
 			$output .= '<select class="select" name="' . esc_attr( $option ) . '[' . esc_attr( $var ) . ']" id="' . esc_attr( $var ) . '">';

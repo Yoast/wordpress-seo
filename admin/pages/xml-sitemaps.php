@@ -9,7 +9,7 @@
  * google-sitemaps-plugin/generator and remove as it will cause errors for our sitemaps
  * (or inform the user and disallow enabling of sitemaps )
  * @todo - [JRF => whomever] check if anything along these lines is already being done
-*/
+ */
 
 
 if ( ! defined( 'WPSEO_VERSION' ) ) {

@@ -37,7 +37,7 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 		 * Class constructor
 		 */
 		public function __construct() {
-			$this->options = WPSEO_Options::get_all();
+			$this->options      = WPSEO_Options::get_all();
 			$this->shown_images = array(); // Instantiate as empty array
 			$this->twitter();
 		}
@@ -130,7 +130,7 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 				$type = 'summary';
 			}
 
-			$this->output_metatag( 'card',  $type );
+			$this->output_metatag( 'card', $type );
 		}
 
 		/**

@@ -796,7 +796,7 @@ if ( ! class_exists( 'WPSEO_Option' ) ) {
 				return $value;
 			} else if ( is_float( $value ) ) {
 				if ( (int) $value == $value && ! is_nan( $value ) ) {
-					return ( int) $value;
+					return (int) $value;
 				} else {
 					return false;
 				}

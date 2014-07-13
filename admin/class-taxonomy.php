@@ -33,7 +33,7 @@ if ( ! class_exists( 'WPSEO_Taxonomy' ) ) {
 			$options = WPSEO_Options::get_all();
 
 			if ( is_admin() && ( isset( $_GET['taxonomy'] ) && $_GET['taxonomy'] !== '' ) &&
-				( ! isset( $options['hideeditbox-tax-' . $_GET['taxonomy']] ) || $options['hideeditbox-tax-' . $_GET['taxonomy']] === false )
+				( ! isset( $options[ 'hideeditbox-tax-' . $_GET['taxonomy'] ] ) || $options[ 'hideeditbox-tax-' . $_GET['taxonomy'] ] === false )
 			) {
 				add_action( sanitize_text_field( $_GET['taxonomy'] ) . '_edit_form', array( $this, 'term_seo_form' ), 10, 1 );
 			}
@@ -184,7 +184,7 @@ if ( ! class_exists( 'WPSEO_Taxonomy' ) ) {
 			}
 
 			$current = 'index';
-			if ( isset( $options['noindex-tax-' . $term->taxonomy] ) && $options['noindex-tax-' . $term->taxonomy] === true ) {
+			if ( isset( $options[ 'noindex-tax-' . $term->taxonomy ] ) && $options[ 'noindex-tax-' . $term->taxonomy ] === true ) {
 				$current = 'noindex';
 			}
 

@@ -40,9 +40,9 @@ function wpseo_set_ignore() {
 
 	check_ajax_referer( 'wpseo-ignore' );
 
-	$options                          = get_option( 'wpseo' );
-	$ignore_key 					  = sanitize_text_field( $_POST['option'] );
-	$options['ignore_' . $ignore_key] = true;
+	$options                            = get_option( 'wpseo' );
+	$ignore_key                         = sanitize_text_field( $_POST['option'] );
+	$options[ 'ignore_' . $ignore_key ] = true;
 	update_option( 'wpseo', $options );
 	die( '1' );
 }
@@ -62,7 +62,7 @@ function wpseo_kill_blocking_files() {
 	$message = 'There were no files to delete.';
 	$options = get_option( 'wpseo' );
 	if ( is_array( $options['blocking_files'] ) && $options['blocking_files'] !== array() ) {
-		$message = 'success';
+		$message       = 'success';
 		$files_removed = 0;
 		foreach ( $options['blocking_files'] as $k => $file ) {
 			if ( ! @unlink( $file ) ) {
@@ -129,7 +129,7 @@ add_action( 'wp_ajax_wpseo_replace_vars', 'wpseo_ajax_replace_vars' );
  */
 function wpseo_save_title() {
 
-	$new_title      = $_POST['new_title'] ;
+	$new_title      = $_POST['new_title'];
 	$id             = intval( $_POST['wpseo_post_id'] );
 	$original_title = $_POST['existing_title'];
 
@@ -234,7 +234,7 @@ add_action( 'wp_ajax_wpseo_save_all_titles', 'wpseo_save_all_titles' );
  */
 function wpseo_save_description() {
 
-	$new_metadesc      = $_POST['new_metadesc'] ;
+	$new_metadesc      = $_POST['new_metadesc'];
 	$id                = intval( $_POST['wpseo_post_id'] );
 	$original_metadesc = $_POST['existing_metadesc'];
 

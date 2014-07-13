@@ -304,7 +304,7 @@ function wpseo_store_tracking_response() {
 		die();
 	}
 
-	$options = get_option( 'wpseo' );
+	$options                        = get_option( 'wpseo' );
 	$options['tracking_popup_done'] = true;
 
 	if ( $_POST['allow_tracking'] == 'yes' ) {

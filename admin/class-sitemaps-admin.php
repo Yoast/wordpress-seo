@@ -30,7 +30,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps_Admin' ) ) {
 		 */
 		function delete_sitemaps() {
 			$options = WPSEO_Options::get_all();
-			if ( $options[ 'enablexmlsitemap' ] === true ) {
+			if ( $options['enablexmlsitemap'] === true ) {
 
 				$file_to_check_for = array(
 					//ABSPATH . 'sitemap.xml',
@@ -42,7 +42,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps_Admin' ) ) {
 				$new_files_found = false;
 
 				foreach ( $file_to_check_for as $file ) {
-					if ( ( $options['blocking_files'] === array() || ( $options['blocking_files'] !== array() && in_array( $file, $options[ 'blocking_files'] ) === false ) ) && file_exists( $file ) ) {
+					if ( ( $options['blocking_files'] === array() || ( $options['blocking_files'] !== array() && in_array( $file, $options['blocking_files'] ) === false ) ) && file_exists( $file ) ) {
 						$options['blocking_files'][] = $file;
 						$new_files_found             = true;
 					}

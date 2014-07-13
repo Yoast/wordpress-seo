@@ -228,7 +228,7 @@ function wpseo_tracking_additions( $options ) {
 		'php_mbstring_version'        => phpversion( 'mbstring' ),
 		'php_pcre_enabled'            => extension_loaded( 'pcre' ) ? 1 : 0,
 		'php_pcre_version'            => phpversion( 'pcre' ),
-		'php_pcre_with_utf8_a'        => @preg_match( '/^.{1}$/u','ñ', $UTF8_ar ),
+		'php_pcre_with_utf8_a'        => @preg_match( '/^.{1}$/u', 'ñ', $UTF8_ar ),
 		'php_pcre_with_utf8_b'        => defined( 'PREG_BAD_UTF8_ERROR' ),
 		'php_spl_enabled'             => extension_loaded( 'spl' ) ? 1 : 0,
 	);

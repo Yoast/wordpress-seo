@@ -17,7 +17,7 @@ function wpseo_title_test() {
 	$options = get_option( 'wpseo_titles' );
 
 	$options['forcerewritetitle'] = false;
-	$options['title_test'] = 1;
+	$options['title_test']        = 1;
 	update_option( 'wpseo_titles', $options );
 
 	// Setting title_test to > 0 forces the plugin to output the title below through a filter in class-frontend.php
@@ -43,7 +43,7 @@ function wpseo_title_test() {
 			$resp = wp_remote_get( get_bloginfo( 'url' ), $args );
 			$res  = false;
 			if ( ( $resp && ! is_wp_error( $resp ) ) && ( 200 == $resp['response']['code'] && isset( $resp['body'] ) ) ) {
-				$res  = preg_match( '`/<title>([^>]+)</title>`im', $resp['body'], $matches );
+				$res = preg_match( '`/<title>([^>]+)</title>`im', $resp['body'], $matches );
 			}
 		}
 
@@ -99,7 +99,7 @@ function wpseo_description_test() {
 		else {
 			foreach ( $matches as $meta ) {
 				if ( ( strtolower( $meta[1] ) == 'name' && strtolower( $meta[3] ) == 'description' ) || ( strtolower( $meta[5] ) == 'name' && strtolower( $meta[7] ) == 'description' ) ) {
-					$options['theme_description_found']  = $meta[0];
+					$options['theme_description_found']         = $meta[0];
 					$options['ignore_meta_description_warning'] = false;
 					break; // no need to run through the rest of the meta's
 				}
