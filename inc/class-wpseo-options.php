@@ -1867,6 +1867,12 @@ if ( ! class_exists( 'WPSEO_Option_Titles' ) ) {
 				$patterns   = $this->variable_array_key_patterns;
 				$patterns[] = 'tax-hideeditbox-';
 
+				/**
+				 * Allow altering the array with variable array key patterns
+				 * @api  array  $patterns  Array with the variable array key patterns
+				 */
+				$patterns = apply_filters( 'wpseo_option_titles_variable_array_key_patterns', $patterns );
+
 				foreach ( $dirty as $key => $value ) {
 					foreach ( $patterns as $pattern ) {
 						if ( strpos( $key, $pattern ) === 0 && ! isset( $clean[ $key ] ) ) {
