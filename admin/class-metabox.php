@@ -334,26 +334,42 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			unset( $date );
 
 			$title_template = '';
-			if ( isset( $options['title-' . $post->post_type] ) && $options['title-' . $post->post_type] !== '' ) {
-				$title_template = $options['title-' . $post->post_type];
+			if ( isset( $options[ 'title-' . $post->post_type ] ) && $options[ 'title-' . $post->post_type ] !== '' ) {
+				$title_template = $options[ 'title-' . $post->post_type ];
 			}
 
 			// If there's no title template set, use the default, otherwise title preview won't work.
 			if ( $title_template == '' ) {
 				$title_template = '%%title%% - %%sitename%%';
 			}
-			$title_template = wpseo_replace_vars( $title_template, $post, array( '%%title%%', '%%sitename%%', '%%sitedesc%%', '%%sep%%' ) );
 
 			$metadesc_template = '';
-			if ( isset( $options['metadesc-' . $post->post_type] ) && $options['metadesc-' . $post->post_type] !== '' ) {
-				$metadesc_template = wpseo_replace_vars( $options['metadesc-' . $post->post_type], $post, array( '%%excerpt%%', '%%excerpt_only%%', '%%sitename%%', '%%sitedesc%%', '%%sep%%' ) );
+			if ( isset( $options[ 'metadesc-' . $post->post_type ] ) && $options[ 'metadesc-' . $post->post_type ] !== '' ) {
+				$metadesc_template = $options[ 'metadesc-' . $post->post_type ];
 			}
 
 			$sample_permalink = get_sample_permalink( $post->ID );
 			$sample_permalink = str_replace( '%page', '%post', $sample_permalink[0] );
 
+			$cached_replacement_vars = array();
+			foreach (
+				array(
+					'date',
+					'id',
+					'sitename',
+					'sitedesc',
+					'sep',
+					'currenttime',
+					'currentdate',
+					'currentday',
+					'currentmonth',
+					'currentyear'
+				) as $var
+			) {
+				$cached_replacement_vars[ $var ] = wpseo_replace_vars( '%%' . $var . '%%', $post );
+			}
 
-			return array(
+			return array_merge( $cached_replacement_vars, array(
 				'field_prefix'                => self::$form_prefix,
 				'keyword_header'              => __( 'Your focus keyword was found in:', 'wordpress-seo' ),
 				'article_header_text'         => __( 'Article Heading: ', 'wordpress-seo' ),
@@ -366,12 +382,9 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 				'wpseo_title_template'        => $title_template,
 				'wpseo_metadesc_template'     => $metadesc_template,
 				'wpseo_permalink_template'    => $sample_permalink,
-				'sitename'                    => get_bloginfo( 'name' ),
-				'sitedesc'                    => get_bloginfo( 'description' ),
-				'sep'                         => wpseo_replace_vars( '%%sep%%', array() ),
 				'wpseo_keyword_suggest_nonce' => wp_create_nonce( 'wpseo-get-suggest' ),
 				'wpseo_replace_vars_nonce'    => wp_create_nonce( 'wpseo-replace-vars' ),
-			);
+			) );
 		}
 
 
@@ -735,7 +748,6 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 				wp_localize_script( 'wp-seo-metabox', 'wpseoMetaboxL10n', $this->localize_script() );
 			}
 		}
-
 
 		/**
 		 * Adds a dropdown that allows filtering on the posts SEO Quality.

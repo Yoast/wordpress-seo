@@ -28,16 +28,16 @@ before_script:
 - sed -i "s/yourusernamehere/travis/" wp-tests-config.php
 - sed -i "s/yourpasswordhere//" wp-tests-config.php
 - mysql -e "CREATE DATABASE wordpress_tests;" -uroot
-- pear config-set auto_discover 1
-- pear install PHP_CodeSniffer
-- git clone git://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards.git $(pear config-get php_dir)/PHP/CodeSniffer/Standards/WordPress
-- git clone git://github.com/WordPress-Coding-Standards/WordPressVIP.git $(pear config-get php_dir)/PHP/CodeSniffer/Standards/WordPressVIP
+- git clone https://github.com/squizlabs/PHP_CodeSniffer.git phpcs
+- git clone https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards.git wpcs
+- cd phpcs
+- scripts/phpcs --config-set installed_paths ../wpcs
 - cd "/tmp/wordpress/src/wp-content/plugins/$PLUGIN_SLUG"
 - phpenv rehash
 
 script:
 - phpunit -c phpunit.xml
-- phpcs -p -s -v -n . --standard=./codesniffer.xml --extensions=php
+- /tmp/wordpress/phpcs/scripts/phpcs -p -s -v -n . --standard=./codesniffer.xml --extensions=php
 
 notifications:
   slack:

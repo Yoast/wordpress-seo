@@ -69,13 +69,6 @@ global $wpseo_admin_pages;
 					'desc'  => __( 'Seamlessly integrate WooCommerce with WordPress SEO and get extra features!', 'wordpress-seo' )
 				);
 			}
-			if ( ! class_exists( 'Post_Connector' ) ) {
-				$extensions['post-connector'] = (object) array(
-					'url'   => 'https://yoast.com/wordpress/plugins/post-connector/',
-					'title' => __( 'Post Connector', 'wordpress-seo' ),
-					'desc'  => __( 'Easily create related posts that don\'t lag your server!', 'wordpress-seo' ),
-				);
-			}
 
 			foreach ( $extensions as $id => $extension ) {
 				$utm = '#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=extension-page-banners';

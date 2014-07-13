@@ -99,6 +99,14 @@ $wpseo_admin_pages->admin_header( true, WPSEO_Options::get_group_name( 'wpseo_ti
 			echo $wpseo_admin_pages->checkbox( 'noauthorship-' . $name, __( 'Don\'t show <code>rel="author"</code>', 'wordpress-seo' ), __( 'Authorship', 'wordpress-seo' ) );
 			echo $wpseo_admin_pages->checkbox( 'showdate-' . $name, __( 'Show date in snippet preview?', 'wordpress-seo' ), __( 'Date in Snippet Preview', 'wordpress-seo' ) );
 			echo $wpseo_admin_pages->checkbox( 'hideeditbox-' . $name, __( 'Hide', 'wordpress-seo' ), __( 'WordPress SEO Meta Box', 'wordpress-seo' ) );
+
+			/**
+			 * Allow adding a custom checkboxes to the admin meta page - Post Types tab
+			 * @api  WPSEO_Admin_Pages  $wpseo_admin_pages  The WPSEO_Admin_Pages object
+			 * @api  String  $name  The post type name
+			 */
+			do_action( 'wpseo_admin_page_meta_post_types', $wpseo_admin_pages, $name );
+
 			echo '<br/>';
 			if ( $warn === true ) {
 				echo '</div>';

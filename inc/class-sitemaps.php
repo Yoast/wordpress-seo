@@ -247,7 +247,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 		 *
 		 * @param string $stylesheet Full xml-stylesheet declaration
 		 */
-		function set_stylesheet( $stylesheet ) {
+		public function set_stylesheet( $stylesheet ) {
 			$this->stylesheet = $stylesheet;
 		}
 
@@ -304,7 +304,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 			$caching = apply_filters( 'wpseo_enable_xml_sitemap_transient_caching', true );
 
 			if ( $caching ) {
-				$this->sitemap = get_transient( 'wpseo_sitemap_cache_' . $type . '_' . $n );
+				$this->sitemap = get_transient( 'wpseo_sitemap_cache_' . $type . '_' . $this->n );
 			}
 
 			if ( ! $this->sitemap || '' == $this->sitemap ) {
@@ -1214,7 +1214,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 			if ( isset( $url['mod'] ) ) {
 				$date = new DateTime( $url['mod'], new DateTimeZone( $this->get_timezone_string() ) );
 			} else {
-				$date = new DateTime( time(), new DateTimeZone( $this->get_timezone_string() ) );
+				$date = new DateTime( date( 'y-m-d H:i:s' ), new DateTimeZone( $this->get_timezone_string() ) );
 			}
 
 			$url['loc'] = htmlspecialchars( $url['loc'] );

@@ -135,14 +135,6 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 				);
 			}
 
-			if ( ! class_exists( 'Post_Connector' ) ) {
-				$plugin_banners[] = array(
-					'url' => 'https://yoast.com/wordpress/plugins/post-connector/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=post-connector-banner',
-					'img' => 'banner-post-connector.png',
-					'alt' => 'Banner Post Connector plugin',
-				);
-			}
-
 			shuffle( $service_banners );
 			shuffle( $plugin_banners );
 			?>
