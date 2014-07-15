@@ -69,6 +69,9 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 			add_filter( 'loginout', array( $this, 'nofollow_link' ) );
 			add_filter( 'register', array( $this, 'nofollow_link' ) );
 
+			// Fix the WooThemes woo_title() output
+			add_filter( 'woo_title', array( $this, 'fix_woo_title' ), 10, 1 );
+
 			if ( $this->options['hide-rsdlink'] === true ) {
 				remove_action( 'wp_head', 'rsd_link' );
 			}
@@ -118,6 +121,19 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 				remove_action( 'wp_head', 'wp_no_robots' );
 				add_action( 'template_redirect', array( $this, 'replytocom_redirect' ), 1 );
 			}
+		}
+
+		/**
+		 * Strip the extra blogname from the title
+		 *
+		 * @param $title
+		 *
+		 * @return mixed
+		 */
+		public function fix_woo_title( $title ) {
+			$title = substr( $title, 0, - ( strlen( get_bloginfo( 'name' ) ) ) );
+
+			return $title;
 		}
 
 		/**
