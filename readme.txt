@@ -109,7 +109,7 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 
 == Changelog ==
 
-= Trunk / 1.5.4 =
+= 1.5.4 =
 
 * Bugfixes
 	* Refactored the variable replacement function for better and faster results and more stability. This should fix most if not all problems users where having with variables not being replaced in the title, meta description, snippet preview etc - props [Jrf](http://profiles.wordpress.org/jrf).
@@ -128,7 +128,11 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 		- restoring site to default settings from multisite settings page was not working.
 		- initializing new blogs with settings from a chosen default blog was not working (might still not be completely stable for WP multisite with WPSEO in must-use plugins directory, stable in all other cases).
 		- wrong option debug information shown on multisite settings page
-
+	* Fixed an issue with sitemap transient caching for plugins not using paginated sitemaps (like news seo).
+	* Check if get_queried_object_id is not 0 before enqueueing wp_enqueue_media.
+	* Set rssafter to empty string on test_embed_rss() test.
+	* Fixed Bing URL - props [GodThor](https://github.com/GodThor).
+	* Prevent from loading if WP is installing - props [Jrf](http://profiles.wordpress.org/jrf).
 
 * Enhancements
 	* New `wpseo_register_extra_replacements` action hook which lets plugin/theme builders add new `%%...%%` replacement variables - including relevant help texts -. See [function documentation](https://github.com/Yoast/wordpress-seo/blob/master/inc/wpseo-functions.php) for an example of how to use this new functionality.
@@ -137,6 +141,11 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 	* New filter `wpseo_replacements_filter_sep` which can be used to change the seperator character passed by the theme.
 	* When using the 'Reset default settings' button on a blog in a network while another blog has been chosen to be used as a basis for the settings for all new blogs, the reset will respect that setting and reset the blog to the settings from the chosen blog.
 	* For small networks ( < 100 sites ), the network page user interface has been improved, by offering drop-down lists of the blogs for blog selection fields. For larger networks, the interface remains the same.
+	* Added an action to allow adding content to the Post Type tab on the meta admin page.
+	* Removing the extra blog name added to the title by woo_title().
+	* More optimization improvements to snippet preview.
+	* Add filter to allow other plugins to interact with our metaboxes outside of the standard pages - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Replace variables through an AJAX call, which makes them work in the post editor too and allows for more variables to be replaced in the title.
 
 * Other enhancements
 	* Security improvement: As the .htaccess / robots.txt files are site-wide files, on a multi-site WP installation they will no longer be available for editing to individual site owners. For super-admins, the 'SEO -> Edit Files' admin page will now be accessible through the Network Admin.
