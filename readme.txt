@@ -113,7 +113,6 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 Release Date: July 15th, 2014
 
 * Bugfixes:
-	* Prevent `DateTime` borking if int is passed to it.
 	* Properly minified the metabox JS file, fixing snippet preview, props [Jrf](http://profiles.wordpress.org/jrf).
 	* Format unix timestamp to string in sitemap, fixes possible fatal error in XML sitemap.
 
