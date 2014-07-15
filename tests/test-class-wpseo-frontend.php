@@ -819,6 +819,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 
 		// test if input was changed
 		self::$class_instance->options['rssbefore'] = 'Some RSS before text';
+		self::$class_instance->options['rssafter'] = '';
 		$expected = wpautop( self::$class_instance->options['rssbefore'] ) . $input;
 		$this->assertEquals( $expected, self::$class_instance->embed_rss( $input, 'full' ) );
 	}

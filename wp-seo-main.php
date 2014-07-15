@@ -14,7 +14,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * @internal Nobody should be able to overrule the real version number as this can cause serious issues
  * with the options, so no if ( ! defined() )
  */
-define( 'WPSEO_VERSION', '1.5.3.3' );
+define( 'WPSEO_VERSION', '1.5.4' );
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
 	define( 'WPSEO_PATH', plugin_dir_path( WPSEO_FILE ) );
@@ -165,6 +165,7 @@ function wpseo_network_activate_deactivate( $activate = true ) {
 function _wpseo_activate() {
 	require_once( WPSEO_PATH . 'inc/wpseo-functions.php' );
 
+	wpseo_load_textdomain(); // Make sure we have our translations available for the defaults
 	WPSEO_Options::get_instance();
 	if ( ! is_multisite() ) {
 		WPSEO_Options::initialize();
@@ -172,6 +173,7 @@ function _wpseo_activate() {
 	else {
 		WPSEO_Options::maybe_set_multisite_defaults( true );
 	}
+	WPSEO_Options::ensure_options_exist();
 
 	flush_rewrite_rules();
 
