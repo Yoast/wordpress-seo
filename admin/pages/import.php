@@ -348,7 +348,10 @@ $content .= '</form><br/>';
 
 $wpseo_admin_pages->postbox( 'import', __( 'Import', 'wordpress-seo' ), $content );
 
-// @todo [Barry => whomever] Are we using this action? Isn't it easier to just add filters to $content above? Might not be able to remove this because of backwards compatibility.
+/**
+ * Allow adding a custom import block
+ * @api  WPSEO_Admin  $this  The WPSEO_Admin object
+ */
 do_action( 'wpseo_import', $this );
 
 // @todo [JRF => whomever] add action for form tag
@@ -408,7 +411,7 @@ elseif ( isset( $_FILES['settings_import_file'] ) ) {
 		$unzipped = unzip_file( $file['file'], $p_path );
 		if ( ! is_wp_error( $unzipped ) ) {
 			$filename = $p_path . 'settings.ini';
-			if ( @is_file( $filename ) && is_readable( $filename) ) {
+			if ( @is_file( $filename ) && is_readable( $filename ) ) {
 				$options = parse_ini_file( $filename, true );
 
 				if ( is_array( $options ) && $options !== array() ) {

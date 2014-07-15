@@ -21,12 +21,12 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 		/**
 		 * @var array $options Options for the OpenGraph Settings
 		 */
-		var $options = array();
+		public $options = array();
 
 		/**
 		 * @var array $shown_images Holds the images that have been put out as OG image.
 		 */
-		var $shown_images = array();
+		public $shown_images = array();
 
 		/**
 		 * Class constructor.
@@ -80,12 +80,13 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 		 * @return boolean
 		 */
 		public function og_tag( $property, $content ) {
+			$og_property = str_replace( ':', '_', $property );
 			/**
-			 * Filter: 'wpseo_og_' . $property - Allow developers to change the content of specific OG meta tags.
+			 * Filter: 'wpseo_og_' . $og_property - Allow developers to change the content of specific OG meta tags.
 			 *
 			 * @api string $content The content of the property
 			 */
-			$content = apply_filters( 'wpseo_og_' . str_replace( ':', '_', $property ), $content );
+			$content = apply_filters( 'wpseo_og_' . $og_property, $content );
 			if ( empty( $content ) ) {
 				return false;
 			}
@@ -227,7 +228,7 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 				}
 			}
 
-			if( $echo === false ) {
+			if ( $echo === false ) {
 				return $title; 
 			} 
 
@@ -312,8 +313,12 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 			);
 
 			// check to see if the locale is a valid FB one, if not, use en_US as a fallback
+			// check to see if the locale is a valid FB one, if not, use en_US as a fallback
 			if ( ! in_array( $locale, $fb_valid_fb_locales ) ) {
-				$locale = 'en_US';
+				$locale = strtolower( substr( $locale, 0, 2 ) ) . '_' . strtoupper( substr( $locale, 0, 2 ) );
+				if ( ! in_array( $locale, $fb_valid_fb_locales ) ) {
+					$locale = 'en_US';
+				}
 			}
 
 			if ( $echo !== false ) {
@@ -376,7 +381,7 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 		 * @return bool
 		 */
 		function image_output( $img ) {
-			 /**
+			/**
 			 * Filter: 'wpseo_opengraph_image' - Allow changing the OpenGraph image
 			 *
 			 * @api string $img Image URL string
@@ -484,6 +489,11 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 
 			if ( is_singular() ) {
 				$ogdesc = WPSEO_Meta::get_value( 'opengraph-description' );
+
+				// Replace WP SEO Variables
+				$ogdesc = wpseo_replace_vars( $ogdesc, get_post() );
+
+				// Use metadesc if $ogdesc is empty
 				if ( $ogdesc === '' ) {
 					$ogdesc = $this->metadesc( false );
 				}
@@ -590,8 +600,17 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 		 */
 		public function publish_date() {
 
-			if ( ! is_singular() ) {
-				return false;
+			if ( ! is_singular( 'post' ) ) {
+				/**
+				 * Filter: 'wpseo_opengraph_show_publish_date' - Allow showing publication date for other post types
+				 *
+				 * @api bool $unsigned Whether or not to show publish date
+				 *
+				 * @param string $post_type The current URL's post type.
+				 */
+				if ( false === apply_filters( 'wpseo_opengraph_show_publish_date', false, get_post_type() ) ) {
+					return false;
+				}
 			}
 
 			$pub = get_the_date( 'c' );

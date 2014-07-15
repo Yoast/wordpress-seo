@@ -26,12 +26,12 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 		/**
 		 * @var array Images
 		 */
-		var $shown_images;
+		public $shown_images;
 
 		/**
 		 * @var array $options Holds the options for the Twitter Card functionality
 		 */
-		var $options;
+		public $options;
 
 		/**
 		 * Class constructor
@@ -249,6 +249,7 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 		 * Outputs a Twitter image tag for a given image
 		 *
 		 * @param string $img
+		 * @return bool
 		 */
 		public function image_output( $img ) {
 
@@ -262,14 +263,17 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 			$escaped_img = esc_url( $img );
 
 			if ( in_array( $escaped_img, $this->shown_images ) ) {
-				return;
+				return false;
 			}
 
 			if ( is_string( $escaped_img ) && $escaped_img !== ''  ) {
 				$this->output_metatag( 'image:src', $escaped_img, true );
 
 				array_push( $this->shown_images, $escaped_img );
+				return true;
 			}
+
+			return false;
 		}
 
 		/**

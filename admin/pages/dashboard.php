@@ -82,7 +82,7 @@ if ( isset( $_GET['fixmetadesc'] ) && check_admin_referer( 'wpseo-fix-metadesc',
 	}
 
 	// Clean up the referrer url for later use
-	if( isset( $_SERVER['REQUEST_URI'] ) ) {
+	if ( isset( $_SERVER['REQUEST_URI'] ) ) {
 		$_SERVER['REQUEST_URI'] = remove_query_arg( array( 'nonce', 'fixmetadesc' ), $_SERVER['REQUEST_URI'] );
 	}
 }
@@ -92,9 +92,9 @@ if ( ( ! isset( $options['theme_has_description'] ) || ( ( isset( $options['them
 	// Renew the options after the test
 	$options = get_option( 'wpseo' );
 }
-if( isset( $_GET['checkmetadesc'] ) ) {
+if ( isset( $_GET['checkmetadesc'] ) ) {
 	// Clean up the referrer url for later use
-	if( isset( $_SERVER['REQUEST_URI'] ) ) {
+	if ( isset( $_SERVER['REQUEST_URI'] ) ) {
 		$_SERVER['REQUEST_URI'] = remove_query_arg( array( 'nonce', 'checkmetadesc' ), $_SERVER['REQUEST_URI'] );
 	}
 }
@@ -127,17 +127,19 @@ if ( $options['theme_description_found'] !== '' ) {
 }
 
 
-if ( strpos( get_option( 'permalink_structure' ), '%postname%' ) === false && $options['ignore_permalink'] === false )
+if ( strpos( get_option( 'permalink_structure' ), '%postname%' ) === false && $options['ignore_permalink'] === false ) {
 	echo '<p id="wrong_permalink" class="wrong">'
 		. '<a href="' . esc_url( admin_url( 'options-permalink.php' ) ) . '" class="button fixit">' . __( 'Fix it.', 'wordpress-seo' ) . '</a>'
 		. '<a href="javascript:wpseo_setIgnore(\'permalink\',\'wrong_permalink\',\'' . esc_js( wp_create_nonce( 'wpseo-ignore' ) ) . '\');" class="button fixit">' . __( 'Ignore.', 'wordpress-seo' ) . '</a>'
 		. __( 'You do not have your postname in the URL of your posts and pages, it is highly recommended that you do. Consider setting your permalink structure to <strong>/%postname%/</strong>.', 'wordpress-seo' ) . '</p>';
+}
 
-if ( get_option( 'page_comments' ) && $options['ignore_page_comments'] === false )
+if ( get_option( 'page_comments' ) && $options['ignore_page_comments'] === false ) {
 	echo '<p id="wrong_page_comments" class="wrong">'
 		. '<a href="javascript:setWPOption(\'page_comments\',\'0\',\'wrong_page_comments\',\'' . esc_js( wp_create_nonce( 'wpseo-setoption' ) ) . '\');" class="button fixit">' . __( 'Fix it.', 'wordpress-seo' ) . '</a>'
 		. '<a href="javascript:wpseo_setIgnore(\'page_comments\',\'wrong_page_comments\',\'' . esc_js( wp_create_nonce( 'wpseo-ignore' ) ) . '\');" class="button fixit">' . __( 'Ignore.', 'wordpress-seo' ) . '</a>'
 		. __( 'Paging comments is enabled, this is not needed in 999 out of 1000 cases, so the suggestion is to disable it, to do that, simply uncheck the box before "Break comments into pages..."', 'wordpress-seo' ) . '</p>';
+}
 
 echo '<h2>' . __( 'General', 'wordpress-seo' ) . '</h2>';
 

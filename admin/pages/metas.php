@@ -27,7 +27,6 @@ $wpseo_admin_pages->admin_header( true, WPSEO_Options::get_group_name( 'wpseo_ti
 <div class="tabwrapper">
 <div id="general" class="wpseotab">
 	<?php
-
 	echo '<h2>' . __( 'Title settings', 'wordpress-seo' ) . '</h2>';
 	echo $wpseo_admin_pages->checkbox( 'forcerewritetitle', __( 'Force rewrite titles', 'wordpress-seo' ) );
 	echo '<p class="desc">' . __( 'WordPress SEO has auto-detected whether it needs to force rewrite the titles for your pages, if you think it\'s wrong and you know what you\'re doing, you can change the setting here.', 'wordpress-seo' ) . '</p>';
@@ -79,11 +78,21 @@ $wpseo_admin_pages->admin_header( true, WPSEO_Options::get_group_name( 'wpseo_ti
 	$post_types = get_post_types( array( 'public' => true ), 'objects' );
 	if ( is_array( $post_types ) && $post_types !== array() ) {
 		foreach ( $post_types as $pt ) {
+			$warn = false;
 			if ( $options[ 'redirectattachment' ] === true && $pt->name == 'attachment' ) {
-				continue;
+				echo '<div class="wpseo-warning">';
+				$warn = true;
 			}
+
 			$name = $pt->name;
 			echo '<h4 id="' . esc_attr( $name ) . '">' . esc_html( ucfirst( $pt->labels->name ) ) . '</h4>';
+			if ( $warn === true ) {
+				echo '<h4 class="error-message">' . __( 'Take note:', 'wordpress-seo' ) . '</h4>';
+
+				echo '<p class="error-message">' . __( 'As you are redirecting attachment URLs to parent post URLs, these settings will currently only have an effect on <strong>unattached</strong> media items!', 'wordpress-seo' ) . '</p>';
+				echo '<p class="error-message">' . sprintf( __( 'So remember: If you change the %sattachment redirection setting%s in the future, the below settings will take effect for *all* media items.', 'wordpress-seo' ), '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_permalinks' ) ) . '">', '</a>' ) . '</p>';
+			}
+
 			echo $wpseo_admin_pages->textinput( 'title-' . $name, __( 'Title template', 'wordpress-seo' ) );
 			echo $wpseo_admin_pages->textarea( 'metadesc-' . $name, __( 'Meta description template', 'wordpress-seo' ), '', 'metadesc' );
 			if ( $options[ 'usemetakeywords' ] === true ) {
@@ -93,7 +102,19 @@ $wpseo_admin_pages->admin_header( true, WPSEO_Options::get_group_name( 'wpseo_ti
 			echo $wpseo_admin_pages->checkbox( 'noauthorship-' . $name, __( 'Don\'t show <code>rel="author"</code>', 'wordpress-seo' ), __( 'Authorship', 'wordpress-seo' ) );
 			echo $wpseo_admin_pages->checkbox( 'showdate-' . $name, __( 'Show date in snippet preview?', 'wordpress-seo' ), __( 'Date in Snippet Preview', 'wordpress-seo' ) );
 			echo $wpseo_admin_pages->checkbox( 'hideeditbox-' . $name, __( 'Hide', 'wordpress-seo' ), __( 'WordPress SEO Meta Box', 'wordpress-seo' ) );
+
+			/**
+			 * Allow adding a custom checkboxes to the admin meta page - Post Types tab
+			 * @api  WPSEO_Admin_Pages  $wpseo_admin_pages  The WPSEO_Admin_Pages object
+			 * @api  String  $name  The post type name
+			 */
+			do_action( 'wpseo_admin_page_meta_post_types', $wpseo_admin_pages, $name );
+
 			echo '<br/>';
+			if ( $warn === true ) {
+				echo '</div>';
+			}
+			unset( $warn );
 		}
 		unset( $pt );
 	}
@@ -155,8 +176,9 @@ $wpseo_admin_pages->admin_header( true, WPSEO_Options::get_group_name( 'wpseo_ti
 	echo '<h4>' . __( 'Author Archives', 'wordpress-seo' ) . '</h4>';
 	echo $wpseo_admin_pages->textinput( 'title-author-wpseo', __( 'Title template', 'wordpress-seo' ) );
 	echo $wpseo_admin_pages->textarea( 'metadesc-author-wpseo', __( 'Meta description template', 'wordpress-seo' ), '', 'metadesc' );
-	if ( $options[ 'usemetakeywords' ] === true )
+	if ( $options[ 'usemetakeywords' ] === true ) {
 		echo $wpseo_admin_pages->textinput( 'metakey-author-wpseo', __( 'Meta keywords template', 'wordpress-seo' ) );
+	}
 	echo $wpseo_admin_pages->checkbox( 'noindex-author-wpseo', '<code>noindex, follow</code>', __( 'Meta Robots', 'wordpress-seo' ) );
 	echo $wpseo_admin_pages->checkbox( 'disable-author', __( 'Disable the author archives', 'wordpress-seo' ), '' );
 	echo '<p class="desc label">' . __( 'If you\'re running a one author blog, the author archive will always look exactly the same as your homepage. And even though you may not link to it, others might, to do you harm. Disabling them here will make sure any link to those archives will be 301 redirected to the homepage.', 'wordpress-seo' ) . '</p>';

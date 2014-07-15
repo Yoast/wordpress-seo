@@ -36,7 +36,7 @@ if ( isset( $_GET['delfbadmin'] ) ) {
 	unset( $id );
 	
 	// Clean up the referrer url for later use
-	if( isset( $_SERVER['REQUEST_URI'] ) ) {
+	if ( isset( $_SERVER['REQUEST_URI'] ) ) {
 		$_SERVER['REQUEST_URI'] = remove_query_arg( array( 'nonce', 'delfbadmin' ), $_SERVER['REQUEST_URI'] );
 	}
 }
@@ -53,7 +53,7 @@ elseif ( isset( $_GET['fbclearall'] ) ) {
 	add_settings_error( 'yoast_wpseo_social_options', 'success', __( 'Successfully cleared all Facebook Data', 'wordpress-seo' ), 'updated' );
 	
 	// Clean up the referrer url for later use
-	if( isset( $_SERVER['REQUEST_URI'] ) ) {
+	if ( isset( $_SERVER['REQUEST_URI'] ) ) {
 		$_SERVER['REQUEST_URI'] = remove_query_arg( array( 'nonce', 'fbclearall' ), $_SERVER['REQUEST_URI'] );
 	}
 }
@@ -91,7 +91,7 @@ elseif ( isset( $_GET['key'] ) ) {
 	}
 	
 	// Clean up the referrer url for later use
-	if( isset( $_SERVER['REQUEST_URI'] ) ) {
+	if ( isset( $_SERVER['REQUEST_URI'] ) ) {
 		$_SERVER['REQUEST_URI'] = remove_query_arg( array( 'key', 'userid', 'userrealname', 'link', 'apps' ), $_SERVER['REQUEST_URI'] );
 	}
 }
@@ -205,7 +205,7 @@ $wpseo_admin_pages->admin_header( true, WPSEO_Options::get_group_name( 'wpseo_so
 		echo '</p>';
 		echo'<p class="desc">' . __( 'Add Twitter card meta data to your site\'s <code>&lt;head&gt;</code> section.', 'wordpress-seo' ) . '</p>';
 		echo $wpseo_admin_pages->textinput( 'twitter_site', __( 'Site Twitter Username', 'wordpress-seo' ) );
-		echo $wpseo_admin_pages->select( 'twitter_card_type', __( 'The default card type to use', 'wordpress-seo'), WPSEO_Option_Social::$twitter_card_types );
+		echo $wpseo_admin_pages->select( 'twitter_card_type', __( 'The default card type to use', 'wordpress-seo' ), WPSEO_Option_Social::$twitter_card_types );
 		do_action( 'wpseo_admin_twitter_section' );
 	?>
 </div>

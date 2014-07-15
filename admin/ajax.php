@@ -93,13 +93,15 @@ function wpseo_get_suggest() {
 	$term   = urlencode( $_GET['term'] );
 	$result = wp_remote_get( 'https://www.google.com/complete/search?output=toolbar&q=' . $term );
 
-	preg_match_all( '`suggestion data="([^"]+)"/>`u', $result['body'], $matches );
-
 	$return_arr = array();
 
-	if ( isset( $matches[1] ) && ( is_array( $matches[1] ) && $matches[1] !== array() ) ) {
-		foreach ( $matches[1] as $match ) {
-			$return_arr[] = html_entity_decode( $match, ENT_COMPAT, 'UTF-8' );
+	if ( ! is_wp_error( $result ) ) {
+		preg_match_all( '`suggestion data="([^"]+)"/>`u', $result['body'], $matches );
+
+		if ( isset( $matches[1] ) && ( is_array( $matches[1] ) && $matches[1] !== array() ) ) {
+			foreach ( $matches[1] as $match ) {
+				$return_arr[] = html_entity_decode( $match, ENT_COMPAT, 'UTF-8' );
+			}
 		}
 	}
 	echo json_encode( $return_arr );
@@ -107,6 +109,20 @@ function wpseo_get_suggest() {
 }
 
 add_action( 'wp_ajax_wpseo_get_suggest', 'wpseo_get_suggest' );
+
+/**
+ * Used in the editor to replace vars for the snippet preview
+ */
+function wpseo_ajax_replace_vars() {
+	check_ajax_referer( 'wpseo-replace-vars' );
+
+	$post = get_post( $_POST['post_id'] );
+	$omit = array( 'excerpt', 'excerpt_only', 'title' );
+	echo wpseo_replace_vars( $_POST['string'], $post, $omit );
+	die;
+}
+
+add_action( 'wp_ajax_wpseo_replace_vars', 'wpseo_ajax_replace_vars' );
 
 /**
  * Save an individual SEO title from the Bulk Editor.

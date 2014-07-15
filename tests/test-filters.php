@@ -2,14 +2,17 @@
 
 class Filters_Test extends WPSEO_UnitTestCase {
 
-	private $filters;
+	/**
+	 * @var array
+	 */
+	private $wp_filter;
 
-	public function setUp() {
-		parent::setUp();
+	public function __construct() {
+
+		parent::__construct();
 
 		global $wp_filter;
 		$this->wp_filter = $wp_filter;
-		$this->options = WPSEO_Options::get_all();
 	}
 
 	public function test_wp_head() {
@@ -27,11 +30,11 @@ class Filters_Test extends WPSEO_UnitTestCase {
 	public function test_wp_head_options() {
 		$wp_head = $this->wp_filter['wp_head'];
 
-		$this->assertEquals( $this->options['hide-rsdlink'], ! array_key_exists( 'rsd_link', $wp_head[10] ) );
-		$this->assertEquals( $this->options['hide-wlwmanifest'], ! array_key_exists( 'wlwmanifest_link', $wp_head[10] ) );
-		$this->assertEquals( $this->options['hide-shortlink'], ! array_key_exists( 'wp_shortlink_wp_head', $wp_head[10] ) );
-		$this->assertEquals( $this->options['hide-feedlinks'], ! array_key_exists( 'feed_links', $wp_head[2] ) );
-		$this->assertEquals( $this->options['hide-feedlinks'], ! array_key_exists( 'feed_links_extra', $wp_head[3] ) );
+		$this->assertEquals( get_option( 'hide-rsdlink' ), ! array_key_exists( 'rsd_link', $wp_head[10] ) );
+		$this->assertEquals( get_option( 'hide-wlwmanifest' ), ! array_key_exists( 'wlwmanifest_link', $wp_head[10] ) );
+		$this->assertEquals( get_option( 'hide-shortlink' ), ! array_key_exists( 'wp_shortlink_wp_head', $wp_head[10] ) );
+		$this->assertEquals( get_option( 'hide-feedlinks' ), ! array_key_exists( 'feed_links', $wp_head[2] ) );
+		$this->assertEquals( get_option( 'hide-feedlinks' ), ! array_key_exists( 'feed_links_extra', $wp_head[3] ) );
 	}
 
 }

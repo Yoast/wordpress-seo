@@ -113,6 +113,7 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 				'snippetpreview'	=> array(
 					'type'				=> 'snippetpreview',
 					'title'				=> '', // translation added later
+					'help'				=> '', // translation added later
 				),
 				'focuskw' 	   		=> array(
 					'type'				=> 'text',
@@ -534,6 +535,10 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 						$meta_value = str_replace( array( "\n", "\r", "\t", '  ' ), ' ', $meta_value );
 						$clean      = WPSEO_Option::sanitize_text_field( trim( $meta_value ) );
 					}
+					break;
+
+				case ( 'multiselect' === $field_def['type'] ) :
+					$clean = $meta_value;
 					break;
 
 

@@ -259,6 +259,28 @@ function wpseo_translate_score( $val, $css_value = true ) {
 
 
 /**
+ * Check whether file editing is allowed for the .htaccess and robots.txt files
+ *
+ * @return bool
+ */
+function wpseo_allow_system_file_edit() {
+	$allowed = true;
+
+	if ( current_user_can( 'edit_files' ) === false ) {
+		$allowed = false;
+	}
+
+	/**
+	 * Filter: 'wpseo_allow_system_file_edit' - Allow developers to change whether the editing of
+	 * .htaccess and robots.txt is allowed
+	 *
+	 * @api bool $allowed Whether file editing is allowed
+	 */
+	return apply_filters( 'wpseo_allow_system_file_edit', $allowed );
+}
+
+
+/**
  * Adds an SEO admin bar menu with several options. If the current user is an admin he can also go straight to several settings menu's from here.
  */
 function wpseo_admin_bar_menu() {
@@ -284,7 +306,7 @@ function wpseo_admin_bar_menu() {
 		$calc_score = wpseo_calc( $perc_score, '/', 10, true );
 		$txtscore   = wpseo_translate_score( $calc_score );
 		$title      = wpseo_translate_score( $calc_score, false );
-		$score      = '<div title="' . esc_attr( $title ) . '" class="' . esc_attr( 'wpseo_score_img ' . $txtscore . ' ' . $perc_score ) . '"></div>';
+		$score      = '<div title="' . esc_attr( $title ) . '" class="' . esc_attr( 'wpseo-score-icon ' . $txtscore . ' ' . $perc_score ) . '"></div>';
 
 		$seo_url = get_edit_post_link( $post->ID );
 		if ( $txtscore !== 'na' ) {
@@ -312,7 +334,7 @@ function wpseo_admin_bar_menu() {
 	}
 
 	$admin_menu = false;
-	if ( function_exists( 'is_multisite' ) && is_multisite() ) {
+	if ( is_multisite() ) {
 		$options = get_site_option( 'wpseo_ms' );
 		if ( $options['access'] === 'superadmin' ) {
 			if ( is_super_admin() ) {
@@ -349,11 +371,11 @@ function wpseo_admin_bar_menu() {
 		$wp_admin_bar->add_menu( array( 'parent' => 'wpseo-settings', 'id' => 'wpseo-import', 'title' => __( 'Import & Export', 'wordpress-seo' ), 'href' => admin_url( 'admin.php?page=wpseo_import' ), ) );
 		
 		// Check where to add the edit files page
-		if ( ! ( defined( 'DISALLOW_FILE_EDIT' ) && DISALLOW_FILE_EDIT ) && ! ( defined( 'DISALLOW_FILE_MODS' ) && DISALLOW_FILE_MODS ) ) {
-			$wp_admin_bar->add_menu( array( 'parent' => 'wpseo-settings', 'id' => 'wpseo-files', 'title' => __( 'Edit Files', 'wordpress-seo'), 'href' => admin_url( 'admin.php?page=wpseo_files' ), ) );
+		if ( wpseo_allow_system_file_edit() === true ) {
+			$wp_admin_bar->add_menu( array( 'parent' => 'wpseo-settings', 'id' => 'wpseo-files', 'title' => __( 'Edit Files', 'wordpress-seo' ), 'href' => admin_url( 'admin.php?page=wpseo_files' ), ) );
 		}	
 
-		$wp_admin_bar->add_menu( array( 'parent' => 'wpseo-settings', 'id' => 'wpseo-licenses', 'title' => __( 'Extensions', 'wordpress-seo'), 'href' => admin_url( 'admin.php?page=wpseo_licenses' ), ) );	
+		$wp_admin_bar->add_menu( array( 'parent' => 'wpseo-settings', 'id' => 'wpseo-licenses', 'title' => __( 'Extensions', 'wordpress-seo' ), 'href' => admin_url( 'admin.php?page=wpseo_licenses' ), ) );
 	}
 }
 
@@ -363,8 +385,9 @@ add_action( 'admin_bar_menu', 'wpseo_admin_bar_menu', 95 );
  * Enqueue a tiny bit of CSS to show so the adminbar shows right.
  */
 function wpseo_admin_bar_css() {
-	if ( is_admin_bar_showing() && is_singular() )
+	if ( is_admin_bar_showing() && is_singular() ) {
 		wp_enqueue_style( 'boxes', plugins_url( 'css/adminbar' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
+	}
 }
 
 add_action( 'wp_enqueue_scripts', 'wpseo_admin_bar_css' );
@@ -425,7 +448,7 @@ function wpseo_disable_robots_meta() {
 		add_action( 'admin_notices', 'wpseo_deactivate_robots_meta_notice' );
 		
 		// Clean up the referrer url for later use
-		if( isset( $_SERVER['REQUEST_URI'] ) ) {
+		if ( isset( $_SERVER['REQUEST_URI'] ) ) {
 			$_SERVER['REQUEST_URI'] = remove_query_arg( array( 'deactivate_robots_meta' ), $_SERVER['REQUEST_URI'] );
 		}
 	}
@@ -459,7 +482,7 @@ function wpseo_disable_aioseo() {
 		add_action( 'admin_notices', 'wpseo_deactivate_aioseo_notice' );
 		
 		// Clean up the referrer url for later use
-		if( isset( $_SERVER['REQUEST_URI'] ) ) {
+		if ( isset( $_SERVER['REQUEST_URI'] ) ) {
 			$_SERVER['REQUEST_URI'] = remove_query_arg( array( 'deactivate_aioseo' ), $_SERVER['REQUEST_URI'] );
 		}
 	}
@@ -472,7 +495,7 @@ add_action( 'admin_init', 'wpseo_disable_aioseo' );
  * @since 1.4.8
  */
 function wpseo_import_aioseo_setting_notice() {
-	echo '<div class="error"><p>' . sprintf( __( 'The plugin All-In-One-SEO has been detected. Do you want to %simport its settings%s.' ), '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_import&import=1&importaioseo=1&_wpnonce=' . wp_create_nonce( 'wpseo-import' ) ) ) . '">', '</a>' ) . '</p></div>';
+	echo '<div class="error"><p>' . sprintf( __( 'The plugin All-In-One-SEO has been detected. Do you want to %simport its settings%s.', 'wordpress-seo' ), '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_import&import=1&importaioseo=1&_wpnonce=' . wp_create_nonce( 'wpseo-import' ) ) ) . '">', '</a>' ) . '</p></div>';
 }
 
 /**
@@ -481,7 +504,7 @@ function wpseo_import_aioseo_setting_notice() {
  * @since 1.4.8
  */
 function wpseo_deactivate_aioseo_notice() {
-	echo '<div class="updated"><p>' . __( 'All-In-One-SEO has been deactivated' ) . '</p></div>';
+	echo '<div class="updated"><p>' . __( 'All-In-One-SEO has been deactivated', 'wordpress-seo' ) . '</p></div>';
 }
 
 /**
@@ -490,7 +513,7 @@ function wpseo_deactivate_aioseo_notice() {
  * @since 1.4.8
  */
 function wpseo_import_robots_meta_notice() {
-	echo '<div class="error"><p>' . sprintf( __( 'The plugin Robots-Meta has been detected. Do you want to %simport its settings%s.' ), '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_import&import=1&importrobotsmeta=1&_wpnonce=' . wp_create_nonce( 'wpseo-import' ) ) ) . '">', '</a>' ) . '</p></div>';
+	echo '<div class="error"><p>' . sprintf( __( 'The plugin Robots-Meta has been detected. Do you want to %simport its settings%s.', 'wordpress-seo' ), '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_import&import=1&importrobotsmeta=1&_wpnonce=' . wp_create_nonce( 'wpseo-import' ) ) ) . '">', '</a>' ) . '</p></div>';
 }
 
 /**
@@ -499,7 +522,7 @@ function wpseo_import_robots_meta_notice() {
  * @since 1.4.8
  */
 function wpseo_deactivate_robots_meta_notice() {
-	echo '<div class="updated"><p>' . __( 'Robots-Meta has been deactivated' ) . '</p></div>';
+	echo '<div class="updated"><p>' . __( 'Robots-Meta has been deactivated', 'wordpress-seo' ) . '</p></div>';
 }
 
 /********************** DEPRECATED FUNCTIONS **********************/

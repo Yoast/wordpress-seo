@@ -34,8 +34,9 @@ if ( ! class_exists( 'WPSEO_Taxonomy' ) ) {
 
 			if ( is_admin() && ( isset( $_GET['taxonomy'] ) && $_GET['taxonomy'] !== '' ) &&
 				( ! isset( $options['hideeditbox-tax-' . $_GET['taxonomy']] ) || $options['hideeditbox-tax-' . $_GET['taxonomy']] === false )
-			)
+			) {
 				add_action( sanitize_text_field( $_GET['taxonomy'] ) . '_edit_form', array( $this, 'term_seo_form' ), 10, 1 );
+			}
 
 			add_action( 'edit_term', array( $this, 'update_term' ), 99, 3 );
 
@@ -119,10 +120,6 @@ if ( ! class_exists( 'WPSEO_Taxonomy' ) ) {
 			if ( $type == 'text' ) {
 				$field .= '
 				<input name="' . $esc_var . '" id="' . $esc_var . '" type="text" value="' . esc_attr( $val ) . '" size="40"/>';
-				if ( is_string( $desc ) && $desc !== '' ) {
-					$field .= '
-		        <p class="description">' . esc_html( $desc ) . '</p>';
-				}
 			}
 			elseif ( $type == 'checkbox' ) {
 				$field .= '
@@ -144,6 +141,11 @@ if ( ! class_exists( 'WPSEO_Taxonomy' ) ) {
 				}
 			}
 
+			if ( $field !== '' && ( is_string( $desc ) && $desc !== '' ) ) {
+				$field .= '
+	        <p class="description">' . $desc . '</p>';
+			}
+
 			echo '
 		<tr class="form-field">
 			<th scope="row"><label for="' . $esc_var . '">' . esc_html( $label ) . ':</label></th>
@@ -157,8 +159,9 @@ if ( ! class_exists( 'WPSEO_Taxonomy' ) ) {
 		 * @param object $term Term to show the edit boxes for.
 		 */
 		function term_seo_form( $term ) {
-			if ( $this->tax_is_public() === false )
+			if ( $this->tax_is_public() === false ) {
 				return;
+			}
 
 			$tax_meta = WPSEO_Taxonomy_Meta::get_term_meta( (int) $term->term_id, $term->taxonomy );
 			$options  = WPSEO_Options::get_all();
@@ -167,30 +170,35 @@ if ( ! class_exists( 'WPSEO_Taxonomy' ) ) {
 			echo '<h2>' . __( 'Yoast WordPress SEO Settings', 'wordpress-seo' ) . '</h2>';
 			echo '<table class="form-table wpseo-taxonomy-form">';
 
-			$this->form_row( 'wpseo_title', __( 'SEO Title', 'wordpress-seo' ), __( 'The SEO title is used on the archive page for this term.', 'wordpress-seo' ), $tax_meta );
-			$this->form_row( 'wpseo_desc', __( 'SEO Description', 'wordpress-seo' ), __( 'The SEO description is used for the meta description on the archive page for this term.', 'wordpress-seo' ), $tax_meta );
+			$this->form_row( 'wpseo_title', __( 'SEO Title', 'wordpress-seo' ), esc_html__( 'The SEO title is used on the archive page for this term.', 'wordpress-seo' ), $tax_meta );
+			$this->form_row( 'wpseo_desc', __( 'SEO Description', 'wordpress-seo' ), esc_html__( 'The SEO description is used for the meta description on the archive page for this term.', 'wordpress-seo' ), $tax_meta );
 
 			if ( $options['usemetakeywords'] === true ) {
-				$this->form_row( 'wpseo_metakey', __( 'Meta Keywords', 'wordpress-seo' ), __( 'Meta keywords used on the archive page for this term.', 'wordpress-seo' ), $tax_meta );
+				$this->form_row( 'wpseo_metakey', __( 'Meta Keywords', 'wordpress-seo' ), esc_html__( 'Meta keywords used on the archive page for this term.', 'wordpress-seo' ), $tax_meta );
 			}
 
-			$this->form_row( 'wpseo_canonical', __( 'Canonical', 'wordpress-seo' ), __( 'The canonical link is shown on the archive page for this term.', 'wordpress-seo' ), $tax_meta );
+			$this->form_row( 'wpseo_canonical', __( 'Canonical', 'wordpress-seo' ), esc_html__( 'The canonical link is shown on the archive page for this term.', 'wordpress-seo' ), $tax_meta );
 
 			if ( $options['breadcrumbs-enable'] === true ) {
-				$this->form_row( 'wpseo_bctitle', __( 'Breadcrumbs Title', 'wordpress-seo' ), sprintf( __( 'The Breadcrumbs title is used in the breadcrumbs where this %s appears.', 'wordpress-seo' ), $term->taxonomy ), $tax_meta );
+				$this->form_row( 'wpseo_bctitle', __( 'Breadcrumbs Title', 'wordpress-seo' ), sprintf( esc_html__( 'The Breadcrumbs title is used in the breadcrumbs where this %s appears.', 'wordpress-seo' ), $term->taxonomy ), $tax_meta );
 			}
 
-			/* Don't show the robots index field if it's overruled by a blog-wide option */
-			if ( '0' != get_option( 'blog_public' ) ) {
-				$current = 'index';
-				if ( isset( $options['noindex-tax-' . $term->taxonomy] ) && $options['noindex-tax-' . $term->taxonomy] === true ) {
-					$current = 'noindex';
-				}
-				$noindex_options            = $this->no_index_options;
-				$noindex_options['default'] = sprintf( $noindex_options['default'], $term->taxonomy, $current );
-
-				$this->form_row( 'wpseo_noindex', sprintf( __( 'Noindex this %s', 'wordpress-seo' ), $term->taxonomy ), sprintf( __( 'This %s follows the indexation rules set under Metas and Titles, you can override it here.', 'wordpress-seo' ), $term->taxonomy ), $tax_meta, 'select', $noindex_options );
+			$current = 'index';
+			if ( isset( $options['noindex-tax-' . $term->taxonomy] ) && $options['noindex-tax-' . $term->taxonomy] === true ) {
+				$current = 'noindex';
 			}
+
+			$noindex_options            = $this->no_index_options;
+			$noindex_options['default'] = sprintf( $noindex_options['default'], $term->taxonomy, $current );
+			
+			$desc = sprintf( esc_html__( 'This %s follows the indexation rules set under Metas and Titles, you can override it here.', 'wordpress-seo' ), $term->taxonomy );
+			if ( '0' == get_option( 'blog_public' ) ) {
+				$desc .= '<br /><span class="error-message">' . esc_html__( 'Warning: even though you can set the meta robots setting here, the entire site is set to noindex in the sitewide privacy settings, so these settings won\'t have an effect.', 'wordpress-seo' ) . '</span>';
+			}
+
+			$this->form_row( 'wpseo_noindex', sprintf( __( 'Noindex this %s', 'wordpress-seo' ), $term->taxonomy ), $desc, $tax_meta, 'select', $noindex_options );
+			unset( $current, $no_index_options, $desc );
+
 
 			$this->form_row( 'wpseo_sitemap_include', __( 'Include in sitemap?', 'wordpress-seo' ), '', $tax_meta, 'select', $this->sitemap_include_options );
 
