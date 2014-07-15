@@ -160,8 +160,6 @@ Release Date: July 15th, 2014
 	* Security improvement: As the .htaccess / robots.txt files are site-wide files, on a multi-site WP installation they will no longer be available for editing to individual site owners. For super-admins, the 'SEO -> Edit Files' admin page will now be accessible through the Network Admin.
 	* We've added server specific info to our tracking class. Most notably, we're tracking whether a number of PHP extensions are enabled for our users now.
 
-
-
 = 1.5.3.3 =
 Release Date: June 2nd, 2014
 
