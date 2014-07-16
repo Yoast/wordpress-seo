@@ -158,9 +158,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 					array(
 							'id'      => 'title-vars',
 							'title'   => __( 'Basic Variables', 'wordpress-seo' ),
-							'content' => '
-		<h2>' . __( 'Basic Variables', 'wordpress-seo' ) . '</h2>' .
-		WPSEO_Replace_Vars::get_basic_help_texts(),
+							'content' => "\n\t\t<h2>" . __( 'Basic Variables', 'wordpress-seo' ) . "</h2>\n\t\t" . WPSEO_Replace_Vars::get_basic_help_texts(),
 					)
 			);
 
@@ -168,9 +166,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 					array(
 							'id'      => 'title-vars-advanced',
 							'title'   => __( 'Advanced Variables', 'wordpress-seo' ),
-							'content' => '
-		<h2>' . __( 'Advanced Variables', 'wordpress-seo' ) . '</h2>' .
-		WPSEO_Replace_Vars::get_advanced_help_texts(),
+							'content' => "\n\t\t<h2>" . __( 'Advanced Variables', 'wordpress-seo' ) . "</h2>\n\t\t" . WPSEO_Replace_Vars::get_advanced_help_texts(),
 					)
 			);
 		}

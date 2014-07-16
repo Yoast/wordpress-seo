@@ -363,7 +363,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 					'currentdate',
 					'currentday',
 					'currentmonth',
-					'currentyear'
+					'currentyear',
 				) as $var
 			) {
 				$cached_replacement_vars[ $var ] = wpseo_replace_vars( '%%' . $var . '%%', $post );

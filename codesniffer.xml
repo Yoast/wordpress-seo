@@ -8,6 +8,8 @@
 	<rule ref="WordPress-VIP">
 		<exclude name="Generic.Files.LineEndings.InvalidEOLChar" />
 		<exclude name="Squiz.WhiteSpace.SuperfluousWhitespace.EmptyLines" />
+		
+		<!-- WP VIP rules which are very restrictive and not all that applicable as WPSEO is not on VIP -->
 		<exclude name="WordPress.VIP.DirectDatabaseQuery" />
 		<exclude name="WordPress.VIP.FileSystemWritesDisallow"/>
 		<exclude name="WordPress.VIP.RestrictedFunctions.user_meta" />
@@ -20,9 +22,7 @@
 		<exclude name="WordPress.VIP.PostsPerPage.posts_per_page"/>
 
 		<!-- Turned off because of known & reported bugs in the Sniffs, should be turned on once the bugs are fixed. -->
-		<exclude name="WordPress.Arrays.ArrayDeclaration" />
 		<exclude name="WordPress.VIP.ValidatedSanitizedInput"/>
-		<exclude name="WordPress.Variables.VariableRestrictions"/><!-- fails on PHP5.2 -->
 	</rule>
 	<rule ref="WordPress.PHP.DiscouragedFunctions"/>
 </ruleset>
