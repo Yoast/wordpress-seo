@@ -145,7 +145,7 @@ if ( ! class_exists( 'WPSEO_Pointers' ) ) {
 				'wpseo_import'         => array(
 					'content'  => '<h3>' . __( 'Import &amp; Export', 'wordpress-seo' ) . '</h3><p>' . __( 'Just switched over from another SEO plugin? Use the options here to switch your data over. If you were using some of my older plugins like Robots Meta &amp; RSS Footer, you can import the settings here too.', 'wordpress-seo' ) . '</p><p>' . __( 'If you have multiple blogs and you\'re happy with how you\'ve configured this blog, you can export the settings and import them on another blog so you don\'t have to go through this process twice!', 'wordpress-seo' ) . '</p>',
 					'button2'  => __( 'Next', 'wordpress-seo' ),
-					'function' => 'window.location="' . admin_url( 'admin.php?page=wpseo_files' ) . '";',
+					'function' => 'window.location="' . network_admin_url( 'admin.php?page=wpseo_files' ) . '";', // will auto-use admin_url if not on multi-site
 				),
 				'wpseo_files'          => array(
 					'content' => '<h3>' . __( 'File Editor', 'wordpress-seo' ) . '</h3><p>' . __( 'Here you can edit the .htaccess and robots.txt files, two of the most powerful files in your WordPress install. Only touch these files if you know what you\'re doing!', 'wordpress-seo' ) . '</p>',
