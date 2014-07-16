@@ -469,16 +469,17 @@ class WPSEO_Premium {
 	 */
 	public function catch_option_redirect_save() {
 		if ( isset ( $_POST['option_page'] ) && $_POST['option_page'] == 'yoast_wpseo_redirect_options' ) {
-			$enable_autoload = ( isset ( $_POST['wpseo_redirect']['disable_php_redirect'] ) ) ? false : true;
+			if ( current_user_can( 'manage_options' ) ) {
+				$enable_autoload = ( isset ( $_POST['wpseo_redirect']['disable_php_redirect'] ) ) ? false : true;
 
-			// Change the normal redirect autoload option
-			$normal_redirect_manager = new WPSEO_URL_Redirect_Manager();
-			$normal_redirect_manager->redirects_change_autoload( $enable_autoload );
+				// Change the normal redirect autoload option
+				$normal_redirect_manager = new WPSEO_URL_Redirect_Manager();
+				$normal_redirect_manager->redirects_change_autoload( $enable_autoload );
 
-			// Change the regex redirect autoload option
-			$regex_redirect_manager = new WPSEO_REGEX_Redirect_Manager();
-			$regex_redirect_manager->redirects_change_autoload( $enable_autoload );
-
+				// Change the regex redirect autoload option
+				$regex_redirect_manager = new WPSEO_REGEX_Redirect_Manager();
+				$regex_redirect_manager->redirects_change_autoload( $enable_autoload );
+			}
 		}
 	}
 
