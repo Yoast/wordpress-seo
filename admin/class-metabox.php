@@ -529,6 +529,10 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 							$selectedarr = explode( ',', $meta_value );
 						}
 
+						if ( ! is_array( $selectedarr ) ) {
+							$selectedarr = (array) $selectedarr;
+						}
+						
 						$options_count = count( $meta_field_def['options'] );
 
 						// @todo [JRF => whomever] verify height calculation for older WP versions, was 16x, for WP3.8 20x is more appropriate
