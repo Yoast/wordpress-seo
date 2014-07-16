@@ -36,7 +36,7 @@ if ( is_array( $post_types ) && $post_types !== array() ) {
 		if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
 			$values = array( 0 => __( 'None', 'wordpress-seo' ) );
 			foreach ( $taxonomies as $tax ) {
-				$values[$tax->name] = $tax->labels->singular_name;
+				$values[ $tax->name ] = $tax->labels->singular_name;
 			}
 			$content .= $wpseo_admin_pages->select( 'post_types-' . $pt->name . '-maintax', $pt->labels->name, $values );
 			unset( $values, $tax );

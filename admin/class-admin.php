@@ -158,9 +158,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 					array(
 							'id'      => 'title-vars',
 							'title'   => __( 'Basic Variables', 'wordpress-seo' ),
-							'content' => '
-		<h2>' . __( 'Basic Variables', 'wordpress-seo' ) . '</h2>' .
-		WPSEO_Replace_Vars::get_basic_help_texts(), //actual help text
+							'content' => "\n\t\t<h2>" . __( 'Basic Variables', 'wordpress-seo' ) . "</h2>\n\t\t" . WPSEO_Replace_Vars::get_basic_help_texts(),
 					)
 			);
 
@@ -168,9 +166,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 					array(
 							'id'      => 'title-vars-advanced',
 							'title'   => __( 'Advanced Variables', 'wordpress-seo' ),
-							'content' => '
-		<h2>' . __( 'Advanced Variables', 'wordpress-seo' ) . '</h2>' .
-		WPSEO_Replace_Vars::get_advanced_help_texts(), //actual help text
+							'content' => "\n\t\t<h2>" . __( 'Advanced Variables', 'wordpress-seo' ) . "</h2>\n\t\t" . WPSEO_Replace_Vars::get_advanced_help_texts(),
 					)
 			);
 		}
@@ -181,7 +177,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		function register_network_settings_page() {
 			if ( WPSEO_Options::grant_access() ) {
 				add_menu_page( __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'MultiSite Settings', 'wordpress-seo' ), __( 'SEO', 'wordpress-seo' ), 'delete_users', 'wpseo_dashboard', array( $this, 'network_config_page' ), plugins_url( 'images/yoast-icon.png', WPSEO_FILE ) );
-				
+
 				if ( wpseo_allow_system_file_edit() === true ) {
 					add_submenu_page( 'wpseo_dashboard', __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Edit Files', 'wordpress-seo' ), __( 'Edit Files', 'wordpress-seo' ), 'delete_users', 'wpseo_files', array( $this, 'load_page' ) );
 				}

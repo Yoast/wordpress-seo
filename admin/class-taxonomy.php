@@ -33,7 +33,7 @@ if ( ! class_exists( 'WPSEO_Taxonomy' ) ) {
 			$options = WPSEO_Options::get_all();
 
 			if ( is_admin() && ( isset( $_GET['taxonomy'] ) && $_GET['taxonomy'] !== '' ) &&
-				( ! isset( $options['hideeditbox-tax-' . $_GET['taxonomy']] ) || $options['hideeditbox-tax-' . $_GET['taxonomy']] === false )
+				( ! isset( $options[ 'hideeditbox-tax-' . $_GET['taxonomy'] ] ) || $options[ 'hideeditbox-tax-' . $_GET['taxonomy'] ] === false )
 			) {
 				add_action( sanitize_text_field( $_GET['taxonomy'] ) . '_edit_form', array( $this, 'term_seo_form' ), 10, 1 );
 			}
@@ -110,8 +110,8 @@ if ( ! class_exists( 'WPSEO_Taxonomy' ) ) {
 		 */
 		function form_row( $var, $label, $desc, $tax_meta, $type = 'text', $options = array() ) {
 			$val = '';
-			if ( isset( $tax_meta[$var] ) && $tax_meta[$var] !== '' ) {
-				$val = $tax_meta[$var];
+			if ( isset( $tax_meta[ $var ] ) && $tax_meta[ $var ] !== '' ) {
+				$val = $tax_meta[ $var ];
 			}
 
 			$esc_var = esc_attr( $var );
@@ -184,13 +184,13 @@ if ( ! class_exists( 'WPSEO_Taxonomy' ) ) {
 			}
 
 			$current = 'index';
-			if ( isset( $options['noindex-tax-' . $term->taxonomy] ) && $options['noindex-tax-' . $term->taxonomy] === true ) {
+			if ( isset( $options[ 'noindex-tax-' . $term->taxonomy ] ) && $options[ 'noindex-tax-' . $term->taxonomy ] === true ) {
 				$current = 'noindex';
 			}
 
 			$noindex_options            = $this->no_index_options;
 			$noindex_options['default'] = sprintf( $noindex_options['default'], $term->taxonomy, $current );
-			
+
 			$desc = sprintf( esc_html__( 'This %s follows the indexation rules set under Metas and Titles, you can override it here.', 'wordpress-seo' ), $term->taxonomy );
 			if ( '0' == get_option( 'blog_public' ) ) {
 				$desc .= '<br /><span class="error-message">' . esc_html__( 'Warning: even though you can set the meta robots setting here, the entire site is set to noindex in the sitewide privacy settings, so these settings won\'t have an effect.', 'wordpress-seo' ) . '</span>';
@@ -218,8 +218,8 @@ if ( ! class_exists( 'WPSEO_Taxonomy' ) ) {
 			/* Create post array with only our values */
 			$new_meta_data = array();
 			foreach ( WPSEO_Taxonomy_Meta::$defaults_per_term as $key => $default ) {
-				if ( isset( $_POST[$key] ) ) {
-					$new_meta_data[$key] = $_POST[$key];
+				if ( isset( $_POST[ $key ] ) ) {
+					$new_meta_data[ $key ] = $_POST[ $key ];
 				}
 			}
 
@@ -229,12 +229,12 @@ if ( ! class_exists( 'WPSEO_Taxonomy' ) ) {
 
 			/* Add/remove the result to/from the original option value */
 			if ( $clean !== array() ) {
-				$tax_meta[$taxonomy][$term_id] = $clean;
+				$tax_meta[ $taxonomy ][ $term_id ] = $clean;
 			}
 			else {
-				unset( $tax_meta[$taxonomy][$term_id] );
-				if ( isset( $tax_meta[$taxonomy] ) && $tax_meta[$taxonomy] === array() ) {
-					unset( $tax_meta[$taxonomy] );
+				unset( $tax_meta[ $taxonomy ][ $term_id ] );
+				if ( isset( $tax_meta[ $taxonomy ] ) && $tax_meta[ $taxonomy ] === array() ) {
+					unset( $tax_meta[ $taxonomy ] );
 				}
 			}
 

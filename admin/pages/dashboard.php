@@ -61,7 +61,7 @@ if ( isset( $_GET['fixmetadesc'] ) && check_admin_referer( 'wpseo-fix-metadesc',
 					$header_file = fopen( $path . '/header.php', 'w+' );
 					if ( $header_file ) {
 						if ( fwrite( $header_file, $fcontent ) !== false ) {
-							$msg .= __( 'Removed hardcoded meta description.', 'wordpress-seo' );
+							$msg                               .= __( 'Removed hardcoded meta description.', 'wordpress-seo' );
 							$options['theme_has_description']   = false;
 							$options['theme_description_found'] = '';
 							update_option( 'wpseo', $options );

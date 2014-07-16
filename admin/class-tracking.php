@@ -85,8 +85,8 @@ if ( ! class_exists( 'Yoast_Tracking' ) ) {
 			$post_types = get_post_types( array( 'public' => true ) );
 			if ( is_array( $post_types ) && $post_types !== array() ) {
 				foreach ( $post_types as $post_type ) {
-					$count           = wp_count_posts( $post_type );
-					$pts[$post_type] = $count->publish;
+					$count             = wp_count_posts( $post_type );
+					$pts[ $post_type ] = $count->publish;
 				}
 			}
 			unset( $post_types );
@@ -125,8 +125,8 @@ if ( ! class_exists( 'Yoast_Tracking' ) ) {
 
 				$plugin_info = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin_path );
 
-				$slug           = str_replace( '/' . basename( $plugin_path ), '', $plugin_path );
-				$plugins[$slug] = array(
+				$slug             = str_replace( '/' . basename( $plugin_path ), '', $plugin_path );
+				$plugins[ $slug ] = array(
 					'version'    => $plugin_info['Version'],
 					'name'       => $plugin_info['Name'],
 					'plugin_uri' => $plugin_info['PluginURI'],
@@ -135,8 +135,8 @@ if ( ! class_exists( 'Yoast_Tracking' ) ) {
 				);
 			}
 			unset( $active_plugins, $plugin_path );
-			
-			
+
+
 			$data = array(
 				'site'      => array(
 					'hash'      => $hash,
@@ -228,7 +228,7 @@ function wpseo_tracking_additions( $options ) {
 		'php_mbstring_version'        => phpversion( 'mbstring' ),
 		'php_pcre_enabled'            => extension_loaded( 'pcre' ) ? 1 : 0,
 		'php_pcre_version'            => phpversion( 'pcre' ),
-		'php_pcre_with_utf8_a'        => @preg_match( '/^.{1}$/u','ñ', $UTF8_ar ),
+		'php_pcre_with_utf8_a'        => @preg_match( '/^.{1}$/u', 'ñ', $UTF8_ar ),
 		'php_pcre_with_utf8_b'        => defined( 'PREG_BAD_UTF8_ERROR' ),
 		'php_spl_enabled'             => extension_loaded( 'spl' ) ? 1 : 0,
 	);

@@ -5,14 +5,24 @@
 	<exclude-pattern>tests/*</exclude-pattern>
 	<exclude-pattern>admin/license-manager/*</exclude-pattern>
 
-	<rule ref="WordPress-Extra">
-		<exclude name="Generic.Files.LineEndings" />
-		<exclude name="Squiz.WhiteSpace.SuperfluousWhitespace" />
-		<exclude name="WordPress.Arrays.ArrayDeclaration" />
+	<rule ref="WordPress-VIP">
+		<exclude name="Generic.Files.LineEndings.InvalidEOLChar" />
+		<exclude name="Squiz.WhiteSpace.SuperfluousWhitespace.EmptyLines" />
+		
+		<!-- WP VIP rules which are very restrictive and not all that applicable as WPSEO is not on VIP -->
+		<exclude name="WordPress.VIP.DirectDatabaseQuery" />
+		<exclude name="WordPress.VIP.FileSystemWritesDisallow"/>
+		<exclude name="WordPress.VIP.RestrictedFunctions.user_meta" />
+		<exclude name="WordPress.VIP.RestrictedVariables.user_meta"/>
+		<exclude name="WordPress.VIP.RestrictedFunctions.switch_to_blog"/>
+
+		<!-- We should probably want to turn the below rules on, but these give issues with the current code base. -->
 		<exclude name="WordPress.WhiteSpace.ScopeIndent.Incorrect" />
-		<exclude name="WordPress.WhiteSpace.ControlStructureSpacing" />
-		<exclude name="WordPress.XSS.EscapeOutput" />
+		<exclude name="WordPress.XSS.EscapeOutput" /><!-- This sniff also has known & reported bugs -->
+		<exclude name="WordPress.VIP.PostsPerPage.posts_per_page"/>
+
+		<!-- Turned off because of known & reported bugs in the Sniffs, should be turned on once the bugs are fixed. -->
+		<exclude name="WordPress.VIP.ValidatedSanitizedInput"/>
 	</rule>
-	<rule ref="WordPress.Arrays.ArrayAssignmentRestrictions"/>
-	<rule ref="WordPress.Functions.FunctionRestrictions"/>
+	<rule ref="WordPress.PHP.DiscouragedFunctions"/>
 </ruleset>

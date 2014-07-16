@@ -116,7 +116,7 @@ if ( isset( $_POST['import'] ) || isset( $_GET['import'] ) ) {
 		$taxonomies = get_taxonomies( array( 'public' => true ), 'names' );
 		if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
 			foreach ( $taxonomies as $tax ) {
-				$options['title-tax-'.$tax] = $template;
+				$options[ 'title-tax-'.$tax ] = $template;
 			}
 		}
 		unset( $taxonomies, $tax, $template );
@@ -276,10 +276,10 @@ if ( isset( $_POST['import'] ) || isset( $_GET['import'] ) ) {
 		if ( is_array( $optold ) && $optold !== array() ) {
 			foreach ( $optold as $opt => $val ) {
 				if ( is_bool( $val ) && $val == true ) {
-					$optnew['breadcrumbs-' . $opt] = true;
+					$optnew[ 'breadcrumbs-' . $opt ] = true;
 				}
 				else {
-					$optnew['breadcrumbs-' . $opt] = $val;
+					$optnew[ 'breadcrumbs-' . $opt ] = $val;
 				}
 			}
 			unset( $opt, $val );
@@ -308,8 +308,8 @@ if ( isset( $_POST['import'] ) || isset( $_GET['import'] ) ) {
 	if ( $deletekw ) {
 		$msg .= __( ', and meta keywords data deleted.', 'wordpress-seo' );
 	}
-
 }
+
 
 $wpseo_admin_pages->admin_header( false );
 if ( $msg != '' ) {
@@ -402,7 +402,7 @@ elseif ( isset( $_FILES['settings_import_file'] ) ) {
 		if ( ! defined( 'DIRECTORY_SEPARATOR' ) ) {
 			define( 'DIRECTORY_SEPARATOR', '/' );
 		}
-		$p_path   = $upload_dir['basedir'] . DIRECTORY_SEPARATOR . 'wpseo-import' . DIRECTORY_SEPARATOR;
+		$p_path = $upload_dir['basedir'] . DIRECTORY_SEPARATOR . 'wpseo-import' . DIRECTORY_SEPARATOR;
 
 		if ( ! isset( $GLOBALS['wp_filesystem'] ) || ! is_object( $GLOBALS['wp_filesystem'] ) ) {
 			WP_Filesystem();
@@ -438,7 +438,6 @@ elseif ( isset( $_FILES['settings_import_file'] ) ) {
 				}
 				else {
 					$content .= '<p><strong>' . __( 'Settings could not be imported:', 'wordpress-seo' ) . ' ' . __( 'No settings found in file.', 'wordpress-seo' ) . '</strong></p>';
-	
 				}
 				unset( $options, $name, $optgroup );
 			}

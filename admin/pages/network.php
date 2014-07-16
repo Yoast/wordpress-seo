@@ -13,17 +13,17 @@ global $wpseo_admin_pages;
 
 $options = get_site_option( 'wpseo_ms' );
 
-if ( isset( $_POST[ 'wpseo_submit' ] ) ) {
+if ( isset( $_POST['wpseo_submit'] ) ) {
 	check_admin_referer( 'wpseo-network-settings' );
 
 	foreach ( array( 'access', 'defaultblog' ) as $opt ) {
-		$options[$opt] = $_POST['wpseo_ms'][$opt];
+		$options[ $opt ] = $_POST['wpseo_ms'][ $opt ];
 	}
 	WPSEO_Options::update_site_option( 'wpseo_ms', $options );
 	add_settings_error( 'wpseo_ms', 'settings_updated', __( 'Settings Updated.', 'wordpress-seo' ), 'updated' );
 }
 
-if ( isset( $_POST[ 'wpseo_restore_blog' ] ) ) {
+if ( isset( $_POST['wpseo_restore_blog'] ) ) {
 	check_admin_referer( 'wpseo-network-restore' );
 	if ( isset( $_POST['wpseo_ms']['restoreblog'] ) && is_numeric( $_POST['wpseo_ms']['restoreblog'] ) ) {
 		$restoreblog = (int) WPSEO_Option::validate_int( $_POST['wpseo_ms']['restoreblog'] );
@@ -54,7 +54,7 @@ else {
 
 		foreach ( $sites as $site ) {
 			$dropdown_input[ $site['blog_id'] ] = $site['blog_id'] . ': ' . $site['domain'];
-			
+
 			$blog_states = array();
 			if ( $site['public'] === '1' ) {
 				$blog_states[] = __( 'public', 'wordpress-seo' );

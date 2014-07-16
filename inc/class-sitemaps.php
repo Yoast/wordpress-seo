@@ -146,7 +146,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 		 * @return string
 		 */
 		private function http_protocol() {
-			return ( isset( $_SERVER['SERVER_PROTOCOL'] ) && $_SERVER['SERVER_PROTOCOL'] !== '' ) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.1';
+			return ( isset( $_SERVER['SERVER_PROTOCOL'] ) && $_SERVER['SERVER_PROTOCOL'] !== '' ) ? sanitize_text_field( $_SERVER['SERVER_PROTOCOL'] ) : 'HTTP/1.1';
 		}
 
 		/**
@@ -408,7 +408,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 								$all_dates = $wpdb->get_col( $wpdb->prepare( "SELECT post_modified_gmt FROM (SELECT @rownum:=@rownum+1 rownum, $wpdb->posts.post_modified_gmt FROM (SELECT @rownum:=0) r, $wpdb->posts WHERE post_status IN ('publish','inherit') AND post_type = %s ORDER BY post_modified_gmt ASC) x WHERE rownum %%%d=0", $post_type, $this->max_entries ) );
 							}
 							$datetime = new DateTime( $all_dates[ $i ], new DateTimeZone( $this->get_timezone_string() ) );
-							$date = $datetime->format( 'c' );
+							$date     = $datetime->format( 'c' );
 						}
 
 						$this->sitemap .= '<sitemap>' . "\n";
@@ -490,7 +490,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 							$date = '';
 							if ( $query->have_posts() ) {
 								$datetime = new DateTime( $query->posts[0]->post_modified_gmt, new DateTimeZone( $this->get_timezone_string() ) );
-								$date = $datetime->format( 'c' );
+								$date     = $datetime->format( 'c' );
 							}
 						}
 
@@ -648,7 +648,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 						$page_for_posts = get_option( 'page_for_posts' );
 						if ( $page_for_posts ) {
 							$page_for_posts_url = get_permalink( $page_for_posts );
-							$output .= $this->sitemap_url(
+							$output            .= $this->sitemap_url(
 								array(
 									'loc' => $page_for_posts_url,
 									'pri' => 1,
@@ -906,7 +906,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 							// Use this filter to adjust the entry before it gets added to the sitemap
 							$url = apply_filters( 'wpseo_sitemap_entry', $url, 'post', $p );
 							if ( is_array( $url ) && $url !== array() ) {
-								$output .= $this->sitemap_url( $url );
+								$output       .= $this->sitemap_url( $url );
 								$stackedurls[] = $url['loc'];
 							}
 						}
@@ -924,7 +924,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 				return;
 			}
 
-			$this->sitemap = '<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" ';
+			$this->sitemap  = '<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" ';
 			$this->sitemap .= 'xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" ';
 			$this->sitemap .= 'xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
 			$this->sitemap .= $output;
@@ -1032,14 +1032,14 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 					}
 				}
 			}
-			
+
 			if ( empty( $output ) ) {
 				$this->bad_sitemap = true;
 
 				return;
 			}
 
-			$this->sitemap = '<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ';
+			$this->sitemap  = '<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ';
 			$this->sitemap .= 'xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" ';
 			$this->sitemap .= 'xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
 			$this->sitemap .= $output;
@@ -1130,7 +1130,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 				return;
 			}
 
-			$this->sitemap = '<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" ';
+			$this->sitemap  = '<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" ';
 			$this->sitemap .= 'xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" ';
 			$this->sitemap .= 'xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
 			$this->sitemap .= $output;
@@ -1177,7 +1177,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 			// Prevent the search engines from indexing the XML Sitemap.
 			header( 'X-Robots-Tag: noindex,follow', true );
 			header( 'Content-Type: text/xml' );
-			echo '<?xml version="1.0" encoding="' . $this->charset . '"?>';
+			echo '<?xml version="1.0" encoding="' . esc_attr( $this->charset ) . '"?>';
 			if ( $this->stylesheet ) {
 				echo apply_filters( 'wpseo_stylesheet_url', $this->stylesheet ) . "\n";
 			}
@@ -1193,9 +1193,9 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 					echo "\n" . '<!-- ' . number_format( ( memory_get_peak_usage() / 1024 / 1024 ), 2 ) . 'MB | Served from transient cache -->';
 				} else {
 					global $wpdb;
-					echo "\n" . '<!-- ' . number_format( ( memory_get_peak_usage() / 1024 / 1024 ), 2 ) . 'MB | ' . $wpdb->num_queries . ' -->';
+					echo "\n" . '<!-- ' . number_format( ( memory_get_peak_usage() / 1024 / 1024 ), 2 ) . 'MB | ' . esc_attr( $wpdb->num_queries ) . ' -->';
 					if ( defined( 'SAVEQUERIES' ) && SAVEQUERIES ) {
-						echo "\n" . '<!--' . print_r( $wpdb->queries, 1 ) . '-->';
+						echo "\n" . '<!--' . print_r( $wpdb->queries, true ) . '-->';
 					}
 				}
 			}
@@ -1219,7 +1219,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 
 			$url['loc'] = htmlspecialchars( $url['loc'] );
 
-			$output = "\t<url>\n";
+			$output  = "\t<url>\n";
 			$output .= "\t\t<loc>" . $url['loc'] . "</loc>\n";
 			$output .= "\t\t<lastmod>" . $date->format( 'c' ) . "</lastmod>\n";
 			$output .= "\t\t<changefreq>" . $url['chf'] . "</changefreq>\n";
@@ -1300,7 +1300,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 				unset( $results );
 			}
 
-			if ( count( $post_types ) === 1 ) {
+			if ( count( $post_types ) === 1 && isset( $this->post_type_dates[ $post_types[0] ] ) ) {
 				$result = $this->post_type_dates[ $post_types[0] ];
 			} else {
 				$result = null;

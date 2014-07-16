@@ -56,7 +56,7 @@ if ( isset( $_POST['submithtaccess'] ) ) {
 	check_admin_referer( 'wpseo-htaccess' );
 
 	if ( file_exists( $ht_access_file ) ) {
-		$ht_access_new   = stripslashes( $_POST['htaccessnew'] );
+		$ht_access_new = stripslashes( $_POST['htaccessnew'] );
 		if ( is_writeable( $ht_access_file ) ) {
 			$f = fopen( $ht_access_file, 'w+' );
 			fwrite( $f, $ht_access_new );
@@ -74,7 +74,7 @@ $action_url = network_admin_url( 'admin.php?page=wpseo_files' ); // auto-falls b
 
 if ( ! file_exists( $robots_file ) ) {
 	if ( is_writable( get_home_path() ) ) {
-		$content = '<form action="' . esc_url( $action_url ) . '" method="post" id="robotstxtcreateform">';
+		$content  = '<form action="' . esc_url( $action_url ) . '" method="post" id="robotstxtcreateform">';
 		$content .= wp_nonce_field( 'wpseo_create_robots', '_wpnonce', true, false );
 		$content .= '<p>' . __( 'You don\'t have a robots.txt file, create one here:', 'wordpress-seo' ) . '</p>';
 		$content .= '<input type="submit" class="button" name="create_robots" value="' . __( 'Create robots.txt file', 'wordpress-seo' ) . '">';
@@ -94,10 +94,10 @@ else {
 	$robots_txt_content = esc_textarea( $content );
 
 	if ( ! is_writable( $robots_file ) ) {
-		$content = '<p><em>' . __( 'If your robots.txt were writable, you could edit it from here.', 'wordpress-seo' ) . '</em></p>';
+		$content  = '<p><em>' . __( 'If your robots.txt were writable, you could edit it from here.', 'wordpress-seo' ) . '</em></p>';
 		$content .= '<textarea class="large-text code" disabled="disabled" rows="15" name="robotsnew">' . $robots_txt_content . '</textarea><br/>';
 	} else {
-		$content = '<form action="' . esc_url( $action_url ) . '" method="post" id="robotstxtform">';
+		$content  = '<form action="' . esc_url( $action_url ) . '" method="post" id="robotstxtform">';
 		$content .= wp_nonce_field( 'wpseo-robotstxt', '_wpnonce', true, false );
 		$content .= '<p>' . __( 'Edit the content of your robots.txt:', 'wordpress-seo' ) . '</p>';
 		$content .= '<textarea class="large-text code" rows="15" name="robotsnew">' . $robots_txt_content . '</textarea><br/>';
@@ -109,8 +109,8 @@ else {
 $wpseo_admin_pages->postbox( 'robotstxt', __( 'Robots.txt', 'wordpress-seo' ), $content );
 
 if ( ( isset( $_SERVER['SERVER_SOFTWARE'] ) && stristr( $_SERVER['SERVER_SOFTWARE'], 'nginx' ) === false ) && file_exists( $ht_access_file ) ) {
-	$f         = fopen( $ht_access_file, 'r' );
-	
+	$f = fopen( $ht_access_file, 'r' );
+
 	$contentht = '';
 	if ( filesize( $ht_access_file ) > 0 ) {
 		$contentht = fread( $f, filesize( $ht_access_file ) );
@@ -118,10 +118,10 @@ if ( ( isset( $_SERVER['SERVER_SOFTWARE'] ) && stristr( $_SERVER['SERVER_SOFTWAR
 	$contentht = esc_textarea( $contentht );
 
 	if ( ! is_writable( $ht_access_file ) ) {
-		$content = '<p><em>' . __( 'If your .htaccess were writable, you could edit it from here.', 'wordpress-seo' ) . '</em></p>';
+		$content  = '<p><em>' . __( 'If your .htaccess were writable, you could edit it from here.', 'wordpress-seo' ) . '</em></p>';
 		$content .= '<textarea class="large-text code" disabled="disabled" rows="15" name="robotsnew">' . $contentht . '</textarea><br/>';
 	} else {
-		$content = '<form action="' . admin_url( 'admin.php?page=wpseo_files' ) . '" method="post" id="htaccessform">';
+		$content  = '<form action="' . admin_url( 'admin.php?page=wpseo_files' ) . '" method="post" id="htaccessform">';
 		$content .= wp_nonce_field( 'wpseo-htaccess', '_wpnonce', true, false );
 		$content .= '<p>' . __( 'Edit the content of your .htaccess:', 'wordpress-seo' ) . '</p>';
 		$content .= '<textarea class="large-text code" rows="15" name="htaccessnew">' . $contentht . '</textarea><br/>';

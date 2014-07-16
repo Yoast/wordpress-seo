@@ -74,9 +74,13 @@ global $wpseo_admin_pages;
 				$utm = '#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=extension-page-banners';
 			?>
 			<div class="extension <?php echo esc_attr( $id ); ?>">
-				<a target="_blank" href="<?php echo esc_url( $extension->url . $utm ); ?>"><h3><?php echo esc_html( $extension->title ); ?></h3></a>
+				<a target="_blank" href="<?php echo esc_url( $extension->url . $utm ); ?>">
+					<h3><?php echo esc_html( $extension->title ); ?></h3>
+				</a>
 				<p><?php echo esc_html( $extension->desc ); ?></p>
-				<p><a target="_blank" href="<?php echo esc_url( $extension->url . $utm ); ?>" class="button-primary"><?php esc_html_e( 'Get this extension', 'wordpress-seo' ); ?></a></p>
+				<p><a target="_blank" href="<?php echo esc_url( $extension->url . $utm ); ?>" class="button-primary">
+					<?php esc_html_e( 'Get this extension', 'wordpress-seo' ); ?>
+				</a></p>
 			</div>
 			<?php
 			}

@@ -40,9 +40,9 @@ function wpseo_set_ignore() {
 
 	check_ajax_referer( 'wpseo-ignore' );
 
-	$options                          = get_option( 'wpseo' );
-	$ignore_key 					  = sanitize_text_field( $_POST['option'] );
-	$options['ignore_' . $ignore_key] = true;
+	$options                            = get_option( 'wpseo' );
+	$ignore_key                         = sanitize_text_field( $_POST['option'] );
+	$options[ 'ignore_' . $ignore_key ] = true;
 	update_option( 'wpseo', $options );
 	die( '1' );
 }
@@ -62,14 +62,14 @@ function wpseo_kill_blocking_files() {
 	$message = 'There were no files to delete.';
 	$options = get_option( 'wpseo' );
 	if ( is_array( $options['blocking_files'] ) && $options['blocking_files'] !== array() ) {
-		$message = 'success';
+		$message       = 'success';
 		$files_removed = 0;
 		foreach ( $options['blocking_files'] as $k => $file ) {
 			if ( ! @unlink( $file ) ) {
 				$message = __( 'Some files could not be removed. Please remove them via FTP.', 'wordpress-seo' );
 			}
 			else {
-				unset( $options['blocking_files'][$k] );
+				unset( $options['blocking_files'][ $k ] );
 				$files_removed++;
 			}
 		}
@@ -128,8 +128,9 @@ add_action( 'wp_ajax_wpseo_replace_vars', 'wpseo_ajax_replace_vars' );
  * Save an individual SEO title from the Bulk Editor.
  */
 function wpseo_save_title() {
+	check_ajax_referer( 'wpseo-bulk-editor' );
 
-	$new_title      = $_POST['new_title'] ;
+	$new_title      = $_POST['new_title'];
 	$id             = intval( $_POST['wpseo_post_id'] );
 	$original_title = $_POST['existing_title'];
 
@@ -167,7 +168,7 @@ function wpseo_upsert_meta( $post_id, $new_meta_value, $orig_meta_value, $meta_k
 
 	$the_post = get_post( $post_id );
 	if ( empty( $the_post ) ) {
-		
+
 		$upsert_results['status']  = 'failure';
 		$upsert_results['results'] = __( 'Post doesn\'t exist.', 'wordpress-seo' );
 
@@ -176,7 +177,7 @@ function wpseo_upsert_meta( $post_id, $new_meta_value, $orig_meta_value, $meta_k
 
 	$post_type_object = get_post_type_object( $the_post->post_type );
 	if ( ! $post_type_object ) {
-		
+
 		$upsert_results['status']  = 'failure';
 		$upsert_results['results'] = sprintf( __( 'Post has an invalid Post Type: %s.', 'wordpress-seo' ), $the_post->post_type );
 
@@ -184,7 +185,7 @@ function wpseo_upsert_meta( $post_id, $new_meta_value, $orig_meta_value, $meta_k
 	}
 
 	if ( ! current_user_can( $post_type_object->cap->edit_posts ) ) {
-		
+
 		$upsert_results['status']  = 'failure';
 		$upsert_results['results'] = sprintf( __( 'You can\'t edit %s.', 'wordpress-seo' ), $post_type_object->label );
 
@@ -192,7 +193,7 @@ function wpseo_upsert_meta( $post_id, $new_meta_value, $orig_meta_value, $meta_k
 	}
 
 	if ( ! current_user_can( $post_type_object->cap->edit_others_posts ) && $the_post->post_author != get_current_user_id() ) {
-		
+
 		$upsert_results['status']  = 'failure';
 		$upsert_results['results'] = sprintf( __( 'You can\'t edit %s that aren\'t yours.', 'wordpress-seo' ), $post_type_object->label );
 
@@ -212,6 +213,8 @@ function wpseo_upsert_meta( $post_id, $new_meta_value, $orig_meta_value, $meta_k
  * Save all titles sent from the Bulk Editor.
  */
 function wpseo_save_all_titles() {
+	check_ajax_referer( 'wpseo-bulk-editor' );
+
 	$new_titles      = $_POST['titles'];
 	$original_titles = $_POST['existing_titles'];
 
@@ -233,8 +236,9 @@ add_action( 'wp_ajax_wpseo_save_all_titles', 'wpseo_save_all_titles' );
  * Save an individual meta description from the Bulk Editor.
  */
 function wpseo_save_description() {
+	check_ajax_referer( 'wpseo-bulk-editor' );
 
-	$new_metadesc      = $_POST['new_metadesc'] ;
+	$new_metadesc      = $_POST['new_metadesc'];
 	$id                = intval( $_POST['wpseo_post_id'] );
 	$original_metadesc = $_POST['existing_metadesc'];
 
@@ -260,6 +264,8 @@ function wpseo_upsert_new_description( $post_id, $new_metadesc, $original_metade
  * Save all description sent from the Bulk Editor.
  */
 function wpseo_save_all_descriptions() {
+	check_ajax_referer( 'wpseo-bulk-editor' );
+
 	$new_metadescs      = $_POST['metadescs'];
 	$original_metadescs = $_POST['existing_metadescs'];
 

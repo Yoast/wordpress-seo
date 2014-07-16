@@ -109,6 +109,17 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 
 == Changelog ==
 
+= Trunk =
+
+* Bugfixes:
+	* Fixed several notices for undefined variables.
+	* Properly trim meta description to its desired size again, regression caused in 1.5.4.
+
+* Enhancements:
+	* Improve nonce checking in bulk title & description editor.
+	* Prevent direct access to XSL file.
+	* Improve code styling to match WordPress code standard even more strictly, props [Jrf](http://profiles.wordpress.org/jrf).
+
 = 1.5.4.1 =
 Release Date: July 15th, 2014
 
