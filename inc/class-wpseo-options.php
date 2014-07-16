@@ -1512,12 +1512,18 @@ if ( ! class_exists( 'WPSEO_Option_Titles' ) ) {
 		 * @return array
 		 */
 		public function get_separator_options() {
+			$separators = $this->separator_options;
 
 			/**
 			 * Allow altering the array with separator options
 			 * @api  array  $separator_options  Array with the separator options
 			 */
-			return apply_filters( 'wpseo_separator_options', $this->separator_options );
+			$filtered_separators = apply_filters( 'wpseo_separator_options', $separators );
+			
+			if ( is_array( $filtered_separators ) && $filtered_separators !== array() ) {
+				$separators = array_merge( $separators, $filtered_separators );
+			}
+			return $separators;
 		}
 
 		/**
