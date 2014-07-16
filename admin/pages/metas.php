@@ -57,7 +57,7 @@ $wpseo_admin_pages->admin_header( true, WPSEO_Options::get_group_name( 'wpseo_ti
 		echo '<h2>' . __( 'Homepage', 'wordpress-seo' ) . '</h2>';
 		echo $wpseo_admin_pages->textinput( 'title-home-wpseo', __( 'Title template', 'wordpress-seo' ) );
 		echo $wpseo_admin_pages->textarea( 'metadesc-home-wpseo', __( 'Meta description template', 'wordpress-seo' ), '', 'metadesc' );
-		if ( $options[ 'usemetakeywords' ] === true ) {
+		if ( $options['usemetakeywords'] === true ) {
 			echo $wpseo_admin_pages->textinput( 'metakey-home-wpseo', __( 'Meta keywords template', 'wordpress-seo' ) );
 		}
 	}
@@ -76,7 +76,7 @@ $wpseo_admin_pages->admin_header( true, WPSEO_Options::get_group_name( 'wpseo_ti
 	if ( is_array( $post_types ) && $post_types !== array() ) {
 		foreach ( $post_types as $pt ) {
 			$warn = false;
-			if ( $options[ 'redirectattachment' ] === true && $pt->name == 'attachment' ) {
+			if ( $options['redirectattachment'] === true && $pt->name == 'attachment' ) {
 				echo '<div class="wpseo-warning">';
 				$warn = true;
 			}
@@ -92,7 +92,7 @@ $wpseo_admin_pages->admin_header( true, WPSEO_Options::get_group_name( 'wpseo_ti
 
 			echo $wpseo_admin_pages->textinput( 'title-' . $name, __( 'Title template', 'wordpress-seo' ) );
 			echo $wpseo_admin_pages->textarea( 'metadesc-' . $name, __( 'Meta description template', 'wordpress-seo' ), '', 'metadesc' );
-			if ( $options[ 'usemetakeywords' ] === true ) {
+			if ( $options['usemetakeywords'] === true ) {
 				echo $wpseo_admin_pages->textinput( 'metakey-' . $name, __( 'Meta keywords template', 'wordpress-seo' ) );
 			}
 			echo $wpseo_admin_pages->checkbox( 'noindex-' . $name, '<code>noindex, follow</code>', __( 'Meta Robots', 'wordpress-seo' ) );
@@ -133,7 +133,7 @@ $wpseo_admin_pages->admin_header( true, WPSEO_Options::get_group_name( 'wpseo_ti
 			echo '<h4>' . esc_html( ucfirst( $pt->labels->name ) ) . '</h4>';
 			echo $wpseo_admin_pages->textinput( 'title-ptarchive-' . $name, __( 'Title', 'wordpress-seo' ) );
 			echo $wpseo_admin_pages->textarea( 'metadesc-ptarchive-' . $name, __( 'Meta description', 'wordpress-seo' ), '', 'metadesc' );
-			if ( $options[ 'usemetakeywords' ] === true ) {
+			if ( $options['usemetakeywords'] === true ) {
 				echo $wpseo_admin_pages->textinput( 'metakey-ptarchive-' . $name, __( 'Meta keywords', 'wordpress-seo' ) );
 			}
 			if ( $options['breadcrumbs-enable'] === true ) {
@@ -155,7 +155,7 @@ $wpseo_admin_pages->admin_header( true, WPSEO_Options::get_group_name( 'wpseo_ti
 			echo '<h4>' . esc_html( ucfirst( $tax->labels->name ) ). '</h4>';
 			echo $wpseo_admin_pages->textinput( 'title-tax-' . $tax->name, __( 'Title template', 'wordpress-seo' ) );
 			echo $wpseo_admin_pages->textarea( 'metadesc-tax-' . $tax->name, __( 'Meta description template', 'wordpress-seo' ), '', 'metadesc' );
-			if ( $options[ 'usemetakeywords' ] === true ) {
+			if ( $options['usemetakeywords'] === true ) {
 				echo $wpseo_admin_pages->textinput( 'metakey-tax-' . $tax->name, __( 'Meta keywords template', 'wordpress-seo' ) );
 			}
 			echo $wpseo_admin_pages->checkbox( 'noindex-tax-' . $tax->name, '<code>noindex, follow</code>', __( 'Meta Robots', 'wordpress-seo' ) );
@@ -173,7 +173,7 @@ $wpseo_admin_pages->admin_header( true, WPSEO_Options::get_group_name( 'wpseo_ti
 	echo '<h4>' . __( 'Author Archives', 'wordpress-seo' ) . '</h4>';
 	echo $wpseo_admin_pages->textinput( 'title-author-wpseo', __( 'Title template', 'wordpress-seo' ) );
 	echo $wpseo_admin_pages->textarea( 'metadesc-author-wpseo', __( 'Meta description template', 'wordpress-seo' ), '', 'metadesc' );
-	if ( $options[ 'usemetakeywords' ] === true ) {
+	if ( $options['usemetakeywords'] === true ) {
 		echo $wpseo_admin_pages->textinput( 'metakey-author-wpseo', __( 'Meta keywords template', 'wordpress-seo' ) );
 	}
 	echo $wpseo_admin_pages->checkbox( 'noindex-author-wpseo', '<code>noindex, follow</code>', __( 'Meta Robots', 'wordpress-seo' ) );

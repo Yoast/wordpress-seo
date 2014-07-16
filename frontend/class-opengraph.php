@@ -229,8 +229,8 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 			}
 
 			if ( $echo === false ) {
-				return $title; 
-			} 
+				return $title;
+			}
 
 			return false;
 		}
@@ -291,8 +291,8 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 					'zh' => 'zh_CN',
 			);
 
-			if ( isset( $fix_locales[$locale] ) ) {
-				$locale = $fix_locales[$locale];
+			if ( isset( $fix_locales[ $locale ] ) ) {
+				$locale = $fix_locales[ $locale ];
 			}
 
 			// convert locales like "es" to "es_ES", in case that works for the given locale (sometimes it does)
@@ -349,12 +349,11 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 				if ( $type === '' ) {
 					$type = 'article';
 				}
-
 			}  else {
 				// We use "object" for archives etc. as article doesn't apply there
 				$type = 'object';
 			}
-			
+
 			/**
 			 * Filter: 'wpseo_opengraph_type' - Allow changing the OpenGraph type of the page
 			 *
@@ -410,7 +409,6 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 			array_push( $this->shown_images, $img );
 
 			$this->og_tag( 'og:image', esc_url( $img ) );
-		
 
 			return true;
 		}
