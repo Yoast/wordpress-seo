@@ -1454,7 +1454,20 @@ if ( ! class_exists( 'WPSEO_Option_Titles' ) ) {
 			'forcerewritetitle',
 		);
 
-
+		/**
+		 * @var array Array of the seperator options. To get these options use WPSEO_Option_Titles::get_instance()->get_separator_options()
+		 */
+		private $separator_options = array(
+			'sc-ndash'  => '&ndash;',
+			'sc-mdash'  => '&mdash;',
+			'sc-laquo'  => '&laquo;',
+			'sc-raquo'  => '&raquo;',
+			'sc-middot' => '&middot;',
+			'sc-loz'    => '&loz;',
+			'sc-hearts' => '&hearts;',
+			'sc-bull'   => '&bull;',
+			'|'         => '|'
+		);
 
 		/**
 		 * Add the actions and filters for the option
@@ -1493,6 +1506,19 @@ if ( ! class_exists( 'WPSEO_Option_Titles' ) ) {
 			return self::$instance;
 		}
 
+		/**
+		 * Get the available separator options
+		 *
+		 * @return array
+		 */
+		public function get_separator_options() {
+
+			/**
+			 * Allow altering the array with separator options
+			 * @api  array  $separator_options  Array with the separator options
+			 */
+			return apply_filters( 'wpseo_separator_options', $this->separator_options );
+		}
 
 		/**
 		 * Translate strings used in the option defaults
