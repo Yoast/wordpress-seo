@@ -1466,7 +1466,7 @@ if ( ! class_exists( 'WPSEO_Option_Titles' ) ) {
 			'sc-loz'    => '&loz;',
 			'sc-hearts' => '&hearts;',
 			'sc-bull'   => '&bull;',
-			'|'         => '|'
+			'|'         => '|',
 		);
 
 		/**
@@ -1674,7 +1674,7 @@ if ( ! class_exists( 'WPSEO_Option_Titles' ) ) {
 
 							// Get separator fields
 							$separator_fields = $this->get_separator_options();
-	
+
 							// Check if the given separator is exists
 							if ( isset( $separator_fields[ $dirty[ $key ] ] ) ) {
 								$clean[ $key ] = $dirty[ $key ];

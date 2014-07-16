@@ -398,7 +398,7 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		 */
 		private function retrieve_sep() {
 			$replacement = WPSEO_Options::get_default( 'wpseo_titles', 'separator' );
-			
+
 			// Get the titles option and the separator options
 			$titles_options    = get_option( 'wpseo_titles' );
 			$seperator_options = WPSEO_Option_Titles::get_instance()->get_separator_options();
