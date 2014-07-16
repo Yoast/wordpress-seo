@@ -396,12 +396,12 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		}
 
 		/**
-		 * Retrieve the separator defined in your theme's <code>wp_title()</code> tag for use as replacement string.
+		 * Retrieve the separator for use as replacement string.
 		 *
 		 * @return string
 		 */
 		private function retrieve_sep() {
-			$replacement = '-';
+			$replacement = WPSEO_Options::get_default( 'wpseo_titles', 'separator' );
 			
 			// Get the titles option and the separator options
 			$titles_options    = get_option( 'wpseo_titles' );
@@ -409,7 +409,6 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 
 			// This should always be set, but just to be sure
 			if ( isset( $seperator_options[ $titles_options['separator'] ] ) ) {
-
 				// Set the new replacement
 				$replacement = $seperator_options[ $titles_options['separator'] ];
 			}
