@@ -1379,7 +1379,7 @@ if ( ! class_exists( 'WPSEO_Option_Titles' ) ) {
 			'title_test'             => 0,
 			// Form fields
 			'forcerewritetitle'      => false,
-			'separator'	    	     => 'sc-ndash',
+			'separator'	             => 'sc-ndash',
 			'hide-feedlinks'         => false,
 			'hide-rsdlink'           => false,
 			'hide-shortlink'         => false,
@@ -1670,16 +1670,15 @@ if ( ! class_exists( 'WPSEO_Option_Titles' ) ) {
 
 					/* Separator field - Radio */
 					case 'separator':
+						if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
 
-						// Get separator fields
-						$separator_fields = $this->get_separator_options();
-
-						// Check if the given separator is exists
-						if ( isset( $separator_fields[ $dirty[ $key ] ] ) ) {
-							$clean[ $key ] = $dirty[ $key ];
-						} else {
-							$defaults      = ( $this->get_defaults() );
-							$clean[ $key ] = $defaults['separator'];
+							// Get separator fields
+							$separator_fields = $this->get_separator_options();
+	
+							// Check if the given separator is exists
+							if ( isset( $separator_fields[ $dirty[ $key ] ] ) ) {
+								$clean[ $key ] = $dirty[ $key ];
+							}
 						}
 						break;
 
