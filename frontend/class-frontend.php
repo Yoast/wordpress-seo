@@ -327,16 +327,11 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 		 */
 		function title( $title, $separator = '', $separator_location = '' ) {
 
-			$separator = $this->options['separator'];
-
-			if( substr( $separator, 0, 3 ) === 'sc-' ) {
-				$separator = '&' . substr( $separator, 2 ) . ';';
-			}
-
 			if ( is_feed() ) {
 				return $title;
 			}
 
+			$separator = wpseo_replace_vars( '%%sep%%', array() );
 			$separator = ' ' . trim( $separator ) . ' ';
 
 			if ( '' === trim( $separator_location ) ) {
