@@ -1613,7 +1613,6 @@ if ( ! class_exists( 'WPSEO_Option_Titles' ) ) {
 				$switch_key = $this->get_switch_key( $key );
 
 				switch ( $switch_key ) {
-					case 'separator':
 					/* text fields */
 					/* Covers:
 					   'title-home-wpseo', 'title-author-wpseo', 'title-archive-wpseo',
@@ -1663,6 +1662,20 @@ if ( ! class_exists( 'WPSEO_Option_Titles' ) ) {
 						}
 						break;
 
+					/* Separator field - Radio */
+					case 'separator':
+
+						// Get separator fields
+						$separator_fields = $this->get_separator_options();
+
+						// Check if the given separator is exists
+						if ( isset( $separator_fields[ $dirty[ $key ] ] ) ) {
+							$clean[ $key ] = $dirty[ $key ];
+						} else {
+							$defaults      = ( $this->get_defaults() );
+							$clean[ $key ] = $defaults['separator'];
+						}
+						break;
 
 					/* boolean fields */
 					case 'forcerewritetitle':
@@ -1687,6 +1700,7 @@ if ( ! class_exists( 'WPSEO_Option_Titles' ) ) {
 							 'hideeditbox-'. $pt->name
 							 'hideeditbox-tax-' . $tax->name */
 					case 'hideeditbox-':
+
 					default:
 						$clean[ $key ] = ( isset( $dirty[ $key ] ) ? self::validate_bool( $dirty[ $key ] ) : false );
 						break;
