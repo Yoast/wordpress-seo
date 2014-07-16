@@ -1455,7 +1455,7 @@ if ( ! class_exists( 'WPSEO_Option_Titles' ) ) {
 		);
 
 		/**
-		 * @var array Array of the seperator options. To get these options use WPSEO_Option_Titles::get_instance()->get_separator_options()
+		 * @var array Array of the separator options. To get these options use WPSEO_Option_Titles::get_instance()->get_separator_options()
 		 */
 		private $separator_options = array(
 			'sc-ndash'  => '&ndash;',
@@ -1519,7 +1519,7 @@ if ( ! class_exists( 'WPSEO_Option_Titles' ) ) {
 			 * @api  array  $separator_options  Array with the separator options
 			 */
 			$filtered_separators = apply_filters( 'wpseo_separator_options', $separators );
-			
+
 			if ( is_array( $filtered_separators ) && $filtered_separators !== array() ) {
 				$separators = array_merge( $separators, $filtered_separators );
 			}
