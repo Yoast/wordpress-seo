@@ -22,7 +22,9 @@ if ( ! empty( $_REQUEST['_wp_http_referer'] ) ) {
 
 $wpseo_bulk_titles_table->prepare_items();
 ?>
-
+<script>
+	var wpseo_bulk_editor_nonce = '<?php echo wp_create_nonce( 'wpseo-bulk-editor' ); ?>';
+</script>
 <div class="wrap wpseo_table_page">
 
 	<h2 id="wpseo-title"><?php echo esc_html( get_admin_page_title() ); ?></h2>
