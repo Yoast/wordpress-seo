@@ -261,6 +261,8 @@ function wpseo_translate_score( $val, $css_value = true ) {
 /**
  * Check whether file editing is allowed for the .htaccess and robots.txt files
  *
+ * @internal current_user_can() checks internally whether a user is on wp-ms and adjusts accordingly.
+ *
  * @return bool
  */
 function wpseo_allow_system_file_edit() {

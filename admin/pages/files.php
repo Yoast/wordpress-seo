@@ -70,10 +70,11 @@ if ( isset( $msg ) && ! empty( $msg ) ) {
 	echo '<div id="message" style="width:94%;" class="updated fade"><p>' . esc_html( $msg ) . '</p></div>';
 }
 
+$action_url = network_admin_url( 'admin.php?page=wpseo_files' ); // auto-falls back on admin_url for non-multisite
 
 if ( ! file_exists( $robots_file ) ) {
 	if ( is_writable( get_home_path() ) ) {
-		$content  = '<form action="' . admin_url( 'admin.php?page=wpseo_files' ) . '" method="post" id="robotstxtcreateform">';
+		$content = '<form action="' . esc_url( $action_url ) . '" method="post" id="robotstxtcreateform">';
 		$content .= wp_nonce_field( 'wpseo_create_robots', '_wpnonce', true, false );
 		$content .= '<p>' . __( 'You don\'t have a robots.txt file, create one here:', 'wordpress-seo' ) . '</p>';
 		$content .= '<input type="submit" class="button" name="create_robots" value="' . __( 'Create robots.txt file', 'wordpress-seo' ) . '">';
@@ -96,7 +97,7 @@ else {
 		$content  = '<p><em>' . __( 'If your robots.txt were writable, you could edit it from here.', 'wordpress-seo' ) . '</em></p>';
 		$content .= '<textarea class="large-text code" disabled="disabled" rows="15" name="robotsnew">' . $robots_txt_content . '</textarea><br/>';
 	} else {
-		$content  = '<form action="' . admin_url( 'admin.php?page=wpseo_files' ) . '" method="post" id="robotstxtform">';
+		$content = '<form action="' . esc_url( $action_url ) . '" method="post" id="robotstxtform">';
 		$content .= wp_nonce_field( 'wpseo-robotstxt', '_wpnonce', true, false );
 		$content .= '<p>' . __( 'Edit the content of your robots.txt:', 'wordpress-seo' ) . '</p>';
 		$content .= '<textarea class="large-text code" rows="15" name="robotsnew">' . $robots_txt_content . '</textarea><br/>';

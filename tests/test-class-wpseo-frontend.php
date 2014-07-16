@@ -805,20 +805,21 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Frontend::embed_rss
 	 */
 	public function test_embed_rss() {
-		$input = 'Some content';
+		$input = 'Some other content';
 
 		// go to home (non-feed)
 		$this->go_to_home();
 
 		// test if input was unchanged
 		$expected = $input;
-		$this->assertEquals( $expected, self::$class_instance->embed_rss( $input, 'full' ) );
+		$this->assertEquals( $expected, self::$class_instance->embed_rss( $input ) );
 
 		// go to feed
 		$this->go_to( get_bloginfo( 'rss2_url' ) );
 
 		// test if input was changed
 		self::$class_instance->options['rssbefore'] = 'Some RSS before text';
+		self::$class_instance->options['rssafter']  = '';
 		$expected = wpautop( self::$class_instance->options['rssbefore'] ) . $input;
 		$this->assertEquals( $expected, self::$class_instance->embed_rss( $input, 'full' ) );
 	}

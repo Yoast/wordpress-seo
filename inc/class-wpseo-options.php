@@ -269,6 +269,10 @@ if ( ! class_exists( 'WPSEO_Option' ) ) {
 		 * @return  array
 		 */
 		public function get_defaults() {
+			if ( method_exists( $this, 'translate_defaults' ) ) {
+				$this->translate_defaults();
+			}
+
 			if ( method_exists( $this, 'enrich_defaults' ) ) {
 				$this->enrich_defaults();
 			}
