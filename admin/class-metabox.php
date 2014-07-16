@@ -522,24 +522,24 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 					if ( isset( $meta_field_def['options'] ) && is_array( $meta_field_def['options'] ) && $meta_field_def['options'] !== array() ) {
 
 						// Set $meta_value as $selectedarr
-						$selectedarr = $meta_value;
+						$selected_arr = $meta_value;
 
 						// If the multiselect field is 'meta-robots-adv' we should explode on ,
 						if ( 'meta-robots-adv' === $key ) {
-							$selectedarr = explode( ',', $meta_value );
+							$selected_arr = explode( ',', $meta_value );
 						}
 
-						if ( ! is_array( $selectedarr ) ) {
-							$selectedarr = (array) $selectedarr;
+						if ( ! is_array( $selected_arr ) ) {
+							$selected_arr = (array) $selected_arr;
 						}
-						
+
 						$options_count = count( $meta_field_def['options'] );
 
 						// @todo [JRF => whomever] verify height calculation for older WP versions, was 16x, for WP3.8 20x is more appropriate
 						$content .= '<select multiple="multiple" size="' . esc_attr( $options_count ) . '" style="height: ' . esc_attr( ( $options_count * 20 ) + 4 ) . 'px;" name="' . $esc_form_key . '[]" id="' . $esc_form_key . '" class="yoast' . $class . '">';
 						foreach ( $meta_field_def['options'] as $val => $option ) {
 							$selected = '';
-							if ( in_array( $val, $selectedarr ) ) {
+							if ( in_array( $val, $selected_arr ) ) {
 								$selected = ' selected="selected"';
 							}
 							$content .= '<option ' . $selected . ' value="' . esc_attr( $val ) . '">' . esc_html( $option ) . '</option>';
