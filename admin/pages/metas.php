@@ -31,7 +31,7 @@ $wpseo_admin_pages->admin_header( true, WPSEO_Options::get_group_name( 'wpseo_ti
 	echo $wpseo_admin_pages->checkbox( 'forcerewritetitle', __( 'Force rewrite titles', 'wordpress-seo' ) );
 	echo '<p class="desc">' . __( 'WordPress SEO has auto-detected whether it needs to force rewrite the titles for your pages, if you think it\'s wrong and you know what you\'re doing, you can change the setting here.', 'wordpress-seo' ) . '</p>';
 
-	echo $wpseo_admin_pages->radio( 'separator', array( 'sc-ndash' => '&ndash;', 'sc-mdash' => '&mdash;', 'sc-laquo' => '&laquo;', 'sc-raquo' => '&raquo;', 'sc-middot' => '&middot;', 'sc-loz' => '&loz;', 'sc-hearts' => '&hearts;', 'sc-bull' => '&bull;', '|' => '|' ), __( 'Title Separator', 'wordpress-seo' ) );
+	echo $wpseo_admin_pages->radio( 'separator', WPSEO_Option_Titles::get_instance()->get_separator_options(), __( 'Title Separator', 'wordpress-seo' ) );
 	echo '<p class="desc">' . __( 'Choose the symbol to use as your title separator.', 'wordpress-seo' ) . '</p>';
 
 	echo '<h2>' . __( 'Sitewide <code>meta</code> settings', 'wordpress-seo' ) . '</h2>';
