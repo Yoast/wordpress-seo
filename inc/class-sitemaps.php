@@ -1300,7 +1300,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 				unset( $results );
 			}
 
-			if ( count( $post_types ) === 1 ) {
+			if ( count( $post_types ) === 1 && isset( $this->post_type_dates[ $post_types[0] ] ) ) {
 				$result = $this->post_type_dates[ $post_types[0] ];
 			} else {
 				$result = null;
