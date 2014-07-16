@@ -261,10 +261,6 @@ function wpseo_init() {
 		$GLOBALS['wpseo_rewrite'] = new WPSEO_Rewrite;
 	}
 
-	if ( $options['enablexmlsitemap'] === true ) {
-		$GLOBALS['wpseo_sitemaps'] = new WPSEO_Sitemaps;
-	}
-
 	if ( ! defined( 'DOING_AJAX' ) || ! DOING_AJAX ) {
 		require_once( WPSEO_PATH . 'inc/wpseo-non-ajax-functions.php' );
 	}
@@ -277,6 +273,11 @@ function wpseo_frontend_init() {
 	add_action( 'init', 'initialize_wpseo_front' );
 
 	$options = WPSEO_Options::get_all();
+
+	if ( $options['enablexmlsitemap'] === true ) {
+		$GLOBALS['wpseo_sitemaps'] = new WPSEO_Sitemaps;
+	}
+
 	if ( $options['breadcrumbs-enable'] === true ) {
 		/**
 		 * If breadcrumbs are active (which they supposedly are if the users has enabled this settings,
