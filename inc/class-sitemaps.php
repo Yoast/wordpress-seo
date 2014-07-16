@@ -529,7 +529,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 								$wpdb->get_blog_prefix() . 'user_level'
 							)
 						);
-						$date = new DateTime( $date, new DateTimeZone( $this->get_timezone_string() ) );
+						$date = new DateTime( date( 'y-m-d H:i:s', $date ), new DateTimeZone( $this->get_timezone_string() ) );
 
 						// Retrieve the newest updated profile timestamp by an offset
 					} else {
@@ -546,7 +546,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 								$this->max_entries * ( $i + 1 ) - 1
 							)
 						);
-						$date = new DateTime( $date, new DateTimeZone( $this->get_timezone_string() ) );
+						$date = new DateTime( date( 'y-m-d H:i:s', $date ), new DateTimeZone( $this->get_timezone_string() ) );
 					}
 
 					$this->sitemap .= '<sitemap>' . "\n";
@@ -1303,7 +1303,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 			if ( count( $post_types ) === 1 ) {
 				$result = $this->post_type_dates[ $post_types[0] ];
 			} else {
-				$result = 0;
+				$result = null;
 				foreach ( $post_types as $post_type ) {
 					if ( isset( $this->post_type_dates[ $post_type ] ) && strtotime( $this->post_type_dates[ $post_type ] ) > $result ) {
 						$result = $this->post_type_dates[ $post_type ];

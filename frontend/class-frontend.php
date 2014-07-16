@@ -1519,11 +1519,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 		 * @return string
 		 */
 		function embed_rssfooter( $content ) {
-			if ( is_feed() ) {
-				$content = $this->embed_rss( $content, 'full' );
-			}
-
-			return $content;
+			return $this->embed_rss( $content, 'full' );
 		}
 
 		/**
@@ -1534,11 +1530,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 		 * @return string
 		 */
 		function embed_rssfooter_excerpt( $content ) {
-			if ( is_feed() ) {
-				$content = $this->embed_rss( $content, 'excerpt' );
-			}
-
-			return $content;
+			return $this->embed_rss( $content, 'excerpt' );
 		}
 
 		/**
