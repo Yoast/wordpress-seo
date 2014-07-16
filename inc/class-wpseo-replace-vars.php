@@ -402,17 +402,14 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		 */
 		private function retrieve_sep() {
 			$replacement = '-';
-			if ( isset( $GLOBALS['sep'] ) && is_string( $GLOBALS['sep'] ) && $GLOBALS['sep'] !== '' ) {
-				$replacement = $GLOBALS['sep'];
-			}
-
+			
 			// Get the titles option and the separator options
 			$titles_options    = get_option( 'wpseo_titles' );
 			$seperator_options = WPSEO_Option_Titles::get_instance()->get_separator_options();
 
 			// This should always be set, but just to be sure
 			if ( isset( $seperator_options[ $titles_options['separator'] ] ) ) {
-				
+
 				// Set the new replacement
 				$replacement = $seperator_options[ $titles_options['separator'] ];
 			}
