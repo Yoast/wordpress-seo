@@ -100,8 +100,8 @@ if ( ! class_exists( 'Yoast_TextStatistics' ) ) {
 		 * @return int
 		 */
 		public function letter_count( $strText ) {
-			$strText       = $this->clean_text( $strText ); // To clear out newlines etc
-			$strText       = preg_replace( '`[^A-Za-z]+`', '', $strText );
+			$strText = $this->clean_text( $strText ); // To clear out newlines etc
+			$strText = preg_replace( '`[^A-Za-z]+`', '', $strText );
 
 			if ( ! $this->blnMbstring ) {
 				return strlen( $strText );
@@ -131,8 +131,8 @@ if ( ! class_exists( 'Yoast_TextStatistics' ) ) {
 
 			$key = sha1( $strText );
 
-			if ( isset( $clean[$key] ) ) {
-				return $clean[$key];
+			if ( isset( $clean[ $key ] ) ) {
+				return $clean[ $key ];
 			}
 
 			// all these tags should be preceeded by a full stop.
@@ -154,7 +154,7 @@ if ( ! class_exists( 'Yoast_TextStatistics' ) ) {
 			$strText = trim( $strText );
 
 			// Cache it and return
-			$clean[$key] = $strText;
+			$clean[ $key ] = $strText;
 			return $strText;
 		}
 
@@ -269,7 +269,7 @@ if ( ! class_exists( 'Yoast_TextStatistics' ) ) {
 			$intWordCount     = $this->word_count( $strText );
 			$arrWords         = explode( ' ', $strText );
 			for ( $i = 0; $i < $intWordCount; $i++ ) {
-				$intSyllableCount += $this->syllable_count( $arrWords[$i] );
+				$intSyllableCount += $this->syllable_count( $arrWords[ $i ] );
 			}
 			return ( wpseo_calc( $intSyllableCount, '/', $intWordCount ) );
 		}
@@ -299,8 +299,8 @@ if ( ! class_exists( 'Yoast_TextStatistics' ) ) {
 				'forever'   => 3,
 				'shoreline' => 2,
 			);
-			if ( isset( $arrProblemWords[$strWord] ) ) {
-				$intSyllableCount = $arrProblemWords[$strWord];
+			if ( isset( $arrProblemWords[ $strWord ] ) ) {
+				$intSyllableCount = $arrProblemWords[ $strWord ];
 			}
 			if ( $intSyllableCount > 0 ) {
 				return $intSyllableCount;
@@ -322,8 +322,10 @@ if ( ! class_exists( 'Yoast_TextStatistics' ) ) {
 				'rved?$',
 				'[aeiouy][dt]es?$',
 				'[aeiouy][^aeiouydt]e[rsd]?$',
-				'^[dr]e[aeiou][^aeiou]+$', // Sorts out deal, deign etc
-				'[aeiouy]rse$', // Purse, hearse
+				// Sorts out deal, deign etc
+				'^[dr]e[aeiou][^aeiou]+$',
+				// Purse, hearse
+				'[aeiouy]rse$',
 			);
 
 			// These syllables would be counted as one but should be two

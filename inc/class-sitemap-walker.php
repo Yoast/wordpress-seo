@@ -74,7 +74,7 @@ if ( ! class_exists( 'Sitemap_Walker' ) ) {
 						// Only display a post link once, even if it's in multiple taxonomies
 						if ( $category->term_id == $object->term_id && ! in_array( $post->ID, $this->processed_post_ids ) ) {
 							$this->processed_post_ids[] = $post->ID;
-							$output .= '<li><a href="' . esc_url( get_permalink( $post->ID ) ) . '">' . get_the_title( $post->ID ) . '</a></li>';
+							$output                    .= '<li><a href="' . esc_url( get_permalink( $post->ID ) ) . '">' . get_the_title( $post->ID ) . '</a></li>';
 						}
 					}
 				}

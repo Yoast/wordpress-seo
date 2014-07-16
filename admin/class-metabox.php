@@ -94,10 +94,10 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			self::$meta_fields['advanced']['sitemap-include']['options']['always'] = __( 'Always include', 'wordpress-seo' );
 			self::$meta_fields['advanced']['sitemap-include']['options']['never']  = __( 'Never include', 'wordpress-seo' );
 
-			self::$meta_fields['advanced']['sitemap-prio']['title']        = __( 'Sitemap Priority', 'wordpress-seo' );
-			self::$meta_fields['advanced']['sitemap-prio']['description']  = __( 'The priority given to this page in the XML sitemap.', 'wordpress-seo' );
-			self::$meta_fields['advanced']['sitemap-prio']['options']['-'] = __( 'Automatic prioritization', 'wordpress-seo' );
-			self::$meta_fields['advanced']['sitemap-prio']['options']['1'] = __( '1 - Highest priority', 'wordpress-seo' );
+			self::$meta_fields['advanced']['sitemap-prio']['title']           = __( 'Sitemap Priority', 'wordpress-seo' );
+			self::$meta_fields['advanced']['sitemap-prio']['description']     = __( 'The priority given to this page in the XML sitemap.', 'wordpress-seo' );
+			self::$meta_fields['advanced']['sitemap-prio']['options']['-']    = __( 'Automatic prioritization', 'wordpress-seo' );
+			self::$meta_fields['advanced']['sitemap-prio']['options']['1']    = __( '1 - Highest priority', 'wordpress-seo' );
 			self::$meta_fields['advanced']['sitemap-prio']['options']['0.8'] .= __( 'Default for first tier pages', 'wordpress-seo' );
 			self::$meta_fields['advanced']['sitemap-prio']['options']['0.6'] .= __( 'Default for second tier pages and posts', 'wordpress-seo' );
 			self::$meta_fields['advanced']['sitemap-prio']['options']['0.5'] .= __( 'Medium priority', 'wordpress-seo' );
@@ -149,7 +149,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 				$cpts    = get_post_types( array( 'public' => true ), 'names' );
 				$options = get_option( 'wpseo_titles' );
 
-				return ( ( isset( $options['hideeditbox-' . $post_type] ) && $options['hideeditbox-' . $post_type] === true ) || in_array( $post_type, $cpts ) === false );
+				return ( ( isset( $options[ 'hideeditbox-' . $post_type ] ) && $options[ 'hideeditbox-' . $post_type ] === true ) || in_array( $post_type, $cpts ) === false );
 			} else {
 				return false;
 			}
@@ -278,7 +278,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			echo '<div title="' . esc_attr( $title ) . '" class="' . esc_attr( 'wpseo-score-icon ' . $score_label ) . '"></div>';
 
 			echo __( 'SEO: ', 'wordpress-seo' ) . '<span class="wpseo-score-title">' . $score_title . '</span>';
-			
+
 			echo ' <a class="wpseo_tablink scroll" href="#wpseo_linkdex">' . __( 'Check', 'wordpress-seo' ) . '</a>';
 
 			echo '</div>';
@@ -321,7 +321,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			$options = get_option( 'wpseo_titles' );
 
 			$date = '';
-			if ( isset( $options['showdate-' . $post->post_type] ) && $options['showdate-' . $post->post_type] === true ) {
+			if ( isset( $options[ 'showdate-' . $post->post_type ] ) && $options[ 'showdate-' . $post->post_type ] === true ) {
 				$date = $this->get_post_date( $post );
 
 				self::$meta_length        = self::$meta_length - ( strlen( $date ) + 5 );
@@ -363,7 +363,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 					'currentdate',
 					'currentday',
 					'currentmonth',
-					'currentyear'
+					'currentyear',
 				) as $var
 			) {
 				$cached_replacement_vars[ $var ] = wpseo_replace_vars( '%%' . $var . '%%', $post );
@@ -525,8 +525,8 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 						$selectedarr = $meta_value;
 
 						// If the multiselect field is 'meta-robots-adv' we should explode on ,
-						if( 'meta-robots-adv' === $key ) {
-							$selectedarr   = explode( ',', $meta_value );
+						if ( 'meta-robots-adv' === $key ) {
+							$selectedarr = explode( ',', $meta_value );
 						}
 
 						$options_count = count( $meta_field_def['options'] );
@@ -545,15 +545,15 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 					break;
 
 				case 'checkbox':
-					$checked = checked( $meta_value, 'on', false );
-					$expl    = ( isset( $meta_field_def['expl'] ) ) ? esc_html( $meta_field_def['expl'] ) : '';
+					$checked  = checked( $meta_value, 'on', false );
+					$expl     = ( isset( $meta_field_def['expl'] ) ) ? esc_html( $meta_field_def['expl'] ) : '';
 					$content .= '<label for="' . $esc_form_key . '"><input type="checkbox" id="' . $esc_form_key . '" name="' . $esc_form_key . '" ' . $checked . ' value="on" class="yoast' . $class . '"/> ' . $expl . '</label><br />';
 					break;
 
 				case 'radio':
 					if ( isset( $meta_field_def['options'] ) && is_array( $meta_field_def['options'] ) && $meta_field_def['options'] !== array() ) {
 						foreach ( $meta_field_def['options'] as $val => $option ) {
-							$checked = checked( $meta_value, $val, false );
+							$checked  = checked( $meta_value, $val, false );
 							$content .= '<input type="radio" ' . $checked . ' id="' . $esc_form_key . '_' . esc_attr( $val ) . '" name="' . $esc_form_key . '" value="' . esc_attr( $val ) . '"/> <label for="' . $esc_form_key . '_' . esc_attr( $val ) . '">' . esc_html( $option ) . '</label> ';
 						}
 					}
@@ -635,7 +635,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			$options = WPSEO_Options::get_all();
 
 			$date = '';
-			if ( is_object( $post ) && isset( $options['showdate-' . $post->post_type] ) && $options['showdate-' . $post->post_type] === true ) {
+			if ( is_object( $post ) && isset( $options[ 'showdate-' . $post->post_type ] ) && $options[ 'showdate-' . $post->post_type ] === true ) {
 				$date = $this->get_post_date( $post );
 			}
 
@@ -698,10 +698,10 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			foreach ( $meta_boxes as $key => $meta_box ) {
 				$data = null;
 				if ( 'checkbox' === $meta_box['type'] ) {
-					$data = isset( $_POST[self::$form_prefix . $key] ) ? 'on' : 'off';
+					$data = isset( $_POST[ self::$form_prefix . $key ] ) ? 'on' : 'off';
 				} else {
-					if ( isset( $_POST[self::$form_prefix . $key] ) ) {
-						$data = $_POST[self::$form_prefix . $key];
+					if ( isset( $_POST[ self::$form_prefix . $key ] ) ) {
+						$data = $_POST[ self::$form_prefix . $key ];
 					}
 				}
 				if ( isset( $data ) ) {
@@ -939,7 +939,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 						)
 					);
 
-					add_filter( 'posts_where' , array( $this, 'seo_score_posts_where' ) );
+					add_filter( 'posts_where', array( $this, 'seo_score_posts_where' ) );
 
 				} elseif ( $noindex ) {
 					$vars = array_merge(
@@ -1034,8 +1034,8 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			} else {
 				$post    = get_post( $post_id );
 				$options = WPSEO_Options::get_all();
-				if ( is_object( $post ) && ( isset( $options['title-' . $post->post_type] ) && $options['title-' . $post->post_type] !== '' ) ) {
-					$title_template = $options['title-' . $post->post_type];
+				if ( is_object( $post ) && ( isset( $options[ 'title-' . $post->post_type ] ) && $options[ 'title-' . $post->post_type ] !== '' ) ) {
+					$title_template = $options[ 'title-' . $post->post_type ];
 					$title_template = str_replace( ' %%page%% ', ' ', $title_template );
 
 					return wpseo_replace_vars( $title_template, $post );
@@ -1057,11 +1057,11 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			$ret    = array();
 			reset( $array );
 			foreach ( $array as $ii => $va ) {
-				$sorter[$ii] = $va[$key];
+				$sorter[ $ii ] = $va[ $key ];
 			}
 			asort( $sorter );
 			foreach ( $sorter as $ii => $va ) {
-				$ret[$ii] = $array[$ii];
+				$ret[ $ii ] = $array[ $ii ];
 			}
 			$array = $ret;
 		}
@@ -1090,7 +1090,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 				$perc_score = absint( self::get_value( 'linkdex' ) );
 
 				foreach ( $results as $result ) {
-					$score = wpseo_translate_score( $result['val'] );
+					$score   = wpseo_translate_score( $result['val'] );
 					$output .= '<tr><td class="score"><div class="' . esc_attr( 'wpseo-score-icon ' . $score ) . '"></div></td><td>' . $result['msg'] . '</td></tr>';
 				}
 				$output .= '</table>';
@@ -1189,8 +1189,8 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			if ( $title !== '' ) {
 				$job['title'] = $title;
 			} else {
-				if ( isset( $options['title-' . $post->post_type] ) && $options['title-' . $post->post_type] !== '' ) {
-					$title_template = $options['title-' . $post->post_type];
+				if ( isset( $options[ 'title-' . $post->post_type ] ) && $options[ 'title-' . $post->post_type ] !== '' ) {
+					$title_template = $options[ 'title-' . $post->post_type ];
 				} else {
 					$title_template = '%%title%% - %%sitename%%';
 				}
@@ -1204,8 +1204,8 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			$desc_meta   = self::get_value( 'metadesc' );
 			if ( $desc_meta !== '' ) {
 				$description = $desc_meta;
-			} elseif ( isset( $options['metadesc-' . $post->post_type] ) && $options['metadesc-' . $post->post_type] !== '' ) {
-				$description = wpseo_replace_vars( $options['metadesc-' . $post->post_type], $post );
+			} elseif ( isset( $options[ 'metadesc-' . $post->post_type ] ) && $options[ 'metadesc-' . $post->post_type ] !== '' ) {
+				$description = wpseo_replace_vars( $options[ 'metadesc-' . $post->post_type ], $post );
 			}
 			unset( $desc_meta );
 
@@ -1266,7 +1266,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			$overall_max = 0;
 
 			foreach ( $results as $result ) {
-				$overall += $result['val'];
+				$overall     += $result['val'];
 				$overall_max += 9;
 			}
 
@@ -1279,7 +1279,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 
 			return $results;
 		}
-		
+
 		/**
 		 * Get sample permalink
 		 *
@@ -1306,12 +1306,12 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		 * @param string $rawScore     The raw score, to be used by other filters.
 		 */
 		function save_score_result( &$results, $scoreValue, $scoreMessage, $scoreLabel, $rawScore = null ) {
-			$score                = array(
+			$score                  = array(
 				'val' => $scoreValue,
 				'msg' => $scoreMessage,
 				'raw' => $rawScore,
 			);
-			$results[$scoreLabel] = $score;
+			$results[ $scoreLabel ] = $score;
 		}
 
 
@@ -1562,7 +1562,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			$query       = '//a|//A';
 			$dom_objects = $xpath->query( $query );
 
-			$count       = array(
+			$count = array(
 				'total'    => 0,
 				'internal' => array( 'nofollow' => 0, 'dofollow' => 0 ),
 				'external' => array( 'nofollow' => 0, 'dofollow' => 0 ),
@@ -1586,12 +1586,12 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 						if ( $dom_object->attributes->getNamedItem( 'rel' ) ) {
 							$link_rel = $dom_object->attributes->getNamedItem( 'rel' )->textContent;
 							if ( stripos( $link_rel, 'nofollow' ) !== false ) {
-								$count[$type]['nofollow'] ++;
+								$count[ $type ]['nofollow'] ++;
 							} else {
-								$count[$type]['dofollow'] ++;
+								$count[ $type ]['dofollow'] ++;
 							}
 						} else {
-							$count[$type]['dofollow'] ++;
+							$count[ $type ]['dofollow'] ++;
 						}
 					}
 				}
