@@ -374,7 +374,7 @@ function wpseo_admin_bar_menu() {
 
 		// Check where to add the edit files page
 		if ( wpseo_allow_system_file_edit() === true ) {
-			$wp_admin_bar->add_menu( array( 'parent' => 'wpseo-settings', 'id' => 'wpseo-files', 'title' => __( 'Edit Files', 'wordpress-seo' ), 'href' => admin_url( 'admin.php?page=wpseo_files' ), ) );
+			$wp_admin_bar->add_menu( array( 'parent' => 'wpseo-settings', 'id' => 'wpseo-files', 'title' => __( 'Edit Files', 'wordpress-seo' ), 'href' => network_admin_url( 'admin.php?page=wpseo_files' ), ) ); // will auto-use admin_url if not in multi-site
 		}
 
 		$wp_admin_bar->add_menu( array( 'parent' => 'wpseo-settings', 'id' => 'wpseo-licenses', 'title' => __( 'Extensions', 'wordpress-seo' ), 'href' => admin_url( 'admin.php?page=wpseo_licenses' ), ) );
