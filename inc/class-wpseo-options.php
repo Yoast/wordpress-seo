@@ -1705,7 +1705,6 @@ if ( ! class_exists( 'WPSEO_Option_Titles' ) ) {
 							 'hideeditbox-'. $pt->name
 							 'hideeditbox-tax-' . $tax->name */
 					case 'hideeditbox-':
-
 					default:
 						$clean[ $key ] = ( isset( $dirty[ $key ] ) ? self::validate_bool( $dirty[ $key ] ) : false );
 						break;
