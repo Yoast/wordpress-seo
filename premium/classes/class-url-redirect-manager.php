@@ -1,6 +1,8 @@
 <?php
 
-class WPSEO_URL_Redirect_Manager extends WPSEO_Redirect_Manager {
+if ( class_exists( 'WPSEO_Redirect_Manager' ) && ! class_exists( 'WPSEO_URL_Redirect_Manager', false ) ) {
+
+	class WPSEO_URL_Redirect_Manager extends WPSEO_Redirect_Manager {
 
 	protected $option_redirects = 'wpseo-premium-redirects';
 
@@ -30,5 +32,7 @@ class WPSEO_URL_Redirect_Manager extends WPSEO_Redirect_Manager {
 		}
 
 	}
+
+}
 
 }

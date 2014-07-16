@@ -3,12 +3,6 @@
  * @package Premium\Redirect
  */
 
-if ( !defined( 'WPSEO_VERSION' ) ) {
-	header( 'HTTP/1.0 403 Forbidden' );
-	die;
-}
-
-
 abstract class WPSEO_Redirect_Manager {
 
 	protected $option_redirects = null;

@@ -1,7 +1,5 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
-
 class WPSEO_Premium_Autoloader {
 
 	/**

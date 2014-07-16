@@ -1,67 +1,71 @@
 <?php
 
-class WPSEO_REGEX_Redirect_Manager extends WPSEO_Redirect_Manager {
+if ( class_exists( 'WPSEO_Redirect_Manager' ) && ! class_exists( 'WPSEO_REGEX_Redirect_Manager', false ) ) {
 
-	protected $option_redirects = 'wpseo-premium-redirects-regex';
+	class WPSEO_REGEX_Redirect_Manager extends WPSEO_Redirect_Manager {
 
-	private $url_matches = array();
+		protected $option_redirects = 'wpseo-premium-redirects-regex';
 
-	/**
-	 * Replace the $regex vars with URL matches
-	 * 
-	 * @param $matches
-	 *
-	 * @return string
-	 */
-	public function format_redirect_url( $matches ) {
+		private $url_matches = array();
 
-		$arr_key = substr( $matches[0], 1 );
+		/**
+		 * Replace the $regex vars with URL matches
+		 *
+		 * @param $matches
+		 *
+		 * @return string
+		 */
+		public function format_redirect_url( $matches ) {
 
-		if ( isset ( $this->url_matches[ $arr_key ] ) ) {
-			return $this->url_matches[ $arr_key ];
+			$arr_key = substr( $matches[0], 1 );
+
+			if ( isset ( $this->url_matches[ $arr_key ] ) ) {
+				return $this->url_matches[ $arr_key ];
+			}
+
+			return '';
 		}
 
-		return '';
-	}
+		/**
+		 * Do the PHP redirect
+		 */
+		public function do_redirects() {
 
-	/**
-	 * Do the PHP redirect
-	 */
-	public function do_redirects() {
+			// Check if PHP redirects are enabled
+			if ( false == $this->is_php_redirects_enabled() ) {
+				return;
+			}
 
-		// Check if PHP redirects are enabled
-		if ( false == $this->is_php_redirects_enabled() ) {
-			return;
-		}
+			// Load redirects
+			$redirects = $this->get_redirects();
 
-		// Load redirects
-		$redirects = $this->get_redirects();
+			// Do the actual redirect
+			if ( count( $redirects ) > 0 ) {
 
-		// Do the actual redirect
-		if ( count( $redirects ) > 0 ) {
+				// Decode the URL
+				$url = htmlspecialchars_decode( urldecode( $_SERVER['REQUEST_URI'] ) );
 
-			// Decode the URL
-			$url = htmlspecialchars_decode( urldecode($_SERVER['REQUEST_URI']) );
+				foreach ( $redirects as $regex => $redirect ) {
 
-			foreach ( $redirects as $regex => $redirect ) {
+					// Check if the URL matches the $regex
+					if ( 1 === @preg_match( "`{$regex}`", $url, $this->url_matches ) ) {
 
-				// Check if the URL matches the $regex
-				if ( 1 === @preg_match( "`{$regex}`", $url, $this->url_matches ) ) {
+						// Replace the $regex vars with URL matches
+						$redirect_url = preg_replace_callback( "/[\$0-9]+/", array(
+							$this,
+							'format_redirect_url'
+						), $redirect['url'] );
 
-					// Replace the $regex vars with URL matches
-					$redirect_url = preg_replace_callback( "/[\$0-9]+/", array(
-						$this,
-						'format_redirect_url'
-					), $redirect['url'] );
+						// Do the redirect
+						wp_redirect( $redirect_url, $redirect['type'] );
+						exit;
 
-					// Do the redirect
-					wp_redirect( $redirect_url, $redirect['type'] );
-					exit;
+					}
+
+					// Reset url_matches
+					$this->url_matches = array();
 
 				}
-
-				// Reset url_matches
-				$this->url_matches = array();
 
 			}
 

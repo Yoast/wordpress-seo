@@ -1,9 +1,5 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-} // Exit if accessed directly
-
 class WPSEO_Upgrade_Manager {
 
 	/**
