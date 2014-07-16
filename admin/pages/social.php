@@ -190,7 +190,7 @@ $wpseo_admin_pages->admin_header( true, WPSEO_Options::get_group_name( 'wpseo_so
 			// Offer copying of meta description
 			$meta_options = get_option( 'wpseo_titles' );
 			echo "<input type='hidden' id='meta_description' value='" . $meta_options['metadesc-home-wpseo'] . "' />";
-			echo "<p class='label desc' style='border:0;'><a href='javascript:;' onclick='copy_home_meta();' class='button'>".__( 'Copy home meta description', 'wordpress-seo' ) . "</a></p>";
+			echo "<p class='label desc' style='border:0;'><a href='javascript:;' onclick='copy_home_meta();' class='button'>".__( 'Copy home meta description', 'wordpress-seo' ) . '</a></p>';
 
 			echo '<p class="desc label">' . esc_html__( 'These are the image and description used in the Open Graph meta tags on the frontpage of your site.', 'wordpress-seo' ) . '</p>';
 		}
