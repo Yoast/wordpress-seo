@@ -91,7 +91,7 @@ class WPSEO_Page_GWT {
 					echo "<p>" . __( 'To allow WordPress SEO Premium to fetch your Google Webmaster Tools information, please enter your Google Authorization Code.', 'wordpress-seo' ) . "</p>\n";
 					echo "<a href='javascript:wpseo_gwt_open_authorize_code_window(\"{$oath_url}\");'>" . __( 'Click here to get a Google Authorization Code', 'wordpress-seo' ) . "</a>\n";
 
-					echo "<p>" . __( 'Please enter the Authorization Code in the field below and press the Auhtenticate button.', 'wordpress-seo' ) . "</p>\n";
+					echo "<p>" . __( 'Please enter the Authorization Code in the field below and press the Authenticate button.', 'wordpress-seo' ) . "</p>\n";
 					echo "<form action='' method='post'>\n";
 					echo "<input type='text' name='gwt[authorization_code]' value='' />";
 					echo "<input type='submit' name='gwt[Submit]' value='" . __( 'Authenticate', 'wordpress-seo' ) . "' class='button-primary' />";
