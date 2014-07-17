@@ -1,5 +1,5 @@
 === WordPress SEO by Yoast ===
-Contributors: joostdevalk, barrykooij
+Contributors: joostdevalk
 Donate link: https://yoast.com/
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
