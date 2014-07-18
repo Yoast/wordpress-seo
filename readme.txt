@@ -89,7 +89,7 @@ For more info, check out the following articles:
 
 == Installation ==
 
-1. Upload the `wordress-seo` folder to the `/wp-content/plugins/` directory
+1. Upload the `wordpress-seo` folder to the `/wp-content/plugins/` directory
 1. Activate the WordPress SEO plugin through the 'Plugins' menu in WordPress
 1. Configure the plugin by going to the `SEO` menu that appears in your admin menu
 
