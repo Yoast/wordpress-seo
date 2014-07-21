@@ -53,7 +53,7 @@ $wpseo_admin_pages->admin_header( true, WPSEO_Options::get_group_name( 'wpseo_ti
 </div>
 <div id="home" class="wpseotab">
 	<?php
-	if ( 'page' != get_option( 'show_on_front' ) ) {
+	if ( 'posts' == get_option( 'show_on_front' ) ) {
 		echo '<h2>' . __( 'Homepage', 'wordpress-seo' ) . '</h2>';
 		echo $wpseo_admin_pages->textinput( 'title-home-wpseo', __( 'Title template', 'wordpress-seo' ) );
 		echo $wpseo_admin_pages->textarea( 'metadesc-home-wpseo', __( 'Meta description template', 'wordpress-seo' ), '', 'metadesc' );
@@ -64,7 +64,7 @@ $wpseo_admin_pages->admin_header( true, WPSEO_Options::get_group_name( 'wpseo_ti
 	else {
 		echo '<h2>' . __( 'Homepage &amp; Front page', 'wordpress-seo' ) . '</h2>';
 		echo '<p>' . sprintf( __( 'You can determine the title and description for the front page by %sediting the front page itself &raquo;%s', 'wordpress-seo' ), '<a href="' . esc_url( get_edit_post_link( get_option( 'page_on_front' ) ) ) . '">', '</a>' ) . '</p>';
-		if ( is_numeric( get_option( 'page_for_posts' ) ) ) {
+		if ( get_option( 'page_for_posts' ) > 0 ) {
 			echo '<p>' . sprintf( __( 'You can determine the title and description for the blog page by %sediting the blog page itself &raquo;%s', 'wordpress-seo' ), '<a href="' . esc_url( get_edit_post_link( get_option( 'page_for_posts' ) ) ) . '">', '</a>' ) . '</p>';
 		}
 	}

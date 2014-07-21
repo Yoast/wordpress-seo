@@ -2188,7 +2188,7 @@ if ( ! class_exists( 'WPSEO_Option_InternalLinks' ) ) {
 
 			$post_types = get_post_types( array( 'public' => true ), 'objects' );
 
-			if ( get_option( 'show_on_front' ) == 'page' ) {
+			if ( get_option( 'show_on_front' ) == 'page' && get_option( 'page_for_posts' ) > 0 ) {
 				$allowed_post_types[] = 'post';
 			}
 
