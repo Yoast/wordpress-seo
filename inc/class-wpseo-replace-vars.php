@@ -103,7 +103,7 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 
 			if ( is_string( $var ) && $var !== '' ) {
 				$var = self::remove_var_delimiter( $var );
-				
+
 				if ( preg_match( '`^[A-Z0-9_-]+$`i', $var ) === false ) {
 					trigger_error( __( 'A replacement variable can only contain alphanumeric characters, an underscore or a dash. Try renaming your variable.', 'wordpress-seo' ), E_USER_WARNING );
 				}
