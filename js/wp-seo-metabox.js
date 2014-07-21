@@ -133,7 +133,7 @@ function yst_replaceVariables(str,callback) {
 	var pattern = new RegExp(esc_sep + ' ' + esc_sep, 'g');
 	str = str.replace(pattern, wpseoMetaboxL10n.sep);
 
-	if (str.indexOf('%%') != -1 && str.match(/%%[a-z0-9_]+%%/) != null ) {
+	if (str.indexOf('%%') != -1 && str.match(/%%[a-z0-9_-]+%%/i) != null ) {
 		jQuery.post(ajaxurl, {
 					action  : 'wpseo_replace_vars',
 					string  : str,

@@ -103,8 +103,11 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 
 			if ( is_string( $var ) && $var !== '' ) {
 				$var = self::remove_var_delimiter( $var );
-
-				if ( strpos( $var, 'cf_' ) === 0 || strpos( $var, 'ct_' ) === 0 ) {
+				
+				if ( preg_match( '`^[A-Z0-9_-]+$`i', $var ) === false ) {
+					trigger_error( __( 'A replacement variable can only contain alphanumeric characters, an underscore or a dash. Try renaming your variable.', 'wordpress-seo' ), E_USER_WARNING );
+				}
+				elseif ( strpos( $var, 'cf_' ) === 0 || strpos( $var, 'ct_' ) === 0 ) {
 					trigger_error( __( 'A replacement variable can not start with "%%cf_" or "%%ct_" as these are reserved for the WPSEO standard variable variables for custom fields and custom taxonomies. Try making your variable name unique.', 'wordpress-seo' ), E_USER_WARNING );
 				}
 				elseif ( ! method_exists( __CLASS__, 'retrieve_' . $var ) ) {
