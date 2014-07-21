@@ -647,19 +647,17 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 							'chf' => $this->filter_frequency( 'homepage', 'daily', $this->home_url ),
 						)
 					);
-				} else {
-					if ( $front_id && $post_type == 'post' ) {
-						$page_for_posts = get_option( 'page_for_posts' );
-						if ( $page_for_posts ) {
-							$page_for_posts_url = get_permalink( $page_for_posts );
-							$output .= $this->sitemap_url(
-								array(
-									'loc' => $page_for_posts_url,
-									'pri' => 1,
-									'chf' => $change_freq = $this->filter_frequency( 'blogpage', 'daily', $page_for_posts_url ),
-								)
-							);
-						}
+				} elseif ( $front_id && $post_type == 'post' ) {
+					$page_for_posts = get_option( 'page_for_posts' );
+					if ( $page_for_posts ) {
+						$page_for_posts_url = get_permalink( $page_for_posts );
+						$output .= $this->sitemap_url(
+							array(
+								'loc' => $page_for_posts_url,
+								'pri' => 1,
+								'chf' => $change_freq = $this->filter_frequency( 'blogpage', 'daily', $page_for_posts_url ),
+							)
+						);
 					}
 				}
 
