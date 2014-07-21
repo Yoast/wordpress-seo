@@ -399,7 +399,8 @@ jQuery(document).ready(function () {
 			yst_updateTitle();
 		}, 2000 );
 	});
-	descElm.keyup(function () {
+	// DON'T 'optimize' this to use descElm! descElm might not be defined and will cause js errors (Soliloquy issue)
+	jQuery('#'+wpseoMetaboxL10n.field_prefix+'metadesc').keyup(function () {
 		delay(function(){
 			yst_updateDesc();
 		}, 2000 );
