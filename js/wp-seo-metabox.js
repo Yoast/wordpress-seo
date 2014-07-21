@@ -128,6 +128,11 @@ function yst_replaceVariables(str,callback) {
 	str = str.replace(/%%excerpt_only%%/g, excerpt);
 	str = str.replace(/%%excerpt%%/g, excerpt);
 
+	// remove double separators
+	var esc_sep = yst_escapeFocusKw( wpseoMetaboxL10n.sep );
+	var pattern = new RegExp(esc_sep + ' ' + esc_sep, 'g');
+	str = str.replace(pattern, wpseoMetaboxL10n.sep);
+
 	if (str.indexOf('%%') != -1 && str.match(/%%[a-z0-9_]+%%/) != null ) {
 		jQuery.post(ajaxurl, {
 					action  : 'wpseo_replace_vars',
