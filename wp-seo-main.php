@@ -221,7 +221,7 @@ function wpseo_on_activate_blog( $blog_id ) {
 
 	if ( is_plugin_active_for_network( plugin_basename( WPSEO_FILE ) ) ) {
 		switch_to_blog( $blog_id );
-		wpseo_activate();
+		wpseo_activate( false );
 		restore_current_blog();
 	}
 }
