@@ -109,6 +109,12 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 
 == Changelog ==
 
+= Trunk =
+
+* Bugfixes:
+	* Fixed redirect loop which occurred on multi-word search or when search query contained special characters and the 'redirect ugly URL's' option was on, as reported by [inventurblogger](https://github.com/inventurblogger) in [issue #1340](https://github.com/Yoast/wordpress-seo/issues/1340).
+
+
 = 1.5.4.2 =
 Release Date: July 16th, 2014
 
