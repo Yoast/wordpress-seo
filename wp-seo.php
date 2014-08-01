@@ -38,4 +38,4 @@ if ( ! defined( 'WPSEO_FILE' ) ) {
 }
 
 // Load the WordPress SEO plugin
-require_once( 'wp-seo-main.php' );
+require_once( __DIR__ . '/wp-seo-main.php' );
