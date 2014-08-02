@@ -57,7 +57,7 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 
 				add_action( 'wpseo_opengraph', array( $this, 'image' ), 30 );
 			}
-			remove_action( 'wp_head', 'jetpack_og_tags' );
+			add_filter( 'jetpack_enable_open_graph', '__return_false' );
 			add_action( 'wpseo_head', array( $this, 'opengraph' ), 30 );
 		}
 
