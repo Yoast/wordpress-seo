@@ -697,6 +697,19 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 			$where_filter = apply_filters( 'wpseo_posts_where', false, $post_type );
 
 			$status = ( $post_type == 'attachment' ) ? 'inherit' : 'publish';
+			
+			// First let's grab all possible image attachments that may be used in the post anyway. 
+			// We grab everything instead of running a query each time. 
+			$image_attachments = array();
+			// Don't run for attachments... Since attachments can't have attachments. 
+			if($post_type != 'attachment')
+			{
+				$query = "SELECT guid, post_title, post_parent
+						FROM $wpdb->posts
+						WHERE post_type = 'attachment'
+						AND post_mime_type LIKE 'image/%'";
+				$image_attachments = $wpdb->get_results($query);
+			}
 
 			/**
 			 * We grab post_date, post_name, post_author and post_status too so we can throw these objects
@@ -814,6 +827,19 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 						$url['pri'] = apply_filters( 'wpseo_xml_sitemap_post_priority', $url['pri'], $p->post_type, $p );
 
 						$url['images'] = array();
+
+						//Find any possible image attachments that we may want to save into the sitemap. 
+						foreach($image_attachments as $image_attachment)
+						{
+							if($image_attachment->post_parent === $p->ID)
+							{
+								$image = array(
+									'src' => apply_filters( 'wpseo_xml_sitemap_img_src', $image_attachment->guid, $p ), 
+									'title' => $image_attachment->post_title
+								);
+								$url['images'][] = $image;
+							}
+						}
 
 						$content = $p->post_content;
 						$content = '<p><img src="' . $this->image_url( get_post_thumbnail_id( $p->ID ) ) . '" alt="' . $p->post_title . '" /></p>' . $content;
