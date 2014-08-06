@@ -36,4 +36,15 @@ class WPSEO_UnitTestCase extends WP_UnitTestCase {
 		$this->assertEquals( $expected, $output );
 	}
 
+	/**
+	 * Skips the current test if there is an open plugin ticket with id $ticket_id
+	 */
+	public function knownPluginBug( $ticket_id ) {
+		if ( WP_TESTS_FORCE_KNOWN_BUGS || in_array( 'Plugin' . $ticket_id, self::$forced_tickets ) ) {
+			return;
+		}
+		if ( GithubIssues::is_github_issue_open( $ticket_id ) ) {
+			$this->markTestSkipped( "\n" . sprintf( '%s issue #%d is not fixed', $GLOBALS['github_repo']['name'], $ticket_id ) );
+		}
+	}
 }
