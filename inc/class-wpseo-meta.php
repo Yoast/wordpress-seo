@@ -254,6 +254,12 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 				),
 			),
 			'social'	=> array(
+				'opengraph-title'		=> array(
+					'type'			=> 'text',
+					'title' 		=> '', // translation added later
+					'default_value'	=> '',
+					'description'	=> '', // translation added later
+				),
 				'opengraph-description'		=> array(
 					'type'			=> 'textarea',
 					'title' 		=> '', // translation added later
@@ -266,12 +272,25 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 					'default_value'	=> '',
 					'description'	=> '', // translation added later
 				),
+				'google-plus-title'	=> array(
+					'type'			=> 'text',
+					'title' 		=> '', // translation added later
+					'default_value'	=> '',
+					'description'	=> '', // translation added later
+				),
 				'google-plus-description'	=> array(
 					'type'			=> 'textarea',
 					'title' 		=> '', // translation added later
 					'default_value'	=> '',
 					'description'	=> '', // translation added later
 				),
+				'google-plus-image'			=> array(
+					'type'			=> 'upload',
+					'title' 		=> '', // translation added later
+					'default_value'	=> '',
+					'description'	=> '', // translation added later
+				),
+
 			),
 
 			/* Fields we should validate & save, but not show on any form */

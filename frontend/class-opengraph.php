@@ -214,12 +214,24 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 		 * @return boolean
 		 */
 		public function og_title( $echo = true ) {
+			if ( is_singular() ) {
+				$title = WPSEO_Meta::get_value( 'opengraph-title' );
+				if ( $title === '' ) {
+					$title = $this->title( '' );
+				} else {
+					// Replace WP SEO Variables
+					$title = wpseo_replace_vars( $title, get_post() );
+				}
+			} else {
+				$title = $this->title( '' );
+			}
+
 			/**
 			 * Filter: 'wpseo_opengraph_title' - Allow changing the title specifically for OpenGraph
 			 *
 			 * @api string $unsigned The title string
 			 */
-			$title = apply_filters( 'wpseo_opengraph_title', $this->title( '' ) );
+			$title = trim( apply_filters( 'wpseo_opengraph_title', $title ) );
 
 			if ( is_string( $title ) && $title !== '' ) {
 				if ( $echo !== false ) {
@@ -514,7 +526,7 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 			 *
 			 * @api string $ogdesc The description string.
 			 */
-			$ogdesc = apply_filters( 'wpseo_opengraph_desc', $ogdesc );
+			$ogdesc = trim( apply_filters( 'wpseo_opengraph_desc', $ogdesc ) );
 
 			if ( is_string( $ogdesc ) && $ogdesc !== '' ) {
 				if ( $echo !== false ) {

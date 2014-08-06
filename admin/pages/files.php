@@ -121,7 +121,7 @@ if ( ( isset( $_SERVER['SERVER_SOFTWARE'] ) && stristr( $_SERVER['SERVER_SOFTWAR
 		$content  = '<p><em>' . __( 'If your .htaccess were writable, you could edit it from here.', 'wordpress-seo' ) . '</em></p>';
 		$content .= '<textarea class="large-text code" disabled="disabled" rows="15" name="robotsnew">' . $contentht . '</textarea><br/>';
 	} else {
-		$content  = '<form action="' . admin_url( 'admin.php?page=wpseo_files' ) . '" method="post" id="htaccessform">';
+		$content  = '<form action="' . esc_url( $action_url ) . '" method="post" id="htaccessform">';
 		$content .= wp_nonce_field( 'wpseo-htaccess', '_wpnonce', true, false );
 		$content .= '<p>' . __( 'Edit the content of your .htaccess:', 'wordpress-seo' ) . '</p>';
 		$content .= '<textarea class="large-text code" rows="15" name="htaccessnew">' . $contentht . '</textarea><br/>';

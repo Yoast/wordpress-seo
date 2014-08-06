@@ -201,6 +201,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 			if ( '' == $this->timezone_string ) {
 				$this->timezone_string = $this->determine_timezone_string();
 			}
+
 			return $this->timezone_string;
 		}
 
@@ -444,7 +445,8 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 				}
 
 				// Retrieve all the taxonomies and their terms so we can do a proper count on them.
-				$query              = "SELECT taxonomy, term_id FROM $wpdb->term_taxonomy WHERE count != 0 AND taxonomy IN ('" . implode( "','", $taxonomy_names ) . "');";
+				$hide_empty         = ( apply_filters( 'wpseo_sitemap_exclude_empty_terms', true, $tax ) ) ? 'count != 0 AND' : '';
+				$query              = "SELECT taxonomy, term_id FROM $wpdb->term_taxonomy WHERE $hide_empty taxonomy IN ('" . implode( "','", $taxonomy_names ) . "');";
 				$all_taxonomy_terms = $wpdb->get_results( $query );
 				$all_taxonomies     = array();
 				foreach ( $all_taxonomy_terms as $obj ) {
@@ -491,6 +493,8 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 							if ( $query->have_posts() ) {
 								$datetime = new DateTime( $query->posts[0]->post_modified_gmt, new DateTimeZone( $this->get_timezone_string() ) );
 								$date     = $datetime->format( 'c' );
+							} else {
+								$date = $this->get_last_modified( $tax->object_type );
 							}
 						}
 
@@ -648,7 +652,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 						$page_for_posts = get_option( 'page_for_posts' );
 						if ( $page_for_posts ) {
 							$page_for_posts_url = get_permalink( $page_for_posts );
-							$output            .= $this->sitemap_url(
+							$output .= $this->sitemap_url(
 								array(
 									'loc' => $page_for_posts_url,
 									'pri' => 1,
@@ -702,20 +706,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 
 				// Optimized query per this thread: http://wordpress.org/support/topic/plugin-wordpress-seo-by-yoast-performance-suggestion
 				// Also see http://explainextended.com/2009/10/23/mysql-order-by-limit-performance-late-row-lookups/
-				$query = $wpdb->prepare( 'SELECT l.ID, post_title, post_content, post_name, post_author, post_parent, post_modified_gmt, post_date, post_date_gmt'
-										. ' FROM ('
-										. " SELECT ID FROM $wpdb->posts {$join_filter} "
-										. " WHERE post_status = '%s'"
-										. " AND post_password = ''"
-										. " AND post_type = '%s'"
-										. ' AND post_author != 0'
-										. " AND post_date != '0000-00-00 00:00:00'"
-										. " {$where_filter}"
-										. ' ORDER BY post_modified ASC'
-										. ' LIMIT %d OFFSET %d ) o'
-										. " JOIN $wpdb->posts l"
-										. ' ON l.ID = o.ID'
-										. ' ORDER BY l.ID',
+				$query = $wpdb->prepare( "SELECT l.ID, post_title, post_content, post_name, post_author, post_parent, post_modified_gmt, post_date, post_date_gmt FROM ( SELECT ID FROM $wpdb->posts {$join_filter} WHERE post_status = '%s' AND post_password = '' AND post_type = '%s' AND post_author != 0 AND post_date != '0000-00-00 00:00:00' {$where_filter} ORDER BY post_modified ASC LIMIT %d OFFSET %d ) o JOIN $wpdb->posts l ON l.ID = o.ID ORDER BY l.ID",
 					$status, $post_type, $steps, $offset
 				);
 
@@ -906,7 +897,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 							// Use this filter to adjust the entry before it gets added to the sitemap
 							$url = apply_filters( 'wpseo_sitemap_entry', $url, 'post', $p );
 							if ( is_array( $url ) && $url !== array() ) {
-								$output       .= $this->sitemap_url( $url );
+								$output .= $this->sitemap_url( $url );
 								$stackedurls[] = $url['loc'];
 							}
 						}
@@ -924,7 +915,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 				return;
 			}
 
-			$this->sitemap  = '<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" ';
+			$this->sitemap = '<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" ';
 			$this->sitemap .= 'xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" ';
 			$this->sitemap .= 'xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
 			$this->sitemap .= $output;
@@ -978,9 +969,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 					$tax_noindex     = WPSEO_Taxonomy_Meta::get_term_meta( $c, $c->taxonomy, 'noindex' );
 					$tax_sitemap_inc = WPSEO_Taxonomy_Meta::get_term_meta( $c, $c->taxonomy, 'sitemap_include' );
 
-					if ( ( is_string( $tax_noindex ) && $tax_noindex === 'noindex' )
-						&& ( ! is_string( $tax_sitemap_inc ) || $tax_sitemap_inc !== 'always' )
-					) {
+					if ( ( is_string( $tax_noindex ) && $tax_noindex === 'noindex' ) && ( ! is_string( $tax_sitemap_inc ) || $tax_sitemap_inc !== 'always' ) ) {
 						continue;
 					}
 
@@ -1039,7 +1028,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 				return;
 			}
 
-			$this->sitemap  = '<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ';
+			$this->sitemap = '<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ';
 			$this->sitemap .= 'xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" ';
 			$this->sitemap .= 'xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
 			$this->sitemap .= $output;
@@ -1130,7 +1119,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 				return;
 			}
 
-			$this->sitemap  = '<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" ';
+			$this->sitemap = '<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" ';
 			$this->sitemap .= 'xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" ';
 			$this->sitemap .= 'xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
 			$this->sitemap .= $output;
@@ -1219,7 +1208,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 
 			$url['loc'] = htmlspecialchars( $url['loc'] );
 
-			$output  = "\t<url>\n";
+			$output = "\t<url>\n";
 			$output .= "\t\t<loc>" . $url['loc'] . "</loc>\n";
 			$output .= "\t\t<lastmod>" . $date->format( 'c' ) . "</lastmod>\n";
 			$output .= "\t\t<changefreq>" . $url['chf'] . "</changefreq>\n";
@@ -1312,6 +1301,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 			}
 
 			$date = new DateTime( $result, new DateTimeZone( $this->get_timezone_string() ) );
+
 			return $date->format( 'c' );
 		}
 
