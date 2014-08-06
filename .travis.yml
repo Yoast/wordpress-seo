@@ -36,7 +36,7 @@ before_script:
 - phpenv rehash
 
 script:
-- if [[ "$PHPLINT" == "1" ]]; then phpLint all;
+- if [[ "$PHPLINT" == "1" ]]; then find -L . -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l
 - phpunit -c phpunit.xml
 - /tmp/wordpress/phpcs/scripts/phpcs -p -s -v -n . --standard=./codesniffer.xml --extensions=php
 
