@@ -4,12 +4,12 @@ php:
 - '5.5'
 
 env:
-- WP_VERSION=master WP_MULTISITE=0
+- WP_VERSION=master WP_MULTISITE=0 PHPLINT=1
 
 matrix:
   include:
     - php: "5.4"
-      env: WP_VERSION=3.8.1 WP_MULTISITE=1 PHPLINT=1
+      env: WP_VERSION=3.8.1 WP_MULTISITE=1
     - php: "5.3"
       env: WP_VERSION=3.8.1 WP_MULTISITE=0
     - php: "5.2"
