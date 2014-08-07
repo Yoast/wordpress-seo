@@ -128,7 +128,12 @@ function yst_replaceVariables(str,callback) {
 	str = str.replace(/%%excerpt_only%%/g, excerpt);
 	str = str.replace(/%%excerpt%%/g, excerpt);
 
-	if (str.indexOf('%%') != -1 && str.match(/%%[a-z0-9_]+%%/) != null ) {
+	// remove double separators
+	var esc_sep = yst_escapeFocusKw( wpseoMetaboxL10n.sep );
+	var pattern = new RegExp(esc_sep + ' ' + esc_sep, 'g');
+	str = str.replace(pattern, wpseoMetaboxL10n.sep);
+
+	if (str.indexOf('%%') != -1 && str.match(/%%[a-z0-9_-]+%%/i) != null ) {
 		jQuery.post(ajaxurl, {
 					action  : 'wpseo_replace_vars',
 					string  : str,
@@ -394,7 +399,8 @@ jQuery(document).ready(function () {
 			yst_updateTitle();
 		}, 2000 );
 	});
-	descElm.keyup(function () {
+	// DON'T 'optimize' this to use descElm! descElm might not be defined and will cause js errors (Soliloquy issue)
+	jQuery('#'+wpseoMetaboxL10n.field_prefix+'metadesc').keyup(function () {
 		delay(function(){
 			yst_updateDesc();
 		}, 2000 );
