@@ -528,7 +528,7 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 		 */
 		private function maybe_add_preferred_term_parent_crumb( $term ) {
 			if ( isset( $this->options[ 'taxonomy-' . $term->taxonomy . '-ptparent' ] ) && $this->options[ 'taxonomy-' . $term->taxonomy . '-ptparent' ] != '0' ) {
-				if ( 'post' == $this->options[ 'taxonomy-' . $term->taxonomy . '-ptparent' ] && get_option( 'show_on_front' ) == 'page' ) {
+				if ( 'post' == $this->options[ 'taxonomy-' . $term->taxonomy . '-ptparent' ] && $this->show_on_front == 'page' ) {
 					if ( $this->page_for_posts ) {
 						$this->add_blog_crumb();
 					}
