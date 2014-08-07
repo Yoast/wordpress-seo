@@ -113,7 +113,12 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 
 * Bugfixes:
 	* WP Shortlinks weren't always removed when user did choose to remove them as reported in [issue #1397](https://github.com/Yoast/wordpress-seo/issues/1397), props [Firebird75](https://github.com/Firebird75).
+	* Fixed the way we prevent Jetpack from outputting OpenGraph tags. Props [jeherve](https://github.com/jeherve).
+	* Symlinking the plugin should now work. Props [crewstyle](https://github.com/crewstyle) and [dannyvankooten](https://github.com/dannyvankooten).
+	* Fix warnings on new site creation multisite as reported in [issue #1368](https://github.com/Yoast/wordpress-seo/issues/1368), props [jrfnl](https://github.com/jrfnl) and [jennybeaumont](https://github.com/jennybeaumont).
 
+* Enhancements:
+	* Added Facebook / OpenGraph title input and Google+ title input and image upload field to Social tab.
 
 
 = 1.5.4.2 =
