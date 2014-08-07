@@ -1360,12 +1360,12 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 				$cururl .= 's';
 			}
 			$cururl .= '://';
-			if ( $_SERVER['SERVER_PORT'] != '80' && $_SERVER['SERVER_PORT'] != '443' ) {
-				$cururl .= sanitize_text_field( $_SERVER['SERVER_NAME'] ) . ':' . sanitize_text_field( $_SERVER['SERVER_PORT'] ) . sanitize_text_field( $_SERVER['REQUEST_URI'] );
-			} else {
-				$cururl .= sanitize_text_field( $_SERVER['SERVER_NAME'] ) . sanitize_text_field( $_SERVER['REQUEST_URI'] );
-			}
 
+			if ( $_SERVER['SERVER_PORT'] != '80' && $_SERVER['SERVER_PORT'] != '443' ) {
+				$cururl .= $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'] . $_SERVER['REQUEST_URI'];
+			} else {
+				$cururl .= $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
+			}
 			$properurl = '';
 
 			if ( is_singular() ) {
@@ -1412,8 +1412,8 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 					$properurl = get_term_link( $term, $term->taxonomy );
 				}
 			} elseif ( is_search() ) {
-				$s         = preg_replace( '`(%20|\+)`', ' ', get_search_query() );
-				$properurl = get_bloginfo( 'url' ) . '/?s=' . rawurlencode( $s );
+				$s         = urlencode( preg_replace( '`(%20|\+)`', ' ', get_search_query() ) );
+				$properurl = get_bloginfo( 'url' ) . '/?s=' . $s;
 			} elseif ( is_404() ) {
 				if ( is_multisite() && ! is_subdomain_install() && is_main_site() ) {
 					if ( $cururl == get_bloginfo( 'url' ) . '/blog/' || $cururl == get_bloginfo( 'url' ) . '/blog' ) {
@@ -1427,8 +1427,8 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 			}
 
 			if ( ! empty( $properurl ) && $wp_query->query_vars['paged'] != 0 && $wp_query->post_count != 0 ) {
-				if ( is_search() ) {
-					$properurl = get_bloginfo( 'url' ) . '/page/' . $wp_query->query_vars['paged'] . '/?s=' . rawurlencode( get_search_query() );
+				if ( is_search() && ! empty( $s ) ) {
+					$properurl = get_bloginfo( 'url' ) . '/page/' . $wp_query->query_vars['paged'] . '/?s=' . $s;
 				} else {
 					$properurl = user_trailingslashit( trailingslashit( $properurl ) . 'page/' . $wp_query->query_vars['paged'] );
 				}
