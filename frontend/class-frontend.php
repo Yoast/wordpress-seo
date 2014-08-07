@@ -142,7 +142,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 		 * @return bool
 		 */
 		function is_home_posts_page() {
-			return ( is_home() && 'page' != get_option( 'show_on_front' ) );
+			return ( is_home() && 'posts' == get_option( 'show_on_front' ) );
 		}
 
 		/**
