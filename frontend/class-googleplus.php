@@ -25,6 +25,7 @@ if ( ! class_exists( 'WPSEO_GooglePlus' ) ) {
 		public function __construct() {
 			add_action( 'wpseo_googleplus', array( $this, 'google_plus_title' ), 10 );
 			add_action( 'wpseo_googleplus', array( $this, 'description' ), 11 );
+			add_action( 'wpseo_googleplus', array( $this, 'google_plus_image' ), 12 );
 
 			add_action( 'wpseo_head', array( $this, 'output' ), 40 );
 		}
