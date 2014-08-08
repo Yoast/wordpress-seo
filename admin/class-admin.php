@@ -89,15 +89,15 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 
 			// Sub menu pages
 			$submenu_pages = array(
-					array( 'wpseo_dashboard', __( 'Titles &amp; Metas', 'wordpress-seo' ), '', 'manage_options', 'wpseo_titles', array( $this, 'load_page' ), array( array( $this, 'title_metas_help_tab' ) ) ),
-					array( 'wpseo_dashboard', __( 'Social', 'wordpress-seo' ), '', 'manage_options', 'wpseo_social', array( $this, 'load_page' ), null ),
-					array( 'wpseo_dashboard', __( 'XML Sitemaps', 'wordpress-seo' ), '', 'manage_options', 'wpseo_xml', array( $this, 'load_page' ), null ),
-					array( 'wpseo_dashboard', __( 'Permalinks', 'wordpress-seo' ), '', 'manage_options', 'wpseo_permalinks', array( $this, 'load_page' ), null ),
-					array( 'wpseo_dashboard', __( 'Internal Links', 'wordpress-seo' ), '', 'manage_options', 'wpseo_internal-links', array( $this, 'load_page' ), null ),
-					array( 'wpseo_dashboard', __( 'RSS', 'wordpress-seo' ), '', 'manage_options', 'wpseo_rss', array( $this, 'load_page' ), null ),
-					array( 'wpseo_dashboard', __( 'Import & Export', 'wordpress-seo' ), '', 'manage_options', 'wpseo_import', array( $this, 'load_page' ), null ),
-					array( 'wpseo_dashboard', __( 'Bulk Title Editor', 'wordpress-seo' ), '', 'wpseo_bulk_edit', 'wpseo_bulk-title-editor', array( $this, 'load_page' ), array( array( $this, 'bulk_edit_options' ) ) ),
-					array( 'wpseo_dashboard', __( 'Bulk Description Editor', 'wordpress-seo' ), '', 'wpseo_bulk_edit', 'wpseo_bulk-description-editor', array( $this, 'load_page' ), array( array( $this, 'bulk_edit_options' ) ) ),
+					array( 'wpseo_dashboard', '', __( 'Titles &amp; Metas', 'wordpress-seo' ), 'manage_options', 'wpseo_titles', array( $this, 'load_page' ), array( array( $this, 'title_metas_help_tab' ) ) ),
+					array( 'wpseo_dashboard', '', __( 'Social', 'wordpress-seo' ), 'manage_options', 'wpseo_social', array( $this, 'load_page' ), null ),
+					array( 'wpseo_dashboard', '', __( 'XML Sitemaps', 'wordpress-seo' ), 'manage_options', 'wpseo_xml', array( $this, 'load_page' ), null ),
+					array( 'wpseo_dashboard', '', __( 'Permalinks', 'wordpress-seo' ), 'manage_options', 'wpseo_permalinks', array( $this, 'load_page' ), null ),
+					array( 'wpseo_dashboard', '', __( 'Internal Links', 'wordpress-seo' ), 'manage_options', 'wpseo_internal-links', array( $this, 'load_page' ), null ),
+					array( 'wpseo_dashboard', '', __( 'RSS', 'wordpress-seo' ), 'manage_options', 'wpseo_rss', array( $this, 'load_page' ), null ),
+					array( 'wpseo_dashboard', '', __( 'Import & Export', 'wordpress-seo' ), 'manage_options', 'wpseo_import', array( $this, 'load_page' ), null ),
+					array( 'wpseo_dashboard', '', __( 'Bulk Title Editor', 'wordpress-seo' ), 'wpseo_bulk_edit', 'wpseo_bulk-title-editor', array( $this, 'load_page' ), array( array( $this, 'bulk_edit_options' ) ) ),
+					array( 'wpseo_dashboard', '', __( 'Bulk Description Editor', 'wordpress-seo' ), 'wpseo_bulk_edit', 'wpseo_bulk-description-editor', array( $this, 'load_page' ), array( array( $this, 'bulk_edit_options' ) ) ),
 			);
 
 			// Check where to add the edit files page
@@ -116,7 +116,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 				foreach ( $submenu_pages as $submenu_page ) {
 
 					// Add submenu page
-					$admin_page = add_submenu_page( $submenu_page[0], __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . $submenu_page[1], $submenu_page[1], $submenu_page[3], $submenu_page[4], $submenu_page[5] );
+					$admin_page = add_submenu_page( $submenu_page[0], __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . $submenu_page[2], $submenu_page[2], $submenu_page[3], $submenu_page[4], $submenu_page[5] );
 
 					// Check if we need to hook
 					if ( isset( $submenu_page[6] ) && null != $submenu_page[6] && is_array( $submenu_page[6] ) && count( $submenu_page[6] ) > 0 ) {
@@ -128,7 +128,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 			}
 
 			global $submenu;
-			if ( isset( $submenu['wpseo_dashboard'] ) ) {
+			if ( isset( $submenu['wpseo_dashboard'] ) && current_user_can( 'manage_options') ) {
 				$submenu['wpseo_dashboard'][0][0] = __( 'Dashboard', 'wordpress-seo' );
 			}
 		}
