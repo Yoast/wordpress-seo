@@ -382,6 +382,14 @@ class WPSEO_Premium {
 			array( $this->page_gwt, 'display' ),
 			array( array( $this->page_gwt, 'page_load' ) )
 		);
+		$submenu_pages[] = array(
+			'wpseo_dashboard',
+			__( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Video Tutorials', 'wordpress-seo' ),
+			__( 'Video Tutorials', 'wordpress-seo' ),
+			'manage_options',
+			'wpseo_tutorial_videos',
+			array( 'WPSEO_Tutorial_Videos', 'display' )
+		);
 
 		return $submenu_pages;
 	}
@@ -396,6 +404,7 @@ class WPSEO_Premium {
 	public function add_admin_pages( $admin_pages ) {
 		$admin_pages[] = 'wpseo_redirects';
 		$admin_pages[] = 'wpseo_webmaster_tools';
+		$admin_pages[] = 'wpseo_tutorial_videos';
 
 		return $admin_pages;
 	}
