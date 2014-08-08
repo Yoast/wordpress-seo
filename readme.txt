@@ -127,6 +127,7 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 * Enhancements:
 	* Added Facebook / OpenGraph title input and Google+ title input and image upload field to Social tab.
 	* Added a new title separator feature on the Titles admin page.
+	* Merged the bulk editor pages for titles and descriptions into one menu item
 
 = 1.5.4.2 =
 Release Date: July 16th, 2014
