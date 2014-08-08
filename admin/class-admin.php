@@ -96,7 +96,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 					array( 'wpseo_dashboard', '', __( 'Internal Links', 'wordpress-seo' ), 'manage_options', 'wpseo_internal-links', array( $this, 'load_page' ), null ),
 					array( 'wpseo_dashboard', '', __( 'RSS', 'wordpress-seo' ), 'manage_options', 'wpseo_rss', array( $this, 'load_page' ), null ),
 					array( 'wpseo_dashboard', '', __( 'Import & Export', 'wordpress-seo' ), 'manage_options', 'wpseo_import', array( $this, 'load_page' ), null ),
-					array( 'wpseo_dashboard', '', __( 'Bulk Editor', 'wordpress-seo' ), 'wpseo_bulk_edit', 'wpseo_bulk-description-editor', array( $this, 'load_page' ), array( array( $this, 'bulk_edit_options' ) ) ),
+					array( 'wpseo_dashboard', '', __( 'Bulk Editor', 'wordpress-seo' ), 'wpseo_bulk_edit', 'wpseo_bulk-editor', array( $this, 'load_page' ), array( array( $this, 'bulk_edit_options' ) ) ),
 			);
 
 			// Check where to add the edit files page
