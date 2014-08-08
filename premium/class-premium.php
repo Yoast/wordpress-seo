@@ -366,8 +366,8 @@ class WPSEO_Premium {
 	public function add_submenu_pages( $submenu_pages ) {
 		$submenu_pages[] = array(
 			'wpseo_dashboard',
-			__( 'Redirects', 'wordpress-seo' ),
 			'',
+			__( 'Redirects', 'wordpress-seo' ),
 			'manage_options',
 			'wpseo_redirects',
 			array( 'WPSEO_Page_Redirect', 'display' ),
@@ -375,8 +375,8 @@ class WPSEO_Premium {
 		);
 		$submenu_pages[] = array(
 			'wpseo_dashboard',
-			__( 'Webmaster Tools', 'wordpress-seo' ),
 			'',
+			__( 'Webmaster Tools', 'wordpress-seo' ),
 			'manage_options',
 			'wpseo_webmaster_tools',
 			array( $this->page_gwt, 'display' ),
@@ -384,8 +384,8 @@ class WPSEO_Premium {
 		);
 		$submenu_pages[] = array(
 			'wpseo_dashboard',
-			__( 'Video Tutorials', 'wordpress-seo' ),
 			'',
+			__( 'Video Tutorials', 'wordpress-seo' ),
 			'edit_posts',
 			'wpseo_tutorial_videos',
 			array( 'WPSEO_Tutorial_Videos', 'display' )
