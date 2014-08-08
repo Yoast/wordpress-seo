@@ -3,14 +3,14 @@
  * @package Admin
  */
 
-if ( ! defined( 'WPSEO_VERSION' ) ) {
+if ( !defined( 'WPSEO_VERSION' ) ) {
 	header( 'Status: 403 Forbidden' );
 	header( 'HTTP/1.1 403 Forbidden' );
 	exit();
 }
 
 
-if ( ! class_exists( 'WPSEO_Bulk_Description_List_Table' ) ) {
+if ( !class_exists( 'WPSEO_Bulk_Description_List_Table' ) ) {
 	/**
 	 *
 	 */
@@ -64,7 +64,7 @@ if ( ! class_exists( 'WPSEO_Bulk_Description_List_Table' ) ) {
 			global $wpdb;
 
 			$needed_ids = array();
-			foreach($this->items AS $item) {
+			foreach ( $this->items AS $item ) {
 				$needed_ids[] = $item->ID;
 			}
 
@@ -73,16 +73,16 @@ if ( ! class_exists( 'WPSEO_Bulk_Description_List_Table' ) ) {
 				"
 				 	SELECT *
 				 	FROM {$wpdb->postmeta}
-				 	WHERE post_id IN({$post_ids}) && meta_key = '". WPSEO_Meta::$meta_prefix ."metadesc'
+				 	WHERE post_id IN({$post_ids}) && meta_key = '" . WPSEO_Meta::$meta_prefix . "metadesc'
 				"
 			);
 
-			foreach($meta_data AS $row) {
-				$this->meta_data[ $row->post_id ][ $row->meta_key ] = $row->meta_value;
+			foreach ( $meta_data AS $row ) {
+				$this->meta_data[$row->post_id][$row->meta_key] = $row->meta_value;
 			}
 
 			// Little housekeeping
-			unset( $needed_ids, $post_ids, $meta_data);
+			unset( $needed_ids, $post_ids, $meta_data );
 
 		}
 
