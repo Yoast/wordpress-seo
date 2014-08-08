@@ -1463,9 +1463,9 @@ if ( ! class_exists( 'WPSEO_Option_Titles' ) ) {
 			'sc-mdash'   => '&mdash;',
 			'sc-middot'  => '&middot;',
 			'sc-bull'    => '&bull;',
-			'*'          => '*',
-			'sc-smstar'    => '&#8902;',
-			'|'          => '|',
+			'sc-star'    => '*',
+			'sc-smstar'  => '&#8902;',
+			'sc-pipe'    => '|',
 			'sc-tilde'   => '~',
 			'sc-laquo'   => '&laquo;',
 			'sc-raquo'   => '&raquo;',
@@ -1529,6 +1529,7 @@ if ( ! class_exists( 'WPSEO_Option_Titles' ) ) {
 			if ( is_array( $filtered_separators ) && $filtered_separators !== array() ) {
 				$separators = array_merge( $separators, $filtered_separators );
 			}
+
 			return $separators;
 		}
 
