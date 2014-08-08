@@ -57,7 +57,7 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 
 				add_action( 'wpseo_opengraph', array( $this, 'image' ), 30 );
 			}
-			remove_action( 'wp_head', 'jetpack_og_tags' );
+			add_filter( 'jetpack_enable_open_graph', '__return_false' );
 			add_action( 'wpseo_head', array( $this, 'opengraph' ), 30 );
 		}
 
@@ -214,12 +214,24 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 		 * @return boolean
 		 */
 		public function og_title( $echo = true ) {
+			if ( is_singular() ) {
+				$title = WPSEO_Meta::get_value( 'opengraph-title' );
+				if ( $title === '' ) {
+					$title = $this->title( '' );
+				} else {
+					// Replace WP SEO Variables
+					$title = wpseo_replace_vars( $title, get_post() );
+				}
+			} else {
+				$title = $this->title( '' );
+			}
+
 			/**
 			 * Filter: 'wpseo_opengraph_title' - Allow changing the title specifically for OpenGraph
 			 *
 			 * @api string $unsigned The title string
 			 */
-			$title = apply_filters( 'wpseo_opengraph_title', $this->title( '' ) );
+			$title = trim( apply_filters( 'wpseo_opengraph_title', $title ) );
 
 			if ( is_string( $title ) && $title !== '' ) {
 				if ( $echo !== false ) {
@@ -229,8 +241,8 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 			}
 
 			if ( $echo === false ) {
-				return $title; 
-			} 
+				return $title;
+			}
 
 			return false;
 		}
@@ -291,8 +303,8 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 					'zh' => 'zh_CN',
 			);
 
-			if ( isset( $fix_locales[$locale] ) ) {
-				$locale = $fix_locales[$locale];
+			if ( isset( $fix_locales[ $locale ] ) ) {
+				$locale = $fix_locales[ $locale ];
 			}
 
 			// convert locales like "es" to "es_ES", in case that works for the given locale (sometimes it does)
@@ -349,12 +361,11 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 				if ( $type === '' ) {
 					$type = 'article';
 				}
-
 			}  else {
 				// We use "object" for archives etc. as article doesn't apply there
 				$type = 'object';
 			}
-			
+
 			/**
 			 * Filter: 'wpseo_opengraph_type' - Allow changing the OpenGraph type of the page
 			 *
@@ -410,7 +421,6 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 			array_push( $this->shown_images, $img );
 
 			$this->og_tag( 'og:image', esc_url( $img ) );
-		
 
 			return true;
 		}
@@ -516,7 +526,7 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 			 *
 			 * @api string $ogdesc The description string.
 			 */
-			$ogdesc = apply_filters( 'wpseo_opengraph_desc', $ogdesc );
+			$ogdesc = trim( apply_filters( 'wpseo_opengraph_desc', $ogdesc ) );
 
 			if ( is_string( $ogdesc ) && $ogdesc !== '' ) {
 				if ( $echo !== false ) {

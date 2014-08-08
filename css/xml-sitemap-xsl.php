@@ -3,6 +3,12 @@
  * @package XML_Sitemaps
  */
 
+if ( ! defined( 'WPSEO_VERSION' ) ) {
+	header( 'Status: 403 Forbidden' );
+	header( 'HTTP/1.1 403 Forbidden' );
+	exit();
+}
+
 // This is to prevent issues with New Relics stupid auto injection of code. It's ugly but I don't want
 // to deal with support requests for other people's wrong code...
 if ( extension_loaded( 'newrelic' ) && function_exists( 'newrelic_disable_autorum' ) ) {

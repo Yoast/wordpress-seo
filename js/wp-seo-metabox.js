@@ -128,7 +128,12 @@ function yst_replaceVariables(str,callback) {
 	str = str.replace(/%%excerpt_only%%/g, excerpt);
 	str = str.replace(/%%excerpt%%/g, excerpt);
 
-	if (str.indexOf('%%') != -1 && str.match(/%%[a-z0-9_]+%%/) != null ) {
+	// remove double separators
+	var esc_sep = yst_escapeFocusKw( wpseoMetaboxL10n.sep );
+	var pattern = new RegExp(esc_sep + ' ' + esc_sep, 'g');
+	str = str.replace(pattern, wpseoMetaboxL10n.sep);
+
+	if (str.indexOf('%%') != -1 && str.match(/%%[a-z0-9_-]+%%/i) != null ) {
 		jQuery.post(ajaxurl, {
 					action  : 'wpseo_replace_vars',
 					string  : str,
@@ -221,6 +226,7 @@ function yst_updateDesc() {
 
 			jQuery('#' + wpseoMetaboxL10n.field_prefix + 'metadesc-length').html(len);
 
+			desc = yst_trimDesc(desc);
 			desc = yst_boldKeywords(desc, false);
 			// Clear the autogen description.
 			snippet.find('.desc span.autogen').html('');
@@ -248,18 +254,23 @@ function yst_updateDesc() {
 		} else {
 			desc = desc.substr(0, wpseoMetaboxL10n.wpseo_meta_desc_length);
 		}
-		if (desc.length > wpseoMetaboxL10n.wpseo_meta_desc_length) {
-			var space;
-			if (desc.length > wpseoMetaboxL10n.wpseo_meta_desc_length)
-				space = desc.lastIndexOf(" ", ( wpseoMetaboxL10n.wpseo_meta_desc_length - 3 ));
-			else
-				space = wpseoMetaboxL10n.wpseo_meta_desc_length;
-			desc = desc.substring(0, space).concat(' ...');
-		}
 		desc = yst_boldKeywords(desc, false);
+		desc = yst_trimDesc(desc);
 		snippet.find('.desc span.autogen').html(desc);
 	}
 
+}
+
+function yst_trimDesc( desc ) {
+	if (desc.length > wpseoMetaboxL10n.wpseo_meta_desc_length) {
+		var space;
+		if (desc.length > wpseoMetaboxL10n.wpseo_meta_desc_length)
+			space = desc.lastIndexOf(" ", ( wpseoMetaboxL10n.wpseo_meta_desc_length - 3 ));
+		else
+			space = wpseoMetaboxL10n.wpseo_meta_desc_length;
+		desc = desc.substring(0, space).concat(' ...');
+	}
+	return desc;
 }
 
 function yst_updateURL() {
@@ -388,7 +399,8 @@ jQuery(document).ready(function () {
 			yst_updateTitle();
 		}, 2000 );
 	});
-	descElm.keyup(function () {
+	// DON'T 'optimize' this to use descElm! descElm might not be defined and will cause js errors (Soliloquy issue)
+	jQuery('#'+wpseoMetaboxL10n.field_prefix+'metadesc').keyup(function () {
 		delay(function(){
 			yst_updateDesc();
 		}, 2000 );

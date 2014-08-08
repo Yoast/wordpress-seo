@@ -63,6 +63,10 @@ function wpseo_killBlockingFiles( nonce ) {
 	});
 }
 
+function copy_home_meta() {
+	jQuery('#og_frontpage_desc').val(jQuery('#meta_description').val());
+}
+
 /*jQuery(document).ready(function(){
 	// Collapsible debug information on the settings pages
 	jQuery('#wpseo-debug-info').accordion({

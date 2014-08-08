@@ -1,12 +1,12 @@
 === WordPress SEO by Yoast ===
-Contributors: joostdevalk, barrykooij
+Contributors: joostdevalk
 Donate link: https://yoast.com/
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: seo, SEO, google, meta, meta description, search engine optimization, xml sitemap, xml sitemaps, google sitemap, sitemap, sitemaps, robots meta, rss, rss footer, yahoo, bing, news sitemaps, XML News Sitemaps, WordPress SEO, WordPress SEO by Yoast, yoast, multisite, canonical, nofollow, noindex, keywords, meta keywords, description, webmaster tools, google webmaster tools, seo pack
 Requires at least: 3.5
 Tested up to: 3.9.1
-Stable tag: 1.5.3.3
+Stable tag: 1.5.4.2
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the WordPress SEO plugin by Yoast.
 
@@ -89,7 +89,7 @@ For more info, check out the following articles:
 
 == Installation ==
 
-1. Upload the `wordress-seo` folder to the `/wp-content/plugins/` directory
+1. Upload the `wordpress-seo` folder to the `/wp-content/plugins/` directory
 1. Activate the WordPress SEO plugin through the 'Plugins' menu in WordPress
 1. Configure the plugin by going to the `SEO` menu that appears in your admin menu
 
@@ -109,7 +109,49 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 
 == Changelog ==
 
-= Trunk / 1.5.4 =
+= Trunk =
+
+* Bugfixes:
+	* WP Shortlinks weren't always removed when user did choose to remove them as reported in [issue #1397](https://github.com/Yoast/wordpress-seo/issues/1397), props [Firebird75](https://github.com/Firebird75).
+	* Fixed the way we prevent Jetpack from outputting OpenGraph tags. Props [jeherve](https://github.com/jeherve).
+	* Symlinking the plugin should now work. Props [crewstyle](https://github.com/crewstyle) and [dannyvankooten](https://github.com/dannyvankooten).
+	* Fix warnings on new site creation multisite as reported in [issue #1368](https://github.com/Yoast/wordpress-seo/issues/1368), props [jrfnl](https://github.com/jrfnl) and [jennybeaumont](https://github.com/jennybeaumont).
+	* Fixed redirect loop which occurred on multi-word search or when search query contained special characters and the 'redirect ugly URL's' option was on, as reported by [inventurblogger](https://github.com/inventurblogger) in [issue #1340](https://github.com/Yoast/wordpress-seo/issues/1340).
+	* Fixed double separators in snippet preview as reported by [GermanKiwi](https://github.com/GermanKiwi) in [issue #1321](https://github.com/Yoast/wordpress-seo/issues/1321), props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fixed slashes in title in snippet preview as reported by [fittedwebdesign](https://github.com/fittedwebdesign) in [issue #1333](https://github.com/Yoast/wordpress-seo/issues/1333), props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fixed re-introduced js compatibility issue with Soliloquy slider as reported by [ajsonnick](https://github.com/ajsonnick) in [issue #1343](https://github.com/Yoast/wordpress-seo/issues/1343), props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fixed a bug where we could do a query in XML Sitemaps even when there were no posts to query for.
+	* If the sitemap is empty, add the homepage URL to make sure it doesn't throw errors in GWT.
+	* Change how we set 404's for non existing sitemap files, as reported in [#1383](https://github.com/Yoast/wordpress-seo/issues/1383) props [Dinglebat](https://github.com/Dinglebat).
+
+* Enhancements:
+	* Added Facebook / OpenGraph title input and Google+ title input and image upload field to Social tab.
+	* Added a new title separator feature on the Titles admin page.
+
+= 1.5.4.2 =
+Release Date: July 16th, 2014
+
+* Bugfixes:
+	* Fixed several notices for undefined variables.
+	* Properly trim meta description to its desired size again, regression caused in 1.5.4.
+	* Fix empty last modified date for term sitemaps in sitemap index.
+	* Fix bug where `wpseo_sitemap_exclude_empty_terms` filter wouldn't work for index sitemap.
+
+* Enhancements:
+	* Improve nonce checking in bulk title & description editor.
+	* Prevent direct access to XSL file.
+	* Improve code styling to match WordPress code standard even more strictly, props [Jrf](http://profiles.wordpress.org/jrf).
+	* Add button to copy home meta description to home OpenGraph description.
+
+= 1.5.4.1 =
+Release Date: July 15th, 2014
+
+* Bugfixes:
+	* Properly minified the metabox JS file, fixing snippet preview, props [Jrf](http://profiles.wordpress.org/jrf).
+	* Format unix timestamp to string in sitemap, fixes possible fatal error in XML sitemap.
+
+= 1.5.4 =
+Release Date: July 15th, 2014
 
 * Bugfixes
 	* Refactored the variable replacement function for better and faster results and more stability. This should fix most if not all problems users where having with variables not being replaced in the title, meta description, snippet preview etc - props [Jrf](http://profiles.wordpress.org/jrf).
@@ -128,21 +170,36 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 		- restoring site to default settings from multisite settings page was not working.
 		- initializing new blogs with settings from a chosen default blog was not working (might still not be completely stable for WP multisite with WPSEO in must-use plugins directory, stable in all other cases).
 		- wrong option debug information shown on multisite settings page
-
+	* Fixed: an issue with sitemap transient caching for plugins not using paginated sitemaps (like news seo).
+	* Check if get_queried_object_id is not 0 before enqueueing wp_enqueue_media.
+	* Set rssafter to empty string on test_embed_rss() test.
+	* Fixed: Bing URL - props [GodThor](https://github.com/GodThor).
+	* Prevent from loading if WP is installing - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fixed: Incorrect timezone in the root sitemap.
+	* Fixed: Multiselect fields are now properly saved in wpseo meta boxes.
+	* Force canonical links to be absolute, relative is NOT an option.
+	* Fixed: Breadcrumb on search pages.
+	* Added CDATA in sitemap image captions and titles.
+	* Various sitemap fixes and improvements - props [Rarst] (https://github.com/Rarst).
 
 * Enhancements
+	* Heavily reduce query load for XML sitemaps by caching XML sitemaps in transients.
 	* New `wpseo_register_extra_replacements` action hook which lets plugin/theme builders add new `%%...%%` replacement variables - including relevant help texts -. See [function documentation](https://github.com/Yoast/wordpress-seo/blob/master/inc/wpseo-functions.php) for an example of how to use this new functionality.
 	* If the final string - after replacement - would contain two separators with nothing between them, this extra separator will be removed.
 	* All remaining not replaced replacement vars are now stripped from the strings (without breaking the snippet preview).
 	* New filter `wpseo_replacements_filter_sep` which can be used to change the seperator character passed by the theme.
 	* When using the 'Reset default settings' button on a blog in a network while another blog has been chosen to be used as a basis for the settings for all new blogs, the reset will respect that setting and reset the blog to the settings from the chosen blog.
 	* For small networks ( < 100 sites ), the network page user interface has been improved, by offering drop-down lists of the blogs for blog selection fields. For larger networks, the interface remains the same.
+	* Added an action to allow adding content to the Post Type tab on the meta admin page.
+	* Removing the extra blog name added to the title by woo_title().
+	* More optimization improvements to snippet preview.
+	* Add filter to allow other plugins to interact with our metaboxes outside of the standard pages - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Replace variables through an AJAX call, which makes them work in the post editor too and allows for more variables to be replaced in the title.
+	* Added priority filters for XML sitemaps.
 
 * Other enhancements
 	* Security improvement: As the .htaccess / robots.txt files are site-wide files, on a multi-site WP installation they will no longer be available for editing to individual site owners. For super-admins, the 'SEO -> Edit Files' admin page will now be accessible through the Network Admin.
 	* We've added server specific info to our tracking class. Most notably, we're tracking whether a number of PHP extensions are enabled for our users now.
-
-
 
 = 1.5.3.3 =
 Release Date: June 2nd, 2014

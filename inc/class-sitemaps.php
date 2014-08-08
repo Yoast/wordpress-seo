@@ -146,7 +146,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 		 * @return string
 		 */
 		private function http_protocol() {
-			return ( isset( $_SERVER['SERVER_PROTOCOL'] ) && $_SERVER['SERVER_PROTOCOL'] !== '' ) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.1';
+			return ( isset( $_SERVER['SERVER_PROTOCOL'] ) && $_SERVER['SERVER_PROTOCOL'] !== '' ) ? sanitize_text_field( $_SERVER['SERVER_PROTOCOL'] ) : 'HTTP/1.1';
 		}
 
 		/**
@@ -201,6 +201,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 			if ( '' == $this->timezone_string ) {
 				$this->timezone_string = $this->determine_timezone_string();
 			}
+
 			return $this->timezone_string;
 		}
 
@@ -247,7 +248,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 		 *
 		 * @param string $stylesheet Full xml-stylesheet declaration
 		 */
-		function set_stylesheet( $stylesheet ) {
+		public function set_stylesheet( $stylesheet ) {
 			$this->stylesheet = $stylesheet;
 		}
 
@@ -304,7 +305,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 			$caching = apply_filters( 'wpseo_enable_xml_sitemap_transient_caching', true );
 
 			if ( $caching ) {
-				$this->sitemap = get_transient( 'wpseo_sitemap_cache_' . $type . '_' . $n );
+				$this->sitemap = get_transient( 'wpseo_sitemap_cache_' . $type . '_' . $this->n );
 			}
 
 			if ( ! $this->sitemap || '' == $this->sitemap ) {
@@ -312,7 +313,9 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 
 				// 404 for invalid or emtpy sitemaps
 				if ( $this->bad_sitemap ) {
-					$GLOBALS['wp_query']->is_404 = true;
+					global $wp_query;
+					$wp_query->set_404();
+					status_header( 404 );
 
 					return;
 				}
@@ -408,7 +411,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 								$all_dates = $wpdb->get_col( $wpdb->prepare( "SELECT post_modified_gmt FROM (SELECT @rownum:=@rownum+1 rownum, $wpdb->posts.post_modified_gmt FROM (SELECT @rownum:=0) r, $wpdb->posts WHERE post_status IN ('publish','inherit') AND post_type = %s ORDER BY post_modified_gmt ASC) x WHERE rownum %%%d=0", $post_type, $this->max_entries ) );
 							}
 							$datetime = new DateTime( $all_dates[ $i ], new DateTimeZone( $this->get_timezone_string() ) );
-							$date = $datetime->format( 'c' );
+							$date     = $datetime->format( 'c' );
 						}
 
 						$this->sitemap .= '<sitemap>' . "\n";
@@ -444,7 +447,8 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 				}
 
 				// Retrieve all the taxonomies and their terms so we can do a proper count on them.
-				$query              = "SELECT taxonomy, term_id FROM $wpdb->term_taxonomy WHERE count != 0 AND taxonomy IN ('" . implode( "','", $taxonomy_names ) . "');";
+				$hide_empty         = ( apply_filters( 'wpseo_sitemap_exclude_empty_terms', true, $tax ) ) ? 'count != 0 AND' : '';
+				$query              = "SELECT taxonomy, term_id FROM $wpdb->term_taxonomy WHERE $hide_empty taxonomy IN ('" . implode( "','", $taxonomy_names ) . "');";
 				$all_taxonomy_terms = $wpdb->get_results( $query );
 				$all_taxonomies     = array();
 				foreach ( $all_taxonomy_terms as $obj ) {
@@ -490,7 +494,9 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 							$date = '';
 							if ( $query->have_posts() ) {
 								$datetime = new DateTime( $query->posts[0]->post_modified_gmt, new DateTimeZone( $this->get_timezone_string() ) );
-								$date = $datetime->format( 'c' );
+								$date     = $datetime->format( 'c' );
+							} else {
+								$date = $this->get_last_modified( $tax->object_type );
 							}
 						}
 
@@ -529,7 +535,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 								$wpdb->get_blog_prefix() . 'user_level'
 							)
 						);
-						$date = new DateTime( $date, new DateTimeZone( $this->get_timezone_string() ) );
+						$date = new DateTime( date( 'y-m-d H:i:s', $date ), new DateTimeZone( $this->get_timezone_string() ) );
 
 						// Retrieve the newest updated profile timestamp by an offset
 					} else {
@@ -546,7 +552,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 								$this->max_entries * ( $i + 1 ) - 1
 							)
 						);
-						$date = new DateTime( $date, new DateTimeZone( $this->get_timezone_string() ) );
+						$date = new DateTime( date( 'y-m-d H:i:s', $date ), new DateTimeZone( $this->get_timezone_string() ) );
 					}
 
 					$this->sitemap .= '<sitemap>' . "\n";
@@ -702,20 +708,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 
 				// Optimized query per this thread: http://wordpress.org/support/topic/plugin-wordpress-seo-by-yoast-performance-suggestion
 				// Also see http://explainextended.com/2009/10/23/mysql-order-by-limit-performance-late-row-lookups/
-				$query = $wpdb->prepare( 'SELECT l.ID, post_title, post_content, post_name, post_author, post_parent, post_modified_gmt, post_date, post_date_gmt'
-										. ' FROM ('
-										. " SELECT ID FROM $wpdb->posts {$join_filter} "
-										. " WHERE post_status = '%s'"
-										. " AND post_password = ''"
-										. " AND post_type = '%s'"
-										. ' AND post_author != 0'
-										. " AND post_date != '0000-00-00 00:00:00'"
-										. " {$where_filter}"
-										. ' ORDER BY post_modified ASC'
-										. ' LIMIT %d OFFSET %d ) o'
-										. " JOIN $wpdb->posts l"
-										. ' ON l.ID = o.ID'
-										. ' ORDER BY l.ID',
+				$query = $wpdb->prepare( "SELECT l.ID, post_title, post_content, post_name, post_author, post_parent, post_modified_gmt, post_date, post_date_gmt FROM ( SELECT ID FROM $wpdb->posts {$join_filter} WHERE post_status = '%s' AND post_password = '' AND post_type = '%s' AND post_author != 0 AND post_date != '0000-00-00 00:00:00' {$where_filter} ORDER BY post_modified ASC LIMIT %d OFFSET %d ) o JOIN $wpdb->posts l ON l.ID = o.ID ORDER BY l.ID",
 					$status, $post_type, $steps, $offset
 				);
 
@@ -725,21 +718,25 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 				foreach ( $posts as $p ) {
 					$post_ids[] = $p->ID;
 				}
-				update_meta_cache( 'post', $post_ids );
 
-				$child_query = "SELECT ID, post_title, post_parent FROM $wpdb->posts WHERE post_status = 'inherit' AND post_type = 'attachment' AND post_parent IN (" . implode( $post_ids, ',' ) . ')';
-				$wpdb->query( $child_query );
-				$attachments    = $wpdb->get_results( $child_query );
-				$attachment_ids = wp_list_pluck( $attachments, 'ID' );
+				if ( count( $post_ids ) > 0 ) {
+					update_meta_cache( 'post', $post_ids );
 
-				$thumbnail_query = "SELECT meta_value FROM $wpdb->postmeta WHERE meta_key = '_thumbnail_id' AND post_id IN (" . implode( $post_ids, ',' ) . ')';
-				$wpdb->query( $thumbnail_query );
-				$thumbnails    = $wpdb->get_results( $thumbnail_query );
-				$thumbnail_ids = wp_list_pluck( $thumbnails, 'meta_value' );
+					$child_query = "SELECT ID, post_title, post_parent FROM $wpdb->posts WHERE post_status = 'inherit' AND post_type = 'attachment' AND post_parent IN (" . implode( $post_ids, ',' ) . ')';
+					$wpdb->query( $child_query );
+					$attachments    = $wpdb->get_results( $child_query );
+					$attachment_ids = wp_list_pluck( $attachments, 'ID' );
 
-				$attachment_ids = array_merge( $thumbnail_ids, $attachment_ids );
-				_prime_post_caches( $attachment_ids );
-				update_meta_cache( 'post', $attachment_ids );
+					$thumbnail_query = "SELECT meta_value FROM $wpdb->postmeta WHERE meta_key = '_thumbnail_id' AND post_id IN (" . implode( $post_ids, ',' ) . ')';
+					$wpdb->query( $thumbnail_query );
+					$thumbnails    = $wpdb->get_results( $thumbnail_query );
+					$thumbnail_ids = wp_list_pluck( $thumbnails, 'meta_value' );
+
+					$attachment_ids = array_merge( $thumbnail_ids, $attachment_ids );
+
+					_prime_post_caches( $attachment_ids );
+					update_meta_cache( 'post', $attachment_ids );
+				}
 
 				$offset = $offset + $steps;
 
@@ -978,9 +975,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 					$tax_noindex     = WPSEO_Taxonomy_Meta::get_term_meta( $c, $c->taxonomy, 'noindex' );
 					$tax_sitemap_inc = WPSEO_Taxonomy_Meta::get_term_meta( $c, $c->taxonomy, 'sitemap_include' );
 
-					if ( ( is_string( $tax_noindex ) && $tax_noindex === 'noindex' )
-						&& ( ! is_string( $tax_sitemap_inc ) || $tax_sitemap_inc !== 'always' )
-					) {
+					if ( ( is_string( $tax_noindex ) && $tax_noindex === 'noindex' ) && ( ! is_string( $tax_sitemap_inc ) || $tax_sitemap_inc !== 'always' ) ) {
 						continue;
 					}
 
@@ -1032,7 +1027,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 					}
 				}
 			}
-			
+
 			if ( empty( $output ) ) {
 				$this->bad_sitemap = true;
 
@@ -1042,7 +1037,12 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 			$this->sitemap = '<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ';
 			$this->sitemap .= 'xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" ';
 			$this->sitemap .= 'xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
-			$this->sitemap .= $output;
+			if ( is_string( $output ) && trim( $output ) !== '' ) {
+				$this->sitemap .= $output;
+			} else {
+				// If the sitemap is empty, add the homepage URL to make sure it doesn't throw errors in GWT.
+				$this->sitemap .= $this->sitemap_url( home_url() );
+			}
 			$this->sitemap .= '</urlset>';
 		}
 
@@ -1177,7 +1177,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 			// Prevent the search engines from indexing the XML Sitemap.
 			header( 'X-Robots-Tag: noindex,follow', true );
 			header( 'Content-Type: text/xml' );
-			echo '<?xml version="1.0" encoding="' . $this->charset . '"?>';
+			echo '<?xml version="1.0" encoding="' . esc_attr( $this->charset ) . '"?>';
 			if ( $this->stylesheet ) {
 				echo apply_filters( 'wpseo_stylesheet_url', $this->stylesheet ) . "\n";
 			}
@@ -1193,9 +1193,9 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 					echo "\n" . '<!-- ' . number_format( ( memory_get_peak_usage() / 1024 / 1024 ), 2 ) . 'MB | Served from transient cache -->';
 				} else {
 					global $wpdb;
-					echo "\n" . '<!-- ' . number_format( ( memory_get_peak_usage() / 1024 / 1024 ), 2 ) . 'MB | ' . $wpdb->num_queries . ' -->';
+					echo "\n" . '<!-- ' . number_format( ( memory_get_peak_usage() / 1024 / 1024 ), 2 ) . 'MB | ' . esc_attr( $wpdb->num_queries ) . ' -->';
 					if ( defined( 'SAVEQUERIES' ) && SAVEQUERIES ) {
-						echo "\n" . '<!--' . print_r( $wpdb->queries, 1 ) . '-->';
+						echo "\n" . '<!--' . print_r( $wpdb->queries, true ) . '-->';
 					}
 				}
 			}
@@ -1214,7 +1214,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 			if ( isset( $url['mod'] ) ) {
 				$date = new DateTime( $url['mod'], new DateTimeZone( $this->get_timezone_string() ) );
 			} else {
-				$date = new DateTime( time(), new DateTimeZone( $this->get_timezone_string() ) );
+				$date = new DateTime( date( 'y-m-d H:i:s' ), new DateTimeZone( $this->get_timezone_string() ) );
 			}
 
 			$url['loc'] = htmlspecialchars( $url['loc'] );
@@ -1300,10 +1300,10 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 				unset( $results );
 			}
 
-			if ( count( $post_types ) === 1 ) {
+			if ( count( $post_types ) === 1 && isset( $this->post_type_dates[ $post_types[0] ] ) ) {
 				$result = $this->post_type_dates[ $post_types[0] ];
 			} else {
-				$result = 0;
+				$result = null;
 				foreach ( $post_types as $post_type ) {
 					if ( isset( $this->post_type_dates[ $post_type ] ) && strtotime( $this->post_type_dates[ $post_type ] ) > $result ) {
 						$result = $this->post_type_dates[ $post_type ];
@@ -1312,6 +1312,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 			}
 
 			$date = new DateTime( $result, new DateTimeZone( $this->get_timezone_string() ) );
+
 			return $date->format( 'c' );
 		}
 

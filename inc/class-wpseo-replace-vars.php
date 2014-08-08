@@ -104,12 +104,15 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 			if ( is_string( $var ) && $var !== '' ) {
 				$var = self::remove_var_delimiter( $var );
 
-				if ( strpos( $var, 'cf_' ) === 0 || strpos( $var, 'ct_' ) === 0 ) {
+				if ( preg_match( '`^[A-Z0-9_-]+$`i', $var ) === false ) {
+					trigger_error( __( 'A replacement variable can only contain alphanumeric characters, an underscore or a dash. Try renaming your variable.', 'wordpress-seo' ), E_USER_WARNING );
+				}
+				elseif ( strpos( $var, 'cf_' ) === 0 || strpos( $var, 'ct_' ) === 0 ) {
 					trigger_error( __( 'A replacement variable can not start with "%%cf_" or "%%ct_" as these are reserved for the WPSEO standard variable variables for custom fields and custom taxonomies. Try making your variable name unique.', 'wordpress-seo' ), E_USER_WARNING );
 				}
 				elseif ( ! method_exists( __CLASS__, 'retrieve_' . $var ) ) {
-					if ( ! isset( self::$external_replacements[$var] ) ) {
-						self::$external_replacements[$var] = $replace_function;
+					if ( ! isset( self::$external_replacements[ $var ] ) ) {
+						self::$external_replacements[ $var ] = $replace_function;
 						self::register_help_text( $type, $var, $help_text );
 						$success = true;
 					}
@@ -153,15 +156,12 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 			}
 			$this->args = (object) wp_parse_args( $args, $this->defaults );
 
-
 			// Clean $omit array
 			if ( is_array( $omit ) && $omit !== array() ) {
 				$omit = array_map( array( __CLASS__, 'remove_var_delimiter' ), $omit );
 			}
 
-
 			$replacements = array();
-
 			if ( preg_match_all( '`%%([^%]+(%%single)?)%%?`iu', $string, $matches ) ) {
 				$replacements = $this->set_up_replacements( $matches, $omit );
 			}
@@ -177,7 +177,6 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 			if ( is_array( $replacements ) && $replacements !== array() ) {
 				$string = str_replace( array_keys( $replacements ), array_values( $replacements ), $string );
 			}
-
 
 			/**
 			 * Filter: 'wpseo_replacements_final' - Allow overruling of whether or not to remove placeholders
@@ -235,7 +234,7 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 					$replacement = $this->retrieve_ct_desc_custom_tax_name( $var );
 				}
 				elseif ( strpos( $var, 'ct_' ) === 0 ) {
-					$single      = ( isset( $matches[2][$k] ) && $matches[2][$k] !== '' )? true : false;
+					$single      = ( isset( $matches[2][ $k ] ) && $matches[2][ $k ] !== '' )? true : false;
 					$replacement = $this->retrieve_ct_custom_tax_name( $var, $single );
 				}
 				// Deal with non-variable variable names
@@ -244,14 +243,14 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 					$replacement = $this->$method_name();
 				}
 				// Deal with externally defined variable names
-				elseif ( isset( self::$external_replacements[$var] ) && ! is_null( self::$external_replacements[$var] ) ) {
-					$replacement = call_user_func( self::$external_replacements[$var], $var );
+				elseif ( isset( self::$external_replacements[ $var ] ) && ! is_null( self::$external_replacements[ $var ] ) ) {
+					$replacement = call_user_func( self::$external_replacements[ $var ], $var );
 				}
 
 				// Replacement retrievals can return null if no replacement can be determined, root those outs
 				if ( isset( $replacement ) ) {
-					$var                = self::add_var_delimiter( $var );
-					$replacements[$var] = $replacement;
+					$var                  = self::add_var_delimiter( $var );
+					$replacements[ $var ] = $replacement;
 				}
 			}
 
@@ -396,14 +395,21 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 		}
 
 		/**
-		 * Retrieve the separator defined in your theme's <code>wp_title()</code> tag for use as replacement string.
+		 * Retrieve the separator for use as replacement string.
 		 *
 		 * @return string
 		 */
 		private function retrieve_sep() {
-			$replacement = '-';
-			if ( isset( $GLOBALS['sep'] ) && is_string( $GLOBALS['sep'] ) && $GLOBALS['sep'] !== '' ) {
-				$replacement = $GLOBALS['sep'];
+			$replacement = WPSEO_Options::get_default( 'wpseo_titles', 'separator' );
+
+			// Get the titles option and the separator options
+			$titles_options    = get_option( 'wpseo_titles' );
+			$seperator_options = WPSEO_Option_Titles::get_instance()->get_separator_options();
+
+			// This should always be set, but just to be sure
+			if ( isset( $seperator_options[ $titles_options['separator'] ] ) ) {
+				// Set the new replacement
+				$replacement = $seperator_options[ $titles_options['separator'] ];
 			}
 
 			/**
@@ -995,7 +1001,7 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 			$table = '
 			<table class="yoast_help">';
 
-			foreach ( self::$help_texts[$type] as $replace => $help_text ) {
+			foreach ( self::$help_texts[ $type ] as $replace => $help_text ) {
 				$table .= '
 				<tr>
 					<th>%%' . esc_html( $replace ) . '%%</th>
@@ -1040,8 +1046,8 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 			if ( is_string( $replace ) && $replace !== '' ) {
 				$replace = self::remove_var_delimiter( $replace );
 
-				if ( ( is_string( $type ) && in_array( $type, array( 'basic', 'advanced' ), true ) ) && ( $replace !== '' && ! isset( self::$help_texts[$type][$replace] ) ) ) {
-					self::$help_texts[$type][$replace] = $help_text;
+				if ( ( is_string( $type ) && in_array( $type, array( 'basic', 'advanced' ), true ) ) && ( $replace !== '' && ! isset( self::$help_texts[ $type ][ $replace ] ) ) ) {
+					self::$help_texts[ $type ][ $replace ] = $help_text;
 				}
 			}
 		}

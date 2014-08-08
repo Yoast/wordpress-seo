@@ -122,7 +122,6 @@ function wpseo_add_capabilities() {
 		'administrator',
 		'editor',
 		'author',
-		'contributor',
 	);
 
 	$roles = apply_filters( 'wpseo_bulk_edit_roles', $roles );
@@ -138,6 +137,8 @@ function wpseo_add_capabilities() {
 
 /**
  * Remove the bulk edit capability from the proper default roles.
+ *
+ * Contributor is still removed for legacy reasons.
  */
 function wpseo_remove_capabilities() {
 	$roles = array(
@@ -205,7 +206,7 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
  * @since 1.5.4
  *
  * @param  string   $var               The name of the variable to replace, i.e. '%%var%%'
- *                                      - the surrounding %% are optional
+ *                                      - the surrounding %% are optional, name can only contain [A-Za-z0-9_-]
  * @param  mixed    $replace_function  Function or method to call to retrieve the replacement value for the variable
  *					                   Uses the same format as add_filter/add_action function parameter and
  *					                   should *return* the replacement value. DON'T echo it!
@@ -234,7 +235,7 @@ function wpseo_xml_redirect_sitemap() {
 	global $wp_query;
 
 	$current_url  = ( isset( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] == 'on' ) ? 'https://' : 'http://';
-	$current_url .= $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
+	$current_url .= sanitize_text_field( $_SERVER['SERVER_NAME'] ) . sanitize_text_field( $_SERVER['REQUEST_URI'] );
 
 	// must be 'sitemap.xml' and must be 404
 	if ( home_url( '/sitemap.xml' ) == $current_url && $wp_query->is_404 ) {
@@ -304,7 +305,7 @@ function wpseo_store_tracking_response() {
 		die();
 	}
 
-	$options = get_option( 'wpseo' );
+	$options                        = get_option( 'wpseo' );
 	$options['tracking_popup_done'] = true;
 
 	if ( $_POST['allow_tracking'] == 'yes' ) {
@@ -337,19 +338,19 @@ function wpseo_wpml_config( $config ) {
 				$translate_cp = array_keys( $sitepress->get_translatable_documents() );
 				if ( is_array( $translate_cp ) && $translate_cp !== array() ) {
 					foreach ( $translate_cp as $post_type ) {
-						$admin_texts[$k]['key'][]['attr']['name'] = 'title-'. $post_type;
-						$admin_texts[$k]['key'][]['attr']['name'] = 'metadesc-'. $post_type;
-						$admin_texts[$k]['key'][]['attr']['name'] = 'metakey-'. $post_type;
-						$admin_texts[$k]['key'][]['attr']['name'] = 'title-ptarchive-'. $post_type;
-						$admin_texts[$k]['key'][]['attr']['name'] = 'metadesc-ptarchive-'. $post_type;
-						$admin_texts[$k]['key'][]['attr']['name'] = 'metakey-ptarchive-'. $post_type;
+						$admin_texts[ $k ]['key'][]['attr']['name'] = 'title-'. $post_type;
+						$admin_texts[ $k ]['key'][]['attr']['name'] = 'metadesc-'. $post_type;
+						$admin_texts[ $k ]['key'][]['attr']['name'] = 'metakey-'. $post_type;
+						$admin_texts[ $k ]['key'][]['attr']['name'] = 'title-ptarchive-'. $post_type;
+						$admin_texts[ $k ]['key'][]['attr']['name'] = 'metadesc-ptarchive-'. $post_type;
+						$admin_texts[ $k ]['key'][]['attr']['name'] = 'metakey-ptarchive-'. $post_type;
 
 						$translate_tax = $sitepress->get_translatable_taxonomies( false, $post_type );
 						if ( is_array( $translate_tax ) && $translate_tax !== array() ) {
 							foreach ( $translate_tax as $taxonomy ) {
-								$admin_texts[$k]['key'][]['attr']['name'] = 'title-tax-'. $taxonomy;
-								$admin_texts[$k]['key'][]['attr']['name'] = 'metadesc-tax-'. $taxonomy;
-								$admin_texts[$k]['key'][]['attr']['name'] = 'metakey-tax-'. $taxonomy;
+								$admin_texts[ $k ]['key'][]['attr']['name'] = 'title-tax-'. $taxonomy;
+								$admin_texts[ $k ]['key'][]['attr']['name'] = 'metadesc-tax-'. $taxonomy;
+								$admin_texts[ $k ]['key'][]['attr']['name'] = 'metakey-tax-'. $taxonomy;
 							}
 						}
 					}

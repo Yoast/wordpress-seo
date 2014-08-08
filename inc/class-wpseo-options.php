@@ -269,6 +269,10 @@ if ( ! class_exists( 'WPSEO_Option' ) ) {
 		 * @return  array
 		 */
 		public function get_defaults() {
+			if ( method_exists( $this, 'translate_defaults' ) ) {
+				$this->translate_defaults();
+			}
+
 			if ( method_exists( $this, 'enrich_defaults' ) ) {
 				$this->enrich_defaults();
 			}
@@ -544,7 +548,7 @@ if ( ! class_exists( 'WPSEO_Option' ) ) {
 			if ( $defaults !== array() ) {
 				foreach ( $defaults as $key => $default_value ) {
 					// @todo should this walk through array subkeys ?
-					$filtered[$key] = ( isset( $options[$key] ) ? $options[$key] : $default_value );
+					$filtered[ $key ] = ( isset( $options[ $key ] ) ? $options[ $key ] : $default_value );
 				}
 			}*/
 			$filtered = array_merge( $defaults, $options );
@@ -796,7 +800,7 @@ if ( ! class_exists( 'WPSEO_Option' ) ) {
 				return $value;
 			} else if ( is_float( $value ) ) {
 				if ( (int) $value == $value && ! is_nan( $value ) ) {
-					return ( int) $value;
+					return (int) $value;
 				} else {
 					return false;
 				}
@@ -1375,6 +1379,7 @@ if ( ! class_exists( 'WPSEO_Option_Titles' ) ) {
 			'title_test'             => 0,
 			// Form fields
 			'forcerewritetitle'      => false,
+			'separator'              => 'sc-dash',
 			'hide-feedlinks'         => false,
 			'hide-rsdlink'           => false,
 			'hide-shortlink'         => false,
@@ -1449,7 +1454,26 @@ if ( ! class_exists( 'WPSEO_Option_Titles' ) ) {
 			'forcerewritetitle',
 		);
 
-
+		/**
+		 * @var array Array of the separator options. To get these options use WPSEO_Option_Titles::get_instance()->get_separator_options()
+		 */
+		private $separator_options = array(
+			'sc-dash'    => '-',
+			'sc-ndash'   => '&ndash;',
+			'sc-mdash'   => '&mdash;',
+			'sc-middot'  => '&middot;',
+			'sc-bull'    => '&bull;',
+			'sc-star'    => '*',
+			'sc-smstar'  => '&#8902;',
+			'sc-pipe'    => '|',
+			'sc-tilde'   => '~',
+			'sc-laquo'   => '&laquo;',
+			'sc-raquo'   => '&raquo;',
+			'sc-lt'      => '&lt;',
+			'sc-gt'      => '&gt;',
+			'sc-loz'     => '&#11051;',
+			'sc-bloz'    => '&#11050;',
+		);
 
 		/**
 		 * Add the actions and filters for the option
@@ -1488,6 +1512,26 @@ if ( ! class_exists( 'WPSEO_Option_Titles' ) ) {
 			return self::$instance;
 		}
 
+		/**
+		 * Get the available separator options
+		 *
+		 * @return array
+		 */
+		public function get_separator_options() {
+			$separators = $this->separator_options;
+
+			/**
+			 * Allow altering the array with separator options
+			 * @api  array  $separator_options  Array with the separator options
+			 */
+			$filtered_separators = apply_filters( 'wpseo_separator_options', $separators );
+
+			if ( is_array( $filtered_separators ) && $filtered_separators !== array() ) {
+				$separators = array_merge( $separators, $filtered_separators );
+			}
+
+			return $separators;
+		}
 
 		/**
 		 * Translate strings used in the option defaults
@@ -1631,6 +1675,19 @@ if ( ! class_exists( 'WPSEO_Option_Titles' ) ) {
 						}
 						break;
 
+					/* Separator field - Radio */
+					case 'separator':
+						if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
+
+							// Get separator fields
+							$separator_fields = $this->get_separator_options();
+
+							// Check if the given separator is exists
+							if ( isset( $separator_fields[ $dirty[ $key ] ] ) ) {
+								$clean[ $key ] = $dirty[ $key ];
+							}
+						}
+						break;
 
 					/* boolean fields */
 					case 'forcerewritetitle':
@@ -2184,7 +2241,7 @@ if ( ! class_exists( 'WPSEO_Option_InternalLinks' ) ) {
 
 			$post_types = get_post_types( array( 'public' => true ), 'objects' );
 
-			if ( get_option( 'show_on_front' ) == 'page' ) {
+			if ( get_option( 'show_on_front' ) == 'page' && get_option( 'page_for_posts' ) > 0 ) {
 				$allowed_post_types[] = 'post';
 			}
 
@@ -3052,7 +3109,7 @@ if ( is_multisite() && ! class_exists( 'WPSEO_Option_MS' ) ) {
 									add_settings_error(
 										$this->group_name, // slug title of the setting
 										'_' . $key, // suffix-id for the error message box
-										__( 'The default blog setting must be the numeric blog id of the blog you want to use as default.', 'wordpress-seo' ) . '<br>' . sprintf( __( 'This must be an existing blog. Blog %s does not exist or has been marked as deleted.', 'wordpress-seo' ), '<strong>' . esc_html( sanitize_text_field( $dirty[ $key ] ) ) . '</strong>' ), // the error message
+										esc_html__( 'The default blog setting must be the numeric blog id of the blog you want to use as default.', 'wordpress-seo' ) . '<br>' . sprintf( esc_html__( 'This must be an existing blog. Blog %s does not exist or has been marked as deleted.', 'wordpress-seo' ), '<strong>' . esc_html( sanitize_text_field( $dirty[ $key ] ) ) . '</strong>' ), // the error message
 										'error' // error type, either 'error' or 'updated'
 									);
 								}
@@ -3061,7 +3118,7 @@ if ( is_multisite() && ! class_exists( 'WPSEO_Option_MS' ) ) {
 								add_settings_error(
 									$this->group_name, // slug title of the setting
 									'_' . $key, // suffix-id for the error message box
-									__( 'The default blog setting must be the numeric blog id of the blog you want to use as default.', 'wordpress-seo' ) . '<br>' . __( 'No numeric value was received.', 'wordpress-seo' ), // the error message
+									esc_html__( 'The default blog setting must be the numeric blog id of the blog you want to use as default.', 'wordpress-seo' ) . '<br>' . esc_html__( 'No numeric value was received.', 'wordpress-seo' ), // the error message
 									'error' // error type, either 'error' or 'updated'
 								);
 							}
@@ -3237,7 +3294,7 @@ if ( ! class_exists( 'WPSEO_Taxonomy_Meta' ) ) {
 				return $defaults;
 			}
 
-			/*
+			/ *
 			@internal Adding the defaults to all taxonomy terms each time the option is retrieved
 			will be quite inefficient if there are a lot of taxonomy terms
 			As long as taxonomy_meta is only retrieved via methods in this class, we shouldn't need this
@@ -3250,11 +3307,11 @@ if ( ! class_exists( 'WPSEO_Taxonomy_Meta' ) ) {
 					if ( is_array( $terms ) && $terms !== array() ) {
 						foreach ( $terms as $id => $term_meta ) {
 							foreach ( self::$defaults_per_term as $name => $default ) {
-								if ( isset( $options[$taxonomy][$id][$name] ) ) {
-									$filtered[$taxonomy][$id][$name] = $options[$taxonomy][$id][$name];
+								if ( isset( $options[ $taxonomy ][ $id ][ $name ] ) ) {
+									$filtered[ $taxonomy ][ $id ][ $name ] = $options[ $taxonomy ][ $id ][ $name ];
 								}
 								else {
-									$filtered[$name] = $default;
+									$filtered[ $name ] = $default;
 								}
 							}
 						}

@@ -89,24 +89,24 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 
 			// Sub menu pages
 			$submenu_pages = array(
-					array( 'wpseo_dashboard', __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Titles &amp; Metas', 'wordpress-seo' ), __( 'Titles &amp; Metas', 'wordpress-seo' ), 'manage_options', 'wpseo_titles', array( $this, 'load_page' ), array( array( $this, 'title_metas_help_tab' ) ) ),
-					array( 'wpseo_dashboard', __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Social', 'wordpress-seo' ), __( 'Social', 'wordpress-seo' ), 'manage_options', 'wpseo_social', array( $this, 'load_page' ), null ),
-					array( 'wpseo_dashboard', __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'XML Sitemaps', 'wordpress-seo' ), __( 'XML Sitemaps', 'wordpress-seo' ), 'manage_options', 'wpseo_xml', array( $this, 'load_page' ), null ),
-					array( 'wpseo_dashboard', __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Permalinks', 'wordpress-seo' ), __( 'Permalinks', 'wordpress-seo' ), 'manage_options', 'wpseo_permalinks', array( $this, 'load_page' ), null ),
-					array( 'wpseo_dashboard', __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Internal Links', 'wordpress-seo' ), __( 'Internal Links', 'wordpress-seo' ), 'manage_options', 'wpseo_internal-links', array( $this, 'load_page' ), null ),
-					array( 'wpseo_dashboard', __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'RSS', 'wordpress-seo' ), __( 'RSS', 'wordpress-seo' ), 'manage_options', 'wpseo_rss', array( $this, 'load_page' ), null ),
-					array( 'wpseo_dashboard', __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Import & Export', 'wordpress-seo' ), __( 'Import & Export', 'wordpress-seo' ), 'manage_options', 'wpseo_import', array( $this, 'load_page' ), null ),
-					array( 'wpseo_dashboard', __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Bulk Title Editor', 'wordpress-seo' ), __( 'Bulk Title Editor', 'wordpress-seo' ), 'wpseo_bulk_edit', 'wpseo_bulk-title-editor', array( $this, 'load_page' ), array( array( $this, 'bulk_edit_options' ) ) ),
-					array( 'wpseo_dashboard', __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Bulk Description Editor', 'wordpress-seo' ), __( 'Bulk Description Editor', 'wordpress-seo' ), 'wpseo_bulk_edit', 'wpseo_bulk-description-editor', array( $this, 'load_page' ), array( array( $this, 'bulk_edit_options' ) ) ),
+					array( 'wpseo_dashboard', __( 'Titles &amp; Metas', 'wordpress-seo' ), '', 'manage_options', 'wpseo_titles', array( $this, 'load_page' ), array( array( $this, 'title_metas_help_tab' ) ) ),
+					array( 'wpseo_dashboard', __( 'Social', 'wordpress-seo' ), '', 'manage_options', 'wpseo_social', array( $this, 'load_page' ), null ),
+					array( 'wpseo_dashboard', __( 'XML Sitemaps', 'wordpress-seo' ), '', 'manage_options', 'wpseo_xml', array( $this, 'load_page' ), null ),
+					array( 'wpseo_dashboard', __( 'Permalinks', 'wordpress-seo' ), '', 'manage_options', 'wpseo_permalinks', array( $this, 'load_page' ), null ),
+					array( 'wpseo_dashboard', __( 'Internal Links', 'wordpress-seo' ), '', 'manage_options', 'wpseo_internal-links', array( $this, 'load_page' ), null ),
+					array( 'wpseo_dashboard', __( 'RSS', 'wordpress-seo' ), '', 'manage_options', 'wpseo_rss', array( $this, 'load_page' ), null ),
+					array( 'wpseo_dashboard', __( 'Import & Export', 'wordpress-seo' ), '', 'manage_options', 'wpseo_import', array( $this, 'load_page' ), null ),
+					array( 'wpseo_dashboard', __( 'Bulk Title Editor', 'wordpress-seo' ), '', 'wpseo_bulk_edit', 'wpseo_bulk-title-editor', array( $this, 'load_page' ), array( array( $this, 'bulk_edit_options' ) ) ),
+					array( 'wpseo_dashboard', __( 'Bulk Description Editor', 'wordpress-seo' ), '', 'wpseo_bulk_edit', 'wpseo_bulk-description-editor', array( $this, 'load_page' ), array( array( $this, 'bulk_edit_options' ) ) ),
 			);
 
 			// Check where to add the edit files page
 			if ( wpseo_allow_system_file_edit() === true && ! is_multisite() ) {
-				$submenu_pages[] = array( 'wpseo_dashboard', __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Edit Files', 'wordpress-seo' ), __( 'Edit Files', 'wordpress-seo' ), 'manage_options', 'wpseo_files', array( $this, 'load_page' ) );
+				$submenu_pages[] = array( 'wpseo_dashboard', __( 'Edit Files', 'wordpress-seo' ), __( 'Edit Files', 'wordpress-seo' ), 'manage_options', 'wpseo_files', array( $this, 'load_page' ) );
 			}
 
 			// Add Extension submenu page
-			$submenu_pages[] = array( 'wpseo_dashboard', __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Extensions', 'wordpress-seo' ), '<span style="color:#f18500">' . __( 'Extensions', 'wordpress-seo' ) . '</span>', 'manage_options', 'wpseo_licenses', array( $this, 'load_page' ), null );
+			$submenu_pages[] = array( 'wpseo_dashboard', __( 'Extensions', 'wordpress-seo' ), '<span style="color:#f18500">' . __( 'Extensions', 'wordpress-seo' ) . '</span>', 'manage_options', 'wpseo_licenses', array( $this, 'load_page' ), null );
 
 			// Allow submenu pages manipulation
 			$submenu_pages = apply_filters( 'wpseo_submenu_pages', $submenu_pages );
@@ -116,7 +116,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 				foreach ( $submenu_pages as $submenu_page ) {
 
 					// Add submenu page
-					$admin_page = add_submenu_page( $submenu_page[0], $submenu_page[1], $submenu_page[2], $submenu_page[3], $submenu_page[4], $submenu_page[5] );
+					$admin_page = add_submenu_page( $submenu_page[0], __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . $submenu_page[1], $submenu_page[1], $submenu_page[3], $submenu_page[4], $submenu_page[5] );
 
 					// Check if we need to hook
 					if ( isset( $submenu_page[6] ) && null != $submenu_page[6] && is_array( $submenu_page[6] ) && count( $submenu_page[6] ) > 0 ) {
@@ -158,9 +158,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 					array(
 							'id'      => 'title-vars',
 							'title'   => __( 'Basic Variables', 'wordpress-seo' ),
-							'content' => '
-		<h2>' . __( 'Basic Variables', 'wordpress-seo' ) . '</h2>' .
-		WPSEO_Replace_Vars::get_basic_help_texts(), //actual help text
+							'content' => "\n\t\t<h2>" . __( 'Basic Variables', 'wordpress-seo' ) . "</h2>\n\t\t" . WPSEO_Replace_Vars::get_basic_help_texts(),
 					)
 			);
 
@@ -168,9 +166,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 					array(
 							'id'      => 'title-vars-advanced',
 							'title'   => __( 'Advanced Variables', 'wordpress-seo' ),
-							'content' => '
-		<h2>' . __( 'Advanced Variables', 'wordpress-seo' ) . '</h2>' .
-		WPSEO_Replace_Vars::get_advanced_help_texts(), //actual help text
+							'content' => "\n\t\t<h2>" . __( 'Advanced Variables', 'wordpress-seo' ) . "</h2>\n\t\t" . WPSEO_Replace_Vars::get_advanced_help_texts(),
 					)
 			);
 		}
@@ -181,7 +177,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		function register_network_settings_page() {
 			if ( WPSEO_Options::grant_access() ) {
 				add_menu_page( __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'MultiSite Settings', 'wordpress-seo' ), __( 'SEO', 'wordpress-seo' ), 'delete_users', 'wpseo_dashboard', array( $this, 'network_config_page' ), plugins_url( 'images/yoast-icon.png', WPSEO_FILE ) );
-				
+
 				if ( wpseo_allow_system_file_edit() === true ) {
 					add_submenu_page( 'wpseo_dashboard', __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Edit Files', 'wordpress-seo' ), __( 'Edit Files', 'wordpress-seo' ), 'delete_users', 'wpseo_files', array( $this, 'load_page' ) );
 				}

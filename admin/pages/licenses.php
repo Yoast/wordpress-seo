@@ -69,21 +69,18 @@ global $wpseo_admin_pages;
 					'desc'  => __( 'Seamlessly integrate WooCommerce with WordPress SEO and get extra features!', 'wordpress-seo' )
 				);
 			}
-			if ( ! class_exists( 'Post_Connector' ) ) {
-				$extensions['post-connector'] = (object) array(
-					'url'   => 'https://yoast.com/wordpress/plugins/post-connector/',
-					'title' => __( 'Post Connector', 'wordpress-seo' ),
-					'desc'  => __( 'Easily create related posts that don\'t lag your server!', 'wordpress-seo' ),
-				);
-			}
 
 			foreach ( $extensions as $id => $extension ) {
 				$utm = '#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=extension-page-banners';
 			?>
 			<div class="extension <?php echo esc_attr( $id ); ?>">
-				<a target="_blank" href="<?php echo esc_url( $extension->url . $utm ); ?>"><h3><?php echo esc_html( $extension->title ); ?></h3></a>
+				<a target="_blank" href="<?php echo esc_url( $extension->url . $utm ); ?>">
+					<h3><?php echo esc_html( $extension->title ); ?></h3>
+				</a>
 				<p><?php echo esc_html( $extension->desc ); ?></p>
-				<p><a target="_blank" href="<?php echo esc_url( $extension->url . $utm ); ?>" class="button-primary"><?php esc_html_e( 'Get this extension', 'wordpress-seo' ); ?></a></p>
+				<p><a target="_blank" href="<?php echo esc_url( $extension->url . $utm ); ?>" class="button-primary">
+					<?php esc_html_e( 'Get this extension', 'wordpress-seo' ); ?>
+				</a></p>
 			</div>
 			<?php
 			}

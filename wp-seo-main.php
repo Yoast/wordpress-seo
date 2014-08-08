@@ -14,7 +14,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * @internal Nobody should be able to overrule the real version number as this can cause serious issues
  * with the options, so no if ( ! defined() )
  */
-define( 'WPSEO_VERSION', '1.5.3.3' );
+define( 'WPSEO_VERSION', '1.5.4.2' );
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
 	define( 'WPSEO_PATH', plugin_dir_path( WPSEO_FILE ) );
@@ -90,8 +90,8 @@ function wpseo_auto_load( $class ) {
 
 	$cn = strtolower( $class );
 
-	if ( isset( $classes[$cn] ) ) {
-		require_once( $classes[$cn] );
+	if ( isset( $classes[ $cn ] ) ) {
+		require_once( $classes[ $cn ] );
 	}
 }
 if ( function_exists( 'spl_autoload_register' ) ) {
@@ -107,7 +107,7 @@ if ( function_exists( 'spl_autoload_register' ) ) {
  *
  * @param bool $networkwide  Whether the plugin is being activated network-wide
  */
-function wpseo_activate( $networkwide ) {
+function wpseo_activate( $networkwide = false ) {
 	if ( ! is_multisite() || ! $networkwide ) {
 		_wpseo_activate();
 	}
@@ -122,7 +122,7 @@ function wpseo_activate( $networkwide ) {
  *
  * @param bool $networkwide  Whether the plugin is being de-activated network-wide
  */
-function wpseo_deactivate( $networkwide ) {
+function wpseo_deactivate( $networkwide = false ) {
 	if ( ! is_multisite() || ! $networkwide ) {
 		_wpseo_deactivate();
 	}
@@ -165,6 +165,7 @@ function wpseo_network_activate_deactivate( $activate = true ) {
 function _wpseo_activate() {
 	require_once( WPSEO_PATH . 'inc/wpseo-functions.php' );
 
+	wpseo_load_textdomain(); // Make sure we have our translations available for the defaults
 	WPSEO_Options::get_instance();
 	if ( ! is_multisite() ) {
 		WPSEO_Options::initialize();
@@ -172,6 +173,7 @@ function _wpseo_activate() {
 	else {
 		WPSEO_Options::maybe_set_multisite_defaults( true );
 	}
+	WPSEO_Options::ensure_options_exist();
 
 	flush_rewrite_rules();
 
@@ -219,7 +221,7 @@ function wpseo_on_activate_blog( $blog_id ) {
 
 	if ( is_plugin_active_for_network( plugin_basename( WPSEO_FILE ) ) ) {
 		switch_to_blog( $blog_id );
-		wpseo_activate();
+		wpseo_activate( false );
 		restore_current_blog();
 	}
 }
