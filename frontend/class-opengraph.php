@@ -516,6 +516,11 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 
 			if ( is_category() || is_tag() || is_tax() ) {
 				$ogdesc = trim( strip_tags( term_description() ) );
+				if ( '' == $ogdesc ) {
+					global $wp_query;
+					$term   = $wp_query->get_queried_object();
+					$ogdesc = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'desc' );
+				}
 			}
 
 			// Strip shortcodes if any
