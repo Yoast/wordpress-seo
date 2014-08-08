@@ -103,14 +103,6 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 				);
 			}
 
-			if ( ! class_exists( 'wpseo_Video_Manual' ) ) {
-				$plugin_banners[] = array(
-					'url' => 'https://yoast.com/wordpress/plugins/video-manual-wordpress-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=video-manual-banner',
-					'img' => 'banner-video-seo-manual.png',
-					'alt' => 'Banner WordPress SEO Video manual',
-				);
-			}
-
 			if ( class_exists( 'Woocommerce' ) && ! class_exists( 'Yoast_WooCommerce_SEO' ) ) {
 				$plugin_banners[] = array(
 					'url' => 'https://yoast.com/wordpress/plugins/yoast-woocommerce-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=woocommerce-seo-banner',
