@@ -834,7 +834,13 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 										if ( $src[0] != '/' ) {
 											continue;
 										}
-										$src = $this->home_url . $src;
+										if ( $src[1] == '/' ) {
+											// If the link starts with //, it's protocol relative, we add https as the standard requires a protocol
+											$src = 'https:' . $src;
+										} else {
+											// The URL is relative, we'll have to make it absolute
+											$src = $this->home_url . $src;
+										}
 									}
 
 									if ( strpos( $src, $host ) === false ) {
