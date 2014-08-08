@@ -121,6 +121,7 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 	* Fixed slashes in title in snippet preview as reported by [fittedwebdesign](https://github.com/fittedwebdesign) in [issue #1333](https://github.com/Yoast/wordpress-seo/issues/1333), props [Jrf](http://profiles.wordpress.org/jrf).
 	* Fixed re-introduced js compatibility issue with Soliloquy slider as reported by [ajsonnick](https://github.com/ajsonnick) in [issue #1343](https://github.com/Yoast/wordpress-seo/issues/1343), props [Jrf](http://profiles.wordpress.org/jrf).
 	* Fixed a bug where we could do a query in XML Sitemaps even when there were no posts to query for.
+	* If the sitemap is empty, add the homepage URL to make sure it doesn't throw errors in GWT.
 
 * Enhancements:
 	* Added Facebook / OpenGraph title input and Google+ title input and image upload field to Social tab.
