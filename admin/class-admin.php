@@ -106,7 +106,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 			}
 
 			// Add Extension submenu page
-			$submenu_pages[] = array( 'wpseo_dashboard', __( 'Extensions', 'wordpress-seo' ), '<span style="color:#f18500">' . __( 'Extensions', 'wordpress-seo' ) . '</span>', 'manage_options', 'wpseo_licenses', array( $this, 'load_page' ), null );
+			$submenu_pages[] = array( 'wpseo_dashboard', '<span style="color:#f18500">' . __( 'Extensions', 'wordpress-seo' ) . '</span>', '', 'manage_options', 'wpseo_licenses', array( $this, 'load_page' ), null );
 
 			// Allow submenu pages manipulation
 			$submenu_pages = apply_filters( 'wpseo_submenu_pages', $submenu_pages );
