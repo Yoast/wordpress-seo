@@ -1417,7 +1417,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			$urlStopWords = __( 'The slug for this page contains one or more <a href="http://en.wikipedia.org/wiki/Stop_words">stop words</a>, consider removing them.', 'wordpress-seo' );
 			$longSlug     = __( 'The slug for this page is a bit long, consider shortening it.', 'wordpress-seo' );
 
-			$needle    = $this->strip_separators_and_fold( $job['keyword'] );
+			$needle    = $this->strip_separators_and_fold( remove_accents( $job['keyword'] ) );
 			$haystack1 = $this->strip_separators_and_fold( $job['pageUrl'], true );
 			$haystack2 = $this->strip_separators_and_fold( $job['pageUrl'], false );
 
