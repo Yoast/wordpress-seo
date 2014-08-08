@@ -3,14 +3,14 @@
  * @package Admin
  */
 
-if ( !defined( 'WPSEO_VERSION' ) ) {
+if ( ! defined( 'WPSEO_VERSION' ) ) {
 	header( 'Status: 403 Forbidden' );
 	header( 'HTTP/1.1 403 Forbidden' );
 	exit();
 }
 
 
-if ( !class_exists( 'WPSEO_Bulk_Title_Editor_List_Table' ) ) {
+if ( ! class_exists( 'WPSEO_Bulk_Title_Editor_List_Table' ) ) {
 	/**
 	 *
 	 */
@@ -78,7 +78,7 @@ if ( !class_exists( 'WPSEO_Bulk_Title_Editor_List_Table' ) ) {
 			);
 
 			foreach ( $meta_data AS $row ) {
-				$this->meta_data[$row->post_id][$row->meta_key] = $row->meta_value;
+				$this->meta_data[ $row->post_id ][ $row->meta_key ] = $row->meta_value;
 			}
 
 
