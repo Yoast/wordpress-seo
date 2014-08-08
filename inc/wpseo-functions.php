@@ -137,13 +137,15 @@ function wpseo_add_capabilities() {
 
 /**
  * Remove the bulk edit capability from the proper default roles.
+ *
+ * Contributor is still removed for legacy reasons.
  */
 function wpseo_remove_capabilities() {
 	$roles = array(
 		'administrator',
 		'editor',
 		'author',
-		'contributor', // here for legacy reasons.
+		'contributor',
 	);
 
 	$roles = apply_filters( 'wpseo_bulk_edit_roles', $roles );
