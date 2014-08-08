@@ -313,7 +313,9 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 
 				// 404 for invalid or emtpy sitemaps
 				if ( $this->bad_sitemap ) {
-					$GLOBALS['wp_query']->is_404 = true;
+					global $wp_query;
+					$wp_query->set_404();
+					status_header( 404 );
 
 					return;
 				}
