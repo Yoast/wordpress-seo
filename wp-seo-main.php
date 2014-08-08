@@ -45,6 +45,7 @@ function wpseo_auto_load( $class ) {
 			'wpseo_admin'                        => WPSEO_PATH . 'admin/class-admin.php',
 			'wpseo_bulk_title_editor_list_table' => WPSEO_PATH . 'admin/class-bulk-title-editor-list-table.php',
 			'wpseo_bulk_description_list_table'  => WPSEO_PATH . 'admin/class-bulk-description-editor-list-table.php',
+			'wpseo_bulk_list_table'              => WPSEO_PATH . 'admin/class-bulk-editor-list-table.php',
 			'wpseo_admin_pages'                  => WPSEO_PATH . 'admin/class-config.php',
 			'wpseo_metabox'                      => WPSEO_PATH . 'admin/class-metabox.php',
 			'wpseo_social_admin'                 => WPSEO_PATH . 'admin/class-opengraph-admin.php',
