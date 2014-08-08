@@ -1104,64 +1104,75 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 		 * @return string
 		 */
 		public function metadesc( $echo = true ) {
-			if ( get_query_var( 'paged' ) && get_query_var( 'paged' ) > 1 ) {
-				return '';
-			}
-
 			global $post, $wp_query;
 
 			$metadesc  = '';
 			$post_type = '';
+			$template  = '';
+
 			if ( is_object( $post ) && ( isset( $post->post_type ) && $post->post_type !== '' ) ) {
 				$post_type = $post->post_type;
 			}
 
 			if ( is_singular() ) {
 				$metadesc = WPSEO_Meta::get_value( 'metadesc' );
-				if ( ( $metadesc === '' && $post_type !== '' ) && ( isset( $this->options[ 'metadesc-' . $post_type ] ) && $this->options[ 'metadesc-' . $post_type ] !== '' ) ) {
-					$metadesc = wpseo_replace_vars( $this->options[ 'metadesc-' . $post_type ], $post );
+				if ( ( $metadesc === '' && $post_type !== '' ) && isset( $this->options[ 'metadesc-' . $post_type ] ) ) {
+					$template = $this->options[ 'metadesc-' . $post_type ];
+					$term     = $post;
 				}
 			} else {
 				if ( is_search() ) {
-					$metadesc = '';
-				} elseif ( $this->is_home_posts_page() && $this->options['metadesc-home-wpseo'] !== '' ) {
-					$metadesc = wpseo_replace_vars( $this->options['metadesc-home-wpseo'], array() );
+					return '';
+				} elseif ( $this->is_home_posts_page() ) {
+					$template = $this->options['metadesc-home-wpseo'];
+					$term     = array();
 				} elseif ( $this->is_posts_page() ) {
 					$metadesc = WPSEO_Meta::get_value( 'metadesc', get_option( 'page_for_posts' ) );
-					if ( ( $metadesc === '' && $post_type !== '' ) && ( isset( $this->options[ 'metadesc-' . $post_type ] ) && $this->options[ 'metadesc-' . $post_type ] !== '' ) ) {
+					if ( ( $metadesc === '' && $post_type !== '' ) && isset( $this->options[ 'metadesc-' . $post_type ] ) ) {
 						$page     = get_post( get_option( 'page_for_posts' ) );
-						$metadesc = wpseo_replace_vars( $this->options[ 'metadesc-' . $post_type ], $page );
+						$template = $this->options[ 'metadesc-' . $post_type ];
+						$term     = $page;
 					}
 				} elseif ( $this->is_home_static_page() ) {
 					$metadesc = WPSEO_Meta::get_value( 'metadesc' );
-					if ( ( $metadesc === '' && $post_type !== '' ) && ( isset( $this->options[ 'metadesc-' . $post_type ] ) && $this->options[ 'metadesc-' . $post_type ] !== '' ) ) {
-						$metadesc = wpseo_replace_vars( $this->options[ 'metadesc-' . $post_type ], $post );
+					if ( ( $metadesc === '' && $post_type !== '' ) && isset( $this->options[ 'metadesc-' . $post_type ] ) ) {
+						$template = $this->options[ 'metadesc-' . $post_type ];
 					}
 				} elseif ( is_category() || is_tag() || is_tax() ) {
 					$term     = $wp_query->get_queried_object();
 					$metadesc = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'desc' );
-					if ( ( ! is_string( $metadesc ) || $metadesc === '' ) && ( ( is_object( $term ) && isset( $term->taxonomy ) ) && ( isset( $this->options[ 'metadesc-tax-' . $term->taxonomy ] ) && $this->options[ 'metadesc-tax-' . $term->taxonomy ] !== '' ) ) ) {
-						$metadesc = wpseo_replace_vars( $this->options[ 'metadesc-tax-' . $term->taxonomy ], $term );
+					if ( ( ! is_string( $metadesc ) || $metadesc === '' ) && ( ( is_object( $term ) && isset( $term->taxonomy ) ) && isset( $this->options[ 'metadesc-tax-' . $term->taxonomy ] ) ) ) {
+						$template = $this->options[ 'metadesc-tax-' . $term->taxonomy ];
 					}
 				} elseif ( is_author() ) {
 					$author_id = get_query_var( 'author' );
 					$metadesc  = get_the_author_meta( 'wpseo_metadesc', $author_id );
-					if ( ! $metadesc && $this->options['metadesc-author-wpseo'] !== '' ) {
-						$metadesc = wpseo_replace_vars( $this->options['metadesc-author-wpseo'], $wp_query->get_queried_object() );
-					}
 				} elseif ( is_post_type_archive() ) {
 					$post_type = get_query_var( 'post_type' );
 					if ( is_array( $post_type ) ) {
 						$post_type = reset( $post_type );
 					}
-					if ( isset( $this->options[ 'metadesc-ptarchive-' . $post_type ] ) && $this->options[ 'metadesc-ptarchive-' . $post_type ] !== '' ) {
-						$metadesc = wpseo_replace_vars( $this->options[ 'metadesc-ptarchive-' . $post_type ], $wp_query->get_queried_object() );
+					if ( isset( $this->options[ 'metadesc-ptarchive-' . $post_type ] ) ) {
+						$template = $this->options[ 'metadesc-ptarchive-' . $post_type ];
 					}
 				} elseif ( is_archive() ) {
-					if ( $this->options['metadesc-archive-wpseo'] !== '' ) {
-						$metadesc = wpseo_replace_vars( $this->options['metadesc-archive-wpseo'], $wp_query->get_queried_object() );
+					$template = $this->options['metadesc-archive-wpseo'];
+				}
+
+				// If we're on a paginated page, and the template doesn't change for paginated pages, bail.
+				if ( ( ! is_string( $metadesc ) || $metadesc === '' ) && get_query_var( 'paged' ) && get_query_var( 'paged' ) > 1 && $template !== '' ) {
+					if ( strpos( $template, '%%page' ) === false ) {
+						return '';
 					}
 				}
+
+			}
+
+			if ( ( ! is_string( $metadesc ) || '' === $metadesc ) && '' !== $template ) {
+				if ( ! isset( $term ) ) {
+					$term = $wp_query->get_queried_object();
+				}
+				$metadesc = wpseo_replace_vars( $template, $term );
 			}
 
 			/**
