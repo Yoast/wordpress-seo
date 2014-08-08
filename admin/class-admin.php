@@ -90,13 +90,20 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 					'load_page',
 				), plugins_url( 'images/yoast-icon.png', WPSEO_FILE ), '99.31337' );
 
+			/**
+			 * Filter: 'wpseo_manage_options_capability' - Allow changing the capability users need to view the settings pages
+			 *
+			 * @api string unsigned The capability
+			 */
+			$manage_options_cap = apply_filters( 'wpseo_manage_options_capability', 'manage_options' );
+
 			// Sub menu pages
 			$submenu_pages = array(
 				array(
 					'wpseo_dashboard',
 					'',
 					__( 'Titles &amp; Metas', 'wordpress-seo' ),
-					'manage_options',
+					$manage_options_cap,
 					'wpseo_titles',
 					array( $this, 'load_page' ),
 					array( array( $this, 'title_metas_help_tab' ) ),
@@ -105,7 +112,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 					'wpseo_dashboard',
 					'',
 					__( 'Social', 'wordpress-seo' ),
-					'manage_options',
+					$manage_options_cap,
 					'wpseo_social',
 					array( $this, 'load_page' ),
 					null,
@@ -114,7 +121,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 					'wpseo_dashboard',
 					'',
 					__( 'XML Sitemaps', 'wordpress-seo' ),
-					'manage_options',
+					$manage_options_cap,
 					'wpseo_xml',
 					array( $this, 'load_page' ),
 					null,
@@ -123,7 +130,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 					'wpseo_dashboard',
 					'',
 					__( 'Permalinks', 'wordpress-seo' ),
-					'manage_options',
+					$manage_options_cap,
 					'wpseo_permalinks',
 					array( $this, 'load_page' ),
 					null,
@@ -132,7 +139,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 					'wpseo_dashboard',
 					'',
 					__( 'Internal Links', 'wordpress-seo' ),
-					'manage_options',
+					$manage_options_cap,
 					'wpseo_internal-links',
 					array( $this, 'load_page' ),
 					null,
@@ -141,7 +148,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 					'wpseo_dashboard',
 					'',
 					__( 'RSS', 'wordpress-seo' ),
-					'manage_options',
+					$manage_options_cap,
 					'wpseo_rss',
 					array( $this, 'load_page' ),
 					null,
@@ -150,7 +157,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 					'wpseo_dashboard',
 					'',
 					__( 'Import & Export', 'wordpress-seo' ),
-					'manage_options',
+					$manage_options_cap,
 					'wpseo_import',
 					array( $this, 'load_page' ),
 					null,
@@ -172,7 +179,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 					'wpseo_dashboard',
 					'',
 					__( 'Edit Files', 'wordpress-seo' ),
-					'manage_options',
+					$manage_options_cap,
 					'wpseo_files',
 					array( $this, 'load_page' ),
 				);
@@ -183,7 +190,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 				'wpseo_dashboard',
 				'',
 				'<span style="color:#f18500">' . __( 'Extensions', 'wordpress-seo' ) . '</span>',
-				'manage_options',
+				$manage_options_cap,
 				'wpseo_licenses',
 				array( $this, 'load_page' ),
 				null,
@@ -209,7 +216,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 			}
 
 			global $submenu;
-			if ( isset( $submenu['wpseo_dashboard'] ) && current_user_can( 'manage_options' ) ) {
+			if ( isset( $submenu['wpseo_dashboard'] ) && current_user_can( $manage_options_cap ) ) {
 				$submenu['wpseo_dashboard'][0][0] = __( 'Dashboard', 'wordpress-seo' );
 			}
 		}
