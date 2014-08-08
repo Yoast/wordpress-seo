@@ -716,21 +716,25 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 				foreach ( $posts as $p ) {
 					$post_ids[] = $p->ID;
 				}
-				update_meta_cache( 'post', $post_ids );
 
-				$child_query = "SELECT ID, post_title, post_parent FROM $wpdb->posts WHERE post_status = 'inherit' AND post_type = 'attachment' AND post_parent IN (" . implode( $post_ids, ',' ) . ')';
-				$wpdb->query( $child_query );
-				$attachments    = $wpdb->get_results( $child_query );
-				$attachment_ids = wp_list_pluck( $attachments, 'ID' );
+				if ( count( $post_ids ) > 0 ) {
+					update_meta_cache( 'post', $post_ids );
 
-				$thumbnail_query = "SELECT meta_value FROM $wpdb->postmeta WHERE meta_key = '_thumbnail_id' AND post_id IN (" . implode( $post_ids, ',' ) . ')';
-				$wpdb->query( $thumbnail_query );
-				$thumbnails    = $wpdb->get_results( $thumbnail_query );
-				$thumbnail_ids = wp_list_pluck( $thumbnails, 'meta_value' );
+					$child_query = "SELECT ID, post_title, post_parent FROM $wpdb->posts WHERE post_status = 'inherit' AND post_type = 'attachment' AND post_parent IN (" . implode( $post_ids, ',' ) . ')';
+					$wpdb->query( $child_query );
+					$attachments    = $wpdb->get_results( $child_query );
+					$attachment_ids = wp_list_pluck( $attachments, 'ID' );
 
-				$attachment_ids = array_merge( $thumbnail_ids, $attachment_ids );
-				_prime_post_caches( $attachment_ids );
-				update_meta_cache( 'post', $attachment_ids );
+					$thumbnail_query = "SELECT meta_value FROM $wpdb->postmeta WHERE meta_key = '_thumbnail_id' AND post_id IN (" . implode( $post_ids, ',' ) . ')';
+					$wpdb->query( $thumbnail_query );
+					$thumbnails    = $wpdb->get_results( $thumbnail_query );
+					$thumbnail_ids = wp_list_pluck( $thumbnails, 'meta_value' );
+
+					$attachment_ids = array_merge( $thumbnail_ids, $attachment_ids );
+
+					_prime_post_caches( $attachment_ids );
+					update_meta_cache( 'post', $attachment_ids );
+				}
 
 				$offset = $offset + $steps;
 
