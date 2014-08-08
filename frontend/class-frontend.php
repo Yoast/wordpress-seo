@@ -1165,7 +1165,6 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 						return '';
 					}
 				}
-
 			}
 
 			if ( ( ! is_string( $metadesc ) || '' === $metadesc ) && '' !== $template ) {
