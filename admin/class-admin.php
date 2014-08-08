@@ -102,11 +102,11 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 
 			// Check where to add the edit files page
 			if ( wpseo_allow_system_file_edit() === true && ! is_multisite() ) {
-				$submenu_pages[] = array( 'wpseo_dashboard', __( 'Edit Files', 'wordpress-seo' ), __( 'Edit Files', 'wordpress-seo' ), 'manage_options', 'wpseo_files', array( $this, 'load_page' ) );
+				$submenu_pages[] = array( 'wpseo_dashboard', '', __( 'Edit Files', 'wordpress-seo' ), 'manage_options', 'wpseo_files', array( $this, 'load_page' ) );
 			}
 
 			// Add Extension submenu page
-			$submenu_pages[] = array( 'wpseo_dashboard', '<span style="color:#f18500">' . __( 'Extensions', 'wordpress-seo' ) . '</span>', '', 'manage_options', 'wpseo_licenses', array( $this, 'load_page' ), null );
+			$submenu_pages[] = array( 'wpseo_dashboard', '', '<span style="color:#f18500">' . __( 'Extensions', 'wordpress-seo' ) . '</span>', 'manage_options', 'wpseo_licenses', array( $this, 'load_page' ), null );
 
 			// Allow submenu pages manipulation
 			$submenu_pages = apply_filters( 'wpseo_submenu_pages', $submenu_pages );
