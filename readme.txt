@@ -109,6 +109,10 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 
 == Changelog ==
 
+= Trunk =
+* Enhancements:
+	* Merged the bulk editor pages for titles and descriptions into one file
+
 = 1.5.4.2 =
 Release Date: July 16th, 2014
 
