@@ -143,7 +143,7 @@ function wpseo_remove_capabilities() {
 		'administrator',
 		'editor',
 		'author',
-		'contributor' // here for legacy reasons.
+		'contributor', // here for legacy reasons.
 	);
 
 	$roles = apply_filters( 'wpseo_bulk_edit_roles', $roles );
