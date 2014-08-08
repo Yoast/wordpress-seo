@@ -584,12 +584,13 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 
 			$var_esc = esc_attr( $var );
 
-			$output = '<br/><label class="select">' . $label . ':</label>';
+			$output = '<br/><div class="wpseo_radio_block" id="' . $var_esc . '"><label class="select">' . $label . ':</label>';
 			foreach ( $values as $key => $value ) {
 				$key_esc = esc_attr( $key );
 				$output .= '<input type="radio" class="radio" id="' . $var_esc . '-' . $key_esc . '" name="' . esc_attr( $option ) . '[' . $var_esc . ']" value="' . $key_esc . '" ' . checked( $options[ $var ], $key_esc, false ) . ' /> <label class="radio" for="' . $var_esc . '-' . $key_esc . '">' . esc_html( $value ) . '</label>';
 			}
-			$output .= '<br/>';
+			$output .= '<div class="clear"></div>';
+			$output .= '</div><br/>';
 
 			return $output;
 		}

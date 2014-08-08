@@ -1379,7 +1379,7 @@ if ( ! class_exists( 'WPSEO_Option_Titles' ) ) {
 			'title_test'             => 0,
 			// Form fields
 			'forcerewritetitle'      => false,
-			'separator'	             => 'sc-ndash',
+			'separator'              => 'sc-dash',
 			'hide-feedlinks'         => false,
 			'hide-rsdlink'           => false,
 			'hide-shortlink'         => false,
@@ -1458,15 +1458,21 @@ if ( ! class_exists( 'WPSEO_Option_Titles' ) ) {
 		 * @var array Array of the separator options. To get these options use WPSEO_Option_Titles::get_instance()->get_separator_options()
 		 */
 		private $separator_options = array(
-			'sc-ndash'  => '&ndash;',
-			'sc-mdash'  => '&mdash;',
-			'sc-laquo'  => '&laquo;',
-			'sc-raquo'  => '&raquo;',
-			'sc-middot' => '&middot;',
-			'sc-loz'    => '&loz;',
-			'sc-hearts' => '&hearts;',
-			'sc-bull'   => '&bull;',
-			'|'         => '|',
+			'sc-dash'    => '-',
+			'sc-ndash'   => '&ndash;',
+			'sc-mdash'   => '&mdash;',
+			'sc-middot'  => '&middot;',
+			'sc-bull'    => '&bull;',
+			'*'          => '*',
+			'sc-smstar'    => '&#8902;',
+			'|'          => '|',
+			'sc-tilde'   => '~',
+			'sc-laquo'   => '&laquo;',
+			'sc-raquo'   => '&raquo;',
+			'sc-lt'      => '&lt;',
+			'sc-gt'      => '&gt;',
+			'sc-loz'     => '&#11051;',
+			'sc-bloz'    => '&#11050;',
 		);
 
 		/**
