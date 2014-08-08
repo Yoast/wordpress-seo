@@ -120,9 +120,11 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 	* Fixed double separators in snippet preview as reported by [GermanKiwi](https://github.com/GermanKiwi) in [issue #1321](https://github.com/Yoast/wordpress-seo/issues/1321), props [Jrf](http://profiles.wordpress.org/jrf).
 	* Fixed slashes in title in snippet preview as reported by [fittedwebdesign](https://github.com/fittedwebdesign) in [issue #1333](https://github.com/Yoast/wordpress-seo/issues/1333), props [Jrf](http://profiles.wordpress.org/jrf).
 	* Fixed re-introduced js compatibility issue with Soliloquy slider as reported by [ajsonnick](https://github.com/ajsonnick) in [issue #1343](https://github.com/Yoast/wordpress-seo/issues/1343), props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fixed a bug where we could do a query in XML Sitemaps even when there were no posts to query for.
 
 * Enhancements:
 	* Added Facebook / OpenGraph title input and Google+ title input and image upload field to Social tab.
+	* Added a new title separator feature on the Titles admin page.
 
 = 1.5.4.2 =
 Release Date: July 16th, 2014
