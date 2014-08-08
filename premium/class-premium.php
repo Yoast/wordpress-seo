@@ -386,7 +386,7 @@ class WPSEO_Premium {
 			'wpseo_dashboard',
 			__( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Video Tutorials', 'wordpress-seo' ),
 			__( 'Video Tutorials', 'wordpress-seo' ),
-			'manage_options',
+			'edit_posts',
 			'wpseo_tutorial_videos',
 			array( 'WPSEO_Tutorial_Videos', 'display' )
 		);
