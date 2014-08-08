@@ -268,13 +268,13 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 			if ( ! is_string( $title ) || ( is_string( $title ) && $title === '' ) ) {
 				$title = get_bloginfo( 'name' );
 				$title = $this->add_paging_to_title( $sep, $seplocation, $title );
-				$title = $this->add_to_title( $sep, $seplocation, $title, get_bloginfo( 'description' ) );
+				$title = $this->add_to_title( $sep, $seplocation, $title, strip_tags( get_bloginfo( 'description' ) ) );
 
 				return $title;
 			}
 
 			$title = $this->add_paging_to_title( $sep, $seplocation, $title );
-			$title = $this->add_to_title( $sep, $seplocation, $title, get_bloginfo( 'name' ) );
+			$title = $this->add_to_title( $sep, $seplocation, $title, strip_tags( get_bloginfo( 'name' ) ) );
 
 			return $title;
 		}
@@ -1505,7 +1505,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 
 			$post_link      = '<a ' . $no_follow_attr . 'href="' . esc_url( get_permalink() ) . '">' . get_the_title() . '</a>';
 			$blog_link      = '<a ' . $no_follow_attr . 'href="' . esc_url( get_bloginfo( 'url' ) ) . '">' . get_bloginfo( 'name' ) . '</a>';
-			$blog_desc_link = '<a ' . $no_follow_attr . 'href="' . esc_url( get_bloginfo( 'url' ) ) . '">' . get_bloginfo( 'name' ) . ' - ' . get_bloginfo( 'description' ) . '</a>';
+			$blog_desc_link = '<a ' . $no_follow_attr . 'href="' . esc_url( get_bloginfo( 'url' ) ) . '">' . get_bloginfo( 'name' ) . ' - ' . strip_tags( get_bloginfo( 'description' ) ) . '</a>';
 
 			$content = stripslashes( trim( $content ) );
 			$content = str_replace( '%%AUTHORLINK%%', $author_link, $content );
