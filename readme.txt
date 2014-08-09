@@ -123,6 +123,7 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 	* Fixed a bug where we could do a query in XML Sitemaps even when there were no posts to query for.
 	* If the sitemap is empty, add the homepage URL to make sure it doesn't throw errors in GWT.
 	* Change how we set 404's for non existing sitemap files, as reported in [#1383](https://github.com/Yoast/wordpress-seo/issues/1383) props [Dinglebat](https://github.com/Dinglebat).
+	* Fix issues with conflicting expectations being plugins/theme of the user meta twitter field - url vs twitter id, props [Jrf](http://profiles.wordpress.org/jrf).
 
 * Enhancements:
 	* Added Facebook / OpenGraph title input and Google+ title input and image upload field to Social tab.
