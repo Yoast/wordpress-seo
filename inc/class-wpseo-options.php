@@ -1471,8 +1471,6 @@ if ( ! class_exists( 'WPSEO_Option_Titles' ) ) {
 			'sc-raquo'   => '&raquo;',
 			'sc-lt'      => '&lt;',
 			'sc-gt'      => '&gt;',
-			'sc-loz'     => '&#11051;',
-			'sc-bloz'    => '&#11050;',
 		);
 
 		/**
