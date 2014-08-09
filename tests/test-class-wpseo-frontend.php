@@ -299,10 +299,16 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 
 		// test 'paged' query var
 		set_query_var( 'paged', 2 );
-		$expected = 'noindex,follow';
+		$expected = '';
 		$this->assertEquals( $expected, self::$class_instance->robots() );
 
-		// clean-up
+		// test 'paged' query var (2)
+		$expected                                                = 'noindex,follow';
+		self::$class_instance->options['noindex-subpages-wpseo'] = true;
+		$this->assertEquals( $expected, self::$class_instance->robots() );
+
+		// clean-up		
+		self::$class_instance->options['noindex-subpages-wpseo'] = false;
 		set_query_var( 'paged', 0 );
 
 		// create and go to post
