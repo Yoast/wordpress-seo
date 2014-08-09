@@ -323,7 +323,8 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 				$this->image_output( $this->options['og_default_image'] );
 			}
 		}
-		
+
+
 		/**
 		 * Checks if the given id is actually an id or a url and if url, distills the id from it.
 		 *
