@@ -335,7 +335,7 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 		 * @return string|bool Twitter id or false if it failed to get a valid twitter id
 		 */
 		private function get_twitter_id( $id ) {
-			if( preg_match( '`([A-Za-z0-9_]{1,25})$`', $twitter_id, $match ) ) {
+			if ( preg_match( '`([A-Za-z0-9_]{1,25})$`', $twitter_id, $match ) ) {
 				return $match[1];
 			}
 			else {
