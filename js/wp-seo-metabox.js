@@ -16,7 +16,7 @@ function ptest(str, p) {
 	str = yst_clean(str);
 	str = str.toLowerCase();
 	var r = str.match(p);
-	if ( r != null )
+	if (r != null)
 		return '<span class="good">Yes (' + r.length + ')</span>';
 	else
 		return '<span class="wrong">No</span>';
@@ -78,7 +78,7 @@ function removeLowerCaseDiacritics(str) {
 
 function yst_testFocusKw() {
 	// Retrieve focus keyword and trim
-	var focuskw = jQuery.trim(jQuery('#'+wpseoMetaboxL10n.field_prefix+'focuskw').val());
+	var focuskw = jQuery.trim(jQuery('#' + wpseoMetaboxL10n.field_prefix + 'focuskw').val());
 	focuskw = yst_escapeFocusKw(focuskw).toLowerCase();
 
 	var postname = jQuery('#editable-post-name-full').text();
@@ -90,7 +90,7 @@ function yst_testFocusKw() {
 	var p2 = new RegExp(focuskwNoDiacritics.replace(/\s+/g, "[-_\\\//]"), 'gim');
 
 	var focuskwresults = jQuery('#focuskwresults');
-	var	metadesc = jQuery('#wpseosnippet').find('.desc span.content').text();
+	var metadesc = jQuery('#wpseosnippet').find('.desc span.content').text();
 
 	if (focuskw != '') {
 		var html = '<p>' + wpseoMetaboxL10n.keyword_header + '</p>';
@@ -107,7 +107,7 @@ function yst_testFocusKw() {
 	}
 }
 
-function yst_replaceVariables(str,callback) {
+function yst_replaceVariables(str, callback) {
 	// title
 	str = str.replace(/%%title%%/g, jQuery('#title').val());
 
@@ -117,38 +117,52 @@ function yst_replaceVariables(str,callback) {
 	str = str.replace(/%%sep%%/g, wpseoMetaboxL10n.sep);
 	str = str.replace(/%%date%%/g, wpseoMetaboxL10n.date);
 	str = str.replace(/%%id%%/g, wpseoMetaboxL10n.id);
+	str = str.replace(/%%page%%/g, wpseoMetaboxL10n.page);
 	str = str.replace(/%%currenttime%%/g, wpseoMetaboxL10n.currenttime);
 	str = str.replace(/%%currentdate%%/g, wpseoMetaboxL10n.currentdate);
 	str = str.replace(/%%currentday%%/g, wpseoMetaboxL10n.currentday);
 	str = str.replace(/%%currentmonth%%/g, wpseoMetaboxL10n.currentmonth);
 	str = str.replace(/%%currentyear%%/g, wpseoMetaboxL10n.currentyear);
 
+	str = str.replace(/%%focuskw%%/g, jQuery('#yoast_wpseo_focuskw').val() );
 	// excerpt
 	var excerpt = yst_clean(jQuery("#excerpt").val());
 	str = str.replace(/%%excerpt_only%%/g, excerpt);
 	str = str.replace(/%%excerpt%%/g, excerpt);
 
 	// remove double separators
-	var esc_sep = yst_escapeFocusKw( wpseoMetaboxL10n.sep );
+	var esc_sep = yst_escapeFocusKw(wpseoMetaboxL10n.sep);
 	var pattern = new RegExp(esc_sep + ' ' + esc_sep, 'g');
 	str = str.replace(pattern, wpseoMetaboxL10n.sep);
 
-	if (str.indexOf('%%') != -1 && str.match(/%%[a-z0-9_-]+%%/i) != null ) {
-		jQuery.post(ajaxurl, {
-					action  : 'wpseo_replace_vars',
-					string  : str,
-					post_id : jQuery('#post_ID').val(),
-					_wpnonce: wpseoMetaboxL10n.wpseo_replace_vars_nonce
-				}, function (data) {
-					if (data) {
-						callback(data);
-					}
-				}
-		);
-	} else {
-		callback(str);
+	if (str.indexOf('%%') != -1 && str.match(/%%[a-z0-9_-]+%%/i) != null) {
+		regex = /%%[a-z0-9_-]+%%/gi;
+		matches = str.match(regex);
+		for (i = 0; i < matches.length; i++) {
+			if (replacedVars[matches[i]] != undefined) {
+				str = str.replace(matches[i], replacedVars[matches[i]]);
+			} else {
+				replaceableVar = matches[i];
+				// create the cache already, so we don't do the request twice.
+				replacedVars[replaceableVar] = '';
+				jQuery.post(ajaxurl, {
+							action  : 'wpseo_replace_vars',
+							string  : matches[i],
+							post_id : jQuery('#post_ID').val(),
+							_wpnonce: wpseoMetaboxL10n.wpseo_replace_vars_nonce
+						}, function (data) {
+							if (data) {
+								replacedVars[replaceableVar] = data;
+								yst_replaceVariables(str, callback);
+							} else {
+								yst_replaceVariables(str, callback);
+							}
+						}
+				);
+			}
+		}
 	}
-
+	callback(str);
 }
 
 function yst_updateTitle(force) {
@@ -178,13 +192,13 @@ function yst_updateTitle(force) {
 		titleElm.val(title);
 	}
 
-	title = yst_replaceVariables(title, function( title ) {
+	title = yst_replaceVariables(title, function (title) {
 		// do the placeholder
 		var placeholder_title = divHtml.html(title).text();
 		titleElm.attr('placeholder', placeholder_title);
 
 		// and now the snippet preview title
-		title = yst_boldKeywords(title , false);
+		title = yst_boldKeywords(title, false);
 
 		jQuery('#wpseosnippet_title').html(title);
 
@@ -198,7 +212,7 @@ function yst_updateTitle(force) {
 		}
 
 		yst_testFocusKw();
-	} );
+	});
 }
 
 function yst_updateDesc() {
@@ -207,11 +221,11 @@ function yst_updateDesc() {
 	var snippet = jQuery('#wpseosnippet');
 
 	if (desc == '' && wpseoMetaboxL10n.wpseo_metadesc_template != '') {
-			desc = wpseoMetaboxL10n.wpseo_metadesc_template;
+		desc = wpseoMetaboxL10n.wpseo_metadesc_template;
 	}
 
-	if ( desc != '' ) {
-		desc = yst_replaceVariables( desc, function( desc ) {
+	if (desc != '') {
+		desc = yst_replaceVariables(desc, function (desc) {
 			desc = divHtml.text(desc).html();
 			desc = yst_clean(desc);
 
@@ -261,7 +275,7 @@ function yst_updateDesc() {
 
 }
 
-function yst_trimDesc( desc ) {
+function yst_trimDesc(desc) {
 	if (desc.length > wpseoMetaboxL10n.wpseo_meta_desc_length) {
 		var space;
 		if (desc.length > wpseoMetaboxL10n.wpseo_meta_desc_length)
@@ -282,7 +296,7 @@ function yst_updateURL() {
 }
 
 function yst_boldKeywords(str, url) {
-	var focuskw = yst_escapeFocusKw(jQuery.trim(jQuery('#'+wpseoMetaboxL10n.field_prefix+'focuskw').val()));
+	var focuskw = yst_escapeFocusKw(jQuery.trim(jQuery('#' + wpseoMetaboxL10n.field_prefix + 'focuskw').val()));
 	var keywords;
 
 	if (focuskw == '')
@@ -302,7 +316,7 @@ function yst_boldKeywords(str, url) {
 		} else {
 			kwregex = new RegExp("(^|[ \s\n\r\t\.,'\(\"\+;!?:\-]+)(" + kw + ")($|[ \s\n\r\t\.,'\)\"\+;!?:\-]+)", 'gim');
 		}
-		if ( str != undefined ) {
+		if (str != undefined) {
 			str = str.replace(kwregex, "$1<strong>$2</strong>$3");
 		}
 	}
@@ -315,20 +329,22 @@ function yst_updateSnippet() {
 	yst_updateDesc();
 }
 
-function yst_escapeFocusKw( str ) {
+function yst_escapeFocusKw(str) {
 	return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
 }
 
-var delay = (function(){
+var delay = (function () {
 	var timer = 0;
-	return function(callback, ms){
-		clearTimeout (timer);
+	return function (callback, ms) {
+		clearTimeout(timer);
 		timer = setTimeout(callback, ms);
 	};
 })();
 
 jQuery(document).ready(function () {
-	if ( jQuery( '.wpseo-metabox-tabs-div' ).length > 0 ) {
+	replacedVars = new Array();
+
+	if (jQuery('.wpseo-metabox-tabs-div').length > 0) {
 		var active_tab = window.location.hash;
 		if (active_tab == '' || active_tab.search('wpseo') == -1)
 			active_tab = 'general';
@@ -337,7 +353,7 @@ jQuery(document).ready(function () {
 
 		jQuery('.' + active_tab).addClass('active');
 
-		var descElm = jQuery('#'+wpseoMetaboxL10n.field_prefix+'metadesc');
+		var descElm = jQuery('#' + wpseoMetaboxL10n.field_prefix + 'metadesc');
 		var desc = jQuery.trim(yst_clean(descElm.val()));
 		desc = jQuery('<div />').html(desc).text();
 		descElm.val(desc);
@@ -365,7 +381,7 @@ jQuery(document).ready(function () {
 
 	var cache = {}, lastXhr;
 
-	jQuery('#'+wpseoMetaboxL10n.field_prefix+'focuskw').autocomplete({
+	jQuery('#' + wpseoMetaboxL10n.field_prefix + 'focuskw').autocomplete({
 		minLength   : 3,
 		formatResult: function (row) {
 			return jQuery('<div/>').html(row).html();
@@ -373,14 +389,14 @@ jQuery(document).ready(function () {
 		source      : function (request, response) {
 			var term = request.term;
 			if (term in cache) {
-				response(cache[ term ]);
+				response(cache[term]);
 				return;
 			}
 			request._ajax_nonce = wpseoMetaboxL10n.wpseo_keyword_suggest_nonce;
 			request.action = 'wpseo_get_suggest';
 
 			lastXhr = jQuery.getJSON(ajaxurl, request, function (data, status, xhr) {
-				cache[ term ] = data;
+				cache[term] = data;
 				if (xhr === lastXhr) {
 					response(data);
 				}
@@ -389,36 +405,27 @@ jQuery(document).ready(function () {
 		}
 	});
 
-	jQuery('#'+wpseoMetaboxL10n.field_prefix+'title').keyup(function () {
-		delay(function(){
-			yst_updateTitle();
-		}, 2000 );
+	jQuery('#' + wpseoMetaboxL10n.field_prefix + 'title').keyup(function () {
+		yst_updateTitle();
 	});
 	jQuery('#title').keyup(function () {
-		delay(function(){
-			yst_updateTitle();
-		}, 2000 );
+		yst_updateTitle();
+		yst_updateDesc();
 	});
 	// DON'T 'optimize' this to use descElm! descElm might not be defined and will cause js errors (Soliloquy issue)
-	jQuery('#'+wpseoMetaboxL10n.field_prefix+'metadesc').keyup(function () {
-		delay(function(){
-			yst_updateDesc();
-		}, 2000 );
+	jQuery('#' + wpseoMetaboxL10n.field_prefix + 'metadesc').keyup(function () {
+		yst_updateDesc();
 	});
 	jQuery('#excerpt').keyup(function () {
-		delay(function(){
-			yst_updateDesc();
-		}, 2000 );
+		yst_updateDesc();
 	});
 	jQuery('#content').focusout(function () {
-		delay(function(){
-			yst_updateDesc();
-		}, 2000 );
+		yst_updateDesc();
 	});
 	var focuskwhelptriggered = false;
-	jQuery(document).on('change', '#'+wpseoMetaboxL10n.field_prefix+'focuskw', function () {
+	jQuery(document).on('change', '#' + wpseoMetaboxL10n.field_prefix + 'focuskw', function () {
 		var focuskwhelpElm = jQuery('#focuskwhelp');
-		if (jQuery('#'+wpseoMetaboxL10n.field_prefix+'focuskw').val().search(',') != -1) {
+		if (jQuery('#' + wpseoMetaboxL10n.field_prefix + 'focuskw').val().search(',') != -1) {
 			focuskwhelpElm.click();
 			focuskwhelptriggered = true;
 		} else if (focuskwhelptriggered) {
@@ -444,7 +451,7 @@ jQuery(document).ready(function () {
 		},
 		hide    : {
 			fixed: true,
-			when: {
+			when : {
 				event: 'mouseout'
 			}
 		},

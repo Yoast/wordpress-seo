@@ -362,6 +362,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 					'sitename',
 					'sitedesc',
 					'sep',
+					'page',
 					'currenttime',
 					'currentdate',
 					'currentday',
