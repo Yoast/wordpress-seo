@@ -2589,6 +2589,7 @@ if ( ! class_exists( 'WPSEO_Option_Social' ) ) {
 			// Form fields:
 			'facebook_site'      => '', // text field
 			'og_default_image'   => '', // text field
+			'og_frontpage_title' => '', // text field
 			'og_frontpage_desc'  => '', // text field
 			'og_frontpage_image' => '', // text field
 			'opengraph'          => true,
