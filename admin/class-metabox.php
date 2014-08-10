@@ -169,11 +169,11 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 							add_filter( 'manage_' . $pt . '_posts_columns', array( $this, 'column_heading' ), 10, 1 );
 							add_action( 'manage_' . $pt . '_posts_custom_column', array(
 									$this,
-									'column_content'
+									'column_content',
 								), 10, 2 );
 							add_action( 'manage_edit-' . $pt . '_sortable_columns', array(
 									$this,
-									'column_sort'
+									'column_sort',
 								), 10, 2 );
 						}
 					}
@@ -297,7 +297,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 					if ( $this->is_metabox_hidden( $post_type ) === false ) {
 						add_meta_box( 'wpseo_meta', __( 'WordPress SEO by Yoast', 'wordpress-seo' ), array(
 								$this,
-								'meta_box'
+								'meta_box',
 							), $post_type, 'normal', apply_filters( 'wpseo_metabox_prio', 'high' ) );
 					}
 				}
@@ -583,7 +583,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 				if ( in_array( $meta_field_def['type'], array(
 							'snippetpreview',
 							'radio',
-							'checkbox'
+							'checkbox',
 						), true ) === false
 				) {
 					$label = '<label for="' . $esc_form_key . '">' . $label . ':</label>';
@@ -734,7 +734,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			if ( ! in_array( $pagenow, array(
 						'post-new.php',
 						'post.php',
-						'edit.php'
+						'edit.php',
 					), true ) || $this->is_metabox_hidden() === true
 			) {
 				return;
@@ -762,7 +762,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 				wp_enqueue_script( 'wp-seo-metabox', plugins_url( 'js/wp-seo-metabox' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array(
 						'jquery',
 						'jquery-ui-core',
-						'jquery-ui-autocomplete'
+						'jquery-ui-autocomplete',
 					), WPSEO_VERSION, true );
 
 				// Text strings to pass to metabox for keyword analysis
@@ -1388,7 +1388,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			} elseif ( count( $posts ) == 1 ) {
 				$this->save_score_result( $results, 6, sprintf( __( 'You\'ve used this focus keyword %1$sonce before%2$s, be sure to make very clear which URL on your site is the most important for this keyword.', 'wordpress-seo' ), '<a href="' . esc_url( add_query_arg( array(
 									'post'   => $posts[0],
-									'action' => 'edit'
+									'action' => 'edit',
 								), admin_url( 'post.php' ) ) ) . '">', '</a>' ), 'keyword_overused' );
 			} else {
 				$this->save_score_result( $results, 1, sprintf( __( 'You\'ve used this focus keyword %3$s%4$d times before%2$s, it\'s probably a good idea to read %1$sthis post on cornerstone content%2$s and improve your keyword strategy.', 'wordpress-seo' ), '<a href="https://yoast.com/cornerstone-content-rank/">', '</a>', '<a href="' . esc_url( add_query_arg( array( 'seo_kw_filter' => $job['keyword'] ), admin_url( 'edit.php' ) ) ) . '">', count( $posts ) ), 'keyword_overused' );
@@ -1669,7 +1669,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 						'post_status'    => 'inherit',
 						'post_type'      => 'attachment',
 						'post_mime_type' => 'image',
-						'fields'         => 'ids'
+						'fields'         => 'ids',
 					) );
 				if ( is_array( $attachments ) && $attachments !== array() ) {
 					foreach ( $attachments as $att_id ) {
@@ -1868,8 +1868,8 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			// First Paragraph Test
 			// check without /u modifier as well as /u might break with non UTF-8 chars.
 			if ( preg_match( '`\b' . preg_quote( $job['keyword'], '`' ) . '\b`miu', $firstp ) ||
-			     preg_match( '`\b' . preg_quote( $job['keyword'], '`' ) . '\b`mi', $firstp ) ||
-			     preg_match( '`\b' . preg_quote( $job['keyword_folded'], '`' ) . '\b`miu', $firstp )
+				 preg_match( '`\b' . preg_quote( $job['keyword'], '`' ) . '\b`mi', $firstp ) ||
+				 preg_match( '`\b' . preg_quote( $job['keyword_folded'], '`' ) . '\b`miu', $firstp )
 			) {
 				$this->save_score_result( $results, 9, $scoreFirstParagraphHigh, 'keyword_first_paragraph' );
 			} else {
