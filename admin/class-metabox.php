@@ -760,14 +760,28 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 
 				wp_enqueue_script( 'jquery-qtip', plugins_url( 'js/jquery.qtip.min.js', WPSEO_FILE ), array( 'jquery' ), '1.0.0-RC3', true );
 				wp_enqueue_script( 'wp-seo-metabox', plugins_url( 'js/wp-seo-metabox' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array(
-						'jquery',
-						'jquery-ui-core',
-						'jquery-ui-autocomplete',
-					), WPSEO_VERSION, true );
+					'jquery',
+					'jquery-ui-core',
+					'jquery-ui-autocomplete',
+				), WPSEO_VERSION, true );
+
+				wp_enqueue_script( 'wpseo-admin-media', plugins_url( 'js/wp-seo-admin-media' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array(	'jquery', 'jquery-ui-core' ), WPSEO_VERSION, true );
+				wp_localize_script( 'wpseo-admin-media', 'wpseoMediaL10n', $this->localize_media_script() );
 
 				// Text strings to pass to metabox for keyword analysis
 				wp_localize_script( 'wp-seo-metabox', 'wpseoMetaboxL10n', $this->localize_script() );
 			}
+		}
+
+		/**
+		 * Pass some variables to js for upload module.
+		 *
+		 * @return  array
+		 */
+		public function localize_media_script() {
+			return array(
+				'choose_image'                => __( 'Use Image', 'wordpress-seo' ),
+			);
 		}
 
 		/**

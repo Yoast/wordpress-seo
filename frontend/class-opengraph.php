@@ -222,6 +222,8 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 					// Replace WP SEO Variables
 					$title = wpseo_replace_vars( $title, get_post() );
 				}
+			} else if ( is_front_page() ) {
+				$title = ( $this->options['og_frontpage_title'] !== '' ) ? $this->options['og_frontpage_title'] : $this->title( '' );
 			} else {
 				$title = $this->title( '' );
 			}
