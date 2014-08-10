@@ -626,7 +626,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 				) {
 					$robots['index'] = 'noindex';
 				} elseif ( is_home() ) {
-					if ( get_query_var( 'paged' ) > 1 ) {
+					if ( get_query_var( 'paged' ) > 1 && $this->options['noindex-subpages-wpseo'] === true ) {
 						$robots['index'] = 'noindex';
 					}
 
