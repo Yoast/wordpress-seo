@@ -14,17 +14,20 @@ Improve your WordPress SEO: Write better content and have a fully optimized Word
 
 WordPress out of the box is already technically quite a good platform for SEO, this was true when I wrote my original [WordPress SEO](https://yoast.com/articles/wordpress-seo/) article in 2008 (and updated every few months) and it's still true today, but that doesn't mean you can't improve it further! This plugin is written from the ground up by Joost de Valk and his team at [Yoast](https://yoast.com/) to improve your site's SEO on *all* needed aspects. While this [WordPress SEO plugin](https://yoast.com/wordpress/plugins/seo/) goes the extra mile to take care of all the technical optimization, more on that below, it first and foremost helps you write better content.  WordPress SEO forces you to choose a focus keyword when you're writing your articles, and then makes sure you use that focus keyword everywhere.
 
-> = Premium Support =
+> <strong>Premium Support</strong><br>
 > The Yoast team does not provide support for the WordPress SEO plugin on the WordPress.org forums. One on one email support is available to people who bought the [Premium WordPress SEO plugin](https://yoast.com/wordpress/plugins/seo-premium/) only.
 > Note that the Premium SEO plugin has several extra features too so it might be well worth your investment!
 >
-> You should also check out the [Local SEO](https://yoast.com/wordpress/plugins/local-seo/) and [Video SEO](https://yoast.com/wordpress/plugins/video-seo/) extensions to WordPress SEO, these of course come with support too.
+> You should also check out the [Local SEO](https://yoast.com/wordpress/plugins/local-seo/), [News SEO](https://yoast.com/wordpress/plugins/news-seo/) and [Video SEO](https://yoast.com/wordpress/plugins/video-seo/) extensions to WordPress SEO, these of course come with support too.
+
+> <strong>Bug Reports</strong><br>
+> Bug reports for WordPress SEO are [welcomed on GitHub](https://github.com/Yoast/wordpress-seo). Please note GitHub is _not_ a support forum and issues that aren't properly qualified as bugs will be closed.
 
 = Write better content with WordPress SEO =
 Using the snippet preview you can see a rendering of what your post or page will look like in the search results, whether your title is too long or too short and your meta description makes sense in the context of a search result. This way the plugin will help you not only increase rankings but also increase the click through for organic search results.
 
 = Page Analysis =
-The WordPress SEO plugins [Linkdex Page Analysis](https://yoast.com/content-seo-wordpress-linkdex/) functionality checks simple things you're bound to forget. It checks, for instance, if you have images in your post and whether they have an alt tag containing the focus keyword for that post. It also checks whether your posts are long enough, if you've written a meta description and if that meta description contains your focus keyword, if you've used any subheadings within your post, etc. etc.
+The WordPress SEO plugins [Page Analysis](https://yoast.com/content-seo-wordpress-linkdex/) functionality checks simple things you're bound to forget. It checks, for instance, if you have images in your post and whether they have an alt tag containing the focus keyword for that post. It also checks whether your posts are long enough, if you've written a meta description and if that meta description contains your focus keyword, if you've used any subheadings within your post, etc. etc.
 
 The plugin also allows you to write meta titles and descriptions for all your category, tag and custom taxonomy archives, giving you the option to further optimize those pages.
 
@@ -76,11 +79,12 @@ Read [this migration guide](https://yoast.com/all-in-one-seo-pack-migration/) if
 Currently a huge translation project is underway, translating WordPress SEO in as much as 24 languages. So far, the translations for French and Dutch are complete, but we still need help on a lot of other languages, so if you're good at translating, please join us at [translate.yoast.com](http://translate.yoast.com).
 
 = News SEO =
-Be sure to also check out the [News SEO module](https://yoast.com/wordpress/plugins/news-seo/) if you need Google News Sitemaps. It tightly integrates with WordPress SEO to give you the combined power of News Sitemaps and full Search Engine Optimization.
+Be sure to also check out the premium [News SEO module](https://yoast.com/wordpress/plugins/news-seo/) if you need Google News Sitemaps. It tightly integrates with WordPress SEO to give you the combined power of News Sitemaps and full Search Engine Optimization.
 
 = Further Reading =
 For more info, check out the following articles:
 
+* The [WordPress SEO Knowledgebase](http://kb.yoast.com/category/42-wordpress-seo).
 * [WordPress SEO - The definitive Guide by Yoast](https://yoast.com/articles/wordpress-seo/).
 * Once you have great SEO, you'll need the [best WordPress Hosting](https://yoast.com/articles/wordpress-hosting/).
 * The [WordPress SEO Plugin](https://yoast.com/wordpress/plugins/seo/) official homepage.
@@ -124,11 +128,23 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 	* If the sitemap is empty, add the homepage URL to make sure it doesn't throw errors in GWT.
 	* Change how we set 404's for non existing sitemap files, as reported in [#1383](https://github.com/Yoast/wordpress-seo/issues/1383) props [Dinglebat](https://github.com/Dinglebat).
 	* Fix issues with conflicting expectations being plugins/theme of the user meta twitter field - url vs twitter id, props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fix how the first paragraph test for the keyword is done after a solid bug report by [squelchdesign](squelchdesign).
+	* Fix how we're handling protocol relative image URLs in the XML sitemap.
+	* Fix page analysis slug test for keywords with special characters.
 
 * Enhancements:
 	* Added Facebook / OpenGraph title input and Google+ title input and image upload field to Social tab.
+	* Added Facebook / OpenGraph title input for the homepage on SEO -> Social settings page.
+	* Changed Facebook / OpenGraph default image and homepage image input fields to use the media uploader.
 	* Added a new title separator feature on the Titles admin page.
-	* Merged the bulk editor pages for titles and descriptions into one menu item
+	* Merged the bulk editor pages for titles and descriptions into one menu item "bulk editor".
+	* Added `noimageindex` option to advanced meta robots options.
+	* Drastically improved performance of snippet preview.
+	* Bulk editor rights are no longer added for contributors, only for editors and up.
+	* If an archives meta description template has `%%page` variables, show it on page 2 and onwards of archives too.
+
+* Other:
+	* Remove references to deprecated Video Manual plugin.
 
 = 1.5.4.2 =
 Release Date: July 16th, 2014
