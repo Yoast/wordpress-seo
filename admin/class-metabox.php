@@ -1246,10 +1246,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 					$imgs['alts'] = array();
 				}
 
-				$feature_image = get_the_post_thumbnail( $post->ID );
-				if ( preg_match( '`alt=(["\'])(.*?)\1`', $feature_image, $alt ) && isset( $alt[2] ) ) {
-					$imgs['alts'][] = $this->strtolower_utf8( $alt[2] );
-				}
+				$imgs['alts'][] = $this->strtolower_utf8( get_post_meta( get_post_thumbnail_id( $post->ID ), '_wp_attachment_image_alt', true) );
 			}
 
 			$this->score_images_alt_text( $job, $results, $imgs );
