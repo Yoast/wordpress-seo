@@ -1863,10 +1863,13 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			$firstp = $this->strtolower_utf8( $firstp );
 
 			// First Paragraph Test
-			if ( ! preg_match( '`\b' . preg_quote( $job['keyword'], '`' ) . '\b`miu', $firstp ) && ! preg_match( '`\b' . preg_quote( $job['keyword_folded'], '`' ) . '\b`miu', $firstp ) ) {
-				$this->save_score_result( $results, 3, $scoreFirstParagraphLow, 'keyword_first_paragraph' );
-			} else {
+			// check without /u modifier as well as /u might break with non UTF-8 chars.
+			if ( preg_match( '`\b' . preg_quote( $job['keyword'], '`' ) . '\b`miu', $firstp ) ||
+			     preg_match( '`\b' . preg_quote( $job['keyword'], '`' ) . '\b`mi', $firstp ) ||
+			     preg_match( '`\b' . preg_quote( $job['keyword_folded'], '`' ) . '\b`miu', $firstp ) ) {
 				$this->save_score_result( $results, 9, $scoreFirstParagraphHigh, 'keyword_first_paragraph' );
+			} else {
+				$this->save_score_result( $results, 3, $scoreFirstParagraphLow, 'keyword_first_paragraph' );
 			}
 
 			$lang = get_bloginfo( 'language' );
@@ -1926,18 +1929,11 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 				return '';
 			}
 
-			$htmdata2 = preg_replace( '`[\n\r]`', ' ', $post_content );
-			if ( $htmdata2 == null ) {
-				$htmdata2 = $post_content;
+			$htmdata3 = preg_replace( '`<(?:\x20*script|script).*?(?:/>|/script>)`', '', $post_content );
+			if ( $htmdata3 == null ) {
+				$htmdata3 = $post_content;
 			} else {
 				unset( $post_content );
-			}
-
-			$htmdata3 = preg_replace( '`<(?:\x20*script|script).*?(?:/>|/script>)`', '', $htmdata2 );
-			if ( $htmdata3 == null ) {
-				$htmdata3 = $htmdata2;
-			} else {
-				unset( $htmdata2 );
 			}
 
 			$htmdata4 = preg_replace( '`<!--.*?-->`', '', $htmdata3 );
