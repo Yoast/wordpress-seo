@@ -1862,7 +1862,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			// First Paragraph Test
 			// check without /u modifier as well as /u might break with non UTF-8 chars.
 			if ( preg_match( '`\b' . preg_quote( $job['keyword'], '`' ) . '\b`miu', $firstp ) ||
-			    preg_match( '`\b' . preg_quote( $job['keyword'], '`' ) . '\b`mi', $firstp ) ||
+				preg_match( '`\b' . preg_quote( $job['keyword'], '`' ) . '\b`mi', $firstp ) ||
 				preg_match( '`\b' . preg_quote( $job['keyword_folded'], '`' ) . '\b`miu', $firstp ) ) {
 				$this->save_score_result( $results, 9, $scoreFirstParagraphHigh, 'keyword_first_paragraph' );
 			} else {
