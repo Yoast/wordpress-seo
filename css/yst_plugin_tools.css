@@ -4,7 +4,7 @@ h4 {
 }
 
 p.desc {
-	padding: 0 0 8px 22px;
+	padding: 0 0 8px 25px;
 	margin: 6px 0 10px 0;
 	border-bottom: 1px solid #ddd;
 }
@@ -34,6 +34,10 @@ div.yoastbox ul {
 label {
 	float: left;
 	margin-left: 6px;
+}
+
+label.radio {
+	float: none;
 }
 
 input.textinput, textarea, select {
@@ -347,4 +351,38 @@ input.wpseo-new-title, textarea.wpseo-new-metadesc {
 .wpseotab .news-seo h3 {
 	background-image: url(../images/News_SEO.png);
 	background-size: 115px 100px;
+}
+
+div#separator {
+	clear: right;
+	margin: 0 0 0 25px;
+}
+
+div#separator input.radio {
+	opacity: 0;
+	float: left;
+	width: 0 !important;
+	min-width: 0 !important;
+	display: none;
+}
+
+div#separator input.radio + label {
+	float: left;
+	margin: 3px 3px 0 0;
+	padding: 5px 8px;
+	width: 30px !important;
+	line-height: 25px;
+	text-align: center;
+	cursor: pointer;
+	border: 1px solid #ccc;
+
+	/* Don't change: these mimic Google's font and font size for titles */
+	font-family: Arial,Helvetica,sans-serif !important;
+	font-size: 18px !important;
+}
+
+div#separator input.radio:checked + label {
+	border: 1px solid green;
+	background-color: #fff;
+	box-shadow: 1px 1px 1px green;
 }

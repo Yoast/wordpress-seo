@@ -313,7 +313,9 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 
 				// 404 for invalid or emtpy sitemaps
 				if ( $this->bad_sitemap ) {
-					$GLOBALS['wp_query']->is_404 = true;
+					global $wp_query;
+					$wp_query->set_404();
+					status_header( 404 );
 
 					return;
 				}
@@ -714,21 +716,25 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 				foreach ( $posts as $p ) {
 					$post_ids[] = $p->ID;
 				}
-				update_meta_cache( 'post', $post_ids );
 
-				$child_query = "SELECT ID, post_title, post_parent FROM $wpdb->posts WHERE post_status = 'inherit' AND post_type = 'attachment' AND post_parent IN (" . implode( $post_ids, ',' ) . ')';
-				$wpdb->query( $child_query );
-				$attachments    = $wpdb->get_results( $child_query );
-				$attachment_ids = wp_list_pluck( $attachments, 'ID' );
+				if ( count( $post_ids ) > 0 ) {
+					update_meta_cache( 'post', $post_ids );
 
-				$thumbnail_query = "SELECT meta_value FROM $wpdb->postmeta WHERE meta_key = '_thumbnail_id' AND post_id IN (" . implode( $post_ids, ',' ) . ')';
-				$wpdb->query( $thumbnail_query );
-				$thumbnails    = $wpdb->get_results( $thumbnail_query );
-				$thumbnail_ids = wp_list_pluck( $thumbnails, 'meta_value' );
+					$child_query = "SELECT ID, post_title, post_parent FROM $wpdb->posts WHERE post_status = 'inherit' AND post_type = 'attachment' AND post_parent IN (" . implode( $post_ids, ',' ) . ')';
+					$wpdb->query( $child_query );
+					$attachments    = $wpdb->get_results( $child_query );
+					$attachment_ids = wp_list_pluck( $attachments, 'ID' );
 
-				$attachment_ids = array_merge( $thumbnail_ids, $attachment_ids );
-				_prime_post_caches( $attachment_ids );
-				update_meta_cache( 'post', $attachment_ids );
+					$thumbnail_query = "SELECT meta_value FROM $wpdb->postmeta WHERE meta_key = '_thumbnail_id' AND post_id IN (" . implode( $post_ids, ',' ) . ')';
+					$wpdb->query( $thumbnail_query );
+					$thumbnails    = $wpdb->get_results( $thumbnail_query );
+					$thumbnail_ids = wp_list_pluck( $thumbnails, 'meta_value' );
+
+					$attachment_ids = array_merge( $thumbnail_ids, $attachment_ids );
+
+					_prime_post_caches( $attachment_ids );
+					update_meta_cache( 'post', $attachment_ids );
+				}
 
 				$offset = $offset + $steps;
 
@@ -826,7 +832,13 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 										if ( $src[0] != '/' ) {
 											continue;
 										}
-										$src = $this->home_url . $src;
+										if ( $src[1] == '/' ) {
+											// If the link starts with //, it's protocol relative, we add https as the standard requires a protocol
+											$src = 'https:' . $src;
+										} else {
+											// The URL is relative, we'll have to make it absolute
+											$src = $this->home_url . $src;
+										}
 									}
 
 									if ( strpos( $src, $host ) === false ) {
@@ -1029,7 +1041,12 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 			$this->sitemap = '<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ';
 			$this->sitemap .= 'xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" ';
 			$this->sitemap .= 'xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
-			$this->sitemap .= $output;
+			if ( is_string( $output ) && trim( $output ) !== '' ) {
+				$this->sitemap .= $output;
+			} else {
+				// If the sitemap is empty, add the homepage URL to make sure it doesn't throw errors in GWT.
+				$this->sitemap .= $this->sitemap_url( home_url() );
+			}
 			$this->sitemap .= '</urlset>';
 		}
 

@@ -80,7 +80,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 			}
 			if ( $this->options['hide-shortlink'] === true ) {
 				remove_action( 'wp_head', 'wp_shortlink_wp_head' );
-				remove_action( 'template_redirect', 'wp_shortlink_header' );
+				remove_action( 'template_redirect', 'wp_shortlink_header', 20 );
 			}
 			if ( $this->options['hide-feedlinks'] === true ) {
 				// @todo: add option to display just normal feed and hide comment feed.
@@ -142,7 +142,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 		 * @return bool
 		 */
 		function is_home_posts_page() {
-			return ( is_home() && 'page' != get_option( 'show_on_front' ) );
+			return ( is_home() && 'posts' == get_option( 'show_on_front' ) );
 		}
 
 		/**
@@ -268,13 +268,13 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 			if ( ! is_string( $title ) || ( is_string( $title ) && $title === '' ) ) {
 				$title = get_bloginfo( 'name' );
 				$title = $this->add_paging_to_title( $sep, $seplocation, $title );
-				$title = $this->add_to_title( $sep, $seplocation, $title, get_bloginfo( 'description' ) );
+				$title = $this->add_to_title( $sep, $seplocation, $title, strip_tags( get_bloginfo( 'description' ) ) );
 
 				return $title;
 			}
 
 			$title = $this->add_paging_to_title( $sep, $seplocation, $title );
-			$title = $this->add_to_title( $sep, $seplocation, $title, get_bloginfo( 'name' ) );
+			$title = $this->add_to_title( $sep, $seplocation, $title, strip_tags( get_bloginfo( 'name' ) ) );
 
 			return $title;
 		}
@@ -320,37 +320,27 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 		 * Main title function.
 		 *
 		 * @param string $title       Title that might have already been set.
-		 * @param string $sepinput    Separator determined in theme.
-		 * @param string $seplocation Whether the separator should be left or right.
+		 * @param string $separator    Separator determined in theme (unused)
+		 * @param string $separator_location Whether the separator should be left or right.
 		 *
 		 * @return string
 		 */
-		function title( $title, $sepinput = '-', $seplocation = '' ) {
-			global $sep;
-
-			$sep = $sepinput;
+		function title( $title, $separator = '', $separator_location = '' ) {
 
 			if ( is_feed() ) {
 				return $title;
 			}
 
+			$separator = wpseo_replace_vars( '%%sep%%', array() );
+			$separator = ' ' . trim( $separator ) . ' ';
+
+			if ( '' === trim( $separator_location ) ) {
+				$separator_location = ( is_rtl() ) ? 'left' : 'right';
+			}
+
 			// This needs to be kept track of in order to generate
 			// default titles for singular pages.
 			$original_title = $title;
-
-			// This conditional ensures that sites that use of wp_title(''); as the plugin
-			// used to suggest will still work properly with these changes.
-			if ( '' === trim( $sep ) && '' === $seplocation ) {
-				$sep         = '-';
-				$seplocation = 'right';
-			} // In the event that $seplocation is left empty, the direction will be
-			// determined by whether the site is in rtl mode or not. This is based
-			// upon my findings that rtl sites tend to reverse the flow of the site titles.
-			elseif ( '' === $seplocation ) {
-				$seplocation = ( is_rtl() ) ? 'left' : 'right';
-			}
-
-			$sep = ' ' . trim( $sep ) . ' ';
 
 			// This flag is used to determine if any additional
 			// processing should be done to the title after the
@@ -474,7 +464,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 			}
 
 			if ( ( $modified_title && empty( $title ) ) || ! empty( $title_part ) ) {
-				$title = $this->get_default_title( $sep, $seplocation, $title_part );
+				$title = $this->get_default_title( $separator, $separator_location, $title_part );
 			}
 
 			if ( defined( 'ICL_LANGUAGE_CODE' ) && false !== strpos( $title, ICL_LANGUAGE_CODE ) ) {
@@ -636,7 +626,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 				) {
 					$robots['index'] = 'noindex';
 				} elseif ( is_home() ) {
-					if ( get_query_var( 'paged' ) > 1 ) {
+					if ( get_query_var( 'paged' ) > 1 && $this->options['noindex-subpages-wpseo'] === true ) {
 						$robots['index'] = 'noindex';
 					}
 
@@ -1114,64 +1104,74 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 		 * @return string
 		 */
 		public function metadesc( $echo = true ) {
-			if ( get_query_var( 'paged' ) && get_query_var( 'paged' ) > 1 ) {
-				return '';
-			}
-
 			global $post, $wp_query;
 
 			$metadesc  = '';
 			$post_type = '';
+			$template  = '';
+
 			if ( is_object( $post ) && ( isset( $post->post_type ) && $post->post_type !== '' ) ) {
 				$post_type = $post->post_type;
 			}
 
 			if ( is_singular() ) {
 				$metadesc = WPSEO_Meta::get_value( 'metadesc' );
-				if ( ( $metadesc === '' && $post_type !== '' ) && ( isset( $this->options[ 'metadesc-' . $post_type ] ) && $this->options[ 'metadesc-' . $post_type ] !== '' ) ) {
-					$metadesc = wpseo_replace_vars( $this->options[ 'metadesc-' . $post_type ], $post );
+				if ( ( $metadesc === '' && $post_type !== '' ) && isset( $this->options[ 'metadesc-' . $post_type ] ) ) {
+					$template = $this->options[ 'metadesc-' . $post_type ];
+					$term     = $post;
 				}
 			} else {
 				if ( is_search() ) {
-					$metadesc = '';
-				} elseif ( $this->is_home_posts_page() && $this->options['metadesc-home-wpseo'] !== '' ) {
-					$metadesc = wpseo_replace_vars( $this->options['metadesc-home-wpseo'], array() );
+					return '';
+				} elseif ( $this->is_home_posts_page() ) {
+					$template = $this->options['metadesc-home-wpseo'];
+					$term     = array();
 				} elseif ( $this->is_posts_page() ) {
 					$metadesc = WPSEO_Meta::get_value( 'metadesc', get_option( 'page_for_posts' ) );
-					if ( ( $metadesc === '' && $post_type !== '' ) && ( isset( $this->options[ 'metadesc-' . $post_type ] ) && $this->options[ 'metadesc-' . $post_type ] !== '' ) ) {
+					if ( ( $metadesc === '' && $post_type !== '' ) && isset( $this->options[ 'metadesc-' . $post_type ] ) ) {
 						$page     = get_post( get_option( 'page_for_posts' ) );
-						$metadesc = wpseo_replace_vars( $this->options[ 'metadesc-' . $post_type ], $page );
+						$template = $this->options[ 'metadesc-' . $post_type ];
+						$term     = $page;
 					}
 				} elseif ( $this->is_home_static_page() ) {
 					$metadesc = WPSEO_Meta::get_value( 'metadesc' );
-					if ( ( $metadesc === '' && $post_type !== '' ) && ( isset( $this->options[ 'metadesc-' . $post_type ] ) && $this->options[ 'metadesc-' . $post_type ] !== '' ) ) {
-						$metadesc = wpseo_replace_vars( $this->options[ 'metadesc-' . $post_type ], $post );
+					if ( ( $metadesc === '' && $post_type !== '' ) && isset( $this->options[ 'metadesc-' . $post_type ] ) ) {
+						$template = $this->options[ 'metadesc-' . $post_type ];
 					}
 				} elseif ( is_category() || is_tag() || is_tax() ) {
 					$term     = $wp_query->get_queried_object();
 					$metadesc = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'desc' );
-					if ( ( ! is_string( $metadesc ) || $metadesc === '' ) && ( ( is_object( $term ) && isset( $term->taxonomy ) ) && ( isset( $this->options[ 'metadesc-tax-' . $term->taxonomy ] ) && $this->options[ 'metadesc-tax-' . $term->taxonomy ] !== '' ) ) ) {
-						$metadesc = wpseo_replace_vars( $this->options[ 'metadesc-tax-' . $term->taxonomy ], $term );
+					if ( ( ! is_string( $metadesc ) || $metadesc === '' ) && ( ( is_object( $term ) && isset( $term->taxonomy ) ) && isset( $this->options[ 'metadesc-tax-' . $term->taxonomy ] ) ) ) {
+						$template = $this->options[ 'metadesc-tax-' . $term->taxonomy ];
 					}
 				} elseif ( is_author() ) {
 					$author_id = get_query_var( 'author' );
 					$metadesc  = get_the_author_meta( 'wpseo_metadesc', $author_id );
-					if ( ! $metadesc && $this->options['metadesc-author-wpseo'] !== '' ) {
-						$metadesc = wpseo_replace_vars( $this->options['metadesc-author-wpseo'], $wp_query->get_queried_object() );
-					}
 				} elseif ( is_post_type_archive() ) {
 					$post_type = get_query_var( 'post_type' );
 					if ( is_array( $post_type ) ) {
 						$post_type = reset( $post_type );
 					}
-					if ( isset( $this->options[ 'metadesc-ptarchive-' . $post_type ] ) && $this->options[ 'metadesc-ptarchive-' . $post_type ] !== '' ) {
-						$metadesc = wpseo_replace_vars( $this->options[ 'metadesc-ptarchive-' . $post_type ], $wp_query->get_queried_object() );
+					if ( isset( $this->options[ 'metadesc-ptarchive-' . $post_type ] ) ) {
+						$template = $this->options[ 'metadesc-ptarchive-' . $post_type ];
 					}
 				} elseif ( is_archive() ) {
-					if ( $this->options['metadesc-archive-wpseo'] !== '' ) {
-						$metadesc = wpseo_replace_vars( $this->options['metadesc-archive-wpseo'], $wp_query->get_queried_object() );
+					$template = $this->options['metadesc-archive-wpseo'];
+				}
+
+				// If we're on a paginated page, and the template doesn't change for paginated pages, bail.
+				if ( ( ! is_string( $metadesc ) || $metadesc === '' ) && get_query_var( 'paged' ) && get_query_var( 'paged' ) > 1 && $template !== '' ) {
+					if ( strpos( $template, '%%page' ) === false ) {
+						return '';
 					}
 				}
+			}
+
+			if ( ( ! is_string( $metadesc ) || '' === $metadesc ) && '' !== $template ) {
+				if ( ! isset( $term ) ) {
+					$term = $wp_query->get_queried_object();
+				}
+				$metadesc = wpseo_replace_vars( $template, $term );
 			}
 
 			/**
@@ -1360,12 +1360,12 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 				$cururl .= 's';
 			}
 			$cururl .= '://';
-			if ( $_SERVER['SERVER_PORT'] != '80' && $_SERVER['SERVER_PORT'] != '443' ) {
-				$cururl .= sanitize_text_field( $_SERVER['SERVER_NAME'] ) . ':' . sanitize_text_field( $_SERVER['SERVER_PORT'] ) . sanitize_text_field( $_SERVER['REQUEST_URI'] );
-			} else {
-				$cururl .= sanitize_text_field( $_SERVER['SERVER_NAME'] ) . sanitize_text_field( $_SERVER['REQUEST_URI'] );
-			}
 
+			if ( $_SERVER['SERVER_PORT'] != '80' && $_SERVER['SERVER_PORT'] != '443' ) {
+				$cururl .= $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'] . $_SERVER['REQUEST_URI'];
+			} else {
+				$cururl .= $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
+			}
 			$properurl = '';
 
 			if ( is_singular() ) {
@@ -1412,8 +1412,8 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 					$properurl = get_term_link( $term, $term->taxonomy );
 				}
 			} elseif ( is_search() ) {
-				$s         = preg_replace( '`(%20|\+)`', ' ', get_search_query() );
-				$properurl = get_bloginfo( 'url' ) . '/?s=' . rawurlencode( $s );
+				$s         = urlencode( preg_replace( '`(%20|\+)`', ' ', get_search_query() ) );
+				$properurl = get_bloginfo( 'url' ) . '/?s=' . $s;
 			} elseif ( is_404() ) {
 				if ( is_multisite() && ! is_subdomain_install() && is_main_site() ) {
 					if ( $cururl == get_bloginfo( 'url' ) . '/blog/' || $cururl == get_bloginfo( 'url' ) . '/blog' ) {
@@ -1427,8 +1427,8 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 			}
 
 			if ( ! empty( $properurl ) && $wp_query->query_vars['paged'] != 0 && $wp_query->post_count != 0 ) {
-				if ( is_search() ) {
-					$properurl = get_bloginfo( 'url' ) . '/page/' . $wp_query->query_vars['paged'] . '/?s=' . rawurlencode( get_search_query() );
+				if ( is_search() && ! empty( $s ) ) {
+					$properurl = get_bloginfo( 'url' ) . '/page/' . $wp_query->query_vars['paged'] . '/?s=' . $s;
 				} else {
 					$properurl = user_trailingslashit( trailingslashit( $properurl ) . 'page/' . $wp_query->query_vars['paged'] );
 				}
@@ -1505,7 +1505,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 
 			$post_link      = '<a ' . $no_follow_attr . 'href="' . esc_url( get_permalink() ) . '">' . get_the_title() . '</a>';
 			$blog_link      = '<a ' . $no_follow_attr . 'href="' . esc_url( get_bloginfo( 'url' ) ) . '">' . get_bloginfo( 'name' ) . '</a>';
-			$blog_desc_link = '<a ' . $no_follow_attr . 'href="' . esc_url( get_bloginfo( 'url' ) ) . '">' . get_bloginfo( 'name' ) . ' - ' . get_bloginfo( 'description' ) . '</a>';
+			$blog_desc_link = '<a ' . $no_follow_attr . 'href="' . esc_url( get_bloginfo( 'url' ) ) . '">' . get_bloginfo( 'name' ) . ' - ' . strip_tags( get_bloginfo( 'description' ) ) . '</a>';
 
 			$content = stripslashes( trim( $content ) );
 			$content = str_replace( '%%AUTHORLINK%%', $author_link, $content );
@@ -1577,7 +1577,8 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 		 * title and then flushes the output.
 		 */
 		function flush_cache() {
-			global $wp_query, $sep;
+
+			global $wp_query;
 
 			if ( $this->ob_started !== true ) {
 				return false;
@@ -1590,20 +1591,10 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 
 			wp_reset_query();
 
-			$title = $this->title( '', $sep );
+			$title = $this->title( '' );
 
 			// Find all titles, strip them out and add the new one in within the debug marker, so it's easily identified whether a site uses force rewrite.
-			if ( preg_match_all( '`<title>(.*)?<\/title>`i', $content, $matches ) ) {
-				$count = count( $matches[0] );
-				if ( $count > 0 ) {
-					$i = 0;
-					while ( $count > $i ) {
-						$content = str_replace( $matches[0][ $i ], '', $content );
-						$i ++;
-					}
-				}
-			}
-
+			$content = preg_replace( '/<title.*?\/title>/i', '', $content );
 			$content = str_replace( $this->debug_marker( false ), $this->debug_marker( false ) . "\n" . '<title>' . $title . '</title>', $content );
 
 			$GLOBALS['wp_query'] = $old_wp_query;

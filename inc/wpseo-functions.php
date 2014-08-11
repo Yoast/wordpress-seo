@@ -122,7 +122,6 @@ function wpseo_add_capabilities() {
 		'administrator',
 		'editor',
 		'author',
-		'contributor',
 	);
 
 	$roles = apply_filters( 'wpseo_bulk_edit_roles', $roles );
@@ -138,6 +137,8 @@ function wpseo_add_capabilities() {
 
 /**
  * Remove the bulk edit capability from the proper default roles.
+ *
+ * Contributor is still removed for legacy reasons.
  */
 function wpseo_remove_capabilities() {
 	$roles = array(
@@ -205,7 +206,7 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
  * @since 1.5.4
  *
  * @param  string   $var               The name of the variable to replace, i.e. '%%var%%'
- *                                      - the surrounding %% are optional
+ *                                      - the surrounding %% are optional, name can only contain [A-Za-z0-9_-]
  * @param  mixed    $replace_function  Function or method to call to retrieve the replacement value for the variable
  *					                   Uses the same format as add_filter/add_action function parameter and
  *					                   should *return* the replacement value. DON'T echo it!

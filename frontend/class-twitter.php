@@ -143,6 +143,8 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 			 * @api string $unsigned Twitter site account string
 			 */
 			$site = apply_filters( 'wpseo_twitter_site', $this->options['twitter_site'] );
+			$site = $this->get_twitter_id( $site );
+
 			if ( is_string( $site ) && $site !== '' ) {
 				$this->output_metatag( 'site', '@' . $site );
 			}
@@ -174,6 +176,7 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 			 * @api string $twitter The twitter account name string
 			 */
 			$twitter = apply_filters( 'wpseo_twitter_creator_account', $twitter );
+			$twitter = $this->get_twitter_id( $twitter );
 
 			if ( is_string( $twitter ) && $twitter !== '' ) {
 				$this->output_metatag( 'creator', '@' . $twitter );
@@ -320,6 +323,27 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 				$this->image_output( $this->options['og_default_image'] );
 			}
 		}
+
+
+		/**
+		 * Checks if the given id is actually an id or a url and if url, distills the id from it.
+		 *
+		 * Solves issues with filters returning urls and theme's/other plugins also adding a user meta
+		 * twitter field which expects url rather than an id (which is what we expect).
+		 *
+		 * @param  string $id  Twitter id or url
+		 *
+		 * @return string|bool Twitter id or false if it failed to get a valid twitter id
+		 */
+		private function get_twitter_id( $id ) {
+			if ( preg_match( '`([A-Za-z0-9_]{1,25})$`', $id, $match ) ) {
+				return $match[1];
+			}
+			else {
+				return false;
+			}
+		}
+
 	} /* End of class */
 
 } /* End of class-exists wrapper */
