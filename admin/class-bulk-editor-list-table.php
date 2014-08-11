@@ -154,6 +154,7 @@ if ( ! class_exists( 'WPSEO_Bulk_List_Table' ) ) {
 					<input type="hidden" name="type" value="<?php echo $this->page_type; ?>" />
 					<input type="hidden" name="orderby" value="<?php echo $_GET['orderby']; ?>" />
 					<input type="hidden" name="order" value="<?php echo $_GET['order']; ?>" />
+					<input type="hidden" name="post_type_filter" value="<?php echo $_GET['post_type_filter']; ?>" />
 					<?php if ( ! empty( $post_status ) ) { ?>
 						<input type="hidden" name="post_status" value="<?php echo esc_attr( $post_status ); ?>" />
 					<?php } ?>
@@ -227,7 +228,7 @@ if ( ! class_exists( 'WPSEO_Bulk_List_Table' ) ) {
 
 
 			$class               = empty( $_GET['post_status'] ) ? ' class="current"' : '';
-			$status_links['all'] = '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_bulk-editor&type=' . $this->page_url ) ) . '"' . $class . '>' . sprintf( _nx( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $total_posts, 'posts', 'wordpress-seo' ), number_format_i18n( $total_posts ) ) . '</a>';
+			$status_links['all'] = '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_bulk-editor' . $this->page_url ) ) . '"' . $class . '>' . sprintf( _nx( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $total_posts, 'posts', 'wordpress-seo' ), number_format_i18n( $total_posts ) ) . '</a>';
 
 			$post_stati = get_post_stati( array( 'show_in_admin_all_list' => true ), 'objects' );
 			if ( is_array( $post_stati ) && $post_stati !== array() ) {
@@ -344,30 +345,38 @@ if ( ! class_exists( 'WPSEO_Bulk_List_Table' ) ) {
 		 */
 		function prepare_page_navigation() {
 
-			$_SERVER['REQUEST_URI'] = $this->request_url . $this->page_url;
+			$request_url = $this->request_url . $this->page_url;
 
 			$current_page   = $this->current_page;
 			$current_filter = $this->current_filter;
 			$current_status = $this->current_status;
 			$current_order  = $this->current_order;
 
+			// If current type doesn't compare with objects page_type, than we have to unset some vars in the requested url (which will be use for internal table urls)
 			if ( $_GET['type'] != $this->page_type ) {
+				$request_url = remove_query_arg( 'paged', $request_url ); // page will be set with value 1 below.
+				$request_url = remove_query_arg( 'post_type_filter', $request_url );
+				$request_url = remove_query_arg( 'post_status', $request_url );
+				$request_url = remove_query_arg( 'orderby', $request_url );
+				$request_url = remove_query_arg( 'order', $request_url );
+				$request_url = add_query_arg( 'pages', 1, $request_url );
+
 				$current_page   = 1;
 				$current_filter = '-1';
 				$current_status = '';
 				$current_order  = array( 'orderby' => 'post_title', 'order' => 'asc' );
+
 			}
 
-			$_GET['paged']     = $current_page;
-			$_REQUEST['paged'] = $current_page;
+			$_SERVER['REQUEST_URI'] = $request_url;
 
-			$_GET['post_type_filter']     = $current_filter;
+			$_GET['paged']                = $current_page;
+			$_REQUEST['paged']            = $current_page;
 			$_REQUEST['post_type_filter'] = $current_filter;
-
-			$_GET['post_status'] = $current_status;
-
-			$_GET['orderby'] = $current_order['orderby'];
-			$_GET['order']   = $current_order['order'];
+			$_GET['post_type_filter']     = $current_filter;
+			$_GET['post_status']          = $current_status;
+			$_GET['orderby']              = $current_order['orderby'];
+			$_GET['order']                = $current_order['order'];
 
 		}
 
@@ -475,6 +484,7 @@ if ( ! class_exists( 'WPSEO_Bulk_List_Table' ) ) {
 			$records = $this->items;
 
 			list( $columns, $hidden ) = $this->get_column_info();
+
 
 			$date_format = get_option( 'date_format' );
 
