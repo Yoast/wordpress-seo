@@ -1023,3 +1023,25 @@ function wpseo_get_terms( $id, $taxonomy, $return_single = false ) {
 	$replacer = new WPSEO_Replace_Vars;
 	return $replacer->get_terms( $id, $taxonomy, $return_single );
 }
+
+/**
+ * Filter users that should be excluded from the sitemap (by author metatag: wpseo_excludeauthorsitemap).
+ *
+ * @param array $users
+ *
+ * @return array all the user that aren't excluded from the sitemap
+ */
+function wpseo_sitemap_remove_excluded_authors( $users ) {
+
+	if ( is_array( $users ) && $users !== array() ) {
+		foreach ( $users as $user_key => $user ) {
+			$is_exclude_on = esc_attr( get_the_author_meta( 'wpseo_excludeauthorsitemap', $user->ID ) );
+			if ( $is_exclude_on == 'on' ) {
+				unset($users[$user_key]);
+			}
+		}
+
+	}
+
+	return $users;
+}
