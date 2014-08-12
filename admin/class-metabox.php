@@ -1745,7 +1745,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		function get_headings( $postcontent ) {
 			$headings = array();
 
-			preg_match_all( '`<h([1-6])(?:[^>]+)?>(.*?)</h\\1>`i', $postcontent, $matches );
+			preg_match_all( '`<h([1-6])(?:[^>]+)?>(.*?)</h\\1>`si', $postcontent, $matches );
 
 			if ( isset( $matches[2] ) && is_array( $matches[2] ) && $matches[2] !== array() ) {
 				foreach ( $matches[2] as $heading ) {
@@ -1978,7 +1978,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		 */
 		function get_first_paragraph( $body ) {
 			// To determine the first paragraph we first need to autop the content, then match the first paragraph and return.
-			$res = preg_match( '`<p[.]*?>(.*)</p>`', wpautop( strip_tags( $body ) ), $matches );
+			$res = preg_match( '`<p[.]*?>(.*)</p>`s', wpautop( $body ), $matches );
 			if ( $res ) {
 				return $matches[1];
 			}

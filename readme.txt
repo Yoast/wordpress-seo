@@ -117,7 +117,8 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 
 * Bugfixes:
 	* Fixed a potential error with `$canonical` not being a sting after being filtered.
-	
+	* Fixed more bugs with first paragraph keyword detection.
+
 * i18n
 	* updated ar, cs_CZ, fr_FR, hr, pl_PL, pt_BR and ru_RU
 	* new .pot file based off of the 1.5.5 version
