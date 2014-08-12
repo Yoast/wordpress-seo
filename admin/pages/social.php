@@ -184,7 +184,8 @@ $wpseo_admin_pages->admin_header( true, WPSEO_Options::get_group_name( 'wpseo_so
 		echo $wpseo_admin_pages->textinput( 'facebook_site', __( 'Facebook Page URL', 'wordpress-seo' ) );
 		if ( 'posts' == get_option( 'show_on_front' ) ) {
 			echo '<h4>' . esc_html__( 'Frontpage settings', 'wordpress-seo' ) . '</h4>';
-			echo $wpseo_admin_pages->textinput( 'og_frontpage_image', __( 'Image URL', 'wordpress-seo' ) );
+			echo $wpseo_admin_pages->media_input( 'og_frontpage_image', __( 'Image URL', 'wordpress-seo' ) );
+			echo $wpseo_admin_pages->textinput( 'og_frontpage_title', __( 'Title', 'wordpress-seo' ) );
 			echo $wpseo_admin_pages->textinput( 'og_frontpage_desc', __( 'Description', 'wordpress-seo' ) );
 
 			// Offer copying of meta description
@@ -192,10 +193,10 @@ $wpseo_admin_pages->admin_header( true, WPSEO_Options::get_group_name( 'wpseo_so
 			echo '<input type="hidden" id="meta_description" value="' . $meta_options['metadesc-home-wpseo'] . '" />';
 			echo '<p class="label desc" style="border:0;"><a href="javascript:;" onclick="copy_home_meta();" class="button">' . __( 'Copy home meta description', 'wordpress-seo' ) . '</a></p>';
 
-			echo '<p class="desc label">' . esc_html__( 'These are the image and description used in the Open Graph meta tags on the frontpage of your site.', 'wordpress-seo' ) . '</p>';
+			echo '<p class="desc label">' . esc_html__( 'These are the title, description and image used in the Open Graph meta tags on the front page of your site.', 'wordpress-seo' ) . '</p>';
 		}
 		echo '<h4>' . esc_html__( 'Default settings', 'wordpress-seo' ) . '</h4>';
-		echo $wpseo_admin_pages->textinput( 'og_default_image', __( 'Image URL', 'wordpress-seo' ) );
+		echo $wpseo_admin_pages->media_input( 'og_default_image', __( 'Image URL', 'wordpress-seo' ) );
 		echo '<p class="desc label">' . esc_html__( 'This image is used if the post/page being shared does not contain any images.', 'wordpress-seo' ) . '</p>';
 		do_action( 'wpseo_admin_opengraph_section' );
 	?>

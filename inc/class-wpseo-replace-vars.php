@@ -144,7 +144,7 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 
 			// Let's see if we can bail super early.
 			if ( strpos( $string, '%%' ) === false ) {
-				return trim( preg_replace( '`\s+`u', ' ', $string ) );
+				return trim( preg_replace( '`\s+`', ' ', $string ) );
 			}
 
 			$args = (array) $args;
@@ -200,7 +200,7 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 			}
 
 			// Remove superfluous whitespace
-			$string = preg_replace( '`\s+`u', ' ', $string );
+			$string = preg_replace( '`\s+`', ' ', $string );
 			return trim( $string );
 		}
 
@@ -429,7 +429,7 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 			static $replacement;
 
 			if ( ! isset( $replacement ) ) {
-				$description = get_bloginfo( 'description' );
+				$description = trim( strip_tags( get_bloginfo( 'description' ) ) );
 				if ( $description !== '' ) {
 					$replacement = $description;
 				}
@@ -448,7 +448,7 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 			static $replacement;
 
 			if ( ! isset( $replacement ) ) {
-				$sitename = get_bloginfo( 'name' );
+				$sitename = trim( strip_tags( get_bloginfo( 'name' ) ) );
 				if ( $sitename !== '' ) {
 					$replacement = $sitename;
 				}

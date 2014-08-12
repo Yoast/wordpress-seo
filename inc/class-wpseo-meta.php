@@ -178,6 +178,7 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 						'none'			=> '', // translation added later
 						'noodp' 		=> '', // translation added later
 						'noydir'		=> '', // translation added later
+						'noimageindex'  => '', // translation added later
 						'noarchive' 	=> '', // translation added later
 						'nosnippet' 	=> '', // translation added later
 					),

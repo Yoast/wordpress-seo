@@ -222,6 +222,8 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 					// Replace WP SEO Variables
 					$title = wpseo_replace_vars( $title, get_post() );
 				}
+			} else if ( is_front_page() ) {
+				$title = ( $this->options['og_frontpage_title'] !== '' ) ? $this->options['og_frontpage_title'] : $this->title( '' );
 			} else {
 				$title = $this->title( '' );
 			}
@@ -516,6 +518,11 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 
 			if ( is_category() || is_tag() || is_tax() ) {
 				$ogdesc = trim( strip_tags( term_description() ) );
+				if ( '' == $ogdesc ) {
+					global $wp_query;
+					$term   = $wp_query->get_queried_object();
+					$ogdesc = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'desc' );
+				}
 			}
 
 			// Strip shortcodes if any

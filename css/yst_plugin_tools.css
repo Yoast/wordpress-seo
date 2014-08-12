@@ -355,14 +355,15 @@ input.wpseo-new-title, textarea.wpseo-new-metadesc {
 
 div#separator {
 	clear: right;
+	margin: 0 0 0 25px;
 }
 
 div#separator input.radio {
 	opacity: 0;
-
 	float: left;
 	width: 0 !important;
 	min-width: 0 !important;
+	display: none;
 }
 
 div#separator input.radio + label {

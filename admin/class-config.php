@@ -343,15 +343,31 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 			global $pagenow;
 
 			if ( $pagenow == 'admin.php' && isset( $_GET['page'] ) && in_array( $_GET['page'], $this->adminpages ) ) {
-				wp_enqueue_script( 'wpseo-admin-script', plugins_url( 'js/wp-seo-admin' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'jquery' ), WPSEO_VERSION, true );
-				wp_enqueue_script( 'postbox' );
+				wp_enqueue_script( 'wpseo-admin-script', plugins_url( 'js/wp-seo-admin' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'jquery', 'jquery-ui-core' ), WPSEO_VERSION, true );
 				wp_enqueue_script( 'dashboard' );
 				wp_enqueue_script( 'thickbox' );
+			}
+
+			if ( $pagenow == 'admin.php' && isset( $_GET['page'] ) && in_array( $_GET['page'], array( 'wpseo_social' ) ) ) {
+				wp_enqueue_media();
+				wp_enqueue_script( 'wpseo-admin-media', plugins_url( 'js/wp-seo-admin-media' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'jquery', 'jquery-ui-core' ), WPSEO_VERSION, true );
+				wp_localize_script( 'wpseo-admin-media', 'wpseoMediaL10n', $this->localize_media_script() );
 			}
 
 			if ( $pagenow == 'admin.php' && isset( $_GET['page'] ) && in_array( $_GET['page'], array( 'wpseo_bulk-editor' ) ) ) {
 				wp_enqueue_script( 'wpseo-bulk-editor', plugins_url( 'js/wp-seo-bulk-editor' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'jquery' ), WPSEO_VERSION, true );
 			}
+		}
+
+		/**
+		 * Pass some variables to js for upload module.
+		 *
+		 * @return  array
+		 */
+		public function localize_media_script() {
+			return array(
+				'choose_image' => __( 'Use Image', 'wordpress-seo' ),
+			);
 		}
 
 		/**
@@ -547,6 +563,37 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 		}
 
 		/**
+		 * Media input
+		 *
+		 * @param string $var
+		 * @param string $label
+		 * @param string $option
+		 *
+		 * @return string
+		 */
+		function media_input( $var, $label, $option = '' ) {
+			if ( empty( $option ) ) {
+				$option = $this->currentoption;
+			}
+
+			$options = $this->get_option( $option );
+
+			$val = '';
+			if ( isset( $options[ $var ] ) && is_array( $options[ $var ] ) ) {
+				$val = $options[ $var ]['url'];
+			}
+
+			$var_esc = esc_attr( $var );
+
+			$output = '<label class="select" for="wpseo_' . $var_esc . '">' . esc_html( $label ) . ':</label>';
+			$output .= '<input id="wpseo_' . $var_esc . '" type="text" size="36" name="' . $var_esc . '" value="' . esc_attr( $val ) . '" />';
+			$output .= '<input id="wpseo_' . $var_esc . '_button" class="wpseo_image_upload_button button" type="button" value="Upload Image" />';
+			$output .= '<br class="clear"/>';
+
+			return $output;
+		}
+
+		/**
 		 * Create a Radio input field.
 		 *
 		 * @param string $var    The variable within the option to create the file upload field for.
@@ -571,7 +618,11 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 
 			$var_esc = esc_attr( $var );
 
-			$output = '<br/><div class="wpseo_radio_block" id="' . $var_esc . '"><label class="select">' . $label . ':</label>';
+			$output = '<br/><div class="wpseo_radio_block" id="' . $var_esc . '">';
+			if ( is_string( $label ) && $label !== '' ) {
+				$output .= '<label class="select">' . $label . ':</label>';
+			}
+
 			foreach ( $values as $key => $value ) {
 				$key_esc = esc_attr( $key );
 				$output .= '<input type="radio" class="radio" id="' . $var_esc . '-' . $key_esc . '" name="' . esc_attr( $option ) . '[' . $var_esc . ']" value="' . $key_esc . '" ' . checked( $options[ $var ], $key_esc, false ) . ' /> <label class="radio" for="' . $var_esc . '-' . $key_esc . '">' . esc_html( $value ) . '</label>';

@@ -268,13 +268,13 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 			if ( ! is_string( $title ) || ( is_string( $title ) && $title === '' ) ) {
 				$title = get_bloginfo( 'name' );
 				$title = $this->add_paging_to_title( $sep, $seplocation, $title );
-				$title = $this->add_to_title( $sep, $seplocation, $title, get_bloginfo( 'description' ) );
+				$title = $this->add_to_title( $sep, $seplocation, $title, strip_tags( get_bloginfo( 'description' ) ) );
 
 				return $title;
 			}
 
 			$title = $this->add_paging_to_title( $sep, $seplocation, $title );
-			$title = $this->add_to_title( $sep, $seplocation, $title, get_bloginfo( 'name' ) );
+			$title = $this->add_to_title( $sep, $seplocation, $title, strip_tags( get_bloginfo( 'name' ) ) );
 
 			return $title;
 		}
@@ -626,7 +626,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 				) {
 					$robots['index'] = 'noindex';
 				} elseif ( is_home() ) {
-					if ( get_query_var( 'paged' ) > 1 ) {
+					if ( get_query_var( 'paged' ) > 1 && $this->options['noindex-subpages-wpseo'] === true ) {
 						$robots['index'] = 'noindex';
 					}
 
@@ -839,12 +839,12 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 			 */
 			$canonical = apply_filters( 'wpseo_canonical', $canonical );
 
-			// Force canonical links to be absolute, relative is NOT an option.
-			if ( '/' == substr( $canonical, 0, 1 ) ) {
-				$canonical = untrailingslashit( get_site_url() ) . $canonical;
-			}
-
 			if ( is_string( $canonical ) && $canonical !== '' ) {
+				// Force canonical links to be absolute, relative is NOT an option.
+				if ( '/' == substr( $canonical, 0, 1 ) ) {
+					$canonical = home_url( $canonical );
+				}
+
 				if ( $echo !== false ) {
 					echo '<link rel="canonical" href="' . esc_url( $canonical, null, 'other' ) . '" />' . "\n";
 				} else {
@@ -1505,7 +1505,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 
 			$post_link      = '<a ' . $no_follow_attr . 'href="' . esc_url( get_permalink() ) . '">' . get_the_title() . '</a>';
 			$blog_link      = '<a ' . $no_follow_attr . 'href="' . esc_url( get_bloginfo( 'url' ) ) . '">' . get_bloginfo( 'name' ) . '</a>';
-			$blog_desc_link = '<a ' . $no_follow_attr . 'href="' . esc_url( get_bloginfo( 'url' ) ) . '">' . get_bloginfo( 'name' ) . ' - ' . get_bloginfo( 'description' ) . '</a>';
+			$blog_desc_link = '<a ' . $no_follow_attr . 'href="' . esc_url( get_bloginfo( 'url' ) ) . '">' . get_bloginfo( 'name' ) . ' - ' . strip_tags( get_bloginfo( 'description' ) ) . '</a>';
 
 			$content = stripslashes( trim( $content ) );
 			$content = str_replace( '%%AUTHORLINK%%', $author_link, $content );
