@@ -56,7 +56,7 @@ if ( is_array( $roles ) && $roles !== array() ) {
 	$content .= '<h2>' . __( 'Exclude userroles', 'wordpress-seo' ) . '</h2>';
 	$content .= '<p>' . __( 'Please check the appropriate box below if there\'s a user role that you do <strong>NOT</strong> want to include in your sitemap:', 'wordpress-seo' ) . '</p>';
 	foreach ( $roles AS $role ) {
-		$content .= $wpseo_admin_pages->checkbox( 'user_role-' . strtolower( $role['name'] ) . '', $role['name'] );
+		$content .= $wpseo_admin_pages->checkbox( 'user_role-' . strtolower( $role['name'] ) . '-not_in_sitemap', $role['name'] );
 	}
 }
 
