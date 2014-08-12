@@ -271,7 +271,11 @@ class WPSEO_Premium {
 		$redirects = apply_filters( 'wpseo_premium_get_redirects', get_option( 'wpseo-premium-redirects', array() ) );
 		$path = parse_url( $requested_url, PHP_URL_PATH );
 		if ( isset( $redirects[$path] ) ) {
-			wp_redirect( $redirects[$path]['url'], $redirects[$path]['type'] );
+			$redirect_url = $redirects[$path]['url'];
+			if ( '/' === substr( $redirect_url, 0, 1 ) ) {
+				$redirect_url = home_url( $redirect_url );
+			}
+			wp_redirect( $redirect_url, $redirects[$path]['type'] );
 			exit;
 		} else {
 			return $redirect_url;

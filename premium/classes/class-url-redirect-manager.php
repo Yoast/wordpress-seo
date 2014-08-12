@@ -26,7 +26,12 @@ if ( class_exists( 'WPSEO_Redirect_Manager' ) && ! class_exists( 'WPSEO_URL_Redi
 			$url = htmlspecialchars_decode( urldecode( $_SERVER['REQUEST_URI'] ) );
 
 			if ( isset ( $redirects[$url] ) ) {
-				wp_redirect( $redirects[$url]['url'], $redirects[$url]['type'] );
+				$redirect_url = $redirects[$url]['url'];
+				if ( '/' === substr( $redirect_url, 0, 1 ) ) {
+					$redirect_url = home_url( $redirect_url );
+				}
+
+				wp_redirect( $redirect_url, $redirects[$url]['type'] );
 				exit;
 			}
 		}

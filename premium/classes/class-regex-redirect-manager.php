@@ -56,6 +56,10 @@ if ( class_exists( 'WPSEO_Redirect_Manager' ) && ! class_exists( 'WPSEO_REGEX_Re
 							'format_redirect_url'
 						), $redirect['url'] );
 
+						if ( '/' === substr( $redirect_url, 0, 1 ) ) {
+							$redirect_url = home_url( $redirect_url );
+						}
+
 						// Do the redirect
 						wp_redirect( $redirect_url, $redirect['type'] );
 						exit;
