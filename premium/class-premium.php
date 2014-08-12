@@ -83,10 +83,7 @@ class WPSEO_Premium {
 			add_action( 'admin_init', array( $this, 'register_gwt_crawl_error_post_type' ) );
 
 			// Add input fields to page meta post types
-			add_action( 'wpseo_admin_page_meta_post_types', array(
-				$this,
-				'admin_page_meta_post_types_checkboxes'
-			), 10, 2 );
+			add_action( 'wpseo_admin_page_meta_post_types', array( $this, 'admin_page_meta_post_types_checkboxes' ), 10, 2 );
 
 			// Add page analysis fields to variable array key patterns
 			add_filter( 'wpseo_option_titles_variable_array_key_patterns', array(
@@ -347,28 +344,53 @@ class WPSEO_Premium {
 		return $patterns;
 	}
 
+
 	/**
-	 * Filter the page analysis content
+	 * Filter for adding custom fields to page analysis
 	 *
-	 * @param $page_content
+	 * Based on the configured custom fields for page analysis. this filter will get the needed values from post_meta
+	 * and add them to the $page_content. Page analysis will be able to scan the content of these customs fields by
+	 * doing this. - If value doesn't exists as a post-meta value, there will be nothing included.
+	 *
+	 * @param string $page_content the content of the current post text
+	 * @param object $post         the total object of the post content
+	 *
+	 * @return string $page_content
 	 */
 	public function filter_page_analysis( $page_content, $post ) {
-		$options = get_option( WPSEO_Options::get_option_instance( 'wpseo_titles' )->option_name, array() );
-		if ( isset( $options[ 'page-analyse-extra-' . $post->post_type ] ) ) {
-			$page_content .= ' ' . $options[ 'page-analyse-extra-' . $post->post_type ];
+
+		$options       = get_option( WPSEO_Options::get_option_instance( 'wpseo_titles' )->option_name, array() );
+		$target_option = 'page-analyse-extra-' . $post->post_type;
+
+		if ( array_key_exists( $target_option, $options ) ) {
+			$custom_fields = explode( ',', $options[$target_option] );
+
+			if ( is_array( $custom_fields ) ) {
+				foreach ( $custom_fields AS $custom_field ) {
+					$custom_field_data = get_post_meta( $post->ID, $custom_field, true );
+
+					if ( ! empty( $custom_field_data ) ) {
+						$page_content .= ' ' . $custom_field_data;
+					}
+				}
+
+			}
 		}
 
 		return $page_content;
 	}
 
 	/**
-	 * Add checkboxes via 'wpseo_admin_page_meta_post_types' hook
+	 * This hook will add an input-field for specifying custom fields for page analysis.
+	 *
+	 * The values will be comma-seperated and will target the belonging field in the post_meta. Page analysis will
+	 * use the content of it by sticking it to the post_content.
 	 *
 	 * @param $wpseo_admin_pages
 	 * @param $name
 	 */
 	public function admin_page_meta_post_types_checkboxes( $wpseo_admin_pages, $name ) {
-		echo $wpseo_admin_pages->textinput( 'page-analyse-extra-' . $name, __( 'Extra page analysis tags', 'wordpress-seo' ) );
+		echo $wpseo_admin_pages->textinput( 'page-analyse-extra-' . $name, __( 'Add custom fields to page analysis', 'wordpress-seo' ) );
 	}
 
 	/**
