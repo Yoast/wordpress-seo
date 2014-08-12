@@ -113,6 +113,12 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 
 == Changelog ==
 
+= trunk =
+
+* i18n
+	* updated ar, cs_CZ, fr_FR, hr, pl_PL, pt_BR and ru_RU
+	* new .pot file based off of the 1.5.5 version
+
 = 1.5.5 =
 Release Date: August 12th, 2014
 
