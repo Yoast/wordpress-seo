@@ -239,6 +239,8 @@ class WPSEO_Premium {
 
 			// Add 404 redirect link to WordPress toolbar
 			add_action( 'admin_bar_menu', array( $this, 'admin_bar_menu' ), 96 );
+
+			add_filter( 'redirect_canonical', array( $this, 'redirect_canonical_fix' ), 1, 2 );
 		}
 
 		// Normal Redirect AJAX
@@ -255,6 +257,25 @@ class WPSEO_Premium {
 
 		// Add URL reponse code check AJAX
 		add_action( 'wp_ajax_wpseo_check_url', array( 'WPSEO_Url_Checker', 'check_url' ) );
+	}
+
+	/**
+	 * Hooks into the `redirect_canonical` filter to catch ongoing redirects and move them to the correct spot
+	 *
+	 * @param string $redirect_url
+	 * @param string $requested_url
+	 *
+	 * @return string
+	 */
+	function redirect_canonical_fix( $redirect_url, $requested_url ) {
+		$redirects = apply_filters( 'wpseo_premium_get_redirects', get_option( 'wpseo-premium-redirects', array() ) );
+		$path = parse_url( $requested_url, PHP_URL_PATH );
+		if ( isset( $redirects[$path] ) ) {
+			wp_redirect( $redirects[$path]['url'], $redirects[$path]['type'] );
+			exit;
+		} else {
+			return $redirect_url;
+		}
 	}
 
 	/**
