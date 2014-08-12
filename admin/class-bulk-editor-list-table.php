@@ -62,6 +62,13 @@ if ( ! class_exists( 'WPSEO_Bulk_List_Table' ) ) {
 		private $current_status;
 
 		/**
+		 * The current sorting, if used (depending on $_GET['order'] and $_GET['orderby'])
+		 *
+		 * @var string
+		 */
+		private $current_order;
+
+		/**
 		 * The page_type for current class instance (for example: title / description).
 		 *
 		 * @var string
@@ -92,6 +99,10 @@ if ( ! class_exists( 'WPSEO_Bulk_List_Table' ) ) {
 			$this->current_page   = ( ! empty( $_GET['paged'] ) ) ? $_GET['paged'] : 1;
 			$this->current_filter = ( ! empty( $_GET['post_type_filter'] ) ) ? $_GET['post_type_filter'] : 1;
 			$this->current_status = ( ! empty( $_GET['post_status'] ) ) ? $_GET['post_status'] : 1;
+			$this->current_order  = array(
+				'order'   => ( ! empty( $_GET['order'] ) ) ? $_GET['order'] : 'asc',
+				'orderby' => ( ! empty( $_GET['orderby'] ) ) ? $_GET['orderby'] : 'post_title',
+			);
 			$this->page_url       = "&type={$this->page_type}#top#{$this->page_type}";
 
 			$this->populate_editable_post_types();
@@ -141,6 +152,9 @@ if ( ! class_exists( 'WPSEO_Bulk_List_Table' ) ) {
 				<form id="posts-filter" action="" method="get">
 					<input type="hidden" name="page" value="wpseo_bulk-editor" />
 					<input type="hidden" name="type" value="<?php echo $this->page_type; ?>" />
+					<input type="hidden" name="orderby" value="<?php echo $_GET['orderby']; ?>" />
+					<input type="hidden" name="order" value="<?php echo $_GET['order']; ?>" />
+					<input type="hidden" name="post_type_filter" value="<?php echo $_GET['post_type_filter']; ?>" />
 					<?php if ( ! empty( $post_status ) ) { ?>
 						<input type="hidden" name="post_status" value="<?php echo esc_attr( $post_status ); ?>" />
 					<?php } ?>
@@ -214,7 +228,7 @@ if ( ! class_exists( 'WPSEO_Bulk_List_Table' ) ) {
 
 
 			$class               = empty( $_GET['post_status'] ) ? ' class="current"' : '';
-			$status_links['all'] = '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_bulk-editor&type=' . $this->page_url ) ) . '"' . $class . '>' . sprintf( _nx( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $total_posts, 'posts', 'wordpress-seo' ), number_format_i18n( $total_posts ) ) . '</a>';
+			$status_links['all'] = '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_bulk-editor' . $this->page_url ) ) . '"' . $class . '>' . sprintf( _nx( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $total_posts, 'posts', 'wordpress-seo' ), number_format_i18n( $total_posts ) ) . '</a>';
 
 			$post_stati = get_post_stati( array( 'show_in_admin_all_list' => true ), 'objects' );
 			if ( is_array( $post_stati ) && $post_stati !== array() ) {
@@ -241,7 +255,7 @@ if ( ! class_exists( 'WPSEO_Bulk_List_Table' ) ) {
 						$class = ' class="current"';
 					}
 
-					$status_links[ $status_name ] = '<a href="' . esc_url( add_query_arg( array( 'post_status' => $status_name ), admin_url( 'admin.php?page=wpseo_bulk-editor' . $this->page_url ) ) ) . '"' . $class . '>' . sprintf( translate_nooped_plural( $status->label_count, $total ), number_format_i18n( $total ) ) . '</a>';
+					$status_links[$status_name] = '<a href="' . esc_url( add_query_arg( array( 'post_status' => $status_name ), admin_url( 'admin.php?page=wpseo_bulk-editor' . $this->page_url ) ) ) . '"' . $class . '>' . sprintf( translate_nooped_plural( $status->label_count, $total ), number_format_i18n( $total ) ) . '</a>';
 				}
 			}
 			unset( $post_stati, $status, $status_name, $total, $class );
@@ -318,9 +332,9 @@ if ( ! class_exists( 'WPSEO_Bulk_List_Table' ) ) {
 		 */
 		function get_sortable_columns() {
 			return $sortable = array(
-				'col_page_title'               => array( 'post_title', true ),
-				'col_post_type'                => array( 'post_type', false ),
-				'col_existing_yoast_seo_title' => array( 'seo_title', false ),
+				'col_page_title' => array( 'post_title', true ),
+				'col_post_type'  => array( 'post_type', false ),
+				'col_post_date'  => array( 'post_date', false ),
 			);
 		}
 
@@ -331,26 +345,38 @@ if ( ! class_exists( 'WPSEO_Bulk_List_Table' ) ) {
 		 */
 		function prepare_page_navigation() {
 
-			$_SERVER['REQUEST_URI'] = $this->request_url . $this->page_url;
+			$request_url = $this->request_url . $this->page_url;
 
 			$current_page   = $this->current_page;
 			$current_filter = $this->current_filter;
 			$current_status = $this->current_status;
+			$current_order  = $this->current_order;
 
+			// If current type doesn't compare with objects page_type, than we have to unset some vars in the requested url (which will be use for internal table urls)
 			if ( $_GET['type'] != $this->page_type ) {
+				$request_url = remove_query_arg( 'paged', $request_url ); // page will be set with value 1 below.
+				$request_url = remove_query_arg( 'post_type_filter', $request_url );
+				$request_url = remove_query_arg( 'post_status', $request_url );
+				$request_url = remove_query_arg( 'orderby', $request_url );
+				$request_url = remove_query_arg( 'order', $request_url );
+				$request_url = add_query_arg( 'pages', 1, $request_url );
+
 				$current_page   = 1;
 				$current_filter = '-1';
 				$current_status = '';
+				$current_order  = array( 'orderby' => 'post_title', 'order' => 'asc' );
 
 			}
 
-			$_GET['paged']     = $current_page;
-			$_REQUEST['paged'] = $current_page;
+			$_SERVER['REQUEST_URI'] = $request_url;
 
-			$_GET['post_type_filter']     = $current_filter;
+			$_GET['paged']                = $current_page;
+			$_REQUEST['paged']            = $current_page;
 			$_REQUEST['post_type_filter'] = $current_filter;
-
-			$_GET['post_status'] = $current_status;
+			$_GET['post_type_filter']     = $current_filter;
+			$_GET['post_status']          = $current_status;
+			$_GET['orderby']              = $current_order['orderby'];
+			$_GET['order']                = $current_order['order'];
 
 		}
 
@@ -404,7 +430,7 @@ if ( ! class_exists( 'WPSEO_Bulk_List_Table' ) ) {
 
 			// Get all needed results
 			$query = "
-				SELECT ID, post_title, post_type, post_status, post_modified
+				SELECT ID, post_title, post_type, post_status, post_modified, post_date
 				FROM {$subquery}
 				WHERE post_status IN ({$all_states}) $post_type_clause
 				ORDER BY {$orderby} {$order}
@@ -459,11 +485,14 @@ if ( ! class_exists( 'WPSEO_Bulk_List_Table' ) ) {
 
 			list( $columns, $hidden ) = $this->get_column_info();
 
+
+			$date_format = get_option( 'date_format' );
+
 			if ( ( is_array( $records ) && $records !== array() ) && ( is_array( $columns ) && $columns !== array() ) ) {
 				foreach ( $records as $rec ) {
 
 					// Fill meta data if exists in $this->meta_data
-					$meta_data = ( ! empty( $this->meta_data[ $rec->ID ] ) ) ? $this->meta_data[ $rec->ID ] : array();
+					$meta_data = ( ! empty( $this->meta_data[$rec->ID] ) ) ? $this->meta_data[$rec->ID] : array();
 
 					echo '<tr id="record_' . $rec->ID . '">';
 
@@ -521,8 +550,13 @@ if ( ! class_exists( 'WPSEO_Bulk_List_Table' ) ) {
 								echo sprintf( '<td %2$s>%1$s</td>', $post_status->label, $attributes );
 								break;
 
+							case 'col_post_date':
+								$cell_value = date_i18n( $date_format, strtotime( $rec->post_date ) );
+								echo sprintf( '<td %2$s>%1$s</td>', $cell_value, $attributes );
+								break;
+
 							case 'col_existing_yoast_seo_title':
-								$cell_value = ( ( ! empty( $meta_data[ WPSEO_Meta::$meta_prefix . 'title' ] ) ) ? $meta_data[ WPSEO_Meta::$meta_prefix . 'title' ] : '' );
+								$cell_value = ( ( ! empty( $meta_data[WPSEO_Meta::$meta_prefix . 'title'] ) ) ? $meta_data[WPSEO_Meta::$meta_prefix . 'title'] : '' );
 								echo sprintf( '<td %2$s id="wpseo-existing-title-%3$s">%1$s</td>', $cell_value, $attributes, $rec->ID );
 								break;
 
@@ -538,7 +572,7 @@ if ( ! class_exists( 'WPSEO_Bulk_List_Table' ) ) {
 
 
 							case 'col_existing_yoast_seo_metadesc':
-								$cell_value = ( ( ! empty( $meta_data[ WPSEO_Meta::$meta_prefix . 'metadesc' ] ) ) ? $meta_data[ WPSEO_Meta::$meta_prefix . 'metadesc' ] : '' );
+								$cell_value = ( ( ! empty( $meta_data[WPSEO_Meta::$meta_prefix . 'metadesc'] ) ) ? $meta_data[WPSEO_Meta::$meta_prefix . 'metadesc'] : '' );
 								echo sprintf( '<td %2$s id="wpseo-existing-metadesc-%3$s">%1$s</td>', $cell_value, $attributes, $rec->ID );
 								break;
 
