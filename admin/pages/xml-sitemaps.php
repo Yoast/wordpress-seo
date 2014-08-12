@@ -38,8 +38,7 @@ rewrite ^/([^/]+?)-sitemap([0-9]+)?\.xml$ /index.php?sitemap=$1&sitemap_n=$2 las
 
 if ( $options['enablexmlsitemap'] === true ) {
 	$content .= '<p>' . sprintf( esc_html__( 'You can find your XML Sitemap here: %sXML Sitemap%s', 'wordpress-seo' ), '<a target="_blank" class="button-secondary" href="' . esc_url( home_url( $base . 'sitemap_index.xml' ) ) . '">', '</a>' ) . '<br/><br/>' . __( 'You do <strong>not</strong> need to generate the XML sitemap, nor will it take up time to generate after publishing a post.', 'wordpress-seo' ) . '</p>';
-}
-else {
+} else {
 	$content .= '<p>' . __( 'Save your settings to activate XML Sitemaps.', 'wordpress-seo' ) . '</p>';
 }
 
@@ -52,6 +51,14 @@ $content .= '<p>' . __( 'After content publication, the plugin automatically pin
 $content .= $wpseo_admin_pages->checkbox( 'xml_ping_yahoo', __( 'Ping Yahoo!', 'wordpress-seo' ), false );
 $content .= $wpseo_admin_pages->checkbox( 'xml_ping_ask', __( 'Ping Ask.com', 'wordpress-seo' ), false );
 
+$roles = get_editable_roles();
+if ( is_array( $roles ) && $roles !== array() ) {
+	$content .= '<h2>' . __( 'Exclude userroles', 'wordpress-seo' ) . '</h2>';
+	$content .= '<p>' . __( 'Please check the appropriate box below if there\'s a user role that you do <strong>NOT</strong> want to include in your sitemap:', 'wordpress-seo' ) . '</p>';
+	foreach ( $roles AS $role ) {
+		$content .= $wpseo_admin_pages->checkbox( 'user_role-' . strtolower( $role['name'] ) . '', $role['name'] );
+	}
+}
 
 $post_types = apply_filters( 'wpseo_sitemaps_supported_post_types', get_post_types( array( 'public' => true ), 'objects' ) );
 if ( is_array( $post_types ) && $post_types !== array() ) {

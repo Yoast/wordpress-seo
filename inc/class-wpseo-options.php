@@ -2382,6 +2382,7 @@ if ( ! class_exists( 'WPSEO_Option_XML' ) ) {
 
 			/**
 			 * Uses enrich_defaults to add more along the lines of:
+			 * - 'user_role-' . strtolower( $user_role['name'] ) . '-not_in_sitemap'  => bool
 			 * - 'post_types-' . $pt->name . '-not_in_sitemap'  => bool
 			 * - 'taxonomies-' . $tax->name . '-not_in_sitemap'  => bool
 			 */
@@ -2391,6 +2392,7 @@ if ( ! class_exists( 'WPSEO_Option_XML' ) ) {
 		 * @var  array  Array of variable option name patterns for the option
 		 */
 		protected $variable_array_key_patterns = array(
+			'user_role-',
 			'post_types-',
 			'taxonomies-',
 		);
@@ -2509,6 +2511,7 @@ if ( ! class_exists( 'WPSEO_Option_XML' ) ) {
 					/* boolean fields */
 					case 'disable_author_sitemap':
 					case 'enablexmlsitemap':
+					case 'user_role-': /* 'user_role' . strtolower( $user_role['name'] ) . '-not_in_sitemap' fields */
 					case 'post_types-': /* 'post_types-' . $pt->name . '-not_in_sitemap' fields */
 					case 'taxonomies-': /* 'taxonomies-' . $tax->name . '-not_in_sitemap' fields */
 					case 'xml_ping_yahoo':
@@ -2546,6 +2549,7 @@ if ( ! class_exists( 'WPSEO_Option_XML' ) ) {
 
 					// Similar to validation routine - any changes made there should be made here too
 					switch ( $switch_key ) {
+						case 'user_role-': /* 'user_role-' . strtolower( $user_role['name'] ) . '-not_in_sitemap' fields */
 						case 'post_types-': /* 'post_types-' . $pt->name . '-not_in_sitemap' fields */
 						case 'taxonomies-': /* 'taxonomies-' . $tax->name . '-not_in_sitemap' fields */
 							$option_value[ $key ] = self::validate_bool( $value );
