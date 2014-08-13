@@ -85,13 +85,16 @@ class WPSEO_Post_Watcher {
 			$url = parse_url( get_permalink( $post_id ) );
 			$url = $url['path'];
 
-			// Message should only be shown if there isn't already a redirect
-			if( ! $this->check_if_redirect_exists( $url ) ) {
-				// Format the message
-				$message = sprintf( __( "WordPress SEO Premium detected that you moved a post to the trash. <a href='%s'>Click here to create a redirect from the old post URL</a>.", 'wordpress-seo' ), 'javascript:wpseo_create_redirect("' . urlencode( $url ) . '", "' . wp_create_nonce( 'wpseo-redirects-ajax-security' ) . '");' );
+			// If $url is not a single /, there may be the option to create a redirect
+			if ( $url !== '/' ) {
+				// Message should only be shown if there isn't already a redirect
+				if ( ! $this->check_if_redirect_exists( $url ) ) {
+					// Format the message
+					$message = sprintf( __( "WordPress SEO Premium detected that you moved a post to the trash. <a href='%s'>Click here to create a redirect from the old post URL</a>.", 'wordpress-seo' ), 'javascript:wpseo_create_redirect("' . urlencode( $url ) . '", "' . wp_create_nonce( 'wpseo-redirects-ajax-security' ) . '");' );
 
-				// Add the message to the notifications center
-				Yoast_Notification_Center::get()->add_notification( new Yoast_Notification( $message ) );
+					// Add the message to the notifications center
+					Yoast_Notification_Center::get()->add_notification( new Yoast_Notification( $message ) );
+				}
 			}
 		}
 
@@ -113,13 +116,16 @@ class WPSEO_Post_Watcher {
 			$url = parse_url( get_permalink( $post_id ) );
 			$url = $url['path'];
 
-			// Message should only be shown if there's already a redirect
-			if( $this->check_if_redirect_exists( $url ) ) {
-				// Format the message
-				$message = sprintf( __( "WordPress SEO Premium detected that you restored a post from the trash. <a href='%s'>Click here to remove the redirect</a>.", 'wordpress-seo' ), 'javascript:wpseo_undo_redirect("' . urlencode( $url ) . '", "' . wp_create_nonce( 'wpseo-redirects-ajax-security' ) . '");' );
+			// If $url is not a single /, there may be the option to create a redirect
+			if ( $url !== '/' ) {
+				// Message should only be shown if there's already a redirect
+				if ( $this->check_if_redirect_exists( $url ) ) {
+					// Format the message
+					$message = sprintf( __( "WordPress SEO Premium detected that you restored a post from the trash. <a href='%s'>Click here to remove the redirect</a>.", 'wordpress-seo' ), 'javascript:wpseo_undo_redirect("' . urlencode( $url ) . '", "' . wp_create_nonce( 'wpseo-redirects-ajax-security' ) . '");' );
 
-				// Add the message to the notifications center
-				Yoast_Notification_Center::get()->add_notification( new Yoast_Notification( $message ) );
+					// Add the message to the notifications center
+					Yoast_Notification_Center::get()->add_notification( new Yoast_Notification( $message ) );
+				}
 			}
 		}
 
@@ -141,13 +147,16 @@ class WPSEO_Post_Watcher {
 			$url = parse_url( get_permalink( $post_id ) );
 			$url = $url['path'];
 
-			// Message should only be shown if there isn't already a redirect
-			if( ! $this->check_if_redirect_exists( $url ) ) {
-				// Format the message
-				$message = sprintf( __( "WordPress SEO Premium detected that you deleted a post. <a href='%s'>Click here to create a redirect from the old post URL</a>.", 'wordpress-seo' ), 'javascript:wpseo_create_redirect("' . urlencode( $url ) . '", "' . wp_create_nonce( 'wpseo-redirects-ajax-security' ) . '");' );
+			// If $url is not a single /, there may be the option to create a redirect
+			if ( $url !== '/' ) {
+				// Message should only be shown if there isn't already a redirect
+				if ( !$this->check_if_redirect_exists( $url ) ) {
+					// Format the message
+					$message = sprintf( __( "WordPress SEO Premium detected that you deleted a post. <a href='%s'>Click here to create a redirect from the old post URL</a>.", 'wordpress-seo' ), 'javascript:wpseo_create_redirect("' . urlencode( $url ) . '", "' . wp_create_nonce( 'wpseo-redirects-ajax-security' ) . '");' );
 
-				// Add the message to the notifications center
-				Yoast_Notification_Center::get()->add_notification( new Yoast_Notification( $message ) );
+					// Add the message to the notifications center
+					Yoast_Notification_Center::get()->add_notification( new Yoast_Notification( $message ) );
+				}
 			}
 		}
 
