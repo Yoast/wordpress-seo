@@ -124,8 +124,20 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 
 		$current_page = intval( ( ( isset( $_GET['paged'] ) ) ? $_GET['paged'] : 0 ) );
 
+		// Setting the starting point. If starting point is below 1, overwrite it with value 0, otherwise it will be sliced of at the back
+		$slice_start = $current_page - 1;
+		if( $slice_start < 0 ) {
+			$slice_start = 0;
+		}
+
 		// Apply 'pagination'
-		$formatted_items = array_slice( $formatted_items, ( ( $current_page - 1 ) * $per_page ), $per_page );
+		$formatted_items = array_slice( $formatted_items, ( $slice_start * $per_page ), $per_page );
+
+	/*
+		echo "<pre>";
+		print_r($formatted_items);
+		echo "</pre>";
+	*/
 
 		// Set items
 		$this->items = $formatted_items;
