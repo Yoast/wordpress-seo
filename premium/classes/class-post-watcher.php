@@ -85,13 +85,8 @@ class WPSEO_Post_Watcher {
 			$url = parse_url( get_permalink( $post_id ) );
 			$url = $url['path'];
 
-
-			// Check if there is a redirect
-			$redirect_manager = new WPSEO_URL_Redirect_Manager();
-			$redirects        = $redirect_manager->get_redirects();
-
 			// Message should only be shown if there isn't already a redirect
-			if( ! array_key_exists( $url, $redirects ) ) {
+			if( ! $this->check_if_redirect_exists( $url ) ) {
 				// Format the message
 				$message = sprintf( __( "WordPress SEO Premium detected that you moved a post to the trash. <a href='%s'>Click here to create a redirect from the old post URL</a>.", 'wordpress-seo' ), 'javascript:wpseo_create_redirect("' . urlencode( $url ) . '", "' . wp_create_nonce( 'wpseo-redirects-ajax-security' ) . '");' );
 
@@ -118,12 +113,8 @@ class WPSEO_Post_Watcher {
 			$url = parse_url( get_permalink( $post_id ) );
 			$url = $url['path'];
 
-			// Check if there is a redirect
-			$redirect_manager = new WPSEO_URL_Redirect_Manager();
-			$redirects        = $redirect_manager->get_redirects();
-
 			// Message should only be shown if there's already a redirect
-			if( array_key_exists( $url, $redirects ) ) {
+			if( $this->check_if_redirect_exists( $url ) ) {
 				// Format the message
 				$message = sprintf( __( "WordPress SEO Premium detected that you restored a post from the trash. <a href='%s'>Click here to remove the redirect</a>.", 'wordpress-seo' ), 'javascript:wpseo_undo_redirect("' . urlencode( $url ) . '", "' . wp_create_nonce( 'wpseo-redirects-ajax-security' ) . '");' );
 
@@ -133,11 +124,6 @@ class WPSEO_Post_Watcher {
 		}
 
 	}
-
-	public function check_if_redirect_exists() {
-
-	}
-
 
 	/**
 	 * Offer to create a redirect from the post that is about to get deleted
@@ -155,13 +141,8 @@ class WPSEO_Post_Watcher {
 			$url = parse_url( get_permalink( $post_id ) );
 			$url = $url['path'];
 
-			// Check if there is a redirect
-			$redirect_manager = new WPSEO_URL_Redirect_Manager();
-			$redirects        = $redirect_manager->get_redirects();
-
 			// Message should only be shown if there isn't already a redirect
-			if( ! array_key_exists( $url, $redirects ) ) {
-
+			if( ! $this->check_if_redirect_exists( $url ) ) {
 				// Format the message
 				$message = sprintf( __( "WordPress SEO Premium detected that you deleted a post. <a href='%s'>Click here to create a redirect from the old post URL</a>.", 'wordpress-seo' ), 'javascript:wpseo_create_redirect("' . urlencode( $url ) . '", "' . wp_create_nonce( 'wpseo-redirects-ajax-security' ) . '");' );
 
@@ -170,6 +151,20 @@ class WPSEO_Post_Watcher {
 			}
 		}
 
+	}
+
+	/**
+	 * Look up if url does exists in the current redirects
+	 *
+	 * @param string $url url to search for
+	 *
+	 * @return bool
+	 */
+	public function check_if_redirect_exists( $url ) {
+		$redirect_manager = new WPSEO_URL_Redirect_Manager();
+		$redirects        = $redirect_manager->get_redirects();
+
+		return array_key_exists( $url, $redirects );
 	}
 
 }
