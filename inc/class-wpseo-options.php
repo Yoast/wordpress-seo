@@ -2753,6 +2753,7 @@ if ( ! class_exists( 'WPSEO_Option_Social' ) ) {
 
 					/* text fields */
 					case 'og_frontpage_desc':
+					case 'og_frontpage_title':
 						if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
 							$clean[ $key ] = self::sanitize_text_field( $dirty[ $key ] );
 						}
