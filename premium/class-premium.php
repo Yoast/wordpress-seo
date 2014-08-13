@@ -193,6 +193,12 @@ class WPSEO_Premium {
 				// Detect a post slug change
 				add_action( 'post_updated', array( $post_watcher, 'detect_slug_change' ), 12, 3 );
 
+				// Detect a post trash
+				add_action( 'trash_post', array( $post_watcher, 'detect_post_trash' ) );
+
+				// Detect a post untrash
+				add_action( 'untrash_post', array( $post_watcher, 'detect_post_untrash' ) );
+
 				// Detect a post delete
 				add_action( 'delete_post', array( $post_watcher, 'detect_post_delete' ) );
 
