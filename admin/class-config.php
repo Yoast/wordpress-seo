@@ -343,7 +343,7 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 			if ( $pagenow == 'admin.php' && isset( $_GET['page'] ) && in_array( $_GET['page'], $this->adminpages ) ) {
 				wp_enqueue_script( 'wpseo-admin-script', plugins_url( 'js/wp-seo-admin' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array(
 					'jquery',
-					'jquery-ui-core'
+					'jquery-ui-core',
 				), WPSEO_VERSION, true );
 				wp_enqueue_script( 'dashboard' );
 				wp_enqueue_script( 'thickbox' );
@@ -353,7 +353,7 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 				wp_enqueue_media();
 				wp_enqueue_script( 'wpseo-admin-media', plugins_url( 'js/wp-seo-admin-media' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array(
 					'jquery',
-					'jquery-ui-core'
+					'jquery-ui-core',
 				), WPSEO_VERSION, true );
 				wp_localize_script( 'wpseo-admin-media', 'wpseoMediaL10n', $this->localize_media_script() );
 			}
