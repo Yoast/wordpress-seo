@@ -186,7 +186,7 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 			 *
 			 * @api bool $final
 			 */
-			if ( apply_filters( 'wpseo_replacements_final', true ) === true ) {
+			if ( apply_filters( 'wpseo_replacements_final', true ) === true && ( isset( $matches[1] ) && is_array( $matches[1] ) ) ) {
 				// Remove non-replaced variables
 				$remove = array_diff( $matches[1], $omit ); // Make sure the $omit variables do not get removed
 				$remove = array_map( array( __CLASS__, 'add_var_delimiter' ), $remove );
