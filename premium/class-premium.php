@@ -135,8 +135,15 @@ class WPSEO_Premium {
 			add_action( 'admin_init', array( $this, 'catch_option_redirect_save' ) );
 
 			// Screen options
-			add_filter( 'set-screen-option', array( 'WPSEO_Page_Redirect', 'set_screen_option' ), 11, 3 );
-			add_filter( 'set-screen-option', array( $this->page_gwt, 'set_screen_option' ), 11, 3 );
+			$query_var = ( !empty( $_GET['page'] ) ) ? $_GET['page'] : '';
+			switch ( $query_var ) {
+				case 'wpseo_redirects':
+					add_filter( 'set-screen-option', array( 'WPSEO_Page_Redirect', 'set_screen_option' ), 11, 3 );
+					break;
+				case 'wpseo_webmaster_tools' :
+					add_filter( 'set-screen-option', array( $this->page_gwt, 'set_screen_option' ), 11, 3 );
+					break;
+			}
 
 			// Enqueue Post and Term overview script
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_overview_script' ) );
