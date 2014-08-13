@@ -2760,44 +2760,12 @@ if ( ! class_exists( 'WPSEO_Option_Social' ) ) {
 						break;
 
 
-					/* url text fields - ftp allowed */
-					case 'og_default_image':
-					case 'og_frontpage_image':
-						if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
-							$url = self::sanitize_url( $dirty[ $key ], array( 'http', 'https', 'ftp', 'ftps' ) );
-							if ( $url !== '' ) {
-								$clean[ $key ] = $url;
-							} else {
-								if ( isset( $old[ $key ] ) && $old[ $key ] !== '' ) {
-									$url = self::sanitize_url( $old[ $key ], array( 'http', 'https', 'ftp', 'ftps' ) );
-									if ( $url !== '' ) {
-										$clean[ $key ] = $url;
-									}
-								}
-								if ( function_exists( 'add_settings_error' ) ) {
-									$url = self::sanitize_url( $dirty[ $key ], array(
-											'http',
-											'https',
-											'ftp',
-											'ftps',
-										) );
-									add_settings_error(
-										$this->group_name, // slug title of the setting
-										'_' . $key, // suffix-id for the error message box
-										sprintf( __( '%s does not seem to be a valid url. Please correct.', 'wordpress-seo' ), '<strong>' . esc_html( $url ) . '</strong>' ), // the error message
-										'error' // error type, either 'error' or 'updated'
-									);
-								}
-							}
-							unset( $url );
-						}
-						break;
-
-
 					/* url text fields - no ftp allowed */
 					case 'facebook_site':
 					case 'plus-publisher':
-						if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
+					case 'og_default_image':
+					case 'og_frontpage_image':
+					if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
 							$url = self::sanitize_url( $dirty[ $key ] );
 							if ( $url !== '' ) {
 								$clean[ $key ] = $url;
