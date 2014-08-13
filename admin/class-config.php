@@ -586,7 +586,7 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 			$var_esc = esc_attr( $var );
 
 			$output = '<label class="select" for="wpseo_' . $var_esc . '">' . esc_html( $label ) . ':</label>';
-			$output .= '<input id="wpseo_' . $var_esc . '" type="text" size="36" name="' . $var_esc . '" value="' . esc_attr( $val ) . '" />';
+			$output .= '<input id="wpseo_' . $var_esc . '" type="text" size="36" name="' . esc_attr( $option ) . '[' . $var_esc . ']" value="' . esc_attr( $val ) . '" />';
 			$output .= '<input id="wpseo_' . $var_esc . '_button" class="wpseo_image_upload_button button" type="button" value="Upload Image" />';
 			$output .= '<br class="clear"/>';
 
