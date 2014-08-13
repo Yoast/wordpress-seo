@@ -1069,7 +1069,7 @@ function wpseo_sitemap_remove_excluded_authors( $users ) {
 function wpseo_get_roles() {
 	global $wp_roles;
 
-	if ( !isset( $wp_roles ) ) {
+	if ( ! isset( $wp_roles ) ) {
 		$wp_roles = new WP_Roles();
 	}
 
