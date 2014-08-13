@@ -1024,6 +1024,7 @@ function wpseo_get_terms( $id, $taxonomy, $return_single = false ) {
 	return $replacer->get_terms( $id, $taxonomy, $return_single );
 }
 
+
 /**
  * Filter users that should be excluded from the sitemap (by author metatag: wpseo_excludeauthorsitemap).
  *
@@ -1046,14 +1047,9 @@ function wpseo_sitemap_remove_excluded_authors( $users ) {
 			if ( $is_exclude_on == 'on' ) {
 				$exclude_user = true;
 			} else {
-				$user_role  = $user->roles[0];
-				$target_key = "user_role-{$user_role}-not_in_sitemap";
-
-				if ( array_key_exists( $target_key, $options ) ) {
-					if ( $options[$target_key] == 'on' ) {
-						$exclude_user = true;
-					}
-				}
+				$user_role    = $user->roles[0];
+				$target_key   = "user_role-{$user_role}-not_in_sitemap";
+				$exclude_user = $options[$target_key];
 			}
 
 			if ( $exclude_user == true ) {
@@ -1063,4 +1059,21 @@ function wpseo_sitemap_remove_excluded_authors( $users ) {
 	}
 
 	return $users;
+}
+
+/**
+ * List all the available user roles
+ *
+ * @return array $roles
+ */
+function wpseo_get_roles() {
+	global $wp_roles;
+
+	if ( !isset( $wp_roles ) ) {
+		$wp_roles = new WP_Roles();
+	}
+
+	$roles = $wp_roles->get_names();
+
+	return $roles;
 }

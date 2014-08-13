@@ -1104,7 +1104,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 				)
 			);
 
-			add_filter( 'wpseo_sitemap_exclude_author', 'wpseo_sitemap_remove_excluded_authors' );
+			add_filter( 'wpseo_sitemap_exclude_author', 'wpseo_sitemap_remove_excluded_authors', 8 );
 
 			$users = apply_filters( 'wpseo_sitemap_exclude_author', $users );
 

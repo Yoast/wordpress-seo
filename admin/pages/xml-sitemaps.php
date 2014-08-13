@@ -51,12 +51,12 @@ $content .= '<p>' . __( 'After content publication, the plugin automatically pin
 $content .= $wpseo_admin_pages->checkbox( 'xml_ping_yahoo', __( 'Ping Yahoo!', 'wordpress-seo' ), false );
 $content .= $wpseo_admin_pages->checkbox( 'xml_ping_ask', __( 'Ping Ask.com', 'wordpress-seo' ), false );
 
-$roles = get_editable_roles();
+$roles = wpseo_get_roles();
 if ( is_array( $roles ) && $roles !== array() ) {
 	$content .= '<h2>' . __( 'Exclude userroles', 'wordpress-seo' ) . '</h2>';
 	$content .= '<p>' . __( 'Please check the appropriate box below if there\'s a user role that you do <strong>NOT</strong> want to include in your sitemap:', 'wordpress-seo' ) . '</p>';
-	foreach ( $roles AS $role ) {
-		$content .= $wpseo_admin_pages->checkbox( 'user_role-' . strtolower( $role['name'] ) . '-not_in_sitemap', $role['name'] );
+	foreach ( $roles as $role_key => $role_name ) {
+		$content .= $wpseo_admin_pages->checkbox( 'user_role-' . $role_key . '-not_in_sitemap', $role_name );
 	}
 }
 
