@@ -873,6 +873,22 @@ function wpseo_invalidate_sitemap_cache_on_save_post( $post_id ) {
 
 add_action( 'save_post', 'wpseo_invalidate_sitemap_cache_on_save_post' );
 
+/**
+ * List all the available user roles
+ *
+ * @return array $roles
+ */
+function wpseo_get_roles() {
+	global $wp_roles;
+
+	if ( ! isset( $wp_roles ) ) {
+		$wp_roles = new WP_Roles();
+	}
+
+	$roles = $wp_roles->get_names();
+
+	return $roles;
+}
 
 /**
  * Emulate PHP native ctype_digit() function for when the ctype extension would be disabled *sigh*
@@ -891,7 +907,6 @@ if ( ! extension_loaded( 'ctype' ) || ! function_exists( 'ctype_digit' ) ) {
 		return $return;
 	}
 }
-
 
 
 /********************** DEPRECATED FUNCTIONS **********************/
@@ -1022,22 +1037,4 @@ function wpseo_get_terms( $id, $taxonomy, $return_single = false ) {
 	_deprecated_function( __FUNCTION__, 'WPSEO 1.5.4', 'WPSEO_Replace_Vars::get_terms' );
 	$replacer = new WPSEO_Replace_Vars;
 	return $replacer->get_terms( $id, $taxonomy, $return_single );
-}
-
-
-/**
- * List all the available user roles
- *
- * @return array $roles
- */
-function wpseo_get_roles() {
-	global $wp_roles;
-
-	if ( ! isset( $wp_roles ) ) {
-		$wp_roles = new WP_Roles();
-	}
-
-	$roles = $wp_roles->get_names();
-
-	return $roles;
 }
