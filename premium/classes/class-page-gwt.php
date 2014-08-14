@@ -67,8 +67,13 @@ class WPSEO_Page_GWT {
 
 					//echo "<h2>Google Webmaster Tools Errors</h2>\n";
 
+					$status = '';
+					if( ! empty( $_GET['status'] ) ) {
+						$status = "&status={$_GET['status']}";
+					}
+
 					// Open <form>
-					echo "<form id='wpseo-crawl-issues-table-form' action='" . admin_url( 'admin.php' ) . '?page=' . $_GET['page'] . "' method='post'>\n";
+					echo "<form id='wpseo-crawl-issues-table-form' action='" . admin_url( 'admin.php' ) . '?page=' . $_GET['page'] . $status . "' method='post'>\n";
 
 					// AJAX nonce
 					echo "<input type='hidden' class='wpseo_redirects_ajax_nonce' value='" . wp_create_nonce( 'wpseo-redirects-ajax-security' ) . "' />\n";
