@@ -130,6 +130,11 @@ function yst_replaceVariables(str, callback) {
 	str = str.replace(/%%excerpt_only%%/g, excerpt);
 	str = str.replace(/%%excerpt%%/g, excerpt);
 
+	// parent page
+	if ( jQuery('#parent_id option:selected').text() != wpseoMetaboxL10n.no_parent_text ) {
+		str = str.replace(/%%parent_title%%/g, jQuery('#parent_id option:selected').text());
+	}
+
 	// remove double separators
 	var esc_sep = yst_escapeFocusKw(wpseoMetaboxL10n.sep);
 	var pattern = new RegExp(esc_sep + ' ' + esc_sep, 'g');
@@ -409,6 +414,10 @@ jQuery(document).ready(function () {
 		yst_updateTitle();
 	});
 	jQuery('#title').keyup(function () {
+		yst_updateTitle();
+		yst_updateDesc();
+	});
+	jQuery('#parent_id').change(function () {
 		yst_updateTitle();
 		yst_updateDesc();
 	});
