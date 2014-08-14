@@ -253,9 +253,12 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 					global $post;
 				}
 
+				$score   = '';
 				$results = $this->calculate_results( $post );
-				$score   = $results['total'];
-				unset( $results );
+				if ( ! is_wp_error( $results ) && isset( $results['total'] ) ) {
+					$score = $results['total'];
+					unset( $results );
+				}
 
 				if ( $score === '' ) {
 					$score_label = 'na';
@@ -1295,9 +1298,11 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			}
 			$score = wpseo_calc( wpseo_calc( $overall, '/', $overall_max ), '*', 100, true );
 
-			self::set_value( 'linkdex', absint( $score ), $post->ID );
+			if ( ! is_wp_error( $score ) ) {
+				self::set_value( 'linkdex', absint( $score ), $post->ID );
 
-			$results['total'] = $score;
+				$results['total'] = $score;
+			}
 
 			return $results;
 		}
