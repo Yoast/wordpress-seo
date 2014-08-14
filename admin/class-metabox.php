@@ -168,13 +168,13 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 						if ( $this->is_metabox_hidden( $pt ) === false ) {
 							add_filter( 'manage_' . $pt . '_posts_columns', array( $this, 'column_heading' ), 10, 1 );
 							add_action( 'manage_' . $pt . '_posts_custom_column', array(
-									$this,
-									'column_content',
-								), 10, 2 );
+								$this,
+								'column_content',
+							), 10, 2 );
 							add_action( 'manage_edit-' . $pt . '_sortable_columns', array(
-									$this,
-									'column_sort',
-								), 10, 2 );
+								$this,
+								'column_sort',
+							), 10, 2 );
 						}
 					}
 				}
@@ -246,29 +246,20 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 				$title       = __( 'Post is set to noindex.', 'wordpress-seo' );
 				$score_title = $title;
 			} else {
-				$score = self::get_value( 'linkdex' );
-				if ( $score !== '' && $score !== '0' ) {
-					$score = wpseo_calc( $score, '/', 10, true );
-					if ( $score < 1 ) {
-						$score = 1;
-					}
-					$score_label = wpseo_translate_score( $score );
+				if ( isset( $_GET['post'] ) ) {
+					$post_id = (int) WPSEO_Option::validate_int( $_GET['post'] );
+					$post    = get_post( $post_id );
 				} else {
-					if ( isset( $_GET['post'] ) ) {
-						$post_id = (int) WPSEO_Option::validate_int( $_GET['post'] );
-						$post    = get_post( $post_id );
-					} else {
-						global $post;
-					}
+					global $post;
+				}
 
-					$this->calculate_results( $post );
-					$score = self::get_value( 'linkdex' );
-					if ( $score === '' ) {
-						$score_label = 'na';
-						$title       = __( 'No focus keyword set.', 'wordpress-seo' );
-					} else {
-						$score_label = wpseo_translate_score( $score );
-					}
+				$this->calculate_results( $post );
+				$score = self::get_value( 'linkdex' );
+				if ( $score === '' ) {
+					$score_label = 'na';
+					$title       = __( 'No focus keyword set.', 'wordpress-seo' );
+				} else {
+					$score_label = wpseo_translate_score( $score );
 				}
 
 				$score_title = wpseo_translate_score( $score, false );
@@ -296,9 +287,9 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 				foreach ( $post_types as $post_type ) {
 					if ( $this->is_metabox_hidden( $post_type ) === false ) {
 						add_meta_box( 'wpseo_meta', __( 'WordPress SEO by Yoast', 'wordpress-seo' ), array(
-								$this,
-								'meta_box',
-							), $post_type, 'normal', apply_filters( 'wpseo_metabox_prio', 'high' ) );
+							$this,
+							'meta_box',
+						), $post_type, 'normal', apply_filters( 'wpseo_metabox_prio', 'high' ) );
 					}
 				}
 			}
@@ -583,10 +574,10 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 
 				$label = esc_html( $meta_field_def['title'] );
 				if ( in_array( $meta_field_def['type'], array(
-							'snippetpreview',
-							'radio',
-							'checkbox',
-						), true ) === false
+						'snippetpreview',
+						'radio',
+						'checkbox',
+					), true ) === false
 				) {
 					$label = '<label for="' . $esc_form_key . '">' . $label . ':</label>';
 				}
@@ -722,8 +713,6 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 				}
 			}
 
-			$this->calculate_results( $post );
-
 			do_action( 'wpseo_saved_postdata' );
 		}
 
@@ -734,10 +723,10 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		public function enqueue() {
 			global $pagenow;
 			if ( ! in_array( $pagenow, array(
-						'post-new.php',
-						'post.php',
-						'edit.php',
-					), true ) || $this->is_metabox_hidden() === true
+					'post-new.php',
+					'post.php',
+					'edit.php',
+				), true ) || $this->is_metabox_hidden() === true
 			) {
 				return;
 			}
@@ -782,7 +771,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		 */
 		public function localize_media_script() {
 			return array(
-				'choose_image'                => __( 'Use Image', 'wordpress-seo' ),
+				'choose_image' => __( 'Use Image', 'wordpress-seo' ),
 			);
 		}
 
@@ -1403,9 +1392,9 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 				$this->save_score_result( $results, 9, __( 'You\'ve never used this focus keyword before, very good.', 'wordpress-seo' ), 'keyword_overused' );
 			} elseif ( count( $posts ) == 1 ) {
 				$this->save_score_result( $results, 6, sprintf( __( 'You\'ve used this focus keyword %1$sonce before%2$s, be sure to make very clear which URL on your site is the most important for this keyword.', 'wordpress-seo' ), '<a href="' . esc_url( add_query_arg( array(
-									'post'   => $posts[0],
-									'action' => 'edit',
-								), admin_url( 'post.php' ) ) ) . '">', '</a>' ), 'keyword_overused' );
+						'post'   => $posts[0],
+						'action' => 'edit',
+					), admin_url( 'post.php' ) ) ) . '">', '</a>' ), 'keyword_overused' );
 			} else {
 				$this->save_score_result( $results, 1, sprintf( __( 'You\'ve used this focus keyword %3$s%4$d times before%2$s, it\'s probably a good idea to read %1$sthis post on cornerstone content%2$s and improve your keyword strategy.', 'wordpress-seo' ), '<a href="https://yoast.com/cornerstone-content-rank/">', '</a>', '<a href="' . esc_url( add_query_arg( array( 'seo_kw_filter' => $job['keyword'] ), admin_url( 'edit.php' ) ) ) . '">', count( $posts ) ), 'keyword_overused' );
 			}
@@ -1681,12 +1670,12 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			}
 			if ( strpos( $body, '[gallery' ) !== false ) {
 				$attachments = get_children( array(
-						'post_parent'    => $post_id,
-						'post_status'    => 'inherit',
-						'post_type'      => 'attachment',
-						'post_mime_type' => 'image',
-						'fields'         => 'ids',
-					) );
+					'post_parent'    => $post_id,
+					'post_status'    => 'inherit',
+					'post_type'      => 'attachment',
+					'post_mime_type' => 'image',
+					'fields'         => 'ids',
+				) );
 				if ( is_array( $attachments ) && $attachments !== array() ) {
 					foreach ( $attachments as $att_id ) {
 						$alt = get_post_meta( $att_id, '_wp_attachment_image_alt', true );
