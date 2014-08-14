@@ -1,3 +1,6 @@
+### 1.3.3: August 14th, 2014
+* Updated WordPress SEO core to 1.5.5.3
+
 ### 1.3.2: August 14th, 2014
 * Fixed bug in core WordPress SEO that made SEO icon value wrong.
 * Updated WordPress SEO core to 1.5.5.2
