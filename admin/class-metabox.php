@@ -253,8 +253,10 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 					global $post;
 				}
 
-				$this->calculate_results( $post );
-				$score = self::get_value( 'linkdex' );
+				$results = $this->calculate_results( $post );
+				$score   = $results['total'];
+				unset( $results );
+
 				if ( $score === '' ) {
 					$score_label = 'na';
 					$title       = __( 'No focus keyword set.', 'wordpress-seo' );
@@ -1294,6 +1296,8 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			$score = wpseo_calc( wpseo_calc( $overall, '/', $overall_max ), '*', 100, true );
 
 			self::set_value( 'linkdex', absint( $score ), $post->ID );
+
+			$results['total'] = $score;
 
 			return $results;
 		}

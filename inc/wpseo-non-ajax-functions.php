@@ -218,6 +218,9 @@ function wpseo_update_theme_complete_actions( $update_actions, $updated_theme ) 
  * @return string
  */
 function wpseo_translate_score( $val, $css_value = true ) {
+	if ( $val > 10 ) {
+		$val = round( $val / 10 );
+	}
 	switch ( $val ) {
 		case 0:
 			$score = __( 'N/A', 'wordpress-seo' );
