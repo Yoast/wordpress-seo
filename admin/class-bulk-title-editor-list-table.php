@@ -45,6 +45,7 @@ if ( ! class_exists( 'WPSEO_Bulk_Title_Editor_List_Table' ) ) {
 				'col_page_title'               => __( 'WP Page Title', 'wordpress-seo' ),
 				'col_post_type'                => __( 'Post Type', 'wordpress-seo' ),
 				'col_post_status'              => __( 'Post Status', 'wordpress-seo' ),
+				'col_post_date'                => __( 'Publication date', 'wordpress-seo' ),
 				'col_page_slug'                => __( 'Page URL/Slug', 'wordpress-seo' ),
 				'col_existing_yoast_seo_title' => __( 'Existing Yoast SEO Title', 'wordpress-seo' ),
 				'col_new_yoast_seo_title'      => __( 'New Yoast SEO Title', 'wordpress-seo' ),
@@ -53,7 +54,7 @@ if ( ! class_exists( 'WPSEO_Bulk_Title_Editor_List_Table' ) ) {
 		}
 
 		/**
-		 * Method for setting the meta data, whichs belongs to the records that will be shown on the current page
+		 * Method for setting the meta data, which belongs to the records that will be shown on the current page
 		 *
 		 * This method will loop through the current items ($this->items) for getting the post_id. With this data
 		 * ($needed_ids) the method will query the meta-data table for getting the title.
@@ -78,7 +79,7 @@ if ( ! class_exists( 'WPSEO_Bulk_Title_Editor_List_Table' ) ) {
 			);
 
 			foreach ( $meta_data AS $row ) {
-				$this->meta_data[ $row->post_id ][ $row->meta_key ] = $row->meta_value;
+				$this->meta_data[$row->post_id][$row->meta_key] = $row->meta_value;
 			}
 
 

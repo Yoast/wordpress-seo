@@ -2382,6 +2382,7 @@ if ( ! class_exists( 'WPSEO_Option_XML' ) ) {
 
 			/**
 			 * Uses enrich_defaults to add more along the lines of:
+			 * - 'user_role-' .  $role_name ) . '-not_in_sitemap'  => bool
 			 * - 'post_types-' . $pt->name . '-not_in_sitemap'  => bool
 			 * - 'taxonomies-' . $tax->name . '-not_in_sitemap'  => bool
 			 */
@@ -2391,6 +2392,7 @@ if ( ! class_exists( 'WPSEO_Option_XML' ) ) {
 		 * @var  array  Array of variable option name patterns for the option
 		 */
 		protected $variable_array_key_patterns = array(
+			'user_role-',
 			'post_types-',
 			'taxonomies-',
 		);
@@ -2432,6 +2434,17 @@ if ( ! class_exists( 'WPSEO_Option_XML' ) ) {
 		 */
 		public function enrich_defaults() {
 
+			$user_roles          = wpseo_get_roles();
+			$filtered_user_roles = apply_filters( 'wpseo_sitemaps_supported_user_roles', $user_roles );
+			if ( is_array( $filtered_user_roles ) && $filtered_user_roles !== array() ) {
+				foreach ( $filtered_user_roles as $role_name => $role_value ) {
+					$this->defaults['user_role-' . $role_name . '-not_in_sitemap'] = false;
+
+					unset( $user_role );
+				}
+			}
+			unset( $filtered_user_roles );
+
 			$post_type_names     = get_post_types( array( 'public' => true ), 'names' );
 			$filtered_post_types = apply_filters( 'wpseo_sitemaps_supported_post_types', $post_type_names );
 
@@ -2447,7 +2460,6 @@ if ( ! class_exists( 'WPSEO_Option_XML' ) ) {
 			}
 			unset( $filtered_post_types );
 
-
 			$taxonomy_objects    = get_taxonomies( array( 'public' => true ), 'objects' );
 			$filtered_taxonomies = apply_filters( 'wpseo_sitemaps_supported_taxonomies', $taxonomy_objects );
 			if ( is_array( $filtered_taxonomies ) && $filtered_taxonomies !== array() ) {
@@ -2459,6 +2471,7 @@ if ( ! class_exists( 'WPSEO_Option_XML' ) ) {
 				unset( $tax );
 			}
 			unset( $filtered_taxonomies );
+
 		}
 
 
@@ -2509,6 +2522,7 @@ if ( ! class_exists( 'WPSEO_Option_XML' ) ) {
 					/* boolean fields */
 					case 'disable_author_sitemap':
 					case 'enablexmlsitemap':
+					case 'user_role-': /* 'user_role' . $role_name . '-not_in_sitemap' fields */
 					case 'post_types-': /* 'post_types-' . $pt->name . '-not_in_sitemap' fields */
 					case 'taxonomies-': /* 'taxonomies-' . $tax->name . '-not_in_sitemap' fields */
 					case 'xml_ping_yahoo':
@@ -2546,6 +2560,7 @@ if ( ! class_exists( 'WPSEO_Option_XML' ) ) {
 
 					// Similar to validation routine - any changes made there should be made here too
 					switch ( $switch_key ) {
+						case 'user_role-': /* 'user_role-' . $role_name. '-not_in_sitemap' fields */
 						case 'post_types-': /* 'post_types-' . $pt->name . '-not_in_sitemap' fields */
 						case 'taxonomies-': /* 'taxonomies-' . $tax->name . '-not_in_sitemap' fields */
 							$option_value[ $key ] = self::validate_bool( $value );
@@ -2753,42 +2768,9 @@ if ( ! class_exists( 'WPSEO_Option_Social' ) ) {
 
 					/* text fields */
 					case 'og_frontpage_desc':
+					case 'og_frontpage_title':
 						if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
 							$clean[ $key ] = self::sanitize_text_field( $dirty[ $key ] );
-						}
-						break;
-
-
-					/* url text fields - ftp allowed */
-					case 'og_default_image':
-					case 'og_frontpage_image':
-						if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
-							$url = self::sanitize_url( $dirty[ $key ], array( 'http', 'https', 'ftp', 'ftps' ) );
-							if ( $url !== '' ) {
-								$clean[ $key ] = $url;
-							} else {
-								if ( isset( $old[ $key ] ) && $old[ $key ] !== '' ) {
-									$url = self::sanitize_url( $old[ $key ], array( 'http', 'https', 'ftp', 'ftps' ) );
-									if ( $url !== '' ) {
-										$clean[ $key ] = $url;
-									}
-								}
-								if ( function_exists( 'add_settings_error' ) ) {
-									$url = self::sanitize_url( $dirty[ $key ], array(
-											'http',
-											'https',
-											'ftp',
-											'ftps',
-										) );
-									add_settings_error(
-										$this->group_name, // slug title of the setting
-										'_' . $key, // suffix-id for the error message box
-										sprintf( __( '%s does not seem to be a valid url. Please correct.', 'wordpress-seo' ), '<strong>' . esc_html( $url ) . '</strong>' ), // the error message
-										'error' // error type, either 'error' or 'updated'
-									);
-								}
-							}
-							unset( $url );
 						}
 						break;
 
@@ -2796,7 +2778,9 @@ if ( ! class_exists( 'WPSEO_Option_Social' ) ) {
 					/* url text fields - no ftp allowed */
 					case 'facebook_site':
 					case 'plus-publisher':
-						if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
+					case 'og_default_image':
+					case 'og_frontpage_image':
+					if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
 							$url = self::sanitize_url( $dirty[ $key ] );
 							if ( $url !== '' ) {
 								$clean[ $key ] = $url;

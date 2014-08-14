@@ -70,7 +70,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 			add_filter( 'register', array( $this, 'nofollow_link' ) );
 
 			// Fix the WooThemes woo_title() output
-			add_filter( 'woo_title', array( $this, 'fix_woo_title' ), 10, 1 );
+			add_filter( 'woo_title', array( $this, 'fix_woo_title' ), 99 );
 
 			if ( $this->options['hide-rsdlink'] === true ) {
 				remove_action( 'wp_head', 'rsd_link' );
@@ -124,16 +124,14 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 		}
 
 		/**
-		 * Strip the extra blogname from the title
+		 * Override Woo's title with our own.
 		 *
-		 * @param $title
+		 * @param string $title
 		 *
-		 * @return mixed
+		 * @return string
 		 */
 		public function fix_woo_title( $title ) {
-			$title = substr( $title, 0, - ( strlen( get_bloginfo( 'name' ) ) ) );
-
-			return $title;
+			return $this->title( $title );
 		}
 
 		/**
@@ -839,12 +837,12 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 			 */
 			$canonical = apply_filters( 'wpseo_canonical', $canonical );
 
-			// Force canonical links to be absolute, relative is NOT an option.
-			if ( '/' == substr( $canonical, 0, 1 ) ) {
-				$canonical = untrailingslashit( get_site_url() ) . $canonical;
-			}
-
 			if ( is_string( $canonical ) && $canonical !== '' ) {
+				// Force canonical links to be absolute, relative is NOT an option.
+				if ( '/' == substr( $canonical, 0, 1 ) ) {
+					$canonical = home_url( $canonical );
+				}
+
 				if ( $echo !== false ) {
 					echo '<link rel="canonical" href="' . esc_url( $canonical, null, 'other' ) . '" />' . "\n";
 				} else {

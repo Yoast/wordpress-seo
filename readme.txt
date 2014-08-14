@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: seo, SEO, google, meta, meta description, search engine optimization, xml sitemap, xml sitemaps, google sitemap, sitemap, sitemaps, robots meta, rss, rss footer, yahoo, bing, news sitemaps, XML News Sitemaps, WordPress SEO, WordPress SEO by Yoast, yoast, multisite, canonical, nofollow, noindex, keywords, meta keywords, description, webmaster tools, google webmaster tools, seo pack
 Requires at least: 3.5
 Tested up to: 3.9.1
-Stable tag: 1.5.4.2
+Stable tag: 1.5.5.1
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the WordPress SEO plugin by Yoast.
 
@@ -113,7 +113,25 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 
 == Changelog ==
 
-= Trunk =
+= 1.5.5.1 =
+Release Date: August 14th, 2014
+
+* Bugfixes:
+	* Fixed a potential error with `$canonical` not being a sting after being filtered.
+	* Fixed more bugs with first paragraph keyword detection.
+	* Fixed bug in saving new opengraph title and images variables in the social settings.
+	* Fixed bug where SEO score incorrectly reported as 'Bad' when no focus keyword set, props [smerriman](https://github.com/smerriman) for finding, props [Jrf](http://profiles.wordpress.org/jrf) for the fix.
+	* Override `woo_title()` output harder than before to remove need for force rewrite with WooThemes themes.
+
+* Enhancements:
+	* Replace `%%parent_title%%` variable client side through JS.
+
+* i18n
+	* updated ar, cs_CZ, fr_FR, hr, pl_PL, pt_BR and ru_RU
+	* new .pot file based off of the 1.5.5 version
+
+= 1.5.5 =
+Release Date: August 12th, 2014
 
 * Bugfixes:
 	* WP Shortlinks weren't always removed when user did choose to remove them as reported in [issue #1397](https://github.com/Yoast/wordpress-seo/issues/1397), props [Firebird75](https://github.com/Firebird75).
@@ -131,17 +149,20 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 	* Fix how the first paragraph test for the keyword is done after a solid bug report by [squelchdesign](squelchdesign).
 	* Fix how we're handling protocol relative image URLs in the XML sitemap.
 	* Fix page analysis slug test for keywords with special characters.
+	* Properly set "No score" result for posts that have no focus keyword.
 
 * Enhancements:
+	* Drastically improved performance of snippet preview rendering.
 	* Added Facebook / OpenGraph title input and Google+ title input and image upload field to Social tab.
 	* Added Facebook / OpenGraph title input for the homepage on SEO -> Social settings page.
 	* Changed Facebook / OpenGraph default image and homepage image input fields to use the media uploader.
 	* Added a new title separator feature on the Titles admin page.
 	* Merged the bulk editor pages for titles and descriptions into one menu item "bulk editor".
 	* Added `noimageindex` option to advanced meta robots options.
-	* Drastically improved performance of snippet preview.
 	* Bulk editor rights are no longer added for contributors, only for editors and up.
 	* If an archives meta description template has `%%page` variables, show it on page 2 and onwards of archives too.
+	* Add a confirm dialog when resetting setting to default.
+	* Add sorting by publication date in bulk editor as [requested by krogsgard here](https://github.com/Yoast/wordpress-seo/issues/1269).
 
 * Other:
 	* Remove references to deprecated Video Manual plugin.
