@@ -1,3 +1,12 @@
+### 1.3: August 14th, 2014
+* The bulk title and bulk description editor pages are merge into one page
+* Possibility for creating a redirect when a post/page is trashed.
+* Possibility for deleting a redirect when a post/page is restored.
+* Added feature for defining custom fields for page analysis
+* Values for redirects will be trimmed, preventing invalid redirects
+* Fixed pagination on the redirect page
+* Fixed screen options on the redirect page
+
 ### 1.2.2: July 4th, 2014
 * Added link to Yoast Knowledge Base to regex redirects.
 * Fixed bug when creating redirects from Webmaster Tools.
