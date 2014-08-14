@@ -133,12 +133,6 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 		// Apply 'pagination'
 		$formatted_items = array_slice( $formatted_items, ( $slice_start * $per_page ), $per_page );
 
-	/*
-		echo "<pre>";
-		print_r($formatted_items);
-		echo "</pre>";
-	*/
-
 		// Set items
 		$this->items = $formatted_items;
 	}
