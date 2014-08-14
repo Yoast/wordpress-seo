@@ -697,7 +697,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 			$where_filter = apply_filters( 'wpseo_posts_where', false, $post_type );
 
 			$status = ( $post_type == 'attachment' ) ? 'inherit' : 'publish';
-			
+
 			$parsed_home = parse_url( $this->home_url );
 			$host        = '';
 			$scheme      = 'http';
@@ -1366,14 +1366,14 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 		 * @return array all the user that aren't excluded from the sitemap
 		 */
 		public function user_sitemap_remove_excluded_authors( $users ) {
-		
+
 			if ( is_array( $users ) && $users !== array() ) {
-		
+
 				$options = get_option( 'wpseo_xml' );
-		
+
 				foreach ( $users as $user_key => $user ) {
 					$exclude_user = false;
-		
+
 					$is_exclude_on = get_the_author_meta( 'wpseo_excludeauthorsitemap', $user->ID );
 					if ( $is_exclude_on === 'on' ) {
 						$exclude_user = true;
@@ -1382,16 +1382,16 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 						$target_key   = "user_role-{$user_role}-not_in_sitemap";
 						$exclude_user = $options[$target_key];
 					}
-		
+
 					if ( $exclude_user === true ) {
 						unset( $users[$user_key] );
 					}
 				}
 			}
-		
+
 			return $users;
 		}
-		
+
 		/**
 		 * Get attached image URL - Adapted from core for speed
 		 *
