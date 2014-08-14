@@ -697,6 +697,17 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 			$where_filter = apply_filters( 'wpseo_posts_where', false, $post_type );
 
 			$status = ( $post_type == 'attachment' ) ? 'inherit' : 'publish';
+			
+			$parsed_home = parse_url( $this->home_url );
+			$host        = '';
+			$scheme      = 'http';
+			if ( isset( $parsed_home['host'] ) && ! empty( $parsed_home['host'] ) ) {
+				$host = str_replace( 'www.', '', $parsed_home['host'] );
+			}
+			if ( isset( $parsed_home['scheme'] ) && ! empty( $parsed_home['scheme'] ) ) {
+				$scheme = $parsed_home['scheme'];
+			}
+
 
 			/**
 			 * We grab post_date, post_name, post_author and post_status too so we can throw these objects
@@ -822,8 +833,6 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 						$content = $p->post_content;
 						$content = '<p><img src="' . $this->image_url( get_post_thumbnail_id( $p->ID ) ) . '" alt="' . $p->post_title . '" /></p>' . $content;
 
-						$host = str_replace( 'www.', '', parse_url( $this->home_url, PHP_URL_HOST ) );
-
 						if ( preg_match_all( '`<img [^>]+>`', $content, $matches ) ) {
 							foreach ( $matches[0] as $img ) {
 								if ( preg_match( '`src=["\']([^"\']+)["\']`', $img, $match ) ) {
@@ -833,8 +842,8 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 											continue;
 										}
 										if ( $src[1] == '/' ) {
-											// If the link starts with //, it's protocol relative, we add https as the standard requires a protocol
-											$src = 'https:' . $src;
+											// If the link starts with //, it's protocol relative, we add the scheme as the standard requires a protocol
+											$src = $scheme . ':' . $src;
 										} else {
 											// The URL is relative, we'll have to make it absolute
 											$src = $this->home_url . $src;
@@ -1412,7 +1421,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 					$url = $uploads['baseurl'] . substr( $file, strpos( $file, 'wp-content/uploads' ) + 18 );
 				} else {
 					$url = $uploads['baseurl'] . "/$file";
-				} //Its a newly uploaded file, therefor $file is relative to the basedir.
+				} //Its a newly uploaded file, therefore $file is relative to the basedir.
 			}
 
 			return $url;
