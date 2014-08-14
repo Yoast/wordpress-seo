@@ -132,8 +132,15 @@ class WPSEO_Premium {
 			add_action( 'admin_init', array( $this, 'catch_option_redirect_save' ) );
 
 			// Screen options
-			add_filter( 'set-screen-option', array( 'WPSEO_Page_Redirect', 'set_screen_option' ), 11, 3 );
-			add_filter( 'set-screen-option', array( $this->page_gwt, 'set_screen_option' ), 11, 3 );
+			$query_var = ( !empty( $_GET['page'] ) ) ? $_GET['page'] : '';
+			switch ( $query_var ) {
+				case 'wpseo_redirects':
+					add_filter( 'set-screen-option', array( 'WPSEO_Page_Redirect', 'set_screen_option' ), 11, 3 );
+					break;
+				case 'wpseo_webmaster_tools' :
+					add_filter( 'set-screen-option', array( $this->page_gwt, 'set_screen_option' ), 11, 3 );
+					break;
+			}
 
 			// Enqueue Post and Term overview script
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_overview_script' ) );
@@ -189,6 +196,12 @@ class WPSEO_Premium {
 
 				// Detect a post slug change
 				add_action( 'post_updated', array( $post_watcher, 'detect_slug_change' ), 12, 3 );
+
+				// Detect a post trash
+				add_action( 'trashed_post', array( $post_watcher, 'detect_post_trash' ) );
+
+				// Detect a post untrash
+				add_action( 'untrashed_post', array( $post_watcher, 'detect_post_untrash' ));
 
 				// Detect a post delete
 				add_action( 'delete_post', array( $post_watcher, 'detect_post_delete' ) );
