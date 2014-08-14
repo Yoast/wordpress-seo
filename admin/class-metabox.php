@@ -1592,7 +1592,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 					if ( $dom_object->attributes->getNamedItem( 'href' ) ) {
 						$href  = $dom_object->attributes->getNamedItem( 'href' )->textContent;
 						$wpurl = get_bloginfo( 'url' );
-						if ( substr( $href, 0, 1 ) == '/' || substr( $href, 0, strlen( $wpurl ) ) == $wpurl ) {
+						if ( wpseo_is_url_relative( $href ) === true || substr( $href, 0, strlen( $wpurl ) ) === $wpurl ) {
 							$type = 'internal';
 						} elseif ( substr( $href, 0, 4 ) == 'http' ) {
 							$type = 'external';

@@ -649,19 +649,17 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 							'chf' => $this->filter_frequency( 'homepage', 'daily', $this->home_url ),
 						)
 					);
-				} else {
-					if ( $front_id && $post_type == 'post' ) {
-						$page_for_posts = get_option( 'page_for_posts' );
-						if ( $page_for_posts ) {
-							$page_for_posts_url = get_permalink( $page_for_posts );
-							$output .= $this->sitemap_url(
-								array(
-									'loc' => $page_for_posts_url,
-									'pri' => 1,
-									'chf' => $change_freq = $this->filter_frequency( 'blogpage', 'daily', $page_for_posts_url ),
-								)
-							);
-						}
+				} elseif ( $front_id && $post_type == 'post' ) {
+					$page_for_posts = get_option( 'page_for_posts' );
+					if ( $page_for_posts ) {
+						$page_for_posts_url = get_permalink( $page_for_posts );
+						$output .= $this->sitemap_url(
+							array(
+								'loc' => $page_for_posts_url,
+								'pri' => 1,
+								'chf' => $change_freq = $this->filter_frequency( 'blogpage', 'daily', $page_for_posts_url ),
+							)
+						);
 					}
 				}
 
@@ -699,6 +697,17 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 			$where_filter = apply_filters( 'wpseo_posts_where', false, $post_type );
 
 			$status = ( $post_type == 'attachment' ) ? 'inherit' : 'publish';
+
+			$parsed_home = parse_url( $this->home_url );
+			$host        = '';
+			$scheme      = 'http';
+			if ( isset( $parsed_home['host'] ) && ! empty( $parsed_home['host'] ) ) {
+				$host = str_replace( 'www.', '', $parsed_home['host'] );
+			}
+			if ( isset( $parsed_home['scheme'] ) && ! empty( $parsed_home['scheme'] ) ) {
+				$scheme = $parsed_home['scheme'];
+			}
+
 
 			/**
 			 * We grab post_date, post_name, post_author and post_status too so we can throw these objects
@@ -824,23 +833,22 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 						$content = $p->post_content;
 						$content = '<p><img src="' . $this->image_url( get_post_thumbnail_id( $p->ID ) ) . '" alt="' . $p->post_title . '" /></p>' . $content;
 
-						$host = str_replace( 'www.', '', parse_url( $this->home_url, PHP_URL_HOST ) );
-
 						if ( preg_match_all( '`<img [^>]+>`', $content, $matches ) ) {
 							foreach ( $matches[0] as $img ) {
 								if ( preg_match( '`src=["\']([^"\']+)["\']`', $img, $match ) ) {
 									$src = $match[1];
-									if ( strpos( $src, 'http' ) !== 0 ) {
-										if ( $src[0] != '/' ) {
+									if ( wpseo_is_url_relative( $src ) === true ) {
+										if ( $src[0] !== '/' ) {
 											continue;
-										}
-										if ( $src[1] == '/' ) {
-											// If the link starts with //, it's protocol relative, we add https as the standard requires a protocol
-											$src = 'https:' . $src;
 										} else {
 											// The URL is relative, we'll have to make it absolute
 											$src = $this->home_url . $src;
 										}
+									}
+									elseif ( strpos( $src, 'http' ) !== 0 ) {
+										// Protocol relative url, we add the scheme as the standard requires a protocol
+										$src = $scheme . ':' . $src;
+
 									}
 
 									if ( strpos( $src, $host ) === false ) {
@@ -1104,7 +1112,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 				)
 			);
 
-			add_filter( 'wpseo_sitemap_exclude_author', 'wpseo_sitemap_remove_excluded_authors', 8 );
+			add_filter( 'wpseo_sitemap_exclude_author', array( $this, 'user_sitemap_remove_excluded_authors' ), 8 );
 
 			$users = apply_filters( 'wpseo_sitemap_exclude_author', $users );
 
@@ -1350,6 +1358,42 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 		}
 
 		/**
+		 * Filter users that should be excluded from the sitemap (by author metatag: wpseo_excludeauthorsitemap).
+		 *
+		 * Also filtering users that should be exclude by excluded role.
+		 *
+		 * @param array $users
+		 *
+		 * @return array all the user that aren't excluded from the sitemap
+		 */
+		public function user_sitemap_remove_excluded_authors( $users ) {
+
+			if ( is_array( $users ) && $users !== array() ) {
+
+				$options = get_option( 'wpseo_xml' );
+
+				foreach ( $users as $user_key => $user ) {
+					$exclude_user = false;
+
+					$is_exclude_on = get_the_author_meta( 'wpseo_excludeauthorsitemap', $user->ID );
+					if ( $is_exclude_on === 'on' ) {
+						$exclude_user = true;
+					} else {
+						$user_role    = $user->roles[0];
+						$target_key   = "user_role-{$user_role}-not_in_sitemap";
+						$exclude_user = $options[$target_key];
+					}
+
+					if ( $exclude_user === true ) {
+						unset( $users[$user_key] );
+					}
+				}
+			}
+
+			return $users;
+		}
+
+		/**
 		 * Get attached image URL - Adapted from core for speed
 		 *
 		 * @param int $post_id
@@ -1378,7 +1422,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 					$url = $uploads['baseurl'] . substr( $file, strpos( $file, 'wp-content/uploads' ) + 18 );
 				} else {
 					$url = $uploads['baseurl'] . "/$file";
-				} //Its a newly uploaded file, therefor $file is relative to the basedir.
+				} //Its a newly uploaded file, therefore $file is relative to the basedir.
 			}
 
 			return $url;

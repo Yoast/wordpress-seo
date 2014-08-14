@@ -873,6 +873,33 @@ function wpseo_invalidate_sitemap_cache_on_save_post( $post_id ) {
 
 add_action( 'save_post', 'wpseo_invalidate_sitemap_cache_on_save_post' );
 
+/**
+ * List all the available user roles
+ *
+ * @return array $roles
+ */
+function wpseo_get_roles() {
+	global $wp_roles;
+
+	if ( ! isset( $wp_roles ) ) {
+		$wp_roles = new WP_Roles();
+	}
+
+	$roles = $wp_roles->get_names();
+
+	return $roles;
+}
+
+/**
+ * Check whether a url is relative
+ *
+ * @param string $url
+ *
+ * @return bool
+ */
+function wpseo_is_url_relative( $url ) {
+	return ( strpos( $url, 'http' ) !== 0 && strpos( $url, '//' ) !== 0 );
+}
 
 /**
  * Emulate PHP native ctype_digit() function for when the ctype extension would be disabled *sigh*
@@ -891,7 +918,6 @@ if ( ! extension_loaded( 'ctype' ) || ! function_exists( 'ctype_digit' ) ) {
 		return $return;
 	}
 }
-
 
 
 /********************** DEPRECATED FUNCTIONS **********************/
@@ -1022,58 +1048,4 @@ function wpseo_get_terms( $id, $taxonomy, $return_single = false ) {
 	_deprecated_function( __FUNCTION__, 'WPSEO 1.5.4', 'WPSEO_Replace_Vars::get_terms' );
 	$replacer = new WPSEO_Replace_Vars;
 	return $replacer->get_terms( $id, $taxonomy, $return_single );
-}
-
-
-/**
- * Filter users that should be excluded from the sitemap (by author metatag: wpseo_excludeauthorsitemap).
- *
- * Also filtering users that should be exclude by excluded role.
- *
- * @param array $users
- *
- * @return array all the user that aren't excluded from the sitemap
- */
-function wpseo_sitemap_remove_excluded_authors( $users ) {
-
-	if ( is_array( $users ) && $users !== array() ) {
-
-		$options = get_option( 'wpseo_xml' );
-
-		foreach ( $users as $user_key => $user ) {
-			$exclude_user = false;
-
-			$is_exclude_on = esc_attr( get_the_author_meta( 'wpseo_excludeauthorsitemap', $user->ID ) );
-			if ( $is_exclude_on == 'on' ) {
-				$exclude_user = true;
-			} else {
-				$user_role    = $user->roles[0];
-				$target_key   = "user_role-{$user_role}-not_in_sitemap";
-				$exclude_user = $options[$target_key];
-			}
-
-			if ( $exclude_user == true ) {
-				unset( $users[$user_key] );
-			}
-		}
-	}
-
-	return $users;
-}
-
-/**
- * List all the available user roles
- *
- * @return array $roles
- */
-function wpseo_get_roles() {
-	global $wp_roles;
-
-	if ( ! isset( $wp_roles ) ) {
-		$wp_roles = new WP_Roles();
-	}
-
-	$roles = $wp_roles->get_names();
-
-	return $roles;
 }
