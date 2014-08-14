@@ -247,7 +247,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 				$score_title = $title;
 			} else {
 				$score = self::get_value( 'linkdex' );
-				if ( $score !== '' && $score !== 0 ) {
+				if ( $score !== '' && $score !== '0' ) {
 					$score = wpseo_calc( $score, '/', 10, true );
 					if ( $score < 1 ) {
 						$score = 1;
