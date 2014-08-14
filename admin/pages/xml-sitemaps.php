@@ -52,7 +52,6 @@ $content .= $wpseo_admin_pages->checkbox( 'xml_ping_yahoo', __( 'Ping Yahoo!', '
 $content .= $wpseo_admin_pages->checkbox( 'xml_ping_ask', __( 'Ping Ask.com', 'wordpress-seo' ), false );
 
 $roles = wpseo_get_roles();
-$roles = apply_filters( 'wpseo_sitemaps_supported_user_roles', $roles );
 if ( is_array( $roles ) && $roles !== array() ) {
 	$content .= '<h2>' . __( 'Exclude userroles', 'wordpress-seo' ) . '</h2>';
 	$content .= '<p>' . __( 'Please check the appropriate box below if there\'s a user role that you do <strong>NOT</strong> want to include in your sitemap:', 'wordpress-seo' ) . '</p>';
