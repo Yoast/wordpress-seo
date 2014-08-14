@@ -1026,42 +1026,6 @@ function wpseo_get_terms( $id, $taxonomy, $return_single = false ) {
 
 
 /**
- * Filter users that should be excluded from the sitemap (by author metatag: wpseo_excludeauthorsitemap).
- *
- * Also filtering users that should be exclude by excluded role.
- *
- * @param array $users
- *
- * @return array all the user that aren't excluded from the sitemap
- */
-function wpseo_sitemap_remove_excluded_authors( $users ) {
-
-	if ( is_array( $users ) && $users !== array() ) {
-
-		$options = get_option( 'wpseo_xml' );
-
-		foreach ( $users as $user_key => $user ) {
-			$exclude_user = false;
-
-			$is_exclude_on = esc_attr( get_the_author_meta( 'wpseo_excludeauthorsitemap', $user->ID ) );
-			if ( $is_exclude_on == 'on' ) {
-				$exclude_user = true;
-			} else {
-				$user_role    = $user->roles[0];
-				$target_key   = "user_role-{$user_role}-not_in_sitemap";
-				$exclude_user = $options[$target_key];
-			}
-
-			if ( $exclude_user == true ) {
-				unset( $users[$user_key] );
-			}
-		}
-	}
-
-	return $users;
-}
-
-/**
  * List all the available user roles
  *
  * @return array $roles

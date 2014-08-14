@@ -1102,7 +1102,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 				)
 			);
 
-			add_filter( 'wpseo_sitemap_exclude_author', 'wpseo_sitemap_remove_excluded_authors', 8 );
+			add_filter( 'wpseo_sitemap_exclude_author', array( $this, 'user_sitemap_remove_excluded_authors' ), 8 );
 
 			$users = apply_filters( 'wpseo_sitemap_exclude_author', $users );
 
@@ -1347,6 +1347,42 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 			return ( $a->_yoast_wpseo_profile_updated > $b->_yoast_wpseo_profile_updated ) ? 1 : - 1;
 		}
 
+		/**
+		 * Filter users that should be excluded from the sitemap (by author metatag: wpseo_excludeauthorsitemap).
+		 *
+		 * Also filtering users that should be exclude by excluded role.
+		 *
+		 * @param array $users
+		 *
+		 * @return array all the user that aren't excluded from the sitemap
+		 */
+		public function user_sitemap_remove_excluded_authors( $users ) {
+		
+			if ( is_array( $users ) && $users !== array() ) {
+		
+				$options = get_option( 'wpseo_xml' );
+		
+				foreach ( $users as $user_key => $user ) {
+					$exclude_user = false;
+		
+					$is_exclude_on = get_the_author_meta( 'wpseo_excludeauthorsitemap', $user->ID );
+					if ( $is_exclude_on === 'on' ) {
+						$exclude_user = true;
+					} else {
+						$user_role    = $user->roles[0];
+						$target_key   = "user_role-{$user_role}-not_in_sitemap";
+						$exclude_user = $options[$target_key];
+					}
+		
+					if ( $exclude_user === true ) {
+						unset( $users[$user_key] );
+					}
+				}
+			}
+		
+			return $users;
+		}
+		
 		/**
 		 * Get attached image URL - Adapted from core for speed
 		 *
