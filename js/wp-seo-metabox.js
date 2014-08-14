@@ -128,6 +128,9 @@ function yst_replaceVariables(str, callback) {
 	// excerpt
 	var excerpt = yst_clean(jQuery("#excerpt").val());
 	str = str.replace(/%%excerpt_only%%/g, excerpt);
+	if ('' == excerpt) {
+		excerpt = jQuery("#content").val().replace(/(<([^>]+)>)/ig,"").substring(0,wpseoMetaboxL10n.wpseo_meta_desc_length-1);
+	}
 	str = str.replace(/%%excerpt%%/g, excerpt);
 
 	// parent page
