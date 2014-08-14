@@ -10,6 +10,11 @@ jQuery(document).ready(function() {
 		jQuery("#sitemapinfo").toggle(jQuery(this).is(':checked'));
 	}).change();
 
+	// events
+	jQuery("#disable_author_sitemap").change(function() {
+		jQuery("#xml_user_block").toggle(!jQuery(this).is(':checked'));
+	}).change();
+
 	jQuery("#cleanpermalinks").change(function() {
 		jQuery("#cleanpermalinksdiv").toggle(jQuery(this).is(':checked'));
 	}).change();
@@ -35,7 +40,6 @@ jQuery(document).ready(function() {
 	jQuery('#' + active_tab + '-tab').addClass('nav-tab-active');
 
 });
-
 
 // global functions
 function setWPOption( option, newval, hide, nonce ) {

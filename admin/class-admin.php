@@ -468,6 +468,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 				update_user_meta( $user_id, 'wpseo_title', ( isset( $_POST['wpseo_author_title'] ) ? WPSEO_Option::sanitize_text_field( $_POST['wpseo_author_title'] ) : '' ) );
 				update_user_meta( $user_id, 'wpseo_metadesc', ( isset( $_POST['wpseo_author_metadesc'] ) ? WPSEO_Option::sanitize_text_field( $_POST['wpseo_author_metadesc'] ) : '' ) );
 				update_user_meta( $user_id, 'wpseo_metakey', ( isset( $_POST['wpseo_author_metakey'] ) ? WPSEO_Option::sanitize_text_field( $_POST['wpseo_author_metakey'] ) : '' ) );
+				update_user_meta( $user_id, 'wpseo_excludeauthorsitemap', ( isset( $_POST['wpseo_author_exclude'] ) ? WPSEO_Option::sanitize_text_field( $_POST['wpseo_author_exclude'] ) : '' ) );
 			}
 		}
 
@@ -534,6 +535,14 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 						</td>
 					</tr>
 				<?php } ?>
+				<tr>
+					<th>
+						<label for="wpseo_author_exclude"><?php _e( 'Exclude user from Author-sitemap', 'wordpress-seo' ); ?></label>
+					</th>
+					<td>
+						<input class="checkbox double" type="checkbox" id="wpseo_author_exclude" name="wpseo_author_exclude" value="on" <?php echo ( ( esc_attr( get_the_author_meta( 'wpseo_excludeauthorsitemap', $user->ID ) ) == 'on' ) ? 'checked' : '' ); ?> />
+					</td>
+				</tr>
 			</table>
 			<br /><br />
 		<?php

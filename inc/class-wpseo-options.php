@@ -2382,6 +2382,7 @@ if ( ! class_exists( 'WPSEO_Option_XML' ) ) {
 
 			/**
 			 * Uses enrich_defaults to add more along the lines of:
+			 * - 'user_role-' .  $role_name . '-not_in_sitemap'  => bool
 			 * - 'post_types-' . $pt->name . '-not_in_sitemap'  => bool
 			 * - 'taxonomies-' . $tax->name . '-not_in_sitemap'  => bool
 			 */
@@ -2391,6 +2392,7 @@ if ( ! class_exists( 'WPSEO_Option_XML' ) ) {
 		 * @var  array  Array of variable option name patterns for the option
 		 */
 		protected $variable_array_key_patterns = array(
+			'user_role-',
 			'post_types-',
 			'taxonomies-',
 		);
@@ -2432,6 +2434,17 @@ if ( ! class_exists( 'WPSEO_Option_XML' ) ) {
 		 */
 		public function enrich_defaults() {
 
+			$user_roles          = wpseo_get_roles();
+			$filtered_user_roles = apply_filters( 'wpseo_sitemaps_supported_user_roles', $user_roles );
+			if ( is_array( $filtered_user_roles ) && $filtered_user_roles !== array() ) {
+				foreach ( $filtered_user_roles as $role_name => $role_value ) {
+					$this->defaults['user_role-' . $role_name . '-not_in_sitemap'] = false;
+
+					unset( $user_role );
+				}
+			}
+			unset( $filtered_user_roles );
+
 			$post_type_names     = get_post_types( array( 'public' => true ), 'names' );
 			$filtered_post_types = apply_filters( 'wpseo_sitemaps_supported_post_types', $post_type_names );
 
@@ -2447,7 +2460,6 @@ if ( ! class_exists( 'WPSEO_Option_XML' ) ) {
 			}
 			unset( $filtered_post_types );
 
-
 			$taxonomy_objects    = get_taxonomies( array( 'public' => true ), 'objects' );
 			$filtered_taxonomies = apply_filters( 'wpseo_sitemaps_supported_taxonomies', $taxonomy_objects );
 			if ( is_array( $filtered_taxonomies ) && $filtered_taxonomies !== array() ) {
@@ -2459,6 +2471,7 @@ if ( ! class_exists( 'WPSEO_Option_XML' ) ) {
 				unset( $tax );
 			}
 			unset( $filtered_taxonomies );
+
 		}
 
 
@@ -2509,6 +2522,7 @@ if ( ! class_exists( 'WPSEO_Option_XML' ) ) {
 					/* boolean fields */
 					case 'disable_author_sitemap':
 					case 'enablexmlsitemap':
+					case 'user_role-': /* 'user_role' . $role_name . '-not_in_sitemap' fields */
 					case 'post_types-': /* 'post_types-' . $pt->name . '-not_in_sitemap' fields */
 					case 'taxonomies-': /* 'taxonomies-' . $tax->name . '-not_in_sitemap' fields */
 					case 'xml_ping_yahoo':
@@ -2546,6 +2560,7 @@ if ( ! class_exists( 'WPSEO_Option_XML' ) ) {
 
 					// Similar to validation routine - any changes made there should be made here too
 					switch ( $switch_key ) {
+						case 'user_role-': /* 'user_role-' . $role_name. '-not_in_sitemap' fields */
 						case 'post_types-': /* 'post_types-' . $pt->name . '-not_in_sitemap' fields */
 						case 'taxonomies-': /* 'taxonomies-' . $tax->name . '-not_in_sitemap' fields */
 							$option_value[ $key ] = self::validate_bool( $value );
@@ -2799,6 +2814,10 @@ if ( ! class_exists( 'WPSEO_Option_Social' ) ) {
 							 * From the Twitter documentation about twitter screen names:
 							 * Typically a maximum of 15 characters long, but some historical accounts
 							 * may exist with longer names.
+							 * A username can only contain alphanumeric characters (letters A-Z, numbers 0-9)
+							 * with the exception of underscores
+							 * @link https://support.twitter.com/articles/101299-why-can-t-i-register-certain-usernames
+							 * @link https://dev.twitter.com/docs/platform-objects/users
 							 */
 							if ( preg_match( '`^[A-Za-z0-9_]{1,25}$`', $twitter_id ) ) {
 								$clean[ $key ] = $twitter_id;

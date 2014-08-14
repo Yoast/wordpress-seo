@@ -218,6 +218,9 @@ function wpseo_update_theme_complete_actions( $update_actions, $updated_theme ) 
  * @return string
  */
 function wpseo_translate_score( $val, $css_value = true ) {
+	if ( $val > 10 ) {
+		$val = round( $val / 10 );
+	}
 	switch ( $val ) {
 		case 0:
 			$score = __( 'N/A', 'wordpress-seo' );
@@ -405,23 +408,13 @@ function wpseo_admin_bar_menu() {
 	$admin_menu = false;
 	if ( is_multisite() ) {
 		$options = get_site_option( 'wpseo_ms' );
-		if ( $options['access'] === 'superadmin' ) {
-			if ( is_super_admin() ) {
-				$admin_menu = true;
-			} else {
-				$admin_menu = false;
-			}
-		} else {
-			if ( current_user_can( 'manage_options' ) ) {
-				$admin_menu = true;
-			} else {
-				$admin_menu = false;
-			}
-		}
-	} else {
-		if ( current_user_can( 'manage_options' ) ) {
+		if ( $options['access'] === 'superadmin' && is_super_admin() ) {
+			$admin_menu = true;
+		} elseif ( current_user_can( 'manage_options' ) ) {
 			$admin_menu = true;
 		}
+	} elseif ( current_user_can( 'manage_options' ) ) {
+		$admin_menu = true;
 	}
 
 	// @todo: add links to bulk title and bulk description edit pages

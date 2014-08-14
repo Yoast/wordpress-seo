@@ -405,7 +405,7 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 				return false;
 			}
 
-			if ( strpos( $img, 'http' ) !== 0 ) {
+			if ( wpseo_is_url_relative( $img ) === true ) {
 				if ( $img[0] != '/' ) {
 					return false;
 				}

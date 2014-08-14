@@ -873,6 +873,33 @@ function wpseo_invalidate_sitemap_cache_on_save_post( $post_id ) {
 
 add_action( 'save_post', 'wpseo_invalidate_sitemap_cache_on_save_post' );
 
+/**
+ * List all the available user roles
+ *
+ * @return array $roles
+ */
+function wpseo_get_roles() {
+	global $wp_roles;
+
+	if ( ! isset( $wp_roles ) ) {
+		$wp_roles = new WP_Roles();
+	}
+
+	$roles = $wp_roles->get_names();
+
+	return $roles;
+}
+
+/**
+ * Check whether a url is relative
+ *
+ * @param string $url
+ *
+ * @return bool
+ */
+function wpseo_is_url_relative( $url ) {
+	return ( strpos( $url, 'http' ) !== 0 && strpos( $url, '//' ) !== 0 );
+}
 
 /**
  * Emulate PHP native ctype_digit() function for when the ctype extension would be disabled *sigh*
@@ -891,7 +918,6 @@ if ( ! extension_loaded( 'ctype' ) || ! function_exists( 'ctype_digit' ) ) {
 		return $return;
 	}
 }
-
 
 
 /********************** DEPRECATED FUNCTIONS **********************/
