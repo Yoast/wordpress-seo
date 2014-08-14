@@ -837,17 +837,18 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 							foreach ( $matches[0] as $img ) {
 								if ( preg_match( '`src=["\']([^"\']+)["\']`', $img, $match ) ) {
 									$src = $match[1];
-									if ( strpos( $src, 'http' ) !== 0 ) {
-										if ( $src[0] != '/' ) {
+									if ( wpseo_is_url_relative( $src ) === true ) {
+										if ( $src[0] !== '/' ) {
 											continue;
-										}
-										if ( $src[1] == '/' ) {
-											// If the link starts with //, it's protocol relative, we add the scheme as the standard requires a protocol
-											$src = $scheme . ':' . $src;
 										} else {
 											// The URL is relative, we'll have to make it absolute
 											$src = $this->home_url . $src;
 										}
+									}
+									elseif ( strpos( $src, 'http' ) !== 0 ) {
+										// Protocol relative url, we add the scheme as the standard requires a protocol
+										$src = $scheme . ':' . $src;
+
 									}
 
 									if ( strpos( $src, $host ) === false ) {
