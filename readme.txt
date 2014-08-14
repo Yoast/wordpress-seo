@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: seo, SEO, google, meta, meta description, search engine optimization, xml sitemap, xml sitemaps, google sitemap, sitemap, sitemaps, robots meta, rss, rss footer, yahoo, bing, news sitemaps, XML News Sitemaps, WordPress SEO, WordPress SEO by Yoast, yoast, multisite, canonical, nofollow, noindex, keywords, meta keywords, description, webmaster tools, google webmaster tools, seo pack
 Requires at least: 3.5
 Tested up to: 3.9.1
-Stable tag: 1.5.5.1
+Stable tag: 1.5.5.2
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the WordPress SEO plugin by Yoast.
 
@@ -112,6 +112,15 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 7. The advanced section of the WordPress SEO meta box.
 
 == Changelog ==
+
+= 1.5.5.2 =
+Release Date: August 14th, 2014
+
+* Bugfixes:
+	* Fix wrong SEO Analysis value icon, regression from 1.5.5.1
+* Enhancements:
+ 	* Add role specific removal from XML Author sitemap
+ 	* Add option to exclude user from XML Author sitemap on user profile page
 
 = 1.5.5.1 =
 Release Date: August 14th, 2014
