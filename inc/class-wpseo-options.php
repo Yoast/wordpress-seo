@@ -2382,7 +2382,7 @@ if ( ! class_exists( 'WPSEO_Option_XML' ) ) {
 
 			/**
 			 * Uses enrich_defaults to add more along the lines of:
-			 * - 'user_role-' .  $role_name ) . '-not_in_sitemap'  => bool
+			 * - 'user_role-' .  $role_name . '-not_in_sitemap'  => bool
 			 * - 'post_types-' . $pt->name . '-not_in_sitemap'  => bool
 			 * - 'taxonomies-' . $tax->name . '-not_in_sitemap'  => bool
 			 */
