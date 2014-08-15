@@ -810,3 +810,21 @@ function wpseo_get_terms( $id, $taxonomy, $return_single = false ) {
 	$replacer = new WPSEO_Replace_Vars;
 	return $replacer->get_terms( $id, $taxonomy, $return_single );
 }
+
+/**
+ * Generate an HTML sitemap
+ *
+ * @deprecated 1.5.?
+ * @deprecated use plugin WordPress SEO Premium
+ * @see WordPress SEO Premium
+ *
+ * @param array $atts The attributes passed to the shortcode.
+ *
+ * @return string
+ */
+function wpseo_sitemap_handler( $atts ) {
+	_deprecated_function( __FUNCTION__, 'WPSEO 1.5.?', 'the WordPress SEO Premium plugin' );
+	return '';
+}
+
+add_shortcode( 'wpseo_sitemap', 'wpseo_sitemap_handler' );
