@@ -140,7 +140,7 @@ if ( ! class_exists( 'WPSEO_Taxonomy' ) ) {
 				</select>';
 				}
 			}
-			elseif( $type == 'hidden' ) {
+			elseif ( $type == 'hidden' ) {
 				$field .= '
 				<input name="' . $esc_var . '" id="hidden_' . $esc_var . '" type="hidden" value="' . esc_attr( $val ) . '" />';
 			}
