@@ -57,6 +57,10 @@ class WPSEO_Premium {
 		$autoloader = new WPSEO_Premium_Autoloader();
 		spl_autoload_register( array( $autoloader, 'load' ) );
 
+		if ( file_exists( WPSEO_PATH . 'premium/wpseo-premium-functions.php' ) ) {
+			require_once( WPSEO_PATH . 'premium/wpseo-premium-functions.php' );
+		}
+
 		if ( is_admin() ) {
 
 			// Upgrade Manager
