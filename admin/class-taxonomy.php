@@ -140,6 +140,10 @@ if ( ! class_exists( 'WPSEO_Taxonomy' ) ) {
 				</select>';
 				}
 			}
+			elseif ( $type == 'hidden' ) {
+				$field .= '
+				<input name="' . $esc_var . '" id="hidden_' . $esc_var . '" type="hidden" value="' . esc_attr( $val ) . '" />';
+			}
 
 			if ( $field !== '' && ( is_string( $desc ) && $desc !== '' ) ) {
 				$field .= '
@@ -148,7 +152,7 @@ if ( ! class_exists( 'WPSEO_Taxonomy' ) ) {
 
 			echo '
 		<tr class="form-field">
-			<th scope="row"><label for="' . $esc_var . '">' . esc_html( $label ) . ':</label></th>
+			<th scope="row">' . ( '' !== $label ? '<label for="' . $esc_var . '">' . esc_html( $label ) . ':</label>' : '' ) . '</th>
 			<td>' . $field . '</td>
 		</tr>';
 		}
