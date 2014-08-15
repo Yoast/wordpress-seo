@@ -133,7 +133,7 @@ Release Date: August 14th, 2014
 Release Date: August 14th, 2014
 
 * Bugfixes:
-	* Fixed a potential error with `$canonical` not being a sting after being filtered.
+	* Fixed a potential error with `$canonical` not being a string after being filtered.
 	* Fixed more bugs with first paragraph keyword detection.
 	* Fixed bug in saving new opengraph title and images variables in the social settings.
 	* Fixed bug where SEO score incorrectly reported as 'Bad' when no focus keyword set, props [smerriman](https://github.com/smerriman) for finding, props [Jrf](http://profiles.wordpress.org/jrf) for the fix.
