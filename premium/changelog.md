@@ -1,3 +1,6 @@
+### 1.3.4: August 15th, 2014
+* Fix incomplete merge with WordPress SEO core to 1.5.5.3
+
 ### 1.3.3: August 14th, 2014
 * Updated WordPress SEO core to 1.5.5.3
 
