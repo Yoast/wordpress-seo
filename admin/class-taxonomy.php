@@ -140,6 +140,10 @@ if ( ! class_exists( 'WPSEO_Taxonomy' ) ) {
 				</select>';
 				}
 			}
+			elseif( $type == 'hidden' ) {
+				$field .= '
+				<input name="' . $esc_var . '" id="' . $esc_var . '" type="hidden" value="' . esc_attr( $val ) . '" />';
+			}
 
 			if ( $field !== '' && ( is_string( $desc ) && $desc !== '' ) ) {
 				$field .= '
