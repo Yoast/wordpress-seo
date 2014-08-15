@@ -1116,8 +1116,10 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 				$perc_score = absint( self::get_value( 'linkdex' ) );
 
 				foreach ( $results as $result ) {
-					$score = wpseo_translate_score( $result['val'] );
-					$output .= '<tr><td class="score"><div class="' . esc_attr( 'wpseo-score-icon ' . $score ) . '"></div></td><td>' . $result['msg'] . '</td></tr>';
+					if ( is_array( $result ) ) {
+						$score = wpseo_translate_score( $result['val'] );
+						$output .= '<tr><td class="score"><div class="' . esc_attr( 'wpseo-score-icon ' . $score ) . '"></div></td><td>' . $result['msg'] . '</td></tr>';
+					}
 				}
 				$output .= '</table>';
 
