@@ -152,7 +152,7 @@ if ( ! class_exists( 'WPSEO_Taxonomy' ) ) {
 
 			echo '
 		<tr class="form-field">
-			<th scope="row"><label for="' . $esc_var . '">' . esc_html( $label ) . ':</label></th>
+			<th scope="row">' . ( '' !== $label ? '<label for="' . $esc_var . '">' . esc_html( $label ) . ':</label>' : '' ) . '</th>
 			<td>' . $field . '</td>
 		</tr>';
 		}
