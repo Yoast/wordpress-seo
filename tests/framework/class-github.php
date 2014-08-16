@@ -137,7 +137,7 @@ class GithubIssues {
 	protected static function maybe_update_issue_list() {
 		/* Was the last update less than an hour ago and we acually have an issue list ? Bail out.
 			(won't happen when using travis as no issue file is retained, so last_updated will not be set) */
-		if ( ( is_array( self::$github_issue_cache['issues'] ) && self::$github_issue_cache['issues'] !== array() ) && ( isset( self::$github_issue_cache['last_updated'] ) && ( time() - self::$github_issue_cache['last_updated'] ) < ( 60 * 60 ) ) ) {
+		if ( ( is_array( self::$github_issue_cache['issues'] ) && self::$github_issue_cache['issues'] !== array() ) && ( isset( self::$github_issue_cache['last_updated'] ) && ( time() - self::$github_issue_cache['last_updated'] ) < HOUR_IN_SECONDS ) ) {
 			return null;
 		}
 		else {
