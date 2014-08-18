@@ -65,7 +65,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 
 			add_filter( 'set-screen-option', array( $this, 'save_bulk_edit_options' ), 10, 3 );
 
-			add_filter( 'upgrader_post_install', array($this, 'remove_transients_on_update'), 10, 1 );
+			add_filter( 'upgrader_post_install', array( $this, 'remove_transients_on_update' ), 10, 1 );
 		}
 
 		/**
@@ -674,7 +674,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 				"
 			);
 
-			foreach($results as $result) {
+			foreach ( $results as $result ) {
 				$transient_name = substr( $result->option_name, 11 );
 				delete_transient( $transient_name );
 			}
