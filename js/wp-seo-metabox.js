@@ -95,10 +95,14 @@ function yst_testFocusKw() {
 	if (focuskw != '') {
 		var html = '<p>' + wpseoMetaboxL10n.keyword_header + '</p>';
 		html += '<ul>';
-		html += '<li>' + wpseoMetaboxL10n.article_header_text + ptest(jQuery('#title').val(), p) + '</li>';
+		if ( jQuery('#title').length ) {
+			html += '<li>' + wpseoMetaboxL10n.article_header_text + ptest(jQuery('#title').val(), p) + '</li>';
+		}
 		html += '<li>' + wpseoMetaboxL10n.page_title_text + ptest(jQuery('#wpseosnippet_title').text(), p) + '</li>';
 		html += '<li>' + wpseoMetaboxL10n.page_url_text + ptest(url, p2) + '</li>';
-		html += '<li>' + wpseoMetaboxL10n.content_text + ptest(jQuery('#content').val(), p) + '</li>';
+		if ( jQuery('#content').length ) {
+			html += '<li>' + wpseoMetaboxL10n.content_text + ptest(jQuery('#content').val(), p) + '</li>';
+		}
 		html += '<li>' + wpseoMetaboxL10n.meta_description_text + ptest(metadesc, p) + '</li>';
 		html += '</ul>';
 		focuskwresults.html(html);
@@ -109,7 +113,9 @@ function yst_testFocusKw() {
 
 function yst_replaceVariables(str, callback) {
 	// title
-	str = str.replace(/%%title%%/g, jQuery('#title').val());
+	if ( jQuery('#title').length ) {
+		str = str.replace(/%%title%%/g, jQuery('#title').val());
+	}
 
 	// These are added in the head for performance reasons.
 	str = str.replace(/%%sitedesc%%/g, wpseoMetaboxL10n.sitedesc);
@@ -128,8 +134,8 @@ function yst_replaceVariables(str, callback) {
 	// excerpt
 	var excerpt = yst_clean(jQuery("#excerpt").val());
 	str = str.replace(/%%excerpt_only%%/g, excerpt);
-	if ('' == excerpt) {
-		excerpt = jQuery("#content").val().replace(/(<([^>]+)>)/ig,"").substring(0,wpseoMetaboxL10n.wpseo_meta_desc_length-1);
+	if ('' == excerpt && jQuery('#content').length) {
+		excerpt = jQuery('#content').val().replace(/(<([^>]+)>)/ig,"").substring(0,wpseoMetaboxL10n.wpseo_meta_desc_length-1);
 	}
 	str = str.replace(/%%excerpt%%/g, excerpt);
 
@@ -262,8 +268,10 @@ function yst_updateDesc() {
 		snippet.find('.desc span.content').html('');
 		yst_testFocusKw();
 
-		desc = jQuery("#content").val();
-		desc = yst_clean(desc);
+		if ( jQuery('#content').length) {
+			desc = jQuery('#content').val();
+			desc = yst_clean(desc);
+		}
 
 		var focuskw = yst_escapeFocusKw(jQuery.trim(jQuery('#' + wpseoMetaboxL10n.field_prefix + 'focuskw').val()));
 		if (focuskw != '') {
