@@ -154,19 +154,27 @@ if ( ! class_exists( 'WPSEO_Pointers' ) ) {
 					              . '<p><strong>' . __( 'Other imports', 'wordpress-seo' ) . '</strong><br/>' . sprintf ( __('If you\'re using one of our premium plugins, such as %1$sLocal SEO%2$s, you can also find specific import-options for that plugin here.', 'wordpress-seo' ), '<a target="_blank" href="'. esc_url( 'https://yoast.com/wordpress/plugins/local-seo/#utm_source=wpseo_import&utm_medium=wpseo_tour&utm_campaign=tour' ) . '">', '</a>') . '</p>'
 					              . '<p><strong>' . __( 'Export', 'wordpress-seo' ) . '</strong><br/>' . __( 'If you have multiple blogs and you\'re happy with how you\'ve configured this blog, you can export the settings and import them on another blog so you don\'t have to go through this process twice!', 'wordpress-seo' ) . '</p>',
 					'button2'  => __( 'Next', 'wordpress-seo' ),
-					'function' => 'window.location="' . network_admin_url( 'admin.php?page=wpseo_files' ) . '";', // will auto-use admin_url if not on multi-site
+					'function' => 'window.location="' . network_admin_url( 'admin.php?page=wpseo_bulk-editor' ) . '";', // will auto-use admin_url if not on multi-site
+					'position' => array( 'edge' => 'top', 'align' => 'right' ),
+				),
+				'wpseo_bulk-editor' => array(
+					'content' => '<h3>' . __( 'Bulk Editor', 'wordpress-seo' ) . '</h3><p>' . __( 'This page lets you view and edit the titles and meta descriptions of all posts and pages on your site. This allows you to edit the title or meta description of all your pages in one place, rather than having to edit each individual page.', 'wordpress-seo' ) . '</p>',
+					'button2'  => __( 'Next', 'wordpress-seo' ),
+					'function' => 'window.location="' . admin_url( 'admin.php?page=wpseo_files' ) . '";',
 					'position' => array( 'edge' => 'top', 'align' => 'right' ),
 				),
 				'wpseo_files'          => array(
 					'content' => '<h3>' . __( 'File Editor', 'wordpress-seo' ) . '</h3><p>' . __( 'Here you can edit the .htaccess and robots.txt files, two of the most powerful files in your WordPress install, if your WordPress installation has write-access to the files. But please, only touch these files if you know what you\'re doing!', 'wordpress-seo' ) . '</p>',
 					'button2'  => __( 'Next', 'wordpress-seo' ),
-					'function' => 'window.location="' . admin_url( 'admin.php?page=wpseo_bulk-editor' ) . '";',
+					'function' => 'window.location="' . admin_url( 'admin.php?page=wpseo_licenses' ) . '";',
 					'position' => array( 'edge' => 'top', 'align' => 'right' ),
 				),
-				'wpseo_bulk-editor' => array(
-					'content' => '<h3>' . __( 'Bulk Editor', 'wordpress-seo' ) . '</h3><p>' . __( 'This page lets you view and edit the meta descriptions of all posts and pages on your site. Just like the Bulk Title Editor, this allows you to edit the meta description of all your pages in one place, rather than having to edit each individual page.', 'wordpress-seo' ) . '</p>'
-					        . '<p><strong>' . __( 'Like this plugin?', 'wordpress-seo' ) . '</strong><br/>' . sprintf( __( 'So, if you like the plugin, please %srate it 5 stars on WordPress.org%s!', 'wordpress-seo' ), '<a target="_blank" href="https://wordpress.org/plugins/wordpress-seo/">', '</a>' ) . '</p>'
-							. '<p>' . sprintf( __( 'The tour ends here, thank you for using my plugin and good luck with your SEO!<br/><br/>Best,<br/>Joost de Valk - %1$sYoast.com%2$s', 'wordpress-seo' ), '<a target="_blank" href="' . esc_url( 'https://yoast.com/#utm_source=wpadmin&utm_medium=wpseo_tour&utm_term=link&utm_campaign=wpseoplugin' ) . '">', '</a>' ) . '</p>',
+				'wpseo_licenses'          => array(
+					'content' => '<h3>' . __( 'Extensions and Licenses', 'wordpress-seo' ) . '</h3>'
+					             . '<p><strong>' . __( 'Extensions', 'wordpress-seo' ) . '</strong><br/>' . sprintf( __( 'The powerful functions of WordPress SEO can be extended with %1$sYoast premium plugins%2$s. These premium plugins require the installation of WordPress SEO or WordPress SEO Premium and add specific functionality. You can read all about the Yoast Premium Plugins on %1$shttp://yoast.com/wordpress/plugins/%2$s.', 'wordpress-seo' ), '<a target="_blank" href="' . esc_url( 'https://yoast.com/wordpress/plugins/#utm_source=wpseo_licenses&utm_medium=wpseo_tour&utm_campaign=tour' ) . '">', '</a>' ) . '</p>'
+					             . '<p><strong>' . __( 'Licenses', 'wordpress-seo' ) . '</strong><br/>' . __( 'Once you\'ve purchased WordPress SEO Premium or any other premium Yoast plugin, you\'ll have to enter a license key. You can do so on the Licenses-tab. Once you\'ve activated your premium plugin, you can use all its powerful features.', 'wordpress-seo' ) . '</p>'
+					             . '<p><strong>' . __( 'Like this plugin?', 'wordpress-seo' ) . '</strong><br/>' . sprintf( __( 'So, we\'ve come to the end of the tour. If you like the plugin, please %srate it 5 stars on WordPress.org%s!', 'wordpress-seo' ), '<a target="_blank" href="https://wordpress.org/plugins/wordpress-seo/">', '</a>' ) . '</p>'
+					             . '<p>' . sprintf( __( 'Thank you for using my plugin and good luck with your SEO!<br/><br/>Best,<br/>Joost de Valk - %1$sYoast.com%2$s', 'wordpress-seo' ), '<a target="_blank" href="' . esc_url( 'https://yoast.com/#utm_source=wpseo_licenses&utm_medium=wpseo_tour&utm_campaign=tour' ) . '">', '</a>' ) . '</p>',
 					'position' => array( 'edge' => 'top', 'align' => 'right' ),
 				),
 			);
