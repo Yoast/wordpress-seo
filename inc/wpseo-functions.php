@@ -598,7 +598,7 @@ function wpseo_sitemap_handler( $atts ) {
 		}
 	}
 
-	set_transient( 'html-sitemap', $output, 60 );
+	set_transient( 'html-sitemap', $output, MINUTE_IN_SECONDS );
 	return $output;
 }
 

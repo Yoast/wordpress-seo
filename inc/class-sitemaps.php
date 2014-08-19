@@ -169,7 +169,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 			}
 
 			// adjust UTC offset from hours to seconds
-			$utc_offset *= 3600;
+			$utc_offset *= HOUR_IN_SECONDS;
 
 			// attempt to guess the timezone string from the UTC offset
 			$timezone = timezone_name_from_abbr( '', $utc_offset );
@@ -1174,7 +1174,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 				header( 'Content-Type: text/xml' );
 
 				// Make the browser cache this file properly.
-				$expires = 60 * 60 * 24 * 365;
+				$expires = YEAR_IN_SECONDS;
 				header( 'Pragma: public' );
 				header( 'Cache-Control: maxage=' . $expires );
 				header( 'Expires: ' . gmdate( 'D, d M Y H:i:s', time() + $expires ) . ' GMT' );
