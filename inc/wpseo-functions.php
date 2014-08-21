@@ -25,9 +25,9 @@ function wpseo_do_upgrade() {
 
 	WPSEO_Options::maybe_set_multisite_defaults( false );
 
-	if ( $option_wpseo['version'] === '' || version_compare( $option_wpseo['version'], '1.2', '<' ) ) {
-		add_action( 'init', 'wpseo_title_test' );
-	}
+//	if ( $option_wpseo['version'] === '' || version_compare( $option_wpseo['version'], '1.2', '<' ) ) {
+//		add_action( 'init', 'wpseo_title_test' );
+//	}
 
 	if ( $option_wpseo['version'] === '' || version_compare( $option_wpseo['version'], '1.4.13', '<' ) ) {
 		// Run description test once theme has loaded

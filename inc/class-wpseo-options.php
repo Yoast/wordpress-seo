@@ -3856,9 +3856,8 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 			   from the isolated activation */
 			require_once( WPSEO_PATH . 'inc/wpseo-non-ajax-functions.php' );
 
-			wpseo_title_test();
+//			wpseo_title_test();
 			wpseo_description_test();
-
 
 			/* Force WooThemes to use WordPress SEO data. */
 			if ( function_exists( 'woo_version_init' ) ) {
