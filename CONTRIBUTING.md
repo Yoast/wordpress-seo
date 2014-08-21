@@ -15,9 +15,9 @@ If you think you have found a bug (we acknowledge that that's a possibility), pl
 
 A useful bug report explains:
 
-1 What you were trying to achieve.
-2 What you were expecting to happen.
-3 What actually happened, illustrated with screenshots if possible.
+1. What you were trying to achieve.
+2. What you were expecting to happen.
+3. What actually happened, illustrated with screenshots if possible.
 
 Your bug report should also contain your WordPress version and if there are any errors, the _exact_ error text, including line numbers. 
 
