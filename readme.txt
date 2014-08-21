@@ -113,6 +113,17 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 
 == Changelog ==
 
+= 1.5.? =
+
+* Bugfixes:
+	* Fixed an empty dot on page analysis
+
+* Enhancements:
+	* Removing sitemap transients when updating plugin
+
+* Other:
+	* Moving html-sitemap shortcode to WordPress SEO Premium
+
 = 1.5.5.3 =
 Release Date: August 14th, 2014
 
