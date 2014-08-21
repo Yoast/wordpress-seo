@@ -1113,7 +1113,8 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			if ( is_array( $results ) && $results !== array() ) {
 
 				$output     = '<table class="wpseoanalysis">';
-				$perc_score = absint( self::get_value( 'linkdex' ) );
+				$perc_score = absint( $results['total'] );
+				unset( $results['total'] ); // unset to prevent echoing it.
 
 				foreach ( $results as $result ) {
 					$score = wpseo_translate_score( $result['val'] );
