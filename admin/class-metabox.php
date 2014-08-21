@@ -1117,8 +1117,10 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 				unset( $results['total'] ); // unset to prevent echoing it.
 
 				foreach ( $results as $result ) {
-					$score = wpseo_translate_score( $result['val'] );
-					$output .= '<tr><td class="score"><div class="' . esc_attr( 'wpseo-score-icon ' . $score ) . '"></div></td><td>' . $result['msg'] . '</td></tr>';
+					if ( is_array( $result ) ) {
+						$score = wpseo_translate_score( $result['val'] );
+						$output .= '<tr><td class="score"><div class="' . esc_attr( 'wpseo-score-icon ' . $score ) . '"></div></td><td>' . $result['msg'] . '</td></tr>';
+					}
 				}
 				$output .= '</table>';
 
