@@ -1369,7 +1369,6 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 		public function user_sitemap_remove_excluded_authors( $users ) {
 
 			if ( is_array( $users ) && $users !== array() ) {
-
 				$options = get_option( 'wpseo_xml' );
 
 				foreach ( $users as $user_key => $user ) {
@@ -1393,7 +1392,6 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 						unset( $users[$user_key] );
 					}
 				}
-
 			}
 
 			return $users;
