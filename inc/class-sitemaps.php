@@ -1378,8 +1378,8 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 					$is_exclude_on = get_the_author_meta( 'wpseo_excludeauthorsitemap', $user->ID );
 					if ( $is_exclude_on === 'on' ) {
 						$exclude_user = true;
-					} else if ( array_key_exists ( 'disable_author_noposts', $options ) ) {
-						if( $options['disable_author_noposts'] == 1 ) {
+					} elseif ( array_key_exists( 'disable_author_noposts', $options ) ) {
+						if ( $options['disable_author_noposts'] == 1 ) {
 							$count_posts  = count_user_posts( $user->ID );
 							$exclude_user = $count_posts == 0;
 						}
