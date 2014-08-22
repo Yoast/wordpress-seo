@@ -2375,6 +2375,7 @@ if ( ! class_exists( 'WPSEO_Option_XML' ) ) {
 		 */
 		protected $defaults = array(
 			'disable_author_sitemap' => true,
+			'disable_author_noposts' => true,
 			'enablexmlsitemap'       => true,
 			'entries-per-page'       => 1000,
 			'xml_ping_yahoo'         => false,
@@ -2521,6 +2522,7 @@ if ( ! class_exists( 'WPSEO_Option_XML' ) ) {
 
 					/* boolean fields */
 					case 'disable_author_sitemap':
+					case 'disable_author_noposts':
 					case 'enablexmlsitemap':
 					case 'user_role-': /* 'user_role' . $role_name . '-not_in_sitemap' fields */
 					case 'post_types-': /* 'post_types-' . $pt->name . '-not_in_sitemap' fields */

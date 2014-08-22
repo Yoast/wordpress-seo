@@ -1378,6 +1378,11 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 					$is_exclude_on = get_the_author_meta( 'wpseo_excludeauthorsitemap', $user->ID );
 					if ( $is_exclude_on === 'on' ) {
 						$exclude_user = true;
+					} else if ( array_key_exists ( 'disable_author_noposts', $options ) ) {
+						if( $options['disable_author_noposts'] == 1 ) {
+							$count_posts  = count_user_posts( $user->ID );
+							$exclude_user = $count_posts == 0;
+						}
 					} else {
 						$user_role    = $user->roles[0];
 						$target_key   = "user_role-{$user_role}-not_in_sitemap";
@@ -1388,6 +1393,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 						unset( $users[$user_key] );
 					}
 				}
+
 			}
 
 			return $users;
