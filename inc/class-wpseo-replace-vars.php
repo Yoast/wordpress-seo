@@ -1053,10 +1053,7 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 			if ( is_string( $replace ) && $replace !== '' ) {
 				$replace = self::remove_var_delimiter( $replace );
 
-				if ( ( is_string( $type ) && in_array( $type, array(
-								'basic',
-								'advanced'
-							), true ) ) && ( $replace !== '' && ! isset( self::$help_texts[ $type ][ $replace ] ) )
+				if ( ( is_string( $type ) && in_array( $type, array( 'basic', 'advanced' ), true ) ) && ( $replace !== '' && ! isset( self::$help_texts[ $type ][ $replace ] ) )
 				) {
 					self::$help_texts[ $type ][ $replace ] = $help_text;
 				}
