@@ -1145,7 +1145,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 				} elseif ( is_author() ) {
 					$author_id = get_query_var( 'author' );
 					$metadesc  = get_the_author_meta( 'wpseo_metadesc', $author_id );
-					if ( ( ! is_string( $metadesc ) || $metadesc === '' ) && isset( $this->options[ 'metadesc-author-wpseo' ] ) ) {
+					if ( ( ! is_string( $metadesc ) || $metadesc === '' ) && '' !== $this->options[ 'metadesc-author-wpseo' ] ) {
 						$template = $this->options[ 'metadesc-author-wpseo' ];
 					}
 				} elseif ( is_post_type_archive() ) {
