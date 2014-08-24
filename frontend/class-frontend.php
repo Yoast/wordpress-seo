@@ -80,7 +80,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 			}
 			if ( $this->options['hide-shortlink'] === true ) {
 				remove_action( 'wp_head', 'wp_shortlink_wp_head' );
-				remove_action( 'template_redirect', 'wp_shortlink_header', 20 );
+				remove_action( 'template_redirect', 'wp_shortlink_header', 11 );
 			}
 			if ( $this->options['hide-feedlinks'] === true ) {
 				// @todo: add option to display just normal feed and hide comment feed.
