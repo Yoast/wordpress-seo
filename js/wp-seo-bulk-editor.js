@@ -120,7 +120,10 @@ jQuery(document).ready( function() {
 	});
 
 	jQuery.each( jQuery('.wpseo-save-all'), function() {
-		var save_all_titles = function() {
+		var save_all_titles = function(e) {
+			e.preventDefault();
+
+			current_element = this;
 
 			var data = {
 				'action': 'wpseo_save_all_titles',
@@ -153,8 +156,10 @@ jQuery(document).ready( function() {
 			}
 		};
 
-		var save_all_metadescs = function() {
+		var save_all_metadescs = function(e) {
+            		e.preventDefault();
 
+            		current_element = this;
 			var data = {
 				'action': 'wpseo_save_all_descs',
 				'_ajax_nonce' : wpseo_bulk_editor_nonce
@@ -186,10 +191,10 @@ jQuery(document).ready( function() {
 			}
 		};
 
-		if ( jQuery( '.wpseo_bulk_titles' ).length ) {
+		if ( jQuery(this).closest( '.wpseo_bulk_titles' ).length ) {
 			jQuery(this).on( 'click', save_all_titles );
 		}
-		else if ( jQuery( '.wpseo_bulk_descriptions').length ) {
+		else if ( jQuery(this).closest( '.wpseo_bulk_descriptions').length ) {
 			jQuery(this).on( 'click', save_all_metadescs );
 		}
 	});
