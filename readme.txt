@@ -3,12 +3,12 @@ Contributors: joostdevalk
 Donate link: https://yoast.com/
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
-Tags: seo, SEO, google, meta, meta description, search engine optimization, xml sitemap, xml sitemaps, google sitemap, sitemap, sitemaps, robots meta, rss, rss footer, yahoo, bing, news sitemaps, XML News Sitemaps, WordPress SEO, WordPress SEO by Yoast, yoast, multisite, canonical, nofollow, noindex, keywords, meta keywords, description, webmaster tools, google webmaster tools, seo pack
+Tags: seo, SEO, Yoast SEO, google, meta, meta description, search engine optimization, xml sitemap, xml sitemaps, google sitemap, sitemap, sitemaps, robots meta, rss, rss footer, yahoo, bing, news sitemaps, XML News Sitemaps, WordPress SEO, WordPress SEO by Yoast, yoast, multisite, canonical, nofollow, noindex, keywords, meta keywords, description, webmaster tools, google webmaster tools, seo pack
 Requires at least: 3.5
-Tested up to: 3.9.1
-Stable tag: 1.5.5.3
+Tested up to: 4.0
+Stable tag: 1.5.6
 
-Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the WordPress SEO plugin by Yoast.
+Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using Yoast's WordPress SEO plugin.
 
 == Description ==
 
@@ -42,7 +42,7 @@ With the WordPress SEO plugin you can control which pages Google shows in its se
 WordPress itself only shows canonical link elements on single pages, WordPress SEO makes it output canonical link elements everywhere. Google has recently announced they would also use `rel="next"` and `rel="prev"` link elements in the `head` section of your paginated archives, this plugin adds those automatically, see [this post](https://yoast.com/rel-next-prev-paginated-archives/ title="rel=next & rel=prev for paginated archives") for more info.
 
 = XML Sitemaps =
-WordPress SEO has the most advanced XML Sitemaps functionality in any WordPress plugin. Once you check the box, it automatically creates XML sitemaps and notifies Google & Bing of the sitemaps existence. These XML sitemaps include the images in your posts & pages too, so that your images may be found better in the search engines too.
+Yoast's WordPress SEO plugin has the most advanced XML Sitemaps functionality in any WordPress plugin. Once you check the box, it automatically creates XML sitemaps and notifies Google & Bing of the sitemaps existence. These XML sitemaps include the images in your posts & pages too, so that your images may be found better in the search engines too.
 
 These XML Sitemaps will even work on large sites, because of how they're created, using one index sitemap that links to sub-sitemaps for each 1,000 posts. They will also work with custom post types and custom taxonomies automatically, while giving you the option to remove those from the XML sitemap should you wish to.
 
@@ -63,7 +63,7 @@ Using the built-in file editor you can edit your WordPress blogs .htaccess and r
 SEO and Social Media are heavily intertwined, that's why this plugin also comes with a Facebook OpenGraph implementation and will soon also support Google+ sharing tags.
 
 = Multi-Site Compatible =
-This WordPress SEO plugin, unlike some others, is fully Multi-Site compatible. The XML Sitemaps work fine in all setups and you even have the option, in the Network settings, to copy the settings from one blog to another, or make blogs default to the settings for a specific blog.
+The Yoast SEO plugin, unlike some others, is fully Multi-Site compatible. The XML Sitemaps work fine in all setups and you even have the option, in the Network settings, to copy the settings from one blog to another, or make blogs default to the settings for a specific blog.
 
 = Import & Export functionality =
 If you have multiple blogs, setting up plugins like this one on all of them might seem like a daunting task. Except that it's not, because what you can do is simple: you set up the plugin once. You then export your settings and simply import them on all your other sites. It's that simple!
@@ -71,7 +71,7 @@ If you have multiple blogs, setting up plugins like this one on all of them migh
 = Import functionality for other WordPress SEO plugins =
 If you've used All In One SEO Pack or HeadSpace2 before using this plugin, you might want to import all your old titles and descriptions. You can do that easily using the built-in import functionality. There's also import functionality for some of the older Yoast plugins like Robots Meta and RSS footer.
 
-Should you have a need to import from another SEO plugin or from a theme like Genesis or Thesis, you can use the [SEO Data Transporter](http://wordpress.org/extend/plugins/seo-data-transporter/) plugin, that'll easily convert your SEO meta data from and to a whole set of plugins like Platinum SEO, SEO Ultimate, Greg's High Performance SEO and themes like Headway, Hybrid, WooFramework, Catalyst etc.
+Should you have a need to import from another SEO plugin to Yoast SEO or from a theme like Genesis or Thesis, you can use the [SEO Data Transporter](http://wordpress.org/extend/plugins/seo-data-transporter/) plugin, that'll easily convert your SEO meta data from and to a whole set of plugins like Platinum SEO, SEO Ultimate, Greg's High Performance SEO and themes like Headway, Hybrid, WooFramework, Catalyst etc.
 
 Read [this migration guide](https://yoast.com/all-in-one-seo-pack-migration/) if you still have questions about migrating from another SEO plugin to WordPress SEO.
 
@@ -90,6 +90,9 @@ For more info, check out the following articles:
 * The [WordPress SEO Plugin](https://yoast.com/wordpress/plugins/seo/) official homepage.
 * Other [WordPress Plugins](https://yoast.com/wordpress/plugins/) by the same author.
 * Follow Yoast on [Facebook](https://facebook.com/yoast) & [Twitter](http://twitter.com/yoast).
+
+= Tags =
+seo, SEO, Yoast SEO, google, meta, meta description, search engine optimization, xml sitemap, xml sitemaps, google sitemap, sitemap, sitemaps, robots meta, rss, rss footer, yahoo, bing, news sitemaps, XML News Sitemaps, WordPress SEO, WordPress SEO by Yoast, yoast, multisite, canonical, nofollow, noindex, keywords, meta keywords, description, webmaster tools, google webmaster tools, seo pack
 
 == Installation ==
 
@@ -113,16 +116,26 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 
 == Changelog ==
 
-= 1.5.? =
+= 1.5.6 =
 
 * Bugfixes:
-	* Fixed an empty dot on page analysis
+	* Fixed a dot without explanation on the page analysis tab.
+	* Fix save all feature bug in Bulk Editor as reported (and fixed) by [vdwijngaert](https://github.com/vdwijngaert) [here](https://github.com/Yoast/wordpress-seo/issues/1485).
+	* Fix bug where meta description based on a template wouldn't show up on author archive pages.
+	* Fix bug where shortlink HTTP header wouldn't be removed when checking the remove shortlink function as [reported here](https://github.com/Yoast/wordpress-seo/issues/1397).
+	* Fix a bug where force title setting would be reset on upgrade / update.
+	* Fix warning being thrown in breadcrumbs code.
 
 * Enhancements:
-	* Removing sitemap transients when updating plugin
+	* Removing sitemap transients when updating the plugin, to make sure XML sitemaps always use latest code.
+	* Styling of metaboxes is more in line with WordPress core.
+	* Add new `%%user_description%%` replacement tag.
+	* Add option to remove users with zero posts from the XML sitemap.
+	* Move SEO data on term edit pages to lower on the page, to not interfere with themes.
+	* Code: use WP time constants as introduced in WP 3.5.
 
 * Other:
-	* Moving html-sitemap shortcode to WordPress SEO Premium
+	* Removing html-sitemap shortcode, it'll reappear in WordPress SEO Premium when it actually works.
 
 = 1.5.5.3 =
 Release Date: August 14th, 2014
