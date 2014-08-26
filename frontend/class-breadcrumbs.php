@@ -257,6 +257,8 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 		 * @return array
 		 */
 		private function get_post_ancestors() {
+			$ancestors = array();
+
 			if ( isset( $this->post->ancestors ) ) {
 				if ( is_array( $this->post->ancestors ) ) {
 					$ancestors = array_values( $this->post->ancestors );

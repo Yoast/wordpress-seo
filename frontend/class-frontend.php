@@ -80,7 +80,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 			}
 			if ( $this->options['hide-shortlink'] === true ) {
 				remove_action( 'wp_head', 'wp_shortlink_wp_head' );
-				remove_action( 'template_redirect', 'wp_shortlink_header', 20 );
+				remove_action( 'template_redirect', 'wp_shortlink_header', 11 );
 			}
 			if ( $this->options['hide-feedlinks'] === true ) {
 				// @todo: add option to display just normal feed and hide comment feed.
@@ -1145,6 +1145,9 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 				} elseif ( is_author() ) {
 					$author_id = get_query_var( 'author' );
 					$metadesc  = get_the_author_meta( 'wpseo_metadesc', $author_id );
+					if ( ( ! is_string( $metadesc ) || $metadesc === '' ) && '' !== $this->options[ 'metadesc-author-wpseo' ] ) {
+						$template = $this->options[ 'metadesc-author-wpseo' ];
+					}
 				} elseif ( is_post_type_archive() ) {
 					$post_type = get_query_var( 'post_type' );
 					if ( is_array( $post_type ) ) {

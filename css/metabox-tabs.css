@@ -19,17 +19,11 @@ ul.wpseo-metabox-tabs {
 ul.wpseo-metabox-tabs li.active {
 	border-style: solid solid none;
 	border-width: 1px 1px 0;
+	background-color: #fdfdfd;
 }
 
 ul.wpseo-metabox-tabs li {
 	padding: 5px;
-	-moz-border-radius: 3px 3px 0 0;
-	-webkit-border-top-left-radius: 3px;
-	-webkit-border-top-right-radius: 3px;
-	-khtml-border-top-left-radius: 3px;
-	-khtml-border-top-right-radius: 3px;
-	border-top-left-radius: 3px;
-	border-top-right-radius: 3px;
 }
 
 .wpseo-metabox-tabs a {
@@ -55,8 +49,7 @@ ul.wpseo-metabox-tabs li {
 	overflow: auto;
 	padding: 0.5em 0.9em;
 	border: 1px solid #ddd;
-	background-color: #fff;
-	border-radius: 0 3px 3px 3px;
+	background-color: #fdfdfd;
 }
 
 #wpseo_meta .postbox .inside .wpseotab {
@@ -128,12 +121,15 @@ ul.wpseo-metabox-tabs li {
 	word-wrap: break-word;
 	font-size: small;
 }
+
 #wpseosnippet .desc .autogen {
 	color: #777;
 }
+
 #wpseosnippet .date {
 	color: #808080;
 }
+
 #wpseosnippet .desc p {
 	color: #545454;
 	line-height: 1.4;
@@ -299,28 +295,35 @@ table.wpseoanalysis td.score {
 	background: #888;
 	vertical-align: top;
 }
+
 .wpseo-score-icon.good {
 	background-color: #7ad03a;
 }
+
 .wpseo-score-icon.ok {
 	background-color: #ffba00;
 }
+
 .wpseo-score-icon.poor {
 	background-color: #ee7c1b;
 }
+
 .wpseo-score-icon.bad {
 	background-color: #dd3d36;
 }
+
 .wpseo-score-icon.na {
 	background-color: #888;
 }
+
 .wpseo-score-icon.noindex {
 	background-color: #1e8cbe;
 }
+
 .wpseo-score-title {
 	font-weight: 600;
 }
 
 img.yoast_help {
-    cursor: pointer;
+	cursor: pointer;
 }

@@ -47,6 +47,9 @@ $content .= '<h2>' . __( 'User sitemap', 'wordpress-seo' ) . '</h2>';
 $content .= $wpseo_admin_pages->checkbox( 'disable_author_sitemap', __( 'Disable author/user sitemap', 'wordpress-seo' ), false );
 
 $content .= '<div id="xml_user_block">';
+$content .= '<p><strong>' . __( 'Exclude users without posts', 'wordpress-seo' ) . '</strong><br/>';
+$content .= $wpseo_admin_pages->checkbox( 'disable_author_noposts', __( 'Disable all users with zero posts', 'wordpress-seo' ), false );
+
 $roles = wpseo_get_roles();
 if ( is_array( $roles ) && $roles !== array() ) {
 	$content .= '<p><strong>' . __( 'Exclude userroles', 'wordpress-seo' ) . '</strong><br/>';
