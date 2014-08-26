@@ -40,7 +40,7 @@ class WPSEO_Redirect_File_Manager {
 
 		// Create the .htaccess file
 		if ( ! file_exists( self::get_dir() . '/.htaccess' ) ) {
-			@file_put_contents( self::get_dir() . '/.htaccess', "Options -Indexes\ndeny fron all" );
+			@file_put_contents( self::get_dir() . '/.htaccess', "Options -Indexes\ndeny from all" );
 		}
 
 		// Create an empty index.php file
