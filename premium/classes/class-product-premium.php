@@ -6,7 +6,7 @@ if ( class_exists( 'Yoast_Product' ) && ! class_exists( 'WPSEO_Product_Premium',
 
 		public function __construct() {
 			parent::__construct(
-				WPSEO_Premium::EDD_STORE_URL,
+				trailingslashit( WPSEO_Premium::EDD_STORE_URL ) . 'edd-sl-api',
 				WPSEO_Premium::EDD_PLUGIN_NAME,
 				plugin_basename( WPSEO_FILE ),
 				WPSEO_Premium::PLUGIN_VERSION_NAME,
