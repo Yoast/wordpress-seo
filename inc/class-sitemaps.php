@@ -934,6 +934,8 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 
 				return;
 			}
+			
+			$output = apply_filters( 'wpseo_sitemap_output', $output );
 
 			$this->sitemap = '<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" ';
 			$this->sitemap .= 'xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" ';
