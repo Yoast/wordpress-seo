@@ -198,6 +198,22 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			return $this->statistics;
 		}
 
+        /**
+         * Returns post in metabox context
+         *
+         * @returns WP_Post
+         */
+        private function get_metabox_post() {
+            if ( isset( $_GET['post'] ) ) {
+				$post_id = (int) WPSEO_Option::validate_int( $_GET['post'] );
+				$post    = get_post( $post_id );
+			} else {
+				global $post;
+			}
+
+            return $post;
+        }
+
 		/**
 		 * Lowercase a sentence while preserving "weird" characters.
 		 *
@@ -241,17 +257,13 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 
 			echo '<div class="misc-pub-section misc-yoast misc-pub-section-last">';
 
+            $post = $this->get_metabox_post();
+
 			if ( self::get_value( 'meta-robots-noindex' ) === '1' ) {
 				$score_label = 'noindex';
 				$title       = __( 'Post is set to noindex.', 'wordpress-seo' );
 				$score_title = $title;
 			} else {
-				if ( isset( $_GET['post'] ) ) {
-					$post_id = (int) WPSEO_Option::validate_int( $_GET['post'] );
-					$post    = get_post( $post_id );
-				} else {
-					global $post;
-				}
 
 				$score   = '';
 				$results = $this->calculate_results( $post );
@@ -306,12 +318,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		 * @return  array
 		 */
 		public function localize_script() {
-			if ( isset( $_GET['post'] ) ) {
-				$post_id = (int) WPSEO_Option::validate_int( $_GET['post'] );
-				$post    = get_post( $post_id );
-			} else {
-				global $post;
-			}
+			$post = $this->get_metabox_post();
 
 			if ( ( ! is_object( $post ) || ! isset( $post->post_type ) ) || $this->is_metabox_hidden( $post->post_type ) === true ) {
 				return array();
@@ -410,13 +417,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		 * Output the meta box
 		 */
 		function meta_box() {
-			if ( isset( $_GET['post'] ) ) {
-				$post_id = (int) WPSEO_Option::validate_int( $_GET['post'] );
-				$post    = get_post( $post_id );
-			} else {
-				global $post;
-			}
-
+			$post = $this->get_metabox_post();
 			$options = WPSEO_Options::get_all();
 
 			?>
@@ -634,12 +635,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		 * @return string
 		 */
 		function snippet() {
-			if ( isset( $_GET['post'] ) ) {
-				$post_id = (int) WPSEO_Option::validate_int( $_GET['post'] );
-				$post    = get_post( $post_id );
-			} else {
-				global $post;
-			}
+			$post = $this->get_metabox_post();
 
 			$options = WPSEO_Options::get_all();
 
