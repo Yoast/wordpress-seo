@@ -422,8 +422,8 @@ if ( ! function_exists( 'wpseo_calc' ) ) {
 		}
 
 		if ( $bc ) {
-			$number1 = strval( $number1 );
-			$number2 = strval( $number2 );
+			$number1 = number_format( $number1, 10, '.', '' );
+			$number2 = number_format( $number2, 10, '.', '' );
 		}
 
 		$result  = null;
