@@ -25,6 +25,9 @@ matrix:
     - php: "5.2"
       env: WP_VERSION=master WP_MULTISITE=1 PHPLINT=1
 
+before_install:
+  - sudo apt-get update && sudo apt-get --reinstall install -qq language-pack-en language-pack-nl
+
 before_script:
 - PLUGIN_SLUG=$(basename $(pwd))
 - export WP_DEVELOP_DIR=/tmp/wordpress/
