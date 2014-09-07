@@ -1364,7 +1364,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			$inputString = str_replace( $keywordCharactersAlwaysReplacedBySpace, ' ', $inputString );
 
 			// standardise whitespace
-			$inputString = preg_replace( '`\s+`u', ' ', $inputString );
+			$inputString = wpseo_standardize_whitespace( $inputString );
 
 			// deal with the separators that can be either removed or replaced by space
 			if ( $removeOptionalCharacters ) {
@@ -1377,7 +1377,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			}
 
 			// standardise whitespace again
-			$inputString = preg_replace( '`\s+`u', ' ', $inputString );
+			$inputString = wpseo_standardize_whitespace( $inputString );
 
 			return trim( $inputString );
 		}

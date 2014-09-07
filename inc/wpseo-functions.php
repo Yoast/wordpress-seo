@@ -601,6 +601,19 @@ function wpseo_is_url_relative( $url ) {
 }
 
 /**
+ * Standardize whitespace in a string
+ *
+ * Replace line breaks, carriage returns, tabs with a space, then remove double spaces.
+ *
+ * @param string $string
+ *
+ * @return string
+ */
+function wpseo_standardize_whitespace( $string ) {
+	return trim( str_replace( '  ', ' ', str_replace( array( "\t", "\n", "\r", "\f" ), ' ', $string ) ) );
+}
+
+/**
  * Emulate PHP native ctype_digit() function for when the ctype extension would be disabled *sigh*
  * Only emulates the behaviour for when the input is a string, does not handle integer input as ascii value
  *
