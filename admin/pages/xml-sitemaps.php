@@ -28,7 +28,7 @@ $base = $GLOBALS['wp_rewrite']->using_index_permalinks() ? 'index.php/' : '';
 
 $content  = $wpseo_admin_pages->checkbox( 'enablexmlsitemap', __( 'Check this box to enable XML sitemap functionality.', 'wordpress-seo' ), false );
 $content .= '<div id="sitemapinfo">';
-if ( wpseo_is_nginx() ) {
+if ( WPSEO_Utils::is_nginx() ) {
 	$content .= '<div style="margin: 5px 0; padding: 3px 10px; background-color: #ffffe0; border: 1px solid #E6DB55; border-radius: 3px;">';
 	$content .= '<p>' . __( 'As you\'re on NGINX, you\'ll need the following rewrites:', 'wordpress-seo' ) . '</p>';
 	$content .= '<pre>rewrite ^/sitemap_index\.xml$ /index.php?sitemap=1 last;
@@ -50,7 +50,7 @@ $content .= '<div id="xml_user_block">';
 $content .= '<p><strong>' . __( 'Exclude users without posts', 'wordpress-seo' ) . '</strong><br/>';
 $content .= $wpseo_admin_pages->checkbox( 'disable_author_noposts', __( 'Disable all users with zero posts', 'wordpress-seo' ), false );
 
-$roles = wpseo_get_roles();
+$roles = WPSEO_Utils::get_roles();
 if ( is_array( $roles ) && $roles !== array() ) {
 	$content .= '<p><strong>' . __( 'Exclude userroles', 'wordpress-seo' ) . '</strong><br/>';
 	$content .= __( 'Please check the appropriate box below if there\'s a user role that you do <strong>NOT</strong> want to include in your sitemap:', 'wordpress-seo' ) . '</p>';

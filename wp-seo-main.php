@@ -75,6 +75,7 @@ function wpseo_auto_load( $class ) {
 			'wpseo_taxonomy_meta'                => WPSEO_PATH . 'inc/class-wpseo-options.php',
 			'wpseo_meta'                         => WPSEO_PATH . 'inc/class-wpseo-meta.php',
 			'wpseo_replace_vars'                 => WPSEO_PATH . 'inc/class-wpseo-replace-vars.php',
+			'wpseo_utils'                        => WPSEO_PATH . 'inc/class-wpseo-utils.php',
 
 			'yoast_license_manager'              => WPSEO_PATH . 'admin/license-manager/class-license-manager.php',
 			'yoast_plugin_license_manager'       =>	WPSEO_PATH . 'admin/license-manager/class-plugin-license-manager.php',
@@ -180,10 +181,10 @@ function _wpseo_activate() {
 
 	wpseo_add_capabilities();
 
-	WPSEO_Options::schedule_yoast_tracking( null, get_option( 'wpseo' ) );
+	WPSEO_Utils::schedule_yoast_tracking( null, get_option( 'wpseo' ) );
 
 	// Clear cache so the changes are obvious.
-	WPSEO_Options::clear_cache();
+	WPSEO_Utils::clear_cache();
 
 	do_action( 'wpseo_activate' );
 }
@@ -199,10 +200,10 @@ function _wpseo_deactivate() {
 	wpseo_remove_capabilities();
 
 	// Force unschedule
-	WPSEO_Options::schedule_yoast_tracking( null, get_option( 'wpseo' ), true );
+	WPSEO_Utils::schedule_yoast_tracking( null, get_option( 'wpseo' ), true );
 
 	// Clear cache so the changes are obvious.
-	WPSEO_Options::clear_cache();
+	WPSEO_Utils::clear_cache();
 
 	do_action( 'wpseo_deactivate' );
 }

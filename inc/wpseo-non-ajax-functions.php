@@ -23,7 +23,7 @@ function wpseo_title_test() {
 	// Setting title_test to > 0 forces the plugin to output the title below through a filter in class-frontend.php
 	$expected_title = 'This is a Yoast Test Title';
 
-	WPSEO_Options::clear_cache();
+	WPSEO_Utils::clear_cache();
 
 
 	global $wp_version;
@@ -209,75 +209,6 @@ function wpseo_update_theme_complete_actions( $update_actions, $updated_theme ) 
 	return $update_actions;
 }
 
-/**
- * Translates a decimal analysis score into a textual one.
- *
- * @param int  $val       The decimal score to translate.
- * @param bool $css_value Whether to return the i18n translated score or the CSS class value.
- *
- * @return string
- */
-function wpseo_translate_score( $val, $css_value = true ) {
-	if ( $val > 10 ) {
-		$val = round( $val / 10 );
-	}
-	switch ( $val ) {
-		case 0:
-			$score = __( 'N/A', 'wordpress-seo' );
-			$css   = 'na';
-			break;
-		case 4:
-		case 5:
-			$score = __( 'Poor', 'wordpress-seo' );
-			$css   = 'poor';
-			break;
-		case 6:
-		case 7:
-			$score = __( 'OK', 'wordpress-seo' );
-			$css   = 'ok';
-			break;
-		case 8:
-		case 9:
-		case 10:
-			$score = __( 'Good', 'wordpress-seo' );
-			$css   = 'good';
-			break;
-		default:
-			$score = __( 'Bad', 'wordpress-seo' );
-			$css   = 'bad';
-	}
-
-	if ( $css_value ) {
-		return $css;
-	} else {
-		return $score;
-	}
-}
-
-
-/**
- * Check whether file editing is allowed for the .htaccess and robots.txt files
- *
- * @internal current_user_can() checks internally whether a user is on wp-ms and adjusts accordingly.
- *
- * @return bool
- */
-function wpseo_allow_system_file_edit() {
-	$allowed = true;
-
-	if ( current_user_can( 'edit_files' ) === false ) {
-		$allowed = false;
-	}
-
-	/**
-	 * Filter: 'wpseo_allow_system_file_edit' - Allow developers to change whether the editing of
-	 * .htaccess and robots.txt is allowed
-	 *
-	 * @api bool $allowed Whether file editing is allowed
-	 */
-
-	return apply_filters( 'wpseo_allow_system_file_edit', $allowed );
-}
 
 
 /**
@@ -307,9 +238,9 @@ function wpseo_admin_bar_menu() {
 	) {
 		$focuskw    = WPSEO_Meta::get_value( 'focuskw', $post->ID );
 		$perc_score = WPSEO_Meta::get_value( 'linkdex', $post->ID );
-		$calc_score = wpseo_calc( $perc_score, '/', 10, true );
-		$txtscore   = wpseo_translate_score( $calc_score );
-		$title      = wpseo_translate_score( $calc_score, false );
+		$calc_score = WPSEO_Utils::calc( $perc_score, '/', 10, true );
+		$txtscore   = WPSEO_Utils::translate_score( $calc_score );
+		$title      = WPSEO_Utils::translate_score( $calc_score, false );
 		$score      = '<div title="' . esc_attr( $title ) . '" class="' . esc_attr( 'wpseo-score-icon ' . $txtscore . ' ' . $perc_score ) . '"></div>';
 
 		$seo_url = get_edit_post_link( $post->ID );
@@ -475,7 +406,7 @@ function wpseo_admin_bar_menu() {
 			) );
 
 		// Check where to add the edit files page
-		if ( wpseo_allow_system_file_edit() === true ) {
+		if ( WPSEO_Utils::allow_system_file_edit() === true ) {
 			$wp_admin_bar->add_menu( array(
 					'parent' => 'wpseo-settings',
 					'id'     => 'wpseo-files',
@@ -655,4 +586,38 @@ function wpseo_deactivate_robots_meta_notice() {
 function wpseo_defaults() {
 	_deprecated_function( __FUNCTION__, 'WPSEO 1.5.0', 'WPSEO_Options::initialize()' );
 	WPSEO_Options::initialize();
+}
+
+/**
+ * Translates a decimal analysis score into a textual one.
+ *
+ * @deprecated 1.5.6.1
+ * @deprecated use WPSEO_Utils::translate_score()
+ * @see WPSEO_Utils::translate_score()
+ *
+ * @param int  $val       The decimal score to translate.
+ * @param bool $css_value Whether to return the i18n translated score or the CSS class value.
+ *
+ * @return string
+ */
+function wpseo_translate_score( $val, $css_value = true ) {
+	_deprecated_function( __FUNCTION__, 'WPSEO 1.5.6.1', 'WPSEO_Utils::translate_score()' );
+	return WPSEO_Utils::translate_score();
+}
+
+
+/**
+ * Check whether file editing is allowed for the .htaccess and robots.txt files
+ *
+ * @deprecated 1.5.6.1
+ * @deprecated use WPSEO_Utils::allow_system_file_edit()
+ * @see WPSEO_Utils::allow_system_file_edit()
+ *
+ * @internal current_user_can() checks internally whether a user is on wp-ms and adjusts accordingly.
+ *
+ * @return bool
+ */
+function wpseo_allow_system_file_edit() {
+	_deprecated_function( __FUNCTION__, 'WPSEO 1.5.6.1', 'WPSEO_Utils::allow_system_file_edit()' );
+	return WPSEO_Utils::allow_system_file_edit();
 }

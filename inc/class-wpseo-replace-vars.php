@@ -146,10 +146,10 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 
 			$args = (array) $args;
 			if ( isset( $args['post_content'] ) && ! empty( $args['post_content'] ) ) {
-				$args['post_content'] = wpseo_strip_shortcode( $args['post_content'] );
+				$args['post_content'] = WPSEO_Utils::strip_shortcode( $args['post_content'] );
 			}
 			if ( isset( $args['post_excerpt'] ) && ! empty( $args['post_excerpt'] ) ) {
-				$args['post_excerpt'] = wpseo_strip_shortcode( $args['post_excerpt'] );
+				$args['post_excerpt'] = WPSEO_Utils::strip_shortcode( $args['post_excerpt'] );
 			}
 			$this->args = (object) wp_parse_args( $args, $this->defaults );
 

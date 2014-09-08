@@ -82,7 +82,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		 * @global array $submenu used to change the label on the first item.
 		 */
 		function register_settings_page() {
-			if ( WPSEO_Options::grant_access() !== true ) {
+			if ( WPSEO_Utils::grant_access() !== true ) {
 				return;
 			}
 
@@ -176,7 +176,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 			);
 
 			// Check where to add the edit files page
-			if ( wpseo_allow_system_file_edit() === true && ! is_multisite() ) {
+			if ( WPSEO_Utils::allow_system_file_edit() === true && ! is_multisite() ) {
 				$submenu_pages[] = array(
 					'wpseo_dashboard',
 					'',
@@ -265,13 +265,13 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		 * Register the settings page for the Network settings.
 		 */
 		function register_network_settings_page() {
-			if ( WPSEO_Options::grant_access() ) {
+			if ( WPSEO_Utils::grant_access() ) {
 				add_menu_page( __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'MultiSite Settings', 'wordpress-seo' ), __( 'SEO', 'wordpress-seo' ), 'delete_users', 'wpseo_dashboard', array(
 						$this,
 						'network_config_page',
 					), plugins_url( 'images/yoast-icon.png', WPSEO_FILE ) );
 
-				if ( wpseo_allow_system_file_edit() === true ) {
+				if ( WPSEO_Utils::allow_system_file_edit() === true ) {
 					add_submenu_page( 'wpseo_dashboard', __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Edit Files', 'wordpress-seo' ), __( 'Edit Files', 'wordpress-seo' ), 'delete_users', 'wpseo_files', array(
 							$this,
 							'load_page',
@@ -379,7 +379,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		 * Display an error message when the blog is set to private.
 		 */
 		function blog_public_warning() {
-			if ( ( function_exists( 'is_network_admin' ) && is_network_admin() ) || WPSEO_Options::grant_access() !== true ) {
+			if ( ( function_exists( 'is_network_admin' ) && is_network_admin() ) || WPSEO_Utils::grant_access() !== true ) {
 				return;
 			}
 
@@ -397,7 +397,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		 * @since 1.4.14
 		 */
 		function meta_description_warning() {
-			if ( ( function_exists( 'is_network_admin' ) && is_network_admin() ) || WPSEO_Options::grant_access() !== true ) {
+			if ( ( function_exists( 'is_network_admin' ) && is_network_admin() ) || WPSEO_Utils::grant_access() !== true ) {
 				return;
 			}
 
@@ -426,7 +426,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		 * @return    array    $links
 		 */
 		function add_action_link( $links, $file ) {
-			if ( WPSEO_BASENAME === $file && WPSEO_Options::grant_access() ) {
+			if ( WPSEO_BASENAME === $file && WPSEO_Utils::grant_access() ) {
 				$settings_link = '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_dashboard' ) ) . '">' . __( 'Settings', 'wordpress-seo' ) . '</a>';
 				array_unshift( $links, $settings_link );
 			}
@@ -453,7 +453,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		 * Enqueues the (tiny) global JS needed for the plugin.
 		 */
 		function config_page_scripts() {
-			if ( WPSEO_Options::grant_access() ) {
+			if ( WPSEO_Utils::grant_access() ) {
 				wp_enqueue_script( 'wpseo-admin-global-script', plugins_url( 'js/wp-seo-admin-global' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'jquery' ), WPSEO_VERSION, true );
 			}
 		}
@@ -467,10 +467,10 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		function process_user_option_update( $user_id ) {
 			if ( isset( $_POST['wpseo_author_title'] ) ) {
 				check_admin_referer( 'wpseo_user_profile_update', 'wpseo_nonce' );
-				update_user_meta( $user_id, 'wpseo_title', ( isset( $_POST['wpseo_author_title'] ) ? WPSEO_Option::sanitize_text_field( $_POST['wpseo_author_title'] ) : '' ) );
-				update_user_meta( $user_id, 'wpseo_metadesc', ( isset( $_POST['wpseo_author_metadesc'] ) ? WPSEO_Option::sanitize_text_field( $_POST['wpseo_author_metadesc'] ) : '' ) );
-				update_user_meta( $user_id, 'wpseo_metakey', ( isset( $_POST['wpseo_author_metakey'] ) ? WPSEO_Option::sanitize_text_field( $_POST['wpseo_author_metakey'] ) : '' ) );
-				update_user_meta( $user_id, 'wpseo_excludeauthorsitemap', ( isset( $_POST['wpseo_author_exclude'] ) ? WPSEO_Option::sanitize_text_field( $_POST['wpseo_author_exclude'] ) : '' ) );
+				update_user_meta( $user_id, 'wpseo_title', ( isset( $_POST['wpseo_author_title'] ) ? WPSEO_Utils::sanitize_text_field( $_POST['wpseo_author_title'] ) : '' ) );
+				update_user_meta( $user_id, 'wpseo_metadesc', ( isset( $_POST['wpseo_author_metadesc'] ) ? WPSEO_Utils::sanitize_text_field( $_POST['wpseo_author_metadesc'] ) : '' ) );
+				update_user_meta( $user_id, 'wpseo_metakey', ( isset( $_POST['wpseo_author_metakey'] ) ? WPSEO_Utils::sanitize_text_field( $_POST['wpseo_author_metakey'] ) : '' ) );
+				update_user_meta( $user_id, 'wpseo_excludeauthorsitemap', ( isset( $_POST['wpseo_author_exclude'] ) ? WPSEO_Utils::sanitize_text_field( $_POST['wpseo_author_exclude'] ) : '' ) );
 			}
 		}
 
@@ -691,15 +691,15 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		 * Check whether the current user is allowed to access the configuration.
 		 *
 		 * @deprecated 1.5.0
-		 * @deprecated use WPSEO_Options::grant_access()
-		 * @see        WPSEO_Options::grant_access()
+		 * @deprecated use WPSEO_Utils::grant_access()
+		 * @see        WPSEO_Utils::grant_access()
 		 *
 		 * @return boolean
 		 */
 		function grant_access() {
-			_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Options::grant_access()' );
+			_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Utils::grant_access()' );
 
-			return WPSEO_Options::grant_access();
+			return WPSEO_Utils::grant_access();
 		}
 
 		/**
@@ -720,24 +720,24 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		 * Clears the cache
 		 *
 		 * @deprecated 1.5.0
-		 * @deprecated use WPSEO_Options::clear_cache()
-		 * @see        WPSEO_Options::clear_cache()
+		 * @deprecated use WPSEO_Utils::clear_cache()
+		 * @see        WPSEO_Utils::clear_cache()
 		 */
 		function clear_cache() {
-			_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Options::clear_cache()' );
-			WPSEO_Options::clear_cache();
+			_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Utils::clear_cache()' );
+			WPSEO_Utils::clear_cache();
 		}
 
 		/**
 		 * Clear rewrites
 		 *
 		 * @deprecated 1.5.0
-		 * @deprecated use WPSEO_Options::clear_rewrites()
-		 * @see        WPSEO_Options::clear_rewrites()
+		 * @deprecated use WPSEO_Utils::clear_rewrites()
+		 * @see        WPSEO_Utils::clear_rewrites()
 		 */
 		function clear_rewrites() {
-			_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Options::clear_rewrites()' );
-			WPSEO_Options::clear_rewrites();
+			_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Utils::clear_rewrites()' );
+			WPSEO_Utils::clear_rewrites();
 		}
 
 		/**

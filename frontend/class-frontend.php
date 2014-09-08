@@ -839,7 +839,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 
 			if ( is_string( $canonical ) && $canonical !== '' ) {
 				// Force canonical links to be absolute, relative is NOT an option.
-				if ( wpseo_is_url_relative( $canonical ) === true ) {
+				if ( WPSEO_Utils::is_url_relative( $canonical ) === true ) {
 					$canonical = home_url( $canonical );
 				}
 

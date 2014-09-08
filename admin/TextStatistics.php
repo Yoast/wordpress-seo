@@ -62,7 +62,7 @@ if ( ! class_exists( 'Yoast_TextStatistics' ) ) {
 		 */
 		public function flesch_kincaid_reading_ease( $strText ) {
 			$strText = $this->clean_text( $strText );
-			$score   = wpseo_calc( wpseo_calc( 206.835, '-', wpseo_calc( 1.015, '*', $this->average_words_per_sentence( $strText ) ) ), '-', wpseo_calc( 84.6, '*', $this->average_syllables_per_word( $strText ) ) );
+			$score   = WPSEO_Utils::calc( WPSEO_Utils::calc( 206.835, '-', WPSEO_Utils::calc( 1.015, '*', $this->average_words_per_sentence( $strText ) ) ), '-', WPSEO_Utils::calc( 84.6, '*', $this->average_syllables_per_word( $strText ) ) );
 
 			return $this->normalize_score( $score, 0, 100 );
 		}
@@ -254,7 +254,7 @@ if ( ! class_exists( 'Yoast_TextStatistics' ) ) {
 			$strText          = $this->clean_text( $strText );
 			$intSentenceCount = $this->sentence_count( $strText );
 			$intWordCount     = $this->word_count( $strText );
-			return ( wpseo_calc( $intWordCount, '/', $intSentenceCount ) );
+			return ( WPSEO_Utils::calc( $intWordCount, '/', $intSentenceCount ) );
 		}
 
 		/**
@@ -271,7 +271,7 @@ if ( ! class_exists( 'Yoast_TextStatistics' ) ) {
 			for ( $i = 0; $i < $intWordCount; $i++ ) {
 				$intSyllableCount += $this->syllable_count( $arrWords[ $i ] );
 			}
-			return ( wpseo_calc( $intSyllableCount, '/', $intWordCount ) );
+			return ( WPSEO_Utils::calc( $intSyllableCount, '/', $intWordCount ) );
 		}
 
 		/**
@@ -398,7 +398,7 @@ if ( ! class_exists( 'Yoast_TextStatistics' ) ) {
 		 * @return	int|float
 		 */
 		public function normalize_score( $score, $min, $max, $dps = 1 ) {
-			$score = wpseo_calc( $score, '+', 0, true, $dps ); // Round
+			$score = WPSEO_Utils::calc( $score, '+', 0, true, $dps ); // Round
 			if ( ! $this->normalize ) {
 				return $score;
 			}

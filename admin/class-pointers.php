@@ -164,7 +164,7 @@ if ( ! class_exists( 'WPSEO_Pointers' ) ) {
 			);
 
 			// Remove the last step and add tour end to import page if file editing is disallowed or if the site is a multisite and the current user isn't a superadmin
-			if ( wpseo_allow_system_file_edit() === false ) {
+			if ( WPSEO_Utils::allow_system_file_edit() === false ) {
 				unset( $adminpages['wpseo_files'] );
 				$adminpages['wpseo_import']['function'] = '';
 				unset( $adminpages['wpseo_import']['button2'] );
