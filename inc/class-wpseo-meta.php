@@ -219,9 +219,6 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 						'0.1' => '0.1 - ', // translation added later
 					),
 				),
-				'authorship'			=> array(
-					'type'			=> 'select',
-					'title'			=> '', // translation added later
 					'default_value'	=> '-',
 					'description'	=> '', // translation added later
 					'options'		=> array(
