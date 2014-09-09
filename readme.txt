@@ -116,6 +116,11 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 
 == Changelog ==
 
+= trunk =
+
+* i18n
+	* Updated da_DK, fa_IR, fr_FR, hr, hu_HU, nl_NL, pt_BR and tr_RK
+
 = 1.5.6 =
 
 * Bugfixes:
