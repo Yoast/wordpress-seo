@@ -220,7 +220,7 @@ $wpseo_admin_pages->admin_header( true, WPSEO_Options::get_group_name( 'wpseo_so
 <div id="google" class="wpseotab">
 	<?php
 		echo '<p>';
-		echo $wpseo_admin_pages->checkbox( 'googleplus', __( 'Add Google+ specific post meta data (excluding author metadata)', 'wordpress-seo' ) );
+		echo $wpseo_admin_pages->checkbox( 'googleplus', __( 'Add Google+ specific post meta data', 'wordpress-seo' ) );
 		echo '</p>';
 
 		echo $wpseo_admin_pages->textinput( 'plus-publisher', __( 'Google Publisher Page', 'wordpress-seo' ) );
