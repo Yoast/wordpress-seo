@@ -579,7 +579,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 			 */
 			$search_url = apply_filters( 'wpseo_json_ld_search_url', $home_url . '?s={search_term}' );
 
-			echo '<script type="application/ld+json">{ "@context": "http://schema.org", "@type": "WebSite", "url": "' . $home_url . '", "potentialAction": { "@type": "SearchAction", "target": "' . $search_url .'", "query-input": "required name=search_term" } }</script>';
+			echo '<script type="application/ld+json">{ "@context": "http://schema.org", "@type": "WebSite", "url": "' . $home_url . '", "potentialAction": { "@type": "SearchAction", "target": "' . $search_url .'", "query-input": "required name=search_term" } }</script>' . "\n";
 		}
 
 		/**
