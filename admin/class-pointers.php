@@ -84,7 +84,6 @@ if ( ! class_exists( 'WPSEO_Pointers' ) ) {
 		function intro_tour() {
 			global $pagenow, $current_user;
 
-			// @TODO: Decide on preferred position of tour
 			// @FIXME: Links to tabs only work with target="_blank" and thus open in a new window
 			$adminpages = array(
 				'wpseo_dashboard'      => array(
@@ -111,7 +110,6 @@ if ( ! class_exists( 'WPSEO_Pointers' ) ) {
 					        . '<p><strong>' . __( 'Templates and settings', 'wordpress-seo' ) . '</strong><br/>'	. sprintf( __( 'Now click on the \'%1$sPost Types%2$s\'-tab, as this will be our example.', 'wordpress-seo' ), '<a target="_blank" href="' . esc_url( admin_url( 'admin.php?page=wpseo_titles#top#post_types' ) ) . '">', '</a>' ) . '<br />' . __( 'The templates are built using variables. You can find all these variables in the help tab (in the top-right corner of the page). The settings allow you to set specific behavior for the post types.', 'wordpress-seo' ) . '</p><p>' . __('All settings are explained in detail in Sidekick.', 'wordpress-seo') . '</p>',
 					'button2'  => __( 'Next', 'wordpress-seo' ),
 					'function' => 'window.location="' . admin_url( 'admin.php?page=wpseo_social' ) . '";',
-					'position' => array( 'edge' => 'top', 'align' => 'right' ),
 				),
 				'wpseo_social'         => array(
 					'content'  => '<h3>' . __( 'Social settings', 'wordpress-seo' ) . '</h3>'
@@ -120,7 +118,6 @@ if ( ! class_exists( 'WPSEO_Pointers' ) ) {
 							. '<p><strong>' . __( 'Google+', 'wordpress-seo' ) . '</strong><br/>' . sprintf( __( 'This tab allows you to add specific post meta data for Google+. And if you have a Google+ page for your business, add that URL here and link it on your %1$sGoogle+%2$s page\'s about page.', 'wordpress-seo' ), '<a target="_blank" href="' . esc_url( 'https://plus.google.com/' ) . '">', '</a>' ) . '</p>',
 					'button2'  => __( 'Next', 'wordpress-seo' ),
 					'function' => 'window.location="' . admin_url( 'admin.php?page=wpseo_xml' ) . '";',
-					'position' => array( 'edge' => 'top', 'align' => 'right' ),
 				),
 				'wpseo_xml'            => array(
 					'content'  => '<h3>' . __( 'XML Sitemaps', 'wordpress-seo' ) . '</h3>'
@@ -128,25 +125,21 @@ if ( ! class_exists( 'WPSEO_Pointers' ) ) {
 					        . '<p><strong>' . __( 'What does the plugin do with XML Sitemaps?', 'wordpress-seo' ) . '</strong><br/>' . __( 'This plugin adds XML sitemaps to your site. The sitemaps are automatically updated when you publish a new post, page or custom post and Google and Bing will be automatically notified. You can also have the plugin automatically notify Yahoo! and Ask.com.', 'wordpress-seo' ) . '</p><p>' . __( 'If you want to exclude certain post types and/or taxonomies, you can also set that on this page.', 'wordpress-seo' ) . '</p><p>' . __('Is your webserver low on memory? Decrease the entries per sitemap (default: 1000) to reduce load.', 'wordpress-seo') . '</p>',
 					'button2'  => __( 'Next', 'wordpress-seo' ),
 					'function' => 'window.location="' . admin_url( 'admin.php?page=wpseo_permalinks' ) . '";',
-					'position' => array( 'edge' => 'top', 'align' => 'right' ),
 				),
 				'wpseo_permalinks'     => array(
 					'content'  => '<h3>' . __( 'Permalink Settings', 'wordpress-seo' ) . '</h3><p>' . __( 'All of the options here are for advanced users only, if you don\'t know whether you should check any, don\'t touch them.', 'wordpress-seo' ) . '</p><p>' . __('For more detailed information about the Permalink settings, check Sidekick.') .'</p>',
 					'button2'  => __( 'Next', 'wordpress-seo' ),
 					'function' => 'window.location="' . admin_url( 'admin.php?page=wpseo_internal-links' ) . '";',
-					'position' => array( 'edge' => 'top', 'align' => 'right' ),
 				),
 				'wpseo_internal-links' => array(
 					'content'  => '<h3>' . __( 'Breadcrumbs Settings', 'wordpress-seo' ) . '</h3><p>' . sprintf( __( 'If your theme supports my breadcrumbs, as all Genesis and WooThemes themes as well as a couple of other ones do, you can change the settings for those here. If you want to modify your theme to support them, %sfollow these instructions%s.', 'wordpress-seo' ), '<a target="_blank" href="' . esc_url( 'https://yoast.com/wordpress/plugins/breadcrumbs/#utm_source=wpseo_permalinks&utm_medium=wpseo_tour&utm_campaign=tour' ) . '">', '</a>' ) . '</p>',
 					'button2'  => __( 'Next', 'wordpress-seo' ),
 					'function' => 'window.location="' . admin_url( 'admin.php?page=wpseo_rss' ) . '";',
-					'position' => array( 'edge' => 'top', 'align' => 'right' ),
 				),
 				'wpseo_rss'            => array(
 					'content'  => '<h3>' . __( 'RSS Settings', 'wordpress-seo' ) . '</h3><p>' . __( 'This incredibly powerful function allows you to add content to the beginning and end of your posts in your RSS feed. This helps you gain links from people who steal your content!', 'wordpress-seo' ) . '</p><p>' . __('For more information about the RSS feed, check Sidekick.','wordpress-seo') . '</p>',
 					'button2'  => __( 'Next', 'wordpress-seo' ),
 					'function' => 'window.location="' . admin_url( 'admin.php?page=wpseo_import' ) . '";',
-					'position' => array( 'edge' => 'top', 'align' => 'right' ),
 				),
 				'wpseo_import'         => array(
 					'content'  => '<h3>' . __( 'Import &amp; Export', 'wordpress-seo' ) . '</h3>'
@@ -155,19 +148,16 @@ if ( ! class_exists( 'WPSEO_Pointers' ) ) {
 					              . '<p><strong>' . __( 'Export', 'wordpress-seo' ) . '</strong><br/>' . __( 'If you have multiple blogs and you\'re happy with how you\'ve configured this blog, you can export the settings and import them on another blog so you don\'t have to go through this process twice!', 'wordpress-seo' ) . '</p>',
 					'button2'  => __( 'Next', 'wordpress-seo' ),
 					'function' => 'window.location="' . network_admin_url( 'admin.php?page=wpseo_bulk-editor' ) . '";', // will auto-use admin_url if not on multi-site
-					'position' => array( 'edge' => 'top', 'align' => 'right' ),
 				),
 				'wpseo_bulk-editor' => array(
 					'content' => '<h3>' . __( 'Bulk Editor', 'wordpress-seo' ) . '</h3><p>' . __( 'This page lets you view and edit the titles and meta descriptions of all posts and pages on your site. This allows you to edit the title or meta description of all your pages in one place, rather than having to edit each individual page.', 'wordpress-seo' ) . '</p>',
 					'button2'  => __( 'Next', 'wordpress-seo' ),
 					'function' => 'window.location="' . admin_url( 'admin.php?page=wpseo_files' ) . '";',
-					'position' => array( 'edge' => 'top', 'align' => 'right' ),
 				),
 				'wpseo_files'          => array(
 					'content' => '<h3>' . __( 'File Editor', 'wordpress-seo' ) . '</h3><p>' . __( 'Here you can edit the .htaccess and robots.txt files, two of the most powerful files in your WordPress install, if your WordPress installation has write-access to the files. But please, only touch these files if you know what you\'re doing!', 'wordpress-seo' ) . '</p>',
 					'button2'  => __( 'Next', 'wordpress-seo' ),
 					'function' => 'window.location="' . admin_url( 'admin.php?page=wpseo_licenses' ) . '";',
-					'position' => array( 'edge' => 'top', 'align' => 'right' ),
 				),
 				'wpseo_licenses'          => array(
 					'content' => '<h3>' . __( 'Extensions and Licenses', 'wordpress-seo' ) . '</h3>'
@@ -209,7 +199,7 @@ if ( ! class_exists( 'WPSEO_Pointers' ) ) {
 			}
 			else {
 				if ( '' != $page && in_array( $page, array_keys( $adminpages ) ) ) {
-					$align   = ( is_rtl() ) ? 'right' : 'left';
+					$align   = ( is_rtl() ) ? 'left' : 'right';
 					$opt_arr = array(
 						'content'      => $adminpages[ $page ]['content'],
 						'position'     => ( isset ( $adminpages[ $page ]['position'] ) ) ? ( $adminpages[ $page ]['position'] ) : array( 'edge' => 'top', 'align' => $align ),
