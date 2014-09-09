@@ -187,6 +187,22 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		}
 
 		/**
+		 * Returns post in metabox context
+		 *
+		 * @returns WP_Post
+		 */
+		private function get_metabox_post() {
+			if ( isset( $_GET['post'] ) ) {
+				$post_id = (int) WPSEO_Option::validate_int( $_GET['post'] );
+				$post    = get_post( $post_id );
+			} else {
+				global $post;
+			}
+
+			return $post;
+		}
+
+		/**
 		 * Lowercase a sentence while preserving "weird" characters.
 		 *
 		 * This should work with Greek, Russian, Polish & French amongst other languages...
@@ -229,17 +245,13 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 
 			echo '<div class="misc-pub-section misc-yoast misc-pub-section-last">';
 
-			if ( self::get_value( 'meta-robots-noindex' ) === '1' ) {
+			$post = $this->get_metabox_post();
+
+			if ( self::get_value( 'meta-robots-noindex', $post->ID ) === '1' ) {
 				$score_label = 'noindex';
 				$title       = __( 'Post is set to noindex.', 'wordpress-seo' );
 				$score_title = $title;
 			} else {
-				if ( isset( $_GET['post'] ) ) {
-					$post_id = (int) WPSEO_Option::validate_int( $_GET['post'] );
-					$post    = get_post( $post_id );
-				} else {
-					global $post;
-				}
 
 				$score   = '';
 				$results = $this->calculate_results( $post );
@@ -294,12 +306,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		 * @return  array
 		 */
 		public function localize_script() {
-			if ( isset( $_GET['post'] ) ) {
-				$post_id = (int) WPSEO_Option::validate_int( $_GET['post'] );
-				$post    = get_post( $post_id );
-			} else {
-				global $post;
-			}
+			$post = $this->get_metabox_post();
 
 			if ( ( ! is_object( $post ) || ! isset( $post->post_type ) ) || $this->is_metabox_hidden( $post->post_type ) === true ) {
 				return array();
@@ -398,13 +405,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		 * Output the meta box
 		 */
 		function meta_box() {
-			if ( isset( $_GET['post'] ) ) {
-				$post_id = (int) WPSEO_Option::validate_int( $_GET['post'] );
-				$post    = get_post( $post_id );
-			} else {
-				global $post;
-			}
-
+			$post = $this->get_metabox_post();
 			$options = WPSEO_Options::get_all();
 
 			?>
@@ -459,7 +460,8 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		function do_meta_box( $meta_field_def, $key = '' ) {
 			$content      = '';
 			$esc_form_key = esc_attr( self::$form_prefix . $key );
-			$meta_value   = self::get_value( $key );
+			$post         = $this->get_metabox_post();
+			$meta_value   = self::get_value( $key, $post->ID );
 
 			$class = '';
 			if ( isset( $meta_field_def['class'] ) && $meta_field_def['class'] !== '' ) {
@@ -622,12 +624,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		 * @return string
 		 */
 		function snippet() {
-			if ( isset( $_GET['post'] ) ) {
-				$post_id = (int) WPSEO_Option::validate_int( $_GET['post'] );
-				$post    = get_post( $post_id );
-			} else {
-				global $post;
-			}
+			$post = $this->get_metabox_post();
 
 			$options = WPSEO_Options::get_all();
 
@@ -636,8 +633,8 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 				$date = $this->get_post_date( $post );
 			}
 
-			$title = self::get_value( 'title' );
-			$desc  = self::get_value( 'metadesc' );
+			$title = self::get_value( 'title', $post->ID );
+			$desc  = self::get_value( 'metadesc', $post->ID );
 
 			$slug = ( is_object( $post ) && isset( $post->post_name ) ) ? $post->post_name : '';
 			if ( $slug !== '' ) {
@@ -1168,7 +1165,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			$sampleurl             = $this->get_sample_permalink( $post );
 			$job['pageUrl']        = preg_replace( '`%(?:post|page)name%`', $sampleurl[1], $sampleurl[0] );
 			$job['pageSlug']       = urldecode( $post->post_name );
-			$job['keyword']        = self::get_value( 'focuskw' );
+			$job['keyword']        = self::get_value( 'focuskw', $post->ID );
 			$job['keyword_folded'] = $this->strip_separators_and_fold( $job['keyword'] );
 			$job['post_id']        = $post->ID;
 			$job['post_type']      = $post->post_type;
@@ -1202,7 +1199,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			$this->score_keyword( $job['keyword'], $results );
 
 			// Title
-			$title = self::get_value( 'title' );
+			$title = self::get_value( 'title', $post->ID );
 			if ( $title !== '' ) {
 				$job['title'] = $title;
 			} else {
@@ -1218,7 +1215,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 
 			// Meta description
 			$description = '';
-			$desc_meta   = self::get_value( 'metadesc' );
+			$desc_meta   = self::get_value( 'metadesc', $post->ID );
 			if ( $desc_meta !== '' ) {
 				$description = $desc_meta;
 			} elseif ( isset( $options[ 'metadesc-' . $post->post_type ] ) && $options[ 'metadesc-' . $post->post_type ] !== '' ) {
