@@ -64,6 +64,8 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 			add_action( 'switch_theme', array( $this, 'switch_theme' ) );
 
 			add_filter( 'set-screen-option', array( $this, 'save_bulk_edit_options' ), 10, 3 );
+
+			add_filter( 'upgrader_post_install', array( $this, 'remove_transients_on_update' ), 10, 1 );
 		}
 
 		/**
@@ -468,6 +470,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 				update_user_meta( $user_id, 'wpseo_title', ( isset( $_POST['wpseo_author_title'] ) ? WPSEO_Option::sanitize_text_field( $_POST['wpseo_author_title'] ) : '' ) );
 				update_user_meta( $user_id, 'wpseo_metadesc', ( isset( $_POST['wpseo_author_metadesc'] ) ? WPSEO_Option::sanitize_text_field( $_POST['wpseo_author_metadesc'] ) : '' ) );
 				update_user_meta( $user_id, 'wpseo_metakey', ( isset( $_POST['wpseo_author_metakey'] ) ? WPSEO_Option::sanitize_text_field( $_POST['wpseo_author_metakey'] ) : '' ) );
+				update_user_meta( $user_id, 'wpseo_excludeauthorsitemap', ( isset( $_POST['wpseo_author_exclude'] ) ? WPSEO_Option::sanitize_text_field( $_POST['wpseo_author_exclude'] ) : '' ) );
 			}
 		}
 
@@ -534,6 +537,14 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 						</td>
 					</tr>
 				<?php } ?>
+				<tr>
+					<th>
+						<label for="wpseo_author_exclude"><?php _e( 'Exclude user from Author-sitemap', 'wordpress-seo' ); ?></label>
+					</th>
+					<td>
+						<input class="checkbox double" type="checkbox" id="wpseo_author_exclude" name="wpseo_author_exclude" value="on" <?php echo ( ( esc_attr( get_the_author_meta( 'wpseo_excludeauthorsitemap', $user->ID ) ) == 'on' ) ? 'checked' : '' ); ?> />
+					</td>
+				</tr>
 			</table>
 			<br /><br />
 		<?php
@@ -642,6 +653,33 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 					update_user_meta( $user->ID, '_yoast_wpseo_profile_updated', time() );
 				}
 			}
+		}
+
+		/**
+		 * This method will remove the sitemap transients on upgrade
+		 *
+		 * @param boolean $response
+		 *
+		 * @return boolean $response
+		 */
+		function remove_transients_on_update( $response ) {
+
+			global $wpdb;
+
+			$results = $wpdb->get_results(
+				"
+					SELECT option_name
+					FROM   {$wpdb->options}
+					WHERE  option_name LIKE '%_transient_wpseo_sitemap_cache%'
+				"
+			);
+
+			foreach ( $results as $result ) {
+				$transient_name = substr( $result->option_name, 11 );
+				delete_transient( $transient_name );
+			}
+
+			return $response;
 		}
 
 

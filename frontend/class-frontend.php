@@ -70,7 +70,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 			add_filter( 'register', array( $this, 'nofollow_link' ) );
 
 			// Fix the WooThemes woo_title() output
-			add_filter( 'woo_title', array( $this, 'fix_woo_title' ), 10, 1 );
+			add_filter( 'woo_title', array( $this, 'fix_woo_title' ), 99 );
 
 			if ( $this->options['hide-rsdlink'] === true ) {
 				remove_action( 'wp_head', 'rsd_link' );
@@ -80,7 +80,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 			}
 			if ( $this->options['hide-shortlink'] === true ) {
 				remove_action( 'wp_head', 'wp_shortlink_wp_head' );
-				remove_action( 'template_redirect', 'wp_shortlink_header', 20 );
+				remove_action( 'template_redirect', 'wp_shortlink_header', 11 );
 			}
 			if ( $this->options['hide-feedlinks'] === true ) {
 				// @todo: add option to display just normal feed and hide comment feed.
@@ -124,16 +124,14 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 		}
 
 		/**
-		 * Strip the extra blogname from the title
+		 * Override Woo's title with our own.
 		 *
-		 * @param $title
+		 * @param string $title
 		 *
-		 * @return mixed
+		 * @return string
 		 */
 		public function fix_woo_title( $title ) {
-			$title = substr( $title, 0, - ( strlen( get_bloginfo( 'name' ) ) ) );
-
-			return $title;
+			return $this->title( $title );
 		}
 
 		/**
@@ -839,12 +837,12 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 			 */
 			$canonical = apply_filters( 'wpseo_canonical', $canonical );
 
-			// Force canonical links to be absolute, relative is NOT an option.
-			if ( '/' == substr( $canonical, 0, 1 ) ) {
-				$canonical = untrailingslashit( get_site_url() ) . $canonical;
-			}
-
 			if ( is_string( $canonical ) && $canonical !== '' ) {
+				// Force canonical links to be absolute, relative is NOT an option.
+				if ( wpseo_is_url_relative( $canonical ) === true ) {
+					$canonical = home_url( $canonical );
+				}
+
 				if ( $echo !== false ) {
 					echo '<link rel="canonical" href="' . esc_url( $canonical, null, 'other' ) . '" />' . "\n";
 				} else {
@@ -1147,6 +1145,9 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 				} elseif ( is_author() ) {
 					$author_id = get_query_var( 'author' );
 					$metadesc  = get_the_author_meta( 'wpseo_metadesc', $author_id );
+					if ( ( ! is_string( $metadesc ) || $metadesc === '' ) && '' !== $this->options[ 'metadesc-author-wpseo' ] ) {
+						$template = $this->options[ 'metadesc-author-wpseo' ];
+					}
 				} elseif ( is_post_type_archive() ) {
 					$post_type = get_query_var( 'post_type' );
 					if ( is_array( $post_type ) ) {

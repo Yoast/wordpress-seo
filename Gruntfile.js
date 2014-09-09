@@ -118,27 +118,6 @@ module.exports = function(grunt) {
             }
         },
 
-        // shell: {
-        //     downloadPo: {
-        //         options: {
-        //             project: grunt.option( 'project' ),
-        //             destination: grunt.option( 'destination' ),
-        //         },
-        //         command: [
-        //             'GLOTPRESS_URL=http://translate.yoast.com/projects/wordpress-seo/nl/nl_NL/export-translations',
-        //             'PO_FILE=<%= shell.downloadPo.options.destination %>',
-        //             'touch $PO_FILE',
-        //             'wget -O $PO_FILE $GLOTPRESS_URL'
-        //         ].join( '&&' )
-        //     },
-        //     generateMos: {
-        //         command: [
-        //             'cd languages',
-        //             'for i in **/*.po; do msgfmt $i -o ${i%%.*}.mo; done'
-        //         ].join( '&&' )
-        //     }
-        // },
-
         // I18n
         addtextdomain: {
             options: {
@@ -182,7 +161,7 @@ module.exports = function(grunt) {
         },
 
         makepot: {
-            theme: {
+            plugin: {
                 options: {
                     domainPath: '/languages',
                     potFilename: 'wordpress-seo.pot',
@@ -207,13 +186,6 @@ module.exports = function(grunt) {
             }
         }
     });
-
-
-
-    grunt.registerTask( 'downloadPo', [
-        'shell:downloadPo',
-        'shell:generateMos'
-    ]);
 
     grunt.registerTask('check', [
         'jshint',

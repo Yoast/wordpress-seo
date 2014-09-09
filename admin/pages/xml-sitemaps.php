@@ -38,14 +38,28 @@ rewrite ^/([^/]+?)-sitemap([0-9]+)?\.xml$ /index.php?sitemap=$1&sitemap_n=$2 las
 
 if ( $options['enablexmlsitemap'] === true ) {
 	$content .= '<p>' . sprintf( esc_html__( 'You can find your XML Sitemap here: %sXML Sitemap%s', 'wordpress-seo' ), '<a target="_blank" class="button-secondary" href="' . esc_url( home_url( $base . 'sitemap_index.xml' ) ) . '">', '</a>' ) . '<br/><br/>' . __( 'You do <strong>not</strong> need to generate the XML sitemap, nor will it take up time to generate after publishing a post.', 'wordpress-seo' ) . '</p>';
-}
-else {
+} else {
 	$content .= '<p>' . __( 'Save your settings to activate XML Sitemaps.', 'wordpress-seo' ) . '</p>';
 }
 
 // When we write the help tab for this we should definitely reference this plugin :https://wordpress.org/plugins/edit-author-slug/
 $content .= '<h2>' . __( 'User sitemap', 'wordpress-seo' ) . '</h2>';
 $content .= $wpseo_admin_pages->checkbox( 'disable_author_sitemap', __( 'Disable author/user sitemap', 'wordpress-seo' ), false );
+
+$content .= '<div id="xml_user_block">';
+$content .= '<p><strong>' . __( 'Exclude users without posts', 'wordpress-seo' ) . '</strong><br/>';
+$content .= $wpseo_admin_pages->checkbox( 'disable_author_noposts', __( 'Disable all users with zero posts', 'wordpress-seo' ), false );
+
+$roles = wpseo_get_roles();
+if ( is_array( $roles ) && $roles !== array() ) {
+	$content .= '<p><strong>' . __( 'Exclude userroles', 'wordpress-seo' ) . '</strong><br/>';
+	$content .= __( 'Please check the appropriate box below if there\'s a user role that you do <strong>NOT</strong> want to include in your sitemap:', 'wordpress-seo' ) . '</p>';
+	foreach ( $roles as $role_key => $role_name ) {
+		$content .= $wpseo_admin_pages->checkbox( 'user_role-' . $role_key . '-not_in_sitemap', $role_name );
+	}
+}
+$content .= '</div>';
+
 $content .= '<br/>';
 $content .= '<h2>' . __( 'General settings', 'wordpress-seo' ) . '</h2>';
 $content .= '<p>' . __( 'After content publication, the plugin automatically pings Google and Bing, do you need it to ping other search engines too? If so, check the box:', 'wordpress-seo' ) . '</p>';

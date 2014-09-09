@@ -59,7 +59,7 @@ function wpseo_title_test() {
 	update_option( 'wpseo_titles', $options );
 }
 
-add_filter( 'switch_theme', 'wpseo_title_test', 0 );
+//add_filter( 'switch_theme', 'wpseo_title_test', 0 );
 
 
 /**
@@ -164,11 +164,11 @@ function wpseo_upgrader_process_complete( $upgrader_object, $context_array, $the
 	if ( ( isset( $context_array['bulk'] ) && $context_array['bulk'] === true ) && ( is_array( $themes ) && count( $themes ) > 0 ) ) {
 
 		if ( in_array( $theme, $themes ) ) {
-			wpseo_title_test();
+//			wpseo_title_test();
 			wpseo_description_test();
 		}
 	} elseif ( is_string( $themes ) && $themes === $theme ) {
-		wpseo_title_test();
+//		wpseo_title_test();
 		wpseo_description_test();
 	}
 
@@ -198,11 +198,11 @@ function wpseo_update_theme_complete_actions( $update_actions, $updated_theme ) 
 	if ( is_object( $updated_theme ) ) {
 		/* Bulk update and $updated_theme only contains info on which theme was last in the list
 		   of updated themes, so go & test */
-		wpseo_title_test();
+//		wpseo_title_test();
 		wpseo_description_test();
 	} elseif ( $updated_theme === $theme ) {
 		/* Single theme update for the active theme */
-		wpseo_title_test();
+//		wpseo_title_test();
 		wpseo_description_test();
 	}
 
@@ -218,6 +218,9 @@ function wpseo_update_theme_complete_actions( $update_actions, $updated_theme ) 
  * @return string
  */
 function wpseo_translate_score( $val, $css_value = true ) {
+	if ( $val > 10 ) {
+		$val = round( $val / 10 );
+	}
 	switch ( $val ) {
 		case 0:
 			$score = __( 'N/A', 'wordpress-seo' );
@@ -405,23 +408,13 @@ function wpseo_admin_bar_menu() {
 	$admin_menu = false;
 	if ( is_multisite() ) {
 		$options = get_site_option( 'wpseo_ms' );
-		if ( $options['access'] === 'superadmin' ) {
-			if ( is_super_admin() ) {
-				$admin_menu = true;
-			} else {
-				$admin_menu = false;
-			}
-		} else {
-			if ( current_user_can( 'manage_options' ) ) {
-				$admin_menu = true;
-			} else {
-				$admin_menu = false;
-			}
-		}
-	} else {
-		if ( current_user_can( 'manage_options' ) ) {
+		if ( $options['access'] === 'superadmin' && is_super_admin() ) {
+			$admin_menu = true;
+		} elseif ( current_user_can( 'manage_options' ) ) {
 			$admin_menu = true;
 		}
+	} elseif ( current_user_can( 'manage_options' ) ) {
+		$admin_menu = true;
 	}
 
 	// @todo: add links to bulk title and bulk description edit pages
