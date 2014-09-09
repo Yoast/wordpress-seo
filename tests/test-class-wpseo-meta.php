@@ -41,7 +41,7 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 		$post_id = $this->factory->post->create();
 
 		// generate key
-		$key = WPSEO_Meta::$meta_prefix . 'sitemap-html-include';
+		$key = WPSEO_Meta::$meta_prefix . 'meta-robots-noindex';
 
 		// set post meta to default value
 		$default_value = WPSEO_Meta::$defaults[$key];
@@ -62,7 +62,7 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 		$this->go_to( get_permalink( $post_id ) );
 
 		// generate key
-		$key = WPSEO_Meta::$meta_prefix . 'sitemap-html-include';
+		$key = WPSEO_Meta::$meta_prefix . 'meta-robots-noindex';
 
 		// add default value to post_meta
 		$default_value = WPSEO_Meta::$defaults[$key];
@@ -77,7 +77,7 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 	* @covers WPSEO_Meta::meta_value_is_default
 	*/
 	public function test_meta_value_is_default() {
-		$meta_key   = WPSEO_Meta::$meta_prefix . 'sitemap-html-include';
+		$meta_key   = WPSEO_Meta::$meta_prefix . 'meta-robots-noindex';
 		$meta_value = WPSEO_Meta::$defaults[ $meta_key ];
 
 		$this->assertTrue( WPSEO_Meta::meta_value_is_default( $meta_key, $meta_value ) );

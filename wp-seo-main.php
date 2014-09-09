@@ -14,7 +14,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * @internal Nobody should be able to overrule the real version number as this can cause serious issues
  * with the options, so no if ( ! defined() )
  */
-define( 'WPSEO_VERSION', '1.5.6' );
+define( 'WPSEO_VERSION', '1.6' );
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
 	define( 'WPSEO_PATH', plugin_dir_path( WPSEO_FILE ) );
@@ -61,7 +61,6 @@ function wpseo_auto_load( $class ) {
 			'wpseo_googleplus'                   => WPSEO_PATH . 'frontend/class-googleplus.php',
 			'wpseo_rewrite'                      => WPSEO_PATH . 'inc/class-rewrite.php',
 			'wpseo_sitemaps'                     => WPSEO_PATH . 'inc/class-sitemaps.php',
-			'sitemap_walker'                     => WPSEO_PATH . 'inc/class-sitemap-walker.php',
 			'wpseo_options'                      => WPSEO_PATH . 'inc/class-wpseo-options.php',
 			'wpseo_option'                       => WPSEO_PATH . 'inc/class-wpseo-options.php',
 			'wpseo_option_wpseo'                 => WPSEO_PATH . 'inc/class-wpseo-options.php',
