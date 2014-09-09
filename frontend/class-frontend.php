@@ -48,8 +48,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 			add_action( 'wpseo_head', array( $this, 'metakeywords' ), 11 );
 			add_action( 'wpseo_head', array( $this, 'canonical' ), 20 );
 			add_action( 'wpseo_head', array( $this, 'adjacent_rel_links' ), 21 );
-			add_action( 'wpseo_head', array( $this, 'author' ), 22 );
-			add_action( 'wpseo_head', array( $this, 'publisher' ), 23 );
+			add_action( 'wpseo_head', array( $this, 'publisher' ), 22 );
 			add_action( 'wpseo_head', array( $this, 'webmaster_tools_authentication' ), 90 );
 			add_action( 'wpseo_head', array( $this, 'internal_search_json_ld' ), 90 );
 
@@ -1012,49 +1011,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 
 			if ( $this->options['plus-publisher'] !== '' ) {
 				echo '<link rel="publisher" href="' . esc_url( $this->options['plus-publisher'] ) . '"/>' . "\n";
-				return true;
-			}
 
-			return false;
-		}
-
-		/**
-		 * Outputs the rel=author
-		 * @return boolean Boolean indiciting whether the autor link was printed
-		 */
-		public function author() {
-			global $post;
-
-			$gplus = false;
-
-			if ( is_singular() ) {
-				if ( is_object( $post ) ) {
-					$have_author = WPSEO_Meta::get_value( 'authorship' );
-
-					switch ( $have_author ) {
-						case 'always':
-							$gplus = get_the_author_meta( 'googleplus', $post->post_author );
-							break;
-
-						case '-':
-							// Defer to post_type default
-							if ( ! isset( $this->options[ 'noauthorship-' . $post->post_type ] ) || $this->options[ 'noauthorship-' . $post->post_type ] === false ) {
-								$gplus = get_the_author_meta( 'googleplus', $post->post_author );
-							}
-							break;
-					}
-				}
-			}
-
-			/**
-			 * Allow changing the rel=author link being put out by WPSEO
-			 *
-			 * @api string $gplus The rel=author link for the current URL.
-			 */
-			$gplus = apply_filters( 'wpseo_author_link', $gplus );
-
-			if ( is_string( $gplus ) && $gplus !== '' ) {
-				echo '<link rel="author" href="' . esc_url( $gplus ) . '"/>' . "\n";
 				return true;
 			}
 
@@ -1535,7 +1492,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 
 			$author_link = '';
 			if ( is_object( $post ) ) {
-				$author_link = '<a ' . $no_follow_attr . 'rel="author" href="' . esc_url( get_author_posts_url( $post->post_author ) ) . '">' . get_the_author() . '</a>';
+				$author_link = '<a ' . $no_follow_attr . 'href="' . esc_url( get_author_posts_url( $post->post_author ) ) . '">' . get_the_author() . '</a>';
 			}
 
 			$post_link      = '<a ' . $no_follow_attr . 'href="' . esc_url( get_permalink() ) . '">' . get_the_title() . '</a>';
