@@ -97,7 +97,7 @@ if ( ! class_exists( 'WPSEO_Pointers' ) ) {
 							. '<p><strong>' . __( 'More WordPress SEO', 'wordpress-seo' ) . '</strong><br/>' . sprintf( __( 'There\'s more to learn about WordPress &amp; SEO than just using this plugin. A great start is our article %1$sthe definitive guide to WordPress SEO%2$s.', 'wordpress-seo' ), '<a target="_blank" href="' . esc_url( 'https://yoast.com/articles/wordpress-seo/#utm_source=wpseo_dashboard&utm_medium=wpseo_tour&utm_campaign=tour' ) . '">', '</a>' ) . '</p>'
 					        . '<p><strong>' . __( 'Tracking', 'wordpress-seo' ) . '</strong><br/>' . __( 'To provide you with the best experience possible, we need your help. Please enable tracking to help us gather anonymous usage data.', 'wordpress-seo' ) . '</p>'
 							. '<p><strong>' . __( 'Webmaster Tools', 'wordpress-seo' ) . '</strong><br/>' . __( 'You can also add the verification codes for the different Webmaster Tools programs here, I highly encourage you to check out both Google and Bing\'s Webmaster Tools.', 'wordpress-seo' ) . '</p>'
-					        . '<p><strong>' . __( 'WordPress SEO Tour', 'wordpress-seo' ) . '</strong><br/>' . __( 'This tour will show you around in the plugin. For in-depth guides to all settings, we included Sidekick. Which you can find in the bottom-left corner of the admin menu.', 'wordpress-seo' ) . '</p>'
+					        . '<p><strong>' . __( 'WordPress SEO Tour', 'wordpress-seo' ) . '</strong><br/>' . __( 'This tour will show you around in the plugin, to give you a general overview of the plugin.', 'wordpress-seo' ) . '</p>'
 					        . '<p><strong>' . __( 'Newsletter', 'wordpress-seo' ) . '</strong><br/>' .
 							__( 'If you would like to us to keep you up-to-date regarding WordPress SEO and other plugins by Yoast, subscribe to our newsletter:', 'wordpress-seo' ) . '</p>' .
 							'<form action="http://yoast.us1.list-manage1.com/subscribe/post?u=ffa93edfe21752c921f860358&amp;id=972f1c9122" method="post" id="newsletter-form" accept-charset="' . esc_attr( get_bloginfo( 'charset' ) ) . '">' .
@@ -113,7 +113,7 @@ if ( ! class_exists( 'WPSEO_Pointers' ) ) {
 				'wpseo_titles'         => array(
 					'content'  => '<h3>' . __( 'Title &amp; Metas settings', 'wordpress-seo' ) . '</h3>' . '<p>' . __( 'This is where you set the titles and meta-information for all your post types, taxonomies, archives, special pages and for your homepage. The page is divided into different tabs., make sure you check \'m all out!', 'wordpress-seo' ) . '</p>'
 					        . '<p><strong>' . __( 'Sitewide settings', 'wordpress-seo' ) . '</strong><br/>' . __( 'The first tab will show you site-wide settings. You can also set some settings for the entire site here to add specific meta tags or to remove some unneeded cruft.', 'wordpress-seo' ) . '</p>'
-					        . '<p><strong>' . __( 'Templates and settings', 'wordpress-seo' ) . '</strong><br/>'	. sprintf( __( 'Now click on the \'%1$sPost Types%2$s\'-tab, as this will be our example.', 'wordpress-seo' ), '<a target="_blank" href="' . esc_url( admin_url( 'admin.php?page=wpseo_titles#top#post_types' ) ) . '">', '</a>' ) . '<br />' . __( 'The templates are built using variables. You can find all these variables in the help tab (in the top-right corner of the page). The settings allow you to set specific behavior for the post types.', 'wordpress-seo' ) . '</p><p>' . __('All settings are explained in detail in Sidekick.', 'wordpress-seo') . '</p>',
+					        . '<p><strong>' . __( 'Templates and settings', 'wordpress-seo' ) . '</strong><br/>'	. sprintf( __( 'Now click on the \'%1$sPost Types%2$s\'-tab, as this will be our example.', 'wordpress-seo' ), '<a target="_blank" href="' . esc_url( admin_url( 'admin.php?page=wpseo_titles#top#post_types' ) ) . '">', '</a>' ) . '<br />' . __( 'The templates are built using variables. You can find all these variables in the help tab (in the top-right corner of the page). The settings allow you to set specific behavior for the post types.', 'wordpress-seo' ) . '</p>',
 					'next'  => __( 'Next', 'wordpress-seo' ),
 					'next_function' => 'window.location="' . admin_url( 'admin.php?page=wpseo_social' ) . '";',
 					'prev'  => __( 'Previous', 'wordpress-seo' ),
@@ -139,7 +139,7 @@ if ( ! class_exists( 'WPSEO_Pointers' ) ) {
 					'prev_function' => 'window.location="' . admin_url( 'admin.php?page=wpseo_social' ) . '";',
 				),
 				'wpseo_permalinks'     => array(
-					'content'  => '<h3>' . __( 'Permalink Settings', 'wordpress-seo' ) . '</h3><p>' . __( 'All of the options here are for advanced users only, if you don\'t know whether you should check any, don\'t touch them.', 'wordpress-seo' ) . '</p><p>' . __('For more detailed information about the Permalink settings, check Sidekick.') .'</p>',
+					'content'  => '<h3>' . __( 'Permalink Settings', 'wordpress-seo' ) . '</h3><p>' . __( 'All of the options here are for advanced users only, if you don\'t know whether you should check any, don\'t touch them.', 'wordpress-seo' ) . '</p>',
 					'next'  => __( 'Next', 'wordpress-seo' ),
 					'next_function' => 'window.location="' . admin_url( 'admin.php?page=wpseo_internal-links' ) . '";',
 					'prev'  => __( 'Previous', 'wordpress-seo' ),
@@ -153,7 +153,7 @@ if ( ! class_exists( 'WPSEO_Pointers' ) ) {
 					'prev_function' => 'window.location="' . admin_url( 'admin.php?page=wpseo_permalinks' ) . '";',
 				),
 				'wpseo_rss'            => array(
-					'content'  => '<h3>' . __( 'RSS Settings', 'wordpress-seo' ) . '</h3><p>' . __( 'This incredibly powerful function allows you to add content to the beginning and end of your posts in your RSS feed. This helps you gain links from people who steal your content!', 'wordpress-seo' ) . '</p><p>' . __('For more information about the RSS feed, check Sidekick.','wordpress-seo') . '</p>',
+					'content'  => '<h3>' . __( 'RSS Settings', 'wordpress-seo' ) . '</h3><p>' . __( 'This incredibly powerful function allows you to add content to the beginning and end of your posts in your RSS feed. This helps you gain links from people who steal your content!', 'wordpress-seo' ) . '</p>',
 					'next'  => __( 'Next', 'wordpress-seo' ),
 					'next_function' => 'window.location="' . admin_url( 'admin.php?page=wpseo_import' ) . '";',
 					'prev'  => __( 'Previous', 'wordpress-seo' ),
