@@ -256,12 +256,24 @@ if ( ! class_exists( 'WPSEO_Pointers' ) ) {
 		 *
 		 * @param string      $selector         The CSS selector the pointer is attached to.
 		 * @param array       $options          The options for the pointer.
-		 * @param string      $button1          Text for button 1
-		 * @param string|bool $button2          Text for button 2 (or false to not show it, defaults to false)
-		 * @param string      $button2_function The JavaScript function to attach to button 2
-		 * @param string      $button1_function The JavaScript function to attach to button 1
+		 * @param array       $button_array     The options for the buttons.
 		 */
-		function print_scripts( $selector, $options, $button1, $button2 = false, $button2_function = '', $button1_function = '' ) {
+		function print_scripts( $selector, $options, $button_array ) {
+			$button_array_defaults = array (
+				'button1' => array (
+					'text' => false,
+					'function' => '',
+				),
+				'button2' => array (
+					'text' => false,
+					'function' => '',
+				),
+				'button3' => array (
+					'text' => false,
+					'function' => '',
+				),
+			);
+			$button_array = wp_parse_args( $button_array, $button_array_defaults );
 			?>
 			<script type="text/javascript">
 				//<![CDATA[
