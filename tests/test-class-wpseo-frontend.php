@@ -254,6 +254,17 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * @covers WPSEO_Frontend::internal_search_json_ld
+	 */
+	public function test_json_ld() {
+		$this->go_to_home();
+
+		$home_url = trailingslashit( home_url() );
+		$search_url = $home_url . '?s={search_term}';
+		$this->run_json_ld_test( '<script type="application/ld+json">{ "@context": "http://schema.org", "@type": "WebSite", "url": "' . $home_url . '", "potentialAction": { "@type": "SearchAction", "target": "' . $search_url .'", "query-input": "required name=search_term" } }</script>' );
+	}
+
+	/**
 	 * @covers WPSEO_Frontend::head
 	 */
 	public function test_head() {
@@ -894,5 +905,12 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		self::$class_instance->options[$option_name] = '';
 	}
 
+	/**
+	 * @param string $expected
+	 * @return void
+	 */
+	private function run_json_ld_test( $expected ) {
+		$this->expectOutput( $expected, self::$class_instance->internal_search_json_ld( ) );
+	}
 
 }

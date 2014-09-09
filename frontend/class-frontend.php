@@ -51,6 +51,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 			add_action( 'wpseo_head', array( $this, 'author' ), 22 );
 			add_action( 'wpseo_head', array( $this, 'publisher' ), 23 );
 			add_action( 'wpseo_head', array( $this, 'webmaster_tools_authentication' ), 90 );
+			add_action( 'wpseo_head', array( $this, 'internal_search_json_ld' ), 90 );
 
 			// Remove actions that we will handle through our wpseo_head call, and probably change the output of
 			remove_action( 'wp_head', 'rel_canonical' );
@@ -547,6 +548,39 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 					echo '<meta name="yandex-verification" content="' . esc_attr( $this->options['yandexverify'] ) . "\" />\n";
 				}
 			}
+		}
+
+		/**
+		 * Outputs JSON+LD code to allow recognition of the internal search engine
+		 *
+		 * @since 1.5.7
+		 *
+		 * @link https://developers.google.com/webmasters/richsnippets/sitelinkssearch
+		 */
+		public function internal_search_json_ld() {
+			if ( ! is_front_page() ) {
+				return;
+			}
+
+			/**
+			 * Filter: 'disable_wpseo_json_ld_search' - Allow disabling of the json+ld output
+			 *
+			 * @api bool $display_search Whether or not to display json+ld search on the frontend
+			 */
+			if ( apply_filters( 'disable_wpseo_json_ld_search', false ) === true ) {
+				return;
+			}
+
+			$home_url = trailingslashit( home_url() );
+
+			/**
+			 * Filter: 'wpseo_json_ld_search_url' - Allows filtering of the search URL for WP SEO
+			 *
+			 * @api string $search_url The search URL for this site with a `{search_term}` variable.
+			 */
+			$search_url = apply_filters( 'wpseo_json_ld_search_url', $home_url . '?s={search_term}' );
+
+			echo '<script type="application/ld+json">{ "@context": "http://schema.org", "@type": "WebSite", "url": "' . $home_url . '", "potentialAction": { "@type": "SearchAction", "target": "' . $search_url .'", "query-input": "required name=search_term" } }</script>';
 		}
 
 		/**
