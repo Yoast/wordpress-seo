@@ -141,7 +141,7 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 
 			// Let's see if we can bail super early.
 			if ( strpos( $string, '%%' ) === false ) {
-				return wpseo_standardize_whitespace( $string );
+				return WPSEO_Utils::standardize_whitespace( $string );
 			}
 
 			$args = (array) $args;
@@ -197,7 +197,7 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 			}
 
 			// Remove superfluous whitespace
-			$string = wpseo_standardize_whitespace( $string );
+			$string = WPSEO_Utils::standardize_whitespace( $string );
 
 			return trim( $string );
 		}

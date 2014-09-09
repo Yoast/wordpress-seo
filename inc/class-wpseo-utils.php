@@ -17,8 +17,8 @@ if ( ! class_exists( 'WPSEO_Utils' ) ) {
 	 *
 	 * @package    WordPress\Plugins\WPSeo
 	 * @subpackage Internals
-	 * @since      1.5.6
-	 * @version    1.5.6
+	 * @since      1.6.1
+	 * @version    1.6.1
 	 */
 	class WPSEO_Utils {
 
@@ -137,6 +137,21 @@ if ( ! class_exists( 'WPSEO_Utils' ) ) {
 			return $roles;
 		}
 
+		/**
+		 * Standardize whitespace in a string
+		 *
+		 * Replace line breaks, carriage returns, tabs with a space, then remove double spaces.
+		 *
+		 * @static
+		 *
+		 * @param string $string
+		 *
+		 * @return string
+		 */
+		public static function standardize_whitespace( $string ) {
+			return trim( str_replace( '  ', ' ', str_replace( array( "\t", "\n", "\r", "\f" ), ' ', $string ) ) );
+		}
+		
 		/**
 		 * Strip out the shortcodes with a filthy regex, because people don't properly register their shortcodes.
 		 *

@@ -413,19 +413,6 @@ add_action( 'save_post', 'wpseo_invalidate_sitemap_cache_on_save_post' );
 
 
 /**
- * Standardize whitespace in a string
- *
- * Replace line breaks, carriage returns, tabs with a space, then remove double spaces.
- *
- * @param string $string
- *
- * @return string
- */
-function wpseo_standardize_whitespace( $string ) {
-	return trim( str_replace( '  ', ' ', str_replace( array( "\t", "\n", "\r", "\f" ), ' ', $string ) ) );
-}
-
-/**
  * Emulate PHP native ctype_digit() function for when the ctype extension would be disabled *sigh*
  * Only emulates the behaviour for when the input is a string, does not handle integer input as ascii value
  *
@@ -595,7 +582,7 @@ add_shortcode( 'wpseo_sitemap', 'wpseo_sitemap_handler' );
 /**
  * Strip out the shortcodes with a filthy regex, because people don't properly register their shortcodes.
  *
- * @deprecated 1.5.6.1
+ * @deprecated 1.6.1
  * @deprecated use WPSEO_Utils::strip_shortcode()
  * @see WPSEO_Utils::strip_shortcode()
  *
@@ -603,7 +590,7 @@ add_shortcode( 'wpseo_sitemap', 'wpseo_sitemap_handler' );
  * @return string $text string without shortcodes
  */
 function wpseo_strip_shortcode( $text ) {
-	_deprecated_function( __FUNCTION__, 'WPSEO 1.5.6.1', 'WPSEO_Utils::strip_shortcode()' );
+	_deprecated_function( __FUNCTION__, 'WPSEO 1.6.1', 'WPSEO_Utils::strip_shortcode()' );
 	return WPSEO_Utils::strip_shortcode( $text );
 }
 
@@ -612,7 +599,7 @@ function wpseo_strip_shortcode( $text ) {
  * @see http://floating-point-gui.de/
  * @see the big red warning on http://php.net/language.types.float.php
  *
- * @deprecated 1.5.6.1
+ * @deprecated 1.6.1
  * @deprecated use WPSEO_Utils::calc()
  * @see WPSEO_Utils::calc()
  *
@@ -630,56 +617,56 @@ function wpseo_strip_shortcode( $text ) {
  *								an invalid operation was passed
  */
 function wpseo_calc( $number1, $action, $number2, $round = false, $decimals = 0, $precision = 10 ) {
-	_deprecated_function( __FUNCTION__, 'WPSEO 1.5.6.1', 'WPSEO_Utils::calc()' );
+	_deprecated_function( __FUNCTION__, 'WPSEO 1.6.1', 'WPSEO_Utils::calc()' );
 	return WPSEO_Utils::calc( $number1, $action, $number2, $round, $decimals, $precision );
 }
 
 /**
  * Check if the web server is running on Apache
  *
- * @deprecated 1.5.6.1
+ * @deprecated 1.6.1
  * @deprecated use WPSEO_Utils::is_apache()
  * @see WPSEO_Utils::is_apache()
  *
  * @return bool
  */
 function wpseo_is_apache() {
-	_deprecated_function( __FUNCTION__, 'WPSEO 1.5.6.1', 'WPSEO_Utils::is_apache()' );
+	_deprecated_function( __FUNCTION__, 'WPSEO 1.6.1', 'WPSEO_Utils::is_apache()' );
 	return WPSEO_Utils::is_apache();
 }
 
 /**
  * Check if the web service is running on Nginx
  *
- * @deprecated 1.5.6.1
+ * @deprecated 1.6.1
  * @deprecated use WPSEO_Utils::is_nginx()
  * @see WPSEO_Utils::is_nginx()
  *
  * @return bool
  */
 function wpseo_is_nginx() {
-	_deprecated_function( __FUNCTION__, 'WPSEO 1.5.6.1', 'WPSEO_Utils::is_nginx()' );
+	_deprecated_function( __FUNCTION__, 'WPSEO 1.6.1', 'WPSEO_Utils::is_nginx()' );
 	return WPSEO_Utils::is_nginx();
 }
 
 /**
  * List all the available user roles
  *
- * @deprecated 1.5.6.1
+ * @deprecated 1.6.1
  * @deprecated use WPSEO_Utils::get_roles()
  * @see WPSEO_Utils::get_roles()
  *
  * @return array $roles
  */
 function wpseo_get_roles() {
-	_deprecated_function( __FUNCTION__, 'WPSEO 1.5.6.1', 'WPSEO_Utils::get_roles()' );
+	_deprecated_function( __FUNCTION__, 'WPSEO 1.6.1', 'WPSEO_Utils::get_roles()' );
 	return WPSEO_Utils::get_roles();
 }
 
 /**
  * Check whether a url is relative
  *
- * @deprecated 1.5.6.1
+ * @deprecated 1.6.1
  * @deprecated use WPSEO_Utils::is_url_relative()
  * @see WPSEO_Utils::is_url_relative()
  *
@@ -688,6 +675,25 @@ function wpseo_get_roles() {
  * @return bool
  */
 function wpseo_is_url_relative( $url ) {
-	_deprecated_function( __FUNCTION__, 'WPSEO 1.5.6.1', 'WPSEO_Utils::is_url_relative()' );
+	_deprecated_function( __FUNCTION__, 'WPSEO 1.6.1', 'WPSEO_Utils::is_url_relative()' );
 	return WPSEO_Utils::is_url_relative( $url );
 }
+
+/**
+ * Standardize whitespace in a string
+ *
+ * @deprecated 1.6.1
+ * @deprecated use WPSEO_Utils::standardize_whitespace()
+ * @see WPSEO_Utils::standardize_whitespace()
+ *
+ * @since 1.6.0
+ *
+ * @param string $string
+ *
+ * @return string
+ */
+function wpseo_standardize_whitespace( $string ) {
+	_deprecated_function( __FUNCTION__, 'WPSEO 1.6.1', 'WPSEO_Utils::standardize_whitespace()' );
+	return WPSEO_Utils::standardize_whitespace( $string );
+}
+
