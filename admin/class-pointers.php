@@ -165,7 +165,6 @@ if ( ! class_exists( 'WPSEO_Pointers' ) ) {
 					             . '<p><strong>' . __( 'Licenses', 'wordpress-seo' ) . '</strong><br/>' . __( 'Once you\'ve purchased WordPress SEO Premium or any other premium Yoast plugin, you\'ll have to enter a license key. You can do so on the Licenses-tab. Once you\'ve activated your premium plugin, you can use all its powerful features.', 'wordpress-seo' ) . '</p>'
 					             . '<p><strong>' . __( 'Like this plugin?', 'wordpress-seo' ) . '</strong><br/>' . sprintf( __( 'So, we\'ve come to the end of the tour. If you like the plugin, please %srate it 5 stars on WordPress.org%s!', 'wordpress-seo' ), '<a target="_blank" href="https://wordpress.org/plugins/wordpress-seo/">', '</a>' ) . '</p>'
 					             . '<p>' . sprintf( __( 'Thank you for using my plugin and good luck with your SEO!<br/><br/>Best,<br/>Joost de Valk - %1$sYoast.com%2$s', 'wordpress-seo' ), '<a target="_blank" href="' . esc_url( 'https://yoast.com/#utm_source=wpseo_licenses&utm_medium=wpseo_tour&utm_campaign=tour' ) . '">', '</a>' ) . '</p>',
-					'position' => array( 'edge' => 'top', 'align' => 'right' ),
 				),
 			);
 
