@@ -261,7 +261,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 
 		$home_url = trailingslashit( home_url() );
 		$search_url = $home_url . '?s={search_term}';
-		$this->run_json_ld_test( '<script type="application/ld+json">{ "@context": "http://schema.org", "@type": "WebSite", "url": "' . $home_url . '", "potentialAction": { "@type": "SearchAction", "target": "' . $search_url .'", "query-input": "required name=search_term" } }</script>' );
+		$this->run_json_ld_test( '<script type="application/ld+json">{ "@context": "http://schema.org", "@type": "WebSite", "url": "' . $home_url . '", "potentialAction": { "@type": "SearchAction", "target": "' . $search_url .'", "query-input": "required name=search_term" } }</script>' . "\n" );
 	}
 
 	/**
