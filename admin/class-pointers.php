@@ -243,6 +243,11 @@ if ( ! class_exists( 'WPSEO_Pointers' ) ) {
 			<script type="text/javascript">
 				//<![CDATA[
 				(function ($) {
+					// Don't show the tour on screens with an effective width smaller than 1024px or an effective height smaller than 768px.
+					if ( jQuery(window).width() < 1024 || jQuery(window).availWidth < 1024 || jQuery(window).height() < 768 || jQuery(window).availHeight < 768 ) {
+						return null;
+					}
+
 					var wpseo_pointer_options = <?php echo json_encode( $options ); ?>, setup;
 
 					function wpseo_store_answer(input, nonce) {
