@@ -70,12 +70,18 @@ if ( ! class_exists( 'WPSEO_Pointers' ) ) {
 				'content'  => $content,
 				'position' => array( 'edge' => 'top', 'align' => 'center' )
 			);
-			$button2  = __( 'Allow tracking', 'wordpress-seo' );
+			$button_array = array (
+				'button1' => array (
+					'text' => __( 'Do not allow tracking', 'wordpress-seo' ),
+					'function' => 'wpseo_store_answer("no","' . $nonce . '")',
+				),
+				'button2' => array (
+					'text' => __( 'Allow tracking', 'wordpress-seo' ),
+					'function' => 'wpseo_store_answer("yes","' . $nonce . '")',
+				),
+			);
 
-			$function2 = 'wpseo_store_answer("yes","' . $nonce . '")';
-			$function1 = 'wpseo_store_answer("no","' . $nonce . '")';
-
-			$this->print_scripts( $id, $opt_arr, __( 'Do not allow tracking', 'wordpress-seo' ), $button2, $function2, $function1 );
+			$this->print_scripts( $id, $opt_arr, $button_array );
 		}
 
 		/**
@@ -199,8 +205,12 @@ if ( ! class_exists( 'WPSEO_Pointers' ) ) {
 				$page = $_GET['page'];
 			}
 
-			$function = '';
-			$button2  = '';
+			$button_array = array(
+				'button1' => array (
+					'text' => __( 'Close', 'wordpress-seo' ),
+					'function' => '',
+				)
+			);
 			$opt_arr  = array();
 			$id       = '#wpseo-title';
 			if ( 'admin.php' != $pagenow || ! array_key_exists( $page, $adminpages ) ) {
@@ -211,8 +221,8 @@ if ( ! class_exists( 'WPSEO_Pointers' ) ) {
 					'content'  => $content,
 					'position' => array( 'edge' => 'top', 'align' => 'center' )
 				);
-				$button2  = __( 'Start Tour', 'wordpress-seo' );
-				$function = 'document.location="' . admin_url( 'admin.php?page=wpseo_dashboard' ) . '";';
+				$button_array['button2']['text']  = __( 'Start Tour', 'wordpress-seo' );
+				$button_array['button2']['function'] = 'document.location="' . admin_url( 'admin.php?page=wpseo_dashboard' ) . '";';
 			}
 			else {
 				if ( '' != $page && in_array( $page, array_keys( $adminpages ) ) ) {
