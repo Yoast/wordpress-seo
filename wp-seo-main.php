@@ -61,7 +61,6 @@ function wpseo_auto_load( $class ) {
 			'wpseo_googleplus'                   => WPSEO_PATH . 'frontend/class-googleplus.php',
 			'wpseo_rewrite'                      => WPSEO_PATH . 'inc/class-rewrite.php',
 			'wpseo_sitemaps'                     => WPSEO_PATH . 'inc/class-sitemaps.php',
-			'sitemap_walker'                     => WPSEO_PATH . 'inc/class-sitemap-walker.php',
 			'wpseo_options'                      => WPSEO_PATH . 'inc/class-wpseo-options.php',
 			'wpseo_option'                       => WPSEO_PATH . 'inc/class-wpseo-options.php',
 			'wpseo_option_wpseo'                 => WPSEO_PATH . 'inc/class-wpseo-options.php',

@@ -103,12 +103,6 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			self::$meta_fields['advanced']['sitemap-prio']['options']['0.5'] .= __( 'Medium priority', 'wordpress-seo' );
 			self::$meta_fields['advanced']['sitemap-prio']['options']['0.1'] .= __( 'Lowest priority', 'wordpress-seo' );
 
-			self::$meta_fields['advanced']['sitemap-html-include']['title']             = __( 'Include in HTML Sitemap', 'wordpress-seo' );
-			self::$meta_fields['advanced']['sitemap-html-include']['description']       = __( 'Should this page be in the HTML Sitemap at all times, regardless of Robots Meta settings?', 'wordpress-seo' );
-			self::$meta_fields['advanced']['sitemap-html-include']['options']['-']      = __( 'Auto detect', 'wordpress-seo' );
-			self::$meta_fields['advanced']['sitemap-html-include']['options']['always'] = __( 'Always include', 'wordpress-seo' );
-			self::$meta_fields['advanced']['sitemap-html-include']['options']['never']  = __( 'Never include', 'wordpress-seo' );
-
 			self::$meta_fields['advanced']['authorship']['title']             = __( 'Authorship', 'wordpress-seo' );
 			self::$meta_fields['advanced']['authorship']['description']       = __( 'Show <code>rel="author"</code> on this page?', 'wordpress-seo' );
 			self::$meta_fields['advanced']['authorship']['options']['-']      = __( 'Default for post type, currently: %s', 'wordpress-seo' );
