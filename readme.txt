@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: seo, SEO, Yoast SEO, google, meta, meta description, search engine optimization, xml sitemap, xml sitemaps, google sitemap, sitemap, sitemaps, robots meta, rss, rss footer, yahoo, bing, news sitemaps, XML News Sitemaps, WordPress SEO, WordPress SEO by Yoast, yoast, multisite, canonical, nofollow, noindex, keywords, meta keywords, description, webmaster tools, google webmaster tools, seo pack
 Requires at least: 3.5
 Tested up to: 4.0
-Stable tag: 1.5.6
+Stable tag: 1.6
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using Yoast's WordPress SEO plugin.
 
@@ -116,7 +116,21 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 
 == Changelog ==
 
-= trunk =
+= 1.6 =
+
+This update removes more code than it adds, because Google stopped support for rel=author. It adds the new json+ld code for search in sitelinks though, so could have some cool results!
+
+* Bugfixes:
+	* Removed leftover code for the deleted HTML sitemap functionality.
+	* Fix [a bug](https://github.com/Yoast/wordpress-seo/pull/1520) where the wrong `$post` info would be used for the metabox, props [mgmartel](https://github.com/mgmartel).
+	* Fix the way we [replace whitespace](https://github.com/Yoast/wordpress-seo/pull/1542) to be more compatible with different encoding, props [Jrf](http://profiles.wordpress.org/jrf).
+
+* Enhancements:
+	* Implement new [sitelinks search box json+ld code](https://developers.google.com/webmasters/richsnippets/sitelinkssearch). Enabled by default, to disable use the new `disable_wpseo_json_ld_search` filter. To change the URL being put out use the `wpseo_json_ld_search_url` filter.
+	* Improved the onboarding tour to be more in line with the current status of the plugin.
+
+* Other:
+	* Removed all code to do with `rel=author` as Google has stopped that "experiment", see [this blog post](https://yoast.com/ten-blue-links/) for more info.
 
 * i18n
 	* Updated da_DK, fa_IR, fr_FR, hr, hu_HU, nl_NL, pt_BR and tr_RK
