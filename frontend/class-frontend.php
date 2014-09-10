@@ -584,7 +584,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 			 *
 			 * @api string $output The output of the function.
 			 */
-			echo apply_filters( 'wpseo_json_ld_search_output', '<script type="application/ld+json">{ "@context": "http://schema.org", "@type": "WebSite", "url": "' . $home_url . '", "potentialAction": { "@type": "SearchAction", "target": "' . $search_url .'", "query-input": "required name=search_term" } }</script>' . "\n");
+			echo apply_filters( 'wpseo_json_ld_search_output', '<script type="application/ld+json">{ "@context": "http://schema.org", "@type": "WebSite", "url": "' . $home_url . '", "potentialAction": { "@type": "SearchAction", "target": "' . $search_url .'", "query-input": "required name=search_term" } }</script>' . "\n" );
 		}
 
 		/**
