@@ -35,7 +35,6 @@ before_script:
 - cp -r "$PLUGIN_SLUG" "/tmp/wordpress/src/wp-content/plugins/$PLUGIN_SLUG"
 - cd /tmp/wordpress/
 - cp wp-tests-config-sample.php wp-tests-config.php
-- sed -i "s/WP_DEBUG', true )/WP_DEBUG', false )/" wp-tests-config.php
 - sed -i "s/youremptytestdbnamehere/wordpress_tests/" wp-tests-config.php
 - sed -i "s/yourusernamehere/travis/" wp-tests-config.php
 - sed -i "s/yourpasswordhere//" wp-tests-config.php
