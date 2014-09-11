@@ -63,9 +63,7 @@ function process_error_backtrace( $error_severity, $error_string, $error_file, $
 		error_log( $message );
 	}
 
-	if ( $fatal ) {
-		exit( 1 );
-	}
+	return false;
 }
 
 set_error_handler( 'process_error_backtrace' );
