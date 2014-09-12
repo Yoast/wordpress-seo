@@ -87,7 +87,7 @@ module.exports = function (grunt) {
 			}
 		},
 
-		uglify : {
+		uglify      : {
 			'wordpres-seo': {
 				options: {
 					preserveComments: 'some',
@@ -115,8 +115,8 @@ module.exports = function (grunt) {
 					'Explorer >= 8'
 				]
 			},
-			all: {
-				src: [
+			all    : {
+				src    : [
 					'css/*.css', '!css/*.min.css'
 				],
 				options: {
@@ -132,16 +132,16 @@ module.exports = function (grunt) {
 			}
 		},
 
-		cssbeautifier : {
-			files : ['css/*.css', '!css/*.min.css'],
-			options : {
-				indent: '\t',
-				openbrace: 'end-of-line',
+		cssbeautifier: {
+			files  : ['css/*.css', '!css/*.min.css'],
+			options: {
+				indent       : '\t',
+				openbrace    : 'end-of-line',
 				autosemicolon: true
 			}
 		},
 
-		cssmin: {
+		cssmin       : {
 			minify: {
 				expand: true,
 				cwd   : 'css/',
@@ -178,7 +178,7 @@ module.exports = function (grunt) {
 					expand: true,
 					// this would require the addition of a assets folder from which the images are
 					// processed and put inside the images folder
-					cwd   : 'assets/images/',
+					cwd   : 'images/',
 					src   : ['*.*'],
 					dest  : 'images'
 				}]
@@ -233,9 +233,9 @@ module.exports = function (grunt) {
 					domainPath : '/languages',
 					potFilename: 'wordpress-seo.pot',
 					processPot : function (pot) {
-						pot.headers['report-msgid-bugs-to'] = 'http://github.com/yoast/wordpress-seo\n';
+						pot.headers['report-msgid-bugs-to'] = 'https://github.com/yoast/wordpress-seo\n';
 						pot.headers['plural-forms'] = 'nplurals=2; plural=n != 1;';
-						pot.headers['last-translator'] = 'Remkus de Vries <translations@yoast.com>\n';
+						pot.headers['last-translator'] = 'Yoast Translate Team <translations@yoast.com>\n';
 						pot.headers['language-team'] = 'Yoast Translate <translations@yoast.com>\n';
 						pot.headers['x-generator'] = 'grunt-wp-i18n 0.4.4';
 						pot.headers['x-poedit-basepath'] = '.';
@@ -260,6 +260,13 @@ module.exports = function (grunt) {
 		'jsonlint',
 		'jsvalidate',
 		'checktextdomain'
+	]);
+
+	grunt.registerTask('build', [
+		'build:css',
+		'build:js',
+		'build:i18n',
+		'imagemin'
 	]);
 
 	grunt.registerTask('build:css', [
