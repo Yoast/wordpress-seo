@@ -379,7 +379,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 				'wpseo_permalink_template'    => $sample_permalink,
 				'wpseo_keyword_suggest_nonce' => wp_create_nonce( 'wpseo-get-suggest' ),
 				'wpseo_replace_vars_nonce'    => wp_create_nonce( 'wpseo-replace-vars' ),
-				'no_parent_text'              => __( '(no parent)' ),
+				'no_parent_text'              => __( '(no parent)', 'wordpress-seo' ),
 			) );
 		}
 
