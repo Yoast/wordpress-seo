@@ -1470,6 +1470,8 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			if ( $job['title'] == '' ) {
 				$this->save_score_result( $results, 1, $scoreTitleMissing, 'title' );
 			} else {
+				$job['title'] = strip_tags( $job['title'] );
+
 				$length = $this->statistics()->text_length( $job['title'] );
 				if ( $length < $scoreTitleMinLength ) {
 					$this->save_score_result( $results, 6, sprintf( $scoreTitleTooShort, $length ), 'title_length' );
