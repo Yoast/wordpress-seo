@@ -16,7 +16,7 @@ div.yoastbox ul {
 }
 
 .postbox {
-	margin: 10px 0 0 10px;	
+	margin: 10px 0 0 10px;
 }
 
 label {
@@ -51,8 +51,8 @@ pre {
 }
 
 .wpseo-heading {
-	padding-left: 0;
 	padding-right: 10px;
+	padding-left: 0;
 }
 
 .wpseo_yahoo_kw {
@@ -64,6 +64,6 @@ table.wpseoanalysis th {
 }
 
 table.wpseoanalysis td.score {
-	padding-left: 0;
 	padding-right: 10px;
+	padding-left: 0;
 }
