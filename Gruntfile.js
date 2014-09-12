@@ -221,7 +221,7 @@ module.exports = function (grunt) {
 			files  : {
 				expand: true,
 				src   : [
-					'**/*.php', '!node_modules/**'
+					'**/*.php', '!node_modules/**', '!admin/license-manager/**'
 				]
 			}
 		},
