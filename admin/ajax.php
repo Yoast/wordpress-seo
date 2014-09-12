@@ -205,7 +205,7 @@ function wpseo_upsert_meta( $post_id, $new_meta_value, $orig_meta_value, $meta_k
 
 	}
 
-	if( $sanitized_new_meta_value === $orig_meta_value && $sanitized_new_meta_value !== $new_meta_value ) {
+	if ( $sanitized_new_meta_value === $orig_meta_value && $sanitized_new_meta_value !== $new_meta_value ) {
 		$upsert_results['status']  = 'failure';
 		$upsert_results['results'] =  __( 'You have used HTML in your value which is not allowed.', 'wordpress-seo' );
 
