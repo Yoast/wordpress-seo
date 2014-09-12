@@ -917,7 +917,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 						break;
 					case 'na':
 						$low = false;
-						$na = true;
+						$na  = true;
 						break;
 					case 'bad':
 						$low  = 1;
@@ -980,7 +980,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 								array(
 									'key'     => self::$meta_prefix . 'linkdex',
 									'value'   => 'needs-a-value-anyway',
-									'compare' => 'NOT EXISTS'
+									'compare' => 'NOT EXISTS',
 								)
 							)
 						)
