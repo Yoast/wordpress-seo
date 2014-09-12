@@ -245,6 +245,22 @@ function wpseo_xml_redirect_sitemap() {
 }
 
 /**
+ * Create base URL for the sitemaps and applies filters
+ *
+ * @since 1.5.7
+ *
+ * @param string $page page to append to the base URL
+ *
+ * @return string base URL (incl page) for the sitemaps
+ */
+function wpseo_xml_sitemaps_base_url( $page ) {
+	$base = $GLOBALS['wp_rewrite']->using_index_permalinks() ? 'index.php/' : '/';
+	$base = apply_filters( 'wpseo_sitemaps_base_url', $base );
+
+	return home_url( $base . $page );
+}
+
+/**
  * Initialize sitemaps. Add sitemap & XSL rewrite rules and query vars
  */
 function wpseo_xml_sitemaps_init() {
@@ -280,9 +296,8 @@ function wpseo_ping_search_engines( $sitemapurl = null ) {
 	}
 
 	$options = get_option( 'wpseo_xml' );
-	$base    = $GLOBALS['wp_rewrite']->using_index_permalinks() ? 'index.php/' : '';
 	if ( $sitemapurl == null ) {
-		$sitemapurl = urlencode( home_url( $base . 'sitemap_index.xml' ) );
+		$sitemapurl = urlencode( wpseo_xml_sitemaps_base_url( 'sitemap_index.xml' ) );
 	}
 
 	// Always ping Google and Bing, optionally ping Ask and Yahoo!

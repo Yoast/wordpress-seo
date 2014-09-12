@@ -852,8 +852,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 					$canonical = add_query_arg( 'paged', get_query_var( 'paged' ), $canonical );
 				} else {
 					if ( is_front_page() ) {
-						$base      = $wp_rewrite->using_index_permalinks() ? 'index.php/' : '/';
-						$canonical = home_url( $base );
+						$canonical = wpseo_xml_sitemaps_base_url( '' );
 					}
 					$canonical = user_trailingslashit( trailingslashit( $canonical ) . trailingslashit( $wp_rewrite->pagination_base ) . get_query_var( 'paged' ) );
 				}
@@ -921,8 +920,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 
 					// Make sure to use index.php when needed, done after paged == 2 check so the prev links to homepage will not have index.php erroneously.
 					if ( is_front_page() ) {
-						$base = $GLOBALS['wp_rewrite']->using_index_permalinks() ? 'index.php/' : '/';
-						$url  = home_url( $base );
+						$url = wpseo_xml_sitemaps_base_url( '' );
 					}
 
 					if ( $paged > 2 ) {
