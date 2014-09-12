@@ -23,12 +23,11 @@ module.exports = function (grunt) {
 				tasks: ['phplint', 'phpcs']
 			},
 			js       : {
-				files: [
-					'js/*.js'
-				],
-				tasks: ['jshint', 'jsvalidate', 'jscs', 'build:js']
+				files: ['js/*.js'],
+				tasks: ['jshint', 'jsvalidate', 'jscs', 'uglify']
 			},
 			css      : {
+				files: ['css/*css'],
 				tasks: ['build:css']
 			}
 		},
@@ -158,7 +157,7 @@ module.exports = function (grunt) {
 			all: ['**/*.php', '!node_modules/**']
 		},
 
-// Lint .php files for code standards
+		// Lint .php files for code standards
 		phpcs        : {
 			all    : {
 				//adjust these to the folder you do and don't want to be treated
