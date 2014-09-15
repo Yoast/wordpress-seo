@@ -138,17 +138,13 @@ div.yoastbox ul li {
 	list-style: square;
 }
 
-div.yoastbox a, div.yoastbox a.rsswidget {
+div.yoastbox a {
 	font-family: sans-serif;
 	font-size: 12px;
 }
 
-div.yoastbox a:hover, div.yoastbox a.rsswidget:hover {
+div.yoastbox a:hover {
 	text-decoration: underline;
-}
-
-div.yoastbox ul li.yoast {
-	list-style-image: url(../images/yoast-16x16.png);
 }
 
 .text {
@@ -275,11 +271,6 @@ h2 code {
 	margin: 0 5px 0 0;
 }
 
-/* Add our icon to the Admin pages */
-#icon-wpseo_dashboard.icon32 {
-	background: url(../images/wordpress-SEO-32x32.png) 0 0;
-}
-
 #wpseo-debug-info {
 	clear: both;
 }
@@ -337,10 +328,6 @@ input.wpseo-new-title, textarea.wpseo-new-metadesc {
 
 .wpseotab .video-seo h3 {
 	background-image: url(../images/Video_130x100.png);
-}
-
-.wpseotab .video-manuals h3 {
-	background-image: url(../images/Manual_130x100.png);
 }
 
 .wpseotab .local-seo h3 {
