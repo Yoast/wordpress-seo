@@ -159,9 +159,9 @@ function wpseo_upsert_new_title( $post_id, $new_title, $original_title ) {
  */
 function wpseo_upsert_meta( $post_id, $new_meta_value, $orig_meta_value, $meta_key, $return_key ) {
 
-	$post_id                   = $post_id;
-	$sanitized_new_meta_value  = strip_tags( $new_meta_value );
-	$orig_meta_value           = strip_tags( $orig_meta_value );
+	$post_id                   = intval( $post_id );
+	$sanitized_new_meta_value  = wp_strip_all_tags( $new_meta_value );
+	$orig_meta_value           = wp_strip_all_tags( $orig_meta_value );
 
 	$upsert_results = array(
 		'status'                 => 'success',
