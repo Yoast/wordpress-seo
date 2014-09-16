@@ -18,10 +18,6 @@ matrix:
       env: WP_VERSION=4.0 WP_MULTISITE=0
     - php: "5.5"
       env: WP_VERSION=3.9 WP_MULTISITE=1
-    - php: "5.4"
-      env: WP_VERSION=3.8 WP_MULTISITE=0
-    - php: "5.3"
-      env: WP_VERSION=3.8 WP_MULTISITE=1
     - php: "5.3"
       env: WP_VERSION=3.9 WP_MULTISITE=0
     - php: "5.2"
@@ -35,7 +31,6 @@ before_script:
 - cp -r "$PLUGIN_SLUG" "/tmp/wordpress/src/wp-content/plugins/$PLUGIN_SLUG"
 - cd /tmp/wordpress/
 - cp wp-tests-config-sample.php wp-tests-config.php
-- sed -i "s/WP_DEBUG', true )/WP_DEBUG', false )/" wp-tests-config.php
 - sed -i "s/youremptytestdbnamehere/wordpress_tests/" wp-tests-config.php
 - sed -i "s/yourusernamehere/travis/" wp-tests-config.php
 - sed -i "s/yourpasswordhere//" wp-tests-config.php

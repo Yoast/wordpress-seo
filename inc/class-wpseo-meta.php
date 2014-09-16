@@ -447,9 +447,6 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 						);
 					}
 
-					/* Adjust the authorship 'default for post type' text string based on the post type */
-					$field_defs['authorship']['options']['-'] = sprintf( $field_defs['authorship']['options']['-'], ( ( isset( $options[ 'noauthorship-' . $post_type ] ) && $options[ 'noauthorship-' . $post_type ] === true ) ? __( 'don\'t show', 'wordpress-seo' ) : __( 'show', 'wordpress-seo' ) ) );
-
 					break;
 			}
 

@@ -379,7 +379,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 				'wpseo_permalink_template'    => $sample_permalink,
 				'wpseo_keyword_suggest_nonce' => wp_create_nonce( 'wpseo-get-suggest' ),
 				'wpseo_replace_vars_nonce'    => wp_create_nonce( 'wpseo-replace-vars' ),
-				'no_parent_text'              => __( '(no parent)' ),
+				'no_parent_text'              => __( '(no parent)', 'wordpress-seo' ),
 			) );
 		}
 
@@ -1470,6 +1470,8 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			if ( $job['title'] == '' ) {
 				$this->save_score_result( $results, 1, $scoreTitleMissing, 'title' );
 			} else {
+				$job['title'] = wp_strip_all_tags( $job['title'] );
+
 				$length = $this->statistics()->text_length( $job['title'] );
 				if ( $length < $scoreTitleMinLength ) {
 					$this->save_score_result( $results, 6, sprintf( $scoreTitleTooShort, $length ), 'title_length' );

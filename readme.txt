@@ -4,9 +4,9 @@ Donate link: https://yoast.com/
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: seo, SEO, Yoast SEO, google, meta, meta description, search engine optimization, xml sitemap, xml sitemaps, google sitemap, sitemap, sitemaps, robots meta, rss, rss footer, yahoo, bing, news sitemaps, XML News Sitemaps, WordPress SEO, WordPress SEO by Yoast, yoast, multisite, canonical, nofollow, noindex, keywords, meta keywords, description, webmaster tools, google webmaster tools, seo pack
-Requires at least: 3.5
+Requires at least: 3.8
 Tested up to: 4.0
-Stable tag: 1.6
+Stable tag: 1.6.1
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using Yoast's WordPress SEO plugin.
 
@@ -115,6 +115,20 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 7. The advanced section of the WordPress SEO meta box.
 
 == Changelog ==
+
+= 1.6.1 =
+
+* Bugfixes:
+	* Remove tags from title and description for snippet preview.
+	* Fix several notices.
+	* Improve escaping of values in the bulk editor before saving.
+
+* Enhancements:
+	* New admin icon using SVG, which uses proper color.
+	* Introduced a filter for the XML Sitemap base URL, `wpseo_sitemaps_base_url`
+	* Introduced a filter for the JSON+LD output: `wpseo_json_ld_search_output`
+
+* For developers: the [GitHub version](https://github.com/Yoast/wordpress-seo) now contains a full Grunt implementation for many actions.
 
 = 1.6 =
 
