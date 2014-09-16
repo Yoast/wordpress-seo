@@ -4,19 +4,19 @@ h4 {
 }
 
 p.desc {
-	padding: 0 0 8px 25px;
 	margin: 6px 0 10px 0;
+	padding: 0 0 8px 25px;
 	border-bottom: 1px solid #ddd;
 }
 
 p.desc.label {
-	padding: 2px 0 10px 180px;
 	margin-bottom: 20px;
+	padding: 2px 0 10px 180px;
 }
 
 tr.yst_row {
-	padding: 5px 0 0 0;
 	margin: 5px 0 0 0;
+	padding: 5px 0 0 0;
 }
 
 tr.yst_row.even {
@@ -69,8 +69,8 @@ textarea.import {
 
 label.textinput, label.select, label.checkbox {
 	width: 180px;
-	background-color: transparent;
 	margin: 10px 0 5px 0;
+	background-color: transparent;
 }
 
 label.radio {
@@ -81,11 +81,12 @@ label.radio {
 	display: table;
 	width: 100%;
 }
+
 .wpseo_content_cell {
 	display: table-cell;
 	height: 500px;
-	padding: 0;
 	margin: 0;
+	padding: 0;
 	vertical-align: top;
 }
 
@@ -94,11 +95,11 @@ label.radio {
 }
 
 .wpseo_content_wrapper div.wpseo-warning {
-	border: 2px solid red;
-	padding-left: 10px;
-	padding-right: 10px;
-	background-color: #DEDEDE;
 	margin: 2em 0 0 0;
+	padding-right: 10px;
+	padding-left: 10px;
+	border: 2px solid red;
+	background-color: #dedede;
 }
 
 .wpseo_content_wrapper div.wpseo-warning h4 {
@@ -116,8 +117,8 @@ label.radio {
 
 @media (max-width: 1020px) {
 	#wpseo_content_top {
-		padding-left: 0;
 		margin-left: 0;
+		padding-left: 0;
 	}
 }
 
@@ -132,22 +133,18 @@ label.radio {
 }
 
 div.yoastbox ul li {
-	list-style: square;
-	line-height: 16px;
 	font-size: 11px;
+	line-height: 16px;
+	list-style: square;
 }
 
-div.yoastbox a, div.yoastbox a.rsswidget {
+div.yoastbox a {
 	font-family: sans-serif;
 	font-size: 12px;
 }
 
-div.yoastbox a:hover, div.yoastbox a.rsswidget:hover {
+div.yoastbox a:hover {
 	text-decoration: underline;
-}
-
-div.yoastbox ul li.yoast {
-	list-style-image: url(../images/yoast-16x16.png);
 }
 
 .text {
@@ -169,13 +166,13 @@ table.yoast_help, table.yoast_help th, table.yoast_help td {
 }
 
 table.yoast_help th, table.yoast_help td {
-	vertical-align: text-top;
-	text-align: left;
 	padding: 5px 10px;
+	text-align: left;
+	vertical-align: text-top;
 }
 
 table.yoast_help tr:nth-child(2n) {
-	background-color: #FBFBFE;
+	background-color: #fbfbfe;
 }
 
 table.yoast_help tr:hover {
@@ -183,15 +180,15 @@ table.yoast_help tr:hover {
 }
 
 .correct {
-	background-color: green;
-	color: white;
 	padding: 5px;
+	color: white;
+	background-color: green;
 }
 
 .wrong {
-	background-color: red;
-	color: white;
 	padding: 5px;
+	color: white;
+	background-color: red;
 }
 
 .wrong code {
@@ -200,14 +197,14 @@ table.yoast_help tr:hover {
 }
 
 .button.fixit {
-	margin: 0 5px;
 	float: right;
+	margin: 0 5px;
 }
 
 .button.checkit {
-	padding: 5px 8px;
-	margin: 0 5px;
 	float: right;
+	margin: 0 5px;
+	padding: 5px 8px;
 }
 
 .fb-buttons .button-primary,
@@ -220,7 +217,7 @@ table.yoast_help tr:hover {
 }
 
 .button#submit {
-	color: #FFF !important;
+	color: #fff !important;
 }
 
 .postbox#donate {
@@ -230,6 +227,7 @@ table.yoast_help tr:hover {
 .wpseotab {
 	display: none;
 	/*max-width: 600px !important;*/
+	;
 }
 
 .wpseotab.active {
@@ -237,10 +235,10 @@ table.yoast_help tr:hover {
 }
 
 #sidebar .yoastbox {
-	border: 1px solid #CCC;
-	border-radius: 5px 25px;
 	margin: 0 0 10px 0;
 	padding: 10px 15px;
+	border: 1px solid #ccc;
+	border-radius: 5px 25px;
 }
 
 #sidebar .yoastbox h2 {
@@ -266,15 +264,11 @@ h2 code {
 
 #wpseo-conf {
 	/*max-width: 600px;*/
+	;
 }
 
 #pointer-primary {
 	margin: 0 5px 0 0;
-}
-
-/* Add our icon to the Admin pages */
-#icon-wpseo_dashboard.icon32 {
-	background: url(../images/wordpress-SEO-32x32.png) 0 0;
 }
 
 #wpseo-debug-info {
@@ -292,20 +286,20 @@ h2 code {
 #wpseo-debug-info .wpseo-debug {
 	display: inline-block;
 	padding-left: 20px;
-	color: #CC0000;
+	color: #c00;
 }
 
 input.wpseo-new-title, textarea.wpseo-new-metadesc {
-	max-width: 100%;
 	width: 100%;
+	max-width: 100%;
 }
 
 .wpseotab .extension {
+	float: left;
 	box-sizing: border-box;
 	width: 300px;
 	height: 230px;
 	margin: 10px 20px 10px 0;
-	float: left;
 	border: 1px solid #ccc;
 }
 
@@ -328,16 +322,18 @@ input.wpseo-new-title, textarea.wpseo-new-metadesc {
 	text-decoration: none;
 }
 
+.wpseotab .extension button.installed {
+	border-color: #00a000;
+	background-color: #00a000;
+	cursor: default;
+}
+
 .wpseotab .seo-premium h3 {
 	background-image: url(../images/Premium_130x100.png);
 }
 
 .wpseotab .video-seo h3 {
 	background-image: url(../images/Video_130x100.png);
-}
-
-.wpseotab .video-manuals h3 {
-	background-image: url(../images/Manual_130x100.png);
 }
 
 .wpseotab .local-seo h3 {
@@ -359,26 +355,25 @@ div#separator {
 }
 
 div#separator input.radio {
-	opacity: 0;
+	display: none;
 	float: left;
 	width: 0 !important;
 	min-width: 0 !important;
-	display: none;
+	opacity: 0;
 }
 
 div#separator input.radio + label {
 	float: left;
+	width: 30px !important;
 	margin: 3px 3px 0 0;
 	padding: 5px 8px;
-	width: 30px !important;
-	line-height: 25px;
-	text-align: center;
-	cursor: pointer;
 	border: 1px solid #ccc;
-
 	/* Don't change: these mimic Google's font and font size for titles */
 	font-family: Arial,Helvetica,sans-serif !important;
 	font-size: 18px !important;
+	line-height: 25px;
+	text-align: center;
+	cursor: pointer;
 }
 
 div#separator input.radio:checked + label {

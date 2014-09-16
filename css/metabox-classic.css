@@ -3,11 +3,11 @@
  */
 
 ul.wpseo-metabox-tabs li.active {
-	background-color: #EFF8FF;
+	background-color: #eff8ff;
 }
 
 ul.wpseo-metabox-tabs li.active, div.wpseo-tab-content {
-	border-color: #D1E5EE;
+	border-color: #d1e5ee;
 }
 
 .wpseo-metabox-tabs .active a {
@@ -15,7 +15,7 @@ ul.wpseo-metabox-tabs li.active, div.wpseo-tab-content {
 }
 
 #wpseotab .ui-widget-content .ui-state-hover {
-	border: 1px solid #D1E5EE;
-	background: #EFF8FF;
+	border: 1px solid #d1e5ee;
 	color: #333;
+	background: #eff8ff;
 }

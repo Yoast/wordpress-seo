@@ -365,8 +365,6 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 			global $wpdb;
 
 			$this->sitemap = '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
-			$base          = $GLOBALS['wp_rewrite']->using_index_permalinks() ? 'index.php/' : '';
-
 			// reference post type specific sitemaps
 			$post_types = get_post_types( array( 'public' => true ) );
 			if ( is_array( $post_types ) && $post_types !== array() ) {
@@ -415,7 +413,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 						}
 
 						$this->sitemap .= '<sitemap>' . "\n";
-						$this->sitemap .= '<loc>' . home_url( $base . $post_type . '-sitemap' . $count . '.xml' ) . '</loc>' . "\n";
+						$this->sitemap .= '<loc>' . wpseo_xml_sitemaps_base_url( $post_type . '-sitemap' . $count . '.xml' ) . '</loc>' . "\n";
 						$this->sitemap .= '<lastmod>' . htmlspecialchars( $date ) . '</lastmod>' . "\n";
 						$this->sitemap .= '</sitemap>' . "\n";
 					}
@@ -501,7 +499,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 						}
 
 						$this->sitemap .= '<sitemap>' . "\n";
-						$this->sitemap .= '<loc>' . home_url( $base . $tax_name . '-sitemap' . $count . '.xml' ) . '</loc>' . "\n";
+						$this->sitemap .= '<loc>' . wpseo_xml_sitemaps_base_url( $tax_name . '-sitemap' . $count . '.xml' ) . '</loc>' . "\n";
 						$this->sitemap .= '<lastmod>' . htmlspecialchars( $date ) . '</lastmod>' . "\n";
 						$this->sitemap .= '</sitemap>' . "\n";
 					}
@@ -556,7 +554,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 					}
 
 					$this->sitemap .= '<sitemap>' . "\n";
-					$this->sitemap .= '<loc>' . home_url( $base . 'author-sitemap' . $count . '.xml' ) . '</loc>' . "\n";
+					$this->sitemap .= '<loc>' . wpseo_xml_sitemaps_base_url( 'author-sitemap' . $count . '.xml' ) . '</loc>' . "\n";
 					$this->sitemap .= '<lastmod>' . htmlspecialchars( $date->format( 'c' ) ) . '</lastmod>' . "\n";
 					$this->sitemap .= '</sitemap>' . "\n";
 				}
@@ -1266,8 +1264,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 		 * Make a request for the sitemap index so as to cache it before the arrival of the search engines.
 		 */
 		function hit_sitemap_index() {
-			$base = $GLOBALS['wp_rewrite']->using_index_permalinks() ? 'index.php/' : '';
-			$url  = home_url( $base . 'sitemap_index.xml' );
+			$url = wpseo_xml_sitemaps_base_url( 'sitemap_index.xml' );
 			wp_remote_get( $url );
 		}
 
