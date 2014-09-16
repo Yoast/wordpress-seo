@@ -473,6 +473,10 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 				$placeholder = $meta_field_def['placeholder'];
 			}
 
+			if ( empty( $meta_field_def['type'] ) ) {
+				$meta_field_def['type'] = false;
+			}
+
 			switch ( $meta_field_def['type'] ) {
 				case 'snippetpreview':
 					$content .= $this->snippet();
