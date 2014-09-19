@@ -151,10 +151,10 @@ if ( ! class_exists( 'WPSEO_Bulk_List_Table' ) ) {
 				<?php if ( 'top' === $which ) { ?>
 				<form id="posts-filter" action="" method="get">
 					<input type="hidden" name="page" value="wpseo_bulk-editor" />
-					<input type="hidden" name="type" value="<?php echo $this->page_type; ?>" />
-					<input type="hidden" name="orderby" value="<?php echo $_GET['orderby']; ?>" />
-					<input type="hidden" name="order" value="<?php echo $_GET['order']; ?>" />
-					<input type="hidden" name="post_type_filter" value="<?php echo $_GET['post_type_filter']; ?>" />
+					<input type="hidden" name="type" value="<?php echo esc_attr( $this->page_type ); ?>" />
+					<input type="hidden" name="orderby" value="<?php echo esc_attr( $_GET['orderby'] ); ?>" />
+					<input type="hidden" name="order" value="<?php echo esc_attr( $_GET['order'] ); ?>" />
+					<input type="hidden" name="post_type_filter" value="<?php echo esc_attr( $_GET['post_type_filter'] ); ?>" />
 					<?php if ( ! empty( $post_status ) ) { ?>
 						<input type="hidden" name="post_status" value="<?php echo esc_attr( $post_status ); ?>" />
 					<?php } ?>
