@@ -625,39 +625,12 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		 */
 		function snippet() {
 			$post = $this->get_metabox_post();
-
-			$options = WPSEO_Options::get_all();
-
-			$date = '';
-			if ( is_object( $post ) && isset( $options[ 'showdate-' . $post->post_type ] ) && $options[ 'showdate-' . $post->post_type ] === true ) {
-				$date = $this->get_post_date( $post );
-			}
-
 			$title = self::get_value( 'title', $post->ID );
-			$desc  = self::get_value( 'metadesc', $post->ID );
+			$description  = self::get_value( 'metadesc', $post->ID );
 
-			$slug = ( is_object( $post ) && isset( $post->post_name ) ) ? $post->post_name : '';
-			if ( $slug !== '' ) {
-				$slug = sanitize_title( $title );
-			}
-
-			if ( is_string( $date ) && $date !== '' ) {
-				$datestr = '<span class="date">' . $date . ' - </span>';
-			} else {
-				$datestr = '';
-			}
-			$content = '<div id="wpseosnippet">
-				<a class="title" id="wpseosnippet_title" href="#">' . esc_html( $title ) . '</a>';
-
-			$content .= '<span class="url">' . str_replace( 'http://', '', get_bloginfo( 'url' ) ) . '/' . esc_html( $slug ) . '/</span>';
-
-			$content .= '<p class="desc">' . $datestr . '<span class="autogen"></span><span class="content">' . esc_html( $desc ) . '</span></p>';
-
-			$content .= '</div>';
-
-			$content = apply_filters( 'wpseo_snippet', $content, $post, compact( 'title', 'desc', 'date', 'slug' ) );
-
-			return $content;
+			$snippet_preview = new WPSEO_Snippet_Preview($post, $title, $description);
+			
+			return $snippet_preview->content;
 		}
 
 		/**
