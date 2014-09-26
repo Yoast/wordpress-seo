@@ -574,12 +574,13 @@ if ( ! class_exists( 'WPSEO_Option' ) ) {
 		protected function retain_variable_keys( $dirty, $clean ) {
 			if ( ( is_array( $this->variable_array_key_patterns ) && $this->variable_array_key_patterns !== array() ) && ( is_array( $dirty ) && $dirty !== array() ) ) {
 				foreach ( $dirty as $key => $value ) {
-					foreach ( $this->variable_array_key_patterns as $pattern ) {
 
-						// do nothing if already in filtered option array
-						if( isset( $clean[ $key ] ) ) {
-							continue;
-						}
+					// do nothing if already in filtered options
+					if( isset( $clean[ $key ] ) ) {
+						continue;
+					}
+
+					foreach ( $this->variable_array_key_patterns as $pattern ) {
 
 						if ( strpos( $key, $pattern ) === 0 ) {
 							$clean[ $key ] = $value;
@@ -1922,7 +1923,7 @@ if ( ! class_exists( 'WPSEO_Option_Titles' ) ) {
 
 				foreach ( $dirty as $key => $value ) {
 
-					// do nothing if already in filtered option array
+					// do nothing if already in filtered options
 					if( isset( $clean[ $key ] ) ) {
 						continue;
 					}
