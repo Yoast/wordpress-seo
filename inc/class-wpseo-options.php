@@ -576,7 +576,7 @@ if ( ! class_exists( 'WPSEO_Option' ) ) {
 				foreach ( $dirty as $key => $value ) {
 
 					// do nothing if already in filtered options
-					if( isset( $clean[ $key ] ) ) {
+					if ( isset( $clean[ $key ] ) ) {
 						continue;
 					}
 
@@ -1923,8 +1923,8 @@ if ( ! class_exists( 'WPSEO_Option_Titles' ) ) {
 
 				foreach ( $dirty as $key => $value ) {
 
-					// do nothing if already in filtered options
-					if( isset( $clean[ $key ] ) ) {
+					// do nothing if already in filtered option array
+					if ( isset( $clean[ $key ] ) ) {
 						continue;
 					}
 
