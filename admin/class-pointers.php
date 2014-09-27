@@ -219,7 +219,7 @@ if ( ! class_exists( 'WPSEO_Pointers' ) ) {
 				$content .= '<p>' . __( 'You\'ve just installed WordPress SEO by Yoast! Click "Start Tour" to view a quick introduction of this plugins core functionality.', 'wordpress-seo' ) . '</p>';
 				$opt_arr                             = array(
 					'content'  => $content,
-					'position' => array( 'edge' => 'top', 'align' => 'center' )
+					'position' => array( 'edge' => 'bottom', 'align' => 'center' )
 				);
 				$button_array['button2']['text']     = __( 'Start Tour', 'wordpress-seo' );
 				$button_array['button2']['function'] = 'document.location="' . admin_url( 'admin.php?page=wpseo_dashboard' ) . '";';
@@ -278,7 +278,7 @@ if ( ! class_exists( 'WPSEO_Pointers' ) ) {
 				//<![CDATA[
 				(function ($) {
 					// Don't show the tour on screens with an effective width smaller than 1024px or an effective height smaller than 768px.
-					if (jQuery(window).width() < 1024 || jQuery(window).availWidth < 1024 || jQuery(window).height() < 768 || jQuery(window).availHeight < 768) {
+					if (jQuery(window).width() < 1024 || jQuery(window).availWidth < 1024 ) {
 						return;
 					}
 
