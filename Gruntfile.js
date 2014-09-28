@@ -226,33 +226,23 @@ module.exports = function (grunt) {
 			}
 		},
 
+		// Generate POT files.
 		makepot: {
 			plugin: {
 				options: {
-					domainPath : '/languages',
+					type: 'wp-plugin'
+					domainPath: '/languages',
 					potFilename: 'wordpress-seo.pot',
-					processPot : function (pot) {
-						pot.headers['report-msgid-bugs-to'] = 'https://github.com/yoast/wordpress-seo\n';
-						pot.headers['plural-forms'] = 'nplurals=2; plural=n != 1;';
-						pot.headers['last-translator'] = 'Yoast Translate Team <translations@yoast.com>\n';
-						pot.headers['language-team'] = 'Yoast Translate <translations@yoast.com>\n';
-						pot.headers['x-generator'] = 'grunt-wp-i18n 0.4.4';
-						pot.headers['x-poedit-basepath'] = '.';
-						pot.headers['x-poedit-language'] = 'English';
-						pot.headers['x-poedit-country'] = 'UNITED STATES';
-						pot.headers['x-poedit-sourcecharset'] = 'utf-8';
-						pot.headers['x-poedit-keywordslist'] = '__;_e;_x:1,2c;_ex:1,2c;_n:1,2; _nx:1,2,4c;_n_noop:1,2;_nx_noop:1,2,3c;esc_attr__; esc_html__;esc_attr_e; esc_html_e;esc_attr_x:1,2c; esc_html_x:1,2c;';
-						pot.headers['x-poedit-bookmarks'] = '';
-						pot.headers['x-poedit-searchpath-0'] = '.';
-						pot.headers['x-textdomain-support'] = 'yes';
-						return pot;
-					},
-					type       : 'wp-plugin'
+					potHeaders: {
+						poedit: true,
+						'report-msgid-bugs-to': 'https://github.com/yoast/wordpress-seo',
+						'language-team': 'Yoast Translate <translations@yoast.com>',
+						'last-translator': 'Yoast Translate Team <translations@yoast.com>'
+					}
 				}
 			}
 		}
-	})
-	;
+	});
 
 	grunt.registerTask('check', [
 		'jshint',
