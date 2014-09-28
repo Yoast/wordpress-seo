@@ -216,7 +216,7 @@ if ( ! class_exists( 'WPSEO_Pointers' ) ) {
 			if ( 'admin.php' != $pagenow || ! array_key_exists( $page, $adminpages ) ) {
 				$id      = 'li.toplevel_page_wpseo_dashboard';
 				$content = '<h3>' . __( 'Congratulations!', 'wordpress-seo' ) . '</h3>';
-				$content .= '<p>' . __( 'You\'ve just installed WordPress SEO by Yoast! Click "Start Tour" to view a quick introduction of this plugins core functionality.', 'wordpress-seo' ) . '</p>';
+				$content .= '<p>' . __( 'You\'ve just installed WordPress SEO by Yoast! Click "Start Tour" to view a quick introduction of this plugin\'s core functionality.', 'wordpress-seo' ) . '</p>';
 				$opt_arr                             = array(
 					'content'  => $content,
 					'position' => array( 'edge' => 'top', 'align' => 'center' )
