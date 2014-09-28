@@ -1,3 +1,9 @@
+# This file is for unifying the coding style for different editors and IDEs
+# editorconfig.org
+
+# WordPress Coding Standards
+# http://make.wordpress.org/core/handbook/coding-standards/
+
 root = true
 
 [*]
