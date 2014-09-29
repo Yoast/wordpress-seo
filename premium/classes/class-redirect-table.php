@@ -117,7 +117,7 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 
 		// Set pagination
 		$this->set_pagination_args( array(
-			'total_items' => count( $formatted_items ),
+			'total_items' => $total_items,
 			'total_pages' => ceil( $total_items / $per_page ),
 			'per_page'    => $per_page,
 		) );
