@@ -65,7 +65,7 @@ if ( ! class_exists( 'WPSEO_Pointers' ) ) {
 			$nonce = wp_create_nonce( 'wpseo_activate_tracking' );
 
 			$content = '<h3>' . __( 'Help improve WordPress SEO', 'wordpress-seo' ) . '</h3>';
-			$content .= '<p>' . __( 'You\'ve just installed WordPress SEO by Yoast. Please helps us improve it by allowing us to gather anonymous usage stats so we know which configurations, plugins and themes to test with.', 'wordpress-seo' ) . '</p>';
+			$content .= '<p>' . __( 'You&#8217;ve just installed WordPress SEO by Yoast. Please helps us improve it by allowing us to gather anonymous usage stats so we know which configurations, plugins and themes to test with.', 'wordpress-seo' ) . '</p>';
 			$opt_arr      = array(
 				'content'  => $content,
 				'position' => array( 'edge' => 'top', 'align' => 'center' )
@@ -94,9 +94,9 @@ if ( ! class_exists( 'WPSEO_Pointers' ) ) {
 			$adminpages = array(
 				'wpseo_dashboard'      => array(
 					'content'       => '<h3>' . __( 'Dashboard', 'wordpress-seo' ) . '</h3><p>' . __( 'This is the WordPress SEO Dashboard, here you can restart this tour or revert the WP SEO settings to default.', 'wordpress-seo' ) . '</p>'
-						. '<p><strong>' . __( 'More WordPress SEO', 'wordpress-seo' ) . '</strong><br/>' . sprintf( __( 'There\'s more to learn about WordPress &amp; SEO than just using this plugin. A great start is our article %1$sthe definitive guide to WordPress SEO%2$s.', 'wordpress-seo' ), '<a target="_blank" href="' . esc_url( 'https://yoast.com/articles/wordpress-seo/#utm_source=wpseo_dashboard&utm_medium=wpseo_tour&utm_campaign=tour' ) . '">', '</a>' ) . '</p>'
+						. '<p><strong>' . __( 'More WordPress SEO', 'wordpress-seo' ) . '</strong><br/>' . sprintf( __( 'There&#8217;s more to learn about WordPress &amp; SEO than just using this plugin. A great start is our article %1$sthe definitive guide to WordPress SEO%2$s.', 'wordpress-seo' ), '<a target="_blank" href="' . esc_url( 'https://yoast.com/articles/wordpress-seo/#utm_source=wpseo_dashboard&utm_medium=wpseo_tour&utm_campaign=tour' ) . '">', '</a>' ) . '</p>'
 						. '<p><strong>' . __( 'Tracking', 'wordpress-seo' ) . '</strong><br/>' . __( 'To provide you with the best experience possible, we need your help. Please enable tracking to help us gather anonymous usage data.', 'wordpress-seo' ) . '</p>'
-						. '<p><strong>' . __( 'Webmaster Tools', 'wordpress-seo' ) . '</strong><br/>' . __( 'You can also add the verification codes for the different Webmaster Tools programs here, we highly encourage you to check out both Google and Bing\'s Webmaster Tools.', 'wordpress-seo' ) . '</p>'
+						. '<p><strong>' . __( 'Webmaster Tools', 'wordpress-seo' ) . '</strong><br/>' . __( 'You can also add the verification codes for the different Webmaster Tools programs here, we highly encourage you to check out both Google and Bing&#8217;s Webmaster Tools.', 'wordpress-seo' ) . '</p>'
 						. '<p><strong>' . __( 'WordPress SEO Tour', 'wordpress-seo' ) . '</strong><br/>' . __( 'This tour will show you around in the plugin, to give you a general overview of the plugin.', 'wordpress-seo' ) . '</p>'
 						. '<p><strong>' . __( 'Newsletter', 'wordpress-seo' ) . '</strong><br/>' .
 						__( 'If you would like to us to keep you up-to-date regarding WordPress SEO and other plugins by Yoast, subscribe to our newsletter:', 'wordpress-seo' ) . '</p>' .
@@ -111,9 +111,9 @@ if ( ! class_exists( 'WPSEO_Pointers' ) ) {
 					'position'      => array( 'edge' => 'top', 'align' => 'center' ),
 				),
 				'wpseo_titles'         => array(
-					'content'       => '<h3>' . __( 'Title &amp; Metas settings', 'wordpress-seo' ) . '</h3>' . '<p>' . __( 'This is where you set the titles and meta-information for all your post types, taxonomies, archives, special pages and for your homepage. The page is divided into different tabs., make sure you check \'m all out!', 'wordpress-seo' ) . '</p>'
+					'content'       => '<h3>' . __( 'Title &amp; Metas settings', 'wordpress-seo' ) . '</h3>' . '<p>' . __( 'This is where you set the titles and meta-information for all your post types, taxonomies, archives, special pages and for your homepage. The page is divided into different tabs. Make sure you check &#8217;em all out!', 'wordpress-seo' ) . '</p>'
 						. '<p><strong>' . __( 'Sitewide settings', 'wordpress-seo' ) . '</strong><br/>' . __( 'The first tab will show you site-wide settings. You can also set some settings for the entire site here to add specific meta tags or to remove some unneeded cruft.', 'wordpress-seo' ) . '</p>'
-						. '<p><strong>' . __( 'Templates and settings', 'wordpress-seo' ) . '</strong><br/>' . sprintf( __( 'Now click on the \'%1$sPost Types%2$s\'-tab, as this will be our example.', 'wordpress-seo' ), '<a target="_blank" href="' . esc_url( admin_url( 'admin.php?page=wpseo_titles#top#post_types' ) ) . '">', '</a>' ) . '<br />' . __( 'The templates are built using variables. You can find all these variables in the help tab (in the top-right corner of the page). The settings allow you to set specific behavior for the post types.', 'wordpress-seo' ) . '</p>',
+						. '<p><strong>' . __( 'Templates and settings', 'wordpress-seo' ) . '</strong><br/>' . sprintf( __( 'Now click on the &#8216;%1$sPost Types%2$s&#8217;-tab, as this will be our example.', 'wordpress-seo' ), '<a target="_blank" href="' . esc_url( admin_url( 'admin.php?page=wpseo_titles#top#post_types' ) ) . '">', '</a>' ) . '<br />' . __( 'The templates are built using variables. You can find all these variables in the help tab (in the top-right corner of the page). The settings allow you to set specific behavior for the post types.', 'wordpress-seo' ) . '</p>',
 					'next'          => __( 'Next', 'wordpress-seo' ),
 					'next_function' => 'window.location="' . admin_url( 'admin.php?page=wpseo_social' ) . '";',
 					'prev'          => __( 'Previous', 'wordpress-seo' ),
@@ -122,8 +122,8 @@ if ( ! class_exists( 'WPSEO_Pointers' ) ) {
 				'wpseo_social'         => array(
 					'content'       => '<h3>' . __( 'Social settings', 'wordpress-seo' ) . '</h3>'
 						. '<p><strong>' . __( 'Facebook', 'wordpress-seo' ) . '</strong><br/>' . sprintf( __( 'On this tab you can enable the %1$sFacebook Open Graph%2$s functionality from this plugin, as well as assign a Facebook user or Application to be the admin of your site, so you can view the Facebook insights.', 'wordpress-seo' ), '<a target="_blank" href="' . esc_url( 'https://yoast.com/facebook-open-graph-protocol/#utm_source=wpseo_social&utm_medium=wpseo_tour&utm_campaign=tour' ) . '">', '</a>' ) . '</p><p>' . __( 'The frontpage settings allow you to set meta-data for your homepage, whereas the default settings allow you to set a fallback for all posts/pages without images. ', 'wordpress-seo' ) . '</p>'
-						. '<p><strong>' . __( 'Twitter', 'wordpress-seo' ) . '</strong><br/>' . sprintf( __( 'With %1$sTwitter Cards%2$s, you can attach rich photos, videos and media experience to tweets that drive traffic to your website. Simply check the box, sign up for the service, and users who Tweet links to your content will have a "Card" added to the tweet that\'s visible to all of their followers.', 'wordpress-seo' ), '<a target="_blank" href="' . esc_url( 'https://yoast.com/twitter-cards/#utm_source=wpseo_social&utm_medium=wpseo_tour&utm_campaign=tour' ) . '">', '</a>' ) . '</p>'
-						. '<p><strong>' . __( 'Google+', 'wordpress-seo' ) . '</strong><br/>' . sprintf( __( 'This tab allows you to add specific post meta data for Google+. And if you have a Google+ page for your business, add that URL here and link it on your %1$sGoogle+%2$s page\'s about page.', 'wordpress-seo' ), '<a target="_blank" href="' . esc_url( 'https://plus.google.com/' ) . '">', '</a>' ) . '</p>',
+						. '<p><strong>' . __( 'Twitter', 'wordpress-seo' ) . '</strong><br/>' . sprintf( __( 'With %1$sTwitter Cards%2$s, you can attach rich photos, videos and media experience to tweets that drive traffic to your website. Simply check the box, sign up for the service, and users who Tweet links to your content will have a &#8220;Card&#8221; added to the tweet that&#8217;s visible to all of their followers.', 'wordpress-seo' ), '<a target="_blank" href="' . esc_url( 'https://yoast.com/twitter-cards/#utm_source=wpseo_social&utm_medium=wpseo_tour&utm_campaign=tour' ) . '">', '</a>' ) . '</p>'
+						. '<p><strong>' . __( 'Google+', 'wordpress-seo' ) . '</strong><br/>' . sprintf( __( 'This tab allows you to add specific post meta data for Google+. And if you have a Google+ page for your business, add that URL here and link it on your %1$sGoogle+%2$s page&#8217;s about page.', 'wordpress-seo' ), '<a target="_blank" href="' . esc_url( 'https://plus.google.com/' ) . '">', '</a>' ) . '</p>',
 					'next'          => __( 'Next', 'wordpress-seo' ),
 					'next_function' => 'window.location="' . admin_url( 'admin.php?page=wpseo_xml' ) . '";',
 					'prev'          => __( 'Previous', 'wordpress-seo' ),
@@ -139,7 +139,7 @@ if ( ! class_exists( 'WPSEO_Pointers' ) ) {
 					'prev_function' => 'window.location="' . admin_url( 'admin.php?page=wpseo_social' ) . '";',
 				),
 				'wpseo_permalinks'     => array(
-					'content'       => '<h3>' . __( 'Permalink Settings', 'wordpress-seo' ) . '</h3><p>' . __( 'All of the options here are for advanced users only, if you don\'t know whether you should check any, don\'t touch them.', 'wordpress-seo' ) . '</p>',
+					'content'       => '<h3>' . __( 'Permalink Settings', 'wordpress-seo' ) . '</h3><p>' . __( 'All of the options here are for advanced users only, if you don&#8217;t know whether you should check any, don&#8217;t touch them.', 'wordpress-seo' ) . '</p>',
 					'next'          => __( 'Next', 'wordpress-seo' ),
 					'next_function' => 'window.location="' . admin_url( 'admin.php?page=wpseo_internal-links' ) . '";',
 					'prev'          => __( 'Previous', 'wordpress-seo' ),
@@ -162,8 +162,8 @@ if ( ! class_exists( 'WPSEO_Pointers' ) ) {
 				'wpseo_import'         => array(
 					'content'       => '<h3>' . __( 'Import &amp; Export', 'wordpress-seo' ) . '</h3>'
 						. '<p><strong>' . __( 'Import from other (SEO) plugins', 'wordpress-seo' ) . '</strong><br/>' . __( 'We can imagine that you switch from another SEO plugin to WordPress SEO. If you just did, you can use these options to transfer your SEO-data. If you were using one of my older plugins like Robots Meta &amp; RSS Footer, you can import the settings here too.', 'wordpress-seo' ) . '</p>'
-						. '<p><strong>' . __( 'Other imports', 'wordpress-seo' ) . '</strong><br/>' . sprintf( __( 'If you\'re using one of our premium plugins, such as %1$sLocal SEO%2$s, you can also find specific import-options for that plugin here.', 'wordpress-seo' ), '<a target="_blank" href="' . esc_url( 'https://yoast.com/wordpress/plugins/local-seo/#utm_source=wpseo_import&utm_medium=wpseo_tour&utm_campaign=tour' ) . '">', '</a>' ) . '</p>'
-						. '<p><strong>' . __( 'Export', 'wordpress-seo' ) . '</strong><br/>' . __( 'If you have multiple blogs and you\'re happy with how you\'ve configured this blog, you can export the settings and import them on another blog so you don\'t have to go through this process twice!', 'wordpress-seo' ) . '</p>',
+						. '<p><strong>' . __( 'Other imports', 'wordpress-seo' ) . '</strong><br/>' . sprintf( __( 'If you&#8217;re using one of our premium plugins, such as %1$sLocal SEO%2$s, you can also find specific import-options for that plugin here.', 'wordpress-seo' ), '<a target="_blank" href="' . esc_url( 'https://yoast.com/wordpress/plugins/local-seo/#utm_source=wpseo_import&utm_medium=wpseo_tour&utm_campaign=tour' ) . '">', '</a>' ) . '</p>'
+						. '<p><strong>' . __( 'Export', 'wordpress-seo' ) . '</strong><br/>' . __( 'If you have multiple blogs and you&#8217;re happy with how you&#8217;ve configured this blog, you can export the settings and import them on another blog so you don&#8217;t have to go through this process twice!', 'wordpress-seo' ) . '</p>',
 					'next'          => __( 'Next', 'wordpress-seo' ),
 					'next_function' => 'window.location="' . network_admin_url( 'admin.php?page=wpseo_bulk-editor' ) . '";', // will auto-use admin_url if not on multi-site
 					'prev'          => __( 'Previous', 'wordpress-seo' ),
@@ -177,7 +177,7 @@ if ( ! class_exists( 'WPSEO_Pointers' ) ) {
 					'prev_function' => 'window.location="' . admin_url( 'admin.php?page=wpseo_import' ) . '";',
 				),
 				'wpseo_files'          => array(
-					'content'       => '<h3>' . __( 'File Editor', 'wordpress-seo' ) . '</h3><p>' . __( 'Here you can edit the .htaccess and robots.txt files, two of the most powerful files in your WordPress install, if your WordPress installation has write-access to the files. But please, only touch these files if you know what you\'re doing!', 'wordpress-seo' ) . '</p>',
+					'content'       => '<h3>' . __( 'File Editor', 'wordpress-seo' ) . '</h3><p>' . __( 'Here you can edit the .htaccess and robots.txt files, two of the most powerful files in your WordPress install, if your WordPress installation has write-access to the files. But please, only touch these files if you know what you&#8217;re doing!', 'wordpress-seo' ) . '</p>',
 					'next'          => __( 'Next', 'wordpress-seo' ),
 					'next_function' => 'window.location="' . admin_url( 'admin.php?page=wpseo_licenses' ) . '";',
 					'prev'          => __( 'Previous', 'wordpress-seo' ),
@@ -186,8 +186,8 @@ if ( ! class_exists( 'WPSEO_Pointers' ) ) {
 				'wpseo_licenses'       => array(
 					'content'       => '<h3>' . __( 'Extensions and Licenses', 'wordpress-seo' ) . '</h3>'
 						. '<p><strong>' . __( 'Extensions', 'wordpress-seo' ) . '</strong><br/>' . sprintf( __( 'The powerful functions of WordPress SEO can be extended with %1$sYoast premium plugins%2$s. These premium plugins require the installation of WordPress SEO or WordPress SEO Premium and add specific functionality. You can read all about the Yoast Premium Plugins on %1$shttp://yoast.com/wordpress/plugins/%2$s.', 'wordpress-seo' ), '<a target="_blank" href="' . esc_url( 'https://yoast.com/wordpress/plugins/#utm_source=wpseo_licenses&utm_medium=wpseo_tour&utm_campaign=tour' ) . '">', '</a>' ) . '</p>'
-						. '<p><strong>' . __( 'Licenses', 'wordpress-seo' ) . '</strong><br/>' . __( 'Once you\'ve purchased WordPress SEO Premium or any other premium Yoast plugin, you\'ll have to enter a license key. You can do so on the Licenses-tab. Once you\'ve activated your premium plugin, you can use all its powerful features.', 'wordpress-seo' ) . '</p>'
-						. '<p><strong>' . __( 'Like this plugin?', 'wordpress-seo' ) . '</strong><br/>' . sprintf( __( 'So, we\'ve come to the end of the tour. If you like the plugin, please %srate it 5 stars on WordPress.org%s!', 'wordpress-seo' ), '<a target="_blank" href="https://wordpress.org/plugins/wordpress-seo/">', '</a>' ) . '</p>'
+						. '<p><strong>' . __( 'Licenses', 'wordpress-seo' ) . '</strong><br/>' . __( 'Once you&#8217;ve purchased WordPress SEO Premium or any other premium Yoast plugin, you&#8217;ll have to enter a license key. You can do so on the Licenses-tab. Once you&#8217;ve activated your premium plugin, you can use all its powerful features.', 'wordpress-seo' ) . '</p>'
+						. '<p><strong>' . __( 'Like this plugin?', 'wordpress-seo' ) . '</strong><br/>' . sprintf( __( 'So, we&#8217;ve come to the end of the tour. If you like the plugin, please %srate it 5 stars on WordPress.org%s!', 'wordpress-seo' ), '<a target="_blank" href="https://wordpress.org/plugins/wordpress-seo/">', '</a>' ) . '</p>'
 						. '<p>' . sprintf( __( 'Thank you for using my plugin and good luck with your SEO!<br/><br/>Best,<br/>Team Yoast - %1$sYoast.com%2$s', 'wordpress-seo' ), '<a target="_blank" href="' . esc_url( 'https://yoast.com/#utm_source=wpseo_licenses&utm_medium=wpseo_tour&utm_campaign=tour' ) . '">', '</a>' ) . '</p>',
 					'prev'          => __( 'Previous', 'wordpress-seo' ),
 					'prev_function' => 'window.location="' . admin_url( 'admin.php?page=wpseo_files' ) . '";',
@@ -216,7 +216,7 @@ if ( ! class_exists( 'WPSEO_Pointers' ) ) {
 			if ( 'admin.php' != $pagenow || ! array_key_exists( $page, $adminpages ) ) {
 				$id      = 'li.toplevel_page_wpseo_dashboard';
 				$content = '<h3>' . __( 'Congratulations!', 'wordpress-seo' ) . '</h3>';
-				$content .= '<p>' . __( 'You\'ve just installed WordPress SEO by Yoast! Click "Start Tour" to view a quick introduction of this plugins core functionality.', 'wordpress-seo' ) . '</p>';
+				$content .= '<p>' . __( 'You&#8217;ve just installed WordPress SEO by Yoast! Click &#8220;Start Tour&#8221; to view a quick introduction of this plugin&#8217;s core functionality.', 'wordpress-seo' ) . '</p>';
 				$opt_arr                             = array(
 					'content'  => $content,
 					'position' => array( 'edge' => 'bottom', 'align' => 'center' )
