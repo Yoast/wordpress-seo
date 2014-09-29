@@ -712,6 +712,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		 */
 		public function enqueue() {
 			global $pagenow;
+			/* Filter 'wpseo_always_register_metaboxes_on_admin' documented in wpseo-main.php */
 			if ( ( ! in_array( $pagenow, array(
 					'post-new.php',
 					'post.php',
