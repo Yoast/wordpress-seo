@@ -21,6 +21,7 @@ if ( ! class_exists( 'WPSEO_Snippet_Preview' ) ) {
 		protected $url;
 
 		public function __construct( $post, $title, $description ) {
+
 			$this->options     = WPSEO_Options::get_all();
 			$this->post        = $post;
 			$this->title       = esc_html( $title );
@@ -66,13 +67,17 @@ if ( ! class_exists( 'WPSEO_Snippet_Preview' ) ) {
 
 		/**
 		 * generate the url that is displayed in the snippet preview
+		 *
+		 * When the post is set to be the frontpage, don't include the title slug.
 		 */
 		protected function set_url() {
-			$url = str_replace( 'http://', '', get_bloginfo( 'url' ) );
+			$url = str_replace( 'http://', '', get_bloginfo( 'url' ) ) . '/';
 
-			if ( is_object( $this->post ) && isset( $this->post->post_name ) && $this->post->post_name !== '' ) {
+			$frontpage_post_id = (int) ( get_option( 'page_on_front' ) );
+
+			if ( is_object( $this->post ) && isset( $this->post->post_name ) && $this->post->post_name !== '' && $this->post->ID !== $frontpage_post_id ) {
 				$slug = sanitize_title( $this->title );
-				$url .= '/' . esc_html( $slug );
+				$url .= esc_html( $slug );
 			}
 
 			$this->url = $url;
@@ -82,15 +87,13 @@ if ( ! class_exists( 'WPSEO_Snippet_Preview' ) ) {
 		 * Generate the html for the snippet preview and assign it to $this->content
 		 */
 		protected function set_content() {
-
-			$content = <<<HTML
+			$content       = <<<HTML
 <div id="wpseosnippet">
 <a class="title" id="wpseosnippet_title" href="#">$this->title</a>
 <span class="url">$this->url</span>
 <p class="desc">$this->date<span class="autogen"></span><span class="content">$this->description</span></p>
 </div>
 HTML;
-
 			$this->content = apply_filters( 'wpseo_snippet', $content, $this->post, compact( 'title', 'desc', 'date', 'slug' ) );
 		}
 
