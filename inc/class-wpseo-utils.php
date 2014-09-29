@@ -151,7 +151,7 @@ if ( ! class_exists( 'WPSEO_Utils' ) ) {
 		public static function standardize_whitespace( $string ) {
 			return trim( str_replace( '  ', ' ', str_replace( array( "\t", "\n", "\r", "\f" ), ' ', $string ) ) );
 		}
-		
+
 		/**
 		 * Strip out the shortcodes with a filthy regex, because people don't properly register their shortcodes.
 		 *
