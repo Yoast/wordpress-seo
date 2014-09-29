@@ -628,8 +628,8 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			$title = self::get_value( 'title', $post->ID );
 			$description  = self::get_value( 'metadesc', $post->ID );
 
-			$snippet_preview = new WPSEO_Snippet_Preview($post, $title, $description);
-			
+			$snippet_preview = new WPSEO_Snippet_Preview( $post, $title, $description );
+
 			return $snippet_preview->content;
 		}
 
