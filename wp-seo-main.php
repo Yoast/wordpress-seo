@@ -338,7 +338,7 @@ function wpseo_admin_init() {
 	}
 
 	/**
-	 * Filter: 'wpseo_always_register_metaboxes_on_admint' - Allow developers to change whether
+	 * Filter: 'wpseo_always_register_metaboxes_on_admin' - Allow developers to change whether
 	 * the WPSEO metaboxes are only registered on the typical pages (lean loading) or always
 	 * registered when in admin.
 	 *
