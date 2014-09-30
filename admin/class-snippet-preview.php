@@ -38,7 +38,7 @@ if ( ! class_exists( 'WPSEO_Snippet_Preview' ) ) {
 		protected function set_date() {
 			$date = '';
 			if ( is_object( $this->post ) && isset( $this->options['showdate-' . $this->post->post_type] ) && $this->options['showdate-' . $this->post->post_type] === true ) {
-				$date = $this->get_post_date( $this->post );
+				$date = $this->get_post_date();
 			}
 
 			if ( is_string( $date ) && $date !== '' ) {
@@ -55,7 +55,7 @@ if ( ! class_exists( 'WPSEO_Snippet_Preview' ) ) {
 		 *
 		 * @return string
 		 */
-		protected function get_post_date( $post ) {
+		protected function get_post_date() {
 			if ( isset( $this->post->post_date ) && $this->post->post_status == 'publish' ) {
 				$date = date_i18n( 'j M Y', strtotime( $this->post->post_date ) );
 			} else {
