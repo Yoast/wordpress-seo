@@ -3,25 +3,61 @@ if ( ! class_exists( 'WPSEO_Snippet_Preview' ) ) {
 	/**
 	 * class WPSEO_Snippet_Preview
 	 *
-	 * Generates a Google Search snippet preview
+	 * Generates a Google Search snippet preview.
 	 *
 	 * Takes a $post, $title and $description
 	 *
 	 */
 	class WPSEO_Snippet_Preview {
-
+		/**
+		 * The dynamically generated html for the snippet preview.
+		 */
 		public $content;
 
+		/**
+		 * The WPSEO options.
+		 */
 		protected $options;
+
+		/**
+		 * The post for which we want to generate the snippet preview.
+		 */
 		protected $post;
 
-		protected $date;
+		/**
+		 * The title that is shown in the snippet.
+		 */
 		protected $title;
+
+		/**
+		 * The description that is shown in the snippet.
+		 */
 		protected $description;
+
+		/**
+		 * The date that is shown at the beginning of the description in the snippet.
+		 */
+		protected $date;
+
+		/**
+		 * The url that is shown in the snippet.
+		 */
 		protected $url;
 
-		public function __construct( $post, $title, $description ) {
+		/**
+		 * The slug of the url that is shown in the snippet.
+		 */
+		protected $slug = '';
 
+		/**
+		 * Generates the html for the snippet preview containing dynamically generated text components.
+		 * Those components are included as properties which are set in the constructor.
+		 *
+		 * @param $post
+		 * @param $title
+		 * @param $description
+		 */
+		public function __construct( $post, $title, $description ) {
 			$this->options     = WPSEO_Options::get_all();
 			$this->post        = $post;
 			$this->title       = esc_html( $title );
@@ -33,23 +69,18 @@ if ( ! class_exists( 'WPSEO_Snippet_Preview' ) ) {
 		}
 
 		/**
-		 * Set date if available
+		 * Sets date if available
 		 */
 		protected function set_date() {
-			$date = '';
 			if ( is_object( $this->post ) && isset( $this->options['showdate-' . $this->post->post_type] ) && $this->options['showdate-' . $this->post->post_type] === true ) {
 				$date = $this->get_post_date();
 			}
 
-			if ( is_string( $date ) && $date !== '' ) {
-				$this->date = '<span class="date">' . $date . ' - </span>';
-			} else {
-				$this->date = '';
-			}
+			$this->date = ( isset( $date ) ) ? '<span class="date">' . $date . ' - </span>' : '';
 		}
 
 		/**
-		 * Retrieve a post date when post is published, or return current date when it's not.
+		 * Retrieves a post date when post is published, or return current date when it's not.
 		 *
 		 * @param object $post Post to retrieve the date for.
 		 *
@@ -66,36 +97,53 @@ if ( ! class_exists( 'WPSEO_Snippet_Preview' ) ) {
 		}
 
 		/**
-		 * generate the url that is displayed in the snippet preview
-		 *
-		 * When the post is set to be the frontpage, don't include the title slug.
+		 * Generates the url that is displayed in the snippet preview.
 		 */
 		protected function set_url() {
-			$url = str_replace( 'http://', '', get_bloginfo( 'url' ) ) . '/';
-
-			$frontpage_post_id = (int) ( get_option( 'page_on_front' ) );
-
-			if ( is_object( $this->post ) && isset( $this->post->post_name ) && $this->post->post_name !== '' && $this->post->ID !== $frontpage_post_id ) {
-				$slug = sanitize_title( $this->title );
-				$url .= esc_html( $slug );
-			}
-
-			$this->url = $url;
+			$this->url = str_replace( 'http://', '', get_bloginfo( 'url' ) ) . '/';
+			$this->set_slug();
 		}
 
 		/**
-		 * Generate the html for the snippet preview and assign it to $this->content
+		 * Sets the slug and adds it to the url if the post has been published and the post name exists.
+		 *
+		 * If the post is set to be the homepage the slug is also not included.
+		 */
+		protected function set_slug() {
+			$frontpage_post_id = (int) ( get_option( 'page_on_front' ) );
+
+			if ( is_object( $this->post ) && isset( $this->post->post_name ) && $this->post->post_name !== '' && $this->post->ID !== $frontpage_post_id ) {
+				$this->slug = sanitize_title( $this->title );
+				$this->url .= esc_html( $this->slug );
+			}
+		}
+
+		/**
+		 * Generates the html for the snippet preview and assign it to $this->content.
 		 */
 		protected function set_content() {
-			$content       = <<<HTML
+			$content = <<<HTML
 <div id="wpseosnippet">
 <a class="title" id="wpseosnippet_title" href="#">$this->title</a>
 <span class="url">$this->url</span>
 <p class="desc">$this->date<span class="autogen"></span><span class="content">$this->description</span></p>
 </div>
 HTML;
-			$this->content = apply_filters( 'wpseo_snippet', $content, $this->post, compact( 'title', 'desc', 'date', 'slug' ) );
+			$this->set_content_through_filter($content);
 		}
 
+		/**
+		 * Sets the html for the snippet preview through a filter
+		 */
+		protected function set_content_through_filter($content) {
+			$properties = get_object_vars($this);
+
+			/**
+			 * Filter: 'wpseo_snippet' - Allow changing the html for the snippet preview.
+			 *
+			 * Passing in the post twice because of backwards compatibility.
+			 */
+			$this->content = apply_filters( 'wpseo_snippet', $content, $this->post, $properties );
+		}
 	}
 }
