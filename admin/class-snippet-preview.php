@@ -37,7 +37,7 @@ if ( ! class_exists( 'WPSEO_Snippet_Preview' ) ) {
 		/**
 		 * The date that is shown at the beginning of the description in the snippet.
 		 */
-		protected $date;
+		protected $date = '';
 
 		/**
 		 * The url that is shown in the snippet.
@@ -73,10 +73,9 @@ if ( ! class_exists( 'WPSEO_Snippet_Preview' ) ) {
 		 */
 		protected function set_date() {
 			if ( is_object( $this->post ) && isset( $this->options['showdate-' . $this->post->post_type] ) && $this->options['showdate-' . $this->post->post_type] === true ) {
-				$date = $this->get_post_date();
+				$date       = $this->get_post_date();
+				$this->date = '<span class="date">' . $date . ' - </span>';
 			}
-
-			$this->date = ( isset( $date ) ) ? '<span class="date">' . $date . ' - </span>' : '';
 		}
 
 		/**
@@ -100,7 +99,7 @@ if ( ! class_exists( 'WPSEO_Snippet_Preview' ) ) {
 		 * Generates the url that is displayed in the snippet preview.
 		 */
 		protected function set_url() {
-			$this->url = str_replace( 'http://', '', get_bloginfo( 'url' ) ) . '/';
+			$this->url = str_replace( array( 'http://', 'https://' ), '', get_bloginfo( 'url' ) ) . '/';
 			$this->set_slug();
 		}
 
@@ -129,14 +128,14 @@ if ( ! class_exists( 'WPSEO_Snippet_Preview' ) ) {
 <p class="desc">$this->date<span class="autogen"></span><span class="content">$this->description</span></p>
 </div>
 HTML;
-			$this->set_content_through_filter($content);
+			$this->set_content_through_filter( $content );
 		}
 
 		/**
 		 * Sets the html for the snippet preview through a filter
 		 */
-		protected function set_content_through_filter($content) {
-			$properties = get_object_vars($this);
+		protected function set_content_through_filter( $content ) {
+			$properties = get_object_vars( $this );
 
 			/**
 			 * Filter: 'wpseo_snippet' - Allow changing the html for the snippet preview.
