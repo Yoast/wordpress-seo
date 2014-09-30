@@ -9,7 +9,7 @@ class WPSEO_Snippet_Preview_Test extends WPSEO_UnitTestCase {
 	private $date;
 	private $url;
 
-	public function test_content_GIVEN_a_regular_post() {
+	public function test_get_content_GIVEN_a_regular_post() {
 		$this->post = $this->factory->post->create_and_get( array( 'post_title' => $this->title ) );
 		$this->date = $this->post->date;
 		$this->url  = str_replace( 'http://', '', get_bloginfo( 'url' ) ) . '/';
@@ -22,10 +22,10 @@ class WPSEO_Snippet_Preview_Test extends WPSEO_UnitTestCase {
 </div>
 HTML;
 		$snippet_preview = new WPSEO_Snippet_Preview( $this->post, $this->title, $this->description );
-		$this->assertEquals( $expected, $snippet_preview->content );
+		$this->assertEquals( $expected, $snippet_preview->get_content() );
 	}
 
-	public function test_content_GIVEN_a_post_that_is_frontpage() {
+	public function test_get_content_GIVEN_a_post_that_is_frontpage() {
 		$this->post = $this->factory->post->create_and_get( array( 'post_title' => $this->title ) );
 		$this->date = $this->post->date;
 		$this->url  = str_replace( 'http://', '', get_bloginfo( 'url' ) ) . '/';
@@ -41,6 +41,6 @@ HTML;
 </div>
 HTML;
 		$snippet_preview = new WPSEO_Snippet_Preview( $this->post, $this->title, $this->description );
-		$this->assertEquals( $expected, $snippet_preview->content );
+		$this->assertEquals( $expected, $snippet_preview->get_content() );
 	}
 }

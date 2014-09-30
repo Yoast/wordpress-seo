@@ -12,7 +12,7 @@ if ( ! class_exists( 'WPSEO_Snippet_Preview' ) ) {
 		/**
 		 * The dynamically generated html for the snippet preview.
 		 */
-		public $content;
+		protected $content;
 
 		/**
 		 * The WPSEO options.
@@ -66,6 +66,14 @@ if ( ! class_exists( 'WPSEO_Snippet_Preview' ) ) {
 			$this->set_date();
 			$this->set_url();
 			$this->set_content();
+		}
+
+		/**
+		 * Getter for $this->content
+		 * @return string html for snippet preview
+		 */
+		public function get_content() {
+			return $this->content;
 		}
 
 		/**

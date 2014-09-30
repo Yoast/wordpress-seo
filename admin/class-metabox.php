@@ -630,7 +630,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 
 			$snippet_preview = new WPSEO_Snippet_Preview( $post, $title, $description );
 
-			return $snippet_preview->content;
+			return $snippet_preview->get_content();
 		}
 
 		/**
