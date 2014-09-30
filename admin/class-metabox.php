@@ -637,7 +637,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			$desc  = self::get_value( 'metadesc', $post->ID );
 
 			$slug = ( is_object( $post ) && isset( $post->post_name ) ) ? $post->post_name : '';
-			if ( $slug !== '' ) {
+			if ( $slug === '' ) {
 				$slug = sanitize_title( $title );
 			}
 
