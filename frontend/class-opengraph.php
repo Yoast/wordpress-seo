@@ -11,7 +11,6 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-
 if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 	/**
 	 * Adds the OpenGraph output
@@ -517,7 +516,13 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 			}
 
 			if ( is_category() || is_tag() || is_tax() ) {
-				$ogdesc = trim( strip_tags( term_description() ) );
+
+				$ogdesc = $this->metadesc( false );
+
+				if ( '' == $ogdesc ) {
+					$ogdesc = trim( strip_tags( term_description() ) );
+				}
+
 				if ( '' == $ogdesc ) {
 					global $wp_query;
 					$term   = $wp_query->get_queried_object();
