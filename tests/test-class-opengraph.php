@@ -287,11 +287,9 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_description_category() {
 
-		$expected_meta_description = 'Term description 1';
+		$expected_meta_description = '';
 
-		// Creates the category
-		$category_id = $this->factory->category->create();
-
+		$category_id = wp_create_category( 'WordPress SEO' );
 		$this->go_to( get_category_link( $category_id ) );
 
 		// Checking meta-description and after obtaining its value, reset the meta value for it
