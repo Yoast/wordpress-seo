@@ -241,9 +241,65 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	/**
 	 * @covers WPSEO_OpenGraph::description
 	 */
-	public function test_description() {
+	public function test_description_frontpage() {
+
+		$this->go_to( get_home_url(  ) );
+
+		$expected_frontpage_description = self::$class_instance->description( false );
+
+		$this->assertEquals( '', $expected_frontpage_description );
 
 	}
+
+	/**
+	 * @covers WPSEO_OpenGraph::description
+	 */
+	public function test_description_single_post() {
+
+		$expected_opengraph_description = 'This is with a opengraph-description';
+		$expected_meta_description      = 'This is with a meta-description';
+		$expected_excerpt               = 'Post excerpt 1';
+
+		// Creates the post
+		$post_id = $this->factory->post->create();
+
+		$this->go_to( get_permalink( $post_id ) );
+
+		// Checking opengraph-description and after obtaining its value, reset the meta value for it
+		WPSEO_Meta::set_value( 'opengraph-description', $expected_opengraph_description, $post_id );
+		$opengraph_description = self::$class_instance->description( false );
+		WPSEO_Meta::set_value( 'opengraph-description', '', $post_id );
+		$this->assertEquals( $expected_opengraph_description, $opengraph_description );
+
+		// Checking meta-description and after obtaining its value, reset the meta value for it
+		WPSEO_Meta::set_value( 'metadesc', $expected_meta_description, $post_id );
+		$meta_description = self::$class_instance->description( false );
+		WPSEO_Meta::set_value( 'metadesc', '', $post_id );
+		$this->assertEquals( $expected_meta_description, $meta_description );
+
+		// Checking with the excerpt
+		$excerpt = self::$class_instance->description( false );
+		$this->assertEquals( $expected_excerpt, $excerpt );
+	}
+
+	/**
+	 * @covers WPSEO_OpenGraph::description
+	 */
+	public function test_description_category() {
+
+		$expected_meta_description      = 'Term description 1';
+
+		// Creates the category
+		$category_id =  $this->factory->category->create();
+
+		$this->go_to( get_category_link( $category_id ) );
+
+		// Checking meta-description and after obtaining its value, reset the meta value for it
+		$meta_description = self::$class_instance->description( false );
+		$this->assertEquals( $expected_meta_description, $meta_description );
+
+	}
+
 
 	/**
 	 * @covers WPSEO_OpenGraph::site_name
