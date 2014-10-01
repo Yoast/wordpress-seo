@@ -12,8 +12,8 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	* Provision tests
-	*/
+	 * Provision tests
+	 */
 	public function setUp() {
 		parent::setUp();
 
@@ -22,8 +22,8 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	* Test if options were properly fetched upon class instantiation.
-	*/
+	 * Test if options were properly fetched upon class instantiation.
+	 */
 	public function test_options_not_empty() {
 		$this->assertNotEmpty( self::$class_instance->options );
 	}
@@ -63,7 +63,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		$post_id = $this->factory->post->create();
 		$this->go_to( get_permalink( $post_id ) );
 
-		$c = self::$class_instance;
+		$c      = self::$class_instance;
 		$result = $c->facebook_filter( array() );
 
 		// test if values were filtered
@@ -83,7 +83,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_OpenGraph::add_opengraph_namespace
 	 */
 	public function test_add_opengraph_namespace() {
-		$c		  = self::$class_instance;
+		$c        = self::$class_instance;
 		$expected = ' prefix="og: http://ogp.me/ns#' . ( ( $c->options['fbadminapp'] != 0 || ( is_array( $c->options['fb_admins'] ) && $c->options['fb_admins'] !== array() ) ) ? ' fb: http://ogp.me/ns/fb#' : '' ) . '"';
 		$this->assertEquals( $c->add_opengraph_namespace( '' ), $expected );
 	}
@@ -98,7 +98,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 
 		// create post with author
 		$author_id = $this->factory->user->create( array( 'role' => 'administrator' ) );
-		$post_id = $this->factory->post->create( array( 'post_author' => $author_id ) );
+		$post_id   = $this->factory->post->create( array( 'post_author' => $author_id ) );
 		$this->go_to( get_permalink( $post_id ) );
 
 		// on post page but facebook meta not set.
@@ -243,7 +243,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_description_frontpage() {
 
-		$this->go_to( get_home_url(  ) );
+		$this->go_to_home();
 
 		$expected_frontpage_description = self::$class_instance->description( false );
 
@@ -287,10 +287,10 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_description_category() {
 
-		$expected_meta_description      = 'Term description 1';
+		$expected_meta_description = 'Term description 1';
 
 		// Creates the category
-		$category_id =  $this->factory->category->create();
+		$category_id = $this->factory->category->create();
 
 		$this->go_to( get_category_link( $category_id ) );
 
