@@ -10,42 +10,42 @@ if ( ! class_exists( 'WPSEO_Snippet_Preview' ) ) {
 	 */
 	class WPSEO_Snippet_Preview {
 		/**
-		 * The dynamically generated html for the snippet preview.
+		 * @var string The dynamically generated html for the snippet preview.
 		 */
 		protected $content;
 
 		/**
-		 * The WPSEO options.
+		 * @var array The WPSEO options.
 		 */
 		protected $options;
 
 		/**
-		 * The post for which we want to generate the snippet preview.
+		 * @var object The post for which we want to generate the snippet preview.
 		 */
 		protected $post;
 
 		/**
-		 * The title that is shown in the snippet.
+		 * @var string The title that is shown in the snippet.
 		 */
 		protected $title;
 
 		/**
-		 * The description that is shown in the snippet.
+		 * @var string The description that is shown in the snippet.
 		 */
 		protected $description;
 
 		/**
-		 * The date that is shown at the beginning of the description in the snippet.
+		 * @var string The date that is shown at the beginning of the description in the snippet.
 		 */
 		protected $date = '';
 
 		/**
-		 * The url that is shown in the snippet.
+		 * @var string The url that is shown in the snippet.
 		 */
 		protected $url;
 
 		/**
-		 * The slug of the url that is shown in the snippet.
+		 * @var string The slug of the url that is shown in the snippet.
 		 */
 		protected $slug = '';
 
@@ -53,9 +53,9 @@ if ( ! class_exists( 'WPSEO_Snippet_Preview' ) ) {
 		 * Generates the html for the snippet preview containing dynamically generated text components.
 		 * Those components are included as properties which are set in the constructor.
 		 *
-		 * @param $post
-		 * @param $title
-		 * @param $description
+		 * @param object $post
+		 * @param string $title
+		 * @param string $description
 		 */
 		public function __construct( $post, $title, $description ) {
 			$this->options     = WPSEO_Options::get_all();
