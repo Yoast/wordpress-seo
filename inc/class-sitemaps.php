@@ -532,7 +532,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 					if ( empty( $count ) || $count == $n ) {
 						$date = $wpdb->get_var(
 							$wpdb->prepare(
-								$date_query . " ASC LIMIT 1 ",
+								$date_query . ' ASC LIMIT 1',
 								$wpdb->get_blog_prefix() . 'user_level'
 							)
 						);
@@ -541,7 +541,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 					} else {
 						$date = $wpdb->get_var(
 							$wpdb->prepare(
-								$date_query . " DESC LIMIT 1 OFFSET %d",
+								$date_query . ' DESC LIMIT 1 OFFSET %d',
 								$wpdb->get_blog_prefix() . 'user_level',
 								$this->max_entries * ( $i + 1 ) - 1
 							)
