@@ -537,7 +537,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 							)
 						);
 
-					// Retrieve the newest updated profile timestamp by an offset
+						// Retrieve the newest updated profile timestamp by an offset
 					} else {
 						$date = $wpdb->get_var(
 							$wpdb->prepare(
@@ -753,7 +753,12 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 
 						$url = array();
 
-						$url['mod'] = ( isset( $p->post_modified_gmt ) && $p->post_modified_gmt != '0000-00-00 00:00:00' && $p->post_modified_gmt > $p->post_date_gmt ) ? $p->post_modified_gmt : ( ( '0000-00-00 00:00:00' != $p->post_date_gmt ) ? $p->post_date_gmt : $p->post_date );
+						if ( isset( $p->post_modified_gmt ) && $p->post_modified_gmt != '0000-00-00 00:00:00' && $p->post_modified_gmt > $p->post_date_gmt ) {
+							$url['mod'] = $p->post_date_gmt;
+						} else {
+							$url['mod'] = $p->post_date;
+						}
+
 						$url['loc'] = get_permalink( $p );
 
 						/**
@@ -789,30 +794,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 							}
 						}
 
-						$pri = WPSEO_Meta::get_value( 'sitemap-prio', $p->ID );
-						if ( is_numeric( $pri ) ) {
-							$url['pri'] = (float) $pri;
-						} else {
-							if ( $p->post_parent == 0 && $p->post_type == 'page' ) {
-								$url['pri'] = 0.8;
-							} else {
-								$url['pri'] = 0.6;
-							}
-						}
-
-						if ( isset( $front_id ) && $p->ID == $front_id ) {
-							$url['pri'] = 1.0;
-						}
-
-						/**
-						 * Filter: 'wpseo_xml_post_type_archive_priority' - Allow changing the priority of the URL WordPress SEO uses in the XML sitemap.
-						 *
-						 * @api float $priority The priority for this URL, ranging from 0 to 1
-						 *
-						 * @param string $post_type The post type this archive is for
-						 * @param object $p         The post object
-						 */
-						$url['pri'] = apply_filters( 'wpseo_xml_sitemap_post_priority', $url['pri'], $p->post_type, $p );
+						$url['pri'] = $this->calculate_priority( $p );
 
 						$url['images'] = array();
 
@@ -1421,7 +1403,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 
 			$thumbnail_query = "SELECT meta_value FROM $wpdb->postmeta WHERE meta_key = '_thumbnail_id' AND post_id IN (" . $post_ids . ')';
 			$wpdb->query( $thumbnail_query );
-			$thumbnails    = $wpdb->get_results( $thumbnail_query );
+			$thumbnails = $wpdb->get_results( $thumbnail_query );
 
 			return $thumbnails;
 		}
@@ -1448,7 +1430,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 		/**
 		 * Parses the given attachments
 		 *
-		 * @param array 	$attachments
+		 * @param array     $attachments
 		 * @param stdobject $post
 		 *
 		 * @return array
@@ -1481,7 +1463,43 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 			}
 
 			return $return;
+		}
 
+		/**
+		 * Calculate the priority of the post
+		 *
+		 * @param stdobject $post
+		 *
+		 * @return float|mixed
+		 */
+		private function calculate_priority( $post ) {
+			$front_id = get_option( 'page_on_front' );
+			$pri      = WPSEO_Meta::get_value( 'sitemap-prio', $post->ID );
+			if ( is_numeric( $pri ) ) {
+				$return = (float) $pri;
+			} else {
+				if ( $post->post_parent == 0 && $post->post_type == 'page' ) {
+					$return = 0.8;
+				} else {
+					$return = 0.6;
+				}
+			}
+
+			if ( isset( $front_id ) && $post->ID == $front_id ) {
+				$return = 1.0;
+			}
+
+			/**
+			 * Filter: 'wpseo_xml_post_type_archive_priority' - Allow changing the priority of the URL WordPress SEO uses in the XML sitemap.
+			 *
+			 * @api float $priority The priority for this URL, ranging from 0 to 1
+			 *
+			 * @param string $post_type The post type this archive is for
+			 * @param object $p         The post object
+			 */
+			$return = apply_filters( 'wpseo_xml_sitemap_post_priority', $return, $post->post_type, $post );
+
+			return $return;
 		}
 
 	} /* End of class */
