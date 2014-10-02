@@ -869,29 +869,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 
 						if ( strpos( $p->post_content, '[gallery' ) !== false ) {
 							if ( is_array( $attachments ) && $attachments !== array() ) {
-
-								foreach ( $attachments as $attachment ) {
-									if ( $attachment->post_parent !== $p->ID ) {
-										continue;
-									}
-
-									$src   = $this->image_url( $attachment->ID );
-									$image = array(
-										'src' => apply_filters( 'wpseo_xml_sitemap_img_src', $src, $p )
-									);
-
-									$alt = get_post_meta( $attachment->ID, '_wp_attachment_image_alt', true );
-									if ( $alt !== '' ) {
-										$image['alt'] = $alt;
-									}
-									unset( $alt );
-
-									$image['title'] = $attachment->post_title;
-
-									$image = apply_filters( 'wpseo_xml_sitemap_img', $image, $p );
-
-									$url['images'][] = $image;
-								}
+								$url['images'] = $this->parse_attachments( $attachments, $p );
 							}
 							unset( $attachment, $src, $image, $alt );
 						}
@@ -1465,6 +1443,45 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 
 			_prime_post_caches( $attachment_ids );
 			update_meta_cache( 'post', $attachment_ids );
+		}
+
+		/**
+		 * Parses the given attachments
+		 *
+		 * @param array 	$attachments
+		 * @param stdobject $post
+		 *
+		 * @return array
+		 */
+		private function parse_attachments( $attachments, $post ) {
+
+			$return = array();
+
+			foreach ( $attachments as $attachment ) {
+				if ( $attachment->post_parent !== $post->ID ) {
+					continue;
+				}
+
+				$src   = $this->image_url( $attachment->ID );
+				$image = array(
+					'src' => apply_filters( 'wpseo_xml_sitemap_img_src', $src, $post )
+				);
+
+				$alt = get_post_meta( $attachment->ID, '_wp_attachment_image_alt', true );
+				if ( $alt !== '' ) {
+					$image['alt'] = $alt;
+				}
+				unset( $alt );
+
+				$image['title'] = $attachment->post_title;
+
+				$image = apply_filters( 'wpseo_xml_sitemap_img', $image, $post );
+
+				$return[] = $image;
+			}
+
+			return $return;
+
 		}
 
 	} /* End of class */
