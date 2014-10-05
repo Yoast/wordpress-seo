@@ -125,6 +125,75 @@ function wpseo_ajax_replace_vars() {
 add_action( 'wp_ajax_wpseo_replace_vars', 'wpseo_ajax_replace_vars' );
 
 /**
+ * Query for related posts based on the focus keyword field
+ *
+ * @param string $keyword
+ * @param array  $exclude
+ *
+ * @return array of posts IDs
+ */
+function yst_query_related_posts( $keyword, $exclude = array() ) {
+	$possibly_related_posts = array();
+
+	$posts = get_posts(
+			array(
+					'meta_query'  => array(
+							array(
+									'key'     => '_yoast_wpseo_focuskw',
+									'value'   => $keyword,
+									'compare' => 'LIKE',
+							),
+					),
+					'exclude'     => $exclude,
+					'fields'      => 'ids',
+					'post_type'   => 'any',
+					'numberposts' => 10,
+			)
+	);
+
+	if ( count( $posts ) > 0 ) {
+		foreach ( $posts as $post ) {
+			$possibly_related_posts[] = $post;
+		}
+	}
+
+	return $possibly_related_posts;
+}
+
+/**
+ * Retrieve related posts based on the focus keyword
+ */
+function wpseo_ajax_get_related_posts() {
+	check_ajax_referer( 'wpseo-replace-vars' );
+
+	$keywords = (string) strip_tags( $_POST['focus_keyword'] );
+
+	$possibly_related_posts = yst_query_related_posts( $keywords );
+
+	if ( count( $possibly_related_posts ) < 4 ) {
+		$keywords = explode( ' ', $keywords );
+
+		foreach ( $keywords as $keyword ) {
+			$possibly_related_posts = array_merge( $possibly_related_posts, yst_query_related_posts( $keyword, $possibly_related_posts ) );
+		}
+	}
+
+	$related_posts = array();
+
+	foreach ( $possibly_related_posts as $related_post ) {
+		$related_posts[] = array(
+				'permalink'     => get_permalink( $related_post ),
+				'title'         => get_the_title( $related_post ),
+				'focus_keyword' => get_post_meta( $related_post, '_yoast_wpseo_focuskw', true ),
+		);
+	}
+	echo json_encode( $related_posts );
+	die();
+}
+
+add_action( 'wp_ajax_wpseo_get_related_posts', 'wpseo_ajax_get_related_posts' );
+
+/**
  * Save an individual SEO title from the Bulk Editor.
  */
 function wpseo_save_title() {
