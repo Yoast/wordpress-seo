@@ -230,7 +230,7 @@ module.exports = function (grunt) {
 		makepot: {
 			plugin: {
 				options: {
-					type: 'wp-plugin'
+					type: 'wp-plugin',
 					domainPath: '/languages',
 					potFilename: 'wordpress-seo.pot',
 					potHeaders: {
