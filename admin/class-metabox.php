@@ -49,7 +49,6 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			self::$meta_fields['general']['snippetpreview']['help']  = sprintf( __( 'This is a rendering of what this post might look like in Google\'s search results.<br/><br/>Read %sthis post%s for more info.', 'wordpress-seo' ), '<a href="https://yoast.com/snippet-preview/#utm_source=wordpress-seo-metabox&amp;utm_medium=inline-help&amp;utm_campaign=snippet-preview">', '</a>' );
 
 			self::$meta_fields['general']['focuskw']['title'] = __( 'Focus Keyword', 'wordpress-seo' );
-			self::$meta_fields['general']['focuskw']['description'] = '<div id="yst_related"></div>';
 			self::$meta_fields['general']['focuskw']['help']  = sprintf( __( 'Pick the main keyword or keyphrase that this post/page is about.<br/><br/>Read %sthis post%s for more info.', 'wordpress-seo' ), '<a href="https://yoast.com/focus-keyword/#utm_source=wordpress-seo-metabox&amp;utm_medium=inline-help&amp;utm_campaign=focus-keyword">', '</a>' );
 
 			self::$meta_fields['general']['title']['title']       = __( 'SEO Title', 'wordpress-seo' );
@@ -367,7 +366,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 
 			return array_merge( $cached_replacement_vars, array(
 				'field_prefix'                => self::$form_prefix,
-				'keyword_header'              => __( 'Your focus keyword was found in:', 'wordpress-seo' ),
+				'keyword_header'              => '<strong>' . __( 'Focus keyword usage', 'wordpress-seo' ) . '</strong><br>' . __( 'Your focus keyword was found in:', 'wordpress-seo' ),
 				'article_header_text'         => __( 'Article Heading: ', 'wordpress-seo' ),
 				'page_title_text'             => __( 'Page title: ', 'wordpress-seo' ),
 				'page_url_text'               => __( 'Page URL: ', 'wordpress-seo' ),

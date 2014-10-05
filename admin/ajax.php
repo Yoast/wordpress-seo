@@ -167,14 +167,16 @@ function wpseo_ajax_get_related_posts() {
 	check_ajax_referer( 'wpseo-replace-vars' );
 
 	$keywords = (string) strip_tags( $_POST['focus_keyword'] );
+	$exclude  = array( $_POST['post_id'] );
 
-	$possibly_related_posts = yst_query_related_posts( $keywords );
+	$possibly_related_posts = yst_query_related_posts( $keywords, $exclude );
 
 	if ( count( $possibly_related_posts ) < 4 ) {
 		$keywords = explode( ' ', $keywords );
 
 		foreach ( $keywords as $keyword ) {
-			$possibly_related_posts = array_merge( $possibly_related_posts, yst_query_related_posts( $keyword, $possibly_related_posts ) );
+			$exclude                = array_merge( $exclude, $possibly_related_posts );
+			$possibly_related_posts = array_merge( $possibly_related_posts, yst_query_related_posts( $keyword, $exclude ) );
 		}
 	}
 
@@ -184,7 +186,6 @@ function wpseo_ajax_get_related_posts() {
 		$related_posts[] = array(
 				'permalink'     => get_permalink( $related_post ),
 				'title'         => get_the_title( $related_post ),
-				'focus_keyword' => get_post_meta( $related_post, '_yoast_wpseo_focuskw', true ),
 		);
 	}
 	echo json_encode( $related_posts );

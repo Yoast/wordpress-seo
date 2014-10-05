@@ -122,7 +122,7 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 					'default_value'		=> '',
 					'autocomplete'		=> false,
 					'help'				=> '', // translation added later
-					'description'		=> '<div id="focuskwresults"></div>',
+					'description'		=> '<div id="focuskwresults"></div><div id="yst_related"></div>',
 				),
 				'title'				=> array(
 					'type'				=> 'text',

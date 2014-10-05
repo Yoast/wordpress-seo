@@ -159,15 +159,25 @@ ul.wpseo-metabox-tabs li {
 	text-decoration: underline;
 }
 
-#focuskwresults ul {
+#focuskwresults, #yst_related {
+	float: left;
+}
+
+#yst_related {
+	margin-left: 10px;
+	padding-left: 10px;
+	border-left: 1px solid #ddd;
+}
+
+#focuskwresults ul, #yst_related ul {
 	margin: 0;
 }
 
-#focuskwresults p, #focuskwresults li {
+#focuskwresults p, #focuskwresults li, #yst_related p, #yst_related li {
 	font-size: 13px;
 }
 
-#focuskwresults li {
+#focuskwresults li, #yst_related li {
 	margin: 0 0 0 20px;
 	list-style-type: disc;
 }
