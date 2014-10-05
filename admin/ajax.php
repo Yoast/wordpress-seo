@@ -147,7 +147,7 @@ function yst_query_related_posts( $keyword, $exclude = array() ) {
 					'exclude'     => $exclude,
 					'fields'      => 'ids',
 					'post_type'   => 'any',
-					'numberposts' => 10,
+					'numberposts' => 5,
 			)
 	);
 
