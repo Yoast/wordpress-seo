@@ -360,44 +360,6 @@ function yst_updateSnippet() {
 	yst_updateDesc();
 }
 
-function yst_show_related_posts( data ) {
-	if (typeof data == "string") {
-		data = JSON.parse( data );
-	}
-	console.log( data );
-
-	var out = '';
-	for (var i = 0, l = data.length; i < l; i++) {
-		out += '<li><a href="'+data[i].permalink+'">'+data[i].title+'</a> <code>'+data[i].focus_keyword+'</code></li>';
-	}
-	if ( out != '' ) {
-		out = '<p><strong>'+wpseoMetaboxL10n.related_posts_heading+'</strong><br>'
-				  + wpseoMetaboxL10n.related_posts_expl
-					+ '</p>'
-				  + '<ul>'+out+'</ul>';
-	}
-	jQuery( '#yst_related' ).html( out );
-}
-
-function yst_getRelatedPosts() {
-	var focuskw = jQuery('#' + wpseoMetaboxL10n.field_prefix + 'focuskw').val();
-	if ( focuskw != '' ) {
-		jQuery.post(ajaxurl, {
-					action  : 'wpseo_get_related_posts',
-					focus_keyword : focuskw,
-					_wpnonce: wpseoMetaboxL10n.wpseo_replace_vars_nonce
-				}, function (data) {
-					data = JSON.parse(data);
-					if (data && undefined != data ) {
-						yst_show_related_posts(data);
-					}
-				}
-		);
-	} else {
-		jQuery( '#yst_related' ).html( '' );
-	}
-}
-
 function yst_escapeFocusKw(str) {
 	return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
 }
@@ -507,7 +469,6 @@ jQuery(document).ready(function () {
 		}
 
 		yst_updateSnippet();
-		yst_getRelatedPosts();
 	});
 
 
@@ -536,5 +497,5 @@ jQuery(document).ready(function () {
 	});
 
 	yst_updateSnippet();
-	yst_getRelatedPosts();
+
 });
