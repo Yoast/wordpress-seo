@@ -373,8 +373,6 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 				'content_text'                => __( 'Content: ', 'wordpress-seo' ),
 				'meta_description_text'       => __( 'Meta description: ', 'wordpress-seo' ),
 				'choose_image'                => __( 'Use Image', 'wordpress-seo' ),
-				'related_posts_heading'			  => __( 'Possibly related posts', 'wordpress-seo' ),
-				'related_posts_expl'					=> __( 'You should consider linking to some of these:', 'wordpress-seo' ),
 				'wpseo_meta_desc_length'      => self::$meta_length,
 				'wpseo_title_template'        => $title_template,
 				'wpseo_metadesc_template'     => $metadesc_template,
