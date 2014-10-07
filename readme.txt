@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: seo, SEO, Yoast SEO, google, meta, meta description, search engine optimization, xml sitemap, xml sitemaps, google sitemap, sitemap, sitemaps, robots meta, rss, rss footer, yahoo, bing, news sitemaps, XML News Sitemaps, WordPress SEO, WordPress SEO by Yoast, yoast, multisite, canonical, nofollow, noindex, keywords, meta keywords, description, webmaster tools, google webmaster tools, seo pack
 Requires at least: 3.8
 Tested up to: 4.0
-Stable tag: 1.6.1
+Stable tag: 1.6.2
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using Yoast's WordPress SEO plugin.
 
@@ -115,6 +115,18 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 7. The advanced section of the WordPress SEO meta box.
 
 == Changelog ==
+
+= 1.6.2 =
+
+* Bugfixes:
+	* Fixed security issue with XSS in bulk editor, props @ryanhellyer.
+	* Fix bug where URL would show wrongly in snippet preview for static homepage.
+
+* Enhancements:
+	* When meta description is present, `og:description` is filled with that on category pages.
+	* Texturize some pointers, props @nacin.
+	* Fix typo in tour, props @markjaquith.
+	* Code optimization in in replace vars functionality, props @dannyvankooten.
 
 = 1.6.1 =
 
