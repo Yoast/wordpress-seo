@@ -322,6 +322,12 @@ input.wpseo-new-title, textarea.wpseo-new-metadesc {
 	text-decoration: none;
 }
 
+.wpseotab .extension button.installed {
+	border-color: #00a000;
+	background-color: #00a000;
+	cursor: default;
+}
+
 .wpseotab .seo-premium h3 {
 	background-image: url(../images/Premium_130x100.png);
 }
