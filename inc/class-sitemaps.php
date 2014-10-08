@@ -934,11 +934,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 					$tax_noindex     = WPSEO_Taxonomy_Meta::get_term_meta( $c, $c->taxonomy, 'noindex' );
 					$tax_sitemap_inc = WPSEO_Taxonomy_Meta::get_term_meta( $c, $c->taxonomy, 'sitemap_include' );
 
-					if ( ( is_string( $tax_noindex ) && $tax_noindex === 'noindex' ) && ( ! is_string( $tax_sitemap_inc ) || $tax_sitemap_inc !== 'always' ) ) {
-						continue;
-					}
-
-					if ( $tax_sitemap_inc === 'never' ) {
+					if ( $tax_noindex !== 'index' || $tax_sitemap_inc !== 'always' ) {
 						continue;
 					}
 
