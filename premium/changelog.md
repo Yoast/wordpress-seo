@@ -1,3 +1,6 @@
+### 1.4.3: October 8th, 2014
+* Merge with WordPress SEO core 1.6.3
+
 ### 1.4.2: October 8th, 2014
 * Merge with WordPress SEO core 1.6.2
 * Implement new filter for issue types on the Google Webmaster Tools issues screen
