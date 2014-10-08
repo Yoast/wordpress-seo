@@ -573,7 +573,7 @@ if ( ! class_exists( 'WPSEO_Bulk_List_Table' ) ) {
 
 							case 'col_existing_yoast_seo_metadesc':
 								$cell_value = ( ( ! empty( $meta_data[WPSEO_Meta::$meta_prefix . 'metadesc'] ) ) ? $meta_data[WPSEO_Meta::$meta_prefix . 'metadesc'] : '' );
-								echo sprintf( '<td %2$s id="wpseo-existing-metadesc-%3$s">%1$s</td>', $cell_value, $attributes, $rec->ID );
+								echo sprintf( '<td %2$s id="wpseo-existing-metadesc-%3$s">%1$s</td>', wp_strip_all_tags( $cell_value ), $attributes, $rec->ID );
 								break;
 
 							case 'col_row_action':
