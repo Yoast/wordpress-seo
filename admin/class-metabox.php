@@ -366,7 +366,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 
 			return array_merge( $cached_replacement_vars, array(
 				'field_prefix'                => self::$form_prefix,
-				'keyword_header'              => __( 'Your focus keyword was found in:', 'wordpress-seo' ),
+				'keyword_header'              => '<strong>' . __( 'Focus keyword usage', 'wordpress-seo' ) . '</strong><br>' . __( 'Your focus keyword was found in:', 'wordpress-seo' ),
 				'article_header_text'         => __( 'Article Heading: ', 'wordpress-seo' ),
 				'page_title_text'             => __( 'Page title: ', 'wordpress-seo' ),
 				'page_url_text'               => __( 'Page URL: ', 'wordpress-seo' ),

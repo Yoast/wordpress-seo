@@ -497,5 +497,4 @@ jQuery(document).ready(function () {
 	});
 
 	yst_updateSnippet();
-
 });
