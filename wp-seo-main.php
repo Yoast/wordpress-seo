@@ -14,7 +14,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * @internal Nobody should be able to overrule the real version number as this can cause serious issues
  * with the options, so no if ( ! defined() )
  */
-define( 'WPSEO_VERSION', '1.6.1' );
+define( 'WPSEO_VERSION', '1.6.2' );
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
 	define( 'WPSEO_PATH', plugin_dir_path( WPSEO_FILE ) );
@@ -339,7 +339,7 @@ function wpseo_admin_init() {
 	}
 
 	/**
-	 * Filter: 'wpseo_always_register_metaboxes_on_admint' - Allow developers to change whether
+	 * Filter: 'wpseo_always_register_metaboxes_on_admin' - Allow developers to change whether
 	 * the WPSEO metaboxes are only registered on the typical pages (lean loading) or always
 	 * registered when in admin.
 	 *
