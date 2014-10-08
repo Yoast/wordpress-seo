@@ -867,6 +867,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		 */
 		function column_sort_orderby( $vars ) {
 			if ( isset( $_GET['seo_filter'] ) ) {
+				$na			 = false;
 				$noindex = false;
 				$high    = false;
 				switch ( $_GET['seo_filter'] ) {
@@ -930,7 +931,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 
 					add_filter( 'posts_where', array( $this, 'seo_score_posts_where' ) );
 
-				} elseif ( ! empty( $na ) ) {
+				} elseif ( $na ) {
 					$vars = array_merge(
 						$vars,
 						array(
