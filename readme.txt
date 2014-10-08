@@ -121,6 +121,8 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 * Bugfixes:
 	* Fixed security issue with XSS in bulk editor, props @ryanhellyer.
 	* Fix bug where URL would show wrongly in snippet preview for static homepage.
+	* Fix bug where filtering for posts without a focus keyword in the posts overview wouldn't work.
+	* Fix a bug where code wouldn't be escaped in the bulk editor.
 
 * Enhancements:
 	* When meta description is present, `og:description` is filled with that on category pages.
