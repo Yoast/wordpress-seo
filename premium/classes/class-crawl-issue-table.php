@@ -67,9 +67,9 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 		$current = $this->get_current_view();
 
 		$views_arr = array(
-				'all'            => __( 'All', 'wordpress-seo' ),
-				'not-redirected' => __( 'Not redirected', 'wordpress-seo' ),
-				'ignored'        => __( 'Ignored', 'wordpress-seo' ),
+			'all'            => __( 'All', 'wordpress-seo' ),
+			'not-redirected' => __( 'Not redirected', 'wordpress-seo' ),
+			'ignored'        => __( 'Ignored', 'wordpress-seo' ),
 		);
 
 		$new_views = array();
@@ -120,11 +120,11 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 	public function get_columns() {
 		$columns = array(
 			//'cb'            => '<input type="checkbox" />',
-				'url'           => __( 'URL', 'wordpress-seo' ),
-				'issue_type'    => __( 'Issue Type', 'wordpress-seo' ),
-				'date_detected' => __( 'Date detected', 'wordpress-seo' ),
-				'detail'        => __( 'Details', 'wordpress-seo' ),
-				'linked_from'   => __( 'Linked From', 'wordpress-seo' ),
+			'url'           => __( 'URL', 'wordpress-seo' ),
+			'issue_type'    => __( 'Issue Type', 'wordpress-seo' ),
+			'date_detected' => __( 'Date detected', 'wordpress-seo' ),
+			'detail'        => __( 'Details', 'wordpress-seo' ),
+			'linked_from'   => __( 'Linked From', 'wordpress-seo' ),
 		);
 
 		return $columns;
@@ -162,6 +162,18 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 		$order            = ( ! empty( $_GET['order'] ) ) ? $_GET['order'] : 'asc';
 		$ci_args['order'] = $order;
 
+		// Prepares the issue filter
+		$this->prepare_issue_filter();
+
+		// Set the issue filter
+		if ( $issue_filter = get_transient( 'gwt-issue_filter' ) ) {
+			$filter_posts = $this->issue_filter( $issue_filter );
+
+			if ( is_array( $filter_posts ) && ! empty ( $filter_posts ) ) {
+				$ci_args['post__in'] = $filter_posts;
+			}
+		}
+
 		// Get variables needed for pagination
 		$per_page     = $this->get_items_per_page( 'errors_per_page', 25 );
 		$current_page = intval( ( ( isset( $_GET['paged'] ) ) ? $_GET['paged'] : 1 ) );
@@ -178,10 +190,10 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 		// Filter crawl errors
 		if ( 'not-redirected' == $current_view ) {
 			$url_redirect_manager = new WPSEO_URL_Redirect_Manager();
-			$redirects = $url_redirect_manager->get_redirects();
-			$wpseo_urls = array();
+			$redirects            = $url_redirect_manager->get_redirects();
+			$wpseo_urls           = array();
 			if ( count( $redirects ) > 0 ) {
-				foreach( $redirects as $old_url => $new_url) {
+				foreach ( $redirects as $old_url => $new_url ) {
 					$wpseo_urls[] = $old_url;
 				}
 			}
@@ -197,9 +209,9 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 
 		// Set table pagination
 		$this->set_pagination_args( array(
-				'total_items' => $total_items,
-				'total_pages' => ceil( $total_items / $per_page ),
-				'per_page'    => $per_page,
+			'total_items' => $total_items,
+			'total_pages' => ceil( $total_items / $per_page ),
+			'per_page'    => $per_page,
 		) );
 
 		// Set items
@@ -219,12 +231,12 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 	 */
 	public function get_sortable_columns() {
 		$sortable_columns = array(
-				'url'           => array( 'url', false ),
+			'url'           => array( 'url', false ),
 //				'crawl_type'    => array( 'crawl_type', false ),
-				'issue_type'    => array( 'issue_type', false ),
-				'date_detected' => array( 'date_detected', false ),
-				'detail'        => array( 'detail', false ),
-				'linked_from'   => array( 'linked_from', false ),
+			'issue_type'    => array( 'issue_type', false ),
+			'date_detected' => array( 'date_detected', false ),
+			'detail'        => array( 'detail', false ),
+			'linked_from'   => array( 'linked_from', false ),
 		);
 
 		return $sortable_columns;
@@ -239,8 +251,8 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 	 */
 	public function column_url( $item ) {
 		$actions = array(
-				'create_redirect' => '<a href="javascript:wpseo_create_redirect(\'' . urlencode( $item['url'] ) . '\', \'' . $this->get_current_view() . '\');">' . __( 'Create redirect', 'wordpress-seo' ) . '</a>',
-				'view'            => '<a href="' . $item['url'] . '" target="_blank">' . __( 'View', 'wordpress-seo' ) . '</a>',
+			'create_redirect' => '<a href="javascript:wpseo_create_redirect(\'' . urlencode( $item['url'] ) . '\', \'' . $this->get_current_view() . '\');">' . __( 'Create redirect', 'wordpress-seo' ) . '</a>',
+			'view'            => '<a href="' . $item['url'] . '" target="_blank">' . __( 'View', 'wordpress-seo' ) . '</a>',
 		);
 
 		// Current view
@@ -253,9 +265,9 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 		}
 
 		return sprintf(
-				'<span class="value">%1$s</span> %2$s',
-				$item['url'],
-				$this->row_actions( $actions )
+			'<span class="value">%1$s</span> %2$s',
+			$item['url'],
+			$this->row_actions( $actions )
 		);
 	}
 
@@ -268,7 +280,7 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 	 */
 	public function column_cb( $item ) {
 		return sprintf(
-				'<input type="checkbox" name="create_redirects[]" value="%s" />', $item['url']
+			'<input type="checkbox" name="create_redirects[]" value="%s" />', $item['url']
 		);
 	}
 
@@ -281,7 +293,7 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 	 */
 	public function column_linked_from( $item ) {
 		return sprintf(
-				'<a href="%1$s" target="_blank">%1$s</a>', $item['linked_from']
+			'<a href="%1$s" target="_blank">%1$s</a>', $item['linked_from']
 		);
 	}
 
@@ -305,10 +317,108 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 	public function get_bulk_actions() {
 		return array(); // No bulk action at the moment, please try again later.
 		$actions = array(
-				'create_redirects' => __( 'Create Redirects', 'wordpress-seo' )
+			'create_redirects' => __( 'Create Redirects', 'wordpress-seo' )
 		);
 
 		return $actions;
+	}
+
+	/**
+	 * Adds a dropdown to the top for filtering crawl issues - based on the excisting issue types in de database
+	 *
+	 *
+	 * @param $which
+	 */
+	public function extra_tablenav( $which ) {
+
+		if ( 'top' === $which ) {
+			global $wpdb;
+
+			$issue_types = $wpdb->get_results(
+				"
+					SELECT DISTINCT meta_value
+					FROM {$wpdb->postmeta}
+					WHERE meta_key = 'wpseo_ci_issue_type'
+					ORDER BY meta_value ASC
+				"
+			);
+
+			if ( false === ( $selected = get_transient( 'gwt-issue_filter' ) ) ) {
+				$selected = '1';
+			}
+
+			$options = '<option value="-1">Show All Crawl Issues</option>';
+			if ( is_array( $issue_types ) && $issue_types !== array() ) {
+				foreach ( $issue_types as $issue_type ) {
+					$options .= sprintf( '<option value="%2$s" %3$s>%1$s</option>', $issue_type->meta_value, $issue_type->meta_value, selected( $selected, $issue_type->meta_value, false ) );
+				}
+			}
+
+			echo '<div class="alignleft actions">';
+			echo sprintf( '<select name="gwt-issue_filter">%1$s</select>', $options );
+			submit_button( __( 'Filter', 'wordpress-seo' ), 'button', false, false, array( 'id' => 'post-query-submit' ) );
+			echo '</div>';
+		}
+
+	}
+
+	/**
+	 * Setting transient for filtering issues based on the dropdown shown on the page.
+	 *
+	 */
+	public function prepare_issue_filter() {
+
+		// Page uses $_POST, using a transient let us remember the current filter
+		if ( !empty( $_POST ) ) {
+			if ( !empty ( $_POST['gwt-issue_filter'] ) ) {
+				// Set temporary var
+				set_transient( 'gwt-issue_filter', $_POST['gwt-issue_filter'], HOUR_IN_SECONDS );
+			}
+		} else {
+			// We saves the current status, because the user can switch between them.
+			if ( ! empty( $_GET['status'] ) ) {
+
+				// User switched between status - unset the filter
+				if ( $_GET['status'] !== get_transient( 'gwt-status' ) ) {
+					delete_transient( 'gwt-issue_filter' );
+				}
+
+				set_transient( 'gwt-status', $_GET['status'], HOUR_IN_SECONDS );
+			}
+
+			// If the values below aren't set, it looks like the page was visited for first time
+			if ( empty( $_GET['status'] ) && empty( $_GET['paged'] ) && empty( $_GET['order'] ) && empty( $_GET['orderby'] ) ) {
+
+				delete_transient( 'gwt-issue_filter' );
+			}
+		}
+	}
+
+	/**
+	 * This method will get the ids of the posts that should be displayed, based on the given filter
+	 *
+	 * @param string $filter Issue type to filter
+	 *
+	 * @return array
+	 */
+	public function issue_filter( $filter ) {
+		$post_ids = array();
+
+		if ( $filter !== '-1' ) {
+			global $wpdb;
+
+			$post_ids = $wpdb->get_col(
+				"
+					SELECT DISTINCT post_id
+					FROM {$wpdb->postmeta}
+					WHERE meta_key = 'wpseo_ci_issue_type' AND meta_value = '{$filter}'
+					ORDER BY meta_value ASC
+				"
+			);
+
+		}
+
+		return $post_ids;
 	}
 
 }
