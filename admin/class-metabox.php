@@ -685,11 +685,12 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		 */
 		public function enqueue() {
 			global $pagenow;
-			if ( ! in_array( $pagenow, array(
+			/* Filter 'wpseo_always_register_metaboxes_on_admin' documented in wpseo-main.php */
+			if ( ( ! in_array( $pagenow, array(
 					'post-new.php',
 					'post.php',
 					'edit.php',
-				), true ) || $this->is_metabox_hidden() === true
+				), true ) && apply_filters( 'wpseo_always_register_metaboxes_on_admin', false ) === false ) || $this->is_metabox_hidden() === true
 			) {
 				return;
 			}
