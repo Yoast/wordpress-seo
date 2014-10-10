@@ -691,17 +691,22 @@ if ( ! class_exists( 'WPSEO_Bulk_List_Table' ) ) {
 		}
 
 		/**
-		 * @param $record_id
-		 * @param $attributes
+		 * @param            $record_id
+		 * @param            $attributes
+		 * @param bool|array $values
 		 *
 		 * @return string
 		 */
-		protected function parse_meta_data_field( $record_id, $attributes ) {
+		protected function parse_meta_data_field( $record_id, $attributes, $values = false ) {
 
 			// Fill meta data if exists in $this->meta_data
 			$meta_data  = ( ! empty( $this->meta_data[$record_id] ) ) ? $this->meta_data[$record_id] : array();
 			$meta_key   = WPSEO_Meta::$meta_prefix . $this->target_db_field;
 			$meta_value = ( ! empty( $meta_data[$meta_key] ) ) ? $meta_data[$meta_key] : '';
+
+			if ( ! empty( $values ) ) {
+				$meta_value = $values[$meta_value];
+			}
 
 			return sprintf( '<td %2$s id="wpseo-existing-%4$s-%3$s">%1$s</td>', $meta_value, $attributes, $record_id, $this->target_db_field );
 		}
