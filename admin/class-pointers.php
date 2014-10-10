@@ -225,17 +225,10 @@ if ( ! class_exists( 'WPSEO_Pointers' ) ) {
 				$button_array['button2']['function'] = 'document.location="' . admin_url( 'admin.php?page=wpseo_dashboard' ) . '";';
 			} else {
 				if ( '' != $page && in_array( $page, array_keys( $adminpages ) ) ) {
-					$align    = ( is_rtl() ) ? 'left' : 'right';
-
-					if ( isset ( $adminpages[$page]['position'] ) ) {
-						$position = $adminpages[$page]['position'];
-					} else {
-						$position = array( 'edge' => 'top', 'align' => $align );
-					}
-
-					$opt_arr  = array(
+					$align   = ( is_rtl() ) ? 'left' : 'right';
+					$opt_arr = array(
 						'content'      => $adminpages[$page]['content'],
-						'position'     => $position,
+						'position'     => ( isset ( $adminpages[$page]['position'] ) ) ? ( $adminpages[$page]['position'] ) : array( 'edge' => 'top', 'align' => $align ),
 						'pointerWidth' => 450,
 					);
 					if ( isset( $adminpages[$page]['next'] ) && isset( $adminpages[$page]['next_function'] ) ) {
@@ -285,7 +278,7 @@ if ( ! class_exists( 'WPSEO_Pointers' ) ) {
 				//<![CDATA[
 				(function ($) {
 					// Don't show the tour on screens with an effective width smaller than 1024px or an effective height smaller than 768px.
-					if (jQuery(window).width() < 1024 || jQuery(window).availWidth < 1024) {
+					if (jQuery(window).width() < 1024 || jQuery(window).availWidth < 1024 ) {
 						return;
 					}
 
@@ -334,12 +327,12 @@ if ( ! class_exists( 'WPSEO_Pointers' ) ) {
 							<?php echo $button_array['button1']['function']; ?>
 							<?php } ?>
 						});
-						<?php } else {if ( $button_array['button3']['text'] ) { ?>
+						<?php } else if ( $button_array['button3']['text'] ) { ?>
 						jQuery('#pointer-close').after('<a id="pointer-ternary" style="float: left;" class="button-secondary">' + '<?php echo $button_array['button3']['text']; ?>' + '</a>');
 						jQuery('#pointer-ternary').click(function () {
 							<?php echo $button_array['button3']['function']; ?>
 						});
-						<?php }} ?>
+						<?php } ?>
 					};
 
 					if (wpseo_pointer_options.position && wpseo_pointer_options.position.defer_loading)
