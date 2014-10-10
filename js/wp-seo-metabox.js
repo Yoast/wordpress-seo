@@ -12,14 +12,17 @@ function yst_clean(str) {
 	return str;
 }
 
-function ptest(str, p) {
-	str = yst_clean(str);
+function ptest( str, p ) {
+	str = yst_clean( str );
 	str = str.toLowerCase();
-	var r = str.match(p);
-	if (r != null)
+	str = removeLowerCaseDiacritics( str );
+	p = removeLowerCaseDiacritics( str );
+	var r = str.match( p );
+	if ( r != null ){
 		return '<span class="good">Yes (' + r.length + ')</span>';
-	else
+	} else {
 		return '<span class="wrong">No</span>';
+	}
 }
 
 function removeLowerCaseDiacritics(str) {
