@@ -65,6 +65,7 @@ if ( ! class_exists( 'WPSEO_Bulk_Title_Editor_List_Table' ) ) {
 			// Fill meta data if exists in $this->meta_data
 			$meta_data = ( ! empty( $this->meta_data[$record->ID] ) ) ? $this->meta_data[$record->ID] : array();
 
+
 			switch ( $column_name ) {
 
 				case 'col_existing_yoast_seo_title':
@@ -73,8 +74,7 @@ if ( ! class_exists( 'WPSEO_Bulk_Title_Editor_List_Table' ) ) {
 					break;
 
 				case 'col_new_yoast_seo_title':
-					$input = sprintf( '<input type="text" id="%1$s" name="%1$s" class="wpseo-new-title" data-id="%2$s" />', 'wpseo-new-title-' . $record->ID, $record->ID );
-					echo sprintf( '<td %2$s>%1$s</td>', $input, $attributes );
+					return sprintf( '<input type="text" id="%1$s" name="%1$s" class="wpseo-new-title" data-id="%2$s" />', 'wpseo-new-title-' . $record->ID, $record->ID );
 					break;
 			}
 

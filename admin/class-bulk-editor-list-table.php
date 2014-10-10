@@ -587,10 +587,14 @@ if ( ! class_exists( 'WPSEO_Bulk_List_Table' ) ) {
 
 						$attributes = $this->column_attributes( $column_name, $hidden );
 
-						$this->parse_column( $column_name, $rec, $attributes );
+						$column_value = $this->parse_column( $column_name, $rec, $attributes );
 
-						if ( method_exists( $this, 'parse_page_specific_column' ) ) {
-							$this->parse_page_specific_column( $column_name, $rec, $attributes );
+						if ( method_exists( $this, 'parse_page_specific_column' ) && empty( $column_value ) ) {
+							$column_value = $this->parse_page_specific_column( $column_name, $rec, $attributes );
+						}
+
+						if ( ! empty( $column_value ) ) {
+							echo sprintf( '<td %2$s>%1$s</td>', $column_value, $attributes );
 						}
 					}
 
@@ -613,6 +617,35 @@ if ( ! class_exists( 'WPSEO_Bulk_List_Table' ) ) {
 			return $attributes;
 		}
 
+		protected function parse_page_title_column( $rec ) {
+
+			$return = sprintf( '<strong>%1$s</strong>', stripslashes( wp_strip_all_tags( $rec->post_title ) ) );
+
+			$post_type_object = get_post_type_object( $rec->post_type );
+			$can_edit_post    = current_user_can( $post_type_object->cap->edit_post, $rec->ID );
+
+			$actions = array();
+
+			if ( $can_edit_post && 'trash' != $rec->post_status ) {
+				$actions['edit'] = '<a href="' . esc_url( get_edit_post_link( $rec->ID, true ) ) . '" title="' . esc_attr( __( 'Edit this item', 'wordpress-seo' ) ) . '">' . __( 'Edit', 'wordpress-seo' ) . '</a>';
+			}
+
+			if ( $post_type_object->public ) {
+				if ( in_array( $rec->post_status, array( 'pending', 'draft', 'future' ) ) ) {
+					if ( $can_edit_post ) {
+						$actions['view'] = '<a href="' . esc_url( add_query_arg( 'preview', 'true', get_permalink( $rec->ID ) ) ) . '" title="' . esc_attr( sprintf( __( 'Preview &#8220;%s&#8221;', 'wordpress-seo' ), $rec->post_title ) ) . '">' . __( 'Preview', 'wordpress-seo' ) . '</a>';
+					}
+				} elseif ( 'trash' != $rec->post_status ) {
+					$actions['view'] = '<a href="' . esc_url( get_permalink( $rec->ID ) ) . '" title="' . esc_attr( sprintf( __( 'View &#8220;%s&#8221;', 'wordpress-seo' ), $rec->post_title ) ) . '" rel="bookmark">' . __( 'View', 'wordpress-seo' ) . '</a>';
+				}
+			}
+
+			$return .= $this->row_actions( $actions );
+
+			return $return;
+
+		}
+
 		protected function parse_column( $column_name, $rec, $attributes ) {
 
 			static $date_format;
@@ -623,56 +656,37 @@ if ( ! class_exists( 'WPSEO_Bulk_List_Table' ) ) {
 
 			switch ( $column_name ) {
 				case 'col_page_title':
-					echo sprintf( '<td %2$s><strong>%1$s</strong>', stripslashes( wp_strip_all_tags( $rec->post_title ) ), $attributes );
+					$column_value = $this->parse_page_title_column( $rec );
 
-					$post_type_object = get_post_type_object( $rec->post_type );
-					$can_edit_post    = current_user_can( $post_type_object->cap->edit_post, $rec->ID );
-
-					$actions = array();
-
-					if ( $can_edit_post && 'trash' != $rec->post_status ) {
-						$actions['edit'] = '<a href="' . esc_url( get_edit_post_link( $rec->ID, true ) ) . '" title="' . esc_attr( __( 'Edit this item', 'wordpress-seo' ) ) . '">' . __( 'Edit', 'wordpress-seo' ) . '</a>';
-					}
-
-					if ( $post_type_object->public ) {
-						if ( in_array( $rec->post_status, array( 'pending', 'draft', 'future' ) ) ) {
-							if ( $can_edit_post ) {
-								$actions['view'] = '<a href="' . esc_url( add_query_arg( 'preview', 'true', get_permalink( $rec->ID ) ) ) . '" title="' . esc_attr( sprintf( __( 'Preview &#8220;%s&#8221;', 'wordpress-seo' ), $rec->post_title ) ) . '">' . __( 'Preview', 'wordpress-seo' ) . '</a>';
-							}
-						} elseif ( 'trash' != $rec->post_status ) {
-							$actions['view'] = '<a href="' . esc_url( get_permalink( $rec->ID ) ) . '" title="' . esc_attr( sprintf( __( 'View &#8220;%s&#8221;', 'wordpress-seo' ), $rec->post_title ) ) . '" rel="bookmark">' . __( 'View', 'wordpress-seo' ) . '</a>';
-						}
-					}
-
-					echo $this->row_actions( $actions );
-					echo '</td>';
 					break;
 
 				case 'col_page_slug':
 					$permalink    = get_permalink( $rec->ID );
 					$display_slug = str_replace( get_bloginfo( 'url' ), '', $permalink );
-					echo sprintf( '<td %2$s><a href="%3$s" target="_blank">%1$s</a></td>', stripslashes( $display_slug ), $attributes, esc_url( $permalink ) );
+					$column_value = sprintf( '<a href="%2$s" target="_blank">%1$s</a>', stripslashes( $display_slug ), esc_url( $permalink ) );
 					break;
 
 				case 'col_post_type':
-					$post_type = get_post_type_object( $rec->post_type );
-					echo sprintf( '<td %2$s>%1$s</td>', $post_type->labels->singular_name, $attributes );
+					$post_type    = get_post_type_object( $rec->post_type );
+					$column_value = $post_type->labels->singular_name;
 					break;
 
 				case 'col_post_status':
-					$post_status = get_post_status_object( $rec->post_status );
-					echo sprintf( '<td %2$s>%1$s</td>', $post_status->label, $attributes );
+					$post_status  = get_post_status_object( $rec->post_status );
+					$column_value = $post_status->label;
 					break;
 
 				case 'col_post_date':
-					$cell_value = date_i18n( $date_format, strtotime( $rec->post_date ) );
-					echo sprintf( '<td %2$s>%1$s</td>', $cell_value, $attributes );
+					$column_value = date_i18n( $date_format, strtotime( $rec->post_date ) );
 					break;
 
 				case 'col_row_action':
-					$actions = sprintf( '<a href="#" class="wpseo-save" data-id="%1$s">Save</a> | <a href="#" class="wpseo-save-all">Save All</a>', $rec->ID );
-					echo sprintf( '<td %2$s>%1$s</td>', $actions, $attributes );
+					$column_value = sprintf( '<a href="#" class="wpseo-save" data-id="%1$s">Save</a> | <a href="#" class="wpseo-save-all">Save All</a>', $rec->ID );
 					break;
+			}
+
+			if ( ! empty( $column_value ) ) {
+				return $column_value;
 			}
 		}
 

@@ -67,8 +67,7 @@ if ( ! class_exists( 'WPSEO_Bulk_Description_List_Table' ) ) {
 			switch ( $column_name ) {
 
 				case 'col_new_yoast_seo_metadesc' :
-					$input = sprintf( '<textarea id="%1$s" name="%1$s" class="wpseo-new-metadesc" data-id="%2$s"></textarea>', 'wpseo-new-metadesc-' . $record->ID, $record->ID );
-					echo sprintf( '<td %2$s>%1$s</td>', $input, $attributes );
+					return sprintf( '<textarea id="%1$s" name="%1$s" class="wpseo-new-metadesc" data-id="%2$s"></textarea>', 'wpseo-new-metadesc-' . $record->ID, $record->ID );
 					break;
 
 
