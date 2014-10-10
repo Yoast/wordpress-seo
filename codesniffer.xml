@@ -4,6 +4,7 @@
 
 	<exclude-pattern>tests/*</exclude-pattern>
 	<exclude-pattern>admin/license-manager/*</exclude-pattern>
+	<exclude-pattern>*</exclude-pattern>
 
 	<rule ref="WordPress-VIP">
 		<exclude name="Generic.Files.LineEndings.InvalidEOLChar" />
