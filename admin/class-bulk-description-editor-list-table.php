@@ -46,17 +46,14 @@ if ( ! class_exists( 'WPSEO_Bulk_Description_List_Table' ) ) {
 		 *
 		 * @return array
 		 */
-		function get_columns() {
-			return $columns = array(
-				'col_page_title'                  => __( 'WP Page Title', 'wordpress-seo' ),
-				'col_post_type'                   => __( 'Post Type', 'wordpress-seo' ),
-				'col_post_status'                 => __( 'Post Status', 'wordpress-seo' ),
-				'col_post_date'                   => __( 'Publication date', 'wordpress-seo' ),
-				'col_page_slug'                   => __( 'Page URL/Slug', 'wordpress-seo' ),
+		public function get_columns() {
+			$columns = array(
 				'col_existing_yoast_seo_metadesc' => __( 'Existing Yoast Meta Description', 'wordpress-seo' ),
 				'col_new_yoast_seo_metadesc'      => __( 'New Yoast Meta Description', 'wordpress-seo' ),
-				'col_row_action'                  => __( 'Action', 'wordpress-seo' ),
 			);
+
+				return parent::get_columns( $columns );
+
 		}
 
 		protected function parse_page_specific_column( $column_name, $record, $attributes ) {
@@ -72,8 +69,7 @@ if ( ! class_exists( 'WPSEO_Bulk_Description_List_Table' ) ) {
 
 
 				case 'col_existing_yoast_seo_metadesc':
-					$cell_value = ( ( ! empty( $meta_data[WPSEO_Meta::$meta_prefix . 'metadesc'] ) ) ? $meta_data[WPSEO_Meta::$meta_prefix . 'metadesc'] : '' );
-					echo sprintf( '<td %2$s id="wpseo-existing-metadesc-%3$s">%1$s</td>', wp_strip_all_tags( $cell_value ), $attributes, $record->ID );
+					echo $this->parse_meta_data_field($record->ID, $attributes );
 					break;
 			}
 		}

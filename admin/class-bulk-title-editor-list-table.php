@@ -46,18 +46,14 @@ if ( ! class_exists( 'WPSEO_Bulk_Title_Editor_List_Table' ) ) {
 		 *
 		 * @return array
 		 */
-		function get_columns() {
+		public function get_columns() {
 
-			return $columns = array(
-				'col_page_title'               => __( 'WP Page Title', 'wordpress-seo' ),
-				'col_post_type'                => __( 'Post Type', 'wordpress-seo' ),
-				'col_post_status'              => __( 'Post Status', 'wordpress-seo' ),
-				'col_post_date'                => __( 'Publication date', 'wordpress-seo' ),
-				'col_page_slug'                => __( 'Page URL/Slug', 'wordpress-seo' ),
+			 $columns = array(
 				'col_existing_yoast_seo_title' => __( 'Existing Yoast SEO Title', 'wordpress-seo' ),
 				'col_new_yoast_seo_title'      => __( 'New Yoast SEO Title', 'wordpress-seo' ),
-				'col_row_action'               => __( 'Action', 'wordpress-seo' ),
 			);
+
+			return parent::get_columns($columns);
 		}
 
 		protected function parse_page_specific_column( $column_name, $record, $attributes ) {
@@ -65,12 +61,9 @@ if ( ! class_exists( 'WPSEO_Bulk_Title_Editor_List_Table' ) ) {
 			// Fill meta data if exists in $this->meta_data
 			$meta_data = ( ! empty( $this->meta_data[$record->ID] ) ) ? $this->meta_data[$record->ID] : array();
 
-
 			switch ( $column_name ) {
-
 				case 'col_existing_yoast_seo_title':
-					$cell_value = ( ( ! empty( $meta_data[WPSEO_Meta::$meta_prefix . 'title'] ) ) ? $meta_data[WPSEO_Meta::$meta_prefix . 'title'] : '' );
-					echo sprintf( '<td %2$s id="wpseo-existing-title-%3$s">%1$s</td>', $cell_value, $attributes, $record->ID );
+					echo $this->parse_meta_data_field( $record->ID, $attributes );
 					break;
 
 				case 'col_new_yoast_seo_title':

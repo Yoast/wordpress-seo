@@ -158,7 +158,7 @@ if ( ! class_exists( 'WPSEO_Bulk_List_Table' ) ) {
 			?>
 			<div class="tablenav <?php echo esc_attr( $which ); ?>">
 
-				<?php if ( 'top' === $which ) { ?>
+				<?php if ('top' === $which) { ?>
 				<form id="posts-filter" action="" method="get">
 					<input type="hidden" name="page" value="wpseo_bulk-editor" />
 					<input type="hidden" name="type" value="<?php echo esc_attr( $this->page_type ); ?>" />
@@ -176,7 +176,7 @@ if ( ! class_exists( 'WPSEO_Bulk_List_Table' ) ) {
 					?>
 
 					<br class="clear" />
-					<?php if ( 'top' === $which ) { ?>
+					<?php if ('top' === $which) { ?>
 				</form>
 			<?php } ?>
 			</div>
@@ -691,6 +691,22 @@ if ( ! class_exists( 'WPSEO_Bulk_List_Table' ) ) {
 		}
 
 		/**
+		 * @param $record_id
+		 * @param $attributes
+		 *
+		 * @return string
+		 */
+		protected function parse_meta_data_field( $record_id, $attributes ) {
+
+			// Fill meta data if exists in $this->meta_data
+			$meta_data  = ( ! empty( $this->meta_data[$record_id] ) ) ? $this->meta_data[$record_id] : array();
+			$meta_key   = WPSEO_Meta::$meta_prefix . $this->target_db_field;
+			$meta_value = ( ! empty( $meta_data[$meta_key] ) ) ? $meta_data[$meta_key] : '';
+
+			return sprintf( '<td %2$s id="wpseo-existing-%4$s-%3$s">%1$s</td>', $meta_value, $attributes, $record_id, $this->target_db_field );
+		}
+
+		/**
 		 * Method for setting the meta data, which belongs to the records that will be shown on the current page
 		 *
 		 * This method will loop through the current items ($this->items) for getting the post_id. With this data
@@ -758,6 +774,23 @@ if ( ! class_exists( 'WPSEO_Bulk_List_Table' ) ) {
 				$this->meta_data[$row->post_id][$row->meta_key] = $row->meta_value;
 			}
 
+		}
+
+		public function get_columns( $columns ) {
+			$columns = array_merge(
+				array(
+					'col_page_title'  => __( 'WP Page Title', 'wordpress-seo' ),
+					'col_post_type'   => __( 'Post Type', 'wordpress-seo' ),
+					'col_post_status' => __( 'Post Status', 'wordpress-seo' ),
+					'col_post_date'   => __( 'Publication date', 'wordpress-seo' ),
+					'col_page_slug'   => __( 'Page URL/Slug', 'wordpress-seo' ),
+				),
+				$columns
+			);
+
+			$columns['col_row_action'] = __( 'Action', 'wordpress-seo' );
+
+			return $columns;
 		}
 
 	} /* End of class */
