@@ -89,6 +89,8 @@ if ( ! class_exists( 'WPSEO_Bulk_List_Table' ) ) {
 		 */
 		protected $settings;
 
+		protected $pagination = array();
+
 		/**
 		 * Class constructor
 		 */
@@ -107,6 +109,14 @@ if ( ! class_exists( 'WPSEO_Bulk_List_Table' ) ) {
 
 			$this->populate_editable_post_types();
 
+		}
+
+		public function show_page() {
+			$this->prepare_page_navigation();
+			$this->prepare_items();
+
+			$this->views();
+			$this->display();
 		}
 
 		/**
@@ -148,7 +158,7 @@ if ( ! class_exists( 'WPSEO_Bulk_List_Table' ) ) {
 			?>
 			<div class="tablenav <?php echo esc_attr( $which ); ?>">
 
-				<?php if ( 'top' === $which ) { ?>
+				<?php if ('top' === $which) { ?>
 				<form id="posts-filter" action="" method="get">
 					<input type="hidden" name="page" value="wpseo_bulk-editor" />
 					<input type="hidden" name="type" value="<?php echo esc_attr( $this->page_type ); ?>" />
@@ -166,7 +176,7 @@ if ( ! class_exists( 'WPSEO_Bulk_List_Table' ) ) {
 					?>
 
 					<br class="clear" />
-					<?php if ( 'top' === $which ) { ?>
+					<?php if ('top' === $which) { ?>
 				</form>
 			<?php } ?>
 			</div>
@@ -384,10 +394,61 @@ if ( ! class_exists( 'WPSEO_Bulk_List_Table' ) ) {
 		 * Preparing the requested pagerows and setting the needed variables
 		 */
 		function prepare_items() {
+
+			$post_type_clause = $this->get_post_type_clause();
+			$all_states       = $this->get_all_states();
+			$subquery         = $this->get_base_subquery();
+
+			// Setting the column headers
+			$this->set_column_headers();
+
+			// Count the total number of needed items and setting pagination given $total_items
+			$total_items = $this->count_items( $subquery, $all_states, $post_type_clause );
+			$this->set_pagination( $total_items );
+
+			// Getting items given $query
+			$query = $this->parse_item_query( $subquery, $all_states, $post_type_clause );
+			$this->get_items( $query );
+
+			// Get the metadata for the current items ($this->items)
+			$this->get_meta_data();
+
+		}
+
+		/**
+		 * Setting the column headers
+		 */
+		protected function set_column_headers() {
+			$columns               = $this->get_columns();
+			$hidden                = array();
+			$sortable              = $this->get_sortable_columns();
+			$this->_column_headers = array( $columns, $hidden, $sortable );
+		}
+
+		/**
+		 * Counting total items
+		 * @return mixed
+		 */
+		protected function count_items( $subquery, $all_states, $post_type_clause ) {
 			global $wpdb;
+			$total_items = $wpdb->get_var(
+				"
+					SELECT COUNT(ID)
+					FROM {$subquery}
+					WHERE post_status IN ({$all_states}) $post_type_clause
+				"
+			);
 
+			return $total_items;
+		}
+
+		/**
+		 * Getting the post_type_clause filter
+		 *
+		 * @return string
+		 */
+		protected function get_post_type_clause() {
 			//	Filter Block
-
 			$post_types       = null;
 			$post_type_clause = '';
 
@@ -395,6 +456,56 @@ if ( ! class_exists( 'WPSEO_Bulk_List_Table' ) ) {
 				$post_types       = esc_sql( sanitize_text_field( $_GET['post_type_filter'] ) );
 				$post_type_clause = "AND post_type IN ('{$post_types}')";
 			}
+
+			return $post_type_clause;
+		}
+
+		/**
+		 * Setting the pagination
+		 *
+		 * Total items is the number of all visible items
+		 *
+		 * @param $total_items
+		 */
+		protected function set_pagination( $total_items ) {
+
+			// Calculate items per page
+			$per_page = $this->get_items_per_page( 'wpseo_posts_per_page', 10 );
+
+			$paged = ! empty( $_GET['paged'] ) ? esc_sql( sanitize_text_field( $_GET['paged'] ) ) : '';
+
+			if ( empty( $paged ) || ! is_numeric( $paged ) || $paged <= 0 ) {
+				$paged = 1;
+			}
+
+			$this->set_pagination_args(
+				array(
+					'total_items' => $total_items,
+					'total_pages' => ceil( $total_items / $per_page ),
+					'per_page'    => $per_page,
+				)
+			);
+
+			$this->pagination = array(
+				'per_page' => $per_page,
+				'offset'   => ( $paged - 1 ) * $per_page
+			);
+
+		}
+
+		/**
+		 * Parse the query to get items from database
+		 *
+		 * Based on given parameters there will be parse a query which will get all the pages/posts and other post_types
+		 * from the database
+		 *
+		 * @param $subquery
+		 * @param $all_states
+		 * @param $post_type_clause
+		 *
+		 * @return string
+		 */
+		protected function parse_item_query( $subquery, $all_states, $post_type_clause ) {
 
 			//	Order By block
 			$orderby = ! empty( $_GET['orderby'] ) ? esc_sql( sanitize_text_field( $_GET['orderby'] ) ) : 'post_title';
@@ -404,6 +515,41 @@ if ( ! class_exists( 'WPSEO_Bulk_List_Table' ) ) {
 				$order = esc_sql( strtoupper( sanitize_text_field( $_GET['order'] ) ) );
 			}
 
+			// Get all needed results
+			$query = "
+				SELECT ID, post_title, post_type, post_status, post_modified, post_date
+				FROM {$subquery}
+				WHERE post_status IN ({$all_states}) $post_type_clause
+				ORDER BY {$orderby} {$order}
+				LIMIT %d,%d
+			";
+
+			return $query;
+		}
+
+		/**
+		 * Getting all the items
+		 *
+		 * @param string $query
+		 */
+		protected function get_items( $query ) {
+			global $wpdb;
+
+			$this->items = $wpdb->get_results(
+				$wpdb->prepare(
+					$query,
+					$this->pagination['offset'],
+					$this->pagination['per_page']
+				)
+			);
+		}
+
+		/**
+		 * Getting all the states
+		 *
+		 * @return string
+		 */
+		protected function get_all_states() {
 			$states          = get_post_stati( array( 'show_in_admin_all_list' => true ) );
 			$states['trash'] = 'trash';
 
@@ -417,63 +563,9 @@ if ( ! class_exists( 'WPSEO_Bulk_List_Table' ) ) {
 			$states     = esc_sql( $states );
 			$all_states = "'" . implode( "', '", $states ) . "'";
 
-			$subquery = $this->get_base_subquery();
-
-			// Count the total number of needed items
-			$total_items = $wpdb->get_var(
-				"
-					SELECT COUNT(ID)
-					FROM {$subquery}
-					WHERE post_status IN ({$all_states}) $post_type_clause
-				"
-			);
-
-			// Get all needed results
-			$query = "
-				SELECT ID, post_title, post_type, post_status, post_modified, post_date
-				FROM {$subquery}
-				WHERE post_status IN ({$all_states}) $post_type_clause
-				ORDER BY {$orderby} {$order}
-				LIMIT %d,%d
-			";
-
-			$per_page = $this->get_items_per_page( 'wpseo_posts_per_page', 10 );
-
-			$paged = ! empty( $_GET['paged'] ) ? esc_sql( sanitize_text_field( $_GET['paged'] ) ) : '';
-
-			if ( empty( $paged ) || ! is_numeric( $paged ) || $paged <= 0 ) {
-				$paged = 1;
-			}
-
-			$total_pages = ceil( $total_items / $per_page );
-
-			$offset = ( $paged - 1 ) * $per_page;
-
-			$this->set_pagination_args(
-				array(
-					'total_items' => $total_items,
-					'total_pages' => $total_pages,
-					'per_page'    => $per_page,
-				)
-			);
-
-			$columns               = $this->get_columns();
-			$hidden                = array();
-			$sortable              = $this->get_sortable_columns();
-			$this->_column_headers = array( $columns, $hidden, $sortable );
-
-			$this->items = $wpdb->get_results(
-				$wpdb->prepare(
-					$query,
-					$offset,
-					$per_page
-				)
-			);
-
-			// Get the metadata for the current items ($this->items)
-			$this->get_meta_data();
-
+			return $all_states;
 		}
+
 
 		/**
 		 * Based on $this->items and the defined columns, the table rows will be displayed.
@@ -485,107 +577,175 @@ if ( ! class_exists( 'WPSEO_Bulk_List_Table' ) ) {
 
 			list( $columns, $hidden ) = $this->get_column_info();
 
-
-			$date_format = get_option( 'date_format' );
-
 			if ( ( is_array( $records ) && $records !== array() ) && ( is_array( $columns ) && $columns !== array() ) ) {
-				foreach ( $records as $rec ) {
 
-					// Fill meta data if exists in $this->meta_data
-					$meta_data = ( ! empty( $this->meta_data[$rec->ID] ) ) ? $this->meta_data[$rec->ID] : array();
+				foreach ( $records as $rec ) {
 
 					echo '<tr id="record_' . $rec->ID . '">';
 
 					foreach ( $columns as $column_name => $column_display_name ) {
 
-						$class = sprintf( 'class="%1$s column-%1$s"', $column_name );
-						$style = '';
+						$attributes = $this->column_attributes( $column_name, $hidden );
 
-						if ( in_array( $column_name, $hidden ) ) {
-							$style = ' style="display:none;"';
+						$this->parse_column( $column_name, $rec, $attributes );
+
+						if ( method_exists( $this, 'parse_page_specific_column' ) ) {
+							$this->parse_page_specific_column( $column_name, $rec, $attributes );
 						}
 
-						$attributes = $class . $style;
-
-						switch ( $column_name ) {
-							case 'col_page_title':
-								echo sprintf( '<td %2$s><strong>%1$s</strong>', stripslashes( $rec->post_title ), $attributes );
-
-								$post_type_object = get_post_type_object( $rec->post_type );
-								$can_edit_post    = current_user_can( $post_type_object->cap->edit_post, $rec->ID );
-
-								$actions = array();
-
-								if ( $can_edit_post && 'trash' != $rec->post_status ) {
-									$actions['edit'] = '<a href="' . esc_url( get_edit_post_link( $rec->ID, true ) ) . '" title="' . esc_attr( __( 'Edit this item', 'wordpress-seo' ) ) . '">' . __( 'Edit', 'wordpress-seo' ) . '</a>';
-								}
-
-								if ( $post_type_object->public ) {
-									if ( in_array( $rec->post_status, array( 'pending', 'draft', 'future' ) ) ) {
-										if ( $can_edit_post ) {
-											$actions['view'] = '<a href="' . esc_url( add_query_arg( 'preview', 'true', get_permalink( $rec->ID ) ) ) . '" title="' . esc_attr( sprintf( __( 'Preview &#8220;%s&#8221;', 'wordpress-seo' ), $rec->post_title ) ) . '">' . __( 'Preview', 'wordpress-seo' ) . '</a>';
-										}
-									} elseif ( 'trash' != $rec->post_status ) {
-										$actions['view'] = '<a href="' . esc_url( get_permalink( $rec->ID ) ) . '" title="' . esc_attr( sprintf( __( 'View &#8220;%s&#8221;', 'wordpress-seo' ), $rec->post_title ) ) . '" rel="bookmark">' . __( 'View', 'wordpress-seo' ) . '</a>';
-									}
-								}
-
-								echo $this->row_actions( $actions );
-								echo '</td>';
-								break;
-
-							case 'col_page_slug':
-								$permalink    = get_permalink( $rec->ID );
-								$display_slug = str_replace( get_bloginfo( 'url' ), '', $permalink );
-								echo sprintf( '<td %2$s><a href="%3$s" target="_blank">%1$s</a></td>', stripslashes( $display_slug ), $attributes, esc_url( $permalink ) );
-								break;
-
-							case 'col_post_type':
-								$post_type = get_post_type_object( $rec->post_type );
-								echo sprintf( '<td %2$s>%1$s</td>', $post_type->labels->singular_name, $attributes );
-								break;
-
-							case 'col_post_status':
-								$post_status = get_post_status_object( $rec->post_status );
-								echo sprintf( '<td %2$s>%1$s</td>', $post_status->label, $attributes );
-								break;
-
-							case 'col_post_date':
-								$cell_value = date_i18n( $date_format, strtotime( $rec->post_date ) );
-								echo sprintf( '<td %2$s>%1$s</td>', $cell_value, $attributes );
-								break;
-
-							case 'col_existing_yoast_seo_title':
-								$cell_value = ( ( ! empty( $meta_data[WPSEO_Meta::$meta_prefix . 'title'] ) ) ? $meta_data[WPSEO_Meta::$meta_prefix . 'title'] : '' );
-								echo sprintf( '<td %2$s id="wpseo-existing-title-%3$s">%1$s</td>', $cell_value, $attributes, $rec->ID );
-								break;
-
-							case 'col_new_yoast_seo_title':
-								$input = sprintf( '<input type="text" id="%1$s" name="%1$s" class="wpseo-new-title" data-id="%2$s" />', 'wpseo-new-title-' . $rec->ID, $rec->ID );
-								echo sprintf( '<td %2$s>%1$s</td>', $input, $attributes );
-								break;
-
-							case 'col_new_yoast_seo_metadesc' :
-								$input = sprintf( '<textarea id="%1$s" name="%1$s" class="wpseo-new-metadesc" data-id="%2$s"></textarea>', 'wpseo-new-metadesc-' . $rec->ID, $rec->ID );
-								echo sprintf( '<td %2$s>%1$s</td>', $input, $attributes );
-								break;
-
-
-							case 'col_existing_yoast_seo_metadesc':
-								$cell_value = ( ( ! empty( $meta_data[WPSEO_Meta::$meta_prefix . 'metadesc'] ) ) ? $meta_data[WPSEO_Meta::$meta_prefix . 'metadesc'] : '' );
-								echo sprintf( '<td %2$s id="wpseo-existing-metadesc-%3$s">%1$s</td>', wp_strip_all_tags( $cell_value ), $attributes, $rec->ID );
-								break;
-
-							case 'col_row_action':
-								$actions = sprintf( '<a href="#" class="wpseo-save" data-id="%1$s">Save</a> | <a href="#" class="wpseo-save-all">Save All</a>', $rec->ID );
-								echo sprintf( '<td %2$s>%1$s</td>', $actions, $attributes );
-								break;
-						}
 					}
 
 					echo '</tr>';
 				}
 			}
 		}
+
+		protected function column_attributes( $column_name, $hidden ) {
+
+			$class = sprintf( 'class="%1$s column-%1$s"', $column_name );
+			$style = '';
+
+			if ( in_array( $column_name, $hidden ) ) {
+				$style = ' style="display:none;"';
+			}
+
+			$attributes = $class . $style;
+
+			return $attributes;
+		}
+
+		protected function parse_column( $column_name, $rec, $attributes ) {
+
+			static $date_format;
+
+			if ( $date_format == null ) {
+				$date_format = get_option( 'date_format' );
+			}
+
+			switch ( $column_name ) {
+				case 'col_page_title':
+					echo sprintf( '<td %2$s><strong>%1$s</strong>', stripslashes( wp_strip_all_tags( $rec->post_title ) ), $attributes );
+
+					$post_type_object = get_post_type_object( $rec->post_type );
+					$can_edit_post    = current_user_can( $post_type_object->cap->edit_post, $rec->ID );
+
+					$actions = array();
+
+					if ( $can_edit_post && 'trash' != $rec->post_status ) {
+						$actions['edit'] = '<a href="' . esc_url( get_edit_post_link( $rec->ID, true ) ) . '" title="' . esc_attr( __( 'Edit this item', 'wordpress-seo' ) ) . '">' . __( 'Edit', 'wordpress-seo' ) . '</a>';
+					}
+
+					if ( $post_type_object->public ) {
+						if ( in_array( $rec->post_status, array( 'pending', 'draft', 'future' ) ) ) {
+							if ( $can_edit_post ) {
+								$actions['view'] = '<a href="' . esc_url( add_query_arg( 'preview', 'true', get_permalink( $rec->ID ) ) ) . '" title="' . esc_attr( sprintf( __( 'Preview &#8220;%s&#8221;', 'wordpress-seo' ), $rec->post_title ) ) . '">' . __( 'Preview', 'wordpress-seo' ) . '</a>';
+							}
+						} elseif ( 'trash' != $rec->post_status ) {
+							$actions['view'] = '<a href="' . esc_url( get_permalink( $rec->ID ) ) . '" title="' . esc_attr( sprintf( __( 'View &#8220;%s&#8221;', 'wordpress-seo' ), $rec->post_title ) ) . '" rel="bookmark">' . __( 'View', 'wordpress-seo' ) . '</a>';
+						}
+					}
+
+					echo $this->row_actions( $actions );
+					echo '</td>';
+					break;
+
+				case 'col_page_slug':
+					$permalink    = get_permalink( $rec->ID );
+					$display_slug = str_replace( get_bloginfo( 'url' ), '', $permalink );
+					echo sprintf( '<td %2$s><a href="%3$s" target="_blank">%1$s</a></td>', stripslashes( $display_slug ), $attributes, esc_url( $permalink ) );
+					break;
+
+				case 'col_post_type':
+					$post_type = get_post_type_object( $rec->post_type );
+					echo sprintf( '<td %2$s>%1$s</td>', $post_type->labels->singular_name, $attributes );
+					break;
+
+				case 'col_post_status':
+					$post_status = get_post_status_object( $rec->post_status );
+					echo sprintf( '<td %2$s>%1$s</td>', $post_status->label, $attributes );
+					break;
+
+				case 'col_post_date':
+					$cell_value = date_i18n( $date_format, strtotime( $rec->post_date ) );
+					echo sprintf( '<td %2$s>%1$s</td>', $cell_value, $attributes );
+					break;
+
+				case 'col_row_action':
+					$actions = sprintf( '<a href="#" class="wpseo-save" data-id="%1$s">Save</a> | <a href="#" class="wpseo-save-all">Save All</a>', $rec->ID );
+					echo sprintf( '<td %2$s>%1$s</td>', $actions, $attributes );
+					break;
+			}
+		}
+
+		/**
+		 * Method for setting the meta data, which belongs to the records that will be shown on the current page
+		 *
+		 * This method will loop through the current items ($this->items) for getting the post_id. With this data
+		 * ($needed_ids) the method will query the meta-data table for getting the title.
+		 *
+		 */
+		protected function get_meta_data() {
+
+			$post_ids  = $this->get_post_ids();
+			$meta_data = $this->get_meta_data_result( $post_ids );
+
+			$this->parse_meta_data( $meta_data );
+
+			// Little housekeeping
+			unset( $post_ids, $meta_data );
+
+		}
+
+		/**
+		 * Getting all post_ids from to $this->items
+		 *
+		 * @return string
+		 */
+		protected function get_post_ids() {
+			$needed_ids = array();
+			foreach ( $this->items AS $item ) {
+				$needed_ids[] = $item->ID;
+			}
+
+			$post_ids = "'" . implode( "', '", $needed_ids ) . "'";
+
+			return $post_ids;
+		}
+
+		/**
+		 * Getting the meta_data from database
+		 *
+		 * @param string $post_ids
+		 * @param string $target_field
+		 *
+		 * @return mixed
+		 */
+		protected function get_meta_data_result( $post_ids ) {
+			global $wpdb;
+
+			$meta_data = $wpdb->get_results(
+				"
+				 	SELECT *
+				 	FROM {$wpdb->postmeta}
+				 	WHERE post_id IN({$post_ids}) && meta_key = '" . WPSEO_Meta::$meta_prefix . $this->target_db_field . "'
+				"
+			);
+
+			return $meta_data;
+		}
+
+		/**
+		 * Setting $this->meta_data
+		 *
+		 * @param array $meta_data
+		 */
+		protected function parse_meta_data( $meta_data ) {
+
+			foreach ( $meta_data AS $row ) {
+				$this->meta_data[$row->post_id][$row->meta_key] = $row->meta_value;
+			}
+
+		}
+
 	} /* End of class */
 } /* End of class-exists wrapper */

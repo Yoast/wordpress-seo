@@ -39,23 +39,10 @@ if ( ! empty( $_REQUEST['_wp_http_referer'] ) ) {
 
 	<div class="tabwrapper">
 		<div id="title" class="wpseotab">
-			<?php
-			$wpseo_bulk_titles_table->prepare_page_navigation();
-			$wpseo_bulk_titles_table->prepare_items();
-			?>
-
-			<?php $wpseo_bulk_titles_table->views(); ?>
-			<?php $wpseo_bulk_titles_table->display(); ?>
-
+			<?php $wpseo_bulk_titles_table->show_page(); ?>
 		</div>
 		<div id="description" class="wpseotab">
-			<?php
-			$wpseo_bulk_description_table->prepare_page_navigation();
-			$wpseo_bulk_description_table->prepare_items();
-			?>
-
-			<?php $wpseo_bulk_description_table->views(); ?>
-			<?php $wpseo_bulk_description_table->display(); ?>
+			<?php $wpseo_bulk_description_table->show_page(); ?>s
 		</div>
 
 	</div>

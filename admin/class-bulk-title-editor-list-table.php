@@ -36,11 +36,18 @@ if ( ! class_exists( 'WPSEO_Bulk_Title_Editor_List_Table' ) ) {
 		);
 
 		/**
+		 * The field in the database where meta field is saved.
+		 * @var string
+		 */
+		protected $target_db_field = 'title';
+
+		/**
 		 * The columns shown on the table
 		 *
 		 * @return array
 		 */
 		function get_columns() {
+
 			return $columns = array(
 				'col_page_title'               => __( 'WP Page Title', 'wordpress-seo' ),
 				'col_post_type'                => __( 'Post Type', 'wordpress-seo' ),
@@ -53,40 +60,27 @@ if ( ! class_exists( 'WPSEO_Bulk_Title_Editor_List_Table' ) ) {
 			);
 		}
 
-		/**
-		 * Method for setting the meta data, which belongs to the records that will be shown on the current page
-		 *
-		 * This method will loop through the current items ($this->items) for getting the post_id. With this data
-		 * ($needed_ids) the method will query the meta-data table for getting the title.
-		 *
-		 */
-		function get_meta_data() {
+		protected function parse_page_specific_column( $column_name, $record, $attributes ) {
 
-			global $wpdb;
+			// Fill meta data if exists in $this->meta_data
+			$meta_data = ( ! empty( $this->meta_data[$record->ID] ) ) ? $this->meta_data[$record->ID] : array();
 
-			$needed_ids = array();
-			foreach ( $this->items AS $item ) {
-				$needed_ids[] = $item->ID;
+			switch ( $column_name ) {
+
+				case 'col_existing_yoast_seo_title':
+					$cell_value = ( ( ! empty( $meta_data[WPSEO_Meta::$meta_prefix . 'title'] ) ) ? $meta_data[WPSEO_Meta::$meta_prefix . 'title'] : '' );
+					echo sprintf( '<td %2$s id="wpseo-existing-title-%3$s">%1$s</td>', $cell_value, $attributes, $record->ID );
+					break;
+
+				case 'col_new_yoast_seo_title':
+					$input = sprintf( '<input type="text" id="%1$s" name="%1$s" class="wpseo-new-title" data-id="%2$s" />', 'wpseo-new-title-' . $record->ID, $record->ID );
+					echo sprintf( '<td %2$s>%1$s</td>', $input, $attributes );
+					break;
 			}
 
-			$post_ids  = "'" . implode( "', '", $needed_ids ) . "'";
-			$meta_data = $wpdb->get_results(
-				"
-				 	SELECT *
-				 	FROM {$wpdb->postmeta}
-				 	WHERE post_id IN({$post_ids}) && meta_key = '" . WPSEO_Meta::$meta_prefix . "title'
-				"
-			);
-
-			foreach ( $meta_data AS $row ) {
-				$this->meta_data[$row->post_id][$row->meta_key] = $row->meta_value;
-			}
-
-
-			// Little housekeeping
-			unset( $needed_ids, $post_ids, $meta_data );
-
+			unset( $meta_data );
 		}
+
 
 	} /* End of class */
 } /* End of class-exists wrapper */
