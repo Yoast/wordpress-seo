@@ -52,24 +52,18 @@ if ( ! class_exists( 'WPSEO_Bulk_Description_List_Table' ) ) {
 				'col_new_yoast_seo_metadesc'      => __( 'New Yoast Meta Description', 'wordpress-seo' ),
 			);
 
-				return parent::get_columns( $columns );
-
+			return parent::get_columns( $columns );
 		}
 
 		protected function parse_page_specific_column( $column_name, $record, $attributes ) {
-
-			// Fill meta data if exists in $this->meta_data
-			$meta_data = ( ! empty( $this->meta_data[$record->ID] ) ) ? $this->meta_data[$record->ID] : array();
-
 			switch ( $column_name ) {
-
 				case 'col_new_yoast_seo_metadesc' :
 					return sprintf( '<textarea id="%1$s" name="%1$s" class="wpseo-new-metadesc" data-id="%2$s"></textarea>', 'wpseo-new-metadesc-' . $record->ID, $record->ID );
 					break;
 
 
 				case 'col_existing_yoast_seo_metadesc':
-					echo $this->parse_meta_data_field($record->ID, $attributes );
+					echo $this->parse_meta_data_field( $record->ID, $attributes );
 					break;
 			}
 		}

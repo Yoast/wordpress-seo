@@ -44,7 +44,7 @@ if ( ! empty( $_REQUEST['_wp_http_referer'] ) ) {
 			<?php $wpseo_bulk_titles_table->show_page(); ?>
 		</div>
 		<div id="description" class="wpseotab">
-			<?php $wpseo_bulk_description_table->show_page(); ?>s
+			<?php $wpseo_bulk_description_table->show_page(); ?>
 		</div>
 		<div id="index" class="wpseotab">
 			<?php $wpseo_bulk_index_table->show_page(); ?>s

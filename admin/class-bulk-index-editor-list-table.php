@@ -21,7 +21,7 @@ if ( ! class_exists( 'WPSEO_Bulk_Index_Editor_List_Table' ) ) {
 		 *
 		 * @var string
 		 */
-		protected $page_type = 'title';
+		protected $page_type = 'index';
 
 
 		/**
@@ -30,8 +30,8 @@ if ( ! class_exists( 'WPSEO_Bulk_Index_Editor_List_Table' ) ) {
 		 * @var array
 		 */
 		protected $settings = array(
-			'singular' => 'wpseo_bulk_title',
-			'plural'   => 'wpseo_bulk_titles',
+			'singular' => 'wpseo_bulk_index',
+			'plural'   => 'wpseo_bulk_indexes',
 			'ajax'     => true,
 		);
 
@@ -60,17 +60,47 @@ if ( ! class_exists( 'WPSEO_Bulk_Index_Editor_List_Table' ) ) {
 
         protected function parse_page_specific_column( $column_name, $record, $attributes ) {
 
+            $meta_data_values = $this->get_meta_data_values( $record->post_type );
+
             switch ( $column_name ) {
-                case 'col_existing_yoast_seo_title':
-                    echo $this->parse_meta_data_field($record->ID, $attributes );
+                case 'col_existing_yoast_robot_index':
+                    echo $this->parse_meta_data_field($record->ID, $attributes, $this->get_meta_data_values( $record->post_type ) );
                     break;
 
-                case 'col_new_yoast_seo_title':
-                    return sprintf( '<input type="text" id="%1$s" name="%1$s" class="wpseo-new-title" data-id="%2$s" />', 'wpseo-new-title-' . $record->ID, $record->ID );
+                case 'col_new_yoast_robot_index':
+                    $options = '';
+                    foreach( $meta_data_values AS $key => $value  ) {
+                        $options .= "<option value='{$key}'>{$value}</option>";
+                    }
+                    return sprintf( '<select id="%1$s" name="%1$s" class="wpseo-new-index" data-id="%2$s">%3$s</select>', 'wpseo-new-index-' . $record->ID, $record->ID, $options );
                     break;
             }
 
             unset( $meta_data );
+        }
+
+        protected function get_meta_data_values( $post_type ) {
+            static $options;
+            static $values;
+
+            if ( $options == null ) {
+                $options = WPSEO_Options::get_all();
+            }
+
+            if($values == null) {
+                $values = array(
+                    '0' => __( 'Default for post type, currently: %s', 'wordpress-seo' ),
+                    '1' => __( 'index', 'wordpress-seo' ),
+                    '2' => __( 'noindex', 'wordpress-seo' ),
+                );
+            }
+
+            $return = $values;
+
+            $return['0'] = sprintf( $return['0'], ( ( isset( $options[ 'noindex-' . $post_type ] ) && $options[ 'noindex-' . $post_type ] === true ) ? 'noindex' : 'index' ) );
+
+
+            return $return;
         }
 
 
