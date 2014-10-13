@@ -37,9 +37,16 @@ $content .= '<p class="desc">' . __( 'People make mistakes in their links toward
 
 $wpseo_admin_pages->postbox( 'permalinks', __( 'Permalink Settings', 'wordpress-seo' ), $content );
 
-/* @internal Important: Make sure the options added to the array here are in line with the options set in the WPSEO_Option_Permalinks::$force_transport_options property */
-$content  = $wpseo_admin_pages->select( 'force_transport', __( 'Force Transport', 'wordpress-seo' ), array( 'default' => __( 'Leave default', 'wordpress-seo' ), 'http' => __( 'Force http', 'wordpress-seo' ), 'https' => __( 'Force https', 'wordpress-seo' ) ) );
-$content .= '<p class="desc label">' . __( 'Force the canonical to either http or https, when your blog runs under both.', 'wordpress-seo' ) . '</p>';
+/* @internal This option is hidden / deprecated, it only shows for those who use it */
+if ( 'default' !== $options['force_transport'] ) {
+	/* @internal Important: Make sure the options added to the array here are in line with the options set in the WPSEO_Option_Permalinks::$force_transport_options property */
+	$content = $wpseo_admin_pages->select( 'force_transport', __( 'Force Transport', 'wordpress-seo' ), array(
+			'default' => __( 'Leave default', 'wordpress-seo' ),
+			'http'    => __( 'Force http', 'wordpress-seo' ),
+			'https'   => __( 'Force https', 'wordpress-seo' )
+		) );
+	$content .= '<p class="desc label">' . __( 'Force the canonical to either http or https, when your blog runs under both.', 'wordpress-seo' ) . '</p>';
+}
 
 $wpseo_admin_pages->postbox( 'canonical', __( 'Canonical Settings', 'wordpress-seo' ), $content );
 
