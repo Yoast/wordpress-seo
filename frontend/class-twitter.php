@@ -299,7 +299,14 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 					$this->image_output( $twitter_img );
 					return;
 				}
-				elseif ( function_exists( 'has_post_thumbnail' ) && has_post_thumbnail( $post->ID ) ) {
+
+				$open_graph_image = WPSEO_Meta::get_value( 'opengraph-image' );
+				if ( $open_graph_image !== '' ) {
+					$this->image_output( $open_graph_image );
+					return;
+				}
+
+				if ( function_exists( 'has_post_thumbnail' ) && has_post_thumbnail( $post->ID ) ) {
 					/**
 					 * Filter: 'wpseo_twitter_image_size' - Allow changing the Twitter Card image size
 					 *
