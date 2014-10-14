@@ -754,9 +754,13 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 						$url = array();
 
 						if ( isset( $p->post_modified_gmt ) && $p->post_modified_gmt != '0000-00-00 00:00:00' && $p->post_modified_gmt > $p->post_date_gmt ) {
-							$url['mod'] = $p->post_date_gmt;
+							$url['mod'] = $p->post_modified_gmt;
 						} else {
-							$url['mod'] = $p->post_date;
+							if ( '0000-00-00 00:00:00' != $p->post_date_gmt ) {
+								$url['mod'] = $p->post_date_gmt;
+							} else {
+								$url['mod'] = $p->post_date;
+							}
 						}
 
 						$url['loc'] = get_permalink( $p );
