@@ -457,7 +457,35 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 				foreach ( $taxonomies as $tax_name => $tax ) {
 
 					$steps = $this->max_entries;
-					$count = ( isset ( $all_taxonomies[$tax_name] ) ) ? count( $all_taxonomies[$tax_name] ) : 1;
+					
+					// AB @ start
+					$xml_options = get_option('wpseo_xml');
+					$include_default = $xml_options['tax-' . $tax . '-sitemap_include_default'];
+
+					$ts = array();
+
+					foreach( $all_taxonomies[$tax] as $tid ) {
+						$term = get_term($tid, $tax);
+
+						$tax_noindex     = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'noindex' );
+						$tax_sitemap_inc = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'sitemap_include' );
+
+						if ( ( $tax_sitemap_inc === '-' || $tax_sitemap_inc === 'default' ) && $include_default === 'never' ) {
+							continue;
+						}
+
+						if ( $tax_noindex === 'noindex' || $tax_sitemap_inc === 'never' ) {
+							continue;
+						}
+
+						$ts[] = $term;
+
+						unset($term, $tax_noindex, $tax_sitemap_inc);
+					}
+
+					$count = ( isset ( $all_taxonomies[$tax] ) ) ? count( $ts ) : 1;
+					// AB @ end
+					
 					$n     = ( $count > $this->max_entries ) ? (int) ceil( $count / $this->max_entries ) : 1;
 
 					for ( $i = 0; $i < $n; $i ++ ) {
@@ -918,8 +946,13 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 
 			$steps  = $this->max_entries;
 			$n      = (int) $this->n;
-			$offset = ( $n > 1 ) ? ( $n - 1 ) * $this->max_entries : 0;
+			$offset = ( $n > 1 ) ? ( $n - 1 ) * $steps : 0;
 
+			// AB @ start
+			$xml_options = get_option('wpseo_xml');
+			$include_default = $xml_options['tax-' . $taxonomy->name . '-sitemap_include_default'];
+			// AB @ end
+			
 			/**
 			 * Filter: 'wpseo_sitemap_exclude_empty_terms' - Allow people to include empty terms in sitemap
 			 *
@@ -929,7 +962,35 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 			 */
 			$hide_empty = apply_filters( 'wpseo_sitemap_exclude_empty_terms', true, $taxonomy );
 			$terms      = get_terms( $taxonomy->name, array( 'hide_empty' => $hide_empty ) );
-			$terms      = array_splice( $terms, $offset, $steps );
+			
+			// AB @ start
+			$ts = array();
+			
+			// loop through $terms to construct an 'include only' array of terms
+			// before they are spliced
+			if ( is_array( $terms ) && $terms !== array() ) {
+				foreach ( $terms as $c ) {
+					$tax_noindex     = WPSEO_Taxonomy_Meta::get_term_meta( $c, $c->taxonomy, 'noindex' );
+					$tax_sitemap_inc = WPSEO_Taxonomy_Meta::get_term_meta( $c, $c->taxonomy, 'sitemap_include' );
+
+					if ( ( $tax_sitemap_inc === '-' || $tax_sitemap_inc === 'default' ) && $include_default === 'never' ) {
+						continue;
+					}
+
+					if ( $tax_noindex === 'noindex' || $tax_sitemap_inc === 'never' ) {
+						continue;
+					}
+
+					$ts[] = $c;
+
+					unset($c, $tax_noindex, $tax_sitemap_inc);
+				}
+			}
+
+			$terms = array_splice( $ts, $offset, $steps );
+			// AB @ end
+
+			$terms      = array_splice( $ts, $offset, $steps ); // AB
 
 			if ( is_array( $terms ) && $terms !== array() ) {
 				foreach ( $terms as $c ) {
@@ -938,13 +999,15 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 					$tax_noindex     = WPSEO_Taxonomy_Meta::get_term_meta( $c, $c->taxonomy, 'noindex' );
 					$tax_sitemap_inc = WPSEO_Taxonomy_Meta::get_term_meta( $c, $c->taxonomy, 'sitemap_include' );
 
-					if ( ( is_string( $tax_noindex ) && $tax_noindex === 'noindex' ) && ( ! is_string( $tax_sitemap_inc ) || $tax_sitemap_inc !== 'always' ) ) {
+					// AB @ start
+					if ( ( $tax_sitemap_inc === '-' || $tax_sitemap_inc === 'default' ) && $include_default === 'never' ) {
 						continue;
 					}
 
-					if ( $tax_sitemap_inc === 'never' ) {
+					if ( $tax_noindex === 'noindex' || $tax_sitemap_inc === 'never' ) {
 						continue;
 					}
+					// AB @ end
 
 					$url['loc'] = WPSEO_Taxonomy_Meta::get_term_meta( $c, $c->taxonomy, 'canonical' );
 					if ( ! is_string( $url['loc'] ) || $url['loc'] === '' ) {
