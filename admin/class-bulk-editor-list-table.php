@@ -416,6 +416,17 @@ if ( ! class_exists( 'WPSEO_Bulk_List_Table' ) ) {
 		}
 
 		/**
+		 * Getting the columns for first row
+		 *
+		 * @param array $columns
+		 *
+		 * @return array
+		 */
+		public function get_columns( ) {
+			return $this->merge_columns( );
+		}
+
+		/**
 		 * Setting the column headers
 		 */
 		protected function set_column_headers() {
@@ -587,7 +598,7 @@ if ( ! class_exists( 'WPSEO_Bulk_List_Table' ) ) {
 
 						$attributes = $this->column_attributes( $column_name, $hidden );
 
-						$column_value = $this->parse_column( $column_name, $rec, $attributes );
+						$column_value = $this->parse_column( $column_name, $rec );
 
 						if ( method_exists( $this, 'parse_page_specific_column' ) && empty( $column_value ) ) {
 							$column_value = $this->parse_page_specific_column( $column_name, $rec, $attributes );
@@ -603,6 +614,14 @@ if ( ! class_exists( 'WPSEO_Bulk_List_Table' ) ) {
 			}
 		}
 
+		/**
+		 * Getting the attributes for each table cell
+		 *
+		 * @param string $column_name
+		 * @param string $hidden
+		 *
+		 * @return string
+		 */
 		protected function column_attributes( $column_name, $hidden ) {
 
 			$class = sprintf( 'class="%1$s column-%1$s"', $column_name );
@@ -617,6 +636,12 @@ if ( ! class_exists( 'WPSEO_Bulk_List_Table' ) ) {
 			return $attributes;
 		}
 
+		/**
+		 * Parsing the title
+		 * @param object $rec
+		 *
+		 * @return string
+		 */
 		protected function parse_page_title_column( $rec ) {
 
 			$return = sprintf( '<strong>%1$s</strong>', stripslashes( wp_strip_all_tags( $rec->post_title ) ) );
@@ -646,7 +671,15 @@ if ( ! class_exists( 'WPSEO_Bulk_List_Table' ) ) {
 
 		}
 
-		protected function parse_column( $column_name, $rec, $attributes ) {
+		/**
+		 * Parsing the column based on the $column_name
+		 *
+		 * @param string    $column_name
+		 * @param stdobject $rec
+		 *
+		 * @return string
+		 */
+		protected function parse_column( $column_name, $rec ) {
 
 			static $date_format;
 
@@ -691,8 +724,10 @@ if ( ! class_exists( 'WPSEO_Bulk_List_Table' ) ) {
 		}
 
 		/**
-		 * @param            $record_id
-		 * @param            $attributes
+		 * Parse the field where the existing meta-data value is displayed
+		 *
+		 * @param integer    $record_id
+		 * @param string     $attributes
 		 * @param bool|array $values
 		 *
 		 * @return string
@@ -781,7 +816,14 @@ if ( ! class_exists( 'WPSEO_Bulk_List_Table' ) ) {
 
 		}
 
-		public function get_columns( $columns ) {
+		/**
+		 * This method will merge general array with given parameter $columns
+		 *
+		 * @param array $columns
+		 *
+		 * return array
+		 */
+		protected function merge_columns( $columns = array() ) {
 			$columns = array_merge(
 				array(
 					'col_page_title'  => __( 'WP Page Title', 'wordpress-seo' ),
@@ -796,6 +838,7 @@ if ( ! class_exists( 'WPSEO_Bulk_List_Table' ) ) {
 			$columns['col_row_action'] = __( 'Action', 'wordpress-seo' );
 
 			return $columns;
+
 		}
 
 	} /* End of class */

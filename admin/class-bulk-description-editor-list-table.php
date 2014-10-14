@@ -52,9 +52,18 @@ if ( ! class_exists( 'WPSEO_Bulk_Description_List_Table' ) ) {
 				'col_new_yoast_seo_metadesc'      => __( 'New Yoast Meta Description', 'wordpress-seo' ),
 			);
 
-			return parent::get_columns( $columns );
+			return $this->merge_columns( $columns );
 		}
 
+		/**
+		 * Parse the metadescription
+		 *
+		 * @param string $column_name
+		 * @param object $record
+		 * @param string $attributes
+		 *
+		 * @return string
+		 */
 		protected function parse_page_specific_column( $column_name, $record, $attributes ) {
 			switch ( $column_name ) {
 				case 'col_new_yoast_seo_metadesc' :

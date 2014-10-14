@@ -53,9 +53,18 @@ if ( ! class_exists( 'WPSEO_Bulk_Title_Editor_List_Table' ) ) {
 				'col_new_yoast_seo_title'      => __( 'New Yoast SEO Title', 'wordpress-seo' ),
 			);
 
-			return parent::get_columns($columns);
+			return $this->merge_columns($columns);
 		}
 
+		/**
+		 * Parse the title columns
+		 *
+		 * @param string $column_name
+		 * @param object $record
+		 * @param string $attributes
+		 *
+		 * @return string
+		 */
 		protected function parse_page_specific_column( $column_name, $record, $attributes ) {
 
 			// Fill meta data if exists in $this->meta_data
