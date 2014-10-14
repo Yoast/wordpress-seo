@@ -15,7 +15,6 @@ $options = get_option( 'wpseo' );
 
 $wpseo_bulk_titles_table      = new WPSEO_Bulk_Title_Editor_List_Table();
 $wpseo_bulk_description_table = new WPSEO_Bulk_Description_List_Table();
-$wpseo_bulk_index_table       = new WPSEO_Bulk_Index_Editor_List_Table();
 
 // If type is empty, fill it with value of first tab (title)
 $_GET['type'] = ( ! empty( $_GET['type'] ) ) ? $_GET['type'] : 'title';
@@ -36,7 +35,6 @@ if ( ! empty( $_REQUEST['_wp_http_referer'] ) ) {
 	<h2 class="nav-tab-wrapper" id="wpseo-tabs">
 		<a class="nav-tab" id="title-tab" href="#top#title"><?php _e( 'Title', 'wordpress-seo' ); ?></a>
 		<a class="nav-tab" id="description-tab" href="#top#description"><?php _e( 'Description', 'wordpress-seo' ); ?></a>
-		<a class="nav-tab" id="index-tab" href="#top#index"><?php _e( 'Robot index', 'wordpress-seo' ); ?></a>
 	</h2>
 
 	<div class="tabwrapper">
@@ -45,9 +43,6 @@ if ( ! empty( $_REQUEST['_wp_http_referer'] ) ) {
 		</div>
 		<div id="description" class="wpseotab">
 			<?php $wpseo_bulk_description_table->show_page(); ?>
-		</div>
-		<div id="index" class="wpseotab">
-			<?php $wpseo_bulk_index_table->show_page(); ?>s
 		</div>
 
 	</div>
