@@ -2470,6 +2470,8 @@ if ( ! class_exists( 'WPSEO_Option_XML' ) ) {
 				foreach ( $filtered_taxonomies as $tax ) {
 					if ( isset( $tax->labels->name ) && trim( $tax->labels->name ) != '' ) {
 						$this->defaults[ 'taxonomies-' . $tax->name . '-not_in_sitemap' ] = false;
+						
+						$this->defaults[ 'tax-' . $tax->name . '-sitemap_include_default' ] = 'always'; // AB
 					}
 				}
 				unset( $tax );
