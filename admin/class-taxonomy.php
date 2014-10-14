@@ -62,9 +62,9 @@ if ( ! class_exists( 'WPSEO_Taxonomy' ) ) {
 			$this->no_index_options['index']   = __( 'Always index', 'wordpress-seo' );
 			$this->no_index_options['noindex'] = __( 'Always noindex', 'wordpress-seo' );
 
-			$this->sitemap_include_options['-']      = __( 'Auto detect', 'wordpress-seo' );
-			$this->sitemap_include_options['always'] = __( 'Always include', 'wordpress-seo' );
-			$this->sitemap_include_options['never']  = __( 'Never include', 'wordpress-seo' );
+			$this->sitemap_include_options['default'] = __( 'Auto detect', 'wordpress-seo' ); // AB
+			$this->sitemap_include_options['always']  = __( 'Always include', 'wordpress-seo' );
+			$this->sitemap_include_options['never']   = __( 'Never include', 'wordpress-seo' );
 		}
 
 
