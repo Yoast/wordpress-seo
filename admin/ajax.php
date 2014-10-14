@@ -293,4 +293,4 @@ function wpseo_save_all_descriptions() {
 	die();
 }
 
-add_action( 'wp_ajax_wpseo_save_all_descs', 'wpseo_save_all_descriptions' );
+add_action( 'wp_ajax_wpseo_save_all_descriptions', 'wpseo_save_all_descriptions' );
