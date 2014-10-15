@@ -460,7 +460,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 					
 					// AB @ start
 					$xml_options = get_option('wpseo_xml');
-					$include_default = $xml_options['tax-' . $tax . '-sitemap_include_default'];
+					$include_default = $xml_options['tax-' . $tax_name . '-sitemap_include_default'];
 
 					$ts = array();
 
