@@ -2399,6 +2399,7 @@ if ( ! class_exists( 'WPSEO_Option_XML' ) ) {
 			'user_role-',
 			'post_types-',
 			'taxonomies-',
+			'tax-' // AB
 		);
 
 
@@ -2524,6 +2525,15 @@ if ( ! class_exists( 'WPSEO_Option_XML' ) ) {
 						}
 						break;
 
+					// AB @ start
+					/* string fields */
+					case 'tax-': /* 'tax-' . $tax->name . '-sitemap_include_default' fields */
+						if ( isset( $dirty[ $key ] ) ) {
+							//$clean[ $key ] = wp_kses_post( $dirty[ $key ] );
+							$clean[ $key ] = ( isset( $dirty[ $key ] ) ? sanitize_title( $dirty[ $key ] ) : '' );
+						}
+						break;
+					// AB @ end
 
 					/* boolean fields */
 					case 'disable_author_sitemap':
