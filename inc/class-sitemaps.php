@@ -990,8 +990,6 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 			$terms = array_splice( $ts, $offset, $steps );
 			// AB @ end
 
-			$terms      = array_splice( $ts, $offset, $steps ); // AB
-
 			if ( is_array( $terms ) && $terms !== array() ) {
 				foreach ( $terms as $c ) {
 					$url = array();
