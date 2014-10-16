@@ -131,6 +131,18 @@ if ( ! class_exists( 'WPSEO_Taxonomy' ) ) {
 				<select name="' . $esc_var . '" id="' . $esc_var . '">';
 
 					foreach ( $options as $option => $option_label ) {
+						// AB @ start
+						if( empty( $option_label ) ) {
+							continue;
+						}
+						if( $option === '-' ) {
+							$option = 'default';
+						}
+						if( $val === '-' ) {
+							$val = 'default';
+						}
+						// AB @ end
+						
 						$selected = selected( $option, $val, false );
 						$field   .= '
 					<option ' . $selected . ' value="' . esc_attr( $option ) . '">' . esc_html( $option_label ) . '</option>';
