@@ -211,7 +211,20 @@ if ( isset( $_POST['import'] ) || isset( $_GET['import'] ) ) {
 		WPSEO_Meta::replace_meta( '_aioseop_description', WPSEO_Meta::$meta_prefix . 'metadesc', $replace );
 		WPSEO_Meta::replace_meta( '_aioseop_keywords', WPSEO_Meta::$meta_prefix . 'metakeywords', $replace );
 		WPSEO_Meta::replace_meta( '_aioseop_title', WPSEO_Meta::$meta_prefix . 'title', $replace );
-		$msg .= __( sprintf( 'All in One SEO data successfully imported. Would you like to %sdisable the All in One SEO plugin%s.', '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_import&deactivate_aioseo=1' ) ) . '">', '</a>' ), 'wordpress-seo' );
+		$options_aiosep =  get_option('aioseop_options');
+
+		if( isset($options_aiosep['aiosp_google_analytics_id']) ){
+			$msg .= __( sprintf(
+				'All in One SEO data successfully imported. Would you like to %sdisable the All in One SEO plugin%s. You had Google Analytics enabled in All in One SEO, would you like to install our %sGoogle Analytics plugin%s?',
+				'<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_import&deactivate_aioseo=1' ) ) . '">',
+				'</a>' ,
+				'<a href="https://wordpress.org/plugins/google-analytics-for-wordpress/" target="_blank">',
+				'</a>'
+			), 'wordpress-seo' );
+		}
+		else{
+			$msg .= __( sprintf( 'All in One SEO data successfully imported. Would you like to %sdisable the All in One SEO plugin%s.', '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_import&deactivate_aioseo=1' ) ) . '">', '</a>' ), 'wordpress-seo' );
+		}
 	}
 
 	if ( isset( $_POST['wpseo']['importaioseoold'] ) ) {
