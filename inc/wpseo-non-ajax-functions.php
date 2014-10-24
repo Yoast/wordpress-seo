@@ -364,42 +364,70 @@ function wpseo_admin_bar_menu() {
 					'parent' => 'wpseo-analysis',
 					'id'     => 'wpseo-inlinks-ose',
 					'title'  => __( 'Check Inlinks (OSE)', 'wordpress-seo' ),
-					'href'   => 'http://www.opensiteexplorer.org/' . str_replace( '/', '%252F', preg_replace( '`^http[s]?://`', '', $url ) ) . '/a!links',
+					'href'   => '//moz.com/researchtools/ose/links?site=' . urlencode( $url ),
 					'meta'   => array( 'target' => '_blank' )
 				) );
 			$wp_admin_bar->add_menu( array(
 					'parent' => 'wpseo-analysis',
 					'id'     => 'wpseo-kwdensity',
 					'title'  => __( 'Check Keyword Density', 'wordpress-seo' ),
-					'href'   => 'http://www.zippy.co.uk/keyworddensity/index.php?url=' . urlencode( $url ) . '&keyword=' . urlencode( $focuskw ),
+					'href'   => '//www.zippy.co.uk/keyworddensity/index.php?url=' . urlencode( $url ) . '&keyword=' . urlencode( $focuskw ),
 					'meta'   => array( 'target' => '_blank' )
 				) );
 			$wp_admin_bar->add_menu( array(
 					'parent' => 'wpseo-analysis',
 					'id'     => 'wpseo-cache',
 					'title'  => __( 'Check Google Cache', 'wordpress-seo' ),
-					'href'   => 'http://webcache.googleusercontent.com/search?strip=1&q=cache:' . urlencode( $url ),
+					'href'   => '//webcache.googleusercontent.com/search?strip=1&q=cache:' . urlencode( $url ),
 					'meta'   => array( 'target' => '_blank' )
 				) );
 			$wp_admin_bar->add_menu( array(
 					'parent' => 'wpseo-analysis',
 					'id'     => 'wpseo-header',
 					'title'  => __( 'Check Headers', 'wordpress-seo' ),
-					'href'   => 'http://quixapp.com/headers/?r=' . urlencode( $url ),
+					'href'   => '//quixapp.com/headers/?r=' . urlencode( $url ),
 					'meta'   => array( 'target' => '_blank' )
 				) );
 			$wp_admin_bar->add_menu( array(
 					'parent' => 'wpseo-analysis',
 					'id'     => 'wpseo-richsnippets',
 					'title'  => __( 'Check Rich Snippets', 'wordpress-seo' ),
-					'href'   => 'http://www.google.com/webmasters/tools/richsnippets?q=' . urlencode( $url ),
+					'href'   => '//www.google.com/webmasters/tools/richsnippets?q=' . urlencode( $url ),
 					'meta'   => array( 'target' => '_blank' )
 				) );
 			$wp_admin_bar->add_menu( array(
 					'parent' => 'wpseo-analysis',
 					'id'     => 'wpseo-facebookdebug',
 					'title'  => __( 'Facebook Debugger', 'wordpress-seo' ),
-					'href'   => 'https://developers.facebook.com/tools/debug/og/object?q=' . urlencode( $url ),
+					'href'   => '//developers.facebook.com/tools/debug/og/object?q=' . urlencode( $url ),
+					'meta'   => array( 'target' => '_blank' )
+				) );
+			$wp_admin_bar->add_menu( array(
+					'parent' => 'wpseo-analysis',
+					'id'     => 'wpseo-pinterestvalidator',
+					'title'  => __( 'Pinterest Rich Pins Validator', 'wordpress-seo' ),
+					'href'   => '//developers.pinterest.com/rich_pins/validator/?link=' . urlencode( $url ),
+					'meta'   => array( 'target' => '_blank' )
+				) );
+			$wp_admin_bar->add_menu( array(
+					'parent' => 'wpseo-analysis',
+					'id'     => 'wpseo-htmlvalidation',
+					'title'  => __( 'HTML Validator', 'wordpress-seo' ),
+					'href'   => '//validator.w3.org/check?uri=' . urlencode( $url ),
+					'meta'   => array( 'target' => '_blank' )
+				) );
+			$wp_admin_bar->add_menu( array(
+					'parent' => 'wpseo-analysis',
+					'id'     => 'wpseo-cssvalidation',
+					'title'  => __( 'CSS Validator', 'wordpress-seo' ),
+					'href'   => '//jigsaw.w3.org/css-validator/validator?uri=' . urlencode( $url ),
+					'meta'   => array( 'target' => '_blank' )
+				) );
+			$wp_admin_bar->add_menu( array(
+					'parent' => 'wpseo-analysis',
+					'id'     => 'wpseo-pagespeed',
+					'title'  => __( 'Google Page Speed Test', 'wordpress-seo' ),
+					'href'   => '//developers.google.com/speed/pagespeed/insights/?url=' . urlencode( $url ),
 					'meta'   => array( 'target' => '_blank' )
 				) );
 		}
