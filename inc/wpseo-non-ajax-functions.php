@@ -430,6 +430,13 @@ function wpseo_admin_bar_menu() {
 					'href'   => '//developers.google.com/speed/pagespeed/insights/?url=' . urlencode( $url ),
 					'meta'   => array( 'target' => '_blank' )
 				) );
+			$wp_admin_bar->add_menu( array(
+					'parent' => 'wpseo-analysis',
+					'id'     => 'wpseo-modernie',
+					'title'  => __( 'Modern IE Site Scan', 'wordpress-seo' ),
+					'href'   => '//www.modern.ie/en-us/report#' . urlencode( $url ),
+					'meta'   => array( 'target' => '_blank' )
+				) );
 		}
 	}
 
