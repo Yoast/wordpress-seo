@@ -392,7 +392,7 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 		 *
 		 * @return bool
 		 */
-		function image_output( $img ) {
+		function image_output( $img, $og_meta='og:image:url' ) {
 			/**
 			 * Filter: 'wpseo_opengraph_image' - Allow changing the OpenGraph image
 			 *
@@ -421,7 +421,7 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 
 			array_push( $this->shown_images, $img );
 
-			$this->og_tag( 'og:image', esc_url( $img ) );
+			$this->og_tag( $og_meta, esc_url( $img ) );
 
 			return true;
 		}
@@ -456,7 +456,7 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 					 * @api string $unsigned Size string
 					 */
 					$thumb = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), apply_filters( 'wpseo_opengraph_image_size', 'original' ) );
-					$this->image_output( $thumb[0] );
+					$this->image_output( $thumb[0], 'og:image' );
 				}
 
 				/**
