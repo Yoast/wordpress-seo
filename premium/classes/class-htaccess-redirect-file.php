@@ -13,7 +13,6 @@ class WPSEO_Htaccess_Redirect_File extends WPSEO_Apache_Redirect_File {
 	 * @return bool
 	 */
 	public function save_file() {
-		global $wp_filesystem;
 
 		// Generate file content
 		$file_content = $this->generate_file_content();
@@ -22,37 +21,32 @@ class WPSEO_Htaccess_Redirect_File extends WPSEO_Apache_Redirect_File {
 			return false;
 		}
 
-		// Set the filesystem URL
-		$url = wp_nonce_url( 'admin.php?page=wpseo_redirects#top#settings', 'update-htaccess' );
+		$file_path = WPSEO_Redirect_File_Manager::get_htaccess_file_path();
 
-		// Get the credentials
-		$credentials = request_filesystem_credentials( $url, '', false, WPSEO_Redirect_File_Manager::get_htaccess_file_path() );
-
-		// Check if WP_Filesystem is working
-		if ( WP_Filesystem( $credentials, WPSEO_Redirect_File_Manager::get_htaccess_file_path() ) ) {
-
-			// Read current htaccess
-			$htaccess = '';
-			if ( file_exists( WPSEO_Redirect_File_Manager::get_htaccess_file_path() ) ) {
-				$htaccess = file_get_contents( WPSEO_Redirect_File_Manager::get_htaccess_file_path() );
-			}
-
-			$htaccess = preg_replace( "`# BEGIN YOAST REDIRECTS.*# END YOAST REDIRECTS" . PHP_EOL . "`is", "", $htaccess );
-
-			// New Redirects
-			$file_content = "# BEGIN YOAST REDIRECTS" . PHP_EOL . "<IfModule mod_rewrite.c>" . PHP_EOL . "RewriteEngine On" . PHP_EOL . $file_content . "</IfModule>" . PHP_EOL . "# END YOAST REDIRECTS" . PHP_EOL;
-
-			// Prepend our redirects to htaccess file
-			$htaccess = $file_content . $htaccess;
-
-			// Update the .htaccess file
-			$wp_filesystem->put_contents(
-				WPSEO_Redirect_File_Manager::get_htaccess_file_path(),
-				$htaccess,
-				FS_CHMOD_FILE // predefined mode settings for WP files
-			);
-
+		// Read current htaccess
+		$htaccess = '';
+		if ( file_exists( $file_path ) ) {
+			$htaccess = file_get_contents( $file_path );
 		}
+
+		$htaccess = preg_replace( "`# BEGIN YOAST REDIRECTS.*# END YOAST REDIRECTS" . PHP_EOL . "`is", "", $htaccess );
+
+		// New Redirects
+		$file_content = "# BEGIN YOAST REDIRECTS" . PHP_EOL . "<IfModule mod_rewrite.c>" . PHP_EOL . "RewriteEngine On" . PHP_EOL . $file_content . "</IfModule>" . PHP_EOL . "# END YOAST REDIRECTS" . PHP_EOL;
+
+		// Prepend our redirects to htaccess file
+		$htaccess = $file_content . $htaccess;
+
+		// Update the .htaccess file
+		if( is_writable( $file_path ) ) {
+			$return = (bool) file_put_contents( $file_path, $htaccess );
+
+			chmod($file_path, FS_CHMOD_FILE);
+
+			return $return;
+		}
+
+		return false;
 
 	}
 
