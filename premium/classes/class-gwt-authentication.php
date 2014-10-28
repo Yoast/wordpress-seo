@@ -36,6 +36,7 @@ class WPSEO_GWT_Authentication {
 
 			}
 		} catch ( Google_AuthException $exception ) {
+			return false;
 		}
 
 
