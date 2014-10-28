@@ -1,8 +1,8 @@
 <?php
+
 /**
  * @package Premium\Redirect
  */
-
 class WPSEO_Page_GWT {
 
 	/**
@@ -19,14 +19,18 @@ class WPSEO_Page_GWT {
 	 * Catch the authentication post
 	 */
 	private function catch_authentication_post() {
+		$redirect_url_appendix = '';
+
 		// Catch the authorization code POST
-		if ( isset ( $_POST['gwt']['authorization_code'] ) && trim( $_POST['gwt']['authorization_code'] ) != '' ) {
+		if ( isset ( $_POST['gwt']['authorization_code'] ) ) {
+			if ( trim( $_POST['gwt']['authorization_code'] ) != '' ) {
+				// Authenticate user
+				$gwt_authentication = new WPSEO_GWT_Authentication();
 
-			$redirect_url_appendix = '';
-
-			// Authenticate user
-			$gwt_authentication = new WPSEO_GWT_Authentication();
-			if ( ! $gwt_authentication->authenticate( $_POST['gwt']['authorization_code'] ) ) {
+				if ( ! $gwt_authentication->authenticate( $_POST['gwt']['authorization_code'] ) ) {
+					$redirect_url_appendix = '&error=1';
+				}
+			} else {
 				$redirect_url_appendix = '&error=1';
 			}
 
@@ -68,7 +72,7 @@ class WPSEO_Page_GWT {
 					//echo "<h2>Google Webmaster Tools Errors</h2>\n";
 
 					$status = '';
-					if( ! empty( $_GET['status'] ) ) {
+					if ( ! empty( $_GET['status'] ) ) {
 						$status = "&status={$_GET['status']}";
 					}
 
