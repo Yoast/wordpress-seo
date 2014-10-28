@@ -39,7 +39,11 @@ class WPSEO_Htaccess_Redirect_File extends WPSEO_Apache_Redirect_File {
 
 		// Update the .htaccess file
 		if( is_writable( $file_path ) ) {
-			return (bool) file_put_contents( $file_path, $htaccess );
+			$return = (bool) file_put_contents( $file_path, $htaccess );
+
+			chmod($file_path, FS_CHMOD_FILE);
+
+			return $return;
 		}
 
 		return false;
