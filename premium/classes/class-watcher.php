@@ -44,7 +44,7 @@ abstract class WPSEO_Watcher {
 	 */
 	protected function create_notification( $message, $notification_type ) {
 		$show_notification = true;
-		$show_notification = apply_filters('wpseo_redirect_notification_' . $this->watch_type . '_' . $notification_type, $show_notification);
+		$show_notification = apply_filters('wpseo_enable_notification_' . $this->watch_type . '_' . $notification_type, $show_notification);
 
 		if( $show_notification ) {
 			// Add the message to the notifications center
