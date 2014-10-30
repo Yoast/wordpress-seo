@@ -1,9 +1,15 @@
 <?php
 
-class WPSEO_Term_Watcher {
+class WPSEO_Term_Watcher extends WPSEO_Watcher {
 
-	public function __construct() {
-	}
+	/**
+	 * Type of watcher.
+	 *
+	 * This will be used for the filters.
+	 *
+	 * @var string
+	 */
+	protected $watch_type = 'term';
 
 	/**
 	 * Add an extra field to term edit screen
@@ -12,13 +18,9 @@ class WPSEO_Term_Watcher {
 	 * @oaram $taxonomy
 	 */
 	public function old_url_field( $tag, $taxonomy ) {
+		$url = $this->get_target_url( $tag, $taxonomy );
 
-		// Use the correct URL path
-		$url = parse_url( get_term_link( $tag, $taxonomy ) );
-		$url = $url['path'];
-
-		echo '<input type="hidden" name="wpseo_old_url" value="' . esc_attr( $url ) . '"/>';
-
+		echo $this->parse_url_field( $url );
 	}
 
 	/**
@@ -36,29 +38,20 @@ class WPSEO_Term_Watcher {
 		}
 
 		// Get the new URL
-		$new_url = parse_url( get_term_link( $term_id, $taxonomy ) );
-		$new_url = $new_url['path'];
+		$new_url = $this->get_target_url( $term_id, $taxonomy );
 
 		// Get the old URL
 		$old_url = esc_url( $_POST['wpseo_old_url'] );
 
-		// Get the site URL
-		$site = parse_url( get_site_url() );
-
 		// Check if we should create a redirect
-		if ( $old_url != $new_url && $old_url != '/' && ( ! isset( $site['path'] ) || ( isset( $site['path'] ) && $old_url != $site['path'] . '/' ) ) ) {
-
-			// The URL redirect manager
-			$redirect_manager = new WPSEO_URL_Redirect_Manager();
-
-			// Create the redirect
-			$redirect_manager->create_redirect( $old_url, $new_url, 301 );
+		if ( $this->should_create_redirect( $old_url, $new_url ) ) {
 
 			// Format the message
-			$message = sprintf( __( "WordPress SEO Premium created a <a href='%s'>redirect</a> from the old term URL to the new term URL. <a href='%s'>Click here to undo this</a>.", 'wordpress-seo' ), admin_url( 'admin.php?page=wpseo_redirects&s=' . urlencode( $old_url ) ), 'javascript:wpseo_undo_redirect("' . urlencode( $old_url ) . '", "' . wp_create_nonce( 'wpseo-redirects-ajax-security' ) . '");' );
+			$message = sprintf( __( "WordPress SEO Premium created a <a href='%s'>redirect</a> from the old term URL to the new term URL. <a href='%s'>Click here to undo this</a>.", 'wordpress-seo' ), $this->admin_redirect_url( $old_url ), $this->javascript_undo_redirect( $old_url ) );
 
-			// Add the message to the notifications center
-			Yoast_Notification_Center::get()->add_notification( new Yoast_Notification( $message ) );
+			$this->create_redirect($old_url, $new_url);
+
+			$this->create_notification( $message, 'slug_change' );
 
 		}
 
@@ -80,18 +73,32 @@ class WPSEO_Term_Watcher {
 		if ( null != $term_row ) {
 
 			// Get the URL
-			$url = parse_url( get_term_link( get_term( $term_row->term_id, $term_row->taxonomy ), $term_row->taxonomy ) );
-			$url = $url['path'];
+			$url = $this->get_target_url( get_term( $term_row->term_id, $term_row->taxonomy ), $term_row->taxonomy );
 
 			// Format the message
-			$message = sprintf( __( "WordPress SEO Premium detected that you deleted a term. <a href='%s'>Click here to create a redirect from the old term URL</a>.", 'wordpress-seo' ), 'javascript:wpseo_create_redirect("' . urlencode( $url ) . '", "' . wp_create_nonce( 'wpseo-redirects-ajax-security' ) . '");' );
+			$message = sprintf( __( "WordPress SEO Premium detected that you deleted a term. <a href='%s'>Click here to create a redirect from the old term URL</a>.", 'wordpress-seo' ), $this->javascript_create_redirect( $url ) );
 
-			// Add the message to the notifications center
-			Yoast_Notification_Center::get()->add_notification( new Yoast_Notification( $message ) );
+			$this->create_notification( $message, 'delete' );
 
 		}
 
 
+	}
+
+	/**
+	 * Get the URL to the term and returns it's path
+	 *
+	 * @param string $tag
+	 * @param string $taxonomy
+	 *
+	 * @return string
+	 */
+	protected function get_target_url( $tag, $taxonomy ) {
+		// Use the correct URL path
+		$url = parse_url( get_term_link( $tag, $taxonomy ) );
+		$url = $url['path'];
+
+		return $url;
 	}
 
 }
