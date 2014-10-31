@@ -83,9 +83,11 @@ if ( ! class_exists( 'WPSEO_Social_Admin' ) ) {
 		}
 
 		/**
-		 * This
+		 * This method will compare opengraph fields with the posted values.
 		 *
-		 * @param $post_id
+		 * When fields are changed, the facebook cache will be purge.
+		 *
+		 * @param object $post
 		 */
 		public function og_data_compare( $post ) {
 
