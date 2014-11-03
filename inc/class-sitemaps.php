@@ -305,6 +305,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 			$caching = apply_filters( 'wpseo_enable_xml_sitemap_transient_caching', true );
 
 			if ( $caching ) {
+				do_action('wpseo_sitemap_stylesheet_cache_' . $type, $this );
 				$this->sitemap = get_transient( 'wpseo_sitemap_cache_' . $type . '_' . $this->n );
 			}
 
