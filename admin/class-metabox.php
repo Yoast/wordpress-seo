@@ -659,6 +659,8 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 				return false;
 			}
 
+			do_action( 'wpseo_save_compare_data', $post );
+
 			$meta_boxes = apply_filters( 'wpseo_save_metaboxes', array() );
 			$meta_boxes = array_merge( $meta_boxes, $this->get_meta_field_defs( 'general', $post->post_type ), $this->get_meta_field_defs( 'advanced' ) );
 
