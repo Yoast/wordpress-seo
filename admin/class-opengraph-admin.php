@@ -103,7 +103,7 @@ if ( ! class_exists( 'WPSEO_Social_Admin' ) ) {
 				$reset_facebook_cache = false;
 
 				foreach ( $fields_to_compare AS $field_to_compare ) {
-					$old_value = self::get_value( $field_to_compare, $post_id );
+					$old_value = self::get_value( $field_to_compare, $post->ID );
 					$new_value = $_POST[self::$form_prefix . $field_to_compare];
 
 					if ( $old_value !== $new_value ) {
@@ -114,7 +114,7 @@ if ( ! class_exists( 'WPSEO_Social_Admin' ) ) {
 
 				if ( $reset_facebook_cache ) {
 					wp_remote_get(
-						'https://graph.facebook.com/?id=' . get_permalink( $post_id ) . '&scrape=true&method=post'
+						'https://graph.facebook.com/?id=' . get_permalink( $post->ID ) . '&scrape=true&method=post'
 					);
 				}
 			}
