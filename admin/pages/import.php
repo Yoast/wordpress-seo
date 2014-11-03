@@ -244,12 +244,14 @@ if ( isset( $_POST['import'] ) || isset( $_GET['import'] ) ) {
 				$options['ga_general']	= $ga_settings;
 				update_option( 'yst_ga', $options );
 			}
-			
+
+			$plugin_install_nonce = wp_create_nonce('install-plugin_google-analytics-for-wordpress'); // Use the old name because that's the WordPress.org repo
+
 			$msg .= __( sprintf(
 				'All in One SEO data successfully imported. Would you like to %sdisable the All in One SEO plugin%s. You\'ve had Google Analytics enabled in All in One SEO, would you like to install our %sGoogle Analytics plugin%s?',
 				'<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_import&deactivate_aioseo=1' ) ) . '">',
 				'</a>',
-				'<a href="https://wordpress.org/plugins/google-analytics-for-wordpress/" target="_blank">',
+				'<a href="' . esc_url( admin_url( 'update.php?action=install-plugin&plugin=google-analytics-for-wordpress&_wpnonce=' . $plugin_install_nonce ) ) . '">',
 				'</a>'
 			), 'wordpress-seo' );
 		} else {
