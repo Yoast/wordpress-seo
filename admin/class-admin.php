@@ -66,6 +66,16 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 			add_filter( 'set-screen-option', array( $this, 'save_bulk_edit_options' ), 10, 3 );
 
 			add_filter( 'upgrader_post_install', array( $this, 'remove_transients_on_update' ), 10, 1 );
+
+			// Check for conflicting open graph plugins
+			if ( Yoast_Plugin_Conflict::instance()->check_for_conflicts( 'open_graph' ) ) {
+				$plugins_as_string = Yoast_Plugin_Conflict::instance()->get_conflicting_plugins_as_string( 'open_graph' );
+
+				$error_message = sprintf( __( 'The following plugins might cause (%1s) issues with Yoast WordPress SEO: %2s', 'wordpress-seo' ), 'open graph', $plugins_as_string );
+
+				// Add the message to the notifications center
+				Yoast_Notification_Center::get()->add_notification( new Yoast_Notification( $error_message, 'error' ) );
+			}
 		}
 
 		/**
