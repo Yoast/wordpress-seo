@@ -52,7 +52,7 @@ if ( ! class_exists( 'Yoast_Plugin_Conflict' ) ) {
 		 */
 		public static function instance() {
 			if ( is_null( self::$instance ) ) {
-				self::$instance = new self();
+				self::$instance = new static();
 			}
 
 			return self::$instance;
@@ -82,7 +82,7 @@ if ( ! class_exists( 'Yoast_Plugin_Conflict' ) ) {
 		 * @return bool
 		 */
 		public static function check_for_conflicts( $plugin_section ) {
-			$has_conflicts = ( ! empty( self::instance()->active_plugins[$plugin_section] ) );
+			$has_conflicts = ( ! empty( self::$instance->active_plugins[$plugin_section] ) );
 
 			return $has_conflicts;
 		}
@@ -177,6 +177,24 @@ if ( ! class_exists( 'Yoast_Plugin_Conflict' ) ) {
 				$this->active_plugins[$plugin_category][] = $plugin;
 			}
 
+		}
+
+		/**
+		 * Search in $this->plugins for the given $plugin
+		 *
+		 * If there is a result it will return the plugin category
+		 *
+		 * @param string $plugin
+		 *
+		 * @return int|string
+		 */
+		protected function find_plugin_category( $plugin ) {
+
+			foreach ( $this->plugins AS $plugin_category => $plugins ) {
+				if ( in_array($plugin, $plugins) ) {
+					return $plugin_category;
+				}
+			}
 
 		}
 
