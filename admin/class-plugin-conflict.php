@@ -72,6 +72,15 @@ if ( ! class_exists( 'WPSEO_Plugin_Conflict' ) ) {
 		);
 
 		/**
+		 * Overrides instance to set with this class as class
+		 * 
+		 * @return Yoast_Plugin_Conflict
+		 */
+		public static function instance() {
+			return parent::instance( __CLASS__ );
+		}
+
+		/**
 		 * After activating any plugin, this method will be executed by a hook.
 		 *
 		 * If the activated plugin is conflicting with ours a notice will be shown.

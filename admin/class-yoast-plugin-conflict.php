@@ -21,7 +21,7 @@ if ( ! class_exists( 'Yoast_Plugin_Conflict' ) ) {
 		 *
 		 * @var array
 		 */
-		protected $plugins = array( );
+		protected $plugins = array();
 
 		/**
 		 * All the current active plugins will be stored in this private var
@@ -48,11 +48,18 @@ if ( ! class_exists( 'Yoast_Plugin_Conflict' ) ) {
 		/**
 		 * For the use of singleton pattern. Create instance of itself and return his instance
 		 *
+		 * @param bool|string $classname Give the classname to initialize. If classname is false (empty) it will use it's own __CLASS__
+		 *
 		 * @return Yoast_Plugin_Conflict
 		 */
-		public static function instance() {
+		public static function instance( $classname = false ) {
+
+			if ( empty( $classname ) ) {
+				$classname = __CLASS__;
+			}
+
 			if ( is_null( self::$instance ) ) {
-				self::$instance = new static();
+				self::$instance = new $classname();
 			}
 
 			return self::$instance;
@@ -191,7 +198,7 @@ if ( ! class_exists( 'Yoast_Plugin_Conflict' ) ) {
 		protected function find_plugin_category( $plugin ) {
 
 			foreach ( $this->plugins AS $plugin_category => $plugins ) {
-				if ( in_array($plugin, $plugins) ) {
+				if ( in_array( $plugin, $plugins ) ) {
 					return $plugin_category;
 				}
 			}
