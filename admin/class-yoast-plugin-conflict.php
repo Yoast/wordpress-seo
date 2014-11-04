@@ -72,8 +72,6 @@ if ( ! class_exists( 'Yoast_Plugin_Conflict' ) ) {
 
 			// Search for active plugins
 			$this->search_active_plugins();
-
-			exit;
 		}
 
 		/**
