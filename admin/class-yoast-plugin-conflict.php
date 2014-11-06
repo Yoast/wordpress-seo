@@ -54,11 +54,11 @@ if ( ! class_exists( 'Yoast_Plugin_Conflict' ) ) {
 		 */
 		public static function instance( $classname = false ) {
 
-			if ( empty( $classname ) ) {
-				$classname = __CLASS__;
-			}
-
 			if ( is_null( self::$instance ) ) {
+				if ( empty( $classname ) ) {
+					$classname = __CLASS__;
+				}
+
 				self::$instance = new $classname();
 			}
 
