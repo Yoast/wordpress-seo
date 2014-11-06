@@ -52,14 +52,14 @@ if ( ! class_exists( 'Yoast_Plugin_Conflict' ) ) {
 		 *
 		 * @return Yoast_Plugin_Conflict
 		 */
-		public static function instance( $classname = false ) {
+		public static function get_instance( $class_name = false ) {
 
 			if ( is_null( self::$instance ) ) {
-				if ( empty( $classname ) ) {
-					$classname = __CLASS__;
+				if ( empty( $class_name ) ) {
+					$class_name = __CLASS__;
 				}
 
-				self::$instance = new $classname();
+				self::$instance = new $class_name();
 			}
 
 			return self::$instance;
@@ -67,13 +67,12 @@ if ( ! class_exists( 'Yoast_Plugin_Conflict' ) ) {
 
 		/**
 		 * Setting instance, all active plugins and search for active plugins
+		 *
+		 * Protected constructor to prevent creating a new instance of the
+		 * *Singleton* via the `new` operator from outside of this class.
+		 *
 		 */
-		public function __construct() {
-
-			if ( is_null( self::$instance ) ) {
-				self::$instance = $this;
-			}
-
+		protected function __construct() {
 			// Set active plugins
 			$this->all_active_plugins = get_option( 'active_plugins' );
 
@@ -88,8 +87,8 @@ if ( ! class_exists( 'Yoast_Plugin_Conflict' ) ) {
 		 *
 		 * @return bool
 		 */
-		public static function check_for_conflicts( $plugin_section ) {
-			$has_conflicts = ( ! empty( self::$instance->active_plugins[$plugin_section] ) );
+		public function check_for_conflicts( $plugin_section ) {
+			$has_conflicts = ( ! empty( $this->active_plugins[$plugin_section] ) );
 
 			return $has_conflicts;
 		}
@@ -104,13 +103,13 @@ if ( ! class_exists( 'Yoast_Plugin_Conflict' ) ) {
 		 *
 		 * @return string
 		 */
-		public static function get_conflicting_plugins_as_string( $plugin_section ) {
+		public function get_conflicting_plugins_as_string( $plugin_section ) {
 			if ( ! function_exists( 'get_plugin_data' ) ) {
 				require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
 			}
 
 			// Getting the active plugins by given section
-			$plugins = self::instance()->active_plugins[$plugin_section];
+			$plugins = $this->active_plugins[$plugin_section];
 
 			$plugin_names = array();
 			foreach ( $plugins AS $plugin ) {

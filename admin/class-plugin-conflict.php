@@ -88,7 +88,7 @@ if ( ! class_exists( 'WPSEO_Plugin_Conflict' ) ) {
 		 */
 		public static function hook_check_for_plugin_conflicts( $plugin ) {
 			// The instance of itself
-			$instance = self::instance();
+			$instance = self::get_instance();
 
 			// Because it's just activated
 			$instance->add_active_plugin( $instance->find_plugin_category( $plugin ), $plugin );
