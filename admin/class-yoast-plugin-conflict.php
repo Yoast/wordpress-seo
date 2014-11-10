@@ -91,6 +91,10 @@ if ( ! class_exists( 'Yoast_Plugin_Conflict' ) ) {
 
 			static $sections_checked;
 
+			if ( $sections_checked == null ) {
+				$sections_checked = array();
+			}
+
 			if ( ! in_array($plugin_section, $sections_checked ) ) {
 				$sections_checked[] = $plugin_section;
 				$has_conflicts = ( ! empty( $this->active_plugins[$plugin_section] ) );

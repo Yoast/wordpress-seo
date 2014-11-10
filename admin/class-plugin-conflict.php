@@ -68,6 +68,11 @@ if ( ! class_exists( 'WPSEO_Plugin_Conflict' ) ) {
 				'wp-facebook-open-graph-protocol/wp-facebook-ogp.php',   // WP Facebook Open Graph protocol
 				'wp-ogp/wp-ogp.php',                                     // WP-OGP
 				'zoltonorg-social-plugin/zosp.php',                      // Zolton.org Social Plugin
+			),
+
+			'xml_sitemaps' => array(
+				'xml-sitemap-feed/xml-sitemap.php'						 // XML Sitemap & Google News feeds
+
 			)
 		);
 
@@ -99,7 +104,8 @@ if ( ! class_exists( 'WPSEO_Plugin_Conflict' ) ) {
 			}
 
 			$plugin_sections = array(
-				'open_graph' => 'open graph'
+				'open_graph'   => 'open graph',
+				'xml_sitemaps' => 'xml sitemaps'
 			);
 
 			$instance->check_plugin_conflicts( $plugin_sections );
