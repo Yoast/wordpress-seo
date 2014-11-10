@@ -102,12 +102,7 @@ if ( ! class_exists( 'WPSEO_Plugin_Conflict' ) ) {
 				'open_graph' => 'open graph'
 			);
 
-			foreach ( $plugin_sections AS $plugin_section => $readable_plugin_section ) {
-				// Check for conflicting open graph plugins
-				if ( $instance->check_for_conflicts( $plugin_section ) ) {
-					$instance->set_error( $plugin_section, $readable_plugin_section );
-				}
-			}
+			$instance->check_plugin_conflicts( $plugin_sections );
 		}
 
 	}

@@ -135,12 +135,26 @@ if ( ! class_exists( 'Yoast_Plugin_Conflict' ) ) {
 		}
 
 		/**
+		 * Checks for given $plugin_sections for conflicts
+		 *
+		 * @param array $plugin_sections
+		 */
+		public function check_plugin_conflicts( $plugin_sections ) {
+			foreach ( $plugin_sections AS $plugin_section => $readable_plugin_section ) {
+				// Check for conflicting plugins and show error if there are conflicts
+				if ( $this->check_for_conflicts( $plugin_section ) ) {
+					$this->set_error( $plugin_section, $readable_plugin_section );
+				}
+			}
+		}
+
+		/**
 		 * Setting an error on the screen
 		 *
 		 * @param string $plugin_section
 		 * @param string $readable_plugin_section This is the value for the translation
 		 */
-		public function set_error( $plugin_section, $readable_plugin_section ) {
+		protected function set_error( $plugin_section, $readable_plugin_section ) {
 
 			$plugins_as_string = $this->get_conflicting_plugins_as_string( $plugin_section );
 			$error_message     = sprintf( __( 'The following plugins might cause (%1s) issues with Yoast WordPress SEO: %2s', 'wordpress-seo' ), $readable_plugin_section, $plugins_as_string );
