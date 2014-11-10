@@ -88,9 +88,18 @@ if ( ! class_exists( 'Yoast_Plugin_Conflict' ) ) {
 		 * @return bool
 		 */
 		public function check_for_conflicts( $plugin_section ) {
-			$has_conflicts = ( ! empty( $this->active_plugins[$plugin_section] ) );
 
-			return $has_conflicts;
+			static $sections_checked;
+
+			if ( ! in_array($plugin_section, $sections_checked ) ) {
+				$sections_checked[] = $plugin_section;
+				$has_conflicts = ( ! empty( $this->active_plugins[$plugin_section] ) );
+
+				return $has_conflicts;
+			}
+			else {
+				return false;
+			}
 		}
 
 		/**
@@ -126,13 +135,28 @@ if ( ! class_exists( 'Yoast_Plugin_Conflict' ) ) {
 		}
 
 		/**
+		 * Setting an error on the screen
+		 *
+		 * @param string $plugin_section
+		 * @param string $readable_plugin_section This is the value for the translation
+		 */
+		public function set_error( $plugin_section, $readable_plugin_section ) {
+
+			$plugins_as_string = $this->get_conflicting_plugins_as_string( $plugin_section );
+			$error_message     = sprintf( __( 'The following plugins might cause (%1s) issues with Yoast WordPress SEO: %2s', 'wordpress-seo' ), $readable_plugin_section, $plugins_as_string );
+
+			// Add the message to the notifications center
+			Yoast_Notification_Center::get()->add_notification( new Yoast_Notification( $error_message, 'error' ) );
+		}
+
+		/**
 		 * Loop through the $this->plugins to check if one of the plugins is active.
 		 *
 		 * This method will store the active plugins in $this->active_plugins.
 		 */
 		protected function search_active_plugins() {
-			foreach ( $this->plugins AS $plugin_category => $plugins ) {
-				$this->check_plugins_active( $plugins, $plugin_category );
+			foreach ( $this->plugins AS $plugin_section => $plugins ) {
+				$this->check_plugins_active( $plugins, $plugin_section );
 			}
 		}
 
@@ -140,12 +164,12 @@ if ( ! class_exists( 'Yoast_Plugin_Conflict' ) ) {
 		 * Loop through plugins and check if each plugin is active
 		 *
 		 * @param array  $plugins
-		 * @param string $plugin_category
+		 * @param string $plugin_section
 		 */
-		protected function check_plugins_active( $plugins, $plugin_category ) {
+		protected function check_plugins_active( $plugins, $plugin_section ) {
 			foreach ( $plugins AS $plugin ) {
 				if ( $this->check_plugin_is_active( $plugin ) ) {
-					$this->add_active_plugin( $plugin_category, $plugin );
+					$this->add_active_plugin( $plugin_section, $plugin );
 				}
 			}
 		}
@@ -167,20 +191,20 @@ if ( ! class_exists( 'Yoast_Plugin_Conflict' ) ) {
 		/**
 		 * Add plugin to the list of active plugins.
 		 *
-		 * This method will check first if key $plugin_category exists, if not it will create an empty array
+		 * This method will check first if key $plugin_section exists, if not it will create an empty array
 		 * If $plugin itself doesn't exist it will be added.
 		 *
-		 * @param string $plugin_category
+		 * @param string $plugin_section
 		 * @param string $plugin
 		 */
-		protected function add_active_plugin( $plugin_category, $plugin ) {
+		protected function add_active_plugin( $plugin_section, $plugin ) {
 
-			if ( ! array_key_exists( $plugin_category, $this->active_plugins ) ) {
-				$this->active_plugins[$plugin_category] = array();
+			if ( ! array_key_exists( $plugin_section, $this->active_plugins ) ) {
+				$this->active_plugins[$plugin_section] = array();
 			}
 
-			if ( ! in_array( $plugin, $this->active_plugins[$plugin_category] ) ) {
-				$this->active_plugins[$plugin_category][] = $plugin;
+			if ( ! in_array( $plugin, $this->active_plugins[$plugin_section] ) ) {
+				$this->active_plugins[$plugin_section][] = $plugin;
 			}
 
 		}
@@ -196,9 +220,9 @@ if ( ! class_exists( 'Yoast_Plugin_Conflict' ) ) {
 		 */
 		protected function find_plugin_category( $plugin ) {
 
-			foreach ( $this->plugins AS $plugin_category => $plugins ) {
+			foreach ( $this->plugins AS $plugin_section => $plugins ) {
 				if ( in_array( $plugin, $plugins ) ) {
-					return $plugin_category;
+					return $plugin_section;
 				}
 			}
 
