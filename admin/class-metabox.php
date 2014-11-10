@@ -53,7 +53,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 
 			self::$meta_fields['general']['title']['title']       = __( 'SEO Title', 'wordpress-seo' );
 			self::$meta_fields['general']['title']['description'] = '<p id="yoast_wpseo_title-length-warning">' . '<span class="wrong">' . __( 'Warning:', 'wordpress-seo' ) . '</span> ' . __( 'Title display in Google is limited to a fixed width, yours is too long.', 'wordpress-seo' ) . '</p>';
-			self::$meta_fields['general']['title']['help']        = __( 'The SEO Title defaults to what is generated based on this sites title template for this posttype.', 'wordpress-seo' );
+			self::$meta_fields['general']['title']['help']        = __( 'The SEO title defaults to what is generated based on this sites title template for this posttype.', 'wordpress-seo' );
 
 			self::$meta_fields['general']['metadesc']['title']       = __( 'Meta Description', 'wordpress-seo' );
 			self::$meta_fields['general']['metadesc']['description'] = sprintf( __( 'The <code>meta</code> description will be limited to %s chars%s, %s chars left.', 'wordpress-seo' ), self::$meta_length, self::$meta_length_reason, '<span id="yoast_wpseo_metadesc-length"></span>' ) . ' <div id="yoast_wpseo_metadesc_notice"></div>';
