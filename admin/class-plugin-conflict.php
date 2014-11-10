@@ -85,24 +85,25 @@ if ( ! class_exists( 'WPSEO_Plugin_Conflict' ) ) {
 		 *
 		 * If the activated plugin is conflicting with ours a notice will be shown.
 		 *
+		 * @param string|bool $plugin
+		 *
 		 */
-		public static function hook_check_for_plugin_conflicts( $plugin ) {
+		public static function hook_check_for_plugin_conflicts( $plugin = false ) {
 			// The instance of itself
 			$instance = self::get_instance();
 
-			// Because it's just activated
-			$instance->add_active_plugin( $instance->find_plugin_category( $plugin ), $plugin );
-
-			// Check for conflicting open graph plugins
-			if ( $instance->check_for_conflicts( 'open_graph' ) ) {
-				$plugins_as_string = $instance->get_conflicting_plugins_as_string( 'open_graph' );
-				$error_message     = sprintf( __( 'The following plugins might cause (%1s) issues with Yoast WordPress SEO: %2s', 'wordpress-seo' ), 'open graph', $plugins_as_string );
-
-				// Add the message to the notifications center
-				Yoast_Notification_Center::get()->add_notification( new Yoast_Notification( $error_message, 'error' ) );
+			// Only add plugin as active plugin if $plugin isn't false
+			if ( $plugin ) {
+				// Because it's just activated
+				$instance->add_active_plugin( $instance->find_plugin_category( $plugin ), $plugin );
 			}
-		}
 
+			$plugin_sections = array(
+				'open_graph' => 'open graph'
+			);
+
+			$instance->check_plugin_conflicts( $plugin_sections );
+		}
 
 	}
 
