@@ -137,7 +137,7 @@ $wpseo_admin_pages->admin_header( true, WPSEO_Options::get_group_name( 'wpseo_ti
 			echo $wpseo_admin_pages->textinput( 'title-ptarchive-' . $name, __( 'Title', 'wordpress-seo' ) );
 			echo $wpseo_admin_pages->textarea( 'metadesc-ptarchive-' . $name, __( 'Meta Description', 'wordpress-seo' ), '', 'metadesc' );
 			if ( $options['usemetakeywords'] === true ) {
-				echo $wpseo_admin_pages->textinput( 'metakey-ptarchive-' . $name, __( 'Meta keywords', 'wordpress-seo' ) );
+				echo $wpseo_admin_pages->textinput( 'metakey-ptarchive-' . $name, __( 'Meta Keywords', 'wordpress-seo' ) );
 			}
 			if ( $options['breadcrumbs-enable'] === true ) {
 				echo $wpseo_admin_pages->textinput( 'bctitle-ptarchive-' . $name, __( 'Breadcrumbs Title', 'wordpress-seo' ) );
