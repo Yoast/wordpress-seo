@@ -25,7 +25,7 @@ $rows[] = array(
 );
 $rows[] = array(
 	'id'      => 'rssafter',
-	'label'   => __( 'Content to put after each post', 'wordpress-seo' ),
+	'label'   => __( 'Content to put after each post in the feed', 'wordpress-seo' ),
 	'desc'    => __( '(HTML allowed)', 'wordpress-seo' ),
 	'content' => '<textarea cols="50" rows="5" id="rssafter" name="wpseo_rss[rssafter]">' . esc_textarea( $options['rssafter'] ) . '</textarea>',
 );
