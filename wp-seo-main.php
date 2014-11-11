@@ -45,6 +45,7 @@ function wpseo_auto_load( $class ) {
 			'wpseo_admin'                        => WPSEO_PATH . 'admin/class-admin.php',
 			'wpseo_bulk_title_editor_list_table' => WPSEO_PATH . 'admin/class-bulk-title-editor-list-table.php',
 			'wpseo_bulk_description_list_table'  => WPSEO_PATH . 'admin/class-bulk-description-editor-list-table.php',
+			'wpseo_bulk_index_editor_list_table' => WPSEO_PATH . 'admin/class-bulk-index-editor-list-table.php',
 			'wpseo_bulk_list_table'              => WPSEO_PATH . 'admin/class-bulk-editor-list-table.php',
 			'wpseo_admin_pages'                  => WPSEO_PATH . 'admin/class-config.php',
 			'wpseo_metabox'                      => WPSEO_PATH . 'admin/class-metabox.php',
@@ -54,6 +55,8 @@ function wpseo_auto_load( $class ) {
 			'wpseo_sitemaps_admin'               => WPSEO_PATH . 'admin/class-sitemaps-admin.php',
 			'wpseo_taxonomy'                     => WPSEO_PATH . 'admin/class-taxonomy.php',
 			'yoast_tracking'                     => WPSEO_PATH . 'admin/class-tracking.php',
+			'yoast_plugin_conflict'				 => WPSEO_PATH . 'admin/class-yoast-plugin-conflict.php',
+			'wpseo_plugin_conflict'				 => WPSEO_PATH . 'admin/class-plugin-conflict.php',
 			'yoast_textstatistics'               => WPSEO_PATH . 'admin/TextStatistics.php',
 			'wpseo_breadcrumbs'                  => WPSEO_PATH . 'frontend/class-breadcrumbs.php',
 			'wpseo_frontend'                     => WPSEO_PATH . 'frontend/class-frontend.php',
@@ -397,6 +400,7 @@ else if ( ! defined( 'WP_INSTALLING' ) || WP_INSTALLING === false ) {
 
 // Activation and deactivation hook
 register_activation_hook( WPSEO_FILE, 'wpseo_activate' );
+register_activation_hook( WPSEO_FILE, array( 'WPSEO_Plugin_Conflict', 'hook_check_for_plugin_conflicts' ) );
 register_deactivation_hook( WPSEO_FILE, 'wpseo_deactivate' );
 add_action( 'wpmu_new_blog', 'wpseo_on_activate_blog' );
 add_action( 'activate_blog', 'wpseo_on_activate_blog' );

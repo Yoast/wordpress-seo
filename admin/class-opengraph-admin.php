@@ -23,6 +23,7 @@ if ( ! class_exists( 'WPSEO_Social_Admin' ) ) {
 			add_action( 'wpseo_tab_header', array( $this, 'tab_header' ), 60 );
 			add_action( 'wpseo_tab_content', array( $this, 'tab_content' ) );
 			add_filter( 'wpseo_save_metaboxes', array( $this, 'save_meta_boxes' ), 10, 1 );
+			add_action( 'wpseo_save_compare_data', array( $this, 'og_data_compare' ), 10, 1 );
 		}
 
 		/**
@@ -38,16 +39,16 @@ if ( ! class_exists( 'WPSEO_Social_Admin' ) ) {
 			self::$meta_fields['social']['opengraph-description']['title']       = __( 'Facebook Description', 'wordpress-seo' );
 			self::$meta_fields['social']['opengraph-description']['description'] = __( 'If you don\'t want to use the meta description for sharing the post on Facebook but want another description there, write it here.', 'wordpress-seo' );
 
-			self::$meta_fields['social']['opengraph-image']['title'] 	   = __( 'Facebook Image', 'wordpress-seo' );
+			self::$meta_fields['social']['opengraph-image']['title']       = __( 'Facebook Image', 'wordpress-seo' );
 			self::$meta_fields['social']['opengraph-image']['description'] = __( 'If you want to override the Facebook image for this post, upload / choose an image or add the URL here.', 'wordpress-seo' );
 
-			self::$meta_fields['social']['google-plus-title']['title'] 	   = __( 'Google+ Title', 'wordpress-seo' );
+			self::$meta_fields['social']['google-plus-title']['title']       = __( 'Google+ Title', 'wordpress-seo' );
 			self::$meta_fields['social']['google-plus-title']['description'] = __( 'If you don\'t want to use the post title for sharing the post on Google+ but instead want another title there, write it here.', 'wordpress-seo' );
 
-			self::$meta_fields['social']['google-plus-description']['title'] 	   = __( 'Google+ Description', 'wordpress-seo' );
+			self::$meta_fields['social']['google-plus-description']['title']       = __( 'Google+ Description', 'wordpress-seo' );
 			self::$meta_fields['social']['google-plus-description']['description'] = __( 'If you don\'t want to use the meta description for sharing the post on Google+ but want another description there, write it here.', 'wordpress-seo' );
 
-			self::$meta_fields['social']['google-plus-image']['title'] 	   = __( 'Google+ Image', 'wordpress-seo' );
+			self::$meta_fields['social']['google-plus-image']['title']       = __( 'Google+ Image', 'wordpress-seo' );
 			self::$meta_fields['social']['google-plus-image']['description'] = __( 'If you want to override the image for this post that Google+ will use, upload / choose an image or add the URL here. Note that it will otherwise default to the Facebook one above.', 'wordpress-seo' );
 		}
 
@@ -74,10 +75,49 @@ if ( ! class_exists( 'WPSEO_Social_Admin' ) ) {
 		 * Filter over the meta boxes to save, this function adds the Social meta boxes.
 		 *
 		 * @param   array $field_defs Array of metaboxes to save.
+		 *
 		 * @return  array
 		 */
 		public function save_meta_boxes( $field_defs ) {
 			return array_merge( $field_defs, $this->get_meta_field_defs( 'social' ) );
+		}
+
+		/**
+		 * This method will compare opengraph fields with the posted values.
+		 *
+		 * When fields are changed, the facebook cache will be purge.
+		 *
+		 * @param object $post
+		 */
+		public function og_data_compare( $post ) {
+
+			// Check if post data is available, if post_id is set and if original post_status is publish
+			if ( ! empty( $_POST ) && ! empty( $post->ID ) && $post->post_status == 'publish' && $_POST['original_post_status'] === 'publish' ) {
+
+				$fields_to_compare = array(
+					'opengraph-title',
+					'opengraph-description',
+					'opengraph-image'
+				);
+
+				$reset_facebook_cache = false;
+
+				foreach ( $fields_to_compare AS $field_to_compare ) {
+					$old_value = self::get_value( $field_to_compare, $post->ID );
+					$new_value = $_POST[self::$form_prefix . $field_to_compare];
+
+					if ( $old_value !== $new_value ) {
+						$reset_facebook_cache = true;
+						break;
+					}
+				}
+
+				if ( $reset_facebook_cache ) {
+					wp_remote_get(
+						'https://graph.facebook.com/?id=' . get_permalink( $post->ID ) . '&scrape=true&method=post'
+					);
+				}
+			}
 		}
 
 
@@ -88,13 +128,15 @@ if ( ! class_exists( 'WPSEO_Social_Admin' ) ) {
 		 *
 		 * @deprecated 1.5.0
 		 * @deprecated use WPSEO_Meta::get_meta_field_defs()
-		 * @see WPSEO_Meta::get_meta_field_defs()
+		 * @see        WPSEO_Meta::get_meta_field_defs()
 		 *
-		 * @param	string	$post_type
-		 * @return	array	Array containing the meta boxes
+		 * @param    string $post_type
+		 *
+		 * @return    array    Array containing the meta boxes
 		 */
 		public function get_meta_boxes( $post_type = 'post' ) {
 			_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Meta::get_meta_field_defs()' );
+
 			return $this->get_meta_field_defs( 'social' );
 		}
 
