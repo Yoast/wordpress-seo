@@ -81,8 +81,8 @@ if ( ! class_exists( 'WPSEO_Plugin_Conflict' ) ) {
 		 * 
 		 * @return Yoast_Plugin_Conflict
 		 */
-		public static function get_instance() {
-			return parent::get_instance( __CLASS__ );
+		public static function get_instance( $classname = __CLASS__ ) {
+			return parent::get_instance( $classname );
 		}
 
 		/**
