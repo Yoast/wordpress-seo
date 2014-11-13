@@ -1,0 +1,36 @@
+# Grunt aliases
+---
+# Build everything
+build:
+  - 'build:css'
+  - 'build:images'
+  - 'build:js'
+  - 'build:i18n'
+# Build CSS from SCSS to production
+'build:css':
+  - 'autoprefixer'
+  - 'csscomb'
+  - 'cssbeautifier'
+  - 'cssmin'
+# Optimise images from source to production
+'build:images':
+  - 'imagemin'
+# Build JavaScript from assets to production
+'build:js':
+  - 'uglify'
+# Build internationalisation features
+'build:i18n':
+  - 'addtextdomain'
+  - 'makepot'
+# Check health of the project
+check:
+  - 'jshint'
+  - 'jsonlint'
+  - 'jsvalidate'
+  - 'jscs'
+  - 'phplint'
+  - 'phpcs'
+  - 'checktextdomain'
+# Default task
+default:
+  - build
