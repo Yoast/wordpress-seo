@@ -1,15 +1,17 @@
 // https://github.com/SaschaGalley/grunt-phpcs
 module.exports = {
 	options: {
-		standard: 'codesniffer.xml',
-		reportFile: 'phpcs.txt',
 		ignoreExitCode: true
 	},
-	all: {
+	plugin: {
+		options: {
+			standard: 'ruleset.xml',
+			reportFile: '<%= paths.logs %>phpcs.log',
+			extensions: 'php'
+		},
 		dir: [
-			'**/*.php',
-			'!admin/license-manager/**',
-			'!node_modules/**'
+			'<%= files.php %>',
+			'!admin/license-manager/**'
 		]
 	}
 };
