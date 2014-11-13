@@ -1,19 +1,48 @@
 // https://github.com/gruntjs/grunt-contrib-watch
 module.exports = {
-	gruntfile: {
-		files: ['Gruntfile.js'],
-		tasks: ['jshint:grunt', 'jsvalidate', 'jscs']
+	options: {
+		livereload: true
+	},
+	grunt: {
+		options: {
+			reload: true
+		},
+		files: [
+			'<%= files.grunt %>',
+			'<%= files.config %>'
+		],
+		tasks: [
+			'jshint:grunt',
+			'jsvalidate:grunt',
+			'jscs:grunt'
+		]
 	},
 	php: {
-		files: ['**/*.php', '*/*.php', '!node_modules/**'],
-		tasks: ['phplint', 'phpcs']
+		files: [
+			'<%= files.php %>'
+		],
+		tasks: [
+			'phplint',
+			'phpcs'
+		]
 	},
 	js: {
-		files: ['js/*.js'],
-		tasks: ['jshint', 'jsvalidate', 'jscs', 'uglify']
+		files: [
+			'<%= files.js %>'
+		],
+		tasks: [
+			'build:js',
+			'jshint:plugin',
+			'jsvalidate:plugin',
+			'jscs:plugin'
+		]
 	},
 	css: {
-		files: ['css/*css'],
-		tasks: ['build:css']
+		files: [
+			'css/*css'
+		],
+		tasks: [
+			'build:css'
+		]
 	}
 };
