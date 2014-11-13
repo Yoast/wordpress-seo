@@ -13,8 +13,6 @@
     "grunt-contrib-jshint": "^0.10.0",
     "grunt-contrib-uglify": "^0.6.0",
     "grunt-contrib-watch": "^0.6.1",
-    "grunt-cssbeautifier": "0.1.2",
-    "grunt-csscomb": "~3.0.0",
     "grunt-jsbeautifier": "~0.2.7",
     "grunt-jscs": "^0.8.1",
     "grunt-jsonlint": "^1.0.4",
@@ -23,6 +21,7 @@
     "grunt-phplint": "0.0.5",
     "grunt-replace": "^0.8.0",
     "grunt-shell": "~1.1.1",
+    "grunt-wp-css": "cedaro/grunt-wp-css#develop",
     "grunt-wp-i18n": "^0.4.8",
     "load-grunt-config": "^0.16.0",
     "time-grunt": "^1.0.0"

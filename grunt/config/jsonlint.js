@@ -2,7 +2,6 @@
 module.exports = {
 	all: {
 		src: [
-			'.csscomb.json',
 			'.gruntjshintrc',
 			'.jscsrc',
 			'.jshintrc',

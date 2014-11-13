@@ -9,8 +9,7 @@ build:
 # Build CSS from SCSS to production
 'build:css':
   - 'autoprefixer'
-  - 'csscomb'
-  - 'cssbeautifier'
+  - 'wpcss'
   - 'cssmin'
 # Optimise images from source to production
 'build:images':

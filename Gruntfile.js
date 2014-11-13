@@ -51,7 +51,8 @@ module.exports = function(grunt) {
 		jitGrunt: {
 			staticMappings: {
 				addtextdomain: 'grunt-wp-i18n',
-				makepot: 'grunt-wp-i18n'
+				makepot: 'grunt-wp-i18n',
+				wpcss: 'grunt-wp-css'
 			}
 		}
 	});
