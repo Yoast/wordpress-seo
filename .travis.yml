@@ -44,7 +44,7 @@ before_script:
 
 script:
 - if [[ "$PHPLINT" == "1" ]]; then find -L . -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l; fi
-- if [[ "$PHPLINT" == "1" ]]; then /tmp/wordpress/phpcs/scripts/phpcs -p -s -v -n . --standard=./codesniffer.xml --extensions=php; fi
+- if [[ "$PHPLINT" == "1" ]]; then /tmp/wordpress/phpcs/scripts/phpcs -p -s -v -n . --standard=./ruleset.xml --extensions=php; fi
 - phpunit -c phpunit.xml
 
 notifications:
