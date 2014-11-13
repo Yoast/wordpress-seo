@@ -1,7 +1,18 @@
 {
   "name": "wordpress-seo",
   "description": "Development files for the WordPress SEO plugin",
-  "dependencies": {},
+  "plugin": {
+    "textdomain": "wordpress-seo"
+  },
+  "pot": {
+    "reportmsgidbugsto": "https://github.com/yoast/wordpress-seo/issues",
+    "languageteam": "Yoast Translate <translations@yoast.com>",
+    "lasttranslator": "Yoast Translate Team <translations@yoast.com>"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Yoast/wordpress-seo"
+  },
   "devDependencies": {
     "assemble-less": "~0.7.0",
     "grunt": "^0.4.5",
