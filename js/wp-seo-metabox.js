@@ -486,7 +486,7 @@ jQuery(document).ready(function () {
 				tip: {
 					corner: true
 				},
-				classes : 'qtip-rounded qtip-blue'
+				classes : 'yoast-qtip qtip-rounded qtip-blue'
 			},
 			show    : {
 				when: {

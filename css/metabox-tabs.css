@@ -326,3 +326,8 @@ table.wpseoanalysis td.score {
 img.yoast_help {
 	cursor: pointer;
 }
+
+.yoast-qtip {
+	font-size: 14px !important;
+	line-height: 18px !important;
+}
