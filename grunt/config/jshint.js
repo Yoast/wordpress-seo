@@ -1,6 +1,6 @@
 // https://github.com/gruntjs/grunt-contrib-jshint
 module.exports = {
-	assets: {
+	plugin: {
 		options: {
 			jshintrc: '.jshintrc'
 		},

@@ -2,15 +2,15 @@
 module.exports = {
 	plugin: {
 		options: {
-			type: 'wp-plugin',
-			domainPath: '/languages',
+			domainPath: '<%= paths.languages %>',
 			potFilename: 'wordpress-seo.pot',
 			potHeaders: {
 				poedit: true,
-				'report-msgid-bugs-to': 'https://github.com/yoast/wordpress-seo',
-				'language-team': 'Yoast Translate <translations@yoast.com>',
-				'last-translator': 'Yoast Translate Team <translations@yoast.com>'
-			}
+				'report-msgid-bugs-to': '<%= pkg.pot.reportmsgidbugsto %>',
+				'language-team': '<%= pkg.pot.languageteam %>',
+				'last-translator': '<%= pkg.pot.lasttranslator %>'
+			},
+			type: 'wp-plugin'
 		}
 	}
 };

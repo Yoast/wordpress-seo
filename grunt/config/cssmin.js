@@ -1,13 +1,16 @@
 // https://github.com/gruntjs/grunt-contrib-cssmin
 module.exports = {
-	minify: {
+	options: {
+		report: 'gzip'
+	},
+	plugin: {
 		expand: true,
-		cwd: 'css/',
+		cwd: '<%= paths.css %>',
 		src: [
 			'*.css',
 			'!*.min.css'
 		],
-		dest: 'css/',
+		dest: '<%= paths.css %>',
 		ext: '.min.css'
 	}
 };

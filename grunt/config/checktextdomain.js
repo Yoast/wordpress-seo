@@ -1,7 +1,7 @@
 // https://github.com/stephenharris/grunt-checktextdomain
 module.exports = {
 	options: {
-		text_domain: 'wordpress-seo',
+		text_domain: '<%= pkg.plugin.textdomain %>',
 		keywords: [
 			'__:1,2d',
 			'_e:1,2d',
@@ -22,8 +22,7 @@ module.exports = {
 	files: {
 		expand: true,
 		src: [
-			'**/*.php',
-			'!node_modules/**',
+			'<%= files.php %>',
 			'!admin/license-manager/**'
 		]
 	}
