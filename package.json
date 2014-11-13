@@ -26,8 +26,5 @@
     "grunt-wp-i18n": "^0.4.8",
     "load-grunt-config": "^0.16.0",
     "time-grunt": "^1.0.0"
-  },
-  "engines": {
-    "node": ">=0.8.0"
   }
 }
