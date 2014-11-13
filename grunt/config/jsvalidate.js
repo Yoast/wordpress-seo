@@ -1,11 +1,19 @@
 // https://github.com/ariya/grunt-jsvalidate
 module.exports = {
-	all: {
-		options: {
-			verbose: true
-		},
+	options: {
+		verbose: true
+	},
+	plugin: {
 		files: {
-			src: ['Gruntfile.js']
+			src: '<%= files.js %>'
+		}
+	},
+	grunt: {
+		files: {
+			src: [
+				'<%= files.grunt %>',
+				'<%= files.config %>'
+			]
 		}
 	}
 };
