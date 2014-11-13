@@ -10,12 +10,12 @@ module.exports = function(grunt) {
 			get config() {
 				return this.grunt + 'config/';
 			},
-			dist: 'dist/',
-			docs: 'docs/',
+			css: 'css/',
 			grunt: 'grunt/',
+			images: 'images/',
+			js: 'js/',
 			languages: 'languages/',
-			logs: 'logs/',
-			tmp: 'tmp/'
+			logs: 'logs/'
 		},
 		files: {
 			css: [
