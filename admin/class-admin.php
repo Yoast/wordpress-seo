@@ -163,7 +163,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 				array(
 					'wpseo_dashboard',
 					'',
-					__( 'Import & Export', 'wordpress-seo' ),
+					esc_html__( 'Import & Export', 'wordpress-seo' ),
 					$manage_options_cap,
 					'wpseo_import',
 					array( $this, 'load_page' ),
