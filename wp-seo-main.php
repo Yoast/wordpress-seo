@@ -54,6 +54,8 @@ function wpseo_auto_load( $class ) {
 			'wpseo_pointers'                     => WPSEO_PATH . 'admin/class-pointers.php',
 			'wpseo_sitemaps_admin'               => WPSEO_PATH . 'admin/class-sitemaps-admin.php',
 			'wpseo_taxonomy'                     => WPSEO_PATH . 'admin/class-taxonomy.php',
+			'yoast_i18n'                         => WPSEO_PATH . 'admin/includes/i18n-module/i18n-module.php',
+			'wpseo_i18n'                         => WPSEO_PATH . 'admin/class-wpseo-i18n.php',
 			'yoast_tracking'                     => WPSEO_PATH . 'admin/class-tracking.php',
 			'yoast_plugin_conflict'				 => WPSEO_PATH . 'admin/class-yoast-plugin-conflict.php',
 			'wpseo_plugin_conflict'				 => WPSEO_PATH . 'admin/class-plugin-conflict.php',
@@ -371,6 +373,8 @@ function wpseo_admin_init() {
 	if ( $options['enablexmlsitemap'] === true ) {
 		$GLOBALS['wpseo_sitemaps_admin'] = new WPSEO_Sitemaps_Admin;
 	}
+
+	$GLOBALS['WPSEO_i18n'] = new WPSEO_i18n;
 }
 
 
