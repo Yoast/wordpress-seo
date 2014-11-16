@@ -297,7 +297,7 @@ if ( ! class_exists( 'WPSEO_Pointers' ) ) {
 
 					wpseo_pointer_options = $.extend(wpseo_pointer_options, {
 						buttons: function (event, t) {
-							var button = jQuery('<a id="pointer-close" style="margin-left:5px;" class="button-secondary">' + '<?php echo $button_array['button1']['text']; ?>' + '</a>');
+							var button = jQuery('<a id="pointer-close" style="margin:0 5px;" class="button-secondary">' + '<?php echo $button_array['button1']['text']; ?>' + '</a>');
 							button.bind('click.pointer', function () {
 								t.element.pointer('close');
 							});
