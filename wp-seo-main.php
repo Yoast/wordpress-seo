@@ -55,7 +55,6 @@ function wpseo_auto_load( $class ) {
 			'wpseo_sitemaps_admin'               => WPSEO_PATH . 'admin/class-sitemaps-admin.php',
 			'wpseo_taxonomy'                     => WPSEO_PATH . 'admin/class-taxonomy.php',
 			'yoast_i18n'                         => WPSEO_PATH . 'admin/includes/i18n-module/i18n-module.php',
-			'wpseo_i18n'                         => WPSEO_PATH . 'admin/class-wpseo-i18n.php',
 			'yoast_tracking'                     => WPSEO_PATH . 'admin/class-tracking.php',
 			'yoast_plugin_conflict'				 => WPSEO_PATH . 'admin/class-yoast-plugin-conflict.php',
 			'wpseo_plugin_conflict'				 => WPSEO_PATH . 'admin/class-plugin-conflict.php',
@@ -365,7 +364,17 @@ function wpseo_admin_init() {
 		// @todo [JRF => whomever] Can we load this more selectively ? like only when $_GET['page'] is one of ours ?
 		$GLOBALS['wpseo_admin_pages'] = new WPSEO_Admin_Pages;
 
-		$GLOBALS['WPSEO_i18n'] = new WPSEO_i18n;
+		$GLOBALS['WPSEO_i18n'] = new yoast_i18n(
+			array(
+				'textdomain'             => 'wordpress-seo',
+				'project_slug'           => 'wordpress-seo',
+				'plugin_name'            => 'WordPress SEO by Yoast',
+				'hook'                   => 'wpseo_admin_footer',
+				'translate_project_url'  => 'http://translate.yoast.com/projects#utm_source=plugin&utm_medium=promo-box&utm_campaign=i18n-promo',
+				'translate_project_name' => 'Yoast Translate',
+				'translate_project_logo' => 'https://cdn.yoast.com/wp-content/uploads/i18n-images/Yoast_Translate.svg',
+			)
+		);
 	}
 
 	if ( $options['tracking_popup_done'] === false || $options['ignore_tour'] === false ) {
