@@ -364,6 +364,8 @@ function wpseo_admin_init() {
 	if ( in_array( $pagenow, array( 'admin.php' ) ) ) {
 		// @todo [JRF => whomever] Can we load this more selectively ? like only when $_GET['page'] is one of ours ?
 		$GLOBALS['wpseo_admin_pages'] = new WPSEO_Admin_Pages;
+
+		$GLOBALS['WPSEO_i18n'] = new WPSEO_i18n;
 	}
 
 	if ( $options['tracking_popup_done'] === false || $options['ignore_tour'] === false ) {
@@ -373,8 +375,6 @@ function wpseo_admin_init() {
 	if ( $options['enablexmlsitemap'] === true ) {
 		$GLOBALS['wpseo_sitemaps_admin'] = new WPSEO_Sitemaps_Admin;
 	}
-
-	$GLOBALS['WPSEO_i18n'] = new WPSEO_i18n;
 }
 
 
