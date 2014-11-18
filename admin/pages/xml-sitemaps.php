@@ -50,7 +50,7 @@ $content .= $wpseo_admin_pages->checkbox( 'disable_author_noposts', __( 'Disable
 
 $roles = wpseo_get_roles();
 if ( is_array( $roles ) && $roles !== array() ) {
-	$content .= '<p><strong>' . __( 'Exclude userroles', 'wordpress-seo' ) . '</strong><br/>';
+	$content .= '<p><strong>' . __( 'Exclude user roles', 'wordpress-seo' ) . '</strong><br/>';
 	$content .= __( 'Please check the appropriate box below if there\'s a user role that you do <strong>NOT</strong> want to include in your sitemap:', 'wordpress-seo' ) . '</p>';
 	foreach ( $roles as $role_key => $role_name ) {
 		$content .= $wpseo_admin_pages->checkbox( 'user_role-' . $role_key . '-not_in_sitemap', $role_name );
