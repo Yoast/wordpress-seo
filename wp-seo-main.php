@@ -370,7 +370,7 @@ function wpseo_admin_init() {
 		) ) || apply_filters( 'wpseo_always_register_metaboxes_on_admin', false )
 	) {
 		$GLOBALS['wpseo_metabox'] = new WPSEO_Metabox;
-		if ( $options['opengraph'] === true ) {
+		if ( $options['opengraph'] === true || $options['twitter'] === true || $options['googleplus'] === true ) {
 			$GLOBALS['wpseo_social'] = new WPSEO_Social_Admin;
 		}
 	}
