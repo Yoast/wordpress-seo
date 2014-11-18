@@ -308,6 +308,28 @@ function wpseo_frontend_head_init() {
 }
 
 /**
+ * Register the promotion class for our GlotPress instance
+ *
+ * @link https://github.com/Yoast/i18n-module
+ *
+ * @return yoast_i18n
+ */
+function register_i18n_promo_class() {
+	return new yoast_i18n(
+		array(
+			'textdomain'     => 'wordpress-seo',
+			'project_slug'   => 'wordpress-seo',
+			'plugin_name'    => 'WordPress SEO by Yoast',
+			'hook'           => 'wpseo_admin_footer',
+			'glotpress_url'  => 'http://translate.yoast.com/',
+			'glotpress_name' => 'Yoast Translate',
+			'glotpress_logo' => 'https://cdn.yoast.com/wp-content/uploads/i18n-images/Yoast_Translate.svg',
+			'register_url '  => 'http://translate.yoast.com/projects#utm_source=plugin&utm_medium=promo-box&utm_campaign=i18n-promo',
+		)
+	);
+}
+
+/**
  * Used to load the required files on the plugins_loaded hook, instead of immediately.
  */
 function wpseo_admin_init() {
@@ -342,10 +364,10 @@ function wpseo_admin_init() {
 	 * @api bool Whether to always register the metaboxes or not. Defaults to false.
 	 */
 	if ( in_array( $pagenow, array(
-				'edit.php',
-				'post.php',
-				'post-new.php'
-			) ) || apply_filters( 'wpseo_always_register_metaboxes_on_admin', false )
+			'edit.php',
+			'post.php',
+			'post-new.php'
+		) ) || apply_filters( 'wpseo_always_register_metaboxes_on_admin', false )
 	) {
 		$GLOBALS['wpseo_metabox'] = new WPSEO_Metabox;
 		if ( $options['opengraph'] === true ) {
@@ -361,17 +383,7 @@ function wpseo_admin_init() {
 		// @todo [JRF => whomever] Can we load this more selectively ? like only when $_GET['page'] is one of ours ?
 		$GLOBALS['wpseo_admin_pages'] = new WPSEO_Admin_Pages;
 
-		$GLOBALS['WPSEO_i18n'] = new yoast_i18n(
-			array(
-				'textdomain'   => 'wordpress-seo',
-				'project_slug' => 'wordpress-seo',
-				'plugin_name'  => 'WordPress SEO by Yoast',
-				'hook'         => 'wpseo_admin_footer',
-				'glotpress_url'  => 'http://translate.yoast.com/projects#utm_source=plugin&utm_medium=promo-box&utm_campaign=i18n-promo',
-				'glotpress_name' => 'Yoast Translate',
-				'glotpress_logo' => 'https://cdn.yoast.com/wp-content/uploads/i18n-images/Yoast_Translate.svg',
-			)
-		);
+		$GLOBALS['WPSEO_i18n'] = register_i18n_promo_class();
 	}
 
 	if ( $options['tracking_popup_done'] === false || $options['ignore_tour'] === false ) {
