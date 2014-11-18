@@ -88,6 +88,8 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 			wp_reset_query();
 
 			$this->type();
+			$this->twitter_description();
+			$this->twitter_title();
 			$this->site_twitter();
 			$this->site_domain();
 			$this->author_twitter();
@@ -101,8 +103,6 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 				if ( 'summary' === $this->options['twitter_card_type'] ) {
 					$this->image();
 				}
-				$this->twitter_description();
-				$this->twitter_title();
 				$this->twitter_url();
 			}
 
@@ -194,12 +194,17 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 		 * Only used when OpenGraph is inactive.
 		 */
 		public function twitter_title() {
+			$title = WPSEO_Meta::get_value( 'twitter-title' );
+			if ( ! is_string( $title ) || '' === $title ) {
+				$title = $this->title( '' );
+			}
+
 			/**
 			 * Filter: 'wpseo_twitter_title' - Allow changing the Twitter title as output in the Twitter card by WP SEO
 			 *
 			 * @api string $twitter The title string
 			 */
-			$title = apply_filters( 'wpseo_twitter_title', $this->title( '' ) );
+			$title = apply_filters( 'wpseo_twitter_title', $title );
 			if ( is_string( $title ) && $title !== '' ) {
 				$this->output_metatag( 'title', $title );
 			}
@@ -211,9 +216,16 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 		 * Only used when OpenGraph is inactive.
 		 */
 		public function twitter_description() {
-			$meta_desc = trim( $this->metadesc( false ) );
+			$meta_desc = WPSEO_Meta::get_value( 'twitter-description' );
 			if ( ! is_string( $meta_desc ) || '' === $meta_desc ) {
 				$meta_desc = false;
+			}
+
+			if ( ! $meta_desc ) {
+				$meta_desc = trim( $this->metadesc( false ) );
+				if ( ! is_string( $meta_desc ) || '' === $meta_desc ) {
+					$meta_desc = false;
+				}
 			}
 
 			if ( ! $meta_desc ) {
@@ -317,7 +329,11 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 					if ( $featured_img ) {
 						$this->image_output( $featured_img[0] );
 					}
-				} elseif ( preg_match_all( '`<img [^>]+>`', $post->post_content, $matches ) ) {
+
+					return;
+				}
+
+				if ( preg_match_all( '`<img [^>]+>`', $post->post_content, $matches ) ) {
 					foreach ( $matches[0] as $img ) {
 						if ( preg_match( '`src=(["\'])(.*?)\1`', $img, $match ) ) {
 							$this->image_output( $match[2] );
