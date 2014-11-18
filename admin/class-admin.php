@@ -581,6 +581,11 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 				return $slug;
 			}
 
+			// Don't change slug if the post is a draft, this conflicts with polylang
+			if ( $_POST['post_status'] == 'draft' ) {
+				return $slug;
+			}
+
 			// Lowercase the slug and strip slashes
 			$clean_slug = sanitize_title( stripslashes( $_POST['post_title'] ) );
 
