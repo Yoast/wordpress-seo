@@ -42,11 +42,11 @@ If there is no ticket for your issue, submit it first, following the above guide
 
 ## Making Changes
 
-* Fork the repository on GitHub.
+* Fork the repository on GitHub (make sure to use the trunk branch, not master).
 * Make the changes to your forked repository.
   * Ensure you stick to the [WordPress Coding Standards](http://make.wordpress.org/core/handbook/coding-standards/) and have properly documented any new functions, actions and filters following the [documentation standards](http://make.wordpress.org/core/handbook/inline-documentation-standards/php-documentation-standards/).
 * When committing, reference your issue (if present) and include a note about the fix.
-* Push the changes to your fork and submit a pull request to the 'master' branch of the WordPress SEO repository.
+* Push the changes to your fork and submit a pull request to the 'trunk' branch of the WordPress SEO repository.
 
 At this point you're waiting on us to merge your pull request. We'll review all pull requests, and make suggestions and changes if necessary.
 

@@ -56,3 +56,5 @@ temp/
 ############
 travis.sh
 test.sh
+logs/
+

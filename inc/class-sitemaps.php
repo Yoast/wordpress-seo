@@ -305,6 +305,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 			$caching = apply_filters( 'wpseo_enable_xml_sitemap_transient_caching', true );
 
 			if ( $caching ) {
+				do_action('wpseo_sitemap_stylesheet_cache_' . $type, $this );
 				$this->sitemap = get_transient( 'wpseo_sitemap_cache_' . $type . '_' . $this->n );
 			}
 
@@ -754,9 +755,13 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 						$url = array();
 
 						if ( isset( $p->post_modified_gmt ) && $p->post_modified_gmt != '0000-00-00 00:00:00' && $p->post_modified_gmt > $p->post_date_gmt ) {
-							$url['mod'] = $p->post_date_gmt;
+							$url['mod'] = $p->post_modified_gmt;
 						} else {
-							$url['mod'] = $p->post_date;
+							if ( '0000-00-00 00:00:00' != $p->post_date_gmt ) {
+								$url['mod'] = $p->post_date_gmt;
+							} else {
+								$url['mod'] = $p->post_date;
+							}
 						}
 
 						$url['loc'] = get_permalink( $p );

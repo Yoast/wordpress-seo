@@ -105,6 +105,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 			}
 			if ( $this->options['cleanreplytocom'] === true ) {
 				add_filter( 'comment_reply_link', array( $this, 'remove_reply_to_com' ) );
+				add_action( 'template_redirect', array( $this, 'replytocom_redirect' ), 1 );
 			}
 			add_filter( 'the_content_feed', array( $this, 'embed_rssfooter' ) );
 			add_filter( 'the_excerpt_rss', array( $this, 'embed_rssfooter_excerpt' ) );
@@ -116,10 +117,6 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 
 			if ( $this->options['title_test'] > 0 ) {
 				add_filter( 'wpseo_title', array( $this, 'title_test_helper' ) );
-			}
-			if ( isset( $_GET['replytocom'] ) ) {
-				remove_action( 'wp_head', 'wp_no_robots' );
-				add_action( 'template_redirect', array( $this, 'replytocom_redirect' ), 1 );
 			}
 		}
 
@@ -1317,10 +1314,6 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 		 * @return boolean
 		 */
 		function replytocom_redirect() {
-
-			if ( $this->options['cleanreplytocom'] !== true ) {
-				return false;
-			}
 
 			if ( isset( $_GET['replytocom'] ) && is_singular() ) {
 				global $post;

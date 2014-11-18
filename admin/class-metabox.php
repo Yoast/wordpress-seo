@@ -27,7 +27,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		/**
 		 * Class constructor
 		 */
-		function __construct() {
+		public function __construct() {
 			add_action( 'add_meta_boxes', array( $this, 'add_meta_box' ) );
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue' ) );
 			add_action( 'wp_insert_post', array( $this, 'save_postdata' ) );
@@ -53,7 +53,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 
 			self::$meta_fields['general']['title']['title']       = __( 'SEO Title', 'wordpress-seo' );
 			self::$meta_fields['general']['title']['description'] = '<p id="yoast_wpseo_title-length-warning">' . '<span class="wrong">' . __( 'Warning:', 'wordpress-seo' ) . '</span> ' . __( 'Title display in Google is limited to a fixed width, yours is too long.', 'wordpress-seo' ) . '</p>';
-			self::$meta_fields['general']['title']['help']        = __( 'The SEO Title defaults to what is generated based on this sites title template for this posttype.', 'wordpress-seo' );
+			self::$meta_fields['general']['title']['help']        = __( 'The SEO title defaults to what is generated based on this sites title template for this posttype.', 'wordpress-seo' );
 
 			self::$meta_fields['general']['metadesc']['title']       = __( 'Meta Description', 'wordpress-seo' );
 			self::$meta_fields['general']['metadesc']['description'] = sprintf( __( 'The <code>meta</code> description will be limited to %s chars%s, %s chars left.', 'wordpress-seo' ), self::$meta_length, self::$meta_length_reason, '<span id="yoast_wpseo_metadesc-length"></span>' ) . ' <div id="yoast_wpseo_metadesc_notice"></div>';
@@ -85,7 +85,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			self::$meta_fields['advanced']['meta-robots-adv']['options']['noarchive']    = __( 'No Archive', 'wordpress-seo' );
 			self::$meta_fields['advanced']['meta-robots-adv']['options']['nosnippet']    = __( 'No Snippet', 'wordpress-seo' );
 
-			self::$meta_fields['advanced']['bctitle']['title']       = __( 'Breadcrumbs title', 'wordpress-seo' );
+			self::$meta_fields['advanced']['bctitle']['title']       = __( 'Breadcrumbs Title', 'wordpress-seo' );
 			self::$meta_fields['advanced']['bctitle']['description'] = __( 'Title to use for this page in breadcrumb paths', 'wordpress-seo' );
 
 			self::$meta_fields['advanced']['sitemap-include']['title']             = __( 'Include in Sitemap', 'wordpress-seo' );
@@ -659,6 +659,8 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 				return false;
 			}
 
+			do_action( 'wpseo_save_compare_data', $post );
+
 			$meta_boxes = apply_filters( 'wpseo_save_metaboxes', array() );
 			$meta_boxes = array_merge( $meta_boxes, $this->get_meta_field_defs( 'general', $post->post_type ), $this->get_meta_field_defs( 'advanced' ) );
 
@@ -710,10 +712,11 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 				}
 				wp_enqueue_style( 'metabox-tabs', plugins_url( 'css/metabox-tabs' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
 				wp_enqueue_style( "metabox-$color", plugins_url( 'css/metabox-' . esc_attr( $color ) . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
+				wp_enqueue_style( "jquery-qtip.js", plugins_url( 'css/jquery.qtip' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), '2.2.1' );
 
 				wp_enqueue_script( 'jquery-ui-autocomplete' );
 
-				wp_enqueue_script( 'jquery-qtip', plugins_url( 'js/jquery.qtip.min.js', WPSEO_FILE ), array( 'jquery' ), '1.0.0-RC3', true );
+				wp_enqueue_script( 'jquery-qtip', plugins_url( 'js/jquery.qtip' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'jquery' ), '2.2.1', true );
 				wp_enqueue_script( 'wp-seo-metabox', plugins_url( 'js/wp-seo-metabox' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array(
 					'jquery',
 					'jquery-ui-core',
@@ -1843,7 +1846,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 				// Keyword Density check
 				$keywordDensity = 0;
 				if ( $wordCount > 100 ) {
-					$keywordCount = preg_match_all( '`\b' . preg_quote( $job['keyword'], '`' ) . '\b`miu', utf8_encode( $body ), $res );
+					$keywordCount = preg_match_all( '`\b' . preg_quote( $job['keyword'], '`' ) . '\b`miu', $body, $res );
 					if ( ( $keywordCount > 0 && $keywordWordCount > 0 ) && $wordCount > $keywordCount ) {
 						$keywordDensity = wpseo_calc( wpseo_calc( $keywordCount, '/', wpseo_calc( $wordCount, '-', ( wpseo_calc( wpseo_calc( $keywordWordCount, '-', 1 ), '*', $keywordCount ) ) ) ), '*', 100, true, 2 );
 					}

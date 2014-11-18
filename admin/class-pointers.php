@@ -160,7 +160,7 @@ if ( ! class_exists( 'WPSEO_Pointers' ) ) {
 					'prev_function' => 'window.location="' . admin_url( 'admin.php?page=wpseo_internal-links' ) . '";',
 				),
 				'wpseo_import'         => array(
-					'content'       => '<h3>' . __( 'Import &amp; Export', 'wordpress-seo' ) . '</h3>'
+					'content'       => '<h3>' . esc_html__( 'Import & Export', 'wordpress-seo' ) . '</h3>'
 						. '<p><strong>' . __( 'Import from other (SEO) plugins', 'wordpress-seo' ) . '</strong><br/>' . __( 'We can imagine that you switch from another SEO plugin to WordPress SEO. If you just did, you can use these options to transfer your SEO-data. If you were using one of my older plugins like Robots Meta &amp; RSS Footer, you can import the settings here too.', 'wordpress-seo' ) . '</p>'
 						. '<p><strong>' . __( 'Other imports', 'wordpress-seo' ) . '</strong><br/>' . sprintf( __( 'If you&#8217;re using one of our premium plugins, such as %1$sLocal SEO%2$s, you can also find specific import-options for that plugin here.', 'wordpress-seo' ), '<a target="_blank" href="' . esc_url( 'https://yoast.com/wordpress/plugins/local-seo/#utm_source=wpseo_import&utm_medium=wpseo_tour&utm_campaign=tour' ) . '">', '</a>' ) . '</p>'
 						. '<p><strong>' . __( 'Export', 'wordpress-seo' ) . '</strong><br/>' . __( 'If you have multiple blogs and you&#8217;re happy with how you&#8217;ve configured this blog, you can export the settings and import them on another blog so you don&#8217;t have to go through this process twice!', 'wordpress-seo' ) . '</p>',
@@ -297,7 +297,7 @@ if ( ! class_exists( 'WPSEO_Pointers' ) ) {
 
 					wpseo_pointer_options = $.extend(wpseo_pointer_options, {
 						buttons: function (event, t) {
-							var button = jQuery('<a id="pointer-close" style="margin-left:5px;" class="button-secondary">' + '<?php echo $button_array['button1']['text']; ?>' + '</a>');
+							var button = jQuery('<a id="pointer-close" style="margin:0 5px;" class="button-secondary">' + '<?php echo $button_array['button1']['text']; ?>' + '</a>');
 							button.bind('click.pointer', function () {
 								t.element.pointer('close');
 							});
