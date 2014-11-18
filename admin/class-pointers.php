@@ -195,7 +195,7 @@ if ( ! class_exists( 'WPSEO_Pointers' ) ) {
 			);
 
 			// Skip tour about wpseo_files page if file editing is disallowed or if the site is a multisite and the current user isn't a superadmin
-			if ( false === wpseo_allow_system_file_edit() ) {
+			if ( false === WPSEO_Utils::allow_system_file_edit() ) {
 				unset( $adminpages['wpseo_files'] );
 				$adminpages['wpseo_bulk-editor']['function'] = 'window.location="' . admin_url( 'admin.php?page=wpseo_licenses' ) . '";';
 			}

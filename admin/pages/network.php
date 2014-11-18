@@ -26,7 +26,7 @@ if ( isset( $_POST['wpseo_submit'] ) ) {
 if ( isset( $_POST['wpseo_restore_blog'] ) ) {
 	check_admin_referer( 'wpseo-network-restore' );
 	if ( isset( $_POST['wpseo_ms']['restoreblog'] ) && is_numeric( $_POST['wpseo_ms']['restoreblog'] ) ) {
-		$restoreblog = (int) WPSEO_Option::validate_int( $_POST['wpseo_ms']['restoreblog'] );
+		$restoreblog = (int) WPSEO_Utils::validate_int( $_POST['wpseo_ms']['restoreblog'] );
 		$blog        = get_blog_details( $restoreblog );
 
 		if ( $blog ) {

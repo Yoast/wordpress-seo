@@ -202,9 +202,9 @@ function wpseo_tracking_additions( $options ) {
 
 		'site_db_charset'             => DB_CHARSET,
 
-		'webserver_apache'            => wpseo_is_apache() ? 1 : 0,
+		'webserver_apache'            => WPSEO_Utils::is_apache() ? 1 : 0,
 		'webserver_apache_version'    => function_exists( 'apache_get_version' ) ? apache_get_version() : 0,
-		'webserver_nginx'             => wpseo_is_nginx() ? 1 : 0,
+		'webserver_nginx'             => WPSEO_Utils::is_nginx() ? 1 : 0,
 
 		'webserver_server_software'   => $_SERVER['SERVER_SOFTWARE'],
 		'webserver_gateway_interface' => $_SERVER['GATEWAY_INTERFACE'],
