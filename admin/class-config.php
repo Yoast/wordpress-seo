@@ -201,6 +201,8 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 			</form>';
 			}
 
+			do_action( 'wpseo_admin_footer' );
+
 			echo '
 			</div><!-- end of div meta-box-sortables -->
 			</div><!-- end of div metabox-holder -->
