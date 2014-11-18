@@ -572,12 +572,12 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 				return $slug;
 			}
 
-			if ( ! filter_input( INPUT_POST, 'post_title', FILTER_NULL_ON_FAILURE ) ) {
+			if ( ! isset( $_POST['post_title'] ) ) {
 				return $slug;
 			}
 
 			// Don't change slug if the post is a draft, this conflicts with polylang
-			if ( 'draft' == filter_input( INPUT_POST, 'post_status' ) ) {
+			if ( 'draft' == $_POST['post_status'] ) {
 				return $slug;
 			}
 
