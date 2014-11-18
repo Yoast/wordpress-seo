@@ -324,7 +324,7 @@ function register_i18n_promo_class() {
 			'glotpress_url'  => 'http://translate.yoast.com/',
 			'glotpress_name' => 'Yoast Translate',
 			'glotpress_logo' => 'https://cdn.yoast.com/wp-content/uploads/i18n-images/Yoast_Translate.svg',
-			'register_url '  => 'http://translate.yoast.com/projects#utm_source=plugin&utm_medium=promo-box&utm_campaign=i18n-promo',
+			'register_url '  => 'http://translate.yoast.com/projects#utm_source=plugin&utm_medium=promo-box&utm_campaign=wpseo-i18n-promo',
 		)
 	);
 }
