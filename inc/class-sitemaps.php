@@ -458,7 +458,6 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 
 					$steps = $this->max_entries;
 					
-					// AB @ start
 					$xml_options = get_option('wpseo_xml');
 					$include_default = $xml_options['tax-' . $tax_name . '-sitemap_include_default'];
 
@@ -484,8 +483,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 					}
 
 					$count = ( isset ( $all_taxonomies[$tax] ) ) ? count( $ts ) : 1;
-					// AB @ end
-					
+
 					$n     = ( $count > $this->max_entries ) ? (int) ceil( $count / $this->max_entries ) : 1;
 
 					for ( $i = 0; $i < $n; $i ++ ) {
@@ -948,11 +946,9 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 			$n      = (int) $this->n;
 			$offset = ( $n > 1 ) ? ( $n - 1 ) * $steps : 0;
 
-			// AB @ start
 			$xml_options = get_option('wpseo_xml');
 			$include_default = $xml_options['tax-' . $taxonomy->name . '-sitemap_include_default'];
-			// AB @ end
-			
+
 			/**
 			 * Filter: 'wpseo_sitemap_exclude_empty_terms' - Allow people to include empty terms in sitemap
 			 *
@@ -963,7 +959,6 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 			$hide_empty = apply_filters( 'wpseo_sitemap_exclude_empty_terms', true, $taxonomy );
 			$terms      = get_terms( $taxonomy->name, array( 'hide_empty' => $hide_empty ) );
 			
-			// AB @ start
 			$ts = array();
 			
 			// loop through $terms to construct an 'include only' array of terms
@@ -988,7 +983,6 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 			}
 
 			$terms = array_splice( $ts, $offset, $steps );
-			// AB @ end
 
 			if ( is_array( $terms ) && $terms !== array() ) {
 				foreach ( $terms as $c ) {
@@ -997,7 +991,6 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 					$tax_noindex     = WPSEO_Taxonomy_Meta::get_term_meta( $c, $c->taxonomy, 'noindex' );
 					$tax_sitemap_inc = WPSEO_Taxonomy_Meta::get_term_meta( $c, $c->taxonomy, 'sitemap_include' );
 
-					// AB @ start
 					if ( ( $tax_sitemap_inc === '-' || $tax_sitemap_inc === 'default' ) && $include_default === 'never' ) {
 						continue;
 					}
@@ -1005,7 +998,6 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 					if ( $tax_noindex === 'noindex' || $tax_sitemap_inc === 'never' ) {
 						continue;
 					}
-					// AB @ end
 
 					$url['loc'] = WPSEO_Taxonomy_Meta::get_term_meta( $c, $c->taxonomy, 'canonical' );
 					if ( ! is_string( $url['loc'] ) || $url['loc'] === '' ) {
