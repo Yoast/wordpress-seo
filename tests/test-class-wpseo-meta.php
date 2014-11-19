@@ -124,6 +124,26 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( 'noarchive,nosnippet', WPSEO_Meta::validate_meta_robots_adv( array( 'noarchive', 'nosnippet' ) ) );
 
 	}
+	
+	/**
+	* Test value returned when valid $_POST key supplied
+	* @covers WPSEO_Meta::get_post_value
+	*/
+	public function test_get_post_value() {
+		$key = 'my_test_key';
+		$value = 'my_test_key_value';
+		$this->set_post( $key, $value )
+
+		$this->assertEquals( $value, WPSEO_Meta::get_post_value( $key ) );
+	}
+	
+	/**
+	* Test default value returned when non-existant $_POST key supplied
+	* @covers WPSEO_Meta::get_post_value
+	*/
+	public function test_get_post_value_default() {
+		$this->assertEquals( '', WPSEO_Meta::get_post_value( 'my_missing_test_key' ) );
+	}
 
 
 }
