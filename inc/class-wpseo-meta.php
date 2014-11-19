@@ -997,6 +997,20 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 			}
 			return $merged;
 		}
+		
+		/**
+		 * Get a value from $_POST for a given key
+		 * Returns the $_POST value if exists, returns an empty string if key does not exist
+		 *
+		 * @static
+		 *
+		 * @param   string  $key		key of the value to get from $_POST
+		 * @return  string				returns $_POST value, which will be a string the majority of the time
+		 *							Will return empty string if key does not exists in $_POST
+		 */
+		public static function get_post_value( $key ) {
+			return ( array_key_exists( $key, $_POST ) ) ? $_POST[ $key ] : '';
+		}
 
 
 	} /* End of class */
