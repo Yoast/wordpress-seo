@@ -22,9 +22,7 @@ module.exports = {
 	files: {
 		expand: true,
 		src: [
-			'<%= files.php %>',
-			'*.php',
-			'**/*.php'
+			'<%= files.php %>'
 		]
 	}
 };

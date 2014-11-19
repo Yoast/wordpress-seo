@@ -7,9 +7,7 @@ module.exports = {
 	plugin: {
 		files: {
 			src: [
-				'<%= files.php %>',
-				'*.php',
-				'**/*.php'
+				'<%= files.php %>'
 			]
 		}
 	}

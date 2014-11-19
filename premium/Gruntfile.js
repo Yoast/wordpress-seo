@@ -28,9 +28,8 @@ module.exports = function(grunt) {
 			],
 			php: [
 				'*.php',
-				'admin/**/*.php',
-				'frontend/**/*.php',
-				'inc/**/*.php'
+				'assets/**/*.php',
+				'classes/**/*.php'
 			],
 			phptests: 'tests/**/*.php',
 			get config() {
