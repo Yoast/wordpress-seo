@@ -2399,7 +2399,7 @@ if ( ! class_exists( 'WPSEO_Option_XML' ) ) {
 			'user_role-',
 			'post_types-',
 			'taxonomies-',
-			'tax-' // AB
+			'tax-'
 		);
 
 
@@ -2472,7 +2472,7 @@ if ( ! class_exists( 'WPSEO_Option_XML' ) ) {
 					if ( isset( $tax->labels->name ) && trim( $tax->labels->name ) != '' ) {
 						$this->defaults[ 'taxonomies-' . $tax->name . '-not_in_sitemap' ] = false;
 						
-						$this->defaults[ 'tax-' . $tax->name . '-sitemap_include_default' ] = 'always'; // AB
+						$this->defaults[ 'tax-' . $tax->name . '-sitemap_include_default' ] = 'always';
 					}
 				}
 				unset( $tax );
@@ -2525,7 +2525,6 @@ if ( ! class_exists( 'WPSEO_Option_XML' ) ) {
 						}
 						break;
 
-					// AB @ start
 					/* string fields */
 					case 'tax-': /* 'tax-' . $tax->name . '-sitemap_include_default' fields */
 						if ( isset( $dirty[ $key ] ) ) {
@@ -2533,7 +2532,6 @@ if ( ! class_exists( 'WPSEO_Option_XML' ) ) {
 							$clean[ $key ] = ( isset( $dirty[ $key ] ) ? sanitize_title( $dirty[ $key ] ) : '' );
 						}
 						break;
-					// AB @ end
 
 					/* boolean fields */
 					case 'disable_author_sitemap':
