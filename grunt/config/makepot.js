@@ -10,7 +10,8 @@ module.exports = {
 				'language-team': '<%= pkg.pot.languageteam %>',
 				'last-translator': '<%= pkg.pot.lasttranslator %>'
 			},
-			type: 'wp-plugin'
+			type: 'wp-plugin',
+			exclude: ['premium/.*']
 		}
 	}
 };
