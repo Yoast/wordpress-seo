@@ -23,7 +23,8 @@ module.exports = {
 		expand: true,
 		src: [
 			'<%= files.php %>',
-			'!admin/license-manager/**'
+			'!admin/license-manager/**',
+			'!premium/**'
 		]
 	}
 };
