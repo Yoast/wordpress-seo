@@ -62,7 +62,7 @@ if ( ! class_exists( 'WPSEO_Taxonomy' ) ) {
 			$this->no_index_options['index']   = __( 'Always index', 'wordpress-seo' );
 			$this->no_index_options['noindex'] = __( 'Always noindex', 'wordpress-seo' );
 
-			$this->sitemap_include_options['default'] = __( 'Auto detect', 'wordpress-seo' ); // AB
+			$this->sitemap_include_options['default'] = __( 'Auto detect', 'wordpress-seo' );
 			$this->sitemap_include_options['always']  = __( 'Always include', 'wordpress-seo' );
 			$this->sitemap_include_options['never']   = __( 'Never include', 'wordpress-seo' );
 		}
@@ -131,7 +131,6 @@ if ( ! class_exists( 'WPSEO_Taxonomy' ) ) {
 				<select name="' . $esc_var . '" id="' . $esc_var . '">';
 
 					foreach ( $options as $option => $option_label ) {
-						// AB @ start
 						if( empty( $option_label ) ) {
 							continue;
 						}
@@ -141,7 +140,6 @@ if ( ! class_exists( 'WPSEO_Taxonomy' ) ) {
 						if( $val === '-' ) {
 							$val = 'default';
 						}
-						// AB @ end
 						
 						$selected = selected( $option, $val, false );
 						$field   .= '
