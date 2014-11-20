@@ -281,8 +281,14 @@ function yst_updateDesc() {
 		snippet.find('.desc span.content').html('');
 		yst_testFocusKw();
 
-		if (jQuery('#content').length) {
-			desc = jQuery('#content').val();
+		if (tinyMCE.get('excerpt') !== null) {
+			desc = tinyMCE.get('excerpt').getContent();
+			desc = yst_clean(desc);
+		}
+
+		if ( tinyMCE.get('content') !== null && desc.length === 0) {
+			desc = tinyMCE.get('content').getContent();
+
 			desc = yst_clean(desc);
 		}
 
@@ -451,12 +457,24 @@ jQuery(document).ready(function () {
 	jQuery('#' + wpseoMetaboxL10n.field_prefix + 'metadesc').keyup(function () {
 		yst_updateDesc();
 	});
-	jQuery('#excerpt').keyup(function () {
-		yst_updateDesc();
-	});
-	jQuery('#content').focusout(function () {
-		yst_updateDesc();
-	});
+
+	// Set time out because of tinymce is initialized later then this is done
+	setTimeout(
+		function() {
+			yst_updateSnippet();
+
+			// Adding events to content and excerpt
+			if( tinyMCE.get( 'content' ) !== null ) {
+				tinyMCE.get( 'content' ).on( 'blur', yst_updateDesc );
+			}
+
+			if( tinyMCE.get( 'excerpt' ) !== null ) {
+				tinyMCE.get( 'excerpt' ).on( 'blur', yst_updateDesc );
+			}
+		},
+		500
+	);
+
 	var focuskwhelptriggered = false;
 	jQuery(document).on('change', '#' + wpseoMetaboxL10n.field_prefix + 'focuskw', function () {
 		var focuskwhelpElm = jQuery('#focuskwhelp');
@@ -503,5 +521,4 @@ jQuery(document).ready(function () {
 		}
 	);
 
-	yst_updateSnippet();
 });
