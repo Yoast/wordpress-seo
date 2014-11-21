@@ -2,7 +2,7 @@
   "name": "wordpress-seo",
   "description": "Development files for the WordPress SEO plugin",
   "plugin": {
-    "glotpress": "https://translate.yoast.com/",
+    "glotpress": "https://translate.yoast.com",
     "textdomain": "wordpress-seo"
   },
   "pot": {
