@@ -2,6 +2,7 @@
   "name": "wordpress-seo",
   "description": "Development files for the WordPress SEO plugin",
   "plugin": {
+    "glotpress": "https://translate.yoast.com/",
     "textdomain": "wordpress-seo"
   },
   "pot": {
@@ -24,6 +25,7 @@
     "grunt-contrib-jshint": "^0.10.0",
     "grunt-contrib-uglify": "^0.6.0",
     "grunt-contrib-watch": "^0.6.1",
+    "grunt-glotpress": "^0.1.1",
     "grunt-jsbeautifier": "~0.2.7",
     "grunt-jscs": "^0.8.1",
     "grunt-jsonlint": "^1.0.4",
