@@ -174,7 +174,7 @@ function _wpseo_activate() {
 	}
 	WPSEO_Options::ensure_options_exist();
 
-	flush_rewrite_rules();
+	add_action( 'shutdown', 'flush_rewrite_rules' );
 
 	wpseo_add_capabilities();
 
@@ -192,7 +192,7 @@ function _wpseo_activate() {
 function _wpseo_deactivate() {
 	require_once( WPSEO_PATH . 'inc/wpseo-functions.php' );
 
-	flush_rewrite_rules();
+	add_action( 'shutdown', 'flush_rewrite_rules' );
 
 	wpseo_remove_capabilities();
 
