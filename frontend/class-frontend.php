@@ -874,7 +874,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 			if ( is_string( $canonical ) && $canonical !== '' ) {
 				// Force canonical links to be absolute, relative is NOT an option.
 				if ( wpseo_is_url_relative( $canonical ) === true ) {
-					$canonical = home_url( $canonical );
+					$canonical = $this->base_url( $canonical );
 				}
 
 				if ( $echo !== false ) {
@@ -885,6 +885,27 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 			} else {
 				return false;
 			}
+		}
+
+		/**
+		 * Parse the home URL setting to find the base URL for relative URLs.
+		 *
+		 * @param string $path
+		 *
+		 * @return string
+		 */
+		private function base_url( $path = null ) {
+			$url = get_option( 'home' );
+
+			$parts = parse_url( $url );
+
+			$base_url = trailingslashit( $parts['scheme'] . '://' . $parts['host'] );
+
+			if ( ! is_null( $path ) ) {
+				$base_url .= ltrim( $path, '/' );
+			}
+
+			return $base_url;
 		}
 
 		/**
