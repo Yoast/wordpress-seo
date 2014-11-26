@@ -1,6 +1,7 @@
 Thanks for reading our conribution guidelines! What do you want to do:
 
 * [File a bug / an issue](#filing-issue)
+* [Security issues](#security)
 * [Contribute to WordPress SEO](#contribute)
 
 <a name="filing-issue"></a>
@@ -29,8 +30,12 @@ That error will help us, without that error, we're completely in the dark about 
 ### Interface errors
 If you're reporting a bug about specific interface elements not working as expected, there's probably an error showing in your browsers JavaScript console. Please open your browsers console and copy the exact error showing there, or make a screenshot. If you don't know how to open your browsers console, here is info for [Chrome](https://developer.chrome.com/devtools/docs/console) and [Firefox](https://developer.mozilla.org/en/docs/Tools/Web_Console). For IE, some Googling will help but it changes with every version.
 
+<a name="security"></a>
+#Security issues
+Please do _not_ report security issues here, but email them to security at yoast dot com so we can deal with them securely and quickly.
+
 <a name="contribute"></a>
-#Contribute To WordPress SEO
+#Contribute to WordPress SEO
 
 Community made patches, localisations, bug reports and contributions are very welcome and help make WordPress SEO remains the #1 SEO plugin for WordPress.
 
