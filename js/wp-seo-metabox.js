@@ -222,6 +222,7 @@ function yst_updateTitle(force) {
 		var placeholder_title = divHtml.html(title).text();
 		titleElm.attr('placeholder', placeholder_title);
 
+		title = yst_clean(title);
 		title = yst_strip_tags(title);
 
 		// and now the snippet preview title
