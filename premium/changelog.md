@@ -1,3 +1,6 @@
+### 1.5.1: November 26th, 2014
+* Security hotfix: Merge with WordPress SEO core 1.7.1, see [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
+
 ### 1.5: November 18th, 2014
 * Merge with WordPress SEO core 1.7
 * Fixes a bug where authentication with Google Webmaster Tools would fail silently.

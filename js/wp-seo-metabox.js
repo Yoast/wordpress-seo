@@ -186,10 +186,6 @@ function yst_replaceVariables(str, callback) {
 	callback(str);
 }
 
-function yst_strip_tags(string) {
-	return jQuery(jQuery('<div />')).html( string ).text();
-}
-
 function yst_updateTitle(force) {
 	var title = '';
 	var titleElm = jQuery('#' + wpseoMetaboxL10n.field_prefix + 'title');
@@ -222,7 +218,7 @@ function yst_updateTitle(force) {
 		var placeholder_title = divHtml.html(title).text();
 		titleElm.attr('placeholder', placeholder_title);
 
-		title = yst_strip_tags(title);
+		title = yst_clean(title);
 
 		// and now the snippet preview title
 		title = yst_boldKeywords(title, false);
