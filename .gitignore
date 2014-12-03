@@ -20,6 +20,7 @@ local.properties
 nbproject/
 node_modules/*
 Gruntfile.js
+premium/node_modules/*
 
 ############
 ## OSes

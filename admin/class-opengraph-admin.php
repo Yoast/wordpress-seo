@@ -116,7 +116,7 @@ if ( ! class_exists( 'WPSEO_Social_Admin' ) ) {
 
 				foreach ( $fields_to_compare AS $field_to_compare ) {
 					$old_value = self::get_value( $field_to_compare, $post->ID );
-					$new_value = $_POST[ self::$form_prefix . $field_to_compare ];
+					$new_value = self::get_post_value( self::$form_prefix . $field_to_compare );
 
 					if ( $old_value !== $new_value ) {
 						$reset_facebook_cache = true;

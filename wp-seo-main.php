@@ -174,7 +174,7 @@ function _wpseo_activate() {
 	}
 	WPSEO_Options::ensure_options_exist();
 
-	flush_rewrite_rules();
+	add_action( 'shutdown', 'flush_rewrite_rules' );
 
 	wpseo_add_capabilities();
 
@@ -192,7 +192,7 @@ function _wpseo_activate() {
 function _wpseo_deactivate() {
 	require_once( WPSEO_PATH . 'inc/wpseo-functions.php' );
 
-	flush_rewrite_rules();
+	add_action( 'shutdown', 'flush_rewrite_rules' );
 
 	wpseo_remove_capabilities();
 
@@ -324,7 +324,7 @@ function register_i18n_promo_class() {
 			'glotpress_url'  => 'http://translate.yoast.com/',
 			'glotpress_name' => 'Yoast Translate',
 			'glotpress_logo' => 'https://cdn.yoast.com/wp-content/uploads/i18n-images/Yoast_Translate.svg',
-			'register_url '  => 'http://translate.yoast.com/projects#utm_source=plugin&utm_medium=promo-box&utm_campaign=wpseo-i18n-promo',
+			'register_url'   => 'http://translate.yoast.com/projects#utm_source=plugin&utm_medium=promo-box&utm_campaign=wpseo-i18n-promo',
 		)
 	);
 }
