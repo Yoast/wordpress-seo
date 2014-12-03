@@ -1576,12 +1576,13 @@ if ( ! class_exists( 'WPSEO_Option_Titles' ) ) {
 			}
 
 			if ( $post_type_objects_custom !== array() ) {
+				$archive = sprintf( __( '%s Archive', 'wordpress-seo' ), '%%pt_plural%%' );
 				foreach ( $post_type_objects_custom as $pt ) {
 					if ( ! $pt->has_archive ) {
 						continue;
 					}
 
-					$this->defaults[ 'title-ptarchive-' . $pt->name ]    = sprintf( __( '%s Archive', 'wordpress-seo' ), '%%pt_plural%%' ) . ' %%page%% %%sep%% %%sitename%%'; // text field
+					$this->defaults[ 'title-ptarchive-' . $pt->name ]    = $archive . ' %%page%% %%sep%% %%sitename%%'; // text field
 					$this->defaults[ 'metadesc-ptarchive-' . $pt->name ] = ''; // text area
 					$this->defaults[ 'metakey-ptarchive-' . $pt->name ]  = ''; // text field
 					$this->defaults[ 'bctitle-ptarchive-' . $pt->name ]  = ''; // text field
@@ -1591,8 +1592,9 @@ if ( ! class_exists( 'WPSEO_Option_Titles' ) ) {
 			}
 
 			if ( $taxonomy_names !== array() ) {
+				$archives = sprintf( __( '%s Archives', 'wordpress-seo' ), '%%term_title%%' );
 				foreach ( $taxonomy_names as $tax ) {
-					$this->defaults[ 'title-tax-' . $tax ]       = sprintf( __( '%s Archives', 'wordpress-seo' ), '%%term_title%%' ) . ' %%page%% %%sep%% %%sitename%%'; // text field
+					$this->defaults[ 'title-tax-' . $tax ]       = $archives . ' %%page%% %%sep%% %%sitename%%'; // text field
 					$this->defaults[ 'metadesc-tax-' . $tax ]    = ''; // text area
 					$this->defaults[ 'metakey-tax-' . $tax ]     = ''; // text field
 					$this->defaults[ 'hideeditbox-tax-' . $tax ] = false;
