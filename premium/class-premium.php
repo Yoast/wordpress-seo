@@ -241,11 +241,11 @@ class WPSEO_Premium {
 		} else {
 			// Catch redirect
 			$normal_redirect_manager = new WPSEO_URL_Redirect_Manager();
-			add_action( 'template_redirect', array( $normal_redirect_manager, 'do_redirects' ) );
+			add_action( 'template_redirect', array( $normal_redirect_manager, 'do_redirects' ), -999 );
 
 			// Catch redirect
 			$regex_redirect_manager = new WPSEO_REGEX_Redirect_Manager();
-			add_action( 'template_redirect', array( $regex_redirect_manager, 'do_redirects' ) );
+			add_action( 'template_redirect', array( $regex_redirect_manager, 'do_redirects' ), -999 );
 
 			// Add 404 redirect link to WordPress toolbar
 			add_action( 'admin_bar_menu', array( $this, 'admin_bar_menu' ), 96 );

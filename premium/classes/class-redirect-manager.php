@@ -23,7 +23,8 @@ abstract class WPSEO_Redirect_Manager {
 		$redirect_types = array(
 			'301' => '301 Moved Permanently',
 			'302' => '302 Found',
-			'307' => '307 Temporary Redirect'
+			'307' => '307 Temporary Redirect',
+			'410' => '410 Content Deleted',
 		);
 		return apply_filters( 'wpseo_premium_redirect_types', $redirect_types );
 	}
