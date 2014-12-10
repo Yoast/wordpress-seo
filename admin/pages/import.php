@@ -345,10 +345,10 @@ if ( isset( $_POST['import'] ) || isset( $_GET['import'] ) ) {
 
 	// Check if we've deleted old data and adjust message to match it
 	if ( $replace ) {
-		$msg .= __( ', and old data deleted.', 'wordpress-seo' );
+		$msg .= ' ' . __( 'The old data of the imported plugin was deleted successfully.', 'wordpress-seo' );
 	}
 	if ( $deletekw ) {
-		$msg .= __( ', and meta keywords data deleted.', 'wordpress-seo' );
+		$msg .= ' ' . __( 'The old meta keywords data was deleted.', 'wordpress-seo' );
 	}
 }
 
