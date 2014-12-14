@@ -28,13 +28,13 @@ class WPSEO_UnitTestCase extends WP_UnitTestCase {
 	}
 
 	/**
-	* @param string $string
+	* @param string $expected
 	* @param mixed $function
 	*/
-	protected function expectOutput( $string, $function = null ) {
+	protected function expectOutput( $expected, $function = null ) {
 		$output = ob_get_contents();
 		ob_clean();
-		$this->assertEquals( $output, $string );
+		$this->assertEquals( $expected, $output );
 	}
 
 }

@@ -76,6 +76,9 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 		$name     = 'yoast';
 		$expected = $this->metatag( 'creator', '@' . $name );
 
+		global $wp_query;
+		$wp_query->is_singular = true;
+
 		// test option
 		self::$class_instance->options['twitter_site'] = $name;
 		self::$class_instance->author_twitter();
