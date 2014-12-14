@@ -17,11 +17,33 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 		ob_end_clean();
 	}
 
+	public function tearDown() {
+		// Reset shown images
+		self::$class_instance->shown_images = array();
+	}
+
 	/**
 	 * @covers WPSEO_Twitter::twitter
 	 */
 	public function test_twitter() {
-		// TODO
+		$post_id = $this->factory->post->create(
+			array(
+				'post_title'  => 'Test Post',
+				'post_excerpt' => 'Test Excerpt',
+				'post_type'   => 'post',
+				'post_status' => 'publish',
+			)
+		);
+		$this->go_to( get_permalink( $post_id ) );
+
+		self::$class_instance->twitter();
+
+		$expected = '<meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="Test Excerpt"/>
+<meta name="twitter:title" content="Test Post - Test Blog"/>
+<meta name="twitter:domain" content="Test Blog"/>
+';
+		$this->expectOutput( $expected );
 	}
 
 	/**
@@ -170,8 +192,24 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	/**
 	 * @covers WPSEO_Twitter::image()
 	 */
-	public function test_image() {
+	public function test_homepage_image() {
+		// test default image
+		$image_url = 'http://url-default-image.jpg';
 
+		// reset default_image option
+		self::$class_instance->options['og_frontpage_image'] = $image_url;
+
+		$this->go_to_home();
+		$expected = $this->metatag( 'image:src', $image_url );
+
+		self::$class_instance->image();
+		$this->expectOutput( $expected );
+	}
+
+	/**
+	 * @covers WPSEO_Twitter::image()
+	 */
+	public function test_default_image() {
 		// create and go to post
 		$post_id = $this->factory->post->create();
 		$this->go_to( get_permalink( $post_id ) );
@@ -184,9 +222,15 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 
 		self::$class_instance->image();
 		$this->expectOutput( $expected );
+	}
 
-		// Reset shown images
-		self::$class_instance->shown_images = array();
+	/**
+	 * @covers WPSEO_Twitter::image()
+	 */
+	public function test_meta_value_image() {
+		// create and go to post
+		$post_id = $this->factory->post->create();
+		$this->go_to( get_permalink( $post_id ) );
 
 		// test wpseo meta value
 		$image_url = 'http://url-singular-meta-image.jpg';
@@ -195,23 +239,12 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 
 		self::$class_instance->image();
 		$this->expectOutput( $expected );
+	}
 
-		// Reset shown images
-		self::$class_instance->shown_images = array();
-
-		// reset default_image option
-		self::$class_instance->options['og_frontpage_image'] = $image_url;
-
-		$this->go_to_home();
-		$expected = $this->metatag( 'image:src', $image_url );
-
-		self::$class_instance->image();
-		$this->expectOutput( $expected );
-
-		// Reset shown images
-		self::$class_instance->shown_images = array();
-
-		// Post thumbnail image
+	/**
+	 * @covers WPSEO_Twitter::image()
+	 */
+	public function test_post_thumbnail_image() {
 		$post_id = $this->factory->post->create();
 		$filename = 'post-thumbnail.jpg';
 		$attachment_id = $this->factory->attachment->create_object( $filename, 0, array(
@@ -226,10 +259,12 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 		self::$class_instance->image();
 		$this->expectOutput( $expected );
 
-		// Reset shown images
-		self::$class_instance->shown_images = array();
+	}
 
-		// Post content image
+	/**
+	 * @covers WPSEO_Twitter::image()
+	 */
+	public function test_post_content_image() {
 		$url = 'http://example.com/example.jpg';
 		$post_id = $this->factory->post->create( array( 'post_content' => "Bla <img src='$url'/> bla" ) );
 		$this->go_to( get_permalink( $post_id ) );
