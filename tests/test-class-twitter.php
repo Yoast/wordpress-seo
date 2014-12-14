@@ -108,7 +108,7 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Twitter::twitter_title
+	 * @covers WPSEO_Twitter::title
 	 */
 	public function test_twitter_title() {
 		// create and go to post
@@ -116,12 +116,12 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 		$this->go_to( get_permalink( $post_id ) );
 
 		$expected = $this->metatag( 'title', self::$class_instance->title( '' ) );
-		self::$class_instance->twitter_title();
+		self::$class_instance->title();
 		$this->expectOutput( $expected );
 	}
 
 	/**
-	 * @covers WPSEO_Twitter::twitter_description
+	 * @covers WPSEO_Twitter::description
 	 */
 	public function test_twitter_description() {
 
@@ -131,19 +131,19 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 
 		// test excerpt
 		$expected = $this->metatag( 'description', get_the_excerpt() );
-		self::$class_instance->twitter_description();
+		self::$class_instance->description();
 		$this->expectOutput( $expected );
 
 
 		// test wpseo meta
 		WPSEO_Meta::set_value( 'metadesc', 'Meta description', $post_id );
 		$expected = $this->metatag( 'description', self::$class_instance->metadesc( false ) );
-		self::$class_instance->twitter_description();
+		self::$class_instance->description();
 		$this->expectOutput( $expected );
 	}
 
 	/**
-	 * @covers WPSEO_Twitter::twitter_url
+	 * @covers WPSEO_Twitter::url
 	 */
 	public function test_twitter_url() {
 		// create and go to post
@@ -151,7 +151,7 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 		$this->go_to( get_permalink( $post_id ) );
 
 		$expected = $this->metatag( 'url', esc_url( self::$class_instance->canonical( false ) ) );
-		self::$class_instance->twitter_url();
+		self::$class_instance->url();
 		$this->expectOutput( $expected );
 	}
 
