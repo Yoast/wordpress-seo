@@ -838,6 +838,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	public function test_force_rewrite_output_buffer() {
 		self::$class_instance->force_rewrite_output_buffer();
 		$this->assertTrue( ( ob_get_level() > 0 ) );
+		ob_get_clean();
 	}
 
 	/**

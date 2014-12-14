@@ -97,15 +97,12 @@ class WPSEO_Twitter {
 		$this->title();
 		$this->site_twitter();
 		$this->site_domain();
-		$this->author_twitter();
+		$this->author();
 		$this->image();
 
 		// No need to show these when OpenGraph is also showing, as it'd be the same contents and Twitter
 		// would fallback to OpenGraph anyway.
 		if ( $this->options['opengraph'] === false ) {
-			if ( 'summary' === $this->type ) {
-				$this->image();
-			}
 			$this->url();
 		}
 
@@ -210,12 +207,12 @@ class WPSEO_Twitter {
 	/**
 	 * Displays the authors Twitter account.
 	 */
-	public function author_twitter() {
+	public function author() {
 		if ( ! is_singular() ) {
 			return;
 		}
 
-		$twitter = ltrim( trim( get_the_author_meta( 'twitter' ) ), '@' );
+		$twitter = ltrim( trim( get_the_author_meta( 'twitter', get_post()->post_author ) ), '@' );
 		/**
 		 * Filter: 'wpseo_twitter_creator_account' - Allow changing the Twitter account as output in the Twitter card by WP SEO
 		 *
@@ -365,8 +362,17 @@ class WPSEO_Twitter {
 			if ( $image_counter > 3 ) {
 				return;
 			}
-			$this->image_output( $image, 'twitter:image' . $image_counter );
+			$this->image_output( $image, 'image' . $image_counter );
 			$image_counter ++;
+		}
+	}
+
+	/**
+	 * Show the front page image
+	 */
+	private function homepage_image_output() {
+		if ( $this->options['og_frontpage_image'] !== '' ) {
+			$this->image_output( $this->options['og_frontpage_image'] );
 		}
 	}
 
@@ -378,9 +384,7 @@ class WPSEO_Twitter {
 			global $post;
 
 			if ( is_front_page() ) {
-				if ( $this->options['og_frontpage_image'] !== '' ) {
-					$this->image_output( $this->options['og_frontpage_image'] );
-				}
+				$this->homepage_image_output();
 			}
 
 			foreach ( array( 'twitter-image', 'opengraph-image' ) as $tag ) {
@@ -413,6 +417,10 @@ class WPSEO_Twitter {
 						$this->image_output( $match[2] );
 					}
 				}
+			}
+		} else {
+			if ( is_front_page() ) {
+				$this->homepage_image_output();
 			}
 		}
 	}

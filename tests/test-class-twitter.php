@@ -8,7 +8,6 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	private static $class_instance;
 
 	public static function setUpBeforeClass() {
-
 		ob_start();
 
 		// create instance of WPSEO_Twitter class
@@ -43,6 +42,8 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 
 		self::$class_instance->type();
 		$this->expectOutput( $expected );
+
+		self::$class_instance->options['twitter_card_type'] = 'summary';
 	}
 
 	/**
@@ -72,42 +73,34 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Twitter::site_domain
 	 */
 	public function test_author_twitter() {
-
-		$name     = 'yoast';
-		$expected = $this->metatag( 'creator', '@' . $name );
-
-		global $wp_query;
-		$wp_query->is_singular = true;
-
-		// test option
-		self::$class_instance->options['twitter_site'] = $name;
-		self::$class_instance->author_twitter();
-		$this->expectOutput( $expected );
-
-		// reset option to make sure next result is from author meta
-		self::$class_instance->options['twitter_site'] = '';
-
-		/*
-		 TODO fix this part
-
-		// create post, attach user as author
+		// create user, create post, attach user as author
 		$user_id = $this->factory->user->create( array( 'role' => 'administrator' ) );
 		$post_id = $this->factory->post->create(
 			array(
-				'post_title' => 'Sample Post',
-				'post_type' => 'post',
+				'post_title'  => 'Sample Post',
+				'post_type'   => 'post',
 				'post_status' => 'publish',
+				'post_author' => $user_id,
 			)
 		);
 
 		// go to post we just created
 		$this->go_to( get_permalink( $post_id ) );
 
-		// test user meta
-		update_user_meta( $this->user_id, 'twitter', '@' . $name );
-		self::$class_instance->author_twitter();
+		// test fallback to twitter_site option
+		self::$class_instance->options['twitter_site'] = 'yoast';
+		self::$class_instance->author();
+		$expected = $this->metatag( 'creator', '@yoast' );
 		$this->expectOutput( $expected );
-		*/
+
+		// create user, give twitter ID, this should now overwrite the site's settings
+		update_user_meta( $user_id, 'twitter', '@jdevalk' );
+		$expected = $this->metatag( 'creator', '@jdevalk' );
+		$this->go_to( get_permalink( $post_id ) );
+
+		// test user meta
+		self::$class_instance->author();
+		$this->expectOutput( $expected );
 	}
 
 	/**
@@ -136,7 +129,6 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 		$expected = $this->metatag( 'description', get_the_excerpt() );
 		self::$class_instance->description();
 		$this->expectOutput( $expected );
-
 
 		// test wpseo meta
 		WPSEO_Meta::set_value( 'metadesc', 'Meta description', $post_id );
@@ -176,7 +168,7 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Twitter::site_domain
+	 * @covers WPSEO_Twitter::image()
 	 */
 	public function test_image() {
 
@@ -188,15 +180,13 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 		$image_url = 'http://url-default-image.jpg';
 
 		self::$class_instance->options['og_default_image'] = $image_url;
-		$expected = $this->get_expected_image_output( $image_url );
+		$expected                                          = $this->get_expected_image_output( $image_url );
 
 		self::$class_instance->image();
 		$this->expectOutput( $expected );
 
-		// reset default_image option
-		self::$class_instance->options['og_default_image'] = '';
-
-		// TODO test og_frontpage_image
+		// Reset shown images
+		self::$class_instance->shown_images = array();
 
 		// test wpseo meta value
 		$image_url = 'http://url-singular-meta-image.jpg';
@@ -206,8 +196,75 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 		self::$class_instance->image();
 		$this->expectOutput( $expected );
 
-		// TODO test post thumbnail
-		// TODO test post content image
+		// Reset shown images
+		self::$class_instance->shown_images = array();
+
+		// reset default_image option
+		self::$class_instance->options['og_frontpage_image'] = $image_url;
+
+		$this->go_to_home();
+		$expected = $this->metatag( 'image:src', $image_url );
+
+		self::$class_instance->image();
+		$this->expectOutput( $expected );
+
+		// Reset shown images
+		self::$class_instance->shown_images = array();
+
+		// Post thumbnail image
+		$post_id = $this->factory->post->create();
+		$filename = 'post-thumbnail.jpg';
+		$attachment_id = $this->factory->attachment->create_object( $filename, 0, array(
+			'post_mime_type' => 'image/jpeg',
+			'post_type'      => 'attachment'
+		) );
+		update_post_meta( $post_id, '_thumbnail_id', $attachment_id );
+		$this->go_to( get_permalink( $post_id ) );
+
+		$expected = $this->metatag( 'image:src', 'http://' . WP_TESTS_DOMAIN . "/wp-content/uploads/$filename" );
+
+		self::$class_instance->image();
+		$this->expectOutput( $expected );
+
+		// Reset shown images
+		self::$class_instance->shown_images = array();
+
+		// Post content image
+		$url = 'http://example.com/example.jpg';
+		$post_id = $this->factory->post->create( array( 'post_content' => "Bla <img src='$url'/> bla" ) );
+		$this->go_to( get_permalink( $post_id ) );
+
+		$expected = $this->metatag( 'image:src', $url );
+
+		self::$class_instance->image();
+		$this->expectOutput( $expected );
+	}
+
+	/**
+	 * @covers WPSEO_Twitter::gallery_images_output()
+	 */
+	public function test_gallery_images() {
+		$ids      = array();
+		$expected = $this->metatag( 'card', 'gallery' );
+
+		// Insert images into DB so we have something to test against
+		foreach ( range( 0, 2 ) as $i ) {
+			$filename = "image$i.jpg";
+			$ids[] = $this->factory->attachment->create_object( $filename, 0, array(
+				'post_mime_type' => 'image/jpeg',
+				'post_type'      => 'attachment'
+			) );
+			$expected .= $this->metatag( 'image' . $i, 'http://' . WP_TESTS_DOMAIN . "/wp-content/uploads/$filename" );
+		}
+
+		// Create and go to post
+		$content = '[gallery ids="' . join( ',', $ids ) . '"]';
+		$post_id = $this->factory->post->create( array( 'post_content' => $content ) );
+		$this->go_to( get_permalink( $post_id ) );
+
+		self::$class_instance->type();
+		self::$class_instance->image();
+		$this->expectOutput( $expected );
 	}
 
 	/**
