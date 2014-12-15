@@ -147,7 +147,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		$post_id = $this->factory->post->create();
 		$this->go_to( get_permalink( $post_id ) );
 
-		$expected_title = self::$class_instance->title( '' );
+		$expected_title = WPSEO_Frontend::get_instance()->title( '' );
 		$expected_html  = '<meta property="og:title" content="' . $expected_title . '" />' . "\n";
 
 		$this->assertTrue( self::$class_instance->og_title() );

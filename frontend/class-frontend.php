@@ -21,6 +21,11 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 	class WPSEO_Frontend {
 
 		/**
+		 * @var    object    Instance of this class
+		 */
+		public static $instance;
+
+		/**
 		 * @var array Holds the plugins options.
 		 */
 		var $options = array();
@@ -118,6 +123,19 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 			if ( $this->options['title_test'] > 0 ) {
 				add_filter( 'wpseo_title', array( $this, 'title_test_helper' ) );
 			}
+		}
+
+		/**
+		 * Get the singleton instance of this class
+		 *
+		 * @return object
+		 */
+		public static function get_instance() {
+			if ( ! ( self::$instance instanceof self ) ) {
+				self::$instance = new self();
+			}
+
+			return self::$instance;
 		}
 
 		/**

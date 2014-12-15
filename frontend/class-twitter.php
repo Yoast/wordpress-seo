@@ -273,7 +273,7 @@ class WPSEO_Twitter {
 	 * @return string
 	 */
 	private function fallback_title() {
-		return $GLOBALS['wpseo_front']->title( '' );
+		return WPSEO_Frontend::get_instance()->title( '' );
 	}
 
 	/**
@@ -324,7 +324,7 @@ class WPSEO_Twitter {
 	 * @return string
 	 */
 	private function fallback_description() {
-		return trim( $GLOBALS['wpseo_front']->metadesc( false ) );
+		return trim( WPSEO_Frontend::get_instance()->metadesc( false ) );
 	}
 
 	/**
@@ -338,7 +338,7 @@ class WPSEO_Twitter {
 		 *
 		 * @api string $unsigned Canonical URL
 		 */
-		$url = apply_filters( 'wpseo_twitter_url', $GLOBALS['wpseo_front']->canonical( false ) );
+		$url = apply_filters( 'wpseo_twitter_url', WPSEO_Frontend::get_instance()->canonical( false ) );
 		if ( is_string( $url ) && $url !== '' ) {
 			$this->output_metatag( 'url', esc_url( $url ), true );
 		}
@@ -369,11 +369,73 @@ class WPSEO_Twitter {
 
 	/**
 	 * Show the front page image
+	 *
+	 * @return bool
 	 */
 	private function homepage_image_output() {
-		if ( $this->options['og_frontpage_image'] !== '' ) {
-			$this->image_output( $this->options['og_frontpage_image'] );
+		if ( is_front_page() ) {
+			if ( $this->options['og_frontpage_image'] !== '' ) {
+				$this->image_output( $this->options['og_frontpage_image'] );
+				return true;
+			}
 		}
+		return false;
+	}
+
+	/**
+	 * Retrieve the featured image
+	 *
+	 * @return bool
+	 */
+	private function image_thumbnail_output() {
+		if ( function_exists( 'has_post_thumbnail' ) && has_post_thumbnail( get_the_ID() ) ) {
+			/**
+			 * Filter: 'wpseo_twitter_image_size' - Allow changing the Twitter Card image size
+			 *
+			 * @api string $featured_img Image size string
+			 */
+			$featured_img = wp_get_attachment_image_src( get_post_thumbnail_id( get_the_ID() ), apply_filters( 'wpseo_twitter_image_size', 'full' ) );
+
+			if ( $featured_img ) {
+				$this->image_output( $featured_img[0] );
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Retrieve the image from the content
+	 *
+	 * @return bool
+	 */
+	private function image_from_content_output() {
+		global $post;
+		if ( preg_match_all( '`<img [^>]+>`', $post->post_content, $matches ) ) {
+			foreach ( $matches[0] as $img ) {
+				if ( preg_match( '`src=(["\'])(.*?)\1`', $img, $match ) ) {
+					$this->image_output( $match[2] );
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Retrieve images from the post meta values
+	 *
+	 * @return bool
+	 */
+	private function image_from_meta_values_output() {
+		foreach ( array( 'twitter-image', 'opengraph-image' ) as $tag ) {
+			$img = WPSEO_Meta::get_value( $tag );
+			if ( $img !== '' ) {
+				$this->image_output( $img );
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -381,46 +443,21 @@ class WPSEO_Twitter {
 	 */
 	private function single_image_output() {
 		if ( is_singular() ) {
-			global $post;
-
-			if ( is_front_page() ) {
-				$this->homepage_image_output();
-			}
-
-			foreach ( array( 'twitter-image', 'opengraph-image' ) as $tag ) {
-				$img = WPSEO_Meta::get_value( $tag );
-				if ( $img !== '' ) {
-					$this->image_output( $img );
-
-					return;
-				}
-			}
-
-			if ( function_exists( 'has_post_thumbnail' ) && has_post_thumbnail( $post->ID ) ) {
-				/**
-				 * Filter: 'wpseo_twitter_image_size' - Allow changing the Twitter Card image size
-				 *
-				 * @api string $featured_img Image size string
-				 */
-				$featured_img = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), apply_filters( 'wpseo_twitter_image_size', 'full' ) );
-
-				if ( $featured_img ) {
-					$this->image_output( $featured_img[0] );
-				}
-
+			if ( $this->homepage_image_output() ) {
 				return;
 			}
-
-			if ( preg_match_all( '`<img [^>]+>`', $post->post_content, $matches ) ) {
-				foreach ( $matches[0] as $img ) {
-					if ( preg_match( '`src=(["\'])(.*?)\1`', $img, $match ) ) {
-						$this->image_output( $match[2] );
-					}
-				}
+			if ( $this->image_from_meta_values_output() ) {
+				return;
+			}
+			if ( $this->image_thumbnail_output() ) {
+				return;
+			}
+			if ( $this->image_from_content_output() ) {
+				return;
 			}
 		} else {
-			if ( is_front_page() ) {
-				$this->homepage_image_output();
+			if ( $this->homepage_image_output() ) {
+				return;
 			}
 		}
 	}

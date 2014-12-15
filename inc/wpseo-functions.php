@@ -74,7 +74,7 @@ function wpseo_do_upgrade() {
 
 if ( ! function_exists( 'initialize_wpseo_front' ) ) {
 	function initialize_wpseo_front() {
-		$GLOBALS['wpseo_front'] = new WPSEO_Frontend;
+		WPSEO_Frontend::get_instance();
 	}
 }
 
