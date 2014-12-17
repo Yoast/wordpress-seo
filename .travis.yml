@@ -1,7 +1,5 @@
 language: php
 
-sudo: false
-
 php:
 - '5.5'
 
@@ -24,6 +22,9 @@ matrix:
       env: WP_VERSION=3.9 WP_MULTISITE=0
     - php: "5.2"
       env: WP_VERSION=master WP_MULTISITE=1 PHPLINT=1
+
+before_install:
+  - sudo apt-get update && sudo apt-get --reinstall install -qq language-pack-en language-pack-nl
 
 before_script:
 - PLUGIN_SLUG=$(basename $(pwd))
