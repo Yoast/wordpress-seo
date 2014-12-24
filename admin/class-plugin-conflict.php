@@ -44,8 +44,6 @@ if ( ! class_exists( 'WPSEO_Plugin_Conflict' ) ) {
 				'header-footer/plugin.php',                              // Header and Footer
 				'network-publisher/networkpub.php',                      // Network Publisher
 				'nextgen-facebook/nextgen-facebook.php',                 // NextGEN Facebook OG
-				'social-networks-auto-poster-facebook-twitter-g/NextScripts_SNAP.php',
-				// NextScripts SNAP
 				'opengraph/opengraph.php',                               // Open Graph
 				'open-graph-protocol-framework/open-graph-protocol-framework.php',
 				// Open Graph Protocol Framework

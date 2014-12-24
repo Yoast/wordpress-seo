@@ -25,9 +25,6 @@
 		<!-- Demanding Yoda conditions is stupid. -->
 		<exclude name="WordPress.PHP.YodaConditions"/>
 
-		<!-- Temporarily disable this check until it's fixed -->
-		<exclude name="WordPress.Functions.FunctionCallSignature"/>
-
 		<!-- Turned off because of known & reported bugs in the Sniffs, should be turned on once the bugs are fixed. -->
 		<exclude name="WordPress.VIP.ValidatedSanitizedInput"/>
 
