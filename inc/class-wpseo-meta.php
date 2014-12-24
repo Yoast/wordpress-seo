@@ -277,23 +277,24 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 					'opengraph'  => 'opengraph',
 					'twitter'    => 'twitter',
 					'googleplus' => 'google-plus',
-				) as $option => $network ) {
-				if ( true === $options[$option] ) {
-					foreach (
-						array(
-							'title'         => 'text',
-							'description'   => 'textarea',
-							'image'         => 'upload',
-						) as $box => $type
-					) {
-						self::$meta_fields['social'][$network.'-'.$box]	= array(
-							'type'			=> $type,
-							'title' 		=> '', // translation added later
-							'default_value'	=> '',
-							'description'	=> '', // translation added later
-						);
+				) as $option => $network
+			) {
+					if ( true === $options[$option] ) {
+						foreach (
+							array(
+								'title'         => 'text',
+								'description'   => 'textarea',
+								'image'         => 'upload',
+							) as $box => $type
+						) {
+							self::$meta_fields['social'][$network.'-'.$box]	= array(
+								'type'			=> $type,
+								'title' 		=> '', // translation added later
+								'default_value'	=> '',
+								'description'	=> '', // translation added later
+							);
+						}
 					}
-				}
 			}
 
 			/**
@@ -997,7 +998,7 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 			}
 			return $merged;
 		}
-		
+
 		/**
 		 * Get a value from $_POST for a given key
 		 * Returns the $_POST value if exists, returns an empty string if key does not exist

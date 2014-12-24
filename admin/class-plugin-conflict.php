@@ -116,7 +116,7 @@ if ( ! class_exists( 'WPSEO_Plugin_Conflict' ) ) {
 
 			$plugin_sections = array(
 				'open_graph'   => 'open graph',
-				'xml_sitemaps' => 'xml sitemaps'
+				'xml_sitemaps' => 'xml sitemaps',
 			);
 
 			$instance->check_plugin_conflicts( $plugin_sections );
