@@ -658,8 +658,16 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 					}
 				}
 
-				$archive = get_post_type_archive_link( $post_type );
-				if ( $archive ) {
+				$archive_url = get_post_type_archive_link( $post_type );
+				/**
+				 * Filter: 'wpseo_sitemap_post_type_archive_link' - Allow changing the URL WordPress SEO uses in the XML sitemap for this post type archive.
+				 *
+				 * @api float $archive_url The URL of this archive
+				 *
+				 * @param string $post_type The post type this archive is for
+				 */
+				$archive_url = apply_filters( 'wpseo_sitemap_post_type_archive_link', $archive_url, $post_type );
+				if ( $archive_url ) {
 					/**
 					 * Filter: 'wpseo_xml_post_type_archive_priority' - Allow changing the priority of the URL WordPress SEO uses in the XML sitemap.
 					 *
@@ -669,9 +677,9 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 					 */
 					$output .= $this->sitemap_url(
 						array(
-							'loc' => $archive,
+							'loc' => $archive_url,
 							'pri' => apply_filters( 'wpseo_xml_post_type_archive_priority', 0.8, $post_type ),
-							'chf' => $this->filter_frequency( $post_type . '_archive', 'weekly', $archive ),
+							'chf' => $this->filter_frequency( $post_type . '_archive', 'weekly', $archive_url ),
 							'mod' => $this->get_last_modified( $post_type ),
 							// get_lastpostmodified( 'gmt', $post_type ) #17455
 						)
