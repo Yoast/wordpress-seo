@@ -305,7 +305,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 			$caching = apply_filters( 'wpseo_enable_xml_sitemap_transient_caching', true );
 
 			if ( $caching ) {
-				do_action('wpseo_sitemap_stylesheet_cache_' . $type, $this );
+				do_action( 'wpseo_sitemap_stylesheet_cache_' . $type, $this );
 				$this->sitemap = get_transient( 'wpseo_sitemap_cache_' . $type . '_' . $this->n );
 			}
 
@@ -1177,11 +1177,7 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 		function sitemap_url( $url ) {
 
 			// Create a DateTime object date in the correct timezone
-			if ( isset( $url['mod'] ) ) {
-				$date = new DateTime( $url['mod'], new DateTimeZone( $this->get_timezone_string() ) );
-			} else {
-				$date = new DateTime( date( 'y-m-d H:i:s' ), new DateTimeZone( $this->get_timezone_string() ) );
-			}
+			$date = $this->build_date_format( $url );
 
 			$url['loc'] = htmlspecialchars( $url['loc'] );
 
@@ -1279,6 +1275,30 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 			$date = new DateTime( $result, new DateTimeZone( $this->get_timezone_string() ) );
 
 			return $date->format( 'c' );
+		}
+
+		/**
+		 * Build the date field in a sitemap url item
+		 *
+		 * @since 1.7.1
+		 *
+		 * @param $url
+		 *
+		 * @return DateTime
+		 */
+		private function build_date_format( $url ) {
+			if ( isset( $url['mod'] ) ) {
+				// Try to convert the modification date of the post to a DateTime object
+				try {
+					$date = new DateTime( $url['mod'], new DateTimeZone( $this->get_timezone_string() ) );
+				} catch ( Exception $e ) {
+					$date = new DateTime( date( 'y-m-d H:i:s' ), new DateTimeZone( $this->get_timezone_string() ) );
+				}
+			} else {
+				$date = new DateTime( date( 'y-m-d H:i:s' ), new DateTimeZone( $this->get_timezone_string() ) );
+			}
+
+			return $date;
 		}
 
 		/**
