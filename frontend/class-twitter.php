@@ -167,7 +167,7 @@ class WPSEO_Twitter {
 	 *
 	 * @link https://dev.twitter.com/docs/cards
 	 */
-	private function type() {
+	public function type() {
 		$this->determine_card_type();
 		$this->sanitize_card_type();
 
@@ -177,7 +177,7 @@ class WPSEO_Twitter {
 	/**
 	 * Displays the Twitter account for the site.
 	 */
-	private function site_twitter() {
+	public function site_twitter() {
 		/**
 		 * Filter: 'wpseo_twitter_site' - Allow changing the Twitter site account as output in the Twitter card by WP SEO
 		 *
@@ -194,7 +194,7 @@ class WPSEO_Twitter {
 	/**
 	 * Displays the domain tag for the site.
 	 */
-	private function site_domain() {
+	public function site_domain() {
 		/**
 		 * Filter: 'wpseo_twitter_domain' - Allow changing the Twitter domain as output in the Twitter card by WP SEO
 		 *
@@ -209,7 +209,7 @@ class WPSEO_Twitter {
 	/**
 	 * Displays the authors Twitter account.
 	 */
-	private function author() {
+	public function author() {
 		$twitter = ltrim( trim( get_the_author_meta( 'twitter', get_post()->post_author ) ), '@' );
 		/**
 		 * Filter: 'wpseo_twitter_creator_account' - Allow changing the Twitter account as output in the Twitter card by WP SEO
@@ -233,7 +233,7 @@ class WPSEO_Twitter {
 	 *
 	 * Only used when OpenGraph is inactive.
 	 */
-	private function title() {
+	public function title() {
 		if ( is_singular() ) {
 			$title = $this->single_title();
 		} else {
@@ -279,7 +279,7 @@ class WPSEO_Twitter {
 	 *
 	 * Only used when OpenGraph is inactive.
 	 */
-	private function description() {
+	public function description() {
 		if ( is_singular() ) {
 			$meta_desc = $this->single_description();
 		} else {
@@ -330,7 +330,7 @@ class WPSEO_Twitter {
 	 *
 	 * Only used when OpenGraph is inactive.
 	 */
-	private function url() {
+	public function url() {
 		/**
 		 * Filter: 'wpseo_twitter_url' - Allow changing the URL as output in the Twitter card by WP SEO
 		 *
@@ -468,7 +468,7 @@ class WPSEO_Twitter {
 	 *
 	 * @return bool
 	 */
-	private function image_output( $img, $tag = 'image:src' ) {
+	public function image_output( $img, $tag = 'image:src' ) {
 		/**
 		 * Filter: 'wpseo_twitter_image' - Allow changing the Twitter Card image
 		 *
@@ -496,7 +496,7 @@ class WPSEO_Twitter {
 	 *
 	 * Only used when OpenGraph is inactive or Summary Large Image card is chosen.
 	 */
-	private function image() {
+	public function image() {
 
 		switch ( $this->type ) {
 			case 'gallery':
