@@ -55,6 +55,7 @@ If there is no ticket for your issue, submit it first, following the above guide
 
 At this point you're waiting on us to merge your pull request. We'll review all pull requests, and make suggestions and changes if necessary.
 
+<a name="patch-welcome"></a>
 ## "Patch welcome" issues
 
 Some issues are labeled "Patch-welcome". This means we see the value in the particular enhancement being suggested but have decided for now not to prioritize it. If you however decide to write a patch for it we'll gladly include it after some code review.
