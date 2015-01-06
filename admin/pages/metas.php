@@ -121,16 +121,12 @@ $wpseo_admin_pages->admin_header( true, WPSEO_Options::get_group_name( 'wpseo_ti
 	unset( $post_types );
 
 
-	$post_types = get_post_types( array( '_builtin' => false ), 'objects' );
+	$post_types = get_post_types( array( '_builtin' => false, 'has_archive' => true ), 'objects' );
 	if ( is_array( $post_types ) && $post_types !== array() ) {
 		echo '<h2>' . __( 'Custom Post Type Archives', 'wordpress-seo' ) . '</h2>';
 		echo '<p>' . __( 'Note: instead of templates these are the actual titles and meta descriptions for these custom post type archive pages.', 'wordpress-seo' ) . '</p>';
 
 		foreach ( $post_types as $pt ) {
-			if ( ! $pt->has_archive ) {
-				continue;
-			}
-
 			$name = $pt->name;
 
 			echo '<h4>' . esc_html( ucfirst( $pt->labels->name ) ) . '</h4>';
