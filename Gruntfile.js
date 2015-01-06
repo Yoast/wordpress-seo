@@ -52,6 +52,7 @@ module.exports = function(grunt) {
 			staticMappings: {
 				addtextdomain: 'grunt-wp-i18n',
 				makepot: 'grunt-wp-i18n',
+				glotpress_download: 'grunt-glotpress',
 				wpcss: 'grunt-wp-css'
 			}
 		}
