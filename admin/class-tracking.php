@@ -167,7 +167,6 @@ class Yoast_Tracking {
 	}
 } /* End of class */
 
-
 /**
  * Adds tracking parameters for WP SEO settings. Outside of the main class as the class could also be in use in other plugins.
  *
