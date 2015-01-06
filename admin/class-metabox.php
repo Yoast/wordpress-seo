@@ -11,7 +11,6 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 	/**
 	 * class WPSEO_Metabox
 	 *
@@ -2013,5 +2012,3 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		}
 
 	} /* End of class */
-
-} /* End of class-exists wrapper */

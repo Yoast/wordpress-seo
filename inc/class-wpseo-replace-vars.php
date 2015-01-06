@@ -10,7 +10,6 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 	/**
 	 * @package    WordPress\Plugins\WPSeo
 	 * @subpackage Internals
@@ -1188,5 +1187,3 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 	 * Setup the class statics when the file is first loaded
 	 */
 	WPSEO_Replace_Vars::setup_statics_once();
-
-} /* End of class-exists wrapper */

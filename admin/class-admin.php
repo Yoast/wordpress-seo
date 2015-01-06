@@ -9,7 +9,6 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-if ( ! class_exists( 'WPSEO_Admin' ) ) {
 	/**
 	 * Class that holds most of the admin functionality for WP SEO.
 	 */
@@ -875,5 +874,3 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		}
 
 	} /* End of class */
-
-} /* End of class-exists wrapper */

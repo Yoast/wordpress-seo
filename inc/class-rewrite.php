@@ -10,7 +10,6 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 }
 
 
-if ( ! class_exists( 'WPSEO_Rewrite' ) ) {
 	/**
 	 * This code handles the category rewrites.
 	 */
@@ -165,5 +164,3 @@ if ( ! class_exists( 'WPSEO_Rewrite' ) ) {
 			return $category_rewrite;
 		}
 	} /* End of class */
-
-} /* End of class-exists wrapper */

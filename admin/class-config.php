@@ -10,7 +10,6 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 }
 
 
-if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 	/**
 	 * class WPSEO_Admin_Pages
 	 *
@@ -714,5 +713,3 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 
 
 	} /* End of class */
-
-} /* End of class-exists wrapper */

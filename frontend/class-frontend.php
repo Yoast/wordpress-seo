@@ -11,7 +11,6 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 	/**
 	 * Main frontend class for WordPress SEO, responsible for the SEO output as well as removing
 	 * default WordPress output.
@@ -1677,5 +1676,3 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 		}
 
 	} /* End of class */
-
-} /* End of class-exists wrapper */

@@ -10,7 +10,6 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 }
 
 
-if ( ! class_exists( 'WPSEO_Taxonomy' ) ) {
 	/**
 	 * Class that handles the edit boxes on taxonomy edit pages.
 	 */
@@ -281,5 +280,3 @@ if ( ! class_exists( 'WPSEO_Taxonomy' ) ) {
 			return $desc;
 		}
 	} /* End of class */
-
-} /* End of class-exists wrapper */

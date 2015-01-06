@@ -11,7 +11,6 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-if ( ! class_exists( 'WPSEO_GooglePlus' ) ) {
 	class WPSEO_GooglePlus extends WPSEO_Frontend {
 
 		/**
@@ -115,4 +114,3 @@ if ( ! class_exists( 'WPSEO_GooglePlus' ) ) {
 			}
 		}
 	}
-} // end if class exists

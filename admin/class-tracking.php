@@ -9,7 +9,6 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-if ( ! class_exists( 'Yoast_Tracking' ) ) {
 	/**
 	 * Class that creates the tracking functionality for WP SEO, as the core class might be used in more plugins,
 	 * it's checked for existence first.
@@ -167,7 +166,7 @@ if ( ! class_exists( 'Yoast_Tracking' ) ) {
 
 		}
 	} /* End of class */
-} /* End of class-exists wrapper */
+
 
 /**
  * Adds tracking parameters for WP SEO settings. Outside of the main class as the class could also be in use in other plugins.

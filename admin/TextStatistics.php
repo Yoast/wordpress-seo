@@ -9,7 +9,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-if ( ! class_exists( 'Yoast_TextStatistics' ) ) {
+
 	/**
 	 * Modified (Reduced) TextStatistics Class
 	 *
@@ -413,4 +413,4 @@ if ( ! class_exists( 'Yoast_TextStatistics' ) ) {
 		}
 
 	} /* End of class */
-} /* End of class-exists wrapper */
+

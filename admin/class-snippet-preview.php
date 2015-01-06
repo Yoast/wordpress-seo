@@ -1,5 +1,4 @@
 <?php
-if ( ! class_exists( 'WPSEO_Snippet_Preview' ) ) {
 	/**
 	 * class WPSEO_Snippet_Preview
 	 *
@@ -153,4 +152,4 @@ HTML;
 			$this->content = apply_filters( 'wpseo_snippet', $content, $this->post, $properties );
 		}
 	}
-}
+

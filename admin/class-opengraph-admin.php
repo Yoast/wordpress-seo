@@ -9,7 +9,6 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-if ( ! class_exists( 'WPSEO_Social_Admin' ) ) {
 	/**
 	 * This class adds the Social tab to the WP SEO metabox and makes sure the settings are saved.
 	 */
@@ -153,5 +152,3 @@ if ( ! class_exists( 'WPSEO_Social_Admin' ) ) {
 		}
 
 	} /* End of class */
-
-} /* End of class-exists wrapper */

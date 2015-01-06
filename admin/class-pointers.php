@@ -10,7 +10,6 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 }
 
 
-if ( ! class_exists( 'WPSEO_Pointers' ) ) {
 	/**
 	 * This class handles the pointers used in the introduction tour.
 	 *
@@ -358,5 +357,3 @@ if ( ! class_exists( 'WPSEO_Pointers' ) ) {
 		}
 
 	} /* End of class */
-
-} /* End of class-exists wrapper */

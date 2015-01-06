@@ -9,7 +9,6 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 	/**
 	 * This class handles the Breadcrumbs generation and display
 	 */
@@ -869,5 +868,3 @@ if ( ! class_exists( 'WPSEO_Breadcrumbs' ) ) {
 
 
 	} /* End of class */
-
-} /* End of class-exists wrapper */

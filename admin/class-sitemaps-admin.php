@@ -9,7 +9,6 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-if ( ! class_exists( 'WPSEO_Sitemaps_Admin' ) ) {
 	/**
 	 * Class that handles the Admin side of XML sitemaps
 	 */
@@ -85,5 +84,3 @@ if ( ! class_exists( 'WPSEO_Sitemaps_Admin' ) ) {
 			}
 		}
 	} /* End of class */
-
-} /* End of class-exists wrapper */

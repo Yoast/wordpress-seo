@@ -10,7 +10,6 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-if ( ! class_exists( 'WPSEO_Meta' ) ) {
 	/**
 	 * @package WordPress\Plugins\WPSeo
 	 * @subpackage Internals
@@ -1014,5 +1013,3 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 
 
 	} /* End of class */
-
-} /* End of class-exists wrapper */

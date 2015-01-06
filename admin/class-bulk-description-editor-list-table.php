@@ -9,8 +9,6 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-
-if ( ! class_exists( 'WPSEO_Bulk_Description_List_Table' ) ) {
 	/**
 	 *
 	 */
@@ -78,4 +76,3 @@ if ( ! class_exists( 'WPSEO_Bulk_Description_List_Table' ) ) {
 		}
 
 	} /* End of class */
-} /* End of class-exists wrapper */

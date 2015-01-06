@@ -10,8 +10,6 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-if ( ! class_exists( 'Yoast_Plugin_Conflict' ) ) {
-
 	class Yoast_Plugin_Conflict {
 
 		/**
@@ -248,4 +246,3 @@ if ( ! class_exists( 'Yoast_Plugin_Conflict' ) ) {
 
 	}
 
-}

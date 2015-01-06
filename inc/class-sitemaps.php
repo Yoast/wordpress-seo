@@ -10,7 +10,6 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 	/**
 	 * Class WPSEO_Sitemaps
 	 *
@@ -1516,5 +1515,3 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 		}
 
 	} /* End of class */
-
-} /* End of class-exists wrapper */

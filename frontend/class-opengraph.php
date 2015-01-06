@@ -11,7 +11,6 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 	/**
 	 * Adds the OpenGraph output
 	 */
@@ -648,5 +647,3 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 		}
 
 	} /* End of class */
-
-} /* End of class-exists wrapper */

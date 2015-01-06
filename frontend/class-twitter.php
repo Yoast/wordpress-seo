@@ -10,7 +10,6 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 }
 
 
-if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 	/**
 	 * This class handles the Twitter card functionality.
 	 *
@@ -368,5 +367,3 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 		}
 
 	} /* End of class */
-
-} /* End of class-exists wrapper */
