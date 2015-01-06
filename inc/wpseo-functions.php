@@ -27,6 +27,7 @@ function wpseo_do_upgrade() {
 
 	// Just flush rewrites, always, to at least make them work after an upgrade.
 	add_action( 'shutdown', 'flush_rewrite_rules' );
+	wpseo_clear_sitemap_cache();
 
 	if ( $option_wpseo['version'] === '' || version_compare( $option_wpseo['version'], '1.4.13', '<' ) ) {
 		// Run description test once theme has loaded
@@ -543,6 +544,13 @@ function wpseo_shortcode_yoast_breadcrumb() {
 }
 add_shortcode( 'wpseo_breadcrumb', 'wpseo_shortcode_yoast_breadcrumb' );
 
+/**
+ * Clear entire XML sitemap cache
+ */
+function wpseo_clear_sitemap_cache() {
+	global $wpdb;
+	$wpdb->query( "DELETE FROM $wpdb->options WHERE option_name LIKE '_transient_timeout_wpseo_sitemap_%' OR option_name LIKE '_transient_wpseo_sitemap_%'" );
+}
 
 /**
  * This invalidates our XML Sitemaps cache.

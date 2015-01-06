@@ -65,9 +65,9 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 
 			add_filter( 'set-screen-option', array( $this, 'save_bulk_edit_options' ), 10, 3 );
 
-			add_filter( 'upgrader_post_install', array( $this, 'remove_transients_on_update' ), 10, 1 );
-
 			add_action( 'activated_plugin', array( 'WPSEO_Plugin_Conflict', 'hook_check_for_plugin_conflicts' ), 10, 1 );
+
+			add_action( 'update_option_wpseo_xml', 'wpseo_clear_sitemap_cache' );
 		}
 
 		/**
@@ -76,7 +76,6 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		function schedule_rewrite_flush() {
 			add_action( 'shutdown', 'flush_rewrite_rules' );
 		}
-
 
 		/**
 		 * Register the menu item and its sub menu's.
@@ -666,36 +665,6 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 				}
 			}
 		}
-
-		/**
-		 * This method will remove the sitemap transients on upgrade
-		 *
-		 * @param boolean $response
-		 *
-		 * @return boolean $response
-		 */
-		function remove_transients_on_update( $response ) {
-
-			global $wpdb;
-
-			$results = $wpdb->get_results(
-				"
-					SELECT option_name
-					FROM   {$wpdb->options}
-					WHERE  option_name LIKE '%_transient_wpseo_sitemap_cache%'
-				"
-			);
-
-			foreach ( $results as $result ) {
-				$transient_name = substr( $result->option_name, 11 );
-				delete_transient( $transient_name );
-			}
-
-			return $response;
-		}
-
-
-
 
 		/********************** DEPRECATED METHODS **********************/
 
