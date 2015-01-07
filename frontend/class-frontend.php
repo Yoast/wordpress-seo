@@ -790,7 +790,6 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 			return $robots;
 		}
 
-
 		/**
 		 * This function normally outputs the canonical but is also used in other places to retrieve
 		 * the canonical URL for the current page.
@@ -822,7 +821,6 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 		 * This function normally outputs the canonical but is also used in other places to retrieve
 		 * the canonical URL for the current page.
 		 *
-		 * @param bool $echo        Whether or not to output the canonical element.
 		 * @param bool $un_paged    Whether or not to return the canonical with or without pagination added to the URL.
 		 * @param bool $no_override Whether or not to return a manually overridden canonical
 		 *
