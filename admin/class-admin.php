@@ -68,8 +68,6 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 			add_filter( 'upgrader_post_install', array( $this, 'remove_transients_on_update' ), 10, 1 );
 
 			add_action( 'activated_plugin', array( 'WPSEO_Plugin_Conflict', 'hook_check_for_plugin_conflicts' ), 10, 1 );
-
-			$GLOBALS['WPSEO_i18n'] = $this->register_i18n_promo_class();
 		}
 
 		/**
@@ -77,28 +75,6 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		 */
 		function schedule_rewrite_flush() {
 			add_action( 'shutdown', 'flush_rewrite_rules' );
-		}
-
-		/**
-		 * Register the promotion class for our GlotPress instance
-		 *
-		 * @link https://github.com/Yoast/i18n-module
-		 *
-		 * @return yoast_i18n
-		 */
-		function register_i18n_promo_class() {
-			return new yoast_i18n(
-				array(
-					'textdomain'     => 'wordpress-seo',
-					'project_slug'   => 'wordpress-seo',
-					'plugin_name'    => 'WordPress SEO by Yoast',
-					'hook'           => 'wpseo_admin_footer',
-					'glotpress_url'  => 'http://translate.yoast.com/',
-					'glotpress_name' => 'Yoast Translate',
-					'glotpress_logo' => 'https://cdn.yoast.com/wp-content/uploads/i18n-images/Yoast_Translate.svg',
-					'register_url'   => 'http://translate.yoast.com/projects#utm_source=plugin&utm_medium=promo-box&utm_campaign=wpseo-i18n-promo',
-				)
-			);
 		}
 
 		/**

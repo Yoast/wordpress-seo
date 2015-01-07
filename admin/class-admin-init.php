@@ -77,7 +77,28 @@ class WPSEO_Admin_Init {
 		$page = WPSEO_Admin_Util::filter_input( INPUT_GET, 'page' );
 		if ( 'admin.php' === $this->pagenow && strpos( $page, 'wpseo' ) === 0 ) {
 			$GLOBALS['wpseo_admin_pages'] = new WPSEO_Admin_Pages;
+			$this->register_i18n_promo_class();
 		}
+	}
+
+	/**
+	 * Register the promotion class for our GlotPress instance
+	 *
+	 * @link https://github.com/Yoast/i18n-module
+	 */
+	function register_i18n_promo_class() {
+		new yoast_i18n(
+			array(
+				'textdomain'     => 'wordpress-seo',
+				'project_slug'   => 'wordpress-seo',
+				'plugin_name'    => 'WordPress SEO by Yoast',
+				'hook'           => 'wpseo_admin_footer',
+				'glotpress_url'  => 'http://translate.yoast.com/',
+				'glotpress_name' => 'Yoast Translate',
+				'glotpress_logo' => 'https://cdn.yoast.com/wp-content/uploads/i18n-images/Yoast_Translate.svg',
+				'register_url'   => 'http://translate.yoast.com/projects#utm_source=plugin&utm_medium=promo-box&utm_campaign=wpseo-i18n-promo',
+			)
+		);
 	}
 
 	/**
