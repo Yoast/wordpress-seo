@@ -20,7 +20,7 @@ class WPSEO_Twitter {
 	 * @var    object    Instance of this class
 	 */
 	public static $instance;
-	
+
 	/**
 	 * @var array Images
 	 */
@@ -139,9 +139,9 @@ class WPSEO_Twitter {
 	/**
 	 * Output the metatag
 	 *
-	 * @param $name
-	 * @param $value
-	 * @param $escaped
+	 * @param string $name
+	 * @param string $value
+	 * @param bool   $escaped
 	 */
 	private function output_metatag( $name, $value, $escaped = false ) {
 

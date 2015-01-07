@@ -75,6 +75,7 @@ class WPSEO_OpenGraph {
 	 *
 	 * @param string $property
 	 * @param string $content
+	 *
 	 * @return boolean
 	 */
 	public function og_tag( $property, $content ) {
@@ -90,6 +91,7 @@ class WPSEO_OpenGraph {
 		}
 
 		echo '<meta property="' . esc_attr( $property ) . '" content="' . esc_attr( $content ) . '" />' . "\n";
+
 		return true;
 	}
 
@@ -151,6 +153,7 @@ class WPSEO_OpenGraph {
 
 		if ( $facebook && ( is_string( $facebook ) && $facebook !== '' ) ) {
 			$this->og_tag( 'article:author', $facebook );
+
 			return true;
 		}
 
@@ -168,6 +171,7 @@ class WPSEO_OpenGraph {
 
 		if ( $this->options['facebook_site'] !== '' ) {
 			$this->og_tag( 'article:publisher', $this->options['facebook_site'] );
+
 			return true;
 		}
 
@@ -183,6 +187,7 @@ class WPSEO_OpenGraph {
 	public function site_owner() {
 		if ( 0 != $this->options['fbadminapp'] ) {
 			$this->og_tag( 'fb:app_id', $this->options['fbadminapp'] );
+
 			return true;
 		} elseif ( is_array( $this->options['fb_admins'] ) && $this->options['fb_admins'] !== array() ) {
 			$adminstr = implode( ',', array_keys( $this->options['fb_admins'] ) );
@@ -194,6 +199,7 @@ class WPSEO_OpenGraph {
 			$adminstr = apply_filters( 'wpseo_opengraph_admin', $adminstr );
 			if ( is_string( $adminstr ) && $adminstr !== '' ) {
 				$this->og_tag( 'fb:admins', $adminstr );
+
 				return true;
 			}
 		}
@@ -236,6 +242,7 @@ class WPSEO_OpenGraph {
 		if ( is_string( $title ) && $title !== '' ) {
 			if ( $echo !== false ) {
 				$this->og_tag( 'og:title', $title );
+
 				return true;
 			}
 		}
@@ -263,6 +270,7 @@ class WPSEO_OpenGraph {
 
 		if ( is_string( $url ) && $url !== '' ) {
 			$this->og_tag( 'og:url', esc_url( $url ) );
+
 			return true;
 		}
 
@@ -361,7 +369,7 @@ class WPSEO_OpenGraph {
 			if ( $type === '' ) {
 				$type = 'article';
 			}
-		}  else {
+		} else {
 			// We use "object" for archives etc. as article doesn't apply there
 			$type = 'object';
 		}
