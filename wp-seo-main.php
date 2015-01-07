@@ -379,7 +379,7 @@ function wpseo_admin_init() {
 		$GLOBALS['wpseo_taxonomy'] = new WPSEO_Taxonomy;
 	}
 
-	if ( 'admin.php' === $pagenow && isset( $_GET['page'] ) && strpos( $_GET['page'], 'wpseo' ) === 0 ) {
+	if ( 'admin.php' === $pagenow && strpos( (string) filter_input( INPUT_GET, 'page' ), 'wpseo' ) === 0 ) {
 		$GLOBALS['wpseo_admin_pages'] = new WPSEO_Admin_Pages;
 
 		$GLOBALS['WPSEO_i18n'] = register_i18n_promo_class();
