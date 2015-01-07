@@ -246,6 +246,7 @@ if ( ! class_exists( 'WPSEO_Replace_Vars' ) ) {
 					$var                  = self::add_var_delimiter( $var );
 					$replacements[ $var ] = $replacement;
 				}
+				unset( $replacement );
 			}
 
 			return $replacements;
