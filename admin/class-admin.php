@@ -300,53 +300,52 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		 */
 		function load_page() {
 			$page = WPSEO_Admin_Util::filter_input( INPUT_GET, 'page' );
-			if ( $page ) {
-				switch ( $page ) {
-					case 'wpseo_titles':
-						require_once( WPSEO_PATH . 'admin/pages/metas.php' );
-						break;
 
-					case 'wpseo_social':
-						require_once( WPSEO_PATH . 'admin/pages/social.php' );
-						break;
+			switch ( $page ) {
+				case 'wpseo_titles':
+					require_once( WPSEO_PATH . 'admin/pages/metas.php' );
+					break;
 
-					case 'wpseo_xml':
-						require_once( WPSEO_PATH . 'admin/pages/xml-sitemaps.php' );
-						break;
+				case 'wpseo_social':
+					require_once( WPSEO_PATH . 'admin/pages/social.php' );
+					break;
 
-					case 'wpseo_permalinks':
-						require_once( WPSEO_PATH . 'admin/pages/permalinks.php' );
-						break;
+				case 'wpseo_xml':
+					require_once( WPSEO_PATH . 'admin/pages/xml-sitemaps.php' );
+					break;
 
-					case 'wpseo_internal-links':
-						require_once( WPSEO_PATH . 'admin/pages/internal-links.php' );
-						break;
+				case 'wpseo_permalinks':
+					require_once( WPSEO_PATH . 'admin/pages/permalinks.php' );
+					break;
 
-					case 'wpseo_rss':
-						require_once( WPSEO_PATH . 'admin/pages/rss.php' );
-						break;
+				case 'wpseo_internal-links':
+					require_once( WPSEO_PATH . 'admin/pages/internal-links.php' );
+					break;
 
-					case 'wpseo_import':
-						require_once( WPSEO_PATH . 'admin/pages/import.php' );
-						break;
+				case 'wpseo_rss':
+					require_once( WPSEO_PATH . 'admin/pages/rss.php' );
+					break;
 
-					case 'wpseo_files':
-						require_once( WPSEO_PATH . 'admin/pages/files.php' );
-						break;
+				case 'wpseo_import':
+					require_once( WPSEO_PATH . 'admin/pages/import.php' );
+					break;
 
-					case 'wpseo_bulk-editor':
-						require_once( WPSEO_PATH . 'admin/pages/bulk-editor.php' );
-						break;
+				case 'wpseo_files':
+					require_once( WPSEO_PATH . 'admin/pages/files.php' );
+					break;
 
-					case 'wpseo_licenses':
-						require_once( WPSEO_PATH . 'admin/pages/licenses.php' );
-						break;
+				case 'wpseo_bulk-editor':
+					require_once( WPSEO_PATH . 'admin/pages/bulk-editor.php' );
+					break;
 
-					case 'wpseo_dashboard':
-					default:
-						require_once( WPSEO_PATH . 'admin/pages/dashboard.php' );
-						break;
-				}
+				case 'wpseo_licenses':
+					require_once( WPSEO_PATH . 'admin/pages/licenses.php' );
+					break;
+
+				case 'wpseo_dashboard':
+				default:
+					require_once( WPSEO_PATH . 'admin/pages/dashboard.php' );
+					break;
 			}
 		}
 
