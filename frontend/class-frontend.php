@@ -36,6 +36,13 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 		private $ob_started = false;
 
 		/**
+		 * Holds the canonical URL for the current page
+		 *
+		 * @var string
+		 */
+		private $canonical;
+
+		/**
 		 * Class constructor
 		 *
 		 * Adds and removes a lot of filters.
@@ -795,6 +802,33 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 		 * @return string $canonical
 		 */
 		public function canonical( $echo = true, $un_paged = false, $no_override = false ) {
+			if ( $no_override ) {
+				$canonical = $this->generate_canonical( $un_paged, true );
+			}
+			if ( '' === $this->canonical || ! isset( $this->canonical ) ) {
+				$this->canonical = $this->generate_canonical();
+			}
+
+			$canonical = $this->canonical;
+
+			if ( $echo !== false ) {
+				echo '<link rel="canonical" href="' . esc_url( $canonical, null, 'other' ) . '" />' . "\n";
+			} else {
+				return $canonical;
+			}
+		}
+
+		/**
+		 * This function normally outputs the canonical but is also used in other places to retrieve
+		 * the canonical URL for the current page.
+		 *
+		 * @param bool $echo        Whether or not to output the canonical element.
+		 * @param bool $un_paged    Whether or not to return the canonical with or without pagination added to the URL.
+		 * @param bool $no_override Whether or not to return a manually overridden canonical
+		 *
+		 * @return string $canonical
+		 */
+		private function generate_canonical( $un_paged = false, $no_override = false ) {
 			$canonical       = false;
 			$skip_pagination = false;
 
@@ -894,12 +928,6 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 				// Force canonical links to be absolute, relative is NOT an option.
 				if ( wpseo_is_url_relative( $canonical ) === true ) {
 					$canonical = $this->base_url( $canonical );
-				}
-
-				if ( $echo !== false ) {
-					echo '<link rel="canonical" href="' . esc_url( $canonical, null, 'other' ) . '" />' . "\n";
-				} else {
-					return $canonical;
 				}
 			} else {
 				return false;
