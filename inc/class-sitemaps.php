@@ -1290,15 +1290,13 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 			if ( isset( $url['mod'] ) ) {
 				// Try to convert the modification date of the post to a DateTime object
 				try {
-					$date = new DateTime( $url['mod'], new DateTimeZone( $this->get_timezone_string() ) );
+					return new DateTime( $url['mod'], new DateTimeZone( $this->get_timezone_string() ) );
 				} catch ( Exception $e ) {
-					$date = new DateTime( date( 'y-m-d H:i:s' ), new DateTimeZone( $this->get_timezone_string() ) );
+					return new DateTime( date( 'y-m-d H:i:s' ), new DateTimeZone( $this->get_timezone_string() ) );
 				}
 			} else {
-				$date = new DateTime( date( 'y-m-d H:i:s' ), new DateTimeZone( $this->get_timezone_string() ) );
+				return new DateTime( date( 'y-m-d H:i:s' ), new DateTimeZone( $this->get_timezone_string() ) );
 			}
-
-			return $date;
 		}
 
 		/**
