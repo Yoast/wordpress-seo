@@ -30,6 +30,7 @@ class WPSEO_Admin_Init {
 		$this->load_meta_boxes();
 		$this->load_taxonomy_class();
 		$this->load_admin_page_class();
+		$this->load_admin_user_class();
 		$this->load_yoast_tracking();
 		$this->load_tour();
 		$this->load_xml_sitemaps_admin();
@@ -65,6 +66,17 @@ class WPSEO_Admin_Init {
 	private function load_taxonomy_class() {
 		if ( 'edit-tags.php' === $this->pagenow && WPSEO_Admin_Util::filter_input( INPUT_GET, 'action' ) ) {
 			new WPSEO_Taxonomy;
+		}
+	}
+
+	/**
+	 * Determine if we should load our admin pages class and if so, load it.
+	 *
+	 * Loads admin page class for all admin pages starting with `wpseo_`.
+	 */
+	private function load_admin_user_class() {
+		if ( in_array( $this->pagenow, array( 'user-edit.php', 'profile.php' ) ) ) {
+			new WPSEO_Admin_User_Profile;
 		}
 	}
 
