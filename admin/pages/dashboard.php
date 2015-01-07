@@ -144,7 +144,7 @@ if ( get_option( 'page_comments' ) && $options['ignore_page_comments'] === false
 echo '<h2>' . __( 'General', 'wordpress-seo' ) . '</h2>';
 
 if ( $options['ignore_tour'] === true ) {
-	echo '<label class="select">' . __( 'Introduction Tour:', 'wordpress-seo' ) . '</label><a class="button-secondary" href="' . esc_url( admin_url( 'admin.php?page=wpseo_dashboard&wpseo_restart_tour' ) ) . '">' . __( 'Start Tour', 'wordpress-seo' ) . '</a>';
+	echo '<label class="select">' . __( 'Introduction Tour:', 'wordpress-seo' ) . '</label><a class="button-secondary" href="' . esc_url( admin_url( 'admin.php?page=wpseo_dashboard&wpseo_restart_tour=1' ) ) . '">' . __( 'Start Tour', 'wordpress-seo' ) . '</a>';
 	echo '<p class="desc label">' . __( 'Take this tour to quickly learn about the use of this plugin.', 'wordpress-seo' ) . '</p>';
 }
 

@@ -11,7 +11,7 @@ if ( ! function_exists( 'add_filter' ) ) {
 }
 
 /**
- * @note Nobody should be able to overrule the real version number as this can cause serious issues
+ * @internal Nobody should be able to overrule the real version number as this can cause serious issues
  * with the options, so no if ( ! defined() )
  */
 define( 'WPSEO_VERSION', '1.7.1' );
@@ -34,9 +34,9 @@ if ( ! defined( 'WPSEO_CSSJS_SUFFIX' ) ) {
 /**
  * Auto load our class files
  *
- * @param   string $class Class name
+ * @param string $class Class name
  *
- * @return    void
+ * @return void
  */
 function wpseo_auto_load( $class ) {
 	static $classes = null;
@@ -45,6 +45,7 @@ function wpseo_auto_load( $class ) {
 		$classes = array(
 			'wpseo_admin'                        => WPSEO_PATH . 'admin/class-admin.php',
 			'wpseo_admin_init'                   => WPSEO_PATH . 'admin/class-admin-init.php',
+			'wpseo_admin_util'                   => WPSEO_PATH . 'admin/class-admin-util.php',
 			'wpseo_bulk_title_editor_list_table' => WPSEO_PATH . 'admin/class-bulk-title-editor-list-table.php',
 			'wpseo_bulk_description_list_table'  => WPSEO_PATH . 'admin/class-bulk-description-editor-list-table.php',
 			'wpseo_bulk_index_editor_list_table' => WPSEO_PATH . 'admin/class-bulk-index-editor-list-table.php',
