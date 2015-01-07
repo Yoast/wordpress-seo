@@ -57,7 +57,7 @@ class WPSEO_Admin_Init {
 	private function load_admin_page_class() {
 		global $pagenow;
 
-		if ( 'admin.php' === $pagenow && strpos( (string) filter_input( INPUT_GET, 'page' ), 'wpseo' ) === 0 ) {
+		if ( 'admin.php' === $pagenow && isset( $_GET['page'] ) && strpos( $_GET['page'], 'wpseo' ) === 0 ) {
 			$GLOBALS['wpseo_admin_pages'] = new WPSEO_Admin_Pages;
 		}
 	}
@@ -78,7 +78,7 @@ class WPSEO_Admin_Init {
 	}
 
 	private function load_tour() {
-		if ( null !== filter_input( INPUT_GET, 'wpseo_restart_tour' ) ) {
+		if ( isset( $_GET['wpseo_restart_tour'] ) ) {
 			$options['ignore_tour'] = false;
 			update_option( 'wpseo', $options );
 		}
