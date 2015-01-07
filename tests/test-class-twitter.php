@@ -70,6 +70,16 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * @param $name
+	 * @param $value
+	 *
+	 * @return string
+	 */
+	private function metatag( $name, $value ) {
+		return '<meta name="twitter:' . $name . '" content="' . $value . '"/>' . "\n";
+	}
+
+	/**
 	 * @covers WPSEO_Twitter::site_twitter
 	 */
 	public function test_site_twitter() {
@@ -226,6 +236,24 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * @param $url
+	 *
+	 * @return string
+	 */
+	private function get_expected_image_output( $url ) {
+
+		// get expected output
+		self::$class_instance->image_output( $url );
+		$expected = ob_get_contents();
+		ob_clean();
+
+		// reset shown_images array
+		self::$class_instance->shown_images = array();
+
+		return $expected;
+	}
+
+	/**
 	 * @covers WPSEO_Twitter::image()
 	 */
 	public function test_meta_value_image() {
@@ -301,34 +329,6 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 		self::$class_instance->type();
 		self::$class_instance->image();
 		$this->expectOutput( $expected );
-	}
-
-	/**
-	 * @param $url
-	 *
-	 * @return string
-	 */
-	private function get_expected_image_output( $url ) {
-
-		// get expected output
-		self::$class_instance->image_output( $url );
-		$expected = ob_get_contents();
-		ob_clean();
-
-		// reset shown_images array
-		self::$class_instance->shown_images = array();
-
-		return $expected;
-	}
-
-	/**
-	 * @param $name
-	 * @param $value
-	 *
-	 * @return string
-	 */
-	private function metatag( $name, $value ) {
-		return '<meta name="twitter:' . $name . '" content="' . $value . '"/>' . "\n";
 	}
 
 }
