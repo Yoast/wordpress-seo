@@ -24,24 +24,6 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 		var $currentoption = 'wpseo';
 
 		/**
-		 * @var array $adminpages Array of admin pages that the plugin uses.
-		 */
-		var $adminpages = array(
-			'wpseo_dashboard',
-			'wpseo_rss',
-			'wpseo_files',
-			'wpseo_permalinks',
-			'wpseo_internal-links',
-			'wpseo_import',
-			'wpseo_titles',
-			'wpseo_xml',
-			'wpseo_social',
-			'wpseo_bulk-editor',
-			'wpseo_licenses',
-			'wpseo_network_licenses',
-		);
-
-		/**
 		 * Class constructor, which basically only hooks the init function on the init hook
 		 */
 		function __construct() {
@@ -56,8 +38,6 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 				WPSEO_Options::reset();
 				wp_redirect( admin_url( 'admin.php?page=wpseo_dashboard' ) );
 			}
-
-			$this->adminpages = apply_filters( 'wpseo_admin_pages', $this->adminpages );
 
 			if ( WPSEO_Options::grant_access() ) {
 				add_action( 'admin_enqueue_scripts', array( $this, 'config_page_scripts' ) );
@@ -158,10 +138,10 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 		/**
 		 * Generates the header for admin pages
 		 *
-		 * @param bool   $form           Whether or not the form start tag should be included.
-		 * @param string $option         The long name of the option to use for the current page.
-		 * @param string $optionshort    The short name of the option to use for the current page.
-		 * @param bool   $contains_files Whether the form should allow for file uploads.
+		 * @param bool $form Whether or not the form start tag should be included.
+		 * @param string $option The long name of the option to use for the current page.
+		 * @param string $optionshort The short name of the option to use for the current page.
+		 * @param bool $contains_files Whether the form should allow for file uploads.
 		 */
 		function admin_header( $form = true, $option = 'yoast_wpseo_options', $optionshort = 'wpseo', $contains_files = false ) {
 			?>
@@ -190,7 +170,7 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 		/**
 		 * Generates the footer for admin pages
 		 *
-		 * @param bool $submit       Whether or not a submit button and form end tag should be shown.
+		 * @param bool $submit Whether or not a submit button and form end tag should be shown.
 		 * @param bool $show_sidebar Whether or not to show the banner sidebar - used by premium plugins to disable it
 		 */
 		function admin_footer( $submit = true, $show_sidebar = true ) {
@@ -322,17 +302,14 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 		 * Loads the required styles for the config page.
 		 */
 		function config_page_styles() {
-			global $pagenow;
-			if ( $pagenow === 'admin.php' && isset( $_GET['page'] ) && in_array( $_GET['page'], $this->adminpages ) ) {
-				wp_enqueue_style( 'dashboard' );
-				wp_enqueue_style( 'thickbox' );
-				wp_enqueue_style( 'global' );
-				wp_enqueue_style( 'wp-admin' );
-				wp_enqueue_style( 'yoast-admin-css', plugins_url( 'css/yst_plugin_tools' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
+			wp_enqueue_style( 'dashboard' );
+			wp_enqueue_style( 'thickbox' );
+			wp_enqueue_style( 'global' );
+			wp_enqueue_style( 'wp-admin' );
+			wp_enqueue_style( 'yoast-admin-css', plugins_url( 'css/yst_plugin_tools' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
 
-				if ( is_rtl() ) {
-					wp_enqueue_style( 'wpseo-rtl', plugins_url( 'css/wpseo-rtl' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
-				}
+			if ( is_rtl() ) {
+				wp_enqueue_style( 'wpseo-rtl', plugins_url( 'css/wpseo-rtl' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
 			}
 		}
 
@@ -340,18 +317,14 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 		 * Loads the required scripts for the config page.
 		 */
 		function config_page_scripts() {
-			global $pagenow;
+			wp_enqueue_script( 'wpseo-admin-script', plugins_url( 'js/wp-seo-admin' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array(
+				'jquery',
+				'jquery-ui-core',
+			), WPSEO_VERSION, true );
+			wp_enqueue_script( 'dashboard' );
+			wp_enqueue_script( 'thickbox' );
 
-			if ( $pagenow == 'admin.php' && isset( $_GET['page'] ) && in_array( $_GET['page'], $this->adminpages ) ) {
-				wp_enqueue_script( 'wpseo-admin-script', plugins_url( 'js/wp-seo-admin' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array(
-					'jquery',
-					'jquery-ui-core',
-				), WPSEO_VERSION, true );
-				wp_enqueue_script( 'dashboard' );
-				wp_enqueue_script( 'thickbox' );
-			}
-
-			if ( $pagenow == 'admin.php' && isset( $_GET['page'] ) && in_array( $_GET['page'], array( 'wpseo_social' ) ) ) {
+			if ( 'wpseo_social' === $_GET['page'] ) {
 				wp_enqueue_media();
 				wp_enqueue_script( 'wpseo-admin-media', plugins_url( 'js/wp-seo-admin-media' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array(
 					'jquery',
@@ -360,7 +333,7 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 				wp_localize_script( 'wpseo-admin-media', 'wpseoMediaL10n', $this->localize_media_script() );
 			}
 
-			if ( $pagenow == 'admin.php' && isset( $_GET['page'] ) && in_array( $_GET['page'], array( 'wpseo_bulk-editor' ) ) ) {
+			if ( 'wpseo_bulk-editor' === $_GET['page'] ) {
 				wp_enqueue_script( 'wpseo-bulk-editor', plugins_url( 'js/wp-seo-bulk-editor' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'jquery' ), WPSEO_VERSION, true );
 			}
 		}
@@ -396,10 +369,10 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 		/**
 		 * Create a Checkbox input field.
 		 *
-		 * @param string $var        The variable within the option to create the checkbox for.
-		 * @param string $label      The label to show for the variable.
-		 * @param bool   $label_left Whether the label should be left (true) or right (false).
-		 * @param string $option     The option the variable belongs to.
+		 * @param string $var The variable within the option to create the checkbox for.
+		 * @param string $label The label to show for the variable.
+		 * @param bool $label_left Whether the label should be left (true) or right (false).
+		 * @param string $option The option the variable belongs to.
 		 *
 		 * @return string
 		 */
@@ -443,8 +416,8 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 		/**
 		 * Create a Text input field.
 		 *
-		 * @param string $var    The variable within the option to create the text input field for.
-		 * @param string $label  The label to show for the variable.
+		 * @param string $var The variable within the option to create the text input field for.
+		 * @param string $label The label to show for the variable.
 		 * @param string $option The option the variable belongs to.
 		 *
 		 * @return string
@@ -463,10 +436,10 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 		/**
 		 * Create a textarea.
 		 *
-		 * @param string $var    The variable within the option to create the textarea for.
-		 * @param string $label  The label to show for the variable.
+		 * @param string $var The variable within the option to create the textarea for.
+		 * @param string $label The label to show for the variable.
 		 * @param string $option The option the variable belongs to.
-		 * @param string $class  The CSS class to assign to the textarea.
+		 * @param string $class The CSS class to assign to the textarea.
 		 *
 		 * @return string
 		 */
@@ -484,7 +457,7 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 		/**
 		 * Create a hidden input field.
 		 *
-		 * @param string $var    The variable within the option to create the hidden input for.
+		 * @param string $var The variable within the option to create the hidden input for.
 		 * @param string $option The option the variable belongs to.
 		 *
 		 * @return string
@@ -507,9 +480,9 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 		/**
 		 * Create a Select Box.
 		 *
-		 * @param string $var    The variable within the option to create the select for.
-		 * @param string $label  The label to show for the variable.
-		 * @param array  $values The select options to choose from.
+		 * @param string $var The variable within the option to create the select for.
+		 * @param string $label The label to show for the variable.
+		 * @param array $values The select options to choose from.
 		 * @param string $option The option the variable belongs to.
 		 *
 		 * @return string
@@ -541,8 +514,8 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 		/**
 		 * Create a File upload field.
 		 *
-		 * @param string $var    The variable within the option to create the file upload field for.
-		 * @param string $label  The label to show for the variable.
+		 * @param string $var The variable within the option to create the file upload field for.
+		 * @param string $label The label to show for the variable.
 		 * @param string $option The option the variable belongs to.
 		 *
 		 * @return string
@@ -608,9 +581,9 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 		/**
 		 * Create a Radio input field.
 		 *
-		 * @param string $var    The variable within the option to create the file upload field for.
-		 * @param array  $values The radio options to choose from.
-		 * @param string $label  The label to show for the variable.
+		 * @param string $var The variable within the option to create the file upload field for.
+		 * @param array $values The radio options to choose from.
+		 * @param string $label The label to show for the variable.
 		 * @param string $option The option the variable belongs to.
 		 *
 		 * @return string
@@ -649,8 +622,8 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 		/**
 		 * Create a postbox widget.
 		 *
-		 * @param string $id      ID of the postbox.
-		 * @param string $title   Title of the postbox.
+		 * @param string $id ID of the postbox.
+		 * @param string $title Title of the postbox.
 		 * @param string $content Content of the postbox.
 		 */
 		function postbox( $id, $title, $content ) {

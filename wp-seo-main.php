@@ -11,7 +11,7 @@ if ( ! function_exists( 'add_filter' ) ) {
 }
 
 /**
- * @internal Nobody should be able to overrule the real version number as this can cause serious issues
+ * @note Nobody should be able to overrule the real version number as this can cause serious issues
  * with the options, so no if ( ! defined() )
  */
 define( 'WPSEO_VERSION', '1.7.1' );
@@ -375,12 +375,11 @@ function wpseo_admin_init() {
 		}
 	}
 
-	if ( in_array( $pagenow, array( 'edit-tags.php' ) ) ) {
+	if ( $pagenow === 'edit-tags.php' ) {
 		$GLOBALS['wpseo_taxonomy'] = new WPSEO_Taxonomy;
 	}
 
-	if ( in_array( $pagenow, array( 'admin.php' ) ) ) {
-		// @todo [JRF => whomever] Can we load this more selectively ? like only when $_GET['page'] is one of ours ?
+	if ( 'admin.php' === $pagenow && isset( $_GET['page'] ) && strpos( $_GET['page'], 'wpseo' ) === 0 ) {
 		$GLOBALS['wpseo_admin_pages'] = new WPSEO_Admin_Pages;
 
 		$GLOBALS['WPSEO_i18n'] = register_i18n_promo_class();
