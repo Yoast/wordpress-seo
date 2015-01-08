@@ -75,7 +75,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 		 *
 		 * Adds and removes a lot of filters.
 		 */
-		public function __construct() {
+		protected function __construct() {
 
 			$this->options = WPSEO_Options::get_all();
 
