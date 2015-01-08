@@ -603,11 +603,12 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 			$terms = get_the_category();
 
 			if ( ! is_wp_error( $terms ) && ( is_array( $terms ) && $terms !== array() ) ) {
-
+				$section = '';
 				foreach ( $terms as $term ) {
-					$this->og_tag( 'article:section', $term->name );
+					$section.=$term->name;
+					$section.=' ';
 				}
-
+				$this->og_tag( 'article:section', $section );
 				return true;
 			}
 
