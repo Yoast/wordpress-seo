@@ -26,8 +26,6 @@ matrix:
       env: WP_VERSION=4.0 WP_MULTISITE=0
     - php: '5.4'
       env: WP_VERSION=3.9 WP_MULTISITE=0
-    - php: '5.4'
-      env: WP_VERSION=3.8 WP_MULTISITE=0
 
 before_script:
 - PLUGIN_SLUG=$(basename $(pwd))
