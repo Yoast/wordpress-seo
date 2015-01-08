@@ -269,8 +269,9 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_head() {
 
+		self::$class_instance->reset();
+
 		self::$class_instance->head();
-		ob_clean();
 
 		$this->assertEquals( 1, did_action( 'wpseo_head' ) );
 	}
@@ -440,42 +441,81 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( $expected, self::$class_instance->robots_for_single_post( $robots, $post_id ) );
 	}
 
+	public function test_canonical_single_post() {
+		$class = new WPSEO_Frontend();
+		$post_id = $this->factory->post->create();
+		$this->go_to( get_permalink( $post_id ) );
+		$expected = get_permalink( $post_id );
+		$this->assertEquals( $expected, $class->canonical( false ) );
+	}
+
 	/**
 	 * @covers WPSEO_Frontend::canonical
+	 *
+	 * Uses a new class instance for each test as the canonical is generated only once.
 	 */
-	public function test_canonical() {
+	public function test_canonical_single_post_override() {
 
 		// @todo: fix for multisite
 		if ( is_multisite() ) {
 			return;
 		}
 
+		$class = new WPSEO_Frontend();
+
 		// create and go to post
 		$post_id = $this->factory->post->create();
-		$this->go_to( get_permalink( $post_id ) );
 
 		// test default canonical
 		$expected = get_permalink( $post_id );
-		$this->assertEquals( $expected, self::$class_instance->canonical( false ) );
 
 		// test manual override while using no override
 		$meta_canon = 'http://canonic.al';
 		WPSEO_Meta::set_value( 'canonical', $meta_canon, $post_id );
-		$this->assertEquals( $expected, self::$class_instance->canonical( false, false, true ) );
+		$this->go_to( get_permalink( $post_id ) );
+		$this->assertEquals( $expected, $class->canonical( false, false, true ) );
 
 		// test manual override
-		$this->assertEquals( $meta_canon, self::$class_instance->canonical( false ) );
+		$this->assertEquals( $meta_canon, $class->canonical( false ) );
+	}
+
+	/**
+	 * @covers WPSEO_Frontend::canonical
+	 *
+	 * Uses a new class instance for each test as the canonical is generated only once.
+	 */
+	public function test_canonical_home() {
+		$class = new WPSEO_Frontend();
 
 		// test home page
 		$this->go_to_home();
 
 		$expected = home_url();
-		$this->assertEquals( $expected, self::$class_instance->canonical( false, false, true ) );
+		$this->assertEquals( $expected, $class->canonical( false, false, true ) );
+
+	}
+
+	/**
+	 * @covers WPSEO_Frontend::canonical
+	 *
+	 * Uses a new class instance for each test as the canonical is generated only once.
+	 */
+	public function test_canonical_search() {
+		$class = new WPSEO_Frontend();
 
 		// test search
 		$expected = get_search_link( 'sample query' );
 		$this->go_to( $expected );
-		$this->assertEquals( $expected, self::$class_instance->canonical( false ) );
+		$this->assertEquals( $expected, $class->canonical( false ) );
+	}
+
+	/**
+	 * @covers WPSEO_Frontend::canonical
+	 *
+	 * Uses a new class instance for each test as the canonical is generated only once.
+	 */
+	public function test_canonical_category() {
+		$class = new WPSEO_Frontend();
 
 		// test taxonomy pages, category pages and tag pages
 		$category_id   = wp_create_category( 'Category Name' );
@@ -483,7 +523,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		$this->go_to( $category_link );
 
 		$expected = $category_link;
-		$this->assertEquals( $expected, self::$class_instance->canonical( false ) );
+		$this->assertEquals( $expected, $class->canonical( false ) );
 
 		// @todo test post type archives
 		// @todo test author archives

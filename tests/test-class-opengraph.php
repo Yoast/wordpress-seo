@@ -254,11 +254,10 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	/**
 	 * @covers WPSEO_OpenGraph::description
 	 */
-	public function test_description_single_post() {
+	public function test_description_single_post_opengraph_description() {
+		WPSEO_Frontend::get_instance()->reset();
 
 		$expected_opengraph_description = 'This is with a opengraph-description';
-		$expected_meta_description      = 'This is with a meta-description';
-		$expected_excerpt               = 'Post excerpt 1';
 
 		// Creates the post
 		$post_id = $this->factory->post->create();
@@ -270,16 +269,37 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		$opengraph_description = self::$class_instance->description( false );
 		WPSEO_Meta::set_value( 'opengraph-description', '', $post_id );
 		$this->assertEquals( $expected_opengraph_description, $opengraph_description );
+	}
+
+	public function test_description_single_post_metadesc() {
+		WPSEO_Frontend::get_instance()->reset();
+
+		$expected_meta_description = 'This is with a meta-description';
+
+		// Creates the post
+		$post_id = $this->factory->post->create();
+
+		WPSEO_Meta::set_value( 'metadesc', $expected_meta_description, $post_id );
+
+		$this->go_to( get_permalink( $post_id ) );
 
 		// Checking meta-description and after obtaining its value, reset the meta value for it
-		WPSEO_Meta::set_value( 'metadesc', $expected_meta_description, $post_id );
 		$meta_description = self::$class_instance->description( false );
-		WPSEO_Meta::set_value( 'metadesc', '', $post_id );
 		$this->assertEquals( $expected_meta_description, $meta_description );
+	}
+
+	public function test_description_single_post_excerpt() {
+		WPSEO_Frontend::get_instance()->reset();
+
+		// Creates the post
+		$post_id = $this->factory->post->create();
+		$this->go_to( get_permalink( $post_id ) );
 
 		// Checking with the excerpt
+		$expected = get_the_excerpt();
 		$excerpt = self::$class_instance->description( false );
-		$this->assertEquals( $expected_excerpt, $excerpt );
+
+		$this->assertEquals( $expected, $excerpt );
 	}
 
 	/**

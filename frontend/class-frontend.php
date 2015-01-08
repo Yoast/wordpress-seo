@@ -161,6 +161,20 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 		}
 
 		/**
+		 * Resets the entire class so canonicals, titles etc can be regenerated.
+		 */
+		function reset() {
+			foreach( get_class_vars( get_class( $this ) ) as $name => $default ) {
+				if ( $name == 'instance' ) {
+					$this::$$name = $default;
+				} else {
+					$this->$name = $default;
+				}
+			}
+			$this->options = WPSEO_Options::get_all();
+		}
+
+		/**
 		 * Get the singleton instance of this class
 		 *
 		 * @return object
@@ -851,7 +865,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 			$canonical = $this->canonical;
 
 			if ( $un_paged ) {
-				$canonical = $this->canonical_no_override;
+				$canonical = $this->canonical_unpaged;
 			}
 
 			if ( $no_override ) {
@@ -1197,8 +1211,8 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 		 * @return string
 		 */
 		public function metadesc( $echo = true ) {
-			if ( '' === $this->metadesc ) {
-				$this->metadesc = $this->generate_metadesc();
+			if ( is_null( $this->metadesc ) ) {
+				$this->generate_metadesc();
 			}
 
 			if ( $echo !== false ) {
@@ -1214,29 +1228,28 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 
 		/**
 		 * Generates the meta description text.
-		 *
-		 * @return string
 		 */
 		private function generate_metadesc() {
 			global $post, $wp_query;
 
-			$metadesc  = '';
-			$post_type = '';
-			$template  = '';
+			$metadesc          = '';
+			$metadesc_override = false;
+			$post_type         = '';
+			$template          = '';
 
 			if ( is_object( $post ) && ( isset( $post->post_type ) && $post->post_type !== '' ) ) {
 				$post_type = $post->post_type;
 			}
 
 			if ( is_singular() ) {
-				$metadesc = WPSEO_Meta::get_value( 'metadesc' );
 				if ( ( $metadesc === '' && $post_type !== '' ) && isset( $this->options[ 'metadesc-' . $post_type ] ) ) {
 					$template = $this->options[ 'metadesc-' . $post_type ];
 					$term     = $post;
 				}
+				$metadesc_override = WPSEO_Meta::get_value( 'metadesc' );
 			} else {
 				if ( is_search() ) {
-					return '';
+					$metadesc = '';
 				} elseif ( $this->is_home_posts_page() ) {
 					$template = $this->options['metadesc-home-wpseo'];
 					$term     = array();
@@ -1254,8 +1267,8 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 					}
 				} elseif ( is_category() || is_tag() || is_tax() ) {
 					$term     = $wp_query->get_queried_object();
-					$metadesc = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'desc' );
-					if ( ( ! is_string( $metadesc ) || $metadesc === '' ) && ( ( is_object( $term ) && isset( $term->taxonomy ) ) && isset( $this->options[ 'metadesc-tax-' . $term->taxonomy ] ) ) ) {
+					$metadesc_override = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'desc' );
+					if ( ( is_object( $term ) && isset( $term->taxonomy ) ) && isset( $this->options[ 'metadesc-tax-' . $term->taxonomy ] ) ) {
 						$template = $this->options[ 'metadesc-tax-' . $term->taxonomy ];
 					}
 				} elseif ( is_author() ) {
@@ -1279,7 +1292,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 				// If we're on a paginated page, and the template doesn't change for paginated pages, bail.
 				if ( ( ! is_string( $metadesc ) || $metadesc === '' ) && get_query_var( 'paged' ) && get_query_var( 'paged' ) > 1 && $template !== '' ) {
 					if ( strpos( $template, '%%page' ) === false ) {
-						return '';
+						$metadesc = '';
 					}
 				}
 			}
@@ -1291,14 +1304,16 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 				$metadesc = wpseo_replace_vars( $template, $term );
 			}
 
+			if ( is_string( $metadesc_override ) && '' !== $metadesc_override ) {
+				$metadesc = $metadesc_override;
+			}
+
 			/**
 			 * Filter: 'wpseo_metadesc' - Allow changing the WP SEO meta description sentence.
 			 *
 			 * @api string $metadesc The description sentence.
 			 */
-			$metadesc = apply_filters( 'wpseo_metadesc', trim( $metadesc ) );
-
-			return $metadesc;
+			$this->metadesc = apply_filters( 'wpseo_metadesc', trim( $metadesc ) );
 		}
 
 		/**

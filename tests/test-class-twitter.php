@@ -27,6 +27,8 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Twitter::twitter
 	 */
 	public function test_twitter() {
+		WPSEO_Frontend::get_instance()->reset();
+
 		$post_id = $this->factory->post->create(
 			array(
 				'post_title'  => 'Test Post',
@@ -37,6 +39,7 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 		);
 		$this->go_to( get_permalink( $post_id ) );
 
+		ob_clean();
 		self::$class_instance->twitter();
 
 		$expected = '<meta name="twitter:card" content="summary"/>
@@ -152,7 +155,9 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	/**
 	 * @covers WPSEO_Twitter::description
 	 */
-	public function test_twitter_description() {
+	public function test_twitter_description_excerpt() {
+		// Instantiate class again as it generates the description only once
+		$class = new Expose_WPSEO_Twitter();
 
 		// create and go to post
 		$post_id = $this->factory->post->create();
@@ -160,13 +165,31 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 
 		// test excerpt
 		$expected = $this->metatag( 'description', get_the_excerpt() );
-		self::$class_instance->description();
+
+		ob_clean();
+		$class->description();
 		$this->expectOutput( $expected );
+	}
+
+	/**
+	 * @covers WPSEO_Twitter::description
+	 */
+	public function test_twitter_description_metadesc() {
+		// Instantiate class again as it generates the description only once
+		$class = new Expose_WPSEO_Twitter();
+		WPSEO_Frontend::get_instance()->reset();
+
+		// create and go to post
+		$post_id = $this->factory->post->create();
 
 		// test wpseo meta
 		WPSEO_Meta::set_value( 'metadesc', 'Meta description', $post_id );
+
+		$this->go_to( get_permalink( $post_id ) );
 		$expected = $this->metatag( 'description', WPSEO_Frontend::get_instance()->metadesc( false ) );
-		self::$class_instance->description();
+
+		ob_clean();
+		$class->description();
 		$this->expectOutput( $expected );
 	}
 
