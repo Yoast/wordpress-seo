@@ -166,7 +166,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 		public function reset() {
 			foreach( get_class_vars( __CLASS__ ) as $name => $default ) {
 				if ( $name == 'instance' ) {
-					$this::$$name = $default;
+					$this::$instance = null;
 				} else {
 					$this->$name = $default;
 				}
