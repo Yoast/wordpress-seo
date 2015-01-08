@@ -353,10 +353,10 @@ class WPSEO_Twitter {
 	 * Takes care of image output when we only need to display a single image.
 	 */
 	private function single_image_output() {
+		if ( $this->homepage_image_output() ) {
+			return;
+		}
 		if ( is_singular() ) {
-			if ( $this->homepage_image_output() ) {
-				return;
-			}
 			if ( $this->image_from_meta_values_output() ) {
 				return;
 			}
@@ -364,10 +364,6 @@ class WPSEO_Twitter {
 				return;
 			}
 			if ( $this->image_from_content_output() ) {
-				return;
-			}
-		} else {
-			if ( $this->homepage_image_output() ) {
 				return;
 			}
 		}

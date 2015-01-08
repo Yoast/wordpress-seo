@@ -815,10 +815,11 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 		 *
 		 * @return    array
 		 */
-		function robots_for_single_post( $robots, $post_id = 0 ) {
-			if ( WPSEO_Meta::get_value( 'meta-robots-noindex', $post_id ) === '1' ) {
+		public function robots_for_single_post( $robots, $post_id = 0 ) {
+			$noindex = WPSEO_Meta::get_value( 'meta-robots-noindex', $post_id );
+			if ( $noindex === '1' ) {
 				$robots['index'] = 'noindex';
-			} elseif ( WPSEO_Meta::get_value( 'meta-robots-noindex', $post_id ) === '2' ) {
+			} elseif ( $noindex === '2' ) {
 				$robots['index'] = 'index';
 			}
 
@@ -900,9 +901,9 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 
 				// Fix paginated pages canonical, but only if the page is truly paginated.
 				if ( get_query_var( 'page' ) > 1 ) {
-					global $wp_rewrite;
 					$num_pages = substr_count( $obj->post_content, '<!--nextpage-->' ) + 1;
 					if ( $num_pages && get_query_var( 'page' ) <= $num_pages ) {
+						global $wp_rewrite;
 						if ( ! $wp_rewrite->using_permalinks() ) {
 							$canonical = add_query_arg( 'page', get_query_var( 'page' ), $canonical );
 						} else {
