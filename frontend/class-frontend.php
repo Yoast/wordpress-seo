@@ -387,7 +387,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 		 *
 		 * @return string
 		 */
-		public public function title( $title, $separator = '', $separator_location = '' ) {
+		public function title( $title, $separator = '', $separator_location = '' ) {
 			if ( is_null( $this->title ) ) {
 				$this->title = $this->generate_title( $title, $separator_location );
 			}
