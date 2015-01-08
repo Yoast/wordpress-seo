@@ -8,7 +8,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	private static $class_instance;
 
 	public static function setUpBeforeClass() {
-		self::$class_instance = new WPSEO_Frontend;
+		self::$class_instance = WPSEO_Frontend::get_instance();
 	}
 
 	public function tearDown() {
@@ -443,11 +443,10 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Frontend::canonical
 	 */
 	public function test_canonical_single_post() {
-		$class = new WPSEO_Frontend();
 		$post_id = $this->factory->post->create();
 		$this->go_to( get_permalink( $post_id ) );
 		$expected = get_permalink( $post_id );
-		$this->assertEquals( $expected, $class->canonical( false ) );
+		$this->assertEquals( $expected, self::$class_instance->canonical( false ) );
 	}
 
 	/**
