@@ -158,7 +158,7 @@ if ( ! class_exists( 'WPSEO_Bulk_List_Table' ) ) {
 			?>
 			<div class="tablenav <?php echo esc_attr( $which ); ?>">
 
-				<?php if ('top' === $which) { ?>
+				<?php if ( 'top' === $which ) { ?>
 				<form id="posts-filter" action="" method="get">
 					<input type="hidden" name="page" value="wpseo_bulk-editor" />
 					<input type="hidden" name="type" value="<?php echo esc_attr( $this->page_type ); ?>" />
@@ -176,7 +176,7 @@ if ( ! class_exists( 'WPSEO_Bulk_List_Table' ) ) {
 					?>
 
 					<br class="clear" />
-					<?php if ('top' === $which) { ?>
+					<?php if ( 'top' === $which ) { ?>
 				</form>
 			<?php } ?>
 			</div>

@@ -160,10 +160,12 @@ function wpseo_remove_capabilities() {
  * @param string $string the string to replace the variables in.
  * @param object $args   the object some of the replacement values might come from, could be a post, taxonomy or term.
  * @param array  $omit   variables that should not be replaced by this function.
+ *
  * @return string
  */
 function wpseo_replace_vars( $string, $args, $omit = array() ) {
 	$replacer = new WPSEO_Replace_Vars;
+
 	return $replacer->replace( $string, $args, $omit );
 }
 
@@ -187,12 +189,12 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
  * <code>
  * <?php
  * function retrieve_var1_replacement( $var1 ) {
- *		return 'your replacement value';
+ *        return 'your replacement value';
  * }
  *
  * function register_my_plugin_extra_replacements() {
- *		wpseo_register_var_replacement( '%%myvar1%%', 'retrieve_var1_replacement', 'advanced', 'this is a help text for myvar1' );
- *		wpseo_register_var_replacement( 'myvar2', array( 'class', 'method_name' ), 'basic', 'this is a help text for myvar2' );
+ *        wpseo_register_var_replacement( '%%myvar1%%', 'retrieve_var1_replacement', 'advanced', 'this is a help text for myvar1' );
+ *        wpseo_register_var_replacement( 'myvar2', array( 'class', 'method_name' ), 'basic', 'this is a help text for myvar2' );
  * }
  * add_action( 'wpseo_register_extra_replacements', 'register_my_plugin_extra_replacements' );
  * ?>
@@ -200,13 +202,14 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
  *
  * @since 1.5.4
  *
- * @param  string   $var               The name of the variable to replace, i.e. '%%var%%'
- *                                      - the surrounding %% are optional, name can only contain [A-Za-z0-9_-]
- * @param  mixed    $replace_function  Function or method to call to retrieve the replacement value for the variable
- *					                   Uses the same format as add_filter/add_action function parameter and
- *					                   should *return* the replacement value. DON'T echo it!
- * @param  string   $type              Type of variable: 'basic' or 'advanced', defaults to 'advanced'
- * @param  string   $help_text         Help text to be added to the help tab for this variable
+ * @param  string $var                   The name of the variable to replace, i.e. '%%var%%'
+ *                                       - the surrounding %% are optional, name can only contain [A-Za-z0-9_-]
+ * @param  mixed  $replace_function      Function or method to call to retrieve the replacement value for the variable
+ *                                       Uses the same format as add_filter/add_action function parameter and
+ *                                       should *return* the replacement value. DON'T echo it!
+ * @param  string $type                  Type of variable: 'basic' or 'advanced', defaults to 'advanced'
+ * @param  string $help_text             Help text to be added to the help tab for this variable
+ *
  * @return bool     Whether the replacement function was succesfully registered
  */
 function wpseo_register_var_replacement( $var, $replace_function, $type = 'advanced', $help_text = '' ) {
@@ -217,6 +220,7 @@ function wpseo_register_var_replacement( $var, $replace_function, $type = 'advan
  * Strip out the shortcodes with a filthy regex, because people don't properly register their shortcodes.
  *
  * @param string $text input string that might contain shortcodes
+ *
  * @return string $text string without shortcodes
  */
 function wpseo_strip_shortcode( $text ) {
@@ -229,7 +233,7 @@ function wpseo_strip_shortcode( $text ) {
 function wpseo_xml_redirect_sitemap() {
 	global $wp_query;
 
-	$current_url  = ( isset( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] == 'on' ) ? 'https://' : 'http://';
+	$current_url = ( isset( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] == 'on' ) ? 'https://' : 'http://';
 	$current_url .= sanitize_text_field( $_SERVER['SERVER_NAME'] ) . sanitize_text_field( $_SERVER['REQUEST_URI'] );
 
 	// must be 'sitemap.xml' and must be 404
@@ -313,6 +317,7 @@ function wpseo_ping_search_engines( $sitemapurl = null ) {
 		wp_remote_get( 'http://submissions.ask.com/ping?sitemap=' . $sitemapurl );
 	}
 }
+
 add_action( 'wpseo_ping_search_engines', 'wpseo_ping_search_engines' );
 
 
@@ -326,13 +331,13 @@ function wpseo_store_tracking_response() {
 
 	if ( $_POST['allow_tracking'] == 'yes' ) {
 		$options['yoast_tracking'] = true;
-	}
-	else {
+	} else {
 		$options['yoast_tracking'] = false;
 	}
 
 	update_option( 'wpseo', $options );
 }
+
 add_action( 'wp_ajax_wpseo_allow_tracking', 'wpseo_store_tracking_response' );
 
 /**
@@ -340,8 +345,10 @@ add_action( 'wp_ajax_wpseo_allow_tracking', 'wpseo_store_tracking_response' );
  * It adds new keys to a wpml-config.xml file for a custom post type title, metadesc, title-ptarchive and metadesc-ptarchive fields translation.
  * Documentation: http://wpml.org/documentation/support/language-configuration-files/
  *
- * @global $sitepress
+ * @global      $sitepress
+ *
  * @param array $config
+ *
  * @return array
  */
 function wpseo_wpml_config( $config ) {
@@ -354,19 +361,19 @@ function wpseo_wpml_config( $config ) {
 				$translate_cp = array_keys( $sitepress->get_translatable_documents() );
 				if ( is_array( $translate_cp ) && $translate_cp !== array() ) {
 					foreach ( $translate_cp as $post_type ) {
-						$admin_texts[ $k ]['key'][]['attr']['name'] = 'title-'. $post_type;
-						$admin_texts[ $k ]['key'][]['attr']['name'] = 'metadesc-'. $post_type;
-						$admin_texts[ $k ]['key'][]['attr']['name'] = 'metakey-'. $post_type;
-						$admin_texts[ $k ]['key'][]['attr']['name'] = 'title-ptarchive-'. $post_type;
-						$admin_texts[ $k ]['key'][]['attr']['name'] = 'metadesc-ptarchive-'. $post_type;
-						$admin_texts[ $k ]['key'][]['attr']['name'] = 'metakey-ptarchive-'. $post_type;
+						$admin_texts[$k]['key'][]['attr']['name'] = 'title-' . $post_type;
+						$admin_texts[$k]['key'][]['attr']['name'] = 'metadesc-' . $post_type;
+						$admin_texts[$k]['key'][]['attr']['name'] = 'metakey-' . $post_type;
+						$admin_texts[$k]['key'][]['attr']['name'] = 'title-ptarchive-' . $post_type;
+						$admin_texts[$k]['key'][]['attr']['name'] = 'metadesc-ptarchive-' . $post_type;
+						$admin_texts[$k]['key'][]['attr']['name'] = 'metakey-ptarchive-' . $post_type;
 
 						$translate_tax = $sitepress->get_translatable_taxonomies( false, $post_type );
 						if ( is_array( $translate_tax ) && $translate_tax !== array() ) {
 							foreach ( $translate_tax as $taxonomy ) {
-								$admin_texts[ $k ]['key'][]['attr']['name'] = 'title-tax-'. $taxonomy;
-								$admin_texts[ $k ]['key'][]['attr']['name'] = 'metadesc-tax-'. $taxonomy;
-								$admin_texts[ $k ]['key'][]['attr']['name'] = 'metakey-tax-'. $taxonomy;
+								$admin_texts[$k]['key'][]['attr']['name'] = 'title-tax-' . $taxonomy;
+								$admin_texts[$k]['key'][]['attr']['name'] = 'metadesc-tax-' . $taxonomy;
+								$admin_texts[$k]['key'][]['attr']['name'] = 'metakey-tax-' . $taxonomy;
 							}
 						}
 					}
@@ -379,36 +386,38 @@ function wpseo_wpml_config( $config ) {
 
 	return $config;
 }
+
 add_filter( 'icl_wpml_config_array', 'wpseo_wpml_config' );
 
 if ( ! function_exists( 'wpseo_calc' ) ) {
 	/**
 	 * Do simple reliable math calculations without the risk of wrong results
-	 * @see http://floating-point-gui.de/
-	 * @see the big red warning on http://php.net/language.types.float.php
+	 * @see   http://floating-point-gui.de/
+	 * @see   the big red warning on http://php.net/language.types.float.php
 	 *
 	 * In the rare case that the bcmath extension would not be loaded, it will return the normal calculation results
 	 *
 	 * @since 1.5.0
 	 *
-	 * @param	mixed   $number1    Scalar (string/int/float/bool)
-	 * @param	string	$action		Calculation action to execute. Valid input:
-	 *								'+' or 'add' or 'addition',
-	 *								'-' or 'sub' or 'subtract',
-	 *								'*' or 'mul' or 'multiply',
-	 *								'/' or 'div' or 'divide',
-	 *								'%' or 'mod' or 'modulus'
-	 *								'=' or 'comp' or 'compare'
-	 * @param	mixed	$number2    Scalar (string/int/float/bool)
-	 * @param	bool	$round		Whether or not to round the result. Defaults to false.
-	 *								Will be disregarded for a compare operation
-	 * @param	int		$decimals	Decimals for rounding operation. Defaults to 0.
-	 * @param	int		$precision	Calculation precision. Defaults to 10.
-	 * @return	mixed				Calculation Result or false if either or the numbers isn't scalar or
-	 *								an invalid operation was passed
-	 *								- for compare the result will always be an integer
-	 *								- for all other operations, the result will either be an integer (preferred)
-	 *								or a float
+	 * @param    mixed  $number1      Scalar (string/int/float/bool)
+	 * @param    string $action       Calculation action to execute. Valid input:
+	 *                                '+' or 'add' or 'addition',
+	 *                                '-' or 'sub' or 'subtract',
+	 *                                '*' or 'mul' or 'multiply',
+	 *                                '/' or 'div' or 'divide',
+	 *                                '%' or 'mod' or 'modulus'
+	 *                                '=' or 'comp' or 'compare'
+	 * @param    mixed  $number2      Scalar (string/int/float/bool)
+	 * @param    bool   $round        Whether or not to round the result. Defaults to false.
+	 *                                Will be disregarded for a compare operation
+	 * @param    int    $decimals     Decimals for rounding operation. Defaults to 0.
+	 * @param    int    $precision    Calculation precision. Defaults to 10.
+	 *
+	 * @return    mixed                Calculation Result or false if either or the numbers isn't scalar or
+	 *                                an invalid operation was passed
+	 *                                - for compare the result will always be an integer
+	 *                                - for all other operations, the result will either be an integer (preferred)
+	 *                                or a float
 	 */
 	function wpseo_calc( $number1, $action, $number2, $round = false, $decimals = 0, $precision = 10 ) {
 		static $bc;
@@ -453,8 +462,7 @@ if ( ! function_exists( 'wpseo_calc' ) ) {
 			case 'divide':
 				if ( $bc ) {
 					$result = bcdiv( $number1, $number2, $precision ); // string, or NULL if right_operand is 0
-				}
-				elseif ( $number2 != 0 ) {
+				} elseif ( $number2 != 0 ) {
 					$result = $number1 / $number2;
 				}
 
@@ -468,8 +476,7 @@ if ( ! function_exists( 'wpseo_calc' ) ) {
 			case 'modulus':
 				if ( $bc ) {
 					$result = bcmod( $number1, $number2, $precision ); // string, or NULL if modulus is 0.
-				}
-				elseif ( $number2 != 0 ) {
+				} elseif ( $number2 != 0 ) {
 					$result = $number1 % $number2;
 				}
 
@@ -484,9 +491,8 @@ if ( ! function_exists( 'wpseo_calc' ) ) {
 				$compare = true;
 				if ( $bc ) {
 					$result = bccomp( $number1, $number2, $precision ); // returns int 0, 1 or -1
-				}
-				else {
-					$result = ( $number1 == $number2 ) ? 0 : ( ( $number1 > $number2 ) ? 1 : -1 );
+				} else {
+					$result = ( $number1 == $number2 ) ? 0 : ( ( $number1 > $number2 ) ? 1 : - 1 );
 				}
 				break;
 		}
@@ -498,13 +504,14 @@ if ( ! function_exists( 'wpseo_calc' ) ) {
 					if ( $decimals === 0 ) {
 						$result = (int) $result;
 					}
-				}
-				else {
+				} else {
 					$result = ( intval( $result ) == $result ) ? intval( $result ) : floatval( $result );
 				}
 			}
+
 			return $result;
 		}
+
 		return false;
 	}
 }
@@ -517,6 +524,7 @@ function wpseo_is_apache() {
 	if ( isset( $_SERVER['SERVER_SOFTWARE'] ) && stristr( $_SERVER['SERVER_SOFTWARE'], 'apache' ) !== false ) {
 		return true;
 	}
+
 	return false;
 }
 
@@ -529,6 +537,7 @@ function wpseo_is_nginx() {
 	if ( isset( $_SERVER['SERVER_SOFTWARE'] ) && stristr( $_SERVER['SERVER_SOFTWARE'], 'nginx' ) !== false ) {
 		return true;
 	}
+
 	return false;
 }
 
@@ -541,6 +550,7 @@ function wpseo_is_nginx() {
 function wpseo_shortcode_yoast_breadcrumb() {
 	return yoast_breadcrumb( '', '', false );
 }
+
 add_shortcode( 'wpseo_breadcrumb', 'wpseo_shortcode_yoast_breadcrumb' );
 
 
@@ -553,6 +563,12 @@ function wpseo_invalidate_sitemap_cache( $type ) {
 	// Always delete the main index sitemaps cache, as that's always invalidated by any other change
 	delete_transient( 'wpseo_sitemap_cache_1' );
 	delete_transient( 'wpseo_sitemap_cache_' . $type );
+
+	$sitemaps = get_query_var( 'sitemap_n' );
+	if ( is_scalar( $sitemaps ) && intval( $sitemaps ) > 0 ) {
+		wpseo_invalidate_sitemap_cache_number( $type, $sitemaps );
+	}
+
 }
 
 add_action( 'deleted_term_relationships', 'wpseo_invalidate_sitemap_cache' );
@@ -561,7 +577,7 @@ add_action( 'deleted_term_relationships', 'wpseo_invalidate_sitemap_cache' );
  * Invalidate XML sitemap cache for taxonomy / term actions
  *
  * @param unsigned $unused
- * @param string $type
+ * @param string   $type
  */
 function wpseo_invalidate_sitemap_cache_terms( $unused, $type ) {
 	wpseo_invalidate_sitemap_cache( $type );
@@ -606,6 +622,19 @@ function wpseo_get_roles() {
 }
 
 /**
+ * Invalidate sitemap type with number, will remove the following cached objects:
+ * wpseo_sitemap_cache_%%type%%_1, wpseo_sitemap_cache_%%type%%_2 etc.
+ *
+ * @param string $type
+ * @param int    $sitemaps
+ */
+function wpseo_invalidate_sitemap_cache_number( $type, $sitemaps ) {
+	for ( $number = 1; $number <= $sitemaps; $number ++ ) {
+		delete_transient( 'wpseo_sitemap_cache_' . $type . '_' . $number );
+	}
+}
+
+/**
  * Check whether a url is relative
  *
  * @param string $url
@@ -633,16 +662,17 @@ function wpseo_standardize_whitespace( $string ) {
  * Emulate PHP native ctype_digit() function for when the ctype extension would be disabled *sigh*
  * Only emulates the behaviour for when the input is a string, does not handle integer input as ascii value
  *
- * @param	string	$string
+ * @param    string $string
  *
- * @return 	bool
+ * @return    bool
  */
 if ( ! extension_loaded( 'ctype' ) || ! function_exists( 'ctype_digit' ) ) {
 	function ctype_digit( $string ) {
 		$return = false;
-		if ( ( is_string( $string ) && $string !== '' ) && preg_match( '`^\d+$`', $string ) === 1 ){
+		if ( ( is_string( $string ) && $string !== '' ) && preg_match( '`^\d+$`', $string ) === 1 ) {
 			$return = true;
 		}
+
 		return $return;
 	}
 }
@@ -656,14 +686,16 @@ if ( ! extension_loaded( 'ctype' ) || ! function_exists( 'ctype_digit' ) ) {
  *
  * @deprecated 1.5.0
  * @deprecated use WPSEO_Meta::get_value()
- * @see WPSEO_Meta::get_value()
+ * @see        WPSEO_Meta::get_value()
  *
- * @param	string	$val	internal name of the value to get
- * @param	int		$postid	post ID of the post to get the value for
- * @return	string
+ * @param    string $val    internal name of the value to get
+ * @param    int    $postid post ID of the post to get the value for
+ *
+ * @return    string
  */
 function wpseo_get_value( $val, $postid = 0 ) {
 	_deprecated_function( __FUNCTION__, 'WPSEO 1.5.0', 'WPSEO_Meta::get_value()' );
+
 	return WPSEO_Meta::get_value( $val, $postid );
 }
 
@@ -673,15 +705,17 @@ function wpseo_get_value( $val, $postid = 0 ) {
  *
  * @deprecated 1.5.0
  * @deprecated use WPSEO_Meta::set_value() or just use update_post_meta()
- * @see WPSEO_Meta::set_value()
+ * @see        WPSEO_Meta::set_value()
  *
- * @param	string	$meta_key		the meta to change
- * @param	mixed	$meta_value		the value to set the meta to
- * @param	int		$post_id		the ID of the post to change the meta for.
- * @return	bool	whether the value was changed
+ * @param    string $meta_key   the meta to change
+ * @param    mixed  $meta_value the value to set the meta to
+ * @param    int    $post_id    the ID of the post to change the meta for.
+ *
+ * @return    bool    whether the value was changed
  */
 function wpseo_set_value( $meta_key, $meta_value, $post_id ) {
 	_deprecated_function( __FUNCTION__, 'WPSEO 1.5.0', 'WPSEO_Meta::set_value()' );
+
 	return WPSEO_Meta::set_value( $meta_key, $meta_value, $post_id );
 }
 
@@ -691,12 +725,13 @@ function wpseo_set_value( $meta_key, $meta_value, $post_id ) {
  *
  * @deprecated 1.5.0
  * @deprecated use WPSEO_Options::get_option_names()
- * @see WPSEO_Options::get_option_names()
+ * @see        WPSEO_Options::get_option_names()
  *
  * @return array of options.
  */
 function get_wpseo_options_arr() {
 	_deprecated_function( __FUNCTION__, 'WPSEO 1.5.0', 'WPSEO_Options::get_option_names()' );
+
 	return WPSEO_Options::get_option_names();
 }
 
@@ -706,12 +741,13 @@ function get_wpseo_options_arr() {
  *
  * @deprecated 1.5.0
  * @deprecated use WPSEO_Options::get_all()
- * @see WPSEO_Options::get_all()
+ * @see        WPSEO_Options::get_all()
  *
  * @return array of options
  */
 function get_wpseo_options() {
 	_deprecated_function( __FUNCTION__, 'WPSEO 1.5.0', 'WPSEO_Options::get_all()' );
+
 	return WPSEO_Options::get_all();
 }
 
@@ -721,11 +757,11 @@ function get_wpseo_options() {
  *
  * @deprecated 1.5.0
  * @deprecated use WPSEO_Meta::replace_meta()
- * @see WPSEO_Meta::replace_meta()
+ * @see        WPSEO_Meta::replace_meta()
  *
- * @param string  $old_metakey The old name of the meta value.
- * @param string  $new_metakey The new name of the meta value, usually the WP SEO name.
- * @param bool    $replace     Whether to replace or to copy the values.
+ * @param string $old_metakey The old name of the meta value.
+ * @param string $new_metakey The new name of the meta value, usually the WP SEO name.
+ * @param bool   $replace     Whether to replace or to copy the values.
  */
 function replace_meta( $old_metakey, $new_metakey, $replace = false ) {
 	_deprecated_function( __FUNCTION__, 'WPSEO 1.5.0', 'WPSEO_Meta::replace_meta()' );
@@ -738,11 +774,12 @@ function replace_meta( $old_metakey, $new_metakey, $replace = false ) {
  *
  * @deprecated 1.5.0
  * @deprecated use WPSEO_Taxonomy_Meta::get_term_meta()
- * @see WPSEO_Taxonomy_Meta::get_term_meta()
+ * @see        WPSEO_Taxonomy_Meta::get_term_meta()
  *
  * @param string|object $term     term to get the meta value for
  * @param string        $taxonomy name of the taxonomy to which the term is attached
  * @param string        $meta     meta value to get
+ *
  * @return bool|mixed value when the meta exists, false when it does not
  */
 function wpseo_get_term_meta( $term, $taxonomy, $meta ) {
@@ -753,7 +790,7 @@ function wpseo_get_term_meta( $term, $taxonomy, $meta ) {
 /**
  * Throw a notice about an invalid custom taxonomy used
  *
- * @since 1.4.14
+ * @since      1.4.14
  * @deprecated 1.5.4 (removed)
  */
 function wpseo_invalid_custom_taxonomy() {
@@ -765,16 +802,18 @@ function wpseo_invalid_custom_taxonomy() {
  *
  * @deprecated 1.5.4
  * @deprecated use WPSEO_Replace_Vars::get_terms()
- * @see WPSEO_Replace_Vars::get_terms()
+ * @see        WPSEO_Replace_Vars::get_terms()
  *
  * @param int    $id            ID of the post to get the terms for.
  * @param string $taxonomy      The taxonomy to get the terms for this post from.
  * @param bool   $return_single If true, return the first term.
+ *
  * @return string either a single term or a comma delimited string of terms.
  */
 function wpseo_get_terms( $id, $taxonomy, $return_single = false ) {
 	_deprecated_function( __FUNCTION__, 'WPSEO 1.5.4', 'WPSEO_Replace_Vars::get_terms' );
 	$replacer = new WPSEO_Replace_Vars;
+
 	return $replacer->get_terms( $id, $taxonomy, $return_single );
 }
 
@@ -783,7 +822,7 @@ function wpseo_get_terms( $id, $taxonomy, $return_single = false ) {
  *
  * @deprecated 1.5.5.4
  * @deprecated use plugin WordPress SEO Premium
- * @see WordPress SEO Premium
+ * @see        WordPress SEO Premium
  *
  * @param array $atts The attributes passed to the shortcode.
  *
@@ -791,6 +830,7 @@ function wpseo_get_terms( $id, $taxonomy, $return_single = false ) {
  */
 function wpseo_sitemap_handler( $atts ) {
 	_deprecated_function( __FUNCTION__, 'WPSEO 1.5.5.4', 'Functionality has been discontinued after being in beta, it\'ll be available in the WordPress SEO Premium plugin soon.' );
+
 	return '';
 }
 

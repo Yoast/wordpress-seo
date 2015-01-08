@@ -366,7 +366,7 @@ function wpseo_admin_init() {
 	if ( in_array( $pagenow, array(
 			'edit.php',
 			'post.php',
-			'post-new.php'
+			'post-new.php',
 		) ) || apply_filters( 'wpseo_always_register_metaboxes_on_admin', false )
 	) {
 		$GLOBALS['wpseo_metabox'] = new WPSEO_Metabox;

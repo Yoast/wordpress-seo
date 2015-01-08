@@ -109,7 +109,7 @@ if ( ! class_exists( 'WPSEO_Social_Admin' ) ) {
 				$fields_to_compare = array(
 					'opengraph-title',
 					'opengraph-description',
-					'opengraph-image'
+					'opengraph-image',
 				);
 
 				$reset_facebook_cache = false;
