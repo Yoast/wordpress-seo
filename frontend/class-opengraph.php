@@ -15,7 +15,7 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 	/**
 	 * Adds the OpenGraph output
 	 */
-	class WPSEO_OpenGraph extends WPSEO_Frontseend {
+	class WPSEO_OpenGraph extends WPSEO_Frontend {
 
 		/**
 		 * @var array $options Options for the OpenGraph Settings
@@ -603,14 +603,12 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 			$terms = get_the_category();
 
 			if ( ! is_wp_error( $terms ) && ( is_array( $terms ) && $terms !== array() ) ) {
-
 				$section = '';
 				foreach ( $terms as $term ) {
 					$section.=$term->name;
 					$section.=' ';
 				}
 				$this->og_tag( 'article:section', $section );
-
 				return true;
 			}
 
