@@ -21,14 +21,14 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	public function tearDown() {
 		// Reset shown images
 		self::$class_instance->shown_images = array();
+		ob_clean();
+		WPSEO_Frontend::get_instance()->reset();
 	}
 
 	/**
 	 * @covers WPSEO_Twitter::twitter
 	 */
 	public function test_twitter() {
-		WPSEO_Frontend::get_instance()->reset();
-
 		$post_id = $this->factory->post->create(
 			array(
 				'post_title'  => 'Test Post',
@@ -177,8 +177,6 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	public function test_twitter_description_metadesc() {
 		// Instantiate class again as it generates the description only once
 		$class = new Expose_WPSEO_Twitter();
-		WPSEO_Frontend::get_instance()->reset();
-
 		// create and go to post
 		$post_id = $this->factory->post->create();
 

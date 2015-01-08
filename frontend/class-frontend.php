@@ -28,7 +28,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 		/**
 		 * @var array Holds the plugins options.
 		 */
-		var $options = array();
+		private var $options = array();
 
 		/**
 		 * @var boolean Boolean indicating wether output buffering has been started
@@ -75,7 +75,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 		 *
 		 * Adds and removes a lot of filters.
 		 */
-		function __construct() {
+		public function __construct() {
 
 			$this->options = WPSEO_Options::get_all();
 
@@ -203,7 +203,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 		 *
 		 * @return bool
 		 */
-		function is_home_posts_page() {
+		public function is_home_posts_page() {
 			return ( is_home() && 'posts' == get_option( 'show_on_front' ) );
 		}
 
@@ -212,7 +212,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 		 *
 		 * @return bool
 		 */
-		function is_home_static_page() {
+		public function is_home_static_page() {
 			return ( is_front_page() && 'page' == get_option( 'show_on_front' ) && is_page( get_option( 'page_on_front' ) ) );
 		}
 
@@ -221,7 +221,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 		 *
 		 * @return bool
 		 */
-		function is_posts_page() {
+		public function is_posts_page() {
 			return ( is_home() && 'page' == get_option( 'show_on_front' ) );
 		}
 
@@ -232,7 +232,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 		 *
 		 * @return string
 		 */
-		function get_content_title( $object = null ) {
+		public function get_content_title( $object = null ) {
 			if ( is_null( $object ) ) {
 				global $wp_query;
 				$object = $wp_query->get_queried_object();
@@ -254,7 +254,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 		 *
 		 * @return string
 		 */
-		function get_taxonomy_title() {
+		public function get_taxonomy_title() {
 			global $wp_query;
 			$object = $wp_query->get_queried_object();
 
@@ -272,7 +272,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 		 *
 		 * @return string
 		 */
-		function get_author_title() {
+		public function get_author_title() {
 			$author_id = get_query_var( 'author' );
 			$title     = trim( get_the_author_meta( 'wpseo_title', $author_id ) );
 
@@ -293,7 +293,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 		 *
 		 * @return string
 		 */
-		function get_title_from_options( $index, $var_source = array() ) {
+		public function get_title_from_options( $index, $var_source = array() ) {
 			if ( ! isset( $this->options[ $index ] ) || $this->options[ $index ] === '' ) {
 				if ( is_singular() ) {
 					return wpseo_replace_vars( '%%title%% %%sep%% %%sitename%%', $var_source );
@@ -319,7 +319,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 		 *
 		 * @return string
 		 */
-		function get_default_title( $sep, $seplocation, $title = '' ) {
+		public function get_default_title( $sep, $seplocation, $title = '' ) {
 			if ( 'right' == $seplocation ) {
 				$regex = '`\s*' . preg_quote( trim( $sep ), '`' ) . '\s*`u';
 			} else {
@@ -350,7 +350,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 		 *
 		 * @return string
 		 */
-		function add_paging_to_title( $sep, $seplocation, $title ) {
+		public function add_paging_to_title( $sep, $seplocation, $title ) {
 			global $wp_query;
 
 			if ( ! empty( $wp_query->query_vars['paged'] ) && $wp_query->query_vars['paged'] > 1 ) {
@@ -370,7 +370,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 		 *
 		 * @return string
 		 */
-		function add_to_title( $sep, $seplocation, $title, $title_part ) {
+		public function add_to_title( $sep, $seplocation, $title, $title_part ) {
 			if ( 'right' === $seplocation ) {
 				return $title . $sep . $title_part;
 			}
@@ -387,7 +387,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 		 *
 		 * @return string
 		 */
-		public function title( $title, $separator = '', $separator_location = '' ) {
+		public public function title( $title, $separator = '', $separator_location = '' ) {
 			if ( is_null( $this->title ) ) {
 				$this->title = $this->generate_title( $title, $separator_location );
 			}

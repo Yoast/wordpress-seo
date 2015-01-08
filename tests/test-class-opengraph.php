@@ -21,6 +21,11 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		$this->go_to_home();
 	}
 
+	public function tearDown() {
+		ob_clean();
+		WPSEO_Frontend::get_instance()->reset();
+	}
+
 	/**
 	 * Test if options were properly fetched upon class instantiation.
 	 */
@@ -255,8 +260,6 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_OpenGraph::description
 	 */
 	public function test_description_single_post_opengraph_description() {
-		WPSEO_Frontend::get_instance()->reset();
-
 		$expected_opengraph_description = 'This is with a opengraph-description';
 
 		// Creates the post
@@ -272,8 +275,6 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	}
 
 	public function test_description_single_post_metadesc() {
-		WPSEO_Frontend::get_instance()->reset();
-
 		$expected_meta_description = 'This is with a meta-description';
 
 		// Creates the post
@@ -289,8 +290,6 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	}
 
 	public function test_description_single_post_excerpt() {
-		WPSEO_Frontend::get_instance()->reset();
-
 		// Creates the post
 		$post_id = $this->factory->post->create();
 		$this->go_to( get_permalink( $post_id ) );
