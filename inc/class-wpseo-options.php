@@ -10,7 +10,6 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-if ( ! class_exists( 'WPSEO_Option' ) ) {
 	/**
 	 * @package    WordPress\Plugins\WPSeo
 	 * @subpackage Internals
@@ -854,14 +853,10 @@ if ( ! class_exists( 'WPSEO_Option' ) ) {
 
 	} /* End of class WPSEO_Option */
 
-} /* End of class-exists wrapper */
-
 
 /*******************************************************************
  * Option: wpseo
  *******************************************************************/
-if ( ! class_exists( 'WPSEO_Option_Wpseo' ) ) {
-
 	class WPSEO_Option_Wpseo extends WPSEO_Option {
 
 		/**
@@ -952,13 +947,13 @@ if ( ! class_exists( 'WPSEO_Option_Wpseo' ) ) {
 
 			/* Check if the yoast tracking cron job needs adding/removing on successfull option add/update */
 			add_action( 'add_option_' . $this->option_name, array(
-					'WPSEO_Options',
-					'schedule_yoast_tracking',
-				), 15, 2 );
+				'WPSEO_Options',
+				'schedule_yoast_tracking',
+			), 15, 2 );
 			add_action( 'update_option_' . $this->option_name, array(
-					'WPSEO_Options',
-					'schedule_yoast_tracking',
-				), 15, 2 );
+				'WPSEO_Options',
+				'schedule_yoast_tracking',
+			), 15, 2 );
 		}
 
 
@@ -1190,9 +1185,9 @@ if ( ! class_exists( 'WPSEO_Option_Wpseo' ) ) {
 			);
 			foreach ( $value_change as $key ) {
 				if ( isset( $option_value[ $key ] ) && in_array( $option_value[ $key ], array(
-							'ignore',
-							'done',
-						), true )
+						'ignore',
+						'done',
+					), true )
 				) {
 					$option_value[ $key ] = true;
 				}
@@ -1203,14 +1198,10 @@ if ( ! class_exists( 'WPSEO_Option_Wpseo' ) ) {
 
 	} /* End of class WPSEO_Option_Wpseo */
 
-} /* End of class-exists wrapper */
-
 
 /*******************************************************************
  * Option: wpseo_permalinks
  *******************************************************************/
-if ( ! class_exists( 'WPSEO_Option_Permalinks' ) ) {
-
 	/**
 	 * @internal Clean routine for 1.5 not needed as values used to be saved as string 'on' and those will convert
 	 * automatically
@@ -1361,14 +1352,10 @@ if ( ! class_exists( 'WPSEO_Option_Permalinks' ) ) {
 
 	} /* End of class WPSEO_Option_Permalinks */
 
-} /* End of class-exists wrapper */
-
 
 /*******************************************************************
  * Option: wpseo_titles
  *******************************************************************/
-if ( ! class_exists( 'WPSEO_Option_Titles' ) ) {
-
 	class WPSEO_Option_Titles extends WPSEO_Option {
 
 		/**
@@ -1735,9 +1722,9 @@ if ( ! class_exists( 'WPSEO_Option_Titles' ) ) {
 
 			// Double-run this function to ensure renaming of the taxonomy options will work
 			if ( ! isset( $original ) && has_action( 'wpseo_double_clean_titles', array(
-						$this,
-						'clean',
-					) ) === false
+					$this,
+					'clean',
+				) ) === false
 			) {
 				add_action( 'wpseo_double_clean_titles', array( $this, 'clean' ) );
 				$original = $option_value;
@@ -1943,14 +1930,10 @@ if ( ! class_exists( 'WPSEO_Option_Titles' ) ) {
 
 	} /* End of class WPSEO_Option_Titles */
 
-} /* End of class-exists wrapper */
-
 
 /*******************************************************************
  * Option: wpseo_rss
  *******************************************************************/
-if ( ! class_exists( 'WPSEO_Option_RSS' ) ) {
-
 	class WPSEO_Option_RSS extends WPSEO_Option {
 
 		/**
@@ -2014,14 +1997,10 @@ if ( ! class_exists( 'WPSEO_Option_RSS' ) ) {
 
 	} /* End of class WPSEO_Option_RSS */
 
-} /* End of class-exists wrapper */
-
 
 /*******************************************************************
  * Option: wpseo_internallinks
  *******************************************************************/
-if ( ! class_exists( 'WPSEO_Option_InternalLinks' ) ) {
-
 	class WPSEO_Option_InternalLinks extends WPSEO_Option {
 
 		/**
@@ -2352,14 +2331,10 @@ if ( ! class_exists( 'WPSEO_Option_InternalLinks' ) ) {
 
 	} /* End of class WPSEO_Option_InternalLinks */
 
-} /* End of class-exists wrapper */
-
 
 /*******************************************************************
  * Option: wpseo_xml
  *******************************************************************/
-if ( ! class_exists( 'WPSEO_Option_XML' ) ) {
-
 	class WPSEO_Option_XML extends WPSEO_Option {
 
 		/**
@@ -2580,14 +2555,10 @@ if ( ! class_exists( 'WPSEO_Option_XML' ) ) {
 
 	} /* End of class WPSEO_Option_XML */
 
-} /* End of class-exists wrapper */
-
 
 /*******************************************************************
  * Option: wpseo_social
  *******************************************************************/
-if ( ! class_exists( 'WPSEO_Option_Social' ) ) {
-
 	class WPSEO_Option_Social extends WPSEO_Option {
 
 		/**
@@ -2785,7 +2756,7 @@ if ( ! class_exists( 'WPSEO_Option_Social' ) ) {
 					case 'plus-publisher':
 					case 'og_default_image':
 					case 'og_frontpage_image':
-					if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
+						if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
 							$url = self::sanitize_url( $dirty[ $key ] );
 							if ( $url !== '' ) {
 								$clean[ $key ] = $url;
@@ -2935,13 +2906,11 @@ if ( ! class_exists( 'WPSEO_Option_Social' ) ) {
 
 	} /* End of class WPSEO_Option_Social */
 
-} /* End of class-exists wrapper */
-
 
 /*******************************************************************
  * Option: wpseo_ms
  *******************************************************************/
-if ( is_multisite() && ! class_exists( 'WPSEO_Option_MS' ) ) {
+if ( is_multisite() ) {
 
 	/**
 	 * Site option for Multisite installs only
@@ -3154,8 +3123,6 @@ if ( is_multisite() && ! class_exists( 'WPSEO_Option_MS' ) ) {
 /*******************************************************************
  * Option: wpseo_taxonomy_meta
  *******************************************************************/
-if ( ! class_exists( 'WPSEO_Taxonomy_Meta' ) ) {
-
 	class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 
 		/**
@@ -3574,13 +3541,10 @@ if ( ! class_exists( 'WPSEO_Taxonomy_Meta' ) ) {
 
 	} /* End of class WPSEO_Taxonomy_Meta */
 
-} /* End of class-exists wrapper */
-
 
 /*******************************************************************
  * Overall Option Management
  *******************************************************************/
-if ( ! class_exists( 'WPSEO_Options' ) ) {
 	/**
 	 * Overal Option Management class
 	 *
@@ -4055,5 +4019,3 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 
 
 	} /* End of class WPSEO_Options */
-
-} /* End of class-exists wrapper */
