@@ -66,8 +66,6 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 			add_filter( 'set-screen-option', array( $this, 'save_bulk_edit_options' ), 10, 3 );
 
 			add_action( 'activated_plugin', array( 'WPSEO_Plugin_Conflict', 'hook_check_for_plugin_conflicts' ), 10, 1 );
-
-			add_action( 'update_option_wpseo_xml', 'wpseo_clear_sitemap_cache' );
 		}
 
 		/**

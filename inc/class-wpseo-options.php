@@ -959,6 +959,8 @@ if ( ! class_exists( 'WPSEO_Option_Wpseo' ) ) {
 					'WPSEO_Options',
 					'schedule_yoast_tracking',
 				), 15, 2 );
+			
+			add_action( 'update_option_wpseo_xml', 'wpseo_clear_sitemap_cache' );
 		}
 
 
