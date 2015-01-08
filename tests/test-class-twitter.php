@@ -13,16 +13,18 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 		// create instance of WPSEO_Twitter class
 		require 'framework/class-expose-wpseo-twitter.php';
 		self::$class_instance = new Expose_WPSEO_Twitter();
-
+		WPSEO_Frontend::get_instance()->reset();
 		// clean output which was outputted by WPSEO_Twitter constructor
 		ob_end_clean();
 	}
 
+
 	public function tearDown() {
-		// Reset shown images
-		self::$class_instance->shown_images = array();
 		ob_clean();
 		WPSEO_Frontend::get_instance()->reset();
+
+		// Reset shown images
+		self::$class_instance->shown_images = array();
 	}
 
 	/**
@@ -31,20 +33,19 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	public function test_twitter() {
 		$post_id = $this->factory->post->create(
 			array(
-				'post_title'  => 'Test Post',
-				'post_excerpt' => 'Test Excerpt',
+				'post_title'  => 'Twitter Test Post',
+				'post_excerpt' => 'Twitter Test Excerpt',
 				'post_type'   => 'post',
 				'post_status' => 'publish',
 			)
 		);
 		$this->go_to( get_permalink( $post_id ) );
 
-		ob_clean();
 		self::$class_instance->twitter();
 
 		$expected = '<meta name="twitter:card" content="summary"/>
-<meta name="twitter:description" content="Test Excerpt"/>
-<meta name="twitter:title" content="Test Post - Test Blog"/>
+<meta name="twitter:description" content="Twitter Test Excerpt"/>
+<meta name="twitter:title" content="Twitter Test Post - Test Blog"/>
 <meta name="twitter:domain" content="Test Blog"/>
 ';
 		$this->expectOutput( $expected );
@@ -156,9 +157,6 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Twitter::description
 	 */
 	public function test_twitter_description_excerpt() {
-		// Instantiate class again as it generates the description only once
-		$class = new Expose_WPSEO_Twitter();
-
 		// create and go to post
 		$post_id = $this->factory->post->create();
 		$this->go_to( get_permalink( $post_id ) );
@@ -167,7 +165,7 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 		$expected = $this->metatag( 'description', get_the_excerpt() );
 
 		ob_clean();
-		$class->description();
+		self::$class_instance->description();
 		$this->expectOutput( $expected );
 	}
 
@@ -175,8 +173,6 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Twitter::description
 	 */
 	public function test_twitter_description_metadesc() {
-		// Instantiate class again as it generates the description only once
-		$class = new Expose_WPSEO_Twitter();
 		// create and go to post
 		$post_id = $this->factory->post->create();
 
@@ -186,8 +182,7 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 		$this->go_to( get_permalink( $post_id ) );
 		$expected = $this->metatag( 'description', WPSEO_Frontend::get_instance()->metadesc( false ) );
 
-		ob_clean();
-		$class->description();
+		self::$class_instance->description();
 		$this->expectOutput( $expected );
 	}
 

@@ -16,6 +16,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	 */
 	public function setUp() {
 		parent::setUp();
+		WPSEO_Frontend::get_instance()->reset();
 
 		// start each test on the home page
 		$this->go_to_home();
@@ -23,7 +24,6 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 
 	public function tearDown() {
 		ob_clean();
-		WPSEO_Frontend::get_instance()->reset();
 	}
 
 	/**
