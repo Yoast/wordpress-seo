@@ -553,6 +553,13 @@ function wpseo_invalidate_sitemap_cache( $type ) {
 	// Always delete the main index sitemaps cache, as that's always invalidated by any other change
 	delete_transient( 'wpseo_sitemap_cache_1' );
 	delete_transient( 'wpseo_sitemap_cache_' . $type );
+
+	$n = get_query_var( 'sitemap_n' );
+	if ( is_scalar( $n ) && intval( $n ) > 0 ) {
+		for( $number=1;$number<=$n;$number++ ){
+			delete_transient( 'wpseo_sitemap_cache_' . $type . '_' . $number );
+		}
+	}
 }
 
 add_action( 'deleted_term_relationships', 'wpseo_invalidate_sitemap_cache' );
