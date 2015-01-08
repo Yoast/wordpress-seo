@@ -585,9 +585,12 @@ class WPSEO_OpenGraph {
 		$tags = get_the_tags();
 		if ( ! is_wp_error( $tags ) && ( is_array( $tags ) && $tags !== array() ) ) {
 
+			$tags_out = '';
 			foreach ( $tags as $tag ) {
-				$this->og_tag( 'article:tag', $tag->name );
+				$tags_out .= $tag->name . ',';
 			}
+			$tags_out = rtrim( $tags_out, ',' );
+			$this->og_tag( 'article:tag', $tags_out );
 
 			return true;
 		}
@@ -611,9 +614,8 @@ class WPSEO_OpenGraph {
 
 		if ( ! is_wp_error( $terms ) && ( is_array( $terms ) && $terms !== array() ) ) {
 
-			foreach ( $terms as $term ) {
-				$this->og_tag( 'article:section', $term->name );
-			}
+			// We can only show one section here, so we take the first one.
+			$this->og_tag( 'article:section', $terms[0]->name );
 
 			return true;
 		}
