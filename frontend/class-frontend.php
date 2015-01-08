@@ -28,7 +28,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 		/**
 		 * @var array Holds the plugins options.
 		 */
-		private var $options = array();
+		private $options = array();
 
 		/**
 		 * @var boolean Boolean indicating wether output buffering has been started
