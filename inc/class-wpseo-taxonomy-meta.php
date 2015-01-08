@@ -1,12 +1,5 @@
 <?php
 
-// Avoid direct calls to this file
-if ( ! defined( 'WPSEO_VERSION' ) ) {
-	header( 'Status: 403 Forbidden' );
-	header( 'HTTP/1.1 403 Forbidden' );
-	exit();
-}
-
 
 /*******************************************************************
  * Option: wpseo_taxonomy_meta

@@ -3,12 +3,6 @@
  * @package Admin
  */
 
-if ( ! defined( 'WPSEO_VERSION' ) ) {
-	header( 'Status: 403 Forbidden' );
-	header( 'HTTP/1.1 403 Forbidden' );
-	exit();
-}
-
 
 /**
  * Class that handles the edit boxes on taxonomy edit pages.

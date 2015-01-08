@@ -3,12 +3,6 @@
  * @package Admin
  */
 
-if ( ! defined( 'WPSEO_VERSION' ) ) {
-	header( 'Status: 403 Forbidden' );
-	header( 'HTTP/1.1 403 Forbidden' );
-	exit();
-}
-
 /**
  * This class adds the Social tab to the WP SEO metabox and makes sure the settings are saved.
  */

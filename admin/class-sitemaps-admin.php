@@ -3,12 +3,6 @@
  * @package XML_Sitemaps
  */
 
-if ( ! defined( 'WPSEO_VERSION' ) ) {
-	header( 'Status: 403 Forbidden' );
-	header( 'HTTP/1.1 403 Forbidden' );
-	exit();
-}
-
 /**
  * Class that handles the Admin side of XML sitemaps
  */

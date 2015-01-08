@@ -3,13 +3,6 @@
  * @package XML_Sitemaps
  */
 
-if ( ! defined( 'WPSEO_VERSION' ) ) {
-	header( 'Status: 403 Forbidden' );
-
-	header( 'HTTP/1.1 403 Forbidden', true, 403 );
-	exit();
-}
-
 /**
  * Class WPSEO_Sitemaps
  *
