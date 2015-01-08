@@ -903,8 +903,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 				if ( get_query_var( 'page' ) > 1 ) {
 					$num_pages = substr_count( $obj->post_content, '<!--nextpage-->' ) + 1;
 					if ( $num_pages && get_query_var( 'page' ) <= $num_pages ) {
-						global $wp_rewrite;
-						if ( ! $wp_rewrite->using_permalinks() ) {
+						if ( ! $GLOBALS['wp_rewrite']->using_permalinks() ) {
 							$canonical = add_query_arg( 'page', get_query_var( 'page' ), $canonical );
 						} else {
 							$canonical = user_trailingslashit( trailingslashit( $canonical ) . get_query_var( 'page' ) );
