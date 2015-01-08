@@ -163,7 +163,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 		/**
 		 * Resets the entire class so canonicals, titles etc can be regenerated.
 		 */
-		function reset() {
+		public function reset() {
 			foreach( get_class_vars( get_class( $this ) ) as $name => $default ) {
 				if ( $name == 'instance' ) {
 					$this::$$name = $default;
