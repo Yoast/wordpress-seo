@@ -1125,7 +1125,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 			}
 
 			if ( is_singular() ) {
-				$metadesc = wpseo_replace_vars( WPSEO_Meta::get_value( 'metadesc' ), $post );
+				$metadesc = WPSEO_Meta::get_value( 'metadesc' );
 				if ( ( $metadesc === '' && $post_type !== '' ) && isset( $this->options['metadesc-' . $post_type] ) ) {
 					$template = $this->options['metadesc-' . $post_type];
 					$term     = $post;
@@ -1185,7 +1185,10 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 					$term = $wp_query->get_queried_object();
 				}
 				$metadesc = wpseo_replace_vars( $template, $term );
+			} else {
+				$metadesc = wpseo_replace_vars( $metadesc, $post );
 			}
+
 
 			/**
 			 * Filter: 'wpseo_metadesc' - Allow changing the WP SEO meta description sentence.
