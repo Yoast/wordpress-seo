@@ -1184,11 +1184,12 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 				if ( ! isset( $term ) ) {
 					$term = $wp_query->get_queried_object();
 				}
-				$metadesc = wpseo_replace_vars( $template, $term );
-			} else {
-				$metadesc = wpseo_replace_vars( $metadesc, $post );
+
+				$metadesc = $template;
+				$post     = $term;
 			}
 
+			$metadesc = wpseo_replace_vars( $metadesc, $post );
 
 			/**
 			 * Filter: 'wpseo_metadesc' - Allow changing the WP SEO meta description sentence.
