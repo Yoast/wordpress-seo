@@ -1125,7 +1125,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 			}
 
 			if ( is_singular() ) {
-				$metadesc = WPSEO_Meta::get_value( 'metadesc' );
+				$metadesc = wpseo_replace_vars( WPSEO_Meta::get_value( 'metadesc' ), $post );
 				if ( ( $metadesc === '' && $post_type !== '' ) && isset( $this->options['metadesc-' . $post_type] ) ) {
 					$template = $this->options['metadesc-' . $post_type];
 					$term     = $post;
