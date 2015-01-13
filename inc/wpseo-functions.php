@@ -362,19 +362,19 @@ function wpseo_wpml_config( $config ) {
 				$translate_cp = array_keys( $sitepress->get_translatable_documents() );
 				if ( is_array( $translate_cp ) && $translate_cp !== array() ) {
 					foreach ( $translate_cp as $post_type ) {
-						$admin_texts[ $k ]['key'][]['attr']['name'] = 'title-' . $post_type;
-						$admin_texts[ $k ]['key'][]['attr']['name'] = 'metadesc-' . $post_type;
-						$admin_texts[ $k ]['key'][]['attr']['name'] = 'metakey-' . $post_type;
-						$admin_texts[ $k ]['key'][]['attr']['name'] = 'title-ptarchive-' . $post_type;
-						$admin_texts[ $k ]['key'][]['attr']['name'] = 'metadesc-ptarchive-' . $post_type;
-						$admin_texts[ $k ]['key'][]['attr']['name'] = 'metakey-ptarchive-' . $post_type;
+						$admin_texts[$k]['key'][]['attr']['name'] = 'title-' . $post_type;
+						$admin_texts[$k]['key'][]['attr']['name'] = 'metadesc-' . $post_type;
+						$admin_texts[$k]['key'][]['attr']['name'] = 'metakey-' . $post_type;
+						$admin_texts[$k]['key'][]['attr']['name'] = 'title-ptarchive-' . $post_type;
+						$admin_texts[$k]['key'][]['attr']['name'] = 'metadesc-ptarchive-' . $post_type;
+						$admin_texts[$k]['key'][]['attr']['name'] = 'metakey-ptarchive-' . $post_type;
 
 						$translate_tax = $sitepress->get_translatable_taxonomies( false, $post_type );
 						if ( is_array( $translate_tax ) && $translate_tax !== array() ) {
 							foreach ( $translate_tax as $taxonomy ) {
-								$admin_texts[ $k ]['key'][]['attr']['name'] = 'title-tax-' . $taxonomy;
-								$admin_texts[ $k ]['key'][]['attr']['name'] = 'metadesc-tax-' . $taxonomy;
-								$admin_texts[ $k ]['key'][]['attr']['name'] = 'metakey-tax-' . $taxonomy;
+								$admin_texts[$k]['key'][]['attr']['name'] = 'title-tax-' . $taxonomy;
+								$admin_texts[$k]['key'][]['attr']['name'] = 'metadesc-tax-' . $taxonomy;
+								$admin_texts[$k]['key'][]['attr']['name'] = 'metakey-tax-' . $taxonomy;
 							}
 						}
 					}
@@ -554,6 +554,7 @@ function wpseo_shortcode_yoast_breadcrumb() {
 
 add_shortcode( 'wpseo_breadcrumb', 'wpseo_shortcode_yoast_breadcrumb' );
 
+
 /**
  * This invalidates our XML Sitemaps cache.
  *
@@ -563,6 +564,12 @@ function wpseo_invalidate_sitemap_cache( $type ) {
 	// Always delete the main index sitemaps cache, as that's always invalidated by any other change
 	delete_transient( 'wpseo_sitemap_cache_1' );
 	delete_transient( 'wpseo_sitemap_cache_' . $type );
+
+	$sitemaps = get_query_var( 'sitemap_n' );
+	if ( is_scalar( $sitemaps ) && intval( $sitemaps ) > 0 ) {
+		wpseo_invalidate_sitemap_cache_number( $type, $sitemaps );
+	}
+
 }
 
 add_action( 'deleted_term_relationships', 'wpseo_invalidate_sitemap_cache' );
@@ -613,6 +620,19 @@ function wpseo_get_roles() {
 	$roles = $wp_roles->get_names();
 
 	return $roles;
+}
+
+/**
+ * Invalidate sitemap type with number, will remove the following cached objects:
+ * wpseo_sitemap_cache_%%type%%_1, wpseo_sitemap_cache_%%type%%_2 etc.
+ *
+ * @param string $type
+ * @param int    $sitemaps
+ */
+function wpseo_invalidate_sitemap_cache_number( $type, $sitemaps ) {
+	for ( $number = 1; $number <= $sitemaps; $number ++ ) {
+		delete_transient( 'wpseo_sitemap_cache_' . $type . '_' . $number );
+	}
 }
 
 /**

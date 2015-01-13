@@ -2784,7 +2784,7 @@ if ( ! class_exists( 'WPSEO_Option_Social' ) ) {
 					case 'plus-publisher':
 					case 'og_default_image':
 					case 'og_frontpage_image':
-					if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
+						if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
 							$url = self::sanitize_url( $dirty[ $key ] );
 							if ( $url !== '' ) {
 								$clean[ $key ] = $url;
@@ -3860,7 +3860,7 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 			   from the isolated activation */
 			require_once( WPSEO_PATH . 'inc/wpseo-non-ajax-functions.php' );
 
-//			wpseo_title_test();
+			//wpseo_title_test();
 			wpseo_description_test();
 
 			/* Force WooThemes to use WordPress SEO data. */

@@ -4,7 +4,7 @@
 
 	<exclude-pattern>tests/*</exclude-pattern>
 	<exclude-pattern>admin/license-manager/*</exclude-pattern>
-	<exclude-pattern>*</exclude-pattern>
+	<exclude-pattern>admin/includes/i18n-module/*</exclude-pattern>
 
 	<rule ref="WordPress-VIP">
 		<exclude name="Generic.Files.LineEndings.InvalidEOLChar" />
@@ -27,8 +27,6 @@
 
 		<!-- Turned off because of known & reported bugs in the Sniffs, should be turned on once the bugs are fixed. -->
 		<exclude name="WordPress.VIP.ValidatedSanitizedInput"/>
-
-		<exclude name="WordPress.PHP.YodaConditions"/>
 	</rule>
 	<rule ref="WordPress.PHP.DiscouragedFunctions"/>
 </ruleset>
