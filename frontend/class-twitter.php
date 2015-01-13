@@ -129,7 +129,7 @@ class WPSEO_Twitter {
 			'gallery',
 			'app',
 			'player',
-			'product'
+			'product',
 		) )
 		) {
 			$this->type = 'summary';

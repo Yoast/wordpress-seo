@@ -164,7 +164,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 		 * Resets the entire class so canonicals, titles etc can be regenerated.
 		 */
 		public function reset() {
-			foreach( get_class_vars( __CLASS__ ) as $name => $default ) {
+			foreach ( get_class_vars( __CLASS__ ) as $name => $default ) {
 				if ( $name == 'instance' ) {
 					self::$instance = null;
 				} else {
@@ -1578,7 +1578,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 					'debug',
 					'cof',
 					'ie',
-					'sa'
+					'sa',
 				) );
 			}
 
@@ -1591,7 +1591,7 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 					'utm_content',
 					'utm_term',
 					'utm_id',
-					'gclid'
+					'gclid',
 				) );
 			}
 
