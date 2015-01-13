@@ -34,7 +34,7 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 		 * Make sure the needed scripts are loaded for admin pages
 		 */
 		function init() {
-			if ( isset( $_GET['wpseo_reset_defaults'] ) && wp_verify_nonce( $_GET['nonce'], 'wpseo_reset_defaults' ) && current_user_can( 'manage_options' ) ) {
+			if ( WPSEO_Utils::filter_input( INPUT_GET, 'wpseo_reset_defaults' ) && wp_verify_nonce( WPSEO_Utils::filter_input( INPUT_GET, 'nonce' ), 'wpseo_reset_defaults' ) && current_user_can( 'manage_options' ) ) {
 				WPSEO_Options::reset();
 				wp_redirect( admin_url( 'admin.php?page=wpseo_dashboard' ) );
 			}
@@ -204,7 +204,8 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 				'bulk_description_editor_page',
 			);
 
-			if ( ( WP_DEBUG === true || ( defined( 'WPSEO_DEBUG' ) && WPSEO_DEBUG === true ) ) && isset( $_GET['page'] ) && ! in_array( $_GET['page'], $excluded, true ) ) {
+			$page = WPSEO_Utils::filter_input( INPUT_GET, 'page' );
+			if ( ( WP_DEBUG === true || ( defined( 'WPSEO_DEBUG' ) && WPSEO_DEBUG === true ) ) && ! in_array( $page, $excluded, true ) ) {
 				$xdebug = ( extension_loaded( 'xdebug' ) ? true : false );
 				echo '
 			<div id="poststuff">
@@ -324,7 +325,9 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 			wp_enqueue_script( 'dashboard' );
 			wp_enqueue_script( 'thickbox' );
 
-			if ( 'wpseo_social' === $_GET['page'] ) {
+			$page = WPSEO_Utils::filter_input( INPUT_GET, 'page' );
+
+			if ( 'wpseo_social' === $page ) {
 				wp_enqueue_media();
 				wp_enqueue_script( 'wpseo-admin-media', plugins_url( 'js/wp-seo-admin-media' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array(
 					'jquery',
@@ -333,7 +336,7 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 				wp_localize_script( 'wpseo-admin-media', 'wpseoMediaL10n', $this->localize_media_script() );
 			}
 
-			if ( 'wpseo_bulk-editor' === $_GET['page'] ) {
+			if ( 'wpseo_bulk-editor' === $page ) {
 				wp_enqueue_script( 'wpseo-bulk-editor', plugins_url( 'js/wp-seo-bulk-editor' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'jquery' ), WPSEO_VERSION, true );
 			}
 		}
