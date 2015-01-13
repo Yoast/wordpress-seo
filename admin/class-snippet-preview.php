@@ -144,6 +144,9 @@ HTML;
 		 */
 		protected function set_content_through_filter( $content ) {
 			$properties = get_object_vars( $this );
+			
+			// Backward compatibility for functions hooking into the wpseo_snippet filter
+			$properties['desc'] = $properties['description'];
 
 			/**
 			 * Filter: 'wpseo_snippet' - Allow changing the html for the snippet preview.
