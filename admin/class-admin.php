@@ -65,12 +65,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 
 			add_filter( 'set-screen-option', array( $this, 'save_bulk_edit_options' ), 10, 3 );
 
-			add_filter( 'upgrader_post_install', array( $this, 'remove_transients_on_update' ), 10, 1 );
-
-			add_action( 'activated_plugin', array(
-				'WPSEO_Plugin_Conflict',
-				'hook_check_for_plugin_conflicts'
-			), 10, 1 );
+			add_action( 'activated_plugin', array( 'WPSEO_Plugin_Conflict', 'hook_check_for_plugin_conflicts' ), 10, 1 );
 		}
 
 		/**
@@ -86,7 +81,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		 * @global array $submenu used to change the label on the first item.
 		 */
 		function register_settings_page() {
-			if ( WPSEO_Options::grant_access() !== true ) {
+			if ( WPSEO_Utils::grant_access() !== true ) {
 				return;
 			}
 
@@ -183,7 +178,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 			);
 
 			// Check where to add the edit files page
-			if ( wpseo_allow_system_file_edit() === true && ! is_multisite() ) {
+			if ( WPSEO_Utils::allow_system_file_edit() === true && ! is_multisite() ) {
 				$submenu_pages[] = array(
 					'wpseo_dashboard',
 					'',
@@ -271,7 +266,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		 * Register the settings page for the Network settings.
 		 */
 		function register_network_settings_page() {
-			if ( WPSEO_Options::grant_access() ) {
+			if ( WPSEO_Utils::grant_access() ) {
 				// Base 64 encoded SVG image
 				$icon_svg = 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCIgWw0KCTwhRU5USVRZIG5zX2Zsb3dzICJodHRwOi8vbnMuYWRvYmUuY29tL0Zsb3dzLzEuMC8iPg0KCTwhRU5USVRZIG5zX2V4dGVuZCAiaHR0cDovL25zLmFkb2JlLmNvbS9FeHRlbnNpYmlsaXR5LzEuMC8iPg0KCTwhRU5USVRZIG5zX2FpICJodHRwOi8vbnMuYWRvYmUuY29tL0Fkb2JlSWxsdXN0cmF0b3IvMTAuMC8iPg0KCTwhRU5USVRZIG5zX2dyYXBocyAiaHR0cDovL25zLmFkb2JlLmNvbS9HcmFwaHMvMS4wLyI+DQpdPg0KPHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSJMYWFnXzEiIHhtbG5zOng9IiZuc19leHRlbmQ7IiB4bWxuczppPSImbnNfYWk7IiB4bWxuczpncmFwaD0iJm5zX2dyYXBoczsiDQoJIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHhtbG5zOmE9Imh0dHA6Ly9ucy5hZG9iZS5jb20vQWRvYmVTVkdWaWV3ZXJFeHRlbnNpb25zLzMuMC8iDQoJIHg9IjBweCIgeT0iMHB4IiB2aWV3Qm94PSIwIDAgNDAgMzEuODkiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDQwIDMxLjg5IiB4bWw6c3BhY2U9InByZXNlcnZlIj4NCjxnPg0KPHBhdGggZmlsbD0iI0ZGRkZGRiIgZD0iTTQwLDEyLjUyNEM0MCw1LjYwOCwzMS40NjksMCwyMCwwQzguNTMsMCwwLDUuNjA4LDAsMTIuNTI0YzAsNS41Niw1LjI0MywxMC4yNzIsMTMuNTU3LDExLjkwN3YtNC4wNjUNCgljMCwwLDAuMDQtMS0wLjI4LTEuOTJjLTAuMzItMC45MjEtMS43Ni0zLjAwMS0xLjc2LTUuMTIxYzAtMi4xMjEsMi41NjEtOS41NjMsNS4xMjItMTAuNDQ0Yy0wLjQsMS4yMDEtMC4zMiw3LjY4My0wLjMyLDcuNjgzDQoJczEuNCwyLjcyLDQuNjQxLDIuNzJjMy4yNDIsMCw0LjUxMS0xLjc2LDQuNzE1LTIuMmMwLjIwNi0wLjQ0LDAuODQ2LTguNzIzLDAuODQ2LTguNzIzczQuMDgyLDQuNDAyLDMuNjgyLDkuMzYzDQoJYy0wLjQwMSw0Ljk2Mi00LjQ4Miw3LjIwMy02LjEyMiw5LjEyM2MtMS4yODYsMS41MDUtMi4yMjQsMy4xMy0yLjYyOSw0LjE2OGMwLjgwMS0wLjAzNCwxLjU4Ny0wLjA5OCwyLjM2MS0wLjE4NGw5LjE1MSw3LjA1OQ0KCWwtNC44ODQtNy44M0MzNS41MzUsMjIuMTYxLDQwLDE3LjcxMyw0MCwxMi41MjR6Ii8+DQo8L2c+DQo8L3N2Zz4=';
 				add_menu_page( __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'MultiSite Settings', 'wordpress-seo' ), __( 'SEO', 'wordpress-seo' ), 'delete_users', 'wpseo_dashboard', array(
@@ -279,7 +274,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 					'network_config_page',
 				), $icon_svg );
 
-				if ( wpseo_allow_system_file_edit() === true ) {
+				if ( WPSEO_Utils::allow_system_file_edit() === true ) {
 					add_submenu_page( 'wpseo_dashboard', __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Edit Files', 'wordpress-seo' ), __( 'Edit Files', 'wordpress-seo' ), 'delete_users', 'wpseo_files', array(
 						$this,
 						'load_page',
@@ -387,7 +382,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		 * Display an error message when the blog is set to private.
 		 */
 		function blog_public_warning() {
-			if ( ( function_exists( 'is_network_admin' ) && is_network_admin() ) || WPSEO_Options::grant_access() !== true ) {
+			if ( ( function_exists( 'is_network_admin' ) && is_network_admin() ) || WPSEO_Utils::grant_access() !== true ) {
 				return;
 			}
 
@@ -404,7 +399,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		 * @since 1.4.14
 		 */
 		function meta_description_warning() {
-			if ( ( function_exists( 'is_network_admin' ) && is_network_admin() ) || WPSEO_Options::grant_access() !== true ) {
+			if ( ( function_exists( 'is_network_admin' ) && is_network_admin() ) || WPSEO_Utils::grant_access() !== true ) {
 				return;
 			}
 
@@ -432,7 +427,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		 * @return    array    $links
 		 */
 		function add_action_link( $links, $file ) {
-			if ( WPSEO_BASENAME === $file && WPSEO_Options::grant_access() ) {
+			if ( WPSEO_BASENAME === $file && WPSEO_Utils::grant_access() ) {
 				$settings_link = '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_dashboard' ) ) . '">' . __( 'Settings', 'wordpress-seo' ) . '</a>';
 				array_unshift( $links, $settings_link );
 			}
@@ -459,7 +454,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		 * Enqueues the (tiny) global JS needed for the plugin.
 		 */
 		function config_page_scripts() {
-			if ( WPSEO_Options::grant_access() ) {
+			if ( WPSEO_Utils::grant_access() ) {
 				wp_enqueue_script( 'wpseo-admin-global-script', plugins_url( 'js/wp-seo-admin-global' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'jquery' ), WPSEO_VERSION, true );
 			}
 		}
@@ -585,51 +580,21 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 			}
 		}
 
-		/**
-		 * This method will remove the sitemap transients on upgrade
-		 *
-		 * @param boolean $response
-		 *
-		 * @return boolean $response
-		 */
-		function remove_transients_on_update( $response ) {
-
-			global $wpdb;
-
-			$results = $wpdb->get_results(
-				"
-					SELECT option_name
-					FROM   {$wpdb->options}
-					WHERE  option_name LIKE '%_transient_wpseo_sitemap_cache%'
-				"
-			);
-
-			foreach ( $results as $result ) {
-				$transient_name = substr( $result->option_name, 11 );
-				delete_transient( $transient_name );
-			}
-
-			return $response;
-		}
-
-
-
-
 		/********************** DEPRECATED METHODS **********************/
 
 		/**
 		 * Check whether the current user is allowed to access the configuration.
 		 *
 		 * @deprecated 1.5.0
-		 * @deprecated use WPSEO_Options::grant_access()
-		 * @see        WPSEO_Options::grant_access()
+		 * @deprecated use WPSEO_Utils::grant_access()
+		 * @see        WPSEO_Utils::grant_access()
 		 *
 		 * @return boolean
 		 */
 		function grant_access() {
-			_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Options::grant_access()' );
+			_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Utils::grant_access()' );
 
-			return WPSEO_Options::grant_access();
+			return WPSEO_Utils::grant_access();
 		}
 
 		/**
@@ -650,24 +615,24 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		 * Clears the cache
 		 *
 		 * @deprecated 1.5.0
-		 * @deprecated use WPSEO_Options::clear_cache()
-		 * @see        WPSEO_Options::clear_cache()
+		 * @deprecated use WPSEO_Utils::clear_cache()
+		 * @see        WPSEO_Utils::clear_cache()
 		 */
 		function clear_cache() {
-			_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Options::clear_cache()' );
-			WPSEO_Options::clear_cache();
+			_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Utils::clear_cache()' );
+			WPSEO_Utils::clear_cache();
 		}
 
 		/**
 		 * Clear rewrites
 		 *
 		 * @deprecated 1.5.0
-		 * @deprecated use WPSEO_Options::clear_rewrites()
-		 * @see        WPSEO_Options::clear_rewrites()
+		 * @deprecated use WPSEO_Utils::clear_rewrites()
+		 * @see        WPSEO_Utils::clear_rewrites()
 		 */
 		function clear_rewrites() {
-			_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Options::clear_rewrites()' );
-			WPSEO_Options::clear_rewrites();
+			_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Utils::clear_rewrites()' );
+			WPSEO_Utils::clear_rewrites();
 		}
 
 		/**

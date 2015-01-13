@@ -99,7 +99,7 @@ if ( ! class_exists( 'WPSEO_Pointers' ) ) {
 						. '<p><strong>' . __( 'Webmaster Tools', 'wordpress-seo' ) . '</strong><br/>' . __( 'You can also add the verification codes for the different Webmaster Tools programs here, we highly encourage you to check out both Google and Bing&#8217;s Webmaster Tools.', 'wordpress-seo' ) . '</p>'
 						. '<p><strong>' . __( 'WordPress SEO Tour', 'wordpress-seo' ) . '</strong><br/>' . __( 'This tour will show you around in the plugin, to give you a general overview of the plugin.', 'wordpress-seo' ) . '</p>'
 						. '<p><strong>' . __( 'Newsletter', 'wordpress-seo' ) . '</strong><br/>' .
-						__( 'If you would like to us to keep you up-to-date regarding WordPress SEO and other plugins by Yoast, subscribe to our newsletter:', 'wordpress-seo' ) . '</p>' .
+						__( 'If you would like us to keep you up-to-date regarding WordPress SEO and other plugins by Yoast, subscribe to our newsletter:', 'wordpress-seo' ) . '</p>' .
 						'<form action="http://yoast.us1.list-manage1.com/subscribe/post?u=ffa93edfe21752c921f860358&amp;id=972f1c9122" method="post" id="newsletter-form" accept-charset="' . esc_attr( get_bloginfo( 'charset' ) ) . '">' .
 						'<p>' .
 						'<label for="newsletter-email">' . __( 'Email', 'wordpress-seo' ) . ':</label> <input style="margin: 5px; color:#666" name="EMAIL" value="' . esc_attr( $current_user->user_email ) . '" id="newsletter-email" placeholder="' . __( 'Email', 'wordpress-seo' ) . '"/><br/>' .
@@ -195,7 +195,7 @@ if ( ! class_exists( 'WPSEO_Pointers' ) ) {
 			);
 
 			// Skip tour about wpseo_files page if file editing is disallowed or if the site is a multisite and the current user isn't a superadmin
-			if ( false === wpseo_allow_system_file_edit() ) {
+			if ( false === WPSEO_Utils::allow_system_file_edit() ) {
 				unset( $adminpages['wpseo_files'] );
 				$adminpages['wpseo_bulk-editor']['function'] = 'window.location="' . admin_url( 'admin.php?page=wpseo_licenses' ) . '";';
 			}

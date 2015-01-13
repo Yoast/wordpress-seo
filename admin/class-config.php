@@ -39,7 +39,7 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 				wp_redirect( admin_url( 'admin.php?page=wpseo_dashboard' ) );
 			}
 
-			if ( WPSEO_Options::grant_access() ) {
+			if ( WPSEO_Utils::grant_access() ) {
 				add_action( 'admin_enqueue_scripts', array( $this, 'config_page_scripts' ) );
 				add_action( 'admin_enqueue_scripts', array( $this, 'config_page_styles' ) );
 			}

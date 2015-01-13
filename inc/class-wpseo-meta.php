@@ -277,7 +277,8 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 					'opengraph'  => 'opengraph',
 					'twitter'    => 'twitter',
 					'googleplus' => 'google-plus',
-				) as $option => $network ) {
+				) as $option => $network
+			) {
 				if ( true === $options[$option] ) {
 					foreach (
 						array(
@@ -466,7 +467,7 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 
 			switch ( true ) {
 				case ( $meta_key === self::$meta_prefix . 'linkdex' ):
-					$int = WPSEO_Option::validate_int( $meta_value );
+					$int = WPSEO_Utils::validate_int( $meta_value );
 					if ( $int !== false && $int >= 0 ) {
 						$clean = strval( $int ); // Convert to string to make sure default check works
 					}
@@ -497,7 +498,7 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 				case ( $field_def['type'] === 'text' && $meta_key === self::$meta_prefix . 'canonical' ):
 				case ( $field_def['type'] === 'text' && $meta_key === self::$meta_prefix . 'redirect' ):
 					// Validate as url(-part)
-					$url = WPSEO_Option::sanitize_url( $meta_value );
+					$url = WPSEO_Utils::sanitize_url( $meta_value );
 					if ( $url !== '' ) {
 						$clean = $url;
 					}
@@ -506,7 +507,7 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 
 				case ( $field_def['type'] === 'upload' && $meta_key === self::$meta_prefix . 'opengraph-image' ):
 					// Validate as url
-					$url = WPSEO_Option::sanitize_url( $meta_value, array( 'http', 'https', 'ftp', 'ftps' ) );
+					$url = WPSEO_Utils::sanitize_url( $meta_value, array( 'http', 'https', 'ftp', 'ftps' ) );
 					if ( $url !== '' ) {
 						$clean = $url;
 					}
@@ -518,7 +519,7 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 						// Remove line breaks and tabs
 						// @todo [JRF => Yoast] verify that line breaks and the likes aren't allowed/recommended in meta header fields
 						$meta_value = str_replace( array( "\n", "\r", "\t", '  ' ), ' ', $meta_value );
-						$clean      = WPSEO_Option::sanitize_text_field( trim( $meta_value ) );
+						$clean      = WPSEO_Utils::sanitize_text_field( trim( $meta_value ) );
 					}
 					break;
 
@@ -530,7 +531,7 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 				case ( $field_def['type'] === 'text' ):
 				default:
 					if ( is_string( $meta_value ) ) {
-						$clean = WPSEO_Option::sanitize_text_field( trim( $meta_value ) );
+						$clean = WPSEO_Utils::sanitize_text_field( trim( $meta_value ) );
 					}
 					break;
 			}
@@ -997,7 +998,7 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 			}
 			return $merged;
 		}
-		
+
 		/**
 		 * Get a value from $_POST for a given key
 		 * Returns the $_POST value if exists, returns an empty string if key does not exist
