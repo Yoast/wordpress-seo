@@ -372,30 +372,24 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 
 				foreach ( $post_types as $post_type ) {
 					if ( isset( $this->options['post_types-' . $post_type . '-not_in_sitemap'] ) && $this->options['post_types-' . $post_type . '-not_in_sitemap'] === true ) {
-						unset( $post_types[$post_type] );
+						continue;
 					} else {
 						if ( apply_filters( 'wpseo_sitemap_exclude_post_type', false, $post_type ) ) {
-							unset( $post_types[$post_type] );
+							continue;
 						}
 					}
-				}
 
-				// No prepare here because $wpdb->prepare can't properly prepare IN statements.
-				$query  = "SELECT post_type, COUNT(ID) AS count FROM $wpdb->posts WHERE post_status IN ('publish','inherit') AND post_type IN ( '" . implode( "','", $post_types ) . "' ) GROUP BY post_type ";
-				$result = $wpdb->get_results( $query );
+					// using same filters for filtering join and where parts of the query.
+					$join_filter  = '';
+					$join_filter  = apply_filters( 'wpseo_typecount_join', $join_filter, $post_type );
+					$where_filter = '';
+					$where_filter = apply_filters( 'wpseo_typecount_where', $where_filter, $post_type );
 
-				$post_type_counts = array();
-				foreach ( $result as $obj ) {
-					$post_type_counts[$obj->post_type] = $obj->count;
-				}
-				unset( $result );
+					// using the same query with build_post_type_map($post_type) function to count number of posts.
+					$query = $wpdb->prepare( "SELECT COUNT(ID) FROM $wpdb->posts {$join_filter} WHERE post_status IN ('publish','inherit') AND post_password = '' AND post_author != 0 AND post_date != '0000-00-00 00:00:00' AND post_type = %s " . $where_filter, $post_type );
 
-				foreach ( $post_types as $post_type ) {
-
-					$count = false;
-					if ( isset( $post_type_counts[$post_type] ) ) {
-						$count = $post_type_counts[$post_type];
-					} else {
+					$count = $wpdb->get_var( $query );
+					if ($count == 0) {
 						continue;
 					}
 
