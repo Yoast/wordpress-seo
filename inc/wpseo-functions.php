@@ -214,16 +214,6 @@ function wpseo_register_var_replacement( $var, $replace_function, $type = 'advan
 }
 
 /**
- * Strip out the shortcodes with a filthy regex, because people don't properly register their shortcodes.
- *
- * @param string $text input string that might contain shortcodes
- * @return string $text string without shortcodes
- */
-function wpseo_strip_shortcode( $text ) {
-	return preg_replace( '`\[[^\]]+\]`s', '', $text );
-}
-
-/**
  * Redirect /sitemap.xml to /sitemap_index.xml
  */
 function wpseo_xml_redirect_sitemap() {
@@ -381,157 +371,6 @@ function wpseo_wpml_config( $config ) {
 }
 add_filter( 'icl_wpml_config_array', 'wpseo_wpml_config' );
 
-if ( ! function_exists( 'wpseo_calc' ) ) {
-	/**
-	 * Do simple reliable math calculations without the risk of wrong results
-	 * @see http://floating-point-gui.de/
-	 * @see the big red warning on http://php.net/language.types.float.php
-	 *
-	 * In the rare case that the bcmath extension would not be loaded, it will return the normal calculation results
-	 *
-	 * @since 1.5.0
-	 *
-	 * @param	mixed   $number1    Scalar (string/int/float/bool)
-	 * @param	string	$action		Calculation action to execute. Valid input:
-	 *								'+' or 'add' or 'addition',
-	 *								'-' or 'sub' or 'subtract',
-	 *								'*' or 'mul' or 'multiply',
-	 *								'/' or 'div' or 'divide',
-	 *								'%' or 'mod' or 'modulus'
-	 *								'=' or 'comp' or 'compare'
-	 * @param	mixed	$number2    Scalar (string/int/float/bool)
-	 * @param	bool	$round		Whether or not to round the result. Defaults to false.
-	 *								Will be disregarded for a compare operation
-	 * @param	int		$decimals	Decimals for rounding operation. Defaults to 0.
-	 * @param	int		$precision	Calculation precision. Defaults to 10.
-	 * @return	mixed				Calculation Result or false if either or the numbers isn't scalar or
-	 *								an invalid operation was passed
-	 *								- for compare the result will always be an integer
-	 *								- for all other operations, the result will either be an integer (preferred)
-	 *								or a float
-	 */
-	function wpseo_calc( $number1, $action, $number2, $round = false, $decimals = 0, $precision = 10 ) {
-		static $bc;
-
-		if ( ! is_scalar( $number1 ) || ! is_scalar( $number2 ) ) {
-			return false;
-		}
-
-		if ( ! isset( $bc ) ) {
-			$bc = extension_loaded( 'bcmath' );
-		}
-
-		if ( $bc ) {
-			$number1 = strval( $number1 );
-			$number2 = strval( $number2 );
-		}
-
-		$result  = null;
-		$compare = false;
-
-		switch ( $action ) {
-			case '+':
-			case 'add':
-			case 'addition':
-				$result = ( $bc ) ? bcadd( $number1, $number2, $precision ) /* string */ : ( $number1 + $number2 );
-				break;
-
-			case '-':
-			case 'sub':
-			case 'subtract':
-				$result = ( $bc ) ? bcsub( $number1, $number2, $precision ) /* string */ : ( $number1 - $number2 );
-				break;
-
-			case '*':
-			case 'mul':
-			case 'multiply':
-				$result = ( $bc ) ? bcmul( $number1, $number2, $precision ) /* string */ : ( $number1 * $number2 );
-				break;
-
-			case '/':
-			case 'div':
-			case 'divide':
-				if ( $bc ) {
-					$result = bcdiv( $number1, $number2, $precision ); // string, or NULL if right_operand is 0
-				}
-				elseif ( $number2 != 0 ) {
-					$result = $number1 / $number2;
-				}
-
-				if ( ! isset( $result ) ) {
-					$result = 0;
-				}
-				break;
-
-			case '%':
-			case 'mod':
-			case 'modulus':
-				if ( $bc ) {
-					$result = bcmod( $number1, $number2, $precision ); // string, or NULL if modulus is 0.
-				}
-				elseif ( $number2 != 0 ) {
-					$result = $number1 % $number2;
-				}
-
-				if ( ! isset( $result ) ) {
-					$result = 0;
-				}
-				break;
-
-			case '=':
-			case 'comp':
-			case 'compare':
-				$compare = true;
-				if ( $bc ) {
-					$result = bccomp( $number1, $number2, $precision ); // returns int 0, 1 or -1
-				}
-				else {
-					$result = ( $number1 == $number2 ) ? 0 : ( ( $number1 > $number2 ) ? 1 : -1 );
-				}
-				break;
-		}
-
-		if ( isset( $result ) ) {
-			if ( $compare === false ) {
-				if ( $round === true ) {
-					$result = round( floatval( $result ), $decimals );
-					if ( $decimals === 0 ) {
-						$result = (int) $result;
-					}
-				}
-				else {
-					$result = ( intval( $result ) == $result ) ? intval( $result ) : floatval( $result );
-				}
-			}
-			return $result;
-		}
-		return false;
-	}
-}
-
-/**
- * Check if the web server is running on Apache
- * @return bool
- */
-function wpseo_is_apache() {
-	if ( isset( $_SERVER['SERVER_SOFTWARE'] ) && stristr( $_SERVER['SERVER_SOFTWARE'], 'apache' ) !== false ) {
-		return true;
-	}
-	return false;
-}
-
-/**
- * Check if the web service is running on Nginx
- *
- * @return bool
- */
-function wpseo_is_nginx() {
-	if ( isset( $_SERVER['SERVER_SOFTWARE'] ) && stristr( $_SERVER['SERVER_SOFTWARE'], 'nginx' ) !== false ) {
-		return true;
-	}
-	return false;
-}
-
 /**
  * WordPress SEO breadcrumb shortcode
  * [wpseo_breadcrumb]
@@ -588,46 +427,6 @@ function wpseo_invalidate_sitemap_cache_on_save_post( $post_id ) {
 
 add_action( 'save_post', 'wpseo_invalidate_sitemap_cache_on_save_post' );
 
-/**
- * List all the available user roles
- *
- * @return array $roles
- */
-function wpseo_get_roles() {
-	global $wp_roles;
-
-	if ( ! isset( $wp_roles ) ) {
-		$wp_roles = new WP_Roles();
-	}
-
-	$roles = $wp_roles->get_names();
-
-	return $roles;
-}
-
-/**
- * Check whether a url is relative
- *
- * @param string $url
- *
- * @return bool
- */
-function wpseo_is_url_relative( $url ) {
-	return ( strpos( $url, 'http' ) !== 0 && strpos( $url, '//' ) !== 0 );
-}
-
-/**
- * Standardize whitespace in a string
- *
- * Replace line breaks, carriage returns, tabs with a space, then remove double spaces.
- *
- * @param string $string
- *
- * @return string
- */
-function wpseo_standardize_whitespace( $string ) {
-	return trim( str_replace( '  ', ' ', str_replace( array( "\t", "\n", "\r", "\f" ), ' ', $string ) ) );
-}
 
 /**
  * Emulate PHP native ctype_digit() function for when the ctype extension would be disabled *sigh*
@@ -746,7 +545,7 @@ function replace_meta( $old_metakey, $new_metakey, $replace = false ) {
  * @return bool|mixed value when the meta exists, false when it does not
  */
 function wpseo_get_term_meta( $term, $taxonomy, $meta ) {
-	_deprecated_function( __FUNCTION__, 'WPSEO 1.5.0', 'WPSEO_Taxonomy_Meta::get_term_meta' );
+	_deprecated_function( __FUNCTION__, 'WPSEO 1.5.0', 'WPSEO_Taxonomy_Meta::get_term_meta()' );
 	WPSEO_Taxonomy_Meta::get_term_meta( $term, $taxonomy, $meta );
 }
 
@@ -773,7 +572,7 @@ function wpseo_invalid_custom_taxonomy() {
  * @return string either a single term or a comma delimited string of terms.
  */
 function wpseo_get_terms( $id, $taxonomy, $return_single = false ) {
-	_deprecated_function( __FUNCTION__, 'WPSEO 1.5.4', 'WPSEO_Replace_Vars::get_terms' );
+	_deprecated_function( __FUNCTION__, 'WPSEO 1.5.4', 'WPSEO_Replace_Vars::get_terms()' );
 	$replacer = new WPSEO_Replace_Vars;
 	return $replacer->get_terms( $id, $taxonomy, $return_single );
 }
@@ -795,3 +594,122 @@ function wpseo_sitemap_handler( $atts ) {
 }
 
 add_shortcode( 'wpseo_sitemap', 'wpseo_sitemap_handler' );
+
+/**
+ * Strip out the shortcodes with a filthy regex, because people don't properly register their shortcodes.
+ *
+ * @deprecated 1.6.1
+ * @deprecated use WPSEO_Utils::strip_shortcode()
+ * @see WPSEO_Utils::strip_shortcode()
+ *
+ * @param string $text input string that might contain shortcodes
+ * @return string $text string without shortcodes
+ */
+function wpseo_strip_shortcode( $text ) {
+	_deprecated_function( __FUNCTION__, 'WPSEO 1.6.1', 'WPSEO_Utils::strip_shortcode()' );
+	return WPSEO_Utils::strip_shortcode( $text );
+}
+
+/**
+ * Do simple reliable math calculations without the risk of wrong results
+ * @see http://floating-point-gui.de/
+ * @see the big red warning on http://php.net/language.types.float.php
+ *
+ * @deprecated 1.6.1
+ * @deprecated use WPSEO_Utils::calc()
+ * @see WPSEO_Utils::calc()
+ *
+ * In the rare case that the bcmath extension would not be loaded, it will return the normal calculation results
+ *
+ * @since 1.5.0
+ *
+ * @param	mixed   $number1    Scalar (string/int/float/bool)
+ * @param	string	$action		Calculation action to execute.
+ * @param	mixed	$number2    Scalar (string/int/float/bool)
+ * @param	bool	$round		Whether or not to round the result. Defaults to false.
+ * @param	int		$decimals	Decimals for rounding operation. Defaults to 0.
+ * @param	int		$precision	Calculation precision. Defaults to 10.
+ * @return	mixed				Calculation Result or false if either or the numbers isn't scalar or
+ *								an invalid operation was passed
+ */
+function wpseo_calc( $number1, $action, $number2, $round = false, $decimals = 0, $precision = 10 ) {
+	_deprecated_function( __FUNCTION__, 'WPSEO 1.6.1', 'WPSEO_Utils::calc()' );
+	return WPSEO_Utils::calc( $number1, $action, $number2, $round, $decimals, $precision );
+}
+
+/**
+ * Check if the web server is running on Apache
+ *
+ * @deprecated 1.6.1
+ * @deprecated use WPSEO_Utils::is_apache()
+ * @see WPSEO_Utils::is_apache()
+ *
+ * @return bool
+ */
+function wpseo_is_apache() {
+	_deprecated_function( __FUNCTION__, 'WPSEO 1.6.1', 'WPSEO_Utils::is_apache()' );
+	return WPSEO_Utils::is_apache();
+}
+
+/**
+ * Check if the web service is running on Nginx
+ *
+ * @deprecated 1.6.1
+ * @deprecated use WPSEO_Utils::is_nginx()
+ * @see WPSEO_Utils::is_nginx()
+ *
+ * @return bool
+ */
+function wpseo_is_nginx() {
+	_deprecated_function( __FUNCTION__, 'WPSEO 1.6.1', 'WPSEO_Utils::is_nginx()' );
+	return WPSEO_Utils::is_nginx();
+}
+
+/**
+ * List all the available user roles
+ *
+ * @deprecated 1.6.1
+ * @deprecated use WPSEO_Utils::get_roles()
+ * @see WPSEO_Utils::get_roles()
+ *
+ * @return array $roles
+ */
+function wpseo_get_roles() {
+	_deprecated_function( __FUNCTION__, 'WPSEO 1.6.1', 'WPSEO_Utils::get_roles()' );
+	return WPSEO_Utils::get_roles();
+}
+
+/**
+ * Check whether a url is relative
+ *
+ * @deprecated 1.6.1
+ * @deprecated use WPSEO_Utils::is_url_relative()
+ * @see WPSEO_Utils::is_url_relative()
+ *
+ * @param string $url
+ *
+ * @return bool
+ */
+function wpseo_is_url_relative( $url ) {
+	_deprecated_function( __FUNCTION__, 'WPSEO 1.6.1', 'WPSEO_Utils::is_url_relative()' );
+	return WPSEO_Utils::is_url_relative( $url );
+}
+
+/**
+ * Standardize whitespace in a string
+ *
+ * @deprecated 1.6.1
+ * @deprecated use WPSEO_Utils::standardize_whitespace()
+ * @see WPSEO_Utils::standardize_whitespace()
+ *
+ * @since 1.6.0
+ *
+ * @param string $string
+ *
+ * @return string
+ */
+function wpseo_standardize_whitespace( $string ) {
+	_deprecated_function( __FUNCTION__, 'WPSEO 1.6.1', 'WPSEO_Utils::standardize_whitespace()' );
+	return WPSEO_Utils::standardize_whitespace( $string );
+}
+

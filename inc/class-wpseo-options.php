@@ -118,12 +118,6 @@ if ( ! class_exists( 'WPSEO_Option' ) ) {
 		 */
 		protected static $instance;
 
-		/**
-		 *
-		 * @var    bool Whether the filter extension is loaded
-		 */
-		public static $has_filters = true;
-
 
 		/* *********** INSTANTIATION METHODS *********** */
 
@@ -133,8 +127,6 @@ if ( ! class_exists( 'WPSEO_Option' ) ) {
 		 * @return \WPSEO_Option
 		 */
 		protected function __construct() {
-
-			self::$has_filters = extension_loaded( 'filter' );
 
 			/* Add filters which get applied to the get_options() results */
 			$this->add_default_filters(); // return defaults if option not set
@@ -339,7 +331,7 @@ if ( ! class_exists( 'WPSEO_Option' ) ) {
 		 * @return void
 		 */
 		public function register_setting() {
-			if ( WPSEO_Options::grant_access() ) {
+			if ( WPSEO_Utils::grant_access() ) {
 				register_setting( $this->group_name, $this->option_name );
 			}
 		}
@@ -361,7 +353,7 @@ if ( ! class_exists( 'WPSEO_Option' ) ) {
 			}
 
 
-			$option_value = array_map( array( __CLASS__, 'trim_recursive' ), $option_value );
+			$option_value = array_map( array( 'WPSEO_Utils', 'trim_recursive' ), $option_value );
 			if ( $this->multisite_only !== true ) {
 				$old = get_option( $this->option_name );
 			}
@@ -619,55 +611,23 @@ if ( ! class_exists( 'WPSEO_Option' ) ) {
 		}
 
 
-		/* *********** GENERIC HELPER METHODS *********** */
+		/* *********** DEPRECATED METHODS *********** */
 
 		/**
 		 * Emulate the WP native sanitize_text_field function in a %%variable%% safe way
 		 * @see https://core.trac.wordpress.org/browser/trunk/src/wp-includes/formatting.php for the original
 		 *
-		 * Sanitize a string from user input or from the db
-		 *
-		 * check for invalid UTF-8,
-		 * Convert single < characters to entity,
-		 * strip all tags,
-		 * remove line breaks, tabs and extra white space,
-		 * strip octets - BUT DO NOT REMOVE (part of) VARIABLES WHICH WILL BE REPLACED.
+		 * @deprecated 1.5.6.1
+		 * @deprecated use WPSEO_Utils::sanitize_text_field()
+		 * @see WPSEO_Utils::sanitize_text_field()
 		 *
 		 * @param string $value
 		 *
 		 * @return string
 		 */
 		public static function sanitize_text_field( $value ) {
-			$filtered = wp_check_invalid_utf8( $value );
-
-			if ( strpos( $filtered, '<' ) !== false ) {
-				$filtered = wp_pre_kses_less_than( $filtered );
-				// This will strip extra whitespace for us.
-				$filtered = wp_strip_all_tags( $filtered, true );
-			} else {
-				$filtered = trim( preg_replace( '`[\r\n\t ]+`', ' ', $filtered ) );
-			}
-
-			$found = false;
-			while ( preg_match( '`[^%](%[a-f0-9]{2})`i', $filtered, $match ) ) {
-				$filtered = str_replace( $match[1], '', $filtered );
-				$found    = true;
-			}
-
-			if ( $found ) {
-				// Strip out the whitespace that may now exist after removing the octets.
-				$filtered = trim( preg_replace( '` +`', ' ', $filtered ) );
-			}
-
-			/**
-			 * Filter a sanitized text field string.
-			 *
-			 * @since WP 2.9.0
-			 *
-			 * @param string $filtered The sanitized string.
-			 * @param string $str      The string prior to being sanitized.
-			 */
-			return apply_filters( 'sanitize_text_field', $filtered, $value );
+			_deprecated_function( __FUNCTION__, 'WPSEO 1.5.6.1', 'WPSEO_Utils::sanitize_text_field()' );
+			return WPSEO_Utils::sanitize_text_field( $value );
 		}
 
 
@@ -675,11 +635,9 @@ if ( ! class_exists( 'WPSEO_Option' ) ) {
 		 * Sanitize a url for saving to the database
 		 * Not to be confused with the old native WP function
 		 *
-		 * @todo [JRF => whomever] check/improve url verification
-		 *
-		 * @todo [JRF => whomever] when someone would reorganize the classes, this should maybe
-		 * be moved to a general WPSEO_Utils class. Obviously all calls to this method should be
-		 * adjusted in that case.
+		 * @deprecated 1.5.6.1
+		 * @deprecated use WPSEO_Utils::sanitize_url()
+		 * @see WPSEO_Utils::sanitize_url()
 		 *
 		 * @param  string $value
 		 * @param  array  $allowed_protocols
@@ -687,15 +645,16 @@ if ( ! class_exists( 'WPSEO_Option' ) ) {
 		 * @return  string
 		 */
 		public static function sanitize_url( $value, $allowed_protocols = array( 'http', 'https' ) ) {
-			return esc_url_raw( sanitize_text_field( rawurldecode( $value ) ), $allowed_protocols );
+			_deprecated_function( __FUNCTION__, 'WPSEO 1.5.6.1', 'WPSEO_Utils::sanitize_url()' );
+			return WPSEO_Utils::sanitize_url( $value, $allowed_protocols );
 		}
 
 		/**
 		 * Validate a value as boolean
 		 *
-		 * @todo [JRF => whomever] when someone would reorganize the classes, this (and the emulate method
-		 * below) should maybe be moved to a general WPSEO_Utils class. Obviously all calls to this method
-		 * should be adjusted in that case.
+		 * @deprecated 1.5.6.1
+		 * @deprecated use WPSEO_Utils::validate_bool()
+		 * @see WPSEO_Utils::validate_bool()
 		 *
 		 * @static
 		 *
@@ -704,15 +663,16 @@ if ( ! class_exists( 'WPSEO_Option' ) ) {
 		 * @return  bool
 		 */
 		public static function validate_bool( $value ) {
-			if ( self::$has_filters ) {
-				return filter_var( $value, FILTER_VALIDATE_BOOLEAN );
-			} else {
-				return self::emulate_filter_bool( $value );
-			}
+			_deprecated_function( __FUNCTION__, 'WPSEO 1.5.6.1', 'WPSEO_Utils::validate_bool()' );
+			return WPSEO_Utils::validate_bool( $value );
 		}
 
 		/**
 		 * Cast a value to bool
+		 *
+		 * @deprecated 1.5.6.1
+		 * @deprecated use WPSEO_Utils::emulate_filter_bool()
+		 * @see WPSEO_Utils::emulate_filter_bool()
 		 *
 		 * @static
 		 *
@@ -721,63 +681,17 @@ if ( ! class_exists( 'WPSEO_Option' ) ) {
 		 * @return    bool
 		 */
 		public static function emulate_filter_bool( $value ) {
-			$true  = array(
-				'1',
-				'true',
-				'True',
-				'TRUE',
-				'y',
-				'Y',
-				'yes',
-				'Yes',
-				'YES',
-				'on',
-				'On',
-				'On',
-
-			);
-			$false = array(
-				'0',
-				'false',
-				'False',
-				'FALSE',
-				'n',
-				'N',
-				'no',
-				'No',
-				'NO',
-				'off',
-				'Off',
-				'OFF',
-			);
-
-			if ( is_bool( $value ) ) {
-				return $value;
-			} else if ( is_int( $value ) && ( $value === 0 || $value === 1 ) ) {
-				return (bool) $value;
-			} else if ( ( is_float( $value ) && ! is_nan( $value ) ) && ( $value === (float) 0 || $value === (float) 1 ) ) {
-				return (bool) $value;
-			} else if ( is_string( $value ) ) {
-				$value = trim( $value );
-				if ( in_array( $value, $true, true ) ) {
-					return true;
-				} else if ( in_array( $value, $false, true ) ) {
-					return false;
-				} else {
-					return false;
-				}
-			}
-
-			return false;
+			_deprecated_function( __FUNCTION__, 'WPSEO 1.5.6.1', 'WPSEO_Utils::emulate_filter_bool()' );
+			return WPSEO_Utils::emulate_filter_bool( $value );
 		}
 
 
 		/**
 		 * Validate a value as integer
 		 *
-		 * @todo [JRF => whomever] when someone would reorganize the classes, this (and the emulate method
-		 * below) should maybe be moved to a general WPSEO_Utils class. Obviously all calls to this method
-		 * should be adjusted in that case.
+		 * @deprecated 1.5.6.1
+		 * @deprecated use WPSEO_Utils::validate_int()
+		 * @see WPSEO_Utils::validate_int()
 		 *
 		 * @static
 		 *
@@ -786,15 +700,16 @@ if ( ! class_exists( 'WPSEO_Option' ) ) {
 		 * @return  mixed  int or false in case of failure to convert to int
 		 */
 		public static function validate_int( $value ) {
-			if ( self::$has_filters ) {
-				return filter_var( $value, FILTER_VALIDATE_INT );
-			} else {
-				return self::emulate_filter_int( $value );
-			}
+			_deprecated_function( __FUNCTION__, 'WPSEO 1.5.6.1', 'WPSEO_Utils::validate_int()' );
+			return WPSEO_Utils::validate_int( $value );
 		}
 
 		/**
 		 * Cast a value to integer
+		 *
+		 * @deprecated 1.5.6.1
+		 * @deprecated use WPSEO_Utils::emulate_filter_int()
+		 * @see WPSEO_Utils::emulate_filter_int()
 		 *
 		 * @static
 		 *
@@ -803,28 +718,8 @@ if ( ! class_exists( 'WPSEO_Option' ) ) {
 		 * @return    int|bool
 		 */
 		public static function emulate_filter_int( $value ) {
-			if ( is_int( $value ) ) {
-				return $value;
-			} else if ( is_float( $value ) ) {
-				if ( (int) $value == $value && ! is_nan( $value ) ) {
-					return (int) $value;
-				} else {
-					return false;
-				}
-			} else if ( is_string( $value ) ) {
-				$value = trim( $value );
-				if ( $value === '' ) {
-					return false;
-				} else if ( ctype_digit( $value ) ) {
-					return (int) $value;
-				} else if ( strpos( $value, '-' ) === 0 && ctype_digit( substr( $value, 1 ) ) ) {
-					return (int) $value;
-				} else {
-					return false;
-				}
-			}
-
-			return false;
+			_deprecated_function( __FUNCTION__, 'WPSEO 1.5.6.1', 'WPSEO_Utils::emulate_filter_int()' );
+			return WPSEO_Utils::emulate_filter_int( $value );
 		}
 
 
@@ -832,9 +727,9 @@ if ( ! class_exists( 'WPSEO_Option' ) ) {
 		 * Recursively trim whitespace round a string value or of string values within an array
 		 * Only trims strings to avoid typecasting a variable (to string)
 		 *
-		 * @todo [JRF => whomever] when someone would reorganize the classes, this should maybe
-		 * be moved to a general WPSEO_Utils class. Obviously all calls to this method should be
-		 * adjusted in that case.
+		 * @deprecated 1.5.6.1
+		 * @deprecated use WPSEO_Utils::trim_recursive()
+		 * @see WPSEO_Utils::trim_recursive()
 		 *
 		 * @static
 		 *
@@ -843,13 +738,8 @@ if ( ! class_exists( 'WPSEO_Option' ) ) {
 		 * @return  mixed      Trimmed value or array of trimmed values
 		 */
 		public static function trim_recursive( $value ) {
-			if ( is_string( $value ) ) {
-				$value = trim( $value );
-			} elseif ( is_array( $value ) ) {
-				$value = array_map( array( __CLASS__, 'trim_recursive' ), $value );
-			}
-
-			return $value;
+			_deprecated_function( __FUNCTION__, 'WPSEO 1.5.6.1', 'WPSEO_Utils::trim_recursive()' );
+			return WPSEO_Utils::trim_recursive( $value );
 		}
 
 	} /* End of class WPSEO_Option */
@@ -946,19 +836,13 @@ if ( ! class_exists( 'WPSEO_Option_Wpseo' ) ) {
 			parent::__construct();
 
 			/* Clear the cache on update/add */
-			add_action( 'add_option_' . $this->option_name, array( 'WPSEO_Options', 'clear_cache' ) );
-			add_action( 'update_option_' . $this->option_name, array( 'WPSEO_Options', 'clear_cache' ) );
+			add_action( 'add_option_' . $this->option_name, array( 'WPSEO_Utils', 'clear_cache' ) );
+			add_action( 'update_option_' . $this->option_name, array( 'WPSEO_Utils', 'clear_cache' ) );
 
 
 			/* Check if the yoast tracking cron job needs adding/removing on successfull option add/update */
-			add_action( 'add_option_' . $this->option_name, array(
-					'WPSEO_Options',
-					'schedule_yoast_tracking',
-				), 15, 2 );
-			add_action( 'update_option_' . $this->option_name, array(
-					'WPSEO_Options',
-					'schedule_yoast_tracking',
-				), 15, 2 );
+			add_action( 'add_option_' . $this->option_name, array( 'WPSEO_Utils', 'schedule_yoast_tracking' ), 15, 2 );
+			add_action( 'update_option_' . $this->option_name, array( 'WPSEO_Utils', 'schedule_yoast_tracking' ), 15, 2 );
 		}
 
 
@@ -1083,9 +967,9 @@ if ( ! class_exists( 'WPSEO_Option_Wpseo' ) ) {
 					/* boolean|null fields - if set a check was done, if null, it hasn't */
 					case 'theme_has_description':
 						if ( isset( $dirty[ $key ] ) ) {
-							$clean[ $key ] = self::validate_bool( $dirty[ $key ] );
+							$clean[ $key ] = WPSEO_Utils::validate_bool( $dirty[ $key ] );
 						} elseif ( isset( $old[ $key ] ) ) {
-							$clean[ $key ] = self::validate_bool( $old[ $key ] );
+							$clean[ $key ] = WPSEO_Utils::validate_bool( $old[ $key ] );
 						}
 						break;
 
@@ -1100,9 +984,9 @@ if ( ! class_exists( 'WPSEO_Option_Wpseo' ) ) {
 					case 'ms_defaults_set':
 					case 'tracking_popup_done':
 						if ( isset( $dirty[ $key ] ) ) {
-							$clean[ $key ] = self::validate_bool( $dirty[ $key ] );
+							$clean[ $key ] = WPSEO_Utils::validate_bool( $dirty[ $key ] );
 						} elseif ( isset( $old[ $key ] ) ) {
-							$clean[ $key ] = self::validate_bool( $old[ $key ] );
+							$clean[ $key ] = WPSEO_Utils::validate_bool( $old[ $key ] );
 						}
 						break;
 
@@ -1111,7 +995,7 @@ if ( ! class_exists( 'WPSEO_Option_Wpseo' ) ) {
 					case 'disableadvanced_meta':
 					case 'yoast_tracking':
 					default:
-						$clean[ $key ] = ( isset( $dirty[ $key ] ) ? self::validate_bool( $dirty[ $key ] ) : false );
+						$clean[ $key ] = ( isset( $dirty[ $key ] ) ? WPSEO_Utils::validate_bool( $dirty[ $key ] ) : false );
 						break;
 				}
 			}
@@ -1266,7 +1150,7 @@ if ( ! class_exists( 'WPSEO_Option_Permalinks' ) ) {
 		 */
 		protected function __construct() {
 			parent::__construct();
-			add_action( 'update_option_' . $this->option_name, array( 'WPSEO_Options', 'clear_rewrites' ) );
+			add_action( 'update_option_' . $this->option_name, array( 'WPSEO_Utils', 'clear_rewrites' ) );
 		}
 
 
@@ -1332,7 +1216,7 @@ if ( ! class_exists( 'WPSEO_Option_Permalinks' ) ) {
 					case 'stripcategorybase':
 					case 'trailingslash':
 					default:
-						$clean[ $key ] = ( isset( $dirty[ $key ] ) ? self::validate_bool( $dirty[ $key ] ) : false );
+						$clean[ $key ] = ( isset( $dirty[ $key ] ) ? WPSEO_Utils::validate_bool( $dirty[ $key ] ) : false );
 						break;
 				}
 			}
@@ -1489,7 +1373,7 @@ if ( ! class_exists( 'WPSEO_Option_Titles' ) ) {
 		 */
 		protected function __construct() {
 			parent::__construct();
-			add_action( 'update_option_' . $this->option_name, array( 'WPSEO_Options', 'clear_cache' ) );
+			add_action( 'update_option_' . $this->option_name, array( 'WPSEO_Utils', 'clear_cache' ) );
 			add_action( 'init', array( $this, 'end_of_init' ), 999 );
 		}
 
@@ -1632,7 +1516,7 @@ if ( ! class_exists( 'WPSEO_Option_Titles' ) ) {
 					   'title-tax-' . $tax->name */
 					case 'title-':
 						if ( isset( $dirty[ $key ] ) ) {
-							$clean[ $key ] = self::sanitize_text_field( $dirty[ $key ] );
+							$clean[ $key ] = WPSEO_Utils::sanitize_text_field( $dirty[ $key ] );
 						}
 						break;
 
@@ -1652,7 +1536,7 @@ if ( ! class_exists( 'WPSEO_Option_Titles' ) ) {
 							 ''bctitle-ptarchive-' . $pt->name */
 					case 'bctitle-ptarchive-':
 						if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
-							$clean[ $key ] = self::sanitize_text_field( $dirty[ $key ] );
+							$clean[ $key ] = WPSEO_Utils::sanitize_text_field( $dirty[ $key ] );
 						}
 						break;
 
@@ -1660,12 +1544,12 @@ if ( ! class_exists( 'WPSEO_Option_Titles' ) ) {
 					/* integer field - not in form*/
 					case 'title_test':
 						if ( isset( $dirty[ $key ] ) ) {
-							$int = self::validate_int( $dirty[ $key ] );
+							$int = WPSEO_Utils::validate_int( $dirty[ $key ] );
 							if ( $int !== false && $int >= 0 ) {
 								$clean[ $key ] = $int;
 							}
 						} elseif ( isset( $old[ $key ] ) ) {
-							$int = self::validate_int( $old[ $key ] );
+							$int = WPSEO_Utils::validate_int( $old[ $key ] );
 							if ( $int !== false && $int >= 0 ) {
 								$clean[ $key ] = $int;
 							}
@@ -1709,7 +1593,7 @@ if ( ! class_exists( 'WPSEO_Option_Titles' ) ) {
 							 'hideeditbox-tax-' . $tax->name */
 					case 'hideeditbox-':
 					default:
-						$clean[ $key ] = ( isset( $dirty[ $key ] ) ? self::validate_bool( $dirty[ $key ] ) : false );
+						$clean[ $key ] = ( isset( $dirty[ $key ] ) ? WPSEO_Utils::validate_bool( $dirty[ $key ] ) : false );
 						break;
 				}
 			}
@@ -1875,7 +1759,7 @@ if ( ! class_exists( 'WPSEO_Option_Titles' ) ) {
 						case 'metadesc-':
 						case 'metakey-':
 						case 'bctitle-ptarchive-':
-							$option_value[ $key ] = self::sanitize_text_field( $value );
+							$option_value[ $key ] = WPSEO_Utils::sanitize_text_field( $value );
 							break;
 
 
@@ -1884,7 +1768,7 @@ if ( ! class_exists( 'WPSEO_Option_Titles' ) ) {
 						case 'showdate-':
 						case 'hideeditbox-':
 						default:
-							$option_value[ $key ] = self::validate_bool( $value );
+							$option_value[ $key ] = WPSEO_Utils::validate_bool( $value );
 							break;
 					}
 				}
@@ -2223,7 +2107,7 @@ if ( ! class_exists( 'WPSEO_Option_InternalLinks' ) ) {
 					case 'breadcrumbs-boldlast':
 					case 'breadcrumbs-enable':
 					default:
-						$clean[ $key ] = ( isset( $dirty[ $key ] ) ? self::validate_bool( $dirty[ $key ] ) : false );
+						$clean[ $key ] = ( isset( $dirty[ $key ] ) ? WPSEO_Utils::validate_bool( $dirty[ $key ] ) : false );
 						break;
 				}
 			}
@@ -2413,7 +2297,7 @@ if ( ! class_exists( 'WPSEO_Option_XML' ) ) {
 		 */
 		protected function __construct() {
 			parent::__construct();
-			add_action( 'update_option_' . $this->option_name, array( 'WPSEO_Options', 'clear_rewrites' ) );
+			add_action( 'update_option_' . $this->option_name, array( 'WPSEO_Utils', 'clear_rewrites' ) );
 		}
 
 
@@ -2438,7 +2322,7 @@ if ( ! class_exists( 'WPSEO_Option_XML' ) ) {
 		 */
 		public function enrich_defaults() {
 
-			$user_roles          = wpseo_get_roles();
+			$user_roles          = WPSEO_Utils::get_roles();
 			$filtered_user_roles = apply_filters( 'wpseo_sitemaps_supported_user_roles', $user_roles );
 			if ( is_array( $filtered_user_roles ) && $filtered_user_roles !== array() ) {
 				foreach ( $filtered_user_roles as $role_name => $role_value ) {
@@ -2499,12 +2383,12 @@ if ( ! class_exists( 'WPSEO_Option_XML' ) ) {
 						/* @todo [JRF/JRF => Yoast] add some more rules (minimum 50 or something
 						 * - what should be the guideline?) and adjust error message */
 						if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
-							$int = self::validate_int( $dirty[ $key ] );
+							$int = WPSEO_Utils::validate_int( $dirty[ $key ] );
 							if ( $int !== false && $int > 0 ) {
 								$clean[ $key ] = $int;
 							} else {
 								if ( isset( $old[ $key ] ) && $old[ $key ] !== '' ) {
-									$int = self::validate_int( $old[ $key ] );
+									$int = WPSEO_Utils::validate_int( $old[ $key ] );
 									if ( $int !== false && $int > 0 ) {
 										$clean[ $key ] = $int;
 									}
@@ -2533,7 +2417,7 @@ if ( ! class_exists( 'WPSEO_Option_XML' ) ) {
 					case 'xml_ping_yahoo':
 					case 'xml_ping_ask':
 					default:
-						$clean[ $key ] = ( isset( $dirty[ $key ] ) ? self::validate_bool( $dirty[ $key ] ) : false );
+						$clean[ $key ] = ( isset( $dirty[ $key ] ) ? WPSEO_Utils::validate_bool( $dirty[ $key ] ) : false );
 						break;
 				}
 			}
@@ -2568,7 +2452,7 @@ if ( ! class_exists( 'WPSEO_Option_XML' ) ) {
 						case 'user_role-': /* 'user_role-' . $role_name. '-not_in_sitemap' fields */
 						case 'post_types-': /* 'post_types-' . $pt->name . '-not_in_sitemap' fields */
 						case 'taxonomies-': /* 'taxonomies-' . $tax->name . '-not_in_sitemap' fields */
-							$option_value[ $key ] = self::validate_bool( $value );
+							$option_value[ $key ] = WPSEO_Utils::validate_bool( $value );
 							break;
 					}
 				}
@@ -2737,7 +2621,7 @@ if ( ! class_exists( 'WPSEO_Option_Social' ) ) {
 													break;
 
 												case 'link':
-													$clean[ $key ][ $user_id ][ $fb_key ] = self::sanitize_url( $fb_value );
+													$clean[ $key ][ $user_id ][ $fb_key ] = WPSEO_Utils::sanitize_url( $fb_value );
 													break;
 											}
 										}
@@ -2775,7 +2659,7 @@ if ( ! class_exists( 'WPSEO_Option_Social' ) ) {
 					case 'og_frontpage_desc':
 					case 'og_frontpage_title':
 						if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
-							$clean[ $key ] = self::sanitize_text_field( $dirty[ $key ] );
+							$clean[ $key ] = WPSEO_Utils::sanitize_text_field( $dirty[ $key ] );
 						}
 						break;
 
@@ -2786,18 +2670,18 @@ if ( ! class_exists( 'WPSEO_Option_Social' ) ) {
 					case 'og_default_image':
 					case 'og_frontpage_image':
 					if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
-							$url = self::sanitize_url( $dirty[ $key ] );
+							$url = WPSEO_Utils::sanitize_url( $dirty[ $key ] );
 							if ( $url !== '' ) {
 								$clean[ $key ] = $url;
 							} else {
 								if ( isset( $old[ $key ] ) && $old[ $key ] !== '' ) {
-									$url = self::sanitize_url( $old[ $key ] );
+									$url = WPSEO_Utils::sanitize_url( $old[ $key ] );
 									if ( $url !== '' ) {
 										$clean[ $key ] = $url;
 									}
 								}
 								if ( function_exists( 'add_settings_error' ) ) {
-									$url = self::sanitize_url( $dirty[ $key ] );
+									$url = WPSEO_Utils::sanitize_url( $dirty[ $key ] );
 									add_settings_error(
 										$this->group_name, // slug title of the setting
 										'_' . $key, // suffix-id for the error message box
@@ -2856,7 +2740,7 @@ if ( ! class_exists( 'WPSEO_Option_Social' ) ) {
 					case 'googleplus':
 					case 'opengraph':
 					case 'twitter':
-						$clean[ $key ] = ( isset( $dirty[ $key ] ) ? self::validate_bool( $dirty[ $key ] ) : false );
+						$clean[ $key ] = ( isset( $dirty[ $key ] ) ? WPSEO_Utils::validate_bool( $dirty[ $key ] ) : false );
 						break;
 				}
 			}
@@ -3091,7 +2975,7 @@ if ( is_multisite() && ! class_exists( 'WPSEO_Option_MS' ) ) {
 
 					case 'defaultblog':
 						if ( isset( $dirty[ $key ] ) && ( $dirty[ $key ] !== '' && $dirty[ $key ] !== '-' ) ) {
-							$int = self::validate_int( $dirty[ $key ] );
+							$int = WPSEO_Utils::validate_int( $dirty[ $key ] );
 							if ( $int !== false && $int > 0 ) {
 								// Check if a valid blog number has been received
 								$exists = get_blog_details( $int, false );
@@ -3119,7 +3003,7 @@ if ( is_multisite() && ! class_exists( 'WPSEO_Option_MS' ) ) {
 						break;
 
 					default:
-						$clean[ $key ] = ( isset( $dirty[ $key ] ) ? self::validate_bool( $dirty[ $key ] ) : false );
+						$clean[ $key ] = ( isset( $dirty[ $key ] ) ? WPSEO_Utils::validate_bool( $dirty[ $key ] ) : false );
 						break;
 				}
 			}
@@ -3238,8 +3122,8 @@ if ( ! class_exists( 'WPSEO_Taxonomy_Meta' ) ) {
 			parent::__construct();
 
 			/* On succesfull update/add of the option, flush the W3TC cache */
-			add_action( 'add_option_' . $this->option_name, array( 'WPSEO_Options', 'flush_w3tc_cache' ) );
-			add_action( 'update_option_' . $this->option_name, array( 'WPSEO_Options', 'flush_w3tc_cache' ) );
+			add_action( 'add_option_' . $this->option_name, array( 'WPSEO_Utils', 'flush_w3tc_cache' ) );
+			add_action( 'update_option_' . $this->option_name, array( 'WPSEO_Utils', 'flush_w3tc_cache' ) );
 		}
 
 
@@ -3387,7 +3271,7 @@ if ( ! class_exists( 'WPSEO_Taxonomy_Meta' ) ) {
 		public static function validate_term_meta_data( $meta_data, $old_meta ) {
 
 			$clean     = self::$defaults_per_term;
-			$meta_data = array_map( array( __CLASS__, 'trim_recursive' ), $meta_data );
+			$meta_data = array_map( array( 'WPSEO_Utils', 'trim_recursive' ), $meta_data );
 
 			if ( ! is_array( $meta_data ) || $meta_data === array() ) {
 				return $clean;
@@ -3415,7 +3299,7 @@ if ( ! class_exists( 'WPSEO_Taxonomy_Meta' ) ) {
 
 					case 'wpseo_canonical':
 						if ( isset( $meta_data[ $key ] ) && $meta_data[ $key ] !== '' ) {
-							$url = self::sanitize_url( $meta_data[ $key ] );
+							$url = WPSEO_Utils::sanitize_url( $meta_data[ $key ] );
 							if ( $url !== '' ) {
 								$clean[ $key ] = $url;
 							}
@@ -3425,7 +3309,7 @@ if ( ! class_exists( 'WPSEO_Taxonomy_Meta' ) ) {
 					case 'wpseo_metakey':
 					case 'wpseo_bctitle':
 						if ( isset( $meta_data[ $key ] ) ) {
-							$clean[ $key ] = self::sanitize_text_field( stripslashes( $meta_data[ $key ] ) );
+							$clean[ $key ] = WPSEO_Utils::sanitize_text_field( stripslashes( $meta_data[ $key ] ) );
 						} elseif ( isset( $old_meta[ $key ] ) ) {
 							// Retain old value if field currently not in use
 							$clean[ $key ] = $old_meta[ $key ];
@@ -3436,7 +3320,7 @@ if ( ! class_exists( 'WPSEO_Taxonomy_Meta' ) ) {
 					case 'wpseo_desc':
 					default:
 						if ( isset( $meta_data[ $key ] ) && is_string( $meta_data[ $key ] ) ) {
-							$clean[ $key ] = self::sanitize_text_field( stripslashes( $meta_data[ $key ] ) );
+							$clean[ $key ] = WPSEO_Utils::sanitize_text_field( stripslashes( $meta_data[ $key ] ) );
 						}
 						break;
 				}
@@ -3640,34 +3524,6 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 
 			return self::$instance;
 		}
-
-
-		/**
-		 * Check whether the current user is allowed to access the configuration.
-		 *
-		 * @todo [JRF => whomever] when someone would reorganize the classes, this should maybe
-		 * be moved to a general WPSEO_Utils class. Obviously all calls to this method should be
-		 * adjusted in that case.
-		 *
-		 * @return boolean
-		 */
-		public static function grant_access() {
-			if ( ! is_multisite() ) {
-				return true;
-			}
-
-			$options = get_site_option( 'wpseo_ms' );
-			if ( $options['access'] === 'admin' && current_user_can( 'manage_options' ) ) {
-				return true;
-			}
-
-			if ( $options['access'] === 'superadmin' && ! is_super_admin() ) {
-				return false;
-			}
-
-			return true;
-		}
-
 
 		/**
 		 * Get the group name of an option for use in the settings form
@@ -3963,96 +3819,77 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 		}
 
 
-		/* ************** METHODS FOR ACTIONS TO TAKE ON CERTAIN OPTION UPDATES ****************/
+		/********************** DEPRECATED FUNCTIONS **********************/
+
+		/**
+		 * Check whether the current user is allowed to access the configuration.
+		 *
+		 * @deprecated 1.5.6.1
+		 * @deprecated use WPSEO_Utils::grant_access()
+		 * @see WPSEO_Utils::grant_access()
+		 *
+		 * @return boolean
+		 */
+		public static function grant_access() {
+			_deprecated_function( __METHOD__, 'WPSEO 1.5.6.1', 'WPSEO_Utils::grant_access()' );
+			return WPSEO_Utils::grant_access();
+		}
 
 		/**
 		 * (Un-)schedule the yoast tracking cronjob if the tracking option has changed
 		 *
-		 * @internal Better to be done here, rather than in the Yoast_Tracking class as
-		 * class-tracking.php may not be loaded and might not need to be (lean loading).
-		 *
-		 * @todo     [JRF => whomever] when someone would reorganize the classes, this should maybe
-		 * be moved to a general WPSEO_Utils class. Obviously all calls to this method should be
-		 * adjusted in that case.
-		 *
-		 * @todo     - [JRF => Yoast] check if this has any impact on other Yoast plugins which may
-		 * use the same tracking schedule hook. If so, maybe get any other yoast plugin options,
-		 * check for the tracking status and unschedule based on the combined status.
-		 *
-		 * @static
+		 * @deprecated 1.5.6.1
+		 * @deprecated use WPSEO_Utils::schedule_yoast_tracking()
+		 * @see WPSEO_Utils::schedule_yoast_tracking()
 		 *
 		 * @param  mixed $disregard        Not needed - passed by add/update_option action call
 		 *                                 Option name if option was added, old value if option was updated
 		 * @param  array $value            The (new/current) value of the wpseo option
 		 * @param  bool  $force_unschedule Whether to force an unschedule (i.e. on deactivate)
-		 *
-		 * @return  void
 		 */
 		public static function schedule_yoast_tracking( $disregard, $value, $force_unschedule = false ) {
-			$current_schedule = wp_next_scheduled( 'yoast_tracking' );
-
-			if ( $force_unschedule !== true && ( $value['yoast_tracking'] === true && $current_schedule === false ) ) {
-				// The tracking checks daily, but only sends new data every 7 days.
-				wp_schedule_event( time(), 'daily', 'yoast_tracking' );
-			} elseif ( $force_unschedule === true || ( $value['yoast_tracking'] === false && $current_schedule !== false ) ) {
-				wp_clear_scheduled_hook( 'yoast_tracking' );
-			}
+			_deprecated_function( __METHOD__, 'WPSEO 1.5.6.1', 'WPSEO_Utils::schedule_yoast_tracking()' );
+			WPSEO_Utils::schedule_yoast_tracking( $disregard, $value, $force_unschedule );
 		}
 
 
 		/**
 		 * Clears the WP or W3TC cache depending on which is used
 		 *
-		 * @todo [JRF => whomever] when someone would reorganize the classes, this should maybe
-		 * be moved to a general WPSEO_Utils class. Obviously all calls to this method should be
-		 * adjusted in that case.
-		 *
-		 * @static
-		 * @return void
+		 * @deprecated 1.5.6.1
+		 * @deprecated use WPSEO_Utils::clear_cache()
+		 * @see WPSEO_Utils::clear_cache()
 		 */
 		public static function clear_cache() {
-			if ( function_exists( 'w3tc_pgcache_flush' ) ) {
-				w3tc_pgcache_flush();
-			} elseif ( function_exists( 'wp_cache_clear_cache' ) ) {
-				wp_cache_clear_cache();
-			}
+			_deprecated_function( __METHOD__, 'WPSEO 1.5.6.1', 'WPSEO_Utils::clear_cache()' );
+			WPSEO_Utils::clear_cache();
 		}
 
 
 		/**
 		 * Flush W3TC cache after succesfull update/add of taxonomy meta option
 		 *
-		 * @todo [JRF => whomever] when someone would reorganize the classes, this should maybe
-		 * be moved to a general WPSEO_Utils class. Obviously all calls to this method should be
-		 * adjusted in that case.
-		 *
-		 * @todo [JRF => whomever] check the above and this function to see if they should be combined or really
-		 * do something significantly different
-		 *
-		 * @static
-		 * @return  void
+		 * @deprecated 1.5.6.1
+		 * @deprecated use WPSEO_Utils::flush_w3tc_cache()
+		 * @see WPSEO_Utils::flush_w3tc_cache()
 		 */
 		public static function flush_w3tc_cache() {
-			if ( defined( 'W3TC_DIR' ) && function_exists( 'w3tc_objectcache_flush' ) ) {
-				w3tc_objectcache_flush();
-			}
+			_deprecated_function( __METHOD__, 'WPSEO 1.5.6.1', 'WPSEO_Utils::flush_w3tc_cache()' );
+			WPSEO_Utils::flush_w3tc_cache();
 		}
 
 
 		/**
 		 * Clear rewrite rules
 		 *
-		 * @todo [JRF => whomever] when someone would reorganize the classes, this should maybe
-		 * be moved to a general WPSEO_Utils class. Obviously all calls to this method should be
-		 * adjusted in that case.
-		 *
-		 * @static
-		 * @return void
+		 * @deprecated 1.5.6.1
+		 * @deprecated use WPSEO_Utils::clear_rewrites()
+		 * @see WPSEO_Utils::clear_rewrites()
 		 */
 		public static function clear_rewrites() {
-			delete_option( 'rewrite_rules' );
+			_deprecated_function( __METHOD__, 'WPSEO 1.5.6.1', 'WPSEO_Utils::clear_rewrites()' );
+			WPSEO_Utils::clear_rewrites();
 		}
-
 
 	} /* End of class WPSEO_Options */
 
