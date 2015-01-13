@@ -416,7 +416,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 				<li id="linkdex" class="linkdex">
 					<a class="wpseo_tablink" href="#wpseo_linkdex"><?php _e( 'Page Analysis', 'wordpress-seo' ); ?></a>
 				</li>
-				<?php if ( current_user_can( 'manage_options' ) || $options['disableadvanced_meta'] === false ): ?>
+				<?php if ( current_user_can( 'manage_options' ) || $options['disableadvanced_meta'] === false ) : ?>
 					<li class="advanced">
 						<a class="wpseo_tablink" href="#wpseo_advanced"><?php _e( 'Advanced', 'wordpress-seo' ); ?></a>
 					</li>
