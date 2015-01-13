@@ -2284,6 +2284,7 @@ if ( ! class_exists( 'WPSEO_Option_XML' ) ) {
 			'user_role-',
 			'post_types-',
 			'taxonomies-',
+			'tax-'
 		);
 
 
@@ -2355,6 +2356,8 @@ if ( ! class_exists( 'WPSEO_Option_XML' ) ) {
 				foreach ( $filtered_taxonomies as $tax ) {
 					if ( isset( $tax->labels->name ) && trim( $tax->labels->name ) != '' ) {
 						$this->defaults[ 'taxonomies-' . $tax->name . '-not_in_sitemap' ] = false;
+						
+						$this->defaults[ 'tax-' . $tax->name . '-sitemap_include_default' ] = 'always';
 					}
 				}
 				unset( $tax );
@@ -2407,6 +2410,13 @@ if ( ! class_exists( 'WPSEO_Option_XML' ) ) {
 						}
 						break;
 
+					/* string fields */
+					case 'tax-': /* 'tax-' . $tax->name . '-sitemap_include_default' fields */
+						if ( isset( $dirty[ $key ] ) ) {
+							//$clean[ $key ] = wp_kses_post( $dirty[ $key ] );
+							$clean[ $key ] = ( isset( $dirty[ $key ] ) ? sanitize_title( $dirty[ $key ] ) : '' );
+						}
+						break;
 
 					/* boolean fields */
 					case 'disable_author_sitemap':

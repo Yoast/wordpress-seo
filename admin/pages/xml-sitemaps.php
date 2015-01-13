@@ -79,9 +79,19 @@ $taxonomies = apply_filters( 'wpseo_sitemaps_supported_taxonomies', get_taxonomi
 if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
 	$content .= '<h2>' . __( 'Exclude taxonomies', 'wordpress-seo' ) . '</h2>';
 	$content .= '<p>' . __( 'Please check the appropriate box below if there\'s a taxonomy that you do <strong>NOT</strong> want to include in your sitemap:', 'wordpress-seo' ) . '</p>';
+	
+	$default_options = array(
+		'always'  => __('Always include', 'wordpress-seo'),
+		'never'   => __('Never include', 'wordpress-seo')
+	);
+
 	foreach ( $taxonomies as $tax ) {
 		if ( isset( $tax->labels->name ) && trim( $tax->labels->name ) != '' ) {
 			$content .= $wpseo_admin_pages->checkbox( 'taxonomies-' . $tax->name . '-not_in_sitemap', $tax->labels->name . ' (<code>' . $tax->name . '</code>)' );
+			
+			$content .= '<div style="display:block; margin:10px 50px;">';
+			$content .= $wpseo_admin_pages->select( 'tax-' . $tax->name . '-sitemap_include_default', sprintf(__('Default include behaviour for terms in %s', 'wordpress-seo'), $tax->labels->name), $default_options, 'wpseo_xml');
+			$content .= '</div>';
 		}
 	}
 }
