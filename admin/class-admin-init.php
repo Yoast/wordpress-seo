@@ -50,7 +50,7 @@ class WPSEO_Admin_Init {
 		if ( in_array( $this->pagenow, array(
 				'edit.php',
 				'post.php',
-				'post-new.php'
+				'post-new.php',
 			) ) || apply_filters( 'wpseo_always_register_metaboxes_on_admin', false )
 		) {
 			$GLOBALS['wpseo_metabox'] = new WPSEO_Metabox;
