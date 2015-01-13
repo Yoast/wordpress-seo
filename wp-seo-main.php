@@ -34,9 +34,9 @@ if ( ! defined( 'WPSEO_CSSJS_SUFFIX' ) ) {
 /**
  * Auto load our class files
  *
- * @param   string $class Class name
+ * @param string $class Class name
  *
- * @return    void
+ * @return void
  */
 function wpseo_auto_load( $class ) {
 	static $classes = null;
@@ -44,6 +44,8 @@ function wpseo_auto_load( $class ) {
 	if ( $classes === null ) {
 		$classes = array(
 			'wpseo_admin'                        => WPSEO_PATH . 'admin/class-admin.php',
+			'wpseo_admin_init'                   => WPSEO_PATH . 'admin/class-admin-init.php',
+			'wpseo_admin_user_profile'           => WPSEO_PATH . 'admin/class-admin-user-profile.php',
 			'wpseo_bulk_title_editor_list_table' => WPSEO_PATH . 'admin/class-bulk-title-editor-list-table.php',
 			'wpseo_bulk_description_list_table'  => WPSEO_PATH . 'admin/class-bulk-description-editor-list-table.php',
 			'wpseo_bulk_index_editor_list_table' => WPSEO_PATH . 'admin/class-bulk-index-editor-list-table.php',
@@ -309,91 +311,10 @@ function wpseo_frontend_head_init() {
 }
 
 /**
- * Register the promotion class for our GlotPress instance
- *
- * @link https://github.com/Yoast/i18n-module
- *
- * @return yoast_i18n
- */
-function register_i18n_promo_class() {
-	return new yoast_i18n(
-		array(
-			'textdomain'     => 'wordpress-seo',
-			'project_slug'   => 'wordpress-seo',
-			'plugin_name'    => 'WordPress SEO by Yoast',
-			'hook'           => 'wpseo_admin_footer',
-			'glotpress_url'  => 'http://translate.yoast.com/',
-			'glotpress_name' => 'Yoast Translate',
-			'glotpress_logo' => 'https://cdn.yoast.com/wp-content/uploads/i18n-images/Yoast_Translate.svg',
-			'register_url'   => 'http://translate.yoast.com/projects#utm_source=plugin&utm_medium=promo-box&utm_campaign=wpseo-i18n-promo',
-		)
-	);
-}
-
-/**
  * Used to load the required files on the plugins_loaded hook, instead of immediately.
  */
 function wpseo_admin_init() {
-	global $pagenow;
-
-	$GLOBALS['wpseo_admin'] = new WPSEO_Admin;
-
-	$options = WPSEO_Options::get_all();
-	if ( isset( $_GET['wpseo_restart_tour'] ) ) {
-		$options['ignore_tour'] = false;
-		update_option( 'wpseo', $options );
-	}
-
-	if ( $options['yoast_tracking'] === true ) {
-		/**
-		 * @internal this is not a proper lean loading implementation (method_exist will autoload the class),
-		 * but it can't be helped as there are other plugins out there which also use versions
-		 * of the Yoast Tracking class and we need to take that into account unfortunately
-		 */
-		if ( method_exists( 'Yoast_Tracking', 'get_instance' ) ) {
-			add_action( 'yoast_tracking', array( 'Yoast_Tracking', 'get_instance' ) );
-		} else {
-			$GLOBALS['yoast_tracking'] = new Yoast_Tracking;
-		}
-	}
-
-	/**
-	 * Filter: 'wpseo_always_register_metaboxes_on_admin' - Allow developers to change whether
-	 * the WPSEO metaboxes are only registered on the typical pages (lean loading) or always
-	 * registered when in admin.
-	 *
-	 * @api bool Whether to always register the metaboxes or not. Defaults to false.
-	 */
-	if ( in_array( $pagenow, array(
-			'edit.php',
-			'post.php',
-			'post-new.php',
-		) ) || apply_filters( 'wpseo_always_register_metaboxes_on_admin', false )
-	) {
-		$GLOBALS['wpseo_metabox'] = new WPSEO_Metabox;
-		if ( $options['opengraph'] === true || $options['twitter'] === true || $options['googleplus'] === true ) {
-			$GLOBALS['wpseo_social'] = new WPSEO_Social_Admin;
-		}
-	}
-
-	if ( in_array( $pagenow, array( 'edit-tags.php' ) ) ) {
-		$GLOBALS['wpseo_taxonomy'] = new WPSEO_Taxonomy;
-	}
-
-	if ( in_array( $pagenow, array( 'admin.php' ) ) ) {
-		// @todo [JRF => whomever] Can we load this more selectively ? like only when $_GET['page'] is one of ours ?
-		$GLOBALS['wpseo_admin_pages'] = new WPSEO_Admin_Pages;
-
-		$GLOBALS['WPSEO_i18n'] = register_i18n_promo_class();
-	}
-
-	if ( $options['tracking_popup_done'] === false || $options['ignore_tour'] === false ) {
-		add_action( 'admin_enqueue_scripts', array( 'WPSEO_Pointers', 'get_instance' ) );
-	}
-
-	if ( $options['enablexmlsitemap'] === true ) {
-		$GLOBALS['wpseo_sitemaps_admin'] = new WPSEO_Sitemaps_Admin;
-	}
+	new WPSEO_Admin_Init();
 }
 
 

@@ -16,16 +16,21 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 	class WPSEO_Admin {
 
 		/**
+		 * @var array
+		 */
+		private $options;
+
+		/**
 		 * Class constructor
 		 */
 		function __construct() {
-			$options = WPSEO_Options::get_all();
+			$this->options = WPSEO_Options::get_all();
 
 			if ( is_multisite() ) {
 				WPSEO_Options::maybe_set_multisite_defaults( false );
 			}
 
-			if ( $options['stripcategorybase'] === true ) {
+			if ( $this->options['stripcategorybase'] === true ) {
 				add_action( 'created_category', array( $this, 'schedule_rewrite_flush' ) );
 				add_action( 'edited_category', array( $this, 'schedule_rewrite_flush' ) );
 				add_action( 'delete_category', array( $this, 'schedule_rewrite_flush' ) );
@@ -43,20 +48,15 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 				add_action( 'admin_footer', array( $this, 'blog_public_warning' ) );
 			}
 
-			if ( ( ( isset( $options['theme_has_description'] ) && $options['theme_has_description'] === true ) || $options['theme_description_found'] !== '' ) && $options['ignore_meta_description_warning'] !== true ) {
+			if ( ( ( isset( $this->options['theme_has_description'] ) && $this->options['theme_has_description'] === true ) ||
+			       $this->options['theme_description_found'] !== '' ) && $this->options['ignore_meta_description_warning'] !== true
+			) {
 				add_action( 'admin_footer', array( $this, 'meta_description_warning' ) );
 			}
 
-			if ( $options['cleanslugs'] === true ) {
+			if ( $this->options['cleanslugs'] === true ) {
 				add_filter( 'name_save_pre', array( $this, 'remove_stopwords_from_slug' ), 0 );
 			}
-
-			add_action( 'show_user_profile', array( $this, 'user_profile' ) );
-			add_action( 'edit_user_profile', array( $this, 'user_profile' ) );
-			add_action( 'personal_options_update', array( $this, 'process_user_option_update' ) );
-			add_action( 'edit_user_profile_update', array( $this, 'process_user_option_update' ) );
-			add_action( 'personal_options_update', array( $this, 'update_user_profile' ) );
-			add_action( 'edit_user_profile_update', array( $this, 'update_user_profile' ) );
 
 			add_filter( 'user_contactmethods', array( $this, 'update_contactmethods' ), 10, 1 );
 
@@ -90,9 +90,9 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 
 			// Add main page
 			$admin_page = add_menu_page( __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'General Settings', 'wordpress-seo' ), __( 'SEO', 'wordpress-seo' ), 'manage_options', 'wpseo_dashboard', array(
-					$this,
-					'load_page',
-				), $icon_svg, '99.31337' );
+				$this,
+				'load_page',
+			), $icon_svg, '99.31337' );
 
 			/**
 			 * Filter: 'wpseo_manage_options_capability' - Allow changing the capability users need to view the settings pages
@@ -245,7 +245,6 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 				)
 			);
 
-
 			$screen->add_help_tab(
 				array(
 					'id'      => 'title-vars',
@@ -271,22 +270,22 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 				// Base 64 encoded SVG image
 				$icon_svg = 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCIgWw0KCTwhRU5USVRZIG5zX2Zsb3dzICJodHRwOi8vbnMuYWRvYmUuY29tL0Zsb3dzLzEuMC8iPg0KCTwhRU5USVRZIG5zX2V4dGVuZCAiaHR0cDovL25zLmFkb2JlLmNvbS9FeHRlbnNpYmlsaXR5LzEuMC8iPg0KCTwhRU5USVRZIG5zX2FpICJodHRwOi8vbnMuYWRvYmUuY29tL0Fkb2JlSWxsdXN0cmF0b3IvMTAuMC8iPg0KCTwhRU5USVRZIG5zX2dyYXBocyAiaHR0cDovL25zLmFkb2JlLmNvbS9HcmFwaHMvMS4wLyI+DQpdPg0KPHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSJMYWFnXzEiIHhtbG5zOng9IiZuc19leHRlbmQ7IiB4bWxuczppPSImbnNfYWk7IiB4bWxuczpncmFwaD0iJm5zX2dyYXBoczsiDQoJIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHhtbG5zOmE9Imh0dHA6Ly9ucy5hZG9iZS5jb20vQWRvYmVTVkdWaWV3ZXJFeHRlbnNpb25zLzMuMC8iDQoJIHg9IjBweCIgeT0iMHB4IiB2aWV3Qm94PSIwIDAgNDAgMzEuODkiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDQwIDMxLjg5IiB4bWw6c3BhY2U9InByZXNlcnZlIj4NCjxnPg0KPHBhdGggZmlsbD0iI0ZGRkZGRiIgZD0iTTQwLDEyLjUyNEM0MCw1LjYwOCwzMS40NjksMCwyMCwwQzguNTMsMCwwLDUuNjA4LDAsMTIuNTI0YzAsNS41Niw1LjI0MywxMC4yNzIsMTMuNTU3LDExLjkwN3YtNC4wNjUNCgljMCwwLDAuMDQtMS0wLjI4LTEuOTJjLTAuMzItMC45MjEtMS43Ni0zLjAwMS0xLjc2LTUuMTIxYzAtMi4xMjEsMi41NjEtOS41NjMsNS4xMjItMTAuNDQ0Yy0wLjQsMS4yMDEtMC4zMiw3LjY4My0wLjMyLDcuNjgzDQoJczEuNCwyLjcyLDQuNjQxLDIuNzJjMy4yNDIsMCw0LjUxMS0xLjc2LDQuNzE1LTIuMmMwLjIwNi0wLjQ0LDAuODQ2LTguNzIzLDAuODQ2LTguNzIzczQuMDgyLDQuNDAyLDMuNjgyLDkuMzYzDQoJYy0wLjQwMSw0Ljk2Mi00LjQ4Miw3LjIwMy02LjEyMiw5LjEyM2MtMS4yODYsMS41MDUtMi4yMjQsMy4xMy0yLjYyOSw0LjE2OGMwLjgwMS0wLjAzNCwxLjU4Ny0wLjA5OCwyLjM2MS0wLjE4NGw5LjE1MSw3LjA1OQ0KCWwtNC44ODQtNy44M0MzNS41MzUsMjIuMTYxLDQwLDE3LjcxMyw0MCwxMi41MjR6Ii8+DQo8L2c+DQo8L3N2Zz4=';
 				add_menu_page( __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'MultiSite Settings', 'wordpress-seo' ), __( 'SEO', 'wordpress-seo' ), 'delete_users', 'wpseo_dashboard', array(
-						$this,
-						'network_config_page',
-					), $icon_svg );
+					$this,
+					'network_config_page',
+				), $icon_svg );
 
 				if ( WPSEO_Utils::allow_system_file_edit() === true ) {
 					add_submenu_page( 'wpseo_dashboard', __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Edit Files', 'wordpress-seo' ), __( 'Edit Files', 'wordpress-seo' ), 'delete_users', 'wpseo_files', array(
-							$this,
-							'load_page',
-						) );
+						$this,
+						'load_page',
+					) );
 				}
 
 				// Add Extension submenu page
 				add_submenu_page( 'wpseo_dashboard', __( 'Yoast WordPress SEO:', 'wordpress-seo' ) . ' ' . __( 'Extensions', 'wordpress-seo' ), __( 'Extensions', 'wordpress-seo' ), 'delete_users', 'wpseo_licenses', array(
-						$this,
-						'load_page',
-					) );
+					$this,
+					'load_page',
+				) );
 			}
 		}
 
@@ -295,53 +294,53 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		 * Load the form for a WPSEO admin page
 		 */
 		function load_page() {
-			if ( isset( $_GET['page'] ) ) {
-				switch ( $_GET['page'] ) {
-					case 'wpseo_titles':
-						require_once( WPSEO_PATH . 'admin/pages/metas.php' );
-						break;
+			$page = WPSEO_Utils::filter_input( INPUT_GET, 'page' );
 
-					case 'wpseo_social':
-						require_once( WPSEO_PATH . 'admin/pages/social.php' );
-						break;
+			switch ( $page ) {
+				case 'wpseo_titles':
+					require_once( WPSEO_PATH . 'admin/pages/metas.php' );
+					break;
 
-					case 'wpseo_xml':
-						require_once( WPSEO_PATH . 'admin/pages/xml-sitemaps.php' );
-						break;
+				case 'wpseo_social':
+					require_once( WPSEO_PATH . 'admin/pages/social.php' );
+					break;
 
-					case 'wpseo_permalinks':
-						require_once( WPSEO_PATH . 'admin/pages/permalinks.php' );
-						break;
+				case 'wpseo_xml':
+					require_once( WPSEO_PATH . 'admin/pages/xml-sitemaps.php' );
+					break;
 
-					case 'wpseo_internal-links':
-						require_once( WPSEO_PATH . 'admin/pages/internal-links.php' );
-						break;
+				case 'wpseo_permalinks':
+					require_once( WPSEO_PATH . 'admin/pages/permalinks.php' );
+					break;
 
-					case 'wpseo_rss':
-						require_once( WPSEO_PATH . 'admin/pages/rss.php' );
-						break;
+				case 'wpseo_internal-links':
+					require_once( WPSEO_PATH . 'admin/pages/internal-links.php' );
+					break;
 
-					case 'wpseo_import':
-						require_once( WPSEO_PATH . 'admin/pages/import.php' );
-						break;
+				case 'wpseo_rss':
+					require_once( WPSEO_PATH . 'admin/pages/rss.php' );
+					break;
 
-					case 'wpseo_files':
-						require_once( WPSEO_PATH . 'admin/pages/files.php' );
-						break;
+				case 'wpseo_import':
+					require_once( WPSEO_PATH . 'admin/pages/import.php' );
+					break;
 
-					case 'wpseo_bulk-editor':
-						require_once( WPSEO_PATH . 'admin/pages/bulk-editor.php' );
-						break;
+				case 'wpseo_files':
+					require_once( WPSEO_PATH . 'admin/pages/files.php' );
+					break;
 
-					case 'wpseo_licenses':
-						require_once( WPSEO_PATH . 'admin/pages/licenses.php' );
-						break;
+				case 'wpseo_bulk-editor':
+					require_once( WPSEO_PATH . 'admin/pages/bulk-editor.php' );
+					break;
 
-					case 'wpseo_dashboard':
-					default:
-						require_once( WPSEO_PATH . 'admin/pages/dashboard.php' );
-						break;
-				}
+				case 'wpseo_licenses':
+					require_once( WPSEO_PATH . 'admin/pages/licenses.php' );
+					break;
+
+				case 'wpseo_dashboard':
+				default:
+					require_once( WPSEO_PATH . 'admin/pages/dashboard.php' );
+					break;
 			}
 		}
 
@@ -387,8 +386,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 				return;
 			}
 
-			$options = get_option( 'wpseo' );
-			if ( $options['ignore_blog_public_warning'] === true ) {
+			if ( $this->options['ignore_blog_public_warning'] === true ) {
 				return;
 			}
 			echo '<div id="robotsmessage" class="error">';
@@ -406,12 +404,11 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 			}
 
 			// No need to double display it on the dashboard
-			if ( isset( $_GET['page'] ) && 'wpseo_dashboard' === $_GET['page'] ) {
+			if ( 'wpseo_dashboard' === WPSEO_Utils::filter_input( INPUT_GET, 'page' ) ) {
 				return;
 			}
 
-			$options = get_option( 'wpseo' );
-			if ( true === $options['ignore_meta_description_warning'] ) {
+			if ( true === $this->options['ignore_meta_description_warning'] ) {
 				return;
 			}
 
@@ -425,7 +422,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		 * @staticvar string $this_plugin holds the directory & filename for the plugin
 		 *
 		 * @param    array  $links array of links for the plugins, adapted when the current plugin is found.
-		 * @param    string $file  the filename for the current plugin, which the filter loops through.
+		 * @param    string $file the filename for the current plugin, which the filter loops through.
 		 *
 		 * @return    array    $links
 		 */
@@ -462,22 +459,6 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 			}
 		}
 
-
-		/**
-		 * Updates the user metas that (might) have been set on the user profile page.
-		 *
-		 * @param    int $user_id of the updated user
-		 */
-		function process_user_option_update( $user_id ) {
-			if ( isset( $_POST['wpseo_author_title'] ) ) {
-				check_admin_referer( 'wpseo_user_profile_update', 'wpseo_nonce' );
-				update_user_meta( $user_id, 'wpseo_title', ( isset( $_POST['wpseo_author_title'] ) ? WPSEO_Utils::sanitize_text_field( $_POST['wpseo_author_title'] ) : '' ) );
-				update_user_meta( $user_id, 'wpseo_metadesc', ( isset( $_POST['wpseo_author_metadesc'] ) ? WPSEO_Utils::sanitize_text_field( $_POST['wpseo_author_metadesc'] ) : '' ) );
-				update_user_meta( $user_id, 'wpseo_metakey', ( isset( $_POST['wpseo_author_metakey'] ) ? WPSEO_Utils::sanitize_text_field( $_POST['wpseo_author_metakey'] ) : '' ) );
-				update_user_meta( $user_id, 'wpseo_excludeauthorsitemap', ( isset( $_POST['wpseo_author_exclude'] ) ? WPSEO_Utils::sanitize_text_field( $_POST['wpseo_author_exclude'] ) : '' ) );
-			}
-		}
-
 		/**
 		 * Filter the $contactmethods array and add Facebook, Google+ and Twitter.
 		 *
@@ -487,7 +468,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		 *
 		 * @return    array    $contactmethods with added contactmethods.
 		 */
-		function update_contactmethods( $contactmethods ) {
+		public function update_contactmethods( $contactmethods ) {
 			// Add Google+
 			$contactmethods['googleplus'] = __( 'Google+', 'wordpress-seo' );
 			// Add Twitter
@@ -496,62 +477,6 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 			$contactmethods['facebook'] = __( 'Facebook profile URL', 'wordpress-seo' );
 
 			return $contactmethods;
-		}
-
-		/**
-		 * Add the inputs needed for SEO values to the User Profile page
-		 *
-		 * @param    object $user
-		 */
-		function user_profile( $user ) {
-
-			if ( ! current_user_can( 'edit_users' ) ) {
-				return;
-			}
-
-			$options = WPSEO_Options::get_all();
-
-			wp_nonce_field( 'wpseo_user_profile_update', 'wpseo_nonce' );
-			?>
-			<h3 id="wordpress-seo"><?php _e( 'WordPress SEO settings', 'wordpress-seo' ); ?></h3>
-			<table class="form-table">
-				<tr>
-					<th>
-						<label for="wpseo_author_title"><?php _e( 'Title to use for Author page', 'wordpress-seo' ); ?></label>
-					</th>
-					<td><input class="regular-text" type="text" id="wpseo_author_title" name="wpseo_author_title"
-					           value="<?php echo esc_attr( get_the_author_meta( 'wpseo_title', $user->ID ) ); ?>" />
-					</td>
-				</tr>
-				<tr>
-					<th>
-						<label for="wpseo_author_metadesc"><?php _e( 'Meta description to use for Author page', 'wordpress-seo' ); ?></label>
-					</th>
-					<td>
-						<textarea rows="3" cols="30" id="wpseo_author_metadesc" name="wpseo_author_metadesc"><?php echo esc_textarea( get_the_author_meta( 'wpseo_metadesc', $user->ID ) ); ?></textarea>
-					</td>
-				</tr>
-				<?php if ( $options['usemetakeywords'] === true ) { ?>
-					<tr>
-						<th>
-							<label for="wpseo_author_metakey"><?php _e( 'Meta keywords to use for Author page', 'wordpress-seo' ); ?></label>
-						</th>
-						<td>
-							<input class="regular-text" type="text" id="wpseo_author_metakey" name="wpseo_author_metakey" value="<?php echo esc_attr( get_the_author_meta( 'wpseo_metakey', $user->ID ) ); ?>" />
-						</td>
-					</tr>
-				<?php } ?>
-				<tr>
-					<th>
-						<label for="wpseo_author_exclude"><?php _e( 'Exclude user from Author-sitemap', 'wordpress-seo' ); ?></label>
-					</th>
-					<td>
-						<input class="checkbox double" type="checkbox" id="wpseo_author_exclude" name="wpseo_author_exclude" value="on" <?php echo ( ( esc_attr( get_the_author_meta( 'wpseo_excludeauthorsitemap', $user->ID ) ) == 'on' ) ? 'checked' : '' ); ?> />
-					</td>
-				</tr>
-			</table>
-			<br /><br />
-		<?php
 		}
 
 		/**
@@ -569,17 +494,17 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 				return $slug;
 			}
 
-			if ( ! isset( $_POST['post_title'] ) ) {
+			if ( ! WPSEO_Utils::filter_input( INPUT_POST, 'post_title' ) ) {
 				return $slug;
 			}
 
 			// Don't change slug if the post is a draft, this conflicts with polylang
-			if ( 'draft' == $_POST['post_status'] ) {
+			if ( 'draft' == WPSEO_Utils::filter_input( INPUT_POST, 'post_status' ) ) {
 				return $slug;
 			}
 
 			// Lowercase the slug and strip slashes
-			$clean_slug = sanitize_title( stripslashes( $_POST['post_title'] ) );
+			$clean_slug = sanitize_title( stripslashes( WPSEO_Utils::filter_input( INPUT_POST, 'post_title' ) ) );
 
 			// Turn it to an array and strip stopwords by comparing against an array of stopwords
 			$clean_slug_array = array_diff( explode( '-', $clean_slug ), $this->stopwords() );
@@ -616,7 +541,7 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 		/**
 		 * Check whether the stopword appears in the string
 		 *
-		 * @param string $haystack    The string to be checked for the stopword
+		 * @param string $haystack The string to be checked for the stopword
 		 * @param bool   $checkingUrl Whether or not we're checking a URL
 		 *
 		 * @return bool|mixed
@@ -641,15 +566,6 @@ if ( ! class_exists( 'WPSEO_Admin' ) ) {
 			}
 
 			return false;
-		}
-
-		/**
-		 * Log the timestamp when a user profile has been updated
-		 */
-		function update_user_profile( $user_id ) {
-			if ( current_user_can( 'edit_user', $user_id ) ) {
-				update_user_meta( $user_id, '_yoast_wpseo_profile_updated', time() );
-			}
 		}
 
 		/**
