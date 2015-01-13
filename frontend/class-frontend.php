@@ -301,7 +301,12 @@ if ( ! class_exists( 'WPSEO_Frontend' ) ) {
 					return '';
 				}
 			} else {
-				return wpseo_replace_vars( $this->options[ $index ], $var_source );
+				$format = $this->options[ $index ];
+				if (!get_bloginfo( 'description' )) {
+					$format = preg_replace('/ %%sep%% %%sitedesc%%$/', '', $format);
+				}
+
+				return wpseo_replace_vars( $format, $var_source );
 			}
 		}
 
