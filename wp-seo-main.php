@@ -46,7 +46,6 @@ function wpseo_auto_load( $class ) {
 			'wpseo_admin'                        => WPSEO_PATH . 'admin/class-admin.php',
 			'wpseo_admin_init'                   => WPSEO_PATH . 'admin/class-admin-init.php',
 			'wpseo_admin_user_profile'           => WPSEO_PATH . 'admin/class-admin-user-profile.php',
-			'wpseo_admin_util'                   => WPSEO_PATH . 'admin/class-admin-util.php',
 			'wpseo_bulk_title_editor_list_table' => WPSEO_PATH . 'admin/class-bulk-title-editor-list-table.php',
 			'wpseo_bulk_description_list_table'  => WPSEO_PATH . 'admin/class-bulk-description-editor-list-table.php',
 			'wpseo_bulk_index_editor_list_table' => WPSEO_PATH . 'admin/class-bulk-index-editor-list-table.php',

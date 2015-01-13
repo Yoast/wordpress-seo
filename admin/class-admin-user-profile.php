@@ -19,7 +19,7 @@ class WPSEO_Admin_User_Profile {
 	 * @return mixed
 	 */
 	private function filter_input_post( $var_name ) {
-		$val = WPSEO_Admin_Util::filter_input( INPUT_POST, $var_name );
+		$val = WPSEO_Utils::filter_input( INPUT_POST, $var_name );
 		if ( $val ) {
 			return WPSEO_Option::sanitize_text_field( $val );
 		} else {
