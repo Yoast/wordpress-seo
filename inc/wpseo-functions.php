@@ -27,6 +27,7 @@ function wpseo_do_upgrade() {
 
 	// Just flush rewrites, always, to at least make them work after an upgrade.
 	add_action( 'shutdown', 'flush_rewrite_rules' );
+	WPSEO_Options::clear_sitemap_cache();
 
 	if ( $option_wpseo['version'] === '' || version_compare( $option_wpseo['version'], '1.4.13', '<' ) ) {
 		// Run description test once theme has loaded

@@ -975,7 +975,6 @@ if ( ! class_exists( 'WPSEO_Option_Wpseo' ) ) {
 			return self::$instance;
 		}
 
-
 		/**
 		 * Validate the option
 		 *
@@ -2414,6 +2413,7 @@ if ( ! class_exists( 'WPSEO_Option_XML' ) ) {
 		protected function __construct() {
 			parent::__construct();
 			add_action( 'update_option_' . $this->option_name, array( 'WPSEO_Options', 'clear_rewrites' ) );
+			add_action( 'update_option_' . $this->option_name, array( 'WPSEO_Options', 'clear_sitemap_cache' ) );
 		}
 
 
@@ -2429,7 +2429,6 @@ if ( ! class_exists( 'WPSEO_Option_XML' ) ) {
 
 			return self::$instance;
 		}
-
 
 		/**
 		 * Add dynamically created default options based on available post types and taxonomies
@@ -4053,6 +4052,13 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 			delete_option( 'rewrite_rules' );
 		}
 
+		/**
+		 * Clear entire XML sitemap cache
+		 */
+		public static function clear_sitemap_cache() {
+			global $wpdb;
+			$wpdb->query( "DELETE FROM $wpdb->options WHERE option_name LIKE '_transient_timeout_wpseo_sitemap_%' OR option_name LIKE '_transient_wpseo_sitemap_%'" );
+		}
 
 	} /* End of class WPSEO_Options */
 
