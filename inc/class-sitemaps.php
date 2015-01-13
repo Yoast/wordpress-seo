@@ -380,10 +380,8 @@ if ( ! class_exists( 'WPSEO_Sitemaps' ) ) {
 					}
 
 					// using same filters for filtering join and where parts of the query.
-					$join_filter  = '';
-					$join_filter  = apply_filters( 'wpseo_typecount_join', $join_filter, $post_type );
-					$where_filter = '';
-					$where_filter = apply_filters( 'wpseo_typecount_where', $where_filter, $post_type );
+					$join_filter  = apply_filters( 'wpseo_typecount_join', '', $post_type );
+					$where_filter = apply_filters( 'wpseo_typecount_where', '', $post_type );
 
 					// using the same query with build_post_type_map($post_type) function to count number of posts.
 					$query = $wpdb->prepare( "SELECT COUNT(ID) FROM $wpdb->posts {$join_filter} WHERE post_status IN ('publish','inherit') AND post_password = '' AND post_author != 0 AND post_date != '0000-00-00 00:00:00' AND post_type = %s " . $where_filter, $post_type );
