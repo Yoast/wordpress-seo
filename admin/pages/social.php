@@ -39,7 +39,7 @@ if ( isset( $_GET['delfbadmin'] ) ) {
 	if ( isset( $_SERVER['REQUEST_URI'] ) ) {
 		$_SERVER['REQUEST_URI'] = remove_query_arg( array(
 			'nonce',
-			'delfbadmin'
+			'delfbadmin',
 		), sanitize_text_field( $_SERVER['REQUEST_URI'] ) );
 	}
 } elseif ( isset( $_GET['fbclearall'] ) ) {
@@ -57,7 +57,7 @@ if ( isset( $_GET['delfbadmin'] ) ) {
 	if ( isset( $_SERVER['REQUEST_URI'] ) ) {
 		$_SERVER['REQUEST_URI'] = remove_query_arg( array(
 			'nonce',
-			'fbclearall'
+			'fbclearall',
 		), sanitize_text_field( $_SERVER['REQUEST_URI'] ) );
 	}
 } elseif ( isset( $_GET['key'] ) ) {
@@ -96,7 +96,7 @@ if ( isset( $_GET['delfbadmin'] ) ) {
 			'userid',
 			'userrealname',
 			'link',
-			'apps'
+			'apps',
 		), sanitize_text_field( $_SERVER['REQUEST_URI'] ) );
 	}
 }
@@ -144,7 +144,7 @@ if ( $options['fbadminapp'] == 0 ) {
 			$fbconnect .= '
 		<li><a href="' . esc_url( $admin['link'] ) . '">' . esc_html( $admin['name'] ) . '</a> - <strong><a href="' . esc_url( add_query_arg( array(
 					'delfbadmin' => $admin_id,
-					'nonce'      => $nonce
+					'nonce'      => $nonce,
 				), admin_url( 'admin.php?page=wpseo_social' ) ) ) . '">X</a></strong></li>';
 		}
 		$fbconnect .= '
@@ -167,7 +167,7 @@ if ( $clearall ) {
 	$fbbuttons[] = '
 		<a class="button" href="' . esc_url( add_query_arg( array(
 			'nonce'      => wp_create_nonce( 'fbclearall' ),
-			'fbclearall' => 'true'
+			'fbclearall' => 'true',
 		), admin_url( 'admin.php?page=wpseo_social' ) ) ) . '">' . __( 'Clear all Facebook Data', 'wordpress-seo' ) . '</a> ';
 }
 
