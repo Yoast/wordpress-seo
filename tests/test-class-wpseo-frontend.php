@@ -8,11 +8,12 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	private static $class_instance;
 
 	public static function setUpBeforeClass() {
-		self::$class_instance = new WPSEO_Frontend;
+		self::$class_instance = WPSEO_Frontend::get_instance();
 	}
 
 	public function tearDown() {
 		ob_clean();
+		self::$class_instance->reset();
 	}
 
 	/**
@@ -268,9 +269,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Frontend::head
 	 */
 	public function test_head() {
-
 		self::$class_instance->head();
-		ob_clean();
 
 		$this->assertEquals( 1, did_action( 'wpseo_head' ) );
 	}
@@ -443,7 +442,17 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	/**
 	 * @covers WPSEO_Frontend::canonical
 	 */
-	public function test_canonical() {
+	public function test_canonical_single_post() {
+		$post_id = $this->factory->post->create();
+		$this->go_to( get_permalink( $post_id ) );
+		$expected = get_permalink( $post_id );
+		$this->assertEquals( $expected, self::$class_instance->canonical( false ) );
+	}
+
+	/**
+	 * @covers WPSEO_Frontend::canonical
+	 */
+	public function test_canonical_single_post_override() {
 
 		// @todo: fix for multisite
 		if ( is_multisite() ) {
@@ -452,32 +461,52 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 
 		// create and go to post
 		$post_id = $this->factory->post->create();
-		$this->go_to( get_permalink( $post_id ) );
 
 		// test default canonical
 		$expected = get_permalink( $post_id );
-		$this->assertEquals( $expected, self::$class_instance->canonical( false ) );
 
 		// test manual override while using no override
 		$meta_canon = 'http://canonic.al';
 		WPSEO_Meta::set_value( 'canonical', $meta_canon, $post_id );
+		$this->go_to( get_permalink( $post_id ) );
 		$this->assertEquals( $expected, self::$class_instance->canonical( false, false, true ) );
 
 		// test manual override
 		$this->assertEquals( $meta_canon, self::$class_instance->canonical( false ) );
+	}
 
+	/**
+	 * @covers WPSEO_Frontend::canonical
+	 */
+	public function test_canonical_home() {
 		// test home page
 		$this->go_to_home();
 
 		$expected = home_url();
 		$this->assertEquals( $expected, self::$class_instance->canonical( false, false, true ) );
 
+	}
+
+	/**
+	 * @covers WPSEO_Frontend::canonical
+	 */
+	public function test_canonical_search() {
 		// test search
 		$expected = get_search_link( 'sample query' );
 		$this->go_to( $expected );
 		$this->assertEquals( $expected, self::$class_instance->canonical( false ) );
+	}
 
-		// test taxonomy pages, category pages and tag pages
+	/**
+	 * @covers WPSEO_Frontend::canonical
+	 */
+	public function test_canonical_category() {
+
+		// @todo: fix for multisite
+		if ( is_multisite() ) {
+			return;
+		}
+				// test taxonomy pages, category pages and tag pages
 		$category_id   = wp_create_category( 'Category Name' );
 		$category_link = get_category_link( $category_id );
 		$this->go_to( $category_link );
@@ -838,6 +867,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	public function test_force_rewrite_output_buffer() {
 		self::$class_instance->force_rewrite_output_buffer();
 		$this->assertTrue( ( ob_get_level() > 0 ) );
+		ob_get_clean();
 	}
 
 	/**

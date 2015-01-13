@@ -8,21 +8,47 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	private static $class_instance;
 
 	public static function setUpBeforeClass() {
-
 		ob_start();
 
 		// create instance of WPSEO_Twitter class
-		self::$class_instance = new WPSEO_Twitter;
-
+		require 'framework/class-expose-wpseo-twitter.php';
+		self::$class_instance = new Expose_WPSEO_Twitter();
+		WPSEO_Frontend::get_instance()->reset();
 		// clean output which was outputted by WPSEO_Twitter constructor
 		ob_end_clean();
+	}
+
+
+	public function tearDown() {
+		ob_clean();
+		WPSEO_Frontend::get_instance()->reset();
+
+		// Reset shown images
+		self::$class_instance->shown_images = array();
 	}
 
 	/**
 	 * @covers WPSEO_Twitter::twitter
 	 */
 	public function test_twitter() {
-		// TODO
+		$post_id = $this->factory->post->create(
+			array(
+				'post_title'  => 'Twitter Test Post',
+				'post_excerpt' => 'Twitter Test Excerpt',
+				'post_type'   => 'post',
+				'post_status' => 'publish',
+			)
+		);
+		$this->go_to( get_permalink( $post_id ) );
+
+		self::$class_instance->twitter();
+
+		$expected = '<meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="Twitter Test Excerpt"/>
+<meta name="twitter:title" content="Twitter Test Post - Test Blog"/>
+<meta name="twitter:domain" content="Test Blog"/>
+';
+		$this->expectOutput( $expected );
 	}
 
 	/**
@@ -43,6 +69,18 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 
 		self::$class_instance->type();
 		$this->expectOutput( $expected );
+
+		self::$class_instance->options['twitter_card_type'] = 'summary';
+	}
+
+	/**
+	 * @param $name
+	 * @param $value
+	 *
+	 * @return string
+	 */
+	private function metatag( $name, $value ) {
+		return '<meta name="twitter:' . $name . '" content="' . $value . '"/>' . "\n";
 	}
 
 	/**
@@ -72,86 +110,92 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Twitter::site_domain
 	 */
 	public function test_author_twitter() {
-
-		$name     = 'yoast';
-		$expected = $this->metatag( 'creator', '@' . $name );
-
-		// test option
-		self::$class_instance->options['twitter_site'] = $name;
-		self::$class_instance->author_twitter();
-		$this->expectOutput( $expected );
-
-		// reset option to make sure next result is from author meta
-		self::$class_instance->options['twitter_site'] = '';
-
-		/*
-		 TODO fix this part
-
-		// create post, attach user as author
+		// create user, create post, attach user as author
 		$user_id = $this->factory->user->create( array( 'role' => 'administrator' ) );
 		$post_id = $this->factory->post->create(
 			array(
-				'post_title' => 'Sample Post',
-				'post_type' => 'post',
+				'post_title'  => 'Sample Post',
+				'post_type'   => 'post',
 				'post_status' => 'publish',
+				'post_author' => $user_id,
 			)
 		);
 
 		// go to post we just created
 		$this->go_to( get_permalink( $post_id ) );
 
-		// test user meta
-		update_user_meta( $this->user_id, 'twitter', '@' . $name );
-		self::$class_instance->author_twitter();
+		// test fallback to twitter_site option
+		self::$class_instance->options['twitter_site'] = 'yoast';
+		self::$class_instance->author();
+		$expected = $this->metatag( 'creator', '@yoast' );
 		$this->expectOutput( $expected );
-		*/
+
+		// create user, give twitter ID, this should now overwrite the site's settings
+		update_user_meta( $user_id, 'twitter', '@jdevalk' );
+		$expected = $this->metatag( 'creator', '@jdevalk' );
+		$this->go_to( get_permalink( $post_id ) );
+
+		// test user meta
+		self::$class_instance->author();
+		$this->expectOutput( $expected );
 	}
 
 	/**
-	 * @covers WPSEO_Twitter::twitter_title
+	 * @covers WPSEO_Twitter::title
 	 */
 	public function test_twitter_title() {
 		// create and go to post
 		$post_id = $this->factory->post->create();
 		$this->go_to( get_permalink( $post_id ) );
 
-		$expected = $this->metatag( 'title', self::$class_instance->title( '' ) );
-		self::$class_instance->twitter_title();
+		$expected = $this->metatag( 'title', WPSEO_Frontend::get_instance()->title( '' ) );
+		self::$class_instance->title();
 		$this->expectOutput( $expected );
 	}
 
 	/**
-	 * @covers WPSEO_Twitter::twitter_description
+	 * @covers WPSEO_Twitter::description
 	 */
-	public function test_twitter_description() {
-
+	public function test_twitter_description_excerpt() {
 		// create and go to post
 		$post_id = $this->factory->post->create();
 		$this->go_to( get_permalink( $post_id ) );
 
 		// test excerpt
 		$expected = $this->metatag( 'description', get_the_excerpt() );
-		self::$class_instance->twitter_description();
-		$this->expectOutput( $expected );
 
-
-		// test wpseo meta
-		WPSEO_Meta::set_value( 'metadesc', 'Meta description', $post_id );
-		$expected = $this->metatag( 'description', self::$class_instance->metadesc( false ) );
-		self::$class_instance->twitter_description();
+		ob_clean();
+		self::$class_instance->description();
 		$this->expectOutput( $expected );
 	}
 
 	/**
-	 * @covers WPSEO_Twitter::twitter_url
+	 * @covers WPSEO_Twitter::description
+	 */
+	public function test_twitter_description_metadesc() {
+		// create and go to post
+		$post_id = $this->factory->post->create();
+
+		// test wpseo meta
+		WPSEO_Meta::set_value( 'metadesc', 'Meta description', $post_id );
+
+		$this->go_to( get_permalink( $post_id ) );
+		$expected = $this->metatag( 'description', WPSEO_Frontend::get_instance()->metadesc( false ) );
+
+		self::$class_instance->description();
+		$this->expectOutput( $expected );
+	}
+
+	/**
+	 * @covers WPSEO_Twitter::url
 	 */
 	public function test_twitter_url() {
 		// create and go to post
 		$post_id = $this->factory->post->create();
 		$this->go_to( get_permalink( $post_id ) );
 
-		$expected = $this->metatag( 'url', esc_url( self::$class_instance->canonical( false ) ) );
-		self::$class_instance->twitter_url();
+		$expected = $this->metatag( 'url', esc_url( WPSEO_Frontend::get_instance()->canonical( false ) ) );
+		self::$class_instance->url();
 		$this->expectOutput( $expected );
 	}
 
@@ -173,10 +217,26 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Twitter::site_domain
+	 * @covers WPSEO_Twitter::image()
 	 */
-	public function test_image() {
+	public function test_homepage_image() {
+		// test default image
+		$image_url = 'http://url-default-image.jpg';
 
+		// reset default_image option
+		self::$class_instance->options['og_frontpage_image'] = $image_url;
+
+		$this->go_to_home();
+		$expected = $this->metatag( 'image:src', $image_url );
+
+		self::$class_instance->image();
+		$this->expectOutput( $expected );
+	}
+
+	/**
+	 * @covers WPSEO_Twitter::image()
+	 */
+	public function test_default_image() {
 		// create and go to post
 		$post_id = $this->factory->post->create();
 		$this->go_to( get_permalink( $post_id ) );
@@ -185,26 +245,10 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 		$image_url = 'http://url-default-image.jpg';
 
 		self::$class_instance->options['og_default_image'] = $image_url;
-		$expected = $this->get_expected_image_output( $image_url );
+		$expected                                          = $this->get_expected_image_output( $image_url );
 
 		self::$class_instance->image();
 		$this->expectOutput( $expected );
-
-		// reset default_image option
-		self::$class_instance->options['og_default_image'] = '';
-
-		// TODO test og_frontpage_image
-
-		// test wpseo meta value
-		$image_url = 'http://url-singular-meta-image.jpg';
-		WPSEO_Meta::set_value( 'twitter-image', $image_url, $post_id );
-		$expected = $this->get_expected_image_output( $image_url );
-
-		self::$class_instance->image();
-		$this->expectOutput( $expected );
-
-		// TODO test post thumbnail
-		// TODO test post content image
 	}
 
 	/**
@@ -226,13 +270,81 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @param $name
-	 * @param $value
-	 *
-	 * @return string
+	 * @covers WPSEO_Twitter::image()
 	 */
-	private function metatag( $name, $value ) {
-		return '<meta name="twitter:' . $name . '" content="' . $value . '"/>' . "\n";
+	public function test_meta_value_image() {
+		// create and go to post
+		$post_id = $this->factory->post->create();
+		$this->go_to( get_permalink( $post_id ) );
+
+		// test wpseo meta value
+		$image_url = 'http://url-singular-meta-image.jpg';
+		WPSEO_Meta::set_value( 'twitter-image', $image_url, $post_id );
+		$expected = $this->get_expected_image_output( $image_url );
+
+		self::$class_instance->image();
+		$this->expectOutput( $expected );
+	}
+
+	/**
+	 * @covers WPSEO_Twitter::image()
+	 */
+	public function test_post_thumbnail_image() {
+		$post_id = $this->factory->post->create();
+		$filename = 'post-thumbnail.jpg';
+		$attachment_id = $this->factory->attachment->create_object( $filename, 0, array(
+			'post_mime_type' => 'image/jpeg',
+			'post_type'      => 'attachment'
+		) );
+		update_post_meta( $post_id, '_thumbnail_id', $attachment_id );
+		$this->go_to( get_permalink( $post_id ) );
+
+		$expected = $this->metatag( 'image:src', 'http://' . WP_TESTS_DOMAIN . "/wp-content/uploads/$filename" );
+
+		self::$class_instance->image();
+		$this->expectOutput( $expected );
+
+	}
+
+	/**
+	 * @covers WPSEO_Twitter::image()
+	 */
+	public function test_post_content_image() {
+		$url = 'http://example.com/example.jpg';
+		$post_id = $this->factory->post->create( array( 'post_content' => "Bla <img src='$url'/> bla" ) );
+		$this->go_to( get_permalink( $post_id ) );
+
+		$expected = $this->metatag( 'image:src', $url );
+
+		self::$class_instance->image();
+		$this->expectOutput( $expected );
+	}
+
+	/**
+	 * @covers WPSEO_Twitter::gallery_images_output()
+	 */
+	public function test_gallery_images() {
+		$ids      = array();
+		$expected = $this->metatag( 'card', 'gallery' );
+
+		// Insert images into DB so we have something to test against
+		foreach ( range( 0, 2 ) as $i ) {
+			$filename = "image$i.jpg";
+			$ids[] = $this->factory->attachment->create_object( $filename, 0, array(
+				'post_mime_type' => 'image/jpeg',
+				'post_type'      => 'attachment'
+			) );
+			$expected .= $this->metatag( 'image' . $i, 'http://' . WP_TESTS_DOMAIN . "/wp-content/uploads/$filename" );
+		}
+
+		// Create and go to post
+		$content = '[gallery ids="' . join( ',', $ids ) . '"]';
+		$post_id = $this->factory->post->create( array( 'post_content' => $content ) );
+		$this->go_to( get_permalink( $post_id ) );
+
+		self::$class_instance->type();
+		self::$class_instance->image();
+		$this->expectOutput( $expected );
 	}
 
 }

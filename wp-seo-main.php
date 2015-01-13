@@ -295,7 +295,7 @@ function wpseo_frontend_init() {
  */
 function wpseo_frontend_head_init() {
 	$options = WPSEO_Options::get_all();
-	if ( $options['twitter'] === true && is_singular() ) {
+	if ( $options['twitter'] === true ) {
 		add_action( 'wpseo_head', array( 'WPSEO_Twitter', 'get_instance' ), 40 );
 	}
 

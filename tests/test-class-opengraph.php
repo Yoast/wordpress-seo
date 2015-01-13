@@ -16,9 +16,14 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	 */
 	public function setUp() {
 		parent::setUp();
+		WPSEO_Frontend::get_instance()->reset();
 
 		// start each test on the home page
 		$this->go_to_home();
+	}
+
+	public function tearDown() {
+		ob_clean();
 	}
 
 	/**
@@ -147,7 +152,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		$post_id = $this->factory->post->create();
 		$this->go_to( get_permalink( $post_id ) );
 
-		$expected_title = self::$class_instance->title( '' );
+		$expected_title = WPSEO_Frontend::get_instance()->title( '' );
 		$expected_html  = '<meta property="og:title" content="' . $expected_title . '" />' . "\n";
 
 		$this->assertTrue( self::$class_instance->og_title() );
@@ -254,11 +259,8 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	/**
 	 * @covers WPSEO_OpenGraph::description
 	 */
-	public function test_description_single_post() {
-
+	public function test_description_single_post_opengraph_description() {
 		$expected_opengraph_description = 'This is with a opengraph-description';
-		$expected_meta_description      = 'This is with a meta-description';
-		$expected_excerpt               = 'Post excerpt 1';
 
 		// Creates the post
 		$post_id = $this->factory->post->create();
@@ -270,16 +272,33 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		$opengraph_description = self::$class_instance->description( false );
 		WPSEO_Meta::set_value( 'opengraph-description', '', $post_id );
 		$this->assertEquals( $expected_opengraph_description, $opengraph_description );
+	}
+
+	public function test_description_single_post_metadesc() {
+		$expected_meta_description = 'This is with a meta-description';
+
+		// Creates the post
+		$post_id = $this->factory->post->create();
+
+		WPSEO_Meta::set_value( 'metadesc', $expected_meta_description, $post_id );
+
+		$this->go_to( get_permalink( $post_id ) );
 
 		// Checking meta-description and after obtaining its value, reset the meta value for it
-		WPSEO_Meta::set_value( 'metadesc', $expected_meta_description, $post_id );
 		$meta_description = self::$class_instance->description( false );
-		WPSEO_Meta::set_value( 'metadesc', '', $post_id );
 		$this->assertEquals( $expected_meta_description, $meta_description );
+	}
+
+	public function test_description_single_post_excerpt() {
+		// Creates the post
+		$post_id = $this->factory->post->create();
+		$this->go_to( get_permalink( $post_id ) );
 
 		// Checking with the excerpt
+		$expected = get_the_excerpt();
 		$excerpt = self::$class_instance->description( false );
-		$this->assertEquals( $expected_excerpt, $excerpt );
+
+		$this->assertEquals( $expected, $excerpt );
 	}
 
 	/**
@@ -323,7 +342,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 
 		// add tags to post
 		wp_set_post_tags( $post_id, 'Tag1, Tag2' );
-		$expected_tags = '<meta property="article:tag" content="Tag1" />' . "\n" . '<meta property="article:tag" content="Tag2" />' . "\n";
+		$expected_tags = '<meta property="article:tag" content="Tag1,Tag2" />' . "\n";
 
 		// test again, this time with tags
 		$this->assertTrue( self::$class_instance->tags() );
