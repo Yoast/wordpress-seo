@@ -500,6 +500,14 @@ if ( ! class_exists( 'WPSEO_Utils' ) ) {
 		}
 
 		/**
+		 * Clear entire XML sitemap cache
+		 */
+		public static function clear_sitemap_cache() {
+			global $wpdb;
+			$wpdb->query( "DELETE FROM $wpdb->options WHERE option_name LIKE '_transient_timeout_wpseo_sitemap_%' OR option_name LIKE '_transient_wpseo_sitemap_%'" );
+		}
+
+		/**
 		 * Do simple reliable math calculations without the risk of wrong results
 		 * @see http://floating-point-gui.de/
 		 * @see the big red warning on http://php.net/language.types.float.php

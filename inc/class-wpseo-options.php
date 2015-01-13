@@ -859,7 +859,6 @@ if ( ! class_exists( 'WPSEO_Option_Wpseo' ) ) {
 			return self::$instance;
 		}
 
-
 		/**
 		 * Validate the option
 		 *
@@ -2298,6 +2297,7 @@ if ( ! class_exists( 'WPSEO_Option_XML' ) ) {
 		protected function __construct() {
 			parent::__construct();
 			add_action( 'update_option_' . $this->option_name, array( 'WPSEO_Utils', 'clear_rewrites' ) );
+			add_action( 'update_option_' . $this->option_name, array( 'WPSEO_Utils', 'clear_sitemap_cache' ) );
 		}
 
 
@@ -2313,7 +2313,6 @@ if ( ! class_exists( 'WPSEO_Option_XML' ) ) {
 
 			return self::$instance;
 		}
-
 
 		/**
 		 * Add dynamically created default options based on available post types and taxonomies
@@ -2669,7 +2668,7 @@ if ( ! class_exists( 'WPSEO_Option_Social' ) ) {
 					case 'plus-publisher':
 					case 'og_default_image':
 					case 'og_frontpage_image':
-					if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
+						if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
 							$url = WPSEO_Utils::sanitize_url( $dirty[ $key ] );
 							if ( $url !== '' ) {
 								$clean[ $key ] = $url;
@@ -3717,7 +3716,7 @@ if ( ! class_exists( 'WPSEO_Options' ) ) {
 			   from the isolated activation */
 			require_once( WPSEO_PATH . 'inc/wpseo-non-ajax-functions.php' );
 
-//			wpseo_title_test();
+			//wpseo_title_test();
 			wpseo_description_test();
 
 			/* Force WooThemes to use WordPress SEO data. */

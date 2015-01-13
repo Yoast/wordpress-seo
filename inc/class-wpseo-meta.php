@@ -277,7 +277,8 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 					'opengraph'  => 'opengraph',
 					'twitter'    => 'twitter',
 					'googleplus' => 'google-plus',
-				) as $option => $network ) {
+				) as $option => $network
+			) {
 				if ( true === $options[$option] ) {
 					foreach (
 						array(
@@ -997,7 +998,7 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 			}
 			return $merged;
 		}
-		
+
 		/**
 		 * Get a value from $_POST for a given key
 		 * Returns the $_POST value if exists, returns an empty string if key does not exist

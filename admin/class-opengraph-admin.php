@@ -104,12 +104,15 @@ if ( ! class_exists( 'WPSEO_Social_Admin' ) ) {
 		public function og_data_compare( $post ) {
 
 			// Check if post data is available, if post_id is set and if original post_status is publish
-			if ( ! empty( $_POST ) && ! empty( $post->ID ) && $post->post_status == 'publish' && $_POST['original_post_status'] === 'publish' ) {
+			if (
+				! empty( $_POST ) && ! empty( $post->ID ) && $post->post_status == 'publish' &&
+				isset ( $_POST['original_post_status'] ) && $_POST['original_post_status'] === 'publish'
+			) {
 
 				$fields_to_compare = array(
 					'opengraph-title',
 					'opengraph-description',
-					'opengraph-image'
+					'opengraph-image',
 				);
 
 				$reset_facebook_cache = false;
