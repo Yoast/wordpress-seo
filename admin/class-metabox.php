@@ -643,7 +643,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		 * @return  bool|void   Boolean false if invalid save post request
 		 */
 		function save_postdata( $post_id ) {
-			if ( $post_id === null ) {
+			if ( $post_id === null || $post_id != get_the_ID() ) {
 				return false;
 			}
 
