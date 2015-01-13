@@ -59,7 +59,7 @@ if ( ! class_exists( 'WPSEO_Admin_Pages' ) ) {
 
 			$this->adminpages = apply_filters( 'wpseo_admin_pages', $this->adminpages );
 
-			if ( WPSEO_Options::grant_access() ) {
+			if ( WPSEO_Utils::grant_access() ) {
 				add_action( 'admin_enqueue_scripts', array( $this, 'config_page_scripts' ) );
 				add_action( 'admin_enqueue_scripts', array( $this, 'config_page_styles' ) );
 			}

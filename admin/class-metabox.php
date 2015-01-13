@@ -193,7 +193,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 		 */
 		private function get_metabox_post() {
 			if ( isset( $_GET['post'] ) ) {
-				$post_id = (int) WPSEO_Option::validate_int( $_GET['post'] );
+				$post_id = (int) WPSEO_Utils::validate_int( $_GET['post'] );
 				$post    = get_post( $post_id );
 			} else {
 				global $post;
@@ -264,10 +264,10 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 					$score_label = 'na';
 					$title       = __( 'No focus keyword set.', 'wordpress-seo' );
 				} else {
-					$score_label = wpseo_translate_score( $score );
+					$score_label = WPSEO_Utils::translate_score( $score );
 				}
 
-				$score_title = wpseo_translate_score( $score, false );
+				$score_title = WPSEO_Utils::translate_score( $score, false );
 				if ( ! isset( $title ) ) {
 					$title = $score_title;
 				}
@@ -712,7 +712,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 				}
 				wp_enqueue_style( 'metabox-tabs', plugins_url( 'css/metabox-tabs' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
 				wp_enqueue_style( "metabox-$color", plugins_url( 'css/metabox-' . esc_attr( $color ) . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
-				wp_enqueue_style( "jquery-qtip.js", plugins_url( 'css/jquery.qtip' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), '2.2.1' );
+				wp_enqueue_style( 'jquery-qtip.js', plugins_url( 'css/jquery.qtip' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), '2.2.1' );
 
 				wp_enqueue_script( 'jquery-ui-autocomplete' );
 
@@ -812,9 +812,9 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 					$title       = __( 'Post is set to noindex.', 'wordpress-seo' );
 					self::set_value( 'linkdex', 0, $post_id );
 				} elseif ( $score !== '' ) {
-					$nr          = wpseo_calc( $score, '/', 10, true );
-					$score_label = wpseo_translate_score( $nr );
-					$title       = wpseo_translate_score( $nr, false );
+					$nr          = WPSEO_Utils::calc( $score, '/', 10, true );
+					$score_label = WPSEO_Utils::translate_score( $nr );
+					$title       = WPSEO_Utils::translate_score( $nr, false );
 					unset( $nr );
 				} else {
 					$this->calculate_results( get_post( $post_id ) );
@@ -823,8 +823,8 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 						$score_label = 'na';
 						$title       = __( 'Focus keyword not set.', 'wordpress-seo' );
 					} else {
-						$score_label = wpseo_translate_score( $score );
-						$title       = wpseo_translate_score( $score, false );
+						$score_label = WPSEO_Utils::translate_score( $score );
+						$title       = WPSEO_Utils::translate_score( $score, false );
 					}
 				}
 
@@ -1096,7 +1096,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 
 				foreach ( $results as $result ) {
 					if ( is_array( $result ) ) {
-						$score = wpseo_translate_score( $result['val'] );
+						$score = WPSEO_Utils::translate_score( $result['val'] );
 						$output .= '<tr><td class="score"><div class="' . esc_attr( 'wpseo-score-icon ' . $score ) . '"></div></td><td>' . $result['msg'] . '</td></tr>';
 					}
 				}
@@ -1277,7 +1277,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			if ( $overall < 1 ) {
 				$overall = 1;
 			}
-			$score = wpseo_calc( wpseo_calc( $overall, '/', $overall_max ), '*', 100, true );
+			$score = WPSEO_Utils::calc( WPSEO_Utils::calc( $overall, '/', $overall_max ), '*', 100, true );
 
 			if ( ! is_wp_error( $score ) ) {
 				self::set_value( 'linkdex', absint( $score ), $post->ID );
@@ -1342,7 +1342,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			$inputString = str_replace( $keywordCharactersAlwaysReplacedBySpace, ' ', $inputString );
 
 			// standardise whitespace
-			$inputString = wpseo_standardize_whitespace( $inputString );
+			$inputString = WPSEO_Utils::standardize_whitespace( $inputString );
 
 			// deal with the separators that can be either removed or replaced by space
 			if ( $removeOptionalCharacters ) {
@@ -1355,7 +1355,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 			}
 
 			// standardise whitespace again
-			$inputString = wpseo_standardize_whitespace( $inputString );
+			$inputString = WPSEO_Utils::standardize_whitespace( $inputString );
 
 			return trim( $inputString );
 		}
@@ -1580,7 +1580,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 					if ( $dom_object->attributes->getNamedItem( 'href' ) ) {
 						$href  = $dom_object->attributes->getNamedItem( 'href' )->textContent;
 						$wpurl = get_bloginfo( 'url' );
-						if ( wpseo_is_url_relative( $href ) === true || substr( $href, 0, strlen( $wpurl ) ) === $wpurl ) {
+						if ( WPSEO_Utils::is_url_relative( $href ) === true || substr( $href, 0, strlen( $wpurl ) ) === $wpurl ) {
 							$type = 'internal';
 						} elseif ( substr( $href, 0, 4 ) == 'http' ) {
 							$type = 'external';
@@ -1848,7 +1848,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 				if ( $wordCount > 100 ) {
 					$keywordCount = preg_match_all( '`\b' . preg_quote( $job['keyword'], '`' ) . '\b`miu', $body, $res );
 					if ( ( $keywordCount > 0 && $keywordWordCount > 0 ) && $wordCount > $keywordCount ) {
-						$keywordDensity = wpseo_calc( wpseo_calc( $keywordCount, '/', wpseo_calc( $wordCount, '-', ( wpseo_calc( wpseo_calc( $keywordWordCount, '-', 1 ), '*', $keywordCount ) ) ) ), '*', 100, true, 2 );
+						$keywordDensity = WPSEO_Utils::calc( WPSEO_Utils::calc( $keywordCount, '/', WPSEO_Utils::calc( $wordCount, '-', ( WPSEO_Utils::calc( WPSEO_Utils::calc( $keywordWordCount, '-', 1 ), '*', $keywordCount ) ) ) ), '*', 100, true, 2 );
 					}
 					if ( $keywordDensity < 1 ) {
 						$this->save_score_result( $results, 4, sprintf( $scoreKeywordDensityLow, $keywordDensity, $keywordCount ), 'keyword_density' );
@@ -1921,7 +1921,7 @@ if ( ! class_exists( 'WPSEO_Metabox' ) ) {
 
 			// Strip shortcodes, for obvious reasons, if plugins think their content should be in the analysis, they should
 			// hook into the above filter.
-			$post_content = wpseo_strip_shortcode( $post_content );
+			$post_content = WPSEO_Utils::strip_shortcode( $post_content );
 
 			if ( trim( $post_content ) == '' ) {
 				return '';
