@@ -96,7 +96,7 @@ function wpseo_auto_load( $class ) {
 
 	$cn = strtolower( $class );
 
-	if ( isset( $classes[ $cn ] ) ) {
+	if ( ! class_exists( $class ) && isset( $classes[ $cn ] ) ) {
 		require_once( $classes[ $cn ] );
 	}
 }
