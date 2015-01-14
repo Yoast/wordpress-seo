@@ -503,7 +503,7 @@ class WPSEO_Utils {
 
 		$query = "DELETE FROM $wpdb->options WHERE";
 
-		if( !empty($types) ) {
+		if( ! empty( $types ) ) {
 			$first = true;
 
 			foreach ( $types as $sitemap_type ) {
@@ -516,7 +516,7 @@ class WPSEO_Utils {
 				$first = false;
 			}
 		}
-		else{
+		else {
 			$query .= " option_name LIKE '_transient_timeout_wpseo_sitemap_%'";
 		}
 
