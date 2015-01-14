@@ -1,7 +1,7 @@
 <?php
 /**
-* @package Internals
-*/
+ * @package Internals
+ */
 
 /**
  * Group of utility methods for use by WPSEO
@@ -16,7 +16,7 @@ class WPSEO_Utils {
 
 	/**
 	 * @static
-	 * @var bool $has_filters  Whether the PHP filter extension is enabled
+	 * @var bool $has_filters Whether the PHP filter extension is enabled
 	 */
 	public static $has_filters;
 
@@ -66,6 +66,7 @@ class WPSEO_Utils {
 		 *
 		 * @api bool $allowed Whether file editing is allowed
 		 */
+
 		return apply_filters( 'wpseo_allow_system_file_edit', $allowed );
 	}
 
@@ -80,6 +81,7 @@ class WPSEO_Utils {
 		if ( isset( $_SERVER['SERVER_SOFTWARE'] ) && stristr( $_SERVER['SERVER_SOFTWARE'], 'apache' ) !== false ) {
 			return true;
 		}
+
 		return false;
 	}
 
@@ -94,6 +96,7 @@ class WPSEO_Utils {
 		if ( isset( $_SERVER['SERVER_SOFTWARE'] ) && stristr( $_SERVER['SERVER_SOFTWARE'], 'nginx' ) !== false ) {
 			return true;
 		}
+
 		return false;
 	}
 
@@ -272,6 +275,7 @@ class WPSEO_Utils {
 		 * @param string $filtered The sanitized string.
 		 * @param string $str      The string prior to being sanitized.
 		 */
+
 		return apply_filters( 'sanitize_text_field', $filtered, $value );
 	}
 
@@ -369,7 +373,6 @@ class WPSEO_Utils {
 				return false;
 			}
 		}
-
 		return false;
 	}
 
@@ -424,7 +427,6 @@ class WPSEO_Utils {
 				return false;
 			}
 		}
-
 		return false;
 	}
 
@@ -493,16 +495,38 @@ class WPSEO_Utils {
 
 	/**
 	 * Clear entire XML sitemap cache
+	 *
+	 * @param array $types
 	 */
-	public static function clear_sitemap_cache() {
+	public static function clear_sitemap_cache( $types = array() ) {
 		global $wpdb;
-		$wpdb->query( "DELETE FROM $wpdb->options WHERE option_name LIKE '_transient_timeout_wpseo_sitemap_%' OR option_name LIKE '_transient_wpseo_sitemap_%'" );
+
+		$query = "DELETE FROM $wpdb->options WHERE";
+
+		if ( ! empty( $types ) ) {
+			$first = true;
+
+			foreach ( $types as $sitemap_type ) {
+				if ( ! $first ) {
+					$query .= ' OR ';
+				}
+
+				$query .= " option_name LIKE '_transient_timeout_wpseo_sitemap_cache_" . $sitemap_type . "_%'";
+
+				$first = false;
+			}
+		}
+		else {
+			$query .= " option_name LIKE '_transient_timeout_wpseo_sitemap_%'";
+		}
+
+		$wpdb->query( $query );
 	}
 
 	/**
 	 * Do simple reliable math calculations without the risk of wrong results
-	 * @see http://floating-point-gui.de/
-	 * @see the big red warning on http://php.net/language.types.float.php
+	 * @see   http://floating-point-gui.de/
+	 * @see   the big red warning on http://php.net/language.types.float.php
 	 *
 	 * In the rare case that the bcmath extension would not be loaded, it will return the normal calculation results
 	 *
@@ -510,25 +534,25 @@ class WPSEO_Utils {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @param	mixed   $number1    Scalar (string/int/float/bool)
-	 * @param	string	$action		Calculation action to execute. Valid input:
-	 *								'+' or 'add' or 'addition',
-	 *								'-' or 'sub' or 'subtract',
-	 *								'*' or 'mul' or 'multiply',
-	 *								'/' or 'div' or 'divide',
-	 *								'%' or 'mod' or 'modulus'
-	 *								'=' or 'comp' or 'compare'
-	 * @param	mixed	$number2    Scalar (string/int/float/bool)
-	 * @param	bool	$round		Whether or not to round the result. Defaults to false.
-	 *								Will be disregarded for a compare operation
-	 * @param	int		$decimals	Decimals for rounding operation. Defaults to 0.
-	 * @param	int		$precision	Calculation precision. Defaults to 10.
+	 * @param    mixed  $number1      Scalar (string/int/float/bool)
+	 * @param    string $action       Calculation action to execute. Valid input:
+	 *                                '+' or 'add' or 'addition',
+	 *                                '-' or 'sub' or 'subtract',
+	 *                                '*' or 'mul' or 'multiply',
+	 *                                '/' or 'div' or 'divide',
+	 *                                '%' or 'mod' or 'modulus'
+	 *                                '=' or 'comp' or 'compare'
+	 * @param    mixed  $number2      Scalar (string/int/float/bool)
+	 * @param    bool   $round        Whether or not to round the result. Defaults to false.
+	 *                                Will be disregarded for a compare operation
+	 * @param    int    $decimals     Decimals for rounding operation. Defaults to 0.
+	 * @param    int    $precision    Calculation precision. Defaults to 10.
 	 *
-	 * @return	mixed				Calculation Result or false if either or the numbers isn't scalar or
-	 *								an invalid operation was passed
-	 *								- for compare the result will always be an integer
-	 *								- for all other operations, the result will either be an integer (preferred)
-	 *								or a float
+	 * @return    mixed                Calculation Result or false if either or the numbers isn't scalar or
+	 *                                an invalid operation was passed
+	 *                                - for compare the result will always be an integer
+	 *                                - for all other operations, the result will either be an integer (preferred)
+	 *                                or a float
 	 */
 	public static function calc( $number1, $action, $number2, $round = false, $decimals = 0, $precision = 10 ) {
 		static $bc;
@@ -604,9 +628,8 @@ class WPSEO_Utils {
 				$compare = true;
 				if ( $bc ) {
 					$result = bccomp( $number1, $number2, $precision ); // returns int 0, 1 or -1
-				}
-				else {
-					$result = ( $number1 == $number2 ) ? 0 : ( ( $number1 > $number2 ) ? 1 : -1 );
+				} else {
+					$result = ( $number1 == $number2 ) ? 0 : ( ( $number1 > $number2 ) ? 1 : - 1 );
 				}
 				break;
 		}
@@ -618,13 +641,14 @@ class WPSEO_Utils {
 					if ( $decimals === 0 ) {
 						$result = (int) $result;
 					}
-				}
-				else {
+				} else {
 					$result = ( intval( $result ) == $result ) ? intval( $result ) : floatval( $result );
 				}
 			}
+
 			return $result;
 		}
+
 		return false;
 	}
 
@@ -675,19 +699,6 @@ class WPSEO_Utils {
 					return (string) $out;
 					break;
 			}
-		}
-	}
-
-	/**
-	 * Invalidate sitemap type with number, will remove the following cached objects:
-	 * wpseo_sitemap_cache_%%type%%_1, wpseo_sitemap_cache_%%type%%_2 etc.
-	 *
-	 * @param string $type
-	 * @param int    $sitemaps
-	 */
-	public static function wpseo_invalidate_sitemap_cache_number( $type, $sitemaps ) {
-		for ( $number = 1; $number <= $sitemaps; $number ++ ) {
-			delete_transient( 'wpseo_sitemap_cache_' . $type . '_' . $number );
 		}
 	}
 
