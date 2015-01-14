@@ -359,29 +359,20 @@ class WPSEO_Utils {
 
 		if ( is_bool( $value ) ) {
 			return $value;
-		} else {
-			if ( is_int( $value ) && ( $value === 0 || $value === 1 ) ) {
-				return (bool) $value;
+		} else if ( is_int( $value ) && ( $value === 0 || $value === 1 ) ) {
+			return (bool) $value;
+		} else if ( ( is_float( $value ) && ! is_nan( $value ) ) && ( $value === (float) 0 || $value === (float) 1 ) ) {
+			return (bool) $value;
+		} else if ( is_string( $value ) ) {
+			$value = trim( $value );
+			if ( in_array( $value, $true, true ) ) {
+				return true;
+			} else if ( in_array( $value, $false, true ) ) {
+				return false;
 			} else {
-				if ( ( is_float( $value ) && ! is_nan( $value ) ) && ( $value === (float) 0 || $value === (float) 1 ) ) {
-					return (bool) $value;
-				} else {
-					if ( is_string( $value ) ) {
-						$value = trim( $value );
-						if ( in_array( $value, $true, true ) ) {
-							return true;
-						} else {
-							if ( in_array( $value, $false, true ) ) {
-								return false;
-							} else {
-								return false;
-							}
-						}
-					}
-				}
+				return false;
 			}
 		}
-
 		return false;
 	}
 
@@ -418,33 +409,24 @@ class WPSEO_Utils {
 	public static function emulate_filter_int( $value ) {
 		if ( is_int( $value ) ) {
 			return $value;
-		} else {
-			if ( is_float( $value ) ) {
-				if ( (int) $value == $value && ! is_nan( $value ) ) {
-					return (int) $value;
-				} else {
-					return false;
-				}
+		} else if ( is_float( $value ) ) {
+			if ( (int) $value == $value && ! is_nan( $value ) ) {
+				return (int) $value;
 			} else {
-				if ( is_string( $value ) ) {
-					$value = trim( $value );
-					if ( $value === '' ) {
-						return false;
-					} else {
-						if ( ctype_digit( $value ) ) {
-							return (int) $value;
-						} else {
-							if ( strpos( $value, '-' ) === 0 && ctype_digit( substr( $value, 1 ) ) ) {
-								return (int) $value;
-							} else {
-								return false;
-							}
-						}
-					}
-				}
+				return false;
+			}
+		} else if ( is_string( $value ) ) {
+			$value = trim( $value );
+			if ( $value === '' ) {
+				return false;
+			} else if ( ctype_digit( $value ) ) {
+				return (int) $value;
+			} else if ( strpos( $value, '-' ) === 0 && ctype_digit( substr( $value, 1 ) ) ) {
+				return (int) $value;
+			} else {
+				return false;
 			}
 		}
-
 		return false;
 	}
 
@@ -615,7 +597,8 @@ class WPSEO_Utils {
 			case 'divide':
 				if ( $bc ) {
 					$result = bcdiv( $number1, $number2, $precision ); // string, or NULL if right_operand is 0
-				} elseif ( $number2 != 0 ) {
+				}
+				elseif ( $number2 != 0 ) {
 					$result = $number1 / $number2;
 				}
 
@@ -629,7 +612,8 @@ class WPSEO_Utils {
 			case 'modulus':
 				if ( $bc ) {
 					$result = bcmod( $number1, $number2, $precision ); // string, or NULL if modulus is 0.
-				} elseif ( $number2 != 0 ) {
+				}
+				elseif ( $number2 != 0 ) {
 					$result = $number1 % $number2;
 				}
 
