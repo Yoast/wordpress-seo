@@ -658,8 +658,8 @@ class WPSEO_Utils {
 					break;
 			}
 
-			if ( isset( $type[ $variable_name ] ) ) {
-				$out = $type[ $variable_name ];
+			if ( isset( $type[$variable_name] ) ) {
+				$out = $type[$variable_name];
 			} else {
 				return false;
 			}
@@ -677,4 +677,18 @@ class WPSEO_Utils {
 			}
 		}
 	}
+
+	/**
+	 * Invalidate sitemap type with number, will remove the following cached objects:
+	 * wpseo_sitemap_cache_%%type%%_1, wpseo_sitemap_cache_%%type%%_2 etc.
+	 *
+	 * @param string $type
+	 * @param int    $sitemaps
+	 */
+	public static function wpseo_invalidate_sitemap_cache_number( $type, $sitemaps ) {
+		for ( $number = 1; $number <= $sitemaps; $number ++ ) {
+			delete_transient( 'wpseo_sitemap_cache_' . $type . '_' . $number );
+		}
+	}
+
 } /* End of class WPSEO_Utils */
