@@ -319,12 +319,12 @@ class WPSEO_Pointers {
 						<?php echo $button_array['button1']['function']; ?>
 						<?php } ?>
 					});
-					<?php } else {if ( $button_array['button3']['text'] ) { ?>
+					<?php } else if ( $button_array['button3']['text'] ) { ?>
 					jQuery('#pointer-close').after('<a id="pointer-ternary" style="float: left;" class="button-secondary">' + '<?php echo $button_array['button3']['text']; ?>' + '</a>');
 					jQuery('#pointer-ternary').click(function () {
 						<?php echo $button_array['button3']['function']; ?>
 					});
-					<?php }} ?>
+					<?php } ?>
 				};
 
 				if (wpseo_pointer_options.position && wpseo_pointer_options.position.defer_loading)

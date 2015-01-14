@@ -135,17 +135,16 @@ abstract class WPSEO_Option {
 			} else { // adding back after WP 3.7 UPDATE
 				add_filter( 'pre_update_option_' . $this->option_name, array( $this, 'wp37_add_default_filters' ) );
 			}
-		} else {
-			if ( is_multisite() ) {
-				/* The option validation routines remove the default filters to prevent failing
-				   to insert an option if it's new. Let's add them back afterwards.
+		} else if ( is_multisite() ) {
+			/* The option validation routines remove the default filters to prevent failing
+			   to insert an option if it's new. Let's add them back afterwards.
 
-				   For site_options, this method is not foolproof as these actions are not fired
-				   on an insert/update failure. Please use the WPSEO_Options::update_site_option() method
-				   for updating site options to make sure the filters are in place. */
-				add_action( 'add_site_option_' . $this->option_name, array( $this, 'add_default_filters' ) );
-				add_action( 'update_site_option_' . $this->option_name, array( $this, 'add_default_filters' ) );
-			}
+			   For site_options, this method is not foolproof as these actions are not fired
+			   on an insert/update failure. Please use the WPSEO_Options::update_site_option() method
+			   for updating site options to make sure the filters are in place. */
+			add_action( 'add_site_option_' . $this->option_name, array( $this, 'add_default_filters' ) );
+			add_action( 'update_site_option_' . $this->option_name, array( $this, 'add_default_filters' ) );
+
 		}
 
 
@@ -3727,10 +3726,8 @@ class WPSEO_Options {
 			if ( $option['ms_defaults_set'] === false ) {
 				self::reset_ms_blog( get_current_blog_id() );
 				self::initialize();
-			} else {
-				if ( $force_init === true ) {
-					self::initialize();
-				}
+			} else if ( $force_init === true ) {
+				self::initialize();
 			}
 		}
 	}
