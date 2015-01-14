@@ -404,7 +404,7 @@ function wpseo_invalidate_sitemap_cache( $type ) {
 
 	$sitemaps = get_query_var( 'sitemap_n' );
 	if ( is_scalar( $sitemaps ) && intval( $sitemaps ) > 0 ) {
-		wpseo_invalidate_sitemap_cache_number( $type, $sitemaps );
+		WPSEO_Utils::wpseo_invalidate_sitemap_cache_number( $type, $sitemaps );
 	}
 
 }

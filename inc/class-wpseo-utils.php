@@ -24,7 +24,7 @@ if ( ! class_exists( 'WPSEO_Utils' ) ) {
 
 		/**
 		 * @static
-		 * @var bool $has_filters  Whether the PHP filter extension is enabled
+		 * @var bool $has_filters Whether the PHP filter extension is enabled
 		 */
 		public static $has_filters;
 
@@ -74,6 +74,7 @@ if ( ! class_exists( 'WPSEO_Utils' ) ) {
 			 *
 			 * @api bool $allowed Whether file editing is allowed
 			 */
+
 			return apply_filters( 'wpseo_allow_system_file_edit', $allowed );
 		}
 
@@ -88,6 +89,7 @@ if ( ! class_exists( 'WPSEO_Utils' ) ) {
 			if ( isset( $_SERVER['SERVER_SOFTWARE'] ) && stristr( $_SERVER['SERVER_SOFTWARE'], 'apache' ) !== false ) {
 				return true;
 			}
+
 			return false;
 		}
 
@@ -102,6 +104,7 @@ if ( ! class_exists( 'WPSEO_Utils' ) ) {
 			if ( isset( $_SERVER['SERVER_SOFTWARE'] ) && stristr( $_SERVER['SERVER_SOFTWARE'], 'nginx' ) !== false ) {
 				return true;
 			}
+
 			return false;
 		}
 
@@ -280,6 +283,7 @@ if ( ! class_exists( 'WPSEO_Utils' ) ) {
 			 * @param string $filtered The sanitized string.
 			 * @param string $str      The string prior to being sanitized.
 			 */
+
 			return apply_filters( 'sanitize_text_field', $filtered, $value );
 		}
 
@@ -363,18 +367,26 @@ if ( ! class_exists( 'WPSEO_Utils' ) ) {
 
 			if ( is_bool( $value ) ) {
 				return $value;
-			} else if ( is_int( $value ) && ( $value === 0 || $value === 1 ) ) {
-				return (bool) $value;
-			} else if ( ( is_float( $value ) && ! is_nan( $value ) ) && ( $value === (float) 0 || $value === (float) 1 ) ) {
-				return (bool) $value;
-			} else if ( is_string( $value ) ) {
-				$value = trim( $value );
-				if ( in_array( $value, $true, true ) ) {
-					return true;
-				} else if ( in_array( $value, $false, true ) ) {
-					return false;
+			} else {
+				if ( is_int( $value ) && ( $value === 0 || $value === 1 ) ) {
+					return (bool) $value;
 				} else {
-					return false;
+					if ( ( is_float( $value ) && ! is_nan( $value ) ) && ( $value === (float) 0 || $value === (float) 1 ) ) {
+						return (bool) $value;
+					} else {
+						if ( is_string( $value ) ) {
+							$value = trim( $value );
+							if ( in_array( $value, $true, true ) ) {
+								return true;
+							} else {
+								if ( in_array( $value, $false, true ) ) {
+									return false;
+								} else {
+									return false;
+								}
+							}
+						}
+					}
 				}
 			}
 
@@ -414,22 +426,30 @@ if ( ! class_exists( 'WPSEO_Utils' ) ) {
 		public static function emulate_filter_int( $value ) {
 			if ( is_int( $value ) ) {
 				return $value;
-			} else if ( is_float( $value ) ) {
-				if ( (int) $value == $value && ! is_nan( $value ) ) {
-					return (int) $value;
+			} else {
+				if ( is_float( $value ) ) {
+					if ( (int) $value == $value && ! is_nan( $value ) ) {
+						return (int) $value;
+					} else {
+						return false;
+					}
 				} else {
-					return false;
-				}
-			} else if ( is_string( $value ) ) {
-				$value = trim( $value );
-				if ( $value === '' ) {
-					return false;
-				} else if ( ctype_digit( $value ) ) {
-					return (int) $value;
-				} else if ( strpos( $value, '-' ) === 0 && ctype_digit( substr( $value, 1 ) ) ) {
-					return (int) $value;
-				} else {
-					return false;
+					if ( is_string( $value ) ) {
+						$value = trim( $value );
+						if ( $value === '' ) {
+							return false;
+						} else {
+							if ( ctype_digit( $value ) ) {
+								return (int) $value;
+							} else {
+								if ( strpos( $value, '-' ) === 0 && ctype_digit( substr( $value, 1 ) ) ) {
+									return (int) $value;
+								} else {
+									return false;
+								}
+							}
+						}
+					}
 				}
 			}
 
@@ -509,8 +529,8 @@ if ( ! class_exists( 'WPSEO_Utils' ) ) {
 
 		/**
 		 * Do simple reliable math calculations without the risk of wrong results
-		 * @see http://floating-point-gui.de/
-		 * @see the big red warning on http://php.net/language.types.float.php
+		 * @see   http://floating-point-gui.de/
+		 * @see   the big red warning on http://php.net/language.types.float.php
 		 *
 		 * In the rare case that the bcmath extension would not be loaded, it will return the normal calculation results
 		 *
@@ -518,25 +538,25 @@ if ( ! class_exists( 'WPSEO_Utils' ) ) {
 		 *
 		 * @since 1.5.0
 		 *
-		 * @param	mixed   $number1    Scalar (string/int/float/bool)
-		 * @param	string	$action		Calculation action to execute. Valid input:
-		 *								'+' or 'add' or 'addition',
-		 *								'-' or 'sub' or 'subtract',
-		 *								'*' or 'mul' or 'multiply',
-		 *								'/' or 'div' or 'divide',
-		 *								'%' or 'mod' or 'modulus'
-		 *								'=' or 'comp' or 'compare'
-		 * @param	mixed	$number2    Scalar (string/int/float/bool)
-		 * @param	bool	$round		Whether or not to round the result. Defaults to false.
-		 *								Will be disregarded for a compare operation
-		 * @param	int		$decimals	Decimals for rounding operation. Defaults to 0.
-		 * @param	int		$precision	Calculation precision. Defaults to 10.
+		 * @param    mixed  $number1      Scalar (string/int/float/bool)
+		 * @param    string $action       Calculation action to execute. Valid input:
+		 *                                '+' or 'add' or 'addition',
+		 *                                '-' or 'sub' or 'subtract',
+		 *                                '*' or 'mul' or 'multiply',
+		 *                                '/' or 'div' or 'divide',
+		 *                                '%' or 'mod' or 'modulus'
+		 *                                '=' or 'comp' or 'compare'
+		 * @param    mixed  $number2      Scalar (string/int/float/bool)
+		 * @param    bool   $round        Whether or not to round the result. Defaults to false.
+		 *                                Will be disregarded for a compare operation
+		 * @param    int    $decimals     Decimals for rounding operation. Defaults to 0.
+		 * @param    int    $precision    Calculation precision. Defaults to 10.
 		 *
-		 * @return	mixed				Calculation Result or false if either or the numbers isn't scalar or
-		 *								an invalid operation was passed
-		 *								- for compare the result will always be an integer
-		 *								- for all other operations, the result will either be an integer (preferred)
-		 *								or a float
+		 * @return    mixed                Calculation Result or false if either or the numbers isn't scalar or
+		 *                                an invalid operation was passed
+		 *                                - for compare the result will always be an integer
+		 *                                - for all other operations, the result will either be an integer (preferred)
+		 *                                or a float
 		 */
 		public static function calc( $number1, $action, $number2, $round = false, $decimals = 0, $precision = 10 ) {
 			static $bc;
@@ -581,8 +601,7 @@ if ( ! class_exists( 'WPSEO_Utils' ) ) {
 				case 'divide':
 					if ( $bc ) {
 						$result = bcdiv( $number1, $number2, $precision ); // string, or NULL if right_operand is 0
-					}
-					elseif ( $number2 != 0 ) {
+					} elseif ( $number2 != 0 ) {
 						$result = $number1 / $number2;
 					}
 
@@ -596,8 +615,7 @@ if ( ! class_exists( 'WPSEO_Utils' ) ) {
 				case 'modulus':
 					if ( $bc ) {
 						$result = bcmod( $number1, $number2, $precision ); // string, or NULL if modulus is 0.
-					}
-					elseif ( $number2 != 0 ) {
+					} elseif ( $number2 != 0 ) {
 						$result = $number1 % $number2;
 					}
 
@@ -612,9 +630,8 @@ if ( ! class_exists( 'WPSEO_Utils' ) ) {
 					$compare = true;
 					if ( $bc ) {
 						$result = bccomp( $number1, $number2, $precision ); // returns int 0, 1 or -1
-					}
-					else {
-						$result = ( $number1 == $number2 ) ? 0 : ( ( $number1 > $number2 ) ? 1 : -1 );
+					} else {
+						$result = ( $number1 == $number2 ) ? 0 : ( ( $number1 > $number2 ) ? 1 : - 1 );
 					}
 					break;
 			}
@@ -626,13 +643,14 @@ if ( ! class_exists( 'WPSEO_Utils' ) ) {
 						if ( $decimals === 0 ) {
 							$result = (int) $result;
 						}
-					}
-					else {
+					} else {
 						$result = ( intval( $result ) == $result ) ? intval( $result ) : floatval( $result );
 					}
 				}
+
 				return $result;
 			}
+
 			return false;
 		}
 
@@ -666,8 +684,8 @@ if ( ! class_exists( 'WPSEO_Utils' ) ) {
 						break;
 				}
 
-				if ( isset( $type[ $variable_name ] ) ) {
-					$out = $type[ $variable_name ];
+				if ( isset( $type[$variable_name] ) ) {
+					$out = $type[$variable_name];
 				} else {
 					return false;
 				}
@@ -685,6 +703,20 @@ if ( ! class_exists( 'WPSEO_Utils' ) ) {
 				}
 			}
 		}
+
+		/**
+		 * Invalidate sitemap type with number, will remove the following cached objects:
+		 * wpseo_sitemap_cache_%%type%%_1, wpseo_sitemap_cache_%%type%%_2 etc.
+		 *
+		 * @param string $type
+		 * @param int    $sitemaps
+		 */
+		public static function wpseo_invalidate_sitemap_cache_number( $type, $sitemaps ) {
+			for ( $number = 1; $number <= $sitemaps; $number ++ ) {
+				delete_transient( 'wpseo_sitemap_cache_' . $type . '_' . $number );
+			}
+		}
+
 	} /* End of class WPSEO_Utils */
 
 } /* End of class-exists wrapper */
