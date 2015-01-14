@@ -402,11 +402,7 @@ function wpseo_invalidate_sitemap_cache( $type ) {
 	delete_transient( 'wpseo_sitemap_cache_1' );
 	delete_transient( 'wpseo_sitemap_cache_' . $type );
 
-	$sitemaps = get_query_var( 'sitemap_n' );
-	if ( is_scalar( $sitemaps ) && intval( $sitemaps ) > 0 ) {
-		WPSEO_Utils::wpseo_invalidate_sitemap_cache_number( $type, $sitemaps );
-	}
-
+	WPSEO_Utils::clear_sitemap_cache( array( $type ) );
 }
 
 add_action( 'deleted_term_relationships', 'wpseo_invalidate_sitemap_cache' );
