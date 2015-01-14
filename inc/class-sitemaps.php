@@ -691,6 +691,7 @@ class WPSEO_Sitemaps {
 		if ( isset( $parsed_home['host'] ) && ! empty( $parsed_home['host'] ) ) {
 			$host = str_replace( 'www.', '', $parsed_home['host'] );
 		}
+		$allowed_hosts = apply_filters( 'wpseo_xml_sitemap_allowed_hosts', array( $host ) );
 		if ( isset( $parsed_home['scheme'] ) && ! empty( $parsed_home['scheme'] ) ) {
 			$scheme = $parsed_home['scheme'];
 		}
@@ -775,7 +776,7 @@ class WPSEO_Sitemaps {
 					 * Do not include external URLs.
 					 * @see https://wordpress.org/plugins/page-links-to/ can rewrite permalinks to external URLs.
 					 */
-					if ( false === strpos( $url['loc'], $this->home_url ) ) {
+					if ( !in_array( strpos( parse_url( $url['loc'], PHP_URL_HOST ), $allowed_hosts ) ) ) {
 						continue;
 					}
 
