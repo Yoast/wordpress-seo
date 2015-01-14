@@ -503,7 +503,7 @@ class WPSEO_Utils {
 
 		$query = "DELETE FROM $wpdb->options WHERE";
 
-		if( ! empty( $types ) ) {
+		if ( ! empty( $types ) ) {
 			$first = true;
 
 			foreach ( $types as $sitemap_type ) {
