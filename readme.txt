@@ -122,10 +122,10 @@ Release Date: January 15th, 2015
 
 * Enhancements:
 	* Contains lots of performance optimizations, including removal of unnecessary inclusion and defined checks for every classfile, refactoring of frontend logic, cutting unnecessary inheritance chains et. al.
-	* Adds Twitter gallery cards
-	* Adds Twitter cards for non singular pages (including Homepage)
+	* Adds Twitter gallery cards.
+	* Adds Twitter cards for non singular pages (including Homepage).
 	* Allows archive titles & meta to be set on non public post types that do have a public archive, props [xeeeveee](https://github.com/xeeeveee).
-	* Huge performance gain for enrich_defaults, props []()
+	* Huge performance gain for `enrich_defaults()`, props [Koen Van den Wijngaert](https://github.com/vdwijngaert).
 	* Nextscripts removed from the OG conflict list.
 
 * Bugfixes:
