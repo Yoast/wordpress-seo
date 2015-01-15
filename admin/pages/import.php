@@ -227,7 +227,7 @@ if ( isset( $_POST['import'] ) || isset( $_GET['import'] ) ) {
 			if ( $options_aiosep['aiosp_ga_track_outbound_links'] == 'on' ) {
 				$ga_trackoutbound = 1;
 			}
-			if( $options_aiosep['aiosp_ga_anonymize_ip'] == 'on' ){
+			if ( $options_aiosep['aiosp_ga_anonymize_ip'] == 'on' ) {
 
 			}
 
@@ -240,12 +240,12 @@ if ( isset( $_POST['import'] ) || isset( $_GET['import'] ) ) {
 				'anonymize_ips'        => (int) $ga_anomip,
 			);
 
-			if( get_option('yst_ga') == false ){
+			if ( get_option( 'yst_ga' ) == false ) {
 				$options['ga_general']	= $ga_settings;
 				update_option( 'yst_ga', $options );
 			}
 
-			$plugin_install_nonce = wp_create_nonce('install-plugin_google-analytics-for-wordpress'); // Use the old name because that's the WordPress.org repo
+			$plugin_install_nonce = wp_create_nonce( 'install-plugin_google-analytics-for-wordpress' ); // Use the old name because that's the WordPress.org repo
 
 			$msg .= __( sprintf(
 				'All in One SEO data successfully imported. Would you like to %sdisable the All in One SEO plugin%s. You\'ve had Google Analytics enabled in All in One SEO, would you like to install our %sGoogle Analytics plugin%s?',
@@ -345,10 +345,10 @@ if ( isset( $_POST['import'] ) || isset( $_GET['import'] ) ) {
 
 	// Check if we've deleted old data and adjust message to match it
 	if ( $replace ) {
-		$msg .= __( ', and old data deleted.', 'wordpress-seo' );
+		$msg .= ' ' . __( 'The old data of the imported plugin was deleted successfully.', 'wordpress-seo' );
 	}
 	if ( $deletekw ) {
-		$msg .= __( ', and meta keywords data deleted.', 'wordpress-seo' );
+		$msg .= ' ' . __( 'The old meta keywords data was deleted.', 'wordpress-seo' );
 	}
 }
 

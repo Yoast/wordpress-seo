@@ -4,9 +4,9 @@ Donate link: https://yoast.com/
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: seo, SEO, Yoast SEO, google, meta, meta description, search engine optimization, xml sitemap, xml sitemaps, google sitemap, sitemap, sitemaps, robots meta, rss, rss footer, yahoo, bing, news sitemaps, XML News Sitemaps, WordPress SEO, WordPress SEO by Yoast, yoast, multisite, canonical, nofollow, noindex, keywords, meta keywords, description, webmaster tools, google webmaster tools, seo pack
-Requires at least: 3.8
+Requires at least: 3.9
 Tested up to: 4.0
-Stable tag: 1.7
+Stable tag: 1.7.1
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using Yoast's WordPress SEO plugin.
 
@@ -115,6 +115,31 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 7. The advanced section of the WordPress SEO meta box.
 
 == Changelog ==
+
+= 1.8-beta =
+
+Release Date: January 15th, 2015
+
+* Enhancements:
+	* Contains lots of performance optimizations, including removal of unnecessary inclusion and defined checks for every classfile, refactoring of frontend logic, cutting unnecessary inheritance chains et. al.
+	* Adds Twitter gallery cards.
+	* Adds Twitter cards for non singular pages (including Homepage).
+	* Allows archive titles & meta to be set on non public post types that do have a public archive, props [xeeeveee](https://github.com/xeeeveee).
+	* Huge performance gain for `enrich_defaults()`, props [Koen Van den Wijngaert](https://github.com/vdwijngaert).
+	* Nextscripts removed from the OG conflict list.
+
+* Bugfixes:
+	* Fixes a bug where new posts weren't always added to the post sitemap properly in case of multiple sitemaps.
+	* Fixes a grammatical error in the tutorial.
+	* Fixes a bug where %%currentyear%% shortcode wasn't parsed well in the meta description.
+	* Fixes an undefined index notice in the opengraph functionality.
+	* Fixes a bug where variable placeholders were not always assigned the correct value, props [Andy Sozot](https://github.com/sozot) for reporting and [Juliette](https://github.com/jrfnl) for fixing.
+	* Fixes a bug with SEO score on servers using international number formats.
+	* Fixes broken backward compatibility / snippet preview, props [Juliette](https://github.com/jrfnl).
+
+= 1.7.1 =
+
+* Security fix: fixed possible cross scripting issue with encoded entities in a post title. This could potentially allow an author on your site to execute JavaScript when you visit that posts edit page, allowing them to do rights expansion or otherwise. Thanks to [Joe Hoyle](http://www.joehoyle.co.uk/) for responsibly disclosing this issue.
 
 = 1.7 =
 

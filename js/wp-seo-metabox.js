@@ -12,14 +12,17 @@ function yst_clean(str) {
 	return str;
 }
 
-function ptest(str, p) {
-	str = yst_clean(str);
+function ptest( str, p ) {
+	str = yst_clean( str );
 	str = str.toLowerCase();
-	var r = str.match(p);
-	if (r != null)
+	str = removeLowerCaseDiacritics( str );
+	p = removeLowerCaseDiacritics( str );
+	var r = str.match( p );
+	if ( r != null ){
 		return '<span class="good">Yes (' + r.length + ')</span>';
-	else
+	} else {
 		return '<span class="wrong">No</span>';
+	}
 }
 
 function removeLowerCaseDiacritics(str) {
@@ -186,10 +189,6 @@ function yst_replaceVariables(str, callback) {
 	callback(str);
 }
 
-function yst_strip_tags(string) {
-	return jQuery(jQuery('<div />')).html( string ).text();
-}
-
 function yst_updateTitle(force) {
 	var title = '';
 	var titleElm = jQuery('#' + wpseoMetaboxL10n.field_prefix + 'title');
@@ -222,7 +221,7 @@ function yst_updateTitle(force) {
 		var placeholder_title = divHtml.html(title).text();
 		titleElm.attr('placeholder', placeholder_title);
 
-		title = yst_strip_tags(title);
+		title = yst_clean(title);
 
 		// and now the snippet preview title
 		title = yst_boldKeywords(title, false);
