@@ -130,12 +130,12 @@ Release Date: January 15th, 2015
 
 * Bugfixes:
 	* Fixes a bug where new posts weren't always added to the post sitemap properly in case of multiple sitemaps.
-	* Fixes a grammatical error in the tutorial
+	* Fixes a grammatical error in the tutorial.
 	* Fixes a bug where %%currentyear%% shortcode wasn't parsed well in the meta description.
 	* Fixes an undefined index notice in the opengraph functionality.
 	* Fixes a bug where variable placeholders were not always assigned the correct value, props [Andy Sozot](https://github.com/sozot) for reporting and [Juliette](https://github.com/jrfnl) for fixing.
 	* Fixes a bug with SEO score on servers using international number formats.
-	* Fixes broken backward compatibility / snippet preview, props [Juliette](https://github.com/jrfnl)
+	* Fixes broken backward compatibility / snippet preview, props [Juliette](https://github.com/jrfnl).
 
 = 1.7.1 =
 
