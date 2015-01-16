@@ -28,6 +28,9 @@ matrix:
       env: WP_VERSION=3.9 WP_MULTISITE=0
 
 before_script:
+- phpenv local 5.6
+- composer install --no-interaction
+- phpenv local --unset
 - PLUGIN_SLUG=$(basename $(pwd))
 - export WP_DEVELOP_DIR=/tmp/wordpress/
 - git clone --depth=50 --branch="$WP_VERSION" git://develop.git.wordpress.org/ /tmp/wordpress
