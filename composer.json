@@ -1,18 +1,42 @@
 {
-    "name": "yoast/wordpress-seo",
-    "description": "Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the WordPress SEO plugin by Yoast.",
-    "keywords": ["wordpress", "seo"],
-    "homepage": "https://yoast.com/wordpress/plugins/seo/",
-    "license": "GPL-2.0+",
-    "authors": [
-        {
-            "name": "Joost de Valk",
-            "email": "support@yoast.com",
-            "homepage": "https://yoast.com"
-        }
-    ],
-    "type": "wordpress-plugin",
-    "require": {
-        "composer/installers": "~1.0"
-    }
+	"name": "yoast/wordpress-seo",
+	"description": "Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the WordPress SEO plugin by Yoast.",
+	"keywords": [
+		"wordpress",
+		"seo"
+	],
+	"homepage": "https://yoast.com/wordpress/plugins/seo/",
+	"license": "GPL-2.0+",
+	"authors": [
+		{
+			"name": "Joost de Valk",
+			"email": "support@yoast.com",
+			"homepage": "https://yoast.com"
+		}
+	],
+	"type": "wordpress-plugin",
+	"require": {
+		"composer/installers": "~1.0",
+		"yoast/license-manager": "dev-composer",
+		"yoast/i18n-module": "dev-composer",
+		"xrstf/composer-php52": "^1.0.16"
+	},
+	"autoload": {
+		"classmap": [
+			"admin/",
+			"frontend/",
+			"inc/"
+		]
+	},
+	"scripts": {
+		"post-install-cmd": [
+			"xrstf\\Composer52\\Generator::onPostInstallCmd"
+		],
+		"post-update-cmd": [
+			"xrstf\\Composer52\\Generator::onPostInstallCmd"
+		],
+		"post-autoload-dump": [
+			"xrstf\\Composer52\\Generator::onPostInstallCmd"
+		]
+	}
 }
