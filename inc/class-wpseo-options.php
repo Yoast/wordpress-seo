@@ -2794,9 +2794,6 @@ class WPSEO_Option_Social extends WPSEO_Option {
 /**
  * Site option for Multisite installs only
  *
- * This class will not even be available/loaded if not on multisite, so none of the actions will
- * register if not on multisite.
- *
  * Overloads a number of methods of the abstract class to ensure the use of the correct site_option
  * WP functions.
  */
@@ -2858,6 +2855,14 @@ class WPSEO_Option_MS extends WPSEO_Option {
 		return self::$instance;
 	}
 
+	/**
+	 * Only run parent constructor in multisite context.
+	 */
+	public function __construct() {
+		if ( is_multisite() ) {
+			parent::__construct();
+		}
+	}
 
 	/**
 	 * Add filters to make sure that the option default is returned if the option is not set
