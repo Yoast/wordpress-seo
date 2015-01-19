@@ -287,14 +287,14 @@ class WPSEO_Frontend {
 	 * @return string
 	 */
 	public function get_title_from_options( $index, $var_source = array() ) {
-		if ( ! isset( $this->options[$index] ) || $this->options[$index] === '' ) {
+		if ( ! isset( $this->options[ $index ] ) || $this->options[ $index ] === '' ) {
 			if ( is_singular() ) {
 				return wpseo_replace_vars( '%%title%% %%sep%% %%sitename%%', $var_source );
 			} else {
 				return '';
 			}
 		} else {
-			return wpseo_replace_vars( $this->options[$index], $var_source );
+			return wpseo_replace_vars( $this->options[ $index ], $var_source );
 		}
 	}
 
@@ -706,7 +706,7 @@ class WPSEO_Frontend {
 		if ( is_singular() ) {
 			global $post;
 
-			if ( is_object( $post ) && ( isset( $this->options['noindex-' . $post->post_type] ) && $this->options['noindex-' . $post->post_type] === true ) ) {
+			if ( is_object( $post ) && ( isset( $this->options[ 'noindex-' . $post->post_type ] ) && $this->options[ 'noindex-' . $post->post_type ] === true ) ) {
 				$robots['index'] = 'noindex';
 			}
 
@@ -721,7 +721,7 @@ class WPSEO_Frontend {
 				$robots['index'] = 'noindex';
 			} elseif ( is_tax() || is_tag() || is_category() ) {
 				$term = $wp_query->get_queried_object();
-				if ( is_object( $term ) && ( isset( $this->options['noindex-tax-' . $term->taxonomy] ) && $this->options['noindex-tax-' . $term->taxonomy] === true ) ) {
+				if ( is_object( $term ) && ( isset( $this->options[ 'noindex-tax-' . $term->taxonomy ] ) && $this->options[ 'noindex-tax-' . $term->taxonomy ] === true ) ) {
 					$robots['index'] = 'noindex';
 				}
 
@@ -753,7 +753,7 @@ class WPSEO_Frontend {
 					$post_type = reset( $post_type );
 				}
 
-				if ( isset( $this->options['noindex-ptarchive-' . $post_type] ) && $this->options['noindex-ptarchive-' . $post_type] === true ) {
+				if ( isset( $this->options[ 'noindex-ptarchive-' . $post_type ] ) && $this->options[ 'noindex-ptarchive-' . $post_type ] === true ) {
 					$robots['index'] = 'noindex';
 				}
 			}
@@ -764,7 +764,7 @@ class WPSEO_Frontend {
 			}
 
 			foreach ( array( 'noodp', 'noydir' ) as $robot ) {
-				if ( $this->options[$robot] === true ) {
+				if ( $this->options[ $robot ] === true ) {
 					$robots['other'][] = $robot;
 				}
 			}
@@ -830,7 +830,7 @@ class WPSEO_Frontend {
 			unset( $robot );
 		} elseif ( $meta_robots_adv === '' || $meta_robots_adv === '-' ) {
 			foreach ( array( 'noodp', 'noydir' ) as $robot ) {
-				if ( $this->options[$robot] === true ) {
+				if ( $this->options[ $robot ] === true ) {
 					$robots['other'][] = $robot;
 				}
 			}
@@ -1145,24 +1145,24 @@ class WPSEO_Frontend {
 
 		if ( is_singular() ) {
 			$keywords = WPSEO_Meta::get_value( 'metakeywords' );
-			if ( $keywords === '' && ( is_object( $post ) && ( ( isset( $this->options['metakey-' . $post->post_type] ) && $this->options['metakey-' . $post->post_type] !== '' ) ) ) ) {
-				$keywords = wpseo_replace_vars( $this->options['metakey-' . $post->post_type], $post );
+			if ( $keywords === '' && ( is_object( $post ) && ( ( isset( $this->options[ 'metakey-' . $post->post_type ] ) && $this->options[ 'metakey-' . $post->post_type ] !== '' ) ) ) ) {
+				$keywords = wpseo_replace_vars( $this->options[ 'metakey-' . $post->post_type ], $post );
 			}
 		} else {
 			if ( $this->is_home_posts_page() && $this->options['metakey-home-wpseo'] !== '' ) {
 				$keywords = wpseo_replace_vars( $this->options['metakey-home-wpseo'], array() );
 			} elseif ( $this->is_home_static_page() ) {
 				$keywords = WPSEO_Meta::get_value( 'metakeywords' );
-				if ( $keywords === '' && ( is_object( $post ) && ( isset( $this->options['metakey-' . $post->post_type] ) && $this->options['metakey-' . $post->post_type] !== '' ) ) ) {
-					$keywords = wpseo_replace_vars( $this->options['metakey-' . $post->post_type], $post );
+				if ( $keywords === '' && ( is_object( $post ) && ( isset( $this->options[ 'metakey-' . $post->post_type ] ) && $this->options[ 'metakey-' . $post->post_type ] !== '' ) ) ) {
+					$keywords = wpseo_replace_vars( $this->options[ 'metakey-' . $post->post_type ], $post );
 				}
 			} elseif ( is_category() || is_tag() || is_tax() ) {
 				$term = $wp_query->get_queried_object();
 
 				if ( is_object( $term ) ) {
 					$keywords = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'metakey' );
-					if ( ( ! is_string( $keywords ) || $keywords === '' ) && ( isset( $this->options['metakey-tax-' . $term->taxonomy] ) && $this->options['metakey-tax-' . $term->taxonomy] !== '' ) ) {
-						$keywords = wpseo_replace_vars( $this->options['metakey-tax-' . $term->taxonomy], $term );
+					if ( ( ! is_string( $keywords ) || $keywords === '' ) && ( isset( $this->options[ 'metakey-tax-' . $term->taxonomy ] ) && $this->options[ 'metakey-tax-' . $term->taxonomy ] !== '' ) ) {
+						$keywords = wpseo_replace_vars( $this->options[ 'metakey-tax-' . $term->taxonomy ], $term );
 					}
 				}
 			} elseif ( is_author() ) {
@@ -1176,8 +1176,8 @@ class WPSEO_Frontend {
 				if ( is_array( $post_type ) ) {
 					$post_type = reset( $post_type );
 				}
-				if ( isset( $this->options['metakey-ptarchive-' . $post_type] ) && $this->options['metakey-ptarchive-' . $post_type] !== '' ) {
-					$keywords = wpseo_replace_vars( $this->options['metakey-ptarchive-' . $post_type], $wp_query->get_queried_object() );
+				if ( isset( $this->options[ 'metakey-ptarchive-' . $post_type ] ) && $this->options[ 'metakey-ptarchive-' . $post_type ] !== '' ) {
+					$keywords = wpseo_replace_vars( $this->options[ 'metakey-ptarchive-' . $post_type ], $wp_query->get_queried_object() );
 				}
 			}
 		}
@@ -1235,8 +1235,8 @@ class WPSEO_Frontend {
 		}
 
 		if ( is_singular() ) {
-			if ( ( $metadesc === '' && $post_type !== '' ) && isset( $this->options['metadesc-' . $post_type] ) ) {
-				$template = $this->options['metadesc-' . $post_type];
+			if ( ( $metadesc === '' && $post_type !== '' ) && isset( $this->options[ 'metadesc-' . $post_type ] ) ) {
+				$template = $this->options[ 'metadesc-' . $post_type ];
 				$term     = $post;
 			}
 			$metadesc_override = WPSEO_Meta::get_value( 'metadesc' );
@@ -1248,21 +1248,21 @@ class WPSEO_Frontend {
 				$term     = array();
 			} elseif ( $this->is_posts_page() ) {
 				$metadesc = WPSEO_Meta::get_value( 'metadesc', get_option( 'page_for_posts' ) );
-				if ( ( $metadesc === '' && $post_type !== '' ) && isset( $this->options['metadesc-' . $post_type] ) ) {
+				if ( ( $metadesc === '' && $post_type !== '' ) && isset( $this->options[ 'metadesc-' . $post_type ] ) ) {
 					$page     = get_post( get_option( 'page_for_posts' ) );
-					$template = $this->options['metadesc-' . $post_type];
+					$template = $this->options[ 'metadesc-' . $post_type ];
 					$term     = $page;
 				}
 			} elseif ( $this->is_home_static_page() ) {
 				$metadesc = WPSEO_Meta::get_value( 'metadesc' );
-				if ( ( $metadesc === '' && $post_type !== '' ) && isset( $this->options['metadesc-' . $post_type] ) ) {
-					$template = $this->options['metadesc-' . $post_type];
+				if ( ( $metadesc === '' && $post_type !== '' ) && isset( $this->options[ 'metadesc-' . $post_type ] ) ) {
+					$template = $this->options[ 'metadesc-' . $post_type ];
 				}
 			} elseif ( is_category() || is_tag() || is_tax() ) {
 				$term              = $wp_query->get_queried_object();
 				$metadesc_override = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'desc' );
-				if ( ( is_object( $term ) && isset( $term->taxonomy ) ) && isset( $this->options['metadesc-tax-' . $term->taxonomy] ) ) {
-					$template = $this->options['metadesc-tax-' . $term->taxonomy];
+				if ( ( is_object( $term ) && isset( $term->taxonomy ) ) && isset( $this->options[ 'metadesc-tax-' . $term->taxonomy ] ) ) {
+					$template = $this->options[ 'metadesc-tax-' . $term->taxonomy ];
 				}
 			} elseif ( is_author() ) {
 				$author_id = get_query_var( 'author' );
@@ -1275,8 +1275,8 @@ class WPSEO_Frontend {
 				if ( is_array( $post_type ) ) {
 					$post_type = reset( $post_type );
 				}
-				if ( isset( $this->options['metadesc-ptarchive-' . $post_type] ) ) {
-					$template = $this->options['metadesc-ptarchive-' . $post_type];
+				if ( isset( $this->options[ 'metadesc-ptarchive-' . $post_type ] ) ) {
+					$template = $this->options[ 'metadesc-ptarchive-' . $post_type ];
 				}
 			} elseif ( is_archive() ) {
 				$template = $this->options['metadesc-archive-wpseo'];
@@ -1596,7 +1596,7 @@ class WPSEO_Frontend {
 		}
 
 		foreach ( $whitelisted_extravars as $get ) {
-			if ( isset( $_GET[trim( $get )] ) ) {
+			if ( isset( $_GET[ trim( $get ) ] ) ) {
 				$properurl = '';
 			}
 		}

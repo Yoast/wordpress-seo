@@ -257,7 +257,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 					$class = ' class="current"';
 				}
 
-				$status_links[$status_name] = '<a href="' . esc_url( add_query_arg( array( 'post_status' => $status_name ), admin_url( 'admin.php?page=wpseo_bulk-editor' . $this->page_url ) ) ) . '"' . $class . '>' . sprintf( translate_nooped_plural( $status->label_count, $total ), number_format_i18n( $total ) ) . '</a>';
+				$status_links[ $status_name ] = '<a href="' . esc_url( add_query_arg( array( 'post_status' => $status_name ), admin_url( 'admin.php?page=wpseo_bulk-editor' . $this->page_url ) ) ) . '"' . $class . '>' . sprintf( translate_nooped_plural( $status->label_count, $total ), number_format_i18n( $total ) ) . '</a>';
 			}
 		}
 		unset( $post_stati, $status, $status_name, $total, $class );
@@ -728,12 +728,12 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	protected function parse_meta_data_field( $record_id, $attributes, $values = false ) {
 
 		// Fill meta data if exists in $this->meta_data
-		$meta_data  = ( ! empty( $this->meta_data[$record_id] ) ) ? $this->meta_data[$record_id] : array();
+		$meta_data  = ( ! empty( $this->meta_data[ $record_id ] ) ) ? $this->meta_data[ $record_id ] : array();
 		$meta_key   = WPSEO_Meta::$meta_prefix . $this->target_db_field;
-		$meta_value = ( ! empty( $meta_data[$meta_key] ) ) ? $meta_data[$meta_key] : '';
+		$meta_value = ( ! empty( $meta_data[ $meta_key ] ) ) ? $meta_data[ $meta_key ] : '';
 
 		if ( ! empty( $values ) ) {
-			$meta_value = $values[$meta_value];
+			$meta_value = $values[ $meta_value ];
 		}
 
 		return sprintf( '<td %2$s id="wpseo-existing-%4$s-%3$s">%1$s</td>', $meta_value, $attributes, $record_id, $this->target_db_field );
@@ -804,7 +804,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	protected function parse_meta_data( $meta_data ) {
 
 		foreach ( $meta_data AS $row ) {
-			$this->meta_data[$row->post_id][$row->meta_key] = $row->meta_value;
+			$this->meta_data[ $row->post_id ][ $row->meta_key ] = $row->meta_value;
 		}
 
 	}
