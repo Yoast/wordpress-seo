@@ -2452,6 +2452,8 @@ class WPSEO_Option_Social extends WPSEO_Option {
 	 *        Shouldn't be requested directly, use $this->get_defaults();
 	 */
 	protected $defaults = array(
+		'company_logo'       => '',
+		'company_name'       => '',
 		// Non-form fields, set via procedural code in admin/pages/social.php
 		'fb_admins'          => array(), // array of user id's => array( name => '', link => '' )
 		'fbapps'             => array(), // array of linked fb apps id's => fb app display names
@@ -2624,6 +2626,7 @@ class WPSEO_Option_Social extends WPSEO_Option {
 
 
 				/* text fields */
+				case 'company_name':
 				case 'og_frontpage_desc':
 				case 'og_frontpage_title':
 					if ( isset( $dirty[$key] ) && $dirty[$key] !== '' ) {
@@ -2633,6 +2636,7 @@ class WPSEO_Option_Social extends WPSEO_Option {
 
 
 				/* url text fields - no ftp allowed */
+				case 'company_logo':
 				case 'facebook_site':
 				case 'plus-publisher':
 				case 'og_default_image':

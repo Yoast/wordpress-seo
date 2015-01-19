@@ -180,11 +180,20 @@ $wpseo_admin_pages->admin_header( true, WPSEO_Options::get_group_name( 'wpseo_so
 ?>
 
 	<h2 class="nav-tab-wrapper" id="wpseo-tabs">
-		<a class="nav-tab nav-tab-active" id="facebook-tab"
-		   href="#top#facebook"><?php _e( 'Facebook', 'wordpress-seo' ); ?></a>
+		<a class="nav-tab nav-tab-active" id="general-tab" href="#top#general"><?php _e( 'General', 'wordpress-seo' ); ?></a>
+		<a class="nav-tab" id="facebook-tab" href="#top#facebook"><?php _e( 'Facebook', 'wordpress-seo' ); ?></a>
 		<a class="nav-tab" id="twitterbox-tab" href="#top#twitterbox"><?php _e( 'Twitter', 'wordpress-seo' ); ?></a>
 		<a class="nav-tab" id="google-tab" href="#top#google"><?php _e( 'Google+', 'wordpress-seo' ); ?></a>
 	</h2>
+
+	<div id="general" class="wpseotab">
+		<?php
+		echo '<p>';
+		echo $wpseo_admin_pages->textinput( 'company_name', __( 'Company Name', 'wordpress-seo' ) );
+		echo $wpseo_admin_pages->media_input( 'company_logo', __( 'Company Logo', 'wordpress-seo' ) );
+		echo '</p>';
+		?>
+	</div>
 
 	<div id="facebook" class="wpseotab">
 		<?php

@@ -72,6 +72,7 @@ class WPSEO_Frontend {
 
 		$this->options = WPSEO_Options::get_all();
 
+		add_action( 'wp_head', array( $this, 'front_page_specific_init' ), 0 );
 		add_action( 'wp_head', array( $this, 'head' ), 1 );
 
 		// The head function here calls action wpseo_head, to which we hook all our functionality
@@ -82,8 +83,6 @@ class WPSEO_Frontend {
 		add_action( 'wpseo_head', array( $this, 'canonical' ), 20 );
 		add_action( 'wpseo_head', array( $this, 'adjacent_rel_links' ), 21 );
 		add_action( 'wpseo_head', array( $this, 'publisher' ), 22 );
-		add_action( 'wpseo_head', array( $this, 'webmaster_tools_authentication' ), 90 );
-		add_action( 'wpseo_head', array( $this, 'internal_search_json_ld' ), 90 );
 
 		// Remove actions that we will handle through our wpseo_head call, and probably change the output of
 		remove_action( 'wp_head', 'rel_canonical' );
@@ -122,8 +121,8 @@ class WPSEO_Frontend {
 		}
 
 		if ( ( $this->options['disable-date'] === true ||
-				$this->options['disable-author'] === true ) ||
-			( isset( $this->options['disable-post_formats'] ) && $this->options['disable-post_formats'] )
+		       $this->options['disable-author'] === true ) ||
+		     ( isset( $this->options['disable-post_formats'] ) && $this->options['disable-post_formats'] )
 		) {
 			add_action( 'wp', array( $this, 'archive_redirect' ) );
 		}
@@ -151,6 +150,19 @@ class WPSEO_Frontend {
 		if ( $this->options['title_test'] > 0 ) {
 			add_filter( 'wpseo_title', array( $this, 'title_test_helper' ) );
 		}
+	}
+
+	/**
+	 * Initialize the functions that only need to run on the frontpage
+	 */
+	public function front_page_specific_init() {
+		if ( ! is_front_page() ) {
+			return;
+		}
+
+		new WPSEO_JSON_LD;
+
+		add_action( 'wpseo_head', array( $this, 'webmaster_tools_authentication' ), 90 );
 	}
 
 	/**
@@ -287,14 +299,14 @@ class WPSEO_Frontend {
 	 * @return string
 	 */
 	public function get_title_from_options( $index, $var_source = array() ) {
-		if ( ! isset( $this->options[$index] ) || $this->options[$index] === '' ) {
+		if ( ! isset( $this->options[ $index ] ) || $this->options[ $index ] === '' ) {
 			if ( is_singular() ) {
 				return wpseo_replace_vars( '%%title%% %%sep%% %%sitename%%', $var_source );
 			} else {
 				return '';
 			}
 		} else {
-			return wpseo_replace_vars( $this->options[$index], $var_source );
+			return wpseo_replace_vars( $this->options[ $index ], $var_source );
 		}
 	}
 
@@ -595,70 +607,30 @@ class WPSEO_Frontend {
 	 * Output Webmaster Tools authentication strings
 	 */
 	public function webmaster_tools_authentication() {
-		if ( is_front_page() ) {
-			// Alexa
-			if ( $this->options['alexaverify'] !== '' ) {
-				echo '<meta name="alexaVerifyID" content="' . esc_attr( $this->options['alexaverify'] ) . "\" />\n";
-			}
-
-			// Bing
-			if ( $this->options['msverify'] !== '' ) {
-				echo '<meta name="msvalidate.01" content="' . esc_attr( $this->options['msverify'] ) . "\" />\n";
-			}
-
-			// Google
-			if ( $this->options['googleverify'] !== '' ) {
-				echo '<meta name="google-site-verification" content="' . esc_attr( $this->options['googleverify'] ) . "\" />\n";
-			}
-
-			// Pinterest
-			if ( $this->options['pinterestverify'] !== '' ) {
-				echo '<meta name="p:domain_verify" content="' . esc_attr( $this->options['pinterestverify'] ) . "\" />\n";
-			}
-
-			// Yandex
-			if ( $this->options['yandexverify'] !== '' ) {
-				echo '<meta name="yandex-verification" content="' . esc_attr( $this->options['yandexverify'] ) . "\" />\n";
-			}
-		}
-	}
-
-	/**
-	 * Outputs JSON+LD code to allow recognition of the internal search engine
-	 *
-	 * @since 1.5.7
-	 *
-	 * @link  https://developers.google.com/webmasters/richsnippets/sitelinkssearch
-	 */
-	public function internal_search_json_ld() {
-		if ( ! is_front_page() ) {
-			return;
+		// Alexa
+		if ( $this->options['alexaverify'] !== '' ) {
+			echo '<meta name="alexaVerifyID" content="' . esc_attr( $this->options['alexaverify'] ) . "\" />\n";
 		}
 
-		/**
-		 * Filter: 'disable_wpseo_json_ld_search' - Allow disabling of the json+ld output
-		 *
-		 * @api bool $display_search Whether or not to display json+ld search on the frontend
-		 */
-		if ( apply_filters( 'disable_wpseo_json_ld_search', false ) === true ) {
-			return;
+		// Bing
+		if ( $this->options['msverify'] !== '' ) {
+			echo '<meta name="msvalidate.01" content="' . esc_attr( $this->options['msverify'] ) . "\" />\n";
 		}
 
-		$home_url = trailingslashit( home_url() );
+		// Google
+		if ( $this->options['googleverify'] !== '' ) {
+			echo '<meta name="google-site-verification" content="' . esc_attr( $this->options['googleverify'] ) . "\" />\n";
+		}
 
-		/**
-		 * Filter: 'wpseo_json_ld_search_url' - Allows filtering of the search URL for WP SEO
-		 *
-		 * @api string $search_url The search URL for this site with a `{search_term}` variable.
-		 */
-		$search_url = apply_filters( 'wpseo_json_ld_search_url', $home_url . '?s={search_term}' );
+		// Pinterest
+		if ( $this->options['pinterestverify'] !== '' ) {
+			echo '<meta name="p:domain_verify" content="' . esc_attr( $this->options['pinterestverify'] ) . "\" />\n";
+		}
 
-		/**
-		 * Filter: 'wpseo_json_ld_search_output' - Allows filtering of the entire output of the function
-		 *
-		 * @api string $output The output of the function.
-		 */
-		echo apply_filters( 'wpseo_json_ld_search_output', '<script type="application/ld+json">{ "@context": "http://schema.org", "@type": "WebSite", "url": "' . $home_url . '", "potentialAction": { "@type": "SearchAction", "target": "' . $search_url . '", "query-input": "required name=search_term" } }</script>' . "\n" );
+		// Yandex
+		if ( $this->options['yandexverify'] !== '' ) {
+			echo '<meta name="yandex-verification" content="' . esc_attr( $this->options['yandexverify'] ) . "\" />\n";
+		}
 	}
 
 	/**
@@ -706,7 +678,7 @@ class WPSEO_Frontend {
 		if ( is_singular() ) {
 			global $post;
 
-			if ( is_object( $post ) && ( isset( $this->options['noindex-' . $post->post_type] ) && $this->options['noindex-' . $post->post_type] === true ) ) {
+			if ( is_object( $post ) && ( isset( $this->options[ 'noindex-' . $post->post_type ] ) && $this->options[ 'noindex-' . $post->post_type ] === true ) ) {
 				$robots['index'] = 'noindex';
 			}
 
@@ -721,7 +693,7 @@ class WPSEO_Frontend {
 				$robots['index'] = 'noindex';
 			} elseif ( is_tax() || is_tag() || is_category() ) {
 				$term = $wp_query->get_queried_object();
-				if ( is_object( $term ) && ( isset( $this->options['noindex-tax-' . $term->taxonomy] ) && $this->options['noindex-tax-' . $term->taxonomy] === true ) ) {
+				if ( is_object( $term ) && ( isset( $this->options[ 'noindex-tax-' . $term->taxonomy ] ) && $this->options[ 'noindex-tax-' . $term->taxonomy ] === true ) ) {
 					$robots['index'] = 'noindex';
 				}
 
@@ -753,7 +725,7 @@ class WPSEO_Frontend {
 					$post_type = reset( $post_type );
 				}
 
-				if ( isset( $this->options['noindex-ptarchive-' . $post_type] ) && $this->options['noindex-ptarchive-' . $post_type] === true ) {
+				if ( isset( $this->options[ 'noindex-ptarchive-' . $post_type ] ) && $this->options[ 'noindex-ptarchive-' . $post_type ] === true ) {
 					$robots['index'] = 'noindex';
 				}
 			}
@@ -764,7 +736,7 @@ class WPSEO_Frontend {
 			}
 
 			foreach ( array( 'noodp', 'noydir' ) as $robot ) {
-				if ( $this->options[$robot] === true ) {
+				if ( $this->options[ $robot ] === true ) {
 					$robots['other'][] = $robot;
 				}
 			}
@@ -830,7 +802,7 @@ class WPSEO_Frontend {
 			unset( $robot );
 		} elseif ( $meta_robots_adv === '' || $meta_robots_adv === '-' ) {
 			foreach ( array( 'noodp', 'noydir' ) as $robot ) {
-				if ( $this->options[$robot] === true ) {
+				if ( $this->options[ $robot ] === true ) {
 					$robots['other'][] = $robot;
 				}
 			}
@@ -1145,24 +1117,24 @@ class WPSEO_Frontend {
 
 		if ( is_singular() ) {
 			$keywords = WPSEO_Meta::get_value( 'metakeywords' );
-			if ( $keywords === '' && ( is_object( $post ) && ( ( isset( $this->options['metakey-' . $post->post_type] ) && $this->options['metakey-' . $post->post_type] !== '' ) ) ) ) {
-				$keywords = wpseo_replace_vars( $this->options['metakey-' . $post->post_type], $post );
+			if ( $keywords === '' && ( is_object( $post ) && ( ( isset( $this->options[ 'metakey-' . $post->post_type ] ) && $this->options[ 'metakey-' . $post->post_type ] !== '' ) ) ) ) {
+				$keywords = wpseo_replace_vars( $this->options[ 'metakey-' . $post->post_type ], $post );
 			}
 		} else {
 			if ( $this->is_home_posts_page() && $this->options['metakey-home-wpseo'] !== '' ) {
 				$keywords = wpseo_replace_vars( $this->options['metakey-home-wpseo'], array() );
 			} elseif ( $this->is_home_static_page() ) {
 				$keywords = WPSEO_Meta::get_value( 'metakeywords' );
-				if ( $keywords === '' && ( is_object( $post ) && ( isset( $this->options['metakey-' . $post->post_type] ) && $this->options['metakey-' . $post->post_type] !== '' ) ) ) {
-					$keywords = wpseo_replace_vars( $this->options['metakey-' . $post->post_type], $post );
+				if ( $keywords === '' && ( is_object( $post ) && ( isset( $this->options[ 'metakey-' . $post->post_type ] ) && $this->options[ 'metakey-' . $post->post_type ] !== '' ) ) ) {
+					$keywords = wpseo_replace_vars( $this->options[ 'metakey-' . $post->post_type ], $post );
 				}
 			} elseif ( is_category() || is_tag() || is_tax() ) {
 				$term = $wp_query->get_queried_object();
 
 				if ( is_object( $term ) ) {
 					$keywords = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'metakey' );
-					if ( ( ! is_string( $keywords ) || $keywords === '' ) && ( isset( $this->options['metakey-tax-' . $term->taxonomy] ) && $this->options['metakey-tax-' . $term->taxonomy] !== '' ) ) {
-						$keywords = wpseo_replace_vars( $this->options['metakey-tax-' . $term->taxonomy], $term );
+					if ( ( ! is_string( $keywords ) || $keywords === '' ) && ( isset( $this->options[ 'metakey-tax-' . $term->taxonomy ] ) && $this->options[ 'metakey-tax-' . $term->taxonomy ] !== '' ) ) {
+						$keywords = wpseo_replace_vars( $this->options[ 'metakey-tax-' . $term->taxonomy ], $term );
 					}
 				}
 			} elseif ( is_author() ) {
@@ -1176,8 +1148,8 @@ class WPSEO_Frontend {
 				if ( is_array( $post_type ) ) {
 					$post_type = reset( $post_type );
 				}
-				if ( isset( $this->options['metakey-ptarchive-' . $post_type] ) && $this->options['metakey-ptarchive-' . $post_type] !== '' ) {
-					$keywords = wpseo_replace_vars( $this->options['metakey-ptarchive-' . $post_type], $wp_query->get_queried_object() );
+				if ( isset( $this->options[ 'metakey-ptarchive-' . $post_type ] ) && $this->options[ 'metakey-ptarchive-' . $post_type ] !== '' ) {
+					$keywords = wpseo_replace_vars( $this->options[ 'metakey-ptarchive-' . $post_type ], $wp_query->get_queried_object() );
 				}
 			}
 		}
@@ -1235,8 +1207,8 @@ class WPSEO_Frontend {
 		}
 
 		if ( is_singular() ) {
-			if ( ( $metadesc === '' && $post_type !== '' ) && isset( $this->options['metadesc-' . $post_type] ) ) {
-				$template = $this->options['metadesc-' . $post_type];
+			if ( ( $metadesc === '' && $post_type !== '' ) && isset( $this->options[ 'metadesc-' . $post_type ] ) ) {
+				$template = $this->options[ 'metadesc-' . $post_type ];
 				$term     = $post;
 			}
 			$metadesc_override = WPSEO_Meta::get_value( 'metadesc' );
@@ -1248,21 +1220,21 @@ class WPSEO_Frontend {
 				$term     = array();
 			} elseif ( $this->is_posts_page() ) {
 				$metadesc = WPSEO_Meta::get_value( 'metadesc', get_option( 'page_for_posts' ) );
-				if ( ( $metadesc === '' && $post_type !== '' ) && isset( $this->options['metadesc-' . $post_type] ) ) {
+				if ( ( $metadesc === '' && $post_type !== '' ) && isset( $this->options[ 'metadesc-' . $post_type ] ) ) {
 					$page     = get_post( get_option( 'page_for_posts' ) );
-					$template = $this->options['metadesc-' . $post_type];
+					$template = $this->options[ 'metadesc-' . $post_type ];
 					$term     = $page;
 				}
 			} elseif ( $this->is_home_static_page() ) {
 				$metadesc = WPSEO_Meta::get_value( 'metadesc' );
-				if ( ( $metadesc === '' && $post_type !== '' ) && isset( $this->options['metadesc-' . $post_type] ) ) {
-					$template = $this->options['metadesc-' . $post_type];
+				if ( ( $metadesc === '' && $post_type !== '' ) && isset( $this->options[ 'metadesc-' . $post_type ] ) ) {
+					$template = $this->options[ 'metadesc-' . $post_type ];
 				}
 			} elseif ( is_category() || is_tag() || is_tax() ) {
 				$term              = $wp_query->get_queried_object();
 				$metadesc_override = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'desc' );
-				if ( ( is_object( $term ) && isset( $term->taxonomy ) ) && isset( $this->options['metadesc-tax-' . $term->taxonomy] ) ) {
-					$template = $this->options['metadesc-tax-' . $term->taxonomy];
+				if ( ( is_object( $term ) && isset( $term->taxonomy ) ) && isset( $this->options[ 'metadesc-tax-' . $term->taxonomy ] ) ) {
+					$template = $this->options[ 'metadesc-tax-' . $term->taxonomy ];
 				}
 			} elseif ( is_author() ) {
 				$author_id = get_query_var( 'author' );
@@ -1275,8 +1247,8 @@ class WPSEO_Frontend {
 				if ( is_array( $post_type ) ) {
 					$post_type = reset( $post_type );
 				}
-				if ( isset( $this->options['metadesc-ptarchive-' . $post_type] ) ) {
-					$template = $this->options['metadesc-ptarchive-' . $post_type];
+				if ( isset( $this->options[ 'metadesc-ptarchive-' . $post_type ] ) ) {
+					$template = $this->options[ 'metadesc-ptarchive-' . $post_type ];
 				}
 			} elseif ( is_archive() ) {
 				$template = $this->options['metadesc-archive-wpseo'];
@@ -1596,7 +1568,7 @@ class WPSEO_Frontend {
 		}
 
 		foreach ( $whitelisted_extravars as $get ) {
-			if ( isset( $_GET[trim( $get )] ) ) {
+			if ( isset( $_GET[ trim( $get ) ] ) ) {
 				$properurl = '';
 			}
 		}
@@ -1799,3 +1771,143 @@ class WPSEO_Frontend {
 	}
 
 } /* End of class */
+
+/**
+ * Class WPSEO_JSON_LD
+ *
+ * Outputs schema code specific for Google's JSON LD stuff
+ *
+ * @since 1.8
+ */
+class WPSEO_JSON_LD {
+
+	/**
+	 * @var array Holds the plugins options.
+	 */
+	public $options = array();
+
+	/**
+	 * Class constructor
+	 */
+	public function __construct() {
+		$this->options = WPSEO_Options::get_all();
+
+		add_action( 'wpseo_head', array( $this, 'json_ld' ), 90 );
+		add_action( 'wpseo_json_ld', array( $this, 'organization' ), 10 );
+		add_action( 'wpseo_json_ld', array( $this, 'internal_search' ), 20 );
+	}
+
+	/**
+	 * JSON LD output function that the functions for specific code can hook into
+	 *
+	 * @since 1.8
+	 */
+	public function json_ld() {
+		do_action( 'wpseo_json_ld' );
+	}
+
+	/**
+	 * Outputs the JSON LD code in a valid JSON+LD wrapper
+	 *
+	 * @since 1.8
+	 *
+	 * @param $output
+	 */
+	protected function json_ld_output( $output ) {
+		echo "<script type='application/ld+json'>\n";
+		echo preg_replace( '/[\n\t]/', '', $output ) . "\n";
+		echo '</script>' . "\n";
+	}
+
+	/**
+	 * Outputs code to allow Google to recognize social profiles for use in the Knowledge graph
+	 *
+	 * @since 1.8
+	 */
+	public function organization() {
+		$profiles = $this->fetch_social_profiles();
+
+		$output = '{ "@context": "http://schema.org",
+			"@type": "Organization",
+			"name": "' . esc_attr( $this->options['company_name'] ) . '",
+			"url": "' . home_url() . '",
+			"logo": "' . esc_url( $this->options['company_logo'] ) . '",
+			"sameAs": [' . $profiles . ']}';
+
+		/**
+		 * Filter: 'wpseo_json_ld_organization' - Allows filtering of the JSON+LD organization output
+		 *
+		 * @api string $output The organization output
+		 */
+		$output = apply_filters( 'wpseo_json_ld_organization', $output );
+
+		$this->json_ld_output( $output );
+	}
+
+	/**
+	 * Retrieve the social profiles to display in the organization output.
+	 *
+	 * @since 1.8
+	 *
+	 * @link https://developers.google.com/webmasters/structured-data/customize/social-profiles
+	 */
+	private function fetch_social_profiles() {
+		$profiles = array();
+		if ( $this->options['opengraph'] === true && $this->options['facebook_site'] !== '' ) {
+			$profiles[] = $this->options['facebook_site'];
+		}
+		if ( $this->options['twitter'] === true && $this->options['twitter_site'] !== '' ) {
+			$profiles[] = 'https://twitter.com/' . $this->options['twitter_site'];
+		}
+		if ( $this->options['plus-publisher'] !== '' ) {
+			$profiles[] = $this->options['plus-publisher'];
+		}
+		$profiles_out = '"' . implode( '","', $profiles ) . '"';
+
+		return rtrim( $profiles_out, ',' );
+	}
+
+	/**
+	 * Outputs code to allow recognition of the internal search engine
+	 *
+	 * @since 1.5.7
+	 *
+	 * @link  https://developers.google.com/webmasters/structured-data/slsb-overview
+	 */
+	public function internal_search() {
+		/**
+		 * Filter: 'disable_wpseo_json_ld_search' - Allow disabling of the json+ld output
+		 *
+		 * @api bool $display_search Whether or not to display json+ld search on the frontend
+		 */
+		if ( apply_filters( 'disable_wpseo_json_ld_search', false ) === true ) {
+			return;
+		}
+		$home_url = trailingslashit( home_url() );
+
+		/**
+		 * Filter: 'wpseo_json_ld_search_url' - Allows filtering of the search URL for WP SEO
+		 *
+		 * @api string $search_url The search URL for this site with a `{search_term}` variable.
+		 */
+		$search_url = apply_filters( 'wpseo_json_ld_search_url', $home_url . '?s={search_term}' );
+
+		/**
+		 * Filter: 'wpseo_json_ld_search_output' - Allows filtering of the entire output of the function
+		 *
+		 * @api string $output The output of the function.
+		 */
+		$output = apply_filters( 'wpseo_json_ld_search_output', '{ "@context": "http://schema.org",
+			"@type": "WebSite",
+			"url": "' . $home_url . '",
+			"potentialAction": {
+				"@type": "SearchAction",
+				"target": "' . $search_url . '",
+				"query-input": "required name=search_term"
+				}
+			}' );
+
+		$this->json_ld_output( $output );
+	}
+
+}
