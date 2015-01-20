@@ -90,7 +90,7 @@ class Yoast_Plugin_Conflict {
 
 		if ( ! in_array( $plugin_section, $sections_checked ) ) {
 			$sections_checked[] = $plugin_section;
-			$has_conflicts = ( ! empty( $this->active_plugins[ $plugin_section ] ) );
+			$has_conflicts      = ( ! empty( $this->active_plugins[ $plugin_section ] ) );
 
 			return $has_conflicts;
 		}

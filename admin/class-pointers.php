@@ -239,7 +239,10 @@ class WPSEO_Pointers {
 				$align   = ( is_rtl() ) ? 'left' : 'right';
 				$opt_arr = array(
 					'content'      => $adminpages[ $page ]['content'],
-					'position'     => ( isset ( $adminpages[ $page ]['position'] ) ) ? ( $adminpages[ $page ]['position'] ) : array( 'edge' => 'top', 'align' => $align ),
+					'position'     => ( isset ( $adminpages[ $page ]['position'] ) ) ? ( $adminpages[ $page ]['position'] ) : array(
+						'edge'  => 'top',
+						'align' => $align,
+					),
 					'pointerWidth' => 450,
 				);
 				if ( isset( $adminpages[ $page ]['next'], $adminpages[ $page ]['next_function'] ) ) {
