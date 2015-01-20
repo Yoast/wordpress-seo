@@ -79,7 +79,7 @@ class WPSEO_Snippet_Preview {
 	 * Sets date if available
 	 */
 	protected function set_date() {
-		if ( is_object( $this->post ) && isset( $this->options['showdate-' . $this->post->post_type] ) && $this->options['showdate-' . $this->post->post_type] === true ) {
+		if ( is_object( $this->post ) && isset( $this->options[ 'showdate-' . $this->post->post_type ] ) && $this->options[ 'showdate-' . $this->post->post_type ] === true ) {
 			$date       = $this->get_post_date();
 			$this->date = '<span class="date">' . $date . ' - </span>';
 		}

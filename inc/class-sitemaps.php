@@ -363,7 +363,7 @@ class WPSEO_Sitemaps {
 		if ( is_array( $post_types ) && $post_types !== array() ) {
 
 			foreach ( $post_types as $post_type ) {
-				if ( isset( $this->options['post_types-' . $post_type . '-not_in_sitemap'] ) && $this->options['post_types-' . $post_type . '-not_in_sitemap'] === true ) {
+				if ( isset( $this->options[ 'post_types-' . $post_type . '-not_in_sitemap' ] ) && $this->options[ 'post_types-' . $post_type . '-not_in_sitemap' ] === true ) {
 					continue;
 				} else {
 					if ( apply_filters( 'wpseo_sitemap_exclude_post_type', false, $post_type ) ) {
@@ -393,7 +393,7 @@ class WPSEO_Sitemaps {
 						if ( ! isset( $all_dates ) ) {
 							$all_dates = $wpdb->get_col( $wpdb->prepare( "SELECT post_modified_gmt FROM (SELECT @rownum:=@rownum+1 rownum, $wpdb->posts.post_modified_gmt FROM (SELECT @rownum:=0) r, $wpdb->posts WHERE post_status IN ('publish','inherit') AND post_type = %s ORDER BY post_modified_gmt ASC) x WHERE rownum %%%d=0", $post_type, $this->max_entries ) );
 						}
-						$datetime = new DateTime( $all_dates[$i], new DateTimeZone( $this->get_timezone_string() ) );
+						$datetime = new DateTime( $all_dates[ $i ], new DateTimeZone( $this->get_timezone_string() ) );
 						$date     = $datetime->format( 'c' );
 					}
 
@@ -414,17 +414,17 @@ class WPSEO_Sitemaps {
 		if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
 			foreach ( $taxonomy_names as $tax ) {
 				if ( in_array( $tax, array( 'link_category', 'nav_menu', 'post_format' ) ) ) {
-					unset( $taxonomy_names[$tax], $taxonomies[$tax] );
+					unset( $taxonomy_names[ $tax ], $taxonomies[ $tax ] );
 					continue;
 				}
 
 				if ( apply_filters( 'wpseo_sitemap_exclude_taxonomy', false, $tax ) ) {
-					unset( $taxonomy_names[$tax], $taxonomies[$tax] );
+					unset( $taxonomy_names[ $tax ], $taxonomies[ $tax ] );
 					continue;
 				}
 
-				if ( isset( $this->options['taxonomies-' . $tax . '-not_in_sitemap'] ) && $this->options['taxonomies-' . $tax . '-not_in_sitemap'] === true ) {
-					unset( $taxonomy_names[$tax], $taxonomies[$tax] );
+				if ( isset( $this->options[ 'taxonomies-' . $tax . '-not_in_sitemap' ] ) && $this->options[ 'taxonomies-' . $tax . '-not_in_sitemap' ] === true ) {
+					unset( $taxonomy_names[ $tax ], $taxonomies[ $tax ] );
 					continue;
 				}
 			}
@@ -435,14 +435,14 @@ class WPSEO_Sitemaps {
 			$all_taxonomy_terms = $wpdb->get_results( $query );
 			$all_taxonomies     = array();
 			foreach ( $all_taxonomy_terms as $obj ) {
-				$all_taxonomies[$obj->taxonomy][] = $obj->term_id;
+				$all_taxonomies[ $obj->taxonomy ][] = $obj->term_id;
 			}
 			unset( $all_taxonomy_terms );
 
 			foreach ( $taxonomies as $tax_name => $tax ) {
 
 				$steps = $this->max_entries;
-				$count = ( isset ( $all_taxonomies[$tax_name] ) ) ? count( $all_taxonomies[$tax_name] ) : 1;
+				$count = ( isset ( $all_taxonomies[ $tax_name ] ) ) ? count( $all_taxonomies[ $tax_name ] ) : 1;
 				$n     = ( $count > $this->max_entries ) ? (int) ceil( $count / $this->max_entries ) : 1;
 
 				for ( $i = 0; $i < $n; $i ++ ) {
@@ -455,7 +455,7 @@ class WPSEO_Sitemaps {
 					if ( ( empty( $count ) || $count == $n ) ) {
 						$date = $this->get_last_modified( $tax->object_type );
 					} else {
-						$terms = array_splice( $all_taxonomies[$tax_name], 0, $steps );
+						$terms = array_splice( $all_taxonomies[ $tax_name ], 0, $steps );
 						if ( ! $terms ) {
 							continue;
 						}
@@ -589,7 +589,7 @@ class WPSEO_Sitemaps {
 		global $wpdb;
 
 		if (
-			( isset( $this->options['post_types-' . $post_type . '-not_in_sitemap'] ) && $this->options['post_types-' . $post_type . '-not_in_sitemap'] === true )
+			( isset( $this->options[ 'post_types-' . $post_type . '-not_in_sitemap' ] ) && $this->options[ 'post_types-' . $post_type . '-not_in_sitemap' ] === true )
 			|| in_array( $post_type, array( 'revision', 'nav_menu_item' ) )
 			|| apply_filters( 'wpseo_sitemap_exclude_post_type', false, $post_type )
 		) {
@@ -823,7 +823,7 @@ class WPSEO_Sitemaps {
 									continue;
 								}
 
-								if ( isset( $url['images'][$src] ) ) {
+								if ( isset( $url['images'][ $src ] ) ) {
 									continue;
 								}
 
@@ -897,7 +897,7 @@ class WPSEO_Sitemaps {
 	 */
 	function build_tax_map( $taxonomy ) {
 		if (
-			( isset( $this->options['taxonomies-' . $taxonomy->name . '-not_in_sitemap'] ) && $this->options['taxonomies-' . $taxonomy->name . '-not_in_sitemap'] === true )
+			( isset( $this->options[ 'taxonomies-' . $taxonomy->name . '-not_in_sitemap' ] ) && $this->options[ 'taxonomies-' . $taxonomy->name . '-not_in_sitemap' ] === true )
 			|| in_array( $taxonomy, array( 'link_category', 'nav_menu', 'post_format' ) )
 			|| apply_filters( 'wpseo_sitemap_exclude_taxonomy', false, $taxonomy->name )
 		) {
@@ -1252,18 +1252,18 @@ class WPSEO_Sitemaps {
 			$query                 = "SELECT post_type, MAX(post_modified_gmt) AS date FROM $wpdb->posts WHERE post_status IN ('publish','inherit') AND post_type IN ('" . implode( "','", get_post_types( array( 'public' => true ) ) ) . "') GROUP BY post_type ORDER BY post_modified_gmt DESC";
 			$results               = $wpdb->get_results( $query );
 			foreach ( $results as $obj ) {
-				$this->post_type_dates[$obj->post_type] = $obj->date;
+				$this->post_type_dates[ $obj->post_type ] = $obj->date;
 			}
 			unset( $results );
 		}
 
-		if ( count( $post_types ) === 1 && isset( $this->post_type_dates[$post_types[0]] ) ) {
-			$result = $this->post_type_dates[$post_types[0]];
+		if ( count( $post_types ) === 1 && isset( $this->post_type_dates[ $post_types[0] ] ) ) {
+			$result = $this->post_type_dates[ $post_types[0] ];
 		} else {
 			$result = null;
 			foreach ( $post_types as $post_type ) {
-				if ( isset( $this->post_type_dates[$post_type] ) && strtotime( $this->post_type_dates[$post_type] ) > $result ) {
-					$result = $this->post_type_dates[$post_type];
+				if ( isset( $this->post_type_dates[ $post_type ] ) && strtotime( $this->post_type_dates[ $post_type ] ) > $result ) {
+					$result = $this->post_type_dates[ $post_type ];
 				}
 			}
 		}
@@ -1324,11 +1324,11 @@ class WPSEO_Sitemaps {
 				} else {
 					$user_role    = $user->roles[0];
 					$target_key   = "user_role-{$user_role}-not_in_sitemap";
-					$exclude_user = $options[$target_key];
+					$exclude_user = $options[ $target_key ];
 				}
 
 				if ( $exclude_user === true ) {
-					unset( $users[$user_key] );
+					unset( $users[ $user_key ] );
 				}
 			}
 		}

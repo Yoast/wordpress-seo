@@ -84,8 +84,8 @@ class Yoast_Tracking {
 		$post_types = get_post_types( array( 'public' => true ) );
 		if ( is_array( $post_types ) && $post_types !== array() ) {
 			foreach ( $post_types as $post_type ) {
-				$count           = wp_count_posts( $post_type );
-				$pts[$post_type] = $count->publish;
+				$count             = wp_count_posts( $post_type );
+				$pts[ $post_type ] = $count->publish;
 			}
 		}
 		unset( $post_types );
@@ -125,7 +125,7 @@ class Yoast_Tracking {
 			$plugin_info = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin_path );
 
 			$slug           = str_replace( '/' . basename( $plugin_path ), '', $plugin_path );
-			$plugins[$slug] = array(
+			$plugins[ $slug ] = array(
 				'version'    => $plugin_info['Version'],
 				'name'       => $plugin_info['Name'],
 				'plugin_uri' => $plugin_info['PluginURI'],

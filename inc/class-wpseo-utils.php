@@ -682,8 +682,8 @@ class WPSEO_Utils {
 					break;
 			}
 
-			if ( isset( $type[$variable_name] ) ) {
-				$out = $type[$variable_name];
+			if ( isset( $type[ $variable_name ] ) ) {
+				$out = $type[ $variable_name ];
 			} else {
 				return false;
 			}
@@ -711,7 +711,7 @@ class WPSEO_Utils {
 	 */
 	public static function trim_nbsp_from_string( $string ) {
 		$string = trim( $string, '&nbsp;' );
-		$string = trim( $string, chr(0xC2).chr(0xA0) );
+		$string = trim( $string, chr( 0xC2 ) . chr( 0xA0 ) );
 
 		return $string;
 	}
