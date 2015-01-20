@@ -36,14 +36,19 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	public function detect_slug_change( $post_id, $post, $post_before ) {
 
 		if ( !isset( $_POST['wpseo_old_url'] ) ) {
-			return;
+			//Get all old_slugs for updated post
+			$old_slugs = get_post_meta( $post_id, '_wp_old_slug' );
+
+			//Get last old_slug from array
+			$old_url = end( $old_slugs );
+		}
+		else {
+			// Get the old URL
+			$old_url = esc_url( $_POST['wpseo_old_url'] );
 		}
 
 		// Get the new URL
 		$new_url = $this->get_target_url( $post_id );
-
-		// Get the old URL
-		$old_url = esc_url( $_POST['wpseo_old_url'] );
 
 		// Check if we should create a redirect
 		if ( in_array( $post->post_status, array( 'publish', 'static' ) ) && $this->should_create_redirect( $old_url, $new_url ) ) {
