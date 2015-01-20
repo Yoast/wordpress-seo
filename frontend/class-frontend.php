@@ -245,7 +245,7 @@ class WPSEO_Frontend {
 	 * @return string
 	 */
 	public function get_taxonomy_title() {
-		$object = $GLOBALs['wp_query']->get_queried_object();
+		$object = $GLOBALS['wp_query']->get_queried_object();
 
 		$title = WPSEO_Taxonomy_Meta::get_term_meta( $object, $object->taxonomy, 'title' );
 

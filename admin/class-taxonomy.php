@@ -80,7 +80,7 @@ class WPSEO_Taxonomy {
 	 * Add our admin css file
 	 */
 	function admin_enqueue_scripts() {
-		if ( $GLOBALs['pagenow'] === 'edit-tags.php' && ( isset( $_GET['action'] ) && $_GET['action'] === 'edit' ) ) {
+		if ( $GLOBALS['pagenow'] === 'edit-tags.php' && ( isset( $_GET['action'] ) && $_GET['action'] === 'edit' ) ) {
 			wp_enqueue_style( 'yoast-taxonomy-css', plugins_url( 'css/taxonomy-meta' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
 		}
 	}
