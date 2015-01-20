@@ -1,5 +1,10 @@
 <?php
-/*
+/**
+ * @package    WPSEO
+ * @subpackage Main
+ */
+
+/**
 Plugin Name: WordPress SEO
 Version: 1.8-beta
 Plugin URI: https://yoast.com/wordpress/plugins/seo/#utm_source=wpadmin&utm_medium=plugin&utm_campaign=wpseoplugin
@@ -25,7 +30,7 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 if ( ! function_exists( 'add_filter' ) ) {
 	header( 'Status: 403 Forbidden' );

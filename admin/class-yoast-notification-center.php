@@ -1,11 +1,23 @@
 <?php
+/**
+ * @package    WPSEO
+ * @subpackage Admin
+ */
 
 class Yoast_Notification_Center {
 
 	const TRANSIENT_KEY = 'yoast_notifications';
 
+	/**
+	 * The singleton instance of this object
+	 *
+	 * @var \Yoast_Notification_Center
+	 */
 	private static $instance = null;
 
+	/**
+	 * @var array
+	 */
 	private $notifications = array();
 
 	/**
@@ -105,10 +117,8 @@ class Yoast_Notification_Center {
 			}
 
 			// Set the cookie with notifications
-			set_transient( self::TRANSIENT_KEY, json_encode( $arr_notifications ), MINUTE_IN_SECONDS * 10 );
-
+			set_transient( self::TRANSIENT_KEY, json_encode( $arr_notifications ), ( MINUTE_IN_SECONDS * 10 ) );
 		}
-
 	}
 
 	/**
@@ -134,7 +144,6 @@ class Yoast_Notification_Center {
 
 		// Clear the local stored notifications
 		$this->clear_notifications();
-
 	}
 
 	/**

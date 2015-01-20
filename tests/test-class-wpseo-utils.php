@@ -1,4 +1,8 @@
 <?php
+/**
+ * @package    WPSEO
+ * @subpackage Unittests
+ */
 
 class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 
@@ -28,8 +32,8 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	* @covers wpseo_is_apache()
-	*/
+	 * @covers wpseo_is_apache()
+	 */
 	public function test_wpseo_is_apache() {
 		$_SERVER['SERVER_SOFTWARE'] = 'Apache/2.2.22';
 		$this->assertTrue( WPSEO_Utils::is_apache() );
@@ -39,8 +43,8 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	* @covers test_wpseo_is_nginx()
-	*/
+	 * @covers test_wpseo_is_nginx()
+	 */
 	public function test_wpseo_is_nginx() {
 		$_SERVER['SERVER_SOFTWARE'] = 'nginx/1.5.11';
 		$this->assertTrue( WPSEO_Utils::is_nginx() );

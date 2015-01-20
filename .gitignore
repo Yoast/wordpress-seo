@@ -34,7 +34,6 @@ premium/node_modules/*
 ## Misc
 ############
 
-bin/
 tmp/
 *.tmp
 *.bak

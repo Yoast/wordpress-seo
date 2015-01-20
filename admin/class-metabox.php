@@ -1,19 +1,18 @@
 <?php
 /**
- * @package Admin
- *
- * This code generates the metabox on the edit post / page as well as contains all page analysis functionality.
+ * @package    WPSEO
+ * @subpackage Admin
  */
 
 /**
- * class WPSEO_Metabox
+ * Class WPSEO_Metabox
  *
- * The class that generates the metabox on the edit post / page as well as contains all page analysis functionality.
+ * This class generates the metabox on the edit post / page as well as contains all page analysis functionality.
  */
 class WPSEO_Metabox extends WPSEO_Meta {
 
 	/**
-	 * Property holding the Text statistics object
+	 * @var object Holds the Text statistics object
 	 */
 	public $statistics;
 
@@ -45,7 +44,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		self::$meta_fields['general']['focuskw']['help']  = sprintf( __( 'Pick the main keyword or keyphrase that this post/page is about.<br/><br/>Read %sthis post%s for more info.', 'wordpress-seo' ), '<a href="https://yoast.com/focus-keyword/#utm_source=wordpress-seo-metabox&amp;utm_medium=inline-help&amp;utm_campaign=focus-keyword">', '</a>' );
 
 		self::$meta_fields['general']['title']['title']       = __( 'SEO Title', 'wordpress-seo' );
-		self::$meta_fields['general']['title']['description'] = '<p id="yoast_wpseo_title-length-warning">' . '<span class="wrong">' . __( 'Warning:', 'wordpress-seo' ) . '</span> ' . __( 'Title display in Google is limited to a fixed width, yours is too long.', 'wordpress-seo' ) . '</p>';
+		self::$meta_fields['general']['title']['description'] = '<p id="yoast_wpseo_title-length-warning"><span class="wrong">' . __( 'Warning:', 'wordpress-seo' ) . '</span> ' . __( 'Title display in Google is limited to a fixed width, yours is too long.', 'wordpress-seo' ) . '</p>';
 		self::$meta_fields['general']['title']['help']        = __( 'The SEO title defaults to what is generated based on this sites title template for this posttype.', 'wordpress-seo' );
 
 		self::$meta_fields['general']['metadesc']['title']       = __( 'Meta description', 'wordpress-seo' );
@@ -119,7 +118,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		if ( ! isset( $post_type ) ) {
 			if ( isset( $GLOBALS['post'] ) && ( is_object( $GLOBALS['post'] ) && isset( $GLOBALS['post']->post_type ) ) ) {
 				$post_type = $GLOBALS['post']->post_type;
-			} elseif ( isset( $_GET['post_type'] ) && $_GET['post_type'] !== '' ) {
+			}
+			elseif ( isset( $_GET['post_type'] ) && $_GET['post_type'] !== '' ) {
 				$post_type = sanitize_text_field( $_GET['post_type'] );
 			}
 		}
@@ -129,8 +129,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$cpts    = get_post_types( array( 'public' => true ), 'names' );
 			$options = get_option( 'wpseo_titles' );
 
-			return ( ( isset( $options['hideeditbox-' . $post_type] ) && $options['hideeditbox-' . $post_type] === true ) || in_array( $post_type, $cpts ) === false );
-		} else {
+			return ( ( isset( $options[ 'hideeditbox-' . $post_type ] ) && $options[ 'hideeditbox-' . $post_type ] === true ) || in_array( $post_type, $cpts ) === false );
+		}
+		else {
 			return false;
 		}
 	}
@@ -158,6 +159,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 						), 10, 2 );
 					}
 				}
+				unset( $pt );
 			}
 			add_action( 'restrict_manage_posts', array( $this, 'posts_filter_dropdown' ) );
 			add_filter( 'request', array( $this, 'column_sort_orderby' ) );
@@ -188,8 +190,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		if ( isset( $_GET['post'] ) ) {
 			$post_id = (int) WPSEO_Utils::validate_int( $_GET['post'] );
 			$post    = get_post( $post_id );
-		} else {
-			global $post;
+		}
+		else {
+			$post = $GLOBALS['post'];
 		}
 
 		return $post;
@@ -236,15 +239,14 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			return;
 		}
 
-		echo '<div class="misc-pub-section misc-yoast misc-pub-section-last">';
-
 		$post = $this->get_metabox_post();
 
 		if ( self::get_value( 'meta-robots-noindex', $post->ID ) === '1' ) {
 			$score_label = 'noindex';
 			$title       = __( 'Post is set to noindex.', 'wordpress-seo' );
 			$score_title = $title;
-		} else {
+		}
+		else {
 
 			$score   = '';
 			$results = $this->calculate_results( $post );
@@ -256,7 +258,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			if ( $score === '' ) {
 				$score_label = 'na';
 				$title       = __( 'No focus keyword set.', 'wordpress-seo' );
-			} else {
+			}
+			else {
 				$score_label = WPSEO_Utils::translate_score( $score );
 			}
 
@@ -266,13 +269,18 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			}
 		}
 
-		echo '<div title="' . esc_attr( $title ) . '" class="' . esc_attr( 'wpseo-score-icon ' . $score_label ) . '"></div>';
-
-		echo __( 'SEO: ', 'wordpress-seo' ) . '<span class="wpseo-score-title">' . $score_title . '</span>';
-
-		echo ' <a class="wpseo_tablink scroll" href="#wpseo_linkdex">' . __( 'Check', 'wordpress-seo' ) . '</a>';
-
-		echo '</div>';
+		printf( '
+		<div class="misc-pub-section misc-yoast misc-pub-section-last">
+			<div title="%1$s" class="%2$s"></div>
+			%3$s <span class="wpseo-score-title">%4$s</span>
+			<a class="wpseo_tablink scroll" href="#wpseo_linkdex">%5$s</a>
+		</div>',
+			esc_attr( $title ),
+			esc_attr( 'wpseo-score-icon ' . $score_label ),
+			__( 'SEO:', 'wordpress-seo' ),
+			$score_title,
+			__( 'Check', 'wordpress-seo' )
+		);
 	}
 
 	/**
@@ -308,10 +316,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$options = get_option( 'wpseo_titles' );
 
 		$date = '';
-		if ( isset( $options['showdate-' . $post->post_type] ) && $options['showdate-' . $post->post_type] === true ) {
+		if ( isset( $options[ 'showdate-' . $post->post_type ] ) && $options[ 'showdate-' . $post->post_type ] === true ) {
 			$date = $this->get_post_date( $post );
 
-			self::$meta_length        = self::$meta_length - ( strlen( $date ) + 5 );
+			self::$meta_length        = ( self::$meta_length - ( strlen( $date ) + 5 ) );
 			self::$meta_length_reason = __( ' (because of date display)', 'wordpress-seo' );
 		}
 
@@ -321,8 +329,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		unset( $date );
 
 		$title_template = '';
-		if ( isset( $options['title-' . $post->post_type] ) && $options['title-' . $post->post_type] !== '' ) {
-			$title_template = $options['title-' . $post->post_type];
+		if ( isset( $options[ 'title-' . $post->post_type ] ) && $options[ 'title-' . $post->post_type ] !== '' ) {
+			$title_template = $options[ 'title-' . $post->post_type ];
 		}
 
 		// If there's no title template set, use the default, otherwise title preview won't work.
@@ -331,30 +339,30 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 
 		$metadesc_template = '';
-		if ( isset( $options['metadesc-' . $post->post_type] ) && $options['metadesc-' . $post->post_type] !== '' ) {
-			$metadesc_template = $options['metadesc-' . $post->post_type];
+		if ( isset( $options[ 'metadesc-' . $post->post_type ] ) && $options[ 'metadesc-' . $post->post_type ] !== '' ) {
+			$metadesc_template = $options[ 'metadesc-' . $post->post_type ];
 		}
 
 		$sample_permalink = get_sample_permalink( $post->ID );
 		$sample_permalink = str_replace( '%page', '%post', $sample_permalink[0] );
 
 		$cached_replacement_vars = array();
-		foreach (
-			array(
-				'date',
-				'id',
-				'sitename',
-				'sitedesc',
-				'sep',
-				'page',
-				'currenttime',
-				'currentdate',
-				'currentday',
-				'currentmonth',
-				'currentyear',
-			) as $var
-		) {
-			$cached_replacement_vars[$var] = wpseo_replace_vars( '%%' . $var . '%%', $post );
+
+		$vars_to_cache = array(
+			'date',
+			'id',
+			'sitename',
+			'sitedesc',
+			'sep',
+			'page',
+			'currenttime',
+			'currentdate',
+			'currentday',
+			'currentmonth',
+			'currentyear',
+		);
+		foreach ( $vars_to_cache as $var ) {
+			$cached_replacement_vars[ $var ] = wpseo_replace_vars( '%%' . $var . '%%', $post );
 		}
 
 		return array_merge( $cached_replacement_vars, array(
@@ -422,6 +430,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			foreach ( $this->get_meta_field_defs( 'general', $post->post_type ) as $key => $meta_field ) {
 				$content .= $this->do_meta_box( $meta_field, $key );
 			}
+			unset( $key, $meta_field );
 		}
 		$this->do_tab( 'general', __( 'General', 'wordpress-seo' ), $content );
 
@@ -432,6 +441,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			foreach ( $this->get_meta_field_defs( 'advanced' ) as $key => $meta_field ) {
 				$content .= $this->do_meta_box( $meta_field, $key );
 			}
+			unset( $key, $meta_field );
 			$this->do_tab( 'advanced', __( 'Advanced', 'wordpress-seo' ), $content );
 		}
 
@@ -497,6 +507,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 						$selected = selected( $meta_value, $val, false );
 						$content .= '<option ' . $selected . ' value="' . esc_attr( $val ) . '">' . esc_html( $option ) . '</option>';
 					}
+					unset( $val, $option, $selected );
 					$content .= '</select>';
 				}
 				break;
@@ -504,7 +515,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			case 'multiselect':
 				if ( isset( $meta_field_def['options'] ) && is_array( $meta_field_def['options'] ) && $meta_field_def['options'] !== array() ) {
 
-					// Set $meta_value as $selectedarr
+					// Set $meta_value as $selected_arr
 					$selected_arr = $meta_value;
 
 					// If the multiselect field is 'meta-robots-adv' we should explode on ,
@@ -528,6 +539,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 						$content .= '<option ' . $selected . ' value="' . esc_attr( $val ) . '">' . esc_html( $option ) . '</option>';
 					}
 					$content .= '</select>';
+					unset( $val, $option, $selected, $selected_arr, $options_count );
 				}
 				break;
 
@@ -535,6 +547,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				$checked = checked( $meta_value, 'on', false );
 				$expl    = ( isset( $meta_field_def['expl'] ) ) ? esc_html( $meta_field_def['expl'] ) : '';
 				$content .= '<label for="' . $esc_form_key . '"><input type="checkbox" id="' . $esc_form_key . '" name="' . $esc_form_key . '" ' . $checked . ' value="on" class="yoast' . $class . '"/> ' . $expl . '</label><br />';
+				unset( $checked, $expl );
 				break;
 
 			case 'radio':
@@ -543,6 +556,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 						$checked = checked( $meta_value, $val, false );
 						$content .= '<input type="radio" ' . $checked . ' id="' . $esc_form_key . '_' . esc_attr( $val ) . '" name="' . $esc_form_key . '" value="' . esc_attr( $val ) . '"/> <label for="' . $esc_form_key . '_' . esc_attr( $val ) . '">' . esc_html( $option ) . '</label> ';
 					}
+					unset( $val, $option, $checked );
 				}
 				break;
 
@@ -604,7 +618,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	function get_post_date( $post ) {
 		if ( isset( $post->post_date ) && $post->post_status == 'publish' ) {
 			$date = date_i18n( 'j M Y', strtotime( $post->post_date ) );
-		} else {
+		}
+		else {
 			$date = date_i18n( 'j M Y' );
 		}
 
@@ -660,10 +675,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		foreach ( $meta_boxes as $key => $meta_box ) {
 			$data = null;
 			if ( 'checkbox' === $meta_box['type'] ) {
-				$data = isset( $_POST[self::$form_prefix . $key] ) ? 'on' : 'off';
-			} else {
-				if ( isset( $_POST[self::$form_prefix . $key] ) ) {
-					$data = $_POST[self::$form_prefix . $key];
+				$data = isset( $_POST[ self::$form_prefix . $key ] ) ? 'on' : 'off';
+			}
+			else {
+				if ( isset( $_POST[ self::$form_prefix . $key ] ) ) {
+					$data = $_POST[ self::$form_prefix . $key ];
 				}
 			}
 			if ( isset( $data ) ) {
@@ -699,7 +715,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		if ( $pagenow == 'edit.php' ) {
 			wp_enqueue_style( 'edit-page', plugins_url( 'css/edit-page' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
-		} else {
+		}
+		else {
 			if ( 0 != get_queried_object_id() ) {
 				wp_enqueue_media( array( 'post' => get_queried_object_id() ) ); // enqueue files needed for upload functionality
 			}
@@ -737,12 +754,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 	/**
 	 * Adds a dropdown that allows filtering on the posts SEO Quality.
-	 *
-	 * @return bool
 	 */
 	function posts_filter_dropdown() {
-		global $pagenow;
-		if ( $pagenow === 'upload.php' || $this->is_metabox_hidden() === true ) {
+		if ( $GLOBALS['pagenow'] === 'upload.php' || $this->is_metabox_hidden() === true ) {
 			return;
 		}
 
@@ -755,16 +769,19 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'noindex' => __( 'SEO: Post Noindexed', 'wordpress-seo' )
 		);
 
-		echo '<select name="seo_filter">';
-		echo '<option value="">' . __( 'All SEO Scores', 'wordpress-seo' ) . '</option>';
+		echo '
+			<select name="seo_filter">
+				<option value="">', __( 'All SEO Scores', 'wordpress-seo' ), '</option>';
 		foreach ( $scores_array as $val => $text ) {
 			$sel = '';
 			if ( isset( $_GET['seo_filter'] ) ) {
 				$sel = selected( $_GET['seo_filter'], $val, false );
 			}
-			echo '<option ' . $sel . 'value="' . $val . '">' . $text . '</option>';
+			echo '
+				<option ', $sel, 'value="', $val, '">', $text. '</option>';
 		}
-		echo '</select>';
+		echo '
+			</select>';
 	}
 
 	/**
@@ -804,24 +821,27 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				$score_label = 'noindex';
 				$title       = __( 'Post is set to noindex.', 'wordpress-seo' );
 				self::set_value( 'linkdex', 0, $post_id );
-			} elseif ( $score !== '' ) {
+			}
+			elseif ( $score !== '' ) {
 				$nr          = WPSEO_Utils::calc( $score, '/', 10, true );
 				$score_label = WPSEO_Utils::translate_score( $nr );
 				$title       = WPSEO_Utils::translate_score( $nr, false );
 				unset( $nr );
-			} else {
+			}
+			else {
 				$this->calculate_results( get_post( $post_id ) );
 				$score = self::get_value( 'linkdex', $post_id );
 				if ( $score === '' ) {
 					$score_label = 'na';
 					$title       = __( 'Focus keyword not set.', 'wordpress-seo' );
-				} else {
+				}
+				else {
 					$score_label = WPSEO_Utils::translate_score( $score );
 					$title       = WPSEO_Utils::translate_score( $score, false );
 				}
 			}
 
-			echo '<div title="' . esc_attr( $title ) . '" class="wpseo-score-icon ' . esc_attr( $score_label ) . '"></div>';
+			echo '<div title="', esc_attr( $title ), '" class="wpseo-score-icon ', esc_attr( $score_label ), '"></div>';
 		}
 		if ( $column_name === 'wpseo-title' ) {
 			echo esc_html( apply_filters( 'wpseo_title', wpseo_replace_vars( $this->page_title( $post_id ), get_post( $post_id, ARRAY_A ) ) ) );
@@ -927,7 +947,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 				add_filter( 'posts_where', array( $this, 'seo_score_posts_where' ) );
 
-			} elseif ( $na ) {
+			}
+			elseif ( $na ) {
 				$vars = array_merge(
 					$vars,
 					array(
@@ -942,7 +963,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 					)
 				);
 
-			} elseif ( $noindex ) {
+			}
+			elseif ( $noindex ) {
 				$vars = array_merge(
 					$vars,
 					array(
@@ -1014,7 +1036,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		if ( $new_where ) {
 			return $new_where;
-		} else {
+		}
+		else {
 			return $where;
 		}
 	}
@@ -1030,15 +1053,17 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$fixed_title = self::get_value( 'title', $post_id );
 		if ( $fixed_title !== '' ) {
 			return $fixed_title;
-		} else {
+		}
+		else {
 			$post    = get_post( $post_id );
 			$options = WPSEO_Options::get_all();
-			if ( is_object( $post ) && ( isset( $options['title-' . $post->post_type] ) && $options['title-' . $post->post_type] !== '' ) ) {
-				$title_template = $options['title-' . $post->post_type];
+			if ( is_object( $post ) && ( isset( $options[ 'title-' . $post->post_type ] ) && $options[ 'title-' . $post->post_type ] !== '' ) ) {
+				$title_template = $options[ 'title-' . $post->post_type ];
 				$title_template = str_replace( ' %%page%% ', ' ', $title_template );
 
 				return wpseo_replace_vars( $title_template, $post );
-			} else {
+			}
+			else {
 				return wpseo_replace_vars( '%%title%%', $post );
 			}
 		}
@@ -1055,11 +1080,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$ret    = array();
 		reset( $array );
 		foreach ( $array as $ii => $va ) {
-			$sorter[$ii] = $va[$key];
+			$sorter[ $ii ] = $va[ $key ];
 		}
 		asort( $sorter );
 		foreach ( $sorter as $ii => $va ) {
-			$ret[$ii] = $array[$ii];
+			$ret[ $ii ] = $array[ $ii ];
 		}
 		$array = $ret;
 	}
@@ -1093,6 +1118,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 					$output .= '<tr><td class="score"><div class="' . esc_attr( 'wpseo-score-icon ' . $score ) . '"></div></td><td>' . $result['msg'] . '</td></tr>';
 				}
 			}
+			unset( $result, $score );
 			$output .= '</table>';
 
 			if ( WP_DEBUG === true || ( defined( 'WPSEO_DEBUG' ) && WPSEO_DEBUG === true ) ) {
@@ -1133,13 +1159,15 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$result = new WP_Error( 'no-post', __( 'No post content to analyse.', 'wordpress-seo' ) );
 
 			return $result;
-		} elseif ( self::get_value( 'focuskw', $post->ID ) === '' ) {
+		}
+		elseif ( self::get_value( 'focuskw', $post->ID ) === '' ) {
 			$result = new WP_Error( 'no-focuskw', sprintf( __( 'No focus keyword was set for this %s. If you do not set a focus keyword, no score can be calculated.', 'wordpress-seo' ), $post->post_type ) );
 
 			self::set_value( 'linkdex', 0, $post->ID );
 
 			return $result;
-		} elseif ( apply_filters( 'wpseo_use_page_analysis', true ) !== true ) {
+		}
+		elseif ( apply_filters( 'wpseo_use_page_analysis', true ) !== true ) {
 			$result = new WP_Error( 'page-analysis-disabled', sprintf( __( 'Page Analysis has been disabled.', 'wordpress-seo' ), $post->post_type ) );
 
 			return $result;
@@ -1188,10 +1216,12 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$title = self::get_value( 'title', $post->ID );
 		if ( $title !== '' ) {
 			$job['title'] = $title;
-		} else {
-			if ( isset( $options['title-' . $post->post_type] ) && $options['title-' . $post->post_type] !== '' ) {
-				$title_template = $options['title-' . $post->post_type];
-			} else {
+		}
+		else {
+			if ( isset( $options[ 'title-' . $post->post_type ] ) && $options[ 'title-' . $post->post_type ] !== '' ) {
+				$title_template = $options[ 'title-' . $post->post_type ];
+			}
+			else {
 				$title_template = '%%title%% - %%sitename%%';
 			}
 			$job['title'] = wpseo_replace_vars( $title_template, $post );
@@ -1204,8 +1234,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$desc_meta   = self::get_value( 'metadesc', $post->ID );
 		if ( $desc_meta !== '' ) {
 			$description = $desc_meta;
-		} elseif ( isset( $options['metadesc-' . $post->post_type] ) && $options['metadesc-' . $post->post_type] !== '' ) {
-			$description = wpseo_replace_vars( $options['metadesc-' . $post->post_type], $post );
+		}
+		elseif ( isset( $options[ 'metadesc-' . $post->post_type ] ) && $options[ 'metadesc-' . $post->post_type ] !== '' ) {
+			$description = wpseo_replace_vars( $options[ 'metadesc-' . $post->post_type ], $post );
 		}
 		unset( $desc_meta );
 
@@ -1263,9 +1294,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$overall_max = 0;
 
 		foreach ( $results as $result ) {
-			$overall += $result['val'];
+			$overall     += $result['val'];
 			$overall_max += 9;
 		}
+		unset( $result );
 
 		if ( $overall < 1 ) {
 			$overall = 1;
@@ -1312,7 +1344,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'msg' => $scoreMessage,
 			'raw' => $rawScore,
 		);
-		$results[$scoreLabel] = $score;
+		$results[ $scoreLabel ] = $score;
 	}
 
 	/**
@@ -1343,7 +1375,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$inputString = str_replace( $keywordWordsRemoved, ' ', $inputString );
 
 			$inputString = str_replace( $keywordCharactersRemovedOrReplaced, '', $inputString );
-		} else {
+		}
+		else {
 			$inputString = str_replace( $keywordCharactersRemovedOrReplaced, ' ', $inputString );
 		}
 
@@ -1367,18 +1400,20 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				'exclude'     => $job['post_id'],
 				'fields'      => 'ids',
 				'post_type'   => 'any',
-				'numberposts' => - 1,
+				'numberposts' => ( - 1 ),
 			)
 		);
 
 		if ( count( $posts ) == 0 ) {
 			$this->save_score_result( $results, 9, __( 'You\'ve never used this focus keyword before, very good.', 'wordpress-seo' ), 'keyword_overused' );
-		} elseif ( count( $posts ) == 1 ) {
+		}
+		elseif ( count( $posts ) == 1 ) {
 			$this->save_score_result( $results, 6, sprintf( __( 'You\'ve used this focus keyword %1$sonce before%2$s, be sure to make very clear which URL on your site is the most important for this keyword.', 'wordpress-seo' ), '<a href="' . esc_url( add_query_arg( array(
 					'post'   => $posts[0],
 					'action' => 'edit',
 				), admin_url( 'post.php' ) ) ) . '">', '</a>' ), 'keyword_overused' );
-		} else {
+		}
+		else {
 			$this->save_score_result( $results, 1, sprintf( __( 'You\'ve used this focus keyword %3$s%4$d times before%2$s, it\'s probably a good idea to read %1$sthis post on cornerstone content%2$s and improve your keyword strategy.', 'wordpress-seo' ), '<a href="https://yoast.com/cornerstone-content-rank/">', '</a>', '<a href="' . esc_url( add_query_arg( array( 'seo_kw_filter' => $job['keyword'] ), admin_url( 'edit.php' ) ) ) . '">', count( $posts ) ), 'keyword_overused' );
 		}
 	}
@@ -1406,8 +1441,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @param array $results The results array.
 	 */
 	function score_url( $job, &$results ) {
-		global $wpseo_admin;
-
 		$urlGood      = __( 'The keyword / phrase appears in the URL for this page.', 'wordpress-seo' );
 		$urlMedium    = __( 'The keyword / phrase does not appear in the URL for this page. If you decide to rename the URL be sure to check the old URL 301 redirects to the new one!', 'wordpress-seo' );
 		$urlStopWords = __( 'The slug for this page contains one or more <a href="http://en.wikipedia.org/wiki/Stop_words">stop words</a>, consider removing them.', 'wordpress-seo' );
@@ -1419,12 +1452,13 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		if ( stripos( $haystack1, $needle ) || stripos( $haystack2, $needle ) ) {
 			$this->save_score_result( $results, 9, $urlGood, 'url_keyword' );
-		} else {
+		}
+		else {
 			$this->save_score_result( $results, 6, $urlMedium, 'url_keyword' );
 		}
 
 		// Check for Stop Words in the slug
-		if ( $wpseo_admin->stopwords_check( $job['pageSlug'], true ) !== false ) {
+		if ( $GLOBALS['wpseo_admin']->stopwords_check( $job['pageSlug'], true ) !== false ) {
 			$this->save_score_result( $results, 5, $urlStopWords, 'url_stopword' );
 		}
 
@@ -1455,15 +1489,18 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		if ( $job['title'] == '' ) {
 			$this->save_score_result( $results, 1, $scoreTitleMissing, 'title' );
-		} else {
+		}
+		else {
 			$job['title'] = wp_strip_all_tags( $job['title'] );
 
 			$length = $this->statistics()->text_length( $job['title'] );
 			if ( $length < $scoreTitleMinLength ) {
 				$this->save_score_result( $results, 6, sprintf( $scoreTitleTooShort, $length ), 'title_length' );
-			} elseif ( $length > $scoreTitleMaxLength ) {
+			}
+			elseif ( $length > $scoreTitleMaxLength ) {
 				$this->save_score_result( $results, 6, sprintf( $scoreTitleTooLong, $length ), 'title_length' );
-			} else {
+			}
+			else {
 				$this->save_score_result( $results, 9, $scoreTitleCorrectLength, 'title_length' );
 			}
 
@@ -1476,9 +1513,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 			if ( $needle_position === false ) {
 				$this->save_score_result( $results, 2, sprintf( $scoreTitleKeywordMissing, $job['keyword_folded'] ), 'title_keyword' );
-			} elseif ( $needle_position <= $scoreTitleKeywordLimit ) {
+			}
+			elseif ( $needle_position <= $scoreTitleKeywordLimit ) {
 				$this->save_score_result( $results, 9, $scoreTitleKeywordBeginning, 'title_keyword' );
-			} else {
+			}
+			else {
 				$this->save_score_result( $results, 6, $scoreTitleKeywordEnd, 'title_keyword' );
 			}
 		}
@@ -1501,7 +1540,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		if ( $count['external']['nofollow'] == 0 && $count['external']['dofollow'] == 0 ) {
 			$this->save_score_result( $results, 6, $scoreNoLinks, 'links' );
-		} else {
+		}
+		else {
 			$found = false;
 			if ( is_array( $anchor_texts ) && $anchor_texts !== array() ) {
 				foreach ( $anchor_texts as $anchor_text ) {
@@ -1509,6 +1549,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 						$found = true;
 					}
 				}
+				unset( $anchor_text );
 			}
 			if ( $found ) {
 				$this->save_score_result( $results, 2, $scoreKeywordInOutboundLink, 'links_focus_keyword' );
@@ -1516,9 +1557,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 			if ( $count['external']['nofollow'] == 0 && $count['external']['dofollow'] > 0 ) {
 				$this->save_score_result( $results, 9, sprintf( $scoreLinksDofollow, $count['external']['dofollow'] ), 'links_number' );
-			} elseif ( $count['external']['nofollow'] > 0 && $count['external']['dofollow'] == 0 ) {
+			}
+			elseif ( $count['external']['nofollow'] > 0 && $count['external']['dofollow'] == 0 ) {
 				$this->save_score_result( $results, 7, sprintf( $scoreLinksNofollow, $count['external']['nofollow'] ), 'links_number' );
-			} else {
+			}
+			else {
 				$this->save_score_result( $results, 8, sprintf( $scoreLinks, $count['external']['nofollow'], $count['external']['dofollow'] ), 'links_number' );
 			}
 		}
@@ -1575,21 +1618,25 @@ class WPSEO_Metabox extends WPSEO_Meta {
 					$wpurl = get_bloginfo( 'url' );
 					if ( WPSEO_Utils::is_url_relative( $href ) === true || substr( $href, 0, strlen( $wpurl ) ) === $wpurl ) {
 						$type = 'internal';
-					} elseif ( substr( $href, 0, 4 ) == 'http' ) {
+					}
+					elseif ( substr( $href, 0, 4 ) == 'http' ) {
 						$type = 'external';
-					} else {
+					}
+					else {
 						$type = 'other';
 					}
 
 					if ( $dom_object->attributes->getNamedItem( 'rel' ) ) {
 						$link_rel = $dom_object->attributes->getNamedItem( 'rel' )->textContent;
 						if ( stripos( $link_rel, 'nofollow' ) !== false ) {
-							$count[$type]['nofollow'] ++;
-						} else {
-							$count[$type]['dofollow'] ++;
+							$count[ $type ]['nofollow'] ++;
 						}
-					} else {
-						$count[$type]['dofollow'] ++;
+						else {
+							$count[ $type ]['dofollow'] ++;
+						}
+					}
+					else {
+						$count[ $type ]['dofollow'] ++;
 					}
 				}
 			}
@@ -1613,22 +1660,28 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		if ( $imgs['count'] == 0 ) {
 			$this->save_score_result( $results, 3, $scoreImagesNoImages, 'images_alt' );
-		} elseif ( count( $imgs['alts'] ) == 0 && $imgs['count'] != 0 ) {
+		}
+		elseif ( count( $imgs['alts'] ) == 0 && $imgs['count'] != 0 ) {
 			$this->save_score_result( $results, 5, $scoreImagesNoAlt, 'images_alt' );
-		} else {
+		}
+		else {
 			$found = false;
 			foreach ( $imgs['alts'] as $alt ) {
 				$haystack1 = $this->strip_separators_and_fold( $alt, true );
 				$haystack2 = $this->strip_separators_and_fold( $alt, false );
 				if ( strrpos( $haystack1, $job['keyword_folded'] ) !== false ) {
 					$found = true;
-				} elseif ( strrpos( $haystack2, $job['keyword_folded'] ) !== false ) {
+				}
+				elseif ( strrpos( $haystack2, $job['keyword_folded'] ) !== false ) {
 					$found = true;
 				}
 			}
+			unset( $alt, $haystack1, $haystack2 );
+
 			if ( $found ) {
 				$this->save_score_result( $results, 9, $scoreImagesAltKeywordIn, 'images_alt' );
-			} else {
+			}
+			else {
 				$this->save_score_result( $results, 5, $scoreImagesAltKeywordMissing, 'images_alt' );
 			}
 		}
@@ -1644,15 +1697,17 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return array The updated images array.
 	 */
 	function get_images_alt_text( $post_id, $body, $imgs ) {
-		preg_match_all( '`<img[^>]+>`im', $body, $matches );
 		$imgs['alts'] = array();
-		if ( isset( $matches[0] ) && is_array( $matches[0] ) && $matches[0] !== array() ) {
+		if ( preg_match_all( '`<img[^>]+>`im', $body, $matches ) ) {
 			foreach ( $matches[0] as $img ) {
 				if ( preg_match( '`alt=(["\'])(.*?)\1`', $img, $alt ) && isset( $alt[2] ) ) {
 					$imgs['alts'][] = $this->strtolower_utf8( $alt[2] );
 				}
 			}
+			unset( $img, $alt );
 		}
+		unset( $matches );
+
 		if ( strpos( $body, '[gallery' ) !== false ) {
 			$attachments = get_children( array(
 				'post_parent'    => $post_id,
@@ -1690,7 +1745,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$headingCount = count( $headings );
 		if ( $headingCount == 0 ) {
 			$this->save_score_result( $results, 7, $scoreHeadingsNone, 'headings' );
-		} else {
+		}
+		else {
 			$found = 0;
 			foreach ( $headings as $heading ) {
 				$haystack1 = $this->strip_separators_and_fold( $heading, true );
@@ -1698,13 +1754,17 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 				if ( strrpos( $haystack1, $job['keyword_folded'] ) !== false ) {
 					$found ++;
-				} elseif ( strrpos( $haystack2, $job['keyword_folded'] ) !== false ) {
+				}
+				elseif ( strrpos( $haystack2, $job['keyword_folded'] ) !== false ) {
 					$found ++;
 				}
 			}
+			unset( $heading, $haystack1, $haystack2 );
+
 			if ( $found ) {
 				$this->save_score_result( $results, 9, sprintf( $scoreHeadingsKeywordIn, $found, $headingCount ), 'headings' );
-			} else {
+			}
+			else {
 				$this->save_score_result( $results, 3, $scoreHeadingsKeywordMissing, 'headings' );
 			}
 		}
@@ -1755,14 +1815,17 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		if ( $description == '' ) {
 			$this->save_score_result( $results, 1, $scoreDescriptionMissing, 'description_length' );
-		} else {
+		}
+		else {
 			$length = $this->statistics()->text_length( $description );
 
 			if ( $length < $scoreDescriptionMinLength ) {
 				$this->save_score_result( $results, 6, sprintf( $scoreDescriptionTooShort, $maxlength, $metaShorter ), 'description_length' );
-			} elseif ( $length <= $maxlength ) {
+			}
+			elseif ( $length <= $maxlength ) {
 				$this->save_score_result( $results, 9, $scoreDescriptionCorrectLength, 'description_length' );
-			} else {
+			}
+			else {
 				$this->save_score_result( $results, 6, sprintf( $scoreDescriptionTooLong, $maxlength, $metaShorter ), 'description_length' );
 			}
 
@@ -1771,7 +1834,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$haystack2 = $this->strip_separators_and_fold( $description, false );
 			if ( strrpos( $haystack1, $job['keyword_folded'] ) === false && strrpos( $haystack2, $job['keyword_folded'] ) === false ) {
 				$this->save_score_result( $results, 3, $scoreDescriptionKeywordMissing, 'description_keyword' );
-			} else {
+			}
+			else {
 				$this->save_score_result( $results, 9, $scoreDescriptionKeywordIn, 'description_keyword' );
 			}
 		}
@@ -1818,13 +1882,17 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		if ( $wordCount < $lengthScore['bad'] ) {
 			$this->save_score_result( $results, - 20, sprintf( $scoreBodyBadLength, $wordCount, $lengthScore['good'] ), 'body_length', $wordCount );
-		} elseif ( $wordCount < $lengthScore['poor'] ) {
+		}
+		elseif ( $wordCount < $lengthScore['poor'] ) {
 			$this->save_score_result( $results, - 10, sprintf( $scoreBodyPoorLength, $wordCount, $lengthScore['good'] ), 'body_length', $wordCount );
-		} elseif ( $wordCount < $lengthScore['ok'] ) {
+		}
+		elseif ( $wordCount < $lengthScore['ok'] ) {
 			$this->save_score_result( $results, 5, sprintf( $scoreBodyPoorLength, $wordCount, $lengthScore['good'] ), 'body_length', $wordCount );
-		} elseif ( $wordCount < $lengthScore['good'] ) {
+		}
+		elseif ( $wordCount < $lengthScore['good'] ) {
 			$this->save_score_result( $results, 7, sprintf( $scoreBodyOKLength, $wordCount, $lengthScore['good'] ), 'body_length', $wordCount );
-		} else {
+		}
+		else {
 			$this->save_score_result( $results, 9, sprintf( $scoreBodyGoodLength, $wordCount, $lengthScore['good'] ), 'body_length', $wordCount );
 		}
 
@@ -1835,19 +1903,22 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		if ( $keywordWordCount > 10 ) {
 			$this->save_score_result( $results, 0, __( 'Your keyphrase is over 10 words, a keyphrase should be shorter and there can be only one keyphrase.', 'wordpress-seo' ), 'focus_keyword_length' );
-		} else {
+		}
+		else {
 			// Keyword Density check
 			$keywordDensity = 0;
 			if ( $wordCount > 100 ) {
-				$keywordCount = preg_match_all( '`\b' . preg_quote( $job['keyword'], '`' ) . '\b`miu', $body, $res );
+				$keywordCount = preg_match_all( '`\b' . preg_quote( $job['keyword'], '`' ) . '\b`miu', $body );
 				if ( ( $keywordCount > 0 && $keywordWordCount > 0 ) && $wordCount > $keywordCount ) {
 					$keywordDensity = WPSEO_Utils::calc( WPSEO_Utils::calc( $keywordCount, '/', WPSEO_Utils::calc( $wordCount, '-', ( WPSEO_Utils::calc( WPSEO_Utils::calc( $keywordWordCount, '-', 1 ), '*', $keywordCount ) ) ) ), '*', 100, true, 2 );
 				}
 				if ( $keywordDensity < 1 ) {
 					$this->save_score_result( $results, 4, sprintf( $scoreKeywordDensityLow, $keywordDensity, $keywordCount ), 'keyword_density' );
-				} elseif ( $keywordDensity > 4.5 ) {
+				}
+				elseif ( $keywordDensity > 4.5 ) {
 					$this->save_score_result( $results, - 50, sprintf( $scoreKeywordDensityHigh, $keywordDensity, $keywordCount ), 'keyword_density' );
-				} else {
+				}
+				else {
 					$this->save_score_result( $results, 9, sprintf( $scoreKeywordDensityGood, $keywordDensity, $keywordCount ), 'keyword_density' );
 				}
 			}
@@ -1860,7 +1931,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		if ( preg_match( '`\b' . preg_quote( $job['keyword'], '`' ) . '\b`miu', $firstp ) || preg_match( '`\b' . preg_quote( $job['keyword'], '`' ) . '\b`mi', $firstp ) || preg_match( '`\b' . preg_quote( $job['keyword_folded'], '`' ) . '\b`miu', $firstp )
 		) {
 			$this->save_score_result( $results, 9, $scoreFirstParagraphHigh, 'keyword_first_paragraph' );
-		} else {
+		}
+		else {
 			$this->save_score_result( $results, 3, $scoreFirstParagraphLow, 'keyword_first_paragraph' );
 		}
 
@@ -1875,24 +1947,30 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			if ( $flesch >= 90 ) {
 				$level = __( 'very easy', 'wordpress-seo' );
 				$score = 9;
-			} elseif ( $flesch >= 80 ) {
+			}
+			elseif ( $flesch >= 80 ) {
 				$level = __( 'easy', 'wordpress-seo' );
 				$score = 9;
-			} elseif ( $flesch >= 70 ) {
+			}
+			elseif ( $flesch >= 70 ) {
 				$level = __( 'fairly easy', 'wordpress-seo' );
 				$score = 8;
-			} elseif ( $flesch >= 60 ) {
+			}
+			elseif ( $flesch >= 60 ) {
 				$level = __( 'OK', 'wordpress-seo' );
 				$score = 7;
-			} elseif ( $flesch >= 50 ) {
+			}
+			elseif ( $flesch >= 50 ) {
 				$level = __( 'fairly difficult', 'wordpress-seo' );
 				$note  = __( 'Try to make shorter sentences to improve readability.', 'wordpress-seo' );
 				$score = 6;
-			} elseif ( $flesch >= 30 ) {
+			}
+			elseif ( $flesch >= 30 ) {
 				$level = __( 'difficult', 'wordpress-seo' );
 				$note  = __( 'Try to make shorter sentences, using less difficult words to improve readability.', 'wordpress-seo' );
 				$score = 5;
-			} elseif ( $flesch >= 0 ) {
+			}
+			elseif ( $flesch >= 0 ) {
 				$level = __( 'very difficult', 'wordpress-seo' );
 				$note  = __( 'Try to make shorter sentences, using less difficult words to improve readability.', 'wordpress-seo' );
 				$score = 4;
@@ -1923,21 +2001,24 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$htmdata3 = preg_replace( '`<(?:\x20*script|script).*?(?:/>|/script>)`', '', $post_content );
 		if ( $htmdata3 == null ) {
 			$htmdata3 = $post_content;
-		} else {
+		}
+		else {
 			unset( $post_content );
 		}
 
 		$htmdata4 = preg_replace( '`<!--.*?-->`', '', $htmdata3 );
 		if ( $htmdata4 == null ) {
 			$htmdata4 = $htmdata3;
-		} else {
+		}
+		else {
 			unset( $htmdata3 );
 		}
 
 		$htmdata5 = preg_replace( '`<(?:\x20*style|style).*?(?:/>|/style>)`', '', $htmdata4 );
 		if ( $htmdata5 == null ) {
 			$htmdata5 = $htmdata4;
-		} else {
+		}
+		else {
 			unset( $htmdata4 );
 		}
 
@@ -1953,8 +2034,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 */
 	function get_first_paragraph( $body ) {
 		// To determine the first paragraph we first need to autop the content, then match the first paragraph and return.
-		$res = preg_match( '`<p[.]*?>(.*)</p>`s', wpautop( $body ), $matches );
-		if ( $res ) {
+		if ( preg_match( '`<p[.]*?>(.*)</p>`s', wpautop( $body ), $matches ) ) {
 			return $matches[1];
 		}
 

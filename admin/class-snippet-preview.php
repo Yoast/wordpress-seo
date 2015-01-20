@@ -1,5 +1,11 @@
 <?php
 /**
+ * @package    WPSEO
+ * @subpackage Admin
+ * @since      1.6.2
+ */
+
+/**
  * class WPSEO_Snippet_Preview
  *
  * Generates a Google Search snippet preview.
@@ -79,7 +85,7 @@ class WPSEO_Snippet_Preview {
 	 * Sets date if available
 	 */
 	protected function set_date() {
-		if ( is_object( $this->post ) && isset( $this->options['showdate-' . $this->post->post_type] ) && $this->options['showdate-' . $this->post->post_type] === true ) {
+		if ( is_object( $this->post ) && isset( $this->options[ 'showdate-' . $this->post->post_type ] ) && $this->options[ 'showdate-' . $this->post->post_type ] === true ) {
 			$date       = $this->get_post_date();
 			$this->date = '<span class="date">' . $date . ' - </span>';
 		}
@@ -88,14 +94,13 @@ class WPSEO_Snippet_Preview {
 	/**
 	 * Retrieves a post date when post is published, or return current date when it's not.
 	 *
-	 * @param object $post Post to retrieve the date for.
-	 *
 	 * @return string
 	 */
 	protected function get_post_date() {
 		if ( isset( $this->post->post_date ) && $this->post->post_status == 'publish' ) {
 			$date = date_i18n( 'j M Y', strtotime( $this->post->post_date ) );
-		} else {
+		}
+		else {
 			$date = date_i18n( 'j M Y' );
 		}
 
@@ -140,6 +145,8 @@ HTML;
 
 	/**
 	 * Sets the html for the snippet preview through a filter
+	 *
+	 * @param string $content
 	 */
 	protected function set_content_through_filter( $content ) {
 		$properties = get_object_vars( $this );

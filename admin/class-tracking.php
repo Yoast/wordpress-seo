@@ -1,6 +1,7 @@
 <?php
 /**
- * @package Admin
+ * @package    WPSEO
+ * @subpackage Admin
  */
 
 if ( ! defined( 'WPSEO_VERSION' ) ) {
@@ -70,7 +71,7 @@ class Yoast_Tracking {
 		set_transient( $transient_key, 1, WEEK_IN_SECONDS );
 
 		// Start of Metrics
-		global $blog_id, $wpdb;
+		global $wpdb;
 
 		$hash = get_option( 'Yoast_Tracking_Hash', false );
 
@@ -84,11 +85,11 @@ class Yoast_Tracking {
 		$post_types = get_post_types( array( 'public' => true ) );
 		if ( is_array( $post_types ) && $post_types !== array() ) {
 			foreach ( $post_types as $post_type ) {
-				$count           = wp_count_posts( $post_type );
-				$pts[$post_type] = $count->publish;
+				$count             = wp_count_posts( $post_type );
+				$pts[ $post_type ] = $count->publish;
 			}
 		}
-		unset( $post_types );
+		unset( $post_types, $post_type, $count );
 
 		$comments_count = wp_count_comments();
 
@@ -109,23 +110,24 @@ class Yoast_Tracking {
 				'author'     => $theme_data->parent()->display( 'Author', false, false ),
 				'author_uri' => $theme_data->parent()->display( 'AuthorURI', false, false ),
 			);
-		} else {
+		}
+		else {
 			$theme['template'] = '';
 		}
 		unset( $theme_template );
 
 
-		$plugins       = array();
-		$active_plugin = get_option( 'active_plugins' );
-		foreach ( $active_plugin as $plugin_path ) {
+		$plugins        = array();
+		$active_plugins = get_option( 'active_plugins' );
+		foreach ( $active_plugins as $plugin_path ) {
 			if ( ! function_exists( 'get_plugin_data' ) ) {
 				require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 			}
 
 			$plugin_info = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin_path );
 
-			$slug           = str_replace( '/' . basename( $plugin_path ), '', $plugin_path );
-			$plugins[$slug] = array(
+			$slug             = str_replace( '/' . basename( $plugin_path ), '', $plugin_path );
+			$plugins[ $slug ] = array(
 				'version'    => $plugin_info['Version'],
 				'name'       => $plugin_info['Name'],
 				'plugin_uri' => $plugin_info['PluginURI'],
@@ -133,7 +135,7 @@ class Yoast_Tracking {
 				'author_uri' => $plugin_info['AuthorURI'],
 			);
 		}
-		unset( $active_plugins, $plugin_path );
+		unset( $active_plugins, $plugin_path, $plugin_info, $slug );
 
 
 		$data = array(
@@ -141,7 +143,7 @@ class Yoast_Tracking {
 				'hash'      => $hash,
 				'version'   => get_bloginfo( 'version' ),
 				'multisite' => is_multisite(),
-				'users'     => $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM $wpdb->users INNER JOIN $wpdb->usermeta ON ({$wpdb->users}.ID = {$wpdb->usermeta}.user_id) WHERE 1 = 1 AND ( {$wpdb->usermeta}.meta_key = %s )", 'wp_' . $blog_id . '_capabilities' ) ),
+				'users'     => $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM $wpdb->users INNER JOIN $wpdb->usermeta ON ({$wpdb->users}.ID = {$wpdb->usermeta}.user_id) WHERE 1 = 1 AND ( {$wpdb->usermeta}.meta_key = %s )", 'wp_' . $GLOBALS['blog_id'] . '_capabilities' ) ),
 				'lang'      => get_locale(),
 			),
 			'pts'      => $pts,
@@ -177,7 +179,8 @@ class Yoast_Tracking {
 function wpseo_tracking_additions( $options ) {
 	if ( function_exists( 'curl_version' ) ) {
 		$curl = curl_version();
-	} else {
+	}
+	else {
 		$curl = null;
 	}
 

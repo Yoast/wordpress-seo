@@ -1,6 +1,8 @@
 <?php
 /**
- * @package Admin
+ * @package    WPSEO
+ * @subpackage Admin
+ * @since      1.5.0
  */
 
 if ( ! defined( 'WPSEO_VERSION' ) ) {
@@ -8,8 +10,6 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	header( 'HTTP/1.1 403 Forbidden' );
 	exit();
 }
-
-global $wpseo_admin_pages;
 
 $options = get_option( 'wpseo' );
 

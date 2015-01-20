@@ -1,6 +1,7 @@
 <?php
 /**
- * @package Admin
+ * @package    WPSEO
+ * @subpackage Admin
  */
 
 /**
@@ -36,7 +37,8 @@ rewrite ^/([^/]+?)-sitemap([0-9]+)?\.xml$ /index.php?sitemap=$1&sitemap_n=$2 las
 
 if ( $options['enablexmlsitemap'] === true ) {
 	$content .= '<p>' . sprintf( esc_html__( 'You can find your XML Sitemap here: %sXML Sitemap%s', 'wordpress-seo' ), '<a target="_blank" class="button-secondary" href="' . esc_url( wpseo_xml_sitemaps_base_url( 'sitemap_index.xml' ) ) . '">', '</a>' ) . '<br/><br/>' . __( 'You do <strong>not</strong> need to generate the XML sitemap, nor will it take up time to generate after publishing a post.', 'wordpress-seo' ) . '</p>';
-} else {
+}
+else {
 	$content .= '<p>' . __( 'Save your settings to activate XML Sitemaps.', 'wordpress-seo' ) . '</p>';
 }
 
@@ -56,6 +58,7 @@ if ( is_array( $roles ) && $roles !== array() ) {
 		$content .= $wpseo_admin_pages->checkbox( 'user_role-' . $role_key . '-not_in_sitemap', $role_name );
 	}
 }
+unset( $roles, $role_key, $role_name );
 $content .= '</div>';
 
 $content .= '<br/>';
@@ -73,6 +76,7 @@ if ( is_array( $post_types ) && $post_types !== array() ) {
 		$content .= $wpseo_admin_pages->checkbox( 'post_types-' . $pt->name . '-not_in_sitemap', $pt->labels->name . ' (<code>' . $pt->name . '</code>)' );
 	}
 }
+unset( $post_types, $pt );
 
 
 $taxonomies = apply_filters( 'wpseo_sitemaps_supported_taxonomies', get_taxonomies( array( 'public' => true ), 'objects' ) );
@@ -85,6 +89,7 @@ if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
 		}
 	}
 }
+unset( $taxonomies, $tax );
 
 
 $content .= '<br/>';
