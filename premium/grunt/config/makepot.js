@@ -4,7 +4,7 @@ module.exports = {
 		options: {
 			mainFile: '../wp-seo-premium.php',
 			domainPath: '<%= paths.languages %>',
-			potFilename: 'wordpress-seo-premium.pot',
+			potFilename: '<%= pkg.plugin.textdomain %>.pot',
 			potHeaders: {
 				poedit: true,
 				'report-msgid-bugs-to': '<%= pkg.pot.reportmsgidbugsto %>',

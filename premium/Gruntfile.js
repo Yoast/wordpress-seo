@@ -10,25 +10,19 @@ module.exports = function(grunt) {
 			get config() {
 				return this.grunt + 'config/';
 			},
-			css: 'css/',
 			grunt: 'grunt/',
-			images: 'images/',
-			js: 'js/',
+			js: 'assets/js/',
 			languages: 'languages/',
 			logs: 'logs/'
 		},
 		files: {
-			css: [
-				'css/*.css',
-				'!css/*.min.css'
-			],
 			js: [
-				'js/*.js',
-				'!js/*.min.js'
+				'assets/js/**/*.js',
+				'!assets/js/**/*.min.js'
 			],
 			php: [
 				'*.php',
-				'assets/**/*.php',
+				'../wp-seo-premium.php',
 				'classes/**/*.php'
 			],
 			phptests: 'tests/**/*.php',
@@ -50,7 +44,8 @@ module.exports = function(grunt) {
 		jitGrunt: {
 			staticMappings: {
 				addtextdomain: 'grunt-wp-i18n',
-				makepot: 'grunt-wp-i18n'
+				makepot: 'grunt-wp-i18n',
+				glotpress_download: 'grunt-glotpress'
 			}
 		}
 	});
