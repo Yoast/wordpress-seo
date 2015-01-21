@@ -9,8 +9,6 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-global $wpseo_admin_pages;
-
 $options = get_option( 'wpseo' );
 
 $wpseo_bulk_titles_table      = new WPSEO_Bulk_Title_Editor_List_Table();
@@ -29,8 +27,6 @@ if ( ! empty( $_REQUEST['_wp_http_referer'] ) ) {
 </script>
 
 <div class="wrap wpseo_table_page">
-
-	<h2 id="wpseo-title"><?php echo esc_html( get_admin_page_title() ); ?></h2>
 
 	<h2 class="nav-tab-wrapper" id="wpseo-tabs">
 		<a class="nav-tab" id="title-tab" href="#top#title"><?php _e( 'Title', 'wordpress-seo' ); ?></a>

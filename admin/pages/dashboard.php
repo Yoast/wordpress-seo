@@ -139,8 +139,8 @@ if ( get_option( 'page_comments' ) && $options['ignore_page_comments'] === false
 	<h2 class="nav-tab-wrapper" id="wpseo-tabs">
 		<a class="nav-tab nav-tab-active" id="general-tab"
 		   href="#top#general"><?php _e( 'General', 'wordpress-seo' ); ?></a>
-		<a class="nav-tab" id="webmaster-tools-tab"
-		   href="#top#webmaster-tools"><?php _e( 'Webmaster Tools', 'wordpress-seo' ); ?></a>
+		<a class="nav-tab" id="company-info-tab" href="#top#company-info"><?php _e( 'Company Info', 'wordpress-seo' ); ?></a>
+		<a class="nav-tab" id="webmaster-tools-tab" href="#top#webmaster-tools"><?php _e( 'Webmaster Tools', 'wordpress-seo' ); ?></a>
 		<a class="nav-tab" id="security-tab" href="#top#security"><?php _e( 'Security', 'wordpress-seo' ); ?></a>
 	</h2>
 
@@ -148,21 +148,29 @@ if ( get_option( 'page_comments' ) && $options['ignore_page_comments'] === false
 		<br/>
 		<?php
 
+		echo '<h2>' . __( 'Tracking', 'wordpress-seo' ) . '</h2>';
+		echo '<p>' . __( "To maintain a plugin as big as WordPress SEO, we need to know what we're dealing with: what kinds of other plugins our users are using, what themes, etc. Please allow us to track that data from your install. It will not track <em>any</em> user details, so your security and privacy are safe with us.", 'wordpress-seo' ) . '</p>';
+		echo $wpseo_admin_pages->checkbox( 'yoast_tracking', __( 'Allow tracking of this WordPress install\'s anonymous data.', 'wordpress-seo' ) );
+		echo '<br/>';
+
 		if ( $options['ignore_tour'] === true ) {
+			echo '<h2>' . __( 'Introduction Tour', 'wordpress-seo' ) . '</h2>';
 			echo '<label class="select">' . __( 'Introduction Tour:', 'wordpress-seo' ) . '</label><a class="button-secondary" href="' . esc_url( admin_url( 'admin.php?page=wpseo_dashboard&wpseo_restart_tour=1' ) ) . '">' . __( 'Start Tour', 'wordpress-seo' ) . '</a>';
 			echo '<p class="desc label">' . __( 'Take this tour to quickly learn about the use of this plugin.', 'wordpress-seo' ) . '</p>';
 		}
 
+		echo '<h2>' . __( 'Restore Default Settings', 'wordpress-seo' ) . '</h2>';
 		echo '<label class="select">' . __( 'Default Settings:', 'wordpress-seo' ) . '</label><a onclick="if( !confirm(\'' . __( 'Are you sure you want to reset your SEO settings?', 'wordpress-seo' ) . '\') ) return false;" class="button-secondary" href="' . esc_url( add_query_arg( array( 'nonce' => wp_create_nonce( 'wpseo_reset_defaults' ) ), admin_url( 'admin.php?page=wpseo_dashboard&wpseo_reset_defaults=1' ) ) ) . '">' . __( 'Reset Default Settings', 'wordpress-seo' ) . '</a>';
 		echo '<p class="desc label">' . __( 'If you want to restore a site to the default WordPress SEO settings, press this button.', 'wordpress-seo' ) . '</p>';
 
-		echo '<h2>' . __( 'Company Info', 'wordpress-seo' ) . '</h2>';
+		?>
+	</div>
+	<div id="company-info" class="wpseotab">
+		<?php
+		// @todo add KB link - JdV
+		echo '<p>' . __( 'This data is shown as metadata in your site. It is intended to appear in Google\'s Knowledge Graph.', 'wordpress-seo' ) . '</p>';
 		echo $wpseo_admin_pages->textinput( 'company_name', __( 'Company Name', 'wordpress-seo' ) );
 		echo $wpseo_admin_pages->media_input( 'company_logo', __( 'Company Logo', 'wordpress-seo' ) );
-
-		echo '<h2>' . __( 'Tracking', 'wordpress-seo' ) . '</h2>';
-		echo $wpseo_admin_pages->checkbox( 'yoast_tracking', __( 'Allow tracking of this WordPress install\'s anonymous data.', 'wordpress-seo' ) );
-		echo '<p class="desc">' . __( "To maintain a plugin as big as WordPress SEO, we need to know what we're dealing with: what kinds of other plugins our users are using, what themes, etc. Please allow us to track that data from your install. It will not track <em>any</em> user details, so your security and privacy are safe with us.", 'wordpress-seo' ) . '</p>';
 		?>
 	</div>
 	<div id="webmaster-tools" class="wpseotab">
@@ -171,7 +179,6 @@ if ( get_option( 'page_comments' ) && $options['ignore_page_comments'] === false
 		echo $wpseo_admin_pages->textinput( 'alexaverify', '<a target="_blank" href="http://www.alexa.com/siteowners/claim">' . __( 'Alexa Verification ID', 'wordpress-seo' ) . '</a>' );
 		echo $wpseo_admin_pages->textinput( 'msverify', '<a target="_blank" href="' . esc_url( 'http://www.bing.com/webmaster/?rfp=1#/Dashboard/?url=' . urlencode( str_replace( 'http://', '', get_bloginfo( 'url' ) ) ) ) . '">' . __( 'Bing Webmaster Tools', 'wordpress-seo' ) . '</a>' );
 		echo $wpseo_admin_pages->textinput( 'googleverify', '<a target="_blank" href="' . esc_url( 'https://www.google.com/webmasters/verification/verification?hl=en&siteUrl=' . urlencode( get_bloginfo( 'url' ) ) . '/' ) . '">' . __( 'Google Webmaster Tools', 'wordpress-seo' ) . '</a>' );
-		echo $wpseo_admin_pages->textinput( 'pinterestverify', '<a target="_blank" href="https://help.pinterest.com/entries/22488487-Verify-with-HTML-meta-tags">' . __( 'Pinterest', 'wordpress-seo' ) . '</a>' );
 		echo $wpseo_admin_pages->textinput( 'yandexverify', '<a target="_blank" href="http://help.yandex.com/webmaster/service/rights.xml#how-to">' . __( 'Yandex Webmaster Tools', 'wordpress-seo' ) . '</a>' );
 		?>
 	</div>

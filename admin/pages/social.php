@@ -180,20 +180,11 @@ $wpseo_admin_pages->admin_header( true, WPSEO_Options::get_group_name( 'wpseo_so
 ?>
 
 	<h2 class="nav-tab-wrapper" id="wpseo-tabs">
-		<a class="nav-tab nav-tab-active" id="general-tab" href="#top#general"><?php _e( 'General', 'wordpress-seo' ); ?></a>
-		<a class="nav-tab" id="facebook-tab" href="#top#facebook"><?php _e( 'Facebook', 'wordpress-seo' ); ?></a>
+		<a class="nav-tab nav-tab-active" id="facebook-tab" href="#top#facebook"><?php _e( 'Facebook', 'wordpress-seo' ); ?></a>
 		<a class="nav-tab" id="twitterbox-tab" href="#top#twitterbox"><?php _e( 'Twitter', 'wordpress-seo' ); ?></a>
+		<a class="nav-tab" id="pinterest-tab" href="#top#pinterest"><?php _e( 'Pinterest', 'wordpress-seo' ); ?></a>
 		<a class="nav-tab" id="google-tab" href="#top#google"><?php _e( 'Google+', 'wordpress-seo' ); ?></a>
 	</h2>
-
-	<div id="general" class="wpseotab">
-		<?php
-		echo '<p>';
-		echo $wpseo_admin_pages->textinput( 'company_name', __( 'Company Name', 'wordpress-seo' ) );
-		echo $wpseo_admin_pages->media_input( 'company_logo', __( 'Company Logo', 'wordpress-seo' ) );
-		echo '</p>';
-		?>
-	</div>
 
 	<div id="facebook" class="wpseotab">
 		<?php
@@ -235,6 +226,18 @@ $wpseo_admin_pages->admin_header( true, WPSEO_Options::get_group_name( 'wpseo_so
 		echo $wpseo_admin_pages->textinput( 'twitter_site', __( 'Site Twitter Username', 'wordpress-seo' ) );
 		echo $wpseo_admin_pages->select( 'twitter_card_type', __( 'The default card type to use', 'wordpress-seo' ), WPSEO_Option_Social::$twitter_card_types );
 		do_action( 'wpseo_admin_twitter_section' );
+		?>
+	</div>
+
+	<div id="pinterest" class="wpseotab">
+		<?php
+		echo '<p>';
+		_e( 'Pinterest uses Open Graph metadata just like Facebook, so be sure to keep the Open Graph checkbox on the Facebook tab checked if you want to optimize your site for Pinterest.', 'wordpress-seo' );
+		echo '</p>';
+
+		echo $wpseo_admin_pages->textinput( 'pinterestverify', __( 'Pinterest verification', 'wordpress-seo' ) );
+		echo '<p class="desc label">', sprintf( __( 'To %1$sverify your site with Pinterest%2$s, add the meta tag here', 'wordpress-seo' ), '<a target="_blank" href="https://help.pinterest.com/en/articles/verify-your-website#meta_tag">', '</a>' ), '</p>';
+		do_action( 'wpseo_admin_pinterest_section' );
 		?>
 	</div>
 

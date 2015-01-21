@@ -6,7 +6,6 @@ h4 {
 p.desc {
 	margin: 6px 0 10px 0;
 	padding: 0 0 8px 25px;
-	border-bottom: 1px solid #ddd;
 }
 
 p.desc.label {
@@ -40,11 +39,16 @@ label.radio {
 	float: none;
 }
 
-input.textinput, textarea, select {
+input.textinput,
+textarea,
+select {
 	width: 400px;
 }
 
-input.textinput, textarea.textinput, select.select, input.checkbox {
+input.textinput,
+textarea.textinput,
+select.select,
+input.checkbox {
 	float: left;
 	margin: 12px 3px 0 0;
 	padding: 5px;
@@ -67,13 +71,15 @@ textarea.import {
 	height: 100px;
 }
 
-label.textinput, label.select, label.checkbox {
+label.textinput,
+label.select,
+label.checkbox {
 	width: 180px;
 	margin: 10px 0 5px 0;
 	background-color: transparent;
 }
 
-.wpseo_image_upload_button {
+.button.wpseo_image_upload_button {
 	margin-top: 12px;
 }
 
@@ -155,7 +161,8 @@ div.yoastbox a:hover {
 	width: 250px;
 }
 
-div.yoastbox .button:hover, div.yoastbox .button-primary:hover {
+div.yoastbox .button:hover,
+div.yoastbox .button-primary:hover {
 	text-decoration: none;
 }
 
@@ -163,13 +170,16 @@ div.yoastbox .button:hover, div.yoastbox .button-primary:hover {
 /*margin-top: 10px;*/
 /*}*/
 
-table.yoast_help, table.yoast_help th, table.yoast_help td {
+table.yoast_help,
+table.yoast_help th,
+table.yoast_help td {
 	border: 1px solid #ddd;
 	border-collapse: collapse;
 	font-size: 12px;
 }
 
-table.yoast_help th, table.yoast_help td {
+table.yoast_help th,
+table.yoast_help td {
 	padding: 5px 10px;
 	text-align: left;
 	vertical-align: text-top;
@@ -253,7 +263,8 @@ table.yoast_help tr:hover {
 	color: #000;
 }
 
-#donate.yoastbox, #sitereview.yoastbox {
+#donate.yoastbox,
+#sitereview.yoastbox {
 	border-color: green;
 	background-color: #cfc;
 }
@@ -293,7 +304,8 @@ h2 code {
 	color: #c00;
 }
 
-input.wpseo-new-title, textarea.wpseo-new-metadesc {
+input.wpseo-new-title,
+textarea.wpseo-new-metadesc {
 	width: 100%;
 	max-width: 100%;
 }

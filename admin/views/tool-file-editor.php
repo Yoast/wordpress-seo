@@ -65,7 +65,6 @@ if ( isset( $_POST['submithtaccess'] ) ) {
 	}
 }
 
-$wpseo_admin_pages->admin_header( false );
 if ( isset( $msg ) && ! empty( $msg ) ) {
 	echo '<div id="message" style="width:94%;" class="updated fade"><p>' . esc_html( $msg ) . '</p></div>';
 }
@@ -133,5 +132,3 @@ if ( ( isset( $_SERVER['SERVER_SOFTWARE'] ) && stristr( $_SERVER['SERVER_SOFTWAR
 	$content = '<p>' . __( 'If you had a .htaccess file and it was editable, you could edit it from here.', 'wordpress-seo' );
 	$wpseo_admin_pages->postbox( 'htaccess', __( '.htaccess file', 'wordpress-seo' ), $content );
 }
-
-$wpseo_admin_pages->admin_footer( false );
