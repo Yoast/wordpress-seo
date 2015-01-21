@@ -3465,12 +3465,10 @@ class WPSEO_Options {
 		$is_multisite = is_multisite();
 
 		foreach ( self::$options as $option_name => $option_class ) {
-			if ( class_exists( $option_class ) ) {
-				$instance = call_user_func( array( $option_class, 'get_instance' ) );
+			$instance = call_user_func( array( $option_class, 'get_instance' ) );
 
-				if ( ! $instance->multisite_only || $is_multisite ) {
-					self::$option_instances[ $option_name ] = $instance;
-				}
+			if ( ! $instance->multisite_only || $is_multisite ) {
+				self::$option_instances[ $option_name ] = $instance;
 			} else {
 				unset( self::$options[ $option_name ] );
 			}
