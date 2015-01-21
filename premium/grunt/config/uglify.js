@@ -8,7 +8,6 @@ module.exports = {
 		files: [{
 			expand: true,
 			src: '<%= files.js %>',
-			dest: '<%= paths.js %>',
 			ext: '.min.js',
 			extDot: 'first',
 			isFile: true
