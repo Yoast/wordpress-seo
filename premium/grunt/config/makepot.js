@@ -2,7 +2,7 @@
 module.exports = {
 	plugin: {
 		options: {
-			mainFile: '../wp-seo-premium.php',
+			mainFile: '<%= mainFile %>',
 			domainPath: '<%= paths.languages %>',
 			potFilename: '<%= pkg.plugin.textdomain %>.pot',
 			potHeaders: {

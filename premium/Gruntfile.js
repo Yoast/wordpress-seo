@@ -6,6 +6,7 @@ module.exports = function(grunt) {
 
 	// Define project configuration
 	var project = {
+		mainFile: '../wp-seo-premium.php',
 		paths: {
 			get config() {
 				return this.grunt + 'config/';
@@ -25,7 +26,7 @@ module.exports = function(grunt) {
 				'../wp-seo-premium.php',
 				'classes/**/*.php'
 			],
-			phptests: 'tests/**/*.php',
+			phptests: '../tests/premium/**/*.php',
 			get config() {
 				return project.paths.config + '*.js';
 			},
