@@ -10,7 +10,7 @@ class WPSEO_Premium_Import_Manager {
 	 * @return string
 	 */
 	public function message_redirection_success( $message ) {
-		return $message . __( 'Redirection redirects have been imported.', 'wordpress-seo' );
+		return $message . __( 'Redirection redirects have been imported.', 'wordpress-seo-premium' );
 	}
 
 	/**
@@ -21,7 +21,7 @@ class WPSEO_Premium_Import_Manager {
 	 * @return string
 	 */
 	public function message_redirection_plugin_not_find( $message ) {
-		return $message . __( 'Redirection import failed: Redirection plugin not installed or activated.', 'wordpress-seo' );
+		return $message . __( 'Redirection import failed: Redirection plugin not installed or activated.', 'wordpress-seo-premium' );
 	}
 
 	/**
@@ -32,7 +32,7 @@ class WPSEO_Premium_Import_Manager {
 	 * @return string
 	 */
 	public function message_redirection_no_redirects( $message ) {
-		return $message . __( 'Redirection import failed: No redirects found.', 'wordpress-seo' );
+		return $message . __( 'Redirection import failed: No redirects found.', 'wordpress-seo-premium' );
 	}
 
 	/**
@@ -43,7 +43,7 @@ class WPSEO_Premium_Import_Manager {
 	 * @return string
 	 */
 	public function message_htaccess_success( $message ) {
-		return $message . __( '.htaccess redirects have been imported.', 'wordpress-seo' );
+		return $message . __( '.htaccess redirects have been imported.', 'wordpress-seo-premium' );
 	}
 
 	/**
@@ -54,7 +54,7 @@ class WPSEO_Premium_Import_Manager {
 	 * @return string
 	 */
 	public function message_htaccess_no_redirects( $message ) {
-		return $message . __( '.htaccess import failed: No redirects found.', 'wordpress-seo' );
+		return $message . __( '.htaccess import failed: No redirects found.', 'wordpress-seo-premium' );
 	}
 
 	/**
@@ -222,7 +222,7 @@ class WPSEO_Premium_Import_Manager {
 	 */
 	public function filter_add_premium_import_options( $content ) {
 		global $wpseo_admin_pages;
-		$content .= $wpseo_admin_pages->checkbox( 'import_redirection', __( 'Import from Redirection?', 'wordpress-seo' ) );
+		$content .= $wpseo_admin_pages->checkbox( 'import_redirection', __( 'Import from Redirection?', 'wordpress-seo-premium' ) );
 
 		return $content;
 	}
@@ -240,9 +240,9 @@ class WPSEO_Premium_Import_Manager {
 		// Display the form
 		echo '<form action="" method="post" accept-charset="' . esc_attr( get_bloginfo( 'charset' ) ) . '">' . PHP_EOL;
 		echo wp_nonce_field( 'wpseo-import', '_wpnonce', true, false );
-		echo '<h2>' . __( 'Import redirects from .htaccess', 'wordpress-seo' ) . '</h2>' . PHP_EOL;
+		echo '<h2>' . __( 'Import redirects from .htaccess', 'wordpress-seo-premium' ) . '</h2>' . PHP_EOL;
 		echo '<textarea name="htaccess" rows="4" cols="50" style="width:70%; height: 200px;">' . $textarea_value . '</textarea><br/>' . PHP_EOL;
-		echo '<input type="submit" class="button-primary" name="import" value="' . __( 'Import .htaccess', 'wordpress-seo' ) . '"/>' . PHP_EOL;
+		echo '<input type="submit" class="button-primary" name="import" value="' . __( 'Import .htaccess', 'wordpress-seo-premium' ) . '"/>' . PHP_EOL;
 		echo '</form>' . PHP_EOL;
 	}
 

@@ -24,9 +24,9 @@ class WPSEO_Page_Redirect {
 		$wpseo_admin_pages->admin_header( false, 'yoast_wpseo_redirects_options', 'wpseo_redirects' );
 		?>
 		<h2 class="nav-tab-wrapper" id="wpseo-tabs">
-			<a class="nav-tab" id="tab-url-tab" href="#top#tab-url"><?php _e( 'Redirects', 'wordpress-seo' ); ?></a>
-			<a class="nav-tab" id="tab-regex-tab" href="#top#tab-regex"><?php _e( 'Regex Redirects', 'wordpress-seo' ); ?></a>
-			<a class="nav-tab" id="settings-tab" href="#top#settings"><?php _e( 'Settings', 'wordpress-seo' ); ?></a>
+			<a class="nav-tab" id="tab-url-tab" href="#top#tab-url"><?php _e( 'Redirects', 'wordpress-seo-premium' ); ?></a>
+			<a class="nav-tab" id="tab-regex-tab" href="#top#tab-regex"><?php _e( 'Regex Redirects', 'wordpress-seo-premium' ); ?></a>
+			<a class="nav-tab" id="settings-tab" href="#top#settings"><?php _e( 'Settings', 'wordpress-seo-premium' ); ?></a>
 		</h2>
 
 		<div class="tabwrapper>">
@@ -37,15 +37,15 @@ class WPSEO_Page_Redirect {
 				echo "<div class='wpseo_redirects_new'>\n";
 				//				echo "<h2>" . __( 'Add New Redirect', 'wordpress-seo' ) . "</h2>\n";
 
-				echo "<label class='textinput' for='wpseo_redirects_new_old'>" . __( 'Old URL', 'wordpress-seo' ) . "</label>\n";
+				echo "<label class='textinput' for='wpseo_redirects_new_old'>" . __( 'Old URL', 'wordpress-seo-premium' ) . "</label>\n";
 				echo "<input type='text' class='textinput' name='wpseo_redirects_new_old' id='wpseo_redirects_new_old' value='", esc_url( $old_url ) . "' />\n";
 				echo "<br class='clear'/>\n";
 
-				echo "<label class='textinput' for='wpseo_redirects_new_new'>" . __( 'New URL', 'wordpress-seo' ) . "</label>\n";
+				echo "<label class='textinput' for='wpseo_redirects_new_new'>" . __( 'New URL', 'wordpress-seo-premium' ) . "</label>\n";
 				echo "<input type='text' class='textinput' name='wpseo_redirects_new_new' id='wpseo_redirects_new_new' value='' />\n";
 				echo "<br class='clear'/>\n";
 
-				echo "<label class='textinput' for='wpseo_redirects_new_type'>" . __( 'Type', 'wordpress-seo' ) . "</label>\n";
+				echo "<label class='textinput' for='wpseo_redirects_new_type'>" . __( 'Type', 'wordpress-seo-premium' ) . "</label>\n";
 
 				// Redirect type select element
 				echo "<select name='wpseo_redirects_new_type' id='wpseo_redirects_new_type' class='select'>" . PHP_EOL;
@@ -60,11 +60,11 @@ class WPSEO_Page_Redirect {
 
 				echo "</select>" . PHP_EOL;
 
-				echo '<img src="' . plugins_url( 'images/question-mark.png', WPSEO_FILE ) . '" class="yoast_help" style="margin:17px 0 0 5px" alt="' . __( sprintf( 'The redirect type is de HTTP response code send to the browser telling the browser what type of redirect is served.<br/><br/>Read <a href=\'%s\'>this page</a> for more info.', 'http://kb.yoast.com/article/121-redirect-types/#utm_source=wordpress-seo-premium-redirects&amp;utm_medium=inline-help&amp;utm_campaign=redirect-types' ), 'wordpress-seo' ) . '">';
+				echo '<img src="' . plugins_url( 'images/question-mark.png', WPSEO_FILE ) . '" class="yoast_help" style="margin:17px 0 0 5px" alt="' . __( sprintf( 'The redirect type is de HTTP response code send to the browser telling the browser what type of redirect is served.<br/><br/>Read <a href=\'%s\'>this page</a> for more info.', 'http://kb.yoast.com/article/121-redirect-types/#utm_source=wordpress-seo-premium-redirects&amp;utm_medium=inline-help&amp;utm_campaign=redirect-types' ), 'wordpress-seo-premium' ) . '">';
 
 				echo "<br class='clear'/>\n";
 
-				echo "<a href='javascript:;' class='button-primary'>" . __( 'Add Redirect', 'wordpress-seo' ) . "</a>\n";
+				echo "<a href='javascript:;' class='button-primary'>" . __( 'Add Redirect', 'wordpress-seo-premium' ) . "</a>\n";
 
 				echo "</div>\n";
 				echo "</form>\n";
@@ -80,7 +80,7 @@ class WPSEO_Page_Redirect {
 				// The list table
 				$list_table = new WPSEO_Redirect_Table( 'URL' );
 				$list_table->prepare_items();
-				$list_table->search_box( __( 'Search', 'wordpress-seo' ), 'wpseo-redirect-search' );
+				$list_table->search_box( __( 'Search', 'wordpress-seo-premium' ), 'wpseo-redirect-search' );
 				$list_table->display();
 
 				// Close <form>
@@ -90,21 +90,21 @@ class WPSEO_Page_Redirect {
 			<div id="tab-regex" class="wpseotab redirect-table-tab">
 				<?php
 				// Add new redirect HTML
-				echo "<p>" . sprintf( __( 'Regex Redirects are extremely powerful redirects. You should only use them if you know what you are doing.<br />If you don\'t know what Regular Expressions (REGEX) are, please refer to %1$sour knowledge base%2$s.', 'wordpress-seo' ), '<a href="http://kb.yoast.com/article/142-what-are-regex-redirects" target="_blank">', '</a>' ) . "</p>\n";
+				echo "<p>" . sprintf( __( 'Regex Redirects are extremely powerful redirects. You should only use them if you know what you are doing.<br />If you don\'t know what Regular Expressions (REGEX) are, please refer to %1$sour knowledge base%2$s.', 'wordpress-seo-premium' ), '<a href="http://kb.yoast.com/article/142-what-are-regex-redirects" target="_blank">', '</a>' ) . "</p>\n";
 				echo "<form class='wpseo-new-redirect-form' method='post'>\n";
 				echo "<div class='wpseo_redirects_new'>\n";
 				//				echo "<h2>" . __( 'Add New Regex Redirect', 'wordpress-seo' ) . "</h2>\n";
 
-				echo "<label class='textinput' for='wpseo_redirects_new_old'>" . __( 'REGEX', 'wordpress-seo' ) . "</label>\n";
+				echo "<label class='textinput' for='wpseo_redirects_new_old'>" . __( 'REGEX', 'wordpress-seo-premium' ) . "</label>\n";
 				echo "<input type='text' class='textinput' name='wpseo_redirects_new_old' id='wpseo_redirects_new_old' value='{$old_url}' />\n";
 				echo "<br class='clear'/>\n";
 
-				echo "<label class='textinput' for='wpseo_redirects_new_new'>" . __( 'URL', 'wordpress-seo' ) . "</label>\n";
+				echo "<label class='textinput' for='wpseo_redirects_new_new'>" . __( 'URL', 'wordpress-seo-premium' ) . "</label>\n";
 				echo "<input type='text' class='textinput' name='wpseo_redirects_new_new' id='wpseo_redirects_new_new' value='' />\n";
 				echo "<br class='clear'/>\n";
 
 
-				echo "<label class='textinput' for='wpseo_redirects_new_type'>" . __( 'Type', 'wordpress-seo' ) . "</label>\n";
+				echo "<label class='textinput' for='wpseo_redirects_new_type'>" . __( 'Type', 'wordpress-seo-premium' ) . "</label>\n";
 				// Redirect type select element
 				echo "<select name='wpseo_redirects_new_type' id='wpseo_redirects_new_type' class='select'>" . PHP_EOL;
 
@@ -118,11 +118,11 @@ class WPSEO_Page_Redirect {
 
 				echo "</select>" . PHP_EOL;
 
-				echo '<img src="' . plugins_url( 'images/question-mark.png', WPSEO_FILE ) . '" class="yoast_help" style="margin:17px 0 0 5px" alt="' . __( sprintf( 'The redirect type is de HTTP response code send to the browser telling the browser what type of redirect is served.<br/><br/>Read <a href=\'%s\'>this page</a> for more info.', 'http://kb.yoast.com/article/121-redirect-types/#utm_source=wordpress-seo-premium-redirects&amp;utm_medium=inline-help&amp;utm_campaign=redirect-types' ), 'wordpress-seo' ) . '">';
+				echo '<img src="' . plugins_url( 'images/question-mark.png', WPSEO_FILE ) . '" class="yoast_help" style="margin:17px 0 0 5px" alt="' . __( sprintf( 'The redirect type is de HTTP response code send to the browser telling the browser what type of redirect is served.<br/><br/>Read <a href=\'%s\'>this page</a> for more info.', 'http://kb.yoast.com/article/121-redirect-types/#utm_source=wordpress-seo-premium-redirects&amp;utm_medium=inline-help&amp;utm_campaign=redirect-types' ), 'wordpress-seo-premium' ) . '">';
 
 				echo "<br class='clear'/>\n";
 
-				echo "<a href='javascript:;' class='button-primary'>" . __( 'Add Regex Redirect', 'wordpress-seo' ) . "</a>\n";
+				echo "<a href='javascript:;' class='button-primary'>" . __( 'Add Regex Redirect', 'wordpress-seo-premium' ) . "</a>\n";
 
 				echo "</div>\n";
 				echo "</form>\n";
@@ -138,7 +138,7 @@ class WPSEO_Page_Redirect {
 				// The list table
 				$list_table = new WPSEO_Redirect_Table( 'REGEX' );
 				$list_table->prepare_items();
-				$list_table->search_box( __( 'Search', 'wordpress-seo' ), 'wpseo-redirect-search' );
+				$list_table->search_box( __( 'Search', 'wordpress-seo-premium' ), 'wpseo-redirect-search' );
 				$list_table->display();
 
 				// Close <form>
@@ -161,7 +161,7 @@ class WPSEO_Page_Redirect {
 						if ( 'on' == $redirect_options['separate_file'] ) {
 							if ( file_exists( WPSEO_Redirect_File_Manager::get_file_path() ) ) {
 								echo '<div style="margin: 5px 0; padding: 3px 10px; background-color: #ffffe0; border: 1px solid #E6DB55; border-radius: 3px">';
-								echo '<p>' . __( "As you're on Apache, you should add the following include to the website httpd config file:", 'wordpress-seo' ) . '</p>';
+								echo '<p>' . __( "As you're on Apache, you should add the following include to the website httpd config file:", 'wordpress-seo-premium' ) . '</p>';
 								echo '<pre>Include ' . WPSEO_Redirect_File_Manager::get_file_path() . '</pre>';
 								echo '</div>';
 							} else {
@@ -169,14 +169,14 @@ class WPSEO_Page_Redirect {
 							}
 						} else {
 							if ( ! is_writable( WPSEO_Redirect_File_Manager::get_htaccess_file_path() ) ) {
-								echo "<div class='error'><p><b>" . __( "We're unable to save the redirects to your .htaccess file, please make the file writable.", 'wordpress-seo' ) . "</b></p></div>\n";
+								echo "<div class='error'><p><b>" . __( "We're unable to save the redirects to your .htaccess file, please make the file writable.", 'wordpress-seo-premium' ) . "</b></p></div>\n";
 							}
 						}
 
 					} else if ( wpseo_is_nginx() ) {
 						if ( file_exists( WPSEO_Redirect_File_Manager::get_file_path() ) ) {
 							echo '<div style="margin: 5px 0; padding: 3px 10px; background-color: #ffffe0; border: 1px solid #E6DB55; border-radius: 3px">';
-							echo '<p>' . __( "As you're on NGINX, you should add the following include to the website Nginx config file:", 'wordpress-seo' ) . '</p>';
+							echo '<p>' . __( "As you're on NGINX, you should add the following include to the website Nginx config file:", 'wordpress-seo-premium' ) . '</p>';
 							echo '<pre>include ' . WPSEO_Redirect_File_Manager::get_file_path() . ';</pre>';
 							echo '</div>';
 						} else {
@@ -185,7 +185,7 @@ class WPSEO_Page_Redirect {
 					}
 
 					if ( $file_write_error ) {
-						echo "<div class='error'><p><b>" . __( sprintf( "We're unable to save the redirect file to %s", WPSEO_Redirect_File_Manager::get_file_path() ), 'wordpress-seo' ) . "</b></p></div>\n";
+						echo "<div class='error'><p><b>" . __( sprintf( "We're unable to save the redirect file to %s", WPSEO_Redirect_File_Manager::get_file_path() ), 'wordpress-seo-premium' ) . "</b></p></div>\n";
 					}
 
 				}
@@ -203,19 +203,19 @@ class WPSEO_Page_Redirect {
 
 					if ( wpseo_is_apache() ) {
 
-						echo $wpseo_admin_pages->checkbox( 'disable_php_redirect', __( 'Disable PHP redirects', 'wordpress-seo' ) );
-						echo '<p class="desc">' . __( "Write redirects to the .htaccess file. Make sure the .htaccess file is writable!", 'wordpress-seo' ) . '</p>';
+						echo $wpseo_admin_pages->checkbox( 'disable_php_redirect', __( 'Disable PHP redirects', 'wordpress-seo-premium' ) );
+						echo '<p class="desc">' . __( "Write redirects to the .htaccess file. Make sure the .htaccess file is writable!", 'wordpress-seo-premium' ) . '</p>';
 
-						echo $wpseo_admin_pages->checkbox( 'separate_file', __( 'Generate a separate redirect file', 'wordpress-seo' ) );
-						echo '<p class="desc">' . __( "By default we write the redirects to your .htaccess file, check this if you want a the redirects written to a separate file. Only check this option if you know what your doing!", 'wordpress-seo' ) . '</p>';
+						echo $wpseo_admin_pages->checkbox( 'separate_file', __( 'Generate a separate redirect file', 'wordpress-seo-premium' ) );
+						echo '<p class="desc">' . __( "By default we write the redirects to your .htaccess file, check this if you want a the redirects written to a separate file. Only check this option if you know what your doing!", 'wordpress-seo-premium' ) . '</p>';
 					} else {
-						echo $wpseo_admin_pages->checkbox( 'disable_php_redirect', __( 'Disable PHP redirects', 'wordpress-seo' ) );
-						echo '<p class="desc">' . __( "WordPress SEO will generate redirect files that can be included in your website configuration, you can disable PHP redirect if this is done correctly. Only check this option if you know what your doing!", 'wordpress-seo' ) . '</p>';
+						echo $wpseo_admin_pages->checkbox( 'disable_php_redirect', __( 'Disable PHP redirects', 'wordpress-seo-premium' ) );
+						echo '<p class="desc">' . __( "WordPress SEO will generate redirect files that can be included in your website configuration, you can disable PHP redirect if this is done correctly. Only check this option if you know what your doing!", 'wordpress-seo-premium' ) . '</p>';
 					}
 
 					?>
 					<p class="submit">
-						<input type="submit" name="submit" id="submit" class="button button-primary" value="<?php _e( 'Save Changes', 'wordpress-seo' ); ?>">
+						<input type="submit" name="submit" id="submit" class="button button-primary" value="<?php _e( 'Save Changes', 'wordpress-seo-premium' ); ?>">
 					</p>
 				</form>
 			</div>
@@ -244,7 +244,7 @@ class WPSEO_Page_Redirect {
 		wp_localize_script( 'wp-seo-premium-admin-redirects', 'wpseo_premium_strings', WPSEO_Premium_Javascript_Strings::strings() );
 
 		add_screen_option( 'per_page', array(
-			'label'   => __( 'Redirects per page', 'wordpress-seo' ),
+			'label'   => __( 'Redirects per page', 'wordpress-seo-premium' ),
 			'default' => 25,
 			'option'  => 'redirects_per_page'
 		) );

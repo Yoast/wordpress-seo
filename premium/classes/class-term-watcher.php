@@ -47,7 +47,7 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 		if ( $this->should_create_redirect( $old_url, $new_url ) ) {
 
 			// Format the message
-			$message = sprintf( __( "WordPress SEO Premium created a <a href='%s'>redirect</a> from the old term URL to the new term URL. <a href='%s'>Click here to undo this</a>.", 'wordpress-seo' ), $this->admin_redirect_url( $old_url ), $this->javascript_undo_redirect( $old_url ) );
+			$message = sprintf( __( "WordPress SEO Premium created a <a href='%s'>redirect</a> from the old term URL to the new term URL. <a href='%s'>Click here to undo this</a>.", 'wordpress-seo-premium' ), $this->admin_redirect_url( $old_url ), $this->javascript_undo_redirect( $old_url ) );
 
 			$this->create_redirect($old_url, $new_url);
 
@@ -76,7 +76,7 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 			$url = $this->get_target_url( get_term( $term_row->term_id, $term_row->taxonomy ), $term_row->taxonomy );
 
 			// Format the message
-			$message = sprintf( __( "WordPress SEO Premium detected that you deleted a term. <a href='%s'>Click here to create a redirect from the old term URL</a>.", 'wordpress-seo' ), $this->javascript_create_redirect( $url ) );
+			$message = sprintf( __( "WordPress SEO Premium detected that you deleted a term. <a href='%s'>Click here to create a redirect from the old term URL</a>.", 'wordpress-seo-premium' ), $this->javascript_create_redirect( $url ) );
 
 			$this->create_notification( $message, 'delete' );
 

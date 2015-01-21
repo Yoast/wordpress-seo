@@ -30,11 +30,11 @@ class WPSEO_Tutorial_Videos {
 		<?php
 		} else {
 			echo '<div class="wpseo-warning">';
-			echo '<h2>' . __( 'WordPress SEO Premium is inactive.', 'wordpress-seo' ) . '</h2>';
+			echo '<h2>' . __( 'WordPress SEO Premium is inactive.', 'wordpress-seo-premium' ) . '</h2>';
 			if ( current_user_can( 'manage_options' ) ) {
-				echo '<p>' . __( 'Please activate WordPress SEO Premium to be able to see the videos.', 'wordpress-seo' ) . '</p></div>';
+				echo '<p>' . __( 'Please activate WordPress SEO Premium to be able to see the videos.', 'wordpress-seo-premium' ) . '</p></div>';
 			} else {
-				echo '<p>' . __( 'Please ask your site administrator to activate WordPress SEO Premium to be able to see the videos.', 'wordpress-seo' ) . '</p></div>';
+				echo '<p>' . __( 'Please ask your site administrator to activate WordPress SEO Premium to be able to see the videos.', 'wordpress-seo-premium' ) . '</p></div>';
 			}
 
 		}

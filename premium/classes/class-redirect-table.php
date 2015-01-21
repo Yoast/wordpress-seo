@@ -71,8 +71,8 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 		$columns = array(
 			'cb'   => '<input type="checkbox" />',
 			'old'  => $this->type,
-			'new'  => __( 'New URL', 'wordpress-seo' ),
-			'type' => __( 'Type', 'wordpress-seo' )
+			'new'  => __( 'New URL', 'wordpress-seo-premium' ),
+			'type' => __( 'Type', 'wordpress-seo-premium' )
 		);
 
 		return $columns;
@@ -176,8 +176,8 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 
 	public function column_old( $item ) {
 		$actions = array(
-			'edit'  => '<a href="javascript:;">' . __( 'Edit', 'wordpress-seo' ) . '</a>',
-			'trash' => '<a href="javascript:;" >' . __( 'Delete', 'wordpress-seo' ) . '</a>',
+			'edit'  => '<a href="javascript:;">' . __( 'Edit', 'wordpress-seo-premium' ) . '</a>',
+			'trash' => '<a href="javascript:;" >' . __( 'Delete', 'wordpress-seo-premium' ) . '</a>',
 		);
 
 		return sprintf(
@@ -229,7 +229,7 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	 */
 	public function get_bulk_actions() {
 		$actions = array(
-			'delete' => __( 'Delete', 'wordpress-seo' )
+			'delete' => __( 'Delete', 'wordpress-seo-premium' )
 		);
 
 		return $actions;
