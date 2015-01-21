@@ -2,7 +2,7 @@
 module.exports = {
 	plugin: {
 		options: {
-			mainFile: '<%= mainFile %>',
+			mainFile: '<%= files.main %>',
 			domainPath: '<%= paths.languages %>',
 			potFilename: '<%= pkg.plugin.textdomain %>.pot',
 			potHeaders: {
