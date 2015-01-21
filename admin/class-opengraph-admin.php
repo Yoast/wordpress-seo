@@ -39,19 +39,19 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 				'googleplus' => __( 'Google+', 'wordpress-seo' ),
 			) as $network => $label
 		) {
-			if ( true === $options[$network] ) {
+			if ( true === $options[ $network ] ) {
 				if ( 'googleplus' == $network ) {
 					$network = 'google-plus'; // Yuck, I know.
 				}
 
-				self::$meta_fields['social'][$network . '-title']['title']       = sprintf( __( '%s Title', 'wordpress-seo' ), $label );
-				self::$meta_fields['social'][$network . '-title']['description'] = sprintf( $title_text, $label );
+				self::$meta_fields['social'][ $network . '-title' ]['title']       = sprintf( __( '%s Title', 'wordpress-seo' ), $label );
+				self::$meta_fields['social'][ $network . '-title' ]['description'] = sprintf( $title_text, $label );
 
-				self::$meta_fields['social'][$network . '-description']['title']       = sprintf( __( '%s Description', 'wordpress-seo' ), $label );
-				self::$meta_fields['social'][$network . '-description']['description'] = sprintf( $description_text, $label );
+				self::$meta_fields['social'][ $network . '-description' ]['title']       = sprintf( __( '%s Description', 'wordpress-seo' ), $label );
+				self::$meta_fields['social'][ $network . '-description' ]['description'] = sprintf( $description_text, $label );
 
-				self::$meta_fields['social'][$network . '-image']['title']       = sprintf( __( '%s Image', 'wordpress-seo' ), $label );
-				self::$meta_fields['social'][$network . '-image']['description'] = sprintf( $image_text, $label );
+				self::$meta_fields['social'][ $network . '-image' ]['title']       = sprintf( __( '%s Image', 'wordpress-seo' ), $label );
+				self::$meta_fields['social'][ $network . '-image' ]['description'] = sprintf( $image_text, $label );
 			}
 		}
 

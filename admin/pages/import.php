@@ -116,7 +116,7 @@ if ( isset( $_POST['import'] ) || isset( $_GET['import'] ) ) {
 		$taxonomies = get_taxonomies( array( 'public' => true ), 'names' );
 		if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
 			foreach ( $taxonomies as $tax ) {
-				$options['title-tax-' . $tax] = $template;
+				$options[ 'title-tax-' . $tax ] = $template;
 			}
 		}
 		unset( $taxonomies, $tax, $template );
@@ -320,9 +320,9 @@ if ( isset( $_POST['import'] ) || isset( $_GET['import'] ) ) {
 		if ( is_array( $optold ) && $optold !== array() ) {
 			foreach ( $optold as $opt => $val ) {
 				if ( is_bool( $val ) && $val == true ) {
-					$optnew['breadcrumbs-' . $opt] = true;
+					$optnew[ 'breadcrumbs-' . $opt ] = true;
 				} else {
-					$optnew['breadcrumbs-' . $opt] = $val;
+					$optnew[ 'breadcrumbs-' . $opt ] = $val;
 				}
 			}
 			unset( $opt, $val );
