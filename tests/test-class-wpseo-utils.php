@@ -48,4 +48,14 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 		$_SERVER['SERVER_SOFTWARE'] = 'Apache/2.2.22';
 		$this->assertFalse( WPSEO_Utils::is_nginx() );
 	}
+
+	/**
+	 * @covers WPSEO_Utils::trim_nbsp_from_string()
+	 */
+	public function test_wpseo_trim_nbsp_from_string() {
+		$old_string = ' This is an old string with&nbsp;as spaces.&nbsp;';
+		$expected = 'This is an old string with as spaces.';
+
+		$this->assertEquals( $expected, WPSEO_Utils::trim_nbsp_from_string($old_string) );
+	}
 }
