@@ -27,6 +27,10 @@ matrix:
     - php: '5.4'
       env: WP_VERSION=3.9 WP_MULTISITE=0
 
+env:
+  global:
+    - secure: "AjhDEqH2f6VhjDMjgxfnbrOSzobOMlqCcZRbl2Evbb1OfOCe2ZGX4Oh63FPJz5dOHSwUpUzNwYwsNOJmhYTMdUk77ka6fjq9m8e0xdX749wuscBiK9h/Aif8qW75GmDL2/r4pEDFv6RpqQl0JGWfeS0zp8tZiKp+0ovbg0LDVvc="
+
 before_script:
 - PLUGIN_SLUG=$(basename $(pwd))
 - export WP_DEVELOP_DIR=/tmp/wordpress/
@@ -54,6 +58,3 @@ script:
 notifications:
   slack:
     secure: W3StABr+AdcdQawTObK4nbsnn5nLrTTtZfVpD/GEN6gvSOQcykbGEC5+ceYg0jn5b4StDyCiTo5blEsrpVICFpYKc44+ogah+qaGRUfVRS/rpOvn4AueXTWn4JxhZzuxqKMiTmyW+MQG0uYM7sk7Q5S+15jj6ilkj4QATaBVNbY=
-
-# Encrypted github key
-secure: "AjhDEqH2f6VhjDMjgxfnbrOSzobOMlqCcZRbl2Evbb1OfOCe2ZGX4Oh63FPJz5dOHSwUpUzNwYwsNOJmhYTMdUk77ka6fjq9m8e0xdX749wuscBiK9h/Aif8qW75GmDL2/r4pEDFv6RpqQl0JGWfeS0zp8tZiKp+0ovbg0LDVvc="
