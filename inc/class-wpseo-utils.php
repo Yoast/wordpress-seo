@@ -711,8 +711,7 @@ class WPSEO_Utils {
 	 */
 	public static function trim_nbsp_from_string( $string ) {
 		$find    = array( '&nbsp;', chr( 0xC2 ) . chr( 0xA0 ) );
-		$replace = array( ' ', ' ' );
-		$string  = str_replace( $find, $replace, $string );
+		$string  = str_replace( $find, ' ', $string );
 		$string  = trim( $string );
 
 		return $string;
