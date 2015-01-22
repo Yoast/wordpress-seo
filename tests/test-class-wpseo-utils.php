@@ -54,8 +54,8 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_wpseo_trim_nbsp_from_string() {
 		$old_string = ' This is an old string with&nbsp;as spaces.&nbsp;';
-		$expected = 'This is an old string with as spaces.';
+		$expected   = 'This is an old string with as spaces.';
 
-		$this->assertEquals( $expected, WPSEO_Utils::trim_nbsp_from_string($old_string) );
+		$this->assertEquals( $expected, WPSEO_Utils::trim_nbsp_from_string( $old_string ) );
 	}
 }
