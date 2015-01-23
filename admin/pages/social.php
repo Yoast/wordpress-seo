@@ -180,25 +180,29 @@ $wpseo_admin_pages->admin_header( true, WPSEO_Options::get_group_name( 'wpseo_so
 ?>
 
 	<h2 class="nav-tab-wrapper" id="wpseo-tabs">
-		<a class="nav-tab nav-tab-active" id="facebook-tab" href="#top#facebook"><?php _e( 'Facebook', 'wordpress-seo' ); ?></a>
+		<a class="nav-tab" id="facebook-tab" href="#top#facebook"><?php _e( 'Facebook', 'wordpress-seo' ); ?></a>
 		<a class="nav-tab" id="twitterbox-tab" href="#top#twitterbox"><?php _e( 'Twitter', 'wordpress-seo' ); ?></a>
 		<a class="nav-tab" id="pinterest-tab" href="#top#pinterest"><?php _e( 'Pinterest', 'wordpress-seo' ); ?></a>
 		<a class="nav-tab" id="google-tab" href="#top#google"><?php _e( 'Google+', 'wordpress-seo' ); ?></a>
+		<a class="nav-tab" id="other-tab" href="#top#other"><?php _e( 'Other', 'wordpress-seo' ); ?></a>
 	</h2>
 
 	<div id="facebook" class="wpseotab">
+		<p>
+			<?php $wpseo_admin_pages->checkbox( 'opengraph', __( 'Add Open Graph meta data', 'wordpress-seo' ) ); ?>
+		</p>
+
+		<p class="desc">
+			<?php _e( 'Add Open Graph meta data to your site\'s <code>&lt;head&gt;</code> section. You can specify some of the ID\'s that are sometimes needed below:', 'wordpress-seo' ); ?>
+		</p>
 		<?php
-		echo '<p>';
-		echo $wpseo_admin_pages->checkbox( 'opengraph', __( 'Add Open Graph meta data', 'wordpress-seo' ) );
-		echo '</p>';
-		echo '<p class="desc">' . __( 'Add Open Graph meta data to your site\'s <code>&lt;head&gt;</code> section. You can specify some of the ID\'s that are sometimes needed below:', 'wordpress-seo' ) . '</p>';
 		echo $fbconnect;
-		echo $wpseo_admin_pages->textinput( 'facebook_site', __( 'Facebook Page URL', 'wordpress-seo' ) );
+		$wpseo_admin_pages->textinput( 'facebook_site', __( 'Facebook Page URL', 'wordpress-seo' ) );
 		if ( 'posts' == get_option( 'show_on_front' ) ) {
 			echo '<h4>' . esc_html__( 'Frontpage settings', 'wordpress-seo' ) . '</h4>';
-			echo $wpseo_admin_pages->media_input( 'og_frontpage_image', __( 'Image URL', 'wordpress-seo' ) );
-			echo $wpseo_admin_pages->textinput( 'og_frontpage_title', __( 'Title', 'wordpress-seo' ) );
-			echo $wpseo_admin_pages->textinput( 'og_frontpage_desc', __( 'Description', 'wordpress-seo' ) );
+			$wpseo_admin_pages->media_input( 'og_frontpage_image', __( 'Image URL', 'wordpress-seo' ) );
+			$wpseo_admin_pages->textinput( 'og_frontpage_title', __( 'Title', 'wordpress-seo' ) );
+			$wpseo_admin_pages->textinput( 'og_frontpage_desc', __( 'Description', 'wordpress-seo' ) );
 
 			// Offer copying of meta description
 			$meta_options = get_option( 'wpseo_titles' );
@@ -206,52 +210,77 @@ $wpseo_admin_pages->admin_header( true, WPSEO_Options::get_group_name( 'wpseo_so
 			echo '<p class="label desc" style="border:0;"><a href="javascript:;" onclick="copy_home_meta();" class="button">' . __( 'Copy home meta description', 'wordpress-seo' ) . '</a></p>';
 
 			echo '<p class="desc label">' . esc_html__( 'These are the title, description and image used in the Open Graph meta tags on the front page of your site.', 'wordpress-seo' ) . '</p>';
-		}
-		echo '<h4>' . esc_html__( 'Default settings', 'wordpress-seo' ) . '</h4>';
-		echo $wpseo_admin_pages->media_input( 'og_default_image', __( 'Image URL', 'wordpress-seo' ) );
-		echo '<p class="desc label">' . esc_html__( 'This image is used if the post/page being shared does not contain any images.', 'wordpress-seo' ) . '</p>';
-		do_action( 'wpseo_admin_opengraph_section' );
-		?>
+		} ?>
+
+		<h4><?php esc_html_e( 'Default settings', 'wordpress-seo' ); ?></h4>
+		<?php $wpseo_admin_pages->media_input( 'og_default_image', __( 'Image URL', 'wordpress-seo' ) ); ?>
+		<p class="desc label">
+			<?php esc_html_e( 'This image is used if the post/page being shared does not contain any images.', 'wordpress-seo' ); ?>
+		</p>
+
+		<?php do_action( 'wpseo_admin_opengraph_section' ); ?>
 	</div>
 
 	<div id="twitterbox" class="wpseotab">
+		<p>
+			<strong>
+				<?php printf( esc_html__( 'Note that for the Twitter Cards to work, you have to check the box below and then validate your Twitter Cards through the %1$sTwitter Card Validator%2$s.', 'wordpress-seo' ), '<a target="_blank" href="https://dev.twitter.com/docs/cards/validation/validator">', '</a>' ); ?>
+			</strong>
+		</p>
+
+		<p>
+			<?php $wpseo_admin_pages->checkbox( 'twitter', __( 'Add Twitter card meta data', 'wordpress-seo' ) ); ?>
+		</p>
+
+		<p class="desc">
+			<?php _e( 'Add Twitter card meta data to your site\'s <code>&lt;head&gt;</code> section.', 'wordpress-seo' ); ?>
+		</p>
 		<?php
-		echo '<p><strong>';
-		printf( esc_html__( 'Note that for the Twitter Cards to work, you have to check the box below and then validate your Twitter Cards through the %1$sTwitter Card Validator%2$s.', 'wordpress-seo' ), '<a target="_blank" href="https://dev.twitter.com/docs/cards/validation/validator">', '</a>' );
-		echo '</p></strong>';
-		echo '<p>';
-		echo $wpseo_admin_pages->checkbox( 'twitter', __( 'Add Twitter card meta data', 'wordpress-seo' ) );
-		echo '</p>';
-		echo '<p class="desc">' . __( 'Add Twitter card meta data to your site\'s <code>&lt;head&gt;</code> section.', 'wordpress-seo' ) . '</p>';
-		echo $wpseo_admin_pages->textinput( 'twitter_site', __( 'Site Twitter Username', 'wordpress-seo' ) );
-		echo $wpseo_admin_pages->select( 'twitter_card_type', __( 'The default card type to use', 'wordpress-seo' ), WPSEO_Option_Social::$twitter_card_types );
+		$wpseo_admin_pages->textinput( 'twitter_site', __( 'Site Twitter Username', 'wordpress-seo' ) );
+		$wpseo_admin_pages->select( 'twitter_card_type', __( 'The default card type to use', 'wordpress-seo' ), WPSEO_Option_Social::$twitter_card_types );
 		do_action( 'wpseo_admin_twitter_section' );
 		?>
 	</div>
 
 	<div id="pinterest" class="wpseotab">
-		<?php
-		echo '<p>';
-		_e( 'Pinterest uses Open Graph metadata just like Facebook, so be sure to keep the Open Graph checkbox on the Facebook tab checked if you want to optimize your site for Pinterest.', 'wordpress-seo' );
-		echo '</p>';
+		<p>
+			<?php _e( 'Pinterest uses Open Graph metadata just like Facebook, so be sure to keep the Open Graph checkbox on the Facebook tab checked if you want to optimize your site for Pinterest.', 'wordpress-seo' ); ?>
+		</p>
 
-		echo $wpseo_admin_pages->textinput( 'pinterestverify', __( 'Pinterest verification', 'wordpress-seo' ) );
-		echo '<p class="desc label">', sprintf( __( 'To %1$sverify your site with Pinterest%2$s, add the meta tag here', 'wordpress-seo' ), '<a target="_blank" href="https://help.pinterest.com/en/articles/verify-your-website#meta_tag">', '</a>' ), '</p>';
+		<?php $wpseo_admin_pages->textinput( 'pinterestverify', __( 'Pinterest verification', 'wordpress-seo' ) ); ?>
+		<p class="desc label">
+			<?php printf( __( 'To %1$sverify your site with Pinterest%2$s, add the meta tag here', 'wordpress-seo' ), '<a target="_blank" href="https://help.pinterest.com/en/articles/verify-your-website#meta_tag">', '</a>' ); ?>
+		</p>
+
+		<?php
+		$wpseo_admin_pages->textinput( 'pinterest_url', __( 'Your Pinterest accounts URL', 'wordpress-seo' ) );
+
 		do_action( 'wpseo_admin_pinterest_section' );
 		?>
 	</div>
 
 	<div id="google" class="wpseotab">
-		<?php
-		echo '<p>';
-		echo $wpseo_admin_pages->checkbox( 'googleplus', __( 'Add Google+ specific post meta data', 'wordpress-seo' ) );
-		echo '</p>';
+		<p>
+			<?php $wpseo_admin_pages->checkbox( 'googleplus', __( 'Add Google+ specific post meta data', 'wordpress-seo' ) ); ?>
+		</p>
 
-		echo $wpseo_admin_pages->textinput( 'plus-publisher', __( 'Google Publisher Page', 'wordpress-seo' ) );
-		echo '<p class="desc label">' . esc_html__( 'If you have a Google+ page for your business, add that URL here and link it on your Google+ page\'s about page.', 'wordpress-seo' ) . '</p>';
-		do_action( 'wpseo_admin_googleplus_section' );
-		?>
+		<?php $wpseo_admin_pages->textinput( 'plus-publisher', __( 'Google Publisher Page', 'wordpress-seo' ) ); ?>
+		<p class="desc label"><?php esc_html_e( 'If you have a Google+ page for your business, add that URL here and link it on your Google+ page\'s about page.', 'wordpress-seo' ); ?></p>
+
+		<?php do_action( 'wpseo_admin_googleplus_section' ); ?>
 	</div>
 
+	<div id="other" class="wpseotab">
+		<p>
+			<?php _e( 'To inform Google about your social profiles, we need to know their URLs, please enter them below:', 'wordpress-seo' ); ?>
+		</p>
+		<?php
+		$wpseo_admin_pages->textinput( 'instagram_url', __( 'Instagram', 'wordpress-seo' ) );
+		$wpseo_admin_pages->textinput( 'linkedin_url', __( 'LinkedIn', 'wordpress-seo' ) );
+		$wpseo_admin_pages->textinput( 'myspace_url', __( 'MySpace', 'wordpress-seo' ) );
+		$wpseo_admin_pages->textinput( 'youtube_url', __( 'YouTube', 'wordpress-seo' ) );
+		?>
+		<?php do_action( 'wpseo_admin_other_section' ); ?>
+	</div>
 <?php
 $wpseo_admin_pages->admin_footer();

@@ -1787,13 +1787,19 @@ class WPSEO_JSON_LD {
 	public $options = array();
 
 	/**
+	 * Holds the social profiles for the entity
+	 * @var array
+	 */
+	private $profiles = array();
+
+	/**
 	 * Class constructor
 	 */
 	public function __construct() {
 		$this->options = WPSEO_Options::get_all();
 
 		add_action( 'wpseo_head', array( $this, 'json_ld' ), 90 );
-		add_action( 'wpseo_json_ld', array( $this, 'organization' ), 10 );
+		add_action( 'wpseo_json_ld', array( $this, 'organization_or_person' ), 10 );
 		add_action( 'wpseo_json_ld', array( $this, 'internal_search' ), 20 );
 	}
 
@@ -1820,28 +1826,74 @@ class WPSEO_JSON_LD {
 	}
 
 	/**
-	 * Outputs code to allow Google to recognize social profiles for use in the Knowledge graph
+	 * Returns JSON+LD schema for Organization
 	 *
-	 * @since 1.8
+	 * @return string
 	 */
-	public function organization() {
-		$profiles = $this->fetch_social_profiles();
-
-		$output = '{ "@context": "http://schema.org",
+	private function organization() {
+		$output = '';
+		if ( '' !== $this->options['company_name'] ) {
+			$output = '{ "@context": "http://schema.org",
 			"@type": "Organization",
 			"name": "' . esc_attr( $this->options['company_name'] ) . '",
 			"url": "' . home_url() . '",
 			"logo": "' . esc_url( $this->options['company_logo'] ) . '",
-			"sameAs": [' . $profiles . ']}';
+			"sameAs": [' . $this->profiles . ']}';
 
-		/**
-		 * Filter: 'wpseo_json_ld_organization' - Allows filtering of the JSON+LD organization output
-		 *
-		 * @api string $output The organization output
-		 */
-		$output = apply_filters( 'wpseo_json_ld_organization', $output );
+			/**
+			 * Filter: 'wpseo_json_ld_organization' - Allows filtering of the JSON+LD organization output
+			 *
+			 * @api string $output The organization output
+			 */
+			$output = apply_filters( 'wpseo_json_ld_organization', $output );
+		}
+		return $output;
+	}
 
-		$this->json_ld_output( $output );
+	/**
+	 * Returns JSON+LD schema for Person
+	 *
+	 * @return string
+	 */
+	private function person() {
+		$output = '';
+		if ( '' !== $this->options['person_name'] ) {
+			$output = '{ "@context": "http://schema.org",
+			"@type": "Person",
+			"name": "' . esc_attr( $this->options['person_name'] ) . '",
+			"url": "' . home_url() . '",
+			"sameAs": [' . $this->profiles . ']}';
+
+			/**
+			 * Filter: 'wpseo_json_ld_person' - Allows filtering of the JSON+LD person output
+			 *
+			 * @api string $output The person output
+			 */
+			$output = apply_filters( 'wpseo_json_ld_person', $output );
+		}
+		return $output;
+	}
+
+	/**
+	 * Outputs code to allow Google to recognize social profiles for use in the Knowledge graph
+	 *
+	 * @since 1.8
+	 */
+	public function organization_or_person() {
+		$this->fetch_social_profiles();
+
+		switch( $this->options['company_or_person'] ) {
+			case 'company':
+				$output = $this->organization();
+				break;
+			case 'person':
+				$output = $this->person();
+				break;
+		}
+
+		if ( isset( $output ) ) {
+			$this->json_ld_output( $output );
+		}
 	}
 
 	/**
@@ -1849,22 +1901,30 @@ class WPSEO_JSON_LD {
 	 *
 	 * @since 1.8
 	 *
-	 * @link https://developers.google.com/webmasters/structured-data/customize/social-profiles
+	 * @link  https://developers.google.com/webmasters/structured-data/customize/social-profiles
 	 */
 	private function fetch_social_profiles() {
-		$profiles = array();
-		if ( $this->options['opengraph'] === true && $this->options['facebook_site'] !== '' ) {
-			$profiles[] = $this->options['facebook_site'];
+		$profiles        = array();
+		$social_profiles = array(
+			'facebook_site',
+			'instagram_url',
+			'linkedin_url',
+			'plus-publisher',
+			'myspace_url',
+			'youtube_url',
+			'pinterest_url',
+		);
+		foreach ( $social_profiles as $profile ) {
+			if ( $this->options[ $profile ] !== '' ) {
+				$profiles[] = $this->options[ $profile ];
+			}
 		}
-		if ( $this->options['twitter'] === true && $this->options['twitter_site'] !== '' ) {
+		if ( $this->options['twitter_site'] !== '' ) {
 			$profiles[] = 'https://twitter.com/' . $this->options['twitter_site'];
-		}
-		if ( $this->options['plus-publisher'] !== '' ) {
-			$profiles[] = $this->options['plus-publisher'];
 		}
 		$profiles_out = '"' . implode( '","', $profiles ) . '"';
 
-		return rtrim( $profiles_out, ',' );
+		$this->profiles = rtrim( $profiles_out, ',' );
 	}
 
 	/**

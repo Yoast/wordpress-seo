@@ -445,7 +445,7 @@ echo '<div id="wpseo-export" class="wpseotab">';
 echo '<form action="', esc_attr( admin_url( 'admin.php?page=wpseo_tools&tool=import-export' ) ), '" method="post" accept-charset="', esc_attr( get_bloginfo( 'charset' ) ), '">';
 wp_nonce_field( 'wpseo-export', '_wpnonce', true, true );
 echo '<p>' . __( 'Export your WordPress SEO settings here, to import them again later or to import them on another site.', 'wordpress-seo' ) . '</p>';
-echo $wpseo_admin_pages->checkbox( 'include_taxonomy_meta', __( 'Include Taxonomy Metadata', 'wordpress-seo' ) );
+$wpseo_admin_pages->checkbox( 'include_taxonomy_meta', __( 'Include Taxonomy Metadata', 'wordpress-seo' ) );
 echo '<br/><input type="submit" class="button" name="wpseo_export" value="' . __( 'Export settings', 'wordpress-seo' ) . '"/>';
 echo '</form>';
 
@@ -473,12 +473,12 @@ echo '<p>' . __( 'No doubt you\'ve used an SEO plugin before if this site isn\'t
 echo '<p>' . sprintf( __( 'If you\'ve used another SEO plugin, try the %sSEO Data Transporter%s plugin to move your data into this plugin, it rocks!', 'wordpress-seo' ), '<a href="https://wordpress.org/plugins/seo-data-transporter/">', '</a>' ) . '</p>';
 echo '<form action="', esc_attr( admin_url( 'admin.php?page=wpseo_tools&tool=import-export' ) ), '" method="post" accept-charset="' . esc_attr( get_bloginfo( 'charset' ) ) . '">';
 wp_nonce_field( 'wpseo-import', '_wpnonce', true, true );
-echo $wpseo_admin_pages->checkbox( 'importheadspace', __( 'Import from HeadSpace2?', 'wordpress-seo' ) );
-echo $wpseo_admin_pages->checkbox( 'importaioseo', __( 'Import from All-in-One SEO?', 'wordpress-seo' ) );
-echo $wpseo_admin_pages->checkbox( 'importaioseoold', __( 'Import from OLD All-in-One SEO?', 'wordpress-seo' ) );
-echo $wpseo_admin_pages->checkbox( 'importwoo', __( 'Import from WooThemes SEO framework?', 'wordpress-seo' ) );
+$wpseo_admin_pages->checkbox( 'importheadspace', __( 'Import from HeadSpace2?', 'wordpress-seo' ) );
+$wpseo_admin_pages->checkbox( 'importaioseo', __( 'Import from All-in-One SEO?', 'wordpress-seo' ) );
+$wpseo_admin_pages->checkbox( 'importaioseoold', __( 'Import from OLD All-in-One SEO?', 'wordpress-seo' ) );
+$wpseo_admin_pages->checkbox( 'importwoo', __( 'Import from WooThemes SEO framework?', 'wordpress-seo' ) );
 echo '<br/>';
-echo $wpseo_admin_pages->checkbox( 'deleteolddata', __( 'Delete the old data after import? (recommended)', 'wordpress-seo' ) );
+$wpseo_admin_pages->checkbox( 'deleteolddata', __( 'Delete the old data after import? (recommended)', 'wordpress-seo' ) );
 echo '<br/>';
 echo '<input type="submit" class="button-primary" name="import" value="' . __( 'Import', 'wordpress-seo' ) . '" />';
 echo '</form><br/>';
@@ -488,9 +488,9 @@ echo '</div>';
 echo '<div id="import-other" class="wpseotab">';
 echo '<p>', __( 'If you want to import data from (by now ancient) Yoast plugins, you can do so here:', 'wordpress-seo' ), '</p>';
 echo '<form action="', esc_attr( admin_url( 'admin.php?page=wpseo_tools&tool=import-export' ) ), '" method="post" accept-charset="' . esc_attr( get_bloginfo( 'charset' ) ) . '">';
-echo $wpseo_admin_pages->checkbox( 'importrobotsmeta', __( 'Import from Robots Meta (by Yoast)?', 'wordpress-seo' ) );
-echo $wpseo_admin_pages->checkbox( 'importrssfooter', __( 'Import from RSS Footer (by Yoast)?', 'wordpress-seo' ) );
-echo $wpseo_admin_pages->checkbox( 'importbreadcrumbs', __( 'Import from Yoast Breadcrumbs?', 'wordpress-seo' ) );
+$wpseo_admin_pages->checkbox( 'importrobotsmeta', __( 'Import from Robots Meta (by Yoast)?', 'wordpress-seo' ) );
+$wpseo_admin_pages->checkbox( 'importrssfooter', __( 'Import from RSS Footer (by Yoast)?', 'wordpress-seo' ) );
+$wpseo_admin_pages->checkbox( 'importbreadcrumbs', __( 'Import from Yoast Breadcrumbs?', 'wordpress-seo' ) );
 
 /**
  * Allow option of importing from other 'other' plugins

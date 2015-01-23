@@ -319,7 +319,7 @@ class WPSEO_Admin_Pages {
 
 		$page = WPSEO_Utils::filter_input( INPUT_GET, 'page' );
 
-		if ( 'wpseo_social' === $page ) {
+		if ( in_array( $page, array( 'wpseo_social', 'wpseo_dashboard' ) ) ) {
 			wp_enqueue_media();
 			wp_enqueue_script( 'wpseo-admin-media', plugins_url( 'js/wp-seo-admin-media' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array(
 				'jquery',
@@ -405,7 +405,7 @@ class WPSEO_Admin_Pages {
 			$output = $output_input . $output_label;
 		}
 
-		return $output . '<br class="clear" />';
+		echo $output . '<br class="clear" />';
 	}
 
 	/**
@@ -414,8 +414,6 @@ class WPSEO_Admin_Pages {
 	 * @param string $var    The variable within the option to create the text input field for.
 	 * @param string $label  The label to show for the variable.
 	 * @param string $option The option the variable belongs to.
-	 *
-	 * @return string
 	 */
 	function textinput( $var, $label, $option = '' ) {
 		if ( empty( $option ) ) {
@@ -425,7 +423,7 @@ class WPSEO_Admin_Pages {
 		$options = $this->get_option( $option );
 		$val     = ( isset( $options[ $var ] ) ) ? $options[ $var ] : '';
 
-		return '<label class="textinput" for="' . esc_attr( $var ) . '">' . $label . ':</label><input class="textinput" type="text" id="' . esc_attr( $var ) . '" name="' . esc_attr( $option ) . '[' . esc_attr( $var ) . ']" value="' . esc_attr( $val ) . '"/>' . '<br class="clear" />';
+		echo '<label class="textinput" for="' . esc_attr( $var ) . '">' . $label . ':</label><input class="textinput" type="text" id="' . esc_attr( $var ) . '" name="' . esc_attr( $option ) . '[' . esc_attr( $var ) . ']" value="' . esc_attr( $val ) . '"/>' . '<br class="clear" />';
 	}
 
 	/**
@@ -435,8 +433,6 @@ class WPSEO_Admin_Pages {
 	 * @param string $label  The label to show for the variable.
 	 * @param string $option The option the variable belongs to.
 	 * @param array  $attr   The CSS class to assign to the textarea.
-	 *
-	 * @return string
 	 */
 	function textarea( $var, $label, $option = '', $attr = array() ) {
 		if ( ! is_array( $attr ) ) {
@@ -456,7 +452,7 @@ class WPSEO_Admin_Pages {
 		$options = $this->get_option( $option );
 		$val     = ( isset( $options[ $var ] ) ) ? $options[ $var ] : '';
 
-		return '<label class="textinput" for="' . esc_attr( $var ) . '">' . esc_html( $label ) . ':</label><textarea cols="' . esc_attr( $attr['cols'] ) . '" rows="' . esc_attr( $attr['rows'] ) . '" class="textinput ' . esc_attr( $attr['class'] ) . '" id="' . esc_attr( $var ) . '" name="' . esc_attr( $option ) . '[' . esc_attr( $var ) . ']">' . esc_textarea( $val ) . '</textarea>' . '<br class="clear" />';
+		echo '<label class="textinput" for="' . esc_attr( $var ) . '">' . esc_html( $label ) . ':</label><textarea cols="' . esc_attr( $attr['cols'] ) . '" rows="' . esc_attr( $attr['rows'] ) . '" class="textinput ' . esc_attr( $attr['class'] ) . '" id="' . esc_attr( $var ) . '" name="' . esc_attr( $option ) . '[' . esc_attr( $var ) . ']">' . esc_textarea( $val ) . '</textarea>' . '<br class="clear" />';
 	}
 
 	/**
@@ -464,8 +460,6 @@ class WPSEO_Admin_Pages {
 	 *
 	 * @param string $var    The variable within the option to create the hidden input for.
 	 * @param string $option The option the variable belongs to.
-	 *
-	 * @return string
 	 */
 	function hidden( $var, $option = '' ) {
 		if ( empty( $option ) ) {
@@ -479,7 +473,7 @@ class WPSEO_Admin_Pages {
 			$val = ( $val === true ) ? 'true' : 'false';
 		}
 
-		return '<input type="hidden" id="hidden_' . esc_attr( $var ) . '" name="' . esc_attr( $option ) . '[' . esc_attr( $var ) . ']" value="' . esc_attr( $val ) . '"/>';
+		echo '<input type="hidden" id="hidden_' . esc_attr( $var ) . '" name="' . esc_attr( $option ) . '[' . esc_attr( $var ) . ']" value="' . esc_attr( $val ) . '"/>';
 	}
 
 	/**
@@ -489,12 +483,10 @@ class WPSEO_Admin_Pages {
 	 * @param string $label  The label to show for the variable.
 	 * @param array  $values The select options to choose from.
 	 * @param string $option The option the variable belongs to.
-	 *
-	 * @return string
 	 */
 	function select( $var, $label, $values, $option = '' ) {
 		if ( ! is_array( $values ) || $values === array() ) {
-			return '';
+			return;
 		}
 		if ( empty( $option ) ) {
 			$option = $this->currentoption;
@@ -513,7 +505,7 @@ class WPSEO_Admin_Pages {
 		}
 		$output .= '</select>';
 
-		return $output . '<br class="clear"/>';
+		echo $output . '<br class="clear"/>';
 	}
 
 	/**
@@ -522,8 +514,6 @@ class WPSEO_Admin_Pages {
 	 * @param string $var    The variable within the option to create the file upload field for.
 	 * @param string $label  The label to show for the variable.
 	 * @param string $option The option the variable belongs to.
-	 *
-	 * @return string
 	 */
 	function file_upload( $var, $label, $option = '' ) {
 		if ( empty( $option ) ) {
@@ -549,7 +539,7 @@ class WPSEO_Admin_Pages {
 		}
 		$output .= '<br class="clear"/>';
 
-		return $output;
+		echo $output;
 	}
 
 	/**
@@ -558,8 +548,6 @@ class WPSEO_Admin_Pages {
 	 * @param string $var
 	 * @param string $label
 	 * @param string $option
-	 *
-	 * @return string
 	 */
 	function media_input( $var, $label, $option = '' ) {
 		if ( empty( $option ) ) {
@@ -580,7 +568,7 @@ class WPSEO_Admin_Pages {
 		$output .= '<input id="wpseo_' . $var_esc . '_button" class="wpseo_image_upload_button button" type="button" value="Upload Image" />';
 		$output .= '<br class="clear"/>';
 
-		return $output;
+		echo $output;
 	}
 
 	/**
@@ -590,12 +578,10 @@ class WPSEO_Admin_Pages {
 	 * @param array  $values The radio options to choose from.
 	 * @param string $label  The label to show for the variable.
 	 * @param string $option The option the variable belongs to.
-	 *
-	 * @return string
 	 */
 	function radio( $var, $values, $label, $option = '' ) {
 		if ( ! is_array( $values ) || $values === array() ) {
-			return '';
+			return;
 		}
 		if ( empty( $option ) ) {
 			$option = $this->currentoption;
@@ -621,8 +607,10 @@ class WPSEO_Admin_Pages {
 		$output .= '<div class="clear"></div>';
 		$output .= '</div><br/>';
 
-		return $output;
+		echo $output;
 	}
+
+	/********************** DEPRECATED METHODS **********************/
 
 	/**
 	 * Create a postbox widget.
@@ -632,6 +620,8 @@ class WPSEO_Admin_Pages {
 	 * @param string $content Content of the postbox.
 	 */
 	function postbox( $id, $title, $content ) {
+		_deprecated_function( __METHOD__, 'WPSEO 1.8.0', 'This method is deprecated, please re-implement the admin pages.' );
+
 		?>
 			<div id="<?php echo esc_attr( $id ); ?>" class="yoastbox">
 				<h2><?php echo $title; ?></h2>
@@ -639,7 +629,6 @@ class WPSEO_Admin_Pages {
 			</div>
 		<?php
 	}
-
 
 	/**
 	 * Create a form table from an array of rows.
@@ -649,6 +638,8 @@ class WPSEO_Admin_Pages {
 	 * @return string
 	 */
 	function form_table( $rows ) {
+		_deprecated_function( __METHOD__, 'WPSEO 1.8.0', 'This method is deprecated, please re-implement the admin pages.' );
+
 		if ( ! is_array( $rows ) || $rows === array() ) {
 			return '';
 		}
@@ -672,10 +663,6 @@ class WPSEO_Admin_Pages {
 
 		return $content;
 	}
-
-
-
-	/********************** DEPRECATED METHODS **********************/
 
 	/**
 	 * Resets the site to the default WordPress SEO settings and runs a title test to check

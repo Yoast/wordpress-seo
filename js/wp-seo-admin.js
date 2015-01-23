@@ -28,6 +28,19 @@ jQuery(document).ready(function() {
 		jQuery(this).addClass('nav-tab-active');
 	});
 
+	jQuery("#company_or_person").change(function() {
+		if ( 'company' == jQuery(this).val() ) {
+			jQuery('#knowledge-graph-company').show();
+			jQuery('#knowledge-graph-person').hide();
+		} else if ( 'person' == jQuery(this).val() ) {
+			jQuery('#knowledge-graph-company').hide();
+			jQuery('#knowledge-graph-person').show();
+		} else {
+			jQuery('#knowledge-graph-company').hide();
+			jQuery('#knowledge-graph-person').hide();
+		}
+	}).change();
+
 	// init
 	var active_tab = window.location.hash.replace('#top#','');
 

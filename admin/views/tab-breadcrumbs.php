@@ -11,19 +11,19 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 
 $wpseo_admin_pages->currentoption = 'wpseo_internallinks';
 
-echo $wpseo_admin_pages->checkbox( 'breadcrumbs-enable', __( 'Enable Breadcrumbs', 'wordpress-seo' ) );
+$wpseo_admin_pages->checkbox( 'breadcrumbs-enable', __( 'Enable Breadcrumbs', 'wordpress-seo' ) );
 echo '<br/>';
-echo $wpseo_admin_pages->textinput( 'breadcrumbs-sep', __( 'Separator between breadcrumbs', 'wordpress-seo' ) );
-echo $wpseo_admin_pages->textinput( 'breadcrumbs-home', __( 'Anchor text for the Homepage', 'wordpress-seo' ) );
-echo $wpseo_admin_pages->textinput( 'breadcrumbs-prefix', __( 'Prefix for the breadcrumb path', 'wordpress-seo' ) );
-echo $wpseo_admin_pages->textinput( 'breadcrumbs-archiveprefix', __( 'Prefix for Archive breadcrumbs', 'wordpress-seo' ) );
-echo $wpseo_admin_pages->textinput( 'breadcrumbs-searchprefix', __( 'Prefix for Search Page breadcrumbs', 'wordpress-seo' ) );
-echo $wpseo_admin_pages->textinput( 'breadcrumbs-404crumb', __( 'Breadcrumb for 404 Page', 'wordpress-seo' ) );
+$wpseo_admin_pages->textinput( 'breadcrumbs-sep', __( 'Separator between breadcrumbs', 'wordpress-seo' ) );
+$wpseo_admin_pages->textinput( 'breadcrumbs-home', __( 'Anchor text for the Homepage', 'wordpress-seo' ) );
+$wpseo_admin_pages->textinput( 'breadcrumbs-prefix', __( 'Prefix for the breadcrumb path', 'wordpress-seo' ) );
+$wpseo_admin_pages->textinput( 'breadcrumbs-archiveprefix', __( 'Prefix for Archive breadcrumbs', 'wordpress-seo' ) );
+$wpseo_admin_pages->textinput( 'breadcrumbs-searchprefix', __( 'Prefix for Search Page breadcrumbs', 'wordpress-seo' ) );
+$wpseo_admin_pages->textinput( 'breadcrumbs-404crumb', __( 'Breadcrumb for 404 Page', 'wordpress-seo' ) );
 echo '<br/>';
 if ( get_option( 'show_on_front' ) == 'page' && get_option( 'page_for_posts' ) > 0 ) {
-	echo $wpseo_admin_pages->checkbox( 'breadcrumbs-blog-remove', __( 'Remove Blog page from Breadcrumbs', 'wordpress-seo' ) );
+	$wpseo_admin_pages->checkbox( 'breadcrumbs-blog-remove', __( 'Remove Blog page from Breadcrumbs', 'wordpress-seo' ) );
 }
-echo $wpseo_admin_pages->checkbox( 'breadcrumbs-boldlast', __( 'Bold the last page in the breadcrumb', 'wordpress-seo' ) );
+$wpseo_admin_pages->checkbox( 'breadcrumbs-boldlast', __( 'Bold the last page in the breadcrumb', 'wordpress-seo' ) );
 echo '<br/><br/>';
 
 $post_types = get_post_types( array( 'public' => true ), 'objects' );
@@ -36,7 +36,7 @@ if ( is_array( $post_types ) && $post_types !== array() ) {
 			foreach ( $taxonomies as $tax ) {
 				$values[ $tax->name ] = $tax->labels->singular_name;
 			}
-			echo $wpseo_admin_pages->select( 'post_types-' . $pt->name . '-maintax', $pt->labels->name, $values );
+			$wpseo_admin_pages->select( 'post_types-' . $pt->name . '-maintax', $pt->labels->name, $values );
 			unset( $values, $tax );
 		}
 		unset( $taxonomies );
@@ -62,7 +62,7 @@ if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
 			}
 			unset( $pt );
 		}
-		echo $wpseo_admin_pages->select( 'taxonomy-' . $tax->name . '-ptparent', $tax->labels->singular_name, $values );
+		$wpseo_admin_pages->select( 'taxonomy-' . $tax->name . '-ptparent', $tax->labels->singular_name, $values );
 		unset( $values, $tax );
 	}
 }
@@ -71,7 +71,7 @@ unset( $taxonomies, $post_types );
 ?>
 <br class="clear"/>
 <h4><?php _e( 'How to insert breadcrumbs in your theme', 'wordpress-seo' ); ?></h4>
-<p><?php _e( 'Usage of this breadcrumbs feature is explained <a href="https://yoast.com/wordpress/plugins/breadcrumbs/">here</a>. For the more code savvy, insert this in your theme:', 'wordpress-seo' ); ?></p>
+<p><?php printf( __( 'Usage of this breadcrumbs feature is explained %1$shere%2$s. For the more code savvy, insert this in your theme:', 'wordpress-seo' ), '<a href="https://yoast.com/wordpress/plugins/breadcrumbs/">', '</a>' ); ?></p>
 <pre>
 &lt;?php if ( function_exists(&#x27;yoast_breadcrumb&#x27;) ) {
 yoast_breadcrumb(&#x27;&lt;p id=&quot;breadcrumbs&quot;&gt;&#x27;,&#x27;&lt;/p&gt;&#x27;);
