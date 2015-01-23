@@ -237,32 +237,14 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	/**
 	 * @covers WPSEO_Frontend::webmaster_tools_authentication
 	 */
-	public function test_webmaster_tools_authentication() {
+	public function test_webmaster_tools_authentication_home() {
 
 		$this->go_to_home();
 
 		$this->run_webmaster_tools_authentication_option_test( 'alexaverify', '<meta name="alexaVerifyID" content="alexaverify" />' . "\n" );
 		$this->run_webmaster_tools_authentication_option_test( 'msverify', '<meta name="msvalidate.01" content="msverify" />' . "\n" );
 		$this->run_webmaster_tools_authentication_option_test( 'googleverify', '<meta name="google-site-verification" content="googleverify" />' . "\n" );
-		$this->run_webmaster_tools_authentication_option_test( 'pinterestverify', '<meta name="p:domain_verify" content="pinterestverify" />' . "\n" );
 		$this->run_webmaster_tools_authentication_option_test( 'yandexverify', '<meta name="yandex-verification" content="yandexverify" />' . "\n" );
-
-		// create and go to post
-		$post_id = $this->factory->post->create();
-		$this->go_to( get_permalink( $post_id ) );
-
-		$this->run_webmaster_tools_authentication_option_test( 'yandexverify', '' );
-	}
-
-	/**
-	 * @covers WPSEO_Frontend::internal_search_json_ld
-	 */
-	public function test_json_ld() {
-		$this->go_to_home();
-
-		$home_url = trailingslashit( home_url() );
-		$search_url = $home_url . '?s={search_term}';
-		$this->run_json_ld_test( '<script type="application/ld+json">{ "@context": "http://schema.org", "@type": "WebSite", "url": "' . $home_url . '", "potentialAction": { "@type": "SearchAction", "target": "' . $search_url .'", "query-input": "required name=search_term" } }</script>' . "\n" );
 	}
 
 	/**
@@ -894,14 +876,6 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		self::$class_instance->options[$option_name] = $option_name;
 		$this->expectOutput( $expected, self::$class_instance->webmaster_tools_authentication( ) );
 		self::$class_instance->options[$option_name] = '';
-	}
-
-	/**
-	 * @param string $expected
-	 * @return void
-	 */
-	private function run_json_ld_test( $expected ) {
-		$this->expectOutput( $expected, self::$class_instance->internal_search_json_ld( ) );
 	}
 
 }

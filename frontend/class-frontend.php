@@ -1820,8 +1820,8 @@ class WPSEO_JSON_LD {
 	 * @param $output
 	 */
 	protected function json_ld_output( $output ) {
-		echo "<script type='application/ld+json'>\n";
-		echo preg_replace( '/[\n\t]/', '', $output ) . "\n";
+		echo "<script type='application/ld+json'>";
+		echo preg_replace( '/[\n\t]/', '', $output );
 		echo '</script>' . "\n";
 	}
 

@@ -34,19 +34,23 @@ function wpseo_do_upgrade() {
 		$options_permalinks = get_option( 'wpseo_permalinks' );
 
 		foreach ( array( 'hide-feedlinks', 'hide-rsdlink', 'hide-shortlink', 'hide-wlwmanifest' ) as $hide ) {
-			$options_permalinks[ $hide ] = $options_titles[ $hide ];
-			unset( $options_titles[ $hide ] );
-			update_option( 'wpseo_permalinks', $options_permalinks );
-			update_option( 'wpseo_titles', $options_titles );
+			if ( isset( $options_titles[ $hide ] ) ) {
+				$options_permalinks[ $hide ] = $options_titles[ $hide ];
+				unset( $options_titles[ $hide ] );
+				update_option( 'wpseo_permalinks', $options_permalinks );
+				update_option( 'wpseo_titles', $options_titles );
+			}
 		}
 		unset( $options_titles, $options_permalinks );
 
 		$options_social = get_option( 'wpseo_social' );
 
-		$options_social['pinterestverify'] = $option_wpseo['pinterestverify'];
-		unset( $option_wpseo['pinterestverify'] );
-		update_option( 'wpseo_social', $options_social );
-		update_option( 'wpseo', $option_wpseo );
+		if ( isset( $option_wpseo['pinterestverify'] ) ) {
+			$options_social['pinterestverify'] = $option_wpseo['pinterestverify'];
+			unset( $option_wpseo['pinterestverify'] );
+			update_option( 'wpseo_social', $options_social );
+			update_option( 'wpseo', $option_wpseo );
+		}
 		unset( $options_social );
 	}
 
