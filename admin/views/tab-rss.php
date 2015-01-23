@@ -11,8 +11,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 
 $wpseo_admin_pages->currentoption = 'wpseo_rss';
 
-echo '<p>' . __( "This feature is used to automatically add content to your RSS, more specifically, it's meant to add
- links back to your blog and your blog posts, so dumb scrapers will automatically add these links too, helping search engines identify you as the original source of the content.", 'wordpress-seo' ) . '</p>';
+echo '<p>' . __( "This feature is used to automatically add content to your RSS, more specifically, it's meant to add links back to your blog and your blog posts, so dumb scrapers will automatically add these links too, helping search engines identify you as the original source of the content.", 'wordpress-seo' ) . '</p>';
 
 $textarea_atts = array(
 	'cols' => '50',

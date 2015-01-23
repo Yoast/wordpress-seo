@@ -2550,7 +2550,7 @@ class WPSEO_Option_Social extends WPSEO_Option {
 		'fbapps',
 		'fbconnectkey',
 		'fbadminapp',
-		'pinterestverify'
+		'pinterestverify',
 	);
 
 

@@ -902,7 +902,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 			wp_enqueue_script( 'wpseo-admin-media', plugins_url( 'js/wp-seo-admin-media' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array(
 				'jquery',
-				'jquery-ui-core'
+				'jquery-ui-core',
 			), WPSEO_VERSION, true );
 			wp_localize_script( 'wpseo-admin-media', 'wpseoMediaL10n', $this->localize_media_script() );
 

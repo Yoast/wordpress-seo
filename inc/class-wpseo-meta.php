@@ -309,7 +309,7 @@ class WPSEO_Meta {
 					} else {
 						add_filter( 'sanitize_post_meta_' . self::$meta_prefix . $key, array(
 							__CLASS__,
-							'sanitize_post_meta'
+							'sanitize_post_meta',
 						), 10, 2 );
 					}
 

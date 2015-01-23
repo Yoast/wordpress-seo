@@ -1055,7 +1055,7 @@ class WPSEO_Replace_Vars {
 
 			if ( ( is_string( $type ) && in_array( $type, array(
 						'basic',
-						'advanced'
+						'advanced',
 					), true ) ) && ( $replace !== '' && ! isset( self::$help_texts[ $type ][ $replace ] ) )
 			) {
 				self::$help_texts[ $type ][ $replace ] = $help_text;

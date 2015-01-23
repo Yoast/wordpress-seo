@@ -223,7 +223,7 @@ class WPSEO_Pointers {
 					'content'      => $adminpages[ $page ]['content'],
 					'position'     => ( isset ( $adminpages[ $page ]['position'] ) ) ? ( $adminpages[ $page ]['position'] ) : array(
 						'edge'  => 'top',
-						'align' => $align
+						'align' => $align,
 					),
 					'pointerWidth' => 450,
 				);
