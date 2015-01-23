@@ -1847,6 +1847,7 @@ class WPSEO_JSON_LD {
 			 */
 			$output = apply_filters( 'wpseo_json_ld_organization', $output );
 		}
+
 		return $output;
 	}
 
@@ -1871,6 +1872,7 @@ class WPSEO_JSON_LD {
 			 */
 			$output = apply_filters( 'wpseo_json_ld_person', $output );
 		}
+
 		return $output;
 	}
 
@@ -1882,7 +1884,7 @@ class WPSEO_JSON_LD {
 	public function organization_or_person() {
 		$this->fetch_social_profiles();
 
-		switch( $this->options['company_or_person'] ) {
+		switch ( $this->options['company_or_person'] ) {
 			case 'company':
 				$output = $this->organization();
 				break;

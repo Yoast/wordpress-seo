@@ -129,7 +129,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$cpts    = get_post_types( array( 'public' => true ), 'names' );
 			$options = get_option( 'wpseo_titles' );
 
-			return ( ( isset( $options['hideeditbox-' . $post_type] ) && $options['hideeditbox-' . $post_type] === true ) || in_array( $post_type, $cpts ) === false );
+			return ( ( isset( $options[ 'hideeditbox-' . $post_type ] ) && $options[ 'hideeditbox-' . $post_type ] === true ) || in_array( $post_type, $cpts ) === false );
 		} else {
 			return false;
 		}
@@ -210,18 +210,202 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$string = html_entity_decode( $string );
 
 		$convert_to   = array(
-			'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u',
-			'v', 'w', 'x', 'y', 'z', 'à', 'á', 'â', 'ã', 'ä', 'å', 'æ', 'ç', 'è', 'é', 'ê', 'ë', 'ì', 'í', 'î', 'ï',
-			'ð', 'ñ', 'ò', 'ó', 'ô', 'õ', 'ö', 'ø', 'ù', 'ú', 'û', 'ü', 'ý', 'а', 'б', 'в', 'г', 'д', 'е', 'ё', 'ж',
-			'з', 'и', 'й', 'к', 'л', 'м', 'н', 'о', 'п', 'р', 'с', 'т', 'у', 'ф', 'х', 'ц', 'ч', 'ш', 'щ', 'ъ', 'ы',
-			'ь', 'э', 'ю', 'я', 'ą', 'ć', 'ę', 'ł', 'ń', 'ó', 'ś', 'ź', 'ż',
+			'a',
+			'b',
+			'c',
+			'd',
+			'e',
+			'f',
+			'g',
+			'h',
+			'i',
+			'j',
+			'k',
+			'l',
+			'm',
+			'n',
+			'o',
+			'p',
+			'q',
+			'r',
+			's',
+			't',
+			'u',
+			'v',
+			'w',
+			'x',
+			'y',
+			'z',
+			'à',
+			'á',
+			'â',
+			'ã',
+			'ä',
+			'å',
+			'æ',
+			'ç',
+			'è',
+			'é',
+			'ê',
+			'ë',
+			'ì',
+			'í',
+			'î',
+			'ï',
+			'ð',
+			'ñ',
+			'ò',
+			'ó',
+			'ô',
+			'õ',
+			'ö',
+			'ø',
+			'ù',
+			'ú',
+			'û',
+			'ü',
+			'ý',
+			'а',
+			'б',
+			'в',
+			'г',
+			'д',
+			'е',
+			'ё',
+			'ж',
+			'з',
+			'и',
+			'й',
+			'к',
+			'л',
+			'м',
+			'н',
+			'о',
+			'п',
+			'р',
+			'с',
+			'т',
+			'у',
+			'ф',
+			'х',
+			'ц',
+			'ч',
+			'ш',
+			'щ',
+			'ъ',
+			'ы',
+			'ь',
+			'э',
+			'ю',
+			'я',
+			'ą',
+			'ć',
+			'ę',
+			'ł',
+			'ń',
+			'ó',
+			'ś',
+			'ź',
+			'ż',
 		);
 		$convert_from = array(
-			'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U',
-			'V', 'W', 'X', 'Y', 'Z', 'À', 'Á', 'Â', 'Ã', 'Ä', 'Å', 'Æ', 'Ç', 'È', 'É', 'Ê', 'Ë', 'Ì', 'Í', 'Î', 'Ï',
-			'Ð', 'Ñ', 'Ò', 'Ó', 'Ô', 'Õ', 'Ö', 'Ø', 'Ù', 'Ú', 'Û', 'Ü', 'Ý', 'А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ё', 'Ж',
-			'З', 'И', 'Й', 'К', 'Л', 'М', 'Н', 'О', 'П', 'Р', 'С', 'Т', 'У', 'Ф', 'Х', 'Ц', 'Ч', 'Ш', 'Щ', 'Ъ', 'Ъ',
-			'Ь', 'Э', 'Ю', 'Я', 'Ą', 'Ć', 'Ę', 'Ł', 'Ń', 'Ó', 'Ś', 'Ź', 'Ż',
+			'A',
+			'B',
+			'C',
+			'D',
+			'E',
+			'F',
+			'G',
+			'H',
+			'I',
+			'J',
+			'K',
+			'L',
+			'M',
+			'N',
+			'O',
+			'P',
+			'Q',
+			'R',
+			'S',
+			'T',
+			'U',
+			'V',
+			'W',
+			'X',
+			'Y',
+			'Z',
+			'À',
+			'Á',
+			'Â',
+			'Ã',
+			'Ä',
+			'Å',
+			'Æ',
+			'Ç',
+			'È',
+			'É',
+			'Ê',
+			'Ë',
+			'Ì',
+			'Í',
+			'Î',
+			'Ï',
+			'Ð',
+			'Ñ',
+			'Ò',
+			'Ó',
+			'Ô',
+			'Õ',
+			'Ö',
+			'Ø',
+			'Ù',
+			'Ú',
+			'Û',
+			'Ü',
+			'Ý',
+			'А',
+			'Б',
+			'В',
+			'Г',
+			'Д',
+			'Е',
+			'Ё',
+			'Ж',
+			'З',
+			'И',
+			'Й',
+			'К',
+			'Л',
+			'М',
+			'Н',
+			'О',
+			'П',
+			'Р',
+			'С',
+			'Т',
+			'У',
+			'Ф',
+			'Х',
+			'Ц',
+			'Ч',
+			'Ш',
+			'Щ',
+			'Ъ',
+			'Ъ',
+			'Ь',
+			'Э',
+			'Ю',
+			'Я',
+			'Ą',
+			'Ć',
+			'Ę',
+			'Ł',
+			'Ń',
+			'Ó',
+			'Ś',
+			'Ź',
+			'Ż',
 		);
 
 		return str_replace( $convert_from, $convert_to, $string );
@@ -308,7 +492,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$options = get_option( 'wpseo_titles' );
 
 		$date = '';
-		if ( isset( $options['showdate-' . $post->post_type] ) && $options['showdate-' . $post->post_type] === true ) {
+		if ( isset( $options[ 'showdate-' . $post->post_type ] ) && $options[ 'showdate-' . $post->post_type ] === true ) {
 			$date = $this->get_post_date( $post );
 
 			self::$meta_length        = self::$meta_length - ( strlen( $date ) + 5 );
@@ -321,8 +505,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		unset( $date );
 
 		$title_template = '';
-		if ( isset( $options['title-' . $post->post_type] ) && $options['title-' . $post->post_type] !== '' ) {
-			$title_template = $options['title-' . $post->post_type];
+		if ( isset( $options[ 'title-' . $post->post_type ] ) && $options[ 'title-' . $post->post_type ] !== '' ) {
+			$title_template = $options[ 'title-' . $post->post_type ];
 		}
 
 		// If there's no title template set, use the default, otherwise title preview won't work.
@@ -331,8 +515,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 
 		$metadesc_template = '';
-		if ( isset( $options['metadesc-' . $post->post_type] ) && $options['metadesc-' . $post->post_type] !== '' ) {
-			$metadesc_template = $options['metadesc-' . $post->post_type];
+		if ( isset( $options[ 'metadesc-' . $post->post_type ] ) && $options[ 'metadesc-' . $post->post_type ] !== '' ) {
+			$metadesc_template = $options[ 'metadesc-' . $post->post_type ];
 		}
 
 		$sample_permalink = get_sample_permalink( $post->ID );
@@ -354,7 +538,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				'currentyear',
 			) as $var
 		) {
-			$cached_replacement_vars[$var] = wpseo_replace_vars( '%%' . $var . '%%', $post );
+			$cached_replacement_vars[ $var ] = wpseo_replace_vars( '%%' . $var . '%%', $post );
 		}
 
 		return array_merge( $cached_replacement_vars, array(
@@ -660,10 +844,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		foreach ( $meta_boxes as $key => $meta_box ) {
 			$data = null;
 			if ( 'checkbox' === $meta_box['type'] ) {
-				$data = isset( $_POST[self::$form_prefix . $key] ) ? 'on' : 'off';
+				$data = isset( $_POST[ self::$form_prefix . $key ] ) ? 'on' : 'off';
 			} else {
-				if ( isset( $_POST[self::$form_prefix . $key] ) ) {
-					$data = $_POST[self::$form_prefix . $key];
+				if ( isset( $_POST[ self::$form_prefix . $key ] ) ) {
+					$data = $_POST[ self::$form_prefix . $key ];
 				}
 			}
 			if ( isset( $data ) ) {
@@ -716,7 +900,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				'jquery-ui-autocomplete',
 			), WPSEO_VERSION, true );
 
-			wp_enqueue_script( 'wpseo-admin-media', plugins_url( 'js/wp-seo-admin-media' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'jquery', 'jquery-ui-core' ), WPSEO_VERSION, true );
+			wp_enqueue_script( 'wpseo-admin-media', plugins_url( 'js/wp-seo-admin-media' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array(
+				'jquery',
+				'jquery-ui-core'
+			), WPSEO_VERSION, true );
 			wp_localize_script( 'wpseo-admin-media', 'wpseoMediaL10n', $this->localize_media_script() );
 
 			// Text strings to pass to metabox for keyword analysis
@@ -1033,8 +1220,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		} else {
 			$post    = get_post( $post_id );
 			$options = WPSEO_Options::get_all();
-			if ( is_object( $post ) && ( isset( $options['title-' . $post->post_type] ) && $options['title-' . $post->post_type] !== '' ) ) {
-				$title_template = $options['title-' . $post->post_type];
+			if ( is_object( $post ) && ( isset( $options[ 'title-' . $post->post_type ] ) && $options[ 'title-' . $post->post_type ] !== '' ) ) {
+				$title_template = $options[ 'title-' . $post->post_type ];
 				$title_template = str_replace( ' %%page%% ', ' ', $title_template );
 
 				return wpseo_replace_vars( $title_template, $post );
@@ -1055,11 +1242,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$ret    = array();
 		reset( $array );
 		foreach ( $array as $ii => $va ) {
-			$sorter[$ii] = $va[$key];
+			$sorter[ $ii ] = $va[ $key ];
 		}
 		asort( $sorter );
 		foreach ( $sorter as $ii => $va ) {
-			$ret[$ii] = $array[$ii];
+			$ret[ $ii ] = $array[ $ii ];
 		}
 		$array = $ret;
 	}
@@ -1189,8 +1376,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		if ( $title !== '' ) {
 			$job['title'] = $title;
 		} else {
-			if ( isset( $options['title-' . $post->post_type] ) && $options['title-' . $post->post_type] !== '' ) {
-				$title_template = $options['title-' . $post->post_type];
+			if ( isset( $options[ 'title-' . $post->post_type ] ) && $options[ 'title-' . $post->post_type ] !== '' ) {
+				$title_template = $options[ 'title-' . $post->post_type ];
 			} else {
 				$title_template = '%%title%% - %%sitename%%';
 			}
@@ -1204,8 +1391,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$desc_meta   = self::get_value( 'metadesc', $post->ID );
 		if ( $desc_meta !== '' ) {
 			$description = $desc_meta;
-		} elseif ( isset( $options['metadesc-' . $post->post_type] ) && $options['metadesc-' . $post->post_type] !== '' ) {
-			$description = wpseo_replace_vars( $options['metadesc-' . $post->post_type], $post );
+		} elseif ( isset( $options[ 'metadesc-' . $post->post_type ] ) && $options[ 'metadesc-' . $post->post_type ] !== '' ) {
+			$description = wpseo_replace_vars( $options[ 'metadesc-' . $post->post_type ], $post );
 		}
 		unset( $desc_meta );
 
@@ -1307,12 +1494,12 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @param string $rawScore     The raw score, to be used by other filters.
 	 */
 	function save_score_result( &$results, $scoreValue, $scoreMessage, $scoreLabel, $rawScore = null ) {
-		$score                = array(
+		$score                  = array(
 			'val' => $scoreValue,
 			'msg' => $scoreMessage,
 			'raw' => $rawScore,
 		);
-		$results[$scoreLabel] = $score;
+		$results[ $scoreLabel ] = $score;
 	}
 
 	/**
@@ -1584,12 +1771,12 @@ class WPSEO_Metabox extends WPSEO_Meta {
 					if ( $dom_object->attributes->getNamedItem( 'rel' ) ) {
 						$link_rel = $dom_object->attributes->getNamedItem( 'rel' )->textContent;
 						if ( stripos( $link_rel, 'nofollow' ) !== false ) {
-							$count[$type]['nofollow'] ++;
+							$count[ $type ]['nofollow'] ++;
 						} else {
-							$count[$type]['dofollow'] ++;
+							$count[ $type ]['dofollow'] ++;
 						}
 					} else {
-						$count[$type]['dofollow'] ++;
+						$count[ $type ]['dofollow'] ++;
 					}
 				}
 			}

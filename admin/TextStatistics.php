@@ -126,8 +126,8 @@ class Yoast_TextStatistics {
 
 		$key = sha1( $strText );
 
-		if ( isset( $clean[$key] ) ) {
-			return $clean[$key];
+		if ( isset( $clean[ $key ] ) ) {
+			return $clean[ $key ];
 		}
 
 		// all these tags should be preceeded by a full stop.
@@ -149,7 +149,7 @@ class Yoast_TextStatistics {
 		$strText = trim( $strText );
 
 		// Cache it and return
-		$clean[$key] = $strText;
+		$clean[ $key ] = $strText;
 
 		return $strText;
 	}
@@ -273,7 +273,7 @@ class Yoast_TextStatistics {
 		$intWordCount     = $this->word_count( $strText );
 		$arrWords         = explode( ' ', $strText );
 		for ( $i = 0; $i < $intWordCount; $i ++ ) {
-			$intSyllableCount += $this->syllable_count( $arrWords[$i] );
+			$intSyllableCount += $this->syllable_count( $arrWords[ $i ] );
 		}
 
 		return ( WPSEO_Utils::calc( $intSyllableCount, '/', $intWordCount ) );
@@ -305,8 +305,8 @@ class Yoast_TextStatistics {
 			'forever'   => 3,
 			'shoreline' => 2,
 		);
-		if ( isset( $arrProblemWords[$strWord] ) ) {
-			$intSyllableCount = $arrProblemWords[$strWord];
+		if ( isset( $arrProblemWords[ $strWord ] ) ) {
+			$intSyllableCount = $arrProblemWords[ $strWord ];
 		}
 		if ( $intSyllableCount > 0 ) {
 			return $intSyllableCount;

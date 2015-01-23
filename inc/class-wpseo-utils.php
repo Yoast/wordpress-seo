@@ -373,6 +373,7 @@ class WPSEO_Utils {
 				return false;
 			}
 		}
+
 		return false;
 	}
 
@@ -427,6 +428,7 @@ class WPSEO_Utils {
 				return false;
 			}
 		}
+
 		return false;
 	}
 
@@ -515,8 +517,7 @@ class WPSEO_Utils {
 
 				$first = false;
 			}
-		}
-		else {
+		} else {
 			$query .= " option_name LIKE '_transient_timeout_wpseo_sitemap_%'";
 		}
 
@@ -597,8 +598,7 @@ class WPSEO_Utils {
 			case 'divide':
 				if ( $bc ) {
 					$result = bcdiv( $number1, $number2, $precision ); // string, or NULL if right_operand is 0
-				}
-				elseif ( $number2 != 0 ) {
+				} elseif ( $number2 != 0 ) {
 					$result = $number1 / $number2;
 				}
 
@@ -612,8 +612,7 @@ class WPSEO_Utils {
 			case 'modulus':
 				if ( $bc ) {
 					$result = bcmod( $number1, $number2, $precision ); // string, or NULL if modulus is 0.
-				}
-				elseif ( $number2 != 0 ) {
+				} elseif ( $number2 != 0 ) {
 					$result = $number1 % $number2;
 				}
 
@@ -682,8 +681,8 @@ class WPSEO_Utils {
 					break;
 			}
 
-			if ( isset( $type[$variable_name] ) ) {
-				$out = $type[$variable_name];
+			if ( isset( $type[ $variable_name ] ) ) {
+				$out = $type[ $variable_name ];
 			} else {
 				return false;
 			}

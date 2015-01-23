@@ -437,7 +437,7 @@ class WPSEO_Admin_Pages {
 	function textarea( $var, $label, $option = '', $attr = array() ) {
 		if ( ! is_array( $attr ) ) {
 			$attr = array(
-				'class' => $attr
+				'class' => $attr,
 			);
 		}
 		$attr = wp_parse_args( $attr, array(

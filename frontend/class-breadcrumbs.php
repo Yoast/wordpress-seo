@@ -204,10 +204,10 @@ class WPSEO_Breadcrumbs {
 		   unsetting every term that is used as a parent by another one in the array. */
 		$terms_by_id = array();
 		foreach ( $terms as $term ) {
-			$terms_by_id[$term->term_id] = $term;
+			$terms_by_id[ $term->term_id ] = $term;
 		}
 		foreach ( $terms as $term ) {
-			unset( $terms_by_id[$term->parent] );
+			unset( $terms_by_id[ $term->parent ] );
 		}
 
 		/* As we could still have two subcategories, from different parent categories,
@@ -455,8 +455,8 @@ class WPSEO_Breadcrumbs {
 	 * Add taxonomy crumbs to the crumbs property for a single post
 	 */
 	private function maybe_add_taxonomy_crumbs_for_post() {
-		if ( isset( $this->options['post_types-' . $this->post->post_type . '-maintax'] ) && $this->options['post_types-' . $this->post->post_type . '-maintax'] != '0' ) {
-			$main_tax = $this->options['post_types-' . $this->post->post_type . '-maintax'];
+		if ( isset( $this->options[ 'post_types-' . $this->post->post_type . '-maintax' ] ) && $this->options[ 'post_types-' . $this->post->post_type . '-maintax' ] != '0' ) {
+			$main_tax = $this->options[ 'post_types-' . $this->post->post_type . '-maintax' ];
 			if ( isset( $this->post->ID ) ) {
 				$terms = wp_get_object_terms( $this->post->ID, $main_tax );
 
@@ -509,13 +509,13 @@ class WPSEO_Breadcrumbs {
 	 * Add parent taxonomy crumb based on user defined preference
 	 */
 	private function maybe_add_preferred_term_parent_crumb( $term ) {
-		if ( isset( $this->options['taxonomy-' . $term->taxonomy . '-ptparent'] ) && $this->options['taxonomy-' . $term->taxonomy . '-ptparent'] != '0' ) {
-			if ( 'post' == $this->options['taxonomy-' . $term->taxonomy . '-ptparent'] && $this->show_on_front == 'page' ) {
+		if ( isset( $this->options[ 'taxonomy-' . $term->taxonomy . '-ptparent' ] ) && $this->options[ 'taxonomy-' . $term->taxonomy . '-ptparent' ] != '0' ) {
+			if ( 'post' == $this->options[ 'taxonomy-' . $term->taxonomy . '-ptparent' ] && $this->show_on_front == 'page' ) {
 				if ( $this->page_for_posts ) {
 					$this->add_blog_crumb();
 				}
 			} else {
-				$this->add_ptarchive_crumb( $this->options['taxonomy-' . $term->taxonomy . '-ptparent'] );
+				$this->add_ptarchive_crumb( $this->options[ 'taxonomy-' . $term->taxonomy . '-ptparent' ] );
 			}
 		}
 	}
@@ -671,9 +671,9 @@ class WPSEO_Breadcrumbs {
 		$link          = array();
 		$archive_title = '';
 
-		if ( isset( $this->options['bctitle-ptarchive-' . $pt] ) && $this->options['bctitle-ptarchive-' . $pt] !== '' ) {
+		if ( isset( $this->options[ 'bctitle-ptarchive-' . $pt ] ) && $this->options[ 'bctitle-ptarchive-' . $pt ] !== '' ) {
 
-			$archive_title = $this->options['bctitle-ptarchive-' . $pt];
+			$archive_title = $this->options[ 'bctitle-ptarchive-' . $pt ];
 		} else {
 			$post_type_obj = get_post_type_object( $pt );
 			if ( is_object( $post_type_obj ) ) {
@@ -732,7 +732,7 @@ class WPSEO_Breadcrumbs {
 			$link_output = '<' . $this->element . ' typeof="v:Breadcrumb">';
 
 			if ( ( isset( $link['url'] ) && ( is_string( $link['url'] ) && $link['url'] !== '' ) ) &&
-				( $i < ( $this->crumb_count - 1 ) || $paged )
+			     ( $i < ( $this->crumb_count - 1 ) || $paged )
 			) {
 				$link_output .= '<a href="' . esc_url( $link['url'] ) . '"' . $class . ' rel="v:url" property="v:title">' . $link['text'] . '</a>';
 			} else {

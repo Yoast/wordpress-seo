@@ -18,8 +18,8 @@ $textarea_atts = array(
 	'cols' => '50',
 	'rows' => '5',
 );
-$wpseo_admin_pages->textarea(  'rssbefore', __( 'Content to put before each post in the feed', 'wordpress-seo' ), '', $textarea_atts );
-$wpseo_admin_pages->textarea(  'rssafter', __( 'Content to put after each post in the feed', 'wordpress-seo' ), '', $textarea_atts );
+$wpseo_admin_pages->textarea( 'rssbefore', __( 'Content to put before each post in the feed', 'wordpress-seo' ), '', $textarea_atts );
+$wpseo_admin_pages->textarea( 'rssafter', __( 'Content to put after each post in the feed', 'wordpress-seo' ), '', $textarea_atts );
 ?>
 
 <p><?php _e( 'You can use the following variables within the content, they will be replaced by the value on the right.', 'wordpress-seo' ); ?></p>
