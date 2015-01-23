@@ -37,6 +37,7 @@ $rows[] = array(
 		'<tr><th><strong>%%POSTLINK%%</strong></th><td>' . __( 'A link to the post, with the title as anchor text.', 'wordpress-seo' ) . '</td></tr>' .
 		'<tr><th><strong>%%BLOGLINK%%</strong></th><td>' . __( "A link to your site, with your site's name as anchor text.", 'wordpress-seo' ) . '</td></tr>' .
 		'<tr><th><strong>%%BLOGDESCLINK%%</strong></th><td>' . __( "A link to your site, with your site's name and description as anchor text.", 'wordpress-seo' ) . '</td></tr>' .
+		'<tr><th><strong>%%EXCERPTLINK%%</strong></th><td>' . __( "A link to the post, with the excerpt in 15 characters or less and ending at the end of the word.", 'wordpress-seo' ) . '</td></tr>' .
 		'</table>'
 );
 $wpseo_admin_pages->postbox( 'rssfootercontent', __( 'Content of your RSS Feed', 'wordpress-seo' ), $content . $wpseo_admin_pages->form_table( $rows ) );
