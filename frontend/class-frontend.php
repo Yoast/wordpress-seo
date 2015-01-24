@@ -1639,10 +1639,10 @@ class WPSEO_Frontend {
 		$blog_link      = '<a ' . $no_follow_attr . 'href="' . esc_url( get_bloginfo( 'url' ) ) . '">' . get_bloginfo( 'name' ) . '</a>';
 		$blog_desc_link = '<a ' . $no_follow_attr . 'href="' . esc_url( get_bloginfo( 'url' ) ) . '">' . get_bloginfo( 'name' ) . ' - ' . strip_tags( get_bloginfo( 'description' ) ) . '</a>';
 		//reduce excerpt to 15 characters by using regex & end with whole word
-		$body= get_the_excerpt();
+		$body= wp_html_excerpt( $post->post_content);
 		$line= $body;
 		if (preg_match('/^.{1,15}\b/s', $body, $match)) {
-			$excerpt_link   = '<a ' . $no_follow_attr . 'href="' . esc_url( get_permalink() ) . '">' . $line=$match[0] . ' ...Read more' . '</a>';
+			$excerpt_link   = '<a ' . $no_follow_attr . 'href="' . esc_url( get_permalink() ) . '">' . $line=$match[0] . '...Read more' . '</a>';
 		}
 
 		$content = stripslashes( trim( $content ) );
