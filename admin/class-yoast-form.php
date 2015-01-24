@@ -33,9 +33,9 @@ class Yoast_Form {
 	/**
 	 * Generates the header for admin pages
 	 *
-	 * @param bool   $form             Whether or not the form start tag should be included.
-	 * @param string $option           The short name of the option to use for the current page.
-	 * @param bool   $contains_files   Whether the form should allow for file uploads.
+	 * @param bool   $form           Whether or not the form start tag should be included.
+	 * @param string $option         The short name of the option to use for the current page.
+	 * @param bool   $contains_files Whether the form should allow for file uploads.
 	 */
 	public function admin_header( $form = true, $option = 'wpseo', $contains_files = false ) {
 		$option_long_name = WPSEO_Options::get_group_name( $option );
@@ -201,7 +201,7 @@ class Yoast_Form {
 		?>
 		<div class="wpseo_content_cell" id="sidebar-container">
 			<div id="sidebar">
-				<?php
+		<?php
 
 		$service_banner = $service_banners[0];
 
@@ -216,10 +216,8 @@ class Yoast_Form {
 			$i ++;
 		}
 		?>
-		<?php
-		echo __( 'Remove these ads?', 'wordpress-seo' ) . '<br/>';
-		echo '<a target="_blank" href="https://yoast.com/wordpress/plugins/seo-premium/#utm_source=wordpress-seo-config&utm_medium=textlink&utm_campaign=remove-ads-link">' . __( 'Upgrade to WordPress SEO Premium &raquo;', 'wordpress-seo' ) . '</a><br/><br/>';
-		?>
+				<strong><?php _e( 'Remove these ads?', 'wordpress-seo' ); ?></strong><br/>
+				<a target="_blank" href="https://yoast.com/wordpress/plugins/seo-premium/#utm_source=wordpress-seo-config&utm_medium=textlink&utm_campaign=remove-ads-link"><?php _e( 'Upgrade to WordPress SEO Premium &raquo;', 'wordpress-seo' ); ?></a><br/><br/>
 			</div>
 		</div>
 	<?php

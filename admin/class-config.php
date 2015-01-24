@@ -191,7 +191,7 @@ class WPSEO_Admin_Pages {
 	public function admin_footer( $submit = true, $show_sidebar = true ) {
 		_deprecated_function( __METHOD__, 'WPSEO 1.8.0', 'This method is deprecated, please use the <code>Yoast_Form</code> class.' );
 
-		Yoast_Form::get_instance()->admin_footer(  $submit, $show_sidebar );
+		Yoast_Form::get_instance()->admin_footer( $submit, $show_sidebar );
 	}
 
 	/**
