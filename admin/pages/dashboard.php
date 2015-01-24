@@ -11,8 +11,6 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-global $wpseo_admin_pages;
-
 $options = get_option( 'wpseo' );
 
 if ( isset( $_GET['allow_tracking'] ) && check_admin_referer( 'wpseo_activate_tracking', 'nonce' ) ) {
@@ -94,8 +92,9 @@ if ( isset( $_GET['checkmetadesc'] ) ) {
 		$_SERVER['REQUEST_URI'] = remove_query_arg( array( 'nonce', 'checkmetadesc' ), $_SERVER['REQUEST_URI'] );
 	}
 }
+$yform = Yoast_Form::get_instance();
 
-$wpseo_admin_pages->admin_header( true, WPSEO_Options::get_group_name( 'wpseo' ), 'wpseo' );
+$yform->admin_header( true, 'wpseo' );
 
 do_action( 'wpseo_all_admin_notices' );
 
@@ -147,25 +146,39 @@ if ( get_option( 'page_comments' ) && $options['ignore_page_comments'] === false
 	</h2>
 
 	<div id="general" class="wpseotab">
+		<p>
+			<strong><?php _e( 'Tracking', 'wordpress-seo' ); ?></strong><br/>
+			<?php _e( "To maintain a plugin as big as WordPress SEO, we need to know what we're dealing with: what kinds of other plugins our users are using, what themes, etc. Please allow us to track that data from your install. It will not track <em>any</em> user details, so your security and privacy are safe with us.", 'wordpress-seo' ); ?>
+		</p>
+		<?php $yform->checkbox( 'yoast_tracking', __( 'Allow tracking of this WordPress install\'s anonymous data.', 'wordpress-seo' ) ); ?>
+
 		<br/>
-		<?php
 
-		echo '<h2>', __( 'Tracking', 'wordpress-seo' ), '</h2>';
-		echo '<p>', __( "To maintain a plugin as big as WordPress SEO, we need to know what we're dealing with: what kinds of other plugins our users are using, what themes, etc. Please allow us to track that data from your install. It will not track <em>any</em> user details, so your security and privacy are safe with us.", 'wordpress-seo' ), '</p>';
-		$wpseo_admin_pages->checkbox( 'yoast_tracking', __( 'Allow tracking of this WordPress install\'s anonymous data.', 'wordpress-seo' ) );
-		echo '<br/>';
+		<?php if ( $options['ignore_tour'] === true ) { ?>
+			<p>
+				<strong><?php _e( 'Introduction Tour', 'wordpress-seo' ); ?></strong><br/>
+				<?php _e( 'Take this tour to quickly learn about the use of this plugin.', 'wordpress-seo' ); ?>
+			</p>
+			<p>
+				<label class="select">
+					<?php _e( 'Introduction Tour:', 'wordpress-seo' ); ?>
+				</label>
+				<a class="button-secondary"
+				   href="<?php echo esc_url( admin_url( 'admin.php?page=wpseo_dashboard&wpseo_restart_tour=1' ) ); ?>"><?php _e( 'Start Tour', 'wordpress-seo' ); ?></a>
+			</p>
+		<?php } ?>
 
-		if ( $options['ignore_tour'] === true ) {
-			echo '<h2>', __( 'Introduction Tour', 'wordpress-seo' ), '</h2>';
-			echo '<label class="select">', __( 'Introduction Tour:', 'wordpress-seo' ), '</label><a class="button-secondary" href="', esc_url( admin_url( 'admin.php?page=wpseo_dashboard&wpseo_restart_tour=1' ) ), '">', __( 'Start Tour', 'wordpress-seo' ), '</a>';
-			echo '<p class="desc label">', __( 'Take this tour to quickly learn about the use of this plugin.', 'wordpress-seo' ), '</p>';
-		}
+		<br/>
 
-		echo '<h2>', __( 'Restore Default Settings', 'wordpress-seo' ), '</h2>';
-		echo '<label class="select">', __( 'Default Settings:', 'wordpress-seo' ), '</label><a onclick="if( !confirm(\'', __( 'Are you sure you want to reset your SEO settings?', 'wordpress-seo' ), '\') ) return false;" class="button-secondary" href="', esc_url( add_query_arg( array( 'nonce' => wp_create_nonce( 'wpseo_reset_defaults' ) ), admin_url( 'admin.php?page=wpseo_dashboard&wpseo_reset_defaults=1' ) ) ), '">', __( 'Reset Default Settings', 'wordpress-seo' ), '</a>';
-		echo '<p class="desc label">', __( 'If you want to restore a site to the default WordPress SEO settings, press this button.', 'wordpress-seo' ), '</p>';
+		<p>
+			<strong><?php _e( 'Restore Default Settings', 'wordpress-seo' ); ?></strong><br/>
+			<?php _e( 'If you want to restore a site to the default WordPress SEO settings, press this button.', 'wordpress-seo' ); ?>
+		</p>
 
-		?>
+		<p>
+			<label class="select"><?php _e( 'Default Settings:', 'wordpress-seo' ); ?></label>
+			<a onclick="if( !confirm('<?php _e( 'Are you sure you want to reset your SEO settings?', 'wordpress-seo' ); ?>') ) return false;" class="button" href="<?php echo esc_url( add_query_arg( array( 'nonce' => wp_create_nonce( 'wpseo_reset_defaults' ) ), admin_url( 'admin.php?page=wpseo_dashboard&wpseo_reset_defaults=1' ) ) ); ?>"><?php _e( 'Reset Default Settings', 'wordpress-seo' ); ?></a>
+		</p>
 	</div>
 	<div id="knowledge-graph" class="wpseotab">
 		<p>
@@ -175,7 +188,7 @@ if ( get_option( 'page_comments' ) && $options['ignore_page_comments'] === false
 			?>
 		</p>
 		<?php
-		$wpseo_admin_pages->select( 'company_or_person', __( 'Company or person', 'wordpress-seo' ), array(
+		$yform->select( 'company_or_person', __( 'Company or person', 'wordpress-seo' ), array(
 			''        => __( 'Choose whether you\'re a company or person' ),
 			'company' => __( 'Company' ),
 			'person'  => __( 'Person' ),
@@ -184,32 +197,31 @@ if ( get_option( 'page_comments' ) && $options['ignore_page_comments'] === false
 		<div id="knowledge-graph-company">
 			<h2><?php _e( 'Company', 'wordpress-seo' ); ?></h2>
 			<?php
-			$wpseo_admin_pages->textinput( 'company_name', __( 'Company Name', 'wordpress-seo' ) );
-			$wpseo_admin_pages->media_input( 'company_logo', __( 'Company Logo', 'wordpress-seo' ) );
+			$yform->textinput( 'company_name', __( 'Company Name', 'wordpress-seo' ) );
+			$yform->media_input( 'company_logo', __( 'Company Logo', 'wordpress-seo' ) );
 			?>
 		</div>
 		<div id="knowledge-graph-person">
 			<h2><?php _e( 'Person', 'wordpress-seo' ); ?></h2>
-			<?php $wpseo_admin_pages->textinput( 'person_name', __( 'Your name', 'wordpress-seo' ) ); ?>
+			<?php $yform->textinput( 'person_name', __( 'Your name', 'wordpress-seo' ) ); ?>
 		</div>
 	</div>
 	<div id="webmaster-tools" class="wpseotab">
 		<?php
 		echo '<p>', __( 'You can use the boxes below to verify with the different Webmaster Tools, if your site is already verified, you can just forget about these. Enter the verify meta values for:', 'wordpress-seo' ), '</p>';
-		$wpseo_admin_pages->textinput( 'alexaverify', '<a target="_blank" href="http://www.alexa.com/siteowners/claim">' . __( 'Alexa Verification ID', 'wordpress-seo' ) . '</a>' );
-		$wpseo_admin_pages->textinput( 'msverify', '<a target="_blank" href="' . esc_url( 'http://www.bing.com/webmaster/?rfp=1#/Dashboard/?url=' . urlencode( str_replace( 'http://', '', get_bloginfo( 'url' ) ) ) ) . '">' . __( 'Bing Webmaster Tools', 'wordpress-seo' ) . '</a>' );
-		$wpseo_admin_pages->textinput( 'googleverify', '<a target="_blank" href="' . esc_url( 'https://www.google.com/webmasters/verification/verification?hl=en&siteUrl=' . urlencode( get_bloginfo( 'url' ) ) . '/' ) . '">' . __( 'Google Webmaster Tools', 'wordpress-seo' ) . '</a>' );
-		$wpseo_admin_pages->textinput( 'yandexverify', '<a target="_blank" href="http://help.yandex.com/webmaster/service/rights.xml#how-to">' . __( 'Yandex Webmaster Tools', 'wordpress-seo' ) . '</a>' );
+		$yform->textinput( 'alexaverify', '<a target="_blank" href="http://www.alexa.com/siteowners/claim">' . __( 'Alexa Verification ID', 'wordpress-seo' ) . '</a>' );
+		$yform->textinput( 'msverify', '<a target="_blank" href="' . esc_url( 'http://www.bing.com/webmaster/?rfp=1#/Dashboard/?url=' . urlencode( str_replace( 'http://', '', get_bloginfo( 'url' ) ) ) ) . '">' . __( 'Bing Webmaster Tools', 'wordpress-seo' ) . '</a>' );
+		$yform->textinput( 'googleverify', '<a target="_blank" href="' . esc_url( 'https://www.google.com/webmasters/verification/verification?hl=en&siteUrl=' . urlencode( get_bloginfo( 'url' ) ) . '/' ) . '">' . __( 'Google Webmaster Tools', 'wordpress-seo' ) . '</a>' );
+		$yform->textinput( 'yandexverify', '<a target="_blank" href="http://help.yandex.com/webmaster/service/rights.xml#how-to">' . __( 'Yandex Webmaster Tools', 'wordpress-seo' ) . '</a>' );
 		?>
 	</div>
 	<div id="security" class="wpseotab">
-		<br/>
 		<?php
-		$wpseo_admin_pages->checkbox( 'disableadvanced_meta', __( 'Disable the Advanced part of the WordPress SEO meta box', 'wordpress-seo' ) );
+		$yform->checkbox( 'disableadvanced_meta', __( 'Disable the Advanced part of the WordPress SEO meta box', 'wordpress-seo' ) );
 		echo '<p class="desc">', __( 'Unchecking this box allows authors and editors to redirect posts, noindex them and do other things you might not want if you don\'t trust your authors.', 'wordpress-seo' ), '</p>';
 		?>
 	</div>
 <?php
 do_action( 'wpseo_dashboard' );
 
-$wpseo_admin_pages->admin_footer();
+$yform->admin_footer();

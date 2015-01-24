@@ -8,8 +8,9 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 
 $tool_page = (string) WPSEO_Utils::filter_input( INPUT_GET, 'tool' );
 
-global $wpseo_admin_pages;
-$wpseo_admin_pages->admin_header( false );
+$yform = Yoast_Form::get_instance();
+
+$yform->admin_header( false );
 
 if ( '' === $tool_page ) {
 	$tools = array(
@@ -47,4 +48,4 @@ if ( '' === $tool_page ) {
 	require_once WPSEO_PATH . 'admin/views/tool-' . $tool_page . '.php';
 }
 
-$wpseo_admin_pages->admin_footer( false );
+$yform->admin_footer( false );

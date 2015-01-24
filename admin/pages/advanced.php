@@ -24,11 +24,10 @@ $tabs = array(
 );
 
 if ( '' === $active_tab || ! in_array( $active_tab, array_keys( $tabs ) ) ) {
-	$active_tab = 'permalinks';
+	$active_tab = 'breadcrumbs';
 }
 
-global $wpseo_admin_pages;
-$wpseo_admin_pages->admin_header( true, WPSEO_Options::get_group_name( $tabs[ $active_tab ]['opt_group'] ), $tabs[ $active_tab ]['opt_group'] );
+Yoast_Form::get_instance()->admin_header( true, $tabs[ $active_tab ]['opt_group'] );
 
 ?>
 	<h2 class="nav-tab-wrapper">
@@ -45,8 +44,6 @@ $wpseo_admin_pages->admin_header( true, WPSEO_Options::get_group_name( $tabs[ $a
 	<br/>
 <?php
 
-$options = get_option( 'wpseo_permalinks' );
-
 require_once WPSEO_PATH . 'admin/views/tab-' . $active_tab . '.php';
 
-$wpseo_admin_pages->admin_footer();
+Yoast_Form::get_instance()->admin_footer();

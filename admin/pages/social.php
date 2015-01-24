@@ -9,7 +9,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-global $wpseo_admin_pages;
+$yform = Yoast_Form::get_instance();
 
 $fbconnect = '
 	<p><strong>' . esc_html__( 'Facebook Insights and Admins', 'wordpress-seo' ) . '</strong><br>
@@ -176,7 +176,7 @@ if ( is_array( $fbbuttons ) && $fbbuttons !== array() ) {
 	<p class="fb-buttons">' . implode( '', $fbbuttons ) . '</p>';
 }
 
-$wpseo_admin_pages->admin_header( true, WPSEO_Options::get_group_name( 'wpseo_social' ), 'wpseo_social' );
+$yform->admin_header( true, 'wpseo_social' );
 ?>
 
 	<h2 class="nav-tab-wrapper" id="wpseo-tabs">
@@ -189,7 +189,7 @@ $wpseo_admin_pages->admin_header( true, WPSEO_Options::get_group_name( 'wpseo_so
 
 	<div id="facebook" class="wpseotab">
 		<p>
-			<?php $wpseo_admin_pages->checkbox( 'opengraph', __( 'Add Open Graph meta data', 'wordpress-seo' ) ); ?>
+			<?php $yform->checkbox( 'opengraph', __( 'Add Open Graph meta data', 'wordpress-seo' ) ); ?>
 		</p>
 
 		<p class="desc">
@@ -197,12 +197,12 @@ $wpseo_admin_pages->admin_header( true, WPSEO_Options::get_group_name( 'wpseo_so
 		</p>
 		<?php
 		echo $fbconnect;
-		$wpseo_admin_pages->textinput( 'facebook_site', __( 'Facebook Page URL', 'wordpress-seo' ) );
+		$yform->textinput( 'facebook_site', __( 'Facebook Page URL', 'wordpress-seo' ) );
 		if ( 'posts' == get_option( 'show_on_front' ) ) {
 			echo '<h4>' . esc_html__( 'Frontpage settings', 'wordpress-seo' ) . '</h4>';
-			$wpseo_admin_pages->media_input( 'og_frontpage_image', __( 'Image URL', 'wordpress-seo' ) );
-			$wpseo_admin_pages->textinput( 'og_frontpage_title', __( 'Title', 'wordpress-seo' ) );
-			$wpseo_admin_pages->textinput( 'og_frontpage_desc', __( 'Description', 'wordpress-seo' ) );
+			$yform->media_input( 'og_frontpage_image', __( 'Image URL', 'wordpress-seo' ) );
+			$yform->textinput( 'og_frontpage_title', __( 'Title', 'wordpress-seo' ) );
+			$yform->textinput( 'og_frontpage_desc', __( 'Description', 'wordpress-seo' ) );
 
 			// Offer copying of meta description
 			$meta_options = get_option( 'wpseo_titles' );
@@ -213,7 +213,7 @@ $wpseo_admin_pages->admin_header( true, WPSEO_Options::get_group_name( 'wpseo_so
 		} ?>
 
 		<h4><?php esc_html_e( 'Default settings', 'wordpress-seo' ); ?></h4>
-		<?php $wpseo_admin_pages->media_input( 'og_default_image', __( 'Image URL', 'wordpress-seo' ) ); ?>
+		<?php $yform->media_input( 'og_default_image', __( 'Image URL', 'wordpress-seo' ) ); ?>
 		<p class="desc label">
 			<?php esc_html_e( 'This image is used if the post/page being shared does not contain any images.', 'wordpress-seo' ); ?>
 		</p>
@@ -229,15 +229,15 @@ $wpseo_admin_pages->admin_header( true, WPSEO_Options::get_group_name( 'wpseo_so
 		</p>
 
 		<p>
-			<?php $wpseo_admin_pages->checkbox( 'twitter', __( 'Add Twitter card meta data', 'wordpress-seo' ) ); ?>
+			<?php $yform->checkbox( 'twitter', __( 'Add Twitter card meta data', 'wordpress-seo' ) ); ?>
 		</p>
 
 		<p class="desc">
 			<?php _e( 'Add Twitter card meta data to your site\'s <code>&lt;head&gt;</code> section.', 'wordpress-seo' ); ?>
 		</p>
 		<?php
-		$wpseo_admin_pages->textinput( 'twitter_site', __( 'Site Twitter Username', 'wordpress-seo' ) );
-		$wpseo_admin_pages->select( 'twitter_card_type', __( 'The default card type to use', 'wordpress-seo' ), WPSEO_Option_Social::$twitter_card_types );
+		$yform->textinput( 'twitter_site', __( 'Site Twitter Username', 'wordpress-seo' ) );
+		$yform->select( 'twitter_card_type', __( 'The default card type to use', 'wordpress-seo' ), WPSEO_Option_Social::$twitter_card_types );
 		do_action( 'wpseo_admin_twitter_section' );
 		?>
 	</div>
@@ -247,13 +247,13 @@ $wpseo_admin_pages->admin_header( true, WPSEO_Options::get_group_name( 'wpseo_so
 			<?php _e( 'Pinterest uses Open Graph metadata just like Facebook, so be sure to keep the Open Graph checkbox on the Facebook tab checked if you want to optimize your site for Pinterest.', 'wordpress-seo' ); ?>
 		</p>
 
-		<?php $wpseo_admin_pages->textinput( 'pinterestverify', __( 'Pinterest verification', 'wordpress-seo' ) ); ?>
+		<?php $yform->textinput( 'pinterestverify', __( 'Pinterest verification', 'wordpress-seo' ) ); ?>
 		<p class="desc label">
 			<?php printf( __( 'To %1$sverify your site with Pinterest%2$s, add the meta tag here', 'wordpress-seo' ), '<a target="_blank" href="https://help.pinterest.com/en/articles/verify-your-website#meta_tag">', '</a>' ); ?>
 		</p>
 
 		<?php
-		$wpseo_admin_pages->textinput( 'pinterest_url', __( 'Your Pinterest accounts URL', 'wordpress-seo' ) );
+		$yform->textinput( 'pinterest_url', __( 'Your Pinterest accounts URL', 'wordpress-seo' ) );
 
 		do_action( 'wpseo_admin_pinterest_section' );
 		?>
@@ -261,10 +261,10 @@ $wpseo_admin_pages->admin_header( true, WPSEO_Options::get_group_name( 'wpseo_so
 
 	<div id="google" class="wpseotab">
 		<p>
-			<?php $wpseo_admin_pages->checkbox( 'googleplus', __( 'Add Google+ specific post meta data', 'wordpress-seo' ) ); ?>
+			<?php $yform->checkbox( 'googleplus', __( 'Add Google+ specific post meta data', 'wordpress-seo' ) ); ?>
 		</p>
 
-		<?php $wpseo_admin_pages->textinput( 'plus-publisher', __( 'Google Publisher Page', 'wordpress-seo' ) ); ?>
+		<?php $yform->textinput( 'plus-publisher', __( 'Google Publisher Page', 'wordpress-seo' ) ); ?>
 		<p class="desc label"><?php esc_html_e( 'If you have a Google+ page for your business, add that URL here and link it on your Google+ page\'s about page.', 'wordpress-seo' ); ?></p>
 
 		<?php do_action( 'wpseo_admin_googleplus_section' ); ?>
@@ -275,12 +275,12 @@ $wpseo_admin_pages->admin_header( true, WPSEO_Options::get_group_name( 'wpseo_so
 			<?php _e( 'To inform Google about your social profiles, we need to know their URLs, please enter them below:', 'wordpress-seo' ); ?>
 		</p>
 		<?php
-		$wpseo_admin_pages->textinput( 'instagram_url', __( 'Instagram', 'wordpress-seo' ) );
-		$wpseo_admin_pages->textinput( 'linkedin_url', __( 'LinkedIn', 'wordpress-seo' ) );
-		$wpseo_admin_pages->textinput( 'myspace_url', __( 'MySpace', 'wordpress-seo' ) );
-		$wpseo_admin_pages->textinput( 'youtube_url', __( 'YouTube', 'wordpress-seo' ) );
+		$yform->textinput( 'instagram_url', __( 'Instagram', 'wordpress-seo' ) );
+		$yform->textinput( 'linkedin_url', __( 'LinkedIn', 'wordpress-seo' ) );
+		$yform->textinput( 'myspace_url', __( 'MySpace', 'wordpress-seo' ) );
+		$yform->textinput( 'youtube_url', __( 'YouTube', 'wordpress-seo' ) );
 		?>
 		<?php do_action( 'wpseo_admin_other_section' ); ?>
 	</div>
 <?php
-$wpseo_admin_pages->admin_footer();
+$yform->admin_footer();

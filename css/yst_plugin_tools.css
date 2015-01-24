@@ -240,12 +240,15 @@ table.yoast_help tr:hover {
 
 .wpseotab {
 	display: none;
-	/*max-width: 600px !important;*/
-	;
+	margin-top: 15px;
 }
 
 .wpseotab.active {
 	display: block;
+}
+
+.wpseotab strong {
+	font-size: 115%;
 }
 
 #sidebar .yoastbox {
