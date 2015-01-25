@@ -140,7 +140,7 @@ function wpseo_display_contributors( $contributors ) {
 			?>
 		</p>
 
-		<h4 class="wp-people-group"><?php _e('Project Leaders', 'wordpress-seo' ); ?></h4>
+		<h4 class="wp-people-group"><?php _e( 'Project Leaders', 'wordpress-seo' ); ?></h4>
 		<ul class="wp-people-group " id="wp-people-group-project-leaders">
 			<?php
 			$leaders = array(
@@ -169,7 +169,7 @@ function wpseo_display_contributors( $contributors ) {
 			wpseo_display_contributors( $leaders );
 			?>
 		</ul>
-		<h4 class="wp-people-group"><?php _e('Contributing Developers', 'wordpress-seo' ); ?></h4>
+		<h4 class="wp-people-group"><?php _e( 'Contributing Developers', 'wordpress-seo' ); ?></h4>
 		<ul class="wp-people-group " id="wp-people-group-core-developers">
 			<?php
 			$contributors = array(
