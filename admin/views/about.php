@@ -140,28 +140,28 @@ function wpseo_display_contributors( $contributors ) {
 			?>
 		</p>
 
-		<h4 class="wp-people-group">Project Leaders</h4>
+		<h4 class="wp-people-group"><?php _e('Project Leaders', 'wordpress-seo' ); ?></h4>
 		<ul class="wp-people-group " id="wp-people-group-project-leaders">
 			<?php
 			$leaders = array(
 				'jdevalk'   => (object) array(
 					'name'     => 'Joost de Valk',
-					'role'     => 'Project Lead',
+					'role'     => __( 'Project Lead', 'wordpress-seo' ),
 					'gravatar' => 'f08c3c3253bf14b5616b4db53cea6b78',
 				),
 				'jrfnl'     => (object) array(
 					'name'     => 'Juliette Reinders Folmer',
-					'role'     => 'Lead Developer',
+					'role'     => __( 'Lead Developer', 'wordpress-seo' ),
 					'gravatar' => 'cbbac3e529102364dc3b026af3cc2988',
 				),
 				'omarreiss' => (object) array(
 					'name'     => 'Omar Reiss',
-					'role'     => 'Project Manager',
+					'role'     => __( 'Lead Developer', 'wordpress-seo' ),
 					'gravatar' => '86aaa606a1904e7e0cf9857a663c376e',
 				),
 				'tacoverdo' => (object) array(
 					'name'     => 'Taco Verdonschot',
-					'role'     => 'QA & Translations Manager',
+					'role'     => __( 'QA & Translations Manager', 'wordpress-seo' ),
 					'gravatar' => 'd2d3ecb38cacd521926979b5c678297b',
 				),
 			);
@@ -169,28 +169,28 @@ function wpseo_display_contributors( $contributors ) {
 			wpseo_display_contributors( $leaders );
 			?>
 		</ul>
-		<h4 class="wp-people-group">Contributing Developers</h4>
+		<h4 class="wp-people-group"><?php _e('Contributing Developers', 'wordpress-seo' ); ?></h4>
 		<ul class="wp-people-group " id="wp-people-group-core-developers">
 			<?php
 			$contributors = array(
 				'andizer'       => (object) array(
 					'name'     => 'Andy Meerwaldt',
-					'role'     => 'Developer',
+					'role'     => __( 'Developer', 'wordpress-seo' ),
 					'gravatar' => 'a9b43e766915b48031eab78f9916ca8e',
 				),
 				'petervw'       => (object) array(
 					'name'     => 'Peter van Wilderen',
-					'role'     => 'Developer',
+					'role'     => __( 'Developer', 'wordpress-seo' ),
 					'gravatar' => 'e4662ebd4b59d3c196e2ba721d8a1efc',
 				),
 				'rarst'         => (object) array(
 					'name'     => 'Andrey Savchenko',
-					'role'     => 'Developer',
+					'role'     => __( 'Developer', 'wordpress-seo' ),
 					'gravatar' => 'ab89ce39f47b327f1c85e4019e865a71',
 				),
 				'CarolineGeven' => (object) array(
 					'name'     => 'Caroline Geven',
-					'role'     => 'Developer',
+					'role'     => __( 'Developer', 'wordpress-seo' ),
 					'gravatar' => 'f2596a568c3974e35f051266a63d791f',
 				),
 			);
@@ -198,7 +198,7 @@ function wpseo_display_contributors( $contributors ) {
 			wpseo_display_contributors( $contributors );
 			?>
 		</ul>
-		<h4 class="wp-people-group">Contributors to this release</h4>
+		<h4 class="wp-people-group"><?php _e( 'Contributors to this release', 'wordpress-seo' ); ?></h4>
 		<?php
 		$patches_from = array(
 			'Jack Neary'             => 'https://github.com/xeeeveee',

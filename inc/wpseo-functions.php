@@ -86,7 +86,6 @@ function wpseo_do_upgrade() {
 	/* Clean up stray wpseo_ms options from the options table, option should only exist in the sitemeta table */
 	delete_option( 'wpseo_ms' );
 
-
 	// Make sure version nr gets updated for any version without specific upgrades
 	$option_wpseo = get_option( 'wpseo' ); // re-get to make sure we have the latest version
 	if ( version_compare( $option_wpseo['version'], WPSEO_VERSION, '<' ) ) {
@@ -95,8 +94,16 @@ function wpseo_do_upgrade() {
 
 	// Make sure all our options always exist - issue #1245
 	WPSEO_Options::ensure_options_exist();
+
+	add_action( 'admin_footer', 'wpseo_redirect_to_about' );
 }
 
+/**
+ * Redirect to the about page (used on upgrade)
+ */
+function wpseo_redirect_to_about() {
+	echo '<script>window.location ="', admin_url( 'admin.php?page=wpseo_dashboard&intro=1' ), '";</script>';
+}
 
 if ( ! function_exists( 'initialize_wpseo_front' ) ) {
 	function initialize_wpseo_front() {
