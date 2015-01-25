@@ -7,12 +7,12 @@ module.exports = {
 		},
 		files: [{
 			expand: true,
-			cwd: 'assets/js',
+			cwd: 'js',
 			src: [
 				'*.js',
 				'!*.min.js'
 			],
-			dest: 'assets/js',
+			dest: 'js',
 			ext: '.min.js',
 			extDot: 'first',
 			isFile: true

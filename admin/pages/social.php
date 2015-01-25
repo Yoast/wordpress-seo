@@ -180,12 +180,31 @@ $yform->admin_header( true, 'wpseo_social' );
 ?>
 
 	<h2 class="nav-tab-wrapper" id="wpseo-tabs">
+		<a class="nav-tab" id="accounts-tab" href="#top#accounts"><?php _e( 'Accounts', 'wordpress-seo' ); ?></a>
 		<a class="nav-tab" id="facebook-tab" href="#top#facebook"><?php _e( 'Facebook', 'wordpress-seo' ); ?></a>
 		<a class="nav-tab" id="twitterbox-tab" href="#top#twitterbox"><?php _e( 'Twitter', 'wordpress-seo' ); ?></a>
 		<a class="nav-tab" id="pinterest-tab" href="#top#pinterest"><?php _e( 'Pinterest', 'wordpress-seo' ); ?></a>
 		<a class="nav-tab" id="google-tab" href="#top#google"><?php _e( 'Google+', 'wordpress-seo' ); ?></a>
-		<a class="nav-tab" id="other-tab" href="#top#other"><?php _e( 'Other', 'wordpress-seo' ); ?></a>
 	</h2>
+
+	<div id="accounts" class="wpseotab">
+		<p>
+			<?php _e( 'To inform Google about your social profiles, we need to know their URLs.' ); ?>
+			<?php _e( 'For each, pick the main account associated with this site and please enter them below:', 'wordpress-seo' ); ?>
+		</p>
+		<?php
+		$yform->textinput( 'facebook_site', __( 'Facebook Page URL', 'wordpress-seo' ) );
+		$yform->textinput( 'twitter_site', __( 'Twitter Username', 'wordpress-seo' ) );
+		$yform->textinput( 'instagram_url', __( 'Instagram URL', 'wordpress-seo' ) );
+		$yform->textinput( 'linkedin_url', __( 'LinkedIn URL', 'wordpress-seo' ) );
+		$yform->textinput( 'myspace_url', __( 'MySpace URL', 'wordpress-seo' ) );
+		$yform->textinput( 'pinterest_url', __( 'Pinterest URL', 'wordpress-seo' ) );
+		$yform->textinput( 'youtube_url', __( 'YouTube URL', 'wordpress-seo' ) );
+		$yform->textinput( 'google_plus_url', __( 'Google+ URL', 'wordpress-seo' ) );
+
+		do_action( 'wpseo_admin_other_section' );
+		?>
+	</div>
 
 	<div id="facebook" class="wpseotab">
 		<p>
@@ -197,7 +216,6 @@ $yform->admin_header( true, 'wpseo_social' );
 		</p>
 		<?php
 		echo $fbconnect;
-		$yform->textinput( 'facebook_site', __( 'Facebook Page URL', 'wordpress-seo' ) );
 		if ( 'posts' == get_option( 'show_on_front' ) ) {
 			echo '<h4>' . esc_html__( 'Frontpage settings', 'wordpress-seo' ) . '</h4>';
 			$yform->media_input( 'og_frontpage_image', __( 'Image URL', 'wordpress-seo' ) );
@@ -236,7 +254,6 @@ $yform->admin_header( true, 'wpseo_social' );
 			<?php _e( 'Add Twitter card meta data to your site\'s <code>&lt;head&gt;</code> section.', 'wordpress-seo' ); ?>
 		</p>
 		<?php
-		$yform->textinput( 'twitter_site', __( 'Site Twitter Username', 'wordpress-seo' ) );
 		$yform->select( 'twitter_card_type', __( 'The default card type to use', 'wordpress-seo' ), WPSEO_Option_Social::$twitter_card_types );
 		do_action( 'wpseo_admin_twitter_section' );
 		?>
@@ -253,8 +270,6 @@ $yform->admin_header( true, 'wpseo_social' );
 		</p>
 
 		<?php
-		$yform->textinput( 'pinterest_url', __( 'Your Pinterest accounts URL', 'wordpress-seo' ) );
-
 		do_action( 'wpseo_admin_pinterest_section' );
 		?>
 	</div>
@@ -270,17 +285,5 @@ $yform->admin_header( true, 'wpseo_social' );
 		<?php do_action( 'wpseo_admin_googleplus_section' ); ?>
 	</div>
 
-	<div id="other" class="wpseotab">
-		<p>
-			<?php _e( 'To inform Google about your social profiles, we need to know their URLs, please enter them below:', 'wordpress-seo' ); ?>
-		</p>
-		<?php
-		$yform->textinput( 'instagram_url', __( 'Instagram', 'wordpress-seo' ) );
-		$yform->textinput( 'linkedin_url', __( 'LinkedIn', 'wordpress-seo' ) );
-		$yform->textinput( 'myspace_url', __( 'MySpace', 'wordpress-seo' ) );
-		$yform->textinput( 'youtube_url', __( 'YouTube', 'wordpress-seo' ) );
-		?>
-		<?php do_action( 'wpseo_admin_other_section' ); ?>
-	</div>
 <?php
 $yform->admin_footer();

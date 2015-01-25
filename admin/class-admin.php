@@ -271,18 +271,6 @@ class WPSEO_Admin {
 				require_once( WPSEO_PATH . 'admin/pages/xml-sitemaps.php' );
 				break;
 
-			case 'wpseo_import':
-				require_once( WPSEO_PATH . 'admin/pages/import.php' );
-				break;
-
-			case 'wpseo_files':
-				require_once( WPSEO_PATH . 'admin/pages/files.php' );
-				break;
-
-			case 'wpseo_bulk-editor':
-				require_once( WPSEO_PATH . 'admin/pages/bulk-editor.php' );
-				break;
-
 			case 'wpseo_licenses':
 				require_once( WPSEO_PATH . 'admin/pages/licenses.php' );
 				break;

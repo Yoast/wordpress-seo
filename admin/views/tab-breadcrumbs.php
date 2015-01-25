@@ -15,6 +15,7 @@ $yform->currentoption = 'wpseo_internallinks';
 
 $yform->checkbox( 'breadcrumbs-enable', __( 'Enable Breadcrumbs', 'wordpress-seo' ) );
 echo '<br/>';
+echo '<div id="breadcrumbsinfo">';
 $yform->textinput( 'breadcrumbs-sep', __( 'Separator between breadcrumbs', 'wordpress-seo' ) );
 $yform->textinput( 'breadcrumbs-home', __( 'Anchor text for the Homepage', 'wordpress-seo' ) );
 $yform->textinput( 'breadcrumbs-prefix', __( 'Prefix for the breadcrumb path', 'wordpress-seo' ) );
@@ -72,8 +73,11 @@ unset( $taxonomies, $post_types );
 
 ?>
 <br class="clear"/>
-<h4><?php _e( 'How to insert breadcrumbs in your theme', 'wordpress-seo' ); ?></h4>
-<p><?php printf( __( 'Usage of this breadcrumbs feature is explained %1$shere%2$s. For the more code savvy, insert this in your theme:', 'wordpress-seo' ), '<a href="https://yoast.com/wordpress/plugins/breadcrumbs/">', '</a>' ); ?></p>
+</div>
+<p>
+	<strong><?php _e( 'How to insert breadcrumbs in your theme', 'wordpress-seo' ); ?></strong><br/>
+	<?php printf( __( 'Usage of this breadcrumbs feature is explained %1$shere%2$s. For the more code savvy, insert this in your theme:', 'wordpress-seo' ), '<a href="https://yoast.com/wordpress/plugins/breadcrumbs/">', '</a>' ); ?>
+</p>
 <pre>
 &lt;?php if ( function_exists(&#x27;yoast_breadcrumb&#x27;) ) {
 yoast_breadcrumb(&#x27;&lt;p id=&quot;breadcrumbs&quot;&gt;&#x27;,&#x27;&lt;/p&gt;&#x27;);

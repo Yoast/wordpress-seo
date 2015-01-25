@@ -400,3 +400,7 @@ div#separator input.radio:checked + label {
 	background-color: #fff;
 	box-shadow: 1px 1px 1px green;
 }
+
+.feature-section .dashicons {
+	font-size: 600%;
+}

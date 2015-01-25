@@ -1,0 +1,219 @@
+<?php
+
+if ( ! defined( 'WPSEO_VERSION' ) ) {
+	header( 'Status: 403 Forbidden' );
+	header( 'HTTP/1.1 403 Forbidden' );
+	exit();
+}
+
+/**
+ * Display a list of contributors
+ *
+ * @param array $contributors
+ */
+function wpseo_display_contributors( $contributors ) {
+	foreach ( $contributors as $username => $dev ) {
+		echo '<li class="wp-person" id="wp-person-', $username, '">';
+		echo '<a href="https://github.com/', $username, '"><img	src="https://secure.gravatar.com/avatar/', $dev->gravatar, '?s=60" class="gravatar" alt="', $dev->name, '"></a>';
+		echo '<a class="web" href="https://github.com/', $username, '">', $dev->name, '</a>';
+		echo '<span class="title">', $dev->role, '</span></li>';
+	}
+}
+
+?>
+
+<div class="wrap about-wrap">
+
+	<h1><?php _e( 'Thank you for updating WordPress SEO!', 'wordpress-seo' ); ?></h1>
+
+	<div class="about-text">
+		<?php _e( 'On your way to better search rankings!', 'wordpress-seo' ); ?><br/>
+		<br/>
+		<?php _e( 'WordPress SEO 1.8 helps you optimize your site by making you ready for Google\'s Knowledge Graph and simplyfing the WordPress SEO admin.', 'wordpress-seo' ); ?>
+	</div>
+
+	<h2 class="nav-tab-wrapper" id="wpseo-tabs">
+		<a class="nav-tab" href="#top#new" id="new-tab"><?php _e( 'What’s New', 'wordpress-seo' ); ?></a>
+		<a class="nav-tab" href="#top#credits" id="credits-tab"><?php _e( 'Credits', 'wordpress-seo' ); ?></a>
+	</h2>
+
+	<div id="new" class="wpseotab">
+		<div class="changelog headline-feature">
+			<h2><?php _e( 'Simplified Admin Menus' ); ?></h2>
+
+			<div class="feature-section">
+				<div class="col">
+					<h3><?php _e( 'We’ve merged several menu items to make the most important settings stand out more.', 'wordpress-seo' ); ?></h3>
+
+					<p><?php _e( 'Not all settings are created equal. Some require their own admin page and really need your attention. Others are more advanced and don’t need changing by everyone. This release helps you by focusing on what’s important.', 'wordpress-seo' ); ?></p>
+
+					<p><?php printf( esc_html__( 'Several settings were moved to the %1$sAdvanced page%2$s, the bulk editor, file editor and import & export tools were all moved to the %3$sTools page%2$s.', 'wordpress-seo' ), '<a href="' . admin_url( 'admin.php?page=wpseo_advanced' ) . '">', '</a>', '<a href="' . admin_url( 'admin.php?page=wpseo_tools' ) . '">' ); ?></p>
+				</div>
+				<div class="col">
+					<img class="aligncenter" src="http://uploads.yoast.nl/seo-menu_1A752658.png">
+				</div>
+			</div>
+
+			<div class="clear"></div>
+		</div>
+
+		<hr>
+
+		<div class="changelog headline-feature dfw">
+			<h2><?php _e( 'Ready for Google’s Knowledge Graph', 'wordpress-seo' ); ?></h2>
+
+			<div class="feature-image">
+				<div class="dfw-container">
+					<img src="http://uploads.yoast.nl/knowledge-graph_1A752930.png"/>
+				</div>
+				<h3><?php _e( 'Knowledge Graph: We’ve got your back!', 'wordpress-seo' ); ?></h3>
+
+				<p>
+					<?php printf( __( 'Google recently rolled out changes that let you specify you or your companies name, social profiles and logo<sup>*</sup>, to use in their %1$sKnowledge Graph%2$s boxes.', 'wordpress-seo' ), '<a href="http://yoa.st/knowledgegraph">', '</a>' ); ?>
+					<?php printf( __( 'Decide whether you’re a company or a person and add the required info in the %1$sgeneral settings%2$s, then add your %3$ssocial profiles%2$s. We’ll do the rest.', 'wordpress-seo' ), '<a href="' . admin_url( 'admin.php?page=wpseo_dashboard#top#knowledge-graph' ) . '">', '</a>', '<a href="' . admin_url( 'admin.php?page=wpseo_social' ) . '">' ); ?>
+				</p>
+
+				<p><sup>*</sup>
+					<small><?php _e( 'Logo only works for companies.', 'wordpress-seo' ); ?></small>
+				</p>
+			</div>
+		</div>
+
+		<hr>
+
+		<div class="changelog feature-list finer-points">
+			<h2><?php _e( 'More in this release', 'wordpress-seo' ); ?></h2>
+
+			<div class="feature-section col two-col">
+				<div>
+					<span class="dashicons dashicons-twitter"></span>
+					<h4><?php _e( 'Twitter Galleries', 'wordpress-seo' ); ?></h4>
+
+					<p>
+						<?php printf( __( 'If you use galleries in your posts and have Twitter meta data enabled on %1$sSocial → Twitter%2$s, galleries will now be auto-detected and put out as Gallery Cards. All that’s left for your is to %3$sverify the cards with Twitter%2$s.', 'wordpress-seo' ), '<a href="' . admin_url( 'admin.php?page=wpseo_social#top#twitterbox' ) . '">', '</a>', '<a target="_blank" href="http://yoa.st/twittercardsverify">' ); ?>
+					</p>
+				</div>
+
+				<div class="last-feature">
+					<span class="dashicons dashicons-performance"></span>
+					<h4><?php _e( 'Performance Improvements', 'wordpress-seo' ); ?></h4>
+
+					<p>
+						<?php _e( 'This release has made the code of WordPress SEO that runs on the frontend of your site approximately 30% faster.', 'wordpress-seo' ); ?>
+					</p>
+				</div>
+
+				<div>
+					<span class="dashicons dashicons-admin-generic"></span>
+					<h4><?php _e( 'Improved Settings Screens', 'wordpress-seo' ); ?> </h4>
+
+					<p>
+						<?php _e( 'All the settings screens have been updated to use exactly the same, tab-based, styling, making them much more comprehensible.', 'wordpress-seo' ); ?>
+					</p>
+				</div>
+
+				<div class="last-feature">
+					<span class="dashicons dashicons-translation"></span>
+					<h4><?php _e( 'More Translations', 'wordpress-seo' ); ?></h4>
+
+					<p>
+						<?php printf( __( 'WordPress SEO ships, at time of release, with 26 translations, of which 10 are complete. That\'s a huge improvement from last time, and we\'re improving every week. Join us at %1$stranslate.yoast.com%2$s!', 'wordpress-seo' ), '<a target="_blank" href="https://translate.yoast.com/projects/wordpress-seo">', '</a>' ); ?>
+					</p>
+				</div>
+			</div>
+		</div>
+
+		<hr>
+
+		<div class="return-to-dashboard">
+			<a href="<?php echo remove_query_arg( 'intro' ); ?>"><?php _e( 'Go to The General settings page →', 'wordpress-seo' ); ?></a>
+		</div>
+
+	</div>
+
+	<div id="credits" class="wpseotab">
+		<p class="about-description">
+			<?php
+				printf( __( 'While most of the development team is at %1$sYoast%2$s in the Netherlands, WordPress SEO is created by a worldwide team.', 'wordpress-seo' ), '<a target="_blank" href="https://yoast.com/">', '</a>' );
+				echo ' ';
+				printf( __( 'Want to help us develop? Read our %1$scontribution guidelines%2$s!', 'wordpress-seo' ), '<a target="_blank" href="http://yoa.st/wpseocontributionguidelines">', '</a>' );
+			?>
+		</p>
+
+		<h4 class="wp-people-group">Project Leaders</h4>
+		<ul class="wp-people-group " id="wp-people-group-project-leaders">
+			<?php
+			$leaders = array(
+				'jdevalk'   => (object) array(
+					'name'     => 'Joost de Valk',
+					'role'     => 'Project Lead',
+					'gravatar' => 'f08c3c3253bf14b5616b4db53cea6b78',
+				),
+				'jrfnl'     => (object) array(
+					'name'     => 'Juliette Reinders Folmer',
+					'role'     => 'Lead Developer',
+					'gravatar' => 'cbbac3e529102364dc3b026af3cc2988',
+				),
+				'omarreiss' => (object) array(
+					'name'     => 'Omar Reiss',
+					'role'     => 'Project Manager',
+					'gravatar' => '86aaa606a1904e7e0cf9857a663c376e',
+				),
+				'tacoverdo' => (object) array(
+					'name'     => 'Taco Verdonschot',
+					'role'     => 'QA & Translations Manager',
+					'gravatar' => 'd2d3ecb38cacd521926979b5c678297b'
+				),
+			);
+
+			wpseo_display_contributors( $leaders );
+			?>
+		</ul>
+		<h4 class="wp-people-group">Contributing Developers</h4>
+		<ul class="wp-people-group " id="wp-people-group-core-developers">
+			<?php
+			$contributors = array(
+				'andizer'       => (object) array(
+					'name'     => 'Andy Meerwaldt',
+					'role'     => 'Developer',
+					'gravatar' => 'a9b43e766915b48031eab78f9916ca8e',
+				),
+				'petervw'       => (object) array(
+					'name'     => 'Peter van Wilderen',
+					'role'     => 'Developer',
+					'gravatar' => 'e4662ebd4b59d3c196e2ba721d8a1efc',
+				),
+				'rarst'         => (object) array(
+					'name'     => 'Andrey Savchenko',
+					'role'     => 'Developer',
+					'gravatar' => 'ab89ce39f47b327f1c85e4019e865a71',
+				),
+				'CarolineGeven' => (object) array(
+					'name'     => 'Caroline Geven',
+					'role'     => 'Developer',
+					'gravatar' => 'f2596a568c3974e35f051266a63d791f',
+				),
+			);
+
+			wpseo_display_contributors( $contributors );
+			?>
+		</ul>
+		<h4 class="wp-people-group">Contributors to this release</h4>
+		<?php
+		$patches_from = array(
+			'Jack Neary'             => 'https://github.com/xeeeveee',
+			'Koen Van den Wijngaert' => 'https://github.com/vdwijngaert',
+			'Ezra Pool'              => 'https://github.com/Zae',
+			'Andy Sozot'             => 'https://github.com/sozot',
+		);
+		?>
+		<p><?php _e( 'We\'re always grateful for patches from non-regular contributors, this release, patches from the following people made it in:', 'wordpress-seo' ); ?></p>
+		<ul class="ul-square">
+			<?php
+			foreach ( $patches_from as $patcher => $link ) {
+				echo '<li><a href="', esc_url( $link ), '">', $patcher, '</a></li>';
+			}
+			?>
+		</ul>
+	</div>
+</div>

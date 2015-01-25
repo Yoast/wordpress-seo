@@ -11,6 +11,11 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
+if ( WPSEO_Utils::filter_input( INPUT_GET, 'intro' ) ) {
+	require WPSEO_PATH . 'admin/views/about.php';
+	return;
+}
+
 $options = get_option( 'wpseo' );
 
 if ( isset( $_GET['allow_tracking'] ) && check_admin_referer( 'wpseo_activate_tracking', 'nonce' ) ) {

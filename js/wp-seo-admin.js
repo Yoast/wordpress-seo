@@ -10,7 +10,10 @@ jQuery(document).ready(function() {
 		jQuery("#sitemapinfo").toggle(jQuery(this).is(':checked'));
 	}).change();
 
-	// events
+	jQuery("#breadcrumbs-enable").change(function() {
+		jQuery("#breadcrumbsinfo").toggle(jQuery(this).is(':checked'));
+	}).change();
+
 	jQuery("#disable_author_sitemap").change(function() {
 		jQuery("#xml_user_block").toggle(!jQuery(this).is(':checked'));
 	}).change();
