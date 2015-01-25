@@ -162,7 +162,7 @@ function wpseo_display_contributors( $contributors ) {
 				'tacoverdo' => (object) array(
 					'name'     => 'Taco Verdonschot',
 					'role'     => 'QA & Translations Manager',
-					'gravatar' => 'd2d3ecb38cacd521926979b5c678297b'
+					'gravatar' => 'd2d3ecb38cacd521926979b5c678297b',
 				),
 			);
 
