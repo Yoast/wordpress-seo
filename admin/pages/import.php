@@ -15,7 +15,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
  *
  * @todo [Yoast] The import for the RSS Footer plugin checks for data already entered via WP SEO,
  * the other import routines should do that too.
-*/
+ */
 
 global $wpseo_admin_pages;
 
@@ -116,7 +116,7 @@ if ( isset( $_POST['import'] ) || isset( $_GET['import'] ) ) {
 		$taxonomies = get_taxonomies( array( 'public' => true ), 'names' );
 		if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
 			foreach ( $taxonomies as $tax ) {
-				$options['title-tax-'.$tax] = $template;
+				$options['title-tax-' . $tax] = $template;
 			}
 		}
 		unset( $taxonomies, $tax, $template );
@@ -156,7 +156,7 @@ if ( isset( $_POST['import'] ) || isset( $_GET['import'] ) ) {
 		}
 
 		/* @todo [JRF => whomever] verify how WooSEO sets these metas ( 'noindex', 'follow' )
-		   and if the values saved are concurrent with the ones we use (i.e. 0/1/2) */
+		 * and if the values saved are concurrent with the ones we use (i.e. 0/1/2) */
 		WPSEO_Meta::replace_meta( 'seo_follow', WPSEO_Meta::$meta_prefix . 'meta-robots-nofollow', $replace );
 		WPSEO_Meta::replace_meta( 'seo_noindex', WPSEO_Meta::$meta_prefix . 'meta-robots-noindex', $replace );
 
@@ -170,13 +170,13 @@ if ( isset( $_POST['import'] ) || isset( $_GET['import'] ) ) {
 		WPSEO_Meta::replace_meta( '_headspace_keywords', WPSEO_Meta::$meta_prefix . 'metakeywords', $replace );
 		WPSEO_Meta::replace_meta( '_headspace_page_title', WPSEO_Meta::$meta_prefix . 'title', $replace );
 		/* @todo [JRF => whomever] verify how headspace sets these metas ( 'noindex', 'nofollow', 'noarchive', 'noodp', 'noydir' )
-		   and if the values saved are concurrent with the ones we use (i.e. 0/1/2) */
+		 * and if the values saved are concurrent with the ones we use (i.e. 0/1/2) */
 		WPSEO_Meta::replace_meta( '_headspace_noindex', WPSEO_Meta::$meta_prefix . 'meta-robots-noindex', $replace );
 		WPSEO_Meta::replace_meta( '_headspace_nofollow', WPSEO_Meta::$meta_prefix . 'meta-robots-nofollow', $replace );
 
 		/* @todo - [JRF => whomever] check if this can be done more efficiently by querying only the meta table
-		   possibly directly changing it using concat on the existing values
-		*/
+		 * possibly directly changing it using concat on the existing values
+		 */
 		$posts = $wpdb->get_results( "SELECT ID FROM $wpdb->posts" );
 		if ( is_array( $posts ) && $posts !== array() ) {
 			foreach ( $posts as $post ) {
@@ -211,7 +211,52 @@ if ( isset( $_POST['import'] ) || isset( $_GET['import'] ) ) {
 		WPSEO_Meta::replace_meta( '_aioseop_description', WPSEO_Meta::$meta_prefix . 'metadesc', $replace );
 		WPSEO_Meta::replace_meta( '_aioseop_keywords', WPSEO_Meta::$meta_prefix . 'metakeywords', $replace );
 		WPSEO_Meta::replace_meta( '_aioseop_title', WPSEO_Meta::$meta_prefix . 'title', $replace );
-		$msg .= __( sprintf( 'All in One SEO data successfully imported. Would you like to %sdisable the All in One SEO plugin%s.', '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_import&deactivate_aioseo=1' ) ) . '">', '</a>' ), 'wordpress-seo' );
+		$options_aiosep = get_option( 'aioseop_options' );
+
+		if ( isset( $options_aiosep['aiosp_google_analytics_id'] ) ) {
+			/**
+			 * The Google Analytics settings are used
+			 */
+			$ga_universal     = 0;
+			$ga_trackoutbound = 0;
+			$ga_anomip        = 0;
+
+			if ( $options_aiosep['aiosp_ga_use_universal_analytics'] == 'on' ) {
+				$ga_universal = 1;
+			}
+			if ( $options_aiosep['aiosp_ga_track_outbound_links'] == 'on' ) {
+				$ga_trackoutbound = 1;
+			}
+			if( $options_aiosep['aiosp_ga_anonymize_ip'] == 'on' ){
+
+			}
+
+			$ga_settings = array(
+				'manual_ua_code'       => (int) 1,
+				'manual_ua_code_field' => $options_aiosep['aiosp_google_analytics_id'],
+				'enable_universal'     => (int) $ga_universal,
+				'track_outbound'       => (int) $ga_trackoutbound,
+				'ignore_users'         => (array) $options_aiosep['aiosp_ga_exclude_users'],
+				'anonymize_ips'        => (int) $ga_anomip,
+			);
+
+			if( get_option('yst_ga') == false ){
+				$options['ga_general']	= $ga_settings;
+				update_option( 'yst_ga', $options );
+			}
+
+			$plugin_install_nonce = wp_create_nonce('install-plugin_google-analytics-for-wordpress'); // Use the old name because that's the WordPress.org repo
+
+			$msg .= __( sprintf(
+				'All in One SEO data successfully imported. Would you like to %sdisable the All in One SEO plugin%s. You\'ve had Google Analytics enabled in All in One SEO, would you like to install our %sGoogle Analytics plugin%s?',
+				'<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_import&deactivate_aioseo=1' ) ) . '">',
+				'</a>',
+				'<a href="' . esc_url( admin_url( 'update.php?action=install-plugin&plugin=google-analytics-for-wordpress&_wpnonce=' . $plugin_install_nonce ) ) . '">',
+				'</a>'
+			), 'wordpress-seo' );
+		} else {
+			$msg .= __( sprintf( 'All in One SEO data successfully imported. Would you like to %sdisable the All in One SEO plugin%s.', '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_import&deactivate_aioseo=1' ) ) . '">', '</a>' ), 'wordpress-seo' );
+		}
 	}
 
 	if ( isset( $_POST['wpseo']['importaioseoold'] ) ) {
@@ -257,8 +302,7 @@ if ( isset( $_POST['import'] ) || isset( $_GET['import'] ) ) {
 			if ( $optnew['rssafter'] === '' || $optnew['rssafter'] === WPSEO_Options::get_default( 'wpseo_rss', 'rssafter' ) ) {
 				$optnew['rssafter'] = $optold['footerstring'];
 			}
-		}
-		else {
+		} else {
 			/* @internal Uncomment the second part if a default would be given to the rssbefore value */
 			if ( $optnew['rssbefore'] === '' /*|| $optnew['rssbefore'] === WPSEO_Options::get_default( 'wpseo_rss', 'rssbefore' )*/ ) {
 				$optnew['rssbefore'] = $optold['footerstring'];
@@ -277,20 +321,29 @@ if ( isset( $_POST['import'] ) || isset( $_GET['import'] ) ) {
 			foreach ( $optold as $opt => $val ) {
 				if ( is_bool( $val ) && $val == true ) {
 					$optnew['breadcrumbs-' . $opt] = true;
-				}
-				else {
+				} else {
 					$optnew['breadcrumbs-' . $opt] = $val;
 				}
 			}
 			unset( $opt, $val );
 			update_option( 'wpseo_internallinks', $optnew );
 			$msg .= __( 'Yoast Breadcrumbs options imported successfully.', 'wordpress-seo' );
-		}
-		else {
+		} else {
 			$msg .= __( 'Yoast Breadcrumbs options could not be found', 'wordpress-seo' );
 		}
 		unset( $optold, $optnew );
 	}
+
+	// Allow custom import actions
+	do_action( 'wpseo_handle_import' );
+
+	/**
+	 * Allow customization of import&export message
+	 * @api  string  $msg  The message.
+	 */
+	$msg = apply_filters( 'wpseo_import_message', $msg );
+
+	// Check if we've deleted old data and adjust message to match it
 	if ( $replace ) {
 		$msg .= __( ', and old data deleted.', 'wordpress-seo' );
 	}
@@ -299,13 +352,14 @@ if ( isset( $_POST['import'] ) || isset( $_GET['import'] ) ) {
 	}
 }
 
+
 $wpseo_admin_pages->admin_header( false );
 if ( $msg != '' ) {
 	echo '<div id="message" class="message updated" style="width:94%;"><p>' . $msg . '</p></div>';
 }
 
-$content  = '<p>' . __( 'No doubt you\'ve used an SEO plugin before if this site isn\'t new. Let\'s make it easy on you, you can import the data below. If you want, you can import first, check if it was imported correctly, and then import &amp; delete. No duplicate data will be imported.', 'wordpress-seo' ) . '</p>';
-$content .= '<p>' . sprintf( __( 'If you\'ve used another SEO plugin, try the %sSEO Data Transporter%s plugin to move your data into this plugin, it rocks!', 'wordpress-seo' ), '<a href="http://wordpress.org/extend/plugins/seo-data-transporter/">', '</a>' ) . '</p>';
+$content = '<p>' . __( 'No doubt you\'ve used an SEO plugin before if this site isn\'t new. Let\'s make it easy on you, you can import the data below. If you want, you can import first, check if it was imported correctly, and then import &amp; delete. No duplicate data will be imported.', 'wordpress-seo' ) . '</p>';
+$content .= '<p>' . sprintf( __( 'If you\'ve used another SEO plugin, try the %sSEO Data Transporter%s plugin to move your data into this plugin, it rocks!', 'wordpress-seo' ), '<a href="https://wordpress.org/plugins/seo-data-transporter/">', '</a>' ) . '</p>';
 // @todo [JRF => whomever] add action for form tag
 $content .= '<form action="" method="post" accept-charset="' . esc_attr( get_bloginfo( 'charset' ) ) . '">';
 $content .= wp_nonce_field( 'wpseo-import', '_wpnonce', true, false );
@@ -318,20 +372,32 @@ $content .= $wpseo_admin_pages->checkbox( 'deleteolddata', __( 'Delete the old d
 $content .= '<br/>';
 $content .= '<input type="submit" class="button-primary" name="import" value="' . __( 'Import', 'wordpress-seo' ) . '" />';
 $content .= '<br/><br/>';
+
 $content .= '<h2>' . __( 'Import settings from other plugins', 'wordpress-seo' ) . '</h2>';
 $content .= $wpseo_admin_pages->checkbox( 'importrobotsmeta', __( 'Import from Robots Meta (by Yoast)?', 'wordpress-seo' ) );
 $content .= $wpseo_admin_pages->checkbox( 'importrssfooter', __( 'Import from RSS Footer (by Yoast)?', 'wordpress-seo' ) );
 $content .= $wpseo_admin_pages->checkbox( 'importbreadcrumbs', __( 'Import from Yoast Breadcrumbs?', 'wordpress-seo' ) );
+
+/**
+ * Allow option of importing from other 'other' plugins
+ * @api  string  $content  The content containing all import and export methods
+ */
+$content = apply_filters( 'wpseo_import_other_plugins', $content );
+
 $content .= '<br/>';
 $content .= '<input type="submit" class="button-primary" name="import" value="' . __( 'Import', 'wordpress-seo' ) . '" />';
 $content .= '</form><br/>';
 
 $wpseo_admin_pages->postbox( 'import', __( 'Import', 'wordpress-seo' ), $content );
 
+/**
+ * Allow adding a custom import block
+ * @api  WPSEO_Admin  $this  The WPSEO_Admin object
+ */
 do_action( 'wpseo_import', $this );
 
 // @todo [JRF => whomever] add action for form tag
-$content  = '<h4>' . __( 'Export', 'wordpress-seo' ) . '</h4>';
+$content = '<h4>' . __( 'Export', 'wordpress-seo' ) . '</h4>';
 $content .= '<form action="" method="post" accept-charset="' . esc_attr( get_bloginfo( 'charset' ) ) . '">';
 $content .= wp_nonce_field( 'wpseo-export', '_wpnonce', true, false );
 $content .= '<p>' . __( 'Export your WordPress SEO settings here, to import them again later or to import them on another site.', 'wordpress-seo' ) . '</p>';
@@ -351,8 +417,7 @@ if ( isset( $_POST['wpseo_export'] ) ) {
 			document.location = \'' . $url . '\';
 		</script>';
 		add_action( 'admin_footer-' . $GLOBALS['hook_suffix'], 'wpseo_deliver_export_zip' );
-	}
-	else {
+	} else {
 		$content .= 'Error: ' . $url;
 	}
 }
@@ -367,8 +432,7 @@ if ( ! isset( $_FILES['settings_import_file'] ) || empty( $_FILES['settings_impo
 	$content .= '<input type="hidden" name="action" value="wp_handle_upload"/>';
 	$content .= '<input type="submit" class="button" value="' . __( 'Import settings', 'wordpress-seo' ) . '"/>';
 	$content .= '</form><br/>';
-}
-elseif ( isset( $_FILES['settings_import_file'] ) ) {
+} elseif ( isset( $_FILES['settings_import_file'] ) ) {
 	check_admin_referer( 'wpseo-import-file' );
 	$file = wp_handle_upload( $_FILES['settings_import_file'] );
 
@@ -378,7 +442,7 @@ elseif ( isset( $_FILES['settings_import_file'] ) ) {
 		if ( ! defined( 'DIRECTORY_SEPARATOR' ) ) {
 			define( 'DIRECTORY_SEPARATOR', '/' );
 		}
-		$p_path   = $upload_dir['basedir'] . DIRECTORY_SEPARATOR . 'wpseo-import' . DIRECTORY_SEPARATOR;
+		$p_path = $upload_dir['basedir'] . DIRECTORY_SEPARATOR . 'wpseo-import' . DIRECTORY_SEPARATOR;
 
 		if ( ! isset( $GLOBALS['wp_filesystem'] ) || ! is_object( $GLOBALS['wp_filesystem'] ) ) {
 			WP_Filesystem();
@@ -387,7 +451,7 @@ elseif ( isset( $_FILES['settings_import_file'] ) ) {
 		$unzipped = unzip_file( $file['file'], $p_path );
 		if ( ! is_wp_error( $unzipped ) ) {
 			$filename = $p_path . 'settings.ini';
-			if ( @is_file( $filename ) && is_readable( $filename) ) {
+			if ( @is_file( $filename ) && is_readable( $filename ) ) {
 				$options = parse_ini_file( $filename, true );
 
 				if ( is_array( $options ) && $options !== array() ) {
@@ -404,37 +468,30 @@ elseif ( isset( $_FILES['settings_import_file'] ) ) {
 						$option_instance = WPSEO_Options::get_option_instance( $name );
 						if ( is_object( $option_instance ) && method_exists( $option_instance, 'import' ) ) {
 							$optgroup = $option_instance->import( $optgroup, $old_wpseo_version, $options );
-						}
-						elseif ( WP_DEBUG === true || ( defined( 'WPSEO_DEBUG' ) && WPSEO_DEBUG === true ) ) {
+						} elseif ( WP_DEBUG === true || ( defined( 'WPSEO_DEBUG' ) && WPSEO_DEBUG === true ) ) {
 							$content .= '<p><strong>' . sprintf( __( 'Setting "%s" is no longer used and has been discarded.', 'wordpress-seo' ), $name ) . '</strong></p>';
 
 						}
 					}
 					$content .= '<p><strong>' . __( 'Settings successfully imported.', 'wordpress-seo' ) . '</strong></p>';
-				}
-				else {
+				} else {
 					$content .= '<p><strong>' . __( 'Settings could not be imported:', 'wordpress-seo' ) . ' ' . __( 'No settings found in file.', 'wordpress-seo' ) . '</strong></p>';
-	
 				}
 				unset( $options, $name, $optgroup );
-			}
-			else {
+			} else {
 				$content .= '<p><strong>' . __( 'Settings could not be imported:', 'wordpress-seo' ) . ' ' . __( 'Unzipping failed - file settings.ini not found.', 'wordpress-seo' ) . '</strong></p>';
 			}
 			@unlink( $filename );
 			@unlink( $p_path );
-		}
-		else {
+		} else {
 			$content .= '<p><strong>' . __( 'Settings could not be imported:', 'wordpress-seo' ) . ' ' . sprintf( __( 'Unzipping failed with error "%s".', 'wordpress-seo' ), $unzipped->get_error_message() ) . '</strong></p>';
 		}
 		unset( $zip, $unzipped );
 		@unlink( $file['file'] );
-	}
-	else {
+	} else {
 		if ( is_wp_error( $file ) ) {
 			$content .= '<p><strong>' . __( 'Settings could not be imported:', 'wordpress-seo' ) . ' ' . $file->get_error_message() . '</strong></p>';
-		}
-		else {
+		} else {
 			$content .= '<p><strong>' . __( 'Settings could not be imported:', 'wordpress-seo' ) . ' ' . __( 'Upload failed.', 'wordpress-seo' ) . '</strong></p>';
 		}
 	}

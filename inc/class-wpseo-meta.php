@@ -34,7 +34,8 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 	 * for get_post_meta(), get_post_custom() and the likes. That would have been the preferred solution.
 	 *
 	 * @internal all WP native get_meta() results get cached internally, so no need to cache locally.
-	 * @internal use $key when the key is the WPSEO internal name (without prefix), $meta_key when it includes the prefix
+	 * @internal use $key when the key is the WPSEO internal name (without prefix), $meta_key when it
+	 *           includes the prefix
 	 */
 	class WPSEO_Meta {
 
@@ -113,6 +114,7 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 				'snippetpreview'	=> array(
 					'type'				=> 'snippetpreview',
 					'title'				=> '', // translation added later
+					'help'				=> '', // translation added later
 				),
 				'focuskw' 	   		=> array(
 					'type'				=> 'text',
@@ -176,6 +178,7 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 						'none'			=> '', // translation added later
 						'noodp' 		=> '', // translation added later
 						'noydir'		=> '', // translation added later
+						'noimageindex'  => '', // translation added later
 						'noarchive' 	=> '', // translation added later
 						'nosnippet' 	=> '', // translation added later
 					),
@@ -216,28 +219,6 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 						'0.1' => '0.1 - ', // translation added later
 					),
 				),
-				'sitemap-html-include'	=> array(
-					'type'			=> 'select',
-					'title' 		=> '', // translation added later
-					'default_value'	=> '-',
-					'description'	=> '', // translation added later
-					'options'		=> array(
-						'-' 			=> '', // translation added later
-						'always'		=> '', // translation added later
-						'never' 		=> '', // translation added later
-					),
-				),
-				'authorship'			=> array(
-					'type'			=> 'select',
-					'title'			=> '', // translation added later
-					'default_value'	=> '-',
-					'description'	=> '', // translation added later
-					'options'		=> array(
-						'-' 			=> '', // translation added later
-						'always'		=> '', // translation added later
-						'never' 		=> '', // translation added later
-					),
-				),
 				'canonical'			 	=> array(
 					'type'			=> 'text',
 					'title' 		=> '', // translation added later
@@ -251,26 +232,7 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 					'description'	=> '', // translation added later
 				),
 			),
-			'social'	=> array(
-				'opengraph-description'		=> array(
-					'type'			=> 'textarea',
-					'title' 		=> '', // translation added later
-					'default_value'	=> '',
-					'description'	=> '', // translation added later
-				),
-				'opengraph-image'			=> array(
-					'type'			=> 'upload',
-					'title' 		=> '', // translation added later
-					'default_value'	=> '',
-					'description'	=> '', // translation added later
-				),
-				'google-plus-description'	=> array(
-					'type'			=> 'textarea',
-					'title' 		=> '', // translation added later
-					'default_value'	=> '',
-					'description'	=> '', // translation added later
-				),
-			),
+			'social'	=> array(),
 
 			/* Fields we should validate & save, but not show on any form */
 			'non_form'	=> array(
@@ -307,6 +269,33 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 		 * @return void
 		 */
 		public static function init() {
+
+			$options = WPSEO_Options::get_all();
+
+			foreach (
+				array(
+					'opengraph'  => 'opengraph',
+					'twitter'    => 'twitter',
+					'googleplus' => 'google-plus',
+				) as $option => $network ) {
+				if ( true === $options[$option] ) {
+					foreach (
+						array(
+							'title'         => 'text',
+							'description'   => 'textarea',
+							'image'         => 'upload',
+						) as $box => $type
+					) {
+						self::$meta_fields['social'][$network.'-'.$box]	= array(
+							'type'			=> $type,
+							'title' 		=> '', // translation added later
+							'default_value'	=> '',
+							'description'	=> '', // translation added later
+						);
+					}
+				}
+			}
+
 			/**
 			 * Allow add-on plugins to register their meta fields for management by this class
 			 * add_filter() calls must be made before plugins_loaded prio 14
@@ -331,18 +320,18 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 						}
 
 						// Set the $fields_index property for efficiency
-						self::$fields_index[self::$meta_prefix . $key] = array(
+						self::$fields_index[ self::$meta_prefix . $key ] = array(
 							'subset' => $subset,
 							'key'	 => $key,
 						);
 
 						// Set the $defaults property for efficiency
 						if ( isset( $field_def['default_value'] ) ) {
-							self::$defaults[self::$meta_prefix . $key] = $field_def['default_value'];
+							self::$defaults[ self::$meta_prefix . $key ] = $field_def['default_value'];
 						}
 						else {
 							// meta will always be a string, so let's make the meta meta default also a string
-							self::$defaults[self::$meta_prefix . $key] = '';
+							self::$defaults[ self::$meta_prefix . $key ] = '';
 						}
 					}
 				}
@@ -363,11 +352,11 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 		 * @return	array				Array containing the meta box field definitions
 		 */
 		public static function get_meta_field_defs( $tab, $post_type = 'post' ) {
-			if ( ! isset( self::$meta_fields[$tab] ) ) {
+			if ( ! isset( self::$meta_fields[ $tab ] ) ) {
 				return array();
 			}
 
-			$field_defs = self::$meta_fields[$tab];
+			$field_defs = self::$meta_fields[ $tab ];
 
 			switch ( $tab ) {
 				case 'non-form':
@@ -414,15 +403,15 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 					}
 
 					/* Adjust the no-index 'default for post type' text string based on the post type */
-					$field_defs['meta-robots-noindex']['options']['0'] = sprintf( $field_defs['meta-robots-noindex']['options']['0'], ( ( isset( $options['noindex-' . $post_type] ) && $options['noindex-' . $post_type] === true ) ? 'noindex' : 'index' ) );
+					$field_defs['meta-robots-noindex']['options']['0'] = sprintf( $field_defs['meta-robots-noindex']['options']['0'], ( ( isset( $options[ 'noindex-' . $post_type ] ) && $options[ 'noindex-' . $post_type ] === true ) ? 'noindex' : 'index' ) );
 
 					/* Adjust the robots advanced 'site-wide default' text string based on those settings */
 					if ( $options['noodp'] !== false || $options['noydir'] !== false ) {
 						$robots_adv = array();
 						foreach ( array( 'noodp', 'noydir' ) as $robot ) {
-							if ( $options[$robot] === true ) {
+							if ( $options[ $robot ] === true ) {
 								// use translation from field def options - mind that $options and $field_def['options'] keys should be the same!
-								$robots_adv[] = $field_defs['meta-robots-adv']['options'][$robot];
+								$robots_adv[] = $field_defs['meta-robots-adv']['options'][ $robot ];
 							}
 						}
 						$robots_adv = implode( ', ', $robots_adv );
@@ -446,9 +435,6 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 							$field_defs['sitemap-prio']
 						);
 					}
-
-					/* Adjust the authorship 'default for post type' text string based on the post type */
-					$field_defs['authorship']['options']['-'] = sprintf( $field_defs['authorship']['options']['-'], ( ( isset( $options['noauthorship-' . $post_type] ) && $options['noauthorship-' . $post_type] === true ) ? __( 'don\'t show', 'wordpress-seo' ) : __( 'show', 'wordpress-seo' ) ) );
 
 					break;
 			}
@@ -475,8 +461,8 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 		 * @return	string				Validated meta value
 		 */
 		public static function sanitize_post_meta( $meta_value, $meta_key ) {
-			$field_def = self::$meta_fields[self::$fields_index[$meta_key]['subset']][self::$fields_index[$meta_key]['key']];
-			$clean     = self::$defaults[$meta_key];
+			$field_def = self::$meta_fields[ self::$fields_index[ $meta_key ]['subset'] ][ self::$fields_index[ $meta_key ]['key'] ];
+			$clean     = self::$defaults[ $meta_key ];
 
 			switch ( true ) {
 				case ( $meta_key === self::$meta_prefix . 'linkdex' ):
@@ -497,7 +483,7 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 
 				case ( $field_def['type'] === 'select' || $field_def['type'] === 'radio' ):
 					// Only allow value if it's one of the predefined options
-					if ( isset( $field_def['options'][$meta_value] ) ) {
+					if ( isset( $field_def['options'][ $meta_value ] ) ) {
 						$clean = $meta_value;
 					}
 					break;
@@ -534,6 +520,10 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 						$meta_value = str_replace( array( "\n", "\r", "\t", '  ' ), ' ', $meta_value );
 						$clean      = WPSEO_Option::sanitize_text_field( trim( $meta_value ) );
 					}
+					break;
+
+				case ( 'multiselect' === $field_def['type'] ) :
+					$clean = $meta_value;
 					break;
 
 
@@ -585,7 +575,7 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 					// Individual selected entries
 					$cleaning = array();
 					foreach ( $meta_value as $value ) {
-						if ( isset( $options[$value] ) ) {
+						if ( isset( $options[ $value ] ) ) {
 							$cleaning[] = $value;
 						}
 					}
@@ -615,7 +605,7 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 		 */
 		public static function remove_meta_if_default( $null, $object_id, $meta_key, $meta_value, $prev_value = '' ) {
 			/* If it's one of our meta fields, check against default */
-			if ( isset( self::$fields_index[$meta_key] ) && self::meta_value_is_default( $meta_key, $meta_value ) === true ) {
+			if ( isset( self::$fields_index[ $meta_key ] ) && self::meta_value_is_default( $meta_key, $meta_value ) === true ) {
 				if ( $prev_value !== '' ) {
 					delete_post_meta( $object_id, $meta_key, $prev_value );
 				}
@@ -642,7 +632,7 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 		 */
 		public static function dont_save_meta_if_default( $null, $object_id, $meta_key, $meta_value ) {
 			/* If it's one of our meta fields, check against default */
-			if ( isset( self::$fields_index[$meta_key] ) && self::meta_value_is_default( $meta_key, $meta_value ) === true ) {
+			if ( isset( self::$fields_index[ $meta_key ] ) && self::meta_value_is_default( $meta_key, $meta_value ) === true ) {
 				return true; // stop saving the value
 			}
 
@@ -660,7 +650,7 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 		 * @return	bool
 		 */
 		public static function meta_value_is_default( $meta_key, $meta_value ) {
-			return ( isset( self::$defaults[$meta_key] ) && $meta_value === self::$defaults[$meta_key] );
+			return ( isset( self::$defaults[ $meta_key ] ) && $meta_value === self::$defaults[ $meta_key ] );
 		}
 
 
@@ -680,7 +670,7 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 		 *								and therefore discarted (except when the special 'serialized' field def
 		 *								value is set to true - only used by add-on plugins for now)
 		 *								Will return the default value if no value was found.
-		 *								Will return empty string if no default was found (not one or our keys) or
+		 *								Will return empty string if no default was found (not one of our keys) or
 		 *								if the post does not exist
 		 */
 		public static function get_value( $key, $postid = 0 ) {
@@ -698,13 +688,13 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 
 			$custom = get_post_custom( $postid ); // array of strings or empty array
 
-			if ( isset( $custom[self::$meta_prefix . $key][0] ) ) {
-				$unserialized = maybe_unserialize( $custom[self::$meta_prefix . $key][0] );
-				if ( $custom[self::$meta_prefix . $key][0] === $unserialized ) {
-					return $custom[self::$meta_prefix . $key][0];
+			if ( isset( $custom[ self::$meta_prefix . $key ][0] ) ) {
+				$unserialized = maybe_unserialize( $custom[ self::$meta_prefix . $key ][0] );
+				if ( $custom[ self::$meta_prefix . $key ][0] === $unserialized ) {
+					return $custom[ self::$meta_prefix . $key ][0];
 				}
 				else {
-					$field_def = self::$meta_fields[self::$fields_index[self::$meta_prefix . $key]['subset']][self::$fields_index[self::$meta_prefix . $key]['key']];
+					$field_def = self::$meta_fields[ self::$fields_index[ self::$meta_prefix . $key ]['subset'] ][ self::$fields_index[ self::$meta_prefix . $key ]['key'] ];
 					if	( isset( $field_def['serialized'] ) && $field_def['serialized'] === true ) {
 						// Ok, serialize value expected/allowed
 						return $unserialized;
@@ -713,8 +703,8 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 			}
 
 			// Meta was either not found or found, but object/array while not allowed to be
-			if ( isset( self::$defaults[self::$meta_prefix . $key] ) ) {
-				return self::$defaults[self::$meta_prefix . $key];
+			if ( isset( self::$defaults[ self::$meta_prefix . $key ] ) ) {
+				return self::$defaults[ self::$meta_prefix . $key ];
 			}
 			else {
 				/* Shouldn't ever happen, means not one of our keys as there will always be a default available
@@ -879,7 +869,7 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 					elseif ( isset( $field_def['options'] ) && is_array( $field_def['options'] ) && $field_def['options'] !== array() ) {
 						$valid = $field_def['options'];
 						// remove the default value from the valid options
-						unset( $valid[$field_def['default_value']] );
+						unset( $valid[ $field_def['default_value'] ] );
 						$valid = array_keys( $valid );
 
 						$query[] = $wpdb->prepare(
@@ -956,11 +946,11 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 				}
 			}
 			unset( $query, $oldies, $old, $clean );
-			
+
 			do_action( 'wpseo_meta_clean_up' );
 		}
-		
-		
+
+
 		/**
 		 * Recursively merge a variable number of arrays, using the left array as base,
 		 * giving priority to the right array.
@@ -996,11 +986,11 @@ if ( ! class_exists( 'WPSEO_Meta' ) ) {
 
 			foreach ( $arrays as $array ) {
 				foreach ( $array as $key => $value ) {
-					if ( is_array( $value ) && ( isset( $merged[$key] ) && is_array( $merged[$key] ) ) ) {
-						$merged[$key] = self::array_merge_recursive_distinct( $merged[$key], $value );
+					if ( is_array( $value ) && ( isset( $merged[ $key ] ) && is_array( $merged[ $key ] ) ) ) {
+						$merged[ $key ] = self::array_merge_recursive_distinct( $merged[ $key ], $value );
 					}
 					else {
-						$merged[$key] = $value;
+						$merged[ $key ] = $value;
 					}
 				}
 				unset( $key, $value );

@@ -10,6 +10,11 @@ jQuery(document).ready(function() {
 		jQuery("#sitemapinfo").toggle(jQuery(this).is(':checked'));
 	}).change();
 
+	// events
+	jQuery("#disable_author_sitemap").change(function() {
+		jQuery("#xml_user_block").toggle(!jQuery(this).is(':checked'));
+	}).change();
+
 	jQuery("#cleanpermalinks").change(function() {
 		jQuery("#cleanpermalinksdiv").toggle(jQuery(this).is(':checked'));
 	}).change();
@@ -36,7 +41,6 @@ jQuery(document).ready(function() {
 
 });
 
-
 // global functions
 function setWPOption( option, newval, hide, nonce ) {
 	jQuery.post(ajaxurl, {
@@ -61,6 +65,10 @@ function wpseo_killBlockingFiles( nonce ) {
 		else
 			jQuery('#block_files').html(data);
 	});
+}
+
+function copy_home_meta() {
+	jQuery('#og_frontpage_desc').val(jQuery('#meta_description').val());
 }
 
 /*jQuery(document).ready(function(){

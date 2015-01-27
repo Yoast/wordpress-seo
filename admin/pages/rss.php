@@ -14,8 +14,8 @@ global $wpseo_admin_pages;
 $options = WPSEO_Options::get_all();
 $wpseo_admin_pages->admin_header( true, WPSEO_Options::get_group_name( 'wpseo_rss' ), 'wpseo_rss' );
 
-$content   = '<p>' . __( "This feature is used to automatically add content to your RSS, more specifically, it's meant to add links back to your blog and your blog posts, so dumb scrapers will automatically add these links too, helping search engines identify you as the original source of the content.", 'wordpress-seo' ) . '</p>';
-$rows      = array();
+$content = '<p>' . __( "This feature is used to automatically add content to your RSS, more specifically, it's meant to add links back to your blog and your blog posts, so dumb scrapers will automatically add these links too, helping search engines identify you as the original source of the content.", 'wordpress-seo' ) . '</p>';
+$rows    = array();
 
 $rows[] = array(
 	'id'      => 'rssbefore',
@@ -25,7 +25,7 @@ $rows[] = array(
 );
 $rows[] = array(
 	'id'      => 'rssafter',
-	'label'   => __( 'Content to put after each post', 'wordpress-seo' ),
+	'label'   => __( 'Content to put after each post in the feed', 'wordpress-seo' ),
 	'desc'    => __( '(HTML allowed)', 'wordpress-seo' ),
 	'content' => '<textarea cols="50" rows="5" id="rssafter" name="wpseo_rss[rssafter]">' . esc_textarea( $options['rssafter'] ) . '</textarea>',
 );

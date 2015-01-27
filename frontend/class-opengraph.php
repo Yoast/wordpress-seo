@@ -11,7 +11,6 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-
 if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 	/**
 	 * Adds the OpenGraph output
@@ -21,12 +20,12 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 		/**
 		 * @var array $options Options for the OpenGraph Settings
 		 */
-		var $options = array();
+		public $options = array();
 
 		/**
 		 * @var array $shown_images Holds the images that have been put out as OG image.
 		 */
-		var $shown_images = array();
+		public $shown_images = array();
 
 		/**
 		 * Class constructor.
@@ -57,7 +56,7 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 
 				add_action( 'wpseo_opengraph', array( $this, 'image' ), 30 );
 			}
-			remove_action( 'wp_head', 'jetpack_og_tags' );
+			add_filter( 'jetpack_enable_open_graph', '__return_false' );
 			add_action( 'wpseo_head', array( $this, 'opengraph' ), 30 );
 		}
 
@@ -77,17 +76,22 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 		 *
 		 * @param string $property
 		 * @param string $content
+		 * @return boolean
 		 */
-		private function og_tag( $property, $content ) {
+		public function og_tag( $property, $content ) {
+			$og_property = str_replace( ':', '_', $property );
 			/**
-			 * Filter: 'wpseo_og_' . $property - Allow developers to change the content of specific OG meta tags.
+			 * Filter: 'wpseo_og_' . $og_property - Allow developers to change the content of specific OG meta tags.
 			 *
 			 * @api string $content The content of the property
 			 */
-			$content = apply_filters( 'wpseo_og_' . str_replace( ':', '_', $property ), $content );
-			if ( ! empty( $content ) ) {
-				echo '<meta property="' . esc_attr( $property ) . '" content="' . esc_attr( $content ) . '" />' . "\n";
+			$content = apply_filters( 'wpseo_og_' . $og_property, $content );
+			if ( empty( $content ) ) {
+				return false;
 			}
+
+			echo '<meta property="' . esc_attr( $property ) . '" content="' . esc_attr( $content ) . '" />' . "\n";
+			return true;
 		}
 
 		/**
@@ -130,10 +134,12 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 		 *
 		 * @link https://developers.facebook.com/blog/post/2013/06/19/platform-updates--new-open-graph-tags-for-media-publishers-and-more/
 		 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
+		 *
+		 * @return boolean
 		 */
 		public function article_author_facebook() {
 			if ( ! is_singular() ) {
-				return;
+				return false;
 			}
 
 			global $post;
@@ -146,7 +152,10 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 
 			if ( $facebook && ( is_string( $facebook ) && $facebook !== '' ) ) {
 				$this->og_tag( 'article:author', $facebook );
+				return true;
 			}
+
+			return false;
 		}
 
 		/**
@@ -154,21 +163,28 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 		 *
 		 * @link https://developers.facebook.com/blog/post/2013/06/19/platform-updates--new-open-graph-tags-for-media-publishers-and-more/
 		 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
+		 * @return boolean
 		 */
 		public function website_facebook() {
+
 			if ( $this->options['facebook_site'] !== '' ) {
 				$this->og_tag( 'article:publisher', $this->options['facebook_site'] );
+				return true;
 			}
+
+			return false;
 		}
 
 		/**
 		 * Outputs the site owner
 		 *
 		 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
+		 * @return boolean
 		 */
 		public function site_owner() {
 			if ( 0 != $this->options['fbadminapp'] ) {
 				$this->og_tag( 'fb:app_id', $this->options['fbadminapp'] );
+				return true;
 			} elseif ( is_array( $this->options['fb_admins'] ) && $this->options['fb_admins'] !== array() ) {
 				$adminstr = implode( ',', array_keys( $this->options['fb_admins'] ) );
 				/**
@@ -179,8 +195,11 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 				$adminstr = apply_filters( 'wpseo_opengraph_admin', $adminstr );
 				if ( is_string( $adminstr ) && $adminstr !== '' ) {
 					$this->og_tag( 'fb:admins', $adminstr );
+					return true;
 				}
 			}
+
+			return false;
 		}
 
 		/**
@@ -191,28 +210,49 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 		 * @return string $title
 		 *
 		 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
+		 * @return boolean
 		 */
 		public function og_title( $echo = true ) {
+			if ( is_singular() ) {
+				$title = WPSEO_Meta::get_value( 'opengraph-title' );
+				if ( $title === '' ) {
+					$title = $this->title( '' );
+				} else {
+					// Replace WP SEO Variables
+					$title = wpseo_replace_vars( $title, get_post() );
+				}
+			} else if ( is_front_page() ) {
+				$title = ( $this->options['og_frontpage_title'] !== '' ) ? $this->options['og_frontpage_title'] : $this->title( '' );
+			} else {
+				$title = $this->title( '' );
+			}
+
 			/**
 			 * Filter: 'wpseo_opengraph_title' - Allow changing the title specifically for OpenGraph
 			 *
 			 * @api string $unsigned The title string
 			 */
-			$title = apply_filters( 'wpseo_opengraph_title', $this->title( '' ) );
+			$title = trim( apply_filters( 'wpseo_opengraph_title', $title ) );
 
 			if ( is_string( $title ) && $title !== '' ) {
 				if ( $echo !== false ) {
 					$this->og_tag( 'og:title', $title );
+					return true;
 				}
 			}
 
-			return $title;
+			if ( $echo === false ) {
+				return $title;
+			}
+
+			return false;
 		}
 
 		/**
 		 * Outputs the canonical URL as OpenGraph URL, which consolidates likes and shares.
 		 *
 		 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
+		 * @return boolean
 		 */
 		public function url() {
 			/**
@@ -221,9 +261,13 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 			 * @api string $unsigned Canonical URL
 			 */
 			$url = apply_filters( 'wpseo_opengraph_url', $this->canonical( false ) );
+
 			if ( is_string( $url ) && $url !== '' ) {
 				$this->og_tag( 'og:url', esc_url( $url ) );
+				return true;
 			}
+
+			return false;
 		}
 
 		/**
@@ -260,8 +304,8 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 					'zh' => 'zh_CN',
 			);
 
-			if ( isset( $fix_locales[$locale] ) ) {
-				$locale = $fix_locales[$locale];
+			if ( isset( $fix_locales[ $locale ] ) ) {
+				$locale = $fix_locales[ $locale ];
 			}
 
 			// convert locales like "es" to "es_ES", in case that works for the given locale (sometimes it does)
@@ -282,8 +326,12 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 			);
 
 			// check to see if the locale is a valid FB one, if not, use en_US as a fallback
+			// check to see if the locale is a valid FB one, if not, use en_US as a fallback
 			if ( ! in_array( $locale, $fb_valid_fb_locales ) ) {
-				$locale = 'en_US';
+				$locale = strtolower( substr( $locale, 0, 2 ) ) . '_' . strtoupper( substr( $locale, 0, 2 ) );
+				if ( ! in_array( $locale, $fb_valid_fb_locales ) ) {
+					$locale = 'en_US';
+				}
 			}
 
 			if ( $echo !== false ) {
@@ -303,19 +351,22 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 		 * @return string $type
 		 */
 		public function type( $echo = true ) {
+
 			if ( is_front_page() || is_home() ) {
 				$type = 'website';
-			}
-			elseif ( is_singular() ) {
+			} elseif ( is_singular() ) {
+
 				// This'll usually only be changed by plugins right now.
 				$type = WPSEO_Meta::get_value( 'og_type' );
+
 				if ( $type === '' ) {
 					$type = 'article';
 				}
-			}  // We use "object" for archives etc. as article doesn't apply there
-			else {
+			}  else {
+				// We use "object" for archives etc. as article doesn't apply there
 				$type = 'object';
 			}
+
 			/**
 			 * Filter: 'wpseo_opengraph_type' - Allow changing the OpenGraph type of the page
 			 *
@@ -342,36 +393,35 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 		 * @return bool
 		 */
 		function image_output( $img ) {
-			if ( empty( $img ) ) {
-				return false;
-			}
-
 			/**
 			 * Filter: 'wpseo_opengraph_image' - Allow changing the OpenGraph image
 			 *
 			 * @api string $img Image URL string
 			 */
 			$img = trim( apply_filters( 'wpseo_opengraph_image', $img ) );
-			if ( ! empty( $img ) ) {
-				if ( strpos( $img, 'http' ) !== 0 ) {
-					if ( $img[0] != '/' ) {
-						return false;
-					}
 
-					// If it's a relative URL, it's relative to the domain, not necessarily to the WordPress install, we
-					// want to preserve domain name and URL scheme (http / https) though.
-					$parsed_url = parse_url( home_url() );
-					$img        = $parsed_url['scheme'] . '://' . $parsed_url['host'] . $img;
-				}
+			if ( empty( $img ) ) {
+				return false;
+			}
 
-				if ( in_array( $img, $this->shown_images ) ) {
+			if ( wpseo_is_url_relative( $img ) === true ) {
+				if ( $img[0] != '/' ) {
 					return false;
 				}
 
-				array_push( $this->shown_images, $img );
-
-				$this->og_tag( 'og:image', esc_url( $img ) );
+				// If it's a relative URL, it's relative to the domain, not necessarily to the WordPress install, we
+				// want to preserve domain name and URL scheme (http / https) though.
+				$parsed_url = parse_url( home_url() );
+				$img        = $parsed_url['scheme'] . '://' . $parsed_url['host'] . $img;
 			}
+
+			if ( in_array( $img, $this->shown_images ) ) {
+				return false;
+			}
+
+			array_push( $this->shown_images, $img );
+
+			$this->og_tag( 'og:image', esc_url( $img ) );
 
 			return true;
 		}
@@ -407,6 +457,8 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 					 */
 					$thumb = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), apply_filters( 'wpseo_opengraph_image_size', 'original' ) );
 					$this->image_output( $thumb[0] );
+
+					return;
 				}
 
 				/**
@@ -430,8 +482,6 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 			if ( count( $this->shown_images ) == 0 && $this->options['og_default_image'] !== '' ) {
 				$this->image_output( $this->options['og_default_image'] );
 			}
-
-			// @TODO add G+ image stuff
 		}
 
 		/**
@@ -450,6 +500,11 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 
 			if ( is_singular() ) {
 				$ogdesc = WPSEO_Meta::get_value( 'opengraph-description' );
+
+				// Replace WP SEO Variables
+				$ogdesc = wpseo_replace_vars( $ogdesc, get_post() );
+
+				// Use metadesc if $ogdesc is empty
 				if ( $ogdesc === '' ) {
 					$ogdesc = $this->metadesc( false );
 				}
@@ -461,7 +516,18 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 			}
 
 			if ( is_category() || is_tag() || is_tax() ) {
-				$ogdesc = trim( strip_tags( term_description() ) );
+
+				$ogdesc = $this->metadesc( false );
+
+				if ( '' == $ogdesc ) {
+					$ogdesc = trim( strip_tags( term_description() ) );
+				}
+
+				if ( '' == $ogdesc ) {
+					global $wp_query;
+					$term   = $wp_query->get_queried_object();
+					$ogdesc = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'desc' );
+				}
 			}
 
 			// Strip shortcodes if any
@@ -472,7 +538,7 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 			 *
 			 * @api string $ogdesc The description string.
 			 */
-			$ogdesc = apply_filters( 'wpseo_opengraph_desc', $ogdesc );
+			$ogdesc = trim( apply_filters( 'wpseo_opengraph_desc', $ogdesc ) );
 
 			if ( is_string( $ogdesc ) && $ogdesc !== '' ) {
 				if ( $echo !== false ) {
@@ -502,46 +568,71 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 		 * Output the article tags as article:tag tags.
 		 *
 		 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
+		 * @return boolean
 		 */
 		public function tags() {
 			if ( ! is_singular() ) {
-				return;
+				return false;
 			}
 
 			$tags = get_the_tags();
 			if ( ! is_wp_error( $tags ) && ( is_array( $tags ) && $tags !== array() ) ) {
+
 				foreach ( $tags as $tag ) {
 					$this->og_tag( 'article:tag', $tag->name );
 				}
+
+				return true;
 			}
+
+			return false;
 		}
 
 		/**
 		 * Output the article category as an article:section tag.
 		 *
 		 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
+		 * @return boolean;
 		 */
 		public function category() {
+
 			if ( ! is_singular() ) {
-				return;
+				return false;
 			}
 
 			$terms = get_the_category();
+
 			if ( ! is_wp_error( $terms ) && ( is_array( $terms ) && $terms !== array() ) ) {
+
 				foreach ( $terms as $term ) {
 					$this->og_tag( 'article:section', $term->name );
 				}
+
+				return true;
 			}
+
+			return false;
 		}
 
 		/**
 		 * Output the article publish and last modification date
 		 *
 		 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
+		 * @return boolean;
 		 */
 		public function publish_date() {
-			if ( ! is_singular() ) {
-				return;
+
+			if ( ! is_singular( 'post' ) ) {
+				/**
+				 * Filter: 'wpseo_opengraph_show_publish_date' - Allow showing publication date for other post types
+				 *
+				 * @api bool $unsigned Whether or not to show publish date
+				 *
+				 * @param string $post_type The current URL's post type.
+				 */
+				if ( false === apply_filters( 'wpseo_opengraph_show_publish_date', false, get_post_type() ) ) {
+					return false;
+				}
 			}
 
 			$pub = get_the_date( 'c' );
@@ -552,6 +643,8 @@ if ( ! class_exists( 'WPSEO_OpenGraph' ) ) {
 				$this->og_tag( 'article:modified_time', $mod );
 				$this->og_tag( 'og:updated_time', $mod );
 			}
+
+			return true;
 		}
 
 	} /* End of class */

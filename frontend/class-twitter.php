@@ -26,18 +26,18 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 		/**
 		 * @var array Images
 		 */
-		var $shown_images;
+		public $shown_images;
 
 		/**
 		 * @var array $options Holds the options for the Twitter Card functionality
 		 */
-		var $options;
+		public $options;
 
 		/**
 		 * Class constructor
 		 */
 		public function __construct() {
-			$this->options = WPSEO_Options::get_all();
+			$this->options      = WPSEO_Options::get_all();
 			$this->shown_images = array(); // Instantiate as empty array
 			$this->twitter();
 		}
@@ -76,7 +76,7 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 			$metatag_key = apply_filters( 'wpseo_twitter_metatag_key', 'name' );
 
 			// Output meta
-			echo '<meta ' . $metatag_key . '="twitter:' . $name . '" content="' . $value . '"/>' . "\n";
+			echo '<meta ' . esc_attr( $metatag_key ) . '="twitter:' . esc_attr( $name ) . '" content="' . $value . '"/>' . "\n";
 		}
 
 		/**
@@ -88,6 +88,8 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 			wp_reset_query();
 
 			$this->type();
+			$this->twitter_description();
+			$this->twitter_title();
 			$this->site_twitter();
 			$this->site_domain();
 			$this->author_twitter();
@@ -101,8 +103,6 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 				if ( 'summary' === $this->options['twitter_card_type'] ) {
 					$this->image();
 				}
-				$this->twitter_description();
-				$this->twitter_title();
 				$this->twitter_url();
 			}
 
@@ -130,7 +130,7 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 				$type = 'summary';
 			}
 
-			$this->output_metatag( 'card',  $type );
+			$this->output_metatag( 'card', $type );
 		}
 
 		/**
@@ -143,6 +143,8 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 			 * @api string $unsigned Twitter site account string
 			 */
 			$site = apply_filters( 'wpseo_twitter_site', $this->options['twitter_site'] );
+			$site = $this->get_twitter_id( $site );
+
 			if ( is_string( $site ) && $site !== '' ) {
 				$this->output_metatag( 'site', '@' . $site );
 			}
@@ -174,6 +176,7 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 			 * @api string $twitter The twitter account name string
 			 */
 			$twitter = apply_filters( 'wpseo_twitter_creator_account', $twitter );
+			$twitter = $this->get_twitter_id( $twitter );
 
 			if ( is_string( $twitter ) && $twitter !== '' ) {
 				$this->output_metatag( 'creator', '@' . $twitter );
@@ -191,12 +194,17 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 		 * Only used when OpenGraph is inactive.
 		 */
 		public function twitter_title() {
+			$title = WPSEO_Meta::get_value( 'twitter-title' );
+			if ( ! is_string( $title ) || '' === $title ) {
+				$title = $this->title( '' );
+			}
+
 			/**
 			 * Filter: 'wpseo_twitter_title' - Allow changing the Twitter title as output in the Twitter card by WP SEO
 			 *
 			 * @api string $twitter The title string
 			 */
-			$title = apply_filters( 'wpseo_twitter_title', $this->title( '' ) );
+			$title = apply_filters( 'wpseo_twitter_title', $title );
 			if ( is_string( $title ) && $title !== '' ) {
 				$this->output_metatag( 'title', $title );
 			}
@@ -208,9 +216,16 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 		 * Only used when OpenGraph is inactive.
 		 */
 		public function twitter_description() {
-			$meta_desc = trim( $this->metadesc( false ) );
+			$meta_desc = WPSEO_Meta::get_value( 'twitter-description' );
 			if ( ! is_string( $meta_desc ) || '' === $meta_desc ) {
 				$meta_desc = false;
+			}
+
+			if ( ! $meta_desc ) {
+				$meta_desc = trim( $this->metadesc( false ) );
+				if ( ! is_string( $meta_desc ) || '' === $meta_desc ) {
+					$meta_desc = false;
+				}
 			}
 
 			if ( ! $meta_desc ) {
@@ -249,6 +264,7 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 		 * Outputs a Twitter image tag for a given image
 		 *
 		 * @param string $img
+		 * @return bool
 		 */
 		public function image_output( $img ) {
 
@@ -262,14 +278,17 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 			$escaped_img = esc_url( $img );
 
 			if ( in_array( $escaped_img, $this->shown_images ) ) {
-				return;
+				return false;
 			}
 
 			if ( is_string( $escaped_img ) && $escaped_img !== ''  ) {
 				$this->output_metatag( 'image:src', $escaped_img, true );
 
 				array_push( $this->shown_images, $escaped_img );
+				return true;
 			}
+
+			return false;
 		}
 
 		/**
@@ -292,7 +311,14 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 					$this->image_output( $twitter_img );
 					return;
 				}
-				elseif ( function_exists( 'has_post_thumbnail' ) && has_post_thumbnail( $post->ID ) ) {
+
+				$open_graph_image = WPSEO_Meta::get_value( 'opengraph-image' );
+				if ( $open_graph_image !== '' ) {
+					$this->image_output( $open_graph_image );
+					return;
+				}
+
+				if ( function_exists( 'has_post_thumbnail' ) && has_post_thumbnail( $post->ID ) ) {
 					/**
 					 * Filter: 'wpseo_twitter_image_size' - Allow changing the Twitter Card image size
 					 *
@@ -303,7 +329,11 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 					if ( $featured_img ) {
 						$this->image_output( $featured_img[0] );
 					}
-				} elseif ( preg_match_all( '`<img [^>]+>`', $post->post_content, $matches ) ) {
+
+					return;
+				}
+
+				if ( preg_match_all( '`<img [^>]+>`', $post->post_content, $matches ) ) {
 					foreach ( $matches[0] as $img ) {
 						if ( preg_match( '`src=(["\'])(.*?)\1`', $img, $match ) ) {
 							$this->image_output( $match[2] );
@@ -316,6 +346,27 @@ if ( ! class_exists( 'WPSEO_Twitter' ) ) {
 				$this->image_output( $this->options['og_default_image'] );
 			}
 		}
+
+
+		/**
+		 * Checks if the given id is actually an id or a url and if url, distills the id from it.
+		 *
+		 * Solves issues with filters returning urls and theme's/other plugins also adding a user meta
+		 * twitter field which expects url rather than an id (which is what we expect).
+		 *
+		 * @param  string $id  Twitter id or url
+		 *
+		 * @return string|bool Twitter id or false if it failed to get a valid twitter id
+		 */
+		private function get_twitter_id( $id ) {
+			if ( preg_match( '`([A-Za-z0-9_]{1,25})$`', $id, $match ) ) {
+				return $match[1];
+			}
+			else {
+				return false;
+			}
+		}
+
 	} /* End of class */
 
 } /* End of class-exists wrapper */

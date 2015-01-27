@@ -9,7 +9,7 @@
  * google-sitemaps-plugin/generator and remove as it will cause errors for our sitemaps
  * (or inform the user and disallow enabling of sitemaps )
  * @todo - [JRF => whomever] check if anything along these lines is already being done
-*/
+ */
 
 
 if ( ! defined( 'WPSEO_VERSION' ) ) {
@@ -24,8 +24,6 @@ $wpseo_admin_pages->admin_header( true, WPSEO_Options::get_group_name( 'wpseo_xm
 
 $options = get_option( 'wpseo_xml' );
 
-$base = $GLOBALS['wp_rewrite']->using_index_permalinks() ? 'index.php/' : '';
-
 $content  = $wpseo_admin_pages->checkbox( 'enablexmlsitemap', __( 'Check this box to enable XML sitemap functionality.', 'wordpress-seo' ), false );
 $content .= '<div id="sitemapinfo">';
 if ( wpseo_is_nginx() ) {
@@ -37,15 +35,29 @@ rewrite ^/([^/]+?)-sitemap([0-9]+)?\.xml$ /index.php?sitemap=$1&sitemap_n=$2 las
 }
 
 if ( $options['enablexmlsitemap'] === true ) {
-	$content .= '<p>' . sprintf( __( 'You can find your XML Sitemap here: %sXML Sitemap%s', 'wordpress-seo' ), '<a target="_blank" class="button-secondary" href="' . esc_url( home_url( $base . 'sitemap_index.xml' ) ) . '">', '</a>' ) . '<br/><br/>' . __( 'You do <strong>not</strong> need to generate the XML sitemap, nor will it take up time to generate after publishing a post.', 'wordpress-seo' ) . '</p>';
-}
-else {
+	$content .= '<p>' . sprintf( esc_html__( 'You can find your XML Sitemap here: %sXML Sitemap%s', 'wordpress-seo' ), '<a target="_blank" class="button-secondary" href="' . esc_url( wpseo_xml_sitemaps_base_url( 'sitemap_index.xml' ) ) . '">', '</a>' ) . '<br/><br/>' . __( 'You do <strong>not</strong> need to generate the XML sitemap, nor will it take up time to generate after publishing a post.', 'wordpress-seo' ) . '</p>';
+} else {
 	$content .= '<p>' . __( 'Save your settings to activate XML Sitemaps.', 'wordpress-seo' ) . '</p>';
 }
 
-// When we write the help tab for this we should definitely reference this plugin :http://wordpress.org/plugins/edit-author-slug/
+// When we write the help tab for this we should definitely reference this plugin :https://wordpress.org/plugins/edit-author-slug/
 $content .= '<h2>' . __( 'User sitemap', 'wordpress-seo' ) . '</h2>';
 $content .= $wpseo_admin_pages->checkbox( 'disable_author_sitemap', __( 'Disable author/user sitemap', 'wordpress-seo' ), false );
+
+$content .= '<div id="xml_user_block">';
+$content .= '<p><strong>' . __( 'Exclude users without posts', 'wordpress-seo' ) . '</strong><br/>';
+$content .= $wpseo_admin_pages->checkbox( 'disable_author_noposts', __( 'Disable all users with zero posts', 'wordpress-seo' ), false );
+
+$roles = wpseo_get_roles();
+if ( is_array( $roles ) && $roles !== array() ) {
+	$content .= '<p><strong>' . __( 'Exclude user roles', 'wordpress-seo' ) . '</strong><br/>';
+	$content .= __( 'Please check the appropriate box below if there\'s a user role that you do <strong>NOT</strong> want to include in your sitemap:', 'wordpress-seo' ) . '</p>';
+	foreach ( $roles as $role_key => $role_name ) {
+		$content .= $wpseo_admin_pages->checkbox( 'user_role-' . $role_key . '-not_in_sitemap', $role_name );
+	}
+}
+$content .= '</div>';
+
 $content .= '<br/>';
 $content .= '<h2>' . __( 'General settings', 'wordpress-seo' ) . '</h2>';
 $content .= '<p>' . __( 'After content publication, the plugin automatically pings Google and Bing, do you need it to ping other search engines too? If so, check the box:', 'wordpress-seo' ) . '</p>';
@@ -68,8 +80,9 @@ if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
 	$content .= '<h2>' . __( 'Exclude taxonomies', 'wordpress-seo' ) . '</h2>';
 	$content .= '<p>' . __( 'Please check the appropriate box below if there\'s a taxonomy that you do <strong>NOT</strong> want to include in your sitemap:', 'wordpress-seo' ) . '</p>';
 	foreach ( $taxonomies as $tax ) {
-		if ( isset( $tax->labels->name ) && trim( $tax->labels->name ) != '' )
+		if ( isset( $tax->labels->name ) && trim( $tax->labels->name ) != '' ) {
 			$content .= $wpseo_admin_pages->checkbox( 'taxonomies-' . $tax->name . '-not_in_sitemap', $tax->labels->name . ' (<code>' . $tax->name . '</code>)' );
+		}
 	}
 }
 

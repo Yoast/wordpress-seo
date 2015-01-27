@@ -21,7 +21,7 @@ $content .= $wpseo_admin_pages->textinput( 'breadcrumbs-prefix', __( 'Prefix for
 $content .= $wpseo_admin_pages->textinput( 'breadcrumbs-archiveprefix', __( 'Prefix for Archive breadcrumbs', 'wordpress-seo' ) );
 $content .= $wpseo_admin_pages->textinput( 'breadcrumbs-searchprefix', __( 'Prefix for Search Page breadcrumbs', 'wordpress-seo' ) );
 $content .= $wpseo_admin_pages->textinput( 'breadcrumbs-404crumb', __( 'Breadcrumb for 404 Page', 'wordpress-seo' ) );
-if( get_option( 'page_for_posts' ) ) {
+if ( get_option( 'show_on_front' ) == 'page' && get_option( 'page_for_posts' ) > 0 ) {
 	$content .= $wpseo_admin_pages->checkbox( 'breadcrumbs-blog-remove', __( 'Remove Blog page from Breadcrumbs', 'wordpress-seo' ) );
 }
 $content .= $wpseo_admin_pages->checkbox( 'breadcrumbs-boldlast', __( 'Bold the last page in the breadcrumb', 'wordpress-seo' ) );
@@ -36,7 +36,7 @@ if ( is_array( $post_types ) && $post_types !== array() ) {
 		if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
 			$values = array( 0 => __( 'None', 'wordpress-seo' ) );
 			foreach ( $taxonomies as $tax ) {
-				$values[$tax->name] = $tax->labels->singular_name;
+				$values[ $tax->name ] = $tax->labels->singular_name;
 			}
 			$content .= $wpseo_admin_pages->select( 'post_types-' . $pt->name . '-maintax', $pt->labels->name, $values );
 			unset( $values, $tax );
@@ -53,13 +53,15 @@ if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
 	$content .= '<strong>' . __( 'Post type archive to show in breadcrumbs for:', 'wordpress-seo' ) . '</strong><br/>';
 	foreach ( $taxonomies as $tax ) {
 		$values = array( 0 => __( 'None', 'wordpress-seo' ) );
-		if ( get_option( 'show_on_front' ) == 'page' )
+		if ( get_option( 'show_on_front' ) == 'page' && get_option( 'page_for_posts' ) > 0 ) {
 			$values['post'] = __( 'Blog', 'wordpress-seo' );
+		}
 
 		if ( is_array( $post_types ) && $post_types !== array() ) {
 			foreach ( $post_types as $pt ) {
-				if ( $pt->has_archive )
+				if ( $pt->has_archive ) {
 					$values[ $pt->name ] = $pt->labels->name;
+				}
 			}
 			unset( $pt );
 		}

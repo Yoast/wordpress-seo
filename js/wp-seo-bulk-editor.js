@@ -1,187 +1,164 @@
-jQuery(document).ready( function() {
+var bulk_editor = function (current_table) {
 
-	var existing_title_id = "#wpseo-existing-title-";
-	var new_title_id	  = "#wpseo-new-title-";
-	var new_title_class	  = ".wpseo-new-title";
+	var new_class = current_table.find('[class^=wpseo-new]').first().attr('class');
+	var new_id = '#' + new_class + '-';
+	var existing_id = new_id.replace('new', 'existing');
+	var column_value = current_table.find('th[id^=col_existing_yoast]').first().text().replace('Existing ', '');
 
-	var existing_metadesc_id = "#wpseo-existing-metadesc-";
-	var new_metadesc_id 	 = "#wpseo-new-metadesc-";
-	var new_metadesc_class	 = ".wpseo-new-metadesc";
+	var save_method = new_class.replace('-new-', '_save_');
+	var save_all_method = 'wpseo_save_all_' + current_table.attr('class').split('wpseo_bulk_')[1];
 
-	var handle_response = function( response, status ) {
-		if (status != "success") { return; }
+	var bulk_type = save_method.replace('wpseo_save_', '');
 
-		var resp = response;
+	var options = {
+		new_class  : '.' + new_class,
+		new_id     : new_id,
+		existing_id: existing_id
+	};
 
-		if (typeof resp == "string") {
-			resp = JSON.parse( resp );
-		}
+	var instance = {
 
-		if ( resp instanceof Array ) {
-			jQuery.each( resp, function() {
-				handle_response( this, status );
-			});
-		}
-		else {
-			if ( resp.status == 'success' ) {
-				if ( jQuery( '.wpseo_bulk_titles' ).length ) {
-					jQuery( existing_title_id + resp.post_id ).html( resp.new_title.replace(/\\(?!\\)/g, '') );
-					jQuery( new_title_id + resp.post_id ).val( '' ).focus();
-				}
-				else if ( jQuery( '.wpseo_bulk_descriptions').length ) {
-					jQuery( existing_metadesc_id + resp.post_id ).html( resp.new_metadesc.replace(/\\(?!\\)/g, '') );
-					jQuery( new_metadesc_id + resp.post_id ).val( '' ).focus();
-				}
+		submit_new: function (id, element) {
+
+			var new_target = options.new_id + id;
+			var existing_target = options.existing_id + id;
+
+			if (jQuery(options.new_id + id).prop('type') == 'select-one') {
+				var new_value = jQuery(new_target).find(':selected').text();
+			} else {
+				var new_value = jQuery(new_target).val();
+			}
+
+			var current_value = jQuery(existing_target).html();
+
+			if (new_value == current_value) {
+				jQuery(new_target).val('').focus();
 			}
 			else {
-				alert( "Failure");
+
+				if (( new_value == '' ) && !confirm("Are you sure you want to remove the existing " + column_value + "?")) {
+					jQuery(new_target).focus();
+					jQuery(new_target).val('').focus();
+					return;
+				}
+
+				var data = {
+					action        : save_method,
+					_ajax_nonce   : wpseo_bulk_editor_nonce,
+					wpseo_post_id : id,
+					new_value     : new_value,
+					existing_value: current_value
+				};
+
+				jQuery.post(ajaxurl, data, instance.handle_response);
 			}
-		}
-	};
 
-	var handle_responses = function( responses ) {
-		var resps = jQuery.parseJSON( responses );
-		jQuery.each( resps, function() {
-			handle_response( this );
-		});
-	};
+		},
 
-	var submit_new = function( id ) {
-		if ( jQuery( '.wpseo_bulk_titles' ).length == 1 ) {
-			submit_new_title( id );
-		}
-		else if ( jQuery( '.wpseo_bulk_descriptions').length == 1 ) {
-			submit_new_metadesc( id );
-		}
-	};
-
-	var submit_new_title = function( id ) {
-		var data = {
-			'action': 'wpseo_save_title',
-			'wpseo_post_id': id,
-			'new_title' : jQuery( new_title_id + id ).val(),
-			'existing_title' : jQuery( existing_title_id + id ).html()
-		};
-
-		if ( data.new_title == data.existing_title ) {
-			jQuery( new_title_id + id ).val('').focus();
-		}
-		else {
-			if ( ( data.new_title == '' ) && !confirm( "Are you sure you want to remove the existing Yoast SEO Title?" ) ) {
-				jQuery( new_title_id + id ).focus();
-				return;
-			}
-			jQuery.post( ajaxurl, data, handle_response );
-		}
-	};
-
-	var submit_new_metadesc = function( id ) {
-		var data = {
-			'action': 'wpseo_save_desc',
-			'wpseo_post_id': id,
-			'new_metadesc' : jQuery( new_metadesc_id + id ).val(),
-			'existing_metadesc' : jQuery( existing_metadesc_id + id ).html()
-		};
-
-		if ( data.new_metadesc == data.existing_metadesc ) {
-			jQuery( new_metadesc_id + id ).val('').focus();
-		}
-		else {
-			if ( data.new_metadesc == '' && !confirm( "Are you sure you want to remove the existing Yoast SEO Description?" ) ) {
-				jQuery( data.new_metadesc + id ).focus();
-				return;
-			}
-			jQuery.post( ajaxurl, data, handle_response );
-		}
-	};
-
-	jQuery.each( jQuery( new_title_class + ', ' + new_metadesc_class ), function() {
-		jQuery(this).keypress( function(event) {
-			if ( event.which == 13 ) {
-				event.preventDefault();
-				var id = jQuery(this).data('id');
-				submit_new( id );
-			}
-		});
-	});
-
-	jQuery.each( jQuery('.wpseo-save'), function() {
-		jQuery(this).click( function() {
-			var id = jQuery(this).data('id');
-			submit_new( id );
-		});
-	});
-
-	jQuery.each( jQuery('.wpseo-save-all'), function() {
-		var save_all_titles = function() {
+		submit_all: function (event) {
+			event.preventDefault();
 
 			var data = {
-				'action': 'wpseo_save_all_titles'
+				'action'     : save_all_method,
+				'_ajax_nonce': wpseo_bulk_editor_nonce
 			};
 
 			data.send = false;
-			data.titles = {};
-			data.existing_titles = {};
+			data.items = {};
+			data.existing_items = {};
 
-			jQuery.each( jQuery( new_title_class ), function() {
+			jQuery(options.new_class).each(function () {
 				var id = jQuery(this).data('id');
 				var value = jQuery(this).val();
-				var existing_title = jQuery( existing_title_id + id ).html();
+				var existing_value = jQuery(options.existing_id + id).html();
 
-				if ( value != '' ) {
-					if ( value == existing_title ) {
-						jQuery( new_title_id + id ).val('').focus();
+				if (value != '') {
+					if (value == existing_value) {
+						jQuery(options.new_id + id).val('').focus();
 					}
 					else {
 						data.send = true;
-						data.titles[ id ] = value;
-						data.existing_titles[ id ] = existing_title;
+						data.items[id] = value;
+						data.existing_items[id] = existing_value;
 					}
 				}
 			});
 
-			if ( data.send ) {
-				jQuery.post( ajaxurl, data, handle_response );
+			if (data.send) {
+				jQuery.post(ajaxurl, data, instance.handle_responses);
 			}
-		};
+		},
 
-		var save_all_metadescs = function() {
+		handle_response: function (response, status) {
+			if (status != "success") {
+				return;
+			}
 
-			var data = {
-				'action': 'wpseo_save_all_descs'
-			};
+			var resp = response;
+			if (typeof resp == "string") {
+				resp = JSON.parse(resp);
+			}
 
-			data.send = false;
-			data.metadescs = {};
-			data.existing_metadescs = {};
+			if (resp instanceof Array) {
+				jQuery.each(resp, function () {
+					instance.handle_response(this, status);
+				});
+			}
+			else {
+				if (resp.status == 'success') {
+					var new_value = resp['new_' + bulk_type];
 
-			jQuery.each( jQuery( new_metadesc_class ), function() {
-				var id = jQuery(this).data('id');
-				var value = jQuery(this).val();
-				var existing_metadesc = jQuery( existing_metadesc_id + id ).html();
-
-				if ( value != '' ) {
-					if ( value == existing_metadesc ) {
-						jQuery( new_metadesc_id + id ).val('').focus();
-					}
-					else {
-						data.send = true;
-						data.metadescs[ id ] = value;
-						data.existing_metadescs[ id ] = existing_metadesc;
-					}
+					jQuery(options.existing_id + resp.post_id).html(new_value.replace(/\\(?!\\)/g, ''));
+					jQuery(options.new_id + resp.post_id).val('').focus();
 				}
+				else {
+					alert("Failure");
+				}
+			}
+		},
+
+		handle_responses: function (responses, status) {
+			var resps = jQuery.parseJSON(responses);
+			jQuery.each(resps, function () {
+				instance.handle_response(this, status);
+			});
+		},
+
+		set_events: function () {
+			current_table.find('.wpseo-save').click(function () {
+				var id = jQuery(this).data('id');
+				instance.submit_new(id, this);
 			});
 
-			if ( data.send ) {
-				jQuery.post( ajaxurl, data, handle_response );
-			}
-		};
+			current_table.find('.wpseo-save-all').click(instance.submit_all);
 
-		if ( jQuery( '.wpseo_bulk_titles' ).length ) {
-			jQuery(this).on( 'click', save_all_titles );
+			current_table.find(options.new_class).keypress(
+				function (event) {
+					if (event.which == 13) {
+						event.preventDefault();
+						var id = jQuery(this).data('id');
+						instance.submit_new(id, this);
+					}
+
+				}
+			);
 		}
-		else if ( jQuery( '.wpseo_bulk_descriptions').length ) {
-			jQuery(this).on( 'click', save_all_metadescs );
+	}
+
+	return instance;
+
+}
+
+jQuery(document).ready(function () {
+	var parent_tables = jQuery('table[class*="wpseo_bulk"]');
+	parent_tables.each(
+		function (number, parent_table) {
+			var current_table = jQuery(parent_table);
+			var bulk_edit = bulk_editor(current_table);
+
+			bulk_edit.set_events();
+
 		}
-	});
+	);
+
 });
