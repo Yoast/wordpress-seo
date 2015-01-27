@@ -34,8 +34,6 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	 * @param $post_before
 	 */
 	public function detect_slug_change( $post_id, $post, $post_before ) {
-		set_transient( 'test_wpseo_post', $post_id );
-
 		if ( !isset( $_POST['wpseo_old_url'] ) ) {
 			// Check if request is inline action and new slug is not old slug, if so set wpseo_old_url
 			if ( ! empty( $_POST['action'] ) && $_POST['action'] === 'inline-save' && $post->post_name !== $post_before->post_name ) {
@@ -44,6 +42,9 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 				return;
 			}
 		}
+
+		//Get the old URL
+		$old_url = esc_url( $_POST['wpseo_old_url'] );
 
 		// Get the new URL
 		$new_url = $this->get_target_url( $post_id );
@@ -57,7 +58,6 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 
 			$this->create_notification( $message, 'slug_change' );
 		}
-
 	}
 
 	/**
