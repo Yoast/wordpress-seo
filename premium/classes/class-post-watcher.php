@@ -37,21 +37,12 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 		set_transient( 'test_wpseo_post', $post_id );
 
 		if ( !isset( $_POST['wpseo_old_url'] ) ) {
-			//Get all old_slugs for updated post
-			$old_slugs = get_post_meta( $post_id, '_wp_old_slug' );
-
-			//Only make sure that post types that have $old_slugs are saved
-			if (! is_null( $old_slugs ) ) {
-
-				//Get last old_slug from array
-				$old_url = end( $old_slugs );
+			// Check if request is inline action and new slug is not old slug, if so set wpseo_old_url
+			if ( ! empty( $_POST['action'] ) && $_POST['action'] === 'inline-save' && $post->post_name !== $post_before->post_name ) {
+				$_POST['wpseo_old_url'] = '/' . $post_before->post_name . '/';
 			} else {
 				return;
 			}
-		}
-		else {
-			// Get the old URL
-			$old_url = esc_url( $_POST['wpseo_old_url'] );
 		}
 
 		// Get the new URL
