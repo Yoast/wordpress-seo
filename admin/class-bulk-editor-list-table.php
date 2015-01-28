@@ -1,20 +1,23 @@
 <?php
 /**
- * @package Admin
+ * @package    WPSEO
+ * @subpackage Admin
+ * @since      1.5.0
  */
 
-/**
- *
- */
 class WPSEO_Bulk_List_Table extends WP_List_Table {
 
-	/*
+	/**
 	 * Array of post types for which the current user has `edit_others_posts` capabilities.
+	 *
+	 * @var array
 	 */
 	private $all_posts;
 
-	/*
+	/**
 	 * Array of post types for which the current user has `edit_posts` capabilities, but not `edit_others_posts`.
+	 *
+	 * @var array
 	 */
 	private $own_posts;
 
@@ -77,10 +80,14 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 
 	/**
 	 * The settings which will be used in the __construct.
-	 * @var
+	 *
+	 * @var array
 	 */
 	protected $settings;
 
+	/**
+	 * @var array
+	 */
 	protected $pagination = array();
 
 	/**
@@ -112,7 +119,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 *    Used in the constructor to build a reference list of post types the current user can edit.
+	 * Used in the constructor to build a reference list of post types the current user can edit.
 	 */
 	protected function populate_editable_post_types() {
 		$post_types = get_post_types( array( 'public' => true, 'exclude_from_search' => false ), 'object' );
@@ -128,7 +135,8 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 
 				if ( current_user_can( $post_type->cap->edit_others_posts ) ) {
 					$this->all_posts[] = esc_sql( $post_type->name );
-				} else {
+				}
+				else {
 					$this->own_posts[] = esc_sql( $post_type->name );
 				}
 			}
@@ -138,7 +146,6 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 
 	/**
 	 * Will shown the navigation for the table like pagenavigation and pagefilter;
-	 *
 	 *
 	 * @param $which
 	 */
@@ -223,9 +230,9 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 
 		$total_posts = $wpdb->get_var(
 			"
-					SELECT COUNT(ID) FROM {$subquery}
-					WHERE post_status IN ({$all_states})
-				"
+				SELECT COUNT(ID) FROM {$subquery}
+				WHERE post_status IN ({$all_states})
+			"
 		);
 
 
@@ -241,9 +248,9 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 				$total = $wpdb->get_var(
 					$wpdb->prepare(
 						"
-								SELECT COUNT(ID) FROM {$subquery}
-								WHERE post_status = %s
-							",
+							SELECT COUNT(ID) FROM {$subquery}
+							WHERE post_status = %s
+						",
 						$status_name
 					)
 				);
@@ -264,12 +271,15 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 
 		$trashed_posts = $wpdb->get_var(
 			"
-					SELECT COUNT(ID) FROM {$subquery}
-					WHERE post_status IN ('trash')
-				"
+				SELECT COUNT(ID) FROM {$subquery}
+				WHERE post_status IN ('trash')
+			"
 		);
 
-		$class                 = ( isset( $_GET['post_status'] ) && 'trash' == $_GET['post_status'] ) ? 'class="current"' : '';
+		$class = '';
+		if ( isset( $_GET['post_status'] ) && 'trash' === $_GET['post_status'] ) {
+			$class = 'class="current"';
+		}
 		$status_links['trash'] = '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_bulk-editor&post_status=trash' . $this->page_url ) ) . '"' . $class . '>' . sprintf( _nx( 'Trash <span class="count">(%s)</span>', 'Trash <span class="count">(%s)</span>', $trashed_posts, 'posts', 'wordpress-seo' ), number_format_i18n( $trashed_posts ) ) . '</a>';
 
 		return $status_links;
@@ -301,13 +311,13 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 
 				$post_types = $wpdb->get_results(
 					"
-							SELECT DISTINCT post_type FROM {$subquery}
-							WHERE post_status IN ({$all_states})
-							ORDER BY 'post_type' ASC
-						"
+						SELECT DISTINCT post_type FROM {$subquery}
+						WHERE post_status IN ({$all_states})
+						ORDER BY 'post_type' ASC
+					"
 				);
 
-				$selected = ! empty( $_GET['post_type_filter'] ) ? sanitize_text_field( $_GET['post_type_filter'] ) : - 1;
+				$selected = ( ( ! empty( $_GET['post_type_filter'] ) ) ? sanitize_text_field( $_GET['post_type_filter'] ) : -1 );
 
 				$options = '<option value="-1">Show All Post Types</option>';
 
@@ -322,10 +332,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 				submit_button( __( 'Filter', 'wordpress-seo' ), 'button', false, false, array( 'id' => 'post-query-submit' ) );
 				echo '</div>';
 			}
-		} elseif ( 'bottom' === $which ) {
-
 		}
-
 	}
 
 	/**
@@ -342,8 +349,6 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 
 	/**
 	 * Sets the correct pagenumber and pageurl for the navigation
-	 *
-	 * @param string $page_type
 	 */
 	function prepare_page_navigation() {
 
@@ -410,8 +415,6 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	/**
 	 * Getting the columns for first row
 	 *
-	 * @param array $columns
-	 *
 	 * @return array
 	 */
 	public function get_columns() {
@@ -430,16 +433,17 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 
 	/**
 	 * Counting total items
+	 *
 	 * @return mixed
 	 */
 	protected function count_items( $subquery, $all_states, $post_type_clause ) {
 		global $wpdb;
 		$total_items = $wpdb->get_var(
 			"
-					SELECT COUNT(ID)
-					FROM {$subquery}
-					WHERE post_status IN ({$all_states}) $post_type_clause
-				"
+				SELECT COUNT(ID)
+				FROM {$subquery}
+				WHERE post_status IN ({$all_states}) $post_type_clause
+			"
 		);
 
 		return $total_items;
@@ -451,7 +455,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	 * @return string
 	 */
 	protected function get_post_type_clause() {
-		//	Filter Block
+		// Filter Block
 		$post_types       = null;
 		$post_type_clause = '';
 
@@ -464,11 +468,11 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Setting the pagination
+	 * Setting the pagination.
 	 *
-	 * Total items is the number of all visible items
+	 * Total items is the number of all visible items.
 	 *
-	 * @param $total_items
+	 * @param int $total_items
 	 */
 	protected function set_pagination( $total_items ) {
 
@@ -497,10 +501,10 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Parse the query to get items from database
+	 * Parse the query to get items from database.
 	 *
 	 * Based on given parameters there will be parse a query which will get all the pages/posts and other post_types
-	 * from the database
+	 * from the database.
 	 *
 	 * @param $subquery
 	 * @param $all_states
@@ -510,7 +514,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	 */
 	protected function parse_item_query( $subquery, $all_states, $post_type_clause ) {
 
-		//	Order By block
+		// Order By block
 		$orderby = ! empty( $_GET['orderby'] ) ? esc_sql( sanitize_text_field( $_GET['orderby'] ) ) : 'post_title';
 		$order   = 'ASC';
 
@@ -531,7 +535,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Getting all the items
+	 * Getting all the items.
 	 *
 	 * @param string $query
 	 */
@@ -548,7 +552,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Getting all the states
+	 * Getting all the states.
 	 *
 	 * @return string
 	 */
@@ -572,7 +576,6 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 
 	/**
 	 * Based on $this->items and the defined columns, the table rows will be displayed.
-	 *
 	 */
 	function display_rows() {
 
@@ -584,7 +587,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 
 			foreach ( $records as $rec ) {
 
-				echo '<tr id="record_' . $rec->ID . '">';
+				echo '<tr id="record_', $rec->ID, '">';
 
 				foreach ( $columns as $column_name => $column_display_name ) {
 
@@ -607,7 +610,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Getting the attributes for each table cell
+	 * Getting the attributes for each table cell.
 	 *
 	 * @param string $column_name
 	 * @param string $hidden
@@ -629,7 +632,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Parsing the title
+	 * Parsing the title.
 	 *
 	 * @param object $rec
 	 *
@@ -644,7 +647,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 
 		$actions = array();
 
-		if ( $can_edit_post && 'trash' != $rec->post_status ) {
+		if ( $can_edit_post && 'trash' !== $rec->post_status ) {
 			$actions['edit'] = '<a href="' . esc_url( get_edit_post_link( $rec->ID, true ) ) . '" title="' . esc_attr( __( 'Edit this item', 'wordpress-seo' ) ) . '">' . __( 'Edit', 'wordpress-seo' ) . '</a>';
 		}
 
@@ -653,7 +656,8 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 				if ( $can_edit_post ) {
 					$actions['view'] = '<a href="' . esc_url( add_query_arg( 'preview', 'true', get_permalink( $rec->ID ) ) ) . '" title="' . esc_attr( sprintf( __( 'Preview &#8220;%s&#8221;', 'wordpress-seo' ), $rec->post_title ) ) . '">' . __( 'Preview', 'wordpress-seo' ) . '</a>';
 				}
-			} elseif ( 'trash' != $rec->post_status ) {
+			}
+			elseif ( 'trash' !== $rec->post_status ) {
 				$actions['view'] = '<a href="' . esc_url( get_permalink( $rec->ID ) ) . '" title="' . esc_attr( sprintf( __( 'View &#8220;%s&#8221;', 'wordpress-seo' ), $rec->post_title ) ) . '" rel="bookmark">' . __( 'View', 'wordpress-seo' ) . '</a>';
 			}
 		}
@@ -665,7 +669,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Parsing the column based on the $column_name
+	 * Parsing the column based on the $column_name.
 	 *
 	 * @param string    $column_name
 	 * @param stdobject $rec
@@ -683,7 +687,6 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 		switch ( $column_name ) {
 			case 'col_page_title':
 				$column_value = $this->parse_page_title_column( $rec );
-
 				break;
 
 			case 'col_page_slug':
@@ -717,7 +720,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Parse the field where the existing meta-data value is displayed
+	 * Parse the field where the existing meta-data value is displayed.
 	 *
 	 * @param integer    $record_id
 	 * @param string     $attributes
@@ -740,11 +743,10 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Method for setting the meta data, which belongs to the records that will be shown on the current page
+	 * Method for setting the meta data, which belongs to the records that will be shown on the current page.
 	 *
 	 * This method will loop through the current items ($this->items) for getting the post_id. With this data
 	 * ($needed_ids) the method will query the meta-data table for getting the title.
-	 *
 	 */
 	protected function get_meta_data() {
 
@@ -759,13 +761,13 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Getting all post_ids from to $this->items
+	 * Getting all post_ids from to $this->items.
 	 *
 	 * @return string
 	 */
 	protected function get_post_ids() {
 		$needed_ids = array();
-		foreach ( $this->items AS $item ) {
+		foreach ( $this->items as $item ) {
 			$needed_ids[] = $item->ID;
 		}
 
@@ -775,10 +777,9 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Getting the meta_data from database
+	 * Getting the meta_data from database.
 	 *
 	 * @param string $post_ids
-	 * @param string $target_field
 	 *
 	 * @return mixed
 	 */
@@ -797,20 +798,20 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Setting $this->meta_data
+	 * Setting $this->meta_data.
 	 *
 	 * @param array $meta_data
 	 */
 	protected function parse_meta_data( $meta_data ) {
 
-		foreach ( $meta_data AS $row ) {
+		foreach ( $meta_data as $row ) {
 			$this->meta_data[ $row->post_id ][ $row->meta_key ] = $row->meta_value;
 		}
 
 	}
 
 	/**
-	 * This method will merge general array with given parameter $columns
+	 * This method will merge general array with given parameter $columns.
 	 *
 	 * @param array $columns
 	 *

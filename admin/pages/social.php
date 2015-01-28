@@ -1,6 +1,7 @@
 <?php
 /**
- * @package Admin
+ * @package    WPSEO
+ * @subpackage Admin
  */
 
 if ( ! defined( 'WPSEO_VERSION' ) ) {
@@ -42,7 +43,8 @@ if ( isset( $_GET['delfbadmin'] ) ) {
 			'delfbadmin',
 		), sanitize_text_field( $_SERVER['REQUEST_URI'] ) );
 	}
-} elseif ( isset( $_GET['fbclearall'] ) ) {
+}
+elseif ( isset( $_GET['fbclearall'] ) ) {
 	if ( wp_verify_nonce( $_GET['nonce'], 'fbclearall' ) != 1 ) {
 		die( "I don't think that's really nice of you!." );
 	}
@@ -60,7 +62,8 @@ if ( isset( $_GET['delfbadmin'] ) ) {
 			'fbclearall',
 		), sanitize_text_field( $_SERVER['REQUEST_URI'] ) );
 	}
-} elseif ( isset( $_GET['key'] ) ) {
+}
+elseif ( isset( $_GET['key'] ) ) {
 	if ( $_GET['key'] === $options['fbconnectkey'] ) {
 		if ( isset( $_GET['userid'] ) ) {
 			$user_id = sanitize_text_field( $_GET['userid'] );
@@ -69,11 +72,13 @@ if ( isset( $_GET['delfbadmin'] ) ) {
 				$options['fb_admins'][ $user_id ]['link'] = sanitize_text_field( urldecode( $_GET['link'] ) );
 				update_option( 'wpseo_social', $options );
 				add_settings_error( 'yoast_wpseo_social_options', 'success', sprintf( __( 'Successfully added %s as a Facebook Admin!', 'wordpress-seo' ), '<a href="' . esc_url( $options['fb_admins'][ $user_id ]['link'] ) . '">' . esc_html( $options['fb_admins'][ $user_id ]['name'] ) . '</a>' ), 'updated' );
-			} else {
+			}
+			else {
 				add_settings_error( 'yoast_wpseo_social_options', 'error', sprintf( __( '%s already exists as a Facebook Admin.', 'wordpress-seo' ), '<a href="' . esc_url( $options['fb_admins'][ $user_id ]['link'] ) . '">' . esc_html( $options['fb_admins'][ $user_id ]['name'] ) . '</a>' ), 'error' );
 			}
 			unset( $user_id );
-		} elseif ( isset( $_GET['apps'] ) ) {
+		}
+		elseif ( isset( $_GET['apps'] ) ) {
 			$apps = json_decode( stripslashes( $_GET['apps'] ), true );
 			if ( is_array( $apps ) && $apps !== array() ) {
 				$options['fbapps'] = array( '0' => __( 'Do not use a Facebook App as Admin', 'wordpress-seo' ) );
@@ -82,7 +87,8 @@ if ( isset( $_GET['delfbadmin'] ) ) {
 				}
 				update_option( 'wpseo_social', $options );
 				add_settings_error( 'yoast_wpseo_social_options', 'success', __( 'Successfully retrieved your apps from Facebook, now select an app to use as admin.', 'wordpress-seo' ), 'updated' );
-			} else {
+			}
+			else {
 				add_settings_error( 'yoast_wpseo_social_options', 'error', __( 'Failed to retrieve your apps from Facebook.', 'wordpress-seo' ), 'error' );
 			}
 			unset( $apps, $app );
@@ -123,6 +129,7 @@ if ( is_array( $options['fbapps'] ) && $options['fbapps'] !== array() ) {
 		$fbconnect .= '
 		<option value="' . esc_attr( $id ) . '" ' . selected( $id, $options['fbadminapp'], false ) . '>' . esc_attr( $app ) . '</option>';
 	}
+	unset( $id, $app );
 	$fbconnect .= '
 	</select>
 	<div class="clear"></div><br/>';
@@ -147,6 +154,7 @@ if ( $options['fbadminapp'] == 0 ) {
 					'nonce'      => $nonce,
 				), admin_url( 'admin.php?page=wpseo_social' ) ) ) . '">X</a></strong></li>';
 		}
+		unset( $admin_id, $admin, $nonce );
 		$fbconnect .= '
 	</ul>';
 		$button_text = __( 'Add Another Facebook Admin', 'wordpress-seo' );
@@ -191,25 +199,25 @@ $wpseo_admin_pages->admin_header( true, WPSEO_Options::get_group_name( 'wpseo_so
 		echo '<p>';
 		echo $wpseo_admin_pages->checkbox( 'opengraph', __( 'Add Open Graph meta data', 'wordpress-seo' ) );
 		echo '</p>';
-		echo '<p class="desc">' . __( 'Add Open Graph meta data to your site\'s <code>&lt;head&gt;</code> section. You can specify some of the ID\'s that are sometimes needed below:', 'wordpress-seo' ) . '</p>';
+		echo '<p class="desc">', __( 'Add Open Graph meta data to your site\'s <code>&lt;head&gt;</code> section. You can specify some of the ID\'s that are sometimes needed below:', 'wordpress-seo' ), '</p>';
 		echo $fbconnect;
 		echo $wpseo_admin_pages->textinput( 'facebook_site', __( 'Facebook Page URL', 'wordpress-seo' ) );
 		if ( 'posts' == get_option( 'show_on_front' ) ) {
-			echo '<h4>' . esc_html__( 'Frontpage settings', 'wordpress-seo' ) . '</h4>';
+			echo '<h4>', esc_html__( 'Frontpage settings', 'wordpress-seo' ), '</h4>';
 			echo $wpseo_admin_pages->media_input( 'og_frontpage_image', __( 'Image URL', 'wordpress-seo' ) );
 			echo $wpseo_admin_pages->textinput( 'og_frontpage_title', __( 'Title', 'wordpress-seo' ) );
 			echo $wpseo_admin_pages->textinput( 'og_frontpage_desc', __( 'Description', 'wordpress-seo' ) );
 
 			// Offer copying of meta description
 			$meta_options = get_option( 'wpseo_titles' );
-			echo '<input type="hidden" id="meta_description" value="' . $meta_options['metadesc-home-wpseo'] . '" />';
-			echo '<p class="label desc" style="border:0;"><a href="javascript:;" onclick="copy_home_meta();" class="button">' . __( 'Copy home meta description', 'wordpress-seo' ) . '</a></p>';
+			echo '<input type="hidden" id="meta_description" value="', esc_attr( $meta_options['metadesc-home-wpseo'] ), '" />';
+			echo '<p class="label desc" style="border:0;"><a href="javascript:;" onclick="copy_home_meta();" class="button">', esc_html__( 'Copy home meta description', 'wordpress-seo' ), '</a></p>';
 
-			echo '<p class="desc label">' . esc_html__( 'These are the title, description and image used in the Open Graph meta tags on the front page of your site.', 'wordpress-seo' ) . '</p>';
+			echo '<p class="desc label">', esc_html__( 'These are the title, description and image used in the Open Graph meta tags on the front page of your site.', 'wordpress-seo' ), '</p>';
 		}
-		echo '<h4>' . esc_html__( 'Default settings', 'wordpress-seo' ) . '</h4>';
+		echo '<h4>', esc_html__( 'Default settings', 'wordpress-seo' ), '</h4>';
 		echo $wpseo_admin_pages->media_input( 'og_default_image', __( 'Image URL', 'wordpress-seo' ) );
-		echo '<p class="desc label">' . esc_html__( 'This image is used if the post/page being shared does not contain any images.', 'wordpress-seo' ) . '</p>';
+		echo '<p class="desc label">', esc_html__( 'This image is used if the post/page being shared does not contain any images.', 'wordpress-seo' ), '</p>';
 		do_action( 'wpseo_admin_opengraph_section' );
 		?>
 	</div>
@@ -222,7 +230,7 @@ $wpseo_admin_pages->admin_header( true, WPSEO_Options::get_group_name( 'wpseo_so
 		echo '<p>';
 		echo $wpseo_admin_pages->checkbox( 'twitter', __( 'Add Twitter card meta data', 'wordpress-seo' ) );
 		echo '</p>';
-		echo '<p class="desc">' . __( 'Add Twitter card meta data to your site\'s <code>&lt;head&gt;</code> section.', 'wordpress-seo' ) . '</p>';
+		echo '<p class="desc">', __( 'Add Twitter card meta data to your site\'s <code>&lt;head&gt;</code> section.', 'wordpress-seo' ), '</p>';
 		echo $wpseo_admin_pages->textinput( 'twitter_site', __( 'Site Twitter Username', 'wordpress-seo' ) );
 		echo $wpseo_admin_pages->select( 'twitter_card_type', __( 'The default card type to use', 'wordpress-seo' ), WPSEO_Option_Social::$twitter_card_types );
 		do_action( 'wpseo_admin_twitter_section' );
@@ -236,7 +244,7 @@ $wpseo_admin_pages->admin_header( true, WPSEO_Options::get_group_name( 'wpseo_so
 		echo '</p>';
 
 		echo $wpseo_admin_pages->textinput( 'plus-publisher', __( 'Google Publisher Page', 'wordpress-seo' ) );
-		echo '<p class="desc label">' . esc_html__( 'If you have a Google+ page for your business, add that URL here and link it on your Google+ page\'s about page.', 'wordpress-seo' ) . '</p>';
+		echo '<p class="desc label">', esc_html__( 'If you have a Google+ page for your business, add that URL here and link it on your Google+ page\'s about page.', 'wordpress-seo' ), '</p>';
 		do_action( 'wpseo_admin_googleplus_section' );
 		?>
 	</div>

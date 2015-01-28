@@ -1,6 +1,7 @@
 <?php
 /**
- * @package Frontend
+ * @package    WPSEO
+ * @subpackage Frontend
  */
 
 /**
@@ -37,6 +38,7 @@ class WPSEO_Rewrite {
 	 * If the flush option is set, flush the rewrite rules.
 	 *
 	 * @since 1.2.8
+	 *
 	 * @return bool
 	 */
 	function flush() {
@@ -78,7 +80,7 @@ class WPSEO_Rewrite {
 	/**
 	 * Update the query vars with the redirect var when stripcategorybase is active
 	 *
-	 * @param $query_vars
+	 * @param array $query_vars
 	 *
 	 * @return array
 	 */
@@ -134,7 +136,8 @@ class WPSEO_Rewrite {
 				if ( $category->parent == $category->cat_ID ) {
 					// recursive recursion
 					$category->parent = 0;
-				} elseif ( $taxonomy->rewrite['hierarchical'] != 0 && $category->parent != 0 ) {
+				}
+				elseif ( $taxonomy->rewrite['hierarchical'] != 0 && $category->parent != 0 ) {
 					$parents = get_category_parents( $category->parent, false, '/', true );
 					if ( ! is_wp_error( $parents ) ) {
 						$category_nicename = $parents . $category_nicename;
@@ -146,6 +149,7 @@ class WPSEO_Rewrite {
 				$category_rewrite[ $blog_prefix . '(' . $category_nicename . ')/' . $wp_rewrite->pagination_base . '/?([0-9]{1,})/?$' ] = 'index.php?category_name=$matches[1]&paged=$matches[2]';
 				$category_rewrite[ $blog_prefix . '(' . $category_nicename . ')/?$' ]                                                   = 'index.php?category_name=$matches[1]';
 			}
+			unset( $categories, $category, $category_nicename );
 		}
 
 		// Redirect support from Old Category Base

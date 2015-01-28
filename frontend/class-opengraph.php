@@ -1,12 +1,11 @@
 <?php
 /**
- * @package Frontend
- *
- * This code handles the OpenGraph output.
+ * @package    WPSEO
+ * @subpackage Frontend
  */
 
 /**
- * Adds the OpenGraph output
+ * This code adds the OpenGraph output.
  */
 class WPSEO_OpenGraph {
 
@@ -26,10 +25,10 @@ class WPSEO_OpenGraph {
 	public function __construct() {
 		$this->options = WPSEO_Options::get_all();
 
-		global $fb_ver;
-		if ( isset( $fb_ver ) || class_exists( 'Facebook_Loader' ) ) {
+		if ( isset( $GLOBALS['fb_ver'] ) || class_exists( 'Facebook_Loader' ) ) {
 			add_filter( 'fb_meta_tags', array( $this, 'facebook_filter' ), 10, 1 );
-		} else {
+		}
+		else {
 			add_filter( 'language_attributes', array( $this, 'add_opengraph_namespace' ) );
 
 			add_action( 'wpseo_opengraph', array( $this, 'locale' ), 1 );
@@ -84,7 +83,7 @@ class WPSEO_OpenGraph {
 			return false;
 		}
 
-		echo '<meta property="' . esc_attr( $property ) . '" content="' . esc_attr( $content ) . '" />' . "\n";
+		echo '<meta property="', esc_attr( $property ), '" content="', esc_attr( $content ), '" />', "\n";
 
 		return true;
 	}
@@ -137,13 +136,12 @@ class WPSEO_OpenGraph {
 			return false;
 		}
 
-		global $post;
 		/**
 		 * Filter: 'wpseo_opengraph_author_facebook' - Allow developers to filter the WP SEO post authors facebook profile URL
 		 *
 		 * @api bool|string $unsigned The Facebook author URL, return false to disable
 		 */
-		$facebook = apply_filters( 'wpseo_opengraph_author_facebook', get_the_author_meta( 'facebook', $post->post_author ) );
+		$facebook = apply_filters( 'wpseo_opengraph_author_facebook', get_the_author_meta( 'facebook', $GLOBALS['post']->post_author ) );
 
 		if ( $facebook && ( is_string( $facebook ) && $facebook !== '' ) ) {
 			$this->og_tag( 'article:author', $facebook );
@@ -159,6 +157,7 @@ class WPSEO_OpenGraph {
 	 *
 	 * @link https://developers.facebook.com/blog/post/2013/06/19/platform-updates--new-open-graph-tags-for-media-publishers-and-more/
 	 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
+	 *
 	 * @return boolean
 	 */
 	public function website_facebook() {
@@ -176,6 +175,7 @@ class WPSEO_OpenGraph {
 	 * Outputs the site owner
 	 *
 	 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
+	 *
 	 * @return boolean
 	 */
 	public function site_owner() {
@@ -183,7 +183,8 @@ class WPSEO_OpenGraph {
 			$this->og_tag( 'fb:app_id', $this->options['fbadminapp'] );
 
 			return true;
-		} elseif ( is_array( $this->options['fb_admins'] ) && $this->options['fb_admins'] !== array() ) {
+		}
+		elseif ( is_array( $this->options['fb_admins'] ) && $this->options['fb_admins'] !== array() ) {
 			$adminstr = implode( ',', array_keys( $this->options['fb_admins'] ) );
 			/**
 			 * Filter: 'wpseo_opengraph_admin' - Allow developer to filter the fb:admins string put out by WP SEO
@@ -204,25 +205,27 @@ class WPSEO_OpenGraph {
 	/**
 	 * Outputs the SEO title as OpenGraph title.
 	 *
+	 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
+	 *
 	 * @param bool $echo Whether or not to echo the output.
 	 *
-	 * @return string $title
-	 *
-	 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
-	 * @return boolean
+	 * @return string|boolean
 	 */
 	public function og_title( $echo = true ) {
 		if ( is_singular() ) {
 			$title = WPSEO_Meta::get_value( 'opengraph-title' );
 			if ( $title === '' ) {
 				$title = WPSEO_Frontend::get_instance()->title( '' );
-			} else {
+			}
+			else {
 				// Replace WP SEO Variables
 				$title = wpseo_replace_vars( $title, get_post() );
 			}
-		} else if ( is_front_page() ) {
+		}
+		else if ( is_front_page() ) {
 			$title = ( $this->options['og_frontpage_title'] !== '' ) ? $this->options['og_frontpage_title'] : WPSEO_Frontend::get_instance()->title( '' );
-		} else {
+		}
+		else {
 			$title = WPSEO_Frontend::get_instance()->title( '' );
 		}
 
@@ -252,6 +255,7 @@ class WPSEO_OpenGraph {
 	 * Outputs the canonical URL as OpenGraph URL, which consolidates likes and shares.
 	 *
 	 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
+	 *
 	 * @return boolean
 	 */
 	public function url() {
@@ -344,9 +348,9 @@ class WPSEO_OpenGraph {
 	/**
 	 * Output the OpenGraph type.
 	 *
-	 * @param boolean $echo Whether to echo or return the type
-	 *
 	 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/object/
+	 *
+	 * @param boolean $echo Whether to echo or return the type
 	 *
 	 * @return string $type
 	 */
@@ -354,7 +358,8 @@ class WPSEO_OpenGraph {
 
 		if ( is_front_page() || is_home() ) {
 			$type = 'website';
-		} elseif ( is_singular() ) {
+		}
+		elseif ( is_singular() ) {
 
 			// This'll usually only be changed by plugins right now.
 			$type = WPSEO_Meta::get_value( 'og_type' );
@@ -362,7 +367,8 @@ class WPSEO_OpenGraph {
 			if ( $type === '' ) {
 				$type = 'article';
 			}
-		} else {
+		}
+		else {
 			// We use "object" for archives etc. as article doesn't apply there
 			$type = 'object';
 		}
@@ -377,7 +383,8 @@ class WPSEO_OpenGraph {
 		if ( is_string( $type ) && $type !== '' ) {
 			if ( $echo !== false ) {
 				$this->og_tag( 'og:type', $type );
-			} else {
+			}
+			else {
 				return $type;
 			}
 		}
@@ -428,8 +435,6 @@ class WPSEO_OpenGraph {
 
 	/**
 	 * Output the OpenGraph image elements for all the images within the current post/page.
-	 *
-	 * @return bool
 	 */
 	public function image() {
 
@@ -475,8 +480,10 @@ class WPSEO_OpenGraph {
 					if ( preg_match( '`src=(["\'])(.*?)\1`', $img, $match ) ) {
 						$this->image_output( $match[2] );
 					}
+					unset( $match );
 				}
 			}
+			unset( $img, $matches );
 		}
 
 		if ( count( $this->shown_images ) == 0 && $this->options['og_default_image'] !== '' ) {
@@ -524,8 +531,7 @@ class WPSEO_OpenGraph {
 			}
 
 			if ( '' == $ogdesc ) {
-				global $wp_query;
-				$term   = $wp_query->get_queried_object();
+				$term   = $GLOBALS['wp_query']->get_queried_object();
 				$ogdesc = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'desc' );
 			}
 		}
@@ -568,6 +574,7 @@ class WPSEO_OpenGraph {
 	 * Output the article tags as article:tag tags.
 	 *
 	 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
+	 *
 	 * @return boolean
 	 */
 	public function tags() {

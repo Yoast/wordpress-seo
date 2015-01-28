@@ -1,6 +1,7 @@
 <?php
 /**
- * @package Internals
+ * @package    WPSEO
+ * @subpackage Internals
  */
 
 if ( ! defined( 'WPSEO_VERSION' ) ) {
@@ -26,9 +27,8 @@ function wpseo_title_test() {
 	WPSEO_Utils::clear_cache();
 
 
-	global $wp_version;
 	$args = array(
-		'user-agent' => "WordPress/${wp_version}; " . get_site_url() . ' - Yoast',
+		'user-agent' => sprintf( 'WordPress/%1$s; %2$s - Yoast', $GLOBALS['wp_version'], get_site_url() ),
 	);
 	$resp = wp_remote_get( get_bloginfo( 'url' ), $args );
 
@@ -50,7 +50,8 @@ function wpseo_title_test() {
 		if ( ! $res || $matches[1] != $expected_title ) {
 			$options['forcerewritetitle'] = false;
 		}
-	} else {
+	}
+	else {
 		// If that dies, let's make sure the titles are correct and force the output.
 		$options['forcerewritetitle'] = true;
 	}
@@ -59,7 +60,7 @@ function wpseo_title_test() {
 	update_option( 'wpseo_titles', $options );
 }
 
-//add_filter( 'switch_theme', 'wpseo_title_test', 0 );
+// add_filter( 'switch_theme', 'wpseo_title_test', 0 );
 
 
 /**
@@ -83,7 +84,8 @@ function wpseo_description_test() {
 	if ( file_exists( get_stylesheet_directory() . '/header.php' ) ) {
 		// theme or child theme
 		$file = get_stylesheet_directory() . '/header.php';
-	} elseif ( file_exists( get_template_directory() . '/header.php' ) ) {
+	}
+	elseif ( file_exists( get_template_directory() . '/header.php' ) ) {
 		// parent theme in case of a child theme
 		$file = get_template_directory() . '/header.php';
 	}
@@ -91,9 +93,10 @@ function wpseo_description_test() {
 	if ( is_string( $file ) && $file !== '' ) {
 		$header_file = file_get_contents( $file );
 		$issue       = preg_match_all( '#<\s*meta\s*(name|content)\s*=\s*("|\')(.*)("|\')\s*(name|content)\s*=\s*("|\')(.*)("|\')(\s+)?/?>#i', $header_file, $matches, PREG_SET_ORDER );
-		if ( $issue === false ) {
+		if ( $issue === false || $issue === 0 ) {
 			$options['theme_has_description'] = false;
-		} else {
+		}
+		else {
 			foreach ( $matches as $meta ) {
 				if ( ( strtolower( $meta[1] ) == 'name' && strtolower( $meta[3] ) == 'description' ) || ( strtolower( $meta[5] ) == 'name' && strtolower( $meta[7] ) == 'description' ) ) {
 					$options['theme_description_found']         = $meta[0];
@@ -103,7 +106,8 @@ function wpseo_description_test() {
 			}
 			if ( $options['theme_description_found'] !== '' ) {
 				$options['theme_has_description'] = true;
-			} else {
+			}
+			else {
 				$options['theme_has_description'] = false;
 			}
 		}
@@ -116,10 +120,12 @@ add_filter( 'after_switch_theme', 'wpseo_description_test', 0 );
 if ( version_compare( $GLOBALS['wp_version'], '3.6.99', '>' ) ) {
 	// Use the new and *sigh* adjusted action hook WP 3.7+
 	add_action( 'upgrader_process_complete', 'wpseo_upgrader_process_complete', 10, 2 );
-} elseif ( version_compare( $GLOBALS['wp_version'], '3.5.99', '>' ) ) {
+}
+elseif ( version_compare( $GLOBALS['wp_version'], '3.5.99', '>' ) ) {
 	// Use the new action hook WP 3.6+
 	add_action( 'upgrader_process_complete', 'wpseo_upgrader_process_complete', 10, 3 );
-} else {
+}
+else {
 	// Abuse filters to do our action
 	add_filter( 'update_theme_complete_actions', 'wpseo_update_theme_complete_actions', 10, 2 );
 	add_filter( 'update_bulk_theme_complete_actions', 'wpseo_update_theme_complete_actions', 10, 2 );
@@ -156,7 +162,8 @@ function wpseo_upgrader_process_complete( $upgrader_object, $context_array, $the
 		$themes = array();
 		if ( isset( $context_array['themes'] ) && $context_array['themes'] !== array() ) {
 			$themes = $context_array['themes'];
-		} elseif ( isset( $context_array['theme'] ) && $context_array['theme'] !== '' ) {
+		}
+		elseif ( isset( $context_array['theme'] ) && $context_array['theme'] !== '' ) {
 			$themes = $context_array['theme'];
 		}
 	}
@@ -164,11 +171,12 @@ function wpseo_upgrader_process_complete( $upgrader_object, $context_array, $the
 	if ( ( isset( $context_array['bulk'] ) && $context_array['bulk'] === true ) && ( is_array( $themes ) && count( $themes ) > 0 ) ) {
 
 		if ( in_array( $theme, $themes ) ) {
-			//wpseo_title_test();
+			// wpseo_title_test();
 			wpseo_description_test();
 		}
-	} elseif ( is_string( $themes ) && $themes === $theme ) {
-		//wpseo_title_test();
+	}
+	elseif ( is_string( $themes ) && $themes === $theme ) {
+		// wpseo_title_test();
 		wpseo_description_test();
 	}
 
@@ -198,11 +206,12 @@ function wpseo_update_theme_complete_actions( $update_actions, $updated_theme ) 
 	if ( is_object( $updated_theme ) ) {
 		/* Bulk update and $updated_theme only contains info on which theme was last in the list
 		   of updated themes, so go & test */
-		//wpseo_title_test();
+		// wpseo_title_test();
 		wpseo_description_test();
-	} elseif ( $updated_theme === $theme ) {
+	}
+	elseif ( $updated_theme === $theme ) {
 		/* Single theme update for the active theme */
-		//wpseo_title_test();
+		// wpseo_title_test();
 		wpseo_description_test();
 	}
 
@@ -376,10 +385,12 @@ function wpseo_admin_bar_menu() {
 		$options = get_site_option( 'wpseo_ms' );
 		if ( $options['access'] === 'superadmin' && is_super_admin() ) {
 			$admin_menu = true;
-		} elseif ( current_user_can( 'manage_options' ) ) {
+		}
+		elseif ( current_user_can( 'manage_options' ) ) {
 			$admin_menu = true;
 		}
-	} elseif ( current_user_can( 'manage_options' ) ) {
+	}
+	elseif ( current_user_can( 'manage_options' ) ) {
 		$admin_menu = true;
 	}
 
@@ -491,7 +502,7 @@ function allow_custom_field_edits( $allcaps, $cap, $args ) {
 	if ( in_array( $args[0], array( 'edit_post_meta', 'add_post_meta' ) ) ) {
 		// Only allow editing rights for users who have the rights to edit this post and make sure
 		// the meta value starts with _yoast_wpseo (WPSEO_Meta::$meta_prefix).
-		if ( ( isset( $args[2] ) && current_user_can( 'edit_post', $args[2] ) ) && ( ( isset( $args[3] ) && $args[3] !== '' ) && strpos( $args[3], WPSEO_Meta::$meta_prefix ) === 0 ) ) {
+		if ( ( isset( $args[2], $args[3] ) && current_user_can( 'edit_post', $args[2] ) ) && ( $args[3] !== '' && strpos( $args[3], WPSEO_Meta::$meta_prefix ) === 0 ) ) {
 			$allcaps[ $args[0] ] = true;
 		}
 	}
@@ -579,7 +590,8 @@ add_action( 'admin_init', 'wpseo_disable_aioseo' );
  * @since 1.4.8
  */
 function wpseo_import_aioseo_setting_notice() {
-	echo '<div class="error"><p>' . sprintf( esc_html__( 'The plugin All-In-One-SEO has been detected. Do you want to %simport its settings%s.', 'wordpress-seo' ), '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_import&import=1&importaioseo=1&_wpnonce=' . wp_create_nonce( 'wpseo-import' ) ) ) . '">', '</a>' ) . '</p></div>';
+	$url = add_query_arg( array( '_wpnonce' => wp_create_nonce( 'wpseo-import' ) ), admin_url( 'admin.php?page=wpseo_import&import=1&importaioseo=1' ) );
+	echo '<div class="error"><p>', sprintf( esc_html__( 'The plugin All-In-One-SEO has been detected. Do you want to %simport its settings%s?', 'wordpress-seo' ), sprintf( '<a href="%s">', esc_url( $url ) ), '</a>' ), '</p></div>';
 }
 
 /**
@@ -588,7 +600,7 @@ function wpseo_import_aioseo_setting_notice() {
  * @since 1.4.8
  */
 function wpseo_deactivate_aioseo_notice() {
-	echo '<div class="updated"><p>' . esc_html__( 'All-In-One-SEO has been deactivated', 'wordpress-seo' ) . '</p></div>';
+	echo '<div class="updated"><p>', esc_html__( 'All-In-One-SEO has been deactivated', 'wordpress-seo' ), '</p></div>';
 }
 
 /**
@@ -597,7 +609,8 @@ function wpseo_deactivate_aioseo_notice() {
  * @since 1.4.8
  */
 function wpseo_import_robots_meta_notice() {
-	echo '<div class="error"><p>' . sprintf( esc_html__( 'The plugin Robots-Meta has been detected. Do you want to %simport its settings%s.', 'wordpress-seo' ), '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_import&import=1&importrobotsmeta=1&_wpnonce=' . wp_create_nonce( 'wpseo-import' ) ) ) . '">', '</a>' ) . '</p></div>';
+	$url = add_query_arg( array( '_wpnonce' => wp_create_nonce( 'wpseo-import' ) ), admin_url( 'admin.php?page=wpseo_import&import=1&importrobotsmeta=1' ) );
+	echo '<div class="error"><p>', sprintf( esc_html__( 'The plugin Robots-Meta has been detected. Do you want to %simport its settings%s.', 'wordpress-seo' ), sprintf( '<a href="%s">', esc_url( $url ) ), '</a>' ), '</p></div>';
 }
 
 /**
@@ -606,7 +619,7 @@ function wpseo_import_robots_meta_notice() {
  * @since 1.4.8
  */
 function wpseo_deactivate_robots_meta_notice() {
-	echo '<div class="updated"><p>' . esc_html__( 'Robots-Meta has been deactivated', 'wordpress-seo' ) . '</p></div>';
+	echo '<div class="updated"><p>', esc_html__( 'Robots-Meta has been deactivated', 'wordpress-seo' ), '</p></div>';
 }
 
 /********************** DEPRECATED FUNCTIONS **********************/

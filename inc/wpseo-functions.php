@@ -1,6 +1,7 @@
 <?php
 /**
- * @package Internals
+ * @package    WPSEO
+ * @subpackage Internals
  */
 
 if ( ! defined( 'WPSEO_VERSION' ) ) {
@@ -111,6 +112,19 @@ if ( ! function_exists( 'yoast_breadcrumb' ) ) {
 }
 
 /**
+ * WordPress SEO breadcrumb shortcode
+ * [wpseo_breadcrumb]
+ *
+ * @return string
+ */
+function wpseo_shortcode_yoast_breadcrumb() {
+	return yoast_breadcrumb( '', '', false );
+}
+
+add_shortcode( 'wpseo_breadcrumb', 'wpseo_shortcode_yoast_breadcrumb' );
+
+
+/**
  * Add the bulk edit capability to the proper default roles.
  */
 function wpseo_add_capabilities() {
@@ -203,15 +217,15 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
  *
  * @since 1.5.4
  *
- * @param  string $var                   The name of the variable to replace, i.e. '%%var%%'
- *                                       - the surrounding %% are optional, name can only contain [A-Za-z0-9_-]
- * @param  mixed  $replace_function      Function or method to call to retrieve the replacement value for the variable
- *                                       Uses the same format as add_filter/add_action function parameter and
- *                                       should *return* the replacement value. DON'T echo it!
- * @param  string $type                  Type of variable: 'basic' or 'advanced', defaults to 'advanced'
- * @param  string $help_text             Help text to be added to the help tab for this variable
+ * @param  string $var              The name of the variable to replace, i.e. '%%var%%'
+ *                                  - the surrounding %% are optional, name can only contain [A-Za-z0-9_-]
+ * @param  mixed  $replace_function Function or method to call to retrieve the replacement value for the variable
+ *                                  Uses the same format as add_filter/add_action function parameter and
+ *                                  should *return* the replacement value. DON'T echo it!
+ * @param  string $type             Type of variable: 'basic' or 'advanced', defaults to 'advanced'
+ * @param  string $help_text        Help text to be added to the help tab for this variable
  *
- * @return bool     Whether the replacement function was succesfully registered
+ * @return bool  Whether the replacement function was succesfully registered
  */
 function wpseo_register_var_replacement( $var, $replace_function, $type = 'advanced', $help_text = '' ) {
 	return WPSEO_Replace_Vars::register_replacement( $var, $replace_function, $type, $help_text );
@@ -221,13 +235,11 @@ function wpseo_register_var_replacement( $var, $replace_function, $type = 'advan
  * Redirect /sitemap.xml to /sitemap_index.xml
  */
 function wpseo_xml_redirect_sitemap() {
-	global $wp_query;
-
 	$current_url = ( isset( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] == 'on' ) ? 'https://' : 'http://';
 	$current_url .= sanitize_text_field( $_SERVER['SERVER_NAME'] ) . sanitize_text_field( $_SERVER['REQUEST_URI'] );
 
 	// must be 'sitemap.xml' and must be 404
-	if ( home_url( '/sitemap.xml' ) == $current_url && $wp_query->is_404 ) {
+	if ( home_url( '/sitemap.xml' ) == $current_url && $GLOBALS['wp_query']->is_404 ) {
 		wp_redirect( home_url( '/sitemap_index.xml' ), 301 );
 		exit;
 	}
@@ -321,7 +333,8 @@ function wpseo_store_tracking_response() {
 
 	if ( $_POST['allow_tracking'] == 'yes' ) {
 		$options['yoast_tracking'] = true;
-	} else {
+	}
+	else {
 		$options['yoast_tracking'] = false;
 	}
 
@@ -380,19 +393,6 @@ function wpseo_wpml_config( $config ) {
 add_filter( 'icl_wpml_config_array', 'wpseo_wpml_config' );
 
 /**
- * WordPress SEO breadcrumb shortcode
- * [wpseo_breadcrumb]
- *
- * @return string
- */
-function wpseo_shortcode_yoast_breadcrumb() {
-	return yoast_breadcrumb( '', '', false );
-}
-
-add_shortcode( 'wpseo_breadcrumb', 'wpseo_shortcode_yoast_breadcrumb' );
-
-
-/**
  * This invalidates our XML Sitemaps cache.
  *
  * @param $type
@@ -439,12 +439,12 @@ function wpseo_invalidate_sitemap_cache_on_save_post( $post_id ) {
 add_action( 'save_post', 'wpseo_invalidate_sitemap_cache_on_save_post' );
 
 /**
- * Emulate PHP native ctype_digit() function for when the ctype extension would be disabled *sigh*
- * Only emulates the behaviour for when the input is a string, does not handle integer input as ascii value
+ * Emulate PHP native ctype_digit() function for when the ctype extension would be disabled... *sigh*
+ * Only emulates the behaviour for when the input is a string, does not handle integer input as ascii value.
  *
- * @param    string $string
+ * @param  string $string
  *
- * @return    bool
+ * @return bool
  */
 if ( ! extension_loaded( 'ctype' ) || ! function_exists( 'ctype_digit' ) ) {
 	function ctype_digit( $string ) {
@@ -564,7 +564,7 @@ function replace_meta( $old_metakey, $new_metakey, $replace = false ) {
  */
 function wpseo_get_term_meta( $term, $taxonomy, $meta ) {
 	_deprecated_function( __FUNCTION__, 'WPSEO 1.5.0', 'WPSEO_Taxonomy_Meta::get_term_meta()' );
-	WPSEO_Taxonomy_Meta::get_term_meta( $term, $taxonomy, $meta );
+	return WPSEO_Taxonomy_Meta::get_term_meta( $term, $taxonomy, $meta );
 }
 
 /**
@@ -644,14 +644,15 @@ function wpseo_strip_shortcode( $text ) {
  *
  * @since 1.5.0
  *
- * @param	mixed   $number1    Scalar (string/int/float/bool)
- * @param	string	$action		Calculation action to execute.
- * @param	mixed	$number2    Scalar (string/int/float/bool)
- * @param	bool	$round		Whether or not to round the result. Defaults to false.
- * @param	int		$decimals	Decimals for rounding operation. Defaults to 0.
- * @param	int		$precision	Calculation precision. Defaults to 10.
- * @return	mixed				Calculation Result or false if either or the numbers isn't scalar or
- *								an invalid operation was passed
+ * @param  mixed  $number1   Scalar (string/int/float/bool)
+ * @param  string $action    Calculation action to execute.
+ * @param  mixed  $number2   Scalar (string/int/float/bool)
+ * @param  bool   $round     Whether or not to round the result. Defaults to false.
+ * @param  int    $decimals  Decimals for rounding operation. Defaults to 0.
+ * @param  int    $precision Calculation precision. Defaults to 10.
+ *
+ * @return mixed             Calculation Result or false if either or the numbers isn't scalar or
+ *                           an invalid operation was passed
  */
 function wpseo_calc( $number1, $action, $number2, $round = false, $decimals = 0, $precision = 10 ) {
 	_deprecated_function( __FUNCTION__, 'WPSEO 1.6.1', 'WPSEO_Utils::calc()' );

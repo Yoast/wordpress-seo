@@ -1,0 +1,136 @@
+<?xml version="1.0"?>
+<ruleset name="WordPress SEO">
+	<description>WordPress SEO rules for PHP_CodeSniffer</description>
+
+	<exclude-pattern>admin/license-manager/*</exclude-pattern>
+	<exclude-pattern>admin/includes/i18n-module/*</exclude-pattern>
+	<exclude-pattern>bin/CustomSniffs/*</exclude-pattern>
+
+	<!-- ##### WordPress sniffs #####-->
+	<rule ref="WordPress-VIP">
+		<exclude name="Generic.Files.LineEndings.InvalidEOLChar" />
+		<exclude name="Squiz.WhiteSpace.SuperfluousWhitespace.EmptyLines" />
+
+		<!-- WP VIP rules which are very restrictive and not all that applicable as WPSEO is not on VIP -->
+		<exclude name="WordPress.VIP.DirectDatabaseQuery" />
+		<exclude name="WordPress.VIP.FileSystemWritesDisallow"/>
+		<exclude name="WordPress.VIP.RestrictedFunctions.user_meta" />
+		<exclude name="WordPress.VIP.RestrictedVariables.user_meta"/>
+		<exclude name="WordPress.VIP.RestrictedFunctions.switch_to_blog"/>
+		<exclude name="WordPress.VIP.RestrictedFunctions.wp_remote_get"/>
+		<exclude name="WordPress.VIP.RestrictedFunctions.file_get_contents"/>
+		<exclude name="WordPress.VIP.RestrictedFunctions.curl"/>
+		<exclude name="WordPress.VIP.RestrictedVariables.cache_constraints"/>
+
+		<!-- We should probably want to turn the below rules on, but these give issues with the current code base. -->
+		<exclude name="WordPress.XSS.EscapeOutput" /><!-- This sniff also has known & reported bugs -->
+
+		<!-- Demanding Yoda conditions is stupid. -->
+		<exclude name="WordPress.PHP.YodaConditions"/>
+
+		<!-- Turned off because of known & reported bugs in the Sniffs, should be turned on once the bugs are fixed. -->
+		<exclude name="WordPress.VIP.ValidatedSanitizedInput"/>
+	</rule>
+
+	<rule ref="WordPress.NamingConventions.ValidFunctionName">
+		<exclude-pattern>tests/*</exclude-pattern>
+	</rule>
+
+	<!-- Rules from WP-Extra which are not in WP-VIP -->
+	<rule ref="WordPress.PHP.DiscouragedFunctions"/>
+	<rule ref="WordPress.WP.EnqueuedResources">
+		<exclude-pattern>css/xml-sitemap.xsl.php</exclude-pattern>
+	</rule>
+
+	<!-- Turned off because of known & reported bugs in the Sniffs, should be turned on once the bugs are fixed. -->
+	<!--<rule ref="WordPress.Variables.GlobalVariables"/>--><!-- WPCS #300 -->
+
+
+	<!-- ##### Sniffs for PHP cross-version compatibility ##### -->
+	<rule ref="PHPCompatibility"/>
+
+
+	<!-- ##### Sniffs for else on new line ##### -->
+	<rule ref="WordPress.ControlStructures.WpseoIfElseDeclaration" /><!-- This is a custom sniff we copy in -->
+
+
+	<!-- ##### Some miscellanous other sniffs ##### -->
+	<!-- Added for lowercase keywords check -->
+	<rule ref="Squiz.ControlStructures.ForEachLoopDeclaration">
+		<properties>
+			<property name="requiredSpacesAfterOpen" value="1"/>
+			<property name="requiredSpacesBeforeClose" value="1"/>
+		</properties>
+	</rule>
+
+	<!-- Application memory use! -->
+	<rule ref="Generic.Strings.UnnecessaryStringConcat" />
+
+	<!-- Error prevention: Make sure the condition in a inline if declaration is bracketed -->
+	<rule ref="Squiz.ControlStructures.InlineIfDeclaration" />
+
+	<!-- Error prevention: Make sure arithmetics are bracketed -->
+	<rule ref="Squiz.Formatting.OperatorBracket.MissingBrackets" />
+	
+	<!-- Should be turned on, but gives issue with current codebase -->
+	<!--<rule ref="Generic.CodeAnalysis.EmptyStatement" />-->
+
+
+	<!-- ##### Documentation Sniffs ##### -->
+	<rule ref="Squiz.Commenting">
+		<!-- exclude everything what would become too annoying too quickly -->
+		<exclude name="Squiz.Commenting.BlockComment.LastLineIndent" />
+		<exclude name="Squiz.Commenting.BlockComment.LineIndent" />
+		<exclude name="Squiz.Commenting.BlockComment.NoNewLine" />
+		<exclude name="Squiz.Commenting.BlockComment.SingleLine" />
+		<exclude name="Squiz.Commenting.BlockComment.WrongStart" />
+
+		<exclude name="Squiz.Commenting.ClosingDeclarationComment.Missing" />
+
+		<exclude name="Squiz.Commenting.ClassComment.TagNotAllowed" />
+		<exclude name="Squiz.Commenting.ClassComment.SpacingAfter" />
+		<exclude name="Squiz.Commenting.ClassComment.SpacingBefore" />
+
+		<exclude name="Squiz.Commenting.FileComment.@authorTagOrder" />
+		<exclude name="Squiz.Commenting.FileComment.@copyrightTagOrder" />
+		<exclude name="Squiz.Commenting.FileComment.Missing@authorTag" />
+		<exclude name="Squiz.Commenting.FileComment.Missing@copyrightTag" />
+
+		<exclude name="Squiz.Commenting.FunctionComment.IncorrectParamVarName" />
+		<exclude name="Squiz.Commenting.FunctionComment.InvalidReturn" />
+		<exclude name="Squiz.Commenting.FunctionComment.MissingParamComment" />
+		<exclude name="Squiz.Commenting.FunctionComment.MissingReturn" />
+		<exclude name="Squiz.Commenting.FunctionComment.ParamCommentFullStop" />
+		<exclude name="Squiz.Commenting.FunctionComment.ParamCommentNotCapital" />
+		<exclude name="Squiz.Commenting.FunctionComment.ShortFullStop" />
+		<exclude name="Squiz.Commenting.FunctionComment.TypeHintMissing" />
+
+		<exclude name="Squiz.Commenting.InlineComment.DocBlock" />
+		<exclude name="Squiz.Commenting.InlineComment.InvalidEndChar" />
+		<exclude name="Squiz.Commenting.InlineComment.NotCapital" />
+		<exclude name="Squiz.Commenting.InlineComment.SpacingAfter" />
+
+		<exclude name="Squiz.Commenting.LongConditionClosingComment" />
+
+		<exclude name="Squiz.Commenting.PostStatementComment" />
+
+		<exclude name="Squiz.Commenting.VariableComment.TagNotAllowed" />
+	</rule>
+
+	<!-- exclude the 'empty' index files from some documentation checks -->
+	<rule ref="Squiz.Commenting.FileComment">
+		<exclude-pattern>*/index.php</exclude-pattern>
+	</rule>
+	<rule ref="Squiz.Commenting.InlineComment.NoSpaceBefore">
+		<exclude-pattern>*/index.php</exclude-pattern>
+	</rule>
+
+	<!-- exclude selected test files from some documentation checks -->
+	<rule ref="Squiz.Commenting.ClassComment.Missing">
+		<exclude-pattern>tests/*.php</exclude-pattern>
+	</rule>
+	<rule ref="Squiz.Commenting.FunctionComment.Missing">
+		<exclude-pattern>tests/framework/class-expose-*.php</exclude-pattern>
+	</rule>
+
+</ruleset>

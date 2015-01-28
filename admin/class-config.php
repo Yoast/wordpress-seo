@@ -1,10 +1,11 @@
 <?php
 /**
- * @package Admin
+ * @package    WPSEO
+ * @subpackage Admin
  */
 
 /**
- * class WPSEO_Admin_Pages
+ * Class WPSEO_Admin_Pages
  *
  * Class with functionality for the WP SEO admin pages.
  */
@@ -107,20 +108,28 @@ class WPSEO_Admin_Pages {
 
 				$service_banner = $service_banners[0];
 
-				echo '<a target="_blank" href="' . esc_url( $service_banner['url'] ) . '"><img width="261" height="190" src="' . plugins_url( 'images/' . $service_banner['img'], WPSEO_FILE ) . '" alt="' . esc_attr( $service_banner['alt'] ) . '"/></a><br/><br/>';
+				printf( '<a target="_blank" href="%1$s"><img width="261" height="190" src="%2$s" alt="%3$s"/></a><br/><br/>',
+					esc_url( $service_banner['url'] ),
+					plugins_url( 'images/' . $service_banner['img'], WPSEO_FILE ),
+					esc_attr( $service_banner['alt'] )
+				);
 
 				$i = 0;
 				foreach ( $plugin_banners as $banner ) {
 					if ( $i == 2 ) {
 						break;
 					}
-					echo '<a target="_blank" href="' . esc_url( $banner['url'] ) . '"><img width="261" src="' . plugins_url( 'images/' . $banner['img'], WPSEO_FILE ) . '" alt="' . esc_attr( $banner['alt'] ) . '"/></a><br/><br/>';
+					printf( '<a target="_blank" href="%1$s"><img width="261" src="%2$s" alt="%3$s"/></a><br/><br/>',
+						esc_url( $banner['url'] ),
+						plugins_url( 'images/' . $banner['img'], WPSEO_FILE ),
+						esc_attr( $banner['alt'] )
+					);
 					$i ++;
 				}
 				?>
 				<?php
-				echo __( 'Remove these ads?', 'wordpress-seo' ) . '<br/>';
-				echo '<a target="_blank" href="https://yoast.com/wordpress/plugins/seo-premium/#utm_source=wordpress-seo-config&utm_medium=textlink&utm_campaign=remove-ads-link">' . __( 'Upgrade to WordPress SEO Premium &raquo;', 'wordpress-seo' ) . '</a><br/><br/>';
+				echo __( 'Remove these ads?', 'wordpress-seo' ), '<br/>';
+				echo '<a target="_blank" href="https://yoast.com/wordpress/plugins/seo-premium/#utm_source=wordpress-seo-config&utm_medium=textlink&utm_campaign=remove-ads-link">', __( 'Upgrade to WordPress SEO Premium &raquo;', 'wordpress-seo' ), '</a><br/><br/>';
 				?>
 			</div>
 		</div>
@@ -153,7 +162,11 @@ class WPSEO_Admin_Pages {
 		<div class="meta-box-sortables">
 		<?php
 		if ( $form === true ) {
-			echo '<form action="' . esc_url( admin_url( 'options.php' ) ) . '" method="post" id="wpseo-conf"' . ( $contains_files ? ' enctype="multipart/form-data"' : '' ) . ' accept-charset="' . esc_attr( get_bloginfo( 'charset' ) ) . '">';
+			printf( '<form action="%1$s" method="post" id="wpseo-conf"%2$s accept-charset="%3$s">',
+				esc_url( admin_url( 'options.php' ) ),
+				( ( $contains_files === true ) ? ' enctype="multipart/form-data"' : '' ),
+				esc_attr( get_bloginfo( 'charset' ) )
+			);
 			settings_fields( $option );
 		}
 		$this->currentoption = $optionshort;
@@ -203,13 +216,13 @@ class WPSEO_Admin_Pages {
 			<div id="poststuff">
 			<div id="wpseo-debug-info" class="postbox">
 
-				<h3 class="hndle"><span>' . __( 'Debug Information', 'wordpress-seo' ) . '</span></h3>
+				<h3 class="hndle"><span>', __( 'Debug Information', 'wordpress-seo' ), '</span></h3>
 				<div class="inside">
-					<h4>' . esc_html( __( 'Current option:', 'wordpress-seo' ) ) . ' <span class="wpseo-debug">' . esc_html( $this->currentoption ) . '</span></h4>
-					' . ( $xdebug ? '' : '<pre>' );
+					<h4>', esc_html( __( 'Current option:', 'wordpress-seo' ) ), ' <span class="wpseo-debug">', esc_html( $this->currentoption ), '</span></h4>
+					', ( ( $xdebug === true ) ? '' : '<pre>' );
 			var_dump( $this->get_option( $this->currentoption ) );
 			echo '
-					' . ( $xdebug ? '' : '</pre>' ) . '
+					', ( ( $xdebug === true ) ? '' : '</pre>' ), '
 				</div>
 			</div>
 			</div>';
@@ -218,18 +231,6 @@ class WPSEO_Admin_Pages {
 		echo '
 			</div><!-- end of wrap -->';
 	}
-
-	/**
-	 * Deletes all post meta values with a given meta key from the database
-	 *
-	 * @todo [JRF => whomever] This method does not seem to be used anywhere. Double-check before removal.
-	 *
-	 * @param string $meta_key Key to delete all meta values for.
-	 */
-	/*function delete_meta( $meta_key ) {
-		global $wpdb;
-		$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->postmeta WHERE meta_key = %s", $meta_key ) );
-	}*/
 
 	/**
 	 * Exports the current site's WP SEO settings.
@@ -255,15 +256,21 @@ class WPSEO_Admin_Pages {
 					for ( $i = 0; $i < $elm_count; $i ++ ) {
 						$content .= $key . '[] = "' . $elem[ $i ] . "\"\n";
 					}
-				} elseif ( is_string( $elem ) && $elem == '' ) {
+					unset( $elm_count, $i );
+				}
+				elseif ( is_string( $elem ) && $elem == '' ) {
 					$content .= $key . " = \n";
-				} elseif ( is_bool( $elem ) ) {
+				}
+				elseif ( is_bool( $elem ) ) {
 					$content .= $key . ' = "' . ( ( $elem === true ) ? 'on' : 'off' ) . "\"\n";
-				} else {
+				}
+				else {
 					$content .= $key . ' = "' . $elem . "\"\n";
 				}
 			}
+			unset( $key, $elem );
 		}
+		unset( $optgroup, $options );
 
 		if ( $include_taxonomy ) {
 			$content .= "\r\n\r\n[wpseo_taxonomy_meta]\r\n";
@@ -356,7 +363,8 @@ class WPSEO_Admin_Pages {
 	function get_option( $option ) {
 		if ( is_network_admin() ) {
 			return get_site_option( $option );
-		} else {
+		}
+		else {
 			return get_option( $option );
 		}
 	}
@@ -392,7 +400,8 @@ class WPSEO_Admin_Pages {
 			}
 			$output_label = '<label class="checkbox" for="' . esc_attr( $var ) . '">' . $label_left . '</label>';
 			$class        = 'checkbox';
-		} else {
+		}
+		else {
 			$output_label = '<label for="' . esc_attr( $var ) . '">' . $label . '</label>';
 			$class        = 'checkbox double';
 		}
@@ -401,7 +410,8 @@ class WPSEO_Admin_Pages {
 
 		if ( $label_left !== false ) {
 			$output = $output_label . $output_input . '<label class="checkbox" for="' . esc_attr( $var ) . '">' . $label . '</label>';
-		} else {
+		}
+		else {
 			$output = $output_input . $output_label;
 		}
 
@@ -425,7 +435,7 @@ class WPSEO_Admin_Pages {
 		$options = $this->get_option( $option );
 		$val     = ( isset( $options[ $var ] ) ) ? $options[ $var ] : '';
 
-		return '<label class="textinput" for="' . esc_attr( $var ) . '">' . $label . ':</label><input class="textinput" type="text" id="' . esc_attr( $var ) . '" name="' . esc_attr( $option ) . '[' . esc_attr( $var ) . ']" value="' . esc_attr( $val ) . '"/>' . '<br class="clear" />';
+		return '<label class="textinput" for="' . esc_attr( $var ) . '">' . $label . ':</label><input class="textinput" type="text" id="' . esc_attr( $var ) . '" name="' . esc_attr( $option ) . '[' . esc_attr( $var ) . ']" value="' . esc_attr( $val ) . '"/><br class="clear" />';
 	}
 
 	/**
@@ -446,7 +456,7 @@ class WPSEO_Admin_Pages {
 		$options = $this->get_option( $option );
 		$val     = ( isset( $options[ $var ] ) ) ? $options[ $var ] : '';
 
-		return '<label class="textinput" for="' . esc_attr( $var ) . '">' . esc_html( $label ) . ':</label><textarea class="textinput ' . esc_attr( $class ) . '" id="' . esc_attr( $var ) . '" name="' . esc_attr( $option ) . '[' . esc_attr( $var ) . ']">' . esc_textarea( $val ) . '</textarea>' . '<br class="clear" />';
+		return '<label class="textinput" for="' . esc_attr( $var ) . '">' . esc_html( $label ) . ':</label><textarea class="textinput ' . esc_attr( $class ) . '" id="' . esc_attr( $var ) . '" name="' . esc_attr( $option ) . '[' . esc_attr( $var ) . ']">' . esc_textarea( $val ) . '</textarea><br class="clear" />';
 	}
 
 	/**
@@ -648,7 +658,8 @@ class WPSEO_Admin_Pages {
 			$content .= '<tr><th scope="row">';
 			if ( isset( $row['id'] ) && $row['id'] != '' ) {
 				$content .= '<label for="' . esc_attr( $row['id'] ) . '">' . esc_html( $row['label'] ) . ':</label>';
-			} else {
+			}
+			else {
 				$content .= esc_html( $row['label'] );
 			}
 			if ( isset( $row['desc'] ) && $row['desc'] != '' ) {

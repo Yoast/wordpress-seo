@@ -1,8 +1,20 @@
 <?php
+/**
+ * @package    WPSEO
+ * @subpackage Admin
+ * @since      1.5.3
+ */
 
 class Yoast_Notification {
 
+	/**
+	 * @var string The notification message
+	 */
 	private $message;
+
+	/**
+	 * @var string The notification type, i.e. 'updated' or 'error'
+	 */
 	private $type;
 
 	/**
@@ -60,7 +72,7 @@ class Yoast_Notification {
 	 * Output the message
 	 */
 	public function output() {
-		echo '<div class="yoast-notice ' . $this->get_type() . '">' . wpautop( $this->get_message() ) . '</div>' . PHP_EOL;
+		echo '<div class="yoast-notice ', esc_attr( $this->get_type() ), '">', wpautop( $this->get_message() ), '</div>', PHP_EOL;
 	}
 
 }
