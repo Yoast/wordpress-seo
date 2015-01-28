@@ -27,7 +27,7 @@ class WPSEO_OpenGraph {
 		$this->options = WPSEO_Options::get_all();
 
 		global $fb_ver;
-		if ( isset( $fb_ver ) || class_exists( 'Facebook_Loader' ) ) {
+		if ( isset( $fb_ver ) || class_exists( 'Facebook_Loader', false ) ) {
 			add_filter( 'fb_meta_tags', array( $this, 'facebook_filter' ), 10, 1 );
 		} else {
 			add_filter( 'language_attributes', array( $this, 'add_opengraph_namespace' ) );
