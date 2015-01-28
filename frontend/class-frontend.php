@@ -1164,6 +1164,9 @@ class WPSEO_Frontend {
 					if ( ( ! is_string( $keywords ) || $keywords === '' ) && ( isset( $this->options[ 'metakey-tax-' . $term->taxonomy ] ) && $this->options[ 'metakey-tax-' . $term->taxonomy ] !== '' ) ) {
 						$keywords = wpseo_replace_vars( $this->options[ 'metakey-tax-' . $term->taxonomy ], $term );
 					}
+					else {
+						$keywords = wpseo_replace_vars( $keywords, $term );
+					}
 				}
 			} elseif ( is_author() ) {
 				$author_id = get_query_var( 'author' );
