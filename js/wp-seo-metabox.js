@@ -374,6 +374,8 @@ function yst_checkFeaturedImage( featuredImage ) {
 
 	if ( attachment.width < 200 || attachment.height < 200 ) {
 		//Show warning to user and do not add image to OG
+		jQuery( '.wrap' ).prepend( '<div class="error"><p>' + wpseoMetaboxL10n.featured_image_notice + '</p></div>' );
+
 	}
 }
 
