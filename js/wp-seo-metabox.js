@@ -369,6 +369,14 @@ function yst_escapeFocusKw(str) {
 	return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
 }
 
+function yst_checkFeaturedImage( featuredImage ) {
+	var attachment = featuredImage.state().get('selection').first().toJSON();
+
+	if ( attachment.width < 200 || attachment.height < 200 ) {
+		//Show warning to user and do not add image to OG
+	}
+}
+
 var delay = (function () {
 	var timer = 0;
 	return function (callback, ms) {
@@ -489,6 +497,10 @@ jQuery(document).ready(function () {
 	});
 
 
+	var featuredImage = wp.media.featuredImage.frame();
+	featuredImage.on('select', function(){
+		yst_checkFeaturedImage( featuredImage );
+	});
 
 	jQuery(".yoast_help").qtip(
 		{
