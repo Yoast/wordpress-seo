@@ -1147,6 +1147,8 @@ class WPSEO_Frontend {
 			$keywords = WPSEO_Meta::get_value( 'metakeywords' );
 			if ( $keywords === '' && ( is_object( $post ) && ( ( isset( $this->options[ 'metakey-' . $post->post_type ] ) && $this->options[ 'metakey-' . $post->post_type ] !== '' ) ) ) ) {
 				$keywords = wpseo_replace_vars( $this->options[ 'metakey-' . $post->post_type ], $post );
+			} else {
+				$keywords = wpseo_replace_vars( $keywords, $post );
 			}
 		} else {
 			if ( $this->is_home_posts_page() && $this->options['metakey-home-wpseo'] !== '' ) {
