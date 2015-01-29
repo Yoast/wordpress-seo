@@ -404,3 +404,10 @@ div#separator input.radio:checked + label {
 .feature-section .dashicons {
 	font-size: 600%;
 }
+
+.nav-tab .dashicons {
+	line-height: 24px;
+	font-size: 18px;
+	width: 18px;
+	height: 18px;
+}

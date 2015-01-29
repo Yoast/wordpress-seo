@@ -162,7 +162,7 @@ class WPSEO_Admin {
 			foreach ( $submenu_pages as $submenu_page ) {
 
 				// Add submenu page
-				$admin_page = add_submenu_page( $submenu_page[0], $submenu_page[2] . ' - ' . __( 'WP SEO by Yoast', 'wordpress-seo' ), $submenu_page[2], $submenu_page[3], $submenu_page[4], $submenu_page[5] );
+				$admin_page = add_submenu_page( $submenu_page[0], $submenu_page[2] . ' - ' . __( 'WordPress SEO by Yoast', 'wordpress-seo' ), $submenu_page[2], $submenu_page[3], $submenu_page[4], $submenu_page[5] );
 
 				// Check if we need to hook
 				if ( isset( $submenu_page[6] ) && null != $submenu_page[6] && is_array( $submenu_page[6] ) && count( $submenu_page[6] ) > 0 ) {
