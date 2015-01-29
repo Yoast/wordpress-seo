@@ -2845,191 +2845,194 @@ class WPSEO_Option_Social extends WPSEO_Option {
 /*******************************************************************
  * Option: wpseo_ms
  *******************************************************************/
-if ( is_multisite() ) {
+/**
+ * Site option for Multisite installs only
+ *
+ * Overloads a number of methods of the abstract class to ensure the use of the correct site_option
+ * WP functions.
+ */
+class WPSEO_Option_MS extends WPSEO_Option {
 
 	/**
-	 * Site option for Multisite installs only
-	 *
-	 * This class will not even be available/loaded if not on multisite, so none of the actions will
-	 * register if not on multisite.
-	 *
-	 * Overloads a number of methods of the abstract class to ensure the use of the correct site_option
-	 * WP functions.
+	 * @var  string  option name
 	 */
-	class WPSEO_Option_MS extends WPSEO_Option {
+	public $option_name = 'wpseo_ms';
 
-		/**
-		 * @var  string  option name
-		 */
-		public $option_name = 'wpseo_ms';
+	/**
+	 * @var  string  option group name for use in settings forms
+	 */
+	public $group_name = 'yoast_wpseo_multisite_options';
 
-		/**
-		 * @var  string  option group name for use in settings forms
-		 */
-		public $group_name = 'yoast_wpseo_multisite_options';
+	/**
+	 * @var  bool  whether to include the option in the return for WPSEO_Options::get_all()
+	 */
+	public $include_in_all = false;
 
-		/**
-		 * @var  bool  whether to include the option in the return for WPSEO_Options::get_all()
-		 */
-		public $include_in_all = false;
+	/**
+	 * @var  bool  whether this option is only for when the install is multisite
+	 */
+	public $multisite_only = true;
 
-		/**
-		 * @var  bool  whether this option is only for when the install is multisite
-		 */
-		public $multisite_only = true;
+	/**
+	 * @var  array  Array of defaults for the option
+	 *        Shouldn't be requested directly, use $this->get_defaults();
+	 */
+	protected $defaults = array(
+		'access'      => 'admin',
+		'defaultblog' => '', //numeric blog id or empty
+	);
 
-		/**
-		 * @var  array  Array of defaults for the option
-		 *        Shouldn't be requested directly, use $this->get_defaults();
-		 */
-		protected $defaults = array(
-			'access'      => 'admin',
-			'defaultblog' => '', //numeric blog id or empty
-		);
-
-		/**
-		 * @static
-		 * @var  array $allowed_access_options Available options for the 'access' setting
-		 *                    Used for input validation
-		 *
-		 * @internal Important: Make sure the options added to the array here are in line with the keys
-		 * for the options set for the select box in the admin/pages/network.php file
-		 */
-		public static $allowed_access_options = array(
-			'admin',
-			'superadmin',
-		);
+	/**
+	 * @static
+	 * @var  array $allowed_access_options Available options for the 'access' setting
+	 *                    Used for input validation
+	 *
+	 * @internal Important: Make sure the options added to the array here are in line with the keys
+	 * for the options set for the select box in the admin/pages/network.php file
+	 */
+	public static $allowed_access_options = array(
+		'admin',
+		'superadmin',
+	);
 
 
-		/**
-		 * Get the singleton instance of this class
-		 *
-		 * @return object
-		 */
-		public static function get_instance() {
-			if ( ! ( self::$instance instanceof self ) ) {
-				self::$instance = new self();
-			}
-
-			return self::$instance;
+	/**
+	 * Get the singleton instance of this class
+	 *
+	 * @return object
+	 */
+	public static function get_instance() {
+		if ( ! ( self::$instance instanceof self ) ) {
+			self::$instance = new self();
 		}
 
+		return self::$instance;
+	}
 
-		/**
-		 * Add filters to make sure that the option default is returned if the option is not set
-		 *
-		 * @return  void
-		 */
-		public function add_default_filters() {
-			// Don't change, needs to check for false as could return prio 0 which would evaluate to false
-			if ( has_filter( 'default_site_option_' . $this->option_name, array( $this, 'get_defaults' ) ) === false ) {
-				add_filter( 'default_site_option_' . $this->option_name, array( $this, 'get_defaults' ) );
-			}
+	/**
+	 * Only run parent constructor in multisite context.
+	 */
+	public function __construct() {
+		if ( is_multisite() ) {
+			parent::__construct();
 		}
+	}
 
-
-		/**
-		 * Remove the default filters.
-		 * Called from the validate() method to prevent failure to add new options
-		 *
-		 * @return  void
-		 */
-		public function remove_default_filters() {
-			remove_filter( 'default_site_option_' . $this->option_name, array( $this, 'get_defaults' ) );
+	/**
+	 * Add filters to make sure that the option default is returned if the option is not set
+	 *
+	 * @return  void
+	 */
+	public function add_default_filters() {
+		// Don't change, needs to check for false as could return prio 0 which would evaluate to false
+		if ( has_filter( 'default_site_option_' . $this->option_name, array( $this, 'get_defaults' ) ) === false ) {
+			add_filter( 'default_site_option_' . $this->option_name, array( $this, 'get_defaults' ) );
 		}
+	}
 
 
-		/**
-		 * Add filters to make sure that the option is merged with its defaults before being returned
-		 *
-		 * @return  void
-		 */
-		public function add_option_filters() {
-			// Don't change, needs to check for false as could return prio 0 which would evaluate to false
-			if ( has_filter( 'site_option_' . $this->option_name, array( $this, 'get_option' ) ) === false ) {
-				add_filter( 'site_option_' . $this->option_name, array( $this, 'get_option' ) );
-			}
+	/**
+	 * Remove the default filters.
+	 * Called from the validate() method to prevent failure to add new options
+	 *
+	 * @return  void
+	 */
+	public function remove_default_filters() {
+		remove_filter( 'default_site_option_' . $this->option_name, array( $this, 'get_defaults' ) );
+	}
+
+
+	/**
+	 * Add filters to make sure that the option is merged with its defaults before being returned
+	 *
+	 * @return  void
+	 */
+	public function add_option_filters() {
+		// Don't change, needs to check for false as could return prio 0 which would evaluate to false
+		if ( has_filter( 'site_option_' . $this->option_name, array( $this, 'get_option' ) ) === false ) {
+			add_filter( 'site_option_' . $this->option_name, array( $this, 'get_option' ) );
 		}
+	}
 
 
-		/**
-		 * Remove the option filters.
-		 * Called from the clean_up methods to make sure we retrieve the original old option
-		 *
-		 * @return  void
-		 */
-		public function remove_option_filters() {
-			remove_filter( 'site_option_' . $this->option_name, array( $this, 'get_option' ) );
-		}
+	/**
+	 * Remove the option filters.
+	 * Called from the clean_up methods to make sure we retrieve the original old option
+	 *
+	 * @return  void
+	 */
+	public function remove_option_filters() {
+		remove_filter( 'site_option_' . $this->option_name, array( $this, 'get_option' ) );
+	}
 
 
-		/* *********** METHODS influencing add_uption(), update_option() and saving from admin pages *********** */
+	/* *********** METHODS influencing add_uption(), update_option() and saving from admin pages *********** */
 
 
-		/**
-		 * Validate the option
-		 *
-		 * @param  array $dirty New value for the option
-		 * @param  array $clean Clean value for the option, normally the defaults
-		 * @param  array $old   Old value of the option
-		 *
-		 * @return  array      Validated clean value for the option to be saved to the database
-		 */
-		protected function validate_option( $dirty, $clean, $old ) {
+	/**
+	 * Validate the option
+	 *
+	 * @param  array $dirty New value for the option
+	 * @param  array $clean Clean value for the option, normally the defaults
+	 * @param  array $old   Old value of the option
+	 *
+	 * @return  array      Validated clean value for the option to be saved to the database
+	 */
+	protected function validate_option( $dirty, $clean, $old ) {
 
-			foreach ( $clean as $key => $value ) {
-				switch ( $key ) {
-					case 'access':
-						if ( isset( $dirty[ $key ] ) && in_array( $dirty[ $key ], self::$allowed_access_options, true ) ) {
-							$clean[ $key ] = $dirty[ $key ];
-						} elseif ( function_exists( 'add_settings_error' ) ) {
-							add_settings_error(
-								$this->group_name, // slug title of the setting
-								'_' . $key, // suffix-id for the error message box
-								sprintf( __( '%s is not a valid choice for who should be allowed access to the WP SEO settings. Value reset to the default.', 'wordpress-seo' ), esc_html( sanitize_text_field( $dirty[ $key ] ) ) ), // the error message
-								'error' // error type, either 'error' or 'updated'
-							);
-						}
-						break;
+		foreach ( $clean as $key => $value ) {
+			switch ( $key ) {
+				case 'access':
+					if ( isset( $dirty[ $key ] ) && in_array( $dirty[ $key ], self::$allowed_access_options, true ) ) {
+						$clean[ $key ] = $dirty[ $key ];
+					} elseif ( function_exists( 'add_settings_error' ) ) {
+						add_settings_error(
+							$this->group_name, // slug title of the setting
+							'_' . $key, // suffix-id for the error message box
+							sprintf( __( '%s is not a valid choice for who should be allowed access to the WP SEO settings. Value reset to the default.', 'wordpress-seo' ), esc_html( sanitize_text_field( $dirty[ $key ] ) ) ), // the error message
+							'error' // error type, either 'error' or 'updated'
+						);
+					}
+					break;
 
 
-					case 'defaultblog':
-						if ( isset( $dirty[ $key ] ) && ( $dirty[ $key ] !== '' && $dirty[ $key ] !== '-' ) ) {
-							$int = WPSEO_Utils::validate_int( $dirty[ $key ] );
-							if ( $int !== false && $int > 0 ) {
-								// Check if a valid blog number has been received
-								$exists = get_blog_details( $int, false );
-								if ( $exists && $exists->deleted == 0 ) {
-									$clean[ $key ] = $int;
-								} elseif ( function_exists( 'add_settings_error' ) ) {
-									add_settings_error(
-										$this->group_name, // slug title of the setting
-										'_' . $key, // suffix-id for the error message box
-										esc_html__( 'The default blog setting must be the numeric blog id of the blog you want to use as default.', 'wordpress-seo' ) . '<br>' . sprintf( esc_html__( 'This must be an existing blog. Blog %s does not exist or has been marked as deleted.', 'wordpress-seo' ), '<strong>' . esc_html( sanitize_text_field( $dirty[ $key ] ) ) . '</strong>' ), // the error message
-										'error' // error type, either 'error' or 'updated'
-									);
-								}
-								unset( $exists );
+				case 'defaultblog':
+					if ( isset( $dirty[ $key ] ) && ( $dirty[ $key ] !== '' && $dirty[ $key ] !== '-' ) ) {
+						$int = WPSEO_Utils::validate_int( $dirty[ $key ] );
+						if ( $int !== false && $int > 0 ) {
+							// Check if a valid blog number has been received
+							$exists = get_blog_details( $int, false );
+							if ( $exists && $exists->deleted == 0 ) {
+								$clean[ $key ] = $int;
 							} elseif ( function_exists( 'add_settings_error' ) ) {
 								add_settings_error(
 									$this->group_name, // slug title of the setting
 									'_' . $key, // suffix-id for the error message box
-									esc_html__( 'The default blog setting must be the numeric blog id of the blog you want to use as default.', 'wordpress-seo' ) . '<br>' . esc_html__( 'No numeric value was received.', 'wordpress-seo' ), // the error message
+									esc_html__( 'The default blog setting must be the numeric blog id of the blog you want to use as default.', 'wordpress-seo' ) . '<br>' . sprintf( esc_html__( 'This must be an existing blog. Blog %s does not exist or has been marked as deleted.', 'wordpress-seo' ), '<strong>' . esc_html( sanitize_text_field( $dirty[ $key ] ) ) . '</strong>' ), // the error message
 									'error' // error type, either 'error' or 'updated'
 								);
 							}
-							unset( $int );
+							unset( $exists );
+						} elseif ( function_exists( 'add_settings_error' ) ) {
+							add_settings_error(
+								$this->group_name, // slug title of the setting
+								'_' . $key, // suffix-id for the error message box
+								esc_html__( 'The default blog setting must be the numeric blog id of the blog you want to use as default.', 'wordpress-seo' ) . '<br>' . esc_html__( 'No numeric value was received.', 'wordpress-seo' ), // the error message
+								'error' // error type, either 'error' or 'updated'
+							);
 						}
-						break;
+						unset( $int );
+					}
+					break;
 
-					default:
+				default:
 						$clean[ $key ] = ( isset( $dirty[ $key ] ) ? WPSEO_Utils::validate_bool( $dirty[ $key ] ) : false );
-						break;
-				}
+					break;
 			}
-
-			return $clean;
 		}
+
+		return $clean;
+	}
 
 
 		/**
@@ -3048,12 +3051,7 @@ if ( is_multisite() ) {
 
 			return $option_value;
 		}*/
-
-
-	} /* End of class WPSEO_Option_MS */
-
-} /* End of is_multisite wrapper */
-
+} /* End of class WPSEO_Option_MS */
 
 /*******************************************************************
  * Option: wpseo_taxonomy_meta
@@ -3518,9 +3516,13 @@ class WPSEO_Options {
 	 * Instantiate all the WPSEO option management classes
 	 */
 	protected function __construct() {
+		$is_multisite = is_multisite();
+
 		foreach ( self::$options as $option_name => $option_class ) {
-			if ( class_exists( $option_class ) ) {
-				self::$option_instances[ $option_name ] = call_user_func( array( $option_class, 'get_instance' ) );
+			$instance = call_user_func( array( $option_class, 'get_instance' ) );
+
+			if ( ! $instance->multisite_only || $is_multisite ) {
+				self::$option_instances[ $option_name ] = $instance;
 			} else {
 				unset( self::$options[ $option_name ] );
 			}
