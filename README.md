@@ -16,10 +16,14 @@ Installation
 ------------
 
 Here's a [guide on how to install WordPress SEO in your WordPress site](https://yoast.com/wordpress/seo/installation/).
-If you want to run the Git version though, you have two options:
 
-* You can clone the GitHub repository: https://github.com/yoast/wordpress-seo.git
-* Downloading it directly unfortunately won't work as the .zip file doesn't contain the submodules.
+If you want to run the Git version for development though, you can set it up with [Composer](https://getcomposer.org/):
+
+```bash
+composer create-project yoast/wordpress-seo:dev-trunk --prefer-source --keep-vcs
+```
+
+Read more about [using Composer with WordPress SEO](https://github.com/Yoast/wordpress-seo/wiki/Using-Composer).
 
 This will download the latest development version of WordPress SEO by Yoast. While this version is usually stable,
 it is not recommended for use in a production environment.
