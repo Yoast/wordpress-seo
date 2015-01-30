@@ -1116,7 +1116,7 @@ class WPSEO_Frontend {
 		$keywords = '';
 
 		if ( is_singular() ) {
-			$keywords = WPSEO_Meta::get_value( 'metakeywords' );
+			$keywords = wpseo_replace_vars( WPSEO_Meta::get_value( 'metakeywords' ), $post );
 			if ( $keywords === '' && ( is_object( $post ) && ( ( isset( $this->options[ 'metakey-' . $post->post_type ] ) && $this->options[ 'metakey-' . $post->post_type ] !== '' ) ) ) ) {
 				$keywords = wpseo_replace_vars( $this->options[ 'metakey-' . $post->post_type ], $post );
 			}
@@ -1132,7 +1132,7 @@ class WPSEO_Frontend {
 				$term = $wp_query->get_queried_object();
 
 				if ( is_object( $term ) ) {
-					$keywords = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'metakey' );
+					$keywords = wpseo_replace_vars( WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'metakey' ), $term );
 					if ( ( ! is_string( $keywords ) || $keywords === '' ) && ( isset( $this->options[ 'metakey-tax-' . $term->taxonomy ] ) && $this->options[ 'metakey-tax-' . $term->taxonomy ] !== '' ) ) {
 						$keywords = wpseo_replace_vars( $this->options[ 'metakey-tax-' . $term->taxonomy ], $term );
 					}
