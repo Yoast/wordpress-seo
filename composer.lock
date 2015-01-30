@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "b2fde8a992b7561ea8462a4585d5489c",
+    "hash": "4a7766889b21d82bcd704fbf31e1d56e",
     "packages": [
         {
             "name": "composer/installers",
@@ -224,7 +224,6 @@
         "yoast/i18n-module": 20
     },
     "prefer-stable": false,
-    "prefer-lowest": false,
     "platform": [],
     "platform-dev": []
 }
