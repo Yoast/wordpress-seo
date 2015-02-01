@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "b2fde8a992b7561ea8462a4585d5489c",
+    "hash": "3c0a5ecbc2c62c7517e263f9bb80ae66",
     "packages": [
         {
             "name": "composer/installers",
@@ -102,16 +102,16 @@
         },
         {
             "name": "xrstf/composer-php52",
-            "version": "v1.0.16",
+            "version": "v1.0.17",
             "source": {
                 "type": "hg",
                 "url": "https://bitbucket.org/xrstf/composer-php52",
-                "reference": "b80de08b940ea59789646fa20d841fbdd72d72f0"
+                "reference": "70b853668d6c3f97b63dafcfaeebb622bf08fd30"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://bitbucket.org/xrstf/composer-php52/get/b80de08b940ea59789646fa20d841fbdd72d72f0.zip",
-                "reference": "b80de08b940ea59789646fa20d841fbdd72d72f0",
+                "url": "https://bitbucket.org/xrstf/composer-php52/get/70b853668d6c3f97b63dafcfaeebb622bf08fd30.zip",
+                "reference": "70b853668d6c3f97b63dafcfaeebb622bf08fd30",
                 "shasum": ""
             },
             "type": "library",
@@ -130,7 +130,7 @@
                 "MIT"
             ],
             "homepage": "http://www.xrstf.de/",
-            "time": "2014-01-16 00:18:36"
+            "time": "2015-02-01 14:28:15"
         },
         {
             "name": "yoast/i18n-module",
