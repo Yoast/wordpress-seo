@@ -223,6 +223,17 @@ class Yoast_Form {
 	<?php
 	}
 
+	public function label( $text, $attr ) {
+		$attr = wp_parse_args( $attr, array(
+
+			)
+		)
+		echo "<label class='" . $attr['class'] ."' for='" . $attr['for'] ."'>$text";
+		if ( $attr['close'] ) {
+			echo '</label>';
+		}
+	}
+
 	/**
 	 * Create a Checkbox input field.
 	 *
@@ -300,14 +311,19 @@ class Yoast_Form {
 	 * Create a hidden input field.
 	 *
 	 * @param string $var The variable within the option to create the hidden input for.
+	 * @param string $id  The ID of the element
 	 */
-	public function hidden( $var ) {
+	public function hidden( $var, $id = '' ) {
 		$val = ( isset( $this->options[ $var ] ) ) ? $this->options[ $var ] : '';
 		if ( is_bool( $val ) ) {
 			$val = ( $val === true ) ? 'true' : 'false';
 		}
 
-		echo '<input type="hidden" id="hidden_' . esc_attr( $var ) . '" name="' . esc_attr( $this->option ) . '[' . esc_attr( $var ) . ']" value="' . esc_attr( $val ) . '"/>';
+		if ( '' === $id ) {
+			$id = 'hidden_' . $var;
+		}
+
+		echo '<input type="hidden" id="' . esc_attr( $id ) . '" name="' . esc_attr( $this->option ) . '[' . esc_attr( $var ) . ']" value="' . esc_attr( $val ) . '"/>';
 	}
 
 	/**
@@ -349,18 +365,16 @@ class Yoast_Form {
 		}
 
 		$var_esc = esc_attr( $var );
-		$output  = '<label class="select" for="' . $var_esc . '">' . esc_html( $label ) . ':</label>';
-		$output .= '<input type="file" value="' . esc_attr( $val ) . '" class="textinput" name="' . esc_attr( $this->option ) . '[' . $var_esc . ']" id="' . $var_esc . '"/>';
+		echo '<label class="select" for="' . $var_esc . '">' . esc_html( $label ) . ':</label>';
+		echo '<input type="file" value="' . esc_attr( $val ) . '" class="textinput" name="' . esc_attr( $this->option ) . '[' . $var_esc . ']" id="' . $var_esc . '"/>';
 
 		// Need to save separate array items in hidden inputs, because empty file inputs type will be deleted by settings API.
 		if ( ! empty( $this->options[ $var ] ) ) {
-			$output .= '<input class="hidden" type="hidden" id="' . $var_esc . '_file" name="wpseo_local[' . $var_esc . '][file]" value="' . esc_attr( $this->options[ $var ]['file'] ) . '"/>';
-			$output .= '<input class="hidden" type="hidden" id="' . $var_esc . '_url" name="wpseo_local[' . $var_esc . '][url]" value="' . esc_attr( $this->options[ $var ]['url'] ) . '"/>';
-			$output .= '<input class="hidden" type="hidden" id="' . $var_esc . '_type" name="wpseo_local[' . $var_esc . '][type]" value="' . esc_attr( $this->options[ $var ]['type'] ) . '"/>';
+			$this->hidden( 'file', $this->option . '_file' );
+			$this->hidden( 'url', $this->option . '_url' );
+			$this->hidden( 'type', $this->option . '_type' );
 		}
-		$output .= '<br class="clear"/>';
-
-		echo $output;
+		echo '<br class="clear"/>';
 	}
 
 	/**

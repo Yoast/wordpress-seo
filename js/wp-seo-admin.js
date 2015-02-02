@@ -6,20 +6,20 @@ jQuery(document).ready(function() {
 	});
 
 	// events
-	jQuery("#enablexmlsitemap").change(function() {
-		jQuery("#sitemapinfo").toggle(jQuery(this).is(':checked'));
+	jQuery('#enablexmlsitemap').change(function() {
+		jQuery('#sitemapinfo').toggle(jQuery(this).is(':checked'));
 	}).change();
 
-	jQuery("#breadcrumbs-enable").change(function() {
-		jQuery("#breadcrumbsinfo").toggle(jQuery(this).is(':checked'));
+	jQuery('#breadcrumbs-enable').change(function() {
+		jQuery('#breadcrumbsinfo').toggle(jQuery(this).is(':checked'));
 	}).change();
 
-	jQuery("#disable_author_sitemap").change(function() {
-		jQuery("#xml_user_block").toggle(!jQuery(this).is(':checked'));
+	jQuery('#disable_author_sitemap').change(function() {
+		jQuery('#xml_user_block').toggle(!jQuery(this).is(':checked'));
 	}).change();
 
-	jQuery("#cleanpermalinks").change(function() {
-		jQuery("#cleanpermalinksdiv").toggle(jQuery(this).is(':checked'));
+	jQuery('#cleanpermalinks').change(function() {
+		jQuery('#cleanpermalinksdiv').toggle(jQuery(this).is(':checked'));
 	}).change();
 
 	jQuery('#wpseo-tabs').find('a').click(function() {
@@ -86,16 +86,3 @@ function wpseo_killBlockingFiles( nonce ) {
 function copy_home_meta() {
 	jQuery('#og_frontpage_desc').val(jQuery('#meta_description').val());
 }
-
-/*jQuery(document).ready(function(){
-	// Collapsible debug information on the settings pages
-	jQuery('#wpseo-debug-info').accordion({
-		active: false,
-		collapsible: true,
-		icons: {
-			header: 'ui-icon-circle-triangle-e',
-			activeHeader: 'ui-icon-circle-triangle-s'
-		},
-		heightStyle: 'content'
-	});
-});*/
