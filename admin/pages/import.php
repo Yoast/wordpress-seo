@@ -428,7 +428,7 @@ if ( ! isset( $_FILES['settings_import_file'] ) || empty( $_FILES['settings_impo
 	// @todo [JRF => whomever] add action for form tag
 	$content .= '<form action="" method="post" enctype="multipart/form-data" accept-charset="' . esc_attr( get_bloginfo( 'charset' ) ) . '">';
 	$content .= wp_nonce_field( 'wpseo-import-file', '_wpnonce', true, false );
-	$content .= '<input type="file" name="settings_import_file"/>';
+	$content .= '<input type="file" name="settings_import_file" accept="application/x-zip,application/x-zip-compressed,application/zip" />';
 	$content .= '<input type="hidden" name="action" value="wp_handle_upload"/>';
 	$content .= '<input type="submit" class="button" value="' . __( 'Import settings', 'wordpress-seo' ) . '"/>';
 	$content .= '</form><br/>';
