@@ -706,6 +706,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			}
 			wp_enqueue_style( 'metabox-tabs', plugins_url( 'css/metabox-tabs' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
 			wp_enqueue_style( "metabox-$color", plugins_url( 'css/metabox-' . esc_attr( $color ) . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
+			wp_enqueue_style( 'featured-image', plugins_url( 'css/featured-image' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
 			wp_enqueue_style( 'jquery-qtip.js', plugins_url( 'css/jquery.qtip' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), '2.2.1' );
 
 			wp_enqueue_script( 'jquery-ui-autocomplete' );
@@ -716,6 +717,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				'jquery-ui-core',
 				'jquery-ui-autocomplete',
 			), WPSEO_VERSION, true );
+
+			wp_enqueue_script( 'wp-featured-image', plugins_url( 'js/wp-featured-image' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array ( 'jquery' ), WPSEO_VERSION, true );
 
 			wp_enqueue_script( 'wpseo-admin-media', plugins_url( 'js/wp-seo-admin-media' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'jquery', 'jquery-ui-core' ), WPSEO_VERSION, true );
 			wp_localize_script( 'wpseo-admin-media', 'wpseoMediaL10n', $this->localize_media_script() );
