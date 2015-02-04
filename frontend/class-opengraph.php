@@ -16,11 +16,6 @@ class WPSEO_OpenGraph {
 	public $options = array();
 
 	/**
-	 * @var array $shown_images Holds the images that have been put out as OG image.
-	 */
-	public $shown_images = array();
-
-	/**
 	 * Class constructor.
 	 */
 	public function __construct() {
@@ -385,104 +380,15 @@ class WPSEO_OpenGraph {
 		return '';
 	}
 
-	/**
-	 * Display an OpenGraph image tag
-	 *
-	 * @param string $img Source URL to the image
-	 *
-	 * @return bool
-	 */
-	public function image_output( $img ) {
-		/**
-		 * Filter: 'wpseo_opengraph_image' - Allow changing the OpenGraph image
-		 *
-		 * @api string $img Image URL string
-		 */
-		$img = trim( apply_filters( 'wpseo_opengraph_image', $img ) );
-
-		if ( empty( $img ) ) {
-			return false;
-		}
-
-		if ( WPSEO_Utils::is_url_relative( $img ) === true ) {
-			if ( $img[0] != '/' ) {
-				return false;
-			}
-
-			// If it's a relative URL, it's relative to the domain, not necessarily to the WordPress install, we
-			// want to preserve domain name and URL scheme (http / https) though.
-			$parsed_url = parse_url( home_url() );
-			$img        = $parsed_url['scheme'] . '://' . $parsed_url['host'] . $img;
-		}
-
-		if ( in_array( $img, $this->shown_images ) ) {
-			return false;
-		}
-
-		array_push( $this->shown_images, $img );
-
-		$this->og_tag( 'og:image', esc_url( $img ) );
-
-		return true;
-	}
-
-	/**
-	 * Output the OpenGraph image elements for all the images within the current post/page.
-	 *
-	 * @return bool
-	 */
 	public function image() {
+		$opengraph_images = new WPSEO_OpenGraph_Image( $this->options );
 
-		global $post;
-
-		if ( is_front_page() ) {
-			if ( $this->options['og_frontpage_image'] !== '' ) {
-				$this->image_output( $this->options['og_frontpage_image'] );
-			}
-		}
-
-		if ( is_singular() ) {
-			$ogimg = WPSEO_Meta::get_value( 'opengraph-image' );
-			if ( $ogimg !== '' ) {
-				$this->image_output( $ogimg );
-
-				return;
-			}
-
-			if ( function_exists( 'has_post_thumbnail' ) && has_post_thumbnail( $post->ID ) ) {
-				/**
-				 * Filter: 'wpseo_opengraph_image_size' - Allow changing the image size used for OpenGraph sharing
-				 *
-				 * @api string $unsigned Size string
-				 */
-				$thumb = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), apply_filters( 'wpseo_opengraph_image_size', 'original' ) );
-				$this->image_output( $thumb[0] );
-
-				return;
-			}
-
-			/**
-			 * Filter: 'wpseo_pre_analysis_post_content' - Allow filtering the content before analysis
-			 *
-			 * @api string $post_content The Post content string
-			 *
-			 * @param object $post The post object.
-			 */
-			$content = apply_filters( 'wpseo_pre_analysis_post_content', $post->post_content, $post );
-
-			if ( preg_match_all( '`<img [^>]+>`', $content, $matches ) ) {
-				foreach ( $matches[0] as $img ) {
-					if ( preg_match( '`src=(["\'])(.*?)\1`', $img, $match ) ) {
-						$this->image_output( $match[2] );
-					}
-				}
-			}
-		}
-
-		if ( count( $this->shown_images ) == 0 && $this->options['og_default_image'] !== '' ) {
-			$this->image_output( $this->options['og_default_image'] );
+		foreach ( $opengraph_images->get_images() as $img ) {
+			$this->og_tag( 'og:image', esc_url( $img ) );
 		}
 	}
+
+
 
 	/**
 	 * Output the OpenGraph description, specific OG description first, if not, grab the meta description.
@@ -650,3 +556,169 @@ class WPSEO_OpenGraph {
 	}
 
 } /* End of class */
+
+class WPSEO_OpenGraph_Image {
+
+	private $options;
+
+	/**
+	 * @var array $images Holds the images that have been put out as OG image.
+	 */
+	private $images = array();
+
+	public function __construct( $options ) {
+		$this->options = $options;
+		$this->set_images();
+	}
+
+	public function get_images() {
+		return $this->images;
+	}
+
+	private function set_images() {
+		if ( is_front_page() ) {
+			$this->get_front_page_image();
+		}
+
+		if ( is_singular() ) {
+			$this->get_singular_image();
+		}
+
+		$this->get_default_image();
+
+	}
+
+	private function get_front_page_image() {
+		if ( $this->options['og_frontpage_image'] !== '' ) {
+			$this->add_image( $this->options['og_frontpage_image'] );
+		}
+	}
+
+	private function get_singular_image() {
+		global $post;
+
+		if ( $this->get_opengraph_image() ) {
+			return;
+		}
+
+		if ( $this->get_featured_image( $post->ID ) ) {
+			return;
+		}
+
+		$this->get_content_images( $post );
+
+	}
+
+	private function get_default_image() {
+		if ( count( $this->images ) == 0 && $this->options['og_default_image'] !== '' ) {
+			$this->add_image( $this->options['og_default_image'] );
+		}
+	}
+
+	private function get_opengraph_image() {
+		$ogimg = WPSEO_Meta::get_value( 'opengraph-image' );
+		if ( $ogimg !== '' ) {
+			$this->add_image( $ogimg );
+
+			return true;
+		}
+	}
+
+	private function get_content_images( $post ) {
+		/**
+		 * Filter: 'wpseo_pre_analysis_post_content' - Allow filtering the content before analysis
+		 *
+		 * @api string $post_content The Post content string
+		 *
+		 * @param object $post The post object.
+		 */
+		$content = apply_filters( 'wpseo_pre_analysis_post_content', $post->post_content, $post );
+
+		if ( preg_match_all( '`<img [^>]+>`', $content, $matches ) ) {
+			foreach ( $matches[0] as $img ) {
+				if ( preg_match( '`src=(["\'])(.*?)\1`', $img, $match ) ) {
+					$this->add_image( $match[2] );
+				}
+			}
+		}
+	}
+
+	private function get_featured_image( $post_id ) {
+		if ( function_exists( 'has_post_thumbnail' ) && has_post_thumbnail( $post_id ) ) {
+			/**
+			 * Filter: 'wpseo_opengraph_image_size' - Allow changing the image size used for OpenGraph sharing
+			 *
+			 * @api string $unsigned Size string
+			 */
+			$thumb = wp_get_attachment_image_src( get_post_thumbnail_id( $post_id ), apply_filters( 'wpseo_opengraph_image_size', 'original' ) );
+
+			if ( $this->check_image_size( $thumb ) ) {
+				$this->add_image( $thumb[0] );
+
+				return true;
+			}
+		}
+	}
+
+	/**
+	 * Check size of image. If image is too small, return false, else return true
+	 *
+	 * @param array $img
+	 *
+	 * @return bool
+	 */
+	private function check_image_size( $img_data ) {
+		//Get the width and height of the image.
+		if ( $img_data[1] < 200 || $img_data[2] < 200 ) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Display an OpenGraph image tag
+	 *
+	 * @param string $img Source URL to the image
+	 *
+	 * @return bool
+	 */
+	private function add_image( $img ) {
+		/**
+		 * Filter: 'wpseo_opengraph_image' - Allow changing the OpenGraph image
+		 *
+		 * @api string $img Image URL string
+		 */
+
+		$img = trim( apply_filters( 'wpseo_opengraph_image', $img ) );
+
+		if ( empty( $img ) ) {
+			return false;
+		}
+
+		if ( WPSEO_Utils::is_url_relative( $img ) === true ) {
+			$img = $this->get_relative_path( $img );
+		}
+
+		if ( in_array( $img, $this->images ) ) {
+			return false;
+		}
+		array_push( $this->images, $img );
+
+		return true;
+	}
+
+	private function get_relative_path( $img ) {
+		if ( $img[0] != '/' ) {
+			return false;
+		}
+
+		// If it's a relative URL, it's relative to the domain, not necessarily to the WordPress install, we
+		// want to preserve domain name and URL scheme (http / https) though.
+		$parsed_url = parse_url( home_url() );
+		$img        = $parsed_url['scheme'] . '://' . $parsed_url['host'] . $img;
+
+		return $img;
+	}
+
+}

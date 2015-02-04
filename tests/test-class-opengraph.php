@@ -213,30 +213,6 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_OpenGraph::image_output
-	 */
-	public function test_image_output() {
-		$this->assertFalse( self::$class_instance->image_output( '' ) );
-
-		$this->assertFalse( self::$class_instance->image_output( 'malformed-relative-url' ) );
-
-		$img_url = home_url( 'absolute-image.jpg' );
-
-		// test with absolute image
-		$this->assertTrue( self::$class_instance->image_output( $img_url ) );
-		$this->expectOutput( '<meta property="og:image" content="' . $img_url . '" />' . "\n" );
-
-		// do not output same image twice
-		$this->assertFalse( self::$class_instance->image_output( $img_url ) );
-
-		// test with relative image url
-		$relative_img_url = '/relative-image.jpg';
-		$absolute_img_url = home_url( $relative_img_url );
-		$this->assertTrue( self::$class_instance->image_output( $relative_img_url ) );
-		$this->expectOutput( '<meta property="og:image" content="' . $absolute_img_url . '" />' . "\n" );
-	}
-
-	/**
 	 * @covers WPSEO_OpenGraph::image
 	 */
 	public function test_image() {
@@ -395,6 +371,13 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		$modified_output = '<meta property="article:modified_time" content="' . $modified_time . '" />' . "\n" . '<meta property="og:updated_time" content="' . $modified_time . '" />' . "\n";
 		$this->assertTrue( self::$class_instance->publish_date() );
 		$this->expectOutput( $published_output . $modified_output );
+	}
+
+	/**
+	 * @covers WPSEO_OpenGraph::image
+	 */
+	public function test_image_IS_FEATURED_IMAGE_WITH_SMALL_IMAGE() {
+
 	}
 
 }
