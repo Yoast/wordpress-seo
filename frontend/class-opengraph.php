@@ -380,6 +380,9 @@ class WPSEO_OpenGraph {
 		return '';
 	}
 
+	/**
+	 * Create new WPSEO_OpenGraph_Image class and get the images to set the og:image
+	 */
 	public function image() {
 		$opengraph_images = new WPSEO_OpenGraph_Image( $this->options );
 
@@ -566,15 +569,28 @@ class WPSEO_OpenGraph_Image {
 	 */
 	private $images = array();
 
+	/**
+	 * Constructor
+	 *
+	 * @param array $options
+	 */
 	public function __construct( $options ) {
 		$this->options = $options;
 		$this->set_images();
 	}
 
+	/**
+	 * Return the images array
+	 *
+	 * @return array
+	 */
 	public function get_images() {
 		return $this->images;
 	}
 
+	/**
+	 * Check if page is front page or singular and call the corresponding functions. If not, call get_default_image.
+	 */
 	private function set_images() {
 		if ( is_front_page() ) {
 			$this->get_front_page_image();
@@ -585,15 +601,20 @@ class WPSEO_OpenGraph_Image {
 		}
 
 		$this->get_default_image();
-
 	}
 
+	/**
+	 * If the frontpage image exists, call add_image
+	 */
 	private function get_front_page_image() {
 		if ( $this->options['og_frontpage_image'] !== '' ) {
 			$this->add_image( $this->options['og_frontpage_image'] );
 		}
 	}
 
+	/**
+	 * Get the images of the singular post.
+	 */
 	private function get_singular_image() {
 		global $post;
 
@@ -609,12 +630,20 @@ class WPSEO_OpenGraph_Image {
 
 	}
 
+	/**
+	 * Get default image and call add_image
+	 */
 	private function get_default_image() {
 		if ( count( $this->images ) == 0 && $this->options['og_default_image'] !== '' ) {
 			$this->add_image( $this->options['og_default_image'] );
 		}
 	}
 
+	/**
+	 * If opengraph-image is set, call add_image and return true
+	 *
+	 * @return bool
+	 */
 	private function get_opengraph_image() {
 		$ogimg = WPSEO_Meta::get_value( 'opengraph-image' );
 		if ( $ogimg !== '' ) {
@@ -624,14 +653,14 @@ class WPSEO_OpenGraph_Image {
 		}
 	}
 
+	/**
+	 * Filter: 'wpseo_pre_analysis_post_content' - Allow filtering the content before analysis
+	 *
+	 * @api string $post_content The Post content string
+	 *
+	 * @param object $post The post object.
+	 */
 	private function get_content_images( $post ) {
-		/**
-		 * Filter: 'wpseo_pre_analysis_post_content' - Allow filtering the content before analysis
-		 *
-		 * @api string $post_content The Post content string
-		 *
-		 * @param object $post The post object.
-		 */
 		$content = apply_filters( 'wpseo_pre_analysis_post_content', $post->post_content, $post );
 
 		if ( preg_match_all( '`<img [^>]+>`', $content, $matches ) ) {
@@ -643,6 +672,13 @@ class WPSEO_OpenGraph_Image {
 		}
 	}
 
+	/**
+	 * If there is a featured image, check image size. If image size is correct, call add_image and return true
+	 *
+	 * @param $post_id
+	 *
+	 * @return bool
+	 */
 	private function get_featured_image( $post_id ) {
 		if ( function_exists( 'has_post_thumbnail' ) && has_post_thumbnail( $post_id ) ) {
 			/**
@@ -708,6 +744,12 @@ class WPSEO_OpenGraph_Image {
 		return true;
 	}
 
+	/**
+	 * Get the relative path of the image
+	 * @param $img
+	 *
+	 * @return bool|string
+	 */
 	private function get_relative_path( $img ) {
 		if ( $img[0] != '/' ) {
 			return false;
