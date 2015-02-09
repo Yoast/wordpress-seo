@@ -19,12 +19,7 @@ if ( WPSEO_Utils::filter_input( INPUT_GET, 'intro' ) ) {
 $options = get_option( 'wpseo' );
 
 if ( isset( $_GET['allow_tracking'] ) && check_admin_referer( 'wpseo_activate_tracking', 'nonce' ) ) {
-	$options['tracking_popup_done'] = true;
-	if ( $_GET['allow_tracking'] == 'yes' ) {
-		$options['yoast_tracking'] = true;
-	} else {
-		$options['yoast_tracking'] = false;
-	}
+	$options['yoast_tracking'] = ( $_GET['allow_tracking'] == 'yes' );
 	update_option( 'wpseo', $options );
 
 	if ( isset( $_SERVER['HTTP_REFERER'] ) ) {
