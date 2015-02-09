@@ -19,7 +19,7 @@
 		"composer/installers": "~1.0",
 		"yoast/license-manager": "dev-master",
 		"yoast/i18n-module": "dev-master",
-		"xrstf/composer-php52": ">=1.0.16"
+		"xrstf/composer-php52": "^1.0.17"
 	},
 	"autoload": {
 		"classmap": [

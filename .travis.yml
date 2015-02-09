@@ -6,8 +6,6 @@ matrix:
   include:
     - php: '5.6'
       env: WP_VERSION=master WP_MULTISITE=0 PHPLINT=1
-    - php: '5.2'
-      env: WP_VERSION=master WP_MULTISITE=1 PHPLINT=1
     - php: '5.6'
       env: WP_VERSION=4.1 WP_MULTISITE=1
     - php: '5.5'
@@ -26,9 +24,14 @@ matrix:
       env: WP_VERSION=4.0 WP_MULTISITE=0
     - php: '5.4'
       env: WP_VERSION=3.9 WP_MULTISITE=0
+    - php: 'hhvm'
+      env: WP_VERSION=4.1 WP_MULTISITE=0
+    - php: 'hhvm'
+      env: WP_VERSION=4.1 WP_MULTISITE=1
 
 before_script:
 - phpenv local 5.6
+- composer selfupdate --no-interaction
 - composer install --no-interaction
 - phpenv local --unset
 - PLUGIN_SLUG=$(basename $(pwd))
