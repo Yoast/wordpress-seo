@@ -412,33 +412,38 @@ if ( ! isset( $_FILES['settings_import_file'] ) || empty( $_FILES['settings_impo
 						if ( is_object( $option_instance ) && method_exists( $option_instance, 'import' ) ) {
 							$optgroup = $option_instance->import( $optgroup, $old_wpseo_version, $options );
 						} elseif ( WP_DEBUG === true || ( defined( 'WPSEO_DEBUG' ) && WPSEO_DEBUG === true ) ) {
-							echo '<p><strong>' . sprintf( __( 'Setting "%s" is no longer used and has been discarded.', 'wordpress-seo' ), $name ) . '</strong></p>';
+							$msg = sprintf( __( 'Setting "%s" is no longer used and has been discarded.', 'wordpress-seo' ), $name );
 
 						}
 					}
-					echo '<p><strong>' . __( 'Settings successfully imported.', 'wordpress-seo' ) . '</strong></p>';
+					$msg = __( 'Settings successfully imported.', 'wordpress-seo' );
 				} else {
-					echo '<p><strong>' . __( 'Settings could not be imported:', 'wordpress-seo' ) . ' ' . __( 'No settings found in file.', 'wordpress-seo' ) . '</strong></p>';
+					$msg = __( 'Settings could not be imported:', 'wordpress-seo' ) . ' ' . __( 'No settings found in file.', 'wordpress-seo' );
 				}
 				unset( $options, $name, $optgroup );
 			} else {
-				echo '<p><strong>' . __( 'Settings could not be imported:', 'wordpress-seo' ) . ' ' . __( 'Unzipping failed - file settings.ini not found.', 'wordpress-seo' ) . '</strong></p>';
+				$msg = __( 'Settings could not be imported:', 'wordpress-seo' ) . ' ' . __( 'Unzipping failed - file settings.ini not found.', 'wordpress-seo' );
 			}
 			@unlink( $filename );
 			@unlink( $p_path );
 		} else {
-			echo '<p><strong>' . __( 'Settings could not be imported:', 'wordpress-seo' ) . ' ' . sprintf( __( 'Unzipping failed with error "%s".', 'wordpress-seo' ), $unzipped->get_error_message() ) . '</strong></p>';
+			$msg = __( 'Settings could not be imported:', 'wordpress-seo' ) . ' ' . sprintf( __( 'Unzipping failed with error "%s".', 'wordpress-seo' ), $unzipped->get_error_message() );
 		}
 		unset( $zip, $unzipped );
 		@unlink( $file['file'] );
 	} else {
 		if ( is_wp_error( $file ) ) {
-			echo '<p><strong>' . __( 'Settings could not be imported:', 'wordpress-seo' ) . ' ' . $file->get_error_message() . '</strong></p>';
+			$msg = __( 'Settings could not be imported:', 'wordpress-seo' ) . ' ' . $file->get_error_message();
 		} else {
-			echo '<p><strong>' . __( 'Settings could not be imported:', 'wordpress-seo' ) . ' ' . __( 'Upload failed.', 'wordpress-seo' ) . '</strong></p>';
+			$msg = __( 'Settings could not be imported:', 'wordpress-seo' ) . ' ' . __( 'Upload failed.', 'wordpress-seo' );
 		}
 	}
 }
+
+if ( isset( $msg ) ) {
+	echo '<p><strong>' . $msg . '</strong></p>';
+}
+
 echo '</div>';
 
 echo '<div id="wpseo-export" class="wpseotab">';
