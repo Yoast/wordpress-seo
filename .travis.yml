@@ -6,8 +6,6 @@ matrix:
   include:
     - php: '5.6'
       env: WP_VERSION=master WP_MULTISITE=0 PHPLINT=1
-    - php: '5.2'
-      env: WP_VERSION=master WP_MULTISITE=1 PHPLINT=1
     - php: '5.6'
       env: WP_VERSION=4.1 WP_MULTISITE=1
     - php: '5.5'
