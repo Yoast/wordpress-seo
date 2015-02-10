@@ -212,12 +212,64 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( 'article', self::$class_instance->type( false ) );
 	}
 
+//	/**
+//	 * @covers WPSEO_OpenGraph::image_output
+//	 */
+//	public function test_image_output() {
+//		$this->assertFalse( self::$class_instance->image_output( '' ) );
+//
+//		$this->assertFalse( self::$class_instance->image_output( 'malformed-relative-url' ) );
+//
+//		$img_url = home_url( 'absolute-image.jpg' );
+//
+//		// test with absolute image
+//		$this->assertTrue( self::$class_instance->image_output( $img_url ) );
+//		$this->expectOutput( '<meta property="og:image" content="' . $img_url . '" />' . "\n" );
+//
+//		// do not output same image twice
+//		$this->assertFalse( self::$class_instance->image_output( $img_url ) );
+//
+//		// test with relative image url
+//		$relative_img_url = '/relative-image.jpg';
+//		$absolute_img_url = home_url( $relative_img_url );
+//		$this->assertTrue( self::$class_instance->image_output( $relative_img_url ) );
+//		$this->expectOutput( '<meta property="og:image" content="' . $absolute_img_url . '" />' . "\n" );
+//	}
+
 	/**
+	 * Test if the function og_tag gets called when there is a front page image
+	 *
 	 * @covers WPSEO_OpenGraph::image
 	 */
-	public function test_image() {
+	public function test_image_HAS_front_page_image() {
+		$stub = $this->getMock( 'WPSEO_OpenGraph', array( 'og_tag') );
 
+		$stub->options = array(
+			'og_frontpage_image' => 'http://local.wordpress.dev/wp-content/uploads/2015/01/iphone5_ios7-300x198.jpg',
+		);
+
+		$stub
+			->expects( $this->once() )
+			->method( 'og_tag' );
+
+		$stub->image();
 	}
+
+	/**
+	 * Test if the function og_tag does not get called when there is no front page image
+	 *
+	 * @covers WPSEO_OpenGraph::image
+	 */
+	public function test_image_HAS_NO_image() {
+		$stub = $this->getMock( 'WPSEO_OpenGraph', array( 'og_tag') );
+
+		$stub
+			->expects( $this->never() )
+			->method( 'og_tag' );
+
+		$stub->image();
+	}
+
 
 	/**
 	 * @covers WPSEO_OpenGraph::description
