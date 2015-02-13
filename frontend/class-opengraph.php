@@ -158,7 +158,7 @@ class WPSEO_OpenGraph {
 	 */
 	public function website_facebook() {
 
-		if ( isset($this->options['facebook_site']) && $this->options['facebook_site'] !== '' ) {
+		if ( isset( $this->options['facebook_site'] ) && $this->options['facebook_site'] !== '' ) {
 			$this->og_tag( 'article:publisher', $this->options['facebook_site'] );
 
 			return true;
@@ -174,11 +174,11 @@ class WPSEO_OpenGraph {
 	 * @return boolean
 	 */
 	public function site_owner() {
-		if ( 0 != $this->options['fbadminapp'] ) {
+		if ( isset( $this->options['fbadminapp'] ) && 0 != $this->options['fbadminapp'] ) {
 			$this->og_tag( 'fb:app_id', $this->options['fbadminapp'] );
 
 			return true;
-		} elseif ( is_array( $this->options['fb_admins'] ) && $this->options['fb_admins'] !== array() ) {
+		} elseif ( isset( $this->options['fb_admins'] ) && is_array( $this->options['fb_admins'] ) && $this->options['fb_admins'] !== array() ) {
 			$adminstr = implode( ',', array_keys( $this->options['fb_admins'] ) );
 			/**
 			 * Filter: 'wpseo_opengraph_admin' - Allow developer to filter the fb:admins string put out by WP SEO
