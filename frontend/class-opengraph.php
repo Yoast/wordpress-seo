@@ -216,7 +216,7 @@ class WPSEO_OpenGraph {
 				$title = wpseo_replace_vars( $title, get_post() );
 			}
 		} else if ( is_front_page() ) {
-			$title = ( $this->options['og_frontpage_title'] !== '' ) ? $this->options['og_frontpage_title'] : WPSEO_Frontend::get_instance()->title( '' );
+			$title = ( isset( $this->options['og_frontpage_title'] ) && $this->options['og_frontpage_title'] !== '' ) ? $this->options['og_frontpage_title'] : WPSEO_Frontend::get_instance()->title( '' );
 		} else {
 			$title = WPSEO_Frontend::get_instance()->title( '' );
 		}
