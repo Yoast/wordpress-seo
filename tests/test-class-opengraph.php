@@ -294,6 +294,8 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 
 		$output = ob_get_contents();
 
+		ob_clean();
+
 		$expected_output = '<meta property="og:image" content="http://example.org/wp-content/uploads//tmp/wordpress/src/wp-content/plugins/wordpress-seo/tests' . $image . '" />';
 
 		$this->assertContains( $expected_output, $output );
@@ -320,6 +322,8 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		$class_instance->opengraph();
 
 		$output = ob_get_contents();
+
+		ob_clean();
 
 		$expected_output = '<meta property="og:image" content="http://example.org/wp-content/uploads//tmp/wordpress/src/wp-content/plugins/wordpress-seo/tests/yoast.png" />';
 
