@@ -212,30 +212,6 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( 'article', self::$class_instance->type( false ) );
 	}
 
-//	/**
-//	 * @covers WPSEO_OpenGraph::image_output
-//	 */
-//	public function test_image_output() {
-//		$this->assertFalse( self::$class_instance->image_output( '' ) );
-//
-//		$this->assertFalse( self::$class_instance->image_output( 'malformed-relative-url' ) );
-//
-//		$img_url = home_url( 'absolute-image.jpg' );
-//
-//		// test with absolute image
-//		$this->assertTrue( self::$class_instance->image_output( $img_url ) );
-//		$this->expectOutput( '<meta property="og:image" content="' . $img_url . '" />' . "\n" );
-//
-//		// do not output same image twice
-//		$this->assertFalse( self::$class_instance->image_output( $img_url ) );
-//
-//		// test with relative image url
-//		$relative_img_url = '/relative-image.jpg';
-//		$absolute_img_url = home_url( $relative_img_url );
-//		$this->assertTrue( self::$class_instance->image_output( $relative_img_url ) );
-//		$this->expectOutput( '<meta property="og:image" content="' . $absolute_img_url . '" />' . "\n" );
-//	}
-
 	/**
 	 * Test if the function og_tag gets called when there is a front page image
 	 *
@@ -270,6 +246,85 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		$stub->image();
 	}
 
+	/**
+	 * Test if featured image does not get added to opengraph when the image is too small.
+	 *
+	 * @covers WPSEO_OpenGraph::image
+	 */
+	public function test_image_IS_SINGULAR_AND_HAS_featured_image_AND_HAS_WRONG_size() {
+		$post_id   = $this->factory->post->create();
+		$image     = '/assets/small.png';
+		$attach_id = $this->create_featured_image( $image, $post_id );
+
+		update_post_meta( $post_id, '_thumbnail_id', $attach_id );
+
+		$this->go_to( get_permalink( $post_id ) );
+
+		$class_instance = new WPSEO_OpenGraph();
+
+		ob_start();
+
+		$class_instance->opengraph();
+
+		$output = ob_get_contents();
+
+		$expected_output = '<meta property="og:image" content="http://example.org/wp-content/uploads//tmp/wordpress/src/wp-content/plugins/wordpress-seo/tests' . $image . '" />';
+
+		$this->assertNotContains( $expected_output, $output );
+	}
+
+	/**
+	 * Test if featured image gets added to opengraph when it is the correct size.
+	 * @covers WPSEO_OpenGraph::image
+	 */
+	public function test_image_IS_SINGULAR_AND_HAS_featured_image_AND_HAS_RIGHT_size() {
+		$post_id   = $this->factory->post->create();
+		$image     = '/assets/yoast.png';
+		$attach_id = $this->create_featured_image( $image, $post_id );
+
+		update_post_meta( $post_id, '_thumbnail_id', $attach_id );
+
+		$this->go_to( get_permalink( $post_id ) );
+
+		$class_instance = new WPSEO_OpenGraph();
+
+		ob_start();
+
+		$class_instance->opengraph();
+
+		$output = ob_get_contents();
+
+		$expected_output = '<meta property="og:image" content="http://example.org/wp-content/uploads//tmp/wordpress/src/wp-content/plugins/wordpress-seo/tests' . $image . '" />';
+
+		$this->assertContains( $expected_output, $output );
+	}
+
+	/**
+	 * Test if image in content is added to open graph
+	 *
+	 * @covers WPSEO_OpenGraph::image
+	 */
+	public function test_image_get_content_image() {
+		$post_id = $this->factory->post->create(
+			array(
+				'post_content' =>  '<img class="alignnone size-medium wp-image-490" src="http://example.org/wp-content/uploads//tmp/wordpress/src/wp-content/plugins/wordpress-seo/tests/yoast.png" />'
+			)
+		);
+
+		$this->go_to( get_permalink( $post_id ) );
+
+		$class_instance = new WPSEO_OpenGraph();
+
+		ob_start();
+
+		$class_instance->opengraph();
+
+		$output = ob_get_contents();
+
+		$expected_output = '<meta property="og:image" content="http://example.org/wp-content/uploads//tmp/wordpress/src/wp-content/plugins/wordpress-seo/tests/yoast.png" />';
+
+		$this->assertContains( $expected_output, $output );
+	}
 
 	/**
 	 * @covers WPSEO_OpenGraph::description
@@ -425,11 +480,31 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		$this->expectOutput( $published_output . $modified_output );
 	}
 
-	/**
-	 * @covers WPSEO_OpenGraph::image
-	 */
-	public function test_image_IS_FEATURED_IMAGE_WITH_SMALL_IMAGE() {
+	private function create_featured_image( $image, $post_id ) {
+		// Create the attachment
+		$featured_image =  dirname(__FILE__) . $image ;
 
+		$filetype       = wp_check_filetype( basename( $featured_image ), null );
+
+		// Get the path to the upload directory.
+		$wp_upload_dir  = wp_upload_dir();
+
+		$attach_id = wp_insert_attachment( array(
+			'post_title'     => preg_replace( '/\.[^.]+$/', '', basename( $featured_image ) ),
+			'post_content'   => '',
+			'guid'           => $wp_upload_dir['url'] . '/' . basename( $featured_image ),
+			'post_mime_type' => $filetype['type'],
+			'post_status'    => 'inherit'
+		), $featured_image, $post_id );
+
+		// Make sure that this file is included, as wp_generate_attachment_metadata() depends on it.
+		require_once( ABSPATH . 'wp-admin/includes/image.php' );
+
+		// Generate the metadata for the attachment, and update the database record.
+		$attach_data = wp_generate_attachment_metadata( $attach_id, $featured_image );
+		wp_update_attachment_metadata( $attach_id, $attach_data );
+
+		return $attach_id;
 	}
 
 }
