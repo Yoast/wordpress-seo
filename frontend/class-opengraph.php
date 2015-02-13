@@ -158,7 +158,7 @@ class WPSEO_OpenGraph {
 	 */
 	public function website_facebook() {
 
-		if ( $this->options['facebook_site'] !== '' ) {
+		if ( isset($this->options['facebook_site']) && $this->options['facebook_site'] !== '' ) {
 			$this->og_tag( 'article:publisher', $this->options['facebook_site'] );
 
 			return true;
