@@ -747,9 +747,9 @@ abstract class WPSEO_Option {
 } /* End of class WPSEO_Option */
 
 
-/*******************************************************************
+/**
  * Option: wpseo
- *******************************************************************/
+ */
 class WPSEO_Option_Wpseo extends WPSEO_Option {
 
 	/**
@@ -1090,9 +1090,9 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 } /* End of class WPSEO_Option_Wpseo */
 
 
-/*******************************************************************
+/**
  * Option: wpseo_permalinks
- *******************************************************************/
+ */
 
 /**
  * @internal Clean routine for 1.5 not needed as values used to be saved as string 'on' and those will convert
@@ -1246,9 +1246,9 @@ class WPSEO_Option_Permalinks extends WPSEO_Option {
 } /* End of class WPSEO_Option_Permalinks */
 
 
-/*******************************************************************
+/**
  * Option: wpseo_titles
- *******************************************************************/
+ */
 class WPSEO_Option_Titles extends WPSEO_Option {
 
 	/**
@@ -2828,9 +2828,9 @@ class WPSEO_Option_Social extends WPSEO_Option {
 } /* End of class WPSEO_Option_Social */
 
 
-/*******************************************************************
+/**
  * Option: wpseo_ms
- *******************************************************************/
+ */
 /**
  * Site option for Multisite installs only
  *
@@ -3473,9 +3473,9 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 } /* End of class WPSEO_Taxonomy_Meta */
 
 
-/*******************************************************************
+/**
  * Overall Option Management
- *******************************************************************/
+ */
 
 /**
  * Overal Option Management class

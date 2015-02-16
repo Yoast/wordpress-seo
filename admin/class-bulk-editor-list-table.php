@@ -8,13 +8,17 @@
  */
 class WPSEO_Bulk_List_Table extends WP_List_Table {
 
-	/*
-        * Array of post types for which the current user has `edit_others_posts` capabilities.
+	/**
+	 * Array of post types for which the current user has `edit_others_posts` capabilities.
+	 *
+	 * @var array
 	 */
 	private $all_posts;
 
-	/*
-        * Array of post types for which the current user has `edit_posts` capabilities, but not `edit_others_posts`.
+	/**
+	 * Array of post types for which the current user has `edit_posts` capabilities, but not `edit_others_posts`.
+	 *
+	 * @var array
 	 */
 	private $own_posts;
 
