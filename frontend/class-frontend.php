@@ -894,7 +894,7 @@ class WPSEO_Frontend {
 
 			// Fix paginated pages canonical, but only if the page is truly paginated.
 			if ( get_query_var( 'page' ) > 1 ) {
-				$num_pages = substr_count( $obj->post_content, '<!--nextpage-->' ) + 1;
+				$num_pages = (substr_count( $obj->post_content, '<!--nextpage-->' ) + 1);
 				if ( $num_pages && get_query_var( 'page' ) <= $num_pages ) {
 					if ( ! $GLOBALS['wp_rewrite']->using_permalinks() ) {
 						$canonical = add_query_arg( 'page', get_query_var( 'page' ), $canonical );
@@ -1029,7 +1029,7 @@ class WPSEO_Frontend {
 				}
 
 				if ( $paged == 2 ) {
-					$this->adjacent_rel_link( 'prev', $url, $paged - 1, true );
+					$this->adjacent_rel_link( 'prev', $url, ($paged - 1), true );
 				}
 
 				// Make sure to use index.php when needed, done after paged == 2 check so the prev links to homepage will not have index.php erroneously.
@@ -1038,17 +1038,17 @@ class WPSEO_Frontend {
 				}
 
 				if ( $paged > 2 ) {
-					$this->adjacent_rel_link( 'prev', $url, $paged - 1, true );
+					$this->adjacent_rel_link( 'prev', $url, ($paged - 1), true );
 				}
 
 				if ( $paged < $wp_query->max_num_pages ) {
-					$this->adjacent_rel_link( 'next', $url, $paged + 1, true );
+					$this->adjacent_rel_link( 'next', $url, ($paged + 1), true );
 				}
 			}
 		} else {
 			$numpages = 0;
 			if ( isset( $wp_query->post->post_content ) ) {
-				$numpages = substr_count( $wp_query->post->post_content, '<!--nextpage-->' ) + 1;
+				$numpages = (substr_count( $wp_query->post->post_content, '<!--nextpage-->' ) + 1);
 			}
 			if ( $numpages > 1 ) {
 				$page = get_query_var( 'page' );
@@ -1066,10 +1066,10 @@ class WPSEO_Frontend {
 				}
 
 				if ( $page > 1 ) {
-					$this->adjacent_rel_link( 'prev', $url, $page - 1, $usebase, 'single_paged' );
+					$this->adjacent_rel_link( 'prev', $url, ($page - 1), $usebase, 'single_paged' );
 				}
 				if ( $page < $numpages ) {
-					$this->adjacent_rel_link( 'next', $url, $page + 1, $usebase, 'single_paged' );
+					$this->adjacent_rel_link( 'next', $url, ($page + 1), $usebase, 'single_paged' );
 				}
 			}
 		}

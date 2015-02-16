@@ -557,7 +557,7 @@ class WPSEO_Replace_Vars {
 			}
 
 			if ( isset( $post->post_content ) ) {
-				$max_num_pages = substr_count( $post->post_content, '<!--nextpage-->' ) + 1;
+				$max_num_pages = (substr_count( $post->post_content, '<!--nextpage-->' ) + 1);
 			}
 		}
 

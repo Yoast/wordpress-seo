@@ -599,7 +599,7 @@ class WPSEO_Utils {
 					$result = bcdiv( $number1, $number2, $precision ); // string, or NULL if right_operand is 0
 				}
 				elseif ( $number2 != 0 ) {
-					$result = $number1 / $number2;
+					$result = ($number1 / $number2);
 				}
 
 				if ( ! isset( $result ) ) {
@@ -614,7 +614,7 @@ class WPSEO_Utils {
 					$result = bcmod( $number1, $number2, $precision ); // string, or NULL if modulus is 0.
 				}
 				elseif ( $number2 != 0 ) {
-					$result = $number1 % $number2;
+					$result = ($number1 % $number2);
 				}
 
 				if ( ! isset( $result ) ) {

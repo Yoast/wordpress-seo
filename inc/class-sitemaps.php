@@ -385,7 +385,7 @@ class WPSEO_Sitemaps {
 
 				$n = ( $count > $this->max_entries ) ? (int) ceil( $count / $this->max_entries ) : 1;
 				for ( $i = 0; $i < $n; $i ++ ) {
-					$count = ( $n > 1 ) ? $i + 1 : '';
+					$count = ( $n > 1 ) ? ($i + 1) : '';
 
 					if ( empty( $count ) || $count == $n ) {
 						$date = $this->get_last_modified( $post_type );
@@ -446,7 +446,7 @@ class WPSEO_Sitemaps {
 				$n     = ( $count > $this->max_entries ) ? (int) ceil( $count / $this->max_entries ) : 1;
 
 				for ( $i = 0; $i < $n; $i ++ ) {
-					$count = ( $n > 1 ) ? $i + 1 : '';
+					$count = ( $n > 1 ) ? ($i + 1) : '';
 
 					if ( ! is_array( $tax->object_type ) || count( $tax->object_type ) == 0 ) {
 						continue;
@@ -501,7 +501,7 @@ class WPSEO_Sitemaps {
 			$n     = ( $count > $this->max_entries ) ? (int) ceil( $count / $this->max_entries ) : 1;
 
 			for ( $i = 0; $i < $n; $i ++ ) {
-				$count = ( $n > 1 ) ? $i + 1 : '';
+				$count = ( $n > 1 ) ? ($i + 1) : '';
 
 				// must use custom raw query because WP User Query does not support ordering by usermeta
 				// Retrieve the newest updated profile timestamp overall
@@ -528,7 +528,7 @@ class WPSEO_Sitemaps {
 						$wpdb->prepare(
 							$date_query . ' DESC LIMIT 1 OFFSET %d',
 							$wpdb->get_blog_prefix() . 'user_level',
-							$this->max_entries * ( $i + 1 ) - 1
+							($this->max_entries * ( $i + 1 ) - 1)
 						)
 					);
 				}
@@ -602,8 +602,8 @@ class WPSEO_Sitemaps {
 
 		$steps  = ( 100 > $this->max_entries ) ? $this->max_entries : 100;
 		$n      = (int) $this->n;
-		$offset = ( $n > 1 ) ? ( $n - 1 ) * $this->max_entries : 0;
-		$total  = $offset + $this->max_entries;
+		$offset = ( $n > 1 ) ? (( $n - 1 ) * $this->max_entries) : 0;
+		$total  = ($offset + $this->max_entries);
 
 		$join_filter  = '';
 		$join_filter  = apply_filters( 'wpseo_typecount_join', $join_filter, $post_type );
@@ -726,7 +726,7 @@ class WPSEO_Sitemaps {
 				$this->do_attachment_ids_caching( $attachments, $thumbnails );
 			}
 
-			$offset = $offset + $steps;
+			$offset = ($offset + $steps);
 
 			if ( is_array( $posts ) && $posts !== array() ) {
 				foreach ( $posts as $p ) {
@@ -911,7 +911,7 @@ class WPSEO_Sitemaps {
 
 		$steps  = $this->max_entries;
 		$n      = (int) $this->n;
-		$offset = ( $n > 1 ) ? ( $n - 1 ) * $this->max_entries : 0;
+		$offset = ( $n > 1 ) ? (( $n - 1 ) * $this->max_entries) : 0;
 
 		/**
 		 * Filter: 'wpseo_sitemap_exclude_empty_terms' - Allow people to include empty terms in sitemap
@@ -1019,7 +1019,7 @@ class WPSEO_Sitemaps {
 
 		$steps  = $this->max_entries;
 		$n      = (int) $this->n;
-		$offset = ( $n > 1 ) ? ( $n - 1 ) * $this->max_entries : 0;
+		$offset = ( $n > 1 ) ? (( $n - 1 ) * $this->max_entries) : 0;
 
 		// initial query to fill in missing usermeta with the current timestamp
 		$users = get_users(
@@ -1119,7 +1119,7 @@ class WPSEO_Sitemaps {
 			$expires = YEAR_IN_SECONDS;
 			header( 'Pragma: public' );
 			header( 'Cache-Control: maxage=' . $expires );
-			header( 'Expires: ' . gmdate( 'D, d M Y H:i:s', time() + $expires ) . ' GMT' );
+			header( 'Expires: ' . gmdate( 'D, d M Y H:i:s', (time() + $expires) ) . ' GMT' );
 
 			require_once( WPSEO_PATH . 'css/xml-sitemap-xsl.php' );
 		} else {
@@ -1295,7 +1295,7 @@ class WPSEO_Sitemaps {
 			return 0;
 		}
 
-		return ( $a->_yoast_wpseo_profile_updated > $b->_yoast_wpseo_profile_updated ) ? 1 : - 1;
+		return ( $a->_yoast_wpseo_profile_updated > $b->_yoast_wpseo_profile_updated ) ? 1 : (- 1);
 	}
 
 	/**
@@ -1357,12 +1357,12 @@ class WPSEO_Sitemaps {
 
 		$url = '';
 
-		if ( $file = get_post_meta( $post_id, '_wp_attached_file', true ) ) { //Get attached file
-			if ( 0 === strpos( $file, $uploads['basedir'] ) ) { //Check that the upload base exists in the file location
+		if ( $file = get_post_meta( $post_id, '_wp_attached_file', true ) ) { // Get attached file
+			if ( 0 === strpos( $file, $uploads['basedir'] ) ) { // Check that the upload base exists in the file location
 				$url = str_replace( $uploads['basedir'], $uploads['baseurl'], $file );
 			} //replace file location with url location
 			elseif ( false !== strpos( $file, 'wp-content/uploads' ) ) {
-				$url = $uploads['baseurl'] . substr( $file, strpos( $file, 'wp-content/uploads' ) + 18 );
+				$url = $uploads['baseurl'] . substr( $file, (strpos( $file, 'wp-content/uploads' ) + 18) );
 			} else {
 				$url = $uploads['baseurl'] . "/$file";
 			} //Its a newly uploaded file, therefore $file is relative to the basedir.
