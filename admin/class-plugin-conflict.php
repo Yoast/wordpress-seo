@@ -1,7 +1,8 @@
 <?php
-
 /**
- * @package Admin
+ * @package    WPSEO
+ * @subpackage Admin
+ * @since      1.7.0
  */
 
 class WPSEO_Plugin_Conflict extends Yoast_Plugin_Conflict {

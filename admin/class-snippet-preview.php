@@ -1,5 +1,10 @@
 <?php
 /**
+ * @package WPSEO
+ * @subpackage Admin
+ */
+
+/**
  * class WPSEO_Snippet_Preview
  *
  * Generates a Google Search snippet preview.

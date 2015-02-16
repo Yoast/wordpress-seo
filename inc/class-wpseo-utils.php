@@ -1,16 +1,13 @@
 <?php
 /**
- * @package Internals
+ * @package    WPSEO
+ * @subpackage Internals
+ * @since      1.8.0
  */
 
 /**
  * Group of utility methods for use by WPSEO
  * All methods are static, this is just a sort of namespacing class wrapper.
- *
- * @package    WordPress\Plugins\WPSeo
- * @subpackage Internals
- * @since      1.6.1
- * @version    1.6.1
  */
 class WPSEO_Utils {
 

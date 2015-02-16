@@ -1,6 +1,9 @@
 <?php
 /**
- * @package Admin
+ * @package    WPSEO
+ * @subpackage Admin
+ * @since      1.5.0
+ *
  * @todo    Add default content (when no premium plugins are activated)
  */
 

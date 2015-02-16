@@ -1,13 +1,11 @@
 <?php
 /**
- * @package Admin
+ * @package    WPSEO
+ * @subpackage Admin
+ * @since      1.5.0
  */
 
-/**
- *
- */
 class WPSEO_Bulk_Description_List_Table extends WPSEO_Bulk_List_Table {
-
 
 	/**
 	 * Current type for this class will be (meta) description.

@@ -1,8 +1,7 @@
 <?php
 /**
- * @package Admin
- *
- * This code generates the metabox on the edit post / page as well as contains all page analysis functionality.
+ * @package    WPSEO
+ * @subpackage Admin
  */
 
 /**

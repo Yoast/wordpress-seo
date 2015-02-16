@@ -1,4 +1,9 @@
 <?php
+/**
+ * @package    WPSEO
+ * @subpackage Admin
+ * @since      1.5.3
+ */
 
 class Yoast_Notification {
 

@@ -1,4 +1,9 @@
 <?php
+/**
+ * @package    WPSEO
+ * @subpackage Admin
+ * @since      1.8.0
+ */
 
 class WPSEO_Admin_User_Profile {
 	/**

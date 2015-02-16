@@ -1,8 +1,10 @@
 <?php
-
 /**
- * @package Admin
+ * @package    WPSEO
+ * @subpackage Admin
+ * @since      1.7.0
  */
+
 class Yoast_Plugin_Conflict {
 
 	/**

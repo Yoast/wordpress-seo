@@ -1,4 +1,8 @@
 <?php
+/**
+ * @package    WPSEO
+ * @subpackage Admin
+ */
 
 class WPSEO_Admin_Init {
 

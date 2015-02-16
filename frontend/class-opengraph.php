@@ -1,12 +1,11 @@
 <?php
 /**
- * @package Frontend
- *
- * This code handles the OpenGraph output.
+ * @package    WPSEO
+ * @subpackage Frontend
  */
 
 /**
- * Adds the OpenGraph output
+ * This code adds the OpenGraph output.
  */
 class WPSEO_OpenGraph {
 

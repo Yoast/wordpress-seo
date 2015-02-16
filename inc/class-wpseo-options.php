@@ -1,14 +1,11 @@
 <?php
 /**
- * @package Internals
+ * @package    WPSEO
+ * @subpackage Internals
+ * @since      1.5.0
  */
 
 /**
- * @package    WordPress\Plugins\WPSeo
- * @subpackage Internals
- * @since      1.5.0
- * @version    1.5.0
- *
  * This abstract class and it's concrete classes implement defaults and value validation for
  * all WPSEO options and subkeys within options.
  *

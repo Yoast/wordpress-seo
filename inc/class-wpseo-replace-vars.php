@@ -1,6 +1,8 @@
 <?php
 /**
- * @package Internals
+ * @package    WPSEO
+ * @subpackage Internals
+ * @since      1.5.4
  */
 
 // Avoid direct calls to this file
@@ -11,11 +13,10 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 }
 
 /**
- * @package    WordPress\Plugins\WPSeo
- * @subpackage Internals
- * @since      1.5.4
- * @version    1.5.4
+ * Class: WPSEO_Replace_Vars
  *
+ * This class implements the replacing of `%%variable_placeholders%%` with their real value based on the current
+ * requested page/post/cpt/etc in text strings.
  */
 class WPSEO_Replace_Vars {
 
