@@ -109,7 +109,8 @@ class Yoast_Tracking {
 				'author'     => $theme_data->parent()->display( 'Author', false, false ),
 				'author_uri' => $theme_data->parent()->display( 'AuthorURI', false, false ),
 			);
-		} else {
+		}
+		else {
 			$theme['template'] = '';
 		}
 		unset( $theme_template );
@@ -177,7 +178,8 @@ class Yoast_Tracking {
 function wpseo_tracking_additions( $options ) {
 	if ( function_exists( 'curl_version' ) ) {
 		$curl = curl_version();
-	} else {
+	}
+	else {
 		$curl = null;
 	}
 

@@ -132,10 +132,12 @@ abstract class WPSEO_Option {
 
 			if ( version_compare( $GLOBALS['wp_version'], '3.7', '!=' ) ) { // adding back after non-WP 3.7 UPDATE
 				add_action( 'update_option', array( $this, 'add_default_filters' ) );
-			} else { // adding back after WP 3.7 UPDATE
+			}
+			else { // adding back after WP 3.7 UPDATE
 				add_filter( 'pre_update_option_' . $this->option_name, array( $this, 'wp37_add_default_filters' ) );
 			}
-		} else if ( is_multisite() ) {
+		}
+		else if ( is_multisite() ) {
 			/* The option validation routines remove the default filters to prevent failing
 			   to insert an option if it's new. Let's add them back afterwards.
 
@@ -347,7 +349,8 @@ abstract class WPSEO_Option {
 		$option_value = array_map( array( 'WPSEO_Utils', 'trim_recursive' ), $option_value );
 		if ( $this->multisite_only !== true ) {
 			$old = get_option( $this->option_name );
-		} else {
+		}
+		else {
 			$old = get_site_option( $this->option_name );
 		}
 		$clean = $this->validate_option( $option_value, $clean, $old );
@@ -384,7 +387,8 @@ abstract class WPSEO_Option {
 		// Get (unvalidated) array, NOT merged with defaults
 		if ( $this->multisite_only !== true ) {
 			$option_value = get_option( $this->option_name );
-		} else {
+		}
+		else {
 			$option_value = get_site_option( $this->option_name );
 		}
 
@@ -405,7 +409,8 @@ abstract class WPSEO_Option {
 		if ( $this->get_original_option() === false ) {
 			if ( $this->multisite_only !== true ) {
 				update_option( $this->option_name, $this->get_defaults() );
-			} else {
+			}
+			else {
 				$this->update_site_option( $this->get_defaults() );
 			}
 		}
@@ -431,7 +436,8 @@ abstract class WPSEO_Option {
 			$this->add_default_filters();
 
 			return $result;
-		} else {
+		}
+		else {
 			return false;
 		}
 	}
@@ -478,7 +484,8 @@ abstract class WPSEO_Option {
 	public function import( $option_value, $current_version = null, $all_old_option_values = null ) {
 		if ( $option_value === false ) {
 			$option_value = $this->get_defaults();
-		} elseif ( is_array( $option_value ) && method_exists( $this, 'clean_option' ) ) {
+		}
+		elseif ( is_array( $option_value ) && method_exists( $this, 'clean_option' ) ) {
 			$option_value = $this->clean_option( $option_value, $current_version, $all_old_option_values );
 		}
 
@@ -486,7 +493,8 @@ abstract class WPSEO_Option {
 			   should no longer be there */
 		if ( $this->multisite_only !== true ) {
 			update_option( $this->option_name, $option_value );
-		} else {
+		}
+		else {
 			$this->update_site_option( $this->option_name, $option_value );
 		}
 	}
@@ -872,7 +880,8 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 					 * on each array entry and remove files which no longer exist, but that might be overkill */
 					if ( isset( $dirty[ $key ] ) && is_array( $dirty[ $key ] ) ) {
 						$clean[ $key ] = array_unique( $dirty[ $key ] );
-					} elseif ( isset( $old[ $key ] ) && is_array( $old[ $key ] ) ) {
+					}
+					elseif ( isset( $old[ $key ] ) && is_array( $old[ $key ] ) ) {
 						$clean[ $key ] = array_unique( $old[ $key ] );
 					}
 					break;
@@ -881,7 +890,8 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				case 'theme_description_found':
 					if ( isset( $dirty[ $key ] ) && is_string( $dirty[ $key ] ) ) {
 						$clean[ $key ] = $dirty[ $key ]; // @todo [JRF/whomever] maybe do wp_kses ?
-					} elseif ( isset( $old[ $key ] ) && is_string( $old[ $key ] ) ) {
+					}
+					elseif ( isset( $old[ $key ] ) && is_string( $old[ $key ] ) ) {
 						$clean[ $key ] = $old[ $key ];
 					}
 					break;
@@ -934,7 +944,8 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 
 							if ( preg_match( $regex, $meta ) ) {
 								$clean[ $key ] = $meta;
-							} else {
+							}
+							else {
 								if ( isset( $old[ $key ] ) && preg_match( $regex, $old[ $key ] ) ) {
 									$clean[ $key ] = $old[ $key ];
 								}
@@ -957,7 +968,8 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				case 'theme_has_description':
 					if ( isset( $dirty[ $key ] ) ) {
 						$clean[ $key ] = WPSEO_Utils::validate_bool( $dirty[ $key ] );
-					} elseif ( isset( $old[ $key ] ) ) {
+					}
+					elseif ( isset( $old[ $key ] ) ) {
 						$clean[ $key ] = WPSEO_Utils::validate_bool( $old[ $key ] );
 					}
 					break;
@@ -974,7 +986,8 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				case 'tracking_popup_done':
 					if ( isset( $dirty[ $key ] ) ) {
 						$clean[ $key ] = WPSEO_Utils::validate_bool( $dirty[ $key ] );
-					} elseif ( isset( $old[ $key ] ) ) {
+					}
+					elseif ( isset( $old[ $key ] ) ) {
 						$clean[ $key ] = WPSEO_Utils::validate_bool( $old[ $key ] );
 					}
 					break;
@@ -1170,7 +1183,8 @@ class WPSEO_Option_Permalinks extends WPSEO_Option {
 				case 'force_transport':
 					if ( isset( $dirty[ $key ] ) && in_array( $dirty[ $key ], self::$force_transport_options, true ) ) {
 						$clean[ $key ] = $dirty[ $key ];
-					} else {
+					}
+					else {
 						if ( isset( $old[ $key ] ) && in_array( $old[ $key ], self::$force_transport_options, true ) ) {
 							$clean[ $key ] = $old[ $key ];
 						}
@@ -1467,7 +1481,8 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 
 				if ( $tax !== 'post_format' ) {
 					$this->defaults[ 'noindex-tax-' . $tax ] = false;
-				} else {
+				}
+				else {
 					$this->defaults[ 'noindex-tax-' . $tax ] = true;
 				}
 			}
@@ -1532,7 +1547,8 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 						if ( $int !== false && $int >= 0 ) {
 							$clean[ $key ] = $int;
 						}
-					} elseif ( isset( $old[ $key ] ) ) {
+					}
+					elseif ( isset( $old[ $key ] ) ) {
 						$int = WPSEO_Utils::validate_int( $old[ $key ] );
 						if ( $int !== false && $int >= 0 ) {
 							$clean[ $key ] = $int;
@@ -1621,7 +1637,8 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 			if ( isset( $all_old_option_values['wpseo_indexation'] ) && is_array( $all_old_option_values['wpseo_indexation'] ) && $all_old_option_values['wpseo_indexation'] !== array() ) {
 				$old_option = $all_old_option_values['wpseo_indexation'];
 			}
-		} else {
+		}
+		else {
 			$old_option = get_option( 'wpseo_indexation' );
 		}
 		if ( is_array( $old_option ) && $old_option !== array() ) {
@@ -1713,7 +1730,8 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 								   if so, we should make sure that the old setting hasn't been removed */
 							if ( ! isset( $post_type_names[ $tax ] ) && isset( $option_value[ $old_prefix . $tax ] ) ) {
 								unset( $option_value[ $old_prefix . $tax ] );
-							} else {
+							}
+							else {
 								if ( isset( $post_type_names[ $tax ] ) && ! isset( $option_value[ $old_prefix . $tax ] ) ) {
 									$option_value[ $old_prefix . $tax ] = $original[ $old_prefix . $tax ];
 								}
@@ -2018,12 +2036,15 @@ class WPSEO_Option_InternalLinks extends WPSEO_Option {
 					if ( isset( $dirty[ $key ] ) ) {
 						if ( $taxonomies !== array() && in_array( $dirty[ $key ], $taxonomies, true ) ) {
 							$clean[ $key ] = $dirty[ $key ];
-						} elseif ( (string) $dirty[ $key ] === '0' || (string) $dirty[ $key ] === '' ) {
+						}
+						elseif ( (string) $dirty[ $key ] === '0' || (string) $dirty[ $key ] === '' ) {
 							$clean[ $key ] = 0;
-						} elseif ( sanitize_title_with_dashes( $dirty[ $key ] ) === $dirty[ $key ] ) {
+						}
+						elseif ( sanitize_title_with_dashes( $dirty[ $key ] ) === $dirty[ $key ] ) {
 							// Allow taxonomies which may not be registered yet
 							$clean[ $key ] = $dirty[ $key ];
-						} else {
+						}
+						else {
 							if ( isset( $old[ $key ] ) ) {
 								$clean[ $key ] = sanitize_title_with_dashes( $old[ $key ] );
 							}
@@ -2038,7 +2059,8 @@ class WPSEO_Option_InternalLinks extends WPSEO_Option {
 								);
 							}
 						}
-					} elseif ( isset( $old[ $key ] ) ) {
+					}
+					elseif ( isset( $old[ $key ] ) ) {
 						$clean[ $key ] = sanitize_title_with_dashes( $old[ $key ] );
 					}
 					unset( $taxonomies, $post_type );
@@ -2050,12 +2072,15 @@ class WPSEO_Option_InternalLinks extends WPSEO_Option {
 					if ( isset( $dirty[ $key ] ) ) {
 						if ( $allowed_post_types !== array() && in_array( $dirty[ $key ], $allowed_post_types, true ) ) {
 							$clean[ $key ] = $dirty[ $key ];
-						} elseif ( (string) $dirty[ $key ] === '0' || (string) $dirty[ $key ] === '' ) {
+						}
+						elseif ( (string) $dirty[ $key ] === '0' || (string) $dirty[ $key ] === '' ) {
 							$clean[ $key ] = 0;
-						} elseif ( sanitize_key( $dirty[ $key ] ) === $dirty[ $key ] ) {
+						}
+						elseif ( sanitize_key( $dirty[ $key ] ) === $dirty[ $key ] ) {
 							// Allow taxonomies which may not be registered yet
 							$clean[ $key ] = $dirty[ $key ];
-						} else {
+						}
+						else {
 							if ( isset( $old[ $key ] ) ) {
 								$clean[ $key ] = sanitize_key( $old[ $key ] );
 							}
@@ -2072,7 +2097,8 @@ class WPSEO_Option_InternalLinks extends WPSEO_Option {
 								unset( $tax );
 							}
 						}
-					} elseif ( isset( $old[ $key ] ) ) {
+					}
+					elseif ( isset( $old[ $key ] ) ) {
 						$clean[ $key ] = sanitize_key( $old[ $key ] );
 					}
 					break;
@@ -2157,9 +2183,11 @@ class WPSEO_Option_InternalLinks extends WPSEO_Option {
 
 						if ( $taxonomies !== array() && in_array( $value, $taxonomies, true ) ) {
 							$option_value[ $key ] = $value;
-						} elseif ( (string) $value === '0' || (string) $value === '' ) {
+						}
+						elseif ( (string) $value === '0' || (string) $value === '' ) {
 							$option_value[ $key ] = 0;
-						} elseif ( sanitize_title_with_dashes( $value ) === $value ) {
+						}
+						elseif ( sanitize_title_with_dashes( $value ) === $value ) {
 							// Allow taxonomies which may not be registered yet
 							$option_value[ $key ] = $value;
 						}
@@ -2171,9 +2199,11 @@ class WPSEO_Option_InternalLinks extends WPSEO_Option {
 					case 'taxonomy-':
 						if ( $allowed_post_types !== array() && in_array( $value, $allowed_post_types, true ) ) {
 							$option_value[ $key ] = $value;
-						} elseif ( (string) $value === '0' || (string) $value === '' ) {
+						}
+						elseif ( (string) $value === '0' || (string) $value === '' ) {
 							$option_value[ $key ] = 0;
-						} elseif ( sanitize_key( $option_value[ $key ] ) === $option_value[ $key ] ) {
+						}
+						elseif ( sanitize_key( $option_value[ $key ] ) === $option_value[ $key ] ) {
 							// Allow post types which may not be registered yet
 							$option_value[ $key ] = $value;
 						}
@@ -2312,7 +2342,8 @@ class WPSEO_Option_XML extends WPSEO_Option {
 			foreach ( $filtered_post_types as $pt ) {
 				if ( $pt !== 'attachment' ) {
 					$this->defaults[ 'post_types-' . $pt . '-not_in_sitemap' ] = false;
-				} else {
+				}
+				else {
 					$this->defaults[ 'post_types-' . $pt . '-not_in_sitemap' ] = true;
 				}
 			}
@@ -2358,7 +2389,8 @@ class WPSEO_Option_XML extends WPSEO_Option {
 						$int = WPSEO_Utils::validate_int( $dirty[ $key ] );
 						if ( $int !== false && $int > 0 ) {
 							$clean[ $key ] = $int;
-						} else {
+						}
+						else {
 							if ( isset( $old[ $key ] ) && $old[ $key ] !== '' ) {
 								$int = WPSEO_Utils::validate_int( $old[ $key ] );
 								if ( $int !== false && $int > 0 ) {
@@ -2561,7 +2593,8 @@ class WPSEO_Option_Social extends WPSEO_Option {
 				case 'fbconnectkey':
 					if ( ( isset( $old[ $key ] ) && $old[ $key ] !== '' ) && preg_match( '`^[a-f0-9]{32}$`', $old[ $key ] ) > 0 ) {
 						$clean[ $key ] = $old[ $key ];
-					} else {
+					}
+					else {
 						$clean[ $key ] = self::get_fbconnectkey();
 					}
 					break;
@@ -2572,7 +2605,8 @@ class WPSEO_Option_Social extends WPSEO_Option {
 					if ( isset( $dirty[ $key ] ) && is_array( $dirty[ $key ] ) ) {
 						if ( $dirty[ $key ] === array() ) {
 							$clean[ $key ] = array();
-						} else {
+						}
+						else {
 							foreach ( $dirty[ $key ] as $user_id => $fb_array ) {
 								/* @todo [JRF/JRF => Yoast/whomever] add user_id validation -
 								 * are these WP user-ids or FB user-ids ? Probably FB user-ids,
@@ -2597,7 +2631,8 @@ class WPSEO_Option_Social extends WPSEO_Option {
 							}
 							unset( $user_id, $fb_array, $fb_key, $fb_value );
 						}
-					} elseif ( isset( $old[ $key ] ) && is_array( $old[ $key ] ) ) {
+					}
+					elseif ( isset( $old[ $key ] ) && is_array( $old[ $key ] ) ) {
 						$clean[ $key ] = $old[ $key ];
 					}
 					break;
@@ -2608,7 +2643,8 @@ class WPSEO_Option_Social extends WPSEO_Option {
 					if ( isset( $dirty[ $key ] ) && is_array( $dirty[ $key ] ) ) {
 						if ( $dirty[ $key ] === array() ) {
 							$clean[ $key ] = array();
-						} else {
+						}
+						else {
 							$clean[ $key ] = array();
 							foreach ( $dirty[ $key ] as $app_id => $display_name ) {
 								if ( ctype_digit( (string) $app_id ) !== false ) {
@@ -2617,7 +2653,8 @@ class WPSEO_Option_Social extends WPSEO_Option {
 							}
 							unset( $app_id, $display_name );
 						}
-					} elseif ( isset( $old[ $key ] ) && is_array( $old[ $key ] ) ) {
+					}
+					elseif ( isset( $old[ $key ] ) && is_array( $old[ $key ] ) ) {
 						$clean[ $key ] = $old[ $key ];
 					}
 					break;
@@ -2641,7 +2678,8 @@ class WPSEO_Option_Social extends WPSEO_Option {
 						$url = WPSEO_Utils::sanitize_url( $dirty[ $key ] );
 						if ( $url !== '' ) {
 							$clean[ $key ] = $url;
-						} else {
+						}
+						else {
 							if ( isset( $old[ $key ] ) && $old[ $key ] !== '' ) {
 								$url = WPSEO_Utils::sanitize_url( $old[ $key ] );
 								if ( $url !== '' ) {
@@ -2678,7 +2716,8 @@ class WPSEO_Option_Social extends WPSEO_Option {
 						 */
 						if ( preg_match( '`^[A-Za-z0-9_]{1,25}$`', $twitter_id ) ) {
 							$clean[ $key ] = $twitter_id;
-						} else {
+						}
+						else {
 							if ( isset( $old[ $key ] ) && $old[ $key ] !== '' ) {
 								$twitter_id = sanitize_text_field( ltrim( $old[ $key ], '@' ) );
 								if ( preg_match( '`^[A-Za-z0-9_]{1,25}$`', $twitter_id ) ) {
@@ -2748,7 +2787,8 @@ class WPSEO_Option_Social extends WPSEO_Option {
 			if ( isset( $all_old_option_values['wpseo_indexation'] ) && is_array( $all_old_option_values['wpseo_indexation'] ) && $all_old_option_values['wpseo_indexation'] !== array() ) {
 				$old_option = $all_old_option_values['wpseo_indexation'];
 			}
-		} else {
+		}
+		else {
 			$old_option = get_option( 'wpseo_indexation' );
 		}
 
@@ -2931,7 +2971,8 @@ class WPSEO_Option_MS extends WPSEO_Option {
 				case 'access':
 					if ( isset( $dirty[ $key ] ) && in_array( $dirty[ $key ], self::$allowed_access_options, true ) ) {
 						$clean[ $key ] = $dirty[ $key ];
-					} elseif ( function_exists( 'add_settings_error' ) ) {
+					}
+					elseif ( function_exists( 'add_settings_error' ) ) {
 						add_settings_error(
 							$this->group_name, // slug title of the setting
 							'_' . $key, // suffix-id for the error message box
@@ -2950,7 +2991,8 @@ class WPSEO_Option_MS extends WPSEO_Option {
 							$exists = get_blog_details( $int, false );
 							if ( $exists && $exists->deleted == 0 ) {
 								$clean[ $key ] = $int;
-							} elseif ( function_exists( 'add_settings_error' ) ) {
+							}
+							elseif ( function_exists( 'add_settings_error' ) ) {
 								add_settings_error(
 									$this->group_name, // slug title of the setting
 									'_' . $key, // suffix-id for the error message box
@@ -2959,7 +3001,8 @@ class WPSEO_Option_MS extends WPSEO_Option {
 								);
 							}
 							unset( $exists );
-						} elseif ( function_exists( 'add_settings_error' ) ) {
+						}
+						elseif ( function_exists( 'add_settings_error' ) ) {
 							add_settings_error(
 								$this->group_name, // slug title of the setting
 								'_' . $key, // suffix-id for the error message box
@@ -3247,7 +3290,8 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 						if ( isset( self::$no_index_options[ $meta_data[ $key ] ] ) ) {
 							$clean[ $key ] = $meta_data[ $key ];
 						}
-					} elseif ( isset( $old_meta[ $key ] ) ) {
+					}
+					elseif ( isset( $old_meta[ $key ] ) ) {
 						// Retain old value if field currently not in use
 						$clean[ $key ] = $old_meta[ $key ];
 					}
@@ -3272,7 +3316,8 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 				case 'wpseo_bctitle':
 					if ( isset( $meta_data[ $key ] ) ) {
 						$clean[ $key ] = WPSEO_Utils::sanitize_text_field( stripslashes( $meta_data[ $key ] ) );
-					} elseif ( isset( $old_meta[ $key ] ) ) {
+					}
+					elseif ( isset( $old_meta[ $key ] ) ) {
 						// Retain old value if field currently not in use
 						$clean[ $key ] = $old_meta[ $key ];
 					}
@@ -3322,7 +3367,8 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 						if ( ! is_array( $meta_data ) || $meta_data === array() ) {
 							// Remove empty term arrays
 							unset( $option_value[ $taxonomy ][ $term_id ] );
-						} else {
+						}
+						else {
 							foreach ( $meta_data as $key => $value ) {
 
 								switch ( $key ) {
@@ -3356,7 +3402,8 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 							}
 						}
 					}
-				} else {
+				}
+				else {
 					// Remove empty taxonomy arrays
 					unset( $option_value[ $taxonomy ] );
 				}
@@ -3385,13 +3432,15 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 		/* Figure out the term id */
 		if ( is_int( $term ) ) {
 			$term = get_term_by( 'id', $term, $taxonomy );
-		} elseif ( is_string( $term ) ) {
+		}
+		elseif ( is_string( $term ) ) {
 			$term = get_term_by( 'slug', $term, $taxonomy );
 		}
 
 		if ( is_object( $term ) && isset( $term->term_id ) ) {
 			$term_id = $term->term_id;
-		} else {
+		}
+		else {
 			return false;
 		}
 
@@ -3401,7 +3450,8 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 		/* If we have data for the term, merge with defaults for complete array, otherwise set defaults */
 		if ( isset( $tax_meta[ $taxonomy ][ $term_id ] ) ) {
 			$tax_meta = array_merge( self::$defaults_per_term, $tax_meta[ $taxonomy ][ $term_id ] );
-		} else {
+		}
+		else {
 			$tax_meta = self::$defaults_per_term;
 		}
 
@@ -3409,10 +3459,12 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 			   (shouldn't happen after merge with defaults, indicates typo in request) */
 		if ( ! isset( $meta ) ) {
 			return $tax_meta;
-		} else {
+		}
+		else {
 			if ( isset( $tax_meta[ 'wpseo_' . $meta ] ) ) {
 				return $tax_meta[ 'wpseo_' . $meta ];
-			} else {
+			}
+			else {
 				return false;
 			}
 		}
@@ -3469,7 +3521,8 @@ class WPSEO_Options {
 
 			if ( ! $instance->multisite_only || $is_multisite ) {
 				self::$option_instances[ $option_name ] = $instance;
-			} else {
+			}
+			else {
 				unset( self::$options[ $option_name ] );
 			}
 		}
@@ -3535,7 +3588,8 @@ class WPSEO_Options {
 	public static function update_site_option( $option_name, $value ) {
 		if ( is_network_admin() && isset( self::$option_instances[ $option_name ] ) ) {
 			return self::$option_instances[ $option_name ]->update_site_option( $value );
-		} else {
+		}
+		else {
 			return false;
 		}
 	}
@@ -3596,7 +3650,8 @@ class WPSEO_Options {
 			foreach ( $option_names as $option_name ) {
 				if ( self::$option_instances[ $option_name ]->multisite_only !== true ) {
 					$option = get_option( $option_name );
-				} else {
+				}
+				else {
 					$option = get_site_option( $option_name );
 				}
 
@@ -3626,13 +3681,15 @@ class WPSEO_Options {
 			if ( isset( self::$option_instances[ $option_name ] ) ) {
 				self::$option_instances[ $option_name ]->clean( $current_version );
 			}
-		} elseif ( isset( $option_name ) && is_array( $option_name ) && $option_name !== array() ) {
+		}
+		elseif ( isset( $option_name ) && is_array( $option_name ) && $option_name !== array() ) {
 			foreach ( $option_name as $option ) {
 				if ( isset( self::$option_instances[ $option ] ) ) {
 					self::$option_instances[ $option ]->clean( $current_version );
 				}
 			}
-		} else {
+		}
+		else {
 			foreach ( self::$option_instances as $instance ) {
 				$instance->clean( $current_version );
 			}
@@ -3703,7 +3760,8 @@ class WPSEO_Options {
 					update_option( $option_name, get_option( $option_name ) );
 				}
 			}
-		} else {
+		}
+		else {
 			// Reset MS blog based on network default blog setting
 			self::reset_ms_blog( get_current_blog_id() );
 		}
@@ -3728,7 +3786,8 @@ class WPSEO_Options {
 			if ( $option['ms_defaults_set'] === false ) {
 				self::reset_ms_blog( get_current_blog_id() );
 				self::initialize();
-			} else if ( $force_init === true ) {
+			}
+			else if ( $force_init === true ) {
 				self::initialize();
 			}
 		}

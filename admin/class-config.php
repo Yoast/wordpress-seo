@@ -255,11 +255,14 @@ class WPSEO_Admin_Pages {
 					for ( $i = 0; $i < $elm_count; $i ++ ) {
 						$content .= $key . '[] = "' . $elem[ $i ] . "\"\n";
 					}
-				} elseif ( is_string( $elem ) && $elem == '' ) {
+				}
+				elseif ( is_string( $elem ) && $elem == '' ) {
 					$content .= $key . " = \n";
-				} elseif ( is_bool( $elem ) ) {
+				}
+				elseif ( is_bool( $elem ) ) {
 					$content .= $key . ' = "' . ( ( $elem === true ) ? 'on' : 'off' ) . "\"\n";
-				} else {
+				}
+				else {
 					$content .= $key . ' = "' . $elem . "\"\n";
 				}
 			}
@@ -356,7 +359,8 @@ class WPSEO_Admin_Pages {
 	function get_option( $option ) {
 		if ( is_network_admin() ) {
 			return get_site_option( $option );
-		} else {
+		}
+		else {
 			return get_option( $option );
 		}
 	}
@@ -392,7 +396,8 @@ class WPSEO_Admin_Pages {
 			}
 			$output_label = '<label class="checkbox" for="' . esc_attr( $var ) . '">' . $label_left . '</label>';
 			$class        = 'checkbox';
-		} else {
+		}
+		else {
 			$output_label = '<label for="' . esc_attr( $var ) . '">' . $label . '</label>';
 			$class        = 'checkbox double';
 		}
@@ -401,7 +406,8 @@ class WPSEO_Admin_Pages {
 
 		if ( $label_left !== false ) {
 			$output = $output_label . $output_input . '<label class="checkbox" for="' . esc_attr( $var ) . '">' . $label . '</label>';
-		} else {
+		}
+		else {
 			$output = $output_input . $output_label;
 		}
 
@@ -648,7 +654,8 @@ class WPSEO_Admin_Pages {
 			$content .= '<tr><th scope="row">';
 			if ( isset( $row['id'] ) && $row['id'] != '' ) {
 				$content .= '<label for="' . esc_attr( $row['id'] ) . '">' . esc_html( $row['label'] ) . ':</label>';
-			} else {
+			}
+			else {
 				$content .= esc_html( $row['label'] );
 			}
 			if ( isset( $row['desc'] ) && $row['desc'] != '' ) {

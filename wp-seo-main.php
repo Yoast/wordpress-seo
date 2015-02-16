@@ -75,7 +75,8 @@ if ( function_exists( 'spl_autoload_register' ) ) {
 function wpseo_activate( $networkwide = false ) {
 	if ( ! is_multisite() || ! $networkwide ) {
 		_wpseo_activate();
-	} else {
+	}
+	else {
 		/* Multi-site network activation - activate the plugin for all blogs */
 		wpseo_network_activate_deactivate( true );
 	}
@@ -89,7 +90,8 @@ function wpseo_activate( $networkwide = false ) {
 function wpseo_deactivate( $networkwide = false ) {
 	if ( ! is_multisite() || ! $networkwide ) {
 		_wpseo_deactivate();
-	} else {
+	}
+	else {
 		/* Multi-site network activation - de-activate the plugin for all blogs */
 		wpseo_network_activate_deactivate( false );
 	}
@@ -112,7 +114,8 @@ function wpseo_network_activate_deactivate( $activate = true ) {
 
 			if ( $activate === true ) {
 				_wpseo_activate();
-			} else {
+			}
+			else {
 				_wpseo_deactivate();
 			}
 		}
@@ -131,7 +134,8 @@ function _wpseo_activate() {
 	WPSEO_Options::get_instance();
 	if ( ! is_multisite() ) {
 		WPSEO_Options::initialize();
-	} else {
+	}
+	else {
 		WPSEO_Options::maybe_set_multisite_defaults( true );
 	}
 	WPSEO_Options::ensure_options_exist();
@@ -281,16 +285,19 @@ function wpseo_admin_init() {
 
 if ( ! function_exists( 'spl_autoload_register' ) ) {
 	add_action( 'admin_init', 'yoast_wpseo_self_deactivate', 1 );
-} else if ( ! defined( 'WP_INSTALLING' ) || WP_INSTALLING === false ) {
+}
+else if ( ! defined( 'WP_INSTALLING' ) || WP_INSTALLING === false ) {
 	add_action( 'plugins_loaded', 'wpseo_init', 14 );
 
 	if ( is_admin() ) {
 		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
 			require_once( WPSEO_PATH . 'admin/ajax.php' );
-		} else {
+		}
+		else {
 			add_action( 'plugins_loaded', 'wpseo_admin_init', 15 );
 		}
-	} else {
+	}
+	else {
 		add_action( 'plugins_loaded', 'wpseo_frontend_init', 15 );
 	}
 

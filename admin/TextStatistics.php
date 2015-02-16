@@ -76,7 +76,8 @@ class Yoast_TextStatistics {
 		try {
 			if ( $this->strEncoding == '' ) {
 				$intTextLength = mb_strlen( $strText );
-			} else {
+			}
+			else {
 				$intTextLength = mb_strlen( $strText, $this->strEncoding );
 			}
 		} catch ( Exception $e ) {
@@ -104,7 +105,8 @@ class Yoast_TextStatistics {
 		try {
 			if ( $this->strEncoding == '' ) {
 				$intTextLength = mb_strlen( $strText );
-			} else {
+			}
+			else {
 				$intTextLength = mb_strlen( $strText, $this->strEncoding );
 			}
 		} catch ( Exception $e ) {
@@ -170,7 +172,8 @@ class Yoast_TextStatistics {
 		try {
 			if ( $this->strEncoding == '' ) {
 				$strLowerCaseText = mb_strtolower( $strText );
-			} else {
+			}
+			else {
 				$strLowerCaseText = mb_strtolower( $strText, $this->strEncoding );
 			}
 		} catch ( Exception $e ) {
@@ -195,7 +198,8 @@ class Yoast_TextStatistics {
 		try {
 			if ( $this->strEncoding == '' ) {
 				$strUpperCaseText = mb_strtoupper( $strText );
-			} else {
+			}
+			else {
 				$strUpperCaseText = mb_strtoupper( $strText, $this->strEncoding );
 			}
 		} catch ( Exception $e ) {
@@ -413,7 +417,8 @@ class Yoast_TextStatistics {
 
 		if ( $score > $max ) {
 			$score = $max;
-		} elseif ( $score < $min ) {
+		}
+		elseif ( $score < $min ) {
 			$score = $min;
 		}
 

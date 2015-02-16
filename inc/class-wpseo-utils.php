@@ -173,7 +173,8 @@ class WPSEO_Utils {
 	public static function trim_recursive( $value ) {
 		if ( is_string( $value ) ) {
 			$value = trim( $value );
-		} elseif ( is_array( $value ) ) {
+		}
+		elseif ( is_array( $value ) ) {
 			$value = array_map( array( __CLASS__, 'trim_recursive' ), $value );
 		}
 
@@ -222,7 +223,8 @@ class WPSEO_Utils {
 
 		if ( $css_value ) {
 			return $css;
-		} else {
+		}
+		else {
 			return $score;
 		}
 	}
@@ -252,7 +254,8 @@ class WPSEO_Utils {
 			$filtered = wp_pre_kses_less_than( $filtered );
 			// This will strip extra whitespace for us.
 			$filtered = wp_strip_all_tags( $filtered, true );
-		} else {
+		}
+		else {
 			$filtered = trim( preg_replace( '`[\r\n\t ]+`', ' ', $filtered ) );
 		}
 
@@ -312,7 +315,8 @@ class WPSEO_Utils {
 
 		if ( self::$has_filters ) {
 			return filter_var( $value, FILTER_VALIDATE_BOOLEAN );
-		} else {
+		}
+		else {
 			return self::emulate_filter_bool( $value );
 		}
 	}
@@ -359,17 +363,22 @@ class WPSEO_Utils {
 
 		if ( is_bool( $value ) ) {
 			return $value;
-		} else if ( is_int( $value ) && ( $value === 0 || $value === 1 ) ) {
+		}
+		else if ( is_int( $value ) && ( $value === 0 || $value === 1 ) ) {
 			return (bool) $value;
-		} else if ( ( is_float( $value ) && ! is_nan( $value ) ) && ( $value === (float) 0 || $value === (float) 1 ) ) {
+		}
+		else if ( ( is_float( $value ) && ! is_nan( $value ) ) && ( $value === (float) 0 || $value === (float) 1 ) ) {
 			return (bool) $value;
-		} else if ( is_string( $value ) ) {
+		}
+		else if ( is_string( $value ) ) {
 			$value = trim( $value );
 			if ( in_array( $value, $true, true ) ) {
 				return true;
-			} else if ( in_array( $value, $false, true ) ) {
+			}
+			else if ( in_array( $value, $false, true ) ) {
 				return false;
-			} else {
+			}
+			else {
 				return false;
 			}
 		}
@@ -392,7 +401,8 @@ class WPSEO_Utils {
 
 		if ( self::$has_filters ) {
 			return filter_var( $value, FILTER_VALIDATE_INT );
-		} else {
+		}
+		else {
 			return self::emulate_filter_int( $value );
 		}
 	}
@@ -409,21 +419,27 @@ class WPSEO_Utils {
 	public static function emulate_filter_int( $value ) {
 		if ( is_int( $value ) ) {
 			return $value;
-		} else if ( is_float( $value ) ) {
+		}
+		else if ( is_float( $value ) ) {
 			if ( (int) $value == $value && ! is_nan( $value ) ) {
 				return (int) $value;
-			} else {
+			}
+			else {
 				return false;
 			}
-		} else if ( is_string( $value ) ) {
+		}
+		else if ( is_string( $value ) ) {
 			$value = trim( $value );
 			if ( $value === '' ) {
 				return false;
-			} else if ( ctype_digit( $value ) ) {
+			}
+			else if ( ctype_digit( $value ) ) {
 				return (int) $value;
-			} else if ( strpos( $value, '-' ) === 0 && ctype_digit( substr( $value, 1 ) ) ) {
+			}
+			else if ( strpos( $value, '-' ) === 0 && ctype_digit( substr( $value, 1 ) ) ) {
 				return (int) $value;
-			} else {
+			}
+			else {
 				return false;
 			}
 		}
@@ -452,7 +468,8 @@ class WPSEO_Utils {
 		if ( $force_unschedule !== true && ( $value['yoast_tracking'] === true && $current_schedule === false ) ) {
 			// The tracking checks daily, but only sends new data every 7 days.
 			wp_schedule_event( time(), 'daily', 'yoast_tracking' );
-		} elseif ( $force_unschedule === true || ( $value['yoast_tracking'] === false && $current_schedule !== false ) ) {
+		}
+		elseif ( $force_unschedule === true || ( $value['yoast_tracking'] === false && $current_schedule !== false ) ) {
 			wp_clear_scheduled_hook( 'yoast_tracking' );
 		}
 	}
@@ -465,7 +482,8 @@ class WPSEO_Utils {
 	public static function clear_cache() {
 		if ( function_exists( 'w3tc_pgcache_flush' ) ) {
 			w3tc_pgcache_flush();
-		} elseif ( function_exists( 'wp_cache_clear_cache' ) ) {
+		}
+		elseif ( function_exists( 'wp_cache_clear_cache' ) ) {
 			wp_cache_clear_cache();
 		}
 	}
@@ -628,7 +646,8 @@ class WPSEO_Utils {
 				$compare = true;
 				if ( $bc ) {
 					$result = bccomp( $number1, $number2, $precision ); // returns int 0, 1 or -1
-				} else {
+				}
+				else {
 					$result = ( $number1 == $number2 ) ? 0 : ( ( $number1 > $number2 ) ? 1 : - 1 );
 				}
 				break;
@@ -641,7 +660,8 @@ class WPSEO_Utils {
 					if ( $decimals === 0 ) {
 						$result = (int) $result;
 					}
-				} else {
+				}
+				else {
 					$result = ( intval( $result ) == $result ) ? intval( $result ) : floatval( $result );
 				}
 			}
@@ -666,7 +686,8 @@ class WPSEO_Utils {
 	public static function filter_input( $type, $variable_name, $filter = FILTER_DEFAULT ) {
 		if ( function_exists( 'filter_input' ) ) {
 			return filter_input( $type, $variable_name, $filter );
-		} else {
+		}
+		else {
 			switch ( $type ) {
 				case INPUT_GET:
 					$type = $_GET;
@@ -684,7 +705,8 @@ class WPSEO_Utils {
 
 			if ( isset( $type[ $variable_name ] ) ) {
 				$out = $type[ $variable_name ];
-			} else {
+			}
+			else {
 				return false;
 			}
 

@@ -95,7 +95,8 @@ class WPSEO_Snippet_Preview {
 	protected function get_post_date() {
 		if ( isset( $this->post->post_date ) && $this->post->post_status == 'publish' ) {
 			$date = date_i18n( 'j M Y', strtotime( $this->post->post_date ) );
-		} else {
+		}
+		else {
 			$date = date_i18n( 'j M Y' );
 		}
 

@@ -321,7 +321,8 @@ function wpseo_store_tracking_response() {
 
 	if ( $_POST['allow_tracking'] == 'yes' ) {
 		$options['yoast_tracking'] = true;
-	} else {
+	}
+	else {
 		$options['yoast_tracking'] = false;
 	}
 

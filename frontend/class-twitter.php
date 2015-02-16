@@ -163,7 +163,8 @@ class WPSEO_Twitter {
 	protected function description() {
 		if ( is_singular() ) {
 			$meta_desc = $this->single_description();
-		} else {
+		}
+		else {
 			$meta_desc = $this->fallback_description();
 		}
 
@@ -214,7 +215,8 @@ class WPSEO_Twitter {
 	protected function title() {
 		if ( is_singular() ) {
 			$title = $this->single_title();
-		} else {
+		}
+		else {
 			$title = $this->fallback_title();
 		}
 
@@ -238,7 +240,8 @@ class WPSEO_Twitter {
 		$title = WPSEO_Meta::get_value( 'twitter-title' );
 		if ( ! is_string( $title ) || '' === $title ) {
 			return $this->fallback_title();
-		} else {
+		}
+		else {
 			return $title;
 		}
 	}
@@ -282,7 +285,8 @@ class WPSEO_Twitter {
 	private function get_twitter_id( $id ) {
 		if ( preg_match( '`([A-Za-z0-9_]{1,25})$`', $id, $match ) ) {
 			return $match[1];
-		} else {
+		}
+		else {
 			return false;
 		}
 	}
@@ -311,7 +315,8 @@ class WPSEO_Twitter {
 
 		if ( 'gallery' === $this->type ) {
 			$this->gallery_images_output();
-		} else {
+		}
+		else {
 			$this->single_image_output();
 		}
 
@@ -489,7 +494,8 @@ class WPSEO_Twitter {
 
 		if ( is_string( $twitter ) && $twitter !== '' ) {
 			$this->output_metatag( 'creator', '@' . $twitter );
-		} elseif ( $this->options['twitter_site'] !== '' ) {
+		}
+		elseif ( $this->options['twitter_site'] !== '' ) {
 			if ( is_string( $this->options['twitter_site'] ) && $this->options['twitter_site'] !== '' ) {
 				$this->output_metatag( 'creator', '@' . $this->options['twitter_site'] );
 			}

@@ -307,7 +307,8 @@ class WPSEO_Meta {
 					   function_exists as a precaution in case they remove it. */
 					if ( $register === true ) {
 						register_meta( 'post', self::$meta_prefix . $key, array( __CLASS__, 'sanitize_post_meta' ) );
-					} else {
+					}
+					else {
 						add_filter( 'sanitize_post_meta_' . self::$meta_prefix . $key, array( __CLASS__, 'sanitize_post_meta' ), 10, 2 );
 					}
 
@@ -320,7 +321,8 @@ class WPSEO_Meta {
 					// Set the $defaults property for efficiency
 					if ( isset( $field_def['default_value'] ) ) {
 						self::$defaults[ self::$meta_prefix . $key ] = $field_def['default_value'];
-					} else {
+					}
+					else {
 						// meta will always be a string, so let's make the meta meta default also a string
 						self::$defaults[ self::$meta_prefix . $key ] = '';
 					}
@@ -362,7 +364,8 @@ class WPSEO_Meta {
 				if ( $options['usemetakeywords'] === true ) {
 					/* Adjust the link in the keywords description text string based on the post type */
 					$field_defs['metakeywords']['description'] = sprintf( $field_defs['metakeywords']['description'], '<a target="_blank" href="' . esc_url( admin_url( 'admin.php?page=wpseo_titles#' . urlencode( $post_type ) ) ) . '">', '</a>' );
-				} else {
+				}
+				else {
 					/* Don't show the keywords field if keywords aren't enabled */
 					unset( $field_defs['metakeywords'] );
 				}
@@ -389,7 +392,8 @@ class WPSEO_Meta {
 				$post_type = '';
 				if ( isset( $post->post_type ) ) {
 					$post_type = $post->post_type;
-				} elseif ( ! isset( $post->post_type ) && isset( $_GET['post_type'] ) ) {
+				}
+				elseif ( ! isset( $post->post_type ) && isset( $_GET['post_type'] ) ) {
 					$post_type = sanitize_text_field( $_GET['post_type'] );
 				}
 
@@ -406,7 +410,8 @@ class WPSEO_Meta {
 						}
 					}
 					$robots_adv = implode( ', ', $robots_adv );
-				} else {
+				}
+				else {
 					$robots_adv = __( 'None', 'wordpress-seo' );
 				}
 				$field_defs['meta-robots-adv']['options']['-'] = sprintf( $field_defs['meta-robots-adv']['options']['-'], $robots_adv );
@@ -559,11 +564,13 @@ class WPSEO_Meta {
 			if ( in_array( 'none', $meta_value, true ) ) {
 				// None is one of the selected values, takes priority over everything else
 				$clean = 'none';
-			} elseif ( in_array( '-', $meta_value, true ) ) {
+			}
+			elseif ( in_array( '-', $meta_value, true ) ) {
 				// Site-wide defaults is one of the selected values, takes priority over
 				// individual selected entries
 				$clean = '-';
-			} else {
+			}
+			else {
 				// Individual selected entries
 				$cleaning = array();
 				foreach ( $meta_value as $value ) {
@@ -601,7 +608,8 @@ class WPSEO_Meta {
 		if ( isset( self::$fields_index[ $meta_key ] ) && self::meta_value_is_default( $meta_key, $meta_value ) === true ) {
 			if ( $prev_value !== '' ) {
 				delete_post_meta( $object_id, $meta_key, $prev_value );
-			} else {
+			}
+			else {
 				delete_post_meta( $object_id, $meta_key );
 			}
 
@@ -676,7 +684,8 @@ class WPSEO_Meta {
 		if ( $postid === 0 ) {
 			if ( ( isset( $post ) && is_object( $post ) ) && ( isset( $post->post_status ) && $post->post_status !== 'auto-draft' ) ) {
 				$postid = $post->ID;
-			} else {
+			}
+			else {
 				return '';
 			}
 		}
@@ -687,7 +696,8 @@ class WPSEO_Meta {
 			$unserialized = maybe_unserialize( $custom[ self::$meta_prefix . $key ][0] );
 			if ( $custom[ self::$meta_prefix . $key ][0] === $unserialized ) {
 				return $custom[ self::$meta_prefix . $key ][0];
-			} else {
+			}
+			else {
 				$field_def = self::$meta_fields[ self::$fields_index[ self::$meta_prefix . $key ]['subset'] ][ self::$fields_index[ self::$meta_prefix . $key ]['key'] ];
 				if ( isset( $field_def['serialized'] ) && $field_def['serialized'] === true ) {
 					// Ok, serialize value expected/allowed
@@ -699,7 +709,8 @@ class WPSEO_Meta {
 		// Meta was either not found or found, but object/array while not allowed to be
 		if ( isset( self::$defaults[ self::$meta_prefix . $key ] ) ) {
 			return self::$defaults[ self::$meta_prefix . $key ];
-		} else {
+		}
+		else {
 			/* Shouldn't ever happen, means not one of our keys as there will always be a default available
 			   for all our keys */
 			return '';
@@ -821,7 +832,8 @@ class WPSEO_Meta {
 				foreach ( $old_values as $value ) {
 					if ( $value === 'noindex' ) {
 						update_post_meta( $old->post_id, self::$meta_prefix . 'meta-robots-noindex', 1 );
-					} elseif ( $value === 'nofollow' ) {
+					}
+					elseif ( $value === 'nofollow' ) {
 						update_post_meta( $old->post_id, self::$meta_prefix . 'meta-robots-nofollow', 1 );
 					}
 				}
@@ -859,7 +871,8 @@ class WPSEO_Meta {
 						"( meta_key = %s AND ( meta_value = 'none' OR meta_value = '-' ) )",
 						self::$meta_prefix . $key
 					);
-				} elseif ( isset( $field_def['options'] ) && is_array( $field_def['options'] ) && $field_def['options'] !== array() ) {
+				}
+				elseif ( isset( $field_def['options'] ) && is_array( $field_def['options'] ) && $field_def['options'] !== array() ) {
 					$valid = $field_def['options'];
 					// remove the default value from the valid options
 					unset( $valid[ $field_def['default_value'] ] );
@@ -870,13 +883,15 @@ class WPSEO_Meta {
 						self::$meta_prefix . $key
 					);
 					unset( $valid );
-				} elseif ( is_string( $field_def['default_value'] ) && $field_def['default_value'] !== '' ) {
+				}
+				elseif ( is_string( $field_def['default_value'] ) && $field_def['default_value'] !== '' ) {
 					$query[] = $wpdb->prepare(
 						'( meta_key = %s AND meta_value = %s )',
 						self::$meta_prefix . $key,
 						$field_def['default_value']
 					);
-				} else {
+				}
+				else {
 					$query[] = $wpdb->prepare(
 						"( meta_key = %s AND meta_value = '' )",
 						self::$meta_prefix . $key
@@ -929,7 +944,8 @@ class WPSEO_Meta {
 				if ( $clean !== $old->meta_value ) {
 					if ( $clean !== self::$meta_fields['advanced']['meta-robots-adv']['default_value'] ) {
 						update_metadata_by_mid( 'post', $old->meta_id, $clean );
-					} else {
+					}
+					else {
 						delete_metadata_by_mid( 'post', $old->meta_id );
 					}
 				}
@@ -967,7 +983,8 @@ class WPSEO_Meta {
 		if ( count( $arrays ) < 2 ) {
 			if ( $arrays === array() ) {
 				return array();
-			} else {
+			}
+			else {
 				return $arrays[0];
 			}
 		}
@@ -978,7 +995,8 @@ class WPSEO_Meta {
 			foreach ( $array as $key => $value ) {
 				if ( is_array( $value ) && ( isset( $merged[ $key ] ) && is_array( $merged[ $key ] ) ) ) {
 					$merged[ $key ] = self::array_merge_recursive_distinct( $merged[ $key ], $value );
-				} else {
+				}
+				else {
 					$merged[ $key ] = $value;
 				}
 			}

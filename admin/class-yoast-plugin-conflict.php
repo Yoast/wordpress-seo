@@ -91,7 +91,8 @@ class Yoast_Plugin_Conflict {
 			$has_conflicts      = ( ! empty( $this->active_plugins[ $plugin_section ] ) );
 
 			return $has_conflicts;
-		} else {
+		}
+		else {
 			return false;
 		}
 	}

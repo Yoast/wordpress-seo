@@ -128,7 +128,8 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 
 				if ( current_user_can( $post_type->cap->edit_others_posts ) ) {
 					$this->all_posts[] = esc_sql( $post_type->name );
-				} else {
+				}
+				else {
 					$this->own_posts[] = esc_sql( $post_type->name );
 				}
 			}
@@ -322,7 +323,8 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 				submit_button( __( 'Filter', 'wordpress-seo' ), 'button', false, false, array( 'id' => 'post-query-submit' ) );
 				echo '</div>';
 			}
-		} elseif ( 'bottom' === $which ) {
+		}
+		elseif ( 'bottom' === $which ) {
 
 		}
 
@@ -653,7 +655,8 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 				if ( $can_edit_post ) {
 					$actions['view'] = '<a href="' . esc_url( add_query_arg( 'preview', 'true', get_permalink( $rec->ID ) ) ) . '" title="' . esc_attr( sprintf( __( 'Preview &#8220;%s&#8221;', 'wordpress-seo' ), $rec->post_title ) ) . '">' . __( 'Preview', 'wordpress-seo' ) . '</a>';
 				}
-			} elseif ( 'trash' != $rec->post_status ) {
+			}
+			elseif ( 'trash' != $rec->post_status ) {
 				$actions['view'] = '<a href="' . esc_url( get_permalink( $rec->ID ) ) . '" title="' . esc_attr( sprintf( __( 'View &#8220;%s&#8221;', 'wordpress-seo' ), $rec->post_title ) ) . '" rel="bookmark">' . __( 'View', 'wordpress-seo' ) . '</a>';
 			}
 		}

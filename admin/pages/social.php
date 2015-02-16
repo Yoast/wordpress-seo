@@ -42,7 +42,8 @@ if ( isset( $_GET['delfbadmin'] ) ) {
 			'delfbadmin',
 		), sanitize_text_field( $_SERVER['REQUEST_URI'] ) );
 	}
-} elseif ( isset( $_GET['fbclearall'] ) ) {
+}
+elseif ( isset( $_GET['fbclearall'] ) ) {
 	if ( wp_verify_nonce( $_GET['nonce'], 'fbclearall' ) != 1 ) {
 		die( "I don't think that's really nice of you!." );
 	}
@@ -60,7 +61,8 @@ if ( isset( $_GET['delfbadmin'] ) ) {
 			'fbclearall',
 		), sanitize_text_field( $_SERVER['REQUEST_URI'] ) );
 	}
-} elseif ( isset( $_GET['key'] ) ) {
+}
+elseif ( isset( $_GET['key'] ) ) {
 	if ( $_GET['key'] === $options['fbconnectkey'] ) {
 		if ( isset( $_GET['userid'] ) ) {
 			$user_id = sanitize_text_field( $_GET['userid'] );
@@ -69,11 +71,13 @@ if ( isset( $_GET['delfbadmin'] ) ) {
 				$options['fb_admins'][ $user_id ]['link'] = sanitize_text_field( urldecode( $_GET['link'] ) );
 				update_option( 'wpseo_social', $options );
 				add_settings_error( 'yoast_wpseo_social_options', 'success', sprintf( __( 'Successfully added %s as a Facebook Admin!', 'wordpress-seo' ), '<a href="' . esc_url( $options['fb_admins'][ $user_id ]['link'] ) . '">' . esc_html( $options['fb_admins'][ $user_id ]['name'] ) . '</a>' ), 'updated' );
-			} else {
+			}
+			else {
 				add_settings_error( 'yoast_wpseo_social_options', 'error', sprintf( __( '%s already exists as a Facebook Admin.', 'wordpress-seo' ), '<a href="' . esc_url( $options['fb_admins'][ $user_id ]['link'] ) . '">' . esc_html( $options['fb_admins'][ $user_id ]['name'] ) . '</a>' ), 'error' );
 			}
 			unset( $user_id );
-		} elseif ( isset( $_GET['apps'] ) ) {
+		}
+		elseif ( isset( $_GET['apps'] ) ) {
 			$apps = json_decode( stripslashes( $_GET['apps'] ), true );
 			if ( is_array( $apps ) && $apps !== array() ) {
 				$options['fbapps'] = array( '0' => __( 'Do not use a Facebook App as Admin', 'wordpress-seo' ) );
@@ -82,7 +86,8 @@ if ( isset( $_GET['delfbadmin'] ) ) {
 				}
 				update_option( 'wpseo_social', $options );
 				add_settings_error( 'yoast_wpseo_social_options', 'success', __( 'Successfully retrieved your apps from Facebook, now select an app to use as admin.', 'wordpress-seo' ), 'updated' );
-			} else {
+			}
+			else {
 				add_settings_error( 'yoast_wpseo_social_options', 'error', __( 'Failed to retrieve your apps from Facebook.', 'wordpress-seo' ), 'error' );
 			}
 			unset( $apps, $app );

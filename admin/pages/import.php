@@ -254,7 +254,8 @@ if ( isset( $_POST['import'] ) || isset( $_GET['import'] ) ) {
 				'<a href="' . esc_url( admin_url( 'update.php?action=install-plugin&plugin=google-analytics-for-wordpress&_wpnonce=' . $plugin_install_nonce ) ) . '">',
 				'</a>'
 			), 'wordpress-seo' );
-		} else {
+		}
+		else {
 			$msg .= __( sprintf( 'All in One SEO data successfully imported. Would you like to %sdisable the All in One SEO plugin%s.', '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_import&deactivate_aioseo=1' ) ) . '">', '</a>' ), 'wordpress-seo' );
 		}
 	}
@@ -302,7 +303,8 @@ if ( isset( $_POST['import'] ) || isset( $_GET['import'] ) ) {
 			if ( $optnew['rssafter'] === '' || $optnew['rssafter'] === WPSEO_Options::get_default( 'wpseo_rss', 'rssafter' ) ) {
 				$optnew['rssafter'] = $optold['footerstring'];
 			}
-		} else {
+		}
+		else {
 			/* @internal Uncomment the second part if a default would be given to the rssbefore value */
 			if ( $optnew['rssbefore'] === '' /*|| $optnew['rssbefore'] === WPSEO_Options::get_default( 'wpseo_rss', 'rssbefore' )*/ ) {
 				$optnew['rssbefore'] = $optold['footerstring'];
@@ -321,14 +323,16 @@ if ( isset( $_POST['import'] ) || isset( $_GET['import'] ) ) {
 			foreach ( $optold as $opt => $val ) {
 				if ( is_bool( $val ) && $val == true ) {
 					$optnew[ 'breadcrumbs-' . $opt ] = true;
-				} else {
+				}
+				else {
 					$optnew[ 'breadcrumbs-' . $opt ] = $val;
 				}
 			}
 			unset( $opt, $val );
 			update_option( 'wpseo_internallinks', $optnew );
 			$msg .= __( 'Yoast Breadcrumbs options imported successfully.', 'wordpress-seo' );
-		} else {
+		}
+		else {
 			$msg .= __( 'Yoast Breadcrumbs options could not be found', 'wordpress-seo' );
 		}
 		unset( $optold, $optnew );
@@ -417,7 +421,8 @@ if ( isset( $_POST['wpseo_export'] ) ) {
 			document.location = \'' . $url . '\';
 		</script>';
 		add_action( 'admin_footer-' . $GLOBALS['hook_suffix'], 'wpseo_deliver_export_zip' );
-	} else {
+	}
+	else {
 		$content .= 'Error: ' . $url;
 	}
 }
@@ -432,7 +437,8 @@ if ( ! isset( $_FILES['settings_import_file'] ) || empty( $_FILES['settings_impo
 	$content .= '<input type="hidden" name="action" value="wp_handle_upload"/>';
 	$content .= '<input type="submit" class="button" value="' . __( 'Import settings', 'wordpress-seo' ) . '"/>';
 	$content .= '</form><br/>';
-} elseif ( isset( $_FILES['settings_import_file'] ) ) {
+}
+elseif ( isset( $_FILES['settings_import_file'] ) ) {
 	check_admin_referer( 'wpseo-import-file' );
 	$file = wp_handle_upload( $_FILES['settings_import_file'] );
 
@@ -468,30 +474,36 @@ if ( ! isset( $_FILES['settings_import_file'] ) || empty( $_FILES['settings_impo
 						$option_instance = WPSEO_Options::get_option_instance( $name );
 						if ( is_object( $option_instance ) && method_exists( $option_instance, 'import' ) ) {
 							$optgroup = $option_instance->import( $optgroup, $old_wpseo_version, $options );
-						} elseif ( WP_DEBUG === true || ( defined( 'WPSEO_DEBUG' ) && WPSEO_DEBUG === true ) ) {
+						}
+						elseif ( WP_DEBUG === true || ( defined( 'WPSEO_DEBUG' ) && WPSEO_DEBUG === true ) ) {
 							$content .= '<p><strong>' . sprintf( __( 'Setting "%s" is no longer used and has been discarded.', 'wordpress-seo' ), $name ) . '</strong></p>';
 
 						}
 					}
 					$content .= '<p><strong>' . __( 'Settings successfully imported.', 'wordpress-seo' ) . '</strong></p>';
-				} else {
+				}
+				else {
 					$content .= '<p><strong>' . __( 'Settings could not be imported:', 'wordpress-seo' ) . ' ' . __( 'No settings found in file.', 'wordpress-seo' ) . '</strong></p>';
 				}
 				unset( $options, $name, $optgroup );
-			} else {
+			}
+			else {
 				$content .= '<p><strong>' . __( 'Settings could not be imported:', 'wordpress-seo' ) . ' ' . __( 'Unzipping failed - file settings.ini not found.', 'wordpress-seo' ) . '</strong></p>';
 			}
 			@unlink( $filename );
 			@unlink( $p_path );
-		} else {
+		}
+		else {
 			$content .= '<p><strong>' . __( 'Settings could not be imported:', 'wordpress-seo' ) . ' ' . sprintf( __( 'Unzipping failed with error "%s".', 'wordpress-seo' ), $unzipped->get_error_message() ) . '</strong></p>';
 		}
 		unset( $zip, $unzipped );
 		@unlink( $file['file'] );
-	} else {
+	}
+	else {
 		if ( is_wp_error( $file ) ) {
 			$content .= '<p><strong>' . __( 'Settings could not be imported:', 'wordpress-seo' ) . ' ' . $file->get_error_message() . '</strong></p>';
-		} else {
+		}
+		else {
 			$content .= '<p><strong>' . __( 'Settings could not be imported:', 'wordpress-seo' ) . ' ' . __( 'Upload failed.', 'wordpress-seo' ) . '</strong></p>';
 		}
 	}
