@@ -19,7 +19,6 @@ local.properties
 .buildpath
 nbproject/
 node_modules/*
-Gruntfile.js
 premium/node_modules/*
 
 ############

@@ -57,6 +57,8 @@ class WPSEO_Premium {
 		$autoloader = new WPSEO_Premium_Autoloader();
 		spl_autoload_register( array( $autoloader, 'load' ) );
 
+		$this->load_textdomain();
+
 		if ( is_admin() ) {
 
 			// Upgrade Manager
@@ -336,7 +338,7 @@ class WPSEO_Premium {
 
 				$wp_admin_bar->add_menu( array(
 					'id'    => 'wpseo-premium-create-redirect',
-					'title' => __( 'Create Redirect', 'wordpress-seo' ),
+					'title' => __( 'Create Redirect', 'wordpress-seo-premium' ),
 					'href'  => admin_url( 'admin.php?page=wpseo_redirects&old_url=' . $old_url )
 				) );
 			}
@@ -403,7 +405,7 @@ class WPSEO_Premium {
 	 * @param $name
 	 */
 	public function admin_page_meta_post_types_checkboxes( $wpseo_admin_pages, $name ) {
-		echo $wpseo_admin_pages->textinput( 'page-analyse-extra-' . $name, __( 'Add custom fields to page analysis', 'wordpress-seo' ) );
+		echo $wpseo_admin_pages->textinput( 'page-analyse-extra-' . $name, __( 'Add custom fields to page analysis', 'wordpress-seo-premium' ) );
 	}
 
 	/**
@@ -427,7 +429,7 @@ class WPSEO_Premium {
 		$submenu_pages[] = array(
 			'wpseo_dashboard',
 			'',
-			__( 'Redirects', 'wordpress-seo' ),
+			__( 'Redirects', 'wordpress-seo-premium' ),
 			'manage_options',
 			'wpseo_redirects',
 			array( 'WPSEO_Page_Redirect', 'display' ),
@@ -436,7 +438,7 @@ class WPSEO_Premium {
 		$submenu_pages[] = array(
 			'wpseo_dashboard',
 			'',
-			__( 'Webmaster Tools', 'wordpress-seo' ),
+			__( 'Webmaster Tools', 'wordpress-seo-premium' ),
 			'manage_options',
 			'wpseo_webmaster_tools',
 			array( $this->page_gwt, 'display' ),
@@ -445,7 +447,7 @@ class WPSEO_Premium {
 		$submenu_pages[] = array(
 			'wpseo_dashboard',
 			'',
-			__( 'Video Tutorials', 'wordpress-seo' ),
+			__( 'Video Tutorials', 'wordpress-seo-premium' ),
 			'edit_posts',
 			'wpseo_tutorial_videos',
 			array( 'WPSEO_Tutorial_Videos', 'display' )
@@ -600,4 +602,8 @@ class WPSEO_Premium {
 		echo "<style type='text/css'>#wpseo_content_top{ padding-left: 0; margin-left: 0; }</style>";
 	}
 
+
+	private function load_textdomain() {
+		load_plugin_textdomain( 'wordpress-seo-premium', false, dirname( plugin_basename( WPSEO_FILE ) ) . '/premium/languages/' );
+	}
 }

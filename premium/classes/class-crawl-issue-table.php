@@ -67,9 +67,9 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 		$current = $this->get_current_view();
 
 		$views_arr = array(
-			'all'            => __( 'All', 'wordpress-seo' ),
-			'not-redirected' => __( 'Not redirected', 'wordpress-seo' ),
-			'ignored'        => __( 'Ignored', 'wordpress-seo' ),
+			'all'            => __( 'All', 'wordpress-seo-premium' ),
+			'not-redirected' => __( 'Not redirected', 'wordpress-seo-premium' ),
+			'ignored'        => __( 'Ignored', 'wordpress-seo-premium' ),
 		);
 
 		$new_views = array();
@@ -120,11 +120,11 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 	public function get_columns() {
 		$columns = array(
 			//'cb'            => '<input type="checkbox" />',
-			'url'           => __( 'URL', 'wordpress-seo' ),
-			'issue_type'    => __( 'Issue Type', 'wordpress-seo' ),
-			'date_detected' => __( 'Date detected', 'wordpress-seo' ),
-			'detail'        => __( 'Details', 'wordpress-seo' ),
-			'linked_from'   => __( 'Linked From', 'wordpress-seo' ),
+			'url'           => __( 'URL', 'wordpress-seo-premium' ),
+			'issue_type'    => __( 'Issue Type', 'wordpress-seo-premium' ),
+			'date_detected' => __( 'Date detected', 'wordpress-seo-premium' ),
+			'detail'        => __( 'Details', 'wordpress-seo-premium' ),
+			'linked_from'   => __( 'Linked From', 'wordpress-seo-premium' ),
 		);
 
 		return $columns;
@@ -251,17 +251,17 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 	 */
 	public function column_url( $item ) {
 		$actions = array(
-			'create_redirect' => '<a href="javascript:wpseo_create_redirect(\'' . urlencode( $item['url'] ) . '\', \'' . $this->get_current_view() . '\');">' . __( 'Create redirect', 'wordpress-seo' ) . '</a>',
-			'view'            => '<a href="' . $item['url'] . '" target="_blank">' . __( 'View', 'wordpress-seo' ) . '</a>',
+			'create_redirect' => '<a href="javascript:wpseo_create_redirect(\'' . urlencode( $item['url'] ) . '\', \'' . $this->get_current_view() . '\');">' . __( 'Create redirect', 'wordpress-seo-premium' ) . '</a>',
+			'view'            => '<a href="' . $item['url'] . '" target="_blank">' . __( 'View', 'wordpress-seo-premium' ) . '</a>',
 		);
 
 		// Current view
 		$current_view = $this->get_current_view();
 
 		if ( 'ignored' == $current_view ) {
-			$actions['unignore'] = '<a href="javascript:wpseo_unignore_redirect(\'' . urlencode( $item['url'] ) . '\');">' . __( 'Unignore', 'wordpress-seo' ) . '</a>';
+			$actions['unignore'] = '<a href="javascript:wpseo_unignore_redirect(\'' . urlencode( $item['url'] ) . '\');">' . __( 'Unignore', 'wordpress-seo-premium' ) . '</a>';
 		} else {
-			$actions['ignore'] = '<a href="javascript:wpseo_ignore_redirect(\'' . urlencode( $item['url'] ) . '\');">' . __( 'Ignore', 'wordpress-seo' ) . '</a>';
+			$actions['ignore'] = '<a href="javascript:wpseo_ignore_redirect(\'' . urlencode( $item['url'] ) . '\');">' . __( 'Ignore', 'wordpress-seo-premium' ) . '</a>';
 		}
 
 		return sprintf(
@@ -317,7 +317,7 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 	public function get_bulk_actions() {
 		return array(); // No bulk action at the moment, please try again later.
 		$actions = array(
-			'create_redirects' => __( 'Create Redirects', 'wordpress-seo' )
+			'create_redirects' => __( 'Create Redirects', 'wordpress-seo-premium' )
 		);
 
 		return $actions;
@@ -356,7 +356,7 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 
 			echo '<div class="alignleft actions">';
 			echo sprintf( '<select name="gwt-issue_filter">%1$s</select>', $options );
-			submit_button( __( 'Filter', 'wordpress-seo' ), 'button', false, false, array( 'id' => 'post-query-submit' ) );
+			submit_button( __( 'Filter', 'wordpress-seo-premium' ), 'button', false, false, array( 'id' => 'post-query-submit' ) );
 			echo '</div>';
 		}
 
