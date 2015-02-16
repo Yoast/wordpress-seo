@@ -765,7 +765,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	 */
 	protected function get_post_ids() {
 		$needed_ids = array();
-		foreach ( $this->items AS $item ) {
+		foreach ( $this->items as $item ) {
 			$needed_ids[] = $item->ID;
 		}
 
@@ -803,7 +803,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	 */
 	protected function parse_meta_data( $meta_data ) {
 
-		foreach ( $meta_data AS $row ) {
+		foreach ( $meta_data as $row ) {
 			$this->meta_data[ $row->post_id ][ $row->meta_key ] = $row->meta_value;
 		}
 
