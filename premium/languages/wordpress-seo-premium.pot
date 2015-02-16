@@ -1,14 +1,14 @@
-# Copyright (C) 2014 
+# Copyright (C) 2015 
 # This file is distributed under the same license as the  package.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo-premium/issues\n"
-"POT-Creation-Date: 2014-11-19 14:02:51+00:00\n"
+"POT-Creation-Date: 2015-02-16 11:53:50+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2014-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2015-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Yoast Translate Team <translations@yoast.com>\n"
 "Language-Team: Yoast Translate <translations@yoast.com>\n"
 "X-Generator: grunt-wp-i18n 0.4.9\n"
@@ -296,42 +296,46 @@ msgid "Import .htaccess"
 msgstr ""
 
 #: classes/class-premium-javascript-strings.php:9
-msgid "The old URL field can't be empty."
+msgid "You can't redirect a URL to itself."
 msgstr ""
 
 #: classes/class-premium-javascript-strings.php:10
-msgid "The REGEX field can't be empty."
+msgid "The old URL field can't be empty."
 msgstr ""
 
 #: classes/class-premium-javascript-strings.php:11
-msgid "The new URL field can't be empty."
+msgid "The REGEX field can't be empty."
 msgstr ""
 
 #: classes/class-premium-javascript-strings.php:12
-msgid "Error while saving this redirect"
+msgid "The new URL field can't be empty."
 msgstr ""
 
 #: classes/class-premium-javascript-strings.php:13
-msgid "New type can't be empty."
+msgid "Error while saving this redirect"
 msgstr ""
 
 #: classes/class-premium-javascript-strings.php:14
-msgid "You have unsaved redirects, are you sure you want to leave?"
+msgid "New type can't be empty."
 msgstr ""
 
 #: classes/class-premium-javascript-strings.php:15
-msgid "Please enter the new URL"
+msgid "You have unsaved redirects, are you sure you want to leave?"
 msgstr ""
 
 #: classes/class-premium-javascript-strings.php:16
-msgid "Redirect saved!"
+msgid "Please enter the new URL"
 msgstr ""
 
 #: classes/class-premium-javascript-strings.php:17
-msgid "Possibly bad redirect."
+msgid "Redirect saved!"
 msgstr ""
 
 #: classes/class-premium-javascript-strings.php:18
+msgid "Possibly bad redirect."
+msgstr ""
+
+#: classes/class-premium-javascript-strings.php:19
 msgid "The URL you entered returned a HTTP code different than 200(OK)."
 msgstr ""
 
