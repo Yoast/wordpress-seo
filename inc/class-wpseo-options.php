@@ -1830,9 +1830,9 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 } /* End of class WPSEO_Option_Titles */
 
 
-/*******************************************************************
+/**
  * Option: wpseo_rss
- *******************************************************************/
+ */
 class WPSEO_Option_RSS extends WPSEO_Option {
 
 	/**
@@ -1897,9 +1897,9 @@ class WPSEO_Option_RSS extends WPSEO_Option {
 } /* End of class WPSEO_Option_RSS */
 
 
-/*******************************************************************
+/**
  * Option: wpseo_internallinks
- *******************************************************************/
+ */
 class WPSEO_Option_InternalLinks extends WPSEO_Option {
 
 	/**
@@ -2243,9 +2243,9 @@ class WPSEO_Option_InternalLinks extends WPSEO_Option {
 } /* End of class WPSEO_Option_InternalLinks */
 
 
-/*******************************************************************
+/**
  * Option: wpseo_xml
- *******************************************************************/
+ */
 class WPSEO_Option_XML extends WPSEO_Option {
 
 	/**
@@ -2469,9 +2469,9 @@ class WPSEO_Option_XML extends WPSEO_Option {
 } /* End of class WPSEO_Option_XML */
 
 
-/*******************************************************************
+/**
  * Option: wpseo_social
- *******************************************************************/
+ */
 class WPSEO_Option_Social extends WPSEO_Option {
 
 	/**
@@ -3042,9 +3042,9 @@ class WPSEO_Option_MS extends WPSEO_Option {
 		}*/
 } /* End of class WPSEO_Option_MS */
 
-/*******************************************************************
+/**
  * Option: wpseo_taxonomy_meta
- *******************************************************************/
+ */
 class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 
 	/**
