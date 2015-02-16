@@ -534,19 +534,19 @@ class WPSEO_Utils {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @param    mixed  $number1      Scalar (string/int/float/bool)
-	 * @param    string $action       Calculation action to execute. Valid input:
-	 *                                '+' or 'add' or 'addition',
-	 *                                '-' or 'sub' or 'subtract',
-	 *                                '*' or 'mul' or 'multiply',
-	 *                                '/' or 'div' or 'divide',
-	 *                                '%' or 'mod' or 'modulus'
-	 *                                '=' or 'comp' or 'compare'
-	 * @param    mixed  $number2      Scalar (string/int/float/bool)
-	 * @param    bool   $round        Whether or not to round the result. Defaults to false.
-	 *                                Will be disregarded for a compare operation
-	 * @param    int    $decimals     Decimals for rounding operation. Defaults to 0.
-	 * @param    int    $precision    Calculation precision. Defaults to 10.
+	 * @param    mixed  $number1   Scalar (string/int/float/bool)
+	 * @param    string $action    Calculation action to execute. Valid input:
+	 *                             '+' or 'add' or 'addition',
+	 *                             '-' or 'sub' or 'subtract',
+	 *                             '*' or 'mul' or 'multiply',
+	 *                             '/' or 'div' or 'divide',
+	 *                             '%' or 'mod' or 'modulus'
+	 *                             '=' or 'comp' or 'compare'
+	 * @param    mixed  $number2   Scalar (string/int/float/bool)
+	 * @param    bool   $round     Whether or not to round the result. Defaults to false.
+	 *                             Will be disregarded for a compare operation
+	 * @param    int    $decimals  Decimals for rounding operation. Defaults to 0.
+	 * @param    int    $precision Calculation precision. Defaults to 10.
 	 *
 	 * @return    mixed                Calculation Result or false if either or the numbers isn't scalar or
 	 *                                an invalid operation was passed

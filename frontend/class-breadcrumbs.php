@@ -213,7 +213,7 @@ class WPSEO_Breadcrumbs {
 		/* As we could still have two subcategories, from different parent categories,
 		   let's pick the one with the lowest ordered ancestor. */
 		$parents_count = 0;
-		$term_order    = 9999; //because ASC
+		$term_order    = 9999; // because ASC
 		reset( $terms_by_id );
 		$deepest_term = current( $terms_by_id );
 		foreach ( $terms_by_id as $term ) {
@@ -222,20 +222,20 @@ class WPSEO_Breadcrumbs {
 			if ( count( $parents ) >= $parents_count ) {
 				$parents_count = count( $parents );
 
-				//if higher count
+				// if higher count
 				if ( count( $parents ) > $parents_count ) {
-					//reset order
+					// reset order
 					$term_order = 9999;
 				}
 
-				$parent_order = 9999; //set default order
+				$parent_order = 9999; // set default order
 				foreach ( $parents as $parent ) {
 					if ( $parent->parent == 0 && isset( $parent->term_order ) ) {
 						$parent_order = $parent->term_order;
 					}
 				}
 
-				//check if parent has lowest order
+				// check if parent has lowest order
 				if ( $parent_order < $term_order ) {
 					$term_order = $parent_order;
 
@@ -697,12 +697,12 @@ class WPSEO_Breadcrumbs {
 	/**
 	 * Create a breadcrumb element string
 	 *
-	 * @param    array $link      Link info array containing the keys:
-	 *                            'text'    => (string) link text
-	 *                            'url'    => (string) link url
-	 *                            (optional) 'allow_html'    => (bool) whether to (not) escape html in the link text
-	 *                            This prevents html stripping from the text strings set in the
-	 *                            WPSEO -> Internal Links options page
+	 * @param    array $link Link info array containing the keys:
+	 *                       'text'    => (string) link text
+	 *                       'url'    => (string) link url
+	 *                       (optional) 'allow_html'    => (bool) whether to (not) escape html in the link text
+	 *                       This prevents html stripping from the text strings set in the
+	 *                       WPSEO -> Internal Links options page
 	 *
 	 * @return    string
 	 */

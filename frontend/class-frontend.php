@@ -479,7 +479,7 @@ class WPSEO_Frontend {
 				} elseif ( isset( $post_type_obj->name ) ) {
 					$title_part = $post_type_obj->name;
 				} else {
-					$title_part = ''; //To be determined what this should be
+					$title_part = ''; // To be determined what this should be
 				}
 			}
 		} elseif ( is_archive() ) {

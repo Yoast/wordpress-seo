@@ -183,20 +183,20 @@ abstract class WPSEO_Option {
 	 * All concrete classes *must* contain the get_instance method
 	 * @internal Unfortunately I can't define it as an abstract as it also *has* to be static....
 	 */
-	//abstract protected static function get_instance();
+	// abstract protected static function get_instance();
 
 
 	/**
 	 * Concrete classes *may* contain a translate_defaults method
 	 */
-	//abstract public function translate_defaults();
+	// abstract public function translate_defaults();
 
 
 	/**
 	 * Concrete classes *may* contain a enrich_defaults method to add additional defaults once
 	 * all post_types and taxonomies have been registered
 	 */
-	//abstract public function enrich_defaults();
+	// abstract public function enrich_defaults();
 
 
 	/* *********** METHODS INFLUENCING get_option() *********** */
@@ -496,7 +496,7 @@ abstract class WPSEO_Option {
 	 * Concrete classes *may* contain a clean_option method which will clean out old/renamed
 	 * values within the option
 	 */
-	//abstract public function clean_option( $option_value, $current_version = null, $all_old_option_values = null );
+	// abstract public function clean_option( $option_value, $current_version = null, $all_old_option_values = null );
 
 
 	/* *********** HELPER METHODS for internal use *********** */
@@ -780,7 +780,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 
 	public static $desc_defaults = array(
 		'ignore_meta_description_warning' => false,
-		'theme_description_found'         => '', //  text string description
+		'theme_description_found'         => '', // text string description
 		'theme_has_description'           => null,
 	);
 
@@ -1058,7 +1058,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 			'ignore_page_comments',
 			'ignore_permalink',
 			'ignore_tour',
-			//'disableadvanced_meta', => not needed as is 'on' which will auto-convert to true
+			// 'disableadvanced_meta', => not needed as is 'on' which will auto-convert to true
 			'tracking_popup_done',
 		);
 		foreach ( $value_change as $key ) {
@@ -2497,11 +2497,11 @@ class WPSEO_Option_Social extends WPSEO_Option {
 	public static $twitter_card_types = array(
 		'summary'             => '',
 		'summary_large_image' => '',
-		//'photo'               => '',
-		//'gallery'             => '',
-		//'app'                 => '',
-		//'player'              => '',
-		//'product'             => '',
+		// 'photo'               => '',
+		// 'gallery'             => '',
+		// 'app'                 => '',
+		// 'player'              => '',
+		// 'product'             => '',
 	);
 
 
@@ -2825,7 +2825,7 @@ class WPSEO_Option_MS extends WPSEO_Option {
 	 */
 	protected $defaults = array(
 		'access'      => 'admin',
-		'defaultblog' => '', //numeric blog id or empty
+		'defaultblog' => '', // numeric blog id or empty
 	);
 
 	/**
@@ -3678,7 +3678,7 @@ class WPSEO_Options {
 			   from the isolated activation */
 		require_once( WPSEO_PATH . 'inc/wpseo-non-ajax-functions.php' );
 
-		//wpseo_title_test();
+		// wpseo_title_test();
 		wpseo_description_test();
 
 		/* Force WooThemes to use WordPress SEO data. */

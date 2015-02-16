@@ -26,9 +26,9 @@ class WPSEO_Sitemaps_Admin {
 		if ( $options['enablexmlsitemap'] === true ) {
 
 			$file_to_check_for = array(
-				//ABSPATH . 'sitemap.xml',
-				//ABSPATH . 'sitemap.xslt',
-				//ABSPATH . 'sitemap.xsl',
+				// ABSPATH . 'sitemap.xml',
+				// ABSPATH . 'sitemap.xslt',
+				// ABSPATH . 'sitemap.xsl',
 				ABSPATH . 'sitemap_index.xml',
 			);
 

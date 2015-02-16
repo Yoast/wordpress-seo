@@ -9,12 +9,12 @@
 class WPSEO_Bulk_List_Table extends WP_List_Table {
 
 	/*
-	 * Array of post types for which the current user has `edit_others_posts` capabilities.
+        * Array of post types for which the current user has `edit_others_posts` capabilities.
 	 */
 	private $all_posts;
 
 	/*
-	 * Array of post types for which the current user has `edit_posts` capabilities, but not `edit_others_posts`.
+        * Array of post types for which the current user has `edit_posts` capabilities, but not `edit_others_posts`.
 	 */
 	private $own_posts;
 
@@ -451,7 +451,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	 * @return string
 	 */
 	protected function get_post_type_clause() {
-		//	Filter Block
+		// Filter Block
 		$post_types       = null;
 		$post_type_clause = '';
 
@@ -510,7 +510,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	 */
 	protected function parse_item_query( $subquery, $all_states, $post_type_clause ) {
 
-		//	Order By block
+		// Order By block
 		$orderby = ! empty( $_GET['orderby'] ) ? esc_sql( sanitize_text_field( $_GET['orderby'] ) ) : 'post_title';
 		$order   = 'ASC';
 

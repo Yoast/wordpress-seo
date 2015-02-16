@@ -203,13 +203,13 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
  *
  * @since 1.5.4
  *
- * @param  string $var                   The name of the variable to replace, i.e. '%%var%%'
- *                                       - the surrounding %% are optional, name can only contain [A-Za-z0-9_-]
- * @param  mixed  $replace_function      Function or method to call to retrieve the replacement value for the variable
- *                                       Uses the same format as add_filter/add_action function parameter and
- *                                       should *return* the replacement value. DON'T echo it!
- * @param  string $type                  Type of variable: 'basic' or 'advanced', defaults to 'advanced'
- * @param  string $help_text             Help text to be added to the help tab for this variable
+ * @param  string $var              The name of the variable to replace, i.e. '%%var%%'
+ *                                  - the surrounding %% are optional, name can only contain [A-Za-z0-9_-]
+ * @param  mixed  $replace_function Function or method to call to retrieve the replacement value for the variable
+ *                                  Uses the same format as add_filter/add_action function parameter and
+ *                                  should *return* the replacement value. DON'T echo it!
+ * @param  string $type             Type of variable: 'basic' or 'advanced', defaults to 'advanced'
+ * @param  string $help_text        Help text to be added to the help tab for this variable
  *
  * @return bool     Whether the replacement function was succesfully registered
  */
@@ -644,12 +644,12 @@ function wpseo_strip_shortcode( $text ) {
  *
  * @since 1.5.0
  *
- * @param	mixed   $number1    Scalar (string/int/float/bool)
- * @param	string	$action		Calculation action to execute.
- * @param	mixed	$number2    Scalar (string/int/float/bool)
- * @param	bool	$round		Whether or not to round the result. Defaults to false.
- * @param	int		$decimals	Decimals for rounding operation. Defaults to 0.
- * @param	int		$precision	Calculation precision. Defaults to 10.
+ * @param	mixed  $number1   Scalar (string/int/float/bool)
+ * @param	string $action    Calculation action to execute.
+ * @param	mixed  $number2   Scalar (string/int/float/bool)
+ * @param	bool   $round     Whether or not to round the result. Defaults to false.
+ * @param	int    $decimals  Decimals for rounding operation. Defaults to 0.
+ * @param	int    $precision Calculation precision. Defaults to 10.
  * @return	mixed				Calculation Result or false if either or the numbers isn't scalar or
  *								an invalid operation was passed
  */

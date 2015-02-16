@@ -65,7 +65,6 @@ class WPSEO_Replace_Vars {
 	 * Setup the help texts and external replacements as statics so they will be available to all instances
 	 */
 	public static function setup_statics_once() {
-		//
 		if ( self::$help_texts === array() ) {
 			self::set_basic_help_texts();
 			self::set_advanced_help_texts();
@@ -87,13 +86,13 @@ class WPSEO_Replace_Vars {
 	 *
 	 * @see wpseo_register_var_replacement() for a usage example
 	 *
-	 * @param  string $var                   The name of the variable to replace, i.e. '%%var%%'
-	 *                                       - the surrounding %% are optional
-	 * @param  mixed  $replace_function      Function or method to call to retrieve the replacement value for the variable
-	 *                                       Uses the same format as add_filter/add_action function parameter and
-	 *                                       should *return* the replacement value. DON'T echo it!
-	 * @param  string $type                  Type of variable: 'basic' or 'advanced', defaults to 'advanced'
-	 * @param  string $help_text             Help text to be added to the help tab for this variable
+	 * @param  string $var              The name of the variable to replace, i.e. '%%var%%'
+	 *                                  - the surrounding %% are optional
+	 * @param  mixed  $replace_function Function or method to call to retrieve the replacement value for the variable
+	 *                                  Uses the same format as add_filter/add_action function parameter and
+	 *                                  should *return* the replacement value. DON'T echo it!
+	 * @param  string $type             Type of variable: 'basic' or 'advanced', defaults to 'advanced'
+	 * @param  string $help_text        Help text to be added to the help tab for this variable
 	 *
 	 * @return bool     Whether the replacement function was succesfully registered
 	 */
@@ -637,8 +636,8 @@ class WPSEO_Replace_Vars {
 	/**
 	 * Retrieve a post/page/cpt's custom field value for use as replacement string
 	 *
-	 * @param string $var  The complete variable to replace which includes the name of
-	 *                     the custom field which value is to be retrieved.
+	 * @param string $var The complete variable to replace which includes the name of
+	 *                    the custom field which value is to be retrieved.
 	 *
 	 * @return string|null
 	 */
@@ -687,8 +686,8 @@ class WPSEO_Replace_Vars {
 	/**
 	 * Retrieve a post/page/cpt's custom taxonomies description for use as replacement string
 	 *
-	 * @param string $var  The complete variable to replace which includes the name of
-	 *                     the custom taxonomy which description is to be retrieved.
+	 * @param string $var The complete variable to replace which includes the name of
+	 *                    the custom taxonomy which description is to be retrieved.
 	 *
 	 * @return string|null
 	 */
