@@ -57,6 +57,8 @@ class WPSEO_Premium {
 		$autoloader = new WPSEO_Premium_Autoloader();
 		spl_autoload_register( array( $autoloader, 'load' ) );
 
+		$this->load_textdomain();
+
 		if ( is_admin() ) {
 
 			// Upgrade Manager
@@ -600,4 +602,8 @@ class WPSEO_Premium {
 		echo "<style type='text/css'>#wpseo_content_top{ padding-left: 0; margin-left: 0; }</style>";
 	}
 
+
+	private function load_textdomain() {
+		load_plugin_textdomain( 'wordpress-seo-premium', false, dirname( plugin_basename( WPSEO_FILE ) ) . '/premium/languages/' );
+	}
 }
