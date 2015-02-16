@@ -1681,7 +1681,19 @@ class WPSEO_Frontend {
 	 * @return string
 	 */
 	function embed_rss( $content, $context = 'full' ) {
-		if ( is_feed() ) {
+
+		/**
+		 * Dynamically include/exclude the RSS footer
+		 *
+		 * Allow other plugins to show/hide the RSS footer dynamically - useful for non-standard RSS feeds
+		 *
+		 * @since 1.7.2
+		 *
+		 * @param boolean $is_feed Indicates if this is an RSS feed or not
+		 */
+		$include_rss_footer = apply_filters( 'wpseo_include_rss_footer', is_feed() );
+
+		if ( $include_rss_footer ) {
 
 			$before = '';
 			$after  = '';
