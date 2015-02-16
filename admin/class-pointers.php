@@ -306,7 +306,7 @@ class WPSEO_Pointers {
 
 				setup = function () {
 					$('<?php echo $selector; ?>').pointer(wpseo_pointer_options).pointer('open');
-					<?php if ( $button_array['button2']['text'] ) { ?>
+					<?php if ( $button_array['button2']['text'] ) : ?>
 					jQuery('#pointer-close').after('<a id="pointer-primary" class="button-primary">' + '<?php echo $button_array['button2']['text']; ?>' + '</a>');
 					jQuery('#pointer-primary').click(function () {
 						<?php echo $button_array['button2']['function']; ?>
@@ -318,20 +318,18 @@ class WPSEO_Pointers {
 					});
 					<?php } ?>
 					jQuery('#pointer-close').click(function () {
-						<?php if ( $button_array['button1']['function'] == '' ) { ?>
+						<?php if ( $button_array['button1']['function'] == '' ) : ?>
 						wpseo_setIgnore("tour", "wp-pointer-0", "<?php echo esc_js( wp_create_nonce( 'wpseo-ignore' ) ); ?>");
-						<?php }
-						else { ?>
+						<?php else : ?>
 						<?php echo $button_array['button1']['function']; ?>
-						<?php } ?>
+						<?php endif; ?>
 					});
-					<?php }
-					else if ( $button_array['button3']['text'] ) { ?>
+					<?php elseif ( $button_array['button3']['text'] ) : ?>
 					jQuery('#pointer-close').after('<a id="pointer-ternary" style="float: left;" class="button-secondary">' + '<?php echo $button_array['button3']['text']; ?>' + '</a>');
 					jQuery('#pointer-ternary').click(function () {
 						<?php echo $button_array['button3']['function']; ?>
 					});
-					<?php } ?>
+					<?php endif; ?>
 				};
 
 				if (wpseo_pointer_options.position && wpseo_pointer_options.position.defer_loading)

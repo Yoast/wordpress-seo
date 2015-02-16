@@ -90,14 +90,13 @@ global $wpseo_admin_pages;
 					<p><?php echo esc_html( $extension->desc ); ?></p>
 
 					<p>
-						<?php if ( $extension->installed ) { ?>
+						<?php if ( $extension->installed ) : ?>
 							<button class="button-primary installed">Installed</button>
-						<?php }
-						else { ?>
+						<?php else : ?>
 							<a target="_blank" href="<?php echo esc_url( $extension->url . $utm ); ?>" class="button-primary">
 								<?php esc_html_e( 'Get this extension', 'wordpress-seo' ); ?>
 							</a>
-						<?php } ?>
+						<?php endif; ?>
 					</p>
 				</div>
 			<?php
