@@ -205,12 +205,11 @@ class WPSEO_OpenGraph {
 	/**
 	 * Outputs the SEO title as OpenGraph title.
 	 *
+	 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
+	 *
 	 * @param bool $echo Whether or not to echo the output.
 	 *
-	 * @return string $title
-	 *
-	 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
-	 * @return boolean
+	 * @return string|boolean
 	 */
 	public function og_title( $echo = true ) {
 		if ( is_singular() ) {
@@ -436,7 +435,7 @@ class WPSEO_OpenGraph {
 	/**
 	 * Output the OpenGraph image elements for all the images within the current post/page.
 	 *
-	 * @return bool
+	 * @return void
 	 */
 	public function image() {
 

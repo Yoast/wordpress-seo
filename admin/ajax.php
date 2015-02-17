@@ -146,6 +146,12 @@ add_action( 'wp_ajax_wpseo_save_title', 'wpseo_save_title' );
 /**
  * Helper function for updating an existing seo title or create a new one
  * if it doesn't already exist.
+ *
+ * @param int    $post_id
+ * @param string $new_title
+ * @param string $original_title
+ *
+ * @return string
  */
 function wpseo_upsert_new_title( $post_id, $new_title, $original_title ) {
 
@@ -157,6 +163,14 @@ function wpseo_upsert_new_title( $post_id, $new_title, $original_title ) {
 /**
  * Helper function to update a post's meta data, returning relevant information
  * about the information updated and the results or the meta update.
+ *
+ * @param int    $post_id
+ * @param string $new_meta_value
+ * @param string $orig_meta_value
+ * @param string $meta_key
+ * @param string $return_key
+ *
+ * @return string
  */
 function wpseo_upsert_meta( $post_id, $new_meta_value, $orig_meta_value, $meta_key, $return_key ) {
 
@@ -265,6 +279,10 @@ add_action( 'wp_ajax_wpseo_save_metadesc', 'wpseo_save_description' );
 
 /**
  * Helper function to create or update a post's meta description.
+ *
+ * @param int    $post_id
+ * @param string $new_metadesc
+ * @param string $original_metadesc
  */
 function wpseo_upsert_new_description( $post_id, $new_metadesc, $original_metadesc ) {
 

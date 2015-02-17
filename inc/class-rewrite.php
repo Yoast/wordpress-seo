@@ -79,7 +79,7 @@ class WPSEO_Rewrite {
 	/**
 	 * Update the query vars with the redirect var when stripcategorybase is active
 	 *
-	 * @param $query_vars
+	 * @param array $query_vars
 	 *
 	 * @return array
 	 */

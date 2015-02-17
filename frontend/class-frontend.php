@@ -909,7 +909,7 @@ class WPSEO_Frontend {
 	 * This function normally outputs the canonical but is also used in other places to retrieve
 	 * the canonical URL for the current page.
 	 *
-	 * @return string $canonical
+	 * @return void
 	 */
 	private function generate_canonical() {
 		$canonical          = false;
@@ -1129,7 +1129,7 @@ class WPSEO_Frontend {
 	 * @param string  $page                 the page number to add on to $url for the $link tag.
 	 * @param boolean $incl_pagination_base whether or not to include /page/ or not.
 	 *
-	 * @return string $link link element
+	 * @return void
 	 *
 	 * @since 1.0.2
 	 */
@@ -1179,7 +1179,7 @@ class WPSEO_Frontend {
 	/**
 	 * Outputs the meta keywords element.
 	 *
-	 * @return string
+	 * @return void
 	 */
 	public function metakeywords() {
 		global $wp_query, $post;

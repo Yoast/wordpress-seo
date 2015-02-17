@@ -44,14 +44,14 @@ class Yoast_Plugin_Conflict {
 	/**
 	 * For the use of singleton pattern. Create instance of itself and return his instance
 	 *
-	 * @param bool|string $classname Give the classname to initialize. If classname is false (empty) it will use it's own __CLASS__
+	 * @param string $class_name Give the classname to initialize. If classname is false (empty) it will use it's own __CLASS__
 	 *
 	 * @return Yoast_Plugin_Conflict
 	 */
-	public static function get_instance( $class_name = false ) {
+	public static function get_instance( $class_name = '' ) {
 
 		if ( is_null( self::$instance ) ) {
-			if ( empty( $class_name ) ) {
+			if ( ! is_string( $class_name ) || $class_name === '' ) {
 				$class_name = __CLASS__;
 			}
 

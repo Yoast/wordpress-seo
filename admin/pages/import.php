@@ -513,7 +513,9 @@ $wpseo_admin_pages->postbox( 'wpseo_export', __( 'Export & Import SEO Settings',
 
 $wpseo_admin_pages->admin_footer( false );
 
-
+/**
+ * Echoes export_js global.
+ */
 function wpseo_deliver_export_zip() {
 	if ( isset( $GLOBALS['export_js'] ) && $GLOBALS['export_js'] !== '' ) {
 		echo $GLOBALS['export_js'];

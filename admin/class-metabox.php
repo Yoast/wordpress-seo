@@ -5,14 +5,12 @@
  */
 
 /**
- * class WPSEO_Metabox
- *
- * The class that generates the metabox on the edit post / page as well as contains all page analysis functionality.
+ * This class generates the metabox on the edit post / page as well as contains all page analysis functionality.
  */
 class WPSEO_Metabox extends WPSEO_Meta {
 
 	/**
-	 * Property holding the Text statistics object
+	 * @var object Holds the Text statistics object
 	 */
 	public $statistics;
 
@@ -315,7 +313,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		if ( isset( $options[ 'showdate-' . $post->post_type ] ) && $options[ 'showdate-' . $post->post_type ] === true ) {
 			$date = $this->get_post_date( $post );
 
-			self::$meta_length        = self::$meta_length - ( strlen( $date ) + 5 );
+			self::$meta_length        = ( self::$meta_length - ( strlen( $date ) + 5 ) );
 			self::$meta_length_reason = __( ' (because of date display)', 'wordpress-seo' );
 		}
 
@@ -745,7 +743,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	/**
 	 * Adds a dropdown that allows filtering on the posts SEO Quality.
 	 *
-	 * @return bool
+	 * @return void
 	 */
 	function posts_filter_dropdown() {
 		global $pagenow;

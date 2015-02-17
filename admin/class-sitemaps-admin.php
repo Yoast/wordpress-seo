@@ -51,6 +51,11 @@ class WPSEO_Sitemaps_Admin {
 	 * Hooked into transition_post_status. Will initiate search engine pings
 	 * if the post is being published, is a post type that a sitemap is built for
 	 * and is a post that is included in sitemaps.
+	 *
+	 * @param string   $new_status New post status.
+	 * @param string   $old_status Old post status.
+	 * @param \WP_Post $post       Post object.
+
 	 */
 	function status_transition( $new_status, $old_status, $post ) {
 		if ( $new_status != 'publish' ) {

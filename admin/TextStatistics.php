@@ -407,6 +407,7 @@ class Yoast_TextStatistics {
 	 * @param    int|float $score Initial score
 	 * @param    int       $min   Minimum score allowed
 	 * @param    int       $max   Maximum score allowed
+	 * @param    int       $dps
 	 *
 	 * @return    int|float
 	 */

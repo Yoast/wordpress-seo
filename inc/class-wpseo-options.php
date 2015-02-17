@@ -366,6 +366,10 @@ abstract class WPSEO_Option {
 	/**
 	 * All concrete classes must contain a validate_option() method which validates all
 	 * values within the option
+	 *
+	 * @param  array $dirty New value for the option
+	 * @param  array $clean Clean value for the option, normally the defaults
+	 * @param  array $old   Old value of the option
 	 */
 	abstract protected function validate_option( $dirty, $clean, $old );
 
@@ -423,6 +427,8 @@ abstract class WPSEO_Option {
 	 * done too late and the re-adding of the default filters might not be done at all.
 	 * Aka: use the WPSEO_Options::update_site_option() method (which calls this method) for
 	 * safely adding/updating multisite options.
+	 *
+	 * @param mixed $value The new value for the option
 	 *
 	 * @return bool whether the update was succesfull
 	 */
@@ -585,7 +591,7 @@ abstract class WPSEO_Option {
 	 *
 	 * @param  string $key Array key to check
 	 *
-	 * @return  string      Pattern if it conforms, original array key if it doesn't or if the option
+	 * @return string      Pattern if it conforms, original array key if it doesn't or if the option
 	 *              does not have variable array keys
 	 */
 	protected function get_switch_key( $key ) {
@@ -783,6 +789,9 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'yoast_tracking'                  => false,
 	);
 
+	/**
+	 * @var array  Array of description related defaults
+	 */
 	public static $desc_defaults = array(
 		'ignore_meta_description_warning' => false,
 		'theme_description_found'         => '', // text string description
@@ -1121,9 +1130,10 @@ class WPSEO_Option_Permalinks extends WPSEO_Option {
 
 
 	/**
-	 * @static
 	 * @var  array $force_transport_options Available options for the force_transport setting
 	 *                      Used for input validation
+	 *
+	 * @static
 	 *
 	 * @internal Important: Make sure the options added to the array here are in line with the keys
 	 * for the options set for the select box in the admin/pages/permalinks.php file
@@ -2119,6 +2129,8 @@ class WPSEO_Option_InternalLinks extends WPSEO_Option {
 	 * Retrieve a list of the allowed post types as breadcrumb parent for a taxonomy
 	 * Helper method for validation
 	 * @internal don't make static as new types may still be registered
+	 *
+	 * @return array
 	 */
 	protected function get_allowed_post_types() {
 		$allowed_post_types = array();
@@ -2866,9 +2878,10 @@ class WPSEO_Option_MS extends WPSEO_Option {
 	);
 
 	/**
-	 * @static
 	 * @var  array $allowed_access_options Available options for the 'access' setting
 	 *                    Used for input validation
+	 *
+	 * @static
 	 *
 	 * @internal Important: Make sure the options added to the array here are in line with the keys
 	 * for the options set for the select box in the admin/pages/network.php file
@@ -3066,15 +3079,14 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 
 
 	/**
+	 * @var  string  Option name - same as $option_name property, but now also available to static methods
 	 * @static
-	 * @var  string  Option name - same as $option_name property, but now also available to static
-	 * methods
 	 */
 	public static $name;
 
 	/**
-	 * @static
 	 * @var  array  Array of defaults for individual taxonomy meta entries
+	 * @static
 	 */
 	public static $defaults_per_term = array(
 		'wpseo_title'           => '',
@@ -3087,9 +3099,11 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 	);
 
 	/**
-	 * @static
 	 * @var  array  Available index options
 	 *        Used for form generation and input validation
+	 *
+	 * @static
+	 *
 	 * @internal  Labels (translation) added on admin_init via WPSEO_Taxonomy::translate_meta_options()
 	 */
 	public static $no_index_options = array(
@@ -3099,9 +3113,11 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 	);
 
 	/**
-	 * @static
 	 * @var  array  Available sitemap include options
 	 *        Used for form generation and input validation
+	 *
+	 * @static
+	 *
 	 * @internal  Labels (translation) added on admin_init via WPSEO_Taxonomy::translate_meta_options()
 	 */
 	public static $sitemap_include_options = array(
@@ -3144,6 +3160,9 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 	}
 
 
+	/**
+	 * Add extra default options received from a filter
+	 */
 	public function enrich_defaults() {
 		$extra_defaults_per_term = apply_filters( 'wpseo_add_extra_taxmeta_term_defaults', array() );
 		if ( is_array( $extra_defaults_per_term ) ) {
@@ -3481,11 +3500,10 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
  */
 class WPSEO_Options {
 
-
 	/**
-	 * @static
 	 * @var  array  Options this class uses
-	 *        Array format:  (string) option_name  => (string) name of concrete class for the option
+	 *              Array format:  (string) option_name  => (string) name of concrete class for the option
+	 * @static
 	 */
 	public static $options = array(
 		'wpseo'               => 'WPSEO_Option_Wpseo',
@@ -3499,6 +3517,9 @@ class WPSEO_Options {
 		'wpseo_taxonomy_meta' => 'WPSEO_Taxonomy_Meta',
 	);
 
+	/**
+	 * @var  array   Array of instantiated option objects
+	 */
 	protected static $option_instances;
 
 	/**

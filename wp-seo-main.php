@@ -178,6 +178,8 @@ function _wpseo_deactivate() {
  * Will only be called by multisite actions.
  * @internal Unfortunately will fail if the plugin is in the must-use directory
  * @see      https://core.trac.wordpress.org/ticket/24205
+ *
+ * @param int $blog_id
  */
 function wpseo_on_activate_blog( $blog_id ) {
 	if ( ! function_exists( 'is_plugin_active_for_network' ) ) {
@@ -311,7 +313,9 @@ register_deactivation_hook( WPSEO_FILE, 'wpseo_deactivate' );
 add_action( 'wpmu_new_blog', 'wpseo_on_activate_blog' );
 add_action( 'activate_blog', 'wpseo_on_activate_blog' );
 
-
+/**
+ * Wraps for notifications center class.
+ */
 function load_yoast_notifications() {
 	// Init Yoast_Notification_Center class
 	Yoast_Notification_Center::get();
@@ -323,9 +327,7 @@ function load_yoast_notifications() {
  *
  * @since 1.5.4
  *
- * @param    string    Error message
- *
- * @return    void
+ * @return void
  */
 function yoast_wpseo_self_deactivate() {
 	if ( is_admin() ) {

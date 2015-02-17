@@ -154,7 +154,7 @@ class WPSEO_Admin_Pages {
 		<div class="meta-box-sortables">
 		<?php
 		if ( $form === true ) {
-			echo '<form action="' . esc_url( admin_url( 'options.php' ) ) . '" method="post" id="wpseo-conf"' . ( $contains_files ? ' enctype="multipart/form-data"' : '' ) . ' accept-charset="' . esc_attr( get_bloginfo( 'charset' ) ) . '">';
+			echo '<form action="' . esc_url( admin_url( 'options.php' ) ) . '" method="post" id="wpseo-conf"' . ( ( $contains_files ) ? ' enctype="multipart/form-data"' : '' ) . ' accept-charset="' . esc_attr( get_bloginfo( 'charset' ) ) . '">';
 			settings_fields( $option );
 		}
 		$this->currentoption = $optionshort;
@@ -207,10 +207,10 @@ class WPSEO_Admin_Pages {
 				<h3 class="hndle"><span>' . __( 'Debug Information', 'wordpress-seo' ) . '</span></h3>
 				<div class="inside">
 					<h4>' . esc_html( __( 'Current option:', 'wordpress-seo' ) ) . ' <span class="wpseo-debug">' . esc_html( $this->currentoption ) . '</span></h4>
-					' . ( $xdebug ? '' : '<pre>' );
+					' . ( ( $xdebug ) ? '' : '<pre>' );
 			var_dump( $this->get_option( $this->currentoption ) );
 			echo '
-					' . ( $xdebug ? '' : '</pre>' ) . '
+					' . ( ( $xdebug ) ? '' : '</pre>' ) . '
 				</div>
 			</div>
 			</div>';

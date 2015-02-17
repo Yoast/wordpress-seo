@@ -13,46 +13,63 @@
 class WPSEO_Sitemaps {
 	/**
 	 * Content of the sitemap to output.
+	 *
+	 * @var string $sitemap
 	 */
 	private $sitemap = '';
 
 	/**
 	 * XSL stylesheet for styling a sitemap for web browsers
+	 *
+	 * @var string $stylesheet
 	 */
 	private $stylesheet = '';
 
 	/**
-	 *     Flag to indicate if this is an invalid or empty sitemap.
+	 * Flag to indicate if this is an invalid or empty sitemap.
+	 *
+	 * @var bool $bad_sitemap
 	 */
 	public $bad_sitemap = false;
 
 	/**
 	 * Whether or not the XML sitemap was served from a transient or not.
+	 *
+	 * @var bool $transient
 	 */
 	private $transient = false;
 
 	/**
 	 * The maximum number of entries per sitemap page
+	 *
+	 * @var int $max_entries
 	 */
 	private $max_entries;
 
 	/**
 	 * Holds the post type's newest publish dates
+	 *
+	 * @var array $post_type_dates
 	 */
 	private $post_type_dates;
 
 	/**
 	 * Holds the WP SEO options
+	 *
+	 * @var array $options
 	 */
 	private $options = array();
 
 	/**
 	 * Holds the n variable
+	 *
+	 * @var int $n
 	 */
 	private $n = 1;
 
 	/**
 	 * Holds the home_url() value to speed up loops
+	 *
 	 * @var string $home_url
 	 */
 	private $home_url = '';
@@ -267,6 +284,8 @@ class WPSEO_Sitemaps {
 
 	/**
 	 * Hijack requests for potential sitemaps and XSL files.
+	 *
+	 * @param \WP_Query $query
 	 */
 	function redirect( $query ) {
 
@@ -365,6 +384,7 @@ class WPSEO_Sitemaps {
 		global $wpdb;
 
 		$this->sitemap = '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
+
 		// reference post type specific sitemaps
 		$post_types = get_post_types( array( 'public' => true ) );
 		if ( is_array( $post_types ) && $post_types !== array() ) {
@@ -925,6 +945,7 @@ class WPSEO_Sitemaps {
 		}
 
 		global $wpdb;
+
 		$output = '';
 
 		$steps  = $this->max_entries;
@@ -1266,6 +1287,7 @@ class WPSEO_Sitemaps {
 	 */
 	function get_last_modified( $post_types ) {
 		global $wpdb;
+
 		if ( ! is_array( $post_types ) ) {
 			$post_types = array( $post_types );
 		}
@@ -1403,7 +1425,7 @@ class WPSEO_Sitemaps {
 	/**
 	 * Getting the attachments from database
 	 *
-	 * @param $post_ids
+	 * @param string $post_ids
 	 *
 	 * @return mixed
 	 */
@@ -1517,7 +1539,8 @@ class WPSEO_Sitemaps {
 		}
 
 		/**
-		 * Filter: 'wpseo_xml_post_type_archive_priority' - Allow changing the priority of the URL WordPress SEO uses in the XML sitemap.
+		 * Filter: 'wpseo_xml_post_type_archive_priority' - Allow changing the priority of the URL
+		 * WordPress SEO uses in the XML sitemap.
 		 *
 		 * @api float $priority The priority for this URL, ranging from 0 to 1
 		 *

@@ -93,8 +93,6 @@ class WPSEO_Snippet_Preview {
 	/**
 	 * Retrieves a post date when post is published, or return current date when it's not.
 	 *
-	 * @param object $post Post to retrieve the date for.
-	 *
 	 * @return string
 	 */
 	protected function get_post_date() {
@@ -146,6 +144,8 @@ HTML;
 
 	/**
 	 * Sets the html for the snippet preview through a filter
+	 *
+	 * @param string $content
 	 */
 	protected function set_content_through_filter( $content ) {
 		$properties = get_object_vars( $this );

@@ -12,8 +12,8 @@
 class WPSEO_Utils {
 
 	/**
-	 * @static
 	 * @var bool $has_filters Whether the PHP filter extension is enabled
+	 * @static
 	 */
 	public static $has_filters;
 
@@ -149,7 +149,7 @@ class WPSEO_Utils {
 	 *
 	 * @static
 	 *
-	 * @param string $text input string that might contain shortcodes
+	 * @param string $text Input string that might contain shortcodes
 	 *
 	 * @return string $text string without shortcodes
 	 */
@@ -163,9 +163,9 @@ class WPSEO_Utils {
 	 *
 	 * @static
 	 *
-	 * @param   mixed $value Value to trim or array of values to trim
+	 * @param mixed $value Value to trim or array of values to trim
 	 *
-	 * @return  mixed      Trimmed value or array of trimmed values
+	 * @return mixed Trimmed value or array of trimmed values
 	 */
 	public static function trim_recursive( $value ) {
 		if ( is_string( $value ) ) {
@@ -287,10 +287,10 @@ class WPSEO_Utils {
 	 *
 	 * @static
 	 *
-	 * @param  string $value
-	 * @param  array  $allowed_protocols
+	 * @param string $value
+	 * @param array  $allowed_protocols
 	 *
-	 * @return  string
+	 * @return string
 	 */
 	public static function sanitize_url( $value, $allowed_protocols = array( 'http', 'https' ) ) {
 		return esc_url_raw( sanitize_text_field( rawurldecode( $value ) ), $allowed_protocols );
@@ -301,9 +301,9 @@ class WPSEO_Utils {
 	 *
 	 * @static
 	 *
-	 * @param  mixed $value
+	 * @param mixed $value
 	 *
-	 * @return  bool
+	 * @return bool
 	 */
 	public static function validate_bool( $value ) {
 		if ( ! isset( self::$has_filters ) ) {
@@ -323,9 +323,9 @@ class WPSEO_Utils {
 	 *
 	 * @static
 	 *
-	 * @param    mixed $value Value to cast
+	 * @param mixed $value Value to cast
 	 *
-	 * @return    bool
+	 * @return bool
 	 */
 	public static function emulate_filter_bool( $value ) {
 		$true  = array(
@@ -387,9 +387,9 @@ class WPSEO_Utils {
 	 *
 	 * @static
 	 *
-	 * @param  mixed $value
+	 * @param mixed $value
 	 *
-	 * @return  mixed  int or false in case of failure to convert to int
+	 * @return int|bool int or false in case of failure to convert to int
 	 */
 	public static function validate_int( $value ) {
 		if ( ! isset( self::$has_filters ) ) {
@@ -409,9 +409,9 @@ class WPSEO_Utils {
 	 *
 	 * @static
 	 *
-	 * @param    mixed $value Value to cast
+	 * @param mixed $value Value to cast
 	 *
-	 * @return    int|bool
+	 * @return int|bool
 	 */
 	public static function emulate_filter_int( $value ) {
 		if ( is_int( $value ) ) {
@@ -452,12 +452,12 @@ class WPSEO_Utils {
 	 *
 	 * @static
 	 *
-	 * @param  mixed $disregard        Not needed - passed by add/update_option action call
+	 * @param mixed $disregard        Not needed - passed by add/update_option action call
 	 *                                 Option name if option was added, old value if option was updated
-	 * @param  array $value            The (new/current) value of the wpseo option
-	 * @param  bool  $force_unschedule Whether to force an unschedule (i.e. on deactivate)
+	 * @param array $value            The (new/current) value of the wpseo option
+	 * @param bool  $force_unschedule Whether to force an unschedule (i.e. on deactivate)
 	 *
-	 * @return  void
+	 * @return void
 	 */
 	public static function schedule_yoast_tracking( $disregard, $value, $force_unschedule = false ) {
 		$current_schedule = wp_next_scheduled( 'yoast_tracking' );
@@ -549,25 +549,25 @@ class WPSEO_Utils {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @param    mixed  $number1   Scalar (string/int/float/bool)
-	 * @param    string $action    Calculation action to execute. Valid input:
-	 *                             '+' or 'add' or 'addition',
-	 *                             '-' or 'sub' or 'subtract',
-	 *                             '*' or 'mul' or 'multiply',
-	 *                             '/' or 'div' or 'divide',
-	 *                             '%' or 'mod' or 'modulus'
-	 *                             '=' or 'comp' or 'compare'
-	 * @param    mixed  $number2   Scalar (string/int/float/bool)
-	 * @param    bool   $round     Whether or not to round the result. Defaults to false.
-	 *                             Will be disregarded for a compare operation
-	 * @param    int    $decimals  Decimals for rounding operation. Defaults to 0.
-	 * @param    int    $precision Calculation precision. Defaults to 10.
+	 * @param mixed  $number1   Scalar (string/int/float/bool)
+	 * @param string $action    Calculation action to execute. Valid input:
+	 *                            '+' or 'add' or 'addition',
+	 *                            '-' or 'sub' or 'subtract',
+	 *                            '*' or 'mul' or 'multiply',
+	 *                            '/' or 'div' or 'divide',
+	 *                            '%' or 'mod' or 'modulus'
+	 *                            '=' or 'comp' or 'compare'
+	 * @param mixed  $number2   Scalar (string/int/float/bool)
+	 * @param bool   $round     Whether or not to round the result. Defaults to false.
+	 *                          Will be disregarded for a compare operation
+	 * @param int    $decimals  Decimals for rounding operation. Defaults to 0.
+	 * @param int    $precision Calculation precision. Defaults to 10.
 	 *
-	 * @return    mixed                Calculation Result or false if either or the numbers isn't scalar or
-	 *                                an invalid operation was passed
-	 *                                - for compare the result will always be an integer
-	 *                                - for all other operations, the result will either be an integer (preferred)
-	 *                                or a float
+	 * @return mixed            Calculation Result or false if either or the numbers isn't scalar or
+	 *                          an invalid operation was passed
+	 *                          - for compare the result will always be an integer
+	 *                          - for all other operations, the result will either be an integer (preferred)
+	 *                            or a float
 	 */
 	public static function calc( $number1, $action, $number2, $round = false, $decimals = 0, $precision = 10 ) {
 		static $bc;
@@ -724,9 +724,9 @@ class WPSEO_Utils {
 	/**
 	 * Trim whitespace and NBSP (Non-breaking space) from string
 	 *
-	 * @param $string
+	 * @param string $string
 	 *
-	 * @return mixed|string
+	 * @return string
 	 */
 	public static function trim_nbsp_from_string( $string ) {
 		$find    = array( '&nbsp;', chr( 0xC2 ) . chr( 0xA0 ) );

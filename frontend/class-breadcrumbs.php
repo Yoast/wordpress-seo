@@ -111,6 +111,10 @@ class WPSEO_Breadcrumbs {
 	/**
 	 * Get breadcrumb string using the singleton instance of this class
 	 *
+	 * @param string $before
+	 * @param string $after
+	 * @param bool   $display Echo or return ?
+	 *
 	 * @return object
 	 */
 	public static function breadcrumb( $before = '', $after = '', $display = true ) {
@@ -395,6 +399,8 @@ class WPSEO_Breadcrumbs {
 
 	/**
 	 * Add a single id based crumb to the crumbs property
+	 *
+	 * @param int $id
 	 */
 	private function add_single_post_crumb( $id ) {
 		$this->crumbs[] = array(
@@ -404,6 +410,8 @@ class WPSEO_Breadcrumbs {
 
 	/**
 	 * Add a term based crumb to the crumbs property
+	 *
+	 * @param object $term
 	 */
 	private function add_term_crumb( $term ) {
 		$this->crumbs[] = array(
@@ -413,6 +421,8 @@ class WPSEO_Breadcrumbs {
 
 	/**
 	 * Add a ptarchive based crumb to the crumbs property
+	 *
+	 * @param string $pt Post type
 	 */
 	private function add_ptarchive_crumb( $pt ) {
 		$this->crumbs[] = array(
@@ -422,6 +432,10 @@ class WPSEO_Breadcrumbs {
 
 	/**
 	 * Add a predefined crumb to the crumbs property
+	 *
+	 * @param string $text
+	 * @param string $url
+	 * @param bool   $allow_html
 	 */
 	private function add_predefined_crumb( $text, $url = '', $allow_html = false ) {
 		$this->crumbs[] = array(
@@ -525,6 +539,8 @@ class WPSEO_Breadcrumbs {
 
 	/**
 	 * Add parent taxonomy crumb based on user defined preference
+	 *
+	 * @param object $term
 	 */
 	private function maybe_add_preferred_term_parent_crumb( $term ) {
 		if ( isset( $this->options[ 'taxonomy-' . $term->taxonomy . '-ptparent' ] ) && $this->options[ 'taxonomy-' . $term->taxonomy . '-ptparent' ] != '0' ) {
@@ -541,6 +557,8 @@ class WPSEO_Breadcrumbs {
 
 	/**
 	 * Add parent taxonomy crumbs to the crumb property for hierachical taxonomy
+	 *
+	 * @param object $term
 	 */
 	private function maybe_add_term_parent_crumbs( $term ) {
 		if ( is_taxonomy_hierarchical( $term->taxonomy ) && $term->parent != 0 ) {
@@ -586,6 +604,8 @@ class WPSEO_Breadcrumbs {
 
 	/**
 	 * Add (non-link) date crumb to crumbs property
+	 *
+	 * @param string $date
 	 */
 	private function add_date_crumb( $date = null ) {
 		if ( is_null( $date ) ) {
@@ -634,9 +654,9 @@ class WPSEO_Breadcrumbs {
 	/**
 	 * Retrieve link url and text based on post id
 	 *
-	 * @param    int $id Post id
+	 * @param int $id Post id
 	 *
-	 * @return    array    $link    Array of link text and url
+	 * @return array Array of link text and url
 	 */
 	private function get_link_info_for_id( $id ) {
 		$link = array();
@@ -662,9 +682,9 @@ class WPSEO_Breadcrumbs {
 	/**
 	 * Retrieve link url and text based on term object
 	 *
-	 * @param    object $term Term object
+	 * @param object $term Term object
 	 *
-	 * @return    array    $link    Array of link text and url
+	 * @return array Array of link text and url
 	 */
 	private function get_link_info_for_term( $term ) {
 		$link = array();
@@ -683,9 +703,9 @@ class WPSEO_Breadcrumbs {
 	/**
 	 * Retrieve link url and text based on post type
 	 *
-	 * @param    string $pt Post type
+	 * @param string $pt Post type
 	 *
-	 * @return    array    $link    Array of link text and url
+	 * @return array Array of link text and url
 	 */
 	private function get_link_info_for_ptarchive( $pt ) {
 		$link          = array();
@@ -720,14 +740,18 @@ class WPSEO_Breadcrumbs {
 	/**
 	 * Create a breadcrumb element string
 	 *
-	 * @param    array $link Link info array containing the keys:
-	 *                       'text'    => (string) link text
-	 *                       'url'    => (string) link url
-	 *                       (optional) 'allow_html'    => (bool) whether to (not) escape html in the link text
-	 *                       This prevents html stripping from the text strings set in the
-	 *                       WPSEO -> Internal Links options page
+	 * @todo The `$paged` variable only works for archives, not for paged articles, so this does not work
+	 * for paged article at this moment
 	 *
-	 * @return    string
+	 * @param  array $link Link info array containing the keys:
+	 *                     'text'    => (string) link text
+	 *                     'url'    => (string) link url
+	 *                     (optional) 'allow_html'    => (bool) whether to (not) escape html in the link text
+	 *                     This prevents html stripping from the text strings set in the
+	 *                     WPSEO -> Internal Links options page
+	 * @param  int   $i    Index for the current breadcrumb
+	 *
+	 * @return string
 	 */
 	private function crumb_to_link( $link, $i ) {
 		global $paged; // @todo ? -> only works for archives, not for paged articles
@@ -864,7 +888,11 @@ class WPSEO_Breadcrumbs {
 	 *
 	 * @deprecated 1.5.2.3
 	 *
-	 * @return    string
+	 * @param string $links
+	 * @param string $wrapper
+	 * @param string $element
+	 *
+	 * @return void
 	 */
 	public function create_breadcrumbs_string( $links, $wrapper = 'span', $element = 'span' ) {
 		_deprecated_function( __METHOD__, 'WPSEO 1.5.2.3', 'yoast_breadcrumbs' );

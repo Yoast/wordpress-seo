@@ -43,8 +43,6 @@ class WPSEO_Twitter {
 
 	/**
 	 * Outputs the Twitter Card code on singular pages.
-	 *
-	 * @return  void   Only shows on singular pages, false on non-singular pages.
 	 */
 	public function twitter() {
 		wp_reset_query();
@@ -87,8 +85,6 @@ class WPSEO_Twitter {
 
 	/**
 	 * Determines the twitter card type for the current page
-	 *
-	 * @return string
 	 */
 	private function determine_card_type() {
 		$this->type = $this->options['twitter_card_type'];
@@ -113,8 +109,6 @@ class WPSEO_Twitter {
 	 * Determines whether the card type is of a type currently allowed by Twitter
 	 *
 	 * @link https://dev.twitter.com/cards/types
-	 *
-	 * @return string
 	 */
 	private function sanitize_card_type() {
 		if ( ! in_array( $this->type, array(
