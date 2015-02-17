@@ -156,7 +156,7 @@ class WPSEO_Page_Redirect {
 
 					$file_write_error = false;
 
-					if ( wpseo_is_apache() ) {
+					if ( WPSEO_Utils::is_apache() ) {
 
 						if ( 'on' == $redirect_options['separate_file'] ) {
 							if ( file_exists( WPSEO_Redirect_File_Manager::get_file_path() ) ) {
@@ -173,7 +173,7 @@ class WPSEO_Page_Redirect {
 							}
 						}
 
-					} else if ( wpseo_is_nginx() ) {
+					} else if ( WPSEO_Utils::is_nginx() ) {
 						if ( file_exists( WPSEO_Redirect_File_Manager::get_file_path() ) ) {
 							echo '<div style="margin: 5px 0; padding: 3px 10px; background-color: #ffffe0; border: 1px solid #E6DB55; border-radius: 3px">';
 							echo '<p>' . __( "As you're on NGINX, you should add the following include to the website Nginx config file:", 'wordpress-seo-premium' ) . '</p>';
@@ -201,7 +201,7 @@ class WPSEO_Page_Redirect {
 					$wpseo_admin_pages->currentoption = 'wpseo_redirect';
 
 
-					if ( wpseo_is_apache() ) {
+					if ( WPSEO_Utils::is_apache() ) {
 
 						echo $wpseo_admin_pages->checkbox( 'disable_php_redirect', __( 'Disable PHP redirects', 'wordpress-seo-premium' ) );
 						echo '<p class="desc">' . __( "Write redirects to the .htaccess file. Make sure the .htaccess file is writable!", 'wordpress-seo-premium' ) . '</p>';

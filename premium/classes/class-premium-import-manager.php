@@ -231,7 +231,7 @@ class WPSEO_Premium_Import_Manager {
 
 		// Attemp to load the htaccess file
 		$textarea_value = "";
-		if ( 1 || wpseo_is_apache() ) {
+		if ( 1 || WPSEO_Utils::is_apache() ) {
 			if ( file_exists( ABSPATH . '.htaccess' ) ) {
 				$textarea_value = file_get_contents( ABSPATH . '.htaccess' );
 			}

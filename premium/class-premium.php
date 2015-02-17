@@ -494,7 +494,7 @@ class WPSEO_Premium {
 		if ( null != $value && isset( $value['disable_php_redirect'] ) && 'on' == $value['disable_php_redirect'] ) {
 
 			// Remove .htaccess entries if the 'separate_file' option is set to true
-			if ( wpseo_is_apache() && isset( $value['separate_file'] ) && 'on' == $value['separate_file'] ) {
+			if ( WPSEO_Utils::is_apache() && isset( $value['separate_file'] ) && 'on' == $value['separate_file'] ) {
 				$remove_htaccess_entries = true;
 			}
 
@@ -503,7 +503,7 @@ class WPSEO_Premium {
 			$redirect_manager = new WPSEO_URL_Redirect_Manager();
 			$redirect_manager->save_redirect_file();
 
-		} else if ( wpseo_is_apache() ) {
+		} else if ( WPSEO_Utils::is_apache() ) {
 			// No settings are set so we should also strip the .htaccess redirect entries in this case
 			$remove_htaccess_entries = true;
 		}
