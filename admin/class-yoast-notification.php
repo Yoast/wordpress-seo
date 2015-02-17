@@ -5,9 +5,19 @@
  * @since      1.5.3
  */
 
+/**
+ * Implements individual notification.
+ */
 class Yoast_Notification {
 
+	/**
+	 * @var string The notification message
+	 */
 	private $message;
+
+	/**
+	 * @var string The notification type, i.e. 'updated' or 'error'
+	 */
 	private $type;
 
 	/**

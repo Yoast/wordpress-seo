@@ -5,6 +5,9 @@
  * @since      1.7.0
  */
 
+/**
+ * Contains list of conflicting plugins.
+ */
 class WPSEO_Plugin_Conflict extends Yoast_Plugin_Conflict {
 
 	/**

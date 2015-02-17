@@ -4,6 +4,9 @@
  * @subpackage Admin
  */
 
+/**
+ * Performs the load on admin side.
+ */
 class WPSEO_Admin_Init {
 
 	/**

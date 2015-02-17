@@ -4,12 +4,23 @@
  * @subpackage Admin
  */
 
+/**
+ * Handles notifications storage and display.
+ */
 class Yoast_Notification_Center {
 
 	const TRANSIENT_KEY = 'yoast_notifications';
 
+	/**
+	 * The singleton instance of this object
+	 *
+	 * @var \Yoast_Notification_Center
+	 */
 	private static $instance = null;
 
+	/**
+	 * @var array
+	 */
 	private $notifications = array();
 
 	/**

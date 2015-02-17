@@ -5,6 +5,9 @@
  * @since      1.5.0
  */
 
+/**
+ * Implements table for bulk editing.
+ */
 class WPSEO_Bulk_List_Table extends WP_List_Table {
 
 	/**
@@ -80,10 +83,14 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 
 	/**
 	 * The settings which will be used in the __construct.
-	 * @var
+	 *
+	 * @var array
 	 */
 	protected $settings;
 
+	/**
+	 * @var array
+	 */
 	protected $pagination = array();
 
 	/**

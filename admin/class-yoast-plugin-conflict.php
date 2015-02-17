@@ -5,6 +5,9 @@
  * @since      1.7.0
  */
 
+/**
+ * Base class for handling plugin conflicts.
+ */
 class Yoast_Plugin_Conflict {
 
 	/**

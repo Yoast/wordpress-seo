@@ -5,6 +5,9 @@
  * @since      1.5.0
  */
 
+/**
+ * Implements table for bulk description editing.
+ */
 class WPSEO_Bulk_Description_List_Table extends WPSEO_Bulk_List_Table {
 
 	/**

@@ -5,6 +5,9 @@
  * @since      1.8.0
  */
 
+/**
+ * Customizes user profile.
+ */
 class WPSEO_Admin_User_Profile {
 	/**
 	 * Class constructor
