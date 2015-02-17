@@ -1,3 +1,9 @@
+### 1.5.2: February 17th, 2015
+* Added the possibility to add 410 status to redirects.
+* Added a few validations to prevent circular redirects.
+* Reuses translations from the free version of this plugin, thereby dramatically reducing the amount of strings that need to be translated for the premium plugin.
+* Merge with WordPress SEO core 1.7.3
+
 ### 1.5.1: November 26th, 2014
 * Security hotfix: Merge with WordPress SEO core 1.7.1, see [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
 
