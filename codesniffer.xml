@@ -3,8 +3,7 @@
 	<description>WordPress SEO rules for PHP_CodeSniffer</description>
 
 	<exclude-pattern>tests/*</exclude-pattern>
-	<exclude-pattern>admin/license-manager/*</exclude-pattern>
-	<exclude-pattern>admin/includes/i18n-module/*</exclude-pattern>
+	<exclude-pattern>vendor/*</exclude-pattern>
 
 	<rule ref="WordPress-VIP">
 		<exclude name="Generic.Files.LineEndings.InvalidEOLChar" />
@@ -16,6 +15,8 @@
 		<exclude name="WordPress.VIP.RestrictedFunctions.user_meta" />
 		<exclude name="WordPress.VIP.RestrictedVariables.user_meta"/>
 		<exclude name="WordPress.VIP.RestrictedFunctions.switch_to_blog"/>
+		<exclude name="WordPress.VIP.RestrictedFunctions.get_term_by"/>
+		<exclude name="WordPress.VIP.RestrictedFunctions.get_term_link"/>
 
 		<!-- We should probably want to turn the below rules on, but these give issues with the current code base. -->
 		<exclude name="WordPress.WhiteSpace.ScopeIndent.Incorrect" />

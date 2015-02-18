@@ -166,7 +166,8 @@ function yst_replaceVariables(str, callback) {
 			if (replacedVars[matches[i]] != undefined) {
 				str = str.replace(matches[i], replacedVars[matches[i]]);
 			} else {
-				replaceableVar = matches[i];
+				var replaceableVar = matches[i];
+
 				// create the cache already, so we don't do the request twice.
 				replacedVars[replaceableVar] = '';
 				jQuery.post(ajaxurl, {
@@ -177,10 +178,9 @@ function yst_replaceVariables(str, callback) {
 						}, function (data) {
 							if (data) {
 								replacedVars[replaceableVar] = data;
-								yst_replaceVariables(str, callback);
-							} else {
-								yst_replaceVariables(str, callback);
 							}
+
+							yst_replaceVariables(str, callback);
 						}
 				);
 			}

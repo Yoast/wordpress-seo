@@ -1,7 +1,0 @@
-[submodule "admin/license-manager"]
-	path = admin/license-manager
-	url = https://github.com/Yoast/License-Manager.git
-[submodule "admin/includes/i18n-module"]
-	path = admin/includes/i18n-module
-	url = https://github.com/Yoast/i18n-module.git
-	
