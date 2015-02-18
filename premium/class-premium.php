@@ -426,24 +426,37 @@ class WPSEO_Premium {
 	 * @return array
 	 */
 	public function add_submenu_pages( $submenu_pages ) {
+		/**
+		 * Filter: 'wpseo_premium_manage_redirects_role' - Change the minimum rule to access and change the site redirects
+		 *
+		 * @api string manage_options
+		 */
 		$submenu_pages[] = array(
 			'wpseo_dashboard',
 			'',
 			__( 'Redirects', 'wordpress-seo-premium' ),
-			'manage_options',
+			apply_filters( 'wpseo_premium_manage_redirects_role', 'manage_options' ),
 			'wpseo_redirects',
 			array( 'WPSEO_Page_Redirect', 'display' ),
 			array( array( 'WPSEO_Page_Redirect', 'page_load' ) )
 		);
+
+
+		/**
+		 * Filter: 'wpseo_premium_manage_wmt_role' - Change the minimum rule to access and change the site Google Webmaster Tools (WMT)
+		 *
+		 * @api string manage_options
+		 */
 		$submenu_pages[] = array(
 			'wpseo_dashboard',
 			'',
 			__( 'Webmaster Tools', 'wordpress-seo-premium' ),
-			'manage_options',
+			apply_filters( 'wpseo_premium_manage_wmt_role', 'manage_options' ),
 			'wpseo_webmaster_tools',
 			array( $this->page_gwt, 'display' ),
 			array( array( $this->page_gwt, 'page_load' ) )
 		);
+
 		$submenu_pages[] = array(
 			'wpseo_dashboard',
 			'',
