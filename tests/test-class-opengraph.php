@@ -267,7 +267,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 
 		$output = ob_get_contents();
 
-		ob_clean();
+		ob_end_clean();
 
 		$expected_output = '<meta property="og:image" content="' . $image . '" />';
 
@@ -300,7 +300,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 
 		$output = ob_get_contents();
 
-		ob_clean();
+		ob_end_clean();
 
 		$expected_output = '<meta property="og:image" content="http://example.org/wp-content/uploads//tmp/wordpress/src/wp-content/plugins/wordpress-seo/tests/yoast.png" />';
 
@@ -329,6 +329,8 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 
 		$output = ob_get_contents();
 
+		ob_end_clean();
+
 		$expected_output = '<meta property="og:image" content="http://example.org/wp-content/uploads//tmp/wordpress/src/wp-content/plugins/wordpress-seo/tests' . $image . '" />';
 
 		$this->assertNotContains( $expected_output, $output );
@@ -355,7 +357,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 
 		$output = ob_get_contents();
 
-		ob_clean();
+		ob_end_clean();
 
 		$expected_output = '<meta property="og:image" content="http://example.org/wp-content/uploads//tmp/wordpress/src/wp-content/plugins/wordpress-seo/tests' . $image . '" />';
 
@@ -384,7 +386,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 
 		$output = ob_get_contents();
 
-		ob_clean();
+		ob_end_clean();
 
 		$expected_output = '<meta property="og:image" content="http://example.org/wp-content/uploads//tmp/wordpress/src/wp-content/plugins/wordpress-seo/tests/yoast.png" />';
 
