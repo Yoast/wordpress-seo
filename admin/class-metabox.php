@@ -373,7 +373,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'wpseo_keyword_suggest_nonce' => wp_create_nonce( 'wpseo-get-suggest' ),
 			'wpseo_replace_vars_nonce'    => wp_create_nonce( 'wpseo-replace-vars' ),
 			'no_parent_text'              => __( '(no parent)', 'wordpress-seo' ),
-			'featured_image_notice'       => __( 'The featured image is smaller than 200x200 pixels and will not be added to open graph.', 'wordpress_seo' ),
+			'featured_image_notice'       => __( 'The featured image should be at least 200x200 pixels to be picked up by Facebook and other social media sites.', 'wordpress_seo' ),
 		) );
 	}
 
