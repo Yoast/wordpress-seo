@@ -627,7 +627,6 @@ class WPSEO_OpenGraph_Image {
 		}
 
 		$this->get_content_images( $post );
-
 	}
 
 	/**
@@ -654,25 +653,6 @@ class WPSEO_OpenGraph_Image {
 	}
 
 	/**
-	 * Filter: 'wpseo_pre_analysis_post_content' - Allow filtering the content before analysis
-	 *
-	 * @api string $post_content The Post content string
-	 *
-	 * @param object $post The post object.
-	 */
-	private function get_content_images( $post ) {
-		$content = apply_filters( 'wpseo_pre_analysis_post_content', $post->post_content, $post );
-
-		if ( preg_match_all( '`<img [^>]+>`', $content, $matches ) ) {
-			foreach ( $matches[0] as $img ) {
-				if ( preg_match( '`src=(["\'])(.*?)\1`', $img, $match ) ) {
-					$this->add_image( $match[2] );
-				}
-			}
-		}
-	}
-
-	/**
 	 * If there is a featured image, check image size. If image size is correct, call add_image and return true
 	 *
 	 * @param $post_id
@@ -692,6 +672,25 @@ class WPSEO_OpenGraph_Image {
 				$this->add_image( $thumb[0] );
 
 				return true;
+			}
+		}
+	}
+
+	/**
+	 * Filter: 'wpseo_pre_analysis_post_content' - Allow filtering the content before analysis
+	 *
+	 * @api string $post_content The Post content string
+	 *
+	 * @param object $post The post object.
+	 */
+	private function get_content_images( $post ) {
+		$content = apply_filters( 'wpseo_pre_analysis_post_content', $post->post_content, $post );
+
+		if ( preg_match_all( '`<img [^>]+>`', $content, $matches ) ) {
+			foreach ( $matches[0] as $img ) {
+				if ( preg_match( '`src=(["\'])(.*?)\1`', $img, $match ) ) {
+					$this->add_image( $match[2] );
+				}
 			}
 		}
 	}
