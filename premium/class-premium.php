@@ -20,7 +20,7 @@ class WPSEO_Premium {
 
 	const OPTION_CURRENT_VERSION = 'wpseo_current_version';
 
-	const PLUGIN_VERSION_NAME = '1.5';
+	const PLUGIN_VERSION_NAME = '1.5.2';
 	const PLUGIN_VERSION_CODE = '16';
 	const PLUGIN_AUTHOR = 'Yoast';
 	const EDD_STORE_URL = 'https://yoast.com';
@@ -56,6 +56,8 @@ class WPSEO_Premium {
 		require_once( dirname( __FILE__ ) . '/classes/class-premium-autoloader.php' );
 		$autoloader = new WPSEO_Premium_Autoloader();
 		spl_autoload_register( array( $autoloader, 'load' ) );
+
+		$this->load_textdomain();
 
 		if ( is_admin() ) {
 
@@ -336,7 +338,7 @@ class WPSEO_Premium {
 
 				$wp_admin_bar->add_menu( array(
 					'id'    => 'wpseo-premium-create-redirect',
-					'title' => __( 'Create Redirect', 'wordpress-seo' ),
+					'title' => __( 'Create Redirect', 'wordpress-seo-premium' ),
 					'href'  => admin_url( 'admin.php?page=wpseo_redirects&old_url=' . $old_url )
 				) );
 			}
@@ -403,7 +405,7 @@ class WPSEO_Premium {
 	 * @param $name
 	 */
 	public function admin_page_meta_post_types_checkboxes( $wpseo_admin_pages, $name ) {
-		echo $wpseo_admin_pages->textinput( 'page-analyse-extra-' . $name, __( 'Add custom fields to page analysis', 'wordpress-seo' ) );
+		echo $wpseo_admin_pages->textinput( 'page-analyse-extra-' . $name, __( 'Add custom fields to page analysis', 'wordpress-seo-premium' ) );
 	}
 
 	/**
@@ -424,28 +426,41 @@ class WPSEO_Premium {
 	 * @return array
 	 */
 	public function add_submenu_pages( $submenu_pages ) {
+		/**
+		 * Filter: 'wpseo_premium_manage_redirects_role' - Change the minimum rule to access and change the site redirects
+		 *
+		 * @api string manage_options
+		 */
 		$submenu_pages[] = array(
 			'wpseo_dashboard',
 			'',
-			__( 'Redirects', 'wordpress-seo' ),
-			'manage_options',
+			__( 'Redirects', 'wordpress-seo-premium' ),
+			apply_filters( 'wpseo_premium_manage_redirects_role', 'manage_options' ),
 			'wpseo_redirects',
 			array( 'WPSEO_Page_Redirect', 'display' ),
 			array( array( 'WPSEO_Page_Redirect', 'page_load' ) )
 		);
+
+
+		/**
+		 * Filter: 'wpseo_premium_manage_wmt_role' - Change the minimum rule to access and change the site Google Webmaster Tools (WMT)
+		 *
+		 * @api string manage_options
+		 */
 		$submenu_pages[] = array(
 			'wpseo_dashboard',
 			'',
-			__( 'Webmaster Tools', 'wordpress-seo' ),
-			'manage_options',
+			__( 'Webmaster Tools', 'wordpress-seo-premium' ),
+			apply_filters( 'wpseo_premium_manage_wmt_role', 'manage_options' ),
 			'wpseo_webmaster_tools',
 			array( $this->page_gwt, 'display' ),
 			array( array( $this->page_gwt, 'page_load' ) )
 		);
+
 		$submenu_pages[] = array(
 			'wpseo_dashboard',
 			'',
-			__( 'Video Tutorials', 'wordpress-seo' ),
+			__( 'Video Tutorials', 'wordpress-seo-premium' ),
 			'edit_posts',
 			'wpseo_tutorial_videos',
 			array( 'WPSEO_Tutorial_Videos', 'display' )
@@ -492,7 +507,7 @@ class WPSEO_Premium {
 		if ( null != $value && isset( $value['disable_php_redirect'] ) && 'on' == $value['disable_php_redirect'] ) {
 
 			// Remove .htaccess entries if the 'separate_file' option is set to true
-			if ( wpseo_is_apache() && isset( $value['separate_file'] ) && 'on' == $value['separate_file'] ) {
+			if ( WPSEO_Utils::is_apache() && isset( $value['separate_file'] ) && 'on' == $value['separate_file'] ) {
 				$remove_htaccess_entries = true;
 			}
 
@@ -501,7 +516,7 @@ class WPSEO_Premium {
 			$redirect_manager = new WPSEO_URL_Redirect_Manager();
 			$redirect_manager->save_redirect_file();
 
-		} else if ( wpseo_is_apache() ) {
+		} else if ( WPSEO_Utils::is_apache() ) {
 			// No settings are set so we should also strip the .htaccess redirect entries in this case
 			$remove_htaccess_entries = true;
 		}
@@ -600,4 +615,8 @@ class WPSEO_Premium {
 		echo "<style type='text/css'>#wpseo_content_top{ padding-left: 0; margin-left: 0; }</style>";
 	}
 
+
+	private function load_textdomain() {
+		load_plugin_textdomain( 'wordpress-seo-premium', false, dirname( plugin_basename( WPSEO_FILE ) ) . '/premium/languages/' );
+	}
 }

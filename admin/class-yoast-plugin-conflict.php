@@ -88,7 +88,7 @@ class Yoast_Plugin_Conflict {
 
 		if ( ! in_array( $plugin_section, $sections_checked ) ) {
 			$sections_checked[] = $plugin_section;
-			$has_conflicts      = ( ! empty( $this->active_plugins[$plugin_section] ) );
+			$has_conflicts      = ( ! empty( $this->active_plugins[ $plugin_section ] ) );
 
 			return $has_conflicts;
 		} else {
@@ -112,7 +112,7 @@ class Yoast_Plugin_Conflict {
 		}
 
 		// Getting the active plugins by given section
-		$plugins = $this->active_plugins[$plugin_section];
+		$plugins = $this->active_plugins[ $plugin_section ];
 
 		$plugin_names = array();
 		foreach ( $plugins AS $plugin ) {
@@ -208,11 +208,11 @@ class Yoast_Plugin_Conflict {
 	protected function add_active_plugin( $plugin_section, $plugin ) {
 
 		if ( ! array_key_exists( $plugin_section, $this->active_plugins ) ) {
-			$this->active_plugins[$plugin_section] = array();
+			$this->active_plugins[ $plugin_section ] = array();
 		}
 
-		if ( ! in_array( $plugin, $this->active_plugins[$plugin_section] ) ) {
-			$this->active_plugins[$plugin_section][] = $plugin;
+		if ( ! in_array( $plugin, $this->active_plugins[ $plugin_section ] ) ) {
+			$this->active_plugins[ $plugin_section ][] = $plugin;
 		}
 
 	}

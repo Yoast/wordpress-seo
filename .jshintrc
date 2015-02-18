@@ -16,6 +16,8 @@
 
     "browser": true,
     "jquery": true,
+    
+    "wordpress": true,
 
     "globals": {
         "exports": true,

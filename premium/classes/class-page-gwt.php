@@ -52,10 +52,10 @@ class WPSEO_Page_GWT {
 		?>
 		<h2 class="nav-tab-wrapper" id="wpseo-tabs">
 			<form action="" method="post">
-				<input type="submit" name="reload-crawl-issues" id="reload-crawl-issue" class="button-primary" style="float: right;" value="<?php _e( 'Reload crawl issues', 'wordpress-seo' ); ?>">
+				<input type="submit" name="reload-crawl-issues" id="reload-crawl-issue" class="button-primary" style="float: right;" value="<?php _e( 'Reload crawl issues', 'wordpress-seo-premium' ); ?>">
 			</form>
-			<a class="nav-tab" id="crawl-issues-tab" href="#top#redirects"><?php _e( 'Crawl Issues', 'wordpress-seo' ); ?></a>
-			<a class="nav-tab" id="settings-tab" href="#top#settings"><?php _e( 'Settings', 'wordpress-seo' ); ?></a>
+			<a class="nav-tab" id="crawl-issues-tab" href="#top#redirects"><?php _e( 'Crawl Issues', 'wordpress-seo-premium' ); ?></a>
+			<a class="nav-tab" id="settings-tab" href="#top#settings"><?php _e( 'Settings', 'wordpress-seo-premium' ); ?></a>
 
 		</h2>
 
@@ -85,7 +85,7 @@ class WPSEO_Page_GWT {
 					// The list table
 					$list_table = new WPSEO_Crawl_Issue_Table( $gwt_client );
 					$list_table->prepare_items();
-					$list_table->search_box( __( 'Search', 'wordpress-seo' ), 'wpseo-crawl-issues-search' );
+					$list_table->search_box( __( 'Search', 'wordpress-seo-premium' ), 'wpseo-crawl-issues-search' );
 					$list_table->display();
 
 					// Close <form>
@@ -97,13 +97,13 @@ class WPSEO_Page_GWT {
 					$oath_url = $gwt_client->createAuthUrl();
 
 					// Print auth screen
-					echo "<p>" . __( 'To allow WordPress SEO Premium to fetch your Google Webmaster Tools information, please enter your Google Authorization Code.', 'wordpress-seo' ) . "</p>\n";
-					echo "<a href='javascript:wpseo_gwt_open_authorize_code_window(\"{$oath_url}\");'>" . __( 'Click here to get a Google Authorization Code', 'wordpress-seo' ) . "</a>\n";
+					echo "<p>" . __( 'To allow WordPress SEO Premium to fetch your Google Webmaster Tools information, please enter your Google Authorization Code.', 'wordpress-seo-premium' ) . "</p>\n";
+					echo "<a href='javascript:wpseo_gwt_open_authorize_code_window(\"{$oath_url}\");'>" . __( 'Click here to get a Google Authorization Code', 'wordpress-seo-premium' ) . "</a>\n";
 
-					echo "<p>" . __( 'Please enter the Authorization Code in the field below and press the Authenticate button.', 'wordpress-seo' ) . "</p>\n";
+					echo "<p>" . __( 'Please enter the Authorization Code in the field below and press the Authenticate button.', 'wordpress-seo-premium' ) . "</p>\n";
 					echo "<form action='' method='post'>\n";
 					echo "<input type='text' name='gwt[authorization_code]' value='' />";
-					echo "<input type='submit' name='gwt[Submit]' value='" . __( 'Authenticate', 'wordpress-seo' ) . "' class='button-primary' />";
+					echo "<input type='submit' name='gwt[Submit]' value='" . __( 'Authenticate', 'wordpress-seo-premium' ) . "' class='button-primary' />";
 					echo "</form>\n";
 				}
 
@@ -121,12 +121,12 @@ class WPSEO_Page_GWT {
 					$service = new WPSEO_GWT_Service( $gwt_client );
 					$sites   = $service->get_sites();
 
-					echo $wpseo_admin_pages->select( 'profile', __( 'Profile', 'wordpress-seo' ), $sites );
+					echo $wpseo_admin_pages->select( 'profile', __( 'Profile', 'wordpress-seo-premium' ), $sites );
 
 					?>
 
 					<p class="submit">
-						<input type="submit" name="submit" id="submit" class="button button-primary" value="<?php _e( 'Save Changes', 'wordpress-seo' ); ?>">
+						<input type="submit" name="submit" id="submit" class="button button-primary" value="<?php _e( 'Save Changes', 'wordpress-seo-premium' ); ?>">
 					</p>
 				</form>
 
@@ -165,7 +165,7 @@ class WPSEO_Page_GWT {
 	public function admin_message_body() {
 		?>
 		<div class="error">
-			<p><b><?php _e( 'Incorrect Google Authorization Code!', 'wordpress-seo' ); ?></b></p>
+			<p><b><?php _e( 'Incorrect Google Authorization Code!', 'wordpress-seo-premium' ); ?></b></p>
 		</div>
 	<?php
 	}
@@ -178,7 +178,7 @@ class WPSEO_Page_GWT {
 		wp_enqueue_script( 'wp-seo-premium-admin-gwt', plugin_dir_url( WPSEO_PREMIUM_FILE ) . '/assets/js/wp-seo-premium-admin-gwt.js', array( 'jquery' ), '1.0.0' );
 		wp_localize_script( 'wp-seo-premium-admin-gwt', 'wpseo_premium_strings', WPSEO_Premium_Javascript_Strings::strings() );
 		add_screen_option( 'per_page', array(
-			'label'   => __( 'Crawl errors per page', 'wordpress-seo' ),
+			'label'   => __( 'Crawl errors per page', 'wordpress-seo-premium' ),
 			'default' => 25,
 			'option'  => 'errors_per_page'
 		) );

@@ -112,7 +112,7 @@ abstract class WPSEO_Redirect_Manager {
 
 			// Create the correct file object
 			$file = null;
-			if ( wpseo_is_apache() ) {
+			if ( WPSEO_Utils::is_apache() ) {
 
 				if ( 'on' == $options['separate_file'] ) {
 					$file = new WPSEO_Apache_Redirect_File();
@@ -120,7 +120,7 @@ abstract class WPSEO_Redirect_Manager {
 					$file = new WPSEO_Htaccess_Redirect_File();
 				}
 
-			} elseif ( wpseo_is_nginx() ) {
+			} elseif ( WPSEO_Utils::is_nginx() ) {
 				$file = new WPSEO_Nginx_Redirect_File();
 			}
 

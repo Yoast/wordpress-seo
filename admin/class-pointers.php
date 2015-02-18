@@ -219,20 +219,23 @@ class WPSEO_Pointers {
 			if ( '' != $page && in_array( $page, array_keys( $adminpages ) ) ) {
 				$align   = ( is_rtl() ) ? 'left' : 'right';
 				$opt_arr = array(
-					'content'      => $adminpages[$page]['content'],
-					'position'     => ( isset ( $adminpages[$page]['position'] ) ) ? ( $adminpages[$page]['position'] ) : array( 'edge' => 'top', 'align' => $align ),
+					'content'      => $adminpages[ $page ]['content'],
+					'position'     => ( isset ( $adminpages[ $page ]['position'] ) ) ? ( $adminpages[ $page ]['position'] ) : array(
+						'edge'  => 'top',
+						'align' => $align,
+					),
 					'pointerWidth' => 450,
 				);
-				if ( isset( $adminpages[$page]['next'] ) && isset( $adminpages[$page]['next_function'] ) ) {
+				if ( isset( $adminpages[ $page ]['next'] ) && isset( $adminpages[ $page ]['next_function'] ) ) {
 					$button_array['button2'] = array(
-						'text'     => $adminpages[$page]['next'],
-						'function' => $adminpages[$page]['next_function'],
+						'text'     => $adminpages[ $page ]['next'],
+						'function' => $adminpages[ $page ]['next_function'],
 					);
 				}
-				if ( isset( $adminpages[$page]['prev'] ) && isset( $adminpages[$page]['prev_function'] ) ) {
+				if ( isset( $adminpages[ $page ]['prev'] ) && isset( $adminpages[ $page ]['prev_function'] ) ) {
 					$button_array['button3'] = array(
-						'text'     => $adminpages[$page]['prev'],
-						'function' => $adminpages[$page]['prev_function'],
+						'text'     => $adminpages[ $page ]['prev'],
+						'function' => $adminpages[ $page ]['prev_function'],
 					);
 				}
 			}

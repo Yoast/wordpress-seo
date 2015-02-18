@@ -682,8 +682,8 @@ class WPSEO_Utils {
 					break;
 			}
 
-			if ( isset( $type[$variable_name] ) ) {
-				$out = $type[$variable_name];
+			if ( isset( $type[ $variable_name ] ) ) {
+				$out = $type[ $variable_name ];
 			} else {
 				return false;
 			}
@@ -700,6 +700,21 @@ class WPSEO_Utils {
 					break;
 			}
 		}
+	}
+
+	/**
+	 * Trim whitespace and NBSP (Non-breaking space) from string
+	 *
+	 * @param $string
+	 *
+	 * @return mixed|string
+	 */
+	public static function trim_nbsp_from_string( $string ) {
+		$find    = array( '&nbsp;', chr( 0xC2 ) . chr( 0xA0 ) );
+		$string  = str_replace( $find, ' ', $string );
+		$string  = trim( $string );
+
+		return $string;
 	}
 
 } /* End of class WPSEO_Utils */

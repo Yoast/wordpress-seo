@@ -14,7 +14,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * @internal Nobody should be able to overrule the real version number as this can cause serious issues
  * with the options, so no if ( ! defined() )
  */
-define( 'WPSEO_VERSION', '1.8-beta' );
+define( 'WPSEO_VERSION', '1.7.3' );
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
 	define( 'WPSEO_PATH', plugin_dir_path( WPSEO_FILE ) );
@@ -43,51 +43,6 @@ function wpseo_auto_load( $class ) {
 
 	if ( $classes === null ) {
 		$classes = array(
-			'wpseo_admin'                        => WPSEO_PATH . 'admin/class-admin.php',
-			'wpseo_admin_init'                   => WPSEO_PATH . 'admin/class-admin-init.php',
-			'wpseo_admin_user_profile'           => WPSEO_PATH . 'admin/class-admin-user-profile.php',
-			'wpseo_bulk_title_editor_list_table' => WPSEO_PATH . 'admin/class-bulk-title-editor-list-table.php',
-			'wpseo_bulk_description_list_table'  => WPSEO_PATH . 'admin/class-bulk-description-editor-list-table.php',
-			'wpseo_bulk_index_editor_list_table' => WPSEO_PATH . 'admin/class-bulk-index-editor-list-table.php',
-			'wpseo_bulk_list_table'              => WPSEO_PATH . 'admin/class-bulk-editor-list-table.php',
-			'wpseo_admin_pages'                  => WPSEO_PATH . 'admin/class-config.php',
-			'wpseo_metabox'                      => WPSEO_PATH . 'admin/class-metabox.php',
-			'wpseo_snippet_preview'              => WPSEO_PATH . 'admin/class-snippet-preview.php',
-			'wpseo_social_admin'                 => WPSEO_PATH . 'admin/class-opengraph-admin.php',
-			'wpseo_pointers'                     => WPSEO_PATH . 'admin/class-pointers.php',
-			'wpseo_sitemaps_admin'               => WPSEO_PATH . 'admin/class-sitemaps-admin.php',
-			'wpseo_taxonomy'                     => WPSEO_PATH . 'admin/class-taxonomy.php',
-			'yoast_i18n'                         => WPSEO_PATH . 'admin/includes/i18n-module/i18n-module.php',
-			'yoast_tracking'                     => WPSEO_PATH . 'admin/class-tracking.php',
-			'yoast_plugin_conflict'              => WPSEO_PATH . 'admin/class-yoast-plugin-conflict.php',
-			'wpseo_plugin_conflict'              => WPSEO_PATH . 'admin/class-plugin-conflict.php',
-			'yoast_textstatistics'               => WPSEO_PATH . 'admin/TextStatistics.php',
-			'wpseo_breadcrumbs'                  => WPSEO_PATH . 'frontend/class-breadcrumbs.php',
-			'wpseo_frontend'                     => WPSEO_PATH . 'frontend/class-frontend.php',
-			'wpseo_opengraph'                    => WPSEO_PATH . 'frontend/class-opengraph.php',
-			'wpseo_twitter'                      => WPSEO_PATH . 'frontend/class-twitter.php',
-			'wpseo_googleplus'                   => WPSEO_PATH . 'frontend/class-googleplus.php',
-			'wpseo_rewrite'                      => WPSEO_PATH . 'inc/class-rewrite.php',
-			'wpseo_sitemaps'                     => WPSEO_PATH . 'inc/class-sitemaps.php',
-			'wpseo_options'                      => WPSEO_PATH . 'inc/class-wpseo-options.php',
-			'wpseo_option'                       => WPSEO_PATH . 'inc/class-wpseo-options.php',
-			'wpseo_option_wpseo'                 => WPSEO_PATH . 'inc/class-wpseo-options.php',
-			'wpseo_option_permalinks'            => WPSEO_PATH . 'inc/class-wpseo-options.php',
-			'wpseo_option_titles'                => WPSEO_PATH . 'inc/class-wpseo-options.php',
-			'wpseo_option_social'                => WPSEO_PATH . 'inc/class-wpseo-options.php',
-			'wpseo_option_rss'                   => WPSEO_PATH . 'inc/class-wpseo-options.php',
-			'wpseo_option_internallinks'         => WPSEO_PATH . 'inc/class-wpseo-options.php',
-			'wpseo_option_xml'                   => WPSEO_PATH . 'inc/class-wpseo-options.php',
-			'wpseo_option_ms'                    => WPSEO_PATH . 'inc/class-wpseo-options.php',
-			'wpseo_taxonomy_meta'                => WPSEO_PATH . 'inc/class-wpseo-options.php',
-			'wpseo_meta'                         => WPSEO_PATH . 'inc/class-wpseo-meta.php',
-			'wpseo_replace_vars'                 => WPSEO_PATH . 'inc/class-wpseo-replace-vars.php',
-			'wpseo_utils'                        => WPSEO_PATH . 'inc/class-wpseo-utils.php',
-			'yoast_license_manager'              => WPSEO_PATH . 'admin/license-manager/class-license-manager.php',
-			'yoast_plugin_license_manager'       => WPSEO_PATH . 'admin/license-manager/class-plugin-license-manager.php',
-			'yoast_product'                      => WPSEO_PATH . 'admin/license-manager/class-product.php',
-			'yoast_notification_center'          => WPSEO_PATH . 'admin/class-yoast-notification-center.php',
-			'yoast_notification'                 => WPSEO_PATH . 'admin/class-yoast-notification.php',
 			'wp_list_table'                      => ABSPATH . 'wp-admin/includes/class-wp-list-table.php',
 			'walker_category'                    => ABSPATH . 'wp-includes/category-template.php',
 			'pclzip'                             => ABSPATH . 'wp-admin/includes/class-pclzip.php',
@@ -99,6 +54,10 @@ function wpseo_auto_load( $class ) {
 	if ( ! class_exists( $class ) && isset( $classes[ $cn ] ) ) {
 		require_once( $classes[ $cn ] );
 	}
+}
+
+if ( file_exists( WPSEO_PATH . '/vendor/autoload_52.php' ) ) {
+	require WPSEO_PATH . '/vendor/autoload_52.php';
 }
 
 if ( function_exists( 'spl_autoload_register' ) ) {
