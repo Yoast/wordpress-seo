@@ -866,11 +866,11 @@ class WPSEO_Frontend {
 			$canonical = $this->canonical_no_override;
 		}
 
-		if ( $echo !== false ) {
-			echo '<link rel="canonical" href="' . esc_url( $canonical, null, 'other' ) . '" />' . "\n";
-		} else {
+		if ( $echo === false ) {
 			return $canonical;
 		}
+
+		echo '<link rel="canonical" href="' . esc_url( $canonical, null, 'other' ) . '" />' . "\n";
 	}
 
 	/**
