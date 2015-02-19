@@ -230,12 +230,9 @@ function wpseo_admin_bar_menu() {
 		return;
 	}
 
-	global $wp_admin_bar, $wpseo_front, $post;
+	global $wp_admin_bar, $post;
 
-	$url = '';
-	if ( is_object( $wpseo_front ) ) {
-		$url = $wpseo_front->canonical( false );
-	}
+	$url = WPSEO_Frontend::get_instance()->canonical( false );
 
 	$focuskw = '';
 	$score   = '';
