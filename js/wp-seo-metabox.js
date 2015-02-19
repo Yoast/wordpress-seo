@@ -16,13 +16,13 @@ function ptest( str, p ) {
 	str = yst_clean( str );
 	str = str.toLowerCase();
 	str = removeLowerCaseDiacritics( str );
-	p = removeLowerCaseDiacritics( str );
 	var r = str.match( p );
+
 	if ( r != null ){
 		return '<span class="good">Yes (' + r.length + ')</span>';
-	} else {
-		return '<span class="wrong">No</span>';
 	}
+
+	return '<span class="wrong">No</span>';
 }
 
 function removeLowerCaseDiacritics(str) {
@@ -82,13 +82,15 @@ function removeLowerCaseDiacritics(str) {
 function yst_testFocusKw() {
 	// Retrieve focus keyword and trim
 	var focuskw = jQuery.trim(jQuery('#' + wpseoMetaboxL10n.field_prefix + 'focuskw').val());
+
 	focuskw = yst_escapeFocusKw(focuskw).toLowerCase();
 
 	if (jQuery('#editable-post-name-full').length) {
 		var postname = jQuery('#editable-post-name-full').text();
 		var url = wpseoMetaboxL10n.wpseo_permalink_template.replace('%postname%', postname).replace('http://', '');
 	}
-	var p = new RegExp("(^|[ \s\n\r\t\.,'\(\"\+;!?:\-])" + focuskw + "($|[ \s\n\r\t.,'\)\"\+!?:;\-])", 'gim');
+	var p = new RegExp("(^|[ \s\n\r\t\.,'\(\"\+;!?:\-])" + removeLowerCaseDiacritics( focuskw ) + "($|[ \s\n\r\t.,'\)\"\+!?:;\-])", 'gim');
+
 	//remove diacritics of a lower cased focuskw for url matching in foreign lang
 	var focuskwNoDiacritics = removeLowerCaseDiacritics(focuskw);
 	var p2 = new RegExp(focuskwNoDiacritics.replace(/\s+/g, "[-_\\\//]"), 'gim');
