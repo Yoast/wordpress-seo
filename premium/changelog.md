@@ -1,5 +1,4 @@
 ### 1.5.2.1: February 19th, 2015
-* Adds filters to enable administrators to alter the access level required to use the redirect manager.
 * Merge with WordPress SEO core 1.7.3.1
 
 ### 1.5.2: February 17th, 2015
