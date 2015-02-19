@@ -134,7 +134,8 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 			// set text fields
 			if ( $field['type'] === 'text' ) {
 				$_POST[ WPSEO_Metabox::$form_prefix . $key ] = 'text';
-			} elseif ( $field['type'] === 'checkbox' ) {
+			}
+			elseif ( $field['type'] === 'checkbox' ) {
 				$_POST[ WPSEO_Metabox::$form_prefix . $key ] = 'on';
 			}
 		}
@@ -155,7 +156,8 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 			// set text fields
 			if ( $field['type'] === 'text' ) {
 				$this->assertNotEmpty( $value );
-			} elseif ( $field['type'] === 'checkbox' ) {
+			}
+			elseif ( $field['type'] === 'checkbox' ) {
 				$this->assertEquals( $value, 'on' );
 			}
 		}

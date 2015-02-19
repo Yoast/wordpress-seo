@@ -1,6 +1,7 @@
 <?php
 /**
- * @package Admin
+ * @package    WPSEO
+ * @subpackage Admin
  */
 
 if ( ! defined( 'WPSEO_VERSION' ) ) {
@@ -96,7 +97,8 @@ else {
 	if ( ! is_writable( $robots_file ) ) {
 		$content  = '<p><em>' . __( 'If your robots.txt were writable, you could edit it from here.', 'wordpress-seo' ) . '</em></p>';
 		$content .= '<textarea class="large-text code" disabled="disabled" rows="15" name="robotsnew">' . $robots_txt_content . '</textarea><br/>';
-	} else {
+	}
+	else {
 		$content  = '<form action="' . esc_url( $action_url ) . '" method="post" id="robotstxtform">';
 		$content .= wp_nonce_field( 'wpseo-robotstxt', '_wpnonce', true, false );
 		$content .= '<p>' . __( 'Edit the content of your robots.txt:', 'wordpress-seo' ) . '</p>';
@@ -120,7 +122,8 @@ if ( ( isset( $_SERVER['SERVER_SOFTWARE'] ) && stristr( $_SERVER['SERVER_SOFTWAR
 	if ( ! is_writable( $ht_access_file ) ) {
 		$content  = '<p><em>' . __( 'If your .htaccess were writable, you could edit it from here.', 'wordpress-seo' ) . '</em></p>';
 		$content .= '<textarea class="large-text code" disabled="disabled" rows="15" name="robotsnew">' . $contentht . '</textarea><br/>';
-	} else {
+	}
+	else {
 		$content  = '<form action="' . esc_url( $action_url ) . '" method="post" id="htaccessform">';
 		$content .= wp_nonce_field( 'wpseo-htaccess', '_wpnonce', true, false );
 		$content .= '<p>' . __( 'Edit the content of your .htaccess:', 'wordpress-seo' ) . '</p>';
@@ -129,7 +132,8 @@ if ( ( isset( $_SERVER['SERVER_SOFTWARE'] ) && stristr( $_SERVER['SERVER_SOFTWAR
 		$content .= '</form>';
 	}
 	$wpseo_admin_pages->postbox( 'htaccess', __( '.htaccess file', 'wordpress-seo' ), $content );
-} elseif ( ( isset( $_SERVER['SERVER_SOFTWARE'] ) && stristr( $_SERVER['SERVER_SOFTWARE'], 'nginx' ) === false ) && ! file_exists( $ht_access_file ) ) {
+}
+elseif ( ( isset( $_SERVER['SERVER_SOFTWARE'] ) && stristr( $_SERVER['SERVER_SOFTWARE'], 'nginx' ) === false ) && ! file_exists( $ht_access_file ) ) {
 	$content = '<p>' . __( 'If you had a .htaccess file and it was editable, you could edit it from here.', 'wordpress-seo' );
 	$wpseo_admin_pages->postbox( 'htaccess', __( '.htaccess file', 'wordpress-seo' ), $content );
 }

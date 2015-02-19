@@ -1,6 +1,7 @@
 <?php
 /**
- * @package Admin
+ * @package    WPSEO
+ * @subpackage Admin
  */
 
 /**
@@ -153,7 +154,7 @@ class WPSEO_Admin_Pages {
 		<div class="meta-box-sortables">
 		<?php
 		if ( $form === true ) {
-			echo '<form action="' . esc_url( admin_url( 'options.php' ) ) . '" method="post" id="wpseo-conf"' . ( $contains_files ? ' enctype="multipart/form-data"' : '' ) . ' accept-charset="' . esc_attr( get_bloginfo( 'charset' ) ) . '">';
+			echo '<form action="' . esc_url( admin_url( 'options.php' ) ) . '" method="post" id="wpseo-conf"' . ( ( $contains_files ) ? ' enctype="multipart/form-data"' : '' ) . ' accept-charset="' . esc_attr( get_bloginfo( 'charset' ) ) . '">';
 			settings_fields( $option );
 		}
 		$this->currentoption = $optionshort;
@@ -206,10 +207,10 @@ class WPSEO_Admin_Pages {
 				<h3 class="hndle"><span>' . __( 'Debug Information', 'wordpress-seo' ) . '</span></h3>
 				<div class="inside">
 					<h4>' . esc_html( __( 'Current option:', 'wordpress-seo' ) ) . ' <span class="wpseo-debug">' . esc_html( $this->currentoption ) . '</span></h4>
-					' . ( $xdebug ? '' : '<pre>' );
+					' . ( ( $xdebug ) ? '' : '<pre>' );
 			var_dump( $this->get_option( $this->currentoption ) );
 			echo '
-					' . ( $xdebug ? '' : '</pre>' ) . '
+					' . ( ( $xdebug ) ? '' : '</pre>' ) . '
 				</div>
 			</div>
 			</div>';
@@ -255,11 +256,14 @@ class WPSEO_Admin_Pages {
 					for ( $i = 0; $i < $elm_count; $i ++ ) {
 						$content .= $key . '[] = "' . $elem[ $i ] . "\"\n";
 					}
-				} elseif ( is_string( $elem ) && $elem == '' ) {
+				}
+				elseif ( is_string( $elem ) && $elem == '' ) {
 					$content .= $key . " = \n";
-				} elseif ( is_bool( $elem ) ) {
+				}
+				elseif ( is_bool( $elem ) ) {
 					$content .= $key . ' = "' . ( ( $elem === true ) ? 'on' : 'off' ) . "\"\n";
-				} else {
+				}
+				else {
 					$content .= $key . ' = "' . $elem . "\"\n";
 				}
 			}
@@ -356,7 +360,8 @@ class WPSEO_Admin_Pages {
 	function get_option( $option ) {
 		if ( is_network_admin() ) {
 			return get_site_option( $option );
-		} else {
+		}
+		else {
 			return get_option( $option );
 		}
 	}
@@ -392,7 +397,8 @@ class WPSEO_Admin_Pages {
 			}
 			$output_label = '<label class="checkbox" for="' . esc_attr( $var ) . '">' . $label_left . '</label>';
 			$class        = 'checkbox';
-		} else {
+		}
+		else {
 			$output_label = '<label for="' . esc_attr( $var ) . '">' . $label . '</label>';
 			$class        = 'checkbox double';
 		}
@@ -401,7 +407,8 @@ class WPSEO_Admin_Pages {
 
 		if ( $label_left !== false ) {
 			$output = $output_label . $output_input . '<label class="checkbox" for="' . esc_attr( $var ) . '">' . $label . '</label>';
-		} else {
+		}
+		else {
 			$output = $output_input . $output_label;
 		}
 
@@ -648,7 +655,8 @@ class WPSEO_Admin_Pages {
 			$content .= '<tr><th scope="row">';
 			if ( isset( $row['id'] ) && $row['id'] != '' ) {
 				$content .= '<label for="' . esc_attr( $row['id'] ) . '">' . esc_html( $row['label'] ) . ':</label>';
-			} else {
+			}
+			else {
 				$content .= esc_html( $row['label'] );
 			}
 			if ( isset( $row['desc'] ) && $row['desc'] != '' ) {

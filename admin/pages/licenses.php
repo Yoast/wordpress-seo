@@ -1,6 +1,9 @@
 <?php
 /**
- * @package Admin
+ * @package    WPSEO
+ * @subpackage Admin
+ * @since      1.5.0
+ *
  * @todo    Add default content (when no premium plugins are activated)
  */
 
@@ -72,7 +75,8 @@ global $wpseo_admin_pages;
 			}
 			if ( ! class_exists( 'Woocommerce' ) ) {
 				unset( $extensions['woocommerce-seo'] );
-			} else {
+			}
+			else {
 				if ( class_exists( 'Yoast_WooCommerce_SEO' ) ) {
 					$extensions['woocommerce-seo']->installed = true;
 				}
@@ -89,13 +93,13 @@ global $wpseo_admin_pages;
 					<p><?php echo esc_html( $extension->desc ); ?></p>
 
 					<p>
-						<?php if ( $extension->installed ) { ?>
+						<?php if ( $extension->installed ) : ?>
 							<button class="button-primary installed">Installed</button>
-						<?php } else { ?>
+						<?php else : ?>
 							<a target="_blank" href="<?php echo esc_url( $extension->url . $utm ); ?>" class="button-primary">
 								<?php esc_html_e( 'Get this extension', 'wordpress-seo' ); ?>
 							</a>
-						<?php } ?>
+						<?php endif; ?>
 					</p>
 				</div>
 			<?php

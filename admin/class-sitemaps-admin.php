@@ -1,6 +1,7 @@
 <?php
 /**
- * @package XML_Sitemaps
+ * @package    WPSEO
+ * @subpackage XML_Sitemaps
  */
 
 /**
@@ -26,9 +27,9 @@ class WPSEO_Sitemaps_Admin {
 		if ( $options['enablexmlsitemap'] === true ) {
 
 			$file_to_check_for = array(
-				//ABSPATH . 'sitemap.xml',
-				//ABSPATH . 'sitemap.xslt',
-				//ABSPATH . 'sitemap.xsl',
+				// ABSPATH . 'sitemap.xml',
+				// ABSPATH . 'sitemap.xslt',
+				// ABSPATH . 'sitemap.xsl',
 				ABSPATH . 'sitemap_index.xml',
 			);
 
@@ -50,6 +51,11 @@ class WPSEO_Sitemaps_Admin {
 	 * Hooked into transition_post_status. Will initiate search engine pings
 	 * if the post is being published, is a post type that a sitemap is built for
 	 * and is a post that is included in sitemaps.
+	 *
+	 * @param string   $new_status New post status.
+	 * @param string   $old_status Old post status.
+	 * @param \WP_Post $post       Post object.
+
 	 */
 	function status_transition( $new_status, $old_status, $post ) {
 		if ( $new_status != 'publish' ) {
@@ -64,14 +70,15 @@ class WPSEO_Sitemaps_Admin {
 		}
 
 		if ( WP_CACHE ) {
-			wp_schedule_single_event( time() + 300, 'wpseo_hit_sitemap_index' );
+			wp_schedule_single_event( (time() + 300), 'wpseo_hit_sitemap_index' );
 		}
 
 		// Allow the pinging to happen slightly after the hit sitemap index so the sitemap is fully regenerated when the ping happens.
 		if ( WPSEO_Meta::get_value( 'sitemap-include', $post->ID ) !== 'never' ) {
 			if ( defined( 'YOAST_SEO_PING_IMMEDIATELY' ) && YOAST_SEO_PING_IMMEDIATELY ) {
 				wpseo_ping_search_engines();
-			} else {
+			}
+			else {
 				wp_schedule_single_event( ( time() + 300 ), 'wpseo_ping_search_engines' );
 			}
 		}
