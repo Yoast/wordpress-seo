@@ -531,8 +531,11 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 
 		$category_link = get_category_link( $category_id );
 		$this->go_to( $category_link . '&paged=2' );
+
+		$next_link = get_pagenum_link( 3 );
+
 		self::$class_instance->adjacent_rel_links();
-		$this->expectOutput( '<link rel="prev" href="' . $category_link . '" />' . "\n" . '<link rel="next" href="' . $category_link . '&#038;paged=3" />' . "\n" );
+		$this->expectOutput( '<link rel="prev" href="' . $category_link . '" />' . "\n" . '<link rel="next" href="' . $next_link . '" />' . "\n" );
 	}
 
 	/**
