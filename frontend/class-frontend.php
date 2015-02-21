@@ -892,8 +892,7 @@ class WPSEO_Frontend {
 		if ( $un_paged ) {
 			$canonical = $this->canonical_unpaged;
 		}
-
-		if ( $no_override ) {
+		elseif ( $no_override ) {
 			$canonical = $this->canonical_no_override;
 		}
 

@@ -525,7 +525,14 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Frontend::adjacent_rel_links
 	 */
 	public function test_adjacent_rel_links() {
-		// @todo
+		// create a category, add 26 posts to it, go to page 2 of its archives
+		$category_id = wp_create_category( 'boom' );
+		$this->factory->post->create_many( 26, array( 'post_category' => array( $category_id ) ) );
+
+		$category_link = get_category_link( $category_id );
+		$this->go_to( $category_link . '&paged=2' );
+		self::$class_instance->adjacent_rel_links();
+		$this->expectOutput( '<link rel="prev" href="' . $category_link . '" />' . "\n" . '<link rel="next" href="' . $category_link . '&#038;paged=3" />' . "\n" );
 	}
 
 	/**
