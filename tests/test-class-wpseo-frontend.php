@@ -531,7 +531,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 
 		$category_link = get_category_link( $category_id );
 		$this->go_to( $category_link );
-		$next_link = get_pagenum_link( 2 );
+		$next_link = get_pagenum_link( 2, false );
 
 		$this->go_to( $next_link );
 		$next_link = get_pagenum_link( 3 );
