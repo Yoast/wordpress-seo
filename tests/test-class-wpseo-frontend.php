@@ -529,6 +529,8 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		$category_id = wp_create_category( 'boom' );
 		$this->factory->post->create_many( 22, array( 'post_category' => array( $category_id ) ) );
 
+		flush_rewrite_rules();
+
 		$category_link = get_category_link( $category_id );
 
 		// Test page 1 of the category, should have just next
