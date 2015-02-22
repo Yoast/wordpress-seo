@@ -525,7 +525,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Frontend::adjacent_rel_links
 	 */
 	public function test_adjacent_rel_links() {
-		update_option( 'posts_per_page', 5 );
+		update_site_option( 'posts_per_page', 5 );
 
 		// create a category, add 26 posts to it, go to page 2 of its archives
 		$category_id = wp_create_category( 'boom' );
