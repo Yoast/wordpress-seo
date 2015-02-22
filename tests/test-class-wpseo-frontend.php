@@ -111,13 +111,10 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_get_taxonomy_title() {
 
-		// @todo fix for multisite
-		if ( is_multisite() ) {
-			return;
-		}
-
 		// create and go to cat archive
 		$category_id = wp_create_category( 'Category Name' );
+		flush_rewrite_rules();
+
 		$this->go_to( get_category_link( $category_id ) );
 
 		// test title according to format
@@ -347,6 +344,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 
 		// go to category page
 		$category_id = wp_create_category( 'Category Name' );
+		flush_rewrite_rules();
 
 		// add posts to category
 		$this->factory->post->create_many( 6, array( 'post_category' => array( $category_id ) ) );
@@ -359,23 +357,20 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( $expected, self::$class_instance->robots() );
 
 		// test category with noindex-tax-category option
-		// TODO fix test for multisite (or code?)
-		if ( false === is_multisite() ) {
-			$expected                                              = 'noindex,follow';
-			self::$class_instance->options['noindex-tax-category'] = true;
-			$this->assertEquals( $expected, self::$class_instance->robots() );
+		$expected                                              = 'noindex,follow';
+		self::$class_instance->options['noindex-tax-category'] = true;
+		$this->assertEquals( $expected, self::$class_instance->robots() );
 
-			// clean-up
-			self::$class_instance->options['noindex-tax-category'] = false;
+		// clean-up
+		self::$class_instance->options['noindex-tax-category'] = false;
 
-			// test subpages of category archives
-			update_site_option( 'posts_per_page', 1 );
-			self::$class_instance->options['noindex-subpages-wpseo'] = true;
-			$this->go_to( add_query_arg( array( 'paged' => 2 ), $category_link ) );
+		// test subpages of category archives
+		update_site_option( 'posts_per_page', 1 );
+		self::$class_instance->options['noindex-subpages-wpseo'] = true;
+		$this->go_to( add_query_arg( array( 'paged' => 2 ), $category_link ) );
 
-			$expected = 'noindex,follow';
-			$this->assertEquals( $expected, self::$class_instance->robots() );
-		}
+		$expected = 'noindex,follow';
+		$this->assertEquals( $expected, self::$class_instance->robots() );
 		// go to author page
 		$user_id = $this->factory->user->create();
 		$this->go_to( get_author_posts_url( $user_id ) );
@@ -454,11 +449,6 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_canonical_single_post_override() {
 
-		// @todo: fix for multisite
-		if ( is_multisite() ) {
-			return;
-		}
-
 		// create and go to post
 		$post_id = $this->factory->post->create();
 
@@ -498,37 +488,62 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * @covers WPSEO_Frontend::adjacent_rel_links
 	 * @covers WPSEO_Frontend::canonical
 	 */
-	public function test_canonical_category() {
+	public function test_adjacent_rel_links_canonical_author() {
 
-		// @todo: fix for multisite
-		if ( is_multisite() ) {
-			return;
-		}
-		// test taxonomy pages, category pages and tag pages
-		$category_id   = wp_create_category( 'Category Name' );
-		$category_link = get_category_link( $category_id );
-		$this->go_to( $category_link );
+		$user_id = $this->factory->user->create( array( 'role' => 'editor' ) );
 
-		$expected = $category_link;
-		$this->assertEquals( $expected, self::$class_instance->canonical( false ) );
+		$this->factory->post->create_many( 22, array( 'post_author' => $user_id ) );
+
+		$user     = new WP_User( $user_id );
+		$user_url = get_author_posts_url( $user_id, $user->user_login );
+
+		// Test page 1 of the author archives, should have just a rel=next and a canonical
+		$this->go_to( $user_url );
+		$page_2_link = get_pagenum_link( 2, false );
+		$expected    = '<link rel="next" href="' . esc_url( $page_2_link ) . '" />' . "\n";
+
+		self::$class_instance->adjacent_rel_links();
+		$this->assertEquals( $user_url, self::$class_instance->canonical( false ) );
+		$this->expectOutput( $expected );
+
+		// Test page 2 of the author archives, should have a rel=next and rel=prev and a canonical
+		self::$class_instance->reset();
+		$this->go_to( $page_2_link );
+
+		$page_3_link = get_pagenum_link( 3, false );
+		$expected    = '<link rel="prev" href="' . esc_url( $user_url ) . '" />' . "\n" . '<link rel="next" href="' . esc_url( $page_3_link ) . '" />' . "\n";
+
+		self::$class_instance->adjacent_rel_links();
+		$this->assertEquals( $page_2_link, self::$class_instance->canonical( false ) );
+		$this->expectOutput( $expected );
+
+		// Test page 3 of the author archives, should have just a rel=prev and a canonical
+		self::$class_instance->reset();
+		$this->go_to( $page_3_link );
+
+		$expected = '<link rel="prev" href="' . esc_url( $page_2_link ) . '" />' . "\n";
+		self::$class_instance->adjacent_rel_links();
+		$this->assertEquals( $page_3_link, self::$class_instance->canonical( false ) );
+		$this->expectOutput( $expected );
 
 		// @todo test post type archives
-		// @todo test author archives
 		// @todo test date archives
-		// @todo test pagination
 		// @todo test force_transport
 	}
 
 	/**
 	 * @covers WPSEO_Frontend::adjacent_rel_links
+	 * @covers WPSEO_Frontend::canonical for categories too
 	 */
-	public function test_adjacent_rel_links() {
+	public function test_adjacent_rel_links_canonical_category() {
 		// create a category, add 26 posts to it, go to page 2 of its archives
-		$category_id = wp_create_category( 'boom' );
+		$category_id = wp_create_category( 'WordPress SEO Plugins' );
 		$this->factory->post->create_many( 22, array( 'post_category' => array( $category_id ) ) );
 
+		// This shouldn't be necessary but apparently multisite's rewrites are borked when you create a category and you don't flush (on 4.0 only).
 		flush_rewrite_rules();
 
 		$category_link = get_category_link( $category_id );
