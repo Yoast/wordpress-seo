@@ -525,8 +525,6 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Frontend::adjacent_rel_links
 	 */
 	public function test_adjacent_rel_links() {
-		global $wp_rewrite;
-
 		update_option( 'posts_per_page', 5 );
 
 		// create a category, add 26 posts to it, go to page 2 of its archives
@@ -535,26 +533,36 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 
 		$category_link = get_category_link( $category_id );
 
+		// Test page 1 of the category
+		self::$class_instance->reset();
 		$this->go_to( $category_link );
-		self::$class_instance->reset();
-		$this->assertEquals( $category_link, self::$class_instance->canonical( false ) );
 
-		$page = 2;
-		if ( $wp_rewrite->using_index_permalinks() ) {
-			$next_link = trailingslashit( $category_link ) . user_trailingslashit( $wp_rewrite->pagination_base . '/' . $page, 'paged' );
-		} else {
-			$next_link = add_query_arg( 'paged', $page, $category_link );
-		}
-
-		$this->go_to( $next_link );
-		self::$class_instance->reset();
-		$this->assertEquals( $next_link, self::$class_instance->canonical( false ) );
-
-		$next_link = get_pagenum_link( 3 );
-
-		$expected = '<link rel="prev" href="' . $category_link . '" />' . "\n" . '<link rel="next" href="' . $next_link . '" />' . "\n";
+		$page_2_link = get_pagenum_link( 2, false );
+		$expected    = '<link rel="next" href="' . esc_url( $page_2_link ) . '" />' . "\n";
 
 		self::$class_instance->adjacent_rel_links();
+		$this->expectOutput( $expected );
+		$this->assertEquals( $category_link, self::$class_instance->canonical( false ) );
+
+		// Test page 2 of the category
+		self::$class_instance->reset();
+		$this->go_to( $page_2_link );
+
+		$page_3_link = get_pagenum_link( 3, false );
+		$expected    = '<link rel="prev" href="' . $category_link . '" />' . "\n" . '<link rel="next" href="' . esc_url( $page_3_link ) . '" />' . "\n";
+
+		self::$class_instance->adjacent_rel_links();
+		$this->expectOutput( $expected );
+		$this->assertEquals( $page_2_link, self::$class_instance->canonical( false ) );
+
+		// Test page 3 of the category
+		self::$class_instance->reset();
+		$this->go_to( $page_3_link );
+
+		$expected = '<link rel="prev" href="' . esc_url( $page_2_link ) . '" />' . "\n";
+
+		self::$class_instance->adjacent_rel_links();
+		$this->assertEquals( $page_3_link, self::$class_instance->canonical( false ) );
 		$this->expectOutput( $expected );
 	}
 
