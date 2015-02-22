@@ -134,7 +134,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	public function test_get_author_title() {
 
 		// create and go to author
-		$user_id = $this->factory->user->create( );
+		$user_id = $this->factory->user->create();
 		$this->go_to( get_author_posts_url( $user_id ) );
 
 		// test general author title
@@ -260,9 +260,9 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	public function test_json_ld() {
 		$this->go_to_home();
 
-		$home_url = trailingslashit( home_url() );
+		$home_url   = trailingslashit( home_url() );
 		$search_url = $home_url . '?s={search_term}';
-		$this->run_json_ld_test( '<script type="application/ld+json">{ "@context": "http://schema.org", "@type": "WebSite", "url": "' . $home_url . '", "potentialAction": { "@type": "SearchAction", "target": "' . $search_url .'", "query-input": "required name=search_term" } }</script>' . "\n" );
+		$this->run_json_ld_test( '<script type="application/ld+json">{ "@context": "http://schema.org", "@type": "WebSite", "url": "' . $home_url . '", "potentialAction": { "@type": "SearchAction", "target": "' . $search_url . '", "query-input": "required name=search_term" } }</script>' . "\n" );
 	}
 
 	/**
@@ -277,11 +277,11 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	/**
 	 * @covers WPSEO_Frontend::robots
 	 *
-	 * @todo test post type archives
-	 * @todo test with noodp and noydir option set
-	 * @todo test with page_for_posts option
-	 * @todo test date archives
-	 * @todo test search results
+	 * @todo   test post type archives
+	 * @todo   test with noodp and noydir option set
+	 * @todo   test with page_for_posts option
+	 * @todo   test date archives
+	 * @todo   test search results
 	 */
 	public function test_robots() {
 		// go to home
@@ -402,10 +402,10 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		$post_id = $this->factory->post->create();
 		$this->go_to( get_permalink( $post_id ) );
 
-		$robots = array(
-			'index' => 'index',
+		$robots   = array(
+			'index'  => 'index',
 			'follow' => 'follow',
-			'other' => array(),
+			'other'  => array(),
 		);
 		$expected = $robots;
 
@@ -421,12 +421,12 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 
 		// test noodp with default meta-robots-adv
 		self::$class_instance->options['noodp'] = true;
-		$expected['other'] = array( 'noodp' );
+		$expected['other']                      = array( 'noodp' );
 		$this->assertEquals( $expected, self::$class_instance->robots_for_single_post( $robots, $post_id ) );
 
 		// test noydir with default meta-robots-adv
 		self::$class_instance->options['noydir'] = true;
-		$expected['other'] = array( 'noodp', 'noydir' );
+		$expected['other']                       = array( 'noodp', 'noydir' );
 		$this->assertEquals( $expected, self::$class_instance->robots_for_single_post( $robots, $post_id ) );
 
 		// test meta-robots adv noodp and nosnippet
@@ -506,7 +506,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		if ( is_multisite() ) {
 			return;
 		}
-				// test taxonomy pages, category pages and tag pages
+		// test taxonomy pages, category pages and tag pages
 		$category_id   = wp_create_category( 'Category Name' );
 		$category_link = get_category_link( $category_id );
 		$this->go_to( $category_link );
@@ -625,7 +625,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_noindex_page() {
 		$expected = '<meta name="robots" content="noindex" />' . "\n";
-		$this->expectOutput( $expected, self::$class_instance->noindex_page( ) );
+		$this->expectOutput( $expected, self::$class_instance->noindex_page() );
 
 	}
 
@@ -655,22 +655,22 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		$c = self::$class_instance;
 
 		// test on author, authors enabled -> false
-		$wp_query->is_author = true;
+		$wp_query->is_author          = true;
 		$c->options['disable-author'] = false;
 		$this->assertFalse( $c->archive_redirect() );
 
 		// test not on author, authors disabled -> false
-		$wp_query->is_author = false;
+		$wp_query->is_author          = false;
 		$c->options['disable-author'] = true;
 		$this->assertFalse( $c->archive_redirect() );
 
 		// test on date, dates enabled -> false
-		$wp_query->is_date = true;
+		$wp_query->is_date          = true;
 		$c->options['disable-date'] = false;
 		$this->assertFalse( $c->archive_redirect() );
 
 		// test not on date, dates disabled -> false
-		$wp_query->is_date = false;
+		$wp_query->is_date          = false;
 		$c->options['disable-date'] = true;
 		$this->assertFalse( $c->archive_redirect() );
 	}
@@ -864,7 +864,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		// test if input was changed
 		self::$class_instance->options['rssbefore'] = 'Some RSS before text';
 		self::$class_instance->options['rssafter']  = '';
-		$expected = wpautop( self::$class_instance->options['rssbefore'] ) . $input;
+		$expected                                   = wpautop( self::$class_instance->options['rssbefore'] ) . $input;
 		$this->assertEquals( $expected, self::$class_instance->embed_rss( $input, 'full' ) );
 	}
 
@@ -915,30 +915,33 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	* @param string $name
-	* @return string
-	*/
+	 * @param string $name
+	 *
+	 * @return string
+	 */
 	private function get_option( $name ) {
-		return self::$class_instance->options[$name];
+		return self::$class_instance->options[ $name ];
 	}
 
 	/**
 	 * @param string $option_name
 	 * @param string $expected
+	 *
 	 * @return void
 	 */
 	private function run_webmaster_tools_authentication_option_test( $option_name, $expected ) {
-		self::$class_instance->options[$option_name] = $option_name;
-		$this->expectOutput( $expected, self::$class_instance->webmaster_tools_authentication( ) );
-		self::$class_instance->options[$option_name] = '';
+		self::$class_instance->options[ $option_name ] = $option_name;
+		$this->expectOutput( $expected, self::$class_instance->webmaster_tools_authentication() );
+		self::$class_instance->options[ $option_name ] = '';
 	}
 
 	/**
 	 * @param string $expected
+	 *
 	 * @return void
 	 */
 	private function run_json_ld_test( $expected ) {
-		$this->expectOutput( $expected, self::$class_instance->internal_search_json_ld( ) );
+		$this->expectOutput( $expected, self::$class_instance->internal_search_json_ld() );
 	}
 
 }
