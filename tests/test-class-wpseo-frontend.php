@@ -525,15 +525,31 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Frontend::adjacent_rel_links
 	 */
 	public function test_adjacent_rel_links() {
+		global $wp_rewrite;
+
+		update_option( 'posts_per_page', 5 );
+
 		// create a category, add 26 posts to it, go to page 2 of its archives
 		$category_id = wp_create_category( 'boom' );
-		$this->factory->post->create_many( 26, array( 'post_category' => array( $category_id ) ) );
+		$this->factory->post->create_many( 12, array( 'post_category' => array( $category_id ) ) );
 
 		$category_link = get_category_link( $category_id );
+
 		$this->go_to( $category_link );
-		$next_link = get_pagenum_link( 2, false );
+		self::$class_instance->reset();
+		$this->assertEquals( $category_link, self::$class_instance->canonical( false ) );
+
+		$page = 2;
+		if ( $wp_rewrite->using_index_permalinks() ) {
+			$next_link = trailingslashit( $category_link ) . user_trailingslashit( $wp_rewrite->pagination_base . '/' . $page, 'paged' );
+		} else {
+			$next_link = add_query_arg( 'paged', $page, $category_link );
+		}
 
 		$this->go_to( $next_link );
+		self::$class_instance->reset();
+		$this->assertEquals( $next_link, self::$class_instance->canonical( false ) );
+
 		$next_link = get_pagenum_link( 3 );
 
 		$expected = '<link rel="prev" href="' . $category_link . '" />' . "\n" . '<link rel="next" href="' . $next_link . '" />' . "\n";
