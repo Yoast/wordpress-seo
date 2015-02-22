@@ -498,7 +498,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		$this->factory->post->create_many( 22, array( 'post_author' => $user_id ) );
 
 		$user     = new WP_User( $user_id );
-		$user_url = get_author_posts_url( $user_id, $user->user_login );
+		$user_url = get_author_posts_url( $user_id, $user->user_nicename );
 
 		// Test page 1 of the author archives, should have just a rel=next and a canonical
 		$this->go_to( $user_url );
