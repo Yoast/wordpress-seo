@@ -536,8 +536,10 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		$this->go_to( $next_link );
 		$next_link = get_pagenum_link( 3 );
 
+		$expected = '<link rel="prev" href="' . $category_link . '" />' . "\n" . '<link rel="next" href="' . $next_link . '" />' . "\n";
+
 		self::$class_instance->adjacent_rel_links();
-		$this->expectOutput( '<link rel="prev" href="' . $category_link . '" />' . "\n" . '<link rel="next" href="' . $next_link . '" />' . "\n" );
+		$this->expectOutput( $expected );
 	}
 
 	/**
