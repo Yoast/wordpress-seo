@@ -533,18 +533,17 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 
 		$category_link = get_category_link( $category_id );
 
-		// Test page 1 of the category
-		self::$class_instance->reset();
+		// Test page 1 of the category, should have just next
 		$this->go_to( $category_link );
 
 		$page_2_link = get_pagenum_link( 2, false );
 		$expected    = '<link rel="next" href="' . esc_url( $page_2_link ) . '" />' . "\n";
 
 		self::$class_instance->adjacent_rel_links();
-		$this->expectOutput( $expected );
 		$this->assertEquals( $category_link, self::$class_instance->canonical( false ) );
+		$this->expectOutput( $expected );
 
-		// Test page 2 of the category
+		// Test page 2 of the category, should have prev and next
 		self::$class_instance->reset();
 		$this->go_to( $page_2_link );
 
@@ -552,10 +551,10 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		$expected    = '<link rel="prev" href="' . $category_link . '" />' . "\n" . '<link rel="next" href="' . esc_url( $page_3_link ) . '" />' . "\n";
 
 		self::$class_instance->adjacent_rel_links();
-		$this->expectOutput( $expected );
 		$this->assertEquals( $page_2_link, self::$class_instance->canonical( false ) );
+		$this->expectOutput( $expected );
 
-		// Test page 3 of the category
+		// Test page 3 of the category, should have just prev
 		self::$class_instance->reset();
 		$this->go_to( $page_3_link );
 
