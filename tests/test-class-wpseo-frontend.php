@@ -469,22 +469,40 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Frontend::canonical
 	 */
 	public function test_canonical_home() {
-		// test home page
-		$this->go_to_home();
+		$this->factory->post->create_many( 22 );
 
-		$expected = home_url();
-		$this->assertEquals( $expected, self::$class_instance->canonical( false, false, true ) );
+		$url = home_url();
 
+		$this->run_test_on_consecutive_pages( $url );
 	}
 
 	/**
 	 * @covers WPSEO_Frontend::canonical
 	 */
 	public function test_canonical_search() {
+
+		$this->factory->post->create_many( 22, array( 'post_title' => 'sample post %d' ) );
+
 		// test search
-		$expected = get_search_link( 'sample query' );
-		$this->go_to( $expected );
-		$this->assertEquals( $expected, self::$class_instance->canonical( false ) );
+		$search_link = get_search_link( 'sample post' );
+
+		$this->run_test_on_consecutive_pages( $search_link );
+	}
+
+	/**
+	 * @covers WPSEO_Frontend::adjacent_rel_links
+	 * @covers WPSEO_Frontend::canonical
+	 */
+	public function test_adjacent_rel_links_canonical_post_type() {
+		register_post_type( 'yoast', array( 'public' => true, 'has_archive' => true ) );
+
+		$this->factory->post->create_many( 22, array( 'post_type' => 'yoast' ) );
+
+		flush_rewrite_rules();
+
+		$archive_url = get_post_type_archive_link( 'yoast' );
+
+		$this->run_test_on_consecutive_pages( $archive_url );
 	}
 
 	/**
@@ -500,36 +518,8 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		$user     = new WP_User( $user_id );
 		$user_url = get_author_posts_url( $user_id, $user->user_nicename );
 
-		// Test page 1 of the author archives, should have just a rel=next and a canonical
-		$this->go_to( $user_url );
-		$page_2_link = get_pagenum_link( 2, false );
-		$expected    = '<link rel="next" href="' . esc_url( $page_2_link ) . '" />' . "\n";
+		$this->run_test_on_consecutive_pages( $user_url );
 
-		self::$class_instance->adjacent_rel_links();
-		$this->assertEquals( $user_url, self::$class_instance->canonical( false ) );
-		$this->expectOutput( $expected );
-
-		// Test page 2 of the author archives, should have a rel=next and rel=prev and a canonical
-		self::$class_instance->reset();
-		$this->go_to( $page_2_link );
-
-		$page_3_link = get_pagenum_link( 3, false );
-		$expected    = '<link rel="prev" href="' . esc_url( $user_url ) . '" />' . "\n" . '<link rel="next" href="' . esc_url( $page_3_link ) . '" />' . "\n";
-
-		self::$class_instance->adjacent_rel_links();
-		$this->assertEquals( $page_2_link, self::$class_instance->canonical( false ) );
-		$this->expectOutput( $expected );
-
-		// Test page 3 of the author archives, should have just a rel=prev and a canonical
-		self::$class_instance->reset();
-		$this->go_to( $page_3_link );
-
-		$expected = '<link rel="prev" href="' . esc_url( $page_2_link ) . '" />' . "\n";
-		self::$class_instance->adjacent_rel_links();
-		$this->assertEquals( $page_3_link, self::$class_instance->canonical( false ) );
-		$this->expectOutput( $expected );
-
-		// @todo test post type archives
 		// @todo test date archives
 		// @todo test force_transport
 	}
@@ -548,36 +538,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 
 		$category_link = get_category_link( $category_id );
 
-		// Test page 1 of the category, should have just next
-		$this->go_to( $category_link );
-
-		$page_2_link = get_pagenum_link( 2, false );
-		$expected    = '<link rel="next" href="' . esc_url( $page_2_link ) . '" />' . "\n";
-
-		self::$class_instance->adjacent_rel_links();
-		$this->assertEquals( $category_link, self::$class_instance->canonical( false ) );
-		$this->expectOutput( $expected );
-
-		// Test page 2 of the category, should have prev and next
-		self::$class_instance->reset();
-		$this->go_to( $page_2_link );
-
-		$page_3_link = get_pagenum_link( 3, false );
-		$expected    = '<link rel="prev" href="' . $category_link . '" />' . "\n" . '<link rel="next" href="' . esc_url( $page_3_link ) . '" />' . "\n";
-
-		self::$class_instance->adjacent_rel_links();
-		$this->assertEquals( $page_2_link, self::$class_instance->canonical( false ) );
-		$this->expectOutput( $expected );
-
-		// Test page 3 of the category, should have just prev
-		self::$class_instance->reset();
-		$this->go_to( $page_3_link );
-
-		$expected = '<link rel="prev" href="' . esc_url( $page_2_link ) . '" />' . "\n";
-
-		self::$class_instance->adjacent_rel_links();
-		$this->assertEquals( $page_3_link, self::$class_instance->canonical( false ) );
-		$this->expectOutput( $expected );
+		$this->run_test_on_consecutive_pages( $category_link );
 	}
 
 	/**
@@ -927,6 +888,44 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_title_test_helper() {
 		// @todo
+	}
+
+	/**
+	 * @param string $initial_url
+	 *
+	 * @return void
+	 */
+	private function run_test_on_consecutive_pages( $initial_url ) {
+		// Test page 1 of the post type archives, should have just a rel=next and a canonical
+		$this->go_to( $initial_url );
+
+		$page_2_link = get_pagenum_link( 2, false );
+		$expected    = '<link rel="next" href="' . esc_url( $page_2_link ) . '" />' . "\n";
+
+		self::$class_instance->adjacent_rel_links();
+		$this->assertEquals( $initial_url, self::$class_instance->canonical( false ) );
+		$this->expectOutput( $expected );
+
+
+		// Test page 2 of the post type archives, should have a rel=next and rel=prev and a canonical
+		self::$class_instance->reset();
+		$this->go_to( $page_2_link );
+
+		$page_3_link = get_pagenum_link( 3, false );
+		$expected    = '<link rel="prev" href="' . esc_url( $initial_url ) . '" />' . "\n" . '<link rel="next" href="' . esc_url( $page_3_link ) . '" />' . "\n";
+
+		self::$class_instance->adjacent_rel_links();
+		$this->assertEquals( $page_2_link, self::$class_instance->canonical( false ) );
+		$this->expectOutput( $expected );
+
+		// Test page 3 of the author archives, should have just a rel=prev and a canonical
+		self::$class_instance->reset();
+		$this->go_to( $page_3_link );
+
+		$expected = '<link rel="prev" href="' . esc_url( $page_2_link ) . '" />' . "\n";
+		self::$class_instance->adjacent_rel_links();
+		$this->assertEquals( $page_3_link, self::$class_instance->canonical( false ) );
+		$this->expectOutput( $expected );
 	}
 
 	/**

@@ -981,6 +981,9 @@ class WPSEO_Frontend {
 			if ( $canonical && get_query_var( 'paged' ) > 1 ) {
 				global $wp_rewrite;
 				if ( ! $wp_rewrite->using_permalinks() ) {
+					if ( is_front_page() ) {
+						$canonical = trailingslashit( $canonical );
+					}
 					$canonical = add_query_arg( 'paged', get_query_var( 'paged' ), $canonical );
 				}
 				else {
