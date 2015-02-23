@@ -226,9 +226,12 @@ function yst_updateTitle(force) {
 		title = yst_clean(title);
 
 		// and now the snippet preview title
-		title = yst_boldKeywords(title, false);
+		title = yst_boldKeywords(title, false)
 
 		jQuery('#wpseosnippet_title').html(title);
+
+		// Run possibly set filters
+		wpseo_apply_title_filter();
 
 		var e = document.getElementById('wpseosnippet_title');
 		if (e != null) {
@@ -241,6 +244,19 @@ function yst_updateTitle(force) {
 
 		yst_testFocusKw();
 	});
+}
+
+function wpseo_apply_title_filter( ) {
+	jQuery.post(ajaxurl, {
+			action  : 'wpseo_apply_title_filter',
+			string  : jQuery('#wpseosnippet_title').html(),
+			_wpnonce: wpseoMetaboxL10n.wpseo_replace_vars_nonce
+		}, function (data) {
+			if (data) {
+				jQuery('#wpseosnippet_title').html( data );
+			}
+		}
+	);
 }
 
 function yst_updateDesc() {
@@ -274,6 +290,9 @@ function yst_updateDesc() {
 			snippet.find('.desc span.autogen').html('');
 			// Set our new one.
 			snippet.find('.desc span.content').html(desc);
+
+			// Run possibly set filters
+			wpseo_apply_description_filter( snippet.find('.desc span.content') );
 
 			yst_testFocusKw();
 		});
@@ -310,6 +329,20 @@ function yst_updateDesc() {
 	}
 
 }
+
+function wpseo_apply_description_filter( target_element ) {
+	jQuery.post(ajaxurl, {
+			action  : 'wpseo_apply_description_filter',
+			string  : jQuery( target_element ).html(),
+			_wpnonce: wpseoMetaboxL10n.wpseo_replace_vars_nonce
+		}, function (data) {
+			if (data) {
+				jQuery( target_element ).html( data );
+			}
+		}
+	);
+}
+
 
 function yst_trimDesc(desc) {
 	if (desc.length > wpseoMetaboxL10n.wpseo_meta_desc_length) {
