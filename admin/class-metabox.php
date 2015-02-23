@@ -1386,7 +1386,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				'exclude'     => $job['post_id'],
 				'fields'      => 'ids',
 				'post_type'   => 'any',
-				'numberposts' => - 1,
+				'numberposts' => -1,
 			)
 		);
 
