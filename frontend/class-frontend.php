@@ -900,7 +900,9 @@ class WPSEO_Frontend {
 			return $canonical;
 		}
 
-		echo '<link rel="canonical" href="' . esc_url( $canonical, null, 'other' ) . '" />' . "\n";
+		if ( is_string( $canonical ) && '' !== $canonical ) {
+			echo '<link rel="canonical" href="' . esc_url( $canonical, null, 'other' ) . '" />' . "\n";
+		}
 	}
 
 	/**
