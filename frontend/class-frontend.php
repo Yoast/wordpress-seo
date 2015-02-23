@@ -892,8 +892,7 @@ class WPSEO_Frontend {
 		if ( $un_paged ) {
 			$canonical = $this->canonical_unpaged;
 		}
-
-		if ( $no_override ) {
+		elseif ( $no_override ) {
 			$canonical = $this->canonical_no_override;
 		}
 
@@ -901,7 +900,9 @@ class WPSEO_Frontend {
 			return $canonical;
 		}
 
-		echo '<link rel="canonical" href="' . esc_url( $canonical, null, 'other' ) . '" />' . "\n";
+		if ( is_string( $canonical ) && '' !== $canonical ) {
+			echo '<link rel="canonical" href="' . esc_url( $canonical, null, 'other' ) . '" />' . "\n";
+		}
 	}
 
 	/**
@@ -982,6 +983,9 @@ class WPSEO_Frontend {
 			if ( $canonical && get_query_var( 'paged' ) > 1 ) {
 				global $wp_rewrite;
 				if ( ! $wp_rewrite->using_permalinks() ) {
+					if ( is_front_page() ) {
+						$canonical = trailingslashit( $canonical );
+					}
 					$canonical = add_query_arg( 'paged', get_query_var( 'paged' ), $canonical );
 				}
 				else {
