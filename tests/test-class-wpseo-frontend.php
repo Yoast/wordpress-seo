@@ -519,9 +519,17 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		$user_url = get_author_posts_url( $user_id, $user->user_nicename );
 
 		$this->run_test_on_consecutive_pages( $user_url );
+	}
 
-		// @todo test date archives
-		// @todo test force_transport
+	/**
+	 * @covers WPSEO_Frontend::adjacent_rel_links
+	 * @covers WPSEO_Frontend::canonical
+	 */
+	public function test_adjacent_rel_links_canonical_date_archive() {
+		$this->factory->post->create_many( 22 );
+
+		$date_link = get_day_link( false, false, false );  // Having three times false generates a link for today, which is what we need
+		$this->run_test_on_consecutive_pages( $date_link );
 	}
 
 	/**
@@ -539,13 +547,6 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		$category_link = get_category_link( $category_id );
 
 		$this->run_test_on_consecutive_pages( $category_link );
-	}
-
-	/**
-	 * @covers WPSEO_Frontend::adjacent_rel_link
-	 */
-	public function test_adjacent_rel_link() {
-		// @todo
 	}
 
 	/**
@@ -961,9 +962,9 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Override the go_to function in core as its broken when path isn't set.
 	 *
-	 * Can be removed when https://core.trac.wordpress.org/ticket/31417 is fixed.
+	 * Can be removed when https://core.trac.wordpress.org/ticket/31417 is fixed and in all releases we're testing (so when 4.2 is the lowest common denominator).
 	 *
-	 * @param $url
+	 * @param string $url
 	 */
 	function go_to( $url ) {
 		// note: the WP and WP_Query classes like to silently fetch parameters
