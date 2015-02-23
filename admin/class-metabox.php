@@ -341,8 +341,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$sample_permalink = str_replace( '%page', '%post', $sample_permalink[0] );
 
 		$cached_replacement_vars = array();
-		foreach (
-			array(
+
+		$vars_to_cache = array(
 				'date',
 				'id',
 				'sitename',
@@ -354,8 +354,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				'currentday',
 				'currentmonth',
 				'currentyear',
-			) as $var
-		) {
+		);
+		foreach ( $vars_to_cache as $var ) {
 			$cached_replacement_vars[ $var ] = wpseo_replace_vars( '%%' . $var . '%%', $post );
 		}
 

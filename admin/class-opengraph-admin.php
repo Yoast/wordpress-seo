@@ -33,13 +33,13 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 
 		$options = WPSEO_Options::get_all();
 
-		foreach (
-			array(
+		$social_networks = array(
 				'opengraph'  => __( 'Facebook', 'wordpress-seo' ),
 				'twitter'    => __( 'Twitter', 'wordpress-seo' ),
 				'googleplus' => __( 'Google+', 'wordpress-seo' ),
-			) as $network => $label
-		) {
+		);
+
+		foreach ( $social_networks as $network => $label ) {
 			if ( true === $options[ $network ] ) {
 				if ( 'googleplus' == $network ) {
 					$network = 'google-plus'; // Yuck, I know.
@@ -55,7 +55,6 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 				self::$meta_fields['social'][ $network . '-image' ]['description'] = sprintf( $image_text, $label );
 			}
 		}
-
 	}
 
 	/**

@@ -250,6 +250,26 @@ class WPSEO_Meta {
 	 */
 	public static $defaults = array();
 
+	/**
+	 * @var    array    Helper property to define the social network meta field definitions - networks
+	 * @static
+	 */
+	private static $social_networks = array(
+		'opengraph'  => 'opengraph',
+		'twitter'    => 'twitter',
+		'googleplus' => 'google-plus',
+	);
+
+	/**
+	 * @var    array    Helper property to define the social network meta field definitions - fields and their type
+	 * @static
+	 */
+	private static $social_fields = array(
+		'title'       => 'text',
+		'description' => 'textarea',
+		'image'       => 'upload',
+	);
+
 
 	/**
 	 * Register our actions and filters
@@ -260,22 +280,9 @@ class WPSEO_Meta {
 	public static function init() {
 
 		$options = WPSEO_Options::get_all();
-
-		foreach (
-			array(
-				'opengraph'  => 'opengraph',
-				'twitter'    => 'twitter',
-				'googleplus' => 'google-plus',
-			) as $option => $network
-		) {
+		foreach ( self::$social_networks as $option => $network ) {
 			if ( true === $options[ $option ] ) {
-				foreach (
-					array(
-						'title'       => 'text',
-						'description' => 'textarea',
-						'image'       => 'upload',
-					) as $box => $type
-				) {
+				foreach ( self::$social_fields as $box => $type ) {
 					self::$meta_fields['social'][ $network . '-' . $box ] = array(
 						'type'          => $type,
 						'title'         => '', // translation added later
