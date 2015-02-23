@@ -27,9 +27,8 @@ function wpseo_title_test() {
 	WPSEO_Utils::clear_cache();
 
 
-	global $wp_version;
 	$args = array(
-		'user-agent' => "WordPress/${wp_version}; " . get_site_url() . ' - Yoast',
+		'user-agent' => sprintf( 'WordPress/%1$s; %2$s - Yoast', $GLOBALS['wp_version'], get_site_url() ),
 	);
 	$resp = wp_remote_get( get_bloginfo( 'url' ), $args );
 
@@ -230,9 +229,12 @@ function wpseo_admin_bar_menu() {
 		return;
 	}
 
-	global $wp_admin_bar, $post;
+	global $wp_admin_bar, $wpseo_front, $post;
 
-	$url = WPSEO_Frontend::get_instance()->canonical( false );
+	$url = '';
+	if ( is_object( $wpseo_front ) ) {
+		$url = $wpseo_front->canonical( false );
+	}
 
 	$focuskw = '';
 	$score   = '';

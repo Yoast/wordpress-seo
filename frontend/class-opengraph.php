@@ -25,8 +25,7 @@ class WPSEO_OpenGraph {
 	public function __construct() {
 		$this->options = WPSEO_Options::get_all();
 
-		global $fb_ver;
-		if ( isset( $fb_ver ) || class_exists( 'Facebook_Loader' ) ) {
+		if ( isset( $GLOBALS['fb_ver'] ) || class_exists( 'Facebook_Loader' ) ) {
 			add_filter( 'fb_meta_tags', array( $this, 'facebook_filter' ), 10, 1 );
 		}
 		else {
@@ -137,13 +136,12 @@ class WPSEO_OpenGraph {
 			return false;
 		}
 
-		global $post;
 		/**
 		 * Filter: 'wpseo_opengraph_author_facebook' - Allow developers to filter the WP SEO post authors facebook profile URL
 		 *
 		 * @api bool|string $unsigned The Facebook author URL, return false to disable
 		 */
-		$facebook = apply_filters( 'wpseo_opengraph_author_facebook', get_the_author_meta( 'facebook', $post->post_author ) );
+		$facebook = apply_filters( 'wpseo_opengraph_author_facebook', get_the_author_meta( 'facebook', $GLOBALS['post']->post_author ) );
 
 		if ( $facebook && ( is_string( $facebook ) && $facebook !== '' ) ) {
 			$this->og_tag( 'article:author', $facebook );
@@ -481,8 +479,10 @@ class WPSEO_OpenGraph {
 					if ( preg_match( '`src=(["\'])(.*?)\1`', $img, $match ) ) {
 						$this->image_output( $match[2] );
 					}
+					unset( $match );
 				}
 			}
+			unset( $img, $matches );
 		}
 
 		if ( count( $this->shown_images ) == 0 && $this->options['og_default_image'] !== '' ) {
@@ -530,8 +530,7 @@ class WPSEO_OpenGraph {
 			}
 
 			if ( '' == $ogdesc ) {
-				global $wp_query;
-				$term   = $wp_query->get_queried_object();
+				$term   = $GLOBALS['wp_query']->get_queried_object();
 				$ogdesc = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'desc' );
 			}
 		}

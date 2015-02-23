@@ -128,6 +128,7 @@ class Yoast_Plugin_Conflict {
 				$plugin_names[] = $plugin_details['Name'];
 			}
 		}
+		unset( $plugins, $plugin, $plugin_details );
 
 		if ( ! empty( $plugin_names ) ) {
 			return implode( ', ', $plugin_names );
@@ -220,7 +221,6 @@ class Yoast_Plugin_Conflict {
 		if ( ! in_array( $plugin, $this->active_plugins[ $plugin_section ] ) ) {
 			$this->active_plugins[ $plugin_section ][] = $plugin;
 		}
-
 	}
 
 	/**

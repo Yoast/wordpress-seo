@@ -115,7 +115,7 @@ $wpseo_admin_pages->admin_header( true, WPSEO_Options::get_group_name( 'wpseo_ti
 			if ( $warn === true ) {
 				echo '</div>';
 			}
-			unset( $warn );
+			unset( $warn, $name );
 		}
 		unset( $pt );
 	}
@@ -141,7 +141,7 @@ $wpseo_admin_pages->admin_header( true, WPSEO_Options::get_group_name( 'wpseo_ti
 			}
 			echo $wpseo_admin_pages->checkbox( 'noindex-ptarchive-' . $name, '<code>noindex, follow</code>', __( 'Meta Robots', 'wordpress-seo' ) );
 		}
-		unset( $pt );
+		unset( $pt, $name );
 	}
 	unset( $post_types );
 

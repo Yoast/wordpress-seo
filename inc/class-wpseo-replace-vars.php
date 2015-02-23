@@ -251,7 +251,7 @@ class WPSEO_Replace_Vars {
 				$var                  = self::add_var_delimiter( $var );
 				$replacements[ $var ] = $replacement;
 			}
-			unset( $replacement );
+			unset( $replacement, $single, $method_name );
 		}
 
 		return $replacements;
@@ -1169,8 +1169,7 @@ class WPSEO_Replace_Vars {
 
 		// If we're on a specific tag, category or taxonomy page, use that.
 		if ( is_category() || is_tag() || is_tax() ) {
-			global $wp_query;
-			$term   = $wp_query->get_queried_object();
+			$term   = $GLOBALS['wp_query']->get_queried_object();
 			$output = $term->name;
 		}
 		elseif ( ! empty( $id ) && ! empty( $taxonomy ) ) {
@@ -1188,6 +1187,7 @@ class WPSEO_Replace_Vars {
 				$output = rtrim( trim( $output ), ',' );
 			}
 		}
+		unset( $terms, $term );
 
 		/**
 		 * Allows filtering of the terms list used to replace %%category%%, %%tag%% and %%ct_<custom-tax-name>%% variables

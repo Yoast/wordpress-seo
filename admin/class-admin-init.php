@@ -31,8 +31,7 @@ class WPSEO_Admin_Init {
 
 		$GLOBALS['wpseo_admin'] = new WPSEO_Admin;
 
-		global $pagenow;
-		$this->pagenow = $pagenow;
+		$this->pagenow = $GLOBALS['pagenow'];
 
 		$this->load_meta_boxes();
 		$this->load_taxonomy_class();

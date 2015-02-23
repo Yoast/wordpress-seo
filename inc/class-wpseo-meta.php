@@ -292,6 +292,7 @@ class WPSEO_Meta {
 				}
 			}
 		}
+		unset( $options, $option, $network, $box, $type );
 
 		/**
 		 * Allow add-on plugins to register their meta fields for management by this class
@@ -301,6 +302,7 @@ class WPSEO_Meta {
 		if ( is_array( $extra_fields ) ) {
 			self::$meta_fields = self::array_merge_recursive_distinct( $extra_fields, self::$meta_fields );
 		}
+		unset( $extra_fields );
 
 		$register = function_exists( 'register_meta' );
 
@@ -333,6 +335,7 @@ class WPSEO_Meta {
 				}
 			}
 		}
+		unset( $subset, $field_group, $key, $field_def, $register );
 
 		add_filter( 'update_post_metadata', array( __CLASS__, 'remove_meta_if_default' ), 10, 5 );
 		add_filter( 'add_post_metadata', array( __CLASS__, 'dont_save_meta_if_default' ), 10, 4 );
@@ -413,6 +416,7 @@ class WPSEO_Meta {
 							$robots_adv[] = $field_defs['meta-robots-adv']['options'][ $robot ];
 						}
 					}
+					unset( $robot );
 					$robots_adv = implode( ', ', $robots_adv );
 				}
 				else {
@@ -903,7 +907,7 @@ class WPSEO_Meta {
 				}
 			}
 		}
-		unset( $subset, $field_group, $key, $field_def, $where_or_or );
+		unset( $subset, $field_group, $key, $field_def );
 
 		$query    = "SELECT meta_id FROM {$wpdb->postmeta} WHERE " . implode( ' OR ', $query ) . ';';
 		$meta_ids = $wpdb->get_col( $query );

@@ -261,6 +261,7 @@ class WPSEO_Utils {
 			$filtered = str_replace( $match[1], '', $filtered );
 			$found    = true;
 		}
+		unset( $match );
 
 		if ( $found ) {
 			// Strip out the whitespace that may now exist after removing the octets.

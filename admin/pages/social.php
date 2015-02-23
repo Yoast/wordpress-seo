@@ -129,6 +129,7 @@ if ( is_array( $options['fbapps'] ) && $options['fbapps'] !== array() ) {
 		$fbconnect .= '
 		<option value="' . esc_attr( $id ) . '" ' . selected( $id, $options['fbadminapp'], false ) . '>' . esc_attr( $app ) . '</option>';
 	}
+	unset( $id, $app );
 	$fbconnect .= '
 	</select>
 	<div class="clear"></div><br/>';
@@ -153,6 +154,7 @@ if ( $options['fbadminapp'] == 0 ) {
 					'nonce'      => $nonce,
 				), admin_url( 'admin.php?page=wpseo_social' ) ) ) . '">X</a></strong></li>';
 		}
+		unset( $admin_id, $admin, $nonce );
 		$fbconnect .= '
 	</ul>';
 		$button_text = __( 'Add Another Facebook Admin', 'wordpress-seo' );

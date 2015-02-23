@@ -41,6 +41,8 @@ class WPSEO_Sitemaps_Admin {
 					$new_files_found             = true;
 				}
 			}
+			unset( $file );
+
 			if ( $new_files_found === true ) {
 				update_option( 'wpseo', $options );
 			}

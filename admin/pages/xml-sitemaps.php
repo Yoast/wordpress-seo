@@ -58,6 +58,7 @@ if ( is_array( $roles ) && $roles !== array() ) {
 		$content .= $wpseo_admin_pages->checkbox( 'user_role-' . $role_key . '-not_in_sitemap', $role_name );
 	}
 }
+unset( $roles, $role_key, $role_name );
 $content .= '</div>';
 
 $content .= '<br/>';
@@ -75,6 +76,7 @@ if ( is_array( $post_types ) && $post_types !== array() ) {
 		$content .= $wpseo_admin_pages->checkbox( 'post_types-' . $pt->name . '-not_in_sitemap', $pt->labels->name . ' (<code>' . $pt->name . '</code>)' );
 	}
 }
+unset( $post_types, $pt );
 
 
 $taxonomies = apply_filters( 'wpseo_sitemaps_supported_taxonomies', get_taxonomies( array( 'public' => true ), 'objects' ) );
@@ -87,6 +89,7 @@ if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
 		}
 	}
 }
+unset( $taxonomies, $tax );
 
 
 $content .= '<br/>';

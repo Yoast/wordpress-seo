@@ -135,10 +135,8 @@ class WPSEO_Sitemaps {
 	 */
 	function invalidate_main_query( $where ) {
 
-		global $wp_query;
-
 		// check if $wp_query is properly set which isn't always the case in older WP development versions
-		if ( ! is_object( $wp_query ) ) {
+		if ( ! is_object( $GLOBALS['wp_query'] ) ) {
 			return $where;
 		}
 
@@ -326,8 +324,7 @@ class WPSEO_Sitemaps {
 
 			// 404 for invalid or emtpy sitemaps
 			if ( $this->bad_sitemap ) {
-				global $wp_query;
-				$wp_query->set_404();
+				$GLOBALS['wp_query']->set_404();
 				status_header( 404 );
 
 				return;
@@ -424,6 +421,7 @@ class WPSEO_Sitemaps {
 						}
 						$datetime = new DateTime( $all_dates[ $i ], new DateTimeZone( $this->get_timezone_string() ) );
 						$date     = $datetime->format( 'c' );
+						unset( $all_dates, $datetime );
 					}
 
 					$this->sitemap .= '<sitemap>' . "\n";
@@ -431,10 +429,10 @@ class WPSEO_Sitemaps {
 					$this->sitemap .= '<lastmod>' . htmlspecialchars( $date ) . '</lastmod>' . "\n";
 					$this->sitemap .= '</sitemap>' . "\n";
 				}
-				unset( $all_dates );
+				unset( $count, $n, $i, $date );
 			}
 		}
-		unset( $post_types, $query, $count, $n, $i, $date );
+		unset( $post_types, $post_type, $join_filter, $where_filter, $query );
 
 		// reference taxonomy specific sitemaps
 		$taxonomies     = get_taxonomies( array( 'public' => true ), 'objects' );
@@ -457,6 +455,7 @@ class WPSEO_Sitemaps {
 					continue;
 				}
 			}
+			unset( $tax );
 
 			// Retrieve all the taxonomies and their terms so we can do a proper count on them.
 			$hide_empty         = ( apply_filters( 'wpseo_sitemap_exclude_empty_terms', true, $tax ) ) ? 'count != 0 AND' : '';
@@ -466,7 +465,7 @@ class WPSEO_Sitemaps {
 			foreach ( $all_taxonomy_terms as $obj ) {
 				$all_taxonomies[ $obj->taxonomy ][] = $obj->term_id;
 			}
-			unset( $all_taxonomy_terms );
+			unset( $hide_empty, $query, $all_taxonomy_terms, $obj );
 
 			foreach ( $taxonomies as $tax_name => $tax ) {
 
@@ -508,10 +507,12 @@ class WPSEO_Sitemaps {
 						if ( $query->have_posts() ) {
 							$datetime = new DateTime( $query->posts[0]->post_modified_gmt, new DateTimeZone( $this->get_timezone_string() ) );
 							$date     = $datetime->format( 'c' );
+							unset( $datetime );
 						}
 						else {
 							$date = $this->get_last_modified( $tax->object_type );
 						}
+						unset( $terms, $args, $query );
 					}
 
 					$this->sitemap .= '<sitemap>' . "\n";
@@ -519,9 +520,10 @@ class WPSEO_Sitemaps {
 					$this->sitemap .= '<lastmod>' . htmlspecialchars( $date ) . '</lastmod>' . "\n";
 					$this->sitemap .= '</sitemap>' . "\n";
 				}
+				unset( $steps, $count, $n, $i, $date );
 			}
 		}
-		unset( $taxonomies, $tax, $all_terms, $steps, $count, $n, $i, $tax_object, $date, $terms, $args, $query );
+		unset( $taxonomies, $taxonomy_names, $all_taxonomies, $tax_name, $tax );
 
 		if ( $this->options['disable-author'] === false && $this->options['disable_author_sitemap'] === false ) {
 
@@ -571,7 +573,7 @@ class WPSEO_Sitemaps {
 				$this->sitemap .= '<lastmod>' . htmlspecialchars( $date->format( 'c' ) ) . '</lastmod>' . "\n";
 				$this->sitemap .= '</sitemap>' . "\n";
 			}
-			unset( $users, $count, $n, $i, $date );
+			unset( $users, $count, $n, $i, $date_query, $date );
 		}
 
 		// allow other plugins to add their sitemaps to the index
@@ -672,6 +674,7 @@ class WPSEO_Sitemaps {
 							'chf' => $change_freq = $this->filter_frequency( 'blogpage', 'daily', $page_for_posts_url ),
 						)
 					);
+					unset( $page_for_posts_url );
 				}
 			}
 
@@ -747,6 +750,7 @@ class WPSEO_Sitemaps {
 			foreach ( $posts as $p ) {
 				$post_ids[] = $p->ID;
 			}
+			unset( $p );
 
 			if ( count( $post_ids ) > 0 ) {
 				update_meta_cache( 'post', $post_ids );
@@ -757,7 +761,10 @@ class WPSEO_Sitemaps {
 				$thumbnails  = $this->get_thumbnails( $imploded_post_ids );
 
 				$this->do_attachment_ids_caching( $attachments, $thumbnails );
+
+				unset( $imploded_post_ids );
 			}
+			unset( $post_ids );
 
 			$offset = ($offset + $steps);
 
@@ -826,6 +833,7 @@ class WPSEO_Sitemaps {
 							$url['loc'] = trailingslashit( $url['loc'] );
 						}
 					}
+					unset( $canonical );
 
 					$url['pri'] = $this->calculate_priority( $p );
 
@@ -872,17 +880,21 @@ class WPSEO_Sitemaps {
 								if ( preg_match( '`title=["\']([^"\']+)["\']`', $img, $match ) ) {
 									$image['title'] = str_replace( array( '-', '_' ), ' ', $match[1] );
 								}
+								unset( $title_match );
 
 								if ( preg_match( '`alt=["\']([^"\']+)["\']`', $img, $match ) ) {
 									$image['alt'] = str_replace( array( '-', '_' ), ' ', $match[1] );
 								}
+								unset( $alt_match );
 
 								$image = apply_filters( 'wpseo_xml_sitemap_img', $image, $p );
 
 								$url['images'][] = $image;
 							}
+							unset( $match, $src );
 						}
 					}
+					unset( $content, $matches, $img );
 
 					if ( strpos( $p->post_content, '[gallery' ) !== false ) {
 						if ( is_array( $attachments ) && $attachments !== array() ) {
@@ -906,6 +918,7 @@ class WPSEO_Sitemaps {
 					// wp_cache_delete( $p->ID, 'post_meta' );
 					// clean_object_term_cache( $p->ID, $post_type );
 				}
+				unset( $p, $url );
 			}
 		}
 
@@ -1023,6 +1036,7 @@ class WPSEO_Sitemaps {
 					$output .= $this->sitemap_url( $url );
 				}
 			}
+			unset( $c, $url, $tax_noindex, $tax_sitemap_inc, $sql );
 		}
 
 		if ( empty( $output ) ) {
@@ -1121,7 +1135,7 @@ class WPSEO_Sitemaps {
 					}
 				}
 			}
-			unset( $user, $author_link );
+			unset( $user, $author_link, $url );
 		}
 
 		if ( empty( $output ) ) {
@@ -1243,6 +1257,7 @@ class WPSEO_Sitemaps {
 				}
 				$output .= "\t\t</image:image>\n";
 			}
+			unset( $img );
 		}
 		$output .= "\t</url>\n";
 
@@ -1300,7 +1315,7 @@ class WPSEO_Sitemaps {
 			foreach ( $results as $obj ) {
 				$this->post_type_dates[ $obj->post_type ] = $obj->date;
 			}
-			unset( $results );
+			unset( $query, $results, $obj );
 		}
 
 		if ( count( $post_types ) === 1 && isset( $this->post_type_dates[ $post_types[0] ] ) ) {
@@ -1313,6 +1328,7 @@ class WPSEO_Sitemaps {
 					$result = $this->post_type_dates[ $post_type ];
 				}
 			}
+			unset( $post_type );
 		}
 
 		$date = new DateTime( $result, new DateTimeZone( $this->get_timezone_string() ) );
@@ -1369,11 +1385,13 @@ class WPSEO_Sitemaps {
 				elseif ( $options['disable_author_noposts'] === true ) {
 					$count_posts  = count_user_posts( $user->ID );
 					$exclude_user = $count_posts == 0;
+					unset( $count_posts );
 				}
 				else {
 					$user_role    = $user->roles[0];
 					$target_key   = "user_role-{$user_role}-not_in_sitemap";
 					$exclude_user = $options[ $target_key ];
+					unset( $user_rol, $target_key );
 				}
 
 				if ( $exclude_user === true ) {

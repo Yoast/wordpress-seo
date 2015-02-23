@@ -157,6 +157,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 						), 10, 2 );
 					}
 				}
+				unset( $pt );
 			}
 			add_action( 'restrict_manage_posts', array( $this, 'posts_filter_dropdown' ) );
 			add_filter( 'request', array( $this, 'column_sort_orderby' ) );
@@ -189,7 +190,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$post    = get_post( $post_id );
 		}
 		else {
-			global $post;
+			$post = $GLOBALS['post'];
 		}
 
 		return $post;
@@ -424,6 +425,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			foreach ( $this->get_meta_field_defs( 'general', $post->post_type ) as $key => $meta_field ) {
 				$content .= $this->do_meta_box( $meta_field, $key );
 			}
+			unset( $key, $meta_field );
 		}
 		$this->do_tab( 'general', __( 'General', 'wordpress-seo' ), $content );
 
@@ -434,6 +436,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			foreach ( $this->get_meta_field_defs( 'advanced' ) as $key => $meta_field ) {
 				$content .= $this->do_meta_box( $meta_field, $key );
 			}
+			unset( $key, $meta_field );
 			$this->do_tab( 'advanced', __( 'Advanced', 'wordpress-seo' ), $content );
 		}
 
@@ -499,6 +502,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 						$selected = selected( $meta_value, $val, false );
 						$content .= '<option ' . $selected . ' value="' . esc_attr( $val ) . '">' . esc_html( $option ) . '</option>';
 					}
+					unset( $val, $option, $selected );
 					$content .= '</select>';
 				}
 				break;
@@ -530,6 +534,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 						$content .= '<option ' . $selected . ' value="' . esc_attr( $val ) . '">' . esc_html( $option ) . '</option>';
 					}
 					$content .= '</select>';
+					unset( $val, $option, $selected, $selected_arr, $options_count );
 				}
 				break;
 
@@ -537,6 +542,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				$checked = checked( $meta_value, 'on', false );
 				$expl    = ( isset( $meta_field_def['expl'] ) ) ? esc_html( $meta_field_def['expl'] ) : '';
 				$content .= '<label for="' . $esc_form_key . '"><input type="checkbox" id="' . $esc_form_key . '" name="' . $esc_form_key . '" ' . $checked . ' value="on" class="yoast' . $class . '"/> ' . $expl . '</label><br />';
+				unset( $checked, $expl );
 				break;
 
 			case 'radio':
@@ -545,6 +551,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 						$checked = checked( $meta_value, $val, false );
 						$content .= '<input type="radio" ' . $checked . ' id="' . $esc_form_key . '_' . esc_attr( $val ) . '" name="' . $esc_form_key . '" value="' . esc_attr( $val ) . '"/> <label for="' . $esc_form_key . '_' . esc_attr( $val ) . '">' . esc_html( $option ) . '</label> ';
 					}
+					unset( $val, $option, $checked );
 				}
 				break;
 
@@ -746,8 +753,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return void
 	 */
 	function posts_filter_dropdown() {
-		global $pagenow;
-		if ( $pagenow === 'upload.php' || $this->is_metabox_hidden() === true ) {
+		if ( $GLOBALS['pagenow'] === 'upload.php' || $this->is_metabox_hidden() === true ) {
 			return;
 		}
 
@@ -1106,6 +1112,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 					$output .= '<tr><td class="score"><div class="' . esc_attr( 'wpseo-score-icon ' . $score ) . '"></div></td><td>' . $result['msg'] . '</td></tr>';
 				}
 			}
+			unset( $result, $score );
 			$output .= '</table>';
 
 			if ( WP_DEBUG === true || ( defined( 'WPSEO_DEBUG' ) && WPSEO_DEBUG === true ) ) {
@@ -1284,6 +1291,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$overall += $result['val'];
 			$overall_max += 9;
 		}
+		unset( $result );
 
 		if ( $overall < 1 ) {
 			$overall = 1;
@@ -1427,8 +1435,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @param array $results The results array.
 	 */
 	function score_url( $job, &$results ) {
-		global $wpseo_admin;
-
 		$urlGood      = __( 'The keyword / phrase appears in the URL for this page.', 'wordpress-seo' );
 		$urlMedium    = __( 'The keyword / phrase does not appear in the URL for this page. If you decide to rename the URL be sure to check the old URL 301 redirects to the new one!', 'wordpress-seo' );
 		$urlStopWords = __( 'The slug for this page contains one or more <a href="http://en.wikipedia.org/wiki/Stop_words">stop words</a>, consider removing them.', 'wordpress-seo' );
@@ -1446,7 +1452,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 
 		// Check for Stop Words in the slug
-		if ( $wpseo_admin->stopwords_check( $job['pageSlug'], true ) !== false ) {
+		if ( $GLOBALS['wpseo_admin']->stopwords_check( $job['pageSlug'], true ) !== false ) {
 			$this->save_score_result( $results, 5, $urlStopWords, 'url_stopword' );
 		}
 

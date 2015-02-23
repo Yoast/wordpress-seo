@@ -225,8 +225,7 @@ class WPSEO_Frontend {
 	 */
 	public function get_content_title( $object = null ) {
 		if ( is_null( $object ) ) {
-			global $wp_query;
-			$object = $wp_query->get_queried_object();
+			$object = $GLOBALS['wp_query']->get_queried_object();
 		}
 
 		$title = WPSEO_Meta::get_value( 'title', $object->ID );
@@ -246,8 +245,7 @@ class WPSEO_Frontend {
 	 * @return string
 	 */
 	public function get_taxonomy_title() {
-		global $wp_query;
-		$object = $wp_query->get_queried_object();
+		$object = $GLOBALS['wp_query']->get_queried_object();
 
 		$title = WPSEO_Taxonomy_Meta::get_term_meta( $object, $object->taxonomy, 'title' );
 
@@ -460,8 +458,7 @@ class WPSEO_Frontend {
 				else {
 					$title_part = single_term_title( '', false );
 					if ( $title_part === '' ) {
-						global $wp_query;
-						$term       = $wp_query->get_queried_object();
+						$term       = $GLOBALS['wp_query']->get_queried_object();
 						$title_part = $term->name;
 					}
 				}
@@ -1507,8 +1504,7 @@ class WPSEO_Frontend {
 	function replytocom_redirect() {
 
 		if ( isset( $_GET['replytocom'] ) && is_singular() ) {
-			global $post;
-			$url          = get_permalink( $post->ID );
+			$url          = get_permalink( $GLOBALS['post']->ID );
 			$hash         = sanitize_text_field( $_GET['replytocom'] );
 			$query_string = remove_query_arg( 'replytocom', sanitize_text_field( $_SERVER['QUERY_STRING'] ) );
 			if ( ! empty( $query_string ) ) {
@@ -1584,8 +1580,7 @@ class WPSEO_Frontend {
 				$properurl = get_bloginfo( 'url' ) . '/';
 			}
 			elseif ( $this->is_home_static_page() ) {
-				global $post;
-				$properurl = get_permalink( $post->ID );
+				$properurl = get_permalink( $GLOBALS['post']->ID );
 			}
 		}
 		elseif ( is_category() || is_tag() || is_tax() ) {
@@ -1672,6 +1667,7 @@ class WPSEO_Frontend {
 				$properurl = '';
 			}
 		}
+		unset( $get );
 
 		if ( ! empty( $properurl ) && $cururl != $properurl ) {
 			wp_safe_redirect( $properurl, 301 );
@@ -1849,8 +1845,7 @@ class WPSEO_Frontend {
 			define( 'DONOTMINIFY', true );
 		}
 
-		global $wp_version;
-		if ( $_SERVER['HTTP_USER_AGENT'] == "WordPress/${wp_version}; " . get_bloginfo( 'url' ) . ' - Yoast' ) {
+		if ( $_SERVER['HTTP_USER_AGENT'] === "WordPress/{$GLOBALS['wp_version']}; " . get_bloginfo( 'url' ) . ' - Yoast' ) {
 			return 'This is a Yoast Test Title';
 		}
 

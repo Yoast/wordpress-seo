@@ -20,6 +20,7 @@ if ( isset( $_POST['wpseo_submit'] ) ) {
 	foreach ( array( 'access', 'defaultblog' ) as $opt ) {
 		$options[ $opt ] = $_POST['wpseo_ms'][ $opt ];
 	}
+	unset( $opt );
 	WPSEO_Options::update_site_option( 'wpseo_ms', $options );
 	add_settings_error( 'wpseo_ms', 'settings_updated', __( 'Settings Updated.', 'wordpress-seo' ), 'updated' );
 }
@@ -37,7 +38,7 @@ if ( isset( $_POST['wpseo_restore_blog'] ) ) {
 		else {
 			add_settings_error( 'wpseo_ms', 'settings_updated', sprintf( __( 'Blog %s not found.', 'wordpress-seo' ), esc_html( $restoreblog ) ), 'error' );
 		}
-		unset( $restoreblog );
+		unset( $restoreblog, $blog );
 	}
 }
 

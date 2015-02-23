@@ -213,9 +213,8 @@ class WPSEO_Admin {
 			}
 		}
 
-		global $submenu;
-		if ( isset( $submenu['wpseo_dashboard'] ) && current_user_can( $manage_options_cap ) ) {
-			$submenu['wpseo_dashboard'][0][0] = __( 'Dashboard', 'wordpress-seo' );
+		if ( isset( $GLOBALS['submenu']['wpseo_dashboard'] ) && current_user_can( $manage_options_cap ) ) {
+			$GLOBALS['submenu']['wpseo_dashboard'][0][0] = __( 'Dashboard', 'wordpress-seo' );
 		}
 	}
 

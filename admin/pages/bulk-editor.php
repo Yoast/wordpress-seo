@@ -11,8 +11,6 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-global $wpseo_admin_pages;
-
 $options = get_option( 'wpseo' );
 
 $wpseo_bulk_titles_table      = new WPSEO_Bulk_Title_Editor_List_Table();

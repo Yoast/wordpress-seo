@@ -71,7 +71,7 @@ class Yoast_Tracking {
 		set_transient( $transient_key, 1, WEEK_IN_SECONDS );
 
 		// Start of Metrics
-		global $blog_id, $wpdb;
+		global $wpdb;
 
 		$hash = get_option( 'Yoast_Tracking_Hash', false );
 
@@ -89,7 +89,7 @@ class Yoast_Tracking {
 				$pts[ $post_type ] = $count->publish;
 			}
 		}
-		unset( $post_types );
+		unset( $post_types, $post_type, $count );
 
 		$comments_count = wp_count_comments();
 
@@ -135,7 +135,7 @@ class Yoast_Tracking {
 				'author_uri' => $plugin_info['AuthorURI'],
 			);
 		}
-		unset( $active_plugins, $plugin_path );
+		unset( $active_plugins, $plugin_path, $plugin_info, $slug );
 
 
 		$data = array(
@@ -143,7 +143,7 @@ class Yoast_Tracking {
 				'hash'      => $hash,
 				'version'   => get_bloginfo( 'version' ),
 				'multisite' => is_multisite(),
-				'users'     => $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM $wpdb->users INNER JOIN $wpdb->usermeta ON ({$wpdb->users}.ID = {$wpdb->usermeta}.user_id) WHERE 1 = 1 AND ( {$wpdb->usermeta}.meta_key = %s )", 'wp_' . $blog_id . '_capabilities' ) ),
+				'users'     => $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM $wpdb->users INNER JOIN $wpdb->usermeta ON ({$wpdb->users}.ID = {$wpdb->usermeta}.user_id) WHERE 1 = 1 AND ( {$wpdb->usermeta}.meta_key = %s )", 'wp_' . $GLOBALS['blog_id'] . '_capabilities' ) ),
 				'lang'      => get_locale(),
 			),
 			'pts'      => $pts,

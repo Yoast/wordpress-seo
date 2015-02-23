@@ -119,6 +119,7 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 					break;
 				}
 			}
+			unset( $field_to_compare, $old_value, $new_value );
 
 			if ( $reset_facebook_cache ) {
 				wp_remote_get(

@@ -12,8 +12,6 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	header( 'HTTP/1.1 403 Forbidden' );
 	exit();
 }
-
-global $wpseo_admin_pages;
 ?>
 
 <div class="wrap wpseo_table_page">
@@ -104,6 +102,7 @@ global $wpseo_admin_pages;
 				</div>
 			<?php
 			}
+			unset( $extensions, $id, $extension, $utm );
 			?>
 		</div>
 		<div id="licenses" class="wpseotab">

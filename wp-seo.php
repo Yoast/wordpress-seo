@@ -1,5 +1,10 @@
 <?php
-/*
+/**
+ * @package    WPSEO
+ * @subpackage Main
+ */
+
+/**
 Plugin Name: WordPress SEO
 Version: 1.7.3.1
 Plugin URI: https://yoast.com/wordpress/plugins/seo/#utm_source=wpadmin&utm_medium=plugin&utm_campaign=wpseoplugin

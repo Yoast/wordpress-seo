@@ -82,8 +82,6 @@ class WPSEO_Pointers {
 	 * Load the introduction tour
 	 */
 	function intro_tour() {
-		global $pagenow, $current_user;
-
 		// @FIXME: Links to tabs only work with target="_blank" and thus open in a new window
 		$adminpages = array(
 			'wpseo_dashboard'      => array(
@@ -224,7 +222,7 @@ class WPSEO_Pointers {
 		);
 		$opt_arr      = array();
 		$id           = '#wpseo-title';
-		if ( 'admin.php' != $pagenow || ! array_key_exists( $page, $adminpages ) ) {
+		if ( 'admin.php' !== $GLOBALS['pagenow'] || ! array_key_exists( $page, $adminpages ) ) {
 			$id      = 'li.toplevel_page_wpseo_dashboard';
 			$content = '
 				<h3>' . __( 'Congratulations!', 'wordpress-seo' ) . '</h3>
