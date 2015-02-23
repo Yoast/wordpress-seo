@@ -1,6 +1,7 @@
 <?php
 /**
- * @package Admin
+ * @package    WPSEO
+ * @subpackage Admin
  */
 
 /**
@@ -73,11 +74,14 @@ class WPSEO_Admin_Pages {
 					for ( $i = 0; $i < $elm_count; $i ++ ) {
 						$content .= $key . '[] = "' . $elem[ $i ] . "\"\n";
 					}
-				} elseif ( is_string( $elem ) && $elem == '' ) {
+				}
+				elseif ( is_string( $elem ) && $elem == '' ) {
 					$content .= $key . " = \n";
-				} elseif ( is_bool( $elem ) ) {
+				}
+				elseif ( is_bool( $elem ) ) {
 					$content .= $key . ' = "' . ( ( $elem === true ) ? 'on' : 'off' ) . "\"\n";
-				} else {
+				}
+				else {
 					$content .= $key . ' = "' . $elem . "\"\n";
 				}
 			}
@@ -380,7 +384,8 @@ class WPSEO_Admin_Pages {
 			$content .= '<tr><th scope="row">';
 			if ( isset( $row['id'] ) && $row['id'] != '' ) {
 				$content .= '<label for="' . esc_attr( $row['id'] ) . '">' . esc_html( $row['label'] ) . ':</label>';
-			} else {
+			}
+			else {
 				$content .= esc_html( $row['label'] );
 			}
 			if ( isset( $row['desc'] ) && $row['desc'] != '' ) {

@@ -1,6 +1,7 @@
 <?php
 /**
- * @package Internals
+ * @package    WPSEO
+ * @subpackage Internals
  */
 
 if ( ! defined( 'WPSEO_VERSION' ) ) {
@@ -106,6 +107,9 @@ function wpseo_redirect_to_about() {
 }
 
 if ( ! function_exists( 'initialize_wpseo_front' ) ) {
+	/**
+	 * Wraps frontend class.
+	 */
 	function initialize_wpseo_front() {
 		WPSEO_Frontend::get_instance();
 	}
@@ -235,13 +239,13 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
  *
  * @since 1.5.4
  *
- * @param  string $var                   The name of the variable to replace, i.e. '%%var%%'
- *                                       - the surrounding %% are optional, name can only contain [A-Za-z0-9_-]
- * @param  mixed  $replace_function      Function or method to call to retrieve the replacement value for the variable
- *                                       Uses the same format as add_filter/add_action function parameter and
- *                                       should *return* the replacement value. DON'T echo it!
- * @param  string $type                  Type of variable: 'basic' or 'advanced', defaults to 'advanced'
- * @param  string $help_text             Help text to be added to the help tab for this variable
+ * @param  string $var              The name of the variable to replace, i.e. '%%var%%'
+ *                                  - the surrounding %% are optional, name can only contain [A-Za-z0-9_-]
+ * @param  mixed  $replace_function Function or method to call to retrieve the replacement value for the variable
+ *                                  Uses the same format as add_filter/add_action function parameter and
+ *                                  should *return* the replacement value. DON'T echo it!
+ * @param  string $type             Type of variable: 'basic' or 'advanced', defaults to 'advanced'
+ * @param  string $help_text        Help text to be added to the help tab for this variable
  *
  * @return bool     Whether the replacement function was succesfully registered
  */
@@ -315,6 +319,8 @@ add_action( 'init', 'wpseo_xml_sitemaps_init', 1 );
 
 /**
  * Notify search engines of the updated sitemap.
+ *
+ * @param string|null $sitemapurl
  */
 function wpseo_ping_search_engines( $sitemapurl = null ) {
 	// Don't ping if blog is not public
@@ -333,7 +339,9 @@ function wpseo_ping_search_engines( $sitemapurl = null ) {
 
 add_action( 'wpseo_ping_search_engines', 'wpseo_ping_search_engines' );
 
-
+/**
+ * Handles ajax request for tracking activation.
+ */
 function wpseo_store_tracking_response() {
 	if ( ! wp_verify_nonce( $_POST['nonce'], 'wpseo_activate_tracking' ) ) {
 		die();
@@ -344,7 +352,8 @@ function wpseo_store_tracking_response() {
 
 	if ( $_POST['allow_tracking'] == 'yes' ) {
 		$options['yoast_tracking'] = true;
-	} else {
+	}
+	else {
 		$options['yoast_tracking'] = false;
 	}
 
@@ -418,7 +427,7 @@ add_shortcode( 'wpseo_breadcrumb', 'wpseo_shortcode_yoast_breadcrumb' );
 /**
  * This invalidates our XML Sitemaps cache.
  *
- * @param $type
+ * @param string $type
  */
 function wpseo_invalidate_sitemap_cache( $type ) {
 	// Always delete the main index sitemaps cache, as that's always invalidated by any other change
@@ -470,6 +479,12 @@ add_action( 'save_post', 'wpseo_invalidate_sitemap_cache_on_save_post' );
  * @return    bool
  */
 if ( ! extension_loaded( 'ctype' ) || ! function_exists( 'ctype_digit' ) ) {
+
+	/**
+	 * @param string $string
+	 *
+	 * @return bool
+	 */
 	function ctype_digit( $string ) {
 		$return = false;
 		if ( ( is_string( $string ) && $string !== '' ) && preg_match( '`^\d+$`', $string ) === 1 ) {
@@ -583,7 +598,7 @@ function replace_meta( $old_metakey, $new_metakey, $replace = false ) {
  * @param string        $taxonomy name of the taxonomy to which the term is attached
  * @param string        $meta     meta value to get
  *
- * @return bool|mixed value when the meta exists, false when it does not
+ * @return void
  */
 function wpseo_get_term_meta( $term, $taxonomy, $meta ) {
 	_deprecated_function( __FUNCTION__, 'WPSEO 1.5.0', 'WPSEO_Taxonomy_Meta::get_term_meta()' );

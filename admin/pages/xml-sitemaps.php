@@ -1,6 +1,7 @@
 <?php
 /**
- * @package Admin
+ * @package    WPSEO
+ * @subpackage Admin
  */
 
 /**
@@ -118,6 +119,7 @@ $yform->checkbox( 'enablexmlsitemap', __( 'Check this box to enable XML sitemap 
 		</div>
 	</div>
 <?php
+
 do_action( 'wpseo_xmlsitemaps_config' );
 
 $yform->admin_footer();

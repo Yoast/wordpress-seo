@@ -1,5 +1,12 @@
 <?php
+/**
+ * @package    WPSEO
+ * @subpackage Admin
+ */
 
+/**
+ * Performs the load on admin side.
+ */
 class WPSEO_Admin_Init {
 
 	/**
@@ -126,7 +133,8 @@ class WPSEO_Admin_Init {
 			 */
 			if ( method_exists( 'Yoast_Tracking', 'get_instance' ) ) {
 				add_action( 'yoast_tracking', array( 'Yoast_Tracking', 'get_instance' ) );
-			} else {
+			}
+			else {
 				$GLOBALS['yoast_tracking'] = new Yoast_Tracking;
 			}
 		}

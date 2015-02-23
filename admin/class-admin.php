@@ -1,6 +1,7 @@
 <?php
 /**
- * @package Admin
+ * @package    WPSEO
+ * @subpackage Admin
  */
 
 /**
@@ -307,6 +308,12 @@ class WPSEO_Admin {
 
 	/**
 	 * Saves the posts per page limit for bulk edit pages.
+	 *
+	 * @param int    $status
+	 * @param string $option
+	 * @param int    $value
+	 *
+	 * @return int
 	 */
 	function save_bulk_edit_options( $status, $option, $value ) {
 		if ( 'wpseo_posts_per_page' === $option && ( $value > 0 && $value < 1000 ) ) {
@@ -541,8 +548,6 @@ class WPSEO_Admin {
 	 * @deprecated 1.5.0
 	 * @deprecated use wpseo_do_upgrade()
 	 * @see        wpseo_do_upgrade()
-	 *
-	 * @return boolean
 	 */
 	function maybe_upgrade() {
 		_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'wpseo_do_upgrade' );

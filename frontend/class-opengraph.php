@@ -1,12 +1,11 @@
 <?php
 /**
- * @package Frontend
- *
- * This code handles the OpenGraph output.
+ * @package    WPSEO
+ * @subpackage Frontend
  */
 
 /**
- * Adds the OpenGraph output
+ * This code adds the OpenGraph output.
  */
 class WPSEO_OpenGraph {
 
@@ -29,7 +28,8 @@ class WPSEO_OpenGraph {
 		global $fb_ver;
 		if ( isset( $fb_ver ) || class_exists( 'Facebook_Loader' ) ) {
 			add_filter( 'fb_meta_tags', array( $this, 'facebook_filter' ), 10, 1 );
-		} else {
+		}
+		else {
 			add_filter( 'language_attributes', array( $this, 'add_opengraph_namespace' ) );
 
 			add_action( 'wpseo_opengraph', array( $this, 'locale' ), 1 );
@@ -183,7 +183,8 @@ class WPSEO_OpenGraph {
 			$this->og_tag( 'fb:app_id', $this->options['fbadminapp'] );
 
 			return true;
-		} elseif ( is_array( $this->options['fb_admins'] ) && $this->options['fb_admins'] !== array() ) {
+		}
+		elseif ( is_array( $this->options['fb_admins'] ) && $this->options['fb_admins'] !== array() ) {
 			$adminstr = implode( ',', array_keys( $this->options['fb_admins'] ) );
 			/**
 			 * Filter: 'wpseo_opengraph_admin' - Allow developer to filter the fb:admins string put out by WP SEO
@@ -204,25 +205,27 @@ class WPSEO_OpenGraph {
 	/**
 	 * Outputs the SEO title as OpenGraph title.
 	 *
+	 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
+	 *
 	 * @param bool $echo Whether or not to echo the output.
 	 *
-	 * @return string $title
-	 *
-	 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
-	 * @return boolean
+	 * @return string|boolean
 	 */
 	public function og_title( $echo = true ) {
 		if ( is_singular() ) {
 			$title = WPSEO_Meta::get_value( 'opengraph-title' );
 			if ( $title === '' ) {
 				$title = WPSEO_Frontend::get_instance()->title( '' );
-			} else {
+			}
+			else {
 				// Replace WP SEO Variables
 				$title = wpseo_replace_vars( $title, get_post() );
 			}
-		} else if ( is_front_page() ) {
+		}
+		else if ( is_front_page() ) {
 			$title = ( $this->options['og_frontpage_title'] !== '' ) ? $this->options['og_frontpage_title'] : WPSEO_Frontend::get_instance()->title( '' );
-		} else {
+		}
+		else {
 			$title = WPSEO_Frontend::get_instance()->title( '' );
 		}
 
@@ -455,7 +458,8 @@ class WPSEO_OpenGraph {
 
 		if ( is_front_page() || is_home() ) {
 			$type = 'website';
-		} elseif ( is_singular() ) {
+		}
+		elseif ( is_singular() ) {
 
 			// This'll usually only be changed by plugins right now.
 			$type = WPSEO_Meta::get_value( 'og_type' );
@@ -463,7 +467,8 @@ class WPSEO_OpenGraph {
 			if ( $type === '' ) {
 				$type = 'article';
 			}
-		} else {
+		}
+		else {
 			// We use "object" for archives etc. as article doesn't apply there
 			$type = 'object';
 		}
@@ -478,7 +483,8 @@ class WPSEO_OpenGraph {
 		if ( is_string( $type ) && $type !== '' ) {
 			if ( $echo !== false ) {
 				$this->og_tag( 'og:type', $type );
-			} else {
+			}
+			else {
 				return $type;
 			}
 		}
@@ -530,7 +536,7 @@ class WPSEO_OpenGraph {
 	/**
 	 * Output the OpenGraph image elements for all the images within the current post/page.
 	 *
-	 * @return bool
+	 * @return void
 	 */
 	public function image() {
 

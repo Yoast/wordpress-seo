@@ -1,6 +1,8 @@
 <?php
 /**
- * @package Admin
+ * @package    WPSEO
+ * @subpackage Admin
+ * @since      1.5.0
  */
 
 if ( ! defined( 'WPSEO_VERSION' ) ) {

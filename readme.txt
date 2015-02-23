@@ -5,8 +5,8 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: seo, SEO, Yoast SEO, google, meta, meta description, search engine optimization, xml sitemap, xml sitemaps, google sitemap, sitemap, sitemaps, robots meta, rss, rss footer, yahoo, bing, news sitemaps, XML News Sitemaps, WordPress SEO, WordPress SEO by Yoast, yoast, multisite, canonical, nofollow, noindex, keywords, meta keywords, description, webmaster tools, google webmaster tools, seo pack
 Requires at least: 3.9
-Tested up to: 4.0
-Stable tag: 1.7.1
+Tested up to: 4.1.1
+Stable tag: 1.7.3.1
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using Yoast's WordPress SEO plugin.
 
@@ -116,9 +116,24 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 
 == Changelog ==
 
-= 1.8-beta =
+= 1.7.3.1 =
 
-Release Date: January 15th, 2015
+Release Date: February 19th, 2015
+
+* Bugfixes:
+	* Fixes a bug where the keyword analysis was broken.
+	* Fixes a bug where our plugin raised a fatal error in the wpseo_admin bar when the $wpseo_front global was used.
+
+= 1.7.3 =
+
+Release Date: February 17th, 2015
+
+* Bugfixes:
+	* Fixes a bug where the translations where corrupted due to an issue with out glotpress grunt task.
+
+= 1.7.2 =
+
+Release Date: February 17th, 2015
 
 * Enhancements:
 	* Contains lots of performance optimizations, including removal of unnecessary inclusion and defined checks for every classfile, refactoring of frontend logic, cutting unnecessary inheritance chains et. al.
@@ -127,6 +142,7 @@ Release Date: January 15th, 2015
 	* Allows archive titles & meta to be set on non public post types that do have a public archive, props [xeeeveee](https://github.com/xeeeveee).
 	* Huge performance gain for `enrich_defaults()`, props [Koen Van den Wijngaert](https://github.com/vdwijngaert).
 	* Nextscripts removed from the OG conflict list.
+	* Added full Composer support, switched to Composer for dependency management and autoloading.
 
 * Bugfixes:
 	* Fixes a bug where new posts weren't always added to the post sitemap properly in case of multiple sitemaps.
@@ -136,6 +152,10 @@ Release Date: January 15th, 2015
 	* Fixes a bug where variable placeholders were not always assigned the correct value, props [Andy Sozot](https://github.com/sozot) for reporting and [Juliette](https://github.com/jrfnl) for fixing.
 	* Fixes a bug with SEO score on servers using international number formats.
 	* Fixes broken backward compatibility / snippet preview, props [Juliette](https://github.com/jrfnl).
+	* Fixes a bug where the %%page%% shortcode wasn't properly rendered in the titles and meta's.
+	* Fixes a bug where custom replacement variables where not properly rendered when using them in multiple fields.
+	* Fixes at least a large part of the keyword density 0% issues.
+	* Corrected price on WooCommerce SEO banner.
 
 = 1.7.1 =
 

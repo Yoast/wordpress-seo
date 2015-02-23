@@ -1,6 +1,8 @@
 <?php
 /**
- * @package Admin
+ * @package    WPSEO
+ * @subpackage Admin
+ * @since      1.5.0
  */
 
 if ( ! defined( 'WPSEO_VERSION' ) ) {
@@ -85,13 +87,13 @@ if ( ! class_exists( 'Woocommerce' ) ) {
 					<p><?php esc_html_e( $extension->desc ); ?></p>
 
 					<p>
-						<?php if ( $extension->installed ) { ?>
+						<?php if ( $extension->installed ) : ?>
 							<button class="button-primary installed">Installed</button>
-						<?php } else { ?>
+						<?php else : ?>
 							<a target="_blank" href="<?php echo esc_url( $extension->url . $utm ); ?>" class="button-primary">
 								<?php _e( 'Get this extension', 'wordpress-seo' ); ?>
 							</a>
-						<?php } ?>
+						<?php endif; ?>
 					</p>
 				</div>
 			<?php

@@ -1,5 +1,13 @@
 <?php
+/**
+ * @package    WPSEO
+ * @subpackage Admin
+ * @since      1.8.0
+ */
 
+/**
+ * Customizes user profile.
+ */
 class WPSEO_Admin_User_Profile {
 	/**
 	 * Class constructor
@@ -22,7 +30,8 @@ class WPSEO_Admin_User_Profile {
 		$val = WPSEO_Utils::filter_input( INPUT_POST, $var_name );
 		if ( $val ) {
 			return WPSEO_Option::sanitize_text_field( $val );
-		} else {
+		}
+		else {
 			return '';
 		}
 	}

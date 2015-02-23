@@ -1,6 +1,7 @@
 <?php
 /**
- * @package Admin
+ * @package    WPSEO
+ * @subpackage Admin
  */
 
 /**
@@ -112,10 +113,12 @@ class WPSEO_Taxonomy {
 		if ( $type == 'text' ) {
 			$field .= '
 				<input name="' . $esc_var . '" id="' . $esc_var . '" type="text" value="' . esc_attr( $val ) . '" size="40"/>';
-		} elseif ( $type == 'checkbox' ) {
+		}
+		elseif ( $type == 'checkbox' ) {
 			$field .= '
 				<input name="' . $esc_var . '" id="' . $esc_var . '" type="checkbox" ' . checked( $val ) . '/>';
-		} elseif ( $type == 'select' ) {
+		}
+		elseif ( $type == 'select' ) {
 			if ( is_array( $options ) && $options !== array() ) {
 				$field .= '
 				<select name="' . $esc_var . '" id="' . $esc_var . '">';
@@ -129,7 +132,8 @@ class WPSEO_Taxonomy {
 				$field .= '
 				</select>';
 			}
-		} elseif ( $type == 'hidden' ) {
+		}
+		elseif ( $type == 'hidden' ) {
 			$field .= '
 				<input name="' . $esc_var . '" id="hidden_' . $esc_var . '" type="hidden" value="' . esc_attr( $val ) . '" />';
 		}
@@ -141,7 +145,7 @@ class WPSEO_Taxonomy {
 
 		echo '
 		<tr class="form-field">
-			<th scope="row">' . ( '' !== $label ? '<label for="' . $esc_var . '">' . esc_html( $label ) . ':</label>' : '' ) . '</th>
+			<th scope="row">' . ( ( '' !== $label ) ? '<label for="' . $esc_var . '">' . esc_html( $label ) . ':</label>' : '' ) . '</th>
 			<td>' . $field . '</td>
 		</tr>';
 	}
@@ -223,7 +227,8 @@ class WPSEO_Taxonomy {
 		/* Add/remove the result to/from the original option value */
 		if ( $clean !== array() ) {
 			$tax_meta[ $taxonomy ][ $term_id ] = $clean;
-		} else {
+		}
+		else {
 			unset( $tax_meta[ $taxonomy ][ $term_id ] );
 			if ( isset( $tax_meta[ $taxonomy ] ) && $tax_meta[ $taxonomy ] === array() ) {
 				unset( $tax_meta[ $taxonomy ] );
