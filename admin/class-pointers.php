@@ -238,13 +238,14 @@ class WPSEO_Pointers {
 		}
 		else {
 			if ( '' != $page && in_array( $page, array_keys( $adminpages ) ) ) {
-				$align   = ( is_rtl() ) ? 'left' : 'right';
+				$align    = ( is_rtl() ) ? 'left' : 'right';
+				$position = array( 'edge' => 'top', 'align' => $align, );
+				if ( isset ( $adminpages[ $page ]['position'] ) ) {
+					$position = $adminpages[ $page ]['position'];
+				}
 				$opt_arr = array(
 					'content'      => $adminpages[ $page ]['content'],
-					'position'     => ( isset ( $adminpages[ $page ]['position'] ) ) ? ( $adminpages[ $page ]['position'] ) : array(
-						'edge'  => 'top',
-						'align' => $align,
-					),
+					'position'     => $position,
 					'pointerWidth' => 450,
 				);
 				if ( isset( $adminpages[ $page ]['next'], $adminpages[ $page ]['next_function'] ) ) {
