@@ -1,3 +1,6 @@
+### 1.5.2.2: February 23rd, 2015
+* Merge with WordPress SEO core 1.7.3.2
+
 ### 1.5.2.1: February 19th, 2015
 * Merge with WordPress SEO core 1.7.3.1
 
