@@ -775,11 +775,17 @@ class WPSEO_Breadcrumbs {
 				$class = ' class="breadcrumb_last"';
 			}
 
+			$vchild = '';
+			if ($i > 0) {
+				$vchild = ' rel="v:child"';
+			}
 
-			$link_output = '<' . $this->element . ' typeof="v:Breadcrumb">';
+			$link_output = '<' . $this->element . $vchild. ' typeof="v:Breadcrumb">';
+
+			
 
 			if ( ( isset( $link['url'] ) && ( is_string( $link['url'] ) && $link['url'] !== '' ) ) &&
-				( $i < ( $this->crumb_count - 1 ) || $paged )
+				( $i <= ( $this->crumb_count - 1 ) || $paged )
 			) {
 				$link_output .= '<a href="' . esc_url( $link['url'] ) . '"' . $class . ' rel="v:url" property="v:title">' . $link['text'] . '</a>';
 			}
@@ -822,7 +828,7 @@ class WPSEO_Breadcrumbs {
 	private function wrap_breadcrumb() {
 		if ( is_string( $this->output ) && $this->output !== '' ) {
 			$output = '
-		<' . $this->wrapper . $this->get_output_id() . $this->get_output_class() . ' prefix="v: http://rdf.data-vocabulary.org/#">
+		<' . $this->wrapper . $this->get_output_id() . $this->get_output_class() . ' xmlns:v="http://rdf.data-vocabulary.org/#">
 			' . $this->output . '
 		</' . $this->wrapper . '>';
 
