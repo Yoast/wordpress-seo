@@ -961,6 +961,8 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Override the go_to function in core as its broken when path isn't set.
 	 *
+	 * Can be removed when https://core.trac.wordpress.org/ticket/31417 is fixed.
+	 *
 	 * @param $url
 	 */
 	function go_to( $url ) {
