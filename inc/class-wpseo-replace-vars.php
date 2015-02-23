@@ -1,6 +1,8 @@
 <?php
 /**
- * @package Internals
+ * @package    WPSEO
+ * @subpackage Internals
+ * @since      1.5.4
  */
 
 // Avoid direct calls to this file
@@ -11,11 +13,10 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 }
 
 /**
- * @package    WordPress\Plugins\WPSeo
- * @subpackage Internals
- * @since      1.5.4
- * @version    1.5.4
+ * Class: WPSEO_Replace_Vars
  *
+ * This class implements the replacing of `%%variable_placeholders%%` with their real value based on the current
+ * requested page/post/cpt/etc in text strings.
  */
 class WPSEO_Replace_Vars {
 
@@ -65,7 +66,6 @@ class WPSEO_Replace_Vars {
 	 * Setup the help texts and external replacements as statics so they will be available to all instances
 	 */
 	public static function setup_statics_once() {
-		//
 		if ( self::$help_texts === array() ) {
 			self::set_basic_help_texts();
 			self::set_advanced_help_texts();
@@ -87,13 +87,13 @@ class WPSEO_Replace_Vars {
 	 *
 	 * @see wpseo_register_var_replacement() for a usage example
 	 *
-	 * @param  string $var                   The name of the variable to replace, i.e. '%%var%%'
-	 *                                       - the surrounding %% are optional
-	 * @param  mixed  $replace_function      Function or method to call to retrieve the replacement value for the variable
-	 *                                       Uses the same format as add_filter/add_action function parameter and
-	 *                                       should *return* the replacement value. DON'T echo it!
-	 * @param  string $type                  Type of variable: 'basic' or 'advanced', defaults to 'advanced'
-	 * @param  string $help_text             Help text to be added to the help tab for this variable
+	 * @param  string $var              The name of the variable to replace, i.e. '%%var%%'
+	 *                                  - the surrounding %% are optional
+	 * @param  mixed  $replace_function Function or method to call to retrieve the replacement value for the variable
+	 *                                  Uses the same format as add_filter/add_action function parameter and
+	 *                                  should *return* the replacement value. DON'T echo it!
+	 * @param  string $type             Type of variable: 'basic' or 'advanced', defaults to 'advanced'
+	 * @param  string $help_text        Help text to be added to the help tab for this variable
 	 *
 	 * @return bool     Whether the replacement function was succesfully registered
 	 */
@@ -105,17 +105,21 @@ class WPSEO_Replace_Vars {
 
 			if ( preg_match( '`^[A-Z0-9_-]+$`i', $var ) === false ) {
 				trigger_error( __( 'A replacement variable can only contain alphanumeric characters, an underscore or a dash. Try renaming your variable.', 'wordpress-seo' ), E_USER_WARNING );
-			} elseif ( strpos( $var, 'cf_' ) === 0 || strpos( $var, 'ct_' ) === 0 ) {
+			}
+			elseif ( strpos( $var, 'cf_' ) === 0 || strpos( $var, 'ct_' ) === 0 ) {
 				trigger_error( __( 'A replacement variable can not start with "%%cf_" or "%%ct_" as these are reserved for the WPSEO standard variable variables for custom fields and custom taxonomies. Try making your variable name unique.', 'wordpress-seo' ), E_USER_WARNING );
-			} elseif ( ! method_exists( __CLASS__, 'retrieve_' . $var ) ) {
+			}
+			elseif ( ! method_exists( __CLASS__, 'retrieve_' . $var ) ) {
 				if ( ! isset( self::$external_replacements[ $var ] ) ) {
 					self::$external_replacements[ $var ] = $replace_function;
 					self::register_help_text( $type, $var, $help_text );
 					$success = true;
-				} else {
+				}
+				else {
 					trigger_error( __( 'A replacement variable with the same name has already been registered. Try making your variable name more unique.', 'wordpress-seo' ), E_USER_WARNING );
 				}
-			} else {
+			}
+			else {
 				trigger_error( __( 'You cannot overrule a WPSEO standard variable replacement by registering a variable with the same name. Use the "wpseo_replacements" filter instead to adjust the replacement value.', 'wordpress-seo' ), E_USER_WARNING );
 			}
 		}
@@ -226,9 +230,11 @@ class WPSEO_Replace_Vars {
 			// Deal with variable variable names first
 			if ( strpos( $var, 'cf_' ) === 0 ) {
 				$replacement = $this->retrieve_cf_custom_field_name( $var );
-			} elseif ( strpos( $var, 'ct_desc_' ) === 0 ) {
+			}
+			elseif ( strpos( $var, 'ct_desc_' ) === 0 ) {
 				$replacement = $this->retrieve_ct_desc_custom_tax_name( $var );
-			} elseif ( strpos( $var, 'ct_' ) === 0 ) {
+			}
+			elseif ( strpos( $var, 'ct_' ) === 0 ) {
 				$single = ( isset( $matches[2][ $k ] ) && $matches[2][ $k ] !== '' ) ? true : false;
 				$replacement = $this->retrieve_ct_custom_tax_name( $var, $single );
 			} // Deal with non-variable variable names
@@ -296,13 +302,16 @@ class WPSEO_Replace_Vars {
 
 		if ( $this->args->post_date != '' ) {
 			$replacement = mysql2date( get_option( 'date_format' ), $this->args->post_date, true );
-		} else {
+		}
+		else {
 			if ( get_query_var( 'day' ) && get_query_var( 'day' ) != '' ) {
 				$replacement = get_the_date();
-			} else {
+			}
+			else {
 				if ( single_month_title( ' ', false ) && single_month_title( ' ', false ) != '' ) {
 					$replacement = single_month_title( ' ', false );
-				} elseif ( get_query_var( 'year' ) != '' ) {
+				}
+				elseif ( get_query_var( 'year' ) != '' ) {
 					$replacement = get_query_var( 'year' );
 				}
 			}
@@ -323,7 +332,8 @@ class WPSEO_Replace_Vars {
 		if ( ! empty( $this->args->ID ) ) {
 			if ( $this->args->post_excerpt !== '' ) {
 				$replacement = strip_tags( $this->args->post_excerpt );
-			} elseif ( $this->args->post_content !== '' ) {
+			}
+			elseif ( $this->args->post_content !== '' ) {
 				$replacement = wp_html_excerpt( strip_shortcodes( $this->args->post_content ), 155 );
 			}
 		}
@@ -550,14 +560,15 @@ class WPSEO_Replace_Vars {
 			if ( isset( $wp_query->max_num_pages ) && ( $wp_query->max_num_pages != '' && $wp_query->max_num_pages != 0 ) ) {
 				$max_num_pages = $wp_query->max_num_pages;
 			}
-		} else {
+		}
+		else {
 			$page_number = get_query_var( 'page' );
 			if ( $page_number === 0 || $page_number === '' ) {
 				$page_number = 1;
 			}
 
 			if ( isset( $post->post_content ) ) {
-				$max_num_pages = substr_count( $post->post_content, '<!--nextpage-->' ) + 1;
+				$max_num_pages = (substr_count( $post->post_content, '<!--nextpage-->' ) + 1);
 			}
 		}
 
@@ -590,7 +601,8 @@ class WPSEO_Replace_Vars {
 
 		if ( isset( $wp_query->query_vars['post_type'] ) && ( ( is_string( $wp_query->query_vars['post_type'] ) && $wp_query->query_vars['post_type'] !== '' ) || ( is_array( $wp_query->query_vars['post_type'] ) && $wp_query->query_vars['post_type'] !== array() ) ) ) {
 			$post_type = $wp_query->query_vars['post_type'];
-		} else {
+		}
+		else {
 			// Make it work in preview mode
 			$post_type = $wp_query->get_queried_object()->post_type;
 		}
@@ -637,8 +649,8 @@ class WPSEO_Replace_Vars {
 	/**
 	 * Retrieve a post/page/cpt's custom field value for use as replacement string
 	 *
-	 * @param string $var  The complete variable to replace which includes the name of
-	 *                     the custom field which value is to be retrieved.
+	 * @param string $var The complete variable to replace which includes the name of
+	 *                    the custom field which value is to be retrieved.
 	 *
 	 * @return string|null
 	 */
@@ -687,8 +699,8 @@ class WPSEO_Replace_Vars {
 	/**
 	 * Retrieve a post/page/cpt's custom taxonomies description for use as replacement string
 	 *
-	 * @param string $var  The complete variable to replace which includes the name of
-	 *                     the custom taxonomy which description is to be retrieved.
+	 * @param string $var The complete variable to replace which includes the name of
+	 *                    the custom taxonomy which description is to be retrieved.
 	 *
 	 * @return string|null
 	 */
@@ -963,11 +975,13 @@ class WPSEO_Replace_Vars {
 
 		if ( $this->args->term404 !== '' ) {
 			$replacement = sanitize_text_field( str_replace( '-', ' ', $this->args->term404 ) );
-		} else {
+		}
+		else {
 			$error_request = get_query_var( 'pagename' );
 			if ( $error_request !== '' ) {
 				$replacement = sanitize_text_field( str_replace( '-', ' ', $error_request ) );
-			} else {
+			}
+			else {
 				$error_request = get_query_var( 'name' );
 				if ( $error_request !== '' ) {
 					$replacement = sanitize_text_field( str_replace( '-', ' ', $error_request ) );
@@ -1158,14 +1172,16 @@ class WPSEO_Replace_Vars {
 			global $wp_query;
 			$term   = $wp_query->get_queried_object();
 			$output = $term->name;
-		} elseif ( ! empty( $id ) && ! empty( $taxonomy ) ) {
+		}
+		elseif ( ! empty( $id ) && ! empty( $taxonomy ) ) {
 			$terms = get_the_terms( $id, $taxonomy );
 			if ( is_array( $terms ) && $terms !== array() ) {
 				foreach ( $terms as $term ) {
 					if ( $return_single ) {
 						$output = $term->name;
 						break;
-					} else {
+					}
+					else {
 						$output .= $term->name . ', ';
 					}
 				}

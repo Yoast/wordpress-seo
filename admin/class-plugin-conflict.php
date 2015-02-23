@@ -1,9 +1,13 @@
 <?php
-
 /**
- * @package Admin
+ * @package    WPSEO
+ * @subpackage Admin
+ * @since      1.7.0
  */
 
+/**
+ * Contains list of conflicting plugins.
+ */
 class WPSEO_Plugin_Conflict extends Yoast_Plugin_Conflict {
 
 	/**
@@ -82,10 +86,12 @@ class WPSEO_Plugin_Conflict extends Yoast_Plugin_Conflict {
 	/**
 	 * Overrides instance to set with this class as class
 	 *
+	 * @param string $class_name
+	 *
 	 * @return Yoast_Plugin_Conflict
 	 */
-	public static function get_instance( $classname = __CLASS__ ) {
-		return parent::get_instance( $classname );
+	public static function get_instance( $class_name = __CLASS__ ) {
+		return parent::get_instance( $class_name );
 	}
 
 	/**
