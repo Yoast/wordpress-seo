@@ -322,22 +322,13 @@ function wpseo_ping_search_engines( $sitemapurl = null ) {
 		return;
 	}
 
-	$options = get_option( 'wpseo_xml' );
 	if ( $sitemapurl == null ) {
 		$sitemapurl = urlencode( wpseo_xml_sitemaps_base_url( 'sitemap_index.xml' ) );
 	}
 
-	// Always ping Google and Bing, optionally ping Ask and Yahoo!
-	wp_remote_get( 'http://www.google.com/webmasters/tools/ping?sitemap=' . $sitemapurl );
-	wp_remote_get( 'http://www.bing.com/ping?sitemap=' . $sitemapurl );
-
-	if ( $options['xml_ping_yahoo'] === true ) {
-		wp_remote_get( 'http://search.yahooapis.com/SiteExplorerService/V1/updateNotification?appid=3usdTDLV34HbjQpIBuzMM1UkECFl5KDN7fogidABihmHBfqaebDuZk1vpLDR64I-&url=' . $sitemapurl );
-	}
-
-	if ( $options['xml_ping_ask'] === true ) {
-		wp_remote_get( 'http://submissions.ask.com/ping?sitemap=' . $sitemapurl );
-	}
+	// Ping Google and Bing
+	wp_remote_get( 'http://www.google.com/webmasters/tools/ping?sitemap=' . $sitemapurl, array( 'blocking' => false ) );
+	wp_remote_get( 'http://www.bing.com/ping?sitemap=' . $sitemapurl, array( 'blocking' => false ) );
 }
 
 add_action( 'wpseo_ping_search_engines', 'wpseo_ping_search_engines' );

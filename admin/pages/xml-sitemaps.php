@@ -58,15 +58,6 @@ $yform->checkbox( 'enablexmlsitemap', __( 'Check this box to enable XML sitemap 
 			?>
 
 			<p>
-				<strong><?php _e( 'Ping Search Engines', 'wordpress-seo' ); ?></strong><br/>
-				<?php _e( 'After content publication, the plugin automatically pings Google and Bing, do you need it to ping other search engines too? If so, check the box:', 'wordpress-seo' ); ?>
-			</p>
-			<?php
-			$yform->checkbox( 'xml_ping_yahoo', __( 'Ping Yahoo!', 'wordpress-seo' ), false );
-			$yform->checkbox( 'xml_ping_ask', __( 'Ping Ask.com', 'wordpress-seo' ), false );
-			?>
-
-			<p>
 				<strong><?php _e( 'Entries per page', 'wordpress-seo' ); ?></strong><br/>
 				<?php printf( __( 'Please enter the maximum number of entries per sitemap page (defaults to %s, you might want to lower this to prevent memory issues on some installs):', 'wordpress-seo' ), WPSEO_Options::get_default( 'wpseo_xml', 'entries-per-page' ) ); ?>
 			</p>

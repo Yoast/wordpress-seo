@@ -406,8 +406,8 @@ div#separator input.radio:checked + label {
 }
 
 .nav-tab .dashicons {
-	line-height: 24px;
-	font-size: 18px;
 	width: 18px;
 	height: 18px;
+	font-size: 18px;
+	line-height: 24px;
 }

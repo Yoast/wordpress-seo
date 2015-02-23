@@ -2298,8 +2298,6 @@ class WPSEO_Option_XML extends WPSEO_Option {
 		'disable_author_noposts' => true,
 		'enablexmlsitemap'       => true,
 		'entries-per-page'       => 1000,
-		'xml_ping_yahoo'         => false,
-		'xml_ping_ask'           => false,
 
 		/**
 		 * Uses enrich_defaults to add more along the lines of:
@@ -2447,8 +2445,6 @@ class WPSEO_Option_XML extends WPSEO_Option {
 				case 'user_role-': /* 'user_role' . $role_name . '-not_in_sitemap' fields */
 				case 'post_types-': /* 'post_types-' . $pt->name . '-not_in_sitemap' fields */
 				case 'taxonomies-': /* 'taxonomies-' . $tax->name . '-not_in_sitemap' fields */
-				case 'xml_ping_yahoo':
-				case 'xml_ping_ask':
 				default:
 					$clean[ $key ] = ( isset( $dirty[ $key ] ) ? WPSEO_Utils::validate_bool( $dirty[ $key ] ) : false );
 					break;
