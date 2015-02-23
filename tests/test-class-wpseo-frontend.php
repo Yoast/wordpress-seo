@@ -550,6 +550,30 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * @covers WPSEO_Frontend::canonical
+	 */
+	public function test_canonical_filter() {
+		add_filter( 'wpseo_canonical', '__return_false' );
+		self::$class_instance->canonical();
+		$this->expectOutput( '' );
+
+		self::$class_instance->reset();
+		remove_filter( 'wpseo_canonical', '__return_false' );
+		add_filter( 'wpseo_canonical', array( $this, 'filter_canonical_test' ) );
+		$this->go_to( home_url() );
+		$this->assertEquals( 'http://canonic.al', self::$class_instance->canonical( false ) );
+	}
+
+	/**
+	 * Used to test the workings of canonical
+	 *
+	 * @return string
+	 */
+	public function filter_canonical_test() {
+		return 'http://canonic.al';
+	}
+
+	/**
 	 * @covers WPSEO_Frontend::publisher
 	 */
 	public function test_publisher() {
