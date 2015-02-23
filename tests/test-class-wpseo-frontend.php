@@ -111,13 +111,10 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_get_taxonomy_title() {
 
-		// @todo fix for multisite
-		if ( is_multisite() ) {
-			return;
-		}
-
 		// create and go to cat archive
 		$category_id = wp_create_category( 'Category Name' );
+		flush_rewrite_rules();
+
 		$this->go_to( get_category_link( $category_id ) );
 
 		// test title according to format
@@ -134,7 +131,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	public function test_get_author_title() {
 
 		// create and go to author
-		$user_id = $this->factory->user->create( );
+		$user_id = $this->factory->user->create();
 		$this->go_to( get_author_posts_url( $user_id ) );
 
 		// test general author title
@@ -260,9 +257,9 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	public function test_json_ld() {
 		$this->go_to_home();
 
-		$home_url = trailingslashit( home_url() );
+		$home_url   = trailingslashit( home_url() );
 		$search_url = $home_url . '?s={search_term}';
-		$this->run_json_ld_test( '<script type="application/ld+json">{ "@context": "http://schema.org", "@type": "WebSite", "url": "' . $home_url . '", "potentialAction": { "@type": "SearchAction", "target": "' . $search_url .'", "query-input": "required name=search_term" } }</script>' . "\n" );
+		$this->run_json_ld_test( '<script type="application/ld+json">{ "@context": "http://schema.org", "@type": "WebSite", "url": "' . $home_url . '", "potentialAction": { "@type": "SearchAction", "target": "' . $search_url . '", "query-input": "required name=search_term" } }</script>' . "\n" );
 	}
 
 	/**
@@ -277,11 +274,11 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	/**
 	 * @covers WPSEO_Frontend::robots
 	 *
-	 * @todo test post type archives
-	 * @todo test with noodp and noydir option set
-	 * @todo test with page_for_posts option
-	 * @todo test date archives
-	 * @todo test search results
+	 * @todo   test post type archives
+	 * @todo   test with noodp and noydir option set
+	 * @todo   test with page_for_posts option
+	 * @todo   test date archives
+	 * @todo   test search results
 	 */
 	public function test_robots() {
 		// go to home
@@ -347,6 +344,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 
 		// go to category page
 		$category_id = wp_create_category( 'Category Name' );
+		flush_rewrite_rules();
 
 		// add posts to category
 		$this->factory->post->create_many( 6, array( 'post_category' => array( $category_id ) ) );
@@ -359,23 +357,20 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( $expected, self::$class_instance->robots() );
 
 		// test category with noindex-tax-category option
-		// TODO fix test for multisite (or code?)
-		if ( false === is_multisite() ) {
-			$expected                                              = 'noindex,follow';
-			self::$class_instance->options['noindex-tax-category'] = true;
-			$this->assertEquals( $expected, self::$class_instance->robots() );
+		$expected                                              = 'noindex,follow';
+		self::$class_instance->options['noindex-tax-category'] = true;
+		$this->assertEquals( $expected, self::$class_instance->robots() );
 
-			// clean-up
-			self::$class_instance->options['noindex-tax-category'] = false;
+		// clean-up
+		self::$class_instance->options['noindex-tax-category'] = false;
 
-			// test subpages of category archives
-			update_site_option( 'posts_per_page', 1 );
-			self::$class_instance->options['noindex-subpages-wpseo'] = true;
-			$this->go_to( add_query_arg( array( 'paged' => 2 ), $category_link ) );
+		// test subpages of category archives
+		update_site_option( 'posts_per_page', 1 );
+		self::$class_instance->options['noindex-subpages-wpseo'] = true;
+		$this->go_to( add_query_arg( array( 'paged' => 2 ), $category_link ) );
 
-			$expected = 'noindex,follow';
-			$this->assertEquals( $expected, self::$class_instance->robots() );
-		}
+		$expected = 'noindex,follow';
+		$this->assertEquals( $expected, self::$class_instance->robots() );
 		// go to author page
 		$user_id = $this->factory->user->create();
 		$this->go_to( get_author_posts_url( $user_id ) );
@@ -402,10 +397,10 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		$post_id = $this->factory->post->create();
 		$this->go_to( get_permalink( $post_id ) );
 
-		$robots = array(
-			'index' => 'index',
+		$robots   = array(
+			'index'  => 'index',
 			'follow' => 'follow',
-			'other' => array(),
+			'other'  => array(),
 		);
 		$expected = $robots;
 
@@ -421,12 +416,12 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 
 		// test noodp with default meta-robots-adv
 		self::$class_instance->options['noodp'] = true;
-		$expected['other'] = array( 'noodp' );
+		$expected['other']                      = array( 'noodp' );
 		$this->assertEquals( $expected, self::$class_instance->robots_for_single_post( $robots, $post_id ) );
 
 		// test noydir with default meta-robots-adv
 		self::$class_instance->options['noydir'] = true;
-		$expected['other'] = array( 'noodp', 'noydir' );
+		$expected['other']                       = array( 'noodp', 'noydir' );
 		$this->assertEquals( $expected, self::$class_instance->robots_for_single_post( $robots, $post_id ) );
 
 		// test meta-robots adv noodp and nosnippet
@@ -454,11 +449,6 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_canonical_single_post_override() {
 
-		// @todo: fix for multisite
-		if ( is_multisite() ) {
-			return;
-		}
-
 		// create and go to post
 		$post_id = $this->factory->post->create();
 
@@ -479,60 +469,108 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Frontend::canonical
 	 */
 	public function test_canonical_home() {
-		// test home page
-		$this->go_to_home();
+		$this->factory->post->create_many( 22 );
 
-		$expected = home_url();
-		$this->assertEquals( $expected, self::$class_instance->canonical( false, false, true ) );
+		$url = home_url();
 
+		$this->run_test_on_consecutive_pages( $url );
 	}
 
 	/**
 	 * @covers WPSEO_Frontend::canonical
 	 */
 	public function test_canonical_search() {
+
+		$this->factory->post->create_many( 22, array( 'post_title' => 'sample post %d' ) );
+
 		// test search
-		$expected = get_search_link( 'sample query' );
-		$this->go_to( $expected );
-		$this->assertEquals( $expected, self::$class_instance->canonical( false ) );
+		$search_link = get_search_link( 'sample post' );
+
+		$this->run_test_on_consecutive_pages( $search_link );
+	}
+
+	/**
+	 * @covers WPSEO_Frontend::adjacent_rel_links
+	 * @covers WPSEO_Frontend::canonical
+	 */
+	public function test_adjacent_rel_links_canonical_post_type() {
+		register_post_type( 'yoast', array( 'public' => true, 'has_archive' => true ) );
+
+		$this->factory->post->create_many( 22, array( 'post_type' => 'yoast' ) );
+
+		flush_rewrite_rules();
+
+		$archive_url = get_post_type_archive_link( 'yoast' );
+
+		$this->run_test_on_consecutive_pages( $archive_url );
+	}
+
+	/**
+	 * @covers WPSEO_Frontend::adjacent_rel_links
+	 * @covers WPSEO_Frontend::canonical
+	 */
+	public function test_adjacent_rel_links_canonical_author() {
+
+		$user_id = $this->factory->user->create( array( 'role' => 'editor' ) );
+
+		$this->factory->post->create_many( 22, array( 'post_author' => $user_id ) );
+
+		$user     = new WP_User( $user_id );
+		$user_url = get_author_posts_url( $user_id, $user->user_nicename );
+
+		$this->run_test_on_consecutive_pages( $user_url );
+	}
+
+	/**
+	 * @covers WPSEO_Frontend::adjacent_rel_links
+	 * @covers WPSEO_Frontend::canonical
+	 */
+	public function test_adjacent_rel_links_canonical_date_archive() {
+		$this->factory->post->create_many( 22 );
+
+		$date_link = get_day_link( false, false, false );  // Having three times false generates a link for today, which is what we need
+		$this->run_test_on_consecutive_pages( $date_link );
+	}
+
+	/**
+	 * @covers WPSEO_Frontend::adjacent_rel_links
+	 * @covers WPSEO_Frontend::canonical for categories too
+	 */
+	public function test_adjacent_rel_links_canonical_category() {
+		// create a category, add 26 posts to it, go to page 2 of its archives
+		$category_id = wp_create_category( 'WordPress SEO Plugins' );
+		$this->factory->post->create_many( 22, array( 'post_category' => array( $category_id ) ) );
+
+		// This shouldn't be necessary but apparently multisite's rewrites are borked when you create a category and you don't flush (on 4.0 only).
+		flush_rewrite_rules();
+
+		$category_link = get_category_link( $category_id );
+
+		$this->run_test_on_consecutive_pages( $category_link );
 	}
 
 	/**
 	 * @covers WPSEO_Frontend::canonical
 	 */
-	public function test_canonical_category() {
+	public function test_canonical_filter() {
+		add_filter( 'wpseo_canonical', '__return_false' );
+		self::$class_instance->canonical();
+		$this->expectOutput( '' );
 
-		// @todo: fix for multisite
-		if ( is_multisite() ) {
-			return;
-		}
-				// test taxonomy pages, category pages and tag pages
-		$category_id   = wp_create_category( 'Category Name' );
-		$category_link = get_category_link( $category_id );
-		$this->go_to( $category_link );
-
-		$expected = $category_link;
-		$this->assertEquals( $expected, self::$class_instance->canonical( false ) );
-
-		// @todo test post type archives
-		// @todo test author archives
-		// @todo test date archives
-		// @todo test pagination
-		// @todo test force_transport
+		self::$class_instance->reset();
+		remove_filter( 'wpseo_canonical', '__return_false' );
+		add_filter( 'wpseo_canonical', array( $this, 'filter_canonical_test' ) );
+		$this->go_to( home_url() );
+		$this->assertEquals( 'http://canonic.al', self::$class_instance->canonical( false ) );
 	}
 
 	/**
-	 * @covers WPSEO_Frontend::adjacent_rel_links
+	 * Used to test the workings of canonical
+	 *
+	 * @return string
 	 */
-	public function test_adjacent_rel_links() {
-		// @todo
-	}
-
-	/**
-	 * @covers WPSEO_Frontend::adjacent_rel_link
-	 */
-	public function test_adjacent_rel_link() {
-		// @todo
+	public function filter_canonical_test() {
+		return 'http://canonic.al';
 	}
 
 	/**
@@ -588,7 +626,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_noindex_page() {
 		$expected = '<meta name="robots" content="noindex" />' . "\n";
-		$this->expectOutput( $expected, self::$class_instance->noindex_page( ) );
+		$this->expectOutput( $expected, self::$class_instance->noindex_page() );
 
 	}
 
@@ -618,22 +656,22 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		$c = self::$class_instance;
 
 		// test on author, authors enabled -> false
-		$wp_query->is_author = true;
+		$wp_query->is_author          = true;
 		$c->options['disable-author'] = false;
 		$this->assertFalse( $c->archive_redirect() );
 
 		// test not on author, authors disabled -> false
-		$wp_query->is_author = false;
+		$wp_query->is_author          = false;
 		$c->options['disable-author'] = true;
 		$this->assertFalse( $c->archive_redirect() );
 
 		// test on date, dates enabled -> false
-		$wp_query->is_date = true;
+		$wp_query->is_date          = true;
 		$c->options['disable-date'] = false;
 		$this->assertFalse( $c->archive_redirect() );
 
 		// test not on date, dates disabled -> false
-		$wp_query->is_date = false;
+		$wp_query->is_date          = false;
 		$c->options['disable-date'] = true;
 		$this->assertFalse( $c->archive_redirect() );
 	}
@@ -827,7 +865,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		// test if input was changed
 		self::$class_instance->options['rssbefore'] = 'Some RSS before text';
 		self::$class_instance->options['rssafter']  = '';
-		$expected = wpautop( self::$class_instance->options['rssbefore'] ) . $input;
+		$expected                                   = wpautop( self::$class_instance->options['rssbefore'] ) . $input;
 		$this->assertEquals( $expected, self::$class_instance->embed_rss( $input, 'full' ) );
 	}
 
@@ -878,30 +916,113 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	* @param string $name
-	* @return string
-	*/
+	 * @param string $initial_url
+	 *
+	 * @return void
+	 */
+	private function run_test_on_consecutive_pages( $initial_url ) {
+		// Test page 1 of the post type archives, should have just a rel=next and a canonical
+		$this->go_to( $initial_url );
+
+		$page_2_link = get_pagenum_link( 2, false );
+		$expected    = '<link rel="next" href="' . esc_url( $page_2_link ) . '" />' . "\n";
+
+		self::$class_instance->adjacent_rel_links();
+		$this->assertEquals( $initial_url, self::$class_instance->canonical( false ) );
+		$this->expectOutput( $expected );
+
+
+		// Test page 2 of the post type archives, should have a rel=next and rel=prev and a canonical
+		self::$class_instance->reset();
+		$this->go_to( $page_2_link );
+
+		$page_3_link = get_pagenum_link( 3, false );
+		$expected    = '<link rel="prev" href="' . esc_url( $initial_url ) . '" />' . "\n" . '<link rel="next" href="' . esc_url( $page_3_link ) . '" />' . "\n";
+
+		self::$class_instance->adjacent_rel_links();
+		$this->assertEquals( $page_2_link, self::$class_instance->canonical( false ) );
+		$this->expectOutput( $expected );
+
+		// Test page 3 of the author archives, should have just a rel=prev and a canonical
+		self::$class_instance->reset();
+		$this->go_to( $page_3_link );
+
+		$expected = '<link rel="prev" href="' . esc_url( $page_2_link ) . '" />' . "\n";
+		self::$class_instance->adjacent_rel_links();
+		$this->assertEquals( $page_3_link, self::$class_instance->canonical( false ) );
+		$this->expectOutput( $expected );
+	}
+
+	/**
+	 * @param string $name
+	 *
+	 * @return string
+	 */
 	private function get_option( $name ) {
-		return self::$class_instance->options[$name];
+		return self::$class_instance->options[ $name ];
 	}
 
 	/**
 	 * @param string $option_name
 	 * @param string $expected
+	 *
 	 * @return void
 	 */
 	private function run_webmaster_tools_authentication_option_test( $option_name, $expected ) {
-		self::$class_instance->options[$option_name] = $option_name;
-		$this->expectOutput( $expected, self::$class_instance->webmaster_tools_authentication( ) );
-		self::$class_instance->options[$option_name] = '';
+		self::$class_instance->options[ $option_name ] = $option_name;
+		$this->expectOutput( $expected, self::$class_instance->webmaster_tools_authentication() );
+		self::$class_instance->options[ $option_name ] = '';
 	}
 
 	/**
 	 * @param string $expected
+	 *
 	 * @return void
 	 */
 	private function run_json_ld_test( $expected ) {
-		$this->expectOutput( $expected, self::$class_instance->internal_search_json_ld( ) );
+		$this->expectOutput( $expected, self::$class_instance->internal_search_json_ld() );
 	}
 
+	/**
+	 * Override the go_to function in core as its broken when path isn't set.
+	 *
+	 * Can be removed when https://core.trac.wordpress.org/ticket/31417 is fixed and in all releases we're testing (so when 4.2 is the lowest common denominator).
+	 *
+	 * @param string $url
+	 */
+	function go_to( $url ) {
+		// note: the WP and WP_Query classes like to silently fetch parameters
+		// from all over the place (globals, GET, etc), which makes it tricky
+		// to run them more than once without very carefully clearing everything
+		$_GET = $_POST = array();
+		foreach (array('query_string', 'id', 'postdata', 'authordata', 'day', 'currentmonth', 'page', 'pages', 'multipage', 'more', 'numpages', 'pagenow') as $v) {
+			if ( isset( $GLOBALS[$v] ) ) unset( $GLOBALS[$v] );
+		}
+		$parts = parse_url($url);
+		if (isset($parts['scheme'])) {
+			$req = isset( $parts['path'] ) ? $parts['path'] : '';
+			if (isset($parts['query'])) {
+				$req .= '?' . $parts['query'];
+				// parse the url query vars into $_GET
+				parse_str($parts['query'], $_GET);
+			}
+		} else {
+			$req = $url;
+		}
+		if ( ! isset( $parts['query'] ) ) {
+			$parts['query'] = '';
+		}
+
+		$_SERVER['REQUEST_URI'] = $req;
+		unset($_SERVER['PATH_INFO']);
+
+		$this->flush_cache();
+		unset($GLOBALS['wp_query'], $GLOBALS['wp_the_query']);
+		$GLOBALS['wp_the_query'] = new WP_Query();
+		$GLOBALS['wp_query'] = $GLOBALS['wp_the_query'];
+		$GLOBALS['wp'] = new WP();
+		_cleanup_query_vars();
+
+		$GLOBALS['wp']->main($parts['query']);
+	}
 }

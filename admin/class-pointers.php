@@ -1,6 +1,7 @@
 <?php
 /**
- * @package Admin
+ * @package    WPSEO
+ * @subpackage Admin
  */
 
 /**
@@ -29,7 +30,8 @@ class WPSEO_Pointers {
 			}
 			if ( $options['tracking_popup_done'] === false && ! isset( $_GET['allow_tracking'] ) ) {
 				add_action( 'admin_print_footer_scripts', array( $this, 'tracking_request' ) );
-			} elseif ( $options['ignore_tour'] === false ) {
+			}
+			elseif ( $options['ignore_tour'] === false ) {
 				add_action( 'admin_print_footer_scripts', array( $this, 'intro_tour' ) );
 			}
 		}
@@ -215,7 +217,8 @@ class WPSEO_Pointers {
 			);
 			$button_array['button2']['text']     = __( 'Start Tour', 'wordpress-seo' );
 			$button_array['button2']['function'] = 'document.location="' . admin_url( 'admin.php?page=wpseo_dashboard' ) . '";';
-		} else {
+		}
+		else {
 			if ( '' != $page && in_array( $page, array_keys( $adminpages ) ) ) {
 				$align   = ( is_rtl() ) ? 'left' : 'right';
 				$opt_arr = array(
@@ -304,7 +307,7 @@ class WPSEO_Pointers {
 
 				setup = function () {
 					$('<?php echo $selector; ?>').pointer(wpseo_pointer_options).pointer('open');
-					<?php if ( $button_array['button2']['text'] ) { ?>
+					<?php if ( $button_array['button2']['text'] ) : ?>
 					jQuery('#pointer-close').after('<a id="pointer-primary" class="button-primary">' + '<?php echo $button_array['button2']['text']; ?>' + '</a>');
 					jQuery('#pointer-primary').click(function () {
 						<?php echo $button_array['button2']['function']; ?>
@@ -316,18 +319,18 @@ class WPSEO_Pointers {
 					});
 					<?php } ?>
 					jQuery('#pointer-close').click(function () {
-						<?php if ( $button_array['button1']['function'] == '' ) { ?>
+						<?php if ( $button_array['button1']['function'] == '' ) : ?>
 						wpseo_setIgnore("tour", "wp-pointer-0", "<?php echo esc_js( wp_create_nonce( 'wpseo-ignore' ) ); ?>");
-						<?php } else { ?>
+						<?php else : ?>
 						<?php echo $button_array['button1']['function']; ?>
-						<?php } ?>
+						<?php endif; ?>
 					});
-					<?php } else if ( $button_array['button3']['text'] ) { ?>
+					<?php elseif ( $button_array['button3']['text'] ) : ?>
 					jQuery('#pointer-close').after('<a id="pointer-ternary" style="float: left;" class="button-secondary">' + '<?php echo $button_array['button3']['text']; ?>' + '</a>');
 					jQuery('#pointer-ternary').click(function () {
 						<?php echo $button_array['button3']['function']; ?>
 					});
-					<?php } ?>
+					<?php endif; ?>
 				};
 
 				if (wpseo_pointer_options.position && wpseo_pointer_options.position.defer_loading)

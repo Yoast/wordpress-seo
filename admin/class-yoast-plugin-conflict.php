@@ -1,7 +1,12 @@
 <?php
+/**
+ * @package    WPSEO
+ * @subpackage Admin
+ * @since      1.7.0
+ */
 
 /**
- * @package Admin
+ * Base class for handling plugin conflicts.
  */
 class Yoast_Plugin_Conflict {
 
@@ -39,14 +44,14 @@ class Yoast_Plugin_Conflict {
 	/**
 	 * For the use of singleton pattern. Create instance of itself and return his instance
 	 *
-	 * @param bool|string $classname Give the classname to initialize. If classname is false (empty) it will use it's own __CLASS__
+	 * @param string $class_name Give the classname to initialize. If classname is false (empty) it will use it's own __CLASS__
 	 *
 	 * @return Yoast_Plugin_Conflict
 	 */
-	public static function get_instance( $class_name = false ) {
+	public static function get_instance( $class_name = '' ) {
 
 		if ( is_null( self::$instance ) ) {
-			if ( empty( $class_name ) ) {
+			if ( ! is_string( $class_name ) || $class_name === '' ) {
 				$class_name = __CLASS__;
 			}
 
@@ -91,7 +96,8 @@ class Yoast_Plugin_Conflict {
 			$has_conflicts      = ( ! empty( $this->active_plugins[ $plugin_section ] ) );
 
 			return $has_conflicts;
-		} else {
+		}
+		else {
 			return false;
 		}
 	}
@@ -115,7 +121,7 @@ class Yoast_Plugin_Conflict {
 		$plugins = $this->active_plugins[ $plugin_section ];
 
 		$plugin_names = array();
-		foreach ( $plugins AS $plugin ) {
+		foreach ( $plugins as $plugin ) {
 			$plugin_details = get_plugin_data( ABSPATH . '/wp-content/plugins/' . $plugin );
 
 			if ( $plugin_details['Name'] != '' ) {
@@ -134,7 +140,7 @@ class Yoast_Plugin_Conflict {
 	 * @param array $plugin_sections
 	 */
 	public function check_plugin_conflicts( $plugin_sections ) {
-		foreach ( $plugin_sections AS $plugin_section => $readable_plugin_section ) {
+		foreach ( $plugin_sections as $plugin_section => $readable_plugin_section ) {
 			// Check for conflicting plugins and show error if there are conflicts
 			if ( $this->check_for_conflicts( $plugin_section ) ) {
 				$this->set_error( $plugin_section, $readable_plugin_section );
@@ -163,7 +169,7 @@ class Yoast_Plugin_Conflict {
 	 * This method will store the active plugins in $this->active_plugins.
 	 */
 	protected function search_active_plugins() {
-		foreach ( $this->plugins AS $plugin_section => $plugins ) {
+		foreach ( $this->plugins as $plugin_section => $plugins ) {
 			$this->check_plugins_active( $plugins, $plugin_section );
 		}
 	}
@@ -175,7 +181,7 @@ class Yoast_Plugin_Conflict {
 	 * @param string $plugin_section
 	 */
 	protected function check_plugins_active( $plugins, $plugin_section ) {
-		foreach ( $plugins AS $plugin ) {
+		foreach ( $plugins as $plugin ) {
 			if ( $this->check_plugin_is_active( $plugin ) ) {
 				$this->add_active_plugin( $plugin_section, $plugin );
 			}
@@ -228,7 +234,7 @@ class Yoast_Plugin_Conflict {
 	 */
 	protected function find_plugin_category( $plugin ) {
 
-		foreach ( $this->plugins AS $plugin_section => $plugins ) {
+		foreach ( $this->plugins as $plugin_section => $plugins ) {
 			if ( in_array( $plugin, $plugins ) ) {
 				return $plugin_section;
 			}

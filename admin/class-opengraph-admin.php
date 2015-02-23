@@ -1,6 +1,7 @@
 <?php
 /**
- * @package Admin
+ * @package    WPSEO
+ * @subpackage Admin
  */
 
 /**
@@ -110,7 +111,7 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 
 			$reset_facebook_cache = false;
 
-			foreach ( $fields_to_compare AS $field_to_compare ) {
+			foreach ( $fields_to_compare as $field_to_compare ) {
 				$old_value = self::get_value( $field_to_compare, $post->ID );
 				$new_value = self::get_post_value( self::$form_prefix . $field_to_compare );
 
