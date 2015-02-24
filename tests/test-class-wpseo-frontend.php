@@ -1,4 +1,8 @@
 <?php
+/**
+ * @package    WPSEO
+ * @subpackage Unittests
+ */
 
 class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 
@@ -878,11 +882,11 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	* @param string $name
-	* @return string
-	*/
+	 * @param string $name
+	 * @return string
+	 */
 	private function get_option( $name ) {
-		return self::$class_instance->options[$name];
+		return self::$class_instance->options[ $name ];
 	}
 
 	/**
@@ -891,9 +895,9 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	 * @return void
 	 */
 	private function run_webmaster_tools_authentication_option_test( $option_name, $expected ) {
-		self::$class_instance->options[$option_name] = $option_name;
+		self::$class_instance->options[ $option_name ] = $option_name;
 		$this->expectOutput( $expected, self::$class_instance->webmaster_tools_authentication( ) );
-		self::$class_instance->options[$option_name] = '';
+		self::$class_instance->options[ $option_name ] = '';
 	}
 
 	/**

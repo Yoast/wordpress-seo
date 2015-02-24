@@ -1,4 +1,8 @@
 <?php
+/**
+ * @package    WPSEO
+ * @subpackage Unittests
+ */
 
 class WPSEO_Functions_Test extends WPSEO_UnitTestCase {
 
@@ -45,7 +49,7 @@ class WPSEO_Functions_Test extends WPSEO_UnitTestCase {
 		$post = get_post( $post_id );
 
 		$input    = '%%title%% %%excerpt%% %%date%% %%name%%';
-		$expected = 'Post_Title Post_Excerpt '. mysql2date( get_option( 'date_format' ), $post->post_date , true ) . ' User_Nicename';
+		$expected = 'Post_Title Post_Excerpt ' . mysql2date( get_option( 'date_format' ), $post->post_date, true ) . ' User_Nicename';
 		$output   = wpseo_replace_vars( $input, (array) $post );
 		$this->assertEquals( $expected, $output );
 
@@ -67,5 +71,4 @@ class WPSEO_Functions_Test extends WPSEO_UnitTestCase {
 	public function test_wpseo_wpml_config() {
 		// TODO
 	}
-
 }

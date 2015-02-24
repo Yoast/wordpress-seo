@@ -1,9 +1,13 @@
 <?php
+/**
+ * @package    WPSEO
+ * @subpackage Unittests
+ */
 
 class WPSEO_Snippet_Preview_Test extends WPSEO_UnitTestCase {
 
-	private $title = "some title";
-	private $description = "some description";
+	private $title = 'some title';
+	private $description = 'some description';
 
 	private $post;
 	private $date;

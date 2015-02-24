@@ -1,4 +1,8 @@
 <?php
+/**
+ * @package    WPSEO
+ * @subpackage Unittests
+ */
 
 class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 
@@ -39,5 +43,4 @@ class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 
 		$this->assertEquals( $date, date( 'c', strtotime( $post->post_modified_gmt ) ) );
 	}
-
 }
