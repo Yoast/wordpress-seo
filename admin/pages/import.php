@@ -199,10 +199,11 @@ if ( isset( $_POST['import'] ) || isset( $_GET['import'] ) ) {
 		unset( $posts, $post, $custom, $robotsmeta_adv );
 
 		if ( $replace ) {
-			foreach ( array( 'noarchive', 'noodp', 'noydir' ) as $meta ) {
+			$hs_meta = array( 'noarchive', 'noodp', 'noydir' );
+			foreach ( $hs_meta as $meta ) {
 				delete_post_meta_by_key( '_headspace_' . $meta );
 			}
-			unset( $meta );
+			unset( $hs_meta, $meta );
 		}
 		$msg .= __( 'HeadSpace2 data successfully imported', 'wordpress-seo' );
 	}
@@ -242,7 +243,7 @@ if ( isset( $_POST['import'] ) || isset( $_GET['import'] ) ) {
 			);
 
 			if ( get_option( 'yst_ga' ) == false ) {
-				$options['ga_general']	= $ga_settings;
+				$options['ga_general'] = $ga_settings;
 				update_option( 'yst_ga', $options );
 			}
 
@@ -360,7 +361,7 @@ if ( isset( $_POST['import'] ) || isset( $_GET['import'] ) ) {
 
 $wpseo_admin_pages->admin_header( false );
 if ( $msg != '' ) {
-	echo '<div id="message" class="message updated" style="width:94%;"><p>' . $msg . '</p></div>';
+	echo '<div id="message" class="message updated" style="width:94%;"><p>', $msg, '</p></div>';
 }
 
 $content = '<p>' . __( 'No doubt you\'ve used an SEO plugin before if this site isn\'t new. Let\'s make it easy on you, you can import the data below. If you want, you can import first, check if it was imported correctly, and then import &amp; delete. No duplicate data will be imported.', 'wordpress-seo' ) . '</p>';

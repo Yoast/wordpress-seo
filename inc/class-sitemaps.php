@@ -404,13 +404,13 @@ class WPSEO_Sitemaps {
 				$query = $wpdb->prepare( "SELECT COUNT(ID) FROM $wpdb->posts {$join_filter} WHERE post_status IN ('publish','inherit') AND post_password = '' AND post_author != 0 AND post_date != '0000-00-00 00:00:00' AND post_type = %s " . $where_filter, $post_type );
 
 				$count = $wpdb->get_var( $query );
-				if ( $count == 0 ) {
+				if ( $count === 0 ) {
 					continue;
 				}
 
 				$n = ( $count > $this->max_entries ) ? (int) ceil( $count / $this->max_entries ) : 1;
 				for ( $i = 0; $i < $n; $i ++ ) {
-					$count = ( $n > 1 ) ? ($i + 1) : '';
+					$count = ( $n > 1 ) ? ( $i + 1 ) : '';
 
 					if ( empty( $count ) || $count == $n ) {
 						$date = $this->get_last_modified( $post_type );
@@ -438,7 +438,7 @@ class WPSEO_Sitemaps {
 		$taxonomies     = get_taxonomies( array( 'public' => true ), 'objects' );
 		$taxonomy_names = array_keys( $taxonomies );
 
-		if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
+		if ( is_array( $taxonomy_names ) && $taxonomy_names !== array() ) {
 			foreach ( $taxonomy_names as $tax ) {
 				if ( in_array( $tax, array( 'link_category', 'nav_menu', 'post_format' ) ) ) {
 					unset( $taxonomy_names[ $tax ], $taxonomies[ $tax ] );
@@ -458,7 +458,7 @@ class WPSEO_Sitemaps {
 			unset( $tax );
 
 			// Retrieve all the taxonomies and their terms so we can do a proper count on them.
-			$hide_empty         = ( apply_filters( 'wpseo_sitemap_exclude_empty_terms', true, $tax ) ) ? 'count != 0 AND' : '';
+			$hide_empty         = ( apply_filters( 'wpseo_sitemap_exclude_empty_terms', true, $taxonomy_names ) ) ? 'count != 0 AND' : '';
 			$query              = "SELECT taxonomy, term_id FROM $wpdb->term_taxonomy WHERE $hide_empty taxonomy IN ('" . implode( "','", $taxonomy_names ) . "');";
 			$all_taxonomy_terms = $wpdb->get_results( $query );
 			$all_taxonomies     = array();
@@ -474,7 +474,7 @@ class WPSEO_Sitemaps {
 				$n     = ( $count > $this->max_entries ) ? (int) ceil( $count / $this->max_entries ) : 1;
 
 				for ( $i = 0; $i < $n; $i ++ ) {
-					$count = ( $n > 1 ) ? ($i + 1) : '';
+					$count = ( $n > 1 ) ? ( $i + 1 ) : '';
 
 					if ( ! is_array( $tax->object_type ) || count( $tax->object_type ) == 0 ) {
 						continue;
@@ -534,7 +534,7 @@ class WPSEO_Sitemaps {
 			$n     = ( $count > $this->max_entries ) ? (int) ceil( $count / $this->max_entries ) : 1;
 
 			for ( $i = 0; $i < $n; $i ++ ) {
-				$count = ( $n > 1 ) ? ($i + 1) : '';
+				$count = ( $n > 1 ) ? ( $i + 1 ) : '';
 
 				// must use custom raw query because WP User Query does not support ordering by usermeta
 				// Retrieve the newest updated profile timestamp overall
@@ -562,7 +562,7 @@ class WPSEO_Sitemaps {
 						$wpdb->prepare(
 							$date_query . ' DESC LIMIT 1 OFFSET %d',
 							$wpdb->get_blog_prefix() . 'user_level',
-							($this->max_entries * ( $i + 1 ) - 1)
+							( ( $this->max_entries * ( $i + 1 ) ) - 1 )
 						)
 					);
 				}
@@ -636,13 +636,11 @@ class WPSEO_Sitemaps {
 
 		$steps  = ( 100 > $this->max_entries ) ? $this->max_entries : 100;
 		$n      = (int) $this->n;
-		$offset = ( $n > 1 ) ? (( $n - 1 ) * $this->max_entries) : 0;
-		$total  = ($offset + $this->max_entries);
+		$offset = ( $n > 1 ) ? ( ( $n - 1 ) * $this->max_entries ) : 0;
+		$total  = ( $offset + $this->max_entries );
 
-		$join_filter  = '';
-		$join_filter  = apply_filters( 'wpseo_typecount_join', $join_filter, $post_type );
-		$where_filter = '';
-		$where_filter = apply_filters( 'wpseo_typecount_where', $where_filter, $post_type );
+		$join_filter  = apply_filters( 'wpseo_typecount_join', '', $post_type );
+		$where_filter = apply_filters( 'wpseo_typecount_where', '', $post_type );
 
 		$query = $wpdb->prepare( "SELECT COUNT(ID) FROM $wpdb->posts {$join_filter} WHERE post_status IN ('publish','inherit') AND post_password = '' AND post_author != 0 AND post_date != '0000-00-00 00:00:00' AND post_type = %s " . $where_filter, $post_type );
 
@@ -667,11 +665,11 @@ class WPSEO_Sitemaps {
 				$page_for_posts = get_option( 'page_for_posts' );
 				if ( $page_for_posts ) {
 					$page_for_posts_url = get_permalink( $page_for_posts );
-					$output .= $this->sitemap_url(
+					$output            .= $this->sitemap_url(
 						array(
 							'loc' => $page_for_posts_url,
 							'pri' => 1,
-							'chf' => $change_freq = $this->filter_frequency( 'blogpage', 'daily', $page_for_posts_url ),
+							'chf' => $this->filter_frequency( 'blogpage', 'daily', $page_for_posts_url ),
 						)
 					);
 					unset( $page_for_posts_url );
@@ -766,7 +764,7 @@ class WPSEO_Sitemaps {
 			}
 			unset( $post_ids );
 
-			$offset = ($offset + $steps);
+			$offset = ( $offset + $steps );
 
 			if ( is_array( $posts ) && $posts !== array() ) {
 				foreach ( $posts as $p ) {
@@ -877,18 +875,17 @@ class WPSEO_Sitemaps {
 									'src' => apply_filters( 'wpseo_xml_sitemap_img_src', $src, $p )
 								);
 
-								if ( preg_match( '`title=["\']([^"\']+)["\']`', $img, $match ) ) {
-									$image['title'] = str_replace( array( '-', '_' ), ' ', $match[1] );
+								if ( preg_match( '`title=["\']([^"\']+)["\']`', $img, $title_match ) ) {
+									$image['title'] = str_replace( array( '-', '_' ), ' ', $title_match[1] );
 								}
 								unset( $title_match );
 
-								if ( preg_match( '`alt=["\']([^"\']+)["\']`', $img, $match ) ) {
-									$image['alt'] = str_replace( array( '-', '_' ), ' ', $match[1] );
+								if ( preg_match( '`alt=["\']([^"\']+)["\']`', $img, $alt_match ) ) {
+									$image['alt'] = str_replace( array( '-', '_' ), ' ', $alt_match[1] );
 								}
 								unset( $alt_match );
 
-								$image = apply_filters( 'wpseo_xml_sitemap_img', $image, $p );
-
+								$image           = apply_filters( 'wpseo_xml_sitemap_img', $image, $p );
 								$url['images'][] = $image;
 							}
 							unset( $match, $src );
@@ -909,7 +906,7 @@ class WPSEO_Sitemaps {
 						// Use this filter to adjust the entry before it gets added to the sitemap
 						$url = apply_filters( 'wpseo_sitemap_entry', $url, 'post', $p );
 						if ( is_array( $url ) && $url !== array() ) {
-							$output .= $this->sitemap_url( $url );
+							$output       .= $this->sitemap_url( $url );
 							$stackedurls[] = $url['loc'];
 						}
 					}
@@ -963,7 +960,7 @@ class WPSEO_Sitemaps {
 
 		$steps  = $this->max_entries;
 		$n      = (int) $this->n;
-		$offset = ( $n > 1 ) ? (( $n - 1 ) * $this->max_entries) : 0;
+		$offset = ( $n > 1 ) ? ( ( $n - 1 ) * $this->max_entries ) : 0;
 
 		/**
 		 * Filter: 'wpseo_sitemap_exclude_empty_terms' - Allow people to include empty terms in sitemap
@@ -1075,7 +1072,7 @@ class WPSEO_Sitemaps {
 
 		$steps  = $this->max_entries;
 		$n      = (int) $this->n;
-		$offset = ( $n > 1 ) ? (( $n - 1 ) * $this->max_entries) : 0;
+		$offset = ( $n > 1 ) ? ( ( $n - 1 ) * $this->max_entries ) : 0;
 
 		// initial query to fill in missing usermeta with the current timestamp
 		$users = get_users(
@@ -1124,7 +1121,7 @@ class WPSEO_Sitemaps {
 					$url = array(
 						'loc' => $author_link,
 						'pri' => 0.8,
-						'chf' => $change_freq = $this->filter_frequency( 'author_archive', 'daily', $author_link ),
+						'chf' => $this->filter_frequency( 'author_archive', 'daily', $author_link ),
 						'mod' => date( 'c', isset( $user->_yoast_wpseo_profile_updated ) ? $user->_yoast_wpseo_profile_updated : time() ),
 					);
 					// Use this filter to adjust the entry before it gets added to the sitemap
@@ -1175,7 +1172,7 @@ class WPSEO_Sitemaps {
 			$expires = YEAR_IN_SECONDS;
 			header( 'Pragma: public' );
 			header( 'Cache-Control: maxage=' . $expires );
-			header( 'Expires: ' . gmdate( 'D, d M Y H:i:s', (time() + $expires) ) . ' GMT' );
+			header( 'Expires: ' . gmdate( 'D, d M Y H:i:s', ( time() + $expires ) ) . ' GMT' );
 
 			require_once( WPSEO_PATH . 'css/xml-sitemap-xsl.php' );
 		}
@@ -1192,12 +1189,12 @@ class WPSEO_Sitemaps {
 		// Prevent the search engines from indexing the XML Sitemap.
 		header( 'X-Robots-Tag: noindex,follow', true );
 		header( 'Content-Type: text/xml' );
-		echo '<?xml version="1.0" encoding="' . esc_attr( $this->charset ) . '"?>';
+		echo '<?xml version="1.0" encoding="', esc_attr( $this->charset ), '"?>';
 		if ( $this->stylesheet ) {
-			echo apply_filters( 'wpseo_stylesheet_url', $this->stylesheet ) . "\n";
+			echo apply_filters( 'wpseo_stylesheet_url', $this->stylesheet ), "\n";
 		}
 		echo $this->sitemap;
-		echo "\n" . '<!-- XML Sitemap generated by Yoast WordPress SEO -->';
+		echo "\n", '<!-- XML Sitemap generated by Yoast WordPress SEO -->';
 
 		$debug_display = defined( 'WP_DEBUG_DISPLAY' ) && true === WP_DEBUG_DISPLAY;
 		$debug         = defined( 'WP_DEBUG' ) && true === WP_DEBUG;
@@ -1205,13 +1202,12 @@ class WPSEO_Sitemaps {
 
 		if ( $debug_display && ( $debug || $wpseo_debug ) ) {
 			if ( $this->transient ) {
-				echo "\n" . '<!-- ' . number_format( ( memory_get_peak_usage() / 1024 / 1024 ), 2 ) . 'MB | Served from transient cache -->';
+				echo "\n", '<!-- ', number_format( ( memory_get_peak_usage() / 1024 / 1024 ), 2 ), 'MB | Served from transient cache -->';
 			}
 			else {
-				global $wpdb;
-				echo "\n" . '<!-- ' . number_format( ( memory_get_peak_usage() / 1024 / 1024 ), 2 ) . 'MB | ' . esc_attr( $wpdb->num_queries ) . ' -->';
+				echo "\n", '<!-- ', number_format( ( memory_get_peak_usage() / 1024 / 1024 ), 2 ), 'MB | ', esc_attr( $GLOBALS['wpdb']->num_queries ), ' -->';
 				if ( defined( 'SAVEQUERIES' ) && SAVEQUERIES ) {
-					echo "\n" . '<!--' . print_r( $wpdb->queries, true ) . '-->';
+					echo "\n", '<!--', print_r( $GLOBALS['wpdb']->queries, true ), '-->';
 				}
 			}
 		}
@@ -1358,7 +1354,7 @@ class WPSEO_Sitemaps {
 			return 0;
 		}
 
-		return ( $a->_yoast_wpseo_profile_updated > $b->_yoast_wpseo_profile_updated ) ? 1 : (- 1);
+		return ( ( $a->_yoast_wpseo_profile_updated > $b->_yoast_wpseo_profile_updated ) ? 1 : -1 );
 	}
 
 	/**
@@ -1384,7 +1380,7 @@ class WPSEO_Sitemaps {
 				}
 				elseif ( $options['disable_author_noposts'] === true ) {
 					$count_posts  = count_user_posts( $user->ID );
-					$exclude_user = $count_posts == 0;
+					$exclude_user = ( $count_posts == 0 );
 					unset( $count_posts );
 				}
 				else {
@@ -1427,13 +1423,15 @@ class WPSEO_Sitemaps {
 		if ( $file = get_post_meta( $post_id, '_wp_attached_file', true ) ) { // Get attached file
 			if ( 0 === strpos( $file, $uploads['basedir'] ) ) { // Check that the upload base exists in the file location
 				$url = str_replace( $uploads['basedir'], $uploads['baseurl'], $file );
-			} //replace file location with url location
-			elseif ( false !== strpos( $file, 'wp-content/uploads' ) ) {
-				$url = $uploads['baseurl'] . substr( $file, (strpos( $file, 'wp-content/uploads' ) + 18) );
 			}
+			// Replace file location with url location
+			elseif ( false !== strpos( $file, 'wp-content/uploads' ) ) {
+				$url = $uploads['baseurl'] . substr( $file, ( strpos( $file, 'wp-content/uploads' ) + 18 ) );
+			}
+			// It's a newly uploaded file, therefore $file is relative to the baseurl.
 			else {
 				$url = $uploads['baseurl'] . "/$file";
-			} //Its a newly uploaded file, therefore $file is relative to the basedir.
+			}
 		}
 
 		return $url;

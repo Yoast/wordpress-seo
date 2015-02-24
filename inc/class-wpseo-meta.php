@@ -438,7 +438,6 @@ class WPSEO_Meta {
 						$field_defs['sitemap-prio']
 					);
 				}
-
 				break;
 		}
 
@@ -528,7 +527,7 @@ class WPSEO_Meta {
 				}
 				break;
 
-			case ( 'multiselect' === $field_def['type'] ) :
+			case ( 'multiselect' === $field_def['type'] ):
 				$clean = $meta_value;
 				break;
 

@@ -63,7 +63,7 @@ class WPSEO_GooglePlus {
 			$desc = trim( apply_filters( 'wpseo_googleplus_desc', $desc ) );
 
 			if ( is_string( $desc ) && '' !== $desc ) {
-				echo '<meta itemprop="description" content="' . esc_attr( $desc ) . '">' . "\n";
+				echo '<meta itemprop="description" content="', esc_attr( $desc ), '">', "\n";
 			}
 		}
 	}
@@ -85,7 +85,7 @@ class WPSEO_GooglePlus {
 			if ( is_string( $title ) && $title !== '' ) {
 				$title = wpseo_replace_vars( $title, get_post() );
 
-				echo '<meta itemprop="name" content="' . esc_attr( $title ) . '">' . "\n";
+				echo '<meta itemprop="name" content="', esc_attr( $title ), '">', "\n";
 			}
 		}
 	}
@@ -105,7 +105,7 @@ class WPSEO_GooglePlus {
 			$image = trim( apply_filters( 'wpseo_googleplus_image', $image ) );
 
 			if ( is_string( $image ) && $image !== '' ) {
-				echo '<meta itemprop="image" content="' . esc_url( $image ) . '">' . "\n";
+				echo '<meta itemprop="image" content="', esc_url( $image ), '">', "\n";
 			}
 		}
 	}

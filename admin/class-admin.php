@@ -205,7 +205,7 @@ class WPSEO_Admin {
 				$admin_page = add_submenu_page( $submenu_page[0], $submenu_page[2] . ' - ' . __( 'Yoast WordPress SEO:', 'wordpress-seo' ), $submenu_page[2], $submenu_page[3], $submenu_page[4], $submenu_page[5] );
 
 				// Check if we need to hook
-				if ( isset( $submenu_page[6] ) && null != $submenu_page[6] && is_array( $submenu_page[6] ) && count( $submenu_page[6] ) > 0 ) {
+				if ( isset( $submenu_page[6] ) && ( is_array( $submenu_page[6] ) && $submenu_page[6] !== array() ) ) {
 					foreach ( $submenu_page[6] as $submenu_page_action ) {
 						add_action( 'load-' . $admin_page, $submenu_page_action );
 					}
@@ -388,8 +388,19 @@ class WPSEO_Admin {
 		if ( $this->options['ignore_blog_public_warning'] === true ) {
 			return;
 		}
-		echo '<div id="robotsmessage" class="error">';
-		echo '<p><strong>' . __( 'Huge SEO Issue: You\'re blocking access to robots.', 'wordpress-seo' ) . '</strong> ' . sprintf( __( 'You must %sgo to your Reading Settings%s and uncheck the box for Search Engine Visibility.', 'wordpress-seo' ), '<a href="' . esc_url( admin_url( 'options-reading.php' ) ) . '">', '</a>' ) . ' <a href="javascript:wpseo_setIgnore(\'blog_public_warning\',\'robotsmessage\',\'' . esc_js( wp_create_nonce( 'wpseo-ignore' ) ) . '\');" class="button">' . __( 'I know, don\'t bug me.', 'wordpress-seo' ) . '</a></p></div>';
+		printf( '
+			<div id="robotsmessage" class="error">
+				<p>
+					<strong>%1$s</strong>
+					%2$s
+					<a href="javascript:wpseo_setIgnore(\'blog_public_warning\',\'robotsmessage\',\'%3$s\');" class="button">%4$s</a>
+				</p>
+			</div>',
+			__( 'Huge SEO Issue: You\'re blocking access to robots.', 'wordpress-seo' ),
+			sprintf( __( 'You must %sgo to your Reading Settings%s and uncheck the box for Search Engine Visibility.', 'wordpress-seo' ), sprintf( '<a href="%s">', esc_url( admin_url( 'options-reading.php' ) ) ), '</a>' ),
+			esc_js( wp_create_nonce( 'wpseo-ignore' ) ),
+			__( 'I know, don\'t bug me.', 'wordpress-seo' )
+		);
 	}
 
 	/**
@@ -411,8 +422,19 @@ class WPSEO_Admin {
 			return;
 		}
 
-		echo '<div id="metamessage" class="error">';
-		echo '<p><strong>' . __( 'SEO Issue:', 'wordpress-seo' ) . '</strong> ' . sprintf( __( 'Your theme contains a meta description, which blocks WordPress SEO from working properly. Please visit the %sSEO Dashboard%s to fix this.', 'wordpress-seo' ), '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_dashboard' ) ) . '">', '</a>' ) . ' <a href="javascript:wpseo_setIgnore(\'meta_description_warning\',\'metamessage\',\'' . esc_js( wp_create_nonce( 'wpseo-ignore' ) ) . '\');" class="button">' . __( 'I know, don\'t bug me.', 'wordpress-seo' ) . '</a></p></div>';
+		printf( '
+			<div id="metamessage" class="error">
+				<p>
+					<strong>%1$s</strong>
+					%2$s
+					<a href="javascript:wpseo_setIgnore(\'meta_description_warning\',\'metamessage\',\'%3$s\');" class="button">%4$s</a>
+				</p>
+			</div>',
+			__( 'SEO Issue:', 'wordpress-seo' ),
+			sprintf( __( 'Your theme contains a meta description, which blocks WordPress SEO from working properly. Please visit the %sSEO Dashboard%s to fix this.', 'wordpress-seo' ), sprintf( '<a href="%s">', esc_url( admin_url( 'admin.php?page=wpseo_dashboard' ) ) ), '</a>' ),
+			esc_js( wp_create_nonce( 'wpseo-ignore' ) ),
+			__( 'I know, don\'t bug me.', 'wordpress-seo' )
+		);
 	}
 
 	/**
@@ -420,10 +442,10 @@ class WPSEO_Admin {
 	 *
 	 * @staticvar string $this_plugin holds the directory & filename for the plugin
 	 *
-	 * @param    array  $links array of links for the plugins, adapted when the current plugin is found.
-	 * @param    string $file  the filename for the current plugin, which the filter loops through.
+	 * @param array  $links array of links for the plugins, adapted when the current plugin is found.
+	 * @param string $file  the filename for the current plugin, which the filter loops through.
 	 *
-	 * @return    array    $links
+	 * @return array $links
 	 */
 	function add_action_link( $links, $file ) {
 		if ( WPSEO_BASENAME === $file && WPSEO_Utils::grant_access() ) {
@@ -463,9 +485,9 @@ class WPSEO_Admin {
 	 *
 	 * These are used with the Facebook author, rel="author" and Twitter cards implementation.
 	 *
-	 * @param    array $contactmethods currently set contactmethods.
+	 * @param array $contactmethods currently set contactmethods.
 	 *
-	 * @return    array    $contactmethods with added contactmethods.
+	 * @return array $contactmethods with added contactmethods.
 	 */
 	public function update_contactmethods( $contactmethods ) {
 		// Add Google+
@@ -557,7 +579,7 @@ class WPSEO_Admin {
 
 				// Check whether the stopword appears as a whole word
 				// @todo [JRF => whomever] check whether the use of \b (=word boundary) would be more efficient ;-)
-				$res = preg_match( "`(^|[ \n\r\t\.,'\(\)\"\+;!?:])" . preg_quote( $stopWord, '`' ) . "($|[ \n\r\t\.,'\(\)\"\+;!?:])`iu", $haystack, $match );
+				$res = preg_match( "`(^|[ \n\r\t\.,'\(\)\"\+;!?:])" . preg_quote( $stopWord, '`' ) . "($|[ \n\r\t\.,'\(\)\"\+;!?:])`iu", $haystack );
 				if ( $res > 0 ) {
 					return $stopWord;
 				}

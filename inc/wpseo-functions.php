@@ -215,7 +215,7 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
  * @param  string $type             Type of variable: 'basic' or 'advanced', defaults to 'advanced'
  * @param  string $help_text        Help text to be added to the help tab for this variable
  *
- * @return bool     Whether the replacement function was succesfully registered
+ * @return bool  Whether the replacement function was succesfully registered
  */
 function wpseo_register_var_replacement( $var, $replace_function, $type = 'advanced', $help_text = '' ) {
 	return WPSEO_Replace_Vars::register_replacement( $var, $replace_function, $type, $help_text );
@@ -573,11 +573,11 @@ function replace_meta( $old_metakey, $new_metakey, $replace = false ) {
  * @param string        $taxonomy name of the taxonomy to which the term is attached
  * @param string        $meta     meta value to get
  *
- * @return void
+ * @return bool|mixed value when the meta exists, false when it does not
  */
 function wpseo_get_term_meta( $term, $taxonomy, $meta ) {
 	_deprecated_function( __FUNCTION__, 'WPSEO 1.5.0', 'WPSEO_Taxonomy_Meta::get_term_meta()' );
-	WPSEO_Taxonomy_Meta::get_term_meta( $term, $taxonomy, $meta );
+	return WPSEO_Taxonomy_Meta::get_term_meta( $term, $taxonomy, $meta );
 }
 
 /**

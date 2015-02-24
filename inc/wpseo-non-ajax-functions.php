@@ -93,7 +93,7 @@ function wpseo_description_test() {
 	if ( is_string( $file ) && $file !== '' ) {
 		$header_file = file_get_contents( $file );
 		$issue       = preg_match_all( '#<\s*meta\s*(name|content)\s*=\s*("|\')(.*)("|\')\s*(name|content)\s*=\s*("|\')(.*)("|\')(\s+)?/?>#i', $header_file, $matches, PREG_SET_ORDER );
-		if ( $issue === false ) {
+		if ( $issue === false || $issue === 0 ) {
 			$options['theme_has_description'] = false;
 		}
 		else {
@@ -590,7 +590,8 @@ add_action( 'admin_init', 'wpseo_disable_aioseo' );
  * @since 1.4.8
  */
 function wpseo_import_aioseo_setting_notice() {
-	echo '<div class="error"><p>' . sprintf( esc_html__( 'The plugin All-In-One-SEO has been detected. Do you want to %simport its settings%s.', 'wordpress-seo' ), '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_import&import=1&importaioseo=1&_wpnonce=' . wp_create_nonce( 'wpseo-import' ) ) ) . '">', '</a>' ) . '</p></div>';
+	$url = add_query_arg( array( '_wpnonce' => wp_create_nonce( 'wpseo-import' ) ), admin_url( 'admin.php?page=wpseo_import&import=1&importaioseo=1' ) );
+	echo '<div class="error"><p>', sprintf( esc_html__( 'The plugin All-In-One-SEO has been detected. Do you want to %simport its settings%s?', 'wordpress-seo' ), sprintf( '<a href="%s">', esc_url( $url ) ), '</a>' ), '</p></div>';
 }
 
 /**
@@ -599,7 +600,7 @@ function wpseo_import_aioseo_setting_notice() {
  * @since 1.4.8
  */
 function wpseo_deactivate_aioseo_notice() {
-	echo '<div class="updated"><p>' . esc_html__( 'All-In-One-SEO has been deactivated', 'wordpress-seo' ) . '</p></div>';
+	echo '<div class="updated"><p>', esc_html__( 'All-In-One-SEO has been deactivated', 'wordpress-seo' ), '</p></div>';
 }
 
 /**
@@ -608,7 +609,8 @@ function wpseo_deactivate_aioseo_notice() {
  * @since 1.4.8
  */
 function wpseo_import_robots_meta_notice() {
-	echo '<div class="error"><p>' . sprintf( esc_html__( 'The plugin Robots-Meta has been detected. Do you want to %simport its settings%s.', 'wordpress-seo' ), '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_import&import=1&importrobotsmeta=1&_wpnonce=' . wp_create_nonce( 'wpseo-import' ) ) ) . '">', '</a>' ) . '</p></div>';
+	$url = add_query_arg( array( '_wpnonce' => wp_create_nonce( 'wpseo-import' ) ), admin_url( 'admin.php?page=wpseo_import&import=1&importrobotsmeta=1' ) );
+	echo '<div class="error"><p>', sprintf( esc_html__( 'The plugin Robots-Meta has been detected. Do you want to %simport its settings%s.', 'wordpress-seo' ), sprintf( '<a href="%s">', esc_url( $url ) ), '</a>' ), '</p></div>';
 }
 
 /**
@@ -617,7 +619,7 @@ function wpseo_import_robots_meta_notice() {
  * @since 1.4.8
  */
 function wpseo_deactivate_robots_meta_notice() {
-	echo '<div class="updated"><p>' . esc_html__( 'Robots-Meta has been deactivated', 'wordpress-seo' ) . '</p></div>';
+	echo '<div class="updated"><p>', esc_html__( 'Robots-Meta has been deactivated', 'wordpress-seo' ), '</p></div>';
 }
 
 /********************** DEPRECATED FUNCTIONS **********************/

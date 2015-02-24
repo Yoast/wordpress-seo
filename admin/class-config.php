@@ -108,20 +108,28 @@ class WPSEO_Admin_Pages {
 
 				$service_banner = $service_banners[0];
 
-				echo '<a target="_blank" href="' . esc_url( $service_banner['url'] ) . '"><img width="261" height="190" src="' . plugins_url( 'images/' . $service_banner['img'], WPSEO_FILE ) . '" alt="' . esc_attr( $service_banner['alt'] ) . '"/></a><br/><br/>';
+				printf( '<a target="_blank" href="%1$s"><img width="261" height="190" src="%2$s" alt="%3$s"/></a><br/><br/>',
+					esc_url( $service_banner['url'] ),
+					plugins_url( 'images/' . $service_banner['img'], WPSEO_FILE ),
+					esc_attr( $service_banner['alt'] )
+				);
 
 				$i = 0;
 				foreach ( $plugin_banners as $banner ) {
 					if ( $i == 2 ) {
 						break;
 					}
-					echo '<a target="_blank" href="' . esc_url( $banner['url'] ) . '"><img width="261" src="' . plugins_url( 'images/' . $banner['img'], WPSEO_FILE ) . '" alt="' . esc_attr( $banner['alt'] ) . '"/></a><br/><br/>';
+					printf( '<a target="_blank" href="%1$s"><img width="261" src="%2$s" alt="%3$s"/></a><br/><br/>',
+						esc_url( $banner['url'] ),
+						plugins_url( 'images/' . $banner['img'], WPSEO_FILE ),
+						esc_attr( $banner['alt'] )
+					);
 					$i ++;
 				}
 				?>
 				<?php
-				echo __( 'Remove these ads?', 'wordpress-seo' ) . '<br/>';
-				echo '<a target="_blank" href="https://yoast.com/wordpress/plugins/seo-premium/#utm_source=wordpress-seo-config&utm_medium=textlink&utm_campaign=remove-ads-link">' . __( 'Upgrade to WordPress SEO Premium &raquo;', 'wordpress-seo' ) . '</a><br/><br/>';
+				echo __( 'Remove these ads?', 'wordpress-seo' ), '<br/>';
+				echo '<a target="_blank" href="https://yoast.com/wordpress/plugins/seo-premium/#utm_source=wordpress-seo-config&utm_medium=textlink&utm_campaign=remove-ads-link">', __( 'Upgrade to WordPress SEO Premium &raquo;', 'wordpress-seo' ), '</a><br/><br/>';
 				?>
 			</div>
 		</div>
@@ -154,7 +162,11 @@ class WPSEO_Admin_Pages {
 		<div class="meta-box-sortables">
 		<?php
 		if ( $form === true ) {
-			echo '<form action="' . esc_url( admin_url( 'options.php' ) ) . '" method="post" id="wpseo-conf"' . ( ( $contains_files ) ? ' enctype="multipart/form-data"' : '' ) . ' accept-charset="' . esc_attr( get_bloginfo( 'charset' ) ) . '">';
+			printf( '<form action="%1$s" method="post" id="wpseo-conf"%2$s accept-charset="%3$s">',
+				esc_url( admin_url( 'options.php' ) ),
+				( ( $contains_files === true ) ? ' enctype="multipart/form-data"' : '' ),
+				esc_attr( get_bloginfo( 'charset' ) )
+			);
 			settings_fields( $option );
 		}
 		$this->currentoption = $optionshort;
@@ -204,13 +216,13 @@ class WPSEO_Admin_Pages {
 			<div id="poststuff">
 			<div id="wpseo-debug-info" class="postbox">
 
-				<h3 class="hndle"><span>' . __( 'Debug Information', 'wordpress-seo' ) . '</span></h3>
+				<h3 class="hndle"><span>', __( 'Debug Information', 'wordpress-seo' ), '</span></h3>
 				<div class="inside">
-					<h4>' . esc_html( __( 'Current option:', 'wordpress-seo' ) ) . ' <span class="wpseo-debug">' . esc_html( $this->currentoption ) . '</span></h4>
-					' . ( ( $xdebug ) ? '' : '<pre>' );
+					<h4>', esc_html( __( 'Current option:', 'wordpress-seo' ) ), ' <span class="wpseo-debug">', esc_html( $this->currentoption ), '</span></h4>
+					', ( ( $xdebug === true ) ? '' : '<pre>' );
 			var_dump( $this->get_option( $this->currentoption ) );
 			echo '
-					' . ( ( $xdebug ) ? '' : '</pre>' ) . '
+					', ( ( $xdebug === true ) ? '' : '</pre>' ), '
 				</div>
 			</div>
 			</div>';

@@ -83,7 +83,7 @@ class WPSEO_OpenGraph {
 			return false;
 		}
 
-		echo '<meta property="' . esc_attr( $property ) . '" content="' . esc_attr( $content ) . '" />' . "\n";
+		echo '<meta property="', esc_attr( $property ), '" content="', esc_attr( $content ), '" />', "\n";
 
 		return true;
 	}

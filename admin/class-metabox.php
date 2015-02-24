@@ -269,13 +269,18 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			}
 		}
 
-		echo '<div title="' . esc_attr( $title ) . '" class="' . esc_attr( 'wpseo-score-icon ' . $score_label ) . '"></div>';
-
-		echo __( 'SEO: ', 'wordpress-seo' ) . '<span class="wpseo-score-title">' . $score_title . '</span>';
-
-		echo ' <a class="wpseo_tablink scroll" href="#wpseo_linkdex">' . __( 'Check', 'wordpress-seo' ) . '</a>';
-
-		echo '</div>';
+		printf( '
+		<div class="misc-pub-section misc-yoast misc-pub-section-last">
+			<div title="%1$s" class="%2$s"></div>
+			%3$s <span class="wpseo-score-title">%4$s</span>
+			<a class="wpseo_tablink scroll" href="#wpseo_linkdex">%5$s</a>
+		</div>',
+			esc_attr( $title ),
+			esc_attr( 'wpseo-score-icon ' . $score_label ),
+			__( 'SEO:', 'wordpress-seo' ),
+			$score_title,
+			__( 'Check', 'wordpress-seo' )
+		);
 	}
 
 	/**
@@ -510,7 +515,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			case 'multiselect':
 				if ( isset( $meta_field_def['options'] ) && is_array( $meta_field_def['options'] ) && $meta_field_def['options'] !== array() ) {
 
-					// Set $meta_value as $selectedarr
+					// Set $meta_value as $selected_arr
 					$selected_arr = $meta_value;
 
 					// If the multiselect field is 'meta-robots-adv' we should explode on ,
@@ -766,16 +771,19 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'noindex' => __( 'SEO: Post Noindexed', 'wordpress-seo' )
 		);
 
-		echo '<select name="seo_filter">';
-		echo '<option value="">' . __( 'All SEO Scores', 'wordpress-seo' ) . '</option>';
+		echo '
+			<select name="seo_filter">
+				<option value="">', __( 'All SEO Scores', 'wordpress-seo' ), '</option>';
 		foreach ( $scores_array as $val => $text ) {
 			$sel = '';
 			if ( isset( $_GET['seo_filter'] ) ) {
 				$sel = selected( $_GET['seo_filter'], $val, false );
 			}
-			echo '<option ' . $sel . 'value="' . $val . '">' . $text . '</option>';
+			echo '
+				<option ', $sel, 'value="', $val, '">', $text. '</option>';
 		}
-		echo '</select>';
+		echo '
+			</select>';
 	}
 
 	/**
@@ -835,7 +843,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				}
 			}
 
-			echo '<div title="' . esc_attr( $title ) . '" class="wpseo-score-icon ' . esc_attr( $score_label ) . '"></div>';
+			echo '<div title="', esc_attr( $title ), '" class="wpseo-score-icon ', esc_attr( $score_label ), '"></div>';
 		}
 		if ( $column_name === 'wpseo-title' ) {
 			echo esc_html( apply_filters( 'wpseo_title', wpseo_replace_vars( $this->page_title( $post_id ), get_post( $post_id, ARRAY_A ) ) ) );
@@ -1288,7 +1296,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$overall_max = 0;
 
 		foreach ( $results as $result ) {
-			$overall += $result['val'];
+			$overall     += $result['val'];
 			$overall_max += 9;
 		}
 		unset( $result );
@@ -1543,6 +1551,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 						$found = true;
 					}
 				}
+				unset( $anchor_text );
 			}
 			if ( $found ) {
 				$this->save_score_result( $results, 2, $scoreKeywordInOutboundLink, 'links_focus_keyword' );
@@ -1669,6 +1678,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 					$found = true;
 				}
 			}
+			unset( $alt, $haystack1, $haystack2 );
+
 			if ( $found ) {
 				$this->save_score_result( $results, 9, $scoreImagesAltKeywordIn, 'images_alt' );
 			}
@@ -1688,15 +1699,17 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return array The updated images array.
 	 */
 	function get_images_alt_text( $post_id, $body, $imgs ) {
-		preg_match_all( '`<img[^>]+>`im', $body, $matches );
 		$imgs['alts'] = array();
-		if ( isset( $matches[0] ) && is_array( $matches[0] ) && $matches[0] !== array() ) {
+		if ( preg_match_all( '`<img[^>]+>`im', $body, $matches ) ) {
 			foreach ( $matches[0] as $img ) {
 				if ( preg_match( '`alt=(["\'])(.*?)\1`', $img, $alt ) && isset( $alt[2] ) ) {
 					$imgs['alts'][] = $this->strtolower_utf8( $alt[2] );
 				}
 			}
+			unset( $img, $alt );
 		}
+		unset( $matches );
+
 		if ( strpos( $body, '[gallery' ) !== false ) {
 			$attachments = get_children( array(
 				'post_parent'    => $post_id,
@@ -1748,6 +1761,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 					$found ++;
 				}
 			}
+			unset( $heading, $haystack1, $haystack2 );
+
 			if ( $found ) {
 				$this->save_score_result( $results, 9, sprintf( $scoreHeadingsKeywordIn, $found, $headingCount ), 'headings' );
 			}
@@ -1895,7 +1910,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			// Keyword Density check
 			$keywordDensity = 0;
 			if ( $wordCount > 100 ) {
-				$keywordCount = preg_match_all( '`\b' . preg_quote( $job['keyword'], '`' ) . '\b`miu', $body, $res );
+				$keywordCount = preg_match_all( '`\b' . preg_quote( $job['keyword'], '`' ) . '\b`miu', $body );
 				if ( ( $keywordCount > 0 && $keywordWordCount > 0 ) && $wordCount > $keywordCount ) {
 					$keywordDensity = WPSEO_Utils::calc( WPSEO_Utils::calc( $keywordCount, '/', WPSEO_Utils::calc( $wordCount, '-', ( WPSEO_Utils::calc( WPSEO_Utils::calc( $keywordWordCount, '-', 1 ), '*', $keywordCount ) ) ) ), '*', 100, true, 2 );
 				}
@@ -2021,8 +2036,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 */
 	function get_first_paragraph( $body ) {
 		// To determine the first paragraph we first need to autop the content, then match the first paragraph and return.
-		$res = preg_match( '`<p[.]*?>(.*)</p>`s', wpautop( $body ), $matches );
-		if ( $res ) {
+		if ( preg_match( '`<p[.]*?>(.*)</p>`s', wpautop( $body ), $matches ) ) {
 			return $matches[1];
 		}
 

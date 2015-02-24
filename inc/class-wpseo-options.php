@@ -2749,7 +2749,7 @@ class WPSEO_Option_Social extends WPSEO_Option {
 					break;
 
 				case 'twitter_card_type':
-					if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' && isset( self::$twitter_card_types[ $dirty[ $key ] ] ) ) {
+					if ( isset( $dirty[ $key ], self::$twitter_card_types[ $dirty[ $key ] ] ) && $dirty[ $key ] !== '' ) {
 						$clean[ $key ] = $dirty[ $key ];
 					}
 					break;
@@ -2768,7 +2768,7 @@ class WPSEO_Option_Social extends WPSEO_Option {
 		 * Will not always exist in form - if not available it means that fbapps is empty,
 		 * so leave the clean default.
 		 */
-		if ( ( isset( $dirty['fbadminapp'] ) && $dirty['fbadminapp'] != 0 ) && isset( $clean['fbapps'][ $dirty['fbadminapp'] ] ) ) {
+		if ( isset( $dirty['fbadminapp'], $clean['fbapps'][ $dirty['fbadminapp'] ] ) && $dirty['fbadminapp'] != 0 ) {
 			$clean['fbadminapp'] = $dirty['fbadminapp'];
 		}
 
@@ -3316,7 +3316,7 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 					break;
 
 				case 'wpseo_sitemap_include':
-					if ( isset( $meta_data[ $key ] ) && isset( self::$sitemap_include_options[ $meta_data[ $key ] ] ) ) {
+					if ( isset( $meta_data[ $key ], self::$sitemap_include_options[ $meta_data[ $key ] ] ) ) {
 						$clean[ $key ] = $meta_data[ $key ];
 					}
 					break;

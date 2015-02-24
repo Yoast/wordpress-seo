@@ -197,10 +197,7 @@ class Yoast_Plugin_Conflict {
 	 * @return bool
 	 */
 	protected function check_plugin_is_active( $plugin ) {
-
-		$is_plugin_active = in_array( $plugin, $this->all_active_plugins );
-
-		return $is_plugin_active;
+		return in_array( $plugin, $this->all_active_plugins );
 	}
 
 	/**

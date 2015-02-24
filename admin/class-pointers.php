@@ -252,7 +252,7 @@ class WPSEO_Pointers {
 						'function' => $adminpages[ $page ]['next_function'],
 					);
 				}
-				if ( isset( $adminpages[ $page ]['prev'] ) && isset( $adminpages[ $page ]['prev_function'] ) ) {
+				if ( isset( $adminpages[ $page ]['prev'], $adminpages[ $page ]['prev_function'] ) ) {
 					$button_array['button3'] = array(
 						'text'     => $adminpages[ $page ]['prev'],
 						'function' => $adminpages[ $page ]['prev_function'],

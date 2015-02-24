@@ -61,7 +61,7 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 	 * Output the tab header for the Social tab
 	 */
 	public function tab_header() {
-		echo '<li class="social"><a class="wpseo_tablink" href="#wpseo_social">' . __( 'Social', 'wordpress-seo' ) . '</a></li>';
+		echo '<li class="social"><a class="wpseo_tablink" href="#wpseo_social">', __( 'Social', 'wordpress-seo' ), '</a></li>';
 	}
 
 	/**

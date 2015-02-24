@@ -68,7 +68,7 @@ if ( isset( $_POST['submithtaccess'] ) ) {
 
 $wpseo_admin_pages->admin_header( false );
 if ( isset( $msg ) && ! empty( $msg ) ) {
-	echo '<div id="message" style="width:94%;" class="updated fade"><p>' . esc_html( $msg ) . '</p></div>';
+	echo '<div id="message" style="width:94%;" class="updated fade"><p>', esc_html( $msg ), '</p></div>';
 }
 
 $action_url = network_admin_url( 'admin.php?page=wpseo_files' ); // auto-falls back on admin_url for non-multisite
