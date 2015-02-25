@@ -717,4 +717,22 @@ class WPSEO_Utils {
 		return $string;
 	}
 
+	/**
+	 * Check if a string is a valid datetime
+	 *
+	 * @param string $datetime
+	 *
+	 * @return bool
+	 */
+	private static function is_valid_datetime( $datetime ) {
+		if ( substr( $datetime, 0, 1 ) != '-' ) {
+			// Use the DateTime class ( PHP 5.2 > ) to check if the string is a valid datetime
+			if ( new DateTime( $datetime ) !== false ) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 } /* End of class WPSEO_Utils */
