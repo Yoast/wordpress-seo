@@ -12,6 +12,20 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	protected $watch_type = 'post';
 
 	/**
+	 * Constructor of class
+	 */
+	public function __construct() {
+		add_action( 'admin_enqueue_scripts', array( $this, 'page_scripts' ) );
+	}
+
+	/**
+	 * Load needed js file
+	 */
+	public function page_scripts() {
+		wp_enqueue_script( 'wp-seo-premium-quickedit-notification', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/js/wp-seo-premium-quickedit-notification.js', array( 'jquery' ) );
+	}
+
+	/**
 	 * Add an extra field to post edit screen so we know the old url in the 'post_updated' hook
 	 *
 	 * @param $post
