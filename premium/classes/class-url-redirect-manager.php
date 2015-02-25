@@ -36,7 +36,7 @@ if ( class_exists( 'WPSEO_Redirect_Manager' ) && ! class_exists( 'WPSEO_URL_Redi
 			$url = htmlspecialchars_decode( urldecode( $_SERVER['REQUEST_URI'] ) );
 
 			// Get the URL and
-			if( $redirect_url = $this->find_url( $url, $this->redirects ) ) {
+			if( $redirect_url = $this->find_url( $url ) ) {
 				$this->do_redirect( $url, $redirect_url );
 			}
 		}
