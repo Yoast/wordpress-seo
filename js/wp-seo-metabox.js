@@ -223,15 +223,15 @@ function yst_updateTitle(force) {
 		var placeholder_title = divHtml.html(title).text();
 		titleElm.attr('placeholder', placeholder_title);
 
+		// Run possibly set filters
+		title = wpseo_apply_filter( title, 'title');
+
 		title = yst_clean(title);
 
 		// and now the snippet preview title
 		title = yst_boldKeywords(title, false)
 
 		jQuery('#wpseosnippet_title').html(title);
-
-		// Run possibly set filters
-		wpseo_apply_title_filter();
 
 		var e = document.getElementById('wpseosnippet_title');
 		if (e != null) {
@@ -244,19 +244,6 @@ function yst_updateTitle(force) {
 
 		yst_testFocusKw();
 	});
-}
-
-function wpseo_apply_title_filter( ) {
-	jQuery.post(ajaxurl, {
-			action  : 'wpseo_apply_title_filter',
-			string  : jQuery('#wpseosnippet_title').html(),
-			_wpnonce: wpseoMetaboxL10n.wpseo_replace_vars_nonce
-		}, function (data) {
-			if (data) {
-				jQuery('#wpseosnippet_title').html( data );
-			}
-		}
-	);
 }
 
 function yst_updateDesc() {
@@ -284,15 +271,12 @@ function yst_updateDesc() {
 
 			jQuery('#' + wpseoMetaboxL10n.field_prefix + 'metadesc-length').html(len);
 
-			desc = yst_trimDesc(desc);
-			desc = yst_boldKeywords(desc, false);
+			desc = sanitize_desc( desc );
+
 			// Clear the autogen description.
 			snippet.find('.desc span.autogen').html('');
 			// Set our new one.
 			snippet.find('.desc span.content').html(desc);
-
-			// Run possibly set filters
-			wpseo_apply_description_filter( snippet.find('.desc span.content') );
 
 			yst_testFocusKw();
 		});
@@ -323,24 +307,37 @@ function yst_updateDesc() {
 		} else {
 			desc = desc.substr(0, wpseoMetaboxL10n.wpseo_meta_desc_length);
 		}
-		desc = yst_boldKeywords(desc, false);
-		desc = yst_trimDesc(desc);
+
+		desc = sanitize_desc( desc );
+
 		snippet.find('.desc span.autogen').html(desc);
 	}
 
 }
 
-function wpseo_apply_description_filter( target_element ) {
-	jQuery.post(ajaxurl, {
-			action  : 'wpseo_apply_description_filter',
-			string  : jQuery( target_element ).html(),
-			_wpnonce: wpseoMetaboxL10n.wpseo_replace_vars_nonce
-		}, function (data) {
-			if (data) {
-				jQuery( target_element ).html( data );
-			}
+function sanitize_desc(desc) {
+	// Run possibly set filters
+	desc = wpseo_apply_filter( desc, 'description' );
+	desc = yst_trimDesc(desc);
+	desc = yst_boldKeywords(desc, false);
+
+	return desc;
+}
+
+function wpseo_apply_filter( value_to_filter, filter ) {
+	return jQuery.ajax(
+		{
+			type     : "POST",
+			url      : ajaxurl,
+			data : {
+				action  : 'wpseo_apply_' + filter + '_filter',
+				string  : value_to_filter,
+				_wpnonce: wpseoMetaboxL10n.wpseo_replace_vars_nonce
+			},
+			cache    : false,
+			async    : false
 		}
-	);
+	).responseText;
 }
 
 
