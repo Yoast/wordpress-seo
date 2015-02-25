@@ -115,7 +115,7 @@ add_action( 'wp_ajax_wpseo_get_suggest', 'wpseo_get_suggest' );
  * Running the filters for the wpseo_title
  */
 function wpseo_apply_title_filter() {
-	echo apply_filters('wpseo_title', stripslashes( $_POST['string'] ) );
+	echo apply_filters( 'wpseo_title', stripslashes( $_POST['string'] ) );
 	die();
 }
 
@@ -125,7 +125,7 @@ add_action( 'wp_ajax_wpseo_apply_title_filter', 'wpseo_apply_title_filter' );
  * Running the filtes for the wpseo_metadesc
  */
 function wpseo_apply_description_filter() {
-	echo apply_filters('wpseo_metadesc', stripslashes( $_POST['string'] ) );
+	echo apply_filters( 'wpseo_metadesc', stripslashes( $_POST['string'] ) );
 	die();
 }
 
