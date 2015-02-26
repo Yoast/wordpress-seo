@@ -46,18 +46,42 @@ if ( class_exists( 'WPSEO_Redirect_Manager' ) && ! class_exists( 'WPSEO_URL_Redi
 		 *
 		 * @param $url
 		 *
-		 * @return string
+		 * @return bool|string
 		 */
 		private function find_url( $url ) {
 			if ( isset ( $this->redirects[ $url ] ) ) {
 				return $this->redirect_url( $url );
 			}
 
-			// Fallback if url cannot be found, possibly remove the slash on the end
-			$trimmed_url = rtrim( $url, '/' );
-			if ( isset ( $this->redirects[ $trimmed_url ] ) ) {
-				return $this->redirect_url( $trimmed_url );
+			return $this->find_url_fallback( $url );
+		}
+
+		/**
+		 * Fallback if requested url isn't found. This will add a slash if there isn't a slash or it will remove a
+		 * trailing slash when there isn't one.
+		 *
+		 * @param string $url
+		 *
+		 * @return bool|string
+		 */
+		private function find_url_fallback( $url ) {
+
+			// Check if last character is a slash, if so trim it
+			if ( substr( $url, -1 ) === '/' ) {
+				$trimmed_url = rtrim( $url, '/' );
+				if ( isset ( $this->redirects[$trimmed_url] ) ) {
+					return $this->redirect_url( $trimmed_url );
+				}
 			}
+			else {
+				// There was no trailing slash, so add this to check
+				$slashed_url = $url . '/';
+				if ( isset ( $this->redirects[$slashed_url] ) ) {
+					return $this->redirect_url( $slashed_url );
+				}
+			}
+
+			return false;
 
 		}
 
