@@ -25,7 +25,11 @@
 
             //Check if current slug and new slug are not equal, if it isn't, display notification.
             if ( current_slug != new_slug ) {
-                jQuery('<div class="yoast-notice updated"><p>Put notice updated here</p></div>').insertAfter('h2');
+                message = wpseoPremiumPostWatcher.yoast_quickedit_notification;
+
+                //Replace quickedit-notification-old-url and quickedit-notification-new-url with right data
+
+                jQuery('<div class="yoast-notice updated"><p>' + message + '</p></div>').insertAfter('h2');
             }
         });
     }
