@@ -129,9 +129,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 			return ( ( isset( $options[ 'hideeditbox-' . $post_type ] ) && $options[ 'hideeditbox-' . $post_type ] === true ) || in_array( $post_type, $cpts ) === false );
 		}
-		else {
-			return false;
-		}
+		return false;
 	}
 
 	/**
@@ -1212,9 +1210,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		if ( $new_where ) {
 			return $new_where;
 		}
-		else {
-			return $where;
-		}
+		return $where;
 	}
 
 	/**
