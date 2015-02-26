@@ -10,7 +10,7 @@ class Yoast_Form {
 	/**
 	 * @var string
 	 */
-	public $option;
+	public $option_name;
 
 	/**
 	 * @var array
@@ -65,9 +65,9 @@ class Yoast_Form {
 	 *
 	 * @param $option
 	 */
-	public function set_option( $option ) {
-		$this->option  = $option;
-		$this->options = $this->get_option( $option );
+	public function set_option( $option_name ) {
+		$this->option_name  = $option_name;
+		$this->options = $this->get_option();
 	}
 
 	/**
@@ -79,12 +79,11 @@ class Yoast_Form {
 	 *
 	 * @return array
 	 */
-	private function get_option( $option ) {
+	private function get_option() {
 		if ( is_network_admin() ) {
-			return get_site_option( $option );
-		} else {
-			return get_option( $option );
+			return get_site_option( $this->option_name );
 		}
+		return get_option( $this->option_name );
 	}
 
 	/**
@@ -121,9 +120,9 @@ class Yoast_Form {
 
 				<h3 class="hndle"><span>' . __( 'Debug Information', 'wordpress-seo' ) . '</span></h3>
 				<div class="inside">
-					<h4>' . esc_html( __( 'Current option:', 'wordpress-seo' ) ) . ' <span class="wpseo-debug">' . esc_html( $this->option ) . '</span></h4>
+					<h4>' . esc_html( __( 'Current option:', 'wordpress-seo' ) ) . ' <span class="wpseo-debug">' . esc_html( $this->option_name ) . '</span></h4>
 					' . ( $xdebug ? '' : '<pre>' );
-			var_dump( $this->get_option( $this->option ) );
+			var_dump( $this->get_option() );
 			echo '
 					' . ( $xdebug ? '' : '</pre>' ) . '
 				</div>
@@ -268,7 +267,7 @@ class Yoast_Form {
 			$class = 'double';
 		}
 
-		echo '<input class="checkbox ', esc_attr( $class ), '" type="checkbox" id="', esc_attr( $var ), '" name="', esc_attr( $this->option ), '[', esc_attr( $var ), ']" value="on"', checked( $this->options[ $var ], 'on', false ), '/>';
+		echo '<input class="checkbox ', esc_attr( $class ), '" type="checkbox" id="', esc_attr( $var ), '" name="', esc_attr( $this->option_name ), '[', esc_attr( $var ), ']" value="on"', checked( $this->options[ $var ], 'on', false ), '/>';
 
 		if ( $label_left === false ) {
 			$this->label( $label, array( 'for' => $var ) );
@@ -287,7 +286,7 @@ class Yoast_Form {
 		$val = ( isset( $this->options[ $var ] ) ) ? $this->options[ $var ] : '';
 
 		$this->label( $label . ':', array( 'for' => $var ) );
-		echo '<input class="textinput" type="text" id="', esc_attr( $var ), '" name="', esc_attr( $this->option ), '[', esc_attr( $var ), ']" value="', esc_attr( $val ), '"/>', '<br class="clear" />';
+		echo '<input class="textinput" type="text" id="', esc_attr( $var ), '" name="', esc_attr( $this->option_name ), '[', esc_attr( $var ), ']" value="', esc_attr( $val ), '"/>', '<br class="clear" />';
 	}
 
 	/**
@@ -311,7 +310,7 @@ class Yoast_Form {
 		$val  = ( isset( $this->options[ $var ] ) ) ? $this->options[ $var ] : '';
 
 		$this->label( $label . ':', array( 'for' => $var, 'class' => 'textinput' ) );
-		echo '<textarea cols="' . esc_attr( $attr['cols'] ) . '" rows="' . esc_attr( $attr['rows'] ) . '" class="textinput ' . esc_attr( $attr['class'] ) . '" id="' . esc_attr( $var ) . '" name="' . esc_attr( $this->option ) . '[' . esc_attr( $var ) . ']">' . esc_textarea( $val ) . '</textarea>' . '<br class="clear" />';
+		echo '<textarea cols="' . esc_attr( $attr['cols'] ) . '" rows="' . esc_attr( $attr['rows'] ) . '" class="textinput ' . esc_attr( $attr['class'] ) . '" id="' . esc_attr( $var ) . '" name="' . esc_attr( $this->option_name ) . '[' . esc_attr( $var ) . ']">' . esc_textarea( $val ) . '</textarea>' . '<br class="clear" />';
 	}
 
 	/**
@@ -330,7 +329,7 @@ class Yoast_Form {
 			$id = 'hidden_' . $var;
 		}
 
-		echo '<input type="hidden" id="' . esc_attr( $id ) . '" name="' . esc_attr( $this->option ) . '[' . esc_attr( $var ) . ']" value="' . esc_attr( $val ) . '"/>';
+		echo '<input type="hidden" id="' . esc_attr( $id ) . '" name="' . esc_attr( $this->option_name ) . '[' . esc_attr( $var ) . ']" value="' . esc_attr( $val ) . '"/>';
 	}
 
 	/**
@@ -347,7 +346,7 @@ class Yoast_Form {
 		$val = ( isset( $this->options[ $var ] ) ) ? $this->options[ $var ] : '';
 
 		$this->label( $label . ':', array( 'for' => $var, 'class' => 'select' ) );
-		echo '<select class="select" name="', esc_attr( $this->option ), '[', esc_attr( $var ), ']" id="', esc_attr( $var ), '">';
+		echo '<select class="select" name="', esc_attr( $this->option_name ), '[', esc_attr( $var ), ']" id="', esc_attr( $var ), '">';
 
 		foreach ( $values as $value => $label ) {
 			if ( ! empty( $label ) ) {
@@ -373,13 +372,13 @@ class Yoast_Form {
 
 		$var_esc = esc_attr( $var );
 		$this->label( $label . ':', array( 'for' => $var, 'class' => 'select' ) );
-		echo '<input type="file" value="' . esc_attr( $val ) . '" class="textinput" name="' . esc_attr( $this->option ) . '[' . $var_esc . ']" id="' . $var_esc . '"/>';
+		echo '<input type="file" value="' . esc_attr( $val ) . '" class="textinput" name="' . esc_attr( $this->option_name ) . '[' . $var_esc . ']" id="' . $var_esc . '"/>';
 
 		// Need to save separate array items in hidden inputs, because empty file inputs type will be deleted by settings API.
 		if ( ! empty( $this->options[ $var ] ) ) {
-			$this->hidden( 'file', $this->option . '_file' );
-			$this->hidden( 'url', $this->option . '_url' );
-			$this->hidden( 'type', $this->option . '_type' );
+			$this->hidden( 'file', $this->option_name . '_file' );
+			$this->hidden( 'url', $this->option_name . '_url' );
+			$this->hidden( 'type', $this->option_name . '_type' );
 		}
 		echo '<br class="clear"/>';
 	}
@@ -399,7 +398,7 @@ class Yoast_Form {
 		$var_esc = esc_attr( $var );
 
 		$this->label( $label . ':', array( 'for' => 'wpseo_' . $var, 'class' => 'select' ) );
-		echo '<input class="textinput" id="wpseo_', $var_esc, '" type="text" size="36" name="', esc_attr( $this->option ), '[', $var_esc, ']" value="', esc_attr( $val ), '" />';
+		echo '<input class="textinput" id="wpseo_', $var_esc, '" type="text" size="36" name="', esc_attr( $this->option_name ), '[', $var_esc, ']" value="', esc_attr( $val ), '" />';
 		echo '<input id="wpseo_', $var_esc, '_button" class="wpseo_image_upload_button button" type="button" value="', __( 'Upload Image', 'wordpress-seo' ), '" />';
 		echo '<br class="clear"/>';
 	}
@@ -428,7 +427,7 @@ class Yoast_Form {
 
 		foreach ( $values as $key => $value ) {
 			$key_esc = esc_attr( $key );
-			echo '<input type="radio" class="radio" id="' . $var_esc . '-' . $key_esc . '" name="' . esc_attr( $this->option ) . '[' . $var_esc . ']" value="' . $key_esc . '" ' . checked( $this->options[ $var ], $key_esc, false ) . ' />';
+			echo '<input type="radio" class="radio" id="' . $var_esc . '-' . $key_esc . '" name="' . esc_attr( $this->option_name ) . '[' . $var_esc . ']" value="' . $key_esc . '" ' . checked( $this->options[ $var ], $key_esc, false ) . ' />';
 			$this->label( $label . ':', array( 'for' => $var_esc . '-' . $key_esc, 'class' => 'radio' ) );
 		}
 		echo '<div class="clear"></div>';
