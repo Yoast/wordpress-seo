@@ -21,7 +21,6 @@ class WPSEO_Plugin_Conflict extends Yoast_Plugin_Conflict {
 		// The plugin which are writing OG metadata
 		'open_graph'   => array(
 			'2-click-socialmedia-buttons/2-click-socialmedia-buttons.php',
-
 			// 2 Click Social Media Buttons
 			'add-link-to-facebook/add-link-to-facebook.php',         // Add Link to Facebook
 			'add-meta-tags/add-meta-tags.php',                       // Add Meta Tags
@@ -63,23 +62,37 @@ class WPSEO_Plugin_Conflict extends Yoast_Plugin_Conflict {
 			'wp-ogp/wp-ogp.php',                                     // WP-OGP
 			'zoltonorg-social-plugin/zosp.php',                      // Zolton.org Social Plugin
 		),
-
 		'xml_sitemaps' => array(
-			'google-sitemap-plugin/google-sitemap-plugin.php',                                    // Google Sitemap (BestWebSoft)
-			'xml-sitemaps/xml-sitemaps.php',                                                    // XML Sitemaps (Denis de Bernardy and Mike Koepke)
-			'bwp-google-xml-sitemaps/bwp-simple-gxs.php',                                        // Better WordPress Google XML Sitemaps (Khang Minh)
-			'google-sitemap-generator/sitemap.php',                                                // Google XML Sitemaps (Arne Brachhold)
-			'xml-sitemap-feed/xml-sitemap.php',                                                    // XML Sitemap & Google News feeds (RavanH)
-			'google-monthly-xml-sitemap/monthly-xml-sitemap.php',                                // Google Monthly XML Sitemap (Andrea Pernici)
-			'simple-google-sitemap-xml/simple-google-sitemap-xml.php',                            // Simple Google Sitemap XML (iTx Technologies)
-			'another-simple-xml-sitemap/another-simple-xml-sitemap.php',                        // Another Simple XML Sitemap
-			'xml-maps/google-sitemap.php',                                                        // Xml Sitemap (Jason Martens)
-			'google-xml-sitemap-generator-by-anton-dachauer/adachauer-google-xml-sitemap.php',    // Google XML Sitemap Generator by Anton Dachauer (Anton Dachauer)
-			'wp-xml-sitemap/wp-xml-sitemap.php',                                                // WP XML Sitemap (Team Vivacity)
-			'sitemap-generator-for-webmasters/sitemap.php',                                        // Sitemap Generator for Webmasters (iwebslogtech)
-			'xml-sitemap-xml-sitemapcouk/xmls.php',                                                // XML Sitemap - XML-Sitemap.co.uk (Simon Hancox)
-			'sewn-in-xml-sitemap/sewn-xml-sitemap.php',                                            // Sewn In XML Sitemap (jcow)
-			'rps-sitemap-generator/rps-sitemap-generator.php',                                    // RPS Sitemap Generator (redpixelstudios)
+			'google-sitemap-plugin/google-sitemap-plugin.php',
+			// Google Sitemap (BestWebSoft)
+			'xml-sitemaps/xml-sitemaps.php',
+			// XML Sitemaps (Denis de Bernardy and Mike Koepke)
+			'bwp-google-xml-sitemaps/bwp-simple-gxs.php',
+			// Better WordPress Google XML Sitemaps (Khang Minh)
+			'google-sitemap-generator/sitemap.php',
+			// Google XML Sitemaps (Arne Brachhold)
+			'xml-sitemap-feed/xml-sitemap.php',
+			// XML Sitemap & Google News feeds (RavanH)
+			'google-monthly-xml-sitemap/monthly-xml-sitemap.php',
+			// Google Monthly XML Sitemap (Andrea Pernici)
+			'simple-google-sitemap-xml/simple-google-sitemap-xml.php',
+			// Simple Google Sitemap XML (iTx Technologies)
+			'another-simple-xml-sitemap/another-simple-xml-sitemap.php',
+			// Another Simple XML Sitemap
+			'xml-maps/google-sitemap.php',
+			// Xml Sitemap (Jason Martens)
+			'google-xml-sitemap-generator-by-anton-dachauer/adachauer-google-xml-sitemap.php',
+			// Google XML Sitemap Generator by Anton Dachauer (Anton Dachauer)
+			'wp-xml-sitemap/wp-xml-sitemap.php',
+			// WP XML Sitemap (Team Vivacity)
+			'sitemap-generator-for-webmasters/sitemap.php',
+			// Sitemap Generator for Webmasters (iwebslogtech)
+			'xml-sitemap-xml-sitemapcouk/xmls.php',
+			// XML Sitemap - XML-Sitemap.co.uk (Simon Hancox)
+			'sewn-in-xml-sitemap/sewn-xml-sitemap.php',
+			// Sewn In XML Sitemap (jcow)
+			'rps-sitemap-generator/rps-sitemap-generator.php',
+			// RPS Sitemap Generator (redpixelstudios)
 		)
 	);
 

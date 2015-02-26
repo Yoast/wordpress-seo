@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package    WPSEO
  * @subpackage Frontend

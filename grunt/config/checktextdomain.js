@@ -24,6 +24,7 @@ module.exports = {
 		src: [
 			'<%= files.php %>',
 			'!admin/license-manager/**',
+			'!admin/i18n-module/**',
 			'!premium/**'
 		]
 	}

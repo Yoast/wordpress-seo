@@ -126,7 +126,7 @@ class Yoast_Tracking {
 
 			$plugin_info = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin_path );
 
-			$slug           = str_replace( '/' . basename( $plugin_path ), '', $plugin_path );
+			$slug             = str_replace( '/' . basename( $plugin_path ), '', $plugin_path );
 			$plugins[ $slug ] = array(
 				'version'    => $plugin_info['Version'],
 				'name'       => $plugin_info['Name'],
@@ -200,23 +200,17 @@ function wpseo_tracking_additions( $options ) {
 		'wmt_pinterest'               => ( ! empty( $opt['pinterestverify'] ) ) ? 1 : 0,
 		'wmt_yandex'                  => ( ! empty( $opt['yandexverify'] ) ) ? 1 : 0,
 		'permalinks_clean'            => ( $opt['cleanpermalinks'] == 1 ) ? 1 : 0,
-
 		'site_db_charset'             => DB_CHARSET,
-
 		'webserver_apache'            => WPSEO_Utils::is_apache() ? 1 : 0,
 		'webserver_apache_version'    => function_exists( 'apache_get_version' ) ? apache_get_version() : 0,
 		'webserver_nginx'             => WPSEO_Utils::is_nginx() ? 1 : 0,
-
 		'webserver_server_software'   => $_SERVER['SERVER_SOFTWARE'],
 		'webserver_gateway_interface' => $_SERVER['GATEWAY_INTERFACE'],
 		'webserver_server_protocol'   => $_SERVER['SERVER_PROTOCOL'],
-
 		'php_version'                 => phpversion(),
-
 		'php_max_execution_time'      => ini_get( 'max_execution_time' ),
 		'php_memory_limit'            => ini_get( 'memory_limit' ),
 		'php_open_basedir'            => ini_get( 'open_basedir' ),
-
 		'php_bcmath_enabled'          => extension_loaded( 'bcmath' ) ? 1 : 0,
 		'php_ctype_enabled'           => extension_loaded( 'ctype' ) ? 1 : 0,
 		'php_curl_enabled'            => extension_loaded( 'curl' ) ? 1 : 0,

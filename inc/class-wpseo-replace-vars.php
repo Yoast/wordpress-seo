@@ -235,7 +235,7 @@ class WPSEO_Replace_Vars {
 				$replacement = $this->retrieve_ct_desc_custom_tax_name( $var );
 			}
 			elseif ( strpos( $var, 'ct_' ) === 0 ) {
-				$single = ( isset( $matches[2][ $k ] ) && $matches[2][ $k ] !== '' ) ? true : false;
+				$single      = ( isset( $matches[2][ $k ] ) && $matches[2][ $k ] !== '' ) ? true : false;
 				$replacement = $this->retrieve_ct_custom_tax_name( $var, $single );
 			} // Deal with non-variable variable names
 			elseif ( method_exists( $this, 'retrieve_' . $var ) ) {
@@ -1067,7 +1067,10 @@ class WPSEO_Replace_Vars {
 		if ( is_string( $replace ) && $replace !== '' ) {
 			$replace = self::remove_var_delimiter( $replace );
 
-			if ( ( is_string( $type ) && in_array( $type, array( 'basic', 'advanced' ), true ) ) && ( $replace !== '' && ! isset( self::$help_texts[ $type ][ $replace ] ) )
+			if ( ( is_string( $type ) && in_array( $type, array(
+						'basic',
+						'advanced',
+					), true ) ) && ( $replace !== '' && ! isset( self::$help_texts[ $type ][ $replace ] ) )
 			) {
 				self::$help_texts[ $type ][ $replace ] = $help_text;
 			}

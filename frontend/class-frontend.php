@@ -69,6 +69,7 @@ class WPSEO_Frontend {
 
 		$this->options = WPSEO_Options::get_all();
 
+		add_action( 'wp_head', array( $this, 'front_page_specific_init' ), 0 );
 		add_action( 'wp_head', array( $this, 'head' ), 1 );
 
 		// The head function here calls action wpseo_head, to which we hook all our functionality
@@ -79,8 +80,6 @@ class WPSEO_Frontend {
 		add_action( 'wpseo_head', array( $this, 'canonical' ), 20 );
 		add_action( 'wpseo_head', array( $this, 'adjacent_rel_links' ), 21 );
 		add_action( 'wpseo_head', array( $this, 'publisher' ), 22 );
-		add_action( 'wpseo_head', array( $this, 'webmaster_tools_authentication' ), 90 );
-		add_action( 'wpseo_head', array( $this, 'internal_search_json_ld' ), 90 );
 
 		// Remove actions that we will handle through our wpseo_head call, and probably change the output of
 		remove_action( 'wp_head', 'rel_canonical' );
@@ -119,8 +118,8 @@ class WPSEO_Frontend {
 		}
 
 		if ( ( $this->options['disable-date'] === true ||
-				$this->options['disable-author'] === true ) ||
-			( isset( $this->options['disable-post_formats'] ) && $this->options['disable-post_formats'] )
+		       $this->options['disable-author'] === true ) ||
+		     ( isset( $this->options['disable-post_formats'] ) && $this->options['disable-post_formats'] )
 		) {
 			add_action( 'wp', array( $this, 'archive_redirect' ) );
 		}
@@ -148,6 +147,19 @@ class WPSEO_Frontend {
 		if ( $this->options['title_test'] > 0 ) {
 			add_filter( 'wpseo_title', array( $this, 'title_test_helper' ) );
 		}
+	}
+
+	/**
+	 * Initialize the functions that only need to run on the frontpage
+	 */
+	public function front_page_specific_init() {
+		if ( ! is_front_page() ) {
+			return;
+		}
+
+		new WPSEO_JSON_LD;
+
+		add_action( 'wpseo_head', array( $this, 'webmaster_tools_authentication' ), 90 );
 	}
 
 	/**
@@ -619,70 +631,30 @@ class WPSEO_Frontend {
 	 * Output Webmaster Tools authentication strings
 	 */
 	public function webmaster_tools_authentication() {
-		if ( is_front_page() ) {
-			// Alexa
-			if ( $this->options['alexaverify'] !== '' ) {
-				echo '<meta name="alexaVerifyID" content="' . esc_attr( $this->options['alexaverify'] ) . "\" />\n";
-			}
-
-			// Bing
-			if ( $this->options['msverify'] !== '' ) {
-				echo '<meta name="msvalidate.01" content="' . esc_attr( $this->options['msverify'] ) . "\" />\n";
-			}
-
-			// Google
-			if ( $this->options['googleverify'] !== '' ) {
-				echo '<meta name="google-site-verification" content="' . esc_attr( $this->options['googleverify'] ) . "\" />\n";
-			}
-
-			// Pinterest
-			if ( $this->options['pinterestverify'] !== '' ) {
-				echo '<meta name="p:domain_verify" content="' . esc_attr( $this->options['pinterestverify'] ) . "\" />\n";
-			}
-
-			// Yandex
-			if ( $this->options['yandexverify'] !== '' ) {
-				echo '<meta name="yandex-verification" content="' . esc_attr( $this->options['yandexverify'] ) . "\" />\n";
-			}
-		}
-	}
-
-	/**
-	 * Outputs JSON+LD code to allow recognition of the internal search engine
-	 *
-	 * @since 1.5.7
-	 *
-	 * @link  https://developers.google.com/webmasters/richsnippets/sitelinkssearch
-	 */
-	public function internal_search_json_ld() {
-		if ( ! is_front_page() ) {
-			return;
+		// Alexa
+		if ( $this->options['alexaverify'] !== '' ) {
+			echo '<meta name="alexaVerifyID" content="' . esc_attr( $this->options['alexaverify'] ) . "\" />\n";
 		}
 
-		/**
-		 * Filter: 'disable_wpseo_json_ld_search' - Allow disabling of the json+ld output
-		 *
-		 * @api bool $display_search Whether or not to display json+ld search on the frontend
-		 */
-		if ( apply_filters( 'disable_wpseo_json_ld_search', false ) === true ) {
-			return;
+		// Bing
+		if ( $this->options['msverify'] !== '' ) {
+			echo '<meta name="msvalidate.01" content="' . esc_attr( $this->options['msverify'] ) . "\" />\n";
 		}
 
-		$home_url = trailingslashit( home_url() );
+		// Google
+		if ( $this->options['googleverify'] !== '' ) {
+			echo '<meta name="google-site-verification" content="' . esc_attr( $this->options['googleverify'] ) . "\" />\n";
+		}
 
-		/**
-		 * Filter: 'wpseo_json_ld_search_url' - Allows filtering of the search URL for WP SEO
-		 *
-		 * @api string $search_url The search URL for this site with a `{search_term}` variable.
-		 */
-		$search_url = apply_filters( 'wpseo_json_ld_search_url', $home_url . '?s={search_term}' );
+		// Pinterest
+		if ( $this->options['pinterestverify'] !== '' ) {
+			echo '<meta name="p:domain_verify" content="' . esc_attr( $this->options['pinterestverify'] ) . "\" />\n";
+		}
 
-		/**
-		 * Filter: 'wpseo_json_ld_search_output' - Allows filtering of the entire output of the function
-		 *
-		 * @api string $output The output of the function.
-		 */
-		echo apply_filters( 'wpseo_json_ld_search_output', '<script type="application/ld+json">{ "@context": "http://schema.org", "@type": "WebSite", "url": "' . $home_url . '", "potentialAction": { "@type": "SearchAction", "target": "' . $search_url . '", "query-input": "required name=search_term" } }</script>' . "\n" );
+		// Yandex
+		if ( $this->options['yandexverify'] !== '' ) {
+			echo '<meta name="yandex-verification" content="' . esc_attr( $this->options['yandexverify'] ) . "\" />\n";
+		}
 	}
 
 	/**
@@ -1876,3 +1848,205 @@ class WPSEO_Frontend {
 	}
 
 } /* End of class */
+
+/**
+ * Class WPSEO_JSON_LD
+ *
+ * Outputs schema code specific for Google's JSON LD stuff
+ *
+ * @since 1.8
+ */
+class WPSEO_JSON_LD {
+
+	/**
+	 * @var array Holds the plugins options.
+	 */
+	public $options = array();
+
+	/**
+	 * Holds the social profiles for the entity
+	 * @var array
+	 */
+	private $profiles = array();
+
+	/**
+	 * Class constructor
+	 */
+	public function __construct() {
+		$this->options = WPSEO_Options::get_all();
+
+		add_action( 'wpseo_head', array( $this, 'json_ld' ), 90 );
+		add_action( 'wpseo_json_ld', array( $this, 'organization_or_person' ), 10 );
+		add_action( 'wpseo_json_ld', array( $this, 'internal_search' ), 20 );
+	}
+
+	/**
+	 * JSON LD output function that the functions for specific code can hook into
+	 *
+	 * @since 1.8
+	 */
+	public function json_ld() {
+		do_action( 'wpseo_json_ld' );
+	}
+
+	/**
+	 * Outputs the JSON LD code in a valid JSON+LD wrapper
+	 *
+	 * @since 1.8
+	 *
+	 * @param $output
+	 */
+	protected function json_ld_output( $output ) {
+		echo "<script type='application/ld+json'>";
+		echo preg_replace( '/[\n\t]/', '', $output );
+		echo '</script>' . "\n";
+	}
+
+	/**
+	 * Returns JSON+LD schema for Organization
+	 *
+	 * @return string
+	 */
+	private function organization() {
+		$output = '';
+		if ( '' !== $this->options['company_name'] ) {
+			$output = '{ "@context": "http://schema.org",
+			"@type": "Organization",
+			"name": "' . esc_attr( $this->options['company_name'] ) . '",
+			"url": "' . home_url() . '",
+			"logo": "' . esc_url( $this->options['company_logo'] ) . '",
+			"sameAs": [' . $this->profiles . ']}';
+
+			/**
+			 * Filter: 'wpseo_json_ld_organization' - Allows filtering of the JSON+LD organization output
+			 *
+			 * @api string $output The organization output
+			 */
+			$output = apply_filters( 'wpseo_json_ld_organization', $output );
+		}
+
+		return $output;
+	}
+
+	/**
+	 * Returns JSON+LD schema for Person
+	 *
+	 * @return string
+	 */
+	private function person() {
+		$output = '';
+		if ( '' !== $this->options['person_name'] ) {
+			$output = '{ "@context": "http://schema.org",
+			"@type": "Person",
+			"name": "' . esc_attr( $this->options['person_name'] ) . '",
+			"url": "' . home_url() . '",
+			"sameAs": [' . $this->profiles . ']}';
+
+			/**
+			 * Filter: 'wpseo_json_ld_person' - Allows filtering of the JSON+LD person output
+			 *
+			 * @api string $output The person output
+			 */
+			$output = apply_filters( 'wpseo_json_ld_person', $output );
+		}
+
+		return $output;
+	}
+
+	/**
+	 * Outputs code to allow Google to recognize social profiles for use in the Knowledge graph
+	 *
+	 * @since 1.8
+	 */
+	public function organization_or_person() {
+		$this->fetch_social_profiles();
+
+		switch ( $this->options['company_or_person'] ) {
+			case 'company':
+				$output = $this->organization();
+				break;
+			case 'person':
+				$output = $this->person();
+				break;
+		}
+
+		if ( isset( $output ) ) {
+			$this->json_ld_output( $output );
+		}
+	}
+
+	/**
+	 * Retrieve the social profiles to display in the organization output.
+	 *
+	 * @since 1.8
+	 *
+	 * @link  https://developers.google.com/webmasters/structured-data/customize/social-profiles
+	 */
+	private function fetch_social_profiles() {
+		$profiles        = array();
+		$social_profiles = array(
+			'facebook_site',
+			'instagram_url',
+			'linkedin_url',
+			'plus-publisher',
+			'myspace_url',
+			'youtube_url',
+			'pinterest_url',
+		);
+		foreach ( $social_profiles as $profile ) {
+			if ( $this->options[ $profile ] !== '' ) {
+				$profiles[] = $this->options[ $profile ];
+			}
+		}
+		if ( $this->options['twitter_site'] !== '' ) {
+			$profiles[] = 'https://twitter.com/' . $this->options['twitter_site'];
+		}
+		$profiles_out = '"' . implode( '","', $profiles ) . '"';
+
+		$this->profiles = rtrim( $profiles_out, ',' );
+	}
+
+	/**
+	 * Outputs code to allow recognition of the internal search engine
+	 *
+	 * @since 1.5.7
+	 *
+	 * @link  https://developers.google.com/webmasters/structured-data/slsb-overview
+	 */
+	public function internal_search() {
+		/**
+		 * Filter: 'disable_wpseo_json_ld_search' - Allow disabling of the json+ld output
+		 *
+		 * @api bool $display_search Whether or not to display json+ld search on the frontend
+		 */
+		if ( apply_filters( 'disable_wpseo_json_ld_search', false ) === true ) {
+			return;
+		}
+		$home_url = trailingslashit( home_url() );
+
+		/**
+		 * Filter: 'wpseo_json_ld_search_url' - Allows filtering of the search URL for WP SEO
+		 *
+		 * @api string $search_url The search URL for this site with a `{search_term}` variable.
+		 */
+		$search_url = apply_filters( 'wpseo_json_ld_search_url', $home_url . '?s={search_term}' );
+
+		/**
+		 * Filter: 'wpseo_json_ld_search_output' - Allows filtering of the entire output of the function
+		 *
+		 * @api string $output The output of the function.
+		 */
+		$output = apply_filters( 'wpseo_json_ld_search_output', '{ "@context": "http://schema.org",
+			"@type": "WebSite",
+			"url": "' . $home_url . '",
+			"potentialAction": {
+				"@type": "SearchAction",
+				"target": "' . $search_url . '",
+				"query-input": "required name=search_term"
+				}
+			}' );
+
+		$this->json_ld_output( $output );
+	}
+
+}
