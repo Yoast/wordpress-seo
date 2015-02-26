@@ -428,7 +428,7 @@ class Yoast_Form {
 		foreach ( $values as $key => $value ) {
 			$key_esc = esc_attr( $key );
 			echo '<input type="radio" class="radio" id="' . $var_esc . '-' . $key_esc . '" name="' . esc_attr( $this->option_name ) . '[' . $var_esc . ']" value="' . $key_esc . '" ' . checked( $this->options[ $var ], $key_esc, false ) . ' />';
-			$this->label( $label . ':', array( 'for' => $var_esc . '-' . $key_esc, 'class' => 'radio' ) );
+			$this->label( $value, array( 'for' => $var_esc . '-' . $key_esc, 'class' => 'radio' ) );
 		}
 		echo '<div class="clear"></div>';
 		echo '</div><br/>';
