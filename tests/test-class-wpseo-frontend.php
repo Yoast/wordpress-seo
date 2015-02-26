@@ -972,7 +972,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @param string $url
 	 */
-	function go_to( $url ) {
+	private function go_to( $url ) {
 		// note: the WP and WP_Query classes like to silently fetch parameters
 		// from all over the place (globals, GET, etc), which makes it tricky
 		// to run them more than once without very carefully clearing everything
