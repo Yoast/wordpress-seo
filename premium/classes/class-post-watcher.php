@@ -22,7 +22,23 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	 * Load needed js file
 	 */
 	public function page_scripts() {
-		wp_enqueue_script( 'wp-seo-premium-quickedit-notification', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/js/wp-seo-premium-quickedit-notification.js', array( 'jquery' ) );
+
+		wp_register_script( 'wp-seo-premium-quickedit-notification', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/js/wp-seo-premium-quickedit-notification.js', array( 'jquery' ) );
+
+		$message = sprintf( __( "WordPress SEO Premium created a <a href='%s'>redirect</a> from the old post URL to the new post URL. <a href='%s'>Click here to undo this</a>.", 'wordpress-seo-premium' ), $this->admin_redirect_url( 'test' ), $this->javascript_undo_redirect( 'test2' ) );
+
+		// Localize the script with new data
+		$translation_array = array(
+			'yoast_quickedit_notification' => $message,
+		);
+
+		wp_localize_script( 'wp-seo-premium-quickedit-notification', 'object_name', $translation_array );
+
+// Enqueued script with localized data.
+		wp_enqueue_script( 'wp-seo-premium-quickedit-notification' );
+
+
+		//wp_enqueue_script( 'wp-seo-premium-quickedit-notification', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/js/wp-seo-premium-quickedit-notification.js', array( 'jquery' ) );
 	}
 
 	/**
