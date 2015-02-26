@@ -379,7 +379,7 @@ function wpseo_admin_bar_menu() {
 
 	$admin_menu = current_user_can( 'manage_options' );
 
-	if ( !$admin_menu && is_multisite() ) {
+	if ( ! $admin_menu && is_multisite() ) {
 		$options = get_site_option( 'wpseo_ms' );
 		$admin_menu = ( $options['access'] === 'superadmin' && is_super_admin() );
 	}
