@@ -25,7 +25,9 @@
 
             //Check if current slug and new slug are not equal, if it isn't, display notification.
             if ( current_slug != new_slug ) {
-                message = wpseoPremiumPostWatcher.yoast_quickedit_notification;
+                notification = wpseoPremiumPostWatcher.yoast_quickedit_notification;
+                
+                message = notification.replace('quickedit-notification-old-url', 'admin.php?page=wpseo_redirects&s=' + encodeURI( current_slug ) );
 
                 //Replace quickedit-notification-old-url and quickedit-notification-new-url with right data
 
