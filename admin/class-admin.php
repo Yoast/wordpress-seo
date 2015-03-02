@@ -454,6 +454,11 @@ class WPSEO_Admin {
 		// Turn it to an array and strip stopwords by comparing against an array of stopwords
 		$clean_slug_array = array_diff( explode( '-', $clean_slug ), $this->stopwords() );
 
+		// Don't use the new slug if there are less than 2 words left and the original has more than 1 word
+		if ( count( $clean_slug_array ) < 2 && count( explode( '-', $clean_slug ) ) > 1 ) {
+			return $clean_slug;
+		}
+
 		// Turn the sanitized array into a string
 		$clean_slug = join( '-', $clean_slug_array );
 
