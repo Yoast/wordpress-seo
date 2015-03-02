@@ -428,6 +428,9 @@ class WPSEO_OpenGraph {
 			'ps_AF',
 			'tl_ST',
 			'fy_NL',
+			'cx_PH',
+			'ja_KS',
+			'si_LK',
 		);
 
 		// check to see if the locale is a valid FB one, if not, use en_US as a fallback
