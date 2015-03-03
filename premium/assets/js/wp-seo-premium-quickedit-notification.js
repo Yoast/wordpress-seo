@@ -29,8 +29,8 @@ function show_notification() {
         function (response) {
 
             if ( response != '' ) {
-
                 jQuery(response).insertAfter('h2');
+                notification_counter = 0;
             } else if (notification_counter < 20 && response == '' ) {
                 notification_counter++;
                 setTimeout('show_notification()', 100);
