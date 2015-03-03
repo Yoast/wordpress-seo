@@ -11,28 +11,43 @@
          */
         var current_slug;
 
-        jQuery( '.editinline' ).click(function(evt) {
+        jQuery( '.editinline' ).click( function(e) {
             //Get post_id of post that is being edited
-            post_id = jQuery(this).closest('tr').attr('id').replace('post-', '');
+            var post_id = jQuery(this).closest('tr').attr('id').replace('post-', '');
 
             //Get current slug of post that is being edited
             current_slug = jQuery( '#inline_' + post_id ).find('.post_name').html();
         });
 
-        jQuery( '.button-primary' ).click(function(evt) {
+        jQuery( '.button-primary' ).click(function() {
+
             //Get new slug of post that is being edited
-            new_slug = jQuery("input[name=post_name]").val();
 
-            //Check if current slug and new slug are not equal, if it isn't, display notification.
-            if ( current_slug != new_slug ) {
-                notification = wpseoPremiumPostWatcher.yoast_quickedit_notification;
-                
-                message = notification.replace('quickedit-notification-old-url', 'admin.php?page=wpseo_redirects&s=' + encodeURI( current_slug ) );
+            //current_slug = jQuery( '#inline_' + post_id ).find('.post_name').html();
 
-                //Replace quickedit-notification-old-url and quickedit-notification-new-url with right data
+            var post_id = jQuery(this).closest('tr').attr('id').replace('edit-', '');
 
-                jQuery('<div class="yoast-notice updated"><p>' + message + '</p></div>').insertAfter('h2');
+            current_slug = jQuery( '#inline_' + post_id ).find('.post_name').html();
+
+            var new_slug = jQuery("input[name=post_name]").val();
+
+            if (current_slug != new_slug ) {
+                show_notification();
             }
         });
-    }
-}));
+    }}));
+
+function show_notification(){
+    jQuery.post(
+        ajaxurl,
+        { action: 'yoast_get_notifications'},
+        function (response) {
+
+            if ( response != '' ) {
+
+                jQuery(response).insertAfter('h2');
+            } else {
+                setTimeout('show_notification()', 100);
+            }
+        });
+}

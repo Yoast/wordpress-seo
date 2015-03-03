@@ -24,7 +24,8 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	public function page_scripts() {
 		wp_register_script( 'wp-seo-premium-quickedit-notification', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/js/wp-seo-premium-quickedit-notification.js', array( 'jquery' ) );
 
-		$message = sprintf( __( "WordPress SEO Premium created a <a href='%s'>redirect</a> from the old post URL to the new post URL. <a href='%s'>Click here to undo this</a>.", 'wordpress-seo-premium' ), 'quickedit-notification-old-url', 'quickedit-notification-new-url' );
+		$nonce = wp_create_nonce('wpseo-redirects-ajax-security');
+		$message = sprintf( __( "WordPress SEO Premium created a <a id='wp-seo-javascript-notification' data-nonce='" . $nonce . "' href='%s'>redirect</a> from the old post URL to the new post URL. <a href='%s'>Click here to undo this</a>.", 'wordpress-seo-premium' ), 'quickedit-notification-old-url', 'quickedit-notification-new-url' );
 
 		$translation_array = array(
 			'yoast_quickedit_notification' => $message,
@@ -58,13 +59,11 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	 * @param $post_before
 	 */
 	public function detect_slug_change( $post_id, $post, $post_before ) {
-		$quick_edit = false;
 
 		if ( !isset( $_POST['wpseo_old_url'] ) ) {
 			// Check if request is inline action and new slug is not old slug, if so set wpseo_old_url
 			if ( ! empty( $_POST['action'] ) && $_POST['action'] === 'inline-save' && $post->post_name !== $post_before->post_name ) {
 				$_POST['wpseo_old_url'] = '/' . $post_before->post_name . '/';
-				$quick_edit = true;
 			} else {
 				return;
 			}
@@ -84,9 +83,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 			$this->create_redirect( $old_url, $new_url );
 
 			//Only set notification when the slug change was not saved through quick edit
-			if ( ! $quick_edit ) {
-				$this->create_notification( $message, 'slug_change' );
-			}
+			$this->create_notification( $message, 'slug_change' );
 		}
 	}
 
