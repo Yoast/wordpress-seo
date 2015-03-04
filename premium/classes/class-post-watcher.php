@@ -48,31 +48,18 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	 * @param $post_before
 	 */
 	public function detect_slug_change( $post_id, $post, $post_before ) {
+		$old_url = $this->get_old_url( $post, $post_before );
 
-		if ( !isset( $_POST['wpseo_old_url'] ) ) {
-			// Check if request is inline action and new slug is not old slug, if so set wpseo_old_url
-			if ( ! empty( $_POST['action'] ) && $_POST['action'] === 'inline-save' && $post->post_name !== $post_before->post_name ) {
-				$_POST['wpseo_old_url'] = '/' . $post_before->post_name . '/';
-			} else {
-				return;
-			}
+		if ( !$old_url ) {
+			return;
 		}
-
-		//Get the old URL
-		$old_url = esc_url( $_POST['wpseo_old_url'] );
 
 		// Get the new URL
 		$new_url = $this->get_target_url( $post_id );
 
 		// Check if we should create a redirect
 		if ( in_array( $post->post_status, array( 'publish', 'static' ) ) && $this->should_create_redirect( $old_url, $new_url ) ) {
-			// Format the message
-			$message = sprintf( __( "WordPress SEO Premium created a <a href='%s'>redirect</a> from the old post URL to the new post URL. <a href='%s'>Click here to undo this</a>.", 'wordpress-seo-premium' ), $this->admin_redirect_url( $old_url ), $this->javascript_undo_redirect( $old_url ) );
-
-			$this->create_redirect( $old_url, $new_url );
-
-			//Only set notification when the slug change was not saved through quick edit
-			$this->create_notification( $message, 'slug_change' );
+			$this->display_notification( $old_url, $new_url );
 		}
 	}
 
@@ -186,6 +173,42 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 		$url = $url['path'];
 
 		return $url;
+	}
+
+	/**
+	 * Get the old url
+	 *
+	 * @param $post
+	 * @param $post_before
+	 *
+	 * @return bool|string
+	 */
+	private function get_old_url( $post, $post_before ) {
+		if ( !isset( $_POST['wpseo_old_url'] ) ) {
+			// Check if request is inline action and new slug is not old slug, if so set wpseo_old_url
+			if ( ! empty( $_POST['action'] ) && $_POST['action'] === 'inline-save' && $post->post_name !== $post_before->post_name ) {
+				return '/' . $post_before->post_name . '/';
+			} else {
+				return false;
+			}
+		}
+
+		return esc_url( $_POST['wpseo_old_url'] );
+	}
+
+	/**
+	 * Display notification
+	 *
+	 * @param $old_url
+	 * @param $new_url
+	 */
+	private function display_notification( $old_url, $new_url ) {
+		$message = sprintf( __( "WordPress SEO Premium created a <a href='%s'>redirect</a> from the old post URL to the new post URL. <a href='%s'>Click here to undo this</a>.", 'wordpress-seo-premium' ), $this->admin_redirect_url( $old_url ), $this->javascript_undo_redirect( $old_url ) );
+
+		$this->create_redirect( $old_url, $new_url );
+
+		//Only set notification when the slug change was not saved through quick edit
+		$this->create_notification( $message, 'slug_change' );
 	}
 
 }
