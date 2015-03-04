@@ -221,7 +221,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		$stub = $this->getMock( 'WPSEO_OpenGraph', array( 'og_tag') );
 
 		$stub->options = array(
-			'og_frontpage_image' => 'http://local.wordpress.dev/wp-content/uploads/2015/01/iphone5_ios7-300x198.jpg',
+			'og_frontpage_image' => get_site_url() . '/wp-content/uploads/2015/01/iphone5_ios7-300x198.jpg',
 		);
 
 		$stub
@@ -253,7 +253,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_image_IS_SINGULAR_and_HAS_open_graph_image() {
 		$post_id   = $this->factory->post->create();
-		$image = 'http://example.org/wp-content/uploads//tmp/wordpress/src/wp-content/plugins/wordpress-seo/tests/assets/small.png';
+		$image = get_site_url() . '/wp-content/plugins/wordpress-seo/tests/assets/small.png';
 
 		$this->go_to( get_permalink( $post_id ) );
 
@@ -282,11 +282,11 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	public function test_image_IS_SINGULAR_and_HAS_open_graph_image_AND_HAS_content_images() {
 		$post_id = $this->factory->post->create(
 			array(
-				'post_content' =>  '<img class="alignnone size-medium wp-image-490" src="http://example.org/wp-content/uploads//tmp/wordpress/src/wp-content/plugins/wordpress-seo/tests/yoast.png" />'
+				'post_content' =>  '<img class="alignnone size-medium wp-image-490" src="' . get_site_url() . '/wp-content/plugins/wordpress-seo/tests/yoast.png" />'
 			)
 		);
 
-		$image = 'http://example.org/wp-content/uploads//tmp/wordpress/src/wp-content/plugins/wordpress-seo/tests/assets/small.png';
+		$image = get_site_url() . '/wp-content/plugins/wordpress-seo/tests/assets/small.png';
 
 		$this->go_to( get_permalink( $post_id ) );
 
@@ -302,7 +302,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 
 		ob_end_clean();
 
-		$expected_output = '<meta property="og:image" content="http://example.org/wp-content/uploads//tmp/wordpress/src/wp-content/plugins/wordpress-seo/tests/yoast.png" />';
+		$expected_output = '<meta property="og:image" content="' . get_site_url() . '/wp-content/plugins/wordpress-seo/tests/yoast.png" />';
 
 		$this->assertNotContains( $expected_output, $output );
 	}
@@ -331,7 +331,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 
 		ob_end_clean();
 
-		$expected_output = '<meta property="og:image" content="http://example.org/wp-content/uploads//tmp/wordpress/src/wp-content/plugins/wordpress-seo/tests' . $image . '" />';
+		$expected_output = '<meta property="og:image" content="' . get_site_url() . '/wp-content/plugins/wordpress-seo/tests' . $image . '" />';
 
 		$this->assertNotContains( $expected_output, $output );
 	}
@@ -359,7 +359,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 
 		ob_end_clean();
 
-		$expected_output = '<meta property="og:image" content="http://example.org/wp-content/uploads//tmp/wordpress/src/wp-content/plugins/wordpress-seo/tests' . $image . '" />';
+		$expected_output = '<meta property="og:image" content="' . get_site_url() . '/wp-content/uploads//tmp/wordpress/src/wp-content/plugins/wordpress-seo/tests' . $image . '" />';
 
 		$this->assertContains( $expected_output, $output );
 	}
@@ -372,7 +372,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	public function test_image_get_content_image() {
 		$post_id = $this->factory->post->create(
 			array(
-				'post_content' =>  '<img class="alignnone size-medium wp-image-490" src="http://example.org/wp-content/uploads//tmp/wordpress/src/wp-content/plugins/wordpress-seo/tests/yoast.png" />'
+				'post_content' =>  '<img class="alignnone size-medium wp-image-490" src="' . get_site_url() . '/wp-content/plugins/wordpress-seo/tests/yoast.png" />'
 			)
 		);
 
@@ -388,7 +388,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 
 		ob_end_clean();
 
-		$expected_output = '<meta property="og:image" content="http://example.org/wp-content/uploads//tmp/wordpress/src/wp-content/plugins/wordpress-seo/tests/yoast.png" />';
+		$expected_output = '<meta property="og:image" content="' . get_site_url() . '/wp-content/plugins/wordpress-seo/tests/yoast.png" />';
 
 		$this->assertContains( $expected_output, $output );
 	}
