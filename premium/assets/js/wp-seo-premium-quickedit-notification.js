@@ -6,6 +6,7 @@
     //If current page is edit.php, proceed.
     if (current_page == 'edit.php' ) {
 
+        //When user clicks on save button after doing a quick edit, get the post id, current slug and new slug.
         jQuery( '.button-primary' ).click(function() {
             var post_id = jQuery(this).closest('tr').attr('id').replace('edit-', '');
 
@@ -20,8 +21,17 @@
     }
 }));
 
+/**
+ * Use notification counter so we can count how many times the function show_notification is called.
+ *
+ * @type {number}
+ */
 var notification_counter = 0;
 
+/**
+ * Show notification to user when there's a redirect created. When the response is empty, up the notification counter with 1, wait 100 ms and call function again.
+ * Stop when the notification counter is bigger than 20.
+ */
 function show_notification() {
     jQuery.post(
         ajaxurl,
