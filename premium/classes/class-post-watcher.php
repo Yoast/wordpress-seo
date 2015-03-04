@@ -59,7 +59,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 
 		// Check if we should create a redirect
 		if ( in_array( $post->post_status, array( 'publish', 'static' ) ) && $this->should_create_redirect( $old_url, $new_url ) ) {
-			$this->display_notification( $old_url, $new_url );
+			$this->set_notification( $old_url, $new_url );
 		}
 	}
 
@@ -183,7 +183,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	 *
 	 * @return bool|string
 	 */
-	private function get_old_url( $post, $post_before ) {
+	protected function get_old_url( $post, $post_before ) {
 		if ( !isset( $_POST['wpseo_old_url'] ) ) {
 			// Check if request is inline action and new slug is not old slug, if so set wpseo_old_url
 			if ( ! empty( $_POST['action'] ) && $_POST['action'] === 'inline-save' && $post->post_name !== $post_before->post_name ) {
@@ -202,7 +202,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	 * @param $old_url
 	 * @param $new_url
 	 */
-	private function display_notification( $old_url, $new_url ) {
+	protected function set_notification( $old_url, $new_url ) {
 		$message = sprintf( __( "WordPress SEO Premium created a <a href='%s'>redirect</a> from the old post URL to the new post URL. <a href='%s'>Click here to undo this</a>.", 'wordpress-seo-premium' ), $this->admin_redirect_url( $old_url ), $this->javascript_undo_redirect( $old_url ) );
 
 		$this->create_redirect( $old_url, $new_url );
