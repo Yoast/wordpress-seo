@@ -1155,7 +1155,7 @@ class WPSEO_Sitemaps {
 			header( $this->http_protocol() . ' 200 OK', true, 200 );
 			// Prevent the search engines from indexing the XML Sitemap.
 			header( 'X-Robots-Tag: noindex, follow', true );
-			header( 'Content-Type: text/xml' );
+			header( 'Content-Type: text/xml; charset=utf-8' );
 
 			// Make the browser cache this file properly.
 			$expires = YEAR_IN_SECONDS;
@@ -1177,7 +1177,7 @@ class WPSEO_Sitemaps {
 		header( $this->http_protocol() . ' 200 OK', true, 200 );
 		// Prevent the search engines from indexing the XML Sitemap.
 		header( 'X-Robots-Tag: noindex,follow', true );
-		header( 'Content-Type: text/xml' );
+		header( 'Content-Type: text/xml; charset=utf-8' );
 		echo '<?xml version="1.0" encoding="' . esc_attr( $this->charset ) . '"?>';
 		if ( $this->stylesheet ) {
 			echo apply_filters( 'wpseo_stylesheet_url', $this->stylesheet ) . "\n";
