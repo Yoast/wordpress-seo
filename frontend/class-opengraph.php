@@ -696,13 +696,13 @@ class WPSEO_OpenGraph_Image {
 	}
 
 	/**
-	 * Check size of image. If image is too small, return false, else return true
+	 * Check size of featured image. If image is too small, return false, else return true
 	 *
 	 * @param array $img
 	 *
 	 * @return bool
 	 */
-	private function check_image_size( $img_data ) {
+	private function check_featured_image_size( $img_data ) {
 		//Get the width and height of the image.
 		if ( $img_data[1] < 200 || $img_data[2] < 200 ) {
 			return false;
