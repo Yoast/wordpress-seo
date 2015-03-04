@@ -9,7 +9,7 @@ echo 'Welcome to the WordPress SEO Test Suite' . PHP_EOL;
 echo 'Version: 1.0' . PHP_EOL . PHP_EOL;
 
 $GLOBALS['wp_tests_options'] = array(
-	'active_plugins' => array( 'wordpress-seo/wp-seo.php' ),
+	'active_plugins' => array( 'wordpress-seo-premium/wp-seo-premium.php' ),
 );
 
 if( false !== getenv( 'WP_DEVELOP_DIR' ) ) {
