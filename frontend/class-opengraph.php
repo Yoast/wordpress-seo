@@ -174,7 +174,7 @@ class WPSEO_OpenGraph {
 	 * @return boolean
 	 */
 	public function site_owner() {
-		if ( isset( $this->options['fbadminapp'] ) && 0 != $this->options['fbadminapp'] ) {
+		if ( isset( $this->options['fbadminapp'] ) && $this->options['fbadminapp'] != 0 ) {
 			$this->og_tag( 'fb:app_id', $this->options['fbadminapp'] );
 
 			return true;
