@@ -1,10 +1,13 @@
 <?php
+
 /**
- * @package Frontend
- *
- * This code handles the Google+ specific output that's not covered by OpenGraph.
+ * @package    WPSEO
+ * @subpackage Frontend
  */
 
+/**
+ * This code handles the Google+ specific output that's not covered by OpenGraph.
+ */
 class WPSEO_GooglePlus {
 
 	/**

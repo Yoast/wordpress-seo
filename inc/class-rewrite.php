@@ -1,6 +1,7 @@
 <?php
 /**
- * @package Frontend
+ * @package    WPSEO
+ * @subpackage Frontend
  */
 
 /**
@@ -78,7 +79,7 @@ class WPSEO_Rewrite {
 	/**
 	 * Update the query vars with the redirect var when stripcategorybase is active
 	 *
-	 * @param $query_vars
+	 * @param array $query_vars
 	 *
 	 * @return array
 	 */
@@ -134,7 +135,8 @@ class WPSEO_Rewrite {
 				if ( $category->parent == $category->cat_ID ) {
 					// recursive recursion
 					$category->parent = 0;
-				} elseif ( $taxonomy->rewrite['hierarchical'] != 0 && $category->parent != 0 ) {
+				}
+				elseif ( $taxonomy->rewrite['hierarchical'] != 0 && $category->parent != 0 ) {
 					$parents = get_category_parents( $category->parent, false, '/', true );
 					if ( ! is_wp_error( $parents ) ) {
 						$category_nicename = $parents . $category_nicename;

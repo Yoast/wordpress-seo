@@ -1,7 +1,7 @@
 <?php
-
 /**
- * @package Main
+ * @package    WPSEO
+ * @subpackage Main
  */
 
 if ( ! function_exists( 'add_filter' ) ) {
@@ -14,7 +14,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * @internal Nobody should be able to overrule the real version number as this can cause serious issues
  * with the options, so no if ( ! defined() )
  */
-define( 'WPSEO_VERSION', '1.7.3' );
+define( 'WPSEO_VERSION', '1.7.3.3' );
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
 	define( 'WPSEO_PATH', plugin_dir_path( WPSEO_FILE ) );
@@ -75,7 +75,8 @@ if ( function_exists( 'spl_autoload_register' ) ) {
 function wpseo_activate( $networkwide = false ) {
 	if ( ! is_multisite() || ! $networkwide ) {
 		_wpseo_activate();
-	} else {
+	}
+	else {
 		/* Multi-site network activation - activate the plugin for all blogs */
 		wpseo_network_activate_deactivate( true );
 	}
@@ -89,7 +90,8 @@ function wpseo_activate( $networkwide = false ) {
 function wpseo_deactivate( $networkwide = false ) {
 	if ( ! is_multisite() || ! $networkwide ) {
 		_wpseo_deactivate();
-	} else {
+	}
+	else {
 		/* Multi-site network activation - de-activate the plugin for all blogs */
 		wpseo_network_activate_deactivate( false );
 	}
@@ -112,7 +114,8 @@ function wpseo_network_activate_deactivate( $activate = true ) {
 
 			if ( $activate === true ) {
 				_wpseo_activate();
-			} else {
+			}
+			else {
 				_wpseo_deactivate();
 			}
 		}
@@ -131,7 +134,8 @@ function _wpseo_activate() {
 	WPSEO_Options::get_instance();
 	if ( ! is_multisite() ) {
 		WPSEO_Options::initialize();
-	} else {
+	}
+	else {
 		WPSEO_Options::maybe_set_multisite_defaults( true );
 	}
 	WPSEO_Options::ensure_options_exist();
@@ -174,6 +178,8 @@ function _wpseo_deactivate() {
  * Will only be called by multisite actions.
  * @internal Unfortunately will fail if the plugin is in the must-use directory
  * @see      https://core.trac.wordpress.org/ticket/24205
+ *
+ * @param int $blog_id
  */
 function wpseo_on_activate_blog( $blog_id ) {
 	if ( ! function_exists( 'is_plugin_active_for_network' ) ) {
@@ -281,16 +287,19 @@ function wpseo_admin_init() {
 
 if ( ! function_exists( 'spl_autoload_register' ) ) {
 	add_action( 'admin_init', 'yoast_wpseo_self_deactivate', 1 );
-} else if ( ! defined( 'WP_INSTALLING' ) || WP_INSTALLING === false ) {
+}
+else if ( ! defined( 'WP_INSTALLING' ) || WP_INSTALLING === false ) {
 	add_action( 'plugins_loaded', 'wpseo_init', 14 );
 
 	if ( is_admin() ) {
 		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
 			require_once( WPSEO_PATH . 'admin/ajax.php' );
-		} else {
+		}
+		else {
 			add_action( 'plugins_loaded', 'wpseo_admin_init', 15 );
 		}
-	} else {
+	}
+	else {
 		add_action( 'plugins_loaded', 'wpseo_frontend_init', 15 );
 	}
 
@@ -304,7 +313,9 @@ register_deactivation_hook( WPSEO_FILE, 'wpseo_deactivate' );
 add_action( 'wpmu_new_blog', 'wpseo_on_activate_blog' );
 add_action( 'activate_blog', 'wpseo_on_activate_blog' );
 
-
+/**
+ * Wraps for notifications center class.
+ */
 function load_yoast_notifications() {
 	// Init Yoast_Notification_Center class
 	Yoast_Notification_Center::get();
@@ -316,9 +327,7 @@ function load_yoast_notifications() {
  *
  * @since 1.5.4
  *
- * @param    string    Error message
- *
- * @return    void
+ * @return void
  */
 function yoast_wpseo_self_deactivate() {
 	if ( is_admin() ) {
