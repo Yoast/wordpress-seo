@@ -1890,7 +1890,7 @@ class WPSEO_JSON_LD {
 	 *
 	 * @since 1.8
 	 *
-	 * @param $output
+	 * @param string $output
 	 */
 	protected function json_ld_output( $output ) {
 		echo "<script type='application/ld+json'>";

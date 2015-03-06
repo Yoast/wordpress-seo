@@ -70,7 +70,7 @@ class Yoast_Form {
 	/**
 	 * Set the option used in output for form elements
 	 *
-	 * @param $option
+	 * @param string $option_name
 	 */
 	public function set_option( $option_name ) {
 		$this->option_name  = $option_name;
@@ -81,8 +81,6 @@ class Yoast_Form {
 	 * Retrieve options based on whether we're on multisite or not.
 	 *
 	 * @since 1.2.4
-	 *
-	 * @param string $option The option to retrieve.
 	 *
 	 * @return array
 	 */
