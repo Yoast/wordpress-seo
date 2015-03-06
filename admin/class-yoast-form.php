@@ -1,5 +1,12 @@
 <?php
+/**
+ * @package    WPSEO
+ * @subpackage Admin
+ */
 
+/**
+ * Admin form class.
+ */
 class Yoast_Form {
 
 	/**
