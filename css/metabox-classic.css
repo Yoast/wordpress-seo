@@ -6,7 +6,8 @@ ul.wpseo-metabox-tabs li.active {
 	background-color: #eff8ff;
 }
 
-ul.wpseo-metabox-tabs li.active, div.wpseo-tab-content {
+ul.wpseo-metabox-tabs li.active,
+div.wpseo-tab-content {
 	border-color: #d1e5ee;
 }
 

@@ -165,13 +165,13 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 
 			<?php if ( 'top' === $which ) { ?>
 			<form id="posts-filter" action="" method="get">
-				<input type="hidden" name="page" value="wpseo_bulk-editor" />
-				<input type="hidden" name="type" value="<?php echo esc_attr( $this->page_type ); ?>" />
-				<input type="hidden" name="orderby" value="<?php echo esc_attr( $_GET['orderby'] ); ?>" />
-				<input type="hidden" name="order" value="<?php echo esc_attr( $_GET['order'] ); ?>" />
-				<input type="hidden" name="post_type_filter" value="<?php echo esc_attr( $_GET['post_type_filter'] ); ?>" />
+				<input type="hidden" name="page" value="wpseo_bulk-editor"/>
+				<input type="hidden" name="type" value="<?php echo esc_attr( $this->page_type ); ?>"/>
+				<input type="hidden" name="orderby" value="<?php echo esc_attr( $_GET['orderby'] ); ?>"/>
+				<input type="hidden" name="order" value="<?php echo esc_attr( $_GET['order'] ); ?>"/>
+				<input type="hidden" name="post_type_filter" value="<?php echo esc_attr( $_GET['post_type_filter'] ); ?>"/>
 				<?php if ( ! empty( $post_status ) ) { ?>
-					<input type="hidden" name="post_status" value="<?php echo esc_attr( $post_status ); ?>" />
+					<input type="hidden" name="post_status" value="<?php echo esc_attr( $post_status ); ?>"/>
 				<?php } ?>
 				<?php } ?>
 
@@ -180,7 +180,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 				$this->pagination( $which );
 				?>
 
-				<br class="clear" />
+				<br class="clear"/>
 				<?php if ( 'top' === $which ) { ?>
 			</form>
 		<?php } ?>
@@ -846,7 +846,6 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 		$columns['col_row_action'] = __( 'Action', 'wordpress-seo' );
 
 		return $columns;
-
 	}
 
 } /* End of class */

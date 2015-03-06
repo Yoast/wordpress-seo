@@ -30,6 +30,31 @@ function wpseo_do_upgrade() {
 	add_action( 'shutdown', 'flush_rewrite_rules' );
 	WPSEO_Utils::clear_sitemap_cache();
 
+	if ( version_compare( $option_wpseo['version'], '1.8.0', '<' ) ) {
+		$options_titles     = get_option( 'wpseo_titles' );
+		$options_permalinks = get_option( 'wpseo_permalinks' );
+
+		foreach ( array( 'hide-feedlinks', 'hide-rsdlink', 'hide-shortlink', 'hide-wlwmanifest' ) as $hide ) {
+			if ( isset( $options_titles[ $hide ] ) ) {
+				$options_permalinks[ $hide ] = $options_titles[ $hide ];
+				unset( $options_titles[ $hide ] );
+				update_option( 'wpseo_permalinks', $options_permalinks );
+				update_option( 'wpseo_titles', $options_titles );
+			}
+		}
+		unset( $options_titles, $options_permalinks );
+
+		$options_social = get_option( 'wpseo_social' );
+
+		if ( isset( $option_wpseo['pinterestverify'] ) ) {
+			$options_social['pinterestverify'] = $option_wpseo['pinterestverify'];
+			unset( $option_wpseo['pinterestverify'] );
+			update_option( 'wpseo_social', $options_social );
+			update_option( 'wpseo', $option_wpseo );
+		}
+		unset( $options_social );
+	}
+
 	if ( $option_wpseo['version'] === '' || version_compare( $option_wpseo['version'], '1.4.13', '<' ) ) {
 		// Run description test once theme has loaded
 		add_action( 'init', 'wpseo_description_test' );
@@ -62,7 +87,6 @@ function wpseo_do_upgrade() {
 	/* Clean up stray wpseo_ms options from the options table, option should only exist in the sitemeta table */
 	delete_option( 'wpseo_ms' );
 
-
 	// Make sure version nr gets updated for any version without specific upgrades
 	$option_wpseo = get_option( 'wpseo' ); // re-get to make sure we have the latest version
 	if ( version_compare( $option_wpseo['version'], WPSEO_VERSION, '<' ) ) {
@@ -71,8 +95,16 @@ function wpseo_do_upgrade() {
 
 	// Make sure all our options always exist - issue #1245
 	WPSEO_Options::ensure_options_exist();
+
+	add_action( 'admin_footer', 'wpseo_redirect_to_about' );
 }
 
+/**
+ * Redirect to the about page (used on upgrade)
+ */
+function wpseo_redirect_to_about() {
+	echo '<script>window.location ="', admin_url( 'admin.php?page=wpseo_dashboard&intro=1' ), '";</script>';
+}
 
 if ( ! function_exists( 'initialize_wpseo_front' ) ) {
 	/**
@@ -294,22 +326,13 @@ function wpseo_ping_search_engines( $sitemapurl = null ) {
 		return;
 	}
 
-	$options = get_option( 'wpseo_xml' );
 	if ( $sitemapurl == null ) {
 		$sitemapurl = urlencode( wpseo_xml_sitemaps_base_url( 'sitemap_index.xml' ) );
 	}
 
-	// Always ping Google and Bing, optionally ping Ask and Yahoo!
-	wp_remote_get( 'http://www.google.com/webmasters/tools/ping?sitemap=' . $sitemapurl );
-	wp_remote_get( 'http://www.bing.com/ping?sitemap=' . $sitemapurl );
-
-	if ( $options['xml_ping_yahoo'] === true ) {
-		wp_remote_get( 'http://search.yahooapis.com/SiteExplorerService/V1/updateNotification?appid=3usdTDLV34HbjQpIBuzMM1UkECFl5KDN7fogidABihmHBfqaebDuZk1vpLDR64I-&url=' . $sitemapurl );
-	}
-
-	if ( $options['xml_ping_ask'] === true ) {
-		wp_remote_get( 'http://submissions.ask.com/ping?sitemap=' . $sitemapurl );
-	}
+	// Ping Google and Bing
+	wp_remote_get( 'http://www.google.com/webmasters/tools/ping?sitemap=' . $sitemapurl, array( 'blocking' => false ) );
+	wp_remote_get( 'http://www.bing.com/ping?sitemap=' . $sitemapurl, array( 'blocking' => false ) );
 }
 
 add_action( 'wpseo_ping_search_engines', 'wpseo_ping_search_engines' );
@@ -634,40 +657,44 @@ add_shortcode( 'wpseo_sitemap', 'wpseo_sitemap_handler' );
  *
  * @deprecated 1.6.1
  * @deprecated use WPSEO_Utils::strip_shortcode()
- * @see WPSEO_Utils::strip_shortcode()
+ * @see        WPSEO_Utils::strip_shortcode()
  *
  * @param string $text input string that might contain shortcodes
+ *
  * @return string $text string without shortcodes
  */
 function wpseo_strip_shortcode( $text ) {
 	_deprecated_function( __FUNCTION__, 'WPSEO 1.6.1', 'WPSEO_Utils::strip_shortcode()' );
+
 	return WPSEO_Utils::strip_shortcode( $text );
 }
 
 /**
  * Do simple reliable math calculations without the risk of wrong results
- * @see http://floating-point-gui.de/
- * @see the big red warning on http://php.net/language.types.float.php
+ * @see        http://floating-point-gui.de/
+ * @see        the big red warning on http://php.net/language.types.float.php
  *
  * @deprecated 1.6.1
  * @deprecated use WPSEO_Utils::calc()
- * @see WPSEO_Utils::calc()
+ * @see        WPSEO_Utils::calc()
  *
  * In the rare case that the bcmath extension would not be loaded, it will return the normal calculation results
  *
- * @since 1.5.0
+ * @since      1.5.0
  *
- * @param	mixed  $number1   Scalar (string/int/float/bool)
- * @param	string $action    Calculation action to execute.
- * @param	mixed  $number2   Scalar (string/int/float/bool)
- * @param	bool   $round     Whether or not to round the result. Defaults to false.
- * @param	int    $decimals  Decimals for rounding operation. Defaults to 0.
- * @param	int    $precision Calculation precision. Defaults to 10.
- * @return	mixed				Calculation Result or false if either or the numbers isn't scalar or
- *								an invalid operation was passed
+ * @param    mixed  $number1   Scalar (string/int/float/bool)
+ * @param    string $action    Calculation action to execute.
+ * @param    mixed  $number2   Scalar (string/int/float/bool)
+ * @param    bool   $round     Whether or not to round the result. Defaults to false.
+ * @param    int    $decimals  Decimals for rounding operation. Defaults to 0.
+ * @param    int    $precision Calculation precision. Defaults to 10.
+ *
+ * @return    mixed                Calculation Result or false if either or the numbers isn't scalar or
+ *                                an invalid operation was passed
  */
 function wpseo_calc( $number1, $action, $number2, $round = false, $decimals = 0, $precision = 10 ) {
 	_deprecated_function( __FUNCTION__, 'WPSEO 1.6.1', 'WPSEO_Utils::calc()' );
+
 	return WPSEO_Utils::calc( $number1, $action, $number2, $round, $decimals, $precision );
 }
 
@@ -676,12 +703,13 @@ function wpseo_calc( $number1, $action, $number2, $round = false, $decimals = 0,
  *
  * @deprecated 1.6.1
  * @deprecated use WPSEO_Utils::is_apache()
- * @see WPSEO_Utils::is_apache()
+ * @see        WPSEO_Utils::is_apache()
  *
  * @return bool
  */
 function wpseo_is_apache() {
 	_deprecated_function( __FUNCTION__, 'WPSEO 1.6.1', 'WPSEO_Utils::is_apache()' );
+
 	return WPSEO_Utils::is_apache();
 }
 
@@ -690,12 +718,13 @@ function wpseo_is_apache() {
  *
  * @deprecated 1.6.1
  * @deprecated use WPSEO_Utils::is_nginx()
- * @see WPSEO_Utils::is_nginx()
+ * @see        WPSEO_Utils::is_nginx()
  *
  * @return bool
  */
 function wpseo_is_nginx() {
 	_deprecated_function( __FUNCTION__, 'WPSEO 1.6.1', 'WPSEO_Utils::is_nginx()' );
+
 	return WPSEO_Utils::is_nginx();
 }
 
@@ -704,12 +733,13 @@ function wpseo_is_nginx() {
  *
  * @deprecated 1.6.1
  * @deprecated use WPSEO_Utils::get_roles()
- * @see WPSEO_Utils::get_roles()
+ * @see        WPSEO_Utils::get_roles()
  *
  * @return array $roles
  */
 function wpseo_get_roles() {
 	_deprecated_function( __FUNCTION__, 'WPSEO 1.6.1', 'WPSEO_Utils::get_roles()' );
+
 	return WPSEO_Utils::get_roles();
 }
 
@@ -718,7 +748,7 @@ function wpseo_get_roles() {
  *
  * @deprecated 1.6.1
  * @deprecated use WPSEO_Utils::is_url_relative()
- * @see WPSEO_Utils::is_url_relative()
+ * @see        WPSEO_Utils::is_url_relative()
  *
  * @param string $url
  *
@@ -726,6 +756,7 @@ function wpseo_get_roles() {
  */
 function wpseo_is_url_relative( $url ) {
 	_deprecated_function( __FUNCTION__, 'WPSEO 1.6.1', 'WPSEO_Utils::is_url_relative()' );
+
 	return WPSEO_Utils::is_url_relative( $url );
 }
 
@@ -734,9 +765,9 @@ function wpseo_is_url_relative( $url ) {
  *
  * @deprecated 1.6.1
  * @deprecated use WPSEO_Utils::standardize_whitespace()
- * @see WPSEO_Utils::standardize_whitespace()
+ * @see        WPSEO_Utils::standardize_whitespace()
  *
- * @since 1.6.0
+ * @since      1.6.0
  *
  * @param string $string
  *
@@ -744,6 +775,7 @@ function wpseo_is_url_relative( $url ) {
  */
 function wpseo_standardize_whitespace( $string ) {
 	_deprecated_function( __FUNCTION__, 'WPSEO 1.6.1', 'WPSEO_Utils::standardize_whitespace()' );
+
 	return WPSEO_Utils::standardize_whitespace( $string );
 }
 

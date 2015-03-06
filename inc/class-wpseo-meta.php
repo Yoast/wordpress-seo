@@ -222,7 +222,6 @@ class WPSEO_Meta {
 			),
 		),
 		'social'   => array(),
-
 		/* Fields we should validate & save, but not show on any form */
 		'non_form' => array(
 			'linkdex' => array(

@@ -30,11 +30,10 @@ if ( ! empty( $_REQUEST['_wp_http_referer'] ) ) {
 
 <div class="wrap wpseo_table_page">
 
-	<h2 id="wpseo-title"><?php echo esc_html( get_admin_page_title() ); ?></h2>
-
 	<h2 class="nav-tab-wrapper" id="wpseo-tabs">
 		<a class="nav-tab" id="title-tab" href="#top#title"><?php _e( 'Title', 'wordpress-seo' ); ?></a>
-		<a class="nav-tab" id="description-tab" href="#top#description"><?php _e( 'Description', 'wordpress-seo' ); ?></a>
+		<a class="nav-tab" id="description-tab"
+		   href="#top#description"><?php _e( 'Description', 'wordpress-seo' ); ?></a>
 	</h2>
 
 	<div class="tabwrapper">
