@@ -168,13 +168,14 @@ class WPSEO_Pointers {
 		}
 		else {
 			if ( '' != $page && in_array( $page, array_keys( $admin_pages ) ) ) {
-				$align   = ( is_rtl() ) ? 'left' : 'right';
-				$opt_arr = array(
+				$align            = ( is_rtl() ) ? 'left' : 'right';
+				$default_position = array(
+					'edge'  => 'top',
+					'align' => $align,
+				);
+				$opt_arr          = array(
 					'content'      => $admin_pages[ $page ]['content'],
-					'position'     => ( isset ( $admin_pages[ $page ]['position'] ) ) ? ( $admin_pages[ $page ]['position'] ) : array(
-						'edge'  => 'top',
-						'align' => $align,
-					),
+					'position'     => ( isset ( $admin_pages[ $page ]['position'] ) ) ? ( $admin_pages[ $page ]['position'] ) : $default_position,
 					'pointerWidth' => 450,
 				);
 				if ( isset( $admin_pages[ $page ]['next_page'] ) ) {
