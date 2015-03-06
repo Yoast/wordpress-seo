@@ -223,13 +223,7 @@ function yst_updateTitle(force) {
 		var placeholder_title = divHtml.html(title).text();
 		titleElm.attr('placeholder', placeholder_title);
 
-		// Run possibly set filters
-		title = wpseo_apply_filter( title, 'title');
-
-		title = yst_clean(title);
-
-		// and now the snippet preview title
-		title = yst_boldKeywords(title, false)
+		title = sanitize_title( title );
 
 		jQuery('#wpseosnippet_title').html(title);
 
@@ -245,6 +239,19 @@ function yst_updateTitle(force) {
 		yst_testFocusKw();
 	});
 }
+
+function sanitize_title( title ) {
+	// Run possibly set filters
+	title = wpseo_apply_filter( title, 'title');
+
+	title = yst_clean(title);
+
+	// and now the snippet preview title
+	title = yst_boldKeywords(title, false);
+
+	return title;
+}
+
 
 function yst_updateDesc() {
 	var desc = jQuery.trim(yst_clean(jQuery('#' + wpseoMetaboxL10n.field_prefix + 'metadesc').val()));
