@@ -263,7 +263,8 @@ class Yoast_Form {
 				$label_left .= ':';
 			}
 			$this->label( $label_left, array( 'for' => $var ) );
-		} else {
+		}
+		else {
 			$class = 'double';
 		}
 

@@ -58,7 +58,8 @@ if ( defined( 'WPSEO_LOCAL_VERSION' ) ) {
 }
 if ( ! class_exists( 'Woocommerce' ) ) {
 	unset( $extensions['woocommerce-seo'] );
-} elseif ( class_exists( 'Yoast_WooCommerce_SEO' ) ) {
+}
+elseif ( class_exists( 'Yoast_WooCommerce_SEO' ) ) {
 	$extensions['woocommerce-seo']->installed = true;
 }
 
@@ -110,7 +111,8 @@ if ( ! class_exists( 'Woocommerce' ) ) {
 			settings_errors();
 			if ( ! has_action( 'wpseo_licenses_forms' ) ) {
 				echo '<div class="msg"><p>', __( 'This is where you would enter the license keys for one of our premium plugins, should you activate one.', 'wordpress-seo' ), '</p></div>';
-			} else {
+			}
+			else {
 				do_action( 'wpseo_licenses_forms' );
 			}
 			?>

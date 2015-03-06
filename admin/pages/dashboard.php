@@ -34,7 +34,8 @@ if ( isset( $_GET['fixmetadesc'] ) && check_admin_referer( 'wpseo-fix-metadesc',
 	if ( file_exists( get_stylesheet_directory() . '/header.php' ) ) {
 		// theme or child theme
 		$path = get_stylesheet_directory();
-	} elseif ( file_exists( get_template_directory() . '/header.php' ) ) {
+	}
+	elseif ( file_exists( get_template_directory() . '/header.php' ) ) {
 		// parent theme in case of a child theme
 		$path = get_template_directory();
 	}
@@ -60,12 +61,14 @@ if ( isset( $_GET['fixmetadesc'] ) && check_admin_referer( 'wpseo-fix-metadesc',
 							$options['theme_has_description']   = false;
 							$options['theme_description_found'] = '';
 							update_option( 'wpseo', $options );
-						} else {
+						}
+						else {
 							$msg .= '<span class="error">' . __( 'Failed to remove hardcoded meta description.', 'wordpress-seo' ) . '</span>';
 						}
 						fclose( $header_file );
 					}
-				} else {
+				}
+				else {
 					wpseo_description_test();
 					$msg .= '<span class="warning">' . __( 'Earlier found meta description was not found in file. Renewed the description test data.', 'wordpress-seo' ) . '</span>';
 				}

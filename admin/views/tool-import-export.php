@@ -480,7 +480,8 @@ if ( isset( $_POST['wpseo_export'] ) ) {
 			document.location = \'' . $url . '\';
 		</script>';
 		add_action( 'admin_footer-' . $GLOBALS['hook_suffix'], 'wpseo_deliver_export_zip' );
-	} else {
+	}
+	else {
 		$content .= 'Error: ' . $url;
 	}
 }

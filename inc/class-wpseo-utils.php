@@ -534,7 +534,8 @@ class WPSEO_Utils {
 
 				$first = false;
 			}
-		} else {
+		}
+		else {
 			$query .= " option_name LIKE '_transient_timeout_wpseo_sitemap_%'";
 		}
 

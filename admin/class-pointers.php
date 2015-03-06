@@ -30,7 +30,8 @@ class WPSEO_Pointers {
 			}
 			if ( $options['tracking_popup_done'] === false && ! isset( $_GET['allow_tracking'] ) ) {
 				add_action( 'admin_print_footer_scripts', array( $this, 'tracking_request' ) );
-			} elseif ( $options['ignore_tour'] === false ) {
+			}
+			elseif ( $options['ignore_tour'] === false ) {
 				add_action( 'admin_print_footer_scripts', array( $this, 'intro_tour' ) );
 			}
 		}

@@ -278,7 +278,8 @@ abstract class WPSEO_Option {
 
 				if ( preg_match( $regex, $meta ) ) {
 					$clean[ $key ] = $meta;
-				} else {
+				}
+				else {
 					if ( isset( $old[ $key ] ) && preg_match( $regex, $old[ $key ] ) ) {
 						$clean[ $key ] = $old[ $key ];
 					}
@@ -308,7 +309,8 @@ abstract class WPSEO_Option {
 			$url = WPSEO_Utils::sanitize_url( $dirty[ $key ] );
 			if ( $url !== '' ) {
 				$clean[ $key ] = $url;
-			} else {
+			}
+			else {
 				if ( isset( $old[ $key ] ) && $old[ $key ] !== '' ) {
 					$url = WPSEO_Utils::sanitize_url( $old[ $key ] );
 					if ( $url !== '' ) {
