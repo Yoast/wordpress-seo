@@ -10,7 +10,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-global $wpseo_admin_pages;
+$yform = Yoast_Form::get_instance();
 
 $options = get_site_option( 'wpseo_ms' );
 
@@ -20,6 +20,7 @@ if ( isset( $_POST['wpseo_submit'] ) ) {
 	foreach ( array( 'access', 'defaultblog' ) as $opt ) {
 		$options[ $opt ] = $_POST['wpseo_ms'][ $opt ];
 	}
+	unset( $opt );
 	WPSEO_Options::update_site_option( 'wpseo_ms', $options );
 	add_settings_error( 'wpseo_ms', 'settings_updated', __( 'Settings Updated.', 'wordpress-seo' ), 'updated' );
 }
@@ -37,7 +38,7 @@ if ( isset( $_POST['wpseo_restore_blog'] ) ) {
 		else {
 			add_settings_error( 'wpseo_ms', 'settings_updated', sprintf( __( 'Blog %s not found.', 'wordpress-seo' ), esc_html( $restoreblog ) ), 'error' );
 		}
-		unset( $restoreblog );
+		unset( $restoreblog, $blog );
 	}
 }
 
@@ -81,15 +82,14 @@ else {
 	unset( $sites );
 }
 
+$yform->admin_header( false, 'wpseo_ms' );
 
-
-$wpseo_admin_pages->admin_header( false, 'wpseo-network-settings', 'wpseo_ms' );
-
-$content  = '<form method="post" accept-charset="' . esc_attr( get_bloginfo( 'charset' ) ) . '">';
-$content .= wp_nonce_field( 'wpseo-network-settings', '_wpnonce', true, false );
+echo '<h2>', __( 'MultiSite Settings', 'wordpress-seo' ), '</h2>';
+echo '<form method="post" accept-charset="', esc_attr( get_bloginfo( 'charset' ) ), '">';
+wp_nonce_field( 'wpseo-network-settings', '_wpnonce', true, true );
 
 /* @internal Important: Make sure the options added to the array here are in line with the options set in the WPSEO_Option_MS::$allowed_access_options property */
-$content .= $wpseo_admin_pages->select(
+$yform->select(
 	'access',
 	__( 'Who should have access to the WordPress SEO settings', 'wordpress-seo' ),
 	array(
@@ -100,34 +100,32 @@ $content .= $wpseo_admin_pages->select(
 );
 
 if ( $use_dropdown === true ) {
-	$content .= $wpseo_admin_pages->select(
+	$yform->select(
 		'defaultblog',
 		__( 'New sites in the network inherit their SEO settings from this site', 'wordpress-seo' ),
 		$dropdown_input,
 		'wpseo_ms'
 	);
-	$content .= '<p>' . __( 'Choose the site whose settings you want to use as default for all sites that are added to your network. If you choose \'None\', the normal plugin defaults will be used.', 'wordpress-seo' ) . '</p>';
+	echo '<p>' . __( 'Choose the site whose settings you want to use as default for all sites that are added to your network. If you choose \'None\', the normal plugin defaults will be used.', 'wordpress-seo' ) . '</p>';
 }
 else {
-	$content .= $wpseo_admin_pages->textinput( 'defaultblog', __( 'New sites in the network inherit their SEO settings from this site', 'wordpress-seo' ), 'wpseo_ms' );
-	$content .= '<p>' . sprintf( __( 'Enter the %sSite ID%s for the site whose settings you want to use as default for all sites that are added to your network. Leave empty for none (i.e. the normal plugin defaults will be used).', 'wordpress-seo' ), '<a href="' . esc_url( network_admin_url( 'sites.php' ) ) . '">', '</a>' ) . '</p>';
+	$yform->textinput( 'defaultblog', __( 'New sites in the network inherit their SEO settings from this site', 'wordpress-seo' ), 'wpseo_ms' );
+	echo '<p>' . sprintf( __( 'Enter the %sSite ID%s for the site whose settings you want to use as default for all sites that are added to your network. Leave empty for none (i.e. the normal plugin defaults will be used).', 'wordpress-seo' ), '<a href="' . esc_url( network_admin_url( 'sites.php' ) ) . '">', '</a>' ) . '</p>';
 }
-	$content .= '<p><strong>' . __( 'Take note:', 'wordpress-seo' ) . '</strong> ' . __( 'Privacy sensitive (FB admins and such), theme specific (title rewrite) and a few very site specific settings will not be imported to new blogs.', 'wordpress-seo' ) . '</p>';
+	echo '<p><strong>' . __( 'Take note:', 'wordpress-seo' ) . '</strong> ' . __( 'Privacy sensitive (FB admins and such), theme specific (title rewrite) and a few very site specific settings will not be imported to new blogs.', 'wordpress-seo' ) . '</p>';
 
 
-$content .= '<input type="submit" name="wpseo_submit" class="button-primary" value="' . __( 'Save MultiSite Settings', 'wordpress-seo' ) . '"/>';
-$content .= '</form>';
+echo '<input type="submit" name="wpseo_submit" class="button-primary" value="' . __( 'Save MultiSite Settings', 'wordpress-seo' ) . '"/>';
+echo '</form>';
 
-$wpseo_admin_pages->postbox( 'wpseo_network_settings', __( 'MultiSite Settings', 'wordpress-seo' ), $content );
-
-
-$content  = '<form method="post" accept-charset="' . esc_attr( get_bloginfo( 'charset' ) ) . '">';
-$content .= wp_nonce_field( 'wpseo-network-restore', '_wpnonce', true, false );
-$content .= '<p>' . __( 'Using this form you can reset a site to the default SEO settings.', 'wordpress-seo' ) . '</p>';
+echo '<h2>' . __( 'Restore site to default settings', 'wordpress-seo' ) . '</h2>';
+echo '<form method="post" accept-charset="' . esc_attr( get_bloginfo( 'charset' ) ) . '">';
+wp_nonce_field( 'wpseo-network-restore', '_wpnonce', true, true );
+echo '<p>' . __( 'Using this form you can reset a site to the default SEO settings.', 'wordpress-seo' ) . '</p>';
 
 if ( $use_dropdown === true ) {
 	unset( $dropdown_input['-'] );
-	$content .= $wpseo_admin_pages->select(
+	$yform->select(
 		'restoreblog',
 		__( 'Site ID', 'wordpress-seo' ),
 		$dropdown_input,
@@ -135,12 +133,11 @@ if ( $use_dropdown === true ) {
 	);
 }
 else {
-	$content .= $wpseo_admin_pages->textinput( 'restoreblog', __( 'Blog ID', 'wordpress-seo' ), 'wpseo_ms' );
+	$yform->textinput( 'restoreblog', __( 'Blog ID', 'wordpress-seo' ), 'wpseo_ms' );
 }
 
-$content .= '<input type="submit" name="wpseo_restore_blog" value="' . __( 'Restore site to defaults', 'wordpress-seo' ) . '" class="button"/>';
-$content .= '</form>';
+echo '<input type="submit" name="wpseo_restore_blog" value="' . __( 'Restore site to defaults', 'wordpress-seo' ) . '" class="button"/>';
+echo '</form>';
 
-$wpseo_admin_pages->postbox( 'wpseo-network-restore', __( 'Restore site to default settings', 'wordpress-seo' ), $content );
 
-$wpseo_admin_pages->admin_footer( false );
+$yform->admin_footer( false );

@@ -1,10 +1,14 @@
 <?php
+/**
+ * @package    WPSEO
+ * @subpackage Unittests
+ */
 
 class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 
 	/**
-	* @covers WPSEO_Meta::set_value()
-	*/
+	 * @covers WPSEO_Meta::set_value()
+	 */
 	public function test_set_value() {
 		// create and go to post
 		$post_id = $this->factory->post->create();
@@ -15,8 +19,8 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	* @covers WPSEO_Meta::get_value()
-	*/
+	 * @covers WPSEO_Meta::get_value()
+	 */
 	public function test_get_value() {
 
 		// create and go to post
@@ -33,9 +37,9 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	* Test if default meta values are removed when updating post_meta
-	* @covers WPSEO_Meta::remove_meta_if_default
-	*/
+	 * Test if default meta values are removed when updating post_meta
+	 * @covers WPSEO_Meta::remove_meta_if_default
+	 */
 	public function test_remove_meta_if_default() {
 		// create and go to post
 		$post_id = $this->factory->post->create();
@@ -44,7 +48,7 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 		$key = WPSEO_Meta::$meta_prefix . 'meta-robots-noindex';
 
 		// set post meta to default value
-		$default_value = WPSEO_Meta::$defaults[$key];
+		$default_value = WPSEO_Meta::$defaults[ $key ];
 		update_post_meta( $post_id, $key, $default_value );
 
 		// default post meta should not be saved
@@ -53,9 +57,9 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	* Test if default meta values aren't saved when updating post_meta
-	* @covers WPSEO_Meta::dont_save_meta_if_default
-	*/
+	 * Test if default meta values aren't saved when updating post_meta
+	 * @covers WPSEO_Meta::dont_save_meta_if_default
+	 */
 	public function test_dont_save_meta_if_default() {
 		// create and go to post
 		$post_id = $this->factory->post->create();
@@ -65,7 +69,7 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 		$key = WPSEO_Meta::$meta_prefix . 'meta-robots-noindex';
 
 		// add default value to post_meta
-		$default_value = WPSEO_Meta::$defaults[$key];
+		$default_value = WPSEO_Meta::$defaults[ $key ];
 		add_post_meta( $post_id, $key, $default_value );
 
 		// default post meta should not be saved
@@ -74,8 +78,8 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	* @covers WPSEO_Meta::meta_value_is_default
-	*/
+	 * @covers WPSEO_Meta::meta_value_is_default
+	 */
 	public function test_meta_value_is_default() {
 		$meta_key   = WPSEO_Meta::$meta_prefix . 'meta-robots-noindex';
 		$meta_value = WPSEO_Meta::$defaults[ $meta_key ];
@@ -84,10 +88,10 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	* Test if two arrays are recursively merged, the latter overwriting the first.
-	*
-	* @covers WPSEO_Meta::array_merge_recursive_distinct
-	*/
+	 * Test if two arrays are recursively merged, the latter overwriting the first.
+	 *
+	 * @covers WPSEO_Meta::array_merge_recursive_distinct
+	 */
 	public function test_array_merge_recursive_distinct() {
 
 		$inputArray1 = array(
@@ -107,8 +111,8 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	* @covers WPSEO_Meta::validate_meta_robots_adv
-	*/
+	 * @covers WPSEO_Meta::validate_meta_robots_adv
+	 */
 	public function test_validate_meta_robots_adv() {
 
 		// none should take precedence
@@ -124,11 +128,11 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( 'noarchive,nosnippet', WPSEO_Meta::validate_meta_robots_adv( array( 'noarchive', 'nosnippet' ) ) );
 
 	}
-	
+
 	/**
-	* Test value returned when valid $_POST key supplied
-	* @covers WPSEO_Meta::get_post_value
-	*/
+	 * Test value returned when valid $_POST key supplied
+	 * @covers WPSEO_Meta::get_post_value
+	 */
 	public function test_get_post_value() {
 		$key = 'my_test_key';
 		$value = 'my_test_key_value';
@@ -136,14 +140,12 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 
 		$this->assertEquals( $value, WPSEO_Meta::get_post_value( $key ) );
 	}
-	
+
 	/**
-	* Test default value returned when non-existant $_POST key supplied
-	* @covers WPSEO_Meta::get_post_value
-	*/
+	 * Test default value returned when non-existant $_POST key supplied
+	 * @covers WPSEO_Meta::get_post_value
+	 */
 	public function test_get_post_value_default() {
 		$this->assertEquals( '', WPSEO_Meta::get_post_value( 'my_missing_test_key' ) );
 	}
-
-
 }

@@ -148,6 +148,7 @@ class WPSEO_Rewrite {
 				$category_rewrite[ $blog_prefix . '(' . $category_nicename . ')/' . $wp_rewrite->pagination_base . '/?([0-9]{1,})/?$' ] = 'index.php?category_name=$matches[1]&paged=$matches[2]';
 				$category_rewrite[ $blog_prefix . '(' . $category_nicename . ')/?$' ]                                                   = 'index.php?category_name=$matches[1]';
 			}
+			unset( $categories, $category, $category_nicename );
 		}
 
 		// Redirect support from Old Category Base

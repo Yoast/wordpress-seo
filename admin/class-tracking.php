@@ -71,7 +71,7 @@ class Yoast_Tracking {
 		set_transient( $transient_key, 1, WEEK_IN_SECONDS );
 
 		// Start of Metrics
-		global $blog_id, $wpdb;
+		global $wpdb;
 
 		$hash = get_option( 'Yoast_Tracking_Hash', false );
 
@@ -89,7 +89,7 @@ class Yoast_Tracking {
 				$pts[ $post_type ] = $count->publish;
 			}
 		}
-		unset( $post_types );
+		unset( $post_types, $post_type, $count );
 
 		$comments_count = wp_count_comments();
 
@@ -117,16 +117,16 @@ class Yoast_Tracking {
 		unset( $theme_template );
 
 
-		$plugins       = array();
-		$active_plugin = get_option( 'active_plugins' );
-		foreach ( $active_plugin as $plugin_path ) {
+		$plugins        = array();
+		$active_plugins = get_option( 'active_plugins' );
+		foreach ( $active_plugins as $plugin_path ) {
 			if ( ! function_exists( 'get_plugin_data' ) ) {
 				require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 			}
 
 			$plugin_info = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin_path );
 
-			$slug           = str_replace( '/' . basename( $plugin_path ), '', $plugin_path );
+			$slug             = str_replace( '/' . basename( $plugin_path ), '', $plugin_path );
 			$plugins[ $slug ] = array(
 				'version'    => $plugin_info['Version'],
 				'name'       => $plugin_info['Name'],
@@ -135,7 +135,7 @@ class Yoast_Tracking {
 				'author_uri' => $plugin_info['AuthorURI'],
 			);
 		}
-		unset( $active_plugins, $plugin_path );
+		unset( $active_plugins, $plugin_path, $plugin_info, $slug );
 
 
 		$data = array(
@@ -143,7 +143,7 @@ class Yoast_Tracking {
 				'hash'      => $hash,
 				'version'   => get_bloginfo( 'version' ),
 				'multisite' => is_multisite(),
-				'users'     => $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM $wpdb->users INNER JOIN $wpdb->usermeta ON ({$wpdb->users}.ID = {$wpdb->usermeta}.user_id) WHERE 1 = 1 AND ( {$wpdb->usermeta}.meta_key = %s )", 'wp_' . $blog_id . '_capabilities' ) ),
+				'users'     => $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM $wpdb->users INNER JOIN $wpdb->usermeta ON ({$wpdb->users}.ID = {$wpdb->usermeta}.user_id) WHERE 1 = 1 AND ( {$wpdb->usermeta}.meta_key = %s )", 'wp_' . $GLOBALS['blog_id'] . '_capabilities' ) ),
 				'lang'      => get_locale(),
 			),
 			'pts'      => $pts,
@@ -200,23 +200,17 @@ function wpseo_tracking_additions( $options ) {
 		'wmt_pinterest'               => ( ! empty( $opt['pinterestverify'] ) ) ? 1 : 0,
 		'wmt_yandex'                  => ( ! empty( $opt['yandexverify'] ) ) ? 1 : 0,
 		'permalinks_clean'            => ( $opt['cleanpermalinks'] == 1 ) ? 1 : 0,
-
 		'site_db_charset'             => DB_CHARSET,
-
 		'webserver_apache'            => WPSEO_Utils::is_apache() ? 1 : 0,
 		'webserver_apache_version'    => function_exists( 'apache_get_version' ) ? apache_get_version() : 0,
 		'webserver_nginx'             => WPSEO_Utils::is_nginx() ? 1 : 0,
-
 		'webserver_server_software'   => $_SERVER['SERVER_SOFTWARE'],
 		'webserver_gateway_interface' => $_SERVER['GATEWAY_INTERFACE'],
 		'webserver_server_protocol'   => $_SERVER['SERVER_PROTOCOL'],
-
 		'php_version'                 => phpversion(),
-
 		'php_max_execution_time'      => ini_get( 'max_execution_time' ),
 		'php_memory_limit'            => ini_get( 'memory_limit' ),
 		'php_open_basedir'            => ini_get( 'open_basedir' ),
-
 		'php_bcmath_enabled'          => extension_loaded( 'bcmath' ) ? 1 : 0,
 		'php_ctype_enabled'           => extension_loaded( 'ctype' ) ? 1 : 0,
 		'php_curl_enabled'            => extension_loaded( 'curl' ) ? 1 : 0,

@@ -69,6 +69,7 @@ class WPSEO_Frontend {
 
 		$this->options = WPSEO_Options::get_all();
 
+		add_action( 'wp_head', array( $this, 'front_page_specific_init' ), 0 );
 		add_action( 'wp_head', array( $this, 'head' ), 1 );
 
 		// The head function here calls action wpseo_head, to which we hook all our functionality
@@ -79,8 +80,6 @@ class WPSEO_Frontend {
 		add_action( 'wpseo_head', array( $this, 'canonical' ), 20 );
 		add_action( 'wpseo_head', array( $this, 'adjacent_rel_links' ), 21 );
 		add_action( 'wpseo_head', array( $this, 'publisher' ), 22 );
-		add_action( 'wpseo_head', array( $this, 'webmaster_tools_authentication' ), 90 );
-		add_action( 'wpseo_head', array( $this, 'internal_search_json_ld' ), 90 );
 
 		// Remove actions that we will handle through our wpseo_head call, and probably change the output of
 		remove_action( 'wp_head', 'rel_canonical' );
@@ -119,8 +118,8 @@ class WPSEO_Frontend {
 		}
 
 		if ( ( $this->options['disable-date'] === true ||
-				$this->options['disable-author'] === true ) ||
-			( isset( $this->options['disable-post_formats'] ) && $this->options['disable-post_formats'] )
+		       $this->options['disable-author'] === true ) ||
+		     ( isset( $this->options['disable-post_formats'] ) && $this->options['disable-post_formats'] )
 		) {
 			add_action( 'wp', array( $this, 'archive_redirect' ) );
 		}
@@ -148,6 +147,19 @@ class WPSEO_Frontend {
 		if ( $this->options['title_test'] > 0 ) {
 			add_filter( 'wpseo_title', array( $this, 'title_test_helper' ) );
 		}
+	}
+
+	/**
+	 * Initialize the functions that only need to run on the frontpage
+	 */
+	public function front_page_specific_init() {
+		if ( ! is_front_page() ) {
+			return;
+		}
+
+		new WPSEO_JSON_LD;
+
+		add_action( 'wpseo_head', array( $this, 'webmaster_tools_authentication' ), 90 );
 	}
 
 	/**
@@ -225,8 +237,7 @@ class WPSEO_Frontend {
 	 */
 	public function get_content_title( $object = null ) {
 		if ( is_null( $object ) ) {
-			global $wp_query;
-			$object = $wp_query->get_queried_object();
+			$object = $GLOBALS['wp_query']->get_queried_object();
 		}
 
 		$title = WPSEO_Meta::get_value( 'title', $object->ID );
@@ -246,8 +257,7 @@ class WPSEO_Frontend {
 	 * @return string
 	 */
 	public function get_taxonomy_title() {
-		global $wp_query;
-		$object = $wp_query->get_queried_object();
+		$object = $GLOBALS['wp_query']->get_queried_object();
 
 		$title = WPSEO_Taxonomy_Meta::get_term_meta( $object, $object->taxonomy, 'title' );
 
@@ -460,8 +470,7 @@ class WPSEO_Frontend {
 				else {
 					$title_part = single_term_title( '', false );
 					if ( $title_part === '' ) {
-						global $wp_query;
-						$term       = $wp_query->get_queried_object();
+						$term       = $GLOBALS['wp_query']->get_queried_object();
 						$title_part = $term->name;
 					}
 				}
@@ -619,70 +628,30 @@ class WPSEO_Frontend {
 	 * Output Webmaster Tools authentication strings
 	 */
 	public function webmaster_tools_authentication() {
-		if ( is_front_page() ) {
-			// Alexa
-			if ( $this->options['alexaverify'] !== '' ) {
-				echo '<meta name="alexaVerifyID" content="' . esc_attr( $this->options['alexaverify'] ) . "\" />\n";
-			}
-
-			// Bing
-			if ( $this->options['msverify'] !== '' ) {
-				echo '<meta name="msvalidate.01" content="' . esc_attr( $this->options['msverify'] ) . "\" />\n";
-			}
-
-			// Google
-			if ( $this->options['googleverify'] !== '' ) {
-				echo '<meta name="google-site-verification" content="' . esc_attr( $this->options['googleverify'] ) . "\" />\n";
-			}
-
-			// Pinterest
-			if ( $this->options['pinterestverify'] !== '' ) {
-				echo '<meta name="p:domain_verify" content="' . esc_attr( $this->options['pinterestverify'] ) . "\" />\n";
-			}
-
-			// Yandex
-			if ( $this->options['yandexverify'] !== '' ) {
-				echo '<meta name="yandex-verification" content="' . esc_attr( $this->options['yandexverify'] ) . "\" />\n";
-			}
-		}
-	}
-
-	/**
-	 * Outputs JSON+LD code to allow recognition of the internal search engine
-	 *
-	 * @since 1.5.7
-	 *
-	 * @link  https://developers.google.com/webmasters/richsnippets/sitelinkssearch
-	 */
-	public function internal_search_json_ld() {
-		if ( ! is_front_page() ) {
-			return;
+		// Alexa
+		if ( $this->options['alexaverify'] !== '' ) {
+			echo '<meta name="alexaVerifyID" content="' . esc_attr( $this->options['alexaverify'] ) . "\" />\n";
 		}
 
-		/**
-		 * Filter: 'disable_wpseo_json_ld_search' - Allow disabling of the json+ld output
-		 *
-		 * @api bool $display_search Whether or not to display json+ld search on the frontend
-		 */
-		if ( apply_filters( 'disable_wpseo_json_ld_search', false ) === true ) {
-			return;
+		// Bing
+		if ( $this->options['msverify'] !== '' ) {
+			echo '<meta name="msvalidate.01" content="' . esc_attr( $this->options['msverify'] ) . "\" />\n";
 		}
 
-		$home_url = trailingslashit( home_url() );
+		// Google
+		if ( $this->options['googleverify'] !== '' ) {
+			echo '<meta name="google-site-verification" content="' . esc_attr( $this->options['googleverify'] ) . "\" />\n";
+		}
 
-		/**
-		 * Filter: 'wpseo_json_ld_search_url' - Allows filtering of the search URL for WP SEO
-		 *
-		 * @api string $search_url The search URL for this site with a `{search_term}` variable.
-		 */
-		$search_url = apply_filters( 'wpseo_json_ld_search_url', $home_url . '?s={search_term}' );
+		// Pinterest
+		if ( $this->options['pinterestverify'] !== '' ) {
+			echo '<meta name="p:domain_verify" content="' . esc_attr( $this->options['pinterestverify'] ) . "\" />\n";
+		}
 
-		/**
-		 * Filter: 'wpseo_json_ld_search_output' - Allows filtering of the entire output of the function
-		 *
-		 * @api string $output The output of the function.
-		 */
-		echo apply_filters( 'wpseo_json_ld_search_output', '<script type="application/ld+json">{ "@context": "http://schema.org", "@type": "WebSite", "url": "' . $home_url . '", "potentialAction": { "@type": "SearchAction", "target": "' . $search_url . '", "query-input": "required name=search_term" } }</script>' . "\n" );
+		// Yandex
+		if ( $this->options['yandexverify'] !== '' ) {
+			echo '<meta name="yandex-verification" content="' . esc_attr( $this->options['yandexverify'] ) . "\" />\n";
+		}
 	}
 
 	/**
@@ -703,7 +672,7 @@ class WPSEO_Frontend {
 		 */
 		do_action( 'wpseo_head' );
 
-		echo '<!-- / ' . $this->head_product_name() . ". -->\n\n";
+		echo '<!-- / ', $this->head_product_name(), ". -->\n\n";
 
 		if ( ! empty( $old_wp_query ) ) {
 			$GLOBALS['wp_query'] = $old_wp_query;
@@ -823,7 +792,7 @@ class WPSEO_Frontend {
 		$robotsstr = apply_filters( 'wpseo_robots', $robotsstr );
 
 		if ( is_string( $robotsstr ) && $robotsstr !== '' ) {
-			echo '<meta name="robots" content="' . esc_attr( $robotsstr ) . '"/>' . "\n";
+			echo '<meta name="robots" content="', esc_attr( $robotsstr ), '"/>', "\n";
 		}
 
 		return $robotsstr;
@@ -926,7 +895,7 @@ class WPSEO_Frontend {
 
 			// Fix paginated pages canonical, but only if the page is truly paginated.
 			if ( get_query_var( 'page' ) > 1 ) {
-				$num_pages = (substr_count( $obj->post_content, '<!--nextpage-->' ) + 1);
+				$num_pages = ( substr_count( $obj->post_content, '<!--nextpage-->' ) + 1 );
 				if ( $num_pages && get_query_var( 'page' ) <= $num_pages ) {
 					if ( ! $GLOBALS['wp_rewrite']->using_permalinks() ) {
 						$canonical = add_query_arg( 'page', get_query_var( 'page' ), $canonical );
@@ -1076,7 +1045,7 @@ class WPSEO_Frontend {
 				}
 
 				if ( $paged == 2 ) {
-					$this->adjacent_rel_link( 'prev', $url, ($paged - 1), true );
+					$this->adjacent_rel_link( 'prev', $url, ( $paged - 1 ), true );
 				}
 
 				// Make sure to use index.php when needed, done after paged == 2 check so the prev links to homepage will not have index.php erroneously.
@@ -1085,18 +1054,18 @@ class WPSEO_Frontend {
 				}
 
 				if ( $paged > 2 ) {
-					$this->adjacent_rel_link( 'prev', $url, ($paged - 1), true );
+					$this->adjacent_rel_link( 'prev', $url, ( $paged - 1 ), true );
 				}
 
 				if ( $paged < $wp_query->max_num_pages ) {
-					$this->adjacent_rel_link( 'next', $url, ($paged + 1), true );
+					$this->adjacent_rel_link( 'next', $url, ( $paged + 1 ), true );
 				}
 			}
 		}
 		else {
 			$numpages = 0;
 			if ( isset( $wp_query->post->post_content ) ) {
-				$numpages = (substr_count( $wp_query->post->post_content, '<!--nextpage-->' ) + 1);
+				$numpages = ( substr_count( $wp_query->post->post_content, '<!--nextpage-->' ) + 1 );
 			}
 			if ( $numpages > 1 ) {
 				$page = get_query_var( 'page' );
@@ -1127,14 +1096,14 @@ class WPSEO_Frontend {
 	/**
 	 * Get adjacent pages link for archives
 	 *
+	 * @since 1.0.2
+	 *
 	 * @param string  $rel                  Link relationship, prev or next.
 	 * @param string  $url                  the un-paginated URL of the current archive.
 	 * @param string  $page                 the page number to add on to $url for the $link tag.
 	 * @param boolean $incl_pagination_base whether or not to include /page/ or not.
 	 *
 	 * @return void
-	 *
-	 * @since 1.0.2
 	 */
 	private function adjacent_rel_link( $rel, $url, $page, $incl_pagination_base ) {
 		global $wp_rewrite;
@@ -1157,7 +1126,7 @@ class WPSEO_Frontend {
 		 *
 		 * @api string $unsigned The full `<link` element.
 		 */
-		$link = apply_filters( 'wpseo_' . $rel . '_rel_link', '<link rel="' . $rel . '" href="' . esc_url( $url ) . "\" />\n" );
+		$link = apply_filters( 'wpseo_' . $rel . '_rel_link', '<link rel="' . esc_attr( $rel ) . '" href="' . esc_url( $url ) . "\" />\n" );
 
 		if ( is_string( $link ) && $link !== '' ) {
 			echo $link;
@@ -1166,12 +1135,13 @@ class WPSEO_Frontend {
 
 	/**
 	 * Output the rel=publisher code on every page of the site.
+	 *
 	 * @return boolean Boolean indicating whether the publisher link was printed
 	 */
 	public function publisher() {
 
 		if ( $this->options['plus-publisher'] !== '' ) {
-			echo '<link rel="publisher" href="' . esc_url( $this->options['plus-publisher'] ) . '"/>' . "\n";
+			echo '<link rel="publisher" href="', esc_url( $this->options['plus-publisher'] ), '"/>', "\n";
 
 			return true;
 		}
@@ -1194,7 +1164,7 @@ class WPSEO_Frontend {
 		$keywords = '';
 
 		if ( is_singular() ) {
-			$keywords = wpseo_replace_vars( WPSEO_Meta::get_value( 'metakeywords' ), $post );
+			$keywords = WPSEO_Meta::get_value( 'metakeywords' );
 			if ( $keywords === '' && ( is_object( $post ) && ( ( isset( $this->options[ 'metakey-' . $post->post_type ] ) && $this->options[ 'metakey-' . $post->post_type ] !== '' ) ) ) ) {
 				$keywords = wpseo_replace_vars( $this->options[ 'metakey-' . $post->post_type ], $post );
 			}
@@ -1213,7 +1183,7 @@ class WPSEO_Frontend {
 				$term = $wp_query->get_queried_object();
 
 				if ( is_object( $term ) ) {
-					$keywords = wpseo_replace_vars( WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'metakey' ), $term );
+					$keywords = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'metakey' );
 					if ( ( ! is_string( $keywords ) || $keywords === '' ) && ( isset( $this->options[ 'metakey-tax-' . $term->taxonomy ] ) && $this->options[ 'metakey-tax-' . $term->taxonomy ] !== '' ) ) {
 						$keywords = wpseo_replace_vars( $this->options[ 'metakey-tax-' . $term->taxonomy ], $term );
 					}
@@ -1247,7 +1217,7 @@ class WPSEO_Frontend {
 		$keywords = apply_filters( 'wpseo_metakeywords', trim( $keywords ) ); // more appropriately named
 
 		if ( is_string( $keywords ) && $keywords !== '' ) {
-			echo '<meta name="keywords" content="' . esc_attr( strip_tags( stripslashes( $keywords ) ) ) . '"/>' . "\n";
+			echo '<meta name="keywords" content="', esc_attr( strip_tags( stripslashes( $keywords ) ) ), '"/>', "\n";
 		}
 	}
 
@@ -1265,10 +1235,10 @@ class WPSEO_Frontend {
 
 		if ( $echo !== false ) {
 			if ( is_string( $this->metadesc ) && $this->metadesc !== '' ) {
-				echo '<meta name="description" content="' . esc_attr( strip_tags( stripslashes( $this->metadesc ) ) ) . '"/>' . "\n";
+				echo '<meta name="description" content="', esc_attr( strip_tags( stripslashes( $this->metadesc ) ) ), '"/>', "\n";
 			}
 			elseif ( current_user_can( 'manage_options' ) && is_singular() ) {
-				echo '<!-- ' . __( 'Admin only notice: this page doesn\'t show a meta description because it doesn\'t have one, either write it for this page specifically or go into the SEO -> Titles menu and set up a template.', 'wordpress-seo' ) . ' -->' . "\n";
+				echo '<!-- ', __( 'Admin only notice: this page doesn\'t show a meta description because it doesn\'t have one, either write it for this page specifically or go into the SEO -> Titles menu and set up a template.', 'wordpress-seo' ), ' -->', "\n";
 			}
 		}
 		else {
@@ -1323,7 +1293,7 @@ class WPSEO_Frontend {
 			elseif ( is_category() || is_tag() || is_tax() ) {
 				$term              = $wp_query->get_queried_object();
 				$metadesc_override = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'desc' );
-				if ( ( is_object( $term ) && isset( $term->taxonomy ) ) && isset( $this->options[ 'metadesc-tax-' . $term->taxonomy ] ) ) {
+				if ( is_object( $term ) && isset( $term->taxonomy, $this->options[ 'metadesc-tax-' . $term->taxonomy ] ) ) {
 					$template = $this->options[ 'metadesc-tax-' . $term->taxonomy ];
 				}
 			}
@@ -1355,19 +1325,21 @@ class WPSEO_Frontend {
 			}
 		}
 
+		$post_data = $post;
+
 		if ( ( ! is_string( $metadesc ) || '' === $metadesc ) && '' !== $template ) {
 			if ( ! isset( $term ) ) {
 				$term = $wp_query->get_queried_object();
 			}
 
-			$metadesc = $template;
-			$post     = $term;
+			$metadesc  = $template;
+			$post_data = $term;
 		}
 
 		if ( is_string( $metadesc_override ) && '' !== $metadesc_override ) {
 			$metadesc = $metadesc_override;
 		}
-		$metadesc = wpseo_replace_vars( $metadesc, $post );
+		$metadesc = wpseo_replace_vars( $metadesc, $post_data );
 
 		/**
 		 * Filter: 'wpseo_metadesc' - Allow changing the WP SEO meta description sentence.
@@ -1403,7 +1375,7 @@ class WPSEO_Frontend {
 	 * Outputs noindex values for the current page.
 	 */
 	public function noindex_page() {
-		echo '<meta name="robots" content="noindex" />' . "\n";
+		echo '<meta name="robots" content="noindex" />', "\n";
 	}
 
 	/**
@@ -1511,8 +1483,7 @@ class WPSEO_Frontend {
 	function replytocom_redirect() {
 
 		if ( isset( $_GET['replytocom'] ) && is_singular() ) {
-			global $post;
-			$url          = get_permalink( $post->ID );
+			$url          = get_permalink( $GLOBALS['post']->ID );
 			$hash         = sanitize_text_field( $_GET['replytocom'] );
 			$query_string = remove_query_arg( 'replytocom', sanitize_text_field( $_SERVER['QUERY_STRING'] ) );
 			if ( ! empty( $query_string ) ) {
@@ -1573,13 +1544,13 @@ class WPSEO_Frontend {
 			}
 
 			// Fix reply to comment links, whoever decided this should be a GET variable?
-			$result = preg_match( '`(\?replytocom=[^&]+)`', sanitize_text_field( $_SERVER['REQUEST_URI'] ), $matches );
-			if ( $result ) {
+			if ( preg_match( '`(\?replytocom=[^&]+)`', sanitize_text_field( $_SERVER['REQUEST_URI'] ), $matches ) ) {
 				$properurl .= str_replace( '?replytocom=', '#comment-', $matches[0] );
 			}
+			unset( $matches );
 
 			// Prevent cleaning out posts & page previews for people capable of viewing them
-			if ( isset( $_GET['preview'] ) && isset( $_GET['preview_nonce'] ) && current_user_can( 'edit_post' ) ) {
+			if ( isset( $_GET['preview'], $_GET['preview_nonce'] ) && current_user_can( 'edit_post' ) ) {
 				$properurl = '';
 			}
 		}
@@ -1588,8 +1559,7 @@ class WPSEO_Frontend {
 				$properurl = get_bloginfo( 'url' ) . '/';
 			}
 			elseif ( $this->is_home_static_page() ) {
-				global $post;
-				$properurl = get_permalink( $post->ID );
+				$properurl = get_permalink( $GLOBALS['post']->ID );
 			}
 		}
 		elseif ( is_category() || is_tag() || is_tax() ) {
@@ -1676,6 +1646,7 @@ class WPSEO_Frontend {
 				$properurl = '';
 			}
 		}
+		unset( $get );
 
 		if ( ! empty( $properurl ) && $cururl != $properurl ) {
 			wp_safe_redirect( $properurl, 301 );
@@ -1853,8 +1824,7 @@ class WPSEO_Frontend {
 			define( 'DONOTMINIFY', true );
 		}
 
-		global $wp_version;
-		if ( $_SERVER['HTTP_USER_AGENT'] == "WordPress/${wp_version}; " . get_bloginfo( 'url' ) . ' - Yoast' ) {
+		if ( $_SERVER['HTTP_USER_AGENT'] === "WordPress/{$GLOBALS['wp_version']}; " . get_bloginfo( 'url' ) . ' - Yoast' ) {
 			return 'This is a Yoast Test Title';
 		}
 
@@ -1876,3 +1846,205 @@ class WPSEO_Frontend {
 	}
 
 } /* End of class */
+
+/**
+ * Class WPSEO_JSON_LD
+ *
+ * Outputs schema code specific for Google's JSON LD stuff
+ *
+ * @since 1.8
+ */
+class WPSEO_JSON_LD {
+
+	/**
+	 * @var array Holds the plugins options.
+	 */
+	public $options = array();
+
+	/**
+	 * Holds the social profiles for the entity
+	 * @var array
+	 */
+	private $profiles = array();
+
+	/**
+	 * Class constructor
+	 */
+	public function __construct() {
+		$this->options = WPSEO_Options::get_all();
+
+		add_action( 'wpseo_head', array( $this, 'json_ld' ), 90 );
+		add_action( 'wpseo_json_ld', array( $this, 'organization_or_person' ), 10 );
+		add_action( 'wpseo_json_ld', array( $this, 'internal_search' ), 20 );
+	}
+
+	/**
+	 * JSON LD output function that the functions for specific code can hook into
+	 *
+	 * @since 1.8
+	 */
+	public function json_ld() {
+		do_action( 'wpseo_json_ld' );
+	}
+
+	/**
+	 * Outputs the JSON LD code in a valid JSON+LD wrapper
+	 *
+	 * @since 1.8
+	 *
+	 * @param string $output
+	 */
+	protected function json_ld_output( $output ) {
+		echo "<script type='application/ld+json'>";
+		echo preg_replace( '/[\n\t]/', '', $output );
+		echo '</script>' . "\n";
+	}
+
+	/**
+	 * Returns JSON+LD schema for Organization
+	 *
+	 * @return string
+	 */
+	private function organization() {
+		$output = '';
+		if ( '' !== $this->options['company_name'] ) {
+			$output = '{ "@context": "http://schema.org",
+			"@type": "Organization",
+			"name": "' . esc_attr( $this->options['company_name'] ) . '",
+			"url": "' . home_url() . '",
+			"logo": "' . esc_url( $this->options['company_logo'] ) . '",
+			"sameAs": [' . $this->profiles . ']}';
+
+			/**
+			 * Filter: 'wpseo_json_ld_organization' - Allows filtering of the JSON+LD organization output
+			 *
+			 * @api string $output The organization output
+			 */
+			$output = apply_filters( 'wpseo_json_ld_organization', $output );
+		}
+
+		return $output;
+	}
+
+	/**
+	 * Returns JSON+LD schema for Person
+	 *
+	 * @return string
+	 */
+	private function person() {
+		$output = '';
+		if ( '' !== $this->options['person_name'] ) {
+			$output = '{ "@context": "http://schema.org",
+			"@type": "Person",
+			"name": "' . esc_attr( $this->options['person_name'] ) . '",
+			"url": "' . home_url() . '",
+			"sameAs": [' . $this->profiles . ']}';
+
+			/**
+			 * Filter: 'wpseo_json_ld_person' - Allows filtering of the JSON+LD person output
+			 *
+			 * @api string $output The person output
+			 */
+			$output = apply_filters( 'wpseo_json_ld_person', $output );
+		}
+
+		return $output;
+	}
+
+	/**
+	 * Outputs code to allow Google to recognize social profiles for use in the Knowledge graph
+	 *
+	 * @since 1.8
+	 */
+	public function organization_or_person() {
+		$this->fetch_social_profiles();
+
+		switch ( $this->options['company_or_person'] ) {
+			case 'company':
+				$output = $this->organization();
+				break;
+			case 'person':
+				$output = $this->person();
+				break;
+		}
+
+		if ( isset( $output ) ) {
+			$this->json_ld_output( $output );
+		}
+	}
+
+	/**
+	 * Retrieve the social profiles to display in the organization output.
+	 *
+	 * @since 1.8
+	 *
+	 * @link  https://developers.google.com/webmasters/structured-data/customize/social-profiles
+	 */
+	private function fetch_social_profiles() {
+		$profiles        = array();
+		$social_profiles = array(
+			'facebook_site',
+			'instagram_url',
+			'linkedin_url',
+			'plus-publisher',
+			'myspace_url',
+			'youtube_url',
+			'pinterest_url',
+		);
+		foreach ( $social_profiles as $profile ) {
+			if ( $this->options[ $profile ] !== '' ) {
+				$profiles[] = $this->options[ $profile ];
+			}
+		}
+		if ( $this->options['twitter_site'] !== '' ) {
+			$profiles[] = 'https://twitter.com/' . $this->options['twitter_site'];
+		}
+		$profiles_out = '"' . implode( '","', $profiles ) . '"';
+
+		$this->profiles = rtrim( $profiles_out, ',' );
+	}
+
+	/**
+	 * Outputs code to allow recognition of the internal search engine
+	 *
+	 * @since 1.5.7
+	 *
+	 * @link  https://developers.google.com/webmasters/structured-data/slsb-overview
+	 */
+	public function internal_search() {
+		/**
+		 * Filter: 'disable_wpseo_json_ld_search' - Allow disabling of the json+ld output
+		 *
+		 * @api bool $display_search Whether or not to display json+ld search on the frontend
+		 */
+		if ( apply_filters( 'disable_wpseo_json_ld_search', false ) === true ) {
+			return;
+		}
+		$home_url = trailingslashit( home_url() );
+
+		/**
+		 * Filter: 'wpseo_json_ld_search_url' - Allows filtering of the search URL for WP SEO
+		 *
+		 * @api string $search_url The search URL for this site with a `{search_term}` variable.
+		 */
+		$search_url = apply_filters( 'wpseo_json_ld_search_url', $home_url . '?s={search_term}' );
+
+		/**
+		 * Filter: 'wpseo_json_ld_search_output' - Allows filtering of the entire output of the function
+		 *
+		 * @api string $output The output of the function.
+		 */
+		$output = apply_filters( 'wpseo_json_ld_search_output', '{ "@context": "http://schema.org",
+			"@type": "WebSite",
+			"url": "' . $home_url . '",
+			"potentialAction": {
+				"@type": "SearchAction",
+				"target": "' . $search_url . '",
+				"query-input": "required name=search_term"
+				}
+			}' );
+
+		$this->json_ld_output( $output );
+	}
+
+}

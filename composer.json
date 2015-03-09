@@ -15,6 +15,12 @@
 		}
 	],
 	"type": "wordpress-plugin",
+	"support": {
+		"issues": "https://github.com/Yoast/wordpress-seo/issues",
+		"forum": "https://wordpress.org/support/plugin/wordpress-seo",
+		"wiki": "https://github.com/Yoast/wordpress-seo/wiki",
+		"source": "https://github.com/Yoast/wordpress-seo"
+	},
 	"require": {
 		"composer/installers": "~1.0",
 		"yoast/license-manager": "dev-master",

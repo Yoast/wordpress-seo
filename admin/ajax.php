@@ -112,12 +112,34 @@ function wpseo_get_suggest() {
 add_action( 'wp_ajax_wpseo_get_suggest', 'wpseo_get_suggest' );
 
 /**
+ * Running the filters for the wpseo_title
+ */
+function wpseo_apply_title_filter() {
+	echo apply_filters( 'wpseo_title', stripslashes( $_POST['string'] ) );
+	die();
+}
+
+add_action( 'wp_ajax_wpseo_apply_title_filter', 'wpseo_apply_title_filter' );
+
+/**
+ * Running the filtes for the wpseo_metadesc
+ */
+function wpseo_apply_description_filter() {
+	echo apply_filters( 'wpseo_metadesc', stripslashes( $_POST['string'] ) );
+	die();
+}
+
+add_action( 'wp_ajax_wpseo_apply_description_filter', 'wpseo_apply_description_filter' );
+
+
+/**
  * Used in the editor to replace vars for the snippet preview
  */
 function wpseo_ajax_replace_vars() {
+	global $post;
 	check_ajax_referer( 'wpseo-replace-vars' );
 
-	$post = get_post( $_POST['post_id'] );
+	$post = get_post( intval( $_POST['post_id'] ) );
 	$omit = array( 'excerpt', 'excerpt_only', 'title' );
 	echo wpseo_replace_vars( stripslashes( $_POST['string'] ), $post, $omit );
 	die;

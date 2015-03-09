@@ -222,7 +222,6 @@ class WPSEO_Meta {
 			),
 		),
 		'social'   => array(),
-
 		/* Fields we should validate & save, but not show on any form */
 		'non_form' => array(
 			'linkdex' => array(
@@ -250,6 +249,26 @@ class WPSEO_Meta {
 	 */
 	public static $defaults = array();
 
+	/**
+	 * @var    array    Helper property to define the social network meta field definitions - networks
+	 * @static
+	 */
+	private static $social_networks = array(
+		'opengraph'  => 'opengraph',
+		'twitter'    => 'twitter',
+		'googleplus' => 'google-plus',
+	);
+
+	/**
+	 * @var    array    Helper property to define the social network meta field definitions - fields and their type
+	 * @static
+	 */
+	private static $social_fields = array(
+		'title'       => 'text',
+		'description' => 'textarea',
+		'image'       => 'upload',
+	);
+
 
 	/**
 	 * Register our actions and filters
@@ -260,22 +279,9 @@ class WPSEO_Meta {
 	public static function init() {
 
 		$options = WPSEO_Options::get_all();
-
-		foreach (
-			array(
-				'opengraph'  => 'opengraph',
-				'twitter'    => 'twitter',
-				'googleplus' => 'google-plus',
-			) as $option => $network
-		) {
+		foreach ( self::$social_networks as $option => $network ) {
 			if ( true === $options[ $option ] ) {
-				foreach (
-					array(
-						'title'       => 'text',
-						'description' => 'textarea',
-						'image'       => 'upload',
-					) as $box => $type
-				) {
+				foreach ( self::$social_fields as $box => $type ) {
 					self::$meta_fields['social'][ $network . '-' . $box ] = array(
 						'type'          => $type,
 						'title'         => '', // translation added later
@@ -285,6 +291,7 @@ class WPSEO_Meta {
 				}
 			}
 		}
+		unset( $options, $option, $network, $box, $type );
 
 		/**
 		 * Allow add-on plugins to register their meta fields for management by this class
@@ -294,6 +301,7 @@ class WPSEO_Meta {
 		if ( is_array( $extra_fields ) ) {
 			self::$meta_fields = self::array_merge_recursive_distinct( $extra_fields, self::$meta_fields );
 		}
+		unset( $extra_fields );
 
 		$register = function_exists( 'register_meta' );
 
@@ -326,6 +334,7 @@ class WPSEO_Meta {
 				}
 			}
 		}
+		unset( $subset, $field_group, $key, $field_def, $register );
 
 		add_filter( 'update_post_metadata', array( __CLASS__, 'remove_meta_if_default' ), 10, 5 );
 		add_filter( 'add_post_metadata', array( __CLASS__, 'dont_save_meta_if_default' ), 10, 4 );
@@ -406,6 +415,7 @@ class WPSEO_Meta {
 							$robots_adv[] = $field_defs['meta-robots-adv']['options'][ $robot ];
 						}
 					}
+					unset( $robot );
 					$robots_adv = implode( ', ', $robots_adv );
 				}
 				else {
@@ -427,7 +437,6 @@ class WPSEO_Meta {
 						$field_defs['sitemap-prio']
 					);
 				}
-
 				break;
 		}
 
@@ -517,7 +526,7 @@ class WPSEO_Meta {
 				}
 				break;
 
-			case ( 'multiselect' === $field_def['type'] ) :
+			case ( 'multiselect' === $field_def['type'] ):
 				$clean = $meta_value;
 				break;
 
@@ -896,7 +905,7 @@ class WPSEO_Meta {
 				}
 			}
 		}
-		unset( $subset, $field_group, $key, $field_def, $where_or_or );
+		unset( $subset, $field_group, $key, $field_def );
 
 		$query    = "SELECT meta_id FROM {$wpdb->postmeta} WHERE " . implode( ' OR ', $query ) . ';';
 		$meta_ids = $wpdb->get_col( $query );
