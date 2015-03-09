@@ -222,7 +222,7 @@ class WPSEO_Premium_Import_Manager {
 	 */
 	public function filter_add_premium_import_options( $content ) {
 		global $wpseo_admin_pages;
-		$content .= $wpseo_admin_pages->checkbox( 'import_redirection', __( 'Import from Redirection?', 'wordpress-seo-premium' ) );
+		$content .= Yoast_Form::get_instance()->checkbox( 'import_redirection', __( 'Import from Redirection?', 'wordpress-seo-premium' ) );
 
 		return $content;
 	}
