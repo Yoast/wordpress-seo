@@ -276,7 +276,7 @@ class Yoast_Form {
 
 		echo '<input class="checkbox ', esc_attr( $class ), '" type="checkbox" id="', esc_attr( $var ), '" name="', esc_attr( $this->option_name ), '[', esc_attr( $var ), ']" value="on"', checked( $this->options[ $var ], 'on', false ), '/>';
 
-		if ( $label_left === false ) {
+		if ( !empty($label) ) {
 			$this->label( $label, array( 'for' => $var ) );
 		}
 
