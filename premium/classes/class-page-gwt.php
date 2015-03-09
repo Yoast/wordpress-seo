@@ -120,7 +120,7 @@ class WPSEO_Page_GWT {
 					$service = new WPSEO_GWT_Service( $gwt_client );
 					$sites   = $service->get_sites();
 
-					echo $wpseo_admin_pages->select( 'profile', __( 'Profile', 'wordpress-seo-premium' ), $sites );
+					echo Yoast_Form::get_instance()->select( 'profile', __( 'Profile', 'wordpress-seo-premium' ), $sites );
 
 					?>
 
