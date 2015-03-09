@@ -87,6 +87,10 @@ label.checkbox {
 	margin-top: 12px;
 }
 
+input.textinput + .button.wpseo_image_upload_button {
+	margin-top: 0;
+}
+
 label.radio {
 	margin-right: 20px;
 }
