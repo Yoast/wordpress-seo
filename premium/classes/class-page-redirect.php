@@ -21,7 +21,7 @@ class WPSEO_Page_Redirect {
 		$redirect_types = WPSEO_Redirect_Manager::get_redirect_types();
 
 		// Admin header
-		$wpseo_admin_pages->admin_header( false, 'yoast_wpseo_redirects_options', 'wpseo_redirects' );
+		Yoast_Form::get_instance()->admin_header( false, 'yoast_wpseo_redirects_options', 'wpseo_redirects' );
 		?>
 		<h2 class="nav-tab-wrapper" id="wpseo-tabs">
 			<a class="nav-tab" id="tab-url-tab" href="#top#tab-url"><?php _e( 'Redirects', 'wordpress-seo-premium' ); ?></a>

@@ -47,8 +47,7 @@ class WPSEO_Page_GWT {
 		global $wpseo_admin_pages;
 
 		// Admin header
-		$wpseo_admin_pages->admin_header( false, 'yoast_wpseo_redirects_options', 'wpseo_redirects' );
-
+		Yoast_Form::get_instance()->admin_header( false, 'yoast_wpseo_redirects_options', 'wpseo_redirects' );
 		?>
 		<h2 class="nav-tab-wrapper" id="wpseo-tabs">
 			<form action="" method="post">
