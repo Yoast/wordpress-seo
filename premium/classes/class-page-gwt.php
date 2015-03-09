@@ -135,7 +135,7 @@ class WPSEO_Page_GWT {
 		<?php
 
 		// Admin footer
-		$wpseo_admin_pages->admin_footer( false );
+		Yoast_Form::get_instance()->admin_footer( false );
 	}
 
 	/**
