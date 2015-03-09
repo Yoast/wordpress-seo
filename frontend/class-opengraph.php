@@ -610,7 +610,7 @@ class WPSEO_OpenGraph {
 				$ogdesc = wpseo_replace_vars( $ogdesc, null );
 			}
 			else {
-				WPSEO_Frontend::get_instance()->metadesc( false );
+				$ogdesc = WPSEO_Frontend::get_instance()->metadesc( false );
 			}
 		}
 
