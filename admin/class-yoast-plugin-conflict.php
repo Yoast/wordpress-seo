@@ -128,6 +128,7 @@ class Yoast_Plugin_Conflict {
 				$plugin_names[] = $plugin_details['Name'];
 			}
 		}
+		unset( $plugins, $plugin, $plugin_details );
 
 		if ( ! empty( $plugin_names ) ) {
 			return implode( ', ', $plugin_names );
@@ -196,10 +197,7 @@ class Yoast_Plugin_Conflict {
 	 * @return bool
 	 */
 	protected function check_plugin_is_active( $plugin ) {
-
-		$is_plugin_active = in_array( $plugin, $this->all_active_plugins );
-
-		return $is_plugin_active;
+		return in_array( $plugin, $this->all_active_plugins );
 	}
 
 	/**
@@ -220,7 +218,6 @@ class Yoast_Plugin_Conflict {
 		if ( ! in_array( $plugin, $this->active_plugins[ $plugin_section ] ) ) {
 			$this->active_plugins[ $plugin_section ][] = $plugin;
 		}
-
 	}
 
 	/**

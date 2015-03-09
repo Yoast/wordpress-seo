@@ -83,9 +83,7 @@ class WPSEO_Taxonomy {
 	 * Add our admin css file
 	 */
 	function admin_enqueue_scripts() {
-		global $pagenow;
-
-		if ( $pagenow === 'edit-tags.php' && ( isset( $_GET['action'] ) && $_GET['action'] === 'edit' ) ) {
+		if ( $GLOBALS['pagenow'] === 'edit-tags.php' && ( isset( $_GET['action'] ) && $_GET['action'] === 'edit' ) ) {
 			wp_enqueue_style( 'yoast-taxonomy-css', plugins_url( 'css/taxonomy-meta' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
 		}
 	}
@@ -128,6 +126,7 @@ class WPSEO_Taxonomy {
 					$field .= '
 					<option ' . $selected . ' value="' . esc_attr( $option ) . '">' . esc_html( $option_label ) . '</option>';
 				}
+				unset( $option, $option_label, $selected );
 
 				$field .= '
 				</select>';
@@ -164,7 +163,7 @@ class WPSEO_Taxonomy {
 		$options  = WPSEO_Options::get_all();
 
 
-		echo '<h2>' . __( 'Yoast WordPress SEO Settings', 'wordpress-seo' ) . '</h2>';
+		echo '<h2>', __( 'Yoast WordPress SEO Settings', 'wordpress-seo' ), '</h2>';
 		echo '<table class="form-table wpseo-taxonomy-form">';
 
 		$this->form_row( 'wpseo_title', __( 'SEO Title', 'wordpress-seo' ), esc_html__( 'The SEO title is used on the archive page for this term.', 'wordpress-seo' ), $tax_meta );
@@ -219,6 +218,7 @@ class WPSEO_Taxonomy {
 				$new_meta_data[ $key ] = $_POST[ $key ];
 			}
 		}
+		unset( $key, $default );
 
 		/* Validate the post values */
 		$old   = WPSEO_Taxonomy_Meta::get_term_meta( $term_id, $taxonomy );

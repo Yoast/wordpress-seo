@@ -1,4 +1,8 @@
 <?php
+/**
+ * @package    WPSEO
+ * @subpackage Unittests
+ */
 
 // disable xdebug backtrace
 if ( function_exists( 'xdebug_disable' ) ) {
@@ -12,7 +16,7 @@ $GLOBALS['wp_tests_options'] = array(
 	'active_plugins' => array( 'wordpress-seo/wp-seo.php' ),
 );
 
-if( false !== getenv( 'WP_DEVELOP_DIR' ) ) {
+if ( false !== getenv( 'WP_DEVELOP_DIR' ) ) {
 	require getenv( 'WP_DEVELOP_DIR' ) . 'tests/phpunit/includes/bootstrap.php';
 }
 else {

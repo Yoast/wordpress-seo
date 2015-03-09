@@ -118,7 +118,7 @@ function wpseo_ajax_replace_vars() {
 	global $post;
 	check_ajax_referer( 'wpseo-replace-vars' );
 
-	$post = get_post( $_POST['post_id'] );
+	$post = get_post( intval( $_POST['post_id'] ) );
 	$omit = array( 'excerpt', 'excerpt_only', 'title' );
 	echo wpseo_replace_vars( stripslashes( $_POST['string'] ), $post, $omit );
 	die;

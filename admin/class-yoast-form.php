@@ -1,5 +1,12 @@
 <?php
+/**
+ * @package    WPSEO
+ * @subpackage Admin
+ */
 
+/**
+ * Admin form class.
+ */
 class Yoast_Form {
 
 	/**
@@ -54,7 +61,8 @@ class Yoast_Form {
 		<div class="wpseo_content_cell" id="wpseo_content_top">
 		<?php
 		if ( $form === true ) {
-			echo '<form action="' . esc_url( admin_url( 'options.php' ) ) . '" method="post" id="wpseo-conf"' . ( $contains_files ? ' enctype="multipart/form-data"' : '' ) . ' accept-charset="' . esc_attr( get_bloginfo( 'charset' ) ) . '">';
+			$enctype = ( $contains_files ) ? ' enctype="multipart/form-data"' : '';
+			echo '<form action="' . esc_url( admin_url( 'options.php' ) ) . '" method="post" id="wpseo-conf"' . $enctype . ' accept-charset="' . esc_attr( get_bloginfo( 'charset' ) ) . '">';
 			settings_fields( $option_long_name );
 		}
 		$this->set_option( $option );
@@ -63,7 +71,7 @@ class Yoast_Form {
 	/**
 	 * Set the option used in output for form elements
 	 *
-	 * @param $option
+	 * @param string $option_name
 	 */
 	public function set_option( $option_name ) {
 		$this->option_name  = $option_name;
@@ -74,8 +82,6 @@ class Yoast_Form {
 	 * Retrieve options based on whether we're on multisite or not.
 	 *
 	 * @since 1.2.4
-	 *
-	 * @param string $option The option to retrieve.
 	 *
 	 * @return array
 	 */
@@ -121,10 +127,10 @@ class Yoast_Form {
 				<h3 class="hndle"><span>' . __( 'Debug Information', 'wordpress-seo' ) . '</span></h3>
 				<div class="inside">
 					<h4>' . esc_html( __( 'Current option:', 'wordpress-seo' ) ) . ' <span class="wpseo-debug">' . esc_html( $this->option_name ) . '</span></h4>
-					' . ( $xdebug ? '' : '<pre>' );
+					' . ( ( $xdebug ) ? '' : '<pre>' );
 			var_dump( $this->get_option() );
 			echo '
-					' . ( $xdebug ? '' : '</pre>' ) . '
+					' . ( ( $xdebug ) ? '' : '</pre>' ) . '
 				</div>
 			</div>
 			</div>';
@@ -263,7 +269,8 @@ class Yoast_Form {
 				$label_left .= ':';
 			}
 			$this->label( $label_left, array( 'for' => $var ) );
-		} else {
+		}
+		else {
 			$class = 'double';
 		}
 

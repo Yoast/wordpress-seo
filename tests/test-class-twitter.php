@@ -1,4 +1,8 @@
 <?php
+/**
+ * @package    WPSEO
+ * @subpackage Unittests
+ */
 
 class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 
@@ -294,7 +298,7 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 		$filename = 'post-thumbnail.jpg';
 		$attachment_id = $this->factory->attachment->create_object( $filename, 0, array(
 			'post_mime_type' => 'image/jpeg',
-			'post_type'      => 'attachment'
+			'post_type'      => 'attachment',
 		) );
 		update_post_meta( $post_id, '_thumbnail_id', $attachment_id );
 		$this->go_to( get_permalink( $post_id ) );
@@ -332,7 +336,7 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 			$filename = "image$i.jpg";
 			$ids[] = $this->factory->attachment->create_object( $filename, 0, array(
 				'post_mime_type' => 'image/jpeg',
-				'post_type'      => 'attachment'
+				'post_type'      => 'attachment',
 			) );
 			$expected .= $this->metatag( 'image' . $i, 'http://' . WP_TESTS_DOMAIN . "/wp-content/uploads/$filename" );
 		}

@@ -1,4 +1,8 @@
 <?php
+/**
+ * @package    WPSEO
+ * @subpackage Unittests
+ */
 
 class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 
@@ -387,7 +391,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		// modify post time
 		global $post;
 		$post                    = get_post( $post_id );
-		$post->post_modified     = gmdate( 'Y-m-d H:i:s', time() + 1 );
+		$post->post_modified     = gmdate( 'Y-m-d H:i:s', ( time() + 1 ) );
 		$post->post_modified_gmt = gmdate( 'Y-m-d H:i:s', ( time() + 1 + ( get_option( 'gmt_offset' ) * HOUR_IN_SECONDS ) ) );
 
 		// test modified tags output

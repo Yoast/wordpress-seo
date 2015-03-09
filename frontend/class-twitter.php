@@ -89,10 +89,8 @@ class WPSEO_Twitter {
 	private function determine_card_type() {
 		$this->type = $this->options['twitter_card_type'];
 		if ( is_singular() ) {
-			global $post;
-
 			// If the current post has a gallery, output a gallery card
-			if ( has_shortcode( $post->post_content, 'gallery' ) ) {
+			if ( has_shortcode( $GLOBALS['post']->post_content, 'gallery' ) ) {
 				$this->type = 'gallery';
 			}
 		}
@@ -147,7 +145,7 @@ class WPSEO_Twitter {
 		$metatag_key = apply_filters( 'wpseo_twitter_metatag_key', 'name' );
 
 		// Output meta
-		echo '<meta ' . esc_attr( $metatag_key ) . '="twitter:' . esc_attr( $name ) . '" content="' . $value . '"/>' . "\n";
+		echo '<meta ', esc_attr( $metatag_key ), '="twitter:', esc_attr( $name ), '" content="', $value, '"/>', "\n";
 	}
 
 	/**
@@ -460,8 +458,7 @@ class WPSEO_Twitter {
 	 * @return bool
 	 */
 	private function image_from_content_output() {
-		global $post;
-		if ( preg_match_all( '`<img [^>]+>`', $post->post_content, $matches ) ) {
+		if ( preg_match_all( '`<img [^>]+>`', $GLOBALS['post']->post_content, $matches ) ) {
 			foreach ( $matches[0] as $img ) {
 				if ( preg_match( '`src=(["\'])(.*?)\1`', $img, $match ) ) {
 					$this->image_output( $match[2] );

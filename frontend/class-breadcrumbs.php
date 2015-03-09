@@ -215,6 +215,7 @@ class WPSEO_Breadcrumbs {
 		foreach ( $terms as $term ) {
 			unset( $terms_by_id[ $term->parent ] );
 		}
+		unset( $term );
 
 		/* As we could still have two subcategories, from different parent categories,
 		   let's pick the one with the lowest ordered ancestor. */
@@ -240,11 +241,11 @@ class WPSEO_Breadcrumbs {
 						$parent_order = $parent->term_order;
 					}
 				}
+				unset( $parent );
 
 				// check if parent has lowest order
 				if ( $parent_order < $term_order ) {
-					$term_order = $parent_order;
-
+					$term_order   = $parent_order;
 					$deepest_term = $term;
 				}
 			}
@@ -525,9 +526,7 @@ class WPSEO_Breadcrumbs {
 	 * Add taxonomy parent crumbs to the crumbs property for a taxonomy
 	 */
 	private function add_crumbs_for_taxonomy() {
-		global $wp_query;
-
-		$term = $wp_query->get_queried_object();
+		$term = $GLOBALS['wp_query']->get_queried_object();
 
 		// @todo adjust function name!!
 		$this->maybe_add_preferred_term_parent_crumb( $term );
@@ -572,10 +571,8 @@ class WPSEO_Breadcrumbs {
 	 * Add month-year crumb to crumbs property
 	 */
 	private function add_linked_month_year_crumb() {
-		global $wp_locale;
-
 		$this->add_predefined_crumb(
-			$wp_locale->get_month( get_query_var( 'monthnum' ) ) . ' ' . get_query_var( 'year' ),
+			$GLOBALS['wp_locale']->get_month( get_query_var( 'monthnum' ) ) . ' ' . get_query_var( 'year' ),
 			get_month_link( get_query_var( 'year' ), get_query_var( 'monthnum' ) )
 		);
 	}
@@ -754,8 +751,6 @@ class WPSEO_Breadcrumbs {
 	 * @return string
 	 */
 	private function crumb_to_link( $link, $i ) {
-		global $paged; // @todo ? -> only works for archives, not for paged articles
-
 		$link_output = '';
 
 		if ( isset( $link['text'] ) && ( is_string( $link['text'] ) && $link['text'] !== '' ) ) {

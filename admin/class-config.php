@@ -74,6 +74,7 @@ class WPSEO_Admin_Pages {
 					for ( $i = 0; $i < $elm_count; $i ++ ) {
 						$content .= $key . '[] = "' . $elem[ $i ] . "\"\n";
 					}
+					unset( $elm_count, $i );
 				}
 				elseif ( is_string( $elem ) && $elem == '' ) {
 					$content .= $key . " = \n";
@@ -85,7 +86,9 @@ class WPSEO_Admin_Pages {
 					$content .= $key . ' = "' . $elem . "\"\n";
 				}
 			}
+			unset( $key, $elem );
 		}
+		unset( $optgroup, $options );
 
 		if ( $include_taxonomy ) {
 			$content .= "\r\n\r\n[wpseo_taxonomy_meta]\r\n";

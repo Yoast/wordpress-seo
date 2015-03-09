@@ -63,7 +63,8 @@ $yform->admin_header( true, 'wpseo_titles' );
 					$yform->textinput( 'metakey-home-wpseo', __( 'Meta keywords template', 'wordpress-seo' ) );
 				}
 				echo '</p>';
-			} else {
+			}
+			else {
 				echo '<p><strong>', __( 'Homepage &amp; Front page', 'wordpress-seo' ), '</strong><br/>';
 				printf( __( 'You can determine the title and description for the front page by %sediting the front page itself &raquo;%s', 'wordpress-seo' ), '<a href="' . esc_url( get_edit_post_link( get_option( 'page_on_front' ) ) ) . '">', '</a>' );
 				echo '</p>';
