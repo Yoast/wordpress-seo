@@ -1325,19 +1325,21 @@ class WPSEO_Frontend {
 			}
 		}
 
+		$post_data = $post;
+
 		if ( ( ! is_string( $metadesc ) || '' === $metadesc ) && '' !== $template ) {
 			if ( ! isset( $term ) ) {
 				$term = $wp_query->get_queried_object();
 			}
 
-			$metadesc = $template;
-			$post     = $term;
+			$metadesc  = $template;
+			$post_data = $term;
 		}
 
 		if ( is_string( $metadesc_override ) && '' !== $metadesc_override ) {
 			$metadesc = $metadesc_override;
 		}
-		$metadesc = wpseo_replace_vars( $metadesc, $post );
+		$metadesc = wpseo_replace_vars( $metadesc, $post_data );
 
 		/**
 		 * Filter: 'wpseo_metadesc' - Allow changing the WP SEO meta description sentence.
