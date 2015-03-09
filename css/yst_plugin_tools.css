@@ -45,6 +45,10 @@ select {
 	width: 400px;
 }
 
+input.checkbox + label.checkbox {
+	width: auto;
+}
+
 input.textinput,
 textarea.textinput,
 select.select,
