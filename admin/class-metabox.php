@@ -419,7 +419,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			return;
 		}
 
-		echo '<div class="misc-pub-section misc-yoast misc-pub-section-last">';
 
 		$post = $this->get_metabox_post();
 
