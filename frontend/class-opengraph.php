@@ -605,7 +605,13 @@ class WPSEO_OpenGraph {
 		$ogdesc = '';
 
 		if ( is_front_page() ) {
-			$ogdesc = ( $this->options['og_frontpage_desc'] !== '' ) ? $this->options['og_frontpage_desc'] : WPSEO_Frontend::get_instance()->metadesc( false );
+			if ( $this->options['og_frontpage_desc'] !== '' ) {
+				$ogdesc = $this->options['og_frontpage_desc'];
+				$ogdesc = wpseo_replace_vars( $ogdesc, null );
+			}
+			else {
+				WPSEO_Frontend::get_instance()->metadesc( false );
+			}
 		}
 
 		if ( is_singular() ) {
