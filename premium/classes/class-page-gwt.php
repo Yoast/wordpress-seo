@@ -47,8 +47,7 @@ class WPSEO_Page_GWT {
 		global $wpseo_admin_pages;
 
 		// Admin header
-		$wpseo_admin_pages->admin_header( false, 'yoast_wpseo_redirects_options', 'wpseo_redirects' );
-
+		Yoast_Form::get_instance()->admin_header( false, 'yoast_wpseo_redirects_options', 'wpseo_redirects' );
 		?>
 		<h2 class="nav-tab-wrapper" id="wpseo-tabs">
 			<form action="" method="post">
@@ -121,7 +120,7 @@ class WPSEO_Page_GWT {
 					$service = new WPSEO_GWT_Service( $gwt_client );
 					$sites   = $service->get_sites();
 
-					echo $wpseo_admin_pages->select( 'profile', __( 'Profile', 'wordpress-seo-premium' ), $sites );
+					echo Yoast_Form::get_instance()->select( 'profile', __( 'Profile', 'wordpress-seo-premium' ), $sites );
 
 					?>
 
@@ -136,7 +135,7 @@ class WPSEO_Page_GWT {
 		<?php
 
 		// Admin footer
-		$wpseo_admin_pages->admin_footer( false );
+		Yoast_Form::get_instance()->admin_footer( false );
 	}
 
 	/**

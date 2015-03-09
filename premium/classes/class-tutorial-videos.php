@@ -18,6 +18,7 @@ class WPSEO_Tutorial_Videos {
 		$license_manager->set_license_constant_name( 'WPSEO_LICENSE' );
 
 		// Admin header
+		Yoast_Form::get_instance()->admin_header( false );
 		$wpseo_admin_pages->admin_header( false );
 
 		if ( $license_manager->license_is_valid() ) {
@@ -39,7 +40,7 @@ class WPSEO_Tutorial_Videos {
 
 		}
 		// Admin footer
-		$wpseo_admin_pages->admin_footer( false );
+		Yoast_Form::get_instance()->admin_footer( false );
 	}
 
 }
