@@ -606,8 +606,7 @@ class WPSEO_OpenGraph {
 
 		if ( is_front_page() ) {
 			if ( $this->options['og_frontpage_desc'] !== '' ) {
-				$ogdesc = $this->options['og_frontpage_desc'];
-				$ogdesc = wpseo_replace_vars( $ogdesc, null );
+				$ogdesc = wpseo_replace_vars( $this->options['og_frontpage_desc'], null );
 			}
 			else {
 				$ogdesc = WPSEO_Frontend::get_instance()->metadesc( false );
