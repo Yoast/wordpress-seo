@@ -31,9 +31,7 @@ class WPSEO_Admin_User_Profile {
 		if ( $val ) {
 			return WPSEO_Option::sanitize_text_field( $val );
 		}
-		else {
-			return '';
-		}
+		return '';
 	}
 
 	/**

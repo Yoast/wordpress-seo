@@ -31,8 +31,7 @@ class WPSEO_Admin_Init {
 
 		$GLOBALS['wpseo_admin'] = new WPSEO_Admin;
 
-		global $pagenow;
-		$this->pagenow = $pagenow;
+		$this->pagenow = $GLOBALS['pagenow'];
 
 		$this->load_meta_boxes();
 		$this->load_taxonomy_class();
@@ -71,7 +70,7 @@ class WPSEO_Admin_Init {
 	 * Determine if we should load our taxonomy edit class and if so, load it.
 	 */
 	private function load_taxonomy_class() {
-		if ( 'edit-tags.php' === $this->pagenow ) {
+		if ( 'edit-tags.php' === $this->pagenow && WPSEO_Utils::filter_input( INPUT_GET, 'action' ) ) {
 			new WPSEO_Taxonomy;
 		}
 	}
@@ -95,6 +94,7 @@ class WPSEO_Admin_Init {
 	private function load_admin_page_class() {
 		$page = WPSEO_Utils::filter_input( INPUT_GET, 'page' );
 		if ( 'admin.php' === $this->pagenow && strpos( $page, 'wpseo' ) === 0 ) {
+			// For backwards compatabilty, this still needs a global, for now...
 			$GLOBALS['wpseo_admin_pages'] = new WPSEO_Admin_Pages;
 			$this->register_i18n_promo_class();
 		}

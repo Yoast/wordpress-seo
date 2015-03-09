@@ -32,13 +32,13 @@ $rows[] = array(
 );
 $rows[] = array(
 	'label'   => __( 'Explanation', 'wordpress-seo' ),
-	'content' => '<p>' . __( 'You can use the following variables within the content, they will be replaced by the value on the right.', 'wordpress-seo' ) . '</p>' .
-		'<table>' .
-		'<tr><th><strong>%%AUTHORLINK%%</strong></th><td>' . __( 'A link to the archive for the post author, with the authors name as anchor text.', 'wordpress-seo' ) . '</td></tr>' .
-		'<tr><th><strong>%%POSTLINK%%</strong></th><td>' . __( 'A link to the post, with the title as anchor text.', 'wordpress-seo' ) . '</td></tr>' .
-		'<tr><th><strong>%%BLOGLINK%%</strong></th><td>' . __( "A link to your site, with your site's name as anchor text.", 'wordpress-seo' ) . '</td></tr>' .
-		'<tr><th><strong>%%BLOGDESCLINK%%</strong></th><td>' . __( "A link to your site, with your site's name and description as anchor text.", 'wordpress-seo' ) . '</td></tr>' .
-		'</table>'
+	'content' => '<p>' . __( 'You can use the following variables within the content, they will be replaced by the value on the right.', 'wordpress-seo' ) . '</p>
+		<table>
+		<tr><th><strong>%%AUTHORLINK%%</strong></th><td>' . __( 'A link to the archive for the post author, with the authors name as anchor text.', 'wordpress-seo' ) . '</td></tr>
+		<tr><th><strong>%%POSTLINK%%</strong></th><td>' . __( 'A link to the post, with the title as anchor text.', 'wordpress-seo' ) . '</td></tr>
+		<tr><th><strong>%%BLOGLINK%%</strong></th><td>' . __( "A link to your site, with your site's name as anchor text.", 'wordpress-seo' ) . '</td></tr>
+		<tr><th><strong>%%BLOGDESCLINK%%</strong></th><td>' . __( "A link to your site, with your site's name and description as anchor text.", 'wordpress-seo' ) . '</td></tr>
+		</table>'
 );
 $wpseo_admin_pages->postbox( 'rssfootercontent', __( 'Content of your RSS Feed', 'wordpress-seo' ), $content . $wpseo_admin_pages->form_table( $rows ) );
 

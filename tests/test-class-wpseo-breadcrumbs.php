@@ -1,4 +1,8 @@
 <?php
+/**
+ * @package    WPSEO
+ * @subpackage Unittests
+ */
 
 class WPSEO_Breadcrumbs_Test extends WPSEO_UnitTestCase {
 

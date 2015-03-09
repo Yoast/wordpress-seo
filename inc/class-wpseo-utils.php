@@ -216,6 +216,7 @@ class WPSEO_Utils {
 			default:
 				$score = __( 'Bad', 'wordpress-seo' );
 				$css   = 'bad';
+				break;
 		}
 
 		if ( $css_value ) {
@@ -261,6 +262,7 @@ class WPSEO_Utils {
 			$filtered = str_replace( $match[1], '', $filtered );
 			$found    = true;
 		}
+		unset( $match );
 
 		if ( $found ) {
 			// Strip out the whitespace that may now exist after removing the octets.
@@ -379,6 +381,7 @@ class WPSEO_Utils {
 				return false;
 			}
 		}
+
 		return false;
 	}
 
@@ -440,6 +443,7 @@ class WPSEO_Utils {
 				return false;
 			}
 		}
+
 		return false;
 	}
 
@@ -614,7 +618,7 @@ class WPSEO_Utils {
 					$result = bcdiv( $number1, $number2, $precision ); // string, or NULL if right_operand is 0
 				}
 				elseif ( $number2 != 0 ) {
-					$result = ($number1 / $number2);
+					$result = ( $number1 / $number2 );
 				}
 
 				if ( ! isset( $result ) ) {
@@ -629,7 +633,7 @@ class WPSEO_Utils {
 					$result = bcmod( $number1, $number2, $precision ); // string, or NULL if modulus is 0.
 				}
 				elseif ( $number2 != 0 ) {
-					$result = ($number1 % $number2);
+					$result = ( $number1 % $number2 );
 				}
 
 				if ( ! isset( $result ) ) {
@@ -709,15 +713,16 @@ class WPSEO_Utils {
 
 			switch ( $filter ) {
 				case FILTER_VALIDATE_INT:
-					return self::emulate_filter_int( $out );
+					$out = self::emulate_filter_int( $out );
 					break;
 				case FILTER_VALIDATE_BOOLEAN:
-					return self::emulate_filter_bool( $out );
+					$out = self::emulate_filter_bool( $out );
 					break;
 				default:
-					return (string) $out;
+					$out = (string) $out;
 					break;
 			}
+			return $out;
 		}
 	}
 
@@ -729,11 +734,29 @@ class WPSEO_Utils {
 	 * @return string
 	 */
 	public static function trim_nbsp_from_string( $string ) {
-		$find    = array( '&nbsp;', chr( 0xC2 ) . chr( 0xA0 ) );
-		$string  = str_replace( $find, ' ', $string );
-		$string  = trim( $string );
+		$find   = array( '&nbsp;', chr( 0xC2 ) . chr( 0xA0 ) );
+		$string = str_replace( $find, ' ', $string );
+		$string = trim( $string );
 
 		return $string;
+	}
+
+	/**
+	 * Check if a string is a valid datetime
+	 *
+	 * @param string $datetime
+	 *
+	 * @return bool
+	 */
+	public static function is_valid_datetime( $datetime ) {
+		if ( substr( $datetime, 0, 1 ) != '-' ) {
+			// Use the DateTime class ( PHP 5.2 > ) to check if the string is a valid datetime
+			if ( new DateTime( $datetime ) !== false ) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 } /* End of class WPSEO_Utils */
