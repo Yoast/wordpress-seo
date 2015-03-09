@@ -13,9 +13,9 @@ class WPSEO_GWT_Google_Client extends Google_Client {
 		parent::__construct();
 
 		// Set our settings
-		$this->setApplicationName( "WordPress SEO Premium" ); // Not sure if used
-		$this->setClientId( '887668307827-4jhsr06rntrt3g3ss2r72dblf3ca7msv.apps.googleusercontent.com' );
-		$this->setClientSecret( 'pPW5gLoTNtNHyiDH6YRn-CIB' );
+		$this->setApplicationName( 'WordPress SEO by Yoast Premium' ); // Not sure if used
+		$this->setClientId( '972827778625-rvd2mfvj3fnc97es9p57vqaap2lucm3h.apps.googleusercontent.com' );
+		$this->setClientSecret( 'i32Z2SFYPdxNRALHf25uwMFW' );
 		$this->setRedirectUri( 'urn:ietf:wg:oauth:2.0:oob' );
 		$this->setScopes( array( 'https://www.google.com/webmasters/tools/feeds/' ) );
 
@@ -23,21 +23,26 @@ class WPSEO_GWT_Google_Client extends Google_Client {
 		$refresh_token = $this->get_refresh_token();
 		if ( '' != $refresh_token ) {
 
-			// Refresh the token
-			$response = $this->refreshToken( $refresh_token );
+			try {
+				// Refresh the token
+				$response = $this->refreshToken( $refresh_token );
 
-			// Check response
-			if ( '' != $response ) {
-				$response = json_decode( $response );
+				// Check response
+				if ( '' != $response ) {
+					$response = json_decode( $response );
 
-				// Check if there is an access_token
-				if ( isset( $response->access_token ) ) {
+					// Check if there is an access_token
+					if ( isset( $response->access_token ) ) {
 
-					// Set access_token
-					$this->setAccessToken( $response->access_token );
+						// Set access_token
+						$this->setAccessToken( $response->access_token );
+
+					}
 
 				}
-
+			} catch(Exception $e) {
+				delete_option( 'wpseo-premium-gwt' );
+				$this->save_refresh_token('');
 			}
 
 		}
