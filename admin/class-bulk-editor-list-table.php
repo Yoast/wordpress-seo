@@ -525,11 +525,13 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	 */
 	protected function parse_item_query( $subquery, $all_states, $post_type_clause ) {
 		// Order By block
-		$orderby = ! empty( WPSEO_Utils::filter_input( INPUT_GET, 'orderby' ) ) ? esc_sql( sanitize_text_field( WPSEO_Utils::filter_input( INPUT_GET, 'orderby' ) ) ) : 'post_title';
+		$orderby = WPSEO_Utils::filter_input( INPUT_GET, 'orderby' );
+		$orderby = ! empty( $orderby ) ? esc_sql( sanitize_text_field( $orderby ) ) : 'post_title';
 		$orderby = $this->sanitize_orderby( $orderby );
 
 		// Order clause
-		$order = ! empty( WPSEO_Utils::filter_input( INPUT_GET, 'order' ) ) ? esc_sql( strtoupper( sanitize_text_field( WPSEO_Utils::filter_input( INPUT_GET, 'order' ) ) ) ) : 'ASC';
+		$order = WPSEO_Utils::filter_input( INPUT_GET, 'order' );
+		$order = ! empty( $order ) ? esc_sql( strtoupper( sanitize_text_field( $order ) ) ) : 'ASC';
 		$order = $this->sanitize_order( $order );
 
 		// Get all needed results
