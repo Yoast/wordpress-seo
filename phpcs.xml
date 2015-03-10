@@ -2,8 +2,13 @@
 <ruleset name="WordPress SEO">
 	<description>WordPress SEO rules for PHP_CodeSniffer</description>
 
+    <file>.</file>
+
 	<exclude-pattern>tests/*</exclude-pattern>
 	<exclude-pattern>vendor/*</exclude-pattern>
+
+    <arg name="extensions" value="php" />
+    <arg value="nsp" />
 
 	<rule ref="WordPress-VIP">
 		<exclude name="Generic.Files.LineEndings.InvalidEOLChar" />
