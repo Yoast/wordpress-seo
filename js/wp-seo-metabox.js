@@ -5,7 +5,7 @@ function yst_clean(str) {
 	try {
 		str = jQuery('<div/>').html(str).text();
 		str = str.replace(/<\/?[^>]+>/gi, '');
-		str = str.replace(/\[(.+?)\](.+?\[\/\\1\])?/g, '');
+		str = str.replace(/\[([^:].*?)\](.+?\[\/\\1\])?/g, '');
 	} catch (e) {
 	}
 
