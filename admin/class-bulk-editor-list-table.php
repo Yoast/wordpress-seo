@@ -524,14 +524,13 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	 * @return string
 	 */
 	protected function parse_item_query( $subquery, $all_states, $post_type_clause ) {
-
 		// Order By block
-		$orderby = ! empty( $_GET['orderby'] ) ? esc_sql( sanitize_text_field( $_GET['orderby'] ) ) : 'post_title';
-		$order   = 'ASC';
+		$orderby = ! empty( WPSEO_Utils::filter_input( INPUT_GET, 'orderby' ) ) ? esc_sql( sanitize_text_field( WPSEO_Utils::filter_input( INPUT_GET, 'orderby' ) ) ) : 'post_title';
+		$orderby = $this->sanitize_orderby($orderby);
 
-		if ( ! empty( $_GET['order'] ) ) {
-			$order = esc_sql( strtoupper( sanitize_text_field( $_GET['order'] ) ) );
-		}
+		// Order clause
+		$order = ! empty( WPSEO_Utils::filter_input( INPUT_GET, 'order' ) ) ? esc_sql( strtoupper( sanitize_text_field( WPSEO_Utils::filter_input( INPUT_GET, 'order' ) ) ) ) : 'ASC';
+		$order = $this->sanitize_order( $order );
 
 		// Get all needed results
 		$query = "
@@ -545,6 +544,39 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 		return $query;
 	}
 
+	/**
+	 * Heavily restricts the possible columns by which a user can order the table in the bulk editor, thereby preventing a possible CSRF vulnerability.
+	 *
+	 * @param $orderby
+	 *
+	 * @return string
+	 */
+	protected function sanitize_orderby( $orderby ) {
+		$valid_column_names = array(
+			'post_title',
+			'post_type',
+			'post_date',
+		);
+
+		if ( in_array( $orderby, $valid_column_names ) ) {
+			return $orderby;
+		}
+		return 'post_title';
+	}
+
+	/**
+	 * Makes sure the order clause is always ASC or DESC for the bulk editor table, thereby preventing a possible CSRF vulnerability.
+	 *
+	 * @param $order
+	 *
+	 * @return string
+	 */
+	protected function sanitize_order ( $order ) {
+		if ( in_array( strtolower($order), array( 'asc', 'desc' ) ) ) {
+			return $order;
+		}
+		return 'ASC';
+	}
 	/**
 	 * Getting all the items.
 	 *
