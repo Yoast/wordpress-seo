@@ -130,6 +130,7 @@ add_action( 'wp_ajax_wpseo_replace_vars', 'wpseo_ajax_replace_vars' );
  */
 function wpseo_save_title() {
 	check_ajax_referer( 'wpseo-bulk-editor' );
+	wp_verify_nonce( WPSEO_Utils::filter_input( INPUT_POST, '_ajax_nonce' ) );
 
 	$new_title      = $_POST['new_value'];
 	$id             = intval( $_POST['wpseo_post_id'] );
@@ -240,6 +241,7 @@ function wpseo_upsert_meta( $post_id, $new_meta_value, $orig_meta_value, $meta_k
  */
 function wpseo_save_all_titles() {
 	check_ajax_referer( 'wpseo-bulk-editor' );
+	wp_verify_nonce( WPSEO_Utils::filter_input( INPUT_POST, '_ajax_nonce' ) );
 
 	$new_titles      = $_POST['items'];
 	$original_titles = $_POST['existing_items'];
@@ -262,8 +264,8 @@ add_action( 'wp_ajax_wpseo_save_all_titles', 'wpseo_save_all_titles' );
  * Save an individual meta description from the Bulk Editor.
  */
 function wpseo_save_description() {
-
 	check_ajax_referer( 'wpseo-bulk-editor' );
+	wp_verify_nonce( WPSEO_Utils::filter_input( INPUT_POST, '_ajax_nonce' ) );
 
 	$new_metadesc      = $_POST['new_value'];
 	$id                = intval( $_POST['wpseo_post_id'] );
@@ -296,6 +298,7 @@ function wpseo_upsert_new_description( $post_id, $new_metadesc, $original_metade
  */
 function wpseo_save_all_descriptions() {
 	check_ajax_referer( 'wpseo-bulk-editor' );
+	wp_verify_nonce( WPSEO_Utils::filter_input( INPUT_POST, '_ajax_nonce' ) );
 
 	$new_metadescs      = $_POST['items'];
 	$original_metadescs = $_POST['existing_items'];
