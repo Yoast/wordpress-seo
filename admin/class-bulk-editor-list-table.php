@@ -573,7 +573,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	 * @return string
 	 */
 	protected function sanitize_order( $order ) {
-		if ( in_array( strtolower( $order ), array( 'asc', 'desc' ) ) ) {
+		if ( in_array( strtoupper( $order ), array( 'ASC', 'DESC' ) ) ) {
 			return $order;
 		}
 
