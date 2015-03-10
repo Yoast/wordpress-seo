@@ -526,7 +526,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	protected function parse_item_query( $subquery, $all_states, $post_type_clause ) {
 		// Order By block
 		$orderby = ! empty( WPSEO_Utils::filter_input( INPUT_GET, 'orderby' ) ) ? esc_sql( sanitize_text_field( WPSEO_Utils::filter_input( INPUT_GET, 'orderby' ) ) ) : 'post_title';
-		$orderby = $this->sanitize_orderby($orderby);
+		$orderby = $this->sanitize_orderby( $orderby );
 
 		// Order clause
 		$order = ! empty( WPSEO_Utils::filter_input( INPUT_GET, 'order' ) ) ? esc_sql( strtoupper( sanitize_text_field( WPSEO_Utils::filter_input( INPUT_GET, 'order' ) ) ) ) : 'ASC';
@@ -572,7 +572,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	 * @return string
 	 */
 	protected function sanitize_order ( $order ) {
-		if ( in_array( strtolower($order), array( 'asc', 'desc' ) ) ) {
+		if ( in_array( strtolower( $order ), array( 'asc', 'desc' ) ) ) {
 			return $order;
 		}
 		return 'ASC';
