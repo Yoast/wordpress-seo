@@ -28,7 +28,7 @@ function wpseo_display_contributors( $contributors ) {
 
 <div class="wrap about-wrap">
 
-	<h1><?php _e( 'Thank you for updating WordPress SEO!', 'wordpress-seo' ); ?></h1>
+	<h1><?php _e( 'Thank you for updating WordPress SEO by Yoast!', 'wordpress-seo' ); ?></h1>
 
 	<div class="about-text">
 		<?php _e( 'On your way to better search rankings!', 'wordpress-seo' ); ?><br/>
