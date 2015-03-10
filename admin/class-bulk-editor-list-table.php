@@ -561,6 +561,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 		if ( in_array( $orderby, $valid_column_names ) ) {
 			return $orderby;
 		}
+
 		return 'post_title';
 	}
 
@@ -571,12 +572,14 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	 *
 	 * @return string
 	 */
-	protected function sanitize_order ( $order ) {
+	protected function sanitize_order( $order ) {
 		if ( in_array( strtolower( $order ), array( 'asc', 'desc' ) ) ) {
 			return $order;
 		}
+
 		return 'ASC';
 	}
+
 	/**
 	 * Getting all the items.
 	 *
