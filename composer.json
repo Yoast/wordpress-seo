@@ -27,6 +27,10 @@
 		"yoast/i18n-module": "dev-master",
 		"xrstf/composer-php52": "^1.0.17"
 	},
+	"require-dev": {
+		"yoast/yoastcs": "dev-master"
+	},
+	"minimum-stability": "dev",
 	"autoload": {
 		"classmap": [
 			"admin/",
@@ -35,6 +39,10 @@
 		]
 	},
 	"scripts": {
+		"config-yoastcs": [
+			"\"vendor/bin/phpcs\" --config-set installed_paths ../../../vendor/wp-coding-standards/wpcs,../../../vendor/yoast/yoastcs",
+			"\"vendor/bin/phpcs\" --config-set default_standard Yoast"
+		],
 		"post-install-cmd": [
 			"xrstf\\Composer52\\Generator::onPostInstallCmd"
 		],
