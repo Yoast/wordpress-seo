@@ -284,7 +284,6 @@ add_action( 'wp_ajax_wpseo_save_all_titles', 'wpseo_save_all_titles' );
  * Save an individual meta description from the Bulk Editor.
  */
 function wpseo_save_description() {
-
 	check_ajax_referer( 'wpseo-bulk-editor' );
 
 	$new_metadesc      = $_POST['new_value'];

@@ -153,7 +153,6 @@ function wpseo_add_capabilities() {
 	$roles = array(
 		'administrator',
 		'editor',
-		'author',
 	);
 
 	$roles = apply_filters( 'wpseo_bulk_edit_roles', $roles );
