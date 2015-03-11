@@ -118,7 +118,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 		$this->verify_nonce();
 
 		$this->nonce    = wp_create_nonce( 'bulk-editor-table' );
-		$this->page_url = "&nonce=" . $this->nonce . "&type={$this->page_type}#top#{$this->page_type}";
+		$this->page_url = "&nonce={$this->nonce}&type={$this->page_type}#top#{$this->page_type}";
 
 		$this->populate_editable_post_types();
 
