@@ -11,6 +11,13 @@
 class WPSEO_Bulk_List_Table extends WP_List_Table {
 
 	/**
+	 * The nonce that was passed with the request
+	 *
+	 * @var string
+	 */
+	private $nonce;
+
+	/**
 	 * Array of post types for which the current user has `edit_others_posts` capabilities.
 	 *
 	 * @var array
@@ -107,10 +114,49 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 			'order'   => ( ! empty( $_GET['order'] ) ) ? $_GET['order'] : 'asc',
 			'orderby' => ( ! empty( $_GET['orderby'] ) ) ? $_GET['orderby'] : 'post_title',
 		);
-		$this->page_url       = "&type={$this->page_type}#top#{$this->page_type}";
+
+		$this->verify_nonce();
+
+		$this->nonce    = wp_create_nonce( 'bulk-editor-table' );
+		$this->page_url = "&nonce={$this->nonce}&type={$this->page_type}#top#{$this->page_type}";
 
 		$this->populate_editable_post_types();
 
+	}
+
+	/**
+	 * Verifies nonce if additional parameters have been sent.
+	 *
+	 * Shows an error notification if the nonce check fails.
+	 */
+	private function verify_nonce() {
+		if ( $this->should_verify_nonce() && ! wp_verify_nonce( WPSEO_Utils::filter_input( INPUT_GET, 'nonce' ), 'bulk-editor-table' ) ) {
+			Yoast_Notification_Center::get()->add_notification( new Yoast_Notification( __( 'You are not allowed to access this page.', 'wordpress-seo' ), 'error' ) );
+			Yoast_Notification_Center::get()->display_notifications();
+			die;
+		}
+	}
+
+	/**
+	 * checks if additional parameters have been sent to determine if nonce should be checked or not.
+	 *
+	 * @return bool
+	 */
+	private function should_verify_nonce() {
+		$possible_params = array(
+			'type',
+			'paged',
+			'post_type_filter',
+			'post_status',
+			'order',
+			'orderby',
+		);
+
+		foreach ( $possible_params as $param_name ) {
+			if ( WPSEO_Utils::filter_input( INPUT_GET, $param_name ) ) {
+				return true;
+			}
+		}
 	}
 
 	/**
@@ -141,8 +187,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 
 				if ( current_user_can( $post_type->cap->edit_others_posts ) ) {
 					$this->all_posts[] = esc_sql( $post_type->name );
-				}
-				else {
+				} else {
 					$this->own_posts[] = esc_sql( $post_type->name );
 				}
 			}
@@ -165,6 +210,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 
 			<?php if ( 'top' === $which ) { ?>
 			<form id="posts-filter" action="" method="get">
+				<input type="hidden" name="nonce" value="<?php echo $this->nonce; ?>" />
 				<input type="hidden" name="page" value="wpseo_bulk-editor" />
 				<input type="hidden" name="type" value="<?php echo esc_attr( $this->page_type ); ?>" />
 				<input type="hidden" name="orderby" value="<?php echo esc_attr( $_GET['orderby'] ); ?>" />
@@ -320,7 +366,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 						"
 				);
 
-				$selected = ! empty( $_GET['post_type_filter'] ) ? sanitize_text_field( $_GET['post_type_filter'] ) : (- 1);
+				$selected = ! empty( $_GET['post_type_filter'] ) ? sanitize_text_field( $_GET['post_type_filter'] ) : ( - 1 );
 
 				$options = '<option value="-1">Show All Post Types</option>';
 
@@ -335,8 +381,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 				submit_button( __( 'Filter', 'wordpress-seo' ), 'button', false, false, array( 'id' => 'post-query-submit' ) );
 				echo '</div>';
 			}
-		}
-		elseif ( 'bottom' === $which ) {
+		} elseif ( 'bottom' === $which ) {
 
 		}
 
@@ -524,14 +569,16 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	 * @return string
 	 */
 	protected function parse_item_query( $subquery, $all_states, $post_type_clause ) {
-
 		// Order By block
-		$orderby = ! empty( $_GET['orderby'] ) ? esc_sql( sanitize_text_field( $_GET['orderby'] ) ) : 'post_title';
-		$order   = 'ASC';
+		$orderby = WPSEO_Utils::filter_input( INPUT_GET, 'orderby' );
 
-		if ( ! empty( $_GET['order'] ) ) {
-			$order = esc_sql( strtoupper( sanitize_text_field( $_GET['order'] ) ) );
-		}
+		$orderby = ! empty( $orderby ) ? esc_sql( sanitize_text_field( $orderby ) ) : 'post_title';
+		$orderby = $this->sanitize_orderby( $orderby );
+
+		// Order clause
+		$order = WPSEO_Utils::filter_input( INPUT_GET, 'order' );
+		$order = ! empty( $order ) ? esc_sql( strtoupper( sanitize_text_field( $order ) ) ) : 'ASC';
+		$order = $this->sanitize_order( $order );
 
 		// Get all needed results
 		$query = "
@@ -543,6 +590,42 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 			";
 
 		return $query;
+	}
+
+	/**
+	 * Heavily restricts the possible columns by which a user can order the table in the bulk editor, thereby preventing a possible CSRF vulnerability.
+	 *
+	 * @param $orderby
+	 *
+	 * @return string
+	 */
+	protected function sanitize_orderby( $orderby ) {
+		$valid_column_names = array(
+			'post_title',
+			'post_type',
+			'post_date',
+		);
+
+		if ( in_array( $orderby, $valid_column_names ) ) {
+			return $orderby;
+		}
+
+		return 'post_title';
+	}
+
+	/**
+	 * Makes sure the order clause is always ASC or DESC for the bulk editor table, thereby preventing a possible CSRF vulnerability.
+	 *
+	 * @param $order
+	 *
+	 * @return string
+	 */
+	protected function sanitize_order( $order ) {
+		if ( in_array( strtoupper( $order ), array( 'ASC', 'DESC', ) ) ) {
+			return $order;
+		}
+
+		return 'ASC';
 	}
 
 	/**
@@ -667,8 +750,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 				if ( $can_edit_post ) {
 					$actions['view'] = '<a href="' . esc_url( add_query_arg( 'preview', 'true', get_permalink( $rec->ID ) ) ) . '" title="' . esc_attr( sprintf( __( 'Preview &#8220;%s&#8221;', 'wordpress-seo' ), $rec->post_title ) ) . '">' . __( 'Preview', 'wordpress-seo' ) . '</a>';
 				}
-			}
-			elseif ( 'trash' != $rec->post_status ) {
+			} elseif ( 'trash' != $rec->post_status ) {
 				$actions['view'] = '<a href="' . esc_url( get_permalink( $rec->ID ) ) . '" title="' . esc_attr( sprintf( __( 'View &#8220;%s&#8221;', 'wordpress-seo' ), $rec->post_title ) ) . '" rel="bookmark">' . __( 'View', 'wordpress-seo' ) . '</a>';
 			}
 		}
