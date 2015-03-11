@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: seo, SEO, Yoast SEO, google, meta, meta description, search engine optimization, xml sitemap, xml sitemaps, google sitemap, sitemap, sitemaps, robots meta, rss, rss footer, yahoo, bing, news sitemaps, XML News Sitemaps, WordPress SEO, WordPress SEO by Yoast, yoast, multisite, canonical, nofollow, noindex, keywords, meta keywords, description, webmaster tools, google webmaster tools, seo pack
 Requires at least: 3.9
 Tested up to: 4.1.1
-Stable tag: 1.7.4
+Stable tag: 2.0-RC
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using Yoast's WordPress SEO plugin.
 
@@ -116,6 +116,27 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 
 == Changelog ==
 
+= 2.0-RC =
+
+Release Date: March 11th, 2015
+
+* Features:
+	* Simplified and revised Admin menu's:
+		* Moved all advanced functionality to one "Advanced" submenu page.
+		* Moved the bulk editor, the export functionality and the file editor to one "Tools" submenu page.
+		* Improved consistency and usability of settings pages by having them use exactly the same, tab-based, styling.
+	* Added support for Google's Knowledge Graph.
+
+* Bugfixes:
+	* Fixes a bug where wpseo_metadesc and wpseo_title filters weren't applied in the snippet preview.
+	* Fixes a bug where custom field variables were no longer working in the snippet preview.
+	* Fixes a bug where the $post global was emptied by our Frontend class, causing conflicts with other plugins.
+	* Fixes a bug where variables weren't replaced in the og:description meta tag.
+
+* Deprecations:
+	* Deprecated a large amount of form methods and moved them to the `Yoast_Form` class. Click [here](https://github.com/Yoast/wordpress-seo/blob/add975664d1f160eed262b02327a93bda5488f8b/admin/class-config.php#L172) for the list of deprecated methods.
+	* Deprecated a large amount of utility functions and moved them to the `WPSEO_Utils` class. Click [here](https://github.com/Yoast/wordpress-seo/blob/add975664d1f160eed262b02327a93bda5488f8b/inc/wpseo-functions.php#L496) for the list of deprecated functions.
+
 = 1.7.4 =
 
 Release Date: March 11th, 2015
@@ -150,7 +171,7 @@ Release Date: February 19th, 2015
 Release Date: February 17th, 2015
 
 * Bugfixes:
-	* Fixes a bug where the translations where corrupted due to an issue with out glotpress grunt task.
+	* Fixes a bug where the translations were corrupted due to an issue with out glotpress grunt task.
 
 = 1.7.2 =
 
