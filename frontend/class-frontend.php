@@ -569,6 +569,14 @@ class WPSEO_Frontend {
 		if ( ( $modified_title && empty( $title ) ) || ! empty( $title_part ) ) {
 			$title = $this->get_default_title( $separator, $separator_location, $title_part );
 		}
+		else if ( $modified_title && !empty( $title ) ) {
+			if ( $separator_location === 'right' ) {
+				$title = $title . $separator;
+			}
+			else {
+				$title = $separator . $title;
+			}
+		}
 
 		if ( defined( 'ICL_LANGUAGE_CODE' ) && false !== strpos( $title, ICL_LANGUAGE_CODE ) ) {
 			$title = str_replace( ' @' . ICL_LANGUAGE_CODE, '', $title );
