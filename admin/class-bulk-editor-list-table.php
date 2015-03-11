@@ -11,6 +11,13 @@
 class WPSEO_Bulk_List_Table extends WP_List_Table {
 
 	/**
+	 * The nonce that was passed with the request
+	 *
+	 * @var string
+	 */
+	private $nonce;
+
+	/**
 	 * Array of post types for which the current user has `edit_others_posts` capabilities.
 	 *
 	 * @var array
@@ -107,10 +114,53 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 			'order'   => ( ! empty( $_GET['order'] ) ) ? $_GET['order'] : 'asc',
 			'orderby' => ( ! empty( $_GET['orderby'] ) ) ? $_GET['orderby'] : 'post_title',
 		);
-		$this->page_url       = "&type={$this->page_type}#top#{$this->page_type}";
+
+		$this->verify_nonce();
+
+		$this->nonce    = wp_create_nonce( 'bulk-editor-table' );
+		$this->page_url = "&nonce=" . $this->nonce . "&type={$this->page_type}#top#{$this->page_type}";
 
 		$this->populate_editable_post_types();
 
+	}
+
+	/**
+	 * Verifies nonce if additional parameters have been sent.
+	 *
+	 * Shows an error notification if the nonce check fails.
+	 */
+	private function verify_nonce() {
+		if ( $this->should_verify_nonce() ) {
+			if ( ! wp_verify_nonce( WPSEO_Utils::filter_input( INPUT_GET, 'nonce' ), 'bulk-editor-table' ) ) {
+				Yoast_Notification_Center::get()->add_notification( new Yoast_Notification( __( 'You are not allowed to access this page.', 'wordpress-seo' ), 'error' ) );
+				Yoast_Notification_Center::get()->display_notifications();
+				die;
+			}
+		}
+	}
+
+	/**
+	 * checks if additional parameters have been sent to determine if nonce should be checked or not.
+	 *
+	 * @return bool
+	 */
+	private function should_verify_nonce() {
+		$possible_params = array(
+			'type',
+			'paged',
+			'post_type_filter',
+			'post_status',
+			'order',
+			'orderby',
+		);
+
+		foreach ( $possible_params as $param_name ) {
+			$param = WPSEO_Utils::filter_input( INPUT_GET, $param_name );
+
+			if ( ! empty ( $param ) ) {
+				return true;
+			}
+		}
 	}
 
 	/**
