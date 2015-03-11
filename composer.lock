@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "b0c40915b285e5eaf6be996d56bd820e",
+    "hash": "db8748e9165237336ba770993f2c8694",
     "packages": [
         {
             "name": "composer/installers",
@@ -337,12 +337,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Yoast/yoastcs.git",
-                "reference": "6c0bbda096899296b1e4b1adad728ebabd5a87da"
+                "reference": "1a88161372a1c579a9c5921bfdb7e9585274f850"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Yoast/yoastcs/zipball/6c0bbda096899296b1e4b1adad728ebabd5a87da",
-                "reference": "6c0bbda096899296b1e4b1adad728ebabd5a87da",
+                "url": "https://api.github.com/repos/Yoast/yoastcs/zipball/1a88161372a1c579a9c5921bfdb7e9585274f850",
+                "reference": "1a88161372a1c579a9c5921bfdb7e9585274f850",
                 "shasum": ""
             },
             "require": {
@@ -367,7 +367,7 @@
                 "standards",
                 "wordpress"
             ],
-            "time": "2015-02-15 07:57:26"
+            "time": "2015-03-10 18:39:36"
         }
     ],
     "aliases": [],
