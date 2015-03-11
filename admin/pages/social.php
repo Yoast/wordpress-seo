@@ -197,7 +197,7 @@ $yform->admin_header( true, 'wpseo_social' );
 
 	<div id="accounts" class="wpseotab">
 		<p>
-			<?php _e( 'To inform Google about your social profiles, we need to know their URLs.' ); ?>
+			<?php _e( 'To inform Google about your social profiles, we need to know their URLs.', 'wordpress-seo' ); ?>
 			<?php _e( 'For each, pick the main account associated with this site and please enter them below:', 'wordpress-seo' ); ?>
 		</p>
 		<?php
