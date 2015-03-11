@@ -12,4 +12,7 @@
 
     <rule ref="Yoast"/>
 
+    <rule ref="WordPress.WP.EnqueuedResources.NonEnqueuedScript">
+        <exclude-pattern>css/xml-sitemap-xsl.php</exclude-pattern>
+    </rule>
 </ruleset>
