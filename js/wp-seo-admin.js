@@ -55,6 +55,8 @@ jQuery(document).ready(function() {
 	jQuery('#' + active_tab).addClass('active');
 	jQuery('#' + active_tab + '-tab').addClass('nav-tab-active');
 
+	jQuery('.nav-tab-active').click();
+
 });
 
 // global functions
@@ -86,3 +88,11 @@ function wpseo_killBlockingFiles( nonce ) {
 function copy_home_meta() {
 	jQuery('#og_frontpage_desc').val(jQuery('#meta_description').val());
 }
+
+/**
+ * When the hash changes, get the base url from the action and then add the current hash
+ */
+jQuery(window).on('hashchange', function(){
+	var currentUrl = jQuery('#wpseo-conf').attr('action').split('#')[0];
+	jQuery('#wpseo-conf').attr('action', currentUrl + window.location.hash);
+});
