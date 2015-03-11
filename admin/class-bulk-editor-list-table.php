@@ -130,12 +130,10 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	 * Shows an error notification if the nonce check fails.
 	 */
 	private function verify_nonce() {
-		if ( $this->should_verify_nonce() ) {
-			if ( ! wp_verify_nonce( WPSEO_Utils::filter_input( INPUT_GET, 'nonce' ), 'bulk-editor-table' ) ) {
-				Yoast_Notification_Center::get()->add_notification( new Yoast_Notification( __( 'You are not allowed to access this page.', 'wordpress-seo' ), 'error' ) );
-				Yoast_Notification_Center::get()->display_notifications();
-				die;
-			}
+		if ( $this->should_verify_nonce() && ! wp_verify_nonce( WPSEO_Utils::filter_input( INPUT_GET, 'nonce' ), 'bulk-editor-table' ) ) {
+			Yoast_Notification_Center::get()->add_notification( new Yoast_Notification( __( 'You are not allowed to access this page.', 'wordpress-seo' ), 'error' ) );
+			Yoast_Notification_Center::get()->display_notifications();
+			die;
 		}
 	}
 
@@ -155,9 +153,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 		);
 
 		foreach ( $possible_params as $param_name ) {
-			$param = WPSEO_Utils::filter_input( INPUT_GET, $param_name );
-
-			if ( ! empty ( $param ) ) {
+			if ( WPSEO_Utils::filter_input( INPUT_GET, $param_name ) ) {
 				return true;
 			}
 		}
@@ -191,8 +187,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 
 				if ( current_user_can( $post_type->cap->edit_others_posts ) ) {
 					$this->all_posts[] = esc_sql( $post_type->name );
-				}
-				else {
+				} else {
 					$this->own_posts[] = esc_sql( $post_type->name );
 				}
 			}
@@ -213,8 +208,9 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 		?>
 		<div class="tablenav <?php echo esc_attr( $which ); ?>">
 
-			<?php if ( 'top' === $which ) { ?>
+			<?php if ('top' === $which) { ?>
 			<form id="posts-filter" action="" method="get">
+				<input type="hidden" name="nonce" value="<?php echo $this->nonce; ?>" />
 				<input type="hidden" name="page" value="wpseo_bulk-editor" />
 				<input type="hidden" name="type" value="<?php echo esc_attr( $this->page_type ); ?>" />
 				<input type="hidden" name="orderby" value="<?php echo esc_attr( $_GET['orderby'] ); ?>" />
@@ -231,7 +227,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 				?>
 
 				<br class="clear" />
-				<?php if ( 'top' === $which ) { ?>
+				<?php if ('top' === $which) { ?>
 			</form>
 		<?php } ?>
 		</div>
@@ -320,7 +316,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 					$class = ' class="current"';
 				}
 
-				$status_links[ $status_name ] = '<a href="' . esc_url( add_query_arg( array( 'post_status' => $status_name ), admin_url( 'admin.php?page=wpseo_bulk-editor' . $this->page_url ) ) ) . '"' . $class . '>' . sprintf( translate_nooped_plural( $status->label_count, $total ), number_format_i18n( $total ) ) . '</a>';
+				$status_links[$status_name] = '<a href="' . esc_url( add_query_arg( array( 'post_status' => $status_name ), admin_url( 'admin.php?page=wpseo_bulk-editor' . $this->page_url ) ) ) . '"' . $class . '>' . sprintf( translate_nooped_plural( $status->label_count, $total ), number_format_i18n( $total ) ) . '</a>';
 			}
 		}
 		unset( $post_stati, $status, $status_name, $total, $class );
@@ -370,7 +366,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 						"
 				);
 
-				$selected = ! empty( $_GET['post_type_filter'] ) ? sanitize_text_field( $_GET['post_type_filter'] ) : (- 1);
+				$selected = ! empty( $_GET['post_type_filter'] ) ? sanitize_text_field( $_GET['post_type_filter'] ) : ( - 1 );
 
 				$options = '<option value="-1">Show All Post Types</option>';
 
@@ -385,8 +381,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 				submit_button( __( 'Filter', 'wordpress-seo' ), 'button', false, false, array( 'id' => 'post-query-submit' ) );
 				echo '</div>';
 			}
-		}
-		elseif ( 'bottom' === $which ) {
+		} elseif ( 'bottom' === $which ) {
 
 		}
 
@@ -576,6 +571,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	protected function parse_item_query( $subquery, $all_states, $post_type_clause ) {
 		// Order By block
 		$orderby = WPSEO_Utils::filter_input( INPUT_GET, 'orderby' );
+
 		$orderby = ! empty( $orderby ) ? esc_sql( sanitize_text_field( $orderby ) ) : 'post_title';
 		$orderby = $this->sanitize_orderby( $orderby );
 
@@ -625,7 +621,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	 * @return string
 	 */
 	protected function sanitize_order( $order ) {
-		if ( in_array( strtoupper( $order ), array( 'ASC', 'DESC' ) ) ) {
+		if ( in_array( strtoupper( $order ), array( 'ASC', 'DESC', ) ) ) {
 			return $order;
 		}
 
@@ -754,8 +750,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 				if ( $can_edit_post ) {
 					$actions['view'] = '<a href="' . esc_url( add_query_arg( 'preview', 'true', get_permalink( $rec->ID ) ) ) . '" title="' . esc_attr( sprintf( __( 'Preview &#8220;%s&#8221;', 'wordpress-seo' ), $rec->post_title ) ) . '">' . __( 'Preview', 'wordpress-seo' ) . '</a>';
 				}
-			}
-			elseif ( 'trash' != $rec->post_status ) {
+			} elseif ( 'trash' != $rec->post_status ) {
 				$actions['view'] = '<a href="' . esc_url( get_permalink( $rec->ID ) ) . '" title="' . esc_attr( sprintf( __( 'View &#8220;%s&#8221;', 'wordpress-seo' ), $rec->post_title ) ) . '" rel="bookmark">' . __( 'View', 'wordpress-seo' ) . '</a>';
 			}
 		}
@@ -829,12 +824,12 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	protected function parse_meta_data_field( $record_id, $attributes, $values = false ) {
 
 		// Fill meta data if exists in $this->meta_data
-		$meta_data  = ( ! empty( $this->meta_data[ $record_id ] ) ) ? $this->meta_data[ $record_id ] : array();
+		$meta_data  = ( ! empty( $this->meta_data[$record_id] ) ) ? $this->meta_data[$record_id] : array();
 		$meta_key   = WPSEO_Meta::$meta_prefix . $this->target_db_field;
-		$meta_value = ( ! empty( $meta_data[ $meta_key ] ) ) ? $meta_data[ $meta_key ] : '';
+		$meta_value = ( ! empty( $meta_data[$meta_key] ) ) ? $meta_data[$meta_key] : '';
 
 		if ( ! empty( $values ) ) {
-			$meta_value = $values[ $meta_value ];
+			$meta_value = $values[$meta_value];
 		}
 
 		return sprintf( '<td %2$s id="wpseo-existing-%4$s-%3$s">%1$s</td>', $meta_value, $attributes, $record_id, $this->target_db_field );
@@ -903,7 +898,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	protected function parse_meta_data( $meta_data ) {
 
 		foreach ( $meta_data as $row ) {
-			$this->meta_data[ $row->post_id ][ $row->meta_key ] = $row->meta_value;
+			$this->meta_data[$row->post_id][$row->meta_key] = $row->meta_value;
 		}
 
 	}
