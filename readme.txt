@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: seo, SEO, Yoast SEO, google, meta, meta description, search engine optimization, xml sitemap, xml sitemaps, google sitemap, sitemap, sitemaps, robots meta, rss, rss footer, yahoo, bing, news sitemaps, XML News Sitemaps, WordPress SEO, WordPress SEO by Yoast, yoast, multisite, canonical, nofollow, noindex, keywords, meta keywords, description, webmaster tools, google webmaster tools, seo pack
 Requires at least: 3.9
 Tested up to: 4.1.1
-Stable tag: 1.7.3.3
+Stable tag: 1.7.4
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using Yoast's WordPress SEO plugin.
 
@@ -115,6 +115,10 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 7. The advanced section of the WordPress SEO meta box.
 
 == Changelog ==
+
+= 1.7.4 =
+
+* Security fix: fixed possible CSRF vulnerability in bulk editor. Added strict sanitation to order_by and order params. Added extra nonce checks on requests sending additional parameters. Minimal capability to use the bulk editor is now Editor. Thanks [Ryan Dewhurst](https://github.com/ethicalhack3r) from WPScan for discovering and responsibly disclosing this issue.
 
 = 1.7.3.3 =
 
