@@ -1,3 +1,6 @@
+### 1.5.3: March 11th, 2015
+* Security hotfix: Merge with WordPress SEO core 1.7.4, see [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
+
 ### 1.5.2.2: February 23rd, 2015
 * Merge with WordPress SEO core 1.7.3.2
 
