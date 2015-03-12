@@ -177,14 +177,14 @@ class WPSEO_Admin_Pages {
 	 * @deprecated 2.0
 	 *
 	 * @param bool   $form             Whether or not the form start tag should be included.
-	 * @param string $option_long_name The long name of the option to use for the current page.
+	 * @param mixed  $option_long_name The long name of the option to use for the current page.
 	 * @param string $option           The short name of the option to use for the current page.
 	 * @param bool   $contains_files   Whether the form should allow for file uploads.
 	 */
-	public function admin_header( $form = true, $option_long_name = 'yoast_wpseo_options', $option = 'wpseo', $contains_files = false ) {
+	public function admin_header( $form = true, $option_long_name = false, $option = 'wpseo', $contains_files = false ) {
 		_deprecated_function( __METHOD__, 'WPSEO 2.0', 'This method is deprecated, please use the <code>Yoast_Form</code> class.' );
 
-		Yoast_Form::get_instance()->admin_header( $form, $option, $contains_files );
+		Yoast_Form::get_instance()->admin_header( $form, $option, $contains_files, $option_long_name );
 	}
 
 	/**
