@@ -127,6 +127,9 @@ Release Date: March 11th, 2015
 		* Improved consistency and usability of settings pages by having them use exactly the same, tab-based, styling.
 	* Made it easy to output structured data for social profiles, person and company profiles, for use in Google Knowledge Graph.
 
+* Enhancements:
+	* Makes sure the user is redirected to the last active settings tab after saving.
+
 * Bugfixes:
 	* Fixes a bug where wpseo_metadesc and wpseo_title filters weren't applied in the snippet preview.
 	* Fixes a bug where custom field variables were no longer working in the snippet preview.
