@@ -1,4 +1,8 @@
 <?php
+/**
+ * @package    WPSEO
+ * @subpackage Admin
+ */
 
 if ( ! defined( 'WPSEO_VERSION' ) ) {
 	header( 'Status: 403 Forbidden' );
@@ -24,12 +28,12 @@ function wpseo_display_contributors( $contributors ) {
 
 <div class="wrap about-wrap">
 
-	<h1><?php _e( 'Thank you for updating WordPress SEO!', 'wordpress-seo' ); ?></h1>
+	<h1><?php _e( 'Thank you for updating WordPress SEO by Yoast!', 'wordpress-seo' ); ?></h1>
 
 	<div class="about-text">
 		<?php _e( 'On your way to better search rankings!', 'wordpress-seo' ); ?><br/>
 		<br/>
-		<?php _e( 'WordPress SEO 1.8 helps you optimize your site by making you ready for Google\'s Knowledge Graph and simplyfing the WordPress SEO admin.', 'wordpress-seo' ); ?>
+		<?php _e( 'WordPress SEO by Yoast 2.0 helps you optimize your site by making you ready for Google\'s Knowledge Graph and simplyfing the WordPress SEO by Yoast admin.', 'wordpress-seo' ); ?>
 	</div>
 
 	<h2 class="nav-tab-wrapper" id="wpseo-tabs">
@@ -39,7 +43,7 @@ function wpseo_display_contributors( $contributors ) {
 
 	<div id="new" class="wpseotab">
 		<div class="changelog headline-feature">
-			<h2><?php _e( 'Simplified Admin Menus' ); ?></h2>
+			<h2><?php _e( 'Simplified Admin Menus', 'wordpress-seo' ); ?></h2>
 
 			<div class="feature-section">
 				<div class="col">
@@ -99,7 +103,7 @@ function wpseo_display_contributors( $contributors ) {
 					<h4><?php _e( 'Performance Improvements', 'wordpress-seo' ); ?></h4>
 
 					<p>
-						<?php _e( 'This release has made the code of WordPress SEO that runs on the frontend of your site approximately 30% faster.', 'wordpress-seo' ); ?>
+						<?php _e( 'This release has made the code of WordPress SEO by Yoast that runs on the frontend of your site approximately 30% faster.', 'wordpress-seo' ); ?>
 					</p>
 				</div>
 
@@ -117,7 +121,7 @@ function wpseo_display_contributors( $contributors ) {
 					<h4><?php _e( 'More Translations', 'wordpress-seo' ); ?></h4>
 
 					<p>
-						<?php printf( __( 'WordPress SEO ships, at time of release, with 26 translations, of which 10 are complete. That\'s a huge improvement from last time, and we\'re improving every week. Join us at %1$stranslate.yoast.com%2$s!', 'wordpress-seo' ), '<a target="_blank" href="https://translate.yoast.com/projects/wordpress-seo">', '</a>' ); ?>
+						<?php printf( __( 'WordPress SEO by Yoast ships, at time of release, with 26 translations, of which 10 are complete. That\'s a huge improvement from last time, and we\'re improving every week. Join us at %1$stranslate.yoast.com%2$s!', 'wordpress-seo' ), '<a target="_blank" href="https://translate.yoast.com/projects/wordpress-seo">', '</a>' ); ?>
 					</p>
 				</div>
 			</div>
@@ -134,7 +138,7 @@ function wpseo_display_contributors( $contributors ) {
 	<div id="credits" class="wpseotab">
 		<p class="about-description">
 			<?php
-				printf( __( 'While most of the development team is at %1$sYoast%2$s in the Netherlands, WordPress SEO is created by a worldwide team.', 'wordpress-seo' ), '<a target="_blank" href="https://yoast.com/">', '</a>' );
+				printf( __( 'While most of the development team is at %1$sYoast%2$s in the Netherlands, WordPress SEO by Yoast is created by a worldwide team.', 'wordpress-seo' ), '<a target="_blank" href="https://yoast.com/">', '</a>' );
 				echo ' ';
 				printf( __( 'Want to help us develop? Read our %1$scontribution guidelines%2$s!', 'wordpress-seo' ), '<a target="_blank" href="http://yoa.st/wpseocontributionguidelines">', '</a>' );
 			?>

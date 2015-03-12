@@ -1,4 +1,8 @@
 <?php
+/**
+ * @package    WPSEO
+ * @subpackage Admin
+ */
 
 if ( ! defined( 'WPSEO_VERSION' ) ) {
 	header( 'Status: 403 Forbidden' );
@@ -43,7 +47,8 @@ if ( '' === $tool_page ) {
 	}
 	echo '</ul>';
 
-} else {
+}
+else {
 	echo '<a href="', admin_url( 'admin.php?page=wpseo_tools' ), '">', __( '&laquo; Back to Tools page', 'wordpress-seo' ), '</a>';
 	require_once WPSEO_PATH . 'admin/views/tool-' . $tool_page . '.php';
 }

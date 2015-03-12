@@ -1,4 +1,8 @@
 <?php
+/**
+ * @package    WPSEO
+ * @subpackage Unittests
+ */
 
 class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 
@@ -12,8 +16,8 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	* @covers WPSEO_Metabox::get_post_date()
-	*/
+	 * @covers WPSEO_Metabox::get_post_date()
+	 */
 	public function test_get_post_date() {
 
 		// create and go to post
@@ -27,8 +31,8 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	* @covers WPSEO_Metabox::enqueue()
-	*/
+	 * @covers WPSEO_Metabox::enqueue()
+	 */
 	public function test_enqueue_not_firing_on_options_page() {
 		global $pagenow;
 		$pagenow = 'options.php';
@@ -41,8 +45,8 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	* @covers WPSEO_Metabox::enqueue()
-	*/
+	 * @covers WPSEO_Metabox::enqueue()
+	 */
 	public function test_enqueue_firing_on_new_post_page() {
 		global $pagenow;
 		$pagenow = 'post-new.php';
@@ -58,38 +62,38 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 
 		self::$class_instance->setup_page_analysis();
 		// @todo -> is this double ! correct ?
-		$hooked = !! has_filter( 'manage_post_posts_columns', array( self::$class_instance, 'column_heading' ) );
+		$hooked = ! ! has_filter( 'manage_post_posts_columns', array( self::$class_instance, 'column_heading' ) );
 
 		$this->assertTrue( $hooked );
 	}
 
 	/**
-	* @covers WPSEO_Metabox::column_heading()
-	*/
-	public function test_column_heading_has_score( ) {
+	 * @covers WPSEO_Metabox::column_heading()
+	 */
+	public function test_column_heading_has_score() {
 		$columns = self::$class_instance->column_heading( array() );
 		$this->assertArrayHasKey( 'wpseo-score', $columns );
 	}
 
 	/**
-	* @covers WPSEO_Metabox::column_heading()
-	*/
-	public function test_column_heading_has_focuskw( ) {
+	 * @covers WPSEO_Metabox::column_heading()
+	 */
+	public function test_column_heading_has_focuskw() {
 		$columns = self::$class_instance->column_heading( array() );
 		$this->assertArrayHasKey( 'wpseo-focuskw', $columns );
 	}
 
 	/**
-	* @covers WPSEO_Metabox::column_heading()
-	*/
-	public function test_column_heading_has_metadesc( ) {
+	 * @covers WPSEO_Metabox::column_heading()
+	 */
+	public function test_column_heading_has_metadesc() {
 		$columns = self::$class_instance->column_heading( array() );
 		$this->assertArrayHasKey( 'wpseo-metadesc', $columns );
 	}
 
 	/**
-	* @covers WPSEO_Metabox::strtolower_utf8()
-	*/
+	 * @covers WPSEO_Metabox::strtolower_utf8()
+	 */
 	public function test_strtolower_utf8() {
 		$input = 'ABCDEFGHIJKLMNOPQRSTUVWXYZÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЪЬЭЮЯĄĆĘŁŃÓŚŹŻ';
 		$expected_output = 'abcdefghijklmnopqrstuvwxyzàáâãäåæçèéêëìíîïðñòóôõöøùúûüýабвгдеёжзийклмнопрстуфхцчшщъъьэюяąćęłńóśźż';
@@ -105,7 +109,7 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 
 		// test if all post types have the wpseo_meta metabox
 		foreach ( $post_types as $post_type ) {
-			$this->assertArrayHasKey( 'wpseo_meta', $wp_meta_boxes[$post_type]['normal']['high'] );
+			$this->assertArrayHasKey( 'wpseo_meta', $wp_meta_boxes[ $post_type ]['normal']['high'] );
 		}
 	}
 
@@ -162,7 +166,4 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 			}
 		}
 	}
-
-
-
 }

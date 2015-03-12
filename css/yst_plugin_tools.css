@@ -45,6 +45,10 @@ select {
 	width: 400px;
 }
 
+input.checkbox + label.checkbox {
+	width: auto;
+}
+
 input.textinput,
 textarea.textinput,
 select.select,
@@ -77,10 +81,6 @@ label.checkbox {
 	width: 180px;
 	margin: 0 0 5px 5px;
 	background-color: transparent;
-}
-
-.button.wpseo_image_upload_button {
-	margin-top: 12px;
 }
 
 label.radio {

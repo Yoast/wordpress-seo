@@ -30,7 +30,8 @@ class WPSEO_Pointers {
 			}
 			if ( $options['tracking_popup_done'] === false && ! isset( $_GET['allow_tracking'] ) ) {
 				add_action( 'admin_print_footer_scripts', array( $this, 'tracking_request' ) );
-			} elseif ( $options['ignore_tour'] === false ) {
+			}
+			elseif ( $options['ignore_tour'] === false ) {
 				add_action( 'admin_print_footer_scripts', array( $this, 'intro_tour' ) );
 			}
 		}
@@ -155,24 +156,26 @@ class WPSEO_Pointers {
 		$id           = '#wpseo-title';
 		if ( 'admin.php' != $pagenow || ! array_key_exists( $page, $admin_pages ) ) {
 			$id      = 'li.toplevel_page_wpseo_dashboard';
-			$content = '<h3>' . __( 'Congratulations!', 'wordpress-seo' ) . '</h3>';
-			$content .= '<p>' . __( 'You&#8217;ve just installed WordPress SEO by Yoast! Click &#8220;Start Tour&#8221; to view a quick introduction of this plugin&#8217;s core functionality.', 'wordpress-seo' ) . '</p>';
+			$content = '
+				<h3>' . __( 'Congratulations!', 'wordpress-seo' ) . '</h3>
+				<p>' . __( 'You&#8217;ve just installed WordPress SEO by Yoast! Click &#8220;Start Tour&#8221; to view a quick introduction of this plugin&#8217;s core functionality.', 'wordpress-seo' ) . '</p>';
 			$opt_arr                             = array(
 				'content'  => $content,
 				'position' => array( 'edge' => 'bottom', 'align' => 'center' )
 			);
 			$button_array['button2']['text']     = __( 'Start Tour', 'wordpress-seo' );
-			$button_array['button2']['function'] = 'document.location="' . admin_url( 'admin.php?page=wpseo_dashboard' ) . '";';
+			$button_array['button2']['function'] = sprintf( 'document.location="%s";', admin_url( 'admin.php?page=wpseo_dashboard' ) );
 		}
 		else {
 			if ( '' != $page && in_array( $page, array_keys( $admin_pages ) ) ) {
-				$align   = ( is_rtl() ) ? 'left' : 'right';
-				$opt_arr = array(
+				$align            = ( is_rtl() ) ? 'left' : 'right';
+				$default_position = array(
+					'edge'  => 'top',
+					'align' => $align,
+				);
+				$opt_arr          = array(
 					'content'      => $admin_pages[ $page ]['content'],
-					'position'     => ( isset ( $admin_pages[ $page ]['position'] ) ) ? ( $admin_pages[ $page ]['position'] ) : array(
-						'edge'  => 'top',
-						'align' => $align,
-					),
+					'position'     => ( isset ( $admin_pages[ $page ]['position'] ) ) ? ( $admin_pages[ $page ]['position'] ) : $default_position,
 					'pointerWidth' => 450,
 				);
 				if ( isset( $admin_pages[ $page ]['next_page'] ) ) {

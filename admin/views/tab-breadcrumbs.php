@@ -1,6 +1,7 @@
 <?php
 /**
- * @package Admin
+ * @package    WPSEO
+ * @subpackage Admin
  */
 
 if ( ! defined( 'WPSEO_VERSION' ) ) {
@@ -76,7 +77,7 @@ unset( $taxonomies, $post_types );
 </div>
 <p>
 	<strong><?php _e( 'How to insert breadcrumbs in your theme', 'wordpress-seo' ); ?></strong><br/>
-	<?php printf( __( 'Usage of this breadcrumbs feature is explained %1$shere%2$s. For the more code savvy, insert this in your theme:', 'wordpress-seo' ), '<a href="https://yoast.com/wordpress/plugins/breadcrumbs/">', '</a>' ); ?>
+	<?php printf( __( 'Usage of this breadcrumbs feature is explained %1$shere%2$s. For the more code savvy, insert this in your theme:', 'wordpress-seo' ), '<a href="https://yoast.com/wordpress/plugins/breadcrumbs/" target="_blank">', '</a>' ); ?>
 </p>
 <pre>
 &lt;?php if ( function_exists(&#x27;yoast_breadcrumb&#x27;) ) {

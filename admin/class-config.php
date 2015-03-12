@@ -74,6 +74,7 @@ class WPSEO_Admin_Pages {
 					for ( $i = 0; $i < $elm_count; $i ++ ) {
 						$content .= $key . '[] = "' . $elem[ $i ] . "\"\n";
 					}
+					unset( $elm_count, $i );
 				}
 				elseif ( is_string( $elem ) && $elem == '' ) {
 					$content .= $key . " = \n";
@@ -85,7 +86,9 @@ class WPSEO_Admin_Pages {
 					$content .= $key . ' = "' . $elem . "\"\n";
 				}
 			}
+			unset( $key, $elem );
 		}
+		unset( $optgroup, $options );
 
 		if ( $include_taxonomy ) {
 			$content .= "\r\n\r\n[wpseo_taxonomy_meta]\r\n";
@@ -171,29 +174,29 @@ class WPSEO_Admin_Pages {
 	/**
 	 * Generates the header for admin pages
 	 *
-	 * @deprecated 1.8.0
+	 * @deprecated 2.0
 	 *
 	 * @param bool   $form             Whether or not the form start tag should be included.
-	 * @param string $option_long_name The long name of the option to use for the current page.
+	 * @param mixed  $option_long_name The long name of the option to use for the current page.
 	 * @param string $option           The short name of the option to use for the current page.
 	 * @param bool   $contains_files   Whether the form should allow for file uploads.
 	 */
-	public function admin_header( $form = true, $option_long_name = 'yoast_wpseo_options', $option = 'wpseo', $contains_files = false ) {
-		_deprecated_function( __METHOD__, 'WPSEO 1.8.0', 'This method is deprecated, please use the <code>Yoast_Form</code> class.' );
+	public function admin_header( $form = true, $option_long_name = false, $option = 'wpseo', $contains_files = false ) {
+		_deprecated_function( __METHOD__, 'WPSEO 2.0', 'This method is deprecated, please use the <code>Yoast_Form</code> class.' );
 
-		Yoast_Form::get_instance()->admin_header( $form, $option, $contains_files );
+		Yoast_Form::get_instance()->admin_header( $form, $option, $contains_files, $option_long_name );
 	}
 
 	/**
 	 * Generates the footer for admin pages
 	 *
-	 * @deprecated 1.8.0
+	 * @deprecated 2.0
 	 *
 	 * @param bool $submit       Whether or not a submit button and form end tag should be shown.
 	 * @param bool $show_sidebar Whether or not to show the banner sidebar - used by premium plugins to disable it
 	 */
 	public function admin_footer( $submit = true, $show_sidebar = true ) {
-		_deprecated_function( __METHOD__, 'WPSEO 1.8.0', 'This method is deprecated, please use the <code>Yoast_Form</code> class.' );
+		_deprecated_function( __METHOD__, 'WPSEO 2.0', 'This method is deprecated, please use the <code>Yoast_Form</code> class.' );
 
 		Yoast_Form::get_instance()->admin_footer( $submit, $show_sidebar );
 	}
@@ -201,25 +204,47 @@ class WPSEO_Admin_Pages {
 	/**
 	 * Generates the sidebar for admin pages.
 	 *
-	 * @deprecated 1.8.0
+	 * @deprecated 2.0
 	 */
 	public function admin_sidebar() {
-		_deprecated_function( __METHOD__, 'WPSEO 1.8.0', 'This method is deprecated, please use the <code>Yoast_Form</code> class.' );
+		_deprecated_function( __METHOD__, 'WPSEO 2.0', 'This method is deprecated, please use the <code>Yoast_Form</code> class.' );
 
 		Yoast_Form::get_instance()->admin_sidebar();
 	}
 
 	/**
+	 * Create a Checkbox input field.
+	 *
+	 * @deprecated 2.0
+	 *
+	 * @param string $var        The variable within the option to create the checkbox for.
+	 * @param string $label      The label to show for the variable.
+	 * @param bool   $label_left Whether the label should be left (true) or right (false).
+	 * @param string $option     The option the variable belongs to.
+	 *
+	 * @return string
+	 */
+	public function checkbox( $var, $label, $label_left = false, $option = '' ) {
+		_deprecated_function( __METHOD__, 'WPSEO 2.0', 'This method is deprecated, please use the <code>Yoast_Form</code> class.' );
+
+		if ( $option !== '' ) {
+			Yoast_Form::get_instance()->set_option( $option );
+		}
+
+		Yoast_Form::get_instance()->checkbox( $var, $label, $label_left );
+	}
+
+	/**
 	 * Create a Text input field.
 	 *
-	 * @deprecated 1.8.0
+	 * @deprecated 2.0
 	 *
 	 * @param string $var    The variable within the option to create the text input field for.
 	 * @param string $label  The label to show for the variable.
 	 * @param string $option The option the variable belongs to.
 	 */
 	function textinput( $var, $label, $option = '' ) {
-		_deprecated_function( __METHOD__, 'WPSEO 1.8.0', 'This method is deprecated, please use the <code>Yoast_Form</code> class.' );
+		_deprecated_function( __METHOD__, 'WPSEO 2.0', 'This method is deprecated, please use the <code>Yoast_Form</code> class.' );
 
 		if ( $option !== '' ) {
 			Yoast_Form::get_instance()->set_option( $option );
@@ -230,7 +255,7 @@ class WPSEO_Admin_Pages {
 	/**
 	 * Create a textarea.
 	 *
-	 * @deprecated 1.8.0
+	 * @deprecated 2.0
 	 *
 	 * @param string $var    The variable within the option to create the textarea for.
 	 * @param string $label  The label to show for the variable.
@@ -238,7 +263,7 @@ class WPSEO_Admin_Pages {
 	 * @param array  $attr   The CSS class to assign to the textarea.
 	 */
 	function textarea( $var, $label, $option = '', $attr = array() ) {
-		_deprecated_function( __METHOD__, 'WPSEO 1.8.0', 'This method is deprecated, please use the <code>Yoast_Form</code> class.' );
+		_deprecated_function( __METHOD__, 'WPSEO 2.0', 'This method is deprecated, please use the <code>Yoast_Form</code> class.' );
 
 		if ( $option !== '' ) {
 			Yoast_Form::get_instance()->set_option( $option );
@@ -250,13 +275,13 @@ class WPSEO_Admin_Pages {
 	/**
 	 * Create a hidden input field.
 	 *
-	 * @deprecated 1.8.0
+	 * @deprecated 2.0
 	 *
 	 * @param string $var    The variable within the option to create the hidden input for.
 	 * @param string $option The option the variable belongs to.
 	 */
 	function hidden( $var, $option = '' ) {
-		_deprecated_function( __METHOD__, 'WPSEO 1.8.0', 'This method is deprecated, please use the <code>Yoast_Form</code> class.' );
+		_deprecated_function( __METHOD__, 'WPSEO 2.0', 'This method is deprecated, please use the <code>Yoast_Form</code> class.' );
 
 		if ( $option !== '' ) {
 			Yoast_Form::get_instance()->set_option( $option );
@@ -268,7 +293,7 @@ class WPSEO_Admin_Pages {
 	/**
 	 * Create a Select Box.
 	 *
-	 * @deprecated 1.8.0
+	 * @deprecated 2.0
 	 *
 	 * @param string $var    The variable within the option to create the select for.
 	 * @param string $label  The label to show for the variable.
@@ -276,7 +301,7 @@ class WPSEO_Admin_Pages {
 	 * @param string $option The option the variable belongs to.
 	 */
 	function select( $var, $label, $values, $option = '' ) {
-		_deprecated_function( __METHOD__, 'WPSEO 1.8.0', 'This method is deprecated, please use the <code>Yoast_Form</code> class.' );
+		_deprecated_function( __METHOD__, 'WPSEO 2.0', 'This method is deprecated, please use the <code>Yoast_Form</code> class.' );
 
 		if ( $option !== '' ) {
 			Yoast_Form::get_instance()->set_option( $option );
@@ -288,14 +313,14 @@ class WPSEO_Admin_Pages {
 	/**
 	 * Create a File upload field.
 	 *
-	 * @deprecated 1.8.0
+	 * @deprecated 2.0
 	 *
 	 * @param string $var    The variable within the option to create the file upload field for.
 	 * @param string $label  The label to show for the variable.
 	 * @param string $option The option the variable belongs to.
 	 */
 	function file_upload( $var, $label, $option = '' ) {
-		_deprecated_function( __METHOD__, 'WPSEO 1.8.0', 'This method is deprecated, please use the <code>Yoast_Form</code> class.' );
+		_deprecated_function( __METHOD__, 'WPSEO 2.0', 'This method is deprecated, please use the <code>Yoast_Form</code> class.' );
 
 		if ( $option !== '' ) {
 			Yoast_Form::get_instance()->set_option( $option );
@@ -307,14 +332,14 @@ class WPSEO_Admin_Pages {
 	/**
 	 * Media input
 	 *
-	 * @deprecated 1.8.0
+	 * @deprecated 2.0
 	 *
 	 * @param string $var
 	 * @param string $label
 	 * @param string $option
 	 */
 	function media_input( $var, $label, $option = '' ) {
-		_deprecated_function( __METHOD__, 'WPSEO 1.8.0', 'This method is deprecated, please use the <code>Yoast_Form</code> class.' );
+		_deprecated_function( __METHOD__, 'WPSEO 2.0', 'This method is deprecated, please use the <code>Yoast_Form</code> class.' );
 
 		if ( $option !== '' ) {
 			Yoast_Form::get_instance()->set_option( $option );
@@ -326,7 +351,7 @@ class WPSEO_Admin_Pages {
 	/**
 	 * Create a Radio input field.
 	 *
-	 * @deprecated 1.8.0
+	 * @deprecated 2.0
 	 *
 	 * @param string $var    The variable within the option to create the file upload field for.
 	 * @param array  $values The radio options to choose from.
@@ -334,7 +359,7 @@ class WPSEO_Admin_Pages {
 	 * @param string $option The option the variable belongs to.
 	 */
 	function radio( $var, $values, $label, $option = '' ) {
-		_deprecated_function( __METHOD__, 'WPSEO 1.8.0', 'This method is deprecated, please use the <code>Yoast_Form</code> class.' );
+		_deprecated_function( __METHOD__, 'WPSEO 2.0', 'This method is deprecated, please use the <code>Yoast_Form</code> class.' );
 
 		if ( $option !== '' ) {
 			Yoast_Form::get_instance()->set_option( $option );
@@ -346,14 +371,14 @@ class WPSEO_Admin_Pages {
 	/**
 	 * Create a postbox widget.
 	 *
-	 * @deprecated 1.8.0
+	 * @deprecated 2.0
 	 *
 	 * @param string $id      ID of the postbox.
 	 * @param string $title   Title of the postbox.
 	 * @param string $content Content of the postbox.
 	 */
 	function postbox( $id, $title, $content ) {
-		_deprecated_function( __METHOD__, 'WPSEO 1.8.0', 'This method is deprecated, please re-implement the admin pages.' );
+		_deprecated_function( __METHOD__, 'WPSEO 2.0', 'This method is deprecated, please re-implement the admin pages.' );
 
 		?>
 			<div id="<?php echo esc_attr( $id ); ?>" class="yoastbox">
@@ -366,14 +391,14 @@ class WPSEO_Admin_Pages {
 	/**
 	 * Create a form table from an array of rows.
 	 *
-	 * @deprecated 1.8.0
+	 * @deprecated 2.0
 	 *
 	 * @param array $rows Rows to include in the table.
 	 *
 	 * @return string
 	 */
 	function form_table( $rows ) {
-		_deprecated_function( __METHOD__, 'WPSEO 1.8.0', 'This method is deprecated, please re-implement the admin pages.' );
+		_deprecated_function( __METHOD__, 'WPSEO 2.0', 'This method is deprecated, please re-implement the admin pages.' );
 
 		if ( ! is_array( $rows ) || $rows === array() ) {
 			return '';

@@ -129,6 +129,7 @@ if ( is_array( $options['fbapps'] ) && $options['fbapps'] !== array() ) {
 		$fbconnect .= '
 		<option value="' . esc_attr( $id ) . '" ' . selected( $id, $options['fbadminapp'], false ) . '>' . esc_attr( $app ) . '</option>';
 	}
+	unset( $id, $app );
 	$fbconnect .= '
 	</select>
 	<div class="clear"></div><br/>';
@@ -153,6 +154,7 @@ if ( $options['fbadminapp'] == 0 ) {
 					'nonce'      => $nonce,
 				), admin_url( 'admin.php?page=wpseo_social' ) ) ) . '">X</a></strong></li>';
 		}
+		unset( $admin_id, $admin, $nonce );
 		$fbconnect .= '
 	</ul>';
 		$button_text = __( 'Add Another Facebook Admin', 'wordpress-seo' );
@@ -195,7 +197,7 @@ $yform->admin_header( true, 'wpseo_social' );
 
 	<div id="accounts" class="wpseotab">
 		<p>
-			<?php _e( 'To inform Google about your social profiles, we need to know their URLs.' ); ?>
+			<?php _e( 'To inform Google about your social profiles, we need to know their URLs.', 'wordpress-seo' ); ?>
 			<?php _e( 'For each, pick the main account associated with this site and please enter them below:', 'wordpress-seo' ); ?>
 		</p>
 		<?php
@@ -230,8 +232,8 @@ $yform->admin_header( true, 'wpseo_social' );
 
 			// Offer copying of meta description
 			$meta_options = get_option( 'wpseo_titles' );
-			echo '<input type="hidden" id="meta_description" value="' . $meta_options['metadesc-home-wpseo'] . '" />';
-			echo '<p class="label desc" style="border:0;"><a href="javascript:;" onclick="copy_home_meta();" class="button">' . __( 'Copy home meta description', 'wordpress-seo' ) . '</a></p>';
+			echo '<input type="hidden" id="meta_description" value="', esc_attr( $meta_options['metadesc-home-wpseo'] ), '" />';
+			echo '<p class="label desc" style="border:0;"><a href="javascript:;" onclick="copy_home_meta();" class="button">', esc_html__( 'Copy home meta description', 'wordpress-seo' ), '</a></p>';
 
 			echo '<p class="desc label">' . esc_html__( 'These are the title, description and image used in the Open Graph meta tags on the front page of your site.', 'wordpress-seo' ) . '</p>';
 		} ?>

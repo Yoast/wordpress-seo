@@ -5,10 +5,10 @@ WordPress SEO by Yoast
 [![Stable Version](https://poser.pugx.org/yoast/wordpress-seo/v/stable.svg)](https://packagist.org/packages/yoast/wordpress-seo)
 [![License](https://poser.pugx.org/yoast/wordpress-seo/license.svg)](https://packagist.org/packages/yoast/wordpress-seo)
 
-Welcome to the WordPress SEO Github repository
+Welcome to the WordPress SEO GitHub repository
 ----------------------------------------------
 
-While the documenation for the [WordPress SEO plugin](https://yoast.com/wordpress/seo/) can be found on yoast.com, here
+While the documentation for the [WordPress SEO plugin](https://yoast.com/wordpress/seo/) can be found on [Yoast.com](https://yoast.com/), here
 you can browse the source of the project, find and discuss open issues and even
 [contribute yourself](https://github.com/yoast/wordpress-seo/blob/master/CONTRIBUTING.md).
 
@@ -28,14 +28,16 @@ Read more about [using Composer with WordPress SEO](https://github.com/Yoast/wor
 This will download the latest development version of WordPress SEO by Yoast. While this version is usually stable,
 it is not recommended for use in a production environment.
 
-Bugs
-----
-If you find an issue, [let us know here](https://github.com/yoast/wordpress-seo/issues/new)!
-
 Support
 -------
 This is a developer's portal for WordPress SEO by Yoast and should not be used for support. Please visit the
 [support forums](https://wordpress.org/support/plugin/wordpress-seo).
+
+Reporting bugs
+----
+If you find an issue, [let us know here](https://github.com/yoast/wordpress-seo/issues/new)! Please follow [how to write a good bug report?](http://kb.yoast.com/article/180-how-to-write-a-good-bug-report) guidelines.
+
+It may help us a lot if you can provide a backtrace of the error encountered. You can use [code in this gist](https://gist.github.com/jrfnl/5925642) to enable the backtrace in your website's configuration.
 
 Contributions
 -------------

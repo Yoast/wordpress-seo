@@ -41,6 +41,8 @@ class WPSEO_Sitemaps_Admin {
 					$new_files_found             = true;
 				}
 			}
+			unset( $file );
+
 			if ( $new_files_found === true ) {
 				update_option( 'wpseo', $options );
 			}
@@ -70,7 +72,7 @@ class WPSEO_Sitemaps_Admin {
 		}
 
 		if ( WP_CACHE ) {
-			wp_schedule_single_event( (time() + 300), 'wpseo_hit_sitemap_index' );
+			wp_schedule_single_event( ( time() + 300 ), 'wpseo_hit_sitemap_index' );
 		}
 
 		// Allow the pinging to happen slightly after the hit sitemap index so the sitemap is fully regenerated when the ping happens.

@@ -278,7 +278,8 @@ abstract class WPSEO_Option {
 
 				if ( preg_match( $regex, $meta ) ) {
 					$clean[ $key ] = $meta;
-				} else {
+				}
+				else {
 					if ( isset( $old[ $key ] ) && preg_match( $regex, $old[ $key ] ) ) {
 						$clean[ $key ] = $old[ $key ];
 					}
@@ -308,7 +309,8 @@ abstract class WPSEO_Option {
 			$url = WPSEO_Utils::sanitize_url( $dirty[ $key ] );
 			if ( $url !== '' ) {
 				$clean[ $key ] = $url;
-			} else {
+			}
+			else {
 				if ( isset( $old[ $key ] ) && $old[ $key ] !== '' ) {
 					$url = WPSEO_Utils::sanitize_url( $old[ $key ] );
 					if ( $url !== '' ) {
@@ -1811,7 +1813,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 					}
 				}
 			}
-			unset( $rename, $taxonomy_names, $post_type_names, $tax, $old_prefix, $new_prefix );
+			unset( $rename, $taxonomy_names, $post_type_names, $defaults, $tax, $old_prefix, $new_prefix );
 		}
 
 
@@ -1841,6 +1843,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 						break;
 				}
 			}
+			unset( $key, $value, $switch_key );
 		}
 
 		return $option_value;
@@ -2399,8 +2402,9 @@ class WPSEO_Option_XML extends WPSEO_Option {
 
 				unset( $user_role );
 			}
+			unset( $role_name, $role_value );
 		}
-		unset( $filtered_user_roles );
+		unset( $user_roles, $filtered_user_roles );
 
 		$post_type_names     = get_post_types( array( 'public' => true ), 'names' );
 		$filtered_post_types = apply_filters( 'wpseo_sitemaps_supported_post_types', $post_type_names );
@@ -2416,7 +2420,7 @@ class WPSEO_Option_XML extends WPSEO_Option {
 			}
 			unset( $pt );
 		}
-		unset( $filtered_post_types );
+		unset( $post_type_names, $filtered_post_types );
 
 		$taxonomy_objects    = get_taxonomies( array( 'public' => true ), 'objects' );
 		$filtered_taxonomies = apply_filters( 'wpseo_sitemaps_supported_taxonomies', $taxonomy_objects );
@@ -2428,7 +2432,7 @@ class WPSEO_Option_XML extends WPSEO_Option {
 			}
 			unset( $tax );
 		}
-		unset( $filtered_taxonomies );
+		unset( $taxonomy_objects, $filtered_taxonomies );
 
 	}
 
@@ -2573,6 +2577,7 @@ class WPSEO_Option_Social extends WPSEO_Option {
 		'twitter_site'       => '', // text field
 		'twitter_card_type'  => 'summary',
 		'youtube_url'        => '',
+		'google_plus_url'    => '',
 		// Form field, but not always available:
 		'fbadminapp'         => 0, // app id from fbapps list
 	);
@@ -2751,6 +2756,7 @@ class WPSEO_Option_Social extends WPSEO_Option {
 				case 'og_default_image':
 				case 'og_frontpage_image':
 				case 'youtube_url':
+				case 'google_plus_url':
 					$this->validate_url( $key, $dirty, $old, $clean );
 					break;
 
@@ -2795,7 +2801,7 @@ class WPSEO_Option_Social extends WPSEO_Option {
 					break;
 
 				case 'twitter_card_type':
-					if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' && isset( self::$twitter_card_types[ $dirty[ $key ] ] ) ) {
+					if ( isset( $dirty[ $key ], self::$twitter_card_types[ $dirty[ $key ] ] ) && $dirty[ $key ] !== '' ) {
 						$clean[ $key ] = $dirty[ $key ];
 					}
 					break;
@@ -2814,7 +2820,7 @@ class WPSEO_Option_Social extends WPSEO_Option {
 		 * Will not always exist in form - if not available it means that fbapps is empty,
 		 * so leave the clean default.
 		 */
-		if ( ( isset( $dirty['fbadminapp'] ) && $dirty['fbadminapp'] != 0 ) && isset( $clean['fbapps'][ $dirty['fbadminapp'] ] ) ) {
+		if ( isset( $dirty['fbadminapp'], $clean['fbapps'][ $dirty['fbadminapp'] ] ) && $dirty['fbadminapp'] != 0 ) {
 			$clean['fbadminapp'] = $dirty['fbadminapp'];
 		}
 
@@ -2873,9 +2879,9 @@ class WPSEO_Option_Social extends WPSEO_Option {
 					$fbapps[ $app_id ] = sanitize_text_field( $display_name );
 				}
 			}
-			unset( $app_id, $display_name );
-
 			$option_value['fbapps'] = $fbapps;
+
+			unset( $app_id, $display_name, $fbapps );
 		}
 
 		return $option_value;
@@ -3362,7 +3368,7 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 					break;
 
 				case 'wpseo_sitemap_include':
-					if ( isset( $meta_data[ $key ] ) && isset( self::$sitemap_include_options[ $meta_data[ $key ] ] ) ) {
+					if ( isset( $meta_data[ $key ], self::$sitemap_include_options[ $meta_data[ $key ] ] ) ) {
 						$clean[ $key ] = $meta_data[ $key ];
 					}
 					break;
@@ -3373,6 +3379,7 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 						if ( $url !== '' ) {
 							$clean[ $key ] = $url;
 						}
+						unset( $url );
 					}
 					break;
 
@@ -3754,11 +3761,13 @@ class WPSEO_Options {
 					self::$option_instances[ $option ]->clean( $current_version );
 				}
 			}
+			unset( $option );
 		}
 		else {
 			foreach ( self::$option_instances as $instance ) {
 				$instance->clean( $current_version );
 			}
+			unset( $instance );
 
 			// If we've done a full clean-up, we can safely remove this really old option
 			delete_option( 'wpseo_indexation' );
@@ -3826,6 +3835,7 @@ class WPSEO_Options {
 					update_option( $option_name, get_option( $option_name ) );
 				}
 			}
+			unset( $option_names );
 		}
 		else {
 			// Reset MS blog based on network default blog setting

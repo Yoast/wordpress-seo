@@ -199,10 +199,11 @@ if ( isset( $_POST['import'] ) || isset( $_GET['import'] ) ) {
 		unset( $posts, $post, $custom, $robotsmeta_adv );
 
 		if ( $replace ) {
-			foreach ( array( 'noarchive', 'noodp', 'noydir' ) as $meta ) {
+			$hs_meta = array( 'noarchive', 'noodp', 'noydir' );
+			foreach ( $hs_meta as $meta ) {
 				delete_post_meta_by_key( '_headspace_' . $meta );
 			}
-			unset( $meta );
+			unset( $hs_meta, $meta );
 		}
 		$msg .= __( 'HeadSpace2 data successfully imported', 'wordpress-seo' );
 	}
@@ -358,7 +359,7 @@ if ( isset( $_POST['import'] ) || isset( $_GET['import'] ) ) {
 }
 
 if ( $msg != '' ) {
-	echo '<div id="message" class="message updated" style="width:94%;"><p>' . $msg . '</p></div>';
+	echo '<div id="message" class="message updated" style="width:94%;"><p>', $msg, '</p></div>';
 }
 
 echo '<br/><br/>';
@@ -479,7 +480,8 @@ if ( isset( $_POST['wpseo_export'] ) ) {
 			document.location = \'' . $url . '\';
 		</script>';
 		add_action( 'admin_footer-' . $GLOBALS['hook_suffix'], 'wpseo_deliver_export_zip' );
-	} else {
+	}
+	else {
 		$content .= 'Error: ' . $url;
 	}
 }

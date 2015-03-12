@@ -1,4 +1,8 @@
 <?php
+/**
+ * @package    WPSEO
+ * @subpackage Unittests
+ */
 
 class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 
@@ -57,5 +61,23 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 		$expected   = 'This is an old string with as spaces.';
 
 		$this->assertEquals( $expected, WPSEO_Utils::trim_nbsp_from_string( $old_string ) );
+	}
+
+	/**
+	 * Test the datetime with a valid date string
+	 *
+	 * @covers WPSEO_Utils::is_valid_datetime
+	 */
+	public function test_is_valid_datetime_WITH_valid_datetime() {
+		$this->assertTrue( WPSEO_Utils::is_valid_datetime( '2015-02-25T04:44:44+00:00' ) );
+	}
+
+	/**
+	 * Test the datetime with an invalid date string
+	 *
+	 * @covers WPSEO_Utils::is_valid_datetime
+	 */
+	public function test_is_valid_datetime_WITH_invalid_datetime() {
+		$this->assertFalse( WPSEO_Utils::is_valid_datetime( '-0001-11-30T00:00:00+00:00' ) );
 	}
 }

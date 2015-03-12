@@ -31,8 +31,7 @@ class WPSEO_Admin_Init {
 
 		$GLOBALS['wpseo_admin'] = new WPSEO_Admin;
 
-		global $pagenow;
-		$this->pagenow = $pagenow;
+		$this->pagenow = $GLOBALS['pagenow'];
 
 		$this->load_meta_boxes();
 		$this->load_taxonomy_class();
@@ -71,7 +70,7 @@ class WPSEO_Admin_Init {
 	 * Determine if we should load our taxonomy edit class and if so, load it.
 	 */
 	private function load_taxonomy_class() {
-		if ( 'edit-tags.php' === $this->pagenow ) {
+		if ( 'edit-tags.php' === $this->pagenow && WPSEO_Utils::filter_input( INPUT_GET, 'action' ) ) {
 			new WPSEO_Taxonomy;
 		}
 	}

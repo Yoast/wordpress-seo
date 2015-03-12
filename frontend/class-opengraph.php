@@ -20,8 +20,7 @@ class WPSEO_OpenGraph {
 	public function __construct() {
 		$this->options = WPSEO_Options::get_all();
 
-		global $fb_ver;
-		if ( isset( $fb_ver ) || class_exists( 'Facebook_Loader' ) ) {
+		if ( isset( $GLOBALS['fb_ver'] ) || class_exists( 'Facebook_Loader' ) ) {
 			add_filter( 'fb_meta_tags', array( $this, 'facebook_filter' ), 10, 1 );
 		}
 		else {
@@ -79,7 +78,7 @@ class WPSEO_OpenGraph {
 			return false;
 		}
 
-		echo '<meta property="' . esc_attr( $property ) . '" content="' . esc_attr( $content ) . '" />' . "\n";
+		echo '<meta property="', esc_attr( $property ), '" content="', esc_attr( $content ), '" />', "\n";
 
 		return true;
 	}
@@ -132,13 +131,12 @@ class WPSEO_OpenGraph {
 			return false;
 		}
 
-		global $post;
 		/**
 		 * Filter: 'wpseo_opengraph_author_facebook' - Allow developers to filter the WP SEO post authors facebook profile URL
 		 *
 		 * @api bool|string $unsigned The Facebook author URL, return false to disable
 		 */
-		$facebook = apply_filters( 'wpseo_opengraph_author_facebook', get_the_author_meta( 'facebook', $post->post_author ) );
+		$facebook = apply_filters( 'wpseo_opengraph_author_facebook', get_the_author_meta( 'facebook', $GLOBALS['post']->post_author ) );
 
 		if ( $facebook && ( is_string( $facebook ) && $facebook !== '' ) ) {
 			$this->og_tag( 'article:author', $facebook );
@@ -501,8 +499,6 @@ class WPSEO_OpenGraph {
 		}
 	}
 
-
-
 	/**
 	 * Output the OpenGraph description, specific OG description first, if not, grab the meta description.
 	 *
@@ -514,7 +510,12 @@ class WPSEO_OpenGraph {
 		$ogdesc = '';
 
 		if ( is_front_page() ) {
-			$ogdesc = ( isset( $this->options['og_frontpage_desc'] ) && $this->options['og_frontpage_desc'] !== '' ) ? $this->options['og_frontpage_desc'] : WPSEO_Frontend::get_instance()->metadesc( false );
+			if ( isset( $this->options['og_frontpage_desc'] ) && $this->options['og_frontpage_desc'] !== '' ) {
+				$ogdesc = wpseo_replace_vars( $this->options['og_frontpage_desc'], null );
+			}
+			else {
+				$ogdesc = WPSEO_Frontend::get_instance()->metadesc( false );
+			}
 		}
 
 		if ( is_singular() ) {
@@ -543,8 +544,7 @@ class WPSEO_OpenGraph {
 			}
 
 			if ( '' == $ogdesc ) {
-				global $wp_query;
-				$term   = $wp_query->get_queried_object();
+				$term   = $GLOBALS['wp_query']->get_queried_object();
 				$ogdesc = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'desc' );
 			}
 		}
