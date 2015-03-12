@@ -82,10 +82,10 @@ elseif ( class_exists( 'Yoast_WooCommerce_SEO' ) ) {
 				?>
 				<div class="extension <?php echo esc_attr( $id ); ?>">
 					<a target="_blank" href="<?php echo esc_url( $extension->url . $utm ); ?>">
-						<h3><?php esc_html_e( $extension->title ); ?></h3>
+						<h3><?php echo esc_html( $extension->title ); ?></h3>
 					</a>
 
-					<p><?php esc_html_e( $extension->desc ); ?></p>
+					<p><?php echo esc_html( $extension->desc ); ?></p>
 
 					<p>
 						<?php if ( $extension->installed ) : ?>

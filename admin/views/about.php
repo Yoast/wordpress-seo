@@ -43,7 +43,7 @@ function wpseo_display_contributors( $contributors ) {
 
 	<div id="new" class="wpseotab">
 		<div class="changelog headline-feature">
-			<h2><?php _e( 'Simplified Admin Menus' ); ?></h2>
+			<h2><?php _e( 'Simplified Admin Menus', 'wordpress-seo' ); ?></h2>
 
 			<div class="feature-section">
 				<div class="col">
