@@ -16,13 +16,13 @@ function ptest( str, p ) {
 	str = yst_clean( str );
 	str = str.toLowerCase();
 	str = removeLowerCaseDiacritics( str );
-	p = removeLowerCaseDiacritics( str );
 	var r = str.match( p );
+
 	if ( r != null ){
 		return '<span class="good">Yes (' + r.length + ')</span>';
-	} else {
-		return '<span class="wrong">No</span>';
 	}
+
+	return '<span class="wrong">No</span>';
 }
 
 function removeLowerCaseDiacritics(str) {
@@ -82,13 +82,15 @@ function removeLowerCaseDiacritics(str) {
 function yst_testFocusKw() {
 	// Retrieve focus keyword and trim
 	var focuskw = jQuery.trim(jQuery('#' + wpseoMetaboxL10n.field_prefix + 'focuskw').val());
+
 	focuskw = yst_escapeFocusKw(focuskw).toLowerCase();
 
 	if (jQuery('#editable-post-name-full').length) {
 		var postname = jQuery('#editable-post-name-full').text();
 		var url = wpseoMetaboxL10n.wpseo_permalink_template.replace('%postname%', postname).replace('http://', '');
 	}
-	var p = new RegExp("(^|[ \s\n\r\t\.,'\(\"\+;!?:\-])" + focuskw + "($|[ \s\n\r\t.,'\)\"\+!?:;\-])", 'gim');
+	var p = new RegExp("(^|[ \s\n\r\t\.,'\(\"\+;!?:\-])" + removeLowerCaseDiacritics( focuskw ) + "($|[ \s\n\r\t.,'\)\"\+!?:;\-])", 'gim');
+
 	//remove diacritics of a lower cased focuskw for url matching in foreign lang
 	var focuskwNoDiacritics = removeLowerCaseDiacritics(focuskw);
 	var p2 = new RegExp(focuskwNoDiacritics.replace(/\s+/g, "[-_\\\//]"), 'gim');
@@ -221,10 +223,7 @@ function yst_updateTitle(force) {
 		var placeholder_title = divHtml.html(title).text();
 		titleElm.attr('placeholder', placeholder_title);
 
-		title = yst_clean(title);
-
-		// and now the snippet preview title
-		title = yst_boldKeywords(title, false);
+		title = sanitize_title( title );
 
 		jQuery('#wpseosnippet_title').html(title);
 
@@ -240,6 +239,19 @@ function yst_updateTitle(force) {
 		yst_testFocusKw();
 	});
 }
+
+function sanitize_title( title ) {
+	// Run possibly set filters
+	title = wpseo_apply_filter( title, 'title');
+
+	title = yst_clean(title);
+
+	// and now the snippet preview title
+	title = yst_boldKeywords(title, false);
+
+	return title;
+}
+
 
 function yst_updateDesc() {
 	var desc = jQuery.trim(yst_clean(jQuery('#' + wpseoMetaboxL10n.field_prefix + 'metadesc').val()));
@@ -266,8 +278,8 @@ function yst_updateDesc() {
 
 			jQuery('#' + wpseoMetaboxL10n.field_prefix + 'metadesc-length').html(len);
 
-			desc = yst_trimDesc(desc);
-			desc = yst_boldKeywords(desc, false);
+			desc = sanitize_desc( desc );
+
 			// Clear the autogen description.
 			snippet.find('.desc span.autogen').html('');
 			// Set our new one.
@@ -302,12 +314,39 @@ function yst_updateDesc() {
 		} else {
 			desc = desc.substr(0, wpseoMetaboxL10n.wpseo_meta_desc_length);
 		}
-		desc = yst_boldKeywords(desc, false);
-		desc = yst_trimDesc(desc);
+
+		desc = sanitize_desc( desc );
+
 		snippet.find('.desc span.autogen').html(desc);
 	}
 
 }
+
+function sanitize_desc(desc) {
+	// Run possibly set filters
+	desc = wpseo_apply_filter( desc, 'description' );
+	desc = yst_trimDesc(desc);
+	desc = yst_boldKeywords(desc, false);
+
+	return desc;
+}
+
+function wpseo_apply_filter( value_to_filter, filter ) {
+	return jQuery.ajax(
+		{
+			type     : "POST",
+			url      : ajaxurl,
+			data : {
+				action  : 'wpseo_apply_' + filter + '_filter',
+				string  : value_to_filter,
+				_wpnonce: wpseoMetaboxL10n.wpseo_replace_vars_nonce
+			},
+			cache    : false,
+			async    : false
+		}
+	).responseText;
+}
+
 
 function yst_trimDesc(desc) {
 	if (desc.length > wpseoMetaboxL10n.wpseo_meta_desc_length) {
