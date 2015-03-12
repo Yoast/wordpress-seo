@@ -191,9 +191,9 @@ if ( get_option( 'page_comments' ) && $options['ignore_page_comments'] === false
 		</p>
 		<?php
 		$yform->select( 'company_or_person', __( 'Company or person', 'wordpress-seo' ), array(
-			''        => __( 'Choose whether you\'re a company or person' ),
-			'company' => __( 'Company' ),
-			'person'  => __( 'Person' ),
+			''        => __( 'Choose whether you\'re a company or person', 'wordpress-seo' ),
+			'company' => __( 'Company', 'wordpress-seo' ),
+			'person'  => __( 'Person', 'wordpress-seo' ),
 		) );
 		?>
 		<div id="knowledge-graph-company">

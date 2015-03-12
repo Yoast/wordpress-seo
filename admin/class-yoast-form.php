@@ -43,9 +43,12 @@ class Yoast_Form {
 	 * @param bool   $form           Whether or not the form start tag should be included.
 	 * @param string $option         The short name of the option to use for the current page.
 	 * @param bool   $contains_files Whether the form should allow for file uploads.
+	 * @param bool   $option_long_name
 	 */
-	public function admin_header( $form = true, $option = 'wpseo', $contains_files = false ) {
-		$option_long_name = WPSEO_Options::get_group_name( $option );
+	public function admin_header( $form = true, $option = 'wpseo', $contains_files = false, $option_long_name = false ) {
+		if ( ! $option_long_name ) {
+			$option_long_name = WPSEO_Options::get_group_name( $option );
+		}
 		?>
 		<div class="wrap wpseo-admin-page page-<?php echo $option; ?>">
 		<?php
@@ -276,7 +279,7 @@ class Yoast_Form {
 
 		echo '<input class="checkbox ', esc_attr( $class ), '" type="checkbox" id="', esc_attr( $var ), '" name="', esc_attr( $this->option_name ), '[', esc_attr( $var ), ']" value="on"', checked( $this->options[ $var ], 'on', false ), '/>';
 
-		if ( $label_left === false ) {
+		if ( ! empty( $label ) ) {
 			$this->label( $label, array( 'for' => $var ) );
 		}
 

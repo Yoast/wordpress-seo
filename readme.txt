@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: seo, SEO, Yoast SEO, google, meta, meta description, search engine optimization, xml sitemap, xml sitemaps, google sitemap, sitemap, sitemaps, robots meta, rss, rss footer, yahoo, bing, news sitemaps, XML News Sitemaps, WordPress SEO, WordPress SEO by Yoast, yoast, multisite, canonical, nofollow, noindex, keywords, meta keywords, description, webmaster tools, google webmaster tools, seo pack
 Requires at least: 3.9
 Tested up to: 4.1.1
-Stable tag: 1.7.3.3
+Stable tag: 2.0-RC
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using Yoast's WordPress SEO plugin.
 
@@ -116,6 +116,39 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 
 == Changelog ==
 
+= 2.0-RC =
+
+Release Date: March 11th, 2015
+
+* Features:
+	* Simplified and revised Admin menu's:
+		* Moved all advanced functionality to one "Advanced" submenu page.
+		* Moved the bulk editor, the export functionality and the file editor to one "Tools" submenu page.
+		* Improved consistency and usability of settings pages by having them use exactly the same, tab-based, styling.
+	* Made it easy to output structured data for social profiles, person and company profiles, for use in Google Knowledge Graph.
+
+* Enhancements:
+	* Makes sure the user is redirected to the last active settings tab after saving.
+
+* Bugfixes:
+	* Fixes a bug where wpseo_metadesc and wpseo_title filters weren't applied in the snippet preview.
+	* Fixes a bug where custom field variables were no longer working in the snippet preview.
+	* Fixes a bug where the $post global was emptied by our Frontend class, causing conflicts with other plugins.
+	* Fixes a bug where variables weren't replaced in the og:description meta tag.
+
+* Under the hood:
+	* Contains an incredible amount of code style improvements, making the code cleaner and more readable.
+	* Makes sure every function in the plugin is documented using PHPDoc by having it checked automatically by the Codesniffer.
+	* Refactored a lot of legacy code in the admin, mainly with regard to the way output is rendered. Provides for a better separation of concerns, making the code more comprehensible and re-usable.
+	* Deprecated a large amount of form methods and moved them to the `Yoast_Form` class. Click [here](https://github.com/Yoast/wordpress-seo/blob/add975664d1f160eed262b02327a93bda5488f8b/admin/class-config.php#L172) for the list of deprecated methods.
+	* Deprecated a large amount of utility functions and moved them to the `WPSEO_Utils` class. Click [here](https://github.com/Yoast/wordpress-seo/blob/add975664d1f160eed262b02327a93bda5488f8b/inc/wpseo-functions.php#L496) for the list of deprecated functions.
+
+= 1.7.4 =
+
+Release Date: March 11th, 2015
+
+* Security fix: fixed possible CSRF and blind SQL injection vulnerabilities in bulk editor. Added strict sanitation to order_by and order params. Added extra nonce checks on requests sending additional parameters. Minimal capability needed to access the bulk editor is now Editor. Thanks [Ryan Dewhurst](https://github.com/ethicalhack3r) from WPScan for discovering and responsibly disclosing this issue.
+
 = 1.7.3.3 =
 
 Release Date: February 23rd, 2015
@@ -144,7 +177,7 @@ Release Date: February 19th, 2015
 Release Date: February 17th, 2015
 
 * Bugfixes:
-	* Fixes a bug where the translations where corrupted due to an issue with out glotpress grunt task.
+	* Fixes a bug where the translations were corrupted due to an issue with out glotpress grunt task.
 
 = 1.7.2 =
 
