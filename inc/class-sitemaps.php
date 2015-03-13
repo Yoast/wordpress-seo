@@ -117,11 +117,15 @@ class WPSEO_Sitemaps {
 	 * Check the current request URI, if we can determine it's probably an XML sitemap, kill loading the widgets
 	 */
 	public function reduce_query_load() {
-		if ( isset( $_SERVER['REQUEST_URI'] ) && ( in_array( substr( $_SERVER['REQUEST_URI'], - 4 ), array(
-				'.xml',
-				'.xsl',
-			) ) )
-		) {
+
+		if ( ! isset( $_SERVER['REQUEST_URI'] ) ) {
+			return;
+		}
+
+		$request_uri = $_SERVER['REQUEST_URI'];
+		$extension   = substr( $request_uri, -4 );
+
+		if ( false !== stripos( $request_uri, 'sitemap' ) && ( in_array( $extension, array( '.xml', '.xsl', ) ) ) ) {
 			remove_all_actions( 'widgets_init' );
 		}
 	}
