@@ -68,10 +68,9 @@ function wpseo_kill_blocking_files() {
 		foreach ( $options['blocking_files'] as $k => $file ) {
 			if ( ! @unlink( $file ) ) {
 				$message = __( 'Some files could not be removed. Please remove them via FTP.', 'wordpress-seo' );
-			}
-			else {
+			} else {
 				unset( $options['blocking_files'][ $k ] );
-				$files_removed++;
+				$files_removed ++;
 			}
 		}
 		if ( $files_removed > 0 ) {
@@ -179,6 +178,7 @@ function wpseo_upsert_new_title( $post_id, $new_title, $original_title ) {
 
 	$meta_key   = WPSEO_Meta::$meta_prefix . 'title';
 	$return_key = 'title';
+
 	return wpseo_upsert_meta( $post_id, $new_title, $original_title, $meta_key, $return_key );
 }
 
@@ -196,9 +196,9 @@ function wpseo_upsert_new_title( $post_id, $new_title, $original_title ) {
  */
 function wpseo_upsert_meta( $post_id, $new_meta_value, $orig_meta_value, $meta_key, $return_key ) {
 
-	$post_id                   = intval( $post_id );
-	$sanitized_new_meta_value  = wp_strip_all_tags( $new_meta_value );
-	$orig_meta_value           = wp_strip_all_tags( $orig_meta_value );
+	$post_id                  = intval( $post_id );
+	$sanitized_new_meta_value = wp_strip_all_tags( $new_meta_value );
+	$orig_meta_value          = wp_strip_all_tags( $orig_meta_value );
 
 	$upsert_results = array(
 		'status'                 => 'success',
@@ -304,11 +304,14 @@ add_action( 'wp_ajax_wpseo_save_metadesc', 'wpseo_save_description' );
  * @param int    $post_id
  * @param string $new_metadesc
  * @param string $original_metadesc
+ *
+ * @return string
  */
 function wpseo_upsert_new_description( $post_id, $new_metadesc, $original_metadesc ) {
 
 	$meta_key   = WPSEO_Meta::$meta_prefix . 'metadesc';
 	$return_key = 'metadesc';
+
 	return wpseo_upsert_meta( $post_id, $new_metadesc, $original_metadesc, $meta_key, $return_key );
 }
 
@@ -334,3 +337,25 @@ function wpseo_save_all_descriptions() {
 }
 
 add_action( 'wp_ajax_wpseo_save_all_descriptions', 'wpseo_save_all_descriptions' );
+
+/**
+ * Create an export and return the URL
+ */
+function wpseo_get_export() {
+	check_ajax_referer( 'wpseo-export' );
+
+	$results          = array();
+	$include_taxonomy = ( $_POST['include_taxonomy'] === 'true' ) ? true : false;
+	$export           = new WPSEO_Export( $include_taxonomy );
+
+	if ( $export->success ) {
+		$results['url'] = $export->export_zip_url;
+	}
+	else {
+		$results['error'] = $export->error;
+	}
+	echo json_encode( $results );
+	die();
+}
+
+add_action( 'wp_ajax_wpseo_export', 'wpseo_get_export' );

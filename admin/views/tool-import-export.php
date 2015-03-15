@@ -256,8 +256,7 @@ if ( isset( $_POST['import'] ) || isset( $_GET['import'] ) ) {
 				'<a href="' . esc_url( admin_url( 'update.php?action=install-plugin&plugin=google-analytics-for-wordpress&_wpnonce=' . $plugin_install_nonce ) ) . '">',
 				'</a>'
 			), 'wordpress-seo' );
-		}
-		else {
+		} else {
 			$msg .= __( sprintf( 'All in One SEO data successfully imported. Would you like to %sdisable the All in One SEO plugin%s.', '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_import&deactivate_aioseo=1' ) ) . '">', '</a>' ), 'wordpress-seo' );
 		}
 	}
@@ -305,8 +304,7 @@ if ( isset( $_POST['import'] ) || isset( $_GET['import'] ) ) {
 			if ( $optnew['rssafter'] === '' || $optnew['rssafter'] === WPSEO_Options::get_default( 'wpseo_rss', 'rssafter' ) ) {
 				$optnew['rssafter'] = $optold['footerstring'];
 			}
-		}
-		else {
+		} else {
 			/* @internal Uncomment the second part if a default would be given to the rssbefore value */
 			if ( $optnew['rssbefore'] === '' /*|| $optnew['rssbefore'] === WPSEO_Options::get_default( 'wpseo_rss', 'rssbefore' )*/ ) {
 				$optnew['rssbefore'] = $optold['footerstring'];
@@ -325,16 +323,14 @@ if ( isset( $_POST['import'] ) || isset( $_GET['import'] ) ) {
 			foreach ( $optold as $opt => $val ) {
 				if ( is_bool( $val ) && $val == true ) {
 					$optnew[ 'breadcrumbs-' . $opt ] = true;
-				}
-				else {
+				} else {
 					$optnew[ 'breadcrumbs-' . $opt ] = $val;
 				}
 			}
 			unset( $opt, $val );
 			update_option( 'wpseo_internallinks', $optnew );
 			$msg .= __( 'Yoast Breadcrumbs options imported successfully.', 'wordpress-seo' );
-		}
-		else {
+		} else {
 			$msg .= __( 'Yoast Breadcrumbs options could not be found', 'wordpress-seo' );
 		}
 		unset( $optold, $optnew );
@@ -381,8 +377,7 @@ if ( ! isset( $_FILES['settings_import_file'] ) || empty( $_FILES['settings_impo
 	echo '<br/><br/>';
 	echo '<input type="submit" class="button-primary" value="' . __( 'Import settings', 'wordpress-seo' ) . '"/>';
 	echo '</form><br/>';
-}
-elseif ( isset( $_FILES['settings_import_file'] ) ) {
+} elseif ( isset( $_FILES['settings_import_file'] ) ) {
 	check_admin_referer( 'wpseo-import-file' );
 	$file = wp_handle_upload( $_FILES['settings_import_file'] );
 
@@ -418,36 +413,30 @@ elseif ( isset( $_FILES['settings_import_file'] ) ) {
 						$option_instance = WPSEO_Options::get_option_instance( $name );
 						if ( is_object( $option_instance ) && method_exists( $option_instance, 'import' ) ) {
 							$optgroup = $option_instance->import( $optgroup, $old_wpseo_version, $options );
-						}
-						elseif ( WP_DEBUG === true || ( defined( 'WPSEO_DEBUG' ) && WPSEO_DEBUG === true ) ) {
+						} elseif ( WP_DEBUG === true || ( defined( 'WPSEO_DEBUG' ) && WPSEO_DEBUG === true ) ) {
 							$msg = sprintf( __( 'Setting "%s" is no longer used and has been discarded.', 'wordpress-seo' ), $name );
 
 						}
 					}
 					$msg = __( 'Settings successfully imported.', 'wordpress-seo' );
-				}
-				else {
+				} else {
 					$msg = __( 'Settings could not be imported:', 'wordpress-seo' ) . ' ' . __( 'No settings found in file.', 'wordpress-seo' );
 				}
 				unset( $options, $name, $optgroup );
-			}
-			else {
+			} else {
 				$msg = __( 'Settings could not be imported:', 'wordpress-seo' ) . ' ' . __( 'Unzipping failed - file settings.ini not found.', 'wordpress-seo' );
 			}
 			@unlink( $filename );
 			@unlink( $p_path );
-		}
-		else {
+		} else {
 			$msg = __( 'Settings could not be imported:', 'wordpress-seo' ) . ' ' . sprintf( __( 'Unzipping failed with error "%s".', 'wordpress-seo' ), $unzipped->get_error_message() );
 		}
 		unset( $zip, $unzipped );
 		@unlink( $file['file'] );
-	}
-	else {
+	} else {
 		if ( is_wp_error( $file ) ) {
 			$msg = __( 'Settings could not be imported:', 'wordpress-seo' ) . ' ' . $file->get_error_message();
-		}
-		else {
+		} else {
 			$msg = __( 'Settings could not be imported:', 'wordpress-seo' ) . ' ' . __( 'Upload failed.', 'wordpress-seo' );
 		}
 	}
@@ -459,34 +448,16 @@ if ( isset( $msg ) ) {
 
 echo '</div>';
 
-echo '<div id="wpseo-export" class="wpseotab">';
-echo '<form action="', esc_attr( admin_url( 'admin.php?page=wpseo_tools&tool=import-export' ) ), '" method="post" accept-charset="', esc_attr( get_bloginfo( 'charset' ) ), '">';
-wp_nonce_field( 'wpseo-export', '_wpnonce', true, true );
-echo '<p>' . __( 'Export your WordPress SEO settings here, to import them again later or to import them on another site.', 'wordpress-seo' ) . '</p>';
-$yform->checkbox( 'include_taxonomy_meta', __( 'Include Taxonomy Metadata', 'wordpress-seo' ) );
-echo '<br/><input type="submit" class="button" name="wpseo_export" value="' . __( 'Export settings', 'wordpress-seo' ) . '"/>';
-echo '</form>';
-
-if ( isset( $_POST['wpseo_export'] ) ) {
-	check_admin_referer( 'wpseo-export' );
-	$include_taxonomy = false;
-	if ( isset( $_POST['wpseo']['include_taxonomy_meta'] ) ) {
-		$include_taxonomy = true;
-	}
-	$url = $yform->export_settings( $include_taxonomy );
-	if ( $url ) {
-		$GLOBALS['export_js'] = '
-		<script type="text/javascript">
-			document.location = \'' . $url . '\';
-		</script>';
-		add_action( 'admin_footer-' . $GLOBALS['hook_suffix'], 'wpseo_deliver_export_zip' );
-	}
-	else {
-		$content .= 'Error: ' . $url;
-	}
-}
-echo '</div>';
-
+?>
+	<div id="wpseo-export" class="wpseotab">
+		<p><?php _e( 'Export your WordPress SEO settings here, to import them again later or to import them on another site.', 'wordpress-seo' ); ?></p>
+		<?php $yform->checkbox( 'include_taxonomy_meta', __( 'Include Taxonomy Metadata', 'wordpress-seo' ) ); ?><br/>
+		<button class="button-primary" id="export-button">Export your WordPress SEO settings</button>
+		<script>
+			var wpseo_export_nonce = '<?php echo wp_create_nonce( 'wpseo-export' ); ?>';
+		</script>
+	</div>
+<?php
 echo '<div id="import-seo" class="wpseotab">';
 echo '<p>' . __( 'No doubt you\'ve used an SEO plugin before if this site isn\'t new. Let\'s make it easy on you, you can import the data below. If you want, you can import first, check if it was imported correctly, and then import &amp; delete. No duplicate data will be imported.', 'wordpress-seo' ) . '</p>';
 echo '<p>' . sprintf( __( 'If you\'ve used another SEO plugin, try the %sSEO Data Transporter%s plugin to move your data into this plugin, it rocks!', 'wordpress-seo' ), '<a href="https://wordpress.org/plugins/seo-data-transporter/">', '</a>' ) . '</p>';
@@ -528,12 +499,3 @@ echo '<br/>';
 echo '<input type="submit" class="button-primary" name="import" value="' . __( 'Import', 'wordpress-seo' ) . '" />';
 echo '</form><br/>';
 echo '</div>';
-
-/**
- * Echoes export_js global.
- */
-function wpseo_deliver_export_zip() {
-	if ( isset( $GLOBALS['export_js'] ) && $GLOBALS['export_js'] !== '' ) {
-		echo $GLOBALS['export_js'];
-	}
-}
