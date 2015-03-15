@@ -87,7 +87,7 @@ class WPSEO_Export {
 	 * Writes the header of the export file.
 	 */
 	private function export_header() {
-		$this->write_line( '; ' . __( 'This is a settings export file for the WordPress SEO plugin by Yoast.com', 'wordpress-seo' ) . " - https://yoast.com/wordpress/plugins/seo/" );
+		$this->write_line( '; ' . __( 'This is a settings export file for the WordPress SEO plugin by Yoast.com', 'wordpress-seo' ) . ' - https://yoast.com/wordpress/plugins/seo/' );
 		if ( $this->include_taxonomy ) {
 			$this->write_line( '; ' . __( 'This export includes taxonomy metadata', 'wordpress-seo' ) );
 		}

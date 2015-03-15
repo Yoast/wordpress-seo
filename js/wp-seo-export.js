@@ -13,7 +13,7 @@ jQuery(document).ready(function ($) {
                 var dclass = 'error';
                 if (resp.status === 'success') {
                     dclass = 'updated';
-                } 
+                }
                 $('#wpseo-title').append('<div class="' + dclass + ' settings-error"><p>' + resp.msg + '</p></div>');
             }
         );
