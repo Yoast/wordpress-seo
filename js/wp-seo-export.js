@@ -1,3 +1,6 @@
+/* jshint strict: true */
+/* global ajaxurl */
+/* global wpseo_export_nonce */
 jQuery(document).ready(function () {
     jQuery('#export-button').click( function() {
         jQuery.post(ajaxurl, {
@@ -6,7 +9,7 @@ jQuery(document).ready(function () {
                 include_taxonomy: jQuery('#include_taxonomy_meta').is(':checked')
             }, function(resp) {
                 resp = JSON.parse( resp );
-                if (resp.url != undefined) {
+                if (resp.url !== undefined) {
                     window.location = resp.url;
                 } else {
                     alert( resp.error );

@@ -345,7 +345,7 @@ function wpseo_get_export() {
 	check_ajax_referer( 'wpseo-export' );
 
 	$results          = array();
-	$include_taxonomy = ( $_POST['include_taxonomy'] === 'true' ) ? true : false;
+	$include_taxonomy = ( WPSEO_Utils::filter_input( INPUT_POST, 'include_taxonomy' ) === 'true' ) ? true : false;
 	$export           = new WPSEO_Export( $include_taxonomy );
 
 	if ( $export->success ) {
