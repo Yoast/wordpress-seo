@@ -11,6 +11,16 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 }
 
 /**
+ * Convenience function to JSON encode and echo resuls and then die
+ *
+ * @param array $results
+ */
+function wpseo_ajax_json_echo_die( $results ) {
+	echo json_encode( $results );
+	die();
+}
+
+/**
  * Function used from AJAX calls, takes it variables from $_POST, dies on exit.
  */
 function wpseo_set_option() {
@@ -104,8 +114,7 @@ function wpseo_get_suggest() {
 			}
 		}
 	}
-	echo json_encode( $return_arr );
-	die();
+	wpseo_ajax_json_echo_die( $return_arr );
 }
 
 add_action( 'wp_ajax_wpseo_get_suggest', 'wpseo_get_suggest' );
@@ -158,8 +167,7 @@ function wpseo_save_title() {
 
 	$results = wpseo_upsert_new_title( $id, $new_title, $original_title );
 
-	echo json_encode( $results );
-	die();
+	wpseo_ajax_json_echo_die( $results );
 }
 
 add_action( 'wp_ajax_wpseo_save_title', 'wpseo_save_title' );
@@ -274,8 +282,7 @@ function wpseo_save_all_titles() {
 			$results[]      = wpseo_upsert_new_title( $id, $new_title, $original_title );
 		}
 	}
-	echo json_encode( $results );
-	die();
+	wpseo_ajax_json_echo_die( $results );
 }
 
 add_action( 'wp_ajax_wpseo_save_all_titles', 'wpseo_save_all_titles' );
@@ -292,8 +299,7 @@ function wpseo_save_description() {
 
 	$results = wpseo_upsert_new_description( $id, $new_metadesc, $original_metadesc );
 
-	echo json_encode( $results );
-	die();
+	wpseo_ajax_json_echo_die( $results );
 }
 
 add_action( 'wp_ajax_wpseo_save_metadesc', 'wpseo_save_description' );
@@ -332,8 +338,7 @@ function wpseo_save_all_descriptions() {
 			$results[]         = wpseo_upsert_new_description( $id, $new_metadesc, $original_metadesc );
 		}
 	}
-	echo json_encode( $results );
-	die();
+	wpseo_ajax_json_echo_die( $results );
 }
 
 add_action( 'wp_ajax_wpseo_save_all_descriptions', 'wpseo_save_all_descriptions' );
@@ -355,8 +360,7 @@ function wpseo_get_export() {
 		$results['status'] = 'failure';
 		$results['msg']    = __( 'Error creating WordPress SEO export: ', 'wordpress-seo' ) . $export->error;
 	}
-	echo json_encode( $results );
-	die();
+	wpseo_ajax_json_echo_die( $results );
 }
 
 add_action( 'wp_ajax_wpseo_export', 'wpseo_get_export' );
