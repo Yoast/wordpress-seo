@@ -349,10 +349,11 @@ function wpseo_get_export() {
 	$export           = new WPSEO_Export( $include_taxonomy );
 
 	if ( $export->success ) {
-		$results['url'] = $export->export_zip_url;
-	}
-	else {
-		$results['error'] = __( 'Error creating WordPress SEO export: ', 'wordpress-seo' ) . $export->error;
+		$results['status'] = 'success';
+		$results['msg']    = sprintf( __( 'Export created: %1$sdownload your export file here%2$s.', 'wordpress-seo' ), '<a href="' . $export->export_zip_url . '">', '</a>' );
+	} else {
+		$results['status'] = 'failure';
+		$results['msg']    = __( 'Error creating WordPress SEO export: ', 'wordpress-seo' ) . $export->error;
 	}
 	echo json_encode( $results );
 	die();
