@@ -352,7 +352,7 @@ function wpseo_get_export() {
 		$results['url'] = $export->export_zip_url;
 	}
 	else {
-		$results['error'] = $export->error;
+		$results['error'] = __( 'Error creating WordPress SEO export: ', 'wordpress-seo' ) . $export->error;
 	}
 	echo json_encode( $results );
 	die();

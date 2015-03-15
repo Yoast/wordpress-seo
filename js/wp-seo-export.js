@@ -1,4 +1,4 @@
-/* jshint strict:true devel:true */
+/* jshint strict:true */
 /* global ajaxurl */
 /* global wpseo_export_nonce */
 jQuery(document).ready(function () {
@@ -13,7 +13,7 @@ jQuery(document).ready(function () {
                 if (resp.url !== undefined) {
                     window.location = resp.url;
                 } else {
-                    alert( resp.error );
+                    jQuery( '#wpseo-title').append( '<div class="error settings-error"><p>' + resp.error + '</p></div>' );
                 }
             }
         );
