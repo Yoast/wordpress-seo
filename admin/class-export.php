@@ -56,6 +56,23 @@ class WPSEO_Export {
 	}
 
 	/**
+	 * Returns an array with status and output message.
+	 *
+	 * @return array
+	 */
+	public function get_results() {
+		$results = array();
+		if ( $this->success ) {
+			$results['status'] = 'success';
+			$results['msg']    = sprintf( __( 'Export created: %1$sdownload your export file here%2$s.', 'wordpress-seo' ), '<a href="' . $this->export_zip_url . '">', '</a>' );
+		} else {
+			$results['status'] = 'failure';
+			$results['msg']    = __( 'Error creating WordPress SEO export: ', 'wordpress-seo' ) . $this->error;
+		}
+		return $results;
+	}
+
+	/**
 	 * Exports the current site's WP SEO settings.
 	 *
 	 * @return bool|string $return true when success, error when failed.

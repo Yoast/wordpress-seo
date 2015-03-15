@@ -349,18 +349,10 @@ add_action( 'wp_ajax_wpseo_save_all_descriptions', 'wpseo_save_all_descriptions'
 function wpseo_get_export() {
 	check_ajax_referer( 'wpseo-export' );
 
-	$results          = array();
 	$include_taxonomy = ( WPSEO_Utils::filter_input( INPUT_POST, 'include_taxonomy' ) === 'true' ) ? true : false;
 	$export           = new WPSEO_Export( $include_taxonomy );
 
-	if ( $export->success ) {
-		$results['status'] = 'success';
-		$results['msg']    = sprintf( __( 'Export created: %1$sdownload your export file here%2$s.', 'wordpress-seo' ), '<a href="' . $export->export_zip_url . '">', '</a>' );
-	} else {
-		$results['status'] = 'failure';
-		$results['msg']    = __( 'Error creating WordPress SEO export: ', 'wordpress-seo' ) . $export->error;
-	}
-	wpseo_ajax_json_echo_die( $results );
+	wpseo_ajax_json_echo_die( $export->get_results() );
 }
 
 add_action( 'wp_ajax_wpseo_export', 'wpseo_get_export' );
