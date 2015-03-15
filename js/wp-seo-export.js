@@ -1,7 +1,8 @@
-/* jshint strict: true */
+/* jshint strict:true devel:true */
 /* global ajaxurl */
 /* global wpseo_export_nonce */
 jQuery(document).ready(function () {
+    "use strict";
     jQuery('#export-button').click( function() {
         jQuery.post(ajaxurl, {
                 action: 'wpseo_export',
