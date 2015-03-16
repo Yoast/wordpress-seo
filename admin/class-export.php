@@ -27,14 +27,14 @@ class WPSEO_Export {
 	public $export_zip_url = '';
 
 	/**
-	 * @var bool
+	 * @var boolean
 	 */
 	public $success;
 
 	/**
 	 * Whether or not the export will include taxonomy metadata
 	 *
-	 * @var bool
+	 * @var boolean
 	 */
 	private $include_taxonomy;
 
@@ -47,7 +47,7 @@ class WPSEO_Export {
 	/**
 	 * Class constructor
 	 *
-	 * @param bool $include_taxonomy Whether to include the taxonomy metadata the plugin creates.
+	 * @param boolean $include_taxonomy Whether to include the taxonomy metadata the plugin creates.
 	 */
 	public function __construct( $include_taxonomy = false ) {
 		$this->include_taxonomy = $include_taxonomy;
@@ -58,7 +58,7 @@ class WPSEO_Export {
 	/**
 	 * Returns an array with status and output message.
 	 *
-	 * @return array
+	 * @return array $results
 	 */
 	public function get_results() {
 		$results = array();
@@ -77,7 +77,7 @@ class WPSEO_Export {
 	/**
 	 * Exports the current site's WP SEO settings.
 	 *
-	 * @return bool|string $return true when success, error when failed.
+	 * @return boolean|string $return true when success, error when failed.
 	 */
 	private function export_settings() {
 
@@ -119,8 +119,8 @@ class WPSEO_Export {
 	/**
 	 * Writes a line to the export
 	 *
-	 * @param string $line
-	 * @param bool   $newline_first
+	 * @param string  $line
+	 * @param boolean $newline_first
 	 */
 	private function write_line( $line, $newline_first = false ) {
 		if ( $newline_first ) {
@@ -187,7 +187,7 @@ class WPSEO_Export {
 	/**
 	 * Writes the settings to our temporary settings.ini file
 	 *
-	 * @return bool
+	 * @return boolean unsigned
 	 */
 	private function write_file() {
 		$handle = fopen( $this->dir['path'] . '/settings.ini', 'w' );
@@ -208,7 +208,7 @@ class WPSEO_Export {
 	/**
 	 * Zips the settings ini file
 	 *
-	 * @return bool
+	 * @return boolean unsigned
 	 */
 	private function zip_file() {
 		chdir( $this->dir['path'] );

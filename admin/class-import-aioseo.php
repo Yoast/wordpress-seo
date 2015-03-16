@@ -67,7 +67,7 @@ class WPSEO_Import_AIOSEO extends WPSEO_Import_External {
 	/**
 	 * Determine the appropriate GA settings for this site
 	 *
-	 * @return array
+	 * @return array $ga_settings
 	 */
 	private function determine_ga_settings() {
 		$ga_universal = 0;

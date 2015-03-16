@@ -14,7 +14,7 @@ class WPSEO_Import_External {
 	/**
 	 * Whether or not to delete old data
 	 *
-	 * @var bool
+	 * @var boolean
 	 */
 	protected $replace;
 
@@ -28,7 +28,7 @@ class WPSEO_Import_External {
 	/**
 	 * Class constructor
 	 *
-	 * @param bool $replace
+	 * @param boolean $replace
 	 */
 	public function __construct( $replace = false ) {
 		$this->replace = $replace;
