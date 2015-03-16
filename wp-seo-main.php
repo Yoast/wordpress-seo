@@ -332,7 +332,7 @@ function load_yoast_notifications() {
 function yoast_wpseo_self_deactivate() {
 	if ( is_admin() ) {
 		$message = esc_html__( 'The Standard PHP Library (SPL) extension seem to be unavailable. Please ask your web host to enable it.', 'wordpress-seo' );
-		add_action( 'admin_notices', create_function( $message, 'echo \'<div class="error"><p>\' . __( \'Activation failed:\', \'wordpress-seo\' ) . \' \' . $message . \'</p></div>\';' ) );
+		add_action( 'admin_notices', create_function( '', 'echo \'<div class="error"><p>\' . __( \'Activation failed:\', \'wordpress-seo\' ) . \' ' . $message . '</p></div>\';' ) );
 
 		deactivate_plugins( plugin_basename( WPSEO_FILE ) );
 		if ( isset( $_GET['activate'] ) ) {
