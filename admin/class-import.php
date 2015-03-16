@@ -31,6 +31,11 @@ class WPSEO_Import {
 	/**
 	 * @var string
 	 */
+	private $old_wpseo_version = null;
+
+	/**
+	 * @var string
+	 */
 	private $path;
 
 	/**
@@ -50,6 +55,7 @@ class WPSEO_Import {
 
 		if ( ! $this->unzip_file() ) {
 			$this->clean_up();
+
 			return;
 		}
 
@@ -125,28 +131,38 @@ class WPSEO_Import {
 		$options = parse_ini_file( $this->filename, true );
 
 		if ( is_array( $options ) && $options !== array() ) {
-			$old_wpseo_version = null;
 			if ( isset( $options['wpseo']['version'] ) && $options['wpseo']['version'] !== '' ) {
-				$old_wpseo_version = $options['wpseo']['version'];
+				$this->old_wpseo_version = $options['wpseo']['version'];
 			}
-			foreach ( $options as $name => $optgroup ) {
-				if ( $name === 'wpseo_taxonomy_meta' ) {
-					$optgroup = json_decode( urldecode( $optgroup['wpseo_taxonomy_meta'] ), true );
-				}
-
-				// Make sure that the imported options are cleaned/converted on import
-				$option_instance = WPSEO_Options::get_option_instance( $name );
-				if ( is_object( $option_instance ) && method_exists( $option_instance, 'import' ) ) {
-					$option_instance->import( $optgroup, $old_wpseo_version, $options );
-				}
-				elseif ( WP_DEBUG === true || ( defined( 'WPSEO_DEBUG' ) && WPSEO_DEBUG === true ) ) {
-					$this->msg = sprintf( __( 'Setting "%s" is no longer used and has been discarded.', 'wordpress-seo' ), $name );
-				}
+			foreach ( $options as $name => $opt_group ) {
+				$this->parse_option_group( $name, $opt_group, $options );
 			}
 			$this->msg = __( 'Settings successfully imported.', 'wordpress-seo' );
 		}
 		else {
 			$this->msg = __( 'Settings could not be imported:', 'wordpress-seo' ) . ' ' . __( 'No settings found in file.', 'wordpress-seo' );
+		}
+	}
+
+	/**
+	 * Parse the option group and import it
+	 *
+	 * @param string $name
+	 * @param array  $opt_group
+	 * @param array  $options
+	 */
+	private function parse_option_group( $name, $opt_group, $options ) {
+		if ( $name === 'wpseo_taxonomy_meta' ) {
+			$opt_group = json_decode( urldecode( $opt_group['wpseo_taxonomy_meta'] ), true );
+		}
+
+		// Make sure that the imported options are cleaned/converted on import
+		$option_instance = WPSEO_Options::get_option_instance( $name );
+		if ( is_object( $option_instance ) && method_exists( $option_instance, 'import' ) ) {
+			$option_instance->import( $opt_group, $this->old_wpseo_version, $options );
+		}
+		elseif ( WP_DEBUG === true || ( defined( 'WPSEO_DEBUG' ) && WPSEO_DEBUG === true ) ) {
+			$this->msg = sprintf( __( 'Setting "%s" is no longer used and has been discarded.', 'wordpress-seo' ), $name );
 		}
 	}
 
