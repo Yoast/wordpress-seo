@@ -10,7 +10,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-/*
+/**
  * @todo this whole thing should probably be a proper class.
  */
 

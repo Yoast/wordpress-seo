@@ -111,7 +111,8 @@ class WPSEO_Admin_Pages {
 		$export = new WPSEO_Export( $include_taxonomy );
 		if ( $export->success ) {
 			return $export->export_zip_url;
-		} else {
+		}
+		else {
 			return false;
 		}
 	}

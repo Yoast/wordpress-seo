@@ -140,7 +140,7 @@ class WPSEO_Import_WooThemes_SEO extends WPSEO_Import_External {
 			WPSEO_Meta::replace_meta( 'seo_keywords', WPSEO_Meta::$meta_prefix . 'metakeywords', $this->replace );
 		}
 
-		foreach( array( 'seo_woo_wp_title', 'seo_woo_meta_single_desc', 'seo_woo_meta_single_key' ) as $option ) {
+		foreach ( array( 'seo_woo_wp_title', 'seo_woo_meta_single_desc', 'seo_woo_meta_single_key' ) as $option ) {
 			$this->perhaps_delete( $option );
 		}
 	}
