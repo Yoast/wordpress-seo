@@ -12,6 +12,13 @@
 class WPSEO_Import_External {
 
 	/**
+	 * Holds the WPSEO Options
+	 *
+	 * @var array
+	 */
+	private $options;
+
+	/**
 	 * Whether or not to delete old data
 	 *
 	 * @var bool
@@ -49,33 +56,41 @@ class WPSEO_Import_External {
 	}
 
 	/**
+	 * Deletes an option depending on the class replace state
+	 *
+	 * @param string $option
+	 */
+	private function perhaps_delete( $option ) {
+		if ( $this->replace ) {
+			delete_option( $option );
+		}
+	}
+
+	/**
 	 * Import options.
 	 *
 	 * @param string $option
 	 * @param string $post_type
-	 * @param array  $options
 	 */
-	private function import_woothemes_option( $option, $post_type, &$options ) {
+	private function import_woothemes_option( $option, $post_type ) {
 		switch ( get_option( $option ) ) {
 			case 'a':
-				$options[ 'title-' . $post_type ] = '%%title%% %%sep%% %%sitename%%';
+				$this->options[ 'title-' . $post_type ] = '%%title%% %%sep%% %%sitename%%';
 				break;
 			case 'b':
-				$options[ 'title-' . $post_type ] = '%%title%%';
+				$this->options[ 'title-' . $post_type ] = '%%title%%';
 				break;
 			case 'c':
-				$options[ 'title-' . $post_type ] = '%%sitename%% %%sep%% %%title%%';
+				$this->options[ 'title-' . $post_type ] = '%%sitename%% %%sep%% %%title%%';
 				break;
 			case 'd':
-				$options[ 'title-' . $post_type ] = '%%title%% %%sep%% %%sitedesc%%';
+				$this->options[ 'title-' . $post_type ] = '%%title%% %%sep%% %%sitedesc%%';
 				break;
 			case 'e':
-				$options[ 'title-' . $post_type ] = '%%sitename%% %%sep%% %%title%% %%sep%% %%sitedesc%%';
+				$this->options[ 'title-' . $post_type ] = '%%sitename%% %%sep%% %%title%% %%sep%% %%sitedesc%%';
 				break;
 		}
-		if ( $this->replace ) {
-			delete_option( $option );
-		}
+		$this->perhaps_delete( $option );
 	}
 
 	/**
@@ -90,12 +105,12 @@ class WPSEO_Import_External {
 		$taxonomies = get_taxonomies( array( 'public' => true ), 'names' );
 		if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
 			foreach ( $taxonomies as $tax ) {
-				$this->import_woothemes_option( 'seo_woo_archive_layout', 'tax-' . $tax, $options );
+				$this->import_woothemes_option( 'seo_woo_archive_layout', 'tax-' . $tax );
 			}
 		}
 		if ( $reinstate_replace ) {
 			$this->replace = true;
-			delete_option( 'seo_woo_archive_layout' );
+			$this->perhaps_delete( 'seo_woo_archive_layout' );
 		}
 	}
 
@@ -104,45 +119,42 @@ class WPSEO_Import_External {
 	 *
 	 * @param string $option
 	 * @param string $key
-	 * @param array  $options
 	 */
-	private function import_woothemes_custom( $option, $key, &$options ) {
+	private function import_woothemes_custom( $option, $key ) {
 		// Import the custom homepage description
 		if ( 'c' == get_option( $option ) ) {
-			$options[ $key ] = get_option( $option . '_custom' );
+			$this->options[ $key ] = get_option( $option . '_custom' );
 		}
-		if ( $this->replace ) {
-			delete_option( $option );
-			delete_option( $option . '_custom' );
-		}
+		$this->perhaps_delete( $option );
+		$this->perhaps_delete( $option . '_custom' );
 	}
 
 	/**
-	 * Import WooThemes SEO settings
+	 * Imports the WooThemes SEO homepage settings
 	 */
-	public function import_woothemes_seo() {
-		$options = get_option( 'wpseo_titles' );
-
+	private function import_woothemes_home() {
 		switch ( get_option( 'seo_woo_home_layout' ) ) {
 			case 'a':
-				$options['title-home-wpseo'] = '%%sitename%% %%sep%% %%sitedesc%%';
+				$this->options['title-home-wpseo'] = '%%sitename%% %%sep%% %%sitedesc%%';
 				break;
 			case 'b':
-				$options['title-home-wpseo'] = '%%sitename%% ' . get_option( 'seo_woo_paged_var' ) . ' %%pagenum%%';
+				$this->options['title-home-wpseo'] = '%%sitename%% ' . get_option( 'seo_woo_paged_var' ) . ' %%pagenum%%';
 				break;
 			case 'c':
-				$options['title-home-wpseo'] = '%%sitedesc%%';
+				$this->options['title-home-wpseo'] = '%%sitedesc%%';
 				break;
 		}
-		if ( $this->replace ) {
-			delete_option( 'seo_woo_home_layout' );
-		}
+		$this->perhaps_delete( 'seo_woo_home_layout' );
+	}
 
-		$this->import_woothemes_option( 'seo_woo_single_layout', 'post', $options );
-		$this->import_woothemes_option( 'seo_woo_page_layout', 'page', $options );
-		$this->import_woothemes_archive_option();
-		$this->import_woothemes_custom( 'seo_woo_meta_home_desc', 'metadesc-home-wpseo', $options );
-		$this->import_woothemes_custom( 'seo_woo_meta_home_key', 'metakey-home-wpseo', $options );
+	/**
+	 * Import meta values if they're applicable
+	 */
+	private function import_woothemes_metas() {
+		/* @todo [JRF => whomever] verify how WooSEO sets these metas ( 'noindex', 'follow' )
+		 * and if the values saved are concurrent with the ones we use (i.e. 0/1/2) */
+		WPSEO_Meta::replace_meta( 'seo_follow', WPSEO_Meta::$meta_prefix . 'meta-robots-nofollow', $this->replace );
+		WPSEO_Meta::replace_meta( 'seo_noindex', WPSEO_Meta::$meta_prefix . 'meta-robots-noindex', $this->replace );
 
 		// If WooSEO is set to use the Woo titles, import those
 		if ( 'true' == get_option( 'seo_woo_wp_title' ) ) {
@@ -159,12 +171,24 @@ class WPSEO_Import_External {
 			WPSEO_Meta::replace_meta( 'seo_keywords', WPSEO_Meta::$meta_prefix . 'metakeywords', $this->replace );
 		}
 
-		/* @todo [JRF => whomever] verify how WooSEO sets these metas ( 'noindex', 'follow' )
-		 * and if the values saved are concurrent with the ones we use (i.e. 0/1/2) */
-		WPSEO_Meta::replace_meta( 'seo_follow', WPSEO_Meta::$meta_prefix . 'meta-robots-nofollow', $this->replace );
-		WPSEO_Meta::replace_meta( 'seo_noindex', WPSEO_Meta::$meta_prefix . 'meta-robots-noindex', $this->replace );
+		foreach( array( 'seo_woo_wp_title', 'seo_woo_meta_single_desc', 'seo_woo_meta_single_key' ) as $option ) {
+			$this->perhaps_delete( $option );
+		}
+	}
+	/**
+	 * Import WooThemes SEO settings
+	 */
+	public function import_woothemes_seo() {
+		$this->import_woothemes_home();
+		$this->import_woothemes_option( 'seo_woo_single_layout', 'post' );
+		$this->import_woothemes_option( 'seo_woo_page_layout', 'page' );
+		$this->import_woothemes_archive_option();
+		$this->import_woothemes_custom( 'seo_woo_meta_home_desc', 'metadesc-home-wpseo' );
+		$this->import_woothemes_custom( 'seo_woo_meta_home_key', 'metakey-home-wpseo' );
+		$this->import_woothemes_metas();
 
-		update_option( 'wpseo_titles', $options );
+		update_option( 'wpseo_titles', $this->options );
+
 		$this->set_msg( __( 'WooThemes SEO framework settings &amp; data successfully imported.', 'wordpress-seo' ) );
 	}
 
@@ -354,4 +378,8 @@ class WPSEO_Import_External {
 			$this->set_msg( __( 'Yoast Breadcrumbs options could not be found', 'wordpress-seo' ) );
 		}
 	}
+}
+
+class WPSEO_Import_WooThemes_SEO extends WPSEO_Import_External {
+
 }
