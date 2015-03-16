@@ -187,10 +187,10 @@ function wpseo_save_what( $what ) {
 	check_ajax_referer( 'wpseo-bulk-editor' );
 
 	$new      = WPSEO_Utils::filter_input( INPUT_POST, 'new_value' );
-	$id       = intval( WPSEO_Utils::filter_input( INPUT_POST, 'wpseo_post_id' ) );
+	$post_id  = intval( WPSEO_Utils::filter_input( INPUT_POST, 'wpseo_post_id' ) );
 	$original = WPSEO_Utils::filter_input( INPUT_POST, 'existing_value' );
 
-	$results = wpseo_upsert_new( $what, $id, $new, $original );
+	$results = wpseo_upsert_new( $what, $post_id, $new, $original );
 
 	wpseo_ajax_json_echo_die( $results );
 }
@@ -303,9 +303,9 @@ function wpseo_save_all( $what ) {
 	$results = array();
 
 	if ( is_array( $new_values ) && $new_values !== array() ) {
-		foreach ( $new_values as $id => $new_value ) {
-			$original_value = $original_values[ $id ];
-			$results[]      = wpseo_upsert_new( $what, $id, $new_value, $original_value );
+		foreach ( $new_values as $post_id => $new_value ) {
+			$original_value = $original_values[ $post_id ];
+			$results[]      = wpseo_upsert_new( $what, $post_id, $new_value, $original_value );
 		}
 	}
 	wpseo_ajax_json_echo_die( $results );
