@@ -49,15 +49,83 @@ class WPSEO_Import_External {
 	}
 
 	/**
+	 * Import options.
+	 *
+	 * @param string $option
+	 * @param string $post_type
+	 * @param array  $options
+	 */
+	private function import_woothemes_option( $option, $post_type, &$options ) {
+		switch ( get_option( $option ) ) {
+			case 'a':
+				$options[ 'title-' . $post_type ] = '%%title%% %%sep%% %%sitename%%';
+				break;
+			case 'b':
+				$options[ 'title-' . $post_type ] = '%%title%%';
+				break;
+			case 'c':
+				$options[ 'title-' . $post_type ] = '%%sitename%% %%sep%% %%title%%';
+				break;
+			case 'd':
+				$options[ 'title-' . $post_type ] = '%%title%% %%sep%% %%sitedesc%%';
+				break;
+			case 'e':
+				$options[ 'title-' . $post_type ] = '%%sitename%% %%sep%% %%title%% %%sep%% %%sitedesc%%';
+				break;
+		}
+		if ( $this->replace ) {
+			delete_option( $option );
+		}
+	}
+
+	/**
+	 * Import the archive layout for all taxonomies
+	 */
+	private function import_woothemes_archive_option() {
+		$reinstate_replace = false;
+		if ( $this->replace ) {
+			$this->replace     = false;
+			$reinstate_replace = true;
+		}
+		$taxonomies = get_taxonomies( array( 'public' => true ), 'names' );
+		if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
+			foreach ( $taxonomies as $tax ) {
+				$this->import_woothemes_option( 'seo_woo_archive_layout', 'tax-' . $tax, $options );
+			}
+		}
+		if ( $reinstate_replace ) {
+			$this->replace = true;
+			delete_option( 'seo_woo_archive_layout' );
+		}
+	}
+
+	/**
+	 * Import custom descriptions and meta keys
+	 *
+	 * @param string $option
+	 * @param string $key
+	 * @param array  $options
+	 */
+	private function import_woothemes_custom( $option, $key, &$options ) {
+		// Import the custom homepage description
+		if ( 'c' == get_option( $option ) ) {
+			$options[ $key ] = get_option( $option . '_custom' );
+		}
+		if ( $this->replace ) {
+			delete_option( $option );
+			delete_option( $option . '_custom' );
+		}
+	}
+
+	/**
 	 * Import WooThemes SEO settings
 	 */
 	public function import_woothemes_seo() {
-		$sep     = get_option( 'seo_woo_seperator' );
 		$options = get_option( 'wpseo_titles' );
 
 		switch ( get_option( 'seo_woo_home_layout' ) ) {
 			case 'a':
-				$options['title-home-wpseo'] = '%%sitename%% ' . $sep . ' %%sitedesc%%';
+				$options['title-home-wpseo'] = '%%sitename%% %%sep%% %%sitedesc%%';
 				break;
 			case 'b':
 				$options['title-home-wpseo'] = '%%sitename%% ' . get_option( 'seo_woo_paged_var' ) . ' %%pagenum%%';
@@ -70,92 +138,11 @@ class WPSEO_Import_External {
 			delete_option( 'seo_woo_home_layout' );
 		}
 
-		switch ( get_option( 'seo_woo_single_layout' ) ) {
-			case 'a':
-				$options['title-post'] = '%%title%% ' . $sep . ' %%sitename%%';
-				break;
-			case 'b':
-				$options['title-post'] = '%%title%%';
-				break;
-			case 'c':
-				$options['title-post'] = '%%sitename%% ' . $sep . ' %%title%%';
-				break;
-			case 'd':
-				$options['title-post'] = '%%title%% ' . $sep . ' %%sitedesc%%';
-				break;
-			case 'e':
-				$options['title-post'] = '%%sitename%% ' . $sep . ' %%title%% ' . $sep . ' %%sitedesc%%';
-				break;
-		}
-		if ( $this->replace ) {
-			delete_option( 'seo_woo_single_layout' );
-		}
-
-		switch ( get_option( 'seo_woo_page_layout' ) ) {
-			case 'a':
-				$options['title-page'] = '%%title%% ' . $sep . ' %%sitename%%';
-				break;
-			case 'b':
-				$options['title-page'] = '%%title%%';
-				break;
-			case 'c':
-				$options['title-page'] = '%%sitename%% ' . $sep . ' %%title%%';
-				break;
-			case 'd':
-				$options['title-page'] = '%%title%% ' . $sep . ' %%sitedesc%%';
-				break;
-			case 'e':
-				$options['title-page'] = '%%sitename%% ' . $sep . ' %%title%% ' . $sep . ' %%sitedesc%%';
-				break;
-		}
-		if ( $this->replace ) {
-			delete_option( 'seo_woo_page_layout' );
-		}
-
-		$template = WPSEO_Options::get_default( 'wpseo_titles', 'title-tax-post' ); // the default is the same for all taxonomies, so post will do
-		switch ( get_option( 'seo_woo_archive_layout' ) ) {
-			case 'a':
-				$template = '%%term_title%% ' . $sep . ' %%page%% ' . $sep . ' %%sitename%%';
-				break;
-			case 'b':
-				$template = '%%term_title%%';
-				break;
-			case 'c':
-				$template = '%%sitename%% ' . $sep . ' %%term_title%% ' . $sep . ' %%page%%';
-				break;
-			case 'd':
-				$template = '%%term_title%% ' . $sep . ' %%page%%' . $sep . ' %%sitedesc%%';
-				break;
-			case 'e':
-				$template = '%%sitename%% ' . $sep . ' %%term_title%% ' . $sep . ' %%page%% ' . $sep . ' %%sitedesc%%';
-				break;
-		}
-		$taxonomies = get_taxonomies( array( 'public' => true ), 'names' );
-		if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
-			foreach ( $taxonomies as $tax ) {
-				$options[ 'title-tax-' . $tax ] = $template;
-			}
-		}
-		unset( $taxonomies, $tax, $template );
-		if ( $this->replace ) {
-			delete_option( 'seo_woo_archive_layout' );
-		}
-
-		// Import the custom homepage description
-		if ( 'c' == get_option( 'seo_woo_meta_home_desc' ) ) {
-			$options['metadesc-home-wpseo'] = get_option( 'seo_woo_meta_home_desc_custom' );
-		}
-		if ( $this->replace ) {
-			delete_option( 'seo_woo_meta_home_desc' );
-		}
-
-		// Import the custom homepage keywords
-		if ( 'c' == get_option( 'seo_woo_meta_home_key' ) ) {
-			$options['metakey-home-wpseo'] = get_option( 'seo_woo_meta_home_key_custom' );
-		}
-		if ( $this->replace ) {
-			delete_option( 'seo_woo_meta_home_key' );
-		}
+		$this->import_woothemes_option( 'seo_woo_single_layout', 'post', $options );
+		$this->import_woothemes_option( 'seo_woo_page_layout', 'page', $options );
+		$this->import_woothemes_archive_option();
+		$this->import_woothemes_custom( 'seo_woo_meta_home_desc', 'metadesc-home-wpseo', $options );
+		$this->import_woothemes_custom( 'seo_woo_meta_home_key', 'metakey-home-wpseo', $options );
 
 		// If WooSEO is set to use the Woo titles, import those
 		if ( 'true' == get_option( 'seo_woo_wp_title' ) ) {
@@ -263,7 +250,7 @@ class WPSEO_Import_External {
 				'anonymize_ips'        => (int) $ga_anomip,
 			);
 
-			if ( get_option( 'yst_ga' ) == false ) {
+			if ( get_option( 'yst_ga' ) === false ) {
 				$options['ga_general'] = $ga_settings;
 				update_option( 'yst_ga', $options );
 			}
@@ -293,6 +280,7 @@ class WPSEO_Import_External {
 
 		if ( ! $posts ) {
 			$this->set_msg( __( 'Error: no Robots Meta data found to import.', 'wordpress-seo' ) );
+
 			return;
 		}
 		if ( is_array( $posts ) && $posts !== array() ) {
@@ -351,16 +339,18 @@ class WPSEO_Import_External {
 
 		if ( is_array( $optold ) && $optold !== array() ) {
 			foreach ( $optold as $opt => $val ) {
-				if ( is_bool( $val ) && $val == true ) {
+				if ( is_bool( $val ) && $val === true ) {
 					$optnew[ 'breadcrumbs-' . $opt ] = true;
-				} else {
+				}
+				else {
 					$optnew[ 'breadcrumbs-' . $opt ] = $val;
 				}
 			}
 			unset( $opt, $val );
 			update_option( 'wpseo_internallinks', $optnew );
 			$this->set_msg( __( 'Yoast Breadcrumbs options imported successfully.', 'wordpress-seo' ) );
-		} else {
+		}
+		else {
 			$this->set_msg( __( 'Yoast Breadcrumbs options could not be found', 'wordpress-seo' ) );
 		}
 	}
