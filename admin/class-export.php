@@ -19,7 +19,7 @@ class WPSEO_Export {
 	/**
 	 * @var string
 	 */
-	public $error = '';
+	private $error = '';
 
 	/**
 	 * @var string
@@ -99,11 +99,9 @@ class WPSEO_Export {
 				return false;
 			}
 		}
-		else {
-			$this->error = __( 'Could not write settings to file.', 'wordpress-seo' );
+		$this->error = __( 'Could not write settings to file.', 'wordpress-seo' );
 
-			return false;
-		}
+		return false;
 	}
 
 	/**
@@ -213,7 +211,7 @@ class WPSEO_Export {
 	private function zip_file() {
 		chdir( $this->dir['path'] );
 		$zip = new PclZip( './settings.zip' );
-		if ( 0 == $zip->create( './settings.ini' ) ) {
+		if ( 0 === $zip->create( './settings.ini' ) ) {
 			return false;
 		}
 
