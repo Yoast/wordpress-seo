@@ -373,7 +373,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 				);
 
 				$post_type_filter = WPSEO_Utils::filter_input( INPUT_GET, 'post_type_filter' );
-				$selected         = ( ! empty( $post_type_filter ) ) ? sanitize_text_field( $post_type_filter ) : - 1;
+				$selected         = ( ! empty( $post_type_filter ) ) ? sanitize_text_field( $post_type_filter ) : '-1';
 
 				$options = '<option value="-1">Show All Post Types</option>';
 
