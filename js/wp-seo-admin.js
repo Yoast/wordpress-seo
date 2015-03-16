@@ -93,6 +93,9 @@ function copy_home_meta() {
  * When the hash changes, get the base url from the action and then add the current hash
  */
 jQuery(window).on('hashchange', function(){
-	var currentUrl = jQuery('#wpseo-conf').attr('action').split('#')[0];
-	jQuery('#wpseo-conf').attr('action', currentUrl + window.location.hash);
+    conf = jQuery('#wpseo-conf');
+    if ( conf.length ) {
+        var currentUrl = conf.attr('action').split('#')[0];
+        conf.attr('action', currentUrl + window.location.hash);
+    }
 });
