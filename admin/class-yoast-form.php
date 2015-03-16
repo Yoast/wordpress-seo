@@ -40,9 +40,9 @@ class Yoast_Form {
 	/**
 	 * Generates the header for admin pages
 	 *
-	 * @param bool   $form           Whether or not the form start tag should be included.
-	 * @param string $option         The short name of the option to use for the current page.
-	 * @param bool   $contains_files Whether the form should allow for file uploads.
+	 * @param bool   $form             Whether or not the form start tag should be included.
+	 * @param string $option           The short name of the option to use for the current page.
+	 * @param bool   $contains_files   Whether the form should allow for file uploads.
 	 * @param bool   $option_long_name
 	 */
 	public function admin_header( $form = true, $option = 'wpseo', $contains_files = false, $option_long_name = false ) {

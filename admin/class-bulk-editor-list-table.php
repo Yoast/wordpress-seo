@@ -206,7 +206,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 		?>
 		<div class="tablenav <?php echo esc_attr( $which ); ?>">
 
-			<?php if ('top' === $which) { ?>
+			<?php if ('top' === $which ) { ?>
 			<form id="posts-filter" action="" method="get">
 				<input type="hidden" name="nonce" value="<?php echo $this->nonce; ?>"/>
 				<input type="hidden" name="page" value="wpseo_tools"/>
@@ -229,7 +229,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 				?>
 
 				<br class="clear"/>
-				<?php if ('top' === $which) { ?>
+				<?php if ('top' === $which ) { ?>
 			</form>
 		<?php } ?>
 		</div>
