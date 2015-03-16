@@ -300,7 +300,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 
 				$status_name = esc_sql( $status->name );
 
-				$total = $wpdb->get_var(
+				$total = (int) $wpdb->get_var(
 					$wpdb->prepare(
 						"
 								SELECT COUNT(ID) FROM {$subquery}
@@ -310,12 +310,12 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 					)
 				);
 
-				if ( $total == 0 ) {
+				if ( $total === 0 ) {
 					continue;
 				}
 
 				$class = '';
-				if ( $status_name == $post_status ) {
+				if ( $status_name === $post_status ) {
 					$class = ' class="current"';
 				}
 
