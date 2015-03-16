@@ -206,7 +206,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 		?>
 		<div class="tablenav <?php echo esc_attr( $which ); ?>">
 
-			<?php if ('top' === $which ) { ?>
+			<?php if ( 'top' === $which ) { ?>
 			<form id="posts-filter" action="" method="get">
 				<input type="hidden" name="nonce" value="<?php echo $this->nonce; ?>"/>
 				<input type="hidden" name="page" value="wpseo_tools"/>
@@ -229,7 +229,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 				?>
 
 				<br class="clear"/>
-				<?php if ('top' === $which ) { ?>
+				<?php if ( 'top' === $which ) { ?>
 			</form>
 		<?php } ?>
 		</div>
@@ -539,7 +539,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 
 		// Calculate items per page
 		$per_page = $this->get_items_per_page( 'wpseo_posts_per_page', 10 );
-		$paged = esc_sql( sanitize_text_field( WPSEO_Utils::filter_input( INPUT_GET, 'paged' ) ) );
+		$paged    = esc_sql( sanitize_text_field( WPSEO_Utils::filter_input( INPUT_GET, 'paged' ) ) );
 
 		if ( empty( $paged ) || ! is_numeric( $paged ) || $paged <= 0 ) {
 			$paged = 1;
