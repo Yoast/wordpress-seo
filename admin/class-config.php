@@ -222,8 +222,6 @@ class WPSEO_Admin_Pages {
 	 * @param string $label      The label to show for the variable.
 	 * @param bool   $label_left Whether the label should be left (true) or right (false).
 	 * @param string $option     The option the variable belongs to.
-	 *
-	 * @return string
 	 */
 	public function checkbox( $var, $label, $label_left = false, $option = '' ) {
 		_deprecated_function( __METHOD__, 'WPSEO 2.0', 'This method is deprecated, please use the <code>Yoast_Form</code> class.' );

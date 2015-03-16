@@ -77,8 +77,8 @@ class Yoast_Form {
 	 * @param string $option_name
 	 */
 	public function set_option( $option_name ) {
-		$this->option_name  = $option_name;
-		$this->options = $this->get_option();
+		$this->option_name = $option_name;
+		$this->options     = $this->get_option();
 	}
 
 	/**
@@ -92,6 +92,7 @@ class Yoast_Form {
 		if ( is_network_admin() ) {
 			return get_site_option( $this->option_name );
 		}
+
 		return get_option( $this->option_name );
 	}
 
