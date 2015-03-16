@@ -31,30 +31,31 @@ if ( isset( $_POST['import'] ) || isset( $_GET['import'] ) ) {
 		$replace = true;
 	}
 
-	$import = new WPSEO_Import_External( $replace );
-
 	if ( isset( $_POST['wpseo']['importwoo'] ) ) {
-		$import->import_woothemes_seo();
+		$import = new WPSEO_Import_WooThemes_SEO( $replace );
+	}
+
+	if ( isset( $_POST['wpseo']['importaioseo'] ) || isset( $_GET['importaioseo'] ) ) {
+		$import = new WPSEO_Import_AIOSEO( $replace );
 	}
 
 	if ( isset( $_POST['wpseo']['importheadspace'] ) ) {
+		$import = new WPSEO_Import_External( $replace );
 		$import->import_headspace();
 	}
 
-	// @todo [JRF => whomever] how does this correlate with the routine on the dashboard page ? isn't one superfluous ?
-	if ( isset( $_POST['wpseo']['importaioseo'] ) || isset( $_GET['importaioseo'] ) ) {
-		$import->import_aioseo();
-	}
-
 	if ( isset( $_POST['wpseo']['importrobotsmeta'] ) || isset( $_GET['importrobotsmeta'] ) ) {
+		$import = new WPSEO_Import_External( $replace );
 		$import->import_robots_meta();
 	}
 
 	if ( isset( $_POST['wpseo']['importrssfooter'] ) ) {
+		$import = new WPSEO_Import_External( $replace );
 		$import->import_rss_footer();
 	}
 
 	if ( isset( $_POST['wpseo']['importbreadcrumbs'] ) ) {
+		$import = new WPSEO_Import_External( $replace );
 		$import->import_yoast_breadcrumbs();
 	}
 

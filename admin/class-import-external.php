@@ -5,25 +5,18 @@
  */
 
 /**
- * class WPSEO_Import
+ * class WPSEO_Import_External
  *
  * Class with functionality to import WP SEO settings from other plugins
  */
 class WPSEO_Import_External {
 
 	/**
-	 * Holds the WPSEO Options
-	 *
-	 * @var array
-	 */
-	private $options;
-
-	/**
 	 * Whether or not to delete old data
 	 *
 	 * @var bool
 	 */
-	private $replace;
+	protected $replace;
 
 	/**
 	 * Message about the import
@@ -48,7 +41,7 @@ class WPSEO_Import_External {
 	 *
 	 * @param string $msg
 	 */
-	private function set_msg( $msg ) {
+	protected function set_msg( $msg ) {
 		if ( ! empty( $this->msg ) ) {
 			$this->msg .= PHP_EOL;
 		}
@@ -60,136 +53,10 @@ class WPSEO_Import_External {
 	 *
 	 * @param string $option
 	 */
-	private function perhaps_delete( $option ) {
+	protected function perhaps_delete( $option ) {
 		if ( $this->replace ) {
 			delete_option( $option );
 		}
-	}
-
-	/**
-	 * Import options.
-	 *
-	 * @param string $option
-	 * @param string $post_type
-	 */
-	private function import_woothemes_option( $option, $post_type ) {
-		switch ( get_option( $option ) ) {
-			case 'a':
-				$this->options[ 'title-' . $post_type ] = '%%title%% %%sep%% %%sitename%%';
-				break;
-			case 'b':
-				$this->options[ 'title-' . $post_type ] = '%%title%%';
-				break;
-			case 'c':
-				$this->options[ 'title-' . $post_type ] = '%%sitename%% %%sep%% %%title%%';
-				break;
-			case 'd':
-				$this->options[ 'title-' . $post_type ] = '%%title%% %%sep%% %%sitedesc%%';
-				break;
-			case 'e':
-				$this->options[ 'title-' . $post_type ] = '%%sitename%% %%sep%% %%title%% %%sep%% %%sitedesc%%';
-				break;
-		}
-		$this->perhaps_delete( $option );
-	}
-
-	/**
-	 * Import the archive layout for all taxonomies
-	 */
-	private function import_woothemes_archive_option() {
-		$reinstate_replace = false;
-		if ( $this->replace ) {
-			$this->replace     = false;
-			$reinstate_replace = true;
-		}
-		$taxonomies = get_taxonomies( array( 'public' => true ), 'names' );
-		if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
-			foreach ( $taxonomies as $tax ) {
-				$this->import_woothemes_option( 'seo_woo_archive_layout', 'tax-' . $tax );
-			}
-		}
-		if ( $reinstate_replace ) {
-			$this->replace = true;
-			$this->perhaps_delete( 'seo_woo_archive_layout' );
-		}
-	}
-
-	/**
-	 * Import custom descriptions and meta keys
-	 *
-	 * @param string $option
-	 * @param string $key
-	 */
-	private function import_woothemes_custom( $option, $key ) {
-		// Import the custom homepage description
-		if ( 'c' == get_option( $option ) ) {
-			$this->options[ $key ] = get_option( $option . '_custom' );
-		}
-		$this->perhaps_delete( $option );
-		$this->perhaps_delete( $option . '_custom' );
-	}
-
-	/**
-	 * Imports the WooThemes SEO homepage settings
-	 */
-	private function import_woothemes_home() {
-		switch ( get_option( 'seo_woo_home_layout' ) ) {
-			case 'a':
-				$this->options['title-home-wpseo'] = '%%sitename%% %%sep%% %%sitedesc%%';
-				break;
-			case 'b':
-				$this->options['title-home-wpseo'] = '%%sitename%% ' . get_option( 'seo_woo_paged_var' ) . ' %%pagenum%%';
-				break;
-			case 'c':
-				$this->options['title-home-wpseo'] = '%%sitedesc%%';
-				break;
-		}
-		$this->perhaps_delete( 'seo_woo_home_layout' );
-	}
-
-	/**
-	 * Import meta values if they're applicable
-	 */
-	private function import_woothemes_metas() {
-		/* @todo [JRF => whomever] verify how WooSEO sets these metas ( 'noindex', 'follow' )
-		 * and if the values saved are concurrent with the ones we use (i.e. 0/1/2) */
-		WPSEO_Meta::replace_meta( 'seo_follow', WPSEO_Meta::$meta_prefix . 'meta-robots-nofollow', $this->replace );
-		WPSEO_Meta::replace_meta( 'seo_noindex', WPSEO_Meta::$meta_prefix . 'meta-robots-noindex', $this->replace );
-
-		// If WooSEO is set to use the Woo titles, import those
-		if ( 'true' == get_option( 'seo_woo_wp_title' ) ) {
-			WPSEO_Meta::replace_meta( 'seo_title', WPSEO_Meta::$meta_prefix . 'title', $this->replace );
-		}
-
-		// If WooSEO is set to use the Woo meta descriptions, import those
-		if ( 'b' == get_option( 'seo_woo_meta_single_desc' ) ) {
-			WPSEO_Meta::replace_meta( 'seo_description', WPSEO_Meta::$meta_prefix . 'metadesc', $this->replace );
-		}
-
-		// If WooSEO is set to use the Woo meta keywords, import those
-		if ( 'b' == get_option( 'seo_woo_meta_single_key' ) ) {
-			WPSEO_Meta::replace_meta( 'seo_keywords', WPSEO_Meta::$meta_prefix . 'metakeywords', $this->replace );
-		}
-
-		foreach( array( 'seo_woo_wp_title', 'seo_woo_meta_single_desc', 'seo_woo_meta_single_key' ) as $option ) {
-			$this->perhaps_delete( $option );
-		}
-	}
-	/**
-	 * Import WooThemes SEO settings
-	 */
-	public function import_woothemes_seo() {
-		$this->import_woothemes_home();
-		$this->import_woothemes_option( 'seo_woo_single_layout', 'post' );
-		$this->import_woothemes_option( 'seo_woo_page_layout', 'page' );
-		$this->import_woothemes_archive_option();
-		$this->import_woothemes_custom( 'seo_woo_meta_home_desc', 'metadesc-home-wpseo' );
-		$this->import_woothemes_custom( 'seo_woo_meta_home_key', 'metakey-home-wpseo' );
-		$this->import_woothemes_metas();
-
-		update_option( 'wpseo_titles', $this->options );
-
-		$this->set_msg( __( 'WooThemes SEO framework settings &amp; data successfully imported.', 'wordpress-seo' ) );
 	}
 
 	/**
@@ -236,62 +103,6 @@ class WPSEO_Import_External {
 			unset( $hs_meta, $meta );
 		}
 		$this->set_msg( __( 'HeadSpace2 data successfully imported', 'wordpress-seo' ) );
-	}
-
-	/**
-	 * Import All In One SEO settings
-	 */
-	public function import_aioseo() {
-		WPSEO_Meta::replace_meta( '_aioseop_description', WPSEO_Meta::$meta_prefix . 'metadesc', $this->replace );
-		WPSEO_Meta::replace_meta( '_aioseop_keywords', WPSEO_Meta::$meta_prefix . 'metakeywords', $this->replace );
-		WPSEO_Meta::replace_meta( '_aioseop_title', WPSEO_Meta::$meta_prefix . 'title', $this->replace );
-		$options_aiosep = get_option( 'aioseop_options' );
-
-		if ( isset( $options_aiosep['aiosp_google_analytics_id'] ) ) {
-			/**
-			 * The Google Analytics settings are used
-			 */
-			$ga_universal     = 0;
-			$ga_trackoutbound = 0;
-			$ga_anomip        = 0;
-
-			if ( $options_aiosep['aiosp_ga_use_universal_analytics'] == 'on' ) {
-				$ga_universal = 1;
-			}
-			if ( $options_aiosep['aiosp_ga_track_outbound_links'] == 'on' ) {
-				$ga_trackoutbound = 1;
-			}
-			if ( $options_aiosep['aiosp_ga_anonymize_ip'] == 'on' ) {
-
-			}
-
-			$ga_settings = array(
-				'manual_ua_code'       => (int) 1,
-				'manual_ua_code_field' => $options_aiosep['aiosp_google_analytics_id'],
-				'enable_universal'     => (int) $ga_universal,
-				'track_outbound'       => (int) $ga_trackoutbound,
-				'ignore_users'         => (array) $options_aiosep['aiosp_ga_exclude_users'],
-				'anonymize_ips'        => (int) $ga_anomip,
-			);
-
-			if ( get_option( 'yst_ga' ) === false ) {
-				$options['ga_general'] = $ga_settings;
-				update_option( 'yst_ga', $options );
-			}
-
-			$plugin_install_nonce = wp_create_nonce( 'install-plugin_google-analytics-for-wordpress' ); // Use the old name because that's the WordPress.org repo
-
-			$this->set_msg( __( sprintf(
-				'All in One SEO data successfully imported. Would you like to %sdisable the All in One SEO plugin%s. You\'ve had Google Analytics enabled in All in One SEO, would you like to install our %sGoogle Analytics plugin%s?',
-				'<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_import&deactivate_aioseo=1' ) ) . '">',
-				'</a>',
-				'<a href="' . esc_url( admin_url( 'update.php?action=install-plugin&plugin=google-analytics-for-wordpress&_wpnonce=' . $plugin_install_nonce ) ) . '">',
-				'</a>'
-			), 'wordpress-seo' ) );
-		}
-		else {
-			$this->set_msg( __( sprintf( 'All in One SEO data successfully imported. Would you like to %sdisable the All in One SEO plugin%s.', '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_import&deactivate_aioseo=1' ) ) . '">', '</a>' ), 'wordpress-seo' ) );
-		}
 	}
 
 	/**
@@ -378,8 +189,4 @@ class WPSEO_Import_External {
 			$this->set_msg( __( 'Yoast Breadcrumbs options could not be found', 'wordpress-seo' ) );
 		}
 	}
-}
-
-class WPSEO_Import_WooThemes_SEO extends WPSEO_Import_External {
-
 }
