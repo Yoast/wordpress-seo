@@ -19,7 +19,7 @@ class WPSEO_Twitter {
 	/**
 	 * @var array Images
 	 */
-	public $images = array();
+	private $images = array();
 
 	/**
 	 * @var array Images
