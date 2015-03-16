@@ -170,9 +170,15 @@ class WPSEO_Import {
 	 * Remove the files
 	 */
 	private function clean_up() {
-		@unlink( $this->filename );
-		@unlink( $this->path );
-		@unlink( $this->file['file'] );
+		if ( file_exists( $this->filename ) && is_writable( $this->filename ) ) {
+			unlink( $this->filename );
+		}
+		if ( file_exists( $this->file['file'] ) && is_writable( $this->file['file'] ) ) {
+			unlink( $this->file['file'] );
+		}
+		if ( file_exists( $this->path ) && is_writable( $this->path ) ) {
+			unlink( $this->path );
+		}
 	}
 
 }
