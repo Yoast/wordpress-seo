@@ -65,10 +65,12 @@ class WPSEO_Export {
 		if ( $this->success ) {
 			$results['status'] = 'success';
 			$results['msg']    = sprintf( __( 'Export created: %1$sdownload your export file here%2$s.', 'wordpress-seo' ), '<a href="' . $this->export_zip_url . '">', '</a>' );
-		} else {
+		}
+		else {
 			$results['status'] = 'failure';
 			$results['msg']    = __( 'Error creating WordPress SEO export: ', 'wordpress-seo' ) . $this->error;
 		}
+
 		return $results;
 	}
 
@@ -90,12 +92,16 @@ class WPSEO_Export {
 		if ( $this->write_file() ) {
 			if ( $this->zip_file() ) {
 				return true;
-			} else {
+			}
+			else {
 				$this->error = __( 'Could not zip settings-file.', 'wordpress-seo' );
+
 				return false;
 			}
-		} else {
+		}
+		else {
 			$this->error = __( 'Could not write settings to file.', 'wordpress-seo' );
+
 			return false;
 		}
 	}
@@ -142,7 +148,8 @@ class WPSEO_Export {
 				for ( $i = 0; $i < count( $elem ); $i ++ ) {
 					$this->write_setting( $key . '[]', $elem[ $i ] );
 				}
-			} else {
+			}
+			else {
 				$this->write_setting( $key, $elem );
 			}
 		}
@@ -170,8 +177,9 @@ class WPSEO_Export {
 			if ( is_array( $taxonomy_meta ) ) {
 				$this->write_line( '[wpseo_taxonomy_meta]', true );
 				$this->write_setting( 'wpseo_taxonomy_meta', urlencode( json_encode( $taxonomy_meta ) ) );
-			} else {
-				$this->write_line( '; ' . __( 'No taxonomy metadata found', 'wordpress-seo' ) , true );
+			}
+			else {
+				$this->write_line( '; ' . __( 'No taxonomy metadata found', 'wordpress-seo' ), true );
 			}
 		}
 	}

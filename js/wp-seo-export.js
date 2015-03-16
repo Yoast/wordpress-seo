@@ -14,7 +14,7 @@ jQuery(document).ready(function ($) {
                 if (resp.status === 'success') {
                     dclass = 'updated';
                 }
-                $('#wpseo-title').append('<div class="' + dclass + ' settings-error"><p>' + resp.msg + '</p></div>');
+                $('#wpseo-title').append('<div class="' + dclass + ' settings-error"><p><strong>' + resp.msg + '</strong></p></div>');
             }
         );
         event.preventDefault();
