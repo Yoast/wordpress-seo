@@ -59,6 +59,10 @@ function wpseo_auto_load( $class ) {
 if ( file_exists( WPSEO_PATH . '/vendor/autoload_52.php' ) ) {
 	require WPSEO_PATH . '/vendor/autoload_52.php';
 }
+elseif ( ! class_exists( 'WPSEO_Options' ) ) { // still checking since might be site-level autoload R.
+	add_action( 'admin_init', 'yoast_wpseo_missing_autoload', 1 );
+	return;
+}
 
 if ( function_exists( 'spl_autoload_register' ) ) {
 	spl_autoload_register( 'wpseo_auto_load' );
@@ -332,6 +336,23 @@ function load_yoast_notifications() {
 function yoast_wpseo_self_deactivate() {
 	if ( is_admin() ) {
 		$message = esc_html__( 'The Standard PHP Library (SPL) extension seem to be unavailable. Please ask your web host to enable it.', 'wordpress-seo' );
+		add_action( 'admin_notices', create_function( '', 'echo \'<div class="error"><p>\' . __( \'Activation failed:\', \'wordpress-seo\' ) . \' ' . $message . '</p></div>\';' ) );
+
+		deactivate_plugins( plugin_basename( WPSEO_FILE ) );
+		if ( isset( $_GET['activate'] ) ) {
+			unset( $_GET['activate'] );
+		}
+	}
+}
+
+/**
+ * Throw an error if the Composer autoload is missing and self-deactivate plugin
+ *
+ * @return void
+ */
+function yoast_wpseo_missing_autoload() {
+	if ( is_admin() ) {
+		$message = esc_html__( 'The WordPress SEO plugin installation is incomplete. Please refer to installation instructions.', 'wordpress-seo' );
 		add_action( 'admin_notices', create_function( '', 'echo \'<div class="error"><p>\' . __( \'Activation failed:\', \'wordpress-seo\' ) . \' ' . $message . '</p></div>\';' ) );
 
 		deactivate_plugins( plugin_basename( WPSEO_FILE ) );
