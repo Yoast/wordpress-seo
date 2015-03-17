@@ -1275,6 +1275,10 @@ class WPSEO_Frontend {
 			elseif ( $this->is_home_posts_page() ) {
 				$template = $this->options['metadesc-home-wpseo'];
 				$term     = array();
+
+				if ( empty( $template ) ) {
+					$template = get_bloginfo( 'description' );
+				}
 			}
 			elseif ( $this->is_posts_page() ) {
 				$metadesc = WPSEO_Meta::get_value( 'metadesc', get_option( 'page_for_posts' ) );
