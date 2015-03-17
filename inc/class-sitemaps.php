@@ -1223,14 +1223,7 @@ class WPSEO_Sitemaps {
 	function sitemap_url( $url ) {
 
 		// Create a DateTime object date in the correct timezone
-		$date = '';
-		if( WPSEO_Utils::is_valid_datetime( $url['mod'] ) ) {
-			if ( isset( $url['mod'] ) ) {
-				$date = new DateTime( $url['mod'], new DateTimeZone( $this->get_timezone_string() ) );
-			} else {
-				$date = new DateTime( date( 'y-m-d H:i:s' ), new DateTimeZone( $this->get_timezone_string() ) );
-			}
-		}
+		$date = $this->get_datetime_with_timezone( $url['mod'], $this->get_timezone_string() );
 
 		$url['loc'] = htmlspecialchars( $url['loc'] );
 
@@ -1332,6 +1325,27 @@ class WPSEO_Sitemaps {
 		$date = new DateTime( $result, new DateTimeZone( $this->get_timezone_string() ) );
 
 		return $date->format( 'c' );
+	}
+
+	/**
+	 * Get the datetime object is the datetime string was valid with a timezone
+	 *
+	 * @param $datetime
+	 * @param $timezone
+	 *
+	 * @return DateTime|string
+	 */
+	private function get_datetime_with_timezone( $datetime, $timezone ){
+		$date = '';
+		if( WPSEO_Utils::is_valid_datetime( $datetime ) ) {
+			if ( isset( $datetime ) ) {
+				$date = new DateTime( $datetime, new DateTimeZone( $timezone ) );
+			} else {
+				$date = new DateTime( date( 'y-m-d H:i:s' ), new DateTimeZone( $timezone ) );
+			}
+		}
+
+		return $date;
 	}
 
 	/**
