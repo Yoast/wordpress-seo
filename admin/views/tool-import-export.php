@@ -473,7 +473,7 @@ if ( isset( $_POST['wpseo_export'] ) ) {
 	if ( isset( $_POST['wpseo']['include_taxonomy_meta'] ) ) {
 		$include_taxonomy = true;
 	}
-	$url = $yform->export_settings( $include_taxonomy );
+	$url = $GLOBALS['wpseo_admin_pages']->export_settings( $include_taxonomy );
 	if ( $url ) {
 		$GLOBALS['export_js'] = '
 		<script type="text/javascript">

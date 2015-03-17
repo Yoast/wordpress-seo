@@ -520,6 +520,21 @@ class WPSEO_Utils {
 	public static function clear_sitemap_cache( $types = array() ) {
 		global $wpdb;
 
+		if ( wp_using_ext_object_cache() ) {
+			return;
+		}
+
+		if ( ! apply_filters( 'wpseo_enable_xml_sitemap_transient_caching', true ) ) {
+			return;
+		}
+
+		// not sure about efficiency, but that's what code elsewhere does R.
+		$options = WPSEO_Options::get_all();
+
+		if ( true !== $options['enablexmlsitemap'] ) {
+			return;
+		}
+
 		$query = "DELETE FROM $wpdb->options WHERE";
 
 		if ( ! empty( $types ) ) {

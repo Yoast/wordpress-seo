@@ -143,6 +143,7 @@ class WPSEO_Admin_Pages {
 		wp_enqueue_script( 'thickbox' );
 
 		$page = WPSEO_Utils::filter_input( INPUT_GET, 'page' );
+		$tool = WPSEO_Utils::filter_input( INPUT_GET, 'tool' );
 
 		if ( in_array( $page, array( 'wpseo_social', 'wpseo_dashboard' ) ) ) {
 			wp_enqueue_media();
@@ -153,7 +154,7 @@ class WPSEO_Admin_Pages {
 			wp_localize_script( 'wpseo-admin-media', 'wpseoMediaL10n', $this->localize_media_script() );
 		}
 
-		if ( 'wpseo_bulk-editor' === $page ) {
+		if ( 'bulk-editor' === $tool ) {
 			wp_enqueue_script( 'wpseo-bulk-editor', plugins_url( 'js/wp-seo-bulk-editor' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'jquery' ), WPSEO_VERSION, true );
 		}
 	}
@@ -221,8 +222,6 @@ class WPSEO_Admin_Pages {
 	 * @param string $label      The label to show for the variable.
 	 * @param bool   $label_left Whether the label should be left (true) or right (false).
 	 * @param string $option     The option the variable belongs to.
-	 *
-	 * @return string
 	 */
 	public function checkbox( $var, $label, $label_left = false, $option = '' ) {
 		_deprecated_function( __METHOD__, 'WPSEO 2.0', 'This method is deprecated, please use the <code>Yoast_Form</code> class.' );
