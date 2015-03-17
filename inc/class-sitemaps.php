@@ -1330,7 +1330,7 @@ class WPSEO_Sitemaps {
 	/**
 	 * Get the datetime object is the datetime string was valid with a timezone
 	 *
-	 * @param $datetime The datetime string that needs to be converted to a Datetime object
+	 * @param string $datetime The datetime string that needs to be converted to a Datetime object
 	 *
 	 * @return DateTime|string
 	 */
