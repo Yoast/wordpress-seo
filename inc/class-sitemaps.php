@@ -1330,17 +1330,18 @@ class WPSEO_Sitemaps {
 	/**
 	 * Get the datetime object is the datetime string was valid with a timezone
 	 *
-	 * @param $datetime
+	 * @param $datetime The datetime string that needs to be converted to a Datetime object
 	 *
 	 * @return DateTime|string
 	 */
 	private function get_datetime_with_timezone( $datetime ){
 		$date = '';
-		if( WPSEO_Utils::is_valid_datetime( $datetime ) ) {
+		if ( WPSEO_Utils::is_valid_datetime( $datetime ) ) {
 			if ( isset( $datetime ) ) {
-				$date = new DateTime( $datetime, new DateTimeZone( $this->get_timezone_string()  ) );
-			} else {
-				$date = new DateTime( date( 'y-m-d H:i:s' ), new DateTimeZone( $this->get_timezone_string()  ) );
+				$date = new DateTime( $datetime, new DateTimeZone( $this->get_timezone_string() ) );
+			}
+			else {
+				$date = new DateTime( date( 'y-m-d H:i:s' ), new DateTimeZone( $this->get_timezone_string() ) );
 			}
 		}
 
