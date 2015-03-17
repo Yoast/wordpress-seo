@@ -256,7 +256,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 
 		$expected_frontpage_description = self::$class_instance->description( false );
 
-		$this->assertEquals( '', $expected_frontpage_description );
+		$this->assertEquals( get_bloginfo( 'description' ), $expected_frontpage_description );
 
 	}
 
