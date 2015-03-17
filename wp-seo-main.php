@@ -285,14 +285,14 @@ function wpseo_admin_init() {
 
 /* ***************************** BOOTSTRAP / HOOK INTO WP *************************** */
 $spl_autoload_exists = function_exists( 'spl_autoload_register' ) ;
-$filter_input_exists = function_exists( 'filter_input' ) ;
+$filter_exists       = function_exists( 'filter_input' ) ;
 
 if ( ! $spl_autoload_exists ) {
-	add_action( 'admin_init', 'yoast_wpseo_self_deactivate_spl', 1 );
+	add_action( 'admin_init', 'yoast_wpseo_missing_spl', 1 );
 }
 
-if ( ! $filter_input_exists ) {
-	add_action( 'admin_init', 'yoast_wpseo_self_deactivate_filter_input', 1 );
+if ( ! $filter_exists ) {
+	add_action( 'admin_init', 'yoast_wpseo_missing_filter', 1 );
 }
 
 if ( (! defined( 'WP_INSTALLING' ) || WP_INSTALLING === false ) && ( $spl_autoload_exists && $filter_input_exists )  ) {
@@ -336,12 +336,18 @@ function load_yoast_notifications() {
  *
  * @return void
  */
-function yoast_wpseo_self_deactivate_spl() {
+function yoast_wpseo_missing_spl() {
 	if ( is_admin() ) {
-		yoast_wpseo_extenstion_notice (
-			esc_html__( 'The Standard PHP Library (SPL) extension seem to be unavailable. Please ask your web host to enable it.', 'wordpress-seo' )
-		);
+
+		add_action( 'admin_notices', 'yoast_wpseo_missing_spl_notice' );
+
+		yoast_wpseo_self_deactivate();
 	}
+}
+
+function yoast_wpseo_missing_spl_notice() {
+	$message = esc_html__( 'The Standard PHP Library (SPL) extension seem to be unavailable. Please ask your web host to enable it.', 'wordpress-seo' );
+	echo '<div class="error"><p>' . __( 'Activation failed:', 'wordpress-seo' ) . ' ' . $message . '</p></div>';
 }
 
 /**
@@ -351,19 +357,33 @@ function yoast_wpseo_self_deactivate_spl() {
  *
  * @return void
  */
-function yoast_wpseo_self_deactivate_filter_input() {
+function yoast_wpseo_missing_filter() {
 	if ( is_admin() ) {
-		yoast_wpseo_extenstion_notice (
-			esc_html__( 'The filter extension seem to be unavailable. Please ask your web host to enable it.', 'wordpress-seo' )
-		);
+		add_action( 'admin_notices', 'yoast_wpseo_missing_filter_notice' );
+
+		yoast_wpseo_self_deactivate();
 	}
 }
 
-function yoast_wpseo_extenstion_notice( $message ) {
-	add_action( 'admin_notices', create_function( $message, 'echo \'<div class="error"><p>\' . __( \'Activation failed:\', \'wordpress-seo\' ) . \' \' . $message . \'</p></div>\';' ) );
+/**
+ * Returns the notice in case of missing filter extenstion
+ * @return string
+ */
+function yoast_wpseo_missing_filter_notice() {
+	$message = esc_html__( 'The filter extension seem to be unavailable. Please ask your web host to enable it.', 'wordpress-seo' );
+	echo '<div class="error"><p>' . __( 'Activation failed:', 'wordpress-seo' ) . ' ' . $message . '</p></div>';
+}
 
-	deactivate_plugins( plugin_basename( WPSEO_FILE ) );
-	if ( isset( $_GET['activate'] ) ) {
-		unset( $_GET['activate'] );
+function yoast_wpseo_self_deactivate() {
+	static $is_deactivated;
+
+	if( $is_deactivated === null ) {
+		$is_deactivated = true;
+		deactivate_plugins( plugin_basename( WPSEO_FILE ) );
+		if ( isset( $_GET['activate'] ) ) {
+			unset( $_GET['activate'] );
+		}
 	}
 }
+
+
