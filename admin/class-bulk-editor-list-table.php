@@ -130,7 +130,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	 * Shows an error notification if the nonce check fails.
 	 */
 	private function verify_nonce() {
-		if ( $this->should_verify_nonce() && ! wp_verify_nonce( WPSEO_Utils::filter_input( INPUT_GET, 'nonce' ), 'bulk-editor-table' ) ) {
+		if ( $this->should_verify_nonce() && ! wp_verify_nonce( filter_input( INPUT_GET, 'nonce' ), 'bulk-editor-table' ) ) {
 			Yoast_Notification_Center::get()->add_notification( new Yoast_Notification( __( 'You are not allowed to access this page.', 'wordpress-seo' ), 'error' ) );
 			Yoast_Notification_Center::get()->display_notifications();
 			die;
@@ -153,7 +153,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 		);
 
 		foreach ( $possible_params as $param_name ) {
-			if ( WPSEO_Utils::filter_input( INPUT_GET, $param_name ) ) {
+			if ( filter_input( INPUT_GET, $param_name ) ) {
 				return true;
 			}
 		}
@@ -202,7 +202,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	 * @param string $which
 	 */
 	function display_tablenav( $which ) {
-		$post_status = sanitize_text_field( WPSEO_Utils::filter_input( INPUT_GET, 'post_status' ) );
+		$post_status = sanitize_text_field( filter_input( INPUT_GET, 'post_status' ) );
 		?>
 		<div class="tablenav <?php echo esc_attr( $which ); ?>">
 
@@ -213,11 +213,11 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 				<input type="hidden" name="tool" value="bulk-editor"/>
 				<input type="hidden" name="type" value="<?php echo esc_attr( $this->page_type ); ?>"/>
 				<input type="hidden" name="orderby"
-				       value="<?php echo esc_attr( WPSEO_Utils::filter_input( INPUT_GET, 'orderby' ) ); ?>"/>
+				       value="<?php echo esc_attr( filter_input( INPUT_GET, 'orderby' ) ); ?>"/>
 				<input type="hidden" name="order"
-				       value="<?php echo esc_attr( WPSEO_Utils::filter_input( INPUT_GET, 'order' ) ); ?>"/>
+				       value="<?php echo esc_attr( filter_input( INPUT_GET, 'order' ) ); ?>"/>
 				<input type="hidden" name="post_type_filter"
-				       value="<?php echo esc_attr( WPSEO_Utils::filter_input( INPUT_GET, 'post_type_filter' ) ); ?>"/>
+				       value="<?php echo esc_attr( filter_input( INPUT_GET, 'post_type_filter' ) ); ?>"/>
 				<?php if ( ! empty( $post_status ) ) { ?>
 					<input type="hidden" name="post_status" value="<?php echo esc_attr( $post_status ); ?>"/>
 				<?php } ?>
@@ -290,7 +290,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 		);
 
 
-		$post_status         = WPSEO_Utils::filter_input( INPUT_GET, 'post_status' );
+		$post_status         = filter_input( INPUT_GET, 'post_status' );
 		$class               = empty( $post_status ) ? ' class="current"' : '';
 		$status_links['all'] = '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_tools&tool=bulk-editor' . $this->page_url ) ) . '"' . $class . '>' . sprintf( _nx( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $total_posts, 'posts', 'wordpress-seo' ), number_format_i18n( $total_posts ) ) . '</a>';
 
@@ -372,7 +372,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 						"
 				);
 
-				$post_type_filter = WPSEO_Utils::filter_input( INPUT_GET, 'post_type_filter' );
+				$post_type_filter = filter_input( INPUT_GET, 'post_type_filter' );
 				$selected         = ( ! empty( $post_type_filter ) ) ? sanitize_text_field( $post_type_filter ) : '-1';
 
 				$options = '<option value="-1">Show All Post Types</option>';
@@ -518,7 +518,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 		// Filter Block
 		$post_types       = null;
 		$post_type_clause = '';
-		$post_type_filter = WPSEO_Utils::filter_input( INPUT_GET, 'post_type_filter' );
+		$post_type_filter = filter_input( INPUT_GET, 'post_type_filter' );
 
 		if ( ! empty( $post_type_filter ) && get_post_type_object( sanitize_text_field( $post_type_filter ) ) ) {
 			$post_types       = esc_sql( sanitize_text_field( $post_type_filter ) );
@@ -539,7 +539,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 
 		// Calculate items per page
 		$per_page = $this->get_items_per_page( 'wpseo_posts_per_page', 10 );
-		$paged    = esc_sql( sanitize_text_field( WPSEO_Utils::filter_input( INPUT_GET, 'paged' ) ) );
+		$paged    = esc_sql( sanitize_text_field( filter_input( INPUT_GET, 'paged' ) ) );
 
 		if ( empty( $paged ) || ! is_numeric( $paged ) || $paged <= 0 ) {
 			$paged = 1;
@@ -574,13 +574,13 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	 */
 	protected function parse_item_query( $subquery, $all_states, $post_type_clause ) {
 		// Order By block
-		$orderby = WPSEO_Utils::filter_input( INPUT_GET, 'orderby' );
+		$orderby = filter_input( INPUT_GET, 'orderby' );
 
 		$orderby = ! empty( $orderby ) ? esc_sql( sanitize_text_field( $orderby ) ) : 'post_title';
 		$orderby = $this->sanitize_orderby( $orderby );
 
 		// Order clause
-		$order = WPSEO_Utils::filter_input( INPUT_GET, 'order' );
+		$order = filter_input( INPUT_GET, 'order' );
 		$order = ! empty( $order ) ? esc_sql( strtoupper( sanitize_text_field( $order ) ) ) : 'ASC';
 		$order = $this->sanitize_order( $order );
 
