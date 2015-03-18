@@ -45,7 +45,7 @@ class WPSEO_Page_Redirect {
 				echo "<input type='text' class='textinput' name='wpseo_redirects_new_new' id='wpseo_redirects_new_new' value='' />\n";
 				echo "<br class='clear'/>\n";
 
-				echo "<label class='textinput' for='wpseo_redirects_new_type'>" . __( 'Type', 'wordpress-seo-premium' ) . "</label>\n";
+				echo "<label class='textinput' for='wpseo_redirects_new_type'>" . _x( 'Type', 'noun', 'wordpress-seo-premium' ) . "</label>\n";
 
 				// Redirect type select element
 				echo "<select name='wpseo_redirects_new_type' id='wpseo_redirects_new_type' class='select'>" . PHP_EOL;
@@ -104,7 +104,7 @@ class WPSEO_Page_Redirect {
 				echo "<br class='clear'/>\n";
 
 
-				echo "<label class='textinput' for='wpseo_redirects_new_type'>" . __( 'Type', 'wordpress-seo-premium' ) . "</label>\n";
+				echo "<label class='textinput' for='wpseo_redirects_new_type'>" . _x( 'Type', 'noun', 'wordpress-seo-premium' ) . "</label>\n";
 				// Redirect type select element
 				echo "<select name='wpseo_redirects_new_type' id='wpseo_redirects_new_type' class='select'>" . PHP_EOL;
 
