@@ -43,7 +43,8 @@ class WPSEO_Premium_Import_Manager {
 	 * @return string
 	 */
 	public function message_htaccess_success( $message ) {
-		return $message . __( '<code>.htaccess</code> redirects have been imported.', 'wordpress-seo-premium' );
+		/* translators: %s: '.htaccess' file name */
+		return $message . __( sprintf( __('%s redirects have been imported.', 'wordpress-seo-premium'), '<code>.htaccess</code>' );
 	}
 
 	/**
