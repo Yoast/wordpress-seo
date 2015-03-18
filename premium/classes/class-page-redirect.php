@@ -169,7 +169,8 @@ class WPSEO_Page_Redirect {
 							}
 						} else {
 							if ( ! is_writable( WPSEO_Redirect_File_Manager::get_htaccess_file_path() ) ) {
-								echo "<div class='error'><p><b>" . __( "We're unable to save the redirects to your <code>.htaccess</code> file. Please make the file writable.", 'wordpress-seo-premium' ) . "</b></p></div>\n";
+								/* translators: %s: '.htaccess' file name */
+								echo "<div class='error'><p><b>" . sprintf( __( 'We\'re unable to save the redirects to your %s file. Please make the file writable.', 'wordpress-seo-premium' ), '<code>.htaccess</code>') . "</b></p></div>\n";
 							}
 						}
 
@@ -201,13 +202,16 @@ class WPSEO_Page_Redirect {
 					$wpseo_admin_pages->currentoption = 'wpseo_redirect';
 
 
-					if ( WPSEO_Utils::is_apache() ) {
+					if ( ! WPSEO_Utils::is_apache() ) {
 
 						echo Yoast_Form::get_instance()->checkbox( 'disable_php_redirect', __( 'Disable PHP redirects', 'wordpress-seo-premium' ) );
-						echo '<p class="desc">' . __( "Write redirects to the <code>.htaccess</code> file. Make sure the <code>.htaccess</code> file is writable.", 'wordpress-seo-premium' ) . '</p>';
+						/* translators: 1: '.htaccess' file name */
+						echo '<p class="desc">' . sprintf( __( 'Write redirects to the %1$s file. Make sure the %1$s file is writable.', 'wordpress-seo-premium' ), '<code>.htacces</code>') . '</p>';
 
 						echo Yoast_Form::get_instance()->checkbox( 'separate_file', __( 'Generate a separate redirect file', 'wordpress-seo-premium' ) );
-						echo '<p class="desc">' . __( "By default we write the redirects to your <code>.htaccess</code> file, check this if you want a the redirects written to a separate file. Only check this option if you know what you are doing!", 'wordpress-seo-premium' ) . '</p>';
+						/* translators: %s: '.htaccess' file name */
+						echo '<p class="desc">' . sprintf( __( 'By default we write the redirects to your %s file, check this if you want a the redirects written to a separate file. Only check this option if you know what you are doing!', 'wordpress-seo-premium' ), '<code>.htaccess</code>') . '</p>';
+
 					} else {
 						echo Yoast_Form::get_instance()->checkbox( 'disable_php_redirect', __( 'Disable PHP redirects', 'wordpress-seo-premium' ) );
 						echo '<p class="desc">' . __( "WordPress SEO will generate redirect files that can be included in your website configuration. You can disable PHP redirect if this is done correctly. Only check this option if you know what you are doing!", 'wordpress-seo-premium' ) . '</p>';

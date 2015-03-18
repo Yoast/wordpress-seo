@@ -240,7 +240,9 @@ class WPSEO_Premium_Import_Manager {
 		// Display the form
 		echo '<form action="" method="post" accept-charset="' . esc_attr( get_bloginfo( 'charset' ) ) . '">' . PHP_EOL;
 		echo wp_nonce_field( 'wpseo-import', '_wpnonce', true, false );
-		echo '<h2>' . __( 'Import redirects from <code>.htaccess</code>', 'wordpress-seo-premium' ) . '</h2>' . PHP_EOL;
+
+		/* translators: %s: '.htaccess' file name */
+		echo '<h2>' . sprintf( __( 'Import redirects from %s', 'wordpress-seo-premium' ), '<code>.htaccess</code>' ). '</h2>' . PHP_EOL;
 		echo '<textarea name="htaccess" rows="4" cols="50" style="width:70%; height: 200px;">' . $textarea_value . '</textarea><br/>' . PHP_EOL;
 		echo '<input type="submit" class="button-primary" name="import" value="' . __( 'Import .htaccess', 'wordpress-seo-premium' ) . '"/>' . PHP_EOL;
 		echo '</form>' . PHP_EOL;
