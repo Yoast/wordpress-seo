@@ -14,7 +14,7 @@ class WPSEO_Premium_Javascript_Strings {
 			'error_new_type'        => __( "New type can't be empty.", 'wordpress-seo-premium' ),
 			'unsaved_redirects'     => __( "You have unsaved redirects, are you sure you want to leave?", 'wordpress-seo-premium' ),
 			'enter_new_url'         => __( "Please enter the new URL", 'wordpress-seo-premium' ),
-			'redirect_saved'        => __( "Redirect saved!", 'wordpress-seo-premium' ),
+			'redirect_saved'        => __( "Redirect saved.", 'wordpress-seo-premium' ),
 			'redirect_possibly_bad' => __( "Possibly bad redirect.", 'wordpress-seo-premium' ),
 			'redirect_not_ok'       => __( "The URL you entered returned a HTTP code different than 200 (OK).", 'wordpress-seo-premium' ),
 		);

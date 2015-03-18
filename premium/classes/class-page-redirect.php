@@ -95,7 +95,7 @@ class WPSEO_Page_Redirect {
 				echo "<div class='wpseo_redirects_new'>\n";
 				//				echo "<h2>" . __( 'Add New Regex Redirect', 'wordpress-seo' ) . "</h2>\n";
 
-				echo "<label class='textinput' for='wpseo_redirects_new_old'>" . __( 'REGEX', 'wordpress-seo-premium' ) . "</label>\n";
+				echo "<label class='textinput' for='wpseo_redirects_new_old'>" . __( 'Regular Expression', 'wordpress-seo-premium' ) . "</label>\n";
 				echo "<input type='text' class='textinput' name='wpseo_redirects_new_old' id='wpseo_redirects_new_old' value='{$old_url}' />\n";
 				echo "<br class='clear'/>\n";
 
@@ -122,7 +122,7 @@ class WPSEO_Page_Redirect {
 
 				echo "<br class='clear'/>\n";
 
-				echo "<a href='javascript:;' class='button-primary'>" . __( 'Add Regex Redirect', 'wordpress-seo-premium' ) . "</a>\n";
+				echo "<a href='javascript:;' class='button-primary'>" . __( 'Add Redirect', 'wordpress-seo-premium' ) . "</a>\n";
 
 				echo "</div>\n";
 				echo "</form>\n";
@@ -176,7 +176,7 @@ class WPSEO_Page_Redirect {
 					} else if ( WPSEO_Utils::is_nginx() ) {
 						if ( file_exists( WPSEO_Redirect_File_Manager::get_file_path() ) ) {
 							echo '<div style="margin: 5px 0; padding: 3px 10px; background-color: #ffffe0; border: 1px solid #E6DB55; border-radius: 3px">';
-							echo '<p>' . __( "As you're on NGINX, you should add the following include to the website Nginx config file:", 'wordpress-seo-premium' ) . '</p>';
+							echo '<p>' . __( "As you're on Nginx, you should add the following include to the Nginx config file:", 'wordpress-seo-premium' ) . '</p>';
 							echo '<pre>include ' . WPSEO_Redirect_File_Manager::get_file_path() . ';</pre>';
 							echo '</div>';
 						} else {
