@@ -39,84 +39,6 @@ class WPSEO_Admin_Pages {
 	}
 
 	/**
-	 * Deletes all post meta values with a given meta key from the database
-	 *
-	 * @todo [JRF => whomever] This method does not seem to be used anywhere. Double-check before removal.
-	 *
-	 * @param string $meta_key Key to delete all meta values for.
-	 */
-	/*function delete_meta( $meta_key ) {
-		global $wpdb;
-		$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->postmeta WHERE meta_key = %s", $meta_key ) );
-	}*/
-
-	/**
-	 * Exports the current site's WP SEO settings.
-	 *
-	 * @param bool $include_taxonomy Whether to include the taxonomy metadata the plugin creates.
-	 *
-	 * @return bool|string $return False when failed, the URL to the export file when succeeded.
-	 */
-	function export_settings( $include_taxonomy ) {
-		$content = '; ' . __( 'This is a settings export file for the WordPress SEO plugin by Yoast.com', 'wordpress-seo' ) . " - https://yoast.com/wordpress/plugins/seo/ \r\n";
-
-		$optarr = WPSEO_Options::get_option_names();
-
-		foreach ( $optarr as $optgroup ) {
-			$content .= "\n" . '[' . $optgroup . ']' . "\n";
-			$options = get_option( $optgroup );
-			if ( ! is_array( $options ) ) {
-				continue;
-			}
-			foreach ( $options as $key => $elem ) {
-				if ( is_array( $elem ) ) {
-					$elm_count = count( $elem );
-					for ( $i = 0; $i < $elm_count; $i ++ ) {
-						$content .= $key . '[] = "' . $elem[ $i ] . "\"\n";
-					}
-					unset( $elm_count, $i );
-				}
-				elseif ( is_string( $elem ) && $elem == '' ) {
-					$content .= $key . " = \n";
-				}
-				elseif ( is_bool( $elem ) ) {
-					$content .= $key . ' = "' . ( ( $elem === true ) ? 'on' : 'off' ) . "\"\n";
-				}
-				else {
-					$content .= $key . ' = "' . $elem . "\"\n";
-				}
-			}
-			unset( $key, $elem );
-		}
-		unset( $optgroup, $options );
-
-		if ( $include_taxonomy ) {
-			$content .= "\r\n\r\n[wpseo_taxonomy_meta]\r\n";
-			$content .= 'wpseo_taxonomy_meta = "' . urlencode( json_encode( get_option( 'wpseo_taxonomy_meta' ) ) ) . '"';
-		}
-
-		$dir = wp_upload_dir();
-
-		if ( ! $handle = fopen( $dir['path'] . '/settings.ini', 'w' ) ) {
-			die();
-		}
-
-		if ( ! fwrite( $handle, $content ) ) {
-			die();
-		}
-
-		fclose( $handle );
-
-		chdir( $dir['path'] );
-		$zip = new PclZip( './settings.zip' );
-		if ( $zip->create( './settings.ini' ) == 0 ) {
-			return false;
-		}
-
-		return $dir['url'] . '/settings.zip';
-	}
-
-	/**
 	 * Loads the required styles for the config page.
 	 */
 	function config_page_styles() {
@@ -154,8 +76,12 @@ class WPSEO_Admin_Pages {
 			wp_localize_script( 'wpseo-admin-media', 'wpseoMediaL10n', $this->localize_media_script() );
 		}
 
-		if ( 'bulk-editor' === $tool ) {
+		if ( 'wpseo_tools' === $page && 'bulk-editor' === $tool ) {
 			wp_enqueue_script( 'wpseo-bulk-editor', plugins_url( 'js/wp-seo-bulk-editor' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'jquery' ), WPSEO_VERSION, true );
+		}
+
+		if ( 'wpseo_tools' === $page && 'import-export' === $tool ) {
+			wp_enqueue_script( 'wpseo-export', plugins_url( 'js/wp-seo-export' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'jquery' ), WPSEO_VERSION, true );
 		}
 	}
 
@@ -171,6 +97,25 @@ class WPSEO_Admin_Pages {
 	}
 
 	/********************** DEPRECATED METHODS **********************/
+
+	/**
+	 * Exports the current site's WP SEO settings.
+	 *
+	 * @param bool $include_taxonomy Whether to include the taxonomy metadata the plugin creates.
+	 *
+	 * @return bool|string $return False when failed, the URL to the export file when succeeded.
+	 */
+	public function export_settings( $include_taxonomy ) {
+		_deprecated_function( __METHOD__, 'WPSEO 2.0', 'This method is deprecated, please use the <code>WPSEO_Export</code> class.' );
+
+		$export = new WPSEO_Export( $include_taxonomy );
+		if ( $export->success ) {
+			return $export->export_zip_url;
+		}
+		else {
+			return false;
+		}
+	}
 
 	/**
 	 * Generates the header for admin pages
