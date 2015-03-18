@@ -202,7 +202,7 @@ class WPSEO_Page_Redirect {
 					$wpseo_admin_pages->currentoption = 'wpseo_redirect';
 
 
-					if ( ! WPSEO_Utils::is_apache() ) {
+					if ( WPSEO_Utils::is_apache() ) {
 
 						echo Yoast_Form::get_instance()->checkbox( 'disable_php_redirect', __( 'Disable PHP redirects', 'wordpress-seo-premium' ) );
 						/* translators: 1: '.htaccess' file name */
