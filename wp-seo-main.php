@@ -284,11 +284,18 @@ function wpseo_admin_init() {
 
 
 /* ***************************** BOOTSTRAP / HOOK INTO WP *************************** */
+$spl_autoload_exists = function_exists( 'spl_autoload_register' );
+$filter_exists       = function_exists( 'filter_input' );
 
-if ( ! function_exists( 'spl_autoload_register' ) ) {
-	add_action( 'admin_init', 'yoast_wpseo_self_deactivate', 1 );
+if ( ! $spl_autoload_exists ) {
+	add_action( 'admin_init', 'yoast_wpseo_missing_spl', 1 );
 }
-else if ( ! defined( 'WP_INSTALLING' ) || WP_INSTALLING === false ) {
+
+if ( ! $filter_exists ) {
+	add_action( 'admin_init', 'yoast_wpseo_missing_filter', 1 );
+}
+
+if ( ( ! defined( 'WP_INSTALLING' ) || WP_INSTALLING === false ) && ( $spl_autoload_exists && $filter_exists ) ) {
 	add_action( 'plugins_loaded', 'wpseo_init', 14 );
 
 	if ( is_admin() ) {
@@ -329,14 +336,59 @@ function load_yoast_notifications() {
  *
  * @return void
  */
-function yoast_wpseo_self_deactivate() {
+function yoast_wpseo_missing_spl() {
 	if ( is_admin() ) {
-		$message = esc_html__( 'The Standard PHP Library (SPL) extension seem to be unavailable. Please ask your web host to enable it.', 'wordpress-seo' );
-		add_action( 'admin_notices', create_function( $message, 'echo \'<div class="error"><p>\' . __( \'Activation failed:\', \'wordpress-seo\' ) . \' \' . $message . \'</p></div>\';' ) );
 
+		add_action( 'admin_notices', 'yoast_wpseo_missing_spl_notice' );
+
+		yoast_wpseo_self_deactivate();
+	}
+}
+
+/**
+ * Returns the notice in case of missing spl extension
+ */
+function yoast_wpseo_missing_spl_notice() {
+	$message = esc_html__( 'The Standard PHP Library (SPL) extension seem to be unavailable. Please ask your web host to enable it.', 'wordpress-seo' );
+	echo '<div class="error"><p>' . __( 'Activation failed:', 'wordpress-seo' ) . ' ' . $message . '</p></div>';
+}
+
+/**
+ * Throw an error if the filter extension is disabled (prevent white screens) and self-deactivate plugin
+ *
+ * @since 2.0
+ *
+ * @return void
+ */
+function yoast_wpseo_missing_filter() {
+	if ( is_admin() ) {
+		add_action( 'admin_notices', 'yoast_wpseo_missing_filter_notice' );
+
+		yoast_wpseo_self_deactivate();
+	}
+}
+
+/**
+ * Returns the notice in case of missing filter extension
+ */
+function yoast_wpseo_missing_filter_notice() {
+	$message = esc_html__( 'The filter extension seem to be unavailable. Please ask your web host to enable it.', 'wordpress-seo' );
+	echo '<div class="error"><p>' . __( 'Activation failed:', 'wordpress-seo' ) . ' ' . $message . '</p></div>';
+}
+
+/**
+ * The method will deactivate the plugin, but only once, done by the static $is_deactivated
+ */
+function yoast_wpseo_self_deactivate() {
+	static $is_deactivated;
+
+	if ( $is_deactivated === null ) {
+		$is_deactivated = true;
 		deactivate_plugins( plugin_basename( WPSEO_FILE ) );
 		if ( isset( $_GET['activate'] ) ) {
 			unset( $_GET['activate'] );
 		}
 	}
 }
+
+

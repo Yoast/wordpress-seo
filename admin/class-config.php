@@ -27,7 +27,7 @@ class WPSEO_Admin_Pages {
 	 * Make sure the needed scripts are loaded for admin pages
 	 */
 	function init() {
-		if ( WPSEO_Utils::filter_input( INPUT_GET, 'wpseo_reset_defaults' ) && wp_verify_nonce( WPSEO_Utils::filter_input( INPUT_GET, 'nonce' ), 'wpseo_reset_defaults' ) && current_user_can( 'manage_options' ) ) {
+		if ( filter_input( INPUT_GET, 'wpseo_reset_defaults' ) && wp_verify_nonce( filter_input( INPUT_GET, 'nonce' ), 'wpseo_reset_defaults' ) && current_user_can( 'manage_options' ) ) {
 			WPSEO_Options::reset();
 			wp_redirect( admin_url( 'admin.php?page=wpseo_dashboard' ) );
 		}
@@ -142,8 +142,8 @@ class WPSEO_Admin_Pages {
 		wp_enqueue_script( 'dashboard' );
 		wp_enqueue_script( 'thickbox' );
 
-		$page = WPSEO_Utils::filter_input( INPUT_GET, 'page' );
-		$tool = WPSEO_Utils::filter_input( INPUT_GET, 'tool' );
+		$page = filter_input( INPUT_GET, 'page' );
+		$tool = filter_input( INPUT_GET, 'tool' );
 
 		if ( in_array( $page, array( 'wpseo_social', 'wpseo_dashboard' ) ) ) {
 			wp_enqueue_media();

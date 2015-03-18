@@ -10,7 +10,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-$active_tab = WPSEO_Utils::filter_input( INPUT_GET, 'tab' );
+$active_tab = filter_input( INPUT_GET, 'tab' );
 
 $tabs = array(
 	'breadcrumbs' => array(

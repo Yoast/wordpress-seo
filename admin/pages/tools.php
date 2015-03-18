@@ -10,7 +10,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-$tool_page = (string) WPSEO_Utils::filter_input( INPUT_GET, 'tool' );
+$tool_page = (string) filter_input( INPUT_GET, 'tool' );
 
 $yform = Yoast_Form::get_instance();
 
