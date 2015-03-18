@@ -210,7 +210,7 @@ class WPSEO_Page_Redirect {
 
 						echo Yoast_Form::get_instance()->checkbox( 'separate_file', __( 'Generate a separate redirect file', 'wordpress-seo-premium' ) );
 						/* translators: %s: '.htaccess' file name */
-						echo '<p class="desc">' . sprintf( __( 'By default we write the redirects to your %s file, check this if you want a the redirects written to a separate file. Only check this option if you know what you are doing!', 'wordpress-seo-premium' ), '<code>.htaccess</code>') . '</p>';
+						echo '<p class="desc">' . sprintf( __( 'By default we write the redirects to your %s file, check this if you want the redirects written to a separate file. Only check this option if you know what you are doing!', 'wordpress-seo-premium' ), '<code>.htaccess</code>') . '</p>';
 
 					} else {
 						echo Yoast_Form::get_instance()->checkbox( 'disable_php_redirect', __( 'Disable PHP redirects', 'wordpress-seo-premium' ) );
