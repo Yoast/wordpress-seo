@@ -54,7 +54,9 @@ class WPSEO_Premium_Import_Manager {
 	 * @return string
 	 */
 	public function message_htaccess_no_redirects( $message ) {
-		return $message . __( '<code>.htaccess</code> import failed: No redirects found.', 'wordpress-seo-premium' );
+
+		/* translators: %s: '.htaccess' file name */
+		return $message . sprintf( __( '%s import failed: No redirects found.', 'wordpress-seo-premium' ), '<code>.htaccess</code>' );
 	}
 
 	/**
