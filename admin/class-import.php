@@ -177,7 +177,7 @@ class WPSEO_Import {
 			unlink( $this->file['file'] );
 		}
 		if ( file_exists( $this->path ) && is_writable( $this->path ) ) {
-			rmdir( $this->path);
+			rmdir( $this->path );
 		}
 	}
 
