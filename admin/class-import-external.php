@@ -141,7 +141,7 @@ class WPSEO_Import_External {
 				}
 			}
 		}
-		$this->set_msg( __( sprintf( 'Robots Meta values imported. We recommend %sdisabling the Robots-Meta plugin%s to avoid any conflicts.', '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_import&deactivate_robots_meta=1' ) ) . '">', '</a>' ), 'wordpress-seo' ) );
+		$this->set_msg( __( sprintf( 'Robots Meta values imported. We recommend %sdisabling the Robots-Meta plugin%s to avoid any conflicts.', '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_tools&tool=import-export&deactivate_robots_meta=1#top#import-other' ) ) . '">', '</a>' ), 'wordpress-seo' ) );
 	}
 
 	/**
