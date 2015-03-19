@@ -520,6 +520,21 @@ class WPSEO_Utils {
 	public static function clear_sitemap_cache( $types = array() ) {
 		global $wpdb;
 
+		if ( wp_using_ext_object_cache() ) {
+			return;
+		}
+
+		if ( ! apply_filters( 'wpseo_enable_xml_sitemap_transient_caching', true ) ) {
+			return;
+		}
+
+		// not sure about efficiency, but that's what code elsewhere does R.
+		$options = WPSEO_Options::get_all();
+
+		if ( true !== $options['enablexmlsitemap'] ) {
+			return;
+		}
+
 		$query = "DELETE FROM $wpdb->options WHERE";
 
 		if ( ! empty( $types ) ) {
@@ -685,45 +700,7 @@ class WPSEO_Utils {
 	 * @return mixed
 	 */
 	public static function filter_input( $type, $variable_name, $filter = FILTER_DEFAULT ) {
-		if ( function_exists( 'filter_input' ) ) {
-			return filter_input( $type, $variable_name, $filter );
-		}
-		else {
-			switch ( $type ) {
-				case INPUT_GET:
-					$type = $_GET;
-					break;
-				case INPUT_POST:
-					$type = $_POST;
-					break;
-				case INPUT_SERVER:
-					$type = $_SERVER;
-					break;
-				default:
-					return false;
-					break;
-			}
-
-			if ( isset( $type[ $variable_name ] ) ) {
-				$out = $type[ $variable_name ];
-			}
-			else {
-				return false;
-			}
-
-			switch ( $filter ) {
-				case FILTER_VALIDATE_INT:
-					$out = self::emulate_filter_int( $out );
-					break;
-				case FILTER_VALIDATE_BOOLEAN:
-					$out = self::emulate_filter_bool( $out );
-					break;
-				default:
-					$out = (string) $out;
-					break;
-			}
-			return $out;
-		}
+		return filter_input( $type, $variable_name, $filter );
 	}
 
 	/**
@@ -750,9 +727,14 @@ class WPSEO_Utils {
 	 */
 	public static function is_valid_datetime( $datetime ) {
 		if ( substr( $datetime, 0, 1 ) != '-' ) {
-			// Use the DateTime class ( PHP 5.2 > ) to check if the string is a valid datetime
-			if ( new DateTime( $datetime ) !== false ) {
-				return true;
+			try {
+				// Use the DateTime class ( PHP 5.2 > ) to check if the string is a valid datetime
+				if ( new DateTime( $datetime ) !== false ) {
+					return true;
+				}
+			}
+			catch( Exception $exc ) {
+				return false;
 			}
 		}
 

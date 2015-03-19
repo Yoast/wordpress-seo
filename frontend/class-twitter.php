@@ -19,6 +19,11 @@ class WPSEO_Twitter {
 	/**
 	 * @var array Images
 	 */
+	private $images = array();
+
+	/**
+	 * @var array Images
+	 */
 	public $shown_images = array();
 
 	/**
@@ -91,7 +96,10 @@ class WPSEO_Twitter {
 		if ( is_singular() ) {
 			// If the current post has a gallery, output a gallery card
 			if ( has_shortcode( $GLOBALS['post']->post_content, 'gallery' ) ) {
-				$this->type = 'gallery';
+				$this->images = get_post_gallery_images();
+				if ( count( $this->images ) > 3 ) {
+					$this->type = 'gallery';
+				}
 			}
 		}
 
@@ -305,7 +313,6 @@ class WPSEO_Twitter {
 	 * Only used when OpenGraph is inactive or Summary Large Image card is chosen.
 	 */
 	protected function image() {
-
 		if ( 'gallery' === $this->type ) {
 			$this->gallery_images_output();
 		}
@@ -322,17 +329,8 @@ class WPSEO_Twitter {
 	 * Outputs the first 4 images of a gallery as the posts gallery images
 	 */
 	private function gallery_images_output() {
-		$images = get_post_gallery_images();
-
-		// If there are no images attached, use the standard single image output
-		if ( count( $images ) === 0 ) {
-			$this->single_image_output();
-
-			return;
-		}
-
 		$image_counter = 0;
-		foreach ( $images as $image ) {
+		foreach ( $this->images as $image ) {
 			if ( $image_counter > 3 ) {
 				return;
 			}
