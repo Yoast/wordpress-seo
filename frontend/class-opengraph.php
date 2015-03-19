@@ -811,7 +811,7 @@ class WPSEO_OpenGraph_Image {
 	 * @return bool
 	 */
 	private function check_featured_image_size( $img_data ) {
-		//Get the width and height of the image.
+		// Get the width and height of the image.
 		if ( $img_data[1] < 200 || $img_data[2] < 200 ) {
 			return false;
 		}
@@ -822,7 +822,7 @@ class WPSEO_OpenGraph_Image {
 	/**
 	 * Display an OpenGraph image tag
 	 *
-	 * @param string $img Source URL to the image
+	 * @param $img string - Source URL to the image
 	 *
 	 * @return bool
 	 */
