@@ -9,7 +9,6 @@ class WPSEO_Tutorial_Videos {
 	 * Function that outputs the redirect page
 	 */
 	public static function display() {
-		global $wpseo_admin_pages;
 
 		// Licensing part
 		$license_manager = new Yoast_Plugin_License_Manager( new WPSEO_Product_Premium() );
@@ -19,7 +18,6 @@ class WPSEO_Tutorial_Videos {
 
 		// Admin header
 		Yoast_Form::get_instance()->admin_header( false );
-		$wpseo_admin_pages->admin_header( false );
 
 		if ( $license_manager->license_is_valid() ) {
 			?>
