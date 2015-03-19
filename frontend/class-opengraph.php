@@ -644,7 +644,6 @@ class WPSEO_OpenGraph {
 	public function publish_date() {
 
 		if ( ! is_singular( 'post' ) ) {
-
 			/** Filter: 'wpseo_opengraph_show_publish_date' - Allow showing publication date for other post types */
 			/** @api bool $unsigned Whether or not to show publish date */
 			/** @param string $post_type The current URL's post type. */
@@ -786,7 +785,7 @@ class WPSEO_OpenGraph_Image {
 	 *
 	 * @api string $post_content The Post content string
 	 *
-	 * @param object $post The post object.
+	 * @param $post object - The post object.
 	 */
 	private function get_content_images( $post ) {
 		$content = apply_filters( 'wpseo_pre_analysis_post_content', $post->post_content, $post );
@@ -824,8 +823,7 @@ class WPSEO_OpenGraph_Image {
 	 * @return bool
 	 */
 	private function add_image( $img ) {
-		/** Filter: 'wpseo_opengraph_image' - Allow changing the OpenGraph image */
-		/** @api string $img Image URL string */
+		// Filter: 'wpseo_opengraph_image' - Allow changing the OpenGraph image */
 		$img = trim( apply_filters( 'wpseo_opengraph_image', $img ) );
 
 		if ( empty( $img ) ) {
