@@ -742,7 +742,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				break;
 
 			case 'upload':
-				$content .= '<input id="' . $esc_form_key . '" type="text" size="36" name="' . $esc_form_key . '" value="' . esc_attr( $meta_value ) . '" />';
+				$content .= '<input id="' . $esc_form_key . '" type="text" size="36" class="' . $class . '" name="' . $esc_form_key . '" value="' . esc_attr( $meta_value ) . '" />';
 				$content .= '<input id="' . $esc_form_key . '_button" class="wpseo_image_upload_button button" type="button" value="Upload Image" />';
 				break;
 		}
