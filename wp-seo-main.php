@@ -1,7 +1,6 @@
 <?php
 /**
- * @package    WPSEO
- * @subpackage Main
+ * @package    WPSEO\Main
  */
 
 if ( ! function_exists( 'add_filter' ) ) {

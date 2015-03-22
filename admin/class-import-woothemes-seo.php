@@ -1,7 +1,6 @@
 <?php
 /**
- * @package    WPSEO
- * @subpackage Import_External
+ * @package    WPSEO\Admin\Import\External
  */
 
 /**

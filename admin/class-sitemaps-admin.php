@@ -1,7 +1,6 @@
 <?php
 /**
- * @package    WPSEO
- * @subpackage XML_Sitemaps
+ * @package    WPSEO\Admin\XML Sitemaps
  */
 
 /**

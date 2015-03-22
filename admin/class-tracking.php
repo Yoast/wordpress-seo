@@ -1,7 +1,10 @@
 <?php
 /**
- * @package    WPSEO
- * @subpackage Admin
+ * Contains the Tracking class and filtering specific to WordPress SEO for the tracking class.
+ *
+ * If the class is instatiated from another plugin, the filtering still works.
+ *
+ * @package    WPSEO\Admin\Tracking
  */
 
 if ( ! defined( 'WPSEO_VERSION' ) ) {
