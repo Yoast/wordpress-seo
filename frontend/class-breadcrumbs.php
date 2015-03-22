@@ -774,7 +774,7 @@ class WPSEO_Breadcrumbs {
 			$link_output = '<' . $this->element . ' typeof="v:Breadcrumb">';
 
 			if ( ( isset( $link['url'] ) && ( is_string( $link['url'] ) && $link['url'] !== '' ) ) &&
-			     ( $i < ( $this->crumb_count - 1 ) || $paged )
+			     ( $i < ( $this->crumb_count - 1 ) || $GLOBALS['paged'] )
 			) {
 				$link_output .= '<a href="' . esc_url( $link['url'] ) . '"' . $class . ' rel="v:url" property="v:title">' . $link['text'] . '</a>';
 			}
