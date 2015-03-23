@@ -68,7 +68,7 @@ if ( isset( $_POST['import'] ) || isset( $_GET['import'] ) ) {
  *
  * Tabs should be added by setting a key. Value has to be an array with the keys tabvalue (the value display on the tab)
  * and the tabcontent (the contents that will be shown when pressing on the tab). Both values should be set, otherwise they
- * won't be displayed 
+ * won't be displayed
  *
  * Expected format:
  * 		array(
@@ -118,16 +118,16 @@ if ( isset( $import ) ) {
 	<a class="nav-tab" id="import-other-tab"
 	   href="#top#import-other"><?php _e( 'Import from other plugins', 'wordpress-seo' ); ?></a>
 	<?php
-		/**
-		 * If import tabs is filled, loop through the tabs, if tabvalue exists in the tab display it.
-		 */
-		if(!empty($import_tabs)) {
-			foreach ( $import_tabs as $tab_name => $tab_settings ) {
-				if ( array_key_exists( 'tabvalue', $tab_settings ) && array_key_exists( 'tabcontent', $tab_settings ) ) {
-					echo '<a class="nav-tab" id="import-' . esc_attr( $tab_name ) . '-tab" href="#top#import-' . esc_attr( $tab_name ) . '">' . esc_attr( $tab_settings['tabvalue'] ) . '</a>';
-				}
+	/**
+	 * If import tabs is filled, loop through the tabs, if tabvalue exists in the tab display it.
+	 */
+	if ( ! empty( $import_tabs ) ) {
+		foreach ( $import_tabs as $tab_name => $tab_settings ) {
+			if ( array_key_exists( 'tabvalue', $tab_settings ) && array_key_exists( 'tabcontent', $tab_settings ) ) {
+				echo '<a class="nav-tab" id="import-' . esc_attr( $tab_name ) . '-tab" href="#top#import-' . esc_attr( $tab_name ) . '">' . esc_attr( $tab_settings['tabvalue'] ) . '</a>';
 			}
 		}
+	}
 	?>
 </h2>
 
@@ -210,20 +210,20 @@ if ( isset( $import ) ) {
 	<br/>
 </div>
 <?php
-	/**
-	 * If import tabs is filled, loop through the tabs, if tabcontent exists in the tab display it.
-	 */
-	if(!empty($import_tabs)) {
-		foreach ( $import_tabs as $tab_name => $tab_settings ) {
+/**
+ * If import tabs is filled, loop through the tabs, if tabcontent exists in the tab display it.
+ */
+if ( ! empty( $import_tabs ) ) {
+	foreach ( $import_tabs as $tab_name => $tab_settings ) {
+		?>
+		<div id="import-<?php echo esc_attr( $tab_name ); ?>" class="wpseotab">
+			<?php
+			if ( array_key_exists( 'tabvalue', $tab_settings ) && array_key_exists( 'tabcontent', $tab_settings ) ) {
+				echo esc_attr( $tab_settings['tabcontent'] );
+			}
 			?>
-			<div id="import-<?php echo esc_attr( $tab_name ); ?>" class="wpseotab">
-				<?php
-				if ( array_key_exists( 'tabvalue', $tab_settings ) && array_key_exists( 'tabcontent', $tab_settings ) ) {
-					echo esc_attr( $tab_settings['tabcontent'] );
-				}
-				?>
-			</div>
-		<?php
-		}
+		</div>
+	<?php
 	}
+}
 ?>
