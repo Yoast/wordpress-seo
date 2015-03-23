@@ -69,7 +69,15 @@ if ( isset( $_POST['import'] ) || isset( $_GET['import'] ) ) {
  * Tabs should be added by setting a key. Value has to be an array with the keys tabvalue (the value display on the tab)
  * and the tabcontent (the contents that will be shown when pressing on the tab)
  *
- * @api array - The array that will be use to fill the tabs.
+ * Expected format:
+ * 		array(
+ * 			'tabname' => array(
+ * 				'tabvalue'   => 'value for the tab',
+ * 				'tabcontent' => 'the content for this tab',
+ * 			)
+ * 		)
+ *
+ * @api array - The array that will be used to fill the tabs.
  */
 $import_tabs = apply_filters( 'wpseo_import_tabs', array() );
 
