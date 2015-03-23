@@ -30,7 +30,8 @@ class WPSEO_Page_GWT {
 				if ( ! $gwt_authentication->authenticate( $_POST['gwt']['authorization_code'] ) ) {
 					$redirect_url_appendix = '&error=1';
 				}
-			} else {
+			}
+			else {
 				$redirect_url_appendix = '&error=1';
 			}
 
@@ -50,10 +51,13 @@ class WPSEO_Page_GWT {
 		?>
 		<h2 class="nav-tab-wrapper" id="wpseo-tabs">
 			<form action="" method="post">
-				<input type="submit" name="reload-crawl-issues" id="reload-crawl-issue" class="button-primary" style="float: right;" value="<?php _e( 'Reload crawl issues', 'wordpress-seo-premium' ); ?>">
+				<input type="submit" name="reload-crawl-issues" id="reload-crawl-issue" class="button-primary"
+				       style="float: right;" value="<?php _e( 'Reload crawl issues', 'wordpress-seo-premium' ); ?>">
 			</form>
-			<a class="nav-tab" id="crawl-issues-tab" href="#top#redirects"><?php _e( 'Crawl Issues', 'wordpress-seo-premium' ); ?></a>
-			<a class="nav-tab" id="settings-tab" href="#top#settings"><?php _e( 'Settings', 'wordpress-seo-premium' ); ?></a>
+			<a class="nav-tab" id="crawl-issues-tab"
+			   href="#top#redirects"><?php _e( 'Crawl Issues', 'wordpress-seo-premium' ); ?></a>
+			<a class="nav-tab" id="settings-tab"
+			   href="#top#settings"><?php _e( 'Settings', 'wordpress-seo-premium' ); ?></a>
 
 		</h2>
 
@@ -89,7 +93,8 @@ class WPSEO_Page_GWT {
 					// Close <form>
 					echo "</form>\n";
 
-				} else {
+				}
+				else {
 
 					// Get the oauth URL
 					$oath_url = $gwt_client->createAuthUrl();
@@ -124,7 +129,8 @@ class WPSEO_Page_GWT {
 					?>
 
 					<p class="submit">
-						<input type="submit" name="submit" id="submit" class="button button-primary" value="<?php _e( 'Save Changes', 'wordpress-seo-premium' ); ?>">
+						<input type="submit" name="submit" id="submit" class="button button-primary"
+						       value="<?php _e( 'Save Changes', 'wordpress-seo-premium' ); ?>">
 					</p>
 				</form>
 
@@ -172,8 +178,8 @@ class WPSEO_Page_GWT {
 	 * Load the admin redirects scripts
 	 */
 	public function page_scripts() {
-		wp_enqueue_script( 'wpseo-premium-yoast-overlay', plugin_dir_url( WPSEO_PREMIUM_FILE ) . '/assets/js/wpseo-premium-yoast-overlay.js', array( 'jquery' ), '1.0.0' );
-		wp_enqueue_script( 'wp-seo-premium-admin-gwt', plugin_dir_url( WPSEO_PREMIUM_FILE ) . '/assets/js/wp-seo-premium-admin-gwt.js', array( 'jquery' ), '1.0.0' );
+		wp_enqueue_script( 'wpseo-premium-yoast-overlay', plugin_dir_url( WPSEO_PREMIUM_FILE ) . '/assets/js/wpseo-premium-yoast-overlay' . WPSEO_CSSJS_SUFFIX . '.js', array( 'jquery' ), '1.0.0' );
+		wp_enqueue_script( 'wp-seo-premium-admin-gwt', plugin_dir_url( WPSEO_PREMIUM_FILE ) . '/assets/js/wp-seo-premium-admin-gwt' . WPSEO_CSSJS_SUFFIX . '.js', array( 'jquery' ), '1.0.0' );
 		wp_localize_script( 'wp-seo-premium-admin-gwt', 'wpseo_premium_strings', WPSEO_Premium_Javascript_Strings::strings() );
 		add_screen_option( 'per_page', array(
 			'label'   => __( 'Crawl errors per page', 'wordpress-seo-premium' ),
