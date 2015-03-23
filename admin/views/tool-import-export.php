@@ -124,7 +124,7 @@ if ( isset( $import ) ) {
 	if ( ! empty( $import_tabs ) ) {
 		foreach ( $import_tabs as $tab_name => $tab_settings ) {
 			if ( array_key_exists( 'tabvalue', $tab_settings ) && array_key_exists( 'tabcontent', $tab_settings ) ) {
-				echo '<a class="nav-tab" id="import-' . esc_attr( $tab_name ) . '-tab" href="#top#import-' . esc_attr( $tab_name ) . '">' . esc_attr( $tab_settings['tabvalue'] ) . '</a>';
+				echo '<a class="nav-tab" id="import-' . esc_attr( $tab_name ) . '-tab" href="#top#import-' . esc_url( $tab_name ) . '">' . esc_html( $tab_settings['tabvalue'] ) . '</a>';
 			}
 		}
 	}
@@ -219,7 +219,7 @@ if ( ! empty( $import_tabs ) ) {
 		<div id="import-<?php echo esc_attr( $tab_name ); ?>" class="wpseotab">
 			<?php
 			if ( array_key_exists( 'tabvalue', $tab_settings ) && array_key_exists( 'tabcontent', $tab_settings ) ) {
-				echo esc_attr( $tab_settings['tabcontent'] );
+				echo esc_html( $tab_settings['tabcontent'] );
 			}
 			?>
 		</div>
