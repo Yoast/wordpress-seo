@@ -135,8 +135,6 @@
                 return false;
             }
 
-            alert( redirect_type );
-
             // Check new URL
             if ('' === new_url && '410' !== redirect_type) {
                 yoast_overlay.add_message(wpseo_premium_strings.error_saving_redirect, wpseo_premium_strings.error_new_url, 5);
