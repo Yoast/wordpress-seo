@@ -44,10 +44,9 @@ class WPSEO_Page_GWT {
 	 * Function that outputs the redirect page
 	 */
 	public function display() {
-		global $wpseo_admin_pages;
 
 		// Admin header
-		Yoast_Form::get_instance()->admin_header( false, 'yoast_wpseo_redirects_options', 'wpseo_redirects' );
+		Yoast_Form::get_instance()->admin_header( false, 'wpseo_redirects', false, 'yoast_wpseo_redirects_options' );
 		?>
 		<h2 class="nav-tab-wrapper" id="wpseo-tabs">
 			<form action="" method="post">
@@ -114,7 +113,7 @@ class WPSEO_Page_GWT {
 				<form action="<?php echo admin_url( 'options.php' ); ?>" method="post">
 					<?php
 					settings_fields( 'yoast_wpseo_gwt_options' );
-					$wpseo_admin_pages->currentoption = 'wpseo-premium-gwt';
+					Yoast_Form::get_instance()->set_option('wpseo-premium-gwt');
 
 					// Get the sites
 					$service = new WPSEO_GWT_Service( $gwt_client );
