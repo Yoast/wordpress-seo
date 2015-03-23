@@ -77,6 +77,8 @@ if ( isset( $_POST['import'] ) || isset( $_GET['import'] ) ) {
  * 			)
  * 		)
  *
+ * For inspiration with regards to the tab content, please take a look at the way the standard tabs are rendered in this file.
+ *
  * @api array - The array that will be used to fill the tabs.
  */
 $import_tabs = apply_filters( 'wpseo_import_tabs', array() );
