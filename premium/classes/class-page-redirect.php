@@ -9,7 +9,6 @@ class WPSEO_Page_Redirect {
 	 * Function that outputs the redirect page
 	 */
 	public static function display() {
-		global $wpseo_admin_pages;
 
 		// Check if there's an old URL set
 		$old_url = '';
@@ -21,7 +20,7 @@ class WPSEO_Page_Redirect {
 		$redirect_types = WPSEO_Redirect_Manager::get_redirect_types();
 
 		// Admin header
-		Yoast_Form::get_instance()->admin_header( false, 'yoast_wpseo_redirects_options', 'wpseo_redirects' );
+		Yoast_Form::get_instance()->admin_header( false, 'wpseo_redirects', false, 'yoast_wpseo_redirects_options');
 		?>
 		<h2 class="nav-tab-wrapper" id="wpseo-tabs">
 			<a class="nav-tab" id="tab-url-tab" href="#top#tab-url"><?php _e( 'Redirects', 'wordpress-seo-premium' ); ?></a>
@@ -198,7 +197,8 @@ class WPSEO_Page_Redirect {
 				<form action="<?php echo admin_url( 'options.php' ); ?>" method="post">
 					<?php
 					settings_fields( 'yoast_wpseo_redirect_options' );
-					$wpseo_admin_pages->currentoption = 'wpseo_redirect';
+
+					Yoast_Form::get_instance()->set_option('wpseo_redirect');
 
 
 					if ( WPSEO_Utils::is_apache() ) {
