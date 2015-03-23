@@ -1,8 +1,8 @@
 <?php
+
 /**
  * @package Premium\Redirect
  */
-
 class WPSEO_Page_Redirect {
 
 	/**
@@ -24,9 +24,12 @@ class WPSEO_Page_Redirect {
 		Yoast_Form::get_instance()->admin_header( false, 'yoast_wpseo_redirects_options', 'wpseo_redirects' );
 		?>
 		<h2 class="nav-tab-wrapper" id="wpseo-tabs">
-			<a class="nav-tab" id="tab-url-tab" href="#top#tab-url"><?php _e( 'Redirects', 'wordpress-seo-premium' ); ?></a>
-			<a class="nav-tab" id="tab-regex-tab" href="#top#tab-regex"><?php _e( 'Regex Redirects', 'wordpress-seo-premium' ); ?></a>
-			<a class="nav-tab" id="settings-tab" href="#top#settings"><?php _e( 'Settings', 'wordpress-seo-premium' ); ?></a>
+			<a class="nav-tab" id="tab-url-tab"
+			   href="#top#tab-url"><?php _e( 'Redirects', 'wordpress-seo-premium' ); ?></a>
+			<a class="nav-tab" id="tab-regex-tab"
+			   href="#top#tab-regex"><?php _e( 'Regex Redirects', 'wordpress-seo-premium' ); ?></a>
+			<a class="nav-tab" id="settings-tab"
+			   href="#top#settings"><?php _e( 'Settings', 'wordpress-seo-premium' ); ?></a>
 		</h2>
 
 		<div class="tabwrapper>">
@@ -164,22 +167,26 @@ class WPSEO_Page_Redirect {
 								echo '<p>' . __( "As you're on Apache, you should add the following include to the website httpd config file:", 'wordpress-seo-premium' ) . '</p>';
 								echo '<pre>Include ' . WPSEO_Redirect_File_Manager::get_file_path() . '</pre>';
 								echo '</div>';
-							} else {
+							}
+							else {
 								$file_write_error = true;
 							}
-						} else {
+						}
+						else {
 							if ( ! is_writable( WPSEO_Redirect_File_Manager::get_htaccess_file_path() ) ) {
 								echo "<div class='error'><p><b>" . __( "We're unable to save the redirects to your .htaccess file, please make the file writable.", 'wordpress-seo-premium' ) . "</b></p></div>\n";
 							}
 						}
 
-					} else if ( WPSEO_Utils::is_nginx() ) {
+					}
+					else if ( WPSEO_Utils::is_nginx() ) {
 						if ( file_exists( WPSEO_Redirect_File_Manager::get_file_path() ) ) {
 							echo '<div style="margin: 5px 0; padding: 3px 10px; background-color: #ffffe0; border: 1px solid #E6DB55; border-radius: 3px">';
 							echo '<p>' . __( "As you're on NGINX, you should add the following include to the website Nginx config file:", 'wordpress-seo-premium' ) . '</p>';
 							echo '<pre>include ' . WPSEO_Redirect_File_Manager::get_file_path() . ';</pre>';
 							echo '</div>';
-						} else {
+						}
+						else {
 							$file_write_error = true;
 						}
 					}
@@ -208,14 +215,16 @@ class WPSEO_Page_Redirect {
 
 						echo Yoast_Form::get_instance()->checkbox( 'separate_file', __( 'Generate a separate redirect file', 'wordpress-seo-premium' ) );
 						echo '<p class="desc">' . __( "By default we write the redirects to your .htaccess file, check this if you want a the redirects written to a separate file. Only check this option if you know what you are doing!", 'wordpress-seo-premium' ) . '</p>';
-					} else {
+					}
+					else {
 						echo Yoast_Form::get_instance()->checkbox( 'disable_php_redirect', __( 'Disable PHP redirects', 'wordpress-seo-premium' ) );
 						echo '<p class="desc">' . __( "WordPress SEO will generate redirect files that can be included in your website configuration, you can disable PHP redirect if this is done correctly. Only check this option if you know what you are doing!", 'wordpress-seo-premium' ) . '</p>';
 					}
 
 					?>
 					<p class="submit">
-						<input type="submit" name="submit" id="submit" class="button button-primary" value="<?php _e( 'Save Changes', 'wordpress-seo-premium' ); ?>">
+						<input type="submit" name="submit" id="submit" class="button button-primary"
+						       value="<?php _e( 'Save Changes', 'wordpress-seo-premium' ); ?>">
 					</p>
 				</form>
 			</div>
@@ -239,8 +248,8 @@ class WPSEO_Page_Redirect {
 	 */
 	public static function page_scripts() {
 		wp_enqueue_script( 'jquery-qtip', plugins_url( 'js/jquery.qtip.min.js', WPSEO_FILE ), array( 'jquery' ), '1.0.0-RC3', true );
-		wp_enqueue_script( 'wpseo-premium-yoast-overlay', plugin_dir_url( WPSEO_PREMIUM_FILE ) . '/assets/js/wpseo-premium-yoast-overlay.js', array( 'jquery' ), '1.0.0' );
-		wp_enqueue_script( 'wp-seo-premium-admin-redirects', plugin_dir_url( WPSEO_PREMIUM_FILE ) . '/assets/js/wp-seo-premium-admin-redirects.js', array( 'jquery' ), '1.0.0' );
+		wp_enqueue_script( 'wpseo-premium-yoast-overlay', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/js/wpseo-premium-yoast-overlay' . WPSEO_CSSJS_SUFFIX . '.js', array( 'jquery' ), '1.0.0' );
+		wp_enqueue_script( 'wp-seo-premium-admin-redirects', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/js/wp-seo-premium-admin-redirects' . WPSEO_CSSJS_SUFFIX . '.js', array( 'jquery' ), '1.0.0' );
 		wp_localize_script( 'wp-seo-premium-admin-redirects', 'wpseo_premium_strings', WPSEO_Premium_Javascript_Strings::strings() );
 
 		add_screen_option( 'per_page', array(
