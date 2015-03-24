@@ -32,6 +32,11 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 	 */
 	public function detect_slug_change( $term_id, $tt_id, $taxonomy ) {
 
+		// Apply the filters to disable redirect creation on slug change.
+		if ( apply_filters('wpseo_premium_term_redirect_slug_change', false ) === true ) {
+			return true;
+		}
+
 		// Check if the old page is set
 		if ( ! isset( $_POST['wpseo_old_url'] ) ) {
 			return;
