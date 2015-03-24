@@ -35,6 +35,11 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	 */
 	public function detect_slug_change( $post_id, $post, $post_before ) {
 
+		// Check if the redirects for posts should be disabled on slug change, can be done by adding a filter
+		if( apply_filters('wpseo_premium_post_redirect_slug_change', false ) === true) {
+			return true;
+		}
+
 		if ( !isset( $_POST['wpseo_old_url'] ) ) {
 			return;
 		}
