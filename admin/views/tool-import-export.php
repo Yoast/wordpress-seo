@@ -180,10 +180,6 @@ if ( isset( $import ) ) {
 </div>
 <?php
 /**
- * If import tabs is filled, loop through the tabs, if tabcontent exists in the tab display it.
- */
-
-/**
  * Allow adding a custom import tab
  */
 do_action( 'wpseo_import_tab_content' );
