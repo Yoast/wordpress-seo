@@ -404,7 +404,7 @@ class WPSEO_Sitemaps {
 				$query = $wpdb->prepare( "SELECT COUNT(ID) FROM $wpdb->posts {$join_filter} WHERE post_status IN ('publish','inherit') AND post_password = '' AND post_author != 0 AND post_date != '0000-00-00 00:00:00' AND post_type = %s " . $where_filter, $post_type );
 
 				$count = $wpdb->get_var( $query );
-				if ( $count === 0 ) {
+				if ( $count == 0  ) {
 					continue;
 				}
 
