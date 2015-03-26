@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: seo, SEO, Yoast SEO, google, meta, meta description, search engine optimization, xml sitemap, xml sitemaps, google sitemap, sitemap, sitemaps, robots meta, rss, rss footer, yahoo, bing, news sitemaps, XML News Sitemaps, WordPress SEO, WordPress SEO by Yoast, yoast, multisite, canonical, nofollow, noindex, keywords, meta keywords, description, webmaster tools, google webmaster tools, seo pack
 Requires at least: 3.9
 Tested up to: 4.1.1
-Stable tag: 2.0-RC
+Stable tag: 2.0
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using Yoast's WordPress SEO plugin.
 
@@ -120,9 +120,9 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 
 == Changelog ==
 
-= 2.0-RC =
+= 2.0 =
 
-Release Date: March 11th, 2015
+Release Date: March 26nd, 2015
 
 * Features:
 	* Simplified and revised Admin menu's:
@@ -135,10 +135,10 @@ Release Date: March 11th, 2015
 	* Makes sure the user is redirected to the last active settings tab after saving.
 
 * Bugfixes:
-	* Fixes a bug where wpseo_metadesc and wpseo_title filters weren't applied in the snippet preview.
 	* Fixes a bug where custom field variables were no longer working in the snippet preview.
 	* Fixes a bug where the $post global was emptied by our Frontend class, causing conflicts with other plugins.
 	* Fixes a bug where variables weren't replaced in the og:description meta tag.
+	* Fixes a bug where the breadcrumbs caused an undefined variable notice.
 
 * Under the hood:
 	* Contains an incredible amount of code style improvements, making the code cleaner and more readable.
