@@ -122,7 +122,7 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 
 = 2.0 =
 
-Release Date: March 26nd, 2015
+Release Date: March 26th, 2015
 
 * Features:
 	* Simplified and revised Admin menu's:
