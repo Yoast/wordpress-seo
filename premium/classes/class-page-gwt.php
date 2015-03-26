@@ -22,7 +22,7 @@ class WPSEO_Page_GWT {
 		$redirect_url_appendix = '';
 
 		// Catch the authorization code POST
-		if ( isset ( $_POST['gwt']['authorization_code'] ) ) {
+		if ( isset ( $_POST['gwt']['authorization_code'] ) && wp_verify_nonce( $_POST['gwt']['gtw_nonce'], 'wpseo-gtw_nonce' ) ) {
 			if ( trim( $_POST['gwt']['authorization_code'] ) != '' ) {
 				// Authenticate user
 				$gwt_authentication = new WPSEO_GWT_Authentication();
@@ -106,6 +106,7 @@ class WPSEO_Page_GWT {
 					echo "<p>" . __( 'Please enter the Authorization Code in the field below and press the Authenticate button.', 'wordpress-seo-premium' ) . "</p>\n";
 					echo "<form action='' method='post'>\n";
 					echo "<input type='text' name='gwt[authorization_code]' value='' />";
+					echo "<input type='hidden' name='gwt[gtw_nonce]' value='" . wp_create_nonce( 'wpseo-gtw_nonce' ) . "' />";
 					echo "<input type='submit' name='gwt[Submit]' value='" . __( 'Authenticate', 'wordpress-seo-premium' ) . "' class='button-primary' />";
 					echo "</form>\n";
 				}
