@@ -966,10 +966,6 @@ class WPSEO_Frontend {
 			}
 		}
 
-		if ( $canonical && 'default' !== $this->options['force_transport'] ) {
-			$canonical = preg_replace( '`^http[s]?`', $this->options['force_transport'], $canonical );
-		}
-
 		$this->canonical_no_override = $canonical;
 
 		if ( is_string( $canonical ) && $canonical !== '' ) {
