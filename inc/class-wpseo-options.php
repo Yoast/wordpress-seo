@@ -1062,8 +1062,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 
 
 				/* boolean (checkbox) fields */
-				/*
-				 * Covers :
+				/* Covers
 				 * 		'disableadvanced_meta'
 				 * 		'yoast_tracking'
 				 */
@@ -1247,8 +1246,7 @@ class WPSEO_Option_Permalinks extends WPSEO_Option {
 					break;
 
 				/* boolean (checkbox) fields */
-				/*
-				 * Covers:
+				/* Covers:
 				 * 		'cleanpermalinks'
 				 * 		'cleanpermalink-googlesitesearch'
 				 *		'cleanpermalink-googlecampaign'
@@ -2149,8 +2147,7 @@ class WPSEO_Option_InternalLinks extends WPSEO_Option {
 
 
 				/* boolean fields */
-				/*
-				 * Covers:
+				/* Covers:
 				 * 		'breadcrumbs-blog-remove'
 				 * 		'breadcrumbs-boldlast'
 				 * 		'breadcrumbs-enable'
