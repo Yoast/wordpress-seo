@@ -1733,21 +1733,33 @@ class WPSEO_Frontend {
 	 */
 	function embed_rss( $content, $context = 'full' ) {
 		if ( is_feed() ) {
-
-			$before = '';
-			$after  = '';
-
-			if ( $this->options['rssbefore'] !== '' ) {
-				$before = wpautop( $this->rss_replace_vars( $this->options['rssbefore'] ) );
-			}
-			if ( $this->options['rssafter'] !== '' ) {
-				$after = wpautop( $this->rss_replace_vars( $this->options['rssafter'] ) );
-			}
-			if ( $before !== '' || $after !== '' ) {
-				if ( ( isset( $context ) && $context === 'excerpt' ) && trim( $content ) !== '' ) {
-					$content = wpautop( $content );
+			
+			/**
+			* Dynamically include/exclude the RSS footer
+			*
+			* Allow other plugins to show/hide the RSS footer dynamically - useful for non-standard RSS feeds
+			*
+			* @since 2.1
+			*
+			* @param boolean $show_embed Indicates if the embed should be shown or not
+			*/
+			if( apply_filters( 'wpseo_include_rss_footer', true ) ) {
+	
+				$before = '';
+				$after  = '';
+	
+				if ( $this->options['rssbefore'] !== '' ) {
+					$before = wpautop( $this->rss_replace_vars( $this->options['rssbefore'] ) );
 				}
-				$content = $before . $content . $after;
+				if ( $this->options['rssafter'] !== '' ) {
+					$after = wpautop( $this->rss_replace_vars( $this->options['rssafter'] ) );
+				}
+				if ( $before !== '' || $after !== '' ) {
+					if ( ( isset( $context ) && $context === 'excerpt' ) && trim( $content ) !== '' ) {
+						$content = wpautop( $content );
+					}
+					$content = $before . $content . $after;
+				}
 			}
 		}
 
