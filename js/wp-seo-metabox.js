@@ -241,8 +241,6 @@ function yst_updateTitle(force) {
 }
 
 function sanitize_title( title ) {
-	// Run possibly set filters
-	title = wpseo_apply_filter( title, 'title');
 
 	title = yst_clean(title);
 
@@ -323,28 +321,10 @@ function yst_updateDesc() {
 }
 
 function sanitize_desc(desc) {
-	// Run possibly set filters
-	desc = wpseo_apply_filter( desc, 'description' );
 	desc = yst_trimDesc(desc);
 	desc = yst_boldKeywords(desc, false);
 
 	return desc;
-}
-
-function wpseo_apply_filter( value_to_filter, filter ) {
-	return jQuery.ajax(
-		{
-			type     : "POST",
-			url      : ajaxurl,
-			data : {
-				action  : 'wpseo_apply_' + filter + '_filter',
-				string  : value_to_filter,
-				_wpnonce: wpseoMetaboxL10n.wpseo_replace_vars_nonce
-			},
-			cache    : false,
-			async    : false
-		}
-	).responseText;
 }
 
 
