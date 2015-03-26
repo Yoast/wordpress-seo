@@ -1804,11 +1804,10 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 
 
 					/* boolean fields */
-					/*
-					 * Covers:
-					 * 'noindex-'
-					 * 'showdate-'
-					 * 'hideeditbox-'
+					/* Covers:
+					 * 		'noindex-'
+					 * 		'showdate-'
+					 * 		'hideeditbox-'
 					 */
 					default:
 						$option_value[ $key ] = WPSEO_Utils::validate_bool( $value );
