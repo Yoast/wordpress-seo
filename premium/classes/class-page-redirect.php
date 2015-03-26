@@ -34,6 +34,7 @@ class WPSEO_Page_Redirect {
 		<div class="tabwrapper>">
 			<div id="tab-url" class="wpseotab redirect-table-tab">
 				<?php
+
 				// Add new redirect HTML
 				echo "<form class='wpseo-new-redirect-form' method='post'>\n";
 				echo "<div class='wpseo_redirects_new'>\n";
@@ -62,7 +63,10 @@ class WPSEO_Page_Redirect {
 
 				echo "</select>" . PHP_EOL;
 
-				echo '<img src="' . plugins_url( 'images/question-mark.png', WPSEO_FILE ) . '" class="yoast_help" style="margin:17px 0 0 5px" alt="' . __( sprintf( 'The redirect type is de HTTP response code send to the browser telling the browser what type of redirect is served.<br/><br/>Read <a href=\'%s\'>this page</a> for more info.', 'http://kb.yoast.com/article/121-redirect-types/#utm_source=wordpress-seo-premium-redirects&amp;utm_medium=inline-help&amp;utm_campaign=redirect-types' ), 'wordpress-seo-premium' ) . '">';
+				echo '<br />';
+				echo '<br />';
+
+				echo '<p class="label desc description">' . __( sprintf( 'The redirect type is the HTTP response code send to the browser telling the browser what type of redirect is served.<br/><br/>Read <a href=\'%s\'>this page</a> for more info.', 'http://kb.yoast.com/article/121-redirect-types/#utm_source=wordpress-seo-premium-redirects&amp;utm_medium=inline-help&amp;utm_campaign=redirect-types' ), 'wordpress-seo-premium' ) . '</p>';
 
 				echo "<br class='clear'/>\n";
 
@@ -120,7 +124,10 @@ class WPSEO_Page_Redirect {
 
 				echo "</select>" . PHP_EOL;
 
-				echo '<img src="' . plugins_url( 'images/question-mark.png', WPSEO_FILE ) . '" class="yoast_help" style="margin:17px 0 0 5px" alt="' . __( sprintf( 'The redirect type is de HTTP response code send to the browser telling the browser what type of redirect is served.<br/><br/>Read <a href=\'%s\'>this page</a> for more info.', 'http://kb.yoast.com/article/121-redirect-types/#utm_source=wordpress-seo-premium-redirects&amp;utm_medium=inline-help&amp;utm_campaign=redirect-types' ), 'wordpress-seo-premium' ) . '">';
+				echo '<br />';
+				echo '<br />';
+
+				echo '<p class="label desc description">' . __( sprintf( 'The redirect type is the HTTP response code send to the browser telling the browser what type of redirect is served.<br/><br/>Read <a href=\'%s\'>this page</a> for more info.', 'http://kb.yoast.com/article/121-redirect-types/#utm_source=wordpress-seo-premium-redirects&amp;utm_medium=inline-help&amp;utm_campaign=redirect-types' ), 'wordpress-seo-premium' ) . ' </p>';
 
 				echo "<br class='clear'/>\n";
 
