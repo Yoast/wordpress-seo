@@ -8,8 +8,16 @@
  */
 class WPSEO_Upgrade {
 
+	/**
+	 * Holds the WP SEO options
+	 *
+	 * @var array
+	 */
 	private $options = array();
-	
+
+	/**
+	 * Class constructor
+	 */
 	public function __construct() {
 		$this->options = WPSEO_Options::get_all();
 		
