@@ -1,6 +1,6 @@
 <?php
 /**
- * @package    WPSEO\Internals
+ * @package WPSEO\Internals
  * @since      1.8.0
  */
 

@@ -4,7 +4,7 @@
  *
  * If the class is instatiated from another plugin, the filtering still works.
  *
- * @package    WPSEO\Admin\Tracking
+ * @package WPSEO\Admin\Tracking
  */
 
 if ( ! defined( 'WPSEO_VERSION' ) ) {

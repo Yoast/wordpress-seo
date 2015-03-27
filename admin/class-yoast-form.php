@@ -1,6 +1,6 @@
 <?php
 /**
- * @package    WPSEO\Admin
+ * @package WPSEO\Admin
  */
 
 /**

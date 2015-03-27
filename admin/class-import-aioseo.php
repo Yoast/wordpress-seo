@@ -1,6 +1,6 @@
 <?php
 /**
- * @package    WPSEO\Admin\Import\External
+ * @package WPSEO\Admin\Import\External
  */
 
 /**
