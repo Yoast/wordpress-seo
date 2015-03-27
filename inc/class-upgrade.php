@@ -37,6 +37,19 @@ class WPSEO_Upgrade {
 	}
 
 	/**
+	 * Run some functions that run when we first run or when we upgrade WP SEO from < 1.4.13
+	 */
+	private function init() {
+		if ( $this->options['version'] === '' || version_compare( $this->options['version'], '1.4.13', '<' ) ) {
+			/* Make sure title_test and description_test functions are available */
+			require_once( WPSEO_PATH . 'inc/wpseo-non-ajax-functions.php' );
+
+			// Run description test once theme has loaded
+			add_action( 'init', 'wpseo_description_test' );
+		}
+	}
+
+	/**
 	 * Run the WP SEO 1.5 upgrade routine
 	 *
 	 * @param string $version
@@ -109,22 +122,9 @@ class WPSEO_Upgrade {
 	}
 
 	/**
-	 * Run some functions that run when we first run or when we upgrade WP SEO from < 1.4.13
-	 */
-	private function init() {
-		if ( $this->options['version'] === '' || version_compare( $this->options['version'], '1.4.13', '<' ) ) {
-			/* Make sure title_test and description_test functions are available */
-			require_once( WPSEO_PATH . 'inc/wpseo-non-ajax-functions.php' );
-
-			// Run description test once theme has loaded
-			add_action( 'init', 'wpseo_description_test' );
-		}
-	}
-
-	/**
 	 * Redirect to the about page
 	 */
-	private function redirect_to_about() {
+	public function redirect_to_about() {
 		echo '<script>window.location ="', admin_url( 'admin.php?page=wpseo_dashboard&intro=1' ), '";</script>';
 	}
 }
