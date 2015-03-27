@@ -126,6 +126,8 @@ class WPSEO_Upgrade {
 	 * Redirect to the about page
 	 */
 	public function redirect_to_about() {
-		echo '<script>window.location ="', admin_url( 'admin.php?page=wpseo_dashboard&intro=1' ), '";</script>';
+		if ( ! get_transient( 'wpseo_visited_about_page' ) ) {
+			echo '<script>window.location ="', admin_url( 'admin.php?page=wpseo_dashboard&intro=1' ), '";</script>';
+		}
 	}
 }
