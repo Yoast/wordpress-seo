@@ -216,12 +216,12 @@ function wpseo_init() {
 	WPSEO_Options::get_instance();
 	WPSEO_Meta::init();
 
-	$option_wpseo = get_option( 'wpseo' );
-	if ( version_compare( $option_wpseo['version'], WPSEO_VERSION, '<' ) ) {
-		wpseo_do_upgrade( $option_wpseo['version'] );
-	}
-
 	$options = WPSEO_Options::get_all();
+	if ( version_compare( $options['version'], WPSEO_VERSION, '<' ) ) {
+		wpseo_do_upgrade();
+		// get a cleaned up version of the $options
+		$options = WPSEO_Options::get_all();
+	}
 
 	if ( $options['stripcategorybase'] === true ) {
 		$GLOBALS['wpseo_rewrite'] = new WPSEO_Rewrite;
