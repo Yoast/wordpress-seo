@@ -337,12 +337,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Yoast/yoastcs.git",
-                "reference": "1a88161372a1c579a9c5921bfdb7e9585274f850"
+                "reference": "2dca1e17be0b55d721261fb1af231e85baf25baa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Yoast/yoastcs/zipball/1a88161372a1c579a9c5921bfdb7e9585274f850",
-                "reference": "1a88161372a1c579a9c5921bfdb7e9585274f850",
+                "url": "https://api.github.com/repos/Yoast/yoastcs/zipball/2dca1e17be0b55d721261fb1af231e85baf25baa",
+                "reference": "2dca1e17be0b55d721261fb1af231e85baf25baa",
                 "shasum": ""
             },
             "require": {
@@ -367,7 +367,7 @@
                 "standards",
                 "wordpress"
             ],
-            "time": "2015-03-10 18:39:36"
+            "time": "2015-03-26 15:37:17"
         }
     ],
     "aliases": [],
