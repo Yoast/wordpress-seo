@@ -20,8 +20,10 @@ class WPSEO_Upgrade {
 	 */
 	public function __construct() {
 		$this->options = WPSEO_Options::get_all();
-		
+
 		WPSEO_Options::maybe_set_multisite_defaults( false );
+
+		$this->init();
 
 		if ( version_compare( $this->options['version'], '1.5.0', '<' ) ) {
 			$this->upgrade_15( $this->options['version'] );
@@ -31,7 +33,7 @@ class WPSEO_Upgrade {
 			$this->upgrade_20();
 		}
 
-		$this->clean_up();
+		$this->finish_up();
 	}
 
 	/**
@@ -64,7 +66,7 @@ class WPSEO_Upgrade {
 	 * Moves the hide- links options from the permalinks option to the titles option
 	 */
 	private function move_hide_links_options() {
-		$options_titles     = get_option( 'wpseo_titles' );
+		$options_titles = get_option( 'wpseo_titles' );
 		$options_permalinks = get_option( 'wpseo_permalinks' );
 
 		foreach ( array( 'hide-feedlinks', 'hide-rsdlink', 'hide-shortlink', 'hide-wlwmanifest' ) as $hide ) {
@@ -92,20 +94,18 @@ class WPSEO_Upgrade {
 	}
 
 	/**
-	 * Runs the needed cleanup
+	 * Runs the needed cleanup after an update, setting the DB version to latest version, flushing caches etc.
 	 */
-	private function clean_up() {
-		// Make sure version nr gets updated for any version without specific upgrades
-		$this->options = get_option( 'wpseo' ); // re-get to make sure we have the latest version
-		update_option( 'wpseo', $this->options );
-		add_action( 'admin_footer', array( $this, 'redirect_to_about' ) );
+	private function finish_up() {
+		$this->options = get_option( 'wpseo' );                             // re-get to make sure we have the latest version
+		update_option( 'wpseo', $this->options );                           // this also ensures the DB version is equal to WPSEO_VERSION
 
-		// Just flush rewrites, always, to at least make them work after an upgrade.
-		add_action( 'shutdown', 'flush_rewrite_rules' );
-		WPSEO_Utils::clear_sitemap_cache();
+		add_action( 'admin_footer', array( $this, 'redirect_to_about' ) );  // Redirect the user to the about / upgrade page
 
-		// Make sure all our options always exist - issue #1245
-		WPSEO_Options::ensure_options_exist();
+		add_action( 'shutdown', 'flush_rewrite_rules' );                    // Just flush rewrites, always, to at least make them work after an upgrade.
+		WPSEO_Utils::clear_sitemap_cache();                                 // Flush the sitemap cache
+
+		WPSEO_Options::ensure_options_exist();                              // Make sure all our options always exist - issue #1245
 	}
 
 	/**
