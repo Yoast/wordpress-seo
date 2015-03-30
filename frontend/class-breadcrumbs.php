@@ -765,23 +765,24 @@ class WPSEO_Breadcrumbs {
 				$inner_elm = 'strong';
 			}
 
-			$v_child = '';
-			if ( $i > 0 ) {
-				$v_child = ' rel="v:child"';
-			}
-
-			$link_output = '<' . $this->element . $v_child . ' typeof="v:Breadcrumb">';
-
 			if ( ( isset( $link['url'] ) && ( is_string( $link['url'] ) && $link['url'] !== '' ) ) &&
 			     ( $i < ( $this->crumb_count - 1 ) || $GLOBALS['paged'] )
 			) {
+				if ( $i === 0 ) {
+					$link_output .= '<' . $this->element . ' typeof="v:Breadcrumb">';
+				} else {
+					$link_output .= '<' . $this->element . ' rel="v:child" typeof="v:Breadcrumb">';
+				}
 				$link_output .= '<a href="' . esc_url( $link['url'] ) . '" rel="v:url" property="v:title">' . $link['text'] . '</a>';
 			}
 			else {
 				$link_output .= '<' . $inner_elm . ' class="breadcrumb_last">' . $link['text'] . '</' . $inner_elm . '>';
+				// This is the last element, now close all previous elements.
+				while ( $i > 0 ) {
+					$link_output .= '</' . $this->element . '>';
+					$i--;
+				}
 			}
-
-			$link_output .= '</' . $this->element . '>';
 
 		}
 
