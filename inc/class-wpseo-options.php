@@ -879,6 +879,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'tracking_popup_done'             => false,
 		// Non-form field, should only be set via validation routine
 		'version'                         => '', // leave default as empty to ensure activation/upgrade works
+		'seen_about'                      => false,
 
 		// Form fields:
 		'alexaverify'                     => '', // text field
@@ -911,6 +912,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'ignore_page_comments',
 		'ignore_permalink',
 		'ignore_tour',
+		'seen_about',
 		/* theme dependent */
 		'theme_description_found',
 		'theme_has_description',
@@ -1065,6 +1067,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				/* Covers
 				 * 		'disableadvanced_meta'
 				 * 		'yoast_tracking'
+				 *      'seen_about'
 				 */
 				default:
 					$clean[ $key ] = ( isset( $dirty[ $key ] ) ? WPSEO_Utils::validate_bool( $dirty[ $key ] ) : false );

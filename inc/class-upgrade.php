@@ -112,9 +112,8 @@ class WPSEO_Upgrade {
 	 */
 	private function finish_up() {
 		$this->options = get_option( 'wpseo' );                             // re-get to make sure we have the latest version
+		$this->options['seen_about'] = false;                               // make sure user is redirected to the about screen
 		update_option( 'wpseo', $this->options );                           // this also ensures the DB version is equal to WPSEO_VERSION
-
-		add_action( 'admin_footer', array( $this, 'redirect_to_about' ) );  // Redirect the user to the about / upgrade page
 
 		add_action( 'shutdown', 'flush_rewrite_rules' );                    // Just flush rewrites, always, to at least make them work after an upgrade.
 		WPSEO_Utils::clear_sitemap_cache();                                 // Flush the sitemap cache
@@ -122,12 +121,4 @@ class WPSEO_Upgrade {
 		WPSEO_Options::ensure_options_exist();                              // Make sure all our options always exist - issue #1245
 	}
 
-	/**
-	 * Redirect to the about page
-	 */
-	public function redirect_to_about() {
-		if ( ! get_transient( 'wpseo_visited_about_page' ) ) {
-			echo '<script>window.location ="', admin_url( 'admin.php?page=wpseo_dashboard&intro=1' ), '";</script>';
-		}
-	}
 }

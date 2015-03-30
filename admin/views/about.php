@@ -24,8 +24,6 @@ function wpseo_display_contributors( $contributors ) {
 	}
 }
 
-set_transient( 'wpseo_visited_about_page', true, DAY_IN_SECONDS );
-
 ?>
 
 <div class="wrap about-wrap">
