@@ -770,7 +770,8 @@ class WPSEO_Breadcrumbs {
 			) {
 				if ( $i === 0 ) {
 					$link_output .= '<' . $this->element . ' typeof="v:Breadcrumb">';
-				} else {
+				}
+				else {
 					$link_output .= '<' . $this->element . ' rel="v:child" typeof="v:Breadcrumb">';
 				}
 				$link_output .= '<a href="' . esc_url( $link['url'] ) . '" rel="v:url" property="v:title">' . $link['text'] . '</a>';
@@ -783,7 +784,6 @@ class WPSEO_Breadcrumbs {
 					$i--;
 				}
 			}
-
 		}
 
 		/**
