@@ -55,7 +55,7 @@ class WPSEO_Admin_Init {
 			'update.php',
 			'update-core.php',
 			'plugins.php',
-			'plugin-install.php'
+			'plugin-install.php',
 		) ) ) {
 			return;
 		}
