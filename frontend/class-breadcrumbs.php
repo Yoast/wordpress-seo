@@ -765,21 +765,20 @@ class WPSEO_Breadcrumbs {
 				$inner_elm = 'strong';
 			}
 
-			$class = '';
-			if ( $i === ( $this->crumb_count - 1 ) ) {
-				$class = ' class="breadcrumb_last"';
+			$v_child = '';
+			if ( $i > 0 ) {
+				$v_child = ' rel="v:child"';
 			}
 
-
-			$link_output = '<' . $this->element . ' typeof="v:Breadcrumb">';
+			$link_output = '<' . $this->element . $v_child . ' typeof="v:Breadcrumb">';
 
 			if ( ( isset( $link['url'] ) && ( is_string( $link['url'] ) && $link['url'] !== '' ) ) &&
 			     ( $i < ( $this->crumb_count - 1 ) || $GLOBALS['paged'] )
 			) {
-				$link_output .= '<a href="' . esc_url( $link['url'] ) . '"' . $class . ' rel="v:url" property="v:title">' . $link['text'] . '</a>';
+				$link_output .= '<a href="' . esc_url( $link['url'] ) . '" rel="v:url" property="v:title">' . $link['text'] . '</a>';
 			}
 			else {
-				$link_output .= '<' . $inner_elm . $class . ' property="v:title">' . $link['text'] . '</' . $inner_elm . '>';
+				$link_output .= '<' . $inner_elm . ' class="breadcrumb_last">' . $link['text'] . '</' . $inner_elm . '>';
 			}
 
 			$link_output .= '</' . $this->element . '>';
@@ -816,10 +815,7 @@ class WPSEO_Breadcrumbs {
 	 */
 	private function wrap_breadcrumb() {
 		if ( is_string( $this->output ) && $this->output !== '' ) {
-			$output = '
-		<' . $this->wrapper . $this->get_output_id() . $this->get_output_class() . ' prefix="v: http://rdf.data-vocabulary.org/#">
-			' . $this->output . '
-		</' . $this->wrapper . '>';
+			$output = '<' . $this->wrapper . $this->get_output_id() . $this->get_output_class() . ' xmlns:v="http://rdf.data-vocabulary.org/#">' . $this->output . '</' . $this->wrapper . '>';
 
 			/**
 			 * Filter: 'wpseo_breadcrumb_output' - Allow changing the HTML output of the WP SEO breadcrumbs class
