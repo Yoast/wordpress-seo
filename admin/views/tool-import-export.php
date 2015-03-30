@@ -95,6 +95,12 @@ if ( isset( $import ) ) {
 	   href="#top#import-seo"><?php _e( 'Import from other SEO plugins', 'wordpress-seo' ); ?></a>
 	<a class="nav-tab" id="import-other-tab"
 	   href="#top#import-other"><?php _e( 'Import from other plugins', 'wordpress-seo' ); ?></a>
+	<?php
+	/**
+	 * Allow adding a custom import tab header
+	 */
+	do_action( 'wpseo_import_tab_header' );
+	?>
 </h2>
 
 <div id="wpseo-import" class="wpseotab">
@@ -105,7 +111,7 @@ if ( isset( $import ) ) {
 		method="post" enctype="multipart/form-data"
 		accept-charset="<?php echo esc_attr( get_bloginfo( 'charset' ) ); ?>">
 		<?php wp_nonce_field( 'wpseo-import-file', '_wpnonce', true, true ); ?>
-		<input type="file" name="settings_import_file"/>
+		<input type="file" name="settings_import_file" accept="application/x-zip,application/x-zip-compressed,application/zip" />
 		<input type="hidden" name="action" value="wp_handle_upload"/><br/>
 		<br/>
 		<input type="submit" class="button-primary" value="<?php _e( 'Import settings', 'wordpress-seo' ); ?>"/>
@@ -165,13 +171,15 @@ if ( isset( $import ) ) {
 		 */
 		echo apply_filters( 'wpseo_import_other_plugins', '' );
 
-		/**
-		 * Allow adding a custom import block
-		 */
-		do_action( 'wpseo_import' );
 		?>
 		<br/>
 		<input type="submit" class="button-primary" name="import" value="<?php _e( 'Import', 'wordpress-seo' ); ?>"/>
 	</form>
 	<br/>
 </div>
+<?php
+/**
+ * Allow adding a custom import tab
+ */
+do_action( 'wpseo_import_tab_content' );
+

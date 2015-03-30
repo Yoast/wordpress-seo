@@ -1061,8 +1061,10 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 
 
 				/* boolean (checkbox) fields */
-				case 'disableadvanced_meta':
-				case 'yoast_tracking':
+				/* Covers
+				 * 		'disableadvanced_meta'
+				 * 		'yoast_tracking'
+				 */
 				default:
 					$clean[ $key ] = ( isset( $dirty[ $key ] ) ? WPSEO_Utils::validate_bool( $dirty[ $key ] ) : false );
 					break;
@@ -1183,7 +1185,6 @@ class WPSEO_Option_Permalinks extends WPSEO_Option {
 		'cleanpermalink-googlesitesearch' => false,
 		'cleanreplytocom'                 => false,
 		'cleanslugs'                      => true,
-		'force_transport'                 => 'default',
 		'hide-feedlinks'   => false,
 		'hide-rsdlink'     => false,
 		'hide-shortlink'   => false,
@@ -1191,22 +1192,6 @@ class WPSEO_Option_Permalinks extends WPSEO_Option {
 		'redirectattachment'              => false,
 		'stripcategorybase'               => false,
 		'trailingslash'                   => false,
-	);
-
-
-	/**
-	 * @var  array $force_transport_options Available options for the force_transport setting
-	 *                      Used for input validation
-	 *
-	 * @static
-	 *
-	 * @internal Important: Make sure the options added to the array here are in line with the keys
-	 * for the options set for the select box in the admin/pages/permalinks.php file
-	 */
-	public static $force_transport_options = array(
-		'default', // = leave as-is
-		'http',
-		'https',
 	);
 
 
@@ -1252,25 +1237,6 @@ class WPSEO_Option_Permalinks extends WPSEO_Option {
 
 		foreach ( $clean as $key => $value ) {
 			switch ( $key ) {
-				case 'force_transport':
-					if ( isset( $dirty[ $key ] ) && in_array( $dirty[ $key ], self::$force_transport_options, true ) ) {
-						$clean[ $key ] = $dirty[ $key ];
-					}
-					else {
-						if ( isset( $old[ $key ] ) && in_array( $old[ $key ], self::$force_transport_options, true ) ) {
-							$clean[ $key ] = $old[ $key ];
-						}
-						if ( function_exists( 'add_settings_error' ) ) {
-							add_settings_error(
-								$this->group_name, // slug title of the setting
-								'_' . $key, // suffix-id for the error message box
-								__( 'Invalid transport mode set for the canonical settings. Value reset to default.', 'wordpress-seo' ), // the error message
-								'error' // error type, either 'error' or 'updated'
-							);
-						}
-					}
-					break;
-
 				/* text fields */
 				case 'cleanpermalink-extravars':
 					if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
@@ -1279,18 +1245,20 @@ class WPSEO_Option_Permalinks extends WPSEO_Option {
 					break;
 
 				/* boolean (checkbox) fields */
-				case 'cleanpermalinks':
-				case 'cleanpermalink-googlesitesearch':
-				case 'cleanpermalink-googlecampaign':
-				case 'cleanreplytocom':
-				case 'cleanslugs':
-				case 'hide-rsdlink':
-				case 'hide-wlwmanifest':
-				case 'hide-shortlink':
-				case 'hide-feedlinks':
-				case 'redirectattachment':
-				case 'stripcategorybase':
-				case 'trailingslash':
+				/* Covers:
+				 * 		'cleanpermalinks'
+				 * 		'cleanpermalink-googlesitesearch'
+				 *		'cleanpermalink-googlecampaign'
+				 *		'cleanreplytocom'
+				 *		'cleanslugs'
+				 *		'hide-rsdlink'
+				 *		'hide-wlwmanifest'
+				 *		'hide-shortlink'
+				 *		'hide-feedlinks'
+				 *		'redirectattachment'
+				 *		'stripcategorybase'
+				 *		'trailingslash'
+				 */
 				default:
 					$clean[ $key ] = ( isset( $dirty[ $key ] ) ? WPSEO_Utils::validate_bool( $dirty[ $key ] ) : false );
 					break;
@@ -1643,23 +1611,24 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 					break;
 
 				/* boolean fields */
-				case 'forcerewritetitle':
-				case 'usemetakeywords':
-				case 'noodp':
-				case 'noydir':
-				case 'disable-author':
-				case 'disable-date':
-					/* Covers:
-							 'noindex-subpages-wpseo', 'noindex-author-wpseo', 'noindex-archive-wpseo'
-							 'noindex-' . $pt->name
-							 'noindex-ptarchive-' . $pt->name
-							 'noindex-tax-' . $tax->name */
-				case 'noindex-':
-				case 'showdate-': /* 'showdate-'. $pt->name */
-					/* Covers:
-							 'hideeditbox-'. $pt->name
-							 'hideeditbox-tax-' . $tax->name */
-				case 'hideeditbox-':
+				/* Covers:
+				 *		'noindex-subpages-wpseo', 'noindex-author-wpseo', 'noindex-archive-wpseo'
+				 *		'noindex-' . $pt->name
+				 *		'noindex-ptarchive-' . $pt->name
+				 *		'noindex-tax-' . $tax->name
+				 *		'forcerewritetitle':
+				 *		'usemetakeywords':
+				 *		'noodp':
+				 *		'noydir':
+				 *		'disable-author':
+				 *		'disable-date':
+				 *		'noindex-'
+				 *		'showdate-'
+				 *		'showdate-'. $pt->name
+				 *		'hideeditbox-'
+				 *	 	'hideeditbox-'. $pt->name
+				 *		'hideeditbox-tax-' . $tax->name
+				 */
 				default:
 					$clean[ $key ] = ( isset( $dirty[ $key ] ) ? WPSEO_Utils::validate_bool( $dirty[ $key ] ) : false );
 					break;
@@ -1834,9 +1803,11 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 
 
 					/* boolean fields */
-					case 'noindex-':
-					case 'showdate-':
-					case 'hideeditbox-':
+					/* Covers:
+					 * 		'noindex-'
+					 * 		'showdate-'
+					 * 		'hideeditbox-'
+					 */
 					default:
 						$option_value[ $key ] = WPSEO_Utils::validate_bool( $value );
 						break;
@@ -2174,9 +2145,11 @@ class WPSEO_Option_InternalLinks extends WPSEO_Option {
 
 
 				/* boolean fields */
-				case 'breadcrumbs-blog-remove':
-				case 'breadcrumbs-boldlast':
-				case 'breadcrumbs-enable':
+				/* Covers:
+				 * 		'breadcrumbs-blog-remove'
+				 * 		'breadcrumbs-boldlast'
+				 * 		'breadcrumbs-enable'
+				 */
 				default:
 					$clean[ $key ] = ( isset( $dirty[ $key ] ) ? WPSEO_Utils::validate_bool( $dirty[ $key ] ) : false );
 					break;
@@ -2482,12 +2455,17 @@ class WPSEO_Option_XML extends WPSEO_Option {
 
 
 				/* boolean fields */
-				case 'disable_author_sitemap':
-				case 'disable_author_noposts':
-				case 'enablexmlsitemap':
-				case 'user_role-': /* 'user_role' . $role_name . '-not_in_sitemap' fields */
-				case 'post_types-': /* 'post_types-' . $pt->name . '-not_in_sitemap' fields */
-				case 'taxonomies-': /* 'taxonomies-' . $tax->name . '-not_in_sitemap' fields */
+				/* Covers:
+				 *		'disable_author_sitemap':
+				 * 		'disable_author_noposts':
+				 * 		'enablexmlsitemap':
+				 * 		'user_role-':
+				 * 		'user_role' . $role_name . '-not_in_sitemap' fields
+				 * 		'post_types-':
+				 * 		'post_types-' . $pt->name . '-not_in_sitemap' fields
+				 * 		'taxonomies-':
+				 *		'taxonomies-' . $tax->name . '-not_in_sitemap' fields
+				 */
 				default:
 					$clean[ $key ] = ( isset( $dirty[ $key ] ) ? WPSEO_Utils::validate_bool( $dirty[ $key ] ) : false );
 					break;
