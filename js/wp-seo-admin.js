@@ -89,7 +89,7 @@ function copy_home_meta() {
 	jQuery('#og_frontpage_desc').val(jQuery('#meta_description').val());
 }
 
-function set_tab_hash() {
+function wpseo_set_tab_hash() {
 
 	conf = jQuery('#wpseo-conf');
 	if ( conf.length ) {
@@ -102,9 +102,9 @@ function set_tab_hash() {
 /**
  * When the hash changes, get the base url from the action and then add the current hash
  */
-jQuery(window).on('hashchange', set_tab_hash);
+jQuery(window).on('hashchange', wpseo_set_tab_hash);
 
 /**
  * When the hash changes, get the base url from the action and then add the current hash
  */
-jQuery(document).on('ready', set_tab_hash);
+jQuery(document).on('ready', wpseo_set_tab_hash);

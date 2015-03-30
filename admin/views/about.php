@@ -33,7 +33,7 @@ function wpseo_display_contributors( $contributors ) {
 	<div class="about-text">
 		<?php _e( 'On your way to better search rankings!', 'wordpress-seo' ); ?><br/>
 		<br/>
-		<?php _e( 'WordPress SEO by Yoast 2.0 helps you optimize your site by making you ready for Google\'s Knowledge Graph and simplyfing the WordPress SEO by Yoast admin.', 'wordpress-seo' ); ?>
+		<?php _e( 'WordPress SEO by Yoast 2.0 helps you optimize your site by making you ready for Google\'s Knowledge Graph and simplifying the WordPress SEO by Yoast admin.', 'wordpress-seo' ); ?>
 	</div>
 
 	<h2 class="nav-tab-wrapper" id="wpseo-tabs">
