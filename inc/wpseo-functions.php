@@ -10,18 +10,6 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-
-/**
- * Run the upgrade procedures.
- *
- * @todo - [JRF => Yoast] check: if upgrade is run on multi-site installation, upgrade for all sites ?
- * Maybe not necessary as it is now run on plugins_loaded, so upgrade will run as soon as any page
- * on a site is requested.
- */
-function wpseo_do_upgrade() {
-	new WPSEO_Upgrade();
-}
-
 if ( ! function_exists( 'initialize_wpseo_front' ) ) {
 	/**
 	 * Wraps frontend class.

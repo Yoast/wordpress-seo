@@ -218,7 +218,7 @@ function wpseo_init() {
 
 	$options = WPSEO_Options::get_all();
 	if ( version_compare( $options['version'], WPSEO_VERSION, '<' ) ) {
-		wpseo_do_upgrade();
+		new WPSEO_Upgrade();
 		// get a cleaned up version of the $options
 		$options = WPSEO_Options::get_all();
 	}
