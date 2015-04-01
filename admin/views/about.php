@@ -37,8 +37,13 @@ function wpseo_display_contributors( $contributors ) {
 	</div>
 
 	<h2 class="nav-tab-wrapper" id="wpseo-tabs">
-		<a class="nav-tab" href="#top#new" id="new-tab"><?php _e( 'What’s New In 2.0', 'wordpress-seo' ); ?></a>
-		<a class="nav-tab" href="#top#v201" id="v201-tab"><?php _e( '2.0.1', 'wordpress-seo' ); ?></a>
+		<a class="nav-tab" href="#top#new" id="new-tab">
+			<?php
+			/* translators: %s: '2.0' version number */
+			sprintf( _e( 'What’s New In %s', 'wordpress-seo' ), '2.0' );
+			?>
+		</a>
+		<a class="nav-tab" href="#top#v201" id="v201-tab">2.0.1</a>
 		<a class="nav-tab" href="#top#credits" id="credits-tab"><?php _e( 'Credits', 'wordpress-seo' ); ?></a>
 	</h2>
 
@@ -137,13 +142,13 @@ function wpseo_display_contributors( $contributors ) {
 	</div>
 
 	<div id="v201" class="wpseotab">
-		<h2><?php _e( 'WordPress SEO 2.0.1', 'wordpress-seo' ); ?></h2>
-		<p><small><?php _e( 'Release date: April 1st, 2015', 'wordpress-seo' ); ?></small></p>
-		<p><?php _e( 'This update fixes a few small bugs:', 'wordpress-seo' ); ?></p>
+		<h2>WordPress SEO 2.0.1</h2>
+		<p><small>Release date: April 1st, 2015</small></p>
+		<p>This update fixes a few small bugs:</p>
 		<ul class="ul-disc">
-			<li><?php _e( 'Fixes an issue where (in rare cases) people upgrading to 2.0 got stuck in a redirect loop on their admin.', 'wordpress-seo' ); ?></li>
-			<li><?php _e( 'Fixes a broken link in the Dutch translation, causing the Pinterest tab on the Social settings page to overflow into the Google+ tab.', 'wordpress-seo' ); ?></li>
-			<li><?php _e( 'Fixes a small typo on the about page.', 'wordpress-seo' ); ?></li>
+			<li>Fixes an issue where (in rare cases) people upgrading to 2.0 got stuck in a redirect loop on their admin.</li>
+			<li>Fixes a broken link in the Dutch translation, causing the Pinterest tab on the Social settings page to overflow into the Google+ tab.</li>
+			<li>Fixes a small typo on the about page.</li>
 		</ul>
 	</div>
 
