@@ -127,6 +127,7 @@ Release Date: April 1st, 2015
 * Bugfixes:
 	* Fixes an issue where (in rare cases) people upgrading to 2.0 got stuck in a redirect loop on their admin.
 	* Fixes a small typo on the about page.
+	* Fixes a broken link in the Dutch translations.
 
 = 2.0 =
 
