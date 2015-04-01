@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WordPress SEO 2.0.1\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo/issues\n"
-"POT-Creation-Date: 2015-04-01 09:44:38+00:00\n"
+"POT-Creation-Date: 2015-04-01 11:56:00+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -2341,25 +2341,26 @@ msgid ""
 "admin."
 msgstr ""
 
-#: admin/views/about.php:40
-msgid "What’s New"
+#: admin/views/about.php:43
+#. translators: %s: '2.0' version number
+msgid "What’s New In %s"
 msgstr ""
 
-#: admin/views/about.php:41
+#: admin/views/about.php:47
 msgid "Credits"
 msgstr ""
 
-#: admin/views/about.php:46
+#: admin/views/about.php:52
 msgid "Simplified Admin Menus"
 msgstr ""
 
-#: admin/views/about.php:50
+#: admin/views/about.php:56
 msgid ""
 "We’ve merged several menu items to make the most important settings stand "
 "out more."
 msgstr ""
 
-#: admin/views/about.php:52
+#: admin/views/about.php:58
 msgid ""
 "Not all settings are created equal. Some require their own admin page and "
 "really need your attention. Others are more advanced and don’t need "
@@ -2367,48 +2368,48 @@ msgid ""
 "important."
 msgstr ""
 
-#: admin/views/about.php:54
+#: admin/views/about.php:60
 msgid ""
 "Several settings were moved to the %1$sAdvanced page%2$s, the bulk editor, "
 "file editor and import & export tools were all moved to the %3$sTools "
 "page%2$s."
 msgstr ""
 
-#: admin/views/about.php:67
+#: admin/views/about.php:73
 msgid "Ready for Google’s Knowledge Graph"
 msgstr ""
 
-#: admin/views/about.php:73
+#: admin/views/about.php:79
 msgid "Knowledge Graph: We’ve got your back!"
 msgstr ""
 
-#: admin/views/about.php:76
+#: admin/views/about.php:82
 msgid ""
 "Google recently rolled out changes that let you specify you or your "
 "companies name, social profiles and logo<sup>*</sup>, to use in their "
 "%1$sKnowledge Graph%2$s boxes."
 msgstr ""
 
-#: admin/views/about.php:77
+#: admin/views/about.php:83
 msgid ""
 "Decide whether you’re a company or a person and add the required info in "
 "the %1$sgeneral settings%2$s, then add your %3$ssocial profiles%2$s. We’ll "
 "do the rest."
 msgstr ""
 
-#: admin/views/about.php:81
+#: admin/views/about.php:87
 msgid "Logo only works for companies."
 msgstr ""
 
-#: admin/views/about.php:89
+#: admin/views/about.php:95
 msgid "More in this release"
 msgstr ""
 
-#: admin/views/about.php:94
+#: admin/views/about.php:100
 msgid "Twitter Galleries"
 msgstr ""
 
-#: admin/views/about.php:97
+#: admin/views/about.php:103
 msgid ""
 "If you use galleries in your posts and have Twitter meta data enabled on "
 "%1$sSocial → Twitter%2$s, galleries will now be auto-detected and put out "
@@ -2416,81 +2417,81 @@ msgid ""
 "Twitter%2$s."
 msgstr ""
 
-#: admin/views/about.php:103
+#: admin/views/about.php:109
 msgid "Performance Improvements"
 msgstr ""
 
-#: admin/views/about.php:106
+#: admin/views/about.php:112
 msgid ""
 "This release has made the code of WordPress SEO by Yoast that runs on the "
 "frontend of your site approximately 30% faster."
 msgstr ""
 
-#: admin/views/about.php:112
+#: admin/views/about.php:118
 msgid "Improved Settings Screens"
 msgstr ""
 
-#: admin/views/about.php:115
+#: admin/views/about.php:121
 msgid ""
 "All the settings screens have been updated to use exactly the same, "
 "tab-based, styling, making them much more comprehensible."
 msgstr ""
 
-#: admin/views/about.php:121
+#: admin/views/about.php:127
 msgid "More Translations"
 msgstr ""
 
-#: admin/views/about.php:124
+#: admin/views/about.php:130
 msgid ""
 "WordPress SEO by Yoast ships, at time of release, with 26 translations, of "
 "which 10 are complete. That's a huge improvement from last time, and we're "
 "improving every week. Join us at %1$stranslate.yoast.com%2$s!"
 msgstr ""
 
-#: admin/views/about.php:133
+#: admin/views/about.php:139
 msgid "Go to The General settings page →"
 msgstr ""
 
-#: admin/views/about.php:141
+#: admin/views/about.php:158
 msgid ""
 "While most of the development team is at %1$sYoast%2$s in the Netherlands, "
 "WordPress SEO by Yoast is created by a worldwide team."
 msgstr ""
 
-#: admin/views/about.php:143
+#: admin/views/about.php:160
 msgid "Want to help us develop? Read our %1$scontribution guidelines%2$s!"
 msgstr ""
 
-#: admin/views/about.php:147
+#: admin/views/about.php:164
 msgid "Project Leaders"
 msgstr ""
 
-#: admin/views/about.php:153
+#: admin/views/about.php:170
 msgid "Project Lead"
 msgstr ""
 
-#: admin/views/about.php:158 admin/views/about.php:163
+#: admin/views/about.php:175 admin/views/about.php:180
 msgid "Lead Developer"
 msgstr ""
 
-#: admin/views/about.php:168
+#: admin/views/about.php:185
 msgid "QA & Translations Manager"
 msgstr ""
 
-#: admin/views/about.php:176
+#: admin/views/about.php:193
 msgid "Contributing Developers"
 msgstr ""
 
-#: admin/views/about.php:182 admin/views/about.php:187
-#: admin/views/about.php:192 admin/views/about.php:197
+#: admin/views/about.php:199 admin/views/about.php:204
+#: admin/views/about.php:209 admin/views/about.php:214
 msgid "Developer"
 msgstr ""
 
-#: admin/views/about.php:205
+#: admin/views/about.php:222
 msgid "Contributors to this release"
 msgstr ""
 
-#: admin/views/about.php:214
+#: admin/views/about.php:231
 msgid ""
 "We're always grateful for patches from non-regular contributors, this "
 "release, patches from the following people made it in:"

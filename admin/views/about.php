@@ -40,7 +40,7 @@ function wpseo_display_contributors( $contributors ) {
 		<a class="nav-tab" href="#top#new" id="new-tab">
 			<?php
 			/* translators: %s: '2.0' version number */
-			sprintf( _e( 'What’s New In %s', 'wordpress-seo' ), '2.0' );
+			echo sprintf( __( 'What’s New In %s', 'wordpress-seo' ), '2.0' );
 			?>
 		</a>
 		<a class="nav-tab" href="#top#v201" id="v201-tab">2.0.1</a>
