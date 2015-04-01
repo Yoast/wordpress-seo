@@ -138,6 +138,7 @@ function wpseo_display_contributors( $contributors ) {
 
 	<div id="v201" class="wpseotab">
 		<h2><?php _e( 'WordPress SEO 2.0.1', 'wordpress-seo' ); ?></h2>
+		<p><small><?php _e( 'Release date: April 1st, 2015', 'wordpress-seo' ); ?></small></p>
 		<p><?php _e( 'This update fixes a few small bugs:', 'wordpress-seo' ); ?></p>
 		<ul class="ul-disc">
 			<li><?php _e( 'Fixes an issue where (in rare cases) people upgrading to 2.0 got stuck in a redirect loop on their admin.', 'wordpress-seo' ); ?></li>
