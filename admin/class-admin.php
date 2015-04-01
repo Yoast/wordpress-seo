@@ -569,11 +569,11 @@ class WPSEO_Admin {
 	 *
 	 * @deprecated 1.5.0
 	 * @deprecated use wpseo_do_upgrade()
-	 * @see        wpseo_do_upgrade()
+	 * @see        WPSEO_Upgrade
 	 */
 	function maybe_upgrade() {
 		_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'wpseo_do_upgrade' );
-		wpseo_do_upgrade();
+		new WPSEO_Upgrade();
 	}
 
 	/**
