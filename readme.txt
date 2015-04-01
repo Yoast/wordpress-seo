@@ -122,11 +122,11 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 
 = 2.0.1 =
 
+Release Date: April 1st, 2015
+
 * Bugfixes:
 	* Fixes an issue where (in rare cases) people upgrading to 2.0 got stuck in a redirect loop on their admin.
 	* Fixes a small typo on the about page.
-
-Release Date: April 1st, 2015
 
 = 2.0 =
 
