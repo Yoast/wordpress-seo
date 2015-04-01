@@ -2,9 +2,9 @@
 # This file is distributed under the GPL v3.
 msgid ""
 msgstr ""
-"Project-Id-Version: WordPress SEO 2.0\n"
+"Project-Id-Version: WordPress SEO 2.0.1\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo/issues\n"
-"POT-Creation-Date: 2015-03-26 14:25:05+00:00\n"
+"POT-Creation-Date: 2015-04-01 09:28:33+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -2337,7 +2337,7 @@ msgstr ""
 #: admin/views/about.php:36
 msgid ""
 "WordPress SEO by Yoast 2.0 helps you optimize your site by making you ready "
-"for Google's Knowledge Graph and simplyfing the WordPress SEO by Yoast "
+"for Google's Knowledge Graph and simplifying the WordPress SEO by Yoast "
 "admin."
 msgstr ""
 
@@ -2907,11 +2907,11 @@ msgstr ""
 #: frontend/class-frontend.php:516 frontend/class-frontend.php:519
 #: frontend/class-frontend.php:522 frontend/class-frontend.php:537
 #: frontend/class-frontend.php:540 frontend/class-frontend.php:543
-#: inc/class-wpseo-options.php:1516
+#: inc/class-wpseo-options.php:1519
 msgid "%s Archives"
 msgstr ""
 
-#: frontend/class-frontend.php:556 inc/class-wpseo-options.php:1468
+#: frontend/class-frontend.php:556 inc/class-wpseo-options.php:1471
 msgid "Page not found"
 msgstr ""
 
@@ -2930,83 +2930,83 @@ msgstr ""
 msgid "%s does not seem to be a valid url. Please correct."
 msgstr ""
 
-#: inc/class-wpseo-options.php:1466
+#: inc/class-wpseo-options.php:1469
 msgid "%s, Author at %s"
 msgstr ""
 
-#: inc/class-wpseo-options.php:1467
+#: inc/class-wpseo-options.php:1470
 msgid "You searched for %s"
 msgstr ""
 
-#: inc/class-wpseo-options.php:1500
+#: inc/class-wpseo-options.php:1503
 msgid "%s Archive"
 msgstr ""
 
-#: inc/class-wpseo-options.php:1915
+#: inc/class-wpseo-options.php:1918
 msgid "The post %s appeared first on %s."
 msgstr ""
 
-#: inc/class-wpseo-options.php:2003
+#: inc/class-wpseo-options.php:2006
 msgid "Error 404: Page not found"
 msgstr ""
 
-#: inc/class-wpseo-options.php:2004
+#: inc/class-wpseo-options.php:2007
 msgid "Archives for"
 msgstr ""
 
-#: inc/class-wpseo-options.php:2005
+#: inc/class-wpseo-options.php:2008
 msgid "Home"
 msgstr ""
 
-#: inc/class-wpseo-options.php:2006
+#: inc/class-wpseo-options.php:2009
 msgid "You searched for"
 msgstr ""
 
-#: inc/class-wpseo-options.php:2098
+#: inc/class-wpseo-options.php:2101
 msgid "Please select a valid taxonomy for post type \"%s\""
 msgstr ""
 
-#: inc/class-wpseo-options.php:2135
+#: inc/class-wpseo-options.php:2138
 msgid "Please select a valid post type for taxonomy \"%s\""
 msgstr ""
 
-#: inc/class-wpseo-options.php:2448
+#: inc/class-wpseo-options.php:2451
 msgid ""
 "\"Max entries per sitemap page\" should be a positive number, which %s is "
 "not. Please correct."
 msgstr ""
 
-#: inc/class-wpseo-options.php:2618
+#: inc/class-wpseo-options.php:2621
 msgid "Summary"
 msgstr ""
 
-#: inc/class-wpseo-options.php:2619
+#: inc/class-wpseo-options.php:2622
 msgid "Summary with large image"
 msgstr ""
 
-#: inc/class-wpseo-options.php:2772
+#: inc/class-wpseo-options.php:2775
 msgid "%s does not seem to be a valid Twitter user-id. Please correct."
 msgstr ""
 
-#: inc/class-wpseo-options.php:3021
+#: inc/class-wpseo-options.php:3024
 msgid ""
 "%s is not a valid choice for who should be allowed access to the WP SEO "
 "settings. Value reset to the default."
 msgstr ""
 
-#: inc/class-wpseo-options.php:3041 inc/class-wpseo-options.php:3051
+#: inc/class-wpseo-options.php:3044 inc/class-wpseo-options.php:3054
 msgid ""
 "The default blog setting must be the numeric blog id of the blog you want "
 "to use as default."
 msgstr ""
 
-#: inc/class-wpseo-options.php:3041
+#: inc/class-wpseo-options.php:3044
 msgid ""
 "This must be an existing blog. Blog %s does not exist or has been marked as "
 "deleted."
 msgstr ""
 
-#: inc/class-wpseo-options.php:3051
+#: inc/class-wpseo-options.php:3054
 msgid "No numeric value was received."
 msgstr ""
 
