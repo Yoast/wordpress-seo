@@ -1,0 +1,27 @@
+{
+  "name": "Yoast text analysis",
+  "description": "Yoast clientside page analysis",
+  "homepage": "github.com/Yoast/",
+  "keywords": [
+    "Yoast",
+    "SEO",
+    "text analysis"
+  ],
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Yoast/js-text-analysis"
+  },
+  "scripts": {
+    "test": "jasmine"
+  },
+  "bin": {
+    "jasmine": "./bin/jasmine.js"
+  },
+  "devDependencies": {
+    "jasmine": "~2.2.1"
+  },
+  "bugs": {
+    "url": "https://github.com/Yoast/js-text-analysis/issues"
+  }
+}
