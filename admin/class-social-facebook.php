@@ -29,10 +29,8 @@ class Yoast_Social_Facebook {
 	 *
 	 * @return string
 	 */
-	public function __toString() {
-		$Form = new Yoast_Social_Facebook_Form();
-
-		return $Form->Output();
+	public function show_form() {
+		echo new Yoast_Social_Facebook_Form();
 	}
 
 	/**
@@ -221,7 +219,7 @@ class Yoast_Social_Facebook_Form {
 	 *
 	 * @return string
 	 */
-	public function output() {
+	public function __toString() {
 		return $this->output;
 	}
 

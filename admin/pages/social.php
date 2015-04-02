@@ -12,6 +12,8 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 
 $yform = Yoast_Form::get_instance();
 
+$social_facebook = new Yoast_Social_Facebook( );
+
 $yform->admin_header( true, 'wpseo_social' );
 ?>
 
@@ -51,7 +53,7 @@ $yform->admin_header( true, 'wpseo_social' );
 			<?php _e( 'Add Open Graph meta data to your site\'s <code>&lt;head&gt;</code> section. You can specify some of the ID\'s that are sometimes needed below:', 'wordpress-seo' ); ?>
 		</p>
 		<?php
-		echo new Yoast_Social_Facebook( );
+		$social_facebook->show_form();
 
 		if ( 'posts' == get_option( 'show_on_front' ) ) {
 			echo '<h4>' . esc_html__( 'Frontpage settings', 'wordpress-seo' ) . '</h4>';
