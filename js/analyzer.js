@@ -10,59 +10,115 @@ Analyzer = function (args){
 };
 
 Analyzer.prototype.init = function() {
-//preprocessor
-    this.active = false;
-    if (typeof this.queue != 'Array') {
-        this.queue = [];
-    }
+
+    //init preprocessor if not exists
     if (typeof yst_pp != 'object' || yst_pp.inputText != this.config.textString) {
         yst_pp = new PreProcessor(this.config.textString);
     }
+
+    //if no available function queues, make new queue
+    if (typeof this.queue != 'Array') {
+        this.queue = [];
+    }
+
+    //if custom queue available load queue, otherwise load default queue.
     if(typeof this.config.queue != 'undefined' && this.config.queue.length != 0){
         this.queue = this.config.queue;
     }else{
-        //defaultqueue
-        this.queue = ['foo', 'bar', 'zoiks', 'narf'];
+        this.queue = ['keywordDensity', 'subheaderChecker'];
     }
+
+    //set default variables
+    this.keywordRegex = new RegExp(this.config.keyword);
     this._output = [];
-    //this.runQ();
 }
 
-Analyzer.prototype.runQ = function(){
+/* function queuer */
+Analyzer.prototype.runQueue = function(){
     //remove first function from queue and execute it.
     if(this.queue.length > 0){
-        this[this.queue.shift()]();
+        this._output.push(this[this.queue.shift()]());
+        this.runQueue();
     }
 };
 
-Analyzer.prototype.abortQ = function(){
+Analyzer.prototype.abortQueue = function(){
     //empty current Queue
     this.queue = [];
 };
 
+/*keyword density checker*/
 Analyzer.prototype.keywordDensity = function(){
-
+    if(yst_pp._store.wordcount >= 100) {
+        var keywordMatches = yst_pp._store.cleanText.match(new RegExp(this.config.keyword, 'g'));
+        if ( keywordMatches != null ) {
+            var keywordCount = keywordMatches.length;
+            var keywordDensity = (keywordCount / yst_pp._store.wordcount - (keywordCount - 1 * keywordCount)) * 100;
+        } else {
+            var keywordDensity = 0;
+        }
+        switch (true) {
+            case (keywordDensity < 1):
+                var rating =  4;
+                break;
+            case (keywordDensity > 4.5):
+                var rating = -50;
+                break;
+            default:
+                var rating = 9;
+                break;
+        }
+        result = {name: 'keywordDensity', result: {keywordDensity: keywordDensity.toFixed(1) }, rating: rating};
+    }else{
+        result = {name: 'keywordDensity', result: null, rating: null};
+    }
+    return result;
 };
 
-//foo testfunc
-Analyzer.prototype.foo = function(){
-    this._output.push({name: 'foo', result: 'foo output', rating: 23});
-    this.runQ();
-};
+/*subheader checker*/
+Analyzer.prototype.subheaderChecker = function() {
 
-//bar testfunc
-Analyzer.prototype.bar = function(){
-    this.runQ();
-};
-//zoiks testfunc
-Analyzer.prototype.zoiks = function(){
-    this.runQ();
-};
+    //regex for headers
+    var headers = yst_pp._store.cleanTextSomeTags.match(/<h([1-6])(?:[^>]+)?>(.*?)<\/h\1>/g);
+    if(headers == null){
+       result = {name: 'subHeadings', result: null, rating: 7};
+    }else {
+        var foundInHeader = 0;
+        for (var i = 0; i < headers.length; i++) {
+            var formattedHeaders = this.stripSeperators(headers[i], true);
+            var formattedHeadersKeywords = this.stripSeperators(headers[i], false);
+            if (formattedHeaders.match(new RegExp(this.config.keyword, 'g')) || formattedHeadersKeywords.match(new RegExp(this.config.keyword, 'g'))) {
+                foundInHeader++;
+            }
+        }
+        if (foundInHeader > 0) {
+            var result = {keywordFound: foundInHeader, numberofHeaders: headers.length};
+            var rating = 9;
+        }else{
+            var result = {keywordFound: 0, numberofHeaders: headers.length}
+            var rating = 7;
+        }
+        result = {name: 'subHeadings', result: result, rating: rating};
+    }
+    return result;
+}
 
-//narf testfunc
-Analyzer.prototype.narf = function(){
-    this.runQ();
-};
+/*helper functions*/
+
+/* strip seperators and certain keywords */
+Analyzer.prototype.stripSeperators = function(textString, removeOptionalCharacters){
+    //words to remove
+    var wordsToRemove = [' a', ' in', ' an', ' on', ' for', ' the', ' and'];
+    var wordString = '';
+    for (var i = 0; i < wordsToRemove.length; i++){
+        if(wordString.length > 0){ wordString += '|'; }
+        wordString += '('+wordsToRemove[i]+')\\b';
+    }
+    var wordsRegex = new RegExp(wordString, 'g');
+    textString =  textString.replace(wordsRegex, '');
+    //remove double space
+    return textString.replace(/ {2,}/g, ' ');
+}
 
 /*text preprocessor*/
 PreProcessor = function (text){
@@ -80,10 +136,10 @@ PreProcessor.prototype.init = function(){
 }
 
 PreProcessor.prototype.cleanText = function(){
-    tmpStr = this._store.origText;
-    tmpStr = tmpStr.toLowerCase();
+    var tmpStr = this._store.origText;
+    tmpStr = tmpStr.toLocaleLowerCase();
     //replace comma', hyphens etc with spaces
-    tmpStr = tmpStr.replace(/[-;:,()"']/g, ' ');
+    tmpStr = tmpStr.replace(/[-;:,()"'|“”]/g, ' ');
     //unify all terminators
     tmpStr = tmpStr.replace(/[.?!]/g, '.');
     //add period in case it is missing
@@ -121,6 +177,6 @@ PreProcessor.prototype.cleanText = function(){
 }
 
 PreProcessor.prototype.wordcount = function(){
-    this._store.wordcount = this._store.cleanText.split(" ").length;
-    this._store.wordcountNoTags = this._store.cleanTextNoTags.split(" ").length;
+    this._store.wordcount = this._store.cleanText.split(' ').length;
+    this._store.wordcountNoTags = this._store.cleanTextNoTags.split(' ').length;
 }
