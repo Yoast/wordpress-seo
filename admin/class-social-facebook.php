@@ -44,7 +44,7 @@ class Yoast_Social_Facebook {
 			$this->clear_all();
 		}
 		elseif ( $key = filter_input( INPUT_GET, 'key' ) ) {
-			$this->handle_key( $key );
+			$this->handle_user( $key );
 		}
 	}
 
@@ -99,7 +99,7 @@ class Yoast_Social_Facebook {
 	 *
 	 * @param string $key_value
 	 */
-	private function handle_key( $key_value ) {
+	private function handle_user( $key_value ) {
 		if ( $key_value === $this->options['fbconnectkey'] && $user_id = filter_input( INPUT_GET, 'userid', FILTER_CALLBACK, array( 'options' => 'sanitize_text_field' ) ) ) {
 			if ( ! isset( $this->options['fb_admins'][ $user_id ] ) ) {
 				$this->options['fb_admins'][ $user_id ]['name'] = sanitize_text_field( urldecode( filter_input( INPUT_GET, 'userrealname' ) ) );
