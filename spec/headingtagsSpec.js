@@ -9,7 +9,7 @@ headingArgs = {
     queue: ["subheaderChecker"]
 };
 
-describe("subheading analyzer", function(){
+describe("test for the subheader analyzer with no matching keywords in the headings", function(){
     it("returns header score - no keyword", function(){
         var headerAnalyzer = new Analyzer(headingArgs);
         headerAnalyzer.runQueue();
@@ -24,7 +24,7 @@ headingArgs2 = {
     queue: ["subheaderChecker"]
 }
 
-describe("subheading analyzer", function(){
+describe("test for the subheader analyzer with a single matching keyword in the headings", function(){
     it("returns header score - 1 keyword", function(){
         var headerAnalyzer = new Analyzer(headingArgs2);
         headerAnalyzer.runQueue();
@@ -39,7 +39,7 @@ headingArgs3 = {
     queue: ["subheaderChecker"]
 }
 
-describe("subheading analyzer", function(){
+describe("test for the subheader analyzer where there are no subheadings", function(){
     it("returns header score - no headers", function(){
         var headerAnalyzer = new Analyzer(headingArgs3);
         headerAnalyzer.runQueue();

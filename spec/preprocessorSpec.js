@@ -10,7 +10,7 @@ expectedOutput = {
     cleanTextNoTags: "dit is een standaard tekst test1 test2 test3 test4 met veel caps spaties tekens en andere overbodige meuk. het aantal woorden is negentien."
 };
 
-describe("preprocessor flattext output", function(){
+describe("Test for the preprocessor that formats text for the analyzer", function(){
     preproc = new PreProcessor(args.testString);
     it("returns processed clean text", function(){
         expect(preproc._store.cleanText).toBe(expectedOutput.cleanText);
