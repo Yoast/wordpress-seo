@@ -1,5 +1,12 @@
 <?php
+/**
+ * @package    WPSEO
+ * @subpackage Admin
+ */
 
+/**
+ * The Facebook insights class, this will add some listeners to fetch GET params
+ */
 class Yoast_Social_Facebook {
 
 	/**
@@ -159,6 +166,9 @@ class Yoast_Social_Facebook {
 
 }
 
+/**
+ * This will display the HTML for the facebook insights part
+ */
 class Yoast_Social_Facebook_Form {
 
 	/**
