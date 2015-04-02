@@ -2,13 +2,16 @@
 
 class Yoast_Social_Facebook {
 
+	/**
+	 * @var array	- The options for social
+	 */
 	private $options;
 
 	/**
 	 * Setting the options and define the listener to fetch $_GET values
 	 *
 	 */
-	public function __construct( ) {
+	public function __construct() {
 		$this->options = get_option( 'wpseo_social' );
 
 		$this->get_listener();
@@ -26,27 +29,31 @@ class Yoast_Social_Facebook {
 	}
 
 	/**
+	 *	This method will hook into the defined get params
 	 *
 	 */
 	private function get_listener() {
 		if ( $delfbadmin = filter_input( INPUT_GET, 'delfbadmin' ) ) {
 			$this->delete_admin( $delfbadmin );
-		}
-		elseif ( filter_input( INPUT_GET, 'fbclearall' ) ) {
-			$this->clear_all( );
-		}
-		elseif ( $key = filter_input( INPUT_GET, 'key' ) ) {
+		} elseif ( filter_input( INPUT_GET, 'fbclearall' ) ) {
+			$this->clear_all();
+		} elseif ( $key = filter_input( INPUT_GET, 'key' ) ) {
 			$this->handle_key( $key );
 		}
 	}
 
+	/**
+	 * Deletes the admin from the options
+	 *
+	 * @param string $delfbadmin
+	 */
 	private function delete_admin( $delfbadmin ) {
 		$this->verify_nonce( 'delfbadmin' );
 
-		$id = sanitize_text_field( $delfbadmin );
-		if ( isset( $this->options['fb_admins'][ $id ] ) ) {
-			$fbadmin = $this->options['fb_admins'][ $id ]['name'];
-			unset( $this->options['fb_admins'][ $id ] );
+		$admin_id = sanitize_text_field( $delfbadmin );
+		if ( isset( $this->options['fb_admins'][$admin_id] ) ) {
+			$fbadmin = $this->options['fb_admins'][$admin_id]['name'];
+			unset( $this->options['fb_admins'][$admin_id] );
 
 			$this->save_options();
 			$this->success_notice( sprintf( __( 'Successfully removed admin %s', 'wordpress-seo' ), $fbadmin ) );
@@ -54,7 +61,7 @@ class Yoast_Social_Facebook {
 			unset( $fbadmin );
 		}
 
-		unset( $id );
+		unset( $admin_id );
 
 		// Clean up the referrer url for later use
 		if ( filter_input( INPUT_SERVER, 'REQUEST_URI' ) ) {
@@ -62,6 +69,10 @@ class Yoast_Social_Facebook {
 		}
 	}
 
+	/**
+	 * Clear all the facebook that has been set already
+	 *
+	 */
 	private function clear_all() {
 		$this->verify_nonce( 'fbclearall' );
 
@@ -79,6 +90,11 @@ class Yoast_Social_Facebook {
 		}
 	}
 
+	/**
+	 * Adding a new facebook admin
+	 *
+	 * @param string $key_value
+	 */
 	private function handle_key( $key_value ) {
 		if ( $key_value === $this->options['fbconnectkey'] && $user_id = filter_input( INPUT_GET, 'userid', FILTER_CALLBACK, array( 'options' => 'sanitize_text_field' ) ) ) {
 			if ( ! isset( $this->options['fb_admins'][$user_id] ) ) {
@@ -102,7 +118,10 @@ class Yoast_Social_Facebook {
 		}
 	}
 
-	private function cleanup_referrer_url( ) {
+	/**
+	 * Clean up the request_uri. The given params are the params that will be removed from the URL
+	 */
+	private function cleanup_referrer_url() {
 		$_SERVER['REQUEST_URI'] = remove_query_arg(
 			func_get_args(),
 			filter_input(
@@ -111,20 +130,32 @@ class Yoast_Social_Facebook {
 		);
 	}
 
+	/**
+	 * When something is going well, show a success notice
+	 *
+	 * @param string $notice_text
+	 */
 	private function success_notice( $notice_text ) {
 		add_settings_error( 'yoast_wpseo_social_options', 'success', $notice_text, 'updated' );
 	}
 
+	/**
+	 * Verify the nonce from the URL with the saved nonce
+	 *
+	 * @param string $nonce_name
+	 */
 	private function verify_nonce( $nonce_name ) {
-		if ( wp_verify_nonce( $_GET['nonce'], $nonce_name ) != 1 ) {
+		if ( wp_verify_nonce( filter_input( INPUT_GET, 'nonce' ), $nonce_name ) != 1 ) {
 			die( "I don't think that's really nice of you!." );
 		}
 	}
 
+	/**
+	 * Saving the options
+	 */
 	private function save_options() {
 		update_option( 'wpseo_social', $this->options );
 	}
-
 
 }
 
