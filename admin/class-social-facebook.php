@@ -27,7 +27,6 @@ class Yoast_Social_Facebook {
 	/**
 	 * Returns the output from the form class
 	 *
-	 * @return string
 	 */
 	public function show_form() {
 		echo new Yoast_Social_Facebook_Form();
