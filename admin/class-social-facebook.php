@@ -29,7 +29,8 @@ class Yoast_Social_Facebook {
 	 *
 	 */
 	public function show_form() {
-		echo new Yoast_Social_Facebook_Form();
+		$form = new Yoast_Social_Facebook_Form();
+		$form->show_form();
 	}
 
 	/**
@@ -183,19 +184,14 @@ class Yoast_Social_Facebook_Form {
 	private $options;
 
 	/**
-	 * @var string	- The HTML output string
-	 */
-	private $output = '';
-
-	/**
 	 * @var array	- The repository for the buttons that will be shown
 	 */
 	private $buttons = array();
 
 	/**
-	 * @var string 	- The app button text
+	 * @var string	- The URL to link to
 	 */
-	private $app_button_text;
+	private $admin_url = 'admin.php?page=wpseo_social';
 
 	/**
 	 * Setting the options and call the methods to display everything
@@ -203,12 +199,6 @@ class Yoast_Social_Facebook_Form {
 	 */
 	public function __construct() {
 		$this->options = get_option( 'wpseo_social' );
-
-		$this
-			->form_head()
-			->app_admin()
-			->user_admin()
-			->show_buttons();
 	}
 
 	/**
@@ -216,8 +206,12 @@ class Yoast_Social_Facebook_Form {
 	 *
 	 * @return string
 	 */
-	public function __toString() {
-		return $this->output;
+	public function show_form() {
+		$this
+			->form_head()
+			->user_admin()
+			->show_buttons()
+			->app_admin();
 	}
 
 	/**
@@ -226,42 +220,15 @@ class Yoast_Social_Facebook_Form {
 	 * @return $this
 	 */
 	private function form_head() {
-		$this->output = '<p><strong>' . esc_html__( 'Facebook Insights and Admins', 'wordpress-seo' ) . '</strong><br />';
-		$this->output .= sprintf(
+		echo '<p><strong>' . esc_html__( 'Facebook Insights and Admins', 'wordpress-seo' ) . '</strong><br />';
+		echo sprintf(
 			esc_html__(
 				'To be able to access your %sFacebook Insights%s for your site, you need to specify a Facebook Admin. This can be a user, but if you have an app for your site, you could use that. For most people a user will be "good enough" though.', 'wordpress-seo'
 			),
 			'<a href="https://www.facebook.com/insights">',
 			'</a>'
 		);
-		$this->output .= '</p>';
-
-		return $this;
-	}
-
-	/**
-	 * Show selectbox with the facebook apps to choose them as an admin
-	 *
-	 * @return $this
-	 */
-	private function app_admin() {
-
-		$this->app_button_text = __( 'Use a Facebook App as Admin', 'wordpress-seo' );
-		if ( is_array( $this->options['fbapps'] ) && $this->options['fbapps'] !== array() ) {
-			// @todo [JRF => whomever] use WPSEO_Admin_Pages->select() method ?
-			$this->output .= '<p>' . __( 'Select an app to use as Facebook admin:', 'wordpress-seo' ) . '</p>';
-			$this->output .= '<select name="wpseo_social[fbadminapp]" id="fbadminapp">';
-
-			foreach ( $this->options['fbapps'] as $id => $app ) {
-				$this->output .= '<option value="' . esc_attr( $id ) . '" ' . selected( $id, $this->options['fbadminapp'], false ) . '>' . esc_attr( $app ) . '</option>';
-			}
-			unset( $id, $app );
-
-			$this->output .= '</select>';
-			$this->output .= '<div class="clear"></div><br/>';
-
-			$this->app_button_text = __( 'Update Facebook Apps', 'wordpress-seo' );
-		}
+		echo'</p>';
 
 		return $this;
 	}
@@ -272,11 +239,6 @@ class Yoast_Social_Facebook_Form {
 	 * @return $this
 	 */
 	private function user_admin() {
-		// If there is an app as fb-admin just get out of this method
-		if ( $this->options['fbadminapp'] !== 0 ) {
-			return $this;
-		}
-
 		$button_text = __( 'Add Facebook Admin', 'wordpress-seo' );
 		$primary     = true;
 
@@ -285,21 +247,32 @@ class Yoast_Social_Facebook_Form {
 			$button_text = __( 'Add Another Facebook Admin', 'wordpress-seo' );
 			$primary     = false;
 
-			$this->output .= '<p>' . __( 'Currently connected Facebook admins:', 'wordpress-seo' ) . '</p>';
-			$this->output .= '<ul>';
-
-			$this->show_user_admins( $nonce );
-
-			$this->output .= '</ul>';
+			echo '<p>' . __( 'Currently connected Facebook admins:', 'wordpress-seo' ) . '</p>';
+			echo '<ul>';
+				$this->show_user_admins( $nonce );
+			echo '</ul>';
 
 			unset( $admin_id, $admin, $nonce );
 		}
 
 		$this->add_button(
-			'https://theme.dev/fb-connect/?key=' . urlencode( $this->options['fbconnectkey'] ) . '&redirect=' . urlencode( admin_url( 'admin.php?page=wpseo_social' ) ),
+			'https://yoast.com/fb-connect/?key=' . urlencode( $this->options['fbconnectkey'] ) . '&redirect=' . urlencode( admin_url( $this->admin_url ) ),
 			$button_text,
-			( $primary ) ? '-primary' : ''
+			( $primary ) ? '-primary' : '',
+			true
 		);
+
+		return $this;
+	}
+
+	/**
+	 * Show selectbox with the facebook apps to choose them as an admin
+	 *
+	 * @return $this
+	 */
+	private function app_admin() {
+		echo '<div class="clear"></div><br />';
+		Yoast_Form::get_instance()->textinput( 'fbadminapp', __( 'Facebook APP id', 'wordpress-seo' ) );
 
 		return $this;
 	}
@@ -311,8 +284,8 @@ class Yoast_Social_Facebook_Form {
 	 */
 	private function show_user_admins( $nonce ) {
 		foreach ( $this->options['fb_admins'] as $admin_id => $admin ) {
-			$this->output .= '<li><a href="' . esc_url( $admin['link'] ) . '">' . esc_html( $admin['name'] ) . '</a>';
-			$this->output .= ' - <strong><a href="' . $this->admin_delete_link( $admin_id, $nonce ) . '">X</a></strong></li>';
+			echo '<li><a href="' . esc_url( $admin['link'] ) . '">' . esc_html( $admin['name'] ) . '</a>';
+			echo ' - <strong><a href="' . $this->admin_delete_link( $admin_id, $nonce ) . '">X</a></strong></li>';
 		}
 	}
 
@@ -331,7 +304,7 @@ class Yoast_Social_Facebook_Form {
 					'delfbadmin' => esc_attr( $admin_id ),
 					'nonce'      => $nonce,
 				),
-				admin_url( 'admin.php?page=wpseo_social' )
+				admin_url( $this->admin_url . '#top#facebook' )
 			)
 		);
 	}
@@ -342,31 +315,28 @@ class Yoast_Social_Facebook_Form {
 	 * @param string $button_url
 	 * @param string $button_value
 	 * @param string $button_class
+	 * @param string $button_id
 	 */
-	private function add_button( $button_url, $button_value, $button_class = '' ) {
-		$this->buttons[] = '<a class="button' . esc_attr( $button_class ) . '" href="' . esc_url( $button_url ) . '">' . esc_html( $button_value ) . '</a>';
+	private function add_button( $button_url, $button_value, $button_class = '', $button_id = '' ) {
+		$this->buttons[] = '<a id="' .esc_attr( $button_id ). '" class="button' . esc_attr( $button_class ) . '" href="' . esc_url( $button_url ) . '">' . esc_html( $button_value ) . '</a>';
 	}
 
 	/**
 	 * Showing the buttons
 	 */
 	private function show_buttons() {
-		$this->add_button(
-			'https://theme.dev/fb-connect/?key=' . urlencode( $this->options['fbconnectkey'] ) . '&type=app&redirect=' . urlencode( admin_url( 'admin.php?page=wpseo_social' ) ),
-			$this->app_button_text
-		);
-
-
 		if ( $this->get_clearall() ) {
 			$this->add_button(
-				esc_url( add_query_arg( array( 'nonce' => wp_create_nonce( 'fbclearall' ), 'fbclearall' => 'true', ), admin_url( 'admin.php?page=wpseo_social' ) ) ),
+				esc_url( add_query_arg( array( 'nonce' => wp_create_nonce( 'fbclearall' ), 'fbclearall' => 'true', ), admin_url( $this->admin_url . '#top#facebook' ) ) ),
 				__( 'Clear all Facebook Data', 'wordpress-seo' )
 			);
 		}
 
 		if ( is_array( $this->buttons ) && $this->buttons !== array() ) {
-			$this->output .= '<p class="fb-buttons">' . implode( '', $this->buttons ) . '</p>';
+			echo '<p class="fb-buttons">' . implode( '', $this->buttons ) . '</p>';
 		}
+
+		return $this;
 	}
 
 	/**
@@ -375,15 +345,7 @@ class Yoast_Social_Facebook_Form {
 	 * @return bool
 	 */
 	private function get_clearall() {
-		if ( is_array( $this->options['fb_admins'] ) && $this->options['fb_admins'] !== array() ) {
-			return true;
-		}
-
-		if ( is_array( $this->options['fbapps'] ) && $this->options['fbapps'] !== array() ) {
-			return true;
-		}
-
-		return false;
+		return is_array( $this->options['fb_admins'] ) && $this->options['fb_admins'] !== array();
 	}
 
 }
