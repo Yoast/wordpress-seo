@@ -203,8 +203,6 @@ class Yoast_Social_Facebook_Form {
 
 	/**
 	 * Returns the output-property
-	 *
-	 * @return string
 	 */
 	public function show_form() {
 		$this
