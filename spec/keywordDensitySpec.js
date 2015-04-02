@@ -13,7 +13,7 @@ describe("A keyword density test with a good amount of occurences of the keyword
     it("returns keyword density - good", function(){
         var textAnalyzerDensity = new Analyzer(keywordArgs);
         textAnalyzerDensity.runQueue();
-        expect(textAnalyzerDensity._output[0].result.keywordDensity).toBe(3.2);
+        expect(textAnalyzerDensity._output[0].result.keywordDensity).toContain(3.2);
         expect(textAnalyzerDensity._output[0].rating).toBe(9);
     })
 });
