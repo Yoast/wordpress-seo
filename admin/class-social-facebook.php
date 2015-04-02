@@ -42,9 +42,11 @@ class Yoast_Social_Facebook {
 	private function get_listener() {
 		if ( $delfbadmin = filter_input( INPUT_GET, 'delfbadmin' ) ) {
 			$this->delete_admin( $delfbadmin );
-		} elseif ( filter_input( INPUT_GET, 'fbclearall' ) ) {
+		}
+		elseif ( filter_input( INPUT_GET, 'fbclearall' ) ) {
 			$this->clear_all();
-		} elseif ( $key = filter_input( INPUT_GET, 'key' ) ) {
+		}
+		elseif ( $key = filter_input( INPUT_GET, 'key' ) ) {
 			$this->handle_key( $key );
 		}
 	}
@@ -58,9 +60,9 @@ class Yoast_Social_Facebook {
 		$this->verify_nonce( 'delfbadmin' );
 
 		$admin_id = sanitize_text_field( $delfbadmin );
-		if ( isset( $this->options['fb_admins'][$admin_id] ) ) {
-			$fbadmin = $this->options['fb_admins'][$admin_id]['name'];
-			unset( $this->options['fb_admins'][$admin_id] );
+		if ( isset( $this->options['fb_admins'][ $admin_id ] ) ) {
+			$fbadmin = $this->options['fb_admins'][ $admin_id ]['name'];
+			unset( $this->options['fb_admins'][ $admin_id ] );
 
 			$this->save_options();
 			$this->success_notice( sprintf( __( 'Successfully removed admin %s', 'wordpress-seo' ), $fbadmin ) );
@@ -104,16 +106,25 @@ class Yoast_Social_Facebook {
 	 */
 	private function handle_key( $key_value ) {
 		if ( $key_value === $this->options['fbconnectkey'] && $user_id = filter_input( INPUT_GET, 'userid', FILTER_CALLBACK, array( 'options' => 'sanitize_text_field' ) ) ) {
+			$current_user =
 			if ( ! isset( $this->options['fb_admins'][$user_id] ) ) {
 				$this->options['fb_admins'][$user_id]['name'] = sanitize_text_field( urldecode( filter_input( INPUT_GET, 'userrealname' ) ) );
 				$this->options['fb_admins'][$user_id]['link'] = sanitize_text_field( urldecode( filter_input( INPUT_GET, 'link' ) ) );
 
 				$this->save_options();
 				$this->success_notice(
-					sprintf( __( 'Successfully added %s as a Facebook Admin!', 'wordpress-seo' ), '<a href="' . esc_url( $this->options['fb_admins'][$user_id]['link'] ) . '">' . esc_html( $this->options['fb_admins'][$user_id]['name'] ) . '</a>' )
+					sprintf( __( 'Successfully added %s as a Facebook Admin!', 'wordpress-seo' ), '<a href="' . esc_url( $this->options['fb_admins'][ $user_id ]['link'] ) . '">' . esc_html( $this->options['fb_admins'][ $user_id ]['name'] ) . '</a>' )
 				);
 			} else {
-				add_settings_error( 'yoast_wpseo_social_options', 'error', sprintf( __( '%s already exists as a Facebook Admin.', 'wordpress-seo' ), '<a href="' . esc_url( $this->options['fb_admins'][$user_id]['link'] ) . '">' . esc_html( $this->options['fb_admins'][$user_id]['name'] ) . '</a>' ), 'error' );
+				add_settings_error(
+					'yoast_wpseo_social_options',
+					'error',
+					sprintf(
+						__( '%s already exists as a Facebook Admin.', 'wordpress-seo' ),
+						'<a href="' . esc_url( $this->options['fb_admins'][ $user_id ]['link'] ) . '">' . esc_html( $this->options['fb_admins'][ $user_id ]['name'] ) . '</a>'
+					),
+					'error'
+				);
 			}
 
 			unset( $user_id );
