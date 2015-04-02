@@ -114,7 +114,8 @@ class Yoast_Social_Facebook {
 				$this->success_notice(
 					sprintf( __( 'Successfully added %s as a Facebook Admin!', 'wordpress-seo' ), '<a href="' . esc_url( $this->options['fb_admins'][ $user_id ]['link'] ) . '">' . esc_html( $this->options['fb_admins'][ $user_id ]['name'] ) . '</a>' )
 				);
-			} else {
+			}
+			else {
 				add_settings_error(
 					'yoast_wpseo_social_options',
 					'error',
