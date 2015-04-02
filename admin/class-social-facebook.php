@@ -84,8 +84,6 @@ class Yoast_Social_Facebook {
 
 		// Reset to defaults, don't unset as otherwise the old values will be retained
 		$this->options['fb_admins']  = WPSEO_Options::get_default( 'wpseo_social', 'fb_admins' );
-		$this->options['fbapps']     = WPSEO_Options::get_default( 'wpseo_social', 'fbapps' );
-		$this->options['fbadminapp'] = WPSEO_Options::get_default( 'wpseo_social', 'fbadminapp' );
 
 		$this->save_options();
 		$this->success_notice( __( 'Successfully cleared all Facebook Data', 'wordpress-seo' ) );
