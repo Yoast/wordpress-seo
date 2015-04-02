@@ -94,7 +94,7 @@ Analyzer.prototype.subheaderChecker = function() {
     //regex for headers
     var headers = yst_pp._store.cleanTextSomeTags.match(/<h([1-6])(?:[^>]+)?>(.*?)<\/h\1>/g);
     if(headers == null){
-       result = {name: 'subHeadings', result: null, rating: 7};
+        result = {name: 'subHeadings', result: null, rating: 7};
     }else {
         var foundInHeader = 0;
         for (var i = 0; i < headers.length; i++) {
