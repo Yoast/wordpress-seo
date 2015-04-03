@@ -10,9 +10,7 @@
 class WPSEO_Sitemaps_Double extends WPSEO_Sitemaps {
 
 	/**
-	 * Prevent stupid plugins from running shutdown scripts when we're obviously not outputting HTML.
-	 *
-	 * @since 1.4.16
+	 * Overwrite sitemap_close() so we don't die on outputting the sitemap
 	 */
 	function sitemap_close() {
 		remove_all_actions( 'wp_footer' );
@@ -38,6 +36,9 @@ class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 	 */
 	private static $class_instance;
 
+	/**
+	 * Set up our double class
+	 */
 	public static function setUpBeforeClass() {
 		self::$class_instance = new WPSEO_Sitemaps_Double;
 	}
