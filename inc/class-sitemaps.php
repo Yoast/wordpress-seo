@@ -306,6 +306,7 @@ class WPSEO_Sitemaps {
 		if ( is_scalar( $n ) && intval( $n ) > 0 ) {
 			$this->n = intval( $n );
 		}
+		unset( $n );
 
 		/**
 		 * Filter: 'wpseo_enable_xml_sitemap_transient_caching' - Allow disabling the transient cache
@@ -331,7 +332,7 @@ class WPSEO_Sitemaps {
 			}
 
 			if ( $caching ) {
-				set_transient( 'wpseo_sitemap_cache_' . $type . '_' . $n, $this->sitemap, DAY_IN_SECONDS );
+				set_transient( 'wpseo_sitemap_cache_' . $type . '_' . $this->n, $this->sitemap, DAY_IN_SECONDS );
 			}
 		}
 		else {
