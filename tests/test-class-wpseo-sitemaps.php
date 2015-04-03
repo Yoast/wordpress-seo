@@ -78,7 +78,7 @@ class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 	public function test_post_sitemap() {
 		self::$class_instance->reset();
 
-		$post_id   = $this->factory->post->create( array( 'post_author' => 1 ) );
+		$post_id   = $this->factory->post->create();
 		$permalink = get_permalink( $post_id );
 
 		set_query_var( 'sitemap', 'post' );
@@ -93,6 +93,8 @@ class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests the main sitemap and also tests the transient cache
+	 *
 	 * @covers WPSEO_Sitemaps::redirect
 	 */
 	public function test_main_sitemap() {
@@ -102,26 +104,12 @@ class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 
 		// Go to the XML sitemap twice, see if transient cache is set
 		self::$class_instance->redirect( $GLOBALS['wp_the_query'] );
-
 		$this->expectOutputContains( array(
 			'<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
 			'<sitemap>',
 			'<lastmod>',
 			'</sitemapindex>',
 		) );
-	}
-
-	/**
-	 * @covers WPSEO_Sitemaps::redirect
-	 */
-	public function test_main_sitemap_transient_cache() {
-		self::$class_instance->reset();
-
-		set_query_var( 'sitemap', 1 );
-
-		// Go to the XML sitemap twice, see if transient cache is set
-		self::$class_instance->redirect( $GLOBALS['wp_the_query'] );
-		ob_clean();
 
 		self::$class_instance->redirect( $GLOBALS['wp_the_query'] );
 
