@@ -1227,8 +1227,10 @@ class WPSEO_Sitemaps {
 	 */
 	function sitemap_url( $url ) {
 
-		// Create a DateTime object date in the correct timezone
-		$date = $this->get_datetime_with_timezone( $url['mod'] );
+		if ( isset( $url['mod'] ) ) {
+			// Create a DateTime object date in the correct timezone
+			$date = $this->get_datetime_with_timezone( $url['mod'] );
+		}
 
 		$url['loc'] = htmlspecialchars( $url['loc'] );
 
