@@ -12,8 +12,6 @@ if ( function_exists( 'xdebug_disable' ) ) {
 echo 'Welcome to the WordPress SEO Test Suite' . PHP_EOL;
 echo 'Version: 1.0' . PHP_EOL . PHP_EOL;
 
-define( 'WPSEO_UNIT_TEST', true );
-
 if ( false !== getenv( 'WP_PLUGIN_DIR' ) ) {
 	define( 'WP_PLUGIN_DIR', getenv( 'WP_PLUGIN_DIR' ) );
 }

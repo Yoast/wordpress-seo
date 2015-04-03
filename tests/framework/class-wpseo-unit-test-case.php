@@ -43,13 +43,19 @@ class WPSEO_UnitTestCase extends WP_UnitTestCase {
 	}
 
 	/**
-	 * @param string $expected
+	 * @param string|array $expected
 	 */
 	protected function expectOutputContains( $expected ) {
 		$output = preg_replace( '|\R|', "\r\n", ob_get_contents() );
 		ob_clean();
 
-		$found = strpos( $output, $expected );
-		$this->assertEquals( true, ( $found !== false ) );
+		if ( ! is_array( $expected ) ) {
+			$expected = array( $expected );
+		}
+
+		foreach ( $expected as $needle ) {
+			$found = strpos( $output, $needle );
+			$this->assertTrue( $found !== false );
+		}
 	}
 }

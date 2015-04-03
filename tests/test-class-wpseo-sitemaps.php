@@ -4,6 +4,33 @@
  * @subpackage Unittests
  */
 
+/**
+ * Exposes the protected functions of the WPSEO Twitter class for testing
+ */
+class WPSEO_Sitemaps_Double extends WPSEO_Sitemaps {
+
+	/**
+	 * Prevent stupid plugins from running shutdown scripts when we're obviously not outputting HTML.
+	 *
+	 * @since 1.4.16
+	 */
+	function sitemap_close() {
+		remove_all_actions( 'wp_footer' );
+	}
+
+	/**
+	 * Cleans out the sitemap variable
+	 */
+	public function reset() {
+		$this->sitemap     = false;
+		$this->bad_sitemap = false;
+	}
+}
+
+
+/**
+ * Class WPSEO_Sitemaps_Test
+ */
 class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 
 	/**
@@ -12,7 +39,7 @@ class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 	private static $class_instance;
 
 	public static function setUpBeforeClass() {
-		self::$class_instance = new WPSEO_Sitemaps;
+		self::$class_instance = new WPSEO_Sitemaps_Double;
 	}
 
 	/**
@@ -45,9 +72,50 @@ class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * @covers WPSEO_Sitemaps::build_post_type_map
+	 */
+	public function test_post_sitemap() {
+		self::$class_instance->reset();
+
+		$post_id   = $this->factory->post->create( array( 'post_author' => 1 ) );
+		$permalink = get_permalink( $post_id );
+
+		set_query_var( 'sitemap', 'post' );
+
+		self::$class_instance->redirect( $GLOBALS['wp_the_query'] );
+
+		$this->expectOutputContains( array(
+			'<?xml',
+			'<urlset ',
+			'<loc>' . $permalink . '</loc>',
+		) );
+	}
+
+	/**
+	 * @covers WPSEO_Sitemaps::redirect
+	 */
+	public function test_main_sitemap() {
+		self::$class_instance->reset();
+
+		set_query_var( 'sitemap', 1 );
+
+		// Go to the XML sitemap twice, see if transient cache is set
+		self::$class_instance->redirect( $GLOBALS['wp_the_query'] );
+
+		$this->expectOutputContains( array(
+			'<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+			'<sitemap>',
+			'<lastmod>',
+			'</sitemapindex>',
+		) );
+	}
+
+	/**
 	 * @covers WPSEO_Sitemaps::redirect
 	 */
 	public function test_main_sitemap_transient_cache() {
+		self::$class_instance->reset();
+
 		set_query_var( 'sitemap', 1 );
 
 		// Go to the XML sitemap twice, see if transient cache is set

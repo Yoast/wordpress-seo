@@ -16,7 +16,7 @@ class WPSEO_Sitemaps {
 	 *
 	 * @var string $sitemap
 	 */
-	private $sitemap = '';
+	protected $sitemap = '';
 
 	/**
 	 * XSL stylesheet for styling a sitemap for web browsers
@@ -277,9 +277,7 @@ class WPSEO_Sitemaps {
 	 */
 	function sitemap_close() {
 		remove_all_actions( 'wp_footer' );
-		if ( ! defined( 'WPSEO_UNIT_TEST' ) || ! WPSEO_UNIT_TEST ) {
-			die();
-		}
+		die();
 	}
 
 	/**
@@ -1277,7 +1275,7 @@ class WPSEO_Sitemaps {
 	 *
 	 * @return bool|string $redirect
 	 */
-	function canonical( $redirect ) {
+	public function canonical( $redirect ) {
 		$sitemap = get_query_var( 'sitemap' );
 		if ( ! empty( $sitemap ) ) {
 			return false;
