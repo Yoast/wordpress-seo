@@ -125,6 +125,12 @@ class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 
 		self::$class_instance->redirect( $GLOBALS['wp_the_query'] );
 
-		$this->expectOutputContains( 'Served from transient cache' );
+		$this->expectOutputContains( array(
+			'<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+			'<sitemap>',
+			'<lastmod>',
+			'</sitemapindex>',
+			'Served from transient cache',
+		) );
 	}
 }
