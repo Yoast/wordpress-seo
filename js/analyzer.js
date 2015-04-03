@@ -25,11 +25,14 @@ Analyzer.prototype.init = function() {
     if(typeof this.config.queue != 'undefined' && this.config.queue.length != 0){
         this.queue = this.config.queue;
     }else{
-        this.queue = ['keywordDensity', 'subheaderChecker'];
+        this.queue = ['keywordDensity', 'subheaderChecker', 'stopwordChecker'];
     }
     //if no available keywords, load default array
     if(typeof this.config.wordsToRemove == 'undefined'){
-        this.config.wordsToRemove =  [' a', ' in', ' an', ' on', ' for', ' the', ' and'];
+        this.config.wordsToRemove =  analyzerConfig.wordsToRemove;
+    }
+    if(typeof this.config.stopWords == 'undefined'){
+        this.config.stopWords = analyzerConfig.stopWords;
     }
     //set default variables
     this.keywordRegex = new RegExp(this.config.keyword);
@@ -46,6 +49,7 @@ Analyzer.prototype.runQueue = function(){
         this.runQueue();
     }
 };
+
 /**
  * clears current queue of functions, effectively stopping execution of the analyzer.
  */
@@ -53,7 +57,6 @@ Analyzer.prototype.abortQueue = function(){
     //empty current Queue
     this.queue = [];
 };
-
 
 /**
  * checks the keyword density of given keyword against the cleantext stored in _store.
@@ -85,6 +88,7 @@ Analyzer.prototype.keywordDensity = function(){
     }
     return result;
 };
+
 /**
  * checks if keywords appear in subheaders of stored cleanTextSomeTags text.
  * @returns resultObject
@@ -98,7 +102,7 @@ Analyzer.prototype.subheaderChecker = function() {
     }else {
         var foundInHeader = 0;
         for (var i = 0; i < headers.length; i++) {
-            var formattedHeaders = this.stripKeywords(headers[i]);
+            var formattedHeaders = this.stringReplacer(headers[i], this.config.wordsToRemove);
             if (formattedHeaders.match(new RegExp(this.config.keyword, 'g')) || headers[i].match(new RegExp(this.config.keyword, 'g'))) {
                 foundInHeader++;
             }
@@ -115,24 +119,54 @@ Analyzer.prototype.subheaderChecker = function() {
     return result;
 };
 
+/**
+ * check if the keyword contains stopwords
+ */
+Analyzer.prototype.stopwordChecker = function(){
+    matches = this.stringCounter(this.config.keyword, this.config.stopWords);
+    result = {name: 'stopWords', result: {count: matches.length, matches: matches}, rating:5 };
+    return result;
+}
+
 /**helper functions*/
 
 /**
- * removes certain words from string
- * @params textString and
+ * removes strings from array and replaces them with keyword.
+ * @param textString
+ * @param stringsToRemove []
+ * @param replacement (default == space)
+ * @returns {textString}
  */
-Analyzer.prototype.stripKeywords = function(textString){
-    //words to remove
-    var wordString = '';
-    for (var i = 0; i < this.config.wordsToRemove.length; i++){
-        if(wordString.length > 0){ wordString += '|'; }
-        wordString += '('+this.config.wordsToRemove[i]+')\\b';
-    }
-    var wordsRegex = new RegExp(wordString, 'g');
-    textString =  textString.replace(wordsRegex, '');
-    //remove double space
+Analyzer.prototype.stringReplacer = function(textString, stringsToRemove, replacement){
+    if(typeof replacement == 'undefined'){replacement = ' '};
+    textString = textString.replace(this.regexStringBuilder(stringsToRemove), replacement);
     return yst_pp.stripSpaces(textString);
-};
+}
+
+/**
+ * matches string with given array of strings to match.
+ * @param textString
+ * @param stringsToMatch
+ * @returns {matches}
+ */
+Analyzer.prototype.stringCounter = function(textString, stringsToMatch){
+    return textString.match(this.regexStringBuilder(stringsToMatch));
+}
+
+/**
+ * builds regex from array with strings
+ * @param stringArray
+ * @returns {RegExp}
+ */
+Analyzer.prototype.regexStringBuilder = function(stringArray){
+    var regexString = '';
+    for(var i = 0; i < stringArray.length; i++){
+        if(regexString.length > 0){ regexString += '|'; }
+        regexString += '('+stringArray[i]+')\\b';
+    }
+    return new RegExp(regexString, 'g');
+}
+
 
 /**
  * PreProcessor object definition. Creates _store object and calls init.

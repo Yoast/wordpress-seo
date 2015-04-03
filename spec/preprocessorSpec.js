@@ -1,3 +1,4 @@
+require('../js/config/config.js');
 require('../js/analyzer.js');
 
 args = {

@@ -1,6 +1,4 @@
-/**
- * Created by danny on 3/23/15.
- */
+require('../js/config/config.js');
 require('../js/analyzer.js');
 
 keywordArgs = {
