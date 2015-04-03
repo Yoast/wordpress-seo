@@ -41,4 +41,15 @@ class WPSEO_UnitTestCase extends WP_UnitTestCase {
 		$expected = preg_replace( '|\R|', "\r\n", $expected );
 		$this->assertEquals( $expected, $output );
 	}
+
+	/**
+	 * @param string $expected
+	 */
+	protected function expectOutputContains( $expected ) {
+		$output = preg_replace( '|\R|', "\r\n", ob_get_contents() );
+		ob_clean();
+
+		$found = strpos( $output, $expected );
+		$this->assertEquals( true, ( $found !== false ) );
+	}
 }

@@ -277,7 +277,9 @@ class WPSEO_Sitemaps {
 	 */
 	function sitemap_close() {
 		remove_all_actions( 'wp_footer' );
-		die();
+		if ( ! defined( 'WPSEO_UNIT_TEST' ) || ! WPSEO_UNIT_TEST ) {
+			die();
+		}
 	}
 
 	/**
@@ -1186,10 +1188,12 @@ class WPSEO_Sitemaps {
 	 * Spit out the generated sitemap and relevant headers and encoding information.
 	 */
 	function output() {
-		header( $this->http_protocol() . ' 200 OK', true, 200 );
-		// Prevent the search engines from indexing the XML Sitemap.
-		header( 'X-Robots-Tag: noindex,follow', true );
-		header( 'Content-Type: text/xml' );
+		if ( ! headers_sent() ) {
+			header( $this->http_protocol() . ' 200 OK', true, 200 );
+			// Prevent the search engines from indexing the XML Sitemap.
+			header( 'X-Robots-Tag: noindex,follow', true );
+			header( 'Content-Type: text/xml' );
+		}
 		echo '<?xml version="1.0" encoding="', esc_attr( $this->charset ), '"?>';
 		if ( $this->stylesheet ) {
 			echo apply_filters( 'wpseo_stylesheet_url', $this->stylesheet ), "\n";

@@ -43,4 +43,19 @@ class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 
 		$this->assertEquals( $date, date( 'c', strtotime( $post->post_modified_gmt ) ) );
 	}
+
+	/**
+	 * @covers WPSEO_Sitemaps::redirect
+	 */
+	public function test_main_sitemap_transient_cache() {
+		set_query_var( 'sitemap', 1 );
+
+		// Go to the XML sitemap twice, see if transient cache is set
+		self::$class_instance->redirect( $GLOBALS['wp_the_query'] );
+		ob_clean();
+
+		self::$class_instance->redirect( $GLOBALS['wp_the_query'] );
+
+		$this->expectOutputContains( 'Served from transient cache' );
+	}
 }
