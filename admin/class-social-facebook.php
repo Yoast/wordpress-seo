@@ -34,7 +34,7 @@ class Yoast_Social_Facebook {
 	}
 
 	/**
-	 *	This method will hook into the defined get params
+	 * This method will hook into the defined get params
 	 *
 	 */
 	private function get_listener() {
