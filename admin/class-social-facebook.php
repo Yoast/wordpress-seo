@@ -207,9 +207,9 @@ class Yoast_Social_Facebook_Form {
 	public function show_form() {
 		$this
 			->form_head()
-			->user_admin()
+			->manage_user_admin()
 			->show_buttons()
-			->app_admin();
+			->manage_app_as_admin();
 	}
 
 	/**
@@ -232,11 +232,11 @@ class Yoast_Social_Facebook_Form {
 	}
 
 	/**
-	 * Display the button to add an admin or add another admin from Facebook
+	 * Display the buttons to add an admin or add another admin from Facebook and display the admin that has been added already.
 	 *
 	 * @return $this
 	 */
-	private function user_admin() {
+	private function manage_user_admin() {
 		$button_text = __( 'Add Facebook Admin', 'wordpress-seo' );
 		$primary     = true;
 
@@ -264,11 +264,11 @@ class Yoast_Social_Facebook_Form {
 	}
 
 	/**
-	 * Show selectbox with the facebook apps to choose them as an admin
+	 * Show input field to set a facebook apps as an admin
 	 *
 	 * @return $this
 	 */
-	private function app_admin() {
+	private function manage_app_as_admin() {
 		echo '<div class="clear"></div><br />';
 		Yoast_Form::get_instance()->textinput( 'fbadminapp', __( 'Facebook APP id', 'wordpress-seo' ) );
 
