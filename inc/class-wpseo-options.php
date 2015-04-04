@@ -2554,7 +2554,7 @@ class WPSEO_Option_Social extends WPSEO_Option {
 		'pinterest_url'      => '',
 		'pinterestverify'    => '',
 		'plus-publisher'     => '', // text field
-		'twitter'            => false,
+		'twitter'            => true,
 		'twitter_site'       => '', // text field
 		'twitter_card_type'  => 'summary',
 		'youtube_url'        => '',
