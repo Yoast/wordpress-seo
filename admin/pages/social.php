@@ -249,12 +249,6 @@ $yform->admin_header( true, 'wpseo_social' );
 
 	<div id="twitterbox" class="wpseotab">
 		<p>
-			<strong>
-				<?php printf( esc_html__( 'Note that for the Twitter Cards to work, you have to check the box below and then validate your Twitter Cards through the %1$sTwitter Card Validator%2$s.', 'wordpress-seo' ), '<a target="_blank" href="https://dev.twitter.com/docs/cards/validation/validator">', '</a>' ); ?>
-			</strong>
-		</p>
-
-		<p>
 			<?php $yform->checkbox( 'twitter', __( 'Add Twitter card meta data', 'wordpress-seo' ) ); ?>
 		</p>
 
