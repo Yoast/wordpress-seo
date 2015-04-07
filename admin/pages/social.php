@@ -56,7 +56,7 @@ $yform->admin_header( true, 'wpseo_social' );
 		$social_facebook->show_form();
 
 		if ( 'posts' == get_option( 'show_on_front' ) ) {
-			echo '<h4>' . esc_html__( 'Frontpage settings', 'wordpress-seo' ) . '</h4>';
+			echo '<p><strong>' . esc_html__( 'Frontpage settings', 'wordpress-seo' ) . '</strong></p>';
 			$yform->media_input( 'og_frontpage_image', __( 'Image URL', 'wordpress-seo' ) );
 			$yform->textinput( 'og_frontpage_title', __( 'Title', 'wordpress-seo' ) );
 			$yform->textinput( 'og_frontpage_desc', __( 'Description', 'wordpress-seo' ) );
@@ -69,7 +69,7 @@ $yform->admin_header( true, 'wpseo_social' );
 			echo '<p class="desc label">' . esc_html__( 'These are the title, description and image used in the Open Graph meta tags on the front page of your site.', 'wordpress-seo' ) . '</p>';
 		} ?>
 
-		<h4><?php esc_html_e( 'Default settings', 'wordpress-seo' ); ?></h4>
+		<p><strong><?php esc_html_e( 'Default settings', 'wordpress-seo' ); ?></strong></p>
 		<?php $yform->media_input( 'og_default_image', __( 'Image URL', 'wordpress-seo' ) ); ?>
 		<p class="desc label">
 			<?php esc_html_e( 'This image is used if the post/page being shared does not contain any images.', 'wordpress-seo' ); ?>

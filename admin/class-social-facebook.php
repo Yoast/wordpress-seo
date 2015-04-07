@@ -221,7 +221,7 @@ class Yoast_Social_Facebook_Form {
 		echo '<p><strong>' . esc_html__( 'Facebook Insights and Admins', 'wordpress-seo' ) . '</strong><br />';
 		echo sprintf(
 			esc_html__(
-				'To be able to access your %sFacebook Insights%s for your site, you need to specify a Facebook Admin. This can be a user, but if you have an app for your site, you could use that. For most people a user will be "good enough" though.', 'wordpress-seo'
+				'To be able to access %sFacebook Insights%s for your site, you need to specify a Facebook Admin. This can be a user. If you have an app for your site, you could use that as well.', 'wordpress-seo'
 			),
 			'<a href="https://www.facebook.com/insights">',
 			'</a>'
@@ -238,12 +238,10 @@ class Yoast_Social_Facebook_Form {
 	 */
 	private function manage_user_admin() {
 		$button_text = __( 'Add Facebook Admin', 'wordpress-seo' );
-		$primary     = true;
 
 		if ( is_array( $this->options['fb_admins'] ) && $this->options['fb_admins'] !== array() ) {
 			$nonce       = wp_create_nonce( 'delfbadmin' );
 			$button_text = __( 'Add Another Facebook Admin', 'wordpress-seo' );
-			$primary     = false;
 
 			echo '<p>' . __( 'Currently connected Facebook admins:', 'wordpress-seo' ) . '</p>';
 			echo '<ul>';
@@ -255,8 +253,7 @@ class Yoast_Social_Facebook_Form {
 
 		$this->add_button(
 			'https://yoast.com/fb-connect/?key=' . urlencode( $this->options['fbconnectkey'] ) . '&redirect=' . urlencode( admin_url( $this->admin_url ) ),
-			$button_text,
-			( $primary ) ? '-primary' : '',
+			$button_text,'',
 			true
 		);
 
@@ -270,7 +267,7 @@ class Yoast_Social_Facebook_Form {
 	 */
 	private function manage_app_as_admin() {
 		echo '<div class="clear"></div><br />';
-		Yoast_Form::get_instance()->textinput( 'fbadminapp', __( 'Facebook APP id', 'wordpress-seo' ) );
+		Yoast_Form::get_instance()->textinput( 'fbadminapp', __( 'Facebook App ID', 'wordpress-seo' ) );
 
 		return $this;
 	}
