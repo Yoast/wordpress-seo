@@ -34,6 +34,10 @@ class WPSEO_Upgrade {
 			$this->upgrade_20();
 		}
 
+		if ( version_compare( $this->options['version'], '2.1', '<' ) ) {
+			$this->upgrade_21();
+		}
+
 		$this->finish_up();
 	}
 
@@ -74,6 +78,29 @@ class WPSEO_Upgrade {
 
 		$this->move_hide_links_options();
 		$this->move_pinterest_option();
+	}
+
+	/**
+	 * Detects if taxonomy terms were split and updates the corresponding taxonomy meta's accordingly.
+	 */
+	private function upgrade_21() {
+		$taxonomies = get_option( 'wpseo_taxonomy_meta', array() );
+
+		if ( ! empty( $taxonomies ) ) {
+			foreach ( $taxonomies as $taxonomy => $tax_metas ) {
+				foreach ( $tax_metas as $term_id => $tax_meta ) {
+					$new_term_id = wp_get_split_term( $term_id, $taxonomy );
+
+					if ( $new_term_id ) {
+						$taxonomies[ $taxonomy ][ $new_term_id ] = $taxonomies[ $taxonomy ][ $term_id ];
+						unset( $taxonomies[ $taxonomy ][ $term_id ] );
+					}
+				}
+
+			}
+
+			update_option( 'wpseo_taxonomy_meta', $taxonomies );
+		}
 	}
 
 	/**
