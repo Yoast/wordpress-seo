@@ -201,7 +201,7 @@ StringHelper = function(){};
 StringHelper.prototype.stringReplacer = function(textString, stringsToRemove, replacement){
     if(typeof replacement == 'undefined'){replacement = ' '};
     textString = textString.replace(this.regexStringBuilder(stringsToRemove), replacement);
-    return yst_pp.stripSpaces(textString);
+    return yst_preProcessor.stripSpaces(textString);
 }
 
 /**
