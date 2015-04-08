@@ -33,7 +33,6 @@ Analyzer.prototype.initRequiredObjects = function(){
     }
 };
 
-
 /**
  * initializes the function queue.
  */
@@ -46,7 +45,7 @@ Analyzer.prototype.initQueue = function(){
     if(typeof this.config.queue !== 'undefined' && this.config.queue.length !== 0){
         this.queue = this.config.queue;
     }else{
-        this.queue = ['keywordDensity', 'subheaderChecker', 'stopwordChecker', 'fleschReading'];
+        this.queue = ['keywordDensity', 'subHeadings', 'stopwordChecker', 'fleschReading'];
     }
 };
 
@@ -70,7 +69,6 @@ Analyzer.prototype.setDefaults = function(){
     //set default variables
     this.keywordRegex = new RegExp(this.config.keyword);
 };
-
 
 /**
  * starts queue of functions executing the analyzer functions untill queue is empty.
@@ -99,7 +97,6 @@ Analyzer.prototype.keywordDensity = function(){
     if(yst_preProcessor._store.wordcount > 100) {
         var keywordDensity = this.keywordDensityChecker();
         var rating = this.keywordDensityRater(keywordDensity);
-        console.log(rating);
         result = {name: 'keywordDensity', result: {keywordDensity: keywordDensity.toFixed(1) }, rating: rating};
     }else{
         result = {name: 'keywordDensity', result: null, rating: null};
@@ -120,6 +117,7 @@ Analyzer.prototype.keywordDensityChecker = function(){
     }
     return keywordDensity;
 };
+
 /**
  * rates the keyword density against given number
  * @param keywordDensity
@@ -140,43 +138,55 @@ Analyzer.prototype.keywordDensityRater = function(keywordDensity){
     return rating;
 };
 
-
 /**
  * checks if keywords appear in subheaders of stored cleanTextSomeTags text.
  * @returns resultObject
  */
-Analyzer.prototype.subheaderChecker = function() {
+Analyzer.prototype.subHeadings = function() {
+    var matches = yst_preProcessor._store.cleanTextSomeTags.match(/<h([1-6])(?:[^>]+)?>(.*?)<\/h\1>/g);
+    foundInHeader = this.subHeadingsChecker(matches);
+    return this.subHeadingsRater(foundInHeader, matches);
+};
 
-    //regex for headers
-    var headers = yst_preProcessor._store.cleanTextSomeTags.match(/<h([1-6])(?:[^>]+)?>(.*?)<\/h\1>/g);
-    if(headers === null){
-        result = {name: 'subHeadings', result: null, rating: 7};
-    }else {
+Analyzer.prototype.subHeadingsChecker = function(matches){
+    if (matches === null){
+        var foundInHeader = -1;
+    }else{
         var foundInHeader = 0;
-        for (var i = 0; i < headers.length; i++) {
-            var formattedHeaders = yst_stringHelper.stringReplacer(headers[i], this.config.wordsToRemove);
-            if (formattedHeaders.match(new RegExp(this.config.keyword, 'g')) || headers[i].match(new RegExp(this.config.keyword, 'g'))) {
+        for (var i = 0; i < matches.length; i++) {
+            var formattedHeaders = yst_stringHelper.stringReplacer(matches[i], this.config.wordsToRemove);
+            if (formattedHeaders.match(new RegExp(this.config.keyword, 'g')) || matches[i].match(new RegExp(this.config.keyword, 'g'))) {
                 foundInHeader++;
             }
         }
-        if (foundInHeader > 0) {
-            var result = {keywordFound: foundInHeader, numberofHeaders: headers.length};
-            var rating = 9;
-        }else{
-            var result = {keywordFound: 0, numberofHeaders: headers.length}
-            var rating = 3;
-        }
-        result = {name: 'subHeadings', result: result, rating: rating};
     }
-    return result;
+    return foundInHeader
+};
+
+Analyzer.prototype.subHeadingsRater = function(foundInHeader, matches){
+    switch(true){
+        case foundInHeader === -1:
+            var result = null;
+            var rating = 7;
+            break;
+        case foundInHeader > 0:
+            var result = {keywordFound: foundInHeader, numberofHeaders: matches.length};
+            var rating = 9;
+            break;
+        default:
+            var result = {keywordFound: 0, numberofHeaders: matches.length};
+            var rating = 3;
+    }
+    return {name: 'subHeadings', result: result, rating: rating};
 };
 
 /**
  * check if the keyword contains stopwords
  */
 Analyzer.prototype.stopwordChecker = function(){
-    matches = yst_stringHelper.stringMatcher(this.config.keyword, this.config.stopWords);
-    result = {name: 'stopWords', result: {count: matches.length, matches: matches}, rating:5 };
+    var matches = yst_stringHelper.stringMatcher(this.config.keyword, this.config.stopWords);
+    var stopwordCount = matches !== null ? matches.length : 0;
+    var result = {name: 'stopWords', result: {count: stopwordCount, matches: matches}, rating:5 };
     return result;
 };
 
