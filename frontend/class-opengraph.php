@@ -643,8 +643,14 @@ class WPSEO_OpenGraph {
 
 } /* End of class */
 
+/**
+ * Class WPSEO_OpenGraph_Image
+ */
 class WPSEO_OpenGraph_Image {
 
+	/**
+	 * @var array $options Holds options passed to the constructor
+	 */
 	private $options;
 
 	/**
@@ -738,7 +744,7 @@ class WPSEO_OpenGraph_Image {
 	/**
 	 * If there is a featured image, check image size. If image size is correct, call add_image and return true
 	 *
-	 * @param $post_id
+	 * @param int $post_id the post id
 	 *
 	 * @return bool
 	 */
@@ -762,7 +768,7 @@ class WPSEO_OpenGraph_Image {
 	 *
 	 * @api string $post_content The Post content string
 	 *
-	 * @param $post object - The post object.
+	 * @param object $post - The post object.
 	 */
 	private function get_content_images( $post ) {
 		$content = apply_filters( 'wpseo_pre_analysis_post_content', $post->post_content, $post );
@@ -779,7 +785,7 @@ class WPSEO_OpenGraph_Image {
 	/**
 	 * Check size of featured image. If image is too small, return false, else return true
 	 *
-	 * @param $img_data array
+	 * @param array $img_data wp_get_attachment_image_src: url, width, height, icon
 	 *
 	 * @return bool
 	 */
@@ -795,7 +801,7 @@ class WPSEO_OpenGraph_Image {
 	/**
 	 * Display an OpenGraph image tag
 	 *
-	 * @param $img string - Source URL to the image
+	 * @param string $img - Source URL to the image
 	 *
 	 * @return bool
 	 */
@@ -821,7 +827,7 @@ class WPSEO_OpenGraph_Image {
 
 	/**
 	 * Get the relative path of the image
-	 * @param $img
+	 * @param array $img 
 	 *
 	 * @return bool|string
 	 */
