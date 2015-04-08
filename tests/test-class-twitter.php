@@ -191,19 +191,6 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Twitter::url
-	 */
-	public function test_twitter_url() {
-		// create and go to post
-		$post_id = $this->factory->post->create();
-		$this->go_to( get_permalink( $post_id ) );
-
-		$expected = $this->metatag( 'url', esc_url( WPSEO_Frontend::get_instance()->canonical( false ) ) );
-		self::$class_instance->url();
-		$this->expectOutput( $expected );
-	}
-
-	/**
 	 * @covers WPSEO_Twitter::image_output
 	 */
 	public function test_image_output() {
