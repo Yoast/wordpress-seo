@@ -644,9 +644,9 @@ class WPSEO_OpenGraph {
 	public function publish_date() {
 
 		if ( ! is_singular( 'post' ) ) {
-			/** Filter: 'wpseo_opengraph_show_publish_date' - Allow showing publication date for other post types */
-			/** @api bool $unsigned Whether or not to show publish date */
-			/** @param string $post_type The current URL's post type. */
+			/* Filter: 'wpseo_opengraph_show_publish_date' - Allow showing publication date for other post types */
+			/* @api bool $unsigned Whether or not to show publish date */
+			/* @param string $post_type The current URL's post type. */
 			if ( false === apply_filters( 'wpseo_opengraph_show_publish_date', false, get_post_type() ) ) {
 				return false;
 			}
