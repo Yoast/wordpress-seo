@@ -12,6 +12,17 @@ Analyzer = function (args){
  * Analyzer initialisation. Loads defaults and overloads custom settings.
  */
 Analyzer.prototype.init = function() {
+    this.initRequiredObjects();
+    this.initQueue();
+    this.loadWordlists();
+    this.setDefaults();
+    this._output = [];
+}
+
+/**
+ * initializes required objects.
+ */
+Analyzer.prototype.initRequiredObjects = function(){
     //init preprocessor if not exists
     if (typeof yst_preProcessor !== 'object' || yst_preProcessor.inputText !== this.config.textString) {
         yst_preProcessor = new PreProcessor(this.config.textString);
@@ -20,6 +31,13 @@ Analyzer.prototype.init = function() {
     if(typeof yst_stringHelper != 'object'){
         yst_stringHelper = new StringHelper();
     }
+};
+
+
+/**
+ * initializes the function queue.
+ */
+Analyzer.prototype.initQueue = function(){
     //if no available function queues, make new queue
     if (typeof this.queue !== 'Array') {
         this.queue = [];
@@ -30,6 +48,12 @@ Analyzer.prototype.init = function() {
     }else{
         this.queue = ['keywordDensity', 'subheaderChecker', 'stopwordChecker', 'fleschReading'];
     }
+};
+
+/**
+ * load wordlists.
+ */
+Analyzer.prototype.loadWordlists = function(){
     //if no available keywords, load default array
     if(typeof this.config.wordsToRemove == 'undefined'){
         this.config.wordsToRemove =  analyzerConfig.wordsToRemove;
@@ -37,10 +61,16 @@ Analyzer.prototype.init = function() {
     if(typeof this.config.stopWords == 'undefined'){
         this.config.stopWords = analyzerConfig.stopWords;
     }
+};
+
+/**
+ * set default variables.
+ */
+Analyzer.prototype.setDefaults = function(){
     //set default variables
     this.keywordRegex = new RegExp(this.config.keyword);
-    this._output = [];
-}
+};
+
 
 /**
  * starts queue of functions executing the analyzer functions untill queue is empty.
@@ -67,29 +97,48 @@ Analyzer.prototype.abortQueue = function(){
  */
 Analyzer.prototype.keywordDensity = function(){
     if(yst_preProcessor._store.wordcount > 100) {
-        var keywordMatches = yst_preProcessor._store.cleanText.match(new RegExp(this.config.keyword, 'g'));
-        var keywordDensity = 0;
-        if ( keywordMatches !== null ) {
-            var keywordCount = keywordMatches.length;
-            var keywordDensity = (keywordCount / yst_preProcessor._store.wordcount - (keywordCount - 1 * keywordCount)) * 100;
-        }
-        switch (true) {
-            case (keywordDensity < 1):
-                var rating =  4;
-                break;
-            case (keywordDensity > 4.5):
-                var rating = -50;
-                break;
-            default:
-                var rating = 9;
-                break;
-        }
+        var keywordDensity = this.keywordDensityChecker();
+        var rating = this.keywordDensityRater(keywordDensity);
         result = {name: 'keywordDensity', result: {keywordDensity: keywordDensity.toFixed(1) }, rating: rating};
     }else{
         result = {name: 'keywordDensity', result: null, rating: null};
     }
     return result;
 };
+
+/**
+ * checks and returns the keyword density
+ * @returns {number}
+ */
+Analyzer.prototype.keywordDensityChecker = function(){
+    var keywordMatches = yst_preProcessor._store.cleanText.match(new RegExp(this.config.keyword, 'g'));
+    var keywordDensity = 0;
+    if ( keywordMatches !== null ) {
+        var keywordCount = keywordMatches.length;
+        keywordDensity = (keywordCount / yst_preProcessor._store.wordcount - (keywordCount - 1 * keywordCount)) * 100;
+    }
+    return keywordDensity;
+};
+/**
+ * rates the keyword density against given number
+ * @param keywordDensity
+ * @returns {number}
+ */
+Analyzer.prototype.keywordDensityRater = function(keywordDensity){
+    switch (true) {
+        case (keywordDensity < 1):
+            var rating =  4;
+            break;
+        case (keywordDensity > 4.5):
+            var rating = -50;
+            break;
+        default:
+            var rating = 9;
+            break;
+    }
+    return rating;
+};
+
 
 /**
  * checks if keywords appear in subheaders of stored cleanTextSomeTags text.
@@ -128,7 +177,7 @@ Analyzer.prototype.stopwordChecker = function(){
     matches = yst_stringHelper.stringCounter(this.config.keyword, this.config.stopWords);
     result = {name: 'stopWords', result: {count: matches.length, matches: matches}, rating:5 };
     return result;
-}
+};
 
 
 /**
