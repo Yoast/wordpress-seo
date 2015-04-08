@@ -4,13 +4,18 @@
     var current_page = jQuery(location).attr('pathname').split('/').pop();
 
     //If current page is edit.php, proceed.
-    if (current_page == 'edit.php' ) {
+    if (current_page == 'edit.php' || current_page == 'edit-tags.php' ) {
 
         //When user clicks on save button after doing a quick edit, get the post id, current slug and new slug.
         jQuery( '.button-primary' ).click(function() {
             var post_id = jQuery(this).closest('tr').attr('id').replace('edit-', '');
 
-            var current_slug = jQuery( '#inline_' + post_id ).find('.post_name').html();
+            if ( current_page == 'edit.php' ) {
+                var current_slug = jQuery( '#inline_' + post_id ).find('.post_name').html();
+            }
+            else if( current_page == 'edit-tags.php' ) {
+                var current_slug = jQuery( '#inline_' + post_id ).find('.slug').html();
+            }
 
             var new_slug = jQuery("input[name=post_name]").val();
 
