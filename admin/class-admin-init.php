@@ -1,5 +1,12 @@
 <?php
+/**
+ * @package    WPSEO
+ * @subpackage Admin
+ */
 
+/**
+ * Performs the load on admin side.
+ */
 class WPSEO_Admin_Init {
 
 	/**
@@ -24,9 +31,9 @@ class WPSEO_Admin_Init {
 
 		$GLOBALS['wpseo_admin'] = new WPSEO_Admin;
 
-		global $pagenow;
-		$this->pagenow = $pagenow;
+		$this->pagenow = $GLOBALS['pagenow'];
 
+		$this->redirect_to_about_page();
 		$this->load_meta_boxes();
 		$this->load_taxonomy_class();
 		$this->load_admin_page_class();
@@ -34,6 +41,31 @@ class WPSEO_Admin_Init {
 		$this->load_yoast_tracking();
 		$this->load_tour();
 		$this->load_xml_sitemaps_admin();
+	}
+
+	/**
+	 * Redirect first time or just upgraded users to the about screen.
+	 */
+	private function redirect_to_about_page() {
+		if ( $this->options['seen_about'] ) {
+			return;
+		}
+
+		if ( in_array( $this->pagenow, array(
+			'update.php',
+			'update-core.php',
+			'plugins.php',
+			'plugin-install.php',
+		) ) ) {
+			return;
+		}
+
+		// We're redirecting the user to the about screen, let's make sure we don't do it again until he/she upgrades again
+		$wpseo_option               = get_option( 'wpseo' );
+		$wpseo_option['seen_about'] = true;
+		update_option( 'wpseo', $wpseo_option );
+
+		wp_safe_redirect( admin_url( 'admin.php?page=wpseo_dashboard&intro=1' ) );
 	}
 
 	/**
@@ -86,8 +118,9 @@ class WPSEO_Admin_Init {
 	 * Loads admin page class for all admin pages starting with `wpseo_`.
 	 */
 	private function load_admin_page_class() {
-		$page = WPSEO_Utils::filter_input( INPUT_GET, 'page' );
+		$page = filter_input( INPUT_GET, 'page' );
 		if ( 'admin.php' === $this->pagenow && strpos( $page, 'wpseo' ) === 0 ) {
+			// For backwards compatabilty, this still needs a global, for now...
 			$GLOBALS['wpseo_admin_pages'] = new WPSEO_Admin_Pages;
 			$this->register_i18n_promo_class();
 		}
@@ -125,7 +158,8 @@ class WPSEO_Admin_Init {
 			 */
 			if ( method_exists( 'Yoast_Tracking', 'get_instance' ) ) {
 				add_action( 'yoast_tracking', array( 'Yoast_Tracking', 'get_instance' ) );
-			} else {
+			}
+			else {
 				$GLOBALS['yoast_tracking'] = new Yoast_Tracking;
 			}
 		}
@@ -135,7 +169,7 @@ class WPSEO_Admin_Init {
 	 * See if we should start our tour.
 	 */
 	private function load_tour() {
-		$restart_tour = WPSEO_Utils::filter_input( INPUT_GET, 'wpseo_restart_tour' );
+		$restart_tour = filter_input( INPUT_GET, 'wpseo_restart_tour' );
 		if ( $restart_tour ) {
 			$this->options['ignore_tour'] = false;
 			update_option( 'wpseo', $this->options );

@@ -6,17 +6,20 @@ jQuery(document).ready(function() {
 	});
 
 	// events
-	jQuery("#enablexmlsitemap").change(function() {
-		jQuery("#sitemapinfo").toggle(jQuery(this).is(':checked'));
+	jQuery('#enablexmlsitemap').change(function() {
+		jQuery('#sitemapinfo').toggle(jQuery(this).is(':checked'));
 	}).change();
 
-	// events
-	jQuery("#disable_author_sitemap").change(function() {
-		jQuery("#xml_user_block").toggle(!jQuery(this).is(':checked'));
+	jQuery('#breadcrumbs-enable').change(function() {
+		jQuery('#breadcrumbsinfo').toggle(jQuery(this).is(':checked'));
 	}).change();
 
-	jQuery("#cleanpermalinks").change(function() {
-		jQuery("#cleanpermalinksdiv").toggle(jQuery(this).is(':checked'));
+	jQuery('#disable_author_sitemap').change(function() {
+		jQuery('#xml_user_block').toggle(!jQuery(this).is(':checked'));
+	}).change();
+
+	jQuery('#cleanpermalinks').change(function() {
+		jQuery('#cleanpermalinksdiv').toggle(jQuery(this).is(':checked'));
 	}).change();
 
 	jQuery('#wpseo-tabs').find('a').click(function() {
@@ -28,6 +31,19 @@ jQuery(document).ready(function() {
 		jQuery(this).addClass('nav-tab-active');
 	});
 
+	jQuery("#company_or_person").change(function() {
+		if ( 'company' == jQuery(this).val() ) {
+			jQuery('#knowledge-graph-company').show();
+			jQuery('#knowledge-graph-person').hide();
+		} else if ( 'person' == jQuery(this).val() ) {
+			jQuery('#knowledge-graph-company').hide();
+			jQuery('#knowledge-graph-person').show();
+		} else {
+			jQuery('#knowledge-graph-company').hide();
+			jQuery('#knowledge-graph-person').hide();
+		}
+	}).change();
+
 	// init
 	var active_tab = window.location.hash.replace('#top#','');
 
@@ -38,6 +54,8 @@ jQuery(document).ready(function() {
 
 	jQuery('#' + active_tab).addClass('active');
 	jQuery('#' + active_tab + '-tab').addClass('nav-tab-active');
+
+	jQuery('.nav-tab-active').click();
 
 });
 
@@ -71,15 +89,22 @@ function copy_home_meta() {
 	jQuery('#og_frontpage_desc').val(jQuery('#meta_description').val());
 }
 
-/*jQuery(document).ready(function(){
-	// Collapsible debug information on the settings pages
-	jQuery('#wpseo-debug-info').accordion({
-		active: false,
-		collapsible: true,
-		icons: {
-			header: 'ui-icon-circle-triangle-e',
-			activeHeader: 'ui-icon-circle-triangle-s'
-		},
-		heightStyle: 'content'
-	});
-});*/
+function wpseo_set_tab_hash() {
+
+	conf = jQuery('#wpseo-conf');
+	if ( conf.length ) {
+		var currentUrl = conf.attr('action').split('#')[0];
+		conf.attr('action', currentUrl + window.location.hash);
+	}
+}
+
+
+/**
+ * When the hash changes, get the base url from the action and then add the current hash
+ */
+jQuery(window).on('hashchange', wpseo_set_tab_hash);
+
+/**
+ * When the hash changes, get the base url from the action and then add the current hash
+ */
+jQuery(document).on('ready', wpseo_set_tab_hash);

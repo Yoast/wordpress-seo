@@ -6,7 +6,6 @@ h4 {
 p.desc {
 	margin: 6px 0 10px 0;
 	padding: 0 0 8px 25px;
-	border-bottom: 1px solid #ddd;
 }
 
 p.desc.label {
@@ -40,13 +39,22 @@ label.radio {
 	float: none;
 }
 
-input.textinput, textarea, select {
+input.textinput,
+textarea,
+select {
 	width: 400px;
 }
 
-input.textinput, textarea.textinput, select.select, input.checkbox {
+input.checkbox + label.checkbox {
+	width: auto;
+}
+
+input.textinput,
+textarea.textinput,
+select.select,
+input.checkbox {
 	float: left;
-	margin: 12px 3px 0 0;
+	margin: 0 3px 5px 5px;
 	padding: 5px;
 }
 
@@ -67,9 +75,11 @@ textarea.import {
 	height: 100px;
 }
 
-label.textinput, label.select, label.checkbox {
+label.textinput,
+label.select,
+label.checkbox {
 	width: 180px;
-	margin: 10px 0 5px 0;
+	margin: 0 0 5px 5px;
 	background-color: transparent;
 }
 
@@ -151,7 +161,8 @@ div.yoastbox a:hover {
 	width: 250px;
 }
 
-div.yoastbox .button:hover, div.yoastbox .button-primary:hover {
+div.yoastbox .button:hover,
+div.yoastbox .button-primary:hover {
 	text-decoration: none;
 }
 
@@ -159,13 +170,16 @@ div.yoastbox .button:hover, div.yoastbox .button-primary:hover {
 /*margin-top: 10px;*/
 /*}*/
 
-table.yoast_help, table.yoast_help th, table.yoast_help td {
+table.yoast_help,
+table.yoast_help th,
+table.yoast_help td {
 	border: 1px solid #ddd;
 	border-collapse: collapse;
 	font-size: 12px;
 }
 
-table.yoast_help th, table.yoast_help td {
+table.yoast_help th,
+table.yoast_help td {
 	padding: 5px 10px;
 	text-align: left;
 	vertical-align: text-top;
@@ -226,12 +240,15 @@ table.yoast_help tr:hover {
 
 .wpseotab {
 	display: none;
-	/*max-width: 600px !important;*/
-	;
+	margin-top: 15px;
 }
 
 .wpseotab.active {
 	display: block;
+}
+
+.wpseotab strong {
+	font-size: 115%;
 }
 
 #sidebar .yoastbox {
@@ -249,7 +266,8 @@ table.yoast_help tr:hover {
 	color: #000;
 }
 
-#donate.yoastbox, #sitereview.yoastbox {
+#donate.yoastbox,
+#sitereview.yoastbox {
 	border-color: green;
 	background-color: #cfc;
 }
@@ -289,7 +307,8 @@ h2 code {
 	color: #c00;
 }
 
-input.wpseo-new-title, textarea.wpseo-new-metadesc {
+input.wpseo-new-title,
+textarea.wpseo-new-metadesc {
 	width: 100%;
 	max-width: 100%;
 }
@@ -380,4 +399,15 @@ div#separator input.radio:checked + label {
 	border: 1px solid green;
 	background-color: #fff;
 	box-shadow: 1px 1px 1px green;
+}
+
+.feature-section .dashicons {
+	font-size: 600%;
+}
+
+.nav-tab .dashicons {
+	width: 18px;
+	height: 18px;
+	font-size: 18px;
+	line-height: 24px;
 }

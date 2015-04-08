@@ -1,6 +1,7 @@
 <?php
 /**
- * @package Frontend
+ * @package    WPSEO
+ * @subpackage Frontend
  */
 
 /**
@@ -14,6 +15,11 @@ class WPSEO_Twitter {
 	 * @var    object    Instance of this class
 	 */
 	public static $instance;
+
+	/**
+	 * @var array Images
+	 */
+	private $images = array();
 
 	/**
 	 * @var array Images
@@ -42,8 +48,6 @@ class WPSEO_Twitter {
 
 	/**
 	 * Outputs the Twitter Card code on singular pages.
-	 *
-	 * @return  void   Only shows on singular pages, false on non-singular pages.
 	 */
 	public function twitter() {
 		wp_reset_query();
@@ -86,17 +90,16 @@ class WPSEO_Twitter {
 
 	/**
 	 * Determines the twitter card type for the current page
-	 *
-	 * @return string
 	 */
 	private function determine_card_type() {
 		$this->type = $this->options['twitter_card_type'];
 		if ( is_singular() ) {
-			global $post;
-
 			// If the current post has a gallery, output a gallery card
-			if ( has_shortcode( $post->post_content, 'gallery' ) ) {
-				$this->type = 'gallery';
+			if ( has_shortcode( $GLOBALS['post']->post_content, 'gallery' ) ) {
+				$this->images = get_post_gallery_images();
+				if ( count( $this->images ) > 3 ) {
+					$this->type = 'gallery';
+				}
 			}
 		}
 
@@ -112,8 +115,6 @@ class WPSEO_Twitter {
 	 * Determines whether the card type is of a type currently allowed by Twitter
 	 *
 	 * @link https://dev.twitter.com/cards/types
-	 *
-	 * @return string
 	 */
 	private function sanitize_card_type() {
 		if ( ! in_array( $this->type, array(
@@ -152,7 +153,7 @@ class WPSEO_Twitter {
 		$metatag_key = apply_filters( 'wpseo_twitter_metatag_key', 'name' );
 
 		// Output meta
-		echo '<meta ' . esc_attr( $metatag_key ) . '="twitter:' . esc_attr( $name ) . '" content="' . $value . '"/>' . "\n";
+		echo '<meta ', esc_attr( $metatag_key ), '="twitter:', esc_attr( $name ), '" content="', $value, '"/>', "\n";
 	}
 
 	/**
@@ -163,7 +164,8 @@ class WPSEO_Twitter {
 	protected function description() {
 		if ( is_singular() ) {
 			$meta_desc = $this->single_description();
-		} else {
+		}
+		else {
 			$meta_desc = $this->fallback_description();
 		}
 
@@ -214,7 +216,8 @@ class WPSEO_Twitter {
 	protected function title() {
 		if ( is_singular() ) {
 			$title = $this->single_title();
-		} else {
+		}
+		else {
 			$title = $this->fallback_title();
 		}
 
@@ -238,7 +241,8 @@ class WPSEO_Twitter {
 		$title = WPSEO_Meta::get_value( 'twitter-title' );
 		if ( ! is_string( $title ) || '' === $title ) {
 			return $this->fallback_title();
-		} else {
+		}
+		else {
 			return $title;
 		}
 	}
@@ -282,7 +286,8 @@ class WPSEO_Twitter {
 	private function get_twitter_id( $id ) {
 		if ( preg_match( '`([A-Za-z0-9_]{1,25})$`', $id, $match ) ) {
 			return $match[1];
-		} else {
+		}
+		else {
 			return false;
 		}
 	}
@@ -308,10 +313,10 @@ class WPSEO_Twitter {
 	 * Only used when OpenGraph is inactive or Summary Large Image card is chosen.
 	 */
 	protected function image() {
-
 		if ( 'gallery' === $this->type ) {
 			$this->gallery_images_output();
-		} else {
+		}
+		else {
 			$this->single_image_output();
 		}
 
@@ -324,17 +329,8 @@ class WPSEO_Twitter {
 	 * Outputs the first 4 images of a gallery as the posts gallery images
 	 */
 	private function gallery_images_output() {
-		$images = get_post_gallery_images();
-
-		// If there are no images attached, use the standard single image output
-		if ( count( $images ) === 0 ) {
-			$this->single_image_output();
-
-			return;
-		}
-
 		$image_counter = 0;
-		foreach ( $images as $image ) {
+		foreach ( $this->images as $image ) {
 			if ( $image_counter > 3 ) {
 				return;
 			}
@@ -460,8 +456,7 @@ class WPSEO_Twitter {
 	 * @return bool
 	 */
 	private function image_from_content_output() {
-		global $post;
-		if ( preg_match_all( '`<img [^>]+>`', $post->post_content, $matches ) ) {
+		if ( preg_match_all( '`<img [^>]+>`', $GLOBALS['post']->post_content, $matches ) ) {
 			foreach ( $matches[0] as $img ) {
 				if ( preg_match( '`src=(["\'])(.*?)\1`', $img, $match ) ) {
 					$this->image_output( $match[2] );
@@ -489,7 +484,8 @@ class WPSEO_Twitter {
 
 		if ( is_string( $twitter ) && $twitter !== '' ) {
 			$this->output_metatag( 'creator', '@' . $twitter );
-		} elseif ( $this->options['twitter_site'] !== '' ) {
+		}
+		elseif ( $this->options['twitter_site'] !== '' ) {
 			if ( is_string( $this->options['twitter_site'] ) && $this->options['twitter_site'] !== '' ) {
 				$this->output_metatag( 'creator', '@' . $this->options['twitter_site'] );
 			}

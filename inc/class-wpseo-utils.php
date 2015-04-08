@@ -1,22 +1,19 @@
 <?php
 /**
- * @package Internals
+ * @package    WPSEO
+ * @subpackage Internals
+ * @since      1.8.0
  */
 
 /**
  * Group of utility methods for use by WPSEO
  * All methods are static, this is just a sort of namespacing class wrapper.
- *
- * @package    WordPress\Plugins\WPSeo
- * @subpackage Internals
- * @since      1.6.1
- * @version    1.6.1
  */
 class WPSEO_Utils {
 
 	/**
-	 * @static
 	 * @var bool $has_filters Whether the PHP filter extension is enabled
+	 * @static
 	 */
 	public static $has_filters;
 
@@ -152,7 +149,7 @@ class WPSEO_Utils {
 	 *
 	 * @static
 	 *
-	 * @param string $text input string that might contain shortcodes
+	 * @param string $text Input string that might contain shortcodes
 	 *
 	 * @return string $text string without shortcodes
 	 */
@@ -166,14 +163,15 @@ class WPSEO_Utils {
 	 *
 	 * @static
 	 *
-	 * @param   mixed $value Value to trim or array of values to trim
+	 * @param mixed $value Value to trim or array of values to trim
 	 *
-	 * @return  mixed      Trimmed value or array of trimmed values
+	 * @return mixed Trimmed value or array of trimmed values
 	 */
 	public static function trim_recursive( $value ) {
 		if ( is_string( $value ) ) {
 			$value = trim( $value );
-		} elseif ( is_array( $value ) ) {
+		}
+		elseif ( is_array( $value ) ) {
 			$value = array_map( array( __CLASS__, 'trim_recursive' ), $value );
 		}
 
@@ -218,11 +216,13 @@ class WPSEO_Utils {
 			default:
 				$score = __( 'Bad', 'wordpress-seo' );
 				$css   = 'bad';
+				break;
 		}
 
 		if ( $css_value ) {
 			return $css;
-		} else {
+		}
+		else {
 			return $score;
 		}
 	}
@@ -252,7 +252,8 @@ class WPSEO_Utils {
 			$filtered = wp_pre_kses_less_than( $filtered );
 			// This will strip extra whitespace for us.
 			$filtered = wp_strip_all_tags( $filtered, true );
-		} else {
+		}
+		else {
 			$filtered = trim( preg_replace( '`[\r\n\t ]+`', ' ', $filtered ) );
 		}
 
@@ -261,6 +262,7 @@ class WPSEO_Utils {
 			$filtered = str_replace( $match[1], '', $filtered );
 			$found    = true;
 		}
+		unset( $match );
 
 		if ( $found ) {
 			// Strip out the whitespace that may now exist after removing the octets.
@@ -287,10 +289,10 @@ class WPSEO_Utils {
 	 *
 	 * @static
 	 *
-	 * @param  string $value
-	 * @param  array  $allowed_protocols
+	 * @param string $value
+	 * @param array  $allowed_protocols
 	 *
-	 * @return  string
+	 * @return string
 	 */
 	public static function sanitize_url( $value, $allowed_protocols = array( 'http', 'https' ) ) {
 		return esc_url_raw( sanitize_text_field( rawurldecode( $value ) ), $allowed_protocols );
@@ -301,9 +303,9 @@ class WPSEO_Utils {
 	 *
 	 * @static
 	 *
-	 * @param  mixed $value
+	 * @param mixed $value
 	 *
-	 * @return  bool
+	 * @return bool
 	 */
 	public static function validate_bool( $value ) {
 		if ( ! isset( self::$has_filters ) ) {
@@ -312,7 +314,8 @@ class WPSEO_Utils {
 
 		if ( self::$has_filters ) {
 			return filter_var( $value, FILTER_VALIDATE_BOOLEAN );
-		} else {
+		}
+		else {
 			return self::emulate_filter_bool( $value );
 		}
 	}
@@ -322,9 +325,9 @@ class WPSEO_Utils {
 	 *
 	 * @static
 	 *
-	 * @param    mixed $value Value to cast
+	 * @param mixed $value Value to cast
 	 *
-	 * @return    bool
+	 * @return bool
 	 */
 	public static function emulate_filter_bool( $value ) {
 		$true  = array(
@@ -359,20 +362,26 @@ class WPSEO_Utils {
 
 		if ( is_bool( $value ) ) {
 			return $value;
-		} else if ( is_int( $value ) && ( $value === 0 || $value === 1 ) ) {
+		}
+		else if ( is_int( $value ) && ( $value === 0 || $value === 1 ) ) {
 			return (bool) $value;
-		} else if ( ( is_float( $value ) && ! is_nan( $value ) ) && ( $value === (float) 0 || $value === (float) 1 ) ) {
+		}
+		else if ( ( is_float( $value ) && ! is_nan( $value ) ) && ( $value === (float) 0 || $value === (float) 1 ) ) {
 			return (bool) $value;
-		} else if ( is_string( $value ) ) {
+		}
+		else if ( is_string( $value ) ) {
 			$value = trim( $value );
 			if ( in_array( $value, $true, true ) ) {
 				return true;
-			} else if ( in_array( $value, $false, true ) ) {
+			}
+			else if ( in_array( $value, $false, true ) ) {
 				return false;
-			} else {
+			}
+			else {
 				return false;
 			}
 		}
+
 		return false;
 	}
 
@@ -381,9 +390,9 @@ class WPSEO_Utils {
 	 *
 	 * @static
 	 *
-	 * @param  mixed $value
+	 * @param mixed $value
 	 *
-	 * @return  mixed  int or false in case of failure to convert to int
+	 * @return int|bool int or false in case of failure to convert to int
 	 */
 	public static function validate_int( $value ) {
 		if ( ! isset( self::$has_filters ) ) {
@@ -392,7 +401,8 @@ class WPSEO_Utils {
 
 		if ( self::$has_filters ) {
 			return filter_var( $value, FILTER_VALIDATE_INT );
-		} else {
+		}
+		else {
 			return self::emulate_filter_int( $value );
 		}
 	}
@@ -402,31 +412,38 @@ class WPSEO_Utils {
 	 *
 	 * @static
 	 *
-	 * @param    mixed $value Value to cast
+	 * @param mixed $value Value to cast
 	 *
-	 * @return    int|bool
+	 * @return int|bool
 	 */
 	public static function emulate_filter_int( $value ) {
 		if ( is_int( $value ) ) {
 			return $value;
-		} else if ( is_float( $value ) ) {
+		}
+		else if ( is_float( $value ) ) {
 			if ( (int) $value == $value && ! is_nan( $value ) ) {
 				return (int) $value;
-			} else {
-				return false;
 			}
-		} else if ( is_string( $value ) ) {
-			$value = trim( $value );
-			if ( $value === '' ) {
-				return false;
-			} else if ( ctype_digit( $value ) ) {
-				return (int) $value;
-			} else if ( strpos( $value, '-' ) === 0 && ctype_digit( substr( $value, 1 ) ) ) {
-				return (int) $value;
-			} else {
+			else {
 				return false;
 			}
 		}
+		else if ( is_string( $value ) ) {
+			$value = trim( $value );
+			if ( $value === '' ) {
+				return false;
+			}
+			else if ( ctype_digit( $value ) ) {
+				return (int) $value;
+			}
+			else if ( strpos( $value, '-' ) === 0 && ctype_digit( substr( $value, 1 ) ) ) {
+				return (int) $value;
+			}
+			else {
+				return false;
+			}
+		}
+
 		return false;
 	}
 
@@ -439,12 +456,12 @@ class WPSEO_Utils {
 	 *
 	 * @static
 	 *
-	 * @param  mixed $disregard        Not needed - passed by add/update_option action call
+	 * @param mixed $disregard        Not needed - passed by add/update_option action call
 	 *                                 Option name if option was added, old value if option was updated
-	 * @param  array $value            The (new/current) value of the wpseo option
-	 * @param  bool  $force_unschedule Whether to force an unschedule (i.e. on deactivate)
+	 * @param array $value            The (new/current) value of the wpseo option
+	 * @param bool  $force_unschedule Whether to force an unschedule (i.e. on deactivate)
 	 *
-	 * @return  void
+	 * @return void
 	 */
 	public static function schedule_yoast_tracking( $disregard, $value, $force_unschedule = false ) {
 		$current_schedule = wp_next_scheduled( 'yoast_tracking' );
@@ -452,7 +469,8 @@ class WPSEO_Utils {
 		if ( $force_unschedule !== true && ( $value['yoast_tracking'] === true && $current_schedule === false ) ) {
 			// The tracking checks daily, but only sends new data every 7 days.
 			wp_schedule_event( time(), 'daily', 'yoast_tracking' );
-		} elseif ( $force_unschedule === true || ( $value['yoast_tracking'] === false && $current_schedule !== false ) ) {
+		}
+		elseif ( $force_unschedule === true || ( $value['yoast_tracking'] === false && $current_schedule !== false ) ) {
 			wp_clear_scheduled_hook( 'yoast_tracking' );
 		}
 	}
@@ -465,7 +483,8 @@ class WPSEO_Utils {
 	public static function clear_cache() {
 		if ( function_exists( 'w3tc_pgcache_flush' ) ) {
 			w3tc_pgcache_flush();
-		} elseif ( function_exists( 'wp_cache_clear_cache' ) ) {
+		}
+		elseif ( function_exists( 'wp_cache_clear_cache' ) ) {
 			wp_cache_clear_cache();
 		}
 	}
@@ -501,6 +520,21 @@ class WPSEO_Utils {
 	public static function clear_sitemap_cache( $types = array() ) {
 		global $wpdb;
 
+		if ( wp_using_ext_object_cache() ) {
+			return;
+		}
+
+		if ( ! apply_filters( 'wpseo_enable_xml_sitemap_transient_caching', true ) ) {
+			return;
+		}
+
+		// not sure about efficiency, but that's what code elsewhere does R.
+		$options = WPSEO_Options::get_all();
+
+		if ( true !== $options['enablexmlsitemap'] ) {
+			return;
+		}
+
 		$query = "DELETE FROM $wpdb->options WHERE";
 
 		if ( ! empty( $types ) ) {
@@ -534,25 +568,25 @@ class WPSEO_Utils {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @param    mixed  $number1      Scalar (string/int/float/bool)
-	 * @param    string $action       Calculation action to execute. Valid input:
-	 *                                '+' or 'add' or 'addition',
-	 *                                '-' or 'sub' or 'subtract',
-	 *                                '*' or 'mul' or 'multiply',
-	 *                                '/' or 'div' or 'divide',
-	 *                                '%' or 'mod' or 'modulus'
-	 *                                '=' or 'comp' or 'compare'
-	 * @param    mixed  $number2      Scalar (string/int/float/bool)
-	 * @param    bool   $round        Whether or not to round the result. Defaults to false.
-	 *                                Will be disregarded for a compare operation
-	 * @param    int    $decimals     Decimals for rounding operation. Defaults to 0.
-	 * @param    int    $precision    Calculation precision. Defaults to 10.
+	 * @param mixed  $number1   Scalar (string/int/float/bool)
+	 * @param string $action    Calculation action to execute. Valid input:
+	 *                            '+' or 'add' or 'addition',
+	 *                            '-' or 'sub' or 'subtract',
+	 *                            '*' or 'mul' or 'multiply',
+	 *                            '/' or 'div' or 'divide',
+	 *                            '%' or 'mod' or 'modulus'
+	 *                            '=' or 'comp' or 'compare'
+	 * @param mixed  $number2   Scalar (string/int/float/bool)
+	 * @param bool   $round     Whether or not to round the result. Defaults to false.
+	 *                          Will be disregarded for a compare operation
+	 * @param int    $decimals  Decimals for rounding operation. Defaults to 0.
+	 * @param int    $precision Calculation precision. Defaults to 10.
 	 *
-	 * @return    mixed                Calculation Result or false if either or the numbers isn't scalar or
-	 *                                an invalid operation was passed
-	 *                                - for compare the result will always be an integer
-	 *                                - for all other operations, the result will either be an integer (preferred)
-	 *                                or a float
+	 * @return mixed            Calculation Result or false if either or the numbers isn't scalar or
+	 *                          an invalid operation was passed
+	 *                          - for compare the result will always be an integer
+	 *                          - for all other operations, the result will either be an integer (preferred)
+	 *                            or a float
 	 */
 	public static function calc( $number1, $action, $number2, $round = false, $decimals = 0, $precision = 10 ) {
 		static $bc;
@@ -599,7 +633,7 @@ class WPSEO_Utils {
 					$result = bcdiv( $number1, $number2, $precision ); // string, or NULL if right_operand is 0
 				}
 				elseif ( $number2 != 0 ) {
-					$result = $number1 / $number2;
+					$result = ( $number1 / $number2 );
 				}
 
 				if ( ! isset( $result ) ) {
@@ -614,7 +648,7 @@ class WPSEO_Utils {
 					$result = bcmod( $number1, $number2, $precision ); // string, or NULL if modulus is 0.
 				}
 				elseif ( $number2 != 0 ) {
-					$result = $number1 % $number2;
+					$result = ( $number1 % $number2 );
 				}
 
 				if ( ! isset( $result ) ) {
@@ -628,7 +662,8 @@ class WPSEO_Utils {
 				$compare = true;
 				if ( $bc ) {
 					$result = bccomp( $number1, $number2, $precision ); // returns int 0, 1 or -1
-				} else {
+				}
+				else {
 					$result = ( $number1 == $number2 ) ? 0 : ( ( $number1 > $number2 ) ? 1 : - 1 );
 				}
 				break;
@@ -641,7 +676,8 @@ class WPSEO_Utils {
 					if ( $decimals === 0 ) {
 						$result = (int) $result;
 					}
-				} else {
+				}
+				else {
 					$result = ( intval( $result ) == $result ) ? intval( $result ) : floatval( $result );
 				}
 			}
@@ -664,57 +700,45 @@ class WPSEO_Utils {
 	 * @return mixed
 	 */
 	public static function filter_input( $type, $variable_name, $filter = FILTER_DEFAULT ) {
-		if ( function_exists( 'filter_input' ) ) {
-			return filter_input( $type, $variable_name, $filter );
-		} else {
-			switch ( $type ) {
-				case INPUT_GET:
-					$type = $_GET;
-					break;
-				case INPUT_POST:
-					$type = $_POST;
-					break;
-				case INPUT_SERVER:
-					$type = $_SERVER;
-					break;
-				default:
-					return false;
-					break;
-			}
-
-			if ( isset( $type[ $variable_name ] ) ) {
-				$out = $type[ $variable_name ];
-			} else {
-				return false;
-			}
-
-			switch ( $filter ) {
-				case FILTER_VALIDATE_INT:
-					return self::emulate_filter_int( $out );
-					break;
-				case FILTER_VALIDATE_BOOLEAN:
-					return self::emulate_filter_bool( $out );
-					break;
-				default:
-					return (string) $out;
-					break;
-			}
-		}
+		return filter_input( $type, $variable_name, $filter );
 	}
 
 	/**
 	 * Trim whitespace and NBSP (Non-breaking space) from string
 	 *
-	 * @param $string
+	 * @param string $string
 	 *
-	 * @return mixed|string
+	 * @return string
 	 */
 	public static function trim_nbsp_from_string( $string ) {
-		$find    = array( '&nbsp;', chr( 0xC2 ) . chr( 0xA0 ) );
-		$string  = str_replace( $find, ' ', $string );
-		$string  = trim( $string );
+		$find   = array( '&nbsp;', chr( 0xC2 ) . chr( 0xA0 ) );
+		$string = str_replace( $find, ' ', $string );
+		$string = trim( $string );
 
 		return $string;
+	}
+
+	/**
+	 * Check if a string is a valid datetime
+	 *
+	 * @param string $datetime
+	 *
+	 * @return bool
+	 */
+	public static function is_valid_datetime( $datetime ) {
+		if ( substr( $datetime, 0, 1 ) != '-' ) {
+			try {
+				// Use the DateTime class ( PHP 5.2 > ) to check if the string is a valid datetime
+				if ( new DateTime( $datetime ) !== false ) {
+					return true;
+				}
+			}
+			catch( Exception $exc ) {
+				return false;
+			}
+		}
+
+		return false;
 	}
 
 } /* End of class WPSEO_Utils */

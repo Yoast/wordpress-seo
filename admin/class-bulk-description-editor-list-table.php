@@ -1,13 +1,14 @@
 <?php
 /**
- * @package Admin
+ * @package    WPSEO
+ * @subpackage Admin
+ * @since      1.5.0
  */
 
 /**
- *
+ * Implements table for bulk description editing.
  */
 class WPSEO_Bulk_Description_List_Table extends WPSEO_Bulk_List_Table {
-
 
 	/**
 	 * Current type for this class will be (meta) description.
@@ -58,12 +59,16 @@ class WPSEO_Bulk_Description_List_Table extends WPSEO_Bulk_List_Table {
 	 */
 	protected function parse_page_specific_column( $column_name, $record, $attributes ) {
 		switch ( $column_name ) {
-			case 'col_new_yoast_seo_metadesc' :
-				return sprintf( '<textarea id="%1$s" name="%1$s" class="wpseo-new-metadesc" data-id="%2$s"></textarea>', 'wpseo-new-metadesc-' . $record->ID, $record->ID );
+			case 'col_new_yoast_seo_metadesc':
+				return sprintf(
+					'<textarea id="%1$s" name="%1$s" class="wpseo-new-metadesc" data-id="%2$s"></textarea>',
+					'wpseo-new-metadesc-' . $record->ID,
+					$record->ID
+				);
 				break;
 
-
 			case 'col_existing_yoast_seo_metadesc':
+				// TODO inconsistent return/echo behavior R.
 				echo $this->parse_meta_data_field( $record->ID, $attributes );
 				break;
 		}

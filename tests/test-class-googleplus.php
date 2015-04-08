@@ -1,4 +1,8 @@
 <?php
+/**
+ * @package    WPSEO
+ * @subpackage Unittests
+ */
 
 class WPSEO_GooglePlus_Test extends WPSEO_UnitTestCase {
 

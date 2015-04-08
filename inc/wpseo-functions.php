@@ -1,6 +1,7 @@
 <?php
 /**
- * @package Internals
+ * @package    WPSEO
+ * @subpackage Internals
  */
 
 if ( ! defined( 'WPSEO_VERSION' ) ) {
@@ -9,71 +10,10 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-
-/**
- * Run the upgrade procedures.
- *
- * @todo - [JRF => Yoast] check: if upgrade is run on multi-site installation, upgrade for all sites ?
- * Maybe not necessary as it is now run on plugins_loaded, so upgrade will run as soon as any page
- * on a site is requested.
- */
-function wpseo_do_upgrade() {
-	/* Make sure title_test and description_test functions are available */
-	require_once( WPSEO_PATH . 'inc/wpseo-non-ajax-functions.php' );
-
-	$option_wpseo = get_option( 'wpseo' );
-
-	WPSEO_Options::maybe_set_multisite_defaults( false );
-
-	// Just flush rewrites, always, to at least make them work after an upgrade.
-	add_action( 'shutdown', 'flush_rewrite_rules' );
-	WPSEO_Utils::clear_sitemap_cache();
-
-	if ( $option_wpseo['version'] === '' || version_compare( $option_wpseo['version'], '1.4.13', '<' ) ) {
-		// Run description test once theme has loaded
-		add_action( 'init', 'wpseo_description_test' );
-	}
-
-	if ( version_compare( $option_wpseo['version'], '1.5.0', '<' ) ) {
-
-		// Clean up options and meta
-		WPSEO_Options::clean_up( null, $option_wpseo['version'] );
-		WPSEO_Meta::clean_up();
-
-		// Add new capabilities on upgrade
-		wpseo_add_capabilities();
-	}
-
-	/* Only correct the breadcrumb defaults for upgrades from v1.5+ to v1.5.2.3, upgrades from earlier version
-	   will already get this functionality in the clean_up routine. */
-	if ( version_compare( $option_wpseo['version'], '1.4.25', '>' ) && version_compare( $option_wpseo['version'], '1.5.2.3', '<' ) ) {
-		add_action( 'init', array( 'WPSEO_Options', 'bring_back_breadcrumb_defaults' ), 3 );
-	}
-
-	if ( version_compare( $option_wpseo['version'], '1.4.25', '>' ) && version_compare( $option_wpseo['version'], '1.5.2.4', '<' ) ) {
-		/* Make sure empty maintax/mainpt strings will convert to 0 */
-		WPSEO_Options::clean_up( 'wpseo_internallinks', $option_wpseo['version'] );
-
-		/* Remove slashes from taxonomy meta texts */
-		WPSEO_Options::clean_up( 'wpseo_taxonomy_meta', $option_wpseo['version'] );
-	}
-
-	/* Clean up stray wpseo_ms options from the options table, option should only exist in the sitemeta table */
-	delete_option( 'wpseo_ms' );
-
-
-	// Make sure version nr gets updated for any version without specific upgrades
-	$option_wpseo = get_option( 'wpseo' ); // re-get to make sure we have the latest version
-	if ( version_compare( $option_wpseo['version'], WPSEO_VERSION, '<' ) ) {
-		update_option( 'wpseo', $option_wpseo );
-	}
-
-	// Make sure all our options always exist - issue #1245
-	WPSEO_Options::ensure_options_exist();
-}
-
-
 if ( ! function_exists( 'initialize_wpseo_front' ) ) {
+	/**
+	 * Wraps frontend class.
+	 */
 	function initialize_wpseo_front() {
 		WPSEO_Frontend::get_instance();
 	}
@@ -117,7 +57,6 @@ function wpseo_add_capabilities() {
 	$roles = array(
 		'administrator',
 		'editor',
-		'author',
 	);
 
 	$roles = apply_filters( 'wpseo_bulk_edit_roles', $roles );
@@ -203,15 +142,15 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
  *
  * @since 1.5.4
  *
- * @param  string $var                   The name of the variable to replace, i.e. '%%var%%'
- *                                       - the surrounding %% are optional, name can only contain [A-Za-z0-9_-]
- * @param  mixed  $replace_function      Function or method to call to retrieve the replacement value for the variable
- *                                       Uses the same format as add_filter/add_action function parameter and
- *                                       should *return* the replacement value. DON'T echo it!
- * @param  string $type                  Type of variable: 'basic' or 'advanced', defaults to 'advanced'
- * @param  string $help_text             Help text to be added to the help tab for this variable
+ * @param  string $var              The name of the variable to replace, i.e. '%%var%%'
+ *                                  - the surrounding %% are optional, name can only contain [A-Za-z0-9_-]
+ * @param  mixed  $replace_function Function or method to call to retrieve the replacement value for the variable
+ *                                  Uses the same format as add_filter/add_action function parameter and
+ *                                  should *return* the replacement value. DON'T echo it!
+ * @param  string $type             Type of variable: 'basic' or 'advanced', defaults to 'advanced'
+ * @param  string $help_text        Help text to be added to the help tab for this variable
  *
- * @return bool     Whether the replacement function was succesfully registered
+ * @return bool  Whether the replacement function was succesfully registered
  */
 function wpseo_register_var_replacement( $var, $replace_function, $type = 'advanced', $help_text = '' ) {
 	return WPSEO_Replace_Vars::register_replacement( $var, $replace_function, $type, $help_text );
@@ -221,13 +160,11 @@ function wpseo_register_var_replacement( $var, $replace_function, $type = 'advan
  * Redirect /sitemap.xml to /sitemap_index.xml
  */
 function wpseo_xml_redirect_sitemap() {
-	global $wp_query;
-
 	$current_url = ( isset( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] == 'on' ) ? 'https://' : 'http://';
 	$current_url .= sanitize_text_field( $_SERVER['SERVER_NAME'] ) . sanitize_text_field( $_SERVER['REQUEST_URI'] );
 
 	// must be 'sitemap.xml' and must be 404
-	if ( home_url( '/sitemap.xml' ) == $current_url && $wp_query->is_404 ) {
+	if ( home_url( '/sitemap.xml' ) == $current_url && $GLOBALS['wp_query']->is_404 ) {
 		wp_redirect( home_url( '/sitemap_index.xml' ), 301 );
 		exit;
 	}
@@ -283,6 +220,8 @@ add_action( 'init', 'wpseo_xml_sitemaps_init', 1 );
 
 /**
  * Notify search engines of the updated sitemap.
+ *
+ * @param string|null $sitemapurl
  */
 function wpseo_ping_search_engines( $sitemapurl = null ) {
 	// Don't ping if blog is not public
@@ -290,27 +229,20 @@ function wpseo_ping_search_engines( $sitemapurl = null ) {
 		return;
 	}
 
-	$options = get_option( 'wpseo_xml' );
 	if ( $sitemapurl == null ) {
 		$sitemapurl = urlencode( wpseo_xml_sitemaps_base_url( 'sitemap_index.xml' ) );
 	}
 
-	// Always ping Google and Bing, optionally ping Ask and Yahoo!
-	wp_remote_get( 'http://www.google.com/webmasters/tools/ping?sitemap=' . $sitemapurl );
-	wp_remote_get( 'http://www.bing.com/ping?sitemap=' . $sitemapurl );
-
-	if ( $options['xml_ping_yahoo'] === true ) {
-		wp_remote_get( 'http://search.yahooapis.com/SiteExplorerService/V1/updateNotification?appid=3usdTDLV34HbjQpIBuzMM1UkECFl5KDN7fogidABihmHBfqaebDuZk1vpLDR64I-&url=' . $sitemapurl );
-	}
-
-	if ( $options['xml_ping_ask'] === true ) {
-		wp_remote_get( 'http://submissions.ask.com/ping?sitemap=' . $sitemapurl );
-	}
+	// Ping Google and Bing
+	wp_remote_get( 'http://www.google.com/webmasters/tools/ping?sitemap=' . $sitemapurl, array( 'blocking' => false ) );
+	wp_remote_get( 'http://www.bing.com/ping?sitemap=' . $sitemapurl, array( 'blocking' => false ) );
 }
 
 add_action( 'wpseo_ping_search_engines', 'wpseo_ping_search_engines' );
 
-
+/**
+ * Handles ajax request for tracking activation.
+ */
 function wpseo_store_tracking_response() {
 	if ( ! wp_verify_nonce( $_POST['nonce'], 'wpseo_activate_tracking' ) ) {
 		die();
@@ -321,7 +253,8 @@ function wpseo_store_tracking_response() {
 
 	if ( $_POST['allow_tracking'] == 'yes' ) {
 		$options['yoast_tracking'] = true;
-	} else {
+	}
+	else {
 		$options['yoast_tracking'] = false;
 	}
 
@@ -395,7 +328,7 @@ add_shortcode( 'wpseo_breadcrumb', 'wpseo_shortcode_yoast_breadcrumb' );
 /**
  * This invalidates our XML Sitemaps cache.
  *
- * @param $type
+ * @param string $type
  */
 function wpseo_invalidate_sitemap_cache( $type ) {
 	// Always delete the main index sitemaps cache, as that's always invalidated by any other change
@@ -447,6 +380,12 @@ add_action( 'save_post', 'wpseo_invalidate_sitemap_cache_on_save_post' );
  * @return    bool
  */
 if ( ! extension_loaded( 'ctype' ) || ! function_exists( 'ctype_digit' ) ) {
+
+	/**
+	 * @param string $string
+	 *
+	 * @return bool
+	 */
 	function ctype_digit( $string ) {
 		$return = false;
 		if ( ( is_string( $string ) && $string !== '' ) && preg_match( '`^\d+$`', $string ) === 1 ) {
@@ -564,7 +503,7 @@ function replace_meta( $old_metakey, $new_metakey, $replace = false ) {
  */
 function wpseo_get_term_meta( $term, $taxonomy, $meta ) {
 	_deprecated_function( __FUNCTION__, 'WPSEO 1.5.0', 'WPSEO_Taxonomy_Meta::get_term_meta()' );
-	WPSEO_Taxonomy_Meta::get_term_meta( $term, $taxonomy, $meta );
+	return WPSEO_Taxonomy_Meta::get_term_meta( $term, $taxonomy, $meta );
 }
 
 /**
@@ -621,40 +560,44 @@ add_shortcode( 'wpseo_sitemap', 'wpseo_sitemap_handler' );
  *
  * @deprecated 1.6.1
  * @deprecated use WPSEO_Utils::strip_shortcode()
- * @see WPSEO_Utils::strip_shortcode()
+ * @see        WPSEO_Utils::strip_shortcode()
  *
  * @param string $text input string that might contain shortcodes
+ *
  * @return string $text string without shortcodes
  */
 function wpseo_strip_shortcode( $text ) {
 	_deprecated_function( __FUNCTION__, 'WPSEO 1.6.1', 'WPSEO_Utils::strip_shortcode()' );
+
 	return WPSEO_Utils::strip_shortcode( $text );
 }
 
 /**
  * Do simple reliable math calculations without the risk of wrong results
- * @see http://floating-point-gui.de/
- * @see the big red warning on http://php.net/language.types.float.php
+ * @see        http://floating-point-gui.de/
+ * @see        the big red warning on http://php.net/language.types.float.php
  *
  * @deprecated 1.6.1
  * @deprecated use WPSEO_Utils::calc()
- * @see WPSEO_Utils::calc()
+ * @see        WPSEO_Utils::calc()
  *
  * In the rare case that the bcmath extension would not be loaded, it will return the normal calculation results
  *
- * @since 1.5.0
+ * @since      1.5.0
  *
- * @param	mixed   $number1    Scalar (string/int/float/bool)
- * @param	string	$action		Calculation action to execute.
- * @param	mixed	$number2    Scalar (string/int/float/bool)
- * @param	bool	$round		Whether or not to round the result. Defaults to false.
- * @param	int		$decimals	Decimals for rounding operation. Defaults to 0.
- * @param	int		$precision	Calculation precision. Defaults to 10.
- * @return	mixed				Calculation Result or false if either or the numbers isn't scalar or
- *								an invalid operation was passed
+ * @param    mixed  $number1   Scalar (string/int/float/bool)
+ * @param    string $action    Calculation action to execute.
+ * @param    mixed  $number2   Scalar (string/int/float/bool)
+ * @param    bool   $round     Whether or not to round the result. Defaults to false.
+ * @param    int    $decimals  Decimals for rounding operation. Defaults to 0.
+ * @param    int    $precision Calculation precision. Defaults to 10.
+ *
+ * @return    mixed                Calculation Result or false if either or the numbers isn't scalar or
+ *                                an invalid operation was passed
  */
 function wpseo_calc( $number1, $action, $number2, $round = false, $decimals = 0, $precision = 10 ) {
 	_deprecated_function( __FUNCTION__, 'WPSEO 1.6.1', 'WPSEO_Utils::calc()' );
+
 	return WPSEO_Utils::calc( $number1, $action, $number2, $round, $decimals, $precision );
 }
 
@@ -663,12 +606,13 @@ function wpseo_calc( $number1, $action, $number2, $round = false, $decimals = 0,
  *
  * @deprecated 1.6.1
  * @deprecated use WPSEO_Utils::is_apache()
- * @see WPSEO_Utils::is_apache()
+ * @see        WPSEO_Utils::is_apache()
  *
  * @return bool
  */
 function wpseo_is_apache() {
 	_deprecated_function( __FUNCTION__, 'WPSEO 1.6.1', 'WPSEO_Utils::is_apache()' );
+
 	return WPSEO_Utils::is_apache();
 }
 
@@ -677,12 +621,13 @@ function wpseo_is_apache() {
  *
  * @deprecated 1.6.1
  * @deprecated use WPSEO_Utils::is_nginx()
- * @see WPSEO_Utils::is_nginx()
+ * @see        WPSEO_Utils::is_nginx()
  *
  * @return bool
  */
 function wpseo_is_nginx() {
 	_deprecated_function( __FUNCTION__, 'WPSEO 1.6.1', 'WPSEO_Utils::is_nginx()' );
+
 	return WPSEO_Utils::is_nginx();
 }
 
@@ -691,12 +636,13 @@ function wpseo_is_nginx() {
  *
  * @deprecated 1.6.1
  * @deprecated use WPSEO_Utils::get_roles()
- * @see WPSEO_Utils::get_roles()
+ * @see        WPSEO_Utils::get_roles()
  *
  * @return array $roles
  */
 function wpseo_get_roles() {
 	_deprecated_function( __FUNCTION__, 'WPSEO 1.6.1', 'WPSEO_Utils::get_roles()' );
+
 	return WPSEO_Utils::get_roles();
 }
 
@@ -705,7 +651,7 @@ function wpseo_get_roles() {
  *
  * @deprecated 1.6.1
  * @deprecated use WPSEO_Utils::is_url_relative()
- * @see WPSEO_Utils::is_url_relative()
+ * @see        WPSEO_Utils::is_url_relative()
  *
  * @param string $url
  *
@@ -713,6 +659,7 @@ function wpseo_get_roles() {
  */
 function wpseo_is_url_relative( $url ) {
 	_deprecated_function( __FUNCTION__, 'WPSEO 1.6.1', 'WPSEO_Utils::is_url_relative()' );
+
 	return WPSEO_Utils::is_url_relative( $url );
 }
 
@@ -721,9 +668,9 @@ function wpseo_is_url_relative( $url ) {
  *
  * @deprecated 1.6.1
  * @deprecated use WPSEO_Utils::standardize_whitespace()
- * @see WPSEO_Utils::standardize_whitespace()
+ * @see        WPSEO_Utils::standardize_whitespace()
  *
- * @since 1.6.0
+ * @since      1.6.0
  *
  * @param string $string
  *
@@ -731,6 +678,7 @@ function wpseo_is_url_relative( $url ) {
  */
 function wpseo_standardize_whitespace( $string ) {
 	_deprecated_function( __FUNCTION__, 'WPSEO 1.6.1', 'WPSEO_Utils::standardize_whitespace()' );
+
 	return WPSEO_Utils::standardize_whitespace( $string );
 }
 

@@ -9,8 +9,6 @@ class WPSEO_Tutorial_Videos {
 	 * Function that outputs the redirect page
 	 */
 	public static function display() {
-		global $wpseo_admin_pages;
-
 		// Licensing part
 		$license_manager = new Yoast_Plugin_License_Manager( new WPSEO_Product_Premium() );
 
@@ -18,12 +16,12 @@ class WPSEO_Tutorial_Videos {
 		$license_manager->set_license_constant_name( 'WPSEO_LICENSE' );
 
 		// Admin header
-		$wpseo_admin_pages->admin_header( false );
+		Yoast_Form::get_instance()->admin_header( false );
 
 		if ( $license_manager->license_is_valid() ) {
 			?>
 			<div class="wpseo_content_cell">
-				<iframe src="//fast.wistia.net/embed/playlists/anhtprp59b?media_0_0%5BautoPlay%5D=false&media_0_0%5BcontrolsVisibleOnLoad%5D=false&theme=bento&version=v1&videoOptions%5BautoPlay%5D=true&videoOptions%5BvideoHeight%5D=450&videoOptions%5BvideoWidth%5D=800&videoOptions%5BvolumeControl%5D=true" allowtransparency="true" frameborder="0" scrolling="no" class="wistia_playlist" name="wistia_playlist" allowfullscreen mozallowfullscreen webkitallowfullscreen oallowfullscreen msallowfullscreen width="1107" height="488"></iframe>
+				<iframe src="//fast.wistia.net/embed/playlists/5t35e24abt?media_0_0%5BautoPlay%5D=false&amp;media_0_0%5BcontrolsVisibleOnLoad%5D=false&amp;theme=bento&amp;version=v1&amp;videoOptions%5BautoPlay%5D=true&amp;videoOptions%5BvideoHeight%5D=450&amp;videoOptions%5BvideoWidth%5D=800&amp;videoOptions%5BvolumeControl%5D=true" allowtransparency="true" frameborder="0" scrolling="no" class="wistia_playlist" name="wistia_playlist" allowfullscreen mozallowfullscreen webkitallowfullscreen oallowfullscreen msallowfullscreen width="1107" height="450"></iframe>
 				<br class="clear">
 			</div>
 			<br class="clear">
@@ -39,7 +37,7 @@ class WPSEO_Tutorial_Videos {
 
 		}
 		// Admin footer
-		$wpseo_admin_pages->admin_footer( false );
+		Yoast_Form::get_instance()->admin_footer( false );
 	}
 
 }

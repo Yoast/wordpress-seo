@@ -25,7 +25,10 @@ label {
 	margin-left: auto;
 }
 
-input.textinput, textarea.textinput, select.select, input.checkbox {
+input.textinput,
+textarea.textinput,
+select.select,
+input.checkbox {
 	float: right;
 	margin: 12px 0 0 3px;
 }
@@ -34,7 +37,8 @@ label.radio {
 	margin-left: auto;
 }
 
-table.yoast_help th, table.yoast_help td {
+table.yoast_help th,
+table.yoast_help td {
 	text-align: right;
 }
 
@@ -53,10 +57,6 @@ pre {
 .wpseo-heading {
 	padding-right: 10px;
 	padding-left: 0;
-}
-
-.wpseo_yahoo_kw {
-	margin: 3px 0 3px 8px;
 }
 
 table.wpseoanalysis th {

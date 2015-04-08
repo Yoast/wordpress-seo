@@ -1,3 +1,11 @@
+<?php
+/**
+ * @package    WPSEO
+ * @subpackage Admin
+ */
+
+?>
+
 <h3 id="wordpress-seo"><?php _e( 'WordPress SEO settings', 'wordpress-seo' ); ?></h3>
 <table class="form-table">
 	<tr>
