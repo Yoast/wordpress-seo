@@ -827,7 +827,7 @@ class WPSEO_OpenGraph_Image {
 
 	/**
 	 * Get the relative path of the image
-	 * @param array $img 
+	 * @param array $img
 	 *
 	 * @return bool|string
 	 */
