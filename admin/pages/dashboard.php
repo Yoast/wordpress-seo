@@ -10,7 +10,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-if ( WPSEO_Utils::filter_input( INPUT_GET, 'intro' ) ) {
+if ( filter_input( INPUT_GET, 'intro' ) ) {
 	require WPSEO_PATH . 'admin/views/about.php';
 	return;
 }

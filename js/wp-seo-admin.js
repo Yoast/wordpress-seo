@@ -89,10 +89,22 @@ function copy_home_meta() {
 	jQuery('#og_frontpage_desc').val(jQuery('#meta_description').val());
 }
 
+function wpseo_set_tab_hash() {
+
+	conf = jQuery('#wpseo-conf');
+	if ( conf.length ) {
+		var currentUrl = conf.attr('action').split('#')[0];
+		conf.attr('action', currentUrl + window.location.hash);
+	}
+}
+
+
 /**
  * When the hash changes, get the base url from the action and then add the current hash
  */
-jQuery(window).on('hashchange', function(){
-	var currentUrl = jQuery('#wpseo-conf').attr('action').split('#')[0];
-	jQuery('#wpseo-conf').attr('action', currentUrl + window.location.hash);
-});
+jQuery(window).on('hashchange', wpseo_set_tab_hash);
+
+/**
+ * When the hash changes, get the base url from the action and then add the current hash
+ */
+jQuery(document).on('ready', wpseo_set_tab_hash);

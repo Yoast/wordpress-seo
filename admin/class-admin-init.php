@@ -33,6 +33,7 @@ class WPSEO_Admin_Init {
 
 		$this->pagenow = $GLOBALS['pagenow'];
 
+		$this->redirect_to_about_page();
 		$this->load_meta_boxes();
 		$this->load_taxonomy_class();
 		$this->load_admin_page_class();
@@ -40,6 +41,31 @@ class WPSEO_Admin_Init {
 		$this->load_yoast_tracking();
 		$this->load_tour();
 		$this->load_xml_sitemaps_admin();
+	}
+
+	/**
+	 * Redirect first time or just upgraded users to the about screen.
+	 */
+	private function redirect_to_about_page() {
+		if ( $this->options['seen_about'] ) {
+			return;
+		}
+
+		if ( in_array( $this->pagenow, array(
+			'update.php',
+			'update-core.php',
+			'plugins.php',
+			'plugin-install.php',
+		) ) ) {
+			return;
+		}
+
+		// We're redirecting the user to the about screen, let's make sure we don't do it again until he/she upgrades again
+		$wpseo_option               = get_option( 'wpseo' );
+		$wpseo_option['seen_about'] = true;
+		update_option( 'wpseo', $wpseo_option );
+
+		wp_safe_redirect( admin_url( 'admin.php?page=wpseo_dashboard&intro=1' ) );
 	}
 
 	/**
@@ -70,7 +96,7 @@ class WPSEO_Admin_Init {
 	 * Determine if we should load our taxonomy edit class and if so, load it.
 	 */
 	private function load_taxonomy_class() {
-		if ( 'edit-tags.php' === $this->pagenow && WPSEO_Utils::filter_input( INPUT_GET, 'action' ) ) {
+		if ( 'edit-tags.php' === $this->pagenow ) {
 			new WPSEO_Taxonomy;
 		}
 	}
@@ -92,7 +118,7 @@ class WPSEO_Admin_Init {
 	 * Loads admin page class for all admin pages starting with `wpseo_`.
 	 */
 	private function load_admin_page_class() {
-		$page = WPSEO_Utils::filter_input( INPUT_GET, 'page' );
+		$page = filter_input( INPUT_GET, 'page' );
 		if ( 'admin.php' === $this->pagenow && strpos( $page, 'wpseo' ) === 0 ) {
 			// For backwards compatabilty, this still needs a global, for now...
 			$GLOBALS['wpseo_admin_pages'] = new WPSEO_Admin_Pages;
@@ -143,7 +169,7 @@ class WPSEO_Admin_Init {
 	 * See if we should start our tour.
 	 */
 	private function load_tour() {
-		$restart_tour = WPSEO_Utils::filter_input( INPUT_GET, 'wpseo_restart_tour' );
+		$restart_tour = filter_input( INPUT_GET, 'wpseo_restart_tour' );
 		if ( $restart_tour ) {
 			$this->options['ignore_tour'] = false;
 			update_option( 'wpseo', $this->options );

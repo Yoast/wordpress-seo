@@ -404,7 +404,7 @@ class WPSEO_Sitemaps {
 				$query = $wpdb->prepare( "SELECT COUNT(ID) FROM $wpdb->posts {$join_filter} WHERE post_status IN ('publish','inherit') AND post_password = '' AND post_author != 0 AND post_date != '0000-00-00 00:00:00' AND post_type = %s " . $where_filter, $post_type );
 
 				$count = $wpdb->get_var( $query );
-				if ( $count === 0 ) {
+				if ( $count == 0  ) {
 					continue;
 				}
 
@@ -1223,18 +1223,13 @@ class WPSEO_Sitemaps {
 	function sitemap_url( $url ) {
 
 		// Create a DateTime object date in the correct timezone
-		if ( isset( $url['mod'] ) ) {
-			$date = new DateTime( $url['mod'], new DateTimeZone( $this->get_timezone_string() ) );
-		}
-		else {
-			$date = new DateTime( date( 'y-m-d H:i:s' ), new DateTimeZone( $this->get_timezone_string() ) );
-		}
+		$date = $this->get_datetime_with_timezone( $url['mod'] );
 
 		$url['loc'] = htmlspecialchars( $url['loc'] );
 
 		$output = "\t<url>\n";
 		$output .= "\t\t<loc>" . $url['loc'] . "</loc>\n";
-		$output .= "\t\t<lastmod>" . $date->format( 'c' ) . "</lastmod>\n";
+		$output .= empty( $date ) ? '' : "\t\t<lastmod>" . $date->format( 'c' ) . "</lastmod>\n";
 		$output .= "\t\t<changefreq>" . $url['chf'] . "</changefreq>\n";
 		$output .= "\t\t<priority>" . str_replace( ',', '.', $url['pri'] ) . "</priority>\n";
 
@@ -1330,6 +1325,21 @@ class WPSEO_Sitemaps {
 		$date = new DateTime( $result, new DateTimeZone( $this->get_timezone_string() ) );
 
 		return $date->format( 'c' );
+	}
+
+	/**
+	 * Get the datetime object is the datetime string was valid with a timezone
+	 *
+	 * @param string $datetime The datetime string that needs to be converted to a Datetime object
+	 *
+	 * @return DateTime|string
+	 */
+	private function get_datetime_with_timezone( $datetime ) {
+		if ( ! empty( $datetime ) && WPSEO_Utils::is_valid_datetime( $datetime ) ) {
+			return new DateTime( $datetime, new DateTimeZone( $this->get_timezone_string() ) );
+		}
+
+		return null;
 	}
 
 	/**

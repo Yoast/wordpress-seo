@@ -249,7 +249,7 @@ class WPSEO_Admin {
 	 * Load the form for a WPSEO admin page
 	 */
 	function load_page() {
-		$page = WPSEO_Utils::filter_input( INPUT_GET, 'page' );
+		$page = filter_input( INPUT_GET, 'page' );
 
 		switch ( $page ) {
 			case 'wpseo_advanced':
@@ -360,7 +360,7 @@ class WPSEO_Admin {
 		}
 
 		// No need to double display it on the dashboard
-		if ( 'wpseo_dashboard' === WPSEO_Utils::filter_input( INPUT_GET, 'page' ) ) {
+		if ( 'wpseo_dashboard' === filter_input( INPUT_GET, 'page' ) ) {
 			return;
 		}
 
@@ -461,17 +461,17 @@ class WPSEO_Admin {
 			return $slug;
 		}
 
-		if ( ! WPSEO_Utils::filter_input( INPUT_POST, 'post_title' ) ) {
+		if ( ! filter_input( INPUT_POST, 'post_title' ) ) {
 			return $slug;
 		}
 
 		// Don't change slug if the post is a draft, this conflicts with polylang
-		if ( 'draft' == WPSEO_Utils::filter_input( INPUT_POST, 'post_status' ) ) {
+		if ( 'draft' == filter_input( INPUT_POST, 'post_status' ) ) {
 			return $slug;
 		}
 
 		// Lowercase the slug and strip slashes
-		$clean_slug = sanitize_title( stripslashes( WPSEO_Utils::filter_input( INPUT_POST, 'post_title' ) ) );
+		$clean_slug = sanitize_title( stripslashes( filter_input( INPUT_POST, 'post_title' ) ) );
 
 		// Turn it to an array and strip stopwords by comparing against an array of stopwords
 		$clean_slug_array = array_diff( explode( '-', $clean_slug ), $this->stopwords() );
@@ -569,11 +569,11 @@ class WPSEO_Admin {
 	 *
 	 * @deprecated 1.5.0
 	 * @deprecated use wpseo_do_upgrade()
-	 * @see        wpseo_do_upgrade()
+	 * @see        WPSEO_Upgrade
 	 */
 	function maybe_upgrade() {
 		_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'wpseo_do_upgrade' );
-		wpseo_do_upgrade();
+		new WPSEO_Upgrade();
 	}
 
 	/**

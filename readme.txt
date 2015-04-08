@@ -6,19 +6,23 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: seo, SEO, Yoast SEO, google, meta, meta description, search engine optimization, xml sitemap, xml sitemaps, google sitemap, sitemap, sitemaps, robots meta, rss, rss footer, yahoo, bing, news sitemaps, XML News Sitemaps, WordPress SEO, WordPress SEO by Yoast, yoast, multisite, canonical, nofollow, noindex, keywords, meta keywords, description, webmaster tools, google webmaster tools, seo pack
 Requires at least: 3.9
 Tested up to: 4.1.1
-Stable tag: 2.0-RC
+Stable tag: 2.0.1
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using Yoast's WordPress SEO plugin.
 
 == Description ==
 
-WordPress out of the box is already technically quite a good platform for SEO, this was true when I wrote my original [WordPress SEO](https://yoast.com/articles/wordpress-seo/) article in 2008 (and updated every few months) and it's still true today, but that doesn't mean you can't improve it further! This plugin is written from the ground up by Joost de Valk and his team at [Yoast](https://yoast.com/) to improve your site's SEO on *all* needed aspects. While this [WordPress SEO plugin](https://yoast.com/wordpress/plugins/seo/) goes the extra mile to take care of all the technical optimization, more on that below, it first and foremost helps you write better content.  WordPress SEO forces you to choose a focus keyword when you're writing your articles, and then makes sure you use that focus keyword everywhere.
+WordPress out of the box is already technically quite a good platform for SEO, this was true when Joost wrote his original [WordPress SEO](https://yoast.com/articles/wordpress-seo/) article in 2008 (and updated every few months) and it's still true today, but that doesn't mean you can't improve it further! This plugin is written from the ground up by Joost de Valk and his team at [Yoast](https://yoast.com/) to improve your site's SEO on *all* needed aspects. While this [WordPress SEO plugin](https://yoast.com/wordpress/plugins/seo/) goes the extra mile to take care of all the technical optimization, more on that below, it first and foremost helps you write better content.  WordPress SEO forces you to choose a focus keyword when you're writing your articles, and then makes sure you use that focus keyword everywhere.
 
 > <strong>Premium Support</strong><br>
 > The Yoast team does not provide support for the WordPress SEO plugin on the WordPress.org forums. One on one email support is available to people who bought the [Premium WordPress SEO plugin](https://yoast.com/wordpress/plugins/seo-premium/) only.
 > Note that the Premium SEO plugin has several extra features too so it might be well worth your investment!
 >
 > You should also check out the [Local SEO](https://yoast.com/wordpress/plugins/local-seo/), [News SEO](https://yoast.com/wordpress/plugins/news-seo/) and [Video SEO](https://yoast.com/wordpress/plugins/video-seo/) extensions to WordPress SEO, these of course come with support too.
+
+Take a look at the explanation of the General tab in WordPress SEO, this is one of the 13 tutorial videos included in the [Premium version of WordPress SEO](https://yoast.com/wordpress/plugins/seo-premium/):
+
+https://www.youtube.com/watch?v=co5TjUwqWIQ&w=532&rel=0
 
 > <strong>Bug Reports</strong><br>
 > Bug reports for WordPress SEO are [welcomed on GitHub](https://github.com/Yoast/wordpress-seo). Please note GitHub is _not_ a support forum and issues that aren't properly qualified as bugs will be closed.
@@ -116,9 +120,18 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 
 == Changelog ==
 
-= 2.0-RC =
+= 2.0.1 =
 
-Release Date: March 11th, 2015
+Release Date: April 1st, 2015
+
+* Bugfixes:
+	* Fixes an issue where (in rare cases) people upgrading to 2.0 got stuck in a redirect loop on their admin.
+	* Fixes a broken link in the Dutch translation, causing the Pinterest tab on the Social settings page to overflow into the Google+ tab.
+	* Fixes a small typo on the about page.
+
+= 2.0 =
+
+Release Date: March 26th, 2015
 
 * Features:
 	* Simplified and revised Admin menu's:
@@ -131,10 +144,10 @@ Release Date: March 11th, 2015
 	* Makes sure the user is redirected to the last active settings tab after saving.
 
 * Bugfixes:
-	* Fixes a bug where wpseo_metadesc and wpseo_title filters weren't applied in the snippet preview.
 	* Fixes a bug where custom field variables were no longer working in the snippet preview.
 	* Fixes a bug where the $post global was emptied by our Frontend class, causing conflicts with other plugins.
 	* Fixes a bug where variables weren't replaced in the og:description meta tag.
+	* Fixes a bug where the breadcrumbs caused an undefined variable notice.
 
 * Under the hood:
 	* Contains an incredible amount of code style improvements, making the code cleaner and more readable.

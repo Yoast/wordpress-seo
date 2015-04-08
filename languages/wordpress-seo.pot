@@ -2,9 +2,9 @@
 # This file is distributed under the GPL v3.
 msgid ""
 msgstr ""
-"Project-Id-Version: WordPress SEO 2.0-RC\n"
+"Project-Id-Version: WordPress SEO 2.0.1\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo/issues\n"
-"POT-Creation-Date: 2015-03-11 15:34:29+00:00\n"
+"POT-Creation-Date: 2015-04-01 11:56:00+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -24,27 +24,27 @@ msgstr ""
 "X-Poedit-Bookmarks: \n"
 "X-Textdomain-Support: yes\n"
 
-#: admin/ajax.php:70
+#: admin/ajax.php:84
 msgid "Some files could not be removed. Please remove them via FTP."
 msgstr ""
 
-#: admin/ajax.php:214
+#: admin/ajax.php:206
 msgid "Post doesn't exist."
 msgstr ""
 
-#: admin/ajax.php:223
+#: admin/ajax.php:215
 msgid "Post has an invalid Post Type: %s."
 msgstr ""
 
-#: admin/ajax.php:231
+#: admin/ajax.php:223
 msgid "You can't edit %s."
 msgstr ""
 
-#: admin/ajax.php:239
+#: admin/ajax.php:231
 msgid "You can't edit %s that aren't yours."
 msgstr ""
 
-#: admin/ajax.php:247
+#: admin/ajax.php:239
 msgid "You have used HTML in your value which is not allowed."
 msgstr ""
 
@@ -223,7 +223,7 @@ msgstr ""
 msgid "You are not allowed to access this page."
 msgstr ""
 
-#: admin/class-bulk-editor-list-table.php:385
+#: admin/class-bulk-editor-list-table.php:388
 msgid "Filter"
 msgstr ""
 
@@ -283,13 +283,91 @@ msgstr ""
 msgid "New Yoast SEO Title"
 msgstr ""
 
-#: admin/class-config.php:61
+#: admin/class-config.php:95 admin/class-metabox.php:557
+#: admin/class-metabox.php:935
+msgid "Use Image"
+msgstr ""
+
+#: admin/class-export.php:67
+msgid "Export created: %1$sdownload your export file here%2$s."
+msgstr ""
+
+#: admin/class-export.php:71
+msgid "Error creating WordPress SEO export: "
+msgstr ""
+
+#: admin/class-export.php:97
+msgid "Could not zip settings-file."
+msgstr ""
+
+#: admin/class-export.php:102
+msgid "Could not write settings to file."
+msgstr ""
+
+#: admin/class-export.php:111
 msgid "This is a settings export file for the WordPress SEO plugin by Yoast.com"
 msgstr ""
 
-#: admin/class-config.php:168 admin/class-metabox.php:557
-#: admin/class-metabox.php:935
-msgid "Use Image"
+#: admin/class-export.php:113
+msgid "This export includes taxonomy metadata"
+msgstr ""
+
+#: admin/class-export.php:180
+msgid "No taxonomy metadata found"
+msgstr ""
+
+#: admin/class-import-external.php:105
+msgid "HeadSpace2 data successfully imported"
+msgstr ""
+
+#: admin/class-import-external.php:117
+msgid "Error: no Robots Meta data found to import."
+msgstr ""
+
+#: admin/class-import-external.php:165
+msgid "RSS Footer options imported successfully."
+msgstr ""
+
+#: admin/class-import-external.php:186
+msgid "Yoast Breadcrumbs options imported successfully."
+msgstr ""
+
+#: admin/class-import-external.php:189
+msgid "Yoast Breadcrumbs options could not be found"
+msgstr ""
+
+#: admin/class-import-woothemes-seo.php:30
+msgid "WooThemes SEO framework settings &amp; data successfully imported."
+msgstr ""
+
+#: admin/class-import.php:75 admin/class-import.php:80
+#: admin/class-import.php:112 admin/class-import.php:119
+#: admin/class-import.php:143
+msgid "Settings could not be imported:"
+msgstr ""
+
+#: admin/class-import.php:80
+msgid "Upload failed."
+msgstr ""
+
+#: admin/class-import.php:112
+msgid "Unzipping failed with error \"%s\"."
+msgstr ""
+
+#: admin/class-import.php:119
+msgid "Unzipping failed - file settings.ini not found."
+msgstr ""
+
+#: admin/class-import.php:140
+msgid "Settings successfully imported."
+msgstr ""
+
+#: admin/class-import.php:143
+msgid "No settings found in file."
+msgstr ""
+
+#: admin/class-import.php:165
+msgid "Setting \"%s\" is no longer used and has been discarded."
 msgstr ""
 
 #: admin/class-metabox.php:38
@@ -406,8 +484,7 @@ msgstr ""
 msgid "Site-wide default: %s"
 msgstr ""
 
-#: admin/class-metabox.php:71 admin/pages/internal-links.php:38
-#: admin/pages/internal-links.php:56 admin/pages/network.php:54
+#: admin/class-metabox.php:71 admin/pages/network.php:54
 #: admin/views/tab-breadcrumbs.php:39 admin/views/tab-breadcrumbs.php:56
 #: inc/class-wpseo-meta.php:422
 msgid "None"
@@ -1346,23 +1423,23 @@ msgstr ""
 msgid "Include in sitemap?"
 msgstr ""
 
-#: admin/class-yoast-form.php:127
+#: admin/class-yoast-form.php:131
 msgid "Debug Information"
 msgstr ""
 
-#: admin/class-yoast-form.php:129
+#: admin/class-yoast-form.php:133
 msgid "Current option:"
 msgstr ""
 
-#: admin/class-yoast-form.php:224
+#: admin/class-yoast-form.php:228
 msgid "Remove these ads?"
 msgstr ""
 
-#: admin/class-yoast-form.php:225
+#: admin/class-yoast-form.php:229
 msgid "Upgrade to WordPress SEO Premium &raquo;"
 msgstr ""
 
-#: admin/class-yoast-form.php:409
+#: admin/class-yoast-form.php:413
 msgid "Upload Image"
 msgstr ""
 
@@ -1570,69 +1647,6 @@ msgstr ""
 msgid ""
 "Unchecking this box allows authors and editors to redirect posts, noindex "
 "them and do other things you might not want if you don't trust your authors."
-msgstr ""
-
-#: admin/pages/internal-links.php:17 admin/views/tab-breadcrumbs.php:17
-msgid "Enable Breadcrumbs"
-msgstr ""
-
-#: admin/pages/internal-links.php:19 admin/views/tab-breadcrumbs.php:20
-msgid "Separator between breadcrumbs"
-msgstr ""
-
-#: admin/pages/internal-links.php:20 admin/views/tab-breadcrumbs.php:21
-msgid "Anchor text for the Homepage"
-msgstr ""
-
-#: admin/pages/internal-links.php:21 admin/views/tab-breadcrumbs.php:22
-msgid "Prefix for the breadcrumb path"
-msgstr ""
-
-#: admin/pages/internal-links.php:22 admin/views/tab-breadcrumbs.php:23
-msgid "Prefix for Archive breadcrumbs"
-msgstr ""
-
-#: admin/pages/internal-links.php:23 admin/views/tab-breadcrumbs.php:24
-msgid "Prefix for Search Page breadcrumbs"
-msgstr ""
-
-#: admin/pages/internal-links.php:24 admin/views/tab-breadcrumbs.php:25
-msgid "Breadcrumb for 404 Page"
-msgstr ""
-
-#: admin/pages/internal-links.php:26 admin/views/tab-breadcrumbs.php:28
-msgid "Remove Blog page from Breadcrumbs"
-msgstr ""
-
-#: admin/pages/internal-links.php:28 admin/views/tab-breadcrumbs.php:30
-msgid "Bold the last page in the breadcrumb"
-msgstr ""
-
-#: admin/pages/internal-links.php:34 admin/views/tab-breadcrumbs.php:35
-msgid "Taxonomy to show in breadcrumbs for:"
-msgstr ""
-
-#: admin/pages/internal-links.php:54 admin/views/tab-breadcrumbs.php:54
-msgid "Post type archive to show in breadcrumbs for:"
-msgstr ""
-
-#: admin/pages/internal-links.php:58 admin/views/tab-breadcrumbs.php:58
-msgid "Blog"
-msgstr ""
-
-#: admin/pages/internal-links.php:77 admin/views/tab-breadcrumbs.php:79
-msgid "How to insert breadcrumbs in your theme"
-msgstr ""
-
-#: admin/pages/internal-links.php:78
-msgid ""
-"Usage of this breadcrumbs feature is explained <a "
-"href=\"https://yoast.com/wordpress/plugins/breadcrumbs/\">here</a>. For the "
-"more code savvy, insert this in your theme:"
-msgstr ""
-
-#: admin/pages/internal-links.php:82
-msgid "Breadcrumbs Settings"
 msgstr ""
 
 #: admin/pages/licenses.php:17
@@ -1998,191 +2012,6 @@ msgstr ""
 msgid "Restore site to defaults"
 msgstr ""
 
-#: admin/pages/permalinks.php:21 admin/views/tab-permalinks.php:17
-msgid ""
-"Strip the category base (usually <code>/category/</code>) from the category "
-"URL."
-msgstr ""
-
-#: admin/pages/permalinks.php:22 admin/views/tab-permalinks.php:18
-msgid ""
-"We suggest using %1$sFV Top Level Categories%2$s, if you insist on keeping "
-"this but do know that the feature is very error prone and not <em>that</em> "
-"important for your SEO."
-msgstr ""
-
-#: admin/pages/permalinks.php:24 admin/views/tab-permalinks.php:30
-msgid "Enforce a trailing slash on all category and tag URL's"
-msgstr ""
-
-#: admin/pages/permalinks.php:25 admin/views/tab-permalinks.php:31
-msgid ""
-"If you choose a permalink for your posts with <code>.html</code>, or "
-"anything else but a / on the end, this will force WordPress to add a "
-"trailing slash to non-post pages nonetheless."
-msgstr ""
-
-#: admin/pages/permalinks.php:27 admin/views/tab-permalinks.php:24
-msgid "Remove stop words from slugs."
-msgstr ""
-
-#: admin/pages/permalinks.php:28 admin/views/tab-permalinks.php:25
-msgid ""
-"This helps you to create cleaner URLs by automatically removing the "
-"stopwords from them."
-msgstr ""
-
-#: admin/pages/permalinks.php:30 admin/views/tab-permalinks.php:20
-msgid "Redirect attachment URL's to parent post URL."
-msgstr ""
-
-#: admin/pages/permalinks.php:31 admin/views/tab-permalinks.php:21
-msgid ""
-"Attachments to posts are stored in the database as posts, this means "
-"they're accessible under their own URL's if you do not redirect them, "
-"enabling this will redirect them to the post they were attached to."
-msgstr ""
-
-#: admin/pages/permalinks.php:33 admin/views/tab-permalinks.php:27
-msgid "Remove the <code>?replytocom</code> variables."
-msgstr ""
-
-#: admin/pages/permalinks.php:34 admin/views/tab-permalinks.php:28
-msgid ""
-"This prevents threaded replies from working when the user has JavaScript "
-"disabled, but on a large site can mean a <em>huge</em> improvement in crawl "
-"efficiency for search engines when you have a lot of comments."
-msgstr ""
-
-#: admin/pages/permalinks.php:36 admin/views/tab-permalinks.php:33
-msgid "Redirect ugly URL's to clean permalinks. (Not recommended in many cases!)"
-msgstr ""
-
-#: admin/pages/permalinks.php:37 admin/views/tab-permalinks.php:34
-msgid ""
-"People make mistakes in their links towards you sometimes, or unwanted "
-"parameters are added to the end of your URLs, this allows you to redirect "
-"them all away. Please note that while this is a feature that is actively "
-"maintained, it is known to break several plugins, and should for that "
-"reason be the first feature you disable when you encounter issues after "
-"installing this plugin."
-msgstr ""
-
-#: admin/pages/permalinks.php:39
-msgid "Permalink Settings"
-msgstr ""
-
-#: admin/pages/permalinks.php:42
-msgid "Force Transport"
-msgstr ""
-
-#: admin/pages/permalinks.php:42
-msgid "Leave default"
-msgstr ""
-
-#: admin/pages/permalinks.php:42
-msgid "Force http"
-msgstr ""
-
-#: admin/pages/permalinks.php:42
-msgid "Force https"
-msgstr ""
-
-#: admin/pages/permalinks.php:43
-msgid "Force the canonical to either http or https, when your blog runs under both."
-msgstr ""
-
-#: admin/pages/permalinks.php:45
-msgid "Canonical Settings"
-msgstr ""
-
-#: admin/pages/permalinks.php:48 admin/views/tab-permalinks.php:37
-msgid "Prevent cleaning out Google Site Search URL's."
-msgstr ""
-
-#: admin/pages/permalinks.php:49 admin/views/tab-permalinks.php:38
-msgid ""
-"Google Site Search URL's look weird, and ugly, but if you're using Google "
-"Site Search, you probably do not want them cleaned out."
-msgstr ""
-
-#: admin/pages/permalinks.php:51 admin/views/tab-permalinks.php:40
-msgid "Prevent cleaning out Google Analytics Campaign & Google AdWords Parameters."
-msgstr ""
-
-#: admin/pages/permalinks.php:52 admin/views/tab-permalinks.php:41
-msgid ""
-"If you use Google Analytics campaign parameters starting with "
-"<code>?utm_</code>, check this box. You shouldn't use these btw, you should "
-"instead use the hash tagged version instead."
-msgstr ""
-
-#: admin/pages/permalinks.php:54 admin/views/tab-permalinks.php:43
-msgid "Other variables not to clean"
-msgstr ""
-
-#: admin/pages/permalinks.php:55 admin/views/tab-permalinks.php:44
-msgid ""
-"You might have extra variables you want to prevent from cleaning out, add "
-"them here, comma separated."
-msgstr ""
-
-#: admin/pages/permalinks.php:57
-msgid "Clean Permalink Settings"
-msgstr ""
-
-#: admin/pages/rss.php:18 admin/views/tab-rss.php:16
-msgid ""
-"This feature is used to automatically add content to your RSS, more "
-"specifically, it's meant to add links back to your blog and your blog "
-"posts, so dumb scrapers will automatically add these links too, helping "
-"search engines identify you as the original source of the content."
-msgstr ""
-
-#: admin/pages/rss.php:23 admin/views/tab-rss.php:22
-msgid "Content to put before each post in the feed"
-msgstr ""
-
-#: admin/pages/rss.php:24 admin/pages/rss.php:30
-msgid "(HTML allowed)"
-msgstr ""
-
-#: admin/pages/rss.php:29 admin/views/tab-rss.php:23
-msgid "Content to put after each post in the feed"
-msgstr ""
-
-#: admin/pages/rss.php:34
-msgid "Explanation"
-msgstr ""
-
-#: admin/pages/rss.php:35 admin/views/tab-rss.php:26
-msgid ""
-"You can use the following variables within the content, they will be "
-"replaced by the value on the right."
-msgstr ""
-
-#: admin/pages/rss.php:37 admin/views/tab-rss.php:30
-msgid ""
-"A link to the archive for the post author, with the authors name as anchor "
-"text."
-msgstr ""
-
-#: admin/pages/rss.php:38 admin/views/tab-rss.php:34
-msgid "A link to the post, with the title as anchor text."
-msgstr ""
-
-#: admin/pages/rss.php:39 admin/views/tab-rss.php:38
-msgid "A link to your site, with your site's name as anchor text."
-msgstr ""
-
-#: admin/pages/rss.php:40 admin/views/tab-rss.php:42
-msgid "A link to your site, with your site's name and description as anchor text."
-msgstr ""
-
-#: admin/pages/rss.php:43
-msgid "Content of your RSS Feed"
-msgstr ""
-
 #: admin/pages/social.php:16
 msgid "Facebook Insights and Admins"
 msgstr ""
@@ -2508,29 +2337,30 @@ msgstr ""
 #: admin/views/about.php:36
 msgid ""
 "WordPress SEO by Yoast 2.0 helps you optimize your site by making you ready "
-"for Google's Knowledge Graph and simplyfing the WordPress SEO by Yoast "
+"for Google's Knowledge Graph and simplifying the WordPress SEO by Yoast "
 "admin."
 msgstr ""
 
-#: admin/views/about.php:40
-msgid "What’s New"
+#: admin/views/about.php:43
+#. translators: %s: '2.0' version number
+msgid "What’s New In %s"
 msgstr ""
 
-#: admin/views/about.php:41
+#: admin/views/about.php:47
 msgid "Credits"
 msgstr ""
 
-#: admin/views/about.php:46
+#: admin/views/about.php:52
 msgid "Simplified Admin Menus"
 msgstr ""
 
-#: admin/views/about.php:50
+#: admin/views/about.php:56
 msgid ""
 "We’ve merged several menu items to make the most important settings stand "
 "out more."
 msgstr ""
 
-#: admin/views/about.php:52
+#: admin/views/about.php:58
 msgid ""
 "Not all settings are created equal. Some require their own admin page and "
 "really need your attention. Others are more advanced and don’t need "
@@ -2538,48 +2368,48 @@ msgid ""
 "important."
 msgstr ""
 
-#: admin/views/about.php:54
+#: admin/views/about.php:60
 msgid ""
 "Several settings were moved to the %1$sAdvanced page%2$s, the bulk editor, "
 "file editor and import & export tools were all moved to the %3$sTools "
 "page%2$s."
 msgstr ""
 
-#: admin/views/about.php:67
+#: admin/views/about.php:73
 msgid "Ready for Google’s Knowledge Graph"
 msgstr ""
 
-#: admin/views/about.php:73
+#: admin/views/about.php:79
 msgid "Knowledge Graph: We’ve got your back!"
 msgstr ""
 
-#: admin/views/about.php:76
+#: admin/views/about.php:82
 msgid ""
 "Google recently rolled out changes that let you specify you or your "
 "companies name, social profiles and logo<sup>*</sup>, to use in their "
 "%1$sKnowledge Graph%2$s boxes."
 msgstr ""
 
-#: admin/views/about.php:77
+#: admin/views/about.php:83
 msgid ""
 "Decide whether you’re a company or a person and add the required info in "
 "the %1$sgeneral settings%2$s, then add your %3$ssocial profiles%2$s. We’ll "
 "do the rest."
 msgstr ""
 
-#: admin/views/about.php:81
+#: admin/views/about.php:87
 msgid "Logo only works for companies."
 msgstr ""
 
-#: admin/views/about.php:89
+#: admin/views/about.php:95
 msgid "More in this release"
 msgstr ""
 
-#: admin/views/about.php:94
+#: admin/views/about.php:100
 msgid "Twitter Galleries"
 msgstr ""
 
-#: admin/views/about.php:97
+#: admin/views/about.php:103
 msgid ""
 "If you use galleries in your posts and have Twitter meta data enabled on "
 "%1$sSocial → Twitter%2$s, galleries will now be auto-detected and put out "
@@ -2587,84 +2417,136 @@ msgid ""
 "Twitter%2$s."
 msgstr ""
 
-#: admin/views/about.php:103
+#: admin/views/about.php:109
 msgid "Performance Improvements"
 msgstr ""
 
-#: admin/views/about.php:106
+#: admin/views/about.php:112
 msgid ""
 "This release has made the code of WordPress SEO by Yoast that runs on the "
 "frontend of your site approximately 30% faster."
 msgstr ""
 
-#: admin/views/about.php:112
+#: admin/views/about.php:118
 msgid "Improved Settings Screens"
 msgstr ""
 
-#: admin/views/about.php:115
+#: admin/views/about.php:121
 msgid ""
 "All the settings screens have been updated to use exactly the same, "
 "tab-based, styling, making them much more comprehensible."
 msgstr ""
 
-#: admin/views/about.php:121
+#: admin/views/about.php:127
 msgid "More Translations"
 msgstr ""
 
-#: admin/views/about.php:124
+#: admin/views/about.php:130
 msgid ""
 "WordPress SEO by Yoast ships, at time of release, with 26 translations, of "
 "which 10 are complete. That's a huge improvement from last time, and we're "
 "improving every week. Join us at %1$stranslate.yoast.com%2$s!"
 msgstr ""
 
-#: admin/views/about.php:133
+#: admin/views/about.php:139
 msgid "Go to The General settings page →"
 msgstr ""
 
-#: admin/views/about.php:141
+#: admin/views/about.php:158
 msgid ""
 "While most of the development team is at %1$sYoast%2$s in the Netherlands, "
 "WordPress SEO by Yoast is created by a worldwide team."
 msgstr ""
 
-#: admin/views/about.php:143
+#: admin/views/about.php:160
 msgid "Want to help us develop? Read our %1$scontribution guidelines%2$s!"
 msgstr ""
 
-#: admin/views/about.php:147
+#: admin/views/about.php:164
 msgid "Project Leaders"
 msgstr ""
 
-#: admin/views/about.php:153
+#: admin/views/about.php:170
 msgid "Project Lead"
 msgstr ""
 
-#: admin/views/about.php:158 admin/views/about.php:163
+#: admin/views/about.php:175 admin/views/about.php:180
 msgid "Lead Developer"
 msgstr ""
 
-#: admin/views/about.php:168
+#: admin/views/about.php:185
 msgid "QA & Translations Manager"
 msgstr ""
 
-#: admin/views/about.php:176
+#: admin/views/about.php:193
 msgid "Contributing Developers"
 msgstr ""
 
-#: admin/views/about.php:182 admin/views/about.php:187
-#: admin/views/about.php:192 admin/views/about.php:197
+#: admin/views/about.php:199 admin/views/about.php:204
+#: admin/views/about.php:209 admin/views/about.php:214
 msgid "Developer"
 msgstr ""
 
-#: admin/views/about.php:205
+#: admin/views/about.php:222
 msgid "Contributors to this release"
 msgstr ""
 
-#: admin/views/about.php:214
+#: admin/views/about.php:231
 msgid ""
 "We're always grateful for patches from non-regular contributors, this "
 "release, patches from the following people made it in:"
+msgstr ""
+
+#: admin/views/tab-breadcrumbs.php:17
+msgid "Enable Breadcrumbs"
+msgstr ""
+
+#: admin/views/tab-breadcrumbs.php:20
+msgid "Separator between breadcrumbs"
+msgstr ""
+
+#: admin/views/tab-breadcrumbs.php:21
+msgid "Anchor text for the Homepage"
+msgstr ""
+
+#: admin/views/tab-breadcrumbs.php:22
+msgid "Prefix for the breadcrumb path"
+msgstr ""
+
+#: admin/views/tab-breadcrumbs.php:23
+msgid "Prefix for Archive breadcrumbs"
+msgstr ""
+
+#: admin/views/tab-breadcrumbs.php:24
+msgid "Prefix for Search Page breadcrumbs"
+msgstr ""
+
+#: admin/views/tab-breadcrumbs.php:25
+msgid "Breadcrumb for 404 Page"
+msgstr ""
+
+#: admin/views/tab-breadcrumbs.php:28
+msgid "Remove Blog page from Breadcrumbs"
+msgstr ""
+
+#: admin/views/tab-breadcrumbs.php:30
+msgid "Bold the last page in the breadcrumb"
+msgstr ""
+
+#: admin/views/tab-breadcrumbs.php:35
+msgid "Taxonomy to show in breadcrumbs for:"
+msgstr ""
+
+#: admin/views/tab-breadcrumbs.php:54
+msgid "Post type archive to show in breadcrumbs for:"
+msgstr ""
+
+#: admin/views/tab-breadcrumbs.php:58
+msgid "Blog"
+msgstr ""
+
+#: admin/views/tab-breadcrumbs.php:79
+msgid "How to insert breadcrumbs in your theme"
 msgstr ""
 
 #: admin/views/tab-breadcrumbs.php:80
@@ -2677,8 +2559,109 @@ msgstr ""
 msgid "Change URLs"
 msgstr ""
 
+#: admin/views/tab-permalinks.php:17
+msgid ""
+"Strip the category base (usually <code>/category/</code>) from the category "
+"URL."
+msgstr ""
+
+#: admin/views/tab-permalinks.php:18
+msgid ""
+"We suggest using %1$sFV Top Level Categories%2$s, if you insist on keeping "
+"this but do know that the feature is very error prone and not <em>that</em> "
+"important for your SEO."
+msgstr ""
+
+#: admin/views/tab-permalinks.php:20
+msgid "Redirect attachment URL's to parent post URL."
+msgstr ""
+
+#: admin/views/tab-permalinks.php:21
+msgid ""
+"Attachments to posts are stored in the database as posts, this means "
+"they're accessible under their own URL's if you do not redirect them, "
+"enabling this will redirect them to the post they were attached to."
+msgstr ""
+
 #: admin/views/tab-permalinks.php:23
 msgid "Clean up permalinks"
+msgstr ""
+
+#: admin/views/tab-permalinks.php:24
+msgid "Remove stop words from slugs."
+msgstr ""
+
+#: admin/views/tab-permalinks.php:25
+msgid ""
+"This helps you to create cleaner URLs by automatically removing the "
+"stopwords from them."
+msgstr ""
+
+#: admin/views/tab-permalinks.php:27
+msgid "Remove the <code>?replytocom</code> variables."
+msgstr ""
+
+#: admin/views/tab-permalinks.php:28
+msgid ""
+"This prevents threaded replies from working when the user has JavaScript "
+"disabled, but on a large site can mean a <em>huge</em> improvement in crawl "
+"efficiency for search engines when you have a lot of comments."
+msgstr ""
+
+#: admin/views/tab-permalinks.php:30
+msgid "Enforce a trailing slash on all category and tag URL's"
+msgstr ""
+
+#: admin/views/tab-permalinks.php:31
+msgid ""
+"If you choose a permalink for your posts with <code>.html</code>, or "
+"anything else but a / on the end, this will force WordPress to add a "
+"trailing slash to non-post pages nonetheless."
+msgstr ""
+
+#: admin/views/tab-permalinks.php:33
+msgid "Redirect ugly URL's to clean permalinks. (Not recommended in many cases!)"
+msgstr ""
+
+#: admin/views/tab-permalinks.php:34
+msgid ""
+"People make mistakes in their links towards you sometimes, or unwanted "
+"parameters are added to the end of your URLs, this allows you to redirect "
+"them all away. Please note that while this is a feature that is actively "
+"maintained, it is known to break several plugins, and should for that "
+"reason be the first feature you disable when you encounter issues after "
+"installing this plugin."
+msgstr ""
+
+#: admin/views/tab-permalinks.php:37
+msgid "Prevent cleaning out Google Site Search URL's."
+msgstr ""
+
+#: admin/views/tab-permalinks.php:38
+msgid ""
+"Google Site Search URL's look weird, and ugly, but if you're using Google "
+"Site Search, you probably do not want them cleaned out."
+msgstr ""
+
+#: admin/views/tab-permalinks.php:40
+msgid "Prevent cleaning out Google Analytics Campaign & Google AdWords Parameters."
+msgstr ""
+
+#: admin/views/tab-permalinks.php:41
+msgid ""
+"If you use Google Analytics campaign parameters starting with "
+"<code>?utm_</code>, check this box. You shouldn't use these btw, you should "
+"instead use the hash tagged version instead."
+msgstr ""
+
+#: admin/views/tab-permalinks.php:43
+msgid "Other variables not to clean"
+msgstr ""
+
+#: admin/views/tab-permalinks.php:44
+msgid ""
+"You might have extra variables you want to prevent from cleaning out, add "
+"them here, comma separated."
 msgstr ""
 
 #: admin/views/tab-permalinks.php:47
@@ -2699,6 +2682,46 @@ msgstr ""
 
 #: admin/views/tab-permalinks.php:51
 msgid "Hide RSS Links"
+msgstr ""
+
+#: admin/views/tab-rss.php:16
+msgid ""
+"This feature is used to automatically add content to your RSS, more "
+"specifically, it's meant to add links back to your blog and your blog "
+"posts, so dumb scrapers will automatically add these links too, helping "
+"search engines identify you as the original source of the content."
+msgstr ""
+
+#: admin/views/tab-rss.php:22
+msgid "Content to put before each post in the feed"
+msgstr ""
+
+#: admin/views/tab-rss.php:23
+msgid "Content to put after each post in the feed"
+msgstr ""
+
+#: admin/views/tab-rss.php:26
+msgid ""
+"You can use the following variables within the content, they will be "
+"replaced by the value on the right."
+msgstr ""
+
+#: admin/views/tab-rss.php:30
+msgid ""
+"A link to the archive for the post author, with the authors name as anchor "
+"text."
+msgstr ""
+
+#: admin/views/tab-rss.php:34
+msgid "A link to the post, with the title as anchor text."
+msgstr ""
+
+#: admin/views/tab-rss.php:38
+msgid "A link to your site, with your site's name as anchor text."
+msgstr ""
+
+#: admin/views/tab-rss.php:42
+msgid "A link to your site, with your site's name and description as anchor text."
 msgstr ""
 
 #: admin/views/tool-file-editor.php:18
@@ -2769,112 +2792,48 @@ msgid ""
 "here."
 msgstr ""
 
-#: admin/views/tool-import-export.php:165
-msgid "WooThemes SEO framework settings &amp; data successfully imported."
-msgstr ""
-
-#: admin/views/tool-import-export.php:208
-msgid "HeadSpace2 data successfully imported"
-msgstr ""
-
-#: admin/views/tool-import-export.php:269
-msgid "All in One SEO (Old version) data successfully imported."
-msgstr ""
-
-#: admin/views/tool-import-export.php:317
-msgid "RSS Footer options imported successfully."
-msgstr ""
-
-#: admin/views/tool-import-export.php:335
-msgid "Yoast Breadcrumbs options imported successfully."
-msgstr ""
-
-#: admin/views/tool-import-export.php:338
-msgid "Yoast Breadcrumbs options could not be found"
-msgstr ""
-
-#: admin/views/tool-import-export.php:354
+#: admin/views/tool-import-export.php:81
 msgid "The old data of the imported plugin was deleted successfully."
 msgstr ""
 
-#: admin/views/tool-import-export.php:357
-msgid "The old meta keywords data was deleted."
-msgstr ""
-
-#: admin/views/tool-import-export.php:367
-#: admin/views/tool-import-export.php:502
-#: admin/views/tool-import-export.php:528
+#: admin/views/tool-import-export.php:93 admin/views/tool-import-export.php:151
+#: admin/views/tool-import-export.php:177
 msgid "Import"
 msgstr ""
 
-#: admin/views/tool-import-export.php:368
+#: admin/views/tool-import-export.php:94
 msgid "Export"
 msgstr ""
 
-#: admin/views/tool-import-export.php:369
+#: admin/views/tool-import-export.php:96
 msgid "Import from other SEO plugins"
 msgstr ""
 
-#: admin/views/tool-import-export.php:370
+#: admin/views/tool-import-export.php:98
 msgid "Import from other plugins"
 msgstr ""
 
-#: admin/views/tool-import-export.php:375
-msgid "Import settings by locating <em>settings.zip</em> and clicking"
+#: admin/views/tool-import-export.php:108
+msgid ""
+"Import settings by locating <em>settings.zip</em> and clicking \"Import "
+"settings\""
 msgstr ""
 
-#: admin/views/tool-import-export.php:375
-#: admin/views/tool-import-export.php:382
+#: admin/views/tool-import-export.php:118
 msgid "Import settings"
 msgstr ""
 
-#: admin/views/tool-import-export.php:423
-msgid "Setting \"%s\" is no longer used and has been discarded."
-msgstr ""
-
-#: admin/views/tool-import-export.php:427
-msgid "Settings successfully imported."
-msgstr ""
-
-#: admin/views/tool-import-export.php:430
-#: admin/views/tool-import-export.php:435
-#: admin/views/tool-import-export.php:441
-#: admin/views/tool-import-export.php:448
-#: admin/views/tool-import-export.php:451
-msgid "Settings could not be imported:"
-msgstr ""
-
-#: admin/views/tool-import-export.php:430
-msgid "No settings found in file."
-msgstr ""
-
-#: admin/views/tool-import-export.php:435
-msgid "Unzipping failed - file settings.ini not found."
-msgstr ""
-
-#: admin/views/tool-import-export.php:441
-msgid "Unzipping failed with error \"%s\"."
-msgstr ""
-
-#: admin/views/tool-import-export.php:451
-msgid "Upload failed."
-msgstr ""
-
-#: admin/views/tool-import-export.php:465
+#: admin/views/tool-import-export.php:123
 msgid ""
 "Export your WordPress SEO settings here, to import them again later or to "
 "import them on another site."
 msgstr ""
 
-#: admin/views/tool-import-export.php:466
+#: admin/views/tool-import-export.php:124
 msgid "Include Taxonomy Metadata"
 msgstr ""
 
-#: admin/views/tool-import-export.php:467
-msgid "Export settings"
-msgstr ""
-
-#: admin/views/tool-import-export.php:491
+#: admin/views/tool-import-export.php:132
 msgid ""
 "No doubt you've used an SEO plugin before if this site isn't new. Let's "
 "make it easy on you, you can import the data below. If you want, you can "
@@ -2882,47 +2841,43 @@ msgid ""
 "delete. No duplicate data will be imported."
 msgstr ""
 
-#: admin/views/tool-import-export.php:492
+#: admin/views/tool-import-export.php:134
 msgid ""
 "If you've used another SEO plugin, try the %sSEO Data Transporter%s plugin "
 "to move your data into this plugin, it rocks!"
 msgstr ""
 
-#: admin/views/tool-import-export.php:495
+#: admin/views/tool-import-export.php:141
 msgid "Import from HeadSpace2?"
 msgstr ""
 
-#: admin/views/tool-import-export.php:496
+#: admin/views/tool-import-export.php:142
 msgid "Import from All-in-One SEO?"
 msgstr ""
 
-#: admin/views/tool-import-export.php:497
-msgid "Import from OLD All-in-One SEO?"
-msgstr ""
-
-#: admin/views/tool-import-export.php:498
+#: admin/views/tool-import-export.php:143
 msgid "Import from WooThemes SEO framework?"
 msgstr ""
 
-#: admin/views/tool-import-export.php:500
+#: admin/views/tool-import-export.php:147
 msgid "Delete the old data after import? (recommended)"
 msgstr ""
 
-#: admin/views/tool-import-export.php:508
+#: admin/views/tool-import-export.php:158
 msgid ""
 "If you want to import data from (by now ancient) Yoast plugins, you can do "
 "so here:"
 msgstr ""
 
-#: admin/views/tool-import-export.php:510
+#: admin/views/tool-import-export.php:165
 msgid "Import from Robots Meta (by Yoast)?"
 msgstr ""
 
-#: admin/views/tool-import-export.php:511
+#: admin/views/tool-import-export.php:166
 msgid "Import from RSS Footer (by Yoast)?"
 msgstr ""
 
-#: admin/views/tool-import-export.php:512
+#: admin/views/tool-import-export.php:167
 msgid "Import from Yoast Breadcrumbs?"
 msgstr ""
 
@@ -2953,15 +2908,15 @@ msgstr ""
 #: frontend/class-frontend.php:516 frontend/class-frontend.php:519
 #: frontend/class-frontend.php:522 frontend/class-frontend.php:537
 #: frontend/class-frontend.php:540 frontend/class-frontend.php:543
-#: inc/class-wpseo-options.php:1548
+#: inc/class-wpseo-options.php:1519
 msgid "%s Archives"
 msgstr ""
 
-#: frontend/class-frontend.php:556 inc/class-wpseo-options.php:1500
+#: frontend/class-frontend.php:556 inc/class-wpseo-options.php:1471
 msgid "Page not found"
 msgstr ""
 
-#: frontend/class-frontend.php:1241
+#: frontend/class-frontend.php:1237
 msgid ""
 "Admin only notice: this page doesn't show a meta description because it "
 "doesn't have one, either write it for this page specifically or go into the "
@@ -2976,89 +2931,83 @@ msgstr ""
 msgid "%s does not seem to be a valid url. Please correct."
 msgstr ""
 
-#: inc/class-wpseo-options.php:1268
-msgid ""
-"Invalid transport mode set for the canonical settings. Value reset to "
-"default."
-msgstr ""
-
-#: inc/class-wpseo-options.php:1498
+#: inc/class-wpseo-options.php:1469
 msgid "%s, Author at %s"
 msgstr ""
 
-#: inc/class-wpseo-options.php:1499
+#: inc/class-wpseo-options.php:1470
 msgid "You searched for %s"
 msgstr ""
 
-#: inc/class-wpseo-options.php:1532
+#: inc/class-wpseo-options.php:1503
 msgid "%s Archive"
 msgstr ""
 
-#: inc/class-wpseo-options.php:1944
+#: inc/class-wpseo-options.php:1918
 msgid "The post %s appeared first on %s."
 msgstr ""
 
-#: inc/class-wpseo-options.php:2032
+#: inc/class-wpseo-options.php:2006
 msgid "Error 404: Page not found"
 msgstr ""
 
-#: inc/class-wpseo-options.php:2033
+#: inc/class-wpseo-options.php:2007
 msgid "Archives for"
 msgstr ""
 
-#: inc/class-wpseo-options.php:2034
+#: inc/class-wpseo-options.php:2008
 msgid "Home"
 msgstr ""
 
-#: inc/class-wpseo-options.php:2035
+#: inc/class-wpseo-options.php:2009
 msgid "You searched for"
 msgstr ""
 
-#: inc/class-wpseo-options.php:2127
+#: inc/class-wpseo-options.php:2101
 msgid "Please select a valid taxonomy for post type \"%s\""
 msgstr ""
 
-#: inc/class-wpseo-options.php:2164
+#: inc/class-wpseo-options.php:2138
 msgid "Please select a valid post type for taxonomy \"%s\""
 msgstr ""
 
-#: inc/class-wpseo-options.php:2475
+#: inc/class-wpseo-options.php:2451
 msgid ""
 "\"Max entries per sitemap page\" should be a positive number, which %s is "
 "not. Please correct."
 msgstr ""
 
-#: inc/class-wpseo-options.php:2640
+#: inc/class-wpseo-options.php:2621
 msgid "Summary"
 msgstr ""
 
-#: inc/class-wpseo-options.php:2641
+#: inc/class-wpseo-options.php:2622
 msgid "Summary with large image"
 msgstr ""
 
-#: inc/class-wpseo-options.php:2794
+#: inc/class-wpseo-options.php:2775
 msgid "%s does not seem to be a valid Twitter user-id. Please correct."
 msgstr ""
 
-#: inc/class-wpseo-options.php:3043
+#: inc/class-wpseo-options.php:3024
 msgid ""
 "%s is not a valid choice for who should be allowed access to the WP SEO "
 "settings. Value reset to the default."
 msgstr ""
 
-#: inc/class-wpseo-options.php:3063 inc/class-wpseo-options.php:3073
+#: inc/class-wpseo-options.php:3044 inc/class-wpseo-options.php:3054
 msgid ""
 "The default blog setting must be the numeric blog id of the blog you want "
 "to use as default."
 msgstr ""
 
-#: inc/class-wpseo-options.php:3063
+#: inc/class-wpseo-options.php:3044
 msgid ""
 "This must be an existing blog. Blog %s does not exist or has been marked as "
 "deleted."
 msgstr ""
 
-#: inc/class-wpseo-options.php:3073
+#: inc/class-wpseo-options.php:3054
 msgid "No numeric value was received."
 msgstr ""
 
@@ -3519,10 +3468,20 @@ msgstr ""
 msgid "%sRenew your license now%s."
 msgstr ""
 
-#: wp-seo-main.php:334
+#: wp-seo-main.php:352
 msgid ""
 "The Standard PHP Library (SPL) extension seem to be unavailable. Please ask "
 "your web host to enable it."
+msgstr ""
+
+#: wp-seo-main.php:353 wp-seo-main.php:376
+msgid "Activation failed:"
+msgstr ""
+
+#: wp-seo-main.php:375
+msgid ""
+"The filter extension seem to be unavailable. Please ask your web host to "
+"enable it."
 msgstr ""
 
 #. Plugin Name of the plugin/theme
@@ -3549,14 +3508,14 @@ msgstr ""
 msgid "https://yoast.com/"
 msgstr ""
 
-#: admin/class-bulk-editor-list-table.php:293
+#: admin/class-bulk-editor-list-table.php:295
 msgctxt "posts"
 msgid "All <span class=\"count\">(%s)</span>"
 msgid_plural "All <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: admin/class-bulk-editor-list-table.php:336
+#: admin/class-bulk-editor-list-table.php:338
 msgctxt "posts"
 msgid "Trash <span class=\"count\">(%s)</span>"
 msgid_plural "Trash <span class=\"count\">(%s)</span>"
