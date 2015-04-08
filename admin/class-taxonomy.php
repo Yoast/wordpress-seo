@@ -48,10 +48,11 @@ class WPSEO_Taxonomy {
 	 * Makes sure the taxonomy meta is updated when a taxonomy term is split.
 	 *
 	 * @link https://make.wordpress.org/core/2015/02/16/taxonomy-term-splitting-in-4-2-a-developer-guide/ Article explaining the taxonomy term splitting in WP 4.2
-	 * @param $old_term_id
-	 * @param $new_term_id
-	 * @param $term_taxonomy_id
-	 * @param $taxonomy
+	 *
+	 * @param string $old_term_id      Old term id of the taxonomy term that was splitted.
+	 * @param string $new_term_id      New term id of the taxonomy term that was splitted.
+	 * @param string $term_taxonomy_id Term taxonomy id for the taxonomy that was affected.
+	 * @param string $taxonomy         The taxonomy that the taxonomy term was splitted for.
 	 */
 	public function split_shared_term( $old_term_id, $new_term_id, $term_taxonomy_id, $taxonomy ) {
 		$tax_meta = get_option( 'wpseo_taxonomy_meta', array() );
