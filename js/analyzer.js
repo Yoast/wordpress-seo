@@ -12,21 +12,20 @@ Analyzer = function (args){
  * Analyzer initialisation. Loads defaults and overloads custom settings.
  */
 Analyzer.prototype.init = function() {
-
     //init preprocessor if not exists
-    if (typeof yst_pp != 'object' || yst_pp.inputText != this.config.textString) {
-        yst_pp = new PreProcessor(this.config.textString);
+    if (typeof yst_preProcessor !== 'object' || yst_preProcessor.inputText !== this.config.textString) {
+        yst_preProcessor = new PreProcessor(this.config.textString);
     }
     //init helper
     if(typeof yst_stringHelper != 'object'){
         yst_stringHelper = new StringHelper();
     }
     //if no available function queues, make new queue
-    if (typeof this.queue != 'Array') {
+    if (typeof this.queue !== 'Array') {
         this.queue = [];
     }
     //if custom queue available load queue, otherwise load default queue.
-    if(typeof this.config.queue != 'undefined' && this.config.queue.length != 0){
+    if(typeof this.config.queue !== 'undefined' && this.config.queue.length !== 0){
         this.queue = this.config.queue;
     }else{
         this.queue = ['keywordDensity', 'subheaderChecker', 'stopwordChecker', 'fleschReading'];
@@ -67,13 +66,12 @@ Analyzer.prototype.abortQueue = function(){
  * @returns resultObject
  */
 Analyzer.prototype.keywordDensity = function(){
-    if(yst_pp._store.wordcount >= 100) {
-        var keywordMatches = yst_pp._store.cleanText.match(new RegExp(this.config.keyword, 'g'));
-        if ( keywordMatches != null ) {
+    if(yst_preProcessor._store.wordcount > 100) {
+        var keywordMatches = yst_preProcessor._store.cleanText.match(new RegExp(this.config.keyword, 'g'));
+        var keywordDensity = 0;
+        if ( keywordMatches !== null ) {
             var keywordCount = keywordMatches.length;
-            var keywordDensity = (keywordCount / yst_pp._store.wordcount - (keywordCount - 1 * keywordCount)) * 100;
-        } else {
-            var keywordDensity = 0;
+            var keywordDensity = (keywordCount / yst_preProcessor._store.wordcount - (keywordCount - 1 * keywordCount)) * 100;
         }
         switch (true) {
             case (keywordDensity < 1):
@@ -100,8 +98,8 @@ Analyzer.prototype.keywordDensity = function(){
 Analyzer.prototype.subheaderChecker = function() {
 
     //regex for headers
-    var headers = yst_pp._store.cleanTextSomeTags.match(/<h([1-6])(?:[^>]+)?>(.*?)<\/h\1>/g);
-    if(headers == null){
+    var headers = yst_preProcessor._store.cleanTextSomeTags.match(/<h([1-6])(?:[^>]+)?>(.*?)<\/h\1>/g);
+    if(headers === null){
         result = {name: 'subHeadings', result: null, rating: 7};
     }else {
         var foundInHeader = 0;
@@ -116,7 +114,7 @@ Analyzer.prototype.subheaderChecker = function() {
             var rating = 9;
         }else{
             var result = {keywordFound: 0, numberofHeaders: headers.length}
-            var rating = 7;
+            var rating = 3;
         }
         result = {name: 'subHeadings', result: result, rating: rating};
     }
@@ -181,9 +179,9 @@ StringHelper.prototype.regexStringBuilder = function(stringArray){
     return new RegExp(regexString, 'g');
 };
 
-
 /**
  * PreProcessor object definition. Creates _store object and calls init.
+ * @params textString
  */
 PreProcessor = function (text){
     //create _store object to store data
@@ -192,7 +190,6 @@ PreProcessor = function (text){
     if(typeof yst_stringHelper != 'object'){
         yst_stringHelper = new StringHelper();
     }
-
     this.init();
 };
 
