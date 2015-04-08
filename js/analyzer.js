@@ -99,6 +99,7 @@ Analyzer.prototype.keywordDensity = function(){
     if(yst_preProcessor._store.wordcount > 100) {
         var keywordDensity = this.keywordDensityChecker();
         var rating = this.keywordDensityRater(keywordDensity);
+        console.log(rating);
         result = {name: 'keywordDensity', result: {keywordDensity: keywordDensity.toFixed(1) }, rating: rating};
     }else{
         result = {name: 'keywordDensity', result: null, rating: null};
@@ -111,7 +112,7 @@ Analyzer.prototype.keywordDensity = function(){
  * @returns {number}
  */
 Analyzer.prototype.keywordDensityChecker = function(){
-    var keywordMatches = yst_preProcessor._store.cleanText.match(new RegExp(this.config.keyword, 'g'));
+    var keywordMatches = yst_stringHelper.stringMatcher(yst_preProcessor._store.cleanText,[this.config.keyword]);
     var keywordDensity = 0;
     if ( keywordMatches !== null ) {
         var keywordCount = keywordMatches.length;
@@ -174,7 +175,7 @@ Analyzer.prototype.subheaderChecker = function() {
  * check if the keyword contains stopwords
  */
 Analyzer.prototype.stopwordChecker = function(){
-    matches = yst_stringHelper.stringCounter(this.config.keyword, this.config.stopWords);
+    matches = yst_stringHelper.stringMatcher(this.config.keyword, this.config.stopWords);
     result = {name: 'stopWords', result: {count: matches.length, matches: matches}, rating:5 };
     return result;
 };
@@ -210,7 +211,7 @@ StringHelper.prototype.stringReplacer = function(textString, stringsToRemove, re
  * @param stringsToMatch
  * @returns {matches}
  */
-StringHelper.prototype.stringCounter = function(textString, stringsToMatch){
+StringHelper.prototype.stringMatcher = function(textString, stringsToMatch){
     return textString.match(this.regexStringBuilder(stringsToMatch));
 }
 
@@ -303,7 +304,7 @@ PreProcessor.prototype.syllableCount = function(textString){
             '^[dr]e[aeiou][^aeiou]+$',
             '[aeiouy]rse$'
         ];
-       var currentMatch = yst_stringHelper.stringCounter(textString, arrSubSyllables);
+       var currentMatch = yst_stringHelper.stringMatcher(textString, arrSubSyllables);
        if(currentMatch != null){
            count += currentMatch.length;
        };
