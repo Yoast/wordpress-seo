@@ -12,6 +12,10 @@ if ( function_exists( 'xdebug_disable' ) ) {
 echo 'Welcome to the WordPress SEO Test Suite' . PHP_EOL;
 echo 'Version: 1.0' . PHP_EOL . PHP_EOL;
 
+if ( false !== getenv( 'WP_PLUGIN_DIR' ) ) {
+	define( 'WP_PLUGIN_DIR', getenv( 'WP_PLUGIN_DIR' ) );
+}
+
 $GLOBALS['wp_tests_options'] = array(
 	'active_plugins' => array( 'wordpress-seo/wp-seo.php' ),
 );

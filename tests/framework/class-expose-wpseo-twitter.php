@@ -33,10 +33,6 @@ class Expose_WPSEO_Twitter extends WPSEO_Twitter {
 		return parent::description();
 	}
 
-	public function url() {
-		return parent::url();
-	}
-
 	public function image_output( $img, $tag = 'image:src' ) {
 		return parent::image_output( $img, $tag );
 	}
