@@ -363,7 +363,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 
 		ob_end_clean();
 
-		$expected_output = '<meta property="og:image" content="' . get_site_url() . '/wp-content/uploads//tmp/wordpress/src/wp-content/plugins/wordpress-seo/tests' . $image . '" />';
+		$expected_output = '<meta property="og:image" content="' . get_site_url() . '/wp-content/uploads/' . WP_PLUGIN_DIR . '/wordpress-seo/tests' . $image . '" />';
 
 		$this->assertContains( $expected_output, $output );
 	}
