@@ -104,8 +104,8 @@ label.radio {
 	min-width: 800px;
 }
 
-.wpseo_variable_warning {
-	margin: 3px 0 0 10px;
+div.wpseo_variable_warning {
+	margin: 5px 0 0 0;
 	padding: 5px;
 	color: red;
 }
