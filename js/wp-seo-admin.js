@@ -92,16 +92,22 @@ function wpseoDetectWrongVariables(e) {
     else if (e.hasClass('error404-template')) {
         wrongVariables = wrongVariables.concat(authorVariables, dateVariables, postVariables, taxonomyVariables, ['%%searchphrase%%']);
     }
+    var error_id = e.attr('id') + '-warning';
     jQuery.each(wrongVariables, function (index, variable) {
         if (e.val().search(variable) !== -1) {
             e.addClass('wpseo_variable_warning');
-            e.after(' <div id="' + e.attr('id') + '-warning" class="wpseo_variable_warning">' + wpseoAdminL10n.variable_warning.replace('%s', variable) + '</div>');
+            var msg = wpseoAdminL10n.variable_warning.replace('%s', variable);
+            if (jQuery('#' + error_id).length) {
+                jQuery('#' + error_id).innerHtml(msg);
+            } else {
+                e.after(' <div id="' + error_id + '" class="wpseo_variable_warning">' + msg + '</div>');
+            }
             warn = true;
         }
     });
     if (warn === false) {
         e.removeClass('wpseo_variable_warning');
-        jQuery('#' + e.attr('id') + '-warning').remove();
+        jQuery('#' + error_id).remove();
     }
 }
 
