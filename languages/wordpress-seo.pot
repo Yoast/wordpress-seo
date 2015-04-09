@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WordPress SEO 2.0.1\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo/issues\n"
-"POT-Creation-Date: 2015-04-01 11:56:00+00:00\n"
+"POT-Creation-Date: 2015-04-09 11:05:52+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -58,7 +58,7 @@ msgid "General Settings"
 msgstr ""
 
 #: admin/class-admin.php:86 admin/class-admin.php:227
-#: admin/class-metabox.php:986 inc/wpseo-non-ajax-functions.php:262
+#: admin/class-metabox.php:991 inc/wpseo-non-ajax-functions.php:262
 msgid "SEO"
 msgstr ""
 
@@ -76,8 +76,8 @@ msgstr ""
 msgid "XML Sitemaps"
 msgstr ""
 
-#: admin/class-admin.php:130 admin/class-metabox.php:603
-#: admin/class-metabox.php:626 inc/wpseo-non-ajax-functions.php:423
+#: admin/class-admin.php:130 admin/class-metabox.php:604
+#: admin/class-metabox.php:627 inc/wpseo-non-ajax-functions.php:423
 msgid "Advanced"
 msgstr ""
 
@@ -95,8 +95,8 @@ msgstr ""
 msgid "WordPress SEO by Yoast"
 msgstr ""
 
-#: admin/class-admin.php:179 admin/class-metabox.php:597
-#: admin/class-metabox.php:616 admin/pages/dashboard.php:144
+#: admin/class-admin.php:179 admin/class-metabox.php:598
+#: admin/class-metabox.php:617 admin/pages/dashboard.php:144
 #: admin/pages/metas.php:21 admin/pages/xml-sitemaps.php:37
 #: inc/wpseo-non-ajax-functions.php:399
 msgid "General"
@@ -123,6 +123,10 @@ msgid ""
 "The title &amp; metas settings for WordPress SEO are made up of variables "
 "that are replaced by specific values from the page when the page is "
 "displayed. The tabs on the left explain the available variables."
+msgstr ""
+
+#: admin/class-admin.php:199
+msgid "Note that not all variables can be used in every template."
 msgstr ""
 
 #: admin/class-admin.php:206 admin/class-admin.php:207
@@ -182,7 +186,7 @@ msgid "FAQ"
 msgstr ""
 
 #: admin/class-admin.php:440 admin/class-opengraph-admin.php:39
-#: admin/class-pointers.php:119 admin/pages/social.php:195
+#: admin/class-pointers.php:119 admin/pages/social.php:25
 msgid "Google+"
 msgstr ""
 
@@ -283,9 +287,17 @@ msgstr ""
 msgid "New Yoast SEO Title"
 msgstr ""
 
-#: admin/class-config.php:95 admin/class-metabox.php:557
-#: admin/class-metabox.php:935
+#: admin/class-config.php:96 admin/class-metabox.php:557
+#: admin/class-metabox.php:940
 msgid "Use Image"
+msgstr ""
+
+#: admin/class-config.php:107
+msgid "Warning: the variable <code>%s</code> cannot be used in this template."
+msgstr ""
+
+#: admin/class-config.php:107
+msgid "See the help tab for more info."
 msgstr ""
 
 #: admin/class-export.php:67
@@ -390,7 +402,7 @@ msgid ""
 "about.<br/><br/>Read %sthis post%s for more info."
 msgstr ""
 
-#: admin/class-metabox.php:44 admin/class-metabox.php:987
+#: admin/class-metabox.php:44 admin/class-metabox.php:992
 #: admin/class-taxonomy.php:169
 msgid "SEO Title"
 msgstr ""
@@ -590,7 +602,7 @@ msgstr ""
 msgid "The URL that this page should redirect to."
 msgstr ""
 
-#: admin/class-metabox.php:427 admin/class-metabox.php:1008
+#: admin/class-metabox.php:427 admin/class-metabox.php:1013
 msgid "Post is set to noindex."
 msgstr ""
 
@@ -642,360 +654,366 @@ msgstr ""
 msgid "(no parent)"
 msgstr ""
 
-#: admin/class-metabox.php:599 admin/class-metabox.php:618
+#: admin/class-metabox.php:565
+msgid ""
+"The featured image should be at least 200x200 pixels to be picked up by "
+"Facebook and other social media sites."
+msgstr ""
+
+#: admin/class-metabox.php:600 admin/class-metabox.php:619
 msgid "Page Analysis"
 msgstr ""
 
-#: admin/class-metabox.php:950
+#: admin/class-metabox.php:955
 msgid "SEO: No Focus Keyword"
 msgstr ""
 
-#: admin/class-metabox.php:951
+#: admin/class-metabox.php:956
 msgid "SEO: Bad"
 msgstr ""
 
-#: admin/class-metabox.php:952
+#: admin/class-metabox.php:957
 msgid "SEO: Poor"
 msgstr ""
 
-#: admin/class-metabox.php:953
+#: admin/class-metabox.php:958
 msgid "SEO: OK"
 msgstr ""
 
-#: admin/class-metabox.php:954
+#: admin/class-metabox.php:959
 msgid "SEO: Good"
 msgstr ""
 
-#: admin/class-metabox.php:955
+#: admin/class-metabox.php:960
 msgid "SEO: Post Noindexed"
 msgstr ""
 
-#: admin/class-metabox.php:960
+#: admin/class-metabox.php:965
 msgid "All SEO Scores"
 msgstr ""
 
-#: admin/class-metabox.php:988
+#: admin/class-metabox.php:993
 msgid "Meta Desc."
 msgstr ""
 
-#: admin/class-metabox.php:989
+#: admin/class-metabox.php:994
 msgid "Focus KW"
 msgstr ""
 
-#: admin/class-metabox.php:1022
+#: admin/class-metabox.php:1027
 msgid "Focus keyword not set."
 msgstr ""
 
-#: admin/class-metabox.php:1313
+#: admin/class-metabox.php:1318
 msgid ""
 "To update this page analysis, save as draft or update and check this tab "
 "again"
 msgstr ""
 
-#: admin/class-metabox.php:1337
+#: admin/class-metabox.php:1342
 msgid "Your hosting environment does not support PHP's %sDocument Object Model%s."
 msgstr ""
 
-#: admin/class-metabox.php:1337
+#: admin/class-metabox.php:1342
 msgid ""
 "To enjoy all the benefits of the page analysis feature, you'll need to (get "
 "your host to) install it."
 msgstr ""
 
-#: admin/class-metabox.php:1343
+#: admin/class-metabox.php:1348
 msgid "No post content to analyse."
 msgstr ""
 
-#: admin/class-metabox.php:1348
+#: admin/class-metabox.php:1353
 msgid ""
 "No focus keyword was set for this %s. If you do not set a focus keyword, no "
 "score can be calculated."
 msgstr ""
 
-#: admin/class-metabox.php:1355
+#: admin/class-metabox.php:1360
 msgid "Page Analysis has been disabled."
 msgstr ""
 
-#: admin/class-metabox.php:1592
+#: admin/class-metabox.php:1597
 msgid "You've never used this focus keyword before, very good."
 msgstr ""
 
-#: admin/class-metabox.php:1595
+#: admin/class-metabox.php:1600
 msgid ""
 "You've used this focus keyword %1$sonce before%2$s, be sure to make very "
 "clear which URL on your site is the most important for this keyword."
 msgstr ""
 
-#: admin/class-metabox.php:1601
+#: admin/class-metabox.php:1606
 msgid ""
 "You've used this focus keyword %3$s%4$d times before%2$s, it's probably a "
 "good idea to read %1$sthis post on cornerstone content%2$s and improve your "
 "keyword strategy."
 msgstr ""
 
-#: admin/class-metabox.php:1614
+#: admin/class-metabox.php:1619
 msgid ""
 "The keyword for this page contains one or more %sstop words%s, consider "
 "removing them. Found '%s'."
 msgstr ""
 
-#: admin/class-metabox.php:1628
+#: admin/class-metabox.php:1633
 msgid "The keyword / phrase appears in the URL for this page."
 msgstr ""
 
-#: admin/class-metabox.php:1629
+#: admin/class-metabox.php:1634
 msgid ""
 "The keyword / phrase does not appear in the URL for this page. If you "
 "decide to rename the URL be sure to check the old URL 301 redirects to the "
 "new one!"
 msgstr ""
 
-#: admin/class-metabox.php:1630
+#: admin/class-metabox.php:1635
 msgid ""
 "The slug for this page contains one or more <a "
 "href=\"http://en.wikipedia.org/wiki/Stop_words\">stop words</a>, consider "
 "removing them."
 msgstr ""
 
-#: admin/class-metabox.php:1631
+#: admin/class-metabox.php:1636
 msgid "The slug for this page is a bit long, consider shortening it."
 msgstr ""
 
-#: admin/class-metabox.php:1666
+#: admin/class-metabox.php:1671
 msgid "Please create a page title."
 msgstr ""
 
-#: admin/class-metabox.php:1667
+#: admin/class-metabox.php:1672
 msgid ""
 "The page title is more than 40 characters and less than the recommended 70 "
 "character limit."
 msgstr ""
 
-#: admin/class-metabox.php:1668
+#: admin/class-metabox.php:1673
 msgid ""
 "The page title contains %d characters, which is less than the recommended "
 "minimum of 40 characters. Use the space to add keyword variations or create "
 "compelling call-to-action copy."
 msgstr ""
 
-#: admin/class-metabox.php:1669
+#: admin/class-metabox.php:1674
 msgid ""
 "The page title contains %d characters, which is more than the viewable "
 "limit of 70 characters; some words will not be visible to users in your "
 "listing."
 msgstr ""
 
-#: admin/class-metabox.php:1670
+#: admin/class-metabox.php:1675
 msgid "The keyword / phrase %s does not appear in the page title."
 msgstr ""
 
-#: admin/class-metabox.php:1671
+#: admin/class-metabox.php:1676
 msgid ""
 "The page title contains keyword / phrase, at the beginning which is "
 "considered to improve rankings."
 msgstr ""
 
-#: admin/class-metabox.php:1672
+#: admin/class-metabox.php:1677
 msgid ""
 "The page title contains keyword / phrase, but it does not appear at the "
 "beginning; try and move it to the beginning."
 msgstr ""
 
-#: admin/class-metabox.php:1719
+#: admin/class-metabox.php:1724
 msgid "No outbound links appear in this page, consider adding some as appropriate."
 msgstr ""
 
-#: admin/class-metabox.php:1720
+#: admin/class-metabox.php:1725
 msgid ""
 "You're linking to another page with the keyword you want this page to rank "
 "for, consider changing that if you truly want this page to rank."
 msgstr ""
 
-#: admin/class-metabox.php:1721
+#: admin/class-metabox.php:1726
 msgid "This page has %s outbound link(s)."
 msgstr ""
 
-#: admin/class-metabox.php:1722
+#: admin/class-metabox.php:1727
 msgid "This page has %s outbound link(s), all nofollowed."
 msgstr ""
 
-#: admin/class-metabox.php:1723
+#: admin/class-metabox.php:1728
 msgid "This page has %s nofollowed link(s) and %s normal outbound link(s)."
 msgstr ""
 
-#: admin/class-metabox.php:1840
+#: admin/class-metabox.php:1845
 msgid "No images appear in this page, consider adding some as appropriate."
 msgstr ""
 
-#: admin/class-metabox.php:1841
+#: admin/class-metabox.php:1846
 msgid "The images on this page are missing alt tags."
 msgstr ""
 
-#: admin/class-metabox.php:1842
+#: admin/class-metabox.php:1847
 msgid "The images on this page contain alt tags with the target keyword / phrase."
 msgstr ""
 
-#: admin/class-metabox.php:1843
+#: admin/class-metabox.php:1848
 msgid ""
 "The images on this page do not have alt tags containing your keyword / "
 "phrase."
 msgstr ""
 
-#: admin/class-metabox.php:1925
+#: admin/class-metabox.php:1930
 msgid "No subheading tags (like an H2) appear in the copy."
 msgstr ""
 
-#: admin/class-metabox.php:1926
+#: admin/class-metabox.php:1931
 msgid ""
 "Keyword / keyphrase appears in %s (out of %s) subheadings in the copy. "
 "While not a major ranking factor, this is beneficial."
 msgstr ""
 
-#: admin/class-metabox.php:1927
+#: admin/class-metabox.php:1932
 msgid ""
 "You have not used your keyword / keyphrase in any subheading (such as an "
 "H2) in your copy."
 msgstr ""
 
-#: admin/class-metabox.php:1988
+#: admin/class-metabox.php:1993
 msgid ""
 "In the specified meta description, consider: How does it compare to the "
 "competition? Could it be made more appealing?"
 msgstr ""
 
-#: admin/class-metabox.php:1989
+#: admin/class-metabox.php:1994
 msgid ""
 "The meta description is under 120 characters, however up to %s characters "
 "are available. %s"
 msgstr ""
 
-#: admin/class-metabox.php:1990
+#: admin/class-metabox.php:1995
 msgid ""
 "The specified meta description is over %s characters, reducing it will "
 "ensure the entire description is visible. %s"
 msgstr ""
 
-#: admin/class-metabox.php:1991
+#: admin/class-metabox.php:1996
 msgid ""
 "No meta description has been specified, search engines will display copy "
 "from the page instead."
 msgstr ""
 
-#: admin/class-metabox.php:1992
+#: admin/class-metabox.php:1997
 msgid "The meta description contains the primary keyword / phrase."
 msgstr ""
 
-#: admin/class-metabox.php:1993
+#: admin/class-metabox.php:1998
 msgid ""
 "A meta description has been specified, but it does not contain the target "
 "keyword / phrase."
 msgstr ""
 
-#: admin/class-metabox.php:1997
+#: admin/class-metabox.php:2002
 msgid ""
 "The available space is shorter than the usual 155 characters because Google "
 "will also include the publication date in the snippet."
 msgstr ""
 
-#: admin/class-metabox.php:2045
+#: admin/class-metabox.php:2050
 msgid ""
 "There are %d words contained in the body copy, this is more than the %d "
 "word recommended minimum."
 msgstr ""
 
-#: admin/class-metabox.php:2046
+#: admin/class-metabox.php:2051
 msgid ""
 "There are %d words contained in the body copy, this is below the %d word "
 "recommended minimum. Add more useful content on this topic for readers."
 msgstr ""
 
-#: admin/class-metabox.php:2047
+#: admin/class-metabox.php:2052
 msgid ""
 "There are %d words contained in the body copy, this is slightly below the "
 "%d word recommended minimum, add a bit more copy."
 msgstr ""
 
-#: admin/class-metabox.php:2048
+#: admin/class-metabox.php:2053
 msgid ""
 "There are %d words contained in the body copy. This is far too low and "
 "should be increased."
 msgstr ""
 
-#: admin/class-metabox.php:2050
+#: admin/class-metabox.php:2055
 msgid ""
 "The keyword density is %s%%, which is a bit low, the keyword was found %s "
 "times."
 msgstr ""
 
-#: admin/class-metabox.php:2051
+#: admin/class-metabox.php:2056
 msgid ""
 "The keyword density is %s%%, which is over the advised 4.5%% maximum, the "
 "keyword was found %s times."
 msgstr ""
 
-#: admin/class-metabox.php:2052
+#: admin/class-metabox.php:2057
 msgid "The keyword density is %s%%, which is great, the keyword was found %s times."
 msgstr ""
 
-#: admin/class-metabox.php:2054
+#: admin/class-metabox.php:2059
 msgid ""
 "The keyword doesn't appear in the first paragraph of the copy, make sure "
 "the topic is clear immediately."
 msgstr ""
 
-#: admin/class-metabox.php:2055
+#: admin/class-metabox.php:2060
 msgid "The keyword appears in the first paragraph of the copy."
 msgstr ""
 
-#: admin/class-metabox.php:2057
+#: admin/class-metabox.php:2062
 msgid "Flesch Reading Ease"
 msgstr ""
 
-#: admin/class-metabox.php:2058
+#: admin/class-metabox.php:2063
 msgid "The copy scores %s in the %s test, which is considered %s to read. %s"
 msgstr ""
 
-#: admin/class-metabox.php:2089
+#: admin/class-metabox.php:2094
 msgid ""
 "Your keyphrase is over 10 words, a keyphrase should be shorter and there "
 "can be only one keyphrase."
 msgstr ""
 
-#: admin/class-metabox.php:2132
+#: admin/class-metabox.php:2137
 msgid "very easy"
 msgstr ""
 
-#: admin/class-metabox.php:2136
+#: admin/class-metabox.php:2141
 msgid "easy"
 msgstr ""
 
-#: admin/class-metabox.php:2140
+#: admin/class-metabox.php:2145
 msgid "fairly easy"
 msgstr ""
 
-#: admin/class-metabox.php:2144 inc/class-wpseo-utils.php:207
+#: admin/class-metabox.php:2149 inc/class-wpseo-utils.php:207
 msgid "OK"
 msgstr ""
 
-#: admin/class-metabox.php:2148
+#: admin/class-metabox.php:2153
 msgid "fairly difficult"
 msgstr ""
 
-#: admin/class-metabox.php:2149
+#: admin/class-metabox.php:2154
 msgid "Try to make shorter sentences to improve readability."
 msgstr ""
 
-#: admin/class-metabox.php:2153
+#: admin/class-metabox.php:2158
 msgid "difficult"
 msgstr ""
 
-#: admin/class-metabox.php:2154 admin/class-metabox.php:2159
+#: admin/class-metabox.php:2159 admin/class-metabox.php:2164
 msgid ""
 "Try to make shorter sentences, using less difficult words to improve "
 "readability."
 msgstr ""
 
-#: admin/class-metabox.php:2158
+#: admin/class-metabox.php:2163
 msgid "very difficult"
 msgstr ""
 
@@ -1018,12 +1036,12 @@ msgid ""
 msgstr ""
 
 #: admin/class-opengraph-admin.php:37 admin/class-pointers.php:116
-#: admin/pages/social.php:192
+#: admin/pages/social.php:22
 msgid "Facebook"
 msgstr ""
 
 #: admin/class-opengraph-admin.php:38 admin/class-pointers.php:117
-#: admin/pages/social.php:193
+#: admin/pages/social.php:23
 msgid "Twitter"
 msgstr ""
 
@@ -1037,6 +1055,28 @@ msgstr ""
 
 #: admin/class-opengraph-admin.php:54
 msgid "%s Image"
+msgstr ""
+
+#: admin/class-plugin-conflict.php:129
+msgid ""
+"Both WordPress SEO by Yoast and %s create OpenGraph output, which might "
+"make Facebook, Twitter, LinkedIn and other social networks use the wrong "
+"texts and images when your pages are being shared."
+msgstr ""
+
+#: admin/class-plugin-conflict.php:130
+msgid "Configure WordPress SEO's OpenGraph settings"
+msgstr ""
+
+#: admin/class-plugin-conflict.php:131
+msgid ""
+"Both WordPress SEO by Yoast and %s can create XML sitemaps. Having two XML "
+"sitemaps is not beneficial for search engines, yet might slow down your "
+"site."
+msgstr ""
+
+#: admin/class-plugin-conflict.php:132
+msgid "Configure WordPress SEO's XML Sitemap settings"
 msgstr ""
 
 #: admin/class-pointers.php:61
@@ -1223,7 +1263,7 @@ msgid ""
 "all of their followers."
 msgstr ""
 
-#: admin/class-pointers.php:118 admin/pages/social.php:194
+#: admin/class-pointers.php:118 admin/pages/social.php:24
 msgid "Pinterest"
 msgstr ""
 
@@ -1359,6 +1399,53 @@ msgstr ""
 msgid "Previous"
 msgstr ""
 
+#: admin/class-social-facebook.php:66
+msgid "Successfully removed admin %s"
+msgstr ""
+
+#: admin/class-social-facebook.php:90
+msgid "Successfully cleared all Facebook Data"
+msgstr ""
+
+#: admin/class-social-facebook.php:111
+msgid "Successfully added %s as a Facebook Admin!"
+msgstr ""
+
+#: admin/class-social-facebook.php:119
+msgid "%s already exists as a Facebook Admin."
+msgstr ""
+
+#: admin/class-social-facebook.php:221
+msgid "Facebook Insights and Admins"
+msgstr ""
+
+#: admin/class-social-facebook.php:223
+msgid ""
+"To be able to access %sFacebook Insights%s for your site, you need to "
+"specify a Facebook Admin. This can be a user. If you have an app for your "
+"site, you could use that as well."
+msgstr ""
+
+#: admin/class-social-facebook.php:240
+msgid "Add Facebook Admin"
+msgstr ""
+
+#: admin/class-social-facebook.php:244
+msgid "Add Another Facebook Admin"
+msgstr ""
+
+#: admin/class-social-facebook.php:246
+msgid "Currently connected Facebook admins:"
+msgstr ""
+
+#: admin/class-social-facebook.php:270
+msgid "Facebook App ID"
+msgstr ""
+
+#: admin/class-social-facebook.php:326
+msgid "Clear all Facebook Data"
+msgstr ""
+
 #: admin/class-taxonomy.php:57
 msgid "Use %s default (Currently: %s)"
 msgstr ""
@@ -1439,12 +1526,36 @@ msgstr ""
 msgid "Upgrade to WordPress SEO Premium &raquo;"
 msgstr ""
 
-#: admin/class-yoast-form.php:413
+#: admin/class-yoast-form.php:414
 msgid "Upload Image"
 msgstr ""
 
-#: admin/class-yoast-plugin-conflict.php:161
-msgid "The following plugins might cause (%1s) issues with Yoast WordPress SEO: %2s"
+#: admin/class-yoast-plugin-conflict.php:175
+msgid "Warning!"
+msgstr ""
+
+#: admin/class-yoast-plugin-conflict.php:176
+msgid ""
+"The %s plugin(s) might cause issues when used in conjunction with Yoast "
+"WordPress SEO."
+msgstr ""
+
+#: admin/class-yoast-plugin-conflict.php:178
+msgid "Recommended solution"
+msgstr ""
+
+#: admin/class-yoast-plugin-conflict.php:179
+msgid ""
+"We recommend you deactivate %s and have another look at your WordPress SEO "
+"configuration using the button above."
+msgstr ""
+
+#: admin/class-yoast-plugin-conflict.php:181
+msgid "Deactivate %s"
+msgstr ""
+
+#: admin/class-yoast-plugin-conflict.php:183
+msgid "This warning is generated by WordPress SEO by Yoast."
 msgstr ""
 
 #: admin/pages/advanced.php:17
@@ -1827,7 +1938,7 @@ msgid ""
 "descriptions for these custom post type archive pages."
 msgstr ""
 
-#: admin/pages/metas.php:133 admin/pages/social.php:230
+#: admin/pages/metas.php:133 admin/pages/social.php:61
 #: admin/views/tool-bulk-editor.php:34
 msgid "Title"
 msgstr ""
@@ -2012,207 +2123,130 @@ msgstr ""
 msgid "Restore site to defaults"
 msgstr ""
 
-#: admin/pages/social.php:16
-msgid "Facebook Insights and Admins"
-msgstr ""
-
-#: admin/pages/social.php:17
-msgid ""
-"To be able to access your %sFacebook Insights%s for your site, you need to "
-"specify a Facebook Admin. This can be a user, but if you have an app for "
-"your site, you could use that. For most people a user will be \"good "
-"enough\" though."
-msgstr ""
-
-#: admin/pages/social.php:34
-msgid "Successfully removed admin %s"
-msgstr ""
-
-#: admin/pages/social.php:56
-msgid "Successfully cleared all Facebook Data"
-msgstr ""
-
-#: admin/pages/social.php:74
-msgid "Successfully added %s as a Facebook Admin!"
-msgstr ""
-
-#: admin/pages/social.php:77
-msgid "%s already exists as a Facebook Admin."
-msgstr ""
-
-#: admin/pages/social.php:84
-msgid "Do not use a Facebook App as Admin"
-msgstr ""
-
-#: admin/pages/social.php:89
-msgid ""
-"Successfully retrieved your apps from Facebook, now select an app to use as "
-"admin."
-msgstr ""
-
-#: admin/pages/social.php:92
-msgid "Failed to retrieve your apps from Facebook."
-msgstr ""
-
-#: admin/pages/social.php:121
-msgid "Use a Facebook App as Admin"
-msgstr ""
-
-#: admin/pages/social.php:125
-msgid "Select an app to use as Facebook admin:"
-msgstr ""
-
-#: admin/pages/social.php:137
-msgid "Update Facebook Apps"
-msgstr ""
-
-#: admin/pages/social.php:141
-msgid "Add Facebook Admin"
-msgstr ""
-
-#: admin/pages/social.php:145
-msgid "Currently connected Facebook admins:"
-msgstr ""
-
-#: admin/pages/social.php:160
-msgid "Add Another Facebook Admin"
-msgstr ""
-
-#: admin/pages/social.php:179
-msgid "Clear all Facebook Data"
-msgstr ""
-
-#: admin/pages/social.php:191
+#: admin/pages/social.php:21
 msgid "Accounts"
 msgstr ""
 
-#: admin/pages/social.php:200
+#: admin/pages/social.php:30
 msgid "To inform Google about your social profiles, we need to know their URLs."
 msgstr ""
 
-#: admin/pages/social.php:201
+#: admin/pages/social.php:31
 msgid ""
 "For each, pick the main account associated with this site and please enter "
 "them below:"
 msgstr ""
 
-#: admin/pages/social.php:204
+#: admin/pages/social.php:34
 msgid "Facebook Page URL"
 msgstr ""
 
-#: admin/pages/social.php:205
+#: admin/pages/social.php:35
 msgid "Twitter Username"
 msgstr ""
 
-#: admin/pages/social.php:206
+#: admin/pages/social.php:36
 msgid "Instagram URL"
 msgstr ""
 
-#: admin/pages/social.php:207
+#: admin/pages/social.php:37
 msgid "LinkedIn URL"
 msgstr ""
 
-#: admin/pages/social.php:208
+#: admin/pages/social.php:38
 msgid "MySpace URL"
 msgstr ""
 
-#: admin/pages/social.php:209
+#: admin/pages/social.php:39
 msgid "Pinterest URL"
 msgstr ""
 
-#: admin/pages/social.php:210
+#: admin/pages/social.php:40
 msgid "YouTube URL"
 msgstr ""
 
-#: admin/pages/social.php:211
+#: admin/pages/social.php:41
 msgid "Google+ URL"
 msgstr ""
 
-#: admin/pages/social.php:219
+#: admin/pages/social.php:49
 msgid "Add Open Graph meta data"
 msgstr ""
 
-#: admin/pages/social.php:223
+#: admin/pages/social.php:53
 msgid ""
 "Add Open Graph meta data to your site's <code>&lt;head&gt;</code> section. "
 "You can specify some of the ID's that are sometimes needed below:"
 msgstr ""
 
-#: admin/pages/social.php:228
+#: admin/pages/social.php:59
 msgid "Frontpage settings"
 msgstr ""
 
-#: admin/pages/social.php:229 admin/pages/social.php:242
+#: admin/pages/social.php:60 admin/pages/social.php:73
 msgid "Image URL"
 msgstr ""
 
-#: admin/pages/social.php:231 admin/views/tool-bulk-editor.php:36
+#: admin/pages/social.php:62 admin/views/tool-bulk-editor.php:36
 msgid "Description"
 msgstr ""
 
-#: admin/pages/social.php:236
+#: admin/pages/social.php:67
 msgid "Copy home meta description"
 msgstr ""
 
-#: admin/pages/social.php:238
+#: admin/pages/social.php:69
 msgid ""
 "These are the title, description and image used in the Open Graph meta tags "
 "on the front page of your site."
 msgstr ""
 
-#: admin/pages/social.php:241
+#: admin/pages/social.php:72
 msgid "Default settings"
 msgstr ""
 
-#: admin/pages/social.php:244
+#: admin/pages/social.php:75
 msgid ""
 "This image is used if the post/page being shared does not contain any "
 "images."
 msgstr ""
 
-#: admin/pages/social.php:253
-msgid ""
-"Note that for the Twitter Cards to work, you have to check the box below "
-"and then validate your Twitter Cards through the %1$sTwitter Card "
-"Validator%2$s."
-msgstr ""
-
-#: admin/pages/social.php:258
+#: admin/pages/social.php:83
 msgid "Add Twitter card meta data"
 msgstr ""
 
-#: admin/pages/social.php:262
+#: admin/pages/social.php:87
 msgid "Add Twitter card meta data to your site's <code>&lt;head&gt;</code> section."
 msgstr ""
 
-#: admin/pages/social.php:265
+#: admin/pages/social.php:90
 msgid "The default card type to use"
 msgstr ""
 
-#: admin/pages/social.php:272
+#: admin/pages/social.php:97
 msgid ""
 "Pinterest uses Open Graph metadata just like Facebook, so be sure to keep "
 "the Open Graph checkbox on the Facebook tab checked if you want to optimize "
 "your site for Pinterest."
 msgstr ""
 
-#: admin/pages/social.php:275
+#: admin/pages/social.php:100
 msgid "Pinterest verification"
 msgstr ""
 
-#: admin/pages/social.php:277
+#: admin/pages/social.php:102
 msgid "To %1$sverify your site with Pinterest%2$s, add the meta tag here"
 msgstr ""
 
-#: admin/pages/social.php:287
+#: admin/pages/social.php:112
 msgid "Add Google+ specific post meta data"
 msgstr ""
 
-#: admin/pages/social.php:290
+#: admin/pages/social.php:115
 msgid "Google Publisher Page"
 msgstr ""
 
-#: admin/pages/social.php:291
+#: admin/pages/social.php:116
 msgid ""
 "If you have a Google+ page for your business, add that URL here and link it "
 "on your Google+ page's about page."
@@ -2977,37 +3011,37 @@ msgid ""
 "not. Please correct."
 msgstr ""
 
-#: inc/class-wpseo-options.php:2621
+#: inc/class-wpseo-options.php:2619
 msgid "Summary"
 msgstr ""
 
-#: inc/class-wpseo-options.php:2622
+#: inc/class-wpseo-options.php:2620
 msgid "Summary with large image"
 msgstr ""
 
-#: inc/class-wpseo-options.php:2775
+#: inc/class-wpseo-options.php:2750
 msgid "%s does not seem to be a valid Twitter user-id. Please correct."
 msgstr ""
 
-#: inc/class-wpseo-options.php:3024
+#: inc/class-wpseo-options.php:2984
 msgid ""
 "%s is not a valid choice for who should be allowed access to the WP SEO "
 "settings. Value reset to the default."
 msgstr ""
 
-#: inc/class-wpseo-options.php:3044 inc/class-wpseo-options.php:3054
+#: inc/class-wpseo-options.php:3004 inc/class-wpseo-options.php:3014
 msgid ""
 "The default blog setting must be the numeric blog id of the blog you want "
 "to use as default."
 msgstr ""
 
-#: inc/class-wpseo-options.php:3044
+#: inc/class-wpseo-options.php:3004
 msgid ""
 "This must be an existing blog. Blog %s does not exist or has been marked as "
 "deleted."
 msgstr ""
 
-#: inc/class-wpseo-options.php:3054
+#: inc/class-wpseo-options.php:3014
 msgid "No numeric value was received."
 msgstr ""
 
