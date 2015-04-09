@@ -48,11 +48,6 @@ jQuery(document).ready(function () {
         wpseoDetectWrongVariables(jQuery(this));
     }).change();
 
-    jQuery('.wpseo-show-help-tab').click(function () {
-        if (jQuery('#contextual-help-wrap').scrollIntoView)
-            jQuery('#contextual-help-wrap').scrollIntoView(false);
-    });
-
     // init
     var active_tab = window.location.hash.replace('#top#', '');
 
