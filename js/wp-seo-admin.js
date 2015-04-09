@@ -99,7 +99,6 @@ function wpseoDetectWrongVariables(e) {
     }
     jQuery.each(wrongVariables, function (index, variable) {
         if (e.val().search(variable) !== -1) {
-            console.log(variable);
             e.addClass('wpseo_variable_warning');
             e.after(' <div id="' + e.attr('id') + '-warning" class="wpseo_variable_warning">' + wpseoAdminL10n.variable_warning.replace('%s', variable) + '</div>');
             warn = true;
