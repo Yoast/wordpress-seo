@@ -147,7 +147,11 @@ Analyzer.prototype.subHeadings = function() {
     foundInHeader = this.subHeadingsChecker(matches);
     return this.subHeadingsRater(foundInHeader, matches);
 };
-
+/**
+ * subHeadings checker to check if keyword is present in given headings.
+ * @param matches
+ * @returns {number}
+ */
 Analyzer.prototype.subHeadingsChecker = function(matches){
     if (matches === null){
         var foundInHeader = -1;
@@ -163,6 +167,12 @@ Analyzer.prototype.subHeadingsChecker = function(matches){
     return foundInHeader
 };
 
+/**
+ * Rates the subheadings on base of the number of found keywords in headers.
+ * @param foundInHeader
+ * @param matches
+ * @returns {{name: string, result: (*|{keywordFound: *, numberofHeaders: *}|{keywordFound: number, numberofHeaders: *}), rating: number}}
+ */
 Analyzer.prototype.subHeadingsRater = function(foundInHeader, matches){
     switch(true){
         case foundInHeader === -1:
@@ -212,7 +222,7 @@ StringHelper = function(){};
 StringHelper.prototype.stringReplacer = function(textString, stringsToRemove, replacement){
     if(typeof replacement == 'undefined'){replacement = ' '};
     textString = textString.replace(this.regexStringBuilder(stringsToRemove), replacement);
-    return yst_preProcessor.stripSpaces(textString);
+    return this.stripSpaces(textString);
 }
 
 /**
@@ -237,6 +247,19 @@ StringHelper.prototype.regexStringBuilder = function(stringArray){
         regexString += '('+stringArray[i]+')\\b';
     }
     return new RegExp(regexString, 'g');
+};
+
+/**
+ * Strip extra spaces, replace duplicates with single space. Remove space at front / end of string
+ * @param textString
+ * @returns textString
+ */
+StringHelper.prototype.stripSpaces = function(textString){
+    //replace multiple spaces with single space
+    textString = textString.replace(/ {2,}/g, ' ');
+    //remove first/last character if space
+    textString = textString.replace(/^\s+|\s+$/g, '');
+    return textString;
 };
 
 /**
@@ -283,7 +306,7 @@ PreProcessor.prototype.wordcount = function(){
     this._store.sentencecount = this._store.cleanText.split('.').length;
     this._store.sentencecountNoTags = this._store.cleanTextNoTags.split('.').length;
     /*syllablecounters*/
-    this._store.syllablecount = this.syllableCount(this._store.cleanText);
+    this._store.syllablecount = this.syllableCount(this._store.cleanTextNoTags);
 };
 
 /**
@@ -291,34 +314,17 @@ PreProcessor.prototype.wordcount = function(){
  * @param textString
  * @returns syllable count
  */
-PreProcessor.prototype.syllableCount = function(textString){
+PreProcessor.prototype.syllableCount = function(textString) {
     var count = 0;
-    var textString = textString.replace(/[^a-zA-Z ]/g, '');
-    if(textString.length != 0){
-        //these syllables would be counted as two, but should be counted as one.
-        arrSubSyllables = [
-            'cial',
-            'tia',
-            'cius',
-            'cious',
-            'giu',
-            'ion',
-            'iou',
-            'sia$',
-            '[^aeiuoyt]{2,}ed$',
-            '.ely$',
-            '[cg]h?e[rsd]?$',
-            'rved?$',
-            '[aeiouy][dt]es?$',
-            '[aeiouy][^aeiouydt]e[rsd]?$',
-            '^[dr]e[aeiou][^aeiou]+$',
-            '[aeiouy]rse$'
-        ];
-       var currentMatch = yst_stringHelper.stringMatcher(textString, arrSubSyllables);
-       if(currentMatch != null){
-           count += currentMatch.length;
-       };
+    var wordsArray = textString.split(/[^aeiouy]/g);
+    var syllableArray = [];
+    for (var i = 0; i < wordsArray.length; i++){
+        if(wordsArray[i].length > 0){
+            syllableArray.push(wordsArray[i]);
+        }
     }
+    count += (syllableArray.length);
+
     return count;
 };
 
@@ -345,7 +351,7 @@ PreProcessor.prototype.cleanText = function(textString){
     textString = textString.replace(/[ ]*([\.])+/g, '$1 ');
     //Remove "words" comprised only of numbers
     textString = textString.replace(/[0-9]+[ ]/g, '');
-    return this.stripSpaces(textString);
+    return yst_stringHelper.stripSpaces(textString);
 };
 
 /**
@@ -356,7 +362,7 @@ PreProcessor.prototype.cleanText = function(textString){
 PreProcessor.prototype.stripSomeTags = function(textString){
     //remove tags, except li, p, h1-6, dd
     textString = textString.replace(/\<(?!li|\/li|p|\/p|h1|\/h1|h2|\/h2|h3|\/h3|h4|\/h4|h5|\/h5|h6|\/h6|dd).*?\>/g, " ");
-    textString = this.stripSpaces(textString);
+    textString = yst_stringHelper.stripSpaces(textString);
     return textString;
 };
 
@@ -368,18 +374,6 @@ PreProcessor.prototype.stripSomeTags = function(textString){
 PreProcessor.prototype.stripAllTags = function(textString){
     //remove all tags
     textString = textString.replace(/(<([^>]+)>)/ig," ");
-    textString = this.stripSpaces(textString);
-    return textString;
-};
-/**
- * Strip extra spaces, replace duplicates with single space. Remove space at front / end of string
- * @param textString
- * @returns textString
- */
-PreProcessor.prototype.stripSpaces = function(textString){
-    //replace multiple spaces with single space
-    textString = textString.replace(/ {2,}/g, ' ');
-    //remove first/last character if space
-    textString = textString.replace(/^\s+|\s+$/g, '');
+    textString = yst_stringHelper.stripSpaces(textString);
     return textString;
 };
