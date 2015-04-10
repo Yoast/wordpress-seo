@@ -47,6 +47,10 @@ class WPSEO_Admin_Init {
 	 * Redirect first time or just upgraded users to the about screen.
 	 */
 	private function redirect_to_about_page() {
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+
 		if ( $this->options['seen_about'] ) {
 			return;
 		}
