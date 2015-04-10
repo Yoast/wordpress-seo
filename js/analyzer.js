@@ -325,6 +325,15 @@ PreProcessor.prototype.syllableCount = function(textString) {
     }
     count += (syllableArray.length);
 
+    var arrSubSyllables = ['cial','tia','cius','cious','giu','ion','iou','sia$','[^aeiuoyt]{2,}ed$','[aeiouy][^aeiuoyt]{1,}e','.ely$','[cg]h?e[rsd]?$','rved$', 'rved','[aeiouy][dt]es?$','[aeiouy][^aeiouydt]e[rsd]?$','^[dr]e[aeiou][^aeiou]+$','[aeiouy]rse$'];
+    var subtractSyllables =  textString.match(yst_stringHelper.regexStringBuilder(arrSubSyllables));
+
+    if(subtractSyllables !== null){count -= subtractSyllables.length};
+
+    var arrAddSyllables = ['ia','riet','dien','iu','io','ii','[aeiouym]bl$','[aeiou]{3}','^mc','ism$','([^aeiouy])\1l$','[^l]lien','^coa[dglx].','[^gq]ua[^auieo]','dnt$','uity$','ie(r|st)$'];
+    var addSyllables = textString.match(yst_stringHelper.regexStringBuilder(arrAddSyllables));
+    if(addSyllables !== null){count += addSyllables.length};
+
     return count;
 };
 
@@ -339,6 +348,8 @@ PreProcessor.prototype.cleanText = function(textString){
     textString = textString.toLocaleLowerCase();
     //replace comma', hyphens etc with spaces
     textString = textString.replace(/[-;:,()"'|“”]/g, ' ');
+    //remove apostrophe
+    textString = textString.replace(/[’]/g, '');
     //unify all terminators
     textString = textString.replace(/[.?!]/g, '.');
     //add period in case it is missing
