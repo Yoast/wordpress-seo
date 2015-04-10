@@ -104,6 +104,21 @@ label.radio {
 	min-width: 800px;
 }
 
+div.wpseo_variable_warning {
+	margin: 5px 0 0 0;
+	padding: 5px;
+	color: red;
+}
+
+input.wpseo_variable_warning,
+textarea.wpseo_variable_warning {
+	border: 1px solid red;
+}
+
+.wpseo_variable_warning a {
+	color: red;
+}
+
 .wpseo_content_wrapper div.wpseo-warning {
 	margin: 2em 0 0 0;
 	padding-right: 10px;
