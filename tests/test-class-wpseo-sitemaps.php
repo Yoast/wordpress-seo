@@ -36,6 +36,32 @@ class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 	 */
 	private static $class_instance;
 
+	/** @var int $post_id */
+	private $post_id;
+
+	/**
+	 * Create the content to map
+	 */
+	function setUp() {
+		parent::setUp();
+
+		$post = array(
+			'post_status'  => 'publish',
+			'post_content' => rand_str(),
+			'post_title'   => rand_str(),
+		);
+
+		$this->post_id = wp_insert_post( $post );
+	}
+
+	/**
+	 * Remove the test content
+	 */
+	function tearDown() {
+		parent::tearDown();
+		wp_delete_post( $this->post_id );
+	}
+
 	/**
 	 * Set up our double class
 	 */
