@@ -470,8 +470,12 @@ class WPSEO_Sitemaps {
 
 			foreach ( $taxonomies as $tax_name => $tax ) {
 
+				if ( ! isset ( $all_taxonomies[ $tax_name ] ) ) { // no eligible terms found
+					continue;
+				}
+
 				$steps = $this->max_entries;
-				$count = ( isset ( $all_taxonomies[ $tax_name ] ) ) ? count( $all_taxonomies[ $tax_name ] ) : 1;
+				$count = count( $all_taxonomies[ $tax_name ] );
 				$n     = ( $count > $this->max_entries ) ? (int) ceil( $count / $this->max_entries ) : 1;
 
 				for ( $i = 0; $i < $n; $i ++ ) {
