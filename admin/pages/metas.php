@@ -57,8 +57,8 @@ $yform->admin_header( true, 'wpseo_titles' );
 			<?php
 			if ( 'posts' == get_option( 'show_on_front' ) ) {
 				echo '<p><strong>', __( 'Homepage', 'wordpress-seo' ), '</strong><br/>';
-				$yform->textinput( 'title-home-wpseo', __( 'Title template', 'wordpress-seo' ) );
-				$yform->textarea( 'metadesc-home-wpseo', __( 'Meta description template', 'wordpress-seo' ), '', 'metadesc' );
+				$yform->textinput( 'title-home-wpseo', __( 'Title template', 'wordpress-seo' ), 'template homepage-template' );
+				$yform->textarea( 'metadesc-home-wpseo', __( 'Meta description template', 'wordpress-seo' ), array( 'class' => 'template homepage-template' ) );
 				if ( $options['usemetakeywords'] === true ) {
 					$yform->textinput( 'metakey-home-wpseo', __( 'Meta keywords template', 'wordpress-seo' ) );
 				}
@@ -94,8 +94,8 @@ $yform->admin_header( true, 'wpseo_titles' );
 						echo '<p class="error-message">' . sprintf( __( 'So remember: If you change the %sattachment redirection setting%s in the future, the below settings will take effect for *all* media items.', 'wordpress-seo' ), '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_permalinks' ) ) . '">', '</a>' ) . '</p>';
 					}
 
-					$yform->textinput( 'title-' . $name, __( 'Title template', 'wordpress-seo' ) );
-					$yform->textarea( 'metadesc-' . $name, __( 'Meta description template', 'wordpress-seo' ), '', 'metadesc' );
+					$yform->textinput( 'title-' . $name, __( 'Title template', 'wordpress-seo' ), 'template posttype-template' );
+					$yform->textarea( 'metadesc-' . $name, __( 'Meta description template', 'wordpress-seo' ), array( 'class' => 'template posttype-template' ) );
 					if ( $options['usemetakeywords'] === true ) {
 						$yform->textinput( 'metakey-' . $name, __( 'Meta keywords template', 'wordpress-seo' ) );
 					}
@@ -130,8 +130,8 @@ $yform->admin_header( true, 'wpseo_titles' );
 					$name = $pt->name;
 
 					echo '<strong>' . esc_html( ucfirst( $pt->labels->name ) ) . '</strong><br/>';
-					$yform->textinput( 'title-ptarchive-' . $name, __( 'Title', 'wordpress-seo' ) );
-					$yform->textarea( 'metadesc-ptarchive-' . $name, __( 'Meta description', 'wordpress-seo' ), '', 'metadesc' );
+					$yform->textinput( 'title-ptarchive-' . $name, __( 'Title', 'wordpress-seo' ), 'template posttype-template' );
+					$yform->textarea( 'metadesc-ptarchive-' . $name, __( 'Meta description', 'wordpress-seo' ), array( 'class' => 'template posttype-template' ) );
 					if ( $options['usemetakeywords'] === true ) {
 						$yform->textinput( 'metakey-ptarchive-' . $name, __( 'Meta keywords', 'wordpress-seo' ) );
 					}
@@ -154,8 +154,8 @@ $yform->admin_header( true, 'wpseo_titles' );
 			if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
 				foreach ( $taxonomies as $tax ) {
 					echo '<strong>' . esc_html( ucfirst( $tax->labels->name ) ) . '</strong><br/>';
-					$yform->textinput( 'title-tax-' . $tax->name, __( 'Title template', 'wordpress-seo' ) );
-					$yform->textarea( 'metadesc-tax-' . $tax->name, __( 'Meta description template', 'wordpress-seo' ), '', 'metadesc' );
+					$yform->textinput( 'title-tax-' . $tax->name, __( 'Title template', 'wordpress-seo' ), 'template taxonomy-template' );
+					$yform->textarea( 'metadesc-tax-' . $tax->name, __( 'Meta description template', 'wordpress-seo' ), array( 'class' => 'template taxonomy-template' ) );
 					if ( $options['usemetakeywords'] === true ) {
 						$yform->textinput( 'metakey-tax-' . $tax->name, __( 'Meta keywords template', 'wordpress-seo' ) );
 					}
@@ -172,8 +172,8 @@ $yform->admin_header( true, 'wpseo_titles' );
 		<div id="archives" class="wpseotab">
 			<?php
 			echo '<strong>' . __( 'Author Archives', 'wordpress-seo' ) . '</strong><br/>';
-			$yform->textinput( 'title-author-wpseo', __( 'Title template', 'wordpress-seo' ) );
-			$yform->textarea( 'metadesc-author-wpseo', __( 'Meta description template', 'wordpress-seo' ), '', 'metadesc' );
+			$yform->textinput( 'title-author-wpseo', __( 'Title template', 'wordpress-seo' ), 'template author-template' );
+			$yform->textarea( 'metadesc-author-wpseo', __( 'Meta description template', 'wordpress-seo' ), array( 'class' => 'template author-template' ) );
 			if ( $options['usemetakeywords'] === true ) {
 				$yform->textinput( 'metakey-author-wpseo', __( 'Meta keywords template', 'wordpress-seo' ) );
 			}
@@ -182,8 +182,8 @@ $yform->admin_header( true, 'wpseo_titles' );
 			echo '<p class="desc label">' . __( 'If you\'re running a one author blog, the author archive will always look exactly the same as your homepage. And even though you may not link to it, others might, to do you harm. Disabling them here will make sure any link to those archives will be 301 redirected to the homepage.', 'wordpress-seo' ) . '</p>';
 			echo '<br/>';
 			echo '<strong>' . __( 'Date Archives', 'wordpress-seo' ) . '</strong><br/>';
-			$yform->textinput( 'title-archive-wpseo', __( 'Title template', 'wordpress-seo' ) );
-			$yform->textarea( 'metadesc-archive-wpseo', __( 'Meta description template', 'wordpress-seo' ), '', 'metadesc' );
+			$yform->textinput( 'title-archive-wpseo', __( 'Title template', 'wordpress-seo' ), 'template date-template' );
+			$yform->textarea( 'metadesc-archive-wpseo', __( 'Meta description template', 'wordpress-seo' ), array( 'class' => 'template date-template' ) );
 			echo '<br/>';
 			$yform->checkbox( 'noindex-archive-wpseo', '<code>noindex, follow</code>', __( 'Meta Robots', 'wordpress-seo' ) );
 			$yform->checkbox( 'disable-date', __( 'Disable the date-based archives', 'wordpress-seo' ), '' );
@@ -192,10 +192,10 @@ $yform->admin_header( true, 'wpseo_titles' );
 			echo '<h2>' . __( 'Special Pages', 'wordpress-seo' ) . '</h2>';
 			echo '<p>' . __( 'These pages will be noindex, followed by default, so they will never show up in search results.', 'wordpress-seo' ) . '</p>';
 			echo '<p><strong>' . __( 'Search pages', 'wordpress-seo' ) . '</strong><br/>';
-			$yform->textinput( 'title-search-wpseo', __( 'Title template', 'wordpress-seo' ) );
+			$yform->textinput( 'title-search-wpseo', __( 'Title template', 'wordpress-seo' ), 'template search-template' );
 			echo '</p>';
 			echo '<p><strong>' . __( '404 pages', 'wordpress-seo' ) . '</strong><br/>';
-			$yform->textinput( 'title-404-wpseo', __( 'Title template', 'wordpress-seo' ) );
+			$yform->textinput( 'title-404-wpseo', __( 'Title template', 'wordpress-seo' ), 'template error404-template' );
 			echo '</p>';
 			echo '<br class="clear"/>';
 			?>

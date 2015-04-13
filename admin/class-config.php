@@ -61,6 +61,7 @@ class WPSEO_Admin_Pages {
 			'jquery',
 			'jquery-ui-core',
 		), WPSEO_VERSION, true );
+		wp_localize_script( 'wpseo-admin-script', 'wpseoAdminL10n', $this->localize_admin_script() );
 		wp_enqueue_script( 'dashboard' );
 		wp_enqueue_script( 'thickbox' );
 
@@ -93,6 +94,17 @@ class WPSEO_Admin_Pages {
 	public function localize_media_script() {
 		return array(
 			'choose_image' => __( 'Use Image', 'wordpress-seo' ),
+		);
+	}
+
+	/**
+	 * Pass some variables to js for the admin JS module.
+	 *
+	 * @return  array
+	 */
+	public function localize_admin_script() {
+		return array(
+			'variable_warning' => __( 'Warning: the variable <code>%s</code> cannot be used in this template.', 'wordpress-seo' ) . __( 'See the help tab for more info.', 'wordpress-seo' ),
 		);
 	}
 
