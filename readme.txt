@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: seo, SEO, Yoast SEO, google, meta, meta description, search engine optimization, xml sitemap, xml sitemaps, google sitemap, sitemap, sitemaps, robots meta, rss, rss footer, yahoo, bing, news sitemaps, XML News Sitemaps, WordPress SEO, WordPress SEO by Yoast, yoast, multisite, canonical, nofollow, noindex, keywords, meta keywords, description, webmaster tools, google webmaster tools, seo pack
 Requires at least: 3.9
 Tested up to: 4.2
-Stable tag: 2.0.1
+Stable tag: 2.1
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using Yoast's WordPress SEO plugin.
 
@@ -119,6 +119,25 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 7. The advanced section of the WordPress SEO meta box.
 
 == Changelog ==
+
+= 2.1-RC =
+
+Release Date: April 10th, 2015
+
+* Enhancements:
+	* Makes sure Twitter cards are by default enabled since they don't need to be validated anymore by Twitter.
+	* Removes the Twitter url meta tag, since Twitter no longer uses it.
+	* Shows a validation error when a user selects a featured image for a post that is smaller than 200x200 pixels.
+	* Shows a validation error when a user tries to use shortcodes in the titles and meta's settings page that are incompatible with the type of content those titles and meta's are associated with.
+	* Makes sure no taxonomy metadata is lost with the upcoming 4.2 version of WordPress.
+	* Upgraded to Facebook Graph API 3.0 for fetching Facebook user ID's straight from Facebook.
+	* Made the plugin conflict notices more user friendly, explaining better which piece of functionality might be impacted, offering a link to the corresponding settings and a button to deactivate the conflicting plugin.
+
+* Bugfixes:
+	* Fixes a bug where the sitemaps were no longer being served from WP transient cache.
+	* Fixes a bug where the last breadcrumb was not a url.
+	* Fixes a possible "headers already sent" error in the sitemaps.
+	* Fixes a notice for the homepage URL in post type sitemaps.
 
 = 2.0.1 =
 

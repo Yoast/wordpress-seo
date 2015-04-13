@@ -2,9 +2,9 @@
 # This file is distributed under the GPL v3.
 msgid ""
 msgstr ""
-"Project-Id-Version: WordPress SEO 2.0.1\n"
+"Project-Id-Version: WordPress SEO 2.1-RC\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo/issues\n"
-"POT-Creation-Date: 2015-04-09 11:05:52+00:00\n"
+"POT-Creation-Date: 2015-04-13 13:47:14+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -403,7 +403,7 @@ msgid ""
 msgstr ""
 
 #: admin/class-metabox.php:44 admin/class-metabox.php:992
-#: admin/class-taxonomy.php:169
+#: admin/class-taxonomy.php:189
 msgid "SEO Title"
 msgstr ""
 
@@ -438,7 +438,7 @@ msgid ""
 "searched for.<br/><br/>Read %sthis post%s for more info."
 msgstr ""
 
-#: admin/class-metabox.php:52 admin/class-taxonomy.php:173
+#: admin/class-metabox.php:52 admin/class-taxonomy.php:193
 #: admin/pages/metas.php:136
 msgid "Meta keywords"
 msgstr ""
@@ -453,7 +453,7 @@ msgstr ""
 msgid "Meta Robots Index"
 msgstr ""
 
-#: admin/class-metabox.php:58 admin/class-taxonomy.php:192
+#: admin/class-metabox.php:58 admin/class-taxonomy.php:212
 msgid ""
 "Warning: even though you can set the meta robots setting here, the entire "
 "site is set to noindex in the sitewide privacy settings, so these settings "
@@ -540,15 +540,15 @@ msgid ""
 "Meta settings?"
 msgstr ""
 
-#: admin/class-metabox.php:83 admin/class-taxonomy.php:61
+#: admin/class-metabox.php:83 admin/class-taxonomy.php:81
 msgid "Auto detect"
 msgstr ""
 
-#: admin/class-metabox.php:84 admin/class-taxonomy.php:62
+#: admin/class-metabox.php:84 admin/class-taxonomy.php:82
 msgid "Always include"
 msgstr ""
 
-#: admin/class-metabox.php:85 admin/class-taxonomy.php:63
+#: admin/class-metabox.php:85 admin/class-taxonomy.php:83
 msgid "Never include"
 msgstr ""
 
@@ -1446,67 +1446,67 @@ msgstr ""
 msgid "Clear all Facebook Data"
 msgstr ""
 
-#: admin/class-taxonomy.php:57
+#: admin/class-taxonomy.php:77
 msgid "Use %s default (Currently: %s)"
 msgstr ""
 
-#: admin/class-taxonomy.php:58
+#: admin/class-taxonomy.php:78
 msgid "Always index"
 msgstr ""
 
-#: admin/class-taxonomy.php:59
+#: admin/class-taxonomy.php:79
 msgid "Always noindex"
 msgstr ""
 
-#: admin/class-taxonomy.php:166
+#: admin/class-taxonomy.php:186
 msgid "Yoast WordPress SEO Settings"
 msgstr ""
 
-#: admin/class-taxonomy.php:169
+#: admin/class-taxonomy.php:189
 msgid "The SEO title is used on the archive page for this term."
 msgstr ""
 
-#: admin/class-taxonomy.php:170
+#: admin/class-taxonomy.php:190
 msgid "SEO Description"
 msgstr ""
 
-#: admin/class-taxonomy.php:170
+#: admin/class-taxonomy.php:190
 msgid ""
 "The SEO description is used for the meta description on the archive page "
 "for this term."
 msgstr ""
 
-#: admin/class-taxonomy.php:173
+#: admin/class-taxonomy.php:193
 msgid "Meta keywords used on the archive page for this term."
 msgstr ""
 
-#: admin/class-taxonomy.php:176
+#: admin/class-taxonomy.php:196
 msgid "Canonical"
 msgstr ""
 
-#: admin/class-taxonomy.php:176
+#: admin/class-taxonomy.php:196
 msgid "The canonical link is shown on the archive page for this term."
 msgstr ""
 
-#: admin/class-taxonomy.php:179 admin/pages/metas.php:139
+#: admin/class-taxonomy.php:199 admin/pages/metas.php:139
 msgid "Breadcrumbs title"
 msgstr ""
 
-#: admin/class-taxonomy.php:179
+#: admin/class-taxonomy.php:199
 msgid "The Breadcrumbs title is used in the breadcrumbs where this %s appears."
 msgstr ""
 
-#: admin/class-taxonomy.php:190
+#: admin/class-taxonomy.php:210
 msgid ""
 "This %s follows the indexation rules set under Metas and Titles, you can "
 "override it here."
 msgstr ""
 
-#: admin/class-taxonomy.php:195
+#: admin/class-taxonomy.php:215
 msgid "Noindex this %s"
 msgstr ""
 
-#: admin/class-taxonomy.php:199
+#: admin/class-taxonomy.php:219
 msgid "Include in sitemap?"
 msgstr ""
 
@@ -1534,27 +1534,32 @@ msgstr ""
 msgid "Warning!"
 msgstr ""
 
-#: admin/class-yoast-plugin-conflict.php:176
+#: admin/class-yoast-plugin-conflict.php:178
+#. translators: %s: 'Facebook & Open Graph' plugin name(s) of possibly
+#. conflicting plugin(s)
 msgid ""
 "The %s plugin(s) might cause issues when used in conjunction with Yoast "
 "WordPress SEO."
 msgstr ""
 
-#: admin/class-yoast-plugin-conflict.php:178
+#: admin/class-yoast-plugin-conflict.php:180
 msgid "Recommended solution"
 msgstr ""
 
-#: admin/class-yoast-plugin-conflict.php:179
+#: admin/class-yoast-plugin-conflict.php:183
+#. translators: %s: 'Facebook & Open Graph' plugin name(s) of possibly
+#. conflicting plugin(s)
 msgid ""
 "We recommend you deactivate %s and have another look at your WordPress SEO "
 "configuration using the button above."
 msgstr ""
 
-#: admin/class-yoast-plugin-conflict.php:181
+#: admin/class-yoast-plugin-conflict.php:187
+#. translators: %s: 'Facebook' plugin name of possibly conflicting plugin
 msgid "Deactivate %s"
 msgstr ""
 
-#: admin/class-yoast-plugin-conflict.php:183
+#: admin/class-yoast-plugin-conflict.php:189
 msgid "This warning is generated by WordPress SEO by Yoast."
 msgstr ""
 
