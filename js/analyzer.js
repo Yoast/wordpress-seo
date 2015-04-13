@@ -240,11 +240,15 @@ StringHelper.prototype.stringMatcher = function(textString, stringsToMatch){
  * @param stringArray
  * @returns {RegExp}
  */
-StringHelper.prototype.regexStringBuilder = function(stringArray){
+StringHelper.prototype.regexStringBuilder = function(stringArray, disableWordBoundary){
     var regexString = '';
+    var wordBoundary = '\\b';
+    if(disableWordBoundary){
+        wordBoundary = '';
+    }
     for(var i = 0; i < stringArray.length; i++){
         if(regexString.length > 0){ regexString += '|'; }
-        regexString += '('+stringArray[i]+')\\b';
+        regexString += stringArray[i]+wordBoundary;
     }
     return new RegExp(regexString, 'g');
 };
@@ -326,12 +330,12 @@ PreProcessor.prototype.syllableCount = function(textString) {
     count += (syllableArray.length);
 
     var arrSubSyllables = ['cial','tia','cius','cious','giu','ion','iou','sia$','[^aeiuoyt]{2,}ed$','[aeiouy][^aeiuoyt]{1,}e','.ely$','[cg]h?e[rsd]?$','rved$', 'rved','[aeiouy][dt]es?$','[aeiouy][^aeiouydt]e[rsd]?$','^[dr]e[aeiou][^aeiou]+$','[aeiouy]rse$'];
-    var subtractSyllables =  textString.match(yst_stringHelper.regexStringBuilder(arrSubSyllables));
+    var subtractSyllables =  textString.match(yst_stringHelper.regexStringBuilder(arrSubSyllables, true));
 
     if(subtractSyllables !== null){count -= subtractSyllables.length};
 
     var arrAddSyllables = ['ia','riet','dien','iu','io','ii','[aeiouym]bl$','[aeiou]{3}','^mc','ism$','([^aeiouy])\1l$','[^l]lien','^coa[dglx].','[^gq]ua[^auieo]','dnt$','uity$','ie(r|st)$'];
-    var addSyllables = textString.match(yst_stringHelper.regexStringBuilder(arrAddSyllables));
+    var addSyllables = textString.match(yst_stringHelper.regexStringBuilder(arrAddSyllables, true));
     if(addSyllables !== null){count += addSyllables.length};
 
     return count;
