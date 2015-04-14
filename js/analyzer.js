@@ -320,24 +320,39 @@ PreProcessor.prototype.wordcount = function(){
  */
 PreProcessor.prototype.syllableCount = function(textString) {
     var count = 0;
-    var wordsArray = textString.split(/[^aeiouy]/g);
+    textString = textString.replace(/[.]/g, ' ');
+    /*var splitWordsArray = textString.split(/[^aeiouy]/g);
     var syllableArray = [];
-    for (var i = 0; i < wordsArray.length; i++){
-        if(wordsArray[i].length > 0){
-            syllableArray.push(wordsArray[i]);
+    for (var i = 0; i < splitWordsArray.length; i++){
+        if(splitWordsArray[i].length > 0){
+            syllableArray.push(splitWordsArray[i]);
         }
     }
-    count += (syllableArray.length);
+    count += (syllableArray.length);*/
 
-    var arrSubSyllables = ['cial','tia','cius','cious','giu','ion','iou','sia$','[^aeiuoyt]{2,}ed$','[aeiouy][^aeiuoyt]{1,}e','.ely$','[cg]h?e[rsd]?$','rved$', 'rved','[aeiouy][dt]es?$','[aeiouy][^aeiouydt]e[rsd]?$','^[dr]e[aeiou][^aeiou]+$','[aeiouy]rse$'];
-    var subtractSyllables =  textString.match(yst_stringHelper.regexStringBuilder(arrSubSyllables, true));
+    var words = textString.split(' ');
+    var arrSubSyllables = ['cial','tia','cius','cious','giu','ion','iou','sia$','[^aeiuoyt]{2,}ed$','[aeiouy][^aeiuoyts]{1,}e\\b','.ely$','[cg]h?e[sd]','rved$', 'rved','[aeiouy][dt]es?$','[aeiouy][^aeiouydt]e[sd]?$','^[dr]e[aeiou][^aeiou]+$','[aeiouy]rse$'];
+    var subtractSyllablesRegexp = yst_stringHelper.regexStringBuilder(arrSubSyllables, true);
+    var arrAddSyllables = ['ia','riet','dien','iu','io','ii','[aeiouym][bdp]l','[aeiou]{3}','^mc','ism$','([^aeiouy])\1l$','[^l]lien','^coa[dglx].','[^gq]ua[^auieo]','dnt$','uity$','ie(r|st)','[aeiouy]ing','[^aeiou]y[aeiou]'];
+    var addSyllablesRegexp = yst_stringHelper.regexStringBuilder(arrAddSyllables, true);
+    for (var i = 0; i < words.length; i++){
 
-    if(subtractSyllables !== null){count -= subtractSyllables.length};
+        var splitWordArray = words[i].split(/[^aeiouy]/g);
+        for (var j = 0; j < splitWordArray.length; j++){
+            if(splitWordArray[j].length > 0){
+                count++;
+                console.log(words[i] +' '+ count + ' ');
+            }
+        }
 
-    var arrAddSyllables = ['ia','riet','dien','iu','io','ii','[aeiouym]bl$','[aeiou]{3}','^mc','ism$','([^aeiouy])\1l$','[^l]lien','^coa[dglx].','[^gq]ua[^auieo]','dnt$','uity$','ie(r|st)$'];
-    var addSyllables = textString.match(yst_stringHelper.regexStringBuilder(arrAddSyllables, true));
-    if(addSyllables !== null){count += addSyllables.length};
 
+        var subtractSyllables = words[i].match(subtractSyllablesRegexp);
+        if(subtractSyllables !== null){count -= subtractSyllables.length; console.log(subtractSyllables + 'SUB'+i)};
+        var addSyllables = words[i].match(addSyllablesRegexp);
+        if(addSyllables !== null){count += addSyllables.length; console.log(addSyllables + 'ADD'+i)};
+    }
+
+console.log(count);
     return count;
 };
 
