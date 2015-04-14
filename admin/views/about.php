@@ -136,7 +136,7 @@ function wpseo_display_contributors( $contributors ) {
 		<hr>
 
 		<div class="return-to-dashboard">
-			<a href="<?php echo remove_query_arg( 'intro' ); ?>"><?php _e( 'Go to The General settings page →', 'wordpress-seo' ); ?></a>
+			<a href="<?php echo esc_url( admin_url( 'admin.php?page=wpseo_dashboard' ) ); ?>"><?php _e( 'Go to The General settings page →', 'wordpress-seo' ); ?></a>
 		</div>
 
 	</div>
