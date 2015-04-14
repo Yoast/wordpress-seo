@@ -314,49 +314,30 @@ PreProcessor.prototype.wordcount = function(){
 };
 
 /**
- * counts the number of syllables in a textstring.
+ * counts the number of syllables in a textstring by splitting strings on vowels and running regexes to comply to grammar rules.
  * @param textString
  * @returns syllable count
  */
 PreProcessor.prototype.syllableCount = function(textString) {
     var count = 0;
     textString = textString.replace(/[.]/g, ' ');
-    /*var splitWordsArray = textString.split(/[^aeiouy]/g);
-    var syllableArray = [];
-    for (var i = 0; i < splitWordsArray.length; i++){
-        if(splitWordsArray[i].length > 0){
-            syllableArray.push(splitWordsArray[i]);
-        }
-    }
-    count += (syllableArray.length);*/
-
     var words = textString.split(' ');
-    var arrSubSyllables = ['cial','tia','cius','cious','giu','ion','iou','sia$','[^aeiuoyt]{2,}ed$','[aeiouy][^aeiuoyts]{1,}e\\b','.ely$','[cg]h?e[sd]','rved$', 'rved','[aeiouy][dt]es?$','[aeiouy][^aeiouydt]e[sd]?$','^[dr]e[aeiou][^aeiou]+$','[aeiouy]rse$'];
-    var subtractSyllablesRegexp = yst_stringHelper.regexStringBuilder(arrSubSyllables, true);
-    var arrAddSyllables = ['ia','riet','dien','iu','io','ii','[aeiouym][bdp]l','[aeiou]{3}','^mc','ism$','([^aeiouy])\1l$','[^l]lien','^coa[dglx].','[^gq]ua[^auieo]','dnt$','uity$','ie(r|st)','[aeiouy]ing','[^aeiou]y[aeiou]'];
-    var addSyllablesRegexp = yst_stringHelper.regexStringBuilder(arrAddSyllables, true);
+    var subtractSyllablesRegexp = yst_stringHelper.regexStringBuilder(preprocessorConfig.syllables.subtractSyllables, true);
+    var addSyllablesRegexp = yst_stringHelper.regexStringBuilder(preprocessorConfig.syllables.addSyllables, true);
     for (var i = 0; i < words.length; i++){
-
         var splitWordArray = words[i].split(/[^aeiouy]/g);
         for (var j = 0; j < splitWordArray.length; j++){
             if(splitWordArray[j].length > 0){
                 count++;
-                console.log(words[i] +' '+ count + ' ');
             }
         }
-
-
         var subtractSyllables = words[i].match(subtractSyllablesRegexp);
-        if(subtractSyllables !== null){count -= subtractSyllables.length; console.log(subtractSyllables + 'SUB'+i)};
+        if(subtractSyllables !== null){count -= subtractSyllables.length};
         var addSyllables = words[i].match(addSyllablesRegexp);
-        if(addSyllables !== null){count += addSyllables.length; console.log(addSyllables + 'ADD'+i)};
+        if(addSyllables !== null){count += addSyllables.length};
     }
-
-console.log(count);
     return count;
 };
-
-
 
 /**
  * cleans text by removing special characters, numberonly words and replacing all terminators by periods
