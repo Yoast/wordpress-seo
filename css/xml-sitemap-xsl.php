@@ -1,7 +1,6 @@
 <?php
 /**
- * @package    WPSEO
- * @subpackage XML_Sitemaps
+ * @package WPSEO\XML_Sitemaps
  */
 
 if ( ! defined( 'WPSEO_VERSION' ) ) {
