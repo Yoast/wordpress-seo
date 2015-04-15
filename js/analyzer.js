@@ -205,7 +205,7 @@ Analyzer.prototype.stopwordChecker = function(){
  * calculate Flesch Reading score
  */
 Analyzer.prototype.fleschReading = function(){
-    return result;
+    return (206.835 - (1.015 * (yst_preProcessor._store.wordcount / yst_preProcessor._store.sentencecount)) - (84.6 * (yst_preProcessor._store.syllablecount / yst_preProcessor._store.wordcount))).toFixed(3);
 };
 
 
@@ -314,29 +314,70 @@ PreProcessor.prototype.wordcount = function(){
 };
 
 /**
- * counts the number of syllables in a textstring by splitting strings on vowels and running regexes to comply to grammar rules.
+ * counts the number of syllables in a textstring, calls exclusionwordsfunction, basic syllable counter and advanced syllable counter.
  * @param textString
  * @returns syllable count
  */
 PreProcessor.prototype.syllableCount = function(textString) {
-    var count = 0;
+    this.syllableCount = 0;
     textString = textString.replace(/[.]/g, ' ');
+    textString = this.wordRemover(textString);
     var words = textString.split(' ');
     var subtractSyllablesRegexp = yst_stringHelper.regexStringBuilder(preprocessorConfig.syllables.subtractSyllables, true);
     var addSyllablesRegexp = yst_stringHelper.regexStringBuilder(preprocessorConfig.syllables.addSyllables, true);
     for (var i = 0; i < words.length; i++){
-        var splitWordArray = words[i].split(/[^aeiouy]/g);
-        for (var j = 0; j < splitWordArray.length; j++){
-            if(splitWordArray[j].length > 0){
-                count++;
-            }
-        }
-        var subtractSyllables = words[i].match(subtractSyllablesRegexp);
-        if(subtractSyllables !== null){count -= subtractSyllables.length};
-        var addSyllables = words[i].match(addSyllablesRegexp);
-        if(addSyllables !== null){count += addSyllables.length};
+        this.basicSyllableCounter(words[i].split(/[^aeiouy]/g));
+        this.advancedSyllableCounter(words[i], subtractSyllablesRegexp, 'subtract');
+        this.advancedSyllableCounter(words[i], addSyllablesRegexp, 'add');
     }
-    return count;
+    return this.syllableCount;
+};
+
+/**
+ * counts the syllables by splitting on consonants
+ * @param splitWordArray
+ */
+
+PreProcessor.prototype.basicSyllableCounter = function(splitWordArray){
+    for (var j = 0; j < splitWordArray.length; j++){
+        if(splitWordArray[j].length > 0){
+            this.syllableCount++;
+        }
+    }
+};
+
+/**
+ * counts the syllables by validating against regexxes, and adding and subtracting the number of matches.
+ * @param inputString
+ * @param regex
+ * @param operator
+ */
+PreProcessor.prototype.advancedSyllableCounter = function(inputString, regex, operator){
+    var match = inputString.match(regex);
+    if(match !== null){
+        if(operator === 'subtract'){
+            this.syllableCount -= match.length;
+        }else if(operator === 'add'){
+            this.syllableCount += match.length;
+        }
+    }
+};
+
+/**
+ * removes words from textstring and count syllables. Used for words that fail against regexes.
+ * @param textString
+ * @returns textString with exclusionwords removed
+ */
+PreProcessor.prototype.wordRemover = function(textString){
+    for (var i = 0; i < preprocessorConfig.syllables.exclusionWords.length; i++){
+        var exclusionRegex = new RegExp(preprocessorConfig.syllables.exclusionWords[i].word, 'g');
+        var matches = textString.match(exclusionRegex);
+        if(matches !== null){
+            this.syllableCount += preprocessorConfig.syllables.exclusionWords[i].syllables;
+            textString = textString.replace(exclusionRegex, '');
+        }
+    }
+    return textString;
 };
 
 /**
