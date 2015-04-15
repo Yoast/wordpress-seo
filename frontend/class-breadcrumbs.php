@@ -296,6 +296,7 @@ class WPSEO_Breadcrumbs {
 	 * Determine the crumbs which should form the breadcrumb.
 	 */
 	private function set_crumbs() {
+		/** @var WP_Query $wp_query */
 		global $wp_query;
 
 		$this->add_home_crumb();
@@ -323,7 +324,11 @@ class WPSEO_Breadcrumbs {
 		}
 		else {
 			if ( is_post_type_archive() ) {
-				$this->add_ptarchive_crumb( $wp_query->query['post_type'] );
+				$post_type = $wp_query->get( 'post_type' );
+
+				if ( $post_type ) {
+					$this->add_ptarchive_crumb( $post_type );
+				}
 			}
 			elseif ( is_tax() || is_tag() || is_category() ) {
 				$this->add_crumbs_for_taxonomy();
