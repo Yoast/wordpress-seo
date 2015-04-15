@@ -196,8 +196,7 @@ Analyzer.prototype.subHeadingsRater = function(foundInHeader, matches){
 Analyzer.prototype.stopwordChecker = function(){
     var matches = yst_stringHelper.stringMatcher(this.config.keyword, this.config.stopWords);
     var stopwordCount = matches !== null ? matches.length : 0;
-    var result = {name: 'stopWords', result: {count: stopwordCount, matches: matches}, rating:5 };
-    return result;
+    return {name: 'stopWords', result: {count: stopwordCount, matches: matches}, rating:5 };
 };
 
 
@@ -205,7 +204,9 @@ Analyzer.prototype.stopwordChecker = function(){
  * calculate Flesch Reading score
  */
 Analyzer.prototype.fleschReading = function(){
-    return (206.835 - (1.015 * (yst_preProcessor._store.wordcount / yst_preProcessor._store.sentencecount)) - (84.6 * (yst_preProcessor._store.syllablecount / yst_preProcessor._store.wordcount))).toFixed(3);
+    var score =  (206.835 - (1.015 * (yst_preProcessor._store.wordcount / yst_preProcessor._store.sentencecount)) - (84.6 * (yst_preProcessor._store.syllablecount / yst_preProcessor._store.wordcount))).toFixed(1);
+    if(score < 0){score = 0}else if (score > 100){score = 100};
+    return {name: 'fleschReading', result: score};
 };
 
 
