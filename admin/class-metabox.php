@@ -911,13 +911,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 			wp_enqueue_script( 'jquery-qtip', plugins_url( 'js/jquery.qtip' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'jquery' ), '2.2.1', true );
 
-			if ( post_type_supports( get_post_type(), 'editor' ) ) {
-				wp_enqueue_script( 'wp-seo-metabox', plugins_url( 'js/wp-seo-metabox' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array(
-					'jquery',
-					'jquery-ui-core',
-					'jquery-ui-autocomplete',
-				), WPSEO_VERSION, true );
-			}
+			wp_enqueue_script( 'wp-seo-metabox', plugins_url( 'js/wp-seo-metabox' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array(
+				'jquery',
+				'jquery-ui-core',
+				'jquery-ui-autocomplete',
+			), WPSEO_VERSION, true );
 
 			if ( post_type_supports( get_post_type(), 'thumbnail' ) ) {
 				wp_enqueue_script( 'wp-seo-featured-image', plugins_url( 'js/wp-seo-featured-image' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'jquery' ), WPSEO_VERSION, true );
