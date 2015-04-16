@@ -11,6 +11,7 @@ class WPSEO_GWT_Authentication {
 	 */
 	public function authenticate( $authorization_code ) {
 
+
 		// Create a client object
 		$client = new WPSEO_GWT_Google_Client();
 
@@ -20,6 +21,7 @@ class WPSEO_GWT_Authentication {
 
 			// Get access response
 			$response = $client->getAccessToken();
+
 
 			// Check if there is a response body
 			if ( '' != $response ) {

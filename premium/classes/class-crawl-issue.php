@@ -1,4 +1,8 @@
 <?php
+/**
+ * @package    WPSEO
+ * @subpackage Premium
+ */
 
 /**
  * Class WPSEO_Crawl_Issue
@@ -8,17 +12,17 @@
 class WPSEO_Crawl_Issue {
 
 	/**
-	 * @var String
+	 * @var string
 	 */
 	private $url;
 
 	/**
-	 * @var String
+	 * @var string
 	 */
 	private $crawl_type;
 
 	/**
-	 * @var String
+	 * @var string
 	 */
 	private $issue_type;
 
@@ -28,39 +32,33 @@ class WPSEO_Crawl_Issue {
 	private $date_detected;
 
 	/**
-	 * @var String
+	 * @var string
 	 */
-	private $detail;
+	private $response_code;
 
 	/**
-	 * @var Array
+	 * @var array
 	 */
 	private $linked_from;
 
 	/**
-	 * @var boolean
-	 */
-	private $ignored;
-
-	/**
 	 * Constructor
 	 *
-	 * @param $url
-	 * @param $crawl_type
-	 * @param $issue_type
-	 * @param $date_detected
-	 * @param $detail
-	 * @param $linked_from
-	 * @param $ignored
+	 * @param string   $url
+	 * @param string   $crawl_type
+	 * @param string   $issue_type
+	 * @param datetime $date_detected
+	 * @param string   $response_code
+	 * @param string   $linked_from
+	 * @param string   $ignored
 	 */
-	function __construct( $url, $crawl_type, $issue_type, $date_detected, $detail, $linked_from, $ignored ) {
+	function __construct( $url, $crawl_type, $issue_type, $date_detected, $response_code, $linked_from, $ignored ) {
 		$this->crawl_type    = $crawl_type;
 		$this->date_detected = $date_detected;
-		$this->detail        = $detail;
+		$this->response_code        = $response_code;
 		$this->issue_type    = $issue_type;
 		$this->linked_from   = $linked_from;
 		$this->url           = $url;
-		$this->ignored       = $ignored;
 	}
 
 	/**
@@ -92,17 +90,17 @@ class WPSEO_Crawl_Issue {
 	}
 
 	/**
-	 * @param String $detail
+	 * @param string $detail
 	 */
-	public function set_detail( $detail ) {
-		$this->detail = $detail;
+	public function set_detail( $response_code ) {
+		$this->response_code = $response_code;
 	}
 
 	/**
 	 * @return String
 	 */
-	public function get_detail() {
-		return $this->detail;
+	public function get_response_code() {
+		return ! ( empty( $this->response_code ) ) ? $this->response_code : '';
 	}
 
 	/**
@@ -148,20 +146,6 @@ class WPSEO_Crawl_Issue {
 	}
 
 	/**
-	 * @param boolean $ignored
-	 */
-	public function set_ignored( $ignored ) {
-		$this->ignored = $ignored;
-	}
-
-	/**
-	 * @return boolean
-	 */
-	public function get_ignored() {
-		return $this->ignored;
-	}
-
-	/**
 	 * Put class properties in array
 	 *
 	 * @return array
@@ -169,13 +153,20 @@ class WPSEO_Crawl_Issue {
 	public function to_array() {
 
 		// Get first linked from
-		$linked_from  = '';
+		$linked_from = '';
 		if ( is_array( $this->linked_from ) && count( $this->linked_from ) > 0 ) {
-			$copy = $this->linked_from;
+			$copy        = $this->linked_from;
 			$linked_from = array_shift( $copy );
 		}
 
-		return array( 'url' => $this->url, 'crawl_type' => $this->crawl_type, 'issue_type' => $this->issue_type, 'date_detected' => strftime( '%x', strtotime( $this->date_detected->format( 'Y-m-d H:i:s' ) ) ), 'detail' => $this->detail, 'linked_from' => $linked_from, 'ignored' => $this->ignored );
+		return array(
+			'url'             => $this->url,
+			'crawl_type'      => $this->crawl_type,
+			'issue_category'  => $this->issue_type,
+			'date_detected'   => strftime( '%x', strtotime( $this->date_detected->format( 'Y-m-d H:i:s' ) ) ),
+			'response_code'   => $this->get_response_code(),
+			'linked_from'     => $linked_from,
+		);
 	}
 
 }
