@@ -336,8 +336,9 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 
 		$output = ob_get_clean();
 
+		list( $src ) = wp_get_attachment_image_src( $attach_id, 'full' );
+		$expected_output = '<meta property="og:image" content="' . $src . '" />';
 
-		$expected_output = '<meta property="og:image" content="' . get_site_url() . '/wp-content/plugins/wordpress-seo/tests' . $image . '" />';
 		wp_delete_attachment( $attach_id, true );
 
 		$this->assertNotContains( $expected_output, $output );
@@ -364,7 +365,9 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 
 		$output = ob_get_clean();
 
-		$expected_output = '<meta property="og:image" content="' . get_site_url() . '/wp-content/uploads/' . WP_PLUGIN_DIR . '/wordpress-seo/tests' . $image . '" />';
+		list( $src ) = wp_get_attachment_image_src( $attach_id, 'full' );
+		$expected_output = '<meta property="og:image" content="' . $src . '" />';
+
 		wp_delete_attachment( $attach_id, true );
 
 		$this->assertContains( $expected_output, $output );
