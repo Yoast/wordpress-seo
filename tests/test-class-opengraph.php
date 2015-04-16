@@ -276,9 +276,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 
 		$class_instance->opengraph();
 
-		$output = ob_get_contents();
-
-		ob_end_clean();
+		$output = ob_get_clean();
 
 		$expected_output = '<meta property="og:image" content="' . $image . '" />';
 
@@ -309,9 +307,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 
 		$class_instance->opengraph();
 
-		$output = ob_get_contents();
-
-		ob_end_clean();
+		$output = ob_get_clean();
 
 		$expected_output = '<meta property="og:image" content="' . get_site_url() . '/wp-content/plugins/wordpress-seo/tests/yoast.png" />';
 
@@ -338,9 +334,8 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 
 		$class_instance->opengraph();
 
-		$output = ob_get_contents();
+		$output = ob_get_clean();
 
-		ob_end_clean();
 
 		$expected_output = '<meta property="og:image" content="' . get_site_url() . '/wp-content/plugins/wordpress-seo/tests' . $image . '" />';
 
@@ -366,9 +361,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 
 		$class_instance->opengraph();
 
-		$output = ob_get_contents();
-
-		ob_end_clean();
+		$output = ob_get_clean();
 
 		$expected_output = '<meta property="og:image" content="' . get_site_url() . '/wp-content/uploads/' . WP_PLUGIN_DIR . '/wordpress-seo/tests' . $image . '" />';
 
@@ -395,9 +388,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 
 		$class_instance->opengraph();
 
-		$output = ob_get_contents();
-
-		ob_end_clean();
+		$output = ob_get_clean();
 
 		$expected_output = '<meta property="og:image" content="' . get_site_url() . '/wp-content/plugins/wordpress-seo/tests/yoast.png" />';
 
