@@ -17,7 +17,7 @@ Analyzer.prototype.init = function() {
     this.loadWordlists();
     this.setDefaults();
     this._output = [];
-}
+};
 
 /**
  * initializes required objects.
@@ -28,7 +28,7 @@ Analyzer.prototype.initRequiredObjects = function(){
         yst_preProcessor = new PreProcessor(this.config.textString);
     }
     //init helper
-    if(typeof yst_stringHelper != 'object'){
+    if(typeof yst_stringHelper !== 'object'){
         yst_stringHelper = new StringHelper();
     }
 };
@@ -54,10 +54,10 @@ Analyzer.prototype.initQueue = function(){
  */
 Analyzer.prototype.loadWordlists = function(){
     //if no available keywords, load default array
-    if(typeof this.config.wordsToRemove == 'undefined'){
+    if(typeof this.config.wordsToRemove === 'undefined'){
         this.config.wordsToRemove =  analyzerConfig.wordsToRemove;
     }
-    if(typeof this.config.stopWords == 'undefined'){
+    if(typeof this.config.stopWords === 'undefined'){
         this.config.stopWords = analyzerConfig.stopWords;
     }
 };
