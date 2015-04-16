@@ -38,11 +38,10 @@ class WPSEO_GWT_Google_Client extends Google_Client {
 						$this->setAccessToken( $response->access_token );
 
 					}
-
 				}
 			} catch(Exception $e) {
 				delete_option( 'wpseo-premium-gwt' );
-				$this->save_refresh_token('');
+				$this->save_refresh_token( '' );
 			}
 
 		}
@@ -52,7 +51,7 @@ class WPSEO_GWT_Google_Client extends Google_Client {
 	/**
 	 * Save the refresh token
 	 *
-	 * @param $refresh_token
+	 * @param string $refresh_token
 	 */
 	public function save_refresh_token( $refresh_token ) {
 		update_option( self::OPTION_REFRESH_TOKEN, $refresh_token );
