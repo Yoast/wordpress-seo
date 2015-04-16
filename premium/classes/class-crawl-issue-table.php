@@ -152,16 +152,6 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 			'view'            => '<a href="' . $item['url'] . '" target="_blank">' . __( 'View', 'wordpress-seo-premium' ) . '</a>',
 		);
 
-		// Current view
-		$current_view = $this->get_current_view();
-
-		if ( 'ignored' == $current_view ) {
-			$actions['unignore'] = '<a href="javascript:wpseo_unignore_redirect(\'' . urlencode( $item['url'] ) . '\');">' . __( 'Unignore', 'wordpress-seo-premium' ) . '</a>';
-		}
-		else {
-			$actions['ignore'] = '<a href="javascript:wpseo_ignore_redirect(\'' . urlencode( $item['url'] ) . '\');">' . __( 'Ignore', 'wordpress-seo-premium' ) . '</a>';
-		}
-
 		return sprintf(
 			'<span class="value">%1$s</span> %2$s',
 			$item['url'],
@@ -172,7 +162,7 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 	/**
 	 * Linked from column
 	 *
-	 * @param $item
+	 * @param array $item
 	 *
 	 * @return string
 	 */
@@ -185,8 +175,8 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 	/**
 	 * Default method to display a column
 	 *
-	 * @param $item
-	 * @param $column_name
+	 * @param array  $item
+	 * @param string $column_name
 	 *
 	 * @return mixed
 	 */
