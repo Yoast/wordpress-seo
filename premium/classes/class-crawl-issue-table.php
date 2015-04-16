@@ -116,7 +116,6 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 	 * Setup the table variables, fetch the items from the database, search, sort and format the items.
 	 * Set the items as the WPSEO_Redirect_Table items variable.
 	 *
-	 * @param WPSEO_GWT_Client $gwt
 	 */
 	public function prepare_items() {
 
@@ -234,14 +233,10 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 		// Build crawl issues args
 		$ci_args = array();
 
+		$this->set_order( $ci_args );
+
 		// Set the post status
 		$ci_args['post_status'] = 'publish';
-
-		// Set the orderby
-		$ci_args['orderby'] = ( $orderby = filter_input( INPUT_GET, 'orderby' ) ) ? esc_sql( $orderby ) : 'title';
-
-		// Set the order
-		$ci_args['order']   = ( $order = filter_input( INPUT_GET, 'order' ) ) ? esc_sql( $order ) : 'asc';
 
 		// Get variables needed for pagination
 		$per_page     = $this->get_items_per_page( 'errors_per_page', 25 );
@@ -252,6 +247,20 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 		$ci_args['offset']         = ( ( $current_page - 1 ) * $per_page );
 
 		return $ci_args;
+	}
+
+	/**
+	 * Setting the order arguments
+	 *
+	 * @param array $ci_args
+	 */
+	private function set_order( & $ci_args ) {
+
+		// Set the orderby
+		$ci_args['orderby'] = ( $orderby = filter_input( INPUT_GET, 'orderby' ) ) ? esc_sql( $orderby ) : 'title';
+
+		// Set the order
+		$ci_args['order']   = ( $order = filter_input( INPUT_GET, 'order' ) ) ? esc_sql( $order ) : 'asc';
 	}
 
 	/**
