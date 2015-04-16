@@ -24,6 +24,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	public function setUp() {
 		parent::setUp();
 		WPSEO_Frontend::get_instance()->reset();
+		remove_all_actions( 'wpseo_opengraph' );
 
 		// start each test on the home page
 		$this->go_to_home();
