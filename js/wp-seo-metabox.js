@@ -507,8 +507,6 @@ jQuery(document).ready(function () {
 		yst_updateSnippet();
 	});
 
-
-
 	jQuery(".yoast_help").qtip(
 		{
 			content: {

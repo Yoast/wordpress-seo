@@ -1,7 +1,6 @@
 <?php
 /**
- * @package    WPSEO
- * @subpackage Unittests
+ * @package WPSEO\Unittests
  */
 
 class Filters_Test extends WPSEO_UnitTestCase {

@@ -1,7 +1,6 @@
 <?php
 /**
- * @package    WPSEO
- * @subpackage Admin
+ * @package WPSEO\Admin
  */
 
 /**
@@ -33,6 +32,7 @@ class WPSEO_Admin_Init {
 
 		$this->pagenow = $GLOBALS['pagenow'];
 
+		$this->redirect_to_about_page();
 		$this->load_meta_boxes();
 		$this->load_taxonomy_class();
 		$this->load_admin_page_class();
@@ -40,6 +40,35 @@ class WPSEO_Admin_Init {
 		$this->load_yoast_tracking();
 		$this->load_tour();
 		$this->load_xml_sitemaps_admin();
+	}
+
+	/**
+	 * Redirect first time or just upgraded users to the about screen.
+	 */
+	private function redirect_to_about_page() {
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+
+		if ( $this->options['seen_about'] ) {
+			return;
+		}
+
+		if ( in_array( $this->pagenow, array(
+			'update.php',
+			'update-core.php',
+			'plugins.php',
+			'plugin-install.php',
+		) ) ) {
+			return;
+		}
+
+		// We're redirecting the user to the about screen, let's make sure we don't do it again until he/she upgrades again
+		$wpseo_option               = get_option( 'wpseo' );
+		$wpseo_option['seen_about'] = true;
+		update_option( 'wpseo', $wpseo_option );
+
+		wp_safe_redirect( admin_url( 'admin.php?page=wpseo_dashboard&intro=1' ) );
 	}
 
 	/**

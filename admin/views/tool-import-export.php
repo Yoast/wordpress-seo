@@ -1,7 +1,6 @@
 <?php
 /**
- * @package    WPSEO
- * @subpackage Admin
+ * @package WPSEO\Admin
  */
 
 if ( ! defined( 'WPSEO_VERSION' ) ) {
@@ -112,7 +111,7 @@ if ( isset( $import ) ) {
 		method="post" enctype="multipart/form-data"
 		accept-charset="<?php echo esc_attr( get_bloginfo( 'charset' ) ); ?>">
 		<?php wp_nonce_field( 'wpseo-import-file', '_wpnonce', true, true ); ?>
-		<input type="file" name="settings_import_file"/>
+		<input type="file" name="settings_import_file" accept="application/x-zip,application/x-zip-compressed,application/zip" />
 		<input type="hidden" name="action" value="wp_handle_upload"/><br/>
 		<br/>
 		<input type="submit" class="button-primary" value="<?php _e( 'Import settings', 'wordpress-seo' ); ?>"/>

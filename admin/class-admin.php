@@ -1,7 +1,6 @@
 <?php
 /**
- * @package    WPSEO
- * @subpackage Admin
+ * @package WPSEO\Admin
  */
 
 /**
@@ -196,7 +195,7 @@ class WPSEO_Admin {
 			array(
 				'id'      => 'basic-help',
 				'title'   => __( 'Template explanation', 'wordpress-seo' ),
-				'content' => '<p>' . __( 'The title &amp; metas settings for WordPress SEO are made up of variables that are replaced by specific values from the page when the page is displayed. The tabs on the left explain the available variables.', 'wordpress-seo' ) . '</p>',
+				'content' => '<p>' . __( 'The title &amp; metas settings for WordPress SEO are made up of variables that are replaced by specific values from the page when the page is displayed. The tabs on the left explain the available variables.', 'wordpress-seo' ) . '</p>' . '<p>' . __( 'Note that not all variables can be used in every template.', 'wordpress-seo' ) . '</p>',
 			)
 		);
 
@@ -569,11 +568,11 @@ class WPSEO_Admin {
 	 *
 	 * @deprecated 1.5.0
 	 * @deprecated use wpseo_do_upgrade()
-	 * @see        wpseo_do_upgrade()
+	 * @see        WPSEO_Upgrade
 	 */
 	function maybe_upgrade() {
 		_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'wpseo_do_upgrade' );
-		wpseo_do_upgrade();
+		new WPSEO_Upgrade();
 	}
 
 	/**

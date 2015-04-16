@@ -1,7 +1,6 @@
 <?php
 /**
- * @package    WPSEO
- * @subpackage Frontend
+ * @package WPSEO\Frontend
  */
 
 /**
@@ -1327,7 +1326,13 @@ class WPSEO_Frontend {
 
 		$post_data = $post;
 
-		if ( ( ! is_string( $metadesc ) || '' === $metadesc ) && '' !== $template ) {
+		if ( is_string( $metadesc_override ) && '' !== $metadesc_override ) {
+			$metadesc = $metadesc_override;
+			if ( isset( $term ) ) {
+				$post_data = $term;
+			}
+		}
+		else if ( ( ! is_string( $metadesc ) || '' === $metadesc ) && '' !== $template ) {
 			if ( ! isset( $term ) ) {
 				$term = $wp_query->get_queried_object();
 			}
@@ -1336,9 +1341,6 @@ class WPSEO_Frontend {
 			$post_data = $term;
 		}
 
-		if ( is_string( $metadesc_override ) && '' !== $metadesc_override ) {
-			$metadesc = $metadesc_override;
-		}
 		$metadesc = wpseo_replace_vars( $metadesc, $post_data );
 
 		/**
