@@ -5,41 +5,10 @@
  */
 class WPSEO_Page_GWT {
 
-	/**
-	 * Catch the reload-crawl-issues POST
-	 */
-	private function catch_reload_crawl_issues() {
-		if ( isset( $_POST['reload-crawl-issues'] ) ) {
-			$crawl_issue_manager = new WPSEO_Crawl_Issue_Manager();
-			$crawl_issue_manager->remove_last_checked();
-		}
-	}
 
 	/**
-	 * Catch the authentication post
 	 */
-	private function catch_authentication_post() {
-		$redirect_url_appendix = '';
 
-		// Catch the authorization code POST
-		if ( isset ( $_POST['gwt']['authorization_code'] ) && wp_verify_nonce( $_POST['gwt']['gwt_nonce'], 'wpseo-gwt_nonce' ) ) {
-			if ( trim( $_POST['gwt']['authorization_code'] ) != '' ) {
-				// Authenticate user
-				$gwt_authentication = new WPSEO_GWT_Authentication();
-
-				if ( ! $gwt_authentication->authenticate( $_POST['gwt']['authorization_code'] ) ) {
-					$redirect_url_appendix = '&error=1';
-				}
-			}
-			else {
-				$redirect_url_appendix = '&error=1';
-			}
-
-			// Redirect user to prevent a post resubmission which causes an oauth error
-			wp_redirect( admin_url( 'admin.php' ) . '?page=' . esc_attr( $_GET['page']) . $redirect_url_appendix );
-			exit;
-		}
-	}
 
 	/**
 	 * Function that outputs the redirect page
