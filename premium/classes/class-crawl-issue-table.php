@@ -1,6 +1,7 @@
 <?php
 /**
  * @package Premium\Redirect
+ * @subpackage Premium
  */
 
 if ( ! defined( 'WPSEO_VERSION' ) ) {
@@ -23,12 +24,19 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 	private $gwt;
 
 	/**
-	 * @var String
+	 * @var string
 	 */
 	private $search_string;
 
 	/**
+	 * @var array
+	 */
+	protected $_column_headers;
+
+	/**
 	 * WPSEO_Redirect_Table constructor
+	 *
+	 * @param object $gwt
 	 */
 	public function __construct( $gwt ) {
 		parent::__construct();
@@ -40,8 +48,8 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 		add_filter( 'views_' . $this->screen->id, array( $this, 'add_page_views' ) );
 
 		// Set search string
-		if ( isset( $_GET['s'] ) && $_GET['s'] != '' ) {
-			$this->search_string = $_GET['s'];
+		if ( ( $search_string = filter_input( INPUT_GET, 's' ) ) != '' ) {
+			$this->search_string = $search_string;
 		}
 	}
 
@@ -51,7 +59,7 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 	 * @return string
 	 */
 	private function get_current_view() {
-		return ( isset ( $_GET['status'] ) ? $_GET['status'] : 'all' );
+		return ( $status = filter_input( INPUT_GET, 'category' )) ? $status : 'all' ;
 	}
 
 	/**
@@ -67,15 +75,21 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 		$current = $this->get_current_view();
 
 		$views_arr = array(
-			'all'            => __( 'All', 'wordpress-seo-premium' ),
-			'not-redirected' => __( 'Not redirected', 'wordpress-seo-premium' ),
-			'ignored'        => __( 'Ignored', 'wordpress-seo-premium' ),
+			'all'                  => __( 'All', 'wordpress-seo-premium' ),
+			'auth_permissions'     => __( 'Authentication permissions', 'wordpress-seo' ),
+			'many_to_one_redirect' => __( 'Many to one redirect', 'wordpress-seo' ),
+			'not_followed'         => __( 'Not followed', 'wordpress-seo' ),
+			'not_found'            => __( 'Not found', 'wordpress-seo' ),
+			'other'                => __( 'Other', 'wordpress-seo' ),
+			'roboted'              => __( 'Roboted', 'wordpress-seo' ),
+			'server_error'         => __( 'Server Error', 'wordpress-seo' ),
+			'soft_404'             => __( 'Soft 404', 'wordpress-seo' ),
 		);
 
 		$new_views = array();
 
 		foreach ( $views_arr as $key => $val ) {
-			$new_views[$key] = "<a href='" . add_query_arg( array( 'status' => $key, 'paged' => 1 ) ) . "'" . ( ( $current == $key ) ? " class='current'" : "" ) . ">{$val}</a>";
+			$new_views[ $key ] = "<a href='" . esc_attr( add_query_arg( array( 'category' => $key, 'paged' => 1 ) ) ) . "'" . ( ( $current == $key ) ? " class='current'" : '' ) . ">{$val}</a>";
 		}
 
 		return $new_views;
@@ -84,50 +98,23 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 	/**
 	 * Search through the items
 	 *
-	 * @param $items
-	 *
 	 * @return array
 	 */
-	private function do_search( $items ) {
-
+	private function do_search( ) {
 		$results = array();
 
-		if ( is_array( $items ) ) {
-
-			foreach ( $items as $item ) {
-
-				$item_array = $item->to_array();
-
-				foreach ( $item_array as $value ) {
-					if ( false !== stripos( $value, $this->search_string ) ) {
+		if ( is_array( $this->items ) ) {
+			foreach ( $this->items as $item ) {
+				foreach ( $item as $value ) {
+					if ( stristr( $value, $this->search_string ) !== false ) {
 						$results[] = $item;
 						continue;
 					}
 				}
-
 			}
-
 		}
 
 		return $results;
-	}
-
-	/**
-	 * Set the table columns
-	 *
-	 * @return array
-	 */
-	public function get_columns() {
-		$columns = array(
-			//'cb'            => '<input type="checkbox" />',
-			'url'           => __( 'URL', 'wordpress-seo-premium' ),
-			'issue_type'    => __( 'Issue Type', 'wordpress-seo-premium' ),
-			'date_detected' => __( 'Date detected', 'wordpress-seo-premium' ),
-			'detail'        => __( 'Details', 'wordpress-seo-premium' ),
-			'linked_from'   => __( 'Linked From', 'wordpress-seo-premium' ),
-		);
-
-		return $columns;
 	}
 
 	/**
@@ -137,115 +124,28 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 	public function prepare_items() {
 
 		// Setup the columns
-		$columns               = $this->get_columns();
-		$hidden                = array();
-		$sortable              = $this->get_sortable_columns();
-		$this->_column_headers = array( $columns, $hidden, $sortable );
+		$this->setup_columns();
 
 		// Vies
 		$this->views();
 
-		// Get current view
-		$current_view = $this->get_current_view();
+		$ci_args = $this->set_args();
 
-		// Build crawl issues args
-		$ci_args = array();
+		$crawl_issue_source = new WPSEO_Crawl_Issue_Table_Data( $this->gwt, $ci_args );
 
-		// Set the post status
-		$ci_args['post_status'] = 'publish';
+		$this->set_pagination( $crawl_issue_source->get_total_items(), $ci_args['posts_per_page'] );
 
-		// Set the orderby
-		$orderby            = ( ! empty( $_GET['orderby'] ) ) ? $_GET['orderby'] : 'title';
-		$ci_args['orderby'] = $orderby;
+		$this->items = $crawl_issue_source->get_crawl_issues();
 
-		// Set the order
-		$order            = ( ! empty( $_GET['order'] ) ) ? $_GET['order'] : 'asc';
-		$ci_args['order'] = $order;
-
-		// Prepares the issue filter
-		$this->prepare_issue_filter();
-
-		// Set the issue filter
-		if ( $issue_filter = get_transient( 'gwt-issue_filter' ) ) {
-			$filter_posts = $this->issue_filter( $issue_filter );
-
-			if ( is_array( $filter_posts ) && ! empty ( $filter_posts ) ) {
-				$ci_args['post__in'] = $filter_posts;
-			}
+		if ( ! empty ( $this->search_string) ) {
+			$this->items = $this->do_search();
 		}
-
-		// Get variables needed for pagination
-		$per_page     = $this->get_items_per_page( 'errors_per_page', 25 );
-		$current_page = intval( ( ( isset( $_GET['paged'] ) ) ? $_GET['paged'] : 1 ) );
-
-		// Set query pagination
-		$ci_args['posts_per_page'] = $per_page;
-		$ci_args['offset']         = ( ( $current_page - 1 ) * $per_page );
-
-		// Check current view
-		if ( 'ignored' == $current_view ) {
-			$ci_args['post_status'] = 'trash';
-		}
-
-		// Filter crawl errors
-		if ( 'not-redirected' == $current_view ) {
-			$url_redirect_manager = new WPSEO_URL_Redirect_Manager();
-			$redirects            = $url_redirect_manager->get_redirects();
-			$wpseo_urls           = array();
-			if ( count( $redirects ) > 0 ) {
-				foreach ( $redirects as $old_url => $new_url ) {
-					$wpseo_urls[] = $old_url;
-				}
-			}
-			$ci_args['wpseo_urls'] = $wpseo_urls;
-		}
-
-		// Get the crawl issues
-		$crawl_issue_manager = new WPSEO_Crawl_Issue_Manager();
-		$crawl_issues        = $crawl_issue_manager->get_crawl_issues( $this->gwt, $ci_args );
-
-		// Get the total items
-		$total_items = $crawl_issue_manager->get_latest_query()->found_posts;
-
-		// Set table pagination
-		$this->set_pagination_args( array(
-			'total_items' => $total_items,
-			'total_pages' => ceil( $total_items / $per_page ),
-			'per_page'    => $per_page,
-		) );
-
-		// Set items
-		$items_array = array();
-		if ( is_array( $crawl_issues ) && count( $crawl_issues ) > 0 ) {
-			foreach ( $crawl_issues as $crawl_issue ) {
-				$items_array[] = $crawl_issue->to_array();
-			}
-		}
-		$this->items = $items_array;
-	}
-
-	/**
-	 * Return the columns that are sortable
-	 *
-	 * @return array
-	 */
-	public function get_sortable_columns() {
-		$sortable_columns = array(
-			'url'           => array( 'url', false ),
-//				'crawl_type'    => array( 'crawl_type', false ),
-			'issue_type'    => array( 'issue_type', false ),
-			'date_detected' => array( 'date_detected', false ),
-			'detail'        => array( 'detail', false ),
-			'linked_from'   => array( 'linked_from', false ),
-		);
-
-		return $sortable_columns;
 	}
 
 	/**
 	 * URL column
 	 *
-	 * @param $item
+	 * @param array $item
 	 *
 	 * @return string
 	 */
@@ -260,7 +160,8 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 
 		if ( 'ignored' == $current_view ) {
 			$actions['unignore'] = '<a href="javascript:wpseo_unignore_redirect(\'' . urlencode( $item['url'] ) . '\');">' . __( 'Unignore', 'wordpress-seo-premium' ) . '</a>';
-		} else {
+		}
+		else {
 			$actions['ignore'] = '<a href="javascript:wpseo_ignore_redirect(\'' . urlencode( $item['url'] ) . '\');">' . __( 'Ignore', 'wordpress-seo-premium' ) . '</a>';
 		}
 
@@ -268,19 +169,6 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 			'<span class="value">%1$s</span> %2$s',
 			$item['url'],
 			$this->row_actions( $actions )
-		);
-	}
-
-	/**
-	 * Checkbox column
-	 *
-	 * @param $item
-	 *
-	 * @return string
-	 */
-	public function column_cb( $item ) {
-		return sprintf(
-			'<input type="checkbox" name="create_redirects[]" value="%s" />', $item['url']
 		);
 	}
 
@@ -306,116 +194,283 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 	 * @return mixed
 	 */
 	public function column_default( $item, $column_name ) {
-		return $item[$column_name];
+		return $item[ $column_name ];
 	}
 
 	/**
-	 * Return available bulk actions
+	 * Running the setup of the columns
+	 */
+	public function setup_columns() {
+		$this->_column_headers = array( $this->get_columns(), array(), $this->get_sortable_columns() );
+	}
+
+	/**
+	 * Set the table columns
 	 *
 	 * @return array
 	 */
-	public function get_bulk_actions() {
-		return array(); // No bulk action at the moment, please try again later.
-		$actions = array(
-			'create_redirects' => __( 'Create Redirects', 'wordpress-seo-premium' )
+	public function get_columns() {
+		$columns = array(
+			'url'            => __( 'URL', 'wordpress-seo-premium' ),
+			'issue_category' => __( 'Issue category', 'wordpress-seo-premium' ),
+			'date_detected'  => __( 'Date detected', 'wordpress-seo-premium' ),
+			'response_code'  => __( 'Response code', 'wordpress-seo-premium' ),
+			'linked_from'    => __( 'Linked From', 'wordpress-seo-premium' ),
 		);
 
-		return $actions;
+		return $columns;
 	}
 
 	/**
-	 * Adds a dropdown to the top for filtering crawl issues - based on the excisting issue types in de database
+	 * Return the columns that are sortable
 	 *
-	 *
-	 * @param $which
+	 * @return array
 	 */
-	public function extra_tablenav( $which ) {
+	public function get_sortable_columns() {
+		$sortable_columns = array(
+			'url'            => array( 'url', false ),
+			'issue_category' => array( 'issue_category', false ),
+			'date_detected'  => array( 'date_detected', false ),
+			'response_code'  => array( 'response_code', false ),
+			'linked_from'    => array( 'linked_from', false ),
+		);
 
-		if ( 'top' === $which ) {
-			global $wpdb;
+		return $sortable_columns;
+	}
 
-			$issue_types = $wpdb->get_results(
-				"
-					SELECT DISTINCT meta_value
-					FROM {$wpdb->postmeta}
-					WHERE meta_key = 'wpseo_ci_issue_type'
-					ORDER BY meta_value ASC
-				"
-			);
+	/**
+	 * Setting the arguments
+	 *
+	 * @return array
+	 */
+	private function set_args() {
+		// Build crawl issues args
+		$ci_args = array();
 
-			if ( false === ( $selected = get_transient( 'gwt-issue_filter' ) ) ) {
-				$selected = '1';
+		// Set the post status
+		$ci_args['post_status'] = 'publish';
+
+		// Set the orderby
+		$ci_args['orderby'] = ( $orderby = filter_input( INPUT_GET, 'orderby' ) ) ? esc_sql( $orderby ) : 'title';
+
+		// Set the order
+		$ci_args['order']   = ( $order = filter_input( INPUT_GET, 'order' ) ) ? esc_sql( $order ) : 'asc';
+
+		// Get variables needed for pagination
+		$per_page     = $this->get_items_per_page( 'errors_per_page', 25 );
+		$current_page = intval( ( $paged = filter_input( INPUT_GET, 'paged' ) ) ? $paged : 1 );
+
+		// Set query pagination
+		$ci_args['posts_per_page'] = $per_page;
+		$ci_args['offset']         = ( ( $current_page - 1 ) * $per_page );
+
+		return $ci_args;
+	}
+
+	/**
+	 * Setting the table navigation
+	 *
+	 * @param int $total_items
+	 * @param int $posts_per_page
+	 */
+	private function set_pagination( $total_items, $posts_per_page ) {
+		$this->set_pagination_args( array(
+			'total_items' => $total_items,
+			'total_pages' => ceil( ( $total_items / $posts_per_page ) ),
+			'per_page'    => $posts_per_page,
+		) );
+	}
+
+
+}
+
+
+class WPSEO_Crawl_Issue_Table_Data {
+
+	private $issue_manager;
+
+	private $arguments;
+
+	private $gwt;
+
+	private $crawl_issues;
+
+	private $total_rows;
+
+	/**
+	 * @param $gwt
+	 * @param $ci_args
+	 */
+	public function __construct( $gwt, $ci_args ) {
+
+		$this->gwt       = $gwt;
+		$this->arguments = $ci_args;
+
+		// Get the crawl issues
+		$this->issue_manager = new WPSEO_Crawl_Issue_Manager();
+		$this->crawl_issues  = $this->issue_manager->get_crawl_issues( $this->gwt, $this->get_issues() );
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function get_issues () {
+		global $wpdb;
+
+		$subquery = $this->filter_issues();
+
+		$this->total_rows = $wpdb->get_var(
+			'
+				SELECT COUNT(ID)
+				FROM ' . $wpdb->posts . '
+				WHERE post_status = "' . $this->arguments['post_status'] . '" && post_type = "wpseo_crawl_issue" && ID IN('. $subquery .')
+			'
+		);
+
+		return $wpdb->get_results(
+			'
+				SELECT *
+				FROM ' . $wpdb->posts . '
+				WHERE post_status = "' . $this->arguments['post_status'] . '" &&
+					  post_type   = "wpseo_crawl_issue" &&
+					  ID IN(' . $subquery . ' )
+				LIMIT ' . $this->arguments['offset'] . ' , ' . $this->arguments['posts_per_page'] . '
+			',
+			OBJECT
+		);
+
+		// ORDER BY {$this->arguments['orderby']}  {$this->arguments['order']}
+	}
+
+	/**
+	 * @return array
+	 */
+	public function get_crawl_issues() {
+		// Set items
+		$return = array();
+		if ( is_array( $this->crawl_issues ) && count( $this->crawl_issues ) > 0 ) {
+			foreach ( $this->crawl_issues as $crawl_issue ) {
+				$return[] = $crawl_issue->to_array();
 			}
-
-			$options = '<option value="-1">Show All Crawl Issues</option>';
-			if ( is_array( $issue_types ) && $issue_types !== array() ) {
-				foreach ( $issue_types as $issue_type ) {
-					$options .= sprintf( '<option value="%2$s" %3$s>%1$s</option>', $issue_type->meta_value, $issue_type->meta_value, selected( $selected, $issue_type->meta_value, false ) );
-				}
-			}
-
-			echo '<div class="alignleft actions">';
-			echo sprintf( '<select name="gwt-issue_filter">%1$s</select>', $options );
-			submit_button( __( 'Filter', 'wordpress-seo-premium' ), 'button', false, false, array( 'id' => 'post-query-submit' ) );
-			echo '</div>';
 		}
 
+		return $return;
 	}
+
+	/**
+	 * Get the total items
+	 *
+	 * @return mixed
+	 */
+	public function get_total_items() {
+		return $this->total_rows;
+	}
+
+	/**
+	 * Filtering the issues
+	 */
+	private function filter_issues() {
+
+		// Prepares the issue filter
+//		$this->prepare_issue_filter();
+
+		// First filter the platform
+		$platform = ( $platform = filter_input( INPUT_GET, 'tab' ) ) ? $platform : 'web';
+
+
+
+		$subquery = "SELECT platform.post_id FROM wp_postmeta platform ";
+
+		if($category = filter_input( INPUT_GET, 'category' )) {
+			$subquery .= "INNER JOIN wp_postmeta category ON category.post_id = platform.post_id && category.meta_key = 'wpseo_ci_issue_type' AND category.meta_value = '" . WPSEO_GWT_Mapper::category( $category ) . "'";
+		}
+
+		$subquery .= "WHERE platform.meta_key = 'wpseo_ci_crawl_type' && platform.meta_value = '" . WPSEO_GWT_Mapper::platform( $platform ) . "'";
+
+		return $subquery;
+
+//	INNER JOIN wp_postmeta category ON category.post_id = platform.post_id && category.meta_key = 'wpseo_ci_issue_type' AND category.meta_value = 'notFollewed'
+
+
+
+
+
+
+//		$this->arguments['meta_key']   = 'wpseo_ci_crawl_type';
+//		$this->arguments['meta_value'] = WPSEO_GWT_Mapper::platform( $platform );
+
+
+//		// Set the issue filter
+		if ( $category = filter_input( INPUT_GET, 'category' ) ) {
+			$filter_posts = $this->issue_filter( 'wpseo_ci_issue_type', WPSEO_GWT_Mapper::category( $category ), WPSEO_GWT_Mapper::platform( $platform ) );
+
+			if ( is_array( $filter_posts ) && ! empty ( $filter_posts ) ) {
+				$this->arguments['post__in'] = $filter_posts;
+			}
+			else {
+				$this->arguments['post__in'] = [];
+			}
+		}
+	}
+
 
 	/**
 	 * Setting transient for filtering issues based on the dropdown shown on the page.
 	 *
 	 */
-	public function prepare_issue_filter() {
+	private function prepare_issue_filter() {
 
-		// Page uses $_POST, using a transient let us remember the current filter
-		if ( !empty( $_POST ) ) {
-			if ( !empty ( $_POST['gwt-issue_filter'] ) ) {
-				// Set temporary var
-				set_transient( 'gwt-issue_filter', $_POST['gwt-issue_filter'], HOUR_IN_SECONDS );
-			}
-		} else {
-			// We saves the current status, because the user can switch between them.
-			if ( ! empty( $_GET['status'] ) ) {
+		$platform = ( $platform = filter_input( INPUT_GET, 'category' ) ) ? $platform : 'web';
 
-				// User switched between status - unset the filter
-				if ( $_GET['status'] !== get_transient( 'gwt-status' ) ) {
-					delete_transient( 'gwt-issue_filter' );
-				}
+		// User switched between types unset the filter
+		if ( $platform !== get_transient( 'gwt-platform' ) ) {
+			delete_transient( 'gwt-category' );
+		}
 
-				set_transient( 'gwt-status', $_GET['status'], HOUR_IN_SECONDS );
-			}
+		set_transient( 'gwt-platform', $platform, HOUR_IN_SECONDS );
 
-			// If the values below aren't set, it looks like the page was visited for first time
-			if ( empty( $_GET['status'] ) && empty( $_GET['paged'] ) && empty( $_GET['order'] ) && empty( $_GET['orderby'] ) ) {
 
+		// We saves the current status, because the user can switch between them.
+		if ( $category = filter_input( INPUT_GET, 'category' ) ) {
+			// User switched between status - unset the filter
+			if ( $category !== get_transient( 'gwt-category' ) ) {
 				delete_transient( 'gwt-issue_filter' );
 			}
+
+			set_transient( 'gwt-category', $category, HOUR_IN_SECONDS );
 		}
+
+		// If the values below aren't set, it looks like the page was visited for first time
+		if ( empty( $_GET['category'] ) && empty( $_GET['paged'] ) && empty( $_GET['order'] ) && empty( $_GET['orderby'] ) ) {
+			delete_transient( 'gwt-issue_filter' );
+		}
+
 	}
+
 
 	/**
 	 * This method will get the ids of the posts that should be displayed, based on the given filter
 	 *
-	 * @param string $filter Issue type to filter
+	 * @param string $meta_key
+	 * @param string $meta_value
 	 *
 	 * @return array
 	 */
-	public function issue_filter( $filter ) {
+	public function issue_filter( $meta_key, $meta_value, $platform ) {
 		$post_ids = array();
-
-		if ( $filter !== '-1' ) {
+		if ( $meta_value !== '-1' ) {
 			global $wpdb;
 
 			$post_ids = $wpdb->get_col(
 				"
-					SELECT DISTINCT post_id
-					FROM {$wpdb->postmeta}
-					WHERE meta_key = 'wpseo_ci_issue_type' AND meta_value = '{$filter}'
-					ORDER BY meta_value ASC
+					SELECT DISTINCT a.post_id
+					FROM {$wpdb->postmeta} AS a, {$wpdb->postmeta} AS b
+					WHERE
+						a.meta_key = '{$meta_key}' AND a.meta_value = '{$meta_value}' &&
+						a.post_id = b.post_id && b.meta_key = 'wpseo_ci_crawl_type' AND b.meta_value = '{$platform}'
+					ORDER BY a.meta_value ASC
 				"
 			);
-
 		}
 
 		return $post_ids;
