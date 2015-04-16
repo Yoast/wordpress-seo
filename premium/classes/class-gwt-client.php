@@ -1,15 +1,33 @@
 <?php
+/**
+ * @package    WPSEO
+ * @subpackage Premium
+ */
 
+/**
+ * Class WPSEO_GWT_Client
+ */
 class WPSEO_GWT_Client extends Yoast_Google_Client {
-
-	protected $http_response_code;
 
 	const OPTION_REFRESH_TOKEN = 'wpseo-premium-gwt-refresh_token';
 
+	/**
+	 * @var string
+	 */
+	protected $http_response_code;
+
+	/**
+	 * @var array
+	 */
 	protected $default_config = array(
 		'redirect_uri' => 'urn:ietf:wg:oauth:2.0:oob',
 		'scopes'       => array( 'https://www.googleapis.com/auth/webmasters.readonly', 'https://www.google.com/webmasters/tools/feeds/' ),
 	);
+
+	/**
+	 * @var string
+	 */
+	private $api_url = '';
 
 	/**
 	 * Initialize the config and refresh the token
@@ -25,71 +43,6 @@ class WPSEO_GWT_Client extends Yoast_Google_Client {
 
 		// Let's get an access token if we've got a refresh token
 		$this->refresh_tokens();
-
-	}
-
-	/**
-	 * Initialize the config, will merge given config with default config to be sure all settings are available
-	 *
-	 * @param $config
-	 */
-	protected function init_config( $config ) {
-		$config = array_merge( $config, $this->default_config );
-
-		if ( ! empty( $config['application_name'] ) ) {
-			$this->setApplicationName( $config['application_name'] );
-		} else {
-			// @todo: throw new error
-
-		}
-
-		if ( ! empty( $config['client_id'] ) ) {
-			$this->setClientId( $config['client_id'] );
-		} else {
-			// @todo: throw new error
-
-		}
-
-		if ( ! empty( $config['client_secret'] ) ) {
-			$this->setClientSecret( $config['client_secret'] );
-		} else {
-			// @todo: throw new error
-		}
-
-		// Set our settings
-		$this->setRedirectUri( $config['redirect_uri'] );
-		$this->setScopes( $config['scopes'] );
-		$this->setAccessType( 'offline' );
-	}
-
-	/**
-	 * Refeshing the tokens
-	 */
-	protected function refresh_tokens() {
-		$refresh_token = $this->get_refresh_token();
-
-		if ( '' != $refresh_token ) {
-			try {
-				// Refresh the token
-				$this->refreshToken( $refresh_token );
-
-				$response = $this->getAuth()->token;
-
-				// Check response
-				if ( ! empty( $response ) ) {
-
-					// Check if there is an access_token
-					if ( ! empty ( $response['access_token'] ) ) {
-						// Set access_token
-						$this->setAccessToken( $response['access_token'] );
-					}
-
-
-				}
-			} catch ( Exception $e ) {
-
-			}
-		}
 	}
 
 	/**
@@ -120,7 +73,6 @@ class WPSEO_GWT_Client extends Yoast_Google_Client {
 
 					return true;
 				}
-
 			}
 		} catch ( Yoast_Google_AuthException $exception ) {
 			// If there aren't any attempts before, try again and set attempts on true, to prevent further attempts
@@ -141,14 +93,26 @@ class WPSEO_GWT_Client extends Yoast_Google_Client {
 	 *
 	 * @return Google_HttpRequest
 	 */
-
 	public function do_request( $target_request_url ) {
 		// Get list sites response
-		$response = $this->getIo()->authenticatedRequest( new Yoast_Google_HttpRequest( $target_request_url ) );
+		$response = $this->getIo()->authenticatedRequest( new Yoast_Google_HttpRequest( $this->api_url . $target_request_url ) );
 
 		$this->http_response_code = $response->getResponseHttpCode();
 
 		return $response;
+	}
+
+	/**
+	 * Decode the JSON response
+	 *
+	 * @param object $response
+	 *
+	 * @return mixed
+	 */
+	public function decode_response( $response ) {
+		if ( 200 === $response->getResponseHttpCode() ) {
+			return json_decode( $response->getResponseBody() );
+		}
 	}
 
 	/**
@@ -159,11 +123,10 @@ class WPSEO_GWT_Client extends Yoast_Google_Client {
 		return $this->http_response_code;
 	}
 
-
 	/**
 	 * Save the refresh token
 	 *
-	 * @param $refresh_token
+	 * @param string $refresh_token
 	 */
 	public function save_refresh_token( $refresh_token ) {
 		update_option( self::OPTION_REFRESH_TOKEN, trim( $refresh_token ) );
@@ -176,6 +139,55 @@ class WPSEO_GWT_Client extends Yoast_Google_Client {
 	 */
 	public function get_refresh_token() {
 		return get_option( self::OPTION_REFRESH_TOKEN, '' );
+	}
+
+	/**
+	 * Initialize the config, will merge given config with default config to be sure all settings are available
+	 *
+	 * @param array $config
+	 */
+	protected function init_config( array $config ) {
+		$config = array_merge( $config, $this->default_config );
+
+		if ( ! empty( $config['application_name'] ) ) {
+			$this->setApplicationName( $config['application_name'] );
+		}
+
+		if ( ! empty( $config['client_id'] ) ) {
+			$this->setClientId( $config['client_id'] );
+		}
+
+		if ( ! empty( $config['client_secret'] ) ) {
+			$this->setClientSecret( $config['client_secret'] );
+		}
+
+		// Set our settings
+		$this->setRedirectUri( $config['redirect_uri'] );
+		$this->setScopes( $config['scopes'] );
+		$this->setAccessType( 'offline' );
+	}
+
+	/**
+	 * Refreshing the tokens
+	 */
+	protected function refresh_tokens() {
+		if ( ( $refresh_token = $this->get_refresh_token() ) !== '' ) {
+			try {
+				// Refresh the token
+				$this->refreshToken( $refresh_token );
+
+				$response = $this->getAuth()->token;
+
+				// Check response and if there is an access_token
+				if ( ! empty( $response ) && ! empty ( $response['access_token'] ) ) {
+					// Set access_token
+					$this->setAccessToken( $response['access_token'] );
+				}
+			}
+			catch ( Exception $e ) {
+				return false;
+			}
+		}
 	}
 
 }
