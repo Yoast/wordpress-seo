@@ -562,27 +562,19 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	 * @return int
 	 */
 	private function create_featured_image( $image, $post_id ) {
-		// Create the attachment
-		$featured_image = dirname( __FILE__ ) . $image;
-		$filetype       = wp_check_filetype( basename( $featured_image ), null );
 
-		// Get the path to the upload directory.
-		$wp_upload_dir  = wp_upload_dir();
+		$basename       = basename( $image );
+		$upload_dir     = wp_upload_dir();
+		$source_image   = dirname( __FILE__ ) . $image;
+		$featured_image = $upload_dir['path'] . '/' . $basename;
 
-		$attach_id = wp_insert_attachment( array(
-			'post_title'     => preg_replace( '/\.[^.]+$/', '', basename( $featured_image ) ),
-			'post_content'   => '',
-			'guid'           => $wp_upload_dir['url'] . '/' . basename( $featured_image ),
-			'post_mime_type' => $filetype['type'],
-			'post_status'    => 'inherit',
-		), $featured_image, $post_id );
+		copy( $source_image, $featured_image ); // prevent original from deletion
 
-		// Make sure that this file is included, as wp_generate_attachment_metadata() depends on it.
-		require_once( ABSPATH . 'wp-admin/includes/image.php' );
-
-		// Generate the metadata for the attachment, and update the database record.
-		$attach_data = wp_generate_attachment_metadata( $attach_id, $featured_image );
-		wp_update_attachment_metadata( $attach_id, $attach_data );
+		$file_array = array(
+			'name'     => $basename,
+			'tmp_name' => $featured_image,
+		);
+		$attach_id  = media_handle_sideload( $file_array, $post_id );
 
 		return $attach_id;
 	}
