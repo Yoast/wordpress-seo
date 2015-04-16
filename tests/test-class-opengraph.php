@@ -3,13 +3,17 @@
  * @package WPSEO\Unittests
  */
 
+/**
+ * OpenGraph tests
+ */
 class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 
-	/**
-	 * @var WPSEO_OpenGraph
-	 */
+	/** @var WPSEO_OpenGraph */
 	private static $class_instance;
 
+	/**
+	 * Set up class instance
+	 */
 	public static function setUpBeforeClass() {
 		self::$class_instance = new WPSEO_OpenGraph;
 	}
@@ -25,6 +29,9 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		$this->go_to_home();
 	}
 
+	/**
+	 * Clean output buffer after each test
+	 */
 	public function tearDown() {
 		ob_clean();
 	}
@@ -285,7 +292,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	public function test_image_IS_SINGULAR_and_HAS_open_graph_image_AND_HAS_content_images() {
 		$post_id = $this->factory->post->create(
 			array(
-				'post_content' =>  '<img class="alignnone size-medium wp-image-490" src="' . get_site_url() . '/wp-content/plugins/wordpress-seo/tests/yoast.png" />'
+				'post_content' => '<img class="alignnone size-medium wp-image-490" src="' . get_site_url() . '/wp-content/plugins/wordpress-seo/tests/yoast.png" />'
 			)
 		);
 
@@ -375,7 +382,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	public function test_image_get_content_image() {
 		$post_id = $this->factory->post->create(
 			array(
-				'post_content' =>  '<img class="alignnone size-medium wp-image-490" src="' . get_site_url() . '/wp-content/plugins/wordpress-seo/tests/yoast.png" />'
+				'post_content' => '<img class="alignnone size-medium wp-image-490" src="' . get_site_url() . '/wp-content/plugins/wordpress-seo/tests/yoast.png" />'
 			)
 		);
 
@@ -427,6 +434,9 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( $expected_opengraph_description, $opengraph_description );
 	}
 
+	/**
+	 * Test meta description.
+	 */
 	public function test_description_single_post_metadesc() {
 		$expected_meta_description = 'This is with a meta-description';
 
@@ -442,6 +452,9 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( $expected_meta_description, $meta_description );
 	}
 
+	/**
+	 * Test description from excerpt.
+	 */
 	public function test_description_single_post_excerpt() {
 		// Creates the post
 		$post_id = $this->factory->post->create();
@@ -475,7 +488,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_OpenGraph::site_name
 	 */
 	public function test_site_name() {
-
+		// TODO empty site name test
 	}
 
 	/**
@@ -550,10 +563,15 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		$this->expectOutput( $published_output . $modified_output );
 	}
 
+	/**
+	 * @param string  $image   path
+	 * @param integer $post_id
+	 *
+	 * @return int
+	 */
 	private function create_featured_image( $image, $post_id ) {
 		// Create the attachment
-		$featured_image =  dirname(__FILE__) . $image ;
-
+		$featured_image = dirname( __FILE__ ) . $image;
 		$filetype       = wp_check_filetype( basename( $featured_image ), null );
 
 		// Get the path to the upload directory.
@@ -564,7 +582,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 			'post_content'   => '',
 			'guid'           => $wp_upload_dir['url'] . '/' . basename( $featured_image ),
 			'post_mime_type' => $filetype['type'],
-			'post_status'    => 'inherit'
+			'post_status'    => 'inherit',
 		), $featured_image, $post_id );
 
 		// Make sure that this file is included, as wp_generate_attachment_metadata() depends on it.
