@@ -4,11 +4,6 @@
  * @subpackage Premium
  */
 
-if ( ! defined( 'WPSEO_VERSION' ) ) {
-	header( 'HTTP/1.0 403 Forbidden' );
-	die;
-}
-
 if ( ! class_exists( 'WP_List_Table' ) ) {
 	require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
 }
@@ -36,9 +31,9 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 	/**
 	 * WPSEO_Redirect_Table constructor
 	 *
-	 * @param object $gwt
+	 * @param WPSEO_GWT_Client $gwt
 	 */
-	public function __construct( $gwt ) {
+	public function __construct( WPSEO_GWT_Client $gwt ) {
 		parent::__construct();
 
 		// Set GWT client
@@ -120,6 +115,8 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 	/**
 	 * Setup the table variables, fetch the items from the database, search, sort and format the items.
 	 * Set the items as the WPSEO_Redirect_Table items variable.
+	 *
+	 * @param WPSEO_GWT_Client $gwt
 	 */
 	public function prepare_items() {
 
@@ -135,7 +132,7 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 
 		$this->set_pagination( $crawl_issue_source->get_total_items(), $ci_args['posts_per_page'] );
 
-		$this->items = $crawl_issue_source->get_crawl_issues();
+		$this->items = $crawl_issue_source->parse_crawl_issues();
 
 		if ( ! empty ( $this->search_string) ) {
 			$this->items = $this->do_search();
@@ -281,37 +278,47 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 		) );
 	}
 
-
 }
 
-
+/**
+ * Class WPSEO_Crawl_Issue_Table_Data
+ */
 class WPSEO_Crawl_Issue_Table_Data {
 
+	/**
+	 * @var WPSEO_Crawl_Issue_Manager
+	 */
 	private $issue_manager;
 
+	/**
+	 * @var array
+	 */
 	private $arguments;
 
-	private $gwt;
-
+	/**
+	 * @var array
+	 */
 	private $crawl_issues;
 
+	/**
+	 * @var integer
+	 */
 	private $total_rows;
 
 	/**
-	 * @param $gwt
-	 * @param $ci_args
+	 * @param WPSEO_GWT_Client $gwt
+	 * @param array            $ci_args
 	 */
-	public function __construct( $gwt, $ci_args ) {
-
-		$this->gwt       = $gwt;
+	public function __construct( WPSEO_GWT_Client $gwt, array $ci_args ) {
 		$this->arguments = $ci_args;
 
 		// Get the crawl issues
 		$this->issue_manager = new WPSEO_Crawl_Issue_Manager();
-		$this->crawl_issues  = $this->issue_manager->get_crawl_issues( $this->gwt, $this->get_issues() );
+		$this->crawl_issues  = $this->issue_manager->get_crawl_issues( $gwt, $this->get_issues() );
 	}
 
 	/**
+	 * Getting the issues from the database
 	 * @return mixed
 	 */
 	public function get_issues () {
@@ -343,10 +350,11 @@ class WPSEO_Crawl_Issue_Table_Data {
 	}
 
 	/**
+	 * Getting all the crawl issues
+	 *
 	 * @return array
 	 */
-	public function get_crawl_issues() {
-		// Set items
+	public function parse_crawl_issues() {
 		$return = array();
 		if ( is_array( $this->crawl_issues ) && count( $this->crawl_issues ) > 0 ) {
 			foreach ( $this->crawl_issues as $crawl_issue ) {
@@ -370,110 +378,18 @@ class WPSEO_Crawl_Issue_Table_Data {
 	 * Filtering the issues
 	 */
 	private function filter_issues() {
-
-		// Prepares the issue filter
-//		$this->prepare_issue_filter();
-
 		// First filter the platform
 		$platform = ( $platform = filter_input( INPUT_GET, 'tab' ) ) ? $platform : 'web';
 
+		$subquery = 'SELECT platform.post_id FROM wp_postmeta platform';
 
-
-		$subquery = "SELECT platform.post_id FROM wp_postmeta platform ";
-
-		if($category = filter_input( INPUT_GET, 'category' )) {
-			$subquery .= "INNER JOIN wp_postmeta category ON category.post_id = platform.post_id && category.meta_key = 'wpseo_ci_issue_type' AND category.meta_value = '" . WPSEO_GWT_Mapper::category( $category ) . "'";
+		if ( $category = filter_input( INPUT_GET, 'category' ) ) {
+			$subquery .= ' INNER JOIN wp_postmeta category ON category.post_id = platform.post_id && category.meta_key = "wpseo_ci_issue_type" AND category.meta_value = "' . WPSEO_GWT_Mapper::category( $category ) . '"';
 		}
 
-		$subquery .= "WHERE platform.meta_key = 'wpseo_ci_crawl_type' && platform.meta_value = '" . WPSEO_GWT_Mapper::platform( $platform ) . "'";
+		$subquery .= ' WHERE platform.meta_key = "wpseo_ci_crawl_type" && platform.meta_value = "' . WPSEO_GWT_Mapper::platform( $platform ) . '"';
 
 		return $subquery;
-
-//	INNER JOIN wp_postmeta category ON category.post_id = platform.post_id && category.meta_key = 'wpseo_ci_issue_type' AND category.meta_value = 'notFollewed'
-
-
-
-
-
-
-//		$this->arguments['meta_key']   = 'wpseo_ci_crawl_type';
-//		$this->arguments['meta_value'] = WPSEO_GWT_Mapper::platform( $platform );
-
-
-//		// Set the issue filter
-		if ( $category = filter_input( INPUT_GET, 'category' ) ) {
-			$filter_posts = $this->issue_filter( 'wpseo_ci_issue_type', WPSEO_GWT_Mapper::category( $category ), WPSEO_GWT_Mapper::platform( $platform ) );
-
-			if ( is_array( $filter_posts ) && ! empty ( $filter_posts ) ) {
-				$this->arguments['post__in'] = $filter_posts;
-			}
-			else {
-				$this->arguments['post__in'] = [];
-			}
-		}
-	}
-
-
-	/**
-	 * Setting transient for filtering issues based on the dropdown shown on the page.
-	 *
-	 */
-	private function prepare_issue_filter() {
-
-		$platform = ( $platform = filter_input( INPUT_GET, 'category' ) ) ? $platform : 'web';
-
-		// User switched between types unset the filter
-		if ( $platform !== get_transient( 'gwt-platform' ) ) {
-			delete_transient( 'gwt-category' );
-		}
-
-		set_transient( 'gwt-platform', $platform, HOUR_IN_SECONDS );
-
-
-		// We saves the current status, because the user can switch between them.
-		if ( $category = filter_input( INPUT_GET, 'category' ) ) {
-			// User switched between status - unset the filter
-			if ( $category !== get_transient( 'gwt-category' ) ) {
-				delete_transient( 'gwt-issue_filter' );
-			}
-
-			set_transient( 'gwt-category', $category, HOUR_IN_SECONDS );
-		}
-
-		// If the values below aren't set, it looks like the page was visited for first time
-		if ( empty( $_GET['category'] ) && empty( $_GET['paged'] ) && empty( $_GET['order'] ) && empty( $_GET['orderby'] ) ) {
-			delete_transient( 'gwt-issue_filter' );
-		}
-
-	}
-
-
-	/**
-	 * This method will get the ids of the posts that should be displayed, based on the given filter
-	 *
-	 * @param string $meta_key
-	 * @param string $meta_value
-	 *
-	 * @return array
-	 */
-	public function issue_filter( $meta_key, $meta_value, $platform ) {
-		$post_ids = array();
-		if ( $meta_value !== '-1' ) {
-			global $wpdb;
-
-			$post_ids = $wpdb->get_col(
-				"
-					SELECT DISTINCT a.post_id
-					FROM {$wpdb->postmeta} AS a, {$wpdb->postmeta} AS b
-					WHERE
-						a.meta_key = '{$meta_key}' AND a.meta_value = '{$meta_value}' &&
-						a.post_id = b.post_id && b.meta_key = 'wpseo_ci_crawl_type' AND b.meta_value = '{$platform}'
-					ORDER BY a.meta_value ASC
-				"
-			);
-		}
-
-		return $post_ids;
 	}
 
 }
