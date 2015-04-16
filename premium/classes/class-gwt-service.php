@@ -1,5 +1,12 @@
 <?php
+/**
+ * @package    WPSEO
+ * @subpackage Premium
+ */
 
+/**
+ * Class WPSEO_GWT_Service
+ */
 class WPSEO_GWT_Service {
 
 	/**
@@ -10,9 +17,9 @@ class WPSEO_GWT_Service {
 	/**
 	 * Constructor
 	 *
-	 * @param Google_Client $client
+	 * @param Yoast_Google_Client $client
 	 */
-	public function __construct( Google_Client $client ) {
+	public function __construct( Yoast_Google_Client $client ) {
 		$this->client = $client;
 	}
 
@@ -25,21 +32,14 @@ class WPSEO_GWT_Service {
 		$sites = array();
 
 		// Do list sites request
-		$request = new Google_HttpRequest( "https://www.google.com/webmasters/tools/feeds/sites/" );
+		$response = $this->client->do_request( 'https://www.googleapis.com/webmasters/v3/sites' );
 
-		// Get list sites response
-		$response = $this->client->getIo()->authenticatedRequest( $request );
-
-		if ( '200' == $response->getResponseHttpCode() ) {
-
-			$response_xml = simplexml_load_string( $response->getResponseBody() );
-
-			if ( count( $response_xml->entry ) > 0 ) {
-				foreach ( $response_xml->entry as $entry ) {
-					$sites[str_ireplace( 'sites/', '', (string) $entry->id )] = (string) $entry->title;
+		if ( $response_json = $this->client->decode_response( $response ) ) {
+			if ( ! empty( $response_json->siteEntry ) ) {
+				foreach ( $response_json->siteEntry as $entry ) {
+					$sites[ str_ireplace( 'sites/', '', (string) $entry->siteUrl ) ] = (string) $entry->siteUrl;
 				}
 			}
-
 		}
 
 		return $sites;
@@ -48,73 +48,156 @@ class WPSEO_GWT_Service {
 	/**
 	 * Get crawl issues
 	 *
-	 * @param $site_url
-	 *
 	 * @return array
 	 */
 	public function get_crawl_issues() {
 
 		// Setup crawl error list
-		$crawl_issues = array();
+		$crawl_issues       = array();
+		$profile            = $this->get_profile();
+		$crawl_error_counts = $this->get_crawl_error_counts( $profile );
 
-		// Issues per page
-		$per_page = 100;
-		$cur_page = 0;
-
-		// We always have issues on first request
-		$has_more_issues = true;
-
-		$crawl_issue_manager = new WPSEO_Crawl_Issue_Manager();
-
-		$profile_url = $crawl_issue_manager->get_profile();
-
-		// Do multiple request
-		while ( true === $has_more_issues ) {
-
-			// Set issues to false
-			$has_more_issues = false;
-
-			// Do request
-			$url = $profile_url . "/crawlissues/?start-index=" . ( ( $per_page * $cur_page ) + 1 ) . "&amp;max-results=" . $per_page;
-
-			$request = new Google_HttpRequest( $url );
-
-			// Get list sites response
-			$response = $this->client->getIo()->authenticatedRequest( $request );
-
-			// Check response code
-			if ( '200' == $response->getResponseHttpCode() ) {
-
-				// Create XML object from reponse body
-				$response_xml = simplexml_load_string( $response->getResponseBody() );
-
-
-				// Check if we got entries
-				if ( count( $response_xml->entry ) > 0 ) {
-
-					// Count, future use itemsperpage in Google reponse
-					if ( 100 == count( $response_xml->entry ) ) {
-						// We have issues
-						$has_more_issues = true;
-					}
-
-					// Loop
-					foreach ( $response_xml->entry as $entry ) {
-						$wt = $entry->children( 'wt', true );
-
-						$crawl_issues[] = new WPSEO_Crawl_Issue( WPSEO_Redirect_Manager::format_url( (string) $wt->url ), (string) $wt->{'crawl-type'}, (string) $wt->{'issue-type'}, new DateTime( (string) $wt->{'date-detected'} ), (string) $wt->{'detail'}, (array) $wt->{'linked-from'}, false );
-					}
-
+		if ( ! empty( $crawl_error_counts->countPerTypes ) ) {
+			foreach ( $crawl_error_counts->countPerTypes as $category ) {
+				if ( $category->entries[0]->count > 0 ) {
+					$crawl_category = new WPSEO_Crawl_Category_Issues( $this->client, $category, $profile );
+					$crawl_category->fetch_issues( $crawl_issues );
 				}
-
 			}
-
-			// Up page nr
-			$cur_page ++;
-
 		}
 
 		return $crawl_issues;
+	}
+
+	/**
+	 * Get the GWT profile
+	 *
+	 * @return string
+	 */
+	private function get_profile() {
+
+		// Get option
+		$option = get_option( 'wpseo-premium-gwt', array( 'profile' => '' ) );
+
+		// Set the profile
+		$profile = $option['profile'];
+
+		// Check if the profile is set
+		if ( $profile === '' ) {
+			$profile = get_option( 'siteurl' );
+		}
+
+		// Backwards compatibility fix - This is the old API endpoint
+		if ( strpos( $profile, 'https://www.google.com/webmasters/tools/feeds/' ) ) {
+			$profile = str_replace( 'https://www.google.com/webmasters/tools/feeds/', '', $profile );
+		}
+
+		// Return the profile
+		return trim( $profile, '/' );
+	}
+
+	/**
+	 * Getting the crawl error counts
+	 *
+	 * @param string $profile
+	 *
+	 * @return mixed
+	 */
+	private function get_crawl_error_counts( $profile ) {
+		$crawl_error_counts = $this->client->do_request(
+			'https://www.googleapis.com/webmasters/v3/sites/' . urlencode( $profile ) . '/urlCrawlErrorsCounts/query'
+		);
+
+		if ( $response = $this->client->decode_response( $crawl_error_counts ) ) {
+			return $response;
+		}
+	}
+
+}
+
+/**
+ * Class WPSEO_Crawl_Category_Issues
+ */
+class WPSEO_Crawl_Category_Issues {
+
+	/**
+	 * @var object
+	 */
+	private $category;
+
+	/**
+	 * @var Yoast_Google_Client
+	 */
+	private $client;
+
+	/**
+	 * @var string
+	 */
+	private $profile;
+
+	/**
+	 * @param Yoast_Google_Client $client
+	 * @param object              $category
+	 * @param string              $profile
+	 */
+	public function __construct( Yoast_Google_Client $client, $category, $profile ) {
+		$this->category = $category;
+		$this->client   = $client;
+		$this->profile  = $profile;
+	}
+
+	/**
+	 * Fetching the issues for current category
+	 *
+	 * @param array $crawl_issues
+	 */
+	public function fetch_issues( array &$crawl_issues ) {
+
+		$response = $this->client->do_request(
+			'https://www.googleapis.com/webmasters/v3/sites/'. urlencode( $this->profile ) . '/urlCrawlErrorsSamples?category=' . $this->category->category . '&platform=' . $this->category->platform
+		);
+
+		if ( $issues = $this->client->decode_response( $response ) ) {
+			foreach ( $issues->urlCrawlErrorSample as $issue ) {
+				$crawl_issues[] = $this->create_issue( $issue );
+			}
+		}
+	}
+
+	/**
+	 * Creates the issue
+	 * @param stdClass $issue
+	 *
+	 * @return WPSEO_Crawl_Issue
+	 */
+	private function create_issue( $issue ) {
+		return new WPSEO_Crawl_Issue(
+			WPSEO_Redirect_Manager::format_url( (string) $issue->pageUrl ),
+			(string) $this->category->platform,
+			(string) $this->category->category,
+			new DateTime( (string) $issue->first_detected ),
+			(string) ( ! empty( $issue->responseCode ) ) ? $issue->responseCode : null,
+			$this->get_linked_from_urls( $issue->pageUrl ),
+			false
+		);
+	}
+
+	/**
+	 * Get the urls where given $url is linked from
+	 *
+	 * @param string $url
+	 *
+	 * @return array
+	 */
+	private function get_linked_from_urls( $url ) {
+
+		$response = $this->client->do_request(
+			'https://www.googleapis.com/webmasters/v3/sites/'. urlencode( $this->profile ) . '/urlCrawlErrorsSamples/' . $url . '?category=' . $this->category->category . '&platform=' . $this->category->platform
+		);
+
+		if ( $issue = $this->client->decode_response( $response ) ) {
+			return (array) $issue->urlDetails->linkedFromUrls;
+		}
 	}
 
 }
