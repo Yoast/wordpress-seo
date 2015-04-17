@@ -42,7 +42,7 @@ switch ( $this->current_tab ) {
 
 	default :
 		// Check if there is an access token
-		if ( null != $gwt_client->getAccessToken() ) {
+		if ( null !== $gwt_client->getAccessToken() ) {
 			$category = '';
 			if ( $filter_category = filter_input( INPUT_GET, 'category' ) ) {
 				$category = "&category={$filter_category}";
@@ -62,9 +62,8 @@ switch ( $this->current_tab ) {
 
 			// Close <form>
 			echo "</form>\n";
-
-		} else {
-
+		}
+		else {
 			// Get the oauth URL
 			$oath_url = $gwt_client->createAuthUrl();
 
