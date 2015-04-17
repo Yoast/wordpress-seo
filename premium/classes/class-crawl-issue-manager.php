@@ -183,7 +183,7 @@ class WPSEO_Crawl_Issue_Manager {
 		update_post_meta( $ci_post_id, self::PM_CI_CRAWL_TYPE, $crawl_issue->get_crawl_type() );
 		update_post_meta( $ci_post_id, self::PM_CI_ISSUE_TYPE, $crawl_issue->get_issue_type() );
 		update_post_meta( $ci_post_id, self::PM_CI_DATE_DETECTED, (string) strftime( '%x', strtotime( $crawl_issue->get_date_detected()->format( 'Y-m-d H:i:s' ) ) ) );
-		update_post_meta( $ci_post_id, self::PM_CI_DETAIL, $crawl_issue->get_detail() );
+		update_post_meta( $ci_post_id, self::PM_CI_DETAIL, $crawl_issue->get_response_code() );
 		update_post_meta( $ci_post_id, self::PM_CI_LINKED_FROM, $crawl_issue->get_linked_from() );
 	}
 
