@@ -108,7 +108,7 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 		$new_views = array();
 
 		foreach ( $views_arr as $key => $val ) {
-			$new_views[ $key ] = "<a href='" . esc_attr( add_query_arg( array( 'category' => $key, 'paged' => 1 ) ) ) . "'" . ( ( $this->current_view == $key ) ? " class='current'" : '' ) . ">{$val}</a>";
+			$new_views[ $key ] = $this->create_view_link( $key, $val );
 		}
 
 		return $new_views;
@@ -276,6 +276,18 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 			'total_pages' => ceil( ( $total_items / $posts_per_page ) ),
 			'per_page'    => $posts_per_page,
 		) );
+	}
+
+	/**
+	 * Creates a filter link
+	 *
+	 * @param string $key
+	 * @param string $val
+	 *
+	 * @return string
+	 */
+	private function create_view_link( $key, $val ) {
+		return "<a href='" . esc_attr( add_query_arg( array( 'category' => $key, 'paged' => 1 ) ) ) . "'" . ( ( $this->current_view == $key ) ? " class='current'" : '' ) . ">{$val}</a>";
 	}
 
 }
