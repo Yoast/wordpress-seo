@@ -142,39 +142,38 @@ class WPSEO_Page_GWT {
 
 		$admin_link = admin_url( 'admin.php?page=wpseo_webmaster_tools&tab=' );
 
+		$this->set_current_tab( $platforms );
+
+
+		foreach ( $platforms as $platform_target => $platform_value ) {
+			$this->platform_tab( $platform_target, $platform_value, $admin_link );
+		}
+	}
+
+	/**
+	 * Setting the current tab
+	 *
+	 * @param array $platforms
+	 */
+	private function set_current_tab( array $platforms ) {
 		$this->current_tab = key( $platforms );
 		if ( $current_platform = filter_input( INPUT_GET, 'tab' ) ) {
 			$this->current_tab = $current_platform;
 		}
-
-		foreach ( $platforms as $platform_target => $platform_value ) {
-
-			$active = '';
-			if ( $this->current_tab === $platform_target ) {
-				$active = ' nav-tab-active';
-			}
-
-			echo '<a class="nav-tab ' . $active . '" id="' . $platform_target . '-tab" href="' . $admin_link . $platform_target . '">' . $platform_value . '</a>';
-		}
 	}
 
-	private function category_filters() {
-		$categories = array(
-			'auth_permissions'     => __( 'Authentication permissions', 'wordpress-seo' ),
-			'many_to_one_redirect' => __( 'Many to one redirect', 'wordpress-seo' ),
-			'not_followed'         => __( 'Not followed', 'wordpress-seo' ),
-			'not_found'            => __( 'Not found', 'wordpress-seo' ),
-			'other'                => __( 'Other', 'wordpress-seo' ),
-			'roboted'              => __( 'Roboted', 'wordpress-seo' ),
-			'server_error'         => __( 'Server Error', 'wordpress-seo' ),
-			'soft_404'             => __( 'Soft 404', 'wordpress-seo' ),
-		);
-
-		$admin_link = admin_url( ' ?page=wpseo_webmaster_tools&platform=' );
-
-		foreach ( $categories as $category_target => $category ) {
-			echo '<a class="nav-tab" id="crawl-issues-tab" href="' . $admin_link . $category_target . '">' . $category['tab_value'] . '</a>';
+	/**
+	 * @param $platform_target
+	 * @param $platform_value
+	 * @param $admin_link
+	 */
+	private function platform_tab( $platform_target, $platform_value, $admin_link ) {
+		$active = '';
+		if ( $this->current_tab === $platform_target ) {
+			$active = ' nav-tab-active';
 		}
+
+		echo '<a class="nav-tab ' . $active . '" id="' . $platform_target . '-tab" href="' . $admin_link . $platform_target . '">' . $platform_value . '</a>';
 	}
 
 }
