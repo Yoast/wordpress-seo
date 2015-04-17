@@ -1,6 +1,6 @@
 <?php
 /**
- * @package WPSEO\Internals
+ * @package    WPSEO\Internals
  * @since      1.5.0
  */
 
@@ -879,7 +879,6 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		// Non-form field, should only be set via validation routine
 		'version'                         => '', // leave default as empty to ensure activation/upgrade works
 		'seen_about'                      => false,
-
 		// Form fields:
 		'alexaverify'                     => '', // text field
 		'company_logo'                    => '',
@@ -889,6 +888,8 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'googleverify'                    => '', // text field
 		'msverify'                        => '', // text field
 		'person_name'                     => '',
+		'website_name'                    => '',
+		'alternate_website_name'          => '',
 		'yandexverify'                    => '',
 		'yoast_tracking'                  => false,
 	);
@@ -1015,6 +1016,8 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				/* text fields */
 				case 'company_name':
 				case 'person_name':
+				case 'website_name':
+				case 'alternate_website_name':
 					if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
 						$clean[ $key ] = sanitize_text_field( $dirty[ $key ] );
 					}
@@ -1034,6 +1037,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 
 
 				/* boolean|null fields - if set a check was done, if null, it hasn't */
+				case 'seen_about':
 				case 'theme_has_description':
 					if ( isset( $dirty[ $key ] ) ) {
 						$clean[ $key ] = WPSEO_Utils::validate_bool( $dirty[ $key ] );
@@ -1188,10 +1192,10 @@ class WPSEO_Option_Permalinks extends WPSEO_Option {
 		'cleanpermalink-googlesitesearch' => false,
 		'cleanreplytocom'                 => false,
 		'cleanslugs'                      => true,
-		'hide-feedlinks'   => false,
-		'hide-rsdlink'     => false,
-		'hide-shortlink'   => false,
-		'hide-wlwmanifest' => false,
+		'hide-feedlinks'                  => false,
+		'hide-rsdlink'                    => false,
+		'hide-shortlink'                  => false,
+		'hide-wlwmanifest'                => false,
 		'redirectattachment'              => false,
 		'stripcategorybase'               => false,
 		'trailingslash'                   => false,
@@ -2834,6 +2838,7 @@ class WPSEO_Option_Social extends WPSEO_Option {
 /**
  * Option: wpseo_ms
  */
+
 /**
  * Site option for Multisite installs only
  *
@@ -3019,7 +3024,7 @@ class WPSEO_Option_MS extends WPSEO_Option {
 					break;
 
 				default:
-						$clean[ $key ] = ( isset( $dirty[ $key ] ) ? WPSEO_Utils::validate_bool( $dirty[ $key ] ) : false );
+					$clean[ $key ] = ( isset( $dirty[ $key ] ) ? WPSEO_Utils::validate_bool( $dirty[ $key ] ) : false );
 					break;
 			}
 		}
@@ -3028,22 +3033,22 @@ class WPSEO_Option_MS extends WPSEO_Option {
 	}
 
 
-		/**
-		 * Clean a given option value
-		 *
-		 * @param  array  $option_value          Old (not merged with defaults or filtered) option value to
-		 *                                       clean according to the rules for this option
-		 * @param  string $current_version       (optional) Version from which to upgrade, if not set,
-		 *                                       version specific upgrades will be disregarded
-		 * @param  array  $all_old_option_values (optional) Only used when importing old options to have
-		 *                                       access to the real old values, in contrast to the saved ones
-		 *
-		 * @return  array            Cleaned option
-		 */
-		/*protected function clean_option( $option_value, $current_version = null, $all_old_option_values = null ) {
+	/**
+	 * Clean a given option value
+	 *
+	 * @param  array  $option_value          Old (not merged with defaults or filtered) option value to
+	 *                                       clean according to the rules for this option
+	 * @param  string $current_version       (optional) Version from which to upgrade, if not set,
+	 *                                       version specific upgrades will be disregarded
+	 * @param  array  $all_old_option_values (optional) Only used when importing old options to have
+	 *                                       access to the real old values, in contrast to the saved ones
+	 *
+	 * @return  array            Cleaned option
+	 */
+	/*protected function clean_option( $option_value, $current_version = null, $all_old_option_values = null ) {
 
-			return $option_value;
-		}*/
+		return $option_value;
+	}*/
 } /* End of class WPSEO_Option_MS */
 
 /**
