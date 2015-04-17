@@ -1869,9 +1869,9 @@ class WPSEO_JSON_LD {
 	private $profiles = array();
 
 	/**
-	 * @var array Holds the output array
+	 * @var array Holds the data to put out
 	 */
-	private $output = array();
+	private $data = array();
 
 	/**
 	 * Class constructor
@@ -1908,12 +1908,12 @@ class WPSEO_JSON_LD {
 		 *
 		 * @param string $context The context of the output, useful to determine whether to filter or not
 		 */
-		$this->output = apply_filters( 'wpseo_json_ld_output', $this->output, $context );
+		$this->data = apply_filters( 'wpseo_json_ld_output', $this->data, $context );
 
-		if ( ! is_array( $this->output ) || empty( $this->output ) ) {
+		if ( ! is_array( $this->data ) || empty( $this->data ) ) {
 			return;
 		}
-		echo "<script type='application/ld+json'>", json_encode( $this->output ), '</script>', "\n";
+		echo "<script type='application/ld+json'>", json_encode( $this->data ), '</script>', "\n";
 	}
 
 	/**
@@ -1921,7 +1921,7 @@ class WPSEO_JSON_LD {
 	 */
 	private function organization() {
 		if ( '' !== $this->options['company_name'] ) {
-			$this->output = array(
+			$this->data = array(
 				'@context' => 'http://schema.org',
 				'@type'    => 'Organization',
 				'name'     => $this->options['company_name'],
@@ -1937,7 +1937,7 @@ class WPSEO_JSON_LD {
 	 */
 	private function person() {
 		if ( '' !== $this->options['person_name'] ) {
-			$this->output = array(
+			$this->data = array(
 				'@context' => 'http://schema.org',
 				'@type'    => 'Person',
 				'name'     => $this->options['person_name'],
@@ -2003,7 +2003,7 @@ class WPSEO_JSON_LD {
 	 * @link  https://developers.google.com/structured-data/site-name
 	 */
 	public function website() {
-		$this->output = array(
+		$this->data = array(
 			'@context' => 'http://schema.org',
 			'@type'    => 'WebSite',
 			'url'      => $this->get_home_url(),
@@ -2030,7 +2030,7 @@ class WPSEO_JSON_LD {
 	 */
 	private function add_alternate_name() {
 		if ( '' !== $this->options['alternate_website_name'] ) {
-			$this->output['alternateName'] = $this->options['alternate_website_name'];
+			$this->data['alternateName'] = $this->options['alternate_website_name'];
 		}
 	}
 
@@ -2057,7 +2057,7 @@ class WPSEO_JSON_LD {
 			 */
 			$search_url = apply_filters( 'wpseo_json_ld_search_url', $this->get_home_url() . '?s={search_term}' );
 
-			$this->output['potentialAction'] = array(
+			$this->data['potentialAction'] = array(
 				'@type'       => 'SearchAction',
 				'target'      => $search_url,
 				'query-input' => 'required name=search_term',
@@ -2076,6 +2076,7 @@ class WPSEO_JSON_LD {
 		if ( '' !== $this->options['website_name'] ) {
 			return $this->options['website_name'];
 		}
+
 		return get_bloginfo( 'name' );
 	}
 
