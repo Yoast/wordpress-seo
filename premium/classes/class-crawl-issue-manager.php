@@ -235,7 +235,7 @@ class WPSEO_Crawl_Issue_Manager {
 		$this->update_post_meta( $ci_post_id, $crawl_issue );
 
 		// Store the url in $crawl_issue_urls
-		if ( false == in_array( $crawl_issue->get_url(), $this->crawl_issue_urls ) ) {
+		if ( in_array( $crawl_issue->get_url(), $this->crawl_issue_urls ) === false ) {
 			$this->crawl_issue_urls[] = $crawl_issue->get_url();
 		}
 	}
