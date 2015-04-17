@@ -146,6 +146,8 @@ class WPSEO_Frontend {
 		if ( $this->options['title_test'] > 0 ) {
 			add_filter( 'wpseo_title', array( $this, 'title_test_helper' ) );
 		}
+
+		new WPSEO_JSON_LD;
 	}
 
 	/**
@@ -155,8 +157,6 @@ class WPSEO_Frontend {
 		if ( ! is_front_page() ) {
 			return;
 		}
-
-		new WPSEO_JSON_LD;
 
 		add_action( 'wpseo_head', array( $this, 'webmaster_tools_authentication' ), 90 );
 	}
@@ -1079,10 +1079,10 @@ class WPSEO_Frontend {
 				}
 
 				if ( $page > 1 ) {
-					$this->adjacent_rel_link( 'prev', $url, ($page - 1), $usebase, 'single_paged' );
+					$this->adjacent_rel_link( 'prev', $url, ( $page - 1 ), $usebase, 'single_paged' );
 				}
 				if ( $page < $numpages ) {
-					$this->adjacent_rel_link( 'next', $url, ($page + 1), $usebase, 'single_paged' );
+					$this->adjacent_rel_link( 'next', $url, ( $page + 1 ), $usebase, 'single_paged' );
 				}
 			}
 		}
@@ -1876,8 +1876,8 @@ class WPSEO_JSON_LD {
 		$this->options = WPSEO_Options::get_all();
 
 		add_action( 'wpseo_head', array( $this, 'json_ld' ), 90 );
-		add_action( 'wpseo_json_ld', array( $this, 'organization_or_person' ), 10 );
-		add_action( 'wpseo_json_ld', array( $this, 'internal_search' ), 20 );
+		add_action( 'wpseo_json_ld', array( $this, 'website' ), 10 );
+		add_action( 'wpseo_json_ld', array( $this, 'organization_or_person' ), 20 );
 	}
 
 	/**
@@ -1959,6 +1959,10 @@ class WPSEO_JSON_LD {
 	 * @since 1.8
 	 */
 	public function organization_or_person() {
+		if ( ! is_front_page() ) {
+			return;
+		}
+
 		$this->fetch_social_profiles();
 
 		switch ( $this->options['company_or_person'] ) {
@@ -2011,42 +2015,106 @@ class WPSEO_JSON_LD {
 	 *
 	 * @since 1.5.7
 	 *
-	 * @link  https://developers.google.com/webmasters/structured-data/slsb-overview
+	 * @link  https://developers.google.com/structured-data/site-name
 	 */
-	public function internal_search() {
+	public function website() {
+		$output = '{ "@context": "http://schema.org",
+			"@type": "WebSite",
+			"url": "' . esc_attr( $this->get_home_url() ) . '",
+			"name": "' . esc_attr( $this->get_website_name() ) . '"';
+
+		$output .= $this->add_alternate_name();
+		$output .= $this->internal_search_section();
+
+		$output .= '}';
+
+		$this->json_ld_output( $output );
+	}
+
+	/**
+	 * Retrieves the home URL
+	 *
+	 * @return string
+	 */
+	private function get_home_url() {
+		return trailingslashit( home_url() );
+	}
+
+	/**
+	 * Returns an alternate name if one was specified in the WP SEO settings
+	 *
+	 * @return string
+	 */
+	private function add_alternate_name() {
+		if ( '' !== $this->options['alternate_website_name'] ) {
+			return ',"alternateName": "' . esc_attr( $this->options['alternate_website_name'] ) . '"';
+		}
+
+		return '';
+	}
+
+	/**
+	 * Adds the internal search JSON LD code if it's not disabled
+	 *
+	 * @link https://developers.google.com/structured-data/slsb-overview
+	 *
+	 * @return string
+	 */
+	private function internal_search_section() {
+		if ( ! is_front_page() ) {
+			return '';
+		}
+
 		/**
 		 * Filter: 'disable_wpseo_json_ld_search' - Allow disabling of the json+ld output
 		 *
 		 * @api bool $display_search Whether or not to display json+ld search on the frontend
 		 */
-		if ( apply_filters( 'disable_wpseo_json_ld_search', false ) === true ) {
-			return;
-		}
-		$home_url = trailingslashit( home_url() );
+		$disable_json_ld_search = apply_filters( 'disable_wpseo_json_ld_search', false );
 
-		/**
-		 * Filter: 'wpseo_json_ld_search_url' - Allows filtering of the search URL for WP SEO
-		 *
-		 * @api string $search_url The search URL for this site with a `{search_term}` variable.
-		 */
-		$search_url = apply_filters( 'wpseo_json_ld_search_url', $home_url . '?s={search_term}' );
+		if ( $disable_json_ld_search === false ) {
+			/**
+			 * Filter: 'wpseo_json_ld_search_url' - Allows filtering of the search URL for WP SEO
+			 *
+			 * @api string $search_url The search URL for this site with a `{search_term}` variable.
+			 */
+			$search_url = apply_filters( 'wpseo_json_ld_search_url', $this->get_home_url() . '?s={search_term}' );
 
-		/**
-		 * Filter: 'wpseo_json_ld_search_output' - Allows filtering of the entire output of the function
-		 *
-		 * @api string $output The output of the function.
-		 */
-		$output = apply_filters( 'wpseo_json_ld_search_output', '{ "@context": "http://schema.org",
-			"@type": "WebSite",
-			"url": "' . $home_url . '",
-			"potentialAction": {
+			return ',"potentialAction": {
 				"@type": "SearchAction",
-				"target": "' . $search_url . '",
+				"target": "' . esc_attr( $search_url ) . '",
 				"query-input": "required name=search_term"
-				}
-			}' );
+				}';
+		}
 
-		$this->json_ld_output( $output );
+		return '';
 	}
 
+	/**
+	 * Returns the website name either from WP SEO's options or from the site settings
+	 *
+	 * @since 2.1
+	 *
+	 * @return string
+	 */
+	private function get_website_name() {
+		if ( '' !== $this->options['website_name'] ) {
+			return $this->options['website_name'];
+		}
+		else {
+			return get_bloginfo( 'name' );
+		}
+	}
+
+	/**
+	 * Renders internal search schema markup
+	 *
+	 * @deprecated 2.1
+	 * @deprecated use WPSEO_JSON_LD::website()
+	 */
+	public function internal_search() {
+		_deprecated_function( __METHOD__, 'WPSEO 2.1', 'WPSEO_JSON_LD::website()' );
+
+		$this->website();
+	}
 }
