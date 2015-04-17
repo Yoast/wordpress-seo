@@ -12,15 +12,15 @@ class WPSEO_JSON_LD_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_JSON_LD::internal_search
+	 * @covers WPSEO_JSON_LD::website
 	 */
-	public function test_internal_search() {
+	public function test_website() {
 		$this->go_to_home();
 
 		$home_url   = trailingslashit( home_url() );
 		$search_url = $home_url . '?s={search_term}';
-		$expected   = '<script type=\'application/ld+json\'>{ "@context": "http://schema.org","@type": "WebSite","url": "' . $home_url . '","potentialAction": {"@type": "SearchAction","target": "' . $search_url . '","query-input": "required name=search_term"}}</script>' . "\n";
-		$this->expectOutput( $expected, self::$class_instance->internal_search() );
+		$expected   = '<script type=\'application/ld+json\'>{ "@context": "http://schema.org","@type": "WebSite","url": "' . $home_url . '","name": "Test Blog","potentialAction": {"@type": "SearchAction","target": "' . $search_url . '","query-input": "required name=search_term"}}</script>' . "\n";
+		$this->expectOutput( $expected, self::$class_instance->website() );
 	}
 
 	/**
