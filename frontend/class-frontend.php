@@ -2046,12 +2046,10 @@ class WPSEO_JSON_LD {
 	 * @link https://developers.google.com/structured-data/slsb-overview
 	 *
 	 * @param array $output
-	 *
-	 * @return string
 	 */
 	private function internal_search_section( &$output ) {
 		if ( ! is_front_page() ) {
-			return '';
+			return;
 		}
 
 		/**
@@ -2088,9 +2086,7 @@ class WPSEO_JSON_LD {
 		if ( '' !== $this->options['website_name'] ) {
 			return $this->options['website_name'];
 		}
-		else {
-			return get_bloginfo( 'name' );
-		}
+		return get_bloginfo( 'name' );
 	}
 
 	/**
