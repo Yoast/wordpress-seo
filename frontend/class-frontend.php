@@ -1894,17 +1894,20 @@ class WPSEO_JSON_LD {
 	 *
 	 * @since 1.8
 	 *
-	 * @param string $output
+	 * @param string $output  The array to be encoded and output
+	 * @param string $context The context of the output, useful for filtering
 	 */
-	protected function json_ld_output( $output ) {
+	protected function json_ld_output( $output, $context ) {
 		echo "<script type='application/ld+json'>";
 
 		/**
 		 * Filter: 'wpseo_json_ld_output' - Allows filtering of the JSON+LD output
 		 *
 		 * @api array $output The output array, before its JSON encoded
+		 *
+		 * @param string $context The context of the output, useful to determine whether to filter or not
 		 */
-		$output = apply_filters( 'wpseo_json_ld_output', $output );
+		$output = apply_filters( 'wpseo_json_ld_output', $output, $context );
 
 		echo json_encode( $output );
 		echo '</script>' . "\n";
@@ -1973,7 +1976,7 @@ class WPSEO_JSON_LD {
 		}
 
 		if ( isset( $output ) ) {
-			$this->json_ld_output( $output );
+			$this->json_ld_output( $output, $this->options['company_or_person'] );
 		}
 	}
 
@@ -2019,7 +2022,7 @@ class WPSEO_JSON_LD {
 		$this->add_alternate_name( $output );
 		$this->internal_search_section( $output );
 
-		$this->json_ld_output( $output );
+		$this->json_ld_output( $output, 'website' );
 	}
 
 	/**
