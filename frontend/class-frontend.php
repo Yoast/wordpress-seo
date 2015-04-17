@@ -1864,14 +1864,12 @@ class WPSEO_JSON_LD {
 	public $options = array();
 
 	/**
-	 * Holds the social profiles for the entity
-	 * @var array
+	 * @var array Holds the social profiles for the entity
 	 */
 	private $profiles = array();
 
 	/**
-	 * Holds the output array
-	 * @var array
+	 * @var array Holds the output array
 	 */
 	private $output = array();
 
@@ -1902,7 +1900,7 @@ class WPSEO_JSON_LD {
 	 *
 	 * @param string $context The context of the output, useful for filtering
 	 */
-	protected function json_ld_output( $context ) {
+	protected function output( $context ) {
 		/**
 		 * Filter: 'wpseo_json_ld_output' - Allows filtering of the JSON+LD output
 		 *
@@ -1972,7 +1970,7 @@ class WPSEO_JSON_LD {
 				break;
 		}
 
-		$this->json_ld_output( $this->options['company_or_person'] );
+		$this->output( $this->options['company_or_person'] );
 	}
 
 	/**
@@ -2017,7 +2015,7 @@ class WPSEO_JSON_LD {
 		$this->add_alternate_name();
 		$this->internal_search_section();
 
-		$this->json_ld_output( 'website' );
+		$this->output( 'website' );
 	}
 
 	/**
@@ -2053,9 +2051,7 @@ class WPSEO_JSON_LD {
 		 *
 		 * @api bool $display_search Whether or not to display json+ld search on the frontend
 		 */
-		$disable_json_ld_search = apply_filters( 'disable_wpseo_json_ld_search', false );
-
-		if ( $disable_json_ld_search === false ) {
+		if ( ! apply_filters( 'disable_wpseo_json_ld_search', false ) ) {
 			/**
 			 * Filter: 'wpseo_json_ld_search_url' - Allows filtering of the search URL for WP SEO
 			 *
