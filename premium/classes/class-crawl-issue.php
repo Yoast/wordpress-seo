@@ -62,24 +62,10 @@ class WPSEO_Crawl_Issue {
 	}
 
 	/**
-	 * @param String $crawl_type
-	 */
-	public function set_crawl_type( $crawl_type ) {
-		$this->crawl_type = $crawl_type;
-	}
-
-	/**
 	 * @return String
 	 */
 	public function get_crawl_type() {
 		return $this->crawl_type;
-	}
-
-	/**
-	 * @param \DateTime $date_detected
-	 */
-	public function set_date_detected( $date_detected ) {
-		$this->date_detected = $date_detected;
 	}
 
 	/**
@@ -90,24 +76,10 @@ class WPSEO_Crawl_Issue {
 	}
 
 	/**
-	 * @param string $detail
-	 */
-	public function set_detail( $response_code ) {
-		$this->response_code = $response_code;
-	}
-
-	/**
 	 * @return String
 	 */
 	public function get_response_code() {
 		return ! ( empty( $this->response_code ) ) ? $this->response_code : '';
-	}
-
-	/**
-	 * @param String $issue_type
-	 */
-	public function set_issue_type( $issue_type ) {
-		$this->issue_type = $issue_type;
 	}
 
 	/**
@@ -118,24 +90,10 @@ class WPSEO_Crawl_Issue {
 	}
 
 	/**
-	 * @param Array $linked_from
-	 */
-	public function set_linked_from( $linked_from ) {
-		$this->linked_from = $linked_from;
-	}
-
-	/**
 	 * @return Array
 	 */
 	public function get_linked_from() {
 		return $this->linked_from;
-	}
-
-	/**
-	 * @param String $url
-	 */
-	public function set_url( $url ) {
-		$this->url = $url;
 	}
 
 	/**
