@@ -1864,10 +1864,14 @@ class WPSEO_JSON_LD {
 	public $options = array();
 
 	/**
-	 * Holds the social profiles for the entity
-	 * @var array
+	 * @var array Holds the social profiles for the entity
 	 */
 	private $profiles = array();
+
+	/**
+	 * @var array Holds the data to put out
+	 */
+	private $data = array();
 
 	/**
 	 * Class constructor
@@ -1894,12 +1898,9 @@ class WPSEO_JSON_LD {
 	 *
 	 * @since 1.8
 	 *
-	 * @param string $output  The array to be encoded and output
 	 * @param string $context The context of the output, useful for filtering
 	 */
-	protected function json_ld_output( $output, $context ) {
-		echo "<script type='application/ld+json'>";
-
+	protected function output( $context ) {
 		/**
 		 * Filter: 'wpseo_json_ld_output' - Allows filtering of the JSON+LD output
 		 *
@@ -1907,20 +1908,20 @@ class WPSEO_JSON_LD {
 		 *
 		 * @param string $context The context of the output, useful to determine whether to filter or not
 		 */
-		$output = apply_filters( 'wpseo_json_ld_output', $output, $context );
+		$this->data = apply_filters( 'wpseo_json_ld_output', $this->data, $context );
 
-		echo json_encode( $output );
-		echo '</script>' . "\n";
+		if ( ! is_array( $this->data ) || empty( $this->data ) ) {
+			return;
+		}
+		echo "<script type='application/ld+json'>", json_encode( $this->data ), '</script>', "\n";
 	}
 
 	/**
-	 * Returns JSON+LD schema for Organization
-	 *
-	 * @param boolean|array $output
+	 * Schema for Organization
 	 */
-	private function organization( &$output ) {
+	private function organization() {
 		if ( '' !== $this->options['company_name'] ) {
-			$output = array(
+			$this->data = array(
 				'@context' => 'http://schema.org',
 				'@type'    => 'Organization',
 				'name'     => $this->options['company_name'],
@@ -1932,13 +1933,11 @@ class WPSEO_JSON_LD {
 	}
 
 	/**
-	 * Returns JSON+LD schema for Person
-	 *
-	 * @param boolean|array $output
+	 * Schema for Person
 	 */
-	private function person( &$output ) {
+	private function person() {
 		if ( '' !== $this->options['person_name'] ) {
-			$output = array(
+			$this->data = array(
 				'@context' => 'http://schema.org',
 				'@type'    => 'Person',
 				'name'     => $this->options['person_name'],
@@ -1960,19 +1959,16 @@ class WPSEO_JSON_LD {
 
 		$this->fetch_social_profiles();
 
-		$output = false;
 		switch ( $this->options['company_or_person'] ) {
 			case 'company':
-				$this->organization( $output );
+				$this->organization();
 				break;
 			case 'person':
-				$this->person( $output );
+				$this->person();
 				break;
 		}
 
-		if ( $output ) {
-			$this->json_ld_output( $output, $this->options['company_or_person'] );
-		}
+		$this->output( $this->options['company_or_person'] );
 	}
 
 	/**
@@ -2007,17 +2003,17 @@ class WPSEO_JSON_LD {
 	 * @link  https://developers.google.com/structured-data/site-name
 	 */
 	public function website() {
-		$output = array(
+		$this->data = array(
 			'@context' => 'http://schema.org',
 			'@type'    => 'WebSite',
 			'url'      => $this->get_home_url(),
 			'name'     => $this->get_website_name(),
 		);
 
-		$this->add_alternate_name( $output );
-		$this->internal_search_section( $output );
+		$this->add_alternate_name();
+		$this->internal_search_section();
 
-		$this->json_ld_output( $output, 'website' );
+		$this->output( 'website' );
 	}
 
 	/**
@@ -2031,12 +2027,10 @@ class WPSEO_JSON_LD {
 
 	/**
 	 * Returns an alternate name if one was specified in the WP SEO settings
-	 *
-	 * @param array $output
 	 */
-	private function add_alternate_name( &$output ) {
+	private function add_alternate_name() {
 		if ( '' !== $this->options['alternate_website_name'] ) {
-			$output['alternateName'] = $this->options['alternate_website_name'];
+			$this->data['alternateName'] = $this->options['alternate_website_name'];
 		}
 	}
 
@@ -2044,10 +2038,8 @@ class WPSEO_JSON_LD {
 	 * Adds the internal search JSON LD code if it's not disabled
 	 *
 	 * @link https://developers.google.com/structured-data/slsb-overview
-	 *
-	 * @param array $output
 	 */
-	private function internal_search_section( &$output ) {
+	private function internal_search_section() {
 		if ( ! is_front_page() ) {
 			return;
 		}
@@ -2057,9 +2049,7 @@ class WPSEO_JSON_LD {
 		 *
 		 * @api bool $display_search Whether or not to display json+ld search on the frontend
 		 */
-		$disable_json_ld_search = apply_filters( 'disable_wpseo_json_ld_search', false );
-
-		if ( $disable_json_ld_search === false ) {
+		if ( ! apply_filters( 'disable_wpseo_json_ld_search', false ) ) {
 			/**
 			 * Filter: 'wpseo_json_ld_search_url' - Allows filtering of the search URL for WP SEO
 			 *
@@ -2067,7 +2057,7 @@ class WPSEO_JSON_LD {
 			 */
 			$search_url = apply_filters( 'wpseo_json_ld_search_url', $this->get_home_url() . '?s={search_term}' );
 
-			$output['potentialAction'] = array(
+			$this->data['potentialAction'] = array(
 				'@type'       => 'SearchAction',
 				'target'      => $search_url,
 				'query-input' => 'required name=search_term',
@@ -2086,6 +2076,7 @@ class WPSEO_JSON_LD {
 		if ( '' !== $this->options['website_name'] ) {
 			return $this->options['website_name'];
 		}
+
 		return get_bloginfo( 'name' );
 	}
 
