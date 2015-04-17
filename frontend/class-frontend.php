@@ -1916,10 +1916,9 @@ class WPSEO_JSON_LD {
 	/**
 	 * Returns JSON+LD schema for Organization
 	 *
-	 * @return string
+	 * @param boolean|array $output
 	 */
-	private function organization() {
-		$output = '';
+	private function organization( &$output ) {
 		if ( '' !== $this->options['company_name'] ) {
 			$output = array(
 				'@context' => 'http://schema.org',
@@ -1930,17 +1929,14 @@ class WPSEO_JSON_LD {
 				'sameAs'   => $this->profiles,
 			);
 		}
-
-		return $output;
 	}
 
 	/**
 	 * Returns JSON+LD schema for Person
 	 *
-	 * @return string
+	 * @param boolean|array $output
 	 */
-	private function person() {
-		$output = '';
+	private function person( &$output ) {
 		if ( '' !== $this->options['person_name'] ) {
 			$output = array(
 				'@context' => 'http://schema.org',
@@ -1950,8 +1946,6 @@ class WPSEO_JSON_LD {
 				'sameAs'   => $this->profiles,
 			);
 		}
-
-		return $output;
 	}
 
 	/**
@@ -1966,16 +1960,17 @@ class WPSEO_JSON_LD {
 
 		$this->fetch_social_profiles();
 
+		$output = false;
 		switch ( $this->options['company_or_person'] ) {
 			case 'company':
-				$output = $this->organization();
+				$this->organization( $output );
 				break;
 			case 'person':
-				$output = $this->person();
+				$this->person( $output );
 				break;
 		}
 
-		if ( isset( $output ) ) {
+		if ( $output ) {
 			$this->json_ld_output( $output, $this->options['company_or_person'] );
 		}
 	}
