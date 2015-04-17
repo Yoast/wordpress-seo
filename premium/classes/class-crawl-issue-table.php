@@ -87,11 +87,9 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 	/**
 	 * Add page views
 	 *
-	 * @param array $views
-	 *
 	 * @return array
 	 */
-	public function add_page_views( $views ) {
+	public function add_page_views( ) {
 
 		$views_arr = array(
 			'all'                  => __( 'All', 'wordpress-seo-premium' ),
@@ -232,7 +230,6 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 	 * @param array $ci_args
 	 */
 	private function set_order( & $ci_args ) {
-
 		// Set the orderby
 		$ci_args['orderby'] = ( $orderby = filter_input( INPUT_GET, 'orderby' ) ) ? esc_sql( $orderby ) : 'title';
 
