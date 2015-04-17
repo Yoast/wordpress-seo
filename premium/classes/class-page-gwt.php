@@ -49,7 +49,7 @@ class WPSEO_Page_GWT {
 		add_action( 'admin_enqueue_scripts', array( $this, 'page_scripts' ) );
 
 		// Check for error message
-		if ( isset( $_GET['error'] ) && $_GET['error'] == '1' ) {
+		if ( filter_input( INPUT_GET, 'error' ) === '1' ) {
 			add_action( 'admin_notices', array( $this, 'admin_message_body' ) );
 		}
 
@@ -76,7 +76,7 @@ class WPSEO_Page_GWT {
 		add_screen_option( 'per_page', array(
 			'label'   => __( 'Crawl errors per page', 'wordpress-seo-premium' ),
 			'default' => 25,
-			'option'  => 'errors_per_page'
+			'option'  => 'errors_per_page',
 		) );
 	}
 	/**
@@ -143,7 +143,6 @@ class WPSEO_Page_GWT {
 		$admin_link = admin_url( 'admin.php?page=wpseo_webmaster_tools&tab=' );
 
 		$this->set_current_tab( $platforms );
-
 
 		foreach ( $platforms as $platform_target => $platform_value ) {
 			$this->platform_tab( $platform_target, $platform_value, $admin_link );
