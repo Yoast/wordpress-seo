@@ -1910,12 +1910,10 @@ class WPSEO_JSON_LD {
 		 */
 		$this->output = apply_filters( 'wpseo_json_ld_output', $this->output, $context );
 
-		if ( ! is_array( $this->output ) || $this->output === array() ) {
+		if ( ! is_array( $this->output ) || empty( $this->output ) ) {
 			return;
 		}
-		echo "<script type='application/ld+json'>";
-		echo json_encode( $this->output );
-		echo '</script>' . "\n";
+		echo "<script type='application/ld+json'>", json_encode( $this->output ), '</script>', "\n";
 	}
 
 	/**
