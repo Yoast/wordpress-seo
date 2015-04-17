@@ -20,17 +20,8 @@ class WPSEO_Page_GWT {
 	 * Function that outputs the redirect page
 	 */
 	public function display() {
-
-		Yoast_Api_Libs::load_api_libraries( array( 'google' ) );
-
 		// Create a new WPSEO GWT Google Client
-		$gwt_client = new WPSEO_GWT_Client(
-			array(
-				'application_name' => 'WordPress SEO by Yoast Premium',
-				'client_id'        => '972827778625-rvd2mfvj3fnc97es9p57vqaap2lucm3h.apps.googleusercontent.com',
-				'client_secret'    => 'i32Z2SFYPdxNRALHf25uwMFW',
-			)
-		);
+		$gwt_client = $this->setup_client();
 
 		require_once WPSEO_PREMIUM_PATH . 'views/gwt-display.php';
 	}
@@ -82,9 +73,9 @@ class WPSEO_Page_GWT {
 	/**
 	 * Set the screen options
 	 *
-	 * @param $status
-	 * @param $option
-	 * @param $value
+	 * @param string $status
+	 * @param string $option
+	 * @param string $value
 	 *
 	 * @return mixed
 	 */
@@ -112,10 +103,7 @@ class WPSEO_Page_GWT {
 		// Catch the authorization code POST
 		if ( isset ( $_POST['gwt']['authorization_code'] ) && wp_verify_nonce( $_POST['gwt']['gwt_nonce'], 'wpseo-gwt_nonce' ) ) {
 			if ( trim( $_POST['gwt']['authorization_code'] ) != '' ) {
-				// Authenticate user
-				$gwt_authentication = new WPSEO_GWT_Authentication();
-
-				if ( ! $gwt_authentication->authenticate( $_POST['gwt']['authorization_code'] ) ) {
+				if ( ! $this->setup_client()->authenticate_client( $_POST['gwt']['authorization_code'] ) ) {
 					$redirect_url_appendix = '&error=1';
 				}
 			}
@@ -173,6 +161,23 @@ class WPSEO_Page_GWT {
 		}
 
 		echo '<a class="nav-tab ' . $active . '" id="' . $platform_target . '-tab" href="' . $admin_link . $platform_target . '">' . $platform_value . '</a>';
+	}
+
+	/**
+	 * Setting up the client
+	 *
+	 * @return WPSEO_GWT_Client
+	 */
+	private function setup_client() {
+		Yoast_Api_Libs::load_api_libraries( array( 'google' ) );
+
+		return new WPSEO_GWT_Client(
+			array(
+				'application_name' => 'WordPress SEO by Yoast Premium',
+				'client_id'        => '972827778625-rvd2mfvj3fnc97es9p57vqaap2lucm3h.apps.googleusercontent.com',
+				'client_secret'    => 'i32Z2SFYPdxNRALHf25uwMFW',
+			)
+		);
 	}
 
 }
