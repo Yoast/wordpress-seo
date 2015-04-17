@@ -23,6 +23,27 @@ class WPSEO_Crawl_Issue_Manager {
 	 * @var array
 	 */
 	private $crawl_issue_urls = array();
+	/**
+	 * Get the crawl issues
+	 *
+	 * @param Yoast_Google_Client $gwt
+	 * @param array               $issues
+	 *
+	 * @return array<WPSEO_Crawl_Issue>
+	 */
+	public function get_crawl_issues( Yoast_Google_Client $gwt, $issues ) {
+
+		// Get last checked timestamp
+		$ci_ts = $this->get_last_checked();
+
+		// Last time we checked the crawl errors more then one day ago? Check again.
+		if ( $ci_ts <= strtotime( '-1 day' ) ) { // @todo add a $_GET check here
+			$this->save_crawl_issues( $gwt );
+		}
+
+		// Return the parsed issues from DB
+		return $this->parse_db_crawl_issues( $issues );
+	}
 
 	/**
 	 * Remove the last checked option
@@ -31,21 +52,6 @@ class WPSEO_Crawl_Issue_Manager {
 		delete_option( self::OPTION_CI_TS );
 	}
 
-	/**
-	 * Get the timestamp of when the crawl errors were last saved
-	 *
-	 * @return int
-	 */
-	private function get_last_checked() {
-		return get_option( self::OPTION_CI_TS, 0 );
-	}
-	/**
-	 * Store the timestamp of when crawl errors were saved
-	 */
-	private function save_last_checked() {
-		$this->remove_last_checked();
-		add_option( self::OPTION_CI_TS, time(), '', 'no' );
-	}
 
 	/**
 	 * Save the crawl issues
@@ -69,109 +75,27 @@ class WPSEO_Crawl_Issue_Manager {
 			}
 		}
 
-		//
+		// Delete the crawl issues
 		$this->delete_crawl_issues();
 
 		// Save the last checked
 		$this->save_last_checked();
 	}
-
 	/**
-	 * Get the crawl issues
+	 * Get the timestamp of when the crawl errors were last saved
 	 *
-	 * @param Yoast_Google_Client $gwt
-	 * @param array               $issues
-	 *
-	 * @return array<WPSEO_Crawl_Issue>
+	 * @return int
 	 */
-	public function get_crawl_issues( Yoast_Google_Client $gwt, $issues ) {
-
-		// Get last checked timestamp
-		$ci_ts = $this->get_last_checked();
-
-		// Last time we checked the crawl errors more then one day ago? Check again.
-		if ( $ci_ts <= strtotime( '-1 day' ) ) { // @todo add a $_GET check here
-			$this->save_crawl_issues( $gwt );
-		}
-
-
-		// Return the parsed issues from DB
-		return $this->parse_db_crawl_issues( $issues );
+	private function get_last_checked() {
+		return get_option( self::OPTION_CI_TS, 0 );
 	}
 
 	/**
-	 * Update the crawl issue status
-	 *
-	 * @param string $status
-	 * @param string $url
-	 *
-	 * @return bool
+	 * Store the timestamp of when crawl errors were saved
 	 */
-	private function change_crawl_issue_status( $status, $url ) {
-
-		// Get the the CI id
-		$crawl_issue = get_page_by_title( $url, OBJECT, self::PT_CRAWL_ISSUE );
-
-		// Check if there is a result
-		if ( null == $crawl_issue ) {
-			return false;
-		}
-
-		// Update post status
-		wp_update_post( array(
-				'ID'          => $crawl_issue->ID,
-				'post_status' => $status,
-		) );
-
-		return true;
-	}
-
-	/**
-	 * AJAX ignore redirect crawl issue
-	 */
-	public function ajax_ignore_crawl_issue() {
-
-		// Check if the URL is set
-		if ( ! isset ( $_POST['url'] ) ) {
-			echo 'false';
-			exit;
-		}
-
-		// URL
-		$url = $_POST['url'];
-
-		$result = 'false';
-		if ( $this->change_crawl_issue_status( 'trash', $url ) ) {
-			$result = 'true';
-		}
-
-		// Done, bye
-		echo $result;
-		exit;
-	}
-
-	/**
-	 * AJAX unignore redirect crawl issue
-	 */
-	public function ajax_unignore_crawl_issue() {
-
-		// Check if the URL is set
-		if ( ! isset ( $_POST['url'] ) ) {
-			echo 'false';
-			exit;
-		}
-
-		// URL
-		$url = $_POST['url'];
-
-		$result = 'false';
-		if ( $this->change_crawl_issue_status( 'publish', $url ) ) {
-			$result = 'true';
-		}
-
-		// Done, bye
-		echo $result;
-		exit;
+	private function save_last_checked() {
+		$this->remove_last_checked();
+		add_option( self::OPTION_CI_TS, time(), '', 'no' );
 	}
 
 	/**
