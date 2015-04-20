@@ -10,10 +10,10 @@ class WPSEO_Crawl_Issue_Manager {
 
 	// Post Meta related constants
 	const PM_CI_URL           = 'wpseo_ci_url';
-	const PM_CI_CRAWL_TYPE    = 'wpseo_ci_crawl_type';
-	const PM_CI_ISSUE_TYPE    = 'wpseo_ci_issue_type';
+	const PM_CI_PLATFORM      = 'wpseo_ci_crawl_type';		// @todo rename value
+	const PM_CI_CATEGORY      = 'wpseo_ci_issue_type';		// @todo rename value
 	const PM_CI_DATE_DETECTED = 'wpseo_ci_date_detected';
-	const PM_CI_DETAIL        = 'wpseo_ci_detail';
+	const PM_CI_RESPONSE_CODE = 'wpseo_ci_detail'; 			// @todo rename value
 	const PM_CI_LINKED_FROM   = 'wpseo_ci_linked_from';
 
 	// The last checked timestamp
@@ -99,24 +99,28 @@ class WPSEO_Crawl_Issue_Manager {
 	}
 
 	/**
-	 * @param $ci_post_id
-	 * @param $crawl_issue
+	 * Updating the post meta
+	 *
+	 * @param integer  $ci_post_id
+	 * @param stdClass $crawl_issue
 	 */
 	private function update_post_meta( $ci_post_id, $crawl_issue ) {
 		// Update all the meta data
-		update_post_meta( $ci_post_id, self::PM_CI_CRAWL_TYPE, $crawl_issue->get_crawl_type() );
-		update_post_meta( $ci_post_id, self::PM_CI_ISSUE_TYPE, $crawl_issue->get_issue_type() );
+		update_post_meta( $ci_post_id, self::PM_CI_PLATFORM, $crawl_issue->get_crawl_type() );
+		update_post_meta( $ci_post_id, self::PM_CI_CATEGORY, $crawl_issue->get_issue_type() );
 		update_post_meta( $ci_post_id, self::PM_CI_DATE_DETECTED, (string) strftime( '%x', strtotime( $crawl_issue->get_date_detected()->format( 'Y-m-d H:i:s' ) ) ) );
-		update_post_meta( $ci_post_id, self::PM_CI_DETAIL, $crawl_issue->get_response_code() );
+		update_post_meta( $ci_post_id, self::PM_CI_RESPONSE_CODE, $crawl_issue->get_response_code() );
 		update_post_meta( $ci_post_id, self::PM_CI_LINKED_FROM, $crawl_issue->get_linked_from() );
 	}
 
 	/**
-	 * @param $crawl_issues_db
+	 * Parsing the issues from the DB to display on screen
+	 *
+	 * @param array $crawl_issues_db
 	 *
 	 * @return array
 	 */
-	private function parse_db_crawl_issues( $crawl_issues_db ) {
+	private function parse_db_crawl_issues( array $crawl_issues_db ) {
 		$crawl_issues = array();
 
 		// Convert WP posts to WPSEO_Crawl_Issue objects
@@ -124,10 +128,10 @@ class WPSEO_Crawl_Issue_Manager {
 			foreach ( $crawl_issues_db as $crawl_issues_db_item ) {
 				$crawl_issues[] = new WPSEO_Crawl_Issue(
 					$crawl_issues_db_item->post_title,
-					get_post_meta( $crawl_issues_db_item->ID, self::PM_CI_CRAWL_TYPE, true ),
-					get_post_meta( $crawl_issues_db_item->ID, self::PM_CI_ISSUE_TYPE, true ),
+					get_post_meta( $crawl_issues_db_item->ID, self::PM_CI_PLATFORM, true ),
+					get_post_meta( $crawl_issues_db_item->ID, self::PM_CI_CATEGORY, true ),
 					new DateTime( (string) get_post_meta( $crawl_issues_db_item->ID, self::PM_CI_DATE_DETECTED, true ) ),
-					get_post_meta( $crawl_issues_db_item->ID, self::PM_CI_DETAIL, true ),
+					get_post_meta( $crawl_issues_db_item->ID, self::PM_CI_RESPONSE_CODE, true ),
 					get_post_meta( $crawl_issues_db_item->ID, self::PM_CI_LINKED_FROM, true ),
 					false
 				);
@@ -138,12 +142,11 @@ class WPSEO_Crawl_Issue_Manager {
 	}
 
 	/**
-	 * @param $crawl_issue
+	 * Saving the crawl issue in the database
+	 *
+	 * @param WPSEO_Crawl_Issue $crawl_issue
 	 */
-	private function save_crawl_issue( $crawl_issue ) {
-		/**
-		 * @var WPSEO_Crawl_Issue $crawl_issue
-		 */
+	private function save_crawl_issue( WPSEO_Crawl_Issue $crawl_issue ) {
 		$ci_post_id = post_exists( $crawl_issue->get_url() );
 
 		// Check if the post exists

@@ -210,9 +210,6 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 
 		$this->set_order( $ci_args );
 
-		// Set the post status
-		$ci_args['post_status'] = 'publish';
-
 		// Get variables needed for pagination
 		$per_page     = $this->get_items_per_page( 'errors_per_page', 25 );
 		$current_page = intval( ( $paged = filter_input( INPUT_GET, 'paged' ) ) ? $paged : 1 );
@@ -220,6 +217,9 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 		// Set query pagination
 		$ci_args['posts_per_page'] = $per_page;
 		$ci_args['offset']         = ( ( $current_page - 1 ) * $per_page );
+
+		// Set the post status
+		$ci_args['post_status'] = 'publish';
 
 		return $ci_args;
 	}
@@ -339,7 +339,7 @@ class WPSEO_Crawl_Issue_Table_Data {
 			'
 				SELECT COUNT(ID)
 				FROM ' . $wpdb->posts . '
-				WHERE post_status = "' . $this->arguments['post_status'] . '" && post_type = "wpseo_crawl_issue" && ID IN('. $subquery .')
+				WHERE post_status = "' . $this->arguments['post_status'] . '" && post_type = "' . WPSEO_Crawl_Issue_Manager::PT_CRAWL_ISSUE . '" && ID IN('. $subquery .')
 			'
 		);
 
@@ -348,7 +348,7 @@ class WPSEO_Crawl_Issue_Table_Data {
 				SELECT *
 				FROM ' . $wpdb->posts . '
 				WHERE post_status = "' . $this->arguments['post_status'] . '" &&
-					  post_type   = "wpseo_crawl_issue" &&
+					  post_type   = "' . WPSEO_Crawl_Issue_Manager::PT_CRAWL_ISSUE . '" &&
 					  ID IN(' . $subquery . ' )
 				LIMIT ' . $this->arguments['offset'] . ' , ' . $this->arguments['posts_per_page'] . '
 			',
