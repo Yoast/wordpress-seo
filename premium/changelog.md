@@ -1,3 +1,6 @@
+### 2.1: April 1st, 2015
+* Merge with WordPress SEO core 2.1
+
 ### 2.0.1: April 1st, 2015
 * Merge with WordPress SEO core 2.0.1
 
