@@ -120,9 +120,12 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 
 == Changelog ==
 
-= 2.1-RC =
+= 2.1 =
 
-Release Date: April 10th, 2015
+Release Date: April 20th, 2015
+
+* Features:
+	* Added support for [website name JSON+LD markup](https://developers.google.com/structured-data/site-name).
 
 * Enhancements:
 	* Makes sure Twitter cards are by default enabled since they don't need to be validated anymore by Twitter.
@@ -135,9 +138,15 @@ Release Date: April 10th, 2015
 
 * Bugfixes:
 	* Fixes a bug where the sitemaps were no longer being served from WP transient cache.
-	* Fixes a bug where the last breadcrumb was not a url.
+	* Fixes a bug where breadcrumbs weren't nested properly.
 	* Fixes a possible "headers already sent" error in the sitemaps.
 	* Fixes a notice for the homepage URL in post type sitemaps.
+	* Fixes an "undefined index" notice on the sitemaps.
+	* Fixes an "undefined index" notice in the breadcrumbs.
+	* Fixes a bug where translations were not loaded when used as MU-plugin.
+
+* Security:
+	* Fixes a possible XSS vulnerability. Thanks [Johannes Schmitt](https://github.com/schmittjoh) from [Scrutinizer CI](https://scrutinizer-ci.com/) for discovering and responsibly disclosing this issue.
 
 = 2.0.1 =
 
