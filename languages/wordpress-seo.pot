@@ -2,9 +2,9 @@
 # This file is distributed under the GPL v3.
 msgid ""
 msgstr ""
-"Project-Id-Version: WordPress SEO 2.1-RC\n"
+"Project-Id-Version: WordPress SEO 2.1\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo/issues\n"
-"POT-Creation-Date: 2015-04-13 13:47:14+00:00\n"
+"POT-Creation-Date: 2015-04-20 14:37:01+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -292,11 +292,13 @@ msgstr ""
 msgid "Use Image"
 msgstr ""
 
-#: admin/class-config.php:107
-msgid "Warning: the variable <code>%s</code> cannot be used in this template."
+#: admin/class-config.php:110
+#. translators: %s: '%%term_title%%' variable used in titles and meta's
+#. template that's not compatible with the given template
+msgid "Warning: the variable %s cannot be used in this template."
 msgstr ""
 
-#: admin/class-config.php:107
+#: admin/class-config.php:110
 msgid "See the help tab for more info."
 msgstr ""
 
@@ -1057,25 +1059,29 @@ msgstr ""
 msgid "%s Image"
 msgstr ""
 
-#: admin/class-plugin-conflict.php:129
+#: admin/class-plugin-conflict.php:130
+#. translators: %s: 'Facebook' plugin name of possibly conflicting plugin with
+#. regard to creating OpenGraph output
 msgid ""
 "Both WordPress SEO by Yoast and %s create OpenGraph output, which might "
 "make Facebook, Twitter, LinkedIn and other social networks use the wrong "
 "texts and images when your pages are being shared."
 msgstr ""
 
-#: admin/class-plugin-conflict.php:130
+#: admin/class-plugin-conflict.php:131
 msgid "Configure WordPress SEO's OpenGraph settings"
 msgstr ""
 
-#: admin/class-plugin-conflict.php:131
+#: admin/class-plugin-conflict.php:133
+#. translators: %s: 'Google XML Sitemaps' plugin name of possibly conflicting
+#. plugin with regard to the creation of sitemaps
 msgid ""
 "Both WordPress SEO by Yoast and %s can create XML sitemaps. Having two XML "
 "sitemaps is not beneficial for search engines, yet might slow down your "
 "site."
 msgstr ""
 
-#: admin/class-plugin-conflict.php:132
+#: admin/class-plugin-conflict.php:134
 msgid "Configure WordPress SEO's XML Sitemap settings"
 msgstr ""
 
@@ -2448,7 +2454,7 @@ msgstr ""
 msgid "Twitter Galleries"
 msgstr ""
 
-#: admin/views/about.php:103
+#: admin/views/about.php:110
 msgid ""
 "If you use galleries in your posts and have Twitter meta data enabled on "
 "%1$sSocial → Twitter%2$s, galleries will now be auto-detected and put out "
@@ -2456,81 +2462,81 @@ msgid ""
 "Twitter%2$s."
 msgstr ""
 
-#: admin/views/about.php:109
+#: admin/views/about.php:116
 msgid "Performance Improvements"
 msgstr ""
 
-#: admin/views/about.php:112
+#: admin/views/about.php:119
 msgid ""
 "This release has made the code of WordPress SEO by Yoast that runs on the "
 "frontend of your site approximately 30% faster."
 msgstr ""
 
-#: admin/views/about.php:118
+#: admin/views/about.php:125
 msgid "Improved Settings Screens"
 msgstr ""
 
-#: admin/views/about.php:121
+#: admin/views/about.php:128
 msgid ""
 "All the settings screens have been updated to use exactly the same, "
 "tab-based, styling, making them much more comprehensible."
 msgstr ""
 
-#: admin/views/about.php:127
+#: admin/views/about.php:134
 msgid "More Translations"
 msgstr ""
 
-#: admin/views/about.php:130
+#: admin/views/about.php:137
 msgid ""
 "WordPress SEO by Yoast ships, at time of release, with 26 translations, of "
 "which 10 are complete. That's a huge improvement from last time, and we're "
 "improving every week. Join us at %1$stranslate.yoast.com%2$s!"
 msgstr ""
 
-#: admin/views/about.php:139
+#: admin/views/about.php:146
 msgid "Go to The General settings page →"
 msgstr ""
 
-#: admin/views/about.php:158
+#: admin/views/about.php:174
 msgid ""
 "While most of the development team is at %1$sYoast%2$s in the Netherlands, "
 "WordPress SEO by Yoast is created by a worldwide team."
 msgstr ""
 
-#: admin/views/about.php:160
+#: admin/views/about.php:176
 msgid "Want to help us develop? Read our %1$scontribution guidelines%2$s!"
 msgstr ""
 
-#: admin/views/about.php:164
+#: admin/views/about.php:180
 msgid "Project Leaders"
 msgstr ""
 
-#: admin/views/about.php:170
+#: admin/views/about.php:186
 msgid "Project Lead"
 msgstr ""
 
-#: admin/views/about.php:175 admin/views/about.php:180
+#: admin/views/about.php:191 admin/views/about.php:196
 msgid "Lead Developer"
 msgstr ""
 
-#: admin/views/about.php:185
+#: admin/views/about.php:201
 msgid "QA & Translations Manager"
 msgstr ""
 
-#: admin/views/about.php:193
+#: admin/views/about.php:209
 msgid "Contributing Developers"
 msgstr ""
 
-#: admin/views/about.php:199 admin/views/about.php:204
-#: admin/views/about.php:209 admin/views/about.php:214
+#: admin/views/about.php:215 admin/views/about.php:220
+#: admin/views/about.php:225 admin/views/about.php:230
 msgid "Developer"
 msgstr ""
 
-#: admin/views/about.php:222
+#: admin/views/about.php:238
 msgid "Contributors to this release"
 msgstr ""
 
-#: admin/views/about.php:231
+#: admin/views/about.php:247
 msgid ""
 "We're always grateful for patches from non-regular contributors, this "
 "release, patches from the following people made it in:"
@@ -3358,63 +3364,63 @@ msgstr ""
 msgid "Register now &raquo;"
 msgstr ""
 
-#: vendor/yoast/license-manager/class-license-manager.php:137
+#: vendor/yoast/license-manager/class-license-manager.php:138
 msgid ""
 "<b>Warning!</b> You're blocking external requests which means you won't be "
 "able to get %s updates. Please add %s to %s."
 msgstr ""
 
-#: vendor/yoast/license-manager/class-license-manager.php:178
+#: vendor/yoast/license-manager/class-license-manager.php:179
 msgid "Your %s license has been activated. "
 msgstr ""
 
-#: vendor/yoast/license-manager/class-license-manager.php:182
+#: vendor/yoast/license-manager/class-license-manager.php:183
 msgid "You have an unlimited license. "
 msgstr ""
 
-#: vendor/yoast/license-manager/class-license-manager.php:184
+#: vendor/yoast/license-manager/class-license-manager.php:185
 msgid "You have used %d/%d activations. "
 msgstr ""
 
-#: vendor/yoast/license-manager/class-license-manager.php:189
+#: vendor/yoast/license-manager/class-license-manager.php:190
 msgid "<a href=\"%s\">Did you know you can upgrade your license?</a>"
 msgstr ""
 
-#: vendor/yoast/license-manager/class-license-manager.php:193
+#: vendor/yoast/license-manager/class-license-manager.php:194
 msgid ""
 "<a href=\"%s\">Your license is expiring in %d days, would you like to "
 "extend it?</a>"
 msgstr ""
 
-#: vendor/yoast/license-manager/class-license-manager.php:202
+#: vendor/yoast/license-manager/class-license-manager.php:203
 msgid ""
 "You've reached your activation limit. You must <a href=\"%s\">upgrade your "
 "license</a> to use it on this site."
 msgstr ""
 
-#: vendor/yoast/license-manager/class-license-manager.php:205
+#: vendor/yoast/license-manager/class-license-manager.php:206
 msgid ""
 "Your license has expired. You must <a href=\"%s\">extend your license</a> "
 "in order to use it again."
 msgstr ""
 
-#: vendor/yoast/license-manager/class-license-manager.php:208
+#: vendor/yoast/license-manager/class-license-manager.php:209
 msgid "Failed to activate your license, your license key seems to be invalid."
 msgstr ""
 
-#: vendor/yoast/license-manager/class-license-manager.php:232
+#: vendor/yoast/license-manager/class-license-manager.php:233
 msgid "Your %s license has been deactivated."
 msgstr ""
 
-#: vendor/yoast/license-manager/class-license-manager.php:234
+#: vendor/yoast/license-manager/class-license-manager.php:235
 msgid "Failed to deactivate your %s license."
 msgstr ""
 
-#: vendor/yoast/license-manager/class-license-manager.php:269
+#: vendor/yoast/license-manager/class-license-manager.php:271
 msgid "Request error: \"%s\" (%scommon license notices%s)"
 msgstr ""
 
-#: vendor/yoast/license-manager/class-license-manager.php:425
+#: vendor/yoast/license-manager/class-license-manager.php:430
 msgid "%s: License Settings"
 msgstr ""
 
@@ -3463,47 +3469,61 @@ msgid ""
 "key."
 msgstr ""
 
-#: vendor/yoast/license-manager/views/form.php:23
+#: vendor/yoast/license-manager/views/form.php:15
+msgid ""
+"We couldn't create a connection to our API to verify your license key(s). "
+"Please ask your hosting company to allow outgoing connections from your "
+"server to %s."
+msgstr ""
+
+#: vendor/yoast/license-manager/views/form.php:19
+msgid ""
+"Your server has an outdated version of the PHP module cURL (Version: %s). "
+"Please ask your hosting company to update this to a recent version of cURL. "
+"You can read more about that in our %sKnowledge base%s."
+msgstr ""
+
+#: vendor/yoast/license-manager/views/form.php:31
 msgid "License status"
 msgstr ""
 
-#: vendor/yoast/license-manager/views/form.php:33
+#: vendor/yoast/license-manager/views/form.php:41
 msgid "Toggle license status"
 msgstr ""
 
-#: vendor/yoast/license-manager/views/form.php:37
+#: vendor/yoast/license-manager/views/form.php:45
 msgid "Deactivate License"
 msgstr ""
 
-#: vendor/yoast/license-manager/views/form.php:38
+#: vendor/yoast/license-manager/views/form.php:46
 msgid "(deactivate your license so you can activate it on another WordPress site)"
 msgstr ""
 
-#: vendor/yoast/license-manager/views/form.php:42
+#: vendor/yoast/license-manager/views/form.php:50
 msgid "Activate License"
 msgstr ""
 
-#: vendor/yoast/license-manager/views/form.php:44
+#: vendor/yoast/license-manager/views/form.php:52
 msgid "Please enter a license key in the field below first."
 msgstr ""
 
-#: vendor/yoast/license-manager/views/form.php:52
+#: vendor/yoast/license-manager/views/form.php:60
 msgid "License Key"
 msgstr ""
 
-#: vendor/yoast/license-manager/views/form.php:54
+#: vendor/yoast/license-manager/views/form.php:62
 msgid "Paste your %s license key here.."
 msgstr ""
 
-#: vendor/yoast/license-manager/views/form.php:56
+#: vendor/yoast/license-manager/views/form.php:64
 msgid "You defined your license key using the %s PHP constant."
 msgstr ""
 
-#: vendor/yoast/license-manager/views/form.php:73
+#: vendor/yoast/license-manager/views/form.php:81
 msgid "Your %s license will expire on %s."
 msgstr ""
 
-#: vendor/yoast/license-manager/views/form.php:76
+#: vendor/yoast/license-manager/views/form.php:84
 msgid "%sRenew your license now%s."
 msgstr ""
 
