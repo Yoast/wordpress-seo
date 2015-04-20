@@ -199,7 +199,15 @@ function wpseo_on_activate_blog( $blog_id ) {
  * Load translations
  */
 function wpseo_load_textdomain() {
-	load_plugin_textdomain( 'wordpress-seo', false, dirname( plugin_basename( WPSEO_FILE ) ) . '/languages/' );
+	$wpseo_path = str_replace( '\\', '/', WPSEO_PATH );
+	$mu_path    = str_replace( '\\', '/', WPMU_PLUGIN_DIR );
+
+	if ( false !== stripos( $wpseo_path, $mu_path ) ) {
+		load_muplugin_textdomain( 'wordpress-seo', dirname( WPSEO_BASENAME ) . '/languages/' );
+	}
+	else {
+		load_plugin_textdomain( 'wordpress-seo', false, dirname( WPSEO_BASENAME ) . '/languages/' );
+	}
 }
 
 add_action( 'init', 'wpseo_load_textdomain', 1 );
