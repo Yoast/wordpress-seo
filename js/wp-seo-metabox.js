@@ -290,12 +290,12 @@ function yst_updateDesc() {
 		snippet.find('.desc span.content').html('');
 		yst_testFocusKw();
 
-		if ( tinyMCE && tinyMCE.get('excerpt') !== null) {
+		if ( typeof tinyMCE !== "undefined" && tinyMCE.get('excerpt') !== null) {
 			desc = tinyMCE.get('excerpt').getContent();
 			desc = yst_clean(desc);
 		}
 
-		if ( tinyMCE && tinyMCE.get('content') !== null && desc.length === 0) {
+		if ( typeof tinyMCE !== "undefined" && tinyMCE.get('content') !== null && desc.length === 0) {
 			desc = tinyMCE.get('content').getContent();
 
 			desc = yst_clean(desc);
@@ -482,11 +482,11 @@ jQuery(document).ready(function () {
 			yst_updateSnippet();
 
 			// Adding events to content and excerpt
-			if( tinyMCE && tinyMCE.get( 'content' ) !== null ) {
+			if( typeof tinyMCE !== "undefined" && tinyMCE.get( 'content' ) !== null ) {
 				tinyMCE.get( 'content' ).on( 'blur', yst_updateDesc );
 			}
 
-			if( tinyMCE && tinyMCE.get( 'excerpt' ) !== null ) {
+			if( typeof tinyMCE !== "undefined" && tinyMCE.get( 'excerpt' ) !== null ) {
 				tinyMCE.get( 'excerpt' ).on( 'blur', yst_updateDesc );
 			}
 		},
@@ -506,8 +506,6 @@ jQuery(document).ready(function () {
 
 		yst_updateSnippet();
 	});
-
-
 
 	jQuery(".yoast_help").qtip(
 		{

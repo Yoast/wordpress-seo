@@ -10,7 +10,7 @@ p.desc {
 
 p.desc.label {
 	margin-bottom: 20px;
-	padding: 2px 0 10px 180px;
+	padding: 2px 0 10px 185px;
 }
 
 tr.yst_row {
@@ -54,7 +54,7 @@ textarea.textinput,
 select.select,
 input.checkbox {
 	float: left;
-	margin: 0 3px 5px 5px;
+	margin: 0 3px 5px 0;
 	padding: 5px;
 }
 
@@ -102,6 +102,21 @@ label.radio {
 
 #wpseo_content_top {
 	min-width: 800px;
+}
+
+div.wpseo_variable_warning {
+	margin: 5px 0 0 0;
+	padding: 5px;
+	color: red;
+}
+
+input.wpseo_variable_warning,
+textarea.wpseo_variable_warning {
+	border: 1px solid red;
+}
+
+.wpseo_variable_warning a {
+	color: red;
 }
 
 .wpseo_content_wrapper div.wpseo-warning {
