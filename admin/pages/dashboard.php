@@ -1,7 +1,6 @@
 <?php
 /**
- * @package    WPSEO
- * @subpackage Admin
+ * @package WPSEO\Admin
  */
 
 if ( ! defined( 'WPSEO_VERSION' ) ) {
@@ -183,6 +182,17 @@ if ( get_option( 'page_comments' ) && $options['ignore_page_comments'] === false
 		</p>
 	</div>
 	<div id="knowledge-graph" class="wpseotab">
+		<h3><?php _e( 'Website name', 'wordpress-seo' ); ?></h3>
+		<p>
+			<?php
+			_e( 'Google shows your website\'s name in the search results, we will default to your site name but you can adapt it here. You can also provide an alternate website name you want Google to consider.', 'wordpress-seo' );
+			?>
+		</p>
+		<?php
+		$yform->textinput( 'website_name', __( 'Website name', 'wordpress-seo' ), array( 'placeholder' => get_bloginfo( 'name' ) ) );
+		$yform->textinput( 'alternate_website_name', __( 'Alternate name', 'wordpress-seo' ) );
+		?>
+		<h3><?php _e( 'Company or person', 'wordpress-seo' ); ?></h3>
 		<p>
 			<?php
 			// @todo add KB link - JdV
