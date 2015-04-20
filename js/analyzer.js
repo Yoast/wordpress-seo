@@ -45,7 +45,7 @@ Analyzer.prototype.initQueue = function(){
     if(typeof this.config.queue !== "undefined" && this.config.queue.length !== 0){
         this.queue = this.config.queue;
     }else{
-        this.queue = ["keywordDensity", "subHeadings", "stopwordChecker", "fleschReading"];
+        this.queue = ["keywordDensity", "subHeadings", "stopwordChecker", "fleschReading", "linkCount"];
     }
 };
 
@@ -204,12 +204,23 @@ Analyzer.prototype.stopwordChecker = function(){
 
 /**
  * calculate Flesch Reading score
+ * @returns {result object}
  */
 Analyzer.prototype.fleschReading = function(){
     var score =  (206.835 - (1.015 * (yst_preProcessor.__store.wordcount / yst_preProcessor.__store.sentencecount)) - (84.6 * (yst_preProcessor.__store.syllablecount / yst_preProcessor.__store.wordcount))).toFixed(1);
     if(score < 0){score = 0;}else if (score > 100){score = 100;}
     return {name: "fleschReading", result: score};
 };
+
+
+Analyzer.prototype.linkCount = function(){
+    var linkMatches =  yst_preProcessor.__store.originalText.match(/<a(?:[^>]+)?>(.*?)<\/a>/g);
+    linkCount = 0;
+console.log(yst_preProcessor.__store.originalText);
+    if(linkMatches !== null){linkCount = linkMatches.length;}
+    return linkCount;
+};
+
 
 
 /**helper functions*/

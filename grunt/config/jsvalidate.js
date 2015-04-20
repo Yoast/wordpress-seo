@@ -5,7 +5,7 @@ module.exports = {
 	},
 	plugin: {
 		files: {
-			src: '<%= files.js %>'
+			src: 'js/analyzer.js'
 		}
 	},
 	grunt: {

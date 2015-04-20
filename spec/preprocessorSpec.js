@@ -15,13 +15,13 @@ expectedOutput = {
 describe("Test for the preprocessor that formats text for the analyzer", function(){
     preproc = new PreProcessor(preprocArgs.testString);
     it("returns processed clean text", function(){
-        expect(preproc._store.cleanText).toBe(expectedOutput.cleanText);
+        expect(preproc.__store.cleanText).toBe(expectedOutput.cleanText);
     });
     it("returns processed notags text", function(){
-        expect(preproc._store.cleanTextNoTags).toBe(expectedOutput.cleanTextNoTags);
+        expect(preproc.__store.cleanTextNoTags).toBe(expectedOutput.cleanTextNoTags);
     });
     it("returns processed sometags text", function(){
-        expect(preproc._store.cleanTextSomeTags).toBe(expectedOutput.cleanTextSomeTags);
+        expect(preproc.__store.cleanTextSomeTags).toBe(expectedOutput.cleanTextSomeTags);
     });
 });
 

@@ -6,7 +6,7 @@ module.exports = {
 	plugin: {
 		files: {
 			src: [
-				'<%= files.js %>'
+				'js/analyzer.js'
 			]
 		}
 	},

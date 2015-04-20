@@ -11,8 +11,8 @@ describe("test for the subheader analyzer with no matching keywords in the headi
     it("returns header score - no keyword", function(){
         var headerAnalyzer = new Analyzer(headingArgs);
         headerAnalyzer.runQueue();
-        expect(headerAnalyzer._output[0].name).toBe("subHeadings");
-        expect(headerAnalyzer._output[0].result.keywordFound).toBe(0);
+        expect(headerAnalyzer.__output[0].name).toBe("subHeadings");
+        expect(headerAnalyzer.__output[0].result.keywordFound).toBe(0);
     })
 });
 
@@ -26,8 +26,8 @@ describe("test for the subheader analyzer with a single matching keyword in the 
     it("returns header score - 1 keyword", function(){
         var headerAnalyzer = new Analyzer(headingArgs2);
         headerAnalyzer.runQueue();
-        expect(headerAnalyzer._output[0].name).toBe("subHeadings");
-        expect(headerAnalyzer._output[0].result.keywordFound).toBe(1);
+        expect(headerAnalyzer.__output[0].name).toBe("subHeadings");
+        expect(headerAnalyzer.__output[0].result.keywordFound).toBe(1);
     })
 });
 
@@ -41,8 +41,8 @@ describe("test for the subheader analyzer where there are no subheadings", funct
     it("returns header score - no headers", function(){
         var headerAnalyzer = new Analyzer(headingArgs3);
         headerAnalyzer.runQueue();
-        expect(headerAnalyzer._output[0].name).toBe("subHeadings");
-        expect(headerAnalyzer._output[0].result).toBe(null);
+        expect(headerAnalyzer.__output[0].name).toBe("subHeadings");
+        expect(headerAnalyzer.__output[0].result).toBe(null);
     })
 });
 

@@ -11,9 +11,9 @@ describe('a test for matching the keyword with ', function(){
     stopwordMatcher = new Analyzer(stopwordArgs);
     stopwordMatcher.runQueue();
     it('matches a keyword', function(){
-        expect(stopwordMatcher._output[0].name).toBe('stopWords');
-        expect(stopwordMatcher._output[0].result.count).toBe(2);
-        expect(stopwordMatcher._output[0].result.matches).toContain(' about');
-        expect(stopwordMatcher._output[0].result.matches).toContain(' yourself');
+        expect(stopwordMatcher.__output[0].name).toBe('stopWords');
+        expect(stopwordMatcher.__output[0].result.count).toBe(2);
+        expect(stopwordMatcher.__output[0].result.matches).toContain(' about');
+        expect(stopwordMatcher.__output[0].result.matches).toContain(' yourself');
     });
 });

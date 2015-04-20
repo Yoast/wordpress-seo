@@ -3,7 +3,8 @@
     "curly": true,
     "eqeqeq": true,
     "eqnull": true,
-    "es3": true,
+
+
     "immed": true,
     "latedef": true,
     "newcap": true,
@@ -11,9 +12,10 @@
     "quotmark": "double",
     "sub": true,
     "strict": false,
-    "undef": true,
-    "unused": true,
 
+    "undef": false,
+    "unused": true,
+    "funcscope": false,
     "browser": true,
     "jquery": false,
     
