@@ -1,5 +1,5 @@
-require('../js/config/config.js');
-require('../js/analyzer.js');
+require("../js/config/config.js");
+require("../js/analyzer.js");
 
 preprocArgs2 = {
     testString: "This is the year that Yoast turns 5 years old. A natural time to reflect upon how the company is doing and what it should and should not be doing and what we want for the future. Today we’re proud to announce that we’ve been acquired by CrowdFavorite",
@@ -22,9 +22,9 @@ describe("Test for the syllablecount", function(){
         expect(preproc4.__store.syllablecount).toBe(57);
     });
     preproc5 = new PreProcessor(preprocArgs2.testString4);
-    preprocessorConfig.syllables.exclusionWords.push({word: 'exclusionwords', syllables: 5});
-    preprocessorConfig.syllables.exclusionWords.push({word: 'syllablecount', syllables: 4});
+    preprocessorConfig.syllables.exclusionWords.push({word: "exclusionwords", syllables: 5});
+    preprocessorConfig.syllables.exclusionWords.push({word: "syllablecount", syllables: 4});
     it("returns syllable count of 4th string by using exclusionwords", function(){
         expect(preproc5.__store.syllablecount).toBe(14);
-    })
+    });
 });

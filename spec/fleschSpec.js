@@ -1,5 +1,5 @@
-require('../js/config/config.js');
-require('../js/analyzer.js');
+require("../js/config/config.js");
+require("../js/analyzer.js");
 
 
 fleschArgs = {
@@ -11,7 +11,7 @@ describe("Test for the flesch kincaid reading", function(){
     it("returns a flesh kincaid reading score", function(){
         var flesch = new Analyzer(fleschArgs);
         var output = flesch.fleschReading();
-        expect(output.result).toBe('83.3');
+        expect(output.result).toBe("83.3");
     });
 });
 
@@ -24,6 +24,6 @@ describe("2nd test for the flesch kincaid reading", function(){
     it("returns a flesh kincaid reading score", function(){
         var flesch2 = new Analyzer(fleschArgs2);
         var output2 = flesch2.fleschReading();
-        expect(output2.result).toBe('71.7');
+        expect(output2.result).toBe("71.7");
     });
 });

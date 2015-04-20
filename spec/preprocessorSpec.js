@@ -1,5 +1,5 @@
-require('../js/config/config.js');
-require('../js/analyzer.js');
+require("../js/config/config.js");
+require("../js/analyzer.js");
 
 preprocArgs = {
     testString: "<h1>Dit is een</h1> <h2>standaard</h2>- TEKST <ul><li>test1</li><li>test2</li><li>test3</li><li>test4</li></ul>met VEEL caps, spaties, <h6>tekens</h6> en andere overbodige meuk!?'...; <img src='http://linknaarplaatje' alt='mooiplaatje' />Het aantal Woorden<br><br> is negentien"
@@ -10,7 +10,6 @@ expectedOutput = {
     cleanTextSomeTags: "<h1>dit is een</h1> <h2>standaard</h2> tekst <li>test1</li><li>test2</li><li>test3</li><li>test4</li> met veel caps spaties <h6>tekens</h6> en andere overbodige meuk. het aantal woorden is negentien.",
     cleanTextNoTags: "dit is een standaard tekst test1 test2 test3 test4 met veel caps spaties tekens en andere overbodige meuk. het aantal woorden is negentien."
 };
-
 
 describe("Test for the preprocessor that formats text for the analyzer", function(){
     preproc = new PreProcessor(preprocArgs.testString);

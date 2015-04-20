@@ -18,7 +18,8 @@ module.exports = function(grunt) {
             js: [
                 'js/*.js',
                 '!js/*.min.js',
-                '!Gruntfile.js'
+                'spec/*.js',
+                '!spec/*.min.js'
             ],
 
             get config() {
