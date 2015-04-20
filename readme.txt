@@ -144,6 +144,7 @@ Release Date: April 20th, 2015
 	* Fixes an "undefined index" notice on the sitemaps.
 	* Fixes an "undefined index" notice in the breadcrumbs.
 	* Fixes a bug where translations were not loaded when used as MU-plugin.
+	* Fixes a JS error that was raised when editing post-types without a TinyMCE editor.
 
 * Security:
 	* Fixes a possible XSS vulnerability. Thanks [Johannes Schmitt](https://github.com/schmittjoh) from [Scrutinizer CI](https://scrutinizer-ci.com/) for discovering and responsibly disclosing this issue.
