@@ -23,6 +23,7 @@ class WPSEO_Crawl_Issue_Manager {
 	 * @var array
 	 */
 	private $crawl_issue_urls = array();
+
 	/**
 	 * Get the crawl issues
 	 *
@@ -52,6 +53,16 @@ class WPSEO_Crawl_Issue_Manager {
 		delete_option( self::OPTION_CI_TS );
 	}
 
+	/**
+	 * This method will be access by an AJAX request and will mark an issue as fixed.
+	 *
+	 * First it will do a request to the Google API
+	 *
+	 * @param string $url
+	 */
+	public function ajax_mark_as_fixed( ) {
+		new WPSEO_Crawl_Issue_Marker();
+	}
 
 	/**
 	 * Save the crawl issues
