@@ -29,9 +29,7 @@ class WPSEO_Crawl_Issue_Marker {
 	public function __construct() {
 		Yoast_Api_Libs::load_api_libraries( array( 'google' ) );
 
-		// Done, bye
-		echo $this->get_result();
-		exit;
+		wp_die( $this->get_result() );
 	}
 
 	/**
