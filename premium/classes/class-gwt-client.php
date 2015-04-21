@@ -21,7 +21,7 @@ class WPSEO_GWT_Client extends Yoast_Google_Client {
 	 */
 	protected $default_config = array(
 		'redirect_uri' => 'urn:ietf:wg:oauth:2.0:oob',
-		'scopes'       => array( 'https://www.googleapis.com/auth/webmasters', 'https://www.google.com/webmasters/tools/feeds/' ),
+		'scopes'       => array( 'https://www.googleapis.com/auth/webmasters' ),
 	);
 
 	/**
