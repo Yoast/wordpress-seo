@@ -35,7 +35,7 @@ function wpseo_create_redirect(old_url, current_view) {
 
 						// Remove the redirect row if we're in the not-redirected view
 						if ('not-redirected' == current_view) {
-							jQuery	( 'span.value:contains("'+old_url+'")').closest('tr').fadeOut('slow', function () {
+							jQuery	( 'span.value:contains("'+ old_url+'")').closest('tr').fadeOut('slow', function () {
 								jQuery(this).remove();
 							});
 						}
@@ -47,24 +47,16 @@ function wpseo_create_redirect(old_url, current_view) {
 	}
 }
 
-function wpseo_ignore_redirect(url) {
+function wpseo_mark_as_fixed(url) {
 	jQuery.post(
 			wpseo_premium_strings.ajaxurl,
-			{ action: 'wpseo_ignore_crawl_issue', ajax_nonce: jQuery('.wpseo_redirects_ajax_nonce').val(), url: url },
+			{
+				action : 'wpseo_mark_fixed_crawl_issue',
+				ajax_nonce : jQuery('.wpseo-gwt-ajax-security').val(),
+				url : url
+			},
 			function (response) {
-				if ("true" == response) {
-					jQuery('span:contains(' + url + ')').closest('tr').remove();
-				}
-			}
-	);
-}
-
-function wpseo_unignore_redirect(url) {
-	jQuery.post(
-			wpseo_premium_strings.ajaxurl,
-			{ action: 'wpseo_unignore_crawl_issue', ajax_nonce: jQuery('.wpseo_redirects_ajax_nonce').val(), url: url },
-			function (response) {
-				if ("true" == response) {
+				if ("true" === response) {
 					jQuery('span:contains(' + url + ')').closest('tr').remove();
 				}
 			}
