@@ -21,7 +21,7 @@ class WPSEO_GWT_Client extends Yoast_Google_Client {
 	 */
 	protected $default_config = array(
 		'redirect_uri' => 'urn:ietf:wg:oauth:2.0:oob',
-		'scopes'       => array( 'https://www.googleapis.com/auth/webmasters.readonly', 'https://www.google.com/webmasters/tools/feeds/' ),
+		'scopes'       => array( 'https://www.googleapis.com/auth/webmasters', 'https://www.google.com/webmasters/tools/feeds/' ),
 	);
 
 	/**
@@ -90,12 +90,13 @@ class WPSEO_GWT_Client extends Yoast_Google_Client {
 	 * Doing a request to the API
 	 *
 	 * @param string $target_request_url
+	 * @param string $request_method
 	 *
 	 * @return Google_HttpRequest
 	 */
-	public function do_request( $target_request_url ) {
+	public function do_request( $target_request_url, $request_method = 'GET' ) {
 		// Get list sites response
-		$response = $this->getIo()->authenticatedRequest( new Yoast_Google_HttpRequest( $this->api_url . $target_request_url ) );
+		$response = $this->getIo()->authenticatedRequest( new Yoast_Google_HttpRequest( $this->api_url . $target_request_url, $request_method ) );
 
 		$this->http_response_code = $response->getResponseHttpCode();
 
@@ -106,11 +107,12 @@ class WPSEO_GWT_Client extends Yoast_Google_Client {
 	 * Decode the JSON response
 	 *
 	 * @param object $response
+	 * @param int    $accepted_response_code
 	 *
 	 * @return mixed
 	 */
-	public function decode_response( $response ) {
-		if ( 200 === $response->getResponseHttpCode() ) {
+	public function decode_response( $response, $accepted_response_code = 200 ) {
+		if ( $accepted_response_code === $response->getResponseHttpCode() ) {
 			return json_decode( $response->getResponseBody() );
 		}
 	}
