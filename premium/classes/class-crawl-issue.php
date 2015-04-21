@@ -55,7 +55,7 @@ class WPSEO_Crawl_Issue {
 	function __construct( $url, $crawl_type, $issue_type, $date_detected, $response_code, $linked_from, $ignored ) {
 		$this->crawl_type    = $crawl_type;
 		$this->date_detected = $date_detected;
-		$this->response_code        = $response_code;
+		$this->response_code = $response_code;
 		$this->issue_type    = $issue_type;
 		$this->linked_from   = $linked_from;
 		$this->url           = $url;
