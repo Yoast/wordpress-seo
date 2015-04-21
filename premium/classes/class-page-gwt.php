@@ -150,9 +150,11 @@ class WPSEO_Page_GWT {
 	}
 
 	/**
-	 * @param $platform_target
-	 * @param $platform_value
-	 * @param $admin_link
+	 * Parses the tab
+	 *
+	 * @param string $platform_target
+	 * @param string $platform_value
+	 * @param string $admin_link
 	 */
 	private function platform_tab( $platform_target, $platform_value, $admin_link ) {
 		$active = '';
@@ -171,13 +173,10 @@ class WPSEO_Page_GWT {
 	private function setup_client() {
 		Yoast_Api_Libs::load_api_libraries( array( 'google' ) );
 
-		return new WPSEO_GWT_Client(
-			array(
-				'application_name' => 'WordPress SEO by Yoast Premium',
-				'client_id'        => '972827778625-rvd2mfvj3fnc97es9p57vqaap2lucm3h.apps.googleusercontent.com',
-				'client_secret'    => 'i32Z2SFYPdxNRALHf25uwMFW',
-			)
-		);
+
+		require WPSEO_PREMIUM_PATH . 'config/gwt.php';
+
+		return new WPSEO_GWT_Client( $config );
 	}
 
 }
