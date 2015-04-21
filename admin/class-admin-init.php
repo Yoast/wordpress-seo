@@ -32,7 +32,7 @@ class WPSEO_Admin_Init {
 
 		$this->pagenow = $GLOBALS['pagenow'];
 
-		add_action( 'init', array( $this, 'redirect_to_about_page' ), 15 );
+		add_action( 'admin_init', array( $this, 'redirect_to_about_page' ), 15 );
 		$this->load_meta_boxes();
 		$this->load_taxonomy_class();
 		$this->load_admin_page_class();
