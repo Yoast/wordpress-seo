@@ -671,8 +671,8 @@ class WPSEO_OpenGraph_Image {
 	/**
 	 * Constructor
 	 *
-	 * @param array       $options
-	 * @param bool|mixed  $image
+	 * @param array      $options
+	 * @param bool|mixed $image
 	 */
 	public function __construct( $options, $image = false ) {
 		$this->options = $options;
