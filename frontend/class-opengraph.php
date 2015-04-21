@@ -466,13 +466,24 @@ class WPSEO_OpenGraph {
 
 	/**
 	 * Create new WPSEO_OpenGraph_Image class and get the images to set the og:image
+	 *
+	 * @param mixed $image
 	 */
-	public function image() {
-		$opengraph_images = new WPSEO_OpenGraph_Image( $this->options );
+	public function image( $image = false ) {
+		$opengraph_images = new WPSEO_OpenGraph_Image( $this->options, $image );
 
 		foreach ( $opengraph_images->get_images() as $img ) {
 			$this->og_tag( 'og:image', esc_url( $img ) );
 		}
+	}
+
+	/**
+	 * Fallback method for plugins using image_output
+	 *
+	 * @param string $image
+	 */
+	public function image_output( $image ) {
+		$this->image( $image );
 	}
 
 	/**
@@ -660,11 +671,16 @@ class WPSEO_OpenGraph_Image {
 	/**
 	 * Constructor
 	 *
-	 * @param array $options
+	 * @param array       $options
+	 * @param bool|mixed  $image
 	 */
-	public function __construct( $options ) {
+	public function __construct( $options, $image = false ) {
 		$this->options = $options;
 		$this->set_images();
+
+		if ( ! empty( $image ) ) {
+			$this->add_image( $image );
+		}
 	}
 
 	/**
