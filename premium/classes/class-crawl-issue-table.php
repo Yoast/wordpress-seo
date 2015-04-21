@@ -177,6 +177,7 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 		$actions = array(
 			'create_redirect' => '<a href="javascript:wpseo_create_redirect(\'' . urlencode( $item['url'] ) . '\', \'' . $this->current_view . '\');">' . __( 'Create redirect', 'wordpress-seo-premium' ) . '</a>',
 			'view'            => '<a href="' . $item['url'] . '" target="_blank">' . __( 'View', 'wordpress-seo-premium' ) . '</a>',
+			'markasfixed'     => '<a href="javascript:wpseo_mark_as_fixed(\'' . urlencode( $item['url'] ) . '\', \'' . $this->current_view . '\');">' . __( 'Mark as fixed', 'wordpress-seo-premium' ) . '</a>',
 		);
 
 		return sprintf(
