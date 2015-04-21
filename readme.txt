@@ -5,8 +5,8 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: seo, SEO, Yoast SEO, google, meta, meta description, search engine optimization, xml sitemap, xml sitemaps, google sitemap, sitemap, sitemaps, robots meta, rss, rss footer, yahoo, bing, news sitemaps, XML News Sitemaps, WordPress SEO, WordPress SEO by Yoast, yoast, multisite, canonical, nofollow, noindex, keywords, meta keywords, description, webmaster tools, google webmaster tools, seo pack
 Requires at least: 3.9
-Tested up to: 4.1.1
-Stable tag: 2.0.1
+Tested up to: 4.2
+Stable tag: 2.1.1
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using Yoast's WordPress SEO plugin.
 
@@ -119,6 +119,44 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 7. The advanced section of the WordPress SEO meta box.
 
 == Changelog ==
+
+= 2.1.1 =
+
+Release Date: April 21st, 2015
+
+* Bugfixes:
+	* Fixes a bug where the JSON+LD output was outputted twice when company or person info wasn't set.
+	* Fixes a compatibility issue with Video SEO and WooCommerce SEO add-ons causing WSOD on the frontend for video's and WooCommerce products.
+	* Fixes a compatibility issue with BBPress caused by hooking `current_user_can` too early.
+
+= 2.1 =
+
+Release Date: April 20th, 2015
+
+* Features:
+	* Added support for [website name JSON+LD markup](https://developers.google.com/structured-data/site-name).
+
+* Enhancements:
+	* Makes sure Twitter cards are by default enabled since they don't need to be validated anymore by Twitter.
+	* Removes the Twitter url meta tag, since Twitter no longer uses it.
+	* Shows a validation error when a user selects a featured image for a post that is smaller than 200x200 pixels.
+	* Shows a validation error when a user tries to use shortcodes in the titles and meta's settings page that are incompatible with the type of content those titles and meta's are associated with.
+	* Makes sure no taxonomy metadata is lost with the upcoming 4.2 version of WordPress.
+	* Upgraded to Facebook Graph API 3.0 for fetching Facebook user ID's straight from Facebook.
+	* Made the plugin conflict notices more user friendly, explaining better which piece of functionality might be impacted, offering a link to the corresponding settings and a button to deactivate the conflicting plugin.
+
+* Bugfixes:
+	* Fixes a bug where the sitemaps were no longer being served from WP transient cache.
+	* Fixes a bug where breadcrumbs weren't nested properly.
+	* Fixes a possible "headers already sent" error in the sitemaps.
+	* Fixes a notice for the homepage URL in post type sitemaps.
+	* Fixes an "undefined index" notice on the sitemaps.
+	* Fixes an "undefined index" notice in the breadcrumbs.
+	* Fixes a bug where translations were not loaded when used as MU-plugin.
+	* Fixes a JS error that was raised when editing post-types without a TinyMCE editor.
+
+* Security:
+	* Fixes a possible XSS vulnerability. Thanks [Johannes Schmitt](https://github.com/schmittjoh) from [Scrutinizer CI](https://scrutinizer-ci.com/) for discovering and responsibly disclosing this issue.
 
 = 2.0.1 =
 

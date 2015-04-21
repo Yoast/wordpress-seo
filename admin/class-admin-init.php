@@ -1,7 +1,6 @@
 <?php
 /**
- * @package    WPSEO
- * @subpackage Admin
+ * @package WPSEO\Admin
  */
 
 /**
@@ -33,7 +32,7 @@ class WPSEO_Admin_Init {
 
 		$this->pagenow = $GLOBALS['pagenow'];
 
-		$this->redirect_to_about_page();
+		add_action( 'admin_init', array( $this, 'redirect_to_about_page' ), 15 );
 		$this->load_meta_boxes();
 		$this->load_taxonomy_class();
 		$this->load_admin_page_class();
@@ -46,7 +45,11 @@ class WPSEO_Admin_Init {
 	/**
 	 * Redirect first time or just upgraded users to the about screen.
 	 */
-	private function redirect_to_about_page() {
+	public function redirect_to_about_page() {
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+
 		if ( $this->options['seen_about'] ) {
 			return;
 		}

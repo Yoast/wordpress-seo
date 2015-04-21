@@ -1,26 +1,46 @@
 <?php
+/**
+ * @package WPSEO\Unittests
+ */
 
+/**
+ * Class WPSEO_JSON_LD_Test
+ */
 class WPSEO_JSON_LD_Test extends WPSEO_UnitTestCase {
 
 	/**
-	 * @var WPSEO_Frontend
+	 * @var WPSEO_JSON_LD
 	 */
 	private static $class_instance;
 
+	/**
+	 * Instantiate our class
+	 */
 	public static function setUpBeforeClass() {
 		self::$class_instance = new WPSEO_JSON_LD();
 	}
 
 	/**
-	 * @covers WPSEO_JSON_LD::internal_search
+	 * @covers WPSEO_JSON_LD::website
 	 */
-	public function test_internal_search() {
+	public function test_website() {
 		$this->go_to_home();
 
 		$home_url   = trailingslashit( home_url() );
 		$search_url = $home_url . '?s={search_term}';
-		$expected   = '<script type=\'application/ld+json\'>{ "@context": "http://schema.org","@type": "WebSite","url": "' . $home_url . '","potentialAction": {"@type": "SearchAction","target": "' . $search_url . '","query-input": "required name=search_term"}}</script>' . "\n";
-		$this->expectOutput( $expected, self::$class_instance->internal_search() );
+		$json       = json_encode( array(
+			'@context'        => 'http://schema.org',
+			'@type'           => 'WebSite',
+			'url'             => $home_url,
+			'name'            => get_bloginfo( 'name' ),
+			'potentialAction' => array(
+				'@type'       => 'SearchAction',
+				'target'      => $search_url,
+				'query-input' => 'required name=search_term',
+			)
+		) );
+		$expected   = '<script type=\'application/ld+json\'>' . $json . '</script>' . "\n";
+		$this->expectOutput( $expected, self::$class_instance->website() );
 	}
 
 	/**
@@ -38,7 +58,14 @@ class WPSEO_JSON_LD_Test extends WPSEO_UnitTestCase {
 		$this->go_to_home();
 
 		$home_url = home_url();
-		$expected = '<script type=\'application/ld+json\'>{ "@context": "http://schema.org","@type": "Person","name": "' . $name . '","url": "' . $home_url . '","sameAs": ["' . $instagram . '"]}</script>' . "\n";
+		$json     = json_encode( array(
+			'@context' => 'http://schema.org',
+			'@type'    => 'Person',
+			'name'     => $name,
+			'url'      => $home_url,
+			'sameAs'   => array( $instagram ),
+		) );
+		$expected = '<script type=\'application/ld+json\'>' . $json . '</script>' . "\n";
 		$this->expectOutput( $expected, self::$class_instance->organization_or_person() );
 	}
 
@@ -59,7 +86,15 @@ class WPSEO_JSON_LD_Test extends WPSEO_UnitTestCase {
 		$this->go_to_home();
 
 		$home_url = home_url();
-		$expected = '<script type=\'application/ld+json\'>{ "@context": "http://schema.org","@type": "Organization","name": "' . $name . '","url": "' . $home_url . '","logo": "","sameAs": ["' . $facebook . '","' . $instagram . '"]}</script>' . "\n";
+		$json     = json_encode( array(
+			'@context' => 'http://schema.org',
+			'@type'    => 'Organization',
+			'name'     => $name,
+			'url'      => $home_url,
+			'logo'     => '',
+			'sameAs'   => array( $instagram, $facebook, $instagram ),
+		) );
+		$expected = '<script type=\'application/ld+json\'>' . $json . '</script>' . "\n";
 		$this->expectOutput( $expected, self::$class_instance->organization_or_person() );
 	}
 }
