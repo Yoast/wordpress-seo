@@ -1910,10 +1910,12 @@ class WPSEO_JSON_LD {
 		 */
 		$this->data = apply_filters( 'wpseo_json_ld_output', $this->data, $context );
 
-		if ( ! is_array( $this->data ) || empty( $this->data ) ) {
-			return;
+		if ( is_array( $this->data ) && ! empty( $this->data ) ) {
+			echo "<script type='application/ld+json'>", json_encode( $this->data ), '</script>', "\n";
 		}
-		echo "<script type='application/ld+json'>", json_encode( $this->data ), '</script>', "\n";
+
+		// Empty the $data array so we don't output it twice.
+		$this->data = array();
 	}
 
 	/**
