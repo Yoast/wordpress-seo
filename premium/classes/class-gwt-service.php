@@ -70,6 +70,26 @@ class WPSEO_GWT_Service {
 	}
 
 	/**
+	 * Sending request to mark issue as fixed
+	 *
+	 * @param $url
+	 * @param $platform
+	 * @param $category
+	 *
+	 * @return bool
+	 */
+	public function mark_as_fixed( $url, $platform, $category ) {
+
+		$profile = $this->get_profile();
+		if ( strpos( $profile, 'http://' ) !== 0 ) {
+			$profile = 'http://' .$profile;
+		}
+
+		$response      = $this->client->do_request( 'https://www.googleapis.com/webmasters/v3/sites/' .  urlencode( $profile ) .  '/urlCrawlErrorsSamples/' . urlencode( ltrim( $url, '/' ) ) . '?category=' . $category . '&platform=' . $platform . '', 'DELETE' );
+		return ( $response->getResponseHttpCode() === 204 && $response->getResponseBody() === '' );
+	}
+
+	/**
 	 * Get the GWT profile
 	 *
 	 * @return string
