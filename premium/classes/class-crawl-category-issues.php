@@ -44,7 +44,7 @@ class WPSEO_Crawl_Category_Issues {
 	public function fetch_issues( array &$crawl_issues ) {
 
 		$response = $this->client->do_request(
-			'https://www.googleapis.com/webmasters/v3/sites/'. urlencode( $this->profile ) . '/urlCrawlErrorsSamples?category=' . $this->category->category . '&platform=' . $this->category->platform
+			'sites/'. urlencode( $this->profile ) . '/urlCrawlErrorsSamples?category=' . $this->category->category . '&platform=' . $this->category->platform
 		);
 
 		if ( $issues = $this->client->decode_response( $response ) ) {
@@ -82,7 +82,7 @@ class WPSEO_Crawl_Category_Issues {
 	private function get_linked_from_urls( $url ) {
 
 		$response = $this->client->do_request(
-			'https://www.googleapis.com/webmasters/v3/sites/'. urlencode( $this->profile ) . '/urlCrawlErrorsSamples/' . $url . '?category=' . $this->category->category . '&platform=' . $this->category->platform
+			'sites/'. urlencode( $this->profile ) . '/urlCrawlErrorsSamples/' . $url . '?category=' . $this->category->category . '&platform=' . $this->category->platform
 		);
 
 		if ( $issue = $this->client->decode_response( $response ) ) {

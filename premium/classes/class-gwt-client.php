@@ -27,7 +27,7 @@ class WPSEO_GWT_Client extends Yoast_Google_Client {
 	/**
 	 * @var string
 	 */
-	private $api_url = '';
+	private $api_url = 'https://www.googleapis.com/webmasters/v3/';
 
 	/**
 	 * Initialize the config and refresh the token

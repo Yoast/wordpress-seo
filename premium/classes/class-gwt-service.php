@@ -32,7 +32,7 @@ class WPSEO_GWT_Service {
 		$sites = array();
 
 		// Do list sites request
-		$response = $this->client->do_request( 'https://www.googleapis.com/webmasters/v3/sites' );
+		$response = $this->client->do_request( 'sites' );
 
 		if ( $response_json = $this->client->decode_response( $response ) ) {
 			if ( ! empty( $response_json->siteEntry ) ) {
@@ -85,7 +85,7 @@ class WPSEO_GWT_Service {
 			$profile = 'http://' .$profile;
 		}
 
-		$response      = $this->client->do_request( 'https://www.googleapis.com/webmasters/v3/sites/' .  urlencode( $profile ) .  '/urlCrawlErrorsSamples/' . urlencode( ltrim( $url, '/' ) ) . '?category=' . $category . '&platform=' . $platform . '', 'DELETE' );
+		$response      = $this->client->do_request( 'sites/' .  urlencode( $profile ) .  '/urlCrawlErrorsSamples/' . urlencode( ltrim( $url, '/' ) ) . '?category=' . $category . '&platform=' . $platform . '', 'DELETE' );
 		return ( $response->getResponseHttpCode() === 204 && $response->getResponseBody() === '' );
 	}
 
@@ -125,7 +125,7 @@ class WPSEO_GWT_Service {
 	 */
 	private function get_crawl_error_counts( $profile ) {
 		$crawl_error_counts = $this->client->do_request(
-			'https://www.googleapis.com/webmasters/v3/sites/' . urlencode( $profile ) . '/urlCrawlErrorsCounts/query'
+			'sites/' . urlencode( $profile ) . '/urlCrawlErrorsCounts/query'
 		);
 
 		if ( $response = $this->client->decode_response( $crawl_error_counts ) ) {
