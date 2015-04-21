@@ -1901,6 +1901,11 @@ class WPSEO_JSON_LD {
 	 * @param string $context The context of the output, useful for filtering
 	 */
 	protected function output( $context ) {
+		// avoid output if context is empty (like when no organisation or person was set)
+		if ( '' === $context ) {
+			return ;
+		}
+
 		/**
 		 * Filter: 'wpseo_json_ld_output' - Allows filtering of the JSON+LD output
 		 *
