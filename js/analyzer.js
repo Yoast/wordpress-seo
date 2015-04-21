@@ -215,12 +215,43 @@ Analyzer.prototype.fleschReading = function(){
 
 Analyzer.prototype.linkCount = function(){
     var linkMatches =  yst_preProcessor.__store.originalText.match(/<a(?:[^>]+)?>(.*?)<\/a>/g);
-    linkCount = 0;
-console.log(yst_preProcessor.__store.originalText);
-    if(linkMatches !== null){linkCount = linkMatches.length;}
+    var linkCount = {
+        total: 0,
+        internal: {total: 0, dofollow: 0,nofollow: 0},
+        external: {total: 0,dofollow: 0,nofollow: 0},
+        other: {total: 0,dofollow: 0,nofollow: 0}
+    };
+    if(linkMatches !== null){
+        linkCount.total = linkMatches.length;
+        for(var i = 0; i < linkMatches.length; i++){
+            var linkType = this.linkType(linkMatches[i]);
+            linkCount[linkType].total++;
+            var linkFollow = this.linkFollow(linkMatches[i]);
+            linkCount[linkType][linkFollow]++;
+        }
+    }
     return linkCount;
 };
 
+
+Analyzer.prototype.linkType = function(url){
+    var linkType = "other";
+    if(url.match(/https?:\/\//g) !== null){
+        linkType = "external";
+        if(url.match(this.config.url)){
+            linkType = "internal";
+        }
+    }
+    return linkType;
+};
+
+Analyzer.prototype.linkFollow = function(url){
+    var linkFollow = "dofollow";
+    if(url.match(/rel=['"]nofollow['"]/g) !== null){
+        linkFollow = "nofollow";
+    }
+    return linkFollow;
+}
 
 
 /**helper functions*/
