@@ -212,7 +212,10 @@ Analyzer.prototype.fleschReading = function(){
     return {name: "fleschReading", result: score};
 };
 
-
+/**
+ * counts the links in a given text. Also checks if a link is internal of external.
+ * @returns {{total: number, internal: {total: number, dofollow: number, nofollow: number}, external: {total: number, dofollow: number, nofollow: number}, other: {total: number, dofollow: number, nofollow: number}}}
+ */
 Analyzer.prototype.linkCount = function(){
     var linkMatches =  yst_preProcessor.__store.originalText.match(/<a(?:[^>]+)?>(.*?)<\/a>/g);
     var linkCount = {
@@ -238,7 +241,8 @@ Analyzer.prototype.linkType = function(url){
     var linkType = "other";
     if(url.match(/https?:\/\//g) !== null){
         linkType = "external";
-        if(url.match(this.config.url)){
+        var urlMatch = url.match(this.config.url);
+        if(urlMatch !== null && urlMatch[0].length !== 0){
             linkType = "internal";
         }
     }
@@ -251,7 +255,7 @@ Analyzer.prototype.linkFollow = function(url){
         linkFollow = "nofollow";
     }
     return linkFollow;
-}
+};
 
 
 /**helper functions*/
