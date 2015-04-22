@@ -1910,8 +1910,15 @@ class WPSEO_JSON_LD {
 		 */
 		$this->data = apply_filters( 'wpseo_json_ld_output', $this->data, $context );
 
+		if ( function_exists( 'wp_json_encode' ) ) {
+			$json_data = wp_json_encode( $this->data );  // wp_json_encode was introduced in WP 4.1
+		}
+		else {
+			$json_data = json_encode( $this->data );
+		}
+
 		if ( is_array( $this->data ) && ! empty( $this->data ) ) {
-			echo "<script type='application/ld+json'>", json_encode( $this->data ), '</script>', "\n";
+			echo "<script type='application/ld+json'>", $json_data, '</script>', "\n";
 		}
 
 		// Empty the $data array so we don't output it twice.
@@ -1923,15 +1930,12 @@ class WPSEO_JSON_LD {
 	 */
 	private function organization() {
 		if ( '' !== $this->options['company_name'] ) {
-			$this->data = array(
-				'@context' => 'http://schema.org',
-				'@type'    => 'Organization',
-				'name'     => $this->options['company_name'],
-				'url'      => home_url(),
-				'logo'     => $this->options['company_logo'],
-				'sameAs'   => $this->profiles,
-			);
+			$this->data['@type'] = 'Organization';
+			$this->data['name']  = $this->options['company_name'];
+			$this->data['logo']  = $this->options['company_logo'];
+			return;
 		}
+		$this->data = false;
 	}
 
 	/**
@@ -1939,14 +1943,25 @@ class WPSEO_JSON_LD {
 	 */
 	private function person() {
 		if ( '' !== $this->options['person_name'] ) {
-			$this->data = array(
-				'@context' => 'http://schema.org',
-				'@type'    => 'Person',
-				'name'     => $this->options['person_name'],
-				'url'      => home_url(),
-				'sameAs'   => $this->profiles,
-			);
+			$this->data['@type'] = 'Person';
+			$this->data['name']  = $this->options['person_name'];
+			return;
 		}
+		$this->data = false;
+	}
+
+	/**
+	 * Prepares the organization or person markup
+	 */
+	private function prepare_organization_person_markup() {
+		$this->fetch_social_profiles();
+
+		$this->data = array(
+			'@context' => 'http://schema.org',
+			'@type'    => '',
+			'url'      => WPSEO_Frontend::get_instance()->canonical( false, true ),
+			'sameAs'   => $this->profiles,
+		);
 	}
 
 	/**
@@ -1955,11 +1970,11 @@ class WPSEO_JSON_LD {
 	 * @since 1.8
 	 */
 	public function organization_or_person() {
-		if ( ! is_front_page() ) {
+		if ( ! is_front_page() || '' == $this->options['company_or_person'] ) {
 			return;
 		}
 
-		$this->fetch_social_profiles();
+		$this->prepare_organization_person_markup();
 
 		switch ( $this->options['company_or_person'] ) {
 			case 'company':
@@ -2024,7 +2039,12 @@ class WPSEO_JSON_LD {
 	 * @return string
 	 */
 	private function get_home_url() {
-		return trailingslashit( home_url() );
+		/**
+		 * Filter: 'wpseo_json_home_url' - Allows filtering of the home URL for WP SEO's JSON+LD output
+		 *
+		 * @api unsigned string
+		 */
+		return apply_filters( 'wpseo_json_home_url', trailingslashit( home_url() ) );
 	}
 
 	/**
