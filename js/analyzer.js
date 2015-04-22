@@ -45,7 +45,7 @@ Analyzer.prototype.initQueue = function(){
     if(typeof this.config.queue !== "undefined" && this.config.queue.length !== 0){
         this.queue = this.config.queue;
     }else{
-        this.queue = ["keywordDensity", "subHeadings", "stopwordChecker", "fleschReading", "linkCount"];
+        this.queue = ["keywordDensity", "subHeadings", "stopwords", "fleschReading", "linkCount"];
     }
 };
 
@@ -95,8 +95,8 @@ Analyzer.prototype.abortQueue = function(){
  */
 Analyzer.prototype.keywordDensity = function() {
     if (yst_preProcessor.__store.wordcount > 100) {
-        var keywordDensity = this.keywordDensityChecker();
-        var rating = this.keywordDensityRater(keywordDensity);
+        var keywordDensity = this.keywordDensityCheck();
+        var rating = this.keywordDensityRating(keywordDensity);
         return {name: "keywordDensity", result: {keywordDensity: keywordDensity.toFixed(1)}, rating: rating};
     } else {
         return {name: "keywordDensity", result: null, rating: null};
@@ -107,8 +107,8 @@ Analyzer.prototype.keywordDensity = function() {
  * checks and returns the keyword density
  * @returns {number}
  */
-Analyzer.prototype.keywordDensityChecker = function(){
-    var keywordMatches = yst_stringHelper.stringMatcher(yst_preProcessor.__store.cleanText,[this.config.keyword]);
+Analyzer.prototype.keywordDensityCheck = function(){
+    var keywordMatches = yst_stringHelper.matchString(yst_preProcessor.__store.cleanText,[this.config.keyword]);
     var keywordDensity = 0;
     if ( keywordMatches !== null ) {
         var keywordCount = keywordMatches.length;
@@ -122,7 +122,7 @@ Analyzer.prototype.keywordDensityChecker = function(){
  * @param keywordDensity
  * @returns {number}
  */
-Analyzer.prototype.keywordDensityRater = function(keywordDensity){
+Analyzer.prototype.keywordDensityRating = function(keywordDensity){
     var rating;
     switch (true) {
         case (keywordDensity < 1):
@@ -144,22 +144,22 @@ Analyzer.prototype.keywordDensityRater = function(keywordDensity){
  */
 Analyzer.prototype.subHeadings = function() {
     var matches = yst_preProcessor.__store.cleanTextSomeTags.match(/<h([1-6])(?:[^>]+)?>(.*?)<\/h\1>/g);
-    foundInHeader = this.subHeadingsChecker(matches);
-    return this.subHeadingsRater(foundInHeader, matches);
+    foundInHeader = this.subHeadingsCheck(matches);
+    return this.subHeadingsRating(foundInHeader, matches);
 };
 /**
  * subHeadings checker to check if keyword is present in given headings.
  * @param matches
  * @returns {number}
  */
-Analyzer.prototype.subHeadingsChecker = function(matches){
+Analyzer.prototype.subHeadingsCheck = function(matches){
     var foundInHeader;
     if (matches === null){
         foundInHeader = -1;
     }else{
         foundInHeader = 0;
         for (var i = 0; i < matches.length; i++) {
-            var formattedHeaders = yst_stringHelper.stringReplacer(matches[i], this.config.wordsToRemove);
+            var formattedHeaders = yst_stringHelper.replaceString(matches[i], this.config.wordsToRemove);
             if (formattedHeaders.match(new RegExp(this.config.keyword, "g")) || matches[i].match(new RegExp(this.config.keyword, "g"))) {
                 foundInHeader++;
             }
@@ -174,7 +174,7 @@ Analyzer.prototype.subHeadingsChecker = function(matches){
  * @param matches
  * @returns {{name: string, result: (*|{keywordFound: *, numberofHeaders: *}|{keywordFound: number, numberofHeaders: *}), rating: number}}
  */
-Analyzer.prototype.subHeadingsRater = function(foundInHeader, matches){
+Analyzer.prototype.subHeadingsRating = function(foundInHeader, matches){
     var result, rating;
     switch(true){
         case foundInHeader === -1:
@@ -195,8 +195,8 @@ Analyzer.prototype.subHeadingsRater = function(foundInHeader, matches){
 /**
  * check if the keyword contains stopwords
  */
-Analyzer.prototype.stopwordChecker = function(){
-    var matches = yst_stringHelper.stringMatcher(this.config.keyword, this.config.stopWords);
+Analyzer.prototype.stopwords = function(){
+    var matches = yst_stringHelper.matchString(this.config.keyword, this.config.stopWords);
     var stopwordCount = matches !== null ? matches.length : 0;
     return {name: "stopWords", result: {count: stopwordCount, matches: matches}, rating:5 };
 };
@@ -217,7 +217,7 @@ Analyzer.prototype.fleschReading = function(){
  * @returns {{total: number, internal: {total: number, dofollow: number, nofollow: number}, external: {total: number, dofollow: number, nofollow: number}, other: {total: number, dofollow: number, nofollow: number}}}
  */
 Analyzer.prototype.linkCount = function(){
-    var linkMatches =  yst_preProcessor.__store.originalText.match(/<a(?:[^>]+)?>(.*?)<\/a>/g);
+    var linkMatches = yst_preProcessor.__store.originalText.match(/<a(?:[^>]+)?>(.*?)<\/a>/g);
     var linkCount = {
         total: 0,
         internal: {total: 0, dofollow: 0,nofollow: 0},
@@ -233,10 +233,14 @@ Analyzer.prototype.linkCount = function(){
             linkCount[linkType][linkFollow]++;
         }
     }
-    return linkCount;
+    return {name: "linkCount", result: linkCount};
 };
 
-
+/**
+ * Checks the linktype of the given url against the URL stored in the config.
+ * @param url
+ * @returns {string}
+ */
 Analyzer.prototype.linkType = function(url){
     var linkType = "other";
     if(url.match(/https?:\/\//g) !== null){
@@ -249,6 +253,11 @@ Analyzer.prototype.linkType = function(url){
     return linkType;
 };
 
+/**
+ * checks if the URL has a nofollow attribute
+ * @param url
+ * @returns {string}
+ */
 Analyzer.prototype.linkFollow = function(url){
     var linkFollow = "dofollow";
     if(url.match(/rel=['"]nofollow['"]/g) !== null){
@@ -267,10 +276,9 @@ StringHelper = function(){};
  * @param replacement (default == space)
  * @returns {textString}
  */
-
-StringHelper.prototype.stringReplacer = function(textString, stringsToRemove, replacement){
+StringHelper.prototype.replaceString = function(textString, stringsToRemove, replacement){
     if(typeof replacement === "undefined"){replacement = " ";}
-    textString = textString.replace(this.regexStringBuilder(stringsToRemove), replacement);
+    textString = textString.replace(this.stringToRegex(stringsToRemove), replacement);
     return this.stripSpaces(textString);
 };
 
@@ -280,8 +288,8 @@ StringHelper.prototype.stringReplacer = function(textString, stringsToRemove, re
  * @param stringsToMatch
  * @returns {matches}
  */
-StringHelper.prototype.stringMatcher = function(textString, stringsToMatch){
-    return textString.match(this.regexStringBuilder(stringsToMatch));
+StringHelper.prototype.matchString = function(textString, stringsToMatch){
+    return textString.match(this.stringToRegex(stringsToMatch));
 };
 
 /**
@@ -289,7 +297,7 @@ StringHelper.prototype.stringMatcher = function(textString, stringsToMatch){
  * @param stringArray
  * @returns {RegExp}
  */
-StringHelper.prototype.regexStringBuilder = function(stringArray, disableWordBoundary){
+StringHelper.prototype.stringToRegex = function(stringArray, disableWordBoundary){
     var regexString = "";
     var wordBoundary = "\\b";
     if(disableWordBoundary){
@@ -334,7 +342,7 @@ PreProcessor = function (text){
  */
 PreProcessor.prototype.init = function(){
     //call function to clean text
-    this.textFormatter();
+    this.textFormat();
     //call function to count words
     this.wordcount();
 };
@@ -342,7 +350,7 @@ PreProcessor.prototype.init = function(){
 /**
  * formats the original text form __store and save as cleantext, cleantextSomeTags en cleanTextNoTags
  */
-PreProcessor.prototype.textFormatter = function(){
+PreProcessor.prototype.textFormat = function(){
     this.__store.cleanText = this.cleanText(this.__store.originalText);
     this.__store.cleanTextSomeTags = this.stripSomeTags(this.__store.cleanText);
     this.__store.cleanTextNoTags = this.stripAllTags(this.__store.cleanTextSomeTags);
@@ -370,14 +378,14 @@ PreProcessor.prototype.wordcount = function(){
 PreProcessor.prototype.syllableCount = function(textString) {
     this.syllableCount = 0;
     textString = textString.replace(/[.]/g, " ");
-    textString = this.wordRemover(textString);
+    textString = this.removeWords(textString);
     var words = textString.split(" ");
-    var subtractSyllablesRegexp = yst_stringHelper.regexStringBuilder(preprocessorConfig.syllables.subtractSyllables, true);
-    var addSyllablesRegexp = yst_stringHelper.regexStringBuilder(preprocessorConfig.syllables.addSyllables, true);
+    var subtractSyllablesRegexp = yst_stringHelper.stringToRegex(preprocessorConfig.syllables.subtractSyllables, true);
+    var addSyllablesRegexp = yst_stringHelper.stringToRegex(preprocessorConfig.syllables.addSyllables, true);
     for (var i = 0; i < words.length; i++){
-        this.basicSyllableCounter(words[i].split(/[^aeiouy]/g));
-        this.advancedSyllableCounter(words[i], subtractSyllablesRegexp, "subtract");
-        this.advancedSyllableCounter(words[i], addSyllablesRegexp, "add");
+        this.basicSyllableCount(words[i].split(/[^aeiouy]/g));
+        this.advancedSyllableCount(words[i], subtractSyllablesRegexp, "subtract");
+        this.advancedSyllableCount(words[i], addSyllablesRegexp, "add");
     }
     return this.syllableCount;
 };
@@ -387,7 +395,7 @@ PreProcessor.prototype.syllableCount = function(textString) {
  * @param splitWordArray
  */
 
-PreProcessor.prototype.basicSyllableCounter = function(splitWordArray){
+PreProcessor.prototype.basicSyllableCount = function(splitWordArray){
     for (var j = 0; j < splitWordArray.length; j++){
         if(splitWordArray[j].length > 0){
             this.syllableCount++;
@@ -401,7 +409,7 @@ PreProcessor.prototype.basicSyllableCounter = function(splitWordArray){
  * @param regex
  * @param operator
  */
-PreProcessor.prototype.advancedSyllableCounter = function(inputString, regex, operator){
+PreProcessor.prototype.advancedSyllableCount = function(inputString, regex, operator){
     var match = inputString.match(regex);
     if(match !== null){
         if(operator === "subtract"){
@@ -417,7 +425,7 @@ PreProcessor.prototype.advancedSyllableCounter = function(inputString, regex, op
  * @param textString
  * @returns textString with exclusionwords removed
  */
-PreProcessor.prototype.wordRemover = function(textString){
+PreProcessor.prototype.removeWords = function(textString){
     for (var i = 0; i < preprocessorConfig.syllables.exclusionWords.length; i++){
         var exclusionRegex = new RegExp(preprocessorConfig.syllables.exclusionWords[i].word, "g");
         var matches = textString.match(exclusionRegex);
