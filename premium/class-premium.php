@@ -16,6 +16,9 @@ if ( ! defined( 'WPSEO_PREMIUM_FILE' ) ) {
 	define( 'WPSEO_PREMIUM_FILE', __FILE__ );
 }
 
+/**
+ * Class WPSEO_Premium
+ */
 class WPSEO_Premium {
 
 	const OPTION_CURRENT_VERSION = 'wpseo_current_version';
@@ -88,13 +91,13 @@ class WPSEO_Premium {
 			// Add input fields to page meta post types
 			add_action( 'wpseo_admin_page_meta_post_types', array(
 				$this,
-				'admin_page_meta_post_types_checkboxes'
+				'admin_page_meta_post_types_checkboxes',
 			), 10, 2 );
 
 			// Add page analysis fields to variable array key patterns
 			add_filter( 'wpseo_option_titles_variable_array_key_patterns', array(
 				$this,
-				'add_variable_array_key_pattern'
+				'add_variable_array_key_pattern',
 			) );
 
 			// Filter the Page Analysis content
@@ -144,7 +147,7 @@ class WPSEO_Premium {
 			add_action( 'wp_ajax_wpseo_ignore_crawl_issue', array( $crawl_issue_manager, 'ajax_ignore_crawl_issue' ) );
 			add_action( 'wp_ajax_wpseo_unignore_crawl_issue', array(
 				$crawl_issue_manager,
-				'ajax_unignore_crawl_issue'
+				'ajax_unignore_crawl_issue',
 			) );
 
 			// Add Premium imports
@@ -153,7 +156,7 @@ class WPSEO_Premium {
 			// Allow option of importing from other 'other' plugins
 			add_filter( 'wpseo_import_other_plugins', array(
 				$premium_import_manager,
-				'filter_add_premium_import_options'
+				'filter_add_premium_import_options',
 			) );
 
 			// Handle premium imports
@@ -212,12 +215,8 @@ class WPSEO_Premium {
 					// Message object
 					$message = new WPSEO_Message_Redirect_Created( $_GET['yoast-redirect-created'] );
 					add_action( 'all_admin_notices', array( $message, 'display' ) );
-
 				}
-
 			}
-
-
 		}
 		else {
 			// Add 404 redirect link to WordPress toolbar
@@ -262,29 +261,29 @@ class WPSEO_Premium {
 			// Normal Redirect AJAX
 			add_action( 'wp_ajax_wpseo_save_redirect_url', array(
 				$normal_redirect_manager,
-				'ajax_handle_redirect_save'
+				'ajax_handle_redirect_save',
 			) );
 			add_action( 'wp_ajax_wpseo_delete_redirect_url', array(
 				$normal_redirect_manager,
-				'ajax_handle_redirect_delete'
+				'ajax_handle_redirect_delete',
 			) );
 			add_action( 'wp_ajax_wpseo_create_redirect_url', array(
 				$normal_redirect_manager,
-				'ajax_handle_redirect_create'
+				'ajax_handle_redirect_create',
 			) );
 
 			// Regex Redirect AJAX
 			add_action( 'wp_ajax_wpseo_save_redirect_regex', array(
 				$regex_redirect_manager,
-				'ajax_handle_redirect_save'
+				'ajax_handle_redirect_save',
 			) );
 			add_action( 'wp_ajax_wpseo_delete_redirect_regex', array(
 				$regex_redirect_manager,
-				'ajax_handle_redirect_delete'
+				'ajax_handle_redirect_delete',
 			) );
 			add_action( 'wp_ajax_wpseo_create_redirect_regex', array(
 				$regex_redirect_manager,
-				'ajax_handle_redirect_create'
+				'ajax_handle_redirect_create',
 			) );
 
 			// Add URL reponse code check AJAX
@@ -335,7 +334,7 @@ class WPSEO_Premium {
 	/**
 	 * Enqueue post en term overview script
 	 *
-	 * @param $hook
+	 * @param string $hook
 	 */
 	public function enqueue_overview_script( $hook ) {
 
@@ -360,7 +359,7 @@ class WPSEO_Premium {
 				$old_url = $parsed_url['path'];
 
 				if ( isset( $parsed_url['query'] ) && $parsed_url['query'] != '' ) {
-					$old_url .= "?" . $parsed_url['query'];
+					$old_url .= '?' . $parsed_url['query'];
 				}
 
 				$old_url = urlencode( $old_url );
@@ -371,14 +370,13 @@ class WPSEO_Premium {
 					'href'  => admin_url( 'admin.php?page=wpseo_redirects&old_url=' . $old_url )
 				) );
 			}
-
 		}
 	}
 
 	/**
 	 * Add page analysis to array with variable array key patterns
 	 *
-	 * @param $patterns
+	 * @param array $patterns
 	 */
 	public function add_variable_array_key_pattern( $patterns ) {
 		if ( true !== in_array( 'page-analyse-extra-', $patterns ) ) {
@@ -410,14 +408,13 @@ class WPSEO_Premium {
 			$custom_fields = explode( ',', $options[ $target_option ] );
 
 			if ( is_array( $custom_fields ) ) {
-				foreach ( $custom_fields AS $custom_field ) {
+				foreach ( $custom_fields as $custom_field ) {
 					$custom_field_data = get_post_meta( $post->ID, $custom_field, true );
 
 					if ( ! empty( $custom_field_data ) ) {
 						$page_content .= ' ' . $custom_field_data;
 					}
 				}
-
 			}
 		}
 
@@ -430,8 +427,8 @@ class WPSEO_Premium {
 	 * The values will be comma-seperated and will target the belonging field in the post_meta. Page analysis will
 	 * use the content of it by sticking it to the post_content.
 	 *
-	 * @param $wpseo_admin_pages
-	 * @param $name
+	 * @param array $wpseo_admin_pages
+	 * @param string $name
 	 */
 	public function admin_page_meta_post_types_checkboxes( $wpseo_admin_pages, $name ) {
 		echo Yoast_Form::get_instance()->textinput( 'page-analyse-extra-' . $name, __( 'Add custom fields to page analysis', 'wordpress-seo-premium' ) );
@@ -443,14 +440,14 @@ class WPSEO_Premium {
 	public function register_gwt_crawl_error_post_type() {
 		register_post_type( WPSEO_Crawl_Issue_Manager::PT_CRAWL_ISSUE, array(
 			'public' => false,
-			'label'  => 'WordPress SEO GWT Crawl Error'
+			'label'  => 'WordPress SEO GWT Crawl Error',
 		) );
 	}
 
 	/**
 	 * Function adds the premium pages to the WordPress SEO menu
 	 *
-	 * @param $submenu_pages
+	 * @param array $submenu_pages
 	 *
 	 * @return array
 	 */
@@ -467,7 +464,7 @@ class WPSEO_Premium {
 			apply_filters( 'wpseo_premium_manage_redirects_role', 'manage_options' ),
 			'wpseo_redirects',
 			array( 'WPSEO_Page_Redirect', 'display' ),
-			array( array( 'WPSEO_Page_Redirect', 'page_load' ) )
+			array( array( 'WPSEO_Page_Redirect', 'page_load', ) )
 		);
 
 
@@ -483,7 +480,7 @@ class WPSEO_Premium {
 			apply_filters( 'wpseo_premium_manage_wmt_role', 'manage_options' ),
 			'wpseo_webmaster_tools',
 			array( $this->page_gwt, 'display' ),
-			array( array( $this->page_gwt, 'page_load' ) )
+			array( array( $this->page_gwt, 'page_load', ) )
 		);
 
 		$submenu_pages[] = array(
@@ -492,7 +489,7 @@ class WPSEO_Premium {
 			__( 'Video Tutorials', 'wordpress-seo-premium' ),
 			'edit_posts',
 			'wpseo_tutorial_videos',
-			array( 'WPSEO_Tutorial_Videos', 'display' )
+			array( 'WPSEO_Tutorial_Videos', 'display', )
 		);
 
 		return $submenu_pages;
@@ -501,7 +498,7 @@ class WPSEO_Premium {
 	/**
 	 * Add redirects to admin pages so the Yoast scripts are loaded
 	 *
-	 * @param $admin_pages
+	 * @param array $admin_pages
 	 *
 	 * @return array
 	 */
@@ -524,8 +521,8 @@ class WPSEO_Premium {
 	/**
 	 * Hook that runs after the 'wpseo_redirect' option is updated
 	 *
-	 * @param $old_value
-	 * @param $value
+	 * @param array $old_value
+	 * @param array $value
 	 */
 	public function save_redirect_files( $old_value, $value ) {
 
@@ -563,7 +560,7 @@ class WPSEO_Premium {
 	/**
 	 * Remove the last check timestamp if the profile is switched
 	 *
-	 * @param $setting
+	 * @param array $setting
 	 *
 	 * @return mixed
 	 */
@@ -645,7 +642,9 @@ class WPSEO_Premium {
 		echo "<style type='text/css'>#wpseo_content_top{ padding-left: 0; margin-left: 0; }</style>";
 	}
 
-
+	/**
+	 * Load textdomain
+	 */
 	private function load_textdomain() {
 		load_plugin_textdomain( 'wordpress-seo-premium', false, dirname( plugin_basename( WPSEO_FILE ) ) . '/premium/languages/' );
 	}
