@@ -11,13 +11,18 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 	 */
 	protected $watch_type = 'term';
 
+	/**
+	 * Used when the slug is changed using quick edit
+	 *
+	 * @var string
+	 */
 	protected $old_url = '';
 
 	/**
 	 * Add an extra field to term edit screen
 	 *
-	 * @param $tag
-	 * @oaram $taxonomy
+	 * @param string $tag
+	 * @oaram string $taxonomy
 	 */
 	public function old_url_field( $tag, $taxonomy ) {
 		$url = $this->get_target_url( $tag, $taxonomy );
@@ -29,7 +34,7 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 	 * Set old URL when the quick edit is used for taxonomies
 	 */
 	public function set_old_url_quick_edit() {
-		$term_link = get_term_link( get_term( $_POST['tax_ID'] , $_POST['taxonomy']), $_POST['taxonomy'] );
+		$term_link = get_term_link( get_term( $_POST['tax_ID'] , $_POST['taxonomy'] ), $_POST['taxonomy'] );
 
 		$this->old_url = str_replace( home_url(), '', $term_link );
 	}
@@ -37,14 +42,14 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 	/**
 	 * Detect if the slug changed, hooked into 'post_updated'
 	 *
-	 * @param $term_id
-	 * @param $tt_id
-	 * @param $taxonomy
+	 * @param int $term_id
+	 * @param int $tt_id
+	 * @param string $taxonomy
 	 */
 	public function detect_slug_change( $term_id, $tt_id, $taxonomy ) {
 		$old_url = $this->get_old_url();
 
-		if ( !$old_url ) {
+		if ( ! $old_url ) {
 			return;
 		}
 
@@ -53,10 +58,10 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 
 		// Check if we should create a redirect
 		if ( $this->should_create_redirect( $old_url, $new_url ) ) {
-			//Create redirect
-			$this->create_redirect($old_url, $new_url);
+			// Create redirect
+			$this->create_redirect( $old_url, $new_url );
 
-			//Set notification
+			// Set notification
 			$this->set_notification( $old_url, $new_url );
 		}
 	}
@@ -90,14 +95,14 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 	/**
 	 * Offer to create a redirect from the term that is about to get deleted
 	 *
-	 * @param $term_id
+	 * @param int $term_id
 	 */
 	public function detect_term_delete( $term_id ) {
 
 		global $wpdb;
 
 		// Get the term and taxonomy from the term_taxonomy table
-		$term_row = $wpdb->get_row( $wpdb->prepare( "SELECT `term_id`, `taxonomy` FROM `" . $wpdb->term_taxonomy . "` WHERE `term_taxonomy_id` = %d ", $term_id ) );
+		$term_row = $wpdb->get_row( $wpdb->prepare( 'SELECT `term_id`, `taxonomy` FROM `' . $wpdb->term_taxonomy . '` WHERE `term_taxonomy_id` = %d ', $term_id ) );
 
 		// Check result
 		if ( null != $term_row ) {
