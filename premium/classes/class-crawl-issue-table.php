@@ -14,7 +14,7 @@ if ( ! class_exists( 'WP_List_Table' ) ) {
 class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 
 	/**
-	 * @var WPSEO_GWT_Google_Client
+	 * @var WPSEO_GWT_Client
 	 */
 	private $gwt;
 
@@ -130,7 +130,6 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 			'issue_category' => __( 'Issue category', 'wordpress-seo-premium' ),
 			'date_detected'  => __( 'Date detected', 'wordpress-seo-premium' ),
 			'response_code'  => __( 'Response code', 'wordpress-seo-premium' ),
-			'linked_from'    => __( 'Linked From', 'wordpress-seo-premium' ),
 		);
 
 		return $columns;
@@ -148,7 +147,6 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 			'issue_category' => array( 'issue_category', false ),
 			'date_detected'  => array( 'date_detected', false ),
 			'response_code'  => array( 'response_code', false ),
-			'linked_from'    => array( 'linked_from', false ),
 		);
 
 		return $sortable_columns;
@@ -177,26 +175,13 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 		$actions = array(
 			'create_redirect' => '<a href="javascript:wpseo_create_redirect(\'' . urlencode( $item['url'] ) . '\', \'' . $this->current_view . '\');">' . __( 'Create redirect', 'wordpress-seo-premium' ) . '</a>',
 			'view'            => '<a href="' . $item['url'] . '" target="_blank">' . __( 'View', 'wordpress-seo-premium' ) . '</a>',
-			'markasfixed'     => '<a href="javascript:wpseo_mark_as_fixed(\'' . urlencode( $item['url'] ) . '\', \'' . $this->current_view . '\');">' . __( 'Mark as fixed', 'wordpress-seo-premium' ) . '</a>',
+			'markasfixed'     => '<a href="javascript:wpseo_mark_as_fixed(\'' . urlencode( $item['url'] ) . '\');">' . __( 'Mark as fixed', 'wordpress-seo-premium' ) . '</a>',
 		);
 
 		return sprintf(
 			'<span class="value">%1$s</span> %2$s',
 			$item['url'],
 			$this->row_actions( $actions )
-		);
-	}
-
-	/**
-	 * Linked from column
-	 *
-	 * @param array $item
-	 *
-	 * @return string
-	 */
-	protected function column_linked_from( $item ) {
-		return sprintf(
-			'<a href="%1$s" target="_blank">%1$s</a>', $item['linked_from']
 		);
 	}
 

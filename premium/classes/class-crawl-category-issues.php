@@ -4,7 +4,6 @@
  * @subpackage Premium
  */
 
-
 /**
  * Class WPSEO_Crawl_Category_Issues
  */
@@ -67,27 +66,8 @@ class WPSEO_Crawl_Category_Issues {
 			(string) $this->category->category,
 			new DateTime( (string) $issue->first_detected ),
 			(string) ( ! empty( $issue->responseCode ) ) ? $issue->responseCode : null,
-			$this->get_linked_from_urls( $issue->pageUrl ),
 			false
 		);
-	}
-
-	/**
-	 * Get the urls where given $url is linked from
-	 *
-	 * @param string $url
-	 *
-	 * @return array
-	 */
-	private function get_linked_from_urls( $url ) {
-
-		$response = $this->client->do_request(
-			'sites/'. urlencode( $this->profile ) . '/urlCrawlErrorsSamples/' . $url . '?category=' . $this->category->category . '&platform=' . $this->category->platform
-		);
-
-		if ( $issue = $this->client->decode_response( $response ) ) {
-			return (array) $issue->urlDetails->linkedFromUrls;
-		}
 	}
 
 }

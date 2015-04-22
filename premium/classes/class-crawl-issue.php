@@ -37,11 +37,6 @@ class WPSEO_Crawl_Issue {
 	private $response_code;
 
 	/**
-	 * @var array
-	 */
-	private $linked_from;
-
-	/**
 	 * Constructor
 	 *
 	 * @param string   $url
@@ -49,15 +44,13 @@ class WPSEO_Crawl_Issue {
 	 * @param string   $issue_type
 	 * @param datetime $date_detected
 	 * @param string   $response_code
-	 * @param string   $linked_from
 	 * @param string   $ignored
 	 */
-	function __construct( $url, $crawl_type, $issue_type, $date_detected, $response_code, $linked_from, $ignored ) {
+	function __construct( $url, $crawl_type, $issue_type, $date_detected, $response_code, $ignored ) {
 		$this->crawl_type    = $crawl_type;
 		$this->date_detected = $date_detected;
 		$this->response_code = $response_code;
 		$this->issue_type    = $issue_type;
-		$this->linked_from   = $linked_from;
 		$this->url           = $url;
 	}
 
@@ -90,13 +83,6 @@ class WPSEO_Crawl_Issue {
 	}
 
 	/**
-	 * @return Array
-	 */
-	public function get_linked_from() {
-		return $this->linked_from;
-	}
-
-	/**
 	 * @return String
 	 */
 	public function get_url() {
@@ -109,21 +95,12 @@ class WPSEO_Crawl_Issue {
 	 * @return array
 	 */
 	public function to_array() {
-
-		// Get first linked from
-		$linked_from = '';
-		if ( is_array( $this->linked_from ) && count( $this->linked_from ) > 0 ) {
-			$copy        = $this->linked_from;
-			$linked_from = array_shift( $copy );
-		}
-
 		return array(
 			'url'             => $this->url,
 			'crawl_type'      => $this->crawl_type,
 			'issue_category'  => $this->issue_type,
 			'date_detected'   => strftime( '%x', strtotime( $this->date_detected->format( 'Y-m-d H:i:s' ) ) ),
 			'response_code'   => $this->get_response_code(),
-			'linked_from'     => $linked_from,
 		);
 	}
 

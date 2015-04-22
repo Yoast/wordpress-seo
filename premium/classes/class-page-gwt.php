@@ -173,7 +173,7 @@ class WPSEO_Page_GWT {
 	private function setup_client() {
 		Yoast_Api_Libs::load_api_libraries( array( 'google' ) );
 
-
+		$config = array();
 		require WPSEO_PREMIUM_PATH . 'config/gwt.php';
 
 		return new WPSEO_GWT_Client( $config );

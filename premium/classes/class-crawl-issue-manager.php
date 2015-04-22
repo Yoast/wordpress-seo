@@ -14,7 +14,6 @@ class WPSEO_Crawl_Issue_Manager {
 	const PM_CI_CATEGORY      = 'wpseo_ci_issue_type';		// @todo rename value
 	const PM_CI_DATE_DETECTED = 'wpseo_ci_date_detected';
 	const PM_CI_RESPONSE_CODE = 'wpseo_ci_detail'; 			// @todo rename value
-	const PM_CI_LINKED_FROM   = 'wpseo_ci_linked_from';
 
 	// The last checked timestamp
 	const OPTION_CI_TS = 'wpseo_crawl_issues_last_checked';
@@ -58,7 +57,6 @@ class WPSEO_Crawl_Issue_Manager {
 	 *
 	 * First it will do a request to the Google API
 	 *
-	 * @param string $url
 	 */
 	public function ajax_mark_as_fixed( ) {
 		new WPSEO_Crawl_Issue_Marker();
@@ -121,7 +119,6 @@ class WPSEO_Crawl_Issue_Manager {
 		update_post_meta( $ci_post_id, self::PM_CI_CATEGORY, $crawl_issue->get_issue_type() );
 		update_post_meta( $ci_post_id, self::PM_CI_DATE_DETECTED, (string) strftime( '%x', strtotime( $crawl_issue->get_date_detected()->format( 'Y-m-d H:i:s' ) ) ) );
 		update_post_meta( $ci_post_id, self::PM_CI_RESPONSE_CODE, $crawl_issue->get_response_code() );
-		update_post_meta( $ci_post_id, self::PM_CI_LINKED_FROM, $crawl_issue->get_linked_from() );
 	}
 
 	/**
@@ -143,7 +140,6 @@ class WPSEO_Crawl_Issue_Manager {
 					get_post_meta( $crawl_issues_db_item->ID, self::PM_CI_CATEGORY, true ),
 					new DateTime( (string) get_post_meta( $crawl_issues_db_item->ID, self::PM_CI_DATE_DETECTED, true ) ),
 					get_post_meta( $crawl_issues_db_item->ID, self::PM_CI_RESPONSE_CODE, true ),
-					get_post_meta( $crawl_issues_db_item->ID, self::PM_CI_LINKED_FROM, true ),
 					false
 				);
 			}
