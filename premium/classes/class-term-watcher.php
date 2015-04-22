@@ -11,6 +11,8 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 	 */
 	protected $watch_type = 'term';
 
+	protected $old_url = '';
+
 	/**
 	 * Add an extra field to term edit screen
 	 *
@@ -24,6 +26,17 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 	}
 
 	/**
+	 * Set old URL when the quick edit is used for taxonomies
+	 */
+	public function set_old_url_quick_edit() {
+		$term_link = get_term_link( get_term($_POST['tax_ID'] , $_POST['taxonomy']), $_POST['taxonomy']);
+
+		$this->old_url = str_replace( home_url(), '', $term_link );
+	}
+
+
+
+	/**
 	 * Detect if the slug changed, hooked into 'post_updated'
 	 *
 	 * @param $term_id
@@ -31,30 +44,51 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 	 * @param $taxonomy
 	 */
 	public function detect_slug_change( $term_id, $tt_id, $taxonomy ) {
+		$old_url = $this->get_old_url();
 
-		// Check if the old page is set
-		if ( ! isset( $_POST['wpseo_old_url'] ) ) {
+		if ( !$old_url ) {
 			return;
 		}
 
 		// Get the new URL
 		$new_url = $this->get_target_url( $term_id, $taxonomy );
 
-		// Get the old URL
-		$old_url = esc_url( $_POST['wpseo_old_url'] );
-
 		// Check if we should create a redirect
 		if ( $this->should_create_redirect( $old_url, $new_url ) ) {
 
 			// Format the message
-			$message = sprintf( __( "WordPress SEO Premium created a <a href='%s'>redirect</a> from the old term URL to the new term URL. <a href='%s'>Click here to undo this</a>.", 'wordpress-seo-premium' ), $this->admin_redirect_url( $old_url ), $this->javascript_undo_redirect( $old_url ) );
-
 			$this->create_redirect($old_url, $new_url);
 
-			$this->create_notification( $message, 'slug_change' );
+			$this->set_notification( $old_url, $new_url );
 
 		}
 
+	}
+
+	/**
+	 * Get the old url
+	 * @return bool|string
+	 */
+	protected function get_old_url() {
+		if ( ! isset( $_POST['wpseo_old_url'] ) && ! empty( $this->old_url ) ) {
+			return $this->old_url;
+		}
+		else {
+			return false;
+		}
+
+		return $_POST['wpseo_old_url'];;
+	}
+
+	/**
+	 * Set redirect notification
+	 *
+	 * @param string $old_url
+	 * @param string $new_url
+	 */
+	public function set_notification( $old_url, $new_url ) {
+		$message = sprintf( __( "WordPress SEO Premium created a <a href='%s'>redirect</a> from the old term URL to the new term URL. <a href='%s'>Click here to undo this</a>.", 'wordpress-seo-premium' ), $this->admin_redirect_url( $old_url ), $this->javascript_undo_redirect( $old_url ) );
+		$this->create_notification( $message, 'slug_change' );
 	}
 
 	/**
