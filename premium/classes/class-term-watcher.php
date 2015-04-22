@@ -73,7 +73,7 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 			return false;
 		}
 
-		return $_POST['wpseo_old_url'];;
+		return $_POST['wpseo_old_url'];
 	}
 
 	/**
