@@ -198,6 +198,8 @@ class WPSEO_Premium {
 					}
 				}
 
+				add_action( 'wp_ajax_inline-save-tax', array( $term_watcher, 'detect_quick_edit_save' ), 1 );
+
 				// Detect the term slug change
 				add_action( 'edited_term', array( $term_watcher, 'detect_slug_change' ), 10, 3 );
 
