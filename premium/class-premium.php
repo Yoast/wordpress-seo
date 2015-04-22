@@ -427,7 +427,7 @@ class WPSEO_Premium {
 	 * The values will be comma-seperated and will target the belonging field in the post_meta. Page analysis will
 	 * use the content of it by sticking it to the post_content.
 	 *
-	 * @param array $wpseo_admin_pages
+	 * @param array  $wpseo_admin_pages
 	 * @param string $name
 	 */
 	public function admin_page_meta_post_types_checkboxes( $wpseo_admin_pages, $name ) {
@@ -464,7 +464,7 @@ class WPSEO_Premium {
 			apply_filters( 'wpseo_premium_manage_redirects_role', 'manage_options' ),
 			'wpseo_redirects',
 			array( 'WPSEO_Page_Redirect', 'display' ),
-			array( array( 'WPSEO_Page_Redirect', 'page_load', ) )
+			array( array( 'WPSEO_Page_Redirect', 'page_load', ), )
 		);
 
 
@@ -480,7 +480,7 @@ class WPSEO_Premium {
 			apply_filters( 'wpseo_premium_manage_wmt_role', 'manage_options' ),
 			'wpseo_webmaster_tools',
 			array( $this->page_gwt, 'display' ),
-			array( array( $this->page_gwt, 'page_load', ) )
+			array( array( $this->page_gwt, 'page_load', ), )
 		);
 
 		$submenu_pages[] = array(
@@ -489,7 +489,7 @@ class WPSEO_Premium {
 			__( 'Video Tutorials', 'wordpress-seo-premium' ),
 			'edit_posts',
 			'wpseo_tutorial_videos',
-			array( 'WPSEO_Tutorial_Videos', 'display', )
+			array( 'WPSEO_Tutorial_Videos', 'display', ),
 		);
 
 		return $submenu_pages;
