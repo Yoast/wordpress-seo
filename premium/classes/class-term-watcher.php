@@ -48,8 +48,8 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 	/**
 	 * Detect if the slug changed, hooked into 'post_updated'
 	 *
-	 * @param int   $term_id
-	 * @param int   $tt_id
+	 * @param int    $term_id
+	 * @param int    $tt_id
 	 * @param string $taxonomy
 	 */
 	public function detect_slug_change( $term_id, $tt_id, $taxonomy ) {
