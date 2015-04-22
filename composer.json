@@ -44,6 +44,9 @@
 			"\"vendor/bin/phpcs\" --config-set installed_paths ../../../vendor/wp-coding-standards/wpcs,../../../vendor/yoast/yoastcs",
 			"\"vendor/bin/phpcs\" --config-set default_standard Yoast"
 		],
+		"config-premium": [
+			"composer require yoast/wordpress-seo-premium"
+		],
 		"post-install-cmd": [
 			"xrstf\\Composer52\\Generator::onPostInstallCmd"
 		],
