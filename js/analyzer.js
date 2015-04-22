@@ -45,7 +45,7 @@ Analyzer.prototype.initQueue = function(){
     if(typeof this.config.queue !== "undefined" && this.config.queue.length !== 0){
         this.queue = this.config.queue;
     }else{
-        this.queue = ["keywordDensity", "subHeadings", "stopwords", "fleschReading", "linkCount"];
+        this.queue = ["keywordDensity", "subHeadings", "stopwords", "fleschReading", "linkCount", "imageCount"];
     }
 };
 
@@ -264,6 +264,13 @@ Analyzer.prototype.linkFollow = function(url){
         linkFollow = "nofollow";
     }
     return linkFollow;
+};
+
+Analyzer.prototype.imageCount = function(){
+    var imageMatches = yst_preProcessor.__store.originalText.match(/<img(?:[^>]+)?>/g);
+    imageCount = 0;
+    if(imageMatches !== null){imageCount = imageMatches.length}
+    return imageCount;
 };
 
 
