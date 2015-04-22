@@ -40,9 +40,9 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 	 * Set old URL when the quick edit is used for taxonomies
 	 */
 	public function set_old_url_quick_edit() {
-		$term_link = get_term_link( get_term( $_POST['tax_ID'] , $_POST['taxonomy'] ), $_POST['taxonomy'] );
-
-		$this->old_url = str_replace( home_url(), '', $term_link );
+		if ( $this->get_taxonomy_permalink() !== WP_Error ) {
+			$this->old_url = str_replace( home_url(), '', $this->get_old_url() );
+		}
 	}
 
 	/**
@@ -72,20 +72,6 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 		}
 	}
 
-	/**
-	 * Get the old url
-	 * @return bool|string
-	 */
-	protected function get_old_url() {
-		if ( ! isset( $_POST['wpseo_old_url'] ) && ! empty( $this->old_url ) ) {
-			return $this->old_url;
-		}
-		else {
-			return false;
-		}
-
-		return $_POST['wpseo_old_url'];
-	}
 
 	/**
 	 * Set redirect notification
@@ -142,4 +128,27 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 		return $url;
 	}
 
+	/**
+	 * Get permalink for taxonomy
+	 *
+	 * @return string|WP_Error
+	 */
+	protected function get_taxonomy_permalink() {
+		return get_term_link( get_term( $_POST['tax_ID'] , $_POST['taxonomy'] ), $_POST['taxonomy'] );
+	}
+
+	/**
+	 * Get the old url
+	 * @return bool|string
+	 */
+	protected function get_old_url() {
+		if ( ! isset( $_POST['wpseo_old_url'] ) && ! empty( $this->old_url ) ) {
+			return $this->old_url;
+		}
+		else {
+			return false;
+		}
+
+		return $_POST['wpseo_old_url'];
+	}
 }
