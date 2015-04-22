@@ -71,7 +71,7 @@ function wpseoDetectWrongVariables(e) {
     var dateVariables = ['date'];
     var postVariables = ['title', 'parent_title', 'excerpt', 'excerpt_only', 'tag', 'category', 'category_description', 'tag_description', 'caption', 'focuskw', 'pt_single', 'pt_plural', 'modified', 'id'];
     var specialVariables = ['term404', 'searchphrase'];
-    var taxonomyVariables = ['term_title', 'term_description'];
+    var taxonomyVariables = ['term_title', 'term_description', 'category', 'category_description', 'tag', 'tag_description'];
     if (e.hasClass('posttype-template')) {
         wrongVariables = wrongVariables.concat(specialVariables, taxonomyVariables);
     }
@@ -95,9 +95,9 @@ function wpseoDetectWrongVariables(e) {
     }
     jQuery.each(wrongVariables, function (index, variable) {
         error_id = e.attr('id') + '-' + variable + '-warning';
-        if (e.val().search('%%'+variable+'%%') !== -1) {
+        if (e.val().search('%%' + variable + '%%') !== -1) {
             e.addClass('wpseo_variable_warning');
-            var msg = wpseoAdminL10n.variable_warning.replace('%s', '%%'+variable+'%%');
+            var msg = wpseoAdminL10n.variable_warning.replace('%s', '%%' + variable + '%%');
             if (jQuery('#' + error_id).length) {
                 jQuery('#' + error_id).html(msg);
             } else {
@@ -105,7 +105,7 @@ function wpseoDetectWrongVariables(e) {
             }
             warn = true;
         } else {
-            if ( jQuery('#' + error_id).length ) {
+            if (jQuery('#' + error_id).length) {
                 jQuery('#' + error_id).remove();
             }
         }
