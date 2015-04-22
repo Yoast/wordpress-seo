@@ -29,12 +29,10 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 	 * Set old URL when the quick edit is used for taxonomies
 	 */
 	public function set_old_url_quick_edit() {
-		$term_link = get_term_link( get_term($_POST['tax_ID'] , $_POST['taxonomy']), $_POST['taxonomy']);
+		$term_link = get_term_link( get_term( $_POST['tax_ID'] , $_POST['taxonomy']), $_POST['taxonomy'] );
 
 		$this->old_url = str_replace( home_url(), '', $term_link );
 	}
-
-
 
 	/**
 	 * Detect if the slug changed, hooked into 'post_updated'
@@ -55,14 +53,12 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 
 		// Check if we should create a redirect
 		if ( $this->should_create_redirect( $old_url, $new_url ) ) {
-
-			// Format the message
+			//Create redirect
 			$this->create_redirect($old_url, $new_url);
 
+			//Set notification
 			$this->set_notification( $old_url, $new_url );
-
 		}
-
 	}
 
 	/**
