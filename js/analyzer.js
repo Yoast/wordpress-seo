@@ -273,6 +273,16 @@ Analyzer.prototype.imageCount = function(){
     return imageCount;
 };
 
+Analyzer.prototype.imageAlttag = function(image){
+    var hasAlttag = false;
+    var alttag = image.match(/alt=['"](.*?)['"]/g);
+    if(alttag !== null){
+        if(alttag[0].length > 2){
+            hasAlttag = true;
+        }
+    }
+    return hasAlttag;
+};
 
 /**helper functions*/
 StringHelper = function(){};
