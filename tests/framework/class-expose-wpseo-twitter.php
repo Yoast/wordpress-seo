@@ -1,7 +1,6 @@
 <?php
 /**
- * @package    WPSEO
- * @subpackage Unittests
+ * @package WPSEO\Unittests
  */
 
 /**
@@ -31,10 +30,6 @@ class Expose_WPSEO_Twitter extends WPSEO_Twitter {
 
 	public function description() {
 		return parent::description();
-	}
-
-	public function url() {
-		return parent::url();
 	}
 
 	public function image_output( $img, $tag = 'image:src' ) {

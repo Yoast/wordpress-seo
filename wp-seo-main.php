@@ -1,7 +1,6 @@
 <?php
 /**
- * @package    WPSEO
- * @subpackage Main
+ * @package WPSEO\Main
  */
 
 if ( ! function_exists( 'add_filter' ) ) {
@@ -14,7 +13,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * @internal Nobody should be able to overrule the real version number as this can cause serious issues
  * with the options, so no if ( ! defined() )
  */
-define( 'WPSEO_VERSION', '2.0.1' );
+define( 'WPSEO_VERSION', '2.1.1' );
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
 	define( 'WPSEO_PATH', plugin_dir_path( WPSEO_FILE ) );
@@ -200,7 +199,15 @@ function wpseo_on_activate_blog( $blog_id ) {
  * Load translations
  */
 function wpseo_load_textdomain() {
-	load_plugin_textdomain( 'wordpress-seo', false, dirname( plugin_basename( WPSEO_FILE ) ) . '/languages/' );
+	$wpseo_path = str_replace( '\\', '/', WPSEO_PATH );
+	$mu_path    = str_replace( '\\', '/', WPMU_PLUGIN_DIR );
+
+	if ( false !== stripos( $wpseo_path, $mu_path ) ) {
+		load_muplugin_textdomain( 'wordpress-seo', dirname( WPSEO_BASENAME ) . '/languages/' );
+	}
+	else {
+		load_plugin_textdomain( 'wordpress-seo', false, dirname( WPSEO_BASENAME ) . '/languages/' );
+	}
 }
 
 add_action( 'init', 'wpseo_load_textdomain', 1 );
