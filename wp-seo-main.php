@@ -352,7 +352,8 @@ function yoast_wpseo_self_deactivate() {
  */
 function yoast_wpseo_missing_autoload() {
 	if ( is_admin() ) {
-		$message = esc_html__( 'The WordPress SEO plugin installation is incomplete. Please refer to installation instructions.', 'wordpress-seo' );
+		$message = esc_html__( 'The WordPress SEO plugin installation is incomplete. Please refer to %1$sinstallation instructions%2$s.', 'wordpress-seo' );
+		$message = sprintf( $message, '<a href="https://github.com/Yoast/wordpress-seo#installation">', '</a>' );
 		add_action( 'admin_notices', create_function( '', 'echo \'<div class="error"><p>\' . __( \'Activation failed:\', \'wordpress-seo\' ) . \' ' . $message . '</p></div>\';' ) );
 
 		deactivate_plugins( plugin_basename( WPSEO_FILE ) );
