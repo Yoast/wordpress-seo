@@ -40,8 +40,10 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 	 * Set old URL when the quick edit is used for taxonomies
 	 */
 	public function set_old_url_quick_edit() {
-		if ( $this->get_taxonomy_permalink() !== WP_Error ) {
-			$this->old_url = str_replace( home_url(), '', $this->get_old_url() );
+		$permalink = $this->get_taxonomy_permalink();
+
+		if ( ! is_wp_error( $permalink ) ) {
+			$this->old_url = str_replace( home_url(), '', $permalink );
 		}
 	}
 
@@ -142,11 +144,13 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 	 * @return bool|string
 	 */
 	protected function get_old_url() {
-		if ( ! isset( $_POST['wpseo_old_url'] ) && ! empty( $this->old_url ) ) {
-			return $this->old_url;
-		}
-		else {
-			return false;
+		if ( ! isset( $_POST['wpseo_old_url'] ) ) {
+			if ( ! empty( $this->old_url ) ) {
+				return $this->old_url;
+			}
+			else {
+				return false;
+			}
 		}
 
 		return $_POST['wpseo_old_url'];
