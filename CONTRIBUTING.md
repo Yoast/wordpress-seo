@@ -1,4 +1,4 @@
-Thanks for reading our conribution guidelines! What do you want to do:
+Thanks for reading our contribution guidelines! What do you want to do:
 
 * [File a bug / an issue](#filing-issue)
 * [Security issues](#security)
