@@ -45,12 +45,10 @@ $yform->admin_header( true, 'wpseo_social' );
 
 	<div id="facebook" class="wpseotab">
 		<p>
-			<?php $yform->checkbox( 'opengraph', __( 'Add Open Graph meta data', 'wordpress-seo' ) ); ?>
+			<?php _e( 'Add Open Graph meta data to your site\'s <code>&lt;head&gt;</code> section, Facebook and other social networks use this data when your pages are shared.', 'wordpress-seo' ); ?>
 		</p>
+		<?php $yform->checkbox( 'opengraph', __( 'Add Open Graph meta data', 'wordpress-seo' ) ); ?>
 
-		<p class="desc">
-			<?php _e( 'Add Open Graph meta data to your site\'s <code>&lt;head&gt;</code> section. You can specify some of the ID\'s that are sometimes needed below:', 'wordpress-seo' ); ?>
-		</p>
 		<?php
 		$social_facebook->show_form();
 
@@ -95,11 +93,11 @@ $yform->admin_header( true, 'wpseo_social' );
 		<p>
 			<?php _e( 'Pinterest uses Open Graph metadata just like Facebook, so be sure to keep the Open Graph checkbox on the Facebook tab checked if you want to optimize your site for Pinterest.', 'wordpress-seo' ); ?>
 		</p>
+		<p>
+			<?php printf( __( 'To %1$sverify your site with Pinterest%2$s, add the meta tag here:', 'wordpress-seo' ), '<a target="_blank" href="https://help.pinterest.com/en/articles/verify-your-website#meta_tag">', '</a>' ); ?>
+		</p>
 
 		<?php $yform->textinput( 'pinterestverify', __( 'Pinterest verification', 'wordpress-seo' ) ); ?>
-		<p class="desc label">
-			<?php printf( __( 'To %1$sverify your site with Pinterest%2$s, add the meta tag here', 'wordpress-seo' ), '<a target="_blank" href="https://help.pinterest.com/en/articles/verify-your-website#meta_tag">', '</a>' ); ?>
-		</p>
 
 		<?php
 		do_action( 'wpseo_admin_pinterest_section' );
@@ -111,8 +109,9 @@ $yform->admin_header( true, 'wpseo_social' );
 			<?php $yform->checkbox( 'googleplus', __( 'Add Google+ specific post meta data', 'wordpress-seo' ) ); ?>
 		</p>
 
+		<p><?php esc_html_e( 'If you have a Google+ page for your business, add that URL here and link it on your Google+ page\'s about page.', 'wordpress-seo' ); ?></p>
+
 		<?php $yform->textinput( 'plus-publisher', __( 'Google Publisher Page', 'wordpress-seo' ) ); ?>
-		<p class="desc label"><?php esc_html_e( 'If you have a Google+ page for your business, add that URL here and link it on your Google+ page\'s about page.', 'wordpress-seo' ); ?></p>
 
 		<?php do_action( 'wpseo_admin_googleplus_section' ); ?>
 	</div>

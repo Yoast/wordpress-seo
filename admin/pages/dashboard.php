@@ -229,8 +229,8 @@ if ( get_option( 'page_comments' ) && $options['ignore_page_comments'] === false
 	</div>
 	<div id="security" class="wpseotab">
 		<?php
+		echo '<p>', __( 'Unchecking this box allows authors and editors to redirect posts, noindex them and do other things you might not want if you don\'t trust your authors.', 'wordpress-seo' ), '</p>';
 		$yform->checkbox( 'disableadvanced_meta', __( 'Disable the Advanced part of the WordPress SEO meta box', 'wordpress-seo' ) );
-		echo '<p class="desc">', __( 'Unchecking this box allows authors and editors to redirect posts, noindex them and do other things you might not want if you don\'t trust your authors.', 'wordpress-seo' ), '</p>';
 		?>
 	</div>
 <?php
