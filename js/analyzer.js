@@ -266,18 +266,36 @@ Analyzer.prototype.linkFollow = function(url){
     return linkFollow;
 };
 
+/**
+ * counts the number of images found in a given textstring, based on the <img>-tag and returns a result object
+ * @returns {{name: string, result: {total: number, alt: number, noalt: number}}}
+ */
 Analyzer.prototype.imageCount = function(){
+    var imageCount = {total: 0, alt: 0, noalt: 0};
     var imageMatches = yst_preProcessor.__store.originalText.match(/<img(?:[^>]+)?>/g);
-    imageCount = 0;
-    if(imageMatches !== null){imageCount = imageMatches.length}
-    return imageCount;
+    if(imageMatches !== null){
+        imageCount.total = imageMatches.length;
+        for (var i = 0; i < imageMatches.length; i++){
+            if(this.imageAlttag(imageMatches[i])){
+                imageCount.alt++;
+            }else{
+                imageCount.noalt++;
+            }
+        }
+    }
+    return {name: "imageCount", result: imageCount};
 };
 
+/**
+ * checks if an image has an alttag and if the alttag contains any text.
+ * @param image
+ * @returns {boolean}
+ */
 Analyzer.prototype.imageAlttag = function(image){
     var hasAlttag = false;
     var alttag = image.match(/alt=['"](.*?)['"]/g);
     if(alttag !== null){
-        if(alttag[0].length > 2){
+        if(alttag[0].split("=")[1].match(/[a-z0-9](.*?)[a-z0-9]/g) !== null){
             hasAlttag = true;
         }
     }
