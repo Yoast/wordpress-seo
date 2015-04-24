@@ -220,16 +220,16 @@
     "packages-dev": [
         {
             "name": "squizlabs/php_codesniffer",
-            "version": "2.3.1",
+            "version": "2.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/squizlabs/PHP_CodeSniffer.git",
-                "reference": "f3100143e94bbeeaa4f1cd7c6389c3733d3d1ce1"
+                "reference": "5046b0e01c416fc2b06df961d0673c85bcdc896c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/f3100143e94bbeeaa4f1cd7c6389c3733d3d1ce1",
-                "reference": "f3100143e94bbeeaa4f1cd7c6389c3733d3d1ce1",
+                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/5046b0e01c416fc2b06df961d0673c85bcdc896c",
+                "reference": "5046b0e01c416fc2b06df961d0673c85bcdc896c",
                 "shasum": ""
             },
             "require": {
@@ -290,7 +290,7 @@
                 "phpcs",
                 "standards"
             ],
-            "time": "2015-04-23 03:40:59"
+            "time": "2015-03-04 02:07:03"
         },
         {
             "name": "wp-coding-standards/wpcs",
@@ -338,17 +338,20 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Yoast/yoastcs.git",
-                "reference": "2dca1e17be0b55d721261fb1af231e85baf25baa"
+                "reference": "4d1b1dde64ba56b47dedcc6696384174e29e4cd1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Yoast/yoastcs/zipball/2dca1e17be0b55d721261fb1af231e85baf25baa",
-                "reference": "2dca1e17be0b55d721261fb1af231e85baf25baa",
+                "url": "https://api.github.com/repos/Yoast/yoastcs/zipball/4d1b1dde64ba56b47dedcc6696384174e29e4cd1",
+                "reference": "4d1b1dde64ba56b47dedcc6696384174e29e4cd1",
                 "shasum": ""
             },
             "require": {
                 "squizlabs/php_codesniffer": "^2.2.0",
                 "wp-coding-standards/wpcs": "dev-develop"
+            },
+            "conflict": {
+                "squizlabs/php_codesniffer": ">=2.3.1"
             },
             "type": "library",
             "notification-url": "https://packagist.org/downloads/",
@@ -368,7 +371,7 @@
                 "standards",
                 "wordpress"
             ],
-            "time": "2015-03-26 15:37:17"
+            "time": "2015-04-24 12:36:42"
         }
     ],
     "aliases": [],
