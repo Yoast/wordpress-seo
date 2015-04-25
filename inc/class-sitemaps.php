@@ -251,7 +251,7 @@ class WPSEO_Sitemaps {
 			$this->n = intval( $n );
 		}
 	}
-	
+
 	/**
 	 * Set the sitemap content to display after you have generated it.
 	 *
