@@ -241,6 +241,18 @@ class WPSEO_Sitemaps {
 	}
 
 	/**
+	 * Set the sitemap n to allow creating partial sitemaps with wp-cli
+	 * in an one-off process.
+	 *
+	 * @param integer $n The part that should be generated.
+	 */
+	function set_n( $n ) {
+		if ( is_scalar( $n ) && intval( $n ) > 0 ) {
+			$this->n = intval( $n );
+		}
+	}
+	
+	/**
 	 * Set the sitemap content to display after you have generated it.
 	 *
 	 * @param string $sitemap The generated sitemap to output
