@@ -375,6 +375,13 @@ function wpseo_admin_bar_menu() {
 				'href'   => '//www.modern.ie/en-us/report#' . urlencode( $url ),
 				'meta'   => array( 'target' => '_blank' )
 			) );
+			$wp_admin_bar->add_menu( array(
+				'parent' => 'wpseo-analysis',
+				'id'     => 'wpseo-google-mobile-friendly',
+				'title'  => __( 'Mobile-Friendly Test', 'wordpress-seo' ),
+				'href'   => 'https://www.google.com/webmasters/tools/mobile-friendly/?url=' . urlencode( $url ),
+				'meta'   => array( 'target' => '_blank' )
+			) );
 		}
 	}
 
