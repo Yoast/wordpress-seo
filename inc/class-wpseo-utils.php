@@ -341,7 +341,7 @@ class WPSEO_Utils {
 			'YES',
 			'on',
 			'On',
-			'On',
+			'ON',
 
 		);
 		$false = array(
