@@ -347,7 +347,6 @@ Analyzer.prototype.firstParagraph = function() {
     return result;
 };
 
-
 /**helper functions*/
 StringHelper = function(){};
 /**
