@@ -330,6 +330,23 @@ Analyzer.prototype.pageTitleKeyword = function(){
     return { name: "pageTitleKeyword", count: count };
 };
 
+/**
+ * counts the occurrences of the keyword in the first paragraph, returns 0 if it is not found,
+ * or there is no paragraph-tag in the given string.
+ * @returns {{name: string, count: number}}
+ */
+Analyzer.prototype.firstParagraph = function() {
+    var matches = yst_preProcessor.__store.cleanTextSomeTags.match(/<p(?:[^>]+)?>(.*?)<\/p>/g);
+    var result = { name: "firstParagraph", count: 0 };
+    if(matches !== null){
+        var keywordCount = matches[0].match(this.keywordRegex);
+        if(keywordCount !== null){
+            result.count = keywordCount.length;
+        }
+    }
+    return result;
+};
+
 
 /**helper functions*/
 StringHelper = function(){};
