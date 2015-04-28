@@ -61,9 +61,9 @@ class WPSEO_JSON_LD_Test extends WPSEO_UnitTestCase {
 		$json     = json_encode( array(
 			'@context' => 'http://schema.org',
 			'@type'    => 'Person',
-			'name'     => $name,
 			'url'      => $home_url,
 			'sameAs'   => array( $instagram ),
+			'name'     => $name,
 		) );
 		$expected = '<script type=\'application/ld+json\'>' . $json . '</script>' . "\n";
 		$this->expectOutput( $expected, self::$class_instance->organization_or_person() );
@@ -89,10 +89,10 @@ class WPSEO_JSON_LD_Test extends WPSEO_UnitTestCase {
 		$json     = json_encode( array(
 			'@context' => 'http://schema.org',
 			'@type'    => 'Organization',
-			'name'     => $name,
 			'url'      => $home_url,
-			'logo'     => '',
 			'sameAs'   => array( $instagram, $facebook, $instagram ),
+			'name'     => $name,
+			'logo'     => '',
 		) );
 		$expected = '<script type=\'application/ld+json\'>' . $json . '</script>' . "\n";
 		$this->expectOutput( $expected, self::$class_instance->organization_or_person() );

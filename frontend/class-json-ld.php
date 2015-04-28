@@ -48,13 +48,58 @@ class WPSEO_JSON_LD {
 	}
 
 	/**
+	 * Outputs code to allow Google to recognize social profiles for use in the Knowledge graph
+	 *
+	 * @since 1.8
+	 */
+	public function organization_or_person() {
+		if ( ! is_front_page() || '' === $this->options['company_or_person'] ) {
+			return;
+		}
+
+		$this->prepare_organization_person_markup();
+
+		switch ( $this->options['company_or_person'] ) {
+			case 'company':
+				$this->organization();
+				break;
+			case 'person':
+				$this->person();
+				break;
+		}
+
+		$this->output( $this->options['company_or_person'] );
+	}
+
+	/**
+	 * Outputs code to allow recognition of the internal search engine
+	 *
+	 * @since 1.5.7
+	 *
+	 * @link  https://developers.google.com/structured-data/site-name
+	 */
+	public function website() {
+		$this->data = array(
+			'@context' => 'http://schema.org',
+			'@type'    => 'WebSite',
+			'url'      => $this->get_home_url(),
+			'name'     => $this->get_website_name(),
+		);
+
+		$this->add_alternate_name();
+		$this->internal_search_section();
+
+		$this->output( 'website' );
+	}
+
+	/**
 	 * Outputs the JSON LD code in a valid JSON+LD wrapper
 	 *
 	 * @since 1.8
 	 *
 	 * @param string $context The context of the output, useful for filtering
 	 */
-	protected function output( $context ) {
+	private function output( $context ) {
 		/**
 		 * Filter: 'wpseo_json_ld_output' - Allows filtering of the JSON+LD output
 		 *
@@ -119,30 +164,6 @@ class WPSEO_JSON_LD {
 	}
 
 	/**
-	 * Outputs code to allow Google to recognize social profiles for use in the Knowledge graph
-	 *
-	 * @since 1.8
-	 */
-	public function organization_or_person() {
-		if ( ! is_front_page() || '' === $this->options['company_or_person'] ) {
-			return;
-		}
-
-		$this->prepare_organization_person_markup();
-
-		switch ( $this->options['company_or_person'] ) {
-			case 'company':
-				$this->organization();
-				break;
-			case 'person':
-				$this->person();
-				break;
-		}
-
-		$this->output( $this->options['company_or_person'] );
-	}
-
-	/**
 	 * Retrieve the social profiles to display in the organization output.
 	 *
 	 * @since 1.8
@@ -164,27 +185,6 @@ class WPSEO_JSON_LD {
 				$this->profiles[] = $this->options[ $profile ];
 			}
 		}
-	}
-
-	/**
-	 * Outputs code to allow recognition of the internal search engine
-	 *
-	 * @since 1.5.7
-	 *
-	 * @link  https://developers.google.com/structured-data/site-name
-	 */
-	public function website() {
-		$this->data = array(
-			'@context' => 'http://schema.org',
-			'@type'    => 'WebSite',
-			'url'      => $this->get_home_url(),
-			'name'     => $this->get_website_name(),
-		);
-
-		$this->add_alternate_name();
-		$this->internal_search_section();
-
-		$this->output( 'website' );
 	}
 
 	/**
