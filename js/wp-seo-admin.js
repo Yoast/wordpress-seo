@@ -69,35 +69,36 @@ function wpseoDetectWrongVariables(e) {
     var wrongVariables = [];
     var authorVariables = ['userid', 'name', 'user_description'];
     var dateVariables = ['date'];
-    var postVariables = ['title', 'parent_title', 'excerpt', 'excerpt_only', 'tag', 'category', 'category_description', 'tag_description', 'caption', 'focuskw', 'pt_single', 'pt_plural', 'modified', 'id'];
+    var postVariables = ['title', 'parent_title', 'excerpt', 'excerpt_only', 'caption', 'focuskw', 'pt_single', 'pt_plural', 'modified', 'id'];
     var specialVariables = ['term404', 'searchphrase'];
     var taxonomyVariables = ['term_title', 'term_description'];
+    var taxonomyPostVariables = ['category', 'category_description', 'tag', 'tag_description'];
     if (e.hasClass('posttype-template')) {
         wrongVariables = wrongVariables.concat(specialVariables, taxonomyVariables);
     }
     else if (e.hasClass('homepage-template')) {
-        wrongVariables = wrongVariables.concat(authorVariables, dateVariables, postVariables, specialVariables, taxonomyVariables);
+        wrongVariables = wrongVariables.concat(authorVariables, dateVariables, postVariables, specialVariables, taxonomyVariables, taxonomyPostVariables);
     }
     else if (e.hasClass('taxonomy-template')) {
         wrongVariables = wrongVariables.concat(authorVariables, dateVariables, postVariables, specialVariables);
     }
     else if (e.hasClass('author-template')) {
-        wrongVariables = wrongVariables.concat(postVariables, dateVariables, specialVariables, taxonomyVariables);
+        wrongVariables = wrongVariables.concat(postVariables, dateVariables, specialVariables, taxonomyVariables, taxonomyPostVariables);
     }
     else if (e.hasClass('date-template')) {
-        wrongVariables = wrongVariables.concat(authorVariables, postVariables, specialVariables, taxonomyVariables);
+        wrongVariables = wrongVariables.concat(authorVariables, postVariables, specialVariables, taxonomyVariables, taxonomyPostVariables);
     }
     else if (e.hasClass('search-template')) {
-        wrongVariables = wrongVariables.concat(authorVariables, dateVariables, postVariables, taxonomyVariables, ['term404']);
+        wrongVariables = wrongVariables.concat(authorVariables, dateVariables, postVariables, taxonomyVariables, taxonomyPostVariables, ['term404']);
     }
     else if (e.hasClass('error404-template')) {
-        wrongVariables = wrongVariables.concat(authorVariables, dateVariables, postVariables, taxonomyVariables, ['searchphrase']);
+        wrongVariables = wrongVariables.concat(authorVariables, dateVariables, postVariables, taxonomyVariables, taxonomyPostVariables, ['searchphrase']);
     }
     jQuery.each(wrongVariables, function (index, variable) {
         error_id = e.attr('id') + '-' + variable + '-warning';
-        if (e.val().search('%%'+variable+'%%') !== -1) {
+        if (e.val().search('%%' + variable + '%%') !== -1) {
             e.addClass('wpseo_variable_warning');
-            var msg = wpseoAdminL10n.variable_warning.replace('%s', '%%'+variable+'%%');
+            var msg = wpseoAdminL10n.variable_warning.replace('%s', '%%' + variable + '%%');
             if (jQuery('#' + error_id).length) {
                 jQuery('#' + error_id).html(msg);
             } else {
@@ -105,7 +106,7 @@ function wpseoDetectWrongVariables(e) {
             }
             warn = true;
         } else {
-            if ( jQuery('#' + error_id).length ) {
+            if (jQuery('#' + error_id).length) {
                 jQuery('#' + error_id).remove();
             }
         }

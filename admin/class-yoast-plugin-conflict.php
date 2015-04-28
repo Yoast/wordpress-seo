@@ -174,7 +174,7 @@ class Yoast_Plugin_Conflict {
 		$error_message     = '<h3>' . __( 'Warning!', 'wordpress-seo' ) . '</h3>';
 
 		/* translators: %s: 'Facebook & Open Graph' plugin name(s) of possibly conflicting plugin(s) */
-		$error_message .= '<p>' . sprintf( __( 'The %s plugin(s) might cause issues when used in conjunction with Yoast WordPress SEO.', 'wordpress-seo' ), $plugins_as_string ) . '</p>';
+		$error_message .= '<p>' . sprintf( __( 'The %s plugin(s) might cause issues when used in conjunction with WordPress SEO by Yoast.', 'wordpress-seo' ), $plugins_as_string ) . '</p>';
 		$error_message .= sprintf( $readable_plugin_section, $plugins_as_string ) . '<br/><br/>';
 		$error_message .= '<p><strong>' . __( 'Recommended solution', 'wordpress-seo' ) . '</strong><br/>';
 
