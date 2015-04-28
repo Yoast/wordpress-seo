@@ -302,9 +302,17 @@ Analyzer.prototype.imageAlttag = function(image){
     return hasAlttag;
 };
 
+/**
+ * counts the number of characters in the pagetitle, returns 0 if empty or not set.
+ * @returns {{name: string, count: *}}
+ */
 
 Analyzer.prototype.pageTitleCount = function(){
-  return {name: "pageTitleCount", count: this.config.pageTitle.length};
+    var count = 0;
+    if(typeof this.config.pageTitle !== "undefined"){
+        count = this.config.pageTitle.length;
+    }
+    return {name: "pageTitleCount", count: count};
 };
 
 

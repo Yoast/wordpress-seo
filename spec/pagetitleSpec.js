@@ -26,3 +26,16 @@ describe("a test counting the number of characters in the pagetitle", function()
         expect(result.count).toBe(31);
     });
 });
+
+
+titleArg3 = {
+    queue: ["pagetitle"]
+};
+
+describe("a test counting the number of characters in an empty pagetitle", function(){
+   it("returns null", function(){
+      pagetitleAnalyzer = new Analyzer(titleArg3);
+      result = pagetitleAnalyzer.pageTitleCount();
+      expect(result.count).toBe(0);
+   });
+});
