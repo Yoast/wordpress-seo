@@ -139,12 +139,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Yoast/i18n-module.git",
-                "reference": "6d366c5b19d2068e3bb1c9bb4b9d17c0dd9566a8"
+                "reference": "4648918ccf8bc6da12eadf57e4bece4829af29b3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Yoast/i18n-module/zipball/6d366c5b19d2068e3bb1c9bb4b9d17c0dd9566a8",
-                "reference": "6d366c5b19d2068e3bb1c9bb4b9d17c0dd9566a8",
+                "url": "https://api.github.com/repos/Yoast/i18n-module/zipball/4648918ccf8bc6da12eadf57e4bece4829af29b3",
+                "reference": "4648918ccf8bc6da12eadf57e4bece4829af29b3",
                 "shasum": ""
             },
             "type": "library",
