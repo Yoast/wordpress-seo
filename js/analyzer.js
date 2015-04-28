@@ -302,6 +302,12 @@ Analyzer.prototype.imageAlttag = function(image){
     return hasAlttag;
 };
 
+
+Analyzer.prototype.pageTitleCount = function(){
+  return {name: "pageTitleCount", count: this.config.pageTitle.length};
+};
+
+
 /**helper functions*/
 StringHelper = function(){};
 /**
