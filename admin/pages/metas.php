@@ -184,17 +184,20 @@ $yform->admin_header( true, 'wpseo_titles' );
 
 			echo '<h3>' . __( 'Duplicate content prevention', 'wordpress-seo' ) . '</h3>';
 			echo '<p>';
+			/* translators: %1$s / %2$s: links to an article about duplicate content on yoast.com */
 			printf( __( 'If you\'re running a one author blog, the author archive will be exactly the same as your homepage. This is what\'s called a %1$sduplicate content problem%2$s.', 'wordpress-seo' ), '<a href="https://yoast.com/articles/duplicate-content/">', '</a>' );
 			echo '</p>';
 			echo '<p>';
 			echo __( 'If this is the case on your site, you can choose to either disable them (which makes them redirect to the homepage), or to add <code>noindex,follow</code> to them so they don\'t show up in the search results.', 'wordpress-seo' );
 			echo '</p>';
-			$yform->checkbox( 'noindex-author-wpseo', __( 'Add <code>noindex, follow</code> to the author archives', 'wordpress-seo' ) );
+			/* translators: %s expands to <code>noindex, follow</code> */
+			$yform->checkbox( 'noindex-author-wpseo', sprintf( __( 'Add %s to the author archives', 'wordpress-seo' ), '<code>noindex, follow</code>' ) );
 			$yform->checkbox( 'disable-author', __( 'Disable the author archives', 'wordpress-seo' ) );
 			echo '<p>';
 			_e( 'Date based archives could in some cases also be seen as duplicate content.', 'wordpress-seo' );
 			echo '</p>';
-			$yform->checkbox( 'noindex-archive-wpseo', __( 'Add <code>noindex, follow</code> to the date-based archives', 'wordpress-seo' ) );
+			/* translators: %s expands to <code>noindex, follow</code> */
+			$yform->checkbox( 'noindex-archive-wpseo', sprintf( __( 'Add %s to the date-based archives', 'wordpress-seo' ), '<code>noindex, follow</code>' ) );
 			$yform->checkbox( 'disable-date', __( 'Disable the date-based archives', 'wordpress-seo' ) );
 
 			echo '<br/>';

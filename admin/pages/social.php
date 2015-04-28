@@ -45,7 +45,10 @@ $yform->admin_header( true, 'wpseo_social' );
 
 	<div id="facebook" class="wpseotab">
 		<p>
-			<?php _e( 'Add Open Graph meta data to your site\'s <code>&lt;head&gt;</code> section, Facebook and other social networks use this data when your pages are shared.', 'wordpress-seo' ); ?>
+			<?php
+				/* translators: %s expands to <code>&lt;head&gt;</code> */
+				printf( __( 'Add Open Graph meta data to your site\'s %s section, Facebook and other social networks use this data when your pages are shared.', 'wordpress-seo' ), '<code>&lt;head&gt;</code>' );
+			?>
 		</p>
 		<?php $yform->checkbox( 'opengraph', __( 'Add Open Graph meta data', 'wordpress-seo' ) ); ?>
 
@@ -81,7 +84,10 @@ $yform->admin_header( true, 'wpseo_social' );
 		</p>
 
 		<p class="desc">
-			<?php _e( 'Add Twitter card meta data to your site\'s <code>&lt;head&gt;</code> section.', 'wordpress-seo' ); ?>
+			<?php
+			/* translators: %s expands to <code>&lt;head&gt;</code> */
+			printf( __( 'Add Twitter card meta data to your site\'s %s section.', 'wordpress-seo' ), '<code>&lt;head&gt;</code>' );
+			?>
 		</p>
 		<?php
 		$yform->select( 'twitter_card_type', __( 'The default card type to use', 'wordpress-seo' ), WPSEO_Option_Social::$twitter_card_types );
@@ -94,7 +100,10 @@ $yform->admin_header( true, 'wpseo_social' );
 			<?php _e( 'Pinterest uses Open Graph metadata just like Facebook, so be sure to keep the Open Graph checkbox on the Facebook tab checked if you want to optimize your site for Pinterest.', 'wordpress-seo' ); ?>
 		</p>
 		<p>
-			<?php printf( __( 'To %1$sverify your site with Pinterest%2$s, add the meta tag here:', 'wordpress-seo' ), '<a target="_blank" href="https://help.pinterest.com/en/articles/verify-your-website#meta_tag">', '</a>' ); ?>
+			<?php
+				/* translators: %1$s / %2$s expands to a link to pinterest.com's help page. */
+				printf( __( 'To %1$sverify your site with Pinterest%2$s, add the meta tag here:', 'wordpress-seo' ), '<a target="_blank" href="https://help.pinterest.com/en/articles/verify-your-website#meta_tag">', '</a>' );
+			?>
 		</p>
 
 		<?php $yform->textinput( 'pinterestverify', __( 'Pinterest verification', 'wordpress-seo' ) ); ?>
@@ -109,7 +118,7 @@ $yform->admin_header( true, 'wpseo_social' );
 			<?php $yform->checkbox( 'googleplus', __( 'Add Google+ specific post meta data', 'wordpress-seo' ) ); ?>
 		</p>
 
-		<p><?php esc_html_e( 'If you have a Google+ page for your business, add that URL here and link it on your Google+ page\'s about page.', 'wordpress-seo' ); ?></p>
+		<p><?php _e( 'If you have a Google+ page for your business, add that URL here and link it on your Google+ page\'s about page.', 'wordpress-seo' ); ?></p>
 
 		<?php $yform->textinput( 'plus-publisher', __( 'Google Publisher Page', 'wordpress-seo' ) ); ?>
 
