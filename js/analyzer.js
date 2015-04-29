@@ -316,18 +316,15 @@ Analyzer.prototype.pageTitleCount = function(){
 };
 
 /**
- * counts the occurrences of the keyword in the pagetitl, returns 0 if pagetitle is empty or not set.
+ * counts the occurrences of the keyword in the pagetitle, returns 0 if pagetitle is empty or not set.
  * @returns {{name: string, count: number}}
  */
 Analyzer.prototype.pageTitleKeyword = function(){
-    var count = 0;
+    var result = { name: "pageTitleKeyword", count: 0 };
     if(typeof this.config.pageTitle !== "undefined") {
-        var matches = this.config.pageTitle.match(this.keywordRegex);
-        if (matches !== null) {
-            count = matches.length;
-        }
+        result.count = yst_stringHelper.countMatches(this.config.pageTitle, this.keywordRegex);
     }
-    return { name: "pageTitleKeyword", count: count };
+    return result;
 };
 
 /**
@@ -339,10 +336,7 @@ Analyzer.prototype.firstParagraph = function() {
     var matches = yst_preProcessor.__store.cleanTextSomeTags.match(/<p(?:[^>]+)?>(.*?)<\/p>/g);
     var result = { name: "firstParagraph", count: 0 };
     if(matches !== null){
-        var keywordCount = matches[0].match(this.keywordRegex);
-        if(keywordCount !== null){
-            result.count = keywordCount.length;
-        }
+        result.count = yst_stringHelper.countMatches(matches[0], this.keywordRegex);
     }
     return result;
 };
@@ -370,6 +364,16 @@ StringHelper.prototype.replaceString = function(textString, stringsToRemove, rep
  */
 StringHelper.prototype.matchString = function(textString, stringsToMatch){
     return textString.match(this.stringToRegex(stringsToMatch));
+};
+
+
+StringHelper.prototype.countMatches = function(textString, regex){
+    var count = 0;
+    var matches = textString.match(regex);
+    if(matches !== null){
+        count = matches.length;
+    }
+    return count;
 };
 
 /**
