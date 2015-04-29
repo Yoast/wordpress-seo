@@ -341,14 +341,17 @@ Analyzer.prototype.firstParagraph = function() {
     return result;
 };
 
+
+
 /**
  * counts the occurrences of the keyword in the metadescription, returns 0 if metadescription is empty or not set.
  * @returns {{name: string, count: number}}
  */
 Analyzer.prototype.metaDescription = function() {
-    var result = { name: "metaDescription", count: 0 };
+    var result = { name: "metaDescription", count: 0, length: 0};
     if(typeof this.config.meta !== "undefined") {
         result.count = yst_stringHelper.countMatches(this.config.meta, this.keywordRegex);
+        result.length = this.config.meta.length;
     }
     return result;
 };

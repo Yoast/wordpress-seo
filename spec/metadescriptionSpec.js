@@ -12,6 +12,7 @@ describe("a test matching the keywords in the metadescription", function(){
        var metaAnalyzer = new Analyzer(metaArgs);
        var result = metaAnalyzer.metaDescription();
        expect(result.count).toBe(1);
+       expect(result.length).toBe(51);
    });
 });
 
@@ -26,6 +27,7 @@ describe("a test matching the keywords in the metadescription", function(){
         var metaAnalyzer = new Analyzer(metaArgs2);
         var result = metaAnalyzer.metaDescription();
         expect(result.count).toBe(0);
+        expect(result.length).toBe(59);
     });
 });
 
@@ -39,5 +41,6 @@ describe("a test matching the keywords in the metadescription", function(){
         var metaAnalyzer = new Analyzer(metaArgs3);
         var result = metaAnalyzer.metaDescription();
         expect(result.count).toBe(0);
+        expect(result.length).toBe(0);
     });
 });
