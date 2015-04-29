@@ -555,13 +555,13 @@ class WPSEO_Admin {
 	/**
 	 * Sort the submenu pages array on the third key, the name of the submenu item.
 	 *
-	 * @param $a
-	 * @param $b
+	 * @param array $a
+	 * @param array $b
 	 *
 	 * @return mixed
 	 */
 	private function sort_submenu_value_compare_func( $a, $b ) {
-		return $a[2] - $b[2];
+		return ( $a[2] - $b[2] );
 	}
 
 	/********************** DEPRECATED METHODS **********************/
