@@ -42,6 +42,17 @@ class WPSEO_Page_GWT {
 	}
 
 	/**
+	 * Display the table
+	 */
+	public function display_table() {
+		// The list table
+		$list_table = new WPSEO_Crawl_Issue_Table();
+		$list_table->prepare_items( );
+		$list_table->search_box( __( 'Search', 'wordpress-seo-premium' ), 'wpseo-crawl-issues-search' );
+		$list_table->display();
+	}
+
+	/**
 	 * Print Incorrect Google Authorization Code error
 	 */
 	public function admin_message_body() {

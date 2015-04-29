@@ -51,11 +51,7 @@ switch ( $platform_tabs->current_tab() ) {
 			// AJAX nonce
 			echo "<input type='hidden' class='wpseo-gwt-ajax-security' value='" . wp_create_nonce( 'wpseo-gwt-ajax-security' ) . "' />\n";
 
-			// The list table
-			$list_table = new WPSEO_Crawl_Issue_Table( $gwt_client );
-			$list_table->prepare_items();
-			$list_table->search_box( __( 'Search', 'wordpress-seo-premium' ), 'wpseo-crawl-issues-search' );
-			$list_table->display();
+			$this->display_table();
 
 			// Close <form>
 			echo "</form>\n";
