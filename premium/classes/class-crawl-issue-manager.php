@@ -24,6 +24,46 @@ class WPSEO_Crawl_Issue_Manager {
 	private $crawl_issue_urls = array();
 
 	/**
+	 * Constructing the object
+	 *
+	 * @param bool $catch_post
+	 */
+	public function __construct( $catch_post = false ) {
+		if ( $catch_post && filter_input( INPUT_POST, 'reload-crawl-issues' ) ) {
+			$this->remove_last_checked();
+		}
+	}
+
+	/**
+	 * Getting the GWT service object and store them into a static var
+	 *
+	 * @return WPSEO_GWT_Service
+	 */
+	public function get_service() {
+		static $service;
+
+		if ( $service === null ) {
+			// Create a the service object
+			$service = new WPSEO_GWT_Service();
+		}
+
+		return $service;
+	}
+
+	/**
+	 * Sanitize the profile callback, when this is not, the last_checked option have to be removed to be sure
+	 * the correct issues will be loaded
+	 *
+	 * @param array $setting
+	 */
+	public function sanitize_callback( array $setting ) {
+		// Remove last check if new profile is selected
+		if ( $this->get_service()->get_profile() != $setting['profile'] ) {
+			$this->remove_last_checked();
+		}
+	}
+
+	/**
 	 * Get the crawl issues
 	 *
 	 * @param array $issues

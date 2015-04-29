@@ -81,15 +81,6 @@ class WPSEO_Page_GWT {
 	}
 
 	/**
-	 * Catch the reload-crawl-issues POST
-	 */
-	private function catch_reload_crawl_issues() {
-		if ( isset( $_POST['reload-crawl-issues'] ) ) {
-			$crawl_issue_manager = new WPSEO_Crawl_Issue_Manager();
-			$crawl_issue_manager->remove_last_checked();
-		}
-	}
-	/**
 	 * Catch the authentication post
 	 */
 	private function catch_authentication_post() {
