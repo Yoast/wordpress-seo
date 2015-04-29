@@ -68,12 +68,12 @@ class WPSEO_Crawl_Issue_Marker {
 	 * @return bool
 	 */
 	private function set_crawl_issue( $url ) {
-		if ( $crawl_issue = get_page_by_title( $url, OBJECT, WPSEO_Crawl_Issue_Manager::PT_CRAWL_ISSUE ) ) {
+		if ( $crawl_issue = get_page_by_title( $url, OBJECT, WPSEO_Crawl_Issue_Manag::PT_CRAWL_ISSUE ) ) {
 			$this->crawl_issue = array(
 				'ID'       => $crawl_issue->ID,
 				'url'      => $url,
-				'category' => get_post_meta( $crawl_issue->ID, WPSEO_Crawl_Issue_Manager::PM_CI_CATEGORY, true ),
-				'platform' => get_post_meta( $crawl_issue->ID, WPSEO_Crawl_Issue_Manager::PM_CI_PLATFORM, true ),
+				'category' => get_post_meta( $crawl_issue->ID, WPSEO_Crawl_Issue::PM_CI_CATEGORY, true ),
+				'platform' => get_post_meta( $crawl_issue->ID, WPSEO_Crawl_Issue::PM_CI_PLATFORM, true ),
 			);
 
 			return true;

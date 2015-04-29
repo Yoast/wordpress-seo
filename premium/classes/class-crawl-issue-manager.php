@@ -19,11 +19,6 @@ class WPSEO_Crawl_Issue_Manager {
 	const OPTION_CI_TS = 'wpseo_crawl_issues_last_checked';
 
 	/**
-	 * @var array
-	 */
-	private $crawl_issue_urls = array();
-
-	/**
 	 * Constructing the object
 	 *
 	 * @param bool $catch_post
@@ -32,6 +27,8 @@ class WPSEO_Crawl_Issue_Manager {
 		if ( $catch_post && filter_input( INPUT_POST, 'reload-crawl-issues' ) ) {
 			$this->remove_last_checked();
 		}
+
+		$this->crawl_issues();
 	}
 
 	/**
@@ -51,6 +48,40 @@ class WPSEO_Crawl_Issue_Manager {
 	}
 
 	/**
+	 * Store the timestamp of when crawl errors were saved
+	 */
+	public function save_last_checked() {
+		$this->remove_last_checked();
+		add_option( self::OPTION_CI_TS, time(), '', 'no' );
+	}
+
+	/**
+	 * Get the crawl issues
+	 *
+	 * @param array $crawl_issues_db
+	 *
+	 * @return array<WPSEO_Crawl_Issue>
+	 */
+	public function get_crawl_issues( $crawl_issues_db ) {
+		$crawl_issues = array();
+
+		// Convert WP posts to WPSEO_Crawl_Issue objects
+		if ( count( $crawl_issues_db ) > 0 ) {
+			foreach ( $crawl_issues_db as $crawl_issues_db_item ) {
+				$crawl_issues[] = new WPSEO_Crawl_Issue(
+					$crawl_issues_db_item->post_title,
+					get_post_meta( $crawl_issues_db_item->ID, WPSEO_Crawl_Issue::PM_CI_PLATFORM, true ),
+					get_post_meta( $crawl_issues_db_item->ID, WPSEO_Crawl_Issue::PM_CI_CATEGORY, true ),
+					new DateTime( (string) get_post_meta( $crawl_issues_db_item->ID, WPSEO_Crawl_Issue::PM_CI_DATE_DETECTED, true ) ),
+					get_post_meta( $crawl_issues_db_item->ID, WPSEO_Crawl_Issue::PM_CI_RESPONSE_CODE, true )
+				);
+			}
+		}
+
+		return $crawl_issues;
+	}
+
+	/**
 	 * Sanitize the profile callback, when this is not, the last_checked option have to be removed to be sure
 	 * the correct issues will be loaded
 	 *
@@ -64,56 +95,12 @@ class WPSEO_Crawl_Issue_Manager {
 	}
 
 	/**
-	 * Get the crawl issues
-	 *
-	 * @param array $issues
-	 *
-	 * @return array<WPSEO_Crawl_Issue>
+	 * Check if current request isn't AJAX and if last run isn't performed less than a day ago.
 	 */
-	public function get_crawl_issues( $issues ) {
-
-		// Get last checked timestamp
-		$ci_ts = $this->get_last_checked();
-
-		// Last time we checked the crawl errors more then one day ago? Check again.
-		if ( $ci_ts <= strtotime( '-1 day' ) ) { // @todo add a $_GET check here
-			$this->save_crawl_issues();
+	private function crawl_issues() {
+		if ( ( defined( 'DOING_AJAX' ) && DOING_AJAX ) === false && $this->get_last_checked() <= strtotime( '-1 day' ) ) {
+			echo "<script type='text/javascript'>wpseo_get_issue_counts();</script>";
 		}
-
-		// Return the parsed issues from DB
-		return $this->parse_db_crawl_issues( $issues );
-	}
-
-	/**
-	 * Remove the last checked option
-	 */
-	private function remove_last_checked() {
-		delete_option( self::OPTION_CI_TS );
-	}
-
-	/**
-	 * Save the crawl issues
-	 *
-	 */
-	private function save_crawl_issues() {
-		// Get crawl issues
-		$crawl_issues = $this->get_service()->get_crawl_issues();
-
-		// Store the urls of crawl issues
-		$this->crawl_issue_urls = array();
-
-		// Mutate and save the crawl issues
-		if ( count( $crawl_issues ) > 0 ) {
-			foreach ( $crawl_issues as $crawl_issue ) {
-				$this->save_crawl_issue( $crawl_issue );
-			}
-		}
-
-		// Delete the crawl issues
-		$this->delete_crawl_issues();
-
-		// Save the last checked
-		$this->save_last_checked();
 	}
 
 	/**
@@ -126,100 +113,21 @@ class WPSEO_Crawl_Issue_Manager {
 	}
 
 	/**
-	 * Store the timestamp of when crawl errors were saved
-	 */
-	private function save_last_checked() {
-		$this->remove_last_checked();
-		add_option( self::OPTION_CI_TS, time(), '', 'no' );
-	}
-
-	/**
-	 * Updating the post meta
-	 *
-	 * @param integer  $ci_post_id
-	 * @param stdClass $crawl_issue
-	 */
-	private function update_post_meta( $ci_post_id, $crawl_issue ) {
-		// Update all the meta data
-		update_post_meta( $ci_post_id, self::PM_CI_PLATFORM, $crawl_issue->get_crawl_type() );
-		update_post_meta( $ci_post_id, self::PM_CI_CATEGORY, $crawl_issue->get_issue_type() );
-		update_post_meta( $ci_post_id, self::PM_CI_DATE_DETECTED, (string) strftime( '%x', strtotime( $crawl_issue->get_date_detected()->format( 'Y-m-d H:i:s' ) ) ) );
-		update_post_meta( $ci_post_id, self::PM_CI_RESPONSE_CODE, $crawl_issue->get_response_code() );
-	}
-
-	/**
-	 * Parsing the issues from the DB to display on screen
-	 *
-	 * @param array $crawl_issues_db
-	 *
-	 * @return array
-	 */
-	private function parse_db_crawl_issues( array $crawl_issues_db ) {
-		$crawl_issues = array();
-
-		// Convert WP posts to WPSEO_Crawl_Issue objects
-		if ( count( $crawl_issues_db ) > 0 ) {
-			foreach ( $crawl_issues_db as $crawl_issues_db_item ) {
-				$crawl_issues[] = new WPSEO_Crawl_Issue(
-					$crawl_issues_db_item->post_title,
-					get_post_meta( $crawl_issues_db_item->ID, self::PM_CI_PLATFORM, true ),
-					get_post_meta( $crawl_issues_db_item->ID, self::PM_CI_CATEGORY, true ),
-					new DateTime( (string) get_post_meta( $crawl_issues_db_item->ID, self::PM_CI_DATE_DETECTED, true ) ),
-					get_post_meta( $crawl_issues_db_item->ID, self::PM_CI_RESPONSE_CODE, true )
-				);
-			}
-		}
-
-		return $crawl_issues;
-	}
-
-	/**
-	 * Saving the crawl issue in the database
-	 *
-	 * @param WPSEO_Crawl_Issue $crawl_issue
-	 */
-	private function save_crawl_issue( WPSEO_Crawl_Issue $crawl_issue ) {
-		$ci_post_id = post_exists( $crawl_issue->get_url() );
-
-		// Check if the post exists
-		if ( 0 === $ci_post_id ) {
-			// Create the post
-			$ci_post_id = wp_insert_post( array(
-				'post_type'   => self::PT_CRAWL_ISSUE,
-				'post_title'  => $crawl_issue->get_url(),
-				'post_status' => 'publish',
-			) );
-		}
-
-		$this->update_post_meta( $ci_post_id, $crawl_issue );
-
-		// Store the url in $crawl_issue_urls
-		if ( in_array( $crawl_issue->get_url(), $this->crawl_issue_urls ) === false ) {
-			$this->crawl_issue_urls[] = $crawl_issue->get_url();
-		}
-	}
-
-	/**
 	 * Deleting the crawl issues
 	 */
-	private function delete_crawl_issues() {
+	public function delete_crawl_issues() {
 		global $wpdb;
 
 		// Remove local crawl issues that are not in the Google response
-		$sql_raw = "DELETE FROM `{$wpdb->posts}` WHERE `post_type` = '" . self::PT_CRAWL_ISSUE . "'";
+		$wpdb->query( "DELETE FROM `{$wpdb->posts}` WHERE `post_type` = '" . self::PT_CRAWL_ISSUE . "'" );
+	}
 
-		if ( count( $this->crawl_issue_urls ) > 0 ) {
-			$sql_raw .= ' AND `post_title` NOT IN (' . implode( ', ', array_fill( 0, count( $this->crawl_issue_urls ), '%s' ) ) . ')';
 
-			// Format the SQL
-			$sql = call_user_func_array( array( $wpdb, 'prepare' ), array_merge( array( $sql_raw ), $this->crawl_issue_urls ) );
-		}
-		else {
-			$sql = $sql_raw;
-		}
-
-		// Run the delete SQL
-		$wpdb->query( $sql );
+	/**
+	 * Remove the last checked option
+	 */
+	private function remove_last_checked() {
+		delete_option( self::OPTION_CI_TS );
 	}
 
 }

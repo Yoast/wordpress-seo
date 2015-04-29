@@ -62,3 +62,38 @@ function wpseo_mark_as_fixed(url) {
 			}
 	);
 }
+
+function wpseo_get_issue_counts() {
+	jQuery.get(
+		wpseo_premium_strings.ajaxurl,
+		{
+			action : 'wpseo_ajax_get_issue_counts',
+			ajax_nonce : jQuery('.wpseo-gwt-ajax-security').val()
+		},
+		function (response) {
+			var response = jQuery.parseJSON( response );
+
+			jQuery.each( response, function(num, item) {
+				wpseo_ajax_crawl_category( item.platform, item.category );
+			})
+
+		}
+	);
+
+	//alert('javascript');
+}
+
+function wpseo_ajax_crawl_category( platform, category) {
+	jQuery.get(
+		wpseo_premium_strings.ajaxurl,
+		{
+			action     : 'wpseo_ajax_crawl_category',
+			ajax_nonce : jQuery('.wpseo-gwt-ajax-security').val(),
+			platform   : platform,
+			category   : category
+		},
+		function (response) {
+			console.log( response );
+		}
+	);
+}

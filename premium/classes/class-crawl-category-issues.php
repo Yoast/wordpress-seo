@@ -10,7 +10,7 @@
 class WPSEO_Crawl_Category_Issues {
 
 	/**
-	 * @var object
+	 * @var string
 	 */
 	private $category;
 
@@ -20,25 +20,29 @@ class WPSEO_Crawl_Category_Issues {
 	private $service;
 
 	/**
-	 * @param WPSEO_GWT_Service $service
-	 * @param object            $category
-	 *
+	 * @var string
 	 */
-	public function __construct( WPSEO_GWT_Service $service, $category ) {
-		$this->service  = $service;
+	private $platform;
+
+	/**
+	 * @param string $platform
+	 * @param string $category
+	 */
+	public function __construct( $platform, $category ) {
+		$this->service  = new WPSEO_GWT_Service();
+		$this->platform = $platform;
 		$this->category = $category;
 	}
 
 	/**
 	 * Fetching the issues for current category
-	 *
-	 * @param array $crawl_issues
 	 */
-	public function fetch_issues( array &$crawl_issues ) {
-
-		if ( $issues = $this->service->fetch_category_issues( $this->category->platform, $this->category->category ) ) {
+	public function fetch_issues() {
+		if ( $issues = $this->service->fetch_category_issues( $this->platform, $this->category ) ) {
 			foreach ( $issues as $issue ) {
-				$crawl_issues[] = $this->create_issue( $issue );
+				$this->save_issue(
+					$this->create_issue( $issue )
+				);
 			}
 		}
 	}
@@ -52,12 +56,21 @@ class WPSEO_Crawl_Category_Issues {
 	private function create_issue( $issue ) {
 		return new WPSEO_Crawl_Issue(
 			WPSEO_Redirect_Manager::format_url( (string) $issue->pageUrl ),
-			(string) $this->category->platform,
-			(string) $this->category->category,
+			(string) $this->platform,
+			(string) $this->category,
 			new DateTime( (string) $issue->first_detected ),
 			(string) ( ! empty( $issue->responseCode ) ) ? $issue->responseCode : null,
 			false
 		);
+	}
+
+	/**
+	 * Saving the crawl issue in the database
+	 *
+	 * @param WPSEO_Crawl_Issue $crawl_issue
+	 */
+	private function save_issue( WPSEO_Crawl_Issue $crawl_issue ) {
+		$crawl_issue->save();
 	}
 
 }

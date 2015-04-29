@@ -9,6 +9,7 @@ class WPSEO_GWT_Ajax {
 	public function __construct() {
 		add_action( 'wp_ajax_wpseo_mark_fixed_crawl_issue', array( $this, 'ajax_mark_as_fixed' ) );
 		add_action( 'wp_ajax_wpseo_ajax_get_issue_counts', array( $this, 'ajax_get_issue_counts' ) );
+		add_action( 'wp_ajax_wpseo_ajax_crawl_category', array( $this, 'ajax_crawl_category' ) );
 	}
 
 
@@ -26,11 +27,25 @@ class WPSEO_GWT_Ajax {
 	 *
 	 */
 	public function ajax_get_issue_counts( ) {
-		$client = new WPSEO_GWT_Client_Setup();
+		$service       = new WPSEO_GWT_Service();
+		$issue_manager = new WPSEO_Crawl_Issue_Manager();
 
-		echo $client->client;
+		// Saving the timestamp
+		$issue_manager->save_last_checked();
 
+		// Remove all the current crawl issues
+		$issue_manager->delete_crawl_issues();
+
+		wp_die( json_encode( $service->get_crawl_issues() ) );
 	}
 
+
+	/**
+	 *
+	 */
+	public function ajax_crawl_category( ) {
+		$crawl_category = new WPSEO_Crawl_Category_Issues( filter_input( INPUT_GET, 'platform' ), filter_input( INPUT_GET, 'category' ) );
+		$issues = $crawl_category->fetch_issues();
+	}
 
 }

@@ -114,11 +114,4 @@ class WPSEO_Page_GWT {
 		}
 	}
 
-			$active = ' nav-tab-active';
-		}
-
-		echo '<a class="nav-tab ' . $active . '" id="' . $platform_target . '-tab" href="' . $admin_link . $platform_target . '">' . $platform_value . '</a>';
-	}
-
-
 }

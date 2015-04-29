@@ -66,16 +66,21 @@ class WPSEO_GWT_Service {
 		$crawl_issues       = array();
 		$crawl_error_counts = $this->get_crawl_error_counts( $this->get_profile() );
 
+		$return = array();
 		if ( ! empty( $crawl_error_counts->countPerTypes ) ) {
 			foreach ( $crawl_error_counts->countPerTypes as $category ) {
 				if ( $category->entries[0]->count > 0 ) {
-					$crawl_category = new WPSEO_Crawl_Category_Issues( $this, $category );
-					$crawl_category->fetch_issues( $crawl_issues );
+					$return[] = array(
+						'platform' => $category->platform,
+						'category' => $category->category,
+					);
+//					$crawl_category = new WPSEO_Crawl_Category_Issues( $this, $category );
+//					$crawl_category->fetch_issues( $crawl_issues );
 				}
 			}
 		}
 
-		return $crawl_issues;
+		return $return;
 	}
 
 	/**

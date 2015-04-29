@@ -110,11 +110,11 @@ class WPSEO_Crawl_Issue_Table_Data {
 
 		if ( $category = filter_input( INPUT_GET, 'category' ) ) {
 			if ( $category !== 'all' ) {
-				$subquery .= ' INNER JOIN wp_postmeta category ON category.post_id = platform.post_id && category.meta_key = " '. WPSEO_Crawl_Issue_Manager::PM_CI_CATEGORY . '" AND category.meta_value = "' . WPSEO_GWT_Mapper::category( $category ) . '"';
+				$subquery .= ' INNER JOIN wp_postmeta category ON category.post_id = platform.post_id && category.meta_key = "'. WPSEO_Crawl_Issue::PM_CI_CATEGORY . '" AND category.meta_value = "' . WPSEO_GWT_Mapper::category( $category ) . '"';
 			}
 		}
 
-		$subquery .= ' WHERE platform.meta_key = "' . WPSEO_Crawl_Issue_Manager::PM_CI_PLATFORM . '" && platform.meta_value = "' . WPSEO_GWT_Mapper::platform( $platform ) . '"';
+		$subquery .= ' WHERE platform.meta_key = "' . WPSEO_Crawl_Issue::PM_CI_PLATFORM . '" && platform.meta_value = "' . WPSEO_GWT_Mapper::platform( $platform ) . '"';
 
 		return $subquery;
 	}
