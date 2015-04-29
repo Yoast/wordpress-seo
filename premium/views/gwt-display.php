@@ -12,12 +12,12 @@
 			<input type="submit" name="reload-crawl-issues" id="reload-crawl-issue" class="button-primary"
 				   style="float: right;" value="<?php _e( 'Reload crawl issues', 'wordpress-seo-premium' ); ?>">
 		</form>
-		<?php $this->platform_tabs(); ?>
+		<?php echo $platform_tabs = new WPSEO_GWT_Platform_Tabs; ?>
 	</h2>
 
 <?php
 
-switch ( $this->current_tab ) {
+switch ( $platform_tabs->current_tab() ) {
 	case 'settings' :
 		?>
 		<h2>Google Webmaster Tools Settings</h2>

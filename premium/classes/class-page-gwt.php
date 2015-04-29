@@ -61,7 +61,7 @@ class WPSEO_Page_GWT {
 		wp_localize_script( 'wp-seo-premium-admin-gwt', 'wpseo_premium_strings', WPSEO_Premium_Javascript_Strings::strings() );
 		add_screen_option( 'per_page', array(
 			'label'   => __( 'Crawl errors per page', 'wordpress-seo-premium' ),
-			'default' => 25,
+			'default' => 100,
 			'option'  => 'errors_per_page',
 		) );
 	}
@@ -103,48 +103,6 @@ class WPSEO_Page_GWT {
 		}
 	}
 
-	/**
-	 *
-	 */
-	private function platform_tabs() {
-		$platforms = array(
-			'web'    		  => __( 'Web', 'wordpress-seo' ),
-			'mobile' 	      => __( 'Mobile devices', 'wordpress-seo' ),
-			'smartphone_only' => __( 'Only smartphone', 'wordpress-seo' ),
-			'settings'        => __( 'Settings', 'wordpress-seo' ),
-		);
-
-		$admin_link = admin_url( 'admin.php?page=wpseo_webmaster_tools&tab=' );
-
-		$this->set_current_tab( $platforms );
-
-		foreach ( $platforms as $platform_target => $platform_value ) {
-			$this->platform_tab( $platform_target, $platform_value, $admin_link );
-		}
-	}
-
-	/**
-	 * Setting the current tab
-	 *
-	 * @param array $platforms
-	 */
-	private function set_current_tab( array $platforms ) {
-		$this->current_tab = key( $platforms );
-		if ( $current_platform = filter_input( INPUT_GET, 'tab' ) ) {
-			$this->current_tab = $current_platform;
-		}
-	}
-
-	/**
-	 * Parses the tab
-	 *
-	 * @param string $platform_target
-	 * @param string $platform_value
-	 * @param string $admin_link
-	 */
-	private function platform_tab( $platform_target, $platform_value, $admin_link ) {
-		$active = '';
-		if ( $this->current_tab === $platform_target ) {
 			$active = ' nav-tab-active';
 		}
 
