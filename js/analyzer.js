@@ -96,10 +96,9 @@ Analyzer.prototype.abortQueue = function(){
 Analyzer.prototype.keywordDensity = function() {
     if (yst_preProcessor.__store.wordcount > 100) {
         var keywordDensity = this.keywordDensityCheck();
-        var rating = this.keywordDensityRating(keywordDensity);
-        return {name: "keywordDensity", result: {keywordDensity: keywordDensity.toFixed(1)}, rating: rating};
+        return {name: "keywordDensity", keywordDensity: keywordDensity.toFixed(1)};
     } else {
-        return {name: "keywordDensity", result: null, rating: null};
+        return {name: "keywordDensity", keywordDensity: 0};
     }
 };
 
@@ -118,34 +117,17 @@ Analyzer.prototype.keywordDensityCheck = function(){
 };
 
 /**
- * rates the keyword density against given number
- * @param keywordDensity
- * @returns {number}
- */
-Analyzer.prototype.keywordDensityRating = function(keywordDensity){
-    var rating;
-    switch (true) {
-        case (keywordDensity < 1):
-            rating =  4;
-            break;
-        case (keywordDensity > 4.5):
-            rating = -50;
-            break;
-        default:
-            rating = 9;
-            break;
-    }
-    return rating;
-};
-
-/**
  * checks if keywords appear in subheaders of stored cleanTextSomeTags text.
  * @returns resultObject
  */
 Analyzer.prototype.subHeadings = function() {
+    var result = {name: "subHeadings", subHeadingCount: 0, keywordCount: 0 };
     var matches = yst_preProcessor.__store.cleanTextSomeTags.match(/<h([1-6])(?:[^>]+)?>(.*?)<\/h\1>/g);
-    foundInHeader = this.subHeadingsCheck(matches);
-    return this.subHeadingsRating(foundInHeader, matches);
+    if(matches !== null){
+        result.subHeadingCount = matches.length;
+        result.keywordCount = this.subHeadingsCheck(matches);
+    }
+    return result;
 };
 /**
  * subHeadings checker to check if keyword is present in given headings.
@@ -166,30 +148,6 @@ Analyzer.prototype.subHeadingsCheck = function(matches){
         }
     }
     return foundInHeader;
-};
-
-/**
- * Rates the subheadings on base of the number of found keywords in headers.
- * @param foundInHeader
- * @param matches
- * @returns {{name: string, result: (*|{keywordFound: *, numberofHeaders: *}|{keywordFound: number, numberofHeaders: *}), rating: number}}
- */
-Analyzer.prototype.subHeadingsRating = function(foundInHeader, matches){
-    var result, rating;
-    switch(true){
-        case foundInHeader === -1:
-            result = null;
-            rating = 7;
-            break;
-        case foundInHeader > 0:
-            result = {keywordFound: foundInHeader, numberofHeaders: matches.length};
-            rating = 9;
-            break;
-        default:
-            result = {keywordFound: 0, numberofHeaders: matches.length};
-            rating = 3;
-    }
-    return {name: "subHeadings", result: result, rating: rating};
 };
 
 /**
