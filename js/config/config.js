@@ -1,5 +1,7 @@
 /**
 * default config
+ * stopwords and wordstoremove require a leading space to make sure the regex works correctly
+ * JavaScript doesn't have lookbehinds in regular expressions.
 */
 
 analyzerConfig = {
@@ -17,4 +19,4 @@ preprocessorConfig = {
        ]
 
    }
-}
+};

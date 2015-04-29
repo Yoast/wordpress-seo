@@ -341,8 +341,6 @@ Analyzer.prototype.firstParagraph = function() {
     return result;
 };
 
-
-
 /**
  * counts the occurrences of the keyword in the metadescription, returns 0 if metadescription is empty or not set.
  * @returns {{name: string, count: number}}
@@ -355,6 +353,7 @@ Analyzer.prototype.metaDescription = function() {
     }
     return result;
 };
+
 
 /**helper functions*/
 StringHelper = function(){};
