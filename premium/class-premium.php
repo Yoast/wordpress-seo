@@ -140,7 +140,7 @@ class WPSEO_Premium {
 			}
 
 			// Crawl Issue Manager AJAX hooks
-			add_action( 'wp_ajax_wpseo_mark_fixed_crawl_issue', array( new WPSEO_Crawl_Issue_Manager(), 'ajax_mark_as_fixed' ) );
+			new WPSEO_GWT_Ajax;
 
 			// Add Premium imports
 			$premium_import_manager = new WPSEO_Premium_Import_Manager();

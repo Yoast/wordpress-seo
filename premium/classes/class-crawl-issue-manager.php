@@ -52,16 +52,6 @@ class WPSEO_Crawl_Issue_Manager {
 	}
 
 	/**
-	 * This method will be access by an AJAX request and will mark an issue as fixed.
-	 *
-	 * First it will do a request to the Google API
-	 *
-	 */
-	public function ajax_mark_as_fixed( ) {
-		new WPSEO_Crawl_Issue_Marker();
-	}
-
-	/**
 	 * Save the crawl issues
 	 *
 	 */
