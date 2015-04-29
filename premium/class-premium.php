@@ -556,17 +556,14 @@ class WPSEO_Premium {
 	/**
 	 * Remove the last check timestamp if the profile is switched
 	 *
-	 * @param $setting
+	 * @param array $setting
 	 *
 	 * @return mixed
 	 */
-	public function gwt_sanatize_callback( $setting ) {
+	public function gwt_sanatize_callback( array $setting ) {
 		$crawl_issue_manager = new WPSEO_Crawl_Issue_Manager();
 
-		// Remove last check if new profile is selected
-		if ( $crawl_issue_manager->get_profile() != $setting['profile'] ) {
-			$crawl_issue_manager->remove_last_checked();
-		}
+		$crawl_issue_manager->sanitize_callback( $setting );
 
 		return $setting;
 	}

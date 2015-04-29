@@ -87,7 +87,7 @@ class WPSEO_Crawl_Issue_Manager {
 	/**
 	 * Remove the last checked option
 	 */
-	public function remove_last_checked() {
+	private function remove_last_checked() {
 		delete_option( self::OPTION_CI_TS );
 	}
 
