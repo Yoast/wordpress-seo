@@ -56,5 +56,25 @@
 		"post-autoload-dump": [
 			"xrstf\\Composer52\\Generator::onPostInstallCmd"
 		]
-	}
+	},
+	"repositories": [
+		{
+			"type"   : "package",
+			"package": {
+				"name"    : "yoast/wordpress-seo-premium",
+				"version" : "dev-composer-package",
+				"source"  : {
+					"url"      : "https://github.com/Yoast/wordpress-seo-premium/",
+					"type"     : "git",
+					"reference": "composer-package"
+				},
+				"autoload": {
+					"classmap": [
+						"class-premium.php",
+						"classes/"
+					]
+				}
+			}
+		}
+	]
 }
