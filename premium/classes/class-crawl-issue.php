@@ -42,11 +42,10 @@ class WPSEO_Crawl_Issue {
 	 * @param string   $url
 	 * @param string   $crawl_type
 	 * @param string   $issue_type
-	 * @param datetime $date_detected
+	 * @param DateTime $date_detected
 	 * @param string   $response_code
-	 * @param string   $ignored
 	 */
-	function __construct( $url, $crawl_type, $issue_type, $date_detected, $response_code, $ignored ) {
+	function __construct( $url, $crawl_type, $issue_type, DateTime $date_detected, $response_code ) {
 		$this->crawl_type    = $crawl_type;
 		$this->date_detected = $date_detected;
 		$this->response_code = $response_code;
@@ -62,7 +61,7 @@ class WPSEO_Crawl_Issue {
 	}
 
 	/**
-	 * @return \DateTime
+	 * @return DateTime
 	 */
 	public function get_date_detected() {
 		return $this->date_detected;

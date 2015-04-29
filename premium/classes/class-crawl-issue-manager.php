@@ -10,10 +10,10 @@ class WPSEO_Crawl_Issue_Manager {
 
 	// Post Meta related constants
 	const PM_CI_URL           = 'wpseo_ci_url';
-	const PM_CI_PLATFORM      = 'wpseo_ci_crawl_type';		// @todo rename value
-	const PM_CI_CATEGORY      = 'wpseo_ci_issue_type';		// @todo rename value
+	const PM_CI_PLATFORM      = 'wpseo_ci_platform';
+	const PM_CI_CATEGORY      = 'wpseo_ci_category';
 	const PM_CI_DATE_DETECTED = 'wpseo_ci_date_detected';
-	const PM_CI_RESPONSE_CODE = 'wpseo_ci_detail'; 			// @todo rename value
+	const PM_CI_RESPONSE_CODE = 'wpseo_ci_response_code';
 
 	// The last checked timestamp
 	const OPTION_CI_TS = 'wpseo_crawl_issues_last_checked';
@@ -75,6 +75,7 @@ class WPSEO_Crawl_Issue_Manager {
 		// Save the last checked
 		$this->save_last_checked();
 	}
+
 	/**
 	 * Get the timestamp of when the crawl errors were last saved
 	 *
@@ -124,8 +125,7 @@ class WPSEO_Crawl_Issue_Manager {
 					get_post_meta( $crawl_issues_db_item->ID, self::PM_CI_PLATFORM, true ),
 					get_post_meta( $crawl_issues_db_item->ID, self::PM_CI_CATEGORY, true ),
 					new DateTime( (string) get_post_meta( $crawl_issues_db_item->ID, self::PM_CI_DATE_DETECTED, true ) ),
-					get_post_meta( $crawl_issues_db_item->ID, self::PM_CI_RESPONSE_CODE, true ),
-					false
+					get_post_meta( $crawl_issues_db_item->ID, self::PM_CI_RESPONSE_CODE, true )
 				);
 			}
 		}
