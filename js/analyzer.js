@@ -341,6 +341,18 @@ Analyzer.prototype.firstParagraph = function() {
     return result;
 };
 
+/**
+ * counts the occurrences of the keyword in the metadescription, returns 0 if metadescription is empty or not set.
+ * @returns {{name: string, count: number}}
+ */
+Analyzer.prototype.metaDescription = function() {
+    var result = { name: "metaDescription", count: 0 };
+    if(typeof this.config.meta !== "undefined") {
+        result.count = yst_stringHelper.countMatches(this.config.meta, this.keywordRegex);
+    }
+    return result;
+};
+
 /**helper functions*/
 StringHelper = function(){};
 /**
@@ -366,7 +378,12 @@ StringHelper.prototype.matchString = function(textString, stringsToMatch){
     return textString.match(this.stringToRegex(stringsToMatch));
 };
 
-
+/**
+ * matches string with regex, returns the number of matches
+ * @param textString
+ * @param regex
+ * @returns {number}
+ */
 StringHelper.prototype.countMatches = function(textString, regex){
     var count = 0;
     var matches = textString.match(regex);
