@@ -30,15 +30,16 @@ class WPSEO_Crawl_Issue_Table_Data {
 	private $total_rows;
 
 	/**
-	 * @param WPSEO_GWT_Client $gwt
-	 * @param array            $ci_args
+	 * @param WPSEO_Crawl_Issue_Manager $issue_manager
+	 * @param array                     $ci_args
 	 */
-	public function __construct( WPSEO_GWT_Client $gwt, array $ci_args ) {
+	public function __construct( WPSEO_Crawl_Issue_Manager $issue_manager, array $ci_args ) {
 		$this->arguments = $ci_args;
 
 		// Get the crawl issues
-		$this->issue_manager = new WPSEO_Crawl_Issue_Manager();
-		$this->crawl_issues  = $this->issue_manager->get_crawl_issues( $gwt, $this->get_issues() );
+		$this->issue_manager = $issue_manager;
+
+		$this->crawl_issues  = $this->issue_manager->get_crawl_issues( $this->get_issues() );
 	}
 
 	/**

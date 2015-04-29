@@ -27,10 +27,7 @@ switch ( $this->current_tab ) {
 			settings_fields( 'yoast_wpseo_gwt_options' );
 			Yoast_Form::get_instance()->set_option( 'wpseo-premium-gwt' );
 
-			// Get the sites
-			$service = new WPSEO_GWT_Service( $gwt_client );
-
-			echo Yoast_Form::get_instance()->select( 'profile', __( 'Profile', 'wordpress-seo-premium' ), $service->get_sites() );
+			echo Yoast_Form::get_instance()->select( 'profile', __( 'Profile', 'wordpress-seo-premium' ), $this->service->get_sites() );
 
 			?>
 			<p class="submit">
@@ -42,7 +39,7 @@ switch ( $this->current_tab ) {
 
 	default :
 		// Check if there is an access token
-		if ( null !== $gwt_client->getAccessToken() ) {
+		if ( null !== $this->service->get_client()->getAccessToken() ) {
 			$category = '';
 			if ( $filter_category = filter_input( INPUT_GET, 'category' ) ) {
 				$category = "&category={$filter_category}";
@@ -65,11 +62,11 @@ switch ( $this->current_tab ) {
 		}
 		else {
 			// Get the oauth URL
-			$oath_url = $gwt_client->createAuthUrl();
+			$oauth_url = $this->service->get_client()->createAuthUrl();
 
 			// Print auth screen
 			echo '<p>' . __( 'To allow WordPress SEO Premium to fetch your Google Webmaster Tools information, please enter your Google Authorization Code.', 'wordpress-seo-premium' ) . "</p>\n";
-			echo "<a href='javascript:wpseo_gwt_open_authorize_code_window(\"{$oath_url}\");'>" . __( 'Click here to get a Google Authorization Code', 'wordpress-seo-premium' ) . "</a>\n";
+			echo "<a href='javascript:wpseo_gwt_open_authorize_code_window(\"{$oauth_url}\");'>" . __( 'Click here to get a Google Authorization Code', 'wordpress-seo-premium' ) . "</a>\n";
 
 			echo '<p>' . __( 'Please enter the Authorization Code in the field below and press the Authenticate button.', 'wordpress-seo-premium' ) . "</p>\n";
 			echo "<form action='' method='post'>\n";

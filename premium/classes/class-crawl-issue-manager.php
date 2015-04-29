@@ -26,19 +26,18 @@ class WPSEO_Crawl_Issue_Manager {
 	/**
 	 * Get the crawl issues
 	 *
-	 * @param Yoast_Google_Client $gwt
-	 * @param array               $issues
+	 * @param array $issues
 	 *
 	 * @return array<WPSEO_Crawl_Issue>
 	 */
-	public function get_crawl_issues( Yoast_Google_Client $gwt, $issues ) {
+	public function get_crawl_issues( $issues ) {
 
 		// Get last checked timestamp
 		$ci_ts = $this->get_last_checked();
 
 		// Last time we checked the crawl errors more then one day ago? Check again.
 		if ( $ci_ts <= strtotime( '-1 day' ) ) { // @todo add a $_GET check here
-			$this->save_crawl_issues( $gwt );
+			$this->save_crawl_issues();
 		}
 
 		// Return the parsed issues from DB
@@ -65,14 +64,10 @@ class WPSEO_Crawl_Issue_Manager {
 	/**
 	 * Save the crawl issues
 	 *
-	 * @param Yoast_Google_Client $gwt
 	 */
-	private function save_crawl_issues( Yoast_Google_Client $gwt ) {
-		// Create a the service object
-		$service = new WPSEO_GWT_Service( $gwt );
-
+	private function save_crawl_issues() {
 		// Get crawl issues
-		$crawl_issues = $service->get_crawl_issues();
+		$crawl_issues = $this->get_service()->get_crawl_issues();
 
 		// Store the urls of crawl issues
 		$this->crawl_issue_urls = array();

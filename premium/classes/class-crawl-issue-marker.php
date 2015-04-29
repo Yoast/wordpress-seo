@@ -14,7 +14,7 @@ class WPSEO_Crawl_Issue_Marker {
 	 *
 	 * @var WPSEO_GWT_Service
 	 */
-	private $client;
+	private $service;
 
 	/**
 	 * The holder for the requested data
@@ -86,22 +86,11 @@ class WPSEO_Crawl_Issue_Marker {
 	 * @return bool
 	 */
 	private function send_mark_as_fixed( ) {
-		$this->set_client();
+		$this->service = new WPSEO_GWT_Service();
 
-		if ( $this->client->mark_as_fixed( $this->crawl_issue['url'], $this->crawl_issue['platform'], $this->crawl_issue['category'] ) ) {
+		if ( $this->service->mark_as_fixed( $this->crawl_issue['url'], $this->crawl_issue['platform'], $this->crawl_issue['category'] ) ) {
 			return true;
 		}
-	}
-
-	/**
-	 * Setting the client to communicate with the GWT API
-	 */
-	private function set_client() {
-
-		$config = array();
-		require WPSEO_PREMIUM_PATH . 'config/gwt.php';
-
-		$this->client = new WPSEO_GWT_Service( new WPSEO_GWT_Client( $config ) );
 	}
 
 	/**

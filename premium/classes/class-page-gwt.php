@@ -11,18 +11,14 @@
 class WPSEO_Page_GWT {
 
 	/**
-	 * @var string
+	 * @var WPSEO_GWT_Service
 	 */
-	private $current_tab;
-
+	private $service;
 
 	/**
 	 * Function that outputs the redirect page
 	 */
 	public function display() {
-		// Create a new WPSEO GWT Google Client
-		$gwt_client = $this->setup_client();
-
 		require_once WPSEO_PREMIUM_PATH . 'views/gwt-display.php';
 	}
 
@@ -30,9 +26,8 @@ class WPSEO_Page_GWT {
 	 * Function that is triggered when the redirect page loads
 	 */
 	public function page_load() {
-
-		// Catch the reload crawl issues POST
-		$this->catch_reload_crawl_issues();
+		// Create a new WPSEO GWT Google Client
+		$this->service = new WPSEO_GWT_Service();
 
 		// Catch the authorization code POST
 		$this->catch_authentication_post();
@@ -165,18 +160,5 @@ class WPSEO_Page_GWT {
 		echo '<a class="nav-tab ' . $active . '" id="' . $platform_target . '-tab" href="' . $admin_link . $platform_target . '">' . $platform_value . '</a>';
 	}
 
-	/**
-	 * Setting up the client
-	 *
-	 * @return WPSEO_GWT_Client
-	 */
-	private function setup_client() {
-		Yoast_Api_Libs::load_api_libraries( array( 'google' ) );
-
-		$config = array();
-		require WPSEO_PREMIUM_PATH . 'config/gwt.php';
-
-		return new WPSEO_GWT_Client( $config );
-	}
 
 }

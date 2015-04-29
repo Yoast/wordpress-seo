@@ -10,7 +10,7 @@
 class WPSEO_GWT_Service {
 
 	/**
-	 * @var Google_Client
+	 * @var Yoast_Google_Client
 	 */
 	private $client;
 
@@ -19,8 +19,18 @@ class WPSEO_GWT_Service {
 	 *
 	 * @param Yoast_Google_Client $client
 	 */
-	public function __construct( Yoast_Google_Client $client ) {
-		$this->client = $client;
+	public function __construct( $client = null ) {
+		$client       = new WPSEO_GWT_Client_Setup();
+		$this->client = $client->get_client();
+	}
+
+	/**
+	 * Returns the client
+	 *
+	 * @return Yoast_Google_Client
+	 */
+	public function get_client() {
+		return $this->client;
 	}
 
 	/**
@@ -54,13 +64,12 @@ class WPSEO_GWT_Service {
 
 		// Setup crawl error list
 		$crawl_issues       = array();
-		$profile            = $this->get_profile();
-		$crawl_error_counts = $this->get_crawl_error_counts( $profile );
+		$crawl_error_counts = $this->get_crawl_error_counts( $this->get_profile() );
 
 		if ( ! empty( $crawl_error_counts->countPerTypes ) ) {
 			foreach ( $crawl_error_counts->countPerTypes as $category ) {
 				if ( $category->entries[0]->count > 0 ) {
-					$crawl_category = new WPSEO_Crawl_Category_Issues( $this->client, $category, $profile );
+					$crawl_category = new WPSEO_Crawl_Category_Issues( $this, $category );
 					$crawl_category->fetch_issues( $crawl_issues );
 				}
 			}
@@ -72,9 +81,9 @@ class WPSEO_GWT_Service {
 	/**
 	 * Sending request to mark issue as fixed
 	 *
-	 * @param $url
-	 * @param $platform
-	 * @param $category
+	 * @param string $url
+	 * @param string $platform
+	 * @param string $category
 	 *
 	 * @return bool
 	 */
@@ -94,7 +103,7 @@ class WPSEO_GWT_Service {
 	 *
 	 * @return string
 	 */
-	private function get_profile() {
+	public function get_profile() {
 
 		// Get option
 		$option = get_option( 'wpseo-premium-gwt', array( 'profile' => '' ) );
@@ -114,6 +123,26 @@ class WPSEO_GWT_Service {
 
 		// Return the profile
 		return trim( $profile, '/' );
+	}
+
+	/**
+	 * Fetching the issues from the GWT API
+	 *
+	 * @param string $platform
+	 * @param string $category
+	 *
+	 * @return mixed
+	 */
+	public function fetch_category_issues( $platform, $category ) {
+		$response = $this->client->do_request(
+			'sites/'. urlencode( $this->get_profile() ) . '/urlCrawlErrorsSamples?category=' . $category . '&platform=' . $platform
+		);
+
+		if ( $issues = $this->client->decode_response( $response ) ) {
+			if ( ! empty ($issues->urlCrawlErrorSample ) ) {
+				return $issues->urlCrawlErrorSample;
+			}
+		}
 	}
 
 	/**

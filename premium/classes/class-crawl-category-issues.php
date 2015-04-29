@@ -15,24 +15,18 @@ class WPSEO_Crawl_Category_Issues {
 	private $category;
 
 	/**
-	 * @var Yoast_Google_Client
+	 * @var WPSEO_GWT_Service
 	 */
-	private $client;
+	private $service;
 
 	/**
-	 * @var string
+	 * @param WPSEO_GWT_Service $service
+	 * @param object            $category
+	 *
 	 */
-	private $profile;
-
-	/**
-	 * @param Yoast_Google_Client $client
-	 * @param object              $category
-	 * @param string              $profile
-	 */
-	public function __construct( Yoast_Google_Client $client, $category, $profile ) {
+	public function __construct( WPSEO_GWT_Service $service, $category ) {
+		$this->service  = $service;
 		$this->category = $category;
-		$this->client   = $client;
-		$this->profile  = $profile;
 	}
 
 	/**
@@ -42,12 +36,8 @@ class WPSEO_Crawl_Category_Issues {
 	 */
 	public function fetch_issues( array &$crawl_issues ) {
 
-		$response = $this->client->do_request(
-			'sites/'. urlencode( $this->profile ) . '/urlCrawlErrorsSamples?category=' . $this->category->category . '&platform=' . $this->category->platform
-		);
-
-		if ( $issues = $this->client->decode_response( $response ) ) {
-			foreach ( $issues->urlCrawlErrorSample as $issue ) {
+		if ( $issues = $this->service->fetch_category_issues( $this->category->platform, $this->category->category ) ) {
+			foreach ( $issues as $issue ) {
 				$crawl_issues[] = $this->create_issue( $issue );
 			}
 		}
