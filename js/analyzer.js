@@ -45,7 +45,7 @@ Analyzer.prototype.initQueue = function(){
     if(typeof this.config.queue !== "undefined" && this.config.queue.length !== 0){
         this.queue = this.config.queue;
     }else{
-        this.queue = ["keywordDensity", "subHeadings", "stopwords", "fleschReading", "linkCount", "imageCount"];
+        this.queue = ["keywordDensity", "subHeadings", "stopwords", "fleschReading", "linkCount", "imageCount", "urlKeyword", "metaDescription", "pageTitleKeyword", "pageTitleCount", "firstParagraph"];
     }
 };
 
@@ -194,6 +194,7 @@ Analyzer.prototype.subHeadingsRating = function(foundInHeader, matches){
 
 /**
  * check if the keyword contains stopwords
+ * @returns {result object}
  */
 Analyzer.prototype.stopwords = function(){
     var matches = yst_stringHelper.matchString(this.config.keyword, this.config.stopWords);
@@ -354,6 +355,17 @@ Analyzer.prototype.metaDescription = function() {
     return result;
 };
 
+/**
+ * counts the occurences of the keyword in the URL, returns 0 if no URL is set or is empty.
+ * @returns {{name: string, count: number}}
+ */
+Analyzer.prototype.urlKeyword = function() {
+    var result = { name: "urlKeyword", count: 0 };
+    if(typeof this.config.url !== "undefined") {
+        result.count = yst_stringHelper.countMatches(this.config.url, this.keywordRegex);
+    }
+    return result;
+};
 
 /**helper functions*/
 StringHelper = function(){};
