@@ -23,14 +23,15 @@
 	},
 	"require": {
 		"composer/installers": "~1.0",
-		"yoast/license-manager": "dev-master",
-		"yoast/i18n-module": "dev-master",
+		"yoast/license-manager": "^1.2",
+		"yoast/i18n-module": "^1.0",
 		"xrstf/composer-php52": "^1.0.17"
 	},
 	"require-dev": {
 		"yoast/yoastcs": "dev-master"
 	},
 	"minimum-stability": "dev",
+	"prefer-stable": true,
 	"autoload": {
 		"classmap": [
 			"admin/",
