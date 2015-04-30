@@ -155,7 +155,13 @@ class WPSEO_Admin {
 		);
 
 		// Allow submenu pages manipulation
-		$submenu_pages = apply_filters( 'wpseo_submenu_pages', $submenu_pages );
+		$extra_pages = apply_filters( 'wpseo_submenu_pages', array() );
+
+		// Sort the submenu items by name
+		uasort( $extra_pages, array( $this, 'sort_submenu_value_compare_func' ) );
+
+		// Merge the arrays
+		$submenu_pages = array_merge( $submenu_pages, $extra_pages );
 
 		// Loop through submenu pages and add them
 		if ( count( $submenu_pages ) ) {
@@ -544,6 +550,18 @@ class WPSEO_Admin {
 				update_user_meta( $user->ID, '_yoast_wpseo_profile_updated', time() );
 			}
 		}
+	}
+
+	/**
+	 * Sort the submenu pages array on the third key, the name of the submenu item.
+	 *
+	 * @param array $a
+	 * @param array $b
+	 *
+	 * @return mixed
+	 */
+	private function sort_submenu_value_compare_func( $a, $b ) {
+		return ( $a[2] - $b[2] );
 	}
 
 	/********************** DEPRECATED METHODS **********************/
