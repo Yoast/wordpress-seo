@@ -79,7 +79,7 @@ unset( $taxonomies, $post_types );
 	<?php printf( __( 'Usage of this breadcrumbs feature is explained %1$shere%2$s. For the more code savvy, insert this in your theme:', 'wordpress-seo' ), '<a href="https://yoast.com/wordpress/plugins/breadcrumbs/" target="_blank">', '</a>' ); ?>
 </p>
 <pre>
-&lt;?php if ( function_exists(&#x27;yoast_breadcrumb&#x27;) ) {
-yoast_breadcrumb(&#x27;&lt;p id=&quot;breadcrumbs&quot;&gt;&#x27;,&#x27;&lt;/p&gt;&#x27;);
+&lt;?php if ( function_exists( &#x27;yoast_breadcrumb&#x27; ) ) {
+yoast_breadcrumb( &#x27;&lt;p id=&quot;breadcrumbs&quot;&gt;&#x27;, &#x27;&lt;/p&gt;&#x27; );
 } ?&gt;
 </pre>
