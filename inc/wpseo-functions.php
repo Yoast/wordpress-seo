@@ -1,109 +1,12 @@
 <?php
 /**
- * @package    WPSEO
- * @subpackage Internals
+ * @package WPSEO\Internals
  */
 
 if ( ! defined( 'WPSEO_VERSION' ) ) {
 	header( 'Status: 403 Forbidden' );
 	header( 'HTTP/1.1 403 Forbidden' );
 	exit();
-}
-
-
-/**
- * Run the upgrade procedures.
- *
- * @todo - [JRF => Yoast] check: if upgrade is run on multi-site installation, upgrade for all sites ?
- * Maybe not necessary as it is now run on plugins_loaded, so upgrade will run as soon as any page
- * on a site is requested.
- */
-function wpseo_do_upgrade() {
-	/* Make sure title_test and description_test functions are available */
-	require_once( WPSEO_PATH . 'inc/wpseo-non-ajax-functions.php' );
-
-	$option_wpseo = get_option( 'wpseo' );
-
-	WPSEO_Options::maybe_set_multisite_defaults( false );
-
-	// Just flush rewrites, always, to at least make them work after an upgrade.
-	add_action( 'shutdown', 'flush_rewrite_rules' );
-	WPSEO_Utils::clear_sitemap_cache();
-
-	if ( version_compare( $option_wpseo['version'], '1.8.0', '<' ) ) {
-		$options_titles     = get_option( 'wpseo_titles' );
-		$options_permalinks = get_option( 'wpseo_permalinks' );
-
-		foreach ( array( 'hide-feedlinks', 'hide-rsdlink', 'hide-shortlink', 'hide-wlwmanifest' ) as $hide ) {
-			if ( isset( $options_titles[ $hide ] ) ) {
-				$options_permalinks[ $hide ] = $options_titles[ $hide ];
-				unset( $options_titles[ $hide ] );
-				update_option( 'wpseo_permalinks', $options_permalinks );
-				update_option( 'wpseo_titles', $options_titles );
-			}
-		}
-		unset( $options_titles, $options_permalinks );
-
-		$options_social = get_option( 'wpseo_social' );
-
-		if ( isset( $option_wpseo['pinterestverify'] ) ) {
-			$options_social['pinterestverify'] = $option_wpseo['pinterestverify'];
-			unset( $option_wpseo['pinterestverify'] );
-			update_option( 'wpseo_social', $options_social );
-			update_option( 'wpseo', $option_wpseo );
-		}
-		unset( $options_social );
-	}
-
-	if ( $option_wpseo['version'] === '' || version_compare( $option_wpseo['version'], '1.4.13', '<' ) ) {
-		// Run description test once theme has loaded
-		add_action( 'init', 'wpseo_description_test' );
-	}
-
-	if ( version_compare( $option_wpseo['version'], '1.5.0', '<' ) ) {
-
-		// Clean up options and meta
-		WPSEO_Options::clean_up( null, $option_wpseo['version'] );
-		WPSEO_Meta::clean_up();
-
-		// Add new capabilities on upgrade
-		wpseo_add_capabilities();
-	}
-
-	/* Only correct the breadcrumb defaults for upgrades from v1.5+ to v1.5.2.3, upgrades from earlier version
-	   will already get this functionality in the clean_up routine. */
-	if ( version_compare( $option_wpseo['version'], '1.4.25', '>' ) && version_compare( $option_wpseo['version'], '1.5.2.3', '<' ) ) {
-		add_action( 'init', array( 'WPSEO_Options', 'bring_back_breadcrumb_defaults' ), 3 );
-	}
-
-	if ( version_compare( $option_wpseo['version'], '1.4.25', '>' ) && version_compare( $option_wpseo['version'], '1.5.2.4', '<' ) ) {
-		/* Make sure empty maintax/mainpt strings will convert to 0 */
-		WPSEO_Options::clean_up( 'wpseo_internallinks', $option_wpseo['version'] );
-
-		/* Remove slashes from taxonomy meta texts */
-		WPSEO_Options::clean_up( 'wpseo_taxonomy_meta', $option_wpseo['version'] );
-	}
-
-	/* Clean up stray wpseo_ms options from the options table, option should only exist in the sitemeta table */
-	delete_option( 'wpseo_ms' );
-
-	// Make sure version nr gets updated for any version without specific upgrades
-	$option_wpseo = get_option( 'wpseo' ); // re-get to make sure we have the latest version
-	if ( version_compare( $option_wpseo['version'], WPSEO_VERSION, '<' ) ) {
-		update_option( 'wpseo', $option_wpseo );
-	}
-
-	// Make sure all our options always exist - issue #1245
-	WPSEO_Options::ensure_options_exist();
-
-	add_action( 'admin_footer', 'wpseo_redirect_to_about' );
-}
-
-/**
- * Redirect to the about page (used on upgrade)
- */
-function wpseo_redirect_to_about() {
-	echo '<script>window.location ="', admin_url( 'admin.php?page=wpseo_dashboard&intro=1' ), '";</script>';
 }
 
 if ( ! function_exists( 'initialize_wpseo_front' ) ) {

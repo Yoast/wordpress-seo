@@ -1,7 +1,6 @@
 <?php
 /**
- * @package    WPSEO
- * @subpackage Internals
+ * @package WPSEO\Internals
  */
 
 if ( ! defined( 'WPSEO_VERSION' ) ) {
@@ -228,12 +227,7 @@ function wpseo_admin_bar_menu() {
 		return;
 	}
 
-	global $wp_admin_bar, $wpseo_front, $post;
-
-	$url = '';
-	if ( is_object( $wpseo_front ) ) {
-		$url = $wpseo_front->canonical( false );
-	}
+	global $wp_admin_bar, $post;
 
 	$focuskw = '';
 	$score   = '';
@@ -291,14 +285,15 @@ function wpseo_admin_bar_menu() {
 	) );
 
 	if ( ! is_admin() ) {
-		$wp_admin_bar->add_menu( array(
-			'parent' => 'wpseo-menu',
-			'id'     => 'wpseo-analysis',
-			'title'  => __( 'Analyze this page', 'wordpress-seo' ),
-			'#',
-		) );
+		$url = WPSEO_Frontend::get_instance()->canonical( false );
+
 		if ( is_string( $url ) ) {
-			// @todo [JRF => whomever] check if this url shouldn't be encoded either with urlencode or with esc_url or something
+			$wp_admin_bar->add_menu( array(
+				'parent' => 'wpseo-menu',
+				'id'     => 'wpseo-analysis',
+				'title'  => __( 'Analyze this page', 'wordpress-seo' ),
+				'#',
+			) );
 			$wp_admin_bar->add_menu( array(
 				'parent' => 'wpseo-analysis',
 				'id'     => 'wpseo-inlinks-ose',
@@ -374,6 +369,13 @@ function wpseo_admin_bar_menu() {
 				'id'     => 'wpseo-modernie',
 				'title'  => __( 'Modern IE Site Scan', 'wordpress-seo' ),
 				'href'   => '//www.modern.ie/en-us/report#' . urlencode( $url ),
+				'meta'   => array( 'target' => '_blank' )
+			) );
+			$wp_admin_bar->add_menu( array(
+				'parent' => 'wpseo-analysis',
+				'id'     => 'wpseo-google-mobile-friendly',
+				'title'  => __( 'Mobile-Friendly Test', 'wordpress-seo' ),
+				'href'   => 'https://www.google.com/webmasters/tools/mobile-friendly/?url=' . urlencode( $url ),
 				'meta'   => array( 'target' => '_blank' )
 			) );
 		}
@@ -552,7 +554,7 @@ add_action( 'admin_init', 'wpseo_disable_aioseo' );
  * @since 1.4.8
  */
 function wpseo_import_aioseo_setting_notice() {
-	$url = add_query_arg( array( '_wpnonce' => wp_create_nonce( 'wpseo-import' ) ), admin_url( 'admin.php?page=wpseo_import&import=1&importaioseo=1' ) );
+	$url = add_query_arg( array( '_wpnonce' => wp_create_nonce( 'wpseo-import' ) ), admin_url( 'admin.php?page=wpseo_tools&tool=import-export&import=1&importaioseo=1#top#import-seo' ) );
 	echo '<div class="error"><p>', sprintf( esc_html__( 'The plugin All-In-One-SEO has been detected. Do you want to %simport its settings%s?', 'wordpress-seo' ), sprintf( '<a href="%s">', esc_url( $url ) ), '</a>' ), '</p></div>';
 }
 
@@ -571,7 +573,7 @@ function wpseo_deactivate_aioseo_notice() {
  * @since 1.4.8
  */
 function wpseo_import_robots_meta_notice() {
-	$url = add_query_arg( array( '_wpnonce' => wp_create_nonce( 'wpseo-import' ) ), admin_url( 'admin.php?page=wpseo_import&import=1&importrobotsmeta=1' ) );
+	$url = add_query_arg( array( '_wpnonce' => wp_create_nonce( 'wpseo-import' ) ), admin_url( 'admin.php?page=wpseo_tools&tool=import-export&import=1&importrobotsmeta=1#top#import-other' ) );
 	echo '<div class="error"><p>', sprintf( esc_html__( 'The plugin Robots-Meta has been detected. Do you want to %simport its settings%s.', 'wordpress-seo' ), sprintf( '<a href="%s">', esc_url( $url ) ), '</a>' ), '</p></div>';
 }
 

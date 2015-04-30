@@ -1,7 +1,6 @@
 <?php
 /**
- * @package    WPSEO
- * @subpackage Main
+ * @package WPSEO\Main
  */
 
 if ( ! function_exists( 'add_filter' ) ) {
@@ -14,7 +13,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * @internal Nobody should be able to overrule the real version number as this can cause serious issues
  * with the options, so no if ( ! defined() )
  */
-define( 'WPSEO_VERSION', '2.0-RC' );
+define( 'WPSEO_VERSION', '2.1.1' );
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
 	define( 'WPSEO_PATH', plugin_dir_path( WPSEO_FILE ) );
@@ -204,7 +203,15 @@ function wpseo_on_activate_blog( $blog_id ) {
  * Load translations
  */
 function wpseo_load_textdomain() {
-	load_plugin_textdomain( 'wordpress-seo', false, dirname( plugin_basename( WPSEO_FILE ) ) . '/languages/' );
+	$wpseo_path = str_replace( '\\', '/', WPSEO_PATH );
+	$mu_path    = str_replace( '\\', '/', WPMU_PLUGIN_DIR );
+
+	if ( false !== stripos( $wpseo_path, $mu_path ) ) {
+		load_muplugin_textdomain( 'wordpress-seo', dirname( WPSEO_BASENAME ) . '/languages/' );
+	}
+	else {
+		load_plugin_textdomain( 'wordpress-seo', false, dirname( WPSEO_BASENAME ) . '/languages/' );
+	}
 }
 
 add_action( 'init', 'wpseo_load_textdomain', 1 );
@@ -220,12 +227,12 @@ function wpseo_init() {
 	WPSEO_Options::get_instance();
 	WPSEO_Meta::init();
 
-	$option_wpseo = get_option( 'wpseo' );
-	if ( version_compare( $option_wpseo['version'], WPSEO_VERSION, '<' ) ) {
-		wpseo_do_upgrade( $option_wpseo['version'] );
-	}
-
 	$options = WPSEO_Options::get_all();
+	if ( version_compare( $options['version'], WPSEO_VERSION, '<' ) ) {
+		new WPSEO_Upgrade();
+		// get a cleaned up version of the $options
+		$options = WPSEO_Options::get_all();
+	}
 
 	if ( $options['stripcategorybase'] === true ) {
 		$GLOBALS['wpseo_rewrite'] = new WPSEO_Rewrite;
@@ -288,11 +295,18 @@ function wpseo_admin_init() {
 
 
 /* ***************************** BOOTSTRAP / HOOK INTO WP *************************** */
+$spl_autoload_exists = function_exists( 'spl_autoload_register' );
+$filter_exists       = function_exists( 'filter_input' );
 
-if ( ! function_exists( 'spl_autoload_register' ) ) {
-	add_action( 'admin_init', 'yoast_wpseo_self_deactivate', 1 );
+if ( ! $spl_autoload_exists ) {
+	add_action( 'admin_init', 'yoast_wpseo_missing_spl', 1 );
 }
-else if ( ! defined( 'WP_INSTALLING' ) || WP_INSTALLING === false ) {
+
+if ( ! $filter_exists ) {
+	add_action( 'admin_init', 'yoast_wpseo_missing_filter', 1 );
+}
+
+if ( ( ! defined( 'WP_INSTALLING' ) || WP_INSTALLING === false ) && ( $spl_autoload_exists && $filter_exists ) ) {
 	add_action( 'plugins_loaded', 'wpseo_init', 14 );
 
 	if ( is_admin() ) {
@@ -333,16 +347,20 @@ function load_yoast_notifications() {
  *
  * @return void
  */
-function yoast_wpseo_self_deactivate() {
+function yoast_wpseo_missing_spl() {
 	if ( is_admin() ) {
-		$message = esc_html__( 'The Standard PHP Library (SPL) extension seem to be unavailable. Please ask your web host to enable it.', 'wordpress-seo' );
-		add_action( 'admin_notices', create_function( '', 'echo \'<div class="error"><p>\' . __( \'Activation failed:\', \'wordpress-seo\' ) . \' ' . $message . '</p></div>\';' ) );
+		add_action( 'admin_notices', 'yoast_wpseo_missing_spl_notice' );
 
-		deactivate_plugins( plugin_basename( WPSEO_FILE ) );
-		if ( isset( $_GET['activate'] ) ) {
-			unset( $_GET['activate'] );
-		}
+		yoast_wpseo_self_deactivate();
 	}
+}
+
+/**
+ * Returns the notice in case of missing spl extension
+ */
+function yoast_wpseo_missing_spl_notice() {
+	$message = esc_html__( 'The Standard PHP Library (SPL) extension seem to be unavailable. Please ask your web host to enable it.', 'wordpress-seo' );
+	yoast_wpseo_activation_failed_notice( $message );
 }
 
 /**
@@ -352,13 +370,67 @@ function yoast_wpseo_self_deactivate() {
  */
 function yoast_wpseo_missing_autoload() {
 	if ( is_admin() ) {
-		$message = esc_html__( 'The WordPress SEO plugin installation is incomplete. Please refer to %1$sinstallation instructions%2$s.', 'wordpress-seo' );
-		$message = sprintf( $message, '<a href="https://github.com/Yoast/wordpress-seo#installation">', '</a>' );
-		add_action( 'admin_notices', create_function( '', 'echo \'<div class="error"><p>\' . __( \'Activation failed:\', \'wordpress-seo\' ) . \' ' . $message . '</p></div>\';' ) );
+		add_action( 'admin_notices', 'yoast_wpseo_missing_autoload_notice' );
 
+		yoast_wpseo_self_deactivate();
+	}
+}
+
+/**
+ * Returns the notice in case of missing Composer autoload
+ */
+function yoast_wpseo_missing_autoload_notice() {
+	/* translators: %1$s / %2$s: links to the installation manual in the Readme for the WordPress SEO by Yoast code repository on GitHub */
+	$message = esc_html__( 'The WordPress SEO plugin installation is incomplete. Please refer to %1$sinstallation instructions%2$s.', 'wordpress-seo' );
+	$message = sprintf( $message, '<a href="https://github.com/Yoast/wordpress-seo#installation">', '</a>' );
+	yoast_wpseo_activation_failed_notice( $message );
+}
+
+/**
+ * Throw an error if the filter extension is disabled (prevent white screens) and self-deactivate plugin
+ *
+ * @since 2.0
+ *
+ * @return void
+ */
+function yoast_wpseo_missing_filter() {
+	if ( is_admin() ) {
+		add_action( 'admin_notices', 'yoast_wpseo_missing_filter_notice' );
+
+		yoast_wpseo_self_deactivate();
+	}
+}
+
+/**
+ * Returns the notice in case of missing filter extension
+ */
+function yoast_wpseo_missing_filter_notice() {
+	$message = esc_html__( 'The filter extension seem to be unavailable. Please ask your web host to enable it.', 'wordpress-seo' );
+	yoast_wpseo_activation_failed_notice( $message );
+}
+
+/**
+ * Echo's the Activation failed notice with any given message.
+ *
+ * @param string $message
+ */
+function yoast_wpseo_activation_failed_notice( $message ) {
+	echo '<div class="error"><p>' . __( 'Activation failed:', 'wordpress-seo' ) . ' ' . $message . '</p></div>';
+}
+
+/**
+ * The method will deactivate the plugin, but only once, done by the static $is_deactivated
+ */
+function yoast_wpseo_self_deactivate() {
+	static $is_deactivated;
+
+	if ( $is_deactivated === null ) {
+		$is_deactivated = true;
 		deactivate_plugins( plugin_basename( WPSEO_FILE ) );
 		if ( isset( $_GET['activate'] ) ) {
 			unset( $_GET['activate'] );
 		}
 	}
 }
+
+

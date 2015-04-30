@@ -1,7 +1,6 @@
 <?php
 /**
- * @package    WPSEO
- * @subpackage Frontend
+ * @package WPSEO\Frontend
  */
 
 /**
@@ -60,12 +59,6 @@ class WPSEO_Twitter {
 		$this->image();
 		if ( is_singular() ) {
 			$this->author();
-		}
-
-		// No need to show these when OpenGraph is also showing, as it'd be the same contents and Twitter
-		// would fallback to OpenGraph anyway.
-		if ( $this->options['opengraph'] === false ) {
-			$this->url();
 		}
 
 		/**
@@ -489,23 +482,6 @@ class WPSEO_Twitter {
 			if ( is_string( $this->options['twitter_site'] ) && $this->options['twitter_site'] !== '' ) {
 				$this->output_metatag( 'creator', '@' . $this->options['twitter_site'] );
 			}
-		}
-	}
-
-	/**
-	 * Displays the URL for Twitter.
-	 *
-	 * Only used when OpenGraph is inactive.
-	 */
-	protected function url() {
-		/**
-		 * Filter: 'wpseo_twitter_url' - Allow changing the URL as output in the Twitter card by WP SEO
-		 *
-		 * @api string $unsigned Canonical URL
-		 */
-		$url = apply_filters( 'wpseo_twitter_url', WPSEO_Frontend::get_instance()->canonical( false ) );
-		if ( is_string( $url ) && $url !== '' ) {
-			$this->output_metatag( 'url', esc_url( $url ), true );
 		}
 	}
 

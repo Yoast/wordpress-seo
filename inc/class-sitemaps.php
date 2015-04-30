@@ -1,7 +1,6 @@
 <?php
 /**
- * @package    WPSEO
- * @subpackage XML_Sitemaps
+ * @package WPSEO\XML_Sitemaps
  */
 
 /**
@@ -16,7 +15,7 @@ class WPSEO_Sitemaps {
 	 *
 	 * @var string $sitemap
 	 */
-	private $sitemap = '';
+	protected $sitemap = '';
 
 	/**
 	 * XSL stylesheet for styling a sitemap for web browsers
@@ -306,6 +305,7 @@ class WPSEO_Sitemaps {
 		if ( is_scalar( $n ) && intval( $n ) > 0 ) {
 			$this->n = intval( $n );
 		}
+		unset( $n );
 
 		/**
 		 * Filter: 'wpseo_enable_xml_sitemap_transient_caching' - Allow disabling the transient cache
@@ -331,7 +331,7 @@ class WPSEO_Sitemaps {
 			}
 
 			if ( $caching ) {
-				set_transient( 'wpseo_sitemap_cache_' . $type . '_' . $n, $this->sitemap, DAY_IN_SECONDS );
+				set_transient( 'wpseo_sitemap_cache_' . $type . '_' . $this->n, $this->sitemap, DAY_IN_SECONDS );
 			}
 		}
 		else {
@@ -401,10 +401,10 @@ class WPSEO_Sitemaps {
 				$where_filter = apply_filters( 'wpseo_typecount_where', '', $post_type );
 
 				// using the same query with build_post_type_map($post_type) function to count number of posts.
-				$query = $wpdb->prepare( "SELECT COUNT(ID) FROM $wpdb->posts {$join_filter} WHERE post_status IN ('publish','inherit') AND post_password = '' AND post_author != 0 AND post_date != '0000-00-00 00:00:00' AND post_type = %s " . $where_filter, $post_type );
+				$query = $wpdb->prepare( "SELECT COUNT(ID) FROM $wpdb->posts {$join_filter} WHERE post_status IN ('publish','inherit') AND post_password = '' AND post_date != '0000-00-00 00:00:00' AND post_type = %s " . $where_filter, $post_type );
 
 				$count = $wpdb->get_var( $query );
-				if ( $count === 0 ) {
+				if ( $count == 0  ) {
 					continue;
 				}
 
@@ -642,7 +642,7 @@ class WPSEO_Sitemaps {
 		$join_filter  = apply_filters( 'wpseo_typecount_join', '', $post_type );
 		$where_filter = apply_filters( 'wpseo_typecount_where', '', $post_type );
 
-		$query = $wpdb->prepare( "SELECT COUNT(ID) FROM $wpdb->posts {$join_filter} WHERE post_status IN ('publish','inherit') AND post_password = '' AND post_author != 0 AND post_date != '0000-00-00 00:00:00' AND post_type = %s " . $where_filter, $post_type );
+		$query = $wpdb->prepare( "SELECT COUNT(ID) FROM $wpdb->posts {$join_filter} WHERE post_status IN ('publish','inherit') AND post_password = '' AND post_date != '0000-00-00 00:00:00' AND post_type = %s " . $where_filter, $post_type );
 
 		$typecount = $wpdb->get_var( $query );
 
@@ -731,14 +731,14 @@ class WPSEO_Sitemaps {
 
 
 		/**
-		 * We grab post_date, post_name, post_author and post_status too so we can throw these objects
+		 * We grab post_date, post_name and post_status too so we can throw these objects
 		 * into get_permalink, which saves a get_post call for each permalink.
 		 */
 		while ( $total > $offset ) {
 
 			// Optimized query per this thread: http://wordpress.org/support/topic/plugin-wordpress-seo-by-yoast-performance-suggestion
 			// Also see http://explainextended.com/2009/10/23/mysql-order-by-limit-performance-late-row-lookups/
-			$query = $wpdb->prepare( "SELECT l.ID, post_title, post_content, post_name, post_author, post_parent, post_modified_gmt, post_date, post_date_gmt FROM ( SELECT ID FROM $wpdb->posts {$join_filter} WHERE post_status = '%s' AND post_password = '' AND post_type = '%s' AND post_author != 0 AND post_date != '0000-00-00 00:00:00' {$where_filter} ORDER BY post_modified ASC LIMIT %d OFFSET %d ) o JOIN $wpdb->posts l ON l.ID = o.ID ORDER BY l.ID",
+			$query = $wpdb->prepare( "SELECT l.ID, post_title, post_content, post_name, post_parent, post_modified_gmt, post_date, post_date_gmt FROM ( SELECT ID FROM $wpdb->posts {$join_filter} WHERE post_status = '%s' AND post_password = '' AND post_type = '%s' AND post_date != '0000-00-00 00:00:00' {$where_filter} ORDER BY post_modified ASC LIMIT %d OFFSET %d ) o JOIN $wpdb->posts l ON l.ID = o.ID ORDER BY l.ID",
 				$status, $post_type, $steps, $offset
 			);
 
@@ -1185,10 +1185,12 @@ class WPSEO_Sitemaps {
 	 * Spit out the generated sitemap and relevant headers and encoding information.
 	 */
 	function output() {
-		header( $this->http_protocol() . ' 200 OK', true, 200 );
-		// Prevent the search engines from indexing the XML Sitemap.
-		header( 'X-Robots-Tag: noindex,follow', true );
-		header( 'Content-Type: text/xml' );
+		if ( ! headers_sent() ) {
+			header( $this->http_protocol() . ' 200 OK', true, 200 );
+			// Prevent the search engines from indexing the XML Sitemap.
+			header( 'X-Robots-Tag: noindex,follow', true );
+			header( 'Content-Type: text/xml' );
+		}
 		echo '<?xml version="1.0" encoding="', esc_attr( $this->charset ), '"?>';
 		if ( $this->stylesheet ) {
 			echo apply_filters( 'wpseo_stylesheet_url', $this->stylesheet ), "\n";
@@ -1222,19 +1224,18 @@ class WPSEO_Sitemaps {
 	 */
 	function sitemap_url( $url ) {
 
-		// Create a DateTime object date in the correct timezone
-		if ( isset( $url['mod'] ) ) {
-			$date = new DateTime( $url['mod'], new DateTimeZone( $this->get_timezone_string() ) );
-		}
-		else {
-			$date = new DateTime( date( 'y-m-d H:i:s' ), new DateTimeZone( $this->get_timezone_string() ) );
+		$date = null;
+
+		if ( ! empty( $url['mod'] ) ) {
+			// Create a DateTime object date in the correct timezone
+			$date = $this->get_datetime_with_timezone( $url['mod'] );
 		}
 
 		$url['loc'] = htmlspecialchars( $url['loc'] );
 
 		$output = "\t<url>\n";
 		$output .= "\t\t<loc>" . $url['loc'] . "</loc>\n";
-		$output .= "\t\t<lastmod>" . $date->format( 'c' ) . "</lastmod>\n";
+		$output .= empty( $date ) ? '' : "\t\t<lastmod>" . $date->format( 'c' ) . "</lastmod>\n";
 		$output .= "\t\t<changefreq>" . $url['chf'] . "</changefreq>\n";
 		$output .= "\t\t<priority>" . str_replace( ',', '.', $url['pri'] ) . "</priority>\n";
 
@@ -1275,7 +1276,7 @@ class WPSEO_Sitemaps {
 	 *
 	 * @return bool|string $redirect
 	 */
-	function canonical( $redirect ) {
+	public function canonical( $redirect ) {
 		$sitemap = get_query_var( 'sitemap' );
 		if ( ! empty( $sitemap ) ) {
 			return false;
@@ -1330,6 +1331,21 @@ class WPSEO_Sitemaps {
 		$date = new DateTime( $result, new DateTimeZone( $this->get_timezone_string() ) );
 
 		return $date->format( 'c' );
+	}
+
+	/**
+	 * Get the datetime object is the datetime string was valid with a timezone
+	 *
+	 * @param string $datetime The datetime string that needs to be converted to a Datetime object
+	 *
+	 * @return DateTime|string
+	 */
+	private function get_datetime_with_timezone( $datetime ) {
+		if ( ! empty( $datetime ) && WPSEO_Utils::is_valid_datetime( $datetime ) ) {
+			return new DateTime( $datetime, new DateTimeZone( $this->get_timezone_string() ) );
+		}
+
+		return null;
 	}
 
 	/**

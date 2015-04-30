@@ -1,7 +1,6 @@
 <?php
 /**
- * @package    WPSEO
- * @subpackage Admin
+ * @package WPSEO\Admin
  */
 
 /**
@@ -143,7 +142,7 @@ class WPSEO_Pointers {
 			),
 		);
 
-		$page = WPSEO_Utils::filter_input( INPUT_GET, 'page' );
+		$page = filter_input( INPUT_GET, 'page' );
 		$page = str_replace( 'wpseo_', '', $page );
 
 		$button_array = array(

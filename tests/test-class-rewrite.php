@@ -1,7 +1,6 @@
 <?php
 /**
- * @package    WPSEO
- * @subpackage Unittests
+ * @package WPSEO\Unittests
  */
 
 class WPSEO_Rewrite_Test extends WPSEO_UnitTestCase {

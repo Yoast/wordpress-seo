@@ -1,12 +1,11 @@
 <?php
 /**
- * @package    WPSEO
- * @subpackage Main
+ * @package WPSEO\Main
  */
 
 /**
  * Plugin Name: WordPress SEO
- * Version: 2.0-RC
+ * Version: 2.1.1
  * Plugin URI: https://yoast.com/wordpress/plugins/seo/#utm_source=wpadmin&utm_medium=plugin&utm_campaign=wpseoplugin
  * Description: The first true all-in-one SEO solution for WordPress, including on-page content analysis, XML sitemaps and much more.
  * Author: Team Yoast

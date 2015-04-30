@@ -1,7 +1,6 @@
 <?php
 /**
- * @package    WPSEO
- * @subpackage Admin
+ * @package WPSEO\Admin
  */
 
 /**
@@ -27,7 +26,7 @@ class WPSEO_Admin_Pages {
 	 * Make sure the needed scripts are loaded for admin pages
 	 */
 	function init() {
-		if ( WPSEO_Utils::filter_input( INPUT_GET, 'wpseo_reset_defaults' ) && wp_verify_nonce( WPSEO_Utils::filter_input( INPUT_GET, 'nonce' ), 'wpseo_reset_defaults' ) && current_user_can( 'manage_options' ) ) {
+		if ( filter_input( INPUT_GET, 'wpseo_reset_defaults' ) && wp_verify_nonce( filter_input( INPUT_GET, 'nonce' ), 'wpseo_reset_defaults' ) && current_user_can( 'manage_options' ) ) {
 			WPSEO_Options::reset();
 			wp_redirect( admin_url( 'admin.php?page=wpseo_dashboard' ) );
 		}
@@ -36,84 +35,6 @@ class WPSEO_Admin_Pages {
 			add_action( 'admin_enqueue_scripts', array( $this, 'config_page_scripts' ) );
 			add_action( 'admin_enqueue_scripts', array( $this, 'config_page_styles' ) );
 		}
-	}
-
-	/**
-	 * Deletes all post meta values with a given meta key from the database
-	 *
-	 * @todo [JRF => whomever] This method does not seem to be used anywhere. Double-check before removal.
-	 *
-	 * @param string $meta_key Key to delete all meta values for.
-	 */
-	/*function delete_meta( $meta_key ) {
-		global $wpdb;
-		$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->postmeta WHERE meta_key = %s", $meta_key ) );
-	}*/
-
-	/**
-	 * Exports the current site's WP SEO settings.
-	 *
-	 * @param bool $include_taxonomy Whether to include the taxonomy metadata the plugin creates.
-	 *
-	 * @return bool|string $return False when failed, the URL to the export file when succeeded.
-	 */
-	function export_settings( $include_taxonomy ) {
-		$content = '; ' . __( 'This is a settings export file for the WordPress SEO plugin by Yoast.com', 'wordpress-seo' ) . " - https://yoast.com/wordpress/plugins/seo/ \r\n";
-
-		$optarr = WPSEO_Options::get_option_names();
-
-		foreach ( $optarr as $optgroup ) {
-			$content .= "\n" . '[' . $optgroup . ']' . "\n";
-			$options = get_option( $optgroup );
-			if ( ! is_array( $options ) ) {
-				continue;
-			}
-			foreach ( $options as $key => $elem ) {
-				if ( is_array( $elem ) ) {
-					$elm_count = count( $elem );
-					for ( $i = 0; $i < $elm_count; $i ++ ) {
-						$content .= $key . '[] = "' . $elem[ $i ] . "\"\n";
-					}
-					unset( $elm_count, $i );
-				}
-				elseif ( is_string( $elem ) && $elem == '' ) {
-					$content .= $key . " = \n";
-				}
-				elseif ( is_bool( $elem ) ) {
-					$content .= $key . ' = "' . ( ( $elem === true ) ? 'on' : 'off' ) . "\"\n";
-				}
-				else {
-					$content .= $key . ' = "' . $elem . "\"\n";
-				}
-			}
-			unset( $key, $elem );
-		}
-		unset( $optgroup, $options );
-
-		if ( $include_taxonomy ) {
-			$content .= "\r\n\r\n[wpseo_taxonomy_meta]\r\n";
-			$content .= 'wpseo_taxonomy_meta = "' . urlencode( json_encode( get_option( 'wpseo_taxonomy_meta' ) ) ) . '"';
-		}
-
-		$dir = wp_upload_dir();
-
-		if ( ! $handle = fopen( $dir['path'] . '/settings.ini', 'w' ) ) {
-			die();
-		}
-
-		if ( ! fwrite( $handle, $content ) ) {
-			die();
-		}
-
-		fclose( $handle );
-
-		chdir( $dir['path'] );
-		$zip = new PclZip( './settings.zip' );
-		if ( $zip->create( './settings.ini' ) == 0 ) {
-			return false;
-		}
-
-		return $dir['url'] . '/settings.zip';
 	}
 
 	/**
@@ -139,11 +60,12 @@ class WPSEO_Admin_Pages {
 			'jquery',
 			'jquery-ui-core',
 		), WPSEO_VERSION, true );
+		wp_localize_script( 'wpseo-admin-script', 'wpseoAdminL10n', $this->localize_admin_script() );
 		wp_enqueue_script( 'dashboard' );
 		wp_enqueue_script( 'thickbox' );
 
-		$page = WPSEO_Utils::filter_input( INPUT_GET, 'page' );
-		$tool = WPSEO_Utils::filter_input( INPUT_GET, 'tool' );
+		$page = filter_input( INPUT_GET, 'page' );
+		$tool = filter_input( INPUT_GET, 'tool' );
 
 		if ( in_array( $page, array( 'wpseo_social', 'wpseo_dashboard' ) ) ) {
 			wp_enqueue_media();
@@ -154,8 +76,12 @@ class WPSEO_Admin_Pages {
 			wp_localize_script( 'wpseo-admin-media', 'wpseoMediaL10n', $this->localize_media_script() );
 		}
 
-		if ( 'bulk-editor' === $tool ) {
+		if ( 'wpseo_tools' === $page && 'bulk-editor' === $tool ) {
 			wp_enqueue_script( 'wpseo-bulk-editor', plugins_url( 'js/wp-seo-bulk-editor' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'jquery' ), WPSEO_VERSION, true );
+		}
+
+		if ( 'wpseo_tools' === $page && 'import-export' === $tool ) {
+			wp_enqueue_script( 'wpseo-export', plugins_url( 'js/wp-seo-export' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'jquery' ), WPSEO_VERSION, true );
 		}
 	}
 
@@ -170,7 +96,40 @@ class WPSEO_Admin_Pages {
 		);
 	}
 
+	/**
+	 * Pass some variables to js for the admin JS module.
+	 *
+	 * %s is replaced with <code>%s</code> and replaced again in the javascript with the actual variable.
+	 *
+	 * @return  array
+	 */
+	public function localize_admin_script() {
+		return array(
+			/* translators: %s: '%%term_title%%' variable used in titles and meta's template that's not compatible with the given template */
+			'variable_warning' => sprintf( __( 'Warning: the variable %s cannot be used in this template.', 'wordpress-seo' ), '<code>%s</code>' ) . ' ' . __( 'See the help tab for more info.', 'wordpress-seo' ),
+		);
+	}
+
 	/********************** DEPRECATED METHODS **********************/
+
+	/**
+	 * Exports the current site's WP SEO settings.
+	 *
+	 * @param bool $include_taxonomy Whether to include the taxonomy metadata the plugin creates.
+	 *
+	 * @return bool|string $return False when failed, the URL to the export file when succeeded.
+	 */
+	public function export_settings( $include_taxonomy ) {
+		_deprecated_function( __METHOD__, 'WPSEO 2.0', 'This method is deprecated, please use the <code>WPSEO_Export</code> class.' );
+
+		$export = new WPSEO_Export( $include_taxonomy );
+		if ( $export->success ) {
+			return $export->export_zip_url;
+		}
+		else {
+			return false;
+		}
+	}
 
 	/**
 	 * Generates the header for admin pages
@@ -222,8 +181,6 @@ class WPSEO_Admin_Pages {
 	 * @param string $label      The label to show for the variable.
 	 * @param bool   $label_left Whether the label should be left (true) or right (false).
 	 * @param string $option     The option the variable belongs to.
-	 *
-	 * @return string
 	 */
 	public function checkbox( $var, $label, $label_left = false, $option = '' ) {
 		_deprecated_function( __METHOD__, 'WPSEO 2.0', 'This method is deprecated, please use the <code>Yoast_Form</code> class.' );

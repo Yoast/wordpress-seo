@@ -1,7 +1,6 @@
 <?php
 /**
- * @package    WPSEO
- * @subpackage Admin
+ * @package WPSEO\Admin
  */
 
 if ( ! defined( 'WPSEO_VERSION' ) ) {
@@ -33,11 +32,17 @@ function wpseo_display_contributors( $contributors ) {
 	<div class="about-text">
 		<?php _e( 'On your way to better search rankings!', 'wordpress-seo' ); ?><br/>
 		<br/>
-		<?php _e( 'WordPress SEO by Yoast 2.0 helps you optimize your site by making you ready for Google\'s Knowledge Graph and simplyfing the WordPress SEO by Yoast admin.', 'wordpress-seo' ); ?>
+		<?php _e( 'WordPress SEO by Yoast 2.0 helps you optimize your site by making you ready for Google\'s Knowledge Graph and simplifying the WordPress SEO by Yoast admin.', 'wordpress-seo' ); ?>
 	</div>
 
 	<h2 class="nav-tab-wrapper" id="wpseo-tabs">
-		<a class="nav-tab" href="#top#new" id="new-tab"><?php _e( 'What’s New', 'wordpress-seo' ); ?></a>
+		<a class="nav-tab" href="#top#new" id="new-tab">
+			<?php
+			/* translators: %s: '2.0' version number */
+			echo sprintf( __( 'What’s New In %s', 'wordpress-seo' ), '2.0' );
+			?>
+		</a>
+		<a class="nav-tab" href="#top#v21" id="v21-tab">2.1</a>
 		<a class="nav-tab" href="#top#credits" id="credits-tab"><?php _e( 'Credits', 'wordpress-seo' ); ?></a>
 	</h2>
 
@@ -92,7 +97,14 @@ function wpseo_display_contributors( $contributors ) {
 				<div>
 					<span class="dashicons dashicons-twitter"></span>
 					<h4><?php _e( 'Twitter Galleries', 'wordpress-seo' ); ?></h4>
-
+					<h2>WordPress SEO 2.0.1</h2>
+					<p><small>Release date: April 1st, 2015</small></p>
+					<p>This update fixes a few small bugs:</p>
+					<ul class="ul-disc">
+						<li>Fixes an issue where (in rare cases) people upgrading to 2.0 got stuck in a redirect loop on their admin.</li>
+						<li>Fixes a broken link in the Dutch translation, causing the Pinterest tab on the Social settings page to overflow into the Google+ tab.</li>
+						<li>Fixes a small typo on the about page.</li>
+					</ul>
 					<p>
 						<?php printf( __( 'If you use galleries in your posts and have Twitter meta data enabled on %1$sSocial → Twitter%2$s, galleries will now be auto-detected and put out as Gallery Cards. All that’s left for your is to %3$sverify the cards with Twitter%2$s.', 'wordpress-seo' ), '<a href="' . admin_url( 'admin.php?page=wpseo_social#top#twitterbox' ) . '">', '</a>', '<a target="_blank" href="http://yoa.st/twittercardsverify">' ); ?>
 					</p>
@@ -130,9 +142,29 @@ function wpseo_display_contributors( $contributors ) {
 		<hr>
 
 		<div class="return-to-dashboard">
-			<a href="<?php echo remove_query_arg( 'intro' ); ?>"><?php _e( 'Go to The General settings page →', 'wordpress-seo' ); ?></a>
+			<a href="<?php echo esc_url( admin_url( 'admin.php?page=wpseo_dashboard' ) ); ?>"><?php _e( 'Go to The General settings page →', 'wordpress-seo' ); ?></a>
 		</div>
 
+	</div>
+
+	<div id="v21" class="wpseotab">
+		<h2>WordPress SEO 2.1</h2>
+		<p><small>Release date: April 20th, 2015</small></p>
+		<p>WordPress SEO 2.1 adds some more features on top of this release. Read the release notes for more info.</p>
+		<ul class="ul-disc">
+			<li>See the <a href="https://wordpress.org/plugins/wordpress-seo/changelog/" target="_blank">changelog</a> for a complete list of changes.</li>
+			<li>Read our <a href="https://yoast.com/wordpress-seo-2-1-release-notes" target="_blank">release blogpost</a> for a more detailed explanation of the important changes in this release.</li>
+			<li>Read our <a href="https://yoast.com/coordinated-security-release/" target="_blank">security blogpost</a> for the backstory about a security fix that was included in this release, in coordination with a significant part of the WordPress community.</li>
+			<li>We've added support for Google's new URL representation in mobile search results. You can read more about it in <a href="https://yoast.com/changing-urls-in-search-results/" target="_blank">this blogpost</a>.</li>
+		</ul>
+		<h2>WordPress SEO 2.0.1</h2>
+		<p><small>Release date: April 1st, 2015</small></p>
+		<p>This update fixes a few small bugs:</p>
+		<ul class="ul-disc">
+			<li>Fixes an issue where (in rare cases) people upgrading to 2.0 got stuck in a redirect loop on their admin.</li>
+			<li>Fixes a broken link in the Dutch translation, causing the Pinterest tab on the Social settings page to overflow into the Google+ tab.</li>
+			<li>Fixes a small typo on the about page.</li>
+		</ul>
 	</div>
 
 	<div id="credits" class="wpseotab">
