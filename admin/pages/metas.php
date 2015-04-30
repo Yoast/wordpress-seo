@@ -188,7 +188,8 @@ $yform->admin_header( true, 'wpseo_titles' );
 			printf( __( 'If you\'re running a one author blog, the author archive will be exactly the same as your homepage. This is what\'s called a %1$sduplicate content problem%2$s.', 'wordpress-seo' ), '<a href="https://yoast.com/articles/duplicate-content/">', '</a>' );
 			echo '</p>';
 			echo '<p>';
-			echo __( 'If this is the case on your site, you can choose to either disable them (which makes them redirect to the homepage), or to add <code>noindex,follow</code> to them so they don\'t show up in the search results.', 'wordpress-seo' );
+			/* translators: %s expands to <code>noindex, follow</code> */
+			echo sprintf( __( 'If this is the case on your site, you can choose to either disable them (which makes them redirect to the homepage), or to add %s to them so they don\'t show up in the search results.', 'wordpress-seo' ), '<code>noindex,follow</code>' );
 			echo '</p>';
 			/* translators: %s expands to <code>noindex, follow</code> */
 			$yform->checkbox( 'noindex-author-wpseo', sprintf( __( 'Add %s to the author archives', 'wordpress-seo' ), '<code>noindex, follow</code>' ) );
@@ -214,20 +215,22 @@ $yform->admin_header( true, 'wpseo_titles' );
 			?>
 		</div>
 		<div id="other" class="wpseotab">
-			<strong><?php _e( 'Sitewide <code>meta</code> settings', 'wordpress-seo' ); ?></strong><br/>
+			<strong><?php _e( 'Sitewide meta settings', 'wordpress-seo' ); ?></strong><br/>
 			<br/>
 			<?php
 			echo '<p>', __( 'If you want to prevent /page/2/ and further of any archive to show up in the search results, enable this.', 'wordpress-seo' ), '</p>';
 			$yform->checkbox( 'noindex-subpages-wpseo', __( 'Noindex subpages of archives', 'wordpress-seo' ) );
 
 			echo '<p>', __( 'I don\'t know why you\'d want to use meta keywords, but if you want to, check this box.', 'wordpress-seo' ), '</p>';
-			$yform->checkbox( 'usemetakeywords', __( 'Use <code>meta</code> keywords tag?', 'wordpress-seo' ) );
+			$yform->checkbox( 'usemetakeywords', __( 'Use meta keywords tag?', 'wordpress-seo' ) );
 
 			echo '<p>', __( 'Prevents search engines from using the DMOZ description for pages from this site in the search results.', 'wordpress-seo' ), '</p>';
-			$yform->checkbox( 'noodp', __( 'Add <code>noodp</code> meta robots tag sitewide', 'wordpress-seo' ) );
+			/* translators: %s expands to <code>noodp</code> */
+			$yform->checkbox( 'noodp', sprintf( __( 'Add %s meta robots tag sitewide', 'wordpress-seo' ), '<code>noodp</code>' ) );
 
 			echo '<p>', __( 'Prevents search engines from using the Yahoo! directory description for pages from this site in the search results.', 'wordpress-seo' ), '</p>';
-			$yform->checkbox( 'noydir', __( 'Add <code>noydir</code> meta robots tag sitewide', 'wordpress-seo' ) );
+			/* translators: %s expands to <code>noydir</code> */
+			$yform->checkbox( 'noydir', sprintf( __( 'Add %s meta robots tag sitewide', 'wordpress-seo' ), '<code>noydir</code>' ) );
 
 			?>
 		</div>

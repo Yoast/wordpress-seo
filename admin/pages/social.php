@@ -80,15 +80,14 @@ $yform->admin_header( true, 'wpseo_social' );
 
 	<div id="twitterbox" class="wpseotab">
 		<p>
-			<?php $yform->checkbox( 'twitter', __( 'Add Twitter card meta data', 'wordpress-seo' ) ); ?>
-		</p>
-
-		<p class="desc">
 			<?php
 			/* translators: %s expands to <code>&lt;head&gt;</code> */
 			printf( __( 'Add Twitter card meta data to your site\'s %s section.', 'wordpress-seo' ), '<code>&lt;head&gt;</code>' );
 			?>
 		</p>
+
+		<?php $yform->checkbox( 'twitter', __( 'Add Twitter card meta data', 'wordpress-seo' ) ); ?>
+
 		<?php
 		$yform->select( 'twitter_card_type', __( 'The default card type to use', 'wordpress-seo' ), WPSEO_Option_Social::$twitter_card_types );
 		do_action( 'wpseo_admin_twitter_section' );
