@@ -584,12 +584,9 @@ class WPSEO_OpenGraph {
 		$tags = get_the_tags();
 		if ( ! is_wp_error( $tags ) && ( is_array( $tags ) && $tags !== array() ) ) {
 
-			$tags_out = '';
 			foreach ( $tags as $tag ) {
-				$tags_out .= $tag->name . ',';
+				$this->og_tag( 'article:tag', $tag->name );
 			}
-			$tags_out = rtrim( $tags_out, ',' );
-			$this->og_tag( 'article:tag', $tags_out );
 
 			return true;
 		}
