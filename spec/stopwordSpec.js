@@ -8,12 +8,12 @@ stopwordArgs = {
 };
 
 describe("a test for matching the keyword with ", function(){
-    stopwordMatcher = new Analyzer(stopwordArgs);
-    stopwordMatcher.runQueue();
+    var stopwordMatcher = new Analyzer(stopwordArgs);
+    var result = stopwordMatcher.stopwords();
     it("matches a keyword", function(){
-        expect(stopwordMatcher.__output[0].name).toBe("stopWords");
-        expect(stopwordMatcher.__output[0].result.count).toBe(2);
-        expect(stopwordMatcher.__output[0].result.matches).toContain(" about");
-        expect(stopwordMatcher.__output[0].result.matches).toContain(" yourself");
+        expect(result.name).toBe("stopWords");
+        expect(result.result.count).toBe(2);
+        expect(result.result.matches).toContain(" about");
+        expect(result.result.matches).toContain(" yourself");
     });
 });

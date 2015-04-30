@@ -11,7 +11,7 @@ describe("a test for checking the first paragraph for keyword(s)", function() {
     it("returns the count of keywords", function() {
         firstParagraphAnalyzer = new Analyzer(firstParagraphArg);
         result = firstParagraphAnalyzer.firstParagraph();
-        expect(result.count).toBe(1);
+        expect(result.result.count).toBe(1);
     });
 });
 
@@ -25,7 +25,7 @@ describe("a test for checking the first paragraph for keywords, when no paragrap
     it("returns 0, since no paragraphs are in textString", function(){
         firstParagraphAnalyzer2 = new Analyzer(firstParagraphArg2);
         result = firstParagraphAnalyzer2.firstParagraph();
-        expect(result.count).toBe(0);
+        expect(result.result.count).toBe(0);
     });
 });
 
@@ -39,6 +39,6 @@ describe("a test for checking the first paragraph for keywords, when no paragrap
     it("returns 0, since there are 2 paragraphs and 2nd matches keyword", function(){
         firstParagraphAnalyzer3 = new Analyzer(firstParagraphArg3);
         result = firstParagraphAnalyzer2.firstParagraph();
-        expect(result.count).toBe(0);
+        expect(result.result.count).toBe(0);
     });
 });

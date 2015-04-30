@@ -10,7 +10,7 @@ describe("a test counting the number of characters in the pagetitle", function()
    it("returns the number of characters", function(){
        pagetitleAnalyzer = new Analyzer(titleArg);
        result = pagetitleAnalyzer.pageTitleCount();
-       expect(result.count).toBe(19);
+       expect(result.result.count).toBe(19);
    });
 });
 
@@ -23,7 +23,7 @@ describe("a test counting the number of characters in the pagetitle", function()
     it("returns the number of characters", function(){
         pagetitleAnalyzer = new Analyzer(titleArg2);
         result = pagetitleAnalyzer.pageTitleCount();
-        expect(result.count).toBe(31);
+        expect(result.result.count).toBe(31);
     });
 });
 
@@ -36,6 +36,6 @@ describe("a test counting the number of characters in an empty pagetitle", funct
    it("returns null", function(){
       pagetitleAnalyzer = new Analyzer(titleArg3);
       result = pagetitleAnalyzer.pageTitleCount();
-      expect(result.count).toBe(0);
+      expect(result.result.count).toBe(0);
    });
 });

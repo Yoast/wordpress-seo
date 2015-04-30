@@ -94,12 +94,12 @@ Analyzer.prototype.abortQueue = function(){
  * @returns resultObject
  */
 Analyzer.prototype.keywordDensity = function() {
+    var result = { name: "keywordDensity", result: { keywordDensity: 0 } };
     if (yst_preProcessor.__store.wordcount > 100) {
         var keywordDensity = this.keywordDensityCheck();
-        return {name: "keywordDensity", keywordDensity: keywordDensity.toFixed(1)};
-    } else {
-        return {name: "keywordDensity", keywordDensity: 0};
+        result.result.keywordDensity = keywordDensity.toFixed(1);
     }
+    return result;
 };
 
 /**
@@ -157,7 +157,7 @@ Analyzer.prototype.subHeadingsCheck = function(matches){
 Analyzer.prototype.stopwords = function(){
     var matches = yst_stringHelper.matchString(this.config.keyword, this.config.stopWords);
     var stopwordCount = matches !== null ? matches.length : 0;
-    return {name: "stopWords", result: {count: stopwordCount, matches: matches}, rating:5 };
+    return { name: "stopWords", result: { count: stopwordCount, matches: matches } };
 };
 
 
@@ -168,7 +168,7 @@ Analyzer.prototype.stopwords = function(){
 Analyzer.prototype.fleschReading = function(){
     var score =  (206.835 - (1.015 * (yst_preProcessor.__store.wordcount / yst_preProcessor.__store.sentencecount)) - (84.6 * (yst_preProcessor.__store.syllablecount / yst_preProcessor.__store.wordcount))).toFixed(1);
     if(score < 0){score = 0;}else if (score > 100){score = 100;}
-    return {name: "fleschReading", result: score};
+    return { name: "fleschReading", result: {score: score} };
 };
 
 /**
@@ -192,7 +192,7 @@ Analyzer.prototype.linkCount = function(){
             linkCount[linkType][linkFollow]++;
         }
     }
-    return {name: "linkCount", result: linkCount};
+    return { name: "linkCount", result: { linkCount: linkCount } };
 };
 
 /**
@@ -242,7 +242,7 @@ Analyzer.prototype.imageCount = function(){
             }
         }
     }
-    return {name: "imageCount", result: imageCount};
+    return {name: "imageCount", result: { imageCount: imageCount } };
 };
 
 /**
@@ -271,7 +271,7 @@ Analyzer.prototype.pageTitleCount = function(){
     if(typeof this.config.pageTitle !== "undefined"){
         count = this.config.pageTitle.length;
     }
-    return {name: "pageTitleCount", count: count};
+    return {name: "pageTitleCount", result: { count: count } };
 };
 
 /**
@@ -279,9 +279,9 @@ Analyzer.prototype.pageTitleCount = function(){
  * @returns {{name: string, count: number}}
  */
 Analyzer.prototype.pageTitleKeyword = function(){
-    var result = { name: "pageTitleKeyword", count: 0 };
+    var result = { name: "pageTitleKeyword", result: { count: 0 } };
     if(typeof this.config.pageTitle !== "undefined") {
-        result.count = yst_stringHelper.countMatches(this.config.pageTitle, this.keywordRegex);
+        result.result.count = yst_stringHelper.countMatches(this.config.pageTitle, this.keywordRegex);
     }
     return result;
 };
@@ -293,9 +293,9 @@ Analyzer.prototype.pageTitleKeyword = function(){
  */
 Analyzer.prototype.firstParagraph = function() {
     var matches = yst_preProcessor.__store.cleanTextSomeTags.match(/<p(?:[^>]+)?>(.*?)<\/p>/g);
-    var result = { name: "firstParagraph", count: 0 };
+    var result = { name: "firstParagraph", result: { count: 0 } };
     if(matches !== null){
-        result.count = yst_stringHelper.countMatches(matches[0], this.keywordRegex);
+        result.result.count = yst_stringHelper.countMatches(matches[0], this.keywordRegex);
     }
     return result;
 };
@@ -305,10 +305,10 @@ Analyzer.prototype.firstParagraph = function() {
  * @returns {{name: string, count: number}}
  */
 Analyzer.prototype.metaDescription = function() {
-    var result = { name: "metaDescription", count: 0, length: 0};
+    var result = { name: "metaDescription", result: { count: 0, length: 0 } };
     if(typeof this.config.meta !== "undefined") {
-        result.count = yst_stringHelper.countMatches(this.config.meta, this.keywordRegex);
-        result.length = this.config.meta.length;
+        result.result.count = yst_stringHelper.countMatches(this.config.meta, this.keywordRegex);
+        result.result.length = this.config.meta.length;
     }
     return result;
 };
@@ -318,9 +318,9 @@ Analyzer.prototype.metaDescription = function() {
  * @returns {{name: string, count: number}}
  */
 Analyzer.prototype.urlKeyword = function() {
-    var result = { name: "urlKeyword", count: 0 };
+    var result = { name: "urlKeyword", result : { count: 0 } };
     if(typeof this.config.url !== "undefined") {
-        result.count = yst_stringHelper.countMatches(this.config.url, this.keywordRegex);
+        result.result.count = yst_stringHelper.countMatches(this.config.url, this.keywordRegex);
     }
     return result;
 };

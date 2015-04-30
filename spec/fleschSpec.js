@@ -10,8 +10,8 @@ var fleschArgs = {
 describe("Test for the flesch kincaid reading", function(){
     it("returns a flesh kincaid reading score", function(){
         var flesch = new Analyzer(fleschArgs);
-        var output = flesch.fleschReading();
-        expect(output.result).toBe("83.3");
+        var result = flesch.fleschReading();
+        expect(result.result.score).toBe("83.3");
     });
 });
 
@@ -23,8 +23,8 @@ var fleschArgs2 = {
 describe("2nd test for the flesch kincaid reading", function(){
     it("returns a flesh kincaid reading score", function(){
         var flesch2 = new Analyzer(fleschArgs2);
-        var output2 = flesch2.fleschReading();
-        expect(output2.result).toBe("71.7");
+        var result = flesch2.fleschReading();
+        expect(result.result.score).toBe("71.7");
     });
 });
 
