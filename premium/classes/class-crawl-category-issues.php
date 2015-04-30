@@ -25,6 +25,13 @@ class WPSEO_Crawl_Category_Issues {
 	private $platform;
 
 	/**
+	 * List of all current issues to compare with received issues
+	 *
+	 * @var array
+	 */
+	private $current_issues;
+
+	/**
 	 * @param string $platform
 	 * @param string $category
 	 */
@@ -32,6 +39,8 @@ class WPSEO_Crawl_Category_Issues {
 		$this->service  = new WPSEO_GWT_Service();
 		$this->platform = $platform;
 		$this->category = $category;
+
+		$this->set_current_issues();
 	}
 
 	/**
@@ -40,9 +49,11 @@ class WPSEO_Crawl_Category_Issues {
 	public function fetch_issues() {
 		if ( $issues = $this->service->fetch_category_issues( $this->platform, $this->category ) ) {
 			foreach ( $issues as $issue ) {
-				$this->save_issue(
-					$this->create_issue( $issue )
-				);
+				if ( ! in_array( $issue->pageUrl, $this->current_issues ) ) {
+					$this->save_issue(
+						$this->create_issue( $issue )
+					);
+				}
 			}
 		}
 	}
@@ -71,6 +82,31 @@ class WPSEO_Crawl_Category_Issues {
 	 */
 	private function save_issue( WPSEO_Crawl_Issue $crawl_issue ) {
 		$crawl_issue->save();
+	}
+
+	/**
+	 *
+	 */
+	private function set_current_issues() {
+		global $wpdb;
+
+		$current_issues = $wpdb->get_results(
+			'
+				SELECT post_title
+				FROM ' . $wpdb->posts . '
+				WHERE post_type   = "' . WPSEO_Crawl_Issue_Manager::PT_CRAWL_ISSUE . '" &&
+					  ID IN(
+						SELECT platform.post_id FROM wp_postmeta platform
+						INNER JOIN wp_postmeta category ON category.post_id = platform.post_id && category.meta_key = "'. WPSEO_Crawl_Issue::PM_CI_CATEGORY . '" AND category.meta_value = "' . $this->category . '"
+						WHERE platform.meta_key = "' . WPSEO_Crawl_Issue::PM_CI_PLATFORM . '" && platform.meta_value = "' . $this->platform . '"
+					  )
+			',
+			OBJECT
+		);
+
+		foreach ( $current_issues as $current_issue ) {
+			$this->current_issues[] = $current_issue->post_title;
+		}
 	}
 
 }

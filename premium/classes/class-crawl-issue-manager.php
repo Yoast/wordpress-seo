@@ -113,17 +113,6 @@ class WPSEO_Crawl_Issue_Manager {
 	}
 
 	/**
-	 * Deleting the crawl issues
-	 */
-	public function delete_crawl_issues() {
-		global $wpdb;
-
-		// Remove local crawl issues that are not in the Google response
-		$wpdb->query( "DELETE FROM `{$wpdb->posts}` WHERE `post_type` = '" . self::PT_CRAWL_ISSUE . "'" );
-	}
-
-
-	/**
 	 * Remove the last checked option
 	 */
 	private function remove_last_checked() {

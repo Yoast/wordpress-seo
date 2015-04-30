@@ -33,9 +33,6 @@ class WPSEO_GWT_Ajax {
 		// Saving the timestamp
 		$issue_manager->save_last_checked();
 
-		// Remove all the current crawl issues
-		$issue_manager->delete_crawl_issues();
-
 		wp_die( json_encode( $service->get_crawl_issues() ) );
 	}
 
