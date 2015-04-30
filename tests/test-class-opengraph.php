@@ -505,7 +505,8 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 
 		// add tags to post
 		wp_set_post_tags( $post_id, 'Tag1, Tag2' );
-		$expected_tags = '<meta property="article:tag" content="Tag1,Tag2" />' . "\n";
+		$expected_tags = '<meta property="article:tag" content="Tag1" />' . "\n";
+		$expected_tags .= '<meta property="article:tag" content="Tag2" />' . "\n";
 
 		// test again, this time with tags
 		$this->assertTrue( self::$class_instance->tags() );
