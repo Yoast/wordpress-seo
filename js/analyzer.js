@@ -81,7 +81,8 @@ Analyzer.prototype.setDefaults = function(){
 Analyzer.prototype.runQueue = function(){
     //remove first function from queue and execute it.
     if(this.queue.length > 0){
-        this.__output.push(this[this.queue.shift()]());
+        //this.__output.push(this[this.queue.shift()]());
+        this.__output = this.__output.concat(this[this.queue.shift()]());
         this.runQueue();
     }
 };
@@ -99,10 +100,10 @@ Analyzer.prototype.abortQueue = function(){
  * @returns resultObject
  */
 Analyzer.prototype.keywordDensity = function() {
-    var result = { name: "keywordDensity", result: { keywordDensity: 0 } };
+    var result = [{ test: "keywordDensity", result: 0  }];
     if (yst_preProcessor.__store.wordcount > 100) {
         var keywordDensity = this.keywordDensityCheck();
-        result.result.keywordDensity = keywordDensity.toFixed(1);
+        result[0].result = keywordDensity.toFixed(1);
     }
     return result;
 };
@@ -126,11 +127,11 @@ Analyzer.prototype.keywordDensityCheck = function(){
  * @returns resultObject
  */
 Analyzer.prototype.subHeadings = function() {
-    var result = {name: "subHeadings", subHeadingCount: 0, keywordCount: 0 };
+    var result = [{test: "subHeadings", result: 0}, {test: "subHeadingKeyword", result: 0 }];
     var matches = yst_preProcessor.__store.cleanTextSomeTags.match(/<h([1-6])(?:[^>]+)?>(.*?)<\/h\1>/g);
     if(matches !== null){
-        result.subHeadingCount = matches.length;
-        result.keywordCount = this.subHeadingsCheck(matches);
+        result[0].result = matches.length;
+        result[1].result = this.subHeadingsCheck(matches);
     }
     return result;
 };
@@ -162,7 +163,7 @@ Analyzer.prototype.subHeadingsCheck = function(matches){
 Analyzer.prototype.stopwords = function(){
     var matches = yst_stringHelper.matchString(this.config.keyword, this.config.stopWords);
     var stopwordCount = matches !== null ? matches.length : 0;
-    return { name: "stopWords", result: { count: stopwordCount, matches: matches } };
+    return [ { test: "stopwordCount", result: stopwordCount }, { test: "stopWordMatches", result: matches } ];
 };
 
 
@@ -173,7 +174,7 @@ Analyzer.prototype.stopwords = function(){
 Analyzer.prototype.fleschReading = function(){
     var score =  (206.835 - (1.015 * (yst_preProcessor.__store.wordcount / yst_preProcessor.__store.sentencecount)) - (84.6 * (yst_preProcessor.__store.syllablecount / yst_preProcessor.__store.wordcount))).toFixed(1);
     if(score < 0){score = 0;}else if (score > 100){score = 100;}
-    return { name: "fleschReading", result: {score: score} };
+    return [ { test: "fleschReading", result: score} ];
 };
 
 /**
@@ -197,7 +198,7 @@ Analyzer.prototype.linkCount = function(){
             linkCount[linkType][linkFollow]++;
         }
     }
-    return { name: "linkCount", result: { linkCount: linkCount } };
+    return [ { test: "linkCount", result: linkCount } ];
 };
 
 /**
@@ -248,7 +249,7 @@ Analyzer.prototype.imageCount = function(){
             }
         }
     }
-    return {name: "imageCount", result: { imageCount: imageCount } };
+    return  [ {test: "imageCount", result: imageCount } ];
 };
 
 /**
@@ -277,7 +278,7 @@ Analyzer.prototype.pageTitleCount = function(){
     if(typeof this.config.pageTitle !== "undefined"){
         count = this.config.pageTitle.length;
     }
-    return {name: "pageTitleCount", result: { count: count } };
+    return [ {test: "pageTitleCount", result: count } ];
 };
 
 /**
@@ -285,9 +286,9 @@ Analyzer.prototype.pageTitleCount = function(){
  * @returns {{name: string, count: number}}
  */
 Analyzer.prototype.pageTitleKeyword = function(){
-    var result = { name: "pageTitleKeyword", result: { count: 0 } };
+    var result = [ { test: "pageTitleKeyword", result: 0 } ];
     if(typeof this.config.pageTitle !== "undefined") {
-        result.result.count = yst_stringHelper.countMatches(this.config.pageTitle, this.keywordRegex);
+        result[0].result = yst_stringHelper.countMatches(this.config.pageTitle, this.keywordRegex);
     }
     return result;
 };
@@ -299,9 +300,9 @@ Analyzer.prototype.pageTitleKeyword = function(){
  */
 Analyzer.prototype.firstParagraph = function() {
     var matches = yst_preProcessor.__store.cleanTextSomeTags.match(/<p(?:[^>]+)?>(.*?)<\/p>/g);
-    var result = { name: "firstParagraph", result: { count: 0 } };
+    var result =[ { test: "firstParagraph", result: 0 } ];
     if(matches !== null){
-        result.result.count = yst_stringHelper.countMatches(matches[0], this.keywordRegex);
+        result[0].result = yst_stringHelper.countMatches(matches[0], this.keywordRegex);
     }
     return result;
 };
@@ -311,10 +312,10 @@ Analyzer.prototype.firstParagraph = function() {
  * @returns {{name: string, count: number}}
  */
 Analyzer.prototype.metaDescription = function() {
-    var result = { name: "metaDescription", result: { count: 0, length: 0 } };
+    var result =[ { test: "metaDescription", result: 0 }, {test : "metaDescriptionLength", result : 0 } ];
     if(typeof this.config.meta !== "undefined") {
-        result.result.count = yst_stringHelper.countMatches(this.config.meta, this.keywordRegex);
-        result.result.length = this.config.meta.length;
+        result[0].result = yst_stringHelper.countMatches(this.config.meta, this.keywordRegex);
+        result[1].result = this.config.meta.length;
     }
     return result;
 };
@@ -324,11 +325,17 @@ Analyzer.prototype.metaDescription = function() {
  * @returns {{name: string, count: number}}
  */
 Analyzer.prototype.urlKeyword = function() {
-    var result = { name: "urlKeyword", result : { count: 0 } };
+    var result = [ { test: "urlKeyword", result : 0 } ];
     if(typeof this.config.url !== "undefined") {
-        result.result.count = yst_stringHelper.countMatches(this.config.url, this.keywordRegex);
+        result[0].result = yst_stringHelper.countMatches(this.config.url, this.keywordRegex);
     }
     return result;
+};
+
+
+Analyzer.prototype.score = function() {
+    yst_analyzeScorer.score(this.__output);
+
 };
 
 /**helper functions*/
@@ -571,6 +578,23 @@ AnalyzeScorer = function(){
 };
 
 AnalyzeScorer.prototype.init = function(){
+    this.scoring = analyzerScoring;
+};
 
+AnalyzeScorer.prototype.score = function(resultObj){
+    for (var i = 0; i < resultObj.length; i++){
+        var currentScoreObj = analyzerScoring[resultObj[i].name];
+        for (var ii = 0; ii < currentScoreObj.scoreArray.length; ii++){
+            switch(currentScoreObj.scoreArray[ii].operator){
+                case "<=":
+                    subScore = resultObj[i].result
+                    break;
+                case "==":
+                    break;
+                case "=>":
+                    break;
+            }
+        }
+    }
 };
 

@@ -1,4 +1,5 @@
 require("../js/config/config.js");
+require("../js/config/scoring.js");
 require("../js/analyzer.js");
 
 var imgArgs = {
@@ -10,9 +11,9 @@ describe("a test to extract the images from a given textstring", function(){
    it("returns the number of images found in the textstring", function(){
        imageAnalyzer = new Analyzer(imgArgs);
        var result = imageAnalyzer.imageCount();
-       expect(result.result.imageCount.total).toBe(3);
-       expect(result.result.imageCount.alt).toBe(1);
-       expect(result.result.imageCount.noalt).toBe(2);
+       expect(result[0].result.total).toBe(3);
+       expect(result[0].result.alt).toBe(1);
+       expect(result[0].result.noalt).toBe(2);
 
    });
 });

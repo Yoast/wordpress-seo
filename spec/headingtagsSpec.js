@@ -1,4 +1,5 @@
 require("../js/config/config.js");
+require("../js/config/scoring.js");
 require("../js/analyzer.js");
 
 headingArgs = {
@@ -11,8 +12,9 @@ describe("test for the subheader analyzer with no matching keywords in the headi
     it("returns header score - no keyword", function(){
         var headerAnalyzer = new Analyzer(headingArgs);
         var result = headerAnalyzer.subHeadings();
-        expect(result.name).toBe("subHeadings");
-        expect(result.keywordCount).toBe(0);
+        expect(result[0].test).toBe("subHeadings");
+        expect(result[0].result).toBe(1);
+        expect(result[1].result).toBe(0);
     });
 });
 
@@ -26,8 +28,8 @@ describe("test for the subheader analyzer with a single matching keyword in the 
     it("returns header score - 1 keyword", function(){
         var headerAnalyzer = new Analyzer(headingArgs2);
         var result = headerAnalyzer.subHeadings();
-        expect(result.name).toBe("subHeadings");
-        expect(result.keywordCount).toBe(1);
+        expect(result[1].test).toBe("subHeadingKeyword");
+        expect(result[1].result).toBe(1);
     });
 });
 
@@ -41,9 +43,10 @@ describe("test for the subheader analyzer where there are no subheadings", funct
     it("returns header score - no headers", function(){
         var headerAnalyzer = new Analyzer(headingArgs3);
         var result = headerAnalyzer.subHeadings();
-        expect(result.name).toBe("subHeadings");
-        expect(result.subHeadingCount).toBe(0);
+        expect(result[0].test).toBe("subHeadings");
+        expect(result[0].result).toBe(0);
     });
 });
+
 
 

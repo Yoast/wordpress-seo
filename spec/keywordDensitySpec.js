@@ -1,4 +1,5 @@
 require("../js/config/config.js");
+require("../js/config/scoring.js");
 require("../js/analyzer.js");
 
 keywordArgs = {
@@ -11,7 +12,7 @@ describe("A keyword density test with a good amount of occurences of the keyword
     it("returns keyword density - good", function(){
         var textAnalyzerDensity = new Analyzer(keywordArgs);
         var result = textAnalyzerDensity.keywordDensity();
-        expect(result.result.keywordDensity).toContain(3.2);
+        expect(result[0].result).toContain(3.2);
     });
 });
 
@@ -25,7 +26,7 @@ describe("A keyword density test with a high-density occurence of the keyword", 
     it("returns keyword density - high", function(){
         var textAnalyzerDensity = new Analyzer(keywordArgs2);
         var result = textAnalyzerDensity.keywordDensity();
-        expect(result.result.keywordDensity).toContain(6.9);
+        expect(result[0].result).toContain(6.9);
     });
 });
 
@@ -39,7 +40,7 @@ describe("A keyword density test where there are no matching keywords", function
     it("returns keyword density - none ", function(){
         var textAnalyzerDensity = new Analyzer(keywordArgs3);
         var result = textAnalyzerDensity.keywordDensity();
-        expect(result.result.keywordDensity).toContain(0);
+        expect(result[0].result).toContain(0);
     });
 });
 
@@ -53,7 +54,7 @@ describe("A keyword density test with a string shorter than 100 words", function
     it("returns keyword density - < 100", function(){
         var textAnalyzer = new Analyzer(keywordArgs4);
         var result = textAnalyzer.keywordDensity();
-        expect(result.result.keywordDensity).toBe(0);
+        expect(result[0].result).toBe(0);
     });
 });
 

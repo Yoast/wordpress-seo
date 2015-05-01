@@ -1,4 +1,5 @@
 require("../js/config/config.js");
+require("../js/config/scoring.js");
 require("../js/analyzer.js");
 
 stopwordArgs = {
@@ -11,9 +12,9 @@ describe("a test for matching the keyword with ", function(){
     var stopwordMatcher = new Analyzer(stopwordArgs);
     var result = stopwordMatcher.stopwords();
     it("matches a keyword", function(){
-        expect(result.name).toBe("stopWords");
-        expect(result.result.count).toBe(2);
-        expect(result.result.matches).toContain(" about");
-        expect(result.result.matches).toContain(" yourself");
+        expect(result[0].test).toBe("stopwordCount");
+        expect(result[0].result).toBe(2);
+        expect(result[1].result).toContain(" about");
+        expect(result[1].result).toContain(" yourself");
     });
 });
