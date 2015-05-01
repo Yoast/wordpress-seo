@@ -3,6 +3,7 @@
  * @param args
  * @constructor
  */
+
 Analyzer = function (args){
     this.config = args;
     this.init();
@@ -30,6 +31,10 @@ Analyzer.prototype.initRequiredObjects = function(){
     //init helper
     if(typeof yst_stringHelper !== "object"){
         yst_stringHelper = new StringHelper();
+    }
+    //init scorer
+    if(typeof yst_analyzeScorer !== "object"){
+        yst_analyzeScorer = new AnalyzeScorer();
     }
 };
 
@@ -219,7 +224,7 @@ Analyzer.prototype.linkType = function(url){
  */
 Analyzer.prototype.linkFollow = function(url){
     var linkFollow = "dofollow";
-    if(url.match(/rel=['"]nofollow['"]/g) !== null){
+    if(url.match(/rel=(['"])nofollow\1/g) !== null){
         linkFollow = "nofollow";
     }
     return linkFollow;
@@ -229,6 +234,7 @@ Analyzer.prototype.linkFollow = function(url){
  * counts the number of images found in a given textstring, based on the <img>-tag and returns a result object
  * @returns {{name: string, result: {total: number, alt: number, noalt: number}}}
  */
+//todo update function so it will also check on picture elements.
 Analyzer.prototype.imageCount = function(){
     var imageCount = {total: 0, alt: 0, noalt: 0};
     var imageMatches = yst_preProcessor.__store.originalText.match(/<img(?:[^>]+)?>/g);
@@ -252,7 +258,7 @@ Analyzer.prototype.imageCount = function(){
  */
 Analyzer.prototype.imageAlttag = function(image){
     var hasAlttag = false;
-    var alttag = image.match(/alt=['"](.*?)['"]/g);
+    var alttag = image.match(/alt=(['"])(.*?)\1/g);
     if(alttag !== null){
         if(alttag[0].split("=")[1].match(/[a-z0-9](.*?)[a-z0-9]/g) !== null){
             hasAlttag = true;
@@ -559,3 +565,12 @@ PreProcessor.prototype.stripAllTags = function(textString){
     textString = yst_stringHelper.stripSpaces(textString);
     return textString;
 };
+
+AnalyzeScorer = function(){
+    this.init();
+};
+
+AnalyzeScorer.prototype.init = function(){
+
+};
+
