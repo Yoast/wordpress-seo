@@ -26,16 +26,27 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 	 * the main meta box definition array in the class WPSEO_Meta() as well!!!!
 	 */
 	public static function translate_meta_boxes() {
+		/* translators: %s expands to the social network's name */
 		$title_text       = __( 'If you don\'t want to use the post title for sharing the post on %s but instead want another title there, write it here.', 'wordpress-seo' );
+		/* translators: %s expands to the social network's name */
 		$description_text = __( 'If you don\'t want to use the meta description for sharing the post on %s but want another description there, write it here.', 'wordpress-seo' );
+		/* translators: %s expands to the social network's name */
 		$image_text       = __( 'If you want to override the image used on %s for this post, upload / choose an image or add the URL here.', 'wordpress-seo' );
+		/* translators: %1$s expands to the social network, %2$s to the recommended image size */
+		$image_size_text  = __( 'The recommended image size for %1$s is %2$spx.', 'wordpress-seo' );
 
 		$options = WPSEO_Options::get_all();
 
 		$social_networks = array(
-				'opengraph'  => __( 'Facebook', 'wordpress-seo' ),
-				'twitter'    => __( 'Twitter', 'wordpress-seo' ),
-				'googleplus' => __( 'Google+', 'wordpress-seo' ),
+			'opengraph'  => __( 'Facebook', 'wordpress-seo' ),
+			'twitter'    => __( 'Twitter', 'wordpress-seo' ),
+			'googleplus' => __( 'Google+', 'wordpress-seo' ),
+		);
+
+		$recommended_image_sizes = array(
+			'opengraph'   => '1200 x 628',
+			'twitter'     => '1024 x 512',
+			'google-plus' => '800 x 1200',
 		);
 
 		foreach ( $social_networks as $network => $label ) {
@@ -51,7 +62,7 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 				self::$meta_fields['social'][ $network . '-description' ]['description'] = sprintf( $description_text, $label );
 
 				self::$meta_fields['social'][ $network . '-image' ]['title']       = sprintf( __( '%s Image', 'wordpress-seo' ), $label );
-				self::$meta_fields['social'][ $network . '-image' ]['description'] = sprintf( $image_text, $label );
+				self::$meta_fields['social'][ $network . '-image' ]['description'] = sprintf( $image_text, $label ) . ' ' . sprintf( $image_size_text, $label, $recommended_image_sizes[ $network ] );
 			}
 		}
 	}
