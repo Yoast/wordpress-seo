@@ -43,6 +43,7 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 			'googleplus' => __( 'Google+', 'wordpress-seo' ),
 		);
 
+		// Source: https://blog.bufferapp.com/ideal-image-sizes-social-media-posts
 		$recommended_image_sizes = array(
 			'opengraph'   => '1200 x 628',
 			'twitter'     => '1024 x 512',
