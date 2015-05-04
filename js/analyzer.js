@@ -84,6 +84,8 @@ Analyzer.prototype.runQueue = function(){
         //this.__output.push(this[this.queue.shift()]());
         this.__output = this.__output.concat(this[this.queue.shift()]());
         this.runQueue();
+    } else {
+        this.score();
     }
 };
 
@@ -574,6 +576,7 @@ PreProcessor.prototype.stripAllTags = function(textString){
 };
 
 AnalyzeScorer = function(){
+    this.__score = [];
     this.init();
 };
 
@@ -583,18 +586,32 @@ AnalyzeScorer.prototype.init = function(){
 
 AnalyzeScorer.prototype.score = function(resultObj){
     for (var i = 0; i < resultObj.length; i++){
-        var currentScoreObj = analyzerScoring[resultObj[i].name];
-        for (var ii = 0; ii < currentScoreObj.scoreArray.length; ii++){
-            switch(currentScoreObj.scoreArray[ii].operator){
-                case "<=":
-                    subScore = resultObj[i].result
+        var currentScoreObj = analyzerScoring[resultObj[i].test];
+        if( typeof currentScoreObj !== "undefined" ) {
+            for (var ii = 0; ii < currentScoreObj.scoreArray.length; ii++) {
+                var score;
+                var formatResult = parseFloat(resultObj[i].result);
+                switch (currentScoreObj.scoreArray[ii].operator) {
+                    case "<=":
+                        score = formatResult <= currentScoreObj.scoreArray[ii].score;
+                        break;
+                    case "==":
+                        score = formatResult == currentScoreObj.scoreArray[ii].score;
+                        break;
+                    case ">=":
+                        score = formatResult >= currentScoreObj.scoreArray[ii].score;
+                        break;
+                    default:
+                        break;
+                }
+                if (score) {
+                    //todo add weight multiplier if desired
+                    this.__score.push(currentScoreObj.scoreArray[ii].score);
                     break;
-                case "==":
-                    break;
-                case "=>":
-                    break;
+                }
             }
         }
+
     }
 };
 
