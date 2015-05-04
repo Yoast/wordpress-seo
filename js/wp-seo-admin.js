@@ -1,8 +1,14 @@
+/* global wpseoAdminL10n */
+/* global ajaxurl */
+/* global setWPOption */
+/* jshint -W097 */
+/* jshint -W003 */
+/* jshint unused:false */
+'use strict';
 jQuery(document).ready(function () {
-
     /* Fix banner images overlapping help texts */
     jQuery('.screen-meta-toggle a').click(function () {
-        jQuery("#sidebar-container").toggle();
+        jQuery('#sidebar-container').toggle();
     });
 
     // events
@@ -31,11 +37,11 @@ jQuery(document).ready(function () {
         jQuery(this).addClass('nav-tab-active');
     });
 
-    jQuery("#company_or_person").change(function () {
-        if ('company' == jQuery(this).val()) {
+    jQuery('#company_or_person').change(function () {
+        if ('company' === jQuery(this).val()) {
             jQuery('#knowledge-graph-company').show();
             jQuery('#knowledge-graph-person').hide();
-        } else if ('person' == jQuery(this).val()) {
+        } else if ('person' === jQuery(this).val()) {
             jQuery('#knowledge-graph-company').hide();
             jQuery('#knowledge-graph-person').show();
         } else {
@@ -52,7 +58,7 @@ jQuery(document).ready(function () {
     var active_tab = window.location.hash.replace('#top#', '');
 
     // default to first tab
-    if (active_tab == '' || active_tab == '#_=_') {
+    if (active_tab === '' || active_tab === '#_=_') {
         active_tab = jQuery('.wpseotab').attr('id');
     }
 
@@ -124,8 +130,9 @@ function setWPOption(option, newval, hide, nonce) {
             newval: newval,
             _wpnonce: nonce
         }, function (data) {
-            if (data)
-                jQuery('#' + hide).hide();
+            if (data) {
+				jQuery('#' + hide).hide();
+			}
         }
     );
 }
@@ -135,10 +142,11 @@ function wpseo_killBlockingFiles(nonce) {
         action: 'wpseo_kill_blocking_files',
         _ajax_nonce: nonce
     }, function (data) {
-        if (data == 'success')
-            jQuery('#blocking_files').hide();
-        else
-            jQuery('#block_files').html(data);
+        if (data === 'success') {
+			jQuery('#blocking_files').hide();
+		} else {
+			jQuery('#block_files').html(data);
+		}
     });
 }
 
@@ -148,7 +156,7 @@ function copy_home_meta() {
 
 function wpseo_set_tab_hash() {
 
-    conf = jQuery('#wpseo-conf');
+    var conf = jQuery('#wpseo-conf');
     if (conf.length) {
         var currentUrl = conf.attr('action').split('#')[0];
         conf.attr('action', currentUrl + window.location.hash);

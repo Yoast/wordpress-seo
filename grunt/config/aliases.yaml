@@ -27,7 +27,7 @@ check:
   - 'jshint'
   - 'jsonlint'
   - 'jsvalidate'
-  - 'jscs'
+#  - 'jscs' ignore for now
   - 'phplint'
   - 'phpcs'
   - 'checktextdomain'

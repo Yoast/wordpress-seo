@@ -1,3 +1,9 @@
+/* global wp */
+/* global removeThumb */
+/* global wpseoMetaboxL10n */
+/* jshint -W097 */
+/* jshint -W003 */
+'use strict';
 jQuery(document).ready(function () {
     var featuredImage = wp.media.featuredImage.frame();
     featuredImage.on('select', function () {
@@ -37,12 +43,11 @@ var thumbIdCounter = 0;
 function yst_overrideElemFunction() {
     if( document.getElementById( 'remove-post-thumbnail' ) != null ){
         thumbIdCounter = 0;
-        removeThumb = document.getElementById( 'remove-post-thumbnail' ).onclick;
         document.getElementById( 'remove-post-thumbnail' ).onclick = yst_removeOpengraphWarning;
     }else{
         thumbIdCounter++;
         if(thumbIdCounter < 10){
-            setTimeout( 'yst_overrideElemFunction()', 100 );
+            setTimeout( yst_overrideElemFunction, 100 );
         }
     }
 }

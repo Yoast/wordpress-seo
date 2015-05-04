@@ -1,3 +1,7 @@
+/* global ajaxurl */
+/* jshint -W097 */
+/* jshint unused:false */
+'use strict';
 function wpseo_setIgnore( option, hide, nonce ) {
 	jQuery.post(ajaxurl, {
 			action: 'wpseo_set_ignore',

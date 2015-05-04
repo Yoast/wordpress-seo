@@ -1,5 +1,4 @@
 /* browser:true */
-/* global jQuery */
 /* global wpseoMetaboxL10n */
 /* global ajaxurl */
 /* global tinyMCE */
@@ -14,8 +13,8 @@
  * @param {string} str
  * @returns {string}
  */
-function yst_clean(str) {
-	if (str === '' || str === undefined) {
+function ystClean(str) {
+	if (str === '' || typeof(str) === 'undefined') {
 		return '';
 	}
 
@@ -36,10 +35,10 @@ function yst_clean(str) {
  * @param {RegExp} p The regex to match
  * @returns {string}
  */
-function ptest(str, p) {
-	str = yst_clean(str);
-	str = str.toLowerCase();
-	str = removeLowerCaseDiacritics(str);
+function ystFocusKwTest(str, p) {
+	str = ystClean(str);
+	str = str.toLocaleLowerCase();
+	str = ystRemoveLowerCaseDiacritics(str);
 	var r = str.match(p);
 
 	if (r !== null) {
@@ -55,8 +54,8 @@ function ptest(str, p) {
  * @param {string} str
  * @returns {string}
  */
-function removeLowerCaseDiacritics(str) {
-	var defaultDiacriticsRemovalMap = [
+function ystRemoveLowerCaseDiacritics(str) {
+	var diacriticsRemovalMap = [
 		{
 			'base': 'a',
 			'letters': /[\u0061\u24D0\uFF41\u1E9A\u00E0\u00E1\u00E2\u1EA7\u1EA5\u1EAB\u1EA9\u00E3\u0101\u0103\u1EB1\u1EAF\u1EB5\u1EB3\u0227\u01E1\u00E4\u01DF\u1EA3\u00E5\u01FB\u01CE\u0201\u0203\u1EA1\u1EAD\u1EB7\u1E01\u0105\u2C65\u0250]/g
@@ -147,12 +146,8 @@ function removeLowerCaseDiacritics(str) {
 			'letters': /[\u007A\u24E9\uFF5A\u017A\u1E91\u017C\u017E\u1E93\u1E95\u01B6\u0225\u0240\u2C6C\uA763]/g
 		}
 	];
-	var changes;
-	if (!changes) {
-		changes = defaultDiacriticsRemovalMap;
-	}
-	for (var i = 0; i < changes.length; i++) {
-		str = str.replace(changes[i].letters, changes[i].base);
+	for (var i = 0; i < diacriticsRemovalMap.length; i++) {
+		str = str.replace(diacriticsRemovalMap[i].letters, diacriticsRemovalMap[i].base);
 	}
 	return str;
 }
@@ -160,11 +155,11 @@ function removeLowerCaseDiacritics(str) {
 /**
  * Tests whether the focus keyword is used in title, body and description
  */
-function yst_testFocusKw() {
+function ystTestFocusKw() {
 	// Retrieve focus keyword and trim
 	var focuskw = jQuery.trim(jQuery('#' + wpseoMetaboxL10n.field_prefix + 'focuskw').val());
 
-	focuskw = yst_escapeFocusKw(focuskw).toLowerCase();
+	focuskw = ystEscapeFocusKw(focuskw).toLowerCase();
 
 	var postname;
 	var url;
@@ -172,10 +167,10 @@ function yst_testFocusKw() {
 		postname = jQuery('#editable-post-name-full').text();
 		url = wpseoMetaboxL10n.wpseo_permalink_template.replace('%postname%', postname).replace('http://', '');
 	}
-	var p = new RegExp('(^|[ \\s\n\r\t\\.,\'\\("\\+;!?:\\-])' + removeLowerCaseDiacritics(focuskw) + '($|[\\s\n\r\t.,\'\\)"\\+!?:;\\-])', 'gim');
+	var p = new RegExp('(^|[ \\s\n\r\t\\.,\'\\("\\+;!?:\\-])' + ystRemoveLowerCaseDiacritics(focuskw) + '($|[\\s\n\r\t.,\'\\)"\\+!?:;\\-])', 'gim');
 
 	//remove diacritics of a lower cased focuskw for url matching in foreign lang
-	var focuskwNoDiacritics = removeLowerCaseDiacritics(focuskw);
+	var focuskwNoDiacritics = ystRemoveLowerCaseDiacritics(focuskw);
 	var p2 = new RegExp(focuskwNoDiacritics.replace(/\s+/g, '[-_\\\//]'), 'gim');
 
 	var focuskwresults = jQuery('#focuskwresults');
@@ -185,14 +180,14 @@ function yst_testFocusKw() {
 		var html = '<p>' + wpseoMetaboxL10n.keyword_header + '</p>';
 		html += '<ul>';
 		if (jQuery('#title').length) {
-			html += '<li>' + wpseoMetaboxL10n.article_header_text + ptest(jQuery('#title').val(), p) + '</li>';
+			html += '<li>' + wpseoMetaboxL10n.article_header_text + ystFocusKwTest(jQuery('#title').val(), p) + '</li>';
 		}
-		html += '<li>' + wpseoMetaboxL10n.page_title_text + ptest(jQuery('#wpseosnippet_title').text(), p) + '</li>';
-		html += '<li>' + wpseoMetaboxL10n.page_url_text + ptest(url, p2) + '</li>';
+		html += '<li>' + wpseoMetaboxL10n.page_title_text + ystFocusKwTest(jQuery('#wpseosnippet_title').text(), p) + '</li>';
+		html += '<li>' + wpseoMetaboxL10n.page_url_text + ystFocusKwTest(url, p2) + '</li>';
 		if (jQuery('#content').length) {
-			html += '<li>' + wpseoMetaboxL10n.content_text + ptest(jQuery('#content').val(), p) + '</li>';
+			html += '<li>' + wpseoMetaboxL10n.content_text + ystFocusKwTest(jQuery('#content').val(), p) + '</li>';
 		}
-		html += '<li>' + wpseoMetaboxL10n.meta_description_text + ptest(metadesc, p) + '</li>';
+		html += '<li>' + wpseoMetaboxL10n.meta_description_text + ystFocusKwTest(metadesc, p) + '</li>';
 		html += '</ul>';
 		focuskwresults.html(html);
 	} else {
@@ -203,7 +198,7 @@ function yst_testFocusKw() {
 /**
  * This callback is used for variable replacement
  *
- * This is done through a callback as it _could_ be that `yst_replaceVariables` has to do an AJAX request.
+ * This is done through a callback as it _could_ be that `ystReplaceVariables` has to do an AJAX request.
  *
  * @callback replaceVariablesCallback
  * @param {string} str The string with the replaced variables in it
@@ -215,7 +210,7 @@ function yst_testFocusKw() {
  * @param {string} str The string with variables to be replaced
  * @param {replaceVariablesCallback} callback Callback function for when the
  */
-function yst_replaceVariables(str, callback) {
+function ystReplaceVariables(str, callback) {
 	if (typeof str === 'undefined') {
 		return;
 	}
@@ -241,7 +236,7 @@ function yst_replaceVariables(str, callback) {
 	// excerpt
 	var excerpt = '';
 	if (jQuery('#excerpt').length) {
-		excerpt = yst_clean(jQuery('#excerpt').val().replace(/(<([^>]+)>)/ig, ''));
+		excerpt = ystClean(jQuery('#excerpt').val().replace(/(<([^>]+)>)/ig, ''));
 		str = str.replace(/%%excerpt_only%%/g, excerpt);
 	}
 	if ('' === excerpt && jQuery('#content').length) {
@@ -255,23 +250,22 @@ function yst_replaceVariables(str, callback) {
 	}
 
 	// remove double separators
-	var esc_sep = yst_escapeFocusKw(wpseoMetaboxL10n.sep);
+	var esc_sep = ystEscapeFocusKw(wpseoMetaboxL10n.sep);
 	var pattern = new RegExp(esc_sep + ' ' + esc_sep, 'g');
 	str = str.replace(pattern, wpseoMetaboxL10n.sep);
 
 	if (str.indexOf('%%') !== -1 && str.match(/%%[a-z0-9_-]+%%/i) !== null) {
 		var regex = /%%[a-z0-9_-]+%%/gi;
 		var matches = str.match(regex);
-		var i;
-		for (i = 0; i < matches.length; i++) {
-			if (replacedVars[matches[i]] !== undefined) {
+		for (var i = 0; i < matches.length; i++) {
+			if (typeof( replacedVars[matches[i]] ) === 'undefined') {
 				str = str.replace(matches[i], replacedVars[matches[i]]);
 			} else {
 				var replaceableVar = matches[i];
 
 				// create the cache already, so we don't do the request twice.
 				replacedVars[replaceableVar] = '';
-				yst_ajaxReplaceVariables(replaceableVar, callback);
+				ystAjaxReplaceVariables(replaceableVar, callback);
 			}
 		}
 	}
@@ -284,18 +278,18 @@ function yst_replaceVariables(str, callback) {
  * @param {string} replaceableVar
  * @param {replaceVariablesCallback} callback
  */
-function yst_ajaxReplaceVariables(replaceableVar, callback) {
+function ystAjaxReplaceVariables(replaceableVar, callback) {
 	jQuery.post(ajaxurl, {
 			action: 'wpseo_replace_vars',
 			string: replaceableVar,
 			post_id: jQuery('#post_ID').val(),
 			_wpnonce: wpseoMetaboxL10n.wpseo_replace_vars_nonce
-		}, function (data) {
+		}, function(data) {
 			if (data) {
 				replacedVars[replaceableVar] = data;
 			}
 
-			yst_replaceVariables(replaceableVar, callback);
+			ystReplaceVariables(replaceableVar, callback);
 		}
 	);
 }
@@ -305,7 +299,7 @@ function yst_ajaxReplaceVariables(replaceableVar, callback) {
  *
  * @param {boolean} [force = false]
  */
-function yst_updateTitle(force) {
+function ystUpdateTitle(force) {
 	var title = '';
 	var titleElm = jQuery('#' + wpseoMetaboxL10n.field_prefix + 'title');
 	var titleLengthError = jQuery('#' + wpseoMetaboxL10n.field_prefix + 'title-length-warning');
@@ -324,7 +318,7 @@ function yst_updateTitle(force) {
 		return;
 	}
 
-	title = yst_clean(title);
+	title = ystClean(title);
 	title = jQuery.trim(title);
 	title = divHtml.text(title).html();
 
@@ -332,8 +326,8 @@ function yst_updateTitle(force) {
 		titleElm.val(title);
 	}
 
-	title = yst_replaceVariables(title, function (title) {
-		title = sanitize_title(title);
+	title = ystReplaceVariables(title, function(title) {
+		title = ystSanitizeTitle(title);
 
 		jQuery('#wpseosnippet_title').html(title);
 
@@ -341,16 +335,16 @@ function yst_updateTitle(force) {
 		var placeholder_title = divHtml.html(title).text();
 		titleElm.attr('placeholder', placeholder_title);
 
-		var e = document.getElementById('wpseosnippet_title');
-		if (e !== null) {
-			if (e.scrollWidth > e.clientWidth) {
+		var titleElement = document.getElementById('wpseosnippet_title');
+		if (titleElement !== null) {
+			if (titleElement.scrollWidth > titleElement.clientWidth) {
 				titleLengthError.show();
 			} else {
 				titleLengthError.hide();
 			}
 		}
 
-		yst_testFocusKw();
+		ystTestFocusKw();
 	});
 }
 
@@ -360,12 +354,11 @@ function yst_updateTitle(force) {
  * @param {string} title
  * @returns {string}
  */
-function sanitize_title(title) {
-
-	title = yst_clean(title);
+function ystSanitizeTitle(title) {
+	title = ystClean(title);
 
 	// and now the snippet preview title
-	title = yst_boldKeywords(title, false);
+	title = ystBoldKeywords(title, false);
 
 	return title;
 }
@@ -373,8 +366,8 @@ function sanitize_title(title) {
 /**
  * Updates the meta description in the snippet preview
  */
-function yst_updateDesc() {
-	var desc = jQuery.trim(yst_clean(jQuery('#' + wpseoMetaboxL10n.field_prefix + 'metadesc').val()));
+function ystUpdateDesc() {
+	var desc = jQuery.trim(ystClean(jQuery('#' + wpseoMetaboxL10n.field_prefix + 'metadesc').val()));
 	var divHtml = jQuery('<div />');
 	var snippet = jQuery('#wpseosnippet');
 
@@ -383,13 +376,11 @@ function yst_updateDesc() {
 	}
 
 	if (desc !== '') {
-		desc = yst_replaceVariables(desc, function (desc) {
+		desc = ystReplaceVariables(desc, function(desc) {
 			desc = divHtml.text(desc).html();
-			desc = yst_clean(desc);
+			desc = ystClean(desc);
 
-
-			var len;
-			len = wpseoMetaboxL10n.wpseo_meta_desc_length - desc.length;
+			var len = wpseoMetaboxL10n.wpseo_meta_desc_length - desc.length;
 
 			if (len < 0) {
 				len = '<span class="wrong">' + len + '</span>';
@@ -398,32 +389,32 @@ function yst_updateDesc() {
 			}
 			jQuery('#' + wpseoMetaboxL10n.field_prefix + 'metadesc-length').html(len);
 
-			desc = sanitize_desc(desc);
+			desc = ystSanitizeDesc(desc);
 
 			// Clear the autogen description.
 			snippet.find('.desc span.autogen').html('');
 			// Set our new one.
 			snippet.find('.desc span.content').html(desc);
 
-			yst_testFocusKw();
+			ystTestFocusKw();
 		});
 	} else {
 		// Clear the generated description
 		snippet.find('.desc span.content').html('');
-		yst_testFocusKw();
+		ystTestFocusKw();
 
 		if (typeof tinyMCE !== 'undefined' && tinyMCE.get('excerpt') !== null) {
 			desc = tinyMCE.get('excerpt').getContent();
-			desc = yst_clean(desc);
+			desc = ystClean(desc);
 		}
 
 		if (typeof tinyMCE !== 'undefined' && tinyMCE.get('content') !== null && desc.length === 0) {
 			desc = tinyMCE.get('content').getContent();
 
-			desc = yst_clean(desc);
+			desc = ystClean(desc);
 		}
 
-		var focuskw = yst_escapeFocusKw(jQuery.trim(jQuery('#' + wpseoMetaboxL10n.field_prefix + 'focuskw').val()));
+		var focuskw = ystEscapeFocusKw(jQuery.trim(jQuery('#' + wpseoMetaboxL10n.field_prefix + 'focuskw').val()));
 		if (focuskw !== '') {
 			var descsearch = new RegExp(focuskw, 'gim');
 			if (desc.search(descsearch) !== -1 && desc.length > wpseoMetaboxL10n.wpseo_meta_desc_length) {
@@ -435,7 +426,7 @@ function yst_updateDesc() {
 			desc = desc.substr(0, wpseoMetaboxL10n.wpseo_meta_desc_length);
 		}
 
-		desc = sanitize_desc(desc);
+		desc = ystSanitizeDesc(desc);
 
 		snippet.find('.desc span.autogen').html(desc);
 	}
@@ -448,9 +439,9 @@ function yst_updateDesc() {
  * @param {string} desc
  * @returns {string}
  */
-function sanitize_desc(desc) {
-	desc = yst_trimDesc(desc);
-	desc = yst_boldKeywords(desc, false);
+function ystSanitizeDesc(desc) {
+	desc = ystTrimDesc(desc);
+	desc = ystBoldKeywords(desc, false);
 
 	return desc;
 }
@@ -461,7 +452,7 @@ function sanitize_desc(desc) {
  * @param {string} desc
  * @returns {string}
  */
-function yst_trimDesc(desc) {
+function ystTrimDesc(desc) {
 	if (desc.length > wpseoMetaboxL10n.wpseo_meta_desc_length) {
 		var space;
 		if (desc.length > wpseoMetaboxL10n.wpseo_meta_desc_length) {
@@ -477,15 +468,15 @@ function yst_trimDesc(desc) {
 /**
  * Updates the URL in the snippet preview
  */
-function yst_updateURL() {
+function ystUpdateURL() {
 	var url;
 	if (jQuery('#editable-post-name-full').length) {
 		var name = jQuery('#editable-post-name-full').text();
 		url = wpseoMetaboxL10n.wpseo_permalink_template.replace('%postname%', name).replace('http://', '');
 	}
-	url = yst_boldKeywords(url, true);
+	url = ystBoldKeywords(url, true);
 	jQuery('#wpseosnippet').find('.url').html(url);
-	yst_testFocusKw();
+	ystTestFocusKw();
 }
 
 /**
@@ -495,8 +486,8 @@ function yst_updateURL() {
  * @param {boolean} url
  * @returns {string}
  */
-function yst_boldKeywords(str, url) {
-	var focuskw = yst_escapeFocusKw(jQuery.trim(jQuery('#' + wpseoMetaboxL10n.field_prefix + 'focuskw').val()));
+function ystBoldKeywords(str, url) {
+	var focuskw = ystEscapeFocusKw(jQuery.trim(jQuery('#' + wpseoMetaboxL10n.field_prefix + 'focuskw').val()));
 	var keywords;
 
 	if (focuskw === '') {
@@ -508,7 +499,7 @@ function yst_boldKeywords(str, url) {
 		keywords = new Array(focuskw);
 	}
 	for (var i = 0; i < keywords.length; i++) {
-		var kw = yst_clean(keywords[i]);
+		var kw = ystClean(keywords[i]);
 		var kwregex = '';
 		if (url) {
 			kw = kw.replace(' ', '-').toLowerCase();
@@ -526,10 +517,10 @@ function yst_boldKeywords(str, url) {
 /**
  * Updates the entire snippet preview
  */
-function yst_updateSnippet() {
-	yst_updateURL();
-	yst_updateTitle();
-	yst_updateDesc();
+function ystUpdateSnippet() {
+	ystUpdateURL();
+	ystUpdateTitle();
+	ystUpdateDesc();
 }
 
 /**
@@ -538,19 +529,19 @@ function yst_updateSnippet() {
  * @param {string} str
  * @returns {string}
  */
-function yst_escapeFocusKw(str) {
+function ystEscapeFocusKw(str) {
 	return str.replace(/[\-\[\]\/\{}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&');
 }
 
-(function () {
+(function() {
 	var timer = 0;
-	return function (callback, ms) {
+	return function(callback, ms) {
 		clearTimeout(timer);
 		timer = setTimeout(callback, ms);
 	};
 })();
 
-jQuery(document).ready(function () {
+jQuery(document).ready(function() {
 	/*
 	 * Used for caching the replaced vars so we only do an AJAX request for each var once
 	 * Ignore for JSHint as it is used but JSHint doesn't properly reflect that
@@ -567,11 +558,11 @@ jQuery(document).ready(function () {
 		jQuery('.' + active_tab).addClass('active');
 
 		var descElm = jQuery('#' + wpseoMetaboxL10n.field_prefix + 'metadesc');
-		var desc = jQuery.trim(yst_clean(descElm.val()));
+		var desc = jQuery.trim(ystClean(descElm.val()));
 		desc = jQuery('<div />').html(desc).text();
 		descElm.val(desc);
 
-		jQuery('a.wpseo_tablink').click(function () {
+		jQuery('a.wpseo_tablink').click(function() {
 			jQuery('.wpseo-metabox-tabs li').removeClass('active');
 			jQuery('.wpseotab').removeClass('active');
 
@@ -592,14 +583,14 @@ jQuery(document).ready(function () {
 	jQuery('.wpseo-metabox-tabs').show();
 	// End Tabs code
 
-	var cache = {}, lastXhr;
+	var cache = {}, lastXhr, focuskwHelpTriggered = false;
 
 	jQuery('#' + wpseoMetaboxL10n.field_prefix + 'focuskw').autocomplete({
 		minLength: 3,
-		formatResult: function (row) {
+		formatResult: function(row) {
 			return jQuery('<div/>').html(row).html();
 		},
-		source: function (request, response) {
+		source: function(request, response) {
 			var term = request.term;
 			if (term in cache) {
 				response(cache[term]);
@@ -608,7 +599,7 @@ jQuery(document).ready(function () {
 			request._ajax_nonce = wpseoMetaboxL10n.wpseo_keyword_suggest_nonce;
 			request.action = 'wpseo_get_suggest';
 
-			lastXhr = jQuery.getJSON(ajaxurl, request, function (data, status, xhr) {
+			lastXhr = jQuery.getJSON(ajaxurl, request, function(data, status, xhr) {
 				cache[term] = data;
 				if (xhr === lastXhr) {
 					response(data);
@@ -617,51 +608,50 @@ jQuery(document).ready(function () {
 		}
 	});
 
-	jQuery('#' + wpseoMetaboxL10n.field_prefix + 'title').keyup(function () {
-		yst_updateTitle();
+	jQuery('#' + wpseoMetaboxL10n.field_prefix + 'title').keyup(function() {
+		ystUpdateTitle();
 	});
-	jQuery('#title').keyup(function () {
-		yst_updateTitle();
-		yst_updateDesc();
+	jQuery('#title').keyup(function() {
+		ystUpdateTitle();
+		ystUpdateDesc();
 	});
-	jQuery('#parent_id').change(function () {
-		yst_updateTitle();
-		yst_updateDesc();
+	jQuery('#parent_id').change(function() {
+		ystUpdateTitle();
+		ystUpdateDesc();
 	});
 	// DON'T 'optimize' this to use descElm! descElm might not be defined and will cause js errors (Soliloquy issue)
-	jQuery('#' + wpseoMetaboxL10n.field_prefix + 'metadesc').keyup(function () {
-		yst_updateDesc();
+	jQuery('#' + wpseoMetaboxL10n.field_prefix + 'metadesc').keyup(function() {
+		ystUpdateDesc();
 	});
 
 	// Set time out because of tinymce is initialized later then this is done
 	setTimeout(
-		function () {
-			yst_updateSnippet();
+		function() {
+			ystUpdateSnippet();
 
 			// Adding events to content and excerpt
 			if (typeof tinyMCE !== 'undefined' && tinyMCE.get('content') !== null) {
-				tinyMCE.get('content').on('blur', yst_updateDesc);
+				tinyMCE.get('content').on('blur', ystUpdateDesc);
 			}
 
 			if (typeof tinyMCE !== 'undefined' && tinyMCE.get('excerpt') !== null) {
-				tinyMCE.get('excerpt').on('blur', yst_updateDesc);
+				tinyMCE.get('excerpt').on('blur', ystUpdateDesc);
 			}
 		},
 		500
 	);
 
-	var focuskwhelptriggered = false;
-	jQuery(document).on('change', '#' + wpseoMetaboxL10n.field_prefix + 'focuskw', function () {
+	jQuery(document).on('change', '#' + wpseoMetaboxL10n.field_prefix + 'focuskw', function() {
 		var focuskwhelpElm = jQuery('#focuskwhelp');
 		if (jQuery('#' + wpseoMetaboxL10n.field_prefix + 'focuskw').val().search(',') !== -1) {
 			focuskwhelpElm.click();
-			focuskwhelptriggered = true;
-		} else if (focuskwhelptriggered) {
+			focuskwHelpTriggered = true;
+		} else if (focuskwHelpTriggered) {
 			focuskwhelpElm.qtip('hide');
-			focuskwhelptriggered = false;
+			focuskwHelpTriggered = false;
 		}
 
-		yst_updateSnippet();
+		ystUpdateSnippet();
 	});
 
 	jQuery('.yoast_help').qtip(
@@ -693,5 +683,4 @@ jQuery(document).ready(function () {
 
 		}
 	);
-
 });

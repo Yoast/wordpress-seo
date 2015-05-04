@@ -1,3 +1,7 @@
+/* global ajaxurl */
+/* global wpseo_bulk_editor_nonce */
+/* jshint -W097 */
+'use strict';
 var bulk_editor = function (current_table) {
 
 	var new_class = current_table.find('[class^=wpseo-new]').first().attr('class');
@@ -18,25 +22,26 @@ var bulk_editor = function (current_table) {
 
 	var instance = {
 
-		submit_new: function (id, element) {
+		submit_new: function (id) {
 
 			var new_target = options.new_id + id;
 			var existing_target = options.existing_id + id;
 
-			if (jQuery(options.new_id + id).prop('type') == 'select-one') {
-				var new_value = jQuery(new_target).find(':selected').text();
+			var new_value;
+			if (jQuery(options.new_id + id).prop('type') === 'select-one') {
+				new_value = jQuery(new_target).find(':selected').text();
 			} else {
-				var new_value = jQuery(new_target).val();
+				new_value = jQuery(new_target).val();
 			}
 
 			var current_value = jQuery(existing_target).html();
 
-			if (new_value == current_value) {
+			if (new_value === current_value) {
 				jQuery(new_target).val('').focus();
 			}
 			else {
 
-				if (( new_value == '' ) && !confirm("Are you sure you want to remove the existing " + column_value + "?")) {
+				if (( new_value === '' ) && !window.confirm('Are you sure you want to remove the existing ' + column_value + '?')) {
 					jQuery(new_target).focus();
 					jQuery(new_target).val('').focus();
 					return;
@@ -72,8 +77,8 @@ var bulk_editor = function (current_table) {
 				var value = jQuery(this).val();
 				var existing_value = jQuery(options.existing_id + id).html();
 
-				if (value != '') {
-					if (value == existing_value) {
+				if (value !== '') {
+					if (value === existing_value) {
 						jQuery(options.new_id + id).val('').focus();
 					}
 					else {
@@ -90,12 +95,12 @@ var bulk_editor = function (current_table) {
 		},
 
 		handle_response: function (response, status) {
-			if (status != "success") {
+			if (status !== 'success') {
 				return;
 			}
 
 			var resp = response;
-			if (typeof resp == "string") {
+			if (typeof resp === 'string') {
 				resp = JSON.parse(resp);
 			}
 
@@ -105,14 +110,11 @@ var bulk_editor = function (current_table) {
 				});
 			}
 			else {
-				if (resp.status == 'success') {
+				if (resp.status === 'success') {
 					var new_value = resp['new_' + bulk_type];
 
 					jQuery(options.existing_id + resp.post_id).html(new_value.replace(/\\(?!\\)/g, ''));
 					jQuery(options.new_id + resp.post_id).val('').focus();
-				}
-				else {
-					alert("Failure");
 				}
 			}
 		},
@@ -134,7 +136,7 @@ var bulk_editor = function (current_table) {
 
 			current_table.find(options.new_class).keypress(
 				function (event) {
-					if (event.which == 13) {
+					if (event.which === 13) {
 						event.preventDefault();
 						var id = jQuery(this).data('id');
 						instance.submit_new(id, this);
@@ -143,11 +145,11 @@ var bulk_editor = function (current_table) {
 				}
 			);
 		}
-	}
+	};
 
 	return instance;
 
-}
+};
 
 jQuery(document).ready(function () {
 	var parent_tables = jQuery('table[class*="wpseo_bulk"]');
