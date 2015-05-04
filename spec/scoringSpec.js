@@ -15,7 +15,7 @@ describe("a test for the scoring function of all functions in the analyzer", fun
        var scoreAnalyzer = new Analyzer(scoreArgs);
        scoreAnalyzer.runQueue();
        var result = scoreAnalyzer.__output;
-       expect(result.length).toBe(14);
+       expect(result.length).toBe(15);
        expect(yst_analyzeScorer.__score.length).toBe(1);
    });
 });

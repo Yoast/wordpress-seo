@@ -50,7 +50,7 @@ Analyzer.prototype.initQueue = function(){
     if(typeof this.config.queue !== "undefined" && this.config.queue.length !== 0){
         this.queue = this.config.queue;
     }else{
-        this.queue = ["keywordDensity", "subHeadings", "stopwords", "fleschReading", "linkCount", "imageCount", "urlKeyword", "metaDescription", "pageTitleKeyword", "pageTitleCount", "firstParagraph"];
+        this.queue = ["wordCount", "keywordDensity", "subHeadings", "stopwords", "fleschReading", "linkCount", "imageCount", "urlKeyword", "metaDescription", "pageTitleKeyword", "pageTitleCount", "firstParagraph"];
     }
 };
 
@@ -96,6 +96,15 @@ Analyzer.prototype.abortQueue = function(){
     //empty current Queue
     this.queue = [];
 };
+
+/**
+ * returns wordcount from the preprocessor storage to include them in the results.
+ * @returns {{test: string, result: (Function|PreProcessor.wordcount|Number)}[]}
+ */
+Analyzer.prototype.wordCount = function(){
+    return [{test: "wordCount", result: yst_preProcessor.__store.wordcount}];
+}
+
 
 /**
  * checks the keyword density of given keyword against the cleantext stored in __store.
@@ -592,14 +601,20 @@ AnalyzeScorer.prototype.score = function(resultObj){
                 var score;
                 var formatResult = parseFloat(resultObj[i].result);
                 switch (currentScoreObj.scoreArray[ii].operator) {
+                    case "<":
+                        score = formatResult < currentScoreObj.scoreArray[ii].result;
+                        break;
                     case "<=":
-                        score = formatResult <= currentScoreObj.scoreArray[ii].score;
+                        score = formatResult <= currentScoreObj.scoreArray[ii].result;
                         break;
                     case "==":
-                        score = formatResult == currentScoreObj.scoreArray[ii].score;
+                        score = formatResult == currentScoreObj.scoreArray[ii].result;
                         break;
                     case ">=":
-                        score = formatResult >= currentScoreObj.scoreArray[ii].score;
+                        score = formatResult >= currentScoreObj.scoreArray[ii].result;
+                        break;
+                    case ">":
+                        score = formatResult > currentScoreObj.scoreArray[ii].result;
                         break;
                     default:
                         break;
@@ -614,4 +629,3 @@ AnalyzeScorer.prototype.score = function(resultObj){
 
     }
 };
-
