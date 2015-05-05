@@ -246,7 +246,7 @@ class WPSEO_Sitemaps {
 	 *
 	 * @param integer $n The part that should be generated.
 	 */
-	function set_n( $n ) {
+	public function set_n( $n ) {
 		if ( is_scalar( $n ) && intval( $n ) > 0 ) {
 			$this->n = intval( $n );
 		}
@@ -314,9 +314,7 @@ class WPSEO_Sitemaps {
 		}
 
 		$n = get_query_var( 'sitemap_n' );
-		if ( is_scalar( $n ) && intval( $n ) > 0 ) {
-			$this->n = intval( $n );
-		}
+		$this->set_n( $n );
 		unset( $n );
 
 		/**
