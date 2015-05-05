@@ -81,7 +81,6 @@ Analyzer.prototype.setDefaults = function(){
 Analyzer.prototype.runQueue = function(){
     //remove first function from queue and execute it.
     if(this.queue.length > 0){
-        //this.__output.push(this[this.queue.shift()]());
         this.__output = this.__output.concat(this[this.queue.shift()]());
         this.runQueue();
     } else {
@@ -346,7 +345,6 @@ Analyzer.prototype.urlKeyword = function() {
 
 Analyzer.prototype.score = function() {
     yst_analyzeScorer.score(this.__output);
-
 };
 
 /**helper functions*/
@@ -517,6 +515,11 @@ PreProcessor.prototype.advancedSyllableCount = function(inputString, regex, oper
     }
 };
 
+
+PreProcessor.prototype.keywordCount = function(){
+  //this.__store.keywordCount =
+};
+
 /**
  * removes words from textstring and count syllables. Used for words that fail against regexes.
  * @param textString
@@ -593,6 +596,7 @@ AnalyzeScorer.prototype.init = function(){
     this.scoring = analyzerScoring;
 };
 
+/*
 AnalyzeScorer.prototype.score = function(resultObj){
     for (var i = 0; i < resultObj.length; i++){
         var currentScoreObj = analyzerScoring[resultObj[i].test];
@@ -628,4 +632,71 @@ AnalyzeScorer.prototype.score = function(resultObj){
         }
 
     }
+};*/
+
+AnalyzeScorer.prototype.score = function(resultObj){
+    this.currentResult;
+    this.resultObj = resultObj;
+    this.createResultObject();
+    this.scoreQueue = this.createQueue();
+    this.runQueue();
+};
+
+AnalyzeScorer.prototype.createResultObject = function(){
+    for (var i = 0; i < this.resultObj.length; i++){
+        var currentResult = this.resultObj[i];
+        for (var ii = 0; ii < this.scoring.length; ii++){
+            if (currentResult.test === this.scoring[ii].scoreName){
+                this.scoring[ii].testResult = currentResult.result;
+            }
+        }
+    }
+}
+
+AnalyzeScorer.prototype.createQueue = function(){
+    var queueArray = [];
+    for( var i = 0; i < this.resultObj.length; i++){
+        queueArray.push(this.scoring[i]);
+    }
+    return queueArray;
+};
+
+AnalyzeScorer.prototype.runQueue = function(){
+    //remove first function from queue and execute it.
+    if(this.scoreQueue.length > 0){
+        this.currentResult = this.scoreQueue.shift();
+        this.__score = this.__score.concat(this[this.currentResult.scoreFunction]());
+        this.runQueue();
+    }
+};
+
+AnalyzeScorer.prototype.wordCountScore = function(){
+    var score = { score: 0, text: "" };
+    for (var i = 0; i < this.currentResult.scoreArray.length; i++){
+        if(this.currentResult.testResult > this.currentResult.scoreArray[i].result){
+            score.score = this.currentResult.scoreArray[i].score;
+            score.text = this.currentResult.scoreArray[i].text;
+        }
+    }
+    return score;
+};
+
+AnalyzeScorer.prototype.keywordDensityScore = function(){
+    var score = { score: 0, text: "" };
+
+    switch (true) {
+        case (this.currentResult.testResult < this.currentResult.scoreObj.min.result):
+            score.score = this.currentResult.scoreObj.min.score;
+            score.text = this.currentResult.scoreObj.min.text;
+            break;
+        case (this.currentResult.testResult < this.currentResult.scoreObj.max.result):
+            score.score = this.currentResult.scoreObj.max.score;
+            score.text = this.currentResult.scoreObj.max.text;
+            break;
+        default:
+            score.score = this.currentResult.scoreObj.default.score;
+            score.text = this.currentResult.scoreObj.default.text;
+            break;
+    }
+
 };
