@@ -39,6 +39,11 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 			return;
 		}
 
+		// If the post wasn't published before, or isn't published now, don't even check if we have to redirect
+		if ( ! $this->check_published_post_status( $post_before ) || ! $this->check_published_post_status( $post ) ) {
+			return;
+		}
+
 		// Get the new URL
 		$new_url = $this->get_target_url( $post_id );
 
@@ -46,7 +51,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 		$old_url = esc_url( $_POST['wpseo_old_url'] );
 
 		// Check if we should create a redirect
-		if ( in_array( $post->post_status, array( 'publish', 'static' ) ) && $this->should_create_redirect( $old_url, $new_url ) ) {
+		if ( $this->should_create_redirect( $old_url, $new_url ) ) {
 			// Format the message
 			$message = sprintf( __( "WordPress SEO Premium created a <a href='%s'>redirect</a> from the old post URL to the new post URL. <a href='%s'>Click here to undo this</a>.", 'wordpress-seo-premium' ), $this->admin_redirect_url( $old_url ), $this->javascript_undo_redirect( $old_url ) );
 
@@ -55,6 +60,35 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 			$this->create_notification( $message, 'slug_change' );
 		}
 
+	}
+
+	/**
+	 * Checks whether the given post is published or not
+	 *
+	 * @param object $post
+	 *
+	 * @return bool
+	 */
+	private function check_published_post_status( $post ) {
+		$published_post_statuses = array(
+			'inherit',
+			'publish',
+			'static',
+		);
+
+		/**
+		 * Filter: 'wpseo_published_post_statuses' - Allow changing the statuses that are treated as published
+		 *
+		 * @api array $published_post_statuses The statuses that'll be treated as published
+		 * @param object $post The post object we're doing the published check for
+		 */
+		$published_post_statuses = apply_filters( 'wpseo_published_post_statuses', $published_post_statuses, $post );
+
+		if ( in_array( $post->post_status, $published_post_statuses, true ) ) {
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
