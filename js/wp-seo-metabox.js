@@ -522,18 +522,11 @@ jQuery(document).ready(function () {
 				},
 				classes : 'yoast-qtip qtip-rounded qtip-blue'
 			},
-			show    : {
-				when: {
-					event: 'mouseover'
-				}
-			},
-			hide    : {
+			show: 'click',
+			hide: {
 				fixed: true,
-				when : {
-					event: 'mouseout'
-				}
+				delay: 500
 			}
-
 		}
 	);
 
