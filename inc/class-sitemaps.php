@@ -314,7 +314,7 @@ class WPSEO_Sitemaps {
 		}
 
 		$this->set_n( get_query_var( 'sitemap_n' ) );
-		
+
 		/**
 		 * Filter: 'wpseo_enable_xml_sitemap_transient_caching' - Allow disabling the transient cache
 		 *
