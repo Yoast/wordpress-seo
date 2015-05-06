@@ -1,5 +1,5 @@
 /**
- * Text Analyzer, accepts args for config and
+ * Text Analyzer, accepts args for config and calls init for initialisation
  * @param args
  * @constructor
  */
@@ -586,54 +586,27 @@ PreProcessor.prototype.stripAllTags = function(textString){
     textString = yst_stringHelper.stripSpaces(textString);
     return textString;
 };
-
+/**
+ * inits the analyzerscorer used for scoring of the output from the textanalyzer
+ * @constructor
+ */
 AnalyzeScorer = function(){
     this.__score = [];
     this.init();
 };
 
+/**
+ * loads the analyzerScoring from the config file.
+ */
 AnalyzeScorer.prototype.init = function(){
     this.scoring = analyzerScoring;
 };
 
-/*
-AnalyzeScorer.prototype.score = function(resultObj){
-    for (var i = 0; i < resultObj.length; i++){
-        var currentScoreObj = analyzerScoring[resultObj[i].test];
-        if( typeof currentScoreObj !== "undefined" ) {
-            for (var ii = 0; ii < currentScoreObj.scoreArray.length; ii++) {
-                var score;
-                var formatResult = parseFloat(resultObj[i].result);
-                switch (currentScoreObj.scoreArray[ii].operator) {
-                    case "<":
-                        score = formatResult < currentScoreObj.scoreArray[ii].result;
-                        break;
-                    case "<=":
-                        score = formatResult <= currentScoreObj.scoreArray[ii].result;
-                        break;
-                    case "==":
-                        score = formatResult == currentScoreObj.scoreArray[ii].result;
-                        break;
-                    case ">=":
-                        score = formatResult >= currentScoreObj.scoreArray[ii].result;
-                        break;
-                    case ">":
-                        score = formatResult > currentScoreObj.scoreArray[ii].result;
-                        break;
-                    default:
-                        break;
-                }
-                if (score) {
-                    //todo add weight multiplier if desired
-                    this.__score.push(currentScoreObj.scoreArray[ii].score);
-                    break;
-                }
-            }
-        }
-
-    }
-};*/
-
+/**
+ * Starts the scoring by taking the resultObject from the analyzer and creates a queue based on
+ * what results are in the resultobject. Then runs the queue.
+ * @param resultObj
+ */
 AnalyzeScorer.prototype.score = function(resultObj){
     this.currentResult;
     this.resultObj = resultObj;
@@ -642,6 +615,9 @@ AnalyzeScorer.prototype.score = function(resultObj){
     this.runQueue();
 };
 
+/**
+ * merges the current results with scoring result object
+ */
 AnalyzeScorer.prototype.createResultObject = function(){
     for (var i = 0; i < this.resultObj.length; i++){
         var currentResult = this.resultObj[i];
@@ -651,8 +627,12 @@ AnalyzeScorer.prototype.createResultObject = function(){
             }
         }
     }
-}
+};
 
+/**
+ * creates queue based on the loaded scoring config.
+ * @returns {Array}
+ */
 AnalyzeScorer.prototype.createQueue = function(){
     var queueArray = [];
     for( var i = 0; i < this.resultObj.length; i++){
@@ -661,6 +641,9 @@ AnalyzeScorer.prototype.createQueue = function(){
     return queueArray;
 };
 
+/**
+ * runs the queue and saves the result in the __score-object.
+ */
 AnalyzeScorer.prototype.runQueue = function(){
     //remove first function from queue and execute it.
     if(this.scoreQueue.length > 0){
@@ -670,6 +653,10 @@ AnalyzeScorer.prototype.runQueue = function(){
     }
 };
 
+/**
+ * returns score of the wordcount, based on the scoreArray in the scoringconfig
+ * @returns {{score: number, text: string}}
+ */
 AnalyzeScorer.prototype.wordCountScore = function(){
     var score = { score: 0, text: "" };
     for (var i = 0; i < this.currentResult.scoreArray.length; i++){
@@ -681,9 +668,12 @@ AnalyzeScorer.prototype.wordCountScore = function(){
     return score;
 };
 
+/**
+ * returns score of the keywordDensity based on the scoreArray in the scoringconfig
+ * @returns {{score: number, text: string}}
+ */
 AnalyzeScorer.prototype.keywordDensityScore = function(){
     var score = { score: 0, text: "" };
-
     switch (true) {
         case (this.currentResult.testResult < this.currentResult.scoreObj.min.result):
             score.score = this.currentResult.scoreObj.min.score;
@@ -698,5 +688,6 @@ AnalyzeScorer.prototype.keywordDensityScore = function(){
             score.text = this.currentResult.scoreObj.default.text;
             break;
     }
-
+    return score;
 };
+
