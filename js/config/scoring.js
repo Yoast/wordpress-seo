@@ -49,9 +49,9 @@ analyzerScoring = [
     {
         scoreName: "firstParagraph",
         scoreFunction:  "firstParagraphScore",
-        scoreArray: [
-            {result: 0, operator: "==", score: 3, text: ""},
-            {result: 0, operator: ">", score: 9, text: ""}
-        ]
+        scoreObj: {
+            none: {result: 0, score: 3, text: "The keyword doesn\'t appear in the first paragraph of the copy, make sure the topic is clear immediately."},
+            some: {result: 1, score: 9, text: "The keyword appears in the first paragraph of the copy."}
+        }
     }
 ];

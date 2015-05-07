@@ -737,3 +737,24 @@ AnalyzeScorer.prototype.fleschReadingScore = function(){
     }
     return score;
 };
+
+
+/**
+ * returns score of the firstParagraph, based on the scoreArray in the scoringconfig
+ */
+AnalyzeScorer.prototype.firstParagraphScore = function(){
+    var score = { name: "firstParagraph", score: 0, text: ""};
+    switch (true) {
+        case (this.currentResult.testResult === this.currentResult.scoreObj.none.result):
+            score.score = this.currentResult.scoreObj.none.score;
+            score.text = this.currentResult.scoreObj.none.text;
+            break;
+        case (this.currentResult.testResult >= this.currentResult.scoreObj.some.result):
+            score.score = this.currentResult.scoreObj.some.score;
+            score.text = this.currentResult.scoreObj.some.text;
+            break;
+        default:
+        break;
+    }
+    return score;
+};
