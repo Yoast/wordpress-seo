@@ -132,7 +132,7 @@ Analyzer.prototype.keywordDensityCheck = function(){
 };
 
 /**
- *
+ * counts the number of keyword occurrences of the keyword. Saves this in the __store and returns it.
  * @returns {*}
  */
 Analyzer.prototype.keywordCount = function(){
@@ -719,7 +719,10 @@ AnalyzeScorer.prototype.keywordDensityScore = function(){
     return score;
 };
 
-
+/**
+ * returns score of the fleschReading, based on the scoreArray in the scoringconfig.
+ * @returns {{name: string, score: number, text: string}}
+ */
 AnalyzeScorer.prototype.fleschReadingScore = function(){
     var score = { name: "fleschReading", score: 0, text: ""};
     for (var i = 0; i < this.currentResult.scoreArray.length; i++){
