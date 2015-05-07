@@ -1044,7 +1044,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 		if ( $column_name === 'wpseo-focuskw' ) {
 			$focuskw = self::get_value( 'focuskw', $post_id );
-			echo esc_html( $focuskw );
+			echo esc_html( apply_filters( 'wpseo_focuskw', $focuskw ) );
 		}
 	}
 
