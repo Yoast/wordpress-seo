@@ -18,10 +18,12 @@ Analyzer.prototype.init = function() {
     this.loadWordlists();
     this.setDefaults();
     this.__output = [];
+    this.__store = {};
 };
 
 /**
  * initializes required objects.
+ * For the analyzeScorer a new object is always defined, to make sure there are no duplicate scores
  */
 Analyzer.prototype.initRequiredObjects = function(){
     //init preprocessor if not exists
@@ -33,9 +35,7 @@ Analyzer.prototype.initRequiredObjects = function(){
         yst_stringHelper = new StringHelper();
     }
     //init scorer
-    if(typeof yst_analyzeScorer !== "object"){
-        yst_analyzeScorer = new AnalyzeScorer();
-    }
+    yst_analyzeScorer = new AnalyzeScorer(this);
 };
 
 /**
@@ -123,13 +123,26 @@ Analyzer.prototype.keywordDensity = function() {
  * @returns {number}
  */
 Analyzer.prototype.keywordDensityCheck = function(){
-    var keywordMatches = yst_stringHelper.matchString(yst_preProcessor.__store.cleanText,[this.config.keyword]);
+    var keywordCount = this.keywordCount();
     var keywordDensity = 0;
-    if ( keywordMatches !== null ) {
-        var keywordCount = keywordMatches.length;
+    if ( keywordCount !== 0 ) {
         keywordDensity = (keywordCount / yst_preProcessor.__store.wordcount - (keywordCount - 1 * keywordCount)) * 100;
     }
     return keywordDensity;
+};
+
+/**
+ *
+ * @returns {*}
+ */
+Analyzer.prototype.keywordCount = function(){
+    var keywordMatches = yst_stringHelper.matchString(yst_preProcessor.__store.cleanText,[this.config.keyword]);
+    var keywordCount = 0;
+    if ( keywordMatches !== null ) {
+        keywordCount = keywordMatches.length;
+    }
+    this.__store.keywordCount = keywordCount;
+    return keywordCount;
 };
 
 /**
@@ -182,7 +195,7 @@ Analyzer.prototype.stopwords = function(){
  * @returns {result object}
  */
 Analyzer.prototype.fleschReading = function(){
-    var score =  (206.835 - (1.015 * (yst_preProcessor.__store.wordcount / yst_preProcessor.__store.sentencecount)) - (84.6 * (yst_preProcessor.__store.syllablecount / yst_preProcessor.__store.wordcount))).toFixed(1);
+    var score =  (206.835 - (1.015 * (yst_preProcessor.__store.wordcountNoTags / yst_preProcessor.__store.sentenceCountNoTags)) - (84.6 * (yst_preProcessor.__store.syllablecount / yst_preProcessor.__store.wordcountNoTags))).toFixed(1);
     if(score < 0){score = 0;}else if (score > 100){score = 100;}
     return [ { test: "fleschReading", result: score} ];
 };
@@ -443,7 +456,7 @@ PreProcessor.prototype.init = function(){
 };
 
 /**
- * formats the original text form __store and save as cleantext, cleantextSomeTags en cleanTextNoTags
+ * formats the original text from __store and save as cleantext, cleantextSomeTags en cleanTextNoTags
  */
 PreProcessor.prototype.textFormat = function(){
     this.__store.cleanText = this.cleanText(this.__store.originalText);
@@ -459,11 +472,26 @@ PreProcessor.prototype.wordcount = function(){
     this.__store.wordcount = this.__store.cleanText.split(" ").length;
     this.__store.wordcountNoTags = this.__store.cleanTextNoTags.split(" ").length;
     /*sentencecounters*/
-    this.__store.sentencecount = this.__store.cleanText.split(".").length;
-    this.__store.sentencecountNoTags = this.__store.cleanTextNoTags.split(".").length;
+    this.__store.sentenceCount = this.sentenceCount(this.__store.cleanText);
+    this.__store.sentenceCountNoTags = this.sentenceCount(this.__store.cleanTextNoTags);
     /*syllablecounters*/
     this.__store.syllablecount = this.syllableCount(this.__store.cleanTextNoTags);
 };
+
+/**
+ * counts the number of sentences in a textstring by splitting on a period. Removes sentences that are empty or have only a space.
+ * @param textString
+ */
+PreProcessor.prototype.sentenceCount = function(textString){
+    var sentences = textString.split('.');
+    sentenceCount = 0;
+    for (var i = 0; i < sentences.length; i++){
+        if(sentences[i] !== "" && sentences[i] !== " "){
+            sentenceCount++;
+        }
+    };
+    return sentenceCount;
+}
 
 /**
  * counts the number of syllables in a textstring, calls exclusionwordsfunction, basic syllable counter and advanced syllable counter.
@@ -513,11 +541,6 @@ PreProcessor.prototype.advancedSyllableCount = function(inputString, regex, oper
             this.syllableCount += match.length;
         }
     }
-};
-
-
-PreProcessor.prototype.keywordCount = function(){
-  //this.__store.keywordCount =
 };
 
 /**
@@ -590,8 +613,9 @@ PreProcessor.prototype.stripAllTags = function(textString){
  * inits the analyzerscorer used for scoring of the output from the textanalyzer
  * @constructor
  */
-AnalyzeScorer = function(){
+AnalyzeScorer = function(refObj){
     this.__score = [];
+    this.refObj = refObj;
     this.init();
 };
 
@@ -635,6 +659,7 @@ AnalyzeScorer.prototype.createResultObject = function(){
  */
 AnalyzeScorer.prototype.createQueue = function(){
     var queueArray = [];
+
     for( var i = 0; i < this.resultObj.length; i++){
         queueArray.push(this.scoring[i]);
     }
@@ -658,8 +683,9 @@ AnalyzeScorer.prototype.runQueue = function(){
  * @returns {{score: number, text: string}}
  */
 AnalyzeScorer.prototype.wordCountScore = function(){
-    var score = { score: 0, text: "" };
+
     for (var i = 0; i < this.currentResult.scoreArray.length; i++){
+        var score = { name: "wordCount", score: 0, text: "" };
         if(this.currentResult.testResult > this.currentResult.scoreArray[i].result){
             score.score = this.currentResult.scoreArray[i].score;
             score.text = this.currentResult.scoreArray[i].text;
@@ -673,13 +699,13 @@ AnalyzeScorer.prototype.wordCountScore = function(){
  * @returns {{score: number, text: string}}
  */
 AnalyzeScorer.prototype.keywordDensityScore = function(){
-    var score = { score: 0, text: "" };
+    var score = { name: "keywordDensity", score: 0, text: "" };
     switch (true) {
         case (this.currentResult.testResult < this.currentResult.scoreObj.min.result):
             score.score = this.currentResult.scoreObj.min.score;
             score.text = this.currentResult.scoreObj.min.text;
             break;
-        case (this.currentResult.testResult < this.currentResult.scoreObj.max.result):
+        case (this.currentResult.testResult > this.currentResult.scoreObj.max.result):
             score.score = this.currentResult.scoreObj.max.score;
             score.text = this.currentResult.scoreObj.max.text;
             break;
@@ -688,6 +714,23 @@ AnalyzeScorer.prototype.keywordDensityScore = function(){
             score.text = this.currentResult.scoreObj.default.text;
             break;
     }
+    score.text = score.text.replace(/<%keywordDensity%>/,this.currentResult.testResult).
+                            replace(/<%keywordCount%>/,this.refObj.__store.keywordCount);
     return score;
 };
 
+
+AnalyzeScorer.prototype.fleschReadingScore = function(){
+    var score = { name: "fleschReading", score: 0, text: ""};
+    for (var i = 0; i < this.currentResult.scoreArray.length; i++){
+        if(this.currentResult.testResult >= this.currentResult.scoreArray[i].result){
+            score.text = this.currentResult.scoreText.replace(/<%testResult%>/,this.currentResult.testResult).
+                                    replace(/<%scoreUrl%>/,this.currentResult.scoreUrl).
+                                    replace(/<%scoreText%>/, this.currentResult.scoreArray[i].text).
+                                    replace(/<%note%>/, this.currentResult.scoreArray[i].note);
+            score.score = this.currentResult.scoreArray[i].score;
+            break;
+        }
+    }
+    return score;
+};
