@@ -1749,7 +1749,7 @@ class WPSEO_Frontend {
 		if ( is_feed() ) {
 			$before = '';
 			$after  = '';
-	
+
 			if ( $this->options['rssbefore'] !== '' ) {
 				$before = wpautop( $this->rss_replace_vars( $this->options['rssbefore'] ) );
 			}
