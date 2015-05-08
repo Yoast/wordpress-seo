@@ -53,5 +53,25 @@ analyzerScoring = [
             none: {result: 0, score: 3, text: "The keyword doesn\'t appear in the first paragraph of the copy, make sure the topic is clear immediately."},
             some: {result: 1, score: 9, text: "The keyword appears in the first paragraph of the copy."}
         }
+    },
+    {
+        scoreName: "metaDescriptionLength",
+        scoreFunction: "metaDescriptionLengthScore",
+        metaMinLength: 120,
+        metaMaxLength: 156,
+        scoreObj: {
+            none: {result: 0, score: 1, text: "No meta description has been specified, search engines will display copy from the page instead."},
+            min: { result: 120, score: 6, text: "The meta description is under <%minCharacters%> characters, however up to <%maxCharacters%> characters are available."},
+            max: { result: 156, score: 6, text: "The specified meta description is over <%maxCharacters%> characters, reducing it will ensure the entire description is visible"},
+            default: { score: 9, text: "In the specified meta description, consider: How does it compare to the competition? Could it be made more appealing?"}
+        }
+    },
+    {
+        scoreName: "metaDescriptionKeyword",
+        scoreFunction: "metaDescriptionKeywordScore",
+        scoreArray: [
+            {result: 1, score: 9, text: "The meta description contains the primary keyword / phrase."},
+            {result: 0, score: 3, text: "A meta description has been specified, but it does not contain the target keyword / phrase."}
+        ]
     }
 ];

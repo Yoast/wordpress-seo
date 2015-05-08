@@ -8,7 +8,7 @@ scoreArgs = {
     url: "http://yoast.com/keyword-search",
     pageTitle: "the pagetitle",
     meta: "the metadescription of the page",
-    queue: ["wordCount","keywordDensity","fleschReading","firstParagraph"]
+    queue: ["wordCount","keywordDensity","fleschReading","firstParagraph","metaDescription"]
 };
 
 describe("a test for the scoring function of all functions in the analyzer", function(){
@@ -16,7 +16,7 @@ describe("a test for the scoring function of all functions in the analyzer", fun
        var scorer = new Analyzer(scoreArgs);
        scorer.runQueue();
        var analyzeScore = yst_analyzeScorer.__score;
-       expect(analyzeScore.length).toBe(4);
+       expect(analyzeScore.length).toBe(6);
        expect(analyzeScore[0].name).toBe("wordCount");
        expect(analyzeScore[0].score).toBe(-20);
        expect(analyzeScore[1].name).toBe("keywordDensity");
@@ -28,5 +28,11 @@ describe("a test for the scoring function of all functions in the analyzer", fun
        expect(analyzeScore[3].name).toBe("firstParagraph");
        expect(analyzeScore[3].score).toBe(3);
        expect(analyzeScore[3].text).toBe("The keyword doesn\'t appear in the first paragraph of the copy, make sure the topic is clear immediately.");
+       expect(analyzeScore[4].name).toBe("metaDescriptionLength");
+       expect(analyzeScore[4].score).toBe(6);
+       expect(analyzeScore[4].text).toBe("The meta description is under 120 characters, however up to 156 characters are available.");
+       expect(analyzeScore[5].name).toBe("metaDescriptionKeyword");
+       expect(analyzeScore[5].score).toBe(3);
+       expect(analyzeScore[5].text).toBe("A meta description has been specified, but it does not contain the target keyword / phrase.");
    });
 });

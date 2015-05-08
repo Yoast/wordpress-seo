@@ -335,10 +335,10 @@ Analyzer.prototype.firstParagraph = function() {
  * @returns {{name: string, count: number}}
  */
 Analyzer.prototype.metaDescription = function() {
-    var result =[ { test: "metaDescription", result: 0 }, {test : "metaDescriptionLength", result : 0 } ];
+    var result =[ { test: "metaDescriptionLength", result: 0 }, {test : "metaDescriptionKeyword", result : 0 } ];
     if(typeof this.config.meta !== "undefined") {
-        result[0].result = yst_stringHelper.countMatches(this.config.meta, this.keywordRegex);
-        result[1].result = this.config.meta.length;
+        result[0].result = this.config.meta.length;
+        result[1].result = yst_stringHelper.countMatches(this.config.meta, this.keywordRegex);
     }
     return result;
 };
@@ -683,7 +683,6 @@ AnalyzeScorer.prototype.runQueue = function(){
  * @returns {{score: number, text: string}}
  */
 AnalyzeScorer.prototype.wordCountScore = function(){
-
     for (var i = 0; i < this.currentResult.scoreArray.length; i++){
         var score = { name: "wordCount", score: 0, text: "" };
         if(this.currentResult.testResult > this.currentResult.scoreArray[i].result){
@@ -755,6 +754,47 @@ AnalyzeScorer.prototype.firstParagraphScore = function(){
             break;
         default:
         break;
+    }
+    return score;
+};
+
+/**
+ * returns score of the metaDescriptionLength, based on the scoreObject in the scoringconfig.
+ */
+AnalyzeScorer.prototype.metaDescriptionLengthScore = function(){
+    var score = { name: "metaDescriptionLength", score: 0, text: "" };
+    switch (true) {
+        case (this.currentResult.testResult === this.currentResult.scoreObj.none.result):
+            score.score = this.currentResult.scoreObj.none.score;
+            score.text = this.currentResult.scoreObj.none.text;
+            break;
+        case (this.currentResult.testResult <= this.currentResult.scoreObj.min.result):
+            score.score = this.currentResult.scoreObj.min.score;
+            score.text = this.currentResult.scoreObj.min.text.replace(/<%maxCharacters%>/, this.currentResult.metaMaxLength).
+                                                              replace(/<%minCharacters%>/, this.currentResult.metaMinLength);
+            break;
+        case (this.currentResult.testResult >= this.currentResult.scoreObj.max.result):
+            score.score = this.currentResult.scoreObj.max.score;
+            score.text = this.currentResult.scoreObj.max.text.replace(/<%maxCharacters%>/, this.currentResult.metaMaxLength);
+            break;
+        default:
+            score.score = this.currentResult.scoreObj.default.score;
+            score.text = this.currentResult.scoreObj.default.text;
+            break;
+    }
+    return score;
+};
+
+/**
+ * returns score of the metaDescriptionKeyword, based on the scoreArray in the scoringconfig.
+ */
+AnalyzeScorer.prototype.metaDescriptionKeywordScore = function(){
+    var score = { name: "metaDescriptionKeyword", score: 0, text: "" };
+    for (var i = 0; i < this.currentResult.scoreArray.length; i++){
+        if(this.currentResult.testResult >= this.currentResult.scoreArray[i].result){
+            score.score = this.currentResult.scoreArray[i].score;
+            score.text = this.currentResult.scoreArray[i].text;
+        }
     }
     return score;
 };
