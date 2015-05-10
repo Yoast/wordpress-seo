@@ -327,8 +327,16 @@ class WPSEO_Sitemaps {
 		$caching = apply_filters( 'wpseo_enable_xml_sitemap_transient_caching', true );
 
 		if ( $caching ) {
+
+			if ( is_ssl() ) {
+				$cache_key = 'wpseo_sitemap_cache_https_' . $type . '_' . $this->n;
+			}
+			else {
+				$cache_key = 'wpseo_sitemap_cache_' . $type . '_' . $this->n;
+			}
+
 			do_action( 'wpseo_sitemap_stylesheet_cache_' . $type, $this );
-			$this->sitemap = get_transient( 'wpseo_sitemap_cache_' . $type . '_' . $this->n );
+			$this->sitemap = get_transient( $cache_key );
 		}
 
 		if ( ! $this->sitemap || '' == $this->sitemap ) {
@@ -343,7 +351,7 @@ class WPSEO_Sitemaps {
 			}
 
 			if ( $caching ) {
-				set_transient( 'wpseo_sitemap_cache_' . $type . '_' . $this->n, $this->sitemap, DAY_IN_SECONDS );
+				set_transient( $cache_key, $this->sitemap, DAY_IN_SECONDS );
 			}
 		}
 		else {

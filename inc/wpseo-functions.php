@@ -307,19 +307,24 @@ add_shortcode( 'wpseo_breadcrumb', 'wpseo_shortcode_yoast_breadcrumb' );
  * @param string $type
  */
 function wpseo_invalidate_sitemap_cache( $type ) {
-    // Delete at max 9 pages, just in case our object cache backend doesn't return false when nothing is deleted
-    for ( $n = 1; $n < 10; $n++ ) {
-        // Always delete the main index sitemaps cache, as that's always invalidated by any other change
-        if ( ! delete_transient( 'wpseo_sitemap_cache_1_' . $n ) ) {
-            break;
-        }
-    }
+	$cache_prefix = 'wpseo_sitemap_cache_';
 
-    for ( $n = 1; $n < 10; $n++ ) {
-        if ( ! delete_transient( 'wpseo_sitemap_cache_' . $type . '_' . $n ) ) {
-            break;
-        }
-    }
+	// Always delete the main index sitemaps cache, as that's always invalidated by any other change
+	$cache_keys = array(
+		'1',
+		'https_1',
+		$type,
+		'https_' . $type,
+	);
+
+	foreach ( $cache_keys as $cache_key ) {
+		// Delete at max 9 pages, just in case our object cache backend doesn't return false when nothing is deleted
+		for ( $n = 1; $n < 10; $n++ ) {
+			if ( ! delete_transient( $cache_prefix . $cache_key . '_' . $n ) ) {
+				break;
+			}
+		}
+	}
 }
 
 add_action( 'deleted_term_relationships', 'wpseo_invalidate_sitemap_cache' );
