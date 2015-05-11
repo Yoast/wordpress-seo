@@ -15,7 +15,7 @@ describe("a test for the scoring function of all functions in the analyzer", fun
    it("returns scores for all objects", function(){
        var scorer = new Analyzer(scoreArgs);
        scorer.runQueue();
-       var analyzeScore = yst_analyzeScorer.__score;
+       var analyzeScore = scorer.analyzeScorer.__score;
        expect(analyzeScore.length).toBe(7);
        expect(analyzeScore[0].name).toBe("wordCount");
        expect(analyzeScore[0].score).toBe(-20);

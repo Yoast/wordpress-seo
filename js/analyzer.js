@@ -26,16 +26,12 @@ Analyzer.prototype.init = function() {
  * For the analyzeScorer a new object is always defined, to make sure there are no duplicate scores
  */
 Analyzer.prototype.initRequiredObjects = function(){
-    //init preprocessor if not exists
-    if (typeof yst_preProcessor !== "object" || yst_preProcessor.inputText !== this.config.textString) {
-        yst_preProcessor = new PreProcessor(this.config.textString);
-    }
+    //init preprocessor
+    this.preProcessor = preProcessor(this.config.textString);
     //init helper
-    if(typeof yst_stringHelper !== "object"){
-        yst_stringHelper = new StringHelper();
-    }
+    this.stringHelper = new StringHelper();
     //init scorer
-    yst_analyzeScorer = new AnalyzeScorer(this);
+    this.analyzeScorer = new AnalyzeScorer(this);
 };
 
 /**
@@ -101,7 +97,7 @@ Analyzer.prototype.abortQueue = function(){
  * @returns {{test: string, result: (Function|PreProcessor.wordcount|Number)}[]}
  */
 Analyzer.prototype.wordCount = function(){
-    return [{test: "wordCount", result: yst_preProcessor.__store.wordcount}];
+    return [{test: "wordCount", result:this.preProcessor.__store.wordcount}];
 }
 
 
@@ -111,7 +107,7 @@ Analyzer.prototype.wordCount = function(){
  */
 Analyzer.prototype.keywordDensity = function() {
     var result = [{ test: "keywordDensity", result: 0  }];
-    if (yst_preProcessor.__store.wordcount > 100) {
+    if (this.preProcessor.__store.wordcount > 100) {
         var keywordDensity = this.keywordDensityCheck();
         result[0].result = keywordDensity.toFixed(1);
     }
@@ -126,7 +122,7 @@ Analyzer.prototype.keywordDensityCheck = function(){
     var keywordCount = this.keywordCount();
     var keywordDensity = 0;
     if ( keywordCount !== 0 ) {
-        keywordDensity = (keywordCount / yst_preProcessor.__store.wordcount - (keywordCount - 1 * keywordCount)) * 100;
+        keywordDensity = (keywordCount / this.preProcessor.__store.wordcount - (keywordCount - 1 * keywordCount)) * 100;
     }
     return keywordDensity;
 };
@@ -136,7 +132,7 @@ Analyzer.prototype.keywordDensityCheck = function(){
  * @returns {*}
  */
 Analyzer.prototype.keywordCount = function(){
-    var keywordMatches = yst_stringHelper.matchString(yst_preProcessor.__store.cleanText,[this.config.keyword]);
+    var keywordMatches = this.stringHelper.matchString(this.preProcessor.__store.cleanText,[this.config.keyword]);
     var keywordCount = 0;
     if ( keywordMatches !== null ) {
         keywordCount = keywordMatches.length;
@@ -151,7 +147,7 @@ Analyzer.prototype.keywordCount = function(){
  */
 Analyzer.prototype.subHeadings = function() {
     var result = [{test: "subHeadings", result: 0}, {test: "subHeadingKeyword", result: 0 }];
-    var matches = yst_preProcessor.__store.cleanTextSomeTags.match(/<h([1-6])(?:[^>]+)?>(.*?)<\/h\1>/g);
+    var matches = this.preProcessor.__store.cleanTextSomeTags.match(/<h([1-6])(?:[^>]+)?>(.*?)<\/h\1>/g);
     if(matches !== null){
         result[0].result = matches.length;
         result[1].result = this.subHeadingsCheck(matches);
@@ -171,7 +167,7 @@ Analyzer.prototype.subHeadingsCheck = function(matches){
     }else{
         foundInHeader = 0;
         for (var i = 0; i < matches.length; i++) {
-            var formattedHeaders = yst_stringHelper.replaceString(matches[i], this.config.wordsToRemove);
+            var formattedHeaders = this.stringHelper.replaceString(matches[i], this.config.wordsToRemove);
             if (formattedHeaders.match(new RegExp(this.config.keyword, "g")) || matches[i].match(new RegExp(this.config.keyword, "g"))) {
                 foundInHeader++;
             }
@@ -187,7 +183,7 @@ Analyzer.prototype.subHeadingsCheck = function(matches){
 Analyzer.prototype.stopwords = function(){
     //prefix space to the keyword to make sure it matches if the keyword starts with a stopword.
     var keyword = " "+this.config.keyword;
-    var matches = yst_stringHelper.matchString(keyword, this.config.stopWords);
+    var matches = this.stringHelper.matchString(keyword, this.config.stopWords);
     var stopwordCount = matches !== null ? matches.length : 0;
     return [ { test: "stopwordKeywordCount", result: {count: stopwordCount, matches: matches } } ];
 };
@@ -197,7 +193,7 @@ Analyzer.prototype.stopwords = function(){
  * @returns {result object}
  */
 Analyzer.prototype.fleschReading = function(){
-    var score =  (206.835 - (1.015 * (yst_preProcessor.__store.wordcountNoTags / yst_preProcessor.__store.sentenceCountNoTags)) - (84.6 * (yst_preProcessor.__store.syllablecount / yst_preProcessor.__store.wordcountNoTags))).toFixed(1);
+    var score =  (206.835 - (1.015 * (this.preProcessor.__store.wordcountNoTags / this.preProcessor.__store.sentenceCountNoTags)) - (84.6 * (this.preProcessor.__store.syllablecount / this.preProcessor.__store.wordcountNoTags))).toFixed(1);
     if(score < 0){score = 0;}else if (score > 100){score = 100;}
     return [ { test: "fleschReading", result: score} ];
 };
@@ -207,7 +203,7 @@ Analyzer.prototype.fleschReading = function(){
  * @returns {{total: number, internal: {total: number, dofollow: number, nofollow: number}, external: {total: number, dofollow: number, nofollow: number}, other: {total: number, dofollow: number, nofollow: number}}}
  */
 Analyzer.prototype.linkCount = function(){
-    var linkMatches = yst_preProcessor.__store.originalText.match(/<a(?:[^>]+)?>(.*?)<\/a>/g);
+    var linkMatches = this.preProcessor.__store.originalText.match(/<a(?:[^>]+)?>(.*?)<\/a>/g);
     var linkCount = {
         total: 0,
         internal: {total: 0, dofollow: 0,nofollow: 0},
@@ -263,7 +259,7 @@ Analyzer.prototype.linkFollow = function(url){
 //todo update function so it will also check on picture elements.
 Analyzer.prototype.imageCount = function(){
     var imageCount = {total: 0, alt: 0, noalt: 0};
-    var imageMatches = yst_preProcessor.__store.originalText.match(/<img(?:[^>]+)?>/g);
+    var imageMatches = this.preProcessor.__store.originalText.match(/<img(?:[^>]+)?>/g);
     if(imageMatches !== null){
         imageCount.total = imageMatches.length;
         for (var i = 0; i < imageMatches.length; i++){
@@ -313,7 +309,7 @@ Analyzer.prototype.pageTitleCount = function(){
 Analyzer.prototype.pageTitleKeyword = function(){
     var result = [ { test: "pageTitleKeyword", result: 0 } ];
     if(typeof this.config.pageTitle !== "undefined") {
-        result[0].result = yst_stringHelper.countMatches(this.config.pageTitle, this.keywordRegex);
+        result[0].result = this.stringHelper.countMatches(this.config.pageTitle, this.keywordRegex);
     }
     return result;
 };
@@ -324,10 +320,10 @@ Analyzer.prototype.pageTitleKeyword = function(){
  * @returns {{name: string, count: number}}
  */
 Analyzer.prototype.firstParagraph = function() {
-    var matches = yst_preProcessor.__store.cleanTextSomeTags.match(/<p(?:[^>]+)?>(.*?)<\/p>/g);
+    var matches = this.preProcessor.__store.cleanTextSomeTags.match(/<p(?:[^>]+)?>(.*?)<\/p>/g);
     var result =[ { test: "firstParagraph", result: 0 } ];
     if(matches !== null){
-        result[0].result = yst_stringHelper.countMatches(matches[0], this.keywordRegex);
+        result[0].result = this.stringHelper.countMatches(matches[0], this.keywordRegex);
     }
     return result;
 };
@@ -340,7 +336,7 @@ Analyzer.prototype.metaDescription = function() {
     var result =[ { test: "metaDescriptionLength", result: 0 }, {test : "metaDescriptionKeyword", result : 0 } ];
     if(typeof this.config.meta !== "undefined") {
         result[0].result = this.config.meta.length;
-        result[1].result = yst_stringHelper.countMatches(this.config.meta, this.keywordRegex);
+        result[1].result = this.stringHelper.countMatches(this.config.meta, this.keywordRegex);
     }
     return result;
 };
@@ -352,14 +348,14 @@ Analyzer.prototype.metaDescription = function() {
 Analyzer.prototype.urlKeyword = function() {
     var result = [ { test: "urlKeyword", result : 0 } ];
     if(typeof this.config.url !== "undefined") {
-        result[0].result = yst_stringHelper.countMatches(this.config.url, this.keywordRegex);
+        result[0].result = this.stringHelper.countMatches(this.config.url, this.keywordRegex);
     }
     return result;
 };
 
 
 Analyzer.prototype.score = function() {
-    yst_analyzeScorer.score(this.__output);
+    this.analyzeScorer.score(this.__output);
 };
 
 /**helper functions*/
@@ -441,9 +437,7 @@ PreProcessor = function (text){
     //create __store object to store data
     this.__store = {};
     this.__store.originalText = text;
-    if(typeof yst_stringHelper !== "object"){
-        yst_stringHelper = new StringHelper();
-    }
+    this.stringHelper = stringHelper();
     this.init();
 };
 
@@ -454,7 +448,7 @@ PreProcessor.prototype.init = function(){
     //call function to clean text
     this.textFormat();
     //call function to count words
-    this.wordcount();
+    this.countStore();
 };
 
 /**
@@ -469,7 +463,7 @@ PreProcessor.prototype.textFormat = function(){
 /**
  * saves wordcount (all words) and wordcountNoTags (all words except those in tags) in the __store object
  */
-PreProcessor.prototype.wordcount = function(){
+PreProcessor.prototype.countStore = function(){
     /*wordcounters*/
     this.__store.wordcount = this.__store.cleanText.split(" ").length;
     this.__store.wordcountNoTags = this.__store.cleanTextNoTags.split(" ").length;
@@ -505,8 +499,8 @@ PreProcessor.prototype.syllableCount = function(textString) {
     textString = textString.replace(/[.]/g, " ");
     textString = this.removeWords(textString);
     var words = textString.split(" ");
-    var subtractSyllablesRegexp = yst_stringHelper.stringToRegex(preprocessorConfig.syllables.subtractSyllables, true);
-    var addSyllablesRegexp = yst_stringHelper.stringToRegex(preprocessorConfig.syllables.addSyllables, true);
+    var subtractSyllablesRegexp = this.stringHelper.stringToRegex(preprocessorConfig.syllables.subtractSyllables, true);
+    var addSyllablesRegexp = this.stringHelper.stringToRegex(preprocessorConfig.syllables.addSyllables, true);
     for (var i = 0; i < words.length; i++){
         this.basicSyllableCount(words[i].split(/[^aeiouy]/g));
         this.advancedSyllableCount(words[i], subtractSyllablesRegexp, "subtract");
@@ -585,7 +579,7 @@ PreProcessor.prototype.cleanText = function(textString){
     textString = textString.replace(/[ ]*([\.])+/g, "$1 ");
     //Remove "words" comprised only of numbers
     textString = textString.replace(/[0-9]+[ ]/g, "");
-    return yst_stringHelper.stripSpaces(textString);
+    return this.stringHelper.stripSpaces(textString);
 };
 
 /**
@@ -596,7 +590,7 @@ PreProcessor.prototype.cleanText = function(textString){
 PreProcessor.prototype.stripSomeTags = function(textString){
     //remove tags, except li, p, h1-6, dd
     textString = textString.replace(/<(?!li|\/li|p|\/p|h1|\/h1|h2|\/h2|h3|\/h3|h4|\/h4|h5|\/h5|h6|\/h6|dd).*?\>/g, " ");
-    textString = yst_stringHelper.stripSpaces(textString);
+    textString = this.stringHelper.stripSpaces(textString);
     return textString;
 };
 
@@ -608,7 +602,7 @@ PreProcessor.prototype.stripSomeTags = function(textString){
 PreProcessor.prototype.stripAllTags = function(textString){
     //remove all tags
     textString = textString.replace(/(<([^>]+)>)/ig," ");
-    textString = yst_stringHelper.stripSpaces(textString);
+    textString = this.stringHelper.stripSpaces(textString);
     return textString;
 };
 /**
@@ -808,7 +802,7 @@ AnalyzeScorer.prototype.stopwordKeywordCountScore = function(){
         if (stopwordMatches.length !== 0){
             stopwordMatches += ", ";
         }
-        stopwordMatches += yst_stringHelper.stripSpaces(this.currentResult.testResult.matches[i]);
+        stopwordMatches += this.refObj.stringHelper.stripSpaces(this.currentResult.testResult.matches[i]);
     }
     for (var j = 0; j < this.currentResult.scoreArray.length; j++){
         if(this.currentResult.testResult.count >= this.currentResult.scoreArray[j].result) {
@@ -821,3 +815,19 @@ AnalyzeScorer.prototype.stopwordKeywordCountScore = function(){
     return score;
 };
 
+/**
+ *
+ */
+preProcessor = function(inputString){
+    if (typeof yst_preProcessor !== "object" || yst_preProcessor.inputText !== inputString) {
+        yst_preProcessor = new PreProcessor(inputString);
+    }
+    return yst_preProcessor;
+};
+
+stringHelper = function(){
+    if (typeof yst_stringHelper !== "object"){
+        yst_stringHelper = new StringHelper();
+    }
+    return yst_stringHelper;
+}
