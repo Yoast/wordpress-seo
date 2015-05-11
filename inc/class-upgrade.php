@@ -38,7 +38,7 @@ class WPSEO_Upgrade {
 			$this->upgrade_21();
 		}
 
-		if ( version_compate( $this->options['version'], '2.2', '<' ) ) {
+		if ( version_compare( $this->options['version'], '2.2', '<' ) ) {
 			$this->upgrade_22();
 		}
 
