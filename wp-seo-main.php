@@ -143,8 +143,6 @@ function _wpseo_activate() {
 
 	wpseo_add_capabilities();
 
-	WPSEO_Utils::schedule_yoast_tracking( null, get_option( 'wpseo' ) );
-
 	// Clear cache so the changes are obvious.
 	WPSEO_Utils::clear_cache();
 
@@ -160,9 +158,6 @@ function _wpseo_deactivate() {
 	add_action( 'shutdown', 'flush_rewrite_rules' );
 
 	wpseo_remove_capabilities();
-
-	// Force unschedule
-	WPSEO_Utils::schedule_yoast_tracking( null, get_option( 'wpseo' ), true );
 
 	// Clear cache so the changes are obvious.
 	WPSEO_Utils::clear_cache();

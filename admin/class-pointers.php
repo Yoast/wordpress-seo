@@ -21,16 +21,10 @@ class WPSEO_Pointers {
 	private function __construct() {
 		if ( current_user_can( 'manage_options' ) ) {
 			$options = get_option( 'wpseo' );
-			if ( $options['tracking_popup_done'] === false || $options['ignore_tour'] === false ) {
+			if ( $options['ignore_tour'] === false ) {
 				wp_enqueue_style( 'wp-pointer' );
 				wp_enqueue_script( 'jquery-ui' );
 				wp_enqueue_script( 'wp-pointer' );
-				wp_enqueue_script( 'utils' );
-			}
-			if ( $options['tracking_popup_done'] === false && ! isset( $_GET['allow_tracking'] ) ) {
-				add_action( 'admin_print_footer_scripts', array( $this, 'tracking_request' ) );
-			}
-			elseif ( $options['ignore_tour'] === false ) {
 				add_action( 'admin_print_footer_scripts', array( $this, 'intro_tour' ) );
 			}
 		}
@@ -51,33 +45,6 @@ class WPSEO_Pointers {
 
 
 	/**
-	 * Shows a popup that asks for permission to allow tracking.
-	 */
-	function tracking_request() {
-		$id    = '#wpadminbar';
-		$nonce = wp_create_nonce( 'wpseo_activate_tracking' );
-
-		$content = '<h3>' . __( 'Help improve WordPress SEO', 'wordpress-seo' ) . '</h3>';
-		$content .= '<p>' . __( 'You&#8217;ve just installed WordPress SEO by Yoast. Please helps us improve it by allowing us to gather anonymous usage stats so we know which configurations, plugins and themes to test with.', 'wordpress-seo' ) . '</p>';
-		$opt_arr      = array(
-			'content'  => $content,
-			'position' => array( 'edge' => 'top', 'align' => 'center' )
-		);
-		$button_array = array(
-			'button1' => array(
-				'text'     => __( 'Do not allow tracking', 'wordpress-seo' ),
-				'function' => 'wpseo_store_answer("no","' . $nonce . '")',
-			),
-			'button2' => array(
-				'text'     => __( 'Allow tracking', 'wordpress-seo' ),
-				'function' => 'wpseo_store_answer("yes","' . $nonce . '")',
-			),
-		);
-
-		$this->print_scripts( $id, $opt_arr, $button_array );
-	}
-
-	/**
 	 * Load the introduction tour
 	 */
 	function intro_tour() {
@@ -86,7 +53,6 @@ class WPSEO_Pointers {
 		$admin_pages = array(
 			'dashboard' => array(
 				'content'   => '<h3>' . __( 'General settings', 'wordpress-seo' ) . '</h3><p>' . __( 'These are the General settings for WordPress SEO, here you can restart this tour or revert the WP SEO settings to default.', 'wordpress-seo' ) . '</p>'
-				               . '<p><strong>' . __( 'Tracking', 'wordpress-seo' ) . '</strong><br/>' . __( 'To provide you with the best experience possible, we need your help. Please enable tracking to help us gather anonymous usage data.', 'wordpress-seo' ) . '</p>'
 				               . '<p><strong>' . __( 'Tab: Your Info / Company Info', 'wordpress-seo' ) . '</strong><br/>' . __( 'Add some info here needed for Google\'s Knowledge Graph.', 'wordpress-seo' ) . '</p>'
 				               . '<p><strong>' . __( 'Tab: Webmaster Tools', 'wordpress-seo' ) . '</strong><br/>' . __( 'You can add the verification codes for the different Webmaster Tools programs here, we highly encourage you to check out both Google and Bing&#8217;s Webmaster Tools.', 'wordpress-seo' ) . '</p>'
 				               . '<p><strong>' . __( 'Tab: Security', 'wordpress-seo' ) . '</strong><br/>' . __( 'Determine who has access to the plugins advanced settings on the post edit screen.', 'wordpress-seo' ) . '</p>'
@@ -229,17 +195,6 @@ class WPSEO_Pointers {
 				}
 
 				var wpseo_pointer_options = <?php echo json_encode( $options ); ?>, setup;
-
-				function wpseo_store_answer(input, nonce) {
-					var wpseo_tracking_data = {
-						action: 'wpseo_allow_tracking',
-						allow_tracking: input,
-						nonce: nonce
-					};
-					jQuery.post(ajaxurl, wpseo_tracking_data, function () {
-						jQuery('#wp-pointer-0').remove();
-					});
-				}
 
 				wpseo_pointer_options = $.extend(wpseo_pointer_options, {
 					buttons: function (event, t) {

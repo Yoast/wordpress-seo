@@ -38,6 +38,10 @@ class WPSEO_Upgrade {
 			$this->upgrade_21();
 		}
 
+		if ( version_compate( $this->options['version'], '2.2', '<' ) ) {
+			$this->upgrade_22();
+		}
+
 		$this->finish_up();
 	}
 
@@ -98,6 +102,19 @@ class WPSEO_Upgrade {
 
 			update_option( 'wpseo_taxonomy_meta', $taxonomies );
 		}
+	}
+
+	/**
+	 * Performs upgrade functions to WP SEO 2.2
+	 */
+	private function upgrade_22() {
+		// Unschedule our tracking
+		wp_clear_scheduled_hook( 'yoast_tracking' );
+
+		// Clear the tracking settings
+		$options = get_option( 'wpseo' );
+		unset( $options['tracking_popup_done'], $options['yoast_tracking'] );
+		update_option( 'wpseo', $options );
 	}
 
 	/**

@@ -447,34 +447,6 @@ class WPSEO_Utils {
 	}
 
 	/**
-	 * (Un-)schedule the yoast tracking cronjob if the tracking option has changed
-	 *
-	 * @todo     - [JRF => Yoast] check if this has any impact on other Yoast plugins which may
-	 * use the same tracking schedule hook. If so, maybe get any other yoast plugin options,
-	 * check for the tracking status and unschedule based on the combined status.
-	 *
-	 * @static
-	 *
-	 * @param mixed $disregard        Not needed - passed by add/update_option action call
-	 *                                 Option name if option was added, old value if option was updated
-	 * @param array $value            The (new/current) value of the wpseo option
-	 * @param bool  $force_unschedule Whether to force an unschedule (i.e. on deactivate)
-	 *
-	 * @return void
-	 */
-	public static function schedule_yoast_tracking( $disregard, $value, $force_unschedule = false ) {
-		$current_schedule = wp_next_scheduled( 'yoast_tracking' );
-
-		if ( $force_unschedule !== true && ( $value['yoast_tracking'] === true && $current_schedule === false ) ) {
-			// The tracking checks daily, but only sends new data every 7 days.
-			wp_schedule_event( time(), 'daily', 'yoast_tracking' );
-		}
-		elseif ( $force_unschedule === true || ( $value['yoast_tracking'] === false && $current_schedule !== false ) ) {
-			wp_clear_scheduled_hook( 'yoast_tracking' );
-		}
-	}
-
-	/**
 	 * Clears the WP or W3TC cache depending on which is used
 	 *
 	 * @static
