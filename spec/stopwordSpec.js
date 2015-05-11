@@ -12,9 +12,9 @@ describe("a test for matching the keyword with ", function(){
     var stopwordMatcher = new Analyzer(stopwordArgs);
     var result = stopwordMatcher.stopwords();
     it("matches a keyword", function(){
-        expect(result[0].test).toBe("stopwordCount");
-        expect(result[0].result).toBe(2);
-        expect(result[1].result).toContain(" about");
-        expect(result[1].result).toContain(" yourself");
+        expect(result[0].test).toBe("stopwordKeywordCount");
+        expect(result[0].result.count).toBe(2);
+        expect(result[0].result.matches).toContain(" about");
+        expect(result[0].result.matches).toContain(" yourself");
     });
 });

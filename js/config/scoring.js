@@ -73,5 +73,14 @@ analyzerScoring = [
             {result: 1, score: 9, text: "The meta description contains the primary keyword / phrase."},
             {result: 0, score: 3, text: "A meta description has been specified, but it does not contain the target keyword / phrase."}
         ]
+    },
+    {
+        scoreName: "stopwordKeywordCount",
+        scoreFunction: "stopwordKeywordCountScore",
+        scoreArray: [
+            {result: 1, score: 5, text: "The keyword for this page contains one or more <%url%>, consider removing them. Found \'<%stopwords%>\'."},
+            {result: 0, score: 0, text: ""}
+        ],
+        scoreUrl: "<a href='http://en.wikipedia.org/wiki/Stop_words'>stop words</a>"
     }
 ];

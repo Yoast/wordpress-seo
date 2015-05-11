@@ -158,6 +158,7 @@ Analyzer.prototype.subHeadings = function() {
     }
     return result;
 };
+
 /**
  * subHeadings checker to check if keyword is present in given headings.
  * @param matches
@@ -180,15 +181,16 @@ Analyzer.prototype.subHeadingsCheck = function(matches){
 };
 
 /**
- * check if the keyword contains stopwords
+ * check if the keyword contains stopwords.
  * @returns {result object}
  */
 Analyzer.prototype.stopwords = function(){
-    var matches = yst_stringHelper.matchString(this.config.keyword, this.config.stopWords);
+    //prefix space to the keyword to make sure it matches if the keyword starts with a stopword.
+    var keyword = " "+this.config.keyword;
+    var matches = yst_stringHelper.matchString(keyword, this.config.stopWords);
     var stopwordCount = matches !== null ? matches.length : 0;
-    return [ { test: "stopwordCount", result: stopwordCount }, { test: "stopWordMatches", result: matches } ];
+    return [ { test: "stopwordKeywordCount", result: {count: stopwordCount, matches: matches } } ];
 };
-
 
 /**
  * calculate Flesch Reading score
@@ -798,3 +800,24 @@ AnalyzeScorer.prototype.metaDescriptionKeywordScore = function(){
     }
     return score;
 };
+
+AnalyzeScorer.prototype.stopwordKeywordCountScore = function(){
+    var score = { name: "stopwordKeywordCount", score: 0, text: "" };
+    var stopwordMatches = "";
+    for (var i = 0; i < this.currentResult.testResult.matches.length; i++){
+        if (stopwordMatches.length !== 0){
+            stopwordMatches += ", ";
+        }
+        stopwordMatches += yst_stringHelper.stripSpaces(this.currentResult.testResult.matches[i]);
+    }
+    for (var j = 0; j < this.currentResult.scoreArray.length; j++){
+        if(this.currentResult.testResult.count >= this.currentResult.scoreArray[j].result) {
+            score.score = this.currentResult.scoreArray[j].score;
+            score.text = this.currentResult.scoreArray[j].text.replace(/<%url%>/, this.currentResult.scoreUrl).
+                                                               replace(/<%stopwords%>/, stopwordMatches);
+            break;
+        }
+    }
+    return score;
+};
+
