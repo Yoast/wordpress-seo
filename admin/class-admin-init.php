@@ -37,7 +37,6 @@ class WPSEO_Admin_Init {
 		$this->load_taxonomy_class();
 		$this->load_admin_page_class();
 		$this->load_admin_user_class();
-		$this->load_yoast_tracking();
 		$this->load_tour();
 		$this->load_xml_sitemaps_admin();
 	}
@@ -150,25 +149,6 @@ class WPSEO_Admin_Init {
 	}
 
 	/**
-	 * Determine if we're allowed to load our tracking class and if so, load it.
-	 */
-	private function load_yoast_tracking() {
-		if ( $this->options['yoast_tracking'] === true ) {
-			/**
-			 * @internal this is not a proper lean loading implementation (method_exist will autoload the class),
-			 * but it can't be helped as there are other plugins out there which also use versions
-			 * of the Yoast Tracking class and we need to take that into account unfortunately
-			 */
-			if ( method_exists( 'Yoast_Tracking', 'get_instance' ) ) {
-				add_action( 'yoast_tracking', array( 'Yoast_Tracking', 'get_instance' ) );
-			}
-			else {
-				$GLOBALS['yoast_tracking'] = new Yoast_Tracking;
-			}
-		}
-	}
-
-	/**
 	 * See if we should start our tour.
 	 */
 	private function load_tour() {
@@ -178,7 +158,7 @@ class WPSEO_Admin_Init {
 			update_option( 'wpseo', $this->options );
 		}
 
-		if ( $this->options['tracking_popup_done'] === false || $this->options['ignore_tour'] === false ) {
+		if ( $this->options['ignore_tour'] === false ) {
 			add_action( 'admin_enqueue_scripts', array( 'WPSEO_Pointers', 'get_instance' ) );
 		}
 	}
