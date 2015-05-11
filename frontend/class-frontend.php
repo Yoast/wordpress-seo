@@ -1737,7 +1737,7 @@ class WPSEO_Frontend {
 		 * Filter: 'wpseo_include_rss_footer' - Allow the the RSS footer to be dynamically shown/hidden
 		 *
 		 * @api boolean $show_embed Indicates if the RSS footer should be shown or not
-		 * @api string $context The context of the RSS content - 'full' or 'excerpt'
+		 * @param string $context The context of the RSS content - 'full' or 'excerpt'
 		 */
 		if ( ! apply_filters( 'wpseo_include_rss_footer', true, $context ) ) {
 			return $content;
