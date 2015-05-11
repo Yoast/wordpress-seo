@@ -1,0 +1,26 @@
+{
+    "boss": true,
+    "curly": true,
+    "eqeqeq": true,
+    "eqnull": true,
+
+
+    "immed": true,
+    "latedef": true,
+    "newcap": true,
+    "noarg": true,
+    "quotmark": "double",
+    "sub": true,
+    "strict": false,
+
+    "undef": false,
+    "unused": true,
+    "funcscope": false,
+    "browser": true,
+    "jquery": false,
+    
+    "globals": {
+        "exports": true,
+        "module": false
+    }
+}

@@ -1,0 +1,17 @@
+# Grunt aliases
+---
+# Build everything
+build:
+  - 'build:js'
+# Build JavaScript from assets to production
+'build:js':
+  - 'uglify'
+# Check health of the project
+check:
+  - 'jshint'
+  - 'jsonlint'
+  - 'jsvalidate'
+# Default task
+default:
+  - check
+  - build
