@@ -38,10 +38,11 @@ jQuery(document).ready(function () {
     });
 
     jQuery('#company_or_person').change(function () {
-        if ('company' === jQuery(this).val()) {
+		var companyOrPerson = jQuery(this).val();
+        if ('company' === companyOrPerson) {
             jQuery('#knowledge-graph-company').show();
             jQuery('#knowledge-graph-person').hide();
-        } else if ('person' === jQuery(this).val()) {
+        } else if ('person' === companyOrPerson) {
             jQuery('#knowledge-graph-company').hide();
             jQuery('#knowledge-graph-person').show();
         } else {
@@ -55,20 +56,25 @@ jQuery(document).ready(function () {
     }).change();
 
     // init
-    var active_tab = window.location.hash.replace('#top#', '');
+    var activeTab = window.location.hash.replace('#top#', '');
 
     // default to first tab
-    if (active_tab === '' || active_tab === '#_=_') {
-        active_tab = jQuery('.wpseotab').attr('id');
+    if (activeTab === '' || activeTab === '#_=_') {
+        activeTab = jQuery('.wpseotab').attr('id');
     }
 
-    jQuery('#' + active_tab).addClass('active');
-    jQuery('#' + active_tab + '-tab').addClass('nav-tab-active');
+    jQuery('#' + activeTab).addClass('active');
+    jQuery('#' + activeTab + '-tab').addClass('nav-tab-active');
 
     jQuery('.nav-tab-active').click();
 
 });
 
+/**
+ * Detects the wrong use of variables in title and description templates
+ *
+ * @param e
+ */
 function wpseoDetectWrongVariables(e) {
     var warn = false;
     var error_id = '';
@@ -122,7 +128,14 @@ function wpseoDetectWrongVariables(e) {
     }
 }
 
-// global functions
+/**
+ * Sets a specific WP option
+ *
+ * @param {string} option The option to update
+ * @param {string} newval The new value for the option
+ * @param {string} hide The ID of the element to hide on success
+ * @param {string} nonce The nonce for the action
+ */
 function setWPOption(option, newval, hide, nonce) {
     jQuery.post(ajaxurl, {
             action: 'wpseo_set_option',
@@ -137,7 +150,12 @@ function setWPOption(option, newval, hide, nonce) {
     );
 }
 
-function wpseo_killBlockingFiles(nonce) {
+/**
+ * Do the kill blocking files action
+ *
+ * @param {string} nonce
+ */
+function wpseoKillBlockingFiles(nonce) {
     jQuery.post(ajaxurl, {
         action: 'wpseo_kill_blocking_files',
         _ajax_nonce: nonce
@@ -150,12 +168,17 @@ function wpseo_killBlockingFiles(nonce) {
     });
 }
 
-function copy_home_meta() {
+/**
+ * Copies the meta description for the homepage
+ */
+function wpseoCopyHomeMeta() {
     jQuery('#og_frontpage_desc').val(jQuery('#meta_description').val());
 }
 
-function wpseo_set_tab_hash() {
-
+/**
+ * Makes sure we store the action hash so we can return to the right hash
+ */
+function wpseoSetTabHash() {
     var conf = jQuery('#wpseo-conf');
     if (conf.length) {
         var currentUrl = conf.attr('action').split('#')[0];
@@ -167,9 +190,9 @@ function wpseo_set_tab_hash() {
 /**
  * When the hash changes, get the base url from the action and then add the current hash
  */
-jQuery(window).on('hashchange', wpseo_set_tab_hash);
+jQuery(window).on('hashchange', wpseoSetTabHash);
 
 /**
  * When the hash changes, get the base url from the action and then add the current hash
  */
-jQuery(document).on('ready', wpseo_set_tab_hash);
+jQuery(document).on('ready', wpseoSetTabHash);

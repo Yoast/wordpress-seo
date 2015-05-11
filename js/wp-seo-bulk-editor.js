@@ -159,7 +159,6 @@ jQuery(document).ready(function () {
 			var bulk_edit = bulk_editor(current_table);
 
 			bulk_edit.set_events();
-
 		}
 	);
 

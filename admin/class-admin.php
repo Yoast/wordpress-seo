@@ -338,7 +338,7 @@ class WPSEO_Admin {
 				<p>
 					<strong>%1$s</strong>
 					%2$s
-					<a href="javascript:wpseo_setIgnore(\'blog_public_warning\',\'robotsmessage\',\'%3$s\');" class="button">%4$s</a>
+					<a href="javascript:wpseoSetIgnore(\'blog_public_warning\',\'robotsmessage\',\'%3$s\');" class="button">%4$s</a>
 				</p>
 			</div>',
 			__( 'Huge SEO Issue: You\'re blocking access to robots.', 'wordpress-seo' ),
@@ -372,7 +372,7 @@ class WPSEO_Admin {
 				<p>
 					<strong>%1$s</strong>
 					%2$s
-					<a href="javascript:wpseo_setIgnore(\'meta_description_warning\',\'metamessage\',\'%3$s\');" class="button">%4$s</a>
+					<a href="javascript:wpseoSetIgnore(\'meta_description_warning\',\'metamessage\',\'%3$s\');" class="button">%4$s</a>
 				</p>
 			</div>',
 			__( 'SEO Issue:', 'wordpress-seo' ),

@@ -268,7 +268,7 @@ class WPSEO_Pointers {
 					<?php } ?>
 					jQuery('#pointer-close').click(function () {
 						<?php if ( $button_array['button1']['function'] == '' ) : ?>
-						wpseo_setIgnore("tour", "wp-pointer-0", "<?php echo esc_js( wp_create_nonce( 'wpseo-ignore' ) ); ?>");
+						wpseoSetIgnore("tour", "wp-pointer-0", "<?php echo esc_js( wp_create_nonce( 'wpseo-ignore' ) ); ?>");
 						<?php else : ?>
 						<?php echo $button_array['button1']['function']; ?>
 						<?php endif; ?>

@@ -2,7 +2,14 @@
 /* jshint -W097 */
 /* jshint unused:false */
 'use strict';
-function wpseo_setIgnore( option, hide, nonce ) {
+/**
+ * Used to remove the admin notices for several purposes, dies on exit.
+ *
+ * @param {string} option
+ * @param {string} hide
+ * @param {string} nonce
+ */
+function wpseoSetIgnore( option, hide, nonce ) {
 	jQuery.post(ajaxurl, {
 			action: 'wpseo_set_ignore',
 			option: option,
