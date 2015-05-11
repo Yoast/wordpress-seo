@@ -315,6 +315,21 @@ Analyzer.prototype.pageTitleCount = function(){
     return {name: "pageTitleCount", count: count};
 };
 
+/**
+ * counts the occurrences of the keyword in the pagetitl, returns 0 if pagetitle is empty or not set.
+ * @returns {{name: string, count: number}}
+ */
+Analyzer.prototype.pageTitleKeyword = function(){
+    var count = 0;
+    if(typeof this.config.pageTitle !== "undefined") {
+        var matches = this.config.pageTitle.match(this.keywordRegex);
+        if (matches !== null) {
+            count = matches.length;
+        }
+    }
+    return { name: "pageTitleKeyword", count: count };
+};
+
 
 /**helper functions*/
 StringHelper = function(){};
