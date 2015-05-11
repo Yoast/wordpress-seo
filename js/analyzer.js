@@ -316,18 +316,42 @@ Analyzer.prototype.pageTitleCount = function(){
 };
 
 /**
- * counts the occurrences of the keyword in the pagetitl, returns 0 if pagetitle is empty or not set.
+ * counts the occurrences of the keyword in the pagetitle, returns 0 if pagetitle is empty or not set.
  * @returns {{name: string, count: number}}
  */
 Analyzer.prototype.pageTitleKeyword = function(){
-    var count = 0;
+    var result = { name: "pageTitleKeyword", count: 0 };
     if(typeof this.config.pageTitle !== "undefined") {
-        var matches = this.config.pageTitle.match(this.keywordRegex);
-        if (matches !== null) {
-            count = matches.length;
-        }
+        result.count = yst_stringHelper.countMatches(this.config.pageTitle, this.keywordRegex);
     }
-    return { name: "pageTitleKeyword", count: count };
+    return result;
+};
+
+/**
+ * counts the occurrences of the keyword in the first paragraph, returns 0 if it is not found,
+ * or there is no paragraph-tag in the given string.
+ * @returns {{name: string, count: number}}
+ */
+Analyzer.prototype.firstParagraph = function() {
+    var matches = yst_preProcessor.__store.cleanTextSomeTags.match(/<p(?:[^>]+)?>(.*?)<\/p>/g);
+    var result = { name: "firstParagraph", count: 0 };
+    if(matches !== null){
+        result.count = yst_stringHelper.countMatches(matches[0], this.keywordRegex);
+    }
+    return result;
+};
+
+/**
+ * counts the occurrences of the keyword in the metadescription, returns 0 if metadescription is empty or not set.
+ * @returns {{name: string, count: number}}
+ */
+Analyzer.prototype.metaDescription = function() {
+    var result = { name: "metaDescription", count: 0, length: 0};
+    if(typeof this.config.meta !== "undefined") {
+        result.count = yst_stringHelper.countMatches(this.config.meta, this.keywordRegex);
+        result.length = this.config.meta.length;
+    }
+    return result;
 };
 
 
@@ -354,6 +378,21 @@ StringHelper.prototype.replaceString = function(textString, stringsToRemove, rep
  */
 StringHelper.prototype.matchString = function(textString, stringsToMatch){
     return textString.match(this.stringToRegex(stringsToMatch));
+};
+
+/**
+ * matches string with regex, returns the number of matches
+ * @param textString
+ * @param regex
+ * @returns {number}
+ */
+StringHelper.prototype.countMatches = function(textString, regex){
+    var count = 0;
+    var matches = textString.match(regex);
+    if(matches !== null){
+        count = matches.length;
+    }
+    return count;
 };
 
 /**
