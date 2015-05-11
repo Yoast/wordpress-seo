@@ -12,10 +12,31 @@ Analyzer = function (args){
  * Analyzer initialisation. Loads defaults and overloads custom settings.
  */
 Analyzer.prototype.init = function() {
+    this.initRequiredObjects();
+    this.initQueue();
+    this.loadWordlists();
+    this.setDefaults();
+    this._output = [];
+}
+
+/**
+ * initializes required objects.
+ */
+Analyzer.prototype.initRequiredObjects = function(){
     //init preprocessor if not exists
     if (typeof yst_preProcessor !== 'object' || yst_preProcessor.inputText !== this.config.textString) {
         yst_preProcessor = new PreProcessor(this.config.textString);
     }
+    //init helper
+    if(typeof yst_stringHelper != 'object'){
+        yst_stringHelper = new StringHelper();
+    }
+};
+
+/**
+ * initializes the function queue.
+ */
+Analyzer.prototype.initQueue = function(){
     //if no available function queues, make new queue
     if (typeof this.queue !== 'Array') {
         this.queue = [];
@@ -24,8 +45,14 @@ Analyzer.prototype.init = function() {
     if(typeof this.config.queue !== 'undefined' && this.config.queue.length !== 0){
         this.queue = this.config.queue;
     }else{
-        this.queue = ['keywordDensity', 'subheaderChecker', 'stopwordChecker'];
+        this.queue = ['keywordDensity', 'subHeadings', 'stopwordChecker', 'fleschReading'];
     }
+};
+
+/**
+ * load wordlists.
+ */
+Analyzer.prototype.loadWordlists = function(){
     //if no available keywords, load default array
     if(typeof this.config.wordsToRemove == 'undefined'){
         this.config.wordsToRemove =  analyzerConfig.wordsToRemove;
@@ -33,10 +60,15 @@ Analyzer.prototype.init = function() {
     if(typeof this.config.stopWords == 'undefined'){
         this.config.stopWords = analyzerConfig.stopWords;
     }
+};
+
+/**
+ * set default variables.
+ */
+Analyzer.prototype.setDefaults = function(){
     //set default variables
     this.keywordRegex = new RegExp(this.config.keyword);
-    this._output = [];
-}
+};
 
 /**
  * starts queue of functions executing the analyzer functions untill queue is empty.
@@ -63,23 +95,8 @@ Analyzer.prototype.abortQueue = function(){
  */
 Analyzer.prototype.keywordDensity = function(){
     if(yst_preProcessor._store.wordcount > 100) {
-        var keywordMatches = yst_preProcessor._store.cleanText.match(new RegExp(this.config.keyword, 'g'));
-        var keywordDensity = 0;
-        if ( keywordMatches !== null ) {
-            var keywordCount = keywordMatches.length;
-            var keywordDensity = (keywordCount / yst_preProcessor._store.wordcount - (keywordCount - 1 * keywordCount)) * 100;
-        }
-        switch (true) {
-            case (keywordDensity < 1):
-                var rating =  4;
-                break;
-            case (keywordDensity > 4.5):
-                var rating = -50;
-                break;
-            default:
-                var rating = 9;
-                break;
-        }
+        var keywordDensity = this.keywordDensityChecker();
+        var rating = this.keywordDensityRater(keywordDensity);
         result = {name: 'keywordDensity', result: {keywordDensity: keywordDensity.toFixed(1) }, rating: rating};
     }else{
         result = {name: 'keywordDensity', result: null, rating: null};
@@ -88,46 +105,112 @@ Analyzer.prototype.keywordDensity = function(){
 };
 
 /**
+ * checks and returns the keyword density
+ * @returns {number}
+ */
+Analyzer.prototype.keywordDensityChecker = function(){
+    var keywordMatches = yst_stringHelper.stringMatcher(yst_preProcessor._store.cleanText,[this.config.keyword]);
+    var keywordDensity = 0;
+    if ( keywordMatches !== null ) {
+        var keywordCount = keywordMatches.length;
+        keywordDensity = (keywordCount / yst_preProcessor._store.wordcount - (keywordCount - 1 * keywordCount)) * 100;
+    }
+    return keywordDensity;
+};
+
+/**
+ * rates the keyword density against given number
+ * @param keywordDensity
+ * @returns {number}
+ */
+Analyzer.prototype.keywordDensityRater = function(keywordDensity){
+    switch (true) {
+        case (keywordDensity < 1):
+            var rating =  4;
+            break;
+        case (keywordDensity > 4.5):
+            var rating = -50;
+            break;
+        default:
+            var rating = 9;
+            break;
+    }
+    return rating;
+};
+
+/**
  * checks if keywords appear in subheaders of stored cleanTextSomeTags text.
  * @returns resultObject
  */
-Analyzer.prototype.subheaderChecker = function() {
-
-    //regex for headers
-    var headers = yst_preProcessor._store.cleanTextSomeTags.match(/<h([1-6])(?:[^>]+)?>(.*?)<\/h\1>/g);
-    if(headers === null){
-        result = {name: 'subHeadings', result: null, rating: 7};
-    }else {
+Analyzer.prototype.subHeadings = function() {
+    var matches = yst_preProcessor._store.cleanTextSomeTags.match(/<h([1-6])(?:[^>]+)?>(.*?)<\/h\1>/g);
+    foundInHeader = this.subHeadingsChecker(matches);
+    return this.subHeadingsRater(foundInHeader, matches);
+};
+/**
+ * subHeadings checker to check if keyword is present in given headings.
+ * @param matches
+ * @returns {number}
+ */
+Analyzer.prototype.subHeadingsChecker = function(matches){
+    if (matches === null){
+        var foundInHeader = -1;
+    }else{
         var foundInHeader = 0;
-        for (var i = 0; i < headers.length; i++) {
-            var formattedHeaders = this.stringReplacer(headers[i], this.config.wordsToRemove);
-            if (formattedHeaders.match(new RegExp(this.config.keyword, 'g')) || headers[i].match(new RegExp(this.config.keyword, 'g'))) {
+        for (var i = 0; i < matches.length; i++) {
+            var formattedHeaders = yst_stringHelper.stringReplacer(matches[i], this.config.wordsToRemove);
+            if (formattedHeaders.match(new RegExp(this.config.keyword, 'g')) || matches[i].match(new RegExp(this.config.keyword, 'g'))) {
                 foundInHeader++;
             }
         }
-        if (foundInHeader > 0) {
-            var result = {keywordFound: foundInHeader, numberofHeaders: headers.length};
-            var rating = 9;
-        }else{
-            var result = {keywordFound: 0, numberofHeaders: headers.length}
-            var rating = 3;
-        }
-        result = {name: 'subHeadings', result: result, rating: rating};
     }
-    return result;
+    return foundInHeader
+};
+
+/**
+ * Rates the subheadings on base of the number of found keywords in headers.
+ * @param foundInHeader
+ * @param matches
+ * @returns {{name: string, result: (*|{keywordFound: *, numberofHeaders: *}|{keywordFound: number, numberofHeaders: *}), rating: number}}
+ */
+Analyzer.prototype.subHeadingsRater = function(foundInHeader, matches){
+    switch(true){
+        case foundInHeader === -1:
+            var result = null;
+            var rating = 7;
+            break;
+        case foundInHeader > 0:
+            var result = {keywordFound: foundInHeader, numberofHeaders: matches.length};
+            var rating = 9;
+            break;
+        default:
+            var result = {keywordFound: 0, numberofHeaders: matches.length};
+            var rating = 3;
+    }
+    return {name: 'subHeadings', result: result, rating: rating};
 };
 
 /**
  * check if the keyword contains stopwords
  */
 Analyzer.prototype.stopwordChecker = function(){
-    matches = this.stringCounter(this.config.keyword, this.config.stopWords);
-    result = {name: 'stopWords', result: {count: matches.length, matches: matches}, rating:5 };
+    var matches = yst_stringHelper.stringMatcher(this.config.keyword, this.config.stopWords);
+    var stopwordCount = matches !== null ? matches.length : 0;
+    var result = {name: 'stopWords', result: {count: stopwordCount, matches: matches}, rating:5 };
     return result;
-}
+};
+
+
+/**
+ * calculate Flesch Reading score
+ */
+Analyzer.prototype.fleschReading = function(){
+    return result;
+};
+
 
 /**helper functions*/
-
+StringHelper = function(){};
 /**
  * removes strings from array and replaces them with keyword.
  * @param textString
@@ -135,10 +218,11 @@ Analyzer.prototype.stopwordChecker = function(){
  * @param replacement (default == space)
  * @returns {textString}
  */
-Analyzer.prototype.stringReplacer = function(textString, stringsToRemove, replacement){
+
+StringHelper.prototype.stringReplacer = function(textString, stringsToRemove, replacement){
     if(typeof replacement == 'undefined'){replacement = ' '};
     textString = textString.replace(this.regexStringBuilder(stringsToRemove), replacement);
-    return yst_pp.stripSpaces(textString);
+    return this.stripSpaces(textString);
 }
 
 /**
@@ -147,7 +231,7 @@ Analyzer.prototype.stringReplacer = function(textString, stringsToRemove, replac
  * @param stringsToMatch
  * @returns {matches}
  */
-Analyzer.prototype.stringCounter = function(textString, stringsToMatch){
+StringHelper.prototype.stringMatcher = function(textString, stringsToMatch){
     return textString.match(this.regexStringBuilder(stringsToMatch));
 }
 
@@ -156,14 +240,27 @@ Analyzer.prototype.stringCounter = function(textString, stringsToMatch){
  * @param stringArray
  * @returns {RegExp}
  */
-Analyzer.prototype.regexStringBuilder = function(stringArray){
+StringHelper.prototype.regexStringBuilder = function(stringArray){
     var regexString = '';
     for(var i = 0; i < stringArray.length; i++){
         if(regexString.length > 0){ regexString += '|'; }
         regexString += '('+stringArray[i]+')\\b';
     }
     return new RegExp(regexString, 'g');
-}
+};
+
+/**
+ * Strip extra spaces, replace duplicates with single space. Remove space at front / end of string
+ * @param textString
+ * @returns textString
+ */
+StringHelper.prototype.stripSpaces = function(textString){
+    //replace multiple spaces with single space
+    textString = textString.replace(/ {2,}/g, ' ');
+    //remove first/last character if space
+    textString = textString.replace(/^\s+|\s+$/g, '');
+    return textString;
+};
 
 /**
  * PreProcessor object definition. Creates _store object and calls init.
@@ -173,6 +270,9 @@ PreProcessor = function (text){
     //create _store object to store data
     this._store = {};
     this._store.originalText = text;
+    if(typeof yst_stringHelper != 'object'){
+        yst_stringHelper = new StringHelper();
+    }
     this.init();
 };
 
@@ -199,9 +299,45 @@ PreProcessor.prototype.textFormatter = function(){
  * saves wordcount (all words) and wordcountNoTags (all words except those in tags) in the _store object
  */
 PreProcessor.prototype.wordcount = function(){
+    /*wordcounters*/
     this._store.wordcount = this._store.cleanText.split(' ').length;
     this._store.wordcountNoTags = this._store.cleanTextNoTags.split(' ').length;
+    /*sentencecounters*/
+    this._store.sentencecount = this._store.cleanText.split('.').length;
+    this._store.sentencecountNoTags = this._store.cleanTextNoTags.split('.').length;
+    /*syllablecounters*/
+    this._store.syllablecount = this.syllableCount(this._store.cleanTextNoTags);
 };
+
+/**
+ * counts the number of syllables in a textstring.
+ * @param textString
+ * @returns syllable count
+ */
+PreProcessor.prototype.syllableCount = function(textString) {
+    var count = 0;
+    var wordsArray = textString.split(/[^aeiouy]/g);
+    var syllableArray = [];
+    for (var i = 0; i < wordsArray.length; i++){
+        if(wordsArray[i].length > 0){
+            syllableArray.push(wordsArray[i]);
+        }
+    }
+    count += (syllableArray.length);
+
+    var arrSubSyllables = ['cial','tia','cius','cious','giu','ion','iou','sia$','[^aeiuoyt]{2,}ed$','[aeiouy][^aeiuoyt]{1,}e','.ely$','[cg]h?e[rsd]?$','rved$', 'rved','[aeiouy][dt]es?$','[aeiouy][^aeiouydt]e[rsd]?$','^[dr]e[aeiou][^aeiou]+$','[aeiouy]rse$'];
+    var subtractSyllables =  textString.match(yst_stringHelper.regexStringBuilder(arrSubSyllables));
+
+    if(subtractSyllables !== null){count -= subtractSyllables.length};
+
+    var arrAddSyllables = ['ia','riet','dien','iu','io','ii','[aeiouym]bl$','[aeiou]{3}','^mc','ism$','([^aeiouy])\1l$','[^l]lien','^coa[dglx].','[^gq]ua[^auieo]','dnt$','uity$','ie(r|st)$'];
+    var addSyllables = textString.match(yst_stringHelper.regexStringBuilder(arrAddSyllables));
+    if(addSyllables !== null){count += addSyllables.length};
+
+    return count;
+};
+
+
 
 /**
  * cleans text by removing special characters, numberonly words and replacing all terminators by periods
@@ -212,6 +348,8 @@ PreProcessor.prototype.cleanText = function(textString){
     textString = textString.toLocaleLowerCase();
     //replace comma', hyphens etc with spaces
     textString = textString.replace(/[-;:,()"'|“”]/g, ' ');
+    //remove apostrophe
+    textString = textString.replace(/[’]/g, '');
     //unify all terminators
     textString = textString.replace(/[.?!]/g, '.');
     //add period in case it is missing
@@ -224,7 +362,7 @@ PreProcessor.prototype.cleanText = function(textString){
     textString = textString.replace(/[ ]*([\.])+/g, '$1 ');
     //Remove "words" comprised only of numbers
     textString = textString.replace(/[0-9]+[ ]/g, '');
-    return this.stripSpaces(textString);
+    return yst_stringHelper.stripSpaces(textString);
 };
 
 /**
@@ -235,7 +373,7 @@ PreProcessor.prototype.cleanText = function(textString){
 PreProcessor.prototype.stripSomeTags = function(textString){
     //remove tags, except li, p, h1-6, dd
     textString = textString.replace(/\<(?!li|\/li|p|\/p|h1|\/h1|h2|\/h2|h3|\/h3|h4|\/h4|h5|\/h5|h6|\/h6|dd).*?\>/g, " ");
-    textString = this.stripSpaces(textString);
+    textString = yst_stringHelper.stripSpaces(textString);
     return textString;
 };
 
@@ -247,18 +385,6 @@ PreProcessor.prototype.stripSomeTags = function(textString){
 PreProcessor.prototype.stripAllTags = function(textString){
     //remove all tags
     textString = textString.replace(/(<([^>]+)>)/ig," ");
-    textString = this.stripSpaces(textString);
-    return textString;
-};
-/**
- * Strip extra spaces, replace duplicates with single space. Remove space at front / end of string
- * @param textString
- * @returns textString
- */
-PreProcessor.prototype.stripSpaces = function(textString){
-    //replace multiple spaces with single space
-    textString = textString.replace(/ {2,}/g, ' ');
-    //remove first/last character if space
-    textString = textString.replace(/^\s+|\s+$/g, '');
+    textString = yst_stringHelper.stripSpaces(textString);
     return textString;
 };
