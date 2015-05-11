@@ -45,7 +45,7 @@ Analyzer.prototype.initQueue = function(){
     if(typeof this.config.queue !== "undefined" && this.config.queue.length !== 0){
         this.queue = this.config.queue;
     }else{
-        this.queue = ["keywordDensity", "subHeadings", "stopwords", "fleschReading", "linkCount"];
+        this.queue = ["keywordDensity", "subHeadings", "stopwords", "fleschReading", "linkCount", "imageCount"];
     }
 };
 
@@ -264,6 +264,55 @@ Analyzer.prototype.linkFollow = function(url){
         linkFollow = "nofollow";
     }
     return linkFollow;
+};
+
+/**
+ * counts the number of images found in a given textstring, based on the <img>-tag and returns a result object
+ * @returns {{name: string, result: {total: number, alt: number, noalt: number}}}
+ */
+Analyzer.prototype.imageCount = function(){
+    var imageCount = {total: 0, alt: 0, noalt: 0};
+    var imageMatches = yst_preProcessor.__store.originalText.match(/<img(?:[^>]+)?>/g);
+    if(imageMatches !== null){
+        imageCount.total = imageMatches.length;
+        for (var i = 0; i < imageMatches.length; i++){
+            if(this.imageAlttag(imageMatches[i])){
+                imageCount.alt++;
+            }else{
+                imageCount.noalt++;
+            }
+        }
+    }
+    return {name: "imageCount", result: imageCount};
+};
+
+/**
+ * checks if an image has an alttag and if the alttag contains any text.
+ * @param image
+ * @returns {boolean}
+ */
+Analyzer.prototype.imageAlttag = function(image){
+    var hasAlttag = false;
+    var alttag = image.match(/alt=['"](.*?)['"]/g);
+    if(alttag !== null){
+        if(alttag[0].split("=")[1].match(/[a-z0-9](.*?)[a-z0-9]/g) !== null){
+            hasAlttag = true;
+        }
+    }
+    return hasAlttag;
+};
+
+/**
+ * counts the number of characters in the pagetitle, returns 0 if empty or not set.
+ * @returns {{name: string, count: *}}
+ */
+
+Analyzer.prototype.pageTitleCount = function(){
+    var count = 0;
+    if(typeof this.config.pageTitle !== "undefined"){
+        count = this.config.pageTitle.length;
+    }
+    return {name: "pageTitleCount", count: count};
 };
 
 
