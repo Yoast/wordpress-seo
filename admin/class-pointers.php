@@ -84,7 +84,7 @@ class WPSEO_Pointers {
 	 */
 	public function print_scripts( $selector, $options ) {
 		// button1 is the close button, which always exists.
-		$this->button_array_defaults = array(
+		$button_array_defaults = array(
 			'button2' => array(
 				'text'     => false,
 				'function' => '',
@@ -94,7 +94,7 @@ class WPSEO_Pointers {
 				'function' => '',
 			),
 		);
-		$this->button_array          = wp_parse_args( $this->button_array, $this->button_array_defaults );
+		$this->button_array          = wp_parse_args( $this->button_array, $button_array_defaults );
 
 		if ( function_exists( 'wp_json_encode' ) ) {
 			$json_options = wp_json_encode( $options );
