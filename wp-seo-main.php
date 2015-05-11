@@ -58,6 +58,10 @@ function wpseo_auto_load( $class ) {
 if ( file_exists( WPSEO_PATH . '/vendor/autoload_52.php' ) ) {
 	require WPSEO_PATH . '/vendor/autoload_52.php';
 }
+elseif ( ! class_exists( 'WPSEO_Options' ) ) { // still checking since might be site-level autoload R.
+	add_action( 'admin_init', 'yoast_wpseo_missing_autoload', 1 );
+	return;
+}
 
 if ( function_exists( 'spl_autoload_register' ) ) {
 	spl_autoload_register( 'wpseo_auto_load' );
@@ -345,7 +349,6 @@ function load_yoast_notifications() {
  */
 function yoast_wpseo_missing_spl() {
 	if ( is_admin() ) {
-
 		add_action( 'admin_notices', 'yoast_wpseo_missing_spl_notice' );
 
 		yoast_wpseo_self_deactivate();
@@ -357,7 +360,30 @@ function yoast_wpseo_missing_spl() {
  */
 function yoast_wpseo_missing_spl_notice() {
 	$message = esc_html__( 'The Standard PHP Library (SPL) extension seem to be unavailable. Please ask your web host to enable it.', 'wordpress-seo' );
-	echo '<div class="error"><p>' . __( 'Activation failed:', 'wordpress-seo' ) . ' ' . $message . '</p></div>';
+	yoast_wpseo_activation_failed_notice( $message );
+}
+
+/**
+ * Throw an error if the Composer autoload is missing and self-deactivate plugin
+ *
+ * @return void
+ */
+function yoast_wpseo_missing_autoload() {
+	if ( is_admin() ) {
+		add_action( 'admin_notices', 'yoast_wpseo_missing_autoload_notice' );
+
+		yoast_wpseo_self_deactivate();
+	}
+}
+
+/**
+ * Returns the notice in case of missing Composer autoload
+ */
+function yoast_wpseo_missing_autoload_notice() {
+	/* translators: %1$s / %2$s: links to the installation manual in the Readme for the WordPress SEO by Yoast code repository on GitHub */
+	$message = esc_html__( 'The WordPress SEO plugin installation is incomplete. Please refer to %1$sinstallation instructions%2$s.', 'wordpress-seo' );
+	$message = sprintf( $message, '<a href="https://github.com/Yoast/wordpress-seo#installation">', '</a>' );
+	yoast_wpseo_activation_failed_notice( $message );
 }
 
 /**
@@ -380,6 +406,15 @@ function yoast_wpseo_missing_filter() {
  */
 function yoast_wpseo_missing_filter_notice() {
 	$message = esc_html__( 'The filter extension seem to be unavailable. Please ask your web host to enable it.', 'wordpress-seo' );
+	yoast_wpseo_activation_failed_notice( $message );
+}
+
+/**
+ * Echo's the Activation failed notice with any given message.
+ *
+ * @param string $message
+ */
+function yoast_wpseo_activation_failed_notice( $message ) {
 	echo '<div class="error"><p>' . __( 'Activation failed:', 'wordpress-seo' ) . ' ' . $message . '</p></div>';
 }
 
