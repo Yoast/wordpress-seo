@@ -91,5 +91,27 @@ analyzerScoring = [
             headingsNoKeyword: {matches: 0, count: 1, score: 3, text: "You have not used your keyword / keyphrase in any subheading (such as an H2) in your copy."},
             headingsKeyword: {matches: 1, count: 1, score: 9, text: "Keyword / keyphrase appears in <%matches%> (out of <%count%>) subheadings in the copy. While not a major ranking factor, this is beneficial."}
         }
+    },
+    {
+        scoreName: "pageTitleLength",
+        scoreFunction: "pageTitleLengthScore",
+        scoreObj: {
+            noTitle: {result: 0, score: 1, text: "Please create a page title."},
+            titleTooShort: {
+                score: 6,
+                text: "The page title contains <%length%> characters, which is less than the recommended minimum of <%minLength%> characters. Use the space to add keyword variations or create compelling call-to-action copy."
+            },
+            titleTooLong: {
+                score: 6,
+                text: "The page title contains <%length%> characters, which is more than the viewable limit of <%maxLength%> characters; some words will not be visible to users in your listing."
+            },
+            titleCorrectLength: {
+                score: 9,
+                text: "The page title is more than <%minLenght%> characters and less than the recommended <%maxLength%> character limit."
+
+            },
+            scoreTitleMinLength: 40,
+            scoreTitleMaxLength: 70
+        }
     }
 ];

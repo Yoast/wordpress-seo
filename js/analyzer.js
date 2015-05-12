@@ -46,7 +46,7 @@ Analyzer.prototype.initQueue = function(){
     if(typeof this.config.queue !== "undefined" && this.config.queue.length !== 0){
         this.queue = this.config.queue;
     }else{
-        this.queue = ["wordCount", "keywordDensity", "subHeadings", "stopwords", "fleschReading", "linkCount", "imageCount", "urlKeyword", "metaDescription", "pageTitleKeyword", "pageTitleCount", "firstParagraph"];
+        this.queue = ["wordCount", "keywordDensity", "subHeadings", "stopwords", "fleschReading", "linkCount", "imageCount", "urlKeyword", "metaDescription", "pageTitleKeyword", "pageTitleLength", "firstParagraph"];
     }
 };
 
@@ -294,12 +294,12 @@ Analyzer.prototype.imageAlttag = function(image){
  * @returns {{name: string, count: *}}
  */
 
-Analyzer.prototype.pageTitleCount = function(){
+Analyzer.prototype.pageTitleLength = function(){
     var count = 0;
     if(typeof this.config.pageTitle !== "undefined"){
         count = this.config.pageTitle.length;
     }
-    return [ {test: "pageTitleCount", result: count } ];
+    return [ {test: "pageTitleLength", result: count } ];
 };
 
 /**
@@ -821,7 +821,7 @@ AnalyzeScorer.prototype.stopwordKeywordCountScore = function(){
 };
 
 /**
- * returns score of the subheadings, based on the scoreObj in the scoringconfig. 
+ * returns score of the subheadings, based on the scoreObj in the scoringconfig.
  * @returns {{name: string, score: number, text: string}}
  */
 AnalyzeScorer.prototype.subHeadingsScore = function(){
@@ -839,6 +839,34 @@ AnalyzeScorer.prototype.subHeadingsScore = function(){
         case (this.currentResult.testResult.count >= this.currentResult.scoreObj.headingsNoKeyword.count && this.currentResult.testResult.matches === this.currentResult.scoreObj.headingsNoKeyword.matches):
             score.score = this.currentResult.scoreObj.headingsNoKeyword.score;
             score.text = this.currentResult.scoreObj.headingsKeyword.text;
+        break;
+    }
+    return score;
+};
+
+AnalyzeScorer.prototype.pageTitleLengthScore = function(){
+    var score = { name: "pageTitleLength", score: 0, text: ""};
+    switch(true){
+        case(this.currentResult.testResult === 0):
+            score.score = this.currentResult.scoreObj.noTitle.score;
+            score.text = this.currentResult.scoreObj.noTitle.text;
+        break;
+        case(this.currentResult.testResult < this.currentResult.scoreObj.scoreTitleMinLength):
+            score.score = this.currentResult.scoreObj.titleTooShort.score;
+            score.text = this.currentResult.scoreObj.titleTooShort.text.replace(/<%length%>/,this.currentResult.testResult).
+                                                                        replace(/<%minLength%>/,this.currentResult.scoreObj.scoreTitleMinLength);
+        break;
+        case(this.currentResult.testResult > this.currentResult.scoreObj.scoreTitleMaxLength):
+            score.score = this.currentResult.scoreObj.titleTooLong.score;
+            score.text = this.currentResult.scoreObj.titleTooShort.text.replace(/<%length%>/,this.currentResult.testResult).
+                                                                        replace(/<%maxLength%>/,this.currentResult.scoreObj.scoreTitleMaxLength);
+        break;
+        case(this.currentResult.testResult >= this.currentResult.scoreObj.scoreTitleMinLength && this.currentResult.testResult <= this.currentResult.scoreObj.scoreTitleMaxLength):
+            score.score = this.currentResult.scoreObj.titleCorrectLength.score;
+            score.text = this.currentResult.scoreObj.titlteCorrectLength.text.replace(/<%minLength%>/,this.currentResult.scoreObj.scoreTitleMinLength).
+                                                                              replace(/<%maxLength%>/,this.currentResult.scoreObj.scoreTitleMaxLength);
+        break;
+        default:
         break;
     }
     return score;

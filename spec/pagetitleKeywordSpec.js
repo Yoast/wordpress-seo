@@ -1,6 +1,6 @@
 require("../js/config/config.js");
-require("../js/config/scoring.js");
 require("../js/analyzer.js");
+require("../js/config/scoring.js");
 
 titleKeywordArg = {
     pageTitle: "this is a pagetitle",
