@@ -39,6 +39,12 @@ function yst_checkFeaturedImage( featuredImage ) {
 var thumbIdCounter = 0;
 
 /**
+ * Variable to hold the onclick function for remove-post-thumbnail.
+ * @type {function}
+ */
+var removeThumb;
+
+/**
  * If there's a remove-post-thumbnail id, add an onclick. When this id is clicked, call yst_removeOpengraphWarning
  * If not, check again after 100ms. Do not do this for more than 10 times so we do not end up in an endless loop
  */
