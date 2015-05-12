@@ -24,12 +24,18 @@ build:
   - 'glotpress_download'
 # Check health of the project
 check:
+  - 'check:js'
+  - 'check:php'
+  - 'check:i18n'
+'check:js':
   - 'jshint'
   - 'jsonlint'
   - 'jsvalidate'
-#  - 'jscs' ignore for now
+  - 'jscs'
+'check:php':
   - 'phplint'
   - 'phpcs'
+'check:i18n':
   - 'checktextdomain'
 # Default task
 default:
