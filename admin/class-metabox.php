@@ -908,7 +908,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 			wp_enqueue_script( 'jquery-ui-autocomplete' );
 
-			wp_enqueue_script( 'jquery-qtip', plugins_url( 'js/jquery.qtip' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'jquery' ), '2.2.1', true );
+			// Always enqueue minified as it's not our code
+			wp_enqueue_script( 'jquery-qtip', plugins_url( 'js/jquery.qtip.min.js', WPSEO_FILE ), array( 'jquery' ), '2.2.1', true );
 
 			wp_enqueue_script( 'wp-seo-metabox', plugins_url( 'js/wp-seo-metabox' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array(
 				'jquery',

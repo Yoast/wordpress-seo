@@ -135,7 +135,7 @@ class WPSEO_Pointers {
 					$this->button3();
 					?>
 					jQuery('#pointer-close').click(function () {
-						wpseo_setIgnore("tour", "wp-pointer-0", "<?php echo esc_js( wp_create_nonce( 'wpseo-ignore' ) ); ?>");
+					wpseo_setIgnore("tour", "wp-pointer-0", "<?php echo esc_js( wp_create_nonce( 'wpseo-ignore' ) ); ?>");
 					});
 				};
 

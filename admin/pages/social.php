@@ -64,7 +64,7 @@ $yform->admin_header( true, 'wpseo_social' );
 			// Offer copying of meta description
 			$meta_options = get_option( 'wpseo_titles' );
 			echo '<input type="hidden" id="meta_description" value="', esc_attr( $meta_options['metadesc-home-wpseo'] ), '" />';
-			echo '<p class="label desc" style="border:0;"><a href="javascript:;" onclick="copy_home_meta();" class="button">', esc_html__( 'Copy home meta description', 'wordpress-seo' ), '</a></p>';
+			echo '<p class="label desc" style="border:0;"><a href="javascript:;" onclick="wpseoCopyHomeMeta();" class="button">', esc_html__( 'Copy home meta description', 'wordpress-seo' ), '</a></p>';
 
 			echo '<p class="desc label">' . esc_html__( 'These are the title, description and image used in the Open Graph meta tags on the front page of your site.', 'wordpress-seo' ) . '</p>';
 		} ?>
