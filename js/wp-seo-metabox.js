@@ -693,16 +693,10 @@ jQuery( document ).ready( function() {
 					},
 					classes: 'yoast-qtip qtip-rounded qtip-blue'
 				},
-				show: {
-					when: {
-						event: 'mouseover'
-					}
-				},
+				show: 'click',
 				hide: {
 					fixed: true,
-					when: {
-						event: 'mouseout'
-					}
+					delay: 500
 				}
 
 			}
