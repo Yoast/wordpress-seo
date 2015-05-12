@@ -149,14 +149,6 @@ if ( get_option( 'page_comments' ) && $options['ignore_page_comments'] === false
 	</h2>
 
 	<div id="general" class="wpseotab">
-		<p>
-			<strong><?php _e( 'Tracking', 'wordpress-seo' ); ?></strong><br/>
-			<?php _e( "To maintain a plugin as big as WordPress SEO, we need to know what we're dealing with: what kinds of other plugins our users are using, what themes, etc. Please allow us to track that data from your install. It will not track <em>any</em> user details, so your security and privacy are safe with us.", 'wordpress-seo' ); ?>
-		</p>
-		<?php $yform->checkbox( 'yoast_tracking', __( 'Allow tracking of this WordPress install\'s anonymous data.', 'wordpress-seo' ) ); ?>
-
-		<br/>
-
 		<?php if ( $options['ignore_tour'] === true ) { ?>
 			<p>
 				<strong><?php _e( 'Introduction Tour', 'wordpress-seo' ); ?></strong><br/>
@@ -229,8 +221,8 @@ if ( get_option( 'page_comments' ) && $options['ignore_page_comments'] === false
 	</div>
 	<div id="security" class="wpseotab">
 		<?php
+		echo '<p>', __( 'Unchecking this box allows authors and editors to redirect posts, noindex them and do other things you might not want if you don\'t trust your authors.', 'wordpress-seo' ), '</p>';
 		$yform->checkbox( 'disableadvanced_meta', __( 'Disable the Advanced part of the WordPress SEO meta box', 'wordpress-seo' ) );
-		echo '<p class="desc">', __( 'Unchecking this box allows authors and editors to redirect posts, noindex them and do other things you might not want if you don\'t trust your authors.', 'wordpress-seo' ), '</p>';
 		?>
 	</div>
 <?php

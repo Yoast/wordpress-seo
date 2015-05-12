@@ -90,7 +90,7 @@ $yform->admin_header( true, 'wpseo_titles' );
 						echo '<h4 class="error-message">' . __( 'Take note:', 'wordpress-seo' ) . '</h4>';
 
 						echo '<p class="error-message">' . __( 'As you are redirecting attachment URLs to parent post URLs, these settings will currently only have an effect on <strong>unattached</strong> media items!', 'wordpress-seo' ) . '</p>';
-						echo '<p class="error-message">' . sprintf( __( 'So remember: If you change the %sattachment redirection setting%s in the future, the below settings will take effect for *all* media items.', 'wordpress-seo' ), '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_permalinks' ) ) . '">', '</a>' ) . '</p>';
+						echo '<p class="error-message">' . sprintf( __( 'So remember: If you change the %sattachment redirection setting%s in the future, the below settings will take effect for *all* media items.', 'wordpress-seo' ), '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_advanced&tab=permalinks' ) ) . '">', '</a>' ) . '</p>';
 					}
 
 					$yform->textinput( 'title-' . $name, __( 'Title template', 'wordpress-seo' ), 'template posttype-template' );
@@ -170,23 +170,38 @@ $yform->admin_header( true, 'wpseo_titles' );
 		</div>
 		<div id="archives" class="wpseotab">
 			<?php
-			echo '<strong>' . __( 'Author Archives', 'wordpress-seo' ) . '</strong><br/>';
+			echo '<h3>' . __( 'Author Archives', 'wordpress-seo' ) . '</h3>';
 			$yform->textinput( 'title-author-wpseo', __( 'Title template', 'wordpress-seo' ), 'template author-template' );
 			$yform->textarea( 'metadesc-author-wpseo', __( 'Meta description template', 'wordpress-seo' ), array( 'class' => 'template author-template' ) );
 			if ( $options['usemetakeywords'] === true ) {
 				$yform->textinput( 'metakey-author-wpseo', __( 'Meta keywords template', 'wordpress-seo' ) );
 			}
-			$yform->checkbox( 'noindex-author-wpseo', '<code>noindex, follow</code>', __( 'Meta Robots', 'wordpress-seo' ) );
-			$yform->checkbox( 'disable-author', __( 'Disable the author archives', 'wordpress-seo' ), '' );
-			echo '<p class="desc label">' . __( 'If you\'re running a one author blog, the author archive will always look exactly the same as your homepage. And even though you may not link to it, others might, to do you harm. Disabling them here will make sure any link to those archives will be 301 redirected to the homepage.', 'wordpress-seo' ) . '</p>';
-			echo '<br/>';
-			echo '<strong>' . __( 'Date Archives', 'wordpress-seo' ) . '</strong><br/>';
+
+			echo '<h3>' . __( 'Date Archives', 'wordpress-seo' ) . '</h3>';
 			$yform->textinput( 'title-archive-wpseo', __( 'Title template', 'wordpress-seo' ), 'template date-template' );
 			$yform->textarea( 'metadesc-archive-wpseo', __( 'Meta description template', 'wordpress-seo' ), array( 'class' => 'template date-template' ) );
 			echo '<br/>';
-			$yform->checkbox( 'noindex-archive-wpseo', '<code>noindex, follow</code>', __( 'Meta Robots', 'wordpress-seo' ) );
-			$yform->checkbox( 'disable-date', __( 'Disable the date-based archives', 'wordpress-seo' ), '' );
-			echo '<p class="desc label">' . __( 'For the date based archives, the same applies: they probably look a lot like your homepage, and could thus be seen as duplicate content.', 'wordpress-seo' ) . '</p>';
+
+			echo '<h3>' . __( 'Duplicate content prevention', 'wordpress-seo' ) . '</h3>';
+			echo '<p>';
+			/* translators: %1$s / %2$s: links to an article about duplicate content on yoast.com */
+			printf( __( 'If you\'re running a one author blog, the author archive will be exactly the same as your homepage. This is what\'s called a %1$sduplicate content problem%2$s.', 'wordpress-seo' ), '<a href="https://yoast.com/articles/duplicate-content/">', '</a>' );
+			echo '</p>';
+			echo '<p>';
+			/* translators: %s expands to <code>noindex, follow</code> */
+			echo sprintf( __( 'If this is the case on your site, you can choose to either disable them (which makes them redirect to the homepage), or to add %s to them so they don\'t show up in the search results.', 'wordpress-seo' ), '<code>noindex,follow</code>' );
+			echo '</p>';
+			/* translators: %s expands to <code>noindex, follow</code> */
+			$yform->checkbox( 'noindex-author-wpseo', sprintf( __( 'Add %s to the author archives', 'wordpress-seo' ), '<code>noindex, follow</code>' ) );
+			$yform->checkbox( 'disable-author', __( 'Disable the author archives', 'wordpress-seo' ) );
+			echo '<p>';
+			_e( 'Date based archives could in some cases also be seen as duplicate content.', 'wordpress-seo' );
+			echo '</p>';
+			/* translators: %s expands to <code>noindex, follow</code> */
+			$yform->checkbox( 'noindex-archive-wpseo', sprintf( __( 'Add %s to the date-based archives', 'wordpress-seo' ), '<code>noindex, follow</code>' ) );
+			$yform->checkbox( 'disable-date', __( 'Disable the date-based archives', 'wordpress-seo' ) );
+
+			echo '<br/>';
 
 			echo '<h2>' . __( 'Special Pages', 'wordpress-seo' ) . '</h2>';
 			echo '<p>' . __( 'These pages will be noindex, followed by default, so they will never show up in search results.', 'wordpress-seo' ) . '</p>';
@@ -200,20 +215,22 @@ $yform->admin_header( true, 'wpseo_titles' );
 			?>
 		</div>
 		<div id="other" class="wpseotab">
-			<strong><?php _e( 'Sitewide <code>meta</code> settings', 'wordpress-seo' ); ?></strong><br/>
+			<strong><?php _e( 'Sitewide meta settings', 'wordpress-seo' ); ?></strong><br/>
 			<br/>
 			<?php
+			echo '<p>', __( 'If you want to prevent /page/2/ and further of any archive to show up in the search results, enable this.', 'wordpress-seo' ), '</p>';
 			$yform->checkbox( 'noindex-subpages-wpseo', __( 'Noindex subpages of archives', 'wordpress-seo' ) );
-			echo '<p class="desc">', __( 'If you want to prevent /page/2/ and further of any archive to show up in the search results, enable this.', 'wordpress-seo' ), '</p>';
 
-			$yform->checkbox( 'usemetakeywords', __( 'Use <code>meta</code> keywords tag?', 'wordpress-seo' ) );
-			echo '<p class="desc">', __( 'I don\'t know why you\'d want to use meta keywords, but if you want to, check this box.', 'wordpress-seo' ), '</p>';
+			echo '<p>', __( 'I don\'t know why you\'d want to use meta keywords, but if you want to, check this box.', 'wordpress-seo' ), '</p>';
+			$yform->checkbox( 'usemetakeywords', __( 'Use meta keywords tag?', 'wordpress-seo' ) );
 
-			$yform->checkbox( 'noodp', __( 'Add <code>noodp</code> meta robots tag sitewide', 'wordpress-seo' ) );
-			echo '<p class="desc">', __( 'Prevents search engines from using the DMOZ description for pages from this site in the search results.', 'wordpress-seo' ), '</p>';
+			echo '<p>', __( 'Prevents search engines from using the DMOZ description for pages from this site in the search results.', 'wordpress-seo' ), '</p>';
+			/* translators: %s expands to <code>noodp</code> */
+			$yform->checkbox( 'noodp', sprintf( __( 'Add %s meta robots tag sitewide', 'wordpress-seo' ), '<code>noodp</code>' ) );
 
-			$yform->checkbox( 'noydir', __( 'Add <code>noydir</code> meta robots tag sitewide', 'wordpress-seo' ) );
-			echo '<p class="desc">', __( 'Prevents search engines from using the Yahoo! directory description for pages from this site in the search results.', 'wordpress-seo' ), '</p>';
+			echo '<p>', __( 'Prevents search engines from using the Yahoo! directory description for pages from this site in the search results.', 'wordpress-seo' ), '</p>';
+			/* translators: %s expands to <code>noydir</code> */
+			$yform->checkbox( 'noydir', sprintf( __( 'Add %s meta robots tag sitewide', 'wordpress-seo' ), '<code>noydir</code>' ) );
 
 			?>
 		</div>

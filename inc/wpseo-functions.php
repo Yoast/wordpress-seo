@@ -240,29 +240,6 @@ function wpseo_ping_search_engines( $sitemapurl = null ) {
 add_action( 'wpseo_ping_search_engines', 'wpseo_ping_search_engines' );
 
 /**
- * Handles ajax request for tracking activation.
- */
-function wpseo_store_tracking_response() {
-	if ( ! wp_verify_nonce( $_POST['nonce'], 'wpseo_activate_tracking' ) ) {
-		die();
-	}
-
-	$options                        = get_option( 'wpseo' );
-	$options['tracking_popup_done'] = true;
-
-	if ( $_POST['allow_tracking'] == 'yes' ) {
-		$options['yoast_tracking'] = true;
-	}
-	else {
-		$options['yoast_tracking'] = false;
-	}
-
-	update_option( 'wpseo', $options );
-}
-
-add_action( 'wp_ajax_wpseo_allow_tracking', 'wpseo_store_tracking_response' );
-
-/**
  * WPML plugin support: Set titles for custom types / taxonomies as translatable.
  * It adds new keys to a wpml-config.xml file for a custom post type title, metadesc, title-ptarchive and metadesc-ptarchive fields translation.
  * Documentation: http://wpml.org/documentation/support/language-configuration-files/
