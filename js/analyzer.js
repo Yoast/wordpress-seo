@@ -13,7 +13,7 @@ Analyzer = function (args){
  * Analyzer initialisation. Loads defaults and overloads custom settings.
  */
 Analyzer.prototype.init = function() {
-    this.initRequiredObjects();
+    this.initDependencies();
     this.initQueue();
     this.loadWordlists();
     this.setDefaults();
@@ -25,11 +25,11 @@ Analyzer.prototype.init = function() {
  * initializes required objects.
  * For the analyzeScorer a new object is always defined, to make sure there are no duplicate scores
  */
-Analyzer.prototype.initRequiredObjects = function(){
+Analyzer.prototype.initDependencies = function(){
     //init preprocessor
     this.preProcessor = preProcessor(this.config.textString);
     //init helper
-    this.stringHelper = new StringHelper();
+    this.stringHelper = stringHelper();
     //init scorer
     this.analyzeScorer = new AnalyzeScorer(this);
 };
@@ -146,11 +146,11 @@ Analyzer.prototype.keywordCount = function(){
  * @returns resultObject
  */
 Analyzer.prototype.subHeadings = function() {
-    var result = [{test: "subHeadings", result: 0}, {test: "subHeadingKeyword", result: 0 }];
+    var result = [{test: "subHeadings", result: {count: 0, matches: 0 } }];
     var matches = this.preProcessor.__store.cleanTextSomeTags.match(/<h([1-6])(?:[^>]+)?>(.*?)<\/h\1>/g);
     if(matches !== null){
-        result[0].result = matches.length;
-        result[1].result = this.subHeadingsCheck(matches);
+        result[0].result.count = matches.length;
+        result[0].result.matches = this.subHeadingsCheck(matches);
     }
     return result;
 };
@@ -246,7 +246,7 @@ Analyzer.prototype.linkType = function(url){
  */
 Analyzer.prototype.linkFollow = function(url){
     var linkFollow = "dofollow";
-    if(url.match(/rel=(['"])nofollow\1/g) !== null){
+    if(url.match(/rel=([\'\"])nofollow\1/g) !== null){
         linkFollow = "nofollow";
     }
     return linkFollow;
@@ -280,7 +280,7 @@ Analyzer.prototype.imageCount = function(){
  */
 Analyzer.prototype.imageAlttag = function(image){
     var hasAlttag = false;
-    var alttag = image.match(/alt=(['"])(.*?)\1/g);
+    var alttag = image.match(/alt=([\'\"])(.*?)\1/g);
     if(alttag !== null){
         if(alttag[0].split("=")[1].match(/[a-z0-9](.*?)[a-z0-9]/g) !== null){
             hasAlttag = true;
@@ -479,7 +479,7 @@ PreProcessor.prototype.countStore = function(){
  * @param textString
  */
 PreProcessor.prototype.sentenceCount = function(textString){
-    var sentences = textString.split('.');
+    var sentences = textString.split(".");
     sentenceCount = 0;
     for (var i = 0; i < sentences.length; i++){
         if(sentences[i] !== "" && sentences[i] !== " "){
@@ -564,9 +564,9 @@ PreProcessor.prototype.removeWords = function(textString){
 PreProcessor.prototype.cleanText = function(textString){
     textString = textString.toLocaleLowerCase();
     //replace comma', hyphens etc with spaces
-    textString = textString.replace(/[-;:,()"'|“”]/g, " ");
+    textString = textString.replace(/[\-\;\:\,\(\)\"\'\|\“\”]/g, " ");
     //remove apostrophe
-    textString = textString.replace(/[’]/g, "");
+    textString = textString.replace(/[\’]/g, "");
     //unify all terminators
     textString = textString.replace(/[.?!]/g, ".");
     //add period in case it is missing
@@ -783,6 +783,7 @@ AnalyzeScorer.prototype.metaDescriptionLengthScore = function(){
 
 /**
  * returns score of the metaDescriptionKeyword, based on the scoreArray in the scoringconfig.
+ * @returns {{name: string, score: number, text: string}}
  */
 AnalyzeScorer.prototype.metaDescriptionKeywordScore = function(){
     var score = { name: "metaDescriptionKeyword", score: 0, text: "" };
@@ -795,6 +796,10 @@ AnalyzeScorer.prototype.metaDescriptionKeywordScore = function(){
     return score;
 };
 
+/**
+ * returns score of the stopwordKeywordCount, based on the scoreArray in the scoringconfig.
+ * @returns {{name: string, score: number, text: string}}
+ */
 AnalyzeScorer.prototype.stopwordKeywordCountScore = function(){
     var score = { name: "stopwordKeywordCount", score: 0, text: "" };
     var stopwordMatches = "";
@@ -816,7 +821,33 @@ AnalyzeScorer.prototype.stopwordKeywordCountScore = function(){
 };
 
 /**
- *
+ * returns score of the subheadings, based on the scoreObj in the scoringconfig. 
+ * @returns {{name: string, score: number, text: string}}
+ */
+AnalyzeScorer.prototype.subHeadingsScore = function(){
+    var score = { name: "subHeadings", score: 0, text: "" };
+    switch(true){
+        case (this.currentResult.testResult.count === this.currentResult.scoreObj.noHeadings.count):
+            score.score = this.currentResult.scoreObj.noHeadings.score;
+            score.text = this.currentResult.scoreObj.noHeadings.text;
+        break;
+        case (this.currentResult.testResult.count >= this.currentResult.scoreObj.headingsKeyword.count && this.currentResult.testResult.matches >= this.currentResult.resultObj.headingsKeyword.matches):
+            score.score = this.currentResult.scoreObj.headingsKeyword.score;
+            score.text = this.currentResult.scoreObj.headingsKeyword.text.replace(/<%matches%>/,this.currentResult.testResult.matches).
+                                                                          replace(/<%count%>/,this.currentResult.testResult.count);
+        break;
+        case (this.currentResult.testResult.count >= this.currentResult.scoreObj.headingsNoKeyword.count && this.currentResult.testResult.matches === this.currentResult.scoreObj.headingsNoKeyword.matches):
+            score.score = this.currentResult.scoreObj.headingsNoKeyword.score;
+            score.text = this.currentResult.scoreObj.headingsKeyword.text;
+        break;
+    }
+    return score;
+};
+
+/**
+ * Checks if the preprocessor is already initialized and if so if the textstring differs from the input.
+ * @param inputString
+ * @returns {PreProcessor|*|yst_preProcessor}
  */
 preProcessor = function(inputString){
     if (typeof yst_preProcessor !== "object" || yst_preProcessor.inputText !== inputString) {
@@ -825,6 +856,10 @@ preProcessor = function(inputString){
     return yst_preProcessor;
 };
 
+/**
+ * Checks if the stringhelper is already initialized. Returns stringHelper.
+ * @returns {StringHelper}
+ */
 stringHelper = function(){
     if (typeof yst_stringHelper !== "object"){
         yst_stringHelper = new StringHelper();

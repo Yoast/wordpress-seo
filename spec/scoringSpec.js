@@ -8,7 +8,7 @@ scoreArgs = {
     url: "http://yoast.com/keyword-search",
     pageTitle: "the pagetitle",
     meta: "the metadescription of the page",
-    queue: ["wordCount","keywordDensity","fleschReading","firstParagraph","metaDescription","stopwords"]
+    queue: ["wordCount","keywordDensity","fleschReading","firstParagraph","metaDescription","stopwords","subHeadings"]
 };
 
 describe("a test for the scoring function of all functions in the analyzer", function(){
@@ -16,7 +16,7 @@ describe("a test for the scoring function of all functions in the analyzer", fun
        var scorer = new Analyzer(scoreArgs);
        scorer.runQueue();
        var analyzeScore = scorer.analyzeScorer.__score;
-       expect(analyzeScore.length).toBe(7);
+       expect(analyzeScore.length).toBe(8);
        expect(analyzeScore[0].name).toBe("wordCount");
        expect(analyzeScore[0].score).toBe(-20);
        expect(analyzeScore[1].name).toBe("keywordDensity");
@@ -37,6 +37,8 @@ describe("a test for the scoring function of all functions in the analyzer", fun
        expect(analyzeScore[6].name).toBe("stopwordKeywordCount");
        expect(analyzeScore[6].score).toBe(5);
        expect(analyzeScore[6].text).toBe("The keyword for this page contains one or more <a href='http://en.wikipedia.org/wiki/Stop_words'>stop words</a>, consider removing them. Found 'about'.");
+       expect(analyzeScore[7].name).toBe("subHeadings");
+       expect(analyzeScore[7].score).toBe(7);
 
    });
 });
