@@ -149,7 +149,7 @@ if ( get_option( 'page_comments' ) && $options['ignore_page_comments'] === false
 	</h2>
 
 	<div id="general" class="wpseotab">
-		<?php if ( $options['ignore_tour'] === true ) { ?>
+		<?php if ( ! get_user_meta( get_current_user_id(), 'wpseo_ignore_tour' ) === true ) { ?>
 			<p>
 				<strong><?php _e( 'Introduction Tour', 'wordpress-seo' ); ?></strong><br/>
 				<?php _e( 'Take this tour to quickly learn about the use of this plugin.', 'wordpress-seo' ); ?>

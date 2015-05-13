@@ -54,10 +54,18 @@ function wpseo_set_ignore() {
 
 	check_ajax_referer( 'wpseo-ignore' );
 
-	$options                            = get_option( 'wpseo' );
-	$ignore_key                         = sanitize_text_field( WPSEO_Utils::filter_input( INPUT_POST, 'option' ) );
-	$options[ 'ignore_' . $ignore_key ] = true;
-	update_option( 'wpseo', $options );
+	$ignore_key = sanitize_text_field( WPSEO_Utils::filter_input( INPUT_POST, 'option' ) );
+
+	// Notices to be ignored for a specific user
+	if ( in_array( $ignore_key, array( 'intro', ) ) ) {
+		update_user_meta( get_current_user_id(), 'wpseo_ignore_' . $ignore_key, true );
+	}
+	// Notices to be ignored globally
+	else {
+		$options                          = get_option( 'wpseo' );
+		$options['ignore_' . $ignore_key] = true;
+		update_option( 'wpseo', $options );
+	}
 	die( '1' );
 }
 

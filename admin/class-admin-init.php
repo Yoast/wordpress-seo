@@ -154,11 +154,10 @@ class WPSEO_Admin_Init {
 	private function load_tour() {
 		$restart_tour = filter_input( INPUT_GET, 'wpseo_restart_tour' );
 		if ( $restart_tour ) {
-			$this->options['ignore_tour'] = false;
-			update_option( 'wpseo', $this->options );
+			update_user_meta( get_current_user_id(), 'wpseo_ignore_tour', false );
 		}
 
-		if ( $this->options['ignore_tour'] === false ) {
+		if ( ! get_user_meta( get_current_user_id(), 'wpseo_ignore_tour' ) ) {
 			add_action( 'admin_enqueue_scripts', array( 'WPSEO_Pointers', 'get_instance' ) );
 		}
 	}
