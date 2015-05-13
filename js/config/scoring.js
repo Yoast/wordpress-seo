@@ -123,5 +123,29 @@ analyzerScoring = [
             keywordBegin: {result: 1, score: 9, text: "The page title contains keyword / phrase, at the beginning which is considered to improve rankings."},
             keywordEnd: {result: 1, score: 6, text: "The page title contains keyword / phrase, but it does not appear at the beginning; try and move it to the beginning."}
         }
+    },
+    {
+        scoreName: "urlKeyword",
+        scoreFunction: "urlKeywordScore",
+        scoreObj:{
+            urlGood: {result: 1, score: 9, text: "The keyword / phrase appears in the URL for this page."},
+            urlMedium: {result: 0, score: 6, text: "The keyword / phrase does not appear in the URL for this page. If you decide to rename the URL be sure to check the old URL 301 redirects to the new one!"}
+        }
+    },
+    {
+        scoreName: "urlLength",
+        scoreFunction: "urlLengthScore",
+        maxLength: 40,
+        slugLength: 20,
+        scoreObj:{
+            longSlug: {score: 5, text: "The slug for this page is a bit long, consider shortening it."}
+        }
+    },
+    {
+        scoreName: "urlStopwords",
+        scoreFunction: "urlStopwordsScore",
+        scoreObj:{
+            stopwords: {result: 1, score: 5, text: "The slug for this page contains one or more <a href='http://en.wikipedia.org/wiki/Stop_words'>stop words</a>, consider removing them."}
+        }
     }
 ];

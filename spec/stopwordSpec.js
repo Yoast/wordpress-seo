@@ -14,7 +14,7 @@ describe("a test for matching the keyword with ", function(){
     it("matches a keyword", function(){
         expect(result[0].test).toBe("stopwordKeywordCount");
         expect(result[0].result.count).toBe(2);
-        expect(result[0].result.matches).toContain(" about");
-        expect(result[0].result.matches).toContain(" yourself");
+        expect(result[0].result.matches).toContain("about");
+        expect(result[0].result.matches).toContain("yourself");
     });
 });

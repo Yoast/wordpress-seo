@@ -4,15 +4,18 @@ require("../js/analyzer.js");
 
 var urlArgs = {
     keyword: "keyword",
-    queue: ["urlKeyword"],
+    queue: ["urlKeyword","urlLength","urlStopwords"],
     url: "https://yoast.com/keyword-yoast"
 };
 
 describe("a test matching the keywords in the url", function(){
     it("returns a match for the keyword", function(){
         var urlAnalyzer = new Analyzer(urlArgs);
-        var result = urlAnalyzer.urlKeyword();
+        urlAnalyzer.runQueue();
+        var result = urlAnalyzer.__output;
         expect(result[0].result).toBe(1);
+        expect(result[1].result).toBe(31);
+        expect(result[2].result).toBe(0);
     });
 });
 

@@ -46,7 +46,7 @@ Analyzer.prototype.initQueue = function(){
     if(typeof this.config.queue !== "undefined" && this.config.queue.length !== 0){
         this.queue = this.config.queue;
     }else{
-        this.queue = ["wordCount", "keywordDensity", "subHeadings", "stopwords", "fleschReading", "linkCount", "imageCount", "urlKeyword", "metaDescription", "pageTitleKeyword", "pageTitleLength", "firstParagraph"];
+        this.queue = ["wordCount", "keywordDensity", "subHeadings", "stopwords", "fleschReading", "linkCount", "imageCount", "urlKeyword", "urlLength", "urlKeywords", "metaDescription", "pageTitleKeyword", "pageTitleLength", "firstParagraph"];
     }
 };
 
@@ -98,7 +98,7 @@ Analyzer.prototype.abortQueue = function(){
  */
 Analyzer.prototype.wordCount = function(){
     return [{test: "wordCount", result:this.preProcessor.__store.wordcount}];
-}
+};
 
 
 /**
@@ -354,6 +354,33 @@ Analyzer.prototype.urlKeyword = function() {
     return result;
 };
 
+/**
+ * returns the length of the URL
+ * @returns {{test: string, result: number}[]}
+ */
+Analyzer.prototype.urlLength = function(){
+    var result = [ { test: "urlLength", result : 0 } ];
+    if(typeof this.config.url !== "undefined") {
+        result[0].result = this.config.url.length;
+    }
+    return result;
+};
+
+/**
+ * checks if there are stopwords used in the URL.
+ * @returns {{test: string, result: number}[]}
+ */
+Analyzer.prototype.urlStopwords = function(){
+    var result = [ { test: "urlStopwords", result : 0 } ];
+    if(typeof this.config.url !== "undefined") {
+        var stopwords = this.stringHelper.matchString(this.config.url, this.config.stopWords);
+        if(stopwords !== null) {
+            result[0].result = stopwords.length;
+        }
+    }
+    return result;
+};
+
 
 Analyzer.prototype.score = function() {
     this.analyzeScorer.score(this.__output);
@@ -486,9 +513,9 @@ PreProcessor.prototype.sentenceCount = function(textString){
         if(sentences[i] !== "" && sentences[i] !== " "){
             sentenceCount++;
         }
-    };
+    }
     return sentenceCount;
-}
+};
 
 /**
  * counts the number of syllables in a textstring, calls exclusionwordsfunction, basic syllable counter and advanced syllable counter.
@@ -629,7 +656,6 @@ AnalyzeScorer.prototype.init = function(){
  * @param resultObj
  */
 AnalyzeScorer.prototype.score = function(resultObj){
-    this.currentResult;
     this.resultObj = resultObj;
     this.createResultObject();
     this.scoreQueue = this.createQueue();
@@ -680,8 +706,8 @@ AnalyzeScorer.prototype.runQueue = function(){
  * @returns {{score: number, text: string}}
  */
 AnalyzeScorer.prototype.wordCountScore = function(){
+    var score = { name: "wordCount", score: 0, text: "" };
     for (var i = 0; i < this.currentResult.scoreArray.length; i++){
-        var score = { name: "wordCount", score: 0, text: "" };
         if(this.currentResult.testResult > this.currentResult.scoreArray[i].result){
             score.score = this.currentResult.scoreArray[i].score;
             score.text = this.currentResult.scoreArray[i].text;
@@ -847,6 +873,10 @@ AnalyzeScorer.prototype.subHeadingsScore = function(){
     return score;
 };
 
+/**
+ * returns score of the pagetitlelength, based on the scoreobj in the scoreConfig.
+ * @returns {{name: string, score: number, text: string}}
+ */
 AnalyzeScorer.prototype.pageTitleLengthScore = function(){
     var score = { name: "pageTitleLength", score: 0, text: ""};
     switch(true){
@@ -875,6 +905,10 @@ AnalyzeScorer.prototype.pageTitleLengthScore = function(){
     return score;
 };
 
+/**
+ * returns score of the pagetitlekeyword, based on the scoreObj in the scoringConfig
+ * @returns {{name: string, score: number, text: string}}
+ */
 AnalyzeScorer.prototype.pageTitleKeywordScore = function(){
     var score = { name: "pageTitleKeyword", score: 0, text: ""};
     switch (true){
@@ -890,6 +924,51 @@ AnalyzeScorer.prototype.pageTitleKeywordScore = function(){
             score.score = this.currentResult.scoreObj.keywordEnd.score;
             score.text = this.currentResult.scoreObj.keywordEnd.text;
         break;
+    }
+    return score;
+};
+
+/**
+ * returns the score of the urlkeyword, based on the scoreObj in the scoringconfig.
+ * @returns {{name: string, score: number, text: string}}
+ */
+AnalyzeScorer.prototype.urlKeywordScore = function(){
+    var score = { name: "urlKeyword", score: 0, text: ""};
+    switch(true){
+        case(this.currentResult.testResult >= this.currentResult.scoreObj.urlGood.result):
+            score.score = this.currentResult.scoreObj.urlGood.score;
+            score.text = this.currentResult.scoreObj.urlGood.text;
+        break;
+        case(this.currentResult.testResult === this.currentResult.scoreObj.urlMedium.result):
+            score.score = this.currentResult.scoreObj.urlMedium.score;
+            score.text = this.currentResult.scoreObj.urlMedium.text;
+        break;
+    }
+    return score;
+};
+
+/**
+ * returns the score of the urlLength, based on the scoreObj in the scoringconfig.
+ * @returns {{name: string, score: number, text: string}}
+ */
+AnalyzeScorer.prototype.urlLengthScore = function(){
+    var score = { name: "urlLength", score: 0, text: ""};
+    if(this.currentResult.testResult > this.currentResult.maxLength || this.currentResult.testResult > this.currentResult.slugLength + this.refObj.config.keyword.length){
+        score.score = this.currentResult.scoreObj.longSlug.score;
+        score.text = this.currentResult.scoreObj.longSlug.text;
+    }
+    return score;
+};
+
+/**
+ * returns the score of the urlStopwords, based on the scoreObj in the scoringconfig.
+ * @returns {{name: string, score: number, text: string}}
+ */
+AnalyzeScorer.prototype.urlStopwordsScore = function(){
+    var score = { name: "urlStopwords", score: 0, text: ""};
+    if(this.currentResult.testResult >= this.currentResult.scoreObj.stopwords.result){
+        score.score = this.currentResult.scoreObj.stopwords.score;
+        score.text = this.currentResult.scoreObj.stopwords.text;
     }
     return score;
 };
@@ -916,4 +995,4 @@ stringHelper = function(){
         yst_stringHelper = new StringHelper();
     }
     return yst_stringHelper;
-}
+};

@@ -8,7 +8,7 @@ scoreArgs = {
     url: "http://yoast.com/keyword-search",
     pageTitle: "the pagetitle",
     meta: "the metadescription of the page",
-    queue: ["wordCount","keywordDensity","fleschReading","firstParagraph","metaDescription","stopwords","subHeadings","pageTitleLength","pageTitleKeyword"]
+    queue: ["wordCount","keywordDensity","fleschReading","firstParagraph","metaDescription","stopwords","subHeadings","pageTitleLength","pageTitleKeyword","urlKeyword","urlLength","urlStopwords"]
 };
 
 describe("a test for the scoring function of all functions in the analyzer", function(){
@@ -16,7 +16,7 @@ describe("a test for the scoring function of all functions in the analyzer", fun
        var scorer = new Analyzer(scoreArgs);
        scorer.runQueue();
        var analyzeScore = scorer.analyzeScorer.__score;
-       expect(analyzeScore.length).toBe(10);
+       expect(analyzeScore.length).toBe(13);
        expect(analyzeScore[0].name).toBe("wordCount");
        expect(analyzeScore[0].score).toBe(-20);
        expect(analyzeScore[1].name).toBe("keywordDensity");
@@ -24,7 +24,7 @@ describe("a test for the scoring function of all functions in the analyzer", fun
        expect(analyzeScore[1].text).toBe("The keyword density is 1.3%, which is great, the keyword was found 2 times.");
        expect(analyzeScore[2].name).toBe("fleschReading");
        expect(analyzeScore[2].score).toBe(5);
-       expect(analyzeScore[2].text).toBe("The copy scores 49.0 in the <a href='http://en.wikipedia.org/wiki/Flesch-Kincaid_readability_test#Flesch_Reading_Ease'>Flesch Reading Ease</a> test, which is considered difficult to read. Try to make shorter sentences, using less difficult words to improve readability.")
+       expect(analyzeScore[2].text).toBe("The copy scores 49.0 in the <a href='http://en.wikipedia.org/wiki/Flesch-Kincaid_readability_test#Flesch_Reading_Ease'>Flesch Reading Ease</a> test, which is considered difficult to read. Try to make shorter sentences, using less difficult words to improve readability.");
        expect(analyzeScore[3].name).toBe("firstParagraph");
        expect(analyzeScore[3].score).toBe(3);
        expect(analyzeScore[3].text).toBe("The keyword doesn\'t appear in the first paragraph of the copy, make sure the topic is clear immediately.");
@@ -45,5 +45,10 @@ describe("a test for the scoring function of all functions in the analyzer", fun
        expect(analyzeScore[9].name).toBe("pageTitleKeyword");
        expect(analyzeScore[9].score).toBe(2);
        expect(analyzeScore[9].text).toBe("The keyword / phrase 'about' does not appear in the page title.");
+       expect(analyzeScore[10].name).toBe("urlKeyword");
+       expect(analyzeScore[10].score).toBe(6);
+       expect(analyzeScore[10].text).toBe("The keyword / phrase does not appear in the URL for this page. If you decide to rename the URL be sure to check the old URL 301 redirects to the new one!");
+       expect(analyzeScore[11].name).toBe("urlLength");
+       expect(analyzeScore[12].name).toBe("urlStopwords");
    });
 });
