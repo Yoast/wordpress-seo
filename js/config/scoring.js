@@ -113,5 +113,15 @@ analyzerScoring = [
             scoreTitleMinLength: 40,
             scoreTitleMaxLength: 70
         }
+    },
+    {
+        scoreName: "pageTitleKeyword",
+        scoreFunction: "pageTitleKeywordScore",
+        scoreTitleKeywordLimit: 0,
+        scoreObj:{
+            keywordMissing: {result: 0, score: 2, text: "The keyword / phrase '<%keyword%>' does not appear in the page title."},
+            keywordBegin: {result: 1, score: 9, text: "The page title contains keyword / phrase, at the beginning which is considered to improve rankings."},
+            keywordEnd: {result: 1, score: 6, text: "The page title contains keyword / phrase, but it does not appear at the beginning; try and move it to the beginning."}
+        }
     }
 ];

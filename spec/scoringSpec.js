@@ -8,7 +8,7 @@ scoreArgs = {
     url: "http://yoast.com/keyword-search",
     pageTitle: "the pagetitle",
     meta: "the metadescription of the page",
-    queue: ["wordCount","keywordDensity","fleschReading","firstParagraph","metaDescription","stopwords","subHeadings","pageTitleLength"]
+    queue: ["wordCount","keywordDensity","fleschReading","firstParagraph","metaDescription","stopwords","subHeadings","pageTitleLength","pageTitleKeyword"]
 };
 
 describe("a test for the scoring function of all functions in the analyzer", function(){
@@ -16,7 +16,7 @@ describe("a test for the scoring function of all functions in the analyzer", fun
        var scorer = new Analyzer(scoreArgs);
        scorer.runQueue();
        var analyzeScore = scorer.analyzeScorer.__score;
-       expect(analyzeScore.length).toBe(9);
+       expect(analyzeScore.length).toBe(10);
        expect(analyzeScore[0].name).toBe("wordCount");
        expect(analyzeScore[0].score).toBe(-20);
        expect(analyzeScore[1].name).toBe("keywordDensity");
@@ -42,5 +42,8 @@ describe("a test for the scoring function of all functions in the analyzer", fun
        expect(analyzeScore[8].name).toBe("pageTitleLength");
        expect(analyzeScore[8].score).toBe(6);
        expect(analyzeScore[8].text).toBe("The page title contains 13 characters, which is less than the recommended minimum of 40 characters. Use the space to add keyword variations or create compelling call-to-action copy.");
+       expect(analyzeScore[9].name).toBe("pageTitleKeyword");
+       expect(analyzeScore[9].score).toBe(2);
+       expect(analyzeScore[9].text).toBe("The keyword / phrase 'about' does not appear in the page title.");
    });
 });

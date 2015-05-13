@@ -307,9 +307,10 @@ Analyzer.prototype.pageTitleLength = function(){
  * @returns {{name: string, count: number}}
  */
 Analyzer.prototype.pageTitleKeyword = function(){
-    var result = [ { test: "pageTitleKeyword", result: 0 } ];
+    var result = [ { test: "pageTitleKeyword", result: {matches: 0, position: 0 } } ];
     if(typeof this.config.pageTitle !== "undefined") {
-        result[0].result = this.stringHelper.countMatches(this.config.pageTitle, this.keywordRegex);
+        result[0].result.matches = this.stringHelper.countMatches(this.config.pageTitle, this.keywordRegex);
+        result[0].result.position = this.config.pageTitle.indexOf(this.config.keyword);
     }
     return result;
 };
@@ -803,11 +804,13 @@ AnalyzeScorer.prototype.metaDescriptionKeywordScore = function(){
 AnalyzeScorer.prototype.stopwordKeywordCountScore = function(){
     var score = { name: "stopwordKeywordCount", score: 0, text: "" };
     var stopwordMatches = "";
-    for (var i = 0; i < this.currentResult.testResult.matches.length; i++){
-        if (stopwordMatches.length !== 0){
-            stopwordMatches += ", ";
+    if(this.currentResult.testResult.matches !== null) {
+        for (var i = 0; i < this.currentResult.testResult.matches.length; i++) {
+            if (stopwordMatches.length !== 0) {
+                stopwordMatches += ", ";
+            }
+            stopwordMatches += this.refObj.stringHelper.stripSpaces(this.currentResult.testResult.matches[i]);
         }
-        stopwordMatches += this.refObj.stringHelper.stripSpaces(this.currentResult.testResult.matches[i]);
     }
     for (var j = 0; j < this.currentResult.scoreArray.length; j++){
         if(this.currentResult.testResult.count >= this.currentResult.scoreArray[j].result) {
@@ -871,6 +874,26 @@ AnalyzeScorer.prototype.pageTitleLengthScore = function(){
     }
     return score;
 };
+
+AnalyzeScorer.prototype.pageTitleKeywordScore = function(){
+    var score = { name: "pageTitleKeyword", score: 0, text: ""};
+    switch (true){
+        case(this.currentResult.testResult.matches === this.currentResult.scoreObj.keywordMissing.result):
+            score.score = this.currentResult.scoreObj.keywordMissing.score;
+            score.text = this.currentResult.scoreObj.keywordMissing.text.replace(/<%keyword%>/,this.refObj.config.keyword);
+        break;
+        case(this.currentResult.testResult.matches >= this.currentResult.scoreObj.keywordBegin.result && this.currentResult.testResult.position <= this.currentResult.scoreTitleKeywordLimit):
+            score.score = this.currentResult.scoreObj.keywordBegin.score;
+            score.text = this.currentResult.scoreObj.keywordBegin.text;
+        break;
+        case(this.currentResult.testResult.matches >= this.currentResult.scoreObj.keywordEnd.result && this.currentResult.testResult.position >= this.currentResult.scoreTitleKeywordLimit):
+            score.score = this.currentResult.scoreObj.keywordEnd.score;
+            score.text = this.currentResult.scoreObj.keywordEnd.text;
+        break;
+    }
+    return score;
+};
+
 
 /**
  * Checks if the preprocessor is already initialized and if so if the textstring differs from the input.
