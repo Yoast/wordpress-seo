@@ -48,7 +48,7 @@ class WPSEO_Admin_Init {
 	public function after_update_notice() {
 		if ( current_user_can( 'manage_options' ) && ! $this->seen_about() ) {
 
-			if ( filter_input( INPUT_GET, 'intro' ) === "1" ) {
+			if ( filter_input( INPUT_GET, 'intro' ) === '1' ) {
 				update_user_meta( get_current_user_id(), 'wpseo_seen_about_version' , WPSEO_VERSION );
 
 				return;
@@ -61,7 +61,7 @@ class WPSEO_Admin_Init {
 				'</a>'
 			);
 
-			Yoast_Notification_Center::get()->add_notification( new Yoast_Notification( $info_message, 'updated notice is-dismissible wpseo-dismiss-about', wp_create_nonce('wpseo-dismiss-about') ) );
+			Yoast_Notification_Center::get()->add_notification( new Yoast_Notification( $info_message, 'updated notice is-dismissible wpseo-dismiss-about', wp_create_nonce( 'wpseo-dismiss-about' ) ) );
 		}
 	}
 

@@ -58,6 +58,9 @@ class Yoast_Notification {
 		return $this->type;
 	}
 
+	/**
+	 * @return null|string
+	 */
 	public function get_nonce() {
 		return $this->nonce;
 	}
