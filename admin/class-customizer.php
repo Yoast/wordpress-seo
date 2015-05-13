@@ -195,19 +195,6 @@ function wpseo_customize_register( $wp_customize ) {
     ) ) );
 
 
-        // WordPress SEO Panel
-    $wp_customize->add_panel( 'wpseo_breadcrumb_advanced_panel', array(
-            'priority' => '999',
-            'capability' => 'edit_theme_options',
-            'theme_supports' => '',
-            'title' => __( 'Advanced', 'wordpress-seo' ),
-            'description' => __( 'Customize your WordPress SEO Settings.', 'wordpress-seo' ),
-            'panel' => 'wpseo_panel',
-    ) );
-
-
-
-
     // Facebook Site Setting
     $wp_customize->add_setting( 'wpseo_social[facebook_site]' , array(
             'default'     => '',
