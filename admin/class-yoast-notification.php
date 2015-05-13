@@ -20,14 +20,21 @@ class Yoast_Notification {
 	private $type;
 
 	/**
+	 * @var string Security nonce to use in case of dismissible notice.
+	 */
+	private $nonce;
+
+	/**
 	 * The Constructor
 	 *
 	 * @param String $message
 	 * @param String $type
+	 * @param String $nonce
 	 */
-	public function __construct( $message, $type = 'updated' ) {
+	public function __construct( $message, $type = 'updated', $nonce = null ) {
 		$this->message = $message;
 		$this->type    = $type;
+		$this->nonce   = $nonce;
 	}
 
 	/**
@@ -49,6 +56,10 @@ class Yoast_Notification {
 	 */
 	public function get_type() {
 		return $this->type;
+	}
+
+	public function get_nonce() {
+		return $this->nonce;
 	}
 
 	/**
@@ -74,7 +85,8 @@ class Yoast_Notification {
 	 * Output the message
 	 */
 	public function output() {
-		echo '<div class="yoast-notice ', esc_attr( $this->get_type() ), '">', wpautop( $this->get_message() ), '</div>', PHP_EOL;
+		$nonce = $this->get_nonce();
+		$nonce_attribute = ! empty( $nonce ) ? ' data-nonce="' . $this->get_nonce() . '"' : '';
+		echo '<div class="yoast-notice ', esc_attr( $this->get_type() ), '"', $nonce_attribute , '>', wpautop( $this->get_message() ), '</div>', PHP_EOL;
 	}
-
 }

@@ -32,7 +32,7 @@ class WPSEO_Admin_Init {
 
 		$this->pagenow = $GLOBALS['pagenow'];
 
-		add_action( 'admin_init', array( $this, 'redirect_to_about_page' ), 15 );
+		add_action( 'admin_init', array( $this, 'after_update_notice' ), 15 );
 
 		$this->load_meta_boxes();
 		$this->load_taxonomy_class();
@@ -45,13 +45,23 @@ class WPSEO_Admin_Init {
 	/**
 	 * Redirect first time or just upgraded users to the about screen.
 	 */
-	public function redirect_to_about_page() {
-		if ( $this->on_wpseo_admin_page() && current_user_can( 'manage_options' ) && ! $this->seen_about() ) {
+	public function after_update_notice() {
+		if ( current_user_can( 'manage_options' ) && ! $this->seen_about() ) {
 
-			// We're redirecting the user to the about screen, let's make sure we don't do it again until he/she upgrades again
-			update_user_meta( get_current_user_id(), 'wpseo_seen_about_version', WPSEO_VERSION );
+			if ( filter_input( INPUT_GET, 'intro' ) === "1" ) {
+				update_user_meta( get_current_user_id(), 'wpseo_seen_about_version' , WPSEO_VERSION );
 
-			wp_safe_redirect( admin_url( 'admin.php?page=wpseo_dashboard&intro=1' ) );
+				return;
+			}
+
+			$info_message = sprintf(
+				__( 'WordPress SEO by Yoast has been updated to version %1$s. %2$sClick here%3$s to find out what\'s new!', 'wordpress-seo' ),
+				WPSEO_VERSION,
+				'<a href="' . admin_url( 'admin.php?page=wpseo_dashboard&intro=1' ) . '">',
+				'</a>'
+			);
+
+			Yoast_Notification_Center::get()->add_notification( new Yoast_Notification( $info_message, 'updated notice is-dismissible wpseo-dismiss-about', wp_create_nonce('wpseo-dismiss-about') ) );
 		}
 	}
 
@@ -61,7 +71,7 @@ class WPSEO_Admin_Init {
 	 * @return bool
 	 */
 	private function seen_about() {
-		return get_user_meta( get_current_user_id(), 'wpseo_seen_about_version' ) === WPSEO_VERSION;
+		return get_user_meta( get_current_user_id(), 'wpseo_seen_about_version', true ) === WPSEO_VERSION;
 	}
 
 	/**
