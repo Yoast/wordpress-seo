@@ -33,6 +33,7 @@ class WPSEO_Admin_Init {
 		$this->pagenow = $GLOBALS['pagenow'];
 
 		add_action( 'admin_init', array( $this, 'redirect_to_about_page' ), 15 );
+
 		$this->load_meta_boxes();
 		$this->load_taxonomy_class();
 		$this->load_admin_page_class();
@@ -45,29 +46,32 @@ class WPSEO_Admin_Init {
 	 * Redirect first time or just upgraded users to the about screen.
 	 */
 	public function redirect_to_about_page() {
-		if ( ! current_user_can( 'manage_options' ) ) {
-			return;
+		if ( $this->on_wpseo_admin_page() && current_user_can( 'manage_options' ) && ! $this->seen_about() ) {
+
+			// We're redirecting the user to the about screen, let's make sure we don't do it again until he/she upgrades again
+			update_user_meta( get_current_user_id(), 'wpseo_seen_about_version', WPSEO_VERSION );
+
+			wp_safe_redirect( admin_url( 'admin.php?page=wpseo_dashboard&intro=1' ) );
 		}
+	}
 
-		if ( $this->options['seen_about'] ) {
-			return;
-		}
+	/**
+	 * Helper to verify if the current user has already seen the about page for the current version
+	 *
+	 * @return bool
+	 */
+	private function seen_about() {
+		return get_user_meta( get_current_user_id(), 'wpseo_seen_about_version' ) === WPSEO_VERSION;
+	}
 
-		if ( in_array( $this->pagenow, array(
-			'update.php',
-			'update-core.php',
-			'plugins.php',
-			'plugin-install.php',
-		) ) ) {
-			return;
-		}
-
-		// We're redirecting the user to the about screen, let's make sure we don't do it again until he/she upgrades again
-		$wpseo_option               = get_option( 'wpseo' );
-		$wpseo_option['seen_about'] = true;
-		update_option( 'wpseo', $wpseo_option );
-
-		wp_safe_redirect( admin_url( 'admin.php?page=wpseo_dashboard&intro=1' ) );
+	/**
+	 * Helper to verify if the user is currently visiting one of our admin pages.
+	 *
+	 * @return bool
+	 */
+	private function on_wpseo_admin_page() {
+		$page = filter_input( INPUT_GET, 'page' );
+		return 'admin.php' === $this->pagenow && strpos( $page, 'wpseo' ) === 0;
 	}
 
 	/**
@@ -120,8 +124,8 @@ class WPSEO_Admin_Init {
 	 * Loads admin page class for all admin pages starting with `wpseo_`.
 	 */
 	private function load_admin_page_class() {
-		$page = filter_input( INPUT_GET, 'page' );
-		if ( 'admin.php' === $this->pagenow && strpos( $page, 'wpseo' ) === 0 ) {
+
+		if ( $this->on_wpseo_admin_page() ) {
 			// For backwards compatabilty, this still needs a global, for now...
 			$GLOBALS['wpseo_admin_pages'] = new WPSEO_Admin_Pages;
 			$this->register_i18n_promo_class();
