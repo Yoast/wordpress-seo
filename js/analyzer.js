@@ -750,10 +750,10 @@ AnalyzeScorer.prototype.wordCountScore = function(){
     for (var i = 0; i < this.currentResult.scoreArray.length; i++){
         if(this.currentResult.testResult > this.currentResult.scoreArray[i].result){
             score.score = this.currentResult.scoreArray[i].score;
-            score.text = this.currentResult.scoreArray[i].text;
+            score.text = this.currentResult.scoreArray[i].text.replace(/<%wordcount%>/,this.currentResult.testResult).replace(/<%recWordcount%>/,this.currentResult.recommendedWordcount);
+            return score;
         }
     }
-    return score;
 };
 
 /**
@@ -1040,7 +1040,10 @@ AnalyzeScorer.prototype.imageCountScore = function(){
     return score;
 };
 
-
+/**
+ * returns the score of the linkCount, based on the scoreobj in the scoringconfig.
+ * @returns {{name: string, score: number, text: string}}
+ */
 AnalyzeScorer.prototype.linkCountScore = function(){
     var score = { name: "linkCount", score: 0, text: ""};
     switch(true){

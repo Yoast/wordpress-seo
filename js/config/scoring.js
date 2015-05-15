@@ -2,12 +2,13 @@ analyzerScoring = [
     {
         scoreName: "wordCount",
         scoreFunction: "wordCountScore",
+        recommendedWordcount: 300,
         scoreArray: [
-            {result: 300, score: 9, text: ""},
-            {result: 250, score: 7, text: ""},
-            {result: 200, score: 5, text: ""},
-            {result: 100, score: -10, text: ""},
-            {result: 0, score: -20, text: ""}
+            {result: 300, score: 9, text: "There are <%wordcount%> words contained in the body copy, this is more than the <%recWordcount%> word recommended minimum."},
+            {result: 250, score: 7, text: "There are <%wordcount%> words contained in the body copy, this is slightly below the <%recWordcount%> word recommended minimum, add a bit more copy."},
+            {result: 200, score: 5, text: "There are <%wordcount%> words contained in the body copy, this is below the <%recWordcount%> word recommended minimum. Add more useful content on this topic for readers."},
+            {result: 100, score: -10, text: "There are <%wordcount%> words contained in the body copy, this is below the <%recWordcount%> word recommended minimum. Add more useful content on this topic for readers."},
+            {result: 0, score: -20, text: "There are <%wordcount%> words contained in the body copy. This is far too low and should be increased."}
         ]
     },
     {

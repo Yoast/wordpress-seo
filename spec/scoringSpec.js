@@ -18,7 +18,7 @@ describe("a test for the scoring function of all functions in the analyzer", fun
        var analyzeScore = scorer.analyzeScorer.__score;
        expect(analyzeScore.length).toBe(15);
        expect(analyzeScore[0].name).toBe("wordCount");
-       expect(analyzeScore[0].score).toBe(-20);
+       expect(analyzeScore[0].score).toBe(-10);
        expect(analyzeScore[1].name).toBe("keywordDensity");
        expect(analyzeScore[1].score).toBe(9);
        expect(analyzeScore[1].text).toBe("The keyword density is 1.3%, which is great, the keyword was found 2 times.");
