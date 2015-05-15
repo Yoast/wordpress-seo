@@ -264,7 +264,8 @@ Analyzer.prototype.linkFollow = function(url){
  */
 Analyzer.prototype.linkKeyword = function(url){
     var keywordFound = false;
-    if(url.match(this.config.keyword) !== null){
+    var formatUrl = url.match(/<a(.*?)(?:[^>]+)?>/);
+    if(formatUrl[0].match(this.config.keyword) !== null){
         keywordFound = true;
     }
     return keywordFound;
@@ -1043,11 +1044,29 @@ AnalyzeScorer.prototype.imageCountScore = function(){
 AnalyzeScorer.prototype.linkCountScore = function(){
     var score = { name: "linkCount", score: 0, text: ""};
     switch(true){
-        case(this.currentResult.testResult.total === this.currentResult.resultObj.noLinks.result):
-            score.score = this.currentResult.resultObj.noLinks.score;
-            score.text = this.currentResult.resultObj.noLinks.text;
+        case(this.currentResult.testResult.total === this.currentResult.scoreObj.noLinks.result):
+            score.score = this.currentResult.scoreObj.noLinks.score;
+            score.text = this.currentResult.scoreObj.noLinks.text;
         break;
-        case(this.currentResult.testResult)
+        case(this.currentResult.testResult.totalKeyword >= this.currentResult.scoreObj.keywordOutboundLink.result):
+            score.score = this.currentResult.scoreObj.keywordOutboundLink.score;
+            score.text = this.currentResult.scoreObj.keywordOutboundLink.text;
+        break;
+        case(this.currentResult.testResult.external.dofollow === this.currentResult.testResult.external.total && this.currentResult.testResult.totalKeyword < this.currentResult.scoreObj.linksFollow.result):
+            score.score = this.currentResult.scoreObj.linksFollow.score;
+            score.text = this.currentResult.scoreObj.linksFollow.text.replace(/<%links%>/, this.currentResult.testResult.external.dofollow);
+        break;
+        case(this.currentResult.testResult.external.nofollow === this.currentResult.testResult.external.total && this.currentResult.testResult.totalKeyword < this.currentResult.scoreObj.linksNoFollow.result):
+            score.score = this.currentResult.scoreObj.linksNoFollow.score;
+            score.text = this.currentResult.scoreObj.linksNoFollow.text.replace(/<%links%>/, this.currentResult.testResult.external.nofollow);
+        break;
+        case(this.currentResult.testResult.external.nofollow < this.currentResult.testResult.external.total && this.currentResult.testResult.external.dofollow < this.currentResult.testResult.external.total && this.currentResult.testResult.totalKeyword < this.currentResult.scoreObj.links.result):
+            score.score = this.currentResult.scoreObj.links.score;
+            score.text = this.currentResult.scoreObj.links.text.replace(/<%nofollow%>/, this.currentResult.testResult.external.nofollow).
+                                                                replace(/<%dofollow%>/, this.currentResult.testResult.external.dofollow);
+        break;
+        default:
+        break;
     }
     return score;
 };

@@ -157,5 +157,16 @@ analyzerScoring = [
             altNoKeyword: {result: 1, score: 5, text: "The images on this page do not have alt tags containing your keyword / phrase."},
             altKeyword: {result: 1, score: 9, text: "The images on this page contain alt tags with the target keyword / phrase."}
         }
+    },
+    {
+        scoreName: "linkCount",
+        scoreFunction: "linkCountScore",
+        scoreObj:{
+            noLinks: {result: 0, score: 6, text: "No outbound links appear in this page, consider adding some as appropriate."},
+            keywordOutboundLink: {result: 1, score: 2, text: "You\'re linking to another page with the keyword you want this page to rank for, consider changing that if you truly want this page to rank."},
+            linksFollow: {result: 1, score: 9, text: "This page has <%links%> outbound link(s)."},
+            linksNoFollow: {result: 1, score: 7, text: "This page has <%links%> outbound link(s), all nofollowed."},
+            links: {result: 1, score: 8, text: "This page has <%nofollow%> nofollowed link(s) and <%dofollow%> normal outbound link(s)."}
+        }
     }
 ];
