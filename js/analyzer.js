@@ -258,13 +258,19 @@ Analyzer.prototype.linkFollow = function(url){
  */
 //todo update function so it will also check on picture elements.
 Analyzer.prototype.imageCount = function(){
-    var imageCount = {total: 0, alt: 0, noalt: 0};
+    var imageCount = {total: 0, alt: 0, noalt: 0, altKeyword: 0};
     var imageMatches = this.preProcessor.__store.originalText.match(/<img(?:[^>]+)?>/g);
     if(imageMatches !== null){
         imageCount.total = imageMatches.length;
         for (var i = 0; i < imageMatches.length; i++){
-            if(this.imageAlttag(imageMatches[i])){
-                imageCount.alt++;
+            var alttag = imageMatches[i].match(/alt=([\'\"])(.*?)\1/g);
+            if(this.imageAlttag(alttag)){
+                if(this.imageAlttagKeyword(alttag)){
+                    imageCount.altKeyword++;
+                }else{
+                    imageCount.alt++;
+                }
+
             }else{
                 imageCount.noalt++;
             }
@@ -274,20 +280,35 @@ Analyzer.prototype.imageCount = function(){
 };
 
 /**
- * checks if an image has an alttag and if the alttag contains any text.
+ * checks if  the alttag contains any text.
  * @param image
  * @returns {boolean}
  */
 Analyzer.prototype.imageAlttag = function(image){
     var hasAlttag = false;
-    var alttag = image.match(/alt=([\'\"])(.*?)\1/g);
-    if(alttag !== null){
-        if(alttag[0].split("=")[1].match(/[a-z0-9](.*?)[a-z0-9]/g) !== null){
+    if(image !== null){
+        if(image[0].split("=")[1].match(/[a-z0-9](.*?)[a-z0-9]/g) !== null){
             hasAlttag = true;
         }
     }
     return hasAlttag;
 };
+
+/**
+ * checks if the alttag matches the keyword
+ * @param image
+ * @returns {boolean}
+ */
+Analyzer.prototype.imageAlttagKeyword = function(image){
+    var hasKeyword = false;
+    if(image !== null){
+        if(image[0].match(this.keywordRegex) !== null){
+            hasKeyword = true;
+        }
+    }
+    return hasKeyword;
+};
+
 
 /**
  * counts the number of characters in the pagetitle, returns 0 if empty or not set.
@@ -973,6 +994,28 @@ AnalyzeScorer.prototype.urlStopwordsScore = function(){
     return score;
 };
 
+AnalyzeScorer.prototype.imageCountScore = function(){
+    var score = { name: "imageCount", score: 0, text: ""};
+    switch(true){
+        case(this.currentResult.testResult.total === this.currentResult.scoreObj.noImages.result):
+            score.score = this.currentResult.scoreObj.noImages.score;
+            score.text = this.currentResult.scoreObj.noImages.text;
+        break;
+        case(this.currentResult.testResult.total > this.currentResult.testResult.alt):
+            score.score = this.currentResult.scoreObj.noAlt.score;
+            score.text = this.currentResult.scoreObj.noAlt.text;
+        break;
+        case(this.currentResult.testResult.total > this.currentResult.testResult.altKeyword):
+            score.score = this.currentResult.scoreObj.altNoKeyword.score;
+            score.text = this.currentResult.scoreObj.altNoKeyword.text;
+        break;
+        case(this.currentResult.testResult.total === this.currentResult.testResult.altKeyword):
+            score.score = this.currentResult.scoreObj.altKeyword.score;
+            score.text = this.currentResult.scoreObj.altKeyword.text;
+        break;
+    }
+    return score;
+};
 
 /**
  * Checks if the preprocessor is already initialized and if so if the textstring differs from the input.

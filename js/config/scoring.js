@@ -147,5 +147,15 @@ analyzerScoring = [
         scoreObj:{
             stopwords: {result: 1, score: 5, text: "The slug for this page contains one or more <a href='http://en.wikipedia.org/wiki/Stop_words'>stop words</a>, consider removing them."}
         }
+    },
+    {
+        scoreName: "imageCount",
+        scoreFunction: "imageCountScore",
+        scoreObj:{
+            noImages: {result: 0, score: 3, text: "No images appear in this page, consider adding some as appropriate."},
+            noAlt: {result: 1, score: 5, text: "The images on this page are missing alt tags."},
+            altNoKeyword: {result: 1, score: 5, text: "The images on this page do not have alt tags containing your keyword / phrase."},
+            altKeyword: {result: 1, score: 9, text: "The images on this page contain alt tags with the target keyword / phrase."}
+        }
     }
 ];

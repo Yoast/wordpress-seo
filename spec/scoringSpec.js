@@ -8,7 +8,7 @@ scoreArgs = {
     url: "http://yoast.com/keyword-search",
     pageTitle: "the pagetitle",
     meta: "the metadescription of the page",
-    queue: ["wordCount","keywordDensity","fleschReading","firstParagraph","metaDescription","stopwords","subHeadings","pageTitleLength","pageTitleKeyword","urlKeyword","urlLength","urlStopwords"]
+    queue: ["wordCount","keywordDensity","fleschReading","firstParagraph","metaDescription","stopwords","subHeadings","pageTitleLength","pageTitleKeyword","urlKeyword","urlLength","urlStopwords","imageCount"]
 };
 
 describe("a test for the scoring function of all functions in the analyzer", function(){
@@ -16,7 +16,7 @@ describe("a test for the scoring function of all functions in the analyzer", fun
        var scorer = new Analyzer(scoreArgs);
        scorer.runQueue();
        var analyzeScore = scorer.analyzeScorer.__score;
-       expect(analyzeScore.length).toBe(13);
+       expect(analyzeScore.length).toBe(14);
        expect(analyzeScore[0].name).toBe("wordCount");
        expect(analyzeScore[0].score).toBe(-20);
        expect(analyzeScore[1].name).toBe("keywordDensity");
@@ -50,5 +50,8 @@ describe("a test for the scoring function of all functions in the analyzer", fun
        expect(analyzeScore[10].text).toBe("The keyword / phrase does not appear in the URL for this page. If you decide to rename the URL be sure to check the old URL 301 redirects to the new one!");
        expect(analyzeScore[11].name).toBe("urlLength");
        expect(analyzeScore[12].name).toBe("urlStopwords");
+       expect(analyzeScore[13].name).toBe("imageCount");
+       expect(analyzeScore[13].score).toBe(3);
+       expect(analyzeScore[13].text).toBe("No images appear in this page, consider adding some as appropriate.");
    });
 });
