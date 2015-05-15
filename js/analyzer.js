@@ -206,6 +206,7 @@ Analyzer.prototype.linkCount = function(){
     var linkMatches = this.preProcessor.__store.originalText.match(/<a(?:[^>]+)?>(.*?)<\/a>/g);
     var linkCount = {
         total: 0,
+        totalKeyword: 0,
         internal: {total: 0, dofollow: 0,nofollow: 0},
         external: {total: 0,dofollow: 0,nofollow: 0},
         other: {total: 0,dofollow: 0,nofollow: 0}
@@ -213,6 +214,10 @@ Analyzer.prototype.linkCount = function(){
     if(linkMatches !== null){
         linkCount.total = linkMatches.length;
         for(var i = 0; i < linkMatches.length; i++){
+            var linkKeyword = this.linkKeyword(linkMatches[i]);
+            if(linkKeyword){
+                linkCount.totalKeyword++;
+            }
             var linkType = this.linkType(linkMatches[i]);
             linkCount[linkType].total++;
             var linkFollow = this.linkFollow(linkMatches[i]);
@@ -250,6 +255,19 @@ Analyzer.prototype.linkFollow = function(url){
         linkFollow = "nofollow";
     }
     return linkFollow;
+};
+
+/**
+ * checks if the url contains the keyword
+ * @param url
+ * @returns {boolean}
+ */
+Analyzer.prototype.linkKeyword = function(url){
+    var keywordFound = false;
+    if(url.match(this.config.keyword) !== null){
+        keywordFound = true;
+    }
+    return keywordFound;
 };
 
 /**
@@ -994,6 +1012,10 @@ AnalyzeScorer.prototype.urlStopwordsScore = function(){
     return score;
 };
 
+/**
+ * returns the score of the imagecount, based on the scoreObj in the scoringconfig.
+ * @returns {{name: string, score: number, text: string}}
+ */
 AnalyzeScorer.prototype.imageCountScore = function(){
     var score = { name: "imageCount", score: 0, text: ""};
     switch(true){
@@ -1013,6 +1035,19 @@ AnalyzeScorer.prototype.imageCountScore = function(){
             score.score = this.currentResult.scoreObj.altKeyword.score;
             score.text = this.currentResult.scoreObj.altKeyword.text;
         break;
+    }
+    return score;
+};
+
+
+AnalyzeScorer.prototype.linkCountScore = function(){
+    var score = { name: "linkCount", score: 0, text: ""};
+    switch(true){
+        case(this.currentResult.testResult.total === this.currentResult.resultObj.noLinks.result):
+            score.score = this.currentResult.resultObj.noLinks.score;
+            score.text = this.currentResult.resultObj.noLinks.text;
+        break;
+        case(this.currentResult.testResult)
     }
     return score;
 };
