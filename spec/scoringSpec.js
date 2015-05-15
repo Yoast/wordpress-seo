@@ -55,6 +55,6 @@ describe("a test for the scoring function of all functions in the analyzer", fun
        expect(analyzeScore[13].text).toBe("No images appear in this page, consider adding some as appropriate.");
        expect(analyzeScore[14].name).toBe("linkCount");
        expect(analyzeScore[14].score).toBe(9);
-       expect(analyzeScore[14].text).toBe("This page has 1 outbound link(s).");
+       expect(analyzeScore[14].text).toBe("This page has 3 outbound link(s).");
    });
 });
