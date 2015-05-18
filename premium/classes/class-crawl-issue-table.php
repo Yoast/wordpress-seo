@@ -36,9 +36,16 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 	private $issue_manager;
 
 	/**
-	 * WPSEO_Redirect_Table constructor
+	 * @var WPSEO_GWT_Platform_Tabs
 	 */
-	public function __construct( ) {
+	private $platform_tabs;
+
+	/**
+	 * WPSEO_Redirect_Table constructor
+	 *
+	 * @param WPSEO_GWT_Platform_Tabs $platform_tabs
+	 */
+	public function __construct( WPSEO_GWT_Platform_Tabs $platform_tabs) {
 		parent::__construct();
 
 		// The issue manager
@@ -48,6 +55,7 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 		$this->current_view = ( $status = filter_input( INPUT_GET, 'category' )) ? $status : 'not_found';
 
 		// Set page views
+		$this->platform_tabs = $platform_tabs;
 		add_filter( 'views_' . $this->screen->id, array( $this, 'add_page_views' ) );
 
 		// Set search string
