@@ -19,7 +19,6 @@
 
 switch ( $platform_tabs->current_tab() ) {
 	case 'settings' :
-
 	?>
 		<h2>Google Webmaster Tools Settings</h2>
 		<?php
@@ -84,8 +83,6 @@ switch ( $platform_tabs->current_tab() ) {
 
 		// Close <form>
 		echo "</form>\n";
-
-
 
 		break;
 }

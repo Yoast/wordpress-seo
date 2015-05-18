@@ -1,0 +1,104 @@
+<?php
+/**
+ * @package Premium\GoogleWebmasterTools
+ * @subpackage premium
+ */
+
+/**
+ * Class WPSEO_GWT_Settings
+ */
+class WPSEO_GWT_Settings {
+
+	/**
+	 * @var WPSEO_GWT_Service
+	 */
+	private $service;
+
+	/**
+	 * @param WPSEO_GWT_Service $service
+	 */
+	public function __construct( WPSEO_GWT_Service $service ) {
+		// Setting the service object
+		$this->service = $service;
+
+		// Check for error message
+		if ( filter_input( INPUT_GET, 'error' ) === '1' ) {
+			add_action( 'admin_notices', array( $this, 'admin_message_body' ) );
+		}
+
+		// Is there a reset post
+		if ( filter_input( INPUT_POST, 'gwt_reset' ) ) {
+			/**
+			 * Filter: 'wpseo_gwt_reset_data' - Clears stored GWT data
+			 *
+			 */
+			do_action( 'wpseo_gwt_reset_data' );
+
+			// Remove the posts with data
+//			$this->clear_data();
+
+			// Clear the service data
+			// $this->service->clear_data();
+		}
+
+		// Catch the authorization code POST
+		$this->catch_authentication_post();
+	}
+
+	/**
+	 * Print Incorrect Google Authorization Code error
+	 */
+	public function admin_message_body() {
+		?>
+		<div class="error">
+			<p><strong><?php _e( 'Incorrect Google Authorization Code!', 'wordpress-seo-premium' ); ?></strong></p>
+		</div>
+		<?php
+	}
+
+	/**
+	 * Catch the authentication post
+	 */
+	private function catch_authentication_post() {
+		$redirect_url_appendix = '';
+
+		$gwt_values = filter_input( INPUT_POST, 'gwt', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
+
+		// Catch the authorization code POST
+		if ( ! empty( $gwt_values['authorization_code'] ) && wp_verify_nonce( $gwt_values['gwt_nonce'], 'wpseo-gwt_nonce' ) ) {
+
+			if ( trim( $gwt_values['authorization_code'] ) != '' ) {
+				if ( ! $this->service->get_client()->authenticate_client( $gwt_values['authorization_code'] ) ) {
+					$redirect_url_appendix = '&error=1';
+				}
+			}
+			else {
+				$redirect_url_appendix = '&error=1';
+			}
+
+			// Redirect user to prevent a post resubmission which causes an oauth error
+			wp_redirect( admin_url( 'admin.php' ) . '?page=' . esc_attr( filter_input( INPUT_GET, 'page' ) ) . '&tab=settings' . $redirect_url_appendix );
+			exit;
+		}
+	}
+
+	/**
+	 * Clear all data from the database
+	 */
+	private function clear_data() {
+		// Listing all issues
+		$all_issues = get_posts( 'numberposts=-1&post_type=wpseo_crawl_issue&post_status=any' );
+
+		foreach ( $all_issues as $postinfo ) {
+			// Updates the postinfo status to inherit, to prevent notice for creating redirect
+			$postinfo->status = 'inherit';
+
+			// Updates the post
+			wp_update_post( (array) $postinfo );
+
+			// Delete the post
+//			wp_delete_post( $postinfo->ID, true );
+		}
+	}
+
+}

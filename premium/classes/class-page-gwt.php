@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @package Premium\Redirect
  * @subpackage premium
@@ -26,41 +25,32 @@ class WPSEO_Page_GWT {
 	 * Function that is triggered when the redirect page loads
 	 */
 	public function page_load() {
-		// Create a new WPSEO GWT Google Client
-		$this->service = new WPSEO_GWT_Service();
 
-		// Catch the authorization code POST
-		$this->catch_authentication_post();
+		// Create a new WPSEO GWT Google Client
+		$this->service  = new WPSEO_GWT_Service();
+
+		// Counting the issues
+		$issue_count    = new WPSEO_Crawl_Issue_Count( $this->service );
+
+		$this->settings = new WPSEO_GWT_Settings( $this->service );
+
+//		if($issue_count->)
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'page_scripts' ) );
-
-		// Check for error message
-		if ( filter_input( INPUT_GET, 'error' ) === '1' ) {
-			add_action( 'admin_notices', array( $this, 'admin_message_body' ) );
-		}
 
 	}
 
 	/**
 	 * Display the table
+	 *
+	 * @param $platform_tabs
 	 */
-	public function display_table() {
+	public function display_table( $platform_tabs ) {
 		// The list table
-		$list_table = new WPSEO_Crawl_Issue_Table();
+		$list_table = new WPSEO_Crawl_Issue_Table( $platform_tabs );
 		$list_table->prepare_items( );
 		$list_table->search_box( __( 'Search', 'wordpress-seo-premium' ), 'wpseo-crawl-issues-search' );
 		$list_table->display();
-	}
-
-	/**
-	 * Print Incorrect Google Authorization Code error
-	 */
-	public function admin_message_body() {
-		?>
-		<div class="error">
-			<p><b><?php _e( 'Incorrect Google Authorization Code!', 'wordpress-seo-premium' ); ?></b></p>
-		</div>
-		<?php
 	}
 
 	/**
@@ -88,29 +78,6 @@ class WPSEO_Page_GWT {
 	public function set_screen_option( $status, $option, $value ) {
 		if ( 'errors_per_page' == $option ) {
 			return $value;
-		}
-	}
-
-	/**
-	 * Catch the authentication post
-	 */
-	private function catch_authentication_post() {
-		$redirect_url_appendix = '';
-
-		// Catch the authorization code POST
-		if ( isset ( $_POST['gwt']['authorization_code'] ) && wp_verify_nonce( $_POST['gwt']['gwt_nonce'], 'wpseo-gwt_nonce' ) ) {
-			if ( trim( $_POST['gwt']['authorization_code'] ) != '' ) {
-				if ( ! $this->setup_client()->authenticate_client( $_POST['gwt']['authorization_code'] ) ) {
-					$redirect_url_appendix = '&error=1';
-				}
-			}
-			else {
-				$redirect_url_appendix = '&error=1';
-			}
-
-			// Redirect user to prevent a post resubmission which causes an oauth error
-			wp_redirect( admin_url( 'admin.php' ) . '?page=' . esc_attr( filter_input( INPUT_GET, 'page' ) ) . $redirect_url_appendix );
-			exit;
 		}
 	}
 
