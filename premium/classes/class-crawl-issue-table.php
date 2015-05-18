@@ -88,26 +88,9 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 	 * @return array
 	 */
 	public function add_page_views( ) {
+		$page_view_filters = new WPSEO_GWT_Category_Filters( $this->platform_tabs->current_tab(), $this->current_view );
 
-		$views_arr = array(
-			'all'                  => __( 'All', 'wordpress-seo-premium' ),
-			'auth_permissions'     => __( 'Authentication permissions', 'wordpress-seo' ),
-			'many_to_one_redirect' => __( 'Many to one redirect', 'wordpress-seo' ),
-			'not_followed'         => __( 'Not followed', 'wordpress-seo' ),
-			'not_found'            => __( 'Not found', 'wordpress-seo' ),
-			'other'                => __( 'Other', 'wordpress-seo' ),
-			'roboted'              => __( 'Roboted', 'wordpress-seo' ),
-			'server_error'         => __( 'Server Error', 'wordpress-seo' ),
-			'soft_404'             => __( 'Soft 404', 'wordpress-seo' ),
-		);
-
-		$new_views = array();
-
-		foreach ( $views_arr as $key => $val ) {
-			$new_views[ $key ] = $this->create_view_link( $key, $val );
-		}
-
-		return $new_views;
+		return $page_view_filters->as_array();
 	}
 
 	/**
