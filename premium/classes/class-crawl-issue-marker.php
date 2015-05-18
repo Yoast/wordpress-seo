@@ -53,7 +53,7 @@ class WPSEO_Crawl_Issue_Marker {
 	 * @return bool|string
 	 */
 	private function can_be_marked_as_fixed() {
-		if ( wp_verify_nonce( filter_input( INPUT_POST, 'ajax_nonce' ), 'wpseo-gwt-ajax-security' ) && $url = filter_input( INPUT_POST, 'url' ) ) {
+		if ( $url = filter_input( INPUT_POST, 'url' ) ) {
 			return $url;
 		}
 
