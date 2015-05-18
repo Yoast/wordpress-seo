@@ -32,6 +32,7 @@ class WPSEO_Admin_Init {
 
 		$this->pagenow = $GLOBALS['pagenow'];
 
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_dismissible' ) );
 		add_action( 'admin_init', array( $this, 'after_update_notice' ), 15 );
 
 		$this->load_meta_boxes();
@@ -42,6 +43,12 @@ class WPSEO_Admin_Init {
 		$this->load_xml_sitemaps_admin();
 	}
 
+	public function enqueue_dismissible() {
+		if ( version_compare( $GLOBALS['wp_version'], '4.2', '<' ) ) {
+			wp_enqueue_style( 'wpseo-dismissible', plugins_url( 'css/wpseo-dismissible' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
+			wp_enqueue_script( 'wpseo-dismissible', plugins_url( 'js/wp-seo-dismissible' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'jquery' ), WPSEO_VERSION, true );
+		}
+	}
 	/**
 	 * Redirect first time or just upgraded users to the about screen.
 	 */
