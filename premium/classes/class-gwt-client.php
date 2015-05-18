@@ -9,7 +9,15 @@
  */
 class WPSEO_GWT_Client extends Yoast_Google_Client {
 
+	/**
+	 * The option holding the refresh token
+	 */
 	const OPTION_REFRESH_TOKEN = 'wpseo-premium-gwt-refresh_token';
+
+	/**
+	 * The option which contains the details about the access token
+	 */
+	const OPTION_ACCESS_TOKEN = 'wpseo-premium-gwt-access_token';
 
 	/**
 	 * @var string
@@ -117,6 +125,7 @@ class WPSEO_GWT_Client extends Yoast_Google_Client {
 		}
 	}
 
+
 	/**
 	 * Getting the response code, saved from latest request to Google
 	 * @return mixed
@@ -126,21 +135,14 @@ class WPSEO_GWT_Client extends Yoast_Google_Client {
 	}
 
 	/**
-	 * Save the refresh token
+	 * Clears the options and revokes the token
 	 *
-	 * @param string $refresh_token
 	 */
-	public function save_refresh_token( $refresh_token ) {
-		update_option( self::OPTION_REFRESH_TOKEN, trim( $refresh_token ) );
-	}
+	public function clear_data() {
+		$this->revokeToken();
 
-	/**
-	 * Return refresh token
-	 *
-	 * @return string
-	 */
-	public function get_refresh_token() {
-		return get_option( self::OPTION_REFRESH_TOKEN, '' );
+		delete_option( self::OPTION_ACCESS_TOKEN );
+		delete_option( self::OPTION_REFRESH_TOKEN );
 	}
 
 	/**
@@ -168,12 +170,12 @@ class WPSEO_GWT_Client extends Yoast_Google_Client {
 		$this->setScopes( $config['scopes'] );
 		$this->setAccessType( 'offline' );
 	}
-
 	/**
 	 * Refreshing the tokens
 	 */
 	protected function refresh_tokens() {
-		if ( ( $refresh_token = $this->get_refresh_token() ) !== '' ) {
+		if ( ( $refresh_token = $this->get_refresh_token() ) !== '' && $this->access_token_expired() ) {
+
 			try {
 				// Refresh the token
 				$this->refreshToken( $refresh_token );
@@ -182,14 +184,75 @@ class WPSEO_GWT_Client extends Yoast_Google_Client {
 
 				// Check response and if there is an access_token
 				if ( ! empty( $response ) && ! empty ( $response['access_token'] ) ) {
-					// Set access_token
-					$this->setAccessToken( $response['access_token'] );
+					$this->save_access_token( $response );
 				}
 			}
 			catch ( Exception $e ) {
 				return false;
 			}
 		}
+	}
+
+	/**
+	 * Save the refresh token
+	 *
+	 * @param string $refresh_token
+	 */
+	protected function save_refresh_token( $refresh_token ) {
+		update_option( self::OPTION_REFRESH_TOKEN, trim( $refresh_token ) );
+	}
+
+	/**
+	 * Return refresh token
+	 *
+	 * @return string
+	 */
+	protected function get_refresh_token() {
+		return get_option( self::OPTION_REFRESH_TOKEN, '' );
+	}
+
+	/**
+	 * Saving the access token as an option for further use till it expires.
+	 *
+	 * @param array $response
+	 */
+	protected function save_access_token( $response ) {
+		update_option(
+			self::OPTION_ACCESS_TOKEN,
+			array(
+				'refresh_token' => $this->get_refresh_token(),
+				'access_token'  => $response['access_token'],
+				'expires'       => current_time( 'timestamp' ) + $response['expires_in'],
+				'expires_in'    => $response['expires_in'],
+				'created'       => $response['created'],
+			)
+		);
+
+		$this->setAccessToken( json_encode( $response ) );
+	}
+
+	/**
+	 * Check if current access token is expired.
+	 *
+	 * @return bool
+	 */
+	private function access_token_expired() {
+		$access_token = $this->get_access_token();
+
+		if ( current_time( 'timestamp' ) >= $access_token['expires'] ) {
+			return true;
+		}
+
+		$this->setAccessToken( json_encode( $access_token ) );
+	}
+
+	/**
+	 * Getting the current access token from the options
+	 *
+	 * @return mixed
+	 */
+	private function get_access_token() {
+		return get_option( self::OPTION_ACCESS_TOKEN, array( 'access_token' => false, 'expires' => 0 ) );
 	}
 
 }
