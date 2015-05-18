@@ -12,11 +12,12 @@
 class WPSEO_Crawl_Issue {
 
 	// Post Meta related constants
-	const PM_CI_URL           = 'wpseo_ci_url';
-	const PM_CI_PLATFORM      = 'wpseo_ci_platform';
-	const PM_CI_CATEGORY      = 'wpseo_ci_category';
-	const PM_CI_DATE_DETECTED = 'wpseo_ci_date_detected';
-	const PM_CI_RESPONSE_CODE = 'wpseo_ci_response_code';
+	const PM_CI_URL            = 'wpseo_ci_url';
+	const PM_CI_PLATFORM       = 'wpseo_ci_platform';
+	const PM_CI_CATEGORY       = 'wpseo_ci_category';
+	const PM_CI_FIRST_DETECTED = 'wpseo_ci_first_detected';
+	const PM_CI_LAST_CRAWLED   = 'wpseo_ci_last_crawled';
+	const PM_CI_RESPONSE_CODE  = 'wpseo_ci_response_code';
 
 	/**
 	 * @var string
@@ -36,7 +37,12 @@ class WPSEO_Crawl_Issue {
 	/**
 	 * @var DateTime
 	 */
-	private $date_detected;
+	private $first_detected;
+
+	/**
+	 * @var DateTime
+	 */
+	private $last_crawled;
 
 	/**
 	 * @var string
@@ -49,15 +55,17 @@ class WPSEO_Crawl_Issue {
 	 * @param string   $url
 	 * @param string   $crawl_type
 	 * @param string   $issue_type
-	 * @param DateTime $date_detected
+	 * @param DateTime $first_detected
+	 * @param DateTime $last_crawled
 	 * @param string   $response_code
 	 */
-	function __construct( $url, $crawl_type, $issue_type, DateTime $date_detected, $response_code ) {
-		$this->url           = $url;
-		$this->crawl_type    = $crawl_type;
-		$this->date_detected = $date_detected;
-		$this->response_code = $response_code;
-		$this->issue_type    = $issue_type;
+	function __construct( $url, $crawl_type, $issue_type, DateTime $first_detected, DateTime $last_crawled, $response_code ) {
+		$this->url            = $url;
+		$this->crawl_type     = $crawl_type;
+		$this->first_detected = $first_detected;
+		$this->last_crawled   = $last_crawled;
+		$this->response_code  = $response_code;
+		$this->issue_type     = $issue_type;
 	}
 
 	/**
@@ -70,7 +78,8 @@ class WPSEO_Crawl_Issue {
 			'url'             => $this->url,
 			'crawl_type'      => $this->crawl_type,
 			'issue_category'  => $this->issue_type,
-			'date_detected'   => strftime( '%x', strtotime( $this->date_detected->format( 'Y-m-d H:i:s' ) ) ),
+			'first_detected'  => $this->to_date_format( $this->first_detected ),
+			'last_crawled'    => $this->to_date_format( $this->last_crawled ),
 			'response_code'   => $this->response_code,
 		);
 	}
@@ -103,8 +112,19 @@ class WPSEO_Crawl_Issue {
 		// Update all the meta data
 		update_post_meta( $ci_post_id, self::PM_CI_PLATFORM, $this->crawl_type );
 		update_post_meta( $ci_post_id, self::PM_CI_CATEGORY, $this->issue_type );
-		update_post_meta( $ci_post_id, self::PM_CI_DATE_DETECTED, (string) strftime( '%x', strtotime( $this->date_detected->format( 'Y-m-d H:i:s' ) ) ) );
+		update_post_meta( $ci_post_id, self::PM_CI_FIRST_DETECTED, $this->to_date_format( $this->first_detected ) );
+		update_post_meta( $ci_post_id, self::PM_CI_LAST_CRAWLED, $this->to_date_format( $this->last_crawled ) );
 		update_post_meta( $ci_post_id, self::PM_CI_RESPONSE_CODE, $this->response_code );
+	}
+
+	/**
+	 * @param DateTime $date_to_convert
+	 * @param string   $format
+	 *
+	 * @return string
+	 */
+	private function to_date_format( DateTime $date_to_convert, $format = 'Y-m-d H:i:s' ) {
+		return (string) strftime( '%x', strtotime( $date_to_convert->format( $format ) ) );
 	}
 
 
