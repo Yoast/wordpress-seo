@@ -63,24 +63,6 @@ function wpseo_mark_as_fixed(url) {
 	);
 }
 
-function wpseo_get_issue_counts() {
-	jQuery.post(
-		wpseo_premium_strings.ajaxurl,
-		{
-			action : 'wpseo_ajax_get_issue_counts',
-			ajax_nonce : jQuery('.wpseo-gwt-ajax-security').val()
-		},
-		function (response) {
-			var response_json = jQuery.parseJSON( response );
-
-			jQuery.each( response_json, function(num, item) {
-				wpseo_ajax_crawl_category( item.platform, item.category );
-			});
-
-		}
-	);
-}
-
 function wpseo_ajax_crawl_category( platform, category) {
 	jQuery.post(
 		wpseo_premium_strings.ajaxurl,
