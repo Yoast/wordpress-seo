@@ -70,6 +70,7 @@ class WPSEO_Crawl_Category_Issues {
 			(string) $this->platform,
 			(string) $this->category,
 			new DateTime( (string) $issue->first_detected ),
+			new DateTime( (string) $issue->last_crawled ),
 			(string) ( ! empty( $issue->responseCode ) ) ? $issue->responseCode : null,
 			false
 		);
