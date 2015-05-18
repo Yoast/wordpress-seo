@@ -90,8 +90,7 @@ class WPSEO_Admin_Init {
 	 * @return bool
 	 */
 	private function on_wpseo_admin_page() {
-		$page = filter_input( INPUT_GET, 'page' );
-		return 'admin.php' === $this->pagenow && strpos( $page, 'wpseo' ) === 0;
+		return 'admin.php' === $this->pagenow && strpos( filter_input( INPUT_GET, 'page' ), 'wpseo' ) === 0;
 	}
 
 	/**
