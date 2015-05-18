@@ -55,9 +55,11 @@ class WPSEO_GWT_Mapper {
 			return $category;
 		}
 
-		if ( array_key_exists( $category, self::$categories ) ) {
+		if ( ! $flip && array_key_exists( $category, self::$categories ) ) {
 			return self::$categories[ $category ];
 		}
+
+		return $category;
 	}
 
 
