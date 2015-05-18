@@ -35,11 +35,14 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 	 *
 	 * @param integer $term_id
 	 * @param integer $tt_id
-	 * @param mixed$taxonomy
+	 * @param mixed   $taxonomy
 	 */
 	public function detect_slug_change( $term_id, $tt_id, $taxonomy ) {
-
-		// Apply the filters to disable redirect creation on slug change.
+		/**
+		 * Filter: 'wpseo_premium_term_redirect_slug_change' - Check if a redirect should be created on term slug change
+		 *
+		 * @api bool unsigned
+		 */
 		if ( apply_filters( 'wpseo_premium_term_redirect_slug_change', false ) === true ) {
 			return true;
 		}
