@@ -511,7 +511,7 @@ class WPSEO_Premium {
 	 */
 	public function register_settings() {
 		register_setting( 'yoast_wpseo_redirect_options', 'wpseo_redirect' );
-		register_setting( 'yoast_wpseo_gwt_options', 'wpseo-premium-gwt', array( $this, 'gwt_sanatize_callback' ) );
+		register_setting( 'yoast_wpseo_gwt_options', 'wpseo-premium-gwt' );
 	}
 
 	/**
@@ -551,21 +551,6 @@ class WPSEO_Premium {
 			$redirect_manager->clear_htaccess_entries();
 		}
 
-	}
-
-	/**
-	 * Remove the last check timestamp if the profile is switched
-	 *
-	 * @param array $setting
-	 *
-	 * @return mixed
-	 */
-	public function gwt_sanatize_callback( array $setting ) {
-		$crawl_issue_manager = new WPSEO_Crawl_Issue_Manager();
-
-		$crawl_issue_manager->sanitize_callback( $setting );
-
-		return $setting;
 	}
 
 	/**
