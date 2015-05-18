@@ -49,42 +49,40 @@ function wpseo_create_redirect(old_url, current_view) {
 
 function wpseo_mark_as_fixed(url) {
 	jQuery.post(
-			wpseo_premium_strings.ajaxurl,
-			{
-				action : 'wpseo_mark_fixed_crawl_issue',
-				ajax_nonce : jQuery('.wpseo-gwt-ajax-security').val(),
-				url : url
-			},
-			function (response) {
-				if ("true" === response) {
-					jQuery('span:contains(' + url + ')').closest('tr').remove();
-				}
+		wpseo_premium_strings.ajaxurl,
+		{
+			action : 'wpseo_mark_fixed_crawl_issue',
+			ajax_nonce : jQuery('.wpseo-gwt-ajax-security').val(),
+			url : url
+		},
+		function (response) {
+			if ("true" === response) {
+				jQuery('span:contains(' + url + ')').closest('tr').remove();
 			}
+		}
 	);
 }
 
 function wpseo_get_issue_counts() {
-	jQuery.get(
+	jQuery.post(
 		wpseo_premium_strings.ajaxurl,
 		{
 			action : 'wpseo_ajax_get_issue_counts',
 			ajax_nonce : jQuery('.wpseo-gwt-ajax-security').val()
 		},
 		function (response) {
-			var response = jQuery.parseJSON( response );
+			var response_json = jQuery.parseJSON( response );
 
-			jQuery.each( response, function(num, item) {
+			jQuery.each( response_json, function(num, item) {
 				wpseo_ajax_crawl_category( item.platform, item.category );
-			})
+			});
 
 		}
 	);
-
-	//alert('javascript');
 }
 
 function wpseo_ajax_crawl_category( platform, category) {
-	jQuery.get(
+	jQuery.post(
 		wpseo_premium_strings.ajaxurl,
 		{
 			action     : 'wpseo_ajax_crawl_category',
