@@ -117,8 +117,8 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 		$columns = array(
 			'cb'             => '<input type="checkbox" />',
 			'url'            => __( 'URL', 'wordpress-seo-premium' ),
-			'issue_category' => __( 'Issue category', 'wordpress-seo-premium' ),
-			'date_detected'  => __( 'Date detected', 'wordpress-seo-premium' ),
+			'last_crawled'   => __( 'Last crawled', 'wordpress-seo-premium' ),
+			'first_detected' => __( 'First detected', 'wordpress-seo-premium' ),
 			'response_code'  => __( 'Response code', 'wordpress-seo-premium' ),
 		);
 
@@ -134,8 +134,8 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 	public function get_sortable_columns() {
 		$sortable_columns = array(
 			'url'            => array( 'url', false ),
-			'issue_category' => array( 'issue_category', false ),
-			'date_detected'  => array( 'date_detected', false ),
+			'last_crawled'   => array( 'last_crawled', false ),
+			'first_detected' => array( 'first_detected', false ),
 			'response_code'  => array( 'response_code', false ),
 		);
 
@@ -262,18 +262,6 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 			'total_pages' => ceil( ( $total_items / $posts_per_page ) ),
 			'per_page'    => $posts_per_page,
 		) );
-	}
-
-	/**
-	 * Creates a filter link
-	 *
-	 * @param string $key
-	 * @param string $val
-	 *
-	 * @return string
-	 */
-	private function create_view_link( $key, $val ) {
-		return "<a href='" . esc_attr( add_query_arg( array( 'category' => $key, 'paged' => 1 ) ) ) . "'" . ( ( $this->current_view == $key ) ? " class='current'" : '' ) . ">{$val}</a>";
 	}
 
 }
