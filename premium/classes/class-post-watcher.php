@@ -1,5 +1,12 @@
 <?php
+/**
+ * @package Premium
+ * @subpackage Redirect
+ */
 
+/**
+ * Class WPSEO_Post_Watcher
+ */
 class WPSEO_Post_Watcher extends WPSEO_Watcher {
 
 	/**
@@ -14,7 +21,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	/**
 	 * Add an extra field to post edit screen so we know the old url in the 'post_updated' hook
 	 *
-	 * @param $post
+	 * @param mixed $post
 	 */
 	public function old_url_field( $post ) {
 		// $post must be set
@@ -30,17 +37,17 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	 * Detect if the slug changed, hooked into 'post_updated'
 	 *
 	 * @param integer $post_id
-	 * @param $post
-	 * @param $post_before
+	 * @param mixed   $post
+	 * @param mixed   $post_before
 	 */
 	public function detect_slug_change( $post_id, $post, $post_before ) {
 
 		// Check if the redirects for posts should be disabled on slug change, can be done by adding a filter
-		if( apply_filters('wpseo_premium_post_redirect_slug_change', false ) === true) {
+		if ( apply_filters( 'wpseo_premium_post_redirect_slug_change', false ) === true ) {
 			return true;
 		}
 
-		if ( !isset( $_POST['wpseo_old_url'] ) ) {
+		if ( ! isset( $_POST['wpseo_old_url'] ) ) {
 			return;
 		}
 
@@ -65,11 +72,11 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	/**
 	 * Offer to create a redirect from the post that is about to get trashed
 	 *
-	 * @param $post_id
+	 * @param integer $post_id
 	 */
 	public function detect_post_trash( $post_id ) {
 
-		if( $url = $this->check_if_redirect_needed( $post_id )) {
+		if ( $url = $this->check_if_redirect_needed( $post_id ) ) {
 
 			// Format the message
 			$message = sprintf( __( "WordPress SEO Premium detected that you moved a post to the trash. <a href='%s'>Click here to create a redirect from the old post URL</a>.", 'wordpress-seo-premium' ), $this->javascript_create_redirect( $url ) );
@@ -82,11 +89,11 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	/**
 	 * Offer to create a redirect from the post that is about to get  restored from the trash
 	 *
-	 * @param $post_id
+	 * @param integer $post_id
 	 */
 	public function detect_post_untrash( $post_id ) {
 
-		if( $url = $this->check_if_redirect_needed( $post_id )) {
+		if ( $url = $this->check_if_redirect_needed( $post_id ) ) {
 
 			// Format the message
 			$message = sprintf( __( "WordPress SEO Premium detected that you restored a post from the trash. <a href='%s'>Click here to remove the redirect</a>.", 'wordpress-seo-premium' ), $this->javascript_undo_redirect( $url ) );
@@ -99,12 +106,12 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	/**
 	 * Offer to create a redirect from the post that is about to get deleted
 	 *
-	 * @param $post_id
+	 * @param integer $post_id
 	 */
 	public function detect_post_delete( $post_id ) {
 
 		// Is a redirect needed
-		if( $url = $this->check_if_redirect_needed( $post_id )) {
+		if ( $url = $this->check_if_redirect_needed( $post_id ) ) {
 
 			// Format the message
 			$message = sprintf( __( "WordPress SEO Premium detected that you deleted a post. <a href='%s'>Click here to create a redirect from the old post URL</a>.", 'wordpress-seo-premium' ), $this->javascript_create_redirect( $url ) );
