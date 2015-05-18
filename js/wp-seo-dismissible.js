@@ -1,3 +1,5 @@
+/* jshint -W097 */
+'use strict';
 /**
  * Make notices dismissible
  *

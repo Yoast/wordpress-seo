@@ -43,6 +43,9 @@ class WPSEO_Admin_Init {
 		$this->load_xml_sitemaps_admin();
 	}
 
+	/**
+	 * For WP versions older than 4.2, this includes styles and a script to make notices dismissible.
+	 */
 	public function enqueue_dismissible() {
 		if ( version_compare( $GLOBALS['wp_version'], '4.2', '<' ) ) {
 			wp_enqueue_style( 'wpseo-dismissible', plugins_url( 'css/wpseo-dismissible' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
