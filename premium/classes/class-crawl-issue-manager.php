@@ -72,7 +72,8 @@ class WPSEO_Crawl_Issue_Manager {
 					$crawl_issues_db_item->post_title,
 					get_post_meta( $crawl_issues_db_item->ID, WPSEO_Crawl_Issue::PM_CI_PLATFORM, true ),
 					get_post_meta( $crawl_issues_db_item->ID, WPSEO_Crawl_Issue::PM_CI_CATEGORY, true ),
-					new DateTime( (string) get_post_meta( $crawl_issues_db_item->ID, WPSEO_Crawl_Issue::PM_CI_DATE_DETECTED, true ) ),
+					new DateTime( (string) get_post_meta( $crawl_issues_db_item->ID, WPSEO_Crawl_Issue::PM_CI_FIRST_DETECTED, true ) ),
+					new DateTime( (string) get_post_meta( $crawl_issues_db_item->ID, WPSEO_Crawl_Issue::PM_CI_LAST_CRAWLED, true ) ),
 					get_post_meta( $crawl_issues_db_item->ID, WPSEO_Crawl_Issue::PM_CI_RESPONSE_CODE, true )
 				);
 			}
