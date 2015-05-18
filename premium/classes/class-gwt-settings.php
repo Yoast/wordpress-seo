@@ -28,17 +28,8 @@ class WPSEO_GWT_Settings {
 
 		// Is there a reset post
 		if ( filter_input( INPUT_POST, 'gwt_reset' ) ) {
-			/**
-			 * Filter: 'wpseo_gwt_reset_data' - Clears stored GWT data
-			 *
-			 */
-			do_action( 'wpseo_gwt_reset_data' );
-
 			// Remove the posts with data
-//			$this->clear_data();
-
-			// Clear the service data
-			// $this->service->clear_data();
+			$this->clear_data();
 		}
 
 		// Catch the authorization code POST
@@ -86,19 +77,35 @@ class WPSEO_GWT_Settings {
 	 * Clear all data from the database
 	 */
 	private function clear_data() {
-		// Listing all issues
-		$all_issues = get_posts( 'numberposts=-1&post_type=wpseo_crawl_issue&post_status=any' );
+		/**
+		 * Filter: 'wpseo_gwt_reset_data' - Clears stored GWT data
+		 *
+		 */
+		do_action( 'wpseo_gwt_reset_data' );
 
-		foreach ( $all_issues as $postinfo ) {
-			// Updates the postinfo status to inherit, to prevent notice for creating redirect
-			$postinfo->status = 'inherit';
+		// Removing all issues from the database
+		$this->remove_issues();
 
-			// Updates the post
-			wp_update_post( (array) $postinfo );
+		// Clear the service data
+		$this->service->clear_data();
+	}
 
-			// Delete the post
-//			wp_delete_post( $postinfo->ID, true );
-		}
+	/**
+	 * Delete the issues and their meta data from the database
+	 */
+	private function remove_issues() {
+		global $wpdb;
+
+		// Remove local crawl issues by running a delete query
+		$wpdb->query( "DELETE FROM {$wpdb->posts} WHERE post_type = '" . WPSEO_Crawl_Issue::PT_CRAWL_ISSUE . "'" );
+
+		// Remove the meta data for the GWT issues
+		delete_post_meta_by_key( WPSEO_Crawl_Issue::PM_CI_URL );
+		delete_post_meta_by_key( WPSEO_Crawl_Issue::PM_CI_PLATFORM );
+		delete_post_meta_by_key( WPSEO_Crawl_Issue::PM_CI_CATEGORY );
+		delete_post_meta_by_key( WPSEO_Crawl_Issue::PM_CI_FIRST_DETECTED );
+		delete_post_meta_by_key( WPSEO_Crawl_Issue::PM_CI_LAST_CRAWLED );
+		delete_post_meta_by_key( WPSEO_Crawl_Issue::PM_CI_RESPONSE_CODE );
 	}
 
 }
