@@ -31,11 +31,6 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 	private $current_view;
 
 	/**
-	 * @var WPSEO_Crawl_Issue_Manager
-	 */
-	private $issue_manager;
-
-	/**
 	 * @var WPSEO_GWT_Platform_Tabs
 	 */
 	private $platform_tabs;
@@ -47,9 +42,6 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 	 */
 	public function __construct( WPSEO_GWT_Platform_Tabs $platform_tabs) {
 		parent::__construct();
-
-		// The issue manager
-		$this->issue_manager = new WPSEO_Crawl_Issue_Manager( true );
 
 		// Set the current view
 		$this->current_view = ( $status = filter_input( INPUT_GET, 'category' )) ? $status : 'not_found';
@@ -79,7 +71,7 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 
 		$ci_args = $this->set_args();
 
-		$crawl_issue_source = new WPSEO_Crawl_Issue_Table_Data( $this->issue_manager, $this->current_view, $ci_args );
+		$crawl_issue_source = new WPSEO_Crawl_Issue_Table_Data( $this->current_view, $ci_args );
 
 		$this->set_pagination( $crawl_issue_source->get_total_items(), $ci_args['posts_per_page'] );
 

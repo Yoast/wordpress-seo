@@ -10,11 +10,6 @@
 class WPSEO_Crawl_Issue_Table_Data {
 
 	/**
-	 * @var WPSEO_Crawl_Issue_Manager
-	 */
-	private $issue_manager;
-
-	/**
 	 * @var array
 	 */
 	private $arguments;
@@ -35,49 +30,15 @@ class WPSEO_Crawl_Issue_Table_Data {
 	private $category;
 
 	/**
-	 * @param WPSEO_Crawl_Issue_Manager $issue_manager
-	 * @param string					$category
-	 * @param array                     $ci_args
+	 * Setting the properties and load the crawl issues from the database
+	 *
+	 * @param string $category
+	 * @param array  $ci_args
 	 */
-	public function __construct( WPSEO_Crawl_Issue_Manager $issue_manager, $category, array $ci_args ) {
-		$this->arguments = $ci_args;
-
-		// Get the crawl issues
-		$this->issue_manager = $issue_manager;
-
+	public function __construct( $category, array $ci_args ) {
+		$this->arguments     = $ci_args;
 		$this->category      = $category;
-
-		$this->crawl_issues  = $this->issue_manager->get_crawl_issues( $this->get_issues() );
-	}
-
-	/**
-	 * Getting the issues from the database
-	 * @return mixed
-	 */
-	public function get_issues() {
-		global $wpdb;
-
-		$subquery = $this->filter_issues();
-
-		$this->total_rows = $wpdb->get_var(
-			'
-				SELECT COUNT(ID)
-				FROM ' . $wpdb->posts . '
-				WHERE post_status = "' . $this->arguments['post_status'] . '" && post_type = "' . WPSEO_Crawl_Issue::PT_CRAWL_ISSUE . '" && ID IN( ' . $subquery . ' )
-			'
-		);
-
-		return $wpdb->get_results(
-			'
-				SELECT *
-				FROM ' . $wpdb->posts . '
-				WHERE post_status = "' . $this->arguments['post_status'] . '" &&
-					  post_type   = "' . WPSEO_Crawl_Issue::PT_CRAWL_ISSUE . '" &&
-					  ID IN( ' . $subquery . ' )
-				LIMIT ' . $this->arguments['offset'] . ' , ' . $this->arguments['posts_per_page'] . '
-			',
-			OBJECT
-		);
+		$this->crawl_issues  = $this->get_issues();
 	}
 
 	/**
@@ -103,6 +64,65 @@ class WPSEO_Crawl_Issue_Table_Data {
 	 */
 	public function get_total_items() {
 		return $this->total_rows;
+	}
+
+	/**
+	 * Parses the crawl issues from the database
+	 *
+	 *
+	 * @return array<WPSEO_Crawl_Issue>
+	 */
+	private function get_issues( ) {
+		$crawl_issues_db = $this->get_issues_from_db();
+		$crawl_issues = array();
+
+		// Convert WP posts to WPSEO_Crawl_Issue objects
+		if ( count( $crawl_issues_db ) > 0 ) {
+			foreach ( $crawl_issues_db as $crawl_issues_db_item ) {
+				$crawl_issues[] = new WPSEO_Crawl_Issue(
+					$crawl_issues_db_item->post_title,
+					get_post_meta( $crawl_issues_db_item->ID, WPSEO_Crawl_Issue::PM_CI_PLATFORM, true ),
+					get_post_meta( $crawl_issues_db_item->ID, WPSEO_Crawl_Issue::PM_CI_CATEGORY, true ),
+					new DateTime( (string) get_post_meta( $crawl_issues_db_item->ID, WPSEO_Crawl_Issue::PM_CI_FIRST_DETECTED, true ) ),
+					new DateTime( (string) get_post_meta( $crawl_issues_db_item->ID, WPSEO_Crawl_Issue::PM_CI_LAST_CRAWLED, true ) ),
+					get_post_meta( $crawl_issues_db_item->ID, WPSEO_Crawl_Issue::PM_CI_RESPONSE_CODE, true )
+				);
+			}
+		}
+
+		return $crawl_issues;
+	}
+
+
+	/**
+	 * Getting the issues from the database
+	 *
+	 * @return mixed
+	 */
+	private function get_issues_from_db() {
+		global $wpdb;
+
+		$subquery = $this->filter_issues();
+
+		$this->total_rows = $wpdb->get_var(
+			'
+				SELECT COUNT(ID)
+				FROM ' . $wpdb->posts . '
+				WHERE post_status = "' . $this->arguments['post_status'] . '" && post_type = "' . WPSEO_Crawl_Issue::PT_CRAWL_ISSUE . '" && ID IN( ' . $subquery . ' )
+			'
+		);
+
+		return $wpdb->get_results(
+			'
+				SELECT *
+				FROM ' . $wpdb->posts . '
+				WHERE post_status = "' . $this->arguments['post_status'] . '" &&
+					  post_type   = "' . WPSEO_Crawl_Issue::PT_CRAWL_ISSUE . '" &&
+					  ID IN( ' . $subquery . ' )
+				LIMIT ' . $this->arguments['offset'] . ' , ' . $this->arguments['posts_per_page'] . '
+			',
+			OBJECT
+		);
 	}
 
 	/**
