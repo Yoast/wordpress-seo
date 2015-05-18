@@ -45,7 +45,7 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 		$this->issue_manager = new WPSEO_Crawl_Issue_Manager( true );
 
 		// Set the current view
-		$this->current_view = ( $status = filter_input( INPUT_GET, 'category' )) ? $status : 'all';
+		$this->current_view = ( $status = filter_input( INPUT_GET, 'category' )) ? $status : 'not_found';
 
 		// Set page views
 		add_filter( 'views_' . $this->screen->id, array( $this, 'add_page_views' ) );
@@ -72,6 +72,7 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 		$ci_args = $this->set_args();
 
 		$crawl_issue_source = new WPSEO_Crawl_Issue_Table_Data( $this->issue_manager, $ci_args );
+		$crawl_issue_source = new WPSEO_Crawl_Issue_Table_Data( $this->issue_manager, $this->current_view, $ci_args );
 
 		$this->set_pagination( $crawl_issue_source->get_total_items(), $ci_args['posts_per_page'] );
 

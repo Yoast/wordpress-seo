@@ -30,14 +30,22 @@ class WPSEO_Crawl_Issue_Table_Data {
 	private $total_rows;
 
 	/**
+	 * @var current category
+	 */
+	private $category;
+
+	/**
 	 * @param WPSEO_Crawl_Issue_Manager $issue_manager
+	 * @param string					$category
 	 * @param array                     $ci_args
 	 */
-	public function __construct( WPSEO_Crawl_Issue_Manager $issue_manager, array $ci_args ) {
+	public function __construct( WPSEO_Crawl_Issue_Manager $issue_manager, $category, array $ci_args ) {
 		$this->arguments = $ci_args;
 
 		// Get the crawl issues
 		$this->issue_manager = $issue_manager;
+
+		$this->category      = $category;
 
 		$this->crawl_issues  = $this->issue_manager->get_crawl_issues( $this->get_issues() );
 	}
@@ -70,8 +78,6 @@ class WPSEO_Crawl_Issue_Table_Data {
 			',
 			OBJECT
 		);
-
-		// ORDER BY {$this->arguments['orderby']}  {$this->arguments['order']}
 	}
 
 	/**
@@ -106,14 +112,8 @@ class WPSEO_Crawl_Issue_Table_Data {
 		// First filter the platform
 		$platform = ( $platform = filter_input( INPUT_GET, 'tab' ) ) ? $platform : 'web';
 
-		$subquery = 'SELECT platform.post_id FROM wp_postmeta platform';
-
-		if ( $category = filter_input( INPUT_GET, 'category' ) ) {
-			if ( $category !== 'all' ) {
-				$subquery .= ' INNER JOIN wp_postmeta category ON category.post_id = platform.post_id && category.meta_key = "'. WPSEO_Crawl_Issue::PM_CI_CATEGORY . '" AND category.meta_value = "' . WPSEO_GWT_Mapper::category( $category ) . '"';
-			}
-		}
-
+		$subquery  = 'SELECT platform.post_id FROM wp_postmeta platform';
+		$subquery .= ' INNER JOIN wp_postmeta category ON category.post_id = platform.post_id && category.meta_key = "'. WPSEO_Crawl_Issue::PM_CI_CATEGORY . '" AND category.meta_value = "' . WPSEO_GWT_Mapper::category( $this->category ) . '"';
 		$subquery .= ' WHERE platform.meta_key = "' . WPSEO_Crawl_Issue::PM_CI_PLATFORM . '" && platform.meta_value = "' . WPSEO_GWT_Mapper::platform( $platform ) . '"';
 
 		return $subquery;
