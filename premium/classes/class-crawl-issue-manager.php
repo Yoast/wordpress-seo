@@ -5,16 +5,6 @@
  */
 class WPSEO_Crawl_Issue_Manager {
 
-	// Post Type related constants
-	const PT_CRAWL_ISSUE = 'wpseo_crawl_issue';
-
-	// Post Meta related constants
-	const PM_CI_URL           = 'wpseo_ci_url';
-	const PM_CI_PLATFORM      = 'wpseo_ci_platform';
-	const PM_CI_CATEGORY      = 'wpseo_ci_category';
-	const PM_CI_DATE_DETECTED = 'wpseo_ci_date_detected';
-	const PM_CI_RESPONSE_CODE = 'wpseo_ci_response_code';
-
 	// The last checked timestamp
 	const OPTION_CI_TS = 'wpseo_crawl_issues_last_checked';
 

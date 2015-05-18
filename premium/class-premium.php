@@ -434,7 +434,7 @@ class WPSEO_Premium {
 	 * Register the GWT Crawl Error post type
 	 */
 	public function register_gwt_crawl_error_post_type() {
-		register_post_type( WPSEO_Crawl_Issue_Manager::PT_CRAWL_ISSUE, array(
+		register_post_type( WPSEO_Crawl_Issue::PT_CRAWL_ISSUE, array(
 			'public' => false,
 			'label'  => 'WordPress SEO GWT Crawl Error'
 		) );

@@ -95,7 +95,7 @@ class WPSEO_Crawl_Category_Issues {
 			'
 				SELECT post_title
 				FROM ' . $wpdb->posts . '
-				WHERE post_type   = "' . WPSEO_Crawl_Issue_Manager::PT_CRAWL_ISSUE . '" &&
+				WHERE post_type   = "' . WPSEO_Crawl_Issue::PT_CRAWL_ISSUE . '" &&
 					  ID IN(
 						SELECT platform.post_id FROM wp_postmeta platform
 						INNER JOIN wp_postmeta category ON category.post_id = platform.post_id && category.meta_key = "'. WPSEO_Crawl_Issue::PM_CI_CATEGORY . '" AND category.meta_value = "' . $this->category . '"

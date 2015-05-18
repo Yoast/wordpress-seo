@@ -11,6 +11,9 @@
  */
 class WPSEO_Crawl_Issue {
 
+	// Post Type related constants
+	const PT_CRAWL_ISSUE = 'wpseo_crawl_issue';
+
 	// Post Meta related constants
 	const PM_CI_URL            = 'wpseo_ci_url';
 	const PM_CI_PLATFORM       = 'wpseo_ci_platform';
@@ -94,7 +97,7 @@ class WPSEO_Crawl_Issue {
 		if ( 0 === $ci_post_id ) {
 			// Create the post
 			$ci_post_id = wp_insert_post( array(
-				'post_type'   => WPSEO_Crawl_Issue_Manager::PT_CRAWL_ISSUE,
+				'post_type'   => WPSEO_Crawl_Issue::PT_CRAWL_ISSUE,
 				'post_title'  => ( $this->url ),
 				'post_status' => 'publish',
 			) );

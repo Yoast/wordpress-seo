@@ -54,7 +54,7 @@ class WPSEO_Crawl_Issue_Table_Data {
 	 * Getting the issues from the database
 	 * @return mixed
 	 */
-	public function get_issues () {
+	public function get_issues() {
 		global $wpdb;
 
 		$subquery = $this->filter_issues();
@@ -63,7 +63,7 @@ class WPSEO_Crawl_Issue_Table_Data {
 			'
 				SELECT COUNT(ID)
 				FROM ' . $wpdb->posts . '
-				WHERE post_status = "' . $this->arguments['post_status'] . '" && post_type = "' . WPSEO_Crawl_Issue_Manager::PT_CRAWL_ISSUE . '" && ID IN('. $subquery .')
+				WHERE post_status = "' . $this->arguments['post_status'] . '" && post_type = "' . WPSEO_Crawl_Issue::PT_CRAWL_ISSUE . '" && ID IN( ' . $subquery . ' )
 			'
 		);
 
@@ -72,8 +72,8 @@ class WPSEO_Crawl_Issue_Table_Data {
 				SELECT *
 				FROM ' . $wpdb->posts . '
 				WHERE post_status = "' . $this->arguments['post_status'] . '" &&
-					  post_type   = "' . WPSEO_Crawl_Issue_Manager::PT_CRAWL_ISSUE . '" &&
-					  ID IN(' . $subquery . ' )
+					  post_type   = "' . WPSEO_Crawl_Issue::PT_CRAWL_ISSUE . '" &&
+					  ID IN( ' . $subquery . ' )
 				LIMIT ' . $this->arguments['offset'] . ' , ' . $this->arguments['posts_per_page'] . '
 			',
 			OBJECT
