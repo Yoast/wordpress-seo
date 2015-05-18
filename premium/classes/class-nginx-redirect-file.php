@@ -35,7 +35,7 @@ class WPSEO_Nginx_Redirect_File extends WPSEO_Redirect_File {
 	 * @return string
 	 */
 	public function format_regex_redirect( $regex, $url, $type ) {
-		return 'location ~ ' . $regex . ' { return ' . $type . ' ' . $url . '; }';
+		return 'location ~ ' . $regex . ' { add_header X-Redirect-By \"WordPress SEO by Yoast Premium\"; return ' . $type . ' ' . $url . '; }';
 	}
 
 }
