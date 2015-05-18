@@ -2,24 +2,36 @@
 
 class WPSEO_GWT_Mapper {
 
+	/**
+	 * The platforms which can be mapped.
+	 *
+	 * @var array
+	 */
 	private static $platforms = array(
 		'web'             => 'web',
 		'mobile'          => 'mobile',
 		'smartphone_only' => 'smartphoneOnly',
 	);
 
+	/**
+	 * The categories which can be mapped
+	 *
+	 * @var array
+	 */
 	private static $categories = array(
-		'auth_permissions'     => 'authPermissions',
-		'many_to_one_redirect' => 'manyToOneRedirect',
-		'not_followed'         => 'notFollowed',
-		'not_found'            => 'notFound',
-		'other'                => 'other',
-		'roboted'              => 'roboted',
-		'server_error'         => 'serverError',
-		'soft_404'             => 'soft404',
+		'access_denied'    => 'authPermissions',
+		'faulty_redirects' => 'manyToOneRedirect',
+		'not_followed'     => 'notFollowed',
+		'not_found'        => 'notFound',
+		'other'            => 'other',
+		'roboted'          => 'roboted',
+		'server_error'     => 'serverError',
+		'soft_404'         => 'soft404',
 	);
 
 	/**
+	 * Mapping the platform
+	 *
 	 * @param string $platform
 	 *
 	 * @return mixed
@@ -31,11 +43,18 @@ class WPSEO_GWT_Mapper {
 	}
 
 	/**
+	 * Mapping the given category.
+	 *
 	 * @param string $category
+	 * @param bool   $flip
 	 *
 	 * @return mixed
 	 */
-	public static function category( $category ) {
+	public static function category( $category, $flip = false ) {
+		if ( $flip && $category = array_search( $category, self::$categories ) ) {
+			return $category;
+		}
+
 		if ( array_key_exists( $category, self::$categories ) ) {
 			return self::$categories[ $category ];
 		}
