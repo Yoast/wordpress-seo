@@ -63,7 +63,7 @@ function wpseo_set_ignore() {
 	// Notices to be ignored globally
 	else {
 		$options                          = get_option( 'wpseo' );
-		$options['ignore_' . $ignore_key] = true;
+		$options[ 'ignore_' . $ignore_key ] = true;
 		update_option( 'wpseo', $options );
 	}
 	die( '1' );
