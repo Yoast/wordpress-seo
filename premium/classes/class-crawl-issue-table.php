@@ -71,7 +71,6 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 
 		$ci_args = $this->set_args();
 
-		$crawl_issue_source = new WPSEO_Crawl_Issue_Table_Data( $this->issue_manager, $ci_args );
 		$crawl_issue_source = new WPSEO_Crawl_Issue_Table_Data( $this->issue_manager, $this->current_view, $ci_args );
 
 		$this->set_pagination( $crawl_issue_source->get_total_items(), $ci_args['posts_per_page'] );
