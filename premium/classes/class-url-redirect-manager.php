@@ -110,6 +110,7 @@ if ( class_exists( 'WPSEO_Redirect_Manager' ) && ! class_exists( 'WPSEO_URL_Redi
 		 */
 		private function do_redirect( $url, $redirect_url ) {
 			if ( 410 !== $this->redirects[ $url ]['type'] ) {
+				header( 'X-Redirect-By: WordPress SEO by Yoast Premium' );
 				wp_redirect( $redirect_url, $this->redirects[ $url ]['type'] );
 				exit;
 			}
