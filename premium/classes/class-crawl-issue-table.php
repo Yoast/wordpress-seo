@@ -107,6 +107,7 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 	 */
 	public function get_columns() {
 		$columns = array(
+			'cb'             => '<input type="checkbox" />',
 			'url'            => __( 'URL', 'wordpress-seo-premium' ),
 			'issue_category' => __( 'Issue category', 'wordpress-seo-premium' ),
 			'date_detected'  => __( 'Date detected', 'wordpress-seo-premium' ),
@@ -143,6 +144,19 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 	 */
 	protected function column_default( $item, $column_name ) {
 		return $item[ $column_name ];
+	}
+
+	/**
+	 * Checkbox column
+	 *
+	 * @param array $item
+	 *
+	 * @return string
+	 */
+	public function column_cb( $item ) {
+		return sprintf(
+			'<input type="checkbox" name="wpseo_crawl_issues_mark_as_fixed[]" value="%s" />', $item['url']
+		);
 	}
 
 	/**
