@@ -57,7 +57,7 @@ function wpseo_set_ignore() {
 	$ignore_key = sanitize_text_field( WPSEO_Utils::filter_input( INPUT_POST, 'option' ) );
 
 	// Notices to be ignored for a specific user
-	if ( in_array( $ignore_key, array( 'tour', ) ) ) {
+	if ( $ignore_key === 'tour' ) {
 		update_user_meta( get_current_user_id(), 'wpseo_ignore_' . $ignore_key, true );
 	}
 	// Notices to be ignored globally
