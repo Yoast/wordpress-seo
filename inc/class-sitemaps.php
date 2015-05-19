@@ -550,6 +550,7 @@ class WPSEO_Sitemaps {
 
 				// must use custom raw query because WP User Query does not support ordering by usermeta
 				// Retrieve the newest updated profile timestamp overall
+				// TODO order by usermeta supported since WP 3.7, update implementation? R.
 
 				$date_query = "
 						SELECT mt1.meta_value FROM $wpdb->users
@@ -804,7 +805,7 @@ class WPSEO_Sitemaps {
 							$url['mod'] = $p->post_date_gmt;
 						}
 						else {
-							$url['mod'] = $p->post_date;
+							$url['mod'] = $p->post_date; // TODO does this ever happen? will wreck timezone later R.
 						}
 					}
 
