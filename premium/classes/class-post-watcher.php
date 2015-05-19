@@ -21,7 +21,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	/**
 	 * Add an extra field to post edit screen so we know the old url in the 'post_updated' hook
 	 *
-	 * @param mixed $post
+	 * @param stdClass $post
 	 */
 	public function old_url_field( $post ) {
 		// $post must be set
@@ -36,9 +36,9 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	/**
 	 * Detect if the slug changed, hooked into 'post_updated'
 	 *
-	 * @param integer $post_id
-	 * @param mixed   $post
-	 * @param mixed   $post_before
+	 * @param integer  $post_id
+	 * @param stdClass $post
+	 * @param stdClass $post_before
 	 */
 	public function detect_slug_change( $post_id, $post, $post_before ) {
 		/**
@@ -146,7 +146,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	 *
 	 * @param integer $post_id
 	 *
-	 * @return mixed
+	 * @return string|void
 	 */
 	protected function check_if_redirect_needed( $post_id ) {
 

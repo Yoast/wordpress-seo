@@ -21,8 +21,8 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 	/**
 	 * Add an extra field to term edit screen
 	 *
-	 * @param mixed $tag
-	 * @oaram mixed $taxonomy
+	 * @param stdClass $tag
+	 * @oaram stdClass $taxonomy
 	 */
 	public function old_url_field( $tag, $taxonomy ) {
 		$url = $this->get_target_url( $tag, $taxonomy );
@@ -33,9 +33,9 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 	/**
 	 * Detect if the slug changed, hooked into 'post_updated'
 	 *
-	 * @param integer $term_id
-	 * @param integer $tt_id
-	 * @param mixed   $taxonomy
+	 * @param integer  $term_id
+	 * @param integer  $tt_id
+	 * @param stdClass $taxonomy
 	 */
 	public function detect_slug_change( $term_id, $tt_id, $taxonomy ) {
 		/**
