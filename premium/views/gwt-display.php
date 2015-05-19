@@ -8,10 +8,14 @@
 	Yoast_Form::get_instance()->admin_header( false, 'wpseo_redirects', false, 'yoast_wpseo_redirects_options' );
 ?>
 	<h2 class="nav-tab-wrapper" id="wpseo-tabs">
+<?php
+if ( WP_DEBUG ) {
+	?>
 		<form action="" method="post">
 			<input type="submit" name="reload-crawl-issues" id="reload-crawl-issue" class="button-primary"
 				   style="float: right;" value="<?php _e( 'Reload crawl issues', 'wordpress-seo-premium' ); ?>">
 		</form>
+<?php } ?>
 		<?php echo $platform_tabs = new WPSEO_GWT_Platform_Tabs; ?>
 	</h2>
 
