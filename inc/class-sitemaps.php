@@ -431,7 +431,7 @@ class WPSEO_Sitemaps {
 						if ( ! isset( $all_dates ) ) {
 							$all_dates = $wpdb->get_col( $wpdb->prepare( "SELECT post_modified_gmt FROM (SELECT @rownum:=@rownum+1 rownum, $wpdb->posts.post_modified_gmt FROM (SELECT @rownum:=0) r, $wpdb->posts WHERE post_status IN ('publish','inherit') AND post_type = %s ORDER BY post_modified_gmt ASC) x WHERE rownum %%%d=0", $post_type, $this->max_entries ) );
 						}
-						$datetime = new DateTime( $all_dates[ $i ], new DateTimeZone( $this->get_timezone_string() ) );
+						$datetime = $this->get_datetime_with_timezone( $all_dates[ $i ] );
 						$date     = $datetime->format( 'c' );
 						unset( $all_dates, $datetime );
 					}
@@ -517,7 +517,7 @@ class WPSEO_Sitemaps {
 
 						$date = '';
 						if ( $query->have_posts() ) {
-							$datetime = new DateTime( $query->posts[0]->post_modified_gmt, new DateTimeZone( $this->get_timezone_string() ) );
+							$datetime = $this->get_datetime_with_timezone( $query->posts[0]->post_modified_gmt );
 							$date     = $datetime->format( 'c' );
 							unset( $datetime );
 						}
@@ -578,7 +578,7 @@ class WPSEO_Sitemaps {
 						)
 					);
 				}
-				$date = new DateTime( date( 'y-m-d H:i:s', $date ), new DateTimeZone( $this->get_timezone_string() ) );
+				$date = $this->get_datetime_with_timezone( '@' . $date );
 
 				$this->sitemap .= '<sitemap>' . "\n";
 				$this->sitemap .= '<loc>' . wpseo_xml_sitemaps_base_url( 'author-sitemap' . $count . '.xml' ) . '</loc>' . "\n";
@@ -1340,7 +1340,7 @@ class WPSEO_Sitemaps {
 			unset( $post_type );
 		}
 
-		$date = new DateTime( $result, new DateTimeZone( $this->get_timezone_string() ) );
+		$date = $this->get_datetime_with_timezone( $result );
 
 		return $date->format( 'c' );
 	}
