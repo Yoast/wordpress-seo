@@ -1346,15 +1346,26 @@ class WPSEO_Sitemaps {
 	}
 
 	/**
-	 * Get the datetime object is the datetime string was valid with a timezone
+	 * Get the datetime object, in site's time zone, if the datetime string was valid
 	 *
-	 * @param string $datetime The datetime string that needs to be converted to a Datetime object
+	 * @param string $datetime_string The datetime string in UTC time zone, that needs to be converted to a DateTime object
 	 *
-	 * @return DateTime|string
+	 * @return DateTime|null in site's time zone
 	 */
-	private function get_datetime_with_timezone( $datetime ) {
-		if ( ! empty( $datetime ) && WPSEO_Utils::is_valid_datetime( $datetime ) ) {
-			return new DateTime( $datetime, new DateTimeZone( $this->get_timezone_string() ) );
+	private function get_datetime_with_timezone( $datetime_string ) {
+
+		static $utc_timezone, $local_timezone;
+
+		if ( ! isset( $utc_timezone ) ) {
+			$utc_timezone   = new DateTimeZone( 'UTC' );
+			$local_timezone = new DateTimeZone( $this->get_timezone_string() );
+		}
+
+		if ( ! empty( $datetime_string ) && WPSEO_Utils::is_valid_datetime( $datetime_string ) ) {
+			$datetime = new DateTime( $datetime_string, $utc_timezone );
+			$datetime->setTimezone( $local_timezone );
+
+			return $datetime;
 		}
 
 		return null;
