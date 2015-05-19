@@ -22,7 +22,7 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 	 * Add an extra field to term edit screen
 	 *
 	 * @param stdClass $tag
-	 * @oaram stdClass $taxonomy
+	 * @param stdClass $taxonomy
 	 */
 	public function old_url_field( $tag, $taxonomy ) {
 		$url = $this->get_target_url( $tag, $taxonomy );
@@ -36,6 +36,8 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 	 * @param integer  $term_id
 	 * @param integer  $tt_id
 	 * @param stdClass $taxonomy
+	 *
+	 * @return bool|void
 	 */
 	public function detect_slug_change( $term_id, $tt_id, $taxonomy ) {
 		/**
@@ -62,7 +64,13 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 		if ( $this->should_create_redirect( $old_url, $new_url ) ) {
 
 			// Format the message
-			$message = sprintf( __( "WordPress SEO Premium created a <a href='%s'>redirect</a> from the old term URL to the new term URL. <a href='%s'>Click here to undo this</a>.", 'wordpress-seo-premium' ), $this->admin_redirect_url( $old_url ), $this->javascript_undo_redirect( $old_url ) );
+			/* translators %1$s: <a href='{admin_redirect_url}'>, %2$s: <a href='{undo_redirect_url}'> and %3$s: </a> */
+			$message = sprintf(
+				__( 'WordPress SEO Premium created a %1$s.redirect%3$s. from the old term URL to the new term URL. %2$sClick here to undo this%3$s.', 'wordpress-seo-premium' ),
+				'<a href="' . $this->admin_redirect_url( $old_url ) . '"',
+				'<a href="' . $this->javascript_undo_redirect( $old_url ) . '"',
+				'</a>'
+			);
 
 			$this->create_redirect( $old_url, $new_url );
 
@@ -90,7 +98,8 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 			$url = $this->get_target_url( get_term( $term_row->term_id, $term_row->taxonomy ), $term_row->taxonomy );
 
 			// Format the message
-			$message = sprintf( __( 'WordPress SEO Premium detected that you deleted a term. <a href="%s">Click here to create a redirect from the old term URL</a>.', 'wordpress-seo-premium' ), $this->javascript_create_redirect( $url ) );
+			/* translators %1$s expands to <a href='{create_redirect_url}'> and %2$s </a> */
+			$message = sprintf( __( 'WordPress SEO Premium detected that you deleted a term. %1$sClick here to create a redirect from the old term URL%2$s.', 'wordpress-seo-premium' ),  '<a href="'. $this->javascript_create_redirect( $url ) . '"', '</a>' );
 
 			$this->create_notification( $message, 'delete' );
 
