@@ -29,17 +29,12 @@ class WPSEO_Page_GWT {
 		// Create a new WPSEO GWT Google Client
 		$this->service  = new WPSEO_GWT_Service();
 
-		// Counting the issues
-		$issue_count    = new WPSEO_Crawl_Issue_Count( $this->service );
-
 		$this->settings = new WPSEO_GWT_Settings( $this->service );
 
-//		if($issue_count->)
 		// Counting the issues
 		new WPSEO_Crawl_Issue_Count( $this->service );
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'page_scripts' ) );
-
 	}
 
 	/**
