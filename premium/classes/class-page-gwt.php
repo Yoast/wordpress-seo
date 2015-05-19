@@ -35,6 +35,8 @@ class WPSEO_Page_GWT {
 		$this->settings = new WPSEO_GWT_Settings( $this->service );
 
 //		if($issue_count->)
+		// Counting the issues
+		new WPSEO_Crawl_Issue_Count( $this->service );
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'page_scripts' ) );
 
@@ -43,9 +45,9 @@ class WPSEO_Page_GWT {
 	/**
 	 * Display the table
 	 *
-	 * @param $platform_tabs
+	 * @param WPSEO_GWT_Platform_Tabs $platform_tabs
 	 */
-	public function display_table( $platform_tabs ) {
+	public function display_table( WPSEO_GWT_Platform_Tabs $platform_tabs ) {
 		// The list table
 		$list_table = new WPSEO_Crawl_Issue_Table( $platform_tabs );
 		$list_table->prepare_items( );
