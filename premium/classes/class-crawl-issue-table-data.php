@@ -10,14 +10,14 @@
 class WPSEO_Crawl_Issue_Table_Data {
 
 	/**
-	 * @var array
+	 * @var string current platform
 	 */
-	private $arguments;
+	private $platform;
 
 	/**
-	 * @var array
+	 * @var string current category
 	 */
-	private $crawl_issues;
+	private $category;
 
 	/**
 	 * @var integer
@@ -25,20 +25,17 @@ class WPSEO_Crawl_Issue_Table_Data {
 	private $total_rows;
 
 	/**
-	 * @var current category
-	 */
-	private $category;
-
-	/**
 	 * Setting the properties and load the crawl issues from the database
 	 *
-	 * @param string $category
-	 * @param array  $ci_args
+	 * @param string            $platform
+	 * @param string            $category
+	 * @param WPSEO_GWT_Service $service
+	 *
 	 */
-	public function __construct( $category, array $ci_args ) {
-		$this->arguments     = $ci_args;
-		$this->category      = $category;
-		$this->crawl_issues  = $this->get_issues();
+	public function __construct( $platform, $category, WPSEO_GWT_Service $service ) {
+		$this->platform     = WPSEO_GWT_Mapper::platform( $platform );
+		$this->category     = WPSEO_GWT_Mapper::category( $category );
+		$this->issue_count  = new WPSEO_Crawl_Issue_Count( $service, $this->platform, $this->category );
 	}
 
 	/**
@@ -46,15 +43,8 @@ class WPSEO_Crawl_Issue_Table_Data {
 	 *
 	 * @return array
 	 */
-	public function parse_crawl_issues() {
-		$return = array();
-		if ( is_array( $this->crawl_issues ) && count( $this->crawl_issues ) > 0 ) {
-			foreach ( $this->crawl_issues as $crawl_issue ) {
-				$return[] = $crawl_issue->to_array();
-			}
-		}
-
-		return $return;
+	public function get_issues() {
+		return $this->issue_count->get_issues();
 	}
 
 	/**
