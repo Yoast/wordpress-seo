@@ -36,11 +36,21 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 	private $platform_tabs;
 
 	/**
+	 * @var WPSEO_Crawl_Issue_Table_Data
+	 */
+	private $crawl_issue_source;
+
+	private $per_page     = 50;
+
+	private $current_page = 1;
+
+	/**
 	 * WPSEO_Redirect_Table constructor
 	 *
 	 * @param WPSEO_GWT_Platform_Tabs $platform_tabs
+	 * @param WPSEO_GWT_Service       $service
 	 */
-	public function __construct( WPSEO_GWT_Platform_Tabs $platform_tabs) {
+	public function __construct( WPSEO_GWT_Platform_Tabs $platform_tabs, WPSEO_GWT_Service $service ) {
 		parent::__construct();
 
 		// Set the current view
@@ -48,12 +58,15 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 
 		// Set page views
 		$this->platform_tabs = $platform_tabs;
+
 		add_filter( 'views_' . $this->screen->id, array( $this, 'add_page_views' ) );
 
 		// Set search string
 		if ( ( $search_string = filter_input( INPUT_GET, 's' ) ) != '' ) {
 			$this->search_string = $search_string;
 		}
+
+		$this->crawl_issue_source = new WPSEO_Crawl_Issue_Table_Data( $this->platform_tabs->current_tab(), $this->current_view, $service );
 	}
 
 	/**
@@ -63,23 +76,20 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 	 */
 	public function prepare_items() {
 
+		// Get variables needed for pagination
+		$this->per_page     = $this->get_items_per_page( 'errors_per_page', $this->per_page );
+		$this->current_page = intval( ( $paged = filter_input( INPUT_GET, 'paged' ) ) ? $paged : 1 );
+
 		// Setup the columns
 		$this->setup_columns();
 
-		// Vies
+		// Views
 		$this->views();
 
-		$ci_args = $this->set_args();
+		$this->set_pagination( $this->crawl_issue_source->get_total_items(), $this->per_page );
 
-		$crawl_issue_source = new WPSEO_Crawl_Issue_Table_Data( $this->current_view, $ci_args );
-
-		$this->set_pagination( $crawl_issue_source->get_total_items(), $ci_args['posts_per_page'] );
-
-		$this->items = $crawl_issue_source->parse_crawl_issues();
-
-		if ( ! empty ( $this->search_string) ) {
-			$this->items = $this->do_search();
-		}
+		// Setting the items
+		$this->set_items();
 	}
 
 	/**
@@ -116,7 +126,6 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 
 		return $columns;
 	}
-
 
 	/**
 	 * Return the columns that are sortable
@@ -160,6 +169,20 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 	}
 
 	/**
+	 * Setting the table navigation
+	 *
+	 * @param int $total_items
+	 * @param int $posts_per_page
+	 */
+	private function set_pagination( $total_items, $posts_per_page ) {
+		$this->set_pagination_args( array(
+			'total_items' => $total_items,
+			'total_pages' => ceil( ( $total_items / $posts_per_page ) ),
+			'per_page'    => $posts_per_page,
+		) );
+	}
+
+	/**
 	 * URL column
 	 *
 	 * @param array $item
@@ -181,79 +204,81 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Setting the arguments
-	 *
-	 * @return array
+	 * Setting the items
 	 */
-	private function set_args() {
-		// Build crawl issues args
-		$ci_args = array();
+	private function set_items() {
+		$this->items = $this->crawl_issue_source->get_issues();
 
-		$this->set_order( $ci_args );
+		if ( is_array( $this->items ) && count( $this->items ) > 0 ) {
+			if ( ! empty ( $this->search_string) ) {
+				$this->do_search();
+			}
 
-		// Get variables needed for pagination
-		$per_page     = $this->get_items_per_page( 'errors_per_page', 25 );
-		$current_page = intval( ( $paged = filter_input( INPUT_GET, 'paged' ) ) ? $paged : 1 );
-
-		// Set query pagination
-		$ci_args['posts_per_page'] = $per_page;
-		$ci_args['offset']         = ( ( $current_page - 1 ) * $per_page );
-
-		// Set the post status
-		$ci_args['post_status'] = 'publish';
-
-		return $ci_args;
-	}
-
-	/**
-	 * Setting the order arguments
-	 *
-	 * @param array $ci_args
-	 */
-	private function set_order( & $ci_args ) {
-		// Set the orderby
-		$ci_args['orderby'] = ( $orderby = filter_input( INPUT_GET, 'orderby' ) ) ? esc_sql( $orderby ) : 'title';
-
-		// Set the order
-		$ci_args['order']   = ( $order = filter_input( INPUT_GET, 'order' ) ) ? esc_sql( $order ) : 'asc';
+			$this->sort_items();
+			$this->paginate_items();
+		}
 	}
 
 	/**
 	 * Search through the items
-	 *
-	 * @return array
-	 *
-	 * @todo: Probably this had to be done in the query
 	 */
 	private function do_search( ) {
 		$results = array();
 
-		if ( is_array( $this->items ) ) {
-			foreach ( $this->items as $item ) {
-				foreach ( $item as $value ) {
-					if ( stristr( $value, $this->search_string ) !== false ) {
-						$results[] = $item;
-						continue;
-					}
+		foreach ( $this->items as $item ) {
+			foreach ( $item as $value ) {
+
+				if ( stristr( $value, $this->search_string ) !== false ) {
+					$results[] = $item;
+					continue;
 				}
 			}
 		}
 
-		return $results;
+		$this->items = $results;
 	}
 
 	/**
-	 * Setting the table navigation
-	 *
-	 * @param int $total_items
-	 * @param int $posts_per_page
+	 * Running the pagination
 	 */
-	private function set_pagination( $total_items, $posts_per_page ) {
-		$this->set_pagination_args( array(
-			'total_items' => $total_items,
-			'total_pages' => ceil( ( $total_items / $posts_per_page ) ),
-			'per_page'    => $posts_per_page,
-		) );
+	private function paginate_items() {
+		// Setting the starting point. If starting point is below 1, overwrite it with value 0, otherwise it will be sliced of at the back
+		$slice_start = ( $this->current_page - 1 );
+		if ( $slice_start < 0 ) {
+			$slice_start = 0;
+		}
+
+		// Apply 'pagination'
+		$this->items = array_slice( $this->items, ( $slice_start * $this->per_page ), $this->per_page );
+	}
+
+	/**
+	 * Sort the items by callback
+	 */
+	private function sort_items() {
+		// Sort the results
+		usort( $this->items, array( $this, 'do_reorder' ) );
+	}
+	/**
+	 * Doing the sorting of the issues
+	 *
+	 * @param array $a
+	 * @param array $b
+	 *
+	 * @return int
+	 */
+	private function do_reorder($a, $b) {
+		// If no sort, default to title
+		$orderby = ( $orderby = filter_input( INPUT_GET, 'orderby' ) ) ? $orderby : 'url';
+
+		// If no order, default to asc
+		$order = ( $order = filter_input( INPUT_GET, 'order' ) ) ? $order : 'asc';
+
+		// Determine sort order
+		$result = strcmp( $a[ $orderby ], $b[ $orderby ] );
+
+		// Send final sort direction to usort
+		return ( $order === 'asc' ) ? $result : ( -$result );
 	}
 
 }
