@@ -73,7 +73,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 		if( $url = $this->check_if_redirect_needed( $post_id )) {
 
 			// Format the message
-			$message = sprintf( __( "WordPress SEO Premium detected that you moved a post to the trash. <a href='%s'>Click here to create a redirect from the old post URL</a>.", 'wordpress-seo-premium' ), $this->javascript_create_redirect( $url ) );
+			$message = sprintf( __( 'WordPress SEO Premium detected that you moved a post to the trash. <a href="%s">Click here to create a redirect from the old post URL</a>.', 'wordpress-seo-premium' ), $this->javascript_create_redirect( $url ) );
 
 			$this->create_notification( $message, 'trash' );
 		}
@@ -90,7 +90,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 		if( $url = $this->check_if_redirect_needed( $post_id )) {
 
 			// Format the message
-			$message = sprintf( __( "WordPress SEO Premium detected that you restored a post from the trash. <a href='%s'>Click here to remove the redirect</a>.", 'wordpress-seo-premium' ), $this->javascript_undo_redirect( $url ) );
+			$message = sprintf( __( 'WordPress SEO Premium detected that you restored a post from the trash. <a href="%s">Click here to remove the redirect</a>.', 'wordpress-seo-premium' ), $this->javascript_undo_redirect( $url ) );
 
 			$this->create_notification( $message, 'untrash' );
 		}
@@ -108,7 +108,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 		if( $url = $this->check_if_redirect_needed( $post_id )) {
 
 			// Format the message
-			$message = sprintf( __( "WordPress SEO Premium detected that you deleted a post. <a href='%s'>Click here to create a redirect from the old post URL</a>.", 'wordpress-seo-premium' ), $this->javascript_create_redirect( $url ) );
+			$message = sprintf( __( 'WordPress SEO Premium detected that you deleted a post. <a href="%s">Click here to create a redirect from the old post URL</a>.', 'wordpress-seo-premium' ), $this->javascript_create_redirect( $url ) );
 
 			$this->create_notification( $message, 'delete' );
 		}
