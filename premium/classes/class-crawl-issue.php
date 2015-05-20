@@ -88,39 +88,6 @@ class WPSEO_Crawl_Issue {
 	}
 
 	/**
-	 * Saving the crawl issue
-	 */
-	public function save() {
-		$ci_post_id = post_exists( $this->url );
-
-		// Check if the post exists
-		if ( 0 === $ci_post_id ) {
-			// Create the post
-			$ci_post_id = wp_insert_post( array(
-				'post_type'   => WPSEO_Crawl_Issue::PT_CRAWL_ISSUE,
-				'post_title'  => ( $this->url ),
-				'post_status' => 'publish',
-			) );
-		}
-
-		$this->save_post_meta( $ci_post_id );
-	}
-
-	/**
-	 * Saving the post meta
-	 *
-	 * @param integer $ci_post_id
-	 */
-	private function save_post_meta( $ci_post_id ) {
-		// Update all the meta data
-		update_post_meta( $ci_post_id, self::PM_CI_PLATFORM, $this->crawl_type );
-		update_post_meta( $ci_post_id, self::PM_CI_CATEGORY, $this->issue_type );
-		update_post_meta( $ci_post_id, self::PM_CI_FIRST_DETECTED, $this->to_date_format( $this->first_detected ) );
-		update_post_meta( $ci_post_id, self::PM_CI_LAST_CRAWLED, $this->to_date_format( $this->last_crawled ) );
-		update_post_meta( $ci_post_id, self::PM_CI_RESPONSE_CODE, $this->response_code );
-	}
-
-	/**
 	 * @param DateTime $date_to_convert
 	 * @param string   $format
 	 *
