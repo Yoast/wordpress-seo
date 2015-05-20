@@ -52,9 +52,9 @@ class WPSEO_GWT_Category_Filters {
 	public function as_array() {
 		$new_views = array();
 
-		foreach ( $this->category_counts as $category ) {
+		foreach ( $this->category_counts as $category_name => $category ) {
 			if ( $category['count'] > 0 ) {
-				$new_views[] = $this->create_view_link( WPSEO_GWT_Mapper::category( $category['category'], true ), $category['count'] );
+				$new_views[] = $this->create_view_link( WPSEO_GWT_Mapper::category( $category_name, true ), $category['count'] );
 			}
 		}
 
