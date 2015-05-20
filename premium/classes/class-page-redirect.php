@@ -90,7 +90,9 @@ class WPSEO_Page_Redirect {
 			<div id="tab-regex" class="wpseotab redirect-table-tab">
 				<?php
 				// Add new redirect HTML
-				echo "<p>" . sprintf( __( 'Regex Redirects are extremely powerful redirects. You should only use them if you know what you are doing.<br />If you don\'t know what Regular Expressions (regex) are, please refer to %1$sour knowledge base%2$s.', 'wordpress-seo-premium' ), '<a href="http://kb.yoast.com/article/142-what-are-regex-redirects" target="_blank">', '</a>' ) . "</p>\n";
+
+				/* translators: %1$s contains a line break tag. %2$s links to our knowledge base, %3$s closes the link. */
+				echo '<p>' . sprintf( __( 'Regex Redirects are extremely powerful redirects. You should only use them if you know what you are doing.%1$sIf you don\'t know what Regular Expressions (regex) are, please refer to %2$sour knowledge base%3$s.', 'wordpress-seo-premium' ), '<br />', '<a href="http://kb.yoast.com/article/142-what-are-regex-redirects" target="_blank">', '</a>' ) . "</p>\n";
 				echo "<form class='wpseo-new-redirect-form' method='post'>\n";
 				echo "<div class='wpseo_redirects_new'>\n";
 				//				echo "<h2>" . __( 'Add New Regex Redirect', 'wordpress-seo' ) . "</h2>\n";
@@ -177,7 +179,7 @@ class WPSEO_Page_Redirect {
 					} else if ( WPSEO_Utils::is_nginx() ) {
 						if ( file_exists( WPSEO_Redirect_File_Manager::get_file_path() ) ) {
 							echo '<div style="margin: 5px 0; padding: 3px 10px; background-color: #ffffe0; border: 1px solid #E6DB55; border-radius: 3px">';
-							echo '<p>' . __( "As you're on Nginx, you should add the following include to the Nginx config file:", 'wordpress-seo-premium' ) . '</p>';
+							echo '<p>' . __( 'As you\'re on Nginx, you should add the following include to the NGINX config file:', 'wordpress-seo-premium' ) . '</p>';
 							echo '<pre>include ' . WPSEO_Redirect_File_Manager::get_file_path() . ';</pre>';
 							echo '</div>';
 						} else {
