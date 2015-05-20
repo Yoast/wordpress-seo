@@ -86,10 +86,9 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 		// Views
 		$this->views();
 
-		$this->set_pagination( $this->crawl_issue_source->get_total_items(), $this->per_page );
-
 		// Setting the items
 		$this->set_items();
+
 	}
 
 	/**
@@ -213,6 +212,8 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 			if ( ! empty ( $this->search_string) ) {
 				$this->do_search();
 			}
+
+			$this->set_pagination( count( $this->items ), $this->per_page );
 
 			$this->sort_items();
 			$this->paginate_items();

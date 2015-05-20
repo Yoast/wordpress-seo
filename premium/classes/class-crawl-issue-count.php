@@ -62,14 +62,6 @@ class WPSEO_Crawl_Issue_Count {
 	}
 
 	/**
-	 * Returns the total amount of the issues
-	 * @return int
-	 */
-	public function get_total_issues() {
-		return count( $this->issues );
-	}
-
-	/**
 	 * This method will be called by a filter hook and is for removing the counts
 	 */
 	public function clear_counts() {
