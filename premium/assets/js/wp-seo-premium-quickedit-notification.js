@@ -1,43 +1,43 @@
 (jQuery( function() {
 
     //We want to show a redirect message when the slug is changed using quick edit. Therefore we need to get the current page.
-    var current_page = jQuery(location).attr('pathname').split('/').pop();
+    var wpseo_current_page = jQuery(location).attr('pathname').split('/').pop();
 
     //If current page is edit.php, proceed.
-    if (current_page == 'edit.php' || current_page == 'edit-tags.php' ) {
+    if (wpseo_current_page == 'edit.php' || wpseo_current_page == 'edit-tags.php' ) {
 
         //When user clicks on save button after doing a quick edit, get the post id, current slug and new slug.
         jQuery( '.button-primary' ).click(function() {
-            var post_id = jQuery(this).closest('tr').attr('id').replace('edit-', '');
+            var wpseo_post_id = jQuery(this).closest('tr').attr('id').replace('edit-', '');
 
-            if ( current_page == 'edit.php' ) {
-                var current_slug = jQuery( '#inline_' + post_id ).find('.post_name').html();
+            if ( wpseo_current_page == 'edit.php' ) {
+                var wpseo_current_slug = jQuery( '#inline_' + wpseo_post_id ).find('.post_name').html();
             }
-            else if( current_page == 'edit-tags.php' ) {
-                var current_slug = jQuery( '#inline_' + post_id ).find('.slug').html();
+            else if( wpseo_current_page == 'edit-tags.php' ) {
+                var wpseo_current_slug = jQuery( '#inline_' + wpseo_post_id ).find('.slug').html();
             }
 
-            var new_slug = jQuery("input[name=post_name]").val();
+            var wpseo_new_slug = jQuery("input[name=post_name]").val();
 
-            if (current_slug != new_slug ) {
-                show_notification();
+            if ( wpseo_current_slug != wpseo_new_slug ) {
+                wpseo_show_notification();
             }
         });
     }
 }));
 
 /**
- * Use notification counter so we can count how many times the function show_notification is called.
+ * Use notification counter so we can count how many times the function wpseo_show_notification is called.
  *
  * @type {number}
  */
-var notification_counter = 0;
+var wpseo_notification_counter = 0;
 
 /**
  * Show notification to user when there's a redirect created. When the response is empty, up the notification counter with 1, wait 100 ms and call function again.
  * Stop when the notification counter is bigger than 20.
  */
-function show_notification() {
+function wpseo_show_notification() {
     jQuery.post(
         ajaxurl,
         { action: 'yoast_get_notifications'},
@@ -45,10 +45,10 @@ function show_notification() {
 
             if ( response != '' ) {
                 jQuery(response).insertAfter('h2');
-                notification_counter = 0;
-            } else if (notification_counter < 20 && response == '' ) {
-                notification_counter++;
-                setTimeout('show_notification()', 100);
+                wpseo_notification_counter = 0;
+            } else if ( wpseo_notification_counter < 20 && response == '' ) {
+                wpseo_notification_counter++;
+                setTimeout('wpseo_show_notification()', 100);
             }
         });
 }
