@@ -94,24 +94,11 @@ class WPSEO_Crawl_Category_Issues {
 	 *
 	 */
 	private function set_current_issues() {
-		global $wpdb;
+		// First getting the issues from the option
+		$current_issues = $this->get_issues();
 
-		$current_issues = $wpdb->get_results(
-			'
-				SELECT post_title
-				FROM ' . $wpdb->posts . '
-				WHERE post_type   = "' . WPSEO_Crawl_Issue::PT_CRAWL_ISSUE . '" &&
-					  ID IN(
-						SELECT platform.post_id FROM wp_postmeta platform
-						INNER JOIN wp_postmeta category ON category.post_id = platform.post_id && category.meta_key = "'. WPSEO_Crawl_Issue::PM_CI_CATEGORY . '" AND category.meta_value = "' . $this->category . '"
-						WHERE platform.meta_key = "' . WPSEO_Crawl_Issue::PM_CI_PLATFORM . '" && platform.meta_value = "' . $this->platform . '"
-					  )
-			',
-			OBJECT
-		);
-
-		foreach ( $current_issues as $current_issue ) {
-			$this->current_issues[] = $current_issue->post_title;
+		if ( ! empty( $current_issues) ) {
+			$this->current_issues = wp_list_pluck( $current_issues, 'url' );
 		}
 	}
 
