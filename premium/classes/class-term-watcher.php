@@ -106,8 +106,8 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 			// Get the URL
 			$url = $this->get_target_url( get_term( $term_row->term_id, $term_row->taxonomy ), $term_row->taxonomy );
 
-			// Format the message
-			$message = sprintf( __( "WordPress SEO Premium detected that you deleted a term. <a href='%s'>Click here to create a redirect from the old term URL</a>.", 'wordpress-seo-premium' ), $this->javascript_create_redirect( $url ) );
+			/* translators: %s contains a link to create a redirect from the old term url. */
+			$message = sprintf( __( 'WordPress SEO Premium detected that you deleted a term. %sClick here to create a redirect from the old term URL%s.', 'wordpress-seo-premium' ), "<a href='" . $this->javascript_create_redirect( $url ) . "'>", '</a>' );
 
 			$this->create_notification( $message, 'delete' );
 
