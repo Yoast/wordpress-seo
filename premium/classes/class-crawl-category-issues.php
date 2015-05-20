@@ -32,15 +32,20 @@ class WPSEO_Crawl_Category_Issues {
 	private $current_issues;
 
 	/**
+	 * @var string
+	 */
+	private $option_name = '';
+
+	/**
+	 *
 	 * @param string $platform
 	 * @param string $category
 	 */
 	public function __construct( $platform, $category ) {
-		$this->service  = new WPSEO_GWT_Service();
-		$this->platform = $platform;
-		$this->category = $category;
-
-		$this->set_current_issues();
+		$this->service     = new WPSEO_GWT_Service();
+		$this->platform    = $platform;
+		$this->category    = $category;
+		$this->option_name = strtolower( 'wpseo-premium-gwt-issues-' . $platform . '-' . $category );
 	}
 
 	/**
