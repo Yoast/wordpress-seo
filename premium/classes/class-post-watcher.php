@@ -113,8 +113,8 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 		// Is a redirect needed
 		if ( $url = $this->check_if_redirect_needed( $post_id ) ) {
 
-			// Format the message
-			$message = sprintf( __( "WordPress SEO Premium detected that you deleted a post. <a href='%s'>Click here to create a redirect from the old post URL</a>.", 'wordpress-seo-premium' ), $this->javascript_create_redirect( $url ) );
+			/* translators: %s contains a link to create a redirect from the old post url. */
+			$message = sprintf( __( 'WordPress SEO Premium detected that you deleted a post. %sClick here to create a redirect from the old post URL%s.', 'wordpress-seo-premium' ), "<a href='" . $this->javascript_create_redirect( $url ) . "'>", '</a>' );
 
 			$this->create_notification( $message, 'delete' );
 		}
