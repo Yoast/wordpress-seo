@@ -1,7 +1,6 @@
 <?php
 /**
- * @package    WPSEO
- * @subpackage Internals
+ * @package WPSEO\Internals
  * @since      1.5.0
  */
 
@@ -774,7 +773,7 @@ class WPSEO_Meta {
 					)
 				;",
 			$old_metakey,
-			like_escape( self::$meta_prefix . '%' ),
+			$wpdb->esc_like( self::$meta_prefix . '%' ),
 			self::$meta_prefix . 'linkdex'
 		);
 		$oldies = $wpdb->get_results( $query );

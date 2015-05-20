@@ -1,7 +1,6 @@
 <?php
 /**
- * @package    WPSEO
- * @subpackage Internals
+ * @package WPSEO\Internals
  * @since      1.8.0
  */
 
@@ -342,7 +341,7 @@ class WPSEO_Utils {
 			'YES',
 			'on',
 			'On',
-			'On',
+			'ON',
 
 		);
 		$false = array(
@@ -448,34 +447,6 @@ class WPSEO_Utils {
 	}
 
 	/**
-	 * (Un-)schedule the yoast tracking cronjob if the tracking option has changed
-	 *
-	 * @todo     - [JRF => Yoast] check if this has any impact on other Yoast plugins which may
-	 * use the same tracking schedule hook. If so, maybe get any other yoast plugin options,
-	 * check for the tracking status and unschedule based on the combined status.
-	 *
-	 * @static
-	 *
-	 * @param mixed $disregard        Not needed - passed by add/update_option action call
-	 *                                 Option name if option was added, old value if option was updated
-	 * @param array $value            The (new/current) value of the wpseo option
-	 * @param bool  $force_unschedule Whether to force an unschedule (i.e. on deactivate)
-	 *
-	 * @return void
-	 */
-	public static function schedule_yoast_tracking( $disregard, $value, $force_unschedule = false ) {
-		$current_schedule = wp_next_scheduled( 'yoast_tracking' );
-
-		if ( $force_unschedule !== true && ( $value['yoast_tracking'] === true && $current_schedule === false ) ) {
-			// The tracking checks daily, but only sends new data every 7 days.
-			wp_schedule_event( time(), 'daily', 'yoast_tracking' );
-		}
-		elseif ( $force_unschedule === true || ( $value['yoast_tracking'] === false && $current_schedule !== false ) ) {
-			wp_clear_scheduled_hook( 'yoast_tracking' );
-		}
-	}
-
-	/**
 	 * Clears the WP or W3TC cache depending on which is used
 	 *
 	 * @static
@@ -519,6 +490,21 @@ class WPSEO_Utils {
 	 */
 	public static function clear_sitemap_cache( $types = array() ) {
 		global $wpdb;
+
+		if ( wp_using_ext_object_cache() ) {
+			return;
+		}
+
+		if ( ! apply_filters( 'wpseo_enable_xml_sitemap_transient_caching', true ) ) {
+			return;
+		}
+
+		// not sure about efficiency, but that's what code elsewhere does R.
+		$options = WPSEO_Options::get_all();
+
+		if ( true !== $options['enablexmlsitemap'] ) {
+			return;
+		}
 
 		$query = "DELETE FROM $wpdb->options WHERE";
 
@@ -685,45 +671,7 @@ class WPSEO_Utils {
 	 * @return mixed
 	 */
 	public static function filter_input( $type, $variable_name, $filter = FILTER_DEFAULT ) {
-		if ( function_exists( 'filter_input' ) ) {
-			return filter_input( $type, $variable_name, $filter );
-		}
-		else {
-			switch ( $type ) {
-				case INPUT_GET:
-					$type = $_GET;
-					break;
-				case INPUT_POST:
-					$type = $_POST;
-					break;
-				case INPUT_SERVER:
-					$type = $_SERVER;
-					break;
-				default:
-					return false;
-					break;
-			}
-
-			if ( isset( $type[ $variable_name ] ) ) {
-				$out = $type[ $variable_name ];
-			}
-			else {
-				return false;
-			}
-
-			switch ( $filter ) {
-				case FILTER_VALIDATE_INT:
-					$out = self::emulate_filter_int( $out );
-					break;
-				case FILTER_VALIDATE_BOOLEAN:
-					$out = self::emulate_filter_bool( $out );
-					break;
-				default:
-					$out = (string) $out;
-					break;
-			}
-			return $out;
-		}
+		return filter_input( $type, $variable_name, $filter );
 	}
 
 	/**
@@ -750,9 +698,14 @@ class WPSEO_Utils {
 	 */
 	public static function is_valid_datetime( $datetime ) {
 		if ( substr( $datetime, 0, 1 ) != '-' ) {
-			// Use the DateTime class ( PHP 5.2 > ) to check if the string is a valid datetime
-			if ( new DateTime( $datetime ) !== false ) {
-				return true;
+			try {
+				// Use the DateTime class ( PHP 5.2 > ) to check if the string is a valid datetime
+				if ( new DateTime( $datetime ) !== false ) {
+					return true;
+				}
+			}
+			catch( Exception $exc ) {
+				return false;
 			}
 		}
 

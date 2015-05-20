@@ -1,7 +1,6 @@
 <?php
 /**
- * @package    WPSEO
- * @subpackage Admin
+ * @package WPSEO\Admin
  */
 
 /**
@@ -196,7 +195,7 @@ class WPSEO_Admin {
 			array(
 				'id'      => 'basic-help',
 				'title'   => __( 'Template explanation', 'wordpress-seo' ),
-				'content' => '<p>' . __( 'The title &amp; metas settings for WordPress SEO are made up of variables that are replaced by specific values from the page when the page is displayed. The tabs on the left explain the available variables.', 'wordpress-seo' ) . '</p>',
+				'content' => '<p>' . __( 'The title &amp; metas settings for WordPress SEO are made up of variables that are replaced by specific values from the page when the page is displayed. The tabs on the left explain the available variables.', 'wordpress-seo' ) . '</p>' . '<p>' . __( 'Note that not all variables can be used in every template.', 'wordpress-seo' ) . '</p>',
 			)
 		);
 
@@ -249,7 +248,7 @@ class WPSEO_Admin {
 	 * Load the form for a WPSEO admin page
 	 */
 	function load_page() {
-		$page = WPSEO_Utils::filter_input( INPUT_GET, 'page' );
+		$page = filter_input( INPUT_GET, 'page' );
 
 		switch ( $page ) {
 			case 'wpseo_advanced':
@@ -339,7 +338,7 @@ class WPSEO_Admin {
 				<p>
 					<strong>%1$s</strong>
 					%2$s
-					<a href="javascript:wpseo_setIgnore(\'blog_public_warning\',\'robotsmessage\',\'%3$s\');" class="button">%4$s</a>
+					<a href="javascript:wpseoSetIgnore(\'blog_public_warning\',\'robotsmessage\',\'%3$s\');" class="button">%4$s</a>
 				</p>
 			</div>',
 			__( 'Huge SEO Issue: You\'re blocking access to robots.', 'wordpress-seo' ),
@@ -360,7 +359,7 @@ class WPSEO_Admin {
 		}
 
 		// No need to double display it on the dashboard
-		if ( 'wpseo_dashboard' === WPSEO_Utils::filter_input( INPUT_GET, 'page' ) ) {
+		if ( 'wpseo_dashboard' === filter_input( INPUT_GET, 'page' ) ) {
 			return;
 		}
 
@@ -373,7 +372,7 @@ class WPSEO_Admin {
 				<p>
 					<strong>%1$s</strong>
 					%2$s
-					<a href="javascript:wpseo_setIgnore(\'meta_description_warning\',\'metamessage\',\'%3$s\');" class="button">%4$s</a>
+					<a href="javascript:wpseoSetIgnore(\'meta_description_warning\',\'metamessage\',\'%3$s\');" class="button">%4$s</a>
 				</p>
 			</div>',
 			__( 'SEO Issue:', 'wordpress-seo' ),
@@ -461,20 +460,25 @@ class WPSEO_Admin {
 			return $slug;
 		}
 
-		if ( ! WPSEO_Utils::filter_input( INPUT_POST, 'post_title' ) ) {
+		if ( ! filter_input( INPUT_POST, 'post_title' ) ) {
 			return $slug;
 		}
 
 		// Don't change slug if the post is a draft, this conflicts with polylang
-		if ( 'draft' == WPSEO_Utils::filter_input( INPUT_POST, 'post_status' ) ) {
+		if ( 'draft' == filter_input( INPUT_POST, 'post_status' ) ) {
 			return $slug;
 		}
 
 		// Lowercase the slug and strip slashes
-		$clean_slug = sanitize_title( stripslashes( WPSEO_Utils::filter_input( INPUT_POST, 'post_title' ) ) );
+		$clean_slug = sanitize_title( stripslashes( filter_input( INPUT_POST, 'post_title' ) ) );
 
 		// Turn it to an array and strip stopwords by comparing against an array of stopwords
 		$clean_slug_array = array_diff( explode( '-', $clean_slug ), $this->stopwords() );
+
+		// Don't change the slug if there are less than 3 words left
+		if ( count( $clean_slug_array ) < 3 ) {
+			return $clean_slug;
+		}
 
 		// Turn the sanitized array into a string
 		$clean_slug = join( '-', $clean_slug_array );
@@ -569,11 +573,11 @@ class WPSEO_Admin {
 	 *
 	 * @deprecated 1.5.0
 	 * @deprecated use wpseo_do_upgrade()
-	 * @see        wpseo_do_upgrade()
+	 * @see        WPSEO_Upgrade
 	 */
 	function maybe_upgrade() {
 		_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'wpseo_do_upgrade' );
-		wpseo_do_upgrade();
+		new WPSEO_Upgrade();
 	}
 
 	/**

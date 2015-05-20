@@ -22,7 +22,7 @@ class WPSEO_Page_GWT {
 		$redirect_url_appendix = '';
 
 		// Catch the authorization code POST
-		if ( isset ( $_POST['gwt']['authorization_code'] ) ) {
+		if ( isset ( $_POST['gwt']['authorization_code'] ) && wp_verify_nonce( $_POST['gwt']['gwt_nonce'], 'wpseo-gwt_nonce' ) ) {
 			if ( trim( $_POST['gwt']['authorization_code'] ) != '' ) {
 				// Authenticate user
 				$gwt_authentication = new WPSEO_GWT_Authentication();
@@ -30,12 +30,13 @@ class WPSEO_Page_GWT {
 				if ( ! $gwt_authentication->authenticate( $_POST['gwt']['authorization_code'] ) ) {
 					$redirect_url_appendix = '&error=1';
 				}
-			} else {
+			}
+			else {
 				$redirect_url_appendix = '&error=1';
 			}
 
 			// Redirect user to prevent a post resubmission which causes an oauth error
-			wp_redirect( admin_url( 'admin.php' ) . '?page=' . $_GET['page'] . $redirect_url_appendix );
+			wp_redirect( admin_url( 'admin.php' ) . '?page=' . esc_attr( $_GET['page']) . $redirect_url_appendix );
 			exit;
 		}
 	}
@@ -44,17 +45,19 @@ class WPSEO_Page_GWT {
 	 * Function that outputs the redirect page
 	 */
 	public function display() {
-		global $wpseo_admin_pages;
 
 		// Admin header
-		Yoast_Form::get_instance()->admin_header( false, 'yoast_wpseo_redirects_options', 'wpseo_redirects' );
+		Yoast_Form::get_instance()->admin_header( false, 'wpseo_redirects', false, 'yoast_wpseo_redirects_options' );
 		?>
 		<h2 class="nav-tab-wrapper" id="wpseo-tabs">
 			<form action="" method="post">
-				<input type="submit" name="reload-crawl-issues" id="reload-crawl-issue" class="button-primary" style="float: right;" value="<?php _e( 'Reload crawl issues', 'wordpress-seo-premium' ); ?>">
+				<input type="submit" name="reload-crawl-issues" id="reload-crawl-issue" class="button-primary"
+				       style="float: right;" value="<?php _e( 'Reload crawl issues', 'wordpress-seo-premium' ); ?>">
 			</form>
-			<a class="nav-tab" id="crawl-issues-tab" href="#top#redirects"><?php _e( 'Crawl Issues', 'wordpress-seo-premium' ); ?></a>
-			<a class="nav-tab" id="settings-tab" href="#top#settings"><?php _e( 'Settings', 'wordpress-seo-premium' ); ?></a>
+			<a class="nav-tab" id="crawl-issues-tab"
+			   href="#top#redirects"><?php _e( 'Crawl Issues', 'wordpress-seo-premium' ); ?></a>
+			<a class="nav-tab" id="settings-tab"
+			   href="#top#settings"><?php _e( 'Settings', 'wordpress-seo-premium' ); ?></a>
 
 		</h2>
 
@@ -76,7 +79,7 @@ class WPSEO_Page_GWT {
 					}
 
 					// Open <form>
-					echo "<form id='wpseo-crawl-issues-table-form' action='" . admin_url( 'admin.php' ) . '?page=' . $_GET['page'] . $status . "' method='post'>\n";
+					echo "<form id='wpseo-crawl-issues-table-form' action='" . admin_url( 'admin.php' ) . '?page=' . esc_attr( $_GET['page'] ) . $status . "' method='post'>\n";
 
 					// AJAX nonce
 					echo "<input type='hidden' class='wpseo_redirects_ajax_nonce' value='" . wp_create_nonce( 'wpseo-redirects-ajax-security' ) . "' />\n";
@@ -90,7 +93,8 @@ class WPSEO_Page_GWT {
 					// Close <form>
 					echo "</form>\n";
 
-				} else {
+				}
+				else {
 
 					// Get the oauth URL
 					$oath_url = $gwt_client->createAuthUrl();
@@ -102,6 +106,7 @@ class WPSEO_Page_GWT {
 					echo "<p>" . __( 'Please enter the Authorization Code in the field below and press the Authenticate button.', 'wordpress-seo-premium' ) . "</p>\n";
 					echo "<form action='' method='post'>\n";
 					echo "<input type='text' name='gwt[authorization_code]' value='' />";
+					echo "<input type='hidden' name='gwt[gwt_nonce]' value='" . wp_create_nonce( 'wpseo-gwt_nonce' ) . "' />";
 					echo "<input type='submit' name='gwt[Submit]' value='" . __( 'Authenticate', 'wordpress-seo-premium' ) . "' class='button-primary' />";
 					echo "</form>\n";
 				}
@@ -114,7 +119,7 @@ class WPSEO_Page_GWT {
 				<form action="<?php echo admin_url( 'options.php' ); ?>" method="post">
 					<?php
 					settings_fields( 'yoast_wpseo_gwt_options' );
-					$wpseo_admin_pages->currentoption = 'wpseo-premium-gwt';
+					Yoast_Form::get_instance()->set_option('wpseo-premium-gwt');
 
 					// Get the sites
 					$service = new WPSEO_GWT_Service( $gwt_client );
@@ -125,7 +130,8 @@ class WPSEO_Page_GWT {
 					?>
 
 					<p class="submit">
-						<input type="submit" name="submit" id="submit" class="button button-primary" value="<?php _e( 'Save Changes', 'wordpress-seo-premium' ); ?>">
+						<input type="submit" name="submit" id="submit" class="button button-primary"
+						       value="<?php _e( 'Save Changes', 'wordpress-seo-premium' ); ?>">
 					</p>
 				</form>
 
@@ -173,8 +179,8 @@ class WPSEO_Page_GWT {
 	 * Load the admin redirects scripts
 	 */
 	public function page_scripts() {
-		wp_enqueue_script( 'wpseo-premium-yoast-overlay', plugin_dir_url( WPSEO_PREMIUM_FILE ) . '/assets/js/wpseo-premium-yoast-overlay.js', array( 'jquery' ), '1.0.0' );
-		wp_enqueue_script( 'wp-seo-premium-admin-gwt', plugin_dir_url( WPSEO_PREMIUM_FILE ) . '/assets/js/wp-seo-premium-admin-gwt.js', array( 'jquery' ), '1.0.0' );
+		wp_enqueue_script( 'wpseo-premium-yoast-overlay', plugin_dir_url( WPSEO_PREMIUM_FILE ) . '/assets/js/wpseo-premium-yoast-overlay' . WPSEO_CSSJS_SUFFIX . '.js', array( 'jquery' ), '1.0.0' );
+		wp_enqueue_script( 'wp-seo-premium-admin-gwt', plugin_dir_url( WPSEO_PREMIUM_FILE ) . '/assets/js/wp-seo-premium-admin-gwt' . WPSEO_CSSJS_SUFFIX . '.js', array( 'jquery' ), '1.0.0' );
 		wp_localize_script( 'wp-seo-premium-admin-gwt', 'wpseo_premium_strings', WPSEO_Premium_Javascript_Strings::strings() );
 		add_screen_option( 'per_page', array(
 			'label'   => __( 'Crawl errors per page', 'wordpress-seo-premium' ),

@@ -1,7 +1,6 @@
 <?php
 /**
- * @package    WPSEO
- * @subpackage Admin
+ * @package WPSEO\Admin
  */
 
 if ( ! defined( 'WPSEO_VERSION' ) ) {
@@ -32,7 +31,7 @@ echo '<br/><br/>';
 
 $post_types = get_post_types( array( 'public' => true ), 'objects' );
 if ( is_array( $post_types ) && $post_types !== array() ) {
-	echo '<strong>' . __( 'Taxonomy to show in breadcrumbs for:', 'wordpress-seo' ) . '</strong><br/>';
+	echo '<h3>' . __( 'Taxonomy to show in breadcrumbs for post types', 'wordpress-seo' ) . '</h3>';
 	foreach ( $post_types as $pt ) {
 		$taxonomies = get_object_taxonomies( $pt->name, 'objects' );
 		if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
@@ -51,7 +50,7 @@ echo '<br/>';
 
 $taxonomies = get_taxonomies( array( 'public' => true, '_builtin' => false ), 'objects' );
 if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
-	echo '<strong>' . __( 'Post type archive to show in breadcrumbs for:', 'wordpress-seo' ) . '</strong><br/>';
+	echo '<h3>' . __( 'Post type archive to show in breadcrumbs for taxonomies', 'wordpress-seo' ) . '</h3>';
 	foreach ( $taxonomies as $tax ) {
 		$values = array( 0 => __( 'None', 'wordpress-seo' ) );
 		if ( get_option( 'show_on_front' ) == 'page' && get_option( 'page_for_posts' ) > 0 ) {
@@ -75,12 +74,10 @@ unset( $taxonomies, $post_types );
 ?>
 <br class="clear"/>
 </div>
+<h3><?php _e( 'How to insert breadcrumbs in your theme', 'wordpress-seo' ); ?></h3>
 <p>
-	<strong><?php _e( 'How to insert breadcrumbs in your theme', 'wordpress-seo' ); ?></strong><br/>
-	<?php printf( __( 'Usage of this breadcrumbs feature is explained %1$shere%2$s. For the more code savvy, insert this in your theme:', 'wordpress-seo' ), '<a href="https://yoast.com/wordpress/plugins/breadcrumbs/" target="_blank">', '</a>' ); ?>
+	<?php
+		/* translators: %1$s / %2$s: links to the breadcrumbs implementation page on the Yoast knowledgebase */
+		printf( __( 'Usage of this breadcrumbs feature is explained in %1$sour knowledge-base article on breadcrumbs implementation%2$s.', 'wordpress-seo' ), '<a href="http://yoa.st/breadcrumbs" target="_blank">', '</a>' );
+	?>
 </p>
-<pre>
-&lt;?php if ( function_exists(&#x27;yoast_breadcrumb&#x27;) ) {
-yoast_breadcrumb(&#x27;&lt;p id=&quot;breadcrumbs&quot;&gt;&#x27;,&#x27;&lt;/p&gt;&#x27;);
-} ?&gt;
-</pre>

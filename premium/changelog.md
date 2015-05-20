@@ -1,3 +1,17 @@
+### 2.1.1: April 21st, 2015
+* Merge with WordPress SEO core 2.1.1
+
+### 2.1: April 20th, 2015
+* Merge with WordPress SEO core 2.1
+
+### 2.0.1: April 1st, 2015
+* Merge with WordPress SEO core 2.0.1
+
+### 2.0: March 11th, 2015
+* Merge with WordPress SEO core 2.0
+* Made the version number for the Premium plugin the same as for the Free plugin to avoid confusion.
+* Contains several performance improvements, making the plugin much faster.
+
 ### 1.5.3: March 11th, 2015
 * Security hotfix: Merge with WordPress SEO core 1.7.4, see [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
 

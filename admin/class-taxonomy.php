@@ -1,7 +1,6 @@
 <?php
 /**
- * @package    WPSEO
- * @subpackage Admin
+ * @package WPSEO\Admin
  */
 
 /**
@@ -34,6 +33,7 @@ class WPSEO_Taxonomy {
 			), 90, 1 );
 		}
 
+		add_action( 'split_shared_term', array( $this, 'split_shared_term' ), 10, 4 );
 		add_action( 'edit_term', array( $this, 'update_term' ), 99, 3 );
 
 		add_action( 'init', array( $this, 'custom_category_descriptions_allow_html' ) );
@@ -43,6 +43,25 @@ class WPSEO_Taxonomy {
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
 	}
 
+	/**
+	 * Makes sure the taxonomy meta is updated when a taxonomy term is split.
+	 *
+	 * @link https://make.wordpress.org/core/2015/02/16/taxonomy-term-splitting-in-4-2-a-developer-guide/ Article explaining the taxonomy term splitting in WP 4.2
+	 *
+	 * @param string $old_term_id      Old term id of the taxonomy term that was splitted.
+	 * @param string $new_term_id      New term id of the taxonomy term that was splitted.
+	 * @param string $term_taxonomy_id Term taxonomy id for the taxonomy that was affected.
+	 * @param string $taxonomy         The taxonomy that the taxonomy term was splitted for.
+	 */
+	public function split_shared_term( $old_term_id, $new_term_id, $term_taxonomy_id, $taxonomy ) {
+		$tax_meta = get_option( 'wpseo_taxonomy_meta', array() );
+
+		if ( ! empty( $tax_meta[ $taxonomy ][ $old_term_id ] ) ) {
+			$tax_meta[ $taxonomy ][ $new_term_id ] = $tax_meta[ $taxonomy ][ $old_term_id ];
+			unset( $tax_meta[ $taxonomy ][ $old_term_id ]);
+			update_option( 'wpseo_taxonomy_meta', $tax_meta );
+		}
+	}
 
 	/**
 	 * Translate options text strings for use in the select fields
@@ -144,7 +163,7 @@ class WPSEO_Taxonomy {
 
 		echo '
 		<tr class="form-field">
-			<th scope="row">' . ( ( '' !== $label ) ? '<label for="' . $esc_var . '">' . esc_html( $label ) . ':</label>' : '' ) . '</th>
+			<th scope="row">' . ( ( '' !== $label ) ? '<label for="' . $esc_var . '">' . esc_html( $label ) . '</label>' : '' ) . '</th>
 			<td>' . $field . '</td>
 		</tr>';
 	}
@@ -163,7 +182,7 @@ class WPSEO_Taxonomy {
 		$options  = WPSEO_Options::get_all();
 
 
-		echo '<h2>', __( 'Yoast WordPress SEO Settings', 'wordpress-seo' ), '</h2>';
+		echo '<h3>', __( 'Yoast WordPress SEO Settings', 'wordpress-seo' ), '</h2>';
 		echo '<table class="form-table wpseo-taxonomy-form">';
 
 		$this->form_row( 'wpseo_title', __( 'SEO Title', 'wordpress-seo' ), esc_html__( 'The SEO title is used on the archive page for this term.', 'wordpress-seo' ), $tax_meta );

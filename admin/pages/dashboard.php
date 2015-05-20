@@ -1,7 +1,6 @@
 <?php
 /**
- * @package    WPSEO
- * @subpackage Admin
+ * @package WPSEO\Admin
  */
 
 if ( ! defined( 'WPSEO_VERSION' ) ) {
@@ -10,7 +9,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-if ( WPSEO_Utils::filter_input( INPUT_GET, 'intro' ) ) {
+if ( filter_input( INPUT_GET, 'intro' ) ) {
 	require WPSEO_PATH . 'admin/views/about.php';
 	return;
 }
@@ -102,7 +101,7 @@ do_action( 'wpseo_all_admin_notices' );
 
 if ( is_array( $options['blocking_files'] ) && count( $options['blocking_files'] ) > 0 ) {
 	echo '<p id="blocking_files" class="wrong">';
-	echo '<a href="javascript:wpseo_killBlockingFiles(\'', esc_js( wp_create_nonce( 'wpseo-blocking-files' ) ), '\')" class="button fixit">', __( 'Fix it.', 'wordpress-seo' ), '</a>';
+	echo '<a href="javascript:wpseoKillBlockingFiles(\'', esc_js( wp_create_nonce( 'wpseo-blocking-files' ) ), '\')" class="button fixit">', __( 'Fix it.', 'wordpress-seo' ), '</a>';
 	echo __( 'The following file(s) is/are blocking your XML sitemaps from working properly:', 'wordpress-seo' ), '<br />';
 	foreach ( $options['blocking_files'] as $file ) {
 		echo esc_html( $file ), '<br/>';
@@ -127,14 +126,14 @@ if ( $options['theme_description_found'] !== '' ) {
 if ( strpos( get_option( 'permalink_structure' ), '%postname%' ) === false && $options['ignore_permalink'] === false ) {
 	echo '<p id="wrong_permalink" class="wrong">';
 	echo '<a href="', esc_url( admin_url( 'options-permalink.php' ) ), '" class="button fixit">', __( 'Fix it.', 'wordpress-seo' ), '</a>';
-	echo '<a href="javascript:wpseo_setIgnore(\'permalink\',\'wrong_permalink\',\'', esc_js( wp_create_nonce( 'wpseo-ignore' ) ), '\');" class="button fixit">', __( 'Ignore.', 'wordpress-seo' ), '</a>';
+	echo '<a href="javascript:wpseoSetIgnore(\'permalink\',\'wrong_permalink\',\'', esc_js( wp_create_nonce( 'wpseo-ignore' ) ), '\');" class="button fixit">', __( 'Ignore.', 'wordpress-seo' ), '</a>';
 	echo __( 'You do not have your postname in the URL of your posts and pages, it is highly recommended that you do. Consider setting your permalink structure to <strong>/%postname%/</strong>.', 'wordpress-seo' ), '</p>';
 }
 
 if ( get_option( 'page_comments' ) && $options['ignore_page_comments'] === false ) {
 	echo '<p id="wrong_page_comments" class="wrong">';
 	echo '<a href="javascript:setWPOption(\'page_comments\',\'0\',\'wrong_page_comments\',\'', esc_js( wp_create_nonce( 'wpseo-setoption' ) ), '\');" class="button fixit">', __( 'Fix it.', 'wordpress-seo' ), '</a>';
-	echo '<a href="javascript:wpseo_setIgnore(\'page_comments\',\'wrong_page_comments\',\'', esc_js( wp_create_nonce( 'wpseo-ignore' ) ), '\');" class="button fixit">', __( 'Ignore.', 'wordpress-seo' ), '</a>';
+	echo '<a href="javascript:wpseoSetIgnore(\'page_comments\',\'wrong_page_comments\',\'', esc_js( wp_create_nonce( 'wpseo-ignore' ) ), '\');" class="button fixit">', __( 'Ignore.', 'wordpress-seo' ), '</a>';
 	echo __( 'Paging comments is enabled, this is not needed in 999 out of 1000 cases, so the suggestion is to disable it, to do that, simply uncheck the box before "Break comments into pages..."', 'wordpress-seo' ), '</p>';
 }
 
@@ -150,14 +149,6 @@ if ( get_option( 'page_comments' ) && $options['ignore_page_comments'] === false
 	</h2>
 
 	<div id="general" class="wpseotab">
-		<p>
-			<strong><?php _e( 'Tracking', 'wordpress-seo' ); ?></strong><br/>
-			<?php _e( "To maintain a plugin as big as WordPress SEO, we need to know what we're dealing with: what kinds of other plugins our users are using, what themes, etc. Please allow us to track that data from your install. It will not track <em>any</em> user details, so your security and privacy are safe with us.", 'wordpress-seo' ); ?>
-		</p>
-		<?php $yform->checkbox( 'yoast_tracking', __( 'Allow tracking of this WordPress install\'s anonymous data.', 'wordpress-seo' ) ); ?>
-
-		<br/>
-
 		<?php if ( $options['ignore_tour'] === true ) { ?>
 			<p>
 				<strong><?php _e( 'Introduction Tour', 'wordpress-seo' ); ?></strong><br/>
@@ -183,6 +174,17 @@ if ( get_option( 'page_comments' ) && $options['ignore_page_comments'] === false
 		</p>
 	</div>
 	<div id="knowledge-graph" class="wpseotab">
+		<h3><?php _e( 'Website name', 'wordpress-seo' ); ?></h3>
+		<p>
+			<?php
+			_e( 'Google shows your website\'s name in the search results, we will default to your site name but you can adapt it here. You can also provide an alternate website name you want Google to consider.', 'wordpress-seo' );
+			?>
+		</p>
+		<?php
+		$yform->textinput( 'website_name', __( 'Website name', 'wordpress-seo' ), array( 'placeholder' => get_bloginfo( 'name' ) ) );
+		$yform->textinput( 'alternate_website_name', __( 'Alternate name', 'wordpress-seo' ) );
+		?>
+		<h3><?php _e( 'Company or person', 'wordpress-seo' ); ?></h3>
 		<p>
 			<?php
 			// @todo add KB link - JdV
@@ -219,8 +221,8 @@ if ( get_option( 'page_comments' ) && $options['ignore_page_comments'] === false
 	</div>
 	<div id="security" class="wpseotab">
 		<?php
+		echo '<p>', __( 'Unchecking this box allows authors and editors to redirect posts, noindex them and do other things you might not want if you don\'t trust your authors.', 'wordpress-seo' ), '</p>';
 		$yform->checkbox( 'disableadvanced_meta', __( 'Disable the Advanced part of the WordPress SEO meta box', 'wordpress-seo' ) );
-		echo '<p class="desc">', __( 'Unchecking this box allows authors and editors to redirect posts, noindex them and do other things you might not want if you don\'t trust your authors.', 'wordpress-seo' ), '</p>';
 		?>
 	</div>
 <?php

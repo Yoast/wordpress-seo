@@ -1,7 +1,6 @@
 <?php
 /**
- * @package    WPSEO
- * @subpackage Unittests
+ * @package WPSEO\Unittests
  */
 
 class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
@@ -191,19 +190,6 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Twitter::url
-	 */
-	public function test_twitter_url() {
-		// create and go to post
-		$post_id = $this->factory->post->create();
-		$this->go_to( get_permalink( $post_id ) );
-
-		$expected = $this->metatag( 'url', esc_url( WPSEO_Frontend::get_instance()->canonical( false ) ) );
-		self::$class_instance->url();
-		$this->expectOutput( $expected );
-	}
-
-	/**
 	 * @covers WPSEO_Twitter::image_output
 	 */
 	public function test_image_output() {
@@ -332,7 +318,7 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 		$expected = $this->metatag( 'card', 'gallery' );
 
 		// Insert images into DB so we have something to test against
-		foreach ( range( 0, 2 ) as $i ) {
+		foreach ( range( 0, 3 ) as $i ) {
 			$filename = "image$i.jpg";
 			$ids[] = $this->factory->attachment->create_object( $filename, 0, array(
 				'post_mime_type' => 'image/jpeg',

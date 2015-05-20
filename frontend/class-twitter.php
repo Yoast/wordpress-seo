@@ -1,7 +1,6 @@
 <?php
 /**
- * @package    WPSEO
- * @subpackage Frontend
+ * @package WPSEO\Frontend
  */
 
 /**
@@ -15,6 +14,11 @@ class WPSEO_Twitter {
 	 * @var    object    Instance of this class
 	 */
 	public static $instance;
+
+	/**
+	 * @var array Images
+	 */
+	private $images = array();
 
 	/**
 	 * @var array Images
@@ -57,12 +61,6 @@ class WPSEO_Twitter {
 			$this->author();
 		}
 
-		// No need to show these when OpenGraph is also showing, as it'd be the same contents and Twitter
-		// would fallback to OpenGraph anyway.
-		if ( $this->options['opengraph'] === false ) {
-			$this->url();
-		}
-
 		/**
 		 * Action: 'wpseo_twitter' - Hook to add all WP SEO Twitter output to so they're close together.
 		 */
@@ -91,7 +89,10 @@ class WPSEO_Twitter {
 		if ( is_singular() ) {
 			// If the current post has a gallery, output a gallery card
 			if ( has_shortcode( $GLOBALS['post']->post_content, 'gallery' ) ) {
-				$this->type = 'gallery';
+				$this->images = get_post_gallery_images();
+				if ( count( $this->images ) > 3 ) {
+					$this->type = 'gallery';
+				}
 			}
 		}
 
@@ -305,7 +306,6 @@ class WPSEO_Twitter {
 	 * Only used when OpenGraph is inactive or Summary Large Image card is chosen.
 	 */
 	protected function image() {
-
 		if ( 'gallery' === $this->type ) {
 			$this->gallery_images_output();
 		}
@@ -322,17 +322,8 @@ class WPSEO_Twitter {
 	 * Outputs the first 4 images of a gallery as the posts gallery images
 	 */
 	private function gallery_images_output() {
-		$images = get_post_gallery_images();
-
-		// If there are no images attached, use the standard single image output
-		if ( count( $images ) === 0 ) {
-			$this->single_image_output();
-
-			return;
-		}
-
 		$image_counter = 0;
-		foreach ( $images as $image ) {
+		foreach ( $this->images as $image ) {
 			if ( $image_counter > 3 ) {
 				return;
 			}
@@ -491,23 +482,6 @@ class WPSEO_Twitter {
 			if ( is_string( $this->options['twitter_site'] ) && $this->options['twitter_site'] !== '' ) {
 				$this->output_metatag( 'creator', '@' . $this->options['twitter_site'] );
 			}
-		}
-	}
-
-	/**
-	 * Displays the URL for Twitter.
-	 *
-	 * Only used when OpenGraph is inactive.
-	 */
-	protected function url() {
-		/**
-		 * Filter: 'wpseo_twitter_url' - Allow changing the URL as output in the Twitter card by WP SEO
-		 *
-		 * @api string $unsigned Canonical URL
-		 */
-		$url = apply_filters( 'wpseo_twitter_url', WPSEO_Frontend::get_instance()->canonical( false ) );
-		if ( is_string( $url ) && $url !== '' ) {
-			$this->output_metatag( 'url', esc_url( $url ), true );
 		}
 	}
 
