@@ -18,6 +18,7 @@ class WPSEO_GWT_Settings {
 	 * @param WPSEO_GWT_Service $service
 	 */
 	public function __construct( WPSEO_GWT_Service $service ) {
+
 		// Setting the service object
 		$this->service = $service;
 
@@ -97,15 +98,7 @@ class WPSEO_GWT_Settings {
 		global $wpdb;
 
 		// Remove local crawl issues by running a delete query
-		$wpdb->query( "DELETE FROM {$wpdb->posts} WHERE post_type = '" . WPSEO_Crawl_Issue::PT_CRAWL_ISSUE . "'" );
-
-		// Remove the meta data for the GWT issues
-		delete_post_meta_by_key( WPSEO_Crawl_Issue::PM_CI_URL );
-		delete_post_meta_by_key( WPSEO_Crawl_Issue::PM_CI_PLATFORM );
-		delete_post_meta_by_key( WPSEO_Crawl_Issue::PM_CI_CATEGORY );
-		delete_post_meta_by_key( WPSEO_Crawl_Issue::PM_CI_FIRST_DETECTED );
-		delete_post_meta_by_key( WPSEO_Crawl_Issue::PM_CI_LAST_CRAWLED );
-		delete_post_meta_by_key( WPSEO_Crawl_Issue::PM_CI_RESPONSE_CODE );
+		$wpdb->query( "DELETE FROM {$wpdb->options} WHERE option_name LIKE 'wpseo-premium-gwt-issues-%'" );
 	}
 
 }
