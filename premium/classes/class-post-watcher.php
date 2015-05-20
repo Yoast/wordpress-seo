@@ -208,7 +208,8 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	 * @param string $new_url
 	 */
 	protected function set_notification( $old_url, $new_url ) {
-		$message = sprintf( __( "WordPress SEO Premium created a <a href='%s'>redirect</a> from the old post URL to the new post URL. <a href='%s'>Click here to undo this</a>.", 'wordpress-seo-premium' ), $this->admin_redirect_url( $old_url ), $this->javascript_undo_redirect( $old_url ) );
+		/* translators: %1$s links to  the wpseo_redirects page. %2$s closes the link. %3$s contains a link to undo the creation of the redirect.  */
+		$message = sprintf( __( 'WordPress SEO Premium created a %1$sredirect%2$s from the old post URL to the new post URL. %3$sClick here to undo this%2$s.', 'wordpress-seo-premium' ), '<a href="' . $this->admin_redirect_url( $old_url ) . '">', '</a>', "<a href='" . $this->javascript_undo_redirect( $old_url ) . "'>" );
 
 		$this->create_redirect( $old_url, $new_url );
 
