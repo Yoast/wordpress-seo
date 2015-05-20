@@ -29,7 +29,7 @@ class WPSEO_Crawl_Category_Issues {
 	 *
 	 * @var array
 	 */
-	private $current_issues;
+	private $current_issues = array();
 
 	/**
 	 * @var string
@@ -52,15 +52,32 @@ class WPSEO_Crawl_Category_Issues {
 	 * Fetching the issues for current category
 	 */
 	public function fetch_issues() {
+		$this->set_current_issues();
+
 		if ( $issues = $this->service->fetch_category_issues( $this->platform, $this->category ) ) {
+			$crawl_issues = array();
 			foreach ( $issues as $issue ) {
+				$issue->pageUrl = WPSEO_Redirect_Manager::format_url( (string) $issue->pageUrl );
+
 				if ( ! in_array( $issue->pageUrl, $this->current_issues ) ) {
-					$this->save_issue(
-						$this->create_issue( $issue )
+					array_push(
+						$crawl_issues,
+						$this->save_issue( $this->create_issue( $issue ) )
 					);
 				}
 			}
+
+			$this->save_issues( $crawl_issues );
 		}
+	}
+
+	/**
+	 * Getting the issues from the options
+	 *
+	 * @return mixed
+	 */
+	public function get_issues() {
+		return get_option( $this->option_name, array() );
 	}
 
 	/**
@@ -71,13 +88,10 @@ class WPSEO_Crawl_Category_Issues {
 	 */
 	private function create_issue( $issue ) {
 		return new WPSEO_Crawl_Issue(
-			WPSEO_Redirect_Manager::format_url( (string) $issue->pageUrl ),
-			(string) $this->platform,
-			(string) $this->category,
+			$issue->pageUrl,
 			new DateTime( (string) $issue->first_detected ),
 			new DateTime( (string) $issue->last_crawled ),
-			(string) ( ! empty( $issue->responseCode ) ) ? $issue->responseCode : null,
-			false
+			(string) ( ! empty( $issue->responseCode ) ) ? $issue->responseCode : null
 		);
 	}
 
@@ -85,9 +99,20 @@ class WPSEO_Crawl_Category_Issues {
 	 * Saving the crawl issue in the database
 	 *
 	 * @param WPSEO_Crawl_Issue $crawl_issue
+	 *
+	 * @return array()
 	 */
 	private function save_issue( WPSEO_Crawl_Issue $crawl_issue ) {
-		$crawl_issue->save();
+		return $crawl_issue->to_array();
+	}
+
+	/**
+	 * Saving the issues
+	 *
+	 * @param array $issues
+	 */
+	private function save_issues( array $issues ) {
+		update_option( $this->option_name, $issues, false );
 	}
 
 	/**
