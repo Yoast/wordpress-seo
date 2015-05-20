@@ -73,6 +73,15 @@ class WPSEO_Crawl_Issue_Count {
 	}
 
 	/**
+	 * Getting the category issue crawler
+	 *
+	 * @return WPSEO_Crawl_Category_Issues
+	 */
+	public function get_issue_crawler() {
+		return new WPSEO_Crawl_Category_Issues( $this->platform, $this->category );
+	}
+
+	/**
 	 * Fetching the counts from the GWT API
 	 *
 	 * @param WPSEO_GWT_Service $service
@@ -158,11 +167,11 @@ class WPSEO_Crawl_Issue_Count {
 	 */
 	private function list_category_issues( $counts ) {
 		// Fetching the issues
-		$issue_crawler = new WPSEO_Crawl_Category_Issues( $this->platform, $this->category );
+		$issue_crawler = $this->get_issue_crawler();
 
 		// When the issues have to be fetched
 		if ( array_key_exists( $this->category, $counts ) && $counts[ $this->category ]['count'] > 0 && $this->should_fetch( $counts[ $this->category ]['last_fetch'] )  ) {
-			$this->issues = $issue_crawler->fetch_issues();
+			$issue_crawler->fetch_issues();
 
 			// Set last fetch
 			$counts[ $this->category ]['last_fetch'] = time();

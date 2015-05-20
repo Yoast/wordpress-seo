@@ -82,9 +82,6 @@ class WPSEO_Premium {
 			// Post to Get on search
 			add_action( 'admin_init', array( $this, 'list_table_search_post_to_get' ) );
 
-			// Add the GWT crawl error post type
-			add_action( 'admin_init', array( $this, 'register_gwt_crawl_error_post_type' ) );
-
 			// Add input fields to page meta post types
 			add_action( 'wpseo_admin_page_meta_post_types', array(
 				$this,
@@ -431,16 +428,6 @@ class WPSEO_Premium {
 	}
 
 	/**
-	 * Register the GWT Crawl Error post type
-	 */
-	public function register_gwt_crawl_error_post_type() {
-		register_post_type( WPSEO_Crawl_Issue::PT_CRAWL_ISSUE, array(
-			'public' => false,
-			'label'  => 'WordPress SEO GWT Crawl Error'
-		) );
-	}
-
-	/**
 	 * Function adds the premium pages to the WordPress SEO menu
 	 *
 	 * @param $submenu_pages
@@ -460,7 +447,7 @@ class WPSEO_Premium {
 			apply_filters( 'wpseo_premium_manage_redirects_role', 'manage_options' ),
 			'wpseo_redirects',
 			array( 'WPSEO_Page_Redirect', 'display' ),
-			array( array( 'WPSEO_Page_Redirect', 'page_load' ) )
+			array( array( 'WPSEO_Page_Redirect', 'page_load' ) ),
 		);
 
 
@@ -476,7 +463,7 @@ class WPSEO_Premium {
 			apply_filters( 'wpseo_premium_manage_wmt_role', 'manage_options' ),
 			'wpseo_webmaster_tools',
 			array( $this->page_gwt, 'display' ),
-			array( array( $this->page_gwt, 'page_load' ) )
+			array( array( $this->page_gwt, 'page_load' ) ),
 		);
 
 		$submenu_pages[] = array(
@@ -485,7 +472,7 @@ class WPSEO_Premium {
 			__( 'Video Tutorials', 'wordpress-seo-premium' ),
 			'edit_posts',
 			'wpseo_tutorial_videos',
-			array( 'WPSEO_Tutorial_Videos', 'display' )
+			array( 'WPSEO_Tutorial_Videos', 'display' ),
 		);
 
 		return $submenu_pages;
@@ -494,7 +481,7 @@ class WPSEO_Premium {
 	/**
 	 * Add redirects to admin pages so the Yoast scripts are loaded
 	 *
-	 * @param $admin_pages
+	 * @param array $admin_pages
 	 *
 	 * @return array
 	 */

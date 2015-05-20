@@ -37,6 +37,11 @@ class WPSEO_Crawl_Category_Issues {
 	private $option_name = '';
 
 	/**
+	 * @var array
+	 */
+	private $all_issues = array();
+
+	/**
 	 *
 	 * @param string $platform
 	 * @param string $category
@@ -46,6 +51,7 @@ class WPSEO_Crawl_Category_Issues {
 		$this->platform    = $platform;
 		$this->category    = $category;
 		$this->option_name = strtolower( 'wpseo-premium-gwt-issues-' . $platform . '-' . $category );
+		$this->issues      = $this->get_issues();
 	}
 
 	/**
@@ -55,7 +61,7 @@ class WPSEO_Crawl_Category_Issues {
 		$this->set_current_issues();
 
 		if ( $issues = $this->service->fetch_category_issues( $this->platform, $this->category ) ) {
-			$crawl_issues = array();
+			$crawl_issues = $this->get_issues();
 			foreach ( $issues as $issue ) {
 				$issue->pageUrl = WPSEO_Redirect_Manager::format_url( (string) $issue->pageUrl );
 
@@ -122,7 +128,7 @@ class WPSEO_Crawl_Category_Issues {
 		// First getting the issues from the option
 		$current_issues = $this->get_issues();
 
-		if ( ! empty( $current_issues) ) {
+		if ( ! empty( $current_issues ) ) {
 			$this->current_issues = wp_list_pluck( $current_issues, 'url' );
 		}
 	}
