@@ -33,6 +33,10 @@ class WPSEO_GWT_Settings {
 			$this->clear_data();
 		}
 
+		if ( filter_input( INPUT_POST, 'reload-crawl-issues' ) ) {
+			$this->remove_issue_counts();
+		}
+
 		// Catch the authorization code POST
 		$this->catch_authentication_post();
 	}
@@ -78,11 +82,7 @@ class WPSEO_GWT_Settings {
 	 * Clear all data from the database
 	 */
 	private function clear_data() {
-		/**
-		 * Filter: 'wpseo_gwt_reset_data' - Clears stored GWT data
-		 *
-		 */
-		do_action( 'wpseo_gwt_reset_data' );
+		$this->remove_issue_counts();
 
 		// Removing all issues from the database
 		$this->remove_issues();
@@ -99,6 +99,15 @@ class WPSEO_GWT_Settings {
 
 		// Remove local crawl issues by running a delete query
 		$wpdb->query( "DELETE FROM {$wpdb->options} WHERE option_name LIKE 'wpseo-premium-gwt-issues-%'" );
+	}
+
+	/**
+	 * Remove the issue counts
+	 */
+	private function remove_issue_counts() {
+		// Remove the options which are holding the counts
+		delete_option( WPSEO_Crawl_Issue_Count::OPTION_CI_COUNTS );
+		delete_option( WPSEO_Crawl_Issue_Count::OPTION_CI_LAST_FETCH );
 	}
 
 }

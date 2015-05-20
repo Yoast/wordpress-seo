@@ -10,6 +10,11 @@
 class WPSEO_GWT_Service {
 
 	/**
+	 * The option where data will be stored
+	 */
+	const OPTION_WPSEO_GWT = 'wpseo-premium-gwt';
+
+	/**
 	 * @var Yoast_Google_Client
 	 */
 	private $client;
@@ -60,23 +65,42 @@ class WPSEO_GWT_Service {
 	 *
 	 * @return array
 	 */
-	public function get_crawl_issues() {
+	public function get_crawl_issue_counts() {
 
 		// Setup crawl error list
-		$crawl_issues       = array();
 		$crawl_error_counts = $this->get_crawl_error_counts( $this->get_profile() );
 
 		$return = array();
 		if ( ! empty( $crawl_error_counts->countPerTypes ) ) {
 			foreach ( $crawl_error_counts->countPerTypes as $category ) {
-				if ( $category->entries[0]->count > 0 ) {
-					$return[] = array(
-						'platform' => $category->platform,
-						'category' => $category->category,
-					);
-//					$crawl_category = new WPSEO_Crawl_Category_Issues( $this, $category );
-//					$crawl_category->fetch_issues( $crawl_issues );
-				}
+				$return[ $category->platform ][ $category->category ] = array(
+					'count'      => $category->entries[0]->count,
+					'last_fetch' => null
+				);
+			}
+		}
+
+		return $return;
+	}
+
+	/**
+	 * Get crawl issues
+	 *
+	 * @return array
+	 */
+	public function get_crawl_issues() {
+
+		// Setup crawl error list
+		$crawl_error_counts = $this->get_crawl_error_counts( $this->get_profile() );
+
+		$return = array();
+		if ( ! empty( $crawl_error_counts->countPerTypes ) ) {
+			foreach ( $crawl_error_counts->countPerTypes as $category ) {
+				$return[] = array(
+					'platform' => $category->platform,
+					'category' => $category->category,
+					'count'    => $category->entries[0]->count,
+				);
 			}
 		}
 
@@ -99,7 +123,7 @@ class WPSEO_GWT_Service {
 			$profile = 'http://' .$profile;
 		}
 
-		$response      = $this->client->do_request( 'sites/' .  urlencode( $profile ) .  '/urlCrawlErrorsSamples/' . urlencode( ltrim( $url, '/' ) ) . '?category=' . $category . '&platform=' . $platform . '', 'DELETE' );
+		$response = $this->client->do_request( 'sites/' .  urlencode( $profile ) .  '/urlCrawlErrorsSamples/' . urlencode( ltrim( $url, '/' ) ) . '?category=' . $category . '&platform=' . $platform . '', 'DELETE' );
 		return ( $response->getResponseHttpCode() === 204 && $response->getResponseBody() === '' );
 	}
 
@@ -111,7 +135,7 @@ class WPSEO_GWT_Service {
 	public function get_profile() {
 
 		// Get option
-		$option = get_option( 'wpseo-premium-gwt', array( 'profile' => '' ) );
+		$option = get_option( self::OPTION_WPSEO_GWT, array( 'profile' => '' ) );
 
 		// Set the profile
 		$profile = $option['profile'];
@@ -148,6 +172,16 @@ class WPSEO_GWT_Service {
 				return $issues->urlCrawlErrorSample;
 			}
 		}
+	}
+
+	/**
+	 *
+	 */
+	public function clear_data() {
+		delete_option( self::OPTION_WPSEO_GWT );
+
+		// Clear client data
+		$this->client->clear_data();
 	}
 
 	/**

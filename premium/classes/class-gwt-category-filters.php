@@ -24,22 +24,32 @@ class WPSEO_GWT_Category_Filters {
 	private $current_view;
 
 	/**
-	 * Constructing this opject
+	 * Constructing this object
 	 *
 	 * @param string $platform
-	 * @param string $current_view
 	 */
-	public function __construct( $platform, $current_view ) {
+	public function __construct( $platform ) {
 		$platform        = WPSEO_GWT_Mapper::platform( $platform );
 		$platform_counts = $this->get_counts();
 
 		if ( array_key_exists( $platform, $platform_counts ) ) {
-			$this->category_counts = $platform_counts[ $platform ];
+			$this->category_counts = $this->parse_counts( $platform_counts[ $platform ] );
+		}
+		$this->set_filter_values();
+	}
+
+	/**
+	 * Getting the current view
+	 */
+	public function current_view() {
+		$view        = ( $status = filter_input( INPUT_GET, 'category' )) ? $status : 'not_found';
+		$mapped_view = WPSEO_GWT_Mapper::category( $view );
+
+		if ( $view === 'not_found' &&  empty( $this->category_counts[ $mapped_view ] ) ) {
+			$view = WPSEO_GWT_Mapper::category( key( $this->category_counts ), true );
 		}
 
-		$this->set_filter_values();
-
-		$this->current_view = $current_view;
+		return $this->current_view = $view;
 	}
 
 	/**
@@ -53,9 +63,7 @@ class WPSEO_GWT_Category_Filters {
 		$new_views = array();
 
 		foreach ( $this->category_counts as $category_name => $category ) {
-			if ( $category['count'] > 0 ) {
-				$new_views[] = $this->create_view_link( WPSEO_GWT_Mapper::category( $category_name, true ), $category['count'] );
-			}
+			$new_views[] = $this->create_view_link( WPSEO_GWT_Mapper::category( $category_name, true ), $category['count'] );
 		}
 
 		return $new_views;
@@ -114,6 +122,22 @@ class WPSEO_GWT_Category_Filters {
 		$href  = esc_attr( add_query_arg( array( 'category' => $key, 'paged' => 1 ) ) );
 		$class = ( ( $this->current_view == $key ) ? " class='current'" : '' );
 		return "<a href='{$href}'{$class}>{$this->filter_values[ $key ]['value']}</a> ({$count})";
+	}
+
+	/**
+	 * Parsing the counts
+	 * @param array $category_counts
+	 *
+	 * @return mixed
+	 */
+	private function parse_counts( $category_counts ) {
+		foreach ( $category_counts as $category_name => $category ) {
+			if ( $category['count'] === '0' ) {
+				unset( $category_counts[ $category_name ] );
+			}
+		}
+
+		return $category_counts;
 	}
 
 }

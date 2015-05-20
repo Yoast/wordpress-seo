@@ -36,15 +36,8 @@ class WPSEO_Crawl_Issue_Count {
 	 * @param string            $category
 	 */
 	public function __construct( WPSEO_GWT_Service $service, $platform, $category ) {
-
-		add_action( 'wpseo_gwt_reset_data', array( $this, 'clear_counts' ) );
-
 		$this->platform = $platform;
 		$this->category = $category;
-
-		if ( filter_input( INPUT_POST, 'reload-crawl-issues' ) ) {
-			$this->remove_last_fetch();
-		}
 
 		$this->fetch_counts( $service );
 
@@ -59,17 +52,6 @@ class WPSEO_Crawl_Issue_Count {
 	 */
 	public function get_issues() {
 		return $this->issues;
-	}
-
-	/**
-	 * This method will be called by a filter hook and is for removing the counts
-	 */
-	public function clear_counts() {
-		// Remove the options which is holding the counts
-		delete_option( self::OPTION_CI_COUNTS );
-
-		// Reset the date with last fetch also
-		$this->remove_last_fetch();
 	}
 
 	/**

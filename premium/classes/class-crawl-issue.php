@@ -16,8 +16,6 @@ class WPSEO_Crawl_Issue {
 
 	// Post Meta related constants
 	const PM_CI_URL            = 'wpseo_ci_url';
-	const PM_CI_PLATFORM       = 'wpseo_ci_platform';
-	const PM_CI_CATEGORY       = 'wpseo_ci_category';
 	const PM_CI_FIRST_DETECTED = 'wpseo_ci_first_detected';
 	const PM_CI_LAST_CRAWLED   = 'wpseo_ci_last_crawled';
 	const PM_CI_RESPONSE_CODE  = 'wpseo_ci_response_code';
@@ -26,16 +24,6 @@ class WPSEO_Crawl_Issue {
 	 * @var string
 	 */
 	private $url;
-
-	/**
-	 * @var string
-	 */
-	private $crawl_type;
-
-	/**
-	 * @var string
-	 */
-	private $issue_type;
 
 	/**
 	 * @var DateTime
@@ -56,19 +44,15 @@ class WPSEO_Crawl_Issue {
 	 * Constructor
 	 *
 	 * @param string   $url
-	 * @param string   $crawl_type
-	 * @param string   $issue_type
 	 * @param DateTime $first_detected
 	 * @param DateTime $last_crawled
 	 * @param string   $response_code
 	 */
-	function __construct( $url, $crawl_type, $issue_type, DateTime $first_detected, DateTime $last_crawled, $response_code ) {
+	function __construct( $url, DateTime $first_detected, DateTime $last_crawled, $response_code ) {
 		$this->url            = $url;
-		$this->crawl_type     = $crawl_type;
 		$this->first_detected = $first_detected;
 		$this->last_crawled   = $last_crawled;
 		$this->response_code  = $response_code;
-		$this->issue_type     = $issue_type;
 	}
 
 	/**
@@ -79,8 +63,6 @@ class WPSEO_Crawl_Issue {
 	public function to_array() {
 		return array(
 			'url'             => $this->url,
-			'crawl_type'      => $this->crawl_type,
-			'issue_category'  => $this->issue_type,
 			'first_detected'  => $this->to_date_format( $this->first_detected ),
 			'last_crawled'    => $this->to_date_format( $this->last_crawled ),
 			'response_code'   => $this->response_code,
