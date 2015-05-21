@@ -27,14 +27,19 @@ class WPSEO_GWT_Category_Filters {
 	 * Constructing this object
 	 *
 	 * @param string $platform
+	 * @param string $screen_id
 	 */
-	public function __construct( $platform ) {
+	public function __construct( $platform, $screen_id ) {
 		$platform        = WPSEO_GWT_Mapper::platform( $platform );
+
+		add_filter( 'views_' . $screen_id, array( $this, 'as_array' ) );
+
 		$platform_counts = $this->get_counts();
 
 		if ( array_key_exists( $platform, $platform_counts ) ) {
 			$this->category_counts = $this->parse_counts( $platform_counts[ $platform ] );
 		}
+
 		$this->set_filter_values();
 	}
 
@@ -45,7 +50,7 @@ class WPSEO_GWT_Category_Filters {
 		$view        = ( $status = filter_input( INPUT_GET, 'category' )) ? $status : 'not_found';
 		$mapped_view = WPSEO_GWT_Mapper::category( $view );
 
-		if ( $view === 'not_found' &&  empty( $this->category_counts[ $mapped_view ] ) ) {
+		if ( filter_input( INPUT_GET, 'category' ) === null && empty( $this->category_counts[ $mapped_view ] ) ) {
 			$view = WPSEO_GWT_Mapper::category( key( $this->category_counts ), true );
 		}
 
@@ -84,28 +89,33 @@ class WPSEO_GWT_Category_Filters {
 	private function set_filter_values() {
 		$this->filter_values = array(
 			'access_denied'    => array(
-				'value' => __( 'Access denied', 'wordpress-seo' ),
+				'value'       => __( 'Access denied', 'wordpress-seo' ),
+				'description' => __( 'Server requires authentication or is blocking Googlebot from accessing the site.', 'wordpress-seo' ),
 			),
 			'faulty_redirects' => array(
 				'value' => __( 'Faulty redirects', 'wordpress-seo' ),
 			),
-			'not_followed' => array(
+			'not_followed'     => array(
 				'value' => __( 'Not followed', 'wordpress-seo' ),
 			),
-			'not_found'    => array(
-				'value' => __( 'Not found', 'wordpress-seo' ),
+			'not_found'        => array(
+				'value'       => __( 'Not found', 'wordpress-seo' ),
+				'description' => __( 'URL points to a non-existent page.', 'wordpress-seo' ),
 			),
-			'other'        => array(
-				'value' => __( 'Other', 'wordpress-seo' ),
+			'other'            => array(
+				'value'       => __( 'Other', 'wordpress-seo' ),
+				'description' => __( 'Google was unable to crawl this URL due to an undetermined issue.', 'wordpress-seo' ),
 			),
-			'roboted'      => array(
+			'roboted'          => array(
 				'value' => __( 'Roboted', 'wordpress-seo' ),
 			),
-			'server_error' => array(
-				'value' => __( 'Server Error', 'wordpress-seo' ),
+			'server_error'     => array(
+				'value'       => __( 'Server Error', 'wordpress-seo' ),
+				'description' => __( 'Request timed out or site is blocking Google.', 'wordpress_seo' )
 			),
-			'soft_404'     => array(
-				'value' => __( 'Soft 404', 'wordpress-seo' ),
+			'soft_404'         => array(
+				'value'       => __( 'Soft 404', 'wordpress-seo' ),
+				'description' => __( "The target URL doesn't exist, but your server is not returning a 404 (file not found) error.", 'wordpress-seo' ),
 			),
 		);
 	}

@@ -35,8 +35,14 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 	 */
 	private $crawl_issue_source;
 
+	/**
+	 * @var int
+	 */
 	private $per_page     = 50;
 
+	/**
+	 * @var int
+	 */
 	private $current_page = 1;
 
 	/**
@@ -48,18 +54,13 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 	public function __construct( WPSEO_GWT_Platform_Tabs $platform_tabs, WPSEO_GWT_Service $service ) {
 		parent::__construct();
 
-		// Set the current view
-		$category_filter    = new WPSEO_GWT_Category_Filters( $platform_tabs->current_tab() );
-		$this->current_view = $category_filter->current_view();
-
-		add_filter( 'views_' . $this->screen->id, array( $category_filter, 'as_array' ) );
-
 		// Set search string
 		if ( ( $search_string = filter_input( INPUT_GET, 's' ) ) != '' ) {
 			$this->search_string = $search_string;
 		}
 
-		$this->crawl_issue_source = new WPSEO_Crawl_Issue_Table_Data( $platform_tabs->current_tab(), $this->current_view, $service );
+		$this->crawl_issue_source = new WPSEO_Crawl_Issue_Table_Data( $platform_tabs->current_tab(), $this->screen->id, $service );
+		$this->current_view       = $this->crawl_issue_source->get_category();
 	}
 
 	/**
