@@ -7,19 +7,13 @@ class WPSEO_Crawl_Issue_Count {
 
 	CONST OPTION_CI_COUNTS     = 'wpseo_crawl_issues_counts';
 
-	/**
-	 * @var string
-	 */
-	private $platform;
 
 	/**
+	 * Fetching the counts
 	 *
 	 * @param WPSEO_GWT_Service $service
-	 * @param string            $platform
 	 */
-	public function __construct( WPSEO_GWT_Service $service, $platform ) {
-		$this->platform = $platform;
-
+	public function __construct( WPSEO_GWT_Service $service ) {
 		$this->fetch_counts( $service );
 	}
 
@@ -47,8 +41,7 @@ class WPSEO_Crawl_Issue_Count {
 	 * @param WPSEO_GWT_Service $service
 	 */
 	private function fetch_counts( WPSEO_GWT_Service $service ) {
-
-		if ( $this->should_fetch( $this->get_last_fetch() ) ) {
+		if ( $this->get_last_fetch() <= strtotime( '-12 hours' ) ) {
 			// Remove the timestamp
 			$this->remove_last_fetch();
 
@@ -82,17 +75,6 @@ class WPSEO_Crawl_Issue_Count {
 	 */
 	private function remove_last_fetch() {
 		delete_option( self::OPTION_CI_LAST_FETCH );
-	}
-
-	/**
-	 * Check if given date is later then 12 hours ago.
-	 *
-	 * @param int $last_fetch
-	 *
-	 * @return bool
-	 */
-	private function should_fetch( $last_fetch ) {
-		return ( $last_fetch <= strtotime( '-12 hours' ) );
 	}
 
 }
