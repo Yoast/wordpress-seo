@@ -1,7 +1,6 @@
 <?php
 /**
- * @package Premium
- * @subpackage Redirect
+ * @package WPSEO\Premium\Classes
  */
 
 /**
@@ -29,13 +28,13 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	 * Load needed js file
 	 */
 	public function page_scripts() {
-		wp_enqueue_script( 'wp-seo-premium-quickedit-notification', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/js/wp-seo-premium-quickedit-notification.js', array( 'jquery' ) );
+		wp_enqueue_script( 'wp-seo-premium-quickedit-notification', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/js/wp-seo-premium-quickedit-notification' . WPSEO_CSSJS_SUFFIX . '.js', array( 'jquery' ), WPSEO_VERSION );
 	}
 
 	/**
 	 * Add an extra field to post edit screen so we know the old url in the 'post_updated' hook
 	 *
-	 * @param stdClass $post
+	 * @param WP_Post $post
 	 */
 	public function old_url_field( $post ) {
 		// $post must be set
@@ -50,9 +49,9 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	/**
 	 * Detect if the slug changed, hooked into 'post_updated'
 	 *
-	 * @param integer  $post_id
-	 * @param stdClass $post
-	 * @param stdClass $post_before
+	 * @param integer $post_id
+	 * @param WP_Post $post
+	 * @param WP_Post $post_before
 	 *
 	 * @return bool|void
 	 */
@@ -69,7 +68,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 
 		$old_url = $this->get_old_url( $post, $post_before );
 
-		if ( !$old_url ) {
+		if ( ! $old_url ) {
 			return;
 		}
 
@@ -78,6 +77,8 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 
 		// Check if we should create a redirect
 		if ( in_array( $post->post_status, array( 'publish', 'static' ) ) && $this->should_create_redirect( $old_url, $new_url ) ) {
+			$this->create_redirect( $old_url, $new_url );
+
 			$this->set_notification( $old_url, $new_url );
 		}
 	}
@@ -218,28 +219,32 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	/**
 	 * Get the old url
 	 *
-	 * @param $post
-	 * @param $post_before
+	 * @param object $post
+	 * @param object $post_before
 	 *
 	 * @return bool|string
 	 */
 	protected function get_old_url( $post, $post_before ) {
-		if ( !isset( $_POST['wpseo_old_url'] ) ) {
+		$wpseo_old_url = filter_input( INPUT_POST, 'wpseo_old_url' );
+
+		if ( ! isset( $wpseo_old_url ) ) {
 			// Check if request is inline action and new slug is not old slug, if so set wpseo_old_url
-			if ( ! empty( $_POST['action'] ) && $_POST['action'] === 'inline-save' && $post->post_name !== $post_before->post_name ) {
+			$action = filter_input( INPUT_POST, 'action' );
+
+			if ( ! empty( $action ) && $action === 'inline-save' && $post->post_name !== $post_before->post_name ) {
 				return '/' . $post_before->post_name . '/';
 			}
 			return false;
 		}
 
-		return esc_url( $_POST['wpseo_old_url'] );
+		return $wpseo_old_url;
 	}
 
 	/**
 	 * Display notification
 	 *
-	 * @param $old_url
-	 * @param $new_url
+	 * @param string $old_url
+	 * @param string $new_url
 	 */
 	protected function set_notification( $old_url, $new_url ) {
 		$id = 'wpseo_redirect_' . md5( $old_url );
@@ -252,8 +257,6 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 			'<a href="' . $this->javascript_undo_redirect( $old_url, $id ) . '">',
 			'</a>'
 		);
-
-		$this->create_redirect( $old_url, $new_url );
 
 		//Only set notification when the slug change was not saved through quick edit
 		$this->create_notification( $message, 'slug_change', $id );
