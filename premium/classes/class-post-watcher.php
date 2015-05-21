@@ -28,7 +28,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	 * Load needed js file
 	 */
 	public function page_scripts() {
-		wp_enqueue_script( 'wp-seo-premium-quickedit-notification', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/js/wp-seo-premium-quickedit-notification.js', array( 'jquery' ) );
+		wp_enqueue_script( 'wp-seo-premium-quickedit-notification', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/js/wp-seo-premium-quickedit-notification' . WPSEO_CSSJS_SUFFIX . '.js', array( 'jquery' ), WPSEO_VERSION );
 	}
 
 	/**
