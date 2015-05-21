@@ -23,7 +23,7 @@ function wpseo_show_notification() {
                 wpseo_notification_counter = 0;
             } else if ( wpseo_notification_counter < 20 && response === '' ) {
                 wpseo_notification_counter++;
-                setTimeout('wpseo_show_notification', 100);
+                setTimeout(wpseo_show_notification, 100);
             }
         }
     );
