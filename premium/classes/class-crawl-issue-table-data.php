@@ -20,22 +20,28 @@ class WPSEO_Crawl_Issue_Table_Data {
 	private $category;
 
 	/**
-	 * @var integer
-	 */
-	private $total_rows;
-
-	/**
 	 * Setting the properties and load the crawl issues from the database
 	 *
 	 * @param string            $platform
-	 * @param string            $category
+	 * @param string            $screen_id
 	 * @param WPSEO_GWT_Service $service
 	 *
 	 */
-	public function __construct( $platform, $category, WPSEO_GWT_Service $service ) {
+	public function __construct( $platform, $screen_id, WPSEO_GWT_Service $service ) {
+		// Setting the platform
 		$this->platform     = WPSEO_GWT_Mapper::platform( $platform );
-		$this->category     = WPSEO_GWT_Mapper::category( $category );
-		$this->issue_count  = new WPSEO_Crawl_Issue_Count( $service, $this->platform, $this->category );
+
+		// Loading the category filters
+		$category_filter   = new WPSEO_GWT_Category_Filters( $this->platform, $screen_id );
+
+		// Loading the issue counter
+		$issue_count       = new WPSEO_Crawl_Issue_Count( $service );
+
+		// Setting the current category
+		$this->category    = WPSEO_GWT_Mapper::category( $category_filter->current_view() );
+
+		// Fetching the issues
+		$this->issue_fetch = new WPSEO_Crawl_Issue_Fetch( $this->platform, $this->category, $issue_count, $service );
 	}
 
 	/**
@@ -44,7 +50,7 @@ class WPSEO_Crawl_Issue_Table_Data {
 	 * @return array
 	 */
 	public function get_issues() {
-		return $this->issue_count->get_issues();
+		return $this->issue_fetch->get_issues();
 	}
 
 	/**
@@ -53,7 +59,16 @@ class WPSEO_Crawl_Issue_Table_Data {
 	 * @return mixed
 	 */
 	public function get_total_items() {
-		return $this->issue_count->get_total_issues();
+		return $this->issue_fetch->get_total_issues();
 	}
+
+	/**
+	 * Gets the current category
+	 * @return mixed|string
+	 */
+	public function get_category() {
+		return $this->category;
+	}
+
 
 }
