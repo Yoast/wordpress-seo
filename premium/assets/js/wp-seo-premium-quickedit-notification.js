@@ -1,31 +1,4 @@
-(jQuery( function() {
-
-    //We want to show a redirect message when the slug is changed using quick edit. Therefore we need to get the current page.
-    var wpseo_current_page = jQuery(location).attr('pathname').split('/').pop();
-
-    //If current page is edit.php, proceed.
-    if (wpseo_current_page == 'edit.php' || wpseo_current_page == 'edit-tags.php' ) {
-
-        //When user clicks on save button after doing a quick edit, get the post id, current slug and new slug.
-        jQuery( '.button-primary' ).click(function() {
-            var wpseo_post_id = jQuery(this).closest('tr').attr('id').replace('edit-', '');
-
-            if ( wpseo_current_page == 'edit.php' ) {
-                var wpseo_current_slug = jQuery( '#inline_' + wpseo_post_id ).find('.post_name').html();
-            }
-            else if( wpseo_current_page == 'edit-tags.php' ) {
-                var wpseo_current_slug = jQuery( '#inline_' + wpseo_post_id ).find('.slug').html();
-            }
-
-            var wpseo_new_slug = jQuery("input[name=post_name]").val();
-
-            if ( wpseo_current_slug != wpseo_new_slug ) {
-                wpseo_show_notification();
-            }
-        });
-    }
-}));
-
+"use strict";
 /**
  * Use notification counter so we can count how many times the function wpseo_show_notification is called.
  *
@@ -42,13 +15,42 @@ function wpseo_show_notification() {
         ajaxurl,
         { action: 'yoast_get_notifications'},
         function (response) {
-
-            if ( response != '' ) {
+            if ( response !== '' ) {
                 jQuery(response).insertAfter('h2');
                 wpseo_notification_counter = 0;
-            } else if ( wpseo_notification_counter < 20 && response == '' ) {
+            } else if ( wpseo_notification_counter < 20 && response === '' ) {
                 wpseo_notification_counter++;
                 setTimeout('wpseo_show_notification()', 100);
             }
-        });
+        }
+    );
 }
+
+(jQuery( function() {
+    //We want to show a redirect message when the slug is changed using quick edit. Therefore we need to get the current page.
+    var wpseo_current_page = jQuery(location).attr('pathname').split('/').pop();
+
+    //If current page is edit.php, proceed.
+    if (wpseo_current_page === 'edit.php' || wpseo_current_page === 'edit-tags.php' ) {
+
+        //When user clicks on save button after doing a quick edit, get the post id, current slug and new slug.
+        jQuery( '.button-primary' ).click(function() {
+            var wpseo_post_id = jQuery(this).closest('tr').attr('id').replace('edit-', '');
+
+            var wpseo_current_slug;
+
+            if ( wpseo_current_page === 'edit.php' ) {
+                wpseo_current_slug = jQuery( '#inline_' + wpseo_post_id ).find('.post_name').html();
+            }
+            else if( wpseo_current_page === 'edit-tags.php' ) {
+                wpseo_current_slug = jQuery( '#inline_' + wpseo_post_id ).find('.slug').html();
+            }
+
+            var wpseo_new_slug = jQuery('input[name=post_name]').val();
+
+            if ( wpseo_current_slug !== wpseo_new_slug ) {
+                wpseo_show_notification();
+            }
+        });
+    }
+}));
