@@ -138,7 +138,7 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 	 * @return string|WP_Error
 	 */
 	protected function get_taxonomy_permalink() {
-		return get_term_link( get_term( $_POST['tax_ID'] , $_POST['taxonomy'] ), $_POST['taxonomy'] );
+		return get_term_link( get_term( filter_input( INPUT_POST, 'tax_ID' ), filter_input( INPUT_POST, 'taxonomy' ) ), filter_input( INPUT_POST, 'taxonomy' ) );
 	}
 
 	/**
