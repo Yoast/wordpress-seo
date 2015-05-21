@@ -146,7 +146,8 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 	 * @return bool|string
 	 */
 	protected function get_old_url() {
-		if ( ! isset( $_POST['wpseo_old_url'] ) ) {
+		$wpseo_old_url = filter_input( INPUT_POST, 'wpseo_old_url' );
+		if ( ! isset( $wpseo_old_url ) ) {
 			if ( ! empty( $this->old_url ) ) {
 				return $this->old_url;
 			}
@@ -154,7 +155,6 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 				return false;
 			}
 		}
-
-		return $_POST['wpseo_old_url'];
+		return $wpseo_old_url;
 	}
 }
