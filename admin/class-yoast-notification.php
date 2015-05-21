@@ -1,6 +1,6 @@
 <?php
 /**
- * @package WPSEO\Admin
+ * @package    WPSEO\Admin
  * @since      1.5.3
  */
 
@@ -22,12 +22,14 @@ class Yoast_Notification {
 	/**
 	 * The Constructor
 	 *
-	 * @param String $message
-	 * @param String $type
+	 * @param string $message
+	 * @param string $type
+	 * @param string $id
 	 */
-	public function __construct( $message, $type = 'updated' ) {
+	public function __construct( $message, $type = 'updated', $id = '' ) {
 		$this->message = $message;
 		$this->type    = $type;
+		$this->id      = $id;
 	}
 
 	/**
@@ -42,6 +44,13 @@ class Yoast_Notification {
 	 */
 	public function set_message( $message ) {
 		$this->message = $message;
+	}
+
+	/**
+	 * @return string $id
+	 */
+	public function get_id() {
+		return $this->id;
 	}
 
 	/**
@@ -66,7 +75,8 @@ class Yoast_Notification {
 	public function to_array() {
 		return array(
 			'message' => $this->get_message(),
-			'type'    => $this->get_type()
+			'type'    => $this->get_type(),
+			'id'      => $this->get_id(),
 		);
 	}
 
@@ -74,7 +84,7 @@ class Yoast_Notification {
 	 * Output the message
 	 */
 	public function output() {
-		echo '<div class="yoast-notice ', esc_attr( $this->get_type() ), '">', wpautop( $this->get_message() ), '</div>', PHP_EOL;
+		echo '<div class="yoast-notice notice is-dismissible ', esc_attr( $this->get_type() ), '" id="', esc_attr( $this->get_id() ), '">', wpautop( $this->get_message() ), '</div>', PHP_EOL;
 	}
 
 }

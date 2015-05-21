@@ -46,12 +46,14 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 		// Check if we should create a redirect
 		if ( $this->should_create_redirect( $old_url, $new_url ) ) {
 
+			$id = 'wpseo_create_redirect_' . md5( $old_url );
+
 			// Format the message
-			$message = sprintf( __( "WordPress SEO Premium created a <a href='%s'>redirect</a> from the old term URL to the new term URL. <a href='%s'>Click here to undo this</a>.", 'wordpress-seo-premium' ), $this->admin_redirect_url( $old_url ), $this->javascript_undo_redirect( $old_url ) );
+			$message = sprintf( __( "WordPress SEO Premium created a <a href='%s'>redirect</a> from the old term URL to the new term URL. <a href='%s'>Click here to undo this</a>.", 'wordpress-seo-premium' ), $this->admin_redirect_url( $old_url ), $this->javascript_undo_redirect( $old_url, $id ) );
 
 			$this->create_redirect($old_url, $new_url);
 
-			$this->create_notification( $message, 'slug_change' );
+			$this->create_notification( $message, 'slug_change', $id );
 
 		}
 
@@ -70,15 +72,17 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 		$term_row = $wpdb->get_row( $wpdb->prepare( "SELECT `term_id`, `taxonomy` FROM `" . $wpdb->term_taxonomy . "` WHERE `term_taxonomy_id` = %d ", $term_id ) );
 
 		// Check result
-		if ( null != $term_row ) {
+		if ( null !== $term_row ) {
 
 			// Get the URL
 			$url = $this->get_target_url( get_term( $term_row->term_id, $term_row->taxonomy ), $term_row->taxonomy );
 
-			// Format the message
-			$message = sprintf( __( "WordPress SEO Premium detected that you deleted a term. <a href='%s'>Click here to create a redirect from the old term URL</a>.", 'wordpress-seo-premium' ), $this->javascript_create_redirect( $url ) );
+			$id = 'wpseo_create_redirect_' . md5( $url );
 
-			$this->create_notification( $message, 'delete' );
+			// Format the message
+			$message = sprintf( __( "WordPress SEO Premium detected that you deleted a term. <a href='%s'>Click here to create a redirect from the old term URL</a>.", 'wordpress-seo-premium' ), $this->javascript_create_redirect( $url, $id ) );
+
+			$this->create_notification( $message, 'delete', $id );
 
 		}
 

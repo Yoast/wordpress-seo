@@ -47,12 +47,14 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 
 		// Check if we should create a redirect
 		if ( in_array( $post->post_status, array( 'publish', 'static' ) ) && $this->should_create_redirect( $old_url, $new_url ) ) {
+			$id = 'wpseo_redirect_' . md5( $old_url );
+
 			// Format the message
-			$message = sprintf( __( "WordPress SEO Premium created a <a href='%s'>redirect</a> from the old post URL to the new post URL. <a href='%s'>Click here to undo this</a>.", 'wordpress-seo-premium' ), $this->admin_redirect_url( $old_url ), $this->javascript_undo_redirect( $old_url ) );
+			$message = sprintf( __( "WordPress SEO Premium created a <a href='%s'>redirect</a> from the old post URL to the new post URL. <a href='%s'>Click here to undo this</a>.", 'wordpress-seo-premium' ), $this->admin_redirect_url( $old_url ), $this->javascript_undo_redirect( $old_url, $id ) );
 
 			$this->create_redirect( $old_url, $new_url );
 
-			$this->create_notification( $message, 'slug_change' );
+			$this->create_notification( $message, 'slug_change', $id );
 		}
 
 	}
@@ -66,10 +68,12 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 
 		if( $url = $this->check_if_redirect_needed( $post_id )) {
 
-			// Format the message
-			$message = sprintf( __( "WordPress SEO Premium detected that you moved a post to the trash. <a href='%s'>Click here to create a redirect from the old post URL</a>.", 'wordpress-seo-premium' ), $this->javascript_create_redirect( $url ) );
+			$id = 'wpseo_redirect_' . md5( $url );
 
-			$this->create_notification( $message, 'trash' );
+			// Format the message
+			$message = sprintf( __( "WordPress SEO Premium detected that you moved a post to the trash. <a href='%s'>Click here to create a redirect from the old post URL</a>.", 'wordpress-seo-premium' ), $this->javascript_create_redirect( $url, $id ) );
+
+			$this->create_notification( $message, 'trash', $id );
 		}
 
 	}
@@ -83,10 +87,12 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 
 		if( $url = $this->check_if_redirect_needed( $post_id )) {
 
-			// Format the message
-			$message = sprintf( __( "WordPress SEO Premium detected that you restored a post from the trash. <a href='%s'>Click here to remove the redirect</a>.", 'wordpress-seo-premium' ), $this->javascript_undo_redirect( $url ) );
+			$id = 'wpseo_undo_redirect_' . md5( $url );
 
-			$this->create_notification( $message, 'untrash' );
+			// Format the message
+			$message = sprintf( __( "WordPress SEO Premium detected that you restored a post from the trash. <a href='%s'>Click here to remove the redirect</a>.", 'wordpress-seo-premium' ), $this->javascript_undo_redirect( $url, $id ) );
+
+			$this->create_notification( $message, 'untrash', $id );
 		}
 
 	}
@@ -101,10 +107,12 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 		// Is a redirect needed
 		if( $url = $this->check_if_redirect_needed( $post_id )) {
 
-			// Format the message
-			$message = sprintf( __( "WordPress SEO Premium detected that you deleted a post. <a href='%s'>Click here to create a redirect from the old post URL</a>.", 'wordpress-seo-premium' ), $this->javascript_create_redirect( $url ) );
+			$id = 'wpseo_redirect_' . md5( $url );
 
-			$this->create_notification( $message, 'delete' );
+			// Format the message
+			$message = sprintf( __( "WordPress SEO Premium detected that you deleted a post. <a href='%s'>Click here to create a redirect from the old post URL</a>.", 'wordpress-seo-premium' ), $this->javascript_create_redirect( $url, $id ) );
+
+			$this->create_notification( $message, 'delete', $id );
 		}
 
 	}
