@@ -1,7 +1,6 @@
 <?php
 /**
- * @package    WPSEO
- * @subpackage Admin
+ * @package WPSEO\Admin
  */
 
 /**
@@ -33,13 +32,42 @@ class WPSEO_Admin_Init {
 
 		$this->pagenow = $GLOBALS['pagenow'];
 
+		add_action( 'admin_init', array( $this, 'redirect_to_about_page' ), 15 );
 		$this->load_meta_boxes();
 		$this->load_taxonomy_class();
 		$this->load_admin_page_class();
 		$this->load_admin_user_class();
-		$this->load_yoast_tracking();
 		$this->load_tour();
 		$this->load_xml_sitemaps_admin();
+	}
+
+	/**
+	 * Redirect first time or just upgraded users to the about screen.
+	 */
+	public function redirect_to_about_page() {
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+
+		if ( $this->options['seen_about'] ) {
+			return;
+		}
+
+		if ( in_array( $this->pagenow, array(
+			'update.php',
+			'update-core.php',
+			'plugins.php',
+			'plugin-install.php',
+		) ) ) {
+			return;
+		}
+
+		// We're redirecting the user to the about screen, let's make sure we don't do it again until he/she upgrades again
+		$wpseo_option               = get_option( 'wpseo' );
+		$wpseo_option['seen_about'] = true;
+		update_option( 'wpseo', $wpseo_option );
+
+		wp_safe_redirect( admin_url( 'admin.php?page=wpseo_dashboard&intro=1' ) );
 	}
 
 	/**
@@ -70,7 +98,7 @@ class WPSEO_Admin_Init {
 	 * Determine if we should load our taxonomy edit class and if so, load it.
 	 */
 	private function load_taxonomy_class() {
-		if ( 'edit-tags.php' === $this->pagenow && filter_input( INPUT_GET, 'action' ) ) {
+		if ( 'edit-tags.php' === $this->pagenow ) {
 			new WPSEO_Taxonomy;
 		}
 	}
@@ -105,38 +133,19 @@ class WPSEO_Admin_Init {
 	 *
 	 * @link https://github.com/Yoast/i18n-module
 	 */
-	function register_i18n_promo_class() {
+	private function register_i18n_promo_class() {
 		new yoast_i18n(
 			array(
 				'textdomain'     => 'wordpress-seo',
 				'project_slug'   => 'wordpress-seo',
 				'plugin_name'    => 'WordPress SEO by Yoast',
 				'hook'           => 'wpseo_admin_footer',
-				'glotpress_url'  => 'http://translate.yoast.com/',
+				'glotpress_url'  => 'https://translate.yoast.com/',
 				'glotpress_name' => 'Yoast Translate',
 				'glotpress_logo' => 'https://cdn.yoast.com/wp-content/uploads/i18n-images/Yoast_Translate.svg',
-				'register_url'   => 'http://translate.yoast.com/projects#utm_source=plugin&utm_medium=promo-box&utm_campaign=wpseo-i18n-promo',
+				'register_url'   => 'https://translate.yoast.com/projects#utm_source=plugin&utm_medium=promo-box&utm_campaign=wpseo-i18n-promo',
 			)
 		);
-	}
-
-	/**
-	 * Determine if we're allowed to load our tracking class and if so, load it.
-	 */
-	private function load_yoast_tracking() {
-		if ( $this->options['yoast_tracking'] === true ) {
-			/**
-			 * @internal this is not a proper lean loading implementation (method_exist will autoload the class),
-			 * but it can't be helped as there are other plugins out there which also use versions
-			 * of the Yoast Tracking class and we need to take that into account unfortunately
-			 */
-			if ( method_exists( 'Yoast_Tracking', 'get_instance' ) ) {
-				add_action( 'yoast_tracking', array( 'Yoast_Tracking', 'get_instance' ) );
-			}
-			else {
-				$GLOBALS['yoast_tracking'] = new Yoast_Tracking;
-			}
-		}
 	}
 
 	/**
@@ -149,7 +158,7 @@ class WPSEO_Admin_Init {
 			update_option( 'wpseo', $this->options );
 		}
 
-		if ( $this->options['tracking_popup_done'] === false || $this->options['ignore_tour'] === false ) {
+		if ( $this->options['ignore_tour'] === false ) {
 			add_action( 'admin_enqueue_scripts', array( 'WPSEO_Pointers', 'get_instance' ) );
 		}
 	}

@@ -4,20 +4,20 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "db8748e9165237336ba770993f2c8694",
+    "hash": "4954ed93fde446578bceb574686e30a8",
     "packages": [
         {
             "name": "composer/installers",
-            "version": "v1.0.20",
+            "version": "v1.0.21",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/installers.git",
-                "reference": "1bff8aa77a18f3616f468ed8000cf86a5725bac3"
+                "reference": "d64e23fce42a4063d63262b19b8e7c0f3b5e4c45"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/installers/zipball/1bff8aa77a18f3616f468ed8000cf86a5725bac3",
-                "reference": "1bff8aa77a18f3616f468ed8000cf86a5725bac3",
+                "url": "https://api.github.com/repos/composer/installers/zipball/d64e23fce42a4063d63262b19b8e7c0f3b5e4c45",
+                "reference": "d64e23fce42a4063d63262b19b8e7c0f3b5e4c45",
                 "shasum": ""
             },
             "replace": {
@@ -63,6 +63,7 @@
                 "Thelia",
                 "WolfCMS",
                 "agl",
+                "aimeos",
                 "annotatecms",
                 "bitrix",
                 "cakephp",
@@ -98,7 +99,7 @@
                 "zend",
                 "zikula"
             ],
-            "time": "2015-01-11 03:51:11"
+            "time": "2015-02-18 17:17:01"
         },
         {
             "name": "xrstf/composer-php52",
@@ -134,16 +135,16 @@
         },
         {
             "name": "yoast/i18n-module",
-            "version": "dev-master",
+            "version": "1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Yoast/i18n-module.git",
-                "reference": "8554e74de5706538bb354133a6384e3b57d1df4b"
+                "reference": "4648918ccf8bc6da12eadf57e4bece4829af29b3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Yoast/i18n-module/zipball/8554e74de5706538bb354133a6384e3b57d1df4b",
-                "reference": "8554e74de5706538bb354133a6384e3b57d1df4b",
+                "url": "https://api.github.com/repos/Yoast/i18n-module/zipball/4648918ccf8bc6da12eadf57e4bece4829af29b3",
+                "reference": "4648918ccf8bc6da12eadf57e4bece4829af29b3",
                 "shasum": ""
             },
             "type": "library",
@@ -168,20 +169,20 @@
             "keywords": [
                 "wordpress"
             ],
-            "time": "2015-01-19 09:14:41"
+            "time": "2015-04-22 12:48:39"
         },
         {
             "name": "yoast/license-manager",
-            "version": "dev-master",
+            "version": "1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Yoast/License-Manager.git",
-                "reference": "590ec054383c5e609c78cd4aee03bc8e9d9742cc"
+                "reference": "8caf52202bf51011686e31c9a43b18731047f1be"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Yoast/License-Manager/zipball/590ec054383c5e609c78cd4aee03bc8e9d9742cc",
-                "reference": "590ec054383c5e609c78cd4aee03bc8e9d9742cc",
+                "url": "https://api.github.com/repos/Yoast/License-Manager/zipball/8caf52202bf51011686e31c9a43b18731047f1be",
+                "reference": "8caf52202bf51011686e31c9a43b18731047f1be",
                 "shasum": ""
             },
             "type": "library",
@@ -213,7 +214,7 @@
             "keywords": [
                 "wordpress"
             ],
-            "time": "2015-01-19 09:14:58"
+            "time": "2015-03-16 11:51:33"
         }
     ],
     "packages-dev": [
@@ -297,12 +298,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards.git",
-                "reference": "69199303126823aa542d7d64ced8291d0698ad46"
+                "reference": "18820b0cfe58ad6606c16f3fc786a7d87aa05d6d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/WordPress-Coding-Standards/WordPress-Coding-Standards/zipball/69199303126823aa542d7d64ced8291d0698ad46",
-                "reference": "69199303126823aa542d7d64ced8291d0698ad46",
+                "url": "https://api.github.com/repos/WordPress-Coding-Standards/WordPress-Coding-Standards/zipball/18820b0cfe58ad6606c16f3fc786a7d87aa05d6d",
+                "reference": "18820b0cfe58ad6606c16f3fc786a7d87aa05d6d",
                 "shasum": ""
             },
             "require": {
@@ -329,7 +330,7 @@
                 "standards",
                 "wordpress"
             ],
-            "time": "2015-03-08 22:21:29"
+            "time": "2015-04-22 22:42:09"
         },
         {
             "name": "yoast/yoastcs",
@@ -337,17 +338,20 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Yoast/yoastcs.git",
-                "reference": "1a88161372a1c579a9c5921bfdb7e9585274f850"
+                "reference": "4d1b1dde64ba56b47dedcc6696384174e29e4cd1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Yoast/yoastcs/zipball/1a88161372a1c579a9c5921bfdb7e9585274f850",
-                "reference": "1a88161372a1c579a9c5921bfdb7e9585274f850",
+                "url": "https://api.github.com/repos/Yoast/yoastcs/zipball/4d1b1dde64ba56b47dedcc6696384174e29e4cd1",
+                "reference": "4d1b1dde64ba56b47dedcc6696384174e29e4cd1",
                 "shasum": ""
             },
             "require": {
                 "squizlabs/php_codesniffer": "^2.2.0",
                 "wp-coding-standards/wpcs": "dev-develop"
+            },
+            "conflict": {
+                "squizlabs/php_codesniffer": ">=2.3.1"
             },
             "type": "library",
             "notification-url": "https://packagist.org/downloads/",
@@ -367,17 +371,15 @@
                 "standards",
                 "wordpress"
             ],
-            "time": "2015-03-10 18:39:36"
+            "time": "2015-04-24 12:36:42"
         }
     ],
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "yoast/license-manager": 20,
-        "yoast/i18n-module": 20,
         "yoast/yoastcs": 20
     },
-    "prefer-stable": false,
+    "prefer-stable": true,
     "prefer-lowest": false,
     "platform": [],
     "platform-dev": []

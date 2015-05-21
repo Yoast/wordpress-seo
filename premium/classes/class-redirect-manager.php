@@ -1,8 +1,8 @@
 <?php
+
 /**
  * @package Premium\Redirect
  */
-
 abstract class WPSEO_Redirect_Manager {
 
 	protected $option_redirects = null;
@@ -26,6 +26,7 @@ abstract class WPSEO_Redirect_Manager {
 			'307' => '307 Temporary Redirect',
 			'410' => '410 Content Deleted',
 		);
+
 		return apply_filters( 'wpseo_premium_redirect_types', $redirect_types );
 	}
 
@@ -190,7 +191,9 @@ abstract class WPSEO_Redirect_Manager {
 		}
 
 		// Add new redirect
-		$redirects[ $new_redirect_arr['key'] ] = array( 'url'  => $new_redirect_arr['value'], 'type' => $new_redirect_arr['type'] );
+		$redirects[ $new_redirect_arr['key'] ] = array( 'url'  => $new_redirect_arr['value'],
+		                                                'type' => $new_redirect_arr['type']
+		);
 
 		// Save redirects
 		$this->save_redirects( $redirects );
@@ -255,7 +258,7 @@ abstract class WPSEO_Redirect_Manager {
 		check_ajax_referer( 'wpseo-redirects-ajax-security', 'ajax_nonce' );
 
 		// Permission check
-		if ( !current_user_can( 'edit_posts' ) ) {
+		if ( ! current_user_can( 'edit_posts' ) ) {
 			echo '0';
 			exit;
 		}
@@ -296,7 +299,7 @@ abstract class WPSEO_Redirect_Manager {
 		check_ajax_referer( 'wpseo-redirects-ajax-security', 'ajax_nonce' );
 
 		// Permission check
-		if ( !current_user_can( 'edit_posts' ) ) {
+		if ( ! current_user_can( 'edit_posts' ) ) {
 			echo '0';
 			exit;
 		}
@@ -305,11 +308,11 @@ abstract class WPSEO_Redirect_Manager {
 		if ( isset( $_POST['redirect'] ) ) {
 			$redirect = htmlspecialchars_decode( urldecode( $_POST['redirect']['key'] ) );
 
-			$this->delete_redirect( array( trim ($redirect ) ) );
+			$this->delete_redirect( array( trim( $redirect ) ) );
 		}
 
 		// Response
-		echo '1';
+		echo esc_attr( strip_tags( $_POST['id'] ) );
 		exit;
 
 	}
@@ -323,7 +326,7 @@ abstract class WPSEO_Redirect_Manager {
 		check_ajax_referer( 'wpseo-redirects-ajax-security', 'ajax_nonce' );
 
 		// Permission check
-		if ( !current_user_can( 'edit_posts' ) ) {
+		if ( ! current_user_can( 'edit_posts' ) ) {
 			echo '0';
 			exit;
 		}
@@ -337,8 +340,14 @@ abstract class WPSEO_Redirect_Manager {
 			$this->create_redirect( trim( $old_url ), trim( $new_url ), $type );
 		}
 
+		$response = array(
+			'id'      => $_POST['id'],
+			'old_url' => $_POST['old_url'],
+			'new_url' => $_POST['new_url'],
+		);
+
 		// Response
-		echo '1';
+		echo json_encode( $response );
 		exit;
 
 	}

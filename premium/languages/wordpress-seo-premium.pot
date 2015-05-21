@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo-premium/issues\n"
-"POT-Creation-Date: 2015-02-23 14:17:23+00:00\n"
+"POT-Creation-Date: 2015-04-20 14:04:20+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -24,23 +24,23 @@ msgstr ""
 "X-Poedit-Bookmarks: \n"
 "X-Textdomain-Support: yes\n"
 
-#: class-premium.php:341
+#: class-premium.php:368
 msgid "Create Redirect"
 msgstr ""
 
-#: class-premium.php:408
+#: class-premium.php:435
 msgid "Add custom fields to page analysis"
 msgstr ""
 
-#: class-premium.php:437 classes/class-page-redirect.php:27
+#: class-premium.php:464 classes/class-page-redirect.php:27
 msgid "Redirects"
 msgstr ""
 
-#: class-premium.php:453
+#: class-premium.php:480
 msgid "Webmaster Tools"
 msgstr ""
 
-#: class-premium.php:463
+#: class-premium.php:490
 msgid "Video Tutorials"
 msgstr ""
 
@@ -56,7 +56,7 @@ msgstr ""
 msgid "Ignored"
 msgstr ""
 
-#: classes/class-crawl-issue-table.php:123 classes/class-page-redirect.php:102
+#: classes/class-crawl-issue-table.php:123 classes/class-page-redirect.php:108
 msgid "URL"
 msgstr ""
 
@@ -104,138 +104,145 @@ msgstr ""
 msgid "Reload crawl issues"
 msgstr ""
 
-#: classes/class-page-gwt.php:57
+#: classes/class-page-gwt.php:58
 msgid "Crawl Issues"
 msgstr ""
 
-#: classes/class-page-gwt.php:58 classes/class-page-redirect.php:29
+#: classes/class-page-gwt.php:60 classes/class-page-redirect.php:31
 msgid "Settings"
 msgstr ""
 
-#: classes/class-page-gwt.php:88 classes/class-page-redirect.php:83
-#: classes/class-page-redirect.php:141
+#: classes/class-page-gwt.php:90 classes/class-page-redirect.php:89
+#: classes/class-page-redirect.php:150
 msgid "Search"
 msgstr ""
 
-#: classes/class-page-gwt.php:100
+#: classes/class-page-gwt.php:103
 msgid ""
 "To allow WordPress SEO Premium to fetch your Google Webmaster Tools "
 "information, please enter your Google Authorization Code."
 msgstr ""
 
-#: classes/class-page-gwt.php:101
+#: classes/class-page-gwt.php:104
 msgid "Click here to get a Google Authorization Code"
 msgstr ""
 
-#: classes/class-page-gwt.php:103
+#: classes/class-page-gwt.php:106
 msgid ""
 "Please enter the Authorization Code in the field below and press the "
 "Authenticate button."
 msgstr ""
 
-#: classes/class-page-gwt.php:106
+#: classes/class-page-gwt.php:110
 msgid "Authenticate"
 msgstr ""
 
-#: classes/class-page-gwt.php:124
+#: classes/class-page-gwt.php:128
 msgid "Profile"
 msgstr ""
 
-#: classes/class-page-gwt.php:129 classes/class-page-redirect.php:218
+#: classes/class-page-gwt.php:134 classes/class-page-redirect.php:234
 msgid "Save Changes"
 msgstr ""
 
-#: classes/class-page-gwt.php:168
+#: classes/class-page-gwt.php:173
 msgid "Incorrect Google Authorization Code!"
 msgstr ""
 
-#: classes/class-page-gwt.php:181
+#: classes/class-page-gwt.php:186
 msgid "Crawl errors per page"
 msgstr ""
 
-#: classes/class-page-redirect.php:28
+#: classes/class-page-redirect.php:29
 msgid "Regex Redirects"
 msgstr ""
 
-#: classes/class-page-redirect.php:40
+#: classes/class-page-redirect.php:43
 msgid "Old URL"
 msgstr ""
 
-#: classes/class-page-redirect.php:44 classes/class-redirect-table.php:74
+#: classes/class-page-redirect.php:47 classes/class-redirect-table.php:74
 msgid "New URL"
 msgstr ""
 
-#: classes/class-page-redirect.php:48 classes/class-page-redirect.php:107
+#: classes/class-page-redirect.php:51 classes/class-page-redirect.php:113
 #: classes/class-redirect-table.php:75
 msgid "Type"
 msgstr ""
 
-#: classes/class-page-redirect.php:67
+#: classes/class-page-redirect.php:69 classes/class-page-redirect.php:130
+msgid ""
+"The redirect type is the HTTP response code send to the browser telling the "
+"browser what type of redirect is served.<br/><br/>Read <a href='%s'>this "
+"page</a> for more info."
+msgstr ""
+
+#: classes/class-page-redirect.php:73
 msgid "Add Redirect"
 msgstr ""
 
-#: classes/class-page-redirect.php:93
+#: classes/class-page-redirect.php:99
 msgid ""
 "Regex Redirects are extremely powerful redirects. You should only use them "
 "if you know what you are doing.<br />If you don't know what Regular "
 "Expressions (REGEX) are, please refer to %1$sour knowledge base%2$s."
 msgstr ""
 
-#: classes/class-page-redirect.php:98
+#: classes/class-page-redirect.php:104
 msgid "REGEX"
 msgstr ""
 
-#: classes/class-page-redirect.php:125
+#: classes/class-page-redirect.php:134
 msgid "Add Regex Redirect"
 msgstr ""
 
-#: classes/class-page-redirect.php:164
+#: classes/class-page-redirect.php:173
 msgid ""
 "As you're on Apache, you should add the following include to the website "
 "httpd config file:"
 msgstr ""
 
-#: classes/class-page-redirect.php:172
+#: classes/class-page-redirect.php:183
 msgid ""
 "We're unable to save the redirects to your .htaccess file, please make the "
 "file writable."
 msgstr ""
 
-#: classes/class-page-redirect.php:179
+#: classes/class-page-redirect.php:191
 msgid ""
 "As you're on NGINX, you should add the following include to the website "
 "Nginx config file:"
 msgstr ""
 
-#: classes/class-page-redirect.php:206 classes/class-page-redirect.php:212
+#: classes/class-page-redirect.php:220 classes/class-page-redirect.php:227
 msgid "Disable PHP redirects"
 msgstr ""
 
-#: classes/class-page-redirect.php:207
+#: classes/class-page-redirect.php:221
 msgid ""
 "Write redirects to the .htaccess file. Make sure the .htaccess file is "
 "writable!"
 msgstr ""
 
-#: classes/class-page-redirect.php:209
+#: classes/class-page-redirect.php:223
 msgid "Generate a separate redirect file"
 msgstr ""
 
-#: classes/class-page-redirect.php:210
+#: classes/class-page-redirect.php:224
 msgid ""
 "By default we write the redirects to your .htaccess file, check this if you "
 "want a the redirects written to a separate file. Only check this option if "
-"you know what your doing!"
+"you know what you are doing!"
 msgstr ""
 
-#: classes/class-page-redirect.php:213
+#: classes/class-page-redirect.php:228
 msgid ""
 "WordPress SEO will generate redirect files that can be included in your "
 "website configuration, you can disable PHP redirect if this is done "
-"correctly. Only check this option if you know what your doing!"
+"correctly. Only check this option if you know what you are doing!"
 msgstr ""
 
-#: classes/class-page-redirect.php:247
+#: classes/class-page-redirect.php:263
 msgid "Redirects per page"
 msgstr ""
 
@@ -283,15 +290,15 @@ msgstr ""
 msgid ".htaccess import failed: No redirects found."
 msgstr ""
 
-#: classes/class-premium-import-manager.php:225
+#: classes/class-premium-import-manager.php:224
 msgid "Import from Redirection?"
 msgstr ""
 
-#: classes/class-premium-import-manager.php:243
+#: classes/class-premium-import-manager.php:242
 msgid "Import redirects from .htaccess"
 msgstr ""
 
-#: classes/class-premium-import-manager.php:245
+#: classes/class-premium-import-manager.php:244
 msgid "Import .htaccess"
 msgstr ""
 
@@ -359,15 +366,15 @@ msgid ""
 "here to create a redirect from the old term URL</a>."
 msgstr ""
 
-#: classes/class-tutorial-videos.php:33
+#: classes/class-tutorial-videos.php:31
 msgid "WordPress SEO Premium is inactive."
 msgstr ""
 
-#: classes/class-tutorial-videos.php:35
+#: classes/class-tutorial-videos.php:33
 msgid "Please activate WordPress SEO Premium to be able to see the videos."
 msgstr ""
 
-#: classes/class-tutorial-videos.php:37
+#: classes/class-tutorial-videos.php:35
 msgid ""
 "Please ask your site administrator to activate WordPress SEO Premium to be "
 "able to see the videos."

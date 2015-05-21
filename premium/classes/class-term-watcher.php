@@ -63,18 +63,21 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 		// Check if we should create a redirect
 		if ( $this->should_create_redirect( $old_url, $new_url ) ) {
 
+			$id = 'wpseo_create_redirect_' . md5( $old_url );
+
 			// Format the message
+
 			/* translators %1$s: <a href='{admin_redirect_url}'>, %2$s: <a href='{undo_redirect_url}'> and %3$s: </a> */
 			$message = sprintf(
 				__( 'WordPress SEO Premium created a %1$sredirect%3$s. from the old term URL to the new term URL. %2$sClick here to undo this%3$s.', 'wordpress-seo-premium' ),
 				'<a href="' . $this->admin_redirect_url( $old_url ) . '">',
-				'<a href="' . $this->javascript_undo_redirect( $old_url ) . '">',
+				'<a href="' . $this->javascript_undo_redirect( $old_url, $id ) . '">',
 				'</a>'
 			);
 
 			$this->create_redirect( $old_url, $new_url );
 
-			$this->create_notification( $message, 'slug_change' );
+			$this->create_notification( $message, 'slug_change', $id );
 		}
 
 	}
@@ -92,16 +95,18 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 		$term_row = $wpdb->get_row( $wpdb->prepare( 'SELECT `term_id`, `taxonomy` FROM `' . $wpdb->term_taxonomy . '` WHERE `term_taxonomy_id` = %d ', $term_id ) );
 
 		// Check result
-		if ( null != $term_row ) {
+		if ( null !== $term_row ) {
 
 			// Get the URL
 			$url = $this->get_target_url( get_term( $term_row->term_id, $term_row->taxonomy ), $term_row->taxonomy );
 
+			$id = 'wpseo_create_redirect_' . md5( $url );
+
 			// Format the message
 			/* translators %1$s expands to <a href='{create_redirect_url}'> and %2$s </a> */
-			$message = sprintf( __( 'WordPress SEO Premium detected that you deleted a term. %1$sClick here to create a redirect from the old term URL%2$s.', 'wordpress-seo-premium' ),  '<a href="'. $this->javascript_create_redirect( $url ) . '">', '</a>' );
+			$message = sprintf( __( 'WordPress SEO Premium detected that you deleted a term. %1$sClick here to create a redirect from the old term URL%2$s.', 'wordpress-seo-premium' ),  '<a href="'. $this->javascript_create_redirect( $url, $id ) . '">', '</a>' );
 
-			$this->create_notification( $message, 'delete' );
+			$this->create_notification( $message, 'delete', $id );
 
 		}
 

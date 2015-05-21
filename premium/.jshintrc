@@ -3,7 +3,6 @@
     "curly": true,
     "eqeqeq": true,
     "eqnull": true,
-    "es3": true,
     "immed": true,
     "latedef": true,
     "newcap": true,

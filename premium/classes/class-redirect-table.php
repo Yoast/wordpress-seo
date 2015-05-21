@@ -72,7 +72,7 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 			'cb'   => '<input type="checkbox" />',
 			'old'  => $this->type,
 			'new'  => __( 'New URL', 'wordpress-seo-premium' ),
-			'type' => __( 'Type', 'wordpress-seo-premium' )
+			'type' => _x( 'Type', 'noun', 'wordpress-seo-premium' )
 		);
 
 		return $columns;

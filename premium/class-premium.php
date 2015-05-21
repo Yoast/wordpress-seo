@@ -20,7 +20,7 @@ class WPSEO_Premium {
 
 	const OPTION_CURRENT_VERSION = 'wpseo_current_version';
 
-	const PLUGIN_VERSION_NAME = '1.5.3';
+	const PLUGIN_VERSION_NAME = '2.1.1';
 	const PLUGIN_VERSION_CODE = '16';
 	const PLUGIN_AUTHOR = 'Yoast';
 	const EDD_STORE_URL = 'https://yoast.com';
@@ -336,12 +336,18 @@ class WPSEO_Premium {
 	 * @param $hook
 	 */
 	public function enqueue_overview_script( $hook ) {
-
 		if ( 'edit.php' == $hook || 'edit-tags.php' == $hook || 'post.php' == $hook ) {
-			wp_enqueue_script( 'wpseo-premium-admin-overview', plugin_dir_url( WPSEO_PREMIUM_FILE ) . '/assets/js/wpseo-premium-admin-overview' . WPSEO_CSSJS_SUFFIX . '.js', array( 'jquery' ), '1.0.0' );
-			wp_localize_script( 'wpseo-premium-admin-overview', 'wpseo_premium_strings', WPSEO_Premium_Javascript_Strings::strings() );
+			self::enqueue();
 		}
 
+	}
+
+	/**
+	 * Enqueues the do / undo redirect scripts
+	 */
+	public static function enqueue() {
+		wp_enqueue_script( 'wpseo-premium-admin-overview', plugin_dir_url( WPSEO_PREMIUM_FILE ) . '/assets/js/wpseo-premium-admin-overview' . WPSEO_CSSJS_SUFFIX . '.js', array( 'jquery' ), WPSEO_VERSION );
+		wp_localize_script( 'wpseo-premium-admin-overview', 'wpseo_premium_strings', WPSEO_Premium_Javascript_Strings::strings() );
 	}
 
 	/**

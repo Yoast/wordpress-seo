@@ -6,7 +6,6 @@
 	"disallowSpacesInFunctionExpression": {
         "beforeOpeningRoundBrace": true
     },
-    "requireMultipleVarDecl": "onevar",
     "requireSpacesInsideObjectBrackets": "all",
     "disallowSpaceAfterObjectKeys": true,
     "requireSpaceAfterBinaryOperators": [
@@ -35,7 +34,6 @@
 	"requireSpaceBeforeBlockStatements": true,
 	"requireParenthesesAroundIIFE": true,
 	"requireBlocksOnNewline": true,
-	"requireRightStickedOperators": [],
 	"requireOperatorBeforeLineBreak": [
 		"?",
 		"=",
@@ -52,43 +50,8 @@
 		"<",
 		"<="
 	],
-	"disallowLeftStickedOperators": [
-		"?",
-		"=",
-		"+",
-		"-",
-		"/",
-		"*",
-		"==",
-		"===",
-		"!=",
-		"!==",
-		">",
-		">=",
-		"<",
-		"<="
-	],
-	"disallowRightStickedOperators": [
-		"?",
-		"=",
-		"+",
-		"/",
-		"*",
-		":",
-		"==",
-		"===",
-		"!=",
-		"!==",
-		">",
-		">=",
-		"<",
-		"<="
-	],
-	"requireLeftStickedOperators": [","],
 	"disallowSpaceAfterPrefixUnaryOperators": ["++", "--", "+", "-", "~"],
-	"requireSpaceAfterPrefixUnaryOperators": ["!"],
 	"disallowSpaceBeforePostfixUnaryOperators": ["++", "--"],
-	"requireCamelCaseOrUpperCaseIdentifiers": true,
 	"disallowMultipleLineStrings": true,
 	"validateQuoteMarks": "'",
 	"validateIndentation": "\t",
@@ -99,9 +62,7 @@
 	"disallowPaddingNewlinesInBlocks": true,
 	"disallowEmptyBlocks": true,
 	"disallowQuotedKeysInObjects": "allButReserved",
-	"disallowDanglingUnderscores": true,
 	"requireCommaBeforeLineBreak": true,
-	"disallowKeywordsOnNewLine": ["else"],
 	"requireCapitalizedConstructors": true,
 	"safeContextKeyword": [ "that" ],
 	"validateJSDoc": {

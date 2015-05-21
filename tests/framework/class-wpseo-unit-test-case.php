@@ -1,7 +1,6 @@
 <?php
 /**
- * @package    WPSEO
- * @subpackage Unittests
+ * @package WPSEO\Unittests
  */
 
 /**
@@ -40,5 +39,22 @@ class WPSEO_UnitTestCase extends WP_UnitTestCase {
 		$output   = preg_replace( '|\R|', "\r\n", $output );
 		$expected = preg_replace( '|\R|', "\r\n", $expected );
 		$this->assertEquals( $expected, $output );
+	}
+
+	/**
+	 * @param string|array $expected
+	 */
+	protected function expectOutputContains( $expected ) {
+		$output = preg_replace( '|\R|', "\r\n", ob_get_contents() );
+		ob_clean();
+
+		if ( ! is_array( $expected ) ) {
+			$expected = array( $expected );
+		}
+
+		foreach ( $expected as $needle ) {
+			$found = strpos( $output, $needle );
+			$this->assertTrue( $found !== false );
+		}
 	}
 }

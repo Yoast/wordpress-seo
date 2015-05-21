@@ -1,7 +1,6 @@
 <?php
 /**
- * @package    WPSEO
- * @subpackage Admin
+ * @package WPSEO\Admin
  */
 
 if ( ! defined( 'WPSEO_VERSION' ) ) {
@@ -63,27 +62,6 @@ if ( isset( $_POST['import'] ) || isset( $_GET['import'] ) ) {
 
 }
 
-/**
- * Filter: 'wpseo_import_tabs' - Allow adding custom import tabs to the page.
- *
- * Tabs should be added by setting a key. Value has to be an array with the keys tabvalue (the value display on the tab)
- * and the tabcontent (the contents that will be shown when pressing on the tab). Both values should be set, otherwise they
- * won't be displayed
- *
- * Expected format:
- * 		array(
- * 			'tabname' => array(
- * 				'tabvalue'   => 'value for the tab',
- * 				'tabcontent' => 'the content for this tab',
- * 			)
- * 		)
- *
- * For inspiration with regards to the tab content, please take a look at the way the standard tabs are rendered in this file.
- *
- * @api array - The array that will be used to fill the tabs.
- */
-$import_tabs = apply_filters( 'wpseo_import_tabs', array() );
-
 if ( isset( $_FILES['settings_import_file'] ) ) {
 	check_admin_referer( 'wpseo-import-file' );
 
@@ -119,15 +97,9 @@ if ( isset( $import ) ) {
 	   href="#top#import-other"><?php _e( 'Import from other plugins', 'wordpress-seo' ); ?></a>
 	<?php
 	/**
-	 * If import tabs is filled, loop through the tabs, if tabvalue exists in the tab display it.
+	 * Allow adding a custom import tab header
 	 */
-	if ( ! empty( $import_tabs ) ) {
-		foreach ( $import_tabs as $tab_name => $tab_settings ) {
-			if ( array_key_exists( 'tabvalue', $tab_settings ) && array_key_exists( 'tabcontent', $tab_settings ) ) {
-				echo '<a class="nav-tab" id="import-' . esc_attr( $tab_name ) . '-tab" href="#top#import-' . esc_url( $tab_name ) . '">' . esc_html( $tab_settings['tabvalue'] ) . '</a>';
-			}
-		}
-	}
+	do_action( 'wpseo_import_tab_header' );
 	?>
 </h2>
 
@@ -139,7 +111,7 @@ if ( isset( $import ) ) {
 		method="post" enctype="multipart/form-data"
 		accept-charset="<?php echo esc_attr( get_bloginfo( 'charset' ) ); ?>">
 		<?php wp_nonce_field( 'wpseo-import-file', '_wpnonce', true, true ); ?>
-		<input type="file" name="settings_import_file"/>
+		<input type="file" name="settings_import_file" accept="application/x-zip,application/x-zip-compressed,application/zip" />
 		<input type="hidden" name="action" value="wp_handle_upload"/><br/>
 		<br/>
 		<input type="submit" class="button-primary" value="<?php _e( 'Import settings', 'wordpress-seo' ); ?>"/>
@@ -199,10 +171,6 @@ if ( isset( $import ) ) {
 		 */
 		echo apply_filters( 'wpseo_import_other_plugins', '' );
 
-		/**
-		 * Allow adding a custom import block
-		 */
-		do_action( 'wpseo_import' );
 		?>
 		<br/>
 		<input type="submit" class="button-primary" name="import" value="<?php _e( 'Import', 'wordpress-seo' ); ?>"/>
@@ -211,19 +179,7 @@ if ( isset( $import ) ) {
 </div>
 <?php
 /**
- * If import tabs is filled, loop through the tabs, if tabcontent exists in the tab display it.
+ * Allow adding a custom import tab
  */
-if ( ! empty( $import_tabs ) ) {
-	foreach ( $import_tabs as $tab_name => $tab_settings ) {
-		?>
-		<div id="import-<?php echo esc_attr( $tab_name ); ?>" class="wpseotab">
-			<?php
-			if ( array_key_exists( 'tabvalue', $tab_settings ) && array_key_exists( 'tabcontent', $tab_settings ) ) {
-				echo esc_html( $tab_settings['tabcontent'] );
-			}
-			?>
-		</div>
-	<?php
-	}
-}
-?>
+do_action( 'wpseo_import_tab_content' );
+

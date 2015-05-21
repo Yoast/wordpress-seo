@@ -1,7 +1,6 @@
 <?php
 /**
- * @package    WPSEO
- * @subpackage Unittests
+ * @package WPSEO\Unittests
  */
 
 class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
@@ -187,19 +186,6 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 		$expected = $this->metatag( 'description', WPSEO_Frontend::get_instance()->metadesc( false ) );
 
 		self::$class_instance->description();
-		$this->expectOutput( $expected );
-	}
-
-	/**
-	 * @covers WPSEO_Twitter::url
-	 */
-	public function test_twitter_url() {
-		// create and go to post
-		$post_id = $this->factory->post->create();
-		$this->go_to( get_permalink( $post_id ) );
-
-		$expected = $this->metatag( 'url', esc_url( WPSEO_Frontend::get_instance()->canonical( false ) ) );
-		self::$class_instance->url();
 		$this->expectOutput( $expected );
 	}
 
