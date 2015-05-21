@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 /**
  * Use notification counter so we can count how many times the function wpseo_show_notification is called.
  *

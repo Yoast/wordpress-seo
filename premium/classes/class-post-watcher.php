@@ -190,15 +190,19 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	 * @return bool|string
 	 */
 	protected function get_old_url( $post, $post_before ) {
-		if ( ! isset( $_POST['wpseo_old_url'] ) ) {
+		$wpseo_old_url = filter_input( INPUT_POST, 'wpseo_old_url' );
+
+		if ( ! isset( $wpseo_old_url ) ) {
 			// Check if request is inline action and new slug is not old slug, if so set wpseo_old_url
-			if ( ! empty( $_POST['action'] ) && $_POST['action'] === 'inline-save' && $post->post_name !== $post_before->post_name ) {
+			$action = filter_input( INPUT_POST, 'action' );
+
+			if ( ! empty( $action ) && $action === 'inline-save' && $post->post_name !== $post_before->post_name ) {
 				return '/' . $post_before->post_name . '/';
 			}
 			return false;
 		}
 
-		return esc_url( $_POST['wpseo_old_url'] );
+		return $wpseo_old_url;
 	}
 
 	/**
