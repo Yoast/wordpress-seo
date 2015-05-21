@@ -1,5 +1,11 @@
 <?php
+/**
+ * @package WPSEO\Premium\Classes
+ */
 
+/**
+ * Class WPSEO_GWT_Platform_Tabs
+ */
 class WPSEO_GWT_Platform_Tabs {
 
 	/**
@@ -26,7 +32,9 @@ class WPSEO_GWT_Platform_Tabs {
 	}
 
 	/**
+	 * Loops through the array with all the platforms and convert it into an array
 	 *
+	 * @return string
 	 */
 	private function platform_tabs() {
 		$platforms = array(
@@ -67,6 +75,8 @@ class WPSEO_GWT_Platform_Tabs {
 	 * @param string $platform_target
 	 * @param string $platform_value
 	 * @param string $admin_link
+	 *
+	 * @return string
 	 */
 	private function platform_tab( $platform_target, $platform_value, $admin_link ) {
 		$active = '';
@@ -74,8 +84,7 @@ class WPSEO_GWT_Platform_Tabs {
 			$active = ' nav-tab-active';
 		}
 
-		echo '<a class="nav-tab ' . $active . '" id="' . $platform_target . '-tab" href="' . $admin_link . $platform_target . '">' . $platform_value . '</a>';
+		return '<a class="nav-tab ' . $active . '" id="' . $platform_target . '-tab" href="' . $admin_link . $platform_target . '">' . $platform_value . '</a>';
 	}
-
 
 }

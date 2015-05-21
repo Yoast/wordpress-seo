@@ -1,7 +1,6 @@
 <?php
 /**
- * @package Premium\Redirect
- * @subpackage Premium
+ * @package WPSEO\Premium\Classes
  */
 
 /**
@@ -64,11 +63,11 @@ class WPSEO_Crawl_Issue_Table_Data {
 
 	/**
 	 * Gets the current category
-	 * @return mixed|string
+	 *
+	 * @return string
 	 */
 	public function get_category() {
 		return $this->category;
 	}
-
 
 }

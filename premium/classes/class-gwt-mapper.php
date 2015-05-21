@@ -1,5 +1,11 @@
 <?php
+/**
+ * @package WPSEO\Premium\Classes
+ */
 
+/**
+ * Class WPSEO_GWT_Mapper
+ */
 class WPSEO_GWT_Mapper {
 
 	/**

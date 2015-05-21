@@ -1,7 +1,6 @@
 <?php
 /**
- * @package Premium\GoogleWebmasterTools
- * @subpackage premium
+ * @package WPSEO\Premium\Classes
  */
 
 /**

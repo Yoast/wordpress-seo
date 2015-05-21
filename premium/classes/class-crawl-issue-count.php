@@ -1,12 +1,18 @@
 <?php
+/**
+ * @package WPSEO\Premium\Classes
+ */
 
+/**
+ * Class WPSEO_Crawl_Issue_Count
+ */
 class WPSEO_Crawl_Issue_Count {
 
 	// The last checked timestamp
 	CONST OPTION_CI_LAST_FETCH = 'wpseo_crawl_issues_last_fetch';
 
+	// The option name where the issues counts are saved
 	CONST OPTION_CI_COUNTS     = 'wpseo_crawl_issues_counts';
-
 
 	/**
 	 * Fetching the counts
@@ -54,7 +60,7 @@ class WPSEO_Crawl_Issue_Count {
 	}
 
 	/**
-	 * Store the timestamp of when crawl errors were saved
+	 * Store the timestamp of when crawl errors were saved the last time.
 	 */
 	private function save_last_fetch() {
 		$this->remove_last_fetch();

@@ -1,8 +1,6 @@
 <?php
-
 /**
- * @package    WPSEO
- * @subpackage Premium
+ * @package WPSEO\Premium\Classes
  */
 
 /**

@@ -1,7 +1,6 @@
 <?php
 /**
- * @package    WPSEO
- * @subpackage Premium
+ * @package WPSEO\Premium\Classes
  */
 
 /**
@@ -75,7 +74,7 @@ class WPSEO_GWT_Service {
 			foreach ( $crawl_error_counts->countPerTypes as $category ) {
 				$return[ $category->platform ][ $category->category ] = array(
 					'count'      => $category->entries[0]->count,
-					'last_fetch' => null
+					'last_fetch' => null,
 				);
 			}
 		}
@@ -140,11 +139,6 @@ class WPSEO_GWT_Service {
 		// Set the profile
 		$profile = $option['profile'];
 
-		// Check if the profile is set
-		if ( $profile === '' ) {
-			$profile = get_option( 'siteurl' );
-		}
-
 		// Backwards compatibility fix - This is the old API endpoint
 		if ( strpos( $profile, 'https://www.google.com/webmasters/tools/feeds/' ) ) {
 			$profile = str_replace( 'https://www.google.com/webmasters/tools/feeds/', '', $profile );
@@ -175,7 +169,7 @@ class WPSEO_GWT_Service {
 	}
 
 	/**
-	 *
+	 * Removes the option and calls the clients clear_date method to clear that one as well
 	 */
 	public function clear_data() {
 		delete_option( self::OPTION_WPSEO_GWT );

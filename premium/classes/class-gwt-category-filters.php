@@ -1,5 +1,15 @@
 <?php
+/**
+ * @package WPSEO\Premium\Classes
+ */
 
+/**
+ * Class WPSEO_GWT_Category_Filters
+ *
+ * This class will get all category counts from the options and will parse the filter links that are displayed above
+ * the crawl issue tables.
+ *
+ */
 class WPSEO_GWT_Category_Filters {
 
 	/**
@@ -25,6 +35,8 @@ class WPSEO_GWT_Category_Filters {
 
 	/**
 	 * Constructing this object
+	 *
+	 * Setting the hook to create the issues categories as the links
 	 *
 	 * @param string $platform
 	 * @param string $screen_id
@@ -135,7 +147,8 @@ class WPSEO_GWT_Category_Filters {
 	}
 
 	/**
-	 * Parsing the counts
+	 * Parsing the category counts. When there are 0 issues for a specific category, just remove that one from the array
+	 *
 	 * @param array $category_counts
 	 *
 	 * @return mixed

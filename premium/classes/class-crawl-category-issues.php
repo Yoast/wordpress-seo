@@ -1,7 +1,6 @@
 <?php
 /**
- * @package    WPSEO
- * @subpackage Premium
+ * @package WPSEO\Premium\Classes
  */
 
 /**
@@ -37,11 +36,7 @@ class WPSEO_Crawl_Category_Issues {
 	private $option_name = '';
 
 	/**
-	 * @var array
-	 */
-	private $all_issues = array();
-
-	/**
+	 * Setting up the properties and fetching the current issues
 	 *
 	 * @param string $platform
 	 * @param string $category
@@ -55,22 +50,17 @@ class WPSEO_Crawl_Category_Issues {
 	}
 
 	/**
-	 * Fetching the issues for current category
+	 * Fetching the issues for current category and compare them with the already existing issues
 	 */
 	public function fetch_issues() {
 		$this->set_current_issues();
 
 		if ( $issues = $this->service->fetch_category_issues( $this->platform, $this->category ) ) {
 			$crawl_issues = $this->get_issues();
-			foreach ( $issues as $issue ) {
-				$issue->pageUrl = WPSEO_Redirect_Manager::format_url( (string) $issue->pageUrl );
 
-				if ( ! in_array( $issue->pageUrl, $this->current_issues ) ) {
-					array_push(
-						$crawl_issues,
-						$this->save_issue( $this->create_issue( $issue ) )
-					);
-				}
+			// Walk through the issues to do the comparison
+			foreach ( $issues as $issue ) {
+				$this->issue_compare( $crawl_issues, $issue );
 			}
 
 			$this->save_issues( $crawl_issues );
@@ -80,14 +70,33 @@ class WPSEO_Crawl_Category_Issues {
 	/**
 	 * Getting the issues from the options
 	 *
-	 * @return mixed
+	 * @return array
 	 */
 	public function get_issues() {
 		return get_option( $this->option_name, array() );
 	}
 
 	/**
-	 * Creates the issue
+	 * Comparing the issue with the list of current existing issues
+	 *
+	 * @param array    $crawl_issues
+	 * @param stdClass $issue
+	 */
+	private function issue_compare( &$crawl_issues, $issue ) {
+		$issue->pageUrl = WPSEO_Redirect_Manager::format_url( (string) $issue->pageUrl );
+
+		if ( ! in_array( $issue->pageUrl, $this->current_issues ) ) {
+			array_push(
+				$crawl_issues,
+				$this->get_issue( $this->create_issue( $issue ) )
+			);
+		}
+	}
+
+	/**
+	 * The fetched issue from the API will be parsed as an WPSEO_Crawl_Issue object. After initializing the issue as an
+	 * object, the object will be returned
+	 *
 	 * @param stdClass $issue
 	 *
 	 * @return WPSEO_Crawl_Issue
@@ -102,18 +111,18 @@ class WPSEO_Crawl_Category_Issues {
 	}
 
 	/**
-	 * Saving the crawl issue in the database
+	 * Returns the crawl issue as an array.
 	 *
 	 * @param WPSEO_Crawl_Issue $crawl_issue
 	 *
 	 * @return array()
 	 */
-	private function save_issue( WPSEO_Crawl_Issue $crawl_issue ) {
+	private function get_issue( WPSEO_Crawl_Issue $crawl_issue ) {
 		return $crawl_issue->to_array();
 	}
 
 	/**
-	 * Saving the issues
+	 * Saving the issues to the options. The target option is base on current platform and category.
 	 *
 	 * @param array $issues
 	 */
@@ -122,10 +131,10 @@ class WPSEO_Crawl_Category_Issues {
 	}
 
 	/**
-	 *
+	 * Getting the issues from the options and get only the URL out of it. This is because there will be a comparison
+	 * with the issues from the API.
 	 */
 	private function set_current_issues() {
-		// First getting the issues from the option
 		$current_issues = $this->get_issues();
 
 		if ( ! empty( $current_issues ) ) {

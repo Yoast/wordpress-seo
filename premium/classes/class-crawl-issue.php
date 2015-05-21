@@ -1,7 +1,6 @@
 <?php
 /**
- * @package    WPSEO
- * @subpackage Premium
+ * @package WPSEO\Premium\Classes
  */
 
 /**
@@ -10,15 +9,6 @@
  * @todo Might want to create a class that accepts the raw Google response as construct parameter.
  */
 class WPSEO_Crawl_Issue {
-
-	// Post Type related constants
-	const PT_CRAWL_ISSUE = 'wpseo_crawl_issue';
-
-	// Post Meta related constants
-	const PM_CI_URL            = 'wpseo_ci_url';
-	const PM_CI_FIRST_DETECTED = 'wpseo_ci_first_detected';
-	const PM_CI_LAST_CRAWLED   = 'wpseo_ci_last_crawled';
-	const PM_CI_RESPONSE_CODE  = 'wpseo_ci_response_code';
 
 	/**
 	 * @var string
@@ -48,7 +38,7 @@ class WPSEO_Crawl_Issue {
 	 * @param DateTime $last_crawled
 	 * @param string   $response_code
 	 */
-	function __construct( $url, DateTime $first_detected, DateTime $last_crawled, $response_code ) {
+	public function __construct( $url, DateTime $first_detected, DateTime $last_crawled, $response_code ) {
 		$this->url            = $url;
 		$this->first_detected = $first_detected;
 		$this->last_crawled   = $last_crawled;
@@ -56,7 +46,7 @@ class WPSEO_Crawl_Issue {
 	}
 
 	/**
-	 * Put class properties in array
+	 * Put the class properties in array
 	 *
 	 * @return array
 	 */
@@ -70,6 +60,8 @@ class WPSEO_Crawl_Issue {
 	}
 
 	/**
+	 * Converting the date to a date format
+	 *
 	 * @param DateTime $date_to_convert
 	 * @param string   $format
 	 *

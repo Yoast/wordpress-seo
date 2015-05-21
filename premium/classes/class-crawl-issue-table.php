@@ -1,7 +1,6 @@
 <?php
 /**
- * @package Premium\Redirect
- * @subpackage Premium
+ * @package WPSEO\Premium\Classes
  */
 
 if ( ! class_exists( 'WP_List_Table' ) ) {
@@ -36,17 +35,17 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 	private $crawl_issue_source;
 
 	/**
-	 * @var int
+	 * @var integer
 	 */
 	private $per_page     = 50;
 
 	/**
-	 * @var int
+	 * @var integer
 	 */
 	private $current_page = 1;
 
 	/**
-	 * WPSEO_Redirect_Table constructor
+	 * The constructor
 	 *
 	 * @param WPSEO_GWT_Platform_Tabs $platform_tabs
 	 * @param WPSEO_GWT_Service       $service
@@ -59,7 +58,10 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 			$this->search_string = $search_string;
 		}
 
+		// Set the crawl issue source
 		$this->crawl_issue_source = new WPSEO_Crawl_Issue_Table_Data( $platform_tabs->current_tab(), $this->screen->id, $service );
+
+		// Setting the current view
 		$this->current_view       = $this->crawl_issue_source->get_category();
 	}
 

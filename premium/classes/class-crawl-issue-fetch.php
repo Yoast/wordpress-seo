@@ -1,5 +1,11 @@
 <?php
+/**
+ * @package WPSEO\Premium\Classes
+ */
 
+/**
+ * Class WPSEO_Crawl_Issue_Fetch
+ */
 class WPSEO_Crawl_Issue_Fetch {
 
 	/**
@@ -63,7 +69,6 @@ class WPSEO_Crawl_Issue_Fetch {
 
 	/**
 	 * Listing the issues from the database
-	 *
 	 */
 	private function list_issues() {
 		$counts = $this->issue_count->get_counts();
@@ -100,8 +105,5 @@ class WPSEO_Crawl_Issue_Fetch {
 
 		return $counts;
 	}
-
-
-
 
 }
