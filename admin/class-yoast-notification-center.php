@@ -35,14 +35,10 @@ class Yoast_Notification_Center {
 			$this->remove_transient();
 		}
 
-		// Display the notifications in all_admin_notices
 		add_action( 'all_admin_notices', array( $this, 'display_notifications' ) );
-
-		// Write the cookie on shutdown
 		add_action( 'shutdown', array( $this, 'set_transient' ) );
-
-		// AJAX
 		add_action( 'wp_ajax_yoast_get_notifications', array( $this, 'ajax_get_notifications' ) );
+		add_action( 'admin_head', array( $this, 'enqueue' ) );
 	}
 
 	/**
@@ -57,6 +53,15 @@ class Yoast_Notification_Center {
 		}
 
 		return self::$instance;
+	}
+
+	/**
+	 * If we have notifications, make sure we can deal with them too, for which we need the scripts.
+	 */
+	public function enqueue() {
+		if ( count( $this->notifications ) > 0 ) {
+			WPSEO_Premium::enqueue();
+		}
 	}
 
 	/**
@@ -80,7 +85,7 @@ class Yoast_Notification_Center {
 			// Create Yoast_Notification objects
 			if ( count( $json_notifications ) > 0 ) {
 				foreach ( $json_notifications as $json_notification ) {
-					$notifications[] = new Yoast_Notification( $json_notification['message'], $json_notification['type'] );
+					$notifications[] = new Yoast_Notification( $json_notification['message'], $json_notification['type'], $json_notification['id'] );
 				}
 			}
 		}
@@ -103,7 +108,7 @@ class Yoast_Notification_Center {
 	}
 
 	/**
-	 * Write the notifications to cookie
+	 * Write the notifications to a cookie (hooked on shutdown)
 	 */
 	public function set_transient() {
 

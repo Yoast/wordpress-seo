@@ -875,7 +875,6 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'ms_defaults_set'                 => false,
 		'theme_description_found'         => null, // overwrite in __construct()
 		'theme_has_description'           => null, // overwrite in __construct()
-		'tracking_popup_done'             => false,
 		// Non-form field, should only be set via validation routine
 		'version'                         => '', // leave default as empty to ensure activation/upgrade works
 		'seen_about'                      => false,
@@ -891,7 +890,6 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'website_name'                    => '',
 		'alternate_website_name'          => '',
 		'yandexverify'                    => '',
-		'yoast_tracking'                  => false,
 	);
 
 	/**
@@ -945,11 +943,6 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		/* Clear the cache on update/add */
 		add_action( 'add_option_' . $this->option_name, array( 'WPSEO_Utils', 'clear_cache' ) );
 		add_action( 'update_option_' . $this->option_name, array( 'WPSEO_Utils', 'clear_cache' ) );
-
-
-		/* Check if the yoast tracking cron job needs adding/removing on successfull option add/update */
-		add_action( 'add_option_' . $this->option_name, array( 'WPSEO_Utils', 'schedule_yoast_tracking' ), 15, 2 );
-		add_action( 'update_option_' . $this->option_name, array( 'WPSEO_Utils', 'schedule_yoast_tracking' ), 15, 2 );
 	}
 
 
@@ -1056,7 +1049,6 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				case 'ignore_permalink':
 				case 'ignore_tour':
 				case 'ms_defaults_set':
-				case 'tracking_popup_done':
 					if ( isset( $dirty[ $key ] ) ) {
 						$clean[ $key ] = WPSEO_Utils::validate_bool( $dirty[ $key ] );
 					}
@@ -1095,30 +1087,8 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 	 * @return  array            Cleaned option
 	 */
 	protected function clean_option( $option_value, $current_version = null, $all_old_option_values = null ) {
-
-		// Rename some options *and* change their value
-		$rename = array(
-			'presstrends'       => array(
-				'new_name'  => 'yoast_tracking',
-				'new_value' => true,
-			),
-			'presstrends_popup' => array(
-				'new_name'  => 'tracking_popup_done',
-				'new_value' => true,
-			),
-		);
-		foreach ( $rename as $old => $new ) {
-			if ( isset( $option_value[ $old ] ) && ! isset( $option_value[ $new['new_name'] ] ) ) {
-				$option_value[ $new['new_name'] ] = $new['new_value'];
-				unset( $option_value[ $old ] );
-			}
-		}
-		unset( $rename, $old, $new );
-
-
 		// Deal with renaming of some options without losing the settings
 		$rename = array(
-			'tracking_popup'           => 'tracking_popup_done',
 			'meta_description_warning' => 'ignore_meta_description_warning',
 		);
 		foreach ( $rename as $old => $new ) {
@@ -1148,7 +1118,6 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 			'ignore_permalink',
 			'ignore_tour',
 			// 'disableadvanced_meta', => not needed as is 'on' which will auto-convert to true
-			'tracking_popup_done',
 		);
 		foreach ( $value_change as $key ) {
 			if ( isset( $option_value[ $key ] ) && in_array( $option_value[ $key ], array(
@@ -3875,24 +3844,6 @@ class WPSEO_Options {
 
 		return WPSEO_Utils::grant_access();
 	}
-
-	/**
-	 * (Un-)schedule the yoast tracking cronjob if the tracking option has changed
-	 *
-	 * @deprecated 1.5.6.1
-	 * @deprecated use WPSEO_Utils::schedule_yoast_tracking()
-	 * @see        WPSEO_Utils::schedule_yoast_tracking()
-	 *
-	 * @param  mixed $disregard        Not needed - passed by add/update_option action call
-	 *                                 Option name if option was added, old value if option was updated
-	 * @param  array $value            The (new/current) value of the wpseo option
-	 * @param  bool  $force_unschedule Whether to force an unschedule (i.e. on deactivate)
-	 */
-	public static function schedule_yoast_tracking( $disregard, $value, $force_unschedule = false ) {
-		_deprecated_function( __METHOD__, 'WPSEO 1.5.6.1', 'WPSEO_Utils::schedule_yoast_tracking()' );
-		WPSEO_Utils::schedule_yoast_tracking( $disregard, $value, $force_unschedule );
-	}
-
 
 	/**
 	 * Clears the WP or W3TC cache depending on which is used

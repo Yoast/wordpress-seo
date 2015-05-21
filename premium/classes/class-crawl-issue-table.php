@@ -122,7 +122,7 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 			//'cb'            => '<input type="checkbox" />',
 			'url'           => __( 'URL', 'wordpress-seo-premium' ),
 			'issue_type'    => __( 'Issue Type', 'wordpress-seo-premium' ),
-			'date_detected' => __( 'Date detected', 'wordpress-seo-premium' ),
+			'date_detected' => __( 'Date Detected', 'wordpress-seo-premium' ),
 			'detail'        => __( 'Details', 'wordpress-seo-premium' ),
 			'linked_from'   => __( 'Linked From', 'wordpress-seo-premium' ),
 		);

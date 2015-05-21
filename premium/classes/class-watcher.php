@@ -41,14 +41,15 @@ abstract class WPSEO_Watcher {
 	 *
 	 * @param string $message
 	 * @param string $notification_type
+	 * @param string $id
 	 */
-	protected function create_notification( $message, $notification_type ) {
+	protected function create_notification( $message, $notification_type, $id ) {
 		$show_notification = true;
-		$show_notification = apply_filters('wpseo_enable_notification_' . $this->watch_type . '_' . $notification_type, $show_notification);
+		$show_notification = apply_filters( 'wpseo_enable_notification_' . $this->watch_type . '_' . $notification_type, $show_notification );
 
-		if( $show_notification ) {
+		if ( $show_notification ) {
 			// Add the message to the notifications center
-			Yoast_Notification_Center::get()->add_notification( new Yoast_Notification( $message ) );
+			Yoast_Notification_Center::get()->add_notification( new Yoast_Notification( $message, 'updated', $id ) );
 		}
 
 	}
@@ -58,7 +59,7 @@ abstract class WPSEO_Watcher {
 	 *
 	 * @param string $old_url
 	 * @param string $new_url
-	 * @param int $header_code
+	 * @param int    $header_code
 	 */
 	protected function create_redirect( $old_url, $new_url, $header_code = 301 ) {
 		// The URL redirect manager
@@ -72,22 +73,24 @@ abstract class WPSEO_Watcher {
 	 * Returns the string to the javascript method from where a new redirect can be added
 	 *
 	 * @param string $url
+	 * @param string $id
 	 *
 	 * @return string
 	 */
-	protected function javascript_create_redirect( $url ) {
-		return 'javascript:wpseo_create_redirect("' . urlencode( $url ) . '", "' . wp_create_nonce( 'wpseo-redirects-ajax-security' ) . '");';
+	protected function javascript_create_redirect( $url, $id ) {
+		return 'javascript:wpseo_create_redirect("' . urlencode( $url ) . '", "' . wp_create_nonce( 'wpseo-redirects-ajax-security' ) . '","' . esc_attr( $id ) . '");';
 	}
 
 	/**
 	 * Returns the string to the javascript method from where the added redirect can be undone
 	 *
 	 * @param string $old_url
+	 * @param string $id
 	 *
 	 * @return string
 	 */
-	protected function javascript_undo_redirect( $old_url ) {
-		return 'javascript:wpseo_undo_redirect("' . urlencode( $old_url ) . '", "' . wp_create_nonce( 'wpseo-redirects-ajax-security' ) . '");';
+	protected function javascript_undo_redirect( $old_url, $id ) {
+		return 'javascript:wpseo_undo_redirect("' . urlencode( $old_url ) . '", "' . wp_create_nonce( 'wpseo-redirects-ajax-security' ) . '","' . esc_attr( $id ) . '");';
 	}
 
 	/**
