@@ -54,7 +54,7 @@ textarea.textinput,
 select.select,
 input.checkbox {
 	float: left;
-	margin: 0 3px 5px 0;
+	margin: 5px 3px 5px 0;
 	padding: 5px;
 }
 
@@ -63,7 +63,7 @@ select.select {
 }
 
 input.checkbox.double {
-	margin-top: 2px;
+	margin: 5px 10px 0 0;
 }
 
 .textinput.metadesc {
@@ -79,8 +79,12 @@ label.textinput,
 label.select,
 label.checkbox {
 	width: 180px;
-	margin: 0 0 5px 5px;
+	margin: 5px 0 5px 0;
 	background-color: transparent;
+}
+
+table.wpseo th {
+	text-align: left;
 }
 
 label.radio {

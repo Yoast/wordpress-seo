@@ -1,9 +1,11 @@
 {
   "boss": true,
   "curly": true,
+  "camelcase": false,
   "eqeqeq": true,
   "eqnull": true,
   "immed": true,
+  "es3": true,
   "latedef": true,
   "newcap": true,
   "noarg": true,
@@ -12,6 +14,10 @@
   "strict": true,
   "undef": true,
   "unused": true,
-
-  "node": true
+  "browser": true,
+  "jquery": true,
+  "globals": {
+    "exports": true,
+    "module": false
+  }
 }

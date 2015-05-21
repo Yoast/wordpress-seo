@@ -7,7 +7,7 @@ class WPSEO_Premium_Javascript_Strings {
 		self::$strings = array(
 			'error_circular'        => __( 'You can\'t redirect a URL to itself.', 'wordpress-seo-premium' ),
 			'error_old_url'         => __( 'The old URL field can\'t be empty.', 'wordpress-seo-premium' ),
-			'error_regex'           => __( 'The REGEX field can\'t be empty.', 'wordpress-seo-premium' ),
+			'error_regex'           => __( 'The Regular Expression field can\'t be empty.', 'wordpress-seo-premium' ),
 			'error_new_url'         => __( 'The new URL field can\'t be empty.', 'wordpress-seo-premium' ),
 			'error_saving_redirect' => __( 'Error while saving this redirect', 'wordpress-seo-premium' ),
 			'error_new_type'        => __( 'New type can\'t be empty.', 'wordpress-seo-premium' ),
