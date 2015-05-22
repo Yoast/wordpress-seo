@@ -51,29 +51,16 @@ function wpseo_mark_as_fixed(url) {
 	jQuery.post(
 		wpseo_premium_strings.ajaxurl,
 		{
-			action : 'wpseo_mark_fixed_crawl_issue',
+			action     : 'wpseo_mark_fixed_crawl_issue',
 			ajax_nonce : jQuery('.wpseo-gwt-ajax-security').val(),
-			url : url
+			platform   : jQuery('#field_platform').val(),
+			category   : jQuery('#field_category').val(),
+			url        : url
 		},
 		function (response) {
 			if ("true" === response) {
 				jQuery('span:contains(' + url + ')').closest('tr').remove();
 			}
-		}
-	);
-}
-
-function wpseo_ajax_crawl_category( platform, category) {
-	jQuery.post(
-		wpseo_premium_strings.ajaxurl,
-		{
-			action     : 'wpseo_ajax_crawl_category',
-			ajax_nonce : jQuery('.wpseo-gwt-ajax-security').val(),
-			platform   : platform,
-			category   : category
-		},
-		function (response) {
-			console.log( response );
 		}
 	);
 }

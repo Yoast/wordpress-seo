@@ -1,5 +1,11 @@
 <?php
+/**
+ * @package WPSEO\Premium\Classes
+ */
 
+/**
+ * Class WPSEO_GWT_Ajax
+ */
 class WPSEO_GWT_Ajax {
 
 	/**
@@ -8,10 +14,7 @@ class WPSEO_GWT_Ajax {
 	 */
 	public function __construct() {
 		add_action( 'wp_ajax_wpseo_mark_fixed_crawl_issue', array( $this, 'ajax_mark_as_fixed' ) );
-		add_action( 'wp_ajax_wpseo_ajax_get_issue_counts', array( $this, 'ajax_get_issue_counts' ) );
-		add_action( 'wp_ajax_wpseo_ajax_crawl_category', array( $this, 'ajax_crawl_category' ) );
 	}
-
 
 	/**
 	 * This method will be access by an AJAX request and will mark an issue as fixed.
@@ -20,29 +23,20 @@ class WPSEO_GWT_Ajax {
 	 *
 	 */
 	public function ajax_mark_as_fixed( ) {
-		new WPSEO_Crawl_Issue_Marker();
+		if ( $this->valid_nonce() ) {
+			new WPSEO_Crawl_Issue_Marker();
+		}
+
+		wp_die( 'false' );
 	}
 
 	/**
+	 * Check if posted nonce is valid and return true if it is
 	 *
+	 * @return mixed
 	 */
-	public function ajax_get_issue_counts( ) {
-		$service       = new WPSEO_GWT_Service();
-		$issue_manager = new WPSEO_Crawl_Issue_Manager();
-
-		// Saving the timestamp
-		$issue_manager->save_last_checked();
-
-		wp_die( json_encode( $service->get_crawl_issues() ) );
-	}
-
-
-	/**
-	 *
-	 */
-	public function ajax_crawl_category( ) {
-		$crawl_category = new WPSEO_Crawl_Category_Issues( filter_input( INPUT_GET, 'platform' ), filter_input( INPUT_GET, 'category' ) );
-		$issues = $crawl_category->fetch_issues();
+	private function valid_nonce() {
+		return wp_verify_nonce( filter_input( INPUT_POST, 'ajax_nonce' ), 'wpseo-gwt-ajax-security' );
 	}
 
 }
