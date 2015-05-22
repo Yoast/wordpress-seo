@@ -33,7 +33,7 @@ class WPSEO_GWT_Settings {
 		}
 
 		if ( filter_input( INPUT_POST, 'reload-crawl-issues' ) ) {
-			$this->remove_issue_counts();
+			$this->reload_issues();
 		}
 
 		// Catch the authorization code POST
@@ -107,6 +107,17 @@ class WPSEO_GWT_Settings {
 		// Remove the options which are holding the counts
 		delete_option( WPSEO_Crawl_Issue_Count::OPTION_CI_COUNTS );
 		delete_option( WPSEO_Crawl_Issue_Count::OPTION_CI_LAST_FETCH );
+	}
+
+	/**
+	 * Reloading all the issues
+	 */
+	private function reload_issues() {
+
+		$this->remove_issues();
+		$this->remove_issue_counts();
+
+		new WPSEO_Crawl_Issue_Count( $this->service );
 	}
 
 }
