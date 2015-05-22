@@ -60,9 +60,7 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 
 		// Set the crawl issue source
 		$this->crawl_issue_source = new WPSEO_Crawl_Issue_Table_Data( $platform_tabs->current_tab(), $this->screen->id, $service );
-
-		// Setting the current view
-		$this->current_view       = $this->crawl_issue_source->get_category();
+		$this->crawl_issue_source->show_fields();
 	}
 
 	/**
@@ -71,6 +69,9 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 	 *
 	 */
 	public function prepare_items() {
+		// Setting the current view
+		$this->current_view       = $this->crawl_issue_source->get_category();
+
 		// Get variables needed for pagination
 		$this->per_page     = $this->get_items_per_page( 'errors_per_page', $this->per_page );
 		$this->current_page = intval( ( $paged = filter_input( INPUT_GET, 'paged' ) ) ? $paged : 1 );
@@ -151,17 +152,16 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Setting the table navigation
+	 * Return available bulk actions
 	 *
-	 * @param int $total_items
-	 * @param int $posts_per_page
+	 * @return array
 	 */
-	private function set_pagination( $total_items, $posts_per_page ) {
-		$this->set_pagination_args( array(
-			'total_items' => $total_items,
-			'total_pages' => ceil( ( $total_items / $posts_per_page ) ),
-			'per_page'    => $posts_per_page,
-		) );
+	public function get_bulk_actions() {
+		return array(
+			'mark_as_fixed' => __( 'Mark as fixed', 'wordpress-seo-premium' )
+		);
+
+		return $actions;
 	}
 
 	/**
@@ -183,6 +183,20 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 			$item['url'],
 			$this->row_actions( $actions )
 		);
+	}
+
+	/**
+	 * Setting the table navigation
+	 *
+	 * @param int $total_items
+	 * @param int $posts_per_page
+	 */
+	private function set_pagination( $total_items, $posts_per_page ) {
+		$this->set_pagination_args( array(
+			'total_items' => $total_items,
+			'total_pages' => ceil( ( $total_items / $posts_per_page ) ),
+			'per_page'    => $posts_per_page,
+		) );
 	}
 
 	/**
