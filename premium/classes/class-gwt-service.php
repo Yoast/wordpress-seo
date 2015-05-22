@@ -79,29 +79,6 @@ class WPSEO_GWT_Service {
 			}
 		}
 
-		return $return;
-	}
-
-	/**
-	 * Get crawl issues
-	 *
-	 * @return array
-	 */
-	public function get_crawl_issues() {
-
-		// Setup crawl error list
-		$crawl_error_counts = $this->get_crawl_error_counts( $this->get_profile() );
-
-		$return = array();
-		if ( ! empty( $crawl_error_counts->countPerTypes ) ) {
-			foreach ( $crawl_error_counts->countPerTypes as $category ) {
-				$return[] = array(
-					'platform' => $category->platform,
-					'category' => $category->category,
-					'count'    => $category->entries[0]->count,
-				);
-			}
-		}
 
 		return $return;
 	}
