@@ -43,7 +43,7 @@ class WPSEO_GWT_Mapper {
 	 * @return mixed
 	 */
 	public static function platform( $platform ) {
-		if ( array_key_exists( $platform, self::$platforms ) ) {
+		if ( ! empty( $platform ) && array_key_exists( $platform, self::$platforms ) ) {
 			return self::$platforms[ $platform ];
 		}
 	}
@@ -57,11 +57,11 @@ class WPSEO_GWT_Mapper {
 	 * @return mixed
 	 */
 	public static function category( $category, $flip = false ) {
-		if ( $flip && $category = array_search( $category, self::$categories ) ) {
+		if ( ! empty( $category ) && $flip && $category = array_search( $category, self::$categories ) ) {
 			return $category;
 		}
 
-		if ( ! $flip && array_key_exists( $category, self::$categories ) ) {
+		if ( ! empty( $category ) && ! $flip && array_key_exists( $category, self::$categories ) ) {
 			return self::$categories[ $category ];
 		}
 
