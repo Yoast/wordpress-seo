@@ -1231,12 +1231,21 @@ class WPSEO_Frontend {
 		if ( $echo !== false ) {
 			if ( is_string( $this->metadesc ) && $this->metadesc !== '' ) {
 
+				// Find out the current url.
 				$current_url = ( isset( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] == 'on' ) ? 'https://' : 'http://';
 				$current_url .= sanitize_text_field( $_SERVER['SERVER_NAME'] ) . sanitize_text_field( $_SERVER['REQUEST_URI'] );
+				// Check to see if current page is a paginated page.
 				if (preg_match("/\/page\/\d+/", $current_url)) {
+					// Page is a paginated page, so make sure description has a page number, to make it unique.
+
+					// Find out page number first.
 					$page_no = preg_replace("/(.+)\/page\/|\/(.+)?/", "", $current_url);
+
+					// Add page number to the meta description.
 					echo '<meta name="description" content="', "Page ".$page_no.": ".esc_attr( strip_tags( stripslashes( $this->metadesc ) ) ), '"/>', "\n";
 				} else {
+
+					// Current page is not a paginated page.
 					echo '<meta name="description" content="', esc_attr( strip_tags( stripslashes( $this->metadesc ) ) ), '"/>', "\n";
 				}
 				
