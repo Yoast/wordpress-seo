@@ -24,7 +24,7 @@ class WPSEO_GWT_Ajax {
 	 */
 	public function ajax_mark_as_fixed( ) {
 		if ( $this->valid_nonce() ) {
-			new WPSEO_Crawl_Issue_Marker();
+			new WPSEO_Crawl_Issue_Marker( filter_input( INPUT_POST, 'url' ) );
 		}
 
 		wp_die( 'false' );

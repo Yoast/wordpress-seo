@@ -32,6 +32,9 @@ class WPSEO_Page_GWT {
 		$this->settings = new WPSEO_GWT_Settings( $this->service );
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'page_scripts' ) );
+
+		// Catch bulk action request
+		new WPSEO_Crawl_Issue_Bulk();
 	}
 
 	/**

@@ -74,6 +74,7 @@ class WPSEO_Crawl_Issue_Table_Data {
 	 * Showing the hidden fields used by the AJAX requests
 	 */
 	public function show_fields() {
+		echo "<input type='hidden' name='wpseo_gwt_nonce' value='" . wp_create_nonce( 'wpseo_gwt_nonce' ) . "' />";
 		echo "<input id='field_platform' type='hidden' name='platform' value='{$this->platform}' />";
 		echo "<input id='field_category' type='hidden' name='category' value='{$this->category}' />";
 	}

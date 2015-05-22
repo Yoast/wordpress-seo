@@ -16,7 +16,7 @@ class WPSEO_Crawl_Issue_Marker {
 	/**
 	 * @var string
 	 */
-	private $url;
+	private $url = '';
 
 	/**
 	 * @var string
@@ -30,11 +30,22 @@ class WPSEO_Crawl_Issue_Marker {
 
 	/**
 	 * Setting up the needed API libs and return the result
+	 *
+	 * If param URL is given, the request is performed by a bulk action
+	 *
+	 * @param string $url
 	 */
-	public function __construct() {
+	public function __construct( $url = '' ) {
 		Yoast_Api_Libs::load_api_libraries( array( 'google' ) );
 
-		wp_die( $this->get_result() );
+		$this->url = $url;
+
+		$result = $this->get_result();
+
+		// If there is an ajax request, die response with the result
+		if ( defined( DOING_AJAX ) && DOING_AJAX ) {
+			wp_die( $result );
+		}
 	}
 
 	/**
@@ -43,7 +54,7 @@ class WPSEO_Crawl_Issue_Marker {
 	 * @return string
 	 */
 	private function get_result() {
-		if ( $this->url = $this->can_be_marked_as_fixed() ) {
+		if ( $this->can_be_marked_as_fixed() ) {
 			if ( $this->set_crawl_issue() && $this->send_mark_as_fixed() && $this->delete_crawl_issue() ) {
 				return 'true';
 			}
@@ -58,8 +69,8 @@ class WPSEO_Crawl_Issue_Marker {
 	 * @return bool|string
 	 */
 	private function can_be_marked_as_fixed() {
-		if ( $url = filter_input( INPUT_POST, 'url' ) ) {
-			return $url;
+		if ( $this->url !== '' ) {
+			return $this->url;
 		}
 
 		return false;
