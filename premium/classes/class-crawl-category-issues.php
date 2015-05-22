@@ -77,6 +77,25 @@ class WPSEO_Crawl_Category_Issues {
 	}
 
 	/**
+	 * Deleting the issue from the issues
+	 *
+	 * @param string $url
+	 *
+	 * @return bool
+	 */
+	public function delete_issue( $url ) {
+		$target_issue = $this->get_by_url( $url );
+		if ( $target_issue !== false ) {
+			unset( $this->issues[ $target_issue ] );
+
+			$this->save_issues( $this->issues );
+
+			return true;
+		}
+
+	}
+
+	/**
 	 * Comparing the issue with the list of current existing issues
 	 *
 	 * @param array    $crawl_issues
@@ -140,6 +159,24 @@ class WPSEO_Crawl_Category_Issues {
 		if ( ! empty( $current_issues ) ) {
 			$this->current_issues = wp_list_pluck( $current_issues, 'url' );
 		}
+	}
+
+	/**
+	 * Search in the issues for the given $url
+	 *
+	 * @param string $url
+	 *
+	 * @return int|string
+	 */
+	private function get_by_url( $url ) {
+		foreach ( $this->issues as $key => $issue ) {
+
+			if ( $url === $issue['url'] ) {
+				return $key;
+			}
+		}
+
+		return false;
 	}
 
 }
