@@ -116,12 +116,7 @@ class WPSEO_GWT_Service {
 	 * @return bool
 	 */
 	public function mark_as_fixed( $url, $platform, $category ) {
-
-		$profile = $this->get_profile();
-		if ( strpos( $profile, 'http://' ) !== 0 ) {
-			$profile = 'http://' .$profile;
-		}
-
+		$profile  = $this->get_profile();
 		$response = $this->client->do_request( 'sites/' .  urlencode( $profile ) .  '/urlCrawlErrorsSamples/' . urlencode( ltrim( $url, '/' ) ) . '?category=' . $category . '&platform=' . $platform . '', 'DELETE' );
 		return ( $response->getResponseHttpCode() === 204 && $response->getResponseBody() === '' );
 	}
