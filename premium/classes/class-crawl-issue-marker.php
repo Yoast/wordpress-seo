@@ -1,7 +1,6 @@
 <?php
 /**
- * @package	   WPSEO
- * @subpackage Premium
+ * @package WPSEO\Premium\Classes
  */
 
 /**
@@ -10,18 +9,24 @@
 class WPSEO_Crawl_Issue_Marker {
 
 	/**
-	 * The client holder - this will perform the request to Google
-	 *
-	 * @var WPSEO_GWT_Service
+	 * @var WPSEO_Crawl_Category_Issues
 	 */
-	private $service;
+	private $crawl_issues;
 
 	/**
-	 * The holder for the requested data
-	 *
-	 * @var array
+	 * @var string
 	 */
-	private $crawl_issue = array();
+	private $url;
+
+	/**
+	 * @var string
+	 */
+	private $platform;
+
+	/**
+	 * @var string
+	 */
+	private $category;
 
 	/**
 	 * Setting up the needed API libs and return the result
@@ -38,8 +43,8 @@ class WPSEO_Crawl_Issue_Marker {
 	 * @return string
 	 */
 	private function get_result() {
-		if ( $url = $this->can_be_marked_as_fixed() ) {
-			if ( $this->set_crawl_issue( $url ) && $this->send_mark_as_fixed() && $this->delete_crawl_issue() ) {
+		if ( $this->url = $this->can_be_marked_as_fixed() ) {
+			if ( $this->set_crawl_issue() && $this->send_mark_as_fixed() && $this->delete_crawl_issue() ) {
 				return 'true';
 			}
 		}
@@ -63,18 +68,13 @@ class WPSEO_Crawl_Issue_Marker {
 	/**
 	 * Storing the data belonging to the current issue, this data is needed in the 'mark as fixed' flow
 	 *
-	 * @param string $url
-	 *
 	 * @return bool
 	 */
-	private function set_crawl_issue( $url ) {
-		if ( $crawl_issue = get_page_by_title( $url, OBJECT, WPSEO_Crawl_Issue::PT_CRAWL_ISSUE ) ) {
-			$this->crawl_issue = array(
-				'ID'       => $crawl_issue->ID,
-				'url'      => $url,
-				'category' => get_post_meta( $crawl_issue->ID, WPSEO_Crawl_Issue::PM_CI_CATEGORY, true ),
-				'platform' => get_post_meta( $crawl_issue->ID, WPSEO_Crawl_Issue::PM_CI_PLATFORM, true ),
-			);
+	private function set_crawl_issue() {
+		$this->platform = filter_input( INPUT_POST, 'platform' );
+		$this->category = filter_input( INPUT_POST, 'category' );
+		if ( $this->platform && $this->category ) {
+			$this->crawl_issues = new WPSEO_Crawl_Category_Issues( $this->platform, $this->category );
 
 			return true;
 		}
@@ -86,9 +86,8 @@ class WPSEO_Crawl_Issue_Marker {
 	 * @return bool
 	 */
 	private function send_mark_as_fixed( ) {
-		$this->service = new WPSEO_GWT_Service();
-
-		if ( $this->service->mark_as_fixed( $this->crawl_issue['url'], $this->crawl_issue['platform'], $this->crawl_issue['category'] ) ) {
+		$service = new WPSEO_GWT_Service();
+		if ( $service->mark_as_fixed( $this->url, $this->platform, $this->category ) ) {
 			return true;
 		}
 	}
@@ -99,11 +98,7 @@ class WPSEO_Crawl_Issue_Marker {
 	 * @return bool
 	 */
 	private function delete_crawl_issue() {
-		// Check if there is a result
-		if ( ! empty( $this->crawl_issue['ID'] ) ) {
-			wp_delete_post( $this->crawl_issue['ID'], true );
-			return true;
-		}
+		return $this->crawl_issues->delete_issue( $this->url );
 	}
 
 }
