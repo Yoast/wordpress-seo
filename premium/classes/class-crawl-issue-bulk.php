@@ -23,6 +23,8 @@ class WPSEO_Crawl_Issue_Bulk {
 		if ( $bulk_action = $this->determine_bulk_action() ) {
 			if ( wp_verify_nonce( filter_input( INPUT_POST, 'wpseo_gwt_nonce' ), 'wpseo_gwt_nonce' ) ) {
 				$this->run_bulk_action( $bulk_action );
+
+				wp_redirect( filter_input( INPUT_POST, '_wp_http_referer' ) );
 			}
 		}
 	}
@@ -52,7 +54,6 @@ class WPSEO_Crawl_Issue_Bulk {
 	 * @param string|bool $bulk_action
 	 */
 	private function run_bulk_action( $bulk_action ) {
-
 		switch ( $bulk_action ) {
 			case 'mark_as_fixed' :
 				foreach ( $this->posted_issues() as $issue ) {
