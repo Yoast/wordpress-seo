@@ -44,6 +44,9 @@
 			"\"vendor/bin/phpcs\" --config-set installed_paths ../../../vendor/wp-coding-standards/wpcs,../../../vendor/yoast/yoastcs",
 			"\"vendor/bin/phpcs\" --config-set default_standard Yoast"
 		],
+		"config-premium": [
+			"composer require yoast/wordpress-seo-premium"
+		],
 		"post-install-cmd": [
 			"xrstf\\Composer52\\Generator::onPostInstallCmd"
 		],
@@ -53,5 +56,25 @@
 		"post-autoload-dump": [
 			"xrstf\\Composer52\\Generator::onPostInstallCmd"
 		]
-	}
+	},
+	"repositories": [
+		{
+			"type"   : "package",
+			"package": {
+				"name"    : "yoast/wordpress-seo-premium",
+				"version" : "dev-composer-package",
+				"source"  : {
+					"url"      : "https://github.com/Yoast/wordpress-seo-premium/",
+					"type"     : "git",
+					"reference": "composer-package"
+				},
+				"autoload": {
+					"classmap": [
+						"class-premium.php",
+						"classes/"
+					]
+				}
+			}
+		}
+	]
 }

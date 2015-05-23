@@ -45,3 +45,23 @@ if ( ! defined( 'WPSEO_FILE' ) ) {
 
 // Load the WordPress SEO plugin
 require_once( dirname( __FILE__ ) . '/wp-seo-main.php' );
+
+/**
+ * Premium init
+ */
+function wpseo_premium_init() {
+	$premium = new WPSEO_Premium();
+
+	if ( basename( dirname( __FILE__ ) ) === 'wordpress-seo' ) { // if we had built premium in free's folder
+		remove_action( 'admin_init', array( $premium, 'disable_wordpress_seo' ), 1 );
+	}
+}
+
+if ( class_exists( 'WPSEO_Premium' ) ) {
+
+	add_action( 'plugins_loaded', 'wpseo_premium_init', 14 );
+
+	if ( is_admin() ) {
+		register_activation_hook( __FILE__, array( 'WPSEO_Premium', 'install' ) );
+	}
+}
