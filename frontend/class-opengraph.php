@@ -204,14 +204,21 @@ class WPSEO_OpenGraph {
 	 * @return string|boolean
 	 */
 	public function og_title( $echo = true ) {
-		if ( is_singular() ) {
-			$title = WPSEO_Meta::get_value( 'opengraph-title' );
+
+		$is_posts_page = is_home() && ! is_front_page();
+
+		if ( is_singular() || $is_posts_page ) {
+
+			$post_id = ( $is_posts_page ) ? get_option( 'page_for_posts' ) : get_the_ID();
+			$post    = get_post( $post_id );
+			$title   = WPSEO_Meta::get_value( 'opengraph-title', $post_id );
+
 			if ( $title === '' ) {
 				$title = WPSEO_Frontend::get_instance()->title( '' );
 			}
 			else {
 				// Replace WP SEO Variables
-				$title = wpseo_replace_vars( $title, get_post() );
+				$title = wpseo_replace_vars( $title, $post );
 			}
 		}
 		else if ( is_front_page() ) {
@@ -505,11 +512,15 @@ class WPSEO_OpenGraph {
 			}
 		}
 
-		if ( is_singular() ) {
-			$ogdesc = WPSEO_Meta::get_value( 'opengraph-description' );
+		$is_posts_page = is_home() && ! is_front_page();
+
+		if ( is_singular() || $is_posts_page ) {
+			$post_id = ( $is_posts_page ) ? get_option( 'page_for_posts' ) : get_the_ID();
+			$post    = get_post( $post_id );
+			$ogdesc  = WPSEO_Meta::get_value( 'opengraph-description', $post_id );
 
 			// Replace WP SEO Variables
-			$ogdesc = wpseo_replace_vars( $ogdesc, get_post() );
+			$ogdesc = wpseo_replace_vars( $ogdesc, $post );
 
 			// Use metadesc if $ogdesc is empty
 			if ( $ogdesc === '' ) {
