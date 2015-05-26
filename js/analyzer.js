@@ -182,7 +182,7 @@ Analyzer.prototype.subHeadingsCheck = function(matches){
  */
 Analyzer.prototype.stopwords = function(){
     //prefix space to the keyword to make sure it matches if the keyword starts with a stopword.
-    var keyword = " "+this.config.keyword;
+    var keyword = this.config.keyword;
     var matches = this.stringHelper.matchString(keyword, this.config.stopWords);
     var stopwordCount = matches !== null ? matches.length : 0;
     return [ { test: "stopwordKeywordCount", result: {count: stopwordCount, matches: matches } } ];
@@ -207,9 +207,15 @@ Analyzer.prototype.linkCount = function(){
     var linkCount = {
         total: 0,
         totalKeyword: 0,
-        internal: {total: 0, dofollow: 0,nofollow: 0},
-        external: {total: 0,dofollow: 0,nofollow: 0},
-        other: {total: 0,dofollow: 0,nofollow: 0}
+        internalTotal: 0,
+        internalDofollow: 0,
+        internalNofollow: 0,
+        externalTotal: 0,
+        externalDofollow: 0,
+        externalNofollow: 0,
+        otherTotal: 0,
+        otherDofollow: 0,
+        otherNofollow: 0
     };
     if(linkMatches !== null){
         linkCount.total = linkMatches.length;
@@ -219,11 +225,12 @@ Analyzer.prototype.linkCount = function(){
                 linkCount.totalKeyword++;
             }
             var linkType = this.linkType(linkMatches[i]);
-            linkCount[linkType].total++;
+            linkCount[linkType+"Total"]++;
             var linkFollow = this.linkFollow(linkMatches[i]);
-            linkCount[linkType][linkFollow]++;
+            linkCount[linkType+linkFollow]++;
         }
     }
+    linkCount = this.linkResult(linkCount);
     return [ { test: "linkCount", result: linkCount } ];
 };
 
@@ -250,9 +257,9 @@ Analyzer.prototype.linkType = function(url){
  * @returns {string}
  */
 Analyzer.prototype.linkFollow = function(url){
-    var linkFollow = "dofollow";
+    var linkFollow = "Dofollow";
     if(url.match(/rel=([\'\"])nofollow\1/g) !== null){
-        linkFollow = "nofollow";
+        linkFollow = "Nofollow";
     }
     return linkFollow;
 };
@@ -270,6 +277,27 @@ Analyzer.prototype.linkKeyword = function(url){
     }
     return keywordFound;
 };
+
+/**
+ *
+ */
+Analyzer.prototype.linkResult = function(obj){
+    var result = obj;
+    result.externalHasNofollow = false;
+    result.externalAllNofollow = false;
+    result.extneralAllDofollow = false;
+    if(result.externalTotal !== result.externalDofollow && result.externalTotal > 0){
+        result.externalHasNofollow = true;
+    }
+    if(result.externalTotal === result.externalNofollow && result.externalTotal > 0){
+        result.externalAllNofollow = true;
+    }
+    if(result.externalTotal === result.externalDofollow && result.externalTotal > 0){
+        result.externalAllDofollow = true;
+    }
+
+    return result;
+}
 
 /**
  * counts the number of images found in a given textstring, based on the <img>-tag and returns a result object
@@ -399,9 +427,12 @@ Analyzer.prototype.urlKeyword = function() {
  * @returns {{test: string, result: number}[]}
  */
 Analyzer.prototype.urlLength = function(){
-    var result = [ { test: "urlLength", result : 0 } ];
+    var result = [ { test: "urlLength", result :{ urlTooLong: false } } ];
     if(typeof this.config.url !== "undefined") {
-        result[0].result = this.config.url.length;
+        var length = this.config.url.length;
+        if(length > this.config.maxUrlLength && length > this.config.maxSlugLength + this.config.keyword.length){
+            result[0].result.urlTooLong = true;
+        }
     }
     return result;
 };
@@ -697,48 +728,88 @@ AnalyzeScorer.prototype.init = function(){
  */
 AnalyzeScorer.prototype.score = function(resultObj){
     this.resultObj = resultObj;
-    this.createResultObject();
-    this.scoreQueue = this.createQueue();
+    //this.scoreQueue = this.createQueue();
     this.runQueue();
-};
-
-/**
- * merges the current results with scoring result object
- */
-AnalyzeScorer.prototype.createResultObject = function(){
-    for (var i = 0; i < this.resultObj.length; i++){
-        var currentResult = this.resultObj[i];
-        for (var ii = 0; ii < this.scoring.length; ii++){
-            if (currentResult.test === this.scoring[ii].scoreName){
-                this.scoring[ii].testResult = currentResult.result;
-            }
-        }
-    }
-};
-
-/**
- * creates queue based on the loaded scoring config.
- * @returns {Array}
- */
-AnalyzeScorer.prototype.createQueue = function(){
-    var queueArray = [];
-
-    for( var i = 0; i < this.resultObj.length; i++){
-        queueArray.push(this.scoring[i]);
-    }
-    return queueArray;
 };
 
 /**
  * runs the queue and saves the result in the __score-object.
  */
 AnalyzeScorer.prototype.runQueue = function(){
-    //remove first function from queue and execute it.
-    if(this.scoreQueue.length > 0){
-        this.currentResult = this.scoreQueue.shift();
-        this.__score = this.__score.concat(this[this.currentResult.scoreFunction]());
-        this.runQueue();
+    for (var i = 0; i < this.resultObj.length; i++){
+        this.__score = this.__score.concat(this.genericScore(this.resultObj[i]));
     }
+};
+
+/**
+ * scoring function that returns results based on the resultobj from the analyzer matched with
+ * the scorearrays in the scoring config.
+ * @param obj
+ * @returns {{name: (analyzerScoring.scoreName|*), score: number, text: string}}
+ */
+AnalyzeScorer.prototype.genericScore = function(obj){
+    var scoreObj = this.scoreLookup(obj.test);
+    var score = {name: scoreObj.scoreName, score: 0, text: ""};
+    for (var i = 0; i < scoreObj.scoreArray.length; i++){
+        this.matcher = parseFloat(obj.result);
+        this.result = obj.result;
+        if(typeof scoreObj.scoreArray[i].matcher !== "undefined"){
+            this.matcher = parseFloat(this.result[scoreObj.scoreArray[i].matcher]);
+        }
+        switch(true){
+            case (typeof scoreObj.scoreArray[i].type === "string"):
+                if(this.result[scoreObj.scoreArray[i].type]){
+                    score.score = scoreObj.scoreArray[i].score;
+                    score.text = this.scoreTextFormat(scoreObj.scoreArray[i].text, scoreObj.replaceArray);
+                    return score;
+                }
+                break;
+            case (typeof scoreObj.scoreArray[i].min === "undefined"):
+                if(this.matcher <= scoreObj.scoreArray[i].max){
+                    score.score = scoreObj.scoreArray[i].score;
+                    score.text = this.scoreTextFormat(scoreObj.scoreArray[i].text, scoreObj.replaceArray);
+                    return score;
+                }
+                break;
+            case (typeof scoreObj.scoreArray[i].max === "undefined"):
+                if(this.matcher >= scoreObj.scoreArray[i].min){
+                    score.score = scoreObj.scoreArray[i].score;
+                    score.text = this.scoreTextFormat(scoreObj.scoreArray[i].text, scoreObj.replaceArray);
+                    return score;
+                }
+                break;
+            default:
+                if(this.matcher >= scoreObj.scoreArray[i].min && this.matcher <= scoreObj.scoreArray[i].max) {
+                    score.score = scoreObj.scoreArray[i].score;
+                    score.text = this.scoreTextFormat(scoreObj.scoreArray[i].text, scoreObj.replaceArray);
+                    return score;
+                }
+                break;
+        }
+    }
+    return score;
+};
+
+
+AnalyzeScorer.prototype.scoreLookup = function(name){
+    for (var ii = 0; ii < this.scoring.length; ii++){
+        if (name === this.scoring[ii].scoreName){
+            return this.scoring[ii];
+        }
+    }
+};
+
+AnalyzeScorer.prototype.scoreTextFormat = function(resultText, replaceArray){
+    if(typeof replaceArray !== "undefined") {
+        for (var i = 0; i < replaceArray.length; i++) {
+            if(typeof replaceArray[i].value !== "undefined"){
+                resultText = resultText.replace(replaceArray[i].position, replaceArray[i].value);
+            }else if(typeof replaceArray[i].source !== "undefined"){
+                resultText = resultText.replace(replaceArray[i].position, this[replaceArray[i].source]);
+            }
+        }
+    }
+    return resultText;
 };
 
 /**
@@ -746,7 +817,8 @@ AnalyzeScorer.prototype.runQueue = function(){
  * @returns {{score: number, text: string}}
  */
 AnalyzeScorer.prototype.wordCountScore = function(){
-    var score = { name: "wordCount", score: 0, text: "" };
+
+   var score = { name: "wordCount", score: 0, text: "" };
     for (var i = 0; i < this.currentResult.scoreArray.length; i++){
         if(this.currentResult.testResult > this.currentResult.scoreArray[i].result){
             score.score = this.currentResult.scoreArray[i].score;
@@ -754,324 +826,6 @@ AnalyzeScorer.prototype.wordCountScore = function(){
             return score;
         }
     }
-};
-
-/**
- * returns score of the keywordDensity based on the scoreArray in the scoringconfig
- * @returns {{score: number, text: string}}
- */
-AnalyzeScorer.prototype.keywordDensityScore = function(){
-    var score = { name: "keywordDensity", score: 0, text: "" };
-    switch (true) {
-        case (this.currentResult.testResult < this.currentResult.scoreObj.min.result):
-            score.score = this.currentResult.scoreObj.min.score;
-            score.text = this.currentResult.scoreObj.min.text;
-            break;
-        case (this.currentResult.testResult > this.currentResult.scoreObj.max.result):
-            score.score = this.currentResult.scoreObj.max.score;
-            score.text = this.currentResult.scoreObj.max.text;
-            break;
-        default:
-            score.score = this.currentResult.scoreObj.default.score;
-            score.text = this.currentResult.scoreObj.default.text;
-            break;
-    }
-    score.text = score.text.replace(/<%keywordDensity%>/,this.currentResult.testResult).
-                            replace(/<%keywordCount%>/,this.refObj.__store.keywordCount);
-    return score;
-};
-
-/**
- * returns score of the fleschReading, based on the scoreArray in the scoringconfig.
- * @returns {{name: string, score: number, text: string}}
- */
-AnalyzeScorer.prototype.fleschReadingScore = function(){
-    var score = { name: "fleschReading", score: 0, text: ""};
-    for (var i = 0; i < this.currentResult.scoreArray.length; i++){
-        if(this.currentResult.testResult >= this.currentResult.scoreArray[i].result){
-            score.text = this.currentResult.scoreText.replace(/<%testResult%>/,this.currentResult.testResult).
-                                    replace(/<%scoreUrl%>/,this.currentResult.scoreUrl).
-                                    replace(/<%scoreText%>/, this.currentResult.scoreArray[i].text).
-                                    replace(/<%note%>/, this.currentResult.scoreArray[i].note);
-            score.score = this.currentResult.scoreArray[i].score;
-            break;
-        }
-    }
-    return score;
-};
-
-
-/**
- * returns score of the firstParagraph, based on the scoreArray in the scoringconfig
- */
-AnalyzeScorer.prototype.firstParagraphScore = function(){
-    var score = { name: "firstParagraph", score: 0, text: ""};
-    switch (true) {
-        case (this.currentResult.testResult === this.currentResult.scoreObj.none.result):
-            score.score = this.currentResult.scoreObj.none.score;
-            score.text = this.currentResult.scoreObj.none.text;
-            break;
-        case (this.currentResult.testResult >= this.currentResult.scoreObj.some.result):
-            score.score = this.currentResult.scoreObj.some.score;
-            score.text = this.currentResult.scoreObj.some.text;
-            break;
-        default:
-        break;
-    }
-    return score;
-};
-
-/**
- * returns score of the metaDescriptionLength, based on the scoreObject in the scoringconfig.
- */
-AnalyzeScorer.prototype.metaDescriptionLengthScore = function(){
-    var score = { name: "metaDescriptionLength", score: 0, text: "" };
-    switch (true) {
-        case (this.currentResult.testResult === this.currentResult.scoreObj.none.result):
-            score.score = this.currentResult.scoreObj.none.score;
-            score.text = this.currentResult.scoreObj.none.text;
-            break;
-        case (this.currentResult.testResult <= this.currentResult.scoreObj.min.result):
-            score.score = this.currentResult.scoreObj.min.score;
-            score.text = this.currentResult.scoreObj.min.text.replace(/<%maxCharacters%>/, this.currentResult.metaMaxLength).
-                                                              replace(/<%minCharacters%>/, this.currentResult.metaMinLength);
-            break;
-        case (this.currentResult.testResult >= this.currentResult.scoreObj.max.result):
-            score.score = this.currentResult.scoreObj.max.score;
-            score.text = this.currentResult.scoreObj.max.text.replace(/<%maxCharacters%>/, this.currentResult.metaMaxLength);
-            break;
-        default:
-            score.score = this.currentResult.scoreObj.default.score;
-            score.text = this.currentResult.scoreObj.default.text;
-            break;
-    }
-    return score;
-};
-
-/**
- * returns score of the metaDescriptionKeyword, based on the scoreArray in the scoringconfig.
- * @returns {{name: string, score: number, text: string}}
- */
-AnalyzeScorer.prototype.metaDescriptionKeywordScore = function(){
-    var score = { name: "metaDescriptionKeyword", score: 0, text: "" };
-    for (var i = 0; i < this.currentResult.scoreArray.length; i++){
-        if(this.currentResult.testResult >= this.currentResult.scoreArray[i].result){
-            score.score = this.currentResult.scoreArray[i].score;
-            score.text = this.currentResult.scoreArray[i].text;
-        }
-    }
-    return score;
-};
-
-/**
- * returns score of the stopwordKeywordCount, based on the scoreArray in the scoringconfig.
- * @returns {{name: string, score: number, text: string}}
- */
-AnalyzeScorer.prototype.stopwordKeywordCountScore = function(){
-    var score = { name: "stopwordKeywordCount", score: 0, text: "" };
-    var stopwordMatches = "";
-    if(this.currentResult.testResult.matches !== null) {
-        for (var i = 0; i < this.currentResult.testResult.matches.length; i++) {
-            if (stopwordMatches.length !== 0) {
-                stopwordMatches += ", ";
-            }
-            stopwordMatches += this.refObj.stringHelper.stripSpaces(this.currentResult.testResult.matches[i]);
-        }
-    }
-    for (var j = 0; j < this.currentResult.scoreArray.length; j++){
-        if(this.currentResult.testResult.count >= this.currentResult.scoreArray[j].result) {
-            score.score = this.currentResult.scoreArray[j].score;
-            score.text = this.currentResult.scoreArray[j].text.replace(/<%url%>/, this.currentResult.scoreUrl).
-                                                               replace(/<%stopwords%>/, stopwordMatches);
-            break;
-        }
-    }
-    return score;
-};
-
-/**
- * returns score of the subheadings, based on the scoreObj in the scoringconfig.
- * @returns {{name: string, score: number, text: string}}
- */
-AnalyzeScorer.prototype.subHeadingsScore = function(){
-    var score = { name: "subHeadings", score: 0, text: "" };
-    switch(true){
-        case (this.currentResult.testResult.count === this.currentResult.scoreObj.noHeadings.count):
-            score.score = this.currentResult.scoreObj.noHeadings.score;
-            score.text = this.currentResult.scoreObj.noHeadings.text;
-        break;
-        case (this.currentResult.testResult.count >= this.currentResult.scoreObj.headingsKeyword.count && this.currentResult.testResult.matches >= this.currentResult.resultObj.headingsKeyword.matches):
-            score.score = this.currentResult.scoreObj.headingsKeyword.score;
-            score.text = this.currentResult.scoreObj.headingsKeyword.text.replace(/<%matches%>/,this.currentResult.testResult.matches).
-                                                                          replace(/<%count%>/,this.currentResult.testResult.count);
-        break;
-        case (this.currentResult.testResult.count >= this.currentResult.scoreObj.headingsNoKeyword.count && this.currentResult.testResult.matches === this.currentResult.scoreObj.headingsNoKeyword.matches):
-            score.score = this.currentResult.scoreObj.headingsNoKeyword.score;
-            score.text = this.currentResult.scoreObj.headingsKeyword.text;
-        break;
-    }
-    return score;
-};
-
-/**
- * returns score of the pagetitlelength, based on the scoreobj in the scoreConfig.
- * @returns {{name: string, score: number, text: string}}
- */
-AnalyzeScorer.prototype.pageTitleLengthScore = function(){
-    var score = { name: "pageTitleLength", score: 0, text: ""};
-    switch(true){
-        case(this.currentResult.testResult === 0):
-            score.score = this.currentResult.scoreObj.noTitle.score;
-            score.text = this.currentResult.scoreObj.noTitle.text;
-        break;
-        case(this.currentResult.testResult < this.currentResult.scoreObj.scoreTitleMinLength):
-            score.score = this.currentResult.scoreObj.titleTooShort.score;
-            score.text = this.currentResult.scoreObj.titleTooShort.text.replace(/<%length%>/,this.currentResult.testResult).
-                                                                        replace(/<%minLength%>/,this.currentResult.scoreObj.scoreTitleMinLength);
-        break;
-        case(this.currentResult.testResult > this.currentResult.scoreObj.scoreTitleMaxLength):
-            score.score = this.currentResult.scoreObj.titleTooLong.score;
-            score.text = this.currentResult.scoreObj.titleTooShort.text.replace(/<%length%>/,this.currentResult.testResult).
-                                                                        replace(/<%maxLength%>/,this.currentResult.scoreObj.scoreTitleMaxLength);
-        break;
-        case(this.currentResult.testResult >= this.currentResult.scoreObj.scoreTitleMinLength && this.currentResult.testResult <= this.currentResult.scoreObj.scoreTitleMaxLength):
-            score.score = this.currentResult.scoreObj.titleCorrectLength.score;
-            score.text = this.currentResult.scoreObj.titlteCorrectLength.text.replace(/<%minLength%>/,this.currentResult.scoreObj.scoreTitleMinLength).
-                                                                              replace(/<%maxLength%>/,this.currentResult.scoreObj.scoreTitleMaxLength);
-        break;
-        default:
-        break;
-    }
-    return score;
-};
-
-/**
- * returns score of the pagetitlekeyword, based on the scoreObj in the scoringConfig
- * @returns {{name: string, score: number, text: string}}
- */
-AnalyzeScorer.prototype.pageTitleKeywordScore = function(){
-    var score = { name: "pageTitleKeyword", score: 0, text: ""};
-    switch (true){
-        case(this.currentResult.testResult.matches === this.currentResult.scoreObj.keywordMissing.result):
-            score.score = this.currentResult.scoreObj.keywordMissing.score;
-            score.text = this.currentResult.scoreObj.keywordMissing.text.replace(/<%keyword%>/,this.refObj.config.keyword);
-        break;
-        case(this.currentResult.testResult.matches >= this.currentResult.scoreObj.keywordBegin.result && this.currentResult.testResult.position <= this.currentResult.scoreTitleKeywordLimit):
-            score.score = this.currentResult.scoreObj.keywordBegin.score;
-            score.text = this.currentResult.scoreObj.keywordBegin.text;
-        break;
-        case(this.currentResult.testResult.matches >= this.currentResult.scoreObj.keywordEnd.result && this.currentResult.testResult.position >= this.currentResult.scoreTitleKeywordLimit):
-            score.score = this.currentResult.scoreObj.keywordEnd.score;
-            score.text = this.currentResult.scoreObj.keywordEnd.text;
-        break;
-    }
-    return score;
-};
-
-/**
- * returns the score of the urlkeyword, based on the scoreObj in the scoringconfig.
- * @returns {{name: string, score: number, text: string}}
- */
-AnalyzeScorer.prototype.urlKeywordScore = function(){
-    var score = { name: "urlKeyword", score: 0, text: ""};
-    switch(true){
-        case(this.currentResult.testResult >= this.currentResult.scoreObj.urlGood.result):
-            score.score = this.currentResult.scoreObj.urlGood.score;
-            score.text = this.currentResult.scoreObj.urlGood.text;
-        break;
-        case(this.currentResult.testResult === this.currentResult.scoreObj.urlMedium.result):
-            score.score = this.currentResult.scoreObj.urlMedium.score;
-            score.text = this.currentResult.scoreObj.urlMedium.text;
-        break;
-    }
-    return score;
-};
-
-/**
- * returns the score of the urlLength, based on the scoreObj in the scoringconfig.
- * @returns {{name: string, score: number, text: string}}
- */
-AnalyzeScorer.prototype.urlLengthScore = function(){
-    var score = { name: "urlLength", score: 0, text: ""};
-    if(this.currentResult.testResult > this.currentResult.maxLength || this.currentResult.testResult > this.currentResult.slugLength + this.refObj.config.keyword.length){
-        score.score = this.currentResult.scoreObj.longSlug.score;
-        score.text = this.currentResult.scoreObj.longSlug.text;
-    }
-    return score;
-};
-
-/**
- * returns the score of the urlStopwords, based on the scoreObj in the scoringconfig.
- * @returns {{name: string, score: number, text: string}}
- */
-AnalyzeScorer.prototype.urlStopwordsScore = function(){
-    var score = { name: "urlStopwords", score: 0, text: ""};
-    if(this.currentResult.testResult >= this.currentResult.scoreObj.stopwords.result){
-        score.score = this.currentResult.scoreObj.stopwords.score;
-        score.text = this.currentResult.scoreObj.stopwords.text;
-    }
-    return score;
-};
-
-/**
- * returns the score of the imagecount, based on the scoreObj in the scoringconfig.
- * @returns {{name: string, score: number, text: string}}
- */
-AnalyzeScorer.prototype.imageCountScore = function(){
-    var score = { name: "imageCount", score: 0, text: ""};
-    switch(true){
-        case(this.currentResult.testResult.total === this.currentResult.scoreObj.noImages.result):
-            score.score = this.currentResult.scoreObj.noImages.score;
-            score.text = this.currentResult.scoreObj.noImages.text;
-        break;
-        case(this.currentResult.testResult.total > this.currentResult.testResult.alt):
-            score.score = this.currentResult.scoreObj.noAlt.score;
-            score.text = this.currentResult.scoreObj.noAlt.text;
-        break;
-        case(this.currentResult.testResult.total > this.currentResult.testResult.altKeyword):
-            score.score = this.currentResult.scoreObj.altNoKeyword.score;
-            score.text = this.currentResult.scoreObj.altNoKeyword.text;
-        break;
-        case(this.currentResult.testResult.total === this.currentResult.testResult.altKeyword):
-            score.score = this.currentResult.scoreObj.altKeyword.score;
-            score.text = this.currentResult.scoreObj.altKeyword.text;
-        break;
-    }
-    return score;
-};
-
-/**
- * returns the score of the linkCount, based on the scoreobj in the scoringconfig.
- * @returns {{name: string, score: number, text: string}}
- */
-AnalyzeScorer.prototype.linkCountScore = function(){
-    var score = { name: "linkCount", score: 0, text: ""};
-    switch(true){
-        case(this.currentResult.testResult.total === this.currentResult.scoreObj.noLinks.result):
-            score.score = this.currentResult.scoreObj.noLinks.score;
-            score.text = this.currentResult.scoreObj.noLinks.text;
-        break;
-        case(this.currentResult.testResult.totalKeyword >= this.currentResult.scoreObj.keywordOutboundLink.result):
-            score.score = this.currentResult.scoreObj.keywordOutboundLink.score;
-            score.text = this.currentResult.scoreObj.keywordOutboundLink.text;
-        break;
-        case(this.currentResult.testResult.external.dofollow === this.currentResult.testResult.external.total && this.currentResult.testResult.totalKeyword < this.currentResult.scoreObj.linksFollow.result):
-            score.score = this.currentResult.scoreObj.linksFollow.score;
-            score.text = this.currentResult.scoreObj.linksFollow.text.replace(/<%links%>/, this.currentResult.testResult.external.dofollow);
-        break;
-        case(this.currentResult.testResult.external.nofollow === this.currentResult.testResult.external.total && this.currentResult.testResult.totalKeyword < this.currentResult.scoreObj.linksNoFollow.result):
-            score.score = this.currentResult.scoreObj.linksNoFollow.score;
-            score.text = this.currentResult.scoreObj.linksNoFollow.text.replace(/<%links%>/, this.currentResult.testResult.external.nofollow);
-        break;
-        case(this.currentResult.testResult.external.nofollow < this.currentResult.testResult.external.total && this.currentResult.testResult.external.dofollow < this.currentResult.testResult.external.total && this.currentResult.testResult.totalKeyword < this.currentResult.scoreObj.links.result):
-            score.score = this.currentResult.scoreObj.links.score;
-            score.text = this.currentResult.scoreObj.links.text.replace(/<%nofollow%>/, this.currentResult.testResult.external.nofollow).
-                                                                replace(/<%dofollow%>/, this.currentResult.testResult.external.dofollow);
-        break;
-        default:
-        break;
-    }
-    return score;
 };
 
 /**
@@ -1096,3 +850,5 @@ stringHelper = function(){
     }
     return yst_stringHelper;
 };
+
+
