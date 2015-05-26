@@ -336,7 +336,7 @@ function wpseo_upsert_new( $what, $post_id, $new, $original ) {
 function wpseo_get_export() {
 	check_ajax_referer( 'wpseo-export' );
 
-	$include_taxonomy = ( filter_input( INPUT_POST, 'include_taxonomy' ) === 'true' ) ? true : false;
+	$include_taxonomy = ( filter_input( INPUT_POST, 'include_taxonomy' ) === 'true' );
 	$export           = new WPSEO_Export( $include_taxonomy );
 
 	wpseo_ajax_json_echo_die( $export->get_results() );
