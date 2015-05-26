@@ -24,7 +24,7 @@
 			<div class='form-field form-required'>
 				<label class='clear'><?php _e( 'Mark as fixed:', 'wordpress-seo-premium' ); ?></label>
 				<input type='checkbox' value='1' name="mark_as_fixed" class='clear'  />
-				<p><?php _e( 'The target location to where the redirect will point to.', 'wordpress-seo-premium' ); ?></p>
+				<p><?php _e( 'Mark this issue also as fixed in Google Search Console.', 'wordpress-seo-premium' ); ?></p>
 			</div>
 			<p class='submit'>
 				<input type='submit' name='submit' id='submit' class='button button-primary' value='<?php _e( 'Save redirect', 'wordpress-seo-premium' ); ?>' />
