@@ -23,7 +23,7 @@ analyzerScoring = [
         ],
         replaceArray: [
             {name: "keywordDensity", position: "%1$f", source: "matcher"},
-            {name: "keywordCount", position: "%1$d", value: ""}
+            {name: "keywordCount", position: "%1$d", sourceObj: ".refObj.__store.keywordCount"}
         ]
     },
     {
@@ -31,23 +31,33 @@ analyzerScoring = [
         scoreArray: [
             {matcher: "total", min: 0, max: 0, score: 6, text: "No outbound links appear in this page, consider adding some as appropriate."},
             {matcher: "totalKeyword", min: 1, score: 2, text: "You\'re linking to another page with the keyword you want this page to rank for, consider changing that if you truly want this page to rank."},
-            {type: "externalAllNofollow", score: 7, text: "This page has <%links%> outbound link(s), all nofollowed."},
-            {type: "externalHasNofollow", score: 8, text: "This page has <%nofollow%> nofollowed link(s) and <%dofollow%> normal outbound link(s)."},
-            {type: "externalAllDofollow", score: 9, text: "This page has <%links%> outbound link(s)."}
+            {type: "externalAllNofollow", score: 7, text: "This page has %2$s outbound link(s), all nofollowed."},
+            {type: "externalHasNofollow", score: 8, text: "This page has %2$s nofollowed link(s) and %3$s normal outbound link(s)."},
+            {type: "externalAllDofollow", score: 9, text: "This page has %1$s outbound link(s)."}
+        ],
+        replaceArray: [
+            {name: "links", position: "%1$s", sourceObj: ".result.externalTotal"},
+            {name: "nofollow", position: "%2$s", sourceObj: ".result.externalNofollow"},
+            {name: "dofollow", position: "%3$s", sourceObj: ".result.externalDofollow"}
         ]
     },
     {
         scoreName: "fleschReading",
-        scoreText: "The copy scores <%testResult%> in the <%scoreUrl%> test, which is considered <%scoreText%> to read.<%note%>",
-        scoreUrl: "<a href='https://en.wikipedia.org/wiki/Flesch-Kincaid_readability_test#Flesch_Reading_Ease'>Flesch Reading Ease</a>",
         scoreArray: [
-            {min: 90, score: 9, text: "very easy", note: ""},
-            {min: 80, max: 89.9, score: 9, text: "easy", note: ""},
-            {min: 70, max: 79.9, score: 8, text: "fairly easy", note: ""},
-            {min: 60, max: 69.9, score: 7, text: "ok", note: ""},
-            {min: 50, max: 59.9, score: 6, text: "fairly difficult", note: " Try to make shorter sentences to improve readability."},
-            {min: 30, max: 49.9, score: 5, text: "difficult", note: " Try to make shorter sentences, using less difficult words to improve readability."},
-            {min: 0, max: 29.9, score: 4, text: "very difficult", note: " Try to make shorter sentences, using less difficult words to improve readability."}
+            {min: 90, score: 9, text: "<%text%>", resultText: "very easy", note: ""},
+            {min: 80, max: 89.9, score: 9, text: "<%text%>", resultText: "easy", note: ""},
+            {min: 70, max: 79.9, score: 8, text: "<%text%>", resultText: "fairly easy", note: ""},
+            {min: 60, max: 69.9, score: 7, text: "<%text%>", resultText: "ok", note: ""},
+            {min: 50, max: 59.9, score: 6, text: "<%text%>", resultText: "fairly difficult", note: " Try to make shorter sentences to improve readability."},
+            {min: 30, max: 49.9, score: 5, text: "<%text%>", resultText: "difficult", note: " Try to make shorter sentences, using less difficult words to improve readability."},
+            {min: 0, max: 29.9, score: 4, text: "<%text%>", resultText: "very difficult", note: " Try to make shorter sentences, using less difficult words to improve readability."}
+        ],
+        replaceArray: [
+            {name: "scoreText", position: "<%text%>", value: "The copy scores %1$s in the %2$s test, which is considered %3$s to read.%4$s"},
+            {name: "text", position:"%1$s", sourceObj: ".result"},
+            {name: "scoreUrl", position: "%2$s", value: "<a href='https://en.wikipedia.org/wiki/Flesch-Kincaid_readability_test#Flesch_Reading_Ease'>Flesch Reading Ease</a>"},
+            {name: "resultText", position: "%3$s", scoreObj: "resultText"},
+            {name: "note", position: "%4$s", scoreObj: "note"}
         ]
     },
     {

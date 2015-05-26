@@ -285,7 +285,7 @@ Analyzer.prototype.linkResult = function(obj){
     var result = obj;
     result.externalHasNofollow = false;
     result.externalAllNofollow = false;
-    result.extneralAllDofollow = false;
+    result.externalAllDofollow = false;
     if(result.externalTotal !== result.externalDofollow && result.externalTotal > 0){
         result.externalHasNofollow = true;
     }
@@ -760,28 +760,28 @@ AnalyzeScorer.prototype.genericScore = function(obj){
             case (typeof scoreObj.scoreArray[i].type === "string"):
                 if(this.result[scoreObj.scoreArray[i].type]){
                     score.score = scoreObj.scoreArray[i].score;
-                    score.text = this.scoreTextFormat(scoreObj.scoreArray[i].text, scoreObj.replaceArray);
+                    score.text = this.scoreTextFormat(scoreObj.scoreArray[i], scoreObj.replaceArray);
                     return score;
                 }
                 break;
             case (typeof scoreObj.scoreArray[i].min === "undefined"):
                 if(this.matcher <= scoreObj.scoreArray[i].max){
                     score.score = scoreObj.scoreArray[i].score;
-                    score.text = this.scoreTextFormat(scoreObj.scoreArray[i].text, scoreObj.replaceArray);
+                    score.text = this.scoreTextFormat(scoreObj.scoreArray[i], scoreObj.replaceArray);
                     return score;
                 }
                 break;
             case (typeof scoreObj.scoreArray[i].max === "undefined"):
                 if(this.matcher >= scoreObj.scoreArray[i].min){
                     score.score = scoreObj.scoreArray[i].score;
-                    score.text = this.scoreTextFormat(scoreObj.scoreArray[i].text, scoreObj.replaceArray);
+                    score.text = this.scoreTextFormat(scoreObj.scoreArray[i], scoreObj.replaceArray);
                     return score;
                 }
                 break;
             default:
                 if(this.matcher >= scoreObj.scoreArray[i].min && this.matcher <= scoreObj.scoreArray[i].max) {
                     score.score = scoreObj.scoreArray[i].score;
-                    score.text = this.scoreTextFormat(scoreObj.scoreArray[i].text, scoreObj.replaceArray);
+                    score.text = this.scoreTextFormat(scoreObj.scoreArray[i], scoreObj.replaceArray);
                     return score;
                 }
                 break;
@@ -799,17 +799,44 @@ AnalyzeScorer.prototype.scoreLookup = function(name){
     }
 };
 
-AnalyzeScorer.prototype.scoreTextFormat = function(resultText, replaceArray){
+/**
+ *
+ * @param resultText
+ * @param replaceArray
+ * @returns {*}
+ */
+AnalyzeScorer.prototype.scoreTextFormat = function(scoreObj, replaceArray){
+    var resultText = scoreObj.text;
     if(typeof replaceArray !== "undefined") {
         for (var i = 0; i < replaceArray.length; i++) {
             if(typeof replaceArray[i].value !== "undefined"){
                 resultText = resultText.replace(replaceArray[i].position, replaceArray[i].value);
             }else if(typeof replaceArray[i].source !== "undefined"){
                 resultText = resultText.replace(replaceArray[i].position, this[replaceArray[i].source]);
+            }else if(typeof replaceArray[i].sourceObj !== "undefined"){
+                var replaceWord = this.parseReplaceWord(replaceArray[i].sourceObj);
+                resultText = resultText.replace(replaceArray[i].position, replaceWord);
+            }else if(typeof replaceArray[i].scoreObj !== "undefined"){
+
+                resultText = resultText.replace(replaceArray[i].position, scoreObj[replaceArray[i].scoreObj]);
             }
         }
     }
     return resultText;
+};
+
+/**
+ *
+ * @param word
+ * @returns {AnalyzeScorer}
+ */
+AnalyzeScorer.prototype.parseReplaceWord = function(word){
+    var parts = word.split(".");
+    var source = this;
+    for (var i = 1; i < parts.length; i++){
+        source = source[parts[i]];
+    }
+    return source;
 };
 
 /**
