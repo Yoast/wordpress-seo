@@ -53,6 +53,9 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 	public function __construct( WPSEO_GWT_Platform_Tabs $platform_tabs, WPSEO_GWT_Service $service ) {
 		parent::__construct();
 
+		// Adding the thickbox
+		add_thickbox();
+
 		// Set search string
 		if ( ( $search_string = filter_input( INPUT_GET, 's' ) ) != '' ) {
 			$this->search_string = $search_string;
@@ -178,6 +181,11 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 			'markasfixed'     => '<a href="javascript:wpseo_mark_as_fixed(\'' . urlencode( $item['url'] ) . '\');">' . __( 'Mark as fixed', 'wordpress-seo-premium' ) . '</a>',
 		);
 
+		/**
+		 * Modal box
+		 */
+		$this->modal_box( $item['url'] );
+
 		return sprintf(
 			'<span class="value">%1$s</span> %2$s',
 			$item['url'],
@@ -225,7 +233,6 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 
 		foreach ( $this->items as $item ) {
 			foreach ( $item as $value ) {
-
 				if ( stristr( $value, $this->search_string ) !== false ) {
 					$results[] = $item;
 					continue;
@@ -277,6 +284,15 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 
 		// Send final sort direction to usort
 		return ( $order === 'asc' ) ? $result : ( -$result );
+	}
+
+	/**
+	 * Modal box
+	 *
+	 * @param string $url
+	 */
+	private function modal_box( $url ) {
+		require WPSEO_PREMIUM_PATH . 'views/gwt-create-redirect.php';
 	}
 
 }

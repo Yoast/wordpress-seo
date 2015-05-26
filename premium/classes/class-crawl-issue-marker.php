@@ -92,7 +92,7 @@ class WPSEO_Crawl_Issue_Marker {
 	}
 
 	/**
-	 * Sending a request to the Google Webmaster Tools API to let them know we marked an issue as fixed.
+	 * Sending a request to the Google Search Console API to let them know we marked an issue as fixed.
 	 *
 	 * @return bool
 	 */

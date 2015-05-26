@@ -13,21 +13,19 @@
 
 			<div class='form-field form-required'>
 				<label><?php _e( 'Current URL:', 'wordpress-seo-premium' ); ?></label>
-				<input type='text' value='<?php echo $url; ?>' disabled='disabled' />
-				<p><?php _e( 'The URL that have to be redirected to a new destination.', 'wordpress-seo-premium' ); ?></p>
+				<input type='text' name='current_url' value='<?php echo $url; ?>' disabled='disabled' />
 			</div>
 			<div class='form-field form-required'>
-				<label><?php _e( 'Target URL:', 'wordpress-seo-premium' ); ?></label>
-				<input type='text' value='' />
-				<p><?php _e( 'The target location to where the redirect will point to.', 'wordpress-seo-premium' ); ?></p>
+				<label><?php _e( 'New URL:', 'wordpress-seo-premium' ); ?></label>
+				<input type='text' name='name_url' value='' />
 			</div>
 			<div class='form-field form-required'>
 				<label class='clear'><?php _e( 'Mark as fixed:', 'wordpress-seo-premium' ); ?></label>
 				<input type='checkbox' value='1' name="mark_as_fixed" class='clear'  />
-				<p><?php _e( 'Mark this issue also as fixed in Google Search Console.', 'wordpress-seo-premium' ); ?></p>
+				<p><?php echo sprintf( __( 'Mark this issue as fixed in %1$s.', 'wordpress-seo-premium' ), 'Google Search Console' ); ?></p>
 			</div>
 			<p class='submit'>
-				<input type='submit' name='submit' id='submit' class='button button-primary' value='<?php _e( 'Save redirect', 'wordpress-seo-premium' ); ?>' />
+				<input type='button' name='submit' id='submit' class='button button-primary' value='<?php _e( 'Save redirect', 'wordpress-seo-premium' ); ?>' onclick='javascript:wpseo_gwt_post_redirect( jQuery("#redirect-<?php echo md5( $url ); ?>") );' />
 			</p>
 		</div>
 	</form>
