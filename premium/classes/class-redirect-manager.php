@@ -82,7 +82,12 @@ abstract class WPSEO_Redirect_Manager {
 	 * @return array
 	 */
 	public function get_redirects() {
-		return apply_filters( 'wpseo_premium_get_redirects', get_option( $this->option_redirects, array() ) );
+		$redirects = apply_filters( 'wpseo_premium_get_redirects', get_option( $this->option_redirects ) );
+		if ( ! is_array( $redirects ) ) {
+			$redirects = array();
+		}
+
+		return $redirects;
 	}
 
 	/**
