@@ -66,9 +66,13 @@ analyzerScoring = [
         metaMaxLength: 156,
         scoreArray: [
             {max: 0, score: 1, text: "No meta description has been specified, search engines will display copy from the page instead."},
-            {max: 120, score: 6, text: "The meta description is under <%minCharacters%> characters, however up to <%maxCharacters%> characters are available."},
-            {min: 156, score: 6, text: "The specified meta description is over <%maxCharacters%> characters, reducing it will ensure the entire description is visible"},
+            {max: 120, score: 6, text: "The meta description is under %1$d characters, however up to %2$d characters are available."},
+            {min: 156, score: 6, text: "The specified meta description is over %2$d characters, reducing it will ensure the entire description is visible"},
             {min: 120, max: 156, score: 9, text: "In the specified meta description, consider: How does it compare to the competition? Could it be made more appealing?"}
+        ],
+        replaceArray: [
+            {name: "minCharacters", position: "%1$d", value: 120},
+            {name: "maxCharacters", position: "%2$d", value: 156},
         ]
     },
     {
@@ -86,34 +90,47 @@ analyzerScoring = [
     },{
         scoreName: "stopwordKeywordCount",
         scoreArray: [
-            {matcher: "count", min: 1, score: 5, text: "The keyword for this page contains one or more <%url%>, consider removing them. Found \'<%stopwords%>\'."},
+            {matcher: "count", min: 1, score: 5, text: "The keyword for this page contains one or more %1$s, consider removing them. Found \'%2$s\'."},
             {matcher: "count", max: 0, score: 0, text: ""}
         ],
-        scoreUrl: "<a href='https://en.wikipedia.org/wiki/Stop_words'>stop words</a>"
+        replaceArray: [
+            {name: "scoreUrl", position: "%1$s", value: "<a href='https://en.wikipedia.org/wiki/Stop_words'>stop words</a>"},
+            {name: "stopwords", position: "%2$s", sourceObj: ".result.matches"}
+        ]
     },{
         scoreName: "subHeadings",
         scoreArray: [
             {matcher: "count", max: 0, score: 7, text: "No subheading tags (like an H2) appear in the copy."},
             {matcher: "matches", max: 0, score: 3, text: "You have not used your keyword / keyphrase in any subheading (such as an H2) in your copy."},
-            {matcher: "matches", min: 1, score: 9, text: "Keyword / keyphrase appears in <%matches%> (out of <%count%>) subheadings in the copy. While not a major ranking factor, this is beneficial."}
+            {matcher: "matches", min: 1, score: 9, text: "Keyword / keyphrase appears in %2$d (out of %1$d) subheadings in the copy. While not a major ranking factor, this is beneficial."}
+        ],
+        replaceArray: [
+            {name: "count", position: "%1$d", sourceObj: ".result.count"},
+            {name: "matches", position: "%2$d", sourceObj: ".result.matches"}
         ]
     },{
         scoreName: "pageTitleLength",
         scoreArray: [
             {max: 0, score: 1, text: "Please create a page title."},
-            {max: 40, score: 6, text: "The page title contains <%length%> characters, which is less than the recommended minimum of <%minLength%> characters. Use the space to add keyword variations or create compelling call-to-action copy."},
-            {min: 70, score: 6, text: "The page title contains <%length%> characters, which is more than the viewable limit of <%maxLength%> characters; some words will not be visible to users in your listing."},
-            {min: 40, max: 70, score: 9, text: "The page title is more than <%minLenght%> characters and less than the recommended <%maxLength%> character limit."}
+            {max: 40, score: 6, text: "The page title contains %3$d characters, which is less than the recommended minimum of %1$d characters. Use the space to add keyword variations or create compelling call-to-action copy."},
+            {min: 70, score: 6, text: "The page title contains %3$d characters, which is more than the viewable limit of %2$d characters; some words will not be visible to users in your listing."},
+            {min: 40, max: 70, score: 9, text: "The page title is more than %1$d characters and less than the recommended %2$d character limit."}
         ],
-        scoreTitleMinLength: 40,
-        scoreTitleMaxLength: 70
+        replaceArray:[
+            {name: "minLength", position: "%1$d", value: 40},
+            {name: "maxLength", position: "%2$d", value: 70},
+            {name: "length", position: "%3$d", source: "matcher"}
+        ]
     },{
         scoreName: "pageTitleKeyword",
         scoreTitleKeywordLimit: 0,
         scoreArray:[
-            {matcher: "matches", max: 0, score: 2, text: "The keyword / phrase '<%keyword%>' does not appear in the page title."},
+            {matcher: "matches", max: 0, score: 2, text: "The keyword / phrase '%1$s' does not appear in the page title."},
             {matcher: "position", max: 1, score: 9, text: "The page title contains keyword / phrase, at the beginning which is considered to improve rankings."},
             {matcher: "position", min: 1, score: 6, text: "The page title contains keyword / phrase, but it does not appear at the beginning; try and move it to the beginning."}
+        ],
+        replaceArray:[
+            {name: "keyword", position: "%1$s", sourceObj: ".refObj.config.keyword"}
         ]
     },{
         scoreName: "urlKeyword",
@@ -141,7 +158,3 @@ analyzerScoring = [
         ]
     }
 ];
-
-wordReplaceConfig = {
-    obj: this
-};

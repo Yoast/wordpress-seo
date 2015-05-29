@@ -185,7 +185,13 @@ Analyzer.prototype.stopwords = function(){
     var keyword = this.config.keyword;
     var matches = this.stringHelper.matchString(keyword, this.config.stopWords);
     var stopwordCount = matches !== null ? matches.length : 0;
-    return [ { test: "stopwordKeywordCount", result: {count: stopwordCount, matches: matches } } ];
+    var matchesText = "";
+    if (matches !== null){
+        for (var i = 0; i < matches.length; i++){
+            matchesText = matchesText + matches[i] + ", ";
+        }
+    }
+    return [ { test: "stopwordKeywordCount", result: {count: stopwordCount, matches: matchesText.substring(0,matchesText.length - 2)} } ];
 };
 
 /**
@@ -297,7 +303,7 @@ Analyzer.prototype.linkResult = function(obj){
     }
 
     return result;
-}
+};
 
 /**
  * counts the number of images found in a given textstring, based on the <img>-tag and returns a result object
@@ -817,7 +823,6 @@ AnalyzeScorer.prototype.scoreTextFormat = function(scoreObj, replaceArray){
                 var replaceWord = this.parseReplaceWord(replaceArray[i].sourceObj);
                 resultText = resultText.replace(replaceArray[i].position, replaceWord);
             }else if(typeof replaceArray[i].scoreObj !== "undefined"){
-
                 resultText = resultText.replace(replaceArray[i].position, scoreObj[replaceArray[i].scoreObj]);
             }
         }
