@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @package Premium\Redirect
  */
@@ -191,8 +190,9 @@ abstract class WPSEO_Redirect_Manager {
 		}
 
 		// Add new redirect
-		$redirects[ $new_redirect_arr['key'] ] = array( 'url'  => $new_redirect_arr['value'],
-		                                                'type' => $new_redirect_arr['type']
+		$redirects[ $new_redirect_arr['key'] ] = array(
+			'url'  => $new_redirect_arr['value'],
+		    'type' => $new_redirect_arr['type'],
 		);
 
 		// Save redirects
@@ -257,11 +257,7 @@ abstract class WPSEO_Redirect_Manager {
 		// Check nonce
 		check_ajax_referer( 'wpseo-redirects-ajax-security', 'ajax_nonce' );
 
-		// Permission check
-		if ( ! current_user_can( 'edit_posts' ) ) {
-			echo '0';
-			exit;
-		}
+		$this->permission_check();
 
 		// Save the redirect
 		if ( isset( $_POST['old_redirect'] ) && isset( $_POST['new_redirect'] ) ) {
@@ -298,11 +294,7 @@ abstract class WPSEO_Redirect_Manager {
 		// Check nonce
 		check_ajax_referer( 'wpseo-redirects-ajax-security', 'ajax_nonce' );
 
-		// Permission check
-		if ( ! current_user_can( 'edit_posts' ) ) {
-			echo '0';
-			exit;
-		}
+		$this->permission_check();
 
 		// Delete the redirect
 		if ( isset( $_POST['redirect'] ) ) {
@@ -325,11 +317,7 @@ abstract class WPSEO_Redirect_Manager {
 		// Check nonce
 		check_ajax_referer( 'wpseo-redirects-ajax-security', 'ajax_nonce' );
 
-		// Permission check
-		if ( ! current_user_can( 'edit_posts' ) ) {
-			echo '0';
-			exit;
-		}
+		$this->permission_check();
 
 		// Save the redirect
 		if ( isset( $_POST['old_url'] ) && isset( $_POST['new_url'] ) && isset( $_POST['type'] ) ) {
@@ -377,4 +365,13 @@ abstract class WPSEO_Redirect_Manager {
 		return apply_filters( 'wpseo_premium_format_admin_url', $formatted_url );
 	}
 
+	/**
+	 * Checks whether the current user is allowed to do what he's doing
+	 */
+	private function permission_check() {
+		if ( ! current_user_can( 'edit_posts' ) ) {
+			echo '0';
+			exit;
+		}
+	}
 }

@@ -213,7 +213,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 
 		$this->create_redirect( $old_url, $new_url );
 
-		//Only set notification when the slug change was not saved through quick edit
+		// Only set notification when the slug change was not saved through quick edit
 		$this->create_notification( $message, 'slug_change', $id );
 	}
 
