@@ -285,7 +285,7 @@ Analyzer.prototype.linkKeyword = function(url){
 };
 
 /**
- *
+ * checks if the links are all followed or not, and saves this in the resultobject, to be used for scoring
  */
 Analyzer.prototype.linkResult = function(obj){
     var result = obj;
@@ -301,7 +301,6 @@ Analyzer.prototype.linkResult = function(obj){
     if(result.externalTotal === result.externalDofollow && result.externalTotal > 0){
         result.externalAllDofollow = true;
     }
-
     return result;
 };
 
@@ -309,7 +308,7 @@ Analyzer.prototype.linkResult = function(obj){
  * counts the number of images found in a given textstring, based on the <img>-tag and returns a result object
  * @returns {{name: string, result: {total: number, alt: number, noalt: number}}}
  */
-//todo update function so it will also check on picture elements.
+//todo update function so it will also check on picture elements/make it configurable.
 Analyzer.prototype.imageCount = function(){
     var imageCount = {total: 0, alt: 0, noalt: 0, altKeyword: 0};
     var imageMatches = this.preProcessor.__store.originalText.match(/<img(?:[^>]+)?>/g);
@@ -458,7 +457,9 @@ Analyzer.prototype.urlStopwords = function(){
     return result;
 };
 
-
+/**
+ * runs the scorefunction of the analyzeScorer with the generated output that is used as a queue.
+ */
 Analyzer.prototype.score = function() {
     this.analyzeScorer.score(this.__output);
 };
@@ -796,7 +797,11 @@ AnalyzeScorer.prototype.genericScore = function(obj){
     return score;
 };
 
-
+/**
+ * finds the scoringobject by scorename for the current result.
+ * @param name
+ * @returns {*}
+ */
 AnalyzeScorer.prototype.scoreLookup = function(name){
     for (var ii = 0; ii < this.scoring.length; ii++){
         if (name === this.scoring[ii].scoreName){
@@ -806,9 +811,9 @@ AnalyzeScorer.prototype.scoreLookup = function(name){
 };
 
 /**
- *
- * @param resultText
- * @param replaceArray
+ * Formats the resulttexts with variables. Uses a value, source, sourceObj or scoreObj for the replacement source
+ * replaces the position from the replaceArray with the replacement source.
+ * @param scoreObj, replaceArray
  * @returns {*}
  */
 AnalyzeScorer.prototype.scoreTextFormat = function(scoreObj, replaceArray){
@@ -831,12 +836,12 @@ AnalyzeScorer.prototype.scoreTextFormat = function(scoreObj, replaceArray){
 };
 
 /**
- *
- * @param word
+ * converts the string to the correct object and returns the string to be used in the text.
+ * @param replaceWord
  * @returns {AnalyzeScorer}
  */
-AnalyzeScorer.prototype.parseReplaceWord = function(word){
-    var parts = word.split(".");
+AnalyzeScorer.prototype.parseReplaceWord = function(replaceWord){
+    var parts = replaceWord.split(".");
     var source = this;
     for (var i = 1; i < parts.length; i++){
         source = source[parts[i]];
