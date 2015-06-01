@@ -158,7 +158,7 @@ class WPSEO_Twitter {
 		if ( is_singular() ) {
 			$meta_desc = $this->single_description();
 		}
-		elseif ( is_home() && ! is_front_page() ) {
+		elseif ( WPSEO_Frontend::get_instance()->is_posts_page() ) {
 			$meta_desc = $this->single_description( get_option( 'page_for_posts' ) );
 		}
 		else {
@@ -216,7 +216,7 @@ class WPSEO_Twitter {
 		if ( is_singular() ) {
 			$title = $this->single_title();
 		}
-		elseif ( is_home() && ! is_front_page() ) {
+		elseif ( WPSEO_Frontend::get_instance()->is_posts_page() ) {
 			$title = $this->single_title( get_option( 'page_for_posts' ) );
 		}
 		else {

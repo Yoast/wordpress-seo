@@ -205,7 +205,7 @@ class WPSEO_OpenGraph {
 	 */
 	public function og_title( $echo = true ) {
 
-		$is_posts_page = is_home() && ! is_front_page();
+		$is_posts_page = WPSEO_Frontend::get_instance()->is_posts_page();
 
 		if ( is_singular() || $is_posts_page ) {
 
@@ -512,7 +512,7 @@ class WPSEO_OpenGraph {
 			}
 		}
 
-		$is_posts_page = is_home() && ! is_front_page();
+		$is_posts_page = WPSEO_Frontend::get_instance()->is_posts_page();
 
 		if ( is_singular() || $is_posts_page ) {
 			$post_id = ( $is_posts_page ) ? get_option( 'page_for_posts' ) : get_the_ID();
