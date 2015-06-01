@@ -127,10 +127,10 @@ class WPSEO_Plugin_Conflict extends Yoast_Plugin_Conflict {
 		$plugin_sections = array(
 			/* translators: %s: 'Facebook' plugin name of possibly conflicting plugin with regard to creating OpenGraph output*/
 			'open_graph'   => __( 'Both WordPress SEO by Yoast and %s create OpenGraph output, which might make Facebook, Twitter, LinkedIn and other social networks use the wrong texts and images when your pages are being shared.', 'wordpress-seo' ) . '<br/><br/>'
-							. '<a target="_blank" class="button" href="' . admin_url( 'admin.php?page=wpseo_social#top#facebook' ) . '">' . __( 'Configure WordPress SEO\'s OpenGraph settings', 'wordpress-seo' ) . '</a>' ,
+							. '<a target="_blank" class="button" href="' . admin_url( 'admin.php?page=wpseo_social#top#facebook' ) . '">' . __( 'Configure WordPress SEO\'s OpenGraph settings', 'wordpress-seo' ) . '</a>',
 			/* translators: %s: 'Google XML Sitemaps' plugin name of possibly conflicting plugin with regard to the creation of sitemaps*/
 			'xml_sitemaps' => __( 'Both WordPress SEO by Yoast and %s can create XML sitemaps. Having two XML sitemaps is not beneficial for search engines, yet might slow down your site.', 'wordpress-seo' ) . '<br/><br/>'
-			                  . '<a target="_blank" class="button" href="' . admin_url( 'admin.php?page=wpseo_xml' ) . '">' . __( 'Configure WordPress SEO\'s XML Sitemap settings', 'wordpress-seo' ) . '</a>' ,
+			                  . '<a target="_blank" class="button" href="' . admin_url( 'admin.php?page=wpseo_xml' ) . '">' . __( 'Configure WordPress SEO\'s XML Sitemap settings', 'wordpress-seo' ) . '</a>',
 		);
 
 		$instance->check_plugin_conflicts( $plugin_sections );
