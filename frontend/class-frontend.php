@@ -179,7 +179,7 @@ class WPSEO_Frontend {
 	/**
 	 * Get the singleton instance of this class
 	 *
-	 * @return object
+	 * @return WPSEO_Frontend
 	 */
 	public static function get_instance() {
 		if ( ! ( self::$instance instanceof self ) ) {
