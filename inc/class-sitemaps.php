@@ -431,7 +431,7 @@ class WPSEO_Sitemaps {
 						if ( ! isset( $all_dates ) ) {
 							$all_dates = $wpdb->get_col( $wpdb->prepare( "SELECT post_modified_gmt FROM (SELECT @rownum:=@rownum+1 rownum, $wpdb->posts.post_modified_gmt FROM (SELECT @rownum:=0) r, $wpdb->posts WHERE post_status IN ('publish','inherit') AND post_type = %s ORDER BY post_modified_gmt ASC) x WHERE rownum %%%d=0", $post_type, $this->max_entries ) );
 						}
-						$datetime = new DateTime( $all_dates[ $i ], new DateTimeZone( $this->get_timezone_string() ) );
+						$datetime = $this->get_datetime_with_timezone( $all_dates[ $i ] );
 						$date     = $datetime->format( 'c' );
 						unset( $all_dates, $datetime );
 					}
@@ -517,7 +517,7 @@ class WPSEO_Sitemaps {
 
 						$date = '';
 						if ( $query->have_posts() ) {
-							$datetime = new DateTime( $query->posts[0]->post_modified_gmt, new DateTimeZone( $this->get_timezone_string() ) );
+							$datetime = $this->get_datetime_with_timezone( $query->posts[0]->post_modified_gmt );
 							$date     = $datetime->format( 'c' );
 							unset( $datetime );
 						}
@@ -550,6 +550,7 @@ class WPSEO_Sitemaps {
 
 				// must use custom raw query because WP User Query does not support ordering by usermeta
 				// Retrieve the newest updated profile timestamp overall
+				// TODO order by usermeta supported since WP 3.7, update implementation? R.
 
 				$date_query = "
 						SELECT mt1.meta_value FROM $wpdb->users
@@ -578,7 +579,7 @@ class WPSEO_Sitemaps {
 						)
 					);
 				}
-				$date = new DateTime( date( 'y-m-d H:i:s', $date ), new DateTimeZone( $this->get_timezone_string() ) );
+				$date = $this->get_datetime_with_timezone( '@' . $date );
 
 				$this->sitemap .= '<sitemap>' . "\n";
 				$this->sitemap .= '<loc>' . wpseo_xml_sitemaps_base_url( 'author-sitemap' . $count . '.xml' ) . '</loc>' . "\n";
@@ -804,7 +805,7 @@ class WPSEO_Sitemaps {
 							$url['mod'] = $p->post_date_gmt;
 						}
 						else {
-							$url['mod'] = $p->post_date;
+							$url['mod'] = $p->post_date; // TODO does this ever happen? will wreck timezone later R.
 						}
 					}
 
@@ -1340,21 +1341,32 @@ class WPSEO_Sitemaps {
 			unset( $post_type );
 		}
 
-		$date = new DateTime( $result, new DateTimeZone( $this->get_timezone_string() ) );
+		$date = $this->get_datetime_with_timezone( $result );
 
 		return $date->format( 'c' );
 	}
 
 	/**
-	 * Get the datetime object is the datetime string was valid with a timezone
+	 * Get the datetime object, in site's time zone, if the datetime string was valid
 	 *
-	 * @param string $datetime The datetime string that needs to be converted to a Datetime object
+	 * @param string $datetime_string The datetime string in UTC time zone, that needs to be converted to a DateTime object
 	 *
-	 * @return DateTime|string
+	 * @return DateTime|null in site's time zone
 	 */
-	private function get_datetime_with_timezone( $datetime ) {
-		if ( ! empty( $datetime ) && WPSEO_Utils::is_valid_datetime( $datetime ) ) {
-			return new DateTime( $datetime, new DateTimeZone( $this->get_timezone_string() ) );
+	private function get_datetime_with_timezone( $datetime_string ) {
+
+		static $utc_timezone, $local_timezone;
+
+		if ( ! isset( $utc_timezone ) ) {
+			$utc_timezone   = new DateTimeZone( 'UTC' );
+			$local_timezone = new DateTimeZone( $this->get_timezone_string() );
+		}
+
+		if ( ! empty( $datetime_string ) && WPSEO_Utils::is_valid_datetime( $datetime_string ) ) {
+			$datetime = new DateTime( $datetime_string, $utc_timezone );
+			$datetime->setTimezone( $local_timezone );
+
+			return $datetime;
 		}
 
 		return null;
