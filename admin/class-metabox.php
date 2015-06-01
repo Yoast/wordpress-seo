@@ -960,7 +960,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'poor'    => __( 'SEO: Poor', 'wordpress-seo' ),
 			'ok'      => __( 'SEO: OK', 'wordpress-seo' ),
 			'good'    => __( 'SEO: Good', 'wordpress-seo' ),
-			'noindex' => __( 'SEO: Post Noindexed', 'wordpress-seo' )
+			'noindex' => __( 'SEO: Post Noindexed', 'wordpress-seo' ),
 		);
 
 		echo '
@@ -994,7 +994,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'wpseo-score'    => __( 'SEO', 'wordpress-seo' ),
 			'wpseo-title'    => __( 'SEO Title', 'wordpress-seo' ),
 			'wpseo-metadesc' => __( 'Meta Desc.', 'wordpress-seo' ),
-			'wpseo-focuskw'  => __( 'Focus KW', 'wordpress-seo' )
+			'wpseo-focuskw'  => __( 'Focus KW', 'wordpress-seo' ),
 		) );
 	}
 
@@ -1135,7 +1135,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 								'value'   => '1',
 								'compare' => '!=',
 							),
-						)
+						),
 					)
 				);
 
@@ -1153,7 +1153,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 								'value'   => 'needs-a-value-anyway',
 								'compare' => 'NOT EXISTS',
 							)
-						)
+						),
 					)
 				);
 
@@ -1168,7 +1168,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 								'value'   => '1',
 								'compare' => '=',
 							),
-						)
+						),
 					)
 				);
 			}

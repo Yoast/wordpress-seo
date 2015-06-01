@@ -92,7 +92,7 @@ class WPSEO_Plugin_Conflict extends Yoast_Plugin_Conflict {
 			// Sewn In XML Sitemap (jcow)
 			'rps-sitemap-generator/rps-sitemap-generator.php',
 			// RPS Sitemap Generator (redpixelstudios)
-		)
+		),
 	);
 
 	/**

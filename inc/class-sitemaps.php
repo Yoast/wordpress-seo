@@ -124,7 +124,7 @@ class WPSEO_Sitemaps {
 		$request_uri = $_SERVER['REQUEST_URI'];
 		$extension   = substr( $request_uri, -4 );
 
-		if ( false !== stripos( $request_uri, 'sitemap' ) && ( in_array( $extension, array( '.xml', '.xsl', ) ) ) ) {
+		if ( false !== stripos( $request_uri, 'sitemap' ) && ( in_array( $extension, array( '.xml', '.xsl' ) ) ) ) {
 			remove_all_actions( 'widgets_init' );
 		}
 	}
@@ -884,7 +884,7 @@ class WPSEO_Sitemaps {
 								}
 
 								$image = array(
-									'src' => apply_filters( 'wpseo_xml_sitemap_img_src', $src, $p )
+									'src' => apply_filters( 'wpseo_xml_sitemap_img_src', $src, $p ),
 								);
 
 								if ( preg_match( '`title=["\']([^"\']+)["\']`', $img, $title_match ) ) {
@@ -1096,7 +1096,7 @@ class WPSEO_Sitemaps {
 						'value'   => 'needs-a-value-anyway', // This is ignored, but is necessary...
 						'compare' => 'NOT EXISTS',
 					),
-				)
+				),
 			)
 		);
 
@@ -1537,7 +1537,7 @@ class WPSEO_Sitemaps {
 
 			$src   = $this->image_url( $attachment->ID );
 			$image = array(
-				'src' => apply_filters( 'wpseo_xml_sitemap_img_src', $src, $post )
+				'src' => apply_filters( 'wpseo_xml_sitemap_img_src', $src, $post ),
 			);
 
 			$alt = get_post_meta( $attachment->ID, '_wp_attachment_image_alt', true );

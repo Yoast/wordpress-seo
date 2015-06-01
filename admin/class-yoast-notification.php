@@ -66,7 +66,7 @@ class Yoast_Notification {
 	public function to_array() {
 		return array(
 			'message' => $this->get_message(),
-			'type'    => $this->get_type()
+			'type'    => $this->get_type(),
 		);
 	}
 
