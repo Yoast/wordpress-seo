@@ -729,13 +729,11 @@ AnalyzeScorer.prototype.init = function(){
 };
 
 /**
- * Starts the scoring by taking the resultObject from the analyzer and creates a queue based on
- * what results are in the resultobject. Then runs the queue.
+ * Starts the scoring by taking the resultObject from the analyzer. Then runs the scorequeue.
  * @param resultObj
  */
 AnalyzeScorer.prototype.score = function(resultObj){
     this.resultObj = resultObj;
-    //this.scoreQueue = this.createQueue();
     this.runQueue();
 };
 
@@ -758,43 +756,34 @@ AnalyzeScorer.prototype.genericScore = function(obj){
     var scoreObj = this.scoreLookup(obj.test);
     var score = {name: scoreObj.scoreName, score: 0, text: ""};
     for (var i = 0; i < scoreObj.scoreArray.length; i++){
-        this.matcher = parseFloat(obj.result);
-        this.result = obj.result;
-        if(typeof scoreObj.scoreArray[i].matcher !== "undefined"){
-            this.matcher = parseFloat(this.result[scoreObj.scoreArray[i].matcher]);
-        }
+        this.setMatcher(obj, scoreObj, i);
         switch(true){
-            case (typeof scoreObj.scoreArray[i].type === "string"):
-                if(this.result[scoreObj.scoreArray[i].type]){
-                    score.score = scoreObj.scoreArray[i].score;
-                    score.text = this.scoreTextFormat(scoreObj.scoreArray[i], scoreObj.replaceArray);
-                    return score;
-                }
-                break;
-            case (typeof scoreObj.scoreArray[i].min === "undefined"):
-                if(this.matcher <= scoreObj.scoreArray[i].max){
-                    score.score = scoreObj.scoreArray[i].score;
-                    score.text = this.scoreTextFormat(scoreObj.scoreArray[i], scoreObj.replaceArray);
-                    return score;
-                }
-                break;
-            case (typeof scoreObj.scoreArray[i].max === "undefined"):
-                if(this.matcher >= scoreObj.scoreArray[i].min){
-                    score.score = scoreObj.scoreArray[i].score;
-                    score.text = this.scoreTextFormat(scoreObj.scoreArray[i], scoreObj.replaceArray);
-                    return score;
-                }
-                break;
+            case (typeof scoreObj.scoreArray[i].type === "string" && this.result[scoreObj.scoreArray[i].type]):
+                return this.returnScore(score, scoreObj, i);
+            case (typeof scoreObj.scoreArray[i].min === "undefined" && this.matcher <= scoreObj.scoreArray[i].max):
+                return this.returnScore(score, scoreObj, i);
+            case (typeof scoreObj.scoreArray[i].max === "undefined" && this.matcher >= scoreObj.scoreArray[i].min):
+                return this.returnScore(score, scoreObj, i);
+            case (this.matcher >= scoreObj.scoreArray[i].min && this.matcher <= scoreObj.scoreArray[i].max):
+                return this.returnScore(score, scoreObj, i);
             default:
-                if(this.matcher >= scoreObj.scoreArray[i].min && this.matcher <= scoreObj.scoreArray[i].max) {
-                    score.score = scoreObj.scoreArray[i].score;
-                    score.text = this.scoreTextFormat(scoreObj.scoreArray[i], scoreObj.replaceArray);
-                    return score;
-                }
                 break;
         }
     }
     return score;
+};
+/**
+ * sets matcher and resultvariables so the scorefunction can use this.
+ * @param obj
+ * @param scoreObj
+ * @param i
+ */
+AnalyzeScorer.prototype.setMatcher = function(obj, scoreObj, i){
+    this.matcher = parseFloat(obj.result);
+    this.result = obj.result;
+    if(typeof scoreObj.scoreArray[i].matcher !== "undefined"){
+        this.matcher = parseFloat(this.result[scoreObj.scoreArray[i].matcher]);
+    }
 };
 
 /**
@@ -811,24 +800,45 @@ AnalyzeScorer.prototype.scoreLookup = function(name){
 };
 
 /**
+ * fills the score with score and text from the scoreArray and runs the textformatter.
+ * @param score
+ * @param scoreObj
+ * @param i
+ * @returns {*}
+ */
+AnalyzeScorer.prototype.returnScore = function(score, scoreObj, i){
+    score.score = scoreObj.scoreArray[i].score;
+    score.text = this.scoreTextFormat(scoreObj.scoreArray[i], scoreObj.replaceArray);
+    return score;
+};
+
+/**
  * Formats the resulttexts with variables. Uses a value, source, sourceObj or scoreObj for the replacement source
  * replaces the position from the replaceArray with the replacement source.
- * @param scoreObj, replaceArray
+ * @param scoreObj
+ * @param replaceArray
  * @returns {*}
  */
 AnalyzeScorer.prototype.scoreTextFormat = function(scoreObj, replaceArray){
     var resultText = scoreObj.text;
     if(typeof replaceArray !== "undefined") {
         for (var i = 0; i < replaceArray.length; i++) {
-            if(typeof replaceArray[i].value !== "undefined"){
-                resultText = resultText.replace(replaceArray[i].position, replaceArray[i].value);
-            }else if(typeof replaceArray[i].source !== "undefined"){
-                resultText = resultText.replace(replaceArray[i].position, this[replaceArray[i].source]);
-            }else if(typeof replaceArray[i].sourceObj !== "undefined"){
-                var replaceWord = this.parseReplaceWord(replaceArray[i].sourceObj);
-                resultText = resultText.replace(replaceArray[i].position, replaceWord);
-            }else if(typeof replaceArray[i].scoreObj !== "undefined"){
-                resultText = resultText.replace(replaceArray[i].position, scoreObj[replaceArray[i].scoreObj]);
+            switch(true) {
+                case (typeof replaceArray[i].value !== "undefined"):
+                    resultText = resultText.replace(replaceArray[i].position, replaceArray[i].value);
+                    break;
+                case (typeof replaceArray[i].source !== "undefined"):
+                    resultText = resultText.replace(replaceArray[i].position, this[replaceArray[i].source]);
+                    break;
+                case (typeof replaceArray[i].sourceObj !== "undefined"):
+                    var replaceWord = this.parseReplaceWord(replaceArray[i].sourceObj);
+                    resultText = resultText.replace(replaceArray[i].position, replaceWord);
+                    break;
+                case (typeof replaceArray[i].scoreObj !== "undefined"):
+                    resultText = resultText.replace(replaceArray[i].position, scoreObj[replaceArray[i].scoreObj]);
+                    break;
+                default:
+                    break;
             }
         }
     }
@@ -847,22 +857,6 @@ AnalyzeScorer.prototype.parseReplaceWord = function(replaceWord){
         source = source[parts[i]];
     }
     return source;
-};
-
-/**
- * returns score of the wordcount, based on the scoreArray in the scoringconfig
- * @returns {{score: number, text: string}}
- */
-AnalyzeScorer.prototype.wordCountScore = function(){
-
-   var score = { name: "wordCount", score: 0, text: "" };
-    for (var i = 0; i < this.currentResult.scoreArray.length; i++){
-        if(this.currentResult.testResult > this.currentResult.scoreArray[i].result){
-            score.score = this.currentResult.scoreArray[i].score;
-            score.text = this.currentResult.scoreArray[i].text.replace(/<%wordcount%>/,this.currentResult.testResult).replace(/<%recWordcount%>/,this.currentResult.recommendedWordcount);
-            return score;
-        }
-    }
 };
 
 /**
@@ -887,5 +881,3 @@ stringHelper = function(){
     }
     return yst_stringHelper;
 };
-
-
