@@ -15,6 +15,11 @@ class Yoast_Social_Facebook {
 	private $options;
 
 	/**
+	 * @var Yoast_Social_Facebook_Form
+	 */
+	private $form;
+
+	/**
 	 * Setting the options and define the listener to fetch $_GET values
 	 *
 	 */
@@ -22,6 +27,8 @@ class Yoast_Social_Facebook {
 		$this->options = get_option( 'wpseo_social' );
 
 		$this->get_listener();
+
+		$this->form    = new Yoast_Social_Facebook_Form();
 	}
 
 	/**
@@ -29,8 +36,45 @@ class Yoast_Social_Facebook {
 	 *
 	 */
 	public function show_form() {
-		$form = new Yoast_Social_Facebook_Form();
-		$form->show_form();
+		$this->form->show_form();
+	}
+
+	/**
+	 * Adding a new admin
+	 * @param string $admin_name
+	 * @param string $admin_id
+	 */
+	public function add_admin( $admin_name, $admin_id ) {
+		// If one of the fields is empty
+		if ( empty( $admin_name ) || empty( $admin_id ) ) {
+			return json_encode(
+				array(
+					'success' => 0,
+					'html'    => "<p class='notice-error notice'><span style='margin-left: 5px'>" . __( 'Be sure both requested fields are filled properly', 'wordpress-seo' ) . "</span></p>",
+				)
+			);
+		}
+
+		// Clean up the url part
+		$admin_id = str_replace(
+			array( 'https', 'http', '://', 'www', 'facebook.com' ),
+			'',
+			$admin_id
+		);
+
+		if ( ! isset( $this->options['fb_admins'][ $admin_id ] ) ) {
+			$this->options['fb_admins'][ $admin_id ]['name'] = sanitize_text_field( urldecode( $admin_name ) );
+			$this->options['fb_admins'][ $admin_id ]['link'] = sanitize_text_field( urldecode( 'http://www.facebook.com/' . $admin_id ) );
+
+			$this->save_options();
+
+			return json_encode(
+				array(
+					'success' => 1,
+					'html'    => $this->form->get_admin_link( $admin_id, $this->options['fb_admins'][ $admin_id ] ),
+				)
+			);
+		}
 	}
 
 	/**
@@ -43,9 +87,6 @@ class Yoast_Social_Facebook {
 		}
 		elseif ( filter_input( INPUT_GET, 'fbclearall' ) ) {
 			$this->clear_all();
-		}
-		elseif ( $key = filter_input( INPUT_GET, 'key' ) ) {
-			$this->handle_user( $key );
 		}
 	}
 
@@ -92,43 +133,6 @@ class Yoast_Social_Facebook {
 		// Clean up the referrer url for later use
 		if ( filter_input( INPUT_SERVER, 'REQUEST_URI' ) ) {
 			$this->cleanup_referrer_url( 'nonce', 'fbclearall' );
-		}
-	}
-
-	/**
-	 * Adding a new facebook admin
-	 *
-	 * @param string $key_value
-	 */
-	private function handle_user( $key_value ) {
-		if ( $key_value === $this->options['fbconnectkey'] && $user_id = filter_input( INPUT_GET, 'userid', FILTER_CALLBACK, array( 'options' => 'sanitize_text_field' ) ) ) {
-			if ( ! isset( $this->options['fb_admins'][ $user_id ] ) ) {
-				$this->options['fb_admins'][ $user_id ]['name'] = sanitize_text_field( urldecode( filter_input( INPUT_GET, 'userrealname' ) ) );
-				$this->options['fb_admins'][ $user_id ]['link'] = sanitize_text_field( urldecode( filter_input( INPUT_GET, 'link' ) ) );
-
-				$this->save_options();
-				$this->success_notice(
-					sprintf( __( 'Successfully added %s as a Facebook Admin!', 'wordpress-seo' ), '<a href="' . esc_url( $this->options['fb_admins'][ $user_id ]['link'] ) . '">' . esc_html( $this->options['fb_admins'][ $user_id ]['name'] ) . '</a>' )
-				);
-			}
-			else {
-				add_settings_error(
-					'yoast_wpseo_social_options',
-					'error',
-					sprintf(
-						__( '%s already exists as a Facebook Admin.', 'wordpress-seo' ),
-						'<a href="' . esc_url( $this->options['fb_admins'][ $user_id ]['link'] ) . '">' . esc_html( $this->options['fb_admins'][ $user_id ]['name'] ) . '</a>'
-					),
-					'error'
-				);
-			}
-
-			unset( $user_id );
-		}
-
-		// Clean up the referrer url for later use
-		if ( filter_input( INPUT_SERVER, 'REQUEST_URI' ) ) {
-			$this->cleanup_referrer_url( 'key', 'userid', 'userrealname', 'link' );
 		}
 	}
 
@@ -208,8 +212,29 @@ class Yoast_Social_Facebook_Form {
 		$this
 			->form_head()
 			->manage_user_admin()
+			->form_thickbox()
 			->show_buttons()
 			->manage_app_as_admin();
+	}
+
+	/**
+	 * Parses the admin_link
+	 *
+	 * @param string      $admin_id
+	 * @param array 	  $admin
+	 * @param string|bool $nonce
+	 *
+	 * @return string
+	 */
+	public function get_admin_link( $admin_id, $admin, $nonce = false ) {
+		if ( $nonce === false ) {
+			$nonce = $this->get_delete_nonce();
+		}
+
+		$return  = '<li><a href="' . esc_url( $admin['link'] ) . '">' . esc_html( $admin['name'] ) . '</a>';
+		$return .= ' - <strong><a href="' . $this->admin_delete_link( $admin_id, $nonce ) . '">X</a></strong></li>';
+
+		return $return;
 	}
 
 	/**
@@ -232,6 +257,35 @@ class Yoast_Social_Facebook_Form {
 	}
 
 	/**
+	 *
+	 */
+	private function form_thickbox() {
+		// Adding the thickbox
+		add_thickbox();
+
+		echo '<div id="add_facebook_admin" style="display:none;">';
+		echo "<div class='form-wrap wpseo_content_wrapper'>";
+		echo '<h3>' .  __( 'Add Facebook admin', 'wordpress-seo' ) . '</h3>';
+
+		echo '<div class="form-field form-required">';
+		echo '<label>' . __( 'Name of the admin:', 'wordpress-seo' ) . '</label>';
+		echo '<input type="text" name="fb_admin_name" value="" />';
+		echo '</div>';
+		echo '<div class="form-field form-required">';
+		echo '<label>' . __( 'UserID of admin:', 'wordpress-seo' ) . '</label>';
+		echo '<input type="text" name="fb_admin_id" value="" />';
+		echo '</div>';
+		echo "<p class='submit'>";
+		echo '<input type="hidden" name="fb_admin_nonce" value="' . wp_create_nonce( 'wpseo_fb_admin_nonce' ) . '" />';
+		echo '<input type="submit" value="' . __( 'Add admin', 'wordpress-seo' ) . '" class="button-primary" onclick="javascript:wpseo_add_fb_admin();" />';
+		echo '</p>';
+		echo '</div>';
+		echo '</div>';
+
+		return $this;
+	}
+
+	/**
 	 * Display the buttons to add an admin or add another admin from Facebook and display the admin that has been added already.
 	 *
 	 * @return $this
@@ -240,11 +294,11 @@ class Yoast_Social_Facebook_Form {
 		$button_text = __( 'Add Facebook Admin', 'wordpress-seo' );
 
 		if ( is_array( $this->options['fb_admins'] ) && $this->options['fb_admins'] !== array() ) {
-			$nonce       = wp_create_nonce( 'delfbadmin' );
+			$nonce       = $this->get_delete_nonce();
 			$button_text = __( 'Add Another Facebook Admin', 'wordpress-seo' );
 
 			echo '<p>' . __( 'Currently connected Facebook admins:', 'wordpress-seo' ) . '</p>';
-			echo '<ul>';
+			echo '<ul id="user_admin">';
 				$this->show_user_admins( $nonce );
 			echo '</ul>';
 
@@ -252,8 +306,9 @@ class Yoast_Social_Facebook_Form {
 		}
 
 		$this->add_button(
-			'https://yoast.com/fb-connect/?key=' . urlencode( $this->options['fbconnectkey'] ) . '&redirect=' . urlencode( admin_url( $this->admin_url ) ),
-			$button_text,'',
+			'#TB_inline?width=600&height=300&inlineId=add_facebook_admin',
+			$button_text,
+			'thickbox',
 			true
 		);
 
@@ -279,8 +334,7 @@ class Yoast_Social_Facebook_Form {
 	 */
 	private function show_user_admins( $nonce ) {
 		foreach ( $this->options['fb_admins'] as $admin_id => $admin ) {
-			echo '<li><a href="' . esc_url( $admin['link'] ) . '">' . esc_html( $admin['name'] ) . '</a>';
-			echo ' - <strong><a href="' . $this->admin_delete_link( $admin_id, $nonce ) . '">X</a></strong></li>';
+			echo $this->get_admin_link( $admin_id, $admin, $nonce );
 		}
 	}
 
@@ -313,7 +367,7 @@ class Yoast_Social_Facebook_Form {
 	 * @param string $button_id
 	 */
 	private function add_button( $button_url, $button_value, $button_class = '', $button_id = '' ) {
-		$this->buttons[] = '<a id="' .esc_attr( $button_id ). '" class="button' . esc_attr( $button_class ) . '" href="' . esc_url( $button_url ) . '">' . esc_html( $button_value ) . '</a>';
+		$this->buttons[] = '<a id="' .esc_attr( $button_id ). '" class="button' . ' ' . esc_attr( $button_class ) . '" href="' . esc_url( $button_url ) . '">' . esc_html( $button_value ) . '</a>';
 	}
 
 	/**
@@ -341,6 +395,15 @@ class Yoast_Social_Facebook_Form {
 	 */
 	private function get_clearall() {
 		return is_array( $this->options['fb_admins'] ) && $this->options['fb_admins'] !== array();
+	}
+
+	/**
+	 * Creates nonce for removal link
+	 *
+	 * @return mixed
+	 */
+	private function get_delete_nonce() {
+		return wp_create_nonce( 'delfbadmin' );
 	}
 
 }

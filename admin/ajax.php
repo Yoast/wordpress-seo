@@ -309,7 +309,6 @@ function wpseo_upsert_new( $what, $post_id, $new, $original ) {
  * Create an export and return the URL
  */
 function wpseo_get_export() {
-	check_ajax_referer( 'wpseo-export' );
 
 	$include_taxonomy = ( WPSEO_Utils::filter_input( INPUT_POST, 'include_taxonomy' ) === 'true' ) ? true : false;
 	$export           = new WPSEO_Export( $include_taxonomy );
@@ -318,3 +317,16 @@ function wpseo_get_export() {
 }
 
 add_action( 'wp_ajax_wpseo_export', 'wpseo_get_export' );
+
+/**
+ * Handles the posting of a new FB admin
+ */
+function wpseo_add_fb_admin() {
+	check_ajax_referer( 'wpseo_fb_admin_nonce', 'ajax_nonce' );
+
+	$facebook_social = new Yoast_Social_Facebook();
+
+	wp_die( $facebook_social->add_admin( filter_input( INPUT_POST, 'admin_name' ), filter_input( INPUT_POST, 'admin_id' ) ) );
+}
+
+add_action( 'wp_ajax_wpseo_add_fb_admin', 'wpseo_add_fb_admin' );
