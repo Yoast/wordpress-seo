@@ -187,7 +187,7 @@ class WPSEO_Pointers {
 		            .'<p>' . __( 'You&#8217;ve just installed WordPress SEO by Yoast! Click &#8220;Start Tour&#8221; to view a quick introduction of this plugin&#8217;s core functionality.', 'wordpress-seo' ) . '</p>';
 		$opt_arr  = array(
 			'content'  => $content,
-			'position' => array( 'edge' => 'bottom', 'align' => 'center' )
+			'position' => array( 'edge' => 'bottom', 'align' => 'center' ),
 		);
 
 		$this->button_array['button2']['text']     = __( 'Start Tour', 'wordpress-seo' );
