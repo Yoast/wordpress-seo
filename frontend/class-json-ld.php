@@ -185,6 +185,10 @@ class WPSEO_JSON_LD {
 				$this->profiles[] = $this->options[ $profile ];
 			}
 		}
+
+		if ( ! empty( $this->options['twitter_site'] ) ) {
+			$this->profiles[] = 'https://twitter.com/' . $this->options['twitter_site'];
+		}
 	}
 
 	/**
