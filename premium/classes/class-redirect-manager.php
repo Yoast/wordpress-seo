@@ -192,7 +192,7 @@ abstract class WPSEO_Redirect_Manager {
 		// Add new redirect
 		$redirects[ $new_redirect_arr['key'] ] = array(
 			'url'  => $new_redirect_arr['value'],
-		    'type' => $new_redirect_arr['type'],
+			'type' => $new_redirect_arr['type'],
 		);
 
 		// Save redirects
