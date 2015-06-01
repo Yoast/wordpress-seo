@@ -201,7 +201,7 @@ class WPSEO_Frontend {
 	}
 
 	/**
-	 * Determine whether the current page is the homepage and shows posts.
+	 * Determine whether this is the homepage and shows posts.
 	 *
 	 * @return bool
 	 */
@@ -210,7 +210,7 @@ class WPSEO_Frontend {
 	}
 
 	/**
-	 * Determine whether the current page is a static homepage.
+	 * Determine whether the this is the static frontpage.
 	 *
 	 * @return bool
 	 */
@@ -219,7 +219,7 @@ class WPSEO_Frontend {
 	}
 
 	/**
-	 * Determine whether this is the posts page, regardless of whether it's the frontpage or not.
+	 * Determine whether this is the posts page, when it's not the frontpage.
 	 *
 	 * @return bool
 	 */
