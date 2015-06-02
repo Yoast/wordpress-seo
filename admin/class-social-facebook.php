@@ -76,7 +76,7 @@ class Yoast_Social_Facebook {
 			else {
 				$return = array(
 					'success' => 0,
-					'html'    => "<p class='notice-error notice'><span style='margin-left: 5px'>" . __( 'Please make sure both fields are filled correctly.', 'wordpress-seo' ) . '</span></p>',
+					'html'    => "<p class='notice-error notice'><span style='margin-left: 5px'>" . __( 'Please make sure both fields are filled in correctly.', 'wordpress-seo' ) . '</span></p>',
 				);
 			}
 		}
