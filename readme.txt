@@ -134,6 +134,7 @@ Release Date: June 3rd, 2015
 	* Fixes settings import on multisite.
 	* Fixes a bug where the sitemap could contain datetimes in the wrong timezone.
 	* Fixes a bug where the wrong Facebook user ID was added to the fb:admins meta tag. Adding FB admin user id is now a manual process.
+	* Fixed Open Graph and Twitter cards on static posts pages
 
 * Enhancements:
 	* Contains several accessibility improvements, including 'for' attributes for labels and several links to explanatory articles.
