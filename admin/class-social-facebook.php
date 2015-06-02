@@ -41,8 +41,11 @@ class Yoast_Social_Facebook {
 
 	/**
 	 * Adding a new admin
+	 *
 	 * @param string $admin_name
 	 * @param string $admin_id
+	 *
+	 * @return string
 	 */
 	public function add_admin( $admin_name, $admin_id ) {
 		// If one of the fields is empty
@@ -264,13 +267,16 @@ class Yoast_Social_Facebook_Form {
 			'<a href="https://www.facebook.com/insights">',
 			'</a>'
 		);
+		echo ' ';
+		/* translators: %1$s and %2$s expand to a link to the Yoast Knowledge Base */
+		printf( __( 'More info can be found %1$son our knowledge base%2$s.', 'wordpress-seo' ), '<a href="http://kb.yoast.com/article/254-gaining-access-to-facebook-insights">', '</a>' );
 		echo'</p>';
 
 		return $this;
 	}
 
 	/**
-	 *
+	 * Show the form inside the thickbox
 	 */
 	private function form_thickbox() {
 		// Adding the thickbox
@@ -279,13 +285,16 @@ class Yoast_Social_Facebook_Form {
 		echo '<div id="add_facebook_admin" style="display:none;">';
 		echo "<div class='form-wrap wpseo_content_wrapper'>";
 		echo '<h3>' .  __( 'Add Facebook admin', 'wordpress-seo' ) . '</h3>';
-
+		/* translators: %1$s and %2$s expand to a link to Facebook Insights */
+		echo '<p>';
+		printf( __( 'To be able to access %1$sFacebook Insights%2$s, you need to add a user here. The name is used for reference only, the ID is used for verification.', 'wordpress-seo' ), '<a href="https://www.facebook.com/insights">', '</a>' );
+		echo '</p>';
 		echo '<div class="form-field form-required">';
 		echo '<label>' . __( 'Name of the admin:', 'wordpress-seo' ) . '</label>';
 		echo '<input type="text" name="fb_admin_name" value="" maxlength="255" />';
 		echo '</div>';
 		echo '<div class="form-field form-required">';
-		echo '<label>' . __( 'UserID of admin:', 'wordpress-seo' ) . '</label>';
+		echo '<label>' . __( 'Facebook user ID of the admin:', 'wordpress-seo' ) . '</label>';
 		echo '<input type="text" name="fb_admin_id" value="" maxlength="255"  />';
 		echo '</div>';
 		echo "<p class='submit'>";
