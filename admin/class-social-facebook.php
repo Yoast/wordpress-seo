@@ -73,6 +73,12 @@ class Yoast_Social_Facebook {
 					'html'    => $this->form->get_admin_link( $admin_id, $this->options['fb_admins'][ $admin_id ] ),
 				);
 			}
+			else {
+				$return = array(
+					'success' => 0,
+					'html'    => "<p class='notice-error notice'><span style='margin-left: 5px'>" . __( 'Please make sure both fields are filled correctly.', 'wordpress-seo' ) . '</span></p>',
+				);
+			}
 		}
 		else {
 			$return = array(
