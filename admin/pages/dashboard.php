@@ -159,9 +159,9 @@ if ( get_option( 'page_comments' ) && $options['ignore_page_comments'] === false
 				<a class="button-secondary"
 				   href="<?php echo esc_url( admin_url( 'admin.php?page=wpseo_dashboard&wpseo_restart_tour=1' ) ); ?>"><?php _e( 'Start Tour', 'wordpress-seo' ); ?></a>
 			</p>
-		<?php } ?>
 
-		<br/>
+			<br/>
+		<?php } ?>
 
 		<p>
 			<strong><?php _e( 'Restore Default Settings', 'wordpress-seo' ); ?></strong><br/>
