@@ -77,6 +77,10 @@ jQuery( document ).ready( function() {
 		jQuery( '#' + activeTab + '-tab' ).addClass( 'nav-tab-active' );
 
 		jQuery( '.nav-tab-active' ).click();
+
+		jQuery( '#wpseo-dismiss-about > .notice-dismiss' ).click( function() {
+			wpseoDismissAbout( jQuery( '#wpseo-dismiss-about' ).data( 'nonce' ) );
+		});
 	}
 );
 
@@ -210,3 +214,16 @@ jQuery( window ).on( 'hashchange', wpseoSetTabHash );
  * When the hash changes, get the base url from the action and then add the current hash
  */
 jQuery( document ).on( 'ready', wpseoSetTabHash );
+
+/**
+ * Used to dismiss the after-update admin notice for a specific user until the next update.
+ *
+ * @param {string} nonce
+ */
+function wpseoDismissAbout( nonce ) {
+	jQuery.post( ajaxurl, {
+			action: 'wpseo_dismiss_about',
+			_wpnonce: nonce
+		}
+	);
+}

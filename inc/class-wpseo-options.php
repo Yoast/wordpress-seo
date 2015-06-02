@@ -871,13 +871,11 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'ignore_meta_description_warning' => null, // overwrite in __construct()
 		'ignore_page_comments'            => false,
 		'ignore_permalink'                => false,
-		'ignore_tour'                     => false,
 		'ms_defaults_set'                 => false,
 		'theme_description_found'         => null, // overwrite in __construct()
 		'theme_has_description'           => null, // overwrite in __construct()
 		// Non-form field, should only be set via validation routine
 		'version'                         => '', // leave default as empty to ensure activation/upgrade works
-		'seen_about'                      => false,
 		// Form fields:
 		'alexaverify'                     => '', // text field
 		'company_logo'                    => '',
@@ -909,8 +907,6 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'ignore_meta_description_warning',
 		'ignore_page_comments',
 		'ignore_permalink',
-		'ignore_tour',
-		'seen_about',
 		/* theme dependent */
 		'theme_description_found',
 		'theme_has_description',
@@ -1030,7 +1026,6 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 
 
 				/* boolean|null fields - if set a check was done, if null, it hasn't */
-				case 'seen_about':
 				case 'theme_has_description':
 					if ( isset( $dirty[ $key ] ) ) {
 						$clean[ $key ] = WPSEO_Utils::validate_bool( $dirty[ $key ] );
@@ -1047,7 +1042,6 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				case 'ignore_meta_description_warning':
 				case 'ignore_page_comments':
 				case 'ignore_permalink':
-				case 'ignore_tour':
 				case 'ms_defaults_set':
 					if ( isset( $dirty[ $key ] ) ) {
 						$clean[ $key ] = WPSEO_Utils::validate_bool( $dirty[ $key ] );
@@ -1062,7 +1056,6 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				/* Covers
 				 * 		'disableadvanced_meta'
 				 * 		'yoast_tracking'
-				 *      'seen_about'
 				 */
 				default:
 					$clean[ $key ] = ( isset( $dirty[ $key ] ) ? WPSEO_Utils::validate_bool( $dirty[ $key ] ) : false );
@@ -1116,7 +1109,6 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 			'ignore_meta_description_warning',
 			'ignore_page_comments',
 			'ignore_permalink',
-			'ignore_tour',
 			// 'disableadvanced_meta', => not needed as is 'on' which will auto-convert to true
 		);
 		foreach ( $value_change as $key ) {
