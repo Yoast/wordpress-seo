@@ -226,11 +226,12 @@ function wpseo_add_fb_admin() {
 		function( response ) {
 			var resp = jQuery.parseJSON( response );
 
+			target_form.find('p.notice').remove();
+
 			switch( resp.success ) {
 				case 1 :
 
 					target_form.find('input[type=text]').val( '' );
-					target_form.find('p.notice').remove();
 
 					jQuery( '#user_admin' ).append( resp.html );
 					jQuery( '#connected_fb_admins').show();
