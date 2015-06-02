@@ -50,7 +50,7 @@ class Yoast_Social_Facebook {
 			return json_encode(
 				array(
 					'success' => 0,
-					'html'    => "<p class='notice-error notice'><span style='margin-left: 5px'>" . __( 'Be sure both requested fields are filled properly', 'wordpress-seo' ) . "</span></p>",
+					'html'    => "<p class='notice-error notice'><span style='margin-left: 5px'>" . __( 'Be sure both requested fields are filled properly', 'wordpress-seo' ) . '</span></p>',
 				)
 			);
 		}
