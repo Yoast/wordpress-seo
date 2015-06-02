@@ -276,11 +276,11 @@ class Yoast_Social_Facebook_Form {
 
 		echo '<div class="form-field form-required">';
 		echo '<label>' . __( 'Name of the admin:', 'wordpress-seo' ) . '</label>';
-		echo '<input type="text" name="fb_admin_name" value="" />';
+		echo '<input type="text" name="fb_admin_name" value="" maxlength="255" />';
 		echo '</div>';
 		echo '<div class="form-field form-required">';
 		echo '<label>' . __( 'UserID of admin:', 'wordpress-seo' ) . '</label>';
-		echo '<input type="text" name="fb_admin_id" value="" />';
+		echo '<input type="text" name="fb_admin_id" value="" maxlength="255"  />';
 		echo '</div>';
 		echo "<p class='submit'>";
 		echo '<input type="hidden" name="fb_admin_nonce" value="' . wp_create_nonce( 'wpseo_fb_admin_nonce' ) . '" />';
