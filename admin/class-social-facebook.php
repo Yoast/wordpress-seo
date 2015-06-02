@@ -56,11 +56,7 @@ class Yoast_Social_Facebook {
 		}
 
 		// Clean up the url part
-		$admin_id = str_replace(
-			array( 'https', 'http', '://', 'www', 'facebook.com' ),
-			'',
-			$admin_id
-		);
+		$admin_id = trim( parse_url( $admin_id, PHP_URL_PATH ), '/' );
 
 		if ( ! isset( $this->options['fb_admins'][ $admin_id ] ) ) {
 			$this->options['fb_admins'][ $admin_id ]['name'] = sanitize_text_field( urldecode( $admin_name ) );
