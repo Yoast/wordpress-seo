@@ -46,7 +46,7 @@ Analyzer.prototype.initQueue = function(){
     if(typeof this.config.queue !== "undefined" && this.config.queue.length !== 0){
         this.queue = this.config.queue;
     }else{
-        this.queue = ["wordCount", "keywordDensity", "subHeadings", "stopwords", "fleschReading", "linkCount", "imageCount", "urlKeyword", "urlLength", "urlKeywords", "metaDescription", "pageTitleKeyword", "pageTitleLength", "firstParagraph"];
+        this.queue = ["wordCount", "keywordDensity", "subHeadings", "stopwords", "fleschReading", "linkCount", "imageCount", "urlKeyword", "urlLength", "metaDescription", "pageTitleKeyword", "pageTitleLength", "firstParagraph"];
     }
 };
 
@@ -772,6 +772,7 @@ AnalyzeScorer.prototype.genericScore = function(obj){
     }
     return score;
 };
+
 /**
  * sets matcher and resultvariables so the scorefunction can use this.
  * @param obj
@@ -881,3 +882,4 @@ stringHelper = function(){
     }
     return yst_stringHelper;
 };
+
