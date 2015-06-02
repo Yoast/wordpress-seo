@@ -292,18 +292,23 @@ class Yoast_Social_Facebook_Form {
 	 */
 	private function manage_user_admin() {
 		$button_text = __( 'Add Facebook Admin', 'wordpress-seo' );
+		$nonce       = false;
+		$style       = 'style="display:none"';
 
 		if ( is_array( $this->options['fb_admins'] ) && $this->options['fb_admins'] !== array() ) {
 			$nonce       = $this->get_delete_nonce();
 			$button_text = __( 'Add Another Facebook Admin', 'wordpress-seo' );
-
-			echo '<p>' . __( 'Currently connected Facebook admins:', 'wordpress-seo' ) . '</p>';
-			echo '<ul id="user_admin">';
-				$this->show_user_admins( $nonce );
-			echo '</ul>';
-
-			unset( $admin_id, $admin, $nonce );
+			$style       = '';
 		}
+
+		echo "<div id='connected_fb_admins' {$style}>";
+		echo '<p>' . __( 'Currently connected Facebook admins:', 'wordpress-seo' ) . '</p>';
+		echo '<ul id="user_admin">';
+			$this->show_user_admins( $nonce );
+		echo '</ul>';
+		echo '</div>';
+
+		unset( $nonce );
 
 		$this->add_button(
 			'#TB_inline?width=600&height=300&inlineId=add_facebook_admin',

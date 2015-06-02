@@ -218,7 +218,7 @@ function wpseo_add_fb_admin() {
 	jQuery.post(
 		ajaxurl,
 		{
-			ajax_nonce : target_form.find('input[name=fb_admin_nonce]').val(),
+			_wpnonce   : target_form.find('input[name=fb_admin_nonce]').val(),
 			admin_name : target_form.find('input[name=fb_admin_name]').val(),
 			admin_id   : target_form.find('input[name=fb_admin_id]').val(),
 			action     : 'wpseo_add_fb_admin'
@@ -233,6 +233,7 @@ function wpseo_add_fb_admin() {
 					target_form.find('p.notice').remove();
 
 					jQuery( '#user_admin' ).append( resp.html );
+					jQuery( '#connected_fb_admins').show();
 					tb_remove();
 					break;
 				case 0 :

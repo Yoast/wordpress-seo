@@ -322,7 +322,7 @@ add_action( 'wp_ajax_wpseo_export', 'wpseo_get_export' );
  * Handles the posting of a new FB admin
  */
 function wpseo_add_fb_admin() {
-	check_ajax_referer( 'wpseo_fb_admin_nonce', 'ajax_nonce' );
+	check_ajax_referer( 'wpseo_fb_admin_nonce' );
 
 	$facebook_social = new Yoast_Social_Facebook();
 
