@@ -55,8 +55,16 @@ class Yoast_Social_Facebook {
 			);
 		}
 
-		// Clean up the url part
-		$admin_id = trim( parse_url( $admin_id, PHP_URL_PATH ), '/' );
+		// Fetch the id if the full meta tag was given
+		preg_match('/^\<meta property\=\"fb:admins\" content\=\"(\d+?)\"/', $admin_id, $matches_full_meta );
+
+		if ( $matches_full_meta ) {
+			$admin_id = $matches_full_meta[1];
+		}
+		else {
+			// Clean up the url part if a full url was given
+			$admin_id = trim( parse_url( $admin_id, PHP_URL_PATH ), '/' );
+		}
 
 		if ( ! isset( $this->options['fb_admins'][ $admin_id ] ) ) {
 			$name = sanitize_text_field( urldecode( $admin_name ) );
