@@ -183,7 +183,7 @@ class WPSEO_Admin_Init {
 	private function load_tour() {
 		$restart_tour = filter_input( INPUT_GET, 'wpseo_restart_tour' );
 		if ( $restart_tour ) {
-			update_user_meta( get_current_user_id(), 'wpseo_ignore_tour', false );
+			delete_user_meta( get_current_user_id(), 'wpseo_ignore_tour' );
 		}
 
 		if ( ! get_user_meta( get_current_user_id(), 'wpseo_ignore_tour' ) ) {
