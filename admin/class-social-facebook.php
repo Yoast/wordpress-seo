@@ -50,7 +50,7 @@ class Yoast_Social_Facebook {
 			return json_encode(
 				array(
 					'success' => 0,
-					'html'    => "<p class='notice-error notice'><span style='margin-left: 5px'>" . __( 'Be sure both requested fields are filled properly', 'wordpress-seo' ) . '</span></p>',
+					'html'    => "<p class='notice-error notice'><span style='margin-left: 5px'>" . __( 'Be sure both requested fields are filled properly.', 'wordpress-seo' ) . '</span></p>',
 				)
 			);
 		}
@@ -64,13 +64,19 @@ class Yoast_Social_Facebook {
 
 			$this->save_options();
 
-			return json_encode(
-				array(
-					'success' => 1,
-					'html'    => $this->form->get_admin_link( $admin_id, $this->options['fb_admins'][ $admin_id ] ),
-				)
+			$return = array(
+				'success' => 1,
+				'html'    => $this->form->get_admin_link( $admin_id, $this->options['fb_admins'][ $admin_id ] ),
 			);
 		}
+		else {
+			$return = array(
+				'success' => 0,
+				'html'    => "<p class='notice-error notice'><span style='margin-left: 5px'>" . __( 'This Facebook user is already added as an admin.', 'wordpress-seo' ) . '</span></p>',
+			);
+		}
+
+		return json_encode( $return );
 	}
 
 	/**
