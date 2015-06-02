@@ -130,7 +130,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	 */
 	private function verify_nonce() {
 		if ( $this->should_verify_nonce() && ! wp_verify_nonce( filter_input( INPUT_GET, 'nonce' ), 'bulk-editor-table' ) ) {
-			Yoast_Notification_Center::get()->add_notification( new Yoast_Notification( __( 'You are not allowed to access this page.', 'wordpress-seo' ), 'error' ) );
+			Yoast_Notification_Center::get()->add_notification( new Yoast_Notification( __( 'You are not allowed to access this page.', 'wordpress-seo' ), array( 'type' => 'error' ) ) );
 			Yoast_Notification_Center::get()->display_notifications();
 			die;
 		}

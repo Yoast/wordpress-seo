@@ -78,8 +78,8 @@ jQuery( document ).ready( function() {
 
 		jQuery( '.nav-tab-active' ).click();
 
-		jQuery( '.wpseo-dismiss-about > .notice-dismiss' ).click( function() {
-			wpseoDismissAbout( jQuery( '.wpseo-dismiss-about' ).data( 'nonce' ) );
+		jQuery( '#wpseo-dismiss-about > .notice-dismiss' ).click( function() {
+			wpseoDismissAbout( jQuery( '#wpseo-dismiss-about' ).data( 'nonce' ) );
 		});
 	}
 );

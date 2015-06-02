@@ -71,7 +71,13 @@ class WPSEO_Admin_Init {
 				'</a>'
 			);
 
-			Yoast_Notification_Center::get()->add_notification( new Yoast_Notification( $info_message, 'updated notice is-dismissible wpseo-dismiss-about', wp_create_nonce( 'wpseo-dismiss-about' ) ) );
+			$notification_options = array(
+				'type' => 'updated notice is-dismissible',
+				'id' => 'wpseo-dismiss-about',
+				'nonce' => wp_create_nonce( 'wpseo-dismiss-about' ),
+			);
+
+			Yoast_Notification_Center::get()->add_notification( new Yoast_Notification( $info_message, $notification_options ) );
 		}
 	}
 
