@@ -323,6 +323,10 @@ add_action( 'wp_ajax_wpseo_export', 'wpseo_get_export' );
  */
 function wpseo_add_fb_admin() {
 	check_ajax_referer( 'wpseo_fb_admin_nonce' );
+	
+	if ( ! current_user_can( 'manage_options' ) ) {
+		die( '-1' );
+	}
 
 	$facebook_social = new Yoast_Social_Facebook();
 
