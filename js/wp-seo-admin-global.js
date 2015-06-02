@@ -2,6 +2,25 @@
 /* jshint -W097 */
 /* jshint unused:false */
 'use strict';
+jQuery( document ).ready( function() {
+	jQuery( '#wpseo-dismiss-about > .notice-dismiss' ).click( function() {
+		wpseoDismissAbout( jQuery( '#wpseo-dismiss-about' ).data( 'nonce' ) );
+	});
+});
+
+/**
+ * Used to dismiss the after-update admin notice for a specific user until the next update.
+ *
+ * @param {string} nonce
+ */
+function wpseoDismissAbout( nonce ) {
+	jQuery.post( ajaxurl, {
+			action: 'wpseo_dismiss_about',
+			_wpnonce: nonce
+		}
+	);
+}
+
 /**
  * Used to remove the admin notices for several purposes, dies on exit.
  *

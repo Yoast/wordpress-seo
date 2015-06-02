@@ -383,7 +383,7 @@ class Yoast_Social_Facebook_Form {
 	private function show_buttons() {
 		if ( $this->get_clearall() ) {
 			$this->add_button(
-				esc_url( add_query_arg( array( 'nonce' => wp_create_nonce( 'fbclearall' ), 'fbclearall' => 'true', ), admin_url( $this->admin_url . '#top#facebook' ) ) ),
+				esc_url( add_query_arg( array( 'nonce' => wp_create_nonce( 'fbclearall' ), 'fbclearall' => 'true' ), admin_url( $this->admin_url . '#top#facebook' ) ) ),
 				__( 'Clear all Facebook Data', 'wordpress-seo' )
 			);
 		}

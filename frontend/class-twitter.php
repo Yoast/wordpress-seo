@@ -158,6 +158,9 @@ class WPSEO_Twitter {
 		if ( is_singular() ) {
 			$meta_desc = $this->single_description();
 		}
+		elseif ( WPSEO_Frontend::get_instance()->is_posts_page() ) {
+			$meta_desc = $this->single_description( get_option( 'page_for_posts' ) );
+		}
 		else {
 			$meta_desc = $this->fallback_description();
 		}
@@ -176,10 +179,13 @@ class WPSEO_Twitter {
 	/**
 	 * Returns the description for a singular page
 	 *
+	 * @param int $post_id
+	 *
 	 * @return string
 	 */
-	private function single_description() {
-		$meta_desc = trim( WPSEO_Meta::get_value( 'twitter-description' ) );
+	private function single_description( $post_id = 0 ) {
+		$meta_desc = trim( WPSEO_Meta::get_value( 'twitter-description', $post_id ) );
+
 		if ( is_string( $meta_desc ) && '' !== $meta_desc ) {
 			return $meta_desc;
 		}
@@ -210,6 +216,9 @@ class WPSEO_Twitter {
 		if ( is_singular() ) {
 			$title = $this->single_title();
 		}
+		elseif ( WPSEO_Frontend::get_instance()->is_posts_page() ) {
+			$title = $this->single_title( get_option( 'page_for_posts' ) );
+		}
 		else {
 			$title = $this->fallback_title();
 		}
@@ -228,10 +237,12 @@ class WPSEO_Twitter {
 	/**
 	 * Returns the Twitter title for a single post
 	 *
+	 * @param int $post_id
+	 *
 	 * @return string
 	 */
-	private function single_title() {
-		$title = WPSEO_Meta::get_value( 'twitter-title' );
+	private function single_title( $post_id = 0 ) {
+		$title = WPSEO_Meta::get_value( 'twitter-title', $post_id );
 		if ( ! is_string( $title ) || '' === $title ) {
 			return $this->fallback_title();
 		}

@@ -894,7 +894,7 @@ class WPSEO_Replace_Vars {
 		$sep = $this->retrieve_sep();
 
 		if ( $max > 1 && $nr > 1 ) {
-			$replacement = sprintf( $sep . ' ' . __( 'Page %d of %d', 'wordpress-seo' ), $nr, $max );
+			$replacement = sprintf( $sep . ' ' . __( 'Page %1$d of %2$d', 'wordpress-seo' ), $nr, $max );
 		}
 
 		return $replacement;

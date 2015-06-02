@@ -33,7 +33,7 @@ function wpseo_set_option() {
 
 	check_ajax_referer( 'wpseo-setoption' );
 
-	$option = sanitize_text_field( WPSEO_Utils::filter_input( INPUT_POST, 'option' ) );
+	$option = sanitize_text_field( filter_input( INPUT_POST, 'option' ) );
 	if ( $option !== 'page_comments' ) {
 		die( '-1' );
 	}
@@ -54,14 +54,39 @@ function wpseo_set_ignore() {
 
 	check_ajax_referer( 'wpseo-ignore' );
 
-	$options                            = get_option( 'wpseo' );
-	$ignore_key                         = sanitize_text_field( WPSEO_Utils::filter_input( INPUT_POST, 'option' ) );
-	$options[ 'ignore_' . $ignore_key ] = true;
-	update_option( 'wpseo', $options );
+	$ignore_key = sanitize_text_field( filter_input( INPUT_POST, 'option' ) );
+
+	// Notices to be ignored for a specific user
+	if ( $ignore_key === 'tour' ) {
+		update_user_meta( get_current_user_id(), 'wpseo_ignore_' . $ignore_key, true );
+	}
+	// Notices to be ignored globally
+	else {
+		$options                          = get_option( 'wpseo' );
+		$options[ 'ignore_' . $ignore_key ] = true;
+		update_option( 'wpseo', $options );
+	}
 	die( '1' );
 }
 
 add_action( 'wp_ajax_wpseo_set_ignore', 'wpseo_set_ignore' );
+
+/**
+ * Hides the after-update notification until the next update for a specific user.
+ */
+function wpseo_dismiss_about() {
+	if ( ! current_user_can( 'manage_options' ) ) {
+		die( '-1' );
+	}
+
+	check_ajax_referer( 'wpseo-dismiss-about' );
+
+	update_user_meta( get_current_user_id(), 'wpseo_seen_about_version' , WPSEO_VERSION );
+
+	die( '1' );
+}
+
+add_action( 'wp_ajax_wpseo_dismiss_about', 'wpseo_dismiss_about' );
 
 /**
  * Function used to delete blocking files, dies on exit.
@@ -104,7 +129,7 @@ add_action( 'wp_ajax_wpseo_kill_blocking_files', 'wpseo_kill_blocking_files' );
 function wpseo_get_suggest() {
 	check_ajax_referer( 'wpseo-get-suggest' );
 
-	$term   = urlencode( WPSEO_Utils::filter_input( INPUT_GET, 'term' ) );
+	$term   = urlencode( filter_input( INPUT_GET, 'term' ) );
 	$result = wp_remote_get( 'https://www.google.com/complete/search?output=toolbar&q=' . $term );
 
 	$return_arr = array();
@@ -130,9 +155,9 @@ function wpseo_ajax_replace_vars() {
 	global $post;
 	check_ajax_referer( 'wpseo-replace-vars' );
 
-	$post = get_post( intval( WPSEO_Utils::filter_input( INPUT_POST, 'post_id' ) ) );
+	$post = get_post( intval( filter_input( INPUT_POST, 'post_id' ) ) );
 	$omit = array( 'excerpt', 'excerpt_only', 'title' );
-	echo wpseo_replace_vars( stripslashes( WPSEO_Utils::filter_input( INPUT_POST, 'string' ) ), $post, $omit );
+	echo wpseo_replace_vars( stripslashes( filter_input( INPUT_POST, 'string' ) ), $post, $omit );
 	die;
 }
 
@@ -164,9 +189,9 @@ add_action( 'wp_ajax_wpseo_save_metadesc', 'wpseo_save_description' );
 function wpseo_save_what( $what ) {
 	check_ajax_referer( 'wpseo-bulk-editor' );
 
-	$new      = WPSEO_Utils::filter_input( INPUT_POST, 'new_value' );
-	$post_id  = intval( WPSEO_Utils::filter_input( INPUT_POST, 'wpseo_post_id' ) );
-	$original = WPSEO_Utils::filter_input( INPUT_POST, 'existing_value' );
+	$new      = filter_input( INPUT_POST, 'new_value' );
+	$post_id  = intval( filter_input( INPUT_POST, 'wpseo_post_id' ) );
+	$original = filter_input( INPUT_POST, 'existing_value' );
 
 	$results = wpseo_upsert_new( $what, $post_id, $new, $original );
 
@@ -310,7 +335,7 @@ function wpseo_upsert_new( $what, $post_id, $new, $original ) {
  */
 function wpseo_get_export() {
 
-	$include_taxonomy = ( WPSEO_Utils::filter_input( INPUT_POST, 'include_taxonomy' ) === 'true' ) ? true : false;
+	$include_taxonomy = ( filter_input( INPUT_POST, 'include_taxonomy' ) === 'true' );
 	$export           = new WPSEO_Export( $include_taxonomy );
 
 	wpseo_ajax_json_echo_die( $export->get_results() );
@@ -323,7 +348,7 @@ add_action( 'wp_ajax_wpseo_export', 'wpseo_get_export' );
  */
 function wpseo_add_fb_admin() {
 	check_ajax_referer( 'wpseo_fb_admin_nonce' );
-	
+
 	if ( ! current_user_can( 'manage_options' ) ) {
 		die( '-1' );
 	}
