@@ -59,15 +59,20 @@ class Yoast_Social_Facebook {
 		$admin_id = trim( parse_url( $admin_id, PHP_URL_PATH ), '/' );
 
 		if ( ! isset( $this->options['fb_admins'][ $admin_id ] ) ) {
-			$this->options['fb_admins'][ $admin_id ]['name'] = sanitize_text_field( urldecode( $admin_name ) );
-			$this->options['fb_admins'][ $admin_id ]['link'] = sanitize_text_field( urldecode( 'http://www.facebook.com/' . $admin_id ) );
+			$name = sanitize_text_field( urldecode( $admin_name ) );
+			$link = sanitize_text_field( urldecode( 'http://www.facebook.com/' . $admin_id ) );
 
-			$this->save_options();
+			if ( ! empty( $admin_id ) && ! empty( $name ) && ! empty( $link ) ) {
+				$this->options['fb_admins'][ $admin_id ]['name'] = $name;
+				$this->options['fb_admins'][ $admin_id ]['link'] = $link;
 
-			$return = array(
-				'success' => 1,
-				'html'    => $this->form->get_admin_link( $admin_id, $this->options['fb_admins'][ $admin_id ] ),
-			);
+				$this->save_options();
+
+				$return = array(
+					'success' => 1,
+					'html'    => $this->form->get_admin_link( $admin_id, $this->options['fb_admins'][ $admin_id ] ),
+				);
+			}
 		}
 		else {
 			$return = array(
