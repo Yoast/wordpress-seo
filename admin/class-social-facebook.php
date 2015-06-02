@@ -264,12 +264,12 @@ class Yoast_Social_Facebook_Form {
 			esc_html__(
 				'To be able to access %sFacebook Insights%s for your site, you need to specify a Facebook Admin. This can be a user. If you have an app for your site, you could use that as well.', 'wordpress-seo'
 			),
-			'<a href="https://www.facebook.com/insights">',
+			'<a target="_blank" href="https://www.facebook.com/insights">',
 			'</a>'
 		);
 		echo ' ';
 		/* translators: %1$s and %2$s expand to a link to the Yoast Knowledge Base */
-		printf( __( 'More info can be found %1$son our knowledge base%2$s.', 'wordpress-seo' ), '<a href="http://kb.yoast.com/article/254-gaining-access-to-facebook-insights">', '</a>' );
+		printf( __( 'More info can be found %1$son our knowledge base%2$s.', 'wordpress-seo' ), '<a target="_blank" href="http://kb.yoast.com/article/254-gaining-access-to-facebook-insights">', '</a>' );
 		echo'</p>';
 
 		return $this;
@@ -287,7 +287,7 @@ class Yoast_Social_Facebook_Form {
 		echo '<h3>' .  __( 'Add Facebook admin', 'wordpress-seo' ) . '</h3>';
 		/* translators: %1$s and %2$s expand to a link to Facebook Insights */
 		echo '<p>';
-		printf( __( 'To be able to access %1$sFacebook Insights%2$s, you need to add a user here. The name is used for reference only, the ID is used for verification.', 'wordpress-seo' ), '<a href="https://www.facebook.com/insights">', '</a>' );
+		printf( __( 'To be able to access %1$sFacebook Insights%2$s, you need to add a user here. The name is used for reference only, the ID is used for verification.', 'wordpress-seo' ), '<a target="_blank" href="https://www.facebook.com/insights">', '</a>' );
 		echo '</p>';
 		echo '<div class="form-field form-required">';
 		echo '<label>' . __( 'Name of the admin:', 'wordpress-seo' ) . '</label>';
