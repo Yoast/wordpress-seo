@@ -137,6 +137,7 @@ Release Date: June 3rd, 2015
 
 * Enhancements:
 	* Contains several accessibility improvements, including 'for' attributes for labels and several links to explanatory articles.
+	* Adds support for creating partial sitemaps with WP CLI, props [Lars Schenk](https://github.com/larsschenk).
 	* Add Google's mobile friendly test to the SEO toolbar, props [Brandon Hubbard](https://github.com/bhubbard).
 	* Makes sure slugs are not being stripped if the remaining slug is less than 3 characters, props [andyexeter](https://github.com/andyexeter).
 	* Shows an activation error when dependencies were not installed properly with composer.

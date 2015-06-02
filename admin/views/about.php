@@ -170,6 +170,7 @@ function wpseo_display_contributors( $contributors ) {
 
 		<ul class="ul-disc">
 			<li> Contains several accessibility improvements, including 'for' attributes for labels and several links to explanatory articles.</li>
+			<li> Adds support for creating partial sitemaps with WP CLI, props <a href="https://github.com/larsschenk" target="_blank">Lars Schenk</a>.</li>
 			<li> Add Google's mobile friendly test to the SEO toolbar, props <a href="https://github.com/bhubbard" target="_blank">Brandon Hubbard</a>.</li>
 			<li> Makes sure slugs are not being stripped if the remaining slug is less than 3 characters, props <a href="https://github.com/andyexeter" target="_blank">andyexeter</a>.</li>
 			<li> Shows an activation error when dependencies were not installed properly with composer.</li>
