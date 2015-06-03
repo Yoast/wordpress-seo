@@ -204,21 +204,29 @@ class WPSEO_OpenGraph {
 	 * @return string|boolean
 	 */
 	public function og_title( $echo = true ) {
-		if ( is_singular() ) {
-			$title = WPSEO_Meta::get_value( 'opengraph-title' );
+
+		$frontend      = WPSEO_Frontend::get_instance();
+		$is_posts_page = $frontend->is_posts_page();
+
+		if ( is_singular() || $is_posts_page ) {
+
+			$post_id = ( $is_posts_page ) ? get_option( 'page_for_posts' ) : get_the_ID();
+			$post    = get_post( $post_id );
+			$title   = WPSEO_Meta::get_value( 'opengraph-title', $post_id );
+
 			if ( $title === '' ) {
-				$title = WPSEO_Frontend::get_instance()->title( '' );
+				$title = $frontend->title( '' );
 			}
 			else {
 				// Replace WP SEO Variables
-				$title = wpseo_replace_vars( $title, get_post() );
+				$title = wpseo_replace_vars( $title, $post );
 			}
 		}
 		else if ( is_front_page() ) {
-			$title = ( isset( $this->options['og_frontpage_title'] ) && $this->options['og_frontpage_title'] !== '' ) ? $this->options['og_frontpage_title'] : WPSEO_Frontend::get_instance()->title( '' );
+			$title = ( isset( $this->options['og_frontpage_title'] ) && $this->options['og_frontpage_title'] !== '' ) ? $this->options['og_frontpage_title'] : $frontend->title( '' );
 		}
 		else {
-			$title = WPSEO_Frontend::get_instance()->title( '' );
+			$title = $frontend->title( '' );
 		}
 
 		/**
@@ -494,26 +502,31 @@ class WPSEO_OpenGraph {
 	 * @return string $ogdesc
 	 */
 	public function description( $echo = true ) {
-		$ogdesc = '';
+		$ogdesc   = '';
+		$frontend = WPSEO_Frontend::get_instance();
 
 		if ( is_front_page() ) {
 			if ( isset( $this->options['og_frontpage_desc'] ) && $this->options['og_frontpage_desc'] !== '' ) {
 				$ogdesc = wpseo_replace_vars( $this->options['og_frontpage_desc'], null );
 			}
 			else {
-				$ogdesc = WPSEO_Frontend::get_instance()->metadesc( false );
+				$ogdesc = $frontend->metadesc( false );
 			}
 		}
 
-		if ( is_singular() ) {
-			$ogdesc = WPSEO_Meta::get_value( 'opengraph-description' );
+		$is_posts_page = $frontend->is_posts_page();
+
+		if ( is_singular() || $is_posts_page ) {
+			$post_id = ( $is_posts_page ) ? get_option( 'page_for_posts' ) : get_the_ID();
+			$post    = get_post( $post_id );
+			$ogdesc  = WPSEO_Meta::get_value( 'opengraph-description', $post_id );
 
 			// Replace WP SEO Variables
-			$ogdesc = wpseo_replace_vars( $ogdesc, get_post() );
+			$ogdesc = wpseo_replace_vars( $ogdesc, $post );
 
 			// Use metadesc if $ogdesc is empty
 			if ( $ogdesc === '' ) {
-				$ogdesc = WPSEO_Frontend::get_instance()->metadesc( false );
+				$ogdesc = $frontend->metadesc( false );
 			}
 
 			// og:description is still blank so grab it from get_the_excerpt()
@@ -524,7 +537,7 @@ class WPSEO_OpenGraph {
 
 		if ( is_category() || is_tag() || is_tax() ) {
 
-			$ogdesc = WPSEO_Frontend::get_instance()->metadesc( false );
+			$ogdesc = $frontend->metadesc( false );
 
 			if ( '' == $ogdesc ) {
 				$ogdesc = trim( strip_tags( term_description() ) );

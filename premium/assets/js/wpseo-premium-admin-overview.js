@@ -1,4 +1,5 @@
 /* global wpseo_premium_strings */
+/* global wpseoMakeDismissible */
 /* jshint -W097 */
 /* jshint -W098 */
 'use strict';
@@ -70,6 +71,7 @@ function wpseo_create_redirect( old_url, nonce, id ) {
 				function( response ) {
 					if ( '' !== response ) {
 						$( '#ajax-response' ).append( response );
+						wpseoMakeDismissible();
 					}
 				}
 			);

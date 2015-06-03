@@ -8,16 +8,27 @@
  * Implements individual notification.
  */
 class Yoast_Notification {
+	/**
+	 * Contains optional arguments:
+	 *
+	 * -  type: The notification type, i.e. 'updated' or 'error'
+	 * -    id: The ID of the notification
+	 * - nonce: Security nonce to use in case of dismissible notice.
+	 *
+	 * @var array
+	 */
+	private $options;
 
 	/**
-	 * @var string The notification message
+	 * Contains default values for the optional arguments
+	 *
+	 * @var array
 	 */
-	private $message;
-
-	/**
-	 * @var string The notification type, i.e. 'updated' or 'error'
-	 */
-	private $type;
+	private $defaults = array(
+		'type'  => 'updated',
+		'id'    => '',
+		'nonce' => null,
+	);
 
 	/**
 	 * @var string The ID of the notification
@@ -28,48 +39,11 @@ class Yoast_Notification {
 	 * The Constructor
 	 *
 	 * @param string $message
-	 * @param string $type
-	 * @param string $id
+	 * @param array  $options
 	 */
-	public function __construct( $message, $type = 'updated', $id = '' ) {
-		$this->message = $message;
-		$this->type    = $type;
-		$this->id      = $id;
-	}
-
-	/**
-	 * @return String
-	 */
-	public function get_message() {
-		return $this->message;
-	}
-
-	/**
-	 * @param String $message
-	 */
-	public function set_message( $message ) {
-		$this->message = $message;
-	}
-
-	/**
-	 * @return string $id
-	 */
-	public function get_id() {
-		return $this->id;
-	}
-
-	/**
-	 * @return String
-	 */
-	public function get_type() {
-		return $this->type;
-	}
-
-	/**
-	 * @param String $type
-	 */
-	public function set_type( $type ) {
-		$this->type = $type;
+	public function __construct( $message, $options = array() ) {
+		$this->options         = wp_parse_args( $options, $this->defaults );
+		$this->message         = $message;
 	}
 
 	/**
@@ -79,17 +53,26 @@ class Yoast_Notification {
 	 */
 	public function to_array() {
 		return array(
-			'message' => $this->get_message(),
-			'type'    => $this->get_type(),
-			'id'      => $this->get_id(),
+			'message' => $this->message,
+			'options' => $this->options,
 		);
 	}
 
 	/**
-	 * Output the message
+	 * Adds string (view) behaviour to the Notification
+	 *
+	 * @return string
 	 */
-	public function output() {
-		echo '<div class="yoast-notice notice is-dismissible ', esc_attr( $this->get_type() ), '" id="', esc_attr( $this->get_id() ), '">', wpautop( $this->get_message() ), '</div>', PHP_EOL;
+	public function __toString() {
+		return '<div class="yoast-notice notice is-dismissible ' . esc_attr( $this->options['type'] ) . '" id="' . esc_attr( $this->options['id'] ) . '"' . $this->parse_nonce_attribute() . '>' . wpautop( $this->message ) . '</div>' . PHP_EOL;
 	}
 
+	/**
+	 * Returns a data attribute containing the nonce if present
+	 *
+	 * @return string
+	 */
+	private function parse_nonce_attribute() {
+		return ( ! empty( $this->options['nonce'] ) ? ' data-nonce="' . $this->options['nonce'] . '"' : '' );
+	}
 }

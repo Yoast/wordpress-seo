@@ -37,8 +37,8 @@ class WPSEO_Pointers {
 	 */
 	private function __construct() {
 		if ( current_user_can( 'manage_options' ) ) {
-			$options = get_option( 'wpseo' );
-			if ( $options['ignore_tour'] === false ) {
+
+			if ( ! get_user_meta( get_current_user_id(), 'wpseo_ignore_tour' ) ) {
 				wp_enqueue_style( 'wp-pointer' );
 				wp_enqueue_script( 'jquery-ui' );
 				wp_enqueue_script( 'wp-pointer' );
@@ -135,7 +135,7 @@ class WPSEO_Pointers {
 					$this->button3();
 					?>
 					jQuery('#pointer-close').click(function () {
-					wpseo_setIgnore("tour", "wp-pointer-0", "<?php echo esc_js( wp_create_nonce( 'wpseo-ignore' ) ); ?>");
+					wpseoSetIgnore("tour", "wp-pointer-0", "<?php echo esc_js( wp_create_nonce( 'wpseo-ignore' ) ); ?>");
 					});
 				};
 
@@ -187,7 +187,7 @@ class WPSEO_Pointers {
 		            .'<p>' . __( 'You&#8217;ve just installed WordPress SEO by Yoast! Click &#8220;Start Tour&#8221; to view a quick introduction of this plugin&#8217;s core functionality.', 'wordpress-seo' ) . '</p>';
 		$opt_arr  = array(
 			'content'  => $content,
-			'position' => array( 'edge' => 'bottom', 'align' => 'center' )
+			'position' => array( 'edge' => 'bottom', 'align' => 'center' ),
 		);
 
 		$this->button_array['button2']['text']     = __( 'Start Tour', 'wordpress-seo' );

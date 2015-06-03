@@ -53,8 +53,6 @@ $yform->admin_header( true, 'wpseo_social' );
 		<?php $yform->checkbox( 'opengraph', __( 'Add Open Graph meta data', 'wordpress-seo' ) ); ?>
 
 		<?php
-		$social_facebook->show_form();
-
 		if ( 'posts' == get_option( 'show_on_front' ) ) {
 			echo '<p><strong>' . esc_html__( 'Frontpage settings', 'wordpress-seo' ) . '</strong></p>';
 			$yform->media_input( 'og_frontpage_image', __( 'Image URL', 'wordpress-seo' ) );
@@ -74,6 +72,8 @@ $yform->admin_header( true, 'wpseo_social' );
 		<p class="desc label">
 			<?php esc_html_e( 'This image is used if the post/page being shared does not contain any images.', 'wordpress-seo' ); ?>
 		</p>
+
+		<?php $social_facebook->show_form(); ?>
 
 		<?php do_action( 'wpseo_admin_opengraph_section' ); ?>
 	</div>

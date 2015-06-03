@@ -85,7 +85,7 @@ class Yoast_Notification_Center {
 			// Create Yoast_Notification objects
 			if ( count( $json_notifications ) > 0 ) {
 				foreach ( $json_notifications as $json_notification ) {
-					$notifications[] = new Yoast_Notification( $json_notification['message'], $json_notification['type'], $json_notification['id'] );
+					$notifications[] = new Yoast_Notification( $json_notification['message'], $json_notification['options'] );
 				}
 			}
 		}
@@ -141,11 +141,12 @@ class Yoast_Notification_Center {
 	 * Display the notifications
 	 */
 	public function display_notifications() {
+		$this->notifications = array_unique( $this->notifications );
 
 		// Display notifications
 		if ( count( $this->notifications ) > 0 ) {
 			foreach ( $this->notifications as $notification ) {
-				$notification->output();
+				echo $notification;
 			}
 		}
 
