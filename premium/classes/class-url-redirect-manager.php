@@ -39,7 +39,7 @@ if ( class_exists( 'WPSEO_Redirect_Manager' ) && ! class_exists( 'WPSEO_URL_Redi
 			$this->load_redirects();
 
 			if ( isset ( $this->redirects[ $url ] ) ) {
-				return $this->redirects[ $url ];
+				return $this->redirects[ $url ]['url'];
 			}
 		}
 
