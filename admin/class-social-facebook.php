@@ -324,11 +324,11 @@ class Yoast_Social_Facebook_Form {
 		printf( __( 'To be able to access %1$sFacebook Insights%2$s, you need to add a user here. The name is used for reference only, the ID is used for verification.', 'wordpress-seo' ), '<a target="_blank" href="https://www.facebook.com/insights">', '</a>' );
 		echo '</p>';
 		echo '<div class="form-field form-required">';
-		echo '<label for="fb_admin_name">' . __( 'Name of the admin:', 'wordpress-seo' ) . '</label>';
+		echo '<label for="fb_admin_name">' . __( 'Admin\'s name:', 'wordpress-seo' ) . '</label>';
 		echo '<input type="text" id="fb_admin_name" name="fb_admin_name" value="" maxlength="255" />';
 		echo '</div>';
 		echo '<div class="form-field form-required">';
-		echo '<label for="fb_admin_id">' . __( 'Facebook user ID of the admin:', 'wordpress-seo' ) . '</label>';
+		echo '<label for="fb_admin_id">' . __( 'Admin\'s Facebook user ID:', 'wordpress-seo' ) . '</label>';
 		echo '<input type="text" id="fb_admin_id" name="fb_admin_id" value="" maxlength="255"  />';
 		echo '</div>';
 		echo "<p class='submit'>";
