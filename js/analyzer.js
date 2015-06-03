@@ -744,6 +744,7 @@ AnalyzeScorer.prototype.runQueue = function(){
     for (var i = 0; i < this.resultObj.length; i++){
         this.__score = this.__score.concat(this.genericScore(this.resultObj[i]));
     }
+    this.__totalScore = this.totalScore();
 };
 
 /**
@@ -860,6 +861,17 @@ AnalyzeScorer.prototype.parseReplaceWord = function(replaceWord){
     return source;
 };
 
+AnalyzeScorer.prototype.totalScore = function(){
+    var scoreAmount = this.__score.length;
+    var totalScore = 0;
+    for(var i = 0; i < this.__score.length; i++){
+        totalScore += this.__score[i].score;
+    }
+    var endScore = totalScore / scoreAmount;
+    return endScore;
+
+};
+
 /**
  * Checks if the preprocessor is already initialized and if so if the textstring differs from the input.
  * @param inputString
@@ -882,4 +894,3 @@ stringHelper = function(){
     }
     return yst_stringHelper;
 };
-
