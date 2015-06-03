@@ -70,6 +70,7 @@ function wpseo_create_redirect( old_url, nonce, id ) {
 				function( response ) {
 					if ( '' !== response ) {
 						$( '#ajax-response' ).append( response );
+						wpseoMakeDismissible();
 					}
 				}
 			);
