@@ -48,49 +48,83 @@ class Yoast_Social_Facebook {
 	 * @return string
 	 */
 	public function add_admin( $admin_name, $admin_id ) {
+		$success = 0;
+
 		// If one of the fields is empty
 		if ( empty( $admin_name ) || empty( $admin_id ) ) {
-			return json_encode(
-				array(
-					'success' => 0,
-					'html'    => "<p class='notice-error notice'><span style='margin-left: 5px'>" . __( 'Please make sure both fields are filled.', 'wordpress-seo' ) . '</span></p>',
-				)
-			);
-		}
-
-		// Clean up the url part
-		$admin_id = trim( parse_url( $admin_id, PHP_URL_PATH ), '/' );
-
-		if ( ! isset( $this->options['fb_admins'][ $admin_id ] ) ) {
-			$name = sanitize_text_field( urldecode( $admin_name ) );
-			$link = sanitize_text_field( urldecode( 'http://www.facebook.com/' . $admin_id ) );
-
-			if ( ! empty( $admin_id ) && ! empty( $name ) && ! empty( $link ) ) {
-				$this->options['fb_admins'][ $admin_id ]['name'] = $name;
-				$this->options['fb_admins'][ $admin_id ]['link'] = $link;
-
-				$this->save_options();
-
-				$return = array(
-					'success' => 1,
-					'html'    => $this->form->get_admin_link( $admin_id, $this->options['fb_admins'][ $admin_id ] ),
-				);
-			}
-			else {
-				$return = array(
-					'success' => 0,
-					'html'    => "<p class='notice-error notice'><span style='margin-left: 5px'>" . __( 'Please make sure both fields are filled in correctly.', 'wordpress-seo' ) . '</span></p>',
-				);
-			}
+			$response_body = $this->get_response_body( 'not_present' );
 		}
 		else {
-			$return = array(
-				'success' => 0,
-				'html'    => "<p class='notice-error notice'><span style='margin-left: 5px'>" . __( 'This Facebook user has already been added as an admin.', 'wordpress-seo' ) . '</span></p>',
-			);
+			$admin_id = $this->parse_admin_id( $admin_id );
+
+			if ( ! isset( $this->options['fb_admins'][ $admin_id ] ) ) {
+				$name = sanitize_text_field( urldecode( $admin_name ) );
+				$admin_id = sanitize_text_field( $admin_id );
+
+				if ( preg_match( '/[0-9]+?/', $admin_id ) && preg_match( '/[\w\s]+?/', $name ) ) {
+					$this->options['fb_admins'][ $admin_id ]['name'] = $name;
+					$this->options['fb_admins'][ $admin_id ]['link'] = urldecode( 'http://www.facebook.com/' . $admin_id );
+
+					$this->save_options();
+
+					$success       = 1;
+					$response_body = $this->form->get_admin_link( $admin_id, $this->options['fb_admins'][ $admin_id ] );
+				}
+				else {
+					$response_body = $this->get_response_body( 'invalid_format' );
+				}
+			}
+			else {
+				$response_body = $this->get_response_body( 'already_exists' );
+			}
 		}
 
-		return json_encode( $return );
+		return json_encode(
+			array(
+				'success' => $success,
+				'html'    => $response_body,
+			)
+		);
+	}
+
+	/**
+	 * Fetches the id if the full meta tag or a full url was given
+	 *
+	 * @param string $admin_id
+	 *
+	 * @return string
+	 */
+	private function parse_admin_id( $admin_id ) {
+		if ( preg_match( '/^\<meta property\=\"fb:admins\" content\=\"(\d+?)\"/', $admin_id, $matches_full_meta ) ) {
+			return $matches_full_meta[1];
+		}
+
+		return trim( parse_url( $admin_id, PHP_URL_PATH ), '/' );
+	}
+
+	/**
+	 * Returns a different response body depending on the response type
+	 *
+	 * @param string $type
+	 *
+	 * @return null|string
+	 */
+	private function get_response_body( $type ) {
+		switch ( $type ) {
+			case 'not_present':
+				$return = "<p class='notice-error notice'><span style='margin-left: 5px'>" . __( 'Please make sure both fields are filled.', 'wordpress-seo' ) . '</span></p>';
+				break;
+			case 'invalid_format':
+				$return = "<p class='notice-error notice'><span style='margin-left: 5px'>" . __( 'Your input contains invalid characters. Please make sure both fields are filled in correctly.', 'wordpress-seo' ) . '</span></p>';
+				break;
+			case 'already_exists':
+				$return = "<p class='notice-error notice'><span style='margin-left: 5px'>" . __( 'This Facebook user has already been added as an admin.', 'wordpress-seo' ) . '</span></p>';
+				break;
+			default:
+				$return = '';
+				break;
+		}
+		return $return;
 	}
 
 	/**
@@ -290,12 +324,12 @@ class Yoast_Social_Facebook_Form {
 		printf( __( 'To be able to access %1$sFacebook Insights%2$s, you need to add a user here. The name is used for reference only, the ID is used for verification.', 'wordpress-seo' ), '<a target="_blank" href="https://www.facebook.com/insights">', '</a>' );
 		echo '</p>';
 		echo '<div class="form-field form-required">';
-		echo '<label>' . __( 'Name of the admin:', 'wordpress-seo' ) . '</label>';
-		echo '<input type="text" name="fb_admin_name" value="" maxlength="255" />';
+		echo '<label for="fb_admin_name">' . __( 'Name of the admin:', 'wordpress-seo' ) . '</label>';
+		echo '<input type="text" id="fb_admin_name" name="fb_admin_name" value="" maxlength="255" />';
 		echo '</div>';
 		echo '<div class="form-field form-required">';
-		echo '<label>' . __( 'Facebook user ID of the admin:', 'wordpress-seo' ) . '</label>';
-		echo '<input type="text" name="fb_admin_id" value="" maxlength="255"  />';
+		echo '<label for="fb_admin_id">' . __( 'Facebook user ID of the admin:', 'wordpress-seo' ) . '</label>';
+		echo '<input type="text" id="fb_admin_id" name="fb_admin_id" value="" maxlength="255"  />';
 		echo '</div>';
 		echo "<p class='submit'>";
 		echo '<input type="hidden" name="fb_admin_nonce" value="' . wp_create_nonce( 'wpseo_fb_admin_nonce' ) . '" />';
@@ -333,7 +367,7 @@ class Yoast_Social_Facebook_Form {
 		unset( $nonce );
 
 		$this->add_button(
-			'#TB_inline?width=600&height=300&inlineId=add_facebook_admin',
+			'#TB_inline?width=600&height=350&inlineId=add_facebook_admin',
 			$button_text,
 			'thickbox',
 			true
