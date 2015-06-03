@@ -111,9 +111,9 @@ class WPSEO_Upgrade {
 		// Unschedule our tracking
 		wp_clear_scheduled_hook( 'yoast_tracking' );
 
-		// Clear the tracking settings
+		// Clear the tracking settings, the seen about setting and the ignore tour setting
 		$options = get_option( 'wpseo' );
-		unset( $options['tracking_popup_done'], $options['yoast_tracking'] );
+		unset( $options['tracking_popup_done'], $options['yoast_tracking'], $options['seen_about'], $options['ignore_tour'] );
 		update_option( 'wpseo', $options );
 	}
 
@@ -153,7 +153,6 @@ class WPSEO_Upgrade {
 	 */
 	private function finish_up() {
 		$this->options = get_option( 'wpseo' );                             // re-get to make sure we have the latest version
-		$this->options['seen_about'] = false;                               // make sure user is redirected to the about screen
 		update_option( 'wpseo', $this->options );                           // this also ensures the DB version is equal to WPSEO_VERSION
 
 		add_action( 'shutdown', 'flush_rewrite_rules' );                    // Just flush rewrites, always, to at least make them work after an upgrade.

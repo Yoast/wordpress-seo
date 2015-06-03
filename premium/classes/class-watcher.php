@@ -49,7 +49,7 @@ abstract class WPSEO_Watcher {
 
 		if ( $show_notification ) {
 			// Add the message to the notifications center
-			Yoast_Notification_Center::get()->add_notification( new Yoast_Notification( $message, 'updated', $id ) );
+			Yoast_Notification_Center::get()->add_notification( new Yoast_Notification( $message, array( 'type' => 'updated', 'id' => $id ) ) );
 		}
 
 	}

@@ -210,3 +210,37 @@ jQuery( window ).on( 'hashchange', wpseoSetTabHash );
  * When the hash changes, get the base url from the action and then add the current hash
  */
 jQuery( document ).on( 'ready', wpseoSetTabHash );
+
+
+function wpseo_add_fb_admin() {
+	var target_form = jQuery('#TB_ajaxContent');
+
+	jQuery.post(
+		ajaxurl,
+		{
+			_wpnonce   : target_form.find('input[name=fb_admin_nonce]').val(),
+			admin_name : target_form.find('input[name=fb_admin_name]').val(),
+			admin_id   : target_form.find('input[name=fb_admin_id]').val(),
+			action     : 'wpseo_add_fb_admin'
+		},
+		function( response ) {
+			var resp = jQuery.parseJSON( response );
+
+			target_form.find('p.notice').remove();
+
+			switch( resp.success ) {
+				case 1 :
+
+					target_form.find('input[type=text]').val( '' );
+
+					jQuery( '#user_admin' ).append( resp.html );
+					jQuery( '#connected_fb_admins').show();
+					tb_remove();
+					break;
+				case 0 :
+					jQuery( resp.html ).insertAfter( target_form.find( 'h3' ) );
+					break;
+			}
+		}
+	);
+}

@@ -704,7 +704,7 @@ class WPSEO_Utils {
 					return true;
 				}
 			}
-			catch( Exception $exc ) {
+			catch ( Exception $exc ) {
 				return false;
 			}
 		}

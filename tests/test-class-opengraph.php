@@ -414,6 +414,63 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests static page set as front page
+	 */
+	public function test_static_front_page() {
+
+		$post_id = $this->factory->post->create( array( 'post_title' => 'front-page', 'post_type' => 'page' ) );
+		update_option( 'show_on_front', 'page' );
+		update_option( 'page_on_front', $post_id );
+		$this->go_to_home();
+
+		WPSEO_Meta::set_value( 'title', 'SEO title', $post_id );
+		$title = self::$class_instance->og_title( false );
+		$this->assertEquals( 'SEO title', $title );
+
+		WPSEO_Meta::set_value( 'opengraph-title', 'OG title', $post_id );
+		$title = self::$class_instance->og_title( false );
+		$this->assertEquals( 'OG title', $title );
+
+		WPSEO_Meta::set_value( 'metadesc', 'SEO description', $post_id );
+		$description = self::$class_instance->description( false );
+		$this->assertEquals( 'SEO description', $description );
+
+		WPSEO_Meta::set_value( 'opengraph-description', 'OG description', $post_id );
+		$description = self::$class_instance->description( false );
+		$this->assertEquals( 'OG description', $description );
+	}
+
+	/**
+	 * Tests static page set as posts page
+	 */
+	public function test_static_posts_page() {
+
+		$post_id = $this->factory->post->create( array( 'post_title' => 'front-page', 'post_type' => 'page' ) );
+		update_option( 'show_on_front', 'page' );
+		update_option( 'page_on_front', $post_id );
+
+		$post_id = $this->factory->post->create( array( 'post_title' => 'blog-page', 'post_type' => 'page' ) );
+		update_option( 'page_for_posts', $post_id );
+		$this->go_to( get_permalink( $post_id ) );
+
+		WPSEO_Meta::set_value( 'title', 'SEO title', $post_id );
+		$title = self::$class_instance->og_title( false );
+		$this->assertEquals( 'SEO title', $title );
+
+		WPSEO_Meta::set_value( 'opengraph-title', 'OG title', $post_id );
+		$title = self::$class_instance->og_title( false );
+		$this->assertEquals( 'OG title', $title );
+
+		WPSEO_Meta::set_value( 'metadesc', 'SEO description', $post_id );
+		$description = self::$class_instance->description( false );
+		$this->assertEquals( 'SEO description', $description );
+
+		WPSEO_Meta::set_value( 'opengraph-description', 'OG description', $post_id );
+		$description = self::$class_instance->description( false );
+		$this->assertEquals( 'OG description', $description );
+	}
+
+	/**
 	 * @covers WPSEO_OpenGraph::description
 	 */
 	public function test_description_single_post_opengraph_description() {
