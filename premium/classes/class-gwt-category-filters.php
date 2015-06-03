@@ -119,7 +119,8 @@ class WPSEO_GWT_Category_Filters {
 				'description' => __( 'Google was unable to crawl this URL due to an undetermined issue.', 'wordpress-seo' ),
 			),
 			'roboted'          => array(
-				'value' => __( 'Roboted', 'wordpress-seo' ),
+				'value'       => __( 'Blocked', 'wordpress-seo' ),
+				'description' => __( 'Googlebot could access your site, but certain URLs are blocked for Googlebot-mobile for smartphones in your robots.txt file.', 'wordpress-seo' ),
 			),
 			'server_error'     => array(
 				'value'       => __( 'Server Error', 'wordpress-seo' ),
