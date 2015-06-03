@@ -2700,6 +2700,9 @@ class WPSEO_Option_Social extends WPSEO_Option {
 						if ( preg_match( '`^[A-Za-z0-9_]{1,25}$`', $twitter_id ) ) {
 							$clean[ $key ] = $twitter_id;
 						}
+						elseif ( preg_match( '`^(?:http|https)://(?:www\.)?twitter.com/(?P<handle>[A-Za-z0-9_]{1,25})/?$`', $twitter_id, $matches ) ) {
+							$clean[ $key ] = $matches['handle'];
+						}
 						else {
 							if ( isset( $old[ $key ] ) && $old[ $key ] !== '' ) {
 								$twitter_id = sanitize_text_field( ltrim( $old[ $key ], '@' ) );
