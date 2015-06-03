@@ -56,9 +56,7 @@ class Yoast_Social_Facebook {
 		}
 
 		// Fetch the id if the full meta tag was given
-		preg_match( '/^\<meta property\=\"fb:admins\" content\=\"(\d+?)\"/', $admin_id, $matches_full_meta );
-
-		if ( $matches_full_meta ) {
+		if ( preg_match( '/^\<meta property\=\"fb:admins\" content\=\"(\d+?)\"/', $admin_id, $matches_full_meta ) ) {
 			$admin_id = $matches_full_meta[1];
 		}
 		else {
