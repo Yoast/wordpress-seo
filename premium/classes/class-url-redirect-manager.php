@@ -29,6 +29,21 @@ if ( class_exists( 'WPSEO_Redirect_Manager' ) && ! class_exists( 'WPSEO_URL_Redi
 		}
 
 		/**
+		 * Check if URL exists in the redirects.
+		 *
+		 * @param string $url
+		 *
+		 * @return bool|string
+		 */
+		public function find_url( $url ) {
+			if ( isset ( $this->redirects[ $url ] ) ) {
+				return $this->redirect_url( $url );
+			}
+
+			return $this->find_url_fallback( $url );
+		}
+
+		/**
 		 * Check if redirect should be done
 		 */
 		private function check_if_redirect() {
@@ -39,21 +54,6 @@ if ( class_exists( 'WPSEO_Redirect_Manager' ) && ! class_exists( 'WPSEO_URL_Redi
 			if( $redirect_url = $this->find_url( $url ) ) {
 				$this->do_redirect( $url, $redirect_url );
 			}
-		}
-
-		/**
-		 * Check if URL exists in the redirects.
-		 *
-		 * @param $url
-		 *
-		 * @return bool|string
-		 */
-		private function find_url( $url ) {
-			if ( isset ( $this->redirects[ $url ] ) ) {
-				return $this->redirect_url( $url );
-			}
-
-			return $this->find_url_fallback( $url );
 		}
 
 		/**
