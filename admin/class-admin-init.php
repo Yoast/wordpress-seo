@@ -72,7 +72,7 @@ class WPSEO_Admin_Init {
 			);
 
 			$notification_options = array(
-				'type' => 'updated notice is-dismissible',
+				'type' => 'updated',
 				'id' => 'wpseo-dismiss-about',
 				'nonce' => wp_create_nonce( 'wpseo-dismiss-about' ),
 			);
