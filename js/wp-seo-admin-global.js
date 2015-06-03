@@ -2,12 +2,6 @@
 /* jshint -W097 */
 /* jshint unused:false */
 'use strict';
-jQuery( document ).ready( function() {
-	jQuery( '#wpseo-dismiss-about > .notice-dismiss' ).click( function() {
-		wpseoDismissAbout( jQuery( '#wpseo-dismiss-about' ).data( 'nonce' ) );
-	});
-});
-
 /**
  * Used to dismiss the after-update admin notice for a specific user until the next update.
  *
@@ -41,3 +35,9 @@ function wpseoSetIgnore( option, hide, nonce ) {
 		}
 	);
 }
+
+jQuery( document ).ready( function() {
+	jQuery( '#wpseo-dismiss-about > .notice-dismiss' ).click( function() {
+		wpseoDismissAbout( jQuery( '#wpseo-dismiss-about' ).data( 'nonce' ) );
+	});
+});
