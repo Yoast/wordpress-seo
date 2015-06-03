@@ -1,4 +1,5 @@
 /* global wpseo_premium_strings */
+/* global wpseoMakeDismissible */
 /* jshint -W097 */
 /* jshint -W098 */
 'use strict';
