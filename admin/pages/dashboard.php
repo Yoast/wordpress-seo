@@ -175,7 +175,7 @@ if ( get_option( 'page_comments' ) && $options['ignore_page_comments'] === false
 
 		<p>
 			<strong><?php _e( 'Restore Default Settings', 'wordpress-seo' ); ?></strong><br/>
-			<?php _e( 'If you want to restore a site to the default WordPress SEO settings, press this button.', 'wordpress-seo' ); ?>
+			<?php printf( __( 'If you want to restore a site to the default %s settings, press this button.', 'wordpress-seo' ), 'WordPress SEO by Yoast' ); ?>
 		</p>
 
 		<p>
