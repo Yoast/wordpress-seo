@@ -45,6 +45,15 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 	private $current_page = 1;
 
 	/**
+	 * @var array
+	 */
+	private $modal_heights = array(
+		'create'         => 350,
+		'no_premium'     => 100,
+		'already_exists' => 150,
+	);
+
+	/**
 	 * The constructor
 	 *
 	 * @param WPSEO_GWT_Platform_Tabs $platform_tabs
@@ -175,22 +184,33 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 	 * @return string
 	 */
 	protected function column_url( $item ) {
-		$actions = array(
-			'create_redirect' => '<a href="#TB_inline?width=600&height=350&inlineId=redirect-' . md5( $item['url'] )  . '" class="thickbox">' . __( 'Create redirect', 'wordpress-seo-premium' ) . '</a>',
-			'view'            => '<a href="' . $item['url'] . '" target="_blank">' . __( 'View', 'wordpress-seo-premium' ) . '</a>',
-			'markasfixed'     => '<a href="javascript:wpseo_mark_as_fixed(\'' . urlencode( $item['url'] ) . '\');">' . __( 'Mark as fixed', 'wordpress-seo-premium' ) . '</a>',
-		);
+		$actions = array();
 
-		/**
-		 * Modal box
-		 */
-		$this->modal_box( $item['url'] );
+		if (  $this->can_create_redirect( ) ) {
+			/**
+			 * Modal box
+			 */
+			$modal_height = $this->modal_box( $item['url'] );
+
+			$actions['create_redirect'] = '<a href="#TB_inline?width=600&height=' . $this->modal_heights[ $modal_height ] . '&inlineId=redirect-' . md5( $item['url'] )  . '" class="thickbox">' . __( 'Create redirect', 'wordpress-seo-premium' ) . '</a>';
+		}
+
+		$actions['view']        = '<a href="' . $item['url'] . '" target="_blank">' . __( 'View', 'wordpress-seo-premium' ) . '</a>';
+		$actions['markasfixed'] = '<a href="javascript:wpseo_mark_as_fixed(\'' . urlencode( $item['url'] ) . '\');">' . __( 'Mark as fixed', 'wordpress-seo-premium' ) . '</a>';
 
 		return sprintf(
 			'<span class="value">%1$s</span> %2$s',
 			$item['url'],
 			$this->row_actions( $actions )
 		);
+	}
+
+	/**
+	 * Check if the current category allow creating redirects
+	 * @return bool
+	 */
+	private function can_create_redirect(  ) {
+		return in_array( $this->crawl_issue_source->get_category(), array( 'soft404', 'notFound', 'accessDenied' ) );
 	}
 
 	/**
@@ -290,9 +310,43 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 	 * Modal box
 	 *
 	 * @param string $url
+	 *
+	 * @return string
 	 */
 	private function modal_box( $url ) {
+		$current_redirect = false;
+		$view_type        = $this->modal_box_type( $url, $current_redirect );
+
 		require WPSEO_PREMIUM_PATH . 'views/gwt-create-redirect.php';
+
+		return $view_type;
+	}
+
+	/**
+	 * Determine which model box type should be rendered
+	 *
+	 * @param string $url
+	 * @param string $current_redirect
+	 *
+	 * @return string
+	 */
+	private function modal_box_type( $url, &$current_redirect) {
+
+		if ( defined( 'WPSEO_PREMIUM_FILE' ) && class_exists( 'WPSEO_URL_Redirect_Manager' ) ) {
+			static $redirect_manager;
+
+			if ( ! $redirect_manager ) {
+				$redirect_manager = new WPSEO_URL_Redirect_Manager();
+			}
+
+			if ( $current_redirect = $redirect_manager->search_url( $url ) ) {
+				return 'already_exists';
+			}
+
+			return 'create';
+		}
+
+		return 'no_premium';
 	}
 
 }
