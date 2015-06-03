@@ -31,6 +31,11 @@ class Yoast_Notification {
 	);
 
 	/**
+	 * @var string The ID of the notification
+	 */
+	private $id;
+
+	/**
 	 * The Constructor
 	 *
 	 * @param string $message
