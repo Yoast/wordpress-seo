@@ -42,7 +42,7 @@ function wpseo_display_contributors( $contributors ) {
 			echo sprintf( __( 'What’s New In %s', 'wordpress-seo' ), '2.0' );
 			?>
 		</a>
-		<a class="nav-tab" href="#top#v22" id="v22-tab">2.2</a>
+		<a class="nav-tab nav-tab-active" href="#top#v22" id="v22-tab">2.2</a>
 		<a class="nav-tab" href="#top#credits" id="credits-tab"><?php _e( 'Credits', 'wordpress-seo' ); ?></a>
 	</h2>
 
