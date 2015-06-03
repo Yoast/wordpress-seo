@@ -164,7 +164,7 @@ if ( get_option( 'page_comments' ) && $options['ignore_page_comments'] === false
 
 		<p>
 			<strong><?php _e( 'Latest Changes', 'wordpress-seo' ); ?></strong><br/>
-			<?php printf( __( 'We\'ve summarized the most recent changes in %s.', 'wordpress-seo' ), 'WordPress SEO by Yoast'); ?>
+			<?php printf( __( 'We\'ve summarized the most recent changes in %s.', 'wordpress-seo' ), 'WordPress SEO by Yoast' ); ?>
 		</p>
 		<p>
 			<a class="button-secondary"
