@@ -147,7 +147,9 @@ class WPSEO_Frontend {
 			add_filter( 'wpseo_title', array( $this, 'title_test_helper' ) );
 		}
 
-		new WPSEO_JSON_LD;
+		if ( is_front_page() ) {
+			new WPSEO_JSON_LD;
+		}
 	}
 
 	/**
