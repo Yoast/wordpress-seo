@@ -188,7 +188,7 @@ $yform->admin_header( true, 'wpseo_titles' );
 			printf( __( 'If you\'re running a one author blog, the author archive will be exactly the same as your homepage. This is what\'s called a %1$sduplicate content problem%2$s.', 'wordpress-seo' ), '<a href="https://yoast.com/articles/duplicate-content/">', '</a>' );
 			echo '<br />';
 			/* translators: %s expands to <code>noindex, follow</code> */
-			echo sprintf( __( 'If this is the case on your site, you can choose to either disable it (which makes them redirect to the homepage), or to add %s to it so it doesn\'t show up in the search results.', 'wordpress-seo' ), '<code>noindex,follow</code>' );
+			echo sprintf( __( 'If this is the case on your site, you can choose to either disable it (which makes it redirect to the homepage), or to add %s to it so it doesn\'t show up in the search results.', 'wordpress-seo' ), '<code>noindex,follow</code>' );
 			echo '</p>';
 			/* translators: %s expands to <code>noindex, follow</code> */
 			$yform->checkbox( 'noindex-author-wpseo', sprintf( __( 'Add %s to the author archives', 'wordpress-seo' ), '<code>noindex, follow</code>' ) );
