@@ -20,6 +20,7 @@ function wpseo_show_notification() {
         function (response) {
             if ( response !== '' ) {
                 jQuery(response).insertAfter('h2');
+                wpseoMakeDismissible();
                 wpseo_notification_counter = 0;
             } else if ( wpseo_notification_counter < 20 && response === '' ) {
                 wpseo_notification_counter++;
