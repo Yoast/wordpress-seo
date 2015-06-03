@@ -150,6 +150,7 @@ Release Date: June 3rd, 2015
 	* Shows a dismissible notice with a link to the about page that is shown after every update. The user is no longer being redirected and only has to dismiss the notice once for all sites (in case of multisite).
 	* Makes the tour dismissible on user level.
 	* Adds Twitter profile to JSON LD output.
+	* Twitter profile input field now also accepts full url and automatically strips it down to just the username.
 
 = 2.1.1 =
 

@@ -183,6 +183,7 @@ function wpseo_display_contributors( $contributors ) {
 			<li>Shows a dismissible notice with a link to the about page that is shown after every update. The user is no longer being redirected and only has to dismiss the notice once for all sites (in case of multisite).</li>
 			<li>Makes the tour dismissible on user level.</li>
 			<li>Adds Twitter profile to JSON LD output.</li>
+			<li>Twitter profile input field now also accepts full url and automatically strips it down to just the username.</li>
 		</ul>
 
 		<h2>WordPress SEO 2.1</h2>
