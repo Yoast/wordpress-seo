@@ -59,11 +59,11 @@ class Yoast_Social_Facebook {
 
 			if ( ! isset( $this->options['fb_admins'][ $admin_id ] ) ) {
 				$name = sanitize_text_field( urldecode( $admin_name ) );
-				$link = sanitize_text_field( urldecode( 'http://www.facebook.com/' . $admin_id ) );
+				$admin_id = sanitize_text_field( $admin_id );
 
-				if ( ! empty( $admin_id ) && ! empty( $name ) && ! empty( $link ) ) {
+				if ( preg_match( '/[0-9]+?/', $admin_id ) && preg_match( '/[\w\s]+?/', $name ) ) {
 					$this->options['fb_admins'][ $admin_id ]['name'] = $name;
-					$this->options['fb_admins'][ $admin_id ]['link'] = $link;
+					$this->options['fb_admins'][ $admin_id ]['link'] = urldecode( 'http://www.facebook.com/' . $admin_id );
 
 					$this->save_options();
 
@@ -115,7 +115,7 @@ class Yoast_Social_Facebook {
 				$return = "<p class='notice-error notice'><span style='margin-left: 5px'>" . __( 'Please make sure both fields are filled.', 'wordpress-seo' ) . '</span></p>';
 				break;
 			case 'invalid_format':
-				$return = "<p class='notice-error notice'><span style='margin-left: 5px'>" . __( 'Please make sure both fields are filled in correctly.', 'wordpress-seo' ) . '</span></p>';
+				$return = "<p class='notice-error notice'><span style='margin-left: 5px'>" . __( 'Your input contains invalid characters. Please make sure both fields are filled in correctly.', 'wordpress-seo' ) . '</span></p>';
 				break;
 			case 'already_exists':
 				$return = "<p class='notice-error notice'><span style='margin-left: 5px'>" . __( 'This Facebook user has already been added as an admin.', 'wordpress-seo' ) . '</span></p>';
@@ -324,12 +324,12 @@ class Yoast_Social_Facebook_Form {
 		printf( __( 'To be able to access %1$sFacebook Insights%2$s, you need to add a user here. The name is used for reference only, the ID is used for verification.', 'wordpress-seo' ), '<a target="_blank" href="https://www.facebook.com/insights">', '</a>' );
 		echo '</p>';
 		echo '<div class="form-field form-required">';
-		echo '<label>' . __( 'Name of the admin:', 'wordpress-seo' ) . '</label>';
-		echo '<input type="text" name="fb_admin_name" value="" maxlength="255" />';
+		echo '<label for="fb_admin_name">' . __( 'Name of the admin:', 'wordpress-seo' ) . '</label>';
+		echo '<input type="text" id="fb_admin_name" name="fb_admin_name" value="" maxlength="255" />';
 		echo '</div>';
 		echo '<div class="form-field form-required">';
-		echo '<label>' . __( 'Facebook user ID of the admin:', 'wordpress-seo' ) . '</label>';
-		echo '<input type="text" name="fb_admin_id" value="" maxlength="255"  />';
+		echo '<label for="fb_admin_id">' . __( 'Facebook user ID of the admin:', 'wordpress-seo' ) . '</label>';
+		echo '<input type="text" id="fb_admin_id" name="fb_admin_id" value="" maxlength="255"  />';
 		echo '</div>';
 		echo "<p class='submit'>";
 		echo '<input type="hidden" name="fb_admin_nonce" value="' . wp_create_nonce( 'wpseo_fb_admin_nonce' ) . '" />';
@@ -367,7 +367,7 @@ class Yoast_Social_Facebook_Form {
 		unset( $nonce );
 
 		$this->add_button(
-			'#TB_inline?width=600&height=300&inlineId=add_facebook_admin',
+			'#TB_inline?width=600&height=350&inlineId=add_facebook_admin',
 			$button_text,
 			'thickbox',
 			true
