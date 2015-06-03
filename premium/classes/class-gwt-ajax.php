@@ -13,7 +13,8 @@ class WPSEO_GWT_Ajax {
 	 *
 	 */
 	public function __construct() {
-		add_action( 'wp_ajax_wpseo_mark_fixed_crawl_issue', array( $this, 'ajax_mark_as_fixed' ) );
+		add_action( 'wp_ajax_wpseo_mark_fixed_crawl_issue',  array( $this, 'ajax_mark_as_fixed' ) );
+		add_action( 'wp_ajax_wpseo_gwt_create_redirect_url', array( $this, 'ajax_create_redirect' ) );
 	}
 
 	/**
@@ -25,6 +26,28 @@ class WPSEO_GWT_Ajax {
 	public function ajax_mark_as_fixed( ) {
 		if ( $this->valid_nonce() ) {
 			new WPSEO_Crawl_Issue_Marker( filter_input( INPUT_POST, 'url' ) );
+		}
+
+		wp_die( 'false' );
+	}
+
+	/**
+	 * Handling the request to create a new redirect from the issued URL
+	 */
+	public function ajax_create_redirect() {
+		if ( $this->valid_nonce() && class_exists( 'WPSEO_URL_Redirect_Manager' ) && defined( 'WPSEO_PREMIUM_PATH' ) ) {
+			$redirect_manager = new WPSEO_URL_Redirect_Manager();
+
+			$old_url = filter_input( INPUT_POST, 'old_url' );
+
+			// Creates the redirect
+			if ( $redirect_manager->create_redirect( $old_url, filter_input( INPUT_POST, 'new_url' ), filter_input( INPUT_POST, 'type' ) ) ) {
+				if ( filter_input( INPUT_POST, 'mark_as_fixed' ) === '1' ) {
+					new WPSEO_Crawl_Issue_Marker( $old_url );
+				}
+
+				wp_die( 'true' );
+			}
 		}
 
 		wp_die( 'false' );

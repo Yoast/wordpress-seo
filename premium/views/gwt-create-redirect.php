@@ -17,7 +17,7 @@
 			</div>
 			<div class='form-field form-required'>
 				<label><?php _e( 'New URL:', 'wordpress-seo-premium' ); ?></label>
-				<input type='text' name='name_url' value='' />
+				<input type='text' name='new_url' value='' />
 			</div>
 			<div class='form-field form-required'>
 				<label class='clear'><?php _e( 'Mark as fixed:', 'wordpress-seo-premium' ); ?></label>

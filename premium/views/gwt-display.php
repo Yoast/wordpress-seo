@@ -23,9 +23,6 @@ if ( WP_DEBUG ) {
 
 switch ( $platform_tabs->current_tab() ) {
 	case 'settings' :
-	?>
-		<h2>Google Webmaster Tools Settings</h2>
-		<?php
 		// Check if there is an access token
 		if ( null === $this->service->get_client()->getAccessToken() ) {
 			// Get the oauth URL
@@ -46,8 +43,10 @@ switch ( $platform_tabs->current_tab() ) {
 			if ( ($profile = $this->service->get_profile()) !== '' ) {
 
 				echo "<form action='" . admin_url( 'admin.php?page=wpseo_webmaster_tools&tab=settings' ) . "' method='post'>\n";
+				echo '<p>';
 				echo Yoast_Form::get_instance()->label( __( 'Current profile', 'wordpress-seo-premium' ), array() );
 				echo $profile;
+				echo '</p>';
 
 				echo '<p class="submit">';
 				echo '<input type="submit" name="gwt_reset" id="submit" class="button button-primary" value="' . __( 'Reset the Google data', 'wordpress-seo-premium' ) . '" />';
