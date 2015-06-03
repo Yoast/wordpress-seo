@@ -1,6 +1,7 @@
 /* global wpseoAdminL10n */
 /* global ajaxurl */
 /* global setWPOption */
+/* global tb_remove */
 /* jshint -W097 */
 /* jshint -W003 */
 /* jshint unused:false */
@@ -211,17 +212,16 @@ jQuery( window ).on( 'hashchange', wpseoSetTabHash );
  */
 jQuery( document ).on( 'ready', wpseoSetTabHash );
 
-
 function wpseo_add_fb_admin() {
 	var target_form = jQuery('#TB_ajaxContent');
 
 	jQuery.post(
 		ajaxurl,
 		{
-			_wpnonce   : target_form.find('input[name=fb_admin_nonce]').val(),
-			admin_name : target_form.find('input[name=fb_admin_name]').val(),
-			admin_id   : target_form.find('input[name=fb_admin_id]').val(),
-			action     : 'wpseo_add_fb_admin'
+			_wpnonce: target_form.find('input[name=fb_admin_nonce]').val(),
+			admin_name: target_form.find('input[name=fb_admin_name]').val(),
+			admin_id: target_form.find('input[name=fb_admin_id]').val(),
+			action: 'wpseo_add_fb_admin'
 		},
 		function( response ) {
 			var resp = jQuery.parseJSON( response );
@@ -229,7 +229,7 @@ function wpseo_add_fb_admin() {
 			target_form.find('p.notice').remove();
 
 			switch( resp.success ) {
-				case 1 :
+				case 1:
 
 					target_form.find('input[type=text]').val( '' );
 
