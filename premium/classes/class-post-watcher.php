@@ -98,7 +98,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 			/* translators %1$s: <a href='{create_redirect_url}'>, %2$s: </a> */
 			$message = sprintf(
 				__( 'WordPress SEO Premium detected that you moved a post to the trash. %1$sClick here to create a redirect from the old post URL%2$s.', 'wordpress-seo-premium' ),
-				'<a href="' . $this->javascript_create_redirect( $url ) . '">',
+				'<a href=\'' . $this->javascript_create_redirect( $url, $id ) . '\'>',
 				'</a>'
 			);
 
@@ -147,7 +147,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 			/* translators %1$s: <a href='{create_redirect_url}'>, %2$s: </a> */
 			$message = sprintf(
 				__( 'WordPress SEO Premium detected that you deleted a post. %1$sClick here to create a redirect from the old post URL%2$s.', 'wordpress-seo-premium' ),
-				'<a href="' . $this->javascript_create_redirect( $url, $id ) . '">',
+				'<a href=\'' . $this->javascript_create_redirect( $url, $id ) . '\'>',
 				'</a>'
 			);
 
