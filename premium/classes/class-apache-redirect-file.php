@@ -33,10 +33,7 @@ class WPSEO_Apache_Redirect_File extends WPSEO_Redirect_File {
 	 * @return string
 	 */
 	public function format_regex_redirect( $regex, $url, $type ) {
-		$redirect = 'RedirectMatch ' . $type . ' ' . $regex . ' ' . $url . PHP_EOL;
-		$redirect .= 'Header always set X-Redirect-By "WordPress SEO by Yoast Premium"';
-
-		return $redirect;
+		return 'RedirectMatch ' . $type . ' ' . $regex . ' ' . $url . PHP_EOL;
 	}
 
 	/**
