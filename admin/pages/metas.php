@@ -203,7 +203,8 @@ $yform->admin_header( true, 'wpseo_titles' );
 			echo '<br/>';
 
 			echo '<h2>' . __( 'Special Pages', 'wordpress-seo' ) . '</h2>';
-			echo '<p>' . __( 'These pages will be noindex, followed by default, so they will never show up in search results.', 'wordpress-seo' ) . '</p>';
+			/* translators: %s expands to <code>noindex, follow</code> */
+			echo '<p>' . sprintf( __( 'These pages will be %s by default, so they will never show up in search results.', 'wordpress-seo' ), '<code>noindex, follow</code>' ) . '</p>';
 			echo '<p><strong>' . __( 'Search pages', 'wordpress-seo' ) . '</strong><br/>';
 			$yform->textinput( 'title-search-wpseo', __( 'Title template', 'wordpress-seo' ), 'template search-template' );
 			echo '</p>';
