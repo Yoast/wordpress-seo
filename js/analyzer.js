@@ -110,8 +110,9 @@ Analyzer.prototype.keywordDensity = function() {
     if (this.preProcessor.__store.wordcount > 100) {
         var keywordDensity = this.keywordDensityCheck();
         result[0].result = keywordDensity.toFixed(1);
+        return result;
     }
-    return result;
+
 };
 
 /**
@@ -306,11 +307,11 @@ Analyzer.prototype.linkResult = function(obj){
 
 /**
  * counts the number of images found in a given textstring, based on the <img>-tag and returns a result object
- * @returns {{name: string, result: {total: number, alt: number, noalt: number}}}
+ * @returns {{name: string, result: {total: number, alt: number, noAlt: number}}}
  */
 //todo update function so it will also check on picture elements/make it configurable.
 Analyzer.prototype.imageCount = function(){
-    var imageCount = {total: 0, alt: 0, noalt: 0, altKeyword: 0};
+    var imageCount = {total: 0, alt: 0, noAlt: 0, altKeyword: 0};
     var imageMatches = this.preProcessor.__store.originalText.match(/<img(?:[^>]+)?>/g);
     if(imageMatches !== null){
         imageCount.total = imageMatches.length;
@@ -324,7 +325,7 @@ Analyzer.prototype.imageCount = function(){
                 }
 
             }else{
-                imageCount.noalt++;
+                imageCount.noAlt++;
             }
         }
     }
@@ -571,7 +572,7 @@ PreProcessor.prototype.textFormat = function(){
  */
 PreProcessor.prototype.countStore = function(){
     /*wordcounters*/
-    this.__store.wordcount = this.__store.cleanText.split(" ").length;
+    this.__store.wordcount = this.__store.cleanText === "." ? 0 : this.__store.cleanText.split(" ").length;
     this.__store.wordcountNoTags = this.__store.cleanTextNoTags.split(" ").length;
     /*sentencecounters*/
     this.__store.sentenceCount = this.sentenceCount(this.__store.cleanText);
@@ -742,7 +743,10 @@ AnalyzeScorer.prototype.score = function(resultObj){
  */
 AnalyzeScorer.prototype.runQueue = function(){
     for (var i = 0; i < this.resultObj.length; i++){
-        this.__score = this.__score.concat(this.genericScore(this.resultObj[i]));
+        var subScore = this.genericScore(this.resultObj[i]);
+        if(typeof subScore !== "undefined") {
+            this.__score = this.__score.concat(subScore);
+        }
     }
     this.__totalScore = this.totalScore();
 };
@@ -754,24 +758,26 @@ AnalyzeScorer.prototype.runQueue = function(){
  * @returns {{name: (analyzerScoring.scoreName|*), score: number, text: string}}
  */
 AnalyzeScorer.prototype.genericScore = function(obj){
-    var scoreObj = this.scoreLookup(obj.test);
-    var score = {name: scoreObj.scoreName, score: 0, text: ""};
-    for (var i = 0; i < scoreObj.scoreArray.length; i++){
-        this.setMatcher(obj, scoreObj, i);
-        switch(true){
-            case (typeof scoreObj.scoreArray[i].type === "string" && this.result[scoreObj.scoreArray[i].type]):
-                return this.returnScore(score, scoreObj, i);
-            case (typeof scoreObj.scoreArray[i].min === "undefined" && this.matcher <= scoreObj.scoreArray[i].max):
-                return this.returnScore(score, scoreObj, i);
-            case (typeof scoreObj.scoreArray[i].max === "undefined" && this.matcher >= scoreObj.scoreArray[i].min):
-                return this.returnScore(score, scoreObj, i);
-            case (this.matcher >= scoreObj.scoreArray[i].min && this.matcher <= scoreObj.scoreArray[i].max):
-                return this.returnScore(score, scoreObj, i);
-            default:
-                break;
+    if(typeof obj !== "undefined") {
+        var scoreObj = this.scoreLookup(obj.test);
+        var score = {name: scoreObj.scoreName, score: 0, text: ""};
+        for (var i = 0; i < scoreObj.scoreArray.length; i++) {
+            this.setMatcher(obj, scoreObj, i);
+            switch (true) {
+                case (typeof scoreObj.scoreArray[i].type === "string" && this.result[scoreObj.scoreArray[i].type]):
+                    return this.returnScore(score, scoreObj, i);
+                case (typeof scoreObj.scoreArray[i].min === "undefined" && this.matcher <= scoreObj.scoreArray[i].max):
+                    return this.returnScore(score, scoreObj, i);
+                case (typeof scoreObj.scoreArray[i].max === "undefined" && this.matcher >= scoreObj.scoreArray[i].min):
+                    return this.returnScore(score, scoreObj, i);
+                case (this.matcher >= scoreObj.scoreArray[i].min && this.matcher <= scoreObj.scoreArray[i].max):
+                    return this.returnScore(score, scoreObj, i);
+                default:
+                    break;
+            }
         }
+        return score;
     }
-    return score;
 };
 
 /**
@@ -865,7 +871,11 @@ AnalyzeScorer.prototype.totalScore = function(){
     var scoreAmount = this.__score.length;
     var totalScore = 0;
     for(var i = 0; i < this.__score.length; i++){
-        totalScore += this.__score[i].score;
+        if(typeof this.__score[i] !== "undefined") {
+            totalScore += this.__score[i].score;
+        }else{
+            scoreAmount--;
+        }
     }
     var endScore = totalScore / scoreAmount;
     return endScore;
