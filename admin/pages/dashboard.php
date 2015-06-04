@@ -155,7 +155,6 @@ if ( get_option( 'page_comments' ) && $options['ignore_page_comments'] === false
 				<?php _e( 'Take this tour to quickly learn about the use of this plugin.', 'wordpress-seo' ); ?>
 			</p>
 			<p>
-				<?php $yform->label( __( 'Introduction Tour:', 'wordpress-seo' ), array( 'class' => 'select' ) ); ?>
 				<a class="button-secondary"
 				   href="<?php echo esc_url( admin_url( 'admin.php?page=wpseo_dashboard&wpseo_restart_tour=1' ) ); ?>"><?php _e( 'Start Tour', 'wordpress-seo' ); ?></a>
 			</p>
@@ -164,13 +163,29 @@ if ( get_option( 'page_comments' ) && $options['ignore_page_comments'] === false
 		<?php } ?>
 
 		<p>
+			<strong><?php _e( 'Latest Changes', 'wordpress-seo' ); ?></strong><br/>
+			<?php
+			/* translators: %s expands to WordPress SEO by Yoast */
+			printf( __( 'We\'ve summarized the most recent changes in %s.', 'wordpress-seo' ), 'WordPress SEO by Yoast' );
+			?>
+		</p>
+		<p>
+			<a class="button-secondary"
+			   href="<?php echo esc_url( admin_url( 'admin.php?page=wpseo_dashboard&intro=1' ) ); ?>"><?php _e( 'View Changes', 'wordpress-seo' ); ?></a>
+		</p>
+
+		<br/>
+
+		<p>
 			<strong><?php _e( 'Restore Default Settings', 'wordpress-seo' ); ?></strong><br/>
-			<?php _e( 'If you want to restore a site to the default WordPress SEO settings, press this button.', 'wordpress-seo' ); ?>
+			<?php
+			/* translators: %s expands to WordPress SEO by Yoast */
+			printf( __( 'If you want to restore a site to the default %s settings, press this button.', 'wordpress-seo' ), 'WordPress SEO by Yoast' );
+			?>
 		</p>
 
 		<p>
-			<?php $yform->label( __( 'Default Settings:', 'wordpress-seo' ), array( 'class' => 'select' ) ); ?>
-			<a onclick="if( !confirm('<?php _e( 'Are you sure you want to reset your SEO settings?', 'wordpress-seo' ); ?>') ) return false;" class="button" href="<?php echo esc_url( add_query_arg( array( 'nonce' => wp_create_nonce( 'wpseo_reset_defaults' ) ), admin_url( 'admin.php?page=wpseo_dashboard&wpseo_reset_defaults=1' ) ) ); ?>"><?php _e( 'Reset Default Settings', 'wordpress-seo' ); ?></a>
+			<a onclick="if( !confirm('<?php _e( 'Are you sure you want to reset your SEO settings?', 'wordpress-seo' ); ?>') ) return false;" class="button" href="<?php echo esc_url( add_query_arg( array( 'nonce' => wp_create_nonce( 'wpseo_reset_defaults' ) ), admin_url( 'admin.php?page=wpseo_dashboard&wpseo_reset_defaults=1' ) ) ); ?>"><?php _e( 'Restore Default Settings', 'wordpress-seo' ); ?></a>
 		</p>
 	</div>
 	<div id="knowledge-graph" class="wpseotab">
