@@ -17,10 +17,7 @@ class WPSEO_Apache_Redirect_File extends WPSEO_Redirect_File {
 	 * @return string
 	 */
 	public function format_url_redirect( $old_url, $new_url, $type ) {
-		$redirect = "Redirect " . $type . " " . $this->add_url_slash( $old_url ) . " " . $this->add_url_slash( $new_url ) . PHP_EOL;
-		$redirect .= "Header always set X-Redirect-By \"WordPress SEO by Yoast Premium\"";
-
-		return $redirect;
+		return "Redirect " . $type . " " . $this->add_url_slash( $old_url ) . " " . $this->add_url_slash( $new_url );
 	}
 
 	/**
