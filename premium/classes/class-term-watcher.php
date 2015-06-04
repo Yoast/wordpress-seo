@@ -130,7 +130,7 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 
 			// Format the message
 			/* translators %1$s expands to <a href='{create_redirect_url}'> and %2$s </a> */
-			$message = sprintf( __( 'WordPress SEO Premium detected that you deleted a term. %1$sClick here to create a redirect from the old term URL%2$s.', 'wordpress-seo-premium' ),  '<a href="'. $this->javascript_create_redirect( $url, $id ) . '">', '</a>' );
+			$message = sprintf( __( 'WordPress SEO Premium detected that you deleted a term. %1$sClick here to create a redirect from the old term URL%2$s.', 'wordpress-seo-premium' ),  '<a href=\''. $this->javascript_create_redirect( $url, $id ) . '\'>', '</a>' );
 
 			$this->create_notification( $message, 'delete', $id );
 
