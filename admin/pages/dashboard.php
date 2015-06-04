@@ -164,7 +164,10 @@ if ( get_option( 'page_comments' ) && $options['ignore_page_comments'] === false
 
 		<p>
 			<strong><?php _e( 'Latest Changes', 'wordpress-seo' ); ?></strong><br/>
-			<?php printf( __( 'We\'ve summarized the most recent changes in %s.', 'wordpress-seo' ), 'WordPress SEO by Yoast' ); ?>
+			<?php
+			/* translators: %s expands to WordPress SEO by Yoast */
+			printf( __( 'We\'ve summarized the most recent changes in %s.', 'wordpress-seo' ), 'WordPress SEO by Yoast' );
+			?>
 		</p>
 		<p>
 			<a class="button-secondary"
@@ -175,7 +178,10 @@ if ( get_option( 'page_comments' ) && $options['ignore_page_comments'] === false
 
 		<p>
 			<strong><?php _e( 'Restore Default Settings', 'wordpress-seo' ); ?></strong><br/>
-			<?php printf( __( 'If you want to restore a site to the default %s settings, press this button.', 'wordpress-seo' ), 'WordPress SEO by Yoast' ); ?>
+			<?php
+			/* translators: %s expands to WordPress SEO by Yoast */
+			printf( __( 'If you want to restore a site to the default %s settings, press this button.', 'wordpress-seo' ), 'WordPress SEO by Yoast' );
+			?>
 		</p>
 
 		<p>
