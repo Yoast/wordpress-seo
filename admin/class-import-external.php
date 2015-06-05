@@ -4,7 +4,7 @@
  */
 
 /**
- * class WPSEO_Import_External
+ * Class WPSEO_Import_External
  *
  * Class with functionality to import WP SEO settings from other plugins
  */
@@ -67,12 +67,16 @@ class WPSEO_Import_External {
 		WPSEO_Meta::replace_meta( '_headspace_description', WPSEO_Meta::$meta_prefix . 'metadesc', $this->replace );
 		WPSEO_Meta::replace_meta( '_headspace_keywords', WPSEO_Meta::$meta_prefix . 'metakeywords', $this->replace );
 		WPSEO_Meta::replace_meta( '_headspace_page_title', WPSEO_Meta::$meta_prefix . 'title', $this->replace );
-		/* @todo [JRF => whomever] verify how headspace sets these metas ( 'noindex', 'nofollow', 'noarchive', 'noodp', 'noydir' )
-		 * and if the values saved are concurrent with the ones we use (i.e. 0/1/2) */
+
+		/**
+		 * @todo [JRF => whomever] verify how headspace sets these metas ( 'noindex', 'nofollow', 'noarchive', 'noodp', 'noydir' )
+		 * and if the values saved are concurrent with the ones we use (i.e. 0/1/2)
+		 */
 		WPSEO_Meta::replace_meta( '_headspace_noindex', WPSEO_Meta::$meta_prefix . 'meta-robots-noindex', $this->replace );
 		WPSEO_Meta::replace_meta( '_headspace_nofollow', WPSEO_Meta::$meta_prefix . 'meta-robots-nofollow', $this->replace );
 
-		/* @todo - [JRF => whomever] check if this can be done more efficiently by querying only the meta table
+		/*
+		@todo - [JRF => whomever] check if this can be done more efficiently by querying only the meta table
 		 * possibly directly changing it using concat on the existing values
 		 */
 		$posts = $wpdb->get_results( "SELECT ID FROM $wpdb->posts" );

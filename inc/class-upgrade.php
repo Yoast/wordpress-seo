@@ -76,8 +76,10 @@ class WPSEO_Upgrade {
 	 * Moves options that moved position in WPSEO 2.0
 	 */
 	private function upgrade_20() {
-		/*  Clean up stray wpseo_ms options from the options table, option should only exist in the sitemeta table
-			This could have been caused in many version of WP SEO, so deleting it for everything below 2.0 */
+		/**
+		 * Clean up stray wpseo_ms options from the options table, option should only exist in the sitemeta table.
+		 * This could have been caused in many version of WP SEO, so deleting it for everything below 2.0
+		 */
 		delete_option( 'wpseo_ms' );
 
 		$this->move_hide_links_options();

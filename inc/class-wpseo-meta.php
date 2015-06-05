@@ -307,8 +307,10 @@ class WPSEO_Meta {
 		foreach ( self::$meta_fields as $subset => $field_group ) {
 			foreach ( $field_group as $key => $field_def ) {
 				if ( $field_def['type'] !== 'snippetpreview' ) {
-					/* register_meta() is undocumented and not used by WP internally, wrapped in
-					   function_exists as a precaution in case they remove it. */
+					/**
+					 * Function register_meta() is undocumented and not used by WP internally, wrapped in
+					 * function_exists as a precaution in case they remove it.
+					 */
 					if ( $register === true ) {
 						register_meta( 'post', self::$meta_prefix . $key, array( __CLASS__, 'sanitize_post_meta' ) );
 					}
@@ -715,8 +717,10 @@ class WPSEO_Meta {
 			return self::$defaults[ self::$meta_prefix . $key ];
 		}
 		else {
-			/* Shouldn't ever happen, means not one of our keys as there will always be a default available
-			   for all our keys */
+			/*
+			Shouldn't ever happen, means not one of our keys as there will always be a default available
+			   for all our keys
+			*/
 			return '';
 		}
 	}
@@ -754,9 +758,11 @@ class WPSEO_Meta {
 	public static function replace_meta( $old_metakey, $new_metakey, $delete_old = false ) {
 		global $wpdb;
 
-		/* Get only those rows where no wpseo meta values exist for the same post
+		/*
+		Get only those rows where no wpseo meta values exist for the same post
 		   (with the exception of linkdex as that will be set independently of whether the post has been edited)
-		   @internal Query is pretty well optimized this way */
+		   @internal Query is pretty well optimized this way
+		*/
 		$query  = $wpdb->prepare(
 			"
 				SELECT `a`.*
@@ -805,6 +811,7 @@ class WPSEO_Meta {
 		 * Clean up '_yoast_wpseo_meta-robots'
 		 *
 		 * Retrieve all '_yoast_wpseo_meta-robots' meta values and convert if no new values found
+		 *
 		 * @internal Query is pretty well optimized this way
 		 *
 		 * @todo [JRF => Yoast] find out all possible values which the old '_yoast_wpseo_meta-robots' could contain

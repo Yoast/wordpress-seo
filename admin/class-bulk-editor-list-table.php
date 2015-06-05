@@ -137,7 +137,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * checks if additional parameters have been sent to determine if nonce should be checked or not.
+	 * Checks if additional parameters have been sent to determine if nonce should be checked or not.
 	 *
 	 * @return bool
 	 */

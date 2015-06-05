@@ -349,7 +349,7 @@ class WPSEO_Frontend {
 	 *
 	 * @param string $sep         Separator used in the title.
 	 * @param string $seplocation Whether the separator should be left or right.
-	 * @param string $title       The title to append the paging info to
+	 * @param string $title       The title to append the paging info to.
 	 *
 	 * @return string
 	 */
@@ -1432,6 +1432,7 @@ class WPSEO_Frontend {
 	 * If the option to redirect attachments to their parent is checked, this performs the redirect.
 	 *
 	 * An extra check is done for when the attachment has no parent.
+	 *
 	 * @return boolean False when no redirect was triggered
 	 */
 	function attachment_redirect() {

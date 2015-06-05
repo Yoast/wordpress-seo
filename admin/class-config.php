@@ -4,7 +4,7 @@
  */
 
 /**
- * class WPSEO_Admin_Pages
+ * Class WPSEO_Admin_Pages
  *
  * Class with functionality for the WP SEO admin pages.
  */

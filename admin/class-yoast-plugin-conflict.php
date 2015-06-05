@@ -65,7 +65,6 @@ class Yoast_Plugin_Conflict {
 	 *
 	 * Protected constructor to prevent creating a new instance of the
 	 * *Singleton* via the `new` operator from outside of this class.
-	 *
 	 */
 	protected function __construct() {
 		// Set active plugins.

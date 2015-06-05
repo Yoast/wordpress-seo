@@ -5,12 +5,11 @@
  */
 
 /**
- * class WPSEO_Snippet_Preview
+ * Class WPSEO_Snippet_Preview
  *
  * Generates a Google Search snippet preview.
  *
  * Takes a $post, $title and $description
- *
  */
 class WPSEO_Snippet_Preview {
 	/**

@@ -223,7 +223,7 @@ class WPSEO_Taxonomy {
 	/**
 	 * Update the taxonomy meta data on save.
 	 *
-	 * @param int    $term_id  ID of the term to save data for
+	 * @param int    $term_id  ID of the term to save data for.
 	 * @param int    $tt_id    The taxonomy_term_id for the term.
 	 * @param string $taxonomy The taxonomy the term belongs to.
 	 */

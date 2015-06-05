@@ -33,7 +33,7 @@ if ( ! defined( 'WPSEO_CSSJS_SUFFIX' ) ) {
 /**
  * Auto load our class files
  *
- * @param string $class Class name
+ * @param string $class Class name.
  *
  * @return void
  */
@@ -73,7 +73,7 @@ if ( function_exists( 'spl_autoload_register' ) ) {
 /**
  * Run single site / network-wide activation of the plugin.
  *
- * @param bool $networkwide Whether the plugin is being activated network-wide
+ * @param bool $networkwide Whether the plugin is being activated network-wide.
  */
 function wpseo_activate( $networkwide = false ) {
 	if ( ! is_multisite() || ! $networkwide ) {
@@ -88,7 +88,7 @@ function wpseo_activate( $networkwide = false ) {
 /**
  * Run single site / network-wide de-activation of the plugin.
  *
- * @param bool $networkwide Whether the plugin is being de-activated network-wide
+ * @param bool $networkwide Whether the plugin is being de-activated network-wide.
  */
 function wpseo_deactivate( $networkwide = false ) {
 	if ( ! is_multisite() || ! $networkwide ) {
@@ -103,7 +103,7 @@ function wpseo_deactivate( $networkwide = false ) {
 /**
  * Run network-wide (de-)activation of the plugin
  *
- * @param bool $activate True for plugin activation, false for de-activation
+ * @param bool $activate True for plugin activation, false for de-activation.
  */
 function wpseo_network_activate_deactivate( $activate = true ) {
 	global $wpdb;
@@ -174,6 +174,7 @@ function _wpseo_deactivate() {
  * network-wide.
  *
  * Will only be called by multisite actions.
+ *
  * @internal Unfortunately will fail if the plugin is in the must-use directory
  * @see      https://core.trac.wordpress.org/ticket/24205
  *

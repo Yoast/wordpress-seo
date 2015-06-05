@@ -830,9 +830,11 @@ class WPSEO_Sitemaps {
 
 					$canonical = WPSEO_Meta::get_value( 'canonical', $p->ID );
 					if ( $canonical !== '' && $canonical !== $url['loc'] ) {
-						/* Let's assume that if a canonical is set for this page and it's different from
+						/*
+						Let's assume that if a canonical is set for this page and it's different from
 						   the URL of this post, that page is either already in the XML sitemap OR is on
-						   an external site, either way, we shouldn't include it here. */
+						   an external site, either way, we shouldn't include it here.
+						*/
 						continue;
 					}
 					else {
@@ -1371,7 +1373,7 @@ class WPSEO_Sitemaps {
 	/**
 	 * Sorts an array of WP_User by the _yoast_wpseo_profile_updated meta field
 	 *
-	 * since 1.6
+	 * @since 1.6
 	 *
 	 * @param Wp_User $a The first WP user.
 	 * @param Wp_User $b The second WP user.

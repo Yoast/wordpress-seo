@@ -53,7 +53,6 @@
  * - If an option needs specific actions different from defined in this abstract class, you can just overrule
  *    a method by defining it in the concrete class.
  *
- *
  * @todo       - [JRF => testers] double check that validation will not cause errors when called
  *               from upgrade routine (some of the WP functions may not yet be available)
  */
@@ -122,8 +121,10 @@ abstract class WPSEO_Option {
 
 
 		if ( $this->multisite_only !== true ) {
-			/* The option validation routines remove the default filters to prevent failing
-				   to insert an option if it's new. Let's add them back afterwards. */
+			/**
+			 * The option validation routines remove the default filters to prevent failing
+			 * to insert an option if it's new. Let's add them back afterwards.
+			 */
 			add_action( 'add_option', array( $this, 'add_default_filters' ) ); // Adding back after INSERT.
 
 			if ( version_compare( $GLOBALS['wp_version'], '3.7', '!=' ) ) { // Adding back after non-WP 3.7 UPDATE.
@@ -134,20 +135,24 @@ abstract class WPSEO_Option {
 			}
 		}
 		else if ( is_multisite() ) {
-			/* The option validation routines remove the default filters to prevent failing
+			/*
+			The option validation routines remove the default filters to prevent failing
 			   to insert an option if it's new. Let's add them back afterwards.
 
 			   For site_options, this method is not foolproof as these actions are not fired
 			   on an insert/update failure. Please use the WPSEO_Options::update_site_option() method
-			   for updating site options to make sure the filters are in place. */
+			   for updating site options to make sure the filters are in place.
+			*/
 			add_action( 'add_site_option_' . $this->option_name, array( $this, 'add_default_filters' ) );
 			add_action( 'update_site_option_' . $this->option_name, array( $this, 'add_default_filters' ) );
 
 		}
 
 
-		/* Make sure the option will always get validated, independently of register_setting()
-			   (only available on back-end) */
+		/*
+		Make sure the option will always get validated, independently of register_setting()
+			   (only available on back-end)
+		*/
 		add_filter( 'sanitize_option_' . $this->option_name, array( $this, 'validate' ) );
 
 		/* Register our option for the admin pages */
@@ -176,6 +181,7 @@ abstract class WPSEO_Option {
 		}
 	}
 
+// @codingStandardsIgnoreStart
 
 	/**
 	 * All concrete classes *must* contain the get_instance method
@@ -196,6 +202,7 @@ abstract class WPSEO_Option {
 	 */
 	// abstract public function enrich_defaults();
 
+// @codingStandardsIgnoreEnd
 
 	/* *********** METHODS INFLUENCING get_option() *********** */
 
@@ -215,6 +222,7 @@ abstract class WPSEO_Option {
 	/**
 	 * Abusing a filter to re-add our default filters
 	 * WP 3.7 specific as update_option action hook was in the wrong place temporarily
+	 *
 	 * @see http://core.trac.wordpress.org/ticket/25705
 	 *
 	 * @param   mixed $new_value
@@ -399,10 +407,12 @@ abstract class WPSEO_Option {
 	public function get_option( $options = null ) {
 		$filtered = $this->array_filter_merge( $options );
 
-		/* If the option contains variable option keys, make sure we don't remove those settings
+		/*
+		If the option contains variable option keys, make sure we don't remove those settings
 			   - even if the defaults are not complete yet.
 			   Unfortunately this means we also won't be removing the settings for post types or taxonomies
-			   which are no longer in the WP install, but rather that than the other way around */
+			   which are no longer in the WP install, but rather that than the other way around
+		*/
 		if ( isset( $this->variable_array_key_patterns ) ) {
 			$filtered = $this->retain_variable_keys( $options, $filtered );
 		}
@@ -564,6 +574,7 @@ abstract class WPSEO_Option {
 
 	/**
 	 * Clean and re-save the option
+	 *
 	 * @uses clean_option() method from concrete class if it exists
 	 *
 	 * @todo [JRF/whomever] Figure out a way to show settings error during/after the upgrade - maybe
@@ -589,8 +600,10 @@ abstract class WPSEO_Option {
 			$option_value = $this->clean_option( $option_value, $current_version, $all_old_option_values );
 		}
 
-		/* Save the cleaned value - validation will take care of cleaning out array keys which
-			   should no longer be there */
+		/*
+		Save the cleaned value - validation will take care of cleaning out array keys which
+			   should no longer be there
+		*/
 		if ( $this->multisite_only !== true ) {
 			update_option( $this->option_name, $option_value );
 		}
@@ -605,8 +618,6 @@ abstract class WPSEO_Option {
 	 * values within the option
 	 */
 	// abstract public function clean_option( $option_value, $current_version = null, $all_old_option_values = null );
-
-
 	/* *********** HELPER METHODS for internal use *********** */
 
 	/**
@@ -629,14 +640,17 @@ abstract class WPSEO_Option {
 		}
 
 		$options = (array) $options;
-		/*$filtered = array();
+
+		/*
+		$filtered = array();
 
 			if ( $defaults !== array() ) {
 				foreach ( $defaults as $key => $default_value ) {
 					// @todo should this walk through array subkeys ?
 					$filtered[ $key ] = ( isset( $options[ $key ] ) ? $options[ $key ] : $default_value );
 				}
-			}*/
+			}
+		*/
 		$filtered = array_merge( $defaults, $options );
 
 		return $filtered;
@@ -653,7 +667,7 @@ abstract class WPSEO_Option {
 	 * @param  array $dirty Original option as retrieved from the database.
 	 * @param  array $clean Filtered option where any options which shouldn't be in our option
 	 *                      have already been removed and any options which weren't set
-	 *                      have been set to their defaults
+	 *                      have been set to their defaults.
 	 *
 	 * @return  array
 	 */
@@ -709,6 +723,7 @@ abstract class WPSEO_Option {
 
 	/**
 	 * Emulate the WP native sanitize_text_field function in a %%variable%% safe way
+	 *
 	 * @see        https://core.trac.wordpress.org/browser/trunk/src/wp-includes/formatting.php for the original
 	 *
 	 * @deprecated 1.5.6.1
@@ -773,7 +788,7 @@ abstract class WPSEO_Option {
 	 *
 	 * @static
 	 *
-	 * @param    mixed $value Value to cast
+	 * @param    mixed $value Value to cast.
 	 *
 	 * @return    bool
 	 */
@@ -812,7 +827,7 @@ abstract class WPSEO_Option {
 	 *
 	 * @static
 	 *
-	 * @param    mixed $value Value to cast
+	 * @param    mixed $value Value to cast.
 	 *
 	 * @return    int|bool
 	 */
@@ -844,7 +859,6 @@ abstract class WPSEO_Option {
 	}
 
 } /* End of class WPSEO_Option */
-
 
 /**
  * Option: wpseo
@@ -924,8 +938,10 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 	 * @return \WPSEO_Option_Wpseo
 	 */
 	protected function __construct() {
-		/* Dirty fix for making certain defaults available during activation while still only
-			   defining them once */
+		/*
+		Dirty fix for making certain defaults available during activation while still only
+			   defining them once
+		*/
 		foreach ( self::$desc_defaults as $key => $value ) {
 			$this->defaults[ $key ] = $value;
 		}
@@ -970,8 +986,10 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 
 
 				case 'blocking_files':
-					/* @internal [JRF] to really validate this we should also do a file_exists()
-					 * on each array entry and remove files which no longer exist, but that might be overkill */
+					/**
+					 * @internal [JRF] to really validate this we should also do a file_exists()
+					 * on each array entry and remove files which no longer exist, but that might be overkill
+					 */
 					if ( isset( $dirty[ $key ] ) && is_array( $dirty[ $key ] ) ) {
 						$clean[ $key ] = array_unique( $dirty[ $key ] );
 					}
@@ -1032,8 +1050,10 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 					break;
 
 
-				/* boolean dismiss warnings - not fields - may not be in form
-					   (and don't need to be either as long as the default is false) */
+				/*
+				Boolean dismiss warnings - not fields - may not be in form
+					   (and don't need to be either as long as the default is false)
+				 */
 				case 'ignore_blog_public_warning':
 				case 'ignore_meta_description_warning':
 				case 'ignore_page_comments':
@@ -1048,8 +1068,12 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 					break;
 
 
-				/* boolean (checkbox) fields */
-				/* Covers
+				/*
+				Boolean (checkbox) fields
+				*/
+
+				/*
+				Covers
 				 * 		'disableadvanced_meta'
 				 * 		'yoast_tracking'
 				 */
@@ -1208,8 +1232,12 @@ class WPSEO_Option_Permalinks extends WPSEO_Option {
 					}
 					break;
 
-				/* boolean (checkbox) fields */
-				/* Covers:
+				/*
+				Boolean (checkbox) fields
+				*/
+
+				/*
+				Covers:
 				 * 		'cleanpermalinks'
 				 * 		'cleanpermalink-googlesitesearch'
 				 *		'cleanpermalink-googlecampaign'
@@ -1245,14 +1273,16 @@ class WPSEO_Option_Permalinks extends WPSEO_Option {
 	 *
 	 * @return  array            Cleaned option
 	 */
-	/*protected function clean_option( $option_value, $current_version = null, $all_old_option_values = null ) {
+
+	/*
+	Protected function clean_option( $option_value, $current_version = null, $all_old_option_values = null ) {
 
 			return $option_value;
-		}*/
+		}
+	*/
 
 
 } /* End of class WPSEO_Option_Permalinks */
-
 
 /**
  * Option: wpseo_titles
@@ -1510,33 +1540,44 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 			$switch_key = $this->get_switch_key( $key );
 
 			switch ( $switch_key ) {
-				/* text fields */
-				/* Covers:
+				/*
+				Text fields
+				*/
+
+				/*
+				Covers:
 					   'title-home-wpseo', 'title-author-wpseo', 'title-archive-wpseo',
 					   'title-search-wpseo', 'title-404-wpseo'
 					   'title-' . $pt->name
 					   'title-ptarchive-' . $pt->name
-					   'title-tax-' . $tax->name */
+					   'title-tax-' . $tax->name
+				*/
 				case 'title-':
 					if ( isset( $dirty[ $key ] ) ) {
 						$clean[ $key ] = WPSEO_Utils::sanitize_text_field( $dirty[ $key ] );
 					}
 					break;
 
-				/* Covers:
+				/*
+				Covers:
 					   'metadesc-home-wpseo', 'metadesc-author-wpseo', 'metadesc-archive-wpseo'
 					   'metadesc-' . $pt->name
 					   'metadesc-ptarchive-' . $pt->name
-					   'metadesc-tax-' . $tax->name */
+					   'metadesc-tax-' . $tax->name
+				*/
 				case 'metadesc-':
-					/* Covers:
+					/*
+					Covers:
 							 'metakey-home-wpseo', 'metakey-author-wpseo'
 							 'metakey-' . $pt->name
 							 'metakey-ptarchive-' . $pt->name
-							 'metakey-tax-' . $tax->name */
+							 'metakey-tax-' . $tax->name
+					*/
 				case 'metakey-':
-					/* Covers:
-							 ''bctitle-ptarchive-' . $pt->name */
+					/*
+					Covers:
+							 ''bctitle-ptarchive-' . $pt->name
+					*/
 				case 'bctitle-ptarchive-':
 					if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
 						$clean[ $key ] = WPSEO_Utils::sanitize_text_field( $dirty[ $key ] );
@@ -1574,8 +1615,12 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 					}
 					break;
 
-				/* boolean fields */
-				/* Covers:
+				/*
+				Boolean fields
+				*/
+
+				/*
+				Covers:
 				 *		'noindex-subpages-wpseo', 'noindex-author-wpseo', 'noindex-archive-wpseo'
 				 *		'noindex-' . $pt->name
 				 *		'noindex-ptarchive-' . $pt->name
@@ -1609,7 +1654,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 	 * @param  array  $option_value          Old (not merged with defaults or filtered) option value to
 	 *                                       clean according to the rules for this option.
 	 * @param  string $current_version       (optional) Version from which to upgrade, if not set,
-	 *                                       version specific upgrades will be disregarded/
+	 *                                       version specific upgrades will be disregarded.
 	 * @param  array  $all_old_option_values (optional) Only used when importing old options to have
 	 *                                       access to the real old values, in contrast to the saved ones.
 	 *
@@ -1628,10 +1673,12 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 			$original = $option_value;
 		}
 
-		/* Move options from very old option to this one
+		/*
+		Move options from very old option to this one
 			   @internal Don't rename to the 'current' names straight away as that would prevent
 			   the rename/unset combi below from working
-			   @todo [JRF] maybe figure out a smarter way to deal with this */
+			   @todo [JRF] maybe figure out a smarter way to deal with this
+		*/
 		$old_option = null;
 		if ( isset( $all_old_option_values ) ) {
 			// Ok, we have an import.
@@ -1672,12 +1719,14 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		}
 
 
-		/* Renaming these options to avoid ever overwritting these if a (bloody stupid) user /
+		/*
+		Renaming these options to avoid ever overwritting these if a (bloody stupid) user /
 			   programmer would use any of the following as a custom post type or custom taxonomy:
 			   'home', 'author', 'archive', 'search', '404', 'subpages'
 
 			   Similarly, renaming the tax options to avoid a custom post type and a taxonomy
-			   with the same name occupying the same option */
+			   with the same name occupying the same option
+		*/
 		$rename = array(
 			'title-home'       => 'title-home-wpseo',
 			'title-author'     => 'title-author-wpseo',
@@ -1702,8 +1751,10 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		unset( $rename, $old, $new );
 
 
-		/* @internal This clean-up action can only be done effectively once the taxonomies and post_types
-		 * have been registered, i.e. at the end of the init action. */
+		/**
+		 * @internal This clean-up action can only be done effectively once the taxonomies and post_types
+		 * have been registered, i.e. at the end of the init action.
+		 */
 		if ( isset( $original ) && current_filter() === 'wpseo_double_clean_titles' || did_action( 'wpseo_double_clean_titles' ) > 0 ) {
 			$rename          = array(
 				'title-'           => 'title-tax-',
@@ -1727,8 +1778,10 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 						) {
 							$option_value[ $new_prefix . $tax ] = $original[ $old_prefix . $tax ];
 
-							/* Check if there is a cpt with the same name as the tax,
-								   if so, we should make sure that the old setting hasn't been removed */
+							/*
+							Check if there is a cpt with the same name as the tax,
+								   if so, we should make sure that the old setting hasn't been removed
+							*/
 							if ( ! isset( $post_type_names[ $tax ] ) && isset( $option_value[ $old_prefix . $tax ] ) ) {
 								unset( $option_value[ $old_prefix . $tax ] );
 							}
@@ -1749,8 +1802,10 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		}
 
 
-		/* Make sure the values of the variable option key options are cleaned as they
-			   may be retained and would not be cleaned/validated then */
+		/*
+		Make sure the values of the variable option key options are cleaned as they
+			   may be retained and would not be cleaned/validated then
+		*/
 		if ( is_array( $option_value ) && $option_value !== array() ) {
 			foreach ( $option_value as $key => $value ) {
 				$switch_key = $this->get_switch_key( $key );
@@ -1766,8 +1821,12 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 						break;
 
 
-					/* boolean fields */
-					/* Covers:
+					/*
+					Boolean fields
+					*/
+
+					/*
+					Covers:
 					 * 		'noindex-'
 					 * 		'showdate-'
 					 * 		'hideeditbox-'
@@ -1832,7 +1891,6 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 
 
 } /* End of class WPSEO_Option_Titles */
-
 
 /**
  * Option: wpseo_rss
@@ -1899,7 +1957,6 @@ class WPSEO_Option_RSS extends WPSEO_Option {
 	}
 
 } /* End of class WPSEO_Option_RSS */
-
 
 /**
  * Option: wpseo_internallinks
@@ -2053,8 +2110,10 @@ class WPSEO_Option_InternalLinks extends WPSEO_Option {
 								$clean[ $key ] = sanitize_title_with_dashes( $old[ $key ] );
 							}
 							if ( function_exists( 'add_settings_error' ) ) {
-								/* @todo [JRF => whomever] maybe change the untranslated $pt name in the
-								 * error message to the nicely translated label ? */
+								/**
+								 * @todo [JRF => whomever] maybe change the untranslated $pt name in the
+								 * error message to the nicely translated label ?
+								 */
 								add_settings_error(
 									$this->group_name, // Slug title of the setting.
 									'_' . $key, // Suffix-id for the error message box.
@@ -2089,8 +2148,10 @@ class WPSEO_Option_InternalLinks extends WPSEO_Option {
 								$clean[ $key ] = sanitize_key( $old[ $key ] );
 							}
 							if ( function_exists( 'add_settings_error' ) ) {
-								/* @todo [JRF =? whomever] maybe change the untranslated $tax name in the
-								 * error message to the nicely translated label ? */
+								/**
+								 * @todo [JRF =? whomever] maybe change the untranslated $tax name in the
+								 * error message to the nicely translated label ?
+								 */
 								$tax = str_replace( array( 'taxonomy-', '-ptparent' ), '', $key );
 								add_settings_error(
 									$this->group_name, // Slug title of the setting.
@@ -2108,8 +2169,12 @@ class WPSEO_Option_InternalLinks extends WPSEO_Option {
 					break;
 
 
-				/* boolean fields */
-				/* Covers:
+				/*
+				Boolean fields
+				*/
+
+				/*
+				Covers:
 				 * 		'breadcrumbs-blog-remove'
 				 * 		'breadcrumbs-boldlast'
 				 * 		'breadcrumbs-enable'
@@ -2127,6 +2192,7 @@ class WPSEO_Option_InternalLinks extends WPSEO_Option {
 	/**
 	 * Retrieve a list of the allowed post types as breadcrumb parent for a taxonomy
 	 * Helper method for validation
+	 *
 	 * @internal don't make static as new types may still be registered
 	 *
 	 * @return array
@@ -2173,8 +2239,10 @@ class WPSEO_Option_InternalLinks extends WPSEO_Option {
 			}
 		}
 
-		/* Make sure the values of the variable option key options are cleaned as they
-			   may be retained and would not be cleaned/validated then */
+		/*
+		Make sure the values of the variable option key options are cleaned as they
+			   may be retained and would not be cleaned/validated then
+		*/
 		if ( is_array( $option_value ) && $option_value !== array() ) {
 
 			$allowed_post_types = $this->get_allowed_post_types();
@@ -2249,7 +2317,6 @@ class WPSEO_Option_InternalLinks extends WPSEO_Option {
 	}
 
 } /* End of class WPSEO_Option_InternalLinks */
-
 
 /**
  * Option: wpseo_xml
@@ -2390,8 +2457,10 @@ class WPSEO_Option_XML extends WPSEO_Option {
 			switch ( $switch_key ) {
 				/* integer fields */
 				case 'entries-per-page':
-					/* @todo [JRF/JRF => Yoast] add some more rules (minimum 50 or something
-					 * - what should be the guideline?) and adjust error message */
+					/**
+					 * @todo [JRF/JRF => Yoast] add some more rules (minimum 50 or something
+					 * - what should be the guideline?) and adjust error message
+					 */
 					if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
 						$int = WPSEO_Utils::validate_int( $dirty[ $key ] );
 						if ( $int !== false && $int > 0 ) {
@@ -2418,8 +2487,12 @@ class WPSEO_Option_XML extends WPSEO_Option {
 					break;
 
 
-				/* boolean fields */
-				/* Covers:
+				/*
+				Boolean fields
+				*/
+
+				/*
+				Covers:
 				 *		'disable_author_sitemap':
 				 * 		'disable_author_noposts':
 				 * 		'enablexmlsitemap':
@@ -2453,9 +2526,10 @@ class WPSEO_Option_XML extends WPSEO_Option {
 	 * @return  array            Cleaned option
 	 */
 	protected function clean_option( $option_value, $current_version = null, $all_old_option_values = null ) {
-
-		/* Make sure the values of the variable option key options are cleaned as they
-			   may be retained and would not be cleaned/validated then */
+		/*
+		Make sure the values of the variable option key options are cleaned as they
+			   may be retained and would not be cleaned/validated then
+		*/
 		if ( is_array( $option_value ) && $option_value !== array() ) {
 
 			foreach ( $option_value as $key => $value ) {
@@ -2477,7 +2551,6 @@ class WPSEO_Option_XML extends WPSEO_Option {
 
 
 } /* End of class WPSEO_Option_XML */
-
 
 /**
  * Option: wpseo_social
@@ -2624,7 +2697,8 @@ class WPSEO_Option_Social extends WPSEO_Option {
 						}
 						else {
 							foreach ( $dirty[ $key ] as $user_id => $fb_array ) {
-								/* @todo [JRF/JRF => Yoast/whomever] add user_id validation -
+								/*
+								@todo [JRF/JRF => Yoast/whomever] add user_id validation -
 								 * are these WP user-ids or FB user-ids ? Probably FB user-ids,
 								 * if so, find out the rules for FB user-ids
 								 */
@@ -2632,9 +2706,11 @@ class WPSEO_Option_Social extends WPSEO_Option {
 									foreach ( $fb_array as $fb_key => $fb_value ) {
 										switch ( $fb_key ) {
 											case 'name':
-												/* @todo [JRF => whomever] add validation for name based
+												/**
+												 * @todo [JRF => whomever] add validation for name based
 												 * on rules if there are any
-												 * Input comes from: $_GET['userrealname'] */
+												 * Input comes from: $_GET['userrealname']
+												 */
 												$clean[ $key ][ $user_id ][ $fb_key ] = sanitize_text_field( $fb_value );
 												break;
 
@@ -3005,10 +3081,13 @@ class WPSEO_Option_MS extends WPSEO_Option {
 	 *
 	 * @return  array            Cleaned option
 	 */
-	/*protected function clean_option( $option_value, $current_version = null, $all_old_option_values = null ) {
+
+	/*
+	Protected function clean_option( $option_value, $current_version = null, $all_old_option_values = null ) {
 
 		return $option_value;
-	}*/
+	}
+	*/
 } /* End of class WPSEO_Option_MS */
 
 /**
@@ -3141,7 +3220,9 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 	 *
 	 * @return  array  Combined and filtered options array.
 	 */
-	/*public function array_filter_merge( $option_key, $options = null ) {
+
+	/*
+	Public function array_filter_merge( $option_key, $options = null ) {
 
 			$defaults = $this->get_defaults( $option_key );
 
@@ -3180,7 +3261,8 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 			* /
 
 			return (array) $options;
-		}*/
+		}
+	*/
 
 
 	/**
@@ -3193,9 +3275,10 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 	 * @return  array      Validated clean value for the option to be saved to the database
 	 */
 	protected function validate_option( $dirty, $clean, $old ) {
-
-		/* Prevent complete validation (which can be expensive when there are lots of terms)
-			   if only one item has changed and has already been validated */
+		/*
+		Prevent complete validation (which can be expensive when there are lots of terms)
+			   if only one item has changed and has already been validated
+		*/
 		if ( isset( $dirty['wpseo_already_validated'] ) && $dirty['wpseo_already_validated'] === true ) {
 			unset( $dirty['wpseo_already_validated'] );
 
@@ -3430,8 +3513,10 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 			$tax_meta = self::$defaults_per_term;
 		}
 
-		/* Either return the complete array or a single value from it or false if the value does not exist
-			   (shouldn't happen after merge with defaults, indicates typo in request) */
+		/*
+		Either return the complete array or a single value from it or false if the value does not exist
+			   (shouldn't happen after merge with defaults, indicates typo in request)
+		*/
 		if ( ! isset( $meta ) ) {
 			return $tax_meta;
 		}
@@ -3710,11 +3795,13 @@ class WPSEO_Options {
 	 * @return void
 	 */
 	public static function initialize() {
-		/* Make sure title_test and description_test function are available even when called
-			   from the isolated activation */
+		/*
+		Make sure title_test and description_test function are available even when called
+			   from the isolated activation
+		*/
 		require_once( WPSEO_PATH . 'inc/wpseo-non-ajax-functions.php' );
 
-		// wpseo_title_test();.
+		// Commented out? wpseo_title_test(); R.
 		wpseo_description_test();
 
 		/* Force WooThemes to use WordPress SEO data. */

@@ -71,8 +71,11 @@ function wpseo_description_test() {
 	// Reset any related options - dirty way of getting the default to make sure it works on activation.
 	$options['theme_has_description']   = WPSEO_Option_Wpseo::$desc_defaults['theme_has_description'];
 	$options['theme_description_found'] = WPSEO_Option_Wpseo::$desc_defaults['theme_description_found'];
-	/* @internal Should this be reset too ? Best to do so as test is done on re-activate and switch_theme
-	 * as well and new warning would be warranted then. Only might give irritation on theme upgrade. */
+
+	/**
+	 * @internal Should this be reset too ? Best to do so as test is done on re-activate and switch_theme
+	 * as well and new warning would be warranted then. Only might give irritation on theme upgrade.
+	 */
 	$options['ignore_meta_description_warning'] = WPSEO_Option_Wpseo::$desc_defaults['ignore_meta_description_warning'];
 
 	$file = false;
@@ -199,13 +202,19 @@ function wpseo_update_theme_complete_actions( $update_actions, $updated_theme ) 
 
 	$theme = get_stylesheet();
 	if ( is_object( $updated_theme ) ) {
-		/* Bulk update and $updated_theme only contains info on which theme was last in the list
-		   of updated themes, so go & test */
+		/*
+		Bulk update and $updated_theme only contains info on which theme was last in the list
+		   of updated themes, so go & test
+		*/
+
 		// Commented out? wpseo_title_test(); R.
 		wpseo_description_test();
 	}
 	elseif ( $updated_theme === $theme ) {
-		/* Single theme update for the active theme */
+		/*
+		Single theme update for the active theme
+		*/
+
 		// Commented out? wpseo_title_test(); R.
 		wpseo_description_test();
 	}

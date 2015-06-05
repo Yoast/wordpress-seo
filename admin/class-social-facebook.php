@@ -21,7 +21,6 @@ class Yoast_Social_Facebook {
 
 	/**
 	 * Setting the options and define the listener to fetch $_GET values
-	 *
 	 */
 	public function __construct() {
 		$this->options = get_option( 'wpseo_social' );
@@ -33,7 +32,6 @@ class Yoast_Social_Facebook {
 
 	/**
 	 * Returns the output from the form class
-	 *
 	 */
 	public function show_form() {
 		$this->form->show_form();
@@ -129,7 +127,6 @@ class Yoast_Social_Facebook {
 
 	/**
 	 * This method will hook into the defined get params
-	 *
 	 */
 	private function get_listener() {
 		if ( $delfbadmin = filter_input( INPUT_GET, 'delfbadmin' ) ) {
@@ -169,7 +166,6 @@ class Yoast_Social_Facebook {
 
 	/**
 	 * Clear all the facebook that has been set already
-	 *
 	 */
 	private function clear_all() {
 		$this->verify_nonce( 'fbclearall' );
@@ -249,7 +245,6 @@ class Yoast_Social_Facebook_Form {
 
 	/**
 	 * Setting the options and call the methods to display everything
-	 *
 	 */
 	public function __construct() {
 		$this->options = get_option( 'wpseo_social' );

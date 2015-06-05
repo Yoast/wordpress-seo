@@ -205,8 +205,10 @@ class WPSEO_Breadcrumbs {
 	 * @return object
 	 */
 	private function find_deepest_term( $terms ) {
-		/* Let's find the deepest term in this array, by looping through and then
-		   unsetting every term that is used as a parent by another one in the array. */
+		/*
+		Let's find the deepest term in this array, by looping through and then
+		   unsetting every term that is used as a parent by another one in the array.
+		*/
 		$terms_by_id = array();
 		foreach ( $terms as $term ) {
 			$terms_by_id[ $term->term_id ] = $term;
@@ -216,8 +218,10 @@ class WPSEO_Breadcrumbs {
 		}
 		unset( $term );
 
-		/* As we could still have two subcategories, from different parent categories,
-		   let's pick the one with the lowest ordered ancestor. */
+		/*
+		As we could still have two subcategories, from different parent categories,
+		   let's pick the one with the lowest ordered ancestor.
+		*/
 		$parents_count = 0;
 		$term_order    = 9999; // Because ASC.
 		reset( $terms_by_id );
@@ -655,7 +659,7 @@ class WPSEO_Breadcrumbs {
 	/**
 	 * Retrieve link url and text based on post id
 	 *
-	 * @param int $id Post id
+	 * @param int $id Post ID.
 	 *
 	 * @return array Array of link text and url
 	 */
@@ -742,14 +746,14 @@ class WPSEO_Breadcrumbs {
 	 * Create a breadcrumb element string
 	 *
 	 * @todo The `$paged` variable only works for archives, not for paged articles, so this does not work
-	 * for paged article at this moment
+	 * for paged article at this moment.
 	 *
 	 * @param  array $link Link info array containing the keys:
 	 *                     'text'    => (string) link text
 	 *                     'url'    => (string) link url
 	 *                     (optional) 'allow_html'    => (bool) whether to (not) escape html in the link text
 	 *                     This prevents html stripping from the text strings set in the
-	 *                     WPSEO -> Internal Links options page
+	 *                     WPSEO -> Internal Links options page.
 	 * @param  int   $i    Index for the current breadcrumb.
 	 *
 	 * @return string

@@ -4,7 +4,7 @@
  */
 
 /**
- * class WPSEO_Import
+ * Class WPSEO_Import
  *
  * Class with functionality to import the WP SEO settings
  */

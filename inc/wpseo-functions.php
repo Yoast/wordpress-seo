@@ -550,6 +550,7 @@ function wpseo_strip_shortcode( $text ) {
 
 /**
  * Do simple reliable math calculations without the risk of wrong results
+ *
  * @see        http://floating-point-gui.de/
  * @see        the big red warning on http://php.net/language.types.float.php
  *

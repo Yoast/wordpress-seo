@@ -4,7 +4,7 @@
  */
 
 /**
- * class WPSEO_Import_WooThemes_SEO
+ * Class WPSEO_Import_WooThemes_SEO
  *
  * Class with functionality to import WP SEO settings from WooThemes SEO
  */

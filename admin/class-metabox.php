@@ -31,7 +31,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 *
 	 * IMPORTANT: if you want to add a new string (option) somewhere, make sure you add that array key to
 	 * the main meta box definition array in the class WPSEO_Meta() as well!!!!
-	 *
 	 */
 	public static function translate_meta_boxes() {
 		self::$meta_fields['general']['snippetpreview']['title'] = __( 'Snippet Preview', 'wordpress-seo' );
@@ -411,7 +410,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 	/**
 	 * Outputs the page analysis score in the Publish Box.
-	 *
 	 */
 	public function publish_box() {
 		if ( $this->is_metabox_hidden() === true ) {
@@ -1112,8 +1110,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 					break;
 			}
 			if ( $low !== false ) {
-				/* @internal DON'T touch the order of these without double-checking/adjusting
-				 * the seo_score_posts_where() method below! */
+				/**
+				 * @internal DON'T touch the order of these without double-checking/adjusting the seo_score_posts_where() method below!
+				 */
 				$vars = array_merge(
 					$vars,
 					array(
