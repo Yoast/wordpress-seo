@@ -155,7 +155,7 @@ class WPSEO_Utils {
 	 *
 	 * @static
 	 *
-	 * @param string $text Input string that might contain shortcodes
+	 * @param string $text Input string that might contain shortcodes.
 	 *
 	 * @return string $text string without shortcodes
 	 */
@@ -169,7 +169,7 @@ class WPSEO_Utils {
 	 *
 	 * @static
 	 *
-	 * @param mixed $value Value to trim or array of values to trim
+	 * @param mixed $value Value to trim or array of values to trim.
 	 *
 	 * @return mixed Trimmed value or array of trimmed values
 	 */
@@ -331,7 +331,7 @@ class WPSEO_Utils {
 	 *
 	 * @static
 	 *
-	 * @param mixed $value Value to cast
+	 * @param mixed $value Value to cast.
 	 *
 	 * @return bool
 	 */
@@ -418,7 +418,7 @@ class WPSEO_Utils {
 	 *
 	 * @static
 	 *
-	 * @param mixed $value Value to cast
+	 * @param mixed $value Value to cast.
 	 *
 	 * @return int|bool
 	 */
@@ -504,7 +504,7 @@ class WPSEO_Utils {
 	/**
 	 * Clears the transient cache when a given option is updated, if that option has been registered before
 	 *
-	 * @param string $option The option that's being updated
+	 * @param string $option The option that's being updated.
 	 */
 	public static function clear_transient_cache( $option ) {
 		if ( isset( self::$cache_clear[ $option ] ) ) {
@@ -573,17 +573,17 @@ class WPSEO_Utils {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @param mixed  $number1   Scalar (string/int/float/bool)
+	 * @param mixed  $number1   Scalar (string/int/float/bool).
 	 * @param string $action    Calculation action to execute. Valid input:
 	 *                            '+' or 'add' or 'addition',
 	 *                            '-' or 'sub' or 'subtract',
 	 *                            '*' or 'mul' or 'multiply',
 	 *                            '/' or 'div' or 'divide',
 	 *                            '%' or 'mod' or 'modulus'
-	 *                            '=' or 'comp' or 'compare'
-	 * @param mixed  $number2   Scalar (string/int/float/bool)
+	 *                            '=' or 'comp' or 'compare'.
+	 * @param mixed  $number2   Scalar (string/int/float/bool).
 	 * @param bool   $round     Whether or not to round the result. Defaults to false.
-	 *                          Will be disregarded for a compare operation
+	 *                          Will be disregarded for a compare operation.
 	 * @param int    $decimals  Decimals for rounding operation. Defaults to 0.
 	 * @param int    $precision Calculation precision. Defaults to 10.
 	 *

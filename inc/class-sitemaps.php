@@ -219,9 +219,9 @@ class WPSEO_Sitemaps {
 	/**
 	 * Register your own sitemap. Call this during 'init'.
 	 *
-	 * @param string   $name     The name of the sitemap
-	 * @param callback $function Function to build your sitemap
-	 * @param string   $rewrite  Optional. Regular expression to match your sitemap with
+	 * @param string   $name     The name of the sitemap.
+	 * @param callback $function Function to build your sitemap.
+	 * @param string   $rewrite  Optional. Regular expression to match your sitemap with.
 	 */
 	function register_sitemap( $name, $function, $rewrite = '' ) {
 		add_action( 'wpseo_do_sitemap_' . $name, $function );
@@ -233,9 +233,9 @@ class WPSEO_Sitemaps {
 	/**
 	 * Register your own XSL file. Call this during 'init'.
 	 *
-	 * @param string   $name     The name of the XSL file
-	 * @param callback $function Function to build your XSL file
-	 * @param string   $rewrite  Optional. Regular expression to match your sitemap with
+	 * @param string   $name     The name of the XSL file.
+	 * @param callback $function Function to build your XSL file.
+	 * @param string   $rewrite  Optional. Regular expression to match your sitemap with.
 	 */
 	function register_xsl( $name, $function, $rewrite = '' ) {
 		add_action( 'wpseo_xsl_' . $name, $function );
@@ -259,7 +259,7 @@ class WPSEO_Sitemaps {
 	/**
 	 * Set the sitemap content to display after you have generated it.
 	 *
-	 * @param string $sitemap The generated sitemap to output
+	 * @param string $sitemap The generated sitemap to output.
 	 */
 	function set_sitemap( $sitemap ) {
 		$this->sitemap = $sitemap;
@@ -269,7 +269,7 @@ class WPSEO_Sitemaps {
 	 * Set a custom stylesheet for this sitemap. Set to empty to just remove
 	 * the default stylesheet.
 	 *
-	 * @param string $stylesheet Full xml-stylesheet declaration
+	 * @param string $stylesheet Full xml-stylesheet declaration.
 	 */
 	public function set_stylesheet( $stylesheet ) {
 		$this->stylesheet = $stylesheet;
@@ -593,9 +593,9 @@ class WPSEO_Sitemaps {
 	/**
 	 * Function to dynamically filter the change frequency
 	 *
-	 * @param string $filter  Expands to wpseo_sitemap_$filter_change_freq, allowing for a change of the frequency for numerous specific URLs
-	 * @param string $default The default value for the frequency
-	 * @param string $url     The URL of the currenty entry
+	 * @param string $filter  Expands to wpseo_sitemap_$filter_change_freq, allowing for a change of the frequency for numerous specific URLs.
+	 * @param string $default The default value for the frequency.
+	 * @param string $url     The URL of the current entry.
 	 *
 	 * @return mixed|void
 	 */
@@ -626,7 +626,7 @@ class WPSEO_Sitemaps {
 	/**
 	 * Build a sub-sitemap for a specific post type -- example.com/post_type-sitemap.xml
 	 *
-	 * @param string $post_type Registered post type's slug
+	 * @param string $post_type Registered post type's slug.
 	 */
 	function build_post_type_map( $post_type ) {
 		global $wpdb;
@@ -691,7 +691,7 @@ class WPSEO_Sitemaps {
 			 *
 			 * @api float $archive_url The URL of this archive
 			 *
-			 * @param string $post_type The post type this archive is for
+			 * @param string $post_type The post type this archive is for.
 			 */
 			$archive_url = apply_filters( 'wpseo_sitemap_post_type_archive_link', $archive_url, $post_type );
 			if ( $archive_url ) {
@@ -700,7 +700,7 @@ class WPSEO_Sitemaps {
 				 *
 				 * @api float $priority The priority for this URL, ranging from 0 to 1
 				 *
-				 * @param string $post_type The post type this archive is for
+				 * @param string $post_type The post type this archive is for.
 				 */
 				$output .= $this->sitemap_url(
 					array(
@@ -814,7 +814,7 @@ class WPSEO_Sitemaps {
 					 *
 					 * @api string $url URL to use in the XML sitemap
 					 *
-					 * @param object $p Post object for the URL
+					 * @param object $p Post object for the URL.
 					 */
 					$url['loc'] = apply_filters( 'wpseo_xml_sitemap_post_url', $url['loc'], $p );
 
@@ -951,7 +951,7 @@ class WPSEO_Sitemaps {
 	/**
 	 * Build a sub-sitemap for a specific taxonomy -- example.com/tax-sitemap.xml
 	 *
-	 * @param string $taxonomy Registered taxonomy's slug
+	 * @param string $taxonomy Registered taxonomy's slug.
 	 */
 	function build_tax_map( $taxonomy ) {
 		if (
@@ -1228,7 +1228,7 @@ class WPSEO_Sitemaps {
 	/**
 	 * Build the <url> tag for a given URL.
 	 *
-	 * @param array $url Array of parts that make up this entry
+	 * @param array $url Array of parts that make up this entry.
 	 *
 	 * @return string
 	 */
@@ -1303,7 +1303,7 @@ class WPSEO_Sitemaps {
 	/**
 	 * Get the modification date for the last modified post in the post type:
 	 *
-	 * @param array $post_types Post types to get the last modification date for
+	 * @param array $post_types Post types to get the last modification date for.
 	 *
 	 * @return string
 	 */
@@ -1344,7 +1344,7 @@ class WPSEO_Sitemaps {
 	/**
 	 * Get the datetime object, in site's time zone, if the datetime string was valid
 	 *
-	 * @param string $datetime_string The datetime string in UTC time zone, that needs to be converted to a DateTime object
+	 * @param string $datetime_string The datetime string in UTC time zone, that needs to be converted to a DateTime object.
 	 * @param string $format
 	 *
 	 * @return DateTime|null in site's time zone
@@ -1373,8 +1373,8 @@ class WPSEO_Sitemaps {
 	 *
 	 * since 1.6
 	 *
-	 * @param Wp_User $a The first WP user
-	 * @param Wp_User $b The second WP user
+	 * @param Wp_User $a The first WP user.
+	 * @param Wp_User $b The second WP user.
 	 *
 	 * @return int 0 if equal, 1 if $a is larger else or -1;
 	 */
@@ -1596,8 +1596,8 @@ class WPSEO_Sitemaps {
 		 *
 		 * @api float $priority The priority for this URL, ranging from 0 to 1
 		 *
-		 * @param string $post_type The post type this archive is for
-		 * @param object $p         The post object
+		 * @param string $post_type The post type this archive is for.
+		 * @param object $p         The post object.
 		 */
 		$return = apply_filters( 'wpseo_xml_sitemap_post_priority', $return, $post->post_type, $post );
 

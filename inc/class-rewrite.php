@@ -95,7 +95,7 @@ class WPSEO_Rewrite {
 	/**
 	 * Redirect the "old" category URL to the new one.
 	 *
-	 * @param array $query_vars Query vars to check for existence of redirect var
+	 * @param array $query_vars Query vars to check for existence of redirect var.
 	 *
 	 * @return array
 	 */

@@ -50,7 +50,7 @@ class Yoast_TextStatistics {
 	/**
 	 * Gives the Flesch-Kincaid Reading Ease of text entered rounded to one digit
 	 *
-	 * @param  string $strText Text to be checked
+	 * @param  string $strText Text to be checked.
 	 *
 	 * @return int|float
 	 */
@@ -64,7 +64,7 @@ class Yoast_TextStatistics {
 	/**
 	 * Gives string length.
 	 *
-	 * @param  string $strText Text to be measured
+	 * @param  string $strText Text to be measured.
 	 *
 	 * @return int
 	 */
@@ -90,7 +90,7 @@ class Yoast_TextStatistics {
 	/**
 	 * Gives letter count (ignores all non-letters). Tries mb_strlen and if that fails uses regular strlen.
 	 *
-	 * @param string $strText Text to be measured
+	 * @param string $strText Text to be measured.
 	 *
 	 * @return int
 	 */
@@ -119,7 +119,7 @@ class Yoast_TextStatistics {
 	/**
 	 * Trims, removes line breaks, multiple spaces and generally cleans text before processing.
 	 *
-	 * @param string $strText Text to be transformed
+	 * @param string $strText Text to be transformed.
 	 *
 	 * @return string
 	 */
@@ -159,7 +159,7 @@ class Yoast_TextStatistics {
 	/**
 	 * Converts string to lower case. Tries mb_strtolower and if that fails uses regular strtolower.
 	 *
-	 * @param string $strText Text to be transformed
+	 * @param string $strText Text to be transformed.
 	 *
 	 * @return string
 	 */
@@ -186,7 +186,7 @@ class Yoast_TextStatistics {
 	/**
 	 * Converts string to upper case. Tries mb_strtoupper and if that fails uses regular strtoupper.
 	 *
-	 * @param string $strText Text to be transformed
+	 * @param string $strText Text to be transformed.
 	 *
 	 * @return string
 	 */
@@ -212,7 +212,7 @@ class Yoast_TextStatistics {
 	/**
 	 * Returns sentence count for text.
 	 *
-	 * @param   string $strText Text to be measured
+	 * @param   string $strText Text to be measured.
 	 *
 	 * @return int
 	 */
@@ -234,7 +234,7 @@ class Yoast_TextStatistics {
 	/**
 	 * Returns word count for text.
 	 *
-	 * @param  string $strText Text to be measured
+	 * @param  string $strText Text to be measured.
 	 *
 	 * @return int
 	 */
@@ -252,7 +252,7 @@ class Yoast_TextStatistics {
 	/**
 	 * Returns average words per sentence for text.
 	 *
-	 * @param string $strText Text to be measured
+	 * @param string $strText Text to be measured.
 	 *
 	 * @return int|float
 	 */
@@ -267,7 +267,7 @@ class Yoast_TextStatistics {
 	/**
 	 * Returns average syllables per word for text.
 	 *
-	 * @param string $strText Text to be measured
+	 * @param string $strText Text to be measured.
 	 *
 	 * @return int|float
 	 */
@@ -287,7 +287,7 @@ class Yoast_TextStatistics {
 	 * Returns the number of syllables in the word.
 	 * Based in part on Greg Fast's Perl module Lingua::EN::Syllables
 	 *
-	 * @param string $strWord Word to be measured
+	 * @param string $strWord Word to be measured.
 	 *
 	 * @return int
 	 */
@@ -403,10 +403,10 @@ class Yoast_TextStatistics {
 	 * Also rounds result to specified precision.
 	 * Thanks to github.com/lvil.
 	 *
-	 * @param    int|float $score Initial score
-	 * @param    int       $min   Minimum score allowed
-	 * @param    int       $max   Maximum score allowed
-	 * @param    int       $dps   Round to # decimals
+	 * @param    int|float $score Initial score.
+	 * @param    int       $min   Minimum score allowed.
+	 * @param    int       $max   Maximum score allowed.
+	 * @param    int       $dps   Round to # decimals.
 	 *
 	 * @return    int|float
 	 */

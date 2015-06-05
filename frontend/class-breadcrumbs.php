@@ -112,7 +112,7 @@ class WPSEO_Breadcrumbs {
 	 *
 	 * @param string $before
 	 * @param string $after
-	 * @param bool   $display Echo or return ?
+	 * @param bool   $display Echo or return.
 	 *
 	 * @return object
 	 */
@@ -182,7 +182,7 @@ class WPSEO_Breadcrumbs {
 	/**
 	 * Get a term's parents.
 	 *
-	 * @param    object $term Term to get the parents for
+	 * @param    object $term Term to get the parents for.
 	 *
 	 * @return    array
 	 */
@@ -427,7 +427,7 @@ class WPSEO_Breadcrumbs {
 	/**
 	 * Add a ptarchive based crumb to the crumbs property
 	 *
-	 * @param string $pt Post type
+	 * @param string $pt Post type.
 	 */
 	private function add_ptarchive_crumb( $pt ) {
 		$this->crumbs[] = array(
@@ -683,7 +683,7 @@ class WPSEO_Breadcrumbs {
 	/**
 	 * Retrieve link url and text based on term object
 	 *
-	 * @param object $term Term object
+	 * @param object $term Term object.
 	 *
 	 * @return array Array of link text and url
 	 */
@@ -704,7 +704,7 @@ class WPSEO_Breadcrumbs {
 	/**
 	 * Retrieve link url and text based on post type
 	 *
-	 * @param string $pt Post type
+	 * @param string $pt Post type.
 	 *
 	 * @return array Array of link text and url
 	 */
@@ -750,7 +750,7 @@ class WPSEO_Breadcrumbs {
 	 *                     (optional) 'allow_html'    => (bool) whether to (not) escape html in the link text
 	 *                     This prevents html stripping from the text strings set in the
 	 *                     WPSEO -> Internal Links options page
-	 * @param  int   $i    Index for the current breadcrumb
+	 * @param  int   $i    Index for the current breadcrumb.
 	 *
 	 * @return string
 	 */
@@ -795,7 +795,7 @@ class WPSEO_Breadcrumbs {
 		 *
 		 * @api string $link_output The output string
 		 *
-		 * @param array $link The link array
+		 * @param array $link The link array.
 		 */
 
 		return apply_filters( 'wpseo_breadcrumb_single_link', $link_output, $link );

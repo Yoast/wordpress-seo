@@ -514,8 +514,8 @@ class WPSEO_Admin {
 	/**
 	 * Check whether the stopword appears in the string
 	 *
-	 * @param string $haystack    The string to be checked for the stopword
-	 * @param bool   $checkingUrl Whether or not we're checking a URL
+	 * @param string $haystack    The string to be checked for the stopword.
+	 * @param bool   $checkingUrl Whether or not we're checking a URL.
 	 *
 	 * @return bool|mixed
 	 */

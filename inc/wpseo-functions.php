@@ -142,12 +142,12 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
  * @since 1.5.4
  *
  * @param  string $var              The name of the variable to replace, i.e. '%%var%%'
- *                                  - the surrounding %% are optional, name can only contain [A-Za-z0-9_-]
+ *                                  - the surrounding %% are optional, name can only contain [A-Za-z0-9_-].
  * @param  mixed  $replace_function Function or method to call to retrieve the replacement value for the variable
  *                                  Uses the same format as add_filter/add_action function parameter and
- *                                  should *return* the replacement value. DON'T echo it!
- * @param  string $type             Type of variable: 'basic' or 'advanced', defaults to 'advanced'
- * @param  string $help_text        Help text to be added to the help tab for this variable
+ *                                  should *return* the replacement value. DON'T echo it.
+ * @param  string $type             Type of variable: 'basic' or 'advanced', defaults to 'advanced'.
+ * @param  string $help_text        Help text to be added to the help tab for this variable.
  *
  * @return bool  Whether the replacement function was succesfully registered
  */
@@ -174,7 +174,7 @@ function wpseo_xml_redirect_sitemap() {
  *
  * @since 1.5.7
  *
- * @param string $page page to append to the base URL
+ * @param string $page page to append to the base URL.
  *
  * @return string base URL (incl page) for the sitemaps
  */
@@ -383,8 +383,8 @@ if ( ! extension_loaded( 'ctype' ) || ! function_exists( 'ctype_digit' ) ) {
  * @deprecated use WPSEO_Meta::get_value()
  * @see        WPSEO_Meta::get_value()
  *
- * @param    string $val    internal name of the value to get
- * @param    int    $postid post ID of the post to get the value for
+ * @param    string $val    Internal name of the value to get.
+ * @param    int    $postid Post ID of the post to get the value for.
  *
  * @return    string
  */
@@ -402,9 +402,9 @@ function wpseo_get_value( $val, $postid = 0 ) {
  * @deprecated use WPSEO_Meta::set_value() or just use update_post_meta()
  * @see        WPSEO_Meta::set_value()
  *
- * @param    string $meta_key   the meta to change
- * @param    mixed  $meta_value the value to set the meta to
- * @param    int    $post_id    the ID of the post to change the meta for.
+ * @param    string $meta_key   The meta to change.
+ * @param    mixed  $meta_value The value to set the meta to.
+ * @param    int    $post_id    The ID of the post to change the meta for.
  *
  * @return    bool    whether the value was changed
  */
@@ -471,9 +471,9 @@ function replace_meta( $old_metakey, $new_metakey, $replace = false ) {
  * @deprecated use WPSEO_Taxonomy_Meta::get_term_meta()
  * @see        WPSEO_Taxonomy_Meta::get_term_meta()
  *
- * @param string|object $term     term to get the meta value for
- * @param string        $taxonomy name of the taxonomy to which the term is attached
- * @param string        $meta     meta value to get
+ * @param string|object $term     Term to get the meta value for.
+ * @param string        $taxonomy Name of the taxonomy to which the term is attached.
+ * @param string        $meta     Meta value to get.
  *
  * @return bool|mixed value when the meta exists, false when it does not
  */
@@ -538,7 +538,7 @@ add_shortcode( 'wpseo_sitemap', 'wpseo_sitemap_handler' );
  * @deprecated use WPSEO_Utils::strip_shortcode()
  * @see        WPSEO_Utils::strip_shortcode()
  *
- * @param string $text input string that might contain shortcodes
+ * @param string $text Input string that might contain shortcodes.
  *
  * @return string $text string without shortcodes
  */
@@ -561,9 +561,9 @@ function wpseo_strip_shortcode( $text ) {
  *
  * @since      1.5.0
  *
- * @param    mixed  $number1   Scalar (string/int/float/bool)
+ * @param    mixed  $number1   Scalar (string/int/float/bool).
  * @param    string $action    Calculation action to execute.
- * @param    mixed  $number2   Scalar (string/int/float/bool)
+ * @param    mixed  $number2   Scalar (string/int/float/bool).
  * @param    bool   $round     Whether or not to round the result. Defaults to false.
  * @param    int    $decimals  Decimals for rounding operation. Defaults to 0.
  * @param    int    $precision Calculation precision. Defaults to 10.

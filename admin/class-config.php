@@ -153,7 +153,7 @@ class WPSEO_Admin_Pages {
 	 * @deprecated 2.0
 	 *
 	 * @param bool $submit       Whether or not a submit button and form end tag should be shown.
-	 * @param bool $show_sidebar Whether or not to show the banner sidebar - used by premium plugins to disable it
+	 * @param bool $show_sidebar Whether or not to show the banner sidebar - used by premium plugins to disable it.
 	 */
 	public function admin_footer( $submit = true, $show_sidebar = true ) {
 		_deprecated_function( __METHOD__, 'WPSEO 2.0', 'This method is deprecated, please use the <code>Yoast_Form</code> class.' );

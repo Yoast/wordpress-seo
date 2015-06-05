@@ -282,7 +282,7 @@ class WPSEO_OpenGraph {
 	 *
 	 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
 	 *
-	 * @param bool $echo Whether to echo or return the locale
+	 * @param bool $echo Whether to echo or return the locale.
 	 *
 	 * @return string $locale
 	 */
@@ -428,7 +428,7 @@ class WPSEO_OpenGraph {
 	/**
 	 * Output the OpenGraph type.
 	 *
-	 * @param boolean $echo Whether to echo or return the type
+	 * @param boolean $echo Whether to echo or return the type.
 	 *
 	 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/object/
 	 *
@@ -497,7 +497,7 @@ class WPSEO_OpenGraph {
 	/**
 	 * Output the OpenGraph description, specific OG description first, if not, grab the meta description.
 	 *
-	 * @param bool $echo Whether to echo or return the description
+	 * @param bool $echo Whether to echo or return the description.
 	 *
 	 * @return string $ogdesc
 	 */
@@ -769,7 +769,7 @@ class WPSEO_OpenGraph_Image {
 	/**
 	 * If there is a featured image, check image size. If image size is correct, call add_image and return true
 	 *
-	 * @param int $post_id the post id
+	 * @param int $post_id The post ID.
 	 *
 	 * @return bool
 	 */
@@ -810,7 +810,7 @@ class WPSEO_OpenGraph_Image {
 	/**
 	 * Check size of featured image. If image is too small, return false, else return true
 	 *
-	 * @param array $img_data wp_get_attachment_image_src: url, width, height, icon
+	 * @param array $img_data wp_get_attachment_image_src: url, width, height, icon.
 	 *
 	 * @return bool
 	 */
@@ -826,7 +826,7 @@ class WPSEO_OpenGraph_Image {
 	/**
 	 * Display an OpenGraph image tag
 	 *
-	 * @param string $img - Source URL to the image
+	 * @param string $img - Source URL to the image.
 	 *
 	 * @return bool
 	 */

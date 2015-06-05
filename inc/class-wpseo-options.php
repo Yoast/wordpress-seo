@@ -233,7 +233,7 @@ abstract class WPSEO_Option {
 	 * @param string $key
 	 * @param array  $dirty
 	 * @param array  $old
-	 * @param array  $clean (passed by reference)
+	 * @param array  $clean (passed by reference).
 	 */
 	public function validate_verification_string( $key, $dirty, $old, &$clean ) {
 		if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
@@ -301,7 +301,7 @@ abstract class WPSEO_Option {
 	 * @param string $key
 	 * @param array  $dirty
 	 * @param array  $old
-	 * @param array  $clean (passed by reference)
+	 * @param array  $clean (passed by reference).
 	 */
 	public function validate_url( $key, $dirty, $old, &$clean ) {
 		if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
@@ -392,7 +392,7 @@ abstract class WPSEO_Option {
 	 *
 	 * This method should *not* be called directly!!! It is only meant to filter the get_option() results
 	 *
-	 * @param   mixed $options Option value
+	 * @param   mixed $options Option value.
 	 *
 	 * @return  mixed        Option merged with the defaults for that option
 	 */
@@ -430,7 +430,7 @@ abstract class WPSEO_Option {
 	/**
 	 * Validate the option
 	 *
-	 * @param  mixed $option_value The unvalidated new value for the option
+	 * @param  mixed $option_value The unvalidated new value for the option.
 	 *
 	 * @return  array          Validated new value for the option
 	 */
@@ -467,9 +467,9 @@ abstract class WPSEO_Option {
 	 * All concrete classes must contain a validate_option() method which validates all
 	 * values within the option
 	 *
-	 * @param  array $dirty New value for the option
-	 * @param  array $clean Clean value for the option, normally the defaults
-	 * @param  array $old   Old value of the option
+	 * @param  array $dirty New value for the option.
+	 * @param  array $clean Clean value for the option, normally the defaults.
+	 * @param  array $old   Old value of the option.
 	 */
 	abstract protected function validate_option( $dirty, $clean, $old );
 
@@ -528,7 +528,7 @@ abstract class WPSEO_Option {
 	 * Aka: use the WPSEO_Options::update_site_option() method (which calls this method) for
 	 * safely adding/updating multisite options.
 	 *
-	 * @param mixed $value The new value for the option
+	 * @param mixed $value The new value for the option.
 	 *
 	 * @return bool whether the update was succesfull
 	 */
@@ -552,8 +552,7 @@ abstract class WPSEO_Option {
 	 * @uses WPSEO_Option::get_original_option()
 	 * @uses WPSEO_Option::import()
 	 *
-	 * @param  string $current_version (optional) Version from which to upgrade, if not set,
-	 *                                 version specific upgrades will be disregarded
+	 * @param  string $current_version (optional) Version from which to upgrade, if not set, version specific upgrades will be disregarded.
 	 *
 	 * @return void
 	 */
@@ -576,11 +575,9 @@ abstract class WPSEO_Option {
 	 *    once the admin has dismissed the message (add ajax function)
 	 * Important: all validation routines which add_settings_errors would need to be changed for this to work
 	 *
-	 * @param  array  $option_value          Option value to be imported
-	 * @param  string $current_version       (optional) Version from which to upgrade, if not set,
-	 *                                       version specific upgrades will be disregarded
-	 * @param  array  $all_old_option_values (optional) Only used when importing old options to have
-	 *                                       access to the real old values, in contrast to the saved ones
+	 * @param  array  $option_value          Option value to be imported.
+	 * @param  string $current_version       (optional) Version from which to upgrade, if not set, version specific upgrades will be disregarded.
+	 * @param  array  $all_old_option_values (optional) Only used when importing old options to have access to the real old values, in contrast to the saved ones.
 	 *
 	 * @return void
 	 */
@@ -619,8 +616,7 @@ abstract class WPSEO_Option {
 	 * @todo [JRF] - shouldn't this be a straight array merge ? at the end of the day, the validation
 	 * removes any invalid keys on save
 	 *
-	 * @param  array $options (Optional) Current options
-	 *                        - if not set, the option defaults for the $option_key will be returned.
+	 * @param  array $options (Optional) Current options. If not set, the option defaults for the $option_key will be returned.
 	 *
 	 * @return  array  Combined and filtered options array.
 	 */
@@ -654,7 +650,7 @@ abstract class WPSEO_Option {
 	 * @internal The wpseo_titles concrete class overrules this method. Make sure that any changes
 	 * applied here, also get ported to that version.
 	 *
-	 * @param  array $dirty Original option as retrieved from the database
+	 * @param  array $dirty Original option as retrieved from the database.
 	 * @param  array $clean Filtered option where any options which shouldn't be in our option
 	 *                      have already been removed and any options which weren't set
 	 *                      have been set to their defaults
@@ -689,7 +685,7 @@ abstract class WPSEO_Option {
 	 *
 	 * @usedby validate_option() methods for options with variable array keys
 	 *
-	 * @param  string $key Array key to check
+	 * @param  string $key Array key to check.
 	 *
 	 * @return string      Pattern if it conforms, original array key if it doesn't or if the option
 	 *              does not have variable array keys
@@ -837,7 +833,7 @@ abstract class WPSEO_Option {
 	 *
 	 * @static
 	 *
-	 * @param   mixed $value Value to trim or array of values to trim
+	 * @param   mixed $value Value to trim or array of values to trim.
 	 *
 	 * @return  mixed      Trimmed value or array of trimmed values
 	 */
@@ -958,9 +954,9 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 	/**
 	 * Validate the option
 	 *
-	 * @param  array $dirty New value for the option
-	 * @param  array $clean Clean value for the option, normally the defaults
-	 * @param  array $old   Old value of the option
+	 * @param  array $dirty New value for the option.
+	 * @param  array $clean Clean value for the option, normally the defaults.
+	 * @param  array $old   Old value of the option.
 	 *
 	 * @return  array      Validated clean value for the option to be saved to the database
 	 */
@@ -1071,11 +1067,11 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 	 * Clean a given option value
 	 *
 	 * @param  array  $option_value          Old (not merged with defaults or filtered) option value to
-	 *                                       clean according to the rules for this option
+	 *                                       clean according to the rules for this option.
 	 * @param  string $current_version       (optional) Version from which to upgrade, if not set,
-	 *                                       version specific upgrades will be disregarded
+	 *                                       version specific upgrades will be disregarded.
 	 * @param  array  $all_old_option_values (optional) Only used when importing old options to have
-	 *                                       access to the real old values, in contrast to the saved ones
+	 *                                       access to the real old values, in contrast to the saved ones.
 	 *
 	 * @return  array            Cleaned option
 	 */
@@ -1195,9 +1191,9 @@ class WPSEO_Option_Permalinks extends WPSEO_Option {
 	/**
 	 * Validate the option
 	 *
-	 * @param  array $dirty New value for the option
-	 * @param  array $clean Clean value for the option, normally the defaults
-	 * @param  array $old   Old value of the option (not used here as all fields will always be in the form)
+	 * @param  array $dirty New value for the option.
+	 * @param  array $clean Clean value for the option, normally the defaults.
+	 * @param  array $old   Old value of the option (not used here as all fields will always be in the form).
 	 *
 	 * @return  array      Validated clean value for the option to be saved to the database
 	 */
@@ -1241,11 +1237,11 @@ class WPSEO_Option_Permalinks extends WPSEO_Option {
 	 * Clean a given option value
 	 *
 	 * @param  array  $option_value          Old (not merged with defaults or filtered) option value to
-	 *                                       clean according to the rules for this option
+	 *                                       clean according to the rules for this option.
 	 * @param  string $current_version       (optional) Version from which to upgrade, if not set,
-	 *                                       version specific upgrades will be disregarded
+	 *                                       version specific upgrades will be disregarded.
 	 * @param  array  $all_old_option_values (optional) Only used when importing old options to have
-	 *                                       access to the real old values, in contrast to the saved ones
+	 *                                       access to the real old values, in contrast to the saved ones.
 	 *
 	 * @return  array            Cleaned option
 	 */
@@ -1502,9 +1498,9 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 	/**
 	 * Validate the option
 	 *
-	 * @param  array $dirty New value for the option
-	 * @param  array $clean Clean value for the option, normally the defaults
-	 * @param  array $old   Old value of the option
+	 * @param  array $dirty New value for the option.
+	 * @param  array $clean Clean value for the option, normally the defaults.
+	 * @param  array $old   Old value of the option.
 	 *
 	 * @return  array      Validated clean value for the option to be saved to the database
 	 */
@@ -1611,11 +1607,11 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 	 * Clean a given option value
 	 *
 	 * @param  array  $option_value          Old (not merged with defaults or filtered) option value to
-	 *                                       clean according to the rules for this option
+	 *                                       clean according to the rules for this option.
 	 * @param  string $current_version       (optional) Version from which to upgrade, if not set,
-	 *                                       version specific upgrades will be disregarded
+	 *                                       version specific upgrades will be disregarded/
 	 * @param  array  $all_old_option_values (optional) Only used when importing old options to have
-	 *                                       access to the real old values, in contrast to the saved ones
+	 *                                       access to the real old values, in contrast to the saved ones.
 	 *
 	 * @return  array            Cleaned option
 	 */
@@ -1795,10 +1791,10 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 	 * @internal Overrule the abstract class version of this to make sure one extra renamed variable key
 	 * does not get removed. IMPORTANT: keep this method in line with the parent on which it is based!
 	 *
-	 * @param  array $dirty Original option as retrieved from the database
+	 * @param  array $dirty Original option as retrieved from the database.
 	 * @param  array $clean Filtered option where any options which shouldn't be in our option
 	 *                      have already been removed and any options which weren't set
-	 *                      have been set to their defaults
+	 *                      have been set to their defaults.
 	 *
 	 * @return  array
 	 */
@@ -1886,9 +1882,9 @@ class WPSEO_Option_RSS extends WPSEO_Option {
 	/**
 	 * Validate the option
 	 *
-	 * @param  array $dirty New value for the option
-	 * @param  array $clean Clean value for the option, normally the defaults
-	 * @param  array $old   Old value of the option
+	 * @param  array $dirty New value for the option.
+	 * @param  array $clean Clean value for the option, normally the defaults.
+	 * @param  array $old   Old value of the option.
 	 *
 	 * @return  array      Validated clean value for the option to be saved to the database
 	 */
@@ -2008,9 +2004,9 @@ class WPSEO_Option_InternalLinks extends WPSEO_Option {
 	/**
 	 * Validate the option
 	 *
-	 * @param  array $dirty New value for the option
-	 * @param  array $clean Clean value for the option, normally the defaults
-	 * @param  array $old   Old value of the option
+	 * @param  array $dirty New value for the option.
+	 * @param  array $clean Clean value for the option, normally the defaults.
+	 * @param  array $old   Old value of the option.
 	 *
 	 * @return  array      Validated clean value for the option to be saved to the database
 	 */
@@ -2160,11 +2156,11 @@ class WPSEO_Option_InternalLinks extends WPSEO_Option {
 	 * Clean a given option value
 	 *
 	 * @param  array  $option_value          Old (not merged with defaults or filtered) option value to
-	 *                                       clean according to the rules for this option
+	 *                                       clean according to the rules for this option.
 	 * @param  string $current_version       (optional) Version from which to upgrade, if not set,
-	 *                                       version specific upgrades will be disregarded
+	 *                                       version specific upgrades will be disregarded.
 	 * @param  array  $all_old_option_values (optional) Only used when importing old options to have
-	 *                                       access to the real old values, in contrast to the saved ones
+	 *                                       access to the real old values, in contrast to the saved ones.
 	 *
 	 * @return  array            Cleaned option
 	 */
@@ -2380,9 +2376,9 @@ class WPSEO_Option_XML extends WPSEO_Option {
 	/**
 	 * Validate the option
 	 *
-	 * @param  array $dirty New value for the option
-	 * @param  array $clean Clean value for the option, normally the defaults
-	 * @param  array $old   Old value of the option
+	 * @param  array $dirty New value for the option.
+	 * @param  array $clean Clean value for the option, normally the defaults.
+	 * @param  array $old   Old value of the option.
 	 *
 	 * @return  array      Validated clean value for the option to be saved to the database
 	 */
@@ -2448,11 +2444,11 @@ class WPSEO_Option_XML extends WPSEO_Option {
 	 * Clean a given option value
 	 *
 	 * @param  array  $option_value          Old (not merged with defaults or filtered) option value to
-	 *                                       clean according to the rules for this option
+	 *                                       clean according to the rules for this option.
 	 * @param  string $current_version       (optional) Version from which to upgrade, if not set,
-	 *                                       version specific upgrades will be disregarded
+	 *                                       version specific upgrades will be disregarded.
 	 * @param  array  $all_old_option_values (optional) Only used when importing old options to have
-	 *                                       access to the real old values, in contrast to the saved ones
+	 *                                       access to the real old values, in contrast to the saved ones.
 	 *
 	 * @return  array            Cleaned option
 	 */
@@ -2599,9 +2595,9 @@ class WPSEO_Option_Social extends WPSEO_Option {
 	/**
 	 * Validate the option
 	 *
-	 * @param  array $dirty New value for the option
-	 * @param  array $clean Clean value for the option, normally the defaults
-	 * @param  array $old   Old value of the option
+	 * @param  array $dirty New value for the option.
+	 * @param  array $clean Clean value for the option, normally the defaults.
+	 * @param  array $old   Old value of the option.
 	 *
 	 * @return  array      Validated clean value for the option to be saved to the database
 	 */
@@ -2754,11 +2750,11 @@ class WPSEO_Option_Social extends WPSEO_Option {
 	 * Clean a given option value
 	 *
 	 * @param  array  $option_value          Old (not merged with defaults or filtered) option value to
-	 *                                       clean according to the rules for this option
+	 *                                       clean according to the rules for this option.
 	 * @param  string $current_version       (optional) Version from which to upgrade, if not set,
-	 *                                       version specific upgrades will be disregarded
+	 *                                       version specific upgrades will be disregarded.
 	 * @param  array  $all_old_option_values (optional) Only used when importing old options to have
-	 *                                       access to the real old values, in contrast to the saved ones
+	 *                                       access to the real old values, in contrast to the saved ones.
 	 *
 	 * @return  array            Cleaned option
 	 */
@@ -2931,9 +2927,9 @@ class WPSEO_Option_MS extends WPSEO_Option {
 	/**
 	 * Validate the option
 	 *
-	 * @param  array $dirty New value for the option
-	 * @param  array $clean Clean value for the option, normally the defaults
-	 * @param  array $old   Old value of the option
+	 * @param  array $dirty New value for the option.
+	 * @param  array $clean Clean value for the option, normally the defaults.
+	 * @param  array $old   Old value of the option.
 	 *
 	 * @return  array      Validated clean value for the option to be saved to the database
 	 */
@@ -3001,11 +2997,11 @@ class WPSEO_Option_MS extends WPSEO_Option {
 	 * Clean a given option value
 	 *
 	 * @param  array  $option_value          Old (not merged with defaults or filtered) option value to
-	 *                                       clean according to the rules for this option
+	 *                                       clean according to the rules for this option.
 	 * @param  string $current_version       (optional) Version from which to upgrade, if not set,
-	 *                                       version specific upgrades will be disregarded
+	 *                                       version specific upgrades will be disregarded.
 	 * @param  array  $all_old_option_values (optional) Only used when importing old options to have
-	 *                                       access to the real old values, in contrast to the saved ones
+	 *                                       access to the real old values, in contrast to the saved ones.
 	 *
 	 * @return  array            Cleaned option
 	 */
@@ -3140,9 +3136,8 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 	 *
 	 * @static
 	 *
-	 * @param  string $option_key Option name of the option we're doing the merge for
-	 * @param  array  $options    (Optional) Current options
-	 *                            - if not set, the option defaults for the $option_key will be returned.
+	 * @param  string $option_key Option name of the option we're doing the merge for.
+	 * @param  array  $options    (Optional) Current options. If not set, the option defaults for the $option_key will be returned.
 	 *
 	 * @return  array  Combined and filtered options array.
 	 */
@@ -3191,9 +3186,9 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 	/**
 	 * Validate the option
 	 *
-	 * @param  array $dirty New value for the option
-	 * @param  array $clean Clean value for the option, normally the defaults
-	 * @param  array $old   Old value of the option
+	 * @param  array $dirty New value for the option.
+	 * @param  array $clean Clean value for the option, normally the defaults.
+	 * @param  array $old   Old value of the option.
 	 *
 	 * @return  array      Validated clean value for the option to be saved to the database
 	 */
@@ -3247,8 +3242,8 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 	 *
 	 * @static
 	 *
-	 * @param  array $meta_data New values
-	 * @param  array $old_meta  The original values
+	 * @param  array $meta_data New values.
+	 * @param  array $old_meta  The original values.
 	 *
 	 * @return  array        Validated and filtered value
 	 */
@@ -3326,11 +3321,11 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 	 * - Fixes strings which were escaped (should have been sanitized - escaping is for output)
 	 *
 	 * @param  array  $option_value          Old (not merged with defaults or filtered) option value to
-	 *                                       clean according to the rules for this option
+	 *                                       clean according to the rules for this option.
 	 * @param  string $current_version       (optional) Version from which to upgrade, if not set,
-	 *                                       version specific upgrades will be disregarded
+	 *                                       version specific upgrades will be disregarded.
 	 * @param  array  $all_old_option_values (optional) Only used when importing old options to have
-	 *                                       access to the real old values, in contrast to the saved ones
+	 *                                       access to the real old values, in contrast to the saved ones.
 	 *
 	 * @return  array            Cleaned option
 	 */
@@ -3400,13 +3395,13 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 	 * @static
 	 *
 	 * @param  mixed  $term     Term to get the meta value for
-	 *                          either (string) term name, (int) term id or (object) term
-	 * @param  string $taxonomy Name of the taxonomy to which the term is attached
-	 * @param  string $meta     (optional) Meta value to get (without prefix)
+	 *                          either (string) term name, (int) term id or (object) term.
+	 * @param  string $taxonomy Name of the taxonomy to which the term is attached.
+	 * @param  string $meta     (optional) Meta value to get (without prefix).
 	 *
-	 * @return  mixed|bool    Value for the $meta if one is given, might be the default
-	 *              If no meta is given, an array of all the meta data for the term
-	 *              False if the term does not exist or the $meta provided is invalid
+	 * @return  mixed|bool    Value for the $meta if one is given, might be the default.
+	 *              If no meta is given, an array of all the meta data for the term.
+	 *              False if the term does not exist or the $meta provided is invalid.
 	 */
 	public static function get_term_meta( $term, $taxonomy, $meta = null ) {
 		/* Figure out the term id */
@@ -3526,7 +3521,7 @@ class WPSEO_Options {
 	/**
 	 * Get the group name of an option for use in the settings form
 	 *
-	 * @param  string $option_name the option for which you want to retrieve the option group name
+	 * @param  string $option_name the option for which you want to retrieve the option group name.
 	 *
 	 * @return  string|bool
 	 */
@@ -3542,8 +3537,8 @@ class WPSEO_Options {
 	/**
 	 * Get a specific default value for an option
 	 *
-	 * @param  string $option_name The option for which you want to retrieve a default
-	 * @param  string $key         The key within the option who's default you want
+	 * @param  string $option_name The option for which you want to retrieve a default.
+	 * @param  string $key         The key within the option who's default you want.
 	 *
 	 * @return  mixed
 	 */
@@ -3562,8 +3557,8 @@ class WPSEO_Options {
 	/**
 	 * Update a site_option
 	 *
-	 * @param  string $option_name The option name of the option to save
-	 * @param  mized  $value       The new value for the option
+	 * @param  string $option_name The option name of the option to save.
+	 * @param  mixed  $value       The new value for the option.
 	 *
 	 * @return bool
 	 */
@@ -3580,7 +3575,7 @@ class WPSEO_Options {
 	/**
 	 * Get the instantiated option instance
 	 *
-	 * @param  string $option_name The option for which you want to retrieve the instance
+	 * @param  string $option_name The option for which you want to retrieve the instance.
 	 *
 	 * @return  object|bool
 	 */
@@ -3652,9 +3647,9 @@ class WPSEO_Options {
 	 *
 	 * @param  array|string $option_name     (optional) the option you want to clean or an array of
 	 *                                       option names for the options you want to clean.
-	 *                                       If not set, all options will be cleaned
+	 *                                       If not set, all options will be cleaned.
 	 * @param  string       $current_version (optional) Version from which to upgrade, if not set,
-	 *                                       version specific upgrades will be disregarded
+	 *                                       version specific upgrades will be disregarded.
 	 *
 	 * @return  void
 	 */
@@ -3760,7 +3755,7 @@ class WPSEO_Options {
 	 *
 	 * @static
 	 *
-	 * @param  bool $force_init Whether to always do the initialization routine (title/desc test)
+	 * @param  bool $force_init Whether to always do the initialization routine (title/desc test).
 	 *
 	 * @return void
 	 */
@@ -3785,7 +3780,7 @@ class WPSEO_Options {
 	 *
 	 * @static
 	 *
-	 * @param  int|string $blog_id Blog id of the blog for which to reset the options
+	 * @param  int|string $blog_id Blog id of the blog for which to reset the options.
 	 *
 	 * @return  void
 	 */

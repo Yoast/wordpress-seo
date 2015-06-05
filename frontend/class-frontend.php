@@ -229,7 +229,7 @@ class WPSEO_Frontend {
 	/**
 	 * Used for static home and posts pages as well as singular titles.
 	 *
-	 * @param object|null $object if filled, object to get the title for
+	 * @param object|null $object If filled, object to get the title for.
 	 *
 	 * @return string
 	 */
@@ -315,9 +315,9 @@ class WPSEO_Frontend {
 	 * order to prevent duplicate seperations from appearing in the title (this happens when a prefix is supplied to the
 	 * wp_title call on singular pages).
 	 *
-	 * @param string $sep         the separator used between variables
+	 * @param string $sep         The separator used between variables.
 	 * @param string $seplocation Whether the separator should be left or right.
-	 * @param string $title       possible title that's already set
+	 * @param string $title       Possible title that's already set.
 	 *
 	 * @return string
 	 */
@@ -347,9 +347,9 @@ class WPSEO_Frontend {
 	/**
 	 * This function adds paging details to the title.
 	 *
-	 * @param string $sep         separator used in the title
+	 * @param string $sep         Separator used in the title.
 	 * @param string $seplocation Whether the separator should be left or right.
-	 * @param string $title       the title to append the paging info to
+	 * @param string $title       The title to append the paging info to
 	 *
 	 * @return string
 	 */
@@ -366,10 +366,10 @@ class WPSEO_Frontend {
 	/**
 	 * Add part to title, while ensuring that the $seplocation variable is respected.
 	 *
-	 * @param string $sep         separator used in the title
+	 * @param string $sep         Separator used in the title.
 	 * @param string $seplocation Whether the separator should be left or right.
-	 * @param string $title       the title to append the title_part to
-	 * @param string $title_part  the part to append to the title
+	 * @param string $title       The title to append the title_part to.
+	 * @param string $title_part  The part to append to the title.
 	 *
 	 * @return string
 	 */
@@ -385,7 +385,7 @@ class WPSEO_Frontend {
 	 * Main title function.
 	 *
 	 * @param string $title              Title that might have already been set.
-	 * @param string $separator          Separator determined in theme (unused)
+	 * @param string $separator          Separator determined in theme (unused).
 	 * @param string $separator_location Whether the separator should be left or right.
 	 *
 	 * @return string
@@ -801,7 +801,7 @@ class WPSEO_Frontend {
 	 * Determine $robots values for a single post
 	 *
 	 * @param array      $robots
-	 * @param int|string $post_id The post ID for which to determine the $robots values, defaults to current post
+	 * @param int|string $post_id The post ID for which to determine the $robots values, defaults to current post.
 	 *
 	 * @return    array
 	 */
@@ -846,7 +846,7 @@ class WPSEO_Frontend {
 	 *
 	 * @param bool $echo        Whether or not to output the canonical element.
 	 * @param bool $un_paged    Whether or not to return the canonical with or without pagination added to the URL.
-	 * @param bool $no_override Whether or not to return a manually overridden canonical
+	 * @param bool $no_override Whether or not to return a manually overridden canonical.
 	 *
 	 * @return string $canonical
 	 */
@@ -1735,7 +1735,7 @@ class WPSEO_Frontend {
 		 * Filter: 'wpseo_include_rss_footer' - Allow the the RSS footer to be dynamically shown/hidden
 		 *
 		 * @api boolean $show_embed Indicates if the RSS footer should be shown or not
-		 * @param string $context The context of the RSS content - 'full' or 'excerpt'
+		 * @param string $context The context of the RSS content - 'full' or 'excerpt'.
 		 */
 		if ( ! apply_filters( 'wpseo_include_rss_footer', true, $context ) ) {
 			return $content;

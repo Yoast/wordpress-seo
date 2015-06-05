@@ -598,7 +598,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	/**
 	 * Heavily restricts the possible columns by which a user can order the table in the bulk editor, thereby preventing a possible CSRF vulnerability.
 	 *
-	 * @param string $orderby The column by which we want to order
+	 * @param string $orderby The column by which we want to order.
 	 *
 	 * @return string $orderby
 	 */
@@ -619,7 +619,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	/**
 	 * Makes sure the order clause is always ASC or DESC for the bulk editor table, thereby preventing a possible CSRF vulnerability.
 	 *
-	 * @param string $order Whether we want to sort ascending or descending
+	 * @param string $order Whether we want to sort ascending or descending.
 	 *
 	 * @return string $order
 	 */

@@ -283,9 +283,9 @@ class WPSEO_Twitter {
 	 * Solves issues with filters returning urls and theme's/other plugins also adding a user meta
 	 * twitter field which expects url rather than an id (which is what we expect).
 	 *
-	 * @param  string $id Twitter id or url
+	 * @param  string $id Twitter ID or url.
 	 *
-	 * @return string|bool Twitter id or false if it failed to get a valid twitter id
+	 * @return string|bool Twitter ID or false if it failed to get a valid Twitter ID.
 	 */
 	private function get_twitter_id( $id ) {
 		if ( preg_match( '`([A-Za-z0-9_]{1,25})$`', $id, $match ) ) {

@@ -107,7 +107,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @param  string $post_type (optional) The post type to test, defaults to the current post post_type
+	 * @param  string $post_type (optional) The post type to test, defaults to the current post post_type.
 	 *
 	 * @return  bool        Whether or not the meta box (and associated columns etc) should be hidden
 	 */
@@ -198,7 +198,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 *
 	 * This should work with Greek, Russian, Polish & French amongst other languages...
 	 *
-	 * @param string $string String to lowercase
+	 * @param string $string String to lowercase.
 	 *
 	 * @return string
 	 */
@@ -637,7 +637,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @todo [JRF] check if $class is added appropriately everywhere
 	 *
 	 * @param   array  $meta_field_def Contains the vars based on which output is generated.
-	 * @param   string $key            Internal key (without prefix)
+	 * @param   string $key            Internal key (without prefix).
 	 *
 	 * @return  string
 	 */
@@ -1385,7 +1385,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		 *
 		 * @api string $post_content The post content
 		 *
-		 * @param object $post The post
+		 * @param object $post The post.
 		 */
 		$post_content = apply_filters( 'wpseo_pre_analysis_post_content', $post->post_content, $post );
 

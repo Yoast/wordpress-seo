@@ -97,7 +97,7 @@ class WPSEO_JSON_LD {
 	 *
 	 * @since 1.8
 	 *
-	 * @param string $context The context of the output, useful for filtering
+	 * @param string $context The context of the output, useful for filtering.
 	 */
 	private function output( $context ) {
 		/**
@@ -105,7 +105,7 @@ class WPSEO_JSON_LD {
 		 *
 		 * @api array $output The output array, before its JSON encoded
 		 *
-		 * @param string $context The context of the output, useful to determine whether to filter or not
+		 * @param string $context The context of the output, useful to determine whether to filter or not.
 		 */
 		$this->data = apply_filters( 'wpseo_json_ld_output', $this->data, $context );
 

@@ -43,7 +43,7 @@ class Yoast_Plugin_Conflict {
 	/**
 	 * For the use of singleton pattern. Create instance of itself and return his instance
 	 *
-	 * @param string $class_name Give the classname to initialize. If classname is false (empty) it will use it's own __CLASS__
+	 * @param string $class_name Give the classname to initialize. If classname is false (empty) it will use it's own __CLASS__.
 	 *
 	 * @return Yoast_Plugin_Conflict
 	 */
@@ -166,7 +166,7 @@ class Yoast_Plugin_Conflict {
 	 * Setting an error on the screen
 	 *
 	 * @param string $plugin_section
-	 * @param string $readable_plugin_section This is the value for the translation
+	 * @param string $readable_plugin_section This is the value for the translation.
 	 */
 	protected function set_error( $plugin_section, $readable_plugin_section ) {
 
