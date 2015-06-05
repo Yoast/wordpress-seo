@@ -1,0 +1,90 @@
+<?php
+/**
+ * @package WPSEO\Premium\Classes
+ */
+
+/**
+ * Class WPSEO_GWT_Platform_Tabs
+ */
+class WPSEO_GWT_Platform_Tabs {
+
+	/**
+	 * @var string
+	 */
+	private $current_tab;
+
+	/**
+	 * Return the tabs as a string
+	 *
+	 * @return string
+	 */
+	public function __toString() {
+		return $this->platform_tabs();
+	}
+
+	/**
+	 * Getting the current_tab
+	 *
+	 * @return string
+	 */
+	public function current_tab() {
+		return $this->current_tab;
+	}
+
+	/**
+	 * Loops through the array with all the platforms and convert it into an array
+	 *
+	 * @return string
+	 */
+	private function platform_tabs() {
+		$platforms = array(
+			'web'    		  => __( 'Web', 'wordpress-seo' ),
+			'mobile' 	      => __( 'Mobile devices', 'wordpress-seo' ),
+			'smartphone_only' => __( 'Only smartphone', 'wordpress-seo' ),
+			'settings'        => __( 'Settings', 'wordpress-seo' ),
+		);
+
+		$admin_link = admin_url( 'admin.php?page=wpseo_webmaster_tools&tab=' );
+
+		$this->set_current_tab( $platforms );
+
+		$return = '';
+
+		foreach ( $platforms as $platform_target => $platform_value ) {
+			$return .= $this->platform_tab( $platform_target, $platform_value, $admin_link );
+		}
+
+		return $return;
+	}
+
+	/**
+	 * Setting the current tab
+	 *
+	 * @param array $platforms
+	 */
+	private function set_current_tab( array $platforms ) {
+		$this->current_tab = key( $platforms );
+		if ( $current_platform = filter_input( INPUT_GET, 'tab' ) ) {
+			$this->current_tab = $current_platform;
+		}
+	}
+
+	/**
+	 * Parses the tab
+	 *
+	 * @param string $platform_target
+	 * @param string $platform_value
+	 * @param string $admin_link
+	 *
+	 * @return string
+	 */
+	private function platform_tab( $platform_target, $platform_value, $admin_link ) {
+		$active = '';
+		if ( $this->current_tab === $platform_target ) {
+			$active = ' nav-tab-active';
+		}
+
+		return '<a class="nav-tab ' . $active . '" id="' . $platform_target . '-tab" href="' . $admin_link . $platform_target . '">' . $platform_value . '</a>';
+	}
+
+}
