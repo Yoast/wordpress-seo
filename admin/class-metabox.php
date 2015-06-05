@@ -844,7 +844,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$post = get_post( $post_id );
 
 		if ( ! is_object( $post ) ) {
-			// non-existent post.
+			// Non-existent post.
 			return false;
 		}
 
@@ -899,7 +899,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 		else {
 			if ( 0 != get_queried_object_id() ) {
-				wp_enqueue_media( array( 'post' => get_queried_object_id() ) ); // enqueue files needed for upload functionality.
+				wp_enqueue_media( array( 'post' => get_queried_object_id() ) ); // Enqueue files needed for upload functionality.
 			}
 			wp_enqueue_style( 'metabox-tabs', plugins_url( 'css/metabox-tabs' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
 			wp_enqueue_style( "metabox-$color", plugins_url( 'css/metabox-' . esc_attr( $color ) . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
@@ -1302,7 +1302,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 			$output     = '<table class="wpseoanalysis">';
 			$perc_score = absint( $results['total'] );
-			unset( $results['total'] ); // unset to prevent echoing it.
+			unset( $results['total'] ); // Unset to prevent echoing it.
 
 			foreach ( $results as $result ) {
 				if ( is_array( $result ) ) {
@@ -1552,18 +1552,18 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$keywordCharactersRemovedOrReplaced     = array( '_', '-' );
 		$keywordWordsRemoved                    = array( ' a ', ' in ', ' an ', ' on ', ' for ', ' the ', ' and ' );
 
-		// lower.
+		// Lower.
 		$inputString = $this->strtolower_utf8( $inputString );
 
-		// default characters replaced by space.
+		// Default characters replaced by space.
 		$inputString = str_replace( $keywordCharactersAlwaysReplacedBySpace, ' ', $inputString );
 
-		// standardise whitespace.
+		// Standardise whitespace.
 		$inputString = WPSEO_Utils::standardize_whitespace( $inputString );
 
-		// deal with the separators that can be either removed or replaced by space.
+		// Deal with the separators that can be either removed or replaced by space.
 		if ( $removeOptionalCharacters ) {
-			// remove word separators with a space.
+			// Remove word separators with a space.
 			$inputString = str_replace( $keywordWordsRemoved, ' ', $inputString );
 
 			$inputString = str_replace( $keywordCharactersRemovedOrReplaced, '', $inputString );
@@ -1572,7 +1572,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$inputString = str_replace( $keywordCharactersRemovedOrReplaced, ' ', $inputString );
 		}
 
-		// standardise whitespace again.
+		// Standardise whitespace again.
 		$inputString = WPSEO_Utils::standardize_whitespace( $inputString );
 
 		return trim( $inputString );
@@ -2119,7 +2119,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$firstp = $this->strtolower_utf8( $firstp );
 
 		// First Paragraph Test.
-		// check without /u modifier as well as /u might break with non UTF-8 chars.
+		// Check without /u modifier as well as /u might break with non UTF-8 chars.
 		if ( preg_match( '`\b' . preg_quote( $job['keyword'], '`' ) . '\b`miu', $firstp ) || preg_match( '`\b' . preg_quote( $job['keyword'], '`' ) . '\b`mi', $firstp ) || preg_match( '`\b' . preg_quote( $job['keyword_folded'], '`' ) . '\b`miu', $firstp )
 		) {
 			$this->save_score_result( $results, 9, $scoreFirstParagraphHigh, 'keyword_first_paragraph' );

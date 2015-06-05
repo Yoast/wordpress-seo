@@ -294,7 +294,7 @@ class WPSEO_OpenGraph {
 		 */
 		$locale = apply_filters( 'wpseo_locale', get_locale() );
 
-		// catch some weird locales served out by WP that are not easily doubled up.
+		// Catch some weird locales served out by WP that are not easily doubled up.
 		$fix_locales = array(
 			'ca' => 'ca_ES',
 			'en' => 'en_US',
@@ -311,7 +311,7 @@ class WPSEO_OpenGraph {
 			$locale = $fix_locales[ $locale ];
 		}
 
-		// convert locales like "es" to "es_ES", in case that works for the given locale (sometimes it does).
+		// Convert locales like "es" to "es_ES", in case that works for the given locale (sometimes it does).
 		if ( strlen( $locale ) == 2 ) {
 			$locale = strtolower( $locale ) . '_' . strtoupper( $locale );
 		}
@@ -410,7 +410,7 @@ class WPSEO_OpenGraph {
 			'zh_TW', // Traditional Chinese (Taiwan).
 		);
 
-		// check to see if the locale is a valid FB one, if not, use en_US as a fallback.
+		// Check to see if the locale is a valid FB one, if not, use en_US as a fallback.
 		if ( ! in_array( $locale, $fb_valid_fb_locales ) ) {
 			$locale = strtolower( substr( $locale, 0, 2 ) ) . '_' . strtoupper( substr( $locale, 0, 2 ) );
 			if ( ! in_array( $locale, $fb_valid_fb_locales ) ) {
@@ -529,7 +529,7 @@ class WPSEO_OpenGraph {
 				$ogdesc = $frontend->metadesc( false );
 			}
 
-			// og:description is still blank so grab it from get_the_excerpt().
+			// Tag og:description is still blank so grab it from get_the_excerpt().
 			if ( ! is_string( $ogdesc ) || ( is_string( $ogdesc ) && $ogdesc === '' ) ) {
 				$ogdesc = str_replace( '[&hellip;]', '&hellip;', strip_tags( get_the_excerpt() ) );
 			}
@@ -861,7 +861,7 @@ class WPSEO_OpenGraph_Image {
 			return false;
 		}
 
-		// If it's a relative URL, it's relative to the domain, not necessarily to the WordPress install, we.
+		// If it's a relative URL, it's relative to the domain, not necessarily to the WordPress install, we
 		// want to preserve domain name and URL scheme (http / https) though.
 		$parsed_url = parse_url( home_url() );
 		$img        = $parsed_url['scheme'] . '://' . $parsed_url['host'] . $img;

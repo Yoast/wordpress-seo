@@ -110,7 +110,7 @@ class WPSEO_JSON_LD {
 		$this->data = apply_filters( 'wpseo_json_ld_output', $this->data, $context );
 
 		if ( function_exists( 'wp_json_encode' ) ) {
-			$json_data = wp_json_encode( $this->data );  // wp_json_encode was introduced in WP 4.1.
+			$json_data = wp_json_encode( $this->data );  // Function wp_json_encode() was introduced in WP 4.1.
 		}
 		else {
 			$json_data = json_encode( $this->data );

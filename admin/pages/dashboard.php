@@ -31,11 +31,11 @@ if ( isset( $_GET['allow_tracking'] ) && check_admin_referer( 'wpseo_activate_tr
 if ( isset( $_GET['fixmetadesc'] ) && check_admin_referer( 'wpseo-fix-metadesc', 'nonce' ) && $options['theme_description_found'] !== '' ) {
 	$path = false;
 	if ( file_exists( get_stylesheet_directory() . '/header.php' ) ) {
-		// theme or child theme.
+		// Theme or child theme.
 		$path = get_stylesheet_directory();
 	}
 	elseif ( file_exists( get_template_directory() . '/header.php' ) ) {
-		// parent theme in case of a child theme.
+		// Parent theme in case of a child theme.
 		$path = get_template_directory();
 	}
 

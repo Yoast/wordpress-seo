@@ -533,7 +533,7 @@ class WPSEO_Utils {
 			return;
 		}
 
-		// not sure about efficiency, but that's what code elsewhere does R.
+		// Not sure about efficiency, but that's what code elsewhere does R.
 		$options = WPSEO_Options::get_all();
 
 		if ( true !== $options['enablexmlsitemap'] ) {
@@ -635,7 +635,7 @@ class WPSEO_Utils {
 			case 'div':
 			case 'divide':
 				if ( $bc ) {
-					$result = bcdiv( $number1, $number2, $precision ); // string, or NULL if right_operand is 0.
+					$result = bcdiv( $number1, $number2, $precision ); // String, or NULL if right_operand is 0.
 				}
 				elseif ( $number2 != 0 ) {
 					$result = ( $number1 / $number2 );
@@ -650,7 +650,7 @@ class WPSEO_Utils {
 			case 'mod':
 			case 'modulus':
 				if ( $bc ) {
-					$result = bcmod( $number1, $number2, $precision ); // string, or NULL if modulus is 0.
+					$result = bcmod( $number1, $number2, $precision ); // String, or NULL if modulus is 0.
 				}
 				elseif ( $number2 != 0 ) {
 					$result = ( $number1 % $number2 );
@@ -666,7 +666,7 @@ class WPSEO_Utils {
 			case 'compare':
 				$compare = true;
 				if ( $bc ) {
-					$result = bccomp( $number1, $number2, $precision ); // returns int 0, 1 or -1.
+					$result = bccomp( $number1, $number2, $precision ); // Returns int 0, 1 or -1.
 				}
 				else {
 					$result = ( $number1 == $number2 ) ? 0 : ( ( $number1 > $number2 ) ? 1 : - 1 );

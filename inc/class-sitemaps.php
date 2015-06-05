@@ -102,7 +102,7 @@ class WPSEO_Sitemaps {
 		add_filter( 'redirect_canonical', array( $this, 'canonical' ) );
 		add_action( 'wpseo_hit_sitemap_index', array( $this, 'hit_sitemap_index' ) );
 
-		// default stylesheet.
+		// Default stylesheet.
 		$this->stylesheet = '<?xml-stylesheet type="text/xsl" href="' . preg_replace( '/(^http[s]?:)/', '', esc_url( home_url( 'main-sitemap.xsl' ) ) ) . '"?>';
 
 		$this->options     = WPSEO_Options::get_all();
@@ -138,7 +138,7 @@ class WPSEO_Sitemaps {
 	 */
 	function invalidate_main_query( $where ) {
 
-		// check if $wp_query is properly set which isn't always the case in older WP development versions.
+		// Check if $wp_query is properly set which isn't always the case in older WP development versions.
 		if ( ! is_object( $GLOBALS['wp_query'] ) ) {
 			return $where;
 		}
@@ -169,23 +169,23 @@ class WPSEO_Sitemaps {
 	 */
 	private function determine_timezone_string() {
 
-		// if site timezone string exists, return it.
+		// If site timezone string exists, return it.
 		if ( $timezone = get_option( 'timezone_string' ) ) {
 			return $timezone;
 		}
 
-		// get UTC offset, if it isn't set then return UTC.
+		// Get UTC offset, if it isn't set then return UTC.
 		if ( 0 === ( $utc_offset = get_option( 'gmt_offset', 0 ) ) ) {
 			return 'UTC';
 		}
 
-		// adjust UTC offset from hours to seconds.
+		// Adjust UTC offset from hours to seconds.
 		$utc_offset *= HOUR_IN_SECONDS;
 
-		// attempt to guess the timezone string from the UTC offset.
+		// Attempt to guess the timezone string from the UTC offset.
 		$timezone = timezone_name_from_abbr( '', $utc_offset );
 
-		// last try, guess timezone string manually.
+		// Last try, guess timezone string manually.
 		if ( false === $timezone ) {
 
 			$is_dst = date( 'I' );
@@ -199,7 +199,7 @@ class WPSEO_Sitemaps {
 			}
 		}
 
-		// fallback to UTC.
+		// Fallback to UTC.
 		return 'UTC';
 	}
 
@@ -394,7 +394,7 @@ class WPSEO_Sitemaps {
 
 		$this->sitemap = '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
 
-		// reference post type specific sitemaps.
+		// Reference post type specific sitemaps.
 		$post_types = get_post_types( array( 'public' => true ) );
 		if ( is_array( $post_types ) && $post_types !== array() ) {
 
@@ -408,11 +408,11 @@ class WPSEO_Sitemaps {
 					}
 				}
 
-				// using same filters for filtering join and where parts of the query.
+				// Using same filters for filtering join and where parts of the query.
 				$join_filter  = apply_filters( 'wpseo_typecount_join', '', $post_type );
 				$where_filter = apply_filters( 'wpseo_typecount_where', '', $post_type );
 
-				// using the same query with build_post_type_map($post_type) function to count number of posts.
+				// Using the same query with build_post_type_map($post_type) function to count number of posts.
 				$query = $wpdb->prepare( "SELECT COUNT(ID) FROM $wpdb->posts {$join_filter} WHERE post_status IN ('publish','inherit') AND post_password = '' AND post_date != '0000-00-00 00:00:00' AND post_type = %s " . $where_filter, $post_type );
 
 				$count = $wpdb->get_var( $query );
@@ -445,7 +445,7 @@ class WPSEO_Sitemaps {
 		}
 		unset( $post_types, $post_type, $join_filter, $where_filter, $query );
 
-		// reference taxonomy specific sitemaps.
+		// Reference taxonomy specific sitemaps.
 		$taxonomies     = get_taxonomies( array( 'public' => true ), 'objects' );
 		$taxonomy_names = array_keys( $taxonomies );
 
@@ -536,7 +536,7 @@ class WPSEO_Sitemaps {
 
 		if ( $this->options['disable-author'] === false && $this->options['disable_author_sitemap'] === false ) {
 
-			// reference user profile specific sitemaps.
+			// Reference user profile specific sitemaps.
 			$users = get_users( array( 'who' => 'authors', 'fields' => 'id' ) );
 
 			$count = count( $users );
@@ -545,7 +545,7 @@ class WPSEO_Sitemaps {
 			for ( $i = 0; $i < $n; $i ++ ) {
 				$count = ( $n > 1 ) ? ( $i + 1 ) : '';
 
-				// must use custom raw query because WP User Query does not support ordering by usermeta.
+				// Must use custom raw query because WP User Query does not support ordering by usermeta.
 				// Retrieve the newest updated profile timestamp overall.
 				// TODO order by usermeta supported since WP 3.7, update implementation? R.
 
@@ -586,7 +586,7 @@ class WPSEO_Sitemaps {
 			unset( $users, $count, $n, $i, $date_query, $date );
 		}
 
-		// allow other plugins to add their sitemaps to the index.
+		// Allow other plugins to add their sitemaps to the index.
 		$this->sitemap .= apply_filters( 'wpseo_sitemap_index', '' );
 		$this->sitemap .= '</sitemapindex>';
 	}
@@ -709,7 +709,7 @@ class WPSEO_Sitemaps {
 						'pri' => apply_filters( 'wpseo_xml_post_type_archive_priority', 0.8, $post_type ),
 						'chf' => $this->filter_frequency( $post_type . '_archive', 'weekly', $archive_url ),
 						'mod' => $this->get_last_modified( $post_type ),
-						// get_lastpostmodified( 'gmt', $post_type ) #17455.
+						// Function get_lastpostmodified( 'gmt', $post_type ) #17455.
 					)
 				);
 			}
@@ -921,9 +921,10 @@ class WPSEO_Sitemaps {
 						}
 					}
 
-					// Clear the post_meta and the term cache for the post, as we no longer need it now.
+					// Clear the post_meta and the term cache for the post
 					// wp_cache_delete( $p->ID, 'post_meta' );
 					// clean_object_term_cache( $p->ID, $post_type );
+					// as we no longer need it now.
 				}
 				unset( $p, $url );
 			}
@@ -1084,7 +1085,7 @@ class WPSEO_Sitemaps {
 		$n      = (int) $this->n;
 		$offset = ( $n > 1 ) ? ( ( $n - 1 ) * $this->max_entries ) : 0;
 
-		// initial query to fill in missing usermeta with the current timestamp.
+		// Initial query to fill in missing usermeta with the current timestamp.
 		$users = get_users(
 			array(
 				'who'        => 'authors',
@@ -1105,7 +1106,7 @@ class WPSEO_Sitemaps {
 		}
 		unset( $users, $user );
 
-		// query for users with this meta.
+		// Query for users with this meta.
 		$users = get_users(
 			array(
 				'who'      => 'authors',
@@ -1121,7 +1122,7 @@ class WPSEO_Sitemaps {
 
 		$users = apply_filters( 'wpseo_sitemap_exclude_author', $users );
 
-		// ascending sort.
+		// Ascending sort.
 		usort( $users, array( $this, 'user_map_sorter' ) );
 
 		if ( is_array( $users ) && $users !== array() ) {

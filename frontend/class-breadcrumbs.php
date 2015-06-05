@@ -219,7 +219,7 @@ class WPSEO_Breadcrumbs {
 		/* As we could still have two subcategories, from different parent categories,
 		   let's pick the one with the lowest ordered ancestor. */
 		$parents_count = 0;
-		$term_order    = 9999; // because ASC.
+		$term_order    = 9999; // Because ASC.
 		reset( $terms_by_id );
 		$deepest_term = current( $terms_by_id );
 		foreach ( $terms_by_id as $term ) {
@@ -228,13 +228,13 @@ class WPSEO_Breadcrumbs {
 			if ( count( $parents ) >= $parents_count ) {
 				$parents_count = count( $parents );
 
-				// if higher count.
+				// If higher count.
 				if ( count( $parents ) > $parents_count ) {
-					// reset order.
+					// Reset order.
 					$term_order = 9999;
 				}
 
-				$parent_order = 9999; // set default order.
+				$parent_order = 9999; // Set default order.
 				foreach ( $parents as $parent ) {
 					if ( $parent->parent == 0 && isset( $parent->term_order ) ) {
 						$parent_order = $parent->term_order;
@@ -242,7 +242,7 @@ class WPSEO_Breadcrumbs {
 				}
 				unset( $parent );
 
-				// check if parent has lowest order.
+				// Check if parent has lowest order.
 				if ( $parent_order < $term_order ) {
 					$term_order   = $parent_order;
 					$deepest_term = $term;
@@ -302,7 +302,7 @@ class WPSEO_Breadcrumbs {
 		$this->maybe_add_blog_crumb();
 
 		if ( ( $this->show_on_front === 'page' && is_front_page() ) || ( $this->show_on_front === 'posts' && is_home() ) ) {
-			// do nothing.
+			// Do nothing.
 		}
 		elseif ( $this->show_on_front == 'page' && is_home() ) {
 			$this->add_blog_crumb();

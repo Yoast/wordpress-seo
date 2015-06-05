@@ -58,7 +58,7 @@ function wpseo_auto_load( $class ) {
 if ( file_exists( WPSEO_PATH . '/vendor/autoload_52.php' ) ) {
 	require WPSEO_PATH . '/vendor/autoload_52.php';
 }
-elseif ( ! class_exists( 'WPSEO_Options' ) ) { // still checking since might be site-level autoload R.
+elseif ( ! class_exists( 'WPSEO_Options' ) ) { // Still checking since might be site-level autoload R.
 	add_action( 'admin_init', 'yoast_wpseo_missing_autoload', 1 );
 	return;
 }
@@ -108,7 +108,7 @@ function wpseo_deactivate( $networkwide = false ) {
 function wpseo_network_activate_deactivate( $activate = true ) {
 	global $wpdb;
 
-	$original_blog_id = get_current_blog_id(); // alternatively use: $wpdb->blogid.
+	$original_blog_id = get_current_blog_id(); // Alternatively use: $wpdb->blogid.
 	$all_blogs        = $wpdb->get_col( "SELECT blog_id FROM $wpdb->blogs" );
 
 	if ( is_array( $all_blogs ) && $all_blogs !== array() ) {
@@ -225,7 +225,7 @@ function wpseo_init() {
 	$options = WPSEO_Options::get_all();
 	if ( version_compare( $options['version'], WPSEO_VERSION, '<' ) ) {
 		new WPSEO_Upgrade();
-		// get a cleaned up version of the $options.
+		// Get a cleaned up version of the $options.
 		$options = WPSEO_Options::get_all();
 	}
 

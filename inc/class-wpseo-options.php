@@ -117,19 +117,19 @@ abstract class WPSEO_Option {
 	protected function __construct() {
 
 		/* Add filters which get applied to the get_options() results */
-		$this->add_default_filters(); // return defaults if option not set.
-		$this->add_option_filters(); // merge with defaults if option *is* set.
+		$this->add_default_filters(); // Return defaults if option not set.
+		$this->add_option_filters(); // Merge with defaults if option *is* set.
 
 
 		if ( $this->multisite_only !== true ) {
 			/* The option validation routines remove the default filters to prevent failing
 				   to insert an option if it's new. Let's add them back afterwards. */
-			add_action( 'add_option', array( $this, 'add_default_filters' ) ); // adding back after INSERT.
+			add_action( 'add_option', array( $this, 'add_default_filters' ) ); // Adding back after INSERT.
 
-			if ( version_compare( $GLOBALS['wp_version'], '3.7', '!=' ) ) { // adding back after non-WP 3.7 UPDATE.
+			if ( version_compare( $GLOBALS['wp_version'], '3.7', '!=' ) ) { // Adding back after non-WP 3.7 UPDATE.
 				add_action( 'update_option', array( $this, 'add_default_filters' ) );
 			}
-			else { // adding back after WP 3.7 UPDATE.
+			else { // Adding back after WP 3.7 UPDATE.
 				add_filter( 'pre_update_option_' . $this->option_name, array( $this, 'wp37_add_default_filters' ) );
 			}
 		}
@@ -284,10 +284,10 @@ abstract class WPSEO_Option {
 					}
 					if ( function_exists( 'add_settings_error' ) ) {
 						add_settings_error(
-							$this->group_name, // slug title of the setting.
-							'_' . $key, // suffix-id for the error message box.
-							sprintf( __( '%s does not seem to be a valid %s verification string. Please correct.', 'wordpress-seo' ), '<strong>' . esc_html( $meta ) . '</strong>', $service ), // the error message.
-							'error' // error type, either 'error' or 'updated'.
+							$this->group_name, // Slug title of the setting.
+							'_' . $key, // Suffix-id for the error message box.
+							sprintf( __( '%s does not seem to be a valid %s verification string. Please correct.', 'wordpress-seo' ), '<strong>' . esc_html( $meta ) . '</strong>', $service ), // The error message.
+							'error' // Error type, either 'error' or 'updated'.
 						);
 					}
 				}
@@ -319,10 +319,10 @@ abstract class WPSEO_Option {
 				if ( function_exists( 'add_settings_error' ) ) {
 					$url = WPSEO_Utils::sanitize_url( $dirty[ $key ] );
 					add_settings_error(
-						$this->group_name, // slug title of the setting.
-						'_' . $key, // suffix-id for the error message box.
-						sprintf( __( '%s does not seem to be a valid url. Please correct.', 'wordpress-seo' ), '<strong>' . esc_html( $url ) . '</strong>' ), // the error message.
-						'error' // error type, either 'error' or 'updated'.
+						$this->group_name, // Slug title of the setting.
+						'_' . $key, // Suffix-id for the error message box.
+						sprintf( __( '%s does not seem to be a valid url. Please correct.', 'wordpress-seo' ), '<strong>' . esc_html( $url ) . '</strong>' ), // The error message.
+						'error' // Error type, either 'error' or 'updated'.
 					);
 				}
 			}
@@ -665,7 +665,7 @@ abstract class WPSEO_Option {
 		if ( ( is_array( $this->variable_array_key_patterns ) && $this->variable_array_key_patterns !== array() ) && ( is_array( $dirty ) && $dirty !== array() ) ) {
 			foreach ( $dirty as $key => $value ) {
 
-				// do nothing if already in filtered options.
+				// Do nothing if already in filtered options.
 				if ( isset( $clean[ $key ] ) ) {
 					continue;
 				}
@@ -868,22 +868,22 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		// Non-form fields, set via (ajax) function.
 		'blocking_files'                  => array(),
 		'ignore_blog_public_warning'      => false,
-		'ignore_meta_description_warning' => null, // overwrite in __construct().
+		'ignore_meta_description_warning' => null, // Overwrite in __construct().
 		'ignore_page_comments'            => false,
 		'ignore_permalink'                => false,
 		'ms_defaults_set'                 => false,
-		'theme_description_found'         => null, // overwrite in __construct().
-		'theme_has_description'           => null, // overwrite in __construct().
+		'theme_description_found'         => null, // Overwrite in __construct().
+		'theme_has_description'           => null, // Overwrite in __construct().
 		// Non-form field, should only be set via validation routine.
-		'version'                         => '', // leave default as empty to ensure activation/upgrade works.
+		'version'                         => '', // Leave default as empty to ensure activation/upgrade works.
 		// Form fields:
-		'alexaverify'                     => '', // text field.
+		'alexaverify'                     => '', // Text field.
 		'company_logo'                    => '',
 		'company_name'                    => '',
 		'company_or_person'               => '',
 		'disableadvanced_meta'            => true,
-		'googleverify'                    => '', // text field.
-		'msverify'                        => '', // text field.
+		'googleverify'                    => '', // Text field.
+		'msverify'                        => '', // Text field.
 		'person_name'                     => '',
 		'website_name'                    => '',
 		'alternate_website_name'          => '',
@@ -895,7 +895,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 	 */
 	public static $desc_defaults = array(
 		'ignore_meta_description_warning' => false,
-		'theme_description_found'         => '', // text string description.
+		'theme_description_found'         => '', // Text string description.
 		'theme_has_description'           => null,
 	);
 
@@ -1148,7 +1148,7 @@ class WPSEO_Option_Permalinks extends WPSEO_Option {
 	 */
 	protected $defaults = array(
 		'cleanpermalinks'                 => false,
-		'cleanpermalink-extravars'        => '', // text field.
+		'cleanpermalink-extravars'        => '', // Text field.
 		'cleanpermalink-googlecampaign'   => false,
 		'cleanpermalink-googlesitesearch' => false,
 		'cleanreplytocom'                 => false,
@@ -1282,18 +1282,18 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		'noodp'                  => false,
 		'noydir'                 => false,
 		'usemetakeywords'        => false,
-		'title-home-wpseo'       => '%%sitename%% %%page%% %%sep%% %%sitedesc%%', // text field.
-		'title-author-wpseo'     => '', // text field.
-		'title-archive-wpseo'    => '%%date%% %%page%% %%sep%% %%sitename%%', // text field.
-		'title-search-wpseo'     => '', // text field.
-		'title-404-wpseo'        => '', // text field.
+		'title-home-wpseo'       => '%%sitename%% %%page%% %%sep%% %%sitedesc%%', // Text field.
+		'title-author-wpseo'     => '', // Text field.
+		'title-archive-wpseo'    => '%%date%% %%page%% %%sep%% %%sitename%%', // Text field.
+		'title-search-wpseo'     => '', // Text field.
+		'title-404-wpseo'        => '', // Text field.
 
-		'metadesc-home-wpseo'    => '', // text area.
-		'metadesc-author-wpseo'  => '', // text area.
-		'metadesc-archive-wpseo' => '', // text area.
+		'metadesc-home-wpseo'    => '', // Text area.
+		'metadesc-author-wpseo'  => '', // Text area.
+		'metadesc-archive-wpseo' => '', // Text area.
 
-		'metakey-home-wpseo'     => '', // text field.
-		'metakey-author-wpseo'   => '', // text field.
+		'metakey-home-wpseo'     => '', // Text field.
+		'metakey-author-wpseo'   => '', // Text field.
 
 		'noindex-subpages-wpseo' => false,
 		'noindex-author-wpseo'   => false,
@@ -1304,22 +1304,22 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 
 		/**
 		 * Uses enrich_defaults to add more along the lines of:
-		 * - 'title-' . $pt->name        => ''; // text field.
-		 * - 'metadesc-' . $pt->name      => ''; // text field.
-		 * - 'metakey-' . $pt->name        => ''; // text field.
+		 * - 'title-' . $pt->name        => ''; // Text field.
+		 * - 'metadesc-' . $pt->name      => ''; // Text field.
+		 * - 'metakey-' . $pt->name        => ''; // Text field.
 		 * - 'noindex-' . $pt->name        => false;
 		 * - 'showdate-' . $pt->name      => false;
 		 * - 'hideeditbox-' . $pt->name      => false;
 		 *
-		 * - 'title-ptarchive-' . $pt->name    => ''; // text field.
-		 * - 'metadesc-ptarchive-' . $pt->name  => ''; // text field.
-		 * - 'metakey-ptarchive-' . $pt->name  => ''; // text field.
-		 * - 'bctitle-ptarchive-' . $pt->name  => ''; // text field.
+		 * - 'title-ptarchive-' . $pt->name    => ''; // Text field.
+		 * - 'metadesc-ptarchive-' . $pt->name  => ''; // Text field.
+		 * - 'metakey-ptarchive-' . $pt->name  => ''; // Text field.
+		 * - 'bctitle-ptarchive-' . $pt->name  => ''; // Text field.
 		 * - 'noindex-ptarchive-' . $pt->name  => false;
 		 *
-		 * - 'title-tax-' . $tax->name      => '''; // text field.
-		 * - 'metadesc-tax-' . $tax->name    => ''; // text field.
-		 * - 'metakey-tax-' . $tax->name    => ''; // text field.
+		 * - 'title-tax-' . $tax->name      => '''; // Text field.
+		 * - 'metadesc-tax-' . $tax->name    => ''; // Text field.
+		 * - 'metakey-tax-' . $tax->name    => ''; // Text field.
 		 * - 'noindex-tax-' . $tax->name    => false;
 		 * - 'hideeditbox-tax-' . $tax->name  => false;
 		 */
@@ -1453,9 +1453,9 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 
 		if ( $post_type_names !== array() ) {
 			foreach ( $post_type_names as $pt ) {
-				$this->defaults[ 'title-' . $pt ]       = '%%title%% %%page%% %%sep%% %%sitename%%'; // text field.
-				$this->defaults[ 'metadesc-' . $pt ]    = ''; // text area.
-				$this->defaults[ 'metakey-' . $pt ]     = ''; // text field.
+				$this->defaults[ 'title-' . $pt ]       = '%%title%% %%page%% %%sep%% %%sitename%%'; // Text field.
+				$this->defaults[ 'metadesc-' . $pt ]    = ''; // Text area.
+				$this->defaults[ 'metakey-' . $pt ]     = ''; // Text field.
 				$this->defaults[ 'noindex-' . $pt ]     = false;
 				$this->defaults[ 'showdate-' . $pt ]    = false;
 				$this->defaults[ 'hideeditbox-' . $pt ] = false;
@@ -1470,10 +1470,10 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 					continue;
 				}
 
-				$this->defaults[ 'title-ptarchive-' . $pt->name ]    = $archive . ' %%page%% %%sep%% %%sitename%%'; // text field.
-				$this->defaults[ 'metadesc-ptarchive-' . $pt->name ] = ''; // text area.
-				$this->defaults[ 'metakey-ptarchive-' . $pt->name ]  = ''; // text field.
-				$this->defaults[ 'bctitle-ptarchive-' . $pt->name ]  = ''; // text field.
+				$this->defaults[ 'title-ptarchive-' . $pt->name ]    = $archive . ' %%page%% %%sep%% %%sitename%%'; // Text field.
+				$this->defaults[ 'metadesc-ptarchive-' . $pt->name ] = ''; // Text area.
+				$this->defaults[ 'metakey-ptarchive-' . $pt->name ]  = ''; // Text field.
+				$this->defaults[ 'bctitle-ptarchive-' . $pt->name ]  = ''; // Text field.
 				$this->defaults[ 'noindex-ptarchive-' . $pt->name ]  = false;
 			}
 			unset( $pt );
@@ -1482,9 +1482,9 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		if ( $taxonomy_names !== array() ) {
 			$archives = sprintf( __( '%s Archives', 'wordpress-seo' ), '%%term_title%%' );
 			foreach ( $taxonomy_names as $tax ) {
-				$this->defaults[ 'title-tax-' . $tax ]       = $archives . ' %%page%% %%sep%% %%sitename%%'; // text field.
-				$this->defaults[ 'metadesc-tax-' . $tax ]    = ''; // text area.
-				$this->defaults[ 'metakey-tax-' . $tax ]     = ''; // text field.
+				$this->defaults[ 'title-tax-' . $tax ]       = $archives . ' %%page%% %%sep%% %%sitename%%'; // Text field.
+				$this->defaults[ 'metadesc-tax-' . $tax ]    = ''; // Text area.
+				$this->defaults[ 'metakey-tax-' . $tax ]     = ''; // Text field.
 				$this->defaults[ 'hideeditbox-tax-' . $tax ] = false;
 
 				if ( $tax !== 'post_format' ) {
@@ -1817,7 +1817,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 
 			foreach ( $dirty as $key => $value ) {
 
-				// do nothing if already in filtered option array.
+				// Do nothing if already in filtered option array.
 				if ( isset( $clean[ $key ] ) ) {
 					continue;
 				}
@@ -1854,8 +1854,8 @@ class WPSEO_Option_RSS extends WPSEO_Option {
 	 * @internal  Note: Some of the default values are added via the translate_defaults() method
 	 */
 	protected $defaults = array(
-		'rssbefore' => '', // text area.
-		'rssafter'  => '', // text area.
+		'rssbefore' => '', // Text area.
+		'rssafter'  => '', // Text area.
 	);
 
 
@@ -1921,15 +1921,15 @@ class WPSEO_Option_InternalLinks extends WPSEO_Option {
 	 * @internal  Note: Some of the default values are added via the translate_defaults() method
 	 */
 	protected $defaults = array(
-		'breadcrumbs-404crumb'      => '', // text field.
+		'breadcrumbs-404crumb'      => '', // Text field.
 		'breadcrumbs-blog-remove'   => false,
 		'breadcrumbs-boldlast'      => false,
-		'breadcrumbs-archiveprefix' => '', // text field.
+		'breadcrumbs-archiveprefix' => '', // Text field.
 		'breadcrumbs-enable'        => false,
-		'breadcrumbs-home'          => '', // text field.
-		'breadcrumbs-prefix'        => '', // text field.
-		'breadcrumbs-searchprefix'  => '', // text field.
-		'breadcrumbs-sep'           => '&raquo;', // text field.
+		'breadcrumbs-home'          => '', // Text field.
+		'breadcrumbs-prefix'        => '', // Text field.
+		'breadcrumbs-searchprefix'  => '', // Text field.
+		'breadcrumbs-sep'           => '&raquo;', // Text field.
 
 		/**
 		 * Uses enrich_defaults() to add more along the lines of:
@@ -1989,7 +1989,7 @@ class WPSEO_Option_InternalLinks extends WPSEO_Option {
 			foreach ( $post_type_names as $pt ) {
 				$pto_taxonomies = get_object_taxonomies( $pt, 'names' );
 				if ( $pto_taxonomies !== array() ) {
-					$this->defaults[ 'post_types-' . $pt . '-maintax' ] = 0; // select box.
+					$this->defaults[ 'post_types-' . $pt . '-maintax' ] = 0; // Select box.
 				}
 				unset( $pto_taxonomies );
 			}
@@ -1998,7 +1998,7 @@ class WPSEO_Option_InternalLinks extends WPSEO_Option {
 
 		if ( $taxonomy_names_custom !== array() ) {
 			foreach ( $taxonomy_names_custom as $tax ) {
-				$this->defaults[ 'taxonomy-' . $tax . '-ptparent' ] = 0; // select box;.
+				$this->defaults[ 'taxonomy-' . $tax . '-ptparent' ] = 0; // Select box;.
 			}
 			unset( $tax );
 		}
@@ -2060,10 +2060,10 @@ class WPSEO_Option_InternalLinks extends WPSEO_Option {
 								/* @todo [JRF => whomever] maybe change the untranslated $pt name in the
 								 * error message to the nicely translated label ? */
 								add_settings_error(
-									$this->group_name, // slug title of the setting.
-									'_' . $key, // suffix-id for the error message box.
-									sprintf( __( 'Please select a valid taxonomy for post type "%s"', 'wordpress-seo' ), $post_type ), // the error message.
-									'error' // error type, either 'error' or 'updated'.
+									$this->group_name, // Slug title of the setting.
+									'_' . $key, // Suffix-id for the error message box.
+									sprintf( __( 'Please select a valid taxonomy for post type "%s"', 'wordpress-seo' ), $post_type ), // The error message.
+									'error' // Error type, either 'error' or 'updated'.
 								);
 							}
 						}
@@ -2097,10 +2097,10 @@ class WPSEO_Option_InternalLinks extends WPSEO_Option {
 								 * error message to the nicely translated label ? */
 								$tax = str_replace( array( 'taxonomy-', '-ptparent' ), '', $key );
 								add_settings_error(
-									$this->group_name, // slug title of the setting.
-									'_' . $tax, // suffix-id for the error message box.
-									sprintf( __( 'Please select a valid post type for taxonomy "%s"', 'wordpress-seo' ), $tax ), // the error message.
-									'error' // error type, either 'error' or 'updated'.
+									$this->group_name, // Slug title of the setting.
+									'_' . $tax, // Suffix-id for the error message box.
+									sprintf( __( 'Please select a valid post type for taxonomy "%s"', 'wordpress-seo' ), $tax ), // The error message.
+									'error' // Error type, either 'error' or 'updated'.
 								);
 								unset( $tax );
 							}
@@ -2410,10 +2410,10 @@ class WPSEO_Option_XML extends WPSEO_Option {
 							}
 							if ( function_exists( 'add_settings_error' ) ) {
 								add_settings_error(
-									$this->group_name, // slug title of the setting.
-									'_' . $key, // suffix-id for the error message box.
-									sprintf( __( '"Max entries per sitemap page" should be a positive number, which %s is not. Please correct.', 'wordpress-seo' ), '<strong>' . esc_html( sanitize_text_field( $dirty[ $key ] ) ) . '</strong>' ), // the error message.
-									'error' // error type, either 'error' or 'updated'.
+									$this->group_name, // Slug title of the setting.
+									'_' . $key, // Suffix-id for the error message box.
+									sprintf( __( '"Max entries per sitemap page" should be a positive number, which %s is not. Please correct.', 'wordpress-seo' ), '<strong>' . esc_html( sanitize_text_field( $dirty[ $key ] ) ) . '</strong>' ), // The error message.
+									'error' // Error type, either 'error' or 'updated'.
 								);
 							}
 						}
@@ -2499,31 +2499,31 @@ class WPSEO_Option_Social extends WPSEO_Option {
 	 */
 	protected $defaults = array(
 		// Non-form fields, set via procedural code in admin/pages/social.php.
-		'fb_admins'          => array(), // array of user id's => array( name => '', link => '' ).
+		'fb_admins'          => array(), // Array of user id's => array( name => '', link => '' ).
 
 		// Non-form field, set via translate_defaults() and validate_option() methods.
 		'fbconnectkey'       => '',
 		// Form fields:
-		'facebook_site'      => '', // text field.
+		'facebook_site'      => '', // Text field.
 		'instagram_url'      => '',
 		'linkedin_url'       => '',
 		'myspace_url'        => '',
-		'og_default_image'   => '', // text field.
-		'og_frontpage_title' => '', // text field.
-		'og_frontpage_desc'  => '', // text field.
-		'og_frontpage_image' => '', // text field.
+		'og_default_image'   => '', // Text field.
+		'og_frontpage_title' => '', // Text field.
+		'og_frontpage_desc'  => '', // Text field.
+		'og_frontpage_image' => '', // Text field.
 		'opengraph'          => true,
 		'googleplus'         => false,
 		'pinterest_url'      => '',
 		'pinterestverify'    => '',
-		'plus-publisher'     => '', // text field.
+		'plus-publisher'     => '', // Text field.
 		'twitter'            => true,
-		'twitter_site'       => '', // text field.
+		'twitter_site'       => '', // Text field.
 		'twitter_card_type'  => 'summary',
 		'youtube_url'        => '',
 		'google_plus_url'    => '',
 		// Form field, but not always available:
-		'fbadminapp'         => '', // facbook app id.
+		'fbadminapp'         => '', // Facebook app ID.
 	);
 
 	/**
@@ -2712,10 +2712,10 @@ class WPSEO_Option_Social extends WPSEO_Option {
 							}
 							if ( function_exists( 'add_settings_error' ) ) {
 								add_settings_error(
-									$this->group_name, // slug title of the setting.
-									'_' . $key, // suffix-id for the error message box.
-									sprintf( __( '%s does not seem to be a valid Twitter user-id. Please correct.', 'wordpress-seo' ), '<strong>' . esc_html( sanitize_text_field( $dirty[ $key ] ) ) . '</strong>' ), // the error message.
-									'error' // error type, either 'error' or 'updated'.
+									$this->group_name, // Slug title of the setting.
+									'_' . $key, // Suffix-id for the error message box.
+									sprintf( __( '%s does not seem to be a valid Twitter user-id. Please correct.', 'wordpress-seo' ), '<strong>' . esc_html( sanitize_text_field( $dirty[ $key ] ) ) . '</strong>' ), // The error message.
+									'error' // Error type, either 'error' or 'updated'.
 								);
 							}
 						}
@@ -2837,7 +2837,7 @@ class WPSEO_Option_MS extends WPSEO_Option {
 	 */
 	protected $defaults = array(
 		'access'      => 'admin',
-		'defaultblog' => '', // numeric blog id or empty.
+		'defaultblog' => '', // Numeric blog ID or empty.
 	);
 
 	/**
@@ -2947,10 +2947,10 @@ class WPSEO_Option_MS extends WPSEO_Option {
 					}
 					elseif ( function_exists( 'add_settings_error' ) ) {
 						add_settings_error(
-							$this->group_name, // slug title of the setting.
-							'_' . $key, // suffix-id for the error message box.
-							sprintf( __( '%s is not a valid choice for who should be allowed access to the WP SEO settings. Value reset to the default.', 'wordpress-seo' ), esc_html( sanitize_text_field( $dirty[ $key ] ) ) ), // the error message.
-							'error' // error type, either 'error' or 'updated'.
+							$this->group_name, // Slug title of the setting.
+							'_' . $key, // Suffix-id for the error message box.
+							sprintf( __( '%s is not a valid choice for who should be allowed access to the WP SEO settings. Value reset to the default.', 'wordpress-seo' ), esc_html( sanitize_text_field( $dirty[ $key ] ) ) ), // The error message.
+							'error' // Error type, either 'error' or 'updated'.
 						);
 					}
 					break;
@@ -2967,20 +2967,20 @@ class WPSEO_Option_MS extends WPSEO_Option {
 							}
 							elseif ( function_exists( 'add_settings_error' ) ) {
 								add_settings_error(
-									$this->group_name, // slug title of the setting.
-									'_' . $key, // suffix-id for the error message box.
-									esc_html__( 'The default blog setting must be the numeric blog id of the blog you want to use as default.', 'wordpress-seo' ) . '<br>' . sprintf( esc_html__( 'This must be an existing blog. Blog %s does not exist or has been marked as deleted.', 'wordpress-seo' ), '<strong>' . esc_html( sanitize_text_field( $dirty[ $key ] ) ) . '</strong>' ), // the error message.
-									'error' // error type, either 'error' or 'updated'.
+									$this->group_name, // Slug title of the setting.
+									'_' . $key, // Suffix-id for the error message box.
+									esc_html__( 'The default blog setting must be the numeric blog id of the blog you want to use as default.', 'wordpress-seo' ) . '<br>' . sprintf( esc_html__( 'This must be an existing blog. Blog %s does not exist or has been marked as deleted.', 'wordpress-seo' ), '<strong>' . esc_html( sanitize_text_field( $dirty[ $key ] ) ) . '</strong>' ), // The error message.
+									'error' // Error type, either 'error' or 'updated'.
 								);
 							}
 							unset( $exists );
 						}
 						elseif ( function_exists( 'add_settings_error' ) ) {
 							add_settings_error(
-								$this->group_name, // slug title of the setting.
-								'_' . $key, // suffix-id for the error message box.
-								esc_html__( 'The default blog setting must be the numeric blog id of the blog you want to use as default.', 'wordpress-seo' ) . '<br>' . esc_html__( 'No numeric value was received.', 'wordpress-seo' ), // the error message.
-								'error' // error type, either 'error' or 'updated'.
+								$this->group_name, // Slug title of the setting.
+								'_' . $key, // Suffix-id for the error message box.
+								esc_html__( 'The default blog setting must be the numeric blog id of the blog you want to use as default.', 'wordpress-seo' ) . '<br>' . esc_html__( 'No numeric value was received.', 'wordpress-seo' ), // The error message.
+								'error' // Error type, either 'error' or 'updated'.
 							);
 						}
 						unset( $int );

@@ -416,7 +416,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 
 		// If current type doesn't compare with objects page_type, than we have to unset some vars in the requested url (which will be use for internal table urls).
 		if ( $_GET['type'] != $this->page_type ) {
-			$request_url = remove_query_arg( 'paged', $request_url ); // page will be set with value 1 below.
+			$request_url = remove_query_arg( 'paged', $request_url ); // Page will be set with value 1 below.
 			$request_url = remove_query_arg( 'post_type_filter', $request_url );
 			$request_url = remove_query_arg( 'post_status', $request_url );
 			$request_url = remove_query_arg( 'orderby', $request_url );

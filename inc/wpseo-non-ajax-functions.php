@@ -59,7 +59,7 @@ function wpseo_title_test() {
 	update_option( 'wpseo_titles', $options );
 }
 
-// add_filter( 'switch_theme', 'wpseo_title_test', 0 );
+// Commented out? add_filter( 'switch_theme', 'wpseo_title_test', 0 ); R.
 
 
 /**
@@ -81,11 +81,11 @@ function wpseo_description_test() {
 
 	$file = false;
 	if ( file_exists( get_stylesheet_directory() . '/header.php' ) ) {
-		// theme or child theme.
+		// Theme or child theme.
 		$file = get_stylesheet_directory() . '/header.php';
 	}
 	elseif ( file_exists( get_template_directory() . '/header.php' ) ) {
-		// parent theme in case of a child theme.
+		// Parent theme in case of a child theme.
 		$file = get_template_directory() . '/header.php';
 	}
 
@@ -100,7 +100,7 @@ function wpseo_description_test() {
 				if ( ( strtolower( $meta[1] ) == 'name' && strtolower( $meta[3] ) == 'description' ) || ( strtolower( $meta[5] ) == 'name' && strtolower( $meta[7] ) == 'description' ) ) {
 					$options['theme_description_found']         = $meta[0];
 					$options['ignore_meta_description_warning'] = false;
-					break; // no need to run through the rest of the meta's.
+					break; // No need to run through the rest of the meta's.
 				}
 			}
 			if ( $options['theme_description_found'] !== '' ) {
@@ -170,12 +170,12 @@ function wpseo_upgrader_process_complete( $upgrader_object, $context_array, $the
 	if ( ( isset( $context_array['bulk'] ) && $context_array['bulk'] === true ) && ( is_array( $themes ) && count( $themes ) > 0 ) ) {
 
 		if ( in_array( $theme, $themes ) ) {
-			// wpseo_title_test();
+			// Commented out? wpseo_title_test(); R.
 			wpseo_description_test();
 		}
 	}
 	elseif ( is_string( $themes ) && $themes === $theme ) {
-		// wpseo_title_test();
+		// Commented out? wpseo_title_test(); R.
 		wpseo_description_test();
 	}
 
@@ -205,12 +205,12 @@ function wpseo_update_theme_complete_actions( $update_actions, $updated_theme ) 
 	if ( is_object( $updated_theme ) ) {
 		/* Bulk update and $updated_theme only contains info on which theme was last in the list
 		   of updated themes, so go & test */
-		// wpseo_title_test();
+		// Commented out? wpseo_title_test(); R.
 		wpseo_description_test();
 	}
 	elseif ( $updated_theme === $theme ) {
 		/* Single theme update for the active theme */
-		// wpseo_title_test();
+		// Commented out? wpseo_title_test(); R.
 		wpseo_description_test();
 	}
 
@@ -460,7 +460,6 @@ function allow_custom_field_edits( $allcaps, $cap, $args ) {
 	// $args[0] holds the capability.
 	// $args[2] holds the post ID.
 	// $args[3] holds the custom field.
-
 	// Make sure the request is to edit or add a post meta (this is usually also the second value in $cap,
 	// but this is safer to check).
 	if ( in_array( $args[0], array( 'edit_post_meta', 'add_post_meta' ) ) ) {
@@ -482,7 +481,7 @@ add_filter( 'user_has_cap', 'allow_custom_field_edits', 0, 3 );
  * @since 1.5.0
  */
 function wpseo_robots_meta_message() {
-	// check if robots meta is running.
+	// Check if robots meta is running.
 	if ( ( ! isset( $_GET['page'] ) || 'wpseo_import' !== $_GET['page'] ) && is_plugin_active( 'robots-meta/robots-meta.php' ) ) {
 		add_action( 'admin_notices', 'wpseo_import_robots_meta_notice' );
 	}
@@ -500,7 +499,7 @@ function wpseo_disable_robots_meta() {
 		// Deactivate the plugin.
 		deactivate_plugins( 'robots-meta/robots-meta.php' );
 
-		// show notice that robots meta has been deactivated.
+		// Show notice that robots meta has been deactivated.
 		add_action( 'admin_notices', 'wpseo_deactivate_robots_meta_notice' );
 
 		// Clean up the referrer url for later use.
@@ -518,7 +517,7 @@ add_action( 'admin_init', 'wpseo_disable_robots_meta' );
  * @since 1.5.0
  */
 function wpseo_aioseo_message() {
-	// check if aioseo is running.
+	// Check if aioseo is running.
 	if ( ( ! isset( $_GET['page'] ) || 'wpseo_import' != $_GET['page'] ) && is_plugin_active( 'all-in-one-seo-pack/all_in_one_seo_pack.php' ) ) {
 		add_action( 'admin_notices', 'wpseo_import_aioseo_setting_notice' );
 	}
@@ -536,7 +535,7 @@ function wpseo_disable_aioseo() {
 		// Deactivate AIO.
 		deactivate_plugins( 'all-in-one-seo-pack/all_in_one_seo_pack.php' );
 
-		// show notice that aioseo has been deactivated.
+		// Show notice that aioseo has been deactivated.
 		add_action( 'admin_notices', 'wpseo_deactivate_aioseo_notice' );
 
 		// Clean up the referrer url for later use.

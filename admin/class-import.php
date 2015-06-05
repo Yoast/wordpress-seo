@@ -69,7 +69,7 @@ class WPSEO_Import {
 	 * @return boolean
 	 */
 	private function handle_upload() {
-		$overrides  = array( 'mimes' => array( 'zip' => 'application/zip' ) ); // explicitly allow zip in multisite.
+		$overrides  = array( 'mimes' => array( 'zip' => 'application/zip' ) ); // Explicitly allow zip in multisite.
 		$this->file = wp_handle_upload( $_FILES['settings_import_file'], $overrides );
 
 		if ( is_wp_error( $this->file ) ) {

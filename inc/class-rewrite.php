@@ -132,7 +132,7 @@ class WPSEO_Rewrite {
 			foreach ( $categories as $category ) {
 				$category_nicename = $category->slug;
 				if ( $category->parent == $category->cat_ID ) {
-					// recursive recursion.
+					// Recursive recursion.
 					$category->parent = 0;
 				}
 				elseif ( $taxonomy->rewrite['hierarchical'] != 0 && $category->parent != 0 ) {

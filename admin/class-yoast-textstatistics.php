@@ -132,7 +132,7 @@ class Yoast_TextStatistics {
 			return $clean[ $key ];
 		}
 
-		// all these tags should be preceeded by a full stop.
+		// All these tags should be preceeded by a full stop.
 		$fullStopTags = array( 'li', 'p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'dd' );
 		foreach ( $fullStopTags as $tag ) {
 			$strText = str_ireplace( '</' . $tag . '>', '.', $strText );

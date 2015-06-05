@@ -560,8 +560,9 @@ class WPSEO_Frontend {
 			$modified_title = false;
 
 			// If you would like to generate a default title instead,
-			// the following code could be used instead of the line above:
+			// the following code could be used
 			// $title_part = $title;
+			// instead of the line above.
 		}
 
 		if ( ( $modified_title && empty( $title ) ) || ! empty( $title_part ) ) {
@@ -776,7 +777,7 @@ class WPSEO_Frontend {
 		$robotsstr = $robots['index'] . ',' . $robots['follow'];
 
 		if ( $robots['other'] !== array() ) {
-			$robots['other'] = array_unique( $robots['other'] ); // most likely no longer needed, needs testing.
+			$robots['other'] = array_unique( $robots['other'] ); // TODO Most likely no longer needed, needs testing.
 			$robotsstr .= ',' . implode( ',', $robots['other'] );
 		}
 
@@ -1201,14 +1202,14 @@ class WPSEO_Frontend {
 			}
 		}
 
-		$keywords = apply_filters( 'wpseo_metakey', trim( $keywords ) ); // make deprecated.
+		$keywords = apply_filters( 'wpseo_metakey', trim( $keywords ) ); // TODO Make deprecated.
 
 		/**
 		 * Filter: 'wpseo_metakeywords' - Allow changing the WP SEO meta keywords
 		 *
 		 * @api string $keywords The meta keywords to be echoed.
 		 */
-		$keywords = apply_filters( 'wpseo_metakeywords', trim( $keywords ) ); // more appropriately named.
+		$keywords = apply_filters( 'wpseo_metakeywords', trim( $keywords ) ); // More appropriately named.
 
 		if ( is_string( $keywords ) && $keywords !== '' ) {
 			echo '<meta name="keywords" content="', esc_attr( strip_tags( stripslashes( $keywords ) ) ), '"/>', "\n";
