@@ -746,4 +746,32 @@ class WPSEO_Utils {
 		return false;
 	}
 
+	/**
+	 * Format the redirect url
+	 *
+	 * @param string $url
+	 *
+	 * @return mixed
+	 */
+	public static function format_url( $url ) {
+		$parsed_url = parse_url( $url );
+
+		$formatted_url = '';
+		if ( ! empty( $parsed_url['path'] ) ) {
+			$formatted_url = $parsed_url['path'];
+		}
+
+		// Prepend a slash if first char != slash
+		if ( stripos( $formatted_url, '/' ) !== 0 ) {
+			$formatted_url = '/' . $formatted_url;
+		}
+
+		// Append 'query' string if it exists
+		if ( isset( $parsed_url['query'] ) && '' != $parsed_url['query'] ) {
+			$formatted_url .= '?' . $parsed_url['query'];
+		}
+
+		return apply_filters( 'wpseo_format_admin_url', $formatted_url );
+	}
+
 } /* End of class WPSEO_Utils */
