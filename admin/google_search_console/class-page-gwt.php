@@ -20,7 +20,7 @@ class WPSEO_Page_GWT {
 
 	/**
 	 * Be sure the settings will be registered, so data can be stored
-	 * 
+	 *
 	 */
 	public function register_settings() {
 		register_setting( 'yoast_wpseo_gwt_options', 'wpseo-gwt' );
