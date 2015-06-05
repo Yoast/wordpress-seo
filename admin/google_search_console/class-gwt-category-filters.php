@@ -124,7 +124,7 @@ class WPSEO_GWT_Category_Filters {
 			),
 			'server_error'     => array(
 				'value'       => __( 'Server Error', 'wordpress-seo' ),
-				'description' => __( 'Request timed out or site is blocking Google.', 'wordpress_seo' )
+				'description' => __( 'Request timed out or site is blocking Google.', 'wordpress_seo' ),
 			),
 			'soft_404'         => array(
 				'value'       => __( 'Soft 404', 'wordpress-seo' ),

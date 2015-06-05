@@ -9,10 +9,10 @@
 class WPSEO_Crawl_Issue_Count {
 
 	// The last checked timestamp
-	CONST OPTION_CI_LAST_FETCH = 'wpseo_crawl_issues_last_fetch';
+	const OPTION_CI_LAST_FETCH = 'wpseo_crawl_issues_last_fetch';
 
 	// The option name where the issues counts are saved
-	CONST OPTION_CI_COUNTS     = 'wpseo_crawl_issues_counts';
+	const OPTION_CI_COUNTS     = 'wpseo_crawl_issues_counts';
 
 	/**
 	 * Fetching the counts

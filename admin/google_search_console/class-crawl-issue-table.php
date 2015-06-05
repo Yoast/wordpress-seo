@@ -170,10 +170,8 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 	 */
 	public function get_bulk_actions() {
 		return array(
-			'mark_as_fixed' => __( 'Mark as fixed', 'wordpress-seo' )
+			'mark_as_fixed' => __( 'Mark as fixed', 'wordpress-seo' ),
 		);
-
-		return $actions;
 	}
 
 	/**
