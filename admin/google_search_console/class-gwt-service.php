@@ -11,7 +11,7 @@ class WPSEO_GWT_Service {
 	/**
 	 * The option where data will be stored
 	 */
-	const OPTION_WPSEO_GWT = 'wpseo-premium-gwt';
+	const OPTION_WPSEO_GWT = 'wpseo-gwt';
 
 	/**
 	 * @var Yoast_Google_Client

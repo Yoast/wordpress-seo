@@ -176,7 +176,7 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 		return $actions;
 	}
 
-	/*premium
+	/**
 	 * URL column
 	 *
 	 * @param array $item

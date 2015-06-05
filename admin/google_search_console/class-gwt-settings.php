@@ -97,7 +97,7 @@ class WPSEO_GWT_Settings {
 		global $wpdb;
 
 		// Remove local crawl issues by running a delete query
-		$wpdb->query( "DELETE FROM {$wpdb->options} WHERE option_name LIKE 'wpseo-premium-gwt-issues-%'" );
+		$wpdb->query( "DELETE FROM {$wpdb->options} WHERE option_name LIKE 'wpseo-gwt-issues-%'" );
 	}
 
 	/**

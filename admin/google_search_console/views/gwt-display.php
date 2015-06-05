@@ -28,7 +28,7 @@ switch ( $platform_tabs->current_tab() ) {
 			$oauth_url = 'wpseo_gwt_open_authorize_code_window("' . $this->service->get_client()->createAuthUrl() . ' ");';
 
 			// Print auth screen
-			echo '<p>' . __( 'To allow WordPress SEO Premium to fetch your Google Webmaster Tools information, please enter your Google Authorization Code.', 'wordpress-seo' ) . "</p>\n";
+			echo '<p>' . __( 'To allow WordPress SEO by Yoast to fetch your Google Webmaster Tools information, please enter your Google Authorization Code.', 'wordpress-seo' ) . "</p>\n";
 			echo "<a href='javascript:{$oauth_url}'>" . __( 'Click here to get a Google Authorization Code', 'wordpress-seo' ) . "</a>\n";
 
 			echo '<p>' . __( 'Please enter the Authorization Code in the field below and press the Authenticate button.', 'wordpress-seo' ) . "</p>\n";
@@ -57,7 +57,7 @@ switch ( $platform_tabs->current_tab() ) {
 				echo "<form action='" . admin_url( 'options.php' ) . "' method='post'>";
 
 				settings_fields( 'yoast_wpseo_gwt_options' );
-				Yoast_Form::get_instance()->set_option( 'wpseo-premium-gwt' );
+				Yoast_Form::get_instance()->set_option( 'wpseo-gwt' );
 
 				echo Yoast_Form::get_instance()->select( 'profile', __( 'Profile', 'wordpress-seo' ), $this->service->get_sites() );
 
