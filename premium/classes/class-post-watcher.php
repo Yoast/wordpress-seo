@@ -84,11 +84,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 		 */
 		$public_post_statuses = apply_filters( 'wpseo_public_post_statuses', $public_post_statuses, $post );
 
-		if ( in_array( $post->post_status, $public_post_statuses, true ) ) {
-			return true;
-		}
-
-		return false;
+		return ( in_array( $post->post_status, $public_post_statuses, true ) );
 	}
 
 	/**
