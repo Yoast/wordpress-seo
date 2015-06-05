@@ -148,7 +148,7 @@ class Yoast_Form {
 	 */
 	public function admin_sidebar() {
 
-		// No banners in Premium
+		// No banners in Premium.
 		if ( class_exists( 'WPSEO_Product_Premium' ) ) {
 			$license_manager = new Yoast_Plugin_License_Manager( new WPSEO_Product_Premium() );
 			if ( $license_manager->license_is_valid() ) {

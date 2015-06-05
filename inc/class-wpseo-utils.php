@@ -635,7 +635,7 @@ class WPSEO_Utils {
 			case 'div':
 			case 'divide':
 				if ( $bc ) {
-					$result = bcdiv( $number1, $number2, $precision ); // string, or NULL if right_operand is 0
+					$result = bcdiv( $number1, $number2, $precision ); // string, or NULL if right_operand is 0.
 				}
 				elseif ( $number2 != 0 ) {
 					$result = ( $number1 / $number2 );
@@ -666,7 +666,7 @@ class WPSEO_Utils {
 			case 'compare':
 				$compare = true;
 				if ( $bc ) {
-					$result = bccomp( $number1, $number2, $precision ); // returns int 0, 1 or -1
+					$result = bccomp( $number1, $number2, $precision ); // returns int 0, 1 or -1.
 				}
 				else {
 					$result = ( $number1 == $number2 ) ? 0 : ( ( $number1 > $number2 ) ? 1 : - 1 );
@@ -733,7 +733,7 @@ class WPSEO_Utils {
 	public static function is_valid_datetime( $datetime ) {
 		if ( substr( $datetime, 0, 1 ) != '-' ) {
 			try {
-				// Use the DateTime class ( PHP 5.2 > ) to check if the string is a valid datetime
+				// Use the DateTime class ( PHP 5.2 > ) to check if the string is a valid datetime.
 				if ( new DateTime( $datetime ) !== false ) {
 					return true;
 				}

@@ -120,7 +120,7 @@ class WPSEO_Breadcrumbs {
 		if ( ! ( self::$instance instanceof self ) ) {
 			self::$instance = new self();
 		}
-		// Remember the last used before/after for use in case the object goes __toString()
+		// Remember the last used before/after for use in case the object goes __toString().
 		self::$before = $before;
 		self::$after  = $after;
 
@@ -219,7 +219,7 @@ class WPSEO_Breadcrumbs {
 		/* As we could still have two subcategories, from different parent categories,
 		   let's pick the one with the lowest ordered ancestor. */
 		$parents_count = 0;
-		$term_order    = 9999; // because ASC
+		$term_order    = 9999; // because ASC.
 		reset( $terms_by_id );
 		$deepest_term = current( $terms_by_id );
 		foreach ( $terms_by_id as $term ) {
@@ -228,13 +228,13 @@ class WPSEO_Breadcrumbs {
 			if ( count( $parents ) >= $parents_count ) {
 				$parents_count = count( $parents );
 
-				// if higher count
+				// if higher count.
 				if ( count( $parents ) > $parents_count ) {
-					// reset order
+					// reset order.
 					$term_order = 9999;
 				}
 
-				$parent_order = 9999; // set default order
+				$parent_order = 9999; // set default order.
 				foreach ( $parents as $parent ) {
 					if ( $parent->parent == 0 && isset( $parent->term_order ) ) {
 						$parent_order = $parent->term_order;
@@ -242,7 +242,7 @@ class WPSEO_Breadcrumbs {
 				}
 				unset( $parent );
 
-				// check if parent has lowest order
+				// check if parent has lowest order.
 				if ( $parent_order < $term_order ) {
 					$term_order   = $parent_order;
 					$deepest_term = $term;
@@ -285,7 +285,7 @@ class WPSEO_Breadcrumbs {
 			$ancestors = (array) $ancestors;
 		}
 
-		// Reverse the order so it's oldest to newest
+		// Reverse the order so it's oldest to newest.
 		$ancestors = array_reverse( $ancestors );
 
 		return $ancestors;
@@ -302,7 +302,7 @@ class WPSEO_Breadcrumbs {
 		$this->maybe_add_blog_crumb();
 
 		if ( ( $this->show_on_front === 'page' && is_front_page() ) || ( $this->show_on_front === 'posts' && is_home() ) ) {
-			// do nothing
+			// do nothing.
 		}
 		elseif ( $this->show_on_front == 'page' && is_home() ) {
 			$this->add_blog_crumb();
@@ -636,7 +636,7 @@ class WPSEO_Breadcrumbs {
 		}
 
 		foreach ( $this->crumbs as $i => $crumb ) {
-			$link_info = $crumb; // Keep pre-set url/text combis
+			$link_info = $crumb; // Keep pre-set url/text combis.
 
 			if ( isset( $crumb['id'] ) ) {
 				$link_info = $this->get_link_info_for_id( $crumb['id'] );
@@ -807,7 +807,7 @@ class WPSEO_Breadcrumbs {
 	 */
 	private function links_to_string() {
 		if ( is_array( $this->links ) && $this->links !== array() ) {
-			// Remove any effectively empty links
+			// Remove any effectively empty links.
 			$links = array_map( 'trim', $this->links );
 			$links = array_filter( $links );
 

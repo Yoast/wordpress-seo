@@ -122,7 +122,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 
 		if ( isset( $post_type ) ) {
-			// Don't make static as post_types may still be added during the run
+			// Don't make static as post_types may still be added during the run.
 			$cpts    = get_post_types( array( 'public' => true ), 'names' );
 			$options = get_option( 'wpseo_titles' );
 
@@ -204,7 +204,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 */
 	public function strtolower_utf8( $string ) {
 
-		// Prevent comparison between utf8 characters and html entities (é vs &eacute;)
+		// Prevent comparison between utf8 characters and html entities (é vs &eacute;).
 		$string = html_entity_decode( $string );
 
 		$convert_to   = array(
@@ -696,10 +696,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			case 'multiselect':
 				if ( isset( $meta_field_def['options'] ) && is_array( $meta_field_def['options'] ) && $meta_field_def['options'] !== array() ) {
 
-					// Set $meta_value as $selected_arr
+					// Set $meta_value as $selected_arr.
 					$selected_arr = $meta_value;
 
-					// If the multiselect field is 'meta-robots-adv' we should explode on ,
+					// If the multiselect field is 'meta-robots-adv' we should explode on ,.
 					if ( 'meta-robots-adv' === $key ) {
 						$selected_arr = explode( ',', $meta_value );
 					}
@@ -710,7 +710,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 					$options_count = count( $meta_field_def['options'] );
 
-					// @todo [JRF => whomever] verify height calculation for older WP versions, was 16x, for WP3.8 20x is more appropriate
+					// @todo [JRF => whomever] verify height calculation for older WP versions, was 16x, for WP3.8 20x is more appropriate.
 					$content .= '<select multiple="multiple" size="' . esc_attr( $options_count ) . '" style="height: ' . esc_attr( ( $options_count * 20 ) + 4 ) . 'px;" name="' . $esc_form_key . '[]" id="' . $esc_form_key . '" class="yoast' . $class . '">';
 					foreach ( $meta_field_def['options'] as $val => $option ) {
 						$selected = '';
@@ -844,7 +844,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$post = get_post( $post_id );
 
 		if ( ! is_object( $post ) ) {
-			// non-existent post
+			// non-existent post.
 			return false;
 		}
 
@@ -899,7 +899,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 		else {
 			if ( 0 != get_queried_object_id() ) {
-				wp_enqueue_media( array( 'post' => get_queried_object_id() ) ); // enqueue files needed for upload functionality
+				wp_enqueue_media( array( 'post' => get_queried_object_id() ) ); // enqueue files needed for upload functionality.
 			}
 			wp_enqueue_style( 'metabox-tabs', plugins_url( 'css/metabox-tabs' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
 			wp_enqueue_style( "metabox-$color", plugins_url( 'css/metabox-' . esc_attr( $color ) . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
@@ -908,7 +908,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 			wp_enqueue_script( 'jquery-ui-autocomplete' );
 
-			// Always enqueue minified as it's not our code
+			// Always enqueue minified as it's not our code.
 			wp_enqueue_script( 'jquery-qtip', plugins_url( 'js/jquery.qtip.min.js', WPSEO_FILE ), array( 'jquery' ), '2.2.1', true );
 
 			wp_enqueue_script( 'wp-seo-metabox', plugins_url( 'js/wp-seo-metabox' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array(
@@ -928,7 +928,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 			wp_localize_script( 'wpseo-admin-media', 'wpseoMediaL10n', $this->localize_media_script() );
 
-			// Text strings to pass to metabox for keyword analysis
+			// Text strings to pass to metabox for keyword analysis.
 			wp_localize_script( 'wp-seo-metabox', 'wpseoMetaboxL10n', $this->localize_script() );
 		}
 	}
@@ -1389,7 +1389,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		 */
 		$post_content = apply_filters( 'wpseo_pre_analysis_post_content', $post->post_content, $post );
 
-		// Check if the post content is not empty
+		// Check if the post content is not empty.
 		if ( ! empty( $post_content ) ) {
 			@$dom->loadHTML( $post_content );
 		}
@@ -1401,10 +1401,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		// Check if this focus keyword has been used already.
 		$this->check_double_focus_keyword( $job, $results );
 
-		// Keyword
+		// Keyword.
 		$this->score_keyword( $job['keyword'], $results );
 
-		// Title
+		// Title.
 		$title = self::get_value( 'title', $post->ID );
 		if ( $title !== '' ) {
 			$job['title'] = $title;
@@ -1421,7 +1421,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		unset( $title );
 		$this->score_title( $job, $results );
 
-		// Meta description
+		// Meta description.
 		$description = '';
 		$desc_meta   = self::get_value( 'metadesc', $post->ID );
 		if ( $desc_meta !== '' ) {
@@ -1437,26 +1437,26 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$this->score_description( $job, $results, $description, self::$meta_length );
 		unset( $description );
 
-		// Body
+		// Body.
 		$body   = $this->get_body( $post );
 		$firstp = $this->get_first_paragraph( $body );
 		$this->score_body( $job, $results, $body, $firstp );
 		unset( $firstp );
 
-		// URL
+		// URL.
 		$this->score_url( $job, $results );
 
-		// Headings
+		// Headings.
 		$headings = $this->get_headings( $body );
 		$this->score_headings( $job, $results, $headings );
 		unset( $headings );
 
-		// Images
+		// Images.
 		$imgs          = array();
 		$imgs['count'] = substr_count( $body, '<img' );
 		$imgs          = $this->get_images_alt_text( $post->ID, $body, $imgs );
 
-		// Check featured image
+		// Check featured image.
 		if ( function_exists( 'has_post_thumbnail' ) && has_post_thumbnail() ) {
 			$imgs['count'] += 1;
 
@@ -1471,7 +1471,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		unset( $imgs );
 		unset( $body );
 
-		// Anchors
+		// Anchors.
 		$anchors = $this->get_anchor_texts( $xpath );
 		$count   = $this->get_anchor_count( $xpath );
 
@@ -1514,7 +1514,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 */
 	function get_sample_permalink( $post ) {
 		if ( ! function_exists( 'get_sample_permalink' ) ) {
-			// Front-end post update
+			// Front-end post update.
 			include_once( ABSPATH . 'wp-admin/includes/post.php' );
 		}
 
@@ -1552,18 +1552,18 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$keywordCharactersRemovedOrReplaced     = array( '_', '-' );
 		$keywordWordsRemoved                    = array( ' a ', ' in ', ' an ', ' on ', ' for ', ' the ', ' and ' );
 
-		// lower
+		// lower.
 		$inputString = $this->strtolower_utf8( $inputString );
 
-		// default characters replaced by space
+		// default characters replaced by space.
 		$inputString = str_replace( $keywordCharactersAlwaysReplacedBySpace, ' ', $inputString );
 
-		// standardise whitespace
+		// standardise whitespace.
 		$inputString = WPSEO_Utils::standardize_whitespace( $inputString );
 
-		// deal with the separators that can be either removed or replaced by space
+		// deal with the separators that can be either removed or replaced by space.
 		if ( $removeOptionalCharacters ) {
-			// remove word separators with a space
+			// remove word separators with a space.
 			$inputString = str_replace( $keywordWordsRemoved, ' ', $inputString );
 
 			$inputString = str_replace( $keywordCharactersRemovedOrReplaced, '', $inputString );
@@ -1572,7 +1572,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$inputString = str_replace( $keywordCharactersRemovedOrReplaced, ' ', $inputString );
 		}
 
-		// standardise whitespace again
+		// standardise whitespace again.
 		$inputString = WPSEO_Utils::standardize_whitespace( $inputString );
 
 		return trim( $inputString );
@@ -1649,12 +1649,12 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$this->save_score_result( $results, 6, $urlMedium, 'url_keyword' );
 		}
 
-		// Check for Stop Words in the slug
+		// Check for Stop Words in the slug.
 		if ( $GLOBALS['wpseo_admin']->stopwords_check( $job['pageSlug'], true ) !== false ) {
 			$this->save_score_result( $results, 5, $urlStopWords, 'url_stopword' );
 		}
 
-		// Check if the slug isn't too long relative to the length of the keyword
+		// Check if the slug isn't too long relative to the length of the keyword.
 		if ( ( $this->statistics()->text_length( $job['keyword'] ) + 20 ) < $this->statistics()->text_length( $job['pageSlug'] ) && 40 < $this->statistics()->text_length( $job['pageSlug'] ) ) {
 			$this->save_score_result( $results, 5, $longSlug, 'url_length' );
 		}
@@ -1696,7 +1696,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				$this->save_score_result( $results, 9, $scoreTitleCorrectLength, 'title_length' );
 			}
 
-			// @todo MA Keyword/Title matching is exact match with separators removed, but should extend to distributed match
+			// @todo MA Keyword/Title matching is exact match with separators removed, but should extend to distributed match.
 			$needle_position = stripos( $job['title'], $job['keyword_folded'] );
 
 			if ( $needle_position === false ) {
@@ -2021,7 +2021,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				$this->save_score_result( $results, 6, sprintf( $scoreDescriptionTooLong, $maxlength, $metaShorter ), 'description_length' );
 			}
 
-			// @todo MA Keyword/Title matching is exact match with separators removed, but should extend to distributed match
+			// @todo MA Keyword/Title matching is exact match with separators removed, but should extend to distributed match.
 			$haystack1 = $this->strip_separators_and_fold( $description, true );
 			$haystack2 = $this->strip_separators_and_fold( $description, false );
 			if ( strrpos( $haystack1, $job['keyword_folded'] ) === false && strrpos( $haystack2, $job['keyword_folded'] ) === false ) {
@@ -2065,11 +2065,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$fleschurl   = '<a href="http://en.wikipedia.org/wiki/Flesch-Kincaid_readability_test#Flesch_Reading_Ease">' . __( 'Flesch Reading Ease', 'wordpress-seo' ) . '</a>';
 		$scoreFlesch = __( 'The copy scores %s in the %s test, which is considered %s to read. %s', 'wordpress-seo' );
 
-		// Replace images with their alt tags, then strip all tags
+		// Replace images with their alt tags, then strip all tags.
 		$body = preg_replace( '`<img(?:[^>]+)?alt="([^"]+)"(?:[^>]+)>`', '$1', $body );
 		$body = strip_tags( $body );
 
-		// Copy length check
+		// Copy length check.
 		$wordCount = $this->statistics()->word_count( $body );
 
 		if ( $wordCount < $lengthScore['bad'] ) {
@@ -2097,7 +2097,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$this->save_score_result( $results, 0, __( 'Your keyphrase is over 10 words, a keyphrase should be shorter and there can be only one keyphrase.', 'wordpress-seo' ), 'focus_keyword_length' );
 		}
 		else {
-			// Keyword Density check
+			// Keyword Density check.
 			$keywordDensity = 0;
 			if ( $wordCount > 100 ) {
 				$keywordCount = preg_match_all( '`\b' . preg_quote( $job['keyword'], '`' ) . '\b`miu', $body, $matches );
@@ -2118,7 +2118,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		$firstp = $this->strtolower_utf8( $firstp );
 
-		// First Paragraph Test
+		// First Paragraph Test.
 		// check without /u modifier as well as /u might break with non UTF-8 chars.
 		if ( preg_match( '`\b' . preg_quote( $job['keyword'], '`' ) . '\b`miu', $firstp ) || preg_match( '`\b' . preg_quote( $job['keyword'], '`' ) . '\b`mi', $firstp ) || preg_match( '`\b' . preg_quote( $job['keyword_folded'], '`' ) . '\b`miu', $firstp )
 		) {
@@ -2130,7 +2130,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		$lang = get_bloginfo( 'language' );
 		if ( substr( $lang, 0, 2 ) == 'en' && $wordCount > 100 ) {
-			// Flesch Reading Ease check
+			// Flesch Reading Ease check.
 			$flesch = $this->statistics()->flesch_kincaid_reading_ease( $body );
 
 			$note  = '';

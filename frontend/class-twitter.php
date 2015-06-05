@@ -87,7 +87,7 @@ class WPSEO_Twitter {
 	private function determine_card_type() {
 		$this->type = $this->options['twitter_card_type'];
 		if ( is_singular() ) {
-			// If the current post has a gallery, output a gallery card
+			// If the current post has a gallery, output a gallery card.
 			if ( has_shortcode( $GLOBALS['post']->post_content, 'gallery' ) ) {
 				$this->images = get_post_gallery_images();
 				if ( count( $this->images ) > 3 ) {
@@ -133,7 +133,7 @@ class WPSEO_Twitter {
 	 */
 	private function output_metatag( $name, $value, $escaped = false ) {
 
-		// Escape the value if not escaped
+		// Escape the value if not escaped.
 		if ( false === $escaped ) {
 			$value = esc_attr( $value );
 		}
@@ -145,7 +145,7 @@ class WPSEO_Twitter {
 		 */
 		$metatag_key = apply_filters( 'wpseo_twitter_metatag_key', 'name' );
 
-		// Output meta
+		// Output meta.
 		echo '<meta ', esc_attr( $metatag_key ), '="twitter:', esc_attr( $name ), '" content="', $value, '"/>', "\n";
 	}
 

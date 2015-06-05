@@ -46,7 +46,7 @@ class WPSEO_Taxonomy {
 	/**
 	 * Makes sure the taxonomy meta is updated when a taxonomy term is split.
 	 *
-	 * @link https://make.wordpress.org/core/2015/02/16/taxonomy-term-splitting-in-4-2-a-developer-guide/ Article explaining the taxonomy term splitting in WP 4.2
+	 * @link https://make.wordpress.org/core/2015/02/16/taxonomy-term-splitting-in-4-2-a-developer-guide/ Article explaining the taxonomy term splitting in WP 4.2.
 	 *
 	 * @param string $old_term_id      Old term id of the taxonomy term that was splitted.
 	 * @param string $new_term_id      New term id of the taxonomy term that was splitted.
@@ -91,7 +91,7 @@ class WPSEO_Taxonomy {
 	 * @since 1.5.0
 	 */
 	function tax_is_public() {
-		// Don't make static as taxonomies may still be added during the run
+		// Don't make static as taxonomies may still be added during the run.
 		$taxonomies = get_taxonomies( array( 'public' => true ), 'names' );
 
 		return ( isset( $_GET['taxonomy'] ) && in_array( $_GET['taxonomy'], $taxonomies ) );
@@ -254,7 +254,7 @@ class WPSEO_Taxonomy {
 			}
 		}
 
-		// Prevent complete array validation
+		// Prevent complete array validation.
 		$tax_meta['wpseo_already_validated'] = true;
 
 		update_option( 'wpseo_taxonomy_meta', $tax_meta );

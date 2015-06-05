@@ -95,7 +95,7 @@ class Yoast_TextStatistics {
 	 * @return int
 	 */
 	public function letter_count( $strText ) {
-		$strText = $this->clean_text( $strText ); // To clear out newlines etc
+		$strText = $this->clean_text( $strText ); // To clear out newlines etc.
 		$strText = preg_replace( '`[^A-Za-z]+`', '', $strText );
 
 		if ( ! $this->blnMbstring ) {
@@ -138,19 +138,19 @@ class Yoast_TextStatistics {
 			$strText = str_ireplace( '</' . $tag . '>', '.', $strText );
 		}
 		$strText = strip_tags( $strText );
-		$strText = preg_replace( '`[",:;\(\)-]`', ' ', $strText ); // Replace commas, hyphens etc (count them as spaces)
-		$strText = preg_replace( '`[\.!?]`', '.', $strText ); // Unify terminators
+		$strText = preg_replace( '`[",:;\(\)-]`', ' ', $strText ); // Replace commas, hyphens etc (count them as spaces).
+		$strText = preg_replace( '`[\.!?]`', '.', $strText ); // Unify terminators.
 		$strText = trim( $strText ) . '.'; // Add final terminator, just in case it's missing.
-		$strText = preg_replace( '`[ ]*(\n|\r\n|\r)[ ]*`', ' ', $strText ); // Replace new lines with spaces
-		$strText = preg_replace( '`([\.])[\. ]+`', '$1', $strText ); // Check for duplicated terminators
-		$strText = trim( preg_replace( '`[ ]*([\.])`', '$1 ', $strText ) ); // Pad sentence terminators
-		$strText = preg_replace( '` [0-9]+ `', ' ', ' ' . $strText . ' ' ); // Remove "words" comprised only of numbers
-		$strText = preg_replace( '`[ ]+`', ' ', $strText ); // Remove multiple spaces
-		$strText = preg_replace_callback( '`\. [^ ]+?`', create_function( '$matches', 'return strtolower( $matches[0] );' ), $strText ); // Lower case all words following terminators (for gunning fog score)
+		$strText = preg_replace( '`[ ]*(\n|\r\n|\r)[ ]*`', ' ', $strText ); // Replace new lines with spaces.
+		$strText = preg_replace( '`([\.])[\. ]+`', '$1', $strText ); // Check for duplicated terminators.
+		$strText = trim( preg_replace( '`[ ]*([\.])`', '$1 ', $strText ) ); // Pad sentence terminators.
+		$strText = preg_replace( '` [0-9]+ `', ' ', ' ' . $strText . ' ' ); // Remove "words" comprised only of numbers.
+		$strText = preg_replace( '`[ ]+`', ' ', $strText ); // Remove multiple spaces.
+		$strText = preg_replace_callback( '`\. [^ ]+?`', create_function( '$matches', 'return strtolower( $matches[0] );' ), $strText ); // Lower case all words following terminators (for gunning fog score).
 
 		$strText = trim( $strText );
 
-		// Cache it and return
+		// Cache it and return.
 		$clean[ $key ] = $strText;
 
 		return $strText;
@@ -225,7 +225,7 @@ class Yoast_TextStatistics {
 		// Will be tripped up by "Mr." or "U.K.". Not a major concern at this point.
 		// [JRF] Will also be tripped up by ... or ?!
 		// @todo [JRF => whomever] May be replace with something along the lines of this - will at least provide better count in ... and ?! situations:
-		// $intSentences = max( 1, preg_match_all( '`[^\.!?]+[\.!?]+([\s]+|$)`u', $strText, $matches ) ); [/JRF]
+		// $intSentences = max( 1, preg_match_all( '`[^\.!?]+[\.!?]+([\s]+|$)`u', $strText, $matches ) ); [/JRF].
 		$intSentences = max( 1, $this->text_length( preg_replace( '`[^\.!?]`', '', $strText ) ) );
 
 		return $intSentences;
@@ -244,8 +244,8 @@ class Yoast_TextStatistics {
 		}
 
 		$strText = $this->clean_text( $strText );
-		// Will be tripped by em dashes with spaces either side, among other similar characters
-		$intWords = ( 1 + $this->text_length( preg_replace( '`[^ ]`', '', $strText ) ) ); // Space count + 1 is word count
+		// Will be tripped by em dashes with spaces either side, among other similar characters.
+		$intWords = ( 1 + $this->text_length( preg_replace( '`[^ ]`', '', $strText ) ) ); // Space count + 1 is word count.
 		return $intWords;
 	}
 
@@ -296,14 +296,14 @@ class Yoast_TextStatistics {
 			return 0;
 		}
 
-		// Should be no non-alpha characters
+		// Should be no non-alpha characters.
 		$strWord = preg_replace( '`[^A-Za-z]`', '', $strWord );
 
 		$intSyllableCount = 0;
 		$strWord          = $this->lower_case( $strWord );
 
-		// Specific common exceptions that don't follow the rule set below are handled individually
-		// Array of problem words (with word as key, syllable count as value)
+		// Specific common exceptions that don't follow the rule set below are handled individually.
+		// Array of problem words (with word as key, syllable count as value).
 		$arrProblemWords = array(
 			'simile'    => 3,
 			'forever'   => 3,
@@ -316,7 +316,7 @@ class Yoast_TextStatistics {
 			return $intSyllableCount;
 		}
 
-		// These syllables would be counted as two but should be one
+		// These syllables would be counted as two but should be one.
 		$arrSubSyllables = array(
 			'cial',
 			'tia',
@@ -332,13 +332,13 @@ class Yoast_TextStatistics {
 			'rved?$',
 			'[aeiouy][dt]es?$',
 			'[aeiouy][^aeiouydt]e[rsd]?$',
-			// Sorts out deal, deign etc
+			// Sorts out deal, deign etc.
 			'^[dr]e[aeiou][^aeiou]+$',
-			// Purse, hearse
+			// Purse, hearse.
 			'[aeiouy]rse$',
 		);
 
-		// These syllables would be counted as one but should be two
+		// These syllables would be counted as one but should be two.
 		$arrAddSyllables = array(
 			'ia',
 			'riet',
@@ -359,7 +359,7 @@ class Yoast_TextStatistics {
 			'ie(r|st)$',
 		);
 
-		// Single syllable prefixes and suffixes
+		// Single syllable prefixes and suffixes.
 		$arrPrefixSuffix = array(
 			'`^un`',
 			'`^fore`',
@@ -370,10 +370,10 @@ class Yoast_TextStatistics {
 			'`ings?$`',
 		);
 
-		// Remove prefixes and suffixes and count how many were taken
+		// Remove prefixes and suffixes and count how many were taken.
 		$strWord = preg_replace( $arrPrefixSuffix, '', $strWord, - 1, $intPrefixSuffixCount );
 
-		// Removed non-word characters from word
+		// Removed non-word characters from word.
 		$strWord          = preg_replace( '`[^a-z]`is', '', $strWord );
 		$arrWordParts     = preg_split( '`[^aeiouy]+`', $strWord );
 		$intWordPartCount = 0;
@@ -383,8 +383,8 @@ class Yoast_TextStatistics {
 			}
 		}
 
-		// Some syllables do not follow normal rules - check for them
-		// Thanks to Joe Kovar for correcting a bug in the following lines
+		// Some syllables do not follow normal rules - check for them.
+		// Thanks to Joe Kovar for correcting a bug in the following lines.
 		$intSyllableCount = ( $intWordPartCount + $intPrefixSuffixCount );
 		foreach ( $arrSubSyllables as $strSyllable ) {
 			$intSyllableCount -= preg_match( '`' . $strSyllable . '`', $strWord );
@@ -411,7 +411,7 @@ class Yoast_TextStatistics {
 	 * @return    int|float
 	 */
 	public function normalize_score( $score, $min, $max, $dps = 1 ) {
-		$score = WPSEO_Utils::calc( $score, '+', 0, true, $dps ); // Round
+		$score = WPSEO_Utils::calc( $score, '+', 0, true, $dps ); // Round.
 		if ( ! $this->normalize ) {
 			return $score;
 		}

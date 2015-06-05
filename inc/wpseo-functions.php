@@ -162,7 +162,7 @@ function wpseo_xml_redirect_sitemap() {
 	$current_url = ( isset( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] == 'on' ) ? 'https://' : 'http://';
 	$current_url .= sanitize_text_field( $_SERVER['SERVER_NAME'] ) . sanitize_text_field( $_SERVER['REQUEST_URI'] );
 
-	// must be 'sitemap.xml' and must be 404
+	// must be 'sitemap.xml' and must be 404.
 	if ( home_url( '/sitemap.xml' ) == $current_url && $GLOBALS['wp_query']->is_404 ) {
 		wp_redirect( home_url( '/sitemap_index.xml' ), 301 );
 		exit;
@@ -200,7 +200,7 @@ function wpseo_xml_sitemaps_init() {
 		return;
 	}
 
-	// redirects sitemap.xml to sitemap_index.xml
+	// redirects sitemap.xml to sitemap_index.xml.
 	add_action( 'template_redirect', 'wpseo_xml_redirect_sitemap', 0 );
 
 	if ( ! is_object( $GLOBALS['wp'] ) ) {
@@ -223,7 +223,7 @@ add_action( 'init', 'wpseo_xml_sitemaps_init', 1 );
  * @param string|null $sitemapurl
  */
 function wpseo_ping_search_engines( $sitemapurl = null ) {
-	// Don't ping if blog is not public
+	// Don't ping if blog is not public.
 	if ( '0' == get_option( 'blog_public' ) ) {
 		return;
 	}
@@ -232,7 +232,7 @@ function wpseo_ping_search_engines( $sitemapurl = null ) {
 		$sitemapurl = urlencode( wpseo_xml_sitemaps_base_url( 'sitemap_index.xml' ) );
 	}
 
-	// Ping Google and Bing
+	// Ping Google and Bing.
 	wp_remote_get( 'http://www.google.com/webmasters/tools/ping?sitemap=' . $sitemapurl, array( 'blocking' => false ) );
 	wp_remote_get( 'http://www.bing.com/ping?sitemap=' . $sitemapurl, array( 'blocking' => false ) );
 }
@@ -307,7 +307,7 @@ add_shortcode( 'wpseo_breadcrumb', 'wpseo_shortcode_yoast_breadcrumb' );
  * @param string $type
  */
 function wpseo_invalidate_sitemap_cache( $type ) {
-	// Always delete the main index sitemaps cache, as that's always invalidated by any other change
+	// Always delete the main index sitemaps cache, as that's always invalidated by any other change.
 	delete_transient( 'wpseo_sitemap_cache_1' );
 	delete_transient( 'wpseo_sitemap_cache_' . $type );
 

@@ -101,123 +101,123 @@ class WPSEO_Meta {
 		'general'  => array(
 			'snippetpreview' => array(
 				'type'  => 'snippetpreview',
-				'title' => '', // translation added later
-				'help'  => '', // translation added later
+				'title' => '', // translation added later.
+				'help'  => '', // translation added later.
 			),
 			'focuskw'        => array(
 				'type'          => 'text',
-				'title'         => '', // translation added later
+				'title'         => '', // translation added later.
 				'default_value' => '',
 				'autocomplete'  => false,
-				'help'          => '', // translation added later
+				'help'          => '', // translation added later.
 				'description'   => '<div id="focuskwresults"></div>',
 			),
 			'title'          => array(
 				'type'          => 'text',
-				'title'         => '', // translation added later
+				'title'         => '', // translation added later.
 				'default_value' => '',
-				'description'   => '', // translation added later
-				'help'          => '', // translation added later
+				'description'   => '', // translation added later.
+				'help'          => '', // translation added later.
 			),
 			'metadesc'       => array(
 				'type'          => 'textarea',
-				'title'         => '', // translation added later
+				'title'         => '', // translation added later.
 				'default_value' => '',
 				'class'         => 'metadesc',
 				'rows'          => 2,
-				'description'   => '', // translation added later
-				'help'          => '', // translation added later
+				'description'   => '', // translation added later.
+				'help'          => '', // translation added later.
 			),
 			'metakeywords'   => array(
 				'type'          => 'text',
-				'title'         => '', // translation added later
+				'title'         => '', // translation added later.
 				'default_value' => '',
 				'class'         => 'metakeywords',
-				'description'   => '', // translation added later
+				'description'   => '', // translation added later.
 			),
 		),
 		'advanced' => array(
 			'meta-robots-noindex'  => array(
 				'type'          => 'select',
-				'title'         => '', // translation added later
-				'default_value' => '0', // = post-type default
+				'title'         => '', // translation added later.
+				'default_value' => '0', // = post-type default.
 				'options'       => array(
-					'0' => '', // post type default - translation added later
-					'2' => '', // index - translation added later
-					'1' => '', // no-index - translation added later
+					'0' => '', // post type default - translation added later.
+					'2' => '', // index - translation added later.
+					'1' => '', // no-index - translation added later.
 				),
 			),
 			'meta-robots-nofollow' => array(
 				'type'          => 'radio',
-				'title'         => '', // translation added later
-				'default_value' => '0', // = follow
+				'title'         => '', // translation added later.
+				'default_value' => '0', // = follow.
 				'options'       => array(
-					'0' => '', // follow - translation added later
-					'1' => '', // no-follow - translation added later
+					'0' => '', // follow - translation added later.
+					'1' => '', // no-follow - translation added later.
 				),
 			),
 			'meta-robots-adv'      => array(
 				'type'          => 'multiselect',
-				'title'         => '', // translation added later
-				'default_value' => '-', // = site-wide default
-				'description'   => '', // translation added later
+				'title'         => '', // translation added later.
+				'default_value' => '-', // = site-wide default.
+				'description'   => '', // translation added later.
 				'options'       => array(
-					'-'            => '', // site-wide default - translation added later
-					'none'         => '', // translation added later
-					'noodp'        => '', // translation added later
-					'noydir'       => '', // translation added later
-					'noimageindex' => '', // translation added later
-					'noarchive'    => '', // translation added later
-					'nosnippet'    => '', // translation added later
+					'-'            => '', // site-wide default - translation added later.
+					'none'         => '', // translation added later.
+					'noodp'        => '', // translation added later.
+					'noydir'       => '', // translation added later.
+					'noimageindex' => '', // translation added later.
+					'noarchive'    => '', // translation added later.
+					'nosnippet'    => '', // translation added later.
 				),
 			),
 			'bctitle'              => array(
 				'type'          => 'text',
-				'title'         => '', // translation added later
+				'title'         => '', // translation added later.
 				'default_value' => '',
-				'description'   => '', // translation added later
+				'description'   => '', // translation added later.
 			),
 			'sitemap-include'      => array(
 				'type'          => 'select',
-				'title'         => '', // translation added later
+				'title'         => '', // translation added later.
 				'default_value' => '-',
-				'description'   => '', // translation added later
+				'description'   => '', // translation added later.
 				'options'       => array(
-					'-'      => '', // translation added later
-					'always' => '', // translation added later
-					'never'  => '', // translation added later
+					'-'      => '', // translation added later.
+					'always' => '', // translation added later.
+					'never'  => '', // translation added later.
 				),
 			),
 			'sitemap-prio'         => array(
 				'type'          => 'select',
-				'title'         => '', // translation added later
+				'title'         => '', // translation added later.
 				'default_value' => '-',
-				'description'   => '', // translation added later
+				'description'   => '', // translation added later.
 				'options'       => array(
-					'-'   => '', // translation added later
-					'1'   => '', // translation added later
+					'-'   => '', // translation added later.
+					'1'   => '', // translation added later.
 					'0.9' => '0.9',
-					'0.8' => '0.8 - ', // translation added later
+					'0.8' => '0.8 - ', // translation added later.
 					'0.7' => '0.7',
-					'0.6' => '0.6 - ', // translation added later
-					'0.5' => '0.5 - ', // translation added later
+					'0.6' => '0.6 - ', // translation added later.
+					'0.5' => '0.5 - ', // translation added later.
 					'0.4' => '0.4',
 					'0.3' => '0.3',
 					'0.2' => '0.2',
-					'0.1' => '0.1 - ', // translation added later
+					'0.1' => '0.1 - ', // translation added later.
 				),
 			),
 			'canonical'            => array(
 				'type'          => 'text',
-				'title'         => '', // translation added later
+				'title'         => '', // translation added later.
 				'default_value' => '',
-				'description'   => '', // translation added later
+				'description'   => '', // translation added later.
 			),
 			'redirect'             => array(
 				'type'          => 'text',
-				'title'         => '', // translation added later
+				'title'         => '', // translation added later.
 				'default_value' => '',
-				'description'   => '', // translation added later
+				'description'   => '', // translation added later.
 			),
 		),
 		'social'   => array(),
@@ -283,9 +283,9 @@ class WPSEO_Meta {
 				foreach ( self::$social_fields as $box => $type ) {
 					self::$meta_fields['social'][ $network . '-' . $box ] = array(
 						'type'          => $type,
-						'title'         => '', // translation added later
+						'title'         => '', // translation added later.
 						'default_value' => '',
-						'description'   => '', // translation added later
+						'description'   => '', // translation added later.
 					);
 				}
 			}
@@ -316,18 +316,18 @@ class WPSEO_Meta {
 						add_filter( 'sanitize_post_meta_' . self::$meta_prefix . $key, array( __CLASS__, 'sanitize_post_meta' ), 10, 2 );
 					}
 
-					// Set the $fields_index property for efficiency
+					// Set the $fields_index property for efficiency.
 					self::$fields_index[ self::$meta_prefix . $key ] = array(
 						'subset' => $subset,
 						'key'    => $key,
 					);
 
-					// Set the $defaults property for efficiency
+					// Set the $defaults property for efficiency.
 					if ( isset( $field_def['default_value'] ) ) {
 						self::$defaults[ self::$meta_prefix . $key ] = $field_def['default_value'];
 					}
 					else {
-						// meta will always be a string, so let's make the meta meta default also a string
+						// meta will always be a string, so let's make the meta meta default also a string.
 						self::$defaults[ self::$meta_prefix . $key ] = '';
 					}
 				}
@@ -359,7 +359,7 @@ class WPSEO_Meta {
 
 		switch ( $tab ) {
 			case 'non-form':
-				// prevent non-form fields from being passed to forms
+				// prevent non-form fields from being passed to forms.
 				$field_defs = array();
 				break;
 
@@ -471,13 +471,13 @@ class WPSEO_Meta {
 			case ( $meta_key === self::$meta_prefix . 'linkdex' ):
 				$int = WPSEO_Utils::validate_int( $meta_value );
 				if ( $int !== false && $int >= 0 ) {
-					$clean = strval( $int ); // Convert to string to make sure default check works
+					$clean = strval( $int ); // Convert to string to make sure default check works.
 				}
 				break;
 
 
 			case ( $field_def['type'] === 'checkbox' ):
-				// Only allow value if it's one of the predefined options
+				// Only allow value if it's one of the predefined options.
 				if ( in_array( $meta_value, array( 'on', 'off' ), true ) ) {
 					$clean = $meta_value;
 				}
@@ -485,7 +485,7 @@ class WPSEO_Meta {
 
 
 			case ( $field_def['type'] === 'select' || $field_def['type'] === 'radio' ):
-				// Only allow value if it's one of the predefined options
+				// Only allow value if it's one of the predefined options.
 				if ( isset( $field_def['options'][ $meta_value ] ) ) {
 					$clean = $meta_value;
 				}
@@ -499,7 +499,7 @@ class WPSEO_Meta {
 
 			case ( $field_def['type'] === 'text' && $meta_key === self::$meta_prefix . 'canonical' ):
 			case ( $field_def['type'] === 'text' && $meta_key === self::$meta_prefix . 'redirect' ):
-				// Validate as url(-part)
+				// Validate as url(-part).
 				$url = WPSEO_Utils::sanitize_url( $meta_value );
 				if ( $url !== '' ) {
 					$clean = $url;
@@ -508,7 +508,7 @@ class WPSEO_Meta {
 
 
 			case ( $field_def['type'] === 'upload' && $meta_key === self::$meta_prefix . 'opengraph-image' ):
-				// Validate as url
+				// Validate as url.
 				$url = WPSEO_Utils::sanitize_url( $meta_value, array( 'http', 'https', 'ftp', 'ftps' ) );
 				if ( $url !== '' ) {
 					$clean = $url;
@@ -518,8 +518,8 @@ class WPSEO_Meta {
 
 			case ( $field_def['type'] === 'textarea' ):
 				if ( is_string( $meta_value ) ) {
-					// Remove line breaks and tabs
-					// @todo [JRF => Yoast] verify that line breaks and the likes aren't allowed/recommended in meta header fields
+					// Remove line breaks and tabs.
+					// @todo [JRF => Yoast] verify that line breaks and the likes aren't allowed/recommended in meta header fields.
 					$meta_value = str_replace( array( "\n", "\r", "\t", '  ' ), ' ', $meta_value );
 					$clean      = WPSEO_Utils::sanitize_text_field( trim( $meta_value ) );
 				}
@@ -567,16 +567,16 @@ class WPSEO_Meta {
 			$meta_value = array_map( 'trim', $meta_value );
 
 			if ( in_array( 'none', $meta_value, true ) ) {
-				// None is one of the selected values, takes priority over everything else
+				// None is one of the selected values, takes priority over everything else.
 				$clean = 'none';
 			}
 			elseif ( in_array( '-', $meta_value, true ) ) {
 				// Site-wide defaults is one of the selected values, takes priority over
-				// individual selected entries
+				// individual selected entries.
 				$clean = '-';
 			}
 			else {
-				// Individual selected entries
+				// Individual selected entries.
 				$cleaning = array();
 				foreach ( $meta_value as $value ) {
 					if ( isset( $options[ $value ] ) ) {
@@ -618,10 +618,10 @@ class WPSEO_Meta {
 				delete_post_meta( $object_id, $meta_key );
 			}
 
-			return true; // stop saving the value
+			return true; // stop saving the value.
 		}
 
-		return null; // go on with the normal execution (update) in meta.php
+		return null; // go on with the normal execution (update) in meta.php.
 	}
 
 
@@ -640,10 +640,10 @@ class WPSEO_Meta {
 	public static function dont_save_meta_if_default( $null, $object_id, $meta_key, $meta_value ) {
 		/* If it's one of our meta fields, check against default */
 		if ( isset( self::$fields_index[ $meta_key ] ) && self::meta_value_is_default( $meta_key, $meta_value ) === true ) {
-			return true; // stop saving the value
+			return true; // stop saving the value.
 		}
 
-		return null; // go on with the normal execution (add) in meta.php
+		return null; // go on with the normal execution (add) in meta.php.
 	}
 
 
@@ -695,7 +695,7 @@ class WPSEO_Meta {
 			}
 		}
 
-		$custom = get_post_custom( $postid ); // array of strings or empty array
+		$custom = get_post_custom( $postid ); // array of strings or empty array.
 
 		if ( isset( $custom[ self::$meta_prefix . $key ][0] ) ) {
 			$unserialized = maybe_unserialize( $custom[ self::$meta_prefix . $key ][0] );
@@ -705,13 +705,13 @@ class WPSEO_Meta {
 			else {
 				$field_def = self::$meta_fields[ self::$fields_index[ self::$meta_prefix . $key ]['subset'] ][ self::$fields_index[ self::$meta_prefix . $key ]['key'] ];
 				if ( isset( $field_def['serialized'] ) && $field_def['serialized'] === true ) {
-					// Ok, serialize value expected/allowed
+					// Ok, serialize value expected/allowed.
 					return $unserialized;
 				}
 			}
 		}
 
-		// Meta was either not found or found, but object/array while not allowed to be
+		// Meta was either not found or found, but object/array while not allowed to be.
 		if ( isset( self::$defaults[ self::$meta_prefix . $key ] ) ) {
 			return self::$defaults[ self::$meta_prefix . $key ];
 		}
@@ -784,7 +784,7 @@ class WPSEO_Meta {
 			}
 		}
 
-		// Delete old keys
+		// Delete old keys.
 		if ( $delete_old === true ) {
 			delete_post_meta_by_key( $old_metakey );
 		}
@@ -846,7 +846,7 @@ class WPSEO_Meta {
 		}
 		unset( $query, $oldies, $old, $old_values, $value );
 
-		// Delete old keys
+		// Delete old keys.
 		delete_post_meta_by_key( self::$meta_prefix . 'meta-robots' );
 
 
@@ -879,7 +879,7 @@ class WPSEO_Meta {
 				}
 				elseif ( isset( $field_def['options'] ) && is_array( $field_def['options'] ) && $field_def['options'] !== array() ) {
 					$valid = $field_def['options'];
-					// remove the default value from the valid options
+					// remove the default value from the valid options.
 					unset( $valid[ $field_def['default_value'] ] );
 					$valid = array_keys( $valid );
 
@@ -910,7 +910,7 @@ class WPSEO_Meta {
 		$meta_ids = $wpdb->get_col( $query );
 
 		if ( is_array( $meta_ids ) && $meta_ids !== array() ) {
-			// wp native action
+			// wp native action.
 			do_action( 'delete_post_meta', $meta_ids, null, null, null );
 
 			$query = "DELETE FROM {$wpdb->postmeta} WHERE meta_id IN( " . implode( ',', $meta_ids ) . ' )';
@@ -921,7 +921,7 @@ class WPSEO_Meta {
 					wp_cache_delete( $object_id, 'post_meta' );
 				}
 
-				// wp native action
+				// wp native action.
 				do_action( 'deleted_post_meta', $meta_ids, null, null, null );
 			}
 		}

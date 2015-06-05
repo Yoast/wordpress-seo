@@ -71,7 +71,7 @@ class WPSEO_Frontend {
 		add_action( 'wp_head', array( $this, 'front_page_specific_init' ), 0 );
 		add_action( 'wp_head', array( $this, 'head' ), 1 );
 
-		// The head function here calls action wpseo_head, to which we hook all our functionality
+		// The head function here calls action wpseo_head, to which we hook all our functionality.
 		add_action( 'wpseo_head', array( $this, 'debug_marker' ), 2 );
 		add_action( 'wpseo_head', array( $this, 'robots' ), 6 );
 		add_action( 'wpseo_head', array( $this, 'metadesc' ), 10 );
@@ -80,7 +80,7 @@ class WPSEO_Frontend {
 		add_action( 'wpseo_head', array( $this, 'adjacent_rel_links' ), 21 );
 		add_action( 'wpseo_head', array( $this, 'publisher' ), 22 );
 
-		// Remove actions that we will handle through our wpseo_head call, and probably change the output of
+		// Remove actions that we will handle through our wpseo_head call, and probably change the output of.
 		remove_action( 'wp_head', 'rel_canonical' );
 		remove_action( 'wp_head', 'index_rel_link' );
 		remove_action( 'wp_head', 'start_post_rel_link' );
@@ -97,7 +97,7 @@ class WPSEO_Frontend {
 		add_filter( 'loginout', array( $this, 'nofollow_link' ) );
 		add_filter( 'register', array( $this, 'nofollow_link' ) );
 
-		// Fix the WooThemes woo_title() output
+		// Fix the WooThemes woo_title() output.
 		add_filter( 'woo_title', array( $this, 'fix_woo_title' ), 99 );
 
 		if ( $this->options['hide-rsdlink'] === true ) {
@@ -499,7 +499,7 @@ class WPSEO_Frontend {
 					$title_part = $post_type_obj->name;
 				}
 				else {
-					$title_part = ''; // To be determined what this should be
+					$title_part = ''; // To be determined what this should be.
 				}
 			}
 		}
@@ -626,27 +626,27 @@ class WPSEO_Frontend {
 	 * Output Webmaster Tools authentication strings
 	 */
 	public function webmaster_tools_authentication() {
-		// Alexa
+		// Alexa.
 		if ( $this->options['alexaverify'] !== '' ) {
 			echo '<meta name="alexaVerifyID" content="' . esc_attr( $this->options['alexaverify'] ) . "\" />\n";
 		}
 
-		// Bing
+		// Bing.
 		if ( $this->options['msverify'] !== '' ) {
 			echo '<meta name="msvalidate.01" content="' . esc_attr( $this->options['msverify'] ) . "\" />\n";
 		}
 
-		// Google
+		// Google.
 		if ( $this->options['googleverify'] !== '' ) {
 			echo '<meta name="google-site-verification" content="' . esc_attr( $this->options['googleverify'] ) . "\" />\n";
 		}
 
-		// Pinterest
+		// Pinterest.
 		if ( $this->options['pinterestverify'] !== '' ) {
 			echo '<meta name="p:domain_verify" content="' . esc_attr( $this->options['pinterestverify'] ) . "\" />\n";
 		}
 
-		// Yandex
+		// Yandex.
 		if ( $this->options['yandexverify'] !== '' ) {
 			echo '<meta name="yandex-verification" content="' . esc_attr( $this->options['yandexverify'] ) . "\" />\n";
 		}
@@ -718,7 +718,7 @@ class WPSEO_Frontend {
 					$robots['index'] = 'noindex';
 				}
 
-				// Three possible values, index, noindex and default, do nothing for default
+				// Three possible values, index, noindex and default, do nothing for default.
 				$term_meta = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'noindex' );
 				if ( is_string( $term_meta ) && 'default' !== $term_meta ) {
 					$robots['index'] = $term_meta;
@@ -767,7 +767,7 @@ class WPSEO_Frontend {
 			unset( $robot );
 		}
 
-		// Force override to respect the WP settings
+		// Force override to respect the WP settings.
 		if ( '0' == get_option( 'blog_public' ) || isset( $_GET['replytocom'] ) ) {
 			$robots['index'] = 'noindex';
 		}
@@ -776,7 +776,7 @@ class WPSEO_Frontend {
 		$robotsstr = $robots['index'] . ',' . $robots['follow'];
 
 		if ( $robots['other'] !== array() ) {
-			$robots['other'] = array_unique( $robots['other'] ); // most likely no longer needed, needs testing
+			$robots['other'] = array_unique( $robots['other'] ); // most likely no longer needed, needs testing.
 			$robotsstr .= ',' . implode( ',', $robots['other'] );
 		}
 
@@ -882,7 +882,7 @@ class WPSEO_Frontend {
 		$canonical          = false;
 		$canonical_override = false;
 
-		// Set decent canonicals for homepage, singulars and taxonomy pages
+		// Set decent canonicals for homepage, singulars and taxonomy pages.
 		if ( is_singular() ) {
 			$obj       = get_queried_object();
 			$canonical = get_permalink( $obj->ID );
@@ -1069,7 +1069,7 @@ class WPSEO_Frontend {
 
 				$url = get_permalink( $wp_query->post->ID );
 
-				// If the current page is the frontpage, pagination should use /base/
+				// If the current page is the frontpage, pagination should use /base/.
 				if ( $this->is_home_static_page() ) {
 					$usebase = true;
 				}
@@ -1201,14 +1201,14 @@ class WPSEO_Frontend {
 			}
 		}
 
-		$keywords = apply_filters( 'wpseo_metakey', trim( $keywords ) ); // make deprecated
+		$keywords = apply_filters( 'wpseo_metakey', trim( $keywords ) ); // make deprecated.
 
 		/**
 		 * Filter: 'wpseo_metakeywords' - Allow changing the WP SEO meta keywords
 		 *
 		 * @api string $keywords The meta keywords to be echoed.
 		 */
-		$keywords = apply_filters( 'wpseo_metakeywords', trim( $keywords ) ); // more appropriately named
+		$keywords = apply_filters( 'wpseo_metakeywords', trim( $keywords ) ); // more appropriately named.
 
 		if ( is_string( $keywords ) && $keywords !== '' ) {
 			echo '<meta name="keywords" content="', esc_attr( strip_tags( stripslashes( $keywords ) ) ), '"/>', "\n";
@@ -1509,7 +1509,7 @@ class WPSEO_Frontend {
 
 		global $wp_query;
 
-		// Recreate current URL
+		// Recreate current URL.
 		$cururl = 'http';
 		if ( isset( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] == 'on' ) {
 			$cururl .= 's';
@@ -1550,7 +1550,7 @@ class WPSEO_Frontend {
 			}
 			unset( $matches );
 
-			// Prevent cleaning out posts & page previews for people capable of viewing them
+			// Prevent cleaning out posts & page previews for people capable of viewing them.
 			if ( isset( $_GET['preview'], $_GET['preview_nonce'] ) && current_user_can( 'edit_post' ) ) {
 				$properurl = '';
 			}
@@ -1598,7 +1598,7 @@ class WPSEO_Frontend {
 			}
 		}
 
-		// Prevent cleaning out the WP Subscription managers interface for everyone
+		// Prevent cleaning out the WP Subscription managers interface for everyone.
 		if ( isset( $_GET['wp-subscription-manager'] ) ) {
 			$properurl = '';
 		}
@@ -1611,7 +1611,7 @@ class WPSEO_Frontend {
 		$whitelisted_extravars = apply_filters( 'wpseo_whitelist_permalink_vars', array() );
 
 		if ( $this->options['cleanpermalink-googlesitesearch'] === true ) {
-			// Prevent cleaning out Google Site searches
+			// Prevent cleaning out Google Site searches.
 			$whitelisted_extravars = array_merge( $whitelisted_extravars, array(
 				'q',
 				'cx',
@@ -1623,7 +1623,7 @@ class WPSEO_Frontend {
 		}
 
 		if ( $this->options['cleanpermalink-googlecampaign'] === true ) {
-			// Prevent cleaning out Google Analytics campaign variables
+			// Prevent cleaning out Google Analytics campaign variables.
 			$whitelisted_extravars = array_merge( $whitelisted_extravars, array(
 				'utm_campaign',
 				'utm_medium',

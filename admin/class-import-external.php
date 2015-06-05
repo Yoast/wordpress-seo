@@ -119,7 +119,7 @@ class WPSEO_Import_External {
 		}
 		if ( is_array( $posts ) && $posts !== array() ) {
 			foreach ( $posts as $post ) {
-				// sync all possible settings
+				// sync all possible settings.
 				if ( $post->robotsmeta ) {
 					$pieces = explode( ',', $post->robotsmeta );
 					foreach ( $pieces as $meta ) {

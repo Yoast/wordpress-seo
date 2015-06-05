@@ -27,15 +27,15 @@ if ( isset( $_GET['allow_tracking'] ) && check_admin_referer( 'wpseo_activate_tr
 }
 
 
-// Fix metadescription if so requested
+// Fix metadescription if so requested.
 if ( isset( $_GET['fixmetadesc'] ) && check_admin_referer( 'wpseo-fix-metadesc', 'nonce' ) && $options['theme_description_found'] !== '' ) {
 	$path = false;
 	if ( file_exists( get_stylesheet_directory() . '/header.php' ) ) {
-		// theme or child theme
+		// theme or child theme.
 		$path = get_stylesheet_directory();
 	}
 	elseif ( file_exists( get_template_directory() . '/header.php' ) ) {
-		// parent theme in case of a child theme
+		// parent theme in case of a child theme.
 		$path = get_template_directory();
 	}
 
@@ -76,7 +76,7 @@ if ( isset( $_GET['fixmetadesc'] ) && check_admin_referer( 'wpseo-fix-metadesc',
 		}
 	}
 
-	// Clean up the referrer url for later use
+	// Clean up the referrer url for later use.
 	if ( isset( $_SERVER['REQUEST_URI'] ) ) {
 		$_SERVER['REQUEST_URI'] = remove_query_arg( array( 'nonce', 'fixmetadesc' ), $_SERVER['REQUEST_URI'] );
 	}
@@ -84,11 +84,11 @@ if ( isset( $_GET['fixmetadesc'] ) && check_admin_referer( 'wpseo-fix-metadesc',
 
 if ( ( ! isset( $options['theme_has_description'] ) || ( ( isset( $options['theme_has_description'] ) && $options['theme_has_description'] === true ) || $options['theme_description_found'] !== '' ) ) || ( isset( $_GET['checkmetadesc'] ) && check_admin_referer( 'wpseo-check-metadesc', 'nonce' ) ) ) {
 	wpseo_description_test();
-	// Renew the options after the test
+	// Renew the options after the test.
 	$options = get_option( 'wpseo' );
 }
 if ( isset( $_GET['checkmetadesc'] ) ) {
-	// Clean up the referrer url for later use
+	// Clean up the referrer url for later use.
 	if ( isset( $_SERVER['REQUEST_URI'] ) ) {
 		$_SERVER['REQUEST_URI'] = remove_query_arg( array( 'nonce', 'checkmetadesc' ), $_SERVER['REQUEST_URI'] );
 	}
@@ -202,7 +202,7 @@ if ( get_option( 'page_comments' ) && $options['ignore_page_comments'] === false
 		<h3><?php _e( 'Company or person', 'wordpress-seo' ); ?></h3>
 		<p>
 			<?php
-			// @todo add KB link - JdV
+			// @todo add KB link - JdV.
 			_e( 'This data is shown as metadata in your site. It is intended to appear in Google\'s Knowledge Graph. You can be either a company, or a person, choose either:', 'wordpress-seo' );
 			?>
 		</p>

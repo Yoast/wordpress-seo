@@ -69,7 +69,7 @@ class WPSEO_Import {
 	 * @return boolean
 	 */
 	private function handle_upload() {
-		$overrides  = array( 'mimes' => array( 'zip' => 'application/zip' ) ); // explicitly allow zip in multisite
+		$overrides  = array( 'mimes' => array( 'zip' => 'application/zip' ) ); // explicitly allow zip in multisite.
 		$this->file = wp_handle_upload( $_FILES['settings_import_file'], $overrides );
 
 		if ( is_wp_error( $this->file ) ) {
@@ -164,7 +164,7 @@ class WPSEO_Import {
 			$opt_group = json_decode( urldecode( $opt_group['wpseo_taxonomy_meta'] ), true );
 		}
 
-		// Make sure that the imported options are cleaned/converted on import
+		// Make sure that the imported options are cleaned/converted on import.
 		$option_instance = WPSEO_Options::get_option_instance( $name );
 		if ( is_object( $option_instance ) && method_exists( $option_instance, 'import' ) ) {
 			$option_instance->import( $opt_group, $this->old_wpseo_version, $options );

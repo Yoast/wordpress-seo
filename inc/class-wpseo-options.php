@@ -117,19 +117,19 @@ abstract class WPSEO_Option {
 	protected function __construct() {
 
 		/* Add filters which get applied to the get_options() results */
-		$this->add_default_filters(); // return defaults if option not set
-		$this->add_option_filters(); // merge with defaults if option *is* set
+		$this->add_default_filters(); // return defaults if option not set.
+		$this->add_option_filters(); // merge with defaults if option *is* set.
 
 
 		if ( $this->multisite_only !== true ) {
 			/* The option validation routines remove the default filters to prevent failing
 				   to insert an option if it's new. Let's add them back afterwards. */
-			add_action( 'add_option', array( $this, 'add_default_filters' ) ); // adding back after INSERT
+			add_action( 'add_option', array( $this, 'add_default_filters' ) ); // adding back after INSERT.
 
-			if ( version_compare( $GLOBALS['wp_version'], '3.7', '!=' ) ) { // adding back after non-WP 3.7 UPDATE
+			if ( version_compare( $GLOBALS['wp_version'], '3.7', '!=' ) ) { // adding back after non-WP 3.7 UPDATE.
 				add_action( 'update_option', array( $this, 'add_default_filters' ) );
 			}
-			else { // adding back after WP 3.7 UPDATE
+			else { // adding back after WP 3.7 UPDATE.
 				add_filter( 'pre_update_option_' . $this->option_name, array( $this, 'wp37_add_default_filters' ) );
 			}
 		}
@@ -205,7 +205,7 @@ abstract class WPSEO_Option {
 	 * @return  void
 	 */
 	public function add_default_filters() {
-		// Don't change, needs to check for false as could return prio 0 which would evaluate to false
+		// Don't change, needs to check for false as could return prio 0 which would evaluate to false.
 		if ( has_filter( 'default_option_' . $this->option_name, array( $this, 'get_defaults' ) ) === false ) {
 			add_filter( 'default_option_' . $this->option_name, array( $this, 'get_defaults' ) );
 		}
@@ -239,7 +239,7 @@ abstract class WPSEO_Option {
 		if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
 			$meta = $dirty[ $key ];
 			if ( strpos( $meta, 'content=' ) ) {
-				// Make sure we only have the real key, not a complete meta tag
+				// Make sure we only have the real key, not a complete meta tag.
 				preg_match( '`content=([\'"])?([^\'"> ]+)(?:\1|[ />])`', $meta, $match );
 				if ( isset( $match[2] ) ) {
 					$meta = $match[2];
@@ -284,10 +284,10 @@ abstract class WPSEO_Option {
 					}
 					if ( function_exists( 'add_settings_error' ) ) {
 						add_settings_error(
-							$this->group_name, // slug title of the setting
-							'_' . $key, // suffix-id for the error message box
-							sprintf( __( '%s does not seem to be a valid %s verification string. Please correct.', 'wordpress-seo' ), '<strong>' . esc_html( $meta ) . '</strong>', $service ), // the error message
-							'error' // error type, either 'error' or 'updated'
+							$this->group_name, // slug title of the setting.
+							'_' . $key, // suffix-id for the error message box.
+							sprintf( __( '%s does not seem to be a valid %s verification string. Please correct.', 'wordpress-seo' ), '<strong>' . esc_html( $meta ) . '</strong>', $service ), // the error message.
+							'error' // error type, either 'error' or 'updated'.
 						);
 					}
 				}
@@ -319,10 +319,10 @@ abstract class WPSEO_Option {
 				if ( function_exists( 'add_settings_error' ) ) {
 					$url = WPSEO_Utils::sanitize_url( $dirty[ $key ] );
 					add_settings_error(
-						$this->group_name, // slug title of the setting
-						'_' . $key, // suffix-id for the error message box
-						sprintf( __( '%s does not seem to be a valid url. Please correct.', 'wordpress-seo' ), '<strong>' . esc_html( $url ) . '</strong>' ), // the error message
-						'error' // error type, either 'error' or 'updated'
+						$this->group_name, // slug title of the setting.
+						'_' . $key, // suffix-id for the error message box.
+						sprintf( __( '%s does not seem to be a valid url. Please correct.', 'wordpress-seo' ), '<strong>' . esc_html( $url ) . '</strong>' ), // the error message.
+						'error' // error type, either 'error' or 'updated'.
 					);
 				}
 			}
@@ -369,7 +369,7 @@ abstract class WPSEO_Option {
 	 * @return  void
 	 */
 	public function add_option_filters() {
-		// Don't change, needs to check for false as could return prio 0 which would evaluate to false
+		// Don't change, needs to check for false as could return prio 0 which would evaluate to false.
 		if ( has_filter( 'option_' . $this->option_name, array( $this, 'get_option' ) ) === false ) {
 			add_filter( 'option_' . $this->option_name, array( $this, 'get_option' ) );
 		}
@@ -485,7 +485,7 @@ abstract class WPSEO_Option {
 		$this->remove_default_filters();
 		$this->remove_option_filters();
 
-		// Get (unvalidated) array, NOT merged with defaults
+		// Get (unvalidated) array, NOT merged with defaults.
 		if ( $this->multisite_only !== true ) {
 			$option_value = get_option( $this->option_name );
 		}
@@ -665,7 +665,7 @@ abstract class WPSEO_Option {
 		if ( ( is_array( $this->variable_array_key_patterns ) && $this->variable_array_key_patterns !== array() ) && ( is_array( $dirty ) && $dirty !== array() ) ) {
 			foreach ( $dirty as $key => $value ) {
 
-				// do nothing if already in filtered options
+				// do nothing if already in filtered options.
 				if ( isset( $clean[ $key ] ) ) {
 					continue;
 				}
@@ -865,25 +865,25 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 	 *        Shouldn't be requested directly, use $this->get_defaults();
 	 */
 	protected $defaults = array(
-		// Non-form fields, set via (ajax) function
+		// Non-form fields, set via (ajax) function.
 		'blocking_files'                  => array(),
 		'ignore_blog_public_warning'      => false,
-		'ignore_meta_description_warning' => null, // overwrite in __construct()
+		'ignore_meta_description_warning' => null, // overwrite in __construct().
 		'ignore_page_comments'            => false,
 		'ignore_permalink'                => false,
 		'ms_defaults_set'                 => false,
-		'theme_description_found'         => null, // overwrite in __construct()
-		'theme_has_description'           => null, // overwrite in __construct()
-		// Non-form field, should only be set via validation routine
-		'version'                         => '', // leave default as empty to ensure activation/upgrade works
+		'theme_description_found'         => null, // overwrite in __construct().
+		'theme_has_description'           => null, // overwrite in __construct().
+		// Non-form field, should only be set via validation routine.
+		'version'                         => '', // leave default as empty to ensure activation/upgrade works.
 		// Form fields:
-		'alexaverify'                     => '', // text field
+		'alexaverify'                     => '', // text field.
 		'company_logo'                    => '',
 		'company_name'                    => '',
 		'company_or_person'               => '',
 		'disableadvanced_meta'            => true,
-		'googleverify'                    => '', // text field
-		'msverify'                        => '', // text field
+		'googleverify'                    => '', // text field.
+		'msverify'                        => '', // text field.
 		'person_name'                     => '',
 		'website_name'                    => '',
 		'alternate_website_name'          => '',
@@ -895,7 +895,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 	 */
 	public static $desc_defaults = array(
 		'ignore_meta_description_warning' => false,
-		'theme_description_found'         => '', // text string description
+		'theme_description_found'         => '', // text string description.
 		'theme_has_description'           => null,
 	);
 
@@ -1080,7 +1080,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 	 * @return  array            Cleaned option
 	 */
 	protected function clean_option( $option_value, $current_version = null, $all_old_option_values = null ) {
-		// Deal with renaming of some options without losing the settings
+		// Deal with renaming of some options without losing the settings.
 		$rename = array(
 			'meta_description_warning' => 'ignore_meta_description_warning',
 		);
@@ -1093,7 +1093,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		unset( $rename, $old, $new );
 
 
-		// Change a array sub-option to two straight sub-options
+		// Change a array sub-option to two straight sub-options.
 		if ( isset( $option_value['theme_check']['description'] ) && ! isset( $option_value['theme_has_description'] ) ) {
 			// @internal the negate is by design!
 			$option_value['theme_has_description'] = ! $option_value['theme_check']['description'];
@@ -1103,13 +1103,13 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		}
 
 
-		// Deal with value change from text string to boolean
+		// Deal with value change from text string to boolean.
 		$value_change = array(
 			'ignore_blog_public_warning',
 			'ignore_meta_description_warning',
 			'ignore_page_comments',
 			'ignore_permalink',
-			// 'disableadvanced_meta', => not needed as is 'on' which will auto-convert to true
+			// 'disableadvanced_meta', => not needed as is 'on' which will auto-convert to true.
 		);
 		foreach ( $value_change as $key ) {
 			if ( isset( $option_value[ $key ] ) && in_array( $option_value[ $key ], array(
@@ -1148,7 +1148,7 @@ class WPSEO_Option_Permalinks extends WPSEO_Option {
 	 */
 	protected $defaults = array(
 		'cleanpermalinks'                 => false,
-		'cleanpermalink-extravars'        => '', // text field
+		'cleanpermalink-extravars'        => '', // text field.
 		'cleanpermalink-googlecampaign'   => false,
 		'cleanpermalink-googlesitesearch' => false,
 		'cleanreplytocom'                 => false,
@@ -1274,26 +1274,26 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 	 * @internal  Note: Some of the default values are added via the translate_defaults() method
 	 */
 	protected $defaults = array(
-		// Non-form fields, set via (ajax) function
+		// Non-form fields, set via (ajax) function.
 		'title_test'             => 0,
-		// Form fields
+		// Form fields.
 		'forcerewritetitle'      => false,
 		'separator'              => 'sc-dash',
 		'noodp'                  => false,
 		'noydir'                 => false,
 		'usemetakeywords'        => false,
-		'title-home-wpseo'       => '%%sitename%% %%page%% %%sep%% %%sitedesc%%', // text field
-		'title-author-wpseo'     => '', // text field
-		'title-archive-wpseo'    => '%%date%% %%page%% %%sep%% %%sitename%%', // text field
-		'title-search-wpseo'     => '', // text field
-		'title-404-wpseo'        => '', // text field
+		'title-home-wpseo'       => '%%sitename%% %%page%% %%sep%% %%sitedesc%%', // text field.
+		'title-author-wpseo'     => '', // text field.
+		'title-archive-wpseo'    => '%%date%% %%page%% %%sep%% %%sitename%%', // text field.
+		'title-search-wpseo'     => '', // text field.
+		'title-404-wpseo'        => '', // text field.
 
-		'metadesc-home-wpseo'    => '', // text area
-		'metadesc-author-wpseo'  => '', // text area
-		'metadesc-archive-wpseo' => '', // text area
+		'metadesc-home-wpseo'    => '', // text area.
+		'metadesc-author-wpseo'  => '', // text area.
+		'metadesc-archive-wpseo' => '', // text area.
 
-		'metakey-home-wpseo'     => '', // text field
-		'metakey-author-wpseo'   => '', // text field
+		'metakey-home-wpseo'     => '', // text field.
+		'metakey-author-wpseo'   => '', // text field.
 
 		'noindex-subpages-wpseo' => false,
 		'noindex-author-wpseo'   => false,
@@ -1304,22 +1304,22 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 
 		/**
 		 * Uses enrich_defaults to add more along the lines of:
-		 * - 'title-' . $pt->name        => ''; // text field
-		 * - 'metadesc-' . $pt->name      => ''; // text field
-		 * - 'metakey-' . $pt->name        => ''; // text field
+		 * - 'title-' . $pt->name        => ''; // text field.
+		 * - 'metadesc-' . $pt->name      => ''; // text field.
+		 * - 'metakey-' . $pt->name        => ''; // text field.
 		 * - 'noindex-' . $pt->name        => false;
 		 * - 'showdate-' . $pt->name      => false;
 		 * - 'hideeditbox-' . $pt->name      => false;
 		 *
-		 * - 'title-ptarchive-' . $pt->name    => ''; // text field
-		 * - 'metadesc-ptarchive-' . $pt->name  => ''; // text field
-		 * - 'metakey-ptarchive-' . $pt->name  => ''; // text field
-		 * - 'bctitle-ptarchive-' . $pt->name  => ''; // text field
+		 * - 'title-ptarchive-' . $pt->name    => ''; // text field.
+		 * - 'metadesc-ptarchive-' . $pt->name  => ''; // text field.
+		 * - 'metakey-ptarchive-' . $pt->name  => ''; // text field.
+		 * - 'bctitle-ptarchive-' . $pt->name  => ''; // text field.
 		 * - 'noindex-ptarchive-' . $pt->name  => false;
 		 *
-		 * - 'title-tax-' . $tax->name      => '''; // text field
-		 * - 'metadesc-tax-' . $tax->name    => ''; // text field
-		 * - 'metakey-tax-' . $tax->name    => ''; // text field
+		 * - 'title-tax-' . $tax->name      => '''; // text field.
+		 * - 'metadesc-tax-' . $tax->name    => ''; // text field.
+		 * - 'metakey-tax-' . $tax->name    => ''; // text field.
 		 * - 'noindex-tax-' . $tax->name    => false;
 		 * - 'hideeditbox-tax-' . $tax->name  => false;
 		 */
@@ -1443,7 +1443,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 	 */
 	public function enrich_defaults() {
 
-		// Retrieve all the relevant post type and taxonomy arrays
+		// Retrieve all the relevant post type and taxonomy arrays.
 		$post_type_names = get_post_types( array( 'public' => true ), 'names' );
 
 		$post_type_objects_custom = get_post_types( array( 'public' => true, '_builtin' => false ), 'objects' );
@@ -1453,9 +1453,9 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 
 		if ( $post_type_names !== array() ) {
 			foreach ( $post_type_names as $pt ) {
-				$this->defaults[ 'title-' . $pt ]       = '%%title%% %%page%% %%sep%% %%sitename%%'; // text field
-				$this->defaults[ 'metadesc-' . $pt ]    = ''; // text area
-				$this->defaults[ 'metakey-' . $pt ]     = ''; // text field
+				$this->defaults[ 'title-' . $pt ]       = '%%title%% %%page%% %%sep%% %%sitename%%'; // text field.
+				$this->defaults[ 'metadesc-' . $pt ]    = ''; // text area.
+				$this->defaults[ 'metakey-' . $pt ]     = ''; // text field.
 				$this->defaults[ 'noindex-' . $pt ]     = false;
 				$this->defaults[ 'showdate-' . $pt ]    = false;
 				$this->defaults[ 'hideeditbox-' . $pt ] = false;
@@ -1470,10 +1470,10 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 					continue;
 				}
 
-				$this->defaults[ 'title-ptarchive-' . $pt->name ]    = $archive . ' %%page%% %%sep%% %%sitename%%'; // text field
-				$this->defaults[ 'metadesc-ptarchive-' . $pt->name ] = ''; // text area
-				$this->defaults[ 'metakey-ptarchive-' . $pt->name ]  = ''; // text field
-				$this->defaults[ 'bctitle-ptarchive-' . $pt->name ]  = ''; // text field
+				$this->defaults[ 'title-ptarchive-' . $pt->name ]    = $archive . ' %%page%% %%sep%% %%sitename%%'; // text field.
+				$this->defaults[ 'metadesc-ptarchive-' . $pt->name ] = ''; // text area.
+				$this->defaults[ 'metakey-ptarchive-' . $pt->name ]  = ''; // text field.
+				$this->defaults[ 'bctitle-ptarchive-' . $pt->name ]  = ''; // text field.
 				$this->defaults[ 'noindex-ptarchive-' . $pt->name ]  = false;
 			}
 			unset( $pt );
@@ -1482,9 +1482,9 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		if ( $taxonomy_names !== array() ) {
 			$archives = sprintf( __( '%s Archives', 'wordpress-seo' ), '%%term_title%%' );
 			foreach ( $taxonomy_names as $tax ) {
-				$this->defaults[ 'title-tax-' . $tax ]       = $archives . ' %%page%% %%sep%% %%sitename%%'; // text field
-				$this->defaults[ 'metadesc-tax-' . $tax ]    = ''; // text area
-				$this->defaults[ 'metakey-tax-' . $tax ]     = ''; // text field
+				$this->defaults[ 'title-tax-' . $tax ]       = $archives . ' %%page%% %%sep%% %%sitename%%'; // text field.
+				$this->defaults[ 'metadesc-tax-' . $tax ]    = ''; // text area.
+				$this->defaults[ 'metakey-tax-' . $tax ]     = ''; // text field.
 				$this->defaults[ 'hideeditbox-tax-' . $tax ] = false;
 
 				if ( $tax !== 'post_format' ) {
@@ -1568,10 +1568,10 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 				case 'separator':
 					if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
 
-						// Get separator fields
+						// Get separator fields.
 						$separator_fields = $this->get_separator_options();
 
-						// Check if the given separator is exists
+						// Check if the given separator is exists.
 						if ( isset( $separator_fields[ $dirty[ $key ] ] ) ) {
 							$clean[ $key ] = $dirty[ $key ];
 						}
@@ -1622,7 +1622,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 	protected function clean_option( $option_value, $current_version = null, $all_old_option_values = null ) {
 		static $original = null;
 
-		// Double-run this function to ensure renaming of the taxonomy options will work
+		// Double-run this function to ensure renaming of the taxonomy options will work.
 		if ( ! isset( $original ) && has_action( 'wpseo_double_clean_titles', array(
 				$this,
 				'clean',
@@ -1638,7 +1638,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 			   @todo [JRF] maybe figure out a smarter way to deal with this */
 		$old_option = null;
 		if ( isset( $all_old_option_values ) ) {
-			// Ok, we have an import
+			// Ok, we have an import.
 			if ( isset( $all_old_option_values['wpseo_indexation'] ) && is_array( $all_old_option_values['wpseo_indexation'] ) && $all_old_option_values['wpseo_indexation'] !== array() ) {
 				$old_option = $all_old_option_values['wpseo_indexation'];
 			}
@@ -1670,7 +1670,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		unset( $old_option );
 
 
-		// Fix wrongness created by buggy version 1.2.2
+		// Fix wrongness created by buggy version 1.2.2.
 		if ( isset( $option_value['title-home'] ) && $option_value['title-home'] === '%%sitename%% - %%sitedesc%% - 12345' ) {
 			$option_value['title-home-wpseo'] = '%%sitename%% - %%sitedesc%%';
 		}
@@ -1759,7 +1759,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 			foreach ( $option_value as $key => $value ) {
 				$switch_key = $this->get_switch_key( $key );
 
-				// Similar to validation routine - any changes made there should be made here too
+				// Similar to validation routine - any changes made there should be made here too.
 				switch ( $switch_key ) {
 					/* text fields */
 					case 'title-':
@@ -1805,7 +1805,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 	protected function retain_variable_keys( $dirty, $clean ) {
 		if ( ( is_array( $this->variable_array_key_patterns ) && $this->variable_array_key_patterns !== array() ) && ( is_array( $dirty ) && $dirty !== array() ) ) {
 
-			// Add the extra pattern
+			// Add the extra pattern.
 			$patterns   = $this->variable_array_key_patterns;
 			$patterns[] = 'tax-hideeditbox-';
 
@@ -1817,7 +1817,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 
 			foreach ( $dirty as $key => $value ) {
 
-				// do nothing if already in filtered option array
+				// do nothing if already in filtered option array.
 				if ( isset( $clean[ $key ] ) ) {
 					continue;
 				}
@@ -1854,8 +1854,8 @@ class WPSEO_Option_RSS extends WPSEO_Option {
 	 * @internal  Note: Some of the default values are added via the translate_defaults() method
 	 */
 	protected $defaults = array(
-		'rssbefore' => '', // text area
-		'rssafter'  => '', // text area
+		'rssbefore' => '', // text area.
+		'rssafter'  => '', // text area.
 	);
 
 
@@ -1921,15 +1921,15 @@ class WPSEO_Option_InternalLinks extends WPSEO_Option {
 	 * @internal  Note: Some of the default values are added via the translate_defaults() method
 	 */
 	protected $defaults = array(
-		'breadcrumbs-404crumb'      => '', // text field
+		'breadcrumbs-404crumb'      => '', // text field.
 		'breadcrumbs-blog-remove'   => false,
 		'breadcrumbs-boldlast'      => false,
-		'breadcrumbs-archiveprefix' => '', // text field
+		'breadcrumbs-archiveprefix' => '', // text field.
 		'breadcrumbs-enable'        => false,
-		'breadcrumbs-home'          => '', // text field
-		'breadcrumbs-prefix'        => '', // text field
-		'breadcrumbs-searchprefix'  => '', // text field
-		'breadcrumbs-sep'           => '&raquo;', // text field
+		'breadcrumbs-home'          => '', // text field.
+		'breadcrumbs-prefix'        => '', // text field.
+		'breadcrumbs-searchprefix'  => '', // text field.
+		'breadcrumbs-sep'           => '&raquo;', // text field.
 
 		/**
 		 * Uses enrich_defaults() to add more along the lines of:
@@ -1981,7 +1981,7 @@ class WPSEO_Option_InternalLinks extends WPSEO_Option {
 	 */
 	public function enrich_defaults() {
 
-		// Retrieve all the relevant post type and taxonomy arrays
+		// Retrieve all the relevant post type and taxonomy arrays.
 		$post_type_names       = get_post_types( array( 'public' => true ), 'names' );
 		$taxonomy_names_custom = get_taxonomies( array( 'public' => true, '_builtin' => false ), 'names' );
 
@@ -1989,7 +1989,7 @@ class WPSEO_Option_InternalLinks extends WPSEO_Option {
 			foreach ( $post_type_names as $pt ) {
 				$pto_taxonomies = get_object_taxonomies( $pt, 'names' );
 				if ( $pto_taxonomies !== array() ) {
-					$this->defaults[ 'post_types-' . $pt . '-maintax' ] = 0; // select box
+					$this->defaults[ 'post_types-' . $pt . '-maintax' ] = 0; // select box.
 				}
 				unset( $pto_taxonomies );
 			}
@@ -1998,7 +1998,7 @@ class WPSEO_Option_InternalLinks extends WPSEO_Option {
 
 		if ( $taxonomy_names_custom !== array() ) {
 			foreach ( $taxonomy_names_custom as $tax ) {
-				$this->defaults[ 'taxonomy-' . $tax . '-ptparent' ] = 0; // select box;
+				$this->defaults[ 'taxonomy-' . $tax . '-ptparent' ] = 0; // select box;.
 			}
 			unset( $tax );
 		}
@@ -2049,7 +2049,7 @@ class WPSEO_Option_InternalLinks extends WPSEO_Option {
 							$clean[ $key ] = 0;
 						}
 						elseif ( sanitize_title_with_dashes( $dirty[ $key ] ) === $dirty[ $key ] ) {
-							// Allow taxonomies which may not be registered yet
+							// Allow taxonomies which may not be registered yet.
 							$clean[ $key ] = $dirty[ $key ];
 						}
 						else {
@@ -2060,10 +2060,10 @@ class WPSEO_Option_InternalLinks extends WPSEO_Option {
 								/* @todo [JRF => whomever] maybe change the untranslated $pt name in the
 								 * error message to the nicely translated label ? */
 								add_settings_error(
-									$this->group_name, // slug title of the setting
-									'_' . $key, // suffix-id for the error message box
-									sprintf( __( 'Please select a valid taxonomy for post type "%s"', 'wordpress-seo' ), $post_type ), // the error message
-									'error' // error type, either 'error' or 'updated'
+									$this->group_name, // slug title of the setting.
+									'_' . $key, // suffix-id for the error message box.
+									sprintf( __( 'Please select a valid taxonomy for post type "%s"', 'wordpress-seo' ), $post_type ), // the error message.
+									'error' // error type, either 'error' or 'updated'.
 								);
 							}
 						}
@@ -2085,7 +2085,7 @@ class WPSEO_Option_InternalLinks extends WPSEO_Option {
 							$clean[ $key ] = 0;
 						}
 						elseif ( sanitize_key( $dirty[ $key ] ) === $dirty[ $key ] ) {
-							// Allow taxonomies which may not be registered yet
+							// Allow taxonomies which may not be registered yet.
 							$clean[ $key ] = $dirty[ $key ];
 						}
 						else {
@@ -2097,10 +2097,10 @@ class WPSEO_Option_InternalLinks extends WPSEO_Option {
 								 * error message to the nicely translated label ? */
 								$tax = str_replace( array( 'taxonomy-', '-ptparent' ), '', $key );
 								add_settings_error(
-									$this->group_name, // slug title of the setting
-									'_' . $tax, // suffix-id for the error message box
-									sprintf( __( 'Please select a valid post type for taxonomy "%s"', 'wordpress-seo' ), $tax ), // the error message
-									'error' // error type, either 'error' or 'updated'
+									$this->group_name, // slug title of the setting.
+									'_' . $tax, // suffix-id for the error message box.
+									sprintf( __( 'Please select a valid post type for taxonomy "%s"', 'wordpress-seo' ), $tax ), // the error message.
+									'error' // error type, either 'error' or 'updated'.
 								);
 								unset( $tax );
 							}
@@ -2186,7 +2186,7 @@ class WPSEO_Option_InternalLinks extends WPSEO_Option {
 			foreach ( $option_value as $key => $value ) {
 				$switch_key = $this->get_switch_key( $key );
 
-				// Similar to validation routine - any changes made there should be made here too
+				// Similar to validation routine - any changes made there should be made here too.
 				switch ( $switch_key ) {
 					/* 'post_types-' . $pt->name . '-maintax' fields */
 					case 'post_types-':
@@ -2200,7 +2200,7 @@ class WPSEO_Option_InternalLinks extends WPSEO_Option {
 							$option_value[ $key ] = 0;
 						}
 						elseif ( sanitize_title_with_dashes( $value ) === $value ) {
-							// Allow taxonomies which may not be registered yet
+							// Allow taxonomies which may not be registered yet.
 							$option_value[ $key ] = $value;
 						}
 						unset( $taxonomies, $post_type );
@@ -2216,7 +2216,7 @@ class WPSEO_Option_InternalLinks extends WPSEO_Option {
 							$option_value[ $key ] = 0;
 						}
 						elseif ( sanitize_key( $option_value[ $key ] ) === $option_value[ $key ] ) {
-							// Allow post types which may not be registered yet
+							// Allow post types which may not be registered yet.
 							$option_value[ $key ] = $value;
 						}
 						break;
@@ -2410,10 +2410,10 @@ class WPSEO_Option_XML extends WPSEO_Option {
 							}
 							if ( function_exists( 'add_settings_error' ) ) {
 								add_settings_error(
-									$this->group_name, // slug title of the setting
-									'_' . $key, // suffix-id for the error message box
-									sprintf( __( '"Max entries per sitemap page" should be a positive number, which %s is not. Please correct.', 'wordpress-seo' ), '<strong>' . esc_html( sanitize_text_field( $dirty[ $key ] ) ) . '</strong>' ), // the error message
-									'error' // error type, either 'error' or 'updated'
+									$this->group_name, // slug title of the setting.
+									'_' . $key, // suffix-id for the error message box.
+									sprintf( __( '"Max entries per sitemap page" should be a positive number, which %s is not. Please correct.', 'wordpress-seo' ), '<strong>' . esc_html( sanitize_text_field( $dirty[ $key ] ) ) . '</strong>' ), // the error message.
+									'error' // error type, either 'error' or 'updated'.
 								);
 							}
 						}
@@ -2465,7 +2465,7 @@ class WPSEO_Option_XML extends WPSEO_Option {
 			foreach ( $option_value as $key => $value ) {
 				$switch_key = $this->get_switch_key( $key );
 
-				// Similar to validation routine - any changes made there should be made here too
+				// Similar to validation routine - any changes made there should be made here too.
 				switch ( $switch_key ) {
 					case 'user_role-': /* 'user_role-' . $role_name. '-not_in_sitemap' fields */
 					case 'post_types-': /* 'post_types-' . $pt->name . '-not_in_sitemap' fields */
@@ -2498,32 +2498,32 @@ class WPSEO_Option_Social extends WPSEO_Option {
 	 *        Shouldn't be requested directly, use $this->get_defaults();
 	 */
 	protected $defaults = array(
-		// Non-form fields, set via procedural code in admin/pages/social.php
-		'fb_admins'          => array(), // array of user id's => array( name => '', link => '' )
+		// Non-form fields, set via procedural code in admin/pages/social.php.
+		'fb_admins'          => array(), // array of user id's => array( name => '', link => '' ).
 
-		// Non-form field, set via translate_defaults() and validate_option() methods
+		// Non-form field, set via translate_defaults() and validate_option() methods.
 		'fbconnectkey'       => '',
 		// Form fields:
-		'facebook_site'      => '', // text field
+		'facebook_site'      => '', // text field.
 		'instagram_url'      => '',
 		'linkedin_url'       => '',
 		'myspace_url'        => '',
-		'og_default_image'   => '', // text field
-		'og_frontpage_title' => '', // text field
-		'og_frontpage_desc'  => '', // text field
-		'og_frontpage_image' => '', // text field
+		'og_default_image'   => '', // text field.
+		'og_frontpage_title' => '', // text field.
+		'og_frontpage_desc'  => '', // text field.
+		'og_frontpage_image' => '', // text field.
 		'opengraph'          => true,
 		'googleplus'         => false,
 		'pinterest_url'      => '',
 		'pinterestverify'    => '',
-		'plus-publisher'     => '', // text field
+		'plus-publisher'     => '', // text field.
 		'twitter'            => true,
-		'twitter_site'       => '', // text field
+		'twitter_site'       => '', // text field.
 		'twitter_card_type'  => 'summary',
 		'youtube_url'        => '',
 		'google_plus_url'    => '',
 		// Form field, but not always available:
-		'fbadminapp'         => '', // facbook app id
+		'fbadminapp'         => '', // facbook app id.
 	);
 
 	/**
@@ -2712,10 +2712,10 @@ class WPSEO_Option_Social extends WPSEO_Option {
 							}
 							if ( function_exists( 'add_settings_error' ) ) {
 								add_settings_error(
-									$this->group_name, // slug title of the setting
-									'_' . $key, // suffix-id for the error message box
-									sprintf( __( '%s does not seem to be a valid Twitter user-id. Please correct.', 'wordpress-seo' ), '<strong>' . esc_html( sanitize_text_field( $dirty[ $key ] ) ) . '</strong>' ), // the error message
-									'error' // error type, either 'error' or 'updated'
+									$this->group_name, // slug title of the setting.
+									'_' . $key, // suffix-id for the error message box.
+									sprintf( __( '%s does not seem to be a valid Twitter user-id. Please correct.', 'wordpress-seo' ), '<strong>' . esc_html( sanitize_text_field( $dirty[ $key ] ) ) . '</strong>' ), // the error message.
+									'error' // error type, either 'error' or 'updated'.
 								);
 							}
 						}
@@ -2767,7 +2767,7 @@ class WPSEO_Option_Social extends WPSEO_Option {
 		/* Move options from very old option to this one */
 		$old_option = null;
 		if ( isset( $all_old_option_values ) ) {
-			// Ok, we have an import
+			// Ok, we have an import.
 			if ( isset( $all_old_option_values['wpseo_indexation'] ) && is_array( $all_old_option_values['wpseo_indexation'] ) && $all_old_option_values['wpseo_indexation'] !== array() ) {
 				$old_option = $all_old_option_values['wpseo_indexation'];
 			}
@@ -2837,7 +2837,7 @@ class WPSEO_Option_MS extends WPSEO_Option {
 	 */
 	protected $defaults = array(
 		'access'      => 'admin',
-		'defaultblog' => '', // numeric blog id or empty
+		'defaultblog' => '', // numeric blog id or empty.
 	);
 
 	/**
@@ -2883,7 +2883,7 @@ class WPSEO_Option_MS extends WPSEO_Option {
 	 * @return  void
 	 */
 	public function add_default_filters() {
-		// Don't change, needs to check for false as could return prio 0 which would evaluate to false
+		// Don't change, needs to check for false as could return prio 0 which would evaluate to false.
 		if ( has_filter( 'default_site_option_' . $this->option_name, array( $this, 'get_defaults' ) ) === false ) {
 			add_filter( 'default_site_option_' . $this->option_name, array( $this, 'get_defaults' ) );
 		}
@@ -2907,7 +2907,7 @@ class WPSEO_Option_MS extends WPSEO_Option {
 	 * @return  void
 	 */
 	public function add_option_filters() {
-		// Don't change, needs to check for false as could return prio 0 which would evaluate to false
+		// Don't change, needs to check for false as could return prio 0 which would evaluate to false.
 		if ( has_filter( 'site_option_' . $this->option_name, array( $this, 'get_option' ) ) === false ) {
 			add_filter( 'site_option_' . $this->option_name, array( $this, 'get_option' ) );
 		}
@@ -2947,10 +2947,10 @@ class WPSEO_Option_MS extends WPSEO_Option {
 					}
 					elseif ( function_exists( 'add_settings_error' ) ) {
 						add_settings_error(
-							$this->group_name, // slug title of the setting
-							'_' . $key, // suffix-id for the error message box
-							sprintf( __( '%s is not a valid choice for who should be allowed access to the WP SEO settings. Value reset to the default.', 'wordpress-seo' ), esc_html( sanitize_text_field( $dirty[ $key ] ) ) ), // the error message
-							'error' // error type, either 'error' or 'updated'
+							$this->group_name, // slug title of the setting.
+							'_' . $key, // suffix-id for the error message box.
+							sprintf( __( '%s is not a valid choice for who should be allowed access to the WP SEO settings. Value reset to the default.', 'wordpress-seo' ), esc_html( sanitize_text_field( $dirty[ $key ] ) ) ), // the error message.
+							'error' // error type, either 'error' or 'updated'.
 						);
 					}
 					break;
@@ -2960,27 +2960,27 @@ class WPSEO_Option_MS extends WPSEO_Option {
 					if ( isset( $dirty[ $key ] ) && ( $dirty[ $key ] !== '' && $dirty[ $key ] !== '-' ) ) {
 						$int = WPSEO_Utils::validate_int( $dirty[ $key ] );
 						if ( $int !== false && $int > 0 ) {
-							// Check if a valid blog number has been received
+							// Check if a valid blog number has been received.
 							$exists = get_blog_details( $int, false );
 							if ( $exists && $exists->deleted == 0 ) {
 								$clean[ $key ] = $int;
 							}
 							elseif ( function_exists( 'add_settings_error' ) ) {
 								add_settings_error(
-									$this->group_name, // slug title of the setting
-									'_' . $key, // suffix-id for the error message box
-									esc_html__( 'The default blog setting must be the numeric blog id of the blog you want to use as default.', 'wordpress-seo' ) . '<br>' . sprintf( esc_html__( 'This must be an existing blog. Blog %s does not exist or has been marked as deleted.', 'wordpress-seo' ), '<strong>' . esc_html( sanitize_text_field( $dirty[ $key ] ) ) . '</strong>' ), // the error message
-									'error' // error type, either 'error' or 'updated'
+									$this->group_name, // slug title of the setting.
+									'_' . $key, // suffix-id for the error message box.
+									esc_html__( 'The default blog setting must be the numeric blog id of the blog you want to use as default.', 'wordpress-seo' ) . '<br>' . sprintf( esc_html__( 'This must be an existing blog. Blog %s does not exist or has been marked as deleted.', 'wordpress-seo' ), '<strong>' . esc_html( sanitize_text_field( $dirty[ $key ] ) ) . '</strong>' ), // the error message.
+									'error' // error type, either 'error' or 'updated'.
 								);
 							}
 							unset( $exists );
 						}
 						elseif ( function_exists( 'add_settings_error' ) ) {
 							add_settings_error(
-								$this->group_name, // slug title of the setting
-								'_' . $key, // suffix-id for the error message box
-								esc_html__( 'The default blog setting must be the numeric blog id of the blog you want to use as default.', 'wordpress-seo' ) . '<br>' . esc_html__( 'No numeric value was received.', 'wordpress-seo' ), // the error message
-								'error' // error type, either 'error' or 'updated'
+								$this->group_name, // slug title of the setting.
+								'_' . $key, // suffix-id for the error message box.
+								esc_html__( 'The default blog setting must be the numeric blog id of the blog you want to use as default.', 'wordpress-seo' ) . '<br>' . esc_html__( 'No numeric value was received.', 'wordpress-seo' ), // the error message.
+								'error' // error type, either 'error' or 'updated'.
 							);
 						}
 						unset( $int );
@@ -3179,7 +3179,7 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 				}
 				unset( $taxonomy, $terms, $id, $term_meta, $name, $default );
 			}
-			// end of may be remove
+			// end of may be remove.
 
 			return $filtered;
 			* /
@@ -3230,7 +3230,7 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 						}
 					}
 
-					// Deal with special cases (for when taxonomy doesn't exist yet)
+					// Deal with special cases (for when taxonomy doesn't exist yet).
 					if ( ! isset( $clean[ $taxonomy ][ $term_id ] ) && has_filter( 'wpseo_tax_meta_special_term_id_validation_' . $term_id ) !== false ) {
 						$clean[ $taxonomy ][ $term_id ] = apply_filters( 'wpseo_tax_meta_special_term_id_validation_' . $term_id, $meta_data, $taxonomy, $term_id );
 					}
@@ -3271,7 +3271,7 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 						}
 					}
 					elseif ( isset( $old_meta[ $key ] ) ) {
-						// Retain old value if field currently not in use
+						// Retain old value if field currently not in use.
 						$clean[ $key ] = $old_meta[ $key ];
 					}
 					break;
@@ -3298,7 +3298,7 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 						$clean[ $key ] = WPSEO_Utils::sanitize_text_field( stripslashes( $meta_data[ $key ] ) );
 					}
 					elseif ( isset( $old_meta[ $key ] ) ) {
-						// Retain old value if field currently not in use
+						// Retain old value if field currently not in use.
 						$clean[ $key ] = $old_meta[ $key ];
 					}
 					break;
@@ -3315,7 +3315,7 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 			$clean[ $key ] = apply_filters( 'wpseo_sanitize_tax_meta_' . $key, $clean[ $key ], ( isset( $meta_data[ $key ] ) ? $meta_data[ $key ] : null ), ( isset( $old_meta[ $key ] ) ? $old_meta[ $key ] : null ) );
 		}
 
-		// Only save the non-default values
+		// Only save the non-default values.
 		return array_diff_assoc( $clean, self::$defaults_per_term );
 	}
 
@@ -3345,7 +3345,7 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 
 					foreach ( $terms as $term_id => $meta_data ) {
 						if ( ! is_array( $meta_data ) || $meta_data === array() ) {
-							// Remove empty term arrays
+							// Remove empty term arrays.
 							unset( $option_value[ $taxonomy ][ $term_id ] );
 						}
 						else {
@@ -3354,7 +3354,7 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 								switch ( $key ) {
 									case 'noindex':
 										if ( $value === 'on' ) {
-											// Convert 'on' to 'noindex'
+											// Convert 'on' to 'noindex'.
 											$option_value[ $taxonomy ][ $term_id ][ $key ] = 'noindex';
 										}
 										break;
@@ -3364,17 +3364,17 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 									case 'wpseo_bctitle':
 									case 'wpseo_title':
 									case 'wpseo_desc':
-										// @todo [JRF => whomever] needs checking, I don't have example data [JRF]
+										// @todo [JRF => whomever] needs checking, I don't have example data [JRF].
 										if ( $value !== '' ) {
-											// Fix incorrectly saved (encoded) canonical urls and texts
+											// Fix incorrectly saved (encoded) canonical urls and texts.
 											$option_value[ $taxonomy ][ $term_id ][ $key ] = wp_specialchars_decode( stripslashes( $value ), ENT_QUOTES );
 										}
 										break;
 
 									default:
-										// @todo [JRF => whomever] needs checking, I don't have example data [JRF]
+										// @todo [JRF => whomever] needs checking, I don't have example data [JRF].
 										if ( $value !== '' ) {
-											// Fix incorrectly saved (escaped) text strings
+											// Fix incorrectly saved (escaped) text strings.
 											$option_value[ $taxonomy ][ $term_id ][ $key ] = wp_specialchars_decode( $value, ENT_QUOTES );
 										}
 										break;
@@ -3384,7 +3384,7 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 					}
 				}
 				else {
-					// Remove empty taxonomy arrays
+					// Remove empty taxonomy arrays.
 					unset( $option_value[ $taxonomy ] );
 				}
 			}
@@ -3678,7 +3678,7 @@ class WPSEO_Options {
 			}
 			unset( $instance );
 
-			// If we've done a full clean-up, we can safely remove this really old option
+			// If we've done a full clean-up, we can safely remove this really old option.
 			delete_option( 'wpseo_indexation' );
 		}
 	}
@@ -3719,7 +3719,7 @@ class WPSEO_Options {
 			   from the isolated activation */
 		require_once( WPSEO_PATH . 'inc/wpseo-non-ajax-functions.php' );
 
-		// wpseo_title_test();
+		// wpseo_title_test();.
 		wpseo_description_test();
 
 		/* Force WooThemes to use WordPress SEO data. */
@@ -3747,7 +3747,7 @@ class WPSEO_Options {
 			unset( $option_names );
 		}
 		else {
-			// Reset MS blog based on network default blog setting
+			// Reset MS blog based on network default blog setting.
 			self::reset_ms_blog( get_current_blog_id() );
 		}
 

@@ -102,7 +102,7 @@ class WPSEO_Sitemaps {
 		add_filter( 'redirect_canonical', array( $this, 'canonical' ) );
 		add_action( 'wpseo_hit_sitemap_index', array( $this, 'hit_sitemap_index' ) );
 
-		// default stylesheet
+		// default stylesheet.
 		$this->stylesheet = '<?xml-stylesheet type="text/xsl" href="' . preg_replace( '/(^http[s]?:)/', '', esc_url( home_url( 'main-sitemap.xsl' ) ) ) . '"?>';
 
 		$this->options     = WPSEO_Options::get_all();
@@ -138,7 +138,7 @@ class WPSEO_Sitemaps {
 	 */
 	function invalidate_main_query( $where ) {
 
-		// check if $wp_query is properly set which isn't always the case in older WP development versions
+		// check if $wp_query is properly set which isn't always the case in older WP development versions.
 		if ( ! is_object( $GLOBALS['wp_query'] ) ) {
 			return $where;
 		}
@@ -169,23 +169,23 @@ class WPSEO_Sitemaps {
 	 */
 	private function determine_timezone_string() {
 
-		// if site timezone string exists, return it
+		// if site timezone string exists, return it.
 		if ( $timezone = get_option( 'timezone_string' ) ) {
 			return $timezone;
 		}
 
-		// get UTC offset, if it isn't set then return UTC
+		// get UTC offset, if it isn't set then return UTC.
 		if ( 0 === ( $utc_offset = get_option( 'gmt_offset', 0 ) ) ) {
 			return 'UTC';
 		}
 
-		// adjust UTC offset from hours to seconds
+		// adjust UTC offset from hours to seconds.
 		$utc_offset *= HOUR_IN_SECONDS;
 
-		// attempt to guess the timezone string from the UTC offset
+		// attempt to guess the timezone string from the UTC offset.
 		$timezone = timezone_name_from_abbr( '', $utc_offset );
 
-		// last try, guess timezone string manually
+		// last try, guess timezone string manually.
 		if ( false === $timezone ) {
 
 			$is_dst = date( 'I' );
@@ -199,7 +199,7 @@ class WPSEO_Sitemaps {
 			}
 		}
 
-		// fallback to UTC
+		// fallback to UTC.
 		return 'UTC';
 	}
 
@@ -334,7 +334,7 @@ class WPSEO_Sitemaps {
 		if ( ! $this->sitemap || '' == $this->sitemap ) {
 			$this->build_sitemap( $type );
 
-			// 404 for invalid or emtpy sitemaps
+			// 404 for invalid or emtpy sitemaps.
 			if ( $this->bad_sitemap ) {
 				$GLOBALS['wp_query']->set_404();
 				status_header( 404 );
@@ -394,7 +394,7 @@ class WPSEO_Sitemaps {
 
 		$this->sitemap = '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
 
-		// reference post type specific sitemaps
+		// reference post type specific sitemaps.
 		$post_types = get_post_types( array( 'public' => true ) );
 		if ( is_array( $post_types ) && $post_types !== array() ) {
 
@@ -445,7 +445,7 @@ class WPSEO_Sitemaps {
 		}
 		unset( $post_types, $post_type, $join_filter, $where_filter, $query );
 
-		// reference taxonomy specific sitemaps
+		// reference taxonomy specific sitemaps.
 		$taxonomies     = get_taxonomies( array( 'public' => true ), 'objects' );
 		$taxonomy_names = array_keys( $taxonomies );
 
@@ -536,7 +536,7 @@ class WPSEO_Sitemaps {
 
 		if ( $this->options['disable-author'] === false && $this->options['disable_author_sitemap'] === false ) {
 
-			// reference user profile specific sitemaps
+			// reference user profile specific sitemaps.
 			$users = get_users( array( 'who' => 'authors', 'fields' => 'id' ) );
 
 			$count = count( $users );
@@ -545,8 +545,8 @@ class WPSEO_Sitemaps {
 			for ( $i = 0; $i < $n; $i ++ ) {
 				$count = ( $n > 1 ) ? ( $i + 1 ) : '';
 
-				// must use custom raw query because WP User Query does not support ordering by usermeta
-				// Retrieve the newest updated profile timestamp overall
+				// must use custom raw query because WP User Query does not support ordering by usermeta.
+				// Retrieve the newest updated profile timestamp overall.
 				// TODO order by usermeta supported since WP 3.7, update implementation? R.
 
 				$date_query = "
@@ -565,7 +565,7 @@ class WPSEO_Sitemaps {
 						)
 					);
 
-					// Retrieve the newest updated profile timestamp by an offset
+					// Retrieve the newest updated profile timestamp by an offset.
 				}
 				else {
 					$date = $wpdb->get_var(
@@ -586,7 +586,7 @@ class WPSEO_Sitemaps {
 			unset( $users, $count, $n, $i, $date_query, $date );
 		}
 
-		// allow other plugins to add their sitemaps to the index
+		// allow other plugins to add their sitemaps to the index.
 		$this->sitemap .= apply_filters( 'wpseo_sitemap_index', '' );
 		$this->sitemap .= '</sitemapindex>';
 	}
@@ -709,7 +709,7 @@ class WPSEO_Sitemaps {
 						'pri' => apply_filters( 'wpseo_xml_post_type_archive_priority', 0.8, $post_type ),
 						'chf' => $this->filter_frequency( $post_type . '_archive', 'weekly', $archive_url ),
 						'mod' => $this->get_last_modified( $post_type ),
-						// get_lastpostmodified( 'gmt', $post_type ) #17455
+						// get_lastpostmodified( 'gmt', $post_type ) #17455.
 					)
 				);
 			}
@@ -746,8 +746,8 @@ class WPSEO_Sitemaps {
 		 */
 		while ( $total > $offset ) {
 
-			// Optimized query per this thread: http://wordpress.org/support/topic/plugin-wordpress-seo-by-yoast-performance-suggestion
-			// Also see http://explainextended.com/2009/10/23/mysql-order-by-limit-performance-late-row-lookups/
+			// Optimized query per this thread: http://wordpress.org/support/topic/plugin-wordpress-seo-by-yoast-performance-suggestion.
+			// Also see http://explainextended.com/2009/10/23/mysql-order-by-limit-performance-late-row-lookups/.
 			$query = $wpdb->prepare( "SELECT l.ID, post_title, post_content, post_name, post_parent, post_modified_gmt, post_date, post_date_gmt FROM ( SELECT ID FROM $wpdb->posts {$join_filter} WHERE post_status = '%s' AND post_password = '' AND post_type = '%s' AND post_date != '0000-00-00 00:00:00' {$where_filter} ORDER BY post_modified ASC LIMIT %d OFFSET %d ) o JOIN $wpdb->posts l ON l.ID = o.ID ORDER BY l.ID",
 				$status, $post_type, $steps, $offset
 			);
@@ -859,12 +859,12 @@ class WPSEO_Sitemaps {
 										continue;
 									}
 									else {
-										// The URL is relative, we'll have to make it absolute
+										// The URL is relative, we'll have to make it absolute.
 										$src = $this->home_url . $src;
 									}
 								}
 								elseif ( strpos( $src, 'http' ) !== 0 ) {
-									// Protocol relative url, we add the scheme as the standard requires a protocol
+									// Protocol relative url, we add the scheme as the standard requires a protocol.
 									$src = $scheme . ':' . $src;
 
 								}
@@ -913,7 +913,7 @@ class WPSEO_Sitemaps {
 					$url['images'] = apply_filters( 'wpseo_sitemap_urlimages', $url['images'], $p->ID );
 
 					if ( ! in_array( $url['loc'], $stackedurls ) ) {
-						// Use this filter to adjust the entry before it gets added to the sitemap
+						// Use this filter to adjust the entry before it gets added to the sitemap.
 						$url = apply_filters( 'wpseo_sitemap_entry', $url, 'post', $p );
 						if ( is_array( $url ) && $url !== array() ) {
 							$output       .= $this->sitemap_url( $url );
@@ -1017,7 +1017,7 @@ class WPSEO_Sitemaps {
 					}
 				}
 
-				// Grab last modified date
+				// Grab last modified date.
 				$sql        = $wpdb->prepare(
 					"
 						SELECT MAX(p.post_modified_gmt) AS lastmod
@@ -1036,7 +1036,7 @@ class WPSEO_Sitemaps {
 				$url['mod'] = $wpdb->get_var( $sql );
 				$url['chf'] = $this->filter_frequency( $c->taxonomy . '_term', 'weekly', $url['loc'] );
 
-				// Use this filter to adjust the entry before it gets added to the sitemap
+				// Use this filter to adjust the entry before it gets added to the sitemap.
 				$url = apply_filters( 'wpseo_sitemap_entry', $url, 'term', $c );
 
 				if ( is_array( $url ) && $url !== array() ) {
@@ -1084,7 +1084,7 @@ class WPSEO_Sitemaps {
 		$n      = (int) $this->n;
 		$offset = ( $n > 1 ) ? ( ( $n - 1 ) * $this->max_entries ) : 0;
 
-		// initial query to fill in missing usermeta with the current timestamp
+		// initial query to fill in missing usermeta with the current timestamp.
 		$users = get_users(
 			array(
 				'who'        => 'authors',
@@ -1105,7 +1105,7 @@ class WPSEO_Sitemaps {
 		}
 		unset( $users, $user );
 
-		// query for users with this meta
+		// query for users with this meta.
 		$users = get_users(
 			array(
 				'who'      => 'authors',
@@ -1121,7 +1121,7 @@ class WPSEO_Sitemaps {
 
 		$users = apply_filters( 'wpseo_sitemap_exclude_author', $users );
 
-		// ascending sort
+		// ascending sort.
 		usort( $users, array( $this, 'user_map_sorter' ) );
 
 		if ( is_array( $users ) && $users !== array() ) {
@@ -1134,7 +1134,7 @@ class WPSEO_Sitemaps {
 						'chf' => $this->filter_frequency( 'author_archive', 'daily', $author_link ),
 						'mod' => date( 'c', isset( $user->_yoast_wpseo_profile_updated ) ? $user->_yoast_wpseo_profile_updated : time() ),
 					);
-					// Use this filter to adjust the entry before it gets added to the sitemap
+					// Use this filter to adjust the entry before it gets added to the sitemap.
 					$url = apply_filters( 'wpseo_sitemap_entry', $url, 'user', $user );
 
 					if ( is_array( $url ) && $url !== array() ) {
@@ -1237,7 +1237,7 @@ class WPSEO_Sitemaps {
 		$date = null;
 
 		if ( ! empty( $url['mod'] ) ) {
-			// Create a DateTime object date in the correct timezone
+			// Create a DateTime object date in the correct timezone.
 			$date = $this->get_datetime_with_timezone( $url['mod'] );
 		}
 
@@ -1314,7 +1314,7 @@ class WPSEO_Sitemaps {
 			$post_types = array( $post_types );
 		}
 
-		// We need to do this only once, as otherwise we'd be doing a query for each post type
+		// We need to do this only once, as otherwise we'd be doing a query for each post type.
 		if ( ! is_array( $this->post_type_dates ) ) {
 			$this->post_type_dates = array();
 			$query                 = "SELECT post_type, MAX(post_modified_gmt) AS date FROM $wpdb->posts WHERE post_status IN ('publish','inherit') AND post_type IN ('" . implode( "','", get_post_types( array( 'public' => true ) ) ) . "') GROUP BY post_type ORDER BY post_modified_gmt DESC";
@@ -1456,11 +1456,11 @@ class WPSEO_Sitemaps {
 
 		$url = '';
 
-		if ( $file = get_post_meta( $post_id, '_wp_attached_file', true ) ) { // Get attached file
-			if ( 0 === strpos( $file, $uploads['basedir'] ) ) { // Check that the upload base exists in the file location
+		if ( $file = get_post_meta( $post_id, '_wp_attached_file', true ) ) { // Get attached file.
+			if ( 0 === strpos( $file, $uploads['basedir'] ) ) { // Check that the upload base exists in the file location.
 				$url = str_replace( $uploads['basedir'], $uploads['baseurl'], $file );
 			}
-			// Replace file location with url location
+			// Replace file location with url location.
 			elseif ( false !== strpos( $file, 'wp-content/uploads' ) ) {
 				$url = $uploads['baseurl'] . substr( $file, ( strpos( $file, 'wp-content/uploads' ) + 18 ) );
 			}
