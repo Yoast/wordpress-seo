@@ -14,10 +14,16 @@ class WPSEO_Admin {
 	private $options;
 
 	/**
+	 * @var WPSEO_Page_GWT
+	 */
+	private $page_gwt;
+
+	/**
 	 * Class constructor
 	 */
 	function __construct() {
 		$this->options = WPSEO_Options::get_all();
+
 
 		if ( is_multisite() ) {
 			WPSEO_Options::maybe_set_multisite_defaults( false );
@@ -28,6 +34,8 @@ class WPSEO_Admin {
 			add_action( 'edited_category', array( $this, 'schedule_rewrite_flush' ) );
 			add_action( 'delete_category', array( $this, 'schedule_rewrite_flush' ) );
 		}
+
+		$this->page_gwt = new WPSEO_Page_GWT();
 
 		// Needs the lower than default priority so other plugins can hook underneath it without issue.
 		add_action( 'admin_menu', array( $this, 'register_settings_page' ), 5 );
@@ -142,6 +150,15 @@ class WPSEO_Admin {
 				'wpseo_tools',
 				array( $this, 'load_page' ),
 				null,
+			),
+			array(
+				'wpseo_dashboard',
+				'',
+				__( 'Google Webmaster Tools', 'wordpress-seo' ),
+				$manage_options_cap,
+				'wpseo_webmaster_tools',
+				array( $this->page_gwt, 'display' ),
+				array( array( $this->page_gwt, 'page_load' ) ),
 			),
 		);
 
