@@ -55,24 +55,14 @@ class WPSEO_GWT_Settings {
 	 * Catch the authentication post
 	 */
 	private function catch_authentication_post() {
-		$redirect_url_appendix = '';
-
 		$gwt_values = filter_input( INPUT_POST, 'gwt', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
 
 		// Catch the authorization code POST
 		if ( ! empty( $gwt_values['authorization_code'] ) && wp_verify_nonce( $gwt_values['gwt_nonce'], 'wpseo-gwt_nonce' ) ) {
 
-			if ( trim( $gwt_values['authorization_code'] ) != '' ) {
-				if ( ! $this->service->get_client()->authenticate_client( $gwt_values['authorization_code'] ) ) {
-					$redirect_url_appendix = '&error=1';
-				}
-			}
-			else {
-				$redirect_url_appendix = '&error=1';
-			}
-
+			$url_appendix = $this->validate_authorization( $gwt_values['authorization_code'] );
 			// Redirect user to prevent a post resubmission which causes an oauth error
-			wp_redirect( admin_url( 'admin.php' ) . '?page=' . esc_attr( filter_input( INPUT_GET, 'page' ) ) . '&tab=settings' . $redirect_url_appendix );
+			wp_redirect( admin_url( 'admin.php' ) . '?page=' . esc_attr( filter_input( INPUT_GET, 'page' ) ) . '&tab=settings' . $url_appendix );
 			exit;
 		}
 	}
@@ -118,6 +108,22 @@ class WPSEO_GWT_Settings {
 		$this->remove_issue_counts();
 
 		new WPSEO_Crawl_Issue_Count( $this->service );
+	}
+
+	/**
+	 * When authorization is successful return empty string, otherwist return errorl
+	 * @param string $authorization_code
+	 *
+	 * @return string
+	 */
+	private function validate_authorization( $authorization_code ) {
+		if ( trim( $authorization_code ) !== '' ) {
+			if ( $this->service->get_client()->authenticate_client( $authorization_code ) ) {
+				return '';
+			}
+		}
+
+		return '&error=1';
 	}
 
 }
