@@ -113,10 +113,10 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 	public function get_columns() {
 		$columns = array(
 			'cb'             => '<input type="checkbox" />',
-			'url'            => __( 'URL', 'wordpress-seo-premium' ),
-			'last_crawled'   => __( 'Last crawled', 'wordpress-seo-premium' ),
-			'first_detected' => __( 'First detected', 'wordpress-seo-premium' ),
-			'response_code'  => __( 'Response code', 'wordpress-seo-premium' ),
+			'url'            => __( 'URL', 'wordpress-seo' ),
+			'last_crawled'   => __( 'Last crawled', 'wordpress-seo' ),
+			'first_detected' => __( 'First detected', 'wordpress-seo' ),
+			'response_code'  => __( 'Response code', 'wordpress-seo' ),
 		);
 
 		return $columns;
@@ -170,13 +170,13 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 	 */
 	public function get_bulk_actions() {
 		return array(
-			'mark_as_fixed' => __( 'Mark as fixed', 'wordpress-seo-premium' )
+			'mark_as_fixed' => __( 'Mark as fixed', 'wordpress-seo' )
 		);
 
 		return $actions;
 	}
 
-	/**
+	/*premium
 	 * URL column
 	 *
 	 * @param array $item
@@ -192,11 +192,11 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 			 */
 			$modal_height = $this->modal_box( $item['url'] );
 
-			$actions['create_redirect'] = '<a href="#TB_inline?width=600&height=' . $this->modal_heights[ $modal_height ] . '&inlineId=redirect-' . md5( $item['url'] )  . '" class="thickbox">' . __( 'Create redirect', 'wordpress-seo-premium' ) . '</a>';
+			$actions['create_redirect'] = '<a href="#TB_inline?width=600&height=' . $this->modal_heights[ $modal_height ] . '&inlineId=redirect-' . md5( $item['url'] )  . '" class="thickbox">' . __( 'Create redirect', 'wordpress-seo' ) . '</a>';
 		}
 
-		$actions['view']        = '<a href="' . $item['url'] . '" target="_blank">' . __( 'View', 'wordpress-seo-premium' ) . '</a>';
-		$actions['markasfixed'] = '<a href="javascript:wpseo_mark_as_fixed(\'' . urlencode( $item['url'] ) . '\');">' . __( 'Mark as fixed', 'wordpress-seo-premium' ) . '</a>';
+		$actions['view']        = '<a href="' . $item['url'] . '" target="_blank">' . __( 'View', 'wordpress-seo' ) . '</a>';
+		$actions['markasfixed'] = '<a href="javascript:wpseo_mark_as_fixed(\'' . urlencode( $item['url'] ) . '\');">' . __( 'Mark as fixed', 'wordpress-seo' ) . '</a>';
 
 		return sprintf(
 			'<span class="value">%1$s</span> %2$s',

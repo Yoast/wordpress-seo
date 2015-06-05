@@ -46,7 +46,7 @@ class WPSEO_GWT_Settings {
 	public function admin_message_body() {
 		?>
 		<div class="error">
-			<p><strong><?php _e( 'Incorrect Google Authorization Code!', 'wordpress-seo-premium' ); ?></strong></p>
+			<p><strong><?php _e( 'Incorrect Google Authorization Code!', 'wordpress-seo' ); ?></strong></p>
 		</div>
 		<?php
 	}

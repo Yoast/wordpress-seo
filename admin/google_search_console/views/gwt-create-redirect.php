@@ -9,27 +9,27 @@
 <div id='redirect-<?php echo md5( $url ); ?>' style='display: none;'>
 	<form>
 		<div class='form-wrap'>
-			<h3><?php _e( 'Create a redirect', 'wordpress-seo-premium' ); ?></h3>
+			<h3><?php _e( 'Create a redirect', 'wordpress-seo' ); ?></h3>
 
 			<?php
 			switch ( $view_type ) {
 				case 'create' :
 				?>
 					<div class='form-field form-required'>
-						<label><?php _e( 'Current URL:', 'wordpress-seo-premium' ); ?></label>
+						<label><?php _e( 'Current URL:', 'wordpress-seo' ); ?></label>
 						<input type='text' name='current_url' value='<?php echo $url; ?>' disabled='disabled' />
 					</div>
 					<div class='form-field form-required'>
-						<label><?php _e( 'New URL:', 'wordpress-seo-premium' ); ?></label>
+						<label><?php _e( 'New URL:', 'wordpress-seo' ); ?></label>
 						<input type='text' name='new_url' value='' />
 					</div>
 					<div class='form-field form-required'>
-						<label class='clear'><?php _e( 'Mark as fixed:', 'wordpress-seo-premium' ); ?></label>
+						<label class='clear'><?php _e( 'Mark as fixed:', 'wordpress-seo' ); ?></label>
 						<input type='checkbox' value='1' name="mark_as_fixed" class='clear'  />
-						<p><?php echo sprintf( __( 'Mark this issue as fixed in %1$s.', 'wordpress-seo-premium' ), 'Google Search Console' ); ?></p>
+						<p><?php echo sprintf( __( 'Mark this issue as fixed in %1$s.', 'wordpress-seo' ), 'Google Search Console' ); ?></p>
 					</div>
 					<p class='submit'>
-						<input type='button' name='submit' id='submit' class='button button-primary' value='<?php _e( 'Save redirect', 'wordpress-seo-premium' ); ?>' onclick='javascript:wpseo_gwt_post_redirect( jQuery( this ) );' />
+						<input type='button' name='submit' id='submit' class='button button-primary' value='<?php _e( 'Save redirect', 'wordpress-seo' ); ?>' onclick='javascript:wpseo_gwt_post_redirect( jQuery( this ) );' />
 					</p>
 			<?php
 					break;
