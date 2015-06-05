@@ -13,6 +13,20 @@ class WPSEO_Page_GWT {
 	 */
 	private $service;
 
+	public function __construct() {
+		// Settings
+		add_action( 'admin_init', array( $this, 'register_settings' ) );
+	}
+
+	/**
+	 * Be sure the settings will be registered, so data can be stored
+	 * 
+	 */
+	public function register_settings() {
+		register_setting( 'yoast_wpseo_gwt_options', 'wpseo-gwt' );
+
+	}
+
 	/**
 	 * Function that outputs the redirect page
 	 */
