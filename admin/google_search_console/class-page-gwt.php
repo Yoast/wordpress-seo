@@ -54,7 +54,6 @@ class WPSEO_Page_GWT {
 	 */
 	public function page_scripts() {
 		wp_enqueue_script( 'wp-seo-admin-gsc', plugin_dir_url( WPSEO_FILE ) . 'js/wp-seo-admin-gsc' . WPSEO_CSSJS_SUFFIX . '.js', array( 'jquery' ), WPSEO_VERSION);
-		wp_localize_script( 'wp-seo-admin-gsc', 'wpseo_gsc_strings', $this->strings() );
 		add_screen_option( 'per_page', array(
 			'label'   => __( 'Crawl errors per page', 'wordpress-seo' ),
 			'default' => 100,
@@ -76,10 +75,5 @@ class WPSEO_Page_GWT {
 		}
 	}
 
-	private function strings() {
-		return array(
-			'ajaxurl'               => admin_url( 'admin-ajax.php' ),
-		);
-	}
-
 }
+

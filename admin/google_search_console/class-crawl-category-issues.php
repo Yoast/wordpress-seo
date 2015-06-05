@@ -1,6 +1,6 @@
 <?php
 /**
- * @package WPSEO\admin|google_search_console
+ * @package WPSEO\Admin|Google_Search_Console
  */
 
 /**

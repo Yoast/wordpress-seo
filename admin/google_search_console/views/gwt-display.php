@@ -1,7 +1,6 @@
 <?php
 /**
- * @package	WPSEO
- * @subpackage	Premium
+ * @package WPSEO\Admin|Google_Search_Console
  */
 
 	// Admin header

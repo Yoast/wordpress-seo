@@ -1,6 +1,6 @@
 <?php
 /**
- * @package WPSEO\Premium\Classes
+ * @package WPSEO\Admin|Google_Search_Console
  */
 
 /**
@@ -70,6 +70,5 @@ class WPSEO_Crawl_Issue {
 	private function to_date_format( DateTime $date_to_convert, $format = 'Y-m-d H:i:s' ) {
 		return (string) strftime( '%x', strtotime( $date_to_convert->format( $format ) ) );
 	}
-
 
 }

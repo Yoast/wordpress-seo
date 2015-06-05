@@ -1,6 +1,6 @@
 <?php
 /**
- * @package WPSEO\Premium\Classes
+ * @package WPSEO\Admin|Google_Search_Console
  *
  * This is the view for the modal box that appears when the create redirect link is clicked
  */

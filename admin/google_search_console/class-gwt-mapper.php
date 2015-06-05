@@ -1,6 +1,6 @@
 <?php
 /**
- * @package WPSEO\Premium\Classes
+ * @package WPSEO\Admin|Google_Search_Console
  */
 
 /**
@@ -67,6 +67,5 @@ class WPSEO_GWT_Mapper {
 
 		return $category;
 	}
-
 
 }

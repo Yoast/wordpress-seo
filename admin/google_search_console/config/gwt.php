@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package WPSEO\Admin|Google_Search_Console
+ */
 
 	$config = array(
 		'application_name' => 'WordPress SEO by Yoast Premium',
