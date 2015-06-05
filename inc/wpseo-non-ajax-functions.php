@@ -31,8 +31,6 @@ function wpseo_title_test() {
 	);
 	$resp = wp_remote_get( get_bloginfo( 'url' ), $args );
 
-	// echo '<pre>'.$resp['body'].'</pre>';
-
 	if ( ( $resp && ! is_wp_error( $resp ) ) && ( 200 == $resp['response']['code'] && isset( $resp['body'] ) ) ) {
 		$res = preg_match( '`<title>([^<]+)</title>`im', $resp['body'], $matches );
 
@@ -60,8 +58,6 @@ function wpseo_title_test() {
 }
 
 // Commented out? add_filter( 'switch_theme', 'wpseo_title_test', 0 ); R.
-
-
 /**
  * Test whether the active theme contains a <meta> description tag.
  *

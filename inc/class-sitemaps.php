@@ -548,7 +548,6 @@ class WPSEO_Sitemaps {
 				// Must use custom raw query because WP User Query does not support ordering by usermeta.
 				// Retrieve the newest updated profile timestamp overall.
 				// TODO order by usermeta supported since WP 3.7, update implementation? R.
-
 				$date_query = "
 						SELECT mt1.meta_value FROM $wpdb->users
 						INNER JOIN $wpdb->usermeta ON ($wpdb->users.ID = $wpdb->usermeta.user_id)
