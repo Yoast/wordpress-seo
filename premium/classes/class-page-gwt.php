@@ -50,7 +50,7 @@ class WPSEO_Page_GWT {
 		Yoast_Form::get_instance()->admin_header( false, 'wpseo_redirects', false, 'yoast_wpseo_redirects_options' );
 		?>
 		<h2 class="nav-tab-wrapper" id="wpseo-tabs">
-			<form action="" method="post">
+			<form action="<?php echo admin_url( 'admin.php' ) . '?page=' . esc_attr( filter_input( INPUT_GET, 'page' ) ); ?>" method="post">
 				<input type="submit" name="reload-crawl-issues" id="reload-crawl-issue" class="button-primary"
 				       style="float: right;" value="<?php _e( 'Reload crawl issues', 'wordpress-seo-premium' ); ?>">
 			</form>
