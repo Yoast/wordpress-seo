@@ -29,6 +29,11 @@ class WPSEO_Crawl_Issue_Marker {
 	private $category;
 
 	/**
+	 * @var string
+	 */
+	private $result;
+
+	/**
 	 * Setting up the needed API libs and return the result
 	 *
 	 * If param URL is given, the request is performed by a bulk action
@@ -38,14 +43,16 @@ class WPSEO_Crawl_Issue_Marker {
 	public function __construct( $url = '' ) {
 		Yoast_Api_Libs::load_api_libraries( array( 'google' ) );
 
-		$this->url = $url;
+		$this->url    = $url;
+		$this->result = $this->get_result();
+	}
 
-		$result = $this->get_result();
-
-		// If there is an ajax request, die response with the result
-		if ( defined( DOING_AJAX ) && DOING_AJAX ) {
-			wp_die( $result );
-		}
+	/**
+	 * Getting the response for the AJAX request
+	 * @return string
+	 */
+	public function get_response() {
+		return $this->result;
 	}
 
 	/**
