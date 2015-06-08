@@ -122,7 +122,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 			/* translators %1$s: <a href='{undo_redirect_url}'>, %2$s: </a> */
 			$message = sprintf(
 				__( 'WordPress SEO Premium detected that you restored a post from the trash. %1$sClick here to remove the redirect%2$s.', 'wordpress-seo-premium' ),
-				'<a href="' . $this->javascript_undo_redirect( $url, $id ) . '">',
+				'<a href=\'' . $this->javascript_undo_redirect( $url, $id ). '\'>',
 				'</a>'
 			);
 
@@ -254,7 +254,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 		$message = sprintf(
 			__( 'WordPress SEO Premium created a %1$sredirect%3$s from the old post URL to the new post URL. %2$sClick here to undo this%3$s.', 'wordpress-seo-premium' ),
 			'<a href="' . $this->admin_redirect_url( $old_url ) . '">',
-			'<a href="' . $this->javascript_undo_redirect( $old_url, $id ) . '">',
+			'<a href=\'' . $this->javascript_undo_redirect( $old_url, $id ). '\'>',
 			'</a>'
 		);
 
