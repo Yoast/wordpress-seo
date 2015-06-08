@@ -4,7 +4,7 @@
  */
 
 	// Admin header
-	Yoast_Form::get_instance()->admin_header( false, 'wpseo_redirects', false, 'yoast_wpseo_redirects_options' );
+	Yoast_Form::get_instance()->admin_header( false, 'wpseo_webmaster_tools', false, 'yoast_wpseo_redirects_options' );
 ?>
 	<h2 class="nav-tab-wrapper" id="wpseo-tabs">
 <?php
