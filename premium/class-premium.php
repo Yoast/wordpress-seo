@@ -196,7 +196,6 @@ class WPSEO_Premium {
 
 			}
 
-
 		}
 		else {
 			// Add 404 redirect link to WordPress toolbar
@@ -460,7 +459,6 @@ class WPSEO_Premium {
 	 */
 	public function add_admin_pages( $admin_pages ) {
 		$admin_pages[] = 'wpseo_redirects';
-		$admin_pages[] = 'wpseo_webmaster_tools';
 		$admin_pages[] = 'wpseo_tutorial_videos';
 
 		return $admin_pages;
