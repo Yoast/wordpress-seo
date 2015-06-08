@@ -16,6 +16,11 @@ class WPSEO_Page_GWT {
 	public function __construct() {
 		// Settings
 		add_action( 'admin_init', array( $this, 'register_settings' ) );
+
+		// Setting the screen option
+		if ( filter_input( INPUT_GET, 'page' ) ===  'wpseo_webmaster_tools' ) {
+			add_filter( 'set-screen-option', array( $this, 'set_screen_option' ), 11, 3 );
+		}
 	}
 
 	/**
