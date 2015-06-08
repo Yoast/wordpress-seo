@@ -26,8 +26,6 @@ class WPSEO_Premium {
 	const EDD_STORE_URL = 'https://yoast.com';
 	const EDD_PLUGIN_NAME = 'WordPress SEO Premium';
 
-	private $page_gwt = null;
-
 	/**
 	 * Function that will be executed when plugin is activated
 	 */
@@ -65,9 +63,6 @@ class WPSEO_Premium {
 			// Upgrade Manager
 			$plugin_updater = new WPSEO_Upgrade_Manager();
 			$plugin_updater->check_update();
-
-			// Create pages
-			$this->page_gwt = new WPSEO_Page_GWT();
 
 			// Disable WordPress SEO
 			add_action( 'admin_init', array( $this, 'disable_wordpress_seo' ), 1 );
@@ -112,9 +107,6 @@ class WPSEO_Premium {
 				case 'wpseo_redirects':
 					add_filter( 'set-screen-option', array( 'WPSEO_Page_Redirect', 'set_screen_option' ), 11, 3 );
 					break;
-				case 'wpseo_webmaster_tools' :
-					add_filter( 'set-screen-option', array( $this->page_gwt, 'set_screen_option' ), 11, 3 );
-					break;
 			}
 
 			// Enqueue Post and Term overview script
@@ -135,9 +127,6 @@ class WPSEO_Premium {
 			if ( $license_manager->license_is_valid() ) {
 				add_action( 'admin_head', array( $this, 'admin_css' ) );
 			}
-
-			// Crawl Issue Manager AJAX hooks
-			new WPSEO_GWT_Ajax;
 
 			// Add Premium imports
 			$premium_import_manager = new WPSEO_Premium_Import_Manager();
@@ -450,22 +439,6 @@ class WPSEO_Premium {
 			array( array( 'WPSEO_Page_Redirect', 'page_load' ) ),
 		);
 
-
-		/**
-		 * Filter: 'wpseo_premium_manage_wmt_role' - Change the minimum rule to access and change the site Google Webmaster Tools (WMT)
-		 *
-		 * @api string manage_options
-		 */
-		$submenu_pages[] = array(
-			'wpseo_dashboard',
-			'',
-			__( 'Webmaster Tools', 'wordpress-seo-premium' ),
-			apply_filters( 'wpseo_premium_manage_wmt_role', 'manage_options' ),
-			'wpseo_webmaster_tools',
-			array( $this->page_gwt, 'display' ),
-			array( array( $this->page_gwt, 'page_load' ) ),
-		);
-
 		$submenu_pages[] = array(
 			'wpseo_dashboard',
 			'',
@@ -498,7 +471,6 @@ class WPSEO_Premium {
 	 */
 	public function register_settings() {
 		register_setting( 'yoast_wpseo_redirect_options', 'wpseo_redirect' );
-		register_setting( 'yoast_wpseo_gwt_options', 'wpseo-premium-gwt' );
 	}
 
 	/**
@@ -566,7 +538,7 @@ class WPSEO_Premium {
 		if ( isset( $_POST['s'] ) && trim( $_POST['s'] ) != '' ) {
 
 			// Check if the POST is on one of our pages
-			if ( ! isset ( $_GET['page'] ) || ( $_GET['page'] != 'wpseo_redirects' && $_GET['page'] != 'wpseo_webmaster_tools' ) ) {
+			if ( ! isset ( $_GET['page'] ) || ( $_GET['page'] != 'wpseo_redirects' ) ) {
 				return;
 			}
 
