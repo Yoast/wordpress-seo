@@ -2,7 +2,6 @@
 /**
  * @package Premium\Redirect
  */
-
 abstract class WPSEO_Redirect_Manager {
 
 	protected $option_redirects = null;
@@ -26,6 +25,7 @@ abstract class WPSEO_Redirect_Manager {
 			'307' => '307 Temporary Redirect',
 			'410' => '410 Content Deleted',
 		);
+
 		return apply_filters( 'wpseo_premium_redirect_types', $redirect_types );
 	}
 
@@ -82,7 +82,12 @@ abstract class WPSEO_Redirect_Manager {
 	 * @return array
 	 */
 	public function get_redirects() {
-		return apply_filters( 'wpseo_premium_get_redirects', get_option( $this->option_redirects, array() ) );
+		$redirects = apply_filters( 'wpseo_premium_get_redirects', get_option( $this->option_redirects ) );
+		if ( ! is_array( $redirects ) ) {
+			$redirects = array();
+		}
+
+		return $redirects;
 	}
 
 	/**
@@ -190,7 +195,10 @@ abstract class WPSEO_Redirect_Manager {
 		}
 
 		// Add new redirect
-		$redirects[ $new_redirect_arr['key'] ] = array( 'url'  => $new_redirect_arr['value'], 'type' => $new_redirect_arr['type'] );
+		$redirects[ $new_redirect_arr['key'] ] = array(
+			'url'  => $new_redirect_arr['value'],
+			'type' => $new_redirect_arr['type'],
+		);
 
 		// Save redirects
 		$this->save_redirects( $redirects );
@@ -254,11 +262,7 @@ abstract class WPSEO_Redirect_Manager {
 		// Check nonce
 		check_ajax_referer( 'wpseo-redirects-ajax-security', 'ajax_nonce' );
 
-		// Permission check
-		if ( !current_user_can( 'edit_posts' ) ) {
-			echo '0';
-			exit;
-		}
+		$this->permission_check();
 
 		// Save the redirect
 		if ( isset( $_POST['old_redirect'] ) && isset( $_POST['new_redirect'] ) ) {
@@ -295,21 +299,17 @@ abstract class WPSEO_Redirect_Manager {
 		// Check nonce
 		check_ajax_referer( 'wpseo-redirects-ajax-security', 'ajax_nonce' );
 
-		// Permission check
-		if ( !current_user_can( 'edit_posts' ) ) {
-			echo '0';
-			exit;
-		}
+		$this->permission_check();
 
 		// Delete the redirect
 		if ( isset( $_POST['redirect'] ) ) {
 			$redirect = htmlspecialchars_decode( urldecode( $_POST['redirect']['key'] ) );
 
-			$this->delete_redirect( array( trim ($redirect ) ) );
+			$this->delete_redirect( array( trim( $redirect ) ) );
 		}
 
 		// Response
-		echo '1';
+		echo esc_attr( strip_tags( $_POST['id'] ) );
 		exit;
 
 	}
@@ -322,11 +322,7 @@ abstract class WPSEO_Redirect_Manager {
 		// Check nonce
 		check_ajax_referer( 'wpseo-redirects-ajax-security', 'ajax_nonce' );
 
-		// Permission check
-		if ( !current_user_can( 'edit_posts' ) ) {
-			echo '0';
-			exit;
-		}
+		$this->permission_check();
 
 		// Save the redirect
 		if ( isset( $_POST['old_url'] ) && isset( $_POST['new_url'] ) && isset( $_POST['type'] ) ) {
@@ -337,8 +333,14 @@ abstract class WPSEO_Redirect_Manager {
 			$this->create_redirect( trim( $old_url ), trim( $new_url ), $type );
 		}
 
+		$response = array(
+			'id'      => $_POST['id'],
+			'old_url' => $_POST['old_url'],
+			'new_url' => $_POST['new_url'],
+		);
+
 		// Response
-		echo '1';
+		echo json_encode( $response );
 		exit;
 
 	}
@@ -368,4 +370,13 @@ abstract class WPSEO_Redirect_Manager {
 		return apply_filters( 'wpseo_premium_format_admin_url', $formatted_url );
 	}
 
+	/**
+	 * Checks whether the current user is allowed to do what he's doing
+	 */
+	private function permission_check() {
+		if ( ! current_user_can( 'edit_posts' ) ) {
+			echo '0';
+			exit;
+		}
+	}
 }

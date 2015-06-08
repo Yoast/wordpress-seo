@@ -40,7 +40,7 @@ $extensions = array(
 		'title'     => __( 'Yoast WooCommerce SEO', 'wordpress-seo' ),
 		'desc'      => __( 'Seamlessly integrate WooCommerce with WordPress SEO and get extra features!', 'wordpress-seo' ),
 		'installed' => false,
-	)
+	),
 );
 
 if ( class_exists( 'WPSEO_Premium' ) ) {

@@ -40,7 +40,7 @@ if ( class_exists( 'WPSEO_Redirect_Manager' ) && ! class_exists( 'WPSEO_REGEX_Re
 			$redirects = $this->get_redirects();
 
 			// Do the actual redirect
-			if ( count( $redirects ) > 0 ) {
+			if ( ! empty( $redirects ) ) {
 
 				// Decode the URL
 				$url = htmlspecialchars_decode( urldecode( $_SERVER['REQUEST_URI'] ) );

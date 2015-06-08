@@ -38,6 +38,10 @@ class WPSEO_Upgrade {
 			$this->upgrade_21();
 		}
 
+		if ( version_compare( $this->options['version'], '2.2', '<' ) ) {
+			$this->upgrade_22();
+		}
+
 		$this->finish_up();
 	}
 
@@ -101,6 +105,19 @@ class WPSEO_Upgrade {
 	}
 
 	/**
+	 * Performs upgrade functions to WP SEO 2.2
+	 */
+	private function upgrade_22() {
+		// Unschedule our tracking
+		wp_clear_scheduled_hook( 'yoast_tracking' );
+
+		// Clear the tracking settings, the seen about setting and the ignore tour setting
+		$options = get_option( 'wpseo' );
+		unset( $options['tracking_popup_done'], $options['yoast_tracking'], $options['seen_about'], $options['ignore_tour'] );
+		update_option( 'wpseo', $options );
+	}
+
+	/**
 	 * Moves the hide- links options from the permalinks option to the titles option
 	 */
 	private function move_hide_links_options() {
@@ -136,7 +153,6 @@ class WPSEO_Upgrade {
 	 */
 	private function finish_up() {
 		$this->options = get_option( 'wpseo' );                             // re-get to make sure we have the latest version
-		$this->options['seen_about'] = false;                               // make sure user is redirected to the about screen
 		update_option( 'wpseo', $this->options );                           // this also ensures the DB version is equal to WPSEO_VERSION
 
 		add_action( 'shutdown', 'flush_rewrite_rules' );                    // Just flush rewrites, always, to at least make them work after an upgrade.

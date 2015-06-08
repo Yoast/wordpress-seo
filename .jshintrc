@@ -1,24 +1,17 @@
 {
-    "boss": true,
-    "curly": true,
-    "eqeqeq": true,
-    "eqnull": true,
-    "es3": true,
-    "immed": true,
-    "latedef": true,
-    "newcap": true,
-    "noarg": true,
-    "quotmark": "single",
-    "sub": true,
-    "strict": true,
-    "undef": true,
-    "unused": true,
+  "boss": true,
+  "curly": true,
+  "eqeqeq": true,
+  "eqnull": true,
+  "immed": true,
+  "latedef": true,
+  "newcap": true,
+  "noarg": true,
+  "quotmark": "single",
+  "sub": true,
+  "strict": true,
+  "undef": true,
+  "unused": true,
 
-    "browser": true,
-    "jquery": true,
-    
-    "globals": {
-        "exports": true,
-        "module": false
-    }
+  "node": true
 }
