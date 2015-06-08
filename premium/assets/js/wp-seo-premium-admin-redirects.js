@@ -329,7 +329,7 @@
 			}
 			);
 
-			that.find( '.wpseo-new-redirect-form a' ).click( function() {
+			that.find( '.wpseo-new-redirect-form a.button-primary' ).click( function() {
 				that.add_redirect( that.find( '#wpseo_redirects_new_old' ).val(), that.find( '#wpseo_redirects_new_new' ).val(), that.find( '#wpseo_redirects_new_type' ).val() );
 				return false;
 			}
