@@ -61,3 +61,10 @@ html{
 .wpseo-score-icon.noindex {
     background-color: #1e8cbe;
 }
+
+.wpseo_msg {
+    margin: 5px 0 10px 0;
+    padding: 0 5px;
+    border: 1px solid #e6db55;
+    background-color: lightYellow;
+}

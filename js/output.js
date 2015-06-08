@@ -1,4 +1,5 @@
-var args, pageAnalysis;
+var args, pageAnalysis, timer;
+var time = 500;
 
 
 ScoreFormatter = function ( scores, target ){
@@ -36,18 +37,18 @@ ScoreFormatter.prototype.outputScore = function(){
 };
 
 /**
- * sorts the scores array on descending scores
+ * sorts the scores array on ascending scores
  */
 ScoreFormatter.prototype.sortScores = function(){
     this.scores = this.scores.sort(function(a, b){
-        return b.score - a.score;
+        return a.score - b.score;
     });
 };
 
 ScoreFormatter.prototype.outputOverallScore = function(){
     this.overallTarget.innerHTML = "";
     var newSpan = document.createElement("span");
-    newSpan.className = "seoScore "+this.scoreRating(Math.round(this.overallScore));
+    newSpan.className = "wpseo-score-icon  "+this.scoreRating(Math.round(this.overallScore));
     this.overallTarget.appendChild(newSpan);
 };
 
@@ -79,21 +80,51 @@ ScoreFormatter.prototype.scoreRating = function(score){
 };
 
 getInput = function(){
+    console.log('get input');
+    var start = new Date().getTime();
     args = {
         pageTitle: document.getElementById("titleInput").value,
         textString: document.getElementById("textInput").value,
         keyword: document.getElementById("keywordInput").value,
         url: document.getElementById("urlInput").value,
         meta: document.getElementById("metaInput").value
-    };
-};
 
-runAnalyzer = function() {
+    };
+
     var targets = {
-        output:  document.getElementById("output"),
+        output: document.getElementById("output"),
         overall: document.getElementById("overallScore")
     };
-    pageAnalysis = new Analyzer(args);
-    pageAnalysis.runQueue();
-    var outputter = new ScoreFormatter(pageAnalysis, targets);
+
+    if(args.keyword !== "") {
+        pageAnalysis = new Analyzer(args);
+        pageAnalysis.runQueue();
+        new ScoreFormatter(pageAnalysis, targets);
+    }else{
+        targets.output.innerHTML = "";
+        var messageDiv = document.createElement("div");
+        messageDiv.className = "wpseo_msg";
+        messageDiv.innerHTML = "<p><strong>No focus keyword was set for this page. If you do not set a focus keyword, no score can be calculated.</strong></p>";
+        targets.output.appendChild(messageDiv);
+    }
+    var end = new Date().getTime();
+    document.getElementById("debug").innerHTML = (end - start);
 };
+
+loadAnalyzer = function(){
+    clearTimeout(timer);
+    timer = setTimeout(getInput, time);
+};
+
+
+
+
+loadEvents = function(){
+    if(document.readyState === "complete"){
+        document.getElementById('inputForm').addEventListener('input', function(){ loadAnalyzer(); });
+    }else{
+        setTimeout(loadEvents, 50);
+    }
+};
+loadEvents();
+
