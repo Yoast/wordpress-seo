@@ -13,12 +13,15 @@ class WPSEO_Page_GWT {
 	 */
 	private $service;
 
+	/**
+	 * Constructor for the page class. This will initialize all GSC related stuff
+	 */
 	public function __construct() {
 		// Settings
 		add_action( 'admin_init', array( $this, 'register_settings' ) );
 
 		// Setting the screen option
-		if ( filter_input( INPUT_GET, 'page' ) ===  'wpseo_webmaster_tools' ) {
+		if ( filter_input( INPUT_GET, 'page' ) === 'wpseo_webmaster_tools' ) {
 			add_filter( 'set-screen-option', array( $this, 'set_screen_option' ), 11, 3 );
 		}
 	}
