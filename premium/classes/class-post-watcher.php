@@ -206,11 +206,11 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	 * This method will check if url as redirect already exists
 	 *
 	 * @param integer $post_id
-	 * @param bool    $should_exists
+	 * @param bool    $should_exist
 	 *
 	 * @return string|void
 	 */
-	protected function check_if_redirect_needed( $post_id, $should_exists = false ) {
+	protected function check_if_redirect_needed( $post_id, $should_exist = false ) {
 
 		// Get the post
 		$post = get_post( $post_id );
@@ -223,7 +223,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 			// If $url is not a single /, there may be the option to create a redirect
 			if ( $url !== '/' ) {
 				// Message should only be shown if there isn't already a redirect
-				if ( $this->check_if_redirect_exists( $url ) === $should_exists ) {
+				if ( $this->check_if_redirect_exists( $url ) === $should_exist ) {
 					return $url;
 				}
 			}
