@@ -8,6 +8,7 @@ var args = {
     },
     eventTargets: ["inputForm"],
     typeDelay: 100,
+    typeDelayStep: 100,
     maxTypeDelay: 1500,
     dynamicDelay: true,
     targets: {
@@ -17,6 +18,11 @@ var args = {
 
 };
 
+/**
+ * Loader for the analyzer, loads the eventbinder and the elementdefiner
+ * @param args
+ * @constructor
+ */
 AnalyzeLoader = function(args){
     window.analyzeLoader = this;
     this.config = args;
@@ -25,11 +31,16 @@ AnalyzeLoader = function(args){
     this.defineElements();
 };
 
+/**
+ * defines the target element to be used for the output on the page
+ */
 AnalyzeLoader.prototype.defineElements = function(){
     this.target = document.getElementById(this.config.targets.output);
-
 };
 
+/**
+ * gets the values from the inputfields. The values from these fields are used as input for the analyzer.
+ */
 AnalyzeLoader.prototype.getInput = function(){
     this.inputs.textString = document.getElementById(this.config.inputs.text).value;
     this.inputs.keyword = document.getElementById(this.config.inputs.keyword).value;
@@ -38,6 +49,9 @@ AnalyzeLoader.prototype.getInput = function(){
     this.inputs.pageTitle = document.getElementById(this.config.inputs.title).value;
 };
 
+/**
+ * binds the 'input'event to the targetform/input. This will trigger the analyzeTimer function.
+ */
 AnalyzeLoader.prototype.bindEvent = function(){
     for (var i = 0; i < this.config.eventTargets.length; i++){
         var elem = document.getElementById(this.config.eventTargets[i]);
@@ -46,34 +60,33 @@ AnalyzeLoader.prototype.bindEvent = function(){
     }
 };
 
+/**
+ * the analyzeTimer calls the checkInputs function with a delay, so the function won' be executed at every keystroke
+ */
 AnalyzeLoader.prototype.analyzeTimer = function(){
     var refObj = this.__refObj;
     clearTimeout(window.timer);
     window.timer = setTimeout(refObj.checkInputs, refObj.config.typeDelay);
 };
 
+/**
+ * calls the getInput function to retreive values from inputs. If the keyword is empty calls message, if keyword is filled, runs the analyzer
+ */
 AnalyzeLoader.prototype.checkInputs = function(){
     var refObj = window.analyzeLoader;
-    var startTime, endTime;
-    if(refObj.config.dynamicDelay){
-        startTime = new Date().getTime();
-    }
+
     refObj.getInput();
     if(refObj.inputs.keyword === ""){
         refObj.showMessage();
     }else{
         refObj.runAnalyzer();
     }
-    if(refObj.config.dynamicDelay){
-        endTime = new Date().getTime();
-        if (endTime - startTime > refObj.config.typeDelay){
-            if (refObj.config.typeDelay < ( refObj.config.maxTypeDelay - 100 ) ) {
-                refObj.config.typeDelay += 100;
-            }
-        }
-    }
+
 };
 
+/**
+ * used when no keyword is filled in, it will display a message in the target element
+ */
 AnalyzeLoader.prototype.showMessage = function(){
     this.target.innerHTML = "";
     var messageDiv = document.createElement("div");
@@ -82,14 +95,42 @@ AnalyzeLoader.prototype.showMessage = function(){
     this.target.appendChild(messageDiv);
 };
 
-AnalyzeLoader.prototype.runAnalyzer = function(){
-    this.pageAnalyzer = new Analyzer(this.inputs);
-    this.pageAnalyzer.runQueue();
-    this.scoreFormatter = new ScoreFormatter(this.pageAnalyzer, this.config.targets);
+/**
+ * sets the startTime timestamp
+ */
+AnalyzeLoader.prototype.startTime = function(){
+    this.startTimestamp = new Date().getTime();
 };
 
 /**
- *
+ * sets the endTime timestamp and compares with startTime to determine typeDelayincrease.
+ */
+AnalyzeLoader.prototype.endTime = function(){
+    this.endTimestamp = new Date().getTime();
+    if (this.endTimestamp - this.startTimestamp > this.config.typeDelay){
+        if (this.config.typeDelay < ( this.config.maxTypeDelay - this.config.typeDelayStep ) ) {
+            this.config.typeDelay += this.config.typeDelayStep;
+        }
+    }
+};
+
+/**
+ * inits a new pageAnalyzer with the inputs from the getInput function and calls the scoreFormatter to format outputs.
+ */
+AnalyzeLoader.prototype.runAnalyzer = function(){
+    if(this.config.dynamicDelay){
+        this.startTime();
+    }
+    this.pageAnalyzer = new Analyzer(this.inputs);
+    this.pageAnalyzer.runQueue();
+    this.scoreFormatter = new ScoreFormatter(this.pageAnalyzer, this.config.targets);
+    if(this.config.dynamicDelay){
+        this.endTime();
+    }
+};
+
+/**
+ * defines the variables used for the scoreformatter, runs the outputScore en overallScore functions.
  * @param scores
  * @param target
  * @constructor
@@ -100,7 +141,6 @@ ScoreFormatter = function ( scores, target ){
     this.outputTarget = target.output;
     this.overallTarget = target.overall;
     this.totalScore = 0;
-    this.tests = scores.length;
     this.outputScore();
     this.outputOverallScore();
 };
@@ -142,7 +182,7 @@ ScoreFormatter.prototype.sortScores = function(){
 };
 
 /**
- *
+ * outputs the overallScore in the overallTarget element.
  */
 ScoreFormatter.prototype.outputOverallScore = function(){
     var overallTarget = document.getElementById(this.overallTarget);
@@ -183,6 +223,9 @@ ScoreFormatter.prototype.scoreRating = function(score){
     return scoreRate;
 };
 
+/**
+ * run at pageload to init the analyzeLoader for pageAnalysis.
+ */
 loadEvents = function(){
     if(document.readyState === "complete"){
         new AnalyzeLoader(args);
