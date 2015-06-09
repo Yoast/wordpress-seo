@@ -144,7 +144,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	 */
 	public function detect_post_untrash( $post_id ) {
 
-		if ( $url = $this->check_if_redirect_needed( $post_id ) ) {
+		if ( $url = $this->check_if_redirect_needed( $post_id, true ) ) {
 
 			$id = 'wpseo_undo_redirect_' . md5( $url );
 
@@ -200,17 +200,17 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 		return array_key_exists( $url, $redirects );
 	}
 
-
 	/**
 	 * This method checks if a redirect is needed.
 	 *
 	 * This method will check if url as redirect already exists
 	 *
 	 * @param integer $post_id
+	 * @param bool    $should_exists
 	 *
 	 * @return string|void
 	 */
-	protected function check_if_redirect_needed( $post_id ) {
+	protected function check_if_redirect_needed( $post_id, $should_exists = false ) {
 
 		// Get the post
 		$post = get_post( $post_id );
@@ -223,7 +223,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 			// If $url is not a single /, there may be the option to create a redirect
 			if ( $url !== '/' ) {
 				// Message should only be shown if there isn't already a redirect
-				if ( ! $this->check_if_redirect_exists( $url ) ) {
+				if ( $this->check_if_redirect_exists( $url ) === $should_exists ) {
 					return $url;
 				}
 			}
