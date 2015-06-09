@@ -72,15 +72,45 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 			return;
 		}
 
+		// If the post URL wasn't public before, or isn't public now, don't even check if we have to redirect
+		if ( ! $this->check_public_post_status( $post_before ) || ! $this->check_public_post_status( $post ) ) {
+			return;
+		}
+
 		// Get the new URL
 		$new_url = $this->get_target_url( $post_id );
 
 		// Check if we should create a redirect
-		if ( in_array( $post->post_status, array( 'publish', 'static' ) ) && $this->should_create_redirect( $old_url, $new_url ) ) {
+		if ( $this->should_create_redirect( $old_url, $new_url ) ) {
 			$this->create_redirect( $old_url, $new_url );
 
 			$this->set_notification( $old_url, $new_url );
 		}
+	}
+
+	/**
+	 * Checks whether the given post is public or not
+	 *
+	 * @param object $post
+	 *
+	 * @return bool
+	 */
+	private function check_public_post_status( $post ) {
+		$public_post_statuses = array(
+			'inherit',
+			'publish',
+			'static',
+		);
+
+		/**
+		 * Filter: 'wpseo_public_post_statuses' - Allow changing the statuses that are expected to have caused a URL to be public
+		 *
+		 * @api array $published_post_statuses The statuses that'll be treated as published
+		 * @param object $post The post object we're doing the published check for
+		 */
+		$public_post_statuses = apply_filters( 'wpseo_public_post_statuses', $public_post_statuses, $post );
+
+		return ( in_array( $post->post_status, $public_post_statuses, true ) );
 	}
 
 	/**
