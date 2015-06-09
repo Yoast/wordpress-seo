@@ -146,8 +146,6 @@ class WPSEO_Frontend {
 		if ( $this->options['title_test'] > 0 ) {
 			add_filter( 'wpseo_title', array( $this, 'title_test_helper' ) );
 		}
-
-		new WPSEO_JSON_LD;
 	}
 
 	/**
@@ -158,6 +156,7 @@ class WPSEO_Frontend {
 			return;
 		}
 
+		new WPSEO_JSON_LD;
 		add_action( 'wpseo_head', array( $this, 'webmaster_tools_authentication' ), 90 );
 	}
 
