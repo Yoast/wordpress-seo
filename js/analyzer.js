@@ -895,9 +895,8 @@ AnalyzeScorer.prototype.totalScore = function() {
             scoreAmount--;
         }
     }
-    var endScore = totalScore / scoreAmount;
-    return endScore;
-
+    var totalAmount = scoreAmount * analyzerScoreRating;
+    return Math.round( ( totalScore / totalAmount ) * 10 );
 };
 
 /**
@@ -922,3 +921,4 @@ stringHelper = function() {
     }
     return yst_stringHelper;
 };
+

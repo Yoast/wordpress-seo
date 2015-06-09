@@ -1,3 +1,4 @@
+analyzerScoreRating = 9;
 analyzerScoring = [
     {
         scoreName: "wordCount",
