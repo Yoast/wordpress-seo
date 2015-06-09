@@ -132,8 +132,9 @@ class WPSEO_GWT_Category_Filters {
 	 */
 	private function create_view_link( $key, $count ) {
 		$href  = esc_attr( add_query_arg( array( 'category' => $key, 'paged' => 1 ) ) );
-		$class = ( ( $this->current_view == $key ) ? " class='current'" : '' );
-		return "<a href='{$href}'{$class}>{$this->filter_values[ $key ]['value']}</a> ({$count})";
+		$class = ( ( $this->current_view == $key ) ? " current" : '' );
+		$alt   = ( $this->filter_values[ $key ]['description'] !== '' ) ? " title='" . $this->filter_values[ $key ]['description'] . "'" : '';
+		return "<a href='{$href}' class='gsc_category{$class}'{$alt}>{$this->filter_values[ $key ]['value']}</a> ({$count})";
 	}
 
 	/**

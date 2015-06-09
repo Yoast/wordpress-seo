@@ -24,7 +24,6 @@ class WPSEO_Admin {
 	function __construct() {
 		$this->options = WPSEO_Options::get_all();
 
-
 		if ( is_multisite() ) {
 			WPSEO_Options::maybe_set_multisite_defaults( false );
 		}
