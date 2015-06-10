@@ -25,6 +25,13 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 	protected $old_url = '';
 
 	/**
+	 * Constructing the object
+	 */
+	public function __construct() {
+		$this->set_hooks();
+	}
+
+	/**
 	 * Add an extra field to term edit screen
 	 *
 	 * @param string $tag
@@ -177,5 +184,29 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 			}
 		}
 		return $wpseo_old_url;
+	}
+
+	/**
+	 * Setting the hooks for the term watcher
+	 */
+	private function set_hooks() {
+		// Get all taxonomies
+		$taxonomies = get_taxonomies();
+
+		// Loop through all taxonomies
+		if ( count( $taxonomies ) > 0 ) {
+			foreach ( $taxonomies as $taxonomy ) {
+				// Add old URL field to term edit screen
+				add_action( $taxonomy . '_edit_form_fields', array( $this, 'old_url_field' ), 10, 2 );
+			}
+		}
+
+		add_action( 'wp_ajax_inline-save-tax', array( $this, 'set_old_url_quick_edit' ), 1 );
+
+		// Detect the term slug change
+		add_action( 'edited_term', array( $this, 'detect_slug_change' ), 10, 3 );
+
+		// Detect a term delete
+		add_action( 'delete_term_taxonomy', array( $this, 'detect_term_delete' ) );
 	}
 }
