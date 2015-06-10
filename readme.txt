@@ -157,7 +157,7 @@ Release Date: June 10th, 2015
 	* Fixes a bug where sitemap cache was not always cleared after saving the WordPress SEO by Yoast settings.
 
 * Security:
-	* Fixes a possible XSS vulnerability. Thanks [Charles Neill]() and [Mazen Gamal](https://twitter.com/mazengamal) for discovering and responsibly disclosing this issue.
+	* Fixes a possible XSS vulnerability in the snippet preview. Thanks [Charles Neill](https://twitter.com/ccneill) and [Mazen Gamal](https://twitter.com/mazengamal) for discovering and responsibly disclosing this issue.
 
 = 2.1.1 =
 

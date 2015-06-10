@@ -193,7 +193,7 @@ function wpseo_display_contributors( $contributors ) {
 		<h4>Security:</h4>
 
 		<ul class="ul-disc">
-			<li>Fixes a possible XSS vulnerability. Thanks [Charles Neill]() and [Mazen Gamal](https://twitter.com/mazengamal) for discovering and responsibly disclosing this issue.</li>
+			<li>Fixes a possible XSS vulnerability in the snippet preview. Thanks <a href="https://twitter.com/ccneill" target="_blank">Charles Neill</a> and <a href="https://twitter.com/mazengamal" target="_blank">Mazen Gamal</a> for discovering and responsibly disclosing this issue.</li>
 		</ul>
 
 		<h2>WordPress SEO 2.1</h2>
