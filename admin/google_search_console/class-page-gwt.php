@@ -14,6 +14,11 @@ class WPSEO_Page_GWT {
 	private $service;
 
 	/**
+	 * @var WPSEO_GWT_Service
+	 */
+	private $settings;
+
+	/**
 	 * Constructor for the page class. This will initialize all GSC related stuff
 	 */
 	public function __construct() {
@@ -32,7 +37,6 @@ class WPSEO_Page_GWT {
 	 */
 	public function register_settings() {
 		register_setting( 'yoast_wpseo_gwt_options', 'wpseo-gwt' );
-
 	}
 
 	/**
@@ -46,7 +50,6 @@ class WPSEO_Page_GWT {
 	 * Function that is triggered when the redirect page loads
 	 */
 	public function page_load() {
-
 		// Create a new WPSEO GWT Google Client
 		$this->service  = new WPSEO_GWT_Service();
 
@@ -102,4 +105,3 @@ class WPSEO_Page_GWT {
 	}
 
 }
-

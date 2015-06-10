@@ -92,7 +92,6 @@ class WPSEO_Crawl_Category_Issues {
 
 			return true;
 		}
-
 	}
 
 	/**
