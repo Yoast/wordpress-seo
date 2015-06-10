@@ -152,21 +152,6 @@ function wpseo_display_contributors( $contributors ) {
 		<h2>WordPress SEO 2.2-RC</h2>
 		<p><small>Release Date: June 3rd, 2015</small></p>
 
-		<h4>Bugfixes:</h4>
-
-		<ul class="ul-disc">
-			<li>Fixes a bug where the widgets were removed from every XML file. This is now only the case for the sitemaps.</li>
-			<li>Fixes a bug where validation errors were shown for the wrong variables in the titles and metas settings.</li>
-			<li>Fixes a bug where the SEO toolbar was broken.</li>
-			<li>Fixes a few typo's, props <a href="https://github.com/GaryJones" target="_blank">Gary Jones</a>.</li>
-			<li>Fixes a bug where links in tooltips were not impossible to click.</li>
-			<li>Fixes a broken link to the permalinks section of the advanced settings, props <a href="https://github.com/michaelnordmeyer" target="_blank">Michael Nordmeyer</a>.</li>
-			<li>Fixes settings import on multisite.</li>
-			<li>Fixes a bug where the sitemap could contain datetimes in the wrong timezone.</li>
-			<li>Fixes a bug where the wrong Facebook user ID was added to the fb:admins meta tag. Adding FB admin user id is now a manual process.</li>
-			<li>Fixed Open Graph and Twitter cards on static posts pages</li>
-		</ul>
-
 		<h4>Enhancements:</h4>
 
 		<ul class="ul-disc">
@@ -181,9 +166,34 @@ function wpseo_display_contributors( $contributors ) {
 			<li>Adds recommended image sizes per Social network in the social tab of the 	SEO metabox.</li>
 			<li>Removes the tracking functionality.</li>
 			<li>Shows a dismissible notice with a link to the about page that is shown after every update. The user is no longer being redirected and only has to dismiss the notice once for all sites (in case of multisite).</li>
+			<li>Adds a link to the about page to the general tab of the settings dashboard.</li>
 			<li>Makes the tour dismissible on user level.</li>
 			<li>Adds Twitter profile to JSON LD output.</li>
 			<li>Twitter profile input field now also accepts full url and automatically strips it down to just the username.</li>
+			<li>Only adds the JSON LD output to the frontpage, since it's not needed on other pages.</li>
+			<li>Makes all WordPress SEO by Yoast notices dismissible.</li>
+		</ul>
+
+		<h4>Bugfixes:</h4>
+
+		<ul class="ul-disc">
+			<li>Fixes a bug where the widgets were removed from every XML file. This is now only the case for the sitemaps.</li>
+			<li>Fixes a bug where validation errors were shown for the wrong variables in the titles and metas settings.</li>
+			<li>Fixes a bug where the SEO toolbar was broken.</li>
+			<li>Fixes a few typo's, props <a href="https://github.com/GaryJones" target="_blank">Gary Jones</a>.</li>
+			<li>Fixes a bug where links in tooltips were not impossible to click.</li>
+			<li>Fixes a broken link to the permalinks section of the advanced settings, props <a href="https://github.com/michaelnordmeyer" target="_blank">Michael Nordmeyer</a>.</li>
+			<li>Fixes settings import on multisite.</li>
+			<li>Fixes a bug where the sitemap could contain datetimes in the wrong timezone.</li>
+			<li>Fixes a bug where the wrong Facebook user ID was added to the fb:admins meta tag. Adding FB admin user id is now a manual process.</li>
+			<li>Fixed Open Graph and Twitter cards on static posts pages</li>
+			<li>Fixes a bug where sitemap cache was not always cleared after saving the WordPress SEO by Yoast settings.</li>
+		</ul>
+
+		<h4>Security:</h4>
+
+		<ul class="ul-disc">
+			<li>Fixes a possible XSS vulnerability. Thanks [Charles Neill]() and [Mazen Gamal](https://twitter.com/mazengamal) for discovering and responsibly disclosing this issue.</li>
 		</ul>
 
 		<h2>WordPress SEO 2.1</h2>
