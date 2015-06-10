@@ -168,13 +168,11 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 	 */
 	protected function get_old_url() {
 		$wpseo_old_term_url = filter_input( INPUT_POST, 'wpseo_old_term_url' );
-		if ( ! isset( $wpseo_old_term_url ) ) {
+		if ( empty( $wpseo_old_term_url ) ) {
 			if ( ! empty( $this->old_url ) ) {
 				return $this->old_url;
 			}
-			else {
-				return false;
-			}
+			return false;
 		}
 		return $wpseo_old_term_url;
 	}

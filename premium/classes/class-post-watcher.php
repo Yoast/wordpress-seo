@@ -257,7 +257,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	protected function get_old_url( $post, $post_before ) {
 		$wpseo_old_post_url = filter_input( INPUT_POST, 'wpseo_old_post_url' );
 
-		if ( ! isset( $wpseo_old_post_url ) ) {
+		if ( empty( $wpseo_old_post_url ) ) {
 			// Check if request is inline action and new slug is not old slug, if so set wpseo_post_old_url
 			$action = filter_input( INPUT_POST, 'action' );
 
