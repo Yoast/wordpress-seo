@@ -32,7 +32,7 @@ class WPSEO_GWT_Settings {
 			$this->clear_data();
 		}
 
-		if ( filter_input( INPUT_POST, 'reload-crawl-issues' ) ) {
+		if ( filter_input( INPUT_POST, 'reload-crawl-issues' ) && wp_verify_nonce( filter_input( INPUT_POST, 'reload-crawl-issues-nonce' ), 'reload-crawl-issues' ) ) {
 			$this->reload_issues();
 		}
 

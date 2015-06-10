@@ -8,9 +8,10 @@
 ?>
 	<h2 class="nav-tab-wrapper" id="wpseo-tabs">
 <?php
-if ( WP_DEBUG ) {
+if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
 	?>
 		<form action="" method="post">
+			<input type='hidden' name='reload-crawl-issues-nonce' value='<?php echo wp_create_nonce( 'reload-crawl-issues' ); ?>' />
 			<input type="submit" name="reload-crawl-issues" id="reload-crawl-issue" class="button-primary"
 				   style="float: right;" value="<?php _e( 'Reload crawl issues', 'wordpress-seo' ); ?>">
 		</form>
