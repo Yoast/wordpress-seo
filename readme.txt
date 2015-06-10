@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: seo, SEO, Yoast SEO, google, meta, meta description, search engine optimization, xml sitemap, xml sitemaps, google sitemap, sitemap, sitemaps, robots meta, rss, rss footer, yahoo, bing, news sitemaps, XML News Sitemaps, WordPress SEO, WordPress SEO by Yoast, yoast, multisite, canonical, nofollow, noindex, keywords, meta keywords, description, webmaster tools, google webmaster tools, seo pack
 Requires at least: 3.9
 Tested up to: 4.2
-Stable tag: 2.2-RC
+Stable tag: 2.2
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using Yoast's WordPress SEO plugin.
 
@@ -120,21 +120,9 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 
 == Changelog ==
 
-= 2.2-RC =
+= 2.2 =
 
-Release Date: June 3rd, 2015
-
-* Bugfixes:
-	* Fixes a bug where the widgets were removed from every XML file. This is now only the case for the sitemaps.
-	* Fixes a bug where validation errors were shown for the wrong variables in the titles and metas settings.
-	* Fixes a bug where the SEO toolbar was broken.
-	* Fixes a few typo's, props [Gary Jones](https://github.com/GaryJones).
-	* Fixes a bug where links in tooltips were not impossible to click.
-	* Fixes a broken link to the permalinks section of the advanced settings, props [Michael Nordmeyer](https://github.com/michaelnordmeyer).
-	* Fixes settings import on multisite.
-	* Fixes a bug where the sitemap could contain datetimes in the wrong timezone.
-	* Fixes a bug where the wrong Facebook user ID was added to the fb:admins meta tag. Adding FB admin user id is now a manual process.
-	* Fixed Open Graph and Twitter cards on static posts pages
+Release Date: June 10th, 2015
 
 * Enhancements:
 	* Contains several accessibility improvements, including 'for' attributes for labels and several links to explanatory articles.
@@ -148,9 +136,28 @@ Release Date: June 3rd, 2015
 	* Adds recommended image sizes per Social network in the social tab of the 	SEO metabox.
 	* Removes the tracking functionality.
 	* Shows a dismissible notice with a link to the about page that is shown after every update. The user is no longer being redirected and only has to dismiss the notice once for all sites (in case of multisite).
+	* Adds a link to the about page to the general tab of the settings dashboard.
 	* Makes the tour dismissible on user level.
 	* Adds Twitter profile to JSON LD output.
 	* Twitter profile input field now also accepts full url and automatically strips it down to just the username.
+	* Only adds the JSON LD output to the frontpage, since it's not needed on other pages.
+	* Makes all WordPress SEO by Yoast notices dismissible.
+
+* Bugfixes:
+	* Fixes a bug where the widgets were removed from every XML file. This is now only the case for the sitemaps.
+	* Fixes a bug where validation errors were shown for the wrong variables in the titles and metas settings.
+	* Fixes a bug where the SEO toolbar was broken.
+	* Fixes a few typo's, props [Gary Jones](https://github.com/GaryJones).
+	* Fixes a bug where links in tooltips were not impossible to click.
+	* Fixes a broken link to the permalinks section of the advanced settings, props [Michael Nordmeyer](https://github.com/michaelnordmeyer).
+	* Fixes settings import on multisite.
+	* Fixes a bug where the sitemap could contain datetimes in the wrong timezone.
+	* Fixes a bug where the wrong Facebook user ID was added to the fb:admins meta tag. Adding FB admin user id is now a manual process.
+	* Fixed Open Graph and Twitter cards on static posts pages
+	* Fixes a bug where sitemap cache was not always cleared after saving the WordPress SEO by Yoast settings.
+
+* Security:
+	* Fixes a possible XSS vulnerability in the snippet preview. Thanks [Charles Neill](https://twitter.com/ccneill) and [Mazen Gamal](https://twitter.com/mazengamal) for discovering and responsibly disclosing this issue.
 
 = 2.1.1 =
 
