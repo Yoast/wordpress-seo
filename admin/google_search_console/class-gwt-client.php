@@ -124,7 +124,6 @@ class WPSEO_GWT_Client extends Yoast_Google_Client {
 		}
 	}
 
-
 	/**
 	 * Getting the response code, saved from latest request to Google
 	 * @return mixed
@@ -174,7 +173,6 @@ class WPSEO_GWT_Client extends Yoast_Google_Client {
 	 */
 	protected function refresh_tokens() {
 		if ( ( $refresh_token = $this->get_refresh_token() ) !== '' && $this->access_token_expired() ) {
-
 			try {
 				// Refresh the token
 				$this->refreshToken( $refresh_token );

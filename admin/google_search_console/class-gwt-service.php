@@ -79,7 +79,6 @@ class WPSEO_GWT_Service {
 			}
 		}
 
-
 		return $return;
 	}
 
@@ -104,7 +103,6 @@ class WPSEO_GWT_Service {
 	 * @return string
 	 */
 	public function get_profile() {
-
 		// Get option
 		$option = get_option( self::OPTION_WPSEO_GWT, array( 'profile' => '' ) );
 
