@@ -167,8 +167,7 @@ class WPSEO_Premium {
 
 			// Only activate post and term watcher if permalink structure is enabled
 			if ( get_option( 'permalink_structure' ) ) {
-				add_action( 'admin_init', array( $this, 'init_post_hooks' ) );
-				add_action( 'admin_init', array( $this, 'init_term_hooks' ) );
+				add_action( 'admin_init', array( $this, 'init_watchers' ) );
 
 				// Check if we need to display an admin message
 				if ( isset( $_GET['yoast-redirect-created'] ) ) {
@@ -188,55 +187,14 @@ class WPSEO_Premium {
 	}
 
 	/**
-	 * Initialize the hooks for the post slugs
+	 * Initialize the watchers for the posts and the terms
 	 */
-	public function init_post_hooks() {
+	public function init_watchers() {
 		// The Post Watcher
-		$post_watcher = new WPSEO_Post_Watcher();
+		new WPSEO_Post_Watcher();
 
-		// Add old URL field to post edit screen
-		add_action( 'edit_form_advanced', array( $post_watcher, 'old_url_field' ), 10, 1 );
-		add_action( 'edit_page_form', array( $post_watcher, 'old_url_field' ), 10, 1 );
-
-		// Detect a post slug change
-		add_action( 'post_updated', array( $post_watcher, 'detect_slug_change' ), 12, 3 );
-
-		// Detect a post trash
-		add_action( 'trashed_post', array( $post_watcher, 'detect_post_trash' ) );
-
-		// Detect a post untrash
-		add_action( 'untrashed_post', array( $post_watcher, 'detect_post_untrash' ) );
-
-		// Detect a post delete
-		add_action( 'delete_post', array( $post_watcher, 'detect_post_delete' ) );
-	}
-
-	/**
-	 * Initializes the hooks for taxonomy slugs
-	 *
-	 */
-	public function init_term_hooks() {
 		// The Term Watcher
-		$term_watcher = new WPSEO_Term_Watcher();
-
-		// Get all taxonomies
-		$taxonomies = get_taxonomies();
-
-		// Loop through all taxonomies
-		if ( count( $taxonomies ) > 0 ) {
-			foreach ( $taxonomies as $taxonomy ) {
-				// Add old URL field to term edit screen
-				add_action( $taxonomy . '_edit_form_fields', array( $term_watcher, 'old_url_field' ), 10, 2 );
-			}
-		}
-
-		add_action( 'wp_ajax_inline-save-tax', array( $term_watcher, 'set_old_url_quick_edit' ), 1 );
-
-		// Detect the term slug change
-		add_action( 'edited_term', array( $term_watcher, 'detect_slug_change' ), 10, 3 );
-
-		// Detect a term delete
-		add_action( 'delete_term_taxonomy', array( $term_watcher, 'detect_term_delete' ) );
+		new WPSEO_Term_Watcher();
 	}
 
 	/**

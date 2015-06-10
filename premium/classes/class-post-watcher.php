@@ -22,6 +22,8 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	 */
 	public function __construct() {
 		add_action( 'admin_enqueue_scripts', array( $this, 'page_scripts' ) );
+
+		$this->set_hooks();
 	}
 
 	/**
@@ -290,6 +292,27 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 
 		// Only set notification when the slug change was not saved through quick edit
 		$this->create_notification( $message, 'slug_change', $id );
+	}
+
+	/**
+	 * Setting the hooks for the post watcher
+	 */
+	private function set_hooks() {
+		// Add old URL field to post edit screen
+		add_action( 'edit_form_advanced', array( $this, 'old_url_field' ), 10, 1 );
+		add_action( 'edit_page_form', array( $this, 'old_url_field' ), 10, 1 );
+
+		// Detect a post slug change
+		add_action( 'post_updated', array( $this, 'detect_slug_change' ), 12, 3 );
+
+		// Detect a post trash
+		add_action( 'trashed_post', array( $this, 'detect_post_trash' ) );
+
+		// Detect a post untrash
+		add_action( 'untrashed_post', array( $this, 'detect_post_untrash' ) );
+
+		// Detect a post delete
+		add_action( 'delete_post', array( $this, 'detect_post_delete' ) );
 	}
 
 }
