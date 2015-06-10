@@ -6,13 +6,14 @@ abstract class WPSEO_Watcher {
 	 * Parses the hidden field with the old url to show in the form
 	 *
 	 * @param string $url
+	 * @param string $type
 	 *
 	 * @return string
 	 */
-	protected function parse_url_field( $url ) {
+	protected function parse_url_field( $url, $type ) {
 
 		// Output the hidden field
-		return '<input type="hidden" name="wpseo_old_url" value="' . esc_attr( $url ) . '"/>';
+		return '<input type="hidden" name="wpseo_old_' . $type . '_url" value="' . esc_attr( $url ) . '"/>';
 
 	}
 

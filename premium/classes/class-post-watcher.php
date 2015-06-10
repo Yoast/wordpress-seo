@@ -41,7 +41,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 		if ( null != $post ) {
 			$url = $this->get_target_url( $post->ID );
 
-			echo $this->parse_url_field( $url );
+			echo $this->parse_url_field( $url, 'post' );
 		}
 	}
 
@@ -255,10 +255,10 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	 * @return bool|string
 	 */
 	protected function get_old_url( $post, $post_before ) {
-		$wpseo_old_url = filter_input( INPUT_POST, 'wpseo_old_url' );
+		$wpseo_old_post_url = filter_input( INPUT_POST, 'wpseo_old_post_url' );
 
-		if ( ! isset( $wpseo_old_url ) ) {
-			// Check if request is inline action and new slug is not old slug, if so set wpseo_old_url
+		if ( empty( $wpseo_old_post_url ) ) {
+			// Check if request is inline action and new slug is not old slug, if so set wpseo_post_old_url
 			$action = filter_input( INPUT_POST, 'action' );
 
 			if ( ! empty( $action ) && $action === 'inline-save' && $post->post_name !== $post_before->post_name ) {
@@ -267,7 +267,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 			return false;
 		}
 
-		return $wpseo_old_url;
+		return $wpseo_old_post_url;
 	}
 
 	/**

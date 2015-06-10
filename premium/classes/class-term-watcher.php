@@ -40,7 +40,7 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 	public function old_url_field( $tag, $taxonomy ) {
 		$url = $this->get_target_url( $tag, $taxonomy );
 
-		echo $this->parse_url_field( $url );
+		echo $this->parse_url_field( $url, 'term' );
 	}
 
 	/**
@@ -174,16 +174,14 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 	 * @return bool|string
 	 */
 	protected function get_old_url() {
-		$wpseo_old_url = filter_input( INPUT_POST, 'wpseo_old_url' );
-		if ( ! isset( $wpseo_old_url ) ) {
+		$wpseo_old_term_url = filter_input( INPUT_POST, 'wpseo_old_term_url' );
+		if ( empty( $wpseo_old_term_url ) ) {
 			if ( ! empty( $this->old_url ) ) {
 				return $this->old_url;
 			}
-			else {
-				return false;
-			}
+			return false;
 		}
-		return $wpseo_old_url;
+		return $wpseo_old_term_url;
 	}
 
 	/**
