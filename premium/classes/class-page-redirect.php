@@ -66,7 +66,7 @@ class WPSEO_Page_Redirect {
 				echo '<br />';
 				echo '<br />';
 
-				echo '<p class="label desc description">' . sprintf( __( 'The redirect type is the HTTP response code send to the browser telling the browser what type of redirect is served.<br/><br/>Read <a href=\'%s\' target=\'_blank\'>this page</a> for more info.', 'wordpress-seo-premium' ), 'http://kb.yoast.com/article/121-redirect-types/#utm_source=wordpress-seo-premium-redirects&amp;utm_medium=inline-help&amp;utm_campaign=redirect-types' ) . '</p>';
+				echo '<p class="label desc description">' . sprintf( __( 'The redirect type is the HTTP response code sent to the browser telling the browser what type of redirect is served.<br/><br/>Read <a href=\'%s\' target=\'_blank\'>this page</a> for more info.', 'wordpress-seo-premium' ), 'http://kb.yoast.com/article/121-redirect-types/#utm_source=wordpress-seo-premium-redirects&amp;utm_medium=inline-help&amp;utm_campaign=redirect-types' ) . '</p>';
 
 				echo "<br class='clear'/>\n";
 
@@ -129,7 +129,7 @@ class WPSEO_Page_Redirect {
 				echo '<br />';
 				echo '<br />';
 
-				echo '<p class="label desc description">' . sprintf( __( 'The redirect type is the HTTP response code send to the browser telling the browser what type of redirect is served.<br/><br/>Read <a href=\'%s\' target=\'_blank\'>this page</a> for more info.', 'wordpress-seo-premium' ), 'http://kb.yoast.com/article/121-redirect-types/#utm_source=wordpress-seo-premium-redirects&amp;utm_medium=inline-help&amp;utm_campaign=redirect-types' ) . ' </p>';
+				echo '<p class="label desc description">' . sprintf( __( 'The redirect type is the HTTP response code sent to the browser telling the browser what type of redirect is served.<br/><br/>Read <a href=\'%s\' target=\'_blank\'>this page</a> for more info.', 'wordpress-seo-premium' ), 'http://kb.yoast.com/article/121-redirect-types/#utm_source=wordpress-seo-premium-redirects&amp;utm_medium=inline-help&amp;utm_campaign=redirect-types' ) . ' </p>';
 
 				echo "<br class='clear'/>\n";
 
