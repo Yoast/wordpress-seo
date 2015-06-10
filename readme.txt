@@ -120,9 +120,9 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 
 == Changelog ==
 
-= 2.2-RC =
+= 2.2 =
 
-Release Date: June 3rd, 2015
+Release Date: June 10th, 2015
 
 * Enhancements:
 	* Contains several accessibility improvements, including 'for' attributes for labels and several links to explanatory articles.

@@ -149,8 +149,8 @@ function wpseo_display_contributors( $contributors ) {
 
 	<div id="v22" class="wpseotab">
 
-		<h2>WordPress SEO 2.2-RC</h2>
-		<p><small>Release Date: June 3rd, 2015</small></p>
+		<h2>WordPress SEO 2.2</h2>
+		<p><small>Release Date: June 10th, 2015</small></p>
 
 		<h4>Enhancements:</h4>
 
