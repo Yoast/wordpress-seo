@@ -239,7 +239,8 @@ class WPSEO_Pointers {
 
 		return array(
 			'content'   => '<h3>' . __( 'General settings', 'wordpress-seo' ) . '</h3>'
-			               . '<p>' . __( 'These are the General settings for WordPress SEO by Yoast, here you can restart this tour or revert the WP SEO settings to default.', 'wordpress-seo' ) . '</p>'
+				/* translators: %s expands to WordPress SEO by Yoast */
+			               . '<p>' . sprintf( __( 'These are the General settings for %s, here you can restart this tour or revert the WP SEO settings to default.', 'wordpress-seo' ), 'WordPress SEO by Yoast' ) . '</p>'
 			               . '<p><strong>' . __( 'Tab: Your Info / Company Info', 'wordpress-seo' ) . '</strong><br/>' . __( 'Add some info here needed for Google\'s Knowledge Graph.', 'wordpress-seo' ) . '</p>'
 			               . '<p><strong>' . __( 'Tab: Webmaster Tools', 'wordpress-seo' ) . '</strong><br/>' . __( 'You can add the verification codes for the different Webmaster Tools programs here. We highly encourage you to check out both Google and Bing&#8217;s Webmaster Tools.', 'wordpress-seo' ) . '</p>'
 			               . '<p><strong>' . __( 'Tab: Security', 'wordpress-seo' ) . '</strong><br/>' . __( 'Determine who has access to the plugins advanced settings on the post edit screen.', 'wordpress-seo' ) . '</p>'
