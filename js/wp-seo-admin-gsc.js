@@ -60,8 +60,8 @@ function wpseo_mark_as_fixed(url) {
 	);
 }
 
-
 jQuery( document ).ready( function() {
+	'use strict';
 	jQuery('a.gsc_category').qtip(
 		{
 			content : {
