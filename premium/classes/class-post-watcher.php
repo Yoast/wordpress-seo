@@ -21,8 +21,6 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	 * Constructor of class
 	 */
 	public function __construct() {
-		add_action( 'admin_enqueue_scripts', array( $this, 'page_scripts' ) );
-
 		$this->set_hooks();
 	}
 
@@ -298,6 +296,8 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	 * Setting the hooks for the post watcher
 	 */
 	private function set_hooks() {
+		add_action( 'admin_enqueue_scripts', array( $this, 'page_scripts' ) );
+
 		// Add old URL field to post edit screen
 		add_action( 'edit_form_advanced', array( $this, 'old_url_field' ), 10, 1 );
 		add_action( 'edit_page_form', array( $this, 'old_url_field' ), 10, 1 );
