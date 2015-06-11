@@ -1,3 +1,6 @@
+### 2.2.1: June 11th, 2015
+* Merge with WordPress SEO core 2.2.1
+
 ### 2.2: June 10th, 2015
 * Adds a X-Redirect-By header to redirects that were created using WordPress SEO Premium. Works for all PHP redirects and regular NGINX redirects. Doesn't work for Apache.
 * Makes sure all AJAX notices become dismissible.
