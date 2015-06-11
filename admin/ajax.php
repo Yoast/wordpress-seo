@@ -56,16 +56,10 @@ function wpseo_set_ignore() {
 
 	$ignore_key = sanitize_text_field( filter_input( INPUT_POST, 'option' ) );
 
-	// Notices to be ignored for a specific user
-	if ( $ignore_key === 'tour' ) {
-		update_user_meta( get_current_user_id(), 'wpseo_ignore_' . $ignore_key, true );
-	}
-	// Notices to be ignored globally
-	else {
-		$options                          = get_option( 'wpseo' );
-		$options[ 'ignore_' . $ignore_key ] = true;
-		update_option( 'wpseo', $options );
-	}
+	$options                          = get_option( 'wpseo' );
+	$options[ 'ignore_' . $ignore_key ] = true;
+	update_option( 'wpseo', $options );
+
 	die( '1' );
 }
 
