@@ -13,7 +13,8 @@ var args = {
     dynamicDelay: true,
     targets: {
         output: "output",
-        overall: "overallScore"
+        overall: "overallScore",
+        snippet: "snippet"
     }
 };
 
@@ -28,6 +29,7 @@ AnalyzeLoader = function( args ) {
     this.inputs = {};
     this.bindEvent();
     this.defineElements();
+    this.createElements();
 };
 
 /**
@@ -122,6 +124,7 @@ AnalyzeLoader.prototype.runAnalyzer = function() {
     }
     this.pageAnalyzer = new Analyzer( this.inputs );
     this.pageAnalyzer.runQueue();
+    this.snippetPreview = new SnippetPreview( this.inputs, this.config.targets );
     this.scoreFormatter = new ScoreFormatter( this.pageAnalyzer, this.config.targets );
     if( this.config.dynamicDelay ){
         this.endTime();
@@ -223,6 +226,65 @@ ScoreFormatter.prototype.scoreRating = function( score ){
 };
 
 /**
+ * snippetpreview
+ */
+
+SnippetPreview = function(args, target) {
+    this.config = args;
+    this.outputTarget = target.snippet;
+    this.init();
+};
+
+SnippetPreview.prototype.init = function() {
+    if( this.config.pageTitle !== null && this.config.url !== null ) {
+        this.output = this.htmlOutput();
+        this.renderOutput();
+    }
+};
+
+SnippetPreview.prototype.htmlOutput = function() {
+    var html = {};
+    html.title = this.formatTitle();
+    html.cite = this.formatCite();
+    html.meta = this.formatMeta();
+    return html;
+};
+
+SnippetPreview.prototype.formatTitle = function() {
+    var title = this.config.pageTitle;
+    title = this.formatKeyword( title );
+    title = "<a href="+this.config.url+" class='title'>" + title + "</a>";
+    return title;
+};
+
+SnippetPreview.prototype.formatCite = function() {
+    var cite = this.config.url;
+    cite = this.formatKeyword( cite );
+    cite = "<cite class='url'>"+ cite + "</cite>";
+    return cite;
+};
+
+SnippetPreview.prototype.formatMeta = function() {
+    var meta = this.config.meta;
+    if(meta === ""){
+        meta = this.config.text.substring(analyzerConfig.maxMeta,0);
+    }
+    meta = this.formatKeyword( meta );
+    meta = "<span class='desc'>" + meta + "</span>";
+    return meta;
+};
+
+SnippetPreview.prototype.formatKeyword = function( textString ) {
+    var replacer = new RegExp(this.config.keyword, "g");
+    return textString.replace(replacer, "<strong>"+this.config.keyword+"</strong>" );
+};
+
+SnippetPreview.prototoype.renderOutput = function() {
+    var outputTarget = document.getElementById( this.outputTarget );
+    outputTarget.innerHTML = this.output.title + this.output.cite + this.output.meta;
+};
+
+/**
  * run at pageload to init the analyzeLoader for pageAnalysis.
  */
 loadEvents = function(){
@@ -233,6 +295,3 @@ loadEvents = function(){
     }
 };
 loadEvents();
-
-
-
