@@ -39,6 +39,7 @@ class WPSEO_Admin_Init {
 		$this->load_taxonomy_class();
 		$this->load_admin_page_class();
 		$this->load_admin_user_class();
+		$this->ignore_tour();
 		$this->load_tour();
 		$this->load_xml_sitemaps_admin();
 	}
@@ -198,5 +199,15 @@ class WPSEO_Admin_Init {
 		if ( $this->options['enablexmlsitemap'] === true ) {
 			new WPSEO_Sitemaps_Admin;
 		}
+	}
+
+	/**
+	 * Listener for the ignore tour GET value. If this one is set, just set the user meta to true
+	 */
+	private function ignore_tour() {
+		if ( filter_input( INPUT_GET, 'wpseo_ignore_tour' ) && wp_verify_nonce( filter_input( INPUT_GET, 'nonce' ), 'wpseo-ignore-tour' ) ) {
+			update_user_meta( get_current_user_id(), 'wpseo_ignore_tour', true );
+		}
+
 	}
 }
