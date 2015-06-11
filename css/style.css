@@ -68,3 +68,51 @@ html{
     border: 1px solid #e6db55;
     background-color: lightYellow;
 }
+
+
+#snippet_preview{
+    border: 1px solid #ddd;
+    width:512px
+}
+.title{
+    color:#1e0fbe;
+    display:block;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    text-decoration:none;
+    white-space:nowrap;
+    width:512px;
+    font-size:18px !important;
+    font-weight:normal;
+    margin:0}
+.title:visited{
+    color:#609
+}
+.url,.desc{
+    font-size:13px
+}
+.url{
+    color:#006621;
+    font-style:normal
+}
+.desc{
+    color:#545454
+}
+input,textarea{
+    width:540px;
+    padding:5px;
+    margin:5px 5px 5px 0;
+    font-size:14px;
+    display:block
+}
+textarea{
+    height:60px
+}
+label{
+    display:block;
+    width:200px;
+    font-size:14px;
+    padding-top:10px;
+    font-weight:bold;
+    vertical-align:text-bottom
+}

@@ -1,12 +1,8 @@
 var args = {
-    inputs: {
-        text: "textInput",
-        keyword: "keywordInput",
-        meta: "metaInput",
-        url: "urlInput",
-        title: "titleInput"
-    },
-    eventTargets: ["inputForm"],
+    analyzer: true,
+    snippetPreview: true,
+    inputType: "both",
+    elementTarget: "inputForm",
     typeDelay: 100,
     typeDelayStep: 100,
     maxTypeDelay: 1500,
@@ -33,6 +29,77 @@ AnalyzeLoader = function( args ) {
 };
 
 /**
+ * creates input elements in the DOM
+ */
+AnalyzeLoader.prototype.createElements = function() {
+    var targetElement = document.getElementById( this.config.elementTarget );
+    if( this.config.inputType === "both" || this.config.inputType === "inputs" ){
+        this.createInput("title", targetElement, "Title");
+    }
+    this.createText("text", targetElement, "text");
+    if( this.config.inputType === "both" || this.config.inputType === "inputs" ) {
+        this.createInput("url", targetElement, "URL");
+        this.createInput("meta", targetElement, "Metadescription");
+        this.createInput("keyword", targetElement, "Focus keyword");
+    }
+    this.createSnippetPreview();
+};
+
+AnalyzeLoader.prototype.createInput = function( type, targetElement, text ) {
+    this.createLabel ( type, targetElement, text);
+    var input = document.createElement("input");
+    input.type = "text";
+    input.id = type+"Input";
+    targetElement.appendChild( input );
+    this.createBr( targetElement );
+};
+
+AnalyzeLoader.prototype.createText = function( type, targetElement, text ) {
+    this.createLabel ( type, targetElement, text );
+    var textarea = document.createElement("textarea");
+
+    textarea.id = type+"Input";
+    targetElement.appendChild( textarea );
+    this.createBr( targetElement );
+};
+
+AnalyzeLoader.prototype.createLabel = function( type, targetElement, text ) {
+    var label = document.createElement("label");
+    label.innerText = text;
+    label.for = type+"Input";
+    targetElement.appendChild(label);
+
+};
+
+AnalyzeLoader.prototype.createBr = function( targetElement ) {
+    var br = document.createElement("br");
+    targetElement.appendChild(br);
+};
+
+AnalyzeLoader.prototype.createSnippetPreview = function() {
+    var targetElement = document.getElementById(this.config.targets.snippet);
+    var div = document.createElement( "div" );
+    div.id = "snippet_preview";
+    if(this.config.inputType === "both" || this.config.inputType === "inline"){
+        div.contentEditable = true;
+    }
+    var title = document.createElement( "a" );
+    title.className = "title";
+    title.id = "snippet_title";
+    div.appendChild( title );
+    var cite = document.createElement( "cite" );
+    cite.className = "url";
+    cite.id = "snippet_cite";
+    div.appendChild( cite );
+    this.createBr( div );
+    var meta = document.createElement( "span" );
+    meta.className = "desc";
+    meta.id = "snippet_meta";
+    div.appendChild( meta );
+    targetElement.appendChild( div );
+};
+
+/**
  * defines the target element to be used for the output on the page
  */
 AnalyzeLoader.prototype.defineElements = function() {
@@ -54,11 +121,17 @@ AnalyzeLoader.prototype.getInput = function() {
  * binds the 'input'event to the targetform/input. This will trigger the analyzeTimer function.
  */
 AnalyzeLoader.prototype.bindEvent = function() {
-    for ( var i = 0; i < this.config.eventTargets.length; i++ ){
-        var elem = document.getElementById( this.config.eventTargets[i] );
-        elem.__refObj = this;
-        elem.addEventListener( "input", this.analyzeTimer );
+    var elem = document.getElementById( this.config.elementTarget );
+    elem.__refObj = this;
+    elem.addEventListener( "input", this.analyzeTimer );
+    if( this.config.inputType === "both" || this.config.inputType === "inline"){
+        var snippetElem = document.getElementById( this.config.targets.snippet );
+        snippetElem.addEventListener( "input", this,callBackSnippetData );
     }
+};
+
+AnalyzeLoader.prototype.callBackSnippetData = function(){
+    document.getElementById("inputMeta")document.getElementById( "snippet_title")
 };
 
 /**
@@ -279,9 +352,10 @@ SnippetPreview.prototype.formatKeyword = function( textString ) {
     return textString.replace(replacer, "<strong>"+this.config.keyword+"</strong>" );
 };
 
-SnippetPreview.prototoype.renderOutput = function() {
-    var outputTarget = document.getElementById( this.outputTarget );
-    outputTarget.innerHTML = this.output.title + this.output.cite + this.output.meta;
+SnippetPreview.prototype.renderOutput = function() {
+    document.getElementById( "snippet_title").innerHTML = this.output.title;
+    document.getElementById( "snippet_cite").innerHTML = this.output.cite;
+    document.getElementById( "snippet_meta").innerHTML = this.output.meta;
 };
 
 /**
