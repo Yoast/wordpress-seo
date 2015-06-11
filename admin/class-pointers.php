@@ -349,7 +349,7 @@ class WPSEO_Pointers {
 		$arr_params = array(
 			'wpseo_restart_tour' => false,
 			'wpseo_ignore_tour'  => '1',
-			'nonce'              => wp_create_nonce( 'wpseo-ignore-tour' )
+			'nonce'              => wp_create_nonce( 'wpseo-ignore-tour' ),
 		);
 
 		return esc_url( add_query_arg( $arr_params ) );
