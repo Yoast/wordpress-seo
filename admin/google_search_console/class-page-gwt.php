@@ -25,6 +25,9 @@ class WPSEO_Page_GWT {
 		// Settings
 		add_action( 'admin_init', array( $this, 'register_settings' ) );
 
+		// Post to Get on search
+		add_action( 'admin_init', array( $this, 'list_table_search_post_to_get' ) );
+
 		// Setting the screen option
 		if ( filter_input( INPUT_GET, 'page' ) === 'wpseo_webmaster_tools' ) {
 			add_filter( 'set-screen-option', array( $this, 'set_screen_option' ), 11, 3 );
@@ -89,6 +92,7 @@ class WPSEO_Page_GWT {
 		wp_enqueue_style( 'metabox-tabs', plugins_url( 'css/metabox-tabs' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
 		wp_enqueue_script( 'jquery-qtip', plugins_url( 'js/jquery.qtip.min.js', WPSEO_FILE ), array( 'jquery' ), '2.2.1', true );
 	}
+
 	/**
 	 * Set the screen options
 	 *
@@ -101,6 +105,26 @@ class WPSEO_Page_GWT {
 	public function set_screen_option( $status, $option, $value ) {
 		if ( 'errors_per_page' == $option ) {
 			return $value;
+		}
+	}
+
+	/**
+	 * Catch the redirects search post and redirect it to a search get
+	 */
+	public function list_table_search_post_to_get() {
+
+		if ( $search_string = filter_input( INPUT_POST, 's' ) ) {
+
+			// Check if the POST is on one of our pages
+			if ( filter_input( INPUT_GET, 'page' ) !== 'wpseo_webmaster_tools' ) {
+				return;
+			}
+
+			$url = add_query_arg( 's', $search_string );
+
+			// Do the redirect
+			wp_redirect( $url );
+			exit;
 		}
 	}
 
