@@ -54,6 +54,9 @@ class WPSEO_GWT_Service {
 					$sites[ str_ireplace( 'sites/', '', (string) $entry->siteUrl ) ] = (string) $entry->siteUrl;
 				}
 			}
+
+			// Sorting the retrieved sites
+			asort( $sites );
 		}
 
 		return $sites;
