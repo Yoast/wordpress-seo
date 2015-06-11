@@ -63,7 +63,6 @@ class WPSEO_Crawl_Issue_Count {
 	 * Store the timestamp of when crawl errors were saved the last time.
 	 */
 	private function save_last_fetch() {
-		$this->remove_last_fetch();
 		add_option( self::OPTION_CI_LAST_FETCH, time(), '', 'no' );
 	}
 
