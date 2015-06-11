@@ -118,7 +118,7 @@ class WPSEO_Pointers {
 
 				wpseo_pointer_options = $.extend(wpseo_pointer_options, {
 					buttons: function (event, t) {
-						var button = jQuery('<a id="pointer-close" style="margin:0 5px;" class="button-secondary">' + '<?php _e( 'Close', 'wordpress-seo' ) ?>' + '</a>');
+						var button = jQuery('<a href="<?php echo $this->get_ignore_url(); ?>" id="pointer-close" style="margin:0 5px;" class="button-secondary">' + '<?php _e( 'Close', 'wordpress-seo' ) ?>' + '</a>');
 						button.bind('click.pointer', function () {
 							t.element.pointer('close');
 						});
@@ -134,9 +134,6 @@ class WPSEO_Pointers {
 					$this->button2();
 					$this->button3();
 					?>
-					jQuery('#pointer-close').click(function () {
-					wpseoSetIgnore("tour", "wp-pointer-0", "<?php echo esc_js( wp_create_nonce( 'wpseo-ignore' ) ); ?>");
-					});
 				};
 
 				if (wpseo_pointer_options.position && wpseo_pointer_options.position.defer_loading)
@@ -341,5 +338,20 @@ class WPSEO_Pointers {
 			               . '<p>' . sprintf( __( 'Thank you for using our plugin and good luck with your SEO!<br/><br/>Best,<br/>Team Yoast - %1$sYoast.com%2$s', 'wordpress-seo' ), '<a target="_blank" href="' . esc_url( 'https://yoast.com/#utm_source=wpseo_licenses&utm_medium=wpseo_tour&utm_campaign=tour' ) . '">', '</a>' ) . '</p>',
 			'prev_page' => 'advanced',
 		);
+	}
+
+	/**
+	 * Extending the current page URL with two params to be able to ignore the tour.
+	 *
+	 * @return mixed
+	 */
+	private function get_ignore_url() {
+		$arr_params = array(
+			'wpseo_restart_tour' => false,
+			'wpseo_ignore_tour'  => '1',
+			'nonce'              => wp_create_nonce( 'wpseo-ignore-tour' ),
+		);
+
+		return esc_url( add_query_arg( $arr_params ) );
 	}
 } /* End of class */

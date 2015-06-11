@@ -130,7 +130,7 @@ Release Date: June 10th, 2015
 	* Add Google's mobile friendly test to the SEO toolbar, props [Brandon Hubbard](https://github.com/bhubbard).
 	* Makes sure slugs are not being stripped if the remaining slug is less than 3 characters, props [andyexeter](https://github.com/andyexeter).
 	* Shows an activation error when dependencies were not installed properly with composer.
-	* Added a filter to allow the the RSS footer to be dynamically shown/hidden, props [Hugh Lashbrooke](https://github.com/hlashbrooke).
+	* Added a filter to allow the RSS footer to be dynamically shown/hidden, props [Hugh Lashbrooke](https://github.com/hlashbrooke).
 	* Added many translator comments to help translators more easily get the context.
 	* Made sure Open Graph article tags are added separately, following up on the Open Graph specification.
 	* Adds recommended image sizes per Social network in the social tab of the 	SEO metabox.
