@@ -207,7 +207,6 @@ class WPSEO_Admin_Init {
 	private function ignore_tour() {
 		if ( filter_input( INPUT_GET, 'wpseo_ignore_tour' ) && wp_verify_nonce( filter_input( INPUT_GET, 'nonce' ), 'wpseo-ignore-tour' ) ) {
 			update_user_meta( get_current_user_id(), 'wpseo_ignore_tour', true );
-			remove_query_arg( array( 'nonce', 'wpseo_ignore_tour' ) );
 		}
 
 	}
