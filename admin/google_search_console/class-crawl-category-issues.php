@@ -24,6 +24,11 @@ class WPSEO_Crawl_Category_Issues {
 	private $platform;
 
 	/**
+	 * @var string
+	 */
+	private $option_name = '';
+
+	/**
 	 * List of all current issues to compare with received issues
 	 *
 	 * @var array
@@ -31,9 +36,11 @@ class WPSEO_Crawl_Category_Issues {
 	private $current_issues = array();
 
 	/**
-	 * @var string
+	 * Holder for all the issues
+	 *
+	 * @var array
 	 */
-	private $option_name = '';
+	private $issues = array();
 
 	/**
 	 * Setting up the properties and fetching the current issues
