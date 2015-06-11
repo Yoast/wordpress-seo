@@ -2,9 +2,9 @@
 # This file is distributed under the GPL v3.
 msgid ""
 msgstr ""
-"Project-Id-Version: WordPress SEO 2.2\n"
+"Project-Id-Version: WordPress SEO 2.2.1\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo/issues\n"
-"POT-Creation-Date: 2015-06-10 09:02:59+00:00\n"
+"POT-Creation-Date: 2015-06-11 11:56:09+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -24,31 +24,31 @@ msgstr ""
 "X-Poedit-Bookmarks: \n"
 "X-Textdomain-Support: yes\n"
 
-#: admin/ajax.php:108
+#: admin/ajax.php:102
 msgid "Some files could not be removed. Please remove them via FTP."
 msgstr ""
 
-#: admin/ajax.php:230
+#: admin/ajax.php:224
 msgid "Post doesn't exist."
 msgstr ""
 
-#: admin/ajax.php:239
+#: admin/ajax.php:233
 msgid "Post has an invalid Post Type: %s."
 msgstr ""
 
-#: admin/ajax.php:247
+#: admin/ajax.php:241
 msgid "You can't edit %s."
 msgstr ""
 
-#: admin/ajax.php:255
+#: admin/ajax.php:249
 msgid "You can't edit %s that aren't yours."
 msgstr ""
 
-#: admin/ajax.php:263
+#: admin/ajax.php:257
 msgid "You have used HTML in your value which is not allowed."
 msgstr ""
 
-#: admin/class-admin-init.php:68
+#: admin/class-admin-init.php:69
 msgid ""
 "WordPress SEO by Yoast has been updated to version %1$s. %2$sClick here%3$s "
 "to find out what's new!"
@@ -77,7 +77,7 @@ msgstr ""
 msgid "Social"
 msgstr ""
 
-#: admin/class-admin.php:122 admin/class-pointers.php:307
+#: admin/class-admin.php:122 admin/class-pointers.php:304
 #: inc/wpseo-non-ajax-functions.php:419
 msgid "XML Sitemaps"
 msgstr ""
@@ -92,7 +92,7 @@ msgid "Tools"
 msgstr ""
 
 #: admin/class-admin.php:152 admin/class-admin.php:241
-#: admin/class-pointers.php:338 admin/pages/licenses.php:72
+#: admin/class-pointers.php:335 admin/pages/licenses.php:72
 #: inc/wpseo-non-ajax-functions.php:431
 msgid "Extensions"
 msgstr ""
@@ -192,7 +192,7 @@ msgid "FAQ"
 msgstr ""
 
 #: admin/class-admin.php:441 admin/class-opengraph-admin.php:43
-#: admin/class-pointers.php:293 admin/pages/social.php:24
+#: admin/class-pointers.php:290 admin/pages/social.php:24
 msgid "Google+"
 msgstr ""
 
@@ -1052,12 +1052,12 @@ msgstr ""
 msgid "The recommended image size for %1$s is %2$spx."
 msgstr ""
 
-#: admin/class-opengraph-admin.php:41 admin/class-pointers.php:289
+#: admin/class-opengraph-admin.php:41 admin/class-pointers.php:286
 #: admin/pages/social.php:21
 msgid "Facebook"
 msgstr ""
 
-#: admin/class-opengraph-admin.php:42 admin/class-pointers.php:291
+#: admin/class-opengraph-admin.php:42 admin/class-pointers.php:288
 #: admin/pages/social.php:22
 msgid "Twitter"
 msgstr ""
@@ -1104,52 +1104,52 @@ msgstr ""
 msgid "Close"
 msgstr ""
 
-#: admin/class-pointers.php:186
+#: admin/class-pointers.php:183
 msgid "Congratulations!"
 msgstr ""
 
-#: admin/class-pointers.php:187
+#: admin/class-pointers.php:184
 msgid ""
 "You&#8217;ve just installed WordPress SEO by Yoast! Click &#8220;Start "
 "Tour&#8221; to view a quick introduction of this plugin&#8217;s core "
 "functionality."
 msgstr ""
 
-#: admin/class-pointers.php:193 admin/pages/dashboard.php:159
+#: admin/class-pointers.php:190 admin/pages/dashboard.php:159
 msgid "Start Tour"
 msgstr ""
 
-#: admin/class-pointers.php:219
+#: admin/class-pointers.php:216
 msgid "Next"
 msgstr ""
 
-#: admin/class-pointers.php:225
+#: admin/class-pointers.php:222
 msgid "Previous"
 msgstr ""
 
-#: admin/class-pointers.php:241
+#: admin/class-pointers.php:238
 msgid "General settings"
 msgstr ""
 
-#: admin/class-pointers.php:242
+#: admin/class-pointers.php:239
 msgid ""
 "These are the General settings for\tWordPress SEO, here you can restart "
 "this tour or revert the WP SEO settings to default."
 msgstr ""
 
-#: admin/class-pointers.php:243
+#: admin/class-pointers.php:240
 msgid "Tab: Your Info / Company Info"
 msgstr ""
 
-#: admin/class-pointers.php:243
+#: admin/class-pointers.php:240
 msgid "Add some info here needed for Google's Knowledge Graph."
 msgstr ""
 
-#: admin/class-pointers.php:244
+#: admin/class-pointers.php:241
 msgid "Tab: Webmaster Tools"
 msgstr ""
 
-#: admin/class-pointers.php:244
+#: admin/class-pointers.php:241
 msgid ""
 "You can add the verification codes for the different Webmaster Tools "
 "programs here, we highly encourage you to check out both Google and "
@@ -1157,124 +1157,124 @@ msgid ""
 "\tWebmaster Tools."
 msgstr ""
 
-#: admin/class-pointers.php:246
+#: admin/class-pointers.php:243
 msgid "Tab: Security"
 msgstr ""
 
-#: admin/class-pointers.php:246
+#: admin/class-pointers.php:243
 msgid ""
 "Determine who has access to the plugins advanced settings on the post edit "
 "screen."
 msgstr ""
 
-#: admin/class-pointers.php:247
+#: admin/class-pointers.php:244
 msgid "More WordPress SEO"
 msgstr ""
 
-#: admin/class-pointers.php:247
+#: admin/class-pointers.php:244
 msgid ""
 "There&#8217;s more to learn about WordPress &amp; SEO than just using this "
 "plugin. A great start is our article %1$sthe definitive guide\n"
 "\tto WordPress SEO%2$s."
 msgstr ""
 
-#: admin/class-pointers.php:250
+#: admin/class-pointers.php:247
 msgid "Subscribe to our Newsletter"
 msgstr ""
 
-#: admin/class-pointers.php:251
+#: admin/class-pointers.php:248
 msgid ""
 "If you would like us to keep you up-to-date regarding WordPress SEO and "
 "other plugins by Yoast, subscribe to our newsletter:"
 msgstr ""
 
-#: admin/class-pointers.php:254
+#: admin/class-pointers.php:251
 msgid "Email"
 msgstr ""
 
-#: admin/class-pointers.php:256
+#: admin/class-pointers.php:253
 msgid "Subscribe"
 msgstr ""
 
-#: admin/class-pointers.php:270
+#: admin/class-pointers.php:267
 msgid "Title &amp; Metas settings"
 msgstr ""
 
-#: admin/class-pointers.php:271
+#: admin/class-pointers.php:268
 msgid ""
 "This is where you\tset the titles and meta-information for all your post "
 "types, taxonomies, archives, special pages and for your homepage. The page "
 "is divided into different tabs. Make sure you check &#8217;em all out!"
 msgstr ""
 
-#: admin/class-pointers.php:272
+#: admin/class-pointers.php:269
 msgid "Sitewide settings"
 msgstr ""
 
-#: admin/class-pointers.php:272
+#: admin/class-pointers.php:269
 msgid ""
 "The first tab will show you site-wide settings for titles, normally you'll "
 "only need to change the Title Separator."
 msgstr ""
 
-#: admin/class-pointers.php:273
+#: admin/class-pointers.php:270
 msgid "Templates and settings"
 msgstr ""
 
-#: admin/class-pointers.php:273
+#: admin/class-pointers.php:270
 msgid ""
 "Now click on the &#8216;%1$sPost Types%2$s&#8217;-tab, as this will be our "
 "example."
 msgstr ""
 
-#: admin/class-pointers.php:273
+#: admin/class-pointers.php:270
 msgid ""
 "The templates are built using variables. You can find all these variables "
 "in the help tab (in the top-right corner of the page). The settings allow "
 "you to set specific behavior for the post types."
 msgstr ""
 
-#: admin/class-pointers.php:274 admin/pages/metas.php:24
+#: admin/class-pointers.php:271 admin/pages/metas.php:24
 #: frontend/class-frontend.php:523 frontend/class-frontend.php:544
 msgid "Archives"
 msgstr ""
 
-#: admin/class-pointers.php:274
+#: admin/class-pointers.php:271
 msgid ""
 "On the archives tab you can set templates for specific pages like author "
 "archives, search results and more."
 msgstr ""
 
-#: admin/class-pointers.php:275 admin/class-pointers.php:294
+#: admin/class-pointers.php:272 admin/class-pointers.php:291
 #: admin/pages/metas.php:25
 msgid "Other"
 msgstr ""
 
-#: admin/class-pointers.php:275
+#: admin/class-pointers.php:272
 msgid ""
 "On the Other tab you can change sitewide meta settings, like enable meta "
 "keywords."
 msgstr ""
 
-#: admin/class-pointers.php:288
+#: admin/class-pointers.php:285
 msgid "Social settings"
 msgstr ""
 
-#: admin/class-pointers.php:289
+#: admin/class-pointers.php:286
 msgid ""
 "On this tab you can enable the %1$sFacebook Open Graph%2$s functionality "
 "from this plugin, as well as assign a Facebook user or Application to be "
 "the admin of your site, so you can view the Facebook insights."
 msgstr ""
 
-#: admin/class-pointers.php:290
+#: admin/class-pointers.php:287
 msgid ""
 "The frontpage settings allow you to set meta-data for your homepage, "
 "whereas the default settings allow you to set a fallback for all "
 "posts/pages without images. "
 msgstr ""
 
-#: admin/class-pointers.php:291
+#: admin/class-pointers.php:288
 msgid ""
 "With %1$sTwitter Cards%2$s, you can attach rich photos, videos and media "
 "experience to tweets that drive traffic to your website. Simply check the "
@@ -1283,34 +1283,34 @@ msgid ""
 "all of their followers."
 msgstr ""
 
-#: admin/class-pointers.php:292 admin/pages/social.php:23
+#: admin/class-pointers.php:289 admin/pages/social.php:23
 msgid "Pinterest"
 msgstr ""
 
-#: admin/class-pointers.php:292
+#: admin/class-pointers.php:289
 msgid ""
 "On this tab you can verify your site with Pinterest and enter your "
 "Pinterest account."
 msgstr ""
 
-#: admin/class-pointers.php:293
+#: admin/class-pointers.php:290
 msgid ""
 "This tab allows you to add specific post meta data for Google+. And if you "
 "have a Google+ page for your business, add that URL here and link it on "
 "your %1$sGoogle+%2$s page&#8217;s about page."
 msgstr ""
 
-#: admin/class-pointers.php:294
+#: admin/class-pointers.php:291
 msgid ""
 "On this tab you can enter some more of your social accounts, mostly used "
 "for Google's Knowledge Graph."
 msgstr ""
 
-#: admin/class-pointers.php:308
+#: admin/class-pointers.php:305
 msgid "What are XML sitemaps?"
 msgstr ""
 
-#: admin/class-pointers.php:308
+#: admin/class-pointers.php:305
 msgid ""
 "A Sitemap is an XML file that lists the URLs for a site. It allows "
 "webmasters to include additional information about each URL: when it was "
@@ -1319,44 +1319,44 @@ msgid ""
 "intelligently."
 msgstr ""
 
-#: admin/class-pointers.php:309
+#: admin/class-pointers.php:306
 msgid "What does the plugin do with XML Sitemaps?"
 msgstr ""
 
-#: admin/class-pointers.php:309
+#: admin/class-pointers.php:306
 msgid ""
 "This plugin adds XML sitemaps to your site. The sitemaps are automatically "
 "updated when you publish a new post, page or custom post and Google and "
 "Bing will be automatically notified."
 msgstr ""
 
-#: admin/class-pointers.php:310
+#: admin/class-pointers.php:307
 msgid ""
 "If you want to exclude certain post types and/or taxonomies, you can also "
 "set that on this page."
 msgstr ""
 
-#: admin/class-pointers.php:311
+#: admin/class-pointers.php:308
 msgid ""
 "Is your webserver low on memory? Decrease the entries per sitemap (default: "
 "1000) to reduce load."
 msgstr ""
 
-#: admin/class-pointers.php:324
+#: admin/class-pointers.php:321
 msgid "Advanced Settings"
 msgstr ""
 
-#: admin/class-pointers.php:324
+#: admin/class-pointers.php:321
 msgid ""
 "All of the options on these tabs are for advanced users only, if you "
 "don&#8217;t know whether you should check any, don&#8217;t touch them."
 msgstr ""
 
-#: admin/class-pointers.php:337
+#: admin/class-pointers.php:334
 msgid "Extensions and Licenses"
 msgstr ""
 
-#: admin/class-pointers.php:338
+#: admin/class-pointers.php:335
 msgid ""
 "The powerful functions of WordPress SEO can be extended with %1$sYoast "
 "premium plugins%2$s. These premium plugins require the installation of "
@@ -1364,11 +1364,11 @@ msgid ""
 "can read all about the Yoast Premium Plugins %1$shere%2$s."
 msgstr ""
 
-#: admin/class-pointers.php:339 admin/pages/licenses.php:73
+#: admin/class-pointers.php:336 admin/pages/licenses.php:73
 msgid "Licenses"
 msgstr ""
 
-#: admin/class-pointers.php:339
+#: admin/class-pointers.php:336
 msgid ""
 "Once you&#8217;ve purchased WordPress SEO Premium or any other premium "
 "Yoast plugin, you&#8217;ll have to enter a license key. You can do so on "
@@ -1376,17 +1376,17 @@ msgid ""
 "use all its powerful features."
 msgstr ""
 
-#: admin/class-pointers.php:340
+#: admin/class-pointers.php:337
 msgid "Like this plugin?"
 msgstr ""
 
-#: admin/class-pointers.php:340
+#: admin/class-pointers.php:337
 msgid ""
 "So, we&#8217;ve come to the end of the tour. If you like the plugin, please "
 "%srate it 5 stars on WordPress.org%s!"
 msgstr ""
 
-#: admin/class-pointers.php:341
+#: admin/class-pointers.php:338
 msgid ""
 "Thank you for using our plugin and good luck with your "
 "SEO!<br/><br/>Best,<br/>Team Yoast - %1$sYoast.com%2$s"
@@ -2538,46 +2538,46 @@ msgstr ""
 msgid "Go to The General settings page →"
 msgstr ""
 
-#: admin/views/about.php:221
+#: admin/views/about.php:230
 msgid ""
 "While most of the development team is at %1$sYoast%2$s in the Netherlands, "
 "WordPress SEO by Yoast is created by a worldwide team."
 msgstr ""
 
-#: admin/views/about.php:223
+#: admin/views/about.php:232
 msgid "Want to help us develop? Read our %1$scontribution guidelines%2$s!"
 msgstr ""
 
-#: admin/views/about.php:227
+#: admin/views/about.php:236
 msgid "Project Leaders"
 msgstr ""
 
-#: admin/views/about.php:233
+#: admin/views/about.php:242
 msgid "Project Lead"
 msgstr ""
 
-#: admin/views/about.php:238 admin/views/about.php:243
+#: admin/views/about.php:247 admin/views/about.php:252
 msgid "Lead Developer"
 msgstr ""
 
-#: admin/views/about.php:248
+#: admin/views/about.php:257
 msgid "QA & Translations Manager"
 msgstr ""
 
-#: admin/views/about.php:256
+#: admin/views/about.php:265
 msgid "Contributing Developers"
 msgstr ""
 
-#: admin/views/about.php:262 admin/views/about.php:267
-#: admin/views/about.php:272 admin/views/about.php:277
+#: admin/views/about.php:271 admin/views/about.php:276
+#: admin/views/about.php:281 admin/views/about.php:286
 msgid "Developer"
 msgstr ""
 
-#: admin/views/about.php:285
+#: admin/views/about.php:294
 msgid "Contributors to this release"
 msgstr ""
 
-#: admin/views/about.php:294
+#: admin/views/about.php:303
 msgid ""
 "We're always grateful for patches from non-regular contributors, this "
 "release, patches from the following people made it in:"
