@@ -341,7 +341,7 @@ class WPSEO_Pointers {
 	}
 
 	/**
-	 * Extending the current page URL with two params to be able to ignore the tour
+	 * Extending the current page URL with two params to be able to ignore the tour.
 	 *
 	 * @return mixed
 	 */

@@ -202,7 +202,7 @@ class WPSEO_Admin_Init {
 	}
 
 	/**
-	 * Listener for the ignore tour GET value. If this one is set, just set the user meta to true
+	 * Listener for the ignore tour GET value. If this one is set, just set the user meta to true.
 	 */
 	private function ignore_tour() {
 		if ( filter_input( INPUT_GET, 'wpseo_ignore_tour' ) && wp_verify_nonce( filter_input( INPUT_GET, 'nonce' ), 'wpseo-ignore-tour' ) ) {
