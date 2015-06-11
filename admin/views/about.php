@@ -152,10 +152,8 @@ function wpseo_display_contributors( $contributors ) {
 		<h2>WordPress SEO 2.2.1</h2>
 		<p><small>Release Date: June 11th, 2015</small></p>
 
-		<h4>Bugfixes:</h4>
-
 		<ul class="ul-disc">
-			<li>Fixes reported caching issues with regard to closing the tour, by making the close button do a page request instead of an AJAX call.</li>
+			<li>Makes sure users can close the tour by circumventing possible JavaScript caching issues that might occur.</li>
 		</ul>
 
 		<h2>WordPress SEO 2.2</h2>

@@ -124,8 +124,7 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 
 Release Date: June 11th, 2015
 
-* Bugfixes:
-	* Fixes reported caching issues with regard to closing the tour, by making the close button do a page request instead of an AJAX call.
+* Makes sure users can close the tour by circumventing possible JavaScript caching issues that might occur.
 
 = 2.2 =
 
