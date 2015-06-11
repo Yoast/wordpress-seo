@@ -42,7 +42,7 @@ function wpseo_display_contributors( $contributors ) {
 			echo sprintf( __( 'What’s New In %s', 'wordpress-seo' ), '2.0' );
 			?>
 		</a>
-		<a class="nav-tab nav-tab-active" href="#top#v22" id="v22-tab">2.2</a>
+		<a class="nav-tab nav-tab-active" href="#top#v221" id="v221-tab">2.2.1</a>
 		<a class="nav-tab" href="#top#credits" id="credits-tab"><?php _e( 'Credits', 'wordpress-seo' ); ?></a>
 	</h2>
 
@@ -147,7 +147,16 @@ function wpseo_display_contributors( $contributors ) {
 
 	</div>
 
-	<div id="v22" class="wpseotab">
+	<div id="v221" class="wpseotab">
+
+		<h2>WordPress SEO 2.2.1</h2>
+		<p><small>Release Date: June 11th, 2015</small></p>
+
+		<h4>Bugfixes:</h4>
+
+		<ul class="ul-disc">
+			<li>Fixes reported caching issues with regard to closing the tour, by making the close button do a page request instead of an AJAX call.</li>
+		</ul>
 
 		<h2>WordPress SEO 2.2</h2>
 		<p><small>Release Date: June 10th, 2015</small></p>
