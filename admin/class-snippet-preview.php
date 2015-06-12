@@ -5,12 +5,11 @@
  */
 
 /**
- * class WPSEO_Snippet_Preview
+ * Class WPSEO_Snippet_Preview
  *
  * Generates a Google Search snippet preview.
  *
  * Takes a $post, $title and $description
- *
  */
 class WPSEO_Snippet_Preview {
 	/**
@@ -150,7 +149,7 @@ HTML;
 	protected function set_content_through_filter( $content ) {
 		$properties = get_object_vars( $this );
 
-		// Backward compatibility for functions hooking into the wpseo_snippet filter
+		// Backward compatibility for functions hooking into the wpseo_snippet filter.
 		$properties['desc'] = $properties['description'];
 
 		/**

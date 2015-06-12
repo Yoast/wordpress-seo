@@ -43,5 +43,5 @@ if ( ! defined( 'WPSEO_FILE' ) ) {
 	define( 'WPSEO_FILE', __FILE__ );
 }
 
-// Load the WordPress SEO plugin
+// Load the WordPress SEO plugin.
 require_once( dirname( __FILE__ ) . '/wp-seo-main.php' );

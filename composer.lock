@@ -298,12 +298,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards.git",
-                "reference": "d2482fb58ab715f9a51b615993fc0abc4db6005e"
+                "reference": "7f935b83634e28bc75d217d34f9455d69fe1569c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/WordPress-Coding-Standards/WordPress-Coding-Standards/zipball/d2482fb58ab715f9a51b615993fc0abc4db6005e",
-                "reference": "d2482fb58ab715f9a51b615993fc0abc4db6005e",
+                "url": "https://api.github.com/repos/WordPress-Coding-Standards/WordPress-Coding-Standards/zipball/7f935b83634e28bc75d217d34f9455d69fe1569c",
+                "reference": "7f935b83634e28bc75d217d34f9455d69fe1569c",
                 "shasum": ""
             },
             "require": {
@@ -326,7 +326,7 @@
                 "standards",
                 "wordpress"
             ],
-            "time": "2015-05-29 20:16:04"
+            "time": "2015-06-04 12:13:26"
         },
         {
             "name": "yoast/yoastcs",
@@ -334,12 +334,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Yoast/yoastcs.git",
-                "reference": "107603bda418fe2643c149d78db2a24f970a983e"
+                "reference": "a86617ec079562cbd095ddbb0baf3311cc6b2c59"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Yoast/yoastcs/zipball/107603bda418fe2643c149d78db2a24f970a983e",
-                "reference": "107603bda418fe2643c149d78db2a24f970a983e",
+                "url": "https://api.github.com/repos/Yoast/yoastcs/zipball/a86617ec079562cbd095ddbb0baf3311cc6b2c59",
+                "reference": "a86617ec079562cbd095ddbb0baf3311cc6b2c59",
                 "shasum": ""
             },
             "require": {
@@ -367,7 +367,7 @@
                 "standards",
                 "wordpress"
             ],
-            "time": "2015-05-25 12:13:22"
+            "time": "2015-06-05 17:38:40"
         }
     ],
     "aliases": [],

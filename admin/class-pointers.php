@@ -83,7 +83,7 @@ class WPSEO_Pointers {
 	 * @param array  $options  The options for the pointer.
 	 */
 	public function print_scripts( $selector, $options ) {
-		// button1 is the close button, which always exists.
+		// Button1 is the close button, which always exists.
 		$button_array_defaults = array(
 			'button2' => array(
 				'text'     => false,

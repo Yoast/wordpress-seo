@@ -57,7 +57,7 @@ if ( isset( $_POST['import'] ) || isset( $_GET['import'] ) ) {
 		$import->import_yoast_breadcrumbs();
 	}
 
-	// Allow custom import actions
+	// Allow custom import actions.
 	do_action( 'wpseo_handle_import' );
 
 }
@@ -75,7 +75,7 @@ if ( isset( $import ) ) {
 	 */
 	$msg = apply_filters( 'wpseo_import_message', $import->msg );
 
-	// Check if we've deleted old data and adjust message to match it
+	// Check if we've deleted old data and adjust message to match it.
 	if ( $replace ) {
 		$msg .= ' ' . __( 'The old data of the imported plugin was deleted successfully.', 'wordpress-seo' );
 	}

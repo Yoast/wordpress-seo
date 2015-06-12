@@ -97,7 +97,7 @@ class WPSEO_JSON_LD {
 	 *
 	 * @since 1.8
 	 *
-	 * @param string $context The context of the output, useful for filtering
+	 * @param string $context The context of the output, useful for filtering.
 	 */
 	private function output( $context ) {
 		/**
@@ -105,12 +105,12 @@ class WPSEO_JSON_LD {
 		 *
 		 * @api array $output The output array, before its JSON encoded
 		 *
-		 * @param string $context The context of the output, useful to determine whether to filter or not
+		 * @param string $context The context of the output, useful to determine whether to filter or not.
 		 */
 		$this->data = apply_filters( 'wpseo_json_ld_output', $this->data, $context );
 
 		if ( function_exists( 'wp_json_encode' ) ) {
-			$json_data = wp_json_encode( $this->data );  // wp_json_encode was introduced in WP 4.1
+			$json_data = wp_json_encode( $this->data );  // Function wp_json_encode() was introduced in WP 4.1.
 		}
 		else {
 			$json_data = json_encode( $this->data );

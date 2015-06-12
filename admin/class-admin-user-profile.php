@@ -36,7 +36,7 @@ class WPSEO_Admin_User_Profile {
 	/**
 	 * Updates the user metas that (might) have been set on the user profile page.
 	 *
-	 * @param    int $user_id of the updated user
+	 * @param    int $user_id of the updated user.
 	 */
 	public function process_user_option_update( $user_id ) {
 
