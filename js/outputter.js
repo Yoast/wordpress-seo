@@ -3,7 +3,7 @@ var args = {
     snippetPreview: true,
     inputType: "both",
     elementTarget: "inputForm",
-    typeDelay: 100,
+    typeDelay: 300,
     typeDelayStep: 100,
     maxTypeDelay: 1500,
     dynamicDelay: true,
@@ -23,9 +23,9 @@ AnalyzeLoader = function( args ) {
     window.analyzeLoader = this;
     this.config = args;
     this.inputs = {};
-    this.bindEvent();
     this.defineElements();
     this.createElements();
+    this.bindEvent();
 };
 
 /**
@@ -37,6 +37,8 @@ AnalyzeLoader.prototype.createElements = function() {
         this.createInput("title", targetElement, "Title");
     }
     this.createText("text", targetElement, "text");
+
+
     if( this.config.inputType === "both" || this.config.inputType === "inputs" ) {
         this.createInput("url", targetElement, "URL");
         this.createInput("meta", targetElement, "Metadescription");
@@ -80,21 +82,30 @@ AnalyzeLoader.prototype.createSnippetPreview = function() {
     var targetElement = document.getElementById(this.config.targets.snippet);
     var div = document.createElement( "div" );
     div.id = "snippet_preview";
-    if(this.config.inputType === "both" || this.config.inputType === "inline"){
-        div.contentEditable = true;
+    var title;
+    if( this.config.inputType === "both" || this.config.inputType === "inline" ){
+        title = document.createElement("span");
+        title.contentEditable = true;
+    } else {
+        title = document.createElement("a");
     }
-    var title = document.createElement( "a" );
     title.className = "title";
     title.id = "snippet_title";
     div.appendChild( title );
     var cite = document.createElement( "cite" );
     cite.className = "url";
     cite.id = "snippet_cite";
+    if( this.config.inputType === "both" || this.config.inputType === "inline" ){
+        cite.contentEditable = true;
+    }
     div.appendChild( cite );
     this.createBr( div );
     var meta = document.createElement( "span" );
     meta.className = "desc";
     meta.id = "snippet_meta";
+    if( this.config.inputType === "both" || this.config.inputType === "inline" ){
+        meta.contentEditable = true;
+    }
     div.appendChild( meta );
     targetElement.appendChild( div );
 };
@@ -110,28 +121,42 @@ AnalyzeLoader.prototype.defineElements = function() {
  * gets the values from the inputfields. The values from these fields are used as input for the analyzer.
  */
 AnalyzeLoader.prototype.getInput = function() {
-    this.inputs.textString = document.getElementById( this.config.inputs.text ).value;
-    this.inputs.keyword = document.getElementById( this.config.inputs.keyword ).value;
-    this.inputs.meta = document.getElementById( this.config.inputs.meta ).value;
-    this.inputs.url = document.getElementById( this.config.inputs.url ).value;
-    this.inputs.pageTitle = document.getElementById( this.config.inputs.title ).value;
+    this.inputs.textString = document.getElementById( "textInput" ).value;
+    this.inputs.keyword = document.getElementById( "keywordInput" ).value;
+    this.inputs.meta = document.getElementById( "metaInput" ).value;
+    this.inputs.url = document.getElementById( "urlInput" ).value;
+    this.inputs.pageTitle = document.getElementById( "titleInput" ).value;
 };
 
 /**
- * binds the 'input'event to the targetform/input. This will trigger the analyzeTimer function.
+ * binds the 'input'event to the targetform/input. This will trigger the analyzeTimer funct ion.
  */
 AnalyzeLoader.prototype.bindEvent = function() {
     var elem = document.getElementById( this.config.elementTarget );
     elem.__refObj = this;
     elem.addEventListener( "input", this.analyzeTimer );
-    if( this.config.inputType === "both" || this.config.inputType === "inline"){
-        var snippetElem = document.getElementById( this.config.targets.snippet );
-        snippetElem.addEventListener( "input", this,callBackSnippetData );
+    if( this.config.inputType === "both" || this.config.inputType === "inline") {
+        var snippetElem = document.getElementById(this.config.targets.snippet);
+        snippetElem.refObj = this;
+        snippetElem.addEventListener("input", this.callBackSnippetData);
+        var elems = ["meta", "cite", "title"];
+        for (var i = 0; i < elems.length; i++) {
+            var targetElement = document.getElementById("snippet_" + elems[i]);
+            targetElement.refObj = this;
+            targetElement.addEventListener("blur", this.reloadSnippetText);
+        }
     }
 };
 
-AnalyzeLoader.prototype.callBackSnippetData = function(){
-    document.getElementById("inputMeta")document.getElementById( "snippet_title")
+AnalyzeLoader.prototype.callBackSnippetData = function() {
+    document.getElementById( "titleInput" ).value = document.getElementById( "snippet_title" ).innerText;
+    document.getElementById( "metaInput" ).value = document.getElementById( "snippet_meta" ).innerText;
+    document.getElementById( "urlInput" ).value = document.getElementById( "snippet_cite" ).innerText;
+
+};
+
+AnalyzeLoader.prototype.reloadSnippetText = function() {
+    this.refObj.snippetPreview.reRender();
 };
 
 /**
@@ -340,7 +365,7 @@ SnippetPreview.prototype.formatCite = function() {
 SnippetPreview.prototype.formatMeta = function() {
     var meta = this.config.meta;
     if(meta === ""){
-        meta = this.config.text.substring(analyzerConfig.maxMeta,0);
+        meta = this.config.textString.substring(analyzerConfig.maxMeta,0);
     }
     meta = this.formatKeyword( meta );
     meta = "<span class='desc'>" + meta + "</span>";
@@ -353,11 +378,17 @@ SnippetPreview.prototype.formatKeyword = function( textString ) {
 };
 
 SnippetPreview.prototype.renderOutput = function() {
-    document.getElementById( "snippet_title").innerHTML = this.output.title;
-    document.getElementById( "snippet_cite").innerHTML = this.output.cite;
-    document.getElementById( "snippet_meta").innerHTML = this.output.meta;
+    document.getElementById( "snippet_title" ).innerHTML = this.output.title;
+    document.getElementById( "snippet_cite" ).innerHTML = this.output.cite;
+    document.getElementById( "snippet_meta" ).innerHTML = this.output.meta;
 };
 
+SnippetPreview.prototype.reRender = function () {
+    this.config.pageTitle = document.getElementById( "snippet_title").innerText;
+    this.config.meta = document.getElementById( "snippet_meta").innerText;
+    this.config.url = document.getElementById( "snippet_cite").innerText;
+    this.init();
+};
 /**
  * run at pageload to init the analyzeLoader for pageAnalysis.
  */
