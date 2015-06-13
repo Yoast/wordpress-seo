@@ -28,7 +28,7 @@ class WPSEO_Admin_User_Profile {
 	private function filter_input_post( $var_name ) {
 		$val = filter_input( INPUT_POST, $var_name );
 		if ( $val ) {
-			return WPSEO_Option::sanitize_text_field( $val );
+			return WPSEO_Utils::sanitize_text_field( $val );
 		}
 		return '';
 	}
