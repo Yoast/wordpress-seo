@@ -40,8 +40,8 @@ class WPSEO_Admin_User_Profile {
 	 */
 	public function process_user_option_update( $user_id ) {
 
-		if ( current_user_can( 'edit_user', $user_id ) ) {
-			update_user_meta( $user_id, '_yoast_wpseo_profile_updated', time() );
+		if ( ! current_user_can( 'edit_user', $user_id ) ) {
+			return;
 		}
 
 		update_user_meta( $user_id, '_yoast_wpseo_profile_updated', time() );
