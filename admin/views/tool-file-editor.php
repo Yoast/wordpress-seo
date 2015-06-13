@@ -68,8 +68,9 @@ if ( isset( $msg ) && ! empty( $msg ) ) {
 }
 
 if ( is_multisite() ) {
-	$action_url = network_admin_url( 'admin.php?page=wpseo_files' ); // auto-falls back on admin_url for non-multisite	
-} else {
+	$action_url = network_admin_url( 'admin.php?page=wpseo_files' ); // auto-falls back on admin_url for non-multisite
+}
+else {
 	$action_url = network_admin_url( 'admin.php?page=wpseo_tools&tool=file-editor' ); // auto-falls back on admin_url for non-multisite
 }
 
