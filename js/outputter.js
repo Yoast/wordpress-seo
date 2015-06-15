@@ -11,6 +11,13 @@ var args = {
         output: "output",
         overall: "overallScore",
         snippet: "snippet"
+    },
+    sampleText: {
+        url: "please fill in an URL",
+        title: "please fill in a title",
+        keyword: "please fill in a keyword",
+        meta: "please fill in a metadescription",
+        text: "please fill in a text"
     }
 };
 
@@ -37,13 +44,11 @@ AnalyzeLoader.prototype.createElements = function() {
         this.createInput("title", targetElement, "Title");
     }
     this.createText("text", targetElement, "text");
-
-
     if( this.config.inputType === "both" || this.config.inputType === "inputs" ) {
         this.createInput("url", targetElement, "URL");
         this.createInput("meta", targetElement, "Metadescription");
-        this.createInput("keyword", targetElement, "Focus keyword");
     }
+    this.createInput("keyword", targetElement, "Focus keyword");
     this.createSnippetPreview();
 };
 
@@ -52,6 +57,7 @@ AnalyzeLoader.prototype.createInput = function( type, targetElement, text ) {
     var input = document.createElement("input");
     input.type = "text";
     input.id = type+"Input";
+    input.placeholder = this.config.sampleText[type];
     targetElement.appendChild( input );
     this.createBr( targetElement );
 };
@@ -59,7 +65,7 @@ AnalyzeLoader.prototype.createInput = function( type, targetElement, text ) {
 AnalyzeLoader.prototype.createText = function( type, targetElement, text ) {
     this.createLabel ( type, targetElement, text );
     var textarea = document.createElement("textarea");
-
+    textarea.placeholder = this.config.sampleText[type];
     textarea.id = type+"Input";
     targetElement.appendChild( textarea );
     this.createBr( targetElement );
@@ -86,6 +92,7 @@ AnalyzeLoader.prototype.createSnippetPreview = function() {
     if( this.config.inputType === "both" || this.config.inputType === "inline" ){
         title = document.createElement("span");
         title.contentEditable = true;
+        title.innerText = this.config.sampleText["title"];
     } else {
         title = document.createElement("a");
     }
@@ -96,15 +103,16 @@ AnalyzeLoader.prototype.createSnippetPreview = function() {
     cite.className = "url";
     cite.id = "snippet_cite";
     if( this.config.inputType === "both" || this.config.inputType === "inline" ){
+        cite.innerText = this.config.sampleText["url"];
         cite.contentEditable = true;
     }
     div.appendChild( cite );
-    this.createBr( div );
     var meta = document.createElement( "span" );
     meta.className = "desc";
     meta.id = "snippet_meta";
     if( this.config.inputType === "both" || this.config.inputType === "inline" ){
         meta.contentEditable = true;
+        meta.innerText = this.config.sampleText["meta"];
     }
     div.appendChild( meta );
     targetElement.appendChild( div );
@@ -156,7 +164,9 @@ AnalyzeLoader.prototype.callBackSnippetData = function() {
 };
 
 AnalyzeLoader.prototype.reloadSnippetText = function() {
-    this.refObj.snippetPreview.reRender();
+    if( typeof this.refObj.snippetPreview !== "undefined" ) {
+        this.refObj.snippetPreview.reRender();
+    }
 };
 
 /**

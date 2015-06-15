@@ -84,19 +84,24 @@ html{
     width:512px;
     font-size:18px !important;
     font-weight:normal;
-    margin:0}
+    margin:0;
+    height:18px;}
 .title:visited{
     color:#609
 }
 .url,.desc{
-    font-size:13px
+    font-size:13px;
+    display: block;
+
 }
 .url{
     color:#006621;
-    font-style:normal
+    font-style:normal;
+    height: 13px;
 }
 .desc{
-    color:#545454
+    color:#545454;
+    height: 13px;
 }
 input,textarea{
     width:540px;
