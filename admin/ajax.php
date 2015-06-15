@@ -344,7 +344,7 @@ function wpseo_get_export() {
 add_action( 'wp_ajax_wpseo_export', 'wpseo_get_export' );
 
 /**
- * Handles the posting of a new FB admin
+ * Handles the posting of a new FB admin.
  */
 function wpseo_add_fb_admin() {
 	check_ajax_referer( 'wpseo_fb_admin_nonce' );

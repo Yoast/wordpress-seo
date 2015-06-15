@@ -76,7 +76,7 @@ class WPSEO_Crawl_Issue_Fetch {
 		if ( array_key_exists( $this->platform, $counts ) ) {
 			$counts[ $this->platform ] = $this->list_category_issues( $counts[ $this->platform ] );
 
-			// Write the new counts value;
+			// Write the new counts value.
 			$this->issue_count->set_counts( $counts );
 		}
 	}
@@ -89,14 +89,14 @@ class WPSEO_Crawl_Issue_Fetch {
 	 * @return mixed
 	 */
 	private function list_category_issues( $counts ) {
-		// Fetching the issues
+		// Fetching the issues.
 		$issue_crawler = $this->get_issue_crawler();
 
-		// When the issues have to be fetched
+		// When the issues have to be fetched.
 		if ( array_key_exists( $this->category, $counts ) && $counts[ $this->category ]['count'] > 0 && $counts[ $this->category ]['last_fetch'] <= strtotime( '-12 hours' ) ) {
 			$issue_crawler->fetch_issues();
 
-			// Set last fetch
+			// Set last fetch.
 			$counts[ $this->category ]['last_fetch'] = time();
 		}
 

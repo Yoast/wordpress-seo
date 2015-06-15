@@ -8,7 +8,6 @@
  *
  * This class will get all category counts from the options and will parse the filter links that are displayed above
  * the crawl issue tables.
- *
  */
 class WPSEO_GWT_Category_Filters {
 

@@ -34,12 +34,12 @@ class WPSEO_Crawl_Issue_Bulk {
 	 * @return string
 	 */
 	private function determine_bulk_action() {
-		// If posted action is the selected one above the table, return that value
+		// If posted action is the selected one above the table, return that value.
 		if ( $action = filter_input( INPUT_POST, 'action' ) ) {
 			return $action;
 		}
 
-		// If posted action is the selected one below the table, return that value
+		// If posted action is the selected one below the table, return that value.
 		if ( $action = filter_input( INPUT_POST, 'action2' ) ) {
 			return $action;
 		}
@@ -73,7 +73,7 @@ class WPSEO_Crawl_Issue_Bulk {
 			return $issues;
 		}
 
-		// fallback if issues are empty
+		// Fallback if issues are empty.
 		return array();
 	}
 

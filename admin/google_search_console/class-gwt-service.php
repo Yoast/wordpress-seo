@@ -45,7 +45,7 @@ class WPSEO_GWT_Service {
 	public function get_sites() {
 		$sites = array();
 
-		// Do list sites request
+		// Do list sites request.
 		$response = $this->client->do_request( 'sites' );
 
 		if ( $response_json = $this->client->decode_response( $response ) ) {
@@ -55,7 +55,7 @@ class WPSEO_GWT_Service {
 				}
 			}
 
-			// Sorting the retrieved sites
+			// Sorting the retrieved sites.
 			asort( $sites );
 		}
 
@@ -69,7 +69,7 @@ class WPSEO_GWT_Service {
 	 */
 	public function get_crawl_issue_counts() {
 
-		// Setup crawl error list
+		// Setup crawl error list.
 		$crawl_error_counts = $this->get_crawl_error_counts( $this->get_profile() );
 
 		$return = array();
@@ -106,18 +106,18 @@ class WPSEO_GWT_Service {
 	 * @return string
 	 */
 	public function get_profile() {
-		// Get option
+		// Get option.
 		$option = get_option( self::OPTION_WPSEO_GWT, array( 'profile' => '' ) );
 
-		// Set the profile
+		// Set the profile.
 		$profile = $option['profile'];
 
-		// Backwards compatibility fix - This is the old API endpoint
+		// Backwards compatibility fix - This is the old API endpoint.
 		if ( strpos( $profile, 'https://www.google.com/webmasters/tools/feeds/' ) ) {
 			$profile = str_replace( 'https://www.google.com/webmasters/tools/feeds/', '', $profile );
 		}
 
-		// Return the profile
+		// Return the profile.
 		return trim( $profile, '/' );
 	}
 
@@ -147,7 +147,7 @@ class WPSEO_GWT_Service {
 	public function clear_data() {
 		delete_option( self::OPTION_WPSEO_GWT );
 
-		// Clear client data
+		// Clear client data.
 		$this->client->clear_data();
 	}
 

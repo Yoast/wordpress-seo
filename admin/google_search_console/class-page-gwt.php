@@ -22,13 +22,13 @@ class WPSEO_Page_GWT {
 	 * Constructor for the page class. This will initialize all GSC related stuff
 	 */
 	public function __construct() {
-		// Settings
+		// Settings.
 		add_action( 'admin_init', array( $this, 'register_settings' ) );
 
-		// Post to Get on search
+		// Post to Get on search.
 		add_action( 'admin_init', array( $this, 'list_table_search_post_to_get' ) );
 
-		// Setting the screen option
+		// Setting the screen option.
 		if ( filter_input( INPUT_GET, 'page' ) === 'wpseo_webmaster_tools' ) {
 			add_filter( 'set-screen-option', array( $this, 'set_screen_option' ), 11, 3 );
 		}
@@ -53,14 +53,14 @@ class WPSEO_Page_GWT {
 	 * Function that is triggered when the redirect page loads
 	 */
 	public function page_load() {
-		// Create a new WPSEO GWT Google Client
+		// Create a new WPSEO GWT Google Client.
 		$this->service  = new WPSEO_GWT_Service();
 
 		$this->settings = new WPSEO_GWT_Settings( $this->service );
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'page_scripts' ) );
 
-		// Catch bulk action request
+		// Catch bulk action request.
 		new WPSEO_Crawl_Issue_Bulk();
 	}
 
@@ -70,7 +70,7 @@ class WPSEO_Page_GWT {
 	 * @param WPSEO_GWT_Platform_Tabs $platform_tabs
 	 */
 	public function display_table( WPSEO_GWT_Platform_Tabs $platform_tabs ) {
-		// The list table
+		// The list table.
 		$list_table = new WPSEO_Crawl_Issue_Table( $platform_tabs, $this->service );
 		$list_table->prepare_items( );
 		$list_table->search_box( __( 'Search', 'wordpress-seo' ), 'wpseo-crawl-issues-search' );
@@ -115,14 +115,14 @@ class WPSEO_Page_GWT {
 
 		if ( $search_string = filter_input( INPUT_POST, 's' ) ) {
 
-			// Check if the POST is on one of our pages
+			// Check if the POST is on one of our pages.
 			if ( filter_input( INPUT_GET, 'page' ) !== 'wpseo_webmaster_tools' ) {
 				return;
 			}
 
 			$url = add_query_arg( 's', $search_string );
 
-			// Do the redirect
+			// Do the redirect.
 			wp_redirect( $url );
 			exit;
 		}

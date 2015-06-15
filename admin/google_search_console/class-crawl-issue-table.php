@@ -62,15 +62,15 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 	public function __construct( WPSEO_GWT_Platform_Tabs $platform_tabs, WPSEO_GWT_Service $service ) {
 		parent::__construct();
 
-		// Adding the thickbox
+		// Adding the thickbox.
 		add_thickbox();
 
-		// Set search string
+		// Set search string.
 		if ( ( $search_string = filter_input( INPUT_GET, 's' ) ) != '' ) {
 			$this->search_string = $search_string;
 		}
 
-		// Set the crawl issue source
+		// Set the crawl issue source.
 		$this->crawl_issue_source = new WPSEO_Crawl_Issue_Table_Data( $platform_tabs->current_tab(), $this->screen->id, $service );
 		$this->crawl_issue_source->show_fields();
 	}
@@ -81,20 +81,20 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 	 *
 	 */
 	public function prepare_items() {
-		// Setting the current view
+		// Setting the current view.
 		$this->current_view       = $this->crawl_issue_source->get_category();
 
-		// Get variables needed for pagination
+		// Get variables needed for pagination.
 		$this->per_page     = $this->get_items_per_page( 'errors_per_page', $this->per_page );
 		$this->current_page = intval( ( $paged = filter_input( INPUT_GET, 'paged' ) ) ? $paged : 1 );
 
-		// Setup the columns
+		// Setup the columns.
 		$this->setup_columns();
 
-		// Views
+		// Views.
 		$this->views();
 
-		// Setting the items
+		// Setting the items.
 		$this->set_items();
 	}
 
@@ -265,13 +265,13 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 	 * Running the pagination
 	 */
 	private function paginate_items() {
-		// Setting the starting point. If starting point is below 1, overwrite it with value 0, otherwise it will be sliced of at the back
+		// Setting the starting point. If starting point is below 1, overwrite it with value 0, otherwise it will be sliced of at the back.
 		$slice_start = ( $this->current_page - 1 );
 		if ( $slice_start < 0 ) {
 			$slice_start = 0;
 		}
 
-		// Apply 'pagination'
+		// Apply 'pagination'.
 		$this->items = array_slice( $this->items, ( $slice_start * $this->per_page ), $this->per_page );
 	}
 
@@ -279,7 +279,7 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 	 * Sort the items by callback
 	 */
 	private function sort_items() {
-		// Sort the results
+		// Sort the results.
 		usort( $this->items, array( $this, 'do_reorder' ) );
 	}
 	/**
@@ -291,16 +291,16 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 	 * @return int
 	 */
 	private function do_reorder($a, $b) {
-		// If no sort, default to title
+		// If no sort, default to title.
 		$orderby = ( $orderby = filter_input( INPUT_GET, 'orderby' ) ) ? $orderby : 'url';
 
-		// If no order, default to asc
+		// If no order, default to asc.
 		$order = ( $order = filter_input( INPUT_GET, 'order' ) ) ? $order : 'asc';
 
-		// Determine sort order
+		// Determine sort order.
 		$result = strcmp( $a[ $orderby ], $b[ $orderby ] );
 
-		// Send final sort direction to usort
+		// Send final sort direction to usort.
 		return ( $order === 'asc' ) ? $result : ( -$result );
 	}
 

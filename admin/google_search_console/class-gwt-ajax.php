@@ -10,7 +10,6 @@ class WPSEO_GWT_Ajax {
 
 	/**
 	 * Setting the AJAX hooks for GWT
-	 *
 	 */
 	public function __construct() {
 		add_action( 'wp_ajax_wpseo_mark_fixed_crawl_issue',  array( $this, 'ajax_mark_as_fixed' ) );
@@ -21,7 +20,6 @@ class WPSEO_GWT_Ajax {
 	 * This method will be access by an AJAX request and will mark an issue as fixed.
 	 *
 	 * First it will do a request to the Google API
-	 *
 	 */
 	public function ajax_mark_as_fixed( ) {
 		if ( $this->valid_nonce() ) {
@@ -42,7 +40,7 @@ class WPSEO_GWT_Ajax {
 
 			$old_url = filter_input( INPUT_POST, 'old_url' );
 
-			// Creates the redirect
+			// Creates the redirect.
 			if ( $redirect_manager->create_redirect( $old_url, filter_input( INPUT_POST, 'new_url' ), filter_input( INPUT_POST, 'type' ) ) ) {
 				if ( filter_input( INPUT_POST, 'mark_as_fixed' ) === '1' ) {
 					new WPSEO_Crawl_Issue_Marker( $old_url );

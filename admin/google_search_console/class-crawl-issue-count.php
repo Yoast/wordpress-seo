@@ -8,10 +8,10 @@
  */
 class WPSEO_Crawl_Issue_Count {
 
-	// The last checked timestamp
+	// The last checked timestamp.
 	const OPTION_CI_LAST_FETCH = 'wpseo_crawl_issues_last_fetch';
 
-	// The option name where the issues counts are saved
+	// The option name where the issues counts are saved.
 	const OPTION_CI_COUNTS     = 'wpseo_crawl_issues_counts';
 
 	/**
@@ -48,13 +48,13 @@ class WPSEO_Crawl_Issue_Count {
 	 */
 	private function fetch_counts( WPSEO_GWT_Service $service ) {
 		if ( $service->get_profile() && $this->get_last_fetch() <= strtotime( '-12 hours' ) ) {
-			// Remove the timestamp
+			// Remove the timestamp.
 			$this->remove_last_fetch();
 
-			// Fetching the counts by setting an option
+			// Fetching the counts by setting an option.
 			$this->set_counts( $service->get_crawl_issue_counts() );
 
-			// Saving the current timestamp
+			// Saving the current timestamp.
 			$this->save_last_fetch();
 		}
 	}

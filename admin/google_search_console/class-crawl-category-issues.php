@@ -57,7 +57,7 @@ class WPSEO_Crawl_Category_Issues {
 	}
 
 	/**
-	 * Fetching the issues for current category and compare them with the already existing issues
+	 * Fetching the issues for current category and compare them with the already existing issues.
 	 */
 	public function fetch_issues() {
 		$this->set_current_issues();
@@ -65,7 +65,7 @@ class WPSEO_Crawl_Category_Issues {
 		if ( $issues = $this->service->fetch_category_issues( $this->platform, $this->category ) ) {
 			$crawl_issues = $this->get_issues();
 
-			// Walk through the issues to do the comparison
+			// Walk through the issues to do the comparison.
 			foreach ( $issues as $issue ) {
 				$this->issue_compare( $crawl_issues, $issue );
 			}
@@ -75,7 +75,7 @@ class WPSEO_Crawl_Category_Issues {
 	}
 
 	/**
-	 * Getting the issues from the options
+	 * Getting the issues from the options.
 	 *
 	 * @return array
 	 */
