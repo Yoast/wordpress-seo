@@ -24,7 +24,6 @@ class WPSEO_Crawl_Issue_Table_Data {
 	 * @param string            $platform
 	 * @param string            $screen_id
 	 * @param WPSEO_GWT_Service $service
-	 *
 	 */
 	public function __construct( $platform, $screen_id, WPSEO_GWT_Service $service ) {
 		// Setting the platform.

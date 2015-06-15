@@ -112,6 +112,7 @@ class WPSEO_GWT_Settings {
 
 	/**
 	 * When authorization is successful return empty string, otherwist return errorl
+	 *
 	 * @param string $authorization_code
 	 *
 	 * @return string

@@ -3,7 +3,7 @@
  * @package WPSEO\Admin|Google_Search_Console
  */
 
-	// Admin header
+	// Admin header.
 	Yoast_Form::get_instance()->admin_header( false, 'wpseo_webmaster_tools', false, 'yoast_wpseo_redirects_options' );
 ?>
 	<h2 class="nav-tab-wrapper" id="wpseo-tabs">
@@ -23,12 +23,12 @@ if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
 
 switch ( $platform_tabs->current_tab() ) {
 	case 'settings' :
-		// Check if there is an access token
+		// Check if there is an access token.
 		if ( null === $this->service->get_client()->getAccessToken() ) {
-			// Get the oauth URL
+			// Get the oauth URL.
 			$oauth_url = 'wpseo_gwt_open_authorize_code_window("' . $this->service->get_client()->createAuthUrl() . ' ");';
 
-			// Print auth screen
+			// Print auth screen.
 			echo '<p>' . __( 'To allow WordPress SEO by Yoast to fetch your Google Webmaster Tools information, please enter your Google Authorization Code.', 'wordpress-seo' ) . "</p>\n";
 			echo "<a href='javascript:{$oauth_url}'>" . __( 'Click here to get a Google Authorization Code', 'wordpress-seo' ) . "</a>\n";
 
@@ -76,15 +76,15 @@ switch ( $platform_tabs->current_tab() ) {
 			$category = "&category={$filter_category}";
 		}
 
-		// Open <form>
+		// Open <form>.
 		echo "<form id='wpseo-crawl-issues-table-form' action='" . admin_url( 'admin.php' ) . '?page=' . esc_attr( filter_input( INPUT_GET, 'page' ) ) . $category . "' method='post'>\n";
 
-		// AJAX nonce
+		// AJAX nonce.
 		echo "<input type='hidden' class='wpseo-gwt-ajax-security' value='" . wp_create_nonce( 'wpseo-gwt-ajax-security' ) . "' />\n";
 
 		$this->display_table( $platform_tabs );
 
-		// Close <form>
+		// Close <form>.
 		echo "</form>\n";
 
 		break;
@@ -93,5 +93,5 @@ switch ( $platform_tabs->current_tab() ) {
 	<br class="clear" />
 <?php
 
-// Admin footer
+// Admin footer.
 Yoast_Form::get_instance()->admin_footer( false );

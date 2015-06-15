@@ -134,7 +134,6 @@ class WPSEO_GWT_Client extends Yoast_Google_Client {
 
 	/**
 	 * Clears the options and revokes the token
-	 *
 	 */
 	public function clear_data() {
 		$this->revokeToken();
