@@ -14,7 +14,7 @@ class WPSEO_Page_GWT {
 	private $service;
 
 	/**
-	 * @var WPSEO_GWT_Service
+	 * @var WPSEO_GWT_Settings
 	 */
 	private $settings;
 
