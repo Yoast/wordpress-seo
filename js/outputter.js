@@ -52,42 +52,80 @@ AnalyzeLoader.prototype.createElements = function() {
     this.createSnippetPreview();
 };
 
+/**
+ * Creates inputs for the form, and creates labels and linebreaks.
+ * the ID and placeholder text is based on the type variable.
+ * @param type
+ * @param targetElement
+ * @param text
+ */
 AnalyzeLoader.prototype.createInput = function( type, targetElement, text ) {
     this.createLabel ( type, targetElement, text);
-    var input = document.createElement("input");
+    var input = document.createElement( "input" );
     input.type = "text";
     input.id = type+"Input";
-    input.placeholder = this.config.sampleText[type];
+    input.placeholder = this.config.sampleText[ type ];
     targetElement.appendChild( input );
     this.createBr( targetElement );
 };
 
+/**
+ * Creates textfields for the form, and creates labels and linebreaks;
+ * the ID and placeholder text is based on the type variable.
+ * @param type
+ * @param targetElement
+ * @param text
+ */
 AnalyzeLoader.prototype.createText = function( type, targetElement, text ) {
     this.createLabel ( type, targetElement, text );
-    var textarea = document.createElement("textarea");
-    textarea.placeholder = this.config.sampleText[type];
+    var textarea = document.createElement( "textarea" );
+    textarea.placeholder = this.config.sampleText[ type ];
     textarea.id = type+"Input";
     targetElement.appendChild( textarea );
     this.createBr( targetElement );
 };
 
+/**
+ * creates label for the form. Uses the type variable to fill the for attribute.
+ * @param type
+ * @param targetElement
+ * @param text
+ */
 AnalyzeLoader.prototype.createLabel = function( type, targetElement, text ) {
-    var label = document.createElement("label");
+    var label = document.createElement( "label" );
     label.innerText = text;
     label.for = type+"Input";
-    targetElement.appendChild(label);
+    targetElement.appendChild( label );
 
 };
 
+/**
+ * creates linebreak
+ * @param targetElement
+ */
 AnalyzeLoader.prototype.createBr = function( targetElement ) {
-    var br = document.createElement("br");
-    targetElement.appendChild(br);
+    var br = document.createElement( "br" );
+    targetElement.appendChild( br );
 };
 
+/**
+ * creates the elements for the snippetPreview
+ */
 AnalyzeLoader.prototype.createSnippetPreview = function() {
-    var targetElement = document.getElementById(this.config.targets.snippet);
+    var targetElement = document.getElementById( this.config.targets.snippet );
     var div = document.createElement( "div" );
     div.id = "snippet_preview";
+    this.createSnippetPreviewTitle( div );
+    this.createSnippetPreviewCite ( div );
+    this.createSnippetPreviewMeta ( div );
+    targetElement.appendChild( div );
+};
+
+/**
+ * 
+ * @param target
+ */
+AnalyzeLoader.prototype.createSnippetPreviewTitle = function( target ) {
     var title;
     if( this.config.inputType === "both" || this.config.inputType === "inline" ){
         title = document.createElement("span");
@@ -98,7 +136,10 @@ AnalyzeLoader.prototype.createSnippetPreview = function() {
     }
     title.className = "title";
     title.id = "snippet_title";
-    div.appendChild( title );
+    target.appendChild( title );
+};
+
+AnalyzeLoader.prototype.createSnippetPreviewCite = function( target ){
     var cite = document.createElement( "cite" );
     cite.className = "url";
     cite.id = "snippet_cite";
@@ -106,7 +147,10 @@ AnalyzeLoader.prototype.createSnippetPreview = function() {
         cite.innerText = this.config.sampleText["url"];
         cite.contentEditable = true;
     }
-    div.appendChild( cite );
+    target.appendChild( cite );
+};
+
+AnalyzeLoader.prototype.createSnippetPreviewMeta = function ( target ){
     var meta = document.createElement( "span" );
     meta.className = "desc";
     meta.id = "snippet_meta";
@@ -114,8 +158,7 @@ AnalyzeLoader.prototype.createSnippetPreview = function() {
         meta.contentEditable = true;
         meta.innerText = this.config.sampleText["meta"];
     }
-    div.appendChild( meta );
-    targetElement.appendChild( div );
+    target.appendChild( meta );
 };
 
 /**
@@ -375,11 +418,45 @@ SnippetPreview.prototype.formatCite = function() {
 SnippetPreview.prototype.formatMeta = function() {
     var meta = this.config.meta;
     if(meta === ""){
-        meta = this.config.textString.substring(analyzerConfig.maxMeta,0);
+        meta = this.getMetaText();
+        //meta = this.config.textString.substring(analyzerConfig.maxMeta,0);
     }
     meta = this.formatKeyword( meta );
     meta = "<span class='desc'>" + meta + "</span>";
     return meta;
+};
+
+SnippetPreview.prototype.getMetaText = function() {
+    var indexMatches = [];
+    var periodMatches = [0];
+    var metaText = this.config.textString.substring(0, 156);
+    var i = 0;
+    var match;
+    while ((match = this.config.textString.indexOf(this.config.keyword, i)) > -1) {
+        indexMatches.push(match);
+        i = match + this.config.keyword.length;
+    }
+    i = 0;
+    while((match = this.config.textString.indexOf('.', i)) > -1){
+        periodMatches.push(match);
+        i = match + 1;
+    }
+    var curStart = 0;
+    if(indexMatches.length > 0) {
+        for (var j = 0; j < periodMatches.length; ) {
+            if (periodMatches[0] < indexMatches[0] ) {
+                curStart = periodMatches.shift();
+            } else {
+                if( curStart > 0 ){
+                    curStart += 2;
+                }
+                break;
+            }
+        }
+        metaText = this.config.textString.substring( curStart, curStart + analyzerConfig.maxMeta );
+    }
+    return metaText;
+
 };
 
 SnippetPreview.prototype.formatKeyword = function( textString ) {
@@ -387,12 +464,18 @@ SnippetPreview.prototype.formatKeyword = function( textString ) {
     return textString.replace(replacer, "<strong>"+this.config.keyword+"</strong>" );
 };
 
+/**
+ *
+ */
 SnippetPreview.prototype.renderOutput = function() {
     document.getElementById( "snippet_title" ).innerHTML = this.output.title;
     document.getElementById( "snippet_cite" ).innerHTML = this.output.cite;
     document.getElementById( "snippet_meta" ).innerHTML = this.output.meta;
 };
 
+/**
+ * function to fill the configs with data from the inputs and call init, to rerender the snippetpreview
+ */
 SnippetPreview.prototype.reRender = function () {
     this.config.pageTitle = document.getElementById( "snippet_title").innerText;
     this.config.meta = document.getElementById( "snippet_meta").innerText;
