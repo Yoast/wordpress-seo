@@ -1820,6 +1820,11 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 						$option_value[ $key ] = WPSEO_Utils::sanitize_text_field( $value );
 						break;
 
+					case 'separator':
+						if ( ! array_key_exists( $value, $this->get_separator_options() ) ) {
+							$option_value[ $key ] = false;
+						}
+						break;
 
 					/*
 					Boolean fields
