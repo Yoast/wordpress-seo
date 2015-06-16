@@ -431,6 +431,12 @@ class WPSEO_Meta {
 					unset( $field_defs['bctitle'] );
 				}
 
+				global $post;
+
+				if ( empty( $post->ID ) || ( ! empty( $post->ID ) && self::get_value( 'redirect', $post->ID ) === '' ) ) {
+					unset( $field_defs['redirect'] );
+				}
+
 				/* Don't show the xml sitemap fields, if xml sitemaps aren't enabled */
 				if ( $options['enablexmlsitemap'] !== true ) {
 					unset(
