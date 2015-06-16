@@ -156,7 +156,7 @@ AnalyzeLoader.prototype.createSnippetPreviewUrl = function( target ){
 };
 
 /**
- * ccreates the meta description elements in the snippetPreview and appends to target
+ * creates the meta description elements in the snippetPreview and appends to target
  * @param target
  */
 AnalyzeLoader.prototype.createSnippetPreviewMeta = function ( target ){
@@ -442,7 +442,7 @@ SnippetPreview.prototype.htmlOutput = function() {
 };
 
 /**
- * formats the title for the snippetpreview
+ * formats the title for the snippet preview
  * @returns {formatted page title}
  */
 SnippetPreview.prototype.formatTitle = function() {
@@ -450,11 +450,19 @@ SnippetPreview.prototype.formatTitle = function() {
     return this.formatKeyword( title );
 };
 
+/**
+ * formats the url for the snippet preview
+ * @returns formatted url
+ */
 SnippetPreview.prototype.formatCite = function() {
     var cite = this.refObj.inputs.url;
     return this.formatKeyword( cite );
 };
 
+/**
+ * formats the metatext for the snippet preview, if empty runs getMetaText
+ * @returns formatted metatext
+ */
 SnippetPreview.prototype.formatMeta = function() {
     var meta = this.refObj.inputs.meta;
     if(meta === ""){
@@ -463,10 +471,15 @@ SnippetPreview.prototype.formatMeta = function() {
     return this.formatKeyword( meta );
 };
 
+/**
+ * formats the metatext, based on the keyword to select a part of the text.
+ * If no keyword matches, takes the first 156chars (depending on the config)
+ * @returns metatext
+ */
 SnippetPreview.prototype.getMetaText = function() {
     var indexMatches = this.getIndexMatches();
     var periodMatches = this.getPeriodMatches();
-    var metaText = this.refObj.inputs.textString.substring(0, 156);
+    var metaText = this.refObj.inputs.textString.substring(0, analyzerConfig.maxMeta);
     var curStart = 0;
     if(indexMatches.length > 0) {
         for (var j = 0; j < periodMatches.length; ) {
@@ -484,6 +497,10 @@ SnippetPreview.prototype.getMetaText = function() {
     return metaText;
 };
 
+/**
+ * Builds an array with all indexes of the keyword
+ * @returns Array with matches
+ */
 SnippetPreview.prototype.getIndexMatches = function() {
     var indexMatches = [];
     var match;
@@ -495,24 +512,33 @@ SnippetPreview.prototype.getIndexMatches = function() {
     return indexMatches;
 };
 
+/**
+ * Builds an array with indexes of all sentence ends (select on .)
+ * @returns array with sentences
+ */
 SnippetPreview.prototype.getPeriodMatches = function() {
     var periodMatches = [0];
     var match;
     var i = 0;
-    while((match = this.refObj.inputs.textString.indexOf('.', i)) > -1){
+    while((match = this.refObj.inputs.textString.indexOf(".", i)) > -1){
         periodMatches.push(match);
         i = match + 1;
     }
     return periodMatches;
 };
 
+/**
+ * formats the keyword for use in the snippetPreview by adding <strong>-tags
+ * @param textString
+ * @returns textString
+ */
 SnippetPreview.prototype.formatKeyword = function( textString ) {
     var replacer = new RegExp(this.refObj.inputs.keyword, "g");
     return textString.replace(replacer, "<strong>"+this.refObj.inputs.keyword+"</strong>" );
 };
 
 /**
- *
+ * Renders the outputs to the elements on the page.
  */
 SnippetPreview.prototype.renderOutput = function() {
     document.getElementById( "snippet_title" ).innerHTML = this.output.title;
