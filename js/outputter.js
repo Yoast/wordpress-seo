@@ -1,6 +1,7 @@
 var args = {
     analyzer: true,
     snippetPreview: true,
+    //inputType is inputs, inline or both
     inputType: "both",
     elementTarget: "inputForm",
     typeDelay: 300,
@@ -116,13 +117,13 @@ AnalyzeLoader.prototype.createSnippetPreview = function() {
     var div = document.createElement( "div" );
     div.id = "snippet_preview";
     this.createSnippetPreviewTitle( div );
-    this.createSnippetPreviewCite ( div );
+    this.createSnippetPreviewUrl ( div );
     this.createSnippetPreviewMeta ( div );
     targetElement.appendChild( div );
 };
 
 /**
- * 
+ * creates the title elements in the snippetPreview and appends to target
  * @param target
  */
 AnalyzeLoader.prototype.createSnippetPreviewTitle = function( target ) {
@@ -139,7 +140,11 @@ AnalyzeLoader.prototype.createSnippetPreviewTitle = function( target ) {
     target.appendChild( title );
 };
 
-AnalyzeLoader.prototype.createSnippetPreviewCite = function( target ){
+/**
+ * creates the URL elements in the snippetPreview and appends to target
+ * @param target
+ */
+AnalyzeLoader.prototype.createSnippetPreviewUrl = function( target ){
     var cite = document.createElement( "cite" );
     cite.className = "url";
     cite.id = "snippet_cite";
@@ -150,6 +155,10 @@ AnalyzeLoader.prototype.createSnippetPreviewCite = function( target ){
     target.appendChild( cite );
 };
 
+/**
+ * ccreates the meta description elements in the snippetPreview and appends to target
+ * @param target
+ */
 AnalyzeLoader.prototype.createSnippetPreviewMeta = function ( target ){
     var meta = document.createElement( "span" );
     meta.className = "desc";
@@ -180,32 +189,52 @@ AnalyzeLoader.prototype.getInput = function() {
 };
 
 /**
- * binds the 'input'event to the targetform/input. This will trigger the analyzeTimer funct ion.
+ * binds the events to the generated inputs. Binds events on the snippetinputs if editable
  */
 AnalyzeLoader.prototype.bindEvent = function() {
-    var elem = document.getElementById( this.config.elementTarget );
-    elem.__refObj = this;
-    elem.addEventListener( "input", this.analyzeTimer );
+    this.bindInputEvent();
     if( this.config.inputType === "both" || this.config.inputType === "inline") {
-        var snippetElem = document.getElementById(this.config.targets.snippet);
-        snippetElem.refObj = this;
-        snippetElem.addEventListener("input", this.callBackSnippetData);
-        var elems = ["meta", "cite", "title"];
-        for (var i = 0; i < elems.length; i++) {
-            var targetElement = document.getElementById("snippet_" + elems[i]);
-            targetElement.refObj = this;
-            targetElement.addEventListener("blur", this.reloadSnippetText);
-        }
+        this.bindSnippetEvents();
     }
 };
 
+/**
+ * binds the analyzeTimer function to the input of the targetElement on the page.
+ */
+AnalyzeLoader.prototype.bindInputEvent = function() {
+    var elem = document.getElementById( this.config.elementTarget );
+    elem.__refObj = this;
+    elem.addEventListener( "input", this.analyzeTimer );
+};
+
+/**
+ * binds the reloadSnippetText function to the blur of the snippet inputs.
+ */
+AnalyzeLoader.prototype.bindSnippetEvents = function() {
+    var snippetElem = document.getElementById(this.config.targets.snippet);
+    snippetElem.refObj = this;
+    snippetElem.addEventListener("input", this.callBackSnippetData);
+    var elems = ["meta", "cite", "title"];
+    for (var i = 0; i < elems.length; i++) {
+        var targetElement = document.getElementById("snippet_" + elems[i]);
+        targetElement.refObj = this;
+        targetElement.addEventListener( "blur", this.reloadSnippetText );
+    }
+};
+
+/**
+ * callBackSnippetData is bound on the inputs of the snippetPreview, to update the inputs when entering text
+ * in the snippetPreview.
+ */
 AnalyzeLoader.prototype.callBackSnippetData = function() {
     document.getElementById( "titleInput" ).value = document.getElementById( "snippet_title" ).innerText;
     document.getElementById( "metaInput" ).value = document.getElementById( "snippet_meta" ).innerText;
     document.getElementById( "urlInput" ).value = document.getElementById( "snippet_cite" ).innerText;
-
 };
 
+/**
+ * runs the rerender function of the snippetPreview if that object is defined.
+ */
 AnalyzeLoader.prototype.reloadSnippetText = function() {
     if( typeof this.refObj.snippetPreview !== "undefined" ) {
         this.refObj.snippetPreview.reRender();
@@ -275,7 +304,7 @@ AnalyzeLoader.prototype.runAnalyzer = function() {
     }
     this.pageAnalyzer = new Analyzer( this.inputs );
     this.pageAnalyzer.runQueue();
-    this.snippetPreview = new SnippetPreview( this.inputs, this.config.targets );
+    this.snippetPreview = new SnippetPreview( this );
     this.scoreFormatter = new ScoreFormatter( this.pageAnalyzer, this.config.targets );
     if( this.config.dynamicDelay ){
         this.endTime();
@@ -380,19 +409,30 @@ ScoreFormatter.prototype.scoreRating = function( score ){
  * snippetpreview
  */
 
-SnippetPreview = function(args, target) {
-    this.config = args;
-    this.outputTarget = target.snippet;
+/**
+ * defines the config and outputTarget for the SnippetPreview
+ * @param refObj
+ * @constructor
+ */
+SnippetPreview = function( refObj ) {
+    this.refObj = refObj;
     this.init();
 };
 
+/**
+ *  checks if title and url are set so they can be rendered in the snippetPreview
+ */
 SnippetPreview.prototype.init = function() {
-    if( this.config.pageTitle !== null && this.config.url !== null ) {
+    if( this.refObj.inputs.pageTitle !== null && this.refObj.inputs.url !== null ) {
         this.output = this.htmlOutput();
         this.renderOutput();
     }
 };
 
+/**
+ * creates html object to contain the strings for the snippetpreview
+ * @returns {html object with html-strings}
+ */
 SnippetPreview.prototype.htmlOutput = function() {
     var html = {};
     html.title = this.formatTitle();
@@ -401,46 +441,32 @@ SnippetPreview.prototype.htmlOutput = function() {
     return html;
 };
 
+/**
+ * formats the title for the snippetpreview
+ * @returns {formatted page title}
+ */
 SnippetPreview.prototype.formatTitle = function() {
-    var title = this.config.pageTitle;
-    title = this.formatKeyword( title );
-    title = "<a href="+this.config.url+" class='title'>" + title + "</a>";
-    return title;
+    var title = this.refObj.inputs.pageTitle;
+    return this.formatKeyword( title );
 };
 
 SnippetPreview.prototype.formatCite = function() {
-    var cite = this.config.url;
-    cite = this.formatKeyword( cite );
-    cite = "<cite class='url'>"+ cite + "</cite>";
-    return cite;
+    var cite = this.refObj.inputs.url;
+    return this.formatKeyword( cite );
 };
 
 SnippetPreview.prototype.formatMeta = function() {
-    var meta = this.config.meta;
+    var meta = this.refObj.inputs.meta;
     if(meta === ""){
         meta = this.getMetaText();
-        //meta = this.config.textString.substring(analyzerConfig.maxMeta,0);
     }
-    meta = this.formatKeyword( meta );
-    meta = "<span class='desc'>" + meta + "</span>";
-    return meta;
+    return this.formatKeyword( meta );
 };
 
 SnippetPreview.prototype.getMetaText = function() {
-    var indexMatches = [];
-    var periodMatches = [0];
-    var metaText = this.config.textString.substring(0, 156);
-    var i = 0;
-    var match;
-    while ((match = this.config.textString.indexOf(this.config.keyword, i)) > -1) {
-        indexMatches.push(match);
-        i = match + this.config.keyword.length;
-    }
-    i = 0;
-    while((match = this.config.textString.indexOf('.', i)) > -1){
-        periodMatches.push(match);
-        i = match + 1;
-    }
+    var indexMatches = this.getIndexMatches();
+    var periodMatches = this.getPeriodMatches();
+    var metaText = this.refObj.inputs.textString.substring(0, 156);
     var curStart = 0;
     if(indexMatches.length > 0) {
         for (var j = 0; j < periodMatches.length; ) {
@@ -453,15 +479,36 @@ SnippetPreview.prototype.getMetaText = function() {
                 break;
             }
         }
-        metaText = this.config.textString.substring( curStart, curStart + analyzerConfig.maxMeta );
+        metaText = this.refObj.inputs.textString.substring( curStart, curStart + analyzerConfig.maxMeta );
     }
     return metaText;
+};
 
+SnippetPreview.prototype.getIndexMatches = function() {
+    var indexMatches = [];
+    var match;
+    var i = 0;
+    while ((match = this.refObj.inputs.textString.indexOf(this.refObj.inputs.keyword, i)) > -1) {
+        indexMatches.push(match);
+        i = match + this.refObj.inputs.keyword.length;
+    }
+    return indexMatches;
+};
+
+SnippetPreview.prototype.getPeriodMatches = function() {
+    var periodMatches = [0];
+    var match;
+    var i = 0;
+    while((match = this.refObj.inputs.textString.indexOf('.', i)) > -1){
+        periodMatches.push(match);
+        i = match + 1;
+    }
+    return periodMatches;
 };
 
 SnippetPreview.prototype.formatKeyword = function( textString ) {
-    var replacer = new RegExp(this.config.keyword, "g");
-    return textString.replace(replacer, "<strong>"+this.config.keyword+"</strong>" );
+    var replacer = new RegExp(this.refObj.inputs.keyword, "g");
+    return textString.replace(replacer, "<strong>"+this.refObj.inputs.keyword+"</strong>" );
 };
 
 /**
@@ -477,9 +524,9 @@ SnippetPreview.prototype.renderOutput = function() {
  * function to fill the configs with data from the inputs and call init, to rerender the snippetpreview
  */
 SnippetPreview.prototype.reRender = function () {
-    this.config.pageTitle = document.getElementById( "snippet_title").innerText;
-    this.config.meta = document.getElementById( "snippet_meta").innerText;
-    this.config.url = document.getElementById( "snippet_cite").innerText;
+    this.refObj.inputs.pageTitle = document.getElementById( "snippet_title").innerText;
+    this.refObj.inputs.meta = document.getElementById( "snippet_meta").innerText;
+    this.refObj.inputs.url = document.getElementById( "snippet_cite").innerText;
     this.init();
 };
 /**
