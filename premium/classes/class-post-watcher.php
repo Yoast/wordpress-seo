@@ -173,7 +173,14 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	 */
 	public function detect_post_delete( $post_id ) {
 
-		// Is a redirect needed
+		$post = get_post( $post_id );
+
+		// When post is from trash or post is a revision skip further execution.
+		if ( $post->post_status === 'trash' || $post->post_type === 'revision' ) {
+			return;
+		}
+
+		// Is a redirect needed.
 		if ( $url = $this->check_if_redirect_needed( $post_id ) ) {
 
 			$id = 'wpseo_redirect_' . md5( $url );
