@@ -311,7 +311,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 		add_action( 'post_updated', array( $this, 'detect_slug_change' ), 12, 3 );
 
 		// Detect a post trash
-		add_action( 'trashed_post', array( $this, 'detect_post_trash' ) );
+		add_action( 'wp_trash_post', array( $this, 'detect_post_trash' ) );
 
 		// Detect a post untrash
 		add_action( 'untrashed_post', array( $this, 'detect_post_untrash' ) );
