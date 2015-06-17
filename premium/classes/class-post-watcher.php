@@ -317,7 +317,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 		add_action( 'untrashed_post', array( $this, 'detect_post_untrash' ) );
 
 		// Detect a post delete
-		add_action( 'delete_post', array( $this, 'detect_post_delete' ) );
+		add_action( 'before_delete_post', array( $this, 'detect_post_delete' ) );
 	}
 
 }
