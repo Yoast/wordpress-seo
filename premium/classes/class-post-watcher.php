@@ -112,7 +112,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 		 * @api array $published_post_statuses The statuses that'll be treated as published
 		 * @param object $post The post object we're doing the published check for
 		 */
-		$public_post_statuses = apply_filters( 'wpseo_public_post_statuses', $public_post_statuses, get_post( $post_id ) );
+		$public_post_statuses = apply_filters( 'wpseo_public_post_statuses', $public_post_statuses, $post_id );
 
 		return ( in_array( get_post_status( $post_id ), $public_post_statuses, true ) );
 	}
