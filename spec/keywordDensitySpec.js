@@ -1,6 +1,9 @@
 require("../js/config/config.js");
 require("../js/config/scoring.js");
 require("../js/analyzer.js");
+require("../js/preprocessor.js");
+require("../js/analyzescorer.js");
+require("../js/stringhelper.js");
 
 keywordArgs = {
     textString: "Last month, Google actually announced a change in their algorithm before it had already happened. In this post they mention that starting April 21st mobile-friendliness will become a ranking factor more and more.    In the past few weeks we’ve been getting quite a few reports from Google Webmaster Tools. Not only did they add a Mobile Usability item under the Search Traffic section, but they also sent out emails with the subject Fix mobile usability issues found on <website>. Obviously, Google is bringing mobile-friendliness under the website owner’s attention.    So we thought it would be a good idea to explain what you should pay attention to and what we think you should be doing to prepare yourself for the update on April 21st.",

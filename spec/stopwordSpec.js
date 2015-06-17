@@ -1,6 +1,9 @@
 require("../js/config/config.js");
 require("../js/config/scoring.js");
 require("../js/analyzer.js");
+require("../js/preprocessor.js");
+require("../js/analyzescorer.js");
+require("../js/stringhelper.js");
 
 stopwordArgs = {
     queue: ["stopwords"],
