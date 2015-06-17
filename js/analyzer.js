@@ -407,16 +407,27 @@ Analyzer.prototype.pageTitleKeyword = function() {
 
 /**
  * counts the occurrences of the keyword in the first paragraph, returns 0 if it is not found,
- * or there is no paragraph-tag in the given string.
+ * if there is no paragraph tag or 0 hits, it checks for 2 newlines
  * @returns {{name: string, count: number}}
  */
 Analyzer.prototype.firstParagraph = function() {
-    var matches = this.preProcessor.__store.cleanTextSomeTags.match( /<p(?:[^>]+)?>(.*?)<\/p>/g );
     var result =[ { test: "firstParagraph", result: 0 } ];
-    if( matches !== null ){
-        result[0].result = this.stringHelper.countMatches( matches[0], this.keywordRegex );
+    var p = this.paragraphChecker( this.preProcessor.__store.cleanTextSomeTags , new RegExp("<p(?:[^>]+)?>(.*?)<\/p>", "g") );
+    if ( p === 0){
+        //use a regex that matches [^], not nothing, so any character, including linebreaks
+        p = this.paragraphChecker( this.preProcessor.__store.originalText, new RegExp("[^]+\n\n", "g") );
     }
+    result[0].result = p;
     return result;
+};
+
+Analyzer.prototype.paragraphChecker = function( textString, regexp) {
+    var matches = textString.match ( regexp );
+    var count = 0;
+    if ( matches !== null ){
+        count = this.stringHelper.countMatches( matches[0], this.keywordRegex );
+    }
+    return count;
 };
 
 /**
