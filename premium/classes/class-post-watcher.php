@@ -221,7 +221,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 		$post = get_post( $post_id );
 
 		// No revisions please
-		if ( $post->post_status != 'inherit' ) {
+		if ( $this->check_public_post_status( $post ) ) {
 			// Get the right URL
 			$url = $this->get_target_url( $post_id );
 
