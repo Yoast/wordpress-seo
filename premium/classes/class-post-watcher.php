@@ -58,10 +58,10 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	public function detect_slug_change( $post_id, $post, $post_before ) {
 
 		// If post is a revision do not create redirect
-		if ( $post_before->post_type === 'revision' && $post->post_type === 'revision' ) {
+		if ( wp_is_post_revision( $post_before ) && wp_is_post_revision( $post ) ) {
 			return;
 		}
-		
+
 		/**
 		 * Filter: 'wpseo_premium_post_redirect_slug_change' - Check if a redirect should be created on post slug change
 		 *
@@ -176,7 +176,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 		$post = get_post( $post_id );
 
 		// When post is from trash or post is a revision skip further execution.
-		if ( $post->post_status === 'trash' || $post->post_type === 'revision' ) {
+		if ( $post->post_status === 'trash' || wp_is_post_revision( $post ) ) {
 			return;
 		}
 
