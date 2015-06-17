@@ -1,3 +1,6 @@
+### 2.2.2: June 17th, 2015
+* Fixed a bug that would create unnecessary (and sometimes even faulty) redirects.
+
 ### 2.2.1: June 11th, 2015
 * Merge with WordPress SEO core 2.2.1
 
