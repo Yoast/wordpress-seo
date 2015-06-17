@@ -96,13 +96,12 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	/**
 	 * Checks whether the given post is public or not
 	 *
-	 * @param object $post
+	 * @param integer $post_id
 	 *
 	 * @return bool
 	 */
-	private function check_public_post_status( $post ) {
+	private function check_public_post_status( $post_id ) {
 		$public_post_statuses = array(
-			'inherit',
 			'publish',
 			'static',
 		);
@@ -113,9 +112,9 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 		 * @api array $published_post_statuses The statuses that'll be treated as published
 		 * @param object $post The post object we're doing the published check for
 		 */
-		$public_post_statuses = apply_filters( 'wpseo_public_post_statuses', $public_post_statuses, $post );
+		$public_post_statuses = apply_filters( 'wpseo_public_post_statuses', $public_post_statuses, get_post( $post_id ) );
 
-		return ( in_array( $post->post_status, $public_post_statuses, true ) );
+		return ( in_array( get_post_status( $post_id ), $public_post_statuses, true ) );
 	}
 
 	/**
@@ -173,10 +172,8 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	 */
 	public function detect_post_delete( $post_id ) {
 
-		$post = get_post( $post_id );
-
 		// When the post comes from the trash or if the post is a revision then skip further execution.
-		if ( $post->post_status === 'trash' || wp_is_post_revision( $post ) ) {
+		if ( get_post_status( $post_id ) === 'trash' || wp_is_post_revision( $post_id ) ) {
 			return;
 		}
 
@@ -224,11 +221,8 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	 */
 	protected function check_if_redirect_needed( $post_id, $should_exist = false ) {
 
-		// Get the post
-		$post = get_post( $post_id );
-
 		// No revisions please
-		if ( $this->check_public_post_status( $post ) ) {
+		if ( $this->check_public_post_status( $post_id ) ) {
 			// Get the right URL
 			$url = $this->get_target_url( $post_id );
 
