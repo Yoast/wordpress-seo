@@ -57,6 +57,11 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	 */
 	public function detect_slug_change( $post_id, $post, $post_before ) {
 
+		// If post is a revision do not create redirect
+		if ( wp_is_post_revision( $post_before ) && wp_is_post_revision( $post ) ) {
+			return;
+		}
+
 		/**
 		 * Filter: 'wpseo_premium_post_redirect_slug_change' - Check if a redirect should be created on post slug change
 		 *
@@ -91,13 +96,12 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	/**
 	 * Checks whether the given post is public or not
 	 *
-	 * @param object $post
+	 * @param integer $post_id
 	 *
 	 * @return bool
 	 */
-	private function check_public_post_status( $post ) {
+	private function check_public_post_status( $post_id ) {
 		$public_post_statuses = array(
-			'inherit',
 			'publish',
 			'static',
 		);
@@ -108,9 +112,9 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 		 * @api array $published_post_statuses The statuses that'll be treated as published
 		 * @param object $post The post object we're doing the published check for
 		 */
-		$public_post_statuses = apply_filters( 'wpseo_public_post_statuses', $public_post_statuses, $post );
+		$public_post_statuses = apply_filters( 'wpseo_public_post_statuses', $public_post_statuses, $post_id );
 
-		return ( in_array( $post->post_status, $public_post_statuses, true ) );
+		return ( in_array( get_post_status( $post_id ), $public_post_statuses, true ) );
 	}
 
 	/**
@@ -168,7 +172,12 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	 */
 	public function detect_post_delete( $post_id ) {
 
-		// Is a redirect needed
+		// When the post comes from the trash or if the post is a revision then skip further execution.
+		if ( get_post_status( $post_id ) === 'trash' || wp_is_post_revision( $post_id ) ) {
+			return;
+		}
+
+		// Is a redirect needed.
 		if ( $url = $this->check_if_redirect_needed( $post_id ) ) {
 
 			$id = 'wpseo_redirect_' . md5( $url );
@@ -212,11 +221,8 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	 */
 	protected function check_if_redirect_needed( $post_id, $should_exist = false ) {
 
-		// Get the post
-		$post = get_post( $post_id );
-
 		// No revisions please
-		if ( $post->post_status != 'inherit' ) {
+		if ( $this->check_public_post_status( $post_id ) ) {
 			// Get the right URL
 			$url = $this->get_target_url( $post_id );
 
@@ -283,7 +289,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 		/* translators %1$s: <a href='{admin_redirect_url}'>, %2$s: <a href='{undo_redirect_url}'> and %3$s: </a> */
 		$message = sprintf(
 			__( 'WordPress SEO Premium created a %1$sredirect%3$s from the old post URL to the new post URL. %2$sClick here to undo this%3$s.', 'wordpress-seo-premium' ),
-			'<a href="' . $this->admin_redirect_url( $old_url ) . '">',
+			'<a target="_blank" href="' . $this->admin_redirect_url( $old_url ) . '">',
 			'<a href=\'' . $this->javascript_undo_redirect( $old_url, $id ). '\'>',
 			'</a>'
 		);
@@ -306,13 +312,13 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 		add_action( 'post_updated', array( $this, 'detect_slug_change' ), 12, 3 );
 
 		// Detect a post trash
-		add_action( 'trashed_post', array( $this, 'detect_post_trash' ) );
+		add_action( 'wp_trash_post', array( $this, 'detect_post_trash' ) );
 
 		// Detect a post untrash
 		add_action( 'untrashed_post', array( $this, 'detect_post_untrash' ) );
 
 		// Detect a post delete
-		add_action( 'delete_post', array( $this, 'detect_post_delete' ) );
+		add_action( 'before_delete_post', array( $this, 'detect_post_delete' ) );
 	}
 
 }
