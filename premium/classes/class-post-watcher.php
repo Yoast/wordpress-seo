@@ -175,7 +175,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 
 		$post = get_post( $post_id );
 
-		// When post is from trash or post is a revision skip further execution.
+		// When the post comes from the trash or if the post is a revision then skip further execution.
 		if ( $post->post_status === 'trash' || wp_is_post_revision( $post ) ) {
 			return;
 		}
