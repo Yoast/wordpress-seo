@@ -1,4 +1,5 @@
 require("../js/config/config.js");
+require("../js/config/scoring.js");
 require("../js/analyzer.js");
 
 var linkArgs = {
@@ -10,7 +11,7 @@ describe("A test to count links in a given text", function(){
     it("link counter for first string", function(){
         var linkAnalyzer = new Analyzer(linkArgs);
         var result = linkAnalyzer.linkCount();
-        expect(result.result.total).toBe(2);
+        expect(result[0].result.total).toBe(2);
     });
 });
 
@@ -30,20 +31,20 @@ describe("A test to determine the type of links in a given text", function(){
    it("link types from first string", function(){
        var linkAnalyzer2 = new Analyzer(linkArgs2);
        var result = linkAnalyzer2.linkCount();
-       expect(result.result.internal.nofollow).toBe(1);
-       expect(result.result.external.dofollow).toBe(1);
+       expect(result[0].result.internalNofollow).toBe(1);
+       expect(result[0].result.externalDofollow).toBe(1);
    });
    it("link types from text with different types of links", function(){
        var linkAnalyzer3 = new Analyzer(linkArgs3);
        var result = linkAnalyzer3.linkCount();
-       expect(result.result.total).toBe(6);
-       expect(result.result.internal.nofollow).toBe(1);
-       expect(result.result.internal.dofollow).toBe(1);
-       expect(result.result.internal.total).toBe(2);
-       expect(result.result.external.total).toBe(3);
-       expect(result.result.external.nofollow).toBe(1);
-       expect(result.result.external.dofollow).toBe(2);
-       expect(result.result.other.total).toBe(1);
+       expect(result[0].result.total).toBe(6);
+       expect(result[0].result.internalNofollow).toBe(1);
+       expect(result[0].result.internalDofollow).toBe(1);
+       expect(result[0].result.internalTotal).toBe(2);
+       expect(result[0].result.externalTotal).toBe(3);
+       expect(result[0].result.externalNofollow).toBe(1);
+       expect(result[0].result.externalDofollow).toBe(2);
+       expect(result[0].result.otherTotal).toBe(1);
    });
 });
 
@@ -56,8 +57,8 @@ describe("A test to check links in a given text, without an URL in the config", 
     it("returns only external links", function(){
        var linkAnalyzer4 = new Analyzer(linkArgs4);
        var result = linkAnalyzer4.linkCount();
-       expect(result.result.total).toBe(2);
-       expect(result.result.external.total).toBe(2);
-       expect(result.result.internal.total).toBe(0);
+       expect(result[0].result.total).toBe(2);
+       expect(result[0].result.externalTotal).toBe(2);
+       expect(result[0].result.internalTotal).toBe(0);
     });
 });

@@ -1,4 +1,5 @@
 require("../js/config/config.js");
+require("../js/config/scoring.js");
 require("../js/analyzer.js");
 
 headingArgs = {
@@ -10,9 +11,10 @@ headingArgs = {
 describe("test for the subheader analyzer with no matching keywords in the headings", function(){
     it("returns header score - no keyword", function(){
         var headerAnalyzer = new Analyzer(headingArgs);
-        headerAnalyzer.runQueue();
-        expect(headerAnalyzer.__output[0].name).toBe("subHeadings");
-        expect(headerAnalyzer.__output[0].result.keywordFound).toBe(0);
+        var result = headerAnalyzer.subHeadings();
+        expect(result[0].test).toBe("subHeadings");
+        expect(result[0].result.count).toBe(1);
+        expect(result[0].result.matches).toBe(0);
     });
 });
 
@@ -25,9 +27,9 @@ headingArgs2 = {
 describe("test for the subheader analyzer with a single matching keyword in the headings", function(){
     it("returns header score - 1 keyword", function(){
         var headerAnalyzer = new Analyzer(headingArgs2);
-        headerAnalyzer.runQueue();
-        expect(headerAnalyzer.__output[0].name).toBe("subHeadings");
-        expect(headerAnalyzer.__output[0].result.keywordFound).toBe(1);
+        var result = headerAnalyzer.subHeadings();
+        expect(result[0].test).toBe("subHeadings");
+        expect(result[0].result.matches).toBe(1);
     });
 });
 
@@ -40,10 +42,11 @@ headingArgs3 = {
 describe("test for the subheader analyzer where there are no subheadings", function(){
     it("returns header score - no headers", function(){
         var headerAnalyzer = new Analyzer(headingArgs3);
-        headerAnalyzer.runQueue();
-        expect(headerAnalyzer.__output[0].name).toBe("subHeadings");
-        expect(headerAnalyzer.__output[0].result).toBe(null);
+        var result = headerAnalyzer.subHeadings();
+        expect(result[0].test).toBe("subHeadings");
+        expect(result[0].result.count).toBe(0);
     });
 });
+
 
 

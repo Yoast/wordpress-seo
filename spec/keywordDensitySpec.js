@@ -1,4 +1,5 @@
 require("../js/config/config.js");
+require("../js/config/scoring.js");
 require("../js/analyzer.js");
 
 keywordArgs = {
@@ -10,9 +11,8 @@ keywordArgs = {
 describe("A keyword density test with a good amount of occurences of the keyword ", function(){
     it("returns keyword density - good", function(){
         var textAnalyzerDensity = new Analyzer(keywordArgs);
-        textAnalyzerDensity.runQueue();
-        expect(textAnalyzerDensity.__output[0].result.keywordDensity).toContain(3.2);
-        expect(textAnalyzerDensity.__output[0].rating).toBe(9);
+        var result = textAnalyzerDensity.keywordDensity();
+        expect(result[0].result).toContain(3.2);
     });
 });
 
@@ -25,9 +25,8 @@ keywordArgs2 = {
 describe("A keyword density test with a high-density occurence of the keyword", function(){
     it("returns keyword density - high", function(){
         var textAnalyzerDensity = new Analyzer(keywordArgs2);
-        textAnalyzerDensity.runQueue();
-        expect(textAnalyzerDensity.__output[0].result.keywordDensity).toContain(6.9);
-        expect(textAnalyzerDensity.__output[0].rating).toBe(-50);
+        var result = textAnalyzerDensity.keywordDensity();
+        expect(result[0].result).toContain(6.9);
     });
 });
 
@@ -40,9 +39,8 @@ keywordArgs3 = {
 describe("A keyword density test where there are no matching keywords", function(){
     it("returns keyword density - none ", function(){
         var textAnalyzerDensity = new Analyzer(keywordArgs3);
-        textAnalyzerDensity.runQueue();
-        expect(textAnalyzerDensity.__output[0].result.keywordDensity).toContain(0);
-        expect(textAnalyzerDensity.__output[0].rating).toBe(4);
+        var result = textAnalyzerDensity.keywordDensity();
+        expect(result[0].result).toContain(0);
     });
 });
 
@@ -55,8 +53,8 @@ keywordArgs4 = {
 describe("A keyword density test with a string shorter than 100 words", function(){
     it("returns keyword density - < 100", function(){
         var textAnalyzer = new Analyzer(keywordArgs4);
-        textAnalyzer.runQueue();
-        expect(textAnalyzer.__output[0].result).toBe(null);
+        var result = textAnalyzer.keywordDensity();
+        expect(result[0].result).toBe(0);
     });
 });
 
@@ -70,6 +68,6 @@ describe("A keyword density test with a low occurence of the keyword", function(
     it("returns keyword density - low ", function(){
         var textAnalyzer = new Analyzer(keywordArgs5);
         textAnalyzer.runQueue();
-        expect(textAnalyzer.__output[0].rating).toBe(4);
+
     });
 });
