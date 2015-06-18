@@ -3,11 +3,11 @@ analyzerScoring = [
     {
         scoreName: "wordCount",
         scoreArray: [
-            {min: 300, score: 9, text: "The text contains %1$d, this is more than the %2$d word recommended minimum."},
-            {min: 250, max: 299, score: 7, text: "The text contains %1$d, this is slightly below the %2$d word recommended minimum, add a bit more copy."},
-            {min: 200, max: 249, score: 5, text: "The text contains %1$d, this is below the %2$d word recommended minimum. Add more useful content on this topic for readers."},
-            {min: 100, max: 199, score: -10, text: "The text contains %1$d, this is below the %2$d word recommended minimum. Add more useful content on this topic for readers."},
-            {min: 0, max: 99, score: -20, text: "The text contains %1$d. This is far too low and should be increased."}
+            {min: 300, score: 9, text: "The text contains %1$d words, this is more than the %2$d word recommended minimum."},
+            {min: 250, max: 299, score: 7, text: "The text contains %1$d words, this is slightly below the %2$d word recommended minimum, add a bit more copy."},
+            {min: 200, max: 249, score: 5, text: "The text contains %1$d words, this is below the %2$d word recommended minimum. Add more useful content on this topic for readers."},
+            {min: 100, max: 199, score: -10, text: "The text contains %1$d words, this is below the %2$d word recommended minimum. Add more useful content on this topic for readers."},
+            {min: 0, max: 99, score: -20, text: "The text contains %1$d words. This is far too low and should be increased."}
         ],
         replaceArray: [
             {name: "wordCount",position: "%1$d",source: "matcher"},
