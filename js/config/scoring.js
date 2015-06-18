@@ -1,3 +1,4 @@
+analyzerScoreRating = 9;
 analyzerScoring = [
     {
         scoreName: "wordCount",
@@ -152,8 +153,8 @@ analyzerScoring = [
         scoreName: "imageCount",
         scoreArray:[
             {matcher: "total", max: 0, score: 3, text: "No images appear in this page, consider adding some as appropriate."},
-            {matcher: "alt", max: 0, score: 5, text: "The images on this page are missing alt tags."},
-            {matcher: "noAlt", min: 1, score: 5, text: "The images on this page do not have alt tags containing your keyword / phrase."},
+            {matcher: "noAlt", min: 1, score: 5, text: "The images on this page are missing alt tags."},
+            {matcher: "alt", min: 1, score: 5, text: "The images on this page do not have alt tags containing your keyword / phrase."},
             {matcher: "altKeyword", min: 1, score: 9, text: "The images on this page contain alt tags with the target keyword / phrase."}
         ]
     }

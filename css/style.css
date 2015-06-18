@@ -1,0 +1,70 @@
+html{
+    font-family: sans-serif;
+}
+
+.inputForm label{
+    width: 250px;
+    float: left;
+    line-height: 20px;
+}
+
+.inputForm input{
+    width: 400px;
+    line-height: 20px;
+    margin: 5px;
+}
+
+.inputForm textArea{
+    width: 400px;
+    height: 400px;
+    margin: 5px;
+}
+
+.wpseotab {
+    display: block;
+    overflow: auto;
+    padding: .5em .9em;
+    border: 1px solid #ddd;
+    background-color: #fdfdfd;
+}
+
+.wpseo-score-icon {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    margin: 3px 10px 0 3px;
+    border-radius: 50%;
+    background: #888;
+    vertical-align: top;
+}
+
+.wpseo-score-icon.good {
+    background-color: #7ad03a;
+}
+
+.wpseo-score-icon.ok {
+    background-color: #ffba00;
+}
+
+.wpseo-score-icon.poor {
+    background-color: #ee7c1b;
+}
+
+.wpseo-score-icon.bad {
+    background-color: #dd3d36;
+}
+
+.wpseo-score-icon.na {
+    background-color: #999;
+}
+
+.wpseo-score-icon.noindex {
+    background-color: #1e8cbe;
+}
+
+.wpseo_msg {
+    margin: 5px 0 10px 0;
+    padding: 0 5px;
+    border: 1px solid #e6db55;
+    background-color: lightYellow;
+}

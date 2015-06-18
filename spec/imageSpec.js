@@ -14,7 +14,7 @@ describe("a test to extract the images from a given textstring", function(){
        var result = imageAnalyzer.imageCount();
        expect(result[0].result.total).toBe(3);
        expect(result[0].result.alt).toBe(1);
-       expect(result[0].result.noalt).toBe(2);
+       expect(result[0].result.noAlt).toBe(2);
 
    });
 });
