@@ -13,7 +13,7 @@ var imgArgs = {
 
 describe("a test to extract the images from a given textstring", function(){
    it("returns the number of images found in the textstring", function(){
-       imageAnalyzer = new Analyzer(imgArgs);
+       imageAnalyzer = new YoastSEO_Analyzer(imgArgs);
        var result = imageAnalyzer.imageCount();
        expect(result[0].result.total).toBe(3);
        expect(result[0].result.alt).toBe(1);

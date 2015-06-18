@@ -13,7 +13,7 @@ var urlArgs = {
 
 describe("a test matching the keywords in the url", function(){
     it("returns a match for the keyword", function(){
-        var urlAnalyzer = new Analyzer(urlArgs);
+        var urlAnalyzer = new YoastSEO_Analyzer(urlArgs);
         urlAnalyzer.runQueue();
         var result = urlAnalyzer.__output;
         expect(result[0].result).toBe(1);
@@ -30,7 +30,7 @@ var urlArgs2 = {
 
 describe("a test matching the keywords in the url", function(){
     it("returns no matches for the keyword, since it isn't there", function(){
-        var urlAnalyzer = new Analyzer(urlArgs2);
+        var urlAnalyzer = new YoastSEO_Analyzer(urlArgs2);
         var result = urlAnalyzer.urlKeyword();
         expect(result[0].result).toBe(0);
     });
@@ -43,7 +43,7 @@ var urlArgs3 = {
 
 describe("a test matching the keywords in the url", function(){
     it("returns no matches for the keyword, since there is no url defined", function(){
-        var urlAnalyzer = new Analyzer(urlArgs3);
+        var urlAnalyzer = new YoastSEO_Analyzer(urlArgs3);
         var result = urlAnalyzer.urlKeyword();
         expect(result[0].result).toBe(0);
     });

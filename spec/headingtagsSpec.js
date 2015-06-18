@@ -13,7 +13,7 @@ headingArgs = {
 
 describe("test for the subheader analyzer with no matching keywords in the headings", function(){
     it("returns header score - no keyword", function(){
-        var headerAnalyzer = new Analyzer(headingArgs);
+        var headerAnalyzer = new YoastSEO_Analyzer(headingArgs);
         var result = headerAnalyzer.subHeadings();
         expect(result[0].test).toBe("subHeadings");
         expect(result[0].result.count).toBe(1);
@@ -29,7 +29,7 @@ headingArgs2 = {
 
 describe("test for the subheader analyzer with a single matching keyword in the headings", function(){
     it("returns header score - 1 keyword", function(){
-        var headerAnalyzer = new Analyzer(headingArgs2);
+        var headerAnalyzer = new YoastSEO_Analyzer(headingArgs2);
         var result = headerAnalyzer.subHeadings();
         expect(result[0].test).toBe("subHeadings");
         expect(result[0].result.matches).toBe(1);
@@ -44,7 +44,7 @@ headingArgs3 = {
 
 describe("test for the subheader analyzer where there are no subheadings", function(){
     it("returns header score - no headers", function(){
-        var headerAnalyzer = new Analyzer(headingArgs3);
+        var headerAnalyzer = new YoastSEO_Analyzer(headingArgs3);
         var result = headerAnalyzer.subHeadings();
         expect(result[0].test).toBe("subHeadings");
         expect(result[0].result.count).toBe(0);

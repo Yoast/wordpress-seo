@@ -25,8 +25,11 @@
     "grunt-jscs": "^1.6.0",
     "grunt-jsonlint": "^1.0.4",
     "grunt-jsvalidate": "^0.2.2",
+    "io.js": "0.0.0",
     "jasmine": "~2.2.1",
-    "load-grunt-config": "^0.17.0"
+    "jsdom": "^5.4.3",
+    "load-grunt-config": "^0.17.0",
+    "zombie": "^4.0.10"
   },
   "bugs": {
     "url": "https://github.com/Yoast/js-text-analysis/issues"

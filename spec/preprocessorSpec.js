@@ -16,7 +16,7 @@ expectedOutput = {
 };
 
 describe("Test for the preprocessor that formats text for the analyzer", function(){
-    preproc = new PreProcessor(preprocArgs.testString);
+    preproc = new YoastSEO_PreProcessor(preprocArgs.testString);
     it("returns processed clean text", function(){
         expect(preproc.__store.cleanText).toBe(expectedOutput.cleanText);
     });

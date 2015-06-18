@@ -74,7 +74,7 @@ analyzerScoring = [
         ],
         replaceArray: [
             {name: "minCharacters", position: "%1$d", value: 120},
-            {name: "maxCharacters", position: "%2$d", value: 156},
+            {name: "maxCharacters", position: "%2$d", value: 156}
         ]
     },
     {

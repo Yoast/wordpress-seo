@@ -16,7 +16,7 @@ scoreArgs = {
 
 describe("a test for the scoring function of all functions in the analyzer", function(){
    it("returns scores for all objects", function(){
-       var scorer = new Analyzer(scoreArgs);
+       var scorer = new YoastSEO_Analyzer(scoreArgs);
        scorer.runQueue();
        var analyzeScore = scorer.analyzeScorer.__score;
        expect(analyzeScore.length).toBe(15);

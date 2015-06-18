@@ -12,7 +12,7 @@ var fleschArgs = {
 
 describe("Test for the flesch kincaid reading", function(){
     it("returns a flesh kincaid reading score", function(){
-        var flesch = new Analyzer(fleschArgs);
+        var flesch = new YoastSEO_Analyzer(fleschArgs);
         var result = flesch.fleschReading();
         expect(result[0].result).toBe("79.3");
     });
@@ -25,7 +25,7 @@ var fleschArgs2 = {
 
 describe("2nd test for the flesch kincaid reading", function(){
     it("returns a flesh kincaid reading score", function(){
-        var flesch2 = new Analyzer(fleschArgs2);
+        var flesch2 = new YoastSEO_Analyzer(fleschArgs2);
         var result = flesch2.fleschReading();
         expect(result[0].result).toBe("63.9");
     });
