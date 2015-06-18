@@ -12,12 +12,20 @@ YoastSEO_Analyzer = function ( args ) {
  * YoastSEO_Analyzer initialization. Loads defaults and overloads custom settings.
  */
 YoastSEO_Analyzer.prototype.init = function() {
+    this.toLowCase();
     this.initDependencies();
     this.initQueue();
     this.loadWordlists();
     this.setDefaults();
     this.__output = [];
     this.__store = {};
+};
+
+YoastSEO_Analyzer.prototype.toLowCase = function() {
+    this.config.keyword = this.config.keyword.toLocaleLowerCase();
+    this.config.pageTitle = this.config.pageTitle.toLocaleLowerCase();
+    this.config.url = this.config.url.toLocaleLowerCase();
+    this.config.meta = this.config.meta.toLocaleLowerCase();
 };
 
 /**
