@@ -1,9 +1,9 @@
 
 /**
- * PreProcessor object definition. Creates __store object and calls init.
+ * YoastSEO_PreProcessor object definition. Creates __store object and calls init.
  * @params textString
  */
-PreProcessor = function ( text ){
+YoastSEO_PreProcessor = function ( text ){
     //create __store object to store data
     this.__store = {};
     this.__store.originalText = text;
@@ -14,7 +14,7 @@ PreProcessor = function ( text ){
 /**
  * init function calling all necessary PreProcessorfunctions
  */
-PreProcessor.prototype.init = function() {
+YoastSEO_PreProcessor.prototype.init = function() {
     //call function to clean text
     this.textFormat();
     //call function to count words
@@ -24,7 +24,7 @@ PreProcessor.prototype.init = function() {
 /**
  * formats the original text from __store and save as cleantext, cleantextSomeTags en cleanTextNoTags
  */
-PreProcessor.prototype.textFormat = function() {
+YoastSEO_PreProcessor.prototype.textFormat = function() {
     this.__store.cleanText = this.cleanText( this.__store.originalText );
     this.__store.cleanTextSomeTags = this.stripSomeTags( this.__store.cleanText );
     this.__store.cleanTextNoTags = this.stripAllTags( this.__store.cleanTextSomeTags );
@@ -33,7 +33,7 @@ PreProcessor.prototype.textFormat = function() {
 /**
  * saves wordcount (all words) and wordcountNoTags (all words except those in tags) in the __store object
  */
-PreProcessor.prototype.countStore = function() {
+YoastSEO_PreProcessor.prototype.countStore = function() {
     /*wordcounters*/
     this.__store.wordcount = this.__store.cleanText === "." ? 0 : this.__store.cleanText.split( " " ).length;
     this.__store.wordcountNoTags = this.__store.cleanTextNoTags.split( " " ).length;
@@ -48,7 +48,7 @@ PreProcessor.prototype.countStore = function() {
  * counts the number of sentences in a textstring by splitting on a period. Removes sentences that are empty or have only a space.
  * @param textString
  */
-PreProcessor.prototype.sentenceCount = function( textString ){
+YoastSEO_PreProcessor.prototype.sentenceCount = function( textString ){
     var sentences = textString.split( "." );
     sentenceCount = 0;
     for ( var i = 0; i < sentences.length; i++ ){
@@ -64,7 +64,7 @@ PreProcessor.prototype.sentenceCount = function( textString ){
  * @param textString
  * @returns syllable count
  */
-PreProcessor.prototype.syllableCount = function( textString ) {
+YoastSEO_PreProcessor.prototype.syllableCount = function( textString ) {
     this.syllableCount = 0;
     textString = textString.replace( /[.]/g, " " );
     textString = this.removeWords( textString );
@@ -84,7 +84,7 @@ PreProcessor.prototype.syllableCount = function( textString ) {
  * @param splitWordArray
  */
 
-PreProcessor.prototype.basicSyllableCount = function( splitWordArray ) {
+YoastSEO_PreProcessor.prototype.basicSyllableCount = function( splitWordArray ) {
     for ( var j = 0; j < splitWordArray.length; j++ ){
         if( splitWordArray[j].length > 0 ){
             this.syllableCount++;
@@ -98,7 +98,7 @@ PreProcessor.prototype.basicSyllableCount = function( splitWordArray ) {
  * @param regex
  * @param operator
  */
-PreProcessor.prototype.advancedSyllableCount = function( inputString, regex, operator ) {
+YoastSEO_PreProcessor.prototype.advancedSyllableCount = function( inputString, regex, operator ) {
     var match = inputString.match( regex );
     if( match !== null ){
         if( operator === "subtract" ){
@@ -114,7 +114,7 @@ PreProcessor.prototype.advancedSyllableCount = function( inputString, regex, ope
  * @param textString
  * @returns textString with exclusionwords removed
  */
-PreProcessor.prototype.removeWords = function( textString ) {
+YoastSEO_PreProcessor.prototype.removeWords = function( textString ) {
     for ( var i = 0; i < preprocessorConfig.syllables.exclusionWords.length; i++ ){
         var exclusionRegex = new RegExp( preprocessorConfig.syllables.exclusionWords[i].word, "g" );
         var matches = textString.match( exclusionRegex );
@@ -131,7 +131,7 @@ PreProcessor.prototype.removeWords = function( textString ) {
  * @param textString
  * @returns textString
  */
-PreProcessor.prototype.cleanText = function( textString ) {
+YoastSEO_PreProcessor.prototype.cleanText = function( textString ) {
     textString = textString.toLocaleLowerCase();
     //replace comma', hyphens etc with spaces
     textString = textString.replace( /[\-\;\:\,\(\)\"\'\|\“\”]/g, " " );
@@ -157,7 +157,7 @@ PreProcessor.prototype.cleanText = function( textString ) {
  * @param textString
  * @returns textString
  */
-PreProcessor.prototype.stripSomeTags = function( textString ) {
+YoastSEO_PreProcessor.prototype.stripSomeTags = function( textString ) {
     //remove tags, except li, p, h1-6, dd
     textString = textString.replace( /<(?!li|\/li|p|\/p|h1|\/h1|h2|\/h2|h3|\/h3|h4|\/h4|h5|\/h5|h6|\/h6|dd).*?\>/g, " " );
     textString = this.stringHelper.stripSpaces( textString );
@@ -169,9 +169,23 @@ PreProcessor.prototype.stripSomeTags = function( textString ) {
  * @param textString
  * @returns textString
  */
-PreProcessor.prototype.stripAllTags = function( textString ) {
+YoastSEO_PreProcessor.prototype.stripAllTags = function( textString ) {
     //remove all tags
     textString = textString.replace( /(<([^>]+)>)/ig," " );
     textString = this.stringHelper.stripSpaces( textString );
     return textString;
+};
+
+
+
+/**
+ * Checks if the preprocessor is already initialized and if so if the textstring differs from the input.
+ * @param inputString
+ * @returns {yst_preProcessor}
+ */
+YoastSEO_preProcessor = function( inputString ) {
+    if ( typeof yst_preProcessor !== "object" || yst_preProcessor.inputText !== inputString ) {
+        yst_preProcessor = new YoastSEO_PreProcessor( inputString );
+    }
+    return yst_preProcessor;
 };

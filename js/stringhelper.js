@@ -1,5 +1,5 @@
 /**helper functions*/
-StringHelper = function() {};
+YoastSEO_StringHelper = function() {};
 /**
  * removes strings from array and replaces them with keyword.
  * @param textString
@@ -7,7 +7,7 @@ StringHelper = function() {};
  * @param replacement (default == space)
  * @returns {textString}
  */
-StringHelper.prototype.replaceString = function( textString, stringsToRemove, replacement ){
+YoastSEO_StringHelper.prototype.replaceString = function( textString, stringsToRemove, replacement ){
     if( typeof replacement === "undefined" ){
         replacement = " ";
     }
@@ -21,7 +21,7 @@ StringHelper.prototype.replaceString = function( textString, stringsToRemove, re
  * @param stringsToMatch
  * @returns {matches}
  */
-StringHelper.prototype.matchString = function( textString, stringsToMatch ){
+YoastSEO_StringHelper.prototype.matchString = function( textString, stringsToMatch ){
     return textString.match( this.stringToRegex( stringsToMatch ) );
 };
 
@@ -31,7 +31,7 @@ StringHelper.prototype.matchString = function( textString, stringsToMatch ){
  * @param regex
  * @returns {number}
  */
-StringHelper.prototype.countMatches = function( textString, regex ){
+YoastSEO_StringHelper.prototype.countMatches = function( textString, regex ){
     var count = 0;
     var matches = textString.match( regex );
     if( matches !== null ){
@@ -45,7 +45,7 @@ StringHelper.prototype.countMatches = function( textString, regex ){
  * @param stringArray
  * @returns {RegExp}
  */
-StringHelper.prototype.stringToRegex = function( stringArray, disableWordBoundary ){
+YoastSEO_StringHelper.prototype.stringToRegex = function( stringArray, disableWordBoundary ){
     var regexString = "";
     var wordBoundary = "\\b";
     if( disableWordBoundary ){
@@ -63,7 +63,7 @@ StringHelper.prototype.stringToRegex = function( stringArray, disableWordBoundar
  * @param textString
  * @returns textString
  */
-StringHelper.prototype.stripSpaces = function( textString ) {
+YoastSEO_StringHelper.prototype.stripSpaces = function( textString ) {
     //replace multiple spaces with single space
     textString = textString.replace( / {2,}/g, " " );
     //remove first/last character if space
@@ -74,24 +74,12 @@ StringHelper.prototype.stripSpaces = function( textString ) {
 
 
 /**
- * Checks if the preprocessor is already initialized and if so if the textstring differs from the input.
- * @param inputString
- * @returns {yst_preProcessor}
- */
-preProcessor = function( inputString ) {
-    if ( typeof yst_preProcessor !== "object" || yst_preProcessor.inputText !== inputString ) {
-        yst_preProcessor = new PreProcessor( inputString );
-    }
-    return yst_preProcessor;
-};
-
-/**
  * Checks if the stringhelper is already initialized. Returns stringHelper.
- * @returns {StringHelper}
+ * @returns {YoastSEO_StringHelper}
  */
 stringHelper = function() {
     if ( typeof yst_stringHelper !== "object" ){
-        yst_stringHelper = new StringHelper();
+        yst_stringHelper = new YoastSEO_StringHelper();
     }
     return yst_stringHelper;
 };
