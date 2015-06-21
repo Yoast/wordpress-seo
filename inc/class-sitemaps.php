@@ -497,7 +497,6 @@ class WPSEO_Sitemaps {
 							'tax_query' => array(
 								array(
 									'taxonomy' => $tax_name,
-									'field'    => 'slug',
 									'terms'    => $terms,
 								),
 							),
