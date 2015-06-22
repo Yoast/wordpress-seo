@@ -160,7 +160,7 @@ function wpseo_register_var_replacement( $var, $replace_function, $type = 'advan
  */
 function wpseo_xml_redirect_sitemap() {
 	$current_url = ( isset( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] == 'on' ) ? 'https://' : 'http://';
-	$current_url .= sanitize_text_field( $_SERVER['SERVER_NAME'] ) . sanitize_text_field( $_SERVER['REQUEST_URI'] );
+	$current_url .= sanitize_text_field( $_SERVER['HTTP_HOST'] ) . sanitize_text_field( $_SERVER['REQUEST_URI'] );
 
 	// Must be 'sitemap.xml' and must be 404.
 	if ( home_url( '/sitemap.xml' ) == $current_url && $GLOBALS['wp_query']->is_404 ) {
