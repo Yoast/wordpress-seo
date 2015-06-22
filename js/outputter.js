@@ -1,18 +1,19 @@
 var args = {
+    source: YoastSEO_WordPressScraper,
     analyzer: true,
     snippetPreview: true,
     //inputType is inputs, inline or both
     inputType: "both",
-    elementTarget: "inputForm",
+    elementTarget: "poststuff",
     typeDelay: 300,
     typeDelayStep: 100,
     maxTypeDelay: 1500,
     dynamicDelay: true,
     multiKeyword: false,
     targets: {
-        output: "output",
+        output: "wpseo_meta",
         overall: "overallScore",
-        snippet: "snippet"
+        snippet: "wpseosnippet"
     },
     sampleText: {
         url: "please fill in an URL",
@@ -33,82 +34,13 @@ YoastSEO_AnalyzeLoader = function( args ) {
     this.config = args;
     this.inputs = {};
     this.defineElements();
-    this.createElements();
+    this.source = new this.config.source( args );
+    if(this.config.snippetPreview){
+        this.createSnippetPreview();
+    }
     this.bindEvent();
 };
 
-/**
- * creates input elements in the DOM
- */
-YoastSEO_AnalyzeLoader.prototype.createElements = function() {
-    var targetElement = document.getElementById( this.config.elementTarget );
-    if( this.config.inputType === "both" || this.config.inputType === "inputs" ){
-        this.createInput("title", targetElement, "Title");
-    }
-    this.createText("text", targetElement, "text");
-    if( this.config.inputType === "both" || this.config.inputType === "inputs" ) {
-        this.createInput("url", targetElement, "URL");
-        this.createInput("meta", targetElement, "Metadescription");
-    }
-    this.createInput("keyword", targetElement, "Focus keyword");
-    this.createSnippetPreview();
-};
-
-/**
- * Creates inputs for the form, and creates labels and linebreaks.
- * the ID and placeholder text is based on the type variable.
- * @param type
- * @param targetElement
- * @param text
- */
-YoastSEO_AnalyzeLoader.prototype.createInput = function( type, targetElement, text ) {
-    this.createLabel ( type, targetElement, text);
-    var input = document.createElement( "input" );
-    input.type = "text";
-    input.id = type+"Input";
-    input.placeholder = this.config.sampleText[ type ];
-    targetElement.appendChild( input );
-    this.createBr( targetElement );
-};
-
-/**
- * Creates textfields for the form, and creates labels and linebreaks;
- * the ID and placeholder text is based on the type variable.
- * @param type
- * @param targetElement
- * @param text
- */
-YoastSEO_AnalyzeLoader.prototype.createText = function( type, targetElement, text ) {
-    this.createLabel ( type, targetElement, text );
-    var textarea = document.createElement( "textarea" );
-    textarea.placeholder = this.config.sampleText[ type ];
-    textarea.id = type+"Input";
-    targetElement.appendChild( textarea );
-    this.createBr( targetElement );
-};
-
-/**
- * creates label for the form. Uses the type variable to fill the for attribute.
- * @param type
- * @param targetElement
- * @param text
- */
-YoastSEO_AnalyzeLoader.prototype.createLabel = function( type, targetElement, text ) {
-    var label = document.createElement( "label" );
-    label.innerText = text;
-    label.for = type+"Input";
-    targetElement.appendChild( label );
-
-};
-
-/**
- * creates linebreak
- * @param targetElement
- */
-YoastSEO_AnalyzeLoader.prototype.createBr = function( targetElement ) {
-    var br = document.createElement( "br" );
-    targetElement.appendChild( br );
-};
 
 /**
  * creates the elements for the snippetPreview
@@ -182,11 +114,11 @@ YoastSEO_AnalyzeLoader.prototype.defineElements = function() {
  * gets the values from the inputfields. The values from these fields are used as input for the analyzer.
  */
 YoastSEO_AnalyzeLoader.prototype.getInput = function() {
-    this.inputs.textString = document.getElementById( "textInput" ).value;
-    this.inputs.keyword = document.getElementById( "keywordInput" ).value;
-    this.inputs.meta = document.getElementById( "metaInput" ).value;
-    this.inputs.url = document.getElementById( "urlInput" ).value;
-    this.inputs.pageTitle = document.getElementById( "titleInput" ).value;
+    this.inputs.textString = this.source.getInput( "text" );
+    this.inputs.keyword = this.source.getInput( "keyword" );
+    this.inputs.meta = this.source.getInput( "meta" );
+    this.inputs.url = this.source.getInput( "url" );
+    this.inputs.pageTitle = this.source.getInput( "title" );
 };
 
 /**
@@ -228,9 +160,9 @@ YoastSEO_AnalyzeLoader.prototype.bindSnippetEvents = function() {
  * in the snippetPreview.
  */
 YoastSEO_AnalyzeLoader.prototype.callBackSnippetData = function() {
-    document.getElementById( "titleInput" ).value = document.getElementById( "snippet_title" ).innerText;
-    document.getElementById( "metaInput" ).value = document.getElementById( "snippet_meta" ).innerText;
-    document.getElementById( "urlInput" ).value = document.getElementById( "snippet_cite" ).innerText;
+    this.source.setInputData( "title",  document.getElementById( "snippet_title" ).innerText );
+    this.source.setInputData( "meta",  document.getElementById( "snippet_meta" ).innerText );
+    this.source.setInputData( "url",  document.getElementById( "snippet_cite" ).innerText );
 };
 
 /**
@@ -317,7 +249,7 @@ YoastSEO_AnalyzeLoader.prototype.runAnalyzer = function() {
  */
 loadEvents = function() {
     if( document.readyState === "complete" ){
-        var loader = new YoastSEO_AnalyzeLoader( args );
+        loader = new YoastSEO_AnalyzeLoader( args );
     }else{
         setTimeout( loadEvents, 50 );
     }
