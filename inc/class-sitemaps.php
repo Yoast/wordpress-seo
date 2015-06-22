@@ -96,7 +96,6 @@ class WPSEO_Sitemaps {
 		}
 
 		add_action( 'after_setup_theme', array( $this, 'reduce_query_load' ), 99 );
-		add_filter( 'posts_where', array( $this, 'invalidate_main_query' ) );
 
 		add_action( 'pre_get_posts', array( $this, 'redirect' ), 1 );
 		add_filter( 'redirect_canonical', array( $this, 'canonical' ) );
@@ -134,18 +133,11 @@ class WPSEO_Sitemaps {
 	 *
 	 * @param string $where
 	 *
+	 * @deprecated The relevant sitemap code now hijacks main query before this filter can act on it.
+	 *
 	 * @return string
 	 */
 	function invalidate_main_query( $where ) {
-
-		// Check if $wp_query is properly set which isn't always the case in older WP development versions.
-		if ( ! is_object( $GLOBALS['wp_query'] ) ) {
-			return $where;
-		}
-
-		if ( is_main_query() && ( get_query_var( 'sitemap' ) != '' || get_query_var( 'xsl' ) != '' ) ) {
-			$where = ' AND 0=1 ' . $where;
-		}
 
 		return $where;
 	}
@@ -505,7 +497,6 @@ class WPSEO_Sitemaps {
 							'tax_query' => array(
 								array(
 									'taxonomy' => $tax_name,
-									'field'    => 'slug',
 									'terms'    => $terms,
 								),
 							),
