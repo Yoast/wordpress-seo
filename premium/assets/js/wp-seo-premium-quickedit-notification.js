@@ -39,6 +39,11 @@ function wpseo_show_notification() {
 	if (wpseo_current_page === 'edit.php' || wpseo_current_page === 'edit-tags.php') {
 		//When user clicks on save button after doing a quick edit, get the post id, current slug and new slug.
 		jQuery('.button-primary').click(function() {
+
+			if( jQuery( this).attr('id') == 'save-order' ){
+				return;
+			}
+
 			var wpseo_post_id = jQuery(this).closest('tr').attr('id').replace('edit-', '');
 
 			var wpseo_current_slug;
