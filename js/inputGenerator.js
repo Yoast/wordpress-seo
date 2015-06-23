@@ -1,5 +1,6 @@
-YoastSEO_InputGenerator = function( args ){
+YoastSEO_InputGenerator = function( args, refObj ){
     this.config = args;
+    this.refObj = refObj;
     this.createElements();
 };
 /**
@@ -7,14 +8,7 @@ YoastSEO_InputGenerator = function( args ){
  */
 YoastSEO_InputGenerator.prototype.createElements = function() {
     var targetElement = document.getElementById( this.config.elementTarget );
-    if( this.config.inputType === "both" || this.config.inputType === "inputs" ){
-        this.createInput("title", targetElement, "Title");
-    }
     this.createText("text", targetElement, "text");
-    if( this.config.inputType === "both" || this.config.inputType === "inputs" ) {
-        this.createInput("url", targetElement, "URL");
-        this.createInput("meta", targetElement, "Metadescription");
-    }
     this.createInput("keyword", targetElement, "Focus keyword");
 
 };
@@ -31,6 +25,7 @@ YoastSEO_InputGenerator.prototype.createInput = function( type, targetElement, t
     var input = document.createElement( "input" );
     input.type = "text";
     input.id = type+"Input";
+    input.refObj = this.refObj;
     input.placeholder = this.config.sampleText[ type ];
     targetElement.appendChild( input );
     this.createBr( targetElement );
@@ -75,8 +70,28 @@ YoastSEO_InputGenerator.prototype.createBr = function( targetElement ) {
     targetElement.appendChild( br );
 };
 
-YoastSEO_InputGenerator.prototype.getInputs = function( inputType ) {
-
+YoastSEO_InputGenerator.prototype.getInput = function( inputType ) {
+    var val;
+    switch( inputType){
+        case "text":
+            val = document.getElementById( "textInput" ).value;
+            break;
+        case "url":
+            val = document.getElementById("snippet_cite").innerText;
+            break;
+        case "meta":
+            val = document.getElementById("snippet_meta").innerText;
+            break;
+        case "keyword":
+            val = document.getElementById("keywordInput").value;
+            break;
+        case "title":
+            val = document.getElementById("snippet_title").innerText;
+            break;
+        default:
+            break;
+    }
+    return val;
 };
 
 YoastSEO_InputGenerator.prototype.setInputData = function( inputType, value ) {

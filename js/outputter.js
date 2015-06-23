@@ -1,28 +1,4 @@
-var args = {
-    source: YoastSEO_WordPressScraper,
-    analyzer: true,
-    snippetPreview: true,
-    //inputType is inputs, inline or both
-    inputType: "both",
-    elementTarget: "poststuff",
-    typeDelay: 300,
-    typeDelayStep: 100,
-    maxTypeDelay: 1500,
-    dynamicDelay: true,
-    multiKeyword: false,
-    targets: {
-        output: "wpseo_meta",
-        overall: "overallScore",
-        snippet: "wpseosnippet"
-    },
-    sampleText: {
-        url: "please fill in an URL",
-        title: "please fill in a title",
-        keyword: "please fill in a keyword",
-        meta: "please fill in a metadescription",
-        text: "please fill in a text"
-    }
-};
+
 
 /**
  * Loader for the analyzer, loads the eventbinder and the elementdefiner
@@ -34,7 +10,7 @@ YoastSEO_AnalyzeLoader = function( args ) {
     this.config = args;
     this.inputs = {};
     this.defineElements();
-    this.source = new this.config.source( args );
+    this.source = new this.config.source( args, this );
     if(this.config.snippetPreview){
         this.createSnippetPreview();
     }
@@ -61,13 +37,9 @@ YoastSEO_AnalyzeLoader.prototype.createSnippetPreview = function() {
  */
 YoastSEO_AnalyzeLoader.prototype.createSnippetPreviewTitle = function( target ) {
     var title;
-    if( this.config.inputType === "both" || this.config.inputType === "inline" ){
-        title = document.createElement( "span" );
-        title.contentEditable = true;
-        title.innerText = this.config.sampleText[ "title" ];
-    } else {
-        title = document.createElement( "a" );
-    }
+    title = document.createElement( "span" );
+    title.contentEditable = true;
+    title.innerText = this.config.sampleText[ "title" ];
     title.className = "title";
     title.id = "snippet_title";
     target.appendChild( title );
@@ -81,10 +53,8 @@ YoastSEO_AnalyzeLoader.prototype.createSnippetPreviewUrl = function( target ){
     var cite = document.createElement( "cite" );
     cite.className = "url";
     cite.id = "snippet_cite";
-    if( this.config.inputType === "both" || this.config.inputType === "inline" ){
-        cite.innerText = this.config.sampleText[ "url" ];
-        cite.contentEditable = true;
-    }
+    cite.innerText = this.config.sampleText[ "url" ];
+    cite.contentEditable = true;
     target.appendChild( cite );
 };
 
@@ -96,10 +66,8 @@ YoastSEO_AnalyzeLoader.prototype.createSnippetPreviewMeta = function ( target ){
     var meta = document.createElement( "span" );
     meta.className = "desc";
     meta.id = "snippet_meta";
-    if( this.config.inputType === "both" || this.config.inputType === "inline" ){
-        meta.contentEditable = true;
-        meta.innerText = this.config.sampleText[ "meta" ];
-    }
+    meta.contentEditable = true;
+    meta.innerText = this.config.sampleText[ "meta" ];
     target.appendChild( meta );
 };
 
@@ -108,6 +76,8 @@ YoastSEO_AnalyzeLoader.prototype.createSnippetPreviewMeta = function ( target ){
  */
 YoastSEO_AnalyzeLoader.prototype.defineElements = function() {
     this.target = document.getElementById( this.config.targets.output );
+    var elem = document.getElementById( this.config.elementTarget );
+    elem.__refObj = this;
 };
 
 /**
@@ -126,9 +96,7 @@ YoastSEO_AnalyzeLoader.prototype.getInput = function() {
  */
 YoastSEO_AnalyzeLoader.prototype.bindEvent = function() {
     this.bindInputEvent();
-    if( this.config.inputType === "both" || this.config.inputType === "inline" ) {
-        this.bindSnippetEvents();
-    }
+    this.bindSnippetEvents();
 };
 
 /**
@@ -136,7 +104,6 @@ YoastSEO_AnalyzeLoader.prototype.bindEvent = function() {
  */
 YoastSEO_AnalyzeLoader.prototype.bindInputEvent = function() {
     var elem = document.getElementById( this.config.elementTarget );
-    elem.__refObj = this;
     elem.addEventListener( "input", this.analyzeTimer );
 };
 
@@ -146,13 +113,13 @@ YoastSEO_AnalyzeLoader.prototype.bindInputEvent = function() {
 YoastSEO_AnalyzeLoader.prototype.bindSnippetEvents = function() {
     var snippetElem = document.getElementById(this.config.targets.snippet);
     snippetElem.refObj = this;
-    snippetElem.addEventListener("input", this.callBackSnippetData);
-    var elems = ["meta", "cite", "title"];
+    snippetElem.addEventListener("input", this.analyzeTimer );
+    /*var elems = ["meta", "cite", "title"];
     for (var i = 0; i < elems.length; i++) {
         var targetElement = document.getElementById( "snippet_" + elems[i] );
         targetElement.refObj = this;
         targetElement.addEventListener( "blur", this.reloadSnippetText );
-    }
+    }*/
 };
 
 /**
@@ -178,7 +145,11 @@ YoastSEO_AnalyzeLoader.prototype.reloadSnippetText = function() {
  * the analyzeTimer calls the checkInputs function with a delay, so the function won' be executed at every keystroke
  */
 YoastSEO_AnalyzeLoader.prototype.analyzeTimer = function() {
+    //todo check refObj references on elements
     var refObj = this.__refObj;
+    if( typeof refObj === "undefined" ){
+        refObj = this.refObj;
+    }
     clearTimeout( window.timer );
     window.timer = setTimeout( refObj.checkInputs, refObj.config.typeDelay );
 };

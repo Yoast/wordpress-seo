@@ -3,6 +3,8 @@
     <head>
         <meta charset="UTF-8">
         <title></title>
+        <script type="text/javascript" src="../js/inputGenerator.js"></script>
+        <script type="text/javascript" src="../js/snippetPreview.js"></script>
         <script type="text/javascript" src="../js/config/config.js"></script>
         <script type="text/javascript" src="../js/config/scoring.js"></script>
         <script type="text/javascript" src="../js/analyzer.js"></script>
@@ -10,12 +12,41 @@
         <script type="text/javascript" src="../js/preprocessor.js"></script>
         <script type="text/javascript" src="../js/stringhelper.js"></script>
         <script type="text/javascript" src="../js/outputter.js"></script>
-        <script type="text/javascript" src="../js/snippetPreview.js"></script>
         <script type="text/javascript" src="../js/scoreFormatter.js"></script>
+        <script>
+            var args = {
+                source: YoastSEO_InputGenerator,
+                analyzer: true,
+                snippetPreview: true,
+                elementTarget: "inputForm",
+                typeDelay: 300,
+                typeDelayStep: 100,
+                maxTypeDelay: 1500,
+                dynamicDelay: true,
+                multiKeyword: false,
+                targets: {
+                    output: "output",
+                    overall: "overallScore",
+                    snippet: "snippet"
+                },
+                sampleText: {
+                    url: "please fill in an URL",
+                    title: "please fill in a title",
+                    keyword: "please fill in a keyword",
+                    meta: "please fill in a metadescription",
+                    text: "please fill in a text"
+                }
+            };
+        </script>
 
         <link rel="stylesheet" href="../css/style.css" type="text/css">
     </head>
     <body>
+        <form id="snippetForm">
+            <div id="snippet" class="output">
+
+            </div>
+        </form>
         <div id="input">
             <form id="inputForm" class="inputForm">
 
@@ -24,13 +55,10 @@
         <div id="output" class="output wpseotab">
 
         </div>
-        <form id="snippetForm">
-            <div id="snippet" class="output">
 
-            </div>
-        </form>
         <div id="overallScore" class="overallScore">
 
         </div>
     </body>
+
 </html>
