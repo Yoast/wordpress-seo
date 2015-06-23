@@ -65,10 +65,6 @@ class WPSEO_Premium {
 		$this->instantiate_redirects();
 
 		if ( is_admin() ) {
-			// Upgrade Manager
-			$plugin_updater = new WPSEO_Upgrade_Manager();
-			$plugin_updater->check_update();
-
 			// Create pages
 			$this->page_gwt = new WPSEO_Page_GWT();
 
