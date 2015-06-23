@@ -5,7 +5,9 @@ build:
   - 'build:js'
 # Build JavaScript from assets to production
 'build:js':
+  - 'clean'
   - 'uglify'
+  - 'concat'
 # Check health of the project
 check:
   - 'jshint'

@@ -1,6 +1,6 @@
 // https://github.com/gruntjs/grunt-contrib-uglify
 module.exports = {
-    'wordpres-seo': {
+    'js-text-analysis': {
         options: {
             preserveComments: 'some',
             report: 'gzip'
@@ -12,7 +12,7 @@ module.exports = {
                 '*.js',
                 '!*.min.js'
             ],
-            dest: 'js',
+            dest: 'js/dist',
             ext: '.min.js',
             extDot: 'first',
             isFile: true
