@@ -40,6 +40,7 @@ YoastSEO_SnippetPreview.prototype.htmlOutput = function() {
  */
 YoastSEO_SnippetPreview.prototype.formatTitle = function() {
     var title = this.refObj.inputs.pageTitle;
+    title = this.refObj.pageAnalyzer.YoastSEO_preProcessor.stripAllTags( title );
     return this.formatKeyword( title );
 };
 
@@ -49,6 +50,7 @@ YoastSEO_SnippetPreview.prototype.formatTitle = function() {
  */
 YoastSEO_SnippetPreview.prototype.formatCite = function() {
     var cite = this.refObj.inputs.url;
+    cite = this.refObj.pageAnalyzer.YoastSEO_preProcessor.stripAllTags( cite );
     return this.formatKeyword( cite );
 };
 
@@ -61,6 +63,7 @@ YoastSEO_SnippetPreview.prototype.formatMeta = function() {
     if(meta === ""){
         meta = this.getMetaText();
     }
+    meta = this.refObj.pageAnalyzer.YoastSEO_preProcessor.stripAllTags( meta );
     return this.formatKeyword( meta );
 };
 
@@ -126,7 +129,7 @@ YoastSEO_SnippetPreview.prototype.getPeriodMatches = function() {
  * @returns textString
  */
 YoastSEO_SnippetPreview.prototype.formatKeyword = function( textString ) {
-    var replacer = new RegExp( this.refObj.inputs.keyword, "g" );
+    var replacer = new RegExp( this.refObj.inputs.keyword, "ig" );
     return textString.replace( replacer, "<strong>"+this.refObj.inputs.keyword+"</strong>" );
 };
 
