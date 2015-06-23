@@ -236,7 +236,7 @@ class WPSEO_JSON_LD {
 			$this->data['potentialAction'] = array(
 				'@type'       => 'SearchAction',
 				'target'      => $search_url,
-				'query-input' => 'required name=search_term',
+				'query-input' => 'required name=search_term_string',
 			);
 		}
 	}
