@@ -1,5 +1,3 @@
-
-
 /**
  * Loader for the analyzer, loads the eventbinder and the elementdefiner
  * @param args
@@ -9,7 +7,6 @@ YoastSEO_AnalyzeLoader = function( args ) {
     window.analyzeLoader = this;
     this.config = args;
     this.inputs = {};
-    this.originalKeyword = "";
     this.defineElements();
     this.source = new this.config.source( args, this );
     if(this.config.snippetPreview){
@@ -87,7 +84,6 @@ YoastSEO_AnalyzeLoader.prototype.defineElements = function() {
 YoastSEO_AnalyzeLoader.prototype.getInput = function() {
     this.inputs.textString = this.source.getInput( "text" );
     this.inputs.keyword = this.source.getInput( "keyword" );
-    this.originalKeyword = this.source.getInput( "keyword" );
     this.inputs.meta = this.source.getInput( "meta" );
     this.inputs.url = this.source.getInput( "url" );
     this.inputs.pageTitle = this.source.getInput( "title" );

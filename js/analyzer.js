@@ -22,10 +22,7 @@ YoastSEO_Analyzer.prototype.init = function() {
 };
 
 YoastSEO_Analyzer.prototype.toLowCase = function() {
-    this.config.keyword = this.config.keyword.toLocaleLowerCase();
-    this.config.pageTitle = this.config.pageTitle.toLocaleLowerCase();
-    this.config.url = this.config.url.toLocaleLowerCase();
-    this.config.meta = this.config.meta.toLocaleLowerCase();
+    this.config.keywordLowerCase = this.config.keyword.toLocaleLowerCase();
 };
 
 /**
@@ -89,7 +86,7 @@ YoastSEO_Analyzer.prototype.loadWordlists = function() {
  */
 YoastSEO_Analyzer.prototype.setDefaults = function() {
     //set default variables
-    this.keywordRegex = new RegExp( this.config.keyword );
+    this.keywordRegex = new RegExp( this.config.keywordLowerCase );
 };
 
 /**
@@ -154,7 +151,7 @@ YoastSEO_Analyzer.prototype.keywordDensityCheck = function() {
  * @returns keywordCount
  */
 YoastSEO_Analyzer.prototype.keywordCount = function() {
-    var keywordMatches = this.stringHelper.matchString( this.YoastSEO_preProcessor.__store.cleanText, [this.config.keyword] );
+    var keywordMatches = this.stringHelper.matchString( this.YoastSEO_preProcessor.__store.cleanText, [this.config.keywordLowerCase] );
     var keywordCount = 0;
     if ( keywordMatches !== null ) {
         keywordCount = keywordMatches.length;
