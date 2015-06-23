@@ -4,8 +4,10 @@ class WPSEO_Upgrade_Manager {
 
 	/**
 	 * Check if there's a plugin update
+	 *
+	 * @param string $version_number
 	 */
-	public function check_update() {
+	public function check_update( $version_number ) {
 
 		// Get current version
 		$current_version = get_site_option( WPSEO_Premium::OPTION_CURRENT_VERSION, 1 );
