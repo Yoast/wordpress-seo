@@ -66,13 +66,14 @@ html{
     margin: 5px 0 10px 0;
     padding: 0 5px;
     border: 1px solid #e6db55;
-    background-color: lightYellow;
+    background-color: #FFFFE0;
 }
-
 
 #snippet_preview{
     border: 1px solid #ddd;
-    width:512px
+	padding: 20px;
+    width:512px;
+	font-family: Arial, sans-serif;
 }
 .title{
     color:#1e0fbe;
@@ -82,26 +83,28 @@ html{
     text-decoration:none;
     white-space:nowrap;
     width:512px;
-    font-size:18px !important;
+    font-size: 18px;
+	line-height: 1.2;
     font-weight:normal;
     margin:0;
-    height:18px;}
+}
 .title:visited{
     color:#609
 }
 .url,.desc{
     font-size:13px;
+	line-height: 1.4;
     display: block;
 
 }
 .url{
+	font-size: 14px;
+	line-height: 16px;
     color:#006621;
     font-style:normal;
-    height: 13px;
 }
 .desc{
     color:#545454;
-    height: 13px;
 }
 input,textarea{
     width:540px;
