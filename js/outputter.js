@@ -9,6 +9,7 @@ YoastSEO_AnalyzeLoader = function( args ) {
     window.analyzeLoader = this;
     this.config = args;
     this.inputs = {};
+    this.originalKeyword = "";
     this.defineElements();
     this.source = new this.config.source( args, this );
     if(this.config.snippetPreview){
@@ -86,6 +87,7 @@ YoastSEO_AnalyzeLoader.prototype.defineElements = function() {
 YoastSEO_AnalyzeLoader.prototype.getInput = function() {
     this.inputs.textString = this.source.getInput( "text" );
     this.inputs.keyword = this.source.getInput( "keyword" );
+    this.originalKeyword = this.source.getInput( "keyword" );
     this.inputs.meta = this.source.getInput( "meta" );
     this.inputs.url = this.source.getInput( "url" );
     this.inputs.pageTitle = this.source.getInput( "title" );
@@ -113,23 +115,13 @@ YoastSEO_AnalyzeLoader.prototype.bindInputEvent = function() {
 YoastSEO_AnalyzeLoader.prototype.bindSnippetEvents = function() {
     var snippetElem = document.getElementById(this.config.targets.snippet);
     snippetElem.refObj = this;
-    snippetElem.addEventListener("input", this.analyzeTimer );
-    /*var elems = ["meta", "cite", "title"];
+    //snippetElem.addEventListener("input", this.analyzeTimer );
+    var elems = ["meta", "cite", "title"];
     for (var i = 0; i < elems.length; i++) {
         var targetElement = document.getElementById( "snippet_" + elems[i] );
         targetElement.refObj = this;
-        targetElement.addEventListener( "blur", this.reloadSnippetText );
-    }*/
-};
-
-/**
- * callBackSnippetData is bound on the inputs of the snippetPreview, to update the inputs when entering text
- * in the snippetPreview.
- */
-YoastSEO_AnalyzeLoader.prototype.callBackSnippetData = function() {
-    this.source.setInputData( "title",  document.getElementById( "snippet_title" ).innerText );
-    this.source.setInputData( "meta",  document.getElementById( "snippet_meta" ).innerText );
-    this.source.setInputData( "url",  document.getElementById( "snippet_cite" ).innerText );
+        targetElement.addEventListener( "blur", this.analyzeTimer );
+    }
 };
 
 /**

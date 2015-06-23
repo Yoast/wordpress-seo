@@ -56,10 +56,11 @@ YoastSEO_ScoreFormatter.prototype.sortScores = function() {
  */
 YoastSEO_ScoreFormatter.prototype.outputOverallScore = function() {
     var overallTarget = document.getElementById( this.overallTarget );
-    overallTarget.innerHTML = "";
+    overallTarget.className = "overallScore "+this.scoreRating(Math.round(this.overallScore));
+    /*overallTarget.innerHTML = "";
     var newSpan = document.createElement( "span" );
     newSpan.className = "wpseo-score-icon " + this.scoreRating( Math.round( this.overallScore ) );
-    overallTarget.appendChild( newSpan );
+    overallTarget.appendChild( newSpan );*/
 };
 
 /**
