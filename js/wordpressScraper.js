@@ -59,7 +59,7 @@ YoastSEO_WordPressScraper.prototype.getInput = function( inputType ) {
     return val;
 };
 
-YoastSEO_WordPressScraper.prototype.setInputData = function ( inputType, value) {
+YoastSEO_WordPressScraper.prototype.setInputData = function ( inputType ) {
     switch( inputType ){
         case "title":
             document.getElementById( "title" ).value = document.getElementById( "snippet_title" ).innerText;

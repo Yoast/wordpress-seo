@@ -31,7 +31,7 @@ YoastSEO_Analyzer.prototype.toLowCase = function() {
  */
 YoastSEO_Analyzer.prototype.initDependencies = function() {
     //init preprocessor
-    this.YoastSEO_preProcessor = YoastSEO_preProcessor( this.config.textString );
+    this.YoastSEO_preProcessor = new YoastSEO_preProcessor( this.config.textString );
     //init helper
     this.stringHelper = stringHelper();
     //init scorer
@@ -458,8 +458,10 @@ YoastSEO_Analyzer.prototype.metaDescription = function() {
  */
 YoastSEO_Analyzer.prototype.urlKeyword = function() {
     var result = [ { test: "urlKeyword", result : 0 } ];
+    var regex = this.config.keywordLowerCase.replace(" ", "[-_]");
+    regex = new RegExp(regex);
     if( typeof this.config.url !== "undefined" ) {
-        result[0].result = this.stringHelper.countMatches( this.config.url, this.keywordRegex );
+        result[0].result = this.stringHelper.countMatches( this.config.url, regex );
     }
     return result;
 };

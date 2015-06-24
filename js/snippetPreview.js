@@ -51,7 +51,7 @@ YoastSEO_SnippetPreview.prototype.formatTitle = function() {
 YoastSEO_SnippetPreview.prototype.formatCite = function() {
     var cite = this.refObj.inputs.url;
     cite = this.refObj.pageAnalyzer.YoastSEO_preProcessor.stripAllTags( cite );
-    return this.formatKeyword( cite );
+    return this.formatKeywordUrl( cite );
 };
 
 /**
@@ -131,7 +131,18 @@ YoastSEO_SnippetPreview.prototype.getPeriodMatches = function() {
  */
 YoastSEO_SnippetPreview.prototype.formatKeyword = function( textString ) {
     var replacer = new RegExp( this.refObj.inputs.keyword, "ig" );
-    return textString.replace( replacer, "<strong>"+this.refObj.inputs.keyword+"</strong>" );
+    return textString.replace( replacer, function(str){return "<strong>"+str+"</strong>"; } );
+};
+
+/**
+ * formats the keyword for use in the URL by accepting - and _ in stead of space and by adding <strong>-tags
+ * @param textString
+ * @returns {XML|string|void}
+ */
+YoastSEO_SnippetPreview.prototype.formatKeywordUrl = function ( textString ) {
+    var replacer = this.refObj.inputs.keyword.replace(" ", "[-_]");
+    replacer = new RegExp( replacer, "ig" );
+    return textString.replace( replacer, function(str){return "<strong>"+str+"</strong>"; } );
 };
 
 /**
