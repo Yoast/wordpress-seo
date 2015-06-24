@@ -166,7 +166,7 @@ YoastSEO_Analyzer.prototype.keywordCount = function() {
  */
 YoastSEO_Analyzer.prototype.subHeadings = function() {
     var result = [ {test: "subHeadings", result: {count: 0, matches: 0 } } ];
-    var matches = this.YoastSEO_preProcessor.__store.cleanTextSomeTags.match( /<h([1-6])(?:[^>]+)?>(.*?)<\/h\1>/g );
+    var matches = this.YoastSEO_preProcessor.__store.cleanTextSomeTags.match( /<h([1-6])(?:[^>]+)?>(.*?)<\/h\1>/ig );
     if( matches !== null ){
         result[0].result.count = matches.length;
         result[0].result.matches = this.subHeadingsCheck( matches );
@@ -187,7 +187,7 @@ YoastSEO_Analyzer.prototype.subHeadingsCheck = function( matches ){
         foundInHeader = 0;
         for ( var i = 0; i < matches.length; i++ ) {
             var formattedHeaders = this.stringHelper.replaceString(matches[i], this.config.wordsToRemove);
-            if (formattedHeaders.match( new RegExp( this.config.keyword, "g" ) ) || matches[i].match( new RegExp( this.config.keyword, "g" ) ) ) {
+            if (formattedHeaders.match( new RegExp( this.config.keyword, "ig" ) ) || matches[i].match( new RegExp( this.config.keyword, "ig" ) ) ) {
                 foundInHeader++;
             }
         }
@@ -235,7 +235,7 @@ YoastSEO_Analyzer.prototype.fleschReading = function() {
  * @returns {{total: number, internal: {total: number, dofollow: number, nofollow: number}, external: {total: number, dofollow: number, nofollow: number}, other: {total: number, dofollow: number, nofollow: number}}}
  */
 YoastSEO_Analyzer.prototype.linkCount = function() {
-    var linkMatches = this.YoastSEO_preProcessor.__store.originalText.match( /<a(?:[^>]+)?>(.*?)<\/a>/g );
+    var linkMatches = this.YoastSEO_preProcessor.__store.originalText.match( /<a(?:[^>]+)?>(.*?)<\/a>/ig );
     var linkCount = {
         total: 0,
         totalKeyword: 0,
@@ -273,7 +273,7 @@ YoastSEO_Analyzer.prototype.linkCount = function() {
  */
 YoastSEO_Analyzer.prototype.linkType = function( url ) {
     var linkType = "other";
-    if( url.match( /https?:\/\//g ) !== null ){
+    if( url.match( /https?:\/\//ig ) !== null ){
         linkType = "external";
         var urlMatch = url.match( this.config.url );
         if( urlMatch !== null && urlMatch[0].length !== 0 ){
@@ -290,7 +290,7 @@ YoastSEO_Analyzer.prototype.linkType = function( url ) {
  */
 YoastSEO_Analyzer.prototype.linkFollow = function( url ){
     var linkFollow = "Dofollow";
-    if( url.match( /rel=([\'\"])nofollow\1/g ) !== null ){
+    if( url.match( /rel=([\'\"])nofollow\1/ig ) !== null ){
         linkFollow = "Nofollow";
     }
     return linkFollow;
@@ -337,11 +337,11 @@ YoastSEO_Analyzer.prototype.linkResult = function( obj ){
 //todo update function so it will also check on picture elements/make it configurable.
 YoastSEO_Analyzer.prototype.imageCount = function() {
     var imageCount = { total: 0, alt: 0, noAlt: 0, altKeyword: 0 };
-    var imageMatches = this.YoastSEO_preProcessor.__store.originalText.match( /<img(?:[^>]+)?>/g );
+    var imageMatches = this.YoastSEO_preProcessor.__store.originalText.match( /<img(?:[^>]+)?>/ig );
     if( imageMatches !== null ){
         imageCount.total = imageMatches.length;
         for ( var i = 0; i < imageMatches.length; i++ ){
-            var alttag = imageMatches[i].match( /alt=([\'\"])(.*?)\1/g );
+            var alttag = imageMatches[i].match( /alt=([\'\"])(.*?)\1/ig );
             if( this.imageAlttag( alttag ) ){
                 if( this.imageAlttagKeyword( alttag ) ){
                     imageCount.altKeyword++;
@@ -365,7 +365,7 @@ YoastSEO_Analyzer.prototype.imageCount = function() {
 YoastSEO_Analyzer.prototype.imageAlttag = function( image ) {
     var hasAlttag = false;
     if( image !== null ){
-        if( image[0].split( "=" )[1].match( /[a-z0-9](.*?)[a-z0-9]/g ) !== null ){
+        if( image[0].split( "=" )[1].match( /[a-z0-9](.*?)[a-z0-9]/ig ) !== null ){
             hasAlttag = true;
         }
     }
@@ -408,7 +408,7 @@ YoastSEO_Analyzer.prototype.pageTitleLength = function() {
 YoastSEO_Analyzer.prototype.pageTitleKeyword = function() {
     var result = [ { test: "pageTitleKeyword", result: {matches: 0, position: 0 } } ];
     if( typeof this.config.pageTitle !== "undefined" ) {
-        result[0].result.matches = this.stringHelper.countMatches( this.config.pageTitle, this.keywordRegex );
+        result[0].result.matches = this.stringHelper.countMatches( this.config.pageTitle.toLocaleLowerCase(), this.keywordRegex );
         result[0].result.position = this.config.pageTitle.indexOf( this.config.keyword );
     }
     return result;
@@ -421,10 +421,10 @@ YoastSEO_Analyzer.prototype.pageTitleKeyword = function() {
  */
 YoastSEO_Analyzer.prototype.firstParagraph = function() {
     var result =[ { test: "firstParagraph", result: 0 } ];
-    var p = this.paragraphChecker( this.YoastSEO_preProcessor.__store.cleanTextSomeTags , new RegExp("<p(?:[^>]+)?>(.*?)<\/p>", "g") );
+    var p = this.paragraphChecker( this.YoastSEO_preProcessor.__store.cleanTextSomeTags , new RegExp("<p(?:[^>]+)?>(.*?)<\/p>", "ig") );
     if ( p === 0){
         //use a regex that matches [^], not nothing, so any character, including linebreaks
-        p = this.paragraphChecker( this.YoastSEO_preProcessor.__store.originalText, new RegExp("[^]+\n\n", "g") );
+        p = this.paragraphChecker( this.YoastSEO_preProcessor.__store.originalText, new RegExp("[^]+\n\n", "ig") );
     }
     result[0].result = p;
     return result;
