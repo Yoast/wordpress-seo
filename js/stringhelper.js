@@ -22,7 +22,7 @@ YoastSEO_StringHelper.prototype.replaceString = function( textString, stringsToR
  * @returns {matches}
  */
 YoastSEO_StringHelper.prototype.matchString = function( textString, stringsToMatch ){
-    return textString.match( this.stringToRegex( stringsToMatch ) );
+    return textString.match( this.stringToRegex( stringsToMatch, false ) );
 };
 
 /**
@@ -53,7 +53,7 @@ YoastSEO_StringHelper.prototype.stringToRegex = function( stringArray, disableWo
     }
     for( var i = 0; i < stringArray.length; i++ ){
         if(regexString.length > 0){ regexString += "|"; }
-        regexString += stringArray[i]+wordBoundary;
+        regexString += wordBoundary+stringArray[i]+wordBoundary;
     }
     return new RegExp( regexString, "g" );
 };
