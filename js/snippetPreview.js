@@ -64,6 +64,7 @@ YoastSEO_SnippetPreview.prototype.formatMeta = function() {
         meta = this.getMetaText();
     }
     meta = this.refObj.pageAnalyzer.YoastSEO_preProcessor.stripAllTags( meta );
+    meta = meta.substring(0,analyzerConfig.maxMeta);
     return this.formatKeyword( meta );
 };
 
