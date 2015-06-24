@@ -1565,19 +1565,13 @@ class WPSEO_Sitemaps {
 	 * @return float|mixed
 	 */
 	private function calculate_priority( $post ) {
+
+		$return = 0.6;
+		if ( $post->post_parent == 0 && $post->post_type == 'page' ) {
+			$return = 0.8;
+		}
+
 		$front_id = get_option( 'page_on_front' );
-		$pri      = WPSEO_Meta::get_value( 'sitemap-prio', $post->ID );
-		if ( is_numeric( $pri ) ) {
-			$return = (float) $pri;
-		}
-		else {
-			if ( $post->post_parent == 0 && $post->post_type == 'page' ) {
-				$return = 0.8;
-			}
-			else {
-				$return = 0.6;
-			}
-		}
 
 		if ( isset( $front_id ) && $post->ID == $front_id ) {
 			$return = 1.0;
