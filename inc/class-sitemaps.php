@@ -766,19 +766,18 @@ class WPSEO_Sitemaps {
 
 			$offset = ( $offset + $steps );
 
+			$posts_to_exclude = explode( ',', $this->options['excluded-posts'] );
+
 			if ( is_array( $posts ) && $posts !== array() ) {
 				foreach ( $posts as $p ) {
 					$p->post_type   = $post_type;
 					$p->post_status = 'publish';
 					$p->filter      = 'sample';
 
-					if ( WPSEO_Meta::get_value( 'meta-robots-noindex', $p->ID ) === '1' && WPSEO_Meta::get_value( 'sitemap-include', $p->ID ) !== 'always' ) {
+					if ( WPSEO_Meta::get_value( 'meta-robots-noindex', $p->ID ) === '1' ) {
 						continue;
 					}
-					if ( WPSEO_Meta::get_value( 'sitemap-include', $p->ID ) === 'never' ) {
-						continue;
-					}
-					if ( WPSEO_Meta::get_value( 'redirect', $p->ID ) !== '' ) {
+					if ( in_array( $p->ID, $posts_to_exclude ) ) {
 						continue;
 					}
 
