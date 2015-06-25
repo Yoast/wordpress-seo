@@ -401,13 +401,6 @@ class WPSEO_Meta {
 					unset( $field_defs['bctitle'] );
 				}
 
-				/* Don't show the xml sitemap fields, if xml sitemaps aren't enabled */
-				if ( $options['enablexmlsitemap'] !== true ) {
-					unset(
-						$field_defs['sitemap-include'],
-						$field_defs['sitemap-prio']
-					);
-				}
 				break;
 		}
 
