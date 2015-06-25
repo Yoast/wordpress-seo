@@ -127,7 +127,7 @@ class WPSEO_Upgrade {
 	 * Performs upgrade function to WP SEO 2.3
 	 */
 	private function upgrade_23() {
-		$wp_query = new WP_Query( "meta_key=_yoast_wpseo_sitemap-include&meta_value=never&order=ASC" );
+		$wp_query = new WP_Query( 'meta_key=_yoast_wpseo_sitemap-include&meta_value=never&order=ASC' );
 
 		if ( ! empty( $wp_query->posts ) ) {
 			$options = get_option( 'wpseo_xml' );
@@ -143,14 +143,14 @@ class WPSEO_Upgrade {
 				}
 			}
 
-			// Updates the meta value
+			// Updates the meta value.
 			$options['excluded-posts'] = implode( ',', $excluded_posts );
 
-			// Update the option
+			// Update the option.
 			update_option( 'wpseo_xml', $options );
 		}
 
-		// Remove the meta fields
+		// Remove the meta fields.
 		delete_post_meta_by_key( '_yoast_wpseo_sitemap-include' );
 	}
 
