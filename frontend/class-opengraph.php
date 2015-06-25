@@ -299,6 +299,7 @@ class WPSEO_OpenGraph {
 		$fix_locales = array(
 			'ca' => 'ca_ES',
 			'en' => 'en_US',
+			'en_UK' => 'en_GB',
 			'el' => 'el_GR',
 			'et' => 'et_EE',
 			'ja' => 'ja_JP',
