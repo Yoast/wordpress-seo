@@ -2494,8 +2494,8 @@ class WPSEO_Option_XML extends WPSEO_Option {
 
 				case 'excluded-posts' :
 					if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
-						if( $filtered_array = filter_var_array( explode( ',', $dirty[ $key ] ) , FILTER_VALIDATE_INT ) ) {
-							$clean[ $key ] = implode( ',', array_filter( $filtered_array, 'is_integer') );
+						if ( $filtered_array = filter_var_array( explode( ',', $dirty[ $key ] ), FILTER_VALIDATE_INT ) ) {
+							$clean[ $key ] = implode( ',', array_filter( $filtered_array, 'is_integer' ) );
 
 							unset( $filtered_array );
 						}
