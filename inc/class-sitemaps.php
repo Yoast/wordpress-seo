@@ -81,11 +81,9 @@ class WPSEO_Sitemaps {
 	private $charset = '';
 
 	/**
-	 * Holds the timezone string value to reuse for performance
-	 *
-	 * @var string $timezone_string
+	 * @var WPSEO_Sitemap_Timezone
 	 */
-	private $timezone_string = '';
+	private $timezone;
 
 	/**
 	 * Class constructor
@@ -108,6 +106,8 @@ class WPSEO_Sitemaps {
 		$this->max_entries = $this->options['entries-per-page'];
 		$this->home_url    = home_url();
 		$this->charset     = get_bloginfo( 'charset' );
+
+		$this->timezone    = new WPSEO_Sitemap_Timezone();
 
 	}
 
@@ -150,62 +150,6 @@ class WPSEO_Sitemaps {
 	 */
 	private function http_protocol() {
 		return ( isset( $_SERVER['SERVER_PROTOCOL'] ) && $_SERVER['SERVER_PROTOCOL'] !== '' ) ? sanitize_text_field( $_SERVER['SERVER_PROTOCOL'] ) : 'HTTP/1.1';
-	}
-
-	/**
-	 * Returns the timezone string for a site, even if it's set to a UTC offset
-	 *
-	 * Adapted from http://www.php.net/manual/en/function.timezone-name-from-abbr.php#89155
-	 *
-	 * @return string valid PHP timezone string
-	 */
-	private function determine_timezone_string() {
-
-		// If site timezone string exists, return it.
-		if ( $timezone = get_option( 'timezone_string' ) ) {
-			return $timezone;
-		}
-
-		// Get UTC offset, if it isn't set then return UTC.
-		if ( 0 === ( $utc_offset = get_option( 'gmt_offset', 0 ) ) ) {
-			return 'UTC';
-		}
-
-		// Adjust UTC offset from hours to seconds.
-		$utc_offset *= HOUR_IN_SECONDS;
-
-		// Attempt to guess the timezone string from the UTC offset.
-		$timezone = timezone_name_from_abbr( '', $utc_offset );
-
-		// Last try, guess timezone string manually.
-		if ( false === $timezone ) {
-
-			$is_dst = date( 'I' );
-
-			foreach ( timezone_abbreviations_list() as $abbr ) {
-				foreach ( $abbr as $city ) {
-					if ( $city['dst'] == $is_dst && $city['offset'] == $utc_offset ) {
-						return $city['timezone_id'];
-					}
-				}
-			}
-		}
-
-		// Fallback to UTC.
-		return 'UTC';
-	}
-
-	/**
-	 * Returns the correct timezone string
-	 *
-	 * @return string
-	 */
-	private function get_timezone_string() {
-		if ( '' == $this->timezone_string ) {
-			$this->timezone_string = $this->determine_timezone_string();
-		}
-
-		return $this->timezone_string;
 	}
 
 	/**
@@ -423,7 +367,7 @@ class WPSEO_Sitemaps {
 						if ( ! isset( $all_dates ) ) {
 							$all_dates = $wpdb->get_col( $wpdb->prepare( "SELECT post_modified_gmt FROM (SELECT @rownum:=@rownum+1 rownum, $wpdb->posts.post_modified_gmt FROM (SELECT @rownum:=0) r, $wpdb->posts WHERE post_status IN ('publish','inherit') AND post_type = %s ORDER BY post_modified_gmt ASC) x WHERE rownum %%%d=0", $post_type, $this->max_entries ) );
 						}
-						$date = $this->get_datetime_with_timezone( $all_dates[ $i ] );
+						$date = $this->timezone->get_datetime_with_timezone( $all_dates[ $i ] );
 						unset( $all_dates );
 					}
 
@@ -507,7 +451,7 @@ class WPSEO_Sitemaps {
 
 						$date = '';
 						if ( $query->have_posts() ) {
-							$date = $this->get_datetime_with_timezone( $query->posts[0]->post_modified_gmt );
+							$date = $this->timezone->get_datetime_with_timezone( $query->posts[0]->post_modified_gmt );
 						}
 						else {
 							$date = $this->get_last_modified( $tax->object_type );
@@ -566,7 +510,7 @@ class WPSEO_Sitemaps {
 						)
 					);
 				}
-				$date = $this->get_datetime_with_timezone( '@' . $date );
+				$date = $this->timezone->get_datetime_with_timezone( '@' . $date );
 
 				$this->sitemap .= '<sitemap>' . "\n";
 				$this->sitemap .= '<loc>' . wpseo_xml_sitemaps_base_url( 'author-sitemap' . $count . '.xml' ) . '</loc>' . "\n";
@@ -1230,7 +1174,7 @@ class WPSEO_Sitemaps {
 
 		if ( ! empty( $url['mod'] ) ) {
 			// Create a DateTime object date in the correct timezone.
-			$date = $this->get_datetime_with_timezone( $url['mod'] );
+			$date = $this->timezone->get_datetime_with_timezone( $url['mod'] );
 		}
 
 		$url['loc'] = htmlspecialchars( $url['loc'] );
@@ -1330,35 +1274,9 @@ class WPSEO_Sitemaps {
 			unset( $post_type );
 		}
 
-		return $this->get_datetime_with_timezone( $result );
+		return $this->timezone->get_datetime_with_timezone( $result );
 	}
 
-	/**
-	 * Get the datetime object, in site's time zone, if the datetime string was valid
-	 *
-	 * @param string $datetime_string The datetime string in UTC time zone, that needs to be converted to a DateTime object.
-	 * @param string $format
-	 *
-	 * @return DateTime|null in site's time zone
-	 */
-	private function get_datetime_with_timezone( $datetime_string, $format = 'c' ) {
-
-		static $utc_timezone, $local_timezone;
-
-		if ( ! isset( $utc_timezone ) ) {
-			$utc_timezone   = new DateTimeZone( 'UTC' );
-			$local_timezone = new DateTimeZone( $this->get_timezone_string() );
-		}
-
-		if ( ! empty( $datetime_string ) && WPSEO_Utils::is_valid_datetime( $datetime_string ) ) {
-			$datetime = new DateTime( $datetime_string, $utc_timezone );
-			$datetime->setTimezone( $local_timezone );
-
-			return $datetime->format( $format );
-		}
-
-		return null;
-	}
 
 	/**
 	 * Sorts an array of WP_User by the _yoast_wpseo_profile_updated meta field
@@ -1591,3 +1509,101 @@ class WPSEO_Sitemaps {
 	}
 
 } /* End of class */
+
+/**
+ * Class WPSEO_Sitemap_Timezone
+ */
+class WPSEO_Sitemap_Timezone {
+
+	/**
+	 * Holds the timezone string value to reuse for performance
+	 *
+	 * @var string $timezone_string
+	 */
+	private $timezone_string = '';
+
+	/**
+	 * Get the datetime object, in site's time zone, if the datetime string was valid
+	 *
+	 * @param string $datetime_string The datetime string in UTC time zone, that needs to be converted to a DateTime object.
+	 * @param string $format
+	 *
+	 * @return DateTime|null in site's time zone
+	 */
+	public function get_datetime_with_timezone( $datetime_string, $format = 'c' ) {
+
+		static $utc_timezone, $local_timezone;
+
+		if ( ! isset( $utc_timezone ) ) {
+			$utc_timezone   = new DateTimeZone( 'UTC' );
+			$local_timezone = new DateTimeZone( $this->get_timezone_string() );
+		}
+
+		if ( ! empty( $datetime_string ) && WPSEO_Utils::is_valid_datetime( $datetime_string ) ) {
+			$datetime = new DateTime( $datetime_string, $utc_timezone );
+			$datetime->setTimezone( $local_timezone );
+
+			return $datetime->format( $format );
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the timezone string for a site, even if it's set to a UTC offset
+	 *
+	 * Adapted from http://www.php.net/manual/en/function.timezone-name-from-abbr.php#89155
+	 *
+	 * @return string valid PHP timezone string
+	 */
+	private function determine_timezone_string() {
+
+		// If site timezone string exists, return it.
+		if ( $timezone = get_option( 'timezone_string' ) ) {
+			return $timezone;
+		}
+
+		// Get UTC offset, if it isn't set then return UTC.
+		if ( 0 === ( $utc_offset = get_option( 'gmt_offset', 0 ) ) ) {
+			return 'UTC';
+		}
+
+		// Adjust UTC offset from hours to seconds.
+		$utc_offset *= HOUR_IN_SECONDS;
+
+		// Attempt to guess the timezone string from the UTC offset.
+		$timezone = timezone_name_from_abbr( '', $utc_offset );
+
+		// Last try, guess timezone string manually.
+		if ( false === $timezone ) {
+
+			$is_dst = date( 'I' );
+
+			foreach ( timezone_abbreviations_list() as $abbr ) {
+				foreach ( $abbr as $city ) {
+					if ( $city['dst'] == $is_dst && $city['offset'] == $utc_offset ) {
+						return $city['timezone_id'];
+					}
+				}
+			}
+		}
+
+		// Fallback to UTC.
+		return 'UTC';
+	}
+
+	/**
+	 * Returns the correct timezone string
+	 *
+	 * @return string
+	 */
+	private function get_timezone_string() {
+		if ( '' == $this->timezone_string ) {
+			$this->timezone_string = $this->determine_timezone_string();
+		}
+
+		return $this->timezone_string;
+	}
+
+
+}
