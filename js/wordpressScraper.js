@@ -68,7 +68,11 @@ YoastSEO_WordPressScraper.prototype.setInputData = function ( inputType ) {
             document.getElementById( "yoast_wpseo_metadesc" ).value = document.getElementById( "snippet_meta" ).innerText;
             break;
         case "url":
-            document.getElementById("sample-permalink").innerText = document.getElementById( "snippet_cite" ).innerText;
+            var urlBase = document.getElementById("sample-permalink").innerText.replace(/https?:\/\//i, "").split("/")[0]+"/";
+            var newUrl = document.getElementById( "snippet_cite" ).innerText;
+            newUrl = newUrl.replace(urlBase, "");
+            document.getElementById("editable-post-name").innerText = newUrl;
+            document.getElementById("editable-post-name-full").innerText = newUrl;
             break;
         default:
             break;
