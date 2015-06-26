@@ -82,3 +82,10 @@ YoastSEO_WordPressScraper.prototype.getContentTinyMCE = function() {
     }
     return val;
 };
+
+YoastSEO_WordPressScraper.prototype.snippetCallback = function() {
+    this.refObj.source.setInputData( "title" );
+    this.refObj.source.setInputData( "meta" );
+    this.refObj.source.setInputData( "url" );
+    this.refObj.analyzeTimer();
+};

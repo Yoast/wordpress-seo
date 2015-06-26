@@ -74,8 +74,11 @@ YoastSEO_AnalyzeLoader.prototype.createSnippetPreviewMeta = function ( target ){
  */
 YoastSEO_AnalyzeLoader.prototype.defineElements = function() {
     this.target = document.getElementById( this.config.targets.output );
-    var elem = document.getElementById( this.config.elementTarget );
-    elem.__refObj = this;
+    for ( var i = 0; i < this.config.elementTarget.length; i++ ){
+        document.getElementById( this.config.elementTarget[i]).__refObj = this;
+    }
+    //var elem = document.getElementById( this.config.elementTarget );
+    //elem.__refObj = this;
 };
 
 /**
@@ -111,12 +114,11 @@ YoastSEO_AnalyzeLoader.prototype.bindInputEvent = function() {
 YoastSEO_AnalyzeLoader.prototype.bindSnippetEvents = function() {
     var snippetElem = document.getElementById(this.config.targets.snippet);
     snippetElem.refObj = this;
-    //snippetElem.addEventListener("input", this.analyzeTimer );
     var elems = ["meta", "cite", "title"];
     for (var i = 0; i < elems.length; i++) {
         var targetElement = document.getElementById( "snippet_" + elems[i] );
         targetElement.refObj = this;
-        targetElement.addEventListener( "blur", this.analyzeTimer );
+        targetElement.addEventListener( "blur", this.source.snippetCallback );
     }
 };
 
@@ -137,6 +139,9 @@ YoastSEO_AnalyzeLoader.prototype.analyzeTimer = function() {
     var refObj = this.__refObj;
     if( typeof refObj === "undefined" ){
         refObj = this.refObj;
+    }
+    if( typeof refObj === "undefined" ){
+        refObj = this;
     }
     clearTimeout( window.timer );
     window.timer = setTimeout( refObj.checkInputs, refObj.config.typeDelay );

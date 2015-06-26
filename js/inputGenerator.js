@@ -94,3 +94,6 @@ YoastSEO_InputGenerator.prototype.getInput = function( inputType ) {
     return val;
 };
 
+YoastSEO_InputGenerator.prototype.snippetCallback = function( ) {
+    this.refObj.analyzeTimer();
+};
