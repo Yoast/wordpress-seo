@@ -2,7 +2,7 @@ var args = {
     source: YoastSEO_WordPressScraper,
     analyzer: true,
     snippetPreview: true,
-    elementTarget: ["content"],
+    elementTarget: ["content","yoast_wpseo_focuskw","yoast_wpseo_metadesc","excerpt"],
     typeDelay: 300,
     typeDelayStep: 100,
     maxTypeDelay: 1500,

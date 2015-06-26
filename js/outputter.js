@@ -77,8 +77,6 @@ YoastSEO_AnalyzeLoader.prototype.defineElements = function() {
     for ( var i = 0; i < this.config.elementTarget.length; i++ ){
         document.getElementById( this.config.elementTarget[i]).__refObj = this;
     }
-    //var elem = document.getElementById( this.config.elementTarget );
-    //elem.__refObj = this;
 };
 
 /**
@@ -104,8 +102,10 @@ YoastSEO_AnalyzeLoader.prototype.bindEvent = function() {
  * binds the analyzeTimer function to the input of the targetElement on the page.
  */
 YoastSEO_AnalyzeLoader.prototype.bindInputEvent = function() {
-    var elem = document.getElementById( this.config.elementTarget );
-    elem.addEventListener( "input", this.analyzeTimer );
+    for (var i = 0; i < this.config.elementTarget.length; i++) {
+        var elem = document.getElementById( this.config.elementTarget[i] );
+        elem.addEventListener( "input", this.analyzeTimer );
+    }
 };
 
 /**

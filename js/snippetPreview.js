@@ -155,11 +155,8 @@ YoastSEO_SnippetPreview.prototype.renderOutput = function() {
 };
 
 /**
- * function to fill the configs with data from the inputs and call init, to rerender the snippetpreview
+ * function to call init, to rerender the snippetpreview
  */
 YoastSEO_SnippetPreview.prototype.reRender = function () {
-    //this.refObj.inputs.pageTitle = document.getElementById( "snippet_title" ).innerText;
-    //this.refObj.inputs.meta = document.getElementById( "snippet_meta" ).innerText;
-    //this.refObj.inputs.url = document.getElementById( "snippet_cite" ).innerText;
     this.init();
 };
