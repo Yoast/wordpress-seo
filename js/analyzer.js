@@ -22,7 +22,7 @@ YoastSEO_Analyzer.prototype.init = function() {
 };
 
 YoastSEO_Analyzer.prototype.toLowCase = function() {
-    this.config.keywordLowerCase = this.config.keyword.toLocaleLowerCase();
+    this.config.keywordLowerCase = this.config.keyword.toLocaleLowerCase().trim();
 };
 
 /**
