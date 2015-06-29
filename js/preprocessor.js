@@ -173,6 +173,8 @@ YoastSEO_PreProcessor.prototype.stripSomeTags = function( textString ) {
 YoastSEO_PreProcessor.prototype.stripAllTags = function( textString ) {
     //remove all tags
     textString = textString.replace( /(<([^>]+)>)/ig," " );
+    //remove < and > if any are used
+    textString = textString.replace( /[<>]/g, "");
     textString = this.stringHelper.stripSpaces( textString );
     return textString;
 };
