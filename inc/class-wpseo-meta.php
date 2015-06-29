@@ -135,6 +135,11 @@ class WPSEO_Meta {
 				'class'         => 'metakeywords',
 				'description'   => '', // Translation added later.
 			),
+            'pageanalysis' => array(
+                    'type'  => 'pageanalysis',
+                    'title' => '', // Translation added later.
+                    'help'  => '', // Translation added later.
+            ),
 		),
 		'advanced' => array(
 			'meta-robots-noindex'  => array(

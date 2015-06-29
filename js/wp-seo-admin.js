@@ -244,3 +244,4 @@ function wpseo_add_fb_admin() {
 		}
 	);
 }
+

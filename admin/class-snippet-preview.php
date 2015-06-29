@@ -131,11 +131,11 @@ class WPSEO_Snippet_Preview {
 	 * Generates the html for the snippet preview and assign it to $this->content.
 	 */
 	protected function set_content() {
+        //todo remove code for the innerHTML
 		$content = <<<HTML
+
 <div id="wpseosnippet">
-<a class="title" id="wpseosnippet_title" href="#">$this->title</a>
-<span class="url">$this->url</span>
-<p class="desc">$this->date<span class="autogen"></span><span class="content">$this->description</span></p>
+
 </div>
 HTML;
 		$this->set_content_through_filter( $content );
