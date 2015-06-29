@@ -43,6 +43,10 @@ YoastSEO_WordPressScraper.prototype.getInput = function( inputType ) {
             break;
         case "url":
             val = document.getElementById("sample-permalink").innerText;
+            var postSlug = document.getElementById("new-post-slug");
+            if(postSlug !== null) {
+                val += postSlug.value + "/";
+            }
             break;
         case "meta":
             val = document.getElementById("yoast_wpseo_metadesc").value;

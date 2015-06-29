@@ -150,7 +150,7 @@ YoastSEO_SnippetPreview.prototype.formatKeywordUrl = function ( textString ) {
  */
 YoastSEO_SnippetPreview.prototype.renderOutput = function() {
     document.getElementById( "snippet_title" ).innerHTML = this.output.title;
-    document.getElementById( "snippet_cite" ).innerHTML = this.output.cite.replace(/https?:\/\//i, "").slice(0, -1);
+    document.getElementById( "snippet_cite" ).innerHTML = this.output.cite.replace(/https?:\/\//i, "").slice(0, -1).replace(/\/\//g, "/");
     document.getElementById( "snippet_meta" ).innerHTML = this.output.meta;
 };
 
