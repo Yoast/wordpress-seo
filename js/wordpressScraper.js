@@ -1,40 +1,29 @@
+/**
+ * wordpress scraper to gather inputfields.
+ * @constructor
+ */
 YoastSEO_WordPressScraper = function() {
     this.values = {};
 };
 
+/**
+ * gets necessary content from different inputfields
+ * @returns values object
+ */
 YoastSEO_WordPressScraper.prototype.getContent = function() {
-    this.values.keyword = this.getKeyword();
-    this.values.meta = this.getMeta();
-    this.values.textString = this.getText();
-    this.values.title = this.getTitle();
-    this.values.url = this.getUrl();
+    this.values.keyword = this.getInput( "keyword" );
+    this.values.meta = this.getInput( "meta" );
+    this.values.textString = this.getInput( "text" );
+    this.values.title = this.getInput( "title" );
+    this.values.url = this.getInput( "url" );
     return this.values;
 };
 
-YoastSEO_WordPressScraper.prototype.getKeyword = function() {
-    return document.getElementById("yoast_wpseo_focuskw").value;
-};
-
-YoastSEO_WordPressScraper.prototype.getMeta = function() {
-    return document.getElementById("yoast_wpseo_metadesc").value;
-};
-
-YoastSEO_WordPressScraper.prototype.getTitle = function() {
-    return document.getElementById("yoast_wpseo_title").value;
-};
-
-YoastSEO_WordPressScraper.prototype.getUrl = function() {
-    return document.getElementById("sample-permalink").innerText;
-};
-
-YoastSEO_WordPressScraper.prototype.getText = function() {
-    var text = document.getElementById("content").value;
-    if(typeof tinyMCE !== "undefined") {
-        text =  tinyMCE.get("content").getContent();
-    }
-    return text;
-};
-
+/**
+ *
+ * @param inputType
+ * @returns {*}
+ */
 YoastSEO_WordPressScraper.prototype.getInput = function( inputType ) {
     var val;
     switch( inputType){
@@ -83,6 +72,10 @@ YoastSEO_WordPressScraper.prototype.setInputData = function ( inputType ) {
     }
 };
 
+/**
+ * gets content from the content field, if tinyMCE is initialized, use the getContent function to get the data from tinyMCE
+ * @returns textString
+ */
 YoastSEO_WordPressScraper.prototype.getContentTinyMCE = function() {
     var val = document.getElementById( "content").value;
     if(tinyMCE.editors.length !== 0){
@@ -91,6 +84,9 @@ YoastSEO_WordPressScraper.prototype.getContentTinyMCE = function() {
     return val;
 };
 
+/**
+ * Callback for the snippet, updates the source with new values from the snippet, then calls the timer function
+ */
 YoastSEO_WordPressScraper.prototype.snippetCallback = function() {
     this.refObj.source.setInputData( "title" );
     this.refObj.source.setInputData( "meta" );

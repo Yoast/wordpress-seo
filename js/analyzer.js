@@ -21,6 +21,9 @@ YoastSEO_Analyzer.prototype.init = function() {
     this.__store = {};
 };
 
+/**
+ * converts the keyword to lowercase
+ */
 YoastSEO_Analyzer.prototype.toLowCase = function() {
     this.config.keywordLowerCase = this.config.keyword.toLocaleLowerCase();
 };

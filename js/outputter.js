@@ -13,6 +13,7 @@ YoastSEO_AnalyzeLoader = function( args ) {
         this.createSnippetPreview();
     }
     this.bindEvent();
+    this.checkInputs();
 };
 
 
