@@ -179,6 +179,11 @@ YoastSEO_PreProcessor.prototype.stripAllTags = function( textString ) {
     return textString;
 };
 
+/**
+ * replaces all diacritics with standard characters following the diacritics removal map from the config.
+ * @param textString
+ * @returns textString
+ */
 YoastSEO_PreProcessor.prototype.replaceDiacritics = function( textString ) {
     for ( var i = 0; i < preprocessorConfig.diacriticsRemovalMap.length; i++ ) {
         textString = textString.replace( preprocessorConfig.diacriticsRemovalMap[ i ].letters, preprocessorConfig.diacriticsRemovalMap[ i ].base );

@@ -430,6 +430,12 @@ YoastSEO_Analyzer.prototype.firstParagraph = function() {
     return result;
 };
 
+/**
+ * checks if the keyword is found in the given textString. 
+ * @param textString
+ * @param regexp
+ * @returns count
+ */
 YoastSEO_Analyzer.prototype.paragraphChecker = function( textString, regexp) {
     var matches = textString.match ( regexp );
     var count = 0;
