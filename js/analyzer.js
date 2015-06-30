@@ -424,7 +424,7 @@ YoastSEO_Analyzer.prototype.firstParagraph = function() {
     var p = this.paragraphChecker( this.YoastSEO_preProcessor.__store.cleanTextSomeTags , new RegExp("<p(?:[^>]+)?>(.*?)<\/p>", "ig") );
     if ( p === 0){
         //use a regex that matches [^], not nothing, so any character, including linebreaks
-        p = this.paragraphChecker( this.YoastSEO_preProcessor.__store.originalText, new RegExp("[^]+\n\n", "ig") );
+        p = this.paragraphChecker( this.YoastSEO_preProcessor.__store.originalText, new RegExp("[^]*?\n\n", "ig") );
     }
     result[0].result = p;
     return result;
