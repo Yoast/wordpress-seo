@@ -1,0 +1,23 @@
+{
+  "name": "yoast-js-text-analysis",
+  "version": "0.1",
+  "homepage": "https://github.com/Yoast/js-text-analysis",
+  "authors": [
+    "Yoast.com"
+  ],
+  "description": "Yoast text analysis tool",
+  "keywords": [
+    "SEO",
+    "Text analysis",
+    "Keyword density",
+    "Flesch reading ease"
+  ],
+  "license": "GPLv3",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
