@@ -49,6 +49,20 @@ class WPSEO_Crawl_Issue_Bulk {
 	}
 
 	/**
+	 * Get the posted issues and return them
+	 *
+	 * @return array
+	 */
+	private function posted_issues() {
+		if ( $issues = filter_input( INPUT_POST, 'wpseo_crawl_issues_mark_as_fixed', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY ) ) {
+			return $issues;
+		}
+
+		// Fallback if issues are empty.
+		return array();
+	}
+
+	/**
 	 * Runs the bulk action
 	 *
 	 * @param string $bulk_action
@@ -64,17 +78,16 @@ class WPSEO_Crawl_Issue_Bulk {
 	}
 
 	/**
-	 * Get the posted issues and return them
+	 * Marks the issue as fixed
 	 *
-	 * @return array
+	 * @param string $issue
+	 *
+	 * @return string
 	 */
-	private function posted_issues() {
-		if ( $issues = filter_input( INPUT_POST, 'wpseo_crawl_issues_mark_as_fixed', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY ) ) {
-			return $issues;
-		}
+	private function action_mark_as_fixed( $issue ) {
+		new WPSEO_Crawl_Issue_Marker( $issue );
 
-		// Fallback if issues are empty.
-		return array();
+		return $issue;
 	}
 
 }
