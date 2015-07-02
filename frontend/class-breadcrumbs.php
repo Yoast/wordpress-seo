@@ -664,10 +664,19 @@ class WPSEO_Breadcrumbs {
 	 * @return array Array of link text and url
 	 */
 	private function get_link_info_for_id( $id ) {
-		$link = array();
 
+		$link = array();
 		$link['url']  = get_permalink( $id );
+		$status = get_post_status( $id );
+
+		if ( 'private' == $status && ! current_user_can( 'read_private_pages' ) && ! current_user_can( 'read_private_posts' ) ) {
+
+			$link['url'] = '';
+
+		}
+
 		$link['text'] = WPSEO_Meta::get_value( 'bctitle', $id );
+
 		if ( $link['text'] === '' ) {
 			$link['text'] = strip_tags( get_the_title( $id ) );
 		}
