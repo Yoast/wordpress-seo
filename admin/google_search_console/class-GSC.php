@@ -6,7 +6,7 @@
 /**
  * Class WPSEO_Page_GWT
  */
-class WPSEO_Page_GWT {
+class WPSEO_GSC {
 
 	/**
 	 * @var WPSEO_GWT_Service
