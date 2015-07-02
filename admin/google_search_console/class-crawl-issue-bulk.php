@@ -22,7 +22,7 @@ class WPSEO_Crawl_Issue_Bulk {
 	 */
 	private function handle_bulk_action() {
 		if ( $bulk_action = $this->determine_bulk_action() ) {
-				$this->run_bulk_action( $bulk_action );
+			$this->run_bulk_action( $bulk_action, $this->posted_issues() );
 
 				wp_redirect( filter_input( INPUT_POST, '_wp_http_referer' ) );
 		}
@@ -50,9 +50,10 @@ class WPSEO_Crawl_Issue_Bulk {
 	/**
 	 * Runs the bulk action
 	 *
-	 * @param string|bool $bulk_action
+	 * @param string $bulk_action
+	 * @param array  $issues
 	 */
-	private function run_bulk_action( $bulk_action ) {
+	private function run_bulk_action( $bulk_action, $issues ) {
 		switch ( $bulk_action ) {
 			case 'mark_as_fixed' :
 				foreach ( $this->posted_issues() as $issue ) {
