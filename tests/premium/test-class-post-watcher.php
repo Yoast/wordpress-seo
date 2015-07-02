@@ -79,7 +79,7 @@ class WPSEO_Post_Watcher_Test extends WPSEO_UnitTestCase {
     }
 
     /**
-     * set_notification should not be called when post is not published
+     * get_target_url and set_notification should not be called when post is not published
      */
     public function test_detect_slug_change_slug_post_IS_NOT_published() {
         $this->class_instance
@@ -88,7 +88,7 @@ class WPSEO_Post_Watcher_Test extends WPSEO_UnitTestCase {
             ->will($this->returnValue('/test/'));
 
         $this->class_instance
-            ->expects( $this->once() )
+            ->expects( $this->never() )
             ->method( 'get_target_url' )
             ->will( $this->returnValue('/test2/') );
 
