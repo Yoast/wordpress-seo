@@ -40,7 +40,7 @@ switch ( $platform_tabs->current_tab() ) {
 			echo "</form>\n";
 		}
 		else {
-			if ( ($profile = $this->service->get_profile()) !== '' ) {
+			if ( ($profile = WPSEO_GWT_Settings::get_profile() ) !== '' ) {
 
 				echo "<form action='" . admin_url( 'admin.php?page=wpseo_webmaster_tools&tab=settings' ) . "' method='post'>\n";
 				echo '<p>';
