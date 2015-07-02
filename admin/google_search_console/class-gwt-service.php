@@ -71,7 +71,7 @@ class WPSEO_GWT_Service {
 	public function get_crawl_issue_counts() {
 
 		// Setup crawl error list.
-		$crawl_error_counts = $this->get_crawl_error_counts( $this->get_profile() );
+		$crawl_error_counts = $this->get_crawl_error_counts( $this->profile );
 
 		$return = array();
 		if ( ! empty( $crawl_error_counts->countPerTypes ) ) {
@@ -96,30 +96,8 @@ class WPSEO_GWT_Service {
 	 * @return bool
 	 */
 	public function mark_as_fixed( $url, $platform, $category ) {
-		$profile  = $this->get_profile();
-		$response = $this->client->do_request( 'sites/' .  urlencode( $profile ) .  '/urlCrawlErrorsSamples/' . urlencode( ltrim( $url, '/' ) ) . '?category=' . $category . '&platform=' . $platform . '', 'DELETE' );
+		$response = $this->client->do_request( 'sites/' .  urlencode( $this->profile ) .  '/urlCrawlErrorsSamples/' . urlencode( ltrim( $url, '/' ) ) . '?category=' . $category . '&platform=' . $platform . '', 'DELETE' );
 		return ( $response->getResponseHttpCode() === 204 && $response->getResponseBody() === '' );
-	}
-
-	/**
-	 * Get the GWT profile
-	 *
-	 * @return string
-	 */
-	public function get_profile() {
-		// Get option.
-		$option = get_option( self::OPTION_WPSEO_GWT, array( 'profile' => '' ) );
-
-		// Set the profile.
-		$profile = $option['profile'];
-
-		// Backwards compatibility fix - This is the old API endpoint.
-		if ( strpos( $profile, 'https://www.google.com/webmasters/tools/feeds/' ) ) {
-			$profile = str_replace( 'https://www.google.com/webmasters/tools/feeds/', '', $profile );
-		}
-
-		// Return the profile.
-		return trim( $profile, '/' );
 	}
 
 	/**
@@ -132,7 +110,7 @@ class WPSEO_GWT_Service {
 	 */
 	public function fetch_category_issues( $platform, $category ) {
 		$response = $this->client->do_request(
-			'sites/'. urlencode( $this->get_profile() ) . '/urlCrawlErrorsSamples?category=' . $category . '&platform=' . $platform
+			'sites/'. urlencode( $this->profile ) . '/urlCrawlErrorsSamples?category=' . $category . '&platform=' . $platform
 		);
 
 		if ( $issues = $this->client->decode_response( $response ) ) {

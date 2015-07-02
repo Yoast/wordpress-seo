@@ -49,7 +49,7 @@ class WPSEO_Crawl_Category_Issues {
 	 * @param string $category
 	 */
 	public function __construct( $platform, $category ) {
-		$this->service     = new WPSEO_GWT_Service();
+		$this->service     = new WPSEO_GWT_Service( WPSEO_GWT_Settings::get_profile() );
 		$this->platform    = $platform;
 		$this->category    = $category;
 		$this->option_name = strtolower( 'wpseo-gwt-issues-' . $platform . '-' . $category );

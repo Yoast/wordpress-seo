@@ -47,7 +47,7 @@ class WPSEO_Crawl_Issue_Count {
 	 * @param WPSEO_GWT_Service $service
 	 */
 	private function fetch_counts( WPSEO_GWT_Service $service ) {
-		if ( $service->get_profile() && $this->get_last_fetch() <= strtotime( '-12 hours' ) ) {
+		if ( WPSEO_GWT_Settings::get_profile() && $this->get_last_fetch() <= strtotime( '-12 hours' ) ) {
 			// Remove the timestamp.
 			$this->remove_last_fetch();
 

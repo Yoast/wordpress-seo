@@ -50,7 +50,7 @@ class WPSEO_GSC {
 	 */
 	public function page_load() {
 		// Create a new WPSEO GWT Google Client.
-		$this->service = new WPSEO_GWT_Service();
+		$this->service = new WPSEO_GWT_Service( WPSEO_GWT_Settings::get_profile() );
 
 		$this->request_handler();
 
