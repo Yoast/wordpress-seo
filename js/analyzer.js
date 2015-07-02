@@ -86,7 +86,7 @@ YoastSEO_Analyzer.prototype.loadWordlists = function() {
  */
 YoastSEO_Analyzer.prototype.setDefaults = function() {
     //set default variables
-    this.keywordRegex = new RegExp( this.config.keywordLowerCase );
+    this.keywordRegex = new RegExp( this.config.keywordLowerCase, "ig" );
 };
 
 /**
@@ -304,7 +304,7 @@ YoastSEO_Analyzer.prototype.linkFollow = function( url ){
 YoastSEO_Analyzer.prototype.linkKeyword = function(url){
     var keywordFound = false;
     var formatUrl = url.match( /<a(.*?)(?:[^>]+)?>/ );
-    if( formatUrl[0].match( this.config.keyword ) !== null ){
+    if( formatUrl[0].match( this.keywordRegex ) !== null ){
         keywordFound = true;
     }
     return keywordFound;
