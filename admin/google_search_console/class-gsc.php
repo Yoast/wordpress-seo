@@ -14,11 +14,6 @@ class WPSEO_GSC {
 	private $service;
 
 	/**
-	 * @var WPSEO_GWT_Settings
-	 */
-	private $settings;
-
-	/**
 	 * Constructor for the page class. This will initialize all GSC related stuff
 	 */
 	public function __construct() {
@@ -49,18 +44,12 @@ class WPSEO_GSC {
 	 * Function that is triggered when the redirect page loads
 	 */
 	public function page_load() {
-		// List the table search post to a get;
-		$this->list_table_search_post_to_get();
-
 		// Create a new WPSEO GWT Google Client.
-		$this->service  = new WPSEO_GWT_Service();
+		$this->service = new WPSEO_GWT_Service();
 
-		$this->settings = new WPSEO_GWT_Settings( $this->service );
+		$this->request_handler();
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'page_scripts' ) );
-
-		// Catch bulk action request.
-		new WPSEO_Crawl_Issue_Bulk();
 	}
 
 	/**
@@ -108,12 +97,65 @@ class WPSEO_GSC {
 	}
 
 	/**
+	 * Handles the POST and GET requests
+	 */
+	private function request_handler() {
+
+		// List the table search post to a get;
+		$this->list_table_search_post_to_get();
+
+		// Catch the authorization code POST.
+		$this->catch_authentication_post();
+
+		// Is there a reset post than we will remove the posts and data
+		if ( filter_input( INPUT_POST, 'gwt_reset' ) ) {
+			WPSEO_GWT_Settings::clear_data( $this->service );
+		}
+
+		// Reloads al the issues
+		if ( wp_verify_nonce( filter_input( INPUT_POST, 'reload-crawl-issues-nonce' ), 'reload-crawl-issues' ) && filter_input( INPUT_POST, 'reload-crawl-issues' ) ) {
+			WPSEO_GWT_Settings::reload_issues( $this->service );
+		}
+
+		// Catch bulk action request.
+		new WPSEO_Crawl_Issue_Bulk();
+	}
+
+	/**
 	 * Catch the redirects search post and redirect it to a search get
 	 */
-	public function list_table_search_post_to_get() {
+	private function list_table_search_post_to_get() {
 		if ( $search_string = filter_input( INPUT_POST, 's' ) ) {
+			$url = add_query_arg( 's', $search_string );
+
 			// Do the redirect.
-			wp_redirect( add_query_arg( 's', $search_string ) );
+			wp_redirect( $url );
+			exit;
+		}
+	}
+
+	/**
+	 * Catch the authentication post
+	 */
+	private function catch_authentication_post() {
+		$gwt_values = filter_input( INPUT_POST, 'gwt', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
+		// Catch the authorization code POST.
+		if ( ! empty( $gwt_values['authorization_code'] ) && wp_verify_nonce( $gwt_values['gwt_nonce'], 'wpseo-gwt_nonce' ) ) {
+
+			if ( ! WPSEO_GWT_Settings::validate_authorization( trim( $gwt_values['authorization_code'] ), $this->service->get_client() ) ) {
+				// Add a notification
+				Yoast_Notification_Center::get()->add_notification(
+					new Yoast_Notification(
+						__( 'Incorrect Google Authorization Code!', 'wordpress-seo' ),
+						array(
+							'type'  => 'error'
+						)
+					)
+				);
+			}
+
+			// Redirect user to prevent a post resubmission which causes an oauth error.
+			wp_redirect( admin_url( 'admin.php' ) . '?page=' . esc_attr( filter_input( INPUT_GET, 'page' ) ) . '&tab=settings' );
 			exit;
 		}
 	}
