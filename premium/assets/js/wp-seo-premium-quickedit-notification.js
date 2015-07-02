@@ -40,7 +40,7 @@ function wpseo_show_notification() {
 		//When user clicks on save button after doing a quick edit, get the post id, current slug and new slug.
 		jQuery('.button-primary').click(function() {
 
-			if( jQuery(this).attr('id') == 'save-order' ){
+			if( jQuery(this).attr('id') === 'save-order' ){
 				return;
 			}
 
