@@ -25,9 +25,6 @@ class WPSEO_GSC {
 		// Settings.
 		add_action( 'admin_init', array( $this, 'register_settings' ) );
 
-		// Post to Get on search.
-		add_action( 'admin_init', array( $this, 'list_table_search_post_to_get' ) );
-
 		// Setting the screen option.
 		if ( filter_input( INPUT_GET, 'page' ) === 'wpseo_webmaster_tools' ) {
 			add_filter( 'set-screen-option', array( $this, 'set_screen_option' ), 11, 3 );
@@ -52,6 +49,9 @@ class WPSEO_GSC {
 	 * Function that is triggered when the redirect page loads
 	 */
 	public function page_load() {
+		// List the table search post to a get;
+		$this->list_table_search_post_to_get();
+
 		// Create a new WPSEO GWT Google Client.
 		$this->service  = new WPSEO_GWT_Service();
 
@@ -111,18 +111,9 @@ class WPSEO_GSC {
 	 * Catch the redirects search post and redirect it to a search get
 	 */
 	public function list_table_search_post_to_get() {
-
 		if ( $search_string = filter_input( INPUT_POST, 's' ) ) {
-
-			// Check if the POST is on one of our pages.
-			if ( filter_input( INPUT_GET, 'page' ) !== 'wpseo_webmaster_tools' ) {
-				return;
-			}
-
-			$url = add_query_arg( 's', $search_string );
-
 			// Do the redirect.
-			wp_redirect( $url );
+			wp_redirect( add_query_arg( 's', $search_string ) );
 			exit;
 		}
 	}
