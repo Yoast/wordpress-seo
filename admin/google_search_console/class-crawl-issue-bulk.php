@@ -56,9 +56,7 @@ class WPSEO_Crawl_Issue_Bulk {
 	private function run_bulk_action( $bulk_action, $issues ) {
 		switch ( $bulk_action ) {
 			case 'mark_as_fixed' :
-				foreach ( $this->posted_issues() as $issue ) {
-					new WPSEO_Crawl_Issue_Marker( $issue );
-				}
+				array_map( array( $this, 'action_mark_as_fixed' ), $issues );
 
 				break;
 		}
