@@ -124,8 +124,6 @@ class WPSEO_GWT_Service {
 	 * Removes the option and calls the clients clear_data method to clear that one as well
 	 */
 	public function clear_data() {
-		delete_option( self::OPTION_WPSEO_GWT );
-
 		// Clear client data.
 		$this->client->clear_data();
 	}

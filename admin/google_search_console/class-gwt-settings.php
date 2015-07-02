@@ -75,6 +75,8 @@ class WPSEO_GWT_Settings {
 
 		// Removing all issues from the database.
 		self::remove_issues();
+
+		self::remove_gsc_option();
 	}
 
 	/**
@@ -94,6 +96,13 @@ class WPSEO_GWT_Settings {
 
 		// Remove local crawl issues by running a delete query.
 		$wpdb->query( "DELETE FROM {$wpdb->options} WHERE option_name LIKE 'wpseo-gwt-issues-%'" );
+	}
+
+	/**
+	 * Removes the options for GSC
+	 */
+	private static function remove_gsc_option() {
+		delete_option( WPSEO_GSC::OPTION_WPSEO_GSC );
 	}
 
 }

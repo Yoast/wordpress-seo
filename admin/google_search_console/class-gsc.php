@@ -35,7 +35,7 @@ class WPSEO_GSC {
 	 * Be sure the settings will be registered, so data can be stored
 	 */
 	public function register_settings() {
-		register_setting( 'yoast_wpseo_gwt_options', 'wpseo-gwt' );
+		register_setting( 'yoast_wpseo_gwt_options', self::OPTION_WPSEO_GSC );
 	}
 
 	/**
