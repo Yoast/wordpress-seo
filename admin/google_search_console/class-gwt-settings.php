@@ -46,6 +46,27 @@ class WPSEO_GWT_Settings {
 	}
 
 	/**
+	 * Get the GWT profile
+	 *
+	 * @return string
+	 */
+	public static function get_profile() {
+		// Get option.
+		$option = get_option( WPSEO_GSC::OPTION_WPSEO_GSC, array( 'profile' => '' ) );
+
+		// Set the profile.
+		$profile = $option['profile'];
+
+		// Backwards compatibility fix - This is the old API endpoint.
+		if ( strpos( $profile, 'https://www.google.com/webmasters/tools/feeds/' ) ) {
+			$profile = str_replace( 'https://www.google.com/webmasters/tools/feeds/', '', $profile );
+		}
+
+		// Return the profile.
+		return trim( $profile, '/' );
+	}
+
+	/**
 	 * Removes the issue counts and all the issues from the options
 	 */
 	private static function remove() {

@@ -4,9 +4,14 @@
  */
 
 /**
- * Class WPSEO_Page_GWT
+ * Class WPSEO_GSC
  */
 class WPSEO_GSC {
+
+	/**
+	 * The option where data will be stored
+	 */
+	const OPTION_WPSEO_GSC = 'wpseo-gwt';
 
 	/**
 	 * @var WPSEO_GWT_Service

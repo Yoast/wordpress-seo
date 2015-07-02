@@ -9,21 +9,22 @@
 class WPSEO_GWT_Service {
 
 	/**
-	 * The option where data will be stored
-	 */
-	const OPTION_WPSEO_GWT = 'wpseo-gwt';
-
-	/**
 	 * @var Yoast_Google_Client
 	 */
 	private $client;
+	/**
+	 * @var string
+	 */
+	private $profile;
 
 	/**
 	 * Constructor
 	 *
-	 * @param Yoast_Google_Client $client
+	 * @param string $profile
 	 */
-	public function __construct( $client = null ) {
+	public function __construct( $profile = '' ) {
+		$this->profile = $profile;
+
 		$client       = new WPSEO_GWT_Client_Setup();
 		$this->client = $client->get_client();
 	}
