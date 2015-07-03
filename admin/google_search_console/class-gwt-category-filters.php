@@ -130,10 +130,19 @@ class WPSEO_GWT_Category_Filters {
 	 * @return string
 	 */
 	private function create_view_link( $key, $count ) {
-		$href  = esc_attr( add_query_arg( array( 'category' => $key, 'paged' => 1 ) ) );
-		$class = ( ( $this->current_view == $key ) ? ' current' : '' );
-		$alt   = ( $this->filter_values[ $key ]['description'] !== '' ) ? " title='" . esc_attr( $this->filter_values[ $key ]['description'] ) . "'" : '';
-		return "<a href='{$href}' class='gsc_category{$class}'{$alt}>{$this->filter_values[ $key ]['value']}</a> ({$count})";
+		$href  = add_query_arg( array( 'category' => $key, 'paged' => 1 ) );
+
+		$class = 'gsc_category';
+		if ( $this->current_view == $key ) {
+			$class .= ' current';
+		}
+
+		$title = '';
+		if ( $this->filter_values[ $key ]['description'] !== '' ) {
+			$title = " title='" . esc_attr( $this->filter_values[ $key ]['description'] ) . "'";
+		}
+
+		return "<a href='" . esc_attr( $href) . "' class='{$class}'{$title}>{$this->filter_values[ $key ]['value']}</a> ({$count})";
 	}
 
 	/**
