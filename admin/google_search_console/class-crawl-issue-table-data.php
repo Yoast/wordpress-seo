@@ -27,16 +27,16 @@ class WPSEO_Crawl_Issue_Table_Data {
 	 */
 	public function __construct( $platform, $screen_id, WPSEO_GWT_Service $service ) {
 		// Setting the platform.
-		$this->platform     = WPSEO_GWT_Mapper::platform( $platform );
+		$this->platform    = WPSEO_GWT_Mapper::platform( $platform );
 
 		// Loading the category filters.
 		$category_filter   = new WPSEO_GWT_Category_Filters( $this->platform, $screen_id );
 
-		// Loading the issue counter.
-		$issue_count       = new WPSEO_Crawl_Issue_Count( $service );
-
 		// Setting the current category.
 		$this->category    = WPSEO_GWT_Mapper::category( $category_filter->current_view() );
+
+		// Loading the issue counter.
+		$issue_count       = new WPSEO_Crawl_Issue_Count( $service, $this->platform, $this->category );
 
 		// Fetching the issues.
 		$this->issue_fetch = new WPSEO_GSC_Issues( $this->platform, $this->category, $issue_count->get_issues() );

@@ -32,8 +32,6 @@ class WPSEO_GWT_Settings {
 	public static function reload_issues( WPSEO_GWT_Service $service ) {
 		// Remove issue and issue counts.
 		self::remove();
-
-		new WPSEO_Crawl_Issue_Count( $service );
 	}
 
 	/**
