@@ -37,21 +37,10 @@ class WPSEO_GWT_Category_Filters {
 	 *
 	 * Setting the hook to create the issues categories as the links
 	 *
-	 * @param string $platform
 	 * @param string $screen_id
 	 */
-	public function __construct( $platform, $screen_id ) {
-		$platform        = WPSEO_GWT_Mapper::platform( $platform );
-
+	public function __construct( $screen_id ) {
 		add_filter( 'views_' . $screen_id, array( $this, 'as_array' ) );
-
-		$platform_counts = $this->get_counts();
-
-		if ( array_key_exists( $platform, $platform_counts ) ) {
-			$this->category_counts = $this->parse_counts( $platform_counts[ $platform ] );
-		}
-
-		$this->set_filter_values();
 	}
 
 	/**
@@ -66,6 +55,22 @@ class WPSEO_GWT_Category_Filters {
 		}
 
 		return $this->current_view = $view;
+	}
+
+	/**
+	 * Setting the view counts based on the saved data. The info will be used to display the category filters
+	 *
+	 * @param string $platform
+	 */
+	public function set_counts( $platform ) {
+		$platform        = WPSEO_GWT_Mapper::platform( $platform );
+		$platform_counts = $this->get_counts();
+
+		if ( array_key_exists( $platform, $platform_counts ) ) {
+			$this->category_counts = $this->parse_counts( $platform_counts[ $platform ] );
+		}
+
+		$this->set_filter_values();
 	}
 
 	/**

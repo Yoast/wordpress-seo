@@ -30,7 +30,7 @@ class WPSEO_Crawl_Issue_Table_Data {
 		$this->platform    = WPSEO_GWT_Mapper::platform( $platform );
 
 		// Loading the category filters.
-		$category_filter   = new WPSEO_GWT_Category_Filters( $this->platform, $screen_id );
+		$category_filter   = new WPSEO_GWT_Category_Filters( $screen_id );
 
 		// Setting the current category.
 		$this->category    = WPSEO_GWT_Mapper::category( $category_filter->current_view() );
@@ -40,6 +40,8 @@ class WPSEO_Crawl_Issue_Table_Data {
 
 		// Fetching the issues.
 		$this->issue_fetch = new WPSEO_GSC_Issues( $this->platform, $this->category, $issue_count->get_issues() );
+
+		$category_filter->set_counts( $this->platform );
 	}
 
 	/**
