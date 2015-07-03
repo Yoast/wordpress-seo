@@ -1230,7 +1230,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		global $wpdb;
 
 		$prefix = $wpdb->get_blog_prefix();
-		var_dump( $user->has_prop( $prefix . $option ) );
 		if ( ! $user->has_prop( $prefix . $option ) && ! $user->has_prop( $option ) ) {
 
 			if ( ! is_array( $result ) ) {
