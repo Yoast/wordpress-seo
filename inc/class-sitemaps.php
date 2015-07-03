@@ -931,7 +931,7 @@ class WPSEO_Sitemaps {
 		$sitemap_urlset = '<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" ';
 		$sitemap_urlset .= 'xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" ';
 		$sitemap_urlset .= 'xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
-		$this->sitemap = apply_filters( 'sm_urlset_header', $sitemap_urlset );
+		$this->sitemap = apply_filters( 'wpseo_sitemap_' . $post_type . '_urlset', $sitemap_urlset );
 		$this->sitemap .= $output;
 
 		// Filter to allow adding extra URLs, only do this on the first XML sitemap, not on all.
@@ -1049,7 +1049,7 @@ class WPSEO_Sitemaps {
 		$sitemap_urlset = '<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ';
 		$sitemap_urlset .= 'xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" ';
 		$sitemap_urlset .= 'xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
-		$this->sitemap = apply_filters( 'sm_urlset_header', $sitemap_urlset );
+		$this->sitemap = apply_filters( 'wpseo_sitemap_taxonomy_urlset', $sitemap_urlset );
 		if ( is_string( $output ) && trim( $output ) !== '' ) {
 			$this->sitemap .= $output;
 		}
@@ -1149,7 +1149,7 @@ class WPSEO_Sitemaps {
 		$sitemap_urlset = '<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" ';
 		$sitemap_urlset .= 'xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" ';
 		$sitemap_urlset .= 'xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
-		$this->sitemap = apply_filters( 'sm_urlset_header', $sitemap_urlset );
+		$this->sitemap = apply_filters( 'wpseo_sitemap_author_urlset', $sitemap_urlset );
 		$this->sitemap .= $output;
 
 		// Filter to allow adding extra URLs, only do this on the first XML sitemap, not on all.
@@ -1262,7 +1262,7 @@ class WPSEO_Sitemaps {
 			}
 			unset( $img );
 		}
-		$output = apply_filters( 'sm_render_xml', $output, $url['loc'] );
+		$output = apply_filters( 'wpseo_sitemap_url', $output, $url['loc'] );
 		$output .= "\t</url>\n";
 
 		return $output;
