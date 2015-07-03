@@ -94,6 +94,8 @@ class WPSEO_Crawl_Issue_Marker {
 
 			return true;
 		}
+
+		return false;
 	}
 
 	/**
@@ -106,6 +108,8 @@ class WPSEO_Crawl_Issue_Marker {
 		if ( $service->mark_as_fixed( $this->url, $this->platform, $this->category ) ) {
 			return true;
 		}
+
+		return false;
 	}
 
 	/**
