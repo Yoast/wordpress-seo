@@ -26,10 +26,8 @@ class WPSEO_GWT_Settings {
 
 	/**
 	 * Reloading all the issues
-	 *
-	 * @param WPSEO_GWT_Service $service
 	 */
-	public static function reload_issues( WPSEO_GWT_Service $service ) {
+	public static function reload_issues( ) {
 		// Remove issue and issue counts.
 		self::remove();
 	}

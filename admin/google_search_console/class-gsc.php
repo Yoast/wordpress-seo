@@ -119,7 +119,7 @@ class WPSEO_GSC {
 
 		// Reloads al the issues.
 		if ( wp_verify_nonce( filter_input( INPUT_POST, 'reload-crawl-issues-nonce' ), 'reload-crawl-issues' ) && filter_input( INPUT_POST, 'reload-crawl-issues' ) ) {
-			WPSEO_GWT_Settings::reload_issues( $this->service );
+			WPSEO_GWT_Settings::reload_issues();
 		}
 
 		// Catch bulk action request.
