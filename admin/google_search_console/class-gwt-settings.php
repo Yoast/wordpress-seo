@@ -40,7 +40,7 @@ class WPSEO_GWT_Settings {
 	 *
 	 * @return bool
 	 */
-	public function validate_authorization( $authorization_code, Yoast_Api_Google_Client $client ) {
+	public static function validate_authorization( $authorization_code, Yoast_Api_Google_Client $client ) {
 		return ( $authorization_code !== '' && $client->authenticate_client( $authorization_code ) );
 	}
 
