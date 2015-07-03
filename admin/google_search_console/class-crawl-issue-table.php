@@ -158,7 +158,7 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 	 */
 	public function column_cb( $item ) {
 		return sprintf(
-			'<input type="checkbox" name="wpseo_crawl_issues_mark_as_fixed[]" value="%s" />', $item['url']
+			'<input type="checkbox" name="wpseo_crawl_issues[]" value="%s" />', $item['url']
 		);
 	}
 
