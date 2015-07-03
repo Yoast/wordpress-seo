@@ -17,6 +17,9 @@ class WPSEO_GWT_Settings {
 		// Remove issue and issue counts.
 		self::remove();
 
+		// Removes the GSC options
+		self::remove_gsc_option();
+
 		// Clear the service data.
 		$service->clear_data();
 	}
@@ -36,12 +39,12 @@ class WPSEO_GWT_Settings {
 	/**
 	 * When authorization is successful return true, otherwise false
 	 *
-	 * @param string              $authorization_code
-	 * @param Yoast_Google_Client $client
+	 * @param string                  $authorization_code
+	 * @param Yoast_Api_Google_Client $client
 	 *
 	 * @return bool
 	 */
-	public function validate_authorization( $authorization_code, Yoast_Google_Client $client ) {
+	public function validate_authorization( $authorization_code, Yoast_Api_Google_Client $client ) {
 		return ( $authorization_code !== '' && $client->authenticate_client( $authorization_code ) );
 	}
 
@@ -75,8 +78,6 @@ class WPSEO_GWT_Settings {
 
 		// Removing all issues from the database.
 		self::remove_issues();
-
-		self::remove_gsc_option();
 	}
 
 	/**

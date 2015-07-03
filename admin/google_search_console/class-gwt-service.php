@@ -32,7 +32,7 @@ class WPSEO_GWT_Service {
 	/**
 	 * Returns the client
 	 *
-	 * @return Yoast_Google_Client
+	 * @return Yoast_Api_Google_Client
 	 */
 	public function get_client() {
 		return $this->client;
