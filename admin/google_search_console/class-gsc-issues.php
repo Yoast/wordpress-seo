@@ -11,16 +11,6 @@ class WPSEO_GSC_Issues {
 	/**
 	 * @var string
 	 */
-	private $category;
-
-	/**
-	 * @var string
-	 */
-	private $platform;
-
-	/**
-	 * @var string
-	 */
 	private $option_name = '';
 
 	/**
@@ -37,7 +27,6 @@ class WPSEO_GSC_Issues {
 	 */
 	private $issues = array();
 
-
 	/**
 	 * Setting up the properties and fetching the current issues
 	 *
@@ -46,16 +35,12 @@ class WPSEO_GSC_Issues {
 	 * @param array|bool $fetched_issues
 	 */
 	public function __construct( $platform, $category, $fetched_issues = false ) {
-		$this->platform    = $platform;
-		$this->category    = $category;
 		$this->option_name = strtolower( 'wpseo-gwt-issues-' . $platform . '-' . $category );
 		$this->issues      = $this->get_issues();
 
 		if ( ! empty( $fetched_issues ) && is_array( $fetched_issues ) ) {
 			$this->save_fetched_issues( $fetched_issues );
 		}
-
-
 	}
 	/**
 	 * Getting the issues from the options.
