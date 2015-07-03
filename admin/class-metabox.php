@@ -151,6 +151,14 @@ class WPSEO_Metabox extends WPSEO_Meta {
 							$this,
 							'column_sort',
 						), 10, 2 );
+
+						add_filter( sprintf(
+							'get_user_option_%s',
+							sprintf(
+								'manage%scolumnshidden',
+								'edit-' . $pt
+							)
+						), array( $this, 'column_hidden' ), 10, 3 );
 					}
 				}
 				unset( $pt );
@@ -1207,6 +1215,34 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 
 		return $vars;
+	}
+
+	/**
+	 * Hide certain columns if the user hasn't chosen which columns to hide
+	 *
+	 * @param array|false $result
+	 * @param string      $option
+	 * @param WP_User     $user
+	 *
+	 * @return array|false $result
+	 */
+	function column_hidden( $result, $option, $user ) {
+		global $wpdb;
+
+		$prefix = $wpdb->get_blog_prefix();
+		var_dump( $user->has_prop( $prefix . $option ) );
+		if ( ! $user->has_prop( $prefix . $option ) && ! $user->has_prop( $option ) ) {
+
+			if ( ! is_array( $result ) ) {
+				$result = array();
+			}
+
+			$result[] = 'wpseo-title';
+			$result[] = 'wpseo-metadesc';
+			$result[] = 'wpseo-focuskw';
+		}
+
+		return $result;
 	}
 
 	/**

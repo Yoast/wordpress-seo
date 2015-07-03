@@ -91,6 +91,36 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * @covers WPSEO_Metabox::column_hidden
+	 */
+	public function test_column_hidden() {
+
+		// Option shouldn't be touched if the user has set it already
+		$user = $this->getMockBuilder('WP_User')
+					 ->getMock();
+
+		$user->method( 'has_prop' )
+			 ->willReturn( true );
+
+		$expected = array( 'column1', 'column2' );
+		$received = self::$class_instance->column_hidden( $expected, 'option-name', $user );
+
+		$this->assertEquals( $expected, $received );
+
+		$user2 = $this->getMockBuilder('WP_User')
+					  ->getMock();
+
+		// Option may be filled if the user has not set it
+		$user2->method( 'has_prop' )
+			 ->willReturn( false );
+
+		$expected = array( 'wpseo-title', 'wpseo-metadesc', 'wpseo-focuskw' );
+		$received = self::$class_instance->column_hidden( array(), 'option-name', $user2 );
+
+		$this->assertEquals( $expected, $received );
+	}
+
+	/**
 	 * @covers WPSEO_Metabox::strtolower_utf8()
 	 */
 	public function test_strtolower_utf8() {
