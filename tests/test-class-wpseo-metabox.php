@@ -95,8 +95,9 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_column_hidden() {
 
-		// Option shouldn't be touched if the user has set it already
-		$user = $this->getMockBuilder('WP_User')
+		// Option shouldn't be touched if the user has set it already.
+		$user = $this->getMockBuilder( 'WP_User' )
+					 ->setMethods( array( 'has_prop' ) )
 					 ->getMock();
 
 		$user->method( 'has_prop' )
@@ -107,10 +108,11 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 
 		$this->assertEquals( $expected, $received );
 
-		$user2 = $this->getMockBuilder('WP_User')
+		$user2 = $this->getMockBuilder( 'WP_User' )
+					  ->setMethods( array( 'has_prop' ) )
 					  ->getMock();
 
-		// Option may be filled if the user has not set it
+		// Option may be filled if the user has not set it.
 		$user2->method( 'has_prop' )
 			 ->willReturn( false );
 
