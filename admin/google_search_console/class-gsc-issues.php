@@ -4,19 +4,14 @@
  */
 
 /**
- * Class WPSEO_Crawl_Category_Issues
+ * Class WPSEO_GSC_Issues
  */
-class WPSEO_Crawl_Category_Issues {
+class WPSEO_GSC_Issues {
 
 	/**
 	 * @var string
 	 */
 	private $category;
-
-	/**
-	 * @var WPSEO_GWT_Service
-	 */
-	private $service;
 
 	/**
 	 * @var string
@@ -42,38 +37,26 @@ class WPSEO_Crawl_Category_Issues {
 	 */
 	private $issues = array();
 
+
 	/**
 	 * Setting up the properties and fetching the current issues
 	 *
-	 * @param string $platform
-	 * @param string $category
+	 * @param string     $platform
+	 * @param string     $category
+	 * @param array|bool $fetched_issues
 	 */
-	public function __construct( $platform, $category ) {
-		$this->service     = new WPSEO_GWT_Service( WPSEO_GWT_Settings::get_profile() );
+	public function __construct( $platform, $category, $fetched_issues = false ) {
 		$this->platform    = $platform;
 		$this->category    = $category;
 		$this->option_name = strtolower( 'wpseo-gwt-issues-' . $platform . '-' . $category );
 		$this->issues      = $this->get_issues();
-	}
 
-	/**
-	 * Fetching the issues for current category and compare them with the already existing issues.
-	 */
-	public function fetch_issues() {
-		$this->set_current_issues();
-
-		if ( $issues = $this->service->fetch_category_issues( $this->platform, $this->category ) ) {
-			$crawl_issues = $this->get_issues();
-
-			// Walk through the issues to do the comparison.
-			foreach ( $issues as $issue ) {
-				$this->issue_compare( $crawl_issues, $issue );
-			}
-
-			$this->save_issues( $crawl_issues );
+		if ( ! empty( $fetched_issues ) && is_array( $fetched_issues ) ) {
+			$this->save_fetched_issues( $fetched_issues );
 		}
-	}
 
+
+	}
 	/**
 	 * Getting the issues from the options.
 	 *
@@ -91,7 +74,7 @@ class WPSEO_Crawl_Category_Issues {
 	 * @return bool
 	 */
 	public function delete_issue( $url ) {
-		$target_issue = $this->get_by_url( $url );
+		$target_issue = $this->get_issue_by_url( $url );
 		if ( $target_issue !== false ) {
 			unset( $this->issues[ $target_issue ] );
 
@@ -101,6 +84,27 @@ class WPSEO_Crawl_Category_Issues {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Fetching the issues for current category and compare them with the already existing issues.
+	 *
+	 * @param array $fetched_issues
+	 */
+	private function save_fetched_issues( array $fetched_issues ) {
+		$this->set_current_issues();
+
+		$crawl_issues = $this->get_issues();
+
+		// Walk through the issues to do the comparison.
+		foreach ( $fetched_issues as $issue ) {
+			$this->issue_compare( $crawl_issues, $issue );
+		}
+
+		$this->save_issues( $crawl_issues );
+
+		// Refresh the value of $this->issues
+		$this->issues = $this->get_issues();
 	}
 
 	/**
@@ -162,10 +166,8 @@ class WPSEO_Crawl_Category_Issues {
 	 * with the issues from the API.
 	 */
 	private function set_current_issues() {
-		$current_issues = $this->get_issues();
-
-		if ( ! empty( $current_issues ) ) {
-			$this->current_issues = wp_list_pluck( $current_issues, 'url' );
+		if ( ! empty( $this->issues ) ) {
+			$this->current_issues = wp_list_pluck( $this->issues, 'url' );
 		}
 	}
 
@@ -176,9 +178,8 @@ class WPSEO_Crawl_Category_Issues {
 	 *
 	 * @return int|string
 	 */
-	private function get_by_url( $url ) {
+	private function get_issue_by_url( $url ) {
 		foreach ( $this->issues as $key => $issue ) {
-
 			if ( $url === $issue['url'] ) {
 				return $key;
 			}

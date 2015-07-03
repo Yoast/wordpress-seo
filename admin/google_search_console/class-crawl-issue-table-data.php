@@ -39,7 +39,7 @@ class WPSEO_Crawl_Issue_Table_Data {
 		$this->category    = WPSEO_GWT_Mapper::category( $category_filter->current_view() );
 
 		// Fetching the issues.
-		$this->issue_fetch = new WPSEO_Crawl_Issue_Fetch( $this->platform, $this->category, $issue_count, $service );
+		$this->issue_fetch = new WPSEO_GSC_Issues( $this->platform, $this->category, $issue_count->get_issues() );
 	}
 
 	/**

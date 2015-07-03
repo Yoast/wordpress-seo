@@ -9,7 +9,7 @@
 class WPSEO_Crawl_Issue_Marker {
 
 	/**
-	 * @var WPSEO_Crawl_Category_Issues
+	 * @var WPSEO_GSC_Issues
 	 */
 	private $crawl_issues;
 
@@ -90,7 +90,7 @@ class WPSEO_Crawl_Issue_Marker {
 		$this->platform = filter_input( INPUT_POST, 'platform' );
 		$this->category = filter_input( INPUT_POST, 'category' );
 		if ( $this->platform && $this->category ) {
-			$this->crawl_issues = new WPSEO_Crawl_Category_Issues( $this->platform, $this->category );
+			$this->crawl_issues = new WPSEO_GSC_Issues( $this->platform, $this->category );
 
 			return true;
 		}
