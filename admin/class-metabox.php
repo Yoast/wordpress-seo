@@ -659,7 +659,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
                 $content .= '<div id="wpseo-pageanalysis"></div>';
                 break;
 			case 'snippetpreview':
-				$content .= $this->snippet();
+				$content .= '<div id="wpseosnippet"></div>';
 				break;
 
 			case 'text':
@@ -806,21 +806,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 
 		return (string) $date;
-	}
-
-	/**
-	 * Generate a snippet preview.
-	 *
-	 * @return string
-	 */
-	function snippet() {
-		$post        = $this->get_metabox_post();
-		$title       = self::get_value( 'title', $post->ID );
-		$description = self::get_value( 'metadesc', $post->ID );
-
-		$snippet_preview = new WPSEO_Snippet_Preview( $post, $title, $description );
-
-		return $snippet_preview->get_content();
 	}
 
 	/**
