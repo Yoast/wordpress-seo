@@ -9,9 +9,10 @@
 class WPSEO_GWT_Service {
 
 	/**
-	 * @var Yoast_Google_Client
+	 * @var Yoast_Api_Google_Client
 	 */
 	private $client;
+
 	/**
 	 * @var string
 	 */
@@ -38,6 +39,14 @@ class WPSEO_GWT_Service {
 	}
 
 	/**
+	 * Removes the option and calls the clients clear_data method to clear that one as well
+	 */
+	public function clear_data() {
+		// Clear client data.
+		$this->client->clear_data();
+	}
+
+	/**
 	 * Get all sites that are registered in the GWT panel
 	 *
 	 * @return array
@@ -45,14 +54,12 @@ class WPSEO_GWT_Service {
 	public function get_sites() {
 		$sites = array();
 
-		// Do list sites request.
-		$response = $this->client->do_request( 'sites' );
+		$response_json = $this->client->do_request( 'sites', true );
 
-		if ( $response_json = $this->client->decode_response( $response ) ) {
-			if ( ! empty( $response_json->siteEntry ) ) {
-				foreach ( $response_json->siteEntry as $entry ) {
-					$sites[ str_ireplace( 'sites/', '', (string) $entry->siteUrl ) ] = (string) $entry->siteUrl;
-				}
+		// Do list sites request.
+		if ( ! empty( $response_json->siteEntry ) ) {
+			foreach ( $response_json->siteEntry as $entry ) {
+				$sites[ str_ireplace( 'sites/', '', (string) $entry->siteUrl ) ] = (string) $entry->siteUrl;
 			}
 
 			// Sorting the retrieved sites.
@@ -68,7 +75,6 @@ class WPSEO_GWT_Service {
 	 * @return array
 	 */
 	public function get_crawl_issue_counts() {
-
 		// Setup crawl error list.
 		$crawl_error_counts = $this->get_crawl_error_counts( $this->profile );
 
@@ -95,8 +101,8 @@ class WPSEO_GWT_Service {
 	 * @return bool
 	 */
 	public function mark_as_fixed( $url, $platform, $category ) {
-		$response = $this->client->do_request( 'sites/' .  urlencode( $this->profile ) .  '/urlCrawlErrorsSamples/' . urlencode( ltrim( $url, '/' ) ) . '?category=' . $category . '&platform=' . $platform . '', 'DELETE' );
-		return ( $response->getResponseHttpCode() === 204 && $response->getResponseBody() === '' );
+		$response = $this->client->do_request( 'sites/' .  urlencode( $this->profile ) .  '/urlCrawlErrorsSamples/' . urlencode( ltrim( $url, '/' ) ) . '?category=' . $category . '&platform=' . $platform . '', false, 'DELETE' );
+		return ( $response->getResponseHttpCode() === 204 );
 	}
 
 	/**
@@ -108,23 +114,14 @@ class WPSEO_GWT_Service {
 	 * @return mixed
 	 */
 	public function fetch_category_issues( $platform, $category ) {
-		$response = $this->client->do_request(
-			'sites/'. urlencode( $this->profile ) . '/urlCrawlErrorsSamples?category=' . $category . '&platform=' . $platform
+		$issues = $this->client->do_request(
+			'sites/' . urlencode( $this->profile ) . '/urlCrawlErrorsSamples?category=' . $category . '&platform=' . $platform,
+			true
 		);
 
-		if ( $issues = $this->client->decode_response( $response ) ) {
-			if ( ! empty ($issues->urlCrawlErrorSample ) ) {
-				return $issues->urlCrawlErrorSample;
-			}
+		if ( ! empty ( $issues->urlCrawlErrorSample ) ) {
+			return $issues->urlCrawlErrorSample;
 		}
-	}
-
-	/**
-	 * Removes the option and calls the clients clear_data method to clear that one as well
-	 */
-	public function clear_data() {
-		// Clear client data.
-		$this->client->clear_data();
 	}
 
 	/**
@@ -133,7 +130,7 @@ class WPSEO_GWT_Service {
 	private function set_client() {
 		Yoast_Api_Libs::load_api_libraries( array( 'google' ) );
 
-		$this->client = new WPSEO_GWT_Client( WPSEO_GSC_Config::$gsc );
+		$this->client = new Yoast_Api_Google_Client( WPSEO_GSC_Config::$gsc, 'wpseo-gsc', 'https://www.googleapis.com/webmasters/v3/' );
 	}
 
 	/**
@@ -141,16 +138,19 @@ class WPSEO_GWT_Service {
 	 *
 	 * @param string $profile
 	 *
-	 * @return mixed
+	 * @return object|bool
 	 */
 	private function get_crawl_error_counts( $profile ) {
 		$crawl_error_counts = $this->client->do_request(
-			'sites/' . urlencode( $profile ) . '/urlCrawlErrorsCounts/query'
+			'sites/' . urlencode( $profile ) . '/urlCrawlErrorsCounts/query',
+			true
 		);
 
-		if ( $response = $this->client->decode_response( $crawl_error_counts ) ) {
-			return $response;
+		if ( ! empty( $crawl_error_counts ) ) {
+			return $crawl_error_counts;
 		}
+
+		return false;
 	}
 
 }
