@@ -5,8 +5,6 @@
 
 /**
  * Class WPSEO_Crawl_Issue
- *
- * @todo Might want to create a class that accepts the raw Google response as construct parameter.
  */
 class WPSEO_Crawl_Issue {
 
