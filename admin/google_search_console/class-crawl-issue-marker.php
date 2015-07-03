@@ -105,11 +105,8 @@ class WPSEO_Crawl_Issue_Marker {
 	 */
 	private function send_mark_as_fixed( ) {
 		$service = new WPSEO_GWT_Service( WPSEO_GWT_Settings::get_profile() );
-		if ( $service->mark_as_fixed( $this->url, $this->platform, $this->category ) ) {
-			return true;
-		}
 
-		return false;
+		return $service->mark_as_fixed( $this->url, $this->platform, $this->category );
 	}
 
 	/**
