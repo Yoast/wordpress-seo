@@ -17,7 +17,7 @@ class WPSEO_GWT_Settings {
 		// Remove issue and issue counts.
 		self::remove();
 
-		// Removes the GSC options
+		// Removes the GSC options.
 		self::remove_gsc_option();
 
 		// Clear the service data.

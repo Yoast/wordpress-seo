@@ -50,7 +50,7 @@ class WPSEO_Crawl_Issue_Table_Data {
 	public function get_issues() {
 		return $this->issue_fetch->get_issues();
 	}
-	
+
 	/**
 	 * Gets the current category
 	 *

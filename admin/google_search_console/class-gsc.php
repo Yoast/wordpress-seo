@@ -151,7 +151,7 @@ class WPSEO_GSC {
 					new Yoast_Notification(
 						__( 'Incorrect Google Authorization Code!', 'wordpress-seo' ),
 						array(
-							'type'  => 'error'
+							'type'  => 'error',
 						)
 					)
 				);
