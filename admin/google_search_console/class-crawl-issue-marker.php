@@ -60,7 +60,7 @@ class WPSEO_Crawl_Issue_Marker {
 	 */
 	private function get_result() {
 		if ( $this->can_be_marked_as_fixed() ) {
-			if ( $this->set_crawl_issue() && $this->send_mark_as_fixed() && $this->delete_crawl_issue() ) {
+			if ( $this->set_crawl_issues() && $this->send_mark_as_fixed() && $this->delete_crawl_issue() ) {
 				return 'true';
 			}
 		}
@@ -86,7 +86,7 @@ class WPSEO_Crawl_Issue_Marker {
 	 *
 	 * @return bool
 	 */
-	private function set_crawl_issue() {
+	private function set_crawl_issues() {
 		$this->platform = filter_input( INPUT_POST, 'platform' );
 		$this->category = filter_input( INPUT_POST, 'category' );
 		if ( $this->platform && $this->category ) {
