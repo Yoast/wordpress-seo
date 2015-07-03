@@ -5,6 +5,12 @@
  * This is the view for the modal box that appears when the create redirect link is clicked
  */
 
+/**
+ * @var string $view_type 		 The type of view to be displayed, can be 'create', 'already_exists', 'no_premium'
+ * @var string $current_redirect The existing redirect
+ * @var string $url 		     Redirect for URL
+ */
+
 ?>
 <div id='redirect-<?php echo md5( $url ); ?>' style='display: none;'>
 	<form>
