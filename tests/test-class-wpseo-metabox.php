@@ -100,7 +100,8 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 					 ->setMethods( array( 'has_prop' ) )
 					 ->getMock();
 
-		$user->method( 'has_prop' )
+		$user->expects( $this->any() )
+			 ->method( 'has_prop' )
 			 ->willReturn( true );
 
 		$expected = array( 'column1', 'column2' );
@@ -113,8 +114,9 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 					  ->getMock();
 
 		// Option may be filled if the user has not set it.
-		$user2->method( 'has_prop' )
-			 ->willReturn( false );
+		$user2->expects( $this->any() )
+			  ->method( 'has_prop' )
+			  ->willReturn( false );
 
 		$expected = array( 'wpseo-title', 'wpseo-metadesc', 'wpseo-focuskw' );
 		$received = self::$class_instance->column_hidden( array(), 'option-name', $user2 );
