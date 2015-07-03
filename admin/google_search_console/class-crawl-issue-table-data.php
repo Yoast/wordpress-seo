@@ -50,16 +50,7 @@ class WPSEO_Crawl_Issue_Table_Data {
 	public function get_issues() {
 		return $this->issue_fetch->get_issues();
 	}
-
-	/**
-	 * Get the total items
-	 *
-	 * @return mixed
-	 */
-	public function get_total_items() {
-		return $this->issue_fetch->get_total_issues();
-	}
-
+	
 	/**
 	 * Gets the current category
 	 *
