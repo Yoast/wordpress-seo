@@ -41,8 +41,6 @@ class WPSEO_Crawl_Issue_Marker {
 	 * @param string $url
 	 */
 	public function __construct( $url = '' ) {
-		Yoast_Api_Libs::load_api_libraries( array( 'google' ) );
-
 		$this->url    = $url;
 		$this->result = $this->get_result();
 	}
