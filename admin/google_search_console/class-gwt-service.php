@@ -25,8 +25,7 @@ class WPSEO_GWT_Service {
 	public function __construct( $profile = '' ) {
 		$this->profile = $profile;
 
-		$client       = new WPSEO_GWT_Client_Setup();
-		$this->client = $client->get_client();
+		$this->set_client();
 	}
 
 	/**
@@ -126,6 +125,15 @@ class WPSEO_GWT_Service {
 	public function clear_data() {
 		// Clear client data.
 		$this->client->clear_data();
+	}
+
+	/**
+	 * Setting the GSC client
+	 */
+	private function set_client() {
+		Yoast_Api_Libs::load_api_libraries( array( 'google' ) );
+
+		$this->client = new WPSEO_GWT_Client( WPSEO_GSC_Config::$gsc );
 	}
 
 	/**
