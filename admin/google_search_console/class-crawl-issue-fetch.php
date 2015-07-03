@@ -83,7 +83,7 @@ class WPSEO_Crawl_Issue_Fetch {
 
 	/**
 	 * Listing the issues for current category.
-
+     *
 	 * @param array $counts
 	 *
 	 * @return mixed
