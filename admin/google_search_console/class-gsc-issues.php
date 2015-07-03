@@ -88,7 +88,7 @@ class WPSEO_GSC_Issues {
 
 		$this->save_issues( $crawl_issues );
 
-		// Refresh the value of $this->issues
+		// Refresh the value of $this->issues.
 		$this->issues = $this->get_issues();
 	}
 

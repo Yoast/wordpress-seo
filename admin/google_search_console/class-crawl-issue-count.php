@@ -30,8 +30,8 @@ class WPSEO_Crawl_Issue_Count {
 	 * Fetching the counts
 	 *
 	 * @param WPSEO_GWT_Service $service
-	 * @param string $platform
-	 * @param string $category
+	 * @param string            $platform
+	 * @param string            $category
 	 */
 	public function __construct( WPSEO_GWT_Service $service, $platform, $category ) {
 		$this->service = $service;
@@ -52,7 +52,6 @@ class WPSEO_Crawl_Issue_Count {
 
 	/**
 	 * Fetching the counts from the GWT API
-	 *
 	 */
 	private function fetch_counts() {
 		if ( WPSEO_GWT_Settings::get_profile() && $this->get_last_fetch() <= strtotime( '-12 hours' ) ) {
@@ -79,8 +78,6 @@ class WPSEO_Crawl_Issue_Count {
 	 *
 	 * @param string $platform
 	 * @param string $category
-	 *
-	 * @return array
 	 */
 	private function list_issues( $platform, $category ) {
 		$counts = $this->get_counts();
