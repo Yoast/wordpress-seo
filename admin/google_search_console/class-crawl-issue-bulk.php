@@ -32,7 +32,7 @@ class WPSEO_Crawl_Issue_Bulk {
 	/**
 	 * Determine which bulk action is selected and return that value
 	 *
-	 * @return string
+	 * @return string|bool
 	 */
 	private function determine_bulk_action() {
 		// If posted action is the selected one above the table, return that value.

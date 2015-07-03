@@ -106,18 +106,18 @@ class WPSEO_GSC {
 	 */
 	private function request_handler() {
 
-		// List the table search post to a get;
+		// List the table search post to a get.
 		$this->list_table_search_post_to_get();
 
 		// Catch the authorization code POST.
 		$this->catch_authentication_post();
 
-		// Is there a reset post than we will remove the posts and data
+		// Is there a reset post than we will remove the posts and data.
 		if ( filter_input( INPUT_POST, 'gwt_reset' ) ) {
 			WPSEO_GWT_Settings::clear_data( $this->service );
 		}
 
-		// Reloads al the issues
+		// Reloads al the issues.
 		if ( wp_verify_nonce( filter_input( INPUT_POST, 'reload-crawl-issues-nonce' ), 'reload-crawl-issues' ) && filter_input( INPUT_POST, 'reload-crawl-issues' ) ) {
 			WPSEO_GWT_Settings::reload_issues( $this->service );
 		}
@@ -146,9 +146,7 @@ class WPSEO_GSC {
 		$gwt_values = filter_input( INPUT_POST, 'gwt', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
 		// Catch the authorization code POST.
 		if ( ! empty( $gwt_values['authorization_code'] ) && wp_verify_nonce( $gwt_values['gwt_nonce'], 'wpseo-gwt_nonce' ) ) {
-
 			if ( ! WPSEO_GWT_Settings::validate_authorization( trim( $gwt_values['authorization_code'] ), $this->service->get_client() ) ) {
-				// Add a notification
 				Yoast_Notification_Center::get()->add_notification(
 					new Yoast_Notification(
 						__( 'Incorrect Google Authorization Code!', 'wordpress-seo' ),

@@ -14,7 +14,7 @@ class WPSEO_GWT_Settings {
 	 * @param WPSEO_GWT_Service $service
 	 */
 	public static function clear_data( WPSEO_GWT_Service $service ) {
-		// Remove issue and issue counts
+		// Remove issue and issue counts.
 		self::remove();
 
 		// Clear the service data.
@@ -27,7 +27,7 @@ class WPSEO_GWT_Settings {
 	 * @param WPSEO_GWT_Service $service
 	 */
 	public static function reload_issues( WPSEO_GWT_Service $service ) {
-		// Remove issue and issue counts
+		// Remove issue and issue counts.
 		self::remove();
 
 		new WPSEO_Crawl_Issue_Count( $service );
@@ -70,7 +70,7 @@ class WPSEO_GWT_Settings {
 	 * Removes the issue counts and all the issues from the options
 	 */
 	private static function remove() {
-		// Remove the issue counts from the options
+		// Remove the issue counts from the options.
 		self::remove_issue_counts();
 
 		// Removing all issues from the database.
