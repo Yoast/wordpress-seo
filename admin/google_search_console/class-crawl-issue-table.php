@@ -87,13 +87,8 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 		$this->per_page     = $this->get_items_per_page( 'errors_per_page', $this->per_page );
 		$this->current_page = intval( ( $paged = filter_input( INPUT_GET, 'paged' ) ) ? $paged : 1 );
 
-		// Setup the columns.
 		$this->setup_columns();
-
-		// Views.
 		$this->views();
-
-		// Setting the items.
 		$this->set_items();
 	}
 
