@@ -4,7 +4,7 @@
  */
 
 /**
- * Class WPSEO_Crawl_Issue_Marker
+ * Class WPSEO_Crawl_Issue_Bulk
  */
 class WPSEO_Crawl_Issue_Bulk {
 
