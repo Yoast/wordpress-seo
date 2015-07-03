@@ -142,7 +142,14 @@ class WPSEO_GWT_Category_Filters {
 			$title = " title='" . esc_attr( $this->filter_values[ $key ]['description'] ) . "'";
 		}
 
-		return "<a href='" . esc_attr( $href) . "' class='{$class}'{$title}>{$this->filter_values[ $key ]['value']}</a> ({$count})";
+		return sprintf(
+			'<a href="%1$s" class="%2$s" %3$s>%4$s</a> (%5$s)',
+			esc_attr( $href ),
+			$class,
+			$title,
+			$this->filter_values[ $key ]['value'],
+			$count
+		);
 	}
 
 	/**
