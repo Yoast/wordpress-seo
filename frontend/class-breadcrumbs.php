@@ -218,25 +218,15 @@ class WPSEO_Breadcrumbs {
 		}
 		unset( $term );
 
-		/*
-		As we could still have two subcategories, from different parent categories,
-		   let's pick the one with the lowest ordered ancestor.
-		*/
+		/* As we could still have two subcategories, from different parent categories,
+		let's pick the one with the lowest ordered ancestor. */
 		$parents_count = 0;
 		$term_order    = 9999; // Because ASC.
 		reset( $terms_by_id );
 		$deepest_term = current( $terms_by_id );
 		foreach ( $terms_by_id as $term ) {
 			$parents = $this->get_term_parents( $term );
-
 			if ( count( $parents ) >= $parents_count ) {
-				$parents_count = count( $parents );
-
-				// If higher count.
-				if ( count( $parents ) > $parents_count ) {
-					// Reset order.
-					$term_order = 9999;
-				}
 
 				$parent_order = 9999; // Set default order.
 				foreach ( $parents as $parent ) {
@@ -246,14 +236,15 @@ class WPSEO_Breadcrumbs {
 				}
 				unset( $parent );
 
-				// Check if parent has lowest order.
-				if ( $parent_order < $term_order ) {
+				// this will be true either if the current parents count is strictly bigger OR the current parent_order is lower
+				if ( count($parents) > $parents_count || $parent_order <= $term_order ) {
+					$parents_count = count( $parents );
 					$term_order   = $parent_order;
 					$deepest_term = $term;
 				}
+
 			}
 		}
-
 		return $deepest_term;
 	}
 
