@@ -21,7 +21,7 @@ class WPSEO_Breadcrumbs {
 	/**
 	 * @var string    Last used 'after' string
 	 */
-	public static $after = '';
+	public static $after = '';p
 
 
 	/**
@@ -237,7 +237,7 @@ class WPSEO_Breadcrumbs {
 				unset( $parent );
 
 				// this will be true either if the current parents count is strictly bigger OR the current parent_order is lower
-				if ( count($parents) > $parents_count || $parent_order <= $term_order ) {
+				if ( count($parents) > $parents_count || $parent_order < $term_order ) {
 					$parents_count = count( $parents );
 					$term_order   = $parent_order;
 					$deepest_term = $term;
