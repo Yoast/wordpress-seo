@@ -775,6 +775,10 @@ class WPSEO_Sitemaps {
 					if ( WPSEO_Meta::get_value( 'meta-robots-noindex', $p->ID ) === '1' && WPSEO_Meta::get_value( 'sitemap-include', $p->ID ) !== 'always' ) {
 						continue;
 					}
+					if ( isset( $this->options[ 'noindex-' . $post_type ] ) && $this->options[ 'noindex-' . $post_type ] === true &&
+					     WPSEO_Meta::get_value( 'meta-robots-noindex', $p->ID ) === '0' && WPSEO_Meta::get_value( 'sitemap-include', $p->ID ) !== 'always' ) {
+					     	continue;
+					}
 					if ( WPSEO_Meta::get_value( 'sitemap-include', $p->ID ) === 'never' ) {
 						continue;
 					}
