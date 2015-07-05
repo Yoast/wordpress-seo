@@ -21,7 +21,7 @@ class WPSEO_Breadcrumbs {
 	/**
 	 * @var string    Last used 'after' string
 	 */
-	public static $after = '';p
+	public static $after = '';
 
 
 	/**
