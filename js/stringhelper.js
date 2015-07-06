@@ -71,7 +71,14 @@ YoastSEO_StringHelper.prototype.stripSpaces = function( textString ) {
     return textString;
 };
 
-
+/**
+ * adds escape characters to string
+ * @param textString
+ * @returns textString
+ */
+YoastSEO_StringHelper.prototype.addEscapeChars = function ( textString ) {
+    return textString.replace( /[\-\[\]\/\{}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&' );;
+};
 
 /**
  * Checks if the stringhelper is already initialized. Returns stringHelper.
