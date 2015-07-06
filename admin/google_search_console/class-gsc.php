@@ -113,11 +113,13 @@ class WPSEO_GSC {
 
 		// Is there a reset post than we will remove the posts and data.
 		if ( filter_input( INPUT_POST, 'gsc_reset' ) ) {
+			$this->add_notification( __( 'The Google Webmaster Tools data is removed successful. You have to authenticate again if you want to fetch this data.', 'wordpress-seo' ), 'update' );
 			WPSEO_GSC_Settings::clear_data( $this->service );
 		}
 
 		// Reloads al the issues.
 		if ( wp_verify_nonce( filter_input( INPUT_POST, 'reload-crawl-issues-nonce' ), 'reload-crawl-issues' ) && filter_input( INPUT_POST, 'reload-crawl-issues' ) ) {
+			$this->add_notification( __( 'The issues are reloaded successfully!', 'wordpress-seo' ), 'updated' );
 			WPSEO_GSC_Settings::reload_issues();
 		}
 
@@ -146,20 +148,25 @@ class WPSEO_GSC {
 		// Catch the authorization code POST.
 		if ( ! empty( $gsc_values['authorization_code'] ) && wp_verify_nonce( $gsc_values['gsc_nonce'], 'wpseo-gsc_nonce' ) ) {
 			if ( ! WPSEO_GSC_Settings::validate_authorization( trim( $gsc_values['authorization_code'] ), $this->service->get_client() ) ) {
-				Yoast_Notification_Center::get()->add_notification(
-					new Yoast_Notification(
-						__( 'Incorrect Google Authorization Code!', 'wordpress-seo' ),
-						array(
-							'type'  => 'error',
-						)
-					)
-				);
+				$this->add_notification( __( 'Incorrect Google Authorization Code!', 'wordpress-seo' ), 'error' );
 			}
 
 			// Redirect user to prevent a post resubmission which causes an oauth error.
 			wp_redirect( admin_url( 'admin.php' ) . '?page=' . esc_attr( filter_input( INPUT_GET, 'page' ) ) . '&tab=settings' );
 			exit;
 		}
+	}
+
+	/**
+	 * Adding notification to the yoast notification center
+	 *
+	 * @param string $message
+	 * @param string $type
+	 */
+	private function add_notification( $message, $type ) {
+		Yoast_Notification_Center::get()->add_notification(
+			new Yoast_Notification( $message, array( 'type'  => $type ) )
+		);
 	}
 
 }
