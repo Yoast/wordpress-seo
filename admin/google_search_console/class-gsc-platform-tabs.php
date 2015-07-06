@@ -4,9 +4,9 @@
  */
 
 /**
- * Class WPSEO_GWT_Platform_Tabs
+ * Class WPSEO_GSC_Platform_Tabs
  */
-class WPSEO_GWT_Platform_Tabs {
+class WPSEO_GSC_Platform_Tabs {
 
 	/**
 	 * @var string

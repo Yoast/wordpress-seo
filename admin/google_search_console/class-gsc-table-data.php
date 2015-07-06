@@ -4,9 +4,9 @@
  */
 
 /**
- * Class WPSEO_Crawl_Issue_Table_Data
+ * Class WPSEO_GSC_Table_Data
  */
-class WPSEO_Crawl_Issue_Table_Data {
+class WPSEO_GSC_Table_Data {
 
 	/**
 	 * @var string current platform
@@ -23,20 +23,20 @@ class WPSEO_Crawl_Issue_Table_Data {
 	 *
 	 * @param string            $platform
 	 * @param string            $screen_id
-	 * @param WPSEO_GWT_Service $service
+	 * @param WPSEO_GSC_Service $service
 	 */
-	public function __construct( $platform, $screen_id, WPSEO_GWT_Service $service ) {
+	public function __construct( $platform, $screen_id, WPSEO_GSC_Service $service ) {
 		// Setting the platform.
-		$this->platform    = WPSEO_GWT_Mapper::platform( $platform );
+		$this->platform    = WPSEO_GSC_Mapper::platform( $platform );
 
 		// Loading the category filters.
-		$category_filter   = new WPSEO_GWT_Category_Filters( $screen_id );
+		$category_filter   = new WPSEO_GSC_Category_Filters( $screen_id );
 
 		// Setting the current category.
-		$this->category    = WPSEO_GWT_Mapper::category( $category_filter->current_view() );
+		$this->category    = WPSEO_GSC_Mapper::category( $category_filter->current_view() );
 
 		// Loading the issue counter.
-		$issue_count       = new WPSEO_Crawl_Issue_Count( $service, $this->platform, $this->category );
+		$issue_count       = new WPSEO_GSC_Count( $service, $this->platform, $this->category );
 
 		// Fetching the issues.
 		$this->issue_fetch = new WPSEO_GSC_Issues( $this->platform, $this->category, $issue_count->get_issues() );
@@ -66,7 +66,7 @@ class WPSEO_Crawl_Issue_Table_Data {
 	 * Showing the hidden fields used by the AJAX requests
 	 */
 	public function show_fields() {
-		echo "<input type='hidden' name='wpseo_gwt_nonce' value='" . wp_create_nonce( 'wpseo_gwt_nonce' ) . "' />";
+		echo "<input type='hidden' name='wpseo_gsc_nonce' value='" . wp_create_nonce( 'wpseo_gsc_nonce' ) . "' />";
 		echo "<input id='field_platform' type='hidden' name='platform' value='{$this->platform}' />";
 		echo "<input id='field_category' type='hidden' name='category' value='{$this->category}' />";
 	}

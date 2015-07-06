@@ -4,18 +4,18 @@
  */
 
 /**
- * Class WPSEO_Crawl_Issue_Count
+ * Class WPSEO_GSC_Count
  */
-class WPSEO_Crawl_Issue_Count {
+class WPSEO_GSC_Count {
 
 	// The last checked timestamp.
-	const OPTION_CI_LAST_FETCH = 'wpseo_crawl_issues_last_fetch';
+	const OPTION_CI_LAST_FETCH = 'wpseo_gsc_last_fetch';
 
 	// The option name where the issues counts are saved.
-	const OPTION_CI_COUNTS     = 'wpseo_crawl_issues_counts';
+	const OPTION_CI_COUNTS     = 'wpseo_gsc_issues_counts';
 
 	/**
-	 * @var WPSEO_GWT_Service
+	 * @var WPSEO_GSC_Service
 	 */
 	private $service;
 
@@ -29,11 +29,11 @@ class WPSEO_Crawl_Issue_Count {
 	/**
 	 * Fetching the counts
 	 *
-	 * @param WPSEO_GWT_Service $service
+	 * @param WPSEO_GSC_Service $service
 	 * @param string            $platform
 	 * @param string            $category
 	 */
-	public function __construct( WPSEO_GWT_Service $service, $platform, $category ) {
+	public function __construct( WPSEO_GSC_Service $service, $platform, $category ) {
 		$this->service = $service;
 
 		$this->fetch_counts();
@@ -51,10 +51,10 @@ class WPSEO_Crawl_Issue_Count {
 	}
 
 	/**
-	 * Fetching the counts from the GWT API
+	 * Fetching the counts from the GSC API
 	 */
 	private function fetch_counts() {
-		if ( WPSEO_GWT_Settings::get_profile() && $this->get_last_fetch() <= strtotime( '-12 hours' ) ) {
+		if ( WPSEO_GSC_Settings::get_profile() && $this->get_last_fetch() <= strtotime( '-12 hours' ) ) {
 			// Remove the timestamp.
 			$this->remove_last_fetch();
 

@@ -8,9 +8,9 @@ if ( ! class_exists( 'WP_List_Table' ) ) {
 }
 
 /**
- * Class WPSEO_Crawl_Issue_Table
+ * Class WPSEO_GSC_Table
  */
-class WPSEO_Crawl_Issue_Table extends WP_List_Table {
+class WPSEO_GSC_Table extends WP_List_Table {
 
 	/**
 	 * @var string
@@ -30,7 +30,7 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 	private $current_view;
 
 	/**
-	 * @var WPSEO_Crawl_Issue_Table_Data
+	 * @var WPSEO_GSC_Table_Data
 	 */
 	private $crawl_issue_source;
 
@@ -56,10 +56,10 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 	/**
 	 * The constructor
 	 *
-	 * @param WPSEO_GWT_Platform_Tabs $platform_tabs
-	 * @param WPSEO_GWT_Service       $service
+	 * @param WPSEO_GSC_Platform_Tabs $platform_tabs
+	 * @param WPSEO_GSC_Service       $service
 	 */
-	public function __construct( WPSEO_GWT_Platform_Tabs $platform_tabs, WPSEO_GWT_Service $service ) {
+	public function __construct( WPSEO_GSC_Platform_Tabs $platform_tabs, WPSEO_GSC_Service $service ) {
 		parent::__construct();
 
 		// Adding the thickbox.
@@ -71,7 +71,7 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 		}
 
 		// Set the crawl issue source.
-		$this->crawl_issue_source = new WPSEO_Crawl_Issue_Table_Data( $platform_tabs->current_tab(), $this->screen->id, $service );
+		$this->crawl_issue_source = new WPSEO_GSC_Table_Data( $platform_tabs->current_tab(), $this->screen->id, $service );
 		$this->crawl_issue_source->show_fields();
 	}
 
@@ -309,7 +309,7 @@ class WPSEO_Crawl_Issue_Table extends WP_List_Table {
 		$current_redirect = false;
 		$view_type        = $this->modal_box_type( $url, $current_redirect );
 
-		require 'views/gwt-create-redirect.php';
+		require 'views/gsc-create-redirect.php';
 
 		return $view_type;
 	}

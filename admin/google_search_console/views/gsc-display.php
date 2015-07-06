@@ -16,7 +16,7 @@ if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
 				   style="float: right;" value="<?php _e( 'Reload crawl issues', 'wordpress-seo' ); ?>">
 		</form>
 <?php } ?>
-		<?php echo $platform_tabs = new WPSEO_GWT_Platform_Tabs; ?>
+		<?php echo $platform_tabs = new WPSEO_GSC_Platform_Tabs; ?>
 	</h2>
 
 <?php
@@ -26,7 +26,7 @@ switch ( $platform_tabs->current_tab() ) {
 		// Check if there is an access token.
 		if ( null === $this->service->get_client()->getAccessToken() ) {
 			// Get the oauth URL.
-			$oauth_url = 'wpseo_gwt_open_authorize_code_window("' . $this->service->get_client()->createAuthUrl() . ' ");';
+			$oauth_url = 'wpseo_gsc_open_authorize_code_window("' . $this->service->get_client()->createAuthUrl() . ' ");';
 
 			// Print auth screen.
 			echo '<p>' . __( 'To allow WordPress SEO by Yoast to fetch your Google Webmaster Tools information, please enter your Google Authorization Code.', 'wordpress-seo' ) . "</p>\n";
@@ -34,13 +34,13 @@ switch ( $platform_tabs->current_tab() ) {
 
 			echo '<p>' . __( 'Please enter the Authorization Code in the field below and press the Authenticate button.', 'wordpress-seo' ) . "</p>\n";
 			echo "<form action='" . admin_url( 'admin.php?page=wpseo_webmaster_tools&tab=settings' ) . "' method='post'>\n";
-			echo "<input type='text' name='gwt[authorization_code]' value='' />";
-			echo "<input type='hidden' name='gwt[gwt_nonce]' value='" . wp_create_nonce( 'wpseo-gwt_nonce' ) . "' />";
-			echo "<input type='submit' name='gwt[Submit]' value='" . __( 'Authenticate', 'wordpress-seo' ) . "' class='button-primary' />";
+			echo "<input type='text' name='gsc[authorization_code]' value='' />";
+			echo "<input type='hidden' name='gsc[gsc_nonce]' value='" . wp_create_nonce( 'wpseo-gsc_nonce' ) . "' />";
+			echo "<input type='submit' name='gsc[Submit]' value='" . __( 'Authenticate', 'wordpress-seo' ) . "' class='button-primary' />";
 			echo "</form>\n";
 		}
 		else {
-			if ( ($profile = WPSEO_GWT_Settings::get_profile() ) !== '' ) {
+			if ( ($profile = WPSEO_GSC_Settings::get_profile() ) !== '' ) {
 
 				echo "<form action='" . admin_url( 'admin.php?page=wpseo_webmaster_tools&tab=settings' ) . "' method='post'>\n";
 				echo '<p>';
@@ -49,7 +49,7 @@ switch ( $platform_tabs->current_tab() ) {
 				echo '</p>';
 
 				echo '<p class="submit">';
-				echo '<input type="submit" name="gwt_reset" id="submit" class="button button-primary" value="' . __( 'Reset the Google data', 'wordpress-seo' ) . '" />';
+				echo '<input type="submit" name="gsc_reset" id="submit" class="button button-primary" value="' . __( 'Reset the Google data', 'wordpress-seo' ) . '" />';
 				echo '</p>';
 				echo '</form>';
 
@@ -57,8 +57,8 @@ switch ( $platform_tabs->current_tab() ) {
 			else {
 				echo "<form action='" . admin_url( 'options.php' ) . "' method='post'>";
 
-				settings_fields( 'yoast_wpseo_gwt_options' );
-				Yoast_Form::get_instance()->set_option( 'wpseo-gwt' );
+				settings_fields( 'yoast_wpseo_gsc_options' );
+				Yoast_Form::get_instance()->set_option( 'wpseo-gsc' );
 
 				echo Yoast_Form::get_instance()->select( 'profile', __( 'Profile', 'wordpress-seo' ), $this->service->get_sites() );
 
@@ -80,7 +80,7 @@ switch ( $platform_tabs->current_tab() ) {
 		echo "<form id='wpseo-crawl-issues-table-form' action='" . admin_url( 'admin.php' ) . '?page=' . esc_attr( filter_input( INPUT_GET, 'page' ) ) . $category . "' method='post'>\n";
 
 		// AJAX nonce.
-		echo "<input type='hidden' class='wpseo-gwt-ajax-security' value='" . wp_create_nonce( 'wpseo-gwt-ajax-security' ) . "' />\n";
+		echo "<input type='hidden' class='wpseo-gsc-ajax-security' value='" . wp_create_nonce( 'wpseo-gsc-ajax-security' ) . "' />\n";
 
 		$this->display_table( $platform_tabs );
 

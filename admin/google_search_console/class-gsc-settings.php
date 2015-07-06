@@ -4,16 +4,16 @@
  */
 
 /**
- * Class WPSEO_GWT_Settings
+ * Class WPSEO_GSC_Settings
  */
-class WPSEO_GWT_Settings {
+class WPSEO_GSC_Settings {
 
 	/**
 	 * Clear all data from the database
 	 *
-	 * @param WPSEO_GWT_Service $service
+	 * @param WPSEO_GSC_Service $service
 	 */
-	public static function clear_data( WPSEO_GWT_Service $service ) {
+	public static function clear_data( WPSEO_GSC_Service $service ) {
 		// Remove issue and issue counts.
 		self::remove();
 
@@ -45,7 +45,7 @@ class WPSEO_GWT_Settings {
 	}
 
 	/**
-	 * Get the GWT profile
+	 * Get the GSC profile
 	 *
 	 * @return string
 	 */
@@ -55,11 +55,6 @@ class WPSEO_GWT_Settings {
 
 		// Set the profile.
 		$profile = $option['profile'];
-
-		// Backwards compatibility fix - This is the old API endpoint.
-		if ( strpos( $profile, 'https://www.google.com/webmasters/tools/feeds/' ) ) {
-			$profile = str_replace( 'https://www.google.com/webmasters/tools/feeds/', '', $profile );
-		}
 
 		// Return the profile.
 		return trim( $profile, '/' );
@@ -81,8 +76,8 @@ class WPSEO_GWT_Settings {
 	 */
 	private static function remove_issue_counts() {
 		// Remove the options which are holding the counts.
-		delete_option( WPSEO_Crawl_Issue_Count::OPTION_CI_COUNTS );
-		delete_option( WPSEO_Crawl_Issue_Count::OPTION_CI_LAST_FETCH );
+		delete_option( WPSEO_GSC_Count::OPTION_CI_COUNTS );
+		delete_option( WPSEO_GSC_Count::OPTION_CI_LAST_FETCH );
 	}
 
 	/**
@@ -92,7 +87,7 @@ class WPSEO_GWT_Settings {
 		global $wpdb;
 
 		// Remove local crawl issues by running a delete query.
-		$wpdb->query( "DELETE FROM {$wpdb->options} WHERE option_name LIKE 'wpseo-gwt-issues-%'" );
+		$wpdb->query( "DELETE FROM {$wpdb->options} WHERE option_name LIKE 'wpseo-gsc-issues-%'" );
 	}
 
 	/**

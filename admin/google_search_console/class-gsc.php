@@ -11,10 +11,10 @@ class WPSEO_GSC {
 	/**
 	 * The option where data will be stored
 	 */
-	const OPTION_WPSEO_GSC = 'wpseo-gwt';
+	const OPTION_WPSEO_GSC = 'wpseo-gsc';
 
 	/**
-	 * @var WPSEO_GWT_Service
+	 * @var WPSEO_GSC_Service
 	 */
 	private $service;
 
@@ -35,22 +35,21 @@ class WPSEO_GSC {
 	 * Be sure the settings will be registered, so data can be stored
 	 */
 	public function register_settings() {
-		register_setting( 'yoast_wpseo_gwt_options', self::OPTION_WPSEO_GSC );
+		register_setting( 'yoast_wpseo_gsc_options', self::OPTION_WPSEO_GSC );
 	}
 
 	/**
 	 * Function that outputs the redirect page
 	 */
 	public function display() {
-		require_once 'views/gwt-display.php';
+		require_once 'views/gsc-display.php';
 	}
 
 	/**
 	 * Function that is triggered when the redirect page loads
 	 */
 	public function page_load() {
-		// Create a new WPSEO GWT Google Client.
-		$this->service = new WPSEO_GWT_Service( WPSEO_GWT_Settings::get_profile() );
+		$this->service = new WPSEO_GSC_Service( WPSEO_GSC_Settings::get_profile() );
 
 		$this->request_handler();
 
@@ -60,11 +59,11 @@ class WPSEO_GSC {
 	/**
 	 * Display the table
 	 *
-	 * @param WPSEO_GWT_Platform_Tabs $platform_tabs
+	 * @param WPSEO_GSC_Platform_Tabs $platform_tabs
 	 */
-	public function display_table( WPSEO_GWT_Platform_Tabs $platform_tabs ) {
+	public function display_table( WPSEO_GSC_Platform_Tabs $platform_tabs ) {
 		// The list table.
-		$list_table = new WPSEO_Crawl_Issue_Table( $platform_tabs, $this->service );
+		$list_table = new WPSEO_GSC_Table( $platform_tabs, $this->service );
 		$list_table->prepare_items( );
 		$list_table->search_box( __( 'Search', 'wordpress-seo' ), 'wpseo-crawl-issues-search' );
 		$list_table->display();
@@ -113,17 +112,17 @@ class WPSEO_GSC {
 		$this->catch_authentication_post();
 
 		// Is there a reset post than we will remove the posts and data.
-		if ( filter_input( INPUT_POST, 'gwt_reset' ) ) {
-			WPSEO_GWT_Settings::clear_data( $this->service );
+		if ( filter_input( INPUT_POST, 'gsc_reset' ) ) {
+			WPSEO_GSC_Settings::clear_data( $this->service );
 		}
 
 		// Reloads al the issues.
 		if ( wp_verify_nonce( filter_input( INPUT_POST, 'reload-crawl-issues-nonce' ), 'reload-crawl-issues' ) && filter_input( INPUT_POST, 'reload-crawl-issues' ) ) {
-			WPSEO_GWT_Settings::reload_issues();
+			WPSEO_GSC_Settings::reload_issues();
 		}
 
 		// Catch bulk action request.
-		new WPSEO_Crawl_Issue_Bulk();
+		new WPSEO_GSC_Bulk_Action();
 	}
 
 	/**
@@ -143,10 +142,10 @@ class WPSEO_GSC {
 	 * Catch the authentication post
 	 */
 	private function catch_authentication_post() {
-		$gwt_values = filter_input( INPUT_POST, 'gwt', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
+		$gsc_values = filter_input( INPUT_POST, 'gsc', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
 		// Catch the authorization code POST.
-		if ( ! empty( $gwt_values['authorization_code'] ) && wp_verify_nonce( $gwt_values['gwt_nonce'], 'wpseo-gwt_nonce' ) ) {
-			if ( ! WPSEO_GWT_Settings::validate_authorization( trim( $gwt_values['authorization_code'] ), $this->service->get_client() ) ) {
+		if ( ! empty( $gsc_values['authorization_code'] ) && wp_verify_nonce( $gsc_values['gsc_nonce'], 'wpseo-gsc_nonce' ) ) {
+			if ( ! WPSEO_GSC_Settings::validate_authorization( trim( $gsc_values['authorization_code'] ), $this->service->get_client() ) ) {
 				Yoast_Notification_Center::get()->add_notification(
 					new Yoast_Notification(
 						__( 'Incorrect Google Authorization Code!', 'wordpress-seo' ),

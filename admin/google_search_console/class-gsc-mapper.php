@@ -4,9 +4,9 @@
  */
 
 /**
- * Class WPSEO_GWT_Mapper
+ * Class WPSEO_GSC_Mapper
  */
-class WPSEO_GWT_Mapper {
+class WPSEO_GSC_Mapper {
 
 	/**
 	 * The platforms which can be mapped.

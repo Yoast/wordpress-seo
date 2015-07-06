@@ -4,9 +4,9 @@
  */
 
 /**
- * Class WPSEO_Crawl_Issue_Marker
+ * Class WPSEO_GSC_Marker
  */
-class WPSEO_Crawl_Issue_Marker {
+class WPSEO_GSC_Marker {
 
 	/**
 	 * @var WPSEO_GSC_Issues
@@ -104,7 +104,7 @@ class WPSEO_Crawl_Issue_Marker {
 	 * @return bool
 	 */
 	private function send_mark_as_fixed( ) {
-		$service = new WPSEO_GWT_Service( WPSEO_GWT_Settings::get_profile() );
+		$service = new WPSEO_GSC_Service( WPSEO_GSC_Settings::get_profile() );
 
 		return $service->mark_as_fixed( $this->url, $this->platform, $this->category );
 	}

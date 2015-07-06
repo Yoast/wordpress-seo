@@ -4,9 +4,9 @@
  */
 
 /**
- * Class WPSEO_GWT_Service
+ * Class WPSEO_GSC_Service
  */
-class WPSEO_GWT_Service {
+class WPSEO_GSC_Service {
 
 	/**
 	 * @var Yoast_Api_Google_Client
@@ -47,7 +47,7 @@ class WPSEO_GWT_Service {
 	}
 
 	/**
-	 * Get all sites that are registered in the GWT panel
+	 * Get all sites that are registered in the GSC panel
 	 *
 	 * @return array
 	 */
@@ -106,7 +106,7 @@ class WPSEO_GWT_Service {
 	}
 
 	/**
-	 * Fetching the issues from the GWT API
+	 * Fetching the issues from the GSC API
 	 *
 	 * @param string $platform
 	 * @param string $category

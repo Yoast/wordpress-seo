@@ -4,12 +4,12 @@
  */
 
 /**
- * Class WPSEO_GWT_Category_Filters
+ * Class WPSEO_GSC_Category_Filters
  *
  * This class will get all category counts from the options and will parse the filter links that are displayed above
  * the crawl issue tables.
  */
-class WPSEO_GWT_Category_Filters {
+class WPSEO_GSC_Category_Filters {
 
 	/**
 	 * The counts per category
@@ -48,10 +48,10 @@ class WPSEO_GWT_Category_Filters {
 	 */
 	public function current_view() {
 		$view        = ( $status = filter_input( INPUT_GET, 'category' )) ? $status : 'not_found';
-		$mapped_view = WPSEO_GWT_Mapper::category( $view );
+		$mapped_view = WPSEO_GSC_Mapper::category( $view );
 
 		if ( filter_input( INPUT_GET, 'category' ) === null && empty( $this->category_counts[ $mapped_view ] ) ) {
-			$view = WPSEO_GWT_Mapper::category( key( $this->category_counts ), true );
+			$view = WPSEO_GSC_Mapper::category( key( $this->category_counts ), true );
 		}
 
 		return $this->current_view = $view;
@@ -63,7 +63,7 @@ class WPSEO_GWT_Category_Filters {
 	 * @param string $platform
 	 */
 	public function set_counts( $platform ) {
-		$platform        = WPSEO_GWT_Mapper::platform( $platform );
+		$platform        = WPSEO_GSC_Mapper::platform( $platform );
 		$platform_counts = $this->get_counts();
 
 		if ( array_key_exists( $platform, $platform_counts ) ) {
@@ -84,7 +84,7 @@ class WPSEO_GWT_Category_Filters {
 		$new_views = array();
 
 		foreach ( $this->category_counts as $category_name => $category ) {
-			$new_views[] = $this->create_view_link( WPSEO_GWT_Mapper::category( $category_name, true ), $category['count'] );
+			$new_views[] = $this->create_view_link( WPSEO_GSC_Mapper::category( $category_name, true ), $category['count'] );
 		}
 
 		return $new_views;
@@ -96,7 +96,7 @@ class WPSEO_GWT_Category_Filters {
 	 * @return mixed
 	 */
 	private function get_counts() {
-		return get_option( WPSEO_Crawl_Issue_Count::OPTION_CI_COUNTS, array() );
+		return get_option( WPSEO_GSC_Count::OPTION_CI_COUNTS, array() );
 	}
 
 	/**

@@ -35,7 +35,7 @@
 						<p><?php echo sprintf( __( 'Mark this issue as fixed in %1$s.', 'wordpress-seo' ), 'Google Search Console' ); ?></p>
 					</div>
 					<p class='submit'>
-						<input type='button' name='submit' id='submit' class='button button-primary' value='<?php _e( 'Save redirect', 'wordpress-seo' ); ?>' onclick='javascript:wpseo_gwt_post_redirect( jQuery( this ) );' />
+						<input type='button' name='submit' id='submit' class='button button-primary' value='<?php _e( 'Save redirect', 'wordpress-seo' ); ?>' onclick='javascript:wpseo_gsc_post_redirect( jQuery( this ) );' />
 					</p>
 			<?php
 					break;

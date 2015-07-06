@@ -35,7 +35,7 @@ class WPSEO_GSC_Issues {
 	 * @param array|bool $fetched_issues
 	 */
 	public function __construct( $platform, $category, $fetched_issues = false ) {
-		$this->option_name = strtolower( 'wpseo-gwt-issues-' . $platform . '-' . $category );
+		$this->option_name = strtolower( 'wpseo-gsc-issues-' . $platform . '-' . $category );
 		$this->issues      = $this->get_issues();
 
 		if ( ! empty( $fetched_issues ) && is_array( $fetched_issues ) ) {
@@ -115,10 +115,10 @@ class WPSEO_GSC_Issues {
 	 *
 	 * @param stdClass $issue
 	 *
-	 * @return WPSEO_Crawl_Issue
+	 * @return WPSEO_GSC_Issue
 	 */
 	private function create_issue( $issue ) {
-		return new WPSEO_Crawl_Issue(
+		return new WPSEO_GSC_Issue(
 			$issue->pageUrl,
 			new DateTime( (string) $issue->first_detected ),
 			new DateTime( (string) $issue->last_crawled ),
@@ -129,11 +129,11 @@ class WPSEO_GSC_Issues {
 	/**
 	 * Returns the crawl issue as an array.
 	 *
-	 * @param WPSEO_Crawl_Issue $crawl_issue
+	 * @param WPSEO_GSC_Issue $crawl_issue
 	 *
 	 * @return array()
 	 */
-	private function get_issue( WPSEO_Crawl_Issue $crawl_issue ) {
+	private function get_issue( WPSEO_GSC_Issue $crawl_issue ) {
 		return $crawl_issue->to_array();
 	}
 

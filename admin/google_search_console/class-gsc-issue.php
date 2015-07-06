@@ -4,9 +4,9 @@
  */
 
 /**
- * Class WPSEO_Crawl_Issue
+ * Class WPSEO_GSC_Issue
  */
-class WPSEO_Crawl_Issue {
+class WPSEO_GSC_Issue {
 
 	/**
 	 * @var string

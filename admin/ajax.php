@@ -361,4 +361,4 @@ function wpseo_add_fb_admin() {
 add_action( 'wp_ajax_wpseo_add_fb_admin', 'wpseo_add_fb_admin' );
 
 // Crawl Issue Manager AJAX hooks.
-new WPSEO_GWT_Ajax;
+new WPSEO_GSC_Ajax;

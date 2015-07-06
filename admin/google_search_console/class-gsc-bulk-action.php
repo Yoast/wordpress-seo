@@ -4,15 +4,15 @@
  */
 
 /**
- * Class WPSEO_Crawl_Issue_Bulk
+ * Class WPSEO_GSC_Bulk_Action
  */
-class WPSEO_Crawl_Issue_Bulk {
+class WPSEO_GSC_Bulk_Action {
 
 	/**
 	 * Setting the listener on the bulk action post
 	 */
 	public function __construct() {
-		if ( wp_verify_nonce( filter_input( INPUT_POST, 'wpseo_gwt_nonce' ), 'wpseo_gwt_nonce' ) ) {
+		if ( wp_verify_nonce( filter_input( INPUT_POST, 'wpseo_gsc_nonce' ), 'wpseo_gsc_nonce' ) ) {
 			$this->handle_bulk_action();
 		}
 	}
@@ -85,7 +85,7 @@ class WPSEO_Crawl_Issue_Bulk {
 	 * @return string
 	 */
 	private function action_mark_as_fixed( $issue ) {
-		new WPSEO_Crawl_Issue_Marker( $issue );
+		new WPSEO_GSC_Marker( $issue );
 
 		return $issue;
 	}

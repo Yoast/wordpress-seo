@@ -4,16 +4,16 @@
  */
 
 /**
- * Class WPSEO_GWT_Ajax
+ * Class WPSEO_GSC_Ajax
  */
-class WPSEO_GWT_Ajax {
+class WPSEO_GSC_Ajax {
 
 	/**
-	 * Setting the AJAX hooks for GWT
+	 * Setting the AJAX hooks for GSC
 	 */
 	public function __construct() {
 		add_action( 'wp_ajax_wpseo_mark_fixed_crawl_issue',  array( $this, 'ajax_mark_as_fixed' ) );
-		add_action( 'wp_ajax_wpseo_gwt_create_redirect_url', array( $this, 'ajax_create_redirect' ) );
+		add_action( 'wp_ajax_wpseo_gsc_create_redirect_url', array( $this, 'ajax_create_redirect' ) );
 	}
 
 	/**
@@ -23,7 +23,7 @@ class WPSEO_GWT_Ajax {
 	 */
 	public function ajax_mark_as_fixed( ) {
 		if ( $this->valid_nonce() ) {
-			$marker = new WPSEO_Crawl_Issue_Marker( filter_input( INPUT_POST, 'url' ) );
+			$marker = new WPSEO_GSC_Marker( filter_input( INPUT_POST, 'url' ) );
 
 			wp_die( $marker->get_response() );
 		}
@@ -43,7 +43,7 @@ class WPSEO_GWT_Ajax {
 			// Creates the redirect.
 			if ( $redirect_manager->create_redirect( $old_url, filter_input( INPUT_POST, 'new_url' ), filter_input( INPUT_POST, 'type' ) ) ) {
 				if ( filter_input( INPUT_POST, 'mark_as_fixed' ) === '1' ) {
-					new WPSEO_Crawl_Issue_Marker( $old_url );
+					new WPSEO_GSC_Marker( $old_url );
 				}
 
 				wp_die( 'true' );
@@ -59,7 +59,7 @@ class WPSEO_GWT_Ajax {
 	 * @return mixed
 	 */
 	private function valid_nonce() {
-		return wp_verify_nonce( filter_input( INPUT_POST, 'ajax_nonce' ), 'wpseo-gwt-ajax-security' );
+		return wp_verify_nonce( filter_input( INPUT_POST, 'ajax_nonce' ), 'wpseo-gsc-ajax-security' );
 	}
 
 }
