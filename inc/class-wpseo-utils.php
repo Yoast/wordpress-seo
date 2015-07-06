@@ -747,7 +747,9 @@ class WPSEO_Utils {
 	}
 
 	/**
-	 * Format the redirect url
+	 * Format the URL to be sure it is okay for using as a redirect url.
+	 *
+	 * This method will parse the URL and combine them in one string.
 	 *
 	 * @param string $url
 	 *
