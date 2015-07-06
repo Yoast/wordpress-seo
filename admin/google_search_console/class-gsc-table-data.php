@@ -30,7 +30,7 @@ class WPSEO_GSC_Table_Data {
 		$this->platform    = WPSEO_GSC_Mapper::platform( $platform );
 
 		// Loading the category filters.
-		$category_filter   = new WPSEO_GSC_Category_Filters( $screen_id );
+		$category_filter   = new WPSEO_GSC_Category_Filters( $screen_id, $this->platform );
 
 		// Setting the current category.
 		$this->category    = WPSEO_GSC_Mapper::category( $category_filter->current_view() );
@@ -40,8 +40,6 @@ class WPSEO_GSC_Table_Data {
 
 		// Fetching the issues.
 		$this->issue_fetch = new WPSEO_GSC_Issues( $this->platform, $this->category, $issue_count->get_issues() );
-
-		$category_filter->set_counts( $this->platform );
 	}
 
 	/**

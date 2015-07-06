@@ -38,9 +38,12 @@ class WPSEO_GSC_Category_Filters {
 	 * Setting the hook to create the issues categories as the links
 	 *
 	 * @param string $screen_id
+	 * @param        $platform
 	 */
-	public function __construct( $screen_id ) {
+	public function __construct( $screen_id, $platform ) {
 		add_filter( 'views_' . $screen_id, array( $this, 'as_array' ) );
+
+		$this->set_counts( $platform );
 	}
 
 	/**
@@ -49,28 +52,11 @@ class WPSEO_GSC_Category_Filters {
 	public function current_view() {
 		$view        = ( $status = filter_input( INPUT_GET, 'category' )) ? $status : 'not_found';
 		$mapped_view = WPSEO_GSC_Mapper::category( $view );
-
 		if ( filter_input( INPUT_GET, 'category' ) === null && empty( $this->category_counts[ $mapped_view ] ) ) {
 			$view = WPSEO_GSC_Mapper::category( key( $this->category_counts ), true );
 		}
 
 		return $this->current_view = $view;
-	}
-
-	/**
-	 * Setting the view counts based on the saved data. The info will be used to display the category filters
-	 *
-	 * @param string $platform
-	 */
-	public function set_counts( $platform ) {
-		$platform        = WPSEO_GSC_Mapper::platform( $platform );
-		$platform_counts = $this->get_counts();
-
-		if ( array_key_exists( $platform, $platform_counts ) ) {
-			$this->category_counts = $this->parse_counts( $platform_counts[ $platform ] );
-		}
-
-		$this->set_filter_values();
 	}
 
 	/**
@@ -88,6 +74,21 @@ class WPSEO_GSC_Category_Filters {
 		}
 
 		return $new_views;
+	}
+
+	/**
+	 * Setting the view counts based on the saved data. The info will be used to display the category filters
+	 *
+	 * @param string $platform
+	 */
+	private function set_counts( $platform ) {
+		$platform_counts = $this->get_counts();
+
+		if ( array_key_exists( $platform, $platform_counts ) ) {
+			$this->category_counts = $this->parse_counts( $platform_counts[ $platform ] );
+		}
+
+		$this->set_filter_values();
 	}
 
 	/**
