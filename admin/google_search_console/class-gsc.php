@@ -119,8 +119,11 @@ class WPSEO_GSC {
 
 		// Reloads al the issues.
 		if ( wp_verify_nonce( filter_input( INPUT_POST, 'reload-crawl-issues-nonce' ), 'reload-crawl-issues' ) && filter_input( INPUT_POST, 'reload-crawl-issues' ) ) {
-			$this->add_notification( __( 'The issues are reloaded successfully!', 'wordpress-seo' ), 'updated' );
+			// Reloading all the issues
 			WPSEO_GSC_Settings::reload_issues();
+
+			// Adding the notification
+			$this->add_notification( __( 'The issues are reloaded successfully! Please refresh the page to display the new issues.', 'wordpress-seo' ), 'updated' );
 		}
 
 		// Catch bulk action request.
