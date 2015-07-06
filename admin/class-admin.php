@@ -14,6 +14,11 @@ class WPSEO_Admin {
 	private $options;
 
 	/**
+	 * @var Yoast_Dashboard_Widget
+	 */
+	public $dashboard_widget;
+
+	/**
 	 * Class constructor
 	 */
 	function __construct() {
@@ -22,6 +27,8 @@ class WPSEO_Admin {
 		if ( is_multisite() ) {
 			WPSEO_Options::maybe_set_multisite_defaults( false );
 		}
+
+		$this->dashboard_widget = new Yoast_Dashboard_Widget();
 
 		if ( $this->options['stripcategorybase'] === true ) {
 			add_action( 'created_category', array( $this, 'schedule_rewrite_flush' ) );
