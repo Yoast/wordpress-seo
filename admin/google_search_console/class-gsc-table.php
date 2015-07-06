@@ -226,7 +226,7 @@ class WPSEO_GSC_Table extends WP_List_Table {
 		$this->items = $this->crawl_issue_source->get_issues();
 
 		if ( is_array( $this->items ) && count( $this->items ) > 0 ) {
-			if ( ! empty( $this->search_string) ) {
+			if ( ! empty( $this->search_string ) ) {
 				$this->do_search();
 			}
 

@@ -38,7 +38,7 @@ class WPSEO_GSC_Category_Filters {
 	 * Setting the hook to create the issues categories as the links
 	 *
 	 * @param string $screen_id
-	 * @param        $platform
+	 * @param string $platform
 	 */
 	public function __construct( $screen_id, $platform ) {
 		add_filter( 'views_' . $screen_id, array( $this, 'as_array' ) );

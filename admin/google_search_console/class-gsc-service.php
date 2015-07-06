@@ -119,7 +119,7 @@ class WPSEO_GSC_Service {
 			true
 		);
 
-		if ( ! empty ( $issues->urlCrawlErrorSample ) ) {
+		if ( ! empty( $issues->urlCrawlErrorSample ) ) {
 			return $issues->urlCrawlErrorSample;
 		}
 	}
