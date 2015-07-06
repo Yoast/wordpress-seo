@@ -168,7 +168,7 @@ class WPSEO_GSC {
 	 */
 	private function add_notification( $message, $type ) {
 		Yoast_Notification_Center::get()->add_notification(
-			new Yoast_Notification( $message, array( 'type'  => $type ) )
+			new Yoast_Notification( $message, array( 'type' => $type ) )
 		);
 	}
 
