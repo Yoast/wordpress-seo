@@ -28,7 +28,7 @@ interface IWPSEO_Redirect_File {
 	 *
 	 * @param string $old_url
 	 * @param string $new_url
-	 * @param        $type
+	 * @param int    $type
 	 *
 	 * @return mixed
 	 */
