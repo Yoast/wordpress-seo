@@ -13,16 +13,16 @@ class WPSEO_Page_Redirect {
 	 */
 	public static function display() {
 
-		// Check if there's an old URL set
+		// Check if there's an old URL set.
 		$old_url = '';
 		if ( isset( $_GET['old_url'] ) ) {
 			$old_url = urldecode( $_GET['old_url'] );
 		}
 
-		// Get the redirect types
+		// Get the redirect types.
 		$redirect_types = WPSEO_Redirect_Manager::get_redirect_types();
 
-		// Admin header
+		// Admin header.
 		Yoast_Form::get_instance()->admin_header( false, 'wpseo_redirects', false, 'yoast_wpseo_redirects_options' );
 		?>
 		<h2 class="nav-tab-wrapper" id="wpseo-tabs">
@@ -160,10 +160,10 @@ class WPSEO_Page_Redirect {
 			<div id="settings" class="wpseotab">
 				<?php
 
-				// Get redirect options
+				// Get redirect options.
 				$redirect_options = WPSEO_Redirect_Manager::get_options();
 
-				// Do file checks
+				// Do file checks.
 				if ( 'on' == $redirect_options['disable_php_redirect'] ) {
 
 					$file_write_error = false;

@@ -9,6 +9,9 @@
 class WPSEO_Premium_Javascript_Strings {
 	private static $strings = null;
 
+	/**
+	 * Fill the value of self::$strings with translated strings
+	 */
 	private static function fill() {
 		self::$strings = array(
 			'error_circular'        => __( 'You can\'t redirect a URL to itself.', 'wordpress-seo-premium' ),

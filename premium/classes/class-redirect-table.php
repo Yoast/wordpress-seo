@@ -95,21 +95,21 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	 */
 	public function prepare_items() {
 
-		// Setup the columns
+		// Setup the columns.
 		$columns               = $this->get_columns();
 		$hidden                = array();
 		$sortable              = $this->get_sortable_columns();
 		$this->_column_headers = array( $columns, $hidden, $sortable );
 
-		// Get the items
+		// Get the items.
 		$redirect_items = $this->redirect_manager->get_redirects();
 
-		// Handle the search
+		// Handle the search.
 		if ( null != $this->search_string ) {
 			$redirect_items = $this->do_search( $redirect_items );
 		}
 
-		// Format the data
+		// Format the data.
 		$formatted_items = array();
 		if ( is_array( $redirect_items ) && count( $redirect_items ) > 0 ) {
 			foreach ( $redirect_items as $old => $redirect ) {
@@ -117,16 +117,16 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 			}
 		}
 
-		// Sort the results
+		// Sort the results.
 		if ( count( $formatted_items ) > 0 ) {
 			usort( $formatted_items, array( $this, 'do_reorder' ) );
 		}
 
-		// Get variables needed for pagination
+		// Get variables needed for pagination.
 		$per_page    = $this->get_items_per_page( 'redirects_per_page', 25 );
 		$total_items = count( $formatted_items );
 
-		// Set pagination
+		// Set pagination.
 		$this->set_pagination_args( array(
 			'total_items' => $total_items,
 			'total_pages' => ceil( $total_items / $per_page ),
@@ -135,16 +135,16 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 
 		$current_page = intval( ( ( isset( $_GET['paged'] ) ) ? $_GET['paged'] : 0 ) );
 
-		// Setting the starting point. If starting point is below 1, overwrite it with value 0, otherwise it will be sliced of at the back
+		// Setting the starting point. If starting point is below 1, overwrite it with value 0, otherwise it will be sliced of at the back.
 		$slice_start = ( $current_page - 1 );
 		if ( $slice_start < 0 ) {
 			$slice_start = 0;
 		}
 
-		// Apply 'pagination'
+		// Apply 'pagination'.
 		$formatted_items = array_slice( $formatted_items, ( $slice_start * $per_page ), $per_page );
 
-		// Set items
+		// Set items.
 		$this->items = $formatted_items;
 	}
 
@@ -157,7 +157,7 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 		$sortable_columns = array(
 			'old' => array( 'old', false ),
 			'new' => array( 'new', false ),
-			'type' => array( 'type', false )
+			'type' => array( 'type', false ),
 		);
 
 		return $sortable_columns;
@@ -172,17 +172,17 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	 * @return int
 	 */
 	public function do_reorder( $a, $b ) {
-		// If no sort, default to title
+		// If no sort, default to title.
 		$orderby = ( ! empty( $_GET['orderby'] ) ) ? $_GET['orderby'] : 'old';
 
-		// If no order, default to asc
+		// If no order, default to asc.
 		$order = ( ! empty( $_GET['order'] ) ) ? $_GET['order'] : 'asc';
 
-		// Determine sort order
+		// Determine sort order.
 		$result = strcmp( $a[ $orderby ], $b[ $orderby ] );
 
-		// Send final sort direction to usort
-		return ( $order === 'asc' ) ? $result : - $result;
+		// Send final sort direction to usort.
+		return ( $order === 'asc' ) ? $result : ( - $result );
 	}
 
 	/**

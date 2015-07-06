@@ -42,26 +42,26 @@ if ( class_exists( 'WPSEO_Redirect_Manager' ) && ! class_exists( 'WPSEO_REGEX_Re
 		 */
 		public function do_redirects() {
 
-			// Check if PHP redirects are enabled
+			// Check if PHP redirects are enabled.
 			if ( false == $this->is_php_redirects_enabled() ) {
 				return;
 			}
 
-			// Load redirects
+			// Load redirects.
 			$redirects = $this->get_redirects();
 
-			// Do the actual redirect
+			// Do the actual redirect.
 			if ( ! empty( $redirects ) ) {
 
-				// Decode the URL
+				// Decode the URL.
 				$url = htmlspecialchars_decode( urldecode( $_SERVER['REQUEST_URI'] ) );
 
 				foreach ( $redirects as $regex => $redirect ) {
 
-					// Check if the URL matches the $regex
+					// Check if the URL matches the $regex.
 					if ( 1 === @preg_match( "`{$regex}`", $url, $this->url_matches ) ) {
 
-						// Replace the $regex vars with URL matches
+						// Replace the $regex vars with URL matches.
 						$redirect_url = preg_replace_callback( '/[\$0-9]+/', array(
 							$this,
 							'format_redirect_url',
@@ -71,13 +71,13 @@ if ( class_exists( 'WPSEO_Redirect_Manager' ) && ! class_exists( 'WPSEO_REGEX_Re
 							$redirect_url = home_url( $redirect_url );
 						}
 
-						// Do the redirect
+						// Do the redirect.
 						wp_redirect( $redirect_url, $redirect['type'] );
 						exit;
 
 					}
 
-					// Reset url_matches
+					// Reset url_matches.
 					$this->url_matches = array();
 
 				}

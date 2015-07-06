@@ -12,8 +12,26 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
  * Interface iWPSEO_Redirect_File
  */
 interface IWPSEO_Redirect_File {
+	/**
+	 * Formatting the URL redirect
+	 *
+	 * @param string $old_url
+	 * @param string $new_url
+	 * @param int    $type
+	 *
+	 * @return mixed
+	 */
 	public function format_url_redirect( $old_url, $new_url, $type );
 
+	/**
+	 * Formating the regex redirect
+	 *
+	 * @param string $old_url
+	 * @param string $new_url
+	 * @param        $type
+	 *
+	 * @return mixed
+	 */
 	public function format_regex_redirect( $old_url, $new_url, $type );
 }
 
@@ -30,7 +48,7 @@ abstract class WPSEO_Redirect_File implements IWPSEO_Redirect_File {
 	protected function generate_file_content() {
 		$file_content = '';
 
-		// Generate URL redirects
+		// Generate URL redirects.
 		$url_redirect_manager = new WPSEO_URL_Redirect_Manager();
 		$url_redirects        = $url_redirect_manager->get_redirects();
 		if ( count( $url_redirects ) > 0 ) {
@@ -39,7 +57,7 @@ abstract class WPSEO_Redirect_File implements IWPSEO_Redirect_File {
 			}
 		}
 
-		// Generate REGEX redirects
+		// Generate REGEX redirects.
 		$regex_redirect_manager = new WPSEO_REGEX_Redirect_Manager();
 		$regex_redirects        = $regex_redirect_manager->get_redirects();
 		if ( count( $regex_redirects ) > 0 ) {

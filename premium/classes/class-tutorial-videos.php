@@ -40,7 +40,7 @@ class WPSEO_Tutorial_Videos {
 				echo '<p>' . __( 'Please ask your site administrator to activate WordPress SEO Premium to be able to see the videos.', 'wordpress-seo-premium' ) . '</p></div>';
 			}
 		}
-		// Admin footer
+		// Admin footer.
 		Yoast_Form::get_instance()->admin_footer( false );
 	}
 

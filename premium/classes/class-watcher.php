@@ -18,7 +18,7 @@ abstract class WPSEO_Watcher {
 	 */
 	protected function parse_url_field( $url, $type ) {
 
-		// Output the hidden field
+		// Output the hidden field.
 		return '<input type="hidden" name="wpseo_old_' . $type . '_url" value="' . esc_attr( $url ) . '"/>';
 
 	}
@@ -33,7 +33,7 @@ abstract class WPSEO_Watcher {
 	 */
 	protected function should_create_redirect( $old_url, $new_url ) {
 
-		// Get the site URL
+		// Get the site URL.
 		$site = parse_url( get_site_url() );
 
 		if ( $old_url != $new_url && $old_url != '/' && ( ! isset( $site['path'] ) || ( isset( $site['path'] ) && $old_url != $site['path'] . '/' ) ) ) {
@@ -55,7 +55,7 @@ abstract class WPSEO_Watcher {
 		$show_notification = apply_filters( 'wpseo_enable_notification_' . $this->watch_type . '_' . $notification_type, $show_notification );
 
 		if ( $show_notification ) {
-			// Add the message to the notifications center
+			// Add the message to the notifications center.
 			Yoast_Notification_Center::get()->add_notification( new Yoast_Notification( $message, array( 'type' => 'updated', 'id' => $id ) ) );
 		}
 
@@ -69,10 +69,10 @@ abstract class WPSEO_Watcher {
 	 * @param int    $header_code
 	 */
 	protected function create_redirect( $old_url, $new_url, $header_code = 301 ) {
-		// The URL redirect manager
+		// The URL redirect manager.
 		$redirect_manager = new WPSEO_URL_Redirect_Manager();
 
-		// Create the redirect
+		// Create the redirect.
 		$redirect_manager->create_redirect( $old_url, $new_url, $header_code );
 	}
 

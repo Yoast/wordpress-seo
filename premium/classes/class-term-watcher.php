@@ -102,7 +102,7 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 	public function set_notification( $old_url, $new_url ) {
 		$id = 'wpseo_create_redirect_' . md5( $old_url );
 
-		// Format the message
+		// Format the message.
 
 		/* translators %1$s: <a href='{admin_redirect_url}'>, %2$s: <a href='{undo_redirect_url}'> and %3$s: </a> */
 		$message = sprintf(
@@ -124,18 +124,18 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 
 		global $wpdb;
 
-		// Get the term and taxonomy from the term_taxonomy table
+		// Get the term and taxonomy from the term_taxonomy table.
 		$term_row = $wpdb->get_row( $wpdb->prepare( 'SELECT `term_id`, `taxonomy` FROM `' . $wpdb->term_taxonomy . '` WHERE `term_taxonomy_id` = %d ', $term_id ) );
 
-		// Check result
+		// Check result.
 		if ( null !== $term_row ) {
 
-			// Get the URL
+			// Get the URL.
 			$url = $this->get_target_url( get_term( $term_row->term_id, $term_row->taxonomy ), $term_row->taxonomy );
 
 			$id = 'wpseo_create_redirect_' . md5( $url );
 
-			// Format the message
+			// Format the message.
 			/* translators %1$s expands to <a href='{create_redirect_url}'> and %2$s </a> */
 			$message = sprintf( __( 'WordPress SEO Premium detected that you deleted a term. %1$sClick here to create a redirect from the old term URL%2$s.', 'wordpress-seo-premium' ),  '<a href=\''. $this->javascript_create_redirect( $url, $id ) . '\'>', '</a>' );
 
@@ -153,7 +153,7 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 	 * @return string
 	 */
 	protected function get_target_url( $tag, $taxonomy ) {
-		// Use the correct URL path
+		// Use the correct URL path.
 		$url = parse_url( get_term_link( $tag, $taxonomy ) );
 		$url = $url['path'];
 
@@ -188,23 +188,23 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 	 * Setting the hooks for the term watcher
 	 */
 	private function set_hooks() {
-		// Get all taxonomies
+		// Get all taxonomies.
 		$taxonomies = get_taxonomies();
 
-		// Loop through all taxonomies
+		// Loop through all taxonomies.
 		if ( count( $taxonomies ) > 0 ) {
 			foreach ( $taxonomies as $taxonomy ) {
-				// Add old URL field to term edit screen
+				// Add old URL field to term edit screen.
 				add_action( $taxonomy . '_edit_form_fields', array( $this, 'old_url_field' ), 10, 2 );
 			}
 		}
 
 		add_action( 'wp_ajax_inline-save-tax', array( $this, 'set_old_url_quick_edit' ), 1 );
 
-		// Detect the term slug change
+		// Detect the term slug change.
 		add_action( 'edited_term', array( $this, 'detect_slug_change' ), 10, 3 );
 
-		// Detect a term delete
+		// Detect a term delete.
 		add_action( 'delete_term_taxonomy', array( $this, 'detect_term_delete' ) );
 	}
 }

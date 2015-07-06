@@ -37,7 +37,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	 * @param WP_Post $post
 	 */
 	public function old_url_field( $post ) {
-		// $post must be set
+		// $post must be set.
 		if ( null != $post ) {
 			$url = $this->get_target_url( $post->ID );
 
@@ -53,13 +53,14 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	 * @param WP_Post $post
 	 * @param WP_Post $post_before
 	 *
-	 * @return bool|void
+	 *
+	 * @return bool
 	 */
 	public function detect_slug_change( $post_id, $post, $post_before ) {
 
-		// If post is a revision do not create redirect
+		// If post is a revision do not create redirect.
 		if ( wp_is_post_revision( $post_before ) && wp_is_post_revision( $post ) ) {
-			return;
+			return false;
 		}
 
 		/**
@@ -74,18 +75,18 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 		$old_url = $this->get_old_url( $post, $post_before );
 
 		if ( ! $old_url ) {
-			return;
+			return false;
 		}
 
-		// If the post URL wasn't public before, or isn't public now, don't even check if we have to redirect
+		// If the post URL wasn't public before, or isn't public now, don't even check if we have to redirect.
 		if ( ! $this->check_public_post_status( $post_before ) || ! $this->check_public_post_status( $post ) ) {
-			return;
+			return false;
 		}
 
-		// Get the new URL
+		// Get the new URL.
 		$new_url = $this->get_target_url( $post_id );
 
-		// Check if we should create a redirect
+		// Check if we should create a redirect.
 		if ( $this->should_create_redirect( $old_url, $new_url ) ) {
 			$this->create_redirect( $old_url, $new_url );
 
@@ -128,7 +129,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 
 			$id = 'wpseo_redirect_' . md5( $url );
 
-			// Format the message
+			// Format the message.
 			/* translators %1$s: <a href='{create_redirect_url}'>, %2$s: </a> */
 			$message = sprintf(
 				__( 'WordPress SEO Premium detected that you moved a post to the trash. %1$sClick here to create a redirect from the old post URL%2$s.', 'wordpress-seo-premium' ),
@@ -152,7 +153,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 
 			$id = 'wpseo_undo_redirect_' . md5( $url );
 
-			// Format the message
+			// Format the message.
 			/* translators %1$s: <a href='{undo_redirect_url}'>, %2$s: </a> */
 			$message = sprintf(
 				__( 'WordPress SEO Premium detected that you restored a post from the trash. %1$sClick here to remove the redirect%2$s.', 'wordpress-seo-premium' ),
@@ -182,7 +183,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 
 			$id = 'wpseo_redirect_' . md5( $url );
 
-			// Format the message
+			// Format the message.
 			/* translators %1$s: <a href='{create_redirect_url}'>, %2$s: </a> */
 			$message = sprintf(
 				__( 'WordPress SEO Premium detected that you deleted a post. %1$sClick here to create a redirect from the old post URL%2$s.', 'wordpress-seo-premium' ),
@@ -221,14 +222,14 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	 */
 	protected function check_if_redirect_needed( $post_id, $should_exist = false ) {
 
-		// No revisions please
+		// No revisions please.
 		if ( $this->check_public_post_status( $post_id ) ) {
-			// Get the right URL
+			// Get the right URL.
 			$url = $this->get_target_url( $post_id );
 
-			// If $url is not a single /, there may be the option to create a redirect
+			// If $url is not a single /, there may be the option to create a redirect.
 			if ( $url !== '/' ) {
-				// Message should only be shown if there isn't already a redirect
+				// Message should only be shown if there isn't already a redirect.
 				if ( $this->check_if_redirect_exists( $url ) === $should_exist ) {
 					return $url;
 				}
@@ -245,7 +246,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	 * @return string
 	 */
 	protected function get_target_url( $post_id ) {
-		// Use the correct URL path
+		// Use the correct URL path.
 		$url = parse_url( get_permalink( $post_id ) );
 		$url = $url['path'];
 
@@ -264,7 +265,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 		$wpseo_old_post_url = filter_input( INPUT_POST, 'wpseo_old_post_url' );
 
 		if ( empty( $wpseo_old_post_url ) ) {
-			// Check if request is inline action and new slug is not old slug, if so set wpseo_post_old_url
+			// Check if request is inline action and new slug is not old slug, if so set wpseo_post_old_url.
 			$action = filter_input( INPUT_POST, 'action' );
 
 			if ( ! empty( $action ) && $action === 'inline-save' && $post->post_name !== $post_before->post_name ) {
@@ -285,7 +286,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	protected function set_notification( $old_url, $new_url ) {
 		$id = 'wpseo_redirect_' . md5( $old_url );
 
-		// Format the message
+		// Format the message.
 		/* translators %1$s: <a href='{admin_redirect_url}'>, %2$s: <a href='{undo_redirect_url}'> and %3$s: </a> */
 		$message = sprintf(
 			__( 'WordPress SEO Premium created a %1$sredirect%3$s from the old post URL to the new post URL. %2$sClick here to undo this%3$s.', 'wordpress-seo-premium' ),
@@ -294,7 +295,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 			'</a>'
 		);
 
-		// Only set notification when the slug change was not saved through quick edit
+		// Only set notification when the slug change was not saved through quick edit.
 		$this->create_notification( $message, 'slug_change', $id );
 	}
 
@@ -304,20 +305,20 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	private function set_hooks() {
 		add_action( 'admin_enqueue_scripts', array( $this, 'page_scripts' ) );
 
-		// Add old URL field to post edit screen
+		// Add old URL field to post edit screen.
 		add_action( 'edit_form_advanced', array( $this, 'old_url_field' ), 10, 1 );
 		add_action( 'edit_page_form', array( $this, 'old_url_field' ), 10, 1 );
 
-		// Detect a post slug change
+		// Detect a post slug change.
 		add_action( 'post_updated', array( $this, 'detect_slug_change' ), 12, 3 );
 
-		// Detect a post trash
+		// Detect a post trash.
 		add_action( 'wp_trash_post', array( $this, 'detect_post_trash' ) );
 
-		// Detect a post untrash
+		// Detect a post untrash.
 		add_action( 'untrashed_post', array( $this, 'detect_post_untrash' ) );
 
-		// Detect a post delete
+		// Detect a post delete.
 		add_action( 'before_delete_post', array( $this, 'detect_post_delete' ) );
 	}
 
