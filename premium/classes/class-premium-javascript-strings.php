@@ -7,6 +7,10 @@
  * Class WPSEO_Premium_Javascript_Strings
  */
 class WPSEO_Premium_Javascript_Strings {
+
+	/**
+	 * @var null
+	 */
 	private static $strings = null;
 
 	/**
