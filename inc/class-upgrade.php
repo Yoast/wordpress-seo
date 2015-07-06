@@ -127,7 +127,7 @@ class WPSEO_Upgrade {
 	 * Performs upgrade function to WP SEO 2.3
 	 */
 	private function upgrade_23() {
-		$wp_query = new WP_Query( 'meta_key=_yoast_wpseo_sitemap-include&meta_value=never&order=ASC' );
+		$wp_query = new WP_Query( 'post_type=any&meta_key=_yoast_wpseo_sitemap-include&meta_value=never&order=ASC' );
 
 		if ( ! empty( $wp_query->posts ) ) {
 			$options = get_option( 'wpseo_xml' );
