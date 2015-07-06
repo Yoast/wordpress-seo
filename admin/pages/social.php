@@ -55,16 +55,17 @@ $yform->admin_header( true, 'wpseo_social' );
 		<?php
 		if ( 'posts' == get_option( 'show_on_front' ) ) {
 			echo '<p><strong>' . esc_html__( 'Frontpage settings', 'wordpress-seo' ) . '</strong></p>';
+			echo '<p>' . esc_html__( 'These are the title, description and image used in the Open Graph meta tags on the front page of your site.', 'wordpress-seo' ) . '</p>';
+
 			$yform->media_input( 'og_frontpage_image', __( 'Image URL', 'wordpress-seo' ) );
 			$yform->textinput( 'og_frontpage_title', __( 'Title', 'wordpress-seo' ) );
 			$yform->textinput( 'og_frontpage_desc', __( 'Description', 'wordpress-seo' ) );
 
-			// Offer copying of meta description
+			// Offer copying of meta description.
 			$meta_options = get_option( 'wpseo_titles' );
 			echo '<input type="hidden" id="meta_description" value="', esc_attr( $meta_options['metadesc-home-wpseo'] ), '" />';
 			echo '<p class="label desc" style="border:0;"><a href="javascript:;" onclick="wpseoCopyHomeMeta();" class="button">', esc_html__( 'Copy home meta description', 'wordpress-seo' ), '</a></p>';
 
-			echo '<p class="desc label">' . esc_html__( 'These are the title, description and image used in the Open Graph meta tags on the front page of your site.', 'wordpress-seo' ) . '</p>';
 		} ?>
 
 		<p><strong><?php esc_html_e( 'Default settings', 'wordpress-seo' ); ?></strong></p>

@@ -21,7 +21,6 @@ class Yoast_Social_Facebook {
 
 	/**
 	 * Setting the options and define the listener to fetch $_GET values
-	 *
 	 */
 	public function __construct() {
 		$this->options = get_option( 'wpseo_social' );
@@ -33,7 +32,6 @@ class Yoast_Social_Facebook {
 
 	/**
 	 * Returns the output from the form class
-	 *
 	 */
 	public function show_form() {
 		$this->form->show_form();
@@ -50,7 +48,7 @@ class Yoast_Social_Facebook {
 	public function add_admin( $admin_name, $admin_id ) {
 		$success = 0;
 
-		// If one of the fields is empty
+		// If one of the fields is empty.
 		if ( empty( $admin_name ) || empty( $admin_id ) ) {
 			$response_body = $this->get_response_body( 'not_present' );
 		}
@@ -129,7 +127,6 @@ class Yoast_Social_Facebook {
 
 	/**
 	 * This method will hook into the defined get params
-	 *
 	 */
 	private function get_listener() {
 		if ( $delfbadmin = filter_input( INPUT_GET, 'delfbadmin' ) ) {
@@ -161,7 +158,7 @@ class Yoast_Social_Facebook {
 
 		unset( $admin_id );
 
-		// Clean up the referrer url for later use
+		// Clean up the referrer url for later use.
 		if ( filter_input( INPUT_SERVER, 'REQUEST_URI' ) ) {
 			$this->cleanup_referrer_url( 'nonce', 'delfbadmin' );
 		}
@@ -169,18 +166,17 @@ class Yoast_Social_Facebook {
 
 	/**
 	 * Clear all the facebook that has been set already
-	 *
 	 */
 	private function clear_all() {
 		$this->verify_nonce( 'fbclearall' );
 
-		// Reset to defaults, don't unset as otherwise the old values will be retained
+		// Reset to defaults, don't unset as otherwise the old values will be retained.
 		$this->options['fb_admins']  = WPSEO_Options::get_default( 'wpseo_social', 'fb_admins' );
 
 		$this->save_options();
 		$this->success_notice( __( 'Successfully cleared all Facebook Data', 'wordpress-seo' ) );
 
-		// Clean up the referrer url for later use
+		// Clean up the referrer url for later use.
 		if ( filter_input( INPUT_SERVER, 'REQUEST_URI' ) ) {
 			$this->cleanup_referrer_url( 'nonce', 'fbclearall' );
 		}
@@ -249,7 +245,6 @@ class Yoast_Social_Facebook_Form {
 
 	/**
 	 * Setting the options and call the methods to display everything
-	 *
 	 */
 	public function __construct() {
 		$this->options = get_option( 'wpseo_social' );
@@ -313,7 +308,7 @@ class Yoast_Social_Facebook_Form {
 	 * Show the form inside the thickbox
 	 */
 	private function form_thickbox() {
-		// Adding the thickbox
+		// Adding the thickbox.
 		add_thickbox();
 
 		echo '<div id="add_facebook_admin" style="display:none;">';
