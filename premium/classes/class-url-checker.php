@@ -1,5 +1,11 @@
 <?php
+/**
+ * @package WPSEO\Premium
+ */
 
+/**
+ * Class WPSEO_Url_Checker
+ */
 class WPSEO_Url_Checker {
 
 	/**

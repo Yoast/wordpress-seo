@@ -1,5 +1,11 @@
 <?php
+/**
+ * @package WPSEO\Premium
+ */
 
+/**
+ * Class WPSEO_Watcher
+ */
 abstract class WPSEO_Watcher {
 
 	/**
@@ -106,5 +112,3 @@ abstract class WPSEO_Watcher {
 	}
 
 }
-
-?>

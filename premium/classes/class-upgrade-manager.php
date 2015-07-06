@@ -1,5 +1,11 @@
 <?php
+/**
+ * @package WPSEO\Premium
+ */
 
+/**
+ * Class WPSEO_Upgrade_Manager
+ */
 class WPSEO_Upgrade_Manager {
 
 	/**
@@ -26,7 +32,7 @@ class WPSEO_Upgrade_Manager {
 	/**
 	 * An update is required, do it
 	 *
-	 * @param $current_version
+	 * @param string $current_version
 	 */
 	private function do_update( $current_version ) {
 

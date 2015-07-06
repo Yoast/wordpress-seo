@@ -1,11 +1,17 @@
 <?php
+/**
+ * @package WPSEO\Premium|Autoloader
+ */
 
+/**
+ * Class WPSEO_Premium_Autoloader
+ */
 class WPSEO_Premium_Autoloader {
 
 	/**
 	 * Autoloader load method. Load the class.
 	 *
-	 * @param $class
+	 * @param string $class
 	 */
 	public function load( $class ) {
 
@@ -28,10 +34,8 @@ class WPSEO_Premium_Autoloader {
 			if ( file_exists( $full_path ) ) {
 				require_once( $full_path );
 			}
-
 		}
 
 	}
-
 
 }

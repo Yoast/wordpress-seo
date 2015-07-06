@@ -17,13 +17,25 @@ if ( ! class_exists( 'WP_List_Table' ) ) {
  */
 class WPSEO_Redirect_Table extends WP_List_Table {
 
+	/**
+	 * @var string
+	 */
 	private $search_string;
+
+	/**
+	 * @var string
+	 */
 	private $type;
 
+	/**
+	 * @var mixed
+	 */
 	private $redirect_manager;
 
 	/**
 	 * WPSEO_Redirect_Table constructor
+	 *
+	 * @param string $type
 	 */
 	public function __construct( $type ) {
 		parent::__construct( array( 'plural' => $type ) );
@@ -42,7 +54,7 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	/**
 	 * Search through the items
 	 *
-	 * @param $items
+	 * @param array $items
 	 *
 	 * @return array
 	 */
@@ -56,7 +68,6 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 					$results[ $old ] = $redirect;
 				}
 			}
-
 		}
 
 		return $results;
@@ -72,7 +83,7 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 			'cb'   => '<input type="checkbox" />',
 			'old'  => $this->type,
 			'new'  => __( 'New URL', 'wordpress-seo-premium' ),
-			'type' => _x( 'Type', 'noun', 'wordpress-seo-premium' )
+			'type' => _x( 'Type', 'noun', 'wordpress-seo-premium' ),
 		);
 
 		return $columns;
@@ -125,8 +136,8 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 		$current_page = intval( ( ( isset( $_GET['paged'] ) ) ? $_GET['paged'] : 0 ) );
 
 		// Setting the starting point. If starting point is below 1, overwrite it with value 0, otherwise it will be sliced of at the back
-		$slice_start = $current_page - 1;
-		if( $slice_start < 0 ) {
+		$slice_start = ( $current_page - 1 );
+		if ( $slice_start < 0 ) {
 			$slice_start = 0;
 		}
 
@@ -155,8 +166,8 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	/**
 	 * Reorder the items based on user input
 	 *
-	 * @param $a
-	 * @param $b
+	 * @param array $a
+	 * @param array $b
 	 *
 	 * @return int
 	 */
@@ -174,6 +185,13 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 		return ( $order === 'asc' ) ? $result : - $result;
 	}
 
+	/**
+	 * The old column actions
+	 *
+	 * @param array $item
+	 *
+	 * @return string
+	 */
 	public function column_old( $item ) {
 		$actions = array(
 			'edit'  => '<a href="javascript:;">' . __( 'Edit', 'wordpress-seo-premium' ) . '</a>',
@@ -190,7 +208,7 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	/**
 	 * Checkbox column
 	 *
-	 * @param $item
+	 * @param array $item
 	 *
 	 * @return string
 	 */
@@ -203,19 +221,19 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	/**
 	 * Default method to display a column
 	 *
-	 * @param $item
-	 * @param $column_name
+	 * @param array  $item
+	 * @param string $column_name
 	 *
-	 * @return mixed
+	 * @return string
 	 */
 	public function column_default( $item, $column_name ) {
 
 		switch ( $column_name ) {
 			case 'new':
-				return "<div class='val'>" . $item[ $column_name ] . "</div>";
+				return "<div class='val'>" . $item[ $column_name ] . '</div>';
 				break;
 			case 'type':
-				return "<div class='val type'>" . $item[ $column_name ] . "</div>";
+				return "<div class='val type'>" . $item[ $column_name ] . '</div>';
 				break;
 			default:
 				return $item[ $column_name ];
@@ -229,7 +247,7 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	 */
 	public function get_bulk_actions() {
 		$actions = array(
-			'delete' => __( 'Delete', 'wordpress-seo-premium' )
+			'delete' => __( 'Delete', 'wordpress-seo-premium' ),
 		);
 
 		return $actions;

@@ -1,5 +1,11 @@
 <?php
+/**
+ * @package WPSEO\Premium
+ */
 
+/**
+ * Class WPSEO_Premium_Javascript_Strings
+ */
 class WPSEO_Premium_Javascript_Strings {
 	private static $strings = null;
 
@@ -21,6 +27,11 @@ class WPSEO_Premium_Javascript_Strings {
 		);
 	}
 
+	/**
+	 * Returns an array with all the translated strings
+	 *
+	 * @return array
+	 */
 	public static function strings() {
 		if ( self::$strings === null ) {
 			self::fill();

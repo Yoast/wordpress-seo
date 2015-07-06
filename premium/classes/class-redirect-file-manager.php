@@ -1,5 +1,11 @@
 <?php
+/**
+ * @package WPSEO\Premium
+ */
 
+/**
+ * Class WPSEO_Redirect_File_Manager
+ */
 class WPSEO_Redirect_File_Manager {
 
 	/**
@@ -69,11 +75,11 @@ class WPSEO_Redirect_File_Manager {
 		$credentials = request_filesystem_credentials( $url, '', false, self::get_htaccess_file_path() );
 
 		// Return $wp_filesystem if everything is working
-		if( WP_Filesystem( $credentials, self::get_htaccess_file_path() ) ) {
+		if ( WP_Filesystem( $credentials, self::get_htaccess_file_path() ) ) {
 			return $wp_filesystem;
 		}
 
-		// Return null if the WP_Filesystem() check failed
+		// Return null if the WP_Filesystem() check failed.
 		return null;
 	}
 

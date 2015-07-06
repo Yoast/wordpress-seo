@@ -1,11 +1,17 @@
 <?php
+/**
+ * @package WPSEO\Premium
+ */
 
+/**
+ * Class WPSEO_Premium_Import_Manager
+ */
 class WPSEO_Premium_Import_Manager {
 
 	/**
 	 * Redirection import success message
 	 *
-	 * @param $message
+	 * @param string $message
 	 *
 	 * @return string
 	 */
@@ -16,7 +22,7 @@ class WPSEO_Premium_Import_Manager {
 	/**
 	 * Redirection plugin not found message
 	 *
-	 * @param $message
+	 * @param string $message
 	 *
 	 * @return string
 	 */
@@ -27,7 +33,7 @@ class WPSEO_Premium_Import_Manager {
 	/**
 	 * Redirection import no redirects found message
 	 *
-	 * @param $message
+	 * @param string $message
 	 *
 	 * @return string
 	 */
@@ -38,7 +44,7 @@ class WPSEO_Premium_Import_Manager {
 	/**
 	 * Apache import success message
 	 *
-	 * @param $message
+	 * @param string $message
 	 *
 	 * @return string
 	 */
@@ -50,7 +56,7 @@ class WPSEO_Premium_Import_Manager {
 	/**
 	 * Apache import no redirects found message
 	 *
-	 * @param $message
+	 * @param string $message
 	 *
 	 * @return string
 	 */
@@ -87,21 +93,20 @@ class WPSEO_Premium_Import_Manager {
 					// Check if redirect is a regex redirect
 					if ( 1 == $item->regex ) {
 						$regex_redirection_manager->create_redirect( $item->url, $item->action_data, $item->action_code );
-					} else {
+					}
+					else {
 						$url_redirection_manager->create_redirect( $item->url, $item->action_data, $item->action_code );
 					}
-
 				}
 
 				// Add success message
 				add_filter( 'wpseo_import_message', array( $this, 'message_redirection_success' ) );
-			} else {
+			}
+			else {
 				// Add no redirects found message
 				add_filter( 'wpseo_import_message', array( $this, 'message_redirection_no_redirects' ) );
 			}
-
 		}
-
 	}
 
 	/**
@@ -113,15 +118,15 @@ class WPSEO_Premium_Import_Manager {
 		if ( isset( $_POST['htaccess'] ) ) {
 
 			// The htaccess post
-			$htaccess = stripcslashes($_POST['htaccess']);
+			$htaccess = stripcslashes( $_POST['htaccess'] );
 
 			// The new .htaccess file
 			$new_htaccess = $htaccess;
 
 			// Regexpressions
 			$regex_patterns = array(
-				'url'   => "`[^# ]Redirect ([0-9]+) ([^\s]+) ([^\s]+)`i",
-				'regex' => "`[^# ]RedirectMatch ([0-9]+) ([^\s]+) ([^\s]+)`i"
+				'url'   => '`[^# ]Redirect ([0-9]+) ([^\s]+) ([^\s]+)`i',
+				'regex' => '`[^# ]RedirectMatch ([0-9]+) ([^\s]+) ([^\s]+)`i'
 			);
 
 			// Create redirect manager objects
@@ -152,7 +157,8 @@ class WPSEO_Premium_Import_Manager {
 								// Check redirect type
 								if ( 'regex' == $regex_type ) {
 									$regex_redirection_manager->create_redirect( $source, $target, $type );
-								} else {
+								}
+								else {
 									$url_redirection_manager->create_redirect( $source, $target, $type );
 								}
 
@@ -166,7 +172,6 @@ class WPSEO_Premium_Import_Manager {
 
 							}
 						}
-
 					}
 				}
 			}
@@ -186,8 +191,8 @@ class WPSEO_Premium_Import_Manager {
 					// WP_Filesystem not working, request filesystem credentials
 					request_filesystem_credentials( $url, '', true, ABSPATH );
 
-				} else {
-
+				}
+				else {
 					// Update the .htaccess file
 					$wp_filesystem->put_contents(
 						ABSPATH . '.htaccess',
@@ -199,11 +204,11 @@ class WPSEO_Premium_Import_Manager {
 				// Display success message
 				add_filter( 'wpseo_import_message', array( $this, 'message_htaccess_success' ) );
 
-			} else {
+			}
+			else {
 				// Display fail message
 				add_filter( 'wpseo_import_message', array( $this, 'message_htaccess_no_redirects' ) );
 			}
-
 		}
 
 	}
@@ -219,7 +224,7 @@ class WPSEO_Premium_Import_Manager {
 	/**
 	 * Add premium import options to import list
 	 *
-	 * @param $content
+	 * @param string $content
 	 *
 	 * @return string
 	 */
@@ -229,17 +234,22 @@ class WPSEO_Premium_Import_Manager {
 		return $content;
 	}
 
+	/**
+	 * Adding the import block for htaccess. Makes it able to import redirects from htaccess
+	 *
+	 * @param array $admin_object
+	 */
 	public function add_htaccess_import_block( $admin_object ) {
 
-		// Attemp to load the htaccess file
-		$textarea_value = "";
+		// Attemp to load the htaccess file.
+		$textarea_value = '';
 		if ( 1 || WPSEO_Utils::is_apache() ) {
 			if ( file_exists( ABSPATH . '.htaccess' ) ) {
 				$textarea_value = file_get_contents( ABSPATH . '.htaccess' );
 			}
 		}
 
-		// Display the form
+		// Display the form.
 		echo '<form action="" method="post" accept-charset="' . esc_attr( get_bloginfo( 'charset' ) ) . '">' . PHP_EOL;
 		echo wp_nonce_field( 'wpseo-import', '_wpnonce', true, false );
 

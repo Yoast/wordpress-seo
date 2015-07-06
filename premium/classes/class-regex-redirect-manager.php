@@ -1,17 +1,28 @@
 <?php
+/**
+ * @package WPSEO\Premium
+ */
 
 if ( class_exists( 'WPSEO_Redirect_Manager' ) && ! class_exists( 'WPSEO_REGEX_Redirect_Manager', false ) ) {
-
+	/**
+	 * Class WPSEO_REGEX_Redirect_Manager
+	 */
 	class WPSEO_REGEX_Redirect_Manager extends WPSEO_Redirect_Manager {
 
+		/**
+		 * @var string
+		 */
 		protected $option_redirects = 'wpseo-premium-redirects-regex';
 
+		/**
+		 * @var array
+		 */
 		private $url_matches = array();
 
 		/**
 		 * Replace the $regex vars with URL matches
 		 *
-		 * @param $matches
+		 * @param array $matches
 		 *
 		 * @return string
 		 */
@@ -51,9 +62,9 @@ if ( class_exists( 'WPSEO_Redirect_Manager' ) && ! class_exists( 'WPSEO_REGEX_Re
 					if ( 1 === @preg_match( "`{$regex}`", $url, $this->url_matches ) ) {
 
 						// Replace the $regex vars with URL matches
-						$redirect_url = preg_replace_callback( "/[\$0-9]+/", array(
+						$redirect_url = preg_replace_callback( '/[\$0-9]+/', array(
 							$this,
-							'format_redirect_url'
+							'format_redirect_url',
 						), $redirect['url'] );
 
 						if ( '/' === substr( $redirect_url, 0, 1 ) ) {
@@ -70,7 +81,6 @@ if ( class_exists( 'WPSEO_Redirect_Manager' ) && ! class_exists( 'WPSEO_REGEX_Re
 					$this->url_matches = array();
 
 				}
-
 			}
 
 		}
