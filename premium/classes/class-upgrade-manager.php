@@ -24,10 +24,9 @@ class WPSEO_Upgrade_Manager {
 		}
 
 		if ( version_compare( $version_number, WPSEO_VERSION, '<' ) ) {
-			add_filter( 'admin_init', array( $this, 'import_redirects' ), 11 );
+			add_action( 'admin_init', array( $this, 'import_redirects' ), 11 );
 		}
 	}
-
 
 	/**
 	 * An update is required, do it
@@ -109,9 +108,9 @@ class WPSEO_Upgrade_Manager {
 	 *
 	 */
 	public function import_redirects() {
-		$wp_query  = new WP_Query( "post_type=post&meta_key=_yoast_wpseo_redirect&order=ASC" );
+		$wp_query  = new WP_Query( "post_type=any&meta_key=_yoast_wpseo_redirect&order=ASC" );
 
-		if ( !empty( $wp_query->posts) ) {
+		if ( ! empty( $wp_query->posts) ) {
 			$redirect_manager = new WPSEO_URL_Redirect_Manager();
 
 			foreach ( $wp_query->posts as $post ) {
