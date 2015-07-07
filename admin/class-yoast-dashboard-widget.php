@@ -25,6 +25,28 @@ class Yoast_Dashboard_Widget {
 
 		add_filter( 'dashboard_glance_items', array( $this, 'add_glance_items' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_dashboard_stylesheet' ) );
+		add_action( 'wp_dashboard_setup', array( $this, 'add_dashboard_widget' ) );
+	}
+
+	/**
+	 * Adds dashboard widget to WordPress
+	 */
+	public function add_dashboard_widget() {
+		wp_add_dashboard_widget(
+			'wpseo-dashboard-overview',
+			__( 'WordPress SEO Overview', 'wordpress-seo' ),
+			array( $this, 'display_dashboard_widget' )
+		);
+	}
+
+	/**
+	 * Display the dashboard widget
+	 */
+	public function display_dashboard_widget() {
+		$statistics = $this->glance_items();
+
+		include WPSEO_PATH . '/admin/views/dashboard-widget.php';
+
 	}
 
 	/**
