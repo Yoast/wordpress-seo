@@ -38,9 +38,9 @@ class WPSEO_GSC_Platform_Tabs {
 	 */
 	private function platform_tabs() {
 		$platforms = array(
-			'web'    		  => __( 'Web', 'wordpress-seo' ),
-			'mobile' 	      => __( 'Mobile devices', 'wordpress-seo' ),
-			'smartphone_only' => __( 'Only smartphone', 'wordpress-seo' ),
+			'web'             => __( 'Web', 'wordpress-seo' ),
+			'mobile'          => __( 'Feature phone', 'wordpress-seo' ),
+			'smartphone_only' => __( 'Smartphone', 'wordpress-seo' ),
 			'settings'        => __( 'Settings', 'wordpress-seo' ),
 		);
 
