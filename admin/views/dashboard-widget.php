@@ -17,8 +17,8 @@
 <ul>
 <?php foreach ( $statistics as $statistic ) : ?>
 	<li>
-		<div title="" class="wpseo-score-icon <?php echo esc_attr( $statistic['seo_filter'] ); ?>"></div>
-		<a href="<?php echo esc_attr( admin_url( 'edit.php?post_status=all&post_type=post&seo_filter=' . $statistic['seo_filter'] ) ); ?>"
+		<div title="" class="wpseo-score-icon <?php echo esc_attr( $statistic['seo_rank'] ); ?>"></div>
+		<a href="<?php echo esc_attr( admin_url( 'edit.php?post_status=all&post_type=post&seo_filter=' . $statistic['seo_rank'] ) ); ?>"
 			class="wpseo-glance <?php echo esc_attr( $statistic['class'] ); ?>">
 			<?php printf( $statistic['title'], $statistic['count'] ); ?>
 		</a>

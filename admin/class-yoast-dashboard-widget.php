@@ -56,37 +56,37 @@ class Yoast_Dashboard_Widget {
 
 		$items = array(
 			array(
-				'seo_filter' => 'good',
+				'seo_rank' => 'good',
 				'title' => _n_noop( '%d post with an SEO score good &raquo;', '%d posts with an SEO score good &raquo;', 'wordpress-seo' ),
 				'class' => 'wpseo-glance-good',
 				'count' => $this->statistics->get_good_seo_post_count(),
 			),
 			array(
-				'seo_filter' => 'ok',
+				'seo_rank' => 'ok',
 				'title' => _n_noop( '%d post with an SEO score ok &raquo;', '%d posts with an SEO score ok &raquo;', 'wordpress-seo' ),
 				'class' => 'wpseo-glance-ok',
 				'count' => $this->statistics->get_ok_seo_post_count(),
 			),
 			array(
-				'seo_filter' => 'poor',
+				'seo_rank' => 'poor',
 				'title' => _n_noop( '%d post with an SEO score poor &raquo;', '%d posts with an SEO score poor &raquo;', 'wordpress-seo' ),
 				'class' => 'wpseo-glance-poor',
 				'count' => $this->statistics->get_poor_seo_post_count(),
 			),
 			array(
-				'seo_filter' => 'bad',
+				'seo_rank' => 'bad',
 				'title' => _n_noop( '%d post with an SEO score bad &raquo;', '%d posts with an SEO score bad &raquo;', 'wordpress-seo' ),
 				'class' => 'wpseo-glance-bad',
 				'count' => $this->statistics->get_bad_seo_post_count(),
 			),
 			array(
-				'seo_filter' => 'na',
+				'seo_rank' => 'na',
 				'title' => _n_noop( '%d post that doesn&#8217;t have a focus keyword yet &raquo;', '%d posts that don&#8217;t have a focus keyword yet &raquo;', 'wordpress-seo' ),
 				'class' => 'wpseo-glance-na',
 				'count' => $this->statistics->get_no_focus_post_count(),
 			),
 			array(
-				'seo_filter' => 'noindex',
+				'seo_rank' => 'noindex',
 				'title' => _n_noop( '%d post that is set to <code>noindex</code> and thus not in the search engines &raquo;', '%d posts that are set to <code>noindex</code> and thus not in the search engines &raquo;', 'wordpress-seo' ),
 				'class' => 'wpseo-glance-noindex',
 				'count' => $this->statistics->get_no_index_post_count(),
@@ -95,7 +95,7 @@ class Yoast_Dashboard_Widget {
 
 		foreach ( $items as $key => $item ) {
 
-			// Remove useless statistics.
+			// Remove meaningless statistics.
 			if ( 0 === $item['count'] ) {
 				unset( $items[ $key ] );
 				continue;
