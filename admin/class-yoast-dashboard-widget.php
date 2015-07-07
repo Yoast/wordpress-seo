@@ -23,7 +23,6 @@ class Yoast_Dashboard_Widget {
 
 		$this->statistics = $statistics;
 
-		add_filter( 'dashboard_glance_items', array( $this, 'add_glance_items' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_dashboard_stylesheet' ) );
 		add_action( 'wp_dashboard_setup', array( $this, 'add_dashboard_widget' ) );
 	}
@@ -43,7 +42,7 @@ class Yoast_Dashboard_Widget {
 	 * Display the dashboard widget
 	 */
 	public function display_dashboard_widget() {
-		$statistics = $this->glance_items();
+		$statistics = $this->statistic_items();
 
 		include WPSEO_PATH . '/admin/views/dashboard-widget.php';
 	}
@@ -53,7 +52,7 @@ class Yoast_Dashboard_Widget {
 	 *
 	 * @return array
 	 */
-	private function glance_items() {
+	private function statistic_items() {
 
 		$items = array(
 			array(
@@ -104,28 +103,6 @@ class Yoast_Dashboard_Widget {
 
 			// Translate titles with actual count.
 			$items[ $key ]['title'] = translate_nooped_plural( $item['title'], $item['count'], 'wordpress-seo' );
-		}
-
-		return $items;
-	}
-
-	/**
-	 * Add glance items to the At a Glance dashboard widget
-	 *
-	 * @param array $items Current glance items.
-	 *
-	 * @return array
-	 */
-	public function add_glance_items( $items ) {
-
-		foreach ( $this->glance_items() as $glance_item ) {
-
-			$items[] = sprintf(
-				'<a href="%s" class="wpseo-glance %s">%s</a>',
-				admin_url( 'edit.php?post_status=all&post_type=post&seo_filter=' . $glance_item['seo_filter'] ),
-				$glance_item['class'],
-				sprintf( $glance_item['title'], $glance_item['count'] )
-			);
 		}
 
 		return $items;
