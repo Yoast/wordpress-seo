@@ -1,7 +1,7 @@
-WordPress SEO by Yoast
-======================
+WordPress SEO Premium by Yoast
+==============================
 
-[![Build Status](https://api.travis-ci.org/Yoast/wordpress-seo.png?branch=master)](https://travis-ci.org/Yoast/wordpress-seo)
+[![Build Status](https://magnum.travis-ci.com/Yoast/wordpress-seo-premium.svg?token=xbWfzo2k6cFsu9nM3zyq)](https://magnum.travis-ci.com/Yoast/wordpress-seo-premium)
 [![Stable Version](https://poser.pugx.org/yoast/wordpress-seo/v/stable.svg)](https://packagist.org/packages/yoast/wordpress-seo)
 [![License](https://poser.pugx.org/yoast/wordpress-seo/license.svg)](https://packagist.org/packages/yoast/wordpress-seo)
 

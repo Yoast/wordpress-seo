@@ -17,6 +17,13 @@ class WPSEO_Utils {
 	public static $has_filters;
 
 	/**
+	 * Holds the options that, when updated, should cause the transient cache to clear
+	 *
+	 * @var array
+	 */
+	private static $cache_clear = array();
+
+	/**
 	 * Check whether the current user is allowed to access the configuration.
 	 *
 	 * @static
@@ -341,7 +348,7 @@ class WPSEO_Utils {
 			'YES',
 			'on',
 			'On',
-			'On',
+			'ON',
 
 		);
 		$false = array(
@@ -447,34 +454,6 @@ class WPSEO_Utils {
 	}
 
 	/**
-	 * (Un-)schedule the yoast tracking cronjob if the tracking option has changed
-	 *
-	 * @todo     - [JRF => Yoast] check if this has any impact on other Yoast plugins which may
-	 * use the same tracking schedule hook. If so, maybe get any other yoast plugin options,
-	 * check for the tracking status and unschedule based on the combined status.
-	 *
-	 * @static
-	 *
-	 * @param mixed $disregard        Not needed - passed by add/update_option action call
-	 *                                 Option name if option was added, old value if option was updated
-	 * @param array $value            The (new/current) value of the wpseo option
-	 * @param bool  $force_unschedule Whether to force an unschedule (i.e. on deactivate)
-	 *
-	 * @return void
-	 */
-	public static function schedule_yoast_tracking( $disregard, $value, $force_unschedule = false ) {
-		$current_schedule = wp_next_scheduled( 'yoast_tracking' );
-
-		if ( $force_unschedule !== true && ( $value['yoast_tracking'] === true && $current_schedule === false ) ) {
-			// The tracking checks daily, but only sends new data every 7 days.
-			wp_schedule_event( time(), 'daily', 'yoast_tracking' );
-		}
-		elseif ( $force_unschedule === true || ( $value['yoast_tracking'] === false && $current_schedule !== false ) ) {
-			wp_clear_scheduled_hook( 'yoast_tracking' );
-		}
-	}
-
-	/**
 	 * Clears the WP or W3TC cache depending on which is used
 	 *
 	 * @static
@@ -509,6 +488,33 @@ class WPSEO_Utils {
 	 */
 	public static function clear_rewrites() {
 		delete_option( 'rewrite_rules' );
+	}
+
+	/**
+	 * Adds a hook that when given option is updated, the XML sitemap transient cache is cleared
+	 *
+	 * @param string $option
+	 * @param string $type
+	 */
+	public static function register_cache_clear_option( $option, $type = '' ) {
+		self::$cache_clear[ $option ] = $type;
+		add_action( 'update_option', array( 'WPSEO_Utils', 'clear_transient_cache' ) );
+	}
+
+	/**
+	 * Clears the transient cache when a given option is updated, if that option has been registered before
+	 *
+	 * @param string $option The option that's being updated
+	 */
+	public static function clear_transient_cache( $option ) {
+		if ( isset( self::$cache_clear[ $option ] ) ) {
+			if ( '' !== self::$cache_clear[ $option ] ) {
+				wpseo_invalidate_sitemap_cache( self::$cache_clear[ $option ] );
+			}
+			else {
+				self::clear_sitemap_cache();
+			}
+		}
 	}
 
 	/**
@@ -732,7 +738,7 @@ class WPSEO_Utils {
 					return true;
 				}
 			}
-			catch( Exception $exc ) {
+			catch ( Exception $exc ) {
 				return false;
 			}
 		}

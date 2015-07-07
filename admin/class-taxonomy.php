@@ -163,7 +163,7 @@ class WPSEO_Taxonomy {
 
 		echo '
 		<tr class="form-field">
-			<th scope="row">' . ( ( '' !== $label ) ? '<label for="' . $esc_var . '">' . esc_html( $label ) . ':</label>' : '' ) . '</th>
+			<th scope="row">' . ( ( '' !== $label ) ? '<label for="' . $esc_var . '">' . esc_html( $label ) . '</label>' : '' ) . '</th>
 			<td>' . $field . '</td>
 		</tr>';
 	}
@@ -182,7 +182,7 @@ class WPSEO_Taxonomy {
 		$options  = WPSEO_Options::get_all();
 
 
-		echo '<h2>', __( 'Yoast WordPress SEO Settings', 'wordpress-seo' ), '</h2>';
+		echo '<h3>', __( 'Yoast WordPress SEO Settings', 'wordpress-seo' ), '</h2>';
 		echo '<table class="form-table wpseo-taxonomy-form">';
 
 		$this->form_row( 'wpseo_title', __( 'SEO Title', 'wordpress-seo' ), esc_html__( 'The SEO title is used on the archive page for this term.', 'wordpress-seo' ), $tax_meta );

@@ -30,9 +30,9 @@
             <key name="title-category" />
             <key name="metadesc-category" />
             <key name="metakey-category" />
-            <key name="title-post_tag" />
-            <key name="metadesc-post_tag" />
-            <key name="metakey-post_tag" />
+            <key name="title-tax-post_tag" />
+            <key name="metadesc-tax-post_tag" />
+            <key name="metakey-tax-post_tag" />
             <key name="title-author-wpseo" />
             <key name="metadesc-author-wpseo" />
             <key name="metakey-author-wpseo" />

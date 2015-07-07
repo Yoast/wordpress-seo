@@ -1,7 +1,11 @@
 <?php
 /**
+<<<<<<< HEAD
  * @package    WPSEO
  * @subpackage Premium
+=======
+ * @package WPSEO\Premium\Classes
+>>>>>>> @{-1}
  */
 
 /**
@@ -14,7 +18,7 @@ class WPSEO_Url_Checker {
 	 */
 	public static function check_url() {
 
-		// Check AJAX nonce
+		// Check AJAX nonce.
 		check_ajax_referer( 'wpseo-redirects-ajax-security', 'ajax_nonce' );
 
 		$posted_url = filter_input( INPUT_POST, 'url' );
@@ -27,10 +31,10 @@ class WPSEO_Url_Checker {
 		// The URL
 		$url = urldecode( $posted_url );
 
-		// Do the request
+		// Do the request.
 		$response = wp_remote_get( $url );
 
-		// Echo the response code
+		// Echo the response code.
 		echo json_encode( array( 'reponse_code' => wp_remote_retrieve_response_code( $response ) ) );
 		exit;
 	}

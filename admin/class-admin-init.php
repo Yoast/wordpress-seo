@@ -32,43 +32,72 @@ class WPSEO_Admin_Init {
 
 		$this->pagenow = $GLOBALS['pagenow'];
 
-		add_action( 'admin_init', array( $this, 'redirect_to_about_page' ), 15 );
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_dismissible' ) );
+		add_action( 'admin_init', array( $this, 'after_update_notice' ), 15 );
+
 		$this->load_meta_boxes();
 		$this->load_taxonomy_class();
 		$this->load_admin_page_class();
 		$this->load_admin_user_class();
-		$this->load_yoast_tracking();
+		$this->ignore_tour();
 		$this->load_tour();
 		$this->load_xml_sitemaps_admin();
 	}
 
 	/**
+	 * For WP versions older than 4.2, this includes styles and a script to make notices dismissible.
+	 */
+	public function enqueue_dismissible() {
+		if ( version_compare( $GLOBALS['wp_version'], '4.2', '<' ) ) {
+			wp_enqueue_style( 'wpseo-dismissible', plugins_url( 'css/wpseo-dismissible' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
+			wp_enqueue_script( 'wpseo-dismissible', plugins_url( 'js/wp-seo-dismissible' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'jquery' ), WPSEO_VERSION, true );
+		}
+	}
+	/**
 	 * Redirect first time or just upgraded users to the about screen.
 	 */
-	public function redirect_to_about_page() {
-		if ( ! current_user_can( 'manage_options' ) ) {
-			return;
+	public function after_update_notice() {
+		if ( current_user_can( 'manage_options' ) && ! $this->seen_about() ) {
+
+			if ( filter_input( INPUT_GET, 'intro' ) === '1' ) {
+				update_user_meta( get_current_user_id(), 'wpseo_seen_about_version' , WPSEO_VERSION );
+
+				return;
+			}
+
+			$info_message = sprintf(
+				__( 'WordPress SEO by Yoast has been updated to version %1$s. %2$sClick here%3$s to find out what\'s new!', 'wordpress-seo' ),
+				WPSEO_VERSION,
+				'<a href="' . admin_url( 'admin.php?page=wpseo_dashboard&intro=1' ) . '">',
+				'</a>'
+			);
+
+			$notification_options = array(
+				'type' => 'updated',
+				'id' => 'wpseo-dismiss-about',
+				'nonce' => wp_create_nonce( 'wpseo-dismiss-about' ),
+			);
+
+			Yoast_Notification_Center::get()->add_notification( new Yoast_Notification( $info_message, $notification_options ) );
 		}
+	}
 
-		if ( $this->options['seen_about'] ) {
-			return;
-		}
+	/**
+	 * Helper to verify if the current user has already seen the about page for the current version
+	 *
+	 * @return bool
+	 */
+	private function seen_about() {
+		return get_user_meta( get_current_user_id(), 'wpseo_seen_about_version', true ) === WPSEO_VERSION;
+	}
 
-		if ( in_array( $this->pagenow, array(
-			'update.php',
-			'update-core.php',
-			'plugins.php',
-			'plugin-install.php',
-		) ) ) {
-			return;
-		}
-
-		// We're redirecting the user to the about screen, let's make sure we don't do it again until he/she upgrades again
-		$wpseo_option               = get_option( 'wpseo' );
-		$wpseo_option['seen_about'] = true;
-		update_option( 'wpseo', $wpseo_option );
-
-		wp_safe_redirect( admin_url( 'admin.php?page=wpseo_dashboard&intro=1' ) );
+	/**
+	 * Helper to verify if the user is currently visiting one of our admin pages.
+	 *
+	 * @return bool
+	 */
+	private function on_wpseo_admin_page() {
+		return 'admin.php' === $this->pagenow && strpos( filter_input( INPUT_GET, 'page' ), 'wpseo' ) === 0;
 	}
 
 	/**
@@ -121,8 +150,8 @@ class WPSEO_Admin_Init {
 	 * Loads admin page class for all admin pages starting with `wpseo_`.
 	 */
 	private function load_admin_page_class() {
-		$page = filter_input( INPUT_GET, 'page' );
-		if ( 'admin.php' === $this->pagenow && strpos( $page, 'wpseo' ) === 0 ) {
+
+		if ( $this->on_wpseo_admin_page() ) {
 			// For backwards compatabilty, this still needs a global, for now...
 			$GLOBALS['wpseo_admin_pages'] = new WPSEO_Admin_Pages;
 			$this->register_i18n_promo_class();
@@ -134,38 +163,19 @@ class WPSEO_Admin_Init {
 	 *
 	 * @link https://github.com/Yoast/i18n-module
 	 */
-	function register_i18n_promo_class() {
+	private function register_i18n_promo_class() {
 		new yoast_i18n(
 			array(
 				'textdomain'     => 'wordpress-seo',
 				'project_slug'   => 'wordpress-seo',
 				'plugin_name'    => 'WordPress SEO by Yoast',
 				'hook'           => 'wpseo_admin_footer',
-				'glotpress_url'  => 'http://translate.yoast.com/',
+				'glotpress_url'  => 'https://translate.yoast.com/',
 				'glotpress_name' => 'Yoast Translate',
 				'glotpress_logo' => 'https://cdn.yoast.com/wp-content/uploads/i18n-images/Yoast_Translate.svg',
-				'register_url'   => 'http://translate.yoast.com/projects#utm_source=plugin&utm_medium=promo-box&utm_campaign=wpseo-i18n-promo',
+				'register_url'   => 'https://translate.yoast.com/projects#utm_source=plugin&utm_medium=promo-box&utm_campaign=wpseo-i18n-promo',
 			)
 		);
-	}
-
-	/**
-	 * Determine if we're allowed to load our tracking class and if so, load it.
-	 */
-	private function load_yoast_tracking() {
-		if ( $this->options['yoast_tracking'] === true ) {
-			/**
-			 * @internal this is not a proper lean loading implementation (method_exist will autoload the class),
-			 * but it can't be helped as there are other plugins out there which also use versions
-			 * of the Yoast Tracking class and we need to take that into account unfortunately
-			 */
-			if ( method_exists( 'Yoast_Tracking', 'get_instance' ) ) {
-				add_action( 'yoast_tracking', array( 'Yoast_Tracking', 'get_instance' ) );
-			}
-			else {
-				$GLOBALS['yoast_tracking'] = new Yoast_Tracking;
-			}
-		}
 	}
 
 	/**
@@ -174,11 +184,10 @@ class WPSEO_Admin_Init {
 	private function load_tour() {
 		$restart_tour = filter_input( INPUT_GET, 'wpseo_restart_tour' );
 		if ( $restart_tour ) {
-			$this->options['ignore_tour'] = false;
-			update_option( 'wpseo', $this->options );
+			delete_user_meta( get_current_user_id(), 'wpseo_ignore_tour' );
 		}
 
-		if ( $this->options['tracking_popup_done'] === false || $this->options['ignore_tour'] === false ) {
+		if ( ! get_user_meta( get_current_user_id(), 'wpseo_ignore_tour' ) ) {
 			add_action( 'admin_enqueue_scripts', array( 'WPSEO_Pointers', 'get_instance' ) );
 		}
 	}
@@ -190,5 +199,15 @@ class WPSEO_Admin_Init {
 		if ( $this->options['enablexmlsitemap'] === true ) {
 			new WPSEO_Sitemaps_Admin;
 		}
+	}
+
+	/**
+	 * Listener for the ignore tour GET value. If this one is set, just set the user meta to true.
+	 */
+	private function ignore_tour() {
+		if ( filter_input( INPUT_GET, 'wpseo_ignore_tour' ) && wp_verify_nonce( filter_input( INPUT_GET, 'nonce' ), 'wpseo-ignore-tour' ) ) {
+			update_user_meta( get_current_user_id(), 'wpseo_ignore_tour', true );
+		}
+
 	}
 }

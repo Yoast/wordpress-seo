@@ -16,11 +16,14 @@ if ( ! defined( 'WPSEO_PREMIUM_FILE' ) ) {
 	define( 'WPSEO_PREMIUM_FILE', __FILE__ );
 }
 
+/**
+ * Class WPSEO_Premium
+ */
 class WPSEO_Premium {
 
 	const OPTION_CURRENT_VERSION = 'wpseo_current_version';
 
-	const PLUGIN_VERSION_NAME = '2.1.1';
+	const PLUGIN_VERSION_NAME = '2.2.2';
 	const PLUGIN_VERSION_CODE = '16';
 	const PLUGIN_AUTHOR = 'Yoast';
 	const EDD_STORE_URL = 'https://yoast.com';
@@ -80,13 +83,13 @@ class WPSEO_Premium {
 			// Add input fields to page meta post types
 			add_action( 'wpseo_admin_page_meta_post_types', array(
 				$this,
-				'admin_page_meta_post_types_checkboxes'
+				'admin_page_meta_post_types_checkboxes',
 			), 10, 2 );
 
 			// Add page analysis fields to variable array key patterns
 			add_filter( 'wpseo_option_titles_variable_array_key_patterns', array(
 				$this,
-				'add_variable_array_key_pattern'
+				'add_variable_array_key_pattern',
 			) );
 
 			// Filter the Page Analysis content
@@ -134,7 +137,7 @@ class WPSEO_Premium {
 			// Allow option of importing from other 'other' plugins
 			add_filter( 'wpseo_import_other_plugins', array(
 				$premium_import_manager,
-				'filter_add_premium_import_options'
+				'filter_add_premium_import_options',
 			) );
 
 			// Handle premium imports
@@ -145,45 +148,7 @@ class WPSEO_Premium {
 
 			// Only activate post and term watcher if permalink structure is enabled
 			if ( get_option( 'permalink_structure' ) ) {
-
-				// The Post Watcher
-				$post_watcher = new WPSEO_Post_Watcher();
-
-				// Add old URL field to post edit screen
-				add_action( 'edit_form_advanced', array( $post_watcher, 'old_url_field' ), 10, 1 );
-				add_action( 'edit_page_form', array( $post_watcher, 'old_url_field' ), 10, 1 );
-
-				// Detect a post slug change
-				add_action( 'post_updated', array( $post_watcher, 'detect_slug_change' ), 12, 3 );
-
-				// Detect a post trash
-				add_action( 'trashed_post', array( $post_watcher, 'detect_post_trash' ) );
-
-				// Detect a post untrash
-				add_action( 'untrashed_post', array( $post_watcher, 'detect_post_untrash' ) );
-
-				// Detect a post delete
-				add_action( 'delete_post', array( $post_watcher, 'detect_post_delete' ) );
-
-				// The Term Watcher
-				$term_watcher = new WPSEO_Term_Watcher();
-
-				// Get all taxonomies
-				$taxonomies = get_taxonomies();
-
-				// Loop through all taxonomies
-				if ( count( $taxonomies ) > 0 ) {
-					foreach ( $taxonomies as $taxonomy ) {
-						// Add old URL field to term edit screen
-						add_action( $taxonomy . '_edit_form_fields', array( $term_watcher, 'old_url_field' ), 10, 2 );
-					}
-				}
-
-				// Detect the term slug change
-				add_action( 'edited_term', array( $term_watcher, 'detect_slug_change' ), 10, 3 );
-
-				// Detect a term delete
-				add_action( 'delete_term_taxonomy', array( $term_watcher, 'detect_term_delete' ) );
+				add_action( 'admin_init', array( $this, 'init_watchers' ) );
 
 				// Check if we need to display an admin message
 				if ( isset( $_GET['yoast-redirect-created'] ) ) {
@@ -191,11 +156,8 @@ class WPSEO_Premium {
 					// Message object
 					$message = new WPSEO_Message_Redirect_Created( $_GET['yoast-redirect-created'] );
 					add_action( 'all_admin_notices', array( $message, 'display' ) );
-
 				}
-
 			}
-
 		}
 		else {
 			// Add 404 redirect link to WordPress toolbar
@@ -203,6 +165,17 @@ class WPSEO_Premium {
 
 			add_filter( 'redirect_canonical', array( $this, 'redirect_canonical_fix' ), 1, 2 );
 		}
+	}
+
+	/**
+	 * Initialize the watchers for the posts and the terms
+	 */
+	public function init_watchers() {
+		// The Post Watcher
+		new WPSEO_Post_Watcher();
+
+		// The Term Watcher
+		new WPSEO_Term_Watcher();
 	}
 
 	/**
@@ -240,29 +213,29 @@ class WPSEO_Premium {
 			// Normal Redirect AJAX
 			add_action( 'wp_ajax_wpseo_save_redirect_url', array(
 				$normal_redirect_manager,
-				'ajax_handle_redirect_save'
+				'ajax_handle_redirect_save',
 			) );
 			add_action( 'wp_ajax_wpseo_delete_redirect_url', array(
 				$normal_redirect_manager,
-				'ajax_handle_redirect_delete'
+				'ajax_handle_redirect_delete',
 			) );
 			add_action( 'wp_ajax_wpseo_create_redirect_url', array(
 				$normal_redirect_manager,
-				'ajax_handle_redirect_create'
+				'ajax_handle_redirect_create',
 			) );
 
 			// Regex Redirect AJAX
 			add_action( 'wp_ajax_wpseo_save_redirect_regex', array(
 				$regex_redirect_manager,
-				'ajax_handle_redirect_save'
+				'ajax_handle_redirect_save',
 			) );
 			add_action( 'wp_ajax_wpseo_delete_redirect_regex', array(
 				$regex_redirect_manager,
-				'ajax_handle_redirect_delete'
+				'ajax_handle_redirect_delete',
 			) );
 			add_action( 'wp_ajax_wpseo_create_redirect_regex', array(
 				$regex_redirect_manager,
-				'ajax_handle_redirect_create'
+				'ajax_handle_redirect_create',
 			) );
 
 			// Add URL reponse code check AJAX
@@ -313,15 +286,21 @@ class WPSEO_Premium {
 	/**
 	 * Enqueue post en term overview script
 	 *
-	 * @param $hook
+	 * @param string $hook
 	 */
 	public function enqueue_overview_script( $hook ) {
-
 		if ( 'edit.php' == $hook || 'edit-tags.php' == $hook || 'post.php' == $hook ) {
-			wp_enqueue_script( 'wpseo-premium-admin-overview', plugin_dir_url( WPSEO_PREMIUM_FILE ) . '/assets/js/wpseo-premium-admin-overview' . WPSEO_CSSJS_SUFFIX . '.js', array( 'jquery' ), '1.0.0' );
-			wp_localize_script( 'wpseo-premium-admin-overview', 'wpseo_premium_strings', WPSEO_Premium_Javascript_Strings::strings() );
+			self::enqueue();
 		}
 
+	}
+
+	/**
+	 * Enqueues the do / undo redirect scripts
+	 */
+	public static function enqueue() {
+		wp_enqueue_script( 'wpseo-premium-admin-overview', plugin_dir_url( WPSEO_PREMIUM_FILE ) . '/assets/js/wpseo-premium-admin-overview' . WPSEO_CSSJS_SUFFIX . '.js', array( 'jquery' ), WPSEO_VERSION );
+		wp_localize_script( 'wpseo-premium-admin-overview', 'wpseo_premium_strings', WPSEO_Premium_Javascript_Strings::strings() );
 	}
 
 	/**
@@ -338,7 +317,7 @@ class WPSEO_Premium {
 				$old_url = $parsed_url['path'];
 
 				if ( isset( $parsed_url['query'] ) && $parsed_url['query'] != '' ) {
-					$old_url .= "?" . $parsed_url['query'];
+					$old_url .= '?' . $parsed_url['query'];
 				}
 
 				$old_url = urlencode( $old_url );
@@ -346,17 +325,16 @@ class WPSEO_Premium {
 				$wp_admin_bar->add_menu( array(
 					'id'    => 'wpseo-premium-create-redirect',
 					'title' => __( 'Create Redirect', 'wordpress-seo-premium' ),
-					'href'  => admin_url( 'admin.php?page=wpseo_redirects&old_url=' . $old_url )
+					'href'  => admin_url( 'admin.php?page=wpseo_redirects&old_url=' . $old_url ),
 				) );
 			}
-
 		}
 	}
 
 	/**
 	 * Add page analysis to array with variable array key patterns
 	 *
-	 * @param $patterns
+	 * @param array $patterns
 	 */
 	public function add_variable_array_key_pattern( $patterns ) {
 		if ( true !== in_array( 'page-analyse-extra-', $patterns ) ) {
@@ -388,14 +366,13 @@ class WPSEO_Premium {
 			$custom_fields = explode( ',', $options[ $target_option ] );
 
 			if ( is_array( $custom_fields ) ) {
-				foreach ( $custom_fields AS $custom_field ) {
+				foreach ( $custom_fields as $custom_field ) {
 					$custom_field_data = get_post_meta( $post->ID, $custom_field, true );
 
 					if ( ! empty( $custom_field_data ) ) {
 						$page_content .= ' ' . $custom_field_data;
 					}
 				}
-
 			}
 		}
 
@@ -408,8 +385,8 @@ class WPSEO_Premium {
 	 * The values will be comma-seperated and will target the belonging field in the post_meta. Page analysis will
 	 * use the content of it by sticking it to the post_content.
 	 *
-	 * @param $wpseo_admin_pages
-	 * @param $name
+	 * @param array  $wpseo_admin_pages
+	 * @param string $name
 	 */
 	public function admin_page_meta_post_types_checkboxes( $wpseo_admin_pages, $name ) {
 		echo Yoast_Form::get_instance()->textinput( 'page-analyse-extra-' . $name, __( 'Add custom fields to page analysis', 'wordpress-seo-premium' ) );
@@ -418,7 +395,7 @@ class WPSEO_Premium {
 	/**
 	 * Function adds the premium pages to the WordPress SEO menu
 	 *
-	 * @param $submenu_pages
+	 * @param array $submenu_pages
 	 *
 	 * @return array
 	 */
@@ -474,8 +451,8 @@ class WPSEO_Premium {
 	/**
 	 * Hook that runs after the 'wpseo_redirect' option is updated
 	 *
-	 * @param $old_value
-	 * @param $value
+	 * @param array $old_value
+	 * @param array $value
 	 */
 	public function save_redirect_files( $old_value, $value ) {
 
@@ -577,7 +554,9 @@ class WPSEO_Premium {
 		echo "<style type='text/css'>#wpseo_content_top{ padding-left: 0; margin-left: 0; }</style>";
 	}
 
-
+	/**
+	 * Load textdomain
+	 */
 	private function load_textdomain() {
 		load_plugin_textdomain( 'wordpress-seo-premium', false, dirname( plugin_basename( WPSEO_FILE ) ) . '/premium/languages/' );
 	}

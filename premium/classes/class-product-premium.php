@@ -1,9 +1,18 @@
 <?php
+/**
+ * @package WPSEO\Premium\Classes
+ */
 
 if ( class_exists( 'Yoast_Product' ) && ! class_exists( 'WPSEO_Product_Premium', false ) ) {
 
+	/**
+	 * Class WPSEO_Product_Premium
+	 */
 	class WPSEO_Product_Premium extends Yoast_Product {
 
+		/**
+		 * Construct the Product Premium class
+		 */
 		public function __construct() {
 			parent::__construct(
 				trailingslashit( WPSEO_Premium::EDD_STORE_URL ) . 'edd-sl-api',

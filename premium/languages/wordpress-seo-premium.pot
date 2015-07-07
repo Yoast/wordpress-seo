@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo-premium/issues\n"
-"POT-Creation-Date: 2015-04-20 14:04:20+00:00\n"
+"POT-Creation-Date: 2015-06-17 12:18:48+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -24,23 +24,23 @@ msgstr ""
 "X-Poedit-Bookmarks: \n"
 "X-Textdomain-Support: yes\n"
 
-#: class-premium.php:368
+#: class-premium.php:346
 msgid "Create Redirect"
 msgstr ""
 
-#: class-premium.php:435
+#: class-premium.php:411
 msgid "Add custom fields to page analysis"
 msgstr ""
 
-#: class-premium.php:464 classes/class-page-redirect.php:27
+#: class-premium.php:440 classes/class-page-redirect.php:27
 msgid "Redirects"
 msgstr ""
 
-#: class-premium.php:480
+#: class-premium.php:456
 msgid "Webmaster Tools"
 msgstr ""
 
-#: class-premium.php:490
+#: class-premium.php:466
 msgid "Video Tutorials"
 msgstr ""
 
@@ -56,7 +56,7 @@ msgstr ""
 msgid "Ignored"
 msgstr ""
 
-#: classes/class-crawl-issue-table.php:123 classes/class-page-redirect.php:108
+#: classes/class-crawl-issue-table.php:123 classes/class-page-redirect.php:110
 msgid "URL"
 msgstr ""
 
@@ -65,7 +65,7 @@ msgid "Issue Type"
 msgstr ""
 
 #: classes/class-crawl-issue-table.php:125
-msgid "Date detected"
+msgid "Date Detected"
 msgstr ""
 
 #: classes/class-crawl-issue-table.php:126
@@ -113,7 +113,7 @@ msgid "Settings"
 msgstr ""
 
 #: classes/class-page-gwt.php:90 classes/class-page-redirect.php:89
-#: classes/class-page-redirect.php:150
+#: classes/class-page-redirect.php:152
 msgid "Search"
 msgstr ""
 
@@ -141,7 +141,7 @@ msgstr ""
 msgid "Profile"
 msgstr ""
 
-#: classes/class-page-gwt.php:134 classes/class-page-redirect.php:234
+#: classes/class-page-gwt.php:134 classes/class-page-redirect.php:240
 msgid "Save Changes"
 msgstr ""
 
@@ -165,109 +165,103 @@ msgstr ""
 msgid "New URL"
 msgstr ""
 
-#: classes/class-page-redirect.php:51 classes/class-page-redirect.php:113
-#: classes/class-redirect-table.php:75
-msgid "Type"
-msgstr ""
-
-#: classes/class-page-redirect.php:69 classes/class-page-redirect.php:130
+#: classes/class-page-redirect.php:69 classes/class-page-redirect.php:132
 msgid ""
 "The redirect type is the HTTP response code send to the browser telling the "
-"browser what type of redirect is served.<br/><br/>Read <a href='%s'>this "
-"page</a> for more info."
+"browser what type of redirect is served.<br/><br/>Read <a href='%s' "
+"target='_blank'>this page</a> for more info."
 msgstr ""
 
-#: classes/class-page-redirect.php:73
+#: classes/class-page-redirect.php:73 classes/class-page-redirect.php:136
 msgid "Add Redirect"
 msgstr ""
 
-#: classes/class-page-redirect.php:99
+#: classes/class-page-redirect.php:101
+#. translators: %1$s contains a line break tag. %2$s links to our knowledge
+#. base, %3$s closes the link.
 msgid ""
 "Regex Redirects are extremely powerful redirects. You should only use them "
-"if you know what you are doing.<br />If you don't know what Regular "
-"Expressions (REGEX) are, please refer to %1$sour knowledge base%2$s."
+"if you know what you are doing.%1$sIf you don't know what Regular "
+"Expressions (regex) are, please refer to %2$sour knowledge base%3$s."
 msgstr ""
 
-#: classes/class-page-redirect.php:104
-msgid "REGEX"
+#: classes/class-page-redirect.php:106
+msgid "Regular Expression"
 msgstr ""
 
-#: classes/class-page-redirect.php:134
-msgid "Add Regex Redirect"
-msgstr ""
-
-#: classes/class-page-redirect.php:173
+#: classes/class-page-redirect.php:175
 msgid ""
 "As you're on Apache, you should add the following include to the website "
 "httpd config file:"
 msgstr ""
 
-#: classes/class-page-redirect.php:183
+#: classes/class-page-redirect.php:186
+#. translators: %s: '.htaccess' file name
 msgid ""
-"We're unable to save the redirects to your .htaccess file, please make the "
-"file writable."
+"We're unable to save the redirects to your %s file. Please make the file "
+"writable."
 msgstr ""
 
-#: classes/class-page-redirect.php:191
+#: classes/class-page-redirect.php:194
 msgid ""
-"As you're on NGINX, you should add the following include to the website "
-"Nginx config file:"
+"As you're on Nginx, you should add the following include to the NGINX "
+"config file:"
 msgstr ""
 
-#: classes/class-page-redirect.php:220 classes/class-page-redirect.php:227
+#: classes/class-page-redirect.php:223 classes/class-page-redirect.php:233
 msgid "Disable PHP redirects"
 msgstr ""
 
-#: classes/class-page-redirect.php:221
-msgid ""
-"Write redirects to the .htaccess file. Make sure the .htaccess file is "
-"writable!"
-msgstr ""
-
-#: classes/class-page-redirect.php:223
-msgid "Generate a separate redirect file"
-msgstr ""
-
-#: classes/class-page-redirect.php:224
-msgid ""
-"By default we write the redirects to your .htaccess file, check this if you "
-"want a the redirects written to a separate file. Only check this option if "
-"you know what you are doing!"
+#: classes/class-page-redirect.php:226
+#. translators: 1: '.htaccess' file name
+msgid "Write redirects to the %1$s file. Make sure the %1$s file is writable."
 msgstr ""
 
 #: classes/class-page-redirect.php:228
+msgid "Generate a separate redirect file"
+msgstr ""
+
+#: classes/class-page-redirect.php:231
+#. translators: %s: '.htaccess' file name
+msgid ""
+"By default we write the redirects to your %s file, check this if you want "
+"the redirects written to a separate file. Only check this option if you "
+"know what you are doing!"
+msgstr ""
+
+#: classes/class-page-redirect.php:234
 msgid ""
 "WordPress SEO will generate redirect files that can be included in your "
-"website configuration, you can disable PHP redirect if this is done "
+"website configuration. You can disable PHP redirect if this is done "
 "correctly. Only check this option if you know what you are doing!"
 msgstr ""
 
-#: classes/class-page-redirect.php:263
+#: classes/class-page-redirect.php:269
 msgid "Redirects per page"
 msgstr ""
 
-#: classes/class-post-watcher.php:51
+#: classes/class-post-watcher.php:134
 msgid ""
-"WordPress SEO Premium created a <a href='%s'>redirect</a> from the old post "
-"URL to the new post URL. <a href='%s'>Click here to undo this</a>."
+"WordPress SEO Premium detected that you moved a post to the trash. "
+"%1$sClick here to create a redirect from the old post URL%2$s."
 msgstr ""
 
-#: classes/class-post-watcher.php:70
+#: classes/class-post-watcher.php:158
 msgid ""
-"WordPress SEO Premium detected that you moved a post to the trash. <a "
-"href='%s'>Click here to create a redirect from the old post URL</a>."
+"WordPress SEO Premium detected that you restored a post from the trash. "
+"%1$sClick here to remove the redirect%2$s."
 msgstr ""
 
-#: classes/class-post-watcher.php:87
+#: classes/class-post-watcher.php:188
 msgid ""
-"WordPress SEO Premium detected that you restored a post from the trash. <a "
-"href='%s'>Click here to remove the redirect</a>."
+"WordPress SEO Premium detected that you deleted a post. %1$sClick here to "
+"create a redirect from the old post URL%2$s."
 msgstr ""
 
-#: classes/class-post-watcher.php:105
+#: classes/class-post-watcher.php:291
 msgid ""
-"WordPress SEO Premium detected that you deleted a post. <a href='%s'>Click "
-"here to create a redirect from the old post URL</a>."
+"WordPress SEO Premium created a %1$sredirect%3$s from the old post URL to "
+"the new post URL. %2$sClick here to undo this%3$s."
 msgstr ""
 
 #: classes/class-premium-import-manager.php:13
@@ -282,67 +276,70 @@ msgstr ""
 msgid "Redirection import failed: No redirects found."
 msgstr ""
 
-#: classes/class-premium-import-manager.php:46
-msgid ".htaccess redirects have been imported."
+#: classes/class-premium-import-manager.php:47
+#. translators: %s: '.htaccess' file name
+msgid "%s redirects have been imported."
 msgstr ""
 
-#: classes/class-premium-import-manager.php:57
-msgid ".htaccess import failed: No redirects found."
+#: classes/class-premium-import-manager.php:60
+#. translators: %s: '.htaccess' file name
+msgid "%s import failed: No redirects found."
 msgstr ""
 
-#: classes/class-premium-import-manager.php:224
+#: classes/class-premium-import-manager.php:227
 msgid "Import from Redirection?"
 msgstr ""
 
-#: classes/class-premium-import-manager.php:242
-msgid "Import redirects from .htaccess"
+#: classes/class-premium-import-manager.php:247
+#. translators: %s: '.htaccess' file name
+msgid "Import redirects from %s"
 msgstr ""
 
-#: classes/class-premium-import-manager.php:244
+#: classes/class-premium-import-manager.php:249
 msgid "Import .htaccess"
 msgstr ""
 
-#: classes/class-premium-javascript-strings.php:9
+#: classes/class-premium-javascript-strings.php:8
 msgid "You can't redirect a URL to itself."
 msgstr ""
 
-#: classes/class-premium-javascript-strings.php:10
+#: classes/class-premium-javascript-strings.php:9
 msgid "The old URL field can't be empty."
 msgstr ""
 
-#: classes/class-premium-javascript-strings.php:11
-msgid "The REGEX field can't be empty."
+#: classes/class-premium-javascript-strings.php:10
+msgid "The Regular Expression field can't be empty."
 msgstr ""
 
-#: classes/class-premium-javascript-strings.php:12
+#: classes/class-premium-javascript-strings.php:11
 msgid "The new URL field can't be empty."
 msgstr ""
 
-#: classes/class-premium-javascript-strings.php:13
+#: classes/class-premium-javascript-strings.php:12
 msgid "Error while saving this redirect"
 msgstr ""
 
-#: classes/class-premium-javascript-strings.php:14
+#: classes/class-premium-javascript-strings.php:13
 msgid "New type can't be empty."
 msgstr ""
 
-#: classes/class-premium-javascript-strings.php:15
+#: classes/class-premium-javascript-strings.php:14
 msgid "You have unsaved redirects, are you sure you want to leave?"
 msgstr ""
 
 #: classes/class-premium-javascript-strings.php:16
-msgid "Please enter the new URL"
-msgstr ""
-
-#: classes/class-premium-javascript-strings.php:17
-msgid "Redirect saved!"
+msgid "Please enter the new URL for %s"
 msgstr ""
 
 #: classes/class-premium-javascript-strings.php:18
-msgid "Possibly bad redirect."
+msgid "Redirect created from %1$s to %2$s!"
 msgstr ""
 
 #: classes/class-premium-javascript-strings.php:19
+msgid "Possibly bad redirect."
+msgstr ""
+
+#: classes/class-premium-javascript-strings.php:20
 msgid "The URL you entered returned a HTTP code different than 200(OK)."
 msgstr ""
 
@@ -354,16 +351,16 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-#: classes/class-term-watcher.php:50
+#: classes/class-term-watcher.php:109
 msgid ""
-"WordPress SEO Premium created a <a href='%s'>redirect</a> from the old term "
-"URL to the new term URL. <a href='%s'>Click here to undo this</a>."
+"WordPress SEO Premium created a %1$sredirect%3$s from the old term URL to "
+"the new term URL. %2$sClick here to undo this%3$s."
 msgstr ""
 
-#: classes/class-term-watcher.php:79
+#: classes/class-term-watcher.php:140
 msgid ""
-"WordPress SEO Premium detected that you deleted a term. <a href='%s'>Click "
-"here to create a redirect from the old term URL</a>."
+"WordPress SEO Premium detected that you deleted a term. %1$sClick here to "
+"create a redirect from the old term URL%2$s."
 msgstr ""
 
 #: classes/class-tutorial-videos.php:31
@@ -378,4 +375,10 @@ msgstr ""
 msgid ""
 "Please ask your site administrator to activate WordPress SEO Premium to be "
 "able to see the videos."
+msgstr ""
+
+#: classes/class-page-redirect.php:51 classes/class-page-redirect.php:115
+#: classes/class-redirect-table.php:75
+msgctxt "noun"
+msgid "Type"
 msgstr ""

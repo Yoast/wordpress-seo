@@ -1,6 +1,9 @@
 <?php
+/**
+ * @package WPSEO\Premium\Classes
+ */
 
-if ( !defined( 'WPSEO_VERSION' ) ) {
+if ( ! defined( 'WPSEO_VERSION' ) ) {
 	header( 'HTTP/1.0 403 Forbidden' );
 	die;
 }
@@ -15,22 +18,22 @@ class WPSEO_Nginx_Redirect_File extends WPSEO_Redirect_File {
 	/**
 	 * Format URL redirect
 	 *
-	 * @param $old_url
-	 * @param $new_url
-	 * @param $type
+	 * @param string $old_url
+	 * @param string $new_url
+	 * @param int    $type
 	 *
 	 * @return string
 	 */
 	public function format_url_redirect( $old_url, $new_url, $type ) {
-		return "location " . $old_url . " { return " . $type . " " . $new_url . "; }";
+		return 'location ' . $old_url . ' { add_header X-Redirect-By \"WordPress SEO by Yoast Premium\"; return ' . $type . ' ' . $new_url . '; }';
 	}
 
 	/**
 	 * Format REGEX redirect
 	 *
-	 * @param $regex
-	 * @param $url
-	 * @param $type
+	 * @param string $regex
+	 * @param string $url
+	 * @param int    $type
 	 *
 	 * @return string
 	 */

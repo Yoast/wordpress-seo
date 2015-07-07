@@ -1,3 +1,24 @@
+### 2.2.2: June 17th, 2015
+* Fixed a bug that would create unnecessary (and sometimes even faulty) redirects.
+* Added a Japanese translation and updated several other languages.
+
+### 2.2.1: June 11th, 2015
+* Merge with WordPress SEO core 2.2.1
+
+### 2.2: June 10th, 2015
+* Adds a X-Redirect-By header to redirects that were created using WordPress SEO Premium. Works for all PHP redirects and regular NGINX redirects. Doesn't work for Apache.
+* Makes sure all AJAX notices become dismissible.
+* Makes sure the redirect notice also shows the old and new url.
+* Fixes a bug where the link in the redirect notice was not clickable in some cases.
+* Fixes a bug where we offered the user the possibility to undo creating a redirect that was never created in the first place.
+* Fixes a bug where clicking a link to our knowledge base about redirect types triggered a notice instead of taking the user to the right page.
+* Fixes a bug where in some cases no tab was selected after reloading the crawl issues in the GWT settings.
+* Fixes a bug where automatic redirects where being created for unpublished posts.
+* Fixes a bug where automatic redirects where not being created on slug change when using quick edit for both posts and terms.
+* Fixes a bug where where automatic redirects where not being created on slug change for custom taxonomies.
+* Fixes a bug where a slug change could falsely be detected and redirected in case of a term update in the context of a post update
+* Merge with WordPress SEO core 2.2
+
 ### 2.1.1: April 21st, 2015
 * Merge with WordPress SEO core 2.1.1
 
