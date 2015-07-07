@@ -1,6 +1,6 @@
 <?php
 /**
- * @package WPSEO\Premium
+ * @package WPSEO\Premium\Classes
  */
 
 if ( class_exists( 'WPSEO_Redirect_Manager' ) && ! class_exists( 'WPSEO_URL_Redirect_Manager', false ) ) {

@@ -1,6 +1,6 @@
 <?php
 /**
- * @package WPSEO\Premium|Autoloader
+ * @package WPSEO\Premium\Classes
  */
 
 /**

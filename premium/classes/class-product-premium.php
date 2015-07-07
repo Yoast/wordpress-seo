@@ -1,6 +1,6 @@
 <?php
 /**
- * @package WPSEO\Premium
+ * @package WPSEO\Premium\Classes
  */
 
 if ( class_exists( 'Yoast_Product' ) && ! class_exists( 'WPSEO_Product_Premium', false ) ) {

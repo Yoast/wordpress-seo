@@ -1,6 +1,6 @@
 <?php
 /**
- * @package Premium\Redirect
+ * @package WPSEO\Premium\Classes
  */
 
 /**

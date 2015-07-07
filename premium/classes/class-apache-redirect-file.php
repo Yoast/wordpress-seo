@@ -1,6 +1,6 @@
 <?php
 /**
- * @package Premium\Apache_Redirect_File
+ * @package WPSEO\Premium\Classes
  */
 
 if ( ! defined( 'WPSEO_VERSION' ) ) {

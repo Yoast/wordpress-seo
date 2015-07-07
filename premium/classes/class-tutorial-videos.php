@@ -1,6 +1,6 @@
 <?php
 /**
- * @package Premium\Videos
+ * @package WPSEO\Premium\Classes
  */
 
 /**

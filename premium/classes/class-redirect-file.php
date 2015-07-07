@@ -1,6 +1,6 @@
 <?php
 /**
- * @package WPSEO\Premium
+ * @package WPSEO\Premium\Classes
  */
 
 if ( ! defined( 'WPSEO_VERSION' ) ) {
