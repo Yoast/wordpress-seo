@@ -113,7 +113,7 @@ class WPSEO_GSC {
 
 		// Is there a reset post than we will remove the posts and data.
 		if ( filter_input( INPUT_POST, 'gsc_reset' ) ) {
-			$this->add_notification( __( 'The Google Webmaster Tools data has been removed. You will have to re-authenticate if you want to retrieve the data again.', 'wordpress-seo' ), 'update' );
+			$this->add_notification( __( 'The Google Webmaster Tools data has been removed. You will have to reauthenticate if you want to retrieve the data again.', 'wordpress-seo' ), 'update' );
 			WPSEO_GSC_Settings::clear_data( $this->service );
 		}
 
