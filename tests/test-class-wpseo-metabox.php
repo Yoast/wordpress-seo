@@ -91,36 +91,65 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Metabox::column_hidden
+	 * Tests that column_hidden returns the columns if the option isn't set
+	 *
+	 * @covers WPSEO_Metabox::column_hidden()
 	 */
-	public function test_column_hidden() {
+	public function test_column_hidden_HIDE_COLUMNS() {
+		$user = $this->getMockBuilder( 'WP_User' )
+		             ->getMock();
+
+		// Option may be filled if the user has not set it.
+		$user->expects( $this->any() )
+		     ->method( 'has_prop' )
+		     ->will( $this->returnValue( false ) );
+
+		$expected = array( 'wpseo-title', 'wpseo-metadesc', 'wpseo-focuskw' );
+		$received = self::$class_instance->column_hidden( array(), 'option-name', $user );
+
+		$this->assertEquals( $expected, $received );
+	}
+
+	/**
+	 * Tests that column_hidden returns the option if the option is set
+	 *
+	 * @covers WPSEO_Metabox::column_hidden()
+	 */
+	public function test_column_hidden_KEEP_OPTION() {
 
 		// Option shouldn't be touched if the user has set it already.
 		$user = $this->getMockBuilder( 'WP_User' )
-					 ->setMethods( array( 'has_prop' ) )
 					 ->getMock();
 
 		$user->expects( $this->any() )
 			 ->method( 'has_prop' )
 			 ->will( $this->returnValue( true ) );
 
-		$expected = array( 'column1', 'column2' );
+		$expected = array( 'wpseo-title' );
 		$received = self::$class_instance->column_hidden( $expected, 'option-name', $user );
 
 		$this->assertEquals( $expected, $received );
+	}
 
-		$user2 = $this->getMockBuilder( 'WP_User' )
-					  ->setMethods( array( 'has_prop' ) )
-					  ->getMock();
+	/**
+	 * Tests if column_hidden can deal with bad option values
+	 *
+	 * @covers WPSEO_Metabox::column_hidden()
+	 */
+	public function test_column_hidden_BAD_VALUE() {
+		$user = $this->getMockBuilder( 'WP_User' )
+					 ->getMock();
 
-		// Option may be filled if the user has not set it.
-		$user2->expects( $this->any() )
-			  ->method( 'has_prop' )
-			  ->will( $this->returnValue( false ) );
+		$user->expects( $this->any() )
+			 ->method( 'has_prop' )
+			 ->will( $this->returnValue( false ) );
 
 		$expected = array( 'wpseo-title', 'wpseo-metadesc', 'wpseo-focuskw' );
-		$received = self::$class_instance->column_hidden( array(), 'option-name', $user2 );
 
+		$received = self::$class_instance->column_hidden( false, 'option-name', $user );
+		$this->assertEquals( $expected, $received );
+
+		$received = self::$class_instance->column_hidden( 'bad-value', 'option-name', $user );
 		$this->assertEquals( $expected, $received );
 	}
 
