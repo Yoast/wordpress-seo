@@ -1,9 +1,16 @@
 <?php
 /**
- * @package Premium\Redirect
+ * @package WPSEO\Premium\Classes
+ */
+
+/**
+ * Class WPSEO_Redirect_Manager
  */
 abstract class WPSEO_Redirect_Manager {
 
+	/**
+	 * @var null
+	 */
 	protected $option_redirects = null;
 
 	/**
@@ -14,10 +21,14 @@ abstract class WPSEO_Redirect_Manager {
 	public static function get_options() {
 		return apply_filters( 'wpseo_premium_redirect_options', wp_parse_args( get_option( 'wpseo_redirect', array() ), array(
 			'disable_php_redirect' => 'off',
-			'separate_file'        => 'off'
+			'separate_file'        => 'off',
 		) ) );
 	}
 
+	/**
+	 * Getting array with the available redirect types
+	 * @return array|void
+	 */
 	public static function get_redirect_types() {
 		$redirect_types = array(
 			'301' => '301 Moved Permanently',
@@ -37,15 +48,15 @@ abstract class WPSEO_Redirect_Manager {
 	public function redirects_change_autoload( $enabled ) {
 		global $wpdb;
 
-		// Default autoload value
+		// Default autoload value.
 		$autoload = 'yes';
 
-		// Disable auto loading
+		// Disable auto loading.
 		if ( false === $enabled ) {
 			$autoload = 'no';
 		}
 
-		// Do update query
+		// Do update query.
 		$wpdb->update(
 			$wpdb->options,
 			array( 'autoload' => $autoload ),
@@ -62,12 +73,12 @@ abstract class WPSEO_Redirect_Manager {
 	 */
 	protected function is_php_redirects_enabled() {
 
-		// Skip redirect if WPSEO_DISABLE_PHP_REDIRECTS is true
+		// Skip redirect if WPSEO_DISABLE_PHP_REDIRECTS is true.
 		if ( defined( 'WPSEO_DISABLE_PHP_REDIRECTS' ) && WPSEO_DISABLE_PHP_REDIRECTS ) {
 			return false;
 		}
 
-		// Skip redirect if the 'disable_php_redirect' is set to 'on'
+		// Skip redirect if the 'disable_php_redirect' is set to 'on'.
 		$options = self::get_options();
 		if ( $options['disable_php_redirect'] == 'on' ) {
 			return false;
@@ -97,10 +108,10 @@ abstract class WPSEO_Redirect_Manager {
 	 */
 	public function save_redirects( $redirects ) {
 
-		// Update the database option
+		// Update the database option.
 		update_option( $this->option_redirects, apply_filters( 'wpseo_premium_save_redirects', $redirects ) );
 
-		// Save the redirect file
+		// Save the redirect file.
 		$this->save_redirect_file();
 
 	}
@@ -110,30 +121,30 @@ abstract class WPSEO_Redirect_Manager {
 	 */
 	public function save_redirect_file() {
 
-		// Options
+		// Options.
 		$options = self::get_options();
 
 		if ( 'on' == $options['disable_php_redirect'] ) {
 
-			// Create the correct file object
+			// Create the correct file object.
 			$file = null;
 			if ( WPSEO_Utils::is_apache() ) {
 
 				if ( 'on' == $options['separate_file'] ) {
 					$file = new WPSEO_Apache_Redirect_File();
-				} else {
+				}
+				else {
 					$file = new WPSEO_Htaccess_Redirect_File();
 				}
-
-			} elseif ( WPSEO_Utils::is_nginx() ) {
+			}
+			elseif ( WPSEO_Utils::is_nginx() ) {
 				$file = new WPSEO_Nginx_Redirect_File();
 			}
 
-			// Save the file
+			// Save the file.
 			if ( null !== $file ) {
 				$file->save_file();
 			}
-
 		}
 
 	}
@@ -148,19 +159,19 @@ abstract class WPSEO_Redirect_Manager {
 			$htaccess = file_get_contents( WPSEO_Redirect_File_Manager::get_htaccess_file_path() );
 		}
 
-		$htaccess = preg_replace( "`# BEGIN YOAST REDIRECTS.*# END YOAST REDIRECTS" . PHP_EOL . "`is", "", $htaccess );
+		$htaccess = preg_replace( '`# BEGIN YOAST REDIRECTS.*# END YOAST REDIRECTS' . PHP_EOL . '`is', '', $htaccess );
 
-		// Get the $wp_filesystem object
+		// Get the $wp_filesystem object.
 		$wp_filesystem = WPSEO_Redirect_File_Manager::get_wp_filesystem_object();
 
-		// Check if the $wp_filesystem is correct
+		// Check if the $wp_filesystem is correct.
 		if ( null != $wp_filesystem ) {
 
-			// Update the .htaccess file
+			// Update the .htaccess file.
 			$wp_filesystem->put_contents(
 				WPSEO_Redirect_File_Manager::get_htaccess_file_path(),
 				$htaccess,
-				FS_CHMOD_FILE // predefined mode settings for WP files
+				FS_CHMOD_FILE // predefined mode settings for WP files.
 			);
 
 		}
@@ -172,64 +183,62 @@ abstract class WPSEO_Redirect_Manager {
 	 *
 	 * @todo fix this method to work with the new redirect setup
 	 *
-	 * @param $old_redirect_arr
-	 * @param $new_redirect_arr
-	 *
-	 * @return bool
+	 * @param array $old_redirect_arr
+	 * @param array $new_redirect_arr
 	 */
 	public function save_redirect( $old_redirect_arr, $new_redirect_arr ) {
 
-		// Get redirects
+		// Get redirects.
 		$redirects = $this->get_redirects();
 
-		// Remove old redirect
+		// Remove old redirect.
 		if ( isset( $redirects[ $old_redirect_arr['key'] ] ) ) {
 
 			unset( $redirects[ $old_redirect_arr['key'] ] );
 
 		}
 
-		// Format the URL is it's an URL
+		// Format the URL is it's an URL.
 		if ( $this instanceof WPSEO_URL_Redirect_Manager ) {
 			$new_redirect_arr['key'] = self::format_url( $new_redirect_arr['key'] );
 		}
 
-		// Add new redirect
+		// Add new redirect.
 		$redirects[ $new_redirect_arr['key'] ] = array(
 			'url'  => $new_redirect_arr['value'],
 			'type' => $new_redirect_arr['type'],
 		);
 
-		// Save redirects
+		// Save redirects.
 		$this->save_redirects( $redirects );
 	}
 
 	/**
 	 * Create a new redirect
 	 *
-	 * @param String $old_value
-	 * @param String $new_value
-	 * @param        $type
+	 * @param string $old_value
+	 * @param string $new_value
+	 * @param int    $type
 	 *
 	 * @return bool
 	 */
 	public function create_redirect( $old_value, $new_value, $type ) {
 
-		// Get redirects
+		// Get redirects.
 		$redirects = $this->get_redirects();
 
-		// Don't add redirect if already exists
+		// Don't add redirect if already exists.
 		if ( isset ( $redirects[ $old_value ] ) ) {
 			return false;
 		}
 
-		// Add new redirect
+		// Add new redirect.
 		$redirects[ $old_value ] = array( 'url' => $new_value, 'type' => $type );
 
-		// Save redirects
+		// Save redirects.
 		$this->save_redirects( $redirects );
 
-		// Return true if success
+		// Return true if success.
 		return true;
 	}
 
@@ -244,8 +253,8 @@ abstract class WPSEO_Redirect_Manager {
 
 		if ( count( $redirects ) > 0 ) {
 			if ( is_array( $delete_redirects ) && count( $delete_redirects ) > 0 ) {
-				foreach ( $delete_redirects as $delete_redirects ) {
-					unset( $redirects[ $delete_redirects ] );
+				foreach ( $delete_redirects as $delete_redirect ) {
+					unset( $redirects[ $delete_redirect ] );
 				}
 			}
 		}
@@ -259,33 +268,33 @@ abstract class WPSEO_Redirect_Manager {
 	 */
 	public function ajax_handle_redirect_save() {
 
-		// Check nonce
+		// Check nonce.
 		check_ajax_referer( 'wpseo-redirects-ajax-security', 'ajax_nonce' );
 
 		$this->permission_check();
 
-		// Save the redirect
+		// Save the redirect.
 		if ( isset( $_POST['old_redirect'] ) && isset( $_POST['new_redirect'] ) ) {
 
-			// Decode old redirect
+			// Decode old redirect.
 			$old_redirect = array(
 				'key'   => trim( htmlspecialchars_decode( urldecode( $_POST['old_redirect']['key'] ) ) ),
 				'value' => trim( htmlspecialchars_decode( urldecode( $_POST['old_redirect']['value'] ) ) ),
 				'type'  => urldecode( $_POST['old_redirect']['type'] ),
 			);
 
-			// Decode new redirect
+			// Decode new redirect.
 			$new_redirect = array(
 				'key'   => trim( htmlspecialchars_decode( urldecode( $_POST['new_redirect']['key'] ) ) ),
 				'value' => trim( htmlspecialchars_decode( urldecode( $_POST['new_redirect']['value'] ) ) ),
 				'type'  => urldecode( $_POST['new_redirect']['type'] ),
 			);
 
-			// Save redirects in database
+			// Save redirects in database.
 			$this->save_redirect( $old_redirect, $new_redirect );
 		}
 
-		// Response
+		// Response.
 		echo '1';
 		exit;
 
@@ -296,19 +305,19 @@ abstract class WPSEO_Redirect_Manager {
 	 */
 	public function ajax_handle_redirect_delete() {
 
-		// Check nonce
+		// Check nonce.
 		check_ajax_referer( 'wpseo-redirects-ajax-security', 'ajax_nonce' );
 
 		$this->permission_check();
 
-		// Delete the redirect
+		// Delete the redirect.
 		if ( isset( $_POST['redirect'] ) ) {
 			$redirect = htmlspecialchars_decode( urldecode( $_POST['redirect']['key'] ) );
 
 			$this->delete_redirect( array( trim( $redirect ) ) );
 		}
 
-		// Response
+		// Response.
 		echo esc_attr( strip_tags( $_POST['id'] ) );
 		exit;
 
@@ -319,12 +328,12 @@ abstract class WPSEO_Redirect_Manager {
 	 */
 	public function ajax_handle_redirect_create() {
 
-		// Check nonce
+		// Check nonce.
 		check_ajax_referer( 'wpseo-redirects-ajax-security', 'ajax_nonce' );
 
 		$this->permission_check();
 
-		// Save the redirect
+		// Save the redirect.
 		if ( isset( $_POST['old_url'] ) && isset( $_POST['new_url'] ) && isset( $_POST['type'] ) ) {
 			$old_url = htmlspecialchars_decode( urldecode( $_POST['old_url'] ) );
 			$new_url = htmlspecialchars_decode( urldecode( $_POST['new_url'] ) );
@@ -339,7 +348,7 @@ abstract class WPSEO_Redirect_Manager {
 			'new_url' => $_POST['new_url'],
 		);
 
-		// Response
+		// Response.
 		echo json_encode( $response );
 		exit;
 
@@ -348,21 +357,21 @@ abstract class WPSEO_Redirect_Manager {
 	/**
 	 * Format the redirect url
 	 *
-	 * @param $url
+	 * @param string $url
 	 *
-	 * @return mixed
+	 * @return string
 	 */
 	public static function format_url( $url ) {
 		$parsed_url = parse_url( $url );
 
 		$formatted_url = $parsed_url['path'];
 
-		// Prepend a slash if first char != slash
+		// Prepend a slash if first char != slash.
 		if ( stripos( $formatted_url, '/' ) !== 0 ) {
 			$formatted_url = '/' . $formatted_url;
 		}
 
-		// Append 'query' string if it exists
+		// Append 'query' string if it exists.
 		if ( isset( $parsed_url['query'] ) && '' != $parsed_url['query'] ) {
 			$formatted_url .= '?' . $parsed_url['query'];
 		}

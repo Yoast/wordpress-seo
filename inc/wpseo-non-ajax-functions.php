@@ -20,7 +20,7 @@ function wpseo_title_test() {
 	$options['title_test']        = 1;
 	update_option( 'wpseo_titles', $options );
 
-	// Setting title_test to > 0 forces the plugin to output the title below through a filter in class-frontend.php
+	// Setting title_test to > 0 forces the plugin to output the title below through a filter in class-frontend.php.
 	$expected_title = 'This is a Yoast Test Title';
 
 	WPSEO_Utils::clear_cache();
@@ -30,8 +30,6 @@ function wpseo_title_test() {
 		'user-agent' => sprintf( 'WordPress/%1$s; %2$s - Yoast', $GLOBALS['wp_version'], get_site_url() ),
 	);
 	$resp = wp_remote_get( get_bloginfo( 'url' ), $args );
-
-	// echo '<pre>'.$resp['body'].'</pre>';
 
 	if ( ( $resp && ! is_wp_error( $resp ) ) && ( 200 == $resp['response']['code'] && isset( $resp['body'] ) ) ) {
 		$res = preg_match( '`<title>([^<]+)</title>`im', $resp['body'], $matches );
@@ -59,9 +57,7 @@ function wpseo_title_test() {
 	update_option( 'wpseo_titles', $options );
 }
 
-// add_filter( 'switch_theme', 'wpseo_title_test', 0 );
-
-
+// Commented out? add_filter( 'switch_theme', 'wpseo_title_test', 0 ); R.
 /**
  * Test whether the active theme contains a <meta> description tag.
  *
@@ -72,20 +68,23 @@ function wpseo_title_test() {
 function wpseo_description_test() {
 	$options = get_option( 'wpseo' );
 
-	// Reset any related options - dirty way of getting the default to make sure it works on activation
+	// Reset any related options - dirty way of getting the default to make sure it works on activation.
 	$options['theme_has_description']   = WPSEO_Option_Wpseo::$desc_defaults['theme_has_description'];
 	$options['theme_description_found'] = WPSEO_Option_Wpseo::$desc_defaults['theme_description_found'];
-	/* @internal Should this be reset too ? Best to do so as test is done on re-activate and switch_theme
-	 * as well and new warning would be warranted then. Only might give irritation on theme upgrade. */
+
+	/**
+	 * @internal Should this be reset too ? Best to do so as test is done on re-activate and switch_theme
+	 * as well and new warning would be warranted then. Only might give irritation on theme upgrade.
+	 */
 	$options['ignore_meta_description_warning'] = WPSEO_Option_Wpseo::$desc_defaults['ignore_meta_description_warning'];
 
 	$file = false;
 	if ( file_exists( get_stylesheet_directory() . '/header.php' ) ) {
-		// theme or child theme
+		// Theme or child theme.
 		$file = get_stylesheet_directory() . '/header.php';
 	}
 	elseif ( file_exists( get_template_directory() . '/header.php' ) ) {
-		// parent theme in case of a child theme
+		// Parent theme in case of a child theme.
 		$file = get_template_directory() . '/header.php';
 	}
 
@@ -100,7 +99,7 @@ function wpseo_description_test() {
 				if ( ( strtolower( $meta[1] ) == 'name' && strtolower( $meta[3] ) == 'description' ) || ( strtolower( $meta[5] ) == 'name' && strtolower( $meta[7] ) == 'description' ) ) {
 					$options['theme_description_found']         = $meta[0];
 					$options['ignore_meta_description_warning'] = false;
-					break; // no need to run through the rest of the meta's
+					break; // No need to run through the rest of the meta's.
 				}
 			}
 			if ( $options['theme_description_found'] !== '' ) {
@@ -117,15 +116,15 @@ function wpseo_description_test() {
 add_filter( 'after_switch_theme', 'wpseo_description_test', 0 );
 
 if ( version_compare( $GLOBALS['wp_version'], '3.6.99', '>' ) ) {
-	// Use the new and *sigh* adjusted action hook WP 3.7+
+	// Use the new and *sigh* adjusted action hook WP 3.7+.
 	add_action( 'upgrader_process_complete', 'wpseo_upgrader_process_complete', 10, 2 );
 }
 elseif ( version_compare( $GLOBALS['wp_version'], '3.5.99', '>' ) ) {
-	// Use the new action hook WP 3.6+
+	// Use the new action hook WP 3.6+.
 	add_action( 'upgrader_process_complete', 'wpseo_upgrader_process_complete', 10, 3 );
 }
 else {
-	// Abuse filters to do our action
+	// Abuse filters to do our action.
 	add_filter( 'update_theme_complete_actions', 'wpseo_update_theme_complete_actions', 10, 2 );
 	add_filter( 'update_bulk_theme_complete_actions', 'wpseo_update_theme_complete_actions', 10, 2 );
 }
@@ -146,18 +145,18 @@ else {
 function wpseo_upgrader_process_complete( $upgrader_object, $context_array, $themes = null ) {
 	$options = get_option( 'wpseo' );
 
-	// Break if admin_notice already in place
+	// Break if admin_notice already in place.
 	if ( ( ( isset( $options['theme_has_description'] ) && $options['theme_has_description'] === true ) || $options['theme_description_found'] !== '' ) && $options['ignore_meta_description_warning'] !== true ) {
 		return;
 	}
-	// Break if this is not a theme update, not interested in installs as after_switch_theme would still be called
+	// Break if this is not a theme update, not interested in installs as after_switch_theme would still be called.
 	if ( ! isset( $context_array['type'] ) || $context_array['type'] !== 'theme' || ! isset( $context_array['action'] ) || $context_array['action'] !== 'update' ) {
 		return;
 	}
 
 	$theme = get_stylesheet();
 	if ( ! isset( $themes ) ) {
-		// WP 3.7+
+		// WP 3.7+.
 		$themes = array();
 		if ( isset( $context_array['themes'] ) && $context_array['themes'] !== array() ) {
 			$themes = $context_array['themes'];
@@ -170,12 +169,12 @@ function wpseo_upgrader_process_complete( $upgrader_object, $context_array, $the
 	if ( ( isset( $context_array['bulk'] ) && $context_array['bulk'] === true ) && ( is_array( $themes ) && count( $themes ) > 0 ) ) {
 
 		if ( in_array( $theme, $themes ) ) {
-			// wpseo_title_test();
+			// Commented out? wpseo_title_test(); R.
 			wpseo_description_test();
 		}
 	}
 	elseif ( is_string( $themes ) && $themes === $theme ) {
-		// wpseo_title_test();
+		// Commented out? wpseo_title_test(); R.
 		wpseo_description_test();
 	}
 
@@ -196,21 +195,27 @@ function wpseo_upgrader_process_complete( $upgrader_object, $context_array, $the
 function wpseo_update_theme_complete_actions( $update_actions, $updated_theme ) {
 	$options = get_option( 'wpseo' );
 
-	// Break if admin_notice already in place
+	// Break if admin_notice already in place.
 	if ( ( ( isset( $options['theme_has_description'] ) && $options['theme_has_description'] === true ) || $options['theme_description_found'] !== '' ) && $options['ignore_meta_description_warning'] !== true ) {
 		return $update_actions;
 	}
 
 	$theme = get_stylesheet();
 	if ( is_object( $updated_theme ) ) {
-		/* Bulk update and $updated_theme only contains info on which theme was last in the list
-		   of updated themes, so go & test */
-		// wpseo_title_test();
+		/*
+		Bulk update and $updated_theme only contains info on which theme was last in the list
+		   of updated themes, so go & test
+		*/
+
+		// Commented out? wpseo_title_test(); R.
 		wpseo_description_test();
 	}
 	elseif ( $updated_theme === $theme ) {
-		/* Single theme update for the active theme */
-		// wpseo_title_test();
+		/*
+		Single theme update for the active theme
+		*/
+
+		// Commented out? wpseo_title_test(); R.
 		wpseo_description_test();
 	}
 
@@ -222,7 +227,7 @@ function wpseo_update_theme_complete_actions( $update_actions, $updated_theme ) 
  * Adds an SEO admin bar menu with several options. If the current user is an admin he can also go straight to several settings menu's from here.
  */
 function wpseo_admin_bar_menu() {
-	// If the current user can't write posts, this is all of no use, so let's not output an admin menu
+	// If the current user can't write posts, this is all of no use, so let's not output an admin menu.
 	if ( ! current_user_can( 'edit_posts' ) ) {
 		return;
 	}
@@ -388,7 +393,7 @@ function wpseo_admin_bar_menu() {
 		$admin_menu = ( $options['access'] === 'superadmin' && is_super_admin() );
 	}
 
-	// @todo: add links to bulk title and bulk description edit pages
+	// @todo: add links to bulk title and bulk description edit pages.
 	if ( $admin_menu ) {
 		$wp_admin_bar->add_menu( array(
 			'parent' => 'wpseo-menu',
@@ -457,10 +462,9 @@ add_action( 'wp_enqueue_scripts', 'wpseo_admin_bar_css' );
  * @return array $allcaps
  */
 function allow_custom_field_edits( $allcaps, $cap, $args ) {
-	// $args[0] holds the capability
-	// $args[2] holds the post ID
-	// $args[3] holds the custom field
-
+	// $args[0] holds the capability.
+	// $args[2] holds the post ID.
+	// $args[3] holds the custom field.
 	// Make sure the request is to edit or add a post meta (this is usually also the second value in $cap,
 	// but this is safer to check).
 	if ( in_array( $args[0], array( 'edit_post_meta', 'add_post_meta' ) ) ) {
@@ -482,7 +486,7 @@ add_filter( 'user_has_cap', 'allow_custom_field_edits', 0, 3 );
  * @since 1.5.0
  */
 function wpseo_robots_meta_message() {
-	// check if robots meta is running
+	// Check if robots meta is running.
 	if ( ( ! isset( $_GET['page'] ) || 'wpseo_import' !== $_GET['page'] ) && is_plugin_active( 'robots-meta/robots-meta.php' ) ) {
 		add_action( 'admin_notices', 'wpseo_import_robots_meta_notice' );
 	}
@@ -497,13 +501,13 @@ add_action( 'admin_init', 'wpseo_robots_meta_message' );
  */
 function wpseo_disable_robots_meta() {
 	if ( isset( $_GET['deactivate_robots_meta'] ) && $_GET['deactivate_robots_meta'] === '1' && is_plugin_active( 'robots-meta/robots-meta.php' ) ) {
-		// Deactivate the plugin
+		// Deactivate the plugin.
 		deactivate_plugins( 'robots-meta/robots-meta.php' );
 
-		// show notice that robots meta has been deactivated
+		// Show notice that robots meta has been deactivated.
 		add_action( 'admin_notices', 'wpseo_deactivate_robots_meta_notice' );
 
-		// Clean up the referrer url for later use
+		// Clean up the referrer url for later use.
 		if ( isset( $_SERVER['REQUEST_URI'] ) ) {
 			$_SERVER['REQUEST_URI'] = remove_query_arg( array( 'deactivate_robots_meta' ), sanitize_text_field( $_SERVER['REQUEST_URI'] ) );
 		}
@@ -518,7 +522,7 @@ add_action( 'admin_init', 'wpseo_disable_robots_meta' );
  * @since 1.5.0
  */
 function wpseo_aioseo_message() {
-	// check if aioseo is running
+	// Check if aioseo is running.
 	if ( ( ! isset( $_GET['page'] ) || 'wpseo_import' != $_GET['page'] ) && is_plugin_active( 'all-in-one-seo-pack/all_in_one_seo_pack.php' ) ) {
 		add_action( 'admin_notices', 'wpseo_import_aioseo_setting_notice' );
 	}
@@ -533,13 +537,13 @@ add_action( 'admin_init', 'wpseo_aioseo_message' );
  */
 function wpseo_disable_aioseo() {
 	if ( isset( $_GET['deactivate_aioseo'] ) && $_GET['deactivate_aioseo'] === '1' && is_plugin_active( 'all-in-one-seo-pack/all_in_one_seo_pack.php' ) ) {
-		// Deactivate AIO
+		// Deactivate AIO.
 		deactivate_plugins( 'all-in-one-seo-pack/all_in_one_seo_pack.php' );
 
-		// show notice that aioseo has been deactivated
+		// Show notice that aioseo has been deactivated.
 		add_action( 'admin_notices', 'wpseo_deactivate_aioseo_notice' );
 
-		// Clean up the referrer url for later use
+		// Clean up the referrer url for later use.
 		if ( isset( $_SERVER['REQUEST_URI'] ) ) {
 			$_SERVER['REQUEST_URI'] = remove_query_arg( array( 'deactivate_aioseo' ), sanitize_text_field( $_SERVER['REQUEST_URI'] ) );
 		}

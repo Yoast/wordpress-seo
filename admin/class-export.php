@@ -4,7 +4,7 @@
  */
 
 /**
- * class WPSEO_Export
+ * Class WPSEO_Export
  *
  * Class with functionality to export the WP SEO settings
  */

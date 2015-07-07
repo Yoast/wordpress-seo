@@ -1,5 +1,11 @@
 <?php
+/**
+ * @package WPSEO\Premium\Classes
+ */
 
+/**
+ * Class WPSEO_Redirect_File_Manager
+ */
 class WPSEO_Redirect_File_Manager {
 
 	/**
@@ -35,20 +41,20 @@ class WPSEO_Redirect_File_Manager {
 	 * Function that creates the WPSEO redirect directory
 	 */
 	public static function create_upload_dir() {
-		// Create the Redirect file dir
+		// Create the Redirect file dir.
 		wp_mkdir_p( self::get_dir() );
 
-		// Create the .htaccess file
+		// Create the .htaccess file.
 		if ( ! file_exists( self::get_dir() . '/.htaccess' ) ) {
 			@file_put_contents( self::get_dir() . '/.htaccess', "Options -Indexes\ndeny from all" );
 		}
 
-		// Create an empty index.php file
+		// Create an empty index.php file.
 		if ( ! file_exists( self::get_dir() . '/index.php' ) ) {
 			@file_put_contents( self::get_dir() . '/index.php', '<?php' . PHP_EOL . '// Silence is golden.' );
 		}
 
-		// Create an empty redirect file
+		// Create an empty redirect file.
 		if ( ! file_exists( self::get_file_path() ) ) {
 			@file_put_contents( self::get_file_path(), '' );
 		}
@@ -62,18 +68,18 @@ class WPSEO_Redirect_File_Manager {
 	public static function get_wp_filesystem_object() {
 		global $wp_filesystem;
 
-		// Set the filesystem URL
+		// Set the filesystem URL.
 		$url = wp_nonce_url( 'admin.php?page=wpseo_redirects#top#settings', 'update-htaccess' );
 
-		// Get the credentials
+		// Get the credentials.
 		$credentials = request_filesystem_credentials( $url, '', false, self::get_htaccess_file_path() );
 
-		// Return $wp_filesystem if everything is working
-		if( WP_Filesystem( $credentials, self::get_htaccess_file_path() ) ) {
+		// Return $wp_filesystem if everything is working.
+		if ( WP_Filesystem( $credentials, self::get_htaccess_file_path() ) ) {
 			return $wp_filesystem;
 		}
 
-		// Return null if the WP_Filesystem() check failed
+		// Return null if the WP_Filesystem() check failed.
 		return null;
 	}
 

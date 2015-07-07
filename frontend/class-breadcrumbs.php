@@ -112,7 +112,7 @@ class WPSEO_Breadcrumbs {
 	 *
 	 * @param string $before
 	 * @param string $after
-	 * @param bool   $display Echo or return ?
+	 * @param bool   $display Echo or return.
 	 *
 	 * @return object
 	 */
@@ -120,7 +120,7 @@ class WPSEO_Breadcrumbs {
 		if ( ! ( self::$instance instanceof self ) ) {
 			self::$instance = new self();
 		}
-		// Remember the last used before/after for use in case the object goes __toString()
+		// Remember the last used before/after for use in case the object goes __toString().
 		self::$before = $before;
 		self::$after  = $after;
 
@@ -182,7 +182,7 @@ class WPSEO_Breadcrumbs {
 	/**
 	 * Get a term's parents.
 	 *
-	 * @param    object $term Term to get the parents for
+	 * @param    object $term Term to get the parents for.
 	 *
 	 * @return    array
 	 */
@@ -205,8 +205,10 @@ class WPSEO_Breadcrumbs {
 	 * @return object
 	 */
 	private function find_deepest_term( $terms ) {
-		/* Let's find the deepest term in this array, by looping through and then
-		   unsetting every term that is used as a parent by another one in the array. */
+		/*
+		Let's find the deepest term in this array, by looping through and then
+		   unsetting every term that is used as a parent by another one in the array.
+		*/
 		$terms_by_id = array();
 		foreach ( $terms as $term ) {
 			$terms_by_id[ $term->term_id ] = $term;
@@ -216,10 +218,12 @@ class WPSEO_Breadcrumbs {
 		}
 		unset( $term );
 
-		/* As we could still have two subcategories, from different parent categories,
-		   let's pick the one with the lowest ordered ancestor. */
+		/*
+		As we could still have two subcategories, from different parent categories,
+		   let's pick the one with the lowest ordered ancestor.
+		*/
 		$parents_count = 0;
-		$term_order    = 9999; // because ASC
+		$term_order    = 9999; // Because ASC.
 		reset( $terms_by_id );
 		$deepest_term = current( $terms_by_id );
 		foreach ( $terms_by_id as $term ) {
@@ -228,13 +232,13 @@ class WPSEO_Breadcrumbs {
 			if ( count( $parents ) >= $parents_count ) {
 				$parents_count = count( $parents );
 
-				// if higher count
+				// If higher count.
 				if ( count( $parents ) > $parents_count ) {
-					// reset order
+					// Reset order.
 					$term_order = 9999;
 				}
 
-				$parent_order = 9999; // set default order
+				$parent_order = 9999; // Set default order.
 				foreach ( $parents as $parent ) {
 					if ( $parent->parent == 0 && isset( $parent->term_order ) ) {
 						$parent_order = $parent->term_order;
@@ -242,7 +246,7 @@ class WPSEO_Breadcrumbs {
 				}
 				unset( $parent );
 
-				// check if parent has lowest order
+				// Check if parent has lowest order.
 				if ( $parent_order < $term_order ) {
 					$term_order   = $parent_order;
 					$deepest_term = $term;
@@ -285,7 +289,7 @@ class WPSEO_Breadcrumbs {
 			$ancestors = (array) $ancestors;
 		}
 
-		// Reverse the order so it's oldest to newest
+		// Reverse the order so it's oldest to newest.
 		$ancestors = array_reverse( $ancestors );
 
 		return $ancestors;
@@ -302,7 +306,7 @@ class WPSEO_Breadcrumbs {
 		$this->maybe_add_blog_crumb();
 
 		if ( ( $this->show_on_front === 'page' && is_front_page() ) || ( $this->show_on_front === 'posts' && is_home() ) ) {
-			// do nothing
+			// Do nothing.
 		}
 		elseif ( $this->show_on_front == 'page' && is_home() ) {
 			$this->add_blog_crumb();
@@ -427,7 +431,7 @@ class WPSEO_Breadcrumbs {
 	/**
 	 * Add a ptarchive based crumb to the crumbs property
 	 *
-	 * @param string $pt Post type
+	 * @param string $pt Post type.
 	 */
 	private function add_ptarchive_crumb( $pt ) {
 		$this->crumbs[] = array(
@@ -636,7 +640,7 @@ class WPSEO_Breadcrumbs {
 		}
 
 		foreach ( $this->crumbs as $i => $crumb ) {
-			$link_info = $crumb; // Keep pre-set url/text combis
+			$link_info = $crumb; // Keep pre-set url/text combis.
 
 			if ( isset( $crumb['id'] ) ) {
 				$link_info = $this->get_link_info_for_id( $crumb['id'] );
@@ -655,7 +659,7 @@ class WPSEO_Breadcrumbs {
 	/**
 	 * Retrieve link url and text based on post id
 	 *
-	 * @param int $id Post id
+	 * @param int $id Post ID.
 	 *
 	 * @return array Array of link text and url
 	 */
@@ -683,7 +687,7 @@ class WPSEO_Breadcrumbs {
 	/**
 	 * Retrieve link url and text based on term object
 	 *
-	 * @param object $term Term object
+	 * @param object $term Term object.
 	 *
 	 * @return array Array of link text and url
 	 */
@@ -704,7 +708,7 @@ class WPSEO_Breadcrumbs {
 	/**
 	 * Retrieve link url and text based on post type
 	 *
-	 * @param string $pt Post type
+	 * @param string $pt Post type.
 	 *
 	 * @return array Array of link text and url
 	 */
@@ -742,15 +746,15 @@ class WPSEO_Breadcrumbs {
 	 * Create a breadcrumb element string
 	 *
 	 * @todo The `$paged` variable only works for archives, not for paged articles, so this does not work
-	 * for paged article at this moment
+	 * for paged article at this moment.
 	 *
 	 * @param  array $link Link info array containing the keys:
 	 *                     'text'    => (string) link text
 	 *                     'url'    => (string) link url
 	 *                     (optional) 'allow_html'    => (bool) whether to (not) escape html in the link text
 	 *                     This prevents html stripping from the text strings set in the
-	 *                     WPSEO -> Internal Links options page
-	 * @param  int   $i    Index for the current breadcrumb
+	 *                     WPSEO -> Internal Links options page.
+	 * @param  int   $i    Index for the current breadcrumb.
 	 *
 	 * @return string
 	 */
@@ -795,7 +799,7 @@ class WPSEO_Breadcrumbs {
 		 *
 		 * @api string $link_output The output string
 		 *
-		 * @param array $link The link array
+		 * @param array $link The link array.
 		 */
 
 		return apply_filters( 'wpseo_breadcrumb_single_link', $link_output, $link );
@@ -807,7 +811,7 @@ class WPSEO_Breadcrumbs {
 	 */
 	private function links_to_string() {
 		if ( is_array( $this->links ) && $this->links !== array() ) {
-			// Remove any effectively empty links
+			// Remove any effectively empty links.
 			$links = array_map( 'trim', $this->links );
 			$links = array_filter( $links );
 

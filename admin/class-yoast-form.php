@@ -99,7 +99,7 @@ class Yoast_Form {
 	 * Generates the footer for admin pages
 	 *
 	 * @param bool $submit       Whether or not a submit button and form end tag should be shown.
-	 * @param bool $show_sidebar Whether or not to show the banner sidebar - used by premium plugins to disable it
+	 * @param bool $show_sidebar Whether or not to show the banner sidebar - used by premium plugins to disable it.
 	 */
 	public function admin_footer( $submit = true, $show_sidebar = true ) {
 		if ( $submit ) {
@@ -148,7 +148,7 @@ class Yoast_Form {
 	 */
 	public function admin_sidebar() {
 
-		// No banners in Premium
+		// No banners in Premium.
 		if ( class_exists( 'WPSEO_Product_Premium' ) ) {
 			$license_manager = new Yoast_Plugin_License_Manager( new WPSEO_Product_Premium() );
 			if ( $license_manager->license_is_valid() ) {
@@ -291,7 +291,7 @@ class Yoast_Form {
 	 *
 	 * @param string       $var   The variable within the option to create the text input field for.
 	 * @param string       $label The label to show for the variable.
-	 * @param array|string $attr  Extra class to add to the input field
+	 * @param array|string $attr  Extra class to add to the input field.
 	 */
 	public function textinput( $var, $label, $attr = array() ) {
 		if ( ! is_array( $attr ) ) {
@@ -337,7 +337,7 @@ class Yoast_Form {
 	 * Create a hidden input field.
 	 *
 	 * @param string $var The variable within the option to create the hidden input for.
-	 * @param string $id  The ID of the element
+	 * @param string $id  The ID of the element.
 	 */
 	public function hidden( $var, $id = '' ) {
 		$val = ( isset( $this->options[ $var ] ) ) ? $this->options[ $var ] : '';

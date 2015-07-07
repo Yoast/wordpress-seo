@@ -155,7 +155,7 @@ class WPSEO_Utils {
 	 *
 	 * @static
 	 *
-	 * @param string $text Input string that might contain shortcodes
+	 * @param string $text Input string that might contain shortcodes.
 	 *
 	 * @return string $text string without shortcodes
 	 */
@@ -169,7 +169,7 @@ class WPSEO_Utils {
 	 *
 	 * @static
 	 *
-	 * @param mixed $value Value to trim or array of values to trim
+	 * @param mixed $value Value to trim or array of values to trim.
 	 *
 	 * @return mixed Trimmed value or array of trimmed values
 	 */
@@ -235,6 +235,7 @@ class WPSEO_Utils {
 
 	/**
 	 * Emulate the WP native sanitize_text_field function in a %%variable%% safe way
+	 *
 	 * @see https://core.trac.wordpress.org/browser/trunk/src/wp-includes/formatting.php for the original
 	 *
 	 * Sanitize a string from user input or from the db
@@ -331,7 +332,7 @@ class WPSEO_Utils {
 	 *
 	 * @static
 	 *
-	 * @param mixed $value Value to cast
+	 * @param mixed $value Value to cast.
 	 *
 	 * @return bool
 	 */
@@ -418,7 +419,7 @@ class WPSEO_Utils {
 	 *
 	 * @static
 	 *
-	 * @param mixed $value Value to cast
+	 * @param mixed $value Value to cast.
 	 *
 	 * @return int|bool
 	 */
@@ -504,7 +505,7 @@ class WPSEO_Utils {
 	/**
 	 * Clears the transient cache when a given option is updated, if that option has been registered before
 	 *
-	 * @param string $option The option that's being updated
+	 * @param string $option The option that's being updated.
 	 */
 	public static function clear_transient_cache( $option ) {
 		if ( isset( self::$cache_clear[ $option ] ) ) {
@@ -533,7 +534,7 @@ class WPSEO_Utils {
 			return;
 		}
 
-		// not sure about efficiency, but that's what code elsewhere does R.
+		// Not sure about efficiency, but that's what code elsewhere does R.
 		$options = WPSEO_Options::get_all();
 
 		if ( true !== $options['enablexmlsitemap'] ) {
@@ -564,6 +565,7 @@ class WPSEO_Utils {
 
 	/**
 	 * Do simple reliable math calculations without the risk of wrong results
+	 *
 	 * @see   http://floating-point-gui.de/
 	 * @see   the big red warning on http://php.net/language.types.float.php
 	 *
@@ -573,17 +575,17 @@ class WPSEO_Utils {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @param mixed  $number1   Scalar (string/int/float/bool)
+	 * @param mixed  $number1   Scalar (string/int/float/bool).
 	 * @param string $action    Calculation action to execute. Valid input:
 	 *                            '+' or 'add' or 'addition',
 	 *                            '-' or 'sub' or 'subtract',
 	 *                            '*' or 'mul' or 'multiply',
 	 *                            '/' or 'div' or 'divide',
 	 *                            '%' or 'mod' or 'modulus'
-	 *                            '=' or 'comp' or 'compare'
-	 * @param mixed  $number2   Scalar (string/int/float/bool)
+	 *                            '=' or 'comp' or 'compare'.
+	 * @param mixed  $number2   Scalar (string/int/float/bool).
 	 * @param bool   $round     Whether or not to round the result. Defaults to false.
-	 *                          Will be disregarded for a compare operation
+	 *                          Will be disregarded for a compare operation.
 	 * @param int    $decimals  Decimals for rounding operation. Defaults to 0.
 	 * @param int    $precision Calculation precision. Defaults to 10.
 	 *
@@ -635,7 +637,7 @@ class WPSEO_Utils {
 			case 'div':
 			case 'divide':
 				if ( $bc ) {
-					$result = bcdiv( $number1, $number2, $precision ); // string, or NULL if right_operand is 0
+					$result = bcdiv( $number1, $number2, $precision ); // String, or NULL if right_operand is 0.
 				}
 				elseif ( $number2 != 0 ) {
 					$result = ( $number1 / $number2 );
@@ -650,7 +652,7 @@ class WPSEO_Utils {
 			case 'mod':
 			case 'modulus':
 				if ( $bc ) {
-					$result = bcmod( $number1, $number2, $precision ); // string, or NULL if modulus is 0.
+					$result = bcmod( $number1, $number2, $precision ); // String, or NULL if modulus is 0.
 				}
 				elseif ( $number2 != 0 ) {
 					$result = ( $number1 % $number2 );
@@ -666,7 +668,7 @@ class WPSEO_Utils {
 			case 'compare':
 				$compare = true;
 				if ( $bc ) {
-					$result = bccomp( $number1, $number2, $precision ); // returns int 0, 1 or -1
+					$result = bccomp( $number1, $number2, $precision ); // Returns int 0, 1 or -1.
 				}
 				else {
 					$result = ( $number1 == $number2 ) ? 0 : ( ( $number1 > $number2 ) ? 1 : - 1 );
@@ -733,7 +735,7 @@ class WPSEO_Utils {
 	public static function is_valid_datetime( $datetime ) {
 		if ( substr( $datetime, 0, 1 ) != '-' ) {
 			try {
-				// Use the DateTime class ( PHP 5.2 > ) to check if the string is a valid datetime
+				// Use the DateTime class ( PHP 5.2 > ) to check if the string is a valid datetime.
 				if ( new DateTime( $datetime ) !== false ) {
 					return true;
 				}

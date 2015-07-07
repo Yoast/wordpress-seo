@@ -1,17 +1,44 @@
 <?php
+/**
+ * @package WPSEO\Premium\Classes
+ */
 
 if ( ! defined( 'WPSEO_VERSION' ) ) {
 	header( 'HTTP/1.0 403 Forbidden' );
 	die;
 }
 
-interface iWPSEO_Redirect_File {
+/**
+ * Interface iWPSEO_Redirect_File
+ */
+interface IWPSEO_Redirect_File {
+	/**
+	 * Formatting the URL redirect
+	 *
+	 * @param string $old_url
+	 * @param string $new_url
+	 * @param int    $type
+	 *
+	 * @return mixed
+	 */
 	public function format_url_redirect( $old_url, $new_url, $type );
 
+	/**
+	 * Formating the regex redirect
+	 *
+	 * @param string $old_url
+	 * @param string $new_url
+	 * @param int    $type
+	 *
+	 * @return mixed
+	 */
 	public function format_regex_redirect( $old_url, $new_url, $type );
 }
 
-abstract class WPSEO_Redirect_File implements iWPSEO_Redirect_File {
+/**
+ * Class WPSEO_Redirect_File
+ */
+abstract class WPSEO_Redirect_File implements IWPSEO_Redirect_File {
 
 	/**
 	 * Generate file content
@@ -19,9 +46,9 @@ abstract class WPSEO_Redirect_File implements iWPSEO_Redirect_File {
 	 * @return string
 	 */
 	protected function generate_file_content() {
-		$file_content = "";
+		$file_content = '';
 
-		// Generate URL redirects
+		// Generate URL redirects.
 		$url_redirect_manager = new WPSEO_URL_Redirect_Manager();
 		$url_redirects        = $url_redirect_manager->get_redirects();
 		if ( count( $url_redirects ) > 0 ) {
@@ -30,7 +57,7 @@ abstract class WPSEO_Redirect_File implements iWPSEO_Redirect_File {
 			}
 		}
 
-		// Generate REGEX redirects
+		// Generate REGEX redirects.
 		$regex_redirect_manager = new WPSEO_REGEX_Redirect_Manager();
 		$regex_redirects        = $regex_redirect_manager->get_redirects();
 		if ( count( $regex_redirects ) > 0 ) {
@@ -49,15 +76,15 @@ abstract class WPSEO_Redirect_File implements iWPSEO_Redirect_File {
 	 */
 	public function save_file() {
 
-		// Generate file content
+		// Generate file content.
 		$file_content = $this->generate_file_content();
 
-		// Check if the file content isset
+		// Check if the file content isset.
 		if ( null == $file_content ) {
 			return false;
 		}
 
-		// Save the actual file
+		// Save the actual file.
 		@file_put_contents( WPSEO_Redirect_File_Manager::get_file_path(), $file_content );
 	}
 

@@ -23,12 +23,15 @@ class WPSEO_Premium {
 
 	const OPTION_CURRENT_VERSION = 'wpseo_current_version';
 
-	const PLUGIN_VERSION_NAME = '2.2.1';
+	const PLUGIN_VERSION_NAME = '2.2.2';
 	const PLUGIN_VERSION_CODE = '16';
 	const PLUGIN_AUTHOR = 'Yoast';
 	const EDD_STORE_URL = 'https://yoast.com';
 	const EDD_PLUGIN_NAME = 'WordPress SEO Premium';
 
+	/**
+	 * @var null
+	 */
 	private $page_gwt = null;
 
 	/**
@@ -340,7 +343,7 @@ class WPSEO_Premium {
 				$wp_admin_bar->add_menu( array(
 					'id'    => 'wpseo-premium-create-redirect',
 					'title' => __( 'Create Redirect', 'wordpress-seo-premium' ),
-					'href'  => admin_url( 'admin.php?page=wpseo_redirects&old_url=' . $old_url )
+					'href'  => admin_url( 'admin.php?page=wpseo_redirects&old_url=' . $old_url ),
 				) );
 			}
 		}
@@ -437,7 +440,7 @@ class WPSEO_Premium {
 			apply_filters( 'wpseo_premium_manage_redirects_role', 'manage_options' ),
 			'wpseo_redirects',
 			array( 'WPSEO_Page_Redirect', 'display' ),
-			array( array( 'WPSEO_Page_Redirect', 'page_load', ), )
+			array( array( 'WPSEO_Page_Redirect', 'page_load' ) ),
 		);
 
 
@@ -453,7 +456,7 @@ class WPSEO_Premium {
 			apply_filters( 'wpseo_premium_manage_wmt_role', 'manage_options' ),
 			'wpseo_webmaster_tools',
 			array( $this->page_gwt, 'display' ),
-			array( array( $this->page_gwt, 'page_load', ), )
+			array( array( $this->page_gwt, 'page_load' ) ),
 		);
 
 		$submenu_pages[] = array(
@@ -462,7 +465,7 @@ class WPSEO_Premium {
 			__( 'Video Tutorials', 'wordpress-seo-premium' ),
 			'edit_posts',
 			'wpseo_tutorial_videos',
-			array( 'WPSEO_Tutorial_Videos', 'display', ),
+			array( 'WPSEO_Tutorial_Videos', 'display' ),
 		);
 
 		return $submenu_pages;
