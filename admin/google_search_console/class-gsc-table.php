@@ -162,6 +162,28 @@ class WPSEO_GSC_Table extends WP_List_Table {
 	}
 
 	/**
+	 * Formatting the output of the column last crawled into a dateformat
+	 *
+	 * @param array $item
+	 *
+	 * @return string
+	 */
+	protected function column_last_crawled( $item ) {
+		return date_i18n( get_option( 'date_format' ), strtotime( $item['first_detected'] ) );
+	}
+
+	/**
+	 * Formatting the output of the column first detected into a dateformat
+	 *
+	 * @param array $item
+	 *
+	 * @return string
+	 */
+	protected function column_first_detected( $item ) {
+		return date_i18n( get_option( 'date_format' ), strtotime( $item['first_detected'] ) );
+	}
+
+	/**
 	 * URL column
 	 *
 	 * @param array $item

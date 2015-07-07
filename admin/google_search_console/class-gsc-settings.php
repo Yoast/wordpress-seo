@@ -54,7 +54,10 @@ class WPSEO_GSC_Settings {
 		$option = get_option( WPSEO_GSC::OPTION_WPSEO_GSC, array( 'profile' => '' ) );
 
 		// Set the profile.
-		$profile = $option['profile'];
+		$profile = '';
+		if ( ! empty ( $option['profile'] ) ) {
+			$profile = $option['profile'];
+		}
 
 		// Return the profile.
 		return trim( $profile, '/' );
