@@ -65,6 +65,8 @@ class WPSEO_Statistics {
 	/**
 	 * Returns the post count for a certain SEO ranking
 	 *
+	 * @todo Merge/DRY this with the logic virtually the same in WPSEO_Metabox::column_sort_orderby()
+	 *
 	 * @param string $seo_ranking The SEO ranking to get the post count for.
 	 *     Possible values: no_seo, bad, poor, ok, good, no_focus.
 	 *
