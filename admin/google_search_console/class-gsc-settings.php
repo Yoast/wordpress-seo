@@ -55,7 +55,7 @@ class WPSEO_GSC_Settings {
 
 		// Set the profile.
 		$profile = '';
-		if ( ! empty ( $option['profile'] ) ) {
+		if ( ! empty( $option['profile'] ) ) {
 			$profile = $option['profile'];
 		}
 
