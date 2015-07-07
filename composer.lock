@@ -139,12 +139,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Yoast/api-libs.git",
-                "reference": "8f9207a80680fe09bbf5036e3cffb6104883e33d"
+                "reference": "23ba204ea02f08302599e03040712e9eb738355e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Yoast/api-libs/zipball/8f9207a80680fe09bbf5036e3cffb6104883e33d",
-                "reference": "8f9207a80680fe09bbf5036e3cffb6104883e33d",
+                "url": "https://api.github.com/repos/Yoast/api-libs/zipball/23ba204ea02f08302599e03040712e9eb738355e",
+                "reference": "23ba204ea02f08302599e03040712e9eb738355e",
                 "shasum": ""
             },
             "type": "library",
@@ -169,7 +169,7 @@
             "keywords": [
                 "wordpress"
             ],
-            "time": "2015-06-04 13:07:05"
+            "time": "2015-07-07 09:34:36"
         },
         {
             "name": "yoast/i18n-module",
