@@ -112,7 +112,7 @@ class WPSEO_Admin_Init {
 			), wp_customize_url() );
 
 			$info_message = sprintf(
-				__( 'You still have the default tagline, this is not a great idea. %1$sFix this in the customizer%2$s.', 'wordpress-seo' ),
+				__( 'You still have the default WordPress tagline, even an empty one is probably better. %1$sYou can fix this in the customizer%2$s.', 'wordpress-seo' ),
 				'<a href="' . esc_attr( $customize_url ) . '">',
 				'</a>'
 			);
