@@ -5,7 +5,7 @@
  * @var array $statistics {
  *      An array of statistics to display
  *
- *      @type string $seo_filter The SEO filter that can be used on the archive page
+ *      @type string $seo_rank The SEO rank that this item represents
  *      @type string $title The title for this statistic
  *      @type string $class The class for the link
  *      @type int $count The amount of posts that meets the statistic requirements
