@@ -27,6 +27,7 @@ class WPSEO_Option_XML extends WPSEO_Option {
 		'disable_author_noposts' => true,
 		'enablexmlsitemap'       => true,
 		'entries-per-page'       => 1000,
+		'excluded-posts'         => '',
 
 		/**
 		 * Uses enrich_defaults to add more along the lines of:
@@ -171,6 +172,16 @@ class WPSEO_Option_XML extends WPSEO_Option {
 					}
 					break;
 
+				case 'excluded-posts' :
+					if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
+						if ( $filtered_array = filter_var_array( explode( ',', $dirty[ $key ] ), FILTER_VALIDATE_INT ) ) {
+							$clean[ $key ] = implode( ',', array_filter( $filtered_array, 'is_integer' ) );
+
+							unset( $filtered_array );
+						}
+					}
+
+					break;
 
 				/*
 				Boolean fields
