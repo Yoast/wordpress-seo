@@ -95,21 +95,32 @@ YoastSEO_WordPressScraper.prototype.getContentTinyMCE = function() {
  */
 YoastSEO_WordPressScraper.prototype.bindElementEvents = function() {
     var elems = this.refObj.config.elementTarget;
-    for (var i = 0; i < elems.length; i++){
-        document.getElementById( elems[i]).addEventListener( "change", this.elementEvents );
+    for ( var i = 0; i < elems.length; i++ ){
+        document.getElementById( elems[i] ).addEventListener( "change", this.elementEvents );
+    }
+    elems = this.refObj.config.replaceTarget;
+    for ( var j = 0; j < elems.length; j++ ){
+        document.getElementById( elems[j]).addEventListener( "change", this.replaceEvents);
     }
 };
 
 /**
- *
+ * function that is bound to the change event of targetElements to trigger the Analyzer
  */
-YoastSEO_WordPressScraper.prototype.elementEvents = function( ev ) {
+YoastSEO_WordPressScraper.prototype.elementEvents = function() {
+    this.__refObj.analyzeTimer();
+};
+
+/**
+ * function that is bound to the change event of replaceElements to trigger the variableReplacer
+ * @param ev
+ */
+YoastSEO_WordPressScraper.prototype.replaceEvents = function( ev ) {
     textString = ev.currentTarget.value;
     if (typeof textString === "undefined"){
         textString = ev.currentTarget.firstChild.value;
     }
     ev.currentTarget.value = this.__refObj.source.replaceVars( textString, ev.currentTarget );
-    this.__refObj.analyzeTimer();
 };
 
 /**
@@ -157,7 +168,13 @@ YoastSEO_WordPressScraper.prototype.replaceVars = function( textString, target )
                 this.ajaxReplaceVariables( replaceableVar, this, target, textString );
             }
         }
-    target.value = textString;
+    if(target.tagName.toLocaleLowerCase() === "span"){
+        target.textContent = textString;
+    }else{
+        target.value = textString;
+    }
+
+
 };
 
 /**
@@ -201,7 +218,8 @@ YoastSEO_WordPressScraper.prototype.ajaxReplaceVariables = function ( replaceabl
 /**
  * Callback for the snippet, updates the source with new values from the snippet, then calls the timer function
  */
-YoastSEO_WordPressScraper.prototype.snippetCallback = function() {
+YoastSEO_WordPressScraper.prototype.snippetCallback = function( ev ) {
+    this.refObj.source.replaceVars( ev.currentTarget.textContent, ev.currentTarget );
     this.refObj.source.setInputData( "title" );
     this.refObj.source.setInputData( "meta" );
     this.refObj.source.setInputData( "url" );
