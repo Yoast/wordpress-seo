@@ -32,7 +32,10 @@
 					<div class='form-field form-required'>
 						<label class='clear'><?php _e( 'Mark as fixed:', 'wordpress-seo' ); ?></label>
 						<input type='checkbox' value='1' name="mark_as_fixed" class='clear'  />
-						<p><?php echo sprintf( __( 'Mark this issue as fixed in %1$s.', 'wordpress-seo' ), 'Google Search Console' ); ?></p>
+						<p><?php
+							/* Translators: %1$s: expands to 'Google Search Console'. */
+							echo sprintf( __( 'Mark this issue as fixed in %1$s.', 'wordpress-seo' ), 'Google Search Console' );
+							?></p>
 					</div>
 					<p class='submit'>
 						<input type='button' name='submit' id='submit' class='button button-primary' value='<?php _e( 'Save redirect', 'wordpress-seo' ); ?>' onclick='javascript:wpseo_gsc_post_redirect( jQuery( this ) );' />
@@ -42,8 +45,10 @@
 
 				case 'already_exists' :
 					echo '<p>';
+
+					/* Translators: %1$s: expands to the current url and %1$s expands to url the redirects points to. */
 					echo sprintf(
-						__( 'You do not have to create a redirect for URL %1$s because this one already exists. The existing redirect is refering to the URL %2$s. If this endpoint is fine you can mark this issue as fixed. Otherwise you have to change it on the redirects page.', 'wordpress-seo' ),
+						__( 'You do not have to create a redirect for URL %1$s because a redirect already exists. The existing redirect points to %2$s. If this is fine you can mark this issue as fixed. If not, please go to the redirects page and change the target URL.', 'wordpress-seo' ),
 						$url,
 						$current_redirect
 					);
@@ -52,10 +57,12 @@
 
 				case 'no_premium' :
 					echo '<p>';
+					/* Translators: %1$s: expands to 'Yoast SEO Premium', %2$s / %3$s: links to Yoast SEO Premium plugin page. */
 					echo sprintf(
-						__( 'You have to install WordPress SEO by Yoast Premium in order to save redirects.', 'wordpress-seo' ),
-						$url,
-						$current_redirect
+						__( 'To be able to create a redirect and fix this issue, you need %1$s. You can buy the plugin, including one year support and updates, on %2$sYoast.com%3$s.'),
+						'Yoast SEO Premium',
+						'<a href="https://yoast.com/wordpress/plugins/seo-premium/" target="_blank">',
+						'</a>'
 					);
 					echo '</p>';
 					break;
