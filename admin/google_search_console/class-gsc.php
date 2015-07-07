@@ -123,7 +123,7 @@ class WPSEO_GSC {
 			WPSEO_GSC_Settings::reload_issues();
 
 			// Adding the notification.
-			$this->add_notification( __( 'The issues have been successfully reloaded! Please refresh the page to display the new issues.', 'wordpress-seo' ), 'updated' );
+			$this->add_notification( __( 'The issues have been successfully reloaded! Please refresh the page.', 'wordpress-seo' ), 'updated' );
 		}
 
 		// Catch bulk action request.
