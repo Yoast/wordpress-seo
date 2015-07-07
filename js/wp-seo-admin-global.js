@@ -15,6 +15,11 @@ function wpseoDismissAbout( nonce ) {
 	);
 }
 
+/**
+ * Used to dismiss the tagline notice for a specific user.
+ *
+ * @param {string} nonce
+ */
 function wpseoDismissTaglineNotice( nonce ) {
 	jQuery.post( ajaxurl, {
 			action: 'wpseo_dismiss_tagline_notice',
