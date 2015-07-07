@@ -93,13 +93,6 @@ class WPSEO_GSC_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Running the setup of the columns
-	 */
-	public function setup_columns() {
-		$this->_column_headers = array( $this->get_columns(), array(), $this->get_sortable_columns() );
-	}
-
-	/**
 	 * Set the table columns
 	 *
 	 * @return array
@@ -121,7 +114,7 @@ class WPSEO_GSC_Table extends WP_List_Table {
 	 *
 	 * @return array
 	 */
-	public function get_sortable_columns() {
+	protected function get_sortable_columns() {
 		$sortable_columns = array(
 			'url'            => array( 'url', false ),
 			'last_crawled'   => array( 'last_crawled', false ),
@@ -130,6 +123,17 @@ class WPSEO_GSC_Table extends WP_List_Table {
 		);
 
 		return $sortable_columns;
+	}
+
+	/**
+	 * Return available bulk actions
+	 *
+	 * @return array
+	 */
+	protected function get_bulk_actions() {
+		return array(
+			'mark_as_fixed' => __( 'Mark as fixed', 'wordpress-seo' ),
+		);
 	}
 
 	/**
@@ -151,20 +155,9 @@ class WPSEO_GSC_Table extends WP_List_Table {
 	 *
 	 * @return string
 	 */
-	public function column_cb( $item ) {
+	protected function column_cb( $item ) {
 		return sprintf(
 			'<input type="checkbox" name="wpseo_crawl_issues[]" value="%s" />', $item['url']
-		);
-	}
-
-	/**
-	 * Return available bulk actions
-	 *
-	 * @return array
-	 */
-	public function get_bulk_actions() {
-		return array(
-			'mark_as_fixed' => __( 'Mark as fixed', 'wordpress-seo' ),
 		);
 	}
 
@@ -195,6 +188,13 @@ class WPSEO_GSC_Table extends WP_List_Table {
 			$item['url'],
 			$this->row_actions( $actions )
 		);
+	}
+
+	/**
+	 * Running the setup of the columns
+	 */
+	private function setup_columns() {
+		$this->_column_headers = array( $this->get_columns(), array(), $this->get_sortable_columns() );
 	}
 
 	/**
