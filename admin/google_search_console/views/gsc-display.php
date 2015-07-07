@@ -29,7 +29,10 @@ switch ( $platform_tabs->current_tab() ) {
 			$oauth_url = 'wpseo_gsc_open_authorize_code_window("' . $this->service->get_client()->createAuthUrl() . ' ");';
 
 			// Print auth screen.
-			echo '<p>' . __( 'To allow WordPress SEO by Yoast to fetch your Google Webmaster Tools information, please enter your Google Authorization Code.', 'wordpress-seo' ) . "</p>\n";
+			echo '<p>';
+			/* Translators: %1$s: expands to 'Yoast SEO'. */
+			echo sprintf( __( 'To allow %1$s to fetch your Google Webmaster Tools information, please enter your Google Authorization Code.', 'wordpress-seo' ), 'Yoast SEO' );
+			echo "</p>\n";
 			echo "<a href='javascript:{$oauth_url}'>" . __( 'Click here to get a Google Authorization Code', 'wordpress-seo' ) . "</a>\n";
 
 			echo '<p>' . __( 'Please enter the Authorization Code in the field below and press the Authenticate button.', 'wordpress-seo' ) . "</p>\n";

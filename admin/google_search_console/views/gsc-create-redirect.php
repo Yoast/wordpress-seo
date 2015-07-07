@@ -57,12 +57,11 @@
 
 				case 'no_premium' :
 					echo '<p>';
-					/* Translators: %1$s: expands to 'Yoast SEO Premium', %2$s / %3$s: links to Yoast SEO Premium plugin page. */
+					/* Translators: %1$s: expands to 'Yoast SEO Premium', %2$s: links to Yoast SEO Premium plugin page. */
 					echo sprintf(
-						__( 'To be able to create a redirect and fix this issue, you need %1$s. You can buy the plugin, including one year support and updates, on %2$sYoast.com%3$s.', 'wordpress-seo' ),
+						__( 'To be able to create a redirect and fix this issue, you need %1$s. You can buy the plugin, including one year support and updates, on %2$s.', 'wordpress-seo' ),
 						'Yoast SEO Premium',
-						'<a href="https://yoast.com/wordpress/plugins/seo-premium/" target="_blank">',
-						'</a>'
+						'<a href="https://yoast.com/wordpress/plugins/seo-premium/" target="_blank">yoast.com</a>'
 					);
 					echo '</p>';
 					break;
