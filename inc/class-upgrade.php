@@ -46,6 +46,13 @@ class WPSEO_Upgrade {
 			$this->upgrade_23();
 		}
 
+		/**
+		 * Filter: 'wpseo_run_upgrade' - Runs the upgrade hook which are dependent on Wordpress SEO by Yoast
+		 *
+		 * @api string - The current version of Wordpress SEO by Yoast
+		 */
+		do_action( 'wpseo_run_upgrade', $this->options['version'] );
+
 		$this->finish_up();
 	}
 
