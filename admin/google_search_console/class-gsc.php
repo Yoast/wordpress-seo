@@ -151,7 +151,7 @@ class WPSEO_GSC {
 		// Catch the authorization code POST.
 		if ( ! empty( $gsc_values['authorization_code'] ) && wp_verify_nonce( $gsc_values['gsc_nonce'], 'wpseo-gsc_nonce' ) ) {
 			if ( ! WPSEO_GSC_Settings::validate_authorization( trim( $gsc_values['authorization_code'] ), $this->service->get_client() ) ) {
-				$this->add_notification( __( 'Incorrect Google Authorization Code!', 'wordpress-seo' ), 'error' );
+				$this->add_notification( __( 'Incorrect Google Authorization Code.', 'wordpress-seo' ), 'error' );
 			}
 
 			// Redirect user to prevent a post resubmission which causes an oauth error.
