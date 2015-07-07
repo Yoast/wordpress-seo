@@ -108,29 +108,23 @@ YoastSEO_WordPressScraper.prototype.elementEvents = function( ev ) {
     if (typeof textString === "undefined"){
         textString = ev.currentTarget.firstChild.value;
     }
-    ev.currentTarget.value = this.__refObj.source.replaceVars( textString );
+    ev.currentTarget.value = this.__refObj.source.replaceVars( textString, ev.currentTarget );
     this.__refObj.analyzeTimer();
 };
 
-YoastSEO_WordPressScraper.prototype.replaceVars = function( textString ) {
+/**
+ * Replaces %% strings with WordPress variables
+ * @param textString
+ * @returns {string}
+ */
+YoastSEO_WordPressScraper.prototype.replaceVars = function( textString, target ) {
+    window.tempObj = {};
     var title = this.refObj.snippetPreview.formatTitle();
 
     if (title.length > 0) {
         textString = textString.replace( /%%title%%/g, title );
     }
-    textString = textString.replace( /%%sitedesc%%/g, wpseoMetaboxL10n.sitedesc )
-                           .replace( /%%sitename%%/g, wpseoMetaboxL10n.sitename )
-                           .replace( /%%sep%%/g, wpseoMetaboxL10n.sep )
-                           .replace( /%%date%%/g, wpseoMetaboxL10n.date )
-                           .replace( /%%id%%/g, wpseoMetaboxL10n.id )
-                           .replace( /%%page%%/g, wpseoMetaboxL10n.page )
-                           .replace( /%%currenttime%%/g, wpseoMetaboxL10n.currenttime )
-                           .replace( /%%currentdate%%/g, wpseoMetaboxL10n.currentdate )
-                           .replace( /%%currentday%%/g, wpseoMetaboxL10n.currentday )
-                           .replace( /%%currentmonth%%/g, wpseoMetaboxL10n.currentmonth )
-                           .replace( /%%currentyear%%/g, wpseoMetaboxL10n.currentyear )
-                           .replace( /%%focuskw%%/g, this.refObj.pageAnalyzer.YoastSEO_preProcessor.stripAllTags ( this.refObj.pageAnalyzer.config.keyword) )
-
+    textString = this.defaultReplace( textString );
     var excerpt = this.refObj.pageAnalyzer.YoastSEO_preProcessor.stripAllTags(this.getInput( "excerpt" ));
     if( excerpt.length > 0 ){
         textString.replace( /%%excerpt_only%%/, excerpt);
@@ -149,33 +143,60 @@ YoastSEO_WordPressScraper.prototype.replaceVars = function( textString ) {
     var pattern = new RegExp( escaped_seperator + " " + escaped_seperator, "g" );
     textString = textString.replace( pattern, wpseoMetaboxL10n.sep );
 
-    if (textString.indexOf( "%%" ) !== -1 && textString.match( /%%[a-z0-0_-]+%%/i ) !== null && typeof replacedVars !== "undefined")
+    if (textString.indexOf( "%%" ) !== -1 && textString.match( /%%[a-z0-0_-]+%%/i ) !== null && typeof this.replacedVars !== "undefined")
         var regex = /%%[a-z0-9_-]+%%/gi;
         var matches = textString.match( regex );
         for ( var i = 0; i < matches.length; i++ ) {
-            if ( typeof( this.replacedVars[ matches[ i ] ] ) === "undefined" ) {
+            if ( typeof( this.replacedVars[ matches[ i ] ] ) !== "undefined" ) {
                 textString = textString.replace( matches[ i ], this.replacedVars[ matches[ i ] ] );
             }
             else {
                 var replaceableVar = matches[ i ];
-
                 // create the cache already, so we don't do the request twice.
                 this.replacedVars[ replaceableVar ] = '';
-                //ystAjaxReplaceVariables( replaceableVar, callback );
+                this.ajaxReplaceVariables( replaceableVar, this, target, textString );
             }
         }
-
-    return textString;
+    target.value = textString;
 };
 
-YoastSEO_WordPressScraper.prototype.ajaxReplaceVariables = function ( replaceableVar, callback ){
-    var xmlhttp = new XMLHttpRequest();
-    xmlhttp.onreadystatechange = function(){ console.log(xmlhttp.responseText); };
-    var action = "wpseo-replace-vars";
-    var id = document.getElementById("post_ID");
-
+/**
+ *
+ * @param textString
+ */
+YoastSEO_WordPressScraper.prototype.defaultReplace = function (textString){
+    return textString.replace( /%%sitedesc%%/g, wpseoMetaboxL10n.sitedesc )
+                     .replace( /%%sitename%%/g, wpseoMetaboxL10n.sitename )
+                     .replace( /%%sep%%/g, wpseoMetaboxL10n.sep )
+                     .replace( /%%date%%/g, wpseoMetaboxL10n.date )
+                     .replace( /%%id%%/g, wpseoMetaboxL10n.id )
+                     .replace( /%%page%%/g, wpseoMetaboxL10n.page )
+                     .replace( /%%currenttime%%/g, wpseoMetaboxL10n.currenttime )
+                     .replace( /%%currentdate%%/g, wpseoMetaboxL10n.currentdate )
+                     .replace( /%%currentday%%/g, wpseoMetaboxL10n.currentday )
+                     .replace( /%%currentmonth%%/g, wpseoMetaboxL10n.currentmonth )
+                     .replace( /%%currentyear%%/g, wpseoMetaboxL10n.currentyear )
+                     .replace( /%%focuskw%%/g, this.refObj.pageAnalyzer.YoastSEO_preProcessor.stripAllTags ( this.refObj.pageAnalyzer.config.keyword) )
 };
 
+YoastSEO_WordPressScraper.prototype.ajaxReplaceVariables = function ( replaceableVar, refObj, target, textString ){
+    window.tempObj = {};
+    window.tempObj.refObj = refObj;
+    window.tempObj.currentTarget = target;
+    window.tempObj.currentString = textString;
+    jQuery.post( ajaxurl, {
+            action: 'wpseo_replace_vars',
+            string: replaceableVar,
+            post_id: document.getElementById( 'post_ID' ).value,
+            _wpnonce: wpseoMetaboxL10n.wpseo_replace_vars_nonce
+        }, function( data ) {
+            if ( data ) {
+                tempObj.refObj.replacedVars[ replaceableVar ] = data;
+            }
+            tempObj.refObj.replaceVars( tempObj.currentString, tempObj.currentTarget);
+        }
+    );
+};
 
 /**
  * Callback for the snippet, updates the source with new values from the snippet, then calls the timer function
