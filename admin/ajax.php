@@ -82,6 +82,9 @@ function wpseo_dismiss_about() {
 
 add_action( 'wp_ajax_wpseo_dismiss_about', 'wpseo_dismiss_about' );
 
+/**
+ * Hides the default tagline notice for a specific user.
+ */
 function wpseo_dismiss_tagline_notice() {
 	if ( ! current_user_can( 'manage_options' ) ) {
 		die( '-1' );
