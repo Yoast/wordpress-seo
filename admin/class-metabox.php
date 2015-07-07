@@ -76,21 +76,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		self::$meta_fields['advanced']['bctitle']['title']       = __( 'Breadcrumbs Title', 'wordpress-seo' );
 		self::$meta_fields['advanced']['bctitle']['description'] = __( 'Title to use for this page in breadcrumb paths', 'wordpress-seo' );
 
-		self::$meta_fields['advanced']['sitemap-include']['title']             = __( 'Include in Sitemap', 'wordpress-seo' );
-		self::$meta_fields['advanced']['sitemap-include']['description']       = __( 'Should this page be in the XML Sitemap at all times, regardless of Robots Meta settings?', 'wordpress-seo' );
-		self::$meta_fields['advanced']['sitemap-include']['options']['-']      = __( 'Auto detect', 'wordpress-seo' );
-		self::$meta_fields['advanced']['sitemap-include']['options']['always'] = __( 'Always include', 'wordpress-seo' );
-		self::$meta_fields['advanced']['sitemap-include']['options']['never']  = __( 'Never include', 'wordpress-seo' );
-
-		self::$meta_fields['advanced']['sitemap-prio']['title']        = __( 'Sitemap Priority', 'wordpress-seo' );
-		self::$meta_fields['advanced']['sitemap-prio']['description']  = __( 'The priority given to this page in the XML sitemap.', 'wordpress-seo' );
-		self::$meta_fields['advanced']['sitemap-prio']['options']['-'] = __( 'Automatic prioritization', 'wordpress-seo' );
-		self::$meta_fields['advanced']['sitemap-prio']['options']['1'] = __( '1 - Highest priority', 'wordpress-seo' );
-		self::$meta_fields['advanced']['sitemap-prio']['options']['0.8'] .= __( 'Default for first tier pages', 'wordpress-seo' );
-		self::$meta_fields['advanced']['sitemap-prio']['options']['0.6'] .= __( 'Default for second tier pages and posts', 'wordpress-seo' );
-		self::$meta_fields['advanced']['sitemap-prio']['options']['0.5'] .= __( 'Medium priority', 'wordpress-seo' );
-		self::$meta_fields['advanced']['sitemap-prio']['options']['0.1'] .= __( 'Lowest priority', 'wordpress-seo' );
-
 		self::$meta_fields['advanced']['canonical']['title']       = __( 'Canonical URL', 'wordpress-seo' );
 		self::$meta_fields['advanced']['canonical']['description'] = sprintf( __( 'The canonical URL that this page should point to, leave empty to default to permalink. %sCross domain canonical%s supported too.', 'wordpress-seo' ), '<a target="_blank" href="http://googlewebmastercentral.blogspot.com/2009/12/handling-legitimate-cross-domain.html">', '</a>' );
 

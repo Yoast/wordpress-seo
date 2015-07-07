@@ -177,36 +177,6 @@ class WPSEO_Meta {
 				'default_value' => '',
 				'description'   => '', // Translation added later.
 			),
-			'sitemap-include'      => array(
-				'type'          => 'select',
-				'title'         => '', // Translation added later.
-				'default_value' => '-',
-				'description'   => '', // Translation added later.
-				'options'       => array(
-					'-'      => '', // Translation added later.
-					'always' => '', // Translation added later.
-					'never'  => '', // Translation added later.
-				),
-			),
-			'sitemap-prio'         => array(
-				'type'          => 'select',
-				'title'         => '', // Translation added later.
-				'default_value' => '-',
-				'description'   => '', // Translation added later.
-				'options'       => array(
-					'-'   => '', // Translation added later.
-					'1'   => '', // Translation added later.
-					'0.9' => '0.9',
-					'0.8' => '0.8 - ', // Translation added later.
-					'0.7' => '0.7',
-					'0.6' => '0.6 - ', // Translation added later.
-					'0.5' => '0.5 - ', // Translation added later.
-					'0.4' => '0.4',
-					'0.3' => '0.3',
-					'0.2' => '0.2',
-					'0.1' => '0.1 - ', // Translation added later.
-				),
-			),
 			'canonical'            => array(
 				'type'          => 'text',
 				'title'         => '', // Translation added later.
@@ -435,14 +405,6 @@ class WPSEO_Meta {
 
 				if ( empty( $post->ID ) || ( ! empty( $post->ID ) && self::get_value( 'redirect', $post->ID ) === '' ) ) {
 					unset( $field_defs['redirect'] );
-				}
-
-				/* Don't show the xml sitemap fields, if xml sitemaps aren't enabled */
-				if ( $options['enablexmlsitemap'] !== true ) {
-					unset(
-						$field_defs['sitemap-include'],
-						$field_defs['sitemap-prio']
-					);
 				}
 				break;
 		}
