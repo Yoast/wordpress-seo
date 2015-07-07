@@ -1224,7 +1224,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	}
 
 	/**
-	 * Hide certain columns if the user hasn't chosen which columns to hide
+	 * Hide the SEO Title, Meta Desc and Focus KW columns if the user hasn't chosen which columns to hide
 	 *
 	 * @param array|false $result
 	 * @param string      $option
