@@ -34,6 +34,7 @@ class WPSEO_Admin_Init {
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_dismissible' ) );
 		add_action( 'admin_init', array( $this, 'after_update_notice' ), 15 );
+		add_action( 'admin_init', array( $this, 'tagline_notice' ), 15 );
 
 		$this->load_meta_boxes();
 		$this->load_taxonomy_class();
@@ -89,6 +90,59 @@ class WPSEO_Admin_Init {
 	 */
 	private function seen_about() {
 		return get_user_meta( get_current_user_id(), 'wpseo_seen_about_version', true ) === WPSEO_VERSION;
+	}
+
+	/**
+	 * Notify about the default tagline if the user hasn't changed it
+	 */
+	public function tagline_notice() {
+		if ( current_user_can( 'manage_options' ) && $this->has_default_tagline() && ! $this->seen_tagline_notice() ) {
+
+			if ( filter_input( INPUT_GET, 'dismiss_tagline_notice' ) === '1' ) {
+				update_user_meta( get_current_user_id(), 'wpseo_seen_tagline_notice', 'seen' );
+
+				return;
+			}
+
+			$current_url = ( is_ssl() ? 'https://' : 'http://' );
+			$current_url .= sanitize_text_field( $_SERVER['SERVER_NAME'] ) . sanitize_text_field( $_SERVER['REQUEST_URI'] );
+			$customize_url = add_query_arg( array(
+				'url' => urlencode( $current_url ),
+				'dismiss_tagline_notice' => '1',
+			), wp_customize_url() );
+
+			$info_message = sprintf(
+				__( 'You still have the default tagline, this is not a great idea. %1$sFix this in the customizer%2$s.', 'wordpress-seo' ),
+				'<a href="' . esc_attr( $customize_url ) . '">',
+				'</a>'
+			);
+
+			$notification_options = array(
+				'type'  => 'error',
+				'id'    => 'wpseo-dismiss-tagline-notice',
+				'nonce' => wp_create_nonce( 'wpseo-dismiss-tagline-notice' ),
+			);
+
+			Yoast_Notification_Center::get()->add_notification( new Yoast_Notification( $info_message, $notification_options ) );
+		}
+	}
+
+	/**
+	 * Returns whether or not the site has the default tagline
+	 *
+	 * @return bool
+	 */
+	public function has_default_tagline() {
+		return __( 'Just another WordPress site' ) === get_bloginfo( 'description' );
+	}
+
+	/**
+	 * Returns whether or not the user has seen the tagline notice
+	 *
+	 * @return bool
+	 */
+	public function seen_tagline_notice() {
+		return 'seen' === get_user_meta( get_current_user_id(), 'wpseo_seen_tagline_notice', true );
 	}
 
 	/**

@@ -82,6 +82,20 @@ function wpseo_dismiss_about() {
 
 add_action( 'wp_ajax_wpseo_dismiss_about', 'wpseo_dismiss_about' );
 
+function wpseo_dismiss_tagline_notice() {
+	if ( ! current_user_can( 'manage_options' ) ) {
+		die( '-1' );
+	}
+
+	check_ajax_referer( 'wpseo-dismiss-tagline-notice' );
+
+	update_user_meta( get_current_user_id(), 'wpseo_seen_tagline_notice', 'seen' );
+
+	die( '1' );
+}
+
+add_action( 'wp_ajax_wpseo_dismiss_tagline_notice', 'wpseo_dismiss_tagline_notice' );
+
 /**
  * Function used to delete blocking files, dies on exit.
  */
