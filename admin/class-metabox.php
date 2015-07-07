@@ -1242,9 +1242,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				$result = array();
 			}
 
-			$result[] = 'wpseo-title';
-			$result[] = 'wpseo-metadesc';
-			$result[] = 'wpseo-focuskw';
+			array_push( $result, 'wpseo-title', 'wpseo-metadesc', 'wpseo-focuskw' );
 		}
 
 		return $result;
