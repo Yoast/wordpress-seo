@@ -1,33 +1,37 @@
 <?php
+/**
+ * @package WPSEO\Premium\Classes
+ */
 
 if ( ! defined( 'WPSEO_VERSION' ) ) {
 	header( 'HTTP/1.0 403 Forbidden' );
 	die;
 }
 
+/**
+ * Class WPSEO_Apache_Redirect_File
+ */
 class WPSEO_Apache_Redirect_File extends WPSEO_Redirect_File {
 
 	/**
 	 * Format URL redirect
 	 *
-	 * @param $old_url
-	 * @param $new_url
-	 * @param $type
+	 * @param string $old_url
+	 * @param string $new_url
+	 * @param int    $type
 	 *
 	 * @return string
 	 */
 	public function format_url_redirect( $old_url, $new_url, $type ) {
-		$redirect = "Redirect " . $type . " " . $this->add_url_slash( $old_url ) . " " . $this->add_url_slash( $new_url ) . PHP_EOL;
-
-		return $redirect;
+		return 'Redirect ' . $type . ' ' . $this->add_url_slash( $old_url ) . ' ' . $this->add_url_slash( $new_url ) . PHP_EOL;
 	}
 
 	/**
 	 * Format REGEX redirect
 	 *
-	 * @param $regex
-	 * @param $url
-	 * @param $type
+	 * @param string $regex
+	 * @param string $url
+	 * @param int    $type
 	 *
 	 * @return string
 	 */
@@ -43,7 +47,6 @@ class WPSEO_Apache_Redirect_File extends WPSEO_Redirect_File {
 	 * @return string mixed
 	 */
 	private function add_url_slash( $url ) {
-
 		if ( $url[0] !== '/' ) {
 			$url = '/' . $url;
 		}

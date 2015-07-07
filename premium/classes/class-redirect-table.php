@@ -1,6 +1,6 @@
 <?php
 /**
- * @package Premium\Redirect
+ * @package WPSEO\Premium\Classes
  */
 
 if ( ! defined( 'WPSEO_VERSION' ) ) {
@@ -17,13 +17,25 @@ if ( ! class_exists( 'WP_List_Table' ) ) {
  */
 class WPSEO_Redirect_Table extends WP_List_Table {
 
+	/**
+	 * @var string
+	 */
 	private $search_string;
+
+	/**
+	 * @var string
+	 */
 	private $type;
 
+	/**
+	 * @var mixed
+	 */
 	private $redirect_manager;
 
 	/**
 	 * WPSEO_Redirect_Table constructor
+	 *
+	 * @param string $type
 	 */
 	public function __construct( $type ) {
 		parent::__construct( array( 'plural' => $type ) );
@@ -42,7 +54,7 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	/**
 	 * Search through the items
 	 *
-	 * @param $items
+	 * @param array $items
 	 *
 	 * @return array
 	 */
@@ -56,7 +68,6 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 					$results[ $old ] = $redirect;
 				}
 			}
-
 		}
 
 		return $results;
@@ -72,7 +83,7 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 			'cb'   => '<input type="checkbox" />',
 			'old'  => $this->type,
 			'new'  => __( 'New URL', 'wordpress-seo-premium' ),
-			'type' => _x( 'Type', 'noun', 'wordpress-seo-premium' )
+			'type' => _x( 'Type', 'noun', 'wordpress-seo-premium' ),
 		);
 
 		return $columns;
@@ -84,21 +95,21 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	 */
 	public function prepare_items() {
 
-		// Setup the columns
+		// Setup the columns.
 		$columns               = $this->get_columns();
 		$hidden                = array();
 		$sortable              = $this->get_sortable_columns();
 		$this->_column_headers = array( $columns, $hidden, $sortable );
 
-		// Get the items
+		// Get the items.
 		$redirect_items = $this->redirect_manager->get_redirects();
 
-		// Handle the search
+		// Handle the search.
 		if ( null != $this->search_string ) {
 			$redirect_items = $this->do_search( $redirect_items );
 		}
 
-		// Format the data
+		// Format the data.
 		$formatted_items = array();
 		if ( is_array( $redirect_items ) && count( $redirect_items ) > 0 ) {
 			foreach ( $redirect_items as $old => $redirect ) {
@@ -106,16 +117,16 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 			}
 		}
 
-		// Sort the results
+		// Sort the results.
 		if ( count( $formatted_items ) > 0 ) {
 			usort( $formatted_items, array( $this, 'do_reorder' ) );
 		}
 
-		// Get variables needed for pagination
+		// Get variables needed for pagination.
 		$per_page    = $this->get_items_per_page( 'redirects_per_page', 25 );
 		$total_items = count( $formatted_items );
 
-		// Set pagination
+		// Set pagination.
 		$this->set_pagination_args( array(
 			'total_items' => $total_items,
 			'total_pages' => ceil( $total_items / $per_page ),
@@ -124,16 +135,16 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 
 		$current_page = intval( ( ( isset( $_GET['paged'] ) ) ? $_GET['paged'] : 0 ) );
 
-		// Setting the starting point. If starting point is below 1, overwrite it with value 0, otherwise it will be sliced of at the back
-		$slice_start = $current_page - 1;
-		if( $slice_start < 0 ) {
+		// Setting the starting point. If starting point is below 1, overwrite it with value 0, otherwise it will be sliced of at the back.
+		$slice_start = ( $current_page - 1 );
+		if ( $slice_start < 0 ) {
 			$slice_start = 0;
 		}
 
-		// Apply 'pagination'
+		// Apply 'pagination'.
 		$formatted_items = array_slice( $formatted_items, ( $slice_start * $per_page ), $per_page );
 
-		// Set items
+		// Set items.
 		$this->items = $formatted_items;
 	}
 
@@ -146,7 +157,7 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 		$sortable_columns = array(
 			'old' => array( 'old', false ),
 			'new' => array( 'new', false ),
-			'type' => array( 'type', false )
+			'type' => array( 'type', false ),
 		);
 
 		return $sortable_columns;
@@ -155,25 +166,32 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	/**
 	 * Reorder the items based on user input
 	 *
-	 * @param $a
-	 * @param $b
+	 * @param array $a
+	 * @param array $b
 	 *
 	 * @return int
 	 */
 	public function do_reorder( $a, $b ) {
-		// If no sort, default to title
+		// If no sort, default to title.
 		$orderby = ( ! empty( $_GET['orderby'] ) ) ? $_GET['orderby'] : 'old';
 
-		// If no order, default to asc
+		// If no order, default to asc.
 		$order = ( ! empty( $_GET['order'] ) ) ? $_GET['order'] : 'asc';
 
-		// Determine sort order
+		// Determine sort order.
 		$result = strcmp( $a[ $orderby ], $b[ $orderby ] );
 
-		// Send final sort direction to usort
-		return ( $order === 'asc' ) ? $result : - $result;
+		// Send final sort direction to usort.
+		return ( $order === 'asc' ) ? $result : ( - $result );
 	}
 
+	/**
+	 * The old column actions
+	 *
+	 * @param array $item
+	 *
+	 * @return string
+	 */
 	public function column_old( $item ) {
 		$actions = array(
 			'edit'  => '<a href="javascript:;">' . __( 'Edit', 'wordpress-seo-premium' ) . '</a>',
@@ -190,7 +208,7 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	/**
 	 * Checkbox column
 	 *
-	 * @param $item
+	 * @param array $item
 	 *
 	 * @return string
 	 */
@@ -203,19 +221,19 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	/**
 	 * Default method to display a column
 	 *
-	 * @param $item
-	 * @param $column_name
+	 * @param array  $item
+	 * @param string $column_name
 	 *
-	 * @return mixed
+	 * @return string
 	 */
 	public function column_default( $item, $column_name ) {
 
 		switch ( $column_name ) {
 			case 'new':
-				return "<div class='val'>" . $item[ $column_name ] . "</div>";
+				return "<div class='val'>" . $item[ $column_name ] . '</div>';
 				break;
 			case 'type':
-				return "<div class='val type'>" . $item[ $column_name ] . "</div>";
+				return "<div class='val type'>" . $item[ $column_name ] . '</div>';
 				break;
 			default:
 				return $item[ $column_name ];
@@ -229,7 +247,7 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	 */
 	public function get_bulk_actions() {
 		$actions = array(
-			'delete' => __( 'Delete', 'wordpress-seo-premium' )
+			'delete' => __( 'Delete', 'wordpress-seo-premium' ),
 		);
 
 		return $actions;
