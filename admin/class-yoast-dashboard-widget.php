@@ -34,7 +34,7 @@ class Yoast_Dashboard_Widget {
 	public function add_dashboard_widget() {
 		wp_add_dashboard_widget(
 			'wpseo-dashboard-overview',
-			__( 'WordPress SEO Overview', 'wordpress-seo' ),
+			__( 'Yoast SEO Posts Overview', 'wordpress-seo' ),
 			array( $this, 'display_dashboard_widget' )
 		);
 	}
@@ -46,7 +46,6 @@ class Yoast_Dashboard_Widget {
 		$statistics = $this->glance_items();
 
 		include WPSEO_PATH . '/admin/views/dashboard-widget.php';
-
 	}
 
 	/**
@@ -56,44 +55,58 @@ class Yoast_Dashboard_Widget {
 	 */
 	private function glance_items() {
 
-		return array(
-			array(
-				'seo_filter' => 'na',
-				'title' => __( 'Posts with No Focus keyword: %d', 'wordpress-seo' ),
-				'class' => 'wpseo-glance-na',
-				'count' => $this->statistics->get_no_focus_post_count(),
-			),
-			array(
-				'seo_filter' => 'bad',
-				'title' => __( 'Posts with bad SEO: %d', 'wordpress-seo' ),
-				'class' => 'wpseo-glance-bad',
-				'count' => $this->statistics->get_bad_seo_post_count(),
-			),
-			array(
-				'seo_filter' => 'poor',
-				'title' => __( 'Posts with poor SEO: %d', 'wordpress-seo' ),
-				'class' => 'wpseo-glance-poor',
-				'count' => $this->statistics->get_poor_seo_post_count(),
-			),
-			array(
-				'seo_filter' => 'ok',
-				'title' => __( 'Posts with ok SEO: %d', 'wordpress-seo' ),
-				'class' => 'wpseo-glance-ok',
-				'count' => $this->statistics->get_ok_seo_post_count(),
-			),
+		$items = array(
 			array(
 				'seo_filter' => 'good',
-				'title' => __( 'Posts with good SEO: %d', 'wordpress-seo' ),
+				'title' => _n_noop( '%d post with an SEO score good &raquo;', '%d posts with an SEO score good &raquo;', 'wordpress-seo' ),
 				'class' => 'wpseo-glance-good',
 				'count' => $this->statistics->get_good_seo_post_count(),
 			),
 			array(
+				'seo_filter' => 'ok',
+				'title' => _n_noop( '%d post with an SEO score ok &raquo;', '%d posts with an SEO score ok &raquo;', 'wordpress-seo' ),
+				'class' => 'wpseo-glance-ok',
+				'count' => $this->statistics->get_ok_seo_post_count(),
+			),
+			array(
+				'seo_filter' => 'poor',
+				'title' => _n_noop( '%d post with an SEO score poor &raquo;', '%d posts with an SEO score poor &raquo;', 'wordpress-seo' ),
+				'class' => 'wpseo-glance-poor',
+				'count' => $this->statistics->get_poor_seo_post_count(),
+			),
+			array(
+				'seo_filter' => 'bad',
+				'title' => _n_noop( '%d post with an SEO score bad &raquo;', '%d posts with an SEO score bad &raquo;', 'wordpress-seo' ),
+				'class' => 'wpseo-glance-bad',
+				'count' => $this->statistics->get_bad_seo_post_count(),
+			),
+			array(
+				'seo_filter' => 'na',
+				'title' => _n_noop( '%d post that doesn&#8217;t have a focus keyword yet &raquo;', '%d posts that don&#8217;t have a focus keyword yet &raquo;', 'wordpress-seo' ),
+				'class' => 'wpseo-glance-na',
+				'count' => $this->statistics->get_no_focus_post_count(),
+			),
+			array(
 				'seo_filter' => 'noindex',
-				'title' => __( 'Posts with noindex: %d', 'wordpress-seo' ),
+				'title' => _n_noop( '%d post that is set to <code>noindex</code> and thus not in the search engines &raquo;', '%d posts that are set to <code>noindex</code> and thus not in the search engines &raquo;', 'wordpress-seo' ),
 				'class' => 'wpseo-glance-noindex',
 				'count' => $this->statistics->get_no_index_post_count(),
 			),
 		);
+
+		foreach ( $items as $key => $item ) {
+
+			// Remove useless statistics.
+			if ( 0 === $item['count'] ) {
+				unset( $items[ $key ] );
+				continue;
+			}
+
+			// Translate titles with actual count.
+			$items[ $key ]['title'] = translate_nooped_plural( $item['title'], $item['count'], 'wordpress-seo' );
+		}
+
+		return $items;
 	}
 
 	/**
