@@ -16,13 +16,15 @@ class WPSEO_Url_Checker {
 		// Check AJAX nonce.
 		check_ajax_referer( 'wpseo-redirects-ajax-security', 'ajax_nonce' );
 
+		$url = filter_input( INPUT_POST, 'url' );
+
 		// URL must be set.
-		if ( ! isset( $_POST['url'] ) ) {
+		if ( $url === null ) {
 			exit;
 		}
 
 		// The URL.
-		$url = urldecode( $_POST['url'] );
+		$url = urldecode( $url );
 
 		// Do the request.
 		$response = wp_remote_get( $url );

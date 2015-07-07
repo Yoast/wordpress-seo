@@ -274,20 +274,20 @@ abstract class WPSEO_Redirect_Manager {
 		$this->permission_check();
 
 		// Save the redirect.
-		if ( isset( $_POST['old_redirect'] ) && isset( $_POST['new_redirect'] ) ) {
+		if ( $old_redirect_post = filter_input( INPUT_POST, 'old_redirect', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY )  && $new_redirect_post = filter_input( INPUT_POST, 'new_redirect', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY ) ) {
 
 			// Decode old redirect.
 			$old_redirect = array(
-				'key'   => trim( htmlspecialchars_decode( urldecode( $_POST['old_redirect']['key'] ) ) ),
-				'value' => trim( htmlspecialchars_decode( urldecode( $_POST['old_redirect']['value'] ) ) ),
-				'type'  => urldecode( $_POST['old_redirect']['type'] ),
+				'key'   => trim( htmlspecialchars_decode( urldecode( $old_redirect_post['key'] ) ) ),
+				'value' => trim( htmlspecialchars_decode( urldecode( $old_redirect_post['value'] ) ) ),
+				'type'  => urldecode( $old_redirect_post['type'] ),
 			);
 
 			// Decode new redirect.
 			$new_redirect = array(
-				'key'   => trim( htmlspecialchars_decode( urldecode( $_POST['new_redirect']['key'] ) ) ),
-				'value' => trim( htmlspecialchars_decode( urldecode( $_POST['new_redirect']['value'] ) ) ),
-				'type'  => urldecode( $_POST['new_redirect']['type'] ),
+				'key'   => trim( htmlspecialchars_decode( urldecode( $new_redirect_post['key'] ) ) ),
+				'value' => trim( htmlspecialchars_decode( urldecode( $new_redirect_post['value'] ) ) ),
+				'type'  => urldecode( $new_redirect_post['type'] ),
 			);
 
 			// Save redirects in database.
@@ -311,14 +311,14 @@ abstract class WPSEO_Redirect_Manager {
 		$this->permission_check();
 
 		// Delete the redirect.
-		if ( isset( $_POST['redirect'] ) ) {
-			$redirect = htmlspecialchars_decode( urldecode( $_POST['redirect']['key'] ) );
+		if ( $redirect_post = filter_input( INPUT_POST, 'redirect', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY ) ) {
+			$redirect = htmlspecialchars_decode( urldecode( $redirect_post['key'] ) );
 
 			$this->delete_redirect( array( trim( $redirect ) ) );
 		}
 
 		// Response.
-		echo esc_attr( strip_tags( $_POST['id'] ) );
+		echo esc_attr( strip_tags( filter_input( INPUT_POST, 'id' ) ) );
 		exit;
 
 	}
@@ -334,18 +334,17 @@ abstract class WPSEO_Redirect_Manager {
 		$this->permission_check();
 
 		// Save the redirect.
-		if ( isset( $_POST['old_url'] ) && isset( $_POST['new_url'] ) && isset( $_POST['type'] ) ) {
-			$old_url = htmlspecialchars_decode( urldecode( $_POST['old_url'] ) );
-			$new_url = htmlspecialchars_decode( urldecode( $_POST['new_url'] ) );
-			$type    = $_POST['type'];
+		if ( ( $old_url_post = filter_input( INPUT_POST, 'old_url' ) ) != '' && ( $new_url_post = filter_input( INPUT_POST, 'new_url' ) ) != '' && ( $type = filter_input( INPUT_POST, 'type' ) ) != '' ) {
+			$old_url = htmlspecialchars_decode( urldecode( $old_url_post ) );
+			$new_url = htmlspecialchars_decode( urldecode( $new_url_post ) );
 
 			$this->create_redirect( trim( $old_url ), trim( $new_url ), $type );
 		}
 
 		$response = array(
-			'id'      => $_POST['id'],
-			'old_url' => $_POST['old_url'],
-			'new_url' => $_POST['new_url'],
+			'id'      => filter_input( INPUT_POST, 'id' ),
+			'old_url' => $old_url_post,
+			'new_url' => $new_url_post,
 		);
 
 		// Response.

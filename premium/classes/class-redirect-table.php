@@ -257,13 +257,12 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	 * Function that handles bulk action
 	 */
 	private function handle_bulk_action() {
-		if ( isset( $_POST['action'] ) || isset( $_POST['action2'] ) ) {
-			if ( 'delete' == $_POST['action'] || 'delete' == $_POST['action2'] ) {
-				if ( isset( $_POST['wpseo_redirects_bulk_delete'] ) && is_array( $_POST['wpseo_redirects_bulk_delete'] ) && count( $_POST['wpseo_redirects_bulk_delete'] ) > 0 ) {
-					$this->redirect_manager->delete_redirect( $_POST['wpseo_redirects_bulk_delete'] );
-				}
+		if ( filter_input( INPUT_POST, 'action' ) === 'delete' || filter_input( INPUT_POST, 'action2' ) === 'delete' ) {
+			if ( ( $redirects_bulk_delete = filter_input( INPUT_POST, 'wpseo_redirects_bulk_delete', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY ) ) && count( $redirects_bulk_delete ) > 0 ) {
+				$this->redirect_manager->delete_redirect( $redirects_bulk_delete );
 			}
 		}
+
 	}
 
 }

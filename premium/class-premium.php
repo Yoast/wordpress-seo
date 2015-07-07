@@ -559,9 +559,10 @@ class WPSEO_Premium {
 	 * Do custom action when the redirect option is saved
 	 */
 	public function catch_option_redirect_save() {
-		if ( isset ( $_POST['option_page'] ) && $_POST['option_page'] == 'yoast_wpseo_redirect_options' ) {
+		if ( filter_input( INPUT_POST, 'option_page' ) === 'yoast_wpseo_redirect_options' ) {
 			if ( current_user_can( 'manage_options' ) ) {
-				$enable_autoload = ( isset ( $_POST['wpseo_redirect']['disable_php_redirect'] ) ) ? false : true;
+				$wpseo_redirect  = filter_input( INPUT_POST, 'wpseo_redirect', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
+				$enable_autoload = ( ! empty( $wpseo_redirect['disable_php_redirect'] ) ) ? false : true;
 
 				// Change the normal redirect autoload option
 				$normal_redirect_manager = new WPSEO_URL_Redirect_Manager();
@@ -578,7 +579,7 @@ class WPSEO_Premium {
 	 * Catch the redirects search post and redirect it to a search get
 	 */
 	public function list_table_search_post_to_get() {
-		if ( isset( $_POST['s'] ) && trim( $_POST['s'] ) != '' ) {
+		if ( ( $search_string = trim( filter_input( INPUT_POST, 's' ) ) ) != '' ) {
 
 			// Check if the POST is on one of our pages
 			if ( ! isset ( $_GET['page'] ) || ( $_GET['page'] != 'wpseo_redirects' && $_GET['page'] != 'wpseo_webmaster_tools' ) ) {
@@ -586,7 +587,7 @@ class WPSEO_Premium {
 			}
 
 			// Check if there isn't a bulk action post, bulk action post > search post
-			if ( isset ( $_POST['create_redirects'] ) || isset( $_POST['wpseo_redirects_bulk_delete'] ) ) {
+			if ( filter_input( INPUT_POST, 'create_redirects' ) || filter_input( INPUT_POST, 'wpseo_redirects_bulk_delete' ) ) {
 				return;
 			}
 
@@ -594,10 +595,7 @@ class WPSEO_Premium {
 			$url = get_admin_url() . 'admin.php?page=' . $_GET['page'];
 
 			// Add search or reset it
-			if ( $_POST['s'] != '' ) {
-				$url .= '&s=' . $_POST['s'];
-			}
-
+			$url .= '&s=' . $search_string;
 
 			// Orderby
 			if ( isset( $_GET['orderby'] ) ) {
