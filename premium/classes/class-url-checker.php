@@ -19,7 +19,7 @@ class WPSEO_Url_Checker {
 		$url = filter_input( INPUT_POST, 'url' );
 
 		// URL must be set.
-		if ( $url === null ) {
+		if ( $url == '' ) {
 			exit;
 		}
 
