@@ -171,7 +171,7 @@ abstract class WPSEO_Redirect_Manager {
 			$wp_filesystem->put_contents(
 				WPSEO_Redirect_File_Manager::get_htaccess_file_path(),
 				$htaccess,
-				FS_CHMOD_FILE // predefined mode settings for WP files.
+				FS_CHMOD_FILE // Predefined mode settings for WP files.
 			);
 
 		}

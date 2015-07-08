@@ -1,11 +1,6 @@
 <?php
 /**
-<<<<<<< HEAD
- * @package    WPSEO
- * @subpackage Premium
-=======
  * @package WPSEO\Premium\Classes
->>>>>>> @{-1}
  */
 
 /**
@@ -23,12 +18,12 @@ class WPSEO_Url_Checker {
 
 		$posted_url = filter_input( INPUT_POST, 'url' );
 
-		// URL must be set
+		// URL must be set.
 		if ( $posted_url === null ) {
 			exit;
 		}
 
-		// The URL
+		// The URL.
 		$url = urldecode( $posted_url );
 
 		// Do the request.

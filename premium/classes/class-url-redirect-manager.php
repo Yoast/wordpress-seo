@@ -30,7 +30,7 @@ if ( class_exists( 'WPSEO_Redirect_Manager' ) && ! class_exists( 'WPSEO_URL_Redi
 				return;
 			}
 
-			// Load redirects
+			// Load redirects.
 			$this->load_redirects();
 
 			// Do the actual redirect.

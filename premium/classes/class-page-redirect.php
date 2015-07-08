@@ -41,8 +41,7 @@ class WPSEO_Page_Redirect {
 				// Add new redirect HTML.
 				echo "<form class='wpseo-new-redirect-form' method='post'>\n";
 				echo "<div class='wpseo_redirects_new'>\n";
-				// echo "<h2>" . __( 'Add New Redirect', 'wordpress-seo' ) . "</h2>\n";
-
+				// Echo "<h2>" . __( 'Add New Redirect', 'wordpress-seo' ) . "</h2>\n";.
 				echo "<label class='textinput' for='wpseo_redirects_new_old'>" . __( 'Old URL', 'wordpress-seo-premium' ) . "</label>\n";
 				echo "<input type='text' class='textinput' name='wpseo_redirects_new_old' id='wpseo_redirects_new_old' value='", esc_url( $old_url ) . "' />\n";
 				echo "<br class='clear'/>\n";
@@ -103,7 +102,7 @@ class WPSEO_Page_Redirect {
 				echo '<p>' . sprintf( __( 'Regex Redirects are extremely powerful redirects. You should only use them if you know what you are doing.%1$sIf you don\'t know what Regular Expressions (regex) are, please refer to %2$sour knowledge base%3$s.', 'wordpress-seo-premium' ), '<br />', '<a href="http://kb.yoast.com/article/142-what-are-regex-redirects" target="_blank">', '</a>' ) . "</p>\n";
 				echo "<form class='wpseo-new-redirect-form' method='post'>\n";
 				echo "<div class='wpseo_redirects_new'>\n";
-				// echo "<h2>" . __( 'Add New Regex Redirect', 'wordpress-seo' ) . "</h2>\n";
+				// Echo "<h2>" . __( 'Add New Regex Redirect', 'wordpress-seo' ) . "</h2>\n";.
 
 				echo "<label class='textinput' for='wpseo_redirects_new_old'>" . __( 'Regular Expression', 'wordpress-seo-premium' ) . "</label>\n";
 				echo "<input type='text' class='textinput' name='wpseo_redirects_new_old' id='wpseo_redirects_new_old' value='{$old_url}' />\n";
@@ -115,10 +114,10 @@ class WPSEO_Page_Redirect {
 
 
 				echo "<label class='textinput' for='wpseo_redirects_new_type'>" . _x( 'Type', 'noun', 'wordpress-seo-premium' ) . "</label>\n";
-				// Redirect type select element
+				// Redirect type select element.
 				echo "<select name='wpseo_redirects_new_type' id='wpseo_redirects_new_type' class='select'>" . PHP_EOL;
 
-				// Loop through the redirect types
+				// Loop through the redirect types.
 				if ( count( $redirect_types ) > 0 ) {
 					foreach ( $redirect_types as $key => $desc ) {
 						echo "<option value='" . $key . "'>" . $desc . '</option>' . PHP_EOL;

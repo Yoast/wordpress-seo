@@ -4,6 +4,7 @@
  */
 
 if ( class_exists( 'WPSEO_Redirect_Manager' ) && ! class_exists( 'WPSEO_REGEX_Redirect_Manager', false ) ) {
+
 	/**
 	 * Class WPSEO_REGEX_Redirect_Manager
 	 */
