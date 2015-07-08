@@ -126,7 +126,7 @@ if ( isset( $import ) ) {
 	<?php $yform->checkbox( 'include_taxonomy_meta', __( 'Include Taxonomy Metadata', 'wordpress-seo' ) ); ?><br/>
 	<button class="button-primary" id="export-button"><?php
 		/* translators: %1$s expands to Yoast SEO */
-		printf ( __( 'Export your %1$s settings', 'wordpress-seo' ), 'Yoast SEO' );
+		printf( __( 'Export your %1$s settings', 'wordpress-seo' ), 'Yoast SEO' );
 		?></button>
 	<script>
 		var wpseo_export_nonce = '<?php echo wp_create_nonce( 'wpseo-export' ); ?>';
