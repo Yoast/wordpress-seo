@@ -92,7 +92,7 @@ class WPSEO_Premium {
 			// Filter the Page Analysis content.
 			add_filter( 'wpseo_pre_analysis_post_content', array( $this, 'filter_page_analysis' ), 10, 2 );
 
-			// Settings
+			// Settings.
 			add_action( 'admin_init', array( $this, 'register_settings' ) );
 
 			// Check if we need to save files after updating options.
@@ -351,8 +351,8 @@ class WPSEO_Premium {
 	 * and add them to the $page_content. Page analysis will be able to scan the content of these customs fields by
 	 * doing this. - If value doesn't exists as a post-meta value, there will be nothing included.
 	 *
-	 * @param string $page_content the content of the current post text
-	 * @param object $post         the total object of the post content
+	 * @param string $page_content The content of the current post text.
+	 * @param object $post         The total object of the post content.
 	 *
 	 * @return string $page_content
 	 */

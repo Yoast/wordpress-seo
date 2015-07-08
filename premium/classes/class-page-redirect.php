@@ -97,13 +97,11 @@ class WPSEO_Page_Redirect {
 			<div id="tab-regex" class="wpseotab redirect-table-tab">
 				<?php
 				// Add new redirect HTML.
-
 				/* translators: %1$s contains a line break tag. %2$s links to our knowledge base, %3$s closes the link. */
 				echo '<p>' . sprintf( __( 'Regex Redirects are extremely powerful redirects. You should only use them if you know what you are doing.%1$sIf you don\'t know what Regular Expressions (regex) are, please refer to %2$sour knowledge base%3$s.', 'wordpress-seo-premium' ), '<br />', '<a href="http://kb.yoast.com/article/142-what-are-regex-redirects" target="_blank">', '</a>' ) . "</p>\n";
 				echo "<form class='wpseo-new-redirect-form' method='post'>\n";
 				echo "<div class='wpseo_redirects_new'>\n";
 				// Echo "<h2>" . __( 'Add New Regex Redirect', 'wordpress-seo' ) . "</h2>\n";.
-
 				echo "<label class='textinput' for='wpseo_redirects_new_old'>" . __( 'Regular Expression', 'wordpress-seo-premium' ) . "</label>\n";
 				echo "<input type='text' class='textinput' name='wpseo_redirects_new_old' id='wpseo_redirects_new_old' value='{$old_url}' />\n";
 				echo "<br class='clear'/>\n";

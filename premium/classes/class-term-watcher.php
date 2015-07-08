@@ -103,7 +103,6 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 		$id = 'wpseo_create_redirect_' . md5( $old_url );
 
 		// Format the message.
-
 		/* translators %1$s: <a href='{admin_redirect_url}'>, %2$s: <a href='{undo_redirect_url}'> and %3$s: </a> */
 		$message = sprintf(
 			__( 'WordPress SEO Premium created a %1$sredirect%3$s from the old term URL to the new term URL. %2$sClick here to undo this%3$s.', 'wordpress-seo-premium' ),

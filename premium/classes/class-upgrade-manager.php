@@ -111,10 +111,9 @@ class WPSEO_Upgrade_Manager {
 
 	/**
 	 * Check if redirects should be imported from the free version
-	 *
 	 */
 	public function import_redirects() {
-		$wp_query  = new WP_Query( "post_type=any&meta_key=_yoast_wpseo_redirect&order=ASC" );
+		$wp_query  = new WP_Query( 'post_type=any&meta_key=_yoast_wpseo_redirect&order=ASC' );
 
 		if ( ! empty( $wp_query->posts) ) {
 			$redirect_manager = new WPSEO_URL_Redirect_Manager();
@@ -123,10 +122,10 @@ class WPSEO_Upgrade_Manager {
 				$old_url = '/' . $post->post_name . '/';
 				$new_url = get_post_meta( $post->ID, '_yoast_wpseo_redirect', true );
 
-				// Create redirect
+				// Create redirect.
 				$redirect_manager->create_redirect( $old_url, $new_url, 301 );
 
-				// Remove post meta value
+				// Remove post meta value.
 				delete_post_meta( $post->ID, '_yoast_wpseo_redirect' );
 			}
 		}
