@@ -247,11 +247,7 @@ class WPSEO_Pointers {
 			               . '<p><strong>' . sprintf( __( 'More %1$s', 'wordpress-seo' ), 'Yoast SEO' ) . '</strong><br/>'
 
 				/* @todo What about this translation */
-	   					   . sprintf(
-								__( 'There&#8217;s more to learn about WordPress &amp; SEO than just using this plugin. A great start is our article %1$sthe definitive guide to WordPress SEO%2$s.', 'wordpress-seo' ),
-								'<a target="_blank" href="' . esc_url( 'https://yoast.com/articles/wordpress-seo/#utm_source=wpseo_dashboard&utm_medium=wpseo_tour&utm_campaign=tour' ) . '">',
-					       		'</a>'
-							)
+	   					   . sprintf( __( 'There&#8217;s more to learn about WordPress &amp; SEO than just using this plugin. A great start is our article %1$sthe definitive guide to WordPress SEO%2$s.', 'wordpress-seo' ), '<a target="_blank" href="' . esc_url( 'https://yoast.com/articles/wordpress-seo/#utm_source=wpseo_dashboard&utm_medium=wpseo_tour&utm_campaign=tour' ) . '">', '</a>' )
 						   . '</p>'
 			               . '<p><strong style="font-size:150%;">' . __( 'Subscribe to our Newsletter', 'wordpress-seo' ) . '</strong><br/>'
 				/* translators: %1$s expands to Yoast SEO */
