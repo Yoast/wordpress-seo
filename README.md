@@ -1,4 +1,4 @@
-WordPress SEO by Yoast
+Yoast SEO
 ======================
 
 [![Build Status](https://api.travis-ci.org/Yoast/wordpress-seo.png?branch=master)](https://travis-ci.org/Yoast/wordpress-seo)
@@ -25,12 +25,12 @@ composer create-project yoast/wordpress-seo:dev-trunk --prefer-source --keep-vcs
 
 Read more about [using Composer with WordPress SEO](https://github.com/Yoast/wordpress-seo/wiki/Using-Composer).
 
-This will download the latest development version of WordPress SEO by Yoast. While this version is usually stable,
+This will download the latest development version of Yoast SEO. While this version is usually stable,
 it is not recommended for use in a production environment.
 
 Support
 -------
-This is a developer's portal for WordPress SEO by Yoast and should not be used for support. Please visit the
+This is a developer's portal for Yoast SEO and should not be used for support. Please visit the
 [support forums](https://wordpress.org/support/plugin/wordpress-seo).
 
 Reporting bugs
@@ -52,5 +52,5 @@ There are various ways you can contribute:
 
 * [Raise an issue](https://github.com/yoast/wordpress-seo/issues) on GitHub.
 * Send us a Pull Request with your bug fixes and/or new features.
-* [Translate WordPress SEO by Yoast into different languages](http://translate.yoast.com/projects/wordpress-seo/).
+* [Translate Yoast SEO into different languages](http://translate.yoast.com/projects/wordpress-seo/).
 * Provide feedback and [suggestions on enhancements](https://github.com/yoast/wordpress-seo/issues?direction=desc&labels=Enhancement&page=1&sort=created&state=open).
