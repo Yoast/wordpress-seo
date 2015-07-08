@@ -13,7 +13,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
  * @todo [JRF => testers] Extensively test the export & import of the (new) settings!
  * If that all works fine, getting testers to export before and after upgrade will make testing easier.
  *
- * @todo [Yoast] The import for the RSS Footer plugin checks for data already entered via WP SEO,
+ * @todo [Yoast] The import for the RSS Footer plugin checks for data already entered via Yoast SEO,
  * the other import routines should do that too.
  */
 
@@ -119,9 +119,15 @@ if ( isset( $import ) ) {
 </div>
 
 <div id="wpseo-export" class="wpseotab">
-	<p><?php _e( 'Export your WordPress SEO settings here, to import them again later or to import them on another site.', 'wordpress-seo' ); ?></p>
+	<p><?php
+		/* translators: %1$s expands to Yoast SEO */
+		printf( __( 'Export your %1$s settings here, to import them again later or to import them on another site.', 'wordpress-seo' ), 'Yoast SEO' );
+		?></p>
 	<?php $yform->checkbox( 'include_taxonomy_meta', __( 'Include Taxonomy Metadata', 'wordpress-seo' ) ); ?><br/>
-	<button class="button-primary" id="export-button">Export your WordPress SEO settings</button>
+	<button class="button-primary" id="export-button"><?php
+		/* translators: %1$s expands to Yoast SEO */
+		printf ( __( 'Export your %1$s settings', 'wordpress-seo' ), 'Yoast SEO' );
+		?></button>
 	<script>
 		var wpseo_export_nonce = '<?php echo wp_create_nonce( 'wpseo-export' ); ?>';
 	</script>

@@ -9,7 +9,7 @@
 class WPSEO_Admin_Init {
 
 	/**
-	 * Holds the WP SEO Options
+	 * Holds the Yoast Options
 	 *
 	 * @var array
 	 */
@@ -64,9 +64,10 @@ class WPSEO_Admin_Init {
 
 				return;
 			}
-
+			/* translators: %1$s expands to Yoast SEO, $2%s to the version number, %3$s and %4$s to anchor tags with link to intro page  */
 			$info_message = sprintf(
-				__( 'WordPress SEO by Yoast has been updated to version %1$s. %2$sClick here%3$s to find out what\'s new!', 'wordpress-seo' ),
+				__( '%1$s has been updated to version %2$s. %3$sClick here%4$s to find out what\'s new!', 'wordpress-seo' ),
+				'Yoast SEO',
 				WPSEO_VERSION,
 				'<a href="' . admin_url( 'admin.php?page=wpseo_dashboard&intro=1' ) . '">',
 				'</a>'
@@ -168,7 +169,7 @@ class WPSEO_Admin_Init {
 			array(
 				'textdomain'     => 'wordpress-seo',
 				'project_slug'   => 'wordpress-seo',
-				'plugin_name'    => 'WordPress SEO by Yoast',
+				'plugin_name'    => 'Yoast SEO',
 				'hook'           => 'wpseo_admin_footer',
 				'glotpress_url'  => 'https://translate.yoast.com/',
 				'glotpress_name' => 'Yoast Translate',

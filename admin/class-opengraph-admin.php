@@ -4,7 +4,7 @@
  */
 
 /**
- * This class adds the Social tab to the WP SEO metabox and makes sure the settings are saved.
+ * This class adds the Social tab to the Yoast SEO metabox and makes sure the settings are saved.
  */
 class WPSEO_Social_Admin extends WPSEO_Metabox {
 
