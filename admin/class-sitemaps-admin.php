@@ -26,9 +26,11 @@ class WPSEO_Sitemaps_Admin {
 		if ( $options['enablexmlsitemap'] === true ) {
 
 			$file_to_check_for = array(
-				// ABSPATH . 'sitemap.xml',
-				// ABSPATH . 'sitemap.xslt',
-				// ABSPATH . 'sitemap.xsl',
+				/**
+				 * ABSPATH . 'sitemap.xml',
+				 * ABSPATH . 'sitemap.xslt',
+				 * ABSPATH . 'sitemap.xsl',
+				 */
 				ABSPATH . 'sitemap_index.xml',
 			);
 
@@ -56,14 +58,13 @@ class WPSEO_Sitemaps_Admin {
 	 * @param string   $new_status New post status.
 	 * @param string   $old_status Old post status.
 	 * @param \WP_Post $post       Post object.
-
 	 */
 	function status_transition( $new_status, $old_status, $post ) {
 		if ( $new_status != 'publish' ) {
 			return;
 		}
 
-		wp_cache_delete( 'lastpostmodified:gmt:' . $post->post_type, 'timeinfo' ); // #17455
+		wp_cache_delete( 'lastpostmodified:gmt:' . $post->post_type, 'timeinfo' ); // #17455.
 
 		$options = WPSEO_Options::get_all();
 		if ( isset( $options[ 'post_types-' . $post->post_type . '-not_in_sitemap' ] ) && $options[ 'post_types-' . $post->post_type . '-not_in_sitemap' ] === true ) {
@@ -75,7 +76,8 @@ class WPSEO_Sitemaps_Admin {
 		}
 
 		// Allow the pinging to happen slightly after the hit sitemap index so the sitemap is fully regenerated when the ping happens.
-		if ( WPSEO_Meta::get_value( 'sitemap-include', $post->ID ) !== 'never' ) {
+		$excluded_posts = explode( ',', $options['excluded-posts'] );
+		if ( ! in_array( $post->ID, $excluded_posts ) ) {
 			if ( defined( 'YOAST_SEO_PING_IMMEDIATELY' ) && YOAST_SEO_PING_IMMEDIATELY ) {
 				wpseo_ping_search_engines();
 			}

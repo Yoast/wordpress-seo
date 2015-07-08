@@ -63,10 +63,7 @@ class WPSEO_Premium {
 		$this->instantiate_redirects();
 
 		if ( is_admin() ) {
-			// Upgrade Manager
-			$plugin_updater = new WPSEO_Upgrade_Manager();
-			$plugin_updater->check_update();
-
+			
 			// Disable WordPress SEO
 			add_action( 'admin_init', array( $this, 'disable_wordpress_seo' ), 1 );
 

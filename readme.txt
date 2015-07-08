@@ -153,7 +153,7 @@ Release Date: June 10th, 2015
 	* Fixes a bug where the widgets were removed from every XML file. This is now only the case for the sitemaps.
 	* Fixes a bug where validation errors were shown for the wrong variables in the titles and metas settings.
 	* Fixes a bug where the SEO toolbar was broken.
-	* Fixes a few typo's, props [Gary Jones](https://github.com/GaryJones).
+	* Fixes a few typos, props [Gary Jones](https://github.com/GaryJones).
 	* Fixes a bug where links in tooltips were not impossible to click.
 	* Fixes a broken link to the permalinks section of the advanced settings, props [Michael Nordmeyer](https://github.com/michaelnordmeyer).
 	* Fixes settings import on multisite.

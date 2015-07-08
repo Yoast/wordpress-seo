@@ -4,7 +4,7 @@
  * @since      1.5.4
  */
 
-// Avoid direct calls to this file
+// Avoid direct calls to this file.
 if ( ! defined( 'WPSEO_VERSION' ) ) {
 	header( 'Status: 403 Forbidden' );
 	header( 'HTTP/1.1 403 Forbidden' );
@@ -87,12 +87,12 @@ class WPSEO_Replace_Vars {
 	 * @see wpseo_register_var_replacement() for a usage example
 	 *
 	 * @param  string $var              The name of the variable to replace, i.e. '%%var%%'
-	 *                                  - the surrounding %% are optional
+	 *                                  - the surrounding %% are optional.
 	 * @param  mixed  $replace_function Function or method to call to retrieve the replacement value for the variable
 	 *                                  Uses the same format as add_filter/add_action function parameter and
-	 *                                  should *return* the replacement value. DON'T echo it!
-	 * @param  string $type             Type of variable: 'basic' or 'advanced', defaults to 'advanced'
-	 * @param  string $help_text        Help text to be added to the help tab for this variable
+	 *                                  should *return* the replacement value. DON'T echo it.
+	 * @param  string $type             Type of variable: 'basic' or 'advanced', defaults to 'advanced'.
+	 * @param  string $help_text        Help text to be added to the help tab for this variable.
 	 *
 	 * @return bool     Whether the replacement function was succesfully registered
 	 */
@@ -155,7 +155,7 @@ class WPSEO_Replace_Vars {
 		}
 		$this->args = (object) wp_parse_args( $args, $this->defaults );
 
-		// Clean $omit array
+		// Clean $omit array.
 		if ( is_array( $omit ) && $omit !== array() ) {
 			$omit = array_map( array( __CLASS__, 'remove_var_delimiter' ), $omit );
 		}
@@ -172,7 +172,7 @@ class WPSEO_Replace_Vars {
 		 */
 		$replacements = apply_filters( 'wpseo_replacements', $replacements );
 
-		// Do the actual replacements
+		// Do the actual replacements.
 		if ( is_array( $replacements ) && $replacements !== array() ) {
 			$string = str_replace( array_keys( $replacements ), array_values( $replacements ), $string );
 		}
@@ -186,19 +186,19 @@ class WPSEO_Replace_Vars {
 		 * @api     bool $final
 		 */
 		if ( apply_filters( 'wpseo_replacements_final', true ) === true && ( isset( $matches[1] ) && is_array( $matches[1] ) ) ) {
-			// Remove non-replaced variables
-			$remove = array_diff( $matches[1], $omit ); // Make sure the $omit variables do not get removed
+			// Remove non-replaced variables.
+			$remove = array_diff( $matches[1], $omit ); // Make sure the $omit variables do not get removed.
 			$remove = array_map( array( __CLASS__, 'add_var_delimiter' ), $remove );
 			$string = str_replace( $remove, '', $string );
 		}
 
-		// Undouble separators which have nothing between them, i.e. where a non-replaced variable was removed
+		// Undouble separators which have nothing between them, i.e. where a non-replaced variable was removed.
 		if ( isset( $replacements['%%sep%%'] ) && ( is_string( $replacements['%%sep%%'] ) && $replacements['%%sep%%'] !== '' ) ) {
 			$q_sep  = preg_quote( $replacements['%%sep%%'], '`' );
 			$string = preg_replace( '`' . $q_sep . '(?:\s*' . $q_sep . ')*`u', $replacements['%%sep%%'], $string );
 		}
 
-		// Remove superfluous whitespace
+		// Remove superfluous whitespace.
 		$string = WPSEO_Utils::standardize_whitespace( $string );
 
 		return trim( $string );
@@ -218,15 +218,15 @@ class WPSEO_Replace_Vars {
 
 		$replacements = array();
 
-		// @todo -> figure out a way to deal with external functions starting with cf_/ct_
+		// @todo -> figure out a way to deal with external functions starting with cf_/ct_.
 		foreach ( $matches[1] as $k => $var ) {
 
-			// Don't set up replacements which should be omitted
+			// Don't set up replacements which should be omitted.
 			if ( in_array( $var, $omit, true ) ) {
 				continue;
 			}
 
-			// Deal with variable variable names first
+			// Deal with variable variable names first.
 			if ( strpos( $var, 'cf_' ) === 0 ) {
 				$replacement = $this->retrieve_cf_custom_field_name( $var );
 			}
@@ -236,16 +236,16 @@ class WPSEO_Replace_Vars {
 			elseif ( strpos( $var, 'ct_' ) === 0 ) {
 				$single      = ( isset( $matches[2][ $k ] ) && $matches[2][ $k ] !== '' ) ? true : false;
 				$replacement = $this->retrieve_ct_custom_tax_name( $var, $single );
-			} // Deal with non-variable variable names
+			} // Deal with non-variable variable names.
 			elseif ( method_exists( $this, 'retrieve_' . $var ) ) {
 				$method_name = 'retrieve_' . $var;
 				$replacement = $this->$method_name();
-			} // Deal with externally defined variable names
+			} // Deal with externally defined variable names.
 			elseif ( isset( self::$external_replacements[ $var ] ) && ! is_null( self::$external_replacements[ $var ] ) ) {
 				$replacement = call_user_func( self::$external_replacements[ $var ], $var, $this->args );
 			}
 
-			// Replacement retrievals can return null if no replacement can be determined, root those outs
+			// Replacement retrievals can return null if no replacement can be determined, root those outs.
 			if ( isset( $replacement ) ) {
 				$var                  = self::add_var_delimiter( $var );
 				$replacements[ $var ] = $replacement;
@@ -401,13 +401,13 @@ class WPSEO_Replace_Vars {
 	private function retrieve_sep() {
 		$replacement = WPSEO_Options::get_default( 'wpseo_titles', 'separator' );
 
-		// Get the titles option and the separator options
+		// Get the titles option and the separator options.
 		$titles_options    = get_option( 'wpseo_titles' );
 		$seperator_options = WPSEO_Option_Titles::get_instance()->get_separator_options();
 
-		// This should always be set, but just to be sure
+		// This should always be set, but just to be sure.
 		if ( isset( $seperator_options[ $titles_options['separator'] ] ) ) {
-			// Set the new replacement
+			// Set the new replacement.
 			$replacement = $seperator_options[ $titles_options['separator'] ];
 		}
 
@@ -539,7 +539,7 @@ class WPSEO_Replace_Vars {
 	/**
 	 * Determine the page numbering of the current post/page/cpt
 	 *
-	 * @param string $request 'nr'|'max' - whether to return the page number or the max number of pages
+	 * @param string $request 'nr'|'max' - whether to return the page number or the max number of pages.
 	 *
 	 * @return int|null
 	 */
@@ -589,7 +589,7 @@ class WPSEO_Replace_Vars {
 	/**
 	 * Determine the post type names for the current post/page/cpt
 	 *
-	 * @param string $request 'single'|'plural' - whether to return the single or plural form
+	 * @param string $request 'single'|'plural' - whether to return the single or plural form.
 	 *
 	 * @return string|null
 	 */
@@ -602,7 +602,7 @@ class WPSEO_Replace_Vars {
 			$post_type = $wp_query->query_vars['post_type'];
 		}
 		else {
-			// Make it work in preview mode
+			// Make it work in preview mode.
 			$post_type = $wp_query->get_queried_object()->post_type;
 		}
 
@@ -676,7 +676,7 @@ class WPSEO_Replace_Vars {
 	 *
 	 * @param string $var    The complete variable to replace which includes the name of
 	 *                       the custom taxonomy which value(s) is to be retrieved.
-	 * @param bool   $single Whether to retrieve only the first or all values for the taxonomy
+	 * @param bool   $single Whether to retrieve only the first or all values for the taxonomy.
 	 *
 	 * @return string|null
 	 */
@@ -1009,7 +1009,7 @@ class WPSEO_Replace_Vars {
 	/**
 	 * Create a variable help text table
 	 *
-	 * @param    string $type Either 'basic' or 'advanced'
+	 * @param    string $type Either 'basic' or 'advanced'.
 	 *
 	 * @return    string            Help text table
 	 */
@@ -1058,9 +1058,9 @@ class WPSEO_Replace_Vars {
 	/**
 	 * Set the help text for a user/plugin/theme defined extra variable.
 	 *
-	 * @param  string $type      Type of variable: 'basic' or 'advanced'
-	 * @param  string $replace   Variable to replace, i.e. '%%var%%'
-	 * @param  string $help_text The actual help text string
+	 * @param  string $type      Type of variable: 'basic' or 'advanced'.
+	 * @param  string $replace   Variable to replace, i.e. '%%var%%'.
+	 * @param  string $help_text The actual help text string.
 	 */
 	private static function register_help_text( $type, $replace, $help_text = '' ) {
 		if ( is_string( $replace ) && $replace !== '' ) {
@@ -1137,7 +1137,7 @@ class WPSEO_Replace_Vars {
 	/**
 	 * Remove the '%%' delimiters from a variable string
 	 *
-	 * @param  string $string Variable string to be cleaned
+	 * @param  string $string Variable string to be cleaned.
 	 *
 	 * @return string
 	 */
@@ -1148,7 +1148,7 @@ class WPSEO_Replace_Vars {
 	/**
 	 * Add the '%%' delimiters to a variable string
 	 *
-	 * @param  string $string Variable string to be delimited
+	 * @param  string $string Variable string to be delimited.
 	 *
 	 * @return string
 	 */
