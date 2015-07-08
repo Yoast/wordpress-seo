@@ -583,7 +583,7 @@ class WPSEO_Premium {
 
 			// Check if the POST is on one of our pages
 			$current_page = filter_input( INPUT_GET, 'page' );
-			if ( ! in_array( $current_page, array( 'wpseo_redirects', 'wpseo_webmaster_tools' ) )  ) {
+			if ( ! in_array( $current_page, array( 'wpseo_redirects' ) )  ) {
 				return;
 			}
 
