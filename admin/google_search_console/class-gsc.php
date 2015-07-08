@@ -42,7 +42,7 @@ class WPSEO_GSC {
 	 * Function that outputs the redirect page
 	 */
 	public function display() {
-		require_once 'views/gsc-display.php';
+		require_once WPSEO_PATH . '/admin/google_search_console/views/gsc-display.php';
 	}
 
 	/**

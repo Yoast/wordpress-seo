@@ -331,7 +331,7 @@ class WPSEO_GSC_Table extends WP_List_Table {
 		$current_redirect = false;
 		$view_type        = $this->modal_box_type( $url, $current_redirect );
 
-		require 'views/gsc-create-redirect.php';
+		require WPSEO_PATH . '/admin/google_search_console/views/gsc-create-redirect.php';
 
 		return $view_type;
 	}
