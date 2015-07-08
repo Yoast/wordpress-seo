@@ -33,9 +33,9 @@ switch ( $platform_tabs->current_tab() ) {
 			/* Translators: %1$s: expands to 'Yoast SEO'. */
 			echo sprintf( __( 'To allow %1$s to fetch your Google Webmaster Tools information, please enter your Google Authorization Code.', 'wordpress-seo' ), 'Yoast SEO' );
 			echo "</p>\n";
-			echo "<a href='javascript:{$oauth_url}'>" . __( 'Click here to get a Google Authorization Code', 'wordpress-seo' ) . "</a>\n";
+			echo "<input class='button-secondary' type='button' onclick='javascript:{$oauth_url}' value='" , __( 'Get Google Authorization Code', 'wordpress-seo' ) ,"' />\n";
 
-			echo '<p>' . __( 'Please enter the Authorization Code in the field below and press the Authenticate button.', 'wordpress-seo' ) . "</p>\n";
+			echo '<p>' . __( 'Please enter the Google Authorization Code in the field below and press the Authenticate button.', 'wordpress-seo' ) . "</p>\n";
 			echo "<form action='" . admin_url( 'admin.php?page=wpseo_webmaster_tools&tab=settings' ) . "' method='post'>\n";
 			echo "<input type='text' name='gsc[authorization_code]' value='' />";
 			echo "<input type='hidden' name='gsc[gsc_nonce]' value='" . wp_create_nonce( 'wpseo-gsc_nonce' ) . "' />";
