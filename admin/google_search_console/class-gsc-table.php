@@ -313,6 +313,11 @@ class WPSEO_GSC_Table extends WP_List_Table {
 		// If no order, default to asc.
 		$order = ( $order = filter_input( INPUT_GET, 'order' ) ) ? $order : 'asc';
 
+		// When there is a raw field of it, sort by this field.
+		if ( array_key_exists( $orderby . '_raw', $a ) && array_key_exists( $orderby . '_raw', $b ) ) {
+			$orderby = $orderby . '_raw';
+		}
+
 		// Determine sort order.
 		$result = strcmp( $a[ $orderby ], $b[ $orderby ] );
 
