@@ -49,20 +49,30 @@ class WPSEO_GSC_Mapper {
 	}
 
 	/**
-	 * Mapping the given category.
+	 * Mapping the given category by searching for its key.
 	 *
 	 * @param string $category
-	 * @param bool   $flip
 	 *
 	 * @return mixed
 	 */
-	public static function category( $category, $flip = false ) {
-		if ( ! empty( $category ) && $flip && $category = array_search( $category, self::$categories ) ) {
-			return $category;
+	public static function category( $category) {
+		if ( ! empty( $category ) && array_key_exists( $category, self::$categories ) ) {
+			return self::$categories[ $category ];
 		}
 
-		if ( ! empty( $category ) && ! $flip && array_key_exists( $category, self::$categories ) ) {
-			return self::$categories[ $category ];
+		return $category;
+	}
+
+	/**
+	 * Mapping the given category by value and return its key
+	 *
+	 * @param string $category
+	 *
+	 * @return string
+	 */
+	public static function category_from_value( $category ) {
+		if ( ! empty( $category ) && $category = array_search( $category, self::$categories ) ) {
+			return $category;
 		}
 
 		return $category;

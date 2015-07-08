@@ -53,7 +53,7 @@ class WPSEO_GSC_Category_Filters {
 		$view        = ( $status = filter_input( INPUT_GET, 'category' )) ? $status : 'not_found';
 		$mapped_view = WPSEO_GSC_Mapper::category( $view );
 		if ( filter_input( INPUT_GET, 'category' ) === null && empty( $this->category_counts[ $mapped_view ] ) ) {
-			$view = WPSEO_GSC_Mapper::category( key( $this->category_counts ), true );
+			$view = WPSEO_GSC_Mapper::category_from_value( key( $this->category_counts ) );
 		}
 
 		return $this->current_view = $view;
@@ -70,7 +70,7 @@ class WPSEO_GSC_Category_Filters {
 		$new_views = array();
 
 		foreach ( $this->category_counts as $category_name => $category ) {
-			$new_views[] = $this->create_view_link( WPSEO_GSC_Mapper::category( $category_name, true ), $category['count'] );
+			$new_views[] = $this->create_view_link( WPSEO_GSC_Mapper::category_from_value( $category_name ), $category['count'] );
 		}
 
 		return $new_views;
