@@ -87,7 +87,7 @@ switch ( $platform_tabs->current_tab() ) {
 		break;
 
 	default :
-		$form_action_url = admin_url( add_query_arg( 'page', esc_attr( filter_input( INPUT_GET, 'page' ) ) ) );
+		$form_action_url = add_query_arg( 'page', esc_attr( filter_input( INPUT_GET, 'page' ) ) );
 
 		// Open <form>.
 		echo "<form id='wpseo-crawl-issues-table-form' action='" . $form_action_url . "' method='post'>\n";
