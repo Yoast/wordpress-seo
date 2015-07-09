@@ -153,11 +153,11 @@ class WPSEO_Admin {
 			array(
 				'wpseo_dashboard',
 				'',
-				__( 'Google Webmaster Tools', 'wordpress-seo' ),
+				__( 'Webmaster Tools', 'wordpress-seo' ),
 				$manage_options_cap,
 				'wpseo_webmaster_tools',
 				array( $this->page_gsc, 'display' ),
-				null,
+				array( array( $this->page_gsc, 'set_help' ) ),
 			),
 		);
 

@@ -49,11 +49,9 @@ class WPSEO_GSC {
 		if ( filter_input( INPUT_GET, 'page' ) === 'wpseo_webmaster_tools' ) {
 			$this->set_hooks();
 			$this->set_dependencies();
-
 			$this->request_handler();
 		}
 	}
-
 
 	/**
 	 * Be sure the settings will be registered, so data can be stored
@@ -122,7 +120,6 @@ class WPSEO_GSC {
 	 */
 	private function set_hooks() {
 		add_action( 'admin_enqueue_scripts', array( $this, 'page_scripts' ) );
-
 		add_filter( 'set-screen-option', array( $this, 'set_screen_option' ), 11, 3 );
 	}
 
@@ -233,6 +230,23 @@ class WPSEO_GSC {
 
 		// Fetching the issues.
 		$this->issue_fetch = new WPSEO_GSC_Issues( $this->platform, $this->category, $issue_count->get_issues() );
+	}
+
+	/**
+	 * Setting the tab help on top of the screen
+	 */
+	public function set_help() {
+		$screen = get_current_screen();
+
+		$screen->add_help_tab(
+			array(
+				'id'      => 'basic-help',
+				'title'   => __( 'The tabs', 'wordpress-seo' ),
+				'content' => '<p><strong>' .__( 'Desktop', 'wordpress-seo' ) . '</strong><br />' . __( 'Errors that occurred when your site was crawled by Googlebot.', 'wordpress-seo' ) . '</p>'
+							. '<p><strong>' .__( 'Smartphone', 'wordpress-seo' ) . '</strong><br />' . __( 'Errors that occurred only when your site was crawled by Googlebot (errors didn\'t appear for desktop).', 'wordpress-seo' ) . '</p>'
+							. '<p><strong>' .__( 'Feature phone', 'wordpress-seo' ) . '</strong><br />' . __( 'Errors that only occurred when your site was crawled by Googlebot for feature phones (errors didn\'t appear for desktop).', 'wordpress-seo' ) . '</p>',
+			)
+		);
 	}
 
 }
