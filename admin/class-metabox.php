@@ -157,13 +157,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 						 * function for the `manage{$screen}columnshidden` option, which is based on the current
 						 * admin screen. The admin screen we want to target is the `edit-{$post_type}` screen.
 						 */
-						$filter = sprintf(
-							'get_user_option_%s',
-							sprintf(
-								'manage%scolumnshidden',
-								'edit-' . $pt
-							)
-						);
+						$filter = sprintf( 'get_user_option_%s', sprintf( 'manage%scolumnshidden', 'edit-' . $pt ) );
 						add_filter( $filter, array( $this, 'column_hidden' ), 10, 3 );
 					}
 				}
