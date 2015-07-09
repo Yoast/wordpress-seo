@@ -112,7 +112,7 @@ class WPSEO_Premium {
 			add_action( 'admin_init', array( $this, 'catch_option_redirect_save' ) );
 
 			// Screen options
-			$query_var = ( ! empty( $_GET['page'] ) ) ? $_GET['page'] : '';
+			$query_var = ( $page = filter_input( INPUT_GET, 'page' ) ) ? $page : '';
 			switch ( $query_var ) {
 				case 'wpseo_redirects':
 					add_filter( 'set-screen-option', array( 'WPSEO_Page_Redirect', 'set_screen_option' ), 11, 3 );
@@ -169,10 +169,10 @@ class WPSEO_Premium {
 				add_action( 'admin_init', array( $this, 'init_watchers' ) );
 
 				// Check if we need to display an admin message
-				if ( isset( $_GET['yoast-redirect-created'] ) ) {
+				if ( $redirect_created = filter_input( INPUT_GET, 'yoast-redirect-created' ) ) {
 
 					// Message object
-					$message = new WPSEO_Message_Redirect_Created( $_GET['yoast-redirect-created'] );
+					$message = new WPSEO_Message_Redirect_Created( $redirect_created );
 					add_action( 'all_admin_notices', array( $message, 'display' ) );
 				}
 			}
@@ -555,9 +555,10 @@ class WPSEO_Premium {
 	 * Do custom action when the redirect option is saved
 	 */
 	public function catch_option_redirect_save() {
-		if ( isset ( $_POST['option_page'] ) && $_POST['option_page'] == 'yoast_wpseo_redirect_options' ) {
+		if ( filter_input( INPUT_POST, 'option_page' ) === 'yoast_wpseo_redirect_options' ) {
 			if ( current_user_can( 'manage_options' ) ) {
-				$enable_autoload = ( isset ( $_POST['wpseo_redirect']['disable_php_redirect'] ) ) ? false : true;
+				$wpseo_redirect  = filter_input( INPUT_POST, 'wpseo_redirect', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
+				$enable_autoload = ( ! empty( $wpseo_redirect['disable_php_redirect'] ) ) ? false : true;
 
 				// Change the normal redirect autoload option
 				$normal_redirect_manager = new WPSEO_URL_Redirect_Manager();
@@ -574,35 +575,33 @@ class WPSEO_Premium {
 	 * Catch the redirects search post and redirect it to a search get
 	 */
 	public function list_table_search_post_to_get() {
-		if ( isset( $_POST['s'] ) && trim( $_POST['s'] ) != '' ) {
+		if ( ( $search_string = trim( filter_input( INPUT_POST, 's' ) ) ) != '' ) {
 
 			// Check if the POST is on one of our pages
-			if ( ! isset ( $_GET['page'] ) || ( $_GET['page'] != 'wpseo_redirects' && $_GET['page'] != 'wpseo_webmaster_tools' ) ) {
+			$current_page = filter_input( INPUT_GET, 'page' );
+			if ( ! in_array( $current_page, array( 'wpseo_redirects' ) )  ) {
 				return;
 			}
 
 			// Check if there isn't a bulk action post, bulk action post > search post
-			if ( isset ( $_POST['create_redirects'] ) || isset( $_POST['wpseo_redirects_bulk_delete'] ) ) {
+			if ( filter_input( INPUT_POST, 'create_redirects' ) || filter_input( INPUT_POST, 'wpseo_redirects_bulk_delete' ) ) {
 				return;
 			}
 
 			// Base URL
-			$url = get_admin_url() . 'admin.php?page=' . $_GET['page'];
+			$url = get_admin_url() . 'admin.php?page=' . $current_page;
 
 			// Add search or reset it
-			if ( $_POST['s'] != '' ) {
-				$url .= '&s=' . $_POST['s'];
-			}
-
+			$url .= '&s=' . $search_string;
 
 			// Orderby
-			if ( isset( $_GET['orderby'] ) ) {
-				$url .= '&orderby=' . $_GET['orderby'];
+			if ( $orderby = filter_input( INPUT_GET, 'orderby') ) {
+				$url .= '&orderby=' . $orderby;
 			}
 
 			// Order
-			if ( isset( $_GET['order'] ) ) {
-				$url .= '&order=' . $_GET['order'];
+			if ( $order = filter_input( INPUT_GET, 'order') ) {
+				$url .= '&order=' . $order;
 			}
 
 			// Do the redirect

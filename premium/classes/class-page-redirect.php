@@ -15,8 +15,8 @@ class WPSEO_Page_Redirect {
 
 		// Check if there's an old URL set.
 		$old_url = '';
-		if ( isset( $_GET['old_url'] ) ) {
-			$old_url = urldecode( $_GET['old_url'] );
+		if ( ( $old_url = filter_input( INPUT_GET, 'old_url' ) ) != '' ) {
+			$old_url = urldecode( $old_url );
 		}
 
 		// Get the redirect types.

@@ -46,8 +46,8 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 
 		$this->handle_bulk_action();
 
-		if ( isset( $_GET['s'] ) && $_GET['s'] != '' ) {
-			$this->search_string = $_GET['s'];
+		if ( ( $search_string = filter_input( INPUT_GET, 's' ) ) != '' ) {
+			$this->search_string = $search_string;
 		}
 	}
 
@@ -133,7 +133,7 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 			'per_page'    => $per_page,
 		) );
 
-		$current_page = intval( ( ( isset( $_GET['paged'] ) ) ? $_GET['paged'] : 0 ) );
+		$current_page = intval( ( ( $paged = filter_input( INPUT_GET, 'paged' ) ) ? $paged : 0 ) );
 
 		// Setting the starting point. If starting point is below 1, overwrite it with value 0, otherwise it will be sliced of at the back.
 		$slice_start = ( $current_page - 1 );
@@ -173,10 +173,10 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	 */
 	public function do_reorder( $a, $b ) {
 		// If no sort, default to title.
-		$orderby = ( ! empty( $_GET['orderby'] ) ) ? $_GET['orderby'] : 'old';
+		$orderby = ( ( $orderby = filter_input( INPUT_GET, 'orderby' ) ) != '' ) ? $orderby : 'old';
 
 		// If no order, default to asc.
-		$order = ( ! empty( $_GET['order'] ) ) ? $_GET['order'] : 'asc';
+		$order = ( ( $order = filter_input( INPUT_GET, 'order') ) != '' ) ? $order : 'asc';
 
 		// Determine sort order.
 		$result = strcmp( $a[ $orderby ], $b[ $orderby ] );
@@ -257,13 +257,12 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	 * Function that handles bulk action
 	 */
 	private function handle_bulk_action() {
-		if ( isset( $_POST['action'] ) || isset( $_POST['action2'] ) ) {
-			if ( 'delete' == $_POST['action'] || 'delete' == $_POST['action2'] ) {
-				if ( isset( $_POST['wpseo_redirects_bulk_delete'] ) && is_array( $_POST['wpseo_redirects_bulk_delete'] ) && count( $_POST['wpseo_redirects_bulk_delete'] ) > 0 ) {
-					$this->redirect_manager->delete_redirect( $_POST['wpseo_redirects_bulk_delete'] );
-				}
+		if ( filter_input( INPUT_POST, 'action' ) === 'delete' || filter_input( INPUT_POST, 'action2' ) === 'delete' ) {
+			if ( ( $redirects_bulk_delete = filter_input( INPUT_POST, 'wpseo_redirects_bulk_delete', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY ) ) && count( $redirects_bulk_delete ) > 0 ) {
+				$this->redirect_manager->delete_redirect( $redirects_bulk_delete );
 			}
 		}
+
 	}
 
 }
