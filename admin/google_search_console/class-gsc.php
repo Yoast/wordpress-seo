@@ -208,7 +208,7 @@ class WPSEO_GSC {
 	 * Setting dependencies which will be used one this page
 	 */
 	private function set_dependencies() {
-		// Setting the service object
+		// Setting the service object.
 		$this->service         = new WPSEO_GSC_Service( WPSEO_GSC_Settings::get_profile() );
 
 		// Setting the platform.
