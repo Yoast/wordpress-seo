@@ -41,18 +41,18 @@ switch ( $platform_tabs->current_tab() ) {
 			echo "</form>\n";
 		}
 		else {
-			$reset_button  = '<p>';
-			$reset_button .= '<label class="select"></label>';
-			$reset_button .= '<a class="button-secondary" href="' . add_query_arg( 'gsc_reset', 1 ). '">' . __( 'Reauthenticate with Google ', 'wordpress-seo' ) .'</a>';
-			$reset_button .= '</p>';
-
+			$reset_button = '<a class="button-secondary" href="' . add_query_arg( 'gsc_reset', 1 ). '">' . __( 'Reauthenticate with Google ', 'wordpress-seo' ) .'</a>';
 			echo '<h3>',  __( 'Current profile', 'wordpress-seo' ), '</h3>';
 			if ( ($profile = WPSEO_GSC_Settings::get_profile() ) !== '' ) {
 				echo '<p>';
 				echo Yoast_Form::get_instance()->label( __( 'Current profile', 'wordpress-seo' ), array() );
 				echo $profile;
 				echo '</p>';
+
+				echo '<p>';
+				echo '<label class="select"></label>';
 				echo $reset_button;
+				echo '</p>';
 
 			}
 			else {
@@ -73,13 +73,14 @@ switch ( $platform_tabs->current_tab() ) {
 				}
 				echo '</p>';
 
-				echo $reset_button;
+				echo '<p>';
+				echo '<label class="select"></label>';
 
 				if ( $show_save ) {
-					echo '<p class="submit">';
-					echo '<input type="submit" name="submit" id="submit" class="button button-primary" value="' . __( 'Save Profile', 'wordpress-seo' ) . '" />';
-					echo '</p>';
+					echo '<input type="submit" name="submit" id="submit" class="button button-primary" value="' . __( 'Save Profile', 'wordpress-seo' ) . '" /> ' . __( 'or', 'wordpress-seo' ) , ' ';
 				}
+				echo $reset_button;
+				echo '</p>';
 				echo '</form>';
 			}
 		}
