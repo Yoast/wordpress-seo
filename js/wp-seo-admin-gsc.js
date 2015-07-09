@@ -1,14 +1,20 @@
 /* jshint unused:false */
 /* global ajaxurl */
 /* global tb_remove */
-function wpseo_gsc_open_authorize_code_window(url) {
+jQuery( function() {
 	'use strict';
-	var w = 600,
-		h = 500,
-		left = (screen.width / 2) - (w / 2),
-		top = (screen.height / 2) - (h / 2);
-	return window.open(url, 'wpseogscauthcode', 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=no, copyhistory=no, width=' + w + ', height=' + h + ', top=' + top + ', left=' + left);
-}
+
+	jQuery('#gsc_auth_code').click(
+		function() {
+			var auth_url = jQuery('#gsc_auth_url').val(),
+			    w = 600,
+				h = 500,
+				left = (screen.width / 2) - (w / 2),
+				top = (screen.height / 2) - (h / 2);
+			return window.open(auth_url, 'wpseogscauthcode', 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=no, copyhistory=no, width=' + w + ', height=' + h + ', top=' + top + ', left=' + left);
+		}
+	);
+})
 
 function wpseo_gsc_post_redirect( ) {
 	'use strict';

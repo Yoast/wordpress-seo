@@ -25,15 +25,13 @@ switch ( $platform_tabs->current_tab() ) {
 	case 'settings' :
 		// Check if there is an access token.
 		if ( null === $this->service->get_client()->getAccessToken() ) {
-			// Get the oauth URL.
-			$oauth_url = 'wpseo_gsc_open_authorize_code_window("' . $this->service->get_client()->createAuthUrl() . ' ");';
-
 			// Print auth screen.
 			echo '<p>';
 			/* Translators: %1$s: expands to 'Yoast SEO'. */
 			echo sprintf( __( 'To allow %1$s to fetch your Google Webmaster Tools information, please enter your Google Authorization Code.', 'wordpress-seo' ), 'Yoast SEO' );
 			echo "</p>\n";
-			echo "<button class='button-secondary' onclick='javascript:{$oauth_url}'>" , __( 'Get Google Authorization Code', 'wordpress-seo' ) ,"</button>\n";
+			echo '<input type="hidden" id="gsc_auth_url" value="', $this->service->get_client()->createAuthUrl() , '" />';
+			echo "<button id='gsc_auth_code' class='button-secondary'>" , __( 'Get Google Authorization Code', 'wordpress-seo' ) ,"</button>\n";
 
 			echo '<p>' . __( 'Please enter the Google Authorization Code in the field below and press the Authenticate button.', 'wordpress-seo' ) . "</p>\n";
 			echo "<form action='" . admin_url( 'admin.php?page=wpseo_webmaster_tools&tab=settings' ) . "' method='post'>\n";
