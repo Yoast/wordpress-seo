@@ -44,7 +44,7 @@ class WPSEO_GSC_Table extends WP_List_Table {
 	 */
 	private $modal_heights = array(
 		'create'         => 350,
-		'no_premium'     => 100,
+		'no_premium'     => 125,
 		'already_exists' => 150,
 	);
 
