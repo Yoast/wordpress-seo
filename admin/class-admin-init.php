@@ -9,7 +9,7 @@
 class WPSEO_Admin_Init {
 
 	/**
-	 * Holds the Yoast Options
+	 * Holds the Yoast SEO Options
 	 *
 	 * @var array
 	 */
