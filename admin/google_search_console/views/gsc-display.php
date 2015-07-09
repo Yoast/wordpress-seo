@@ -43,18 +43,18 @@ switch ( $platform_tabs->current_tab() ) {
 			echo "</form>\n";
 		}
 		else {
-			if ( ($profile = WPSEO_GSC_Settings::get_profile() ) !== '' ) {
+			$reset_button  = '<p>';
+			$reset_button .= '<label class="select"></label>';
+			$reset_button .= '<a class="button-secondary" href="' . add_query_arg( 'gsc_reset', 1 ). '">' . __( 'Reauthenticate with Google ', 'wordpress-seo' ) .'</a>';
+			$reset_button .= '</p>';
 
-				echo "<form action='" . admin_url( 'admin.php?page=wpseo_webmaster_tools&tab=settings' ) . "' method='post'>\n";
+			echo '<h3>',  __( 'Current profile', 'wordpress-seo' ), '</h3>';
+			if ( ($profile = WPSEO_GSC_Settings::get_profile() ) !== '' ) {
 				echo '<p>';
 				echo Yoast_Form::get_instance()->label( __( 'Current profile', 'wordpress-seo' ), array() );
 				echo $profile;
 				echo '</p>';
-
-				echo '<p class="submit">';
-				echo '<input type="submit" name="gsc_reset" id="submit" class="button button-primary" value="' . __( 'Reset the Google data', 'wordpress-seo' ) . '" />';
-				echo '</p>';
-				echo '</form>';
+				echo $reset_button;
 
 			}
 			else {
@@ -63,13 +63,29 @@ switch ( $platform_tabs->current_tab() ) {
 				settings_fields( 'yoast_wpseo_gsc_options' );
 				Yoast_Form::get_instance()->set_option( 'wpseo-gsc' );
 
-				echo Yoast_Form::get_instance()->select( 'profile', __( 'Profile', 'wordpress-seo' ), $this->service->get_sites() );
-
-				echo '<p class="submit">';
-				echo '<input type="submit" name="submit" id="submit" class="button button-primary" value="' . __( 'Save Profile', 'wordpress-seo' ) . '" />';
+				echo '<p>';
+				if ( $profiles = $this->service->get_sites() ) {
+					$show_save = true;
+					echo Yoast_Form::get_instance()->select( 'profile', __( 'Profile', 'wordpress-seo' ), $profiles);
+				}
+				else {
+					$show_save = false;
+					echo '<label class="select" for="profile">', __( 'Profile', 'wordpress-seo' ), '</label>';
+					echo __( 'There are not profiles found', 'wordpress-seo' );
+				}
 				echo '</p>';
+
+				echo $reset_button;
+
+				if ( $show_save ) {
+					echo '<p class="submit">';
+					echo '<input type="submit" name="submit" id="submit" class="button button-primary" value="' . __( 'Save Profile', 'wordpress-seo' ) . '" />';
+					echo '</p>';
+				}
 				echo '</form>';
 			}
+
+
 		}
 		break;
 

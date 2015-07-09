@@ -49,6 +49,8 @@ class WPSEO_GSC {
 		if ( filter_input( INPUT_GET, 'page' ) === 'wpseo_webmaster_tools' ) {
 			$this->set_hooks();
 			$this->set_dependencies();
+
+			$this->request_handler();
 		}
 	}
 
@@ -64,8 +66,6 @@ class WPSEO_GSC {
 	 * Function that outputs the redirect page
 	 */
 	public function display() {
-		$this->request_handler();
-
 		require_once WPSEO_PATH . '/admin/google_search_console/views/gsc-display.php';
 	}
 
@@ -138,9 +138,17 @@ class WPSEO_GSC {
 		$this->catch_authentication_post();
 
 		// Is there a reset post than we will remove the posts and data.
-		if ( filter_input( INPUT_POST, 'gsc_reset' ) ) {
-			$this->add_notification( __( 'The Google Webmaster Tools data has been removed. You will have to reauthenticate if you want to retrieve the data again.', 'wordpress-seo' ), 'update' );
+		if ( filter_input( INPUT_GET, 'gsc_reset' ) ) {
+			// Clear the google data
 			WPSEO_GSC_Settings::clear_data( $this->service );
+
+			// Adding noticiation to the noticiation center
+			$this->add_notification( __( 'The Google Webmaster Tools data has been removed. You will have to reauthenticate if you want to retrieve the data again.', 'wordpress-seo' ), 'updated' );
+
+			// Directly output the notifications
+			wp_redirect( remove_query_arg( 'gsc_reset' ) );
+			exit;
+//			Yoast_Notification_Center::get()->display_notifications();
 		}
 
 		// Reloads al the issues.
@@ -150,6 +158,9 @@ class WPSEO_GSC {
 
 			// Adding the notification.
 			$this->add_notification( __( 'The issues have been successfully reloaded!', 'wordpress-seo' ), 'updated' );
+
+			// Directly output the notifications
+			Yoast_Notification_Center::get()->display_notifications();
 		}
 
 		// Catch bulk action request.
@@ -196,8 +207,6 @@ class WPSEO_GSC {
 		Yoast_Notification_Center::get()->add_notification(
 			new Yoast_Notification( $message, array( 'type' => $type ) )
 		);
-
-		Yoast_Notification_Center::get()->display_notifications();
 	}
 
 	private function set_dependencies() {
@@ -221,7 +230,6 @@ class WPSEO_GSC {
 
 		// Fetching the issues.
 		$this->issue_fetch = new WPSEO_GSC_Issues( $this->platform, $this->category, $issue_count->get_issues() );
-
 	}
 
 }
