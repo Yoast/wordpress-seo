@@ -91,7 +91,7 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests that column_hidden returns the columns if the option isn't set
+	 * Tests that column_hidden returns the columns to hide so that WordPress hides them
 	 *
 	 * @covers WPSEO_Metabox::column_hidden()
 	 */
@@ -111,7 +111,9 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests that column_hidden returns the option if the option is set
+	 * Tests that column_hidden returns the value WordPress has saved in the database
+	 *
+	 * This is so the user can still set the columns they want to hide.
 	 *
 	 * @covers WPSEO_Metabox::column_hidden()
 	 */
@@ -132,11 +134,11 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests if column_hidden can deal with bad option values
+	 * Tests if column_hidden can deal with non array values returned from WordPress
 	 *
 	 * @covers WPSEO_Metabox::column_hidden()
 	 */
-	public function test_column_hidden_BAD_VALUE() {
+	public function test_column_hidden_UNEXPECTED_VALUE() {
 		$user = $this->getMockBuilder( 'WP_User' )
 					 ->getMock();
 
