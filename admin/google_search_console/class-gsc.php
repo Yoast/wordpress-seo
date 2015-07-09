@@ -19,6 +19,26 @@ class WPSEO_GSC {
 	private $service;
 
 	/**
+	 * @var WPSEO_GSC_Category_Filters
+	 */
+	protected $category_filter;
+
+	/**
+	 * @var WPSEO_GSC_Issues
+	 */
+	protected $issue_fetch;
+
+	/**
+	 * @var string current platform
+	 */
+	private $platform;
+
+	/**
+	 * @var string current category
+	 */
+	private $category;
+
+	/**
 	 * Constructor for the page class. This will initialize all GSC related stuff
 	 */
 	public function __construct() {
@@ -27,9 +47,11 @@ class WPSEO_GSC {
 
 		// Setting the screen option.
 		if ( filter_input( INPUT_GET, 'page' ) === 'wpseo_webmaster_tools' ) {
-			add_filter( 'set-screen-option', array( $this, 'set_screen_option' ), 11, 3 );
+			$this->set_hooks();
+			$this->set_dependencies();
 		}
 	}
+
 
 	/**
 	 * Be sure the settings will be registered, so data can be stored
@@ -42,29 +64,24 @@ class WPSEO_GSC {
 	 * Function that outputs the redirect page
 	 */
 	public function display() {
-		require_once WPSEO_PATH . '/admin/google_search_console/views/gsc-display.php';
-	}
-
-	/**
-	 * Function that is triggered when the redirect page loads
-	 */
-	public function page_load() {
-		$this->service = new WPSEO_GSC_Service( WPSEO_GSC_Settings::get_profile() );
-
 		$this->request_handler();
 
-		add_action( 'admin_enqueue_scripts', array( $this, 'page_scripts' ) );
+		require_once WPSEO_PATH . '/admin/google_search_console/views/gsc-display.php';
 	}
 
 	/**
 	 * Display the table
 	 *
-	 * @param WPSEO_GSC_Platform_Tabs $platform_tabs
 	 */
-	public function display_table( WPSEO_GSC_Platform_Tabs $platform_tabs ) {
+	public function display_table() {
 		// The list table.
-		$list_table = new WPSEO_GSC_Table( $platform_tabs, $this->service );
-		$list_table->prepare_items( );
+		$list_table = new WPSEO_GSC_Table( $this->platform, $this->category, $this->issue_fetch->get_issues() );
+
+		// Adding filter to display the category filters
+		add_filter( 'views_' . $list_table->get_screen_id(), array( $this->category_filter, 'as_array' ) );
+
+		// Preparing and displaying the table.
+		$list_table->prepare_items();
 		$list_table->search_box( __( 'Search', 'wordpress-seo' ), 'wpseo-crawl-issues-search' );
 		$list_table->display();
 	}
@@ -101,6 +118,15 @@ class WPSEO_GSC {
 	}
 
 	/**
+	 * Setting the hooks to be load on page request
+	 */
+	private function set_hooks() {
+		add_action( 'admin_enqueue_scripts', array( $this, 'page_scripts' ) );
+
+		add_filter( 'set-screen-option', array( $this, 'set_screen_option' ), 11, 3 );
+	}
+
+	/**
 	 * Handles the POST and GET requests
 	 */
 	private function request_handler() {
@@ -123,7 +149,7 @@ class WPSEO_GSC {
 			WPSEO_GSC_Settings::reload_issues();
 
 			// Adding the notification.
-			$this->add_notification( __( 'The issues have been successfully reloaded! Please refresh the page.', 'wordpress-seo' ), 'updated' );
+			$this->add_notification( __( 'The issues have been successfully reloaded!', 'wordpress-seo' ), 'updated' );
 		}
 
 		// Catch bulk action request.
@@ -170,6 +196,32 @@ class WPSEO_GSC {
 		Yoast_Notification_Center::get()->add_notification(
 			new Yoast_Notification( $message, array( 'type' => $type ) )
 		);
+
+		Yoast_Notification_Center::get()->display_notifications();
+	}
+
+	private function set_dependencies() {
+		// Setting the service object
+		$this->service         = new WPSEO_GSC_Service( WPSEO_GSC_Settings::get_profile() );
+
+		// Setting the platform.
+		$this->platform        = WPSEO_GSC_Mapper::get_current_platform( 'tab' );
+
+		// Loading the issue counter.
+		$issue_count           = new WPSEO_GSC_Count( $this->service );
+
+		// Loading the category filters.
+		$this->category_filter = new WPSEO_GSC_Category_Filters( $issue_count->get_platform_counts( $this->platform ) );
+
+		// Setting the current category.
+		$this->category        =  $this->category_filter->get_category();
+
+		// Listing the issues
+		$issue_count->list_issues( $this->platform, $this->category );
+
+		// Fetching the issues.
+		$this->issue_fetch = new WPSEO_GSC_Issues( $this->platform, $this->category, $issue_count->get_issues() );
+
 	}
 
 }

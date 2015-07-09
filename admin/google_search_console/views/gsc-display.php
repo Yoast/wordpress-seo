@@ -33,7 +33,7 @@ switch ( $platform_tabs->current_tab() ) {
 			/* Translators: %1$s: expands to 'Yoast SEO'. */
 			echo sprintf( __( 'To allow %1$s to fetch your Google Webmaster Tools information, please enter your Google Authorization Code.', 'wordpress-seo' ), 'Yoast SEO' );
 			echo "</p>\n";
-			echo "<input class='button-secondary' type='button' onclick='javascript:{$oauth_url}' value='" , __( 'Get Google Authorization Code', 'wordpress-seo' ) ,"' />\n";
+			echo "<button class='button-secondary' onclick='javascript:{$oauth_url}'>" , __( 'Get Google Authorization Code', 'wordpress-seo' ) ,"</button>\n";
 
 			echo '<p>' . __( 'Please enter the Google Authorization Code in the field below and press the Authenticate button.', 'wordpress-seo' ) . "</p>\n";
 			echo "<form action='" . admin_url( 'admin.php?page=wpseo_webmaster_tools&tab=settings' ) . "' method='post'>\n";
@@ -74,18 +74,15 @@ switch ( $platform_tabs->current_tab() ) {
 		break;
 
 	default :
-		$category = '';
-		if ( $filter_category = filter_input( INPUT_GET, 'category' ) ) {
-			$category = "&category={$filter_category}";
-		}
+		$form_action_url = admin_url( add_query_arg( 'page', esc_attr( filter_input( INPUT_GET, 'page' ) ) ) );
 
 		// Open <form>.
-		echo "<form id='wpseo-crawl-issues-table-form' action='" . admin_url( 'admin.php' ) . '?page=' . esc_attr( filter_input( INPUT_GET, 'page' ) ) . $category . "' method='post'>\n";
+		echo "<form id='wpseo-crawl-issues-table-form' action='" . $form_action_url . "' method='post'>\n";
 
 		// AJAX nonce.
 		echo "<input type='hidden' class='wpseo-gsc-ajax-security' value='" . wp_create_nonce( 'wpseo-gsc-ajax-security' ) . "' />\n";
 
-		$this->display_table( $platform_tabs );
+		$this->display_table();
 
 		// Close <form>.
 		echo "</form>\n";

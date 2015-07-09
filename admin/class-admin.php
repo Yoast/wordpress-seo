@@ -157,7 +157,7 @@ class WPSEO_Admin {
 				$manage_options_cap,
 				'wpseo_webmaster_tools',
 				array( $this->page_gsc, 'display' ),
-				array( array( $this->page_gsc, 'page_load' ) ),
+				null,
 			),
 		);
 

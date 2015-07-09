@@ -26,37 +26,37 @@ class WPSEO_GSC_Category_Filters {
 	private $filter_values   = array();
 
 	/**
-	 * The current view
+	 * The current category
 	 *
 	 * @var string
 	 */
-	private $current_view;
+	private $category;
 
 	/**
 	 * Constructing this object
 	 *
 	 * Setting the hook to create the issues categories as the links
 	 *
-	 * @param string $screen_id
-	 * @param string $platform
+	 * @param array $platform_counts
 	 */
-	public function __construct( $screen_id, $platform ) {
-		add_filter( 'views_' . $screen_id, array( $this, 'as_array' ) );
+	public function __construct( array $platform_counts ) {
+		if ( ! empty( $platform_counts ) ) {
+			$this->set_counts( $platform_counts );
+		}
 
-		$this->set_counts( $platform );
+		// Setting the filter values
+		$this->set_filter_values();
+
+		$this->category = $this->get_current_category();
 	}
 
 	/**
-	 * Getting the current view
+	 * Returns the value of the current category
+	 *
+	 * @return mixed|string
 	 */
-	public function current_view() {
-		$view        = ( $status = filter_input( INPUT_GET, 'category' )) ? $status : 'not_found';
-		$mapped_view = WPSEO_GSC_Mapper::category( $view );
-		if ( filter_input( INPUT_GET, 'category' ) === null && empty( $this->category_counts[ $mapped_view ] ) ) {
-			$view = WPSEO_GSC_Mapper::category_from_value( key( $this->category_counts ) );
-		}
-
-		return $this->current_view = $view;
+	public function get_category() {
+		return $this->category;
 	}
 
 	/**
@@ -70,34 +70,40 @@ class WPSEO_GSC_Category_Filters {
 		$new_views = array();
 
 		foreach ( $this->category_counts as $category_name => $category ) {
-			$new_views[] = $this->create_view_link( WPSEO_GSC_Mapper::category_from_value( $category_name ), $category['count'] );
+			$new_views[] = $this->create_view_link( $category_name, $category['count'] );
 		}
 
 		return $new_views;
 	}
 
 	/**
-	 * Setting the view counts based on the saved data. The info will be used to display the category filters
-	 *
-	 * @param string $platform
+	 * Getting the current view
 	 */
-	private function set_counts( $platform ) {
-		$platform_counts = $this->get_counts();
-
-		if ( array_key_exists( $platform, $platform_counts ) ) {
-			$this->category_counts = $this->parse_counts( $platform_counts[ $platform ] );
+	private function get_current_category() {
+		if ( $current_category = filter_input( INPUT_GET, 'category' ) ) {
+			return $current_category;
 		}
 
-		$this->set_filter_values();
+		// Just prevent redirect loops
+		if ( ! empty( $this->category_counts ) ) {
+			$current_category = 'not_found';
+			if ( empty( $this->category_counts[ $current_category ] ) ) {
+				$current_category = key( $this->category_counts );
+			}
+
+			// Just redirect to set the category
+			wp_redirect( add_query_arg( 'category', $current_category ) );
+			exit;
+		}
 	}
 
 	/**
-	 * Getting the options with the counts
+	 * Setting the view counts based on the saved data. The info will be used to display the category filters
 	 *
-	 * @return mixed
+	 * @param array $platform_counts
 	 */
-	private function get_counts() {
-		return get_option( WPSEO_GSC_Count::OPTION_CI_COUNTS, array() );
+	private function set_counts( array $platform_counts ) {
+		$this->category_counts = $this->parse_counts( $platform_counts );
 	}
 
 	/**
@@ -140,7 +146,8 @@ class WPSEO_GSC_Category_Filters {
 		$href  = add_query_arg( array( 'category' => $key, 'paged' => 1 ) );
 
 		$class = 'gsc_category';
-		if ( $this->current_view == $key ) {
+
+		if ( $this->category == $key ) {
 			$class .= ' current';
 		}
 

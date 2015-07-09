@@ -30,15 +30,27 @@ class WPSEO_GSC_Count {
 	 * Fetching the counts
 	 *
 	 * @param WPSEO_GSC_Service $service
-	 * @param string            $platform
-	 * @param string            $category
 	 */
-	public function __construct( WPSEO_GSC_Service $service, $platform, $category ) {
+	public function __construct( WPSEO_GSC_Service $service ) {
 		$this->service = $service;
 
 		$this->fetch_counts();
+	}
 
-		$this->list_issues( $platform, $category );
+	/**
+	 * Getting the counts for given platform and return them as an array
+	 *
+	 * @param string $platform
+	 *
+	 * @return array
+	 */
+	public function get_platform_counts( $platform ) {
+		$counts = $this->get_counts();
+		if ( array_key_exists( $platform, $counts ) ) {
+			return $counts[ $platform ];
+		}
+
+		return array();
 	}
 
 	/**
@@ -51,35 +63,12 @@ class WPSEO_GSC_Count {
 	}
 
 	/**
-	 * Fetching the counts from the GSC API
-	 */
-	private function fetch_counts() {
-		if ( WPSEO_GSC_Settings::get_profile() && $this->get_last_fetch() <= strtotime( '-12 hours' ) ) {
-			// Remove the timestamp.
-			$this->remove_last_fetch();
-
-			// Fetching the counts by setting an option.
-			$this->set_counts( $this->service->get_crawl_issue_counts() );
-
-			// Saving the current timestamp.
-			$this->save_last_fetch();
-		}
-	}
-
-	/**
-	 * Remove the last checked option
-	 */
-	private function remove_last_fetch() {
-		delete_option( self::OPTION_CI_LAST_FETCH );
-	}
-
-	/**
 	 * Listing the issues an gives them back as fetched issues
 	 *
 	 * @param string $platform
 	 * @param string $category
 	 */
-	private function list_issues( $platform, $category ) {
+	public function list_issues( $platform, $category ) {
 		$counts = $this->get_counts();
 
 		if ( array_key_exists( $platform, $counts ) ) {
@@ -88,6 +77,46 @@ class WPSEO_GSC_Count {
 			// Write the new counts value.
 			$this->set_counts( $counts );
 		}
+	}
+
+	/**
+	 * Fetching the counts from the GSC API
+	 */
+	private function fetch_counts() {
+		if ( WPSEO_GSC_Settings::get_profile() && $this->get_last_fetch() <= strtotime( '-12 hours' ) ) {
+			// Remove the timestamp.
+			$this->remove_last_fetch();
+
+			// Getting the counts and parse them
+			$counts = $this->parse_counts( $this->service->get_crawl_issue_counts() );
+
+			// Fetching the counts by setting an option.
+			$this->set_counts( $counts );
+
+			// Saving the current timestamp.
+			$this->save_last_fetch();
+		}
+	}
+
+	/**
+	 * Parsing the received counts from the API and map the keys to plugin friendly values
+	 *
+	 * @param array $fetched_counts
+	 *
+	 * @return array
+	 */
+	private function parse_counts( array $fetched_counts ) {
+		$counts = array();
+		foreach ( $fetched_counts as $platform_name => $categories ) {
+			$new_platform = WPSEO_GSC_Mapper::platform_from_api( $platform_name );
+
+			foreach ($categories as $category_name => $category ) {
+				$new_category = WPSEO_GSC_Mapper::category_from_api( $category_name );
+				$counts[ $new_platform ][ $new_category ] = $category;
+			}
+		}
+
+		return $counts;
 	}
 
 	/**
@@ -102,7 +131,7 @@ class WPSEO_GSC_Count {
 	private function list_category_issues( array $counts, $platform, $category ) {
 		// When the issues have to be fetched.
 		if ( array_key_exists( $category, $counts ) && $counts[ $category ]['count'] > 0 && $counts[ $category ]['last_fetch'] <= strtotime( '-12 hours' ) ) {
-			if ( $issues = $this->service->fetch_category_issues( $platform, $category ) ) {
+			if ( $issues = $this->service->fetch_category_issues( WPSEO_GSC_Mapper::platform_to_api( $platform ), WPSEO_GSC_Mapper::category_to_api( $category ) ) ) {
 				$this->issues = $issues;
 			}
 
@@ -136,6 +165,13 @@ class WPSEO_GSC_Count {
 	 */
 	private function save_last_fetch() {
 		add_option( self::OPTION_CI_LAST_FETCH, time(), '', 'no' );
+	}
+
+	/**
+	 * Remove the last checked option
+	 */
+	private function remove_last_fetch() {
+		delete_option( self::OPTION_CI_LAST_FETCH );
 	}
 
 	/**

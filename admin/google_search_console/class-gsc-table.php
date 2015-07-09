@@ -30,11 +30,6 @@ class WPSEO_GSC_Table extends WP_List_Table {
 	private $current_view;
 
 	/**
-	 * @var WPSEO_GSC_Table_Data
-	 */
-	private $crawl_issue_source;
-
-	/**
 	 * @var integer
 	 */
 	private $per_page     = 50;
@@ -56,10 +51,11 @@ class WPSEO_GSC_Table extends WP_List_Table {
 	/**
 	 * The constructor
 	 *
-	 * @param WPSEO_GSC_Platform_Tabs $platform_tabs
-	 * @param WPSEO_GSC_Service       $service
+	 * @param string $platform
+	 * @param string $category
+	 * @param array  $items
 	 */
-	public function __construct( WPSEO_GSC_Platform_Tabs $platform_tabs, WPSEO_GSC_Service $service ) {
+	public function __construct( $platform, $category, array $items ) {
 		parent::__construct();
 
 		// Adding the thickbox.
@@ -70,26 +66,36 @@ class WPSEO_GSC_Table extends WP_List_Table {
 			$this->search_string = $search_string;
 		}
 
+		$this->current_view = $category;
+
 		// Set the crawl issue source.
-		$this->crawl_issue_source = new WPSEO_GSC_Table_Data( $platform_tabs->current_tab(), $this->screen->id, $service );
-		$this->crawl_issue_source->show_fields();
+		$this->show_fields( $platform );
+
+		$this->items = $items;
+	}
+
+	/**
+	 * Getting the screen id from this table
+	 *
+	 * @return string
+	 */
+	public function get_screen_id() {
+		return $this->screen->id;
 	}
 
 	/**
 	 * Setup the table variables, fetch the items from the database, search, sort and format the items.
 	 * Set the items as the WPSEO_Redirect_Table items variable.
+	 *
 	 */
-	public function prepare_items() {
-		// Setting the current view.
-		$this->current_view       = $this->crawl_issue_source->get_category();
-
+	public function prepare_items( ) {
 		// Get variables needed for pagination.
 		$this->per_page     = $this->get_items_per_page( 'errors_per_page', $this->per_page );
 		$this->current_page = intval( ( $paged = filter_input( INPUT_GET, 'paged' ) ) ? $paged : 1 );
 
 		$this->setup_columns();
 		$this->views();
-		$this->set_items();
+		$this->parse_items();
 	}
 
 	/**
@@ -224,7 +230,7 @@ class WPSEO_GSC_Table extends WP_List_Table {
 	 * @return bool
 	 */
 	private function can_create_redirect(  ) {
-		return in_array( $this->crawl_issue_source->get_category(), array( 'soft404', 'notFound', 'accessDenied' ) );
+		return in_array( $this->current_view, array( 'soft404', 'notFound', 'accessDenied' ) );
 	}
 
 	/**
@@ -244,9 +250,7 @@ class WPSEO_GSC_Table extends WP_List_Table {
 	/**
 	 * Setting the items
 	 */
-	private function set_items() {
-		$this->items = $this->crawl_issue_source->get_issues();
-
+	private function parse_items( ) {
 		if ( is_array( $this->items ) && count( $this->items ) > 0 ) {
 			if ( ! empty( $this->search_string ) ) {
 				$this->do_search();
@@ -350,7 +354,6 @@ class WPSEO_GSC_Table extends WP_List_Table {
 	 * @return string
 	 */
 	private function modal_box_type( $url, &$current_redirect) {
-
 		if ( defined( 'WPSEO_PREMIUM_FILE' ) && class_exists( 'WPSEO_URL_Redirect_Manager' ) ) {
 			static $redirect_manager;
 
@@ -366,6 +369,18 @@ class WPSEO_GSC_Table extends WP_List_Table {
 		}
 
 		return 'no_premium';
+	}
+
+
+	/**
+	 * Showing the hidden fields used by the AJAX requests
+	 *
+	 * @param string $platform
+	 */
+	private function show_fields( $platform ) {
+		echo "<input type='hidden' name='wpseo_gsc_nonce' value='" . wp_create_nonce( 'wpseo_gsc_nonce' ) . "' />";
+		echo "<input id='field_platform' type='hidden' name='platform' value='{$platform}' />";
+		echo "<input id='field_category' type='hidden' name='category' value='{$this->current_view}' />";
 	}
 
 }

@@ -17,6 +17,7 @@ class WPSEO_GSC_Mapper {
 		'web'             => 'web',
 		'mobile'          => 'mobile',
 		'smartphone_only' => 'smartphoneOnly',
+		'settings'        => 'settings', // This one is basicly not a platform, but a tab.
 	);
 
 	/**
@@ -36,16 +37,46 @@ class WPSEO_GSC_Mapper {
 	);
 
 	/**
+	 * If there is no platform, just get the first key out of the array and redirect to it.
+	 * @param $platform
+	 *
+	 * @return mixed
+	 */
+	public static function get_current_platform( $platform ) {
+		if ( $current_platform = filter_input( INPUT_GET, $platform ) ) {
+			return $current_platform;
+		}
+
+		wp_redirect( add_query_arg( $platform, key( self::$platforms ) ) );
+		exit;
+	}
+
+	/**
 	 * Mapping the platform
 	 *
 	 * @param string $platform
 	 *
 	 * @return mixed
 	 */
-	public static function platform( $platform ) {
+	public static function platform_to_api( $platform ) {
 		if ( ! empty( $platform ) && array_key_exists( $platform, self::$platforms ) ) {
 			return self::$platforms[ $platform ];
 		}
+	}
+
+	/**
+	 * Mapping the given platform by value and return its key
+	 *
+	 * @param string $platform
+	 *
+	 * @return string
+	 */
+	public static function platform_from_api( $platform ) {
+		if ( ! empty( $platform ) && $platform = array_search( $platform, self::$platforms ) ) {
+			return $platform;
+		}
+
+		return $platform;
 	}
 
 	/**
@@ -55,7 +86,7 @@ class WPSEO_GSC_Mapper {
 	 *
 	 * @return mixed
 	 */
-	public static function category( $category) {
+	public static function category_to_api( $category) {
 		if ( ! empty( $category ) && array_key_exists( $category, self::$categories ) ) {
 			return self::$categories[ $category ];
 		}
@@ -70,7 +101,7 @@ class WPSEO_GSC_Mapper {
 	 *
 	 * @return string
 	 */
-	public static function category_from_value( $category ) {
+	public static function category_from_api( $category ) {
 		if ( ! empty( $category ) && $category = array_search( $category, self::$categories ) ) {
 			return $category;
 		}
