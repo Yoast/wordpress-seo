@@ -1226,7 +1226,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 *
 	 * @return array|false $result
 	 */
-	function column_hidden( $result, $option, $user ) {
+	public function column_hidden( $result, $option, $user ) {
 		global $wpdb;
 
 		$prefix = $wpdb->get_blog_prefix();
