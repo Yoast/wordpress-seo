@@ -66,7 +66,7 @@ switch ( $platform_tabs->current_tab() ) {
 				echo '<p>';
 				if ( $profiles = $this->service->get_sites() ) {
 					$show_save = true;
-					echo Yoast_Form::get_instance()->select( 'profile', __( 'Profile', 'wordpress-seo' ), $profiles);
+					echo Yoast_Form::get_instance()->select( 'profile', __( 'Profile', 'wordpress-seo' ), $profiles );
 				}
 				else {
 					$show_save = false;
@@ -84,8 +84,6 @@ switch ( $platform_tabs->current_tab() ) {
 				}
 				echo '</form>';
 			}
-
-
 		}
 		break;
 

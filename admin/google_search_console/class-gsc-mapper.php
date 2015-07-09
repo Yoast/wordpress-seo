@@ -38,7 +38,8 @@ class WPSEO_GSC_Mapper {
 
 	/**
 	 * If there is no platform, just get the first key out of the array and redirect to it.
-	 * @param $platform
+	 *
+	 * @param string $platform
 	 *
 	 * @return mixed
 	 */

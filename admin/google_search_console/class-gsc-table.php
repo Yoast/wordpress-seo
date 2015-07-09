@@ -85,8 +85,6 @@ class WPSEO_GSC_Table extends WP_List_Table {
 
 	/**
 	 * Setup the table variables, fetch the items from the database, search, sort and format the items.
-	 * Set the items as the WPSEO_Redirect_Table items variable.
-	 *
 	 */
 	public function prepare_items( ) {
 		// Get variables needed for pagination.

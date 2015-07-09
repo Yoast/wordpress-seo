@@ -69,13 +69,12 @@ class WPSEO_GSC {
 
 	/**
 	 * Display the table
-	 *
 	 */
 	public function display_table() {
 		// The list table.
 		$list_table = new WPSEO_GSC_Table( $this->platform, $this->category, $this->issue_fetch->get_issues() );
 
-		// Adding filter to display the category filters
+		// Adding filter to display the category filters.
 		add_filter( 'views_' . $list_table->get_screen_id(), array( $this->category_filter, 'as_array' ) );
 
 		// Preparing and displaying the table.
@@ -136,16 +135,15 @@ class WPSEO_GSC {
 
 		// Is there a reset post than we will remove the posts and data.
 		if ( filter_input( INPUT_GET, 'gsc_reset' ) ) {
-			// Clear the google data
+			// Clear the google data.
 			WPSEO_GSC_Settings::clear_data( $this->service );
 
-			// Adding noticiation to the noticiation center
+			// Adding noticiation to the notification center.
 			$this->add_notification( __( 'The Google Webmaster Tools data has been removed. You will have to reauthenticate if you want to retrieve the data again.', 'wordpress-seo' ), 'updated' );
 
-			// Directly output the notifications
+			// Directly output the notifications.
 			wp_redirect( remove_query_arg( 'gsc_reset' ) );
 			exit;
-//			Yoast_Notification_Center::get()->display_notifications();
 		}
 
 		// Reloads al the issues.
@@ -156,7 +154,7 @@ class WPSEO_GSC {
 			// Adding the notification.
 			$this->add_notification( __( 'The issues have been successfully reloaded!', 'wordpress-seo' ), 'updated' );
 
-			// Directly output the notifications
+			// Directly output the notifications.
 			Yoast_Notification_Center::get()->display_notifications();
 		}
 
@@ -223,9 +221,9 @@ class WPSEO_GSC {
 		$this->category_filter = new WPSEO_GSC_Category_Filters( $issue_count->get_platform_counts( $this->platform ) );
 
 		// Setting the current category.
-		$this->category        =  $this->category_filter->get_category();
+		$this->category        = $this->category_filter->get_category();
 
-		// Listing the issues
+		// Listing the issues.
 		$issue_count->list_issues( $this->platform, $this->category );
 
 		// Fetching the issues.

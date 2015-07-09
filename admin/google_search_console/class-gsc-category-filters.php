@@ -44,7 +44,7 @@ class WPSEO_GSC_Category_Filters {
 			$this->set_counts( $platform_counts );
 		}
 
-		// Setting the filter values
+		// Setting the filter values.
 		$this->set_filter_values();
 
 		$this->category = $this->get_current_category();
@@ -84,14 +84,14 @@ class WPSEO_GSC_Category_Filters {
 			return $current_category;
 		}
 
-		// Just prevent redirect loops
+		// Just prevent redirect loops.
 		if ( ! empty( $this->category_counts ) ) {
 			$current_category = 'not_found';
 			if ( empty( $this->category_counts[ $current_category ] ) ) {
 				$current_category = key( $this->category_counts );
 			}
 
-			// Just redirect to set the category
+			// Just redirect to set the category.
 			wp_redirect( add_query_arg( 'category', $current_category ) );
 			exit;
 		}

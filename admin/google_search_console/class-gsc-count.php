@@ -87,7 +87,7 @@ class WPSEO_GSC_Count {
 			// Remove the timestamp.
 			$this->remove_last_fetch();
 
-			// Getting the counts and parse them
+			// Getting the counts and parse them.
 			$counts = $this->parse_counts( $this->service->get_crawl_issue_counts() );
 
 			// Fetching the counts by setting an option.
@@ -110,7 +110,7 @@ class WPSEO_GSC_Count {
 		foreach ( $fetched_counts as $platform_name => $categories ) {
 			$new_platform = WPSEO_GSC_Mapper::platform_from_api( $platform_name );
 
-			foreach ($categories as $category_name => $category ) {
+			foreach ( $categories as $category_name => $category ) {
 				$new_category = WPSEO_GSC_Mapper::category_from_api( $category_name );
 				$counts[ $new_platform ][ $new_category ] = $category;
 			}
