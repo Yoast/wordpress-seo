@@ -138,8 +138,9 @@ class WPSEO_GSC {
 			// Clear the google data.
 			WPSEO_GSC_Settings::clear_data( $this->service );
 
-			// Adding noticiation to the notification center.
-			$this->add_notification( __( 'The Google Webmaster Tools data has been removed. You will have to reauthenticate if you want to retrieve the data again.', 'wordpress-seo' ), 'updated' );
+			// Adding notification to the notification center.
+			/* Translators: %1$s: expands to Google Search Console. */
+			$this->add_notification( __sprintf( __( 'The %1$s data has been removed. You will have to reauthenticate if you want to retrieve the data again.', 'wordpress-seo' ), 'Google Search Console' ), 'updated' );
 
 			// Directly output the notifications.
 			wp_redirect( remove_query_arg( 'gsc_reset' ) );

@@ -4,7 +4,7 @@
  */
 
 	// Admin header.
-	Yoast_Form::get_instance()->admin_header( false, 'wpseo_webmaster_tools', false, 'yoast_wpseo_redirects_options' );
+	Yoast_Form::get_instance()->admin_header( false, 'wpseo_webmaster_tools', false, 'yoast_wpseo_webmaster_tools_options' );
 ?>
 	<h2 class="nav-tab-wrapper" id="wpseo-tabs">
 <?php
@@ -27,8 +27,8 @@ switch ( $platform_tabs->current_tab() ) {
 		if ( null === $this->service->get_client()->getAccessToken() ) {
 			// Print auth screen.
 			echo '<p>';
-			/* Translators: %1$s: expands to 'Yoast SEO'. */
-			echo sprintf( __( 'To allow %1$s to fetch your Google Webmaster Tools information, please enter your Google Authorization Code.', 'wordpress-seo' ), 'Yoast SEO' );
+			/* Translators: %1$s: expands to 'Yoast SEO', %2$s expands to Google Search Console. */
+			echo sprintf( __( 'To allow %1$s to fetch your %2$s information, please enter your Google Authorization Code.', 'wordpress-seo' ), 'Yoast SEO', 'Google Search Console' );
 			echo "</p>\n";
 			echo '<input type="hidden" id="gsc_auth_url" value="', $this->service->get_client()->createAuthUrl() , '" />';
 			echo "<button id='gsc_auth_code' class='button-secondary'>" , __( 'Get Google Authorization Code', 'wordpress-seo' ) ,"</button>\n";
