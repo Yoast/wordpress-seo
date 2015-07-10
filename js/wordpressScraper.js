@@ -61,28 +61,17 @@ YoastSEO_WordPressScraper.prototype.getDataFromInput = function( inputType ) {
 YoastSEO_WordPressScraper.prototype.getAnalyzerInput = function() {
     this.analyzerDataQueue = ["text", "keyword", "meta", "url", "title"];
     this.runAnalyzerDataQueue();
-   /* for (var i = 0; i < inputElems.length; i++){
-        this.replaceVariables(this.analyzerData[ inputElems[ i ] ], inputElems[i], this.formattedAnalyzerData);
-    }
-    /*
-    inputs.text =this.analyzerData.text;
-    this.inputs.textString = this.source.getAnalyzerInput( "text" );
-    this.inputs.keyword = this.source.getAnalyzerInput( "keyword" );
-    this.inputs.meta = this.source.getAnalyzerInput( "meta" );
-    this.inputs.url = this.source.getAnalyzerInput( "url" );
-    this.inputs.pageTitle = this.source.getAnalyzerInput( "title" );
-/*
-    var data = this.analyzerData[ inputType ];
-    return this.replaceVariables( data );*/
-    //return this.formattedAnalyzerData;
 };
 
+/**
+ * Queue for the analyzer data. Runs a queue to prevent timing issues with the replace variable callback
+ */
 YoastSEO_WordPressScraper.prototype.runAnalyzerDataQueue = function() {
     if(this.analyzerDataQueue.length > 0){
         var currentData = this.analyzerDataQueue.shift();
         this.replaceVariables(this.analyzerData[currentData], currentData, this.formattedAnalyzerData)
     }else{
-        console.log(this.formattedAnalyzerData);
+        this.refObj.runAnalyzerCallback();
     }
 };
 
