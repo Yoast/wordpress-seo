@@ -70,7 +70,7 @@ YoastSEO_InputGenerator.prototype.createBr = function( targetElement ) {
     targetElement.appendChild( br );
 };
 
-YoastSEO_InputGenerator.prototype.getInput = function( inputType ) {
+YoastSEO_InputGenerator.prototype.getAnalyzerInput = function( inputType ) {
     var val;
     switch( inputType){
         case "text":

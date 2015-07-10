@@ -25,7 +25,9 @@ YoastSEO_Analyzer.prototype.init = function() {
  * converts the keyword to lowercase
  */
 YoastSEO_Analyzer.prototype.toLowCase = function() {
-    this.config.keywordLowerCase = this.config.keyword.toLocaleLowerCase();
+    if(typeof this.config.keyword !== "undefined") {
+        this.config.keywordLowerCase = this.config.keyword.toLocaleLowerCase();
+    }
 };
 
 /**
@@ -34,7 +36,7 @@ YoastSEO_Analyzer.prototype.toLowCase = function() {
  */
 YoastSEO_Analyzer.prototype.initDependencies = function() {
     //init preprocessor
-    this.YoastSEO_preProcessor = new YoastSEO_preProcessor( this.config.textString );
+    this.YoastSEO_preProcessor = new YoastSEO_preProcessor( this.config.text );
     //init helper
     this.stringHelper = stringHelper();
     //init scorer

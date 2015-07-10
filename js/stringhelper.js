@@ -77,8 +77,33 @@ YoastSEO_StringHelper.prototype.stripSpaces = function( textString ) {
  * @returns textString
  */
 YoastSEO_StringHelper.prototype.addEscapeChars = function ( textString ) {
-    return textString.replace( /[\-\[\]\/\{}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&' );;
+    return textString.replace( /[\-\[\]\/\{}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&' );
 };
+
+/**
+ * removes all HTMLtags from input string, except h1-6, li, p and dd
+ * @param textString
+ * @returns textString
+ */
+YoastSEO_StringHelper.prototype.stripSomeTags = function( textString ) {
+    //remove tags, except li, p, h1-6, dd
+    textString = textString.replace( /<(?!li|\/li|p|\/p|h1|\/h1|h2|\/h2|h3|\/h3|h4|\/h4|h5|\/h5|h6|\/h6|dd).*?\>/g, " " );
+    textString = this.stripSpaces( textString );
+    return textString;
+};
+
+/**
+ * remove all HTMLtags from input string.
+ * @param textString
+ * @returns textString
+ */
+YoastSEO_StringHelper.prototype.stripAllTags = function( textString ) {
+    //remove all tags
+    textString = textString.replace( /(<([^>]+)>)/ig," " );
+    textString = this.stripSpaces( textString );
+    return textString;
+};
+
 
 /**
  * Checks if the stringhelper is already initialized. Returns stringHelper.

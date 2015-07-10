@@ -7,13 +7,13 @@ YoastSEO_AnalyzeLoader = function( args ) {
     window.analyzeLoader = this;
     this.config = args;
     this.inputs = {};
+    this.stringHelper = new YoastSEO_StringHelper();
+    this.source = new this.config.source(args, this);
     this.defineElements();
-    this.source = new this.config.source( args, this );
-    if(this.config.snippetPreview){
-        this.createSnippetPreview();
-    }
-    this.bindEvent();
+    this.stringHelper = new YoastSEO_StringHelper();
     this.checkInputs();
+    this.createSnippetPreview();
+    this.bindEvent();
 };
 
 
@@ -28,6 +28,9 @@ YoastSEO_AnalyzeLoader.prototype.createSnippetPreview = function() {
     this.createSnippetPreviewUrl ( div );
     this.createSnippetPreviewMeta ( div );
     targetElement.appendChild( div );
+    if(this.config.snippetPreview){
+        this.snippetPreview = new YoastSEO_SnippetPreview( this );
+    }
 };
 
 /**
@@ -83,12 +86,15 @@ YoastSEO_AnalyzeLoader.prototype.defineElements = function() {
 /**
  * gets the values from the inputfields. The values from these fields are used as input for the analyzer.
  */
-YoastSEO_AnalyzeLoader.prototype.getInput = function() {
-    this.inputs.textString = this.source.getInput( "text" );
-    this.inputs.keyword = this.source.getInput( "keyword" );
-    this.inputs.meta = this.source.getInput( "meta" );
-    this.inputs.url = this.source.getInput( "url" );
-    this.inputs.pageTitle = this.source.getInput( "title" );
+YoastSEO_AnalyzeLoader.prototype.getAnalyzerInput = function() {
+    this.inputs = this.source.getAnalyzerInput();
+    /*
+    this.inputs.textString = this.source.getAnalyzerInput( "text" );
+    this.inputs.keyword = this.source.getAnalyzerInput( "keyword" );
+    this.inputs.meta = this.source.getAnalyzerInput( "meta" );
+    this.inputs.url = this.source.getAnalyzerInput( "url" );
+    this.inputs.pageTitle = this.source.getAnalyzerInput( "title" );
+    */
 };
 
 /**
@@ -154,15 +160,24 @@ YoastSEO_AnalyzeLoader.prototype.analyzeTimer = function() {
  * calls the getInput function to retreive values from inputs. If the keyword is empty calls message, if keyword is filled, runs the analyzer
  */
 YoastSEO_AnalyzeLoader.prototype.checkInputs = function() {
-    var refObj = window.analyzeLoader;
+   /* var refObj = window.analyzeLoader;
 
-    refObj.getInput();
-    if( refObj.inputs.keyword === "" ) {
+    refObj.getAnalyzerInput();
+    if( refObj.source.analyzerData.keyword === "" ) {
+        refObj.showMessage();
+    }else{
+        refObj.runAnalyzer();
+    }*/
+};
+
+YoastSEO_AnalyzeLoader.prototype.runAnalyzerCallback = function() {
+    var refObj = window.analyzeLoader;
+    if( refObj.source.analyzerData.keyword === "" ) {
         refObj.showMessage();
     }else{
         refObj.runAnalyzer();
     }
-};
+}
 
 /**
  * used when no keyword is filled in, it will display a message in the target element
@@ -201,9 +216,9 @@ YoastSEO_AnalyzeLoader.prototype.runAnalyzer = function() {
     if( this.config.dynamicDelay ){
         this.startTime();
     }
-    this.pageAnalyzer = new YoastSEO_Analyzer( this.inputs );
+    this.pageAnalyzer = new YoastSEO_Analyzer( this.source.analyzerData );
     this.pageAnalyzer.runQueue();
-    this.snippetPreview = new YoastSEO_SnippetPreview( this );
+
     this.scoreFormatter = new YoastSEO_ScoreFormatter( this.pageAnalyzer, this.config.targets );
     if( this.config.dynamicDelay ){
         this.endTime();

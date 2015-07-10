@@ -4,6 +4,7 @@ var args = {
     snippetPreview: true,
     elementTarget: ["content","yoast_wpseo_focuskw","yoast_wpseo_metadesc","excerpt","editable-post-name","editable-post-name-full"],
     replaceTarget: ["yoast_wpseo_metadesc", "excerpt","yoast_wpseo_title"],
+    resetTarget: ["snippet_meta", "snippet_title","snippet_cite"],
     typeDelay: 300,
     typeDelayStep: 100,
     maxTypeDelay: 1500,

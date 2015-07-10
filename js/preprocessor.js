@@ -26,8 +26,8 @@ YoastSEO_PreProcessor.prototype.init = function() {
  */
 YoastSEO_PreProcessor.prototype.textFormat = function() {
     this.__store.cleanText = this.cleanText( this.__store.originalText );
-    this.__store.cleanTextSomeTags = this.stripSomeTags( this.__store.cleanText );
-    this.__store.cleanTextNoTags = this.stripAllTags( this.__store.cleanTextSomeTags );
+    this.__store.cleanTextSomeTags = this.stringHelper.stripSomeTags( this.__store.cleanText );
+    this.__store.cleanTextNoTags = this.stringHelper.stripAllTags( this.__store.cleanTextSomeTags );
 };
 
 /**
@@ -152,29 +152,7 @@ YoastSEO_PreProcessor.prototype.cleanText = function( textString ) {
     return this.stringHelper.stripSpaces( textString );
 };
 
-/**
- * removes all HTMLtags from input string, except h1-6, li, p and dd
- * @param textString
- * @returns textString
- */
-YoastSEO_PreProcessor.prototype.stripSomeTags = function( textString ) {
-    //remove tags, except li, p, h1-6, dd
-    textString = textString.replace( /<(?!li|\/li|p|\/p|h1|\/h1|h2|\/h2|h3|\/h3|h4|\/h4|h5|\/h5|h6|\/h6|dd).*?\>/g, " " );
-    textString = this.stringHelper.stripSpaces( textString );
-    return textString;
-};
 
-/**
- * remove all HTMLtags from input string.
- * @param textString
- * @returns textString
- */
-YoastSEO_PreProcessor.prototype.stripAllTags = function( textString ) {
-    //remove all tags
-    textString = textString.replace( /(<([^>]+)>)/ig," " );
-    textString = this.stringHelper.stripSpaces( textString );
-    return textString;
-};
 
 
 
