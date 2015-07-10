@@ -3,10 +3,10 @@
 * Added a Japanese translation and updated several other languages.
 
 ### 2.2.1: June 11th, 2015
-* Merge with WordPress SEO core 2.2.1
+* Merge with Yoast SEO core 2.2.1
 
 ### 2.2: June 10th, 2015
-* Adds a X-Redirect-By header to redirects that were created using WordPress SEO Premium. Works for all PHP redirects and regular NGINX redirects. Doesn't work for Apache.
+* Adds a X-Redirect-By header to redirects that were created using Yoast SEO Premium. Works for all PHP redirects and regular NGINX redirects. Doesn't work for Apache.
 * Makes sure all AJAX notices become dismissible.
 * Makes sure the redirect notice also shows the old and new url.
 * Fixes a bug where the link in the redirect notice was not clickable in some cases.
@@ -17,71 +17,71 @@
 * Fixes a bug where automatic redirects where not being created on slug change when using quick edit for both posts and terms.
 * Fixes a bug where where automatic redirects where not being created on slug change for custom taxonomies.
 * Fixes a bug where a slug change could falsely be detected and redirected in case of a term update in the context of a post update
-* Merge with WordPress SEO core 2.2
+* Merge with Yoast SEO core 2.2
 
 ### 2.1.1: April 21st, 2015
-* Merge with WordPress SEO core 2.1.1
+* Merge with Yoast SEO core 2.1.1
 
 ### 2.1: April 20th, 2015
-* Merge with WordPress SEO core 2.1
+* Merge with Yoast SEO core 2.1
 
 ### 2.0.1: April 1st, 2015
-* Merge with WordPress SEO core 2.0.1
+* Merge with Yoast SEO core 2.0.1
 
 ### 2.0: March 11th, 2015
-* Merge with WordPress SEO core 2.0
+* Merge with Yoast SEO core 2.0
 * Made the version number for the Premium plugin the same as for the Free plugin to avoid confusion.
 * Contains several performance improvements, making the plugin much faster.
 
 ### 1.5.3: March 11th, 2015
-* Security hotfix: Merge with WordPress SEO core 1.7.4, see [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
+* Security hotfix: Merge with Yoast SEO core 1.7.4, see [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
 
 ### 1.5.2.2: February 23rd, 2015
-* Merge with WordPress SEO core 1.7.3.2
+* Merge with Yoast SEO core 1.7.3.2
 
 ### 1.5.2.1: February 19th, 2015
-* Merge with WordPress SEO core 1.7.3.1
+* Merge with Yoast SEO core 1.7.3.1
 
 ### 1.5.2: February 17th, 2015
 * Added the possibility to add 410 status to redirects.
 * Added a few validations to prevent circular redirects.
 * Reuses translations from the free version of this plugin, thereby dramatically reducing the amount of strings that need to be translated for the premium plugin.
-* Merge with WordPress SEO core 1.7.3
+* Merge with Yoast SEO core 1.7.3
 
 ### 1.5.1: November 26th, 2014
-* Security hotfix: Merge with WordPress SEO core 1.7.1, see [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
+* Security hotfix: Merge with Yoast SEO core 1.7.1, see [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
 
 ### 1.5: November 18th, 2014
-* Merge with WordPress SEO core 1.7
+* Merge with Yoast SEO core 1.7
 * Fixes a bug where authentication with Google Webmaster Tools would fail silently.
 * Fixes a bug where redirects weren't written to htaccess.
 * Added filters for hiding redirects notifications.
 
 ### 1.4.3: October 8th, 2014
-* Merge with WordPress SEO core 1.6.3
+* Merge with Yoast SEO core 1.6.3
 
 ### 1.4.2: October 8th, 2014
-* Merge with WordPress SEO core 1.6.2
+* Merge with Yoast SEO core 1.6.2
 * Implement new filter for issue types on the Google Webmaster Tools issues screen
 
 ### 1.4.1: September 16th, 2014
-* Merge with WordPress SEO core 1.6.1
+* Merge with Yoast SEO core 1.6.1
 
 ### 1.4: September 9th, 2014
-* Merge with WordPress SEO core 1.6
+* Merge with Yoast SEO core 1.6
 
 ### 1.3.5: August 26th, 2014
-* Merge with WordPress SEO core 1.5.6, updated for WP 4.0
+* Merge with Yoast SEO core 1.5.6, updated for WP 4.0
 
 ### 1.3.4: August 15th, 2014
-* Fix incomplete merge with WordPress SEO core to 1.5.5.3
+* Fix incomplete merge with Yoast SEO core to 1.5.5.3
 
 ### 1.3.3: August 14th, 2014
-* Updated WordPress SEO core to 1.5.5.3
+* Updated Yoast SEO core to 1.5.5.3
 
 ### 1.3.2: August 14th, 2014
-* Fixed bug in core WordPress SEO that made SEO icon value wrong.
-* Updated WordPress SEO core to 1.5.5.2
+* Fixed bug in core Yoast SEO that made SEO icon value wrong.
+* Updated Yoast SEO core to 1.5.5.2
 
 ### 1.3.1: August 14th, 2014
 * Fix versioning issue
@@ -115,20 +115,20 @@
 * Response code of redirects is now checked while adding redirects to avoid incorrect redirects.
 * Created a Yoast overlay for a more user friendly way of displaying errors.
 * Implemented autoloader to enhance plugin performance.
-* Updated WordPress SEO core to 1.5.3.3.
+* Updated Yoast SEO core to 1.5.3.3.
 
 ### 1.1.3: May 22nd, 2014
-* Updated WordPress SEO core to 1.5.3.2
+* Updated Yoast SEO core to 1.5.3.2
 
 ### 1.1.2: April 25th, 2014
 * Fixed notices when fetching remote crawl issues and there are now crawl issues from remote.
-* Updated WordPress SEO core to 1.5.2.8
+* Updated Yoast SEO core to 1.5.2.8
 
 ### 1.1.1: April 15th, 2014
-* Updated WordPress SEO core to 1.5.2.7
+* Updated Yoast SEO core to 1.5.2.7
 
 ### 1.1.0: April 4st, 2014
-* Updated WordPress SEO core to 1.5.x
+* Updated Yoast SEO core to 1.5.x
 * Google Webmaster Tools crawl issues are now cached decreasing load time of issues dramatically.
 * Google Webmaster Tools profile can now manually be selected.
 * Added 'not redirected' filter to crawl issues table.
@@ -138,28 +138,28 @@
 * Added support for REGEX redirects.
 
 ### 1.0.8: March 21st, 2014
-* Updated WordPress SEO core to 1.5.2.5
+* Updated Yoast SEO core to 1.5.2.5
 
 ### 1.0.7: March 14st, 2014
-* Updated WordPress SEO core to 1.5.2.2
+* Updated Yoast SEO core to 1.5.2.2
 
 ### 1.0.6: March 12st, 2014
-* Updated WordPress SEO core to 1.5.2.1
+* Updated Yoast SEO core to 1.5.2.1
 
 ### 1.0.5: March 11st, 2014
-* Updated WordPress SEO core to 1.5.2
+* Updated Yoast SEO core to 1.5.2
 
 ### 1.0.4: March 11st, 2014
-* Updated WordPress SEO core to 1.5.0
+* Updated Yoast SEO core to 1.5.0
 
 ### 1.0.3: Feb 26st, 2014
 * Fixed an incorrect constant define.
-* Updated WordPress SEO core to 1.4.25.
+* Updated Yoast SEO core to 1.4.25.
 * Now using the correct file reference (WPSEO_FILE) in main WPSEO file.
 
 ### 1.0.2: Feb 18st, 2014
 * Fixed a bug that prevented options on the WPSEO dashboard from saving.
-* Updated WordPress SEO core to 1.4.24.
+* Updated Yoast SEO core to 1.4.24.
 
 ### 1.0.1: Jan 31st, 2014
 * Remove dependency on PHP 5.3 function DateTime::getTimestamp() so plugin works on PHP 5.2 installs too.

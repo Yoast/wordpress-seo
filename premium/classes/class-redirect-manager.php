@@ -14,7 +14,7 @@ abstract class WPSEO_Redirect_Manager {
 	protected $option_redirects = null;
 
 	/**
-	 * Get the WordPress SEO options
+	 * Get the Yoast SEO options
 	 *
 	 * @return array
 	 */

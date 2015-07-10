@@ -1,6 +1,6 @@
 {
   "name": "wordpress-seo-premium",
-  "description": "Development files for the WordPress SEO Premium plugin",
+  "description": "Development files for the Yoast SEO Premium plugin",
   "plugin": {
     "glotpress": "https://translate.yoast.com",
     "slug": "wordpress-seo-premium",

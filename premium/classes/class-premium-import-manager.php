@@ -85,7 +85,7 @@ class WPSEO_Premium_Import_Manager {
 			// Get redirects.
 			$items = $wpdb->get_results( "SELECT `url`, `action_data`, `regex`, `action_code` FROM {$wpdb->prefix}redirection_items WHERE `status` = 'enabled' AND `action_type` = 'url'" );
 
-			// Loop and add redirect to WordPress Premium.
+			// Loop and add redirect to Yoast SEO Premium.
 			if ( count( $items ) > 0 ) {
 				$url_redirection_manager   = new WPSEO_URL_Redirect_Manager();
 				$regex_redirection_manager = new WPSEO_REGEX_Redirect_Manager();
