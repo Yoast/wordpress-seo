@@ -539,7 +539,11 @@ class WPSEO_Sitemaps {
 			$users = wp_list_pluck( $users, 'ID' );
 
 			$count = count( $users );
-			$n     = ( $count > $this->max_entries ) ? (int) ceil( $count / $this->max_entries ) : 1;
+			$n     = ( $count > 0 ) ? 1 : 0;
+
+			if ( $count > $this->max_entries ) {
+				$n = (int) ceil( $count / $this->max_entries );
+			};
 
 			for ( $i = 0; $i < $n; $i ++ ) {
 				$count = ( $n > 1 ) ? ( $i + 1 ) : '';
