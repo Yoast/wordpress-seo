@@ -102,6 +102,7 @@ class WPSEO_Sitemaps {
 		add_action( 'pre_get_posts', array( $this, 'redirect' ), 1 );
 		add_filter( 'redirect_canonical', array( $this, 'canonical' ) );
 		add_action( 'wpseo_hit_sitemap_index', array( $this, 'hit_sitemap_index' ) );
+		add_filter( 'wpseo_sitemap_exclude_author', array( $this, 'user_sitemap_remove_excluded_authors' ), 8 );
 
 		// default stylesheet
 		$this->stylesheet = '<?xml-stylesheet type="text/xsl" href="' . preg_replace( '/(^http[s]?:)/', '', esc_url( home_url( 'main-sitemap.xsl' ) ) ) . '"?>';
@@ -1111,8 +1112,6 @@ class WPSEO_Sitemaps {
 				'order'    => 'ASC',
 			)
 		);
-
-		add_filter( 'wpseo_sitemap_exclude_author', array( $this, 'user_sitemap_remove_excluded_authors' ), 8 );
 
 		$users = apply_filters( 'wpseo_sitemap_exclude_author', $users );
 
