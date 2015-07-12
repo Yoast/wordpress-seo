@@ -1,7 +1,6 @@
 <?php
 /**
- * @package    WPSEO
- * @subpackage Frontend
+ * @package WPSEO\Frontend
  */
 
 /**
@@ -88,7 +87,7 @@ class WPSEO_Twitter {
 	private function determine_card_type() {
 		$this->type = $this->options['twitter_card_type'];
 		if ( is_singular() ) {
-			// If the current post has a gallery, output a gallery card
+			// If the current post has a gallery, output a gallery card.
 			if ( has_shortcode( $GLOBALS['post']->post_content, 'gallery' ) ) {
 				$this->images = get_post_gallery_images();
 				if ( count( $this->images ) > 3 ) {
@@ -134,7 +133,7 @@ class WPSEO_Twitter {
 	 */
 	private function output_metatag( $name, $value, $escaped = false ) {
 
-		// Escape the value if not escaped
+		// Escape the value if not escaped.
 		if ( false === $escaped ) {
 			$value = esc_attr( $value );
 		}
@@ -146,7 +145,7 @@ class WPSEO_Twitter {
 		 */
 		$metatag_key = apply_filters( 'wpseo_twitter_metatag_key', 'name' );
 
-		// Output meta
+		// Output meta.
 		echo '<meta ', esc_attr( $metatag_key ), '="twitter:', esc_attr( $name ), '" content="', $value, '"/>', "\n";
 	}
 
@@ -158,6 +157,9 @@ class WPSEO_Twitter {
 	protected function description() {
 		if ( is_singular() ) {
 			$meta_desc = $this->single_description();
+		}
+		elseif ( WPSEO_Frontend::get_instance()->is_posts_page() ) {
+			$meta_desc = $this->single_description( get_option( 'page_for_posts' ) );
 		}
 		else {
 			$meta_desc = $this->fallback_description();
@@ -177,10 +179,13 @@ class WPSEO_Twitter {
 	/**
 	 * Returns the description for a singular page
 	 *
+	 * @param int $post_id
+	 *
 	 * @return string
 	 */
-	private function single_description() {
-		$meta_desc = trim( WPSEO_Meta::get_value( 'twitter-description' ) );
+	private function single_description( $post_id = 0 ) {
+		$meta_desc = trim( WPSEO_Meta::get_value( 'twitter-description', $post_id ) );
+
 		if ( is_string( $meta_desc ) && '' !== $meta_desc ) {
 			return $meta_desc;
 		}
@@ -211,6 +216,9 @@ class WPSEO_Twitter {
 		if ( is_singular() ) {
 			$title = $this->single_title();
 		}
+		elseif ( WPSEO_Frontend::get_instance()->is_posts_page() ) {
+			$title = $this->single_title( get_option( 'page_for_posts' ) );
+		}
 		else {
 			$title = $this->fallback_title();
 		}
@@ -229,10 +237,12 @@ class WPSEO_Twitter {
 	/**
 	 * Returns the Twitter title for a single post
 	 *
+	 * @param int $post_id
+	 *
 	 * @return string
 	 */
-	private function single_title() {
-		$title = WPSEO_Meta::get_value( 'twitter-title' );
+	private function single_title( $post_id = 0 ) {
+		$title = WPSEO_Meta::get_value( 'twitter-title', $post_id );
 		if ( ! is_string( $title ) || '' === $title ) {
 			return $this->fallback_title();
 		}
@@ -273,9 +283,9 @@ class WPSEO_Twitter {
 	 * Solves issues with filters returning urls and theme's/other plugins also adding a user meta
 	 * twitter field which expects url rather than an id (which is what we expect).
 	 *
-	 * @param  string $id Twitter id or url
+	 * @param  string $id Twitter ID or url.
 	 *
-	 * @return string|bool Twitter id or false if it failed to get a valid twitter id
+	 * @return string|bool Twitter ID or false if it failed to get a valid Twitter ID.
 	 */
 	private function get_twitter_id( $id ) {
 		if ( preg_match( '`([A-Za-z0-9_]{1,25})$`', $id, $match ) ) {

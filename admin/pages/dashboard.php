@@ -1,7 +1,6 @@
 <?php
 /**
- * @package    WPSEO
- * @subpackage Admin
+ * @package WPSEO\Admin
  */
 
 if ( ! defined( 'WPSEO_VERSION' ) ) {
@@ -28,15 +27,15 @@ if ( isset( $_GET['allow_tracking'] ) && check_admin_referer( 'wpseo_activate_tr
 }
 
 
-// Fix metadescription if so requested
+// Fix metadescription if so requested.
 if ( isset( $_GET['fixmetadesc'] ) && check_admin_referer( 'wpseo-fix-metadesc', 'nonce' ) && $options['theme_description_found'] !== '' ) {
 	$path = false;
 	if ( file_exists( get_stylesheet_directory() . '/header.php' ) ) {
-		// theme or child theme
+		// Theme or child theme.
 		$path = get_stylesheet_directory();
 	}
 	elseif ( file_exists( get_template_directory() . '/header.php' ) ) {
-		// parent theme in case of a child theme
+		// Parent theme in case of a child theme.
 		$path = get_template_directory();
 	}
 
@@ -77,7 +76,7 @@ if ( isset( $_GET['fixmetadesc'] ) && check_admin_referer( 'wpseo-fix-metadesc',
 		}
 	}
 
-	// Clean up the referrer url for later use
+	// Clean up the referrer url for later use.
 	if ( isset( $_SERVER['REQUEST_URI'] ) ) {
 		$_SERVER['REQUEST_URI'] = remove_query_arg( array( 'nonce', 'fixmetadesc' ), $_SERVER['REQUEST_URI'] );
 	}
@@ -85,11 +84,11 @@ if ( isset( $_GET['fixmetadesc'] ) && check_admin_referer( 'wpseo-fix-metadesc',
 
 if ( ( ! isset( $options['theme_has_description'] ) || ( ( isset( $options['theme_has_description'] ) && $options['theme_has_description'] === true ) || $options['theme_description_found'] !== '' ) ) || ( isset( $_GET['checkmetadesc'] ) && check_admin_referer( 'wpseo-check-metadesc', 'nonce' ) ) ) {
 	wpseo_description_test();
-	// Renew the options after the test
+	// Renew the options after the test.
 	$options = get_option( 'wpseo' );
 }
 if ( isset( $_GET['checkmetadesc'] ) ) {
-	// Clean up the referrer url for later use
+	// Clean up the referrer url for later use.
 	if ( isset( $_SERVER['REQUEST_URI'] ) ) {
 		$_SERVER['REQUEST_URI'] = remove_query_arg( array( 'nonce', 'checkmetadesc' ), $_SERVER['REQUEST_URI'] );
 	}
@@ -102,7 +101,7 @@ do_action( 'wpseo_all_admin_notices' );
 
 if ( is_array( $options['blocking_files'] ) && count( $options['blocking_files'] ) > 0 ) {
 	echo '<p id="blocking_files" class="wrong">';
-	echo '<a href="javascript:wpseo_killBlockingFiles(\'', esc_js( wp_create_nonce( 'wpseo-blocking-files' ) ), '\')" class="button fixit">', __( 'Fix it.', 'wordpress-seo' ), '</a>';
+	echo '<a href="javascript:wpseoKillBlockingFiles(\'', esc_js( wp_create_nonce( 'wpseo-blocking-files' ) ), '\')" class="button fixit">', __( 'Fix it.', 'wordpress-seo' ), '</a>';
 	echo __( 'The following file(s) is/are blocking your XML sitemaps from working properly:', 'wordpress-seo' ), '<br />';
 	foreach ( $options['blocking_files'] as $file ) {
 		echo esc_html( $file ), '<br/>';
@@ -127,14 +126,14 @@ if ( $options['theme_description_found'] !== '' ) {
 if ( strpos( get_option( 'permalink_structure' ), '%postname%' ) === false && $options['ignore_permalink'] === false ) {
 	echo '<p id="wrong_permalink" class="wrong">';
 	echo '<a href="', esc_url( admin_url( 'options-permalink.php' ) ), '" class="button fixit">', __( 'Fix it.', 'wordpress-seo' ), '</a>';
-	echo '<a href="javascript:wpseo_setIgnore(\'permalink\',\'wrong_permalink\',\'', esc_js( wp_create_nonce( 'wpseo-ignore' ) ), '\');" class="button fixit">', __( 'Ignore.', 'wordpress-seo' ), '</a>';
+	echo '<a href="javascript:wpseoSetIgnore(\'permalink\',\'wrong_permalink\',\'', esc_js( wp_create_nonce( 'wpseo-ignore' ) ), '\');" class="button fixit">', __( 'Ignore.', 'wordpress-seo' ), '</a>';
 	echo __( 'You do not have your postname in the URL of your posts and pages, it is highly recommended that you do. Consider setting your permalink structure to <strong>/%postname%/</strong>.', 'wordpress-seo' ), '</p>';
 }
 
 if ( get_option( 'page_comments' ) && $options['ignore_page_comments'] === false ) {
 	echo '<p id="wrong_page_comments" class="wrong">';
 	echo '<a href="javascript:setWPOption(\'page_comments\',\'0\',\'wrong_page_comments\',\'', esc_js( wp_create_nonce( 'wpseo-setoption' ) ), '\');" class="button fixit">', __( 'Fix it.', 'wordpress-seo' ), '</a>';
-	echo '<a href="javascript:wpseo_setIgnore(\'page_comments\',\'wrong_page_comments\',\'', esc_js( wp_create_nonce( 'wpseo-ignore' ) ), '\');" class="button fixit">', __( 'Ignore.', 'wordpress-seo' ), '</a>';
+	echo '<a href="javascript:wpseoSetIgnore(\'page_comments\',\'wrong_page_comments\',\'', esc_js( wp_create_nonce( 'wpseo-ignore' ) ), '\');" class="button fixit">', __( 'Ignore.', 'wordpress-seo' ), '</a>';
 	echo __( 'Paging comments is enabled, this is not needed in 999 out of 1000 cases, so the suggestion is to disable it, to do that, simply uncheck the box before "Break comments into pages..."', 'wordpress-seo' ), '</p>';
 }
 
@@ -150,42 +149,60 @@ if ( get_option( 'page_comments' ) && $options['ignore_page_comments'] === false
 	</h2>
 
 	<div id="general" class="wpseotab">
-		<p>
-			<strong><?php _e( 'Tracking', 'wordpress-seo' ); ?></strong><br/>
-			<?php _e( "To maintain a plugin as big as WordPress SEO, we need to know what we're dealing with: what kinds of other plugins our users are using, what themes, etc. Please allow us to track that data from your install. It will not track <em>any</em> user details, so your security and privacy are safe with us.", 'wordpress-seo' ); ?>
-		</p>
-		<?php $yform->checkbox( 'yoast_tracking', __( 'Allow tracking of this WordPress install\'s anonymous data.', 'wordpress-seo' ) ); ?>
-
-		<br/>
-
-		<?php if ( $options['ignore_tour'] === true ) { ?>
+		<?php if ( get_user_meta( get_current_user_id(), 'wpseo_ignore_tour' ) ) { ?>
 			<p>
 				<strong><?php _e( 'Introduction Tour', 'wordpress-seo' ); ?></strong><br/>
 				<?php _e( 'Take this tour to quickly learn about the use of this plugin.', 'wordpress-seo' ); ?>
 			</p>
 			<p>
-				<?php $yform->label( __( 'Introduction Tour:', 'wordpress-seo' ), array( 'class' => 'select' ) ); ?>
 				<a class="button-secondary"
 				   href="<?php echo esc_url( admin_url( 'admin.php?page=wpseo_dashboard&wpseo_restart_tour=1' ) ); ?>"><?php _e( 'Start Tour', 'wordpress-seo' ); ?></a>
 			</p>
+
+			<br/>
 		<?php } ?>
+
+		<p>
+			<strong><?php _e( 'Latest Changes', 'wordpress-seo' ); ?></strong><br/>
+			<?php
+			/* translators: %s expands to WordPress SEO by Yoast */
+			printf( __( 'We\'ve summarized the most recent changes in %s.', 'wordpress-seo' ), 'WordPress SEO by Yoast' );
+			?>
+		</p>
+		<p>
+			<a class="button-secondary"
+			   href="<?php echo esc_url( admin_url( 'admin.php?page=wpseo_dashboard&intro=1' ) ); ?>"><?php _e( 'View Changes', 'wordpress-seo' ); ?></a>
+		</p>
 
 		<br/>
 
 		<p>
 			<strong><?php _e( 'Restore Default Settings', 'wordpress-seo' ); ?></strong><br/>
-			<?php _e( 'If you want to restore a site to the default WordPress SEO settings, press this button.', 'wordpress-seo' ); ?>
+			<?php
+			/* translators: %s expands to WordPress SEO by Yoast */
+			printf( __( 'If you want to restore a site to the default %s settings, press this button.', 'wordpress-seo' ), 'WordPress SEO by Yoast' );
+			?>
 		</p>
 
 		<p>
-			<?php $yform->label( __( 'Default Settings:', 'wordpress-seo' ), array( 'class' => 'select' ) ); ?>
-			<a onclick="if( !confirm('<?php _e( 'Are you sure you want to reset your SEO settings?', 'wordpress-seo' ); ?>') ) return false;" class="button" href="<?php echo esc_url( add_query_arg( array( 'nonce' => wp_create_nonce( 'wpseo_reset_defaults' ) ), admin_url( 'admin.php?page=wpseo_dashboard&wpseo_reset_defaults=1' ) ) ); ?>"><?php _e( 'Reset Default Settings', 'wordpress-seo' ); ?></a>
+			<a onclick="if( !confirm('<?php _e( 'Are you sure you want to reset your SEO settings?', 'wordpress-seo' ); ?>') ) return false;" class="button" href="<?php echo esc_url( add_query_arg( array( 'nonce' => wp_create_nonce( 'wpseo_reset_defaults' ) ), admin_url( 'admin.php?page=wpseo_dashboard&wpseo_reset_defaults=1' ) ) ); ?>"><?php _e( 'Restore Default Settings', 'wordpress-seo' ); ?></a>
 		</p>
 	</div>
 	<div id="knowledge-graph" class="wpseotab">
+		<h3><?php _e( 'Website name', 'wordpress-seo' ); ?></h3>
 		<p>
 			<?php
-			// @todo add KB link - JdV
+			_e( 'Google shows your website\'s name in the search results, we will default to your site name but you can adapt it here. You can also provide an alternate website name you want Google to consider.', 'wordpress-seo' );
+			?>
+		</p>
+		<?php
+		$yform->textinput( 'website_name', __( 'Website name', 'wordpress-seo' ), array( 'placeholder' => get_bloginfo( 'name' ) ) );
+		$yform->textinput( 'alternate_website_name', __( 'Alternate name', 'wordpress-seo' ) );
+		?>
+		<h3><?php _e( 'Company or person', 'wordpress-seo' ); ?></h3>
+		<p>
+			<?php
+			// @todo add KB link - JdV.
 			_e( 'This data is shown as metadata in your site. It is intended to appear in Google\'s Knowledge Graph. You can be either a company, or a person, choose either:', 'wordpress-seo' );
 			?>
 		</p>
@@ -213,14 +230,14 @@ if ( get_option( 'page_comments' ) && $options['ignore_page_comments'] === false
 		echo '<p>', __( 'You can use the boxes below to verify with the different Webmaster Tools, if your site is already verified, you can just forget about these. Enter the verify meta values for:', 'wordpress-seo' ), '</p>';
 		$yform->textinput( 'alexaverify', '<a target="_blank" href="http://www.alexa.com/siteowners/claim">' . __( 'Alexa Verification ID', 'wordpress-seo' ) . '</a>' );
 		$yform->textinput( 'msverify', '<a target="_blank" href="' . esc_url( 'http://www.bing.com/webmaster/?rfp=1#/Dashboard/?url=' . urlencode( str_replace( 'http://', '', get_bloginfo( 'url' ) ) ) ) . '">' . __( 'Bing Webmaster Tools', 'wordpress-seo' ) . '</a>' );
-		$yform->textinput( 'googleverify', '<a target="_blank" href="' . esc_url( 'https://www.google.com/webmasters/verification/verification?hl=en&siteUrl=' . urlencode( get_bloginfo( 'url' ) ) . '/' ) . '">' . __( 'Google Webmaster Tools', 'wordpress-seo' ) . '</a>' );
+		$yform->textinput( 'googleverify', '<a target="_blank" href="' . esc_url( 'https://www.google.com/webmasters/verification/verification?hl=en&siteUrl=' . urlencode( get_bloginfo( 'url' ) ) . '/' ) . '">Google Search Console</a>' );
 		$yform->textinput( 'yandexverify', '<a target="_blank" href="http://help.yandex.com/webmaster/service/rights.xml#how-to">' . __( 'Yandex Webmaster Tools', 'wordpress-seo' ) . '</a>' );
 		?>
 	</div>
 	<div id="security" class="wpseotab">
 		<?php
+		echo '<p>', __( 'Unchecking this box allows authors and editors to redirect posts, noindex them and do other things you might not want if you don\'t trust your authors.', 'wordpress-seo' ), '</p>';
 		$yform->checkbox( 'disableadvanced_meta', __( 'Disable the Advanced part of the WordPress SEO meta box', 'wordpress-seo' ) );
-		echo '<p class="desc">', __( 'Unchecking this box allows authors and editors to redirect posts, noindex them and do other things you might not want if you don\'t trust your authors.', 'wordpress-seo' ), '</p>';
 		?>
 	</div>
 <?php

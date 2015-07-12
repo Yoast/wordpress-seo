@@ -1,7 +1,6 @@
 <?php
 /**
- * @package    WPSEO
- * @subpackage Internals
+ * @package WPSEO\Internals
  * @since      1.5.0
  */
 
@@ -102,123 +101,93 @@ class WPSEO_Meta {
 		'general'  => array(
 			'snippetpreview' => array(
 				'type'  => 'snippetpreview',
-				'title' => '', // translation added later
-				'help'  => '', // translation added later
+				'title' => '', // Translation added later.
+				'help'  => '', // Translation added later.
 			),
 			'focuskw'        => array(
 				'type'          => 'text',
-				'title'         => '', // translation added later
+				'title'         => '', // Translation added later.
 				'default_value' => '',
 				'autocomplete'  => false,
-				'help'          => '', // translation added later
+				'help'          => '', // Translation added later.
 				'description'   => '<div id="focuskwresults"></div>',
 			),
 			'title'          => array(
 				'type'          => 'text',
-				'title'         => '', // translation added later
+				'title'         => '', // Translation added later.
 				'default_value' => '',
-				'description'   => '', // translation added later
-				'help'          => '', // translation added later
+				'description'   => '', // Translation added later.
+				'help'          => '', // Translation added later.
 			),
 			'metadesc'       => array(
 				'type'          => 'textarea',
-				'title'         => '', // translation added later
+				'title'         => '', // Translation added later.
 				'default_value' => '',
 				'class'         => 'metadesc',
 				'rows'          => 2,
-				'description'   => '', // translation added later
-				'help'          => '', // translation added later
+				'description'   => '', // Translation added later.
+				'help'          => '', // Translation added later.
 			),
 			'metakeywords'   => array(
 				'type'          => 'text',
-				'title'         => '', // translation added later
+				'title'         => '', // Translation added later.
 				'default_value' => '',
 				'class'         => 'metakeywords',
-				'description'   => '', // translation added later
+				'description'   => '', // Translation added later.
 			),
 		),
 		'advanced' => array(
 			'meta-robots-noindex'  => array(
 				'type'          => 'select',
-				'title'         => '', // translation added later
-				'default_value' => '0', // = post-type default
+				'title'         => '', // Translation added later.
+				'default_value' => '0', // = post-type default.
 				'options'       => array(
-					'0' => '', // post type default - translation added later
-					'2' => '', // index - translation added later
-					'1' => '', // no-index - translation added later
+					'0' => '', // Post type default - translation added later.
+					'2' => '', // Index - translation added later.
+					'1' => '', // No-index - translation added later.
 				),
 			),
 			'meta-robots-nofollow' => array(
 				'type'          => 'radio',
-				'title'         => '', // translation added later
-				'default_value' => '0', // = follow
+				'title'         => '', // Translation added later.
+				'default_value' => '0', // = follow.
 				'options'       => array(
-					'0' => '', // follow - translation added later
-					'1' => '', // no-follow - translation added later
+					'0' => '', // Follow - translation added later.
+					'1' => '', // No-follow - translation added later.
 				),
 			),
 			'meta-robots-adv'      => array(
 				'type'          => 'multiselect',
-				'title'         => '', // translation added later
-				'default_value' => '-', // = site-wide default
-				'description'   => '', // translation added later
+				'title'         => '', // Translation added later.
+				'default_value' => '-', // = site-wide default.
+				'description'   => '', // Translation added later.
 				'options'       => array(
-					'-'            => '', // site-wide default - translation added later
-					'none'         => '', // translation added later
-					'noodp'        => '', // translation added later
-					'noydir'       => '', // translation added later
-					'noimageindex' => '', // translation added later
-					'noarchive'    => '', // translation added later
-					'nosnippet'    => '', // translation added later
+					'-'            => '', // Site-wide default - translation added later.
+					'none'         => '', // Translation added later.
+					'noodp'        => '', // Translation added later.
+					'noydir'       => '', // Translation added later.
+					'noimageindex' => '', // Translation added later.
+					'noarchive'    => '', // Translation added later.
+					'nosnippet'    => '', // Translation added later.
 				),
 			),
 			'bctitle'              => array(
 				'type'          => 'text',
-				'title'         => '', // translation added later
+				'title'         => '', // Translation added later.
 				'default_value' => '',
-				'description'   => '', // translation added later
-			),
-			'sitemap-include'      => array(
-				'type'          => 'select',
-				'title'         => '', // translation added later
-				'default_value' => '-',
-				'description'   => '', // translation added later
-				'options'       => array(
-					'-'      => '', // translation added later
-					'always' => '', // translation added later
-					'never'  => '', // translation added later
-				),
-			),
-			'sitemap-prio'         => array(
-				'type'          => 'select',
-				'title'         => '', // translation added later
-				'default_value' => '-',
-				'description'   => '', // translation added later
-				'options'       => array(
-					'-'   => '', // translation added later
-					'1'   => '', // translation added later
-					'0.9' => '0.9',
-					'0.8' => '0.8 - ', // translation added later
-					'0.7' => '0.7',
-					'0.6' => '0.6 - ', // translation added later
-					'0.5' => '0.5 - ', // translation added later
-					'0.4' => '0.4',
-					'0.3' => '0.3',
-					'0.2' => '0.2',
-					'0.1' => '0.1 - ', // translation added later
-				),
+				'description'   => '', // Translation added later.
 			),
 			'canonical'            => array(
 				'type'          => 'text',
-				'title'         => '', // translation added later
+				'title'         => '', // Translation added later.
 				'default_value' => '',
-				'description'   => '', // translation added later
+				'description'   => '', // Translation added later.
 			),
 			'redirect'             => array(
 				'type'          => 'text',
-				'title'         => '', // translation added later
+				'title'         => '', // Translation added later.
 				'default_value' => '',
-				'description'   => '', // translation added later
+				'description'   => '', // Translation added later.
 			),
 		),
 		'social'   => array(),
@@ -284,9 +253,9 @@ class WPSEO_Meta {
 				foreach ( self::$social_fields as $box => $type ) {
 					self::$meta_fields['social'][ $network . '-' . $box ] = array(
 						'type'          => $type,
-						'title'         => '', // translation added later
+						'title'         => '', // Translation added later.
 						'default_value' => '',
-						'description'   => '', // translation added later
+						'description'   => '', // Translation added later.
 					);
 				}
 			}
@@ -308,8 +277,10 @@ class WPSEO_Meta {
 		foreach ( self::$meta_fields as $subset => $field_group ) {
 			foreach ( $field_group as $key => $field_def ) {
 				if ( $field_def['type'] !== 'snippetpreview' ) {
-					/* register_meta() is undocumented and not used by WP internally, wrapped in
-					   function_exists as a precaution in case they remove it. */
+					/**
+					 * Function register_meta() is undocumented and not used by WP internally, wrapped in
+					 * function_exists as a precaution in case they remove it.
+					 */
 					if ( $register === true ) {
 						register_meta( 'post', self::$meta_prefix . $key, array( __CLASS__, 'sanitize_post_meta' ) );
 					}
@@ -317,18 +288,18 @@ class WPSEO_Meta {
 						add_filter( 'sanitize_post_meta_' . self::$meta_prefix . $key, array( __CLASS__, 'sanitize_post_meta' ), 10, 2 );
 					}
 
-					// Set the $fields_index property for efficiency
+					// Set the $fields_index property for efficiency.
 					self::$fields_index[ self::$meta_prefix . $key ] = array(
 						'subset' => $subset,
 						'key'    => $key,
 					);
 
-					// Set the $defaults property for efficiency
+					// Set the $defaults property for efficiency.
 					if ( isset( $field_def['default_value'] ) ) {
 						self::$defaults[ self::$meta_prefix . $key ] = $field_def['default_value'];
 					}
 					else {
-						// meta will always be a string, so let's make the meta meta default also a string
+						// Meta will always be a string, so let's make the meta meta default also a string.
 						self::$defaults[ self::$meta_prefix . $key ] = '';
 					}
 				}
@@ -346,8 +317,8 @@ class WPSEO_Meta {
 	 *
 	 * @static
 	 *
-	 * @param  string $tab       Tab for which to retrieve the field definitions
-	 * @param  string $post_type Post type of the current post
+	 * @param  string $tab       Tab for which to retrieve the field definitions.
+	 * @param  string $post_type Post type of the current post.
 	 *
 	 * @return array             Array containing the meta box field definitions
 	 */
@@ -360,7 +331,7 @@ class WPSEO_Meta {
 
 		switch ( $tab ) {
 			case 'non-form':
-				// prevent non-form fields from being passed to forms
+				// Prevent non-form fields from being passed to forms.
 				$field_defs = array();
 				break;
 
@@ -382,7 +353,7 @@ class WPSEO_Meta {
 				 * @deprecated use the 'wpseo_metabox_entries_general' filter instead
 				 * @see        WPSEO_Meta::get_meta_field_defs()
 				 *
-				 * @param      array $field_defs metabox form definitions
+				 * @param      array $field_defs Metabox orm definitions.
 				 *
 				 * @return     array
 				 */
@@ -411,7 +382,7 @@ class WPSEO_Meta {
 					$robots_adv = array();
 					foreach ( array( 'noodp', 'noydir' ) as $robot ) {
 						if ( $options[ $robot ] === true ) {
-							// use translation from field def options - mind that $options and $field_def['options'] keys should be the same!
+							// Use translation from field def options - mind that $options and $field_def['options'] keys should be the same!
 							$robots_adv[] = $field_defs['meta-robots-adv']['options'][ $robot ];
 						}
 					}
@@ -430,12 +401,10 @@ class WPSEO_Meta {
 					unset( $field_defs['bctitle'] );
 				}
 
-				/* Don't show the xml sitemap fields, if xml sitemaps aren't enabled */
-				if ( $options['enablexmlsitemap'] !== true ) {
-					unset(
-						$field_defs['sitemap-include'],
-						$field_defs['sitemap-prio']
-					);
+				global $post;
+
+				if ( empty( $post->ID ) || ( ! empty( $post->ID ) && self::get_value( 'redirect', $post->ID ) === '' ) ) {
+					unset( $field_defs['redirect'] );
 				}
 				break;
 		}
@@ -444,8 +413,8 @@ class WPSEO_Meta {
 		 * Filter the WPSEO metabox form field definitions for a tab
 		 * {tab} can be 'general', 'advanced' or 'social'
 		 *
-		 * @param  array  $field_defs metabox form definitions
-		 * @param  string $post_type  post type of the post the metabox is for, defaults to 'post'
+		 * @param  array  $field_defs Metabox form definitions.
+		 * @param  string $post_type  Post type of the post the metabox is for, defaults to 'post'.
 		 *
 		 * @return array
 		 */
@@ -459,8 +428,8 @@ class WPSEO_Meta {
 	 *
 	 * @static
 	 *
-	 * @param  mixed  $meta_value The new value
-	 * @param  string $meta_key   The full meta key (including prefix)
+	 * @param  mixed  $meta_value The new value.
+	 * @param  string $meta_key   The full meta key (including prefix).
 	 *
 	 * @return string             Validated meta value
 	 */
@@ -472,13 +441,13 @@ class WPSEO_Meta {
 			case ( $meta_key === self::$meta_prefix . 'linkdex' ):
 				$int = WPSEO_Utils::validate_int( $meta_value );
 				if ( $int !== false && $int >= 0 ) {
-					$clean = strval( $int ); // Convert to string to make sure default check works
+					$clean = strval( $int ); // Convert to string to make sure default check works.
 				}
 				break;
 
 
 			case ( $field_def['type'] === 'checkbox' ):
-				// Only allow value if it's one of the predefined options
+				// Only allow value if it's one of the predefined options.
 				if ( in_array( $meta_value, array( 'on', 'off' ), true ) ) {
 					$clean = $meta_value;
 				}
@@ -486,7 +455,7 @@ class WPSEO_Meta {
 
 
 			case ( $field_def['type'] === 'select' || $field_def['type'] === 'radio' ):
-				// Only allow value if it's one of the predefined options
+				// Only allow value if it's one of the predefined options.
 				if ( isset( $field_def['options'][ $meta_value ] ) ) {
 					$clean = $meta_value;
 				}
@@ -500,7 +469,7 @@ class WPSEO_Meta {
 
 			case ( $field_def['type'] === 'text' && $meta_key === self::$meta_prefix . 'canonical' ):
 			case ( $field_def['type'] === 'text' && $meta_key === self::$meta_prefix . 'redirect' ):
-				// Validate as url(-part)
+				// Validate as url(-part).
 				$url = WPSEO_Utils::sanitize_url( $meta_value );
 				if ( $url !== '' ) {
 					$clean = $url;
@@ -509,7 +478,7 @@ class WPSEO_Meta {
 
 
 			case ( $field_def['type'] === 'upload' && $meta_key === self::$meta_prefix . 'opengraph-image' ):
-				// Validate as url
+				// Validate as url.
 				$url = WPSEO_Utils::sanitize_url( $meta_value, array( 'http', 'https', 'ftp', 'ftps' ) );
 				if ( $url !== '' ) {
 					$clean = $url;
@@ -519,8 +488,8 @@ class WPSEO_Meta {
 
 			case ( $field_def['type'] === 'textarea' ):
 				if ( is_string( $meta_value ) ) {
-					// Remove line breaks and tabs
-					// @todo [JRF => Yoast] verify that line breaks and the likes aren't allowed/recommended in meta header fields
+					// Remove line breaks and tabs.
+					// @todo [JRF => Yoast] verify that line breaks and the likes aren't allowed/recommended in meta header fields.
 					$meta_value = str_replace( array( "\n", "\r", "\t", '  ' ), ' ', $meta_value );
 					$clean      = WPSEO_Utils::sanitize_text_field( trim( $meta_value ) );
 				}
@@ -552,7 +521,7 @@ class WPSEO_Meta {
 	 *
 	 * @static
 	 *
-	 * @param  array|string $meta_value The value to validate
+	 * @param  array|string $meta_value The value to validate.
 	 *
 	 * @return string       Clean value
 	 */
@@ -568,16 +537,15 @@ class WPSEO_Meta {
 			$meta_value = array_map( 'trim', $meta_value );
 
 			if ( in_array( 'none', $meta_value, true ) ) {
-				// None is one of the selected values, takes priority over everything else
+				// None is one of the selected values, takes priority over everything else.
 				$clean = 'none';
 			}
 			elseif ( in_array( '-', $meta_value, true ) ) {
-				// Site-wide defaults is one of the selected values, takes priority over
-				// individual selected entries
+				// Site-wide defaults is one of the selected values, takes priority over individual selected entries.
 				$clean = '-';
 			}
 			else {
-				// Individual selected entries
+				// Individual selected entries.
 				$cleaning = array();
 				foreach ( $meta_value as $value ) {
 					if ( isset( $options[ $value ] ) ) {
@@ -601,11 +569,11 @@ class WPSEO_Meta {
 	 *
 	 * @static
 	 *
-	 * @param  null   $null       old, disregard
-	 * @param  int    $object_id  ID of the current object for which the meta is being updated
-	 * @param  string $meta_key   The full meta key (including prefix)
-	 * @param  string $meta_value New meta value
-	 * @param  string $prev_value The old meta value
+	 * @param  null   $null       Old, disregard.
+	 * @param  int    $object_id  ID of the current object for which the meta is being updated.
+	 * @param  string $meta_key   The full meta key (including prefix).
+	 * @param  string $meta_value New meta value.
+	 * @param  string $prev_value The old meta value.
 	 *
 	 * @return null|bool          true = stop saving, null = continue saving
 	 */
@@ -619,10 +587,10 @@ class WPSEO_Meta {
 				delete_post_meta( $object_id, $meta_key );
 			}
 
-			return true; // stop saving the value
+			return true; // Stop saving the value.
 		}
 
-		return null; // go on with the normal execution (update) in meta.php
+		return null; // Go on with the normal execution (update) in meta.php.
 	}
 
 
@@ -631,20 +599,20 @@ class WPSEO_Meta {
 	 *
 	 * @static
 	 *
-	 * @param  null   $null       old, disregard
-	 * @param  int    $object_id  ID of the current object for which the meta is being added
-	 * @param  string $meta_key   The full meta key (including prefix)
-	 * @param  string $meta_value New meta value
+	 * @param  null   $null       Old, disregard.
+	 * @param  int    $object_id  ID of the current object for which the meta is being added.
+	 * @param  string $meta_key   The full meta key (including prefix).
+	 * @param  string $meta_value New meta value.
 	 *
 	 * @return null|bool          true = stop saving, null = continue saving
 	 */
 	public static function dont_save_meta_if_default( $null, $object_id, $meta_key, $meta_value ) {
 		/* If it's one of our meta fields, check against default */
 		if ( isset( self::$fields_index[ $meta_key ] ) && self::meta_value_is_default( $meta_key, $meta_value ) === true ) {
-			return true; // stop saving the value
+			return true; // Stop saving the value.
 		}
 
-		return null; // go on with the normal execution (add) in meta.php
+		return null; // Go on with the normal execution (add) in meta.php.
 	}
 
 
@@ -653,8 +621,8 @@ class WPSEO_Meta {
 	 *
 	 * @static
 	 *
-	 * @param  string $meta_key   The full meta key (including prefix)
-	 * @param  mixed  $meta_value The value to check
+	 * @param  string $meta_key   The full meta key (including prefix).
+	 * @param  mixed  $meta_value The value to check.
 	 *
 	 * @return bool
 	 */
@@ -672,16 +640,16 @@ class WPSEO_Meta {
 	 *
 	 * @static
 	 *
-	 * @param  string $key    internal key of the value to get (without prefix)
-	 * @param  int    $postid post ID of the post to get the value for
+	 * @param  string $key    Internal key of the value to get (without prefix).
+	 * @param  int    $postid Post ID of the post to get the value for.
 	 *
 	 * @return string         All 'normal' values returned from get_post_meta() are strings.
 	 *                        Objects and arrays are possible, but not used by this plugin
 	 *                        and therefore discarted (except when the special 'serialized' field def
-	 *                        value is set to true - only used by add-on plugins for now)
-	 *                        Will return the default value if no value was found.
+	 *                        value is set to true - only used by add-on plugins for now).
+	 *                        Will return the default value if no value was found..
 	 *                        Will return empty string if no default was found (not one of our keys) or
-	 *                        if the post does not exist
+	 *                        if the post does not exist.
 	 */
 	public static function get_value( $key, $postid = 0 ) {
 		global $post;
@@ -696,7 +664,7 @@ class WPSEO_Meta {
 			}
 		}
 
-		$custom = get_post_custom( $postid ); // array of strings or empty array
+		$custom = get_post_custom( $postid ); // Array of strings or empty array.
 
 		if ( isset( $custom[ self::$meta_prefix . $key ][0] ) ) {
 			$unserialized = maybe_unserialize( $custom[ self::$meta_prefix . $key ][0] );
@@ -706,19 +674,21 @@ class WPSEO_Meta {
 			else {
 				$field_def = self::$meta_fields[ self::$fields_index[ self::$meta_prefix . $key ]['subset'] ][ self::$fields_index[ self::$meta_prefix . $key ]['key'] ];
 				if ( isset( $field_def['serialized'] ) && $field_def['serialized'] === true ) {
-					// Ok, serialize value expected/allowed
+					// Ok, serialize value expected/allowed.
 					return $unserialized;
 				}
 			}
 		}
 
-		// Meta was either not found or found, but object/array while not allowed to be
+		// Meta was either not found or found, but object/array while not allowed to be.
 		if ( isset( self::$defaults[ self::$meta_prefix . $key ] ) ) {
 			return self::$defaults[ self::$meta_prefix . $key ];
 		}
 		else {
-			/* Shouldn't ever happen, means not one of our keys as there will always be a default available
-			   for all our keys */
+			/*
+			Shouldn't ever happen, means not one of our keys as there will always be a default available
+			   for all our keys
+			*/
 			return '';
 		}
 	}
@@ -729,9 +699,9 @@ class WPSEO_Meta {
 	 *
 	 * @static
 	 *
-	 * @param  string $key        the internal key of the meta value to change (without prefix)
-	 * @param  mixed  $meta_value the value to set the meta to
-	 * @param  int    $post_id    the ID of the post to change the meta for.
+	 * @param  string $key        The internal key of the meta value to change (without prefix).
+	 * @param  mixed  $meta_value The value to set the meta to.
+	 * @param  int    $post_id    The ID of the post to change the meta for.
 	 *
 	 * @return bool   whether the value was changed
 	 */
@@ -756,9 +726,11 @@ class WPSEO_Meta {
 	public static function replace_meta( $old_metakey, $new_metakey, $delete_old = false ) {
 		global $wpdb;
 
-		/* Get only those rows where no wpseo meta values exist for the same post
+		/*
+		Get only those rows where no wpseo meta values exist for the same post
 		   (with the exception of linkdex as that will be set independently of whether the post has been edited)
-		   @internal Query is pretty well optimized this way */
+		   @internal Query is pretty well optimized this way
+		*/
 		$query  = $wpdb->prepare(
 			"
 				SELECT `a`.*
@@ -785,7 +757,7 @@ class WPSEO_Meta {
 			}
 		}
 
-		// Delete old keys
+		// Delete old keys.
 		if ( $delete_old === true ) {
 			delete_post_meta_by_key( $old_metakey );
 		}
@@ -807,6 +779,7 @@ class WPSEO_Meta {
 		 * Clean up '_yoast_wpseo_meta-robots'
 		 *
 		 * Retrieve all '_yoast_wpseo_meta-robots' meta values and convert if no new values found
+		 *
 		 * @internal Query is pretty well optimized this way
 		 *
 		 * @todo [JRF => Yoast] find out all possible values which the old '_yoast_wpseo_meta-robots' could contain
@@ -847,7 +820,7 @@ class WPSEO_Meta {
 		}
 		unset( $query, $oldies, $old, $old_values, $value );
 
-		// Delete old keys
+		// Delete old keys.
 		delete_post_meta_by_key( self::$meta_prefix . 'meta-robots' );
 
 
@@ -880,7 +853,7 @@ class WPSEO_Meta {
 				}
 				elseif ( isset( $field_def['options'] ) && is_array( $field_def['options'] ) && $field_def['options'] !== array() ) {
 					$valid = $field_def['options'];
-					// remove the default value from the valid options
+					// Remove the default value from the valid options.
 					unset( $valid[ $field_def['default_value'] ] );
 					$valid = array_keys( $valid );
 
@@ -911,7 +884,7 @@ class WPSEO_Meta {
 		$meta_ids = $wpdb->get_col( $query );
 
 		if ( is_array( $meta_ids ) && $meta_ids !== array() ) {
-			// wp native action
+			// WP native action.
 			do_action( 'delete_post_meta', $meta_ids, null, null, null );
 
 			$query = "DELETE FROM {$wpdb->postmeta} WHERE meta_id IN( " . implode( ',', $meta_ids ) . ' )';
@@ -922,7 +895,7 @@ class WPSEO_Meta {
 					wp_cache_delete( $object_id, 'post_meta' );
 				}
 
-				// wp native action
+				// WP native action.
 				do_action( 'deleted_post_meta', $meta_ids, null, null, null );
 			}
 		}
@@ -1016,7 +989,7 @@ class WPSEO_Meta {
 	 *
 	 * @static
 	 *
-	 * @param  string $key Key of the value to get from $_POST
+	 * @param  string $key Key of the value to get from $_POST.
 	 *
 	 * @return string      Returns $_POST value, which will be a string the majority of the time
 	 *                     Will return empty string if key does not exists in $_POST

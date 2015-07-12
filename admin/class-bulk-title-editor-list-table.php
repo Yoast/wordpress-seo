@@ -1,7 +1,6 @@
 <?php
 /**
- * @package    WPSEO
- * @subpackage Admin
+ * @package WPSEO\Admin\Bulk Editor
  * @since      1.5.0
  */
 
@@ -61,7 +60,7 @@ class WPSEO_Bulk_Title_Editor_List_Table extends WPSEO_Bulk_List_Table {
 	 */
 	protected function parse_page_specific_column( $column_name, $record, $attributes ) {
 
-		// Fill meta data if exists in $this->meta_data
+		// Fill meta data if exists in $this->meta_data.
 		$meta_data = ( ! empty( $this->meta_data[ $record->ID ] ) ) ? $this->meta_data[ $record->ID ] : array();
 
 		switch ( $column_name ) {

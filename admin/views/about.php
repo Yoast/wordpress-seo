@@ -1,7 +1,6 @@
 <?php
 /**
- * @package    WPSEO
- * @subpackage Admin
+ * @package WPSEO\Admin
  */
 
 if ( ! defined( 'WPSEO_VERSION' ) ) {
@@ -43,7 +42,7 @@ function wpseo_display_contributors( $contributors ) {
 			echo sprintf( __( 'What’s New In %s', 'wordpress-seo' ), '2.0' );
 			?>
 		</a>
-		<a class="nav-tab" href="#top#v201" id="v201-tab">2.0.1</a>
+		<a class="nav-tab nav-tab-active" href="#top#v221" id="v221-tab">2.2.1</a>
 		<a class="nav-tab" href="#top#credits" id="credits-tab"><?php _e( 'Credits', 'wordpress-seo' ); ?></a>
 	</h2>
 
@@ -98,7 +97,14 @@ function wpseo_display_contributors( $contributors ) {
 				<div>
 					<span class="dashicons dashicons-twitter"></span>
 					<h4><?php _e( 'Twitter Galleries', 'wordpress-seo' ); ?></h4>
-
+					<h2>WordPress SEO 2.0.1</h2>
+					<p><small>Release date: April 1st, 2015</small></p>
+					<p>This update fixes a few small bugs:</p>
+					<ul class="ul-disc">
+						<li>Fixes an issue where (in rare cases) people upgrading to 2.0 got stuck in a redirect loop on their admin.</li>
+						<li>Fixes a broken link in the Dutch translation, causing the Pinterest tab on the Social settings page to overflow into the Google+ tab.</li>
+						<li>Fixes a small typo on the about page.</li>
+					</ul>
 					<p>
 						<?php printf( __( 'If you use galleries in your posts and have Twitter meta data enabled on %1$sSocial → Twitter%2$s, galleries will now be auto-detected and put out as Gallery Cards. All that’s left for your is to %3$sverify the cards with Twitter%2$s.', 'wordpress-seo' ), '<a href="' . admin_url( 'admin.php?page=wpseo_social#top#twitterbox' ) . '">', '</a>', '<a target="_blank" href="http://yoa.st/twittercardsverify">' ); ?>
 					</p>
@@ -136,12 +142,76 @@ function wpseo_display_contributors( $contributors ) {
 		<hr>
 
 		<div class="return-to-dashboard">
-			<a href="<?php echo remove_query_arg( 'intro' ); ?>"><?php _e( 'Go to The General settings page →', 'wordpress-seo' ); ?></a>
+			<a href="<?php echo esc_url( admin_url( 'admin.php?page=wpseo_dashboard' ) ); ?>"><?php _e( 'Go to The General settings page →', 'wordpress-seo' ); ?></a>
 		</div>
 
 	</div>
 
-	<div id="v201" class="wpseotab">
+	<div id="v221" class="wpseotab">
+
+		<h2>WordPress SEO 2.2.1</h2>
+		<p><small>Release Date: June 11th, 2015</small></p>
+
+		<ul class="ul-disc">
+			<li>Makes sure users can close the tour by circumventing possible JavaScript caching issues that might occur.</li>
+		</ul>
+
+		<h2>WordPress SEO 2.2</h2>
+		<p><small>Release Date: June 10th, 2015</small></p>
+
+		<h4>Enhancements:</h4>
+
+		<ul class="ul-disc">
+			<li>Contains several accessibility improvements, including 'for' attributes for labels and several links to explanatory articles.</li>
+			<li>Adds support for creating partial sitemaps with WP CLI, props <a href="https://github.com/larsschenk" target="_blank">Lars Schenk</a>.</li>
+			<li>Add Google's mobile friendly test to the SEO toolbar, props <a href="https://github.com/bhubbard" target="_blank">Brandon Hubbard</a>.</li>
+			<li>Makes sure slugs are not being stripped if the remaining slug is less than 3 characters, props <a href="https://github.com/andyexeter" target="_blank">andyexeter</a>.</li>
+			<li>Shows an activation error when dependencies were not installed properly with composer.</li>
+			<li>Added a filter to allow the the RSS footer to be dynamically shown/hidden, props <a href="https://github.com/hlashbrooke" target="_blank">Hugh Lashbrooke</a>.</li>
+			<li>Added many translator comments to help translators more easily get the context.</li>
+			<li>Made sure Open Graph article tags are added separately, following up on the Open Graph specification.</li>
+			<li>Adds recommended image sizes per Social network in the social tab of the 	SEO metabox.</li>
+			<li>Removes the tracking functionality.</li>
+			<li>Shows a dismissible notice with a link to the about page that is shown after every update. The user is no longer being redirected and only has to dismiss the notice once for all sites (in case of multisite).</li>
+			<li>Adds a link to the about page to the general tab of the settings dashboard.</li>
+			<li>Makes the tour dismissible on user level.</li>
+			<li>Adds Twitter profile to JSON LD output.</li>
+			<li>Twitter profile input field now also accepts full url and automatically strips it down to just the username.</li>
+			<li>Only adds the JSON LD output to the frontpage, since it's not needed on other pages.</li>
+			<li>Makes all WordPress SEO by Yoast notices dismissible.</li>
+		</ul>
+
+		<h4>Bugfixes:</h4>
+
+		<ul class="ul-disc">
+			<li>Fixes a bug where the widgets were removed from every XML file. This is now only the case for the sitemaps.</li>
+			<li>Fixes a bug where validation errors were shown for the wrong variables in the titles and metas settings.</li>
+			<li>Fixes a bug where the SEO toolbar was broken.</li>
+			<li>Fixes a few typo's, props <a href="https://github.com/GaryJones" target="_blank">Gary Jones</a>.</li>
+			<li>Fixes a bug where links in tooltips were not impossible to click.</li>
+			<li>Fixes a broken link to the permalinks section of the advanced settings, props <a href="https://github.com/michaelnordmeyer" target="_blank">Michael Nordmeyer</a>.</li>
+			<li>Fixes settings import on multisite.</li>
+			<li>Fixes a bug where the sitemap could contain datetimes in the wrong timezone.</li>
+			<li>Fixes a bug where the wrong Facebook user ID was added to the fb:admins meta tag. Adding FB admin user id is now a manual process.</li>
+			<li>Fixed Open Graph and Twitter cards on static posts pages</li>
+			<li>Fixes a bug where sitemap cache was not always cleared after saving the WordPress SEO by Yoast settings.</li>
+		</ul>
+
+		<h4>Security:</h4>
+
+		<ul class="ul-disc">
+			<li>Fixes a possible XSS vulnerability in the snippet preview. Thanks <a href="https://twitter.com/ccneill" target="_blank">Charles Neill</a> and <a href="https://twitter.com/mazengamal" target="_blank">Mazen Gamal</a> for discovering and responsibly disclosing this issue.</li>
+		</ul>
+
+		<h2>WordPress SEO 2.1</h2>
+		<p><small>Release date: April 20th, 2015</small></p>
+		<p>WordPress SEO 2.1 adds some more features on top of this release. Read the release notes for more info.</p>
+		<ul class="ul-disc">
+			<li>See the <a href="https://wordpress.org/plugins/wordpress-seo/changelog/" target="_blank">changelog</a> for a complete list of changes.</li>
+			<li>Read our <a href="https://yoast.com/wordpress-seo-2-1-release-notes" target="_blank">release blogpost</a> for a more detailed explanation of the important changes in this release.</li>
+			<li>Read our <a href="https://yoast.com/coordinated-security-release/" target="_blank">security blogpost</a> for the backstory about a security fix that was included in this release, in coordination with a significant part of the WordPress community.</li>
+			<li>We've added support for Google's new URL representation in mobile search results. You can read more about it in <a href="https://yoast.com/changing-urls-in-search-results/" target="_blank">this blogpost</a>.</li>
+		</ul>
 		<h2>WordPress SEO 2.0.1</h2>
 		<p><small>Release date: April 1st, 2015</small></p>
 		<p>This update fixes a few small bugs:</p>

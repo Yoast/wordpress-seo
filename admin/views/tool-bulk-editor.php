@@ -1,7 +1,6 @@
 <?php
 /**
- * @package    WPSEO
- * @subpackage Admin
+ * @package WPSEO\Admin
  * @since      1.5.0
  */
 
@@ -16,7 +15,7 @@ $options = get_option( 'wpseo' );
 $wpseo_bulk_titles_table      = new WPSEO_Bulk_Title_Editor_List_Table();
 $wpseo_bulk_description_table = new WPSEO_Bulk_Description_List_Table();
 
-// If type is empty, fill it with value of first tab (title)
+// If type is empty, fill it with value of first tab (title).
 $_GET['type'] = ( ! empty( $_GET['type'] ) ) ? $_GET['type'] : 'title';
 
 if ( ! empty( $_REQUEST['_wp_http_referer'] ) ) {

@@ -1,11 +1,10 @@
 <?php
 /**
- * @package    WPSEO
- * @subpackage Admin
+ * @package WPSEO\Admin
  */
 
 /**
- * class WPSEO_Admin_Pages
+ * Class WPSEO_Admin_Pages
  *
  * Class with functionality for the WP SEO admin pages.
  */
@@ -100,11 +99,14 @@ class WPSEO_Admin_Pages {
 	/**
 	 * Pass some variables to js for the admin JS module.
 	 *
+	 * %s is replaced with <code>%s</code> and replaced again in the javascript with the actual variable.
+	 *
 	 * @return  array
 	 */
 	public function localize_admin_script() {
 		return array(
-			'variable_warning' => __( 'Warning: the variable <code>%s</code> cannot be used in this template.', 'wordpress-seo' ) . __( 'See the help tab for more info.', 'wordpress-seo' ),
+			/* translators: %s: '%%term_title%%' variable used in titles and meta's template that's not compatible with the given template */
+			'variable_warning' => sprintf( __( 'Warning: the variable %s cannot be used in this template.', 'wordpress-seo' ), '<code>%s</code>' ) . ' ' . __( 'See the help tab for more info.', 'wordpress-seo' ),
 		);
 	}
 
@@ -151,7 +153,7 @@ class WPSEO_Admin_Pages {
 	 * @deprecated 2.0
 	 *
 	 * @param bool $submit       Whether or not a submit button and form end tag should be shown.
-	 * @param bool $show_sidebar Whether or not to show the banner sidebar - used by premium plugins to disable it
+	 * @param bool $show_sidebar Whether or not to show the banner sidebar - used by premium plugins to disable it.
 	 */
 	public function admin_footer( $submit = true, $show_sidebar = true ) {
 		_deprecated_function( __METHOD__, 'WPSEO 2.0', 'This method is deprecated, please use the <code>Yoast_Form</code> class.' );

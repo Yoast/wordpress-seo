@@ -1,11 +1,10 @@
 <?php
 /**
- * @package    WPSEO
- * @subpackage Import
+ * @package WPSEO\Admin\Import
  */
 
 /**
- * class WPSEO_Import
+ * Class WPSEO_Import
  *
  * Class with functionality to import the WP SEO settings
  */
@@ -70,13 +69,22 @@ class WPSEO_Import {
 	 * @return boolean
 	 */
 	private function handle_upload() {
-		$this->file = wp_handle_upload( $_FILES['settings_import_file'] );
+		$overrides  = array( 'mimes' => array( 'zip' => 'application/zip' ) ); // Explicitly allow zip in multisite.
+		$this->file = wp_handle_upload( $_FILES['settings_import_file'], $overrides );
+
 		if ( is_wp_error( $this->file ) ) {
 			$this->msg = __( 'Settings could not be imported:', 'wordpress-seo' ) . ' ' . $this->file->get_error_message();
 
 			return false;
 		}
-		elseif ( ! isset( $this->file['file'] ) ) {
+
+		if ( is_array( $this->file ) && isset( $this->file['error'] ) ) {
+			$this->msg = __( 'Settings could not be imported:', 'wordpress-seo' ) . ' ' . $this->file['error'];
+
+			return false;
+		}
+
+		if ( ! isset( $this->file['file'] ) ) {
 			$this->msg = __( 'Settings could not be imported:', 'wordpress-seo' ) . ' ' . __( 'Upload failed.', 'wordpress-seo' );
 
 			return false;
@@ -156,7 +164,7 @@ class WPSEO_Import {
 			$opt_group = json_decode( urldecode( $opt_group['wpseo_taxonomy_meta'] ), true );
 		}
 
-		// Make sure that the imported options are cleaned/converted on import
+		// Make sure that the imported options are cleaned/converted on import.
 		$option_instance = WPSEO_Options::get_option_instance( $name );
 		if ( is_object( $option_instance ) && method_exists( $option_instance, 'import' ) ) {
 			$option_instance->import( $opt_group, $this->old_wpseo_version, $options );

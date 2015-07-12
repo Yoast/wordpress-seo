@@ -1,7 +1,6 @@
 <?php
 /**
- * @package    WPSEO
- * @subpackage Admin
+ * @package WPSEO\Admin
  */
 
 ?>
@@ -48,7 +47,7 @@
 		<td>
 			<input class="checkbox double" type="checkbox" id="wpseo_author_exclude"
 			       name="wpseo_author_exclude"
-			       value="on" <?php echo ( get_the_author_meta( 'wpseo_excludeauthorsitemap', $user->ID ) == 'on' ) ? 'checked' : ''; ?> />
+			       value="on" <?php echo ( get_the_author_meta( 'wpseo_excludeauthorsitemap', $user->ID ) === 'on' ) ? 'checked' : ''; ?> />
 		</td>
 	</tr>
 </table>

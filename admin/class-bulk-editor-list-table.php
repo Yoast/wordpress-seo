@@ -1,7 +1,6 @@
 <?php
 /**
- * @package    WPSEO
- * @subpackage Admin
+ * @package WPSEO\Admin\Bulk Editor
  * @since      1.5.0
  */
 
@@ -131,14 +130,14 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	 */
 	private function verify_nonce() {
 		if ( $this->should_verify_nonce() && ! wp_verify_nonce( filter_input( INPUT_GET, 'nonce' ), 'bulk-editor-table' ) ) {
-			Yoast_Notification_Center::get()->add_notification( new Yoast_Notification( __( 'You are not allowed to access this page.', 'wordpress-seo' ), 'error' ) );
+			Yoast_Notification_Center::get()->add_notification( new Yoast_Notification( __( 'You are not allowed to access this page.', 'wordpress-seo' ), array( 'type' => 'error' ) ) );
 			Yoast_Notification_Center::get()->display_notifications();
 			die;
 		}
 	}
 
 	/**
-	 * checks if additional parameters have been sent to determine if nonce should be checked or not.
+	 * Checks if additional parameters have been sent to determine if nonce should be checked or not.
 	 *
 	 * @return bool
 	 */
@@ -415,9 +414,9 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 		$current_status = $this->current_status;
 		$current_order  = $this->current_order;
 
-		// If current type doesn't compare with objects page_type, than we have to unset some vars in the requested url (which will be use for internal table urls)
+		// If current type doesn't compare with objects page_type, than we have to unset some vars in the requested url (which will be use for internal table urls).
 		if ( $_GET['type'] != $this->page_type ) {
-			$request_url = remove_query_arg( 'paged', $request_url ); // page will be set with value 1 below.
+			$request_url = remove_query_arg( 'paged', $request_url ); // Page will be set with value 1 below.
 			$request_url = remove_query_arg( 'post_type_filter', $request_url );
 			$request_url = remove_query_arg( 'post_status', $request_url );
 			$request_url = remove_query_arg( 'orderby', $request_url );
@@ -452,18 +451,18 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 		$all_states       = $this->get_all_states();
 		$subquery         = $this->get_base_subquery();
 
-		// Setting the column headers
+		// Setting the column headers.
 		$this->set_column_headers();
 
-		// Count the total number of needed items and setting pagination given $total_items
+		// Count the total number of needed items and setting pagination given $total_items.
 		$total_items = $this->count_items( $subquery, $all_states, $post_type_clause );
 		$this->set_pagination( $total_items );
 
-		// Getting items given $query
+		// Getting items given $query.
 		$query = $this->parse_item_query( $subquery, $all_states, $post_type_clause );
 		$this->get_items( $query );
 
-		// Get the metadata for the current items ($this->items)
+		// Get the metadata for the current items ($this->items).
 		$this->get_meta_data();
 
 	}
@@ -515,7 +514,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	 * @return string
 	 */
 	protected function get_post_type_clause() {
-		// Filter Block
+		// Filter Block.
 		$post_types       = null;
 		$post_type_clause = '';
 		$post_type_filter = filter_input( INPUT_GET, 'post_type_filter' );
@@ -537,7 +536,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	 */
 	protected function set_pagination( $total_items ) {
 
-		// Calculate items per page
+		// Calculate items per page.
 		$per_page = $this->get_items_per_page( 'wpseo_posts_per_page', 10 );
 		$paged    = esc_sql( sanitize_text_field( filter_input( INPUT_GET, 'paged' ) ) );
 
@@ -573,18 +572,18 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	 * @return string
 	 */
 	protected function parse_item_query( $subquery, $all_states, $post_type_clause ) {
-		// Order By block
+		// Order By block.
 		$orderby = filter_input( INPUT_GET, 'orderby' );
 
 		$orderby = ! empty( $orderby ) ? esc_sql( sanitize_text_field( $orderby ) ) : 'post_title';
 		$orderby = $this->sanitize_orderby( $orderby );
 
-		// Order clause
+		// Order clause.
 		$order = filter_input( INPUT_GET, 'order' );
 		$order = ! empty( $order ) ? esc_sql( strtoupper( sanitize_text_field( $order ) ) ) : 'ASC';
 		$order = $this->sanitize_order( $order );
 
-		// Get all needed results
+		// Get all needed results.
 		$query = "
 				SELECT ID, post_title, post_type, post_status, post_modified, post_date
 				FROM {$subquery}
@@ -599,7 +598,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	/**
 	 * Heavily restricts the possible columns by which a user can order the table in the bulk editor, thereby preventing a possible CSRF vulnerability.
 	 *
-	 * @param string $orderby The column by which we want to order
+	 * @param string $orderby The column by which we want to order.
 	 *
 	 * @return string $orderby
 	 */
@@ -620,12 +619,12 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	/**
 	 * Makes sure the order clause is always ASC or DESC for the bulk editor table, thereby preventing a possible CSRF vulnerability.
 	 *
-	 * @param string $order Whether we want to sort ascending or descending
+	 * @param string $order Whether we want to sort ascending or descending.
 	 *
 	 * @return string $order
 	 */
 	protected function sanitize_order( $order ) {
-		if ( in_array( strtoupper( $order ), array( 'ASC', 'DESC', ) ) ) {
+		if ( in_array( strtoupper( $order ), array( 'ASC', 'DESC' ) ) ) {
 			return $order;
 		}
 
@@ -828,7 +827,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	 */
 	protected function parse_meta_data_field( $record_id, $attributes, $values = false ) {
 
-		// Fill meta data if exists in $this->meta_data
+		// Fill meta data if exists in $this->meta_data.
 		$meta_data  = ( ! empty( $this->meta_data[ $record_id ] ) ) ? $this->meta_data[ $record_id ] : array();
 		$meta_key   = WPSEO_Meta::$meta_prefix . $this->target_db_field;
 		$meta_value = ( ! empty( $meta_data[ $meta_key ] ) ) ? $meta_data[ $meta_key ] : '';
@@ -853,7 +852,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 
 		$this->parse_meta_data( $meta_data );
 
-		// Little housekeeping
+		// Little housekeeping.
 		unset( $post_ids, $meta_data );
 
 	}

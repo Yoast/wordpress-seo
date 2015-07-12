@@ -1,7 +1,6 @@
 <?php
 /**
- * @package    WPSEO
- * @subpackage Admin
+ * @package WPSEO\Admin
  */
 
 if ( ! defined( 'WPSEO_VERSION' ) ) {
@@ -94,7 +93,7 @@ $yform->select(
 	__( 'Who should have access to the WordPress SEO settings', 'wordpress-seo' ),
 	array(
 		'admin'      => __( 'Site Admins (default)', 'wordpress-seo' ),
-		'superadmin' => __( 'Super Admins only', 'wordpress-seo' )
+		'superadmin' => __( 'Super Admins only', 'wordpress-seo' ),
 	),
 	'wpseo_ms'
 );

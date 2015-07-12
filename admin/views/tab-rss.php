@@ -1,7 +1,6 @@
 <?php
 /**
- * @package    WPSEO
- * @subpackage Admin
+ * @package WPSEO\Admin
  */
 
 if ( ! defined( 'WPSEO_VERSION' ) ) {
@@ -24,21 +23,21 @@ $yform->textarea( 'rssafter', __( 'Content to put after each post in the feed', 
 ?>
 
 <p><?php _e( 'You can use the following variables within the content, they will be replaced by the value on the right.', 'wordpress-seo' ); ?></p>
-<table>
+<table class="wpseo">
 	<tr>
-		<th><strong>%%AUTHORLINK%%</strong></th>
+		<th><strong><code>%%AUTHORLINK%%</code></strong></th>
 		<td><?php _e( 'A link to the archive for the post author, with the authors name as anchor text.', 'wordpress-seo' ); ?></td>
 	</tr>
 	<tr>
-		<th><strong>%%POSTLINK%%</strong></th>
+		<th><strong><code>%%POSTLINK%%</code></strong></th>
 		<td><?php _e( 'A link to the post, with the title as anchor text.', 'wordpress-seo' ); ?></td>
 	</tr>
 	<tr>
-		<th><strong>%%BLOGLINK%%</strong></th>
+		<th><strong><code>%%BLOGLINK%%</code></strong></th>
 		<td><?php _e( "A link to your site, with your site's name as anchor text.", 'wordpress-seo' ); ?></td>
 	</tr>
 	<tr>
-		<th><strong>%%BLOGDESCLINK%%</strong></th>
+		<th><strong><code>%%BLOGDESCLINK%%</code></strong></th>
 		<td><?php _e( "A link to your site, with your site's name and description as anchor text.", 'wordpress-seo' ); ?></td>
 	</tr>
 </table>
