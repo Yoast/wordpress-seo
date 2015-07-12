@@ -534,7 +534,9 @@ class WPSEO_Sitemaps {
 		if ( $this->options['disable-author'] === false && $this->options['disable_author_sitemap'] === false ) {
 
 			// reference user profile specific sitemaps
-			$users = get_users( array( 'who' => 'authors', 'fields' => 'id' ) );
+			$users = get_users( array( 'who' => 'authors' ) );
+			$users = apply_filters( 'wpseo_sitemap_exclude_author', $users );
+			$users = wp_list_pluck( $users, 'ID' );
 
 			$count = count( $users );
 			$n     = ( $count > $this->max_entries ) ? (int) ceil( $count / $this->max_entries ) : 1;
