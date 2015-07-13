@@ -12,7 +12,6 @@ YoastSEO_AnalyzeLoader = function( args ) {
     this.checkInputs();
     if(!this.config.ajax){
         this.defineElements();
-        //this.source.getSnippetInput();
         this.createSnippetPreview();
     }
 };
@@ -36,7 +35,7 @@ YoastSEO_AnalyzeLoader.prototype.createSnippetPreview = function() {
     targetElement.appendChild( div );
     this.snippetPreview = new YoastSEO_SnippetPreview( this );
     this.bindEvent();
-    //this.bindSnippetEvents();
+    this.bindSnippetEvents();
 };
 
 /**
@@ -94,13 +93,6 @@ YoastSEO_AnalyzeLoader.prototype.defineElements = function() {
  */
 YoastSEO_AnalyzeLoader.prototype.getAnalyzerInput = function() {
     this.inputs = this.source.getAnalyzerInput();
-    /*
-    this.inputs.textString = this.source.getAnalyzerInput( "text" );
-    this.inputs.keyword = this.source.getAnalyzerInput( "keyword" );
-    this.inputs.meta = this.source.getAnalyzerInput( "meta" );
-    this.inputs.url = this.source.getAnalyzerInput( "url" );
-    this.inputs.pageTitle = this.source.getAnalyzerInput( "title" );
-    */
 };
 
 /**
@@ -108,8 +100,6 @@ YoastSEO_AnalyzeLoader.prototype.getAnalyzerInput = function() {
  */
 YoastSEO_AnalyzeLoader.prototype.bindEvent = function() {
     this.source.bindElementEvents();
-    //this.bindInputEvent();
-
 };
 
 /**
@@ -133,7 +123,8 @@ YoastSEO_AnalyzeLoader.prototype.bindSnippetEvents = function() {
     for (var i = 0; i < elems.length; i++) {
         var targetElement = document.getElementById( "snippet_" + elems[i] );
         targetElement.refObj = this;
-        targetElement.addEventListener( "blur", this.source.snippetCallback );
+        targetElement.addEventListener( "blur", this.source.updateSnippetValues );
+
     }
 };
 
@@ -141,8 +132,8 @@ YoastSEO_AnalyzeLoader.prototype.bindSnippetEvents = function() {
  * runs the rerender function of the snippetPreview if that object is defined.
  */
 YoastSEO_AnalyzeLoader.prototype.reloadSnippetText = function() {
-    if( typeof this.refObj.snippetPreview !== "undefined" ) {
-        this.refObj.snippetPreview.reRender();
+    if( typeof this.snippetPreview !== "undefined" ) {
+        this.snippetPreview.reRender();
     }
 };
 

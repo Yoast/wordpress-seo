@@ -58,6 +58,22 @@ YoastSEO_WordPressScraper.prototype.getDataFromInput = function( inputType ) {
     return val;
 };
 
+YoastSEO_WordPressScraper.prototype.setDataFromSnippet = function( value, type) {
+    switch(type){
+        case "snippet_meta":
+            document.getElementById("yoast_wpseo_metadesc").value = value;
+            break;
+        case "snippet_cite":
+            document.getElementById("permalink").value;
+            break;
+        case "snippet_title":
+            document.getElementById("title").value;
+            break;
+        default:
+            break;
+    }
+};
+
 /**
  * feeds data to the loader that is required for the analyzer
  * @param inputType
@@ -78,25 +94,6 @@ YoastSEO_WordPressScraper.prototype.runDataQueue = function() {
         this.refObj.init();
     }
 };
-/*
-YoastSEO_WordPressScraper.prototype.getSnippetInput = function() {
-    this.snippetDataQueue = ["title", "cite", "meta"];
-    this.runSnippetDataQueue();
-};
-
-YoastSEO_WordPressScraper.prototype.runSnippetDataQueue = function() {
-    if(this.snippetDataQueue.length > 0){
-        var currentData = this.snippetDataQueue.shift();
-        this.replaceVariables(this.analyzerData[currentData], currentData, this.formattedSnippetData, "Snippet");
-    }else{
-        if(typeof this.refObj.snippetPreview !== "undefined") {
-            this.refObj.snippetPreview.reRender();
-        }else{
-            this.refObj.createSnippetPreview();
-        }
-    }
-};
-*/
 
 /**
  * gets content from the content field, if tinyMCE is initialized, use the getContent function to get the data from tinyMCE
@@ -134,13 +131,6 @@ YoastSEO_WordPressScraper.prototype.getInputFieldsData = function ( ev ) {
             break;
     }
 };
-
-/*
-YoastSEO_WordPressScraper.prototype.setSnippetData = function( inputType ) {
-
-};
-    */
-
 
 /**
  * Replaces %% strings with WordPress variables
@@ -310,4 +300,10 @@ YoastSEO_WordPressScraper.prototype.snippetPreviewEventBinder = function() {
     for (var i = 0; i < elems.length; i++){
         document.getElementById("snippet_"+elems[i]).addEventListener("focus", this.getInputFieldsData);
     }
+};
+
+YoastSEO_WordPressScraper.prototype.updateSnippetValues = function( ev ) {
+    ev.currentTarget.refObj.source.setDataFromSnippet( ev.currentTarget.id, ev.currentTarget.textContent);
+    ev.currentTarget.refObj.reloadSnippetText();
+
 };
