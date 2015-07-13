@@ -460,7 +460,17 @@ class WPSEO_Twitter {
 	 * @return bool
 	 */
 	private function image_from_content_output() {
-		if ( preg_match_all( '`<img [^>]+>`', $GLOBALS['post']->post_content, $matches ) ) {
+		/**
+		 * Filter: 'wpseo_pre_analysis_post_content' - Allow filtering the content before analysis
+		 *
+		 * @api string $post_content The Post content string
+		 *
+		 * @param object $post - The post object.
+		 */
+		global $post;
+		$content = apply_filters( 'wpseo_pre_analysis_post_content', $post->post_content, $post );
+
+		if ( preg_match_all( '`<img [^>]+>`', $content, $matches ) ) {
 			foreach ( $matches[0] as $img ) {
 				if ( preg_match( '`src=(["\'])(.*?)\1`', $img, $match ) ) {
 					$this->image_output( $match[2] );
