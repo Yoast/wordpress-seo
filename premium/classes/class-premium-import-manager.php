@@ -71,7 +71,7 @@ class WPSEO_Premium_Import_Manager {
 	 */
 	private function redirection_import() {
 
-		if ( isset( $_POST['wpseo']['import_redirection'] ) ) {
+		if ( ( $wpseo_post = filter_input( INPUT_POST, 'wpseo', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY ) ) && isset( $wpseo_post['import_redirection'] )  ) {
 			global $wpdb;
 
 			// Only do import if Redirections is active.
@@ -115,10 +115,10 @@ class WPSEO_Premium_Import_Manager {
 	private function htaccess_import() {
 		global $wp_filesystem;
 
-		if ( isset( $_POST['htaccess'] ) ) {
+		if ( $htaccess = filter_input( INPUT_POST, 'htaccess' ) ) {
 
 			// The htaccess post.
-			$htaccess = stripcslashes( $_POST['htaccess'] );
+			$htaccess = stripcslashes( $htaccess );
 
 			// The new .htaccess file.
 			$new_htaccess = $htaccess;
