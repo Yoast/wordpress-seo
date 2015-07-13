@@ -5,8 +5,6 @@
 
 /**
  * Tests the WPSEO_Statistics class
- *
- * @group test
  */
 class WPSEO_Statistics_Test extends WPSEO_UnitTestCase {
 
