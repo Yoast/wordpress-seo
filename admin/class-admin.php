@@ -14,6 +14,11 @@ class WPSEO_Admin {
 	private $options;
 
 	/**
+	 * @var WPSEO_GSC
+	 */
+	private $page_gsc;
+
+	/**
 	 * Class constructor
 	 */
 	function __construct() {
@@ -28,6 +33,8 @@ class WPSEO_Admin {
 			add_action( 'edited_category', array( $this, 'schedule_rewrite_flush' ) );
 			add_action( 'delete_category', array( $this, 'schedule_rewrite_flush' ) );
 		}
+
+		$this->page_gsc = new WPSEO_GSC();
 
 		// Needs the lower than default priority so other plugins can hook underneath it without issue.
 		add_action( 'admin_menu', array( $this, 'register_settings_page' ), 5 );
@@ -142,6 +149,15 @@ class WPSEO_Admin {
 				'wpseo_tools',
 				array( $this, 'load_page' ),
 				null,
+			),
+			array(
+				'wpseo_dashboard',
+				'',
+				__( 'Webmaster Tools', 'wordpress-seo' ),
+				$manage_options_cap,
+				'wpseo_webmaster_tools',
+				array( $this->page_gsc, 'display' ),
+				array( array( $this->page_gsc, 'set_help' ) ),
 			),
 		);
 

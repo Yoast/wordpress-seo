@@ -422,7 +422,7 @@ class WPSEO_Sitemaps {
 				}
 
 				$steps = $this->max_entries;
-				$count = count( $all_taxonomies[ $tax_name ] );
+				$count = ( isset( $all_taxonomies[ $tax_name ] ) ) ? count( $all_taxonomies[ $tax_name ] ) : 1;
 				$n     = ( $count > $this->max_entries ) ? (int) ceil( $count / $this->max_entries ) : 1;
 
 				for ( $i = 0; $i < $n; $i ++ ) {
