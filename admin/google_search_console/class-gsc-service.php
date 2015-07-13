@@ -131,7 +131,7 @@ class WPSEO_GSC_Service {
 		try {
 			new Yoast_Api_Libs( '2.0' );
 		}
-		catch( Exception $exception ) {
+		catch ( Exception $exception ) {
 			if ( $exception->getMessage() === 'required_version' ) {
 				Yoast_Notification_Center::get()->add_notification(
 					new Yoast_Notification(
@@ -139,7 +139,6 @@ class WPSEO_GSC_Service {
 					)
 				);
 			}
-
 		}
 
 		$this->client = new Yoast_Api_Google_Client( WPSEO_GSC_Config::$gsc, 'wpseo-gsc', 'https://www.googleapis.com/webmasters/v3/' );
