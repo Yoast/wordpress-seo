@@ -154,7 +154,7 @@ YoastSEO_AnalyzeLoader.prototype.analyzeTimer = function() {
 };
 
 /**
- * calls the getInput function to retreive values from inputs. If the keyword is empty calls message, if keyword is filled, runs the analyzer
+ * calls the getInput function to retrieve values from inputs. If the keyword is empty calls message, if keyword is filled, runs the analyzer
  */
 YoastSEO_AnalyzeLoader.prototype.checkInputs = function() {
     var refObj = window.analyzeLoader;

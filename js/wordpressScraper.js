@@ -91,7 +91,11 @@ YoastSEO_WordPressScraper.prototype.runDataQueue = function() {
         var currentData = this.analyzerDataQueue.shift();
         this.replaceVariables(this.analyzerData[currentData], currentData, this.formattedData);
     }else{
-        this.refObj.init();
+        if(typeof this.refObj.snippetPreview === "undefined") {
+            this.refObj.init();
+        }else{
+            this.refObj.reloadSnippetText();
+        }
     }
 };
 
@@ -303,7 +307,9 @@ YoastSEO_WordPressScraper.prototype.snippetPreviewEventBinder = function() {
 };
 
 YoastSEO_WordPressScraper.prototype.updateSnippetValues = function( ev ) {
-    ev.currentTarget.refObj.source.setDataFromSnippet( ev.currentTarget.id, ev.currentTarget.textContent);
-    ev.currentTarget.refObj.reloadSnippetText();
+    ev.currentTarget.refObj.source.setDataFromSnippet( ev.currentTarget.textContent, ev.currentTarget.id);
+    ev.currentTarget.refObj.source.getData();
+    ev.currentTarget.refObj.source.getAnalyzerInput();
+    //ev.currentTarget.refObj.reloadSnippetText();
 
 };
