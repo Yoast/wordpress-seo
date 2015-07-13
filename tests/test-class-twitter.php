@@ -190,6 +190,63 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests static page set as front page
+	 */
+	public function test_static_front_page() {
+
+		$post_id = $this->factory->post->create( array( 'post_title' => 'front-page', 'post_type' => 'page' ) );
+		update_option( 'show_on_front', 'page' );
+		update_option( 'page_on_front', $post_id );
+		$this->go_to_home();
+
+		WPSEO_Meta::set_value( 'title', 'SEO title', $post_id );
+		self::$class_instance->title();
+		$this->expectOutput( $this->metatag( 'title', 'SEO title' ) );
+
+		WPSEO_Meta::set_value( 'twitter-title', 'Twitter title', $post_id );
+		self::$class_instance->title();
+		$this->expectOutput( $this->metatag( 'title', 'Twitter title' ) );
+
+		WPSEO_Meta::set_value( 'metadesc', 'SEO description', $post_id );
+		self::$class_instance->description();
+		$this->expectOutput( $this->metatag( 'description', 'SEO description' ) );
+
+		WPSEO_Meta::set_value( 'twitter-description', 'Twitter description', $post_id );
+		self::$class_instance->description();
+		$this->expectOutput( $this->metatag( 'description', 'Twitter description' ) );
+	}
+
+	/**
+	 * Tests static page set as posts page
+	 */
+	public function test_static_posts_page() {
+
+		$post_id = $this->factory->post->create( array( 'post_title' => 'front-page', 'post_type' => 'page' ) );
+		update_option( 'show_on_front', 'page' );
+		update_option( 'page_on_front', $post_id );
+
+		$post_id = $this->factory->post->create( array( 'post_title' => 'blog-page', 'post_type' => 'page' ) );
+		update_option( 'page_for_posts', $post_id );
+		$this->go_to( get_permalink( $post_id ) );
+
+		WPSEO_Meta::set_value( 'title', 'SEO title', $post_id );
+		self::$class_instance->title();
+		$this->expectOutput( $this->metatag( 'title', 'SEO title' ) );
+
+		WPSEO_Meta::set_value( 'twitter-title', 'Twitter title', $post_id );
+		self::$class_instance->title();
+		$this->expectOutput( $this->metatag( 'title', 'Twitter title' ) );
+
+		WPSEO_Meta::set_value( 'metadesc', 'SEO description', $post_id );
+		self::$class_instance->description();
+		$this->expectOutput( $this->metatag( 'description', 'SEO description' ) );
+
+		WPSEO_Meta::set_value( 'twitter-description', 'Twitter description', $post_id );
+		self::$class_instance->description();
+		$this->expectOutput( $this->metatag( 'description', 'Twitter description' ) );
+	}
+
+	/**
 	 * @covers WPSEO_Twitter::image_output
 	 */
 	public function test_image_output() {

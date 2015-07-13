@@ -37,8 +37,8 @@ class WPSEO_Pointers {
 	 */
 	private function __construct() {
 		if ( current_user_can( 'manage_options' ) ) {
-			$options = get_option( 'wpseo' );
-			if ( $options['ignore_tour'] === false ) {
+
+			if ( ! get_user_meta( get_current_user_id(), 'wpseo_ignore_tour' ) ) {
 				wp_enqueue_style( 'wp-pointer' );
 				wp_enqueue_script( 'jquery-ui' );
 				wp_enqueue_script( 'wp-pointer' );
@@ -118,7 +118,7 @@ class WPSEO_Pointers {
 
 				wpseo_pointer_options = $.extend(wpseo_pointer_options, {
 					buttons: function (event, t) {
-						var button = jQuery('<a id="pointer-close" style="margin:0 5px;" class="button-secondary">' + '<?php _e( 'Close', 'wordpress-seo' ) ?>' + '</a>');
+						var button = jQuery('<a href="<?php echo $this->get_ignore_url(); ?>" id="pointer-close" style="margin:0 5px;" class="button-secondary">' + '<?php _e( 'Close', 'wordpress-seo' ) ?>' + '</a>');
 						button.bind('click.pointer', function () {
 							t.element.pointer('close');
 						});
@@ -134,9 +134,6 @@ class WPSEO_Pointers {
 					$this->button2();
 					$this->button3();
 					?>
-					jQuery('#pointer-close').click(function () {
-					wpseo_setIgnore("tour", "wp-pointer-0", "<?php echo esc_js( wp_create_nonce( 'wpseo-ignore' ) ); ?>");
-					});
 				};
 
 				if (wpseo_pointer_options.position && wpseo_pointer_options.position.defer_loading)
@@ -187,7 +184,7 @@ class WPSEO_Pointers {
 		            .'<p>' . __( 'You&#8217;ve just installed WordPress SEO by Yoast! Click &#8220;Start Tour&#8221; to view a quick introduction of this plugin&#8217;s core functionality.', 'wordpress-seo' ) . '</p>';
 		$opt_arr  = array(
 			'content'  => $content,
-			'position' => array( 'edge' => 'bottom', 'align' => 'center' )
+			'position' => array( 'edge' => 'bottom', 'align' => 'center' ),
 		);
 
 		$this->button_array['button2']['text']     = __( 'Start Tour', 'wordpress-seo' );
@@ -249,7 +246,7 @@ class WPSEO_Pointers {
 					       '</a>' ) . '</p>'
 			               . '<p><strong style="font-size:150%;">' . __( 'Subscribe to our Newsletter', 'wordpress-seo' ) . '</strong><br/>'
 			               . __( 'If you would like us to keep you up-to-date regarding WordPress SEO and other plugins by Yoast, subscribe to our newsletter:', 'wordpress-seo' ) . '</p>'
-			               . '<form action="http://yoast.us1.list-manage1.com/subscribe/post?u=ffa93edfe21752c921f860358&amp;selector=972f1c9122" method="post" selector="newsletter-form" accept-charset="' . esc_attr( get_bloginfo( 'charset' ) ) . '">'
+			               . '<form action="http://yoast.us1.list-manage1.com/subscribe/post?u=ffa93edfe21752c921f860358&amp;id=972f1c9122" method="post" selector="newsletter-form" accept-charset="' . esc_attr( get_bloginfo( 'charset' ) ) . '">'
 			               . '<p>'
 			               . '<input style="margin: 5px; color:#666" name="EMAIL" value="' . esc_attr( $current_user->user_email ) . '" selector="newsletter-email" placeholder="' . __( 'Email', 'wordpress-seo' ) . '"/>'
 			               . '<input type="hidden" name="group" value="2"/>'
@@ -341,5 +338,20 @@ class WPSEO_Pointers {
 			               . '<p>' . sprintf( __( 'Thank you for using our plugin and good luck with your SEO!<br/><br/>Best,<br/>Team Yoast - %1$sYoast.com%2$s', 'wordpress-seo' ), '<a target="_blank" href="' . esc_url( 'https://yoast.com/#utm_source=wpseo_licenses&utm_medium=wpseo_tour&utm_campaign=tour' ) . '">', '</a>' ) . '</p>',
 			'prev_page' => 'advanced',
 		);
+	}
+
+	/**
+	 * Extending the current page URL with two params to be able to ignore the tour.
+	 *
+	 * @return mixed
+	 */
+	private function get_ignore_url() {
+		$arr_params = array(
+			'wpseo_restart_tour' => false,
+			'wpseo_ignore_tour'  => '1',
+			'nonce'              => wp_create_nonce( 'wpseo-ignore-tour' ),
+		);
+
+		return esc_url( add_query_arg( $arr_params ) );
 	}
 } /* End of class */

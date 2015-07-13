@@ -53,7 +53,7 @@ class WPSEO_JSON_LD {
 	 * @since 1.8
 	 */
 	public function organization_or_person() {
-		if ( ! is_front_page() || '' === $this->options['company_or_person'] ) {
+		if ( '' === $this->options['company_or_person'] ) {
 			return;
 		}
 
@@ -185,6 +185,10 @@ class WPSEO_JSON_LD {
 				$this->profiles[] = $this->options[ $profile ];
 			}
 		}
+
+		if ( ! empty( $this->options['twitter_site'] ) ) {
+			$this->profiles[] = 'https://twitter.com/' . $this->options['twitter_site'];
+		}
 	}
 
 	/**
@@ -216,10 +220,6 @@ class WPSEO_JSON_LD {
 	 * @link https://developers.google.com/structured-data/slsb-overview
 	 */
 	private function internal_search_section() {
-		if ( ! is_front_page() ) {
-			return;
-		}
-
 		/**
 		 * Filter: 'disable_wpseo_json_ld_search' - Allow disabling of the json+ld output
 		 *

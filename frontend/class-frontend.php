@@ -146,8 +146,6 @@ class WPSEO_Frontend {
 		if ( $this->options['title_test'] > 0 ) {
 			add_filter( 'wpseo_title', array( $this, 'title_test_helper' ) );
 		}
-
-		new WPSEO_JSON_LD;
 	}
 
 	/**
@@ -158,6 +156,7 @@ class WPSEO_Frontend {
 			return;
 		}
 
+		new WPSEO_JSON_LD;
 		add_action( 'wpseo_head', array( $this, 'webmaster_tools_authentication' ), 90 );
 	}
 
@@ -179,7 +178,7 @@ class WPSEO_Frontend {
 	/**
 	 * Get the singleton instance of this class
 	 *
-	 * @return object
+	 * @return WPSEO_Frontend
 	 */
 	public static function get_instance() {
 		if ( ! ( self::$instance instanceof self ) ) {
@@ -201,7 +200,7 @@ class WPSEO_Frontend {
 	}
 
 	/**
-	 * Determine whether the current page is the homepage and shows posts.
+	 * Determine whether this is the homepage and shows posts.
 	 *
 	 * @return bool
 	 */
@@ -210,7 +209,7 @@ class WPSEO_Frontend {
 	}
 
 	/**
-	 * Determine whether the current page is a static homepage.
+	 * Determine whether the this is the static frontpage.
 	 *
 	 * @return bool
 	 */
@@ -219,7 +218,7 @@ class WPSEO_Frontend {
 	}
 
 	/**
-	 * Determine whether this is the posts page, regardless of whether it's the frontpage or not.
+	 * Determine whether this is the posts page, when it's not the frontpage.
 	 *
 	 * @return bool
 	 */
