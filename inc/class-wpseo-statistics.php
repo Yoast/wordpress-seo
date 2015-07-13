@@ -126,6 +126,7 @@ class WPSEO_Statistics {
 		}
 
 		$posts['fields'] = 'ids';
+		$posts['post_status'] = 'publish';
 		$posts = new WP_Query( $posts );
 
 		return $posts->found_posts;
