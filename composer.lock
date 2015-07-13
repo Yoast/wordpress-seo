@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "4954ed93fde446578bceb574686e30a8",
+    "hash": "0debdc021709a036eb98688d31699ae2",
     "packages": [
         {
             "name": "composer/installers",
@@ -132,6 +132,44 @@
             ],
             "homepage": "http://www.xrstf.de/",
             "time": "2015-02-01 14:28:15"
+        },
+        {
+            "name": "yoast/api-libs",
+            "version": "dev-trunk",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Yoast/api-libs.git",
+                "reference": "23ba204ea02f08302599e03040712e9eb738355e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Yoast/api-libs/zipball/23ba204ea02f08302599e03040712e9eb738355e",
+                "reference": "23ba204ea02f08302599e03040712e9eb738355e",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "class-api-libs.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "Team Yoast",
+                    "email": "support@yoast.com",
+                    "homepage": "https://yoast.com"
+                }
+            ],
+            "description": "Shared API libraries for Yoast projects.",
+            "homepage": "https://github.com/Yoast/api-libs",
+            "keywords": [
+                "wordpress"
+            ],
+            "time": "2015-07-07 09:34:36"
         },
         {
             "name": "yoast/i18n-module",
@@ -321,16 +359,16 @@
         },
         {
             "name": "squizlabs/php_codesniffer",
-            "version": "2.3.2",
+            "version": "2.3.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/squizlabs/PHP_CodeSniffer.git",
-                "reference": "e96d8579fbed0c95ecf2a0501ec4f307a4aa6404"
+                "reference": "c1a26c729508f73560c1a4f767f60b8ab6b4a666"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/e96d8579fbed0c95ecf2a0501ec4f307a4aa6404",
-                "reference": "e96d8579fbed0c95ecf2a0501ec4f307a4aa6404",
+                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/c1a26c729508f73560c1a4f767f60b8ab6b4a666",
+                "reference": "c1a26c729508f73560c1a4f767f60b8ab6b4a666",
                 "shasum": ""
             },
             "require": {
@@ -391,7 +429,7 @@
                 "phpcs",
                 "standards"
             ],
-            "time": "2015-04-28 23:28:20"
+            "time": "2015-06-24 03:16:23"
         },
         {
             "name": "symfony/config",
@@ -558,12 +596,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards.git",
-                "reference": "15a2c00fb2d42b986367892277659adcb94610bb"
+                "reference": "a9a032ef2ce775bd5c45b52db98fda45efa87148"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/WordPress-Coding-Standards/WordPress-Coding-Standards/zipball/15a2c00fb2d42b986367892277659adcb94610bb",
-                "reference": "15a2c00fb2d42b986367892277659adcb94610bb",
+                "url": "https://api.github.com/repos/WordPress-Coding-Standards/WordPress-Coding-Standards/zipball/a9a032ef2ce775bd5c45b52db98fda45efa87148",
+                "reference": "a9a032ef2ce775bd5c45b52db98fda45efa87148",
                 "shasum": ""
             },
             "require": {
@@ -586,7 +624,7 @@
                 "standards",
                 "wordpress"
             ],
-            "time": "2015-06-13 04:44:27"
+            "time": "2015-06-30 21:30:08"
         },
         {
             "name": "yoast/yoastcs",
@@ -634,6 +672,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
+        "yoast/api-libs": 20,
         "yoast/yoastcs": 20
     },
     "prefer-stable": true,
