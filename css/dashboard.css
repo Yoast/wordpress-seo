@@ -36,6 +36,12 @@
 	text-align: left;
 }
 
+#wpseo-dashboard-overview th:after {
+	color: #0073aa;
+	/* &raquo; */
+	content: "\bb";
+}
+
 #wpseo-dashboard-overview .post-count {
 	padding: 0 0 0 10px;
 	text-align: right;
