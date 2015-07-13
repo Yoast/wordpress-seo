@@ -417,7 +417,7 @@ class WPSEO_Sitemaps {
 
 			foreach ( $taxonomies as $tax_name => $tax ) {
 
-				if ( ! isset ( $all_taxonomies[ $tax_name ] ) ) { // No eligible terms found.
+				if ( ! isset( $all_taxonomies[ $tax_name ] ) ) { // No eligible terms found.
 					continue;
 				}
 
