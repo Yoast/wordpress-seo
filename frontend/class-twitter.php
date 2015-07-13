@@ -460,6 +460,13 @@ class WPSEO_Twitter {
 	 * @return bool
 	 */
 	private function image_from_content_output() {
+		/**
+		 * Filter: 'wpseo_pre_analysis_post_content' - Allow filtering the content before analysis
+		 *
+		 * @api string $post_content The Post content string
+		 *
+		 * @param object $post - The post object.
+		 */
 		global $post;
 		$content = apply_filters( 'wpseo_pre_analysis_post_content', $post->post_content, $post );
 
