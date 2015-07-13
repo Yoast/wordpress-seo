@@ -58,7 +58,7 @@ class WPSEO_Taxonomy {
 
 		if ( ! empty( $tax_meta[ $taxonomy ][ $old_term_id ] ) ) {
 			$tax_meta[ $taxonomy ][ $new_term_id ] = $tax_meta[ $taxonomy ][ $old_term_id ];
-			unset( $tax_meta[ $taxonomy ][ $old_term_id ]);
+			unset( $tax_meta[ $taxonomy ][ $old_term_id ] );
 			update_option( 'wpseo_taxonomy_meta', $tax_meta );
 		}
 	}
