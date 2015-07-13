@@ -54,6 +54,10 @@ class Yoast_Dashboard_Widget {
 	 */
 	private function statistic_items() {
 
+		if ( false !== ( $items = get_transient( 'wpseo-dashboard-totals' ) ) ) {
+			return $items;
+		}
+
 		$items = array(
 			array(
 				'seo_rank' => 'good',
@@ -101,6 +105,8 @@ class Yoast_Dashboard_Widget {
 				continue;
 			}
 		}
+
+		set_transient( 'wpseo-dashboard-totals', $items, HOUR_IN_SECONDS );
 
 		return $items;
 	}
