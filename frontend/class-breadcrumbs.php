@@ -665,13 +665,18 @@ class WPSEO_Breadcrumbs {
 	 */
 	private function get_link_info_for_id( $id ) {
 
-		$link = array();
-		$link['url']  = get_permalink( $id );
+		$link 	= array();
 		$status = get_post_status( $id );
+		$cpt 	= get_post_type( $id );
 
-		if ( 'private' == $status && ! current_user_can( 'read_private_pages' ) && ! current_user_can( 'read_private_posts' ) ) {
+		// Don't link if item is private and user does't have capability to read it.
+		if ( 'private' === $status && ! current_user_can( 'read_private_' . $cpt ) ) {
 
 			$link['url'] = '';
+
+		} else {
+
+			$link['url']  = get_permalink( $id );
 
 		}
 
