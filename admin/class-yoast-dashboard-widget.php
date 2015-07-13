@@ -57,37 +57,37 @@ class Yoast_Dashboard_Widget {
 		$items = array(
 			array(
 				'seo_rank' => 'good',
-				'title' => _n_noop( '%d post with an SEO score good &raquo;', '%d posts with an SEO score good &raquo;', 'wordpress-seo' ),
+				'title' => __( 'Posts with good SEO score', 'wordpress-seo' ),
 				'class' => 'wpseo-glance-good',
 				'count' => $this->statistics->get_good_seo_post_count(),
 			),
 			array(
 				'seo_rank' => 'ok',
-				'title' => _n_noop( '%d post with an SEO score ok &raquo;', '%d posts with an SEO score ok &raquo;', 'wordpress-seo' ),
+				'title' => __( 'Posts with OK SEO score', 'wordpress-seo' ),
 				'class' => 'wpseo-glance-ok',
 				'count' => $this->statistics->get_ok_seo_post_count(),
 			),
 			array(
 				'seo_rank' => 'poor',
-				'title' => _n_noop( '%d post with an SEO score poor &raquo;', '%d posts with an SEO score poor &raquo;', 'wordpress-seo' ),
+				'title' => __( 'Posts with poor SEO score', 'wordpress-seo' ),
 				'class' => 'wpseo-glance-poor',
 				'count' => $this->statistics->get_poor_seo_post_count(),
 			),
 			array(
 				'seo_rank' => 'bad',
-				'title' => _n_noop( '%d post with an SEO score bad &raquo;', '%d posts with an SEO score bad &raquo;', 'wordpress-seo' ),
+				'title' => __( 'Posts with bad SEO score', 'wordpress-seo' ),
 				'class' => 'wpseo-glance-bad',
 				'count' => $this->statistics->get_bad_seo_post_count(),
 			),
 			array(
 				'seo_rank' => 'na',
-				'title' => _n_noop( '%d post that doesn&#8217;t have a focus keyword yet &raquo;', '%d posts that don&#8217;t have a focus keyword yet &raquo;', 'wordpress-seo' ),
+				'title' => __( 'Posts without focus keyword', 'wordpress-seo' ),
 				'class' => 'wpseo-glance-na',
 				'count' => $this->statistics->get_no_focus_post_count(),
 			),
 			array(
 				'seo_rank' => 'noindex',
-				'title' => _n_noop( '%d post that is set to <code>noindex</code> and thus not in the search engines &raquo;', '%d posts that are set to <code>noindex</code> and thus not in the search engines &raquo;', 'wordpress-seo' ),
+				'title' => __( 'Posts that are set to <code>noindex</code>', 'wordpress-seo' ),
 				'class' => 'wpseo-glance-noindex',
 				'count' => $this->statistics->get_no_index_post_count(),
 			),
@@ -100,9 +100,6 @@ class Yoast_Dashboard_Widget {
 				unset( $items[ $key ] );
 				continue;
 			}
-
-			// Translate titles with actual count.
-			$items[ $key ]['title'] = translate_nooped_plural( $item['title'], $item['count'], 'wordpress-seo' );
 		}
 
 		return $items;
