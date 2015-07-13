@@ -9,14 +9,17 @@ YoastSEO_AnalyzeLoader = function( args ) {
     this.inputs = {};
     this.stringHelper = new YoastSEO_StringHelper();
     this.source = new this.config.source(args, this);
-    this.defineElements();
-    this.stringHelper = new YoastSEO_StringHelper();
     this.checkInputs();
-    this.source.getSnippetInput();
-    if(!this.config.ajax) {
+    if(!this.config.ajax){
+        this.defineElements();
+        //this.source.getSnippetInput();
         this.createSnippetPreview();
     }
-    this.bindEvent();
+};
+
+YoastSEO_AnalyzeLoader.prototype.init = function(){
+    this.defineElements();
+    this.createSnippetPreview();
 };
 
 
@@ -31,8 +34,9 @@ YoastSEO_AnalyzeLoader.prototype.createSnippetPreview = function() {
     this.createSnippetPreviewUrl ( div );
     this.createSnippetPreviewMeta ( div );
     targetElement.appendChild( div );
-    this.bindSnippetEvents();
     this.snippetPreview = new YoastSEO_SnippetPreview( this );
+    this.bindEvent();
+    //this.bindSnippetEvents();
 };
 
 /**

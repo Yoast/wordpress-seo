@@ -6,8 +6,7 @@ YoastSEO_WordPressScraper = function(args, refObj) {
     this.config = args;
     this.refObj = refObj;
     this.analyzerData = {};
-    this.formattedAnalyzerData = {};
-    this.formattedSnippetData = {};
+    this.formattedData = {};
     this.replacedVars = {};
     this.getData();
 };
@@ -19,6 +18,9 @@ YoastSEO_WordPressScraper.prototype.getData = function() {
     this.analyzerData.title = this.getDataFromInput( "title" );
     this.analyzerData.url = this.getDataFromInput( "url" );
     this.analyzerData.excerpt = this.getDataFromInput( "excerpt" );
+    this.analyzerData.snippetTitle = this.getDataFromInput( "title" );
+    this.analyzerData.snippetMeta = this.getDataFromInput( "meta" );
+    this.analyzerData.snippetCite = this.getDataFromInput( "cite" );
 };
 
 
@@ -29,12 +31,14 @@ YoastSEO_WordPressScraper.prototype.getDataFromInput = function( inputType ) {
             val = this.getContentTinyMCE();
             break;
         case "url":
-        case "cite":
             val = document.getElementById("sample-permalink").innerText;
             var postSlug = document.getElementById("new-post-slug");
             if(postSlug !== null) {
                 val += postSlug.value + "/";
             }
+            break;
+        case "cite":
+            val = document.getElementById("sample-permalink").textContent.replace(/https?:\/\//i, "");
             break;
         case "meta":
             val = document.getElementById("yoast_wpseo_metadesc").value;
@@ -59,22 +63,22 @@ YoastSEO_WordPressScraper.prototype.getDataFromInput = function( inputType ) {
  * @param inputType
  */
 YoastSEO_WordPressScraper.prototype.getAnalyzerInput = function() {
-    this.analyzerDataQueue = ["text", "keyword", "meta", "url", "title"];
-    this.runAnalyzerDataQueue();
+    this.analyzerDataQueue = ["text", "keyword", "meta", "url", "title", "snippetTitle", "snippetMeta", "snippetCite"];
+    this.runDataQueue();
 };
 
 /**
  * Queue for the analyzer data. Runs a queue to prevent timing issues with the replace variable callback
  */
-YoastSEO_WordPressScraper.prototype.runAnalyzerDataQueue = function() {
+YoastSEO_WordPressScraper.prototype.runDataQueue = function() {
     if(this.analyzerDataQueue.length > 0){
         var currentData = this.analyzerDataQueue.shift();
-        this.replaceVariables(this.analyzerData[currentData], currentData, this.formattedAnalyzerData, "Analyzer")
+        this.replaceVariables(this.analyzerData[currentData], currentData, this.formattedData);
     }else{
-        this.refObj.runAnalyzerCallback();
+        this.refObj.init();
     }
 };
-
+/*
 YoastSEO_WordPressScraper.prototype.getSnippetInput = function() {
     this.snippetDataQueue = ["title", "cite", "meta"];
     this.runSnippetDataQueue();
@@ -92,7 +96,7 @@ YoastSEO_WordPressScraper.prototype.runSnippetDataQueue = function() {
         }
     }
 };
-
+*/
 
 /**
  * gets content from the content field, if tinyMCE is initialized, use the getContent function to get the data from tinyMCE
@@ -146,10 +150,10 @@ YoastSEO_WordPressScraper.prototype.setSnippetData = function( inputType ) {
  * @param target
  * @returns {string}
  */
-YoastSEO_WordPressScraper.prototype.replaceVariables = function( textString, type, object, target ) {
+YoastSEO_WordPressScraper.prototype.replaceVariables = function( textString, type, object) {
     if(typeof textString === "undefined"){
         object[type] = "";
-        this["run"+target+"DataQueue"]();
+        this.runDataQueue();
 
     } else {
         textString = this.titleReplace(textString);
@@ -158,7 +162,7 @@ YoastSEO_WordPressScraper.prototype.replaceVariables = function( textString, typ
         textString = this.doubleSepReplace(textString);
         textString = this.excerptReplace(textString);
 
-        if (textString.indexOf("%%") !== -1 && textString.match(/%%[a-z0-0_-]+%%/i) !== null && typeof this.replacedVars !== "undefined") {
+        if (textString.indexOf("%%") !== -1 && textString.match(/%%[a-z0-9_-]+%%/i) !== null && typeof this.replacedVars !== "undefined") {
             var regex = /%%[a-z0-9_-]+%%/gi;
             var matches = textString.match(regex);
             for (var i = 0; i < matches.length; i++) {
@@ -174,17 +178,16 @@ YoastSEO_WordPressScraper.prototype.replaceVariables = function( textString, typ
                     srcObj.textString = textString;
                     srcObj.type = type;
                     srcObj.object = object;
-                    srcObj.target = target;
                     this.ajaxReplaceVariables(srcObj);
                 }
             }
-            if (textString.match(/%%[a-z0-0_-]+%%/i) === null) {
+            if (textString.match(/%%[a-z0-9_-]+%%/i) === null) {
                 object[type] = textString;
-                this["run" + target + "DataQueue"]();
+                this.runDataQueue();
             }
         } else {
             object[type] = textString;
-            this["run" + target + "DataQueue"]();
+            this.runDataQueue();
         }
     }
 };
@@ -286,7 +289,7 @@ YoastSEO_WordPressScraper.prototype.ajaxReplaceVariables = function( srcObj ) {
         }, function( data ) {
             if ( data ) {
                 analyzeLoader.source.replacedVars[srcObj.replaceableVar] = data;
-                analyzeLoader.source.replaceVariables (srcObj.textString, srcObj.type, srcObj.object, srcObj.target);
+                analyzeLoader.source.replaceVariables (srcObj.textString, srcObj.type, srcObj.object);
             }
         }
     );
