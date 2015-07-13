@@ -12,7 +12,10 @@ YoastSEO_AnalyzeLoader = function( args ) {
     this.defineElements();
     this.stringHelper = new YoastSEO_StringHelper();
     this.checkInputs();
-    this.createSnippetPreview();
+    this.source.getSnippetInput();
+    if(!this.config.ajax) {
+        this.createSnippetPreview();
+    }
     this.bindEvent();
 };
 
@@ -28,9 +31,8 @@ YoastSEO_AnalyzeLoader.prototype.createSnippetPreview = function() {
     this.createSnippetPreviewUrl ( div );
     this.createSnippetPreviewMeta ( div );
     targetElement.appendChild( div );
-    if(this.config.snippetPreview){
-        this.snippetPreview = new YoastSEO_SnippetPreview( this );
-    }
+    this.bindSnippetEvents();
+    this.snippetPreview = new YoastSEO_SnippetPreview( this );
 };
 
 /**
@@ -103,14 +105,14 @@ YoastSEO_AnalyzeLoader.prototype.getAnalyzerInput = function() {
 YoastSEO_AnalyzeLoader.prototype.bindEvent = function() {
     this.source.bindElementEvents();
     //this.bindInputEvent();
-    this.bindSnippetEvents();
+
 };
 
 /**
  * binds the analyzeTimer function to the input of the targetElement on the page.
  */
 YoastSEO_AnalyzeLoader.prototype.bindInputEvent = function() {
-    this.source.bindElementEvents();
+   // this.source.bindElementEvents();
     for (var i = 0; i < this.config.elementTarget.length; i++) {
         var elem = document.getElementById( this.config.elementTarget[i] );
         elem.addEventListener( "input", this.analyzeTimer );

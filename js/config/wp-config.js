@@ -1,6 +1,7 @@
 var args = {
     source: YoastSEO_WordPressScraper,
     analyzer: true,
+    ajax: true,
     snippetPreview: true,
     elementTarget: ["content","yoast_wpseo_focuskw","yoast_wpseo_metadesc","excerpt","editable-post-name","editable-post-name-full"],
     replaceTarget: ["yoast_wpseo_metadesc", "excerpt","yoast_wpseo_title"],

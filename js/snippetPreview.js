@@ -16,7 +16,7 @@ YoastSEO_SnippetPreview = function( refObj ) {
  *  checks if title and url are set so they can be rendered in the snippetPreview
  */
 YoastSEO_SnippetPreview.prototype.init = function() {
-    if( this.refObj.source.analyzerData.pageTitle !== null && this.refObj.source.analyzerData.url !== null ) {
+    if( this.refObj.source.formattedSnippetData.pageTitle !== null && this.refObj.source.formattedSnippetData.cite !== null ) {
         this.output = this.htmlOutput();
         this.renderOutput();
     }
@@ -39,7 +39,7 @@ YoastSEO_SnippetPreview.prototype.htmlOutput = function() {
  * @returns {formatted page title}
  */
 YoastSEO_SnippetPreview.prototype.formatTitle = function() {
-    var title = this.refObj.source.analyzerData.title;
+    var title = this.refObj.source.formattedSnippetData.title;
     title = this.refObj.stringHelper.stripAllTags( title );
     return this.formatKeyword( title );
 };
@@ -49,7 +49,7 @@ YoastSEO_SnippetPreview.prototype.formatTitle = function() {
  * @returns formatted url
  */
 YoastSEO_SnippetPreview.prototype.formatCite = function() {
-    var cite = this.refObj.source.analyzerData.url;
+    var cite = this.refObj.source.formattedSnippetData.cite;
     cite = this.refObj.stringHelper.stripAllTags( cite );
     return this.formatKeywordUrl( cite );
 };
@@ -59,7 +59,7 @@ YoastSEO_SnippetPreview.prototype.formatCite = function() {
  * @returns formatted metatext
  */
 YoastSEO_SnippetPreview.prototype.formatMeta = function() {
-    var meta = this.refObj.source.analyzerData.meta;
+    var meta = this.refObj.source.formattedSnippetData.meta;
     if(meta === ""){
         meta = this.getMetaText();
     }
