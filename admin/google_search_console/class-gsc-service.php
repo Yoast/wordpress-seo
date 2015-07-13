@@ -128,7 +128,19 @@ class WPSEO_GSC_Service {
 	 * Setting the GSC client
 	 */
 	private function set_client() {
-		Yoast_Api_Libs::load_api_libraries( array( 'google' ) );
+		try {
+			new Yoast_Api_Libs( '2.0' );
+		}
+		catch( Exception $exception ) {
+			if ( $exception->getMessage() === 'required_version' ) {
+				Yoast_Notification_Center::get()->add_notification(
+					new Yoast_Notification(
+						__( 'We\'ve detected some possible incompatibility issues. Be sure all our plugins are up to date.', 'wordpress-seo' ), array( 'type' => 'error' )
+					)
+				);
+			}
+
+		}
 
 		$this->client = new Yoast_Api_Google_Client( WPSEO_GSC_Config::$gsc, 'wpseo-gsc', 'https://www.googleapis.com/webmasters/v3/' );
 	}
