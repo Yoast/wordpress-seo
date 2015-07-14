@@ -430,3 +430,7 @@ function yoast_wpseo_self_deactivate() {
 }
 
 
+/**
+ * The method will add WordPress Customizer Support
+ */
+ include_once('admin/class-customizer.php');
