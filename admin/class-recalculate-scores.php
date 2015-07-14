@@ -18,7 +18,7 @@ class WPSEO_Recalculate_Scores {
 	/**
 	 * @var array The fields which should be always queries, can be extended by array_merge
 	 */
-	private $query_fields   = array (
+	private $query_fields   = array(
 		'post_type'      => 'any',
 		'meta_key'       => '_yoast_wpseo_focuskw',
 		'posts_per_page' => -1,
@@ -36,7 +36,7 @@ class WPSEO_Recalculate_Scores {
 
 		echo $this->calculate_posts() , ' posts';
 
-		$this->get_posts(1);
+		$this->get_posts( 1 );
 	}
 
 	/**
@@ -68,9 +68,9 @@ class WPSEO_Recalculate_Scores {
 		$post_query = new WP_Query(
 			array_merge(
 				$this->query_fields,
-				array (
+				array(
 					'posts_per_page' => $this->posts_per_page,
-					'paged'          => $paged
+					'paged'          => $paged,
 				)
 			)
 		);
@@ -86,10 +86,10 @@ class WPSEO_Recalculate_Scores {
 				'next_page'   => ( $paged + 1 ),
 			);
 
-			echo "<pre>";
+			echo '<pre>';
 			print_r( $response );
 
-//			wp_die( json_encode( $return ) );
+			// wp_die( json_encode( $return ) );
 
 		}
 	}
@@ -103,7 +103,7 @@ class WPSEO_Recalculate_Scores {
 	 */
 	private function parse_posts( array $posts ) {
 		$parsed_posts = array();
-		foreach ($posts as $post ) {
+		foreach ( $posts as $post ) {
 			$parsed_posts[] = $this->post_to_response( $post );
 		}
 
@@ -111,30 +111,23 @@ class WPSEO_Recalculate_Scores {
 	}
 
 	/**
-	 * @param $post
+	 * @param WP_Post $post
 	 *
 	 * @return array
 	 */
-	private function post_to_response( $post ) {
-
+	private function post_to_response( WP_Post $post ) {
 		$focus_keyword = WPSEO_Meta::get_value( 'focuskw', $post->ID );
 
 		return array(
 			'post_id'          => $post->ID,
-//			'post_content'     => $post->post_content,
+			// 'post_content'     => $post->post_content,
 			'title'            => apply_filters( 'wpseo_title',    wpseo_replace_vars( $this->get_title( $post->ID, $post->post_type ), $post ) ),
 			'meta_description' => apply_filters( 'wpseo_metadesc', wpseo_replace_vars( $this->get_meta_description( $post->ID, $post->post_type ), $post ) ),
 			'focus_keyword'    => $focus_keyword,
 			'focus_keyword_used' => $this->get_focus_keyword_used( $focus_keyword, $post->ID ),
 		);
 
-
-//		echo 'Title ', WPSEO_Meta::get_value( 'title', $post->ID );//apply_filters( 'wpseo_title', wpseo_replace_vars( WPSEO_Meta::get_value( 'title', $post->ID ), (array) $post ) );
-
-
-
 		return $post;
-
 	}
 
 	/**
@@ -209,7 +202,6 @@ class WPSEO_Recalculate_Scores {
 	 *
 	 * @return bool|string
 	 */
-
 	private function default_from_options( $field, $post_type ) {
 		if ( isset( $this->options[ $field . '-' . $post_type ] ) && $this->options[ $field . '-' . $post_type ] !== '' ) {
 			return $this->options[ $field . '-' . $post_type ];
@@ -217,6 +209,5 @@ class WPSEO_Recalculate_Scores {
 
 		return false;
 	}
-
 
 }
