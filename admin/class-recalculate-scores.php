@@ -37,7 +37,7 @@ class WPSEO_Recalculate_Scores {
 		add_thickbox();
 
 		echo '<div id="wpseo_recalculate" style="display:none;">';
-     	echo '<p>';
+		echo '<p>';
 		echo __( 'Recalculating the SEO scores of all the posts:', 'wordpress-seo' );
 		echo '</p>';
 		echo '<div id="wpseo_progressbar"></div>';
@@ -47,7 +47,7 @@ class WPSEO_Recalculate_Scores {
 			'<span id="wpseo_count">0</span>',
 			'<strong id="wpseo_count_total">' . $this->calculate_posts() . '</strong>'
 		);
-     	echo '</p>';
+		echo '</p>';
 		echo '</div>';
 	}
 

@@ -374,5 +374,5 @@ add_action( 'wp_ajax_wpseo_add_fb_admin', 'wpseo_add_fb_admin' );
 // Crawl Issue Manager AJAX hooks.
 new WPSEO_GSC_Ajax;
 
-// SEO Score Recalculations
+// SEO Score Recalculations.
 new WPSEO_Recalculate_Scores_Ajax;

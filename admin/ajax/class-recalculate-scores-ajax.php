@@ -1,5 +1,13 @@
 <?php
+/**
+ * @package WPSEO\Admin|Ajax
+ */
 
+/**
+ * Class WPSEO_Recalculate_Scores
+ *
+ * This class handles the SEO score recalculation for all posts with a filled focus keyword
+ */
 class WPSEO_Recalculate_Scores_Ajax {
 
 	/**
@@ -35,11 +43,11 @@ class WPSEO_Recalculate_Scores_Ajax {
 	 */
 	public function recalculate_scores() {
 		// @todo: Nonce check
-//		if( nonce check is passed)
-		wp_die(
-			$this->get_posts( filter_input( INPUT_POST, 'paged', FILTER_VALIDATE_INT ) )
-		);
-
+		if( 'nonce' === 'nonce' ) {
+			wp_die(
+				$this->get_posts( filter_input( INPUT_POST, 'paged', FILTER_VALIDATE_INT ) )
+			);
+		}
 	}
 
 	/**
@@ -54,7 +62,6 @@ class WPSEO_Recalculate_Scores_Ajax {
 
 	/**
 	 * Getting the posts from the database by doing a WP_Query.
-	 *«
 	 *
 	 * @param integer $paged
 	 *
@@ -184,7 +191,6 @@ class WPSEO_Recalculate_Scores_Ajax {
 
 		return '';
 	}
-
 
 	/**
 	 * Getting default from the options for given field
