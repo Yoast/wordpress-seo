@@ -28,6 +28,7 @@ class WPSEO_Customizer {
 				/* translators: %s is the name of the plugin */
 				'title'          => sprintf( __( '%s Breadcrumbs', 'wordpress-seo' ), 'Yoast SEO' ),
 				'priority'       => 999,
+				'description'    => sprintf( __( 'Usage of this breadcrumbs feature is explained in %1$sour knowledge-base article on breadcrumbs implementation%2$s.', 'wordpress-seo' ), '<a href="http://yoa.st/breadcrumbs" target="_blank">', '</a>' ),
 			)
 		);
 
@@ -45,7 +46,7 @@ class WPSEO_Customizer {
 			new WP_Customize_Control(
 				$wp_customize, 'wpseo-breadcrumbs-enable', array(
 					'label'       => __( 'Enable Breadcrumbs', 'wordpress-seo' ),
-					'description' => __( 'Use this to enable breadcrumbs for your site.', 'wordpress-seo' ),
+					'description' => __( 'Check this to enable breadcrumbs for your site.', 'wordpress-seo' ),
 					'type'        => 'checkbox',
 					'section'     => 'wpseo_breadcrumbs_customizer_section',
 					'settings'    => 'wpseo_internallinks[breadcrumbs-enable]',
@@ -68,7 +69,7 @@ class WPSEO_Customizer {
 			new WP_Customize_Control(
 				$wp_customize, 'wpseo-breadcrumbs-boldlast', array(
 					'label'       => __( 'Bold the last page in the breadcrumb', 'wordpress-seo' ),
-					'description' => __( 'Use this to bold the last breadcrumb.', 'wordpress-seo' ),
+					'description' => __( 'Check this to bold the last breadcrumb.', 'wordpress-seo' ),
 					'type'        => 'checkbox',
 					'section'     => 'wpseo_breadcrumbs_customizer_section',
 					'settings'    => 'wpseo_internallinks[breadcrumbs-boldlast]',
@@ -91,7 +92,7 @@ class WPSEO_Customizer {
 			new WP_Customize_Control(
 				$wp_customize, 'wpseo-breadcrumbs-blog-remove', array(
 					'label'       => __( 'Remove Blog page from Breadcrumbs', 'wordpress-seo' ),
-					'description' => __( 'Use this to remove blog from breadcrumbs.', 'wordpress-seo' ),
+					'description' => __( 'Check this to remove blog from breadcrumbs.', 'wordpress-seo' ),
 					'type'        => 'checkbox',
 					'section'     => 'wpseo_breadcrumbs_customizer_section',
 					'settings'    => 'wpseo_internallinks[breadcrumbs-blog-remove]',
@@ -114,7 +115,7 @@ class WPSEO_Customizer {
 			new WP_Customize_Control(
 				$wp_customize, 'wpseo-breadcrumbs-separator', array(
 					'label'       => __( 'Breadcrumbs Separator:', 'wordpress-seo' ),
-					'description' => __( 'Use this to set a separator between breadcrumb links.', 'wordpress-seo' ),
+					'description' => __( 'Set the separator between breadcrumb links.', 'wordpress-seo' ),
 					'type'        => 'text',
 					'section'     => 'wpseo_breadcrumbs_customizer_section',
 					'settings'    => 'wpseo_internallinks[breadcrumbs-sep]',
