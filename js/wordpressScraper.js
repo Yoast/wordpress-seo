@@ -11,19 +11,28 @@ YoastSEO_WordPressScraper = function(args, refObj) {
     this.getData();
 };
 
+/**
+ * Get data from inputfields and store them in an analyzerData object. This object will be used to fill
+ * the analyzer and the snippetpreview
+ */
 YoastSEO_WordPressScraper.prototype.getData = function() {
     this.analyzerData.keyword = this.getDataFromInput( "keyword" );
     this.analyzerData.meta = this.getDataFromInput( "meta" );
     this.analyzerData.text = this.getDataFromInput( "text" );
+    this.analyzerData.pageTitle = this.getDataFromInput( "pageTitle" );
     this.analyzerData.title = this.getDataFromInput( "title" );
     this.analyzerData.url = this.getDataFromInput( "url" );
     this.analyzerData.excerpt = this.getDataFromInput( "excerpt" );
-    this.analyzerData.snippetTitle = this.getDataFromInput( "title" );
+    this.analyzerData.snippetTitle = this.getDataFromInput( "snippetTitle" );
     this.analyzerData.snippetMeta = this.getDataFromInput( "meta" );
     this.analyzerData.snippetCite = this.getDataFromInput( "cite" );
 };
 
-
+/**
+ * gets the values from the given input. Returns this value
+ * @param inputType
+ * @returns value
+ */
 YoastSEO_WordPressScraper.prototype.getDataFromInput = function( inputType ) {
     var val;
     switch( inputType){
@@ -49,7 +58,11 @@ YoastSEO_WordPressScraper.prototype.getDataFromInput = function( inputType ) {
             val = document.getElementById("yoast_wpseo_focuskw").value;
             break;
         case "title":
-            val = document.getElementById("title").value;
+        case "snippetTitle":
+            val = document.getElementById("yoast_wpseo_title").value;
+            break;
+        case "pageTitle":
+             val = document.getElementById("title").value;
             break;
         case "excerpt":
             val = document.getElementById("excerpt").value;
@@ -60,16 +73,21 @@ YoastSEO_WordPressScraper.prototype.getDataFromInput = function( inputType ) {
     return val;
 };
 
+/**
+ * When the snippet is updated, update the (hidden) fields on the page
+ * @param value
+ * @param type
+ */
 YoastSEO_WordPressScraper.prototype.setDataFromSnippet = function( value, type) {
     switch(type){
         case "snippet_meta":
             document.getElementById("yoast_wpseo_metadesc").value = value;
             break;
         case "snippet_cite":
-            document.getElementById("sample-permalink").value;
+            document.getElementById("editable-post-name").textContent = value;
             break;
         case "snippet_title":
-            document.getElementById("title").value;
+            document.getElementById("yoast_wpseo_title").value = value;
             break;
         default:
             break;
@@ -81,7 +99,7 @@ YoastSEO_WordPressScraper.prototype.setDataFromSnippet = function( value, type) 
  * @param inputType
  */
 YoastSEO_WordPressScraper.prototype.getAnalyzerInput = function() {
-    this.analyzerDataQueue = ["text", "keyword", "meta", "url", "title", "snippetTitle", "snippetMeta", "snippetCite", "excerpt"];
+    this.analyzerDataQueue = ["text", "keyword", "meta", "url", "title", "pageTitle", "snippetTitle", "snippetMeta", "snippetCite", "excerpt"];
     this.runDataQueue();
 };
 
@@ -121,17 +139,17 @@ YoastSEO_WordPressScraper.prototype.getInputFieldsData = function ( ev ) {
     var inputType = ev.currentTarget.id.replace(/snippet_/i, "");
     switch( inputType ){
         case "title":
-            document.getElementById( "snippet_title" ).innerText = document.getElementById( "title" ).value;
+            document.getElementById( "snippet_title" ).textContent = document.getElementById( "title" ).value;
             break;
         case "meta":
-            document.getElementById( "snippet_meta" ).innerText = document.getElementById( "yoast_wpseo_metadesc" ).value;
+            document.getElementById( "snippet_meta" ).textContent = document.getElementById( "yoast_wpseo_metadesc" ).value;
             break;
         case "url":
-            /*var urlBase = document.getElementById("sample-permalink").innerText.replace(/https?:\/\//i, "").split("/")[0]+"/";
-            var newUrl = document.getElementById( "snippet_cite" ).innerText;
+            var urlBase = document.getElementById("sample-permalink").textContent.replace(/https?:\/\//i, "").split("/")[0]+"/";
+            var newUrl = document.getElementById( "snippet_cite" ).textContent;
             newUrl = newUrl.replace(urlBase, "");
-            document.getElementById("editable-post-name").innerText = newUrl;
-            document.getElementById("editable-post-name-full").innerText = newUrl;*/
+            document.getElementById("editable-post-name").textContent = newUrl;
+            document.getElementById("editable-post-name-full").textContent = newUrl;
             break;
         default:
             break;
@@ -196,6 +214,9 @@ YoastSEO_WordPressScraper.prototype.replaceVariables = function( textString, typ
  */
 YoastSEO_WordPressScraper.prototype.titleReplace = function ( textString ){
     var title = this.analyzerData.title;
+    if(typeof title === "undefined"){
+        title = this.analyzerData.pageTitle;
+    }
     if (title.length > 0) {
         textString = textString.replace( /%%title%%/g, title );
     }
@@ -217,7 +238,7 @@ YoastSEO_WordPressScraper.prototype.parentReplace = function ( textString ){
 };
 
 /**
- *
+ * removes double seperators and replaces them with a single seperator
  * @param textString
  * @returns textString
  */
@@ -228,6 +249,11 @@ YoastSEO_WordPressScraper.prototype.doubleSepReplace = function (textString ){
     return textString;
 };
 
+/**
+ * replaces the excerpts strings with strings for the excerpts, if not empty.
+ * @param textString
+ * @returns {*}
+ */
 YoastSEO_WordPressScraper.prototype.excerptReplace = function ( textString ){
     if( this.analyzerData.excerpt.length > 0 ){
         textString.replace( /%%excerpt_only%%/, this.analyzerData.excerpt);
@@ -237,7 +263,7 @@ YoastSEO_WordPressScraper.prototype.excerptReplace = function ( textString ){
 };
 
 /**
- *
+ * replaces default variables with the values stored in the wpseoMetaboxL10n object.
  * @param textString
  */
 YoastSEO_WordPressScraper.prototype.defaultReplace = function (textString){
@@ -254,8 +280,6 @@ YoastSEO_WordPressScraper.prototype.defaultReplace = function (textString){
         .replace( /%%currentyear%%/g, wpseoMetaboxL10n.currentyear )
         .replace( /%%focuskw%%/g, this.refObj.stringHelper.stripAllTags ( this.analyzerData.keyword) );
 };
-
-
 
 /**
  * Variable replacer. Gets the replaceable var from an Ajaxcall, saves this in the replacedVars object and runs the
@@ -278,7 +302,7 @@ YoastSEO_WordPressScraper.prototype.ajaxReplaceVariables = function( srcObj ) {
 };
 
 /**
- * calls the eventbinders
+ * calls the eventbinders.
  */
 YoastSEO_WordPressScraper.prototype.bindElementEvents = function() {
     this.snippetPreviewEventBinder();
@@ -295,6 +319,9 @@ YoastSEO_WordPressScraper.prototype.snippetPreviewEventBinder = function() {
     }
 };
 
+/**
+ * bins the renewData function on the change of inputelements.
+ */
 YoastSEO_WordPressScraper.prototype.inputElementEventBinder = function() {
     var elems = ["excerpt", "content", "editable-post-name"];
     for (var i = 0; i < elems.length; i++){
@@ -302,12 +329,19 @@ YoastSEO_WordPressScraper.prototype.inputElementEventBinder = function() {
     }
 };
 
+/**
+ * renews Data in the analyzerData object and reruns the getAnalyzerInput to keep data up to date.
+ * @param ev
+ */
 YoastSEO_WordPressScraper.prototype.renewData = function ( ev ) {
     ev.currentTarget.__refObj.source.getData();
     ev.currentTarget.__refObj.source.getAnalyzerInput();
 };
 
-
+/**
+ * Updates the snippet values, is bound by the loader when generating the elements for the snippet.
+ * @param ev
+ */
 YoastSEO_WordPressScraper.prototype.updateSnippetValues = function( ev ) {
     ev.currentTarget.refObj.source.setDataFromSnippet( ev.currentTarget.textContent, ev.currentTarget.id);
     ev.currentTarget.refObj.source.getData();

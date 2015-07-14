@@ -40,6 +40,9 @@ YoastSEO_SnippetPreview.prototype.htmlOutput = function() {
  */
 YoastSEO_SnippetPreview.prototype.formatTitle = function() {
     var title = this.refObj.source.formattedData.snippetTitle;
+    if(title === ""){
+        title = this.refObj.source.formattedData.pageTitle;
+    }
     title = this.refObj.stringHelper.stripAllTags( title );
     return this.formatKeyword( title );
 };
@@ -77,7 +80,8 @@ YoastSEO_SnippetPreview.prototype.getMetaText = function() {
     var metaText;
     if(typeof this.refObj.source.formattedData.excerpt !== "undefined"){
         metaText = this.refObj.source.formattedData.excerpt.substring(0, analyzerConfig.maxMeta);
-    }else {
+    }
+    if(metaText === ""){
         var indexMatches = this.getIndexMatches();
         var periodMatches = this.getPeriodMatches();
         metaText = this.refObj.source.formattedData.text.substring(0, analyzerConfig.maxMeta);
