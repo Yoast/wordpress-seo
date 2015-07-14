@@ -289,7 +289,7 @@ function wpseo_wpml_config( $config ) {
 add_filter( 'icl_wpml_config_array', 'wpseo_wpml_config' );
 
 /**
- * WordPress SEO breadcrumb shortcode
+ * Yoast SEO breadcrumb shortcode
  * [wpseo_breadcrumb]
  *
  * @return string
@@ -516,8 +516,8 @@ function wpseo_get_terms( $id, $taxonomy, $return_single = false ) {
  * Generate an HTML sitemap
  *
  * @deprecated 1.5.5.4
- * @deprecated use plugin WordPress SEO Premium
- * @see        WordPress SEO Premium
+ * @deprecated use plugin Yoast SEO Premium
+ * @see        Yoast SEO Premium
  *
  * @param array $atts The attributes passed to the shortcode.
  *

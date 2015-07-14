@@ -5,17 +5,17 @@ Yoast SEO
 [![Stable Version](https://poser.pugx.org/yoast/wordpress-seo/v/stable.svg)](https://packagist.org/packages/yoast/wordpress-seo)
 [![License](https://poser.pugx.org/yoast/wordpress-seo/license.svg)](https://packagist.org/packages/yoast/wordpress-seo)
 
-Welcome to the WordPress SEO GitHub repository
+Welcome to the Yoast SEO GitHub repository
 ----------------------------------------------
 
-While the documentation for the [WordPress SEO plugin](https://yoast.com/wordpress/seo/) can be found on [Yoast.com](https://yoast.com/), here
+While the documentation for the [Yoast SEO plugin](https://yoast.com/wordpress/seo/) can be found on [Yoast.com](https://yoast.com/), here
 you can browse the source of the project, find and discuss open issues and even
 [contribute yourself](https://github.com/yoast/wordpress-seo/blob/master/CONTRIBUTING.md).
 
 Installation
 ------------
 
-Here's a [guide on how to install WordPress SEO in your WordPress site](https://yoast.com/wordpress/seo/installation/).
+Here's a [guide on how to install Yoast SEO in your WordPress site](https://yoast.com/wordpress/seo/installation/).
 
 If you want to run the Git version for development though, you can set it up with [Composer](https://getcomposer.org/):
 
@@ -23,7 +23,7 @@ If you want to run the Git version for development though, you can set it up wit
 composer create-project yoast/wordpress-seo:dev-trunk --prefer-source --keep-vcs
 ```
 
-Read more about [using Composer with WordPress SEO](https://github.com/Yoast/wordpress-seo/wiki/Using-Composer).
+Read more about [using Composer with Yoast SEO](https://github.com/Yoast/wordpress-seo/wiki/Using-Composer).
 
 This will download the latest development version of Yoast SEO. While this version is usually stable,
 it is not recommended for use in a production environment.
@@ -44,7 +44,7 @@ It may help us a lot if you can provide a backtrace of the error encountered. Yo
 
 Contributions
 -------------
-Anyone is welcome to contribute to WordPress SEO. Please
+Anyone is welcome to contribute to Yoast SEO. Please
 [read the guidelines](https://github.com/yoast/wordpress-seo/blob/master/CONTRIBUTING.md) for contributing to this
 repository.
 
