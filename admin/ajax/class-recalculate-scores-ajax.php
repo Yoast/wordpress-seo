@@ -43,7 +43,7 @@ class WPSEO_Recalculate_Scores_Ajax {
 	 */
 	public function recalculate_scores() {
 		// @todo: Nonce check
-		if( 'nonce' === 'nonce' ) {
+		if ( 'nonce' === 'nonce' ) {
 			wp_die(
 				$this->get_posts( filter_input( INPUT_POST, 'paged', FILTER_VALIDATE_INT ) )
 			);
