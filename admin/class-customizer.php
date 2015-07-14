@@ -28,8 +28,9 @@ class WPSEO_Customizer {
 				'priority'       => '999',
 				'capability'     => 'edit_theme_options',
 				'theme_supports' => '',
-				'title'          => __( 'WordPress SEO', 'wordpress-seo' ),
-				'description'    => __( 'Customize your WordPress SEO Settings.', 'wordpress-seo' ),
+				'title'          => 'Yoast SEO',
+				/* translator: %s is the plugin name */
+				'description'    => sprintf( __( 'Customize your %s Settings.', 'wordpress-seo' ), 'Yoast SEO' ),
 			)
 		);
 
