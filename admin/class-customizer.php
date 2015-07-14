@@ -12,7 +12,7 @@ class WPSEO_Customizer {
 	 * Construct Method.
 	 */
 	public function __construct() {
-		add_action( 'customize_register', array( &$this, 'wpseo_customize_register' ) );
+		add_action( 'customize_register', array( $this, 'wpseo_customize_register' ) );
 	}
 
 	/**
