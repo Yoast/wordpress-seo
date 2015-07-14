@@ -11,7 +11,7 @@ class WPSEO_Customizer {
 	/**
 	 * Construct Method.
 	 */
-	function __construct() {
+	public function __construct() {
 		add_action( 'customize_register', array( &$this, 'wpseo_customize_register' ) );
 	}
 
@@ -20,7 +20,7 @@ class WPSEO_Customizer {
 	 *
 	 * @param WP_Customize_Manager $wp_customize
 	 */
-	function wpseo_customize_register( $wp_customize ) {
+	public function wpseo_customize_register( $wp_customize ) {
 
 		// Breadcrumbs Section.
 		$wp_customize->add_section(
