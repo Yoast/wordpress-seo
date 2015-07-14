@@ -135,7 +135,7 @@ class WPSEO_GSC_Service {
 			if ( $exception->getMessage() === 'required_version' ) {
 				Yoast_Notification_Center::get()->add_notification(
 					new Yoast_Notification(
-						__( 'We\'ve detected some possible incompatibility issues. Be sure all our plugins are up to date.', 'wordpress-seo' ), array( 'type' => 'error' )
+						__( 'Yoast plugins share some code between them to make your site faster. As a result of that, we need all Yoast plugins to be up to date. We\'ve detected this isn\'t the case, so please update the Yoast plugins that aren\'t up to date yet.', 'wordpress-seo' ), array( 'type' => 'error' )
 					)
 				);
 			}
