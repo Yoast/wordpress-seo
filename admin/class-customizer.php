@@ -244,7 +244,7 @@ function wpseo_customize_register( $wp_customize )
     $wp_customize->add_control(
         new WP_Customize_Control(
             $wp_customize, 'wpseo-breadcrumbs-searchprefix', array(
-                'label'        => __('Prefix for Search Page breadcrumbs:', 'wpseo'),
+                'label'        => __('Prefix for Search Page breadcrumbs:', 'wordpress-seo'),
                 'description'  => __('Set the prefix text to be used for your search page.', 'wordpress-seo'),
                 'type'         => 'text',
                 'section'      => 'wpseo_breadcrumbs_customizer_section',
@@ -267,7 +267,7 @@ function wpseo_customize_register( $wp_customize )
     $wp_customize->add_control(
         new WP_Customize_Control(
             $wp_customize, 'wpseo-breadcrumbs-404crumb', array(
-                'label'        => __('Breadcrumb for 404 Page:', 'wpseo'),
+                'label'        => __('Breadcrumb for 404 Page:', 'wordpress-seo'),
                 'description'  => __('Set the breadcrumbs for the 404 page.', 'wordpress-seo'),
                 'type'         => 'text',
                 'section'      => 'wpseo_breadcrumbs_customizer_section',
