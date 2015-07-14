@@ -242,9 +242,7 @@ function wpseo_init() {
 		require_once( WPSEO_PATH . 'inc/wpseo-non-ajax-functions.php' );
 	}
 
-	/**
-	 * Init it here because the filter must be present on the frontend as well.
-	 */
+	// Init it here because the filter must be present on the frontend as well or it won't work in the customizer.
 	new WPSEO_Customizer();
 }
 
@@ -433,9 +431,3 @@ function yoast_wpseo_self_deactivate() {
 		}
 	}
 }
-
-
-/**
- * The method will add WordPress Customizer Support
- */
- include_once('admin/class-customizer.php');
