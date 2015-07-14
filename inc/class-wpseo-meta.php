@@ -113,14 +113,14 @@ class WPSEO_Meta {
 				'description'   => '<div id="focuskwresults"></div>',
 			),
 			'title'          => array(
-				'type'          => 'text',
+				'type'          => 'hidden',
 				'title'         => '', // Translation added later.
 				'default_value' => '',
 				'description'   => '', // Translation added later.
 				'help'          => '', // Translation added later.
 			),
 			'metadesc'       => array(
-				'type'          => 'textarea',
+				'type'          => 'hidden',
 				'title'         => '', // Translation added later.
 				'default_value' => '',
 				'class'         => 'metadesc',

@@ -22,7 +22,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		add_action( 'wp_insert_post', array( $this, 'save_postdata' ) );
 		add_action( 'edit_attachment', array( $this, 'save_postdata' ) );
 		add_action( 'add_attachment', array( $this, 'save_postdata' ) );
-		add_action( 'admin_init', array( $this, 'setup_page_analysis' ) );
+        add_action( 'post_submitbox_misc_actions', array( $this, 'publish_box' ) );
 		add_action( 'admin_init', array( $this, 'translate_meta_boxes' ) );
 	}
 
@@ -43,12 +43,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		self::$meta_fields['general']['focuskw']['help']  = sprintf( __( 'Pick the main keyword or keyphrase that this post/page is about.<br/><br/>Read %sthis post%s for more info.', 'wordpress-seo' ), '<a href="https://yoast.com/focus-keyword/#utm_source=wordpress-seo-metabox&amp;utm_medium=inline-help&amp;utm_campaign=focus-keyword">', '</a>' );
 
 		self::$meta_fields['general']['title']['title']       = __( 'SEO Title', 'wordpress-seo' );
-		self::$meta_fields['general']['title']['description'] = '<p id="yoast_wpseo_title-length-warning"><span class="wrong">' . __( 'Warning:', 'wordpress-seo' ) . '</span> ' . __( 'Title display in Google is limited to a fixed width, yours is too long.', 'wordpress-seo' ) . '</p>';
-		self::$meta_fields['general']['title']['help']        = __( 'The SEO title defaults to what is generated based on this sites title template for this posttype.', 'wordpress-seo' );
 
 		self::$meta_fields['general']['metadesc']['title']       = __( 'Meta description', 'wordpress-seo' );
-		self::$meta_fields['general']['metadesc']['description'] = sprintf( __( 'The <code>meta</code> description will be limited to %s chars%s, %s chars left.', 'wordpress-seo' ), self::$meta_length, self::$meta_length_reason, '<span id="yoast_wpseo_metadesc-length"></span>' ) . ' <div id="yoast_wpseo_metadesc_notice"></div>';
-		self::$meta_fields['general']['metadesc']['help']        = sprintf( __( 'The meta description is often shown as the black text under the title in a search result. For this to work it has to contain the keyword that was searched for.<br/><br/>Read %sthis post%s for more info.', 'wordpress-seo' ), '<a href="https://yoast.com/snippet-preview/#utm_source=wordpress-seo-metabox&amp;utm_medium=inline-help&amp;utm_campaign=focus-keyword">', '</a>' );
 
 		self::$meta_fields['general']['metakeywords']['title']       = __( 'Meta keywords', 'wordpress-seo' );
 		self::$meta_fields['general']['metakeywords']['description'] = __( 'If you type something above it will override your %smeta keywords template%s.', 'wordpress-seo' );
@@ -681,6 +677,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				$content .= '<textarea class="large-text' . $class . '" rows="' . esc_attr( $rows ) . '" id="' . $esc_form_key . '" name="' . $esc_form_key . '">' . esc_textarea( $meta_value ) . '</textarea>';
 				break;
 
+            case 'hidden':
+                $content .= '<input type="hidden"' . '" id="' . $esc_form_key . '" ' . $esc_form_key . '" value="' . esc_attr( $meta_value ) . '"/><br />';
+            break;
 			case 'select':
 				if ( isset( $meta_field_def['options'] ) && is_array( $meta_field_def['options'] ) && $meta_field_def['options'] !== array() ) {
 					$content .= '<select name="' . $esc_form_key . '" id="' . $esc_form_key . '" class="yoast' . $class . '">';
@@ -755,36 +754,40 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		if ( $content !== '' ) {
 
-			$label = esc_html( $meta_field_def['title'] );
-			if ( in_array( $meta_field_def['type'], array(
-					'snippetpreview',
+            $label = esc_html($meta_field_def['title']);
+            if (in_array($meta_field_def['type'], array(
+                    'snippetpreview',
                     'pageanalysis',
-					'radio',
-					'checkbox',
-				), true ) === false
-			) {
-				$label = '<label for="' . $esc_form_key . '">' . $label . ':</label>';
-			}
+                    'radio',
+                    'checkbox',
+                ), true) === false
+            ) {
+                $label = '<label for="' . $esc_form_key . '">' . $label . ':</label>';
+            }
 
-			$help = '';
-			if ( isset( $meta_field_def['help'] ) && $meta_field_def['help'] !== '' ) {
-				$help = '<img src="' . plugins_url( 'images/question-mark.png', WPSEO_FILE ) . '" class="alignright yoast_help" id="' . esc_attr( $key . 'help' ) . '" alt="' . esc_attr( $meta_field_def['help'] ) . '" />';
-			}
+            $help = '';
+            if (isset($meta_field_def['help']) && $meta_field_def['help'] !== '') {
+                $help = '<img src="' . plugins_url('images/question-mark.png', WPSEO_FILE) . '" class="alignright yoast_help" id="' . esc_attr($key . 'help') . '" alt="' . esc_attr($meta_field_def['help']) . '" />';
+            }
 
-			$html = '
+            if ($meta_field_def['type'] === 'hidden') {
+            $html = '<tr class="wpseo_hidden"><td>' .$content. '</td></tr>';
+            } else {
+            $html = '
 				<tr>
 					<th scope="row">' . $label . $help . '</th>
 					<td>';
 
-			$html .= $content;
+            $html .= $content;
 
-			if ( isset( $meta_field_def['description'] ) ) {
-				$html .= '<div>' . $meta_field_def['description'] . '</div>';
-			}
+            if (isset($meta_field_def['description'])) {
+                $html .= '<div>' . $meta_field_def['description'] . '</div>';
+            }
 
-			$html .= '
+            $html .= '
 					</td>
 				</tr>';
+            }
 		}
 
 		return $html;
