@@ -430,3 +430,13 @@ div#separator input.radio:checked + label {
 	font-size: 18px;
 	line-height: 24px;
 }
+
+#wpseo_count_progressbar {
+	height: 25px;
+	border: 1px solid #006691;
+}
+
+#wpseo_count_progressbar .ui-progressbar-value {
+	height: 25px;
+	background: #006691;
+}
