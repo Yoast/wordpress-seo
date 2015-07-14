@@ -22,26 +22,12 @@ class WPSEO_Customizer {
 	 */
 	function wpseo_customize_register( $wp_customize ) {
 
-		// WordPress SEO Panel.
-		$wp_customize->add_panel(
-			'wpseo_panel', array(
-				'priority'       => '999',
-				'capability'     => 'edit_theme_options',
-				'theme_supports' => '',
-				'title'          => 'Yoast SEO',
-				/* translator: %s is the plugin name */
-				'description'    => sprintf( __( 'Customize your %s Settings.', 'wordpress-seo' ), 'Yoast SEO' ),
-			)
-		);
-
 		// Breadcrumbs Section.
 		$wp_customize->add_section(
 			'wpseo_breadcrumbs_customizer_section', array(
-				'title'          => __( 'Breadcrumbs', 'wordpress-seo' ),
-				'description'    => __( 'Use this section to enable and customize breadcrumbs for your theme.', 'wordpress-seo' ),
-				'priority'       => 30,
-				'theme_supports' => '', // We may want to set yoast_breadcrumbs.
-				'panel'          => 'wpseo_panel',
+				/* translators: %s is the name of the plugin */
+				'title'          => sprintf( __( '%s Breadcrumbs', 'wordpress-seo' ), 'Yoast SEO' ),
+				'priority'       => 999,
 			)
 		);
 
