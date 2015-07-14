@@ -74,22 +74,27 @@ YoastSEO_SnippetPreview.prototype.formatMeta = function() {
  * @returns metatext
  */
 YoastSEO_SnippetPreview.prototype.getMetaText = function() {
-    var indexMatches = this.getIndexMatches();
-    var periodMatches = this.getPeriodMatches();
-    var metaText = this.refObj.source.analyzerData.textString.substring(0, analyzerConfig.maxMeta);
-    var curStart = 0;
-    if(indexMatches.length > 0) {
-        for (var j = 0; j < periodMatches.length; ) {
-            if (periodMatches[0] < indexMatches[0] ) {
-                curStart = periodMatches.shift();
-            } else {
-                if( curStart > 0 ){
-                    curStart += 2;
+    var metaText;
+    if(typeof this.refObj.source.formattedData.excerpt !== "undefined"){
+        metaText = this.refObj.source.formattedData.excerpt.substring(0, analyzerConfig.maxMeta);
+    }else {
+        var indexMatches = this.getIndexMatches();
+        var periodMatches = this.getPeriodMatches();
+        metaText = this.refObj.source.formattedData.text.substring(0, analyzerConfig.maxMeta);
+        var curStart = 0;
+        if (indexMatches.length > 0) {
+            for (var j = 0; j < periodMatches.length;) {
+                if (periodMatches[0] < indexMatches[0]) {
+                    curStart = periodMatches.shift();
+                } else {
+                    if (curStart > 0) {
+                        curStart += 2;
+                    }
+                    break;
                 }
-                break;
             }
+            metaText = this.refObj.source.formattedData.text.substring(curStart, curStart + analyzerConfig.maxMeta);
         }
-        metaText = this.refObj.source.analyzerData.textString.substring( curStart, curStart + analyzerConfig.maxMeta );
     }
     return metaText;
 };
@@ -102,9 +107,9 @@ YoastSEO_SnippetPreview.prototype.getIndexMatches = function() {
     var indexMatches = [];
     var match;
     var i = 0;
-    while ( ( match = this.refObj.source.analyzerData.textString.indexOf( this.refObj.source.analyzerData.keyword, i ) ) > -1 ) {
+    while ( ( match = this.refObj.source.formattedData.text.indexOf( this.refObj.source.formattedData.keyword, i ) ) > -1 ) {
         indexMatches.push( match );
-        i = match + this.refObj.source.analyzerData.keyword.length;
+        i = match + this.refObj.source.formattedData.keyword.length;
     }
     return indexMatches;
 };
@@ -117,7 +122,7 @@ YoastSEO_SnippetPreview.prototype.getPeriodMatches = function() {
     var periodMatches = [0];
     var match;
     var i = 0;
-    while( ( match = this.refObj.source.analyzerData.textString.indexOf( ".", i ) ) > -1 ){
+    while( ( match = this.refObj.source.formattedData.text.indexOf( ".", i ) ) > -1 ){
         periodMatches.push( match );
         i = match + 1;
     }
@@ -130,7 +135,7 @@ YoastSEO_SnippetPreview.prototype.getPeriodMatches = function() {
  * @returns textString
  */
 YoastSEO_SnippetPreview.prototype.formatKeyword = function( textString ) {
-    var replacer = new RegExp( this.refObj.source.analyzerData.keyword, "ig" );
+    var replacer = new RegExp( this.refObj.source.formattedData.keyword, "ig" );
     return textString.replace( replacer, function(str){return "<strong>"+str+"</strong>"; } );
 };
 
@@ -140,7 +145,7 @@ YoastSEO_SnippetPreview.prototype.formatKeyword = function( textString ) {
  * @returns {XML|string|void}
  */
 YoastSEO_SnippetPreview.prototype.formatKeywordUrl = function ( textString ) {
-    var replacer = this.refObj.source.analyzerData.keyword.replace(" ", "[-_]");
+    var replacer = this.refObj.source.formattedData.keyword.replace(" ", "[-_]");
     replacer = new RegExp( replacer, "ig" );
     return textString.replace( replacer, function(str){return "<strong>"+str+"</strong>"; } );
 };

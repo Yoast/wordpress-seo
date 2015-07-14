@@ -28,10 +28,12 @@ YoastSEO_WordPressScraper.prototype.getDataFromInput = function( inputType ) {
     var val;
     switch( inputType){
         case "text":
+        case "content":
             val = this.getContentTinyMCE();
             break;
         case "url":
-            val = document.getElementById("sample-permalink").innerText;
+        case "editable-post-name":
+            val = document.getElementById("sample-permalink").textContent;
             var postSlug = document.getElementById("new-post-slug");
             if(postSlug !== null) {
                 val += postSlug.value + "/";
@@ -64,7 +66,7 @@ YoastSEO_WordPressScraper.prototype.setDataFromSnippet = function( value, type) 
             document.getElementById("yoast_wpseo_metadesc").value = value;
             break;
         case "snippet_cite":
-            document.getElementById("permalink").value;
+            document.getElementById("sample-permalink").value;
             break;
         case "snippet_title":
             document.getElementById("title").value;
@@ -79,7 +81,7 @@ YoastSEO_WordPressScraper.prototype.setDataFromSnippet = function( value, type) 
  * @param inputType
  */
 YoastSEO_WordPressScraper.prototype.getAnalyzerInput = function() {
-    this.analyzerDataQueue = ["text", "keyword", "meta", "url", "title", "snippetTitle", "snippetMeta", "snippetCite"];
+    this.analyzerDataQueue = ["text", "keyword", "meta", "url", "title", "snippetTitle", "snippetMeta", "snippetCite", "excerpt"];
     this.runDataQueue();
 };
 
@@ -235,20 +237,6 @@ YoastSEO_WordPressScraper.prototype.excerptReplace = function ( textString ){
 };
 
 /**
- * fill meta with correct text if empty or replacement var is used.
- * @param textString
- * @returns {*}
- */
-YoastSEO_WordPressScraper.prototype.fillMeta = function ( textString ){
-    var excerpt = this.analyzerData.excerpt;
-    if( this.analyzerData.excerpt === "" && this.analyzerData.text !== "" ) {
-        excerpt = this.refObj.snippetPreview.getMetaText();
-        textString.replace (/%%excerpt%%/, excerpt);
-    }
-    return textString;
-};
-
-/**
  *
  * @param textString
  */
@@ -294,6 +282,7 @@ YoastSEO_WordPressScraper.prototype.ajaxReplaceVariables = function( srcObj ) {
  */
 YoastSEO_WordPressScraper.prototype.bindElementEvents = function() {
     this.snippetPreviewEventBinder();
+    this.inputElementEventBinder();
 };
 
 /**
@@ -306,10 +295,21 @@ YoastSEO_WordPressScraper.prototype.snippetPreviewEventBinder = function() {
     }
 };
 
+YoastSEO_WordPressScraper.prototype.inputElementEventBinder = function() {
+    var elems = ["excerpt", "content", "editable-post-name"];
+    for (var i = 0; i < elems.length; i++){
+        document.getElementById(elems[i]).addEventListener("change", this.renewData);
+    }
+};
+
+YoastSEO_WordPressScraper.prototype.renewData = function ( ev ) {
+    ev.currentTarget.__refObj.source.getData();
+    ev.currentTarget.__refObj.source.getAnalyzerInput();
+};
+
+
 YoastSEO_WordPressScraper.prototype.updateSnippetValues = function( ev ) {
     ev.currentTarget.refObj.source.setDataFromSnippet( ev.currentTarget.textContent, ev.currentTarget.id);
     ev.currentTarget.refObj.source.getData();
     ev.currentTarget.refObj.source.getAnalyzerInput();
-    //ev.currentTarget.refObj.reloadSnippetText();
-
 };
