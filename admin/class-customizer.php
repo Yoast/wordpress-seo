@@ -21,8 +21,26 @@ class WPSEO_Customizer {
 	 * @param WP_Customize_Manager $wp_customize
 	 */
 	public function wpseo_customize_register( $wp_customize ) {
+		$this->breadcrumbs_section( $wp_customize );
+		$this->breadcrumbs_enable_setting( $wp_customize );
+		$this->breadcrumbs_enable_setting( $wp_customize );
+		$this->breadcrumbs_boldlast_setting( $wp_customize );
+		$this->breadcrumbs_blog_remove_setting( $wp_customize );
+		$this->breadcrumbs_separator_setting( $wp_customize );
+		$this->breadcrumbs_home_setting( $wp_customize );
+		$this->breadcrumbs_prefix_setting( $wp_customize );
+		$this->breadcrumbs_archiveprefix_setting( $wp_customize );
+		$this->breadcrumbs_searchprefix_setting( $wp_customize );
+		$this->breadcrumbs_404_setting( $wp_customize );
+	}
 
-		// Breadcrumbs Section.
+	/**
+	 * Add the breadcrumbs section to the customizer
+	 *
+	 * @param WP_Customize_Manager $wp_customize
+	 */
+	private function breadcrumbs_section( $wp_customize ) {
+
 		$wp_customize->add_section(
 			'wpseo_breadcrumbs_customizer_section', array(
 				/* translators: %s is the name of the plugin */
@@ -32,7 +50,15 @@ class WPSEO_Customizer {
 			)
 		);
 
-		// Enable or Disable Breadcrumbs Settings.
+	}
+
+	/**
+	 * Adds the enable breadcrumbs checkbox
+	 *
+	 * @param WP_Customize_Manager $wp_customize
+	 */
+	private function breadcrumbs_enable_setting( $wp_customize ) {
+
 		$wp_customize->add_setting(
 			'wpseo_internallinks[breadcrumbs-enable]', array(
 				'default'   => '',
@@ -41,7 +67,6 @@ class WPSEO_Customizer {
 			)
 		);
 
-		// Enable or Disable Breadcrumbs Controls.
 		$wp_customize->add_control(
 			new WP_Customize_Control(
 				$wp_customize, 'wpseo-breadcrumbs-enable', array(
@@ -54,8 +79,15 @@ class WPSEO_Customizer {
 				)
 			)
 		);
+	}
 
-		// Bold Last Breadcrumb Setting.
+	/**
+	 * Adds the breadcrumbs bold last checkbox
+	 *
+	 * @param WP_Customize_Manager $wp_customize
+	 */
+	private function breadcrumbs_boldlast_setting( $wp_customize ) {
+
 		$wp_customize->add_setting(
 			'wpseo_internallinks[breadcrumbs-boldlast]', array(
 				'default'   => '',
@@ -64,7 +96,6 @@ class WPSEO_Customizer {
 			)
 		);
 
-		// Bold Last BreadcrumbControls.
 		$wp_customize->add_control(
 			new WP_Customize_Control(
 				$wp_customize, 'wpseo-breadcrumbs-boldlast', array(
@@ -77,8 +108,15 @@ class WPSEO_Customizer {
 				)
 			)
 		);
+	}
 
-		// Remove Blog Breadcrumb Setting.
+	/**
+	 * Adds the breadcrumbs remove blog checkbox
+	 *
+	 * @param WP_Customize_Manager $wp_customize
+	 */
+	private function breadcrumbs_blog_remove_setting( $wp_customize ) {
+
 		$wp_customize->add_setting(
 			'wpseo_internallinks[breadcrumbs-blog-remove]', array(
 				'default'   => '',
@@ -87,7 +125,6 @@ class WPSEO_Customizer {
 			)
 		);
 
-		// Remove Blog Breadcrumb Controls.
 		$wp_customize->add_control(
 			new WP_Customize_Control(
 				$wp_customize, 'wpseo-breadcrumbs-blog-remove', array(
@@ -100,8 +137,15 @@ class WPSEO_Customizer {
 				)
 			)
 		);
+	}
 
-		// Breadcrumb Separator Setting.
+	/**
+	 * Adds the breadcrumbs separator text field
+	 *
+	 * @param WP_Customize_Manager $wp_customize
+	 */
+	private function breadcrumbs_separator_setting( $wp_customize ) {
+
 		$wp_customize->add_setting(
 			'wpseo_internallinks[breadcrumbs-sep]', array(
 				'default'   => '',
@@ -110,7 +154,6 @@ class WPSEO_Customizer {
 			)
 		);
 
-		// Breadcrumb Separator Controls.
 		$wp_customize->add_control(
 			new WP_Customize_Control(
 				$wp_customize, 'wpseo-breadcrumbs-separator', array(
@@ -123,8 +166,15 @@ class WPSEO_Customizer {
 				)
 			)
 		);
+	}
 
-		// Breadcrumb Anchor Text Setting.
+	/**
+	 * Adds the breadcrumbs home anchor text field
+	 *
+	 * @param WP_Customize_Manager $wp_customize
+	 */
+	private function breadcrumbs_home_setting( $wp_customize ) {
+
 		$wp_customize->add_setting(
 			'wpseo_internallinks[breadcrumbs-home]', array(
 				'default'   => '',
@@ -133,7 +183,6 @@ class WPSEO_Customizer {
 			)
 		);
 
-		// Breadcrumb Anchor Text Controls.
 		$wp_customize->add_control(
 			new WP_Customize_Control(
 				$wp_customize, 'wpseo-breadcrumbs-home', array(
@@ -146,8 +195,15 @@ class WPSEO_Customizer {
 				)
 			)
 		);
+	}
 
-		// Breadcrumb Prefix for Path Setting.
+	/**
+	 * Adds the breadcrumbs prefix text field
+	 *
+	 * @param WP_Customize_Manager $wp_customize
+	 */
+	private function breadcrumbs_prefix_setting( $wp_customize ) {
+
 		$wp_customize->add_setting(
 			'wpseo_internallinks[breadcrumbs-prefix]', array(
 				'default'   => '',
@@ -156,7 +212,6 @@ class WPSEO_Customizer {
 			)
 		);
 
-		// Breadcrumb Prefix for Path Controls.
 		$wp_customize->add_control(
 			new WP_Customize_Control(
 				$wp_customize, 'wpseo-breadcrumbs-prefix', array(
@@ -169,8 +224,15 @@ class WPSEO_Customizer {
 				)
 			)
 		);
+	}
 
-		// Breadcrumb Archive Prefix Setting.
+	/**
+	 * Adds the breadcrumbs archive prefix text field
+	 *
+	 * @param WP_Customize_Manager $wp_customize
+	 */
+	private function breadcrumbs_archiveprefix_setting( $wp_customize ) {
+
 		$wp_customize->add_setting(
 			'wpseo_internallinks[breadcrumbs-archiveprefix]', array(
 				'default'   => '',
@@ -179,7 +241,6 @@ class WPSEO_Customizer {
 			)
 		);
 
-		// Breadcrumb Archive Prefix Controls.
 		$wp_customize->add_control(
 			new WP_Customize_Control(
 				$wp_customize, 'wpseo-breadcrumbs-archiveprefix', array(
@@ -192,8 +253,15 @@ class WPSEO_Customizer {
 				)
 			)
 		);
+	}
 
-		// Breadcrumb Search Prefix Setting.
+	/**
+	 * Adds the breadcrumbs search prefix text field
+	 *
+	 * @param WP_Customize_Manager $wp_customize
+	 */
+	private function breadcrumbs_searchprefix_setting( $wp_customize ) {
+
 		$wp_customize->add_setting(
 			'wpseo_internallinks[breadcrumbs-searchprefix]', array(
 				'default'   => '',
@@ -202,7 +270,6 @@ class WPSEO_Customizer {
 			)
 		);
 
-		// Breadcrumb Search Prefix Controls.
 		$wp_customize->add_control(
 			new WP_Customize_Control(
 				$wp_customize, 'wpseo-breadcrumbs-searchprefix', array(
@@ -216,7 +283,15 @@ class WPSEO_Customizer {
 			)
 		);
 
-		// Breadcrumb 404 Prefix Setting.
+	}
+
+	/**
+	 * Adds the breadcrumb 404 prefix text field
+	 *
+	 * @param WP_Customize_Manager $wp_customize
+	 */
+	private function breadcrumbs_404_setting( $wp_customize ) {
+
 		$wp_customize->add_setting(
 			'wpseo_internallinks[breadcrumbs-404crumb]', array(
 				'default'   => '',
@@ -225,7 +300,6 @@ class WPSEO_Customizer {
 			)
 		);
 
-		// Breadcrumb 404 Prefix Controls.
 		$wp_customize->add_control(
 			new WP_Customize_Control(
 				$wp_customize, 'wpseo-breadcrumbs-404crumb', array(
