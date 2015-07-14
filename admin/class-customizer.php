@@ -41,7 +41,7 @@ function wpseo_customize_register( $wp_customize )
     // Breadcrumbs Section
     $wp_customize->add_section(
         'wpseo_breadcrumbs_customizer_section', array(
-            'title'      => __('Breadcrumbs', 'wpseo'),
+            'title'      => __('Breadcrumbs', 'wordpress-seo'),
             'description' => __('Use this section to enable and customize breadcrumbs for your theme.', 'wordpress-seo'),
             'priority'   => 30,
             'theme_supports' => '', // we may want to set yoast_breadcrumbs
@@ -53,7 +53,7 @@ function wpseo_customize_register( $wp_customize )
     // Social Section
     $wp_customize->add_section(
         'wpseo_social_customizer_section', array(
-            'title'      => __('Social Profiles', 'wpseo'),
+            'title'      => __('Social Profiles', 'wordpress-seo'),
             'description' => __('Use this section to setup your social profiles with WordPress SEO.', 'wordpress-seo'),
             'priority'   => 30,
             'panel' => 'wpseo_panel',
@@ -75,7 +75,7 @@ function wpseo_customize_register( $wp_customize )
     $wp_customize->add_control(
         new WP_Customize_Control(
             $wp_customize, 'wpseo-breadcrumbs-enable', array(
-                'label'        => __('Enable Breadcrumbs', 'wpseo'),
+                'label'        => __('Enable Breadcrumbs', 'wordpress-seo'),
                 'description'  => __('Use this to enable breadcrumbs for your site.', 'wordpress-seo'),
                 'type'         => 'checkbox',
                 'section'      => 'wpseo_breadcrumbs_customizer_section',
@@ -149,7 +149,7 @@ function wpseo_customize_register( $wp_customize )
     $wp_customize->add_control(
         new WP_Customize_Control(
             $wp_customize, 'wpseo-breadcrumbs-separator', array(
-                'label'        => __('Breadcrumbs Separator:', 'wpseo'),
+                'label'        => __('Breadcrumbs Separator:', 'wordpress-seo'),
                 'description'  => __('Use this to set a separator between breadcrumb links.', 'wordpress-seo'),
                 'type'         => 'text',
                 'section'      => 'wpseo_breadcrumbs_customizer_section',
@@ -173,7 +173,7 @@ function wpseo_customize_register( $wp_customize )
     $wp_customize->add_control(
         new WP_Customize_Control(
             $wp_customize, 'wpseo-breadcrumbs-home', array(
-                'label'        => __('Anchor Text for Homepage:', 'wpseo'),
+                'label'        => __('Anchor Text for Homepage:', 'wordpress-seo'),
                 'description'  => __('Set the anchor text to represent your homepage.', 'wordpress-seo'),
                 'type'         => 'text',
                 'section'      => 'wpseo_breadcrumbs_customizer_section',
@@ -197,7 +197,7 @@ function wpseo_customize_register( $wp_customize )
     $wp_customize->add_control(
         new WP_Customize_Control(
             $wp_customize, 'wpseo-breadcrumbs-prefix', array(
-                'label'        => __('Prefix for the breadcrumb path:', 'wpseo'),
+                'label'        => __('Prefix for the breadcrumb path:', 'wordpress-seo'),
                 'description'  => __('Set the prefix to be displayed before breadcrumbs.', 'wordpress-seo'),
                 'type'         => 'text',
                 'section'      => 'wpseo_breadcrumbs_customizer_section',
@@ -221,7 +221,7 @@ function wpseo_customize_register( $wp_customize )
     $wp_customize->add_control(
         new WP_Customize_Control(
             $wp_customize, 'wpseo-breadcrumbs-archiveprefix', array(
-                'label'        => __('Prefix for Archive breadcrumbs:', 'wpseo'),
+                'label'        => __('Prefix for Archive breadcrumbs:', 'wordpress-seo'),
                 'description'  => __('Set the prefix text to be used for archives.', 'wordpress-seo'),
                 'type'         => 'text',
                 'section'      => 'wpseo_breadcrumbs_customizer_section',
@@ -469,6 +469,3 @@ function wpseo_customize_register( $wp_customize )
 }
 
 }
-
-
-$wpseo_customizer = new WPSEO_Customizer();
