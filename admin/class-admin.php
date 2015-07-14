@@ -19,6 +19,11 @@ class WPSEO_Admin {
 	private $page_gsc;
 
 	/**
+	 * @var WPSEO_Primary_Category_Admin
+	 */
+	public $primary_category_admin;
+
+	/**
 	 * Class constructor
 	 */
 	function __construct() {
@@ -35,6 +40,7 @@ class WPSEO_Admin {
 		}
 
 		$this->page_gsc = new WPSEO_GSC();
+		$this->primary_category_admin = new WPSEO_Primary_Category_Admin();
 
 		// Needs the lower than default priority so other plugins can hook underneath it without issue.
 		add_action( 'admin_menu', array( $this, 'register_settings_page' ), 5 );

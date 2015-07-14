@@ -913,11 +913,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 			// Text strings to pass to metabox for keyword analysis.
 			wp_localize_script( 'wp-seo-metabox', 'wpseoMetaboxL10n', $this->localize_script() );
-
-			/*
-			 * @todo Add check if this post type actually has a taxonomy to choose the primary category in
-			 */
-			wp_enqueue_script( 'wpseo-metabox-category', plugins_url( 'js/wp-seo-metabox-category' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'jquery' ), WPSEO_VERSION, true );
 		}
 	}
 
