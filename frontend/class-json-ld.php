@@ -198,7 +198,7 @@ class WPSEO_JSON_LD {
 	 */
 	private function get_home_url() {
 		/**
-		 * Filter: 'wpseo_json_home_url' - Allows filtering of the home URL for WP SEO's JSON+LD output
+		 * Filter: 'wpseo_json_home_url' - Allows filtering of the home URL for Yoast SEO's JSON+LD output
 		 *
 		 * @api unsigned string
 		 */
@@ -206,7 +206,7 @@ class WPSEO_JSON_LD {
 	}
 
 	/**
-	 * Returns an alternate name if one was specified in the WP SEO settings
+	 * Returns an alternate name if one was specified in the Yoast SEO settings
 	 */
 	private function add_alternate_name() {
 		if ( '' !== $this->options['alternate_website_name'] ) {
@@ -227,7 +227,7 @@ class WPSEO_JSON_LD {
 		 */
 		if ( ! apply_filters( 'disable_wpseo_json_ld_search', false ) ) {
 			/**
-			 * Filter: 'wpseo_json_ld_search_url' - Allows filtering of the search URL for WP SEO
+			 * Filter: 'wpseo_json_ld_search_url' - Allows filtering of the search URL for Yoast SEO
 			 *
 			 * @api string $search_url The search URL for this site with a `{search_term_string}` variable.
 			 */
@@ -242,7 +242,7 @@ class WPSEO_JSON_LD {
 	}
 
 	/**
-	 * Returns the website name either from WP SEO's options or from the site settings
+	 * Returns the website name either from Yoast SEO's options or from the site settings
 	 *
 	 * @since 2.1
 	 *

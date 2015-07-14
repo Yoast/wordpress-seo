@@ -6,7 +6,7 @@
 /**
  * Class WPSEO_Import_External
  *
- * Class with functionality to import WP SEO settings from other plugins
+ * Class with functionality to import Yoast SEO settings from other plugins
  */
 class WPSEO_Import_External {
 
