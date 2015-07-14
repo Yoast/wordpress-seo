@@ -323,7 +323,7 @@ YoastSEO_WordPressScraper.prototype.snippetPreviewEventBinder = function() {
  * bins the renewData function on the change of inputelements.
  */
 YoastSEO_WordPressScraper.prototype.inputElementEventBinder = function() {
-    var elems = ["excerpt", "content", "editable-post-name"];
+    var elems = ["excerpt", "content", "editable-post-name", "yoast_wpseo_focuskw"];
     for (var i = 0; i < elems.length; i++){
         document.getElementById(elems[i]).addEventListener("change", this.renewData);
     }
