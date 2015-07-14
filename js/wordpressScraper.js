@@ -139,7 +139,7 @@ YoastSEO_WordPressScraper.prototype.getInputFieldsData = function ( ev ) {
     var inputType = ev.currentTarget.id.replace(/snippet_/i, "");
     switch( inputType ){
         case "title":
-            document.getElementById( "snippet_title" ).textContent = document.getElementById( "title" ).value;
+            document.getElementById( "snippet_title" ).textContent = document.getElementById( "yoast_wpseo_title" ).value;
             break;
         case "meta":
             document.getElementById( "snippet_meta" ).textContent = document.getElementById( "yoast_wpseo_metadesc" ).value;
