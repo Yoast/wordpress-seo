@@ -116,6 +116,7 @@ YoastSEO_WordPressScraper.prototype.runDataQueue = function() {
         }else{
             this.refObj.reloadSnippetText();
         }
+        this.refObj.runAnalyzerCallback();
     }
 };
 
