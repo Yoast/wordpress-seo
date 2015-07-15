@@ -21,7 +21,5 @@ YoastSEO_config = {
                 {word: "simile", syllables: 3}
             ]
         }
-    },
-
-    usedKeywords: []
+    }
 };

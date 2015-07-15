@@ -16,6 +16,9 @@ YoastSEO_Analyzer.prototype.checkConfig = function() {
     if(typeof this.config.text === "undefined"){
         this.config.text = "";
     }
+    if(typeof this.config.usedKeywords === "undefined"){
+        this.config.usedKeywords = [];
+    }
 };
 
 /**
@@ -515,8 +518,8 @@ YoastSEO_Analyzer.prototype.urlStopwords = function() {
 YoastSEO_Analyzer.prototype.keywordDoubles = function() {
     var result = [ { test: "keywordDoubles", result: 0 } ];
     if ( typeof this.config.keyword !== "undefined" ) {
-        for (var i = 0; i < YoastSEO_config.usedKeywords.length; i++){
-            if( this.config.keywordLowerCase === YoastSEO_config.usedKeywords[i].toLocaleLowerCase() ){
+        for (var i = 0; i < this.config.usedKeywords.length; i++){
+            if( this.config.keywordLowerCase === this.config.usedKeywords[i].toLocaleLowerCase() ){
                 result[0].result++;
             }
         }
