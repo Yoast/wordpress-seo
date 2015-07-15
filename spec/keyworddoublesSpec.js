@@ -9,7 +9,7 @@ var doubleArgs = {
     text: "This is the year that Yoast turns 5 years old. A natural time to reflect upon how the company is doing and what it should and should not be doing and what we want for the future. Today we’re proud to announce that we’ve been acquired by CrowdFavorite",
     keyword: "test",
     queue: ["keywordDoubles"],
-    usedKeywords: []
+    usedKeywords: {}
 };
 
 describe("Test for the focus keyword doubles", function(){
@@ -24,7 +24,7 @@ var doubleArgs2 = {
     text: "This is the year that Yoast turns 5 years old. A natural time to reflect upon how the company is doing and what it should and should not be doing and what we want for the future. Today we’re proud to announce that we’ve been acquired by CrowdFavorite",
     keyword: "yoast",
     queue: ["keywordDoubles"],
-    usedKeywords: ["This","is","the","year","that","Yoast","turns","years","old"]
+    usedKeywords: {yoast: 1, test: 2, keyword: 5}
 };
 
 describe("Test for the focus keyword doubles", function(){
@@ -39,7 +39,7 @@ var doubleArgs3 = {
     text: "This is the year that Yoast turns 5 years old. A natural time to reflect upon how the company is doing and what it should and should not be doing and what we want for the future. Today we’re proud to announce that we’ve been acquired by CrowdFavorite",
     keyword: "yoast",
     queue: ["keywordDoubles"],
-    usedKeywords: ["yoast", "YoAsT", "Yoast"]
+    usedKeywords: {yoast: 3}
 };
 
 describe("Test for the focus keyword doubles", function(){
