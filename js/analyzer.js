@@ -5,7 +5,17 @@
  */
 YoastSEO_Analyzer = function ( args ) {
     this.config = args;
+    this.checkConfig();
     this.init();
+};
+
+/**
+ * sets value to "" of text if it is undefined to make sure it doesn' break the preprocessor and analyzer
+ */
+YoastSEO_Analyzer.prototype.checkConfig = function() {
+    if(typeof this.config.text === "undefined"){
+        this.config.text = "";
+    }
 };
 
 /**
@@ -25,7 +35,7 @@ YoastSEO_Analyzer.prototype.init = function() {
  * converts the keyword to lowercase
  */
 YoastSEO_Analyzer.prototype.toLowCase = function() {
-    if(typeof this.config.keyword !== "undefined") {
+    if(typeof this.config.keyword !== "undefined" && this.config.keyword !== "") {
         this.config.keywordLowerCase = this.config.keyword.toLocaleLowerCase();
     }
 };

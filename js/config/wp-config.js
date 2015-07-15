@@ -1,4 +1,4 @@
-var args = {
+var YoastSEO_args = {
     source: YoastSEO_WordPressScraper,
     analyzer: true,
     ajax: true,
