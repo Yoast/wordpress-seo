@@ -69,8 +69,8 @@ YoastSEO_PreProcessor.prototype.syllableCount = function( textString ) {
     textString = textString.replace( /[.]/g, " " );
     textString = this.removeWords( textString );
     var words = textString.split( " " );
-    var subtractSyllablesRegexp = this.stringHelper.stringToRegex( preprocessorConfig.syllables.subtractSyllables, true );
-    var addSyllablesRegexp = this.stringHelper.stringToRegex( preprocessorConfig.syllables.addSyllables, true );
+    var subtractSyllablesRegexp = this.stringHelper.stringToRegex( YoastSEO_config.preprocessorConfig.syllables.subtractSyllables, true );
+    var addSyllablesRegexp = this.stringHelper.stringToRegex( YoastSEO_config.preprocessorConfig.syllables.addSyllables, true );
     for ( var i = 0; i < words.length; i++ ){
         this.basicSyllableCount( words[i].split( /[^aeiouy]/g ) );
         this.advancedSyllableCount( words[i], subtractSyllablesRegexp, "subtract" );
@@ -115,11 +115,11 @@ YoastSEO_PreProcessor.prototype.advancedSyllableCount = function( inputString, r
  * @returns textString with exclusionwords removed
  */
 YoastSEO_PreProcessor.prototype.removeWords = function( textString ) {
-    for ( var i = 0; i < preprocessorConfig.syllables.exclusionWords.length; i++ ){
-        var exclusionRegex = new RegExp( preprocessorConfig.syllables.exclusionWords[i].word, "g" );
+    for ( var i = 0; i < YoastSEO_config.preprocessorConfig.syllables.exclusionWords.length; i++ ){
+        var exclusionRegex = new RegExp( YoastSEO_config.preprocessorConfig.syllables.exclusionWords[i].word, "g" );
         var matches = textString.match( exclusionRegex );
         if( matches !== null ){
-            this.syllableCount += preprocessorConfig.syllables.exclusionWords[i].syllables;
+            this.syllableCount += YoastSEO_config.preprocessorConfig.syllables.exclusionWords[i].syllables;
             textString = textString.replace( exclusionRegex, "" );
         }
     }

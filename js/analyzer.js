@@ -89,10 +89,10 @@ YoastSEO_Analyzer.prototype.initQueue = function() {
 YoastSEO_Analyzer.prototype.loadWordlists = function() {
     //if no available keywords, load default array
     if( typeof this.config.wordsToRemove === "undefined" ) {
-        this.config.wordsToRemove =  analyzerConfig.wordsToRemove;
+        this.config.wordsToRemove =  YoastSEO_config.analyzerConfig.wordsToRemove;
     }
     if( typeof this.config.stopWords === "undefined" ) {
-        this.config.stopWords = analyzerConfig.stopWords;
+        this.config.stopWords = YoastSEO_config.analyzerConfig.stopWords;
     }
 };
 
@@ -506,6 +506,19 @@ YoastSEO_Analyzer.prototype.urlStopwords = function() {
         var stopwords = this.stringHelper.matchString( this.config.url, this.config.stopWords );
         if( stopwords !== null ) {
             result[0].result = stopwords.length;
+        }
+    }
+    return result;
+};
+
+
+YoastSEO_Analyzer.prototype.keywordDoubles = function() {
+    var result = [ { test: "keywordDoubles", result: 0 } ];
+    if ( typeof this.config.keyword !== "undefined" ) {
+        for (var i = 0; i < YoastSEO_config.usedKeywords.length; i++){
+            if( this.config.keywordLowerCase === YoastSEO_config.usedKeywords[i].toLocaleLowerCase() ){
+                result[0].result++;
+            }
         }
     }
     return result;
