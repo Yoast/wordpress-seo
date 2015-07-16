@@ -101,6 +101,8 @@ class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 
 		set_query_var( 'sitemap', 1 );
 
+		$this->factory->post->create();
+
 		// Go to the XML sitemap twice, see if transient cache is set
 		self::$class_instance->redirect( $GLOBALS['wp_the_query'] );
 		$this->expectOutputContains( array(
