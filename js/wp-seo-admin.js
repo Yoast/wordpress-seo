@@ -273,6 +273,7 @@ function wpseo_recalculate_scores(current_page) {
 			ajaxurl,
 			{
 				action: 'wpseo_update_score',
+				nonce   : jQuery( '#wpseo_recalculate_nonce' ).val(),
 				post_id : post.post_id,
 				score   : score
 			}
@@ -302,6 +303,7 @@ function wpseo_recalculate_scores(current_page) {
 			ajaxurl,
 			{
 				action: 'wpseo_recalculate_scores',
+				nonce   : jQuery( '#wpseo_recalculate_nonce' ).val(),
 				paged : current_page
 			},
 			parse_response

@@ -40,8 +40,7 @@ class WPSEO_Recalculate_Scores_Ajax {
 	 * Start recalculation
 	 */
 	public function recalculate_scores() {
-		// @todo: Nonce check
-		if ( 'nonce' === 'nonce' ) {
+		if ( $this->verify_nonce() ) {
 			wp_die(
 				$this->get_posts( filter_input( INPUT_POST, 'paged', FILTER_VALIDATE_INT ) )
 			);
@@ -52,10 +51,8 @@ class WPSEO_Recalculate_Scores_Ajax {
 	 * Saving the new linkdex score for given post
 	 */
 	public function save_score() {
-		// @todo: Nonce check
-		if ( 'nonce' === 'nonce' ) {
+		if ( $this->verify_nonce() ) {
 			// WPSEO_Meta::set_value( 'linkdex', $linkdex, $post_id );
-
 		}
 	}
 
@@ -206,6 +203,15 @@ class WPSEO_Recalculate_Scores_Ajax {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Returns the value of the nonce verification
+	 *
+	 * @return false|int
+	 */
+	private function verify_nonce() {
+		return wp_verify_nonce( filter_input( INPUT_POST, 'nonce' ), 'wpseo_recalculate' );
 	}
 
 }
