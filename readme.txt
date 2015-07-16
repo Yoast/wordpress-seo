@@ -1,4 +1,4 @@
-=== WordPress SEO by Yoast ===
+=== Yoast SEO ===
 Contributors: joostdevalk
 Donate link: https://yoast.com/
 License: GPLv3
@@ -147,7 +147,7 @@ Release Date: June 10th, 2015
 	* Adds Twitter profile to JSON LD output.
 	* Twitter profile input field now also accepts full url and automatically strips it down to just the username.
 	* Only adds the JSON LD output to the frontpage, since it's not needed on other pages.
-	* Makes all WordPress SEO by Yoast notices dismissible.
+	* Makes all Yoast SEO notices dismissible.
 
 * Bugfixes:
 	* Fixes a bug where the widgets were removed from every XML file. This is now only the case for the sitemaps.
@@ -160,7 +160,7 @@ Release Date: June 10th, 2015
 	* Fixes a bug where the sitemap could contain datetimes in the wrong timezone.
 	* Fixes a bug where the wrong Facebook user ID was added to the fb:admins meta tag. Adding FB admin user id is now a manual process.
 	* Fixed Open Graph and Twitter cards on static posts pages
-	* Fixes a bug where sitemap cache was not always cleared after saving the WordPress SEO by Yoast settings.
+	* Fixes a bug where sitemap cache was not always cleared after saving the Yoast SEO settings.
 
 * Security:
 	* Fixes a possible XSS vulnerability in the snippet preview. Thanks [Charles Neill](https://twitter.com/ccneill) and [Mazen Gamal](https://twitter.com/mazengamal) for discovering and responsibly disclosing this issue.

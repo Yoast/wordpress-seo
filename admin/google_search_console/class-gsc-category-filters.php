@@ -117,7 +117,7 @@ class WPSEO_GSC_Category_Filters {
 		$this->set_filter_value( 'other', __( 'Other', 'wordpress-seo' ), __( 'Google was unable to crawl this URL due to an undetermined issue.', 'wordpress-seo' ) );
 		/* Translators: %1$s: expands to '<code>robots.txt</code>'. */
 		$this->set_filter_value( 'roboted', __( 'Blocked', 'wordpress-seo' ), sprintf( __( 'Googlebot could access your site, but certain URLs are blocked for Googlebot in your %1$s file. This block could either be for all Googlebots or even specifically for Googlebot-mobile.', 'wordpress-seo' ), '<code>robots.txt</code>' ) );
-		$this->set_filter_value( 'server_error', __( 'Server Error', 'wordpress-seo' ), __( 'Request timed out or site is blocking Google.', 'wordpress_seo' ) );
+		$this->set_filter_value( 'server_error', __( 'Server Error', 'wordpress-seo' ), __( 'Request timed out or site is blocking Google.', 'wordpress-seo' ) );
 		$this->set_filter_value( 'soft_404', __( 'Soft 404', 'wordpress-seo' ), __( "The target URL doesn't exist, but your server is not returning a 404 (file not found) error.", 'wordpress-seo' ) );
 	}
 

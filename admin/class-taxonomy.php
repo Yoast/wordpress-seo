@@ -181,8 +181,8 @@ class WPSEO_Taxonomy {
 		$tax_meta = WPSEO_Taxonomy_Meta::get_term_meta( (int) $term->term_id, $term->taxonomy );
 		$options  = WPSEO_Options::get_all();
 
-
-		echo '<h3>', __( 'Yoast WordPress SEO Settings', 'wordpress-seo' ), '</h2>';
+		/* translators: %1$s expands to Yoast SEO */
+		echo '<h3>', sprintf( __( '%1$s Settings', 'wordpress-seo' ), 'Yoast SEO' ) . '</h2>';
 		echo '<table class="form-table wpseo-taxonomy-form">';
 
 		$this->form_row( 'wpseo_title', __( 'SEO Title', 'wordpress-seo' ), esc_html__( 'The SEO title is used on the archive page for this term.', 'wordpress-seo' ), $tax_meta );

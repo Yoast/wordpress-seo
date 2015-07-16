@@ -67,7 +67,8 @@ class WPSEO_Export {
 		}
 		else {
 			$results['status'] = 'failure';
-			$results['msg']    = __( 'Error creating WordPress SEO export: ', 'wordpress-seo' ) . $this->error;
+			/* translators: %1$s expands to Yoast SEO */
+			$results['msg']    = sprintf( __( 'Error creating %1$S export: ', 'wordpress-seo' ), 'Yoast SEO' ) . $this->error;
 		}
 
 		return $results;
@@ -107,7 +108,8 @@ class WPSEO_Export {
 	 * Writes the header of the export file.
 	 */
 	private function export_header() {
-		$this->write_line( '; ' . __( 'This is a settings export file for the WordPress SEO plugin by Yoast.com', 'wordpress-seo' ) . ' - https://yoast.com/wordpress/plugins/seo/' );
+		/* translators: %1$s expands to Yoast SEO */
+		$this->write_line( '; ' . sprintf( __( 'This is a settings export file for the %1$s plugin by Yoast.com', 'wordpress-seo' ), 'Yoast SEO' ) . ' - https://yoast.com/wordpress/plugins/seo/' );
 		if ( $this->include_taxonomy ) {
 			$this->write_line( '; ' . __( 'This export includes taxonomy metadata', 'wordpress-seo' ) );
 		}

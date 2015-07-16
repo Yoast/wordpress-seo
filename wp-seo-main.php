@@ -376,9 +376,9 @@ function yoast_wpseo_missing_autoload() {
  * Returns the notice in case of missing Composer autoload
  */
 function yoast_wpseo_missing_autoload_notice() {
-	/* translators: %1$s / %2$s: links to the installation manual in the Readme for the WordPress SEO by Yoast code repository on GitHub */
-	$message = esc_html__( 'The WordPress SEO plugin installation is incomplete. Please refer to %1$sinstallation instructions%2$s.', 'wordpress-seo' );
-	$message = sprintf( $message, '<a href="https://github.com/Yoast/wordpress-seo#installation">', '</a>' );
+	/* translators: %1$s expands to Yoast SEO, %2$s / %3$s: links to the installation manual in the Readme for the Yoast SEO code repository on GitHub */
+	$message = esc_html__( 'The %1$s plugin installation is incomplete. Please refer to %2$sinstallation instructions%3$s.', 'wordpress-seo' );
+	$message = sprintf( $message, 'Yoast SEO', '<a href="https://github.com/Yoast/wordpress-seo#installation">', '</a>' );
 	yoast_wpseo_activation_failed_notice( $message );
 }
 
