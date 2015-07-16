@@ -32,10 +32,8 @@ class WPSEO_Recalculate_Scores_Ajax {
 	 * Initialize the AJAX hooks
 	 */
 	public function __construct() {
-
-		// Add the AJAX hook for recalculating.
 		add_action( 'wp_ajax_wpseo_recalculate_scores', array( $this, 'recalculate_scores' ) );
-
+		add_action( 'wp_ajax_wpseo_update_score', array( $this, 'save_score' ) );
 	}
 
 	/**
@@ -52,12 +50,13 @@ class WPSEO_Recalculate_Scores_Ajax {
 
 	/**
 	 * Saving the new linkdex score for given post
-	 *
-	 * @param string $linkdex
-	 * @param string $post_id
 	 */
-	public function save_score( $linkdex, $post_id ) {
-		WPSEO_Meta::set_value( 'linkdex', $linkdex, $post_id );
+	public function save_score() {
+		// @todo: Nonce check
+		if ( 'nonce' === 'nonce' ) {
+			// WPSEO_Meta::set_value( 'linkdex', $linkdex, $post_id );
+
+		}
 	}
 
 	/**
@@ -74,6 +73,7 @@ class WPSEO_Recalculate_Scores_Ajax {
 				array(
 					'posts_per_page' => $this->posts_per_page,
 					'paged'          => $paged,
+					'posts'          => array(),
 				)
 			)
 		);

@@ -264,6 +264,39 @@ function wpseo_recalculate_scores(current_page) {
 		count_element.html( new_value );
 	};
 
+	var calculate_score = function( post ) {
+		// Something with calculating the score
+		var score = 0;
+
+		// Doing request to update the score
+		jQuery.post(
+			ajaxurl,
+			{
+				action: 'wpseo_update_score',
+				post_id : post.post_id,
+				score   : score
+			}
+		);
+	};
+
+	var parse_response = function (response) {
+		if (response !== '') {
+			var resp = jQuery.parseJSON(response);
+
+			if ( resp.total_posts !== undefined ) {
+				for( var i = 0; i < resp.total_posts; i++) {
+					calculate_score( resp.posts[i] );
+				}
+
+				update_count(resp.total_posts);
+			}
+
+			if ( resp.next_page !== undefined ) {
+				calculate_scores( resp.next_page );
+			}
+		}
+	};
+
 	var calculate_scores = function ( current_page ) {
 		jQuery.post(
 			ajaxurl,
@@ -271,19 +304,7 @@ function wpseo_recalculate_scores(current_page) {
 				action: 'wpseo_recalculate_scores',
 				paged : current_page
 			},
-			function (response) {
-				if (response !== '') {
-					var resp = jQuery.parseJSON(response);
-
-					if ( resp.total_posts !== undefined ) {
-						update_count(resp.total_posts);
-					}
-
-					if ( resp.next_page !== undefined ) {
-						calculate_scores( resp.next_page );
-					}
-				}
-			}
+			parse_response
 		);
 	};
 
