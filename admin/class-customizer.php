@@ -51,7 +51,7 @@ class WPSEO_Customizer {
 				/* translators: %s is the name of the plugin */
 				'title'          => sprintf( __( '%s Breadcrumbs', 'wordpress-seo' ), 'Yoast SEO' ),
 				'priority'       => 999,
-				'theme_supports' => 'yoast-breadcrumbs',
+				'theme_supports' => 'yoast-seo-breadcrumbs',
 			)
 		);
 
