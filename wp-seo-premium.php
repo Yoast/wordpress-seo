@@ -4,9 +4,9 @@
  */
 
 /**
- * Plugin Name: WordPress SEO Premium
+ * Plugin Name: Yoast SEO Premium
  * Version: 2.2.2
- * Plugin URI: http://yoast.com/wordpress/seo-premium/#utm_source=wpadmin&utm_medium=plugin&utm_campaign=wpseoplugin
+ * Plugin URI: https://yoast.com/wordpress/plugins/seo/#utm_source=wpadmin&utm_medium=plugin&utm_campaign=wpseoplugin
  * Description: The first true all-in-one SEO solution for WordPress, including on-page content analysis, XML sitemaps and much more.
  * Author: Team Yoast
  * Author URI: https://yoast.com/
@@ -16,7 +16,7 @@
  */
 
 /**
- * WordPress SEO Plugin
+ * Yoast SEO Plugin
  * Copyright (C) 2008-2014, Yoast BV - support@yoast.com
  *
  * This program is free software: you can redistribute it and/or modify

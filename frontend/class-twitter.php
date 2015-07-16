@@ -62,7 +62,7 @@ class WPSEO_Twitter {
 		}
 
 		/**
-		 * Action: 'wpseo_twitter' - Hook to add all WP SEO Twitter output to so they're close together.
+		 * Action: 'wpseo_twitter' - Hook to add all Yoast SEO Twitter output to so they're close together.
 		 */
 		do_action( 'wpseo_twitter' );
 	}
@@ -97,7 +97,7 @@ class WPSEO_Twitter {
 		}
 
 		/**
-		 * Filter: 'wpseo_twitter_card_type' - Allow changing the Twitter Card type as output in the Twitter card by WP SEO
+		 * Filter: 'wpseo_twitter_card_type' - Allow changing the Twitter Card type as output in the Twitter card by Yoast SEO
 		 *
 		 * @api string $unsigned The type string
 		 */
@@ -166,7 +166,7 @@ class WPSEO_Twitter {
 		}
 
 		/**
-		 * Filter: 'wpseo_twitter_description' - Allow changing the Twitter description as output in the Twitter card by WP SEO
+		 * Filter: 'wpseo_twitter_description' - Allow changing the Twitter description as output in the Twitter card by Yoast SEO
 		 *
 		 * @api string $twitter The description string
 		 */
@@ -224,7 +224,7 @@ class WPSEO_Twitter {
 		}
 
 		/**
-		 * Filter: 'wpseo_twitter_title' - Allow changing the Twitter title as output in the Twitter card by WP SEO
+		 * Filter: 'wpseo_twitter_title' - Allow changing the Twitter title as output in the Twitter card by Yoast SEO
 		 *
 		 * @api string $twitter The title string
 		 */
@@ -265,7 +265,7 @@ class WPSEO_Twitter {
 	 */
 	protected function site_twitter() {
 		/**
-		 * Filter: 'wpseo_twitter_site' - Allow changing the Twitter site account as output in the Twitter card by WP SEO
+		 * Filter: 'wpseo_twitter_site' - Allow changing the Twitter site account as output in the Twitter card by Yoast SEO
 		 *
 		 * @api string $unsigned Twitter site account string
 		 */
@@ -301,7 +301,7 @@ class WPSEO_Twitter {
 	 */
 	protected function site_domain() {
 		/**
-		 * Filter: 'wpseo_twitter_domain' - Allow changing the Twitter domain as output in the Twitter card by WP SEO
+		 * Filter: 'wpseo_twitter_domain' - Allow changing the Twitter domain as output in the Twitter card by Yoast SEO
 		 *
 		 * @api string $unsigned Name string
 		 */
@@ -460,7 +460,17 @@ class WPSEO_Twitter {
 	 * @return bool
 	 */
 	private function image_from_content_output() {
-		if ( preg_match_all( '`<img [^>]+>`', $GLOBALS['post']->post_content, $matches ) ) {
+		/**
+		 * Filter: 'wpseo_pre_analysis_post_content' - Allow filtering the content before analysis
+		 *
+		 * @api string $post_content The Post content string
+		 *
+		 * @param object $post - The post object.
+		 */
+		global $post;
+		$content = apply_filters( 'wpseo_pre_analysis_post_content', $post->post_content, $post );
+
+		if ( preg_match_all( '`<img [^>]+>`', $content, $matches ) ) {
 			foreach ( $matches[0] as $img ) {
 				if ( preg_match( '`src=(["\'])(.*?)\1`', $img, $match ) ) {
 					$this->image_output( $match[2] );
@@ -479,7 +489,7 @@ class WPSEO_Twitter {
 	protected function author() {
 		$twitter = ltrim( trim( get_the_author_meta( 'twitter', get_post()->post_author ) ), '@' );
 		/**
-		 * Filter: 'wpseo_twitter_creator_account' - Allow changing the Twitter account as output in the Twitter card by WP SEO
+		 * Filter: 'wpseo_twitter_creator_account' - Allow changing the Twitter account as output in the Twitter card by Yoast SEO
 		 *
 		 * @api string $twitter The twitter account name string
 		 */

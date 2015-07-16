@@ -6,7 +6,7 @@
 /**
  * Class WPSEO_Import
  *
- * Class with functionality to import the WP SEO settings
+ * Class with functionality to import the Yoast SEO settings
  */
 class WPSEO_Import {
 
