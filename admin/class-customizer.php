@@ -84,6 +84,17 @@ class WPSEO_Customizer {
 	}
 
 	/**
+	 * Returns whether or not the breadcrumbs are active
+	 *
+	 * @return bool
+	 */
+	public function breadcrumbs_active_callback() {
+		$options = WPSEO_Options::get_all();
+
+		return true === $options['breadcrumbs-enable'];
+	}
+
+	/**
 	 * Adds the breadcrumbs bold last checkbox
 	 */
 	private function breadcrumbs_boldlast_setting() {
@@ -99,11 +110,12 @@ class WPSEO_Customizer {
 		$this->wp_customize->add_control(
 			new WP_Customize_Control(
 				$this->wp_customize, 'wpseo-breadcrumbs-boldlast', array(
-					'label'       => __( 'Bold the last page in the breadcrumb', 'wordpress-seo' ),
-					'type'        => 'checkbox',
-					'section'     => 'wpseo_breadcrumbs_customizer_section',
-					'settings'    => 'wpseo_internallinks[breadcrumbs-boldlast]',
-					'context'     => '',
+					'label'           => __( 'Bold the last page in the breadcrumb', 'wordpress-seo' ),
+					'type'            => 'checkbox',
+					'section'         => 'wpseo_breadcrumbs_customizer_section',
+					'settings'        => 'wpseo_internallinks[breadcrumbs-boldlast]',
+					'context'         => '',
+					'active_callback' => array( $this, 'breadcrumbs_active_callback' ),
 				)
 			)
 		);
@@ -125,14 +137,24 @@ class WPSEO_Customizer {
 		$this->wp_customize->add_control(
 			new WP_Customize_Control(
 				$this->wp_customize, 'wpseo-breadcrumbs-blog-remove', array(
-					'label'       => __( 'Remove Blog page from Breadcrumbs', 'wordpress-seo' ),
-					'type'        => 'checkbox',
-					'section'     => 'wpseo_breadcrumbs_customizer_section',
-					'settings'    => 'wpseo_internallinks[breadcrumbs-blog-remove]',
-					'context'     => '',
+					'label'           => __( 'Remove Blog page from Breadcrumbs', 'wordpress-seo' ),
+					'type'            => 'checkbox',
+					'section'         => 'wpseo_breadcrumbs_customizer_section',
+					'settings'        => 'wpseo_internallinks[breadcrumbs-blog-remove]',
+					'context'         => '',
+					'active_callback' => array( $this, 'breadcrumbs_blog_remove_active_cb' ),
 				)
 			)
 		);
+	}
+
+	/**
+	 * Returns whether or not to show the breadcrumbs blog remove option
+	 *
+	 * @return bool
+	 */
+	public function breadcrumbs_blog_remove_active_cb() {
+		return $this->breadcrumbs_active_callback() && 'page' === get_option( 'show_on_front' );
 	}
 
 	/**
@@ -156,6 +178,7 @@ class WPSEO_Customizer {
 					'section'     => 'wpseo_breadcrumbs_customizer_section',
 					'settings'    => 'wpseo_internallinks[breadcrumbs-sep]',
 					'context'     => '',
+					'active_callback' => array( $this, 'breadcrumbs_active_callback' ),
 				)
 			)
 		);
@@ -182,6 +205,7 @@ class WPSEO_Customizer {
 					'section'     => 'wpseo_breadcrumbs_customizer_section',
 					'settings'    => 'wpseo_internallinks[breadcrumbs-home]',
 					'context'     => '',
+					'active_callback' => array( $this, 'breadcrumbs_active_callback' ),
 				)
 			)
 		);
@@ -208,6 +232,7 @@ class WPSEO_Customizer {
 					'section'     => 'wpseo_breadcrumbs_customizer_section',
 					'settings'    => 'wpseo_internallinks[breadcrumbs-prefix]',
 					'context'     => '',
+					'active_callback' => array( $this, 'breadcrumbs_active_callback' ),
 				)
 			)
 		);
@@ -234,6 +259,7 @@ class WPSEO_Customizer {
 					'section'     => 'wpseo_breadcrumbs_customizer_section',
 					'settings'    => 'wpseo_internallinks[breadcrumbs-archiveprefix]',
 					'context'     => '',
+					'active_callback' => array( $this, 'breadcrumbs_active_callback' ),
 				)
 			)
 		);
@@ -260,6 +286,7 @@ class WPSEO_Customizer {
 					'section'     => 'wpseo_breadcrumbs_customizer_section',
 					'settings'    => 'wpseo_internallinks[breadcrumbs-searchprefix]',
 					'context'     => '',
+					'active_callback' => array( $this, 'breadcrumbs_active_callback' ),
 				)
 			)
 		);
@@ -287,6 +314,7 @@ class WPSEO_Customizer {
 					'section'     => 'wpseo_breadcrumbs_customizer_section',
 					'settings'    => 'wpseo_internallinks[breadcrumbs-404crumb]',
 					'context'     => '',
+					'active_callback' => array( $this, 'breadcrumbs_active_callback' ),
 				)
 			)
 		);
