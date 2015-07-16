@@ -72,7 +72,7 @@ YoastSEO_InputGenerator.prototype.createText = function( type, targetElement, te
  */
 YoastSEO_InputGenerator.prototype.createLabel = function( type, targetElement, text ) {
     var label = document.createElement( "label" );
-    label.innerText = text;
+    label.textContent = text;
     label.for = type+"Input";
     targetElement.appendChild( label );
 
