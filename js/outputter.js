@@ -138,14 +138,16 @@ YoastSEO_AnalyzeLoader.prototype.reloadSnippetText = function() {
 };
 
 /**
- * the analyzeTimer calls the checkInputs function with a delay, so the function won' be executed at every keystroke
+ * the analyzeTimer calls the checkInputs function with a delay, so the function won't be executed at every keystroke
+ * checks the reference object, so this function can be called from anywhere, without problems with different scopes.
  */
 YoastSEO_AnalyzeLoader.prototype.analyzeTimer = function() {
-    //todo check refObj references on elements
     var refObj = this.__refObj;
+    //if __refObj is not found (used on elements), use refObj
     if( typeof refObj === "undefined" ){
         refObj = this.refObj;
     }
+    //if refObj is not found (used on objects), use this
     if( typeof refObj === "undefined" ){
         refObj = this;
     }

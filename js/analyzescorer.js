@@ -46,16 +46,21 @@ YoastSEO_AnalyzeScorer.prototype.runQueue = function() {
 YoastSEO_AnalyzeScorer.prototype.genericScore = function( obj ){
     if( typeof obj !== "undefined" ) {
         var scoreObj = this.scoreLookup( obj.test );
+        //defines default score Object.
         var score = { name: scoreObj.scoreName, score: 0, text: "" };
         for ( var i = 0; i < scoreObj.scoreArray.length; i++ ) {
             this.setMatcher( obj, scoreObj, i );
             switch ( true ) {
+                //if a type is given, the scorer looks for that object in the resultObject to use for scoring
                 case ( typeof scoreObj.scoreArray[i].type === "string" && this.result[scoreObj.scoreArray[i].type] ):
                     return this.returnScore( score, scoreObj, i );
+                //looks if the value from the score is below the maximum value
                 case ( typeof scoreObj.scoreArray[i].min === "undefined" && this.matcher <= scoreObj.scoreArray[i].max ):
                     return this.returnScore( score, scoreObj, i );
+                //looks if the value from the score is above the minimum value
                 case ( typeof scoreObj.scoreArray[i].max === "undefined" && this.matcher >= scoreObj.scoreArray[i].min ):
                     return this.returnScore( score, scoreObj, i );
+                //looks if the value from the score is between the minimum and maximum value
                 case ( this.matcher >= scoreObj.scoreArray[i].min && this.matcher <= scoreObj.scoreArray[i].max ):
                     return this.returnScore( score, scoreObj, i );
                 default:
@@ -119,16 +124,20 @@ YoastSEO_AnalyzeScorer.prototype.scoreTextFormat = function( scoreObj, replaceAr
         for ( var i = 0; i < replaceArray.length; i++ ) {
             switch( true ) {
                 case ( typeof replaceArray[i].value !== "undefined" ):
+                    //gets the value from the replaceArray and replaces it on the given position
                     resultText = resultText.replace( replaceArray[i].position, replaceArray[i].value );
                     break;
                 case ( typeof replaceArray[i].source !== "undefined" ):
+                    //gets the source (which is a value of the analyzer) and replaces it on the given position
                     resultText = resultText.replace( replaceArray[i].position, this[replaceArray[i].source] );
                     break;
                 case ( typeof replaceArray[i].sourceObj !== "undefined" ):
+                    //gets the replaceword (which is a reference to an object in the analyzer) and replaces is on the given position
                     var replaceWord = this.parseReplaceWord( replaceArray[i].sourceObj );
                     resultText = resultText.replace( replaceArray[i].position, replaceWord );
                     break;
                 case ( typeof replaceArray[i].scoreObj !== "undefined" ):
+                    //gets the replaceword from the scoreObject, to use values from the score in the textString.
                     resultText = resultText.replace( replaceArray[i].position, scoreObj[replaceArray[i].scoreObj] );
                     break;
                 default:
@@ -153,6 +162,11 @@ YoastSEO_AnalyzeScorer.prototype.parseReplaceWord = function( replaceWord ) {
     return source;
 };
 
+/**
+ * calculates the totalscore, by adding all scores and dividing them by the amount in the score array.
+ * removes unused results that have no score
+ * @returns score
+ */
 YoastSEO_AnalyzeScorer.prototype.totalScore = function() {
     var scoreAmount = this.__score.length;
     var totalScore = 0;

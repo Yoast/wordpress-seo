@@ -1,3 +1,9 @@
+/**
+ * Inputgenerator generates a form for use as input.
+ * @param args
+ * @param refObj
+ * @constructor
+ */
 YoastSEO_InputGenerator = function( args, refObj ){
     this.config = args;
     this.refObj = refObj;
@@ -28,7 +34,6 @@ YoastSEO_InputGenerator.prototype.createInput = function( type, targetElement, t
     input.refObj = this.refObj;
     input.placeholder = this.config.sampleText[ type ];
     targetElement.appendChild( input );
-    this.createBr( targetElement );
 };
 
 /**
@@ -44,7 +49,6 @@ YoastSEO_InputGenerator.prototype.createText = function( type, targetElement, te
     textarea.placeholder = this.config.sampleText[ type ];
     textarea.id = type+"Input";
     targetElement.appendChild( textarea );
-    this.createBr( targetElement );
 };
 
 /**
@@ -58,7 +62,6 @@ YoastSEO_InputGenerator.prototype.createLabel = function( type, targetElement, t
     label.innerText = text;
     label.for = type+"Input";
     targetElement.appendChild( label );
-
 };
 
 /**
@@ -70,6 +73,11 @@ YoastSEO_InputGenerator.prototype.createBr = function( targetElement ) {
     targetElement.appendChild( br );
 };
 
+/**
+ * get values from generated inputfields.
+ * @param inputType
+ * @returns {*}
+ */
 YoastSEO_InputGenerator.prototype.getAnalyzerInput = function( inputType ) {
     var val;
     switch( inputType){
@@ -94,6 +102,9 @@ YoastSEO_InputGenerator.prototype.getAnalyzerInput = function( inputType ) {
     return val;
 };
 
+/**
+ * callback for the generated snippet.
+ */
 YoastSEO_InputGenerator.prototype.snippetCallback = function( ) {
     this.refObj.analyzeTimer();
 };

@@ -109,10 +109,13 @@ YoastSEO_SnippetPreview.prototype.getMetaText = function() {
  */
 YoastSEO_SnippetPreview.prototype.getIndexMatches = function() {
     var indexMatches = [];
-    var match;
     var i = 0;
-    while ( ( match = this.refObj.source.formattedData.text.indexOf( this.refObj.source.formattedData.keyword, i ) ) > -1 ) {
+    //starts at 0, locates first match of the keyword.
+    var match = this.refObj.source.formattedData.text.indexOf( this.refObj.inputs.keyword, i );
+    //runs the loop untill no more indexes are found, and match returns -1.
+    while ( ( match  ) > -1 ) {
         indexMatches.push( match );
+        //pushes location to indexMatches and increase i with the length of keyword.
         i = match + this.refObj.source.formattedData.keyword.length;
     }
     return indexMatches;
@@ -139,6 +142,7 @@ YoastSEO_SnippetPreview.prototype.getPeriodMatches = function() {
  * @returns textString
  */
 YoastSEO_SnippetPreview.prototype.formatKeyword = function( textString ) {
+    //matches case insensitive and global
     var replacer = new RegExp( this.refObj.source.formattedData.keyword, "ig" );
     return textString.replace( replacer, function(str){return "<strong>"+str+"</strong>"; } );
 };
@@ -150,6 +154,7 @@ YoastSEO_SnippetPreview.prototype.formatKeyword = function( textString ) {
  */
 YoastSEO_SnippetPreview.prototype.formatKeywordUrl = function ( textString ) {
     var replacer = this.refObj.source.formattedData.keyword.replace(" ", "[-_]");
+    //matches case insensitive and global
     replacer = new RegExp( replacer, "ig" );
     return textString.replace( replacer, function(str){return "<strong>"+str+"</strong>"; } );
 };
