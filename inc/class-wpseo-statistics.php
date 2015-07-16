@@ -88,9 +88,9 @@ class WPSEO_Statistics {
 		}
 		elseif ( 'no_index' === $seo_ranking ) {
 			$posts = array(
-				'meta_key' => WPSEO_Meta::$meta_prefix . 'meta-robots-noindex',
+				'meta_key'   => WPSEO_Meta::$meta_prefix . 'meta-robots-noindex',
 				'meta_value' => '1',
-				'compare' => '=',
+				'compare'    => '=',
 			);
 		}
 		else {
