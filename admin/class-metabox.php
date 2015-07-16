@@ -1061,7 +1061,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$na      = false;
 			$noindex = false;
 			$high    = false;
-			switch ( $_GET['seo_filter'] ) {
+			$seo_filter = filter_input( INPUT_GET, 'seo_filter' );
+
+			switch ( $seo_filter ) {
 				case 'noindex':
 					$low     = false;
 					$noindex = true;
@@ -1074,8 +1076,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				case 'poor':
 				case 'ok':
 				case 'good':
-					$low  = WPSEO_Utils::$seo_scores[ $_GET['seo_filter'] ]['start'];
-					$high = WPSEO_Utils::$seo_scores[ $_GET['seo_filter'] ]['end'];
+					$low  = WPSEO_Utils::$seo_scores[ $seo_filter ]['start'];
+					$high = WPSEO_Utils::$seo_scores[ $seo_filter ]['end'];
 					break;
 				default:
 					$low     = false;
