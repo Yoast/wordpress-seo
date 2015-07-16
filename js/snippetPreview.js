@@ -67,7 +67,7 @@ YoastSEO_SnippetPreview.prototype.formatMeta = function() {
         meta = this.getMetaText();
     }
     meta = this.refObj.stringHelper.stripAllTags( meta );
-    meta = meta.substring(0,analyzerConfig.maxMeta);
+    meta = meta.substring(0,YoastSEO_config.analyzerConfig.maxMeta);
     return this.formatKeyword( meta );
 };
 
@@ -79,12 +79,12 @@ YoastSEO_SnippetPreview.prototype.formatMeta = function() {
 YoastSEO_SnippetPreview.prototype.getMetaText = function() {
     var metaText;
     if(typeof this.refObj.source.formattedData.excerpt !== "undefined"){
-        metaText = this.refObj.source.formattedData.excerpt.substring(0, analyzerConfig.maxMeta);
+        metaText = this.refObj.source.formattedData.excerpt.substring(0, YoastSEO_config.analyzerConfig.maxMeta);
     }
     if(metaText === ""){
         var indexMatches = this.getIndexMatches();
         var periodMatches = this.getPeriodMatches();
-        metaText = this.refObj.source.formattedData.text.substring(0, analyzerConfig.maxMeta);
+        metaText = this.refObj.source.formattedData.text.substring(0, YoastSEO_config.analyzerConfig.maxMeta);
         var curStart = 0;
         if (indexMatches.length > 0) {
             for (var j = 0; j < periodMatches.length;) {
@@ -97,7 +97,7 @@ YoastSEO_SnippetPreview.prototype.getMetaText = function() {
                     break;
                 }
             }
-            metaText = this.refObj.source.formattedData.text.substring(curStart, curStart + analyzerConfig.maxMeta);
+            metaText = this.refObj.source.formattedData.text.substring(curStart, curStart + YoastSEO_config.analyzerConfig.maxMeta);
         }
     }
     return metaText;
