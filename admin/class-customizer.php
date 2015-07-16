@@ -51,7 +51,6 @@ class WPSEO_Customizer {
 				/* translators: %s is the name of the plugin */
 				'title'          => sprintf( __( '%s Breadcrumbs', 'wordpress-seo' ), 'Yoast SEO' ),
 				'priority'       => 999,
-				'description'    => sprintf( __( 'Usage of this breadcrumbs feature is explained in %1$sour knowledge-base article on breadcrumbs implementation%2$s.', 'wordpress-seo' ), '<a href="http://yoa.st/breadcrumbs" target="_blank">', '</a>' ),
 				'theme_supports' => 'yoast-breadcrumbs',
 			)
 		);
@@ -75,7 +74,6 @@ class WPSEO_Customizer {
 			new WP_Customize_Control(
 				$this->wp_customize, 'wpseo-breadcrumbs-enable', array(
 					'label'       => __( 'Enable Breadcrumbs', 'wordpress-seo' ),
-					'description' => __( 'Check this to enable breadcrumbs for your site.', 'wordpress-seo' ),
 					'type'        => 'checkbox',
 					'section'     => 'wpseo_breadcrumbs_customizer_section',
 					'settings'    => 'wpseo_internallinks[breadcrumbs-enable]',
@@ -102,7 +100,6 @@ class WPSEO_Customizer {
 			new WP_Customize_Control(
 				$this->wp_customize, 'wpseo-breadcrumbs-boldlast', array(
 					'label'       => __( 'Bold the last page in the breadcrumb', 'wordpress-seo' ),
-					'description' => __( 'Check this to bold the last breadcrumb.', 'wordpress-seo' ),
 					'type'        => 'checkbox',
 					'section'     => 'wpseo_breadcrumbs_customizer_section',
 					'settings'    => 'wpseo_internallinks[breadcrumbs-boldlast]',
@@ -129,7 +126,6 @@ class WPSEO_Customizer {
 			new WP_Customize_Control(
 				$this->wp_customize, 'wpseo-breadcrumbs-blog-remove', array(
 					'label'       => __( 'Remove Blog page from Breadcrumbs', 'wordpress-seo' ),
-					'description' => __( 'Check this to remove blog from breadcrumbs.', 'wordpress-seo' ),
 					'type'        => 'checkbox',
 					'section'     => 'wpseo_breadcrumbs_customizer_section',
 					'settings'    => 'wpseo_internallinks[breadcrumbs-blog-remove]',
@@ -156,7 +152,6 @@ class WPSEO_Customizer {
 			new WP_Customize_Control(
 				$this->wp_customize, 'wpseo-breadcrumbs-separator', array(
 					'label'       => __( 'Breadcrumbs Separator:', 'wordpress-seo' ),
-					'description' => __( 'Set the separator between breadcrumb links.', 'wordpress-seo' ),
 					'type'        => 'text',
 					'section'     => 'wpseo_breadcrumbs_customizer_section',
 					'settings'    => 'wpseo_internallinks[breadcrumbs-sep]',
@@ -183,7 +178,6 @@ class WPSEO_Customizer {
 			new WP_Customize_Control(
 				$this->wp_customize, 'wpseo-breadcrumbs-home', array(
 					'label'       => __( 'Anchor Text for Homepage:', 'wordpress-seo' ),
-					'description' => __( 'Set the anchor text to represent your homepage.', 'wordpress-seo' ),
 					'type'        => 'text',
 					'section'     => 'wpseo_breadcrumbs_customizer_section',
 					'settings'    => 'wpseo_internallinks[breadcrumbs-home]',
@@ -210,7 +204,6 @@ class WPSEO_Customizer {
 			new WP_Customize_Control(
 				$this->wp_customize, 'wpseo-breadcrumbs-prefix', array(
 					'label'       => __( 'Prefix for the breadcrumb path:', 'wordpress-seo' ),
-					'description' => __( 'Set the prefix to be displayed before breadcrumbs.', 'wordpress-seo' ),
 					'type'        => 'text',
 					'section'     => 'wpseo_breadcrumbs_customizer_section',
 					'settings'    => 'wpseo_internallinks[breadcrumbs-prefix]',
@@ -237,7 +230,6 @@ class WPSEO_Customizer {
 			new WP_Customize_Control(
 				$this->wp_customize, 'wpseo-breadcrumbs-archiveprefix', array(
 					'label'       => __( 'Prefix for Archive breadcrumbs:', 'wordpress-seo' ),
-					'description' => __( 'Set the prefix text to be used for archives.', 'wordpress-seo' ),
 					'type'        => 'text',
 					'section'     => 'wpseo_breadcrumbs_customizer_section',
 					'settings'    => 'wpseo_internallinks[breadcrumbs-archiveprefix]',
@@ -264,7 +256,6 @@ class WPSEO_Customizer {
 			new WP_Customize_Control(
 				$this->wp_customize, 'wpseo-breadcrumbs-searchprefix', array(
 					'label'       => __( 'Prefix for Search Page breadcrumbs:', 'wordpress-seo' ),
-					'description' => __( 'Set the prefix text to be used for your search page.', 'wordpress-seo' ),
 					'type'        => 'text',
 					'section'     => 'wpseo_breadcrumbs_customizer_section',
 					'settings'    => 'wpseo_internallinks[breadcrumbs-searchprefix]',
@@ -292,7 +283,6 @@ class WPSEO_Customizer {
 			new WP_Customize_Control(
 				$this->wp_customize, 'wpseo-breadcrumbs-404crumb', array(
 					'label'       => __( 'Breadcrumb for 404 Page:', 'wordpress-seo' ),
-					'description' => __( 'Set the breadcrumbs for the 404 page.', 'wordpress-seo' ),
 					'type'        => 'text',
 					'section'     => 'wpseo_breadcrumbs_customizer_section',
 					'settings'    => 'wpseo_internallinks[breadcrumbs-404crumb]',
