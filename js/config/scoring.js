@@ -158,5 +158,12 @@ analyzerScoring = [
             {matcher: "alt", min: 1, score: 5, text: "The images on this page do not have alt tags containing your focus keyword."},
             {matcher: "altKeyword", min: 1, score: 9, text: "The images on this page contain alt tags with the focus keyword."}
         ]
+    },{
+        scoreName: "keywordDoubles",
+        scoreArray:[
+            {max: 0, score: 9, text: "You've never used this focus keyword before, very good."},
+            {max: 1, score: 6, text: "You've used this focus keyword %1$sonce before%2$s, be sure to make very clear which URL on your site is the most important for this keyword."},
+            {min: 1, score: 1, text: "You've used this focus keyword %3$s%4$d times before%2$s, it's probably a good idea to read %1$sthis post on cornerstone content%2$s and improve your keyword strategy."}
+        ]
     }
 ];

@@ -5,7 +5,17 @@
  */
 YoastSEO_Analyzer = function ( args ) {
     this.config = args;
+    this.checkConfig();
     this.init();
+};
+
+/**
+ * sets value to "" of text if it is undefined to make sure it doesn' break the preprocessor and analyzer
+ */
+YoastSEO_Analyzer.prototype.checkConfig = function() {
+    if(typeof this.config.text === "undefined"){
+        this.config.text = "";
+    }
 };
 
 /**
@@ -25,7 +35,7 @@ YoastSEO_Analyzer.prototype.init = function() {
  * converts the keyword to lowercase
  */
 YoastSEO_Analyzer.prototype.toLowCase = function() {
-    if(typeof this.config.keyword !== "undefined") {
+    if(typeof this.config.keyword !== "undefined" && this.config.keyword !== "") {
         this.config.keywordLowerCase = this.config.keyword.toLocaleLowerCase();
     }
 };
@@ -79,10 +89,10 @@ YoastSEO_Analyzer.prototype.initQueue = function() {
 YoastSEO_Analyzer.prototype.loadWordlists = function() {
     //if no available keywords, load default array
     if( typeof this.config.wordsToRemove === "undefined" ) {
-        this.config.wordsToRemove =  analyzerConfig.wordsToRemove;
+        this.config.wordsToRemove =  YoastSEO_config.analyzerConfig.wordsToRemove;
     }
     if( typeof this.config.stopWords === "undefined" ) {
-        this.config.stopWords = analyzerConfig.stopWords;
+        this.config.stopWords = YoastSEO_config.analyzerConfig.stopWords;
     }
 };
 
@@ -511,6 +521,17 @@ YoastSEO_Analyzer.prototype.urlStopwords = function() {
         var stopwords = this.stringHelper.matchString( this.config.url, this.config.stopWords );
         if( stopwords !== null ) {
             result[0].result = stopwords.length;
+        }
+    }
+    return result;
+};
+
+
+YoastSEO_Analyzer.prototype.keywordDoubles = function() {
+    var result = [ { test: "keywordDoubles", result: 0 } ];
+    if ( typeof this.config.keyword !== "undefined" ) {
+        if(typeof this.config.usedKeywords[this.config.keyword] !== "undefined"){
+            result[0].result = this.config.usedKeywords[this.config.keyword];
         }
     }
     return result;

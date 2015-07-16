@@ -68,12 +68,14 @@ html {
     width: 300px;
     line-height: 20px;
     margin: 5px 0;
+    float: left;
 }
 
 .inputForm textArea {
     width: 100%;
     height: 400px;
     margin: 5px 0;
+    float: left;
 }
 
 li .score{

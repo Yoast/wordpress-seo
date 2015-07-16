@@ -1,4 +1,4 @@
-var args = {
+var YoastSEO_args = {
     //source to use as feeder for the analyzer and snippetPreview
     source: YoastSEO_WordPressScraper,
     //if it must run the anlayzer

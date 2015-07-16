@@ -5,7 +5,7 @@ require("../js/preprocessor.js");
 require("../js/analyzescorer.js");
 require("../js/stringhelper.js");
 var firstParagraphArg = {
-    textString: "<p>this is a default text to test the first paragraph for the word keyword</p> if the keyword is mentioned after the first paragraph, it shouldn't count the keyword. ",
+    text: "<p>this is a default text to test the first paragraph for the word keyword</p> if the keyword is mentioned after the first paragraph, it shouldn't count the keyword. ",
     queue: ["firstParagraph"],
     keyword: "keyword"
 };
@@ -19,13 +19,13 @@ describe("a test for checking the first paragraph for keyword(s)", function() {
 });
 
 var firstParagraphArg2 = {
-    textString: "this is a default text to test the first paragraph for the word keyword if the keyword is mentioned after the first paragraph, it shouldn't count the keyword. ",
+    text: "this is a default text to test the first paragraph for the word keyword if the keyword is mentioned after the first paragraph, it shouldn't count the keyword. ",
     queue: ["firstParagraph"],
     keyword: "keyword"
 };
 
 describe("a test for checking the first paragraph for keywords, when no paragraph is defined", function(){
-    it("returns 0, since no paragraphs are in textString", function(){
+    it("returns 0, since no paragraphs are in text", function(){
         firstParagraphAnalyzer2 = new YoastSEO_Analyzer(firstParagraphArg2);
         result = firstParagraphAnalyzer2.firstParagraph();
         expect(result[0].result).toBe(0);
@@ -33,7 +33,7 @@ describe("a test for checking the first paragraph for keywords, when no paragrap
 });
 
 var firstParagraphArg3 =  {
-    textString: "<p>One question we get</p> quite often <p>in our website reviews</p> is whether we can help people recover from the drop they noticed in their rankings or traffic. A lot of the times, this is a legitimate drop and people were actually in a bit of trouble.",
+    text: "<p>One question we get</p> quite often <p>in our website reviews</p> is whether we can help people recover from the drop they noticed in their rankings or traffic. A lot of the times, this is a legitimate drop and people were actually in a bit of trouble.",
     keyword: "website",
     queue: ["firstParagraph"]
 };
@@ -47,7 +47,7 @@ describe("a test for checking the first paragraph for keywords, when no paragrap
 });
 
 var firstParagraphArg4 = {
-    textString: "One question we get quite often in our website reviews \n\n is whether we can help people recover from the drop they noticed in their rankings or traffic. A lot of the times, this is a legitimate drop and people were actually in a bit of trouble.",
+    text: "One question we get quite often in our website reviews \n\n is whether we can help people recover from the drop they noticed in their rankings or traffic. A lot of the times, this is a legitimate drop and people were actually in a bit of trouble.",
     keyword: "website",
     queue: ["firstParagraph"]
 };
