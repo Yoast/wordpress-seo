@@ -1000,10 +1000,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				self::set_value( 'linkdex', 0, $post_id );
 			}
 			elseif ( $score !== '' ) {
-				$nr          = WPSEO_Utils::calc( $score, '/', 10, true );
-				$score_label = WPSEO_Utils::translate_score( $nr );
-				$title       = WPSEO_Utils::translate_score( $nr, false );
-				unset( $nr );
+				$score_label = WPSEO_Utils::translate_score( $score );
+				$title       = WPSEO_Utils::translate_score( $score, false );
 			}
 			else {
 				$this->calculate_results( get_post( $post_id ) );
