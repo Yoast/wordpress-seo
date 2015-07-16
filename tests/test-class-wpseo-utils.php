@@ -79,4 +79,45 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 	public function test_is_valid_datetime_WITH_invalid_datetime() {
 		$this->assertFalse( WPSEO_Utils::is_valid_datetime( '-0001-11-30T00:00:00+00:00' ) );
 	}
+
+	/**
+	 * Tests translate_score function
+	 *
+	 * @dataProvider translate_score_provider
+	 * @covers WPSEO_Utils::translate_score()
+	 */
+	public function test_translate_score( $score, $css_value, $expected ) {
+		$this->assertEquals( $expected, WPSEO_Utils::translate_score( $score, $css_value ) );
+	}
+
+	public function translate_score_provider() {
+		return array(
+			array( 0, true, 'na' ),
+			array( 1, true, 'bad' ),
+			array( 20, true, 'bad' ),
+			array( 34, true, 'bad' ),
+			array( 35, true, 'poor' ),
+			array( 49, true, 'poor' ),
+			array( 54, true, 'poor' ),
+			array( 55, true, 'ok' ),
+			array( 60, true, 'ok' ),
+			array( 74, true, 'ok' ),
+			array( 75, true, 'good' ),
+			array( 87, true, 'good' ),
+			array( 100, true, 'good' ),
+			array( 0, false, 'N/A' ),
+			array( 1, false, 'Bad' ),
+			array( 20, false, 'Bad' ),
+			array( 34, false, 'Bad' ),
+			array( 35, false, 'Poor' ),
+			array( 49, false, 'Poor' ),
+			array( 54, false, 'Poor' ),
+			array( 55, false, 'OK' ),
+			array( 60, false, 'OK' ),
+			array( 74, false, 'OK' ),
+			array( 75, false, 'Good' ),
+			array( 87, false, 'Good' ),
+			array( 100, false, 'Good' ),
+		);
+	}
 }
