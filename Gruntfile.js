@@ -1,4 +1,3 @@
-/*jslint es5: false */
 module.exports = function(grunt) {
     'use strict';
 
@@ -7,12 +6,11 @@ module.exports = function(grunt) {
     // Define project configuration
     var project = {
         paths: {
-            get config() {
-                return this.grunt + 'config/';
-            },
             grunt: 'grunt/',
-            js: 'js/'
-
+            js: 'js/',
+			get config() {
+				return this.grunt + 'config/';
+			}
         },
         files: {
             js: [

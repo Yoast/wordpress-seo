@@ -1,6 +1,9 @@
 require("../js/config/config.js");
 require("../js/config/scoring.js");
 require("../js/analyzer.js");
+require("../js/preprocessor.js");
+require("../js/analyzescorer.js");
+require("../js/stringhelper.js");
 
 titleArg = {
     pageTitle: "this is a pagetitle",
@@ -9,7 +12,7 @@ titleArg = {
 
 describe("a test counting the number of characters in the pagetitle", function(){
    it("returns the number of characters", function(){
-       pagetitleAnalyzer = new Analyzer(titleArg);
+       pagetitleAnalyzer = new YoastSEO_Analyzer(titleArg);
        result = pagetitleAnalyzer.pageTitleLength();
        expect(result[0].result).toBe(19);
    });
@@ -22,7 +25,7 @@ titleArg2 = {
 
 describe("a test counting the number of characters in the pagetitle", function(){
     it("returns the number of characters", function(){
-        pagetitleAnalyzer = new Analyzer(titleArg2);
+        pagetitleAnalyzer = new YoastSEO_Analyzer(titleArg2);
         result = pagetitleAnalyzer.pageTitleLength();
         expect(result[0].result).toBe(31);
     });
@@ -35,7 +38,7 @@ titleArg3 = {
 
 describe("a test counting the number of characters in an empty pagetitle", function(){
    it("returns null", function(){
-      pagetitleAnalyzer = new Analyzer(titleArg3);
+      pagetitleAnalyzer = new YoastSEO_Analyzer(titleArg3);
       result = pagetitleAnalyzer.pageTitleLength();
       expect(result[0].result).toBe(0);
    });

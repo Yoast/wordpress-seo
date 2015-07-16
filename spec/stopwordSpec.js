@@ -1,6 +1,9 @@
 require("../js/config/config.js");
 require("../js/config/scoring.js");
 require("../js/analyzer.js");
+require("../js/preprocessor.js");
+require("../js/analyzescorer.js");
+require("../js/stringhelper.js");
 
 stopwordArgs = {
     queue: ["stopwords"],
@@ -9,7 +12,7 @@ stopwordArgs = {
 };
 
 describe("a test for matching the keyword with ", function(){
-    var stopwordMatcher = new Analyzer(stopwordArgs);
+    var stopwordMatcher = new YoastSEO_Analyzer(stopwordArgs);
     var result = stopwordMatcher.stopwords();
     it("matches a keyword", function(){
         expect(result[0].test).toBe("stopwordKeywordCount");

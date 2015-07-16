@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Yoast SEO Content Analysis</title>
+
+    <link rel='stylesheet' id='yoast-theme-css'
+          href='https://cdn.yoast.com/wp-content/themes/yoast-theme/css/style.min.css?v=1431379732'/>
+    <link rel='stylesheet' id='source-sans-pro-css'
+          href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600&amp;subset=latin'/>
+    <link rel="stylesheet" href="css/style.css">
+
+    <script type="text/javascript" src="js/config/config.js"></script>
+    <script type="text/javascript" src="js/config/scoring.js"></script>
+
+
+    <script type="text/javascript" src="js/inputGenerator.js"></script>
+            <script type="text/javascript" src="js/snippetPreview.js"></script>
+            <script type="text/javascript" src="js/config/config.js"></script>
+            <script type="text/javascript" src="js/config/scoring.js"></script>
+            <script type="text/javascript" src="js/analyzer.js"></script>
+            <script type="text/javascript" src="js/analyzescorer.js"></script>
+            <script type="text/javascript" src="js/preprocessor.js"></script>
+            <script type="text/javascript" src="js/stringhelper.js"></script>
+            <script type="text/javascript" src="js/outputter.js"></script>
+            <script type="text/javascript" src="js/scoreFormatter.js"></script>
+    <script>
+        var args = {
+            source: YoastSEO_InputGenerator,
+            analyzer: true,
+            snippetPreview: true,
+            elementTarget: ["inputForm"],
+            typeDelay: 300,
+            typeDelayStep: 100,
+            maxTypeDelay: 1500,
+            dynamicDelay: true,
+            multiKeyword: false,
+            targets: {
+                output: "output",
+                overall: "overallScore",
+                snippet: "snippet"
+            },
+            sampleText: {
+                url: "http://example.com/example-post/",
+                title: "This is an example title - edit by clicking here",
+                keyword: "Choose a focus keyword",
+                meta: "Modify your meta description by editing it right here",
+                text: "Start writing your text!"
+            }
+        };
+    </script>
+</head>
+<body class="purple seo">
+
+<div class="site-container">
+    <nav class="nav-primary" role="navigation" itemscope="itemscope" itemtype="http://schema.org/SiteNavigationElement">
+        <div class="wrap">
+            <ul id="menu-primary" class="menu genesis-nav-menu menu-primary">
+                <li id="menu-item-45876"
+                    class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-45876"><a
+                        href="https://yoast.com/">Home</a></li>
+                <li id="menu-item-78215"
+                    class="menu-item menu-item-type-custom menu-item-object-custom menu-item-78215"><a
+                        href="https://yoast.com/wordpress/plugins/">WordPress Plugins</a></li>
+                <li id="menu-item-138668"
+                    class="menu-item menu-item-type-custom menu-item-object-custom menu-item-138668"><a
+                        href="https://yoast.com/ebooks/">eBooks</a></li>
+                <li id="menu-item-78214"
+                    class="menu-item menu-item-type-post_type menu-item-object-page menu-item-78214"><a
+                        href="https://yoast.com/articles/">Publications</a></li>
+                <li id="menu-item-172915"
+                    class="menu-item menu-item-type-post_type menu-item-object-page menu-item-172915"><a
+                        href="https://yoast.com/hire-us/website-review/">Website Reviews</a></li>
+            </ul>
+        </div>
+    </nav>
+    <header class="site-header" role="banner">
+        <div class="wrap">
+            <div class="title-area">
+                <p class="site-title">
+                    <a href="https://yoast.com/">Yoast</a>
+                </p>
+            </div>
+            <div class="himg header-graphic"></div>
+            <a class="open" id="sidr-left" href="#sidr-left">Open Navigation</a><a class="open" id="sidr-right"
+                                                                                   href="#sidr-right">Open Search</a>
+        </div>
+    </header>
+    <div class="site-inner">
+        <div class="wrap">
+            <div class="content-sidebar-wrap">
+                <main class="content" role="main" itemprop="mainContentOfPage" itemscope="itemscope"
+                      itemtype="http://schema.org/Article">
+                    <div class="breadcrumb" itemprop="breadcrumb">
+								<span xmlns:v="http://rdf.data-vocabulary.org/#">
+									<span typeof="v:Breadcrumb">
+										<a href="https://yoast.com" rel="v:url" property="v:title">Home</a> 
+										<span class="sep">▸</span> 
+										<span rel="v:child" typeof="v:Breadcrumb">
+											<a href="https://yoast.com/wordpress/plugins/seo/" rel="v:url"
+                                               property="v:title">Yoast SEO plugin</a>
+											<span class="sep">▸</span> 
+											<span class="breadcrumb_last">Real Time Content Analysis</span>
+										</span>
+									</span>
+								</span>
+                    </div>
+                    <article class="post type-post status-publish format-standard has-post-thumbnail category-seo "
+                             itemscope="itemscope" itemtype="http://schema.org/BlogPosting" itemprop="blogPost">
+                        <header class="entry-header">
+                            <h1 class="entry-title" itemprop="headline">Real-time Content Analysis</h1>
+                        </header>
+                        <div id="input">
+                            <div id="inputForm" class="inputForm">
+
+                            </div>
+                        </div>
+                        <label>Snippet Preview</label>
+
+                        <form id="snippetForm">
+                            <div id="snippet" class="output">
+
+                            </div>
+                        </form>
+                        <p>This is what your page might look like on a Google search result page.</p>
+
+                        <p>Edit your SEO title and meta description by clicking the title and meta description!</p>
+                        <br>
+
+                        <div id="output" class="output">
+
+                        </div>
+
+                    </article>
+                </main>
+                <aside class="sidebar sidebar-primary widget-area" role="complementary" itemscope="itemscope"
+                       itemtype="http://schema.org/WPSideBar">
+                    <section id="yst_search-2" class="widget widget_search">
+                        <div class="widget-wrap">
+                            <form method="get" class="search-form" action="https://yoast.com/" role="search"><input
+                                    type="search" name="s" placeholder="Search &hellip;"/><input type="submit"
+                                                                                                 value="Search"/></form>
+                        </div>
+                    </section>
+
+
+                    <section class="widget">
+                        <h2>Your SEO score</h2>
+
+                        <p>This is the overall score for your text and snippet preview.</p>
+
+                        <div id="overallScore" class="overallScore">
+                            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 500 500" enable-background="new 0 0 500 500" xml:space="preserve" width="200" height="200">
+					<g id="BG">
+					</g>
+					<g id="BG_dark">
+					</g>
+					<g id="bg_light">
+						<path fill="#5B2942" d="M415,500H85c-46.8,0-85-38.2-85-85V85C0,38.2,38.2,0,85,0h330c46.8,0,85,38.2,85,85v330
+							C500,461.8,461.8,500,415,500z"/>
+						<path fill="none" stroke="#7EADB9" stroke-width="17" stroke-miterlimit="10" d="M404.6,467H95.4C61.1,467,33,438.9,33,404.6V95.4
+							C33,61.1,61.1,33,95.4,33h309.2c34.3,0,62.4,28.1,62.4,62.4v309.2C467,438.9,438.9,467,404.6,467z"/>
+					</g>
+					<g id="Layer_2">
+						<circle id="score_circle_shadow" fill="#77B227" cx="250" cy="250" r="155"/>
+						<path id="score_circle" fill="#9FDA4F" d="M172.5,384.2C98.4,341.4,73,246.6,115.8,172.5S253.4,73,327.5,115.8"/>
+						<g>
+							<g>
+								<g display="none">
+									<path display="inline" fill="#FEC228" d="M668,338.4c-30.4,0-55-24.6-55-55s24.6-55,55-55"/>
+									<path display="inline" fill="#8BDA53" d="M668,215.1c-30.4,0-55-24.6-55-55s24.6-55,55-55"/>
+									<path display="inline" fill="#FF443D" d="M668,461.7c-30.4,0-55-24.6-55-55s24.6-55,55-55"/>
+								</g>
+							</g>
+						</g>
+					</g>
+					</svg>
+
+                        </div>
+                    </section>
+
+                    <section id="yst_banner_widget-17" class="ebooks-banner widget widget_banner">
+                        <div class="ebooks-banner widget-wrap">
+                            <h3>Want to write better? Buy our eBook!</h3>
+                            <a href="https://yoast.com/ebooks/content-seo/"><img width="261"
+                                                                                 alt="Yoast Content SEO eBook"
+                                                                                 title="Yoast eBook bundle"
+                                                                                 class="hires"
+                                                                                 src="https://yoast.com/banner-images/content-seo.png"/></a>
+                        </div>
+                    </section>
+                    <div class="clear"></div>
+                </aside>
+            </div>
+        </div>
+    </div>
+    <div class="footer-widgets">
+        <div class="wrap">
+            <div class="footer-widgets-1 widget-area">
+                <section id="categories-138099563" class="widget widget_categories">
+                    <div class="widget-wrap"><h4 class="widget-title widgettitle">Categories</h4>
+                        <ul>
+                            <li class="cat-item cat-item-40"><a href="https://yoast.com/cat/analytics/">Analytics</a>
+                            </li>
+                            <li class="cat-item cat-item-41"><a href="https://yoast.com/cat/business/">Business</a>
+                            </li>
+                            <li class="cat-item cat-item-429"><a href="https://yoast.com/cat/conversion/">Conversion
+                                Rate Optimization</a>
+                            </li>
+                            <li class="cat-item cat-item-129"><a href="https://yoast.com/cat/magento/">Magento</a>
+                            </li>
+                            <li class="cat-item cat-item-444"><a href="https://yoast.com/cat/research/">Research</a>
+                            </li>
+                            <li class="cat-item cat-item-24"><a href="https://yoast.com/cat/seo/">SEO</a>
+                            </li>
+                            <li class="cat-item cat-item-57"><a href="https://yoast.com/cat/social-media/">Social
+                                Media</a>
+                            </li>
+                            <li class="cat-item cat-item-44"><a href="https://yoast.com/cat/usability/">Usability</a>
+                            </li>
+                            <li class="cat-item cat-item-20"><a href="https://yoast.com/cat/web-development/">Web
+                                Development</a>
+                            </li>
+                            <li class="cat-item cat-item-19"><a href="https://yoast.com/cat/wordpress/">WordPress</a>
+                            </li>
+                        </ul>
+                    </div>
+                </section>
+            </div>
+            <div class="footer-widgets-2 widget-area">
+                <section id="nav_menu-3" class="widget widget_nav_menu">
+                    <div class="widget-wrap"><h4 class="widget-title widgettitle">Our Services</h4>
+
+                        <div class="menu-services-container">
+                            <ul id="menu-services" class="menu">
+                                <li id="menu-item-334773"
+                                    class="menu-item menu-item-type-post_type menu-item-object-page menu-item-334773"><a
+                                        title="Want to improve your website but don&#8217;t know where to start?"
+                                        href="https://yoast.com/hire-us/website-review/">Website Review</a></li>
+                                <li id="menu-item-178934"
+                                    class="menu-item menu-item-type-post_type menu-item-object-page menu-item-178934"><a
+                                        title="Are you Wondering why you&#8217;re not Selling More?"
+                                        href="https://yoast.com/hire-us/conversion-review/">Conversion Reviews</a></li>
+                                <li id="menu-item-334783"
+                                    class="menu-item menu-item-type-post_type menu-item-object-page menu-item-334783"><a
+                                        href="https://yoast.com/shop/">Yoast Products</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+                <section id="text-24" class="widget widget_text">
+                    <div class="widget-wrap"><h4 class="widget-title widgettitle">Sucuri Verified</h4>
+
+                        <div class="textwidget"><a
+                                href="https://monitor5.sucuri.net/verify.php?r=03d65a8636af8ee560fd895e2bd8351cbf4c91b12b"><img
+                                src="https://cdn.yoast.com/wp-content/uploads/images/sucuri-verified-badge-medium.png"
+                                alt="Sucuri verified site"/></a></div>
+                    </div>
+                </section>
+            </div>
+            <div class="footer-widgets-3 widget-area">
+                <section id="nav_menu-2" class="widget widget_nav_menu">
+                    <div class="widget-wrap"><h4 class="widget-title widgettitle">Nav</h4>
+
+                        <div class="menu-secondary-container">
+                            <ul id="menu-secondary" class="menu">
+                                <li id="menu-item-53175"
+                                    class="menu-item menu-item-type-post_type menu-item-object-page menu-item-53175"><a
+                                        href="https://yoast.com/about-us/">About Yoast</a></li>
+                                <li id="menu-item-178932"
+                                    class="menu-item menu-item-type-post_type menu-item-object-page menu-item-178932"><a
+                                        href="https://yoast.com/work/">Work at Yoast</a></li>
+                                <li id="menu-item-71314"
+                                    class="menu-item menu-item-type-post_type menu-item-object-page menu-item-71314"><a
+                                        href="https://yoast.com/media/">Media</a></li>
+                                <li id="menu-item-181431"
+                                    class="menu-item menu-item-type-custom menu-item-object-custom menu-item-181431"><a
+                                        href="http://kb.yoast.com/">Support</a></li>
+                                <li id="menu-item-45881"
+                                    class="menu-item menu-item-type-custom menu-item-object-custom menu-item-45881"><a
+                                        href="https://yoast.com/contact/">Contact</a></li>
+                                <li id="menu-item-174399"
+                                    class="menu-item menu-item-type-post_type menu-item-object-page menu-item-174399"><a
+                                        href="https://yoast.com/hire-us/">Hire Team Yoast</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+    <footer class="site-footer" role="contentinfo" itemscope="itemscope" itemtype="http://schema.org/WPFooter">
+        <div class="wrap"><p><strong>© 2003-2015 Joost de Valk - Yoast.com is a property of Yoast BV.</strong></p>
+
+            <p>Some Rights Reserved | <a href="https://yoast.com/privacy-policy/">Privacy Policy</a> | <a
+                    href="https://yoast.com/terms-of-service/">Terms of Service</a> | <a
+                    href="https://yoast.com/refund-policy/">Refund Policy</a></p>
+
+            <p class="joost-footer"><img class="hires" width="175" height="242"
+                                         src="https://cdn.yoast.com/wp-content/themes/yoast-theme/images/joost-footer.png"
+                                         alt="Yoast"/></p></div>
+    </footer>
+</div>
+
+</body>
+
+</html>

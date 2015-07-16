@@ -1,6 +1,9 @@
 require("../js/config/config.js");
 require("../js/config/scoring.js");
 require("../js/analyzer.js");
+require("../js/preprocessor.js");
+require("../js/analyzescorer.js");
+require("../js/stringhelper.js");
 
 preprocArgs = {
     testString: "<h1>Dit is een</h1> <h2>standaard</h2>- TEKST <ul><li>test1</li><li>test2</li><li>test3</li><li>test4</li></ul>met VEEL caps, spaties, <h6>tekens</h6> en andere overbodige meuk!?'...; <img src='http://linknaarplaatje' alt='mooiplaatje' />Het aantal Woorden<br><br> is negentien"
@@ -13,7 +16,7 @@ expectedOutput = {
 };
 
 describe("Test for the preprocessor that formats text for the analyzer", function(){
-    preproc = new PreProcessor(preprocArgs.testString);
+    preproc = new YoastSEO_PreProcessor(preprocArgs.testString);
     it("returns processed clean text", function(){
         expect(preproc.__store.cleanText).toBe(expectedOutput.cleanText);
     });
