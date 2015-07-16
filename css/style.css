@@ -76,10 +76,17 @@ html {
     margin: 5px 0;
 }
 
+li .score{
+    list-style-type: none;
+}
+
 .wpseoanalysis td {
     vertical-align: middle;
 }
-
+.wpseo-score-text {
+    display: inline-block;
+    width: 90%;
+}
 .wpseo-score-icon {
     display: inline-block;
     width: 12px;
@@ -89,6 +96,8 @@ html {
     background: #888;
     vertical-align: top;
 }
+
+
 
 .wpseo-score-icon.good {
     background-color: #7ad03a;

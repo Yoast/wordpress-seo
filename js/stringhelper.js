@@ -26,18 +26,14 @@ YoastSEO_StringHelper.prototype.matchString = function( textString, stringsToMat
 };
 
 /**
- * matches string with regex, returns the number of matches
+ * checks if the match on textStrings is not null. If it has matches returns the length.
+ * Otherwise it returns 0 (no matches).
  * @param textString
  * @param regex
  * @returns {number}
  */
 YoastSEO_StringHelper.prototype.countMatches = function( textString, regex ){
-    var count = 0;
-    var matches = textString.match( regex );
-    if( matches !== null ){
-        count = matches.length;
-    }
-    return count;
+    return textString.match( regex ) !== null ? textString.match.length : 0;
 };
 
 /**
