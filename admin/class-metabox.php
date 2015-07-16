@@ -1076,8 +1076,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				case 'poor':
 				case 'ok':
 				case 'good':
-					$low  = WPSEO_Utils::$seo_scores[ $_GET['seo_filter'] ];
-					$high = WPSEO_Utils::$seo_scores[ $_GET['seo_filter'] ];
+					$low  = WPSEO_Utils::$seo_scores[ $_GET['seo_filter'] ]['start'];
+					$high = WPSEO_Utils::$seo_scores[ $_GET['seo_filter'] ]['end'];
 					break;
 				default:
 					$low     = false;
