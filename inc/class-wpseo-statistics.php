@@ -74,27 +74,9 @@ class WPSEO_Statistics {
 	 */
 	private function get_post_count( $seo_ranking ) {
 
-		switch ( $seo_ranking ) {
-
-			case 'bad':
-				$start = 1;
-				$end   = 34;
-				break;
-
-			case 'poor':
-				$start = 35;
-				$end   = 54;
-				break;
-
-			case 'ok':
-				$start = 55;
-				$end   = 74;
-				break;
-
-			case 'good':
-				$start = 75;
-				$end   = 100;
-				break;
+		if ( array_key_exists( $seo_ranking, WPSEO_Utils::$seo_scores ) ) {
+			$start = WPSEO_Utils::$seo_scores[ $seo_ranking ]['start'];
+			$end   = WPSEO_Utils::$seo_scores[ $seo_ranking ]['end'];
 		}
 
 		if ( 'no_focus' === $seo_ranking ) {

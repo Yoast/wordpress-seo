@@ -1073,20 +1073,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 					$na  = true;
 					break;
 				case 'bad':
-					$low  = 1;
-					$high = 34;
-					break;
 				case 'poor':
-					$low  = 35;
-					$high = 54;
-					break;
 				case 'ok':
-					$low  = 55;
-					$high = 74;
-					break;
 				case 'good':
-					$low  = 75;
-					$high = 100;
+					$low  = WPSEO_Utils::$seo_scores[ $_GET['seo_filter'] ];
+					$high = WPSEO_Utils::$seo_scores[ $_GET['seo_filter'] ];
 					break;
 				default:
 					$low     = false;
