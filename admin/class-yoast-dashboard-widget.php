@@ -48,6 +48,15 @@ class Yoast_Dashboard_Widget {
 	}
 
 	/**
+	 * Enqueue's stylesheet for the dashboard if the current page is the dashboard
+	 */
+	public function enqueue_dashboard_stylesheet() {
+		if ( 'dashboard' === get_current_screen()->id ) {
+			wp_enqueue_style( 'wpseo-wp-dashboard', plugins_url( 'css/dashboard' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
+		}
+	}
+
+	/**
 	 * An array representing items to be added to the At a Glance dashboard widget
 	 *
 	 * @return array
@@ -114,14 +123,4 @@ class Yoast_Dashboard_Widget {
 	private function filter_items( $item ) {
 		return 0 !== $item['count'];
 	}
-
-	/**
-	 * Enqueue's stylesheet for the dashboard if the current page is the dashboard
-	 */
-	public function enqueue_dashboard_stylesheet() {
-		if ( 'dashboard' === get_current_screen()->id ) {
-			wp_enqueue_style( 'wpseo-wp-dashboard', plugins_url( 'css/dashboard' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
-		}
-	}
-
 }
