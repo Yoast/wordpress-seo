@@ -74,11 +74,6 @@ class WPSEO_Statistics {
 	 */
 	private function get_post_count( $seo_ranking ) {
 
-		if ( array_key_exists( $seo_ranking, WPSEO_Utils::$seo_scores ) ) {
-			$start = WPSEO_Utils::$seo_scores[ $seo_ranking ]['start'];
-			$end   = WPSEO_Utils::$seo_scores[ $seo_ranking ]['end'];
-		}
-
 		if ( 'no_focus' === $seo_ranking ) {
 			$posts = array(
 				'meta_query' => array(
@@ -99,6 +94,9 @@ class WPSEO_Statistics {
 			);
 		}
 		else {
+			$start = WPSEO_Utils::$seo_scores[ $seo_ranking ]['start'];
+			$end   = WPSEO_Utils::$seo_scores[ $seo_ranking ]['end'];
+
 			$posts = array(
 				'meta_key'     => WPSEO_Meta::$meta_prefix . 'linkdex',
 				'meta_value'   => array( $start, $end ),
