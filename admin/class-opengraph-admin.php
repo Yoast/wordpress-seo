@@ -4,7 +4,7 @@
  */
 
 /**
- * This class adds the Social tab to the WP SEO metabox and makes sure the settings are saved.
+ * This class adds the Social tab to the Yoast SEO metabox and makes sure the settings are saved.
  */
 class WPSEO_Social_Admin extends WPSEO_Metabox {
 
@@ -43,7 +43,7 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 			'googleplus' => __( 'Google+', 'wordpress-seo' ),
 		);
 
-		// Source: https://blog.bufferapp.com/ideal-image-sizes-social-media-posts
+		// Source: https://blog.bufferapp.com/ideal-image-sizes-social-media-posts.
 		$recommended_image_sizes = array(
 			'opengraph'   => '1200 x 628',
 			'twitter'     => '1024 x 512',
@@ -107,10 +107,10 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 	 */
 	public function og_data_compare( $post ) {
 
-		// Check if post data is available, if post_id is set and if original post_status is publish
+		// Check if post data is available, if post_id is set and if original post_status is publish.
 		if (
 			! empty( $_POST ) && ! empty( $post->ID ) && $post->post_status == 'publish' &&
-			isset ( $_POST['original_post_status'] ) && $_POST['original_post_status'] === 'publish'
+			isset( $_POST['original_post_status'] ) && $_POST['original_post_status'] === 'publish'
 		) {
 
 			$fields_to_compare = array(

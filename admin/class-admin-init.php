@@ -9,7 +9,7 @@
 class WPSEO_Admin_Init {
 
 	/**
-	 * Holds the WP SEO Options
+	 * Holds the Yoast SEO Options
 	 *
 	 * @var array
 	 */
@@ -34,11 +34,13 @@ class WPSEO_Admin_Init {
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_dismissible' ) );
 		add_action( 'admin_init', array( $this, 'after_update_notice' ), 15 );
+		add_action( 'admin_init', array( $this, 'tagline_notice' ), 15 );
 
 		$this->load_meta_boxes();
 		$this->load_taxonomy_class();
 		$this->load_admin_page_class();
 		$this->load_admin_user_class();
+		$this->ignore_tour();
 		$this->load_tour();
 		$this->load_xml_sitemaps_admin();
 	}
@@ -63,9 +65,10 @@ class WPSEO_Admin_Init {
 
 				return;
 			}
-
+			/* translators: %1$s expands to Yoast SEO, $2%s to the version number, %3$s and %4$s to anchor tags with link to intro page  */
 			$info_message = sprintf(
-				__( 'WordPress SEO by Yoast has been updated to version %1$s. %2$sClick here%3$s to find out what\'s new!', 'wordpress-seo' ),
+				__( '%1$s has been updated to version %2$s. %3$sClick here%4$s to find out what\'s new!', 'wordpress-seo' ),
+				'Yoast SEO',
 				WPSEO_VERSION,
 				'<a href="' . admin_url( 'admin.php?page=wpseo_dashboard&intro=1' ) . '">',
 				'</a>'
@@ -88,6 +91,59 @@ class WPSEO_Admin_Init {
 	 */
 	private function seen_about() {
 		return get_user_meta( get_current_user_id(), 'wpseo_seen_about_version', true ) === WPSEO_VERSION;
+	}
+
+	/**
+	 * Notify about the default tagline if the user hasn't changed it
+	 */
+	public function tagline_notice() {
+		if ( current_user_can( 'manage_options' ) && $this->has_default_tagline() && ! $this->seen_tagline_notice() ) {
+
+			if ( filter_input( INPUT_GET, 'dismiss_tagline_notice' ) === '1' ) {
+				update_user_meta( get_current_user_id(), 'wpseo_seen_tagline_notice', 'seen' );
+
+				return;
+			}
+
+			$current_url = ( is_ssl() ? 'https://' : 'http://' );
+			$current_url .= sanitize_text_field( $_SERVER['SERVER_NAME'] ) . sanitize_text_field( $_SERVER['REQUEST_URI'] );
+			$customize_url = add_query_arg( array(
+				'url' => urlencode( $current_url ),
+				'dismiss_tagline_notice' => '1',
+			), wp_customize_url() );
+
+			$info_message = sprintf(
+				__( 'You still have the default WordPress tagline, even an empty one is probably better. %1$sYou can fix this in the customizer%2$s.', 'wordpress-seo' ),
+				'<a href="' . esc_attr( $customize_url ) . '">',
+				'</a>'
+			);
+
+			$notification_options = array(
+				'type'  => 'error',
+				'id'    => 'wpseo-dismiss-tagline-notice',
+				'nonce' => wp_create_nonce( 'wpseo-dismiss-tagline-notice' ),
+			);
+
+			Yoast_Notification_Center::get()->add_notification( new Yoast_Notification( $info_message, $notification_options ) );
+		}
+	}
+
+	/**
+	 * Returns whether or not the site has the default tagline
+	 *
+	 * @return bool
+	 */
+	public function has_default_tagline() {
+		return __( 'Just another WordPress site' ) === get_bloginfo( 'description' );
+	}
+
+	/**
+	 * Returns whether or not the user has seen the tagline notice
+	 *
+	 * @return bool
+	 */
+	public function seen_tagline_notice() {
+		return 'seen' === get_user_meta( get_current_user_id(), 'wpseo_seen_tagline_notice', true );
 	}
 
 	/**
@@ -167,7 +223,7 @@ class WPSEO_Admin_Init {
 			array(
 				'textdomain'     => 'wordpress-seo',
 				'project_slug'   => 'wordpress-seo',
-				'plugin_name'    => 'WordPress SEO by Yoast',
+				'plugin_name'    => 'Yoast SEO',
 				'hook'           => 'wpseo_admin_footer',
 				'glotpress_url'  => 'https://translate.yoast.com/',
 				'glotpress_name' => 'Yoast Translate',
@@ -198,5 +254,15 @@ class WPSEO_Admin_Init {
 		if ( $this->options['enablexmlsitemap'] === true ) {
 			new WPSEO_Sitemaps_Admin;
 		}
+	}
+
+	/**
+	 * Listener for the ignore tour GET value. If this one is set, just set the user meta to true.
+	 */
+	private function ignore_tour() {
+		if ( filter_input( INPUT_GET, 'wpseo_ignore_tour' ) && wp_verify_nonce( filter_input( INPUT_GET, 'nonce' ), 'wpseo-ignore-tour' ) ) {
+			update_user_meta( get_current_user_id(), 'wpseo_ignore_tour', true );
+		}
+
 	}
 }

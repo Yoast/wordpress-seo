@@ -46,7 +46,7 @@ class WPSEO_Taxonomy {
 	/**
 	 * Makes sure the taxonomy meta is updated when a taxonomy term is split.
 	 *
-	 * @link https://make.wordpress.org/core/2015/02/16/taxonomy-term-splitting-in-4-2-a-developer-guide/ Article explaining the taxonomy term splitting in WP 4.2
+	 * @link https://make.wordpress.org/core/2015/02/16/taxonomy-term-splitting-in-4-2-a-developer-guide/ Article explaining the taxonomy term splitting in WP 4.2.
 	 *
 	 * @param string $old_term_id      Old term id of the taxonomy term that was splitted.
 	 * @param string $new_term_id      New term id of the taxonomy term that was splitted.
@@ -58,7 +58,7 @@ class WPSEO_Taxonomy {
 
 		if ( ! empty( $tax_meta[ $taxonomy ][ $old_term_id ] ) ) {
 			$tax_meta[ $taxonomy ][ $new_term_id ] = $tax_meta[ $taxonomy ][ $old_term_id ];
-			unset( $tax_meta[ $taxonomy ][ $old_term_id ]);
+			unset( $tax_meta[ $taxonomy ][ $old_term_id ] );
 			update_option( 'wpseo_taxonomy_meta', $tax_meta );
 		}
 	}
@@ -91,7 +91,7 @@ class WPSEO_Taxonomy {
 	 * @since 1.5.0
 	 */
 	function tax_is_public() {
-		// Don't make static as taxonomies may still be added during the run
+		// Don't make static as taxonomies may still be added during the run.
 		$taxonomies = get_taxonomies( array( 'public' => true ), 'names' );
 
 		return ( isset( $_GET['taxonomy'] ) && in_array( $_GET['taxonomy'], $taxonomies ) );
@@ -181,8 +181,8 @@ class WPSEO_Taxonomy {
 		$tax_meta = WPSEO_Taxonomy_Meta::get_term_meta( (int) $term->term_id, $term->taxonomy );
 		$options  = WPSEO_Options::get_all();
 
-
-		echo '<h3>', __( 'Yoast WordPress SEO Settings', 'wordpress-seo' ), '</h2>';
+		/* translators: %1$s expands to Yoast SEO */
+		echo '<h3>', sprintf( __( '%1$s Settings', 'wordpress-seo' ), 'Yoast SEO' ) . '</h2>';
 		echo '<table class="form-table wpseo-taxonomy-form">';
 
 		$this->form_row( 'wpseo_title', __( 'SEO Title', 'wordpress-seo' ), esc_html__( 'The SEO title is used on the archive page for this term.', 'wordpress-seo' ), $tax_meta );
@@ -223,7 +223,7 @@ class WPSEO_Taxonomy {
 	/**
 	 * Update the taxonomy meta data on save.
 	 *
-	 * @param int    $term_id  ID of the term to save data for
+	 * @param int    $term_id  ID of the term to save data for.
 	 * @param int    $tt_id    The taxonomy_term_id for the term.
 	 * @param string $taxonomy The taxonomy the term belongs to.
 	 */
@@ -254,7 +254,7 @@ class WPSEO_Taxonomy {
 			}
 		}
 
-		// Prevent complete array validation
+		// Prevent complete array validation.
 		$tax_meta['wpseo_already_validated'] = true;
 
 		update_option( 'wpseo_taxonomy_meta', $tax_meta );

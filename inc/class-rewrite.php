@@ -65,7 +65,7 @@ class WPSEO_Rewrite {
 			$category_base = 'category';
 		}
 
-		// Remove initial slash, if there is one (we remove the trailing slash in the regex replacement and don't want to end up short a slash)
+		// Remove initial slash, if there is one (we remove the trailing slash in the regex replacement and don't want to end up short a slash).
 		if ( '/' == substr( $category_base, 0, 1 ) ) {
 			$category_base = substr( $category_base, 1 );
 		}
@@ -95,7 +95,7 @@ class WPSEO_Rewrite {
 	/**
 	 * Redirect the "old" category URL to the new one.
 	 *
-	 * @param array $query_vars Query vars to check for existence of redirect var
+	 * @param array $query_vars Query vars to check for existence of redirect var.
 	 *
 	 * @return array
 	 */
@@ -132,7 +132,7 @@ class WPSEO_Rewrite {
 			foreach ( $categories as $category ) {
 				$category_nicename = $category->slug;
 				if ( $category->parent == $category->cat_ID ) {
-					// recursive recursion
+					// Recursive recursion.
 					$category->parent = 0;
 				}
 				elseif ( $taxonomy->rewrite['hierarchical'] != 0 && $category->parent != 0 ) {
@@ -150,7 +150,7 @@ class WPSEO_Rewrite {
 			unset( $categories, $category, $category_nicename );
 		}
 
-		// Redirect support from Old Category Base
+		// Redirect support from Old Category Base.
 		$old_base                            = $wp_rewrite->get_category_permastruct();
 		$old_base                            = str_replace( '%category%', '(.+)', $old_base );
 		$old_base                            = trim( $old_base, '/' );

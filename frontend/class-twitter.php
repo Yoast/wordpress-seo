@@ -62,7 +62,7 @@ class WPSEO_Twitter {
 		}
 
 		/**
-		 * Action: 'wpseo_twitter' - Hook to add all WP SEO Twitter output to so they're close together.
+		 * Action: 'wpseo_twitter' - Hook to add all Yoast SEO Twitter output to so they're close together.
 		 */
 		do_action( 'wpseo_twitter' );
 	}
@@ -87,7 +87,7 @@ class WPSEO_Twitter {
 	private function determine_card_type() {
 		$this->type = $this->options['twitter_card_type'];
 		if ( is_singular() ) {
-			// If the current post has a gallery, output a gallery card
+			// If the current post has a gallery, output a gallery card.
 			if ( has_shortcode( $GLOBALS['post']->post_content, 'gallery' ) ) {
 				$this->images = get_post_gallery_images();
 				if ( count( $this->images ) > 3 ) {
@@ -97,7 +97,7 @@ class WPSEO_Twitter {
 		}
 
 		/**
-		 * Filter: 'wpseo_twitter_card_type' - Allow changing the Twitter Card type as output in the Twitter card by WP SEO
+		 * Filter: 'wpseo_twitter_card_type' - Allow changing the Twitter Card type as output in the Twitter card by Yoast SEO
 		 *
 		 * @api string $unsigned The type string
 		 */
@@ -133,7 +133,7 @@ class WPSEO_Twitter {
 	 */
 	private function output_metatag( $name, $value, $escaped = false ) {
 
-		// Escape the value if not escaped
+		// Escape the value if not escaped.
 		if ( false === $escaped ) {
 			$value = esc_attr( $value );
 		}
@@ -145,7 +145,7 @@ class WPSEO_Twitter {
 		 */
 		$metatag_key = apply_filters( 'wpseo_twitter_metatag_key', 'name' );
 
-		// Output meta
+		// Output meta.
 		echo '<meta ', esc_attr( $metatag_key ), '="twitter:', esc_attr( $name ), '" content="', $value, '"/>', "\n";
 	}
 
@@ -166,7 +166,7 @@ class WPSEO_Twitter {
 		}
 
 		/**
-		 * Filter: 'wpseo_twitter_description' - Allow changing the Twitter description as output in the Twitter card by WP SEO
+		 * Filter: 'wpseo_twitter_description' - Allow changing the Twitter description as output in the Twitter card by Yoast SEO
 		 *
 		 * @api string $twitter The description string
 		 */
@@ -224,7 +224,7 @@ class WPSEO_Twitter {
 		}
 
 		/**
-		 * Filter: 'wpseo_twitter_title' - Allow changing the Twitter title as output in the Twitter card by WP SEO
+		 * Filter: 'wpseo_twitter_title' - Allow changing the Twitter title as output in the Twitter card by Yoast SEO
 		 *
 		 * @api string $twitter The title string
 		 */
@@ -265,7 +265,7 @@ class WPSEO_Twitter {
 	 */
 	protected function site_twitter() {
 		/**
-		 * Filter: 'wpseo_twitter_site' - Allow changing the Twitter site account as output in the Twitter card by WP SEO
+		 * Filter: 'wpseo_twitter_site' - Allow changing the Twitter site account as output in the Twitter card by Yoast SEO
 		 *
 		 * @api string $unsigned Twitter site account string
 		 */
@@ -283,9 +283,9 @@ class WPSEO_Twitter {
 	 * Solves issues with filters returning urls and theme's/other plugins also adding a user meta
 	 * twitter field which expects url rather than an id (which is what we expect).
 	 *
-	 * @param  string $id Twitter id or url
+	 * @param  string $id Twitter ID or url.
 	 *
-	 * @return string|bool Twitter id or false if it failed to get a valid twitter id
+	 * @return string|bool Twitter ID or false if it failed to get a valid Twitter ID.
 	 */
 	private function get_twitter_id( $id ) {
 		if ( preg_match( '`([A-Za-z0-9_]{1,25})$`', $id, $match ) ) {
@@ -301,7 +301,7 @@ class WPSEO_Twitter {
 	 */
 	protected function site_domain() {
 		/**
-		 * Filter: 'wpseo_twitter_domain' - Allow changing the Twitter domain as output in the Twitter card by WP SEO
+		 * Filter: 'wpseo_twitter_domain' - Allow changing the Twitter domain as output in the Twitter card by Yoast SEO
 		 *
 		 * @api string $unsigned Name string
 		 */
@@ -460,7 +460,17 @@ class WPSEO_Twitter {
 	 * @return bool
 	 */
 	private function image_from_content_output() {
-		if ( preg_match_all( '`<img [^>]+>`', $GLOBALS['post']->post_content, $matches ) ) {
+		/**
+		 * Filter: 'wpseo_pre_analysis_post_content' - Allow filtering the content before analysis
+		 *
+		 * @api string $post_content The Post content string
+		 *
+		 * @param object $post - The post object.
+		 */
+		global $post;
+		$content = apply_filters( 'wpseo_pre_analysis_post_content', $post->post_content, $post );
+
+		if ( preg_match_all( '`<img [^>]+>`', $content, $matches ) ) {
 			foreach ( $matches[0] as $img ) {
 				if ( preg_match( '`src=(["\'])(.*?)\1`', $img, $match ) ) {
 					$this->image_output( $match[2] );
@@ -479,7 +489,7 @@ class WPSEO_Twitter {
 	protected function author() {
 		$twitter = ltrim( trim( get_the_author_meta( 'twitter', get_post()->post_author ) ), '@' );
 		/**
-		 * Filter: 'wpseo_twitter_creator_account' - Allow changing the Twitter account as output in the Twitter card by WP SEO
+		 * Filter: 'wpseo_twitter_creator_account' - Allow changing the Twitter account as output in the Twitter card by Yoast SEO
 		 *
 		 * @api string $twitter The twitter account name string
 		 */

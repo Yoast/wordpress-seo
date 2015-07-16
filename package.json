@@ -1,6 +1,6 @@
 {
   "name": "wordpress-seo",
-  "description": "Development files for the WordPress SEO plugin",
+  "description": "Development files for the Yoast SEO plugin",
   "plugin": {
     "glotpress": "https://translate.yoast.com",
     "textdomain": "wordpress-seo"

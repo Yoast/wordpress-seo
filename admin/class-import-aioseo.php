@@ -4,9 +4,9 @@
  */
 
 /**
- * class WPSEO_Import_WooThemes_SEO
+ * Class WPSEO_Import_WooThemes_SEO
  *
- * Class with functionality to import WP SEO settings from WooThemes SEO
+ * Class with functionality to import Yoast SEO settings from WooThemes SEO
  */
 class WPSEO_Import_AIOSEO extends WPSEO_Import_External {
 
@@ -48,7 +48,7 @@ class WPSEO_Import_AIOSEO extends WPSEO_Import_External {
 				update_option( 'yst_ga', $this->determine_ga_settings() );
 			}
 
-			$plugin_install_nonce = wp_create_nonce( 'install-plugin_google-analytics-for-wordpress' ); // Use the old name because that's the WordPress.org repo
+			$plugin_install_nonce = wp_create_nonce( 'install-plugin_google-analytics-for-wordpress' ); // Use the old name because that's the WordPress.org repo.
 
 			$this->set_msg( __( sprintf(
 				'All in One SEO data successfully imported. Would you like to %sdisable the All in One SEO plugin%s. You\'ve had Google Analytics enabled in All in One SEO, would you like to install our %sGoogle Analytics plugin%s?',

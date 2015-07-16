@@ -142,12 +142,12 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
  * @since 1.5.4
  *
  * @param  string $var              The name of the variable to replace, i.e. '%%var%%'
- *                                  - the surrounding %% are optional, name can only contain [A-Za-z0-9_-]
+ *                                  - the surrounding %% are optional, name can only contain [A-Za-z0-9_-].
  * @param  mixed  $replace_function Function or method to call to retrieve the replacement value for the variable
  *                                  Uses the same format as add_filter/add_action function parameter and
- *                                  should *return* the replacement value. DON'T echo it!
- * @param  string $type             Type of variable: 'basic' or 'advanced', defaults to 'advanced'
- * @param  string $help_text        Help text to be added to the help tab for this variable
+ *                                  should *return* the replacement value. DON'T echo it.
+ * @param  string $type             Type of variable: 'basic' or 'advanced', defaults to 'advanced'.
+ * @param  string $help_text        Help text to be added to the help tab for this variable.
  *
  * @return bool  Whether the replacement function was succesfully registered
  */
@@ -162,7 +162,7 @@ function wpseo_xml_redirect_sitemap() {
 	$current_url = ( isset( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] == 'on' ) ? 'https://' : 'http://';
 	$current_url .= sanitize_text_field( $_SERVER['SERVER_NAME'] ) . sanitize_text_field( $_SERVER['REQUEST_URI'] );
 
-	// must be 'sitemap.xml' and must be 404
+	// Must be 'sitemap.xml' and must be 404.
 	if ( home_url( '/sitemap.xml' ) == $current_url && $GLOBALS['wp_query']->is_404 ) {
 		wp_redirect( home_url( '/sitemap_index.xml' ), 301 );
 		exit;
@@ -174,7 +174,7 @@ function wpseo_xml_redirect_sitemap() {
  *
  * @since 1.5.7
  *
- * @param string $page page to append to the base URL
+ * @param string $page page to append to the base URL.
  *
  * @return string base URL (incl page) for the sitemaps
  */
@@ -200,7 +200,7 @@ function wpseo_xml_sitemaps_init() {
 		return;
 	}
 
-	// redirects sitemap.xml to sitemap_index.xml
+	// Redirects sitemap.xml to sitemap_index.xml.
 	add_action( 'template_redirect', 'wpseo_xml_redirect_sitemap', 0 );
 
 	if ( ! is_object( $GLOBALS['wp'] ) ) {
@@ -223,7 +223,7 @@ add_action( 'init', 'wpseo_xml_sitemaps_init', 1 );
  * @param string|null $sitemapurl
  */
 function wpseo_ping_search_engines( $sitemapurl = null ) {
-	// Don't ping if blog is not public
+	// Don't ping if blog is not public.
 	if ( '0' == get_option( 'blog_public' ) ) {
 		return;
 	}
@@ -232,7 +232,7 @@ function wpseo_ping_search_engines( $sitemapurl = null ) {
 		$sitemapurl = urlencode( wpseo_xml_sitemaps_base_url( 'sitemap_index.xml' ) );
 	}
 
-	// Ping Google and Bing
+	// Ping Google and Bing.
 	wp_remote_get( 'http://www.google.com/webmasters/tools/ping?sitemap=' . $sitemapurl, array( 'blocking' => false ) );
 	wp_remote_get( 'http://www.bing.com/ping?sitemap=' . $sitemapurl, array( 'blocking' => false ) );
 }
@@ -289,7 +289,7 @@ function wpseo_wpml_config( $config ) {
 add_filter( 'icl_wpml_config_array', 'wpseo_wpml_config' );
 
 /**
- * WordPress SEO breadcrumb shortcode
+ * Yoast SEO breadcrumb shortcode
  * [wpseo_breadcrumb]
  *
  * @return string
@@ -307,7 +307,7 @@ add_shortcode( 'wpseo_breadcrumb', 'wpseo_shortcode_yoast_breadcrumb' );
  * @param string $type
  */
 function wpseo_invalidate_sitemap_cache( $type ) {
-	// Always delete the main index sitemaps cache, as that's always invalidated by any other change
+	// Always delete the main index sitemaps cache, as that's always invalidated by any other change.
 	delete_transient( 'wpseo_sitemap_cache_1' );
 	delete_transient( 'wpseo_sitemap_cache_' . $type );
 
@@ -383,8 +383,8 @@ if ( ! extension_loaded( 'ctype' ) || ! function_exists( 'ctype_digit' ) ) {
  * @deprecated use WPSEO_Meta::get_value()
  * @see        WPSEO_Meta::get_value()
  *
- * @param    string $val    internal name of the value to get
- * @param    int    $postid post ID of the post to get the value for
+ * @param    string $val    Internal name of the value to get.
+ * @param    int    $postid Post ID of the post to get the value for.
  *
  * @return    string
  */
@@ -402,9 +402,9 @@ function wpseo_get_value( $val, $postid = 0 ) {
  * @deprecated use WPSEO_Meta::set_value() or just use update_post_meta()
  * @see        WPSEO_Meta::set_value()
  *
- * @param    string $meta_key   the meta to change
- * @param    mixed  $meta_value the value to set the meta to
- * @param    int    $post_id    the ID of the post to change the meta for.
+ * @param    string $meta_key   The meta to change.
+ * @param    mixed  $meta_value The value to set the meta to.
+ * @param    int    $post_id    The ID of the post to change the meta for.
  *
  * @return    bool    whether the value was changed
  */
@@ -455,7 +455,7 @@ function get_wpseo_options() {
  * @see        WPSEO_Meta::replace_meta()
  *
  * @param string $old_metakey The old name of the meta value.
- * @param string $new_metakey The new name of the meta value, usually the WP SEO name.
+ * @param string $new_metakey The new name of the meta value, usually the Yoast SEO name.
  * @param bool   $replace     Whether to replace or to copy the values.
  */
 function replace_meta( $old_metakey, $new_metakey, $replace = false ) {
@@ -471,9 +471,9 @@ function replace_meta( $old_metakey, $new_metakey, $replace = false ) {
  * @deprecated use WPSEO_Taxonomy_Meta::get_term_meta()
  * @see        WPSEO_Taxonomy_Meta::get_term_meta()
  *
- * @param string|object $term     term to get the meta value for
- * @param string        $taxonomy name of the taxonomy to which the term is attached
- * @param string        $meta     meta value to get
+ * @param string|object $term     Term to get the meta value for.
+ * @param string        $taxonomy Name of the taxonomy to which the term is attached.
+ * @param string        $meta     Meta value to get.
  *
  * @return bool|mixed value when the meta exists, false when it does not
  */
@@ -516,15 +516,15 @@ function wpseo_get_terms( $id, $taxonomy, $return_single = false ) {
  * Generate an HTML sitemap
  *
  * @deprecated 1.5.5.4
- * @deprecated use plugin WordPress SEO Premium
- * @see        WordPress SEO Premium
+ * @deprecated use plugin Yoast SEO Premium
+ * @see        Yoast SEO Premium
  *
  * @param array $atts The attributes passed to the shortcode.
  *
  * @return string
  */
 function wpseo_sitemap_handler( $atts ) {
-	_deprecated_function( __FUNCTION__, 'WPSEO 1.5.5.4', 'Functionality has been discontinued after being in beta, it\'ll be available in the WordPress SEO Premium plugin soon.' );
+	_deprecated_function( __FUNCTION__, 'WPSEO 1.5.5.4', 'Functionality has been discontinued after being in beta, it\'ll be available in the Yoast SEO Premium plugin soon.' );
 
 	return '';
 }
@@ -538,7 +538,7 @@ add_shortcode( 'wpseo_sitemap', 'wpseo_sitemap_handler' );
  * @deprecated use WPSEO_Utils::strip_shortcode()
  * @see        WPSEO_Utils::strip_shortcode()
  *
- * @param string $text input string that might contain shortcodes
+ * @param string $text Input string that might contain shortcodes.
  *
  * @return string $text string without shortcodes
  */
@@ -550,6 +550,7 @@ function wpseo_strip_shortcode( $text ) {
 
 /**
  * Do simple reliable math calculations without the risk of wrong results
+ *
  * @see        http://floating-point-gui.de/
  * @see        the big red warning on http://php.net/language.types.float.php
  *
@@ -561,9 +562,9 @@ function wpseo_strip_shortcode( $text ) {
  *
  * @since      1.5.0
  *
- * @param    mixed  $number1   Scalar (string/int/float/bool)
+ * @param    mixed  $number1   Scalar (string/int/float/bool).
  * @param    string $action    Calculation action to execute.
- * @param    mixed  $number2   Scalar (string/int/float/bool)
+ * @param    mixed  $number2   Scalar (string/int/float/bool).
  * @param    bool   $round     Whether or not to round the result. Defaults to false.
  * @param    int    $decimals  Decimals for rounding operation. Defaults to 0.
  * @param    int    $precision Calculation precision. Defaults to 10.

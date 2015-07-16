@@ -27,15 +27,15 @@ if ( isset( $_GET['allow_tracking'] ) && check_admin_referer( 'wpseo_activate_tr
 }
 
 
-// Fix metadescription if so requested
+// Fix metadescription if so requested.
 if ( isset( $_GET['fixmetadesc'] ) && check_admin_referer( 'wpseo-fix-metadesc', 'nonce' ) && $options['theme_description_found'] !== '' ) {
 	$path = false;
 	if ( file_exists( get_stylesheet_directory() . '/header.php' ) ) {
-		// theme or child theme
+		// Theme or child theme.
 		$path = get_stylesheet_directory();
 	}
 	elseif ( file_exists( get_template_directory() . '/header.php' ) ) {
-		// parent theme in case of a child theme
+		// Parent theme in case of a child theme.
 		$path = get_template_directory();
 	}
 
@@ -76,7 +76,7 @@ if ( isset( $_GET['fixmetadesc'] ) && check_admin_referer( 'wpseo-fix-metadesc',
 		}
 	}
 
-	// Clean up the referrer url for later use
+	// Clean up the referrer url for later use.
 	if ( isset( $_SERVER['REQUEST_URI'] ) ) {
 		$_SERVER['REQUEST_URI'] = remove_query_arg( array( 'nonce', 'fixmetadesc' ), $_SERVER['REQUEST_URI'] );
 	}
@@ -84,11 +84,11 @@ if ( isset( $_GET['fixmetadesc'] ) && check_admin_referer( 'wpseo-fix-metadesc',
 
 if ( ( ! isset( $options['theme_has_description'] ) || ( ( isset( $options['theme_has_description'] ) && $options['theme_has_description'] === true ) || $options['theme_description_found'] !== '' ) ) || ( isset( $_GET['checkmetadesc'] ) && check_admin_referer( 'wpseo-check-metadesc', 'nonce' ) ) ) {
 	wpseo_description_test();
-	// Renew the options after the test
+	// Renew the options after the test.
 	$options = get_option( 'wpseo' );
 }
 if ( isset( $_GET['checkmetadesc'] ) ) {
-	// Clean up the referrer url for later use
+	// Clean up the referrer url for later use.
 	if ( isset( $_SERVER['REQUEST_URI'] ) ) {
 		$_SERVER['REQUEST_URI'] = remove_query_arg( array( 'nonce', 'checkmetadesc' ), $_SERVER['REQUEST_URI'] );
 	}
@@ -107,8 +107,9 @@ if ( is_array( $options['blocking_files'] ) && count( $options['blocking_files']
 		echo esc_html( $file ), '<br/>';
 	}
 	unset( $file );
+	/* translators: %1$s expands to Yoast SEO */
 	echo '
-			', __( 'Either delete them (this can be done with the "Fix it" button) or disable WP SEO XML sitemaps.', 'wordpress-seo' ), '
+			', sprintf( __( 'Either delete them (this can be done with the "Fix it" button) or disable %1$s XML sitemaps.', 'wordpress-seo' ), 'Yoast SEO' ), '
 		</p>';
 }
 
@@ -117,7 +118,8 @@ if ( $options['theme_description_found'] !== '' ) {
 	echo '<p id="metadesc_found notice" class="wrong settings_error">';
 	echo '<a href="', esc_url( add_query_arg( array( 'nonce' => wp_create_nonce( 'wpseo-fix-metadesc' ) ), admin_url( 'admin.php?page=wpseo_dashboard&fixmetadesc' ) ) ), '" class="button fixit">', __( 'Fix it.', 'wordpress-seo' ), '</a>';
 	echo ' <a href="', esc_url( add_query_arg( array( 'nonce' => wp_create_nonce( 'wpseo-check-metadesc' ) ), admin_url( 'admin.php?page=wpseo_dashboard&checkmetadesc' ) ) ), '" class="button checkit">', __( 'Re-check theme.', 'wordpress-seo' ), '</a>';
-	echo __( 'Your theme contains a meta description, which blocks WordPress SEO from working properly, please delete the following line, or press fix it:', 'wordpress-seo' ), '<br />';
+	/* translators: %1$s expands to Yoast SEO */
+	echo sprintf( __( 'Your theme contains a meta description, which blocks %1$s from working properly, please delete the following line, or press fix it:', 'wordpress-seo' ), 'Yoast SEO' ) . '<br />';
 	echo '<code>', esc_html( $options['theme_description_found'] ), '</code>';
 	echo '</p>';
 }
@@ -165,8 +167,8 @@ if ( get_option( 'page_comments' ) && $options['ignore_page_comments'] === false
 		<p>
 			<strong><?php _e( 'Latest Changes', 'wordpress-seo' ); ?></strong><br/>
 			<?php
-			/* translators: %s expands to WordPress SEO by Yoast */
-			printf( __( 'We\'ve summarized the most recent changes in %s.', 'wordpress-seo' ), 'WordPress SEO by Yoast' );
+			/* translators: %s expands to Yoast SEO */
+			printf( __( 'We\'ve summarized the most recent changes in %s.', 'wordpress-seo' ), 'Yoast SEO' );
 			?>
 		</p>
 		<p>
@@ -179,8 +181,8 @@ if ( get_option( 'page_comments' ) && $options['ignore_page_comments'] === false
 		<p>
 			<strong><?php _e( 'Restore Default Settings', 'wordpress-seo' ); ?></strong><br/>
 			<?php
-			/* translators: %s expands to WordPress SEO by Yoast */
-			printf( __( 'If you want to restore a site to the default %s settings, press this button.', 'wordpress-seo' ), 'WordPress SEO by Yoast' );
+			/* translators: %s expands to Yoast SEO */
+			printf( __( 'If you want to restore a site to the default %s settings, press this button.', 'wordpress-seo' ), 'Yoast SEO' );
 			?>
 		</p>
 
@@ -202,7 +204,7 @@ if ( get_option( 'page_comments' ) && $options['ignore_page_comments'] === false
 		<h3><?php _e( 'Company or person', 'wordpress-seo' ); ?></h3>
 		<p>
 			<?php
-			// @todo add KB link - JdV
+			// @todo add KB link - JdV.
 			_e( 'This data is shown as metadata in your site. It is intended to appear in Google\'s Knowledge Graph. You can be either a company, or a person, choose either:', 'wordpress-seo' );
 			?>
 		</p>
@@ -237,7 +239,8 @@ if ( get_option( 'page_comments' ) && $options['ignore_page_comments'] === false
 	<div id="security" class="wpseotab">
 		<?php
 		echo '<p>', __( 'Unchecking this box allows authors and editors to redirect posts, noindex them and do other things you might not want if you don\'t trust your authors.', 'wordpress-seo' ), '</p>';
-		$yform->checkbox( 'disableadvanced_meta', __( 'Disable the Advanced part of the WordPress SEO meta box', 'wordpress-seo' ) );
+		/* translators: %1$s expands to Yoast SEO */
+		$yform->checkbox( 'disableadvanced_meta', sprintf( __( 'Disable the Advanced part of the %1$s meta box', 'wordpress-seo' ), 'Yoast SEO' ) );
 		?>
 	</div>
 <?php

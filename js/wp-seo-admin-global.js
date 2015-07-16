@@ -16,6 +16,19 @@ function wpseoDismissAbout( nonce ) {
 }
 
 /**
+ * Used to dismiss the tagline notice for a specific user.
+ *
+ * @param {string} nonce
+ */
+function wpseoDismissTaglineNotice( nonce ) {
+	jQuery.post( ajaxurl, {
+			action: 'wpseo_dismiss_tagline_notice',
+			_wpnonce: nonce
+		}
+	)
+}
+
+/**
  * Used to remove the admin notices for several purposes, dies on exit.
  *
  * @param {string} option
@@ -63,4 +76,8 @@ jQuery( document ).ready( function() {
 	jQuery( '#wpseo-dismiss-about > .notice-dismiss' ).click( function() {
 		wpseoDismissAbout( jQuery( '#wpseo-dismiss-about' ).data( 'nonce' ) );
 	});
+
+	jQuery( '#wpseo-dismiss-tagline-notice > .notice-dismiss').click( function() {
+		wpseoDismissTaglineNotice( jQuery( '#wpseo-dismiss-tagline-notice').data( 'nonce' ) );
+	})
 });

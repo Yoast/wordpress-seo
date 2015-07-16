@@ -56,16 +56,10 @@ function wpseo_set_ignore() {
 
 	$ignore_key = sanitize_text_field( filter_input( INPUT_POST, 'option' ) );
 
-	// Notices to be ignored for a specific user
-	if ( $ignore_key === 'tour' ) {
-		update_user_meta( get_current_user_id(), 'wpseo_ignore_' . $ignore_key, true );
-	}
-	// Notices to be ignored globally
-	else {
-		$options                          = get_option( 'wpseo' );
-		$options[ 'ignore_' . $ignore_key ] = true;
-		update_option( 'wpseo', $options );
-	}
+	$options                          = get_option( 'wpseo' );
+	$options[ 'ignore_' . $ignore_key ] = true;
+	update_option( 'wpseo', $options );
+
 	die( '1' );
 }
 
@@ -87,6 +81,23 @@ function wpseo_dismiss_about() {
 }
 
 add_action( 'wp_ajax_wpseo_dismiss_about', 'wpseo_dismiss_about' );
+
+/**
+ * Hides the default tagline notice for a specific user.
+ */
+function wpseo_dismiss_tagline_notice() {
+	if ( ! current_user_can( 'manage_options' ) ) {
+		die( '-1' );
+	}
+
+	check_ajax_referer( 'wpseo-dismiss-tagline-notice' );
+
+	update_user_meta( get_current_user_id(), 'wpseo_seen_tagline_notice', 'seen' );
+
+	die( '1' );
+}
+
+add_action( 'wp_ajax_wpseo_dismiss_tagline_notice', 'wpseo_dismiss_tagline_notice' );
 
 /**
  * Function used to delete blocking files, dies on exit.
@@ -344,7 +355,7 @@ function wpseo_get_export() {
 add_action( 'wp_ajax_wpseo_export', 'wpseo_get_export' );
 
 /**
- * Handles the posting of a new FB admin
+ * Handles the posting of a new FB admin.
  */
 function wpseo_add_fb_admin() {
 	check_ajax_referer( 'wpseo_fb_admin_nonce' );
@@ -359,3 +370,6 @@ function wpseo_add_fb_admin() {
 }
 
 add_action( 'wp_ajax_wpseo_add_fb_admin', 'wpseo_add_fb_admin' );
+
+// Crawl Issue Manager AJAX hooks.
+new WPSEO_GSC_Ajax;
