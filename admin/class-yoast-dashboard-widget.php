@@ -97,18 +97,22 @@ class Yoast_Dashboard_Widget {
 			),
 		);
 
-		foreach ( $items as $key => $item ) {
-
-			// Remove meaningless statistics.
-			if ( 0 === $item['count'] ) {
-				unset( $items[ $key ] );
-				continue;
-			}
-		}
+		$items = array_filter( $items, array( $this, 'filter_items' ) );
 
 		set_transient( 'wpseo-dashboard-totals', $items, HOUR_IN_SECONDS );
 
 		return $items;
+	}
+
+	/**
+	 * Filter items if they have a count of zero
+	 *
+	 * @param array $item
+	 *
+	 * @return bool
+	 */
+	private function filter_items( $item ) {
+		return 0 !== $item['count'];
 	}
 
 	/**
