@@ -90,6 +90,11 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( $expected, WPSEO_Utils::translate_score( $score, $css_value ) );
 	}
 
+	/**
+	 * Provides test data for test_translate_score
+	 *
+	 * @return array
+	 */
 	public function translate_score_provider() {
 		return array(
 			array( 0, true, 'na' ),
