@@ -52,6 +52,7 @@ class WPSEO_Customizer {
 				'title'          => sprintf( __( '%s Breadcrumbs', 'wordpress-seo' ), 'Yoast SEO' ),
 				'priority'       => 999,
 				'description'    => sprintf( __( 'Usage of this breadcrumbs feature is explained in %1$sour knowledge-base article on breadcrumbs implementation%2$s.', 'wordpress-seo' ), '<a href="http://yoa.st/breadcrumbs" target="_blank">', '</a>' ),
+				'theme_supports' => 'yoast-breadcrumbs',
 			)
 		);
 
