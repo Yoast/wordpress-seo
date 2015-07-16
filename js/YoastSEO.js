@@ -12,15 +12,16 @@ YoastSEO = function( args ) {
     this.checkInputs();
     if(!this.config.ajax){
         this.defineElements();
-        //this.createSnippetPreview();
     }
 };
 
+/**
+ * inits YoastSEO, calls eleement definer and snippet preview creater
+ */
 YoastSEO.prototype.init = function(){
     this.defineElements();
     this.createSnippetPreview();
 };
-
 
 /**
  * creates the elements for the snippetPreview
@@ -137,14 +138,16 @@ YoastSEO.prototype.reloadSnippetText = function() {
 };
 
 /**
- * the analyzeTimer calls the checkInputs function with a delay, so the function won' be executed at every keystroke
+ * the analyzeTimer calls the checkInputs function with a delay, so the function won't be executed at every keystroke
+ * checks the reference object, so this function can be called from anywhere, without problems with different scopes.
  */
 YoastSEO.prototype.analyzeTimer = function() {
-    //todo check refObj references on elements
     var refObj = this.__refObj;
+    //if __refObj is not found (used on elements), use refObj
     if( typeof refObj === "undefined" ){
         refObj = this.refObj;
     }
+    //if refObj is not found (used on objects), use this
     if( typeof refObj === "undefined" ){
         refObj = this;
     }

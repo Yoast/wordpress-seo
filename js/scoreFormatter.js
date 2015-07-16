@@ -16,30 +16,29 @@ YoastSEO_ScoreFormatter = function ( scores, target ) {
 };
 
 /**
- * creates the table for showing the results from the analyzerscorer
+ * creates the list for showing the results from the analyzerscorer
  */
 YoastSEO_ScoreFormatter.prototype.outputScore = function() {
     this.sortScores();
     var outputTarget = document.getElementById( this.outputTarget );
     outputTarget.innerHTML = "";
-    var newTable = document.createElement( "table" );
-    newTable.className = "wpseoanalysis";
+    var newList = document.createElement( "ul" );
+    newList.className = "wpseoanalysis";
     for ( var i = 0; i < this.scores.length; i++ ){
         if( this.scores[i].text !== "" ) {
-            var newTR = document.createElement( "tr" );
-            var newTDScore = document.createElement( "td" );
-            newTDScore.className = "score";
-            var scoreDiv = document.createElement( "div" );
-            scoreDiv.className = "wpseo-score-icon " + this.scoreRating( this.scores[i].score );
-            newTDScore.appendChild( scoreDiv );
-            var newTD = document.createElement( "td" );
-            newTD.innerHTML = this.scores[i].text;
-            newTR.appendChild( newTDScore );
-            newTR.appendChild( newTD );
-            newTable.appendChild( newTR );
+            var newLI = document.createElement( "li" );
+            newLI.className = "score";
+            var scoreSpan = document.createElement( "span" );
+            scoreSpan.className = "wpseo-score-icon " + this.scoreRating( this.scores[i].score );
+            newLI.appendChild( scoreSpan );
+            var textSpan = document.createElement( "span" );
+            textSpan.className = "wpseo-score-text";
+            textSpan.innerHTML = this.scores[i].text;
+            newLI.appendChild( textSpan );
+            newList.appendChild( newLI );
         }
     }
-    outputTarget.appendChild( newTable );
+    outputTarget.appendChild( newList );
 };
 
 /**
@@ -62,7 +61,7 @@ YoastSEO_ScoreFormatter.prototype.outputOverallScore = function() {
 /**
  * retuns a string that is used as a CSSclass, based on the numeric score
  * @param score
- * @returns {scoreRate}
+ * @returns scoreRate
  */
 YoastSEO_ScoreFormatter.prototype.scoreRating = function( score ){
     var scoreRate;

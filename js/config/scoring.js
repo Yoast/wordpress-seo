@@ -57,7 +57,7 @@ analyzerScoring = [
         replaceArray: [
             {name: "scoreText", position: "<%text%>", value: "The copy scores %1$s in the %2$s test, which is considered %3$s to read.%4$s"},
             {name: "text", position:"%1$s", sourceObj: ".result"},
-            {name: "scoreUrl", position: "%2$s", value: "<a href='https://en.wikipedia.org/wiki/Flesch-Kincaid_readability_test#Flesch_Reading_Ease'>Flesch Reading Ease</a>"},
+            {name: "scoreUrl", position: "%2$s", value: "<a href='https://en.wikipedia.org/wiki/Flesch-Kincaid_readability_test#Flesch_Reading_Ease' target='new'>Flesch Reading Ease</a>"},
             {name: "resultText", position: "%3$s", scoreObj: "resultText"},
             {name: "note", position: "%4$s", scoreObj: "note"}
         ]
@@ -96,7 +96,7 @@ analyzerScoring = [
             {matcher: "count", max: 0, score: 0, text: ""}
         ],
         replaceArray: [
-            {name: "scoreUrl", position: "%1$s", value: "<a href='https://en.wikipedia.org/wiki/Stop_words'>stop words</a>"},
+            {name: "scoreUrl", position: "%1$s", value: "<a href='https://en.wikipedia.org/wiki/Stop_words' target='new'>stop words</a>"},
             {name: "stopwords", position: "%2$s", sourceObj: ".result.matches"}
         ]
     },{
@@ -148,7 +148,7 @@ analyzerScoring = [
     },{
         scoreName: "urlStopwords",
         scoreArray:[
-            {min: 1, score: 5, text: "The slug for this page contains one or more <a href='http://en.wikipedia.org/wiki/Stop_words'>stop words</a>, consider removing them."}
+            {min: 1, score: 5, text: "The slug for this page contains one or more <a href='http://en.wikipedia.org/wiki/Stop_words' target='new'>stop words</a>, consider removing them."}
         ]
     },{
         scoreName: "imageCount",

@@ -132,6 +132,7 @@ YoastSEO_PreProcessor.prototype.removeWords = function( textString ) {
  * @returns textString
  */
 YoastSEO_PreProcessor.prototype.cleanText = function( textString ) {
+    textString = this.replaceDiacritics(textString);
     textString = textString.toLocaleLowerCase();
     //replace comma', hyphens etc with spaces
     textString = textString.replace( /[\-\;\:\,\(\)\"\'\|\“\”]/g, " " );
@@ -152,9 +153,17 @@ YoastSEO_PreProcessor.prototype.cleanText = function( textString ) {
     return this.stringHelper.stripSpaces( textString );
 };
 
-
-
-
+/**
+ * replaces all diacritics with standard characters following the diacritics removal map from the config.
+ * @param textString
+ * @returns textString
+ */
+YoastSEO_PreProcessor.prototype.replaceDiacritics = function( textString ) {
+    for ( var i = 0; i < preprocessorConfig.diacriticsRemovalMap.length; i++ ) {
+        textString = textString.replace( preprocessorConfig.diacriticsRemovalMap[ i ].letters, preprocessorConfig.diacriticsRemovalMap[ i ].base );
+    }
+    return textString;
+};
 
 /**
  * Checks if the preprocessor is already initialized and if so if the textstring differs from the input.

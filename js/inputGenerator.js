@@ -1,3 +1,9 @@
+/**
+ * Inputgenerator generates a form for use as input.
+ * @param args
+ * @param refObj
+ * @constructor
+ */
 YoastSEO_InputGenerator = function( args, refObj ){
     this.config = args;
     this.refObj = refObj;
@@ -45,7 +51,6 @@ YoastSEO_InputGenerator.prototype.createInput = function( type, targetElement, t
     input.refObj = this.refObj;
     input.placeholder = this.config.sampleText[ type ];
     targetElement.appendChild( input );
-    //this.createBr( targetElement );
 };
 
 /**
@@ -61,7 +66,6 @@ YoastSEO_InputGenerator.prototype.createText = function( type, targetElement, te
     textarea.placeholder = this.config.sampleText[ type ];
     textarea.id = type+"Input";
     targetElement.appendChild( textarea );
-    //this.createBr( targetElement );
 };
 
 /**
@@ -75,31 +79,6 @@ YoastSEO_InputGenerator.prototype.createLabel = function( type, targetElement, t
     label.textContent = text;
     label.for = type+"Input";
     targetElement.appendChild( label );
-
-};
-
-YoastSEO_InputGenerator.prototype.getDataFromInput = function( inputType ) {
-    var val;
-    switch( inputType){
-        case "text":
-            val = document.getElementById( "textInput" ).value;
-            break;
-        case "url":
-            val = document.getElementById("snippet_cite").textContent;
-            break;
-        case "meta":
-            val = document.getElementById("snippet_meta").textContent;
-            break;
-        case "keyword":
-            val = document.getElementById("keywordInput").value;
-            break;
-        case "title":
-            val = document.getElementById("snippet_title").textContent;
-            break;
-        default:
-            break;
-    }
-    return val;
 };
 
 /**
@@ -124,7 +103,6 @@ YoastSEO_InputGenerator.prototype.getAnalyzerInput = function() {
  * calls the eventbinders.
  */
 YoastSEO_InputGenerator.prototype.bindElementEvents = function() {
-    //this.snippetPreviewEventBinder();
     this.inputElementEventBinder();
 };
 
@@ -149,12 +127,18 @@ YoastSEO_InputGenerator.prototype.inputElementEventBinder = function() {
     }
 };
 
+/**
+ * calls getAnalyzerinput function on change event from element
+ * @param event
+ */
 YoastSEO_InputGenerator.prototype.renewData = function ( ev ) {
     ev.currentTarget.__refObj.getAnalyzerInput();
 };
 
-
-
+/**
+ * calles getAnalyzerinput function on focus of the snippet elements;
+ * @param event
+ */
 YoastSEO_InputGenerator.prototype.snippetCallback = function( ev ) {
     ev.currentTarget.__refObj.getAnalyzerInput();
 };

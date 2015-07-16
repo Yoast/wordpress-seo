@@ -1,69 +1,94 @@
-html{
+html {
     font-family: sans-serif;
 }
 
 #overallScore #score_circle {
-	fill: #999;
+    fill: #999;
 }
+
 #overallScore #score_circle_shadow {
-	fill: #777;
+    fill: #777;
 }
 
 #overallScore.good #score_circle {
-	fill: #9fda4f;
+    fill: #9fda4f;
 }
+
 #overallScore.good #score_circle_shadow {
-	fill: #77b227;
+    fill: #77b227;
 }
 
 #overallScore.ok #score_circle {
-	fill: #ffdc42;
+    fill: #ffdc42;
 }
+
 #overallScore.ok #score_circle_shadow {
-	fill: #ffc82e;
+    fill: #ffc82e;
 }
 
 #overallScore.poor #score_circle {
-	fill: #ffb81e;
+    fill: #ffb81e;
 }
+
 #overallScore.poor #score_circle_shadow {
-	fill: #f49a00;
+    fill: #f49a00;
 }
 
 #overallScore.bad #score_circle {
-	fill: #ff4e47;
+    fill: #ff4e47;
 }
+
 #overallScore.bad #score_circle_shadow {
-	fill: #ed261f;
+    fill: #ed261f;
 }
 
-
-.inputForm label{
+.inputForm label {
     width: 250px;
     float: left;
-	color: #777;
+    color: #777;
     line-height: 20px;
-	text-transform:	capitalize;
+    text-transform: capitalize;
 }
 
-.inputForm input{
+#snippet_preview:hover {
+    background-color: #f5f5f5;
+}
+
+#snippet_preview *[contenteditable="true"]:hover {
+    background-color: #bbdefb;
+    cursor: pointer;
+}
+
+#snippet_preview *[contenteditable="true"]:focus {
+    background-color: #bbdefb;
+    cursor: text;
+}
+
+.inputForm input {
     width: 300px;
     line-height: 20px;
     margin: 5px 0;
     float: left;
 }
 
-.inputForm textArea{
+.inputForm textArea {
     width: 100%;
     height: 400px;
     margin: 5px 0;
     float: left;
 }
 
-.wpseoanalysis td {
-	vertical-align: middle;
+li .score{
+    list-style-type: none;
 }
 
+.wpseoanalysis td {
+    vertical-align: middle;
+}
+.wpseo-score-text {
+    display: inline-block;
+    width: 90%;
+}
 .wpseo-score-icon {
     display: inline-block;
     width: 12px;
@@ -73,6 +98,8 @@ html{
     background: #888;
     vertical-align: top;
 }
+
+
 
 .wpseo-score-icon.good {
     background-color: #7ad03a;
@@ -105,59 +132,66 @@ html{
     background-color: #FFFFE0;
 }
 
-#snippet_preview{
+#snippet_preview {
     border: 1px solid #ddd;
-	padding: 20px;
-    width:512px;
-	font-family: Arial, sans-serif;
+    padding: 20px;
+    width: 512px;
+    font-family: Arial, sans-serif;
 }
-.title{
-    color:#1e0fbe;
-    display:block;
-    overflow:hidden;
-    text-overflow:ellipsis;
-    text-decoration:none;
-    white-space:nowrap;
-    width:512px;
+
+.title {
+    color: #1e0fbe;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-decoration: none;
+    white-space: nowrap;
+    width: 512px;
     font-size: 18px;
-	line-height: 1.2;
-    font-weight:normal;
-    margin:0;
+    line-height: 1.2;
+    font-weight: normal;
+    margin: 0;
 }
-.title:visited{
-    color:#609
+
+.title:visited {
+    color: #609
 }
-.url,.desc{
-    font-size:13px;
-	line-height: 1.4;
+
+.url, .desc {
+    font-size: 13px;
+    line-height: 1.4;
     display: block;
 
 }
-.url{
-	font-size: 14px;
-	line-height: 16px;
-    color:#006621;
-    font-style:normal;
-}
-.desc{
-    color:#545454;
+
+.url {
+    font-size: 14px;
+    line-height: 16px;
+    color: #006621;
+    font-style: normal;
 }
 
-input,textarea{
-    width:540px;
-    padding:5px;
-    margin:5px 5px 5px 0;
-    font-size:14px;
-    display:block
+.desc {
+    color: #545454;
 }
-textarea{
-    height:60px
+
+input, textarea {
+    width: 540px;
+    padding: 5px;
+    margin: 5px 5px 5px 0;
+    font-size: 14px;
+    display: block
 }
-label{
-    display:block;
-    width:200px;
-    font-size:14px;
-    padding-top:10px;
-    font-weight:bold;
-    vertical-align:text-bottom
+
+textarea {
+    height: 60px
+}
+
+label {
+    display: block;
+    width: 200px;
+    font-size: 14px;
+    padding-top: 10px;
+    font-weight: bold;
+    vertical-align: text-bottom
 }
