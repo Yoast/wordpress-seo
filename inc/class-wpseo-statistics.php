@@ -74,29 +74,6 @@ class WPSEO_Statistics {
 	 */
 	private function get_post_count( $seo_ranking ) {
 
-		switch ( $seo_ranking ) {
-
-			case 'bad':
-				$start = 1;
-				$end   = 34;
-				break;
-
-			case 'poor':
-				$start = 35;
-				$end   = 54;
-				break;
-
-			case 'ok':
-				$start = 55;
-				$end   = 74;
-				break;
-
-			case 'good':
-				$start = 75;
-				$end   = 100;
-				break;
-		}
-
 		if ( 'no_focus' === $seo_ranking ) {
 			$posts = array(
 				'meta_query' => array(
@@ -117,6 +94,29 @@ class WPSEO_Statistics {
 			);
 		}
 		else {
+			switch ( $seo_ranking ) {
+
+				case 'bad':
+					$start = 1;
+					$end   = 34;
+					break;
+
+				case 'poor':
+					$start = 35;
+					$end   = 54;
+					break;
+
+				case 'ok':
+					$start = 55;
+					$end   = 74;
+					break;
+
+				case 'good':
+					$start = 75;
+					$end   = 100;
+					break;
+			}
+
 			$posts = array(
 				'meta_key'     => WPSEO_Meta::$meta_prefix . 'linkdex',
 				'meta_value'   => array( $start, $end ),
