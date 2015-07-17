@@ -1009,10 +1009,10 @@ class WPSEO_Meta {
 	 * @param string  $keyword
 	 * @param integer $post_id
 	 *
-	 * @return int
+	 * @return array
 	 */
 	public static function keyword_usage( $keyword, $post_id ) {
-		$posts = get_posts(
+		return get_posts(
 			array(
 				'meta_key'    => '_yoast_wpseo_focuskw',
 				'meta_value'  => $keyword,
@@ -1022,8 +1022,6 @@ class WPSEO_Meta {
 				'numberposts' => - 1,
 			)
 		);
-
-		return count( $posts );
 	}
 
 

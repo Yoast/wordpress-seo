@@ -2231,7 +2231,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 */
 	private function get_focus_keyword_usage( $post_id ) {
 		$keyword = WPSEO_Meta::get_value( 'focuskw', $post_id );
-
+		
 		return array(
 			$keyword => WPSEO_Meta::keyword_usage( $keyword, $post_id )
 		);
