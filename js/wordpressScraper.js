@@ -7,6 +7,23 @@ YoastSEO_WordPressScraper = function(args, refObj) {
     this.refObj = refObj;
     this.analyzerData = {};
     this.formattedData = {};
+    this.formattedData.usedKeywords = wpseoMetaboxL10n.keyword_usage;
+	this.formattedData.searchUrl = "<a target='new' href="+wpseoMetaboxL10n.search_url+">";
+	this.formattedData.postUrl = "<a target='new' href="+wpseoMetaboxL10n.post_edit_url+">";
+    this.formattedData.queue = ["wordCount",
+        "keywordDensity",
+        "subHeadings",
+        "stopwords",
+        "fleschReading",
+        "linkCount",
+        "imageCount",
+        "urlKeyword",
+        "urlLength",
+        "metaDescription",
+        "pageTitleKeyword",
+        "pageTitleLength",
+        "firstParagraph",
+        "keywordDoubles"];
     this.replacedVars = {};
     this.getData();
 };

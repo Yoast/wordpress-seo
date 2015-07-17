@@ -161,9 +161,19 @@ analyzerScoring = [
     },{
         scoreName: "keywordDoubles",
         scoreArray:[
-            {max: 0, score: 9, text: "You've never used this focus keyword before, very good."},
-            {max: 1, score: 6, text: "You've used this focus keyword %1$sonce before%2$s, be sure to make very clear which URL on your site is the most important for this keyword."},
-            {min: 1, score: 1, text: "You've used this focus keyword %3$s%4$d times before%2$s, it's probably a good idea to read %1$sthis post on cornerstone content%2$s and improve your keyword strategy."}
-        ]
+            {matcher: "count", max: 0, score: 9, text: "You've never used this focus keyword before, very good."},
+            {matcher: "count", max: 1, score: 6, text: "You've used this focus keyword %1$sonce before%2$s, be sure to make very clear which URL on your site is the most important for this keyword."},
+            {matcher: "count", min: 1, score: 1, text: "You've used this focus keyword %3$s%4$d times before%2$s, it's probably a good idea to read %6$sthis post on cornerstone content%5$s and improve your keyword strategy."}
+        ],
+		replaceArray:[
+			{name: "singleUrl", position: "%1$s", sourceObj: ".refObj.config.postUrl"},
+			{name: "endTag", position: "%2$s", value: "</a>"},
+			{name: "multiUrl", position: "%3$s", sourceObj: ".refObj.config.searchUrl"},
+			{name: "occurrences", position: "%4$d", sourceObj: ".result.count"},
+			{name: "endTag", position: "%5$s", value: "</a>"},
+			{name: "cornerstone", position: "%6$s", value: "<a href='https://yoast.com/cornerstone-content-rank/' target='new'>"},
+			{name: "id", position: "{id}", sourceObj: ".result.id"},
+			{name: "keyword", position: "{keyword}", sourceObj: ".refObj.config.keyword"}
+		]
     }
 ];
