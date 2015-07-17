@@ -22,7 +22,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		add_action( 'wp_insert_post', array( $this, 'save_postdata' ) );
 		add_action( 'edit_attachment', array( $this, 'save_postdata' ) );
 		add_action( 'add_attachment', array( $this, 'save_postdata' ) );
-        add_action( 'post_submitbox_misc_actions', array( $this, 'publish_box' ) );
+		add_action( 'post_submitbox_misc_actions', array( $this, 'publish_box' ) );
 		add_action( 'admin_init', array( $this, 'translate_meta_boxes' ) );
 	}
 
@@ -36,7 +36,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		self::$meta_fields['general']['snippetpreview']['title'] = __( 'Snippet', 'wordpress-seo' );
 		self::$meta_fields['general']['snippetpreview']['help']  = sprintf( __( 'This is a rendering of what this post might look like in Google\'s search results.<br/><br/>Read %sthis post%s for more info.', 'wordpress-seo' ), '<a href="https://yoast.com/snippet-preview/#utm_source=wordpress-seo-metabox&amp;utm_medium=inline-help&amp;utm_campaign=snippet-preview">', '</a>' );
 
-        self::$meta_fields['general']['pageanalysis']['title'] = __( 'Page Analysis', 'wordpress-seo' );
+		self::$meta_fields['general']['pageanalysis']['title'] = __( 'Page Analysis', 'wordpress-seo' );
 		self::$meta_fields['general']['pageanalysis']['help']  = sprintf( __( 'This is a rendering of what this post might look like in Google\'s search results.<br/><br/>Read %sthis post%s for more info.', 'wordpress-seo' ), '<a href="https://yoast.com/snippet-preview/#utm_source=wordpress-seo-metabox&amp;utm_medium=inline-help&amp;utm_campaign=snippet-preview">', '</a>' );
 
 		self::$meta_fields['general']['focuskw']['title'] = __( 'Focus Keyword', 'wordpress-seo' );
@@ -542,7 +542,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'wpseo_replace_vars_nonce'    => wp_create_nonce( 'wpseo-replace-vars' ),
 			'no_parent_text'              => __( '(no parent)', 'wordpress-seo' ),
 			'featured_image_notice'       => __( 'The featured image should be at least 200x200 pixels to be picked up by Facebook and other social media sites.', 'wordpress-seo' ),
-			'keyword_usage'				  => $this->get_focus_keyword_usage( $post->ID ),
+			'keyword_usage'               => $this->get_focus_keyword_usage( $post->ID ),
+			'search_url'                  => admin_url( 'edit.php?seo_kw_filter={keyword}' ),
+			'post_edit_url'               => admin_url( 'post.php?post={id}&action=edit' ),
 		) );
 	}
 
@@ -637,9 +639,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 
 		switch ( $meta_field_def['type'] ) {
-            case 'pageanalysis':
-                $content .= '<div id="wpseo-pageanalysis"></div>';
-                break;
+			case 'pageanalysis':
+				$content .= '<div id="wpseo-pageanalysis"></div>';
+				break;
 			case 'snippetpreview':
 				$content .= '<div id="wpseosnippet"></div>';
 				break;
@@ -663,9 +665,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				$content .= '<textarea class="large-text' . $class . '" rows="' . esc_attr( $rows ) . '" id="' . $esc_form_key . '" name="' . $esc_form_key . '">' . esc_textarea( $meta_value ) . '</textarea>';
 				break;
 
-            case 'hidden':
-                $content .= '<input type="hidden"' . '" id="' . $esc_form_key . '" ' . $esc_form_key . '" value="' . esc_attr( $meta_value ) . '"/><br />';
-            break;
+			case 'hidden':
+				$content .= '<input type="hidden"' . '" id="' . $esc_form_key . '" ' . $esc_form_key . '" value="' . esc_attr( $meta_value ) . '"/><br />';
+				break;
 			case 'select':
 				if ( isset( $meta_field_def['options'] ) && is_array( $meta_field_def['options'] ) && $meta_field_def['options'] !== array() ) {
 					$content .= '<select name="' . $esc_form_key . '" id="' . $esc_form_key . '" class="yoast' . $class . '">';
@@ -740,40 +742,41 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		if ( $content !== '' ) {
 
-            $label = esc_html($meta_field_def['title']);
-            if (in_array($meta_field_def['type'], array(
-                    'snippetpreview',
-                    'pageanalysis',
-                    'radio',
-                    'checkbox',
-                ), true) === false
-            ) {
-                $label = '<label for="' . $esc_form_key . '">' . $label . ':</label>';
-            }
+			$label = esc_html( $meta_field_def['title'] );
+			if ( in_array( $meta_field_def['type'], array(
+					'snippetpreview',
+					'pageanalysis',
+					'radio',
+					'checkbox',
+				), true ) === false
+			) {
+				$label = '<label for="' . $esc_form_key . '">' . $label . ':</label>';
+			}
 
-            $help = '';
-            if (isset($meta_field_def['help']) && $meta_field_def['help'] !== '') {
-                $help = '<img src="' . plugins_url('images/question-mark.png', WPSEO_FILE) . '" class="alignright yoast_help" id="' . esc_attr($key . 'help') . '" alt="' . esc_attr($meta_field_def['help']) . '" />';
-            }
+			$help = '';
+			if ( isset( $meta_field_def['help'] ) && $meta_field_def['help'] !== '' ) {
+				$help = '<img src="' . plugins_url( 'images/question-mark.png', WPSEO_FILE ) . '" class="alignright yoast_help" id="' . esc_attr( $key . 'help' ) . '" alt="' . esc_attr( $meta_field_def['help'] ) . '" />';
+			}
 
-            if ($meta_field_def['type'] === 'hidden') {
-            $html = '<tr class="wpseo_hidden"><td>' .$content. '</td></tr>';
-            } else {
-            $html = '
-				<tr>
-					<th scope="row">' . $label . $help . '</th>
-					<td>';
+			if ( $meta_field_def['type'] === 'hidden' ) {
+				$html = '<tr class="wpseo_hidden"><td>' . $content . '</td></tr>';
+			}
+			else {
+				$html = '
+					<tr>
+						<th scope="row">' . $label . $help . '</th>
+						<td>';
 
-            $html .= $content;
+				$html .= $content;
 
-            if (isset($meta_field_def['description'])) {
-                $html .= '<div>' . $meta_field_def['description'] . '</div>';
-            }
+				if ( isset( $meta_field_def['description'] ) ) {
+					$html .= '<div>' . $meta_field_def['description'] . '</div>';
+				}
 
-            $html .= '
+				$html .= '
 					</td>
 				</tr>';
-            }
+			}
 		}
 
 		return $html;
@@ -880,7 +883,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			wp_enqueue_style( "metabox-$color", plugins_url( 'css/metabox-' . esc_attr( $color ) . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
 			wp_enqueue_style( 'featured-image', plugins_url( 'css/featured-image' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
 			wp_enqueue_style( 'jquery-qtip.js', plugins_url( 'css/jquery.qtip' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), '2.2.1' );
-            wp_enqueue_style( 'snippet', plugins_url( 'css/snippet' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE), array(), '2.2.1');
+			wp_enqueue_style( 'snippet', plugins_url( 'css/snippet' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), '2.2.1' );
 			wp_enqueue_script( 'jquery-ui-autocomplete' );
 
 			// Always enqueue minified as it's not our code.
@@ -891,19 +894,20 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				'jquery-ui-core',
 				'jquery-ui-autocomplete',
 			), WPSEO_VERSION, true );
-            wp_enqueue_script( 'js-seo-wordpressScraper.js', plugins_url( 'js-seo/js/wordpressScraper.js'), null, '2.2.1', true );
-            wp_enqueue_script( 'js-seo-snippetPreview.js', plugins_url( 'js-seo/js/snippetPreview.js'), null, '2.2.1', true );
 
-            wp_enqueue_script( 'js-seo-config.js', plugins_url( 'js-seo/js/config/config.js'), null, '2.2.1', true );
-            wp_enqueue_script( 'js-seo-scoring.js', plugins_url( 'js-seo/js/config/scoring.js'), null, '2.2.1', true );
-            wp_enqueue_script( 'js-seo-analyzer.js', plugins_url( 'js-seo/js/analyzer.js'), null, '2.2.1', true );
-            wp_enqueue_script( 'js-seo-analyzescorer.js', plugins_url( 'js-seo/js/analyzescorer.js'), null, '2.2.1', true );
-            wp_enqueue_script( 'js-seo-preprocessor.js', plugins_url( 'js-seo/js/preprocessor.js'), null, '2.2.1', true );
-            wp_enqueue_script( 'js-seo-preprocessor.js', plugins_url( 'js-seo/js/preprocessor.js'), null, '2.2.1', true );
-            wp_enqueue_script( 'js-seo-stringhelper.js', plugins_url( 'js-seo/js/stringhelper.js'), null, '2.2.1', true );
-            wp_enqueue_script( 'js-seo-scoreformatter.js', plugins_url( 'js-seo/js/scoreFormatter.js'), null, '2.2.1', true );
-            wp_enqueue_script( 'js-seo-YoastSEO.js', plugins_url( 'js-seo/js/YoastSEO.js'), null, '2.2.1', true );
-            wp_enqueue_script( 'js-seo-wp-config.js', plugins_url( 'js-seo/js/config/wp-config.js'), null, '2.2.1', true );
+			wp_enqueue_script( 'js-seo-wordpressScraper.js', plugins_url( 'js-seo/js/wordpressScraper.js' ), null, '2.2.1', true );
+			wp_enqueue_script( 'js-seo-snippetPreview.js', plugins_url( 'js-seo/js/snippetPreview.js' ), null, '2.2.1', true );
+
+			wp_enqueue_script( 'js-seo-config.js', plugins_url( 'js-seo/js/config/config.js' ), null, '2.2.1', true );
+			wp_enqueue_script( 'js-seo-scoring.js', plugins_url( 'js-seo/js/config/scoring.js' ), null, '2.2.1', true );
+			wp_enqueue_script( 'js-seo-analyzer.js', plugins_url( 'js-seo/js/analyzer.js' ), null, '2.2.1', true );
+			wp_enqueue_script( 'js-seo-analyzescorer.js', plugins_url( 'js-seo/js/analyzescorer.js' ), null, '2.2.1', true );
+			wp_enqueue_script( 'js-seo-preprocessor.js', plugins_url( 'js-seo/js/preprocessor.js' ), null, '2.2.1', true );
+			wp_enqueue_script( 'js-seo-preprocessor.js', plugins_url( 'js-seo/js/preprocessor.js' ), null, '2.2.1', true );
+			wp_enqueue_script( 'js-seo-stringhelper.js', plugins_url( 'js-seo/js/stringhelper.js' ), null, '2.2.1', true );
+			wp_enqueue_script( 'js-seo-scoreformatter.js', plugins_url( 'js-seo/js/scoreFormatter.js' ), null, '2.2.1', true );
+			wp_enqueue_script( 'js-seo-outputter.js', plugins_url( 'js-seo/js/outputter.js' ), null, '2.2.1', true );
+			wp_enqueue_script( 'js-seo-wp-config.js', plugins_url( 'js-seo/js/config/wp-config.js' ), null, '2.2.1', true );
 
 			if ( post_type_supports( get_post_type(), 'thumbnail' ) ) {
 				wp_enqueue_script( 'wp-seo-featured-image', plugins_url( 'js/wp-seo-featured-image' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'jquery' ), WPSEO_VERSION, true );
@@ -2233,7 +2237,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$keyword = WPSEO_Meta::get_value( 'focuskw', $post_id );
 
 		return array(
-			$keyword => WPSEO_Meta::keyword_usage( $keyword, $post_id )
+			$keyword => WPSEO_Meta::keyword_usage( $keyword, $post_id ),
 		);
 	}
 
