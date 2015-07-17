@@ -300,6 +300,10 @@ class WPSEO_Admin {
 				require_once( WPSEO_PATH . 'admin/pages/licenses.php' );
 				break;
 
+			case 'wpseo_files':
+				require_once( WPSEO_PATH . 'admin/views/tool-file-editor.php' );
+				break;
+
 			case 'wpseo_dashboard':
 			default:
 				require_once( WPSEO_PATH . 'admin/pages/dashboard.php' );
