@@ -542,7 +542,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'wpseo_replace_vars_nonce'    => wp_create_nonce( 'wpseo-replace-vars' ),
 			'no_parent_text'              => __( '(no parent)', 'wordpress-seo' ),
 			'featured_image_notice'       => __( 'The featured image should be at least 200x200 pixels to be picked up by Facebook and other social media sites.', 'wordpress-seo' ),
-			'keyword_usage'				  => $this->get_focus_keyword_usage( $post->ID ),
+			'keyword_usage'               => $this->get_focus_keyword_usage( $post->ID ),
+			'search_url'                  => admin_url( 'edit.php?seo_kw_filter={keyword}' ),
+			'post_edit_url'               => admin_url( 'post.php?post={id}&action=edit' ),
 		) );
 	}
 
