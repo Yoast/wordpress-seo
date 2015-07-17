@@ -159,8 +159,8 @@ YoastSEO_PreProcessor.prototype.cleanText = function( textString ) {
  * @returns textString
  */
 YoastSEO_PreProcessor.prototype.replaceDiacritics = function( textString ) {
-    for ( var i = 0; i < preprocessorConfig.diacriticsRemovalMap.length; i++ ) {
-        textString = textString.replace( preprocessorConfig.diacriticsRemovalMap[ i ].letters, preprocessorConfig.diacriticsRemovalMap[ i ].base );
+    for ( var i = 0; i < YoastSEO_config.preprocessorConfig.diacriticsRemovalMap.length; i++ ) {
+        textString = textString.replace( YoastSEO_config.preprocessorConfig.diacriticsRemovalMap[ i ].letters, YoastSEO_config.preprocessorConfig.diacriticsRemovalMap[ i ].base );
     }
     return textString;
 };

@@ -98,7 +98,7 @@ YoastSEO_StringHelper.prototype.stripAllTags = function( textString ) {
     textString = textString.replace( /(<([^>]+)>)/ig," " );
     //remove < and > if any are used
     textString = textString.replace( /[<>]/g, "");
-    textString = this.stringHelper.stripSpaces( textString );
+    textString = this.stripSpaces( textString );
     return textString;
 };
 
