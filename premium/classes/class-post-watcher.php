@@ -53,7 +53,6 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	 * @param WP_Post $post
 	 * @param WP_Post $post_before
 	 *
-	 *
 	 * @return bool
 	 */
 	public function detect_slug_change( $post_id, $post, $post_before ) {
@@ -199,7 +198,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	/**
 	 * Look up if url does exists in the current redirects
 	 *
-	 * @param string $url url to search for
+	 * @param string $url url to search for.
 	 *
 	 * @return bool
 	 */

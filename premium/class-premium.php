@@ -30,19 +30,14 @@ class WPSEO_Premium {
 	const EDD_PLUGIN_NAME = 'WordPress SEO Premium';
 
 	/**
-	 * @var null
-	 */
-	private $page_gwt = null;
-
-	/**
 	 * Function that will be executed when plugin is activated
 	 */
 	public static function install() {
 
-		// Load the Redirect File Manager
+		// Load the Redirect File Manager.
 		require_once( WPSEO_PREMIUM_PATH . 'classes/class-redirect-file-manager.php' );
 
-		// Create the upload directory
+		// Create the upload directory.
 		WPSEO_Redirect_File_Manager::create_upload_dir();
 	}
 
@@ -58,7 +53,7 @@ class WPSEO_Premium {
 	 */
 	private function setup() {
 
-		// Setup autoloader
+		// Setup autoloader.
 		require_once( dirname( __FILE__ ) . '/classes/class-premium-autoloader.php' );
 		$autoloader = new WPSEO_Premium_Autoloader();
 		spl_autoload_register( array( $autoloader, 'load' ) );
@@ -68,103 +63,88 @@ class WPSEO_Premium {
 		$this->instantiate_redirects();
 
 		if ( is_admin() ) {
-			// Create pages
-			$this->page_gwt = new WPSEO_Page_GWT();
 
-			// Disable WordPress SEO
+			// Disable WordPress SEO.
 			add_action( 'admin_init', array( $this, 'disable_wordpress_seo' ), 1 );
 
-			// Add Sub Menu page and add redirect page to admin page array
-			// This should be possible in one method in the future, see #535
+			// Add Sub Menu page and add redirect page to admin page array.
+			// This should be possible in one method in the future, see #535.
 			add_filter( 'wpseo_submenu_pages', array( $this, 'add_submenu_pages' ) );
 
-			// Add Redirect page as admin page
+			// Add Redirect page as admin page.
 			add_filter( 'wpseo_admin_pages', array( $this, 'add_admin_pages' ) );
 
-			// Post to Get on search
+			// Post to Get on search.
 			add_action( 'admin_init', array( $this, 'list_table_search_post_to_get' ) );
 
-			// Add the GWT crawl error post type
-			add_action( 'admin_init', array( $this, 'register_gwt_crawl_error_post_type' ) );
-
-			// Add input fields to page meta post types
+			// Add input fields to page meta post types.
 			add_action( 'wpseo_admin_page_meta_post_types', array(
 				$this,
 				'admin_page_meta_post_types_checkboxes',
 			), 10, 2 );
 
-			// Add page analysis fields to variable array key patterns
+			// Add page analysis fields to variable array key patterns.
 			add_filter( 'wpseo_option_titles_variable_array_key_patterns', array(
 				$this,
 				'add_variable_array_key_pattern',
 			) );
 
-			// Filter the Page Analysis content
+			// Filter the Page Analysis content.
 			add_filter( 'wpseo_pre_analysis_post_content', array( $this, 'filter_page_analysis' ), 10, 2 );
 
-			// Settings
+			// Settings.
 			add_action( 'admin_init', array( $this, 'register_settings' ) );
 
-			// Check if we need to save files after updating options
+			// Check if we need to save files after updating options.
 			add_action( 'update_option_wpseo_redirect', array( $this, 'save_redirect_files' ), 10, 2 );
 
-			// Catch option save
+			// Catch option save.
 			add_action( 'admin_init', array( $this, 'catch_option_redirect_save' ) );
 
 			// Screen options
 			$query_var = ( $page = filter_input( INPUT_GET, 'page' ) ) ? $page : '';
+
 			switch ( $query_var ) {
 				case 'wpseo_redirects':
 					add_filter( 'set-screen-option', array( 'WPSEO_Page_Redirect', 'set_screen_option' ), 11, 3 );
 					break;
-				case 'wpseo_webmaster_tools' :
-					add_filter( 'set-screen-option', array( $this->page_gwt, 'set_screen_option' ), 11, 3 );
-					break;
 			}
 
-			// Enqueue Post and Term overview script
+			// Enqueue Post and Term overview script.
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_overview_script' ) );
 
-			// Licensing part
+			// Licensing part.
 			$license_manager = new Yoast_Plugin_License_Manager( new WPSEO_Product_Premium() );
 
-			// Setup constant name
+			// Setup constant name.
 			$license_manager->set_license_constant_name( 'WPSEO_LICENSE' );
 
-			// Setup license hooks
+			// Setup license hooks.
 			$license_manager->setup_hooks();
 
-			// Add this plugin to licensing form
+			// Add this plugin to licensing form.
 			add_action( 'wpseo_licenses_forms', array( $license_manager, 'show_license_form' ) );
 
 			if ( $license_manager->license_is_valid() ) {
 				add_action( 'admin_head', array( $this, 'admin_css' ) );
 			}
 
-			// Crawl Issue Manager AJAX hooks
-			$crawl_issue_manager = new WPSEO_Crawl_Issue_Manager();
-			add_action( 'wp_ajax_wpseo_ignore_crawl_issue', array( $crawl_issue_manager, 'ajax_ignore_crawl_issue' ) );
-			add_action( 'wp_ajax_wpseo_unignore_crawl_issue', array(
-				$crawl_issue_manager,
-				'ajax_unignore_crawl_issue',
-			) );
-
-			// Add Premium imports
+			// Add Premium imports.
 			$premium_import_manager = new WPSEO_Premium_Import_Manager();
 
-			// Allow option of importing from other 'other' plugins
+			// Allow option of importing from other 'other' plugins.
 			add_filter( 'wpseo_import_other_plugins', array(
 				$premium_import_manager,
 				'filter_add_premium_import_options',
 			) );
 
-			// Handle premium imports
+			// Handle premium imports.
 			add_action( 'wpseo_handle_import', array( $premium_import_manager, 'do_premium_imports' ) );
 
-			// Add htaccess import block
+			// Add htaccess import block.
 			add_action( 'wpseo_import', array( $premium_import_manager, 'add_htaccess_import_block' ) );
 
-			// Only activate post and term watcher if permalink structure is enabled
+			// Only activate post and term watcher if permalink structure is enabled.
 			if ( get_option( 'permalink_structure' ) ) {
 				add_action( 'admin_init', array( $this, 'init_watchers' ) );
 
@@ -178,7 +158,7 @@ class WPSEO_Premium {
 			}
 		}
 		else {
-			// Add 404 redirect link to WordPress toolbar
+			// Add 404 redirect link to WordPress toolbar.
 			add_action( 'admin_bar_menu', array( $this, 'admin_bar_menu' ), 96 );
 
 			add_filter( 'redirect_canonical', array( $this, 'redirect_canonical_fix' ), 1, 2 );
@@ -189,10 +169,10 @@ class WPSEO_Premium {
 	 * Initialize the watchers for the posts and the terms
 	 */
 	public function init_watchers() {
-		// The Post Watcher
+		// The Post Watcher.
 		new WPSEO_Post_Watcher();
 
-		// The Term Watcher
+		// The Term Watcher.
 		new WPSEO_Term_Watcher();
 	}
 
@@ -204,31 +184,31 @@ class WPSEO_Premium {
 		$regex_redirect_manager  = new WPSEO_REGEX_Redirect_Manager();
 
 		if ( is_admin() ) {
-			// Check if WPSEO_DISABLE_PHP_REDIRECTS is defined
+			// Check if WPSEO_DISABLE_PHP_REDIRECTS is defined.
 			if ( defined( 'WPSEO_DISABLE_PHP_REDIRECTS' ) && true === WPSEO_DISABLE_PHP_REDIRECTS ) {
 
-				// Change the normal redirect autoload option
+				// Change the normal redirect autoload option.
 				$normal_redirect_manager->redirects_change_autoload( false );
 
-				// Change the regex redirect autoload option
+				// Change the regex redirect autoload option.
 				$regex_redirect_manager->redirects_change_autoload( false );
 
 			}
 			else {
 				$options = WPSEO_Redirect_Manager::get_options();
 
-				// If the disable_php_redirect option is not enabled we should enable auto loading redirects
+				// If the disable_php_redirect option is not enabled we should enable auto loading redirects.
 				if ( 'off' == $options['disable_php_redirect'] ) {
-					// Change the normal redirect autoload option
+					// Change the normal redirect autoload option.
 					$normal_redirect_manager->redirects_change_autoload( true );
 
-					// Change the regex redirect autoload option
+					// Change the regex redirect autoload option.
 					$regex_redirect_manager->redirects_change_autoload( true );
 				}
 			}
 		}
 		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
-			// Normal Redirect AJAX
+			// Normal Redirect AJAX.
 			add_action( 'wp_ajax_wpseo_save_redirect_url', array(
 				$normal_redirect_manager,
 				'ajax_handle_redirect_save',
@@ -242,7 +222,7 @@ class WPSEO_Premium {
 				'ajax_handle_redirect_create',
 			) );
 
-			// Regex Redirect AJAX
+			// Regex Redirect AJAX.
 			add_action( 'wp_ajax_wpseo_save_redirect_regex', array(
 				$regex_redirect_manager,
 				'ajax_handle_redirect_save',
@@ -256,14 +236,14 @@ class WPSEO_Premium {
 				'ajax_handle_redirect_create',
 			) );
 
-			// Add URL reponse code check AJAX
+			// Add URL reponse code check AJAX.
 			add_action( 'wp_ajax_wpseo_check_url', array( 'WPSEO_Url_Checker', 'check_url' ) );
 		}
 		else {
-			// Catch redirect
+			// Catch redirect.
 			add_action( 'template_redirect', array( $normal_redirect_manager, 'do_redirects' ), - 999 );
 
-			// Catch regex redirects
+			// Catch regex redirects.
 			add_action( 'template_redirect', array( $regex_redirect_manager, 'do_redirects' ), - 999 );
 		}
 	}
@@ -353,6 +333,8 @@ class WPSEO_Premium {
 	 * Add page analysis to array with variable array key patterns
 	 *
 	 * @param array $patterns
+	 *
+	 * @return array
 	 */
 	public function add_variable_array_key_pattern( $patterns ) {
 		if ( true !== in_array( 'page-analyse-extra-', $patterns ) ) {
@@ -370,8 +352,8 @@ class WPSEO_Premium {
 	 * and add them to the $page_content. Page analysis will be able to scan the content of these customs fields by
 	 * doing this. - If value doesn't exists as a post-meta value, there will be nothing included.
 	 *
-	 * @param string $page_content the content of the current post text
-	 * @param object $post         the total object of the post content
+	 * @param string $page_content The content of the current post text.
+	 * @param object $post         The total object of the post content.
 	 *
 	 * @return string $page_content
 	 */
@@ -411,16 +393,6 @@ class WPSEO_Premium {
 	}
 
 	/**
-	 * Register the GWT Crawl Error post type
-	 */
-	public function register_gwt_crawl_error_post_type() {
-		register_post_type( WPSEO_Crawl_Issue_Manager::PT_CRAWL_ISSUE, array(
-			'public' => false,
-			'label'  => 'WordPress SEO GWT Crawl Error',
-		) );
-	}
-
-	/**
 	 * Function adds the premium pages to the WordPress SEO menu
 	 *
 	 * @param array $submenu_pages
@@ -441,22 +413,6 @@ class WPSEO_Premium {
 			'wpseo_redirects',
 			array( 'WPSEO_Page_Redirect', 'display' ),
 			array( array( 'WPSEO_Page_Redirect', 'page_load' ) ),
-		);
-
-
-		/**
-		 * Filter: 'wpseo_premium_manage_wmt_role' - Change the minimum rule to access and change the site Google Webmaster Tools (WMT)
-		 *
-		 * @api string manage_options
-		 */
-		$submenu_pages[] = array(
-			'wpseo_dashboard',
-			'',
-			__( 'Webmaster Tools', 'wordpress-seo-premium' ),
-			apply_filters( 'wpseo_premium_manage_wmt_role', 'manage_options' ),
-			'wpseo_webmaster_tools',
-			array( $this->page_gwt, 'display' ),
-			array( array( $this->page_gwt, 'page_load' ) ),
 		);
 
 		$submenu_pages[] = array(
@@ -480,7 +436,6 @@ class WPSEO_Premium {
 	 */
 	public function add_admin_pages( $admin_pages ) {
 		$admin_pages[] = 'wpseo_redirects';
-		$admin_pages[] = 'wpseo_webmaster_tools';
 		$admin_pages[] = 'wpseo_tutorial_videos';
 
 		return $admin_pages;
@@ -491,7 +446,6 @@ class WPSEO_Premium {
 	 */
 	public function register_settings() {
 		register_setting( 'yoast_wpseo_redirect_options', 'wpseo_redirect' );
-		register_setting( 'yoast_wpseo_gwt_options', 'wpseo-premium-gwt', array( $this, 'gwt_sanatize_callback' ) );
 	}
 
 	/**
@@ -502,13 +456,13 @@ class WPSEO_Premium {
 	 */
 	public function save_redirect_files( $old_value, $value ) {
 
-		// Check if we need to remove the WPSEO redirect entries from the .htacccess file
+		// Check if we need to remove the WPSEO redirect entries from the .htacccess file.
 		$remove_htaccess_entries = false;
 
-		// Check if the 'disable_php_redirect' option set to true/on
+		// Check if the 'disable_php_redirect' option set to true/on.
 		if ( null != $value && isset( $value['disable_php_redirect'] ) && 'on' == $value['disable_php_redirect'] ) {
 
-			// Remove .htaccess entries if the 'separate_file' option is set to true
+			// Remove .htaccess entries if the 'separate_file' option is set to true.
 			if ( WPSEO_Utils::is_apache() && isset( $value['separate_file'] ) && 'on' == $value['separate_file'] ) {
 				$remove_htaccess_entries = true;
 			}
@@ -520,35 +474,17 @@ class WPSEO_Premium {
 
 		}
 		else if ( WPSEO_Utils::is_apache() ) {
-			// No settings are set so we should also strip the .htaccess redirect entries in this case
+			// No settings are set so we should also strip the .htaccess redirect entries in this case.
 			$remove_htaccess_entries = true;
 		}
 
-		// Check if we need to remove the .htaccess redirect entries
+		// Check if we need to remove the .htaccess redirect entries.
 		if ( $remove_htaccess_entries ) {
-			// Remove the .htaccess redirect entries
+			// Remove the .htaccess redirect entries.
 			$redirect_manager = new WPSEO_URL_Redirect_Manager();
 			$redirect_manager->clear_htaccess_entries();
 		}
 
-	}
-
-	/**
-	 * Remove the last check timestamp if the profile is switched
-	 *
-	 * @param array $setting
-	 *
-	 * @return mixed
-	 */
-	public function gwt_sanatize_callback( $setting ) {
-		$crawl_issue_manager = new WPSEO_Crawl_Issue_Manager();
-
-		// Remove last check if new profile is selected
-		if ( $crawl_issue_manager->get_profile() != $setting['profile'] ) {
-			$crawl_issue_manager->remove_last_checked();
-		}
-
-		return $setting;
 	}
 
 	/**
@@ -560,11 +496,11 @@ class WPSEO_Premium {
 				$wpseo_redirect  = filter_input( INPUT_POST, 'wpseo_redirect', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
 				$enable_autoload = ( ! empty( $wpseo_redirect['disable_php_redirect'] ) ) ? false : true;
 
-				// Change the normal redirect autoload option
+				// Change the normal redirect autoload option.
 				$normal_redirect_manager = new WPSEO_URL_Redirect_Manager();
 				$normal_redirect_manager->redirects_change_autoload( $enable_autoload );
 
-				// Change the regex redirect autoload option
+				// Change the regex redirect autoload option.
 				$regex_redirect_manager = new WPSEO_REGEX_Redirect_Manager();
 				$regex_redirect_manager->redirects_change_autoload( $enable_autoload );
 			}
@@ -604,7 +540,7 @@ class WPSEO_Premium {
 				$url .= '&order=' . $order;
 			}
 
-			// Do the redirect
+			// Do the redirect.
 			wp_redirect( $url );
 			exit;
 		}

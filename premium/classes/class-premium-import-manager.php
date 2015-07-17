@@ -197,7 +197,7 @@ class WPSEO_Premium_Import_Manager {
 					$wp_filesystem->put_contents(
 						ABSPATH . '.htaccess',
 						$new_htaccess,
-						FS_CHMOD_FILE // predefined mode settings for WP files.
+						FS_CHMOD_FILE // Predefined mode settings for WP files.
 					);
 				}
 

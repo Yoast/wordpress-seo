@@ -31,13 +31,35 @@ if ( class_exists( 'WPSEO_Redirect_Manager' ) && ! class_exists( 'WPSEO_URL_Redi
 			}
 
 			// Load redirects.
-			$this->redirects = $this->get_redirects();
+			$this->load_redirects();
 
 			// Do the actual redirect.
 			if ( count( $this->redirects ) > 0 ) {
 				$this->check_if_redirect();
 			}
 
+		}
+
+		/**
+		 * Searches for the URL and get it's endpoint
+		 *
+		 * @param string $url
+		 *
+		 * @return mixed
+		 */
+		public function search_url( $url ) {
+			$this->load_redirects();
+
+			if ( isset ( $this->redirects[ $url ] ) ) {
+				return $this->redirects[ $url ]['url'];
+			}
+		}
+
+		/**
+		 * Loads the redirects by getting the values and storing them into a property
+		 */
+		private function load_redirects() {
+			$this->redirects = $this->get_redirects();
 		}
 
 		/**
