@@ -24,30 +24,6 @@ class WPSEO_Utils {
 	private static $cache_clear = array();
 
 	/**
-	 * Holds the translation from seo score slug to actual score range
-	 *
-	 * @var array
-	 */
-	public static $seo_scores = array(
-		'bad'  => array(
-			'start' => 1,
-			'end'   => 34,
-		),
-		'poor' => array(
-			'start' => 35,
-			'end'   => 54,
-		),
-		'ok'   => array(
-			'start' => 55,
-			'end'   => 74,
-		),
-		'good' => array(
-			'start' => 75,
-			'end' => 100,
-		),
-	);
-
-	/**
 	 * Check whether the current user is allowed to access the configuration.
 	 *
 	 * @static
@@ -219,35 +195,34 @@ class WPSEO_Utils {
 	 * @return string
 	 */
 	public static function translate_score( $val, $css_value = true ) {
-
-		switch ( true ) {
-
-			case 0 === $val:
+		if ( $val > 10 ) {
+			$val = round( $val / 10 );
+		}
+		switch ( $val ) {
+			case 0:
 				$score = __( 'N/A', 'wordpress-seo' );
 				$css   = 'na';
 				break;
-
-			default:
-			case self::$seo_scores['bad']['start'] <= $val && $val <= self::$seo_scores['bad']['end']:
-				$score = __( 'Bad', 'wordpress-seo' );
-				$css   = 'bad';
-				break;
-
-			case self::$seo_scores['poor']['start'] <= $val && $val <= self::$seo_scores['poor']['end']:
+			case 4:
+			case 5:
 				$score = __( 'Poor', 'wordpress-seo' );
 				$css   = 'poor';
 				break;
-
-			case self::$seo_scores['ok']['start'] <= $val && $val <= self::$seo_scores['ok']['end']:
+			case 6:
+			case 7:
 				$score = __( 'OK', 'wordpress-seo' );
 				$css   = 'ok';
 				break;
-
-			case self::$seo_scores['good']['start'] <= $val && $val <= self::$seo_scores['good']['end']:
+			case 8:
+			case 9:
+			case 10:
 				$score = __( 'Good', 'wordpress-seo' );
 				$css   = 'good';
 				break;
-
+			default:
+				$score = __( 'Bad', 'wordpress-seo' );
+				$css   = 'bad';
+				break;
 		}
 
 		if ( $css_value ) {
