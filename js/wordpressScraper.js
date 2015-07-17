@@ -59,14 +59,22 @@ YoastSEO_WordPressScraper.prototype.getDataFromInput = function( inputType ) {
             break;
         case "url":
         case "editable-post-name":
-            val = document.getElementById("sample-permalink").textContent;
-            var postSlug = document.getElementById("new-post-slug");
-            if(postSlug !== null) {
-                val += postSlug.value + "/";
-            }
+			var elem = document.getElementById("sample-permalink");
+			val = "";
+			if(elem !== null) {
+				val = document.getElementById("sample-permalink").textContent;
+				var postSlug = document.getElementById("new-post-slug");
+				if (postSlug !== null) {
+					val += postSlug.value + "/";
+				}
+			}
             break;
         case "cite":
-            val = document.getElementById("sample-permalink").textContent.replace(/https?:\/\//i, "");
+			var elem = document.getElementById("sample-permalink");
+			val = "";
+			if(elem !== null) {
+				val = document.getElementById("sample-permalink").textContent.replace(/https?:\/\//i, "");
+			}
             break;
         case "meta":
             val = document.getElementById("yoast_wpseo_metadesc").value;
@@ -322,6 +330,7 @@ YoastSEO_WordPressScraper.prototype.ajaxReplaceVariables = function( srcObj ) {
 /**
  * calls the eventbinders.
  */
+//todo check if elements need to be rebound
 YoastSEO_WordPressScraper.prototype.bindElementEvents = function() {
     this.snippetPreviewEventBinder();
     this.inputElementEventBinder();
@@ -343,7 +352,10 @@ YoastSEO_WordPressScraper.prototype.snippetPreviewEventBinder = function() {
 YoastSEO_WordPressScraper.prototype.inputElementEventBinder = function() {
     var elems = ["excerpt", "content", "editable-post-name", "yoast_wpseo_focuskw"];
     for (var i = 0; i < elems.length; i++){
-        document.getElementById(elems[i]).addEventListener("change", this.renewData);
+		elem = document.getElementById(elems[i]);
+		if(elem !== null) {
+			document.getElementById(elems[i]).addEventListener("change", this.renewData);
+		}
     }
 };
 

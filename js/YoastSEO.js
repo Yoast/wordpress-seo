@@ -85,7 +85,10 @@ YoastSEO.prototype.createSnippetPreviewMeta = function ( target ){
 YoastSEO.prototype.defineElements = function() {
     this.target = document.getElementById( this.config.targets.output );
     for ( var i = 0; i < this.config.elementTarget.length; i++ ){
-        document.getElementById( this.config.elementTarget[i]).__refObj = this;
+		var elem = document.getElementById( this.config.elementTarget[i]);
+		if(elem !== null) {
+			document.getElementById(this.config.elementTarget[i]).__refObj = this;
+		}
     }
 };
 
