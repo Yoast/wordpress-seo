@@ -2281,23 +2281,4 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		return $this->localize_script();
 	}
 
-
-    /**
-     * Counting the number of given keyword used for other posts than given post_id
-     *
-     * @param integer $post_id
-     *
-     * @return int
-     */
-    public static function get_focus_keyword_usage( $post_id ) {
-        $keyword = WPSEO_Meta::get_value( 'focuskw', $post_id );
-
-        return json_encode(
-            array(
-                $keyword => WPSEO_Meta::keyword_usage( $keyword, $post_id )
-            )
-        );
-    }
-
-
 } /* End of class */
