@@ -1,0 +1,37 @@
+#snippet_preview{
+    border: 1px solid #ddd;
+    padding: 20px;
+    width:512px;
+    font-family: Arial, sans-serif;
+}
+.title{
+    color:#1e0fbe;
+    display:block;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    text-decoration:none;
+    white-space:nowrap;
+    width:512px;
+    font-size: 18px;
+    line-height: 1.2;
+    font-weight:normal;
+    margin:0;
+}
+.title:visited{
+    color:#609
+}
+.url,.desc{
+    font-size:13px;
+    line-height: 1.4;
+    display: block;
+
+}
+.url{
+    font-size: 14px;
+    line-height: 16px;
+    color:#006621;
+    font-style:normal;
+}
+.desc{
+    color:#545454;
+}
