@@ -8,6 +8,8 @@
  */
 class Yoast_Dashboard_Widget {
 
+	const CACHE_TRANSIENT_KEY = 'wpseo-dashboard-totals';
+
 	/**
 	 * @var WPSEO_Statistics
 	 */
@@ -25,6 +27,8 @@ class Yoast_Dashboard_Widget {
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_dashboard_stylesheet' ) );
 		add_action( 'wp_dashboard_setup', array( $this, 'add_dashboard_widget' ) );
+		add_action( 'wp_insert_post', array( $this, 'clear_cache' ) );
+		add_action( 'delete_post', array( $this, 'clear_cache' ) );
 	}
 
 	/**
@@ -57,13 +61,20 @@ class Yoast_Dashboard_Widget {
 	}
 
 	/**
+	 * Clears the dashboard widget items cache
+	 */
+	public function clear_cache() {
+		delete_transient( self::CACHE_TRANSIENT_KEY );
+	}
+
+	/**
 	 * An array representing items to be added to the At a Glance dashboard widget
 	 *
 	 * @return array
 	 */
 	private function statistic_items() {
 
-		if ( false !== ( $items = get_transient( 'wpseo-dashboard-totals' ) ) ) {
+		if ( false !== ( $items = get_transient( self::CACHE_TRANSIENT_KEY ) ) ) {
 			return $items;
 		}
 
@@ -108,7 +119,7 @@ class Yoast_Dashboard_Widget {
 
 		$items = array_filter( $items, array( $this, 'filter_items' ) );
 
-		set_transient( 'wpseo-dashboard-totals', $items, HOUR_IN_SECONDS );
+		set_transient( self::CACHE_TRANSIENT_KEY, $items, DAY_IN_SECONDS );
 
 		return $items;
 	}
