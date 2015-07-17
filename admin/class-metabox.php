@@ -741,7 +741,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		if ( $content !== '' ) {
 
 			$label = esc_html( $meta_field_def['title'] );
-            if ( in_array( $meta_field_def['type'], array(
+			if ( in_array( $meta_field_def['type'], array(
 					'snippetpreview',
 					'pageanalysis',
 					'radio',
@@ -749,10 +749,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				), true ) === false
 			) {
 				$label = '<label for="' . $esc_form_key . '">' . $label . ':</label>';
-            }
+			}
 
 			$help = '';
-            if ( isset( $meta_field_def['help'] ) && $meta_field_def['help'] !== '' ) {
+			if ( isset( $meta_field_def['help'] ) && $meta_field_def['help'] !== '' ) {
 				$help = '<img src="' . plugins_url( 'images/question-mark.png', WPSEO_FILE ) . '" class="alignright yoast_help" id="' . esc_attr( $key . 'help' ) . '" alt="' . esc_attr( $meta_field_def['help'] ) . '" />';
 			}
 
@@ -881,7 +881,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			wp_enqueue_style( "metabox-$color", plugins_url( 'css/metabox-' . esc_attr( $color ) . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
 			wp_enqueue_style( 'featured-image', plugins_url( 'css/featured-image' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
 			wp_enqueue_style( 'jquery-qtip.js', plugins_url( 'css/jquery.qtip' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), '2.2.1' );
-            wp_enqueue_style( 'snippet', plugins_url( 'css/snippet' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE), array(), '2.2.1');
+			wp_enqueue_style( 'snippet', plugins_url( 'css/snippet' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), '2.2.1');
 			wp_enqueue_script( 'jquery-ui-autocomplete' );
 
 			// Always enqueue minified as it's not our code.
@@ -892,8 +892,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				'jquery-ui-core',
 				'jquery-ui-autocomplete',
 			), WPSEO_VERSION, true );
-			wp_enqueue_script( 'js-seo-wordpressScraper.js', plugins_url( 'js-seo/js/wordpressScraper.js'), null, '2.2.1', true );
-			wp_enqueue_script( 'js-seo-snippetPreview.js', plugins_url( 'js-seo/js/snippetPreview.js'), null, '2.2.1', true );
+			wp_enqueue_script( 'js-seo-wordpressScraper.js', plugins_url( 'js-seo/js/wordpressScraper.js' ), null, '2.2.1', true );
+			wp_enqueue_script( 'js-seo-snippetPreview.js', plugins_url( 'js-seo/js/snippetPreview.js' ), null, '2.2.1', true );
 
 			wp_enqueue_script( 'js-seo-config.js', plugins_url( 'js-seo/js/config/config.js' ), null, '2.2.1', true );
 			wp_enqueue_script( 'js-seo-scoring.js', plugins_url( 'js-seo/js/config/scoring.js' ), null, '2.2.1', true );
@@ -2234,7 +2234,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$keyword = WPSEO_Meta::get_value( 'focuskw', $post_id );
 
 		return array(
-			$keyword => WPSEO_Meta::keyword_usage( $keyword, $post_id )
+			$keyword => WPSEO_Meta::keyword_usage( $keyword, $post_id ),
 		);
 	}
 
