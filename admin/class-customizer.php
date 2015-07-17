@@ -45,7 +45,6 @@ class WPSEO_Customizer {
 	 * Add the breadcrumbs section to the customizer
 	 */
 	private function breadcrumbs_section() {
-
 		$this->wp_customize->add_section(
 			'wpseo_breadcrumbs_customizer_section', array(
 				/* translators: %s is the name of the plugin */
@@ -61,7 +60,6 @@ class WPSEO_Customizer {
 	 * Adds the enable breadcrumbs checkbox
 	 */
 	private function breadcrumbs_enable_setting() {
-
 		$this->wp_customize->add_setting(
 			'wpseo_internallinks[breadcrumbs-enable]', array(
 				'default'   => '',
@@ -73,11 +71,11 @@ class WPSEO_Customizer {
 		$this->wp_customize->add_control(
 			new WP_Customize_Control(
 				$this->wp_customize, 'wpseo-breadcrumbs-enable', array(
-					'label'       => __( 'Enable Breadcrumbs', 'wordpress-seo' ),
-					'type'        => 'checkbox',
-					'section'     => 'wpseo_breadcrumbs_customizer_section',
-					'settings'    => 'wpseo_internallinks[breadcrumbs-enable]',
-					'context'     => '',
+					'label'    => __( 'Enable Breadcrumbs', 'wordpress-seo' ),
+					'type'     => 'checkbox',
+					'section'  => 'wpseo_breadcrumbs_customizer_section',
+					'settings' => 'wpseo_internallinks[breadcrumbs-enable]',
+					'context'  => '',
 				)
 			)
 		);
@@ -98,7 +96,6 @@ class WPSEO_Customizer {
 	 * Adds the breadcrumbs bold last checkbox
 	 */
 	private function breadcrumbs_boldlast_setting() {
-
 		$this->wp_customize->add_setting(
 			'wpseo_internallinks[breadcrumbs-boldlast]', array(
 				'default'   => '',
@@ -125,7 +122,6 @@ class WPSEO_Customizer {
 	 * Adds the breadcrumbs remove blog checkbox
 	 */
 	private function breadcrumbs_blog_remove_setting() {
-
 		$this->wp_customize->add_setting(
 			'wpseo_internallinks[breadcrumbs-blog-remove]', array(
 				'default'   => '',
@@ -161,7 +157,6 @@ class WPSEO_Customizer {
 	 * Adds the breadcrumbs separator text field
 	 */
 	private function breadcrumbs_separator_setting() {
-
 		$this->wp_customize->add_setting(
 			'wpseo_internallinks[breadcrumbs-sep]', array(
 				'default'   => '',
@@ -173,11 +168,11 @@ class WPSEO_Customizer {
 		$this->wp_customize->add_control(
 			new WP_Customize_Control(
 				$this->wp_customize, 'wpseo-breadcrumbs-separator', array(
-					'label'       => __( 'Breadcrumbs Separator:', 'wordpress-seo' ),
-					'type'        => 'text',
-					'section'     => 'wpseo_breadcrumbs_customizer_section',
-					'settings'    => 'wpseo_internallinks[breadcrumbs-sep]',
-					'context'     => '',
+					'label'           => __( 'Breadcrumbs Separator:', 'wordpress-seo' ),
+					'type'            => 'text',
+					'section'         => 'wpseo_breadcrumbs_customizer_section',
+					'settings'        => 'wpseo_internallinks[breadcrumbs-sep]',
+					'context'         => '',
 					'active_callback' => array( $this, 'breadcrumbs_active_callback' ),
 				)
 			)
@@ -188,7 +183,6 @@ class WPSEO_Customizer {
 	 * Adds the breadcrumbs home anchor text field
 	 */
 	private function breadcrumbs_home_setting() {
-
 		$this->wp_customize->add_setting(
 			'wpseo_internallinks[breadcrumbs-home]', array(
 				'default'   => '',
@@ -200,11 +194,11 @@ class WPSEO_Customizer {
 		$this->wp_customize->add_control(
 			new WP_Customize_Control(
 				$this->wp_customize, 'wpseo-breadcrumbs-home', array(
-					'label'       => __( 'Anchor Text for Homepage:', 'wordpress-seo' ),
-					'type'        => 'text',
-					'section'     => 'wpseo_breadcrumbs_customizer_section',
-					'settings'    => 'wpseo_internallinks[breadcrumbs-home]',
-					'context'     => '',
+					'label'           => __( 'Anchor Text for Homepage:', 'wordpress-seo' ),
+					'type'            => 'text',
+					'section'         => 'wpseo_breadcrumbs_customizer_section',
+					'settings'        => 'wpseo_internallinks[breadcrumbs-home]',
+					'context'         => '',
 					'active_callback' => array( $this, 'breadcrumbs_active_callback' ),
 				)
 			)
@@ -215,7 +209,6 @@ class WPSEO_Customizer {
 	 * Adds the breadcrumbs prefix text field
 	 */
 	private function breadcrumbs_prefix_setting() {
-
 		$this->wp_customize->add_setting(
 			'wpseo_internallinks[breadcrumbs-prefix]', array(
 				'default'   => '',
@@ -227,11 +220,11 @@ class WPSEO_Customizer {
 		$this->wp_customize->add_control(
 			new WP_Customize_Control(
 				$this->wp_customize, 'wpseo-breadcrumbs-prefix', array(
-					'label'       => __( 'Prefix for the breadcrumb path:', 'wordpress-seo' ),
-					'type'        => 'text',
-					'section'     => 'wpseo_breadcrumbs_customizer_section',
-					'settings'    => 'wpseo_internallinks[breadcrumbs-prefix]',
-					'context'     => '',
+					'label'           => __( 'Prefix for the breadcrumb path:', 'wordpress-seo' ),
+					'type'            => 'text',
+					'section'         => 'wpseo_breadcrumbs_customizer_section',
+					'settings'        => 'wpseo_internallinks[breadcrumbs-prefix]',
+					'context'         => '',
 					'active_callback' => array( $this, 'breadcrumbs_active_callback' ),
 				)
 			)
@@ -242,7 +235,6 @@ class WPSEO_Customizer {
 	 * Adds the breadcrumbs archive prefix text field
 	 */
 	private function breadcrumbs_archiveprefix_setting() {
-
 		$this->wp_customize->add_setting(
 			'wpseo_internallinks[breadcrumbs-archiveprefix]', array(
 				'default'   => '',
@@ -254,11 +246,11 @@ class WPSEO_Customizer {
 		$this->wp_customize->add_control(
 			new WP_Customize_Control(
 				$this->wp_customize, 'wpseo-breadcrumbs-archiveprefix', array(
-					'label'       => __( 'Prefix for Archive breadcrumbs:', 'wordpress-seo' ),
-					'type'        => 'text',
-					'section'     => 'wpseo_breadcrumbs_customizer_section',
-					'settings'    => 'wpseo_internallinks[breadcrumbs-archiveprefix]',
-					'context'     => '',
+					'label'           => __( 'Prefix for Archive breadcrumbs:', 'wordpress-seo' ),
+					'type'            => 'text',
+					'section'         => 'wpseo_breadcrumbs_customizer_section',
+					'settings'        => 'wpseo_internallinks[breadcrumbs-archiveprefix]',
+					'context'         => '',
 					'active_callback' => array( $this, 'breadcrumbs_active_callback' ),
 				)
 			)
@@ -269,7 +261,6 @@ class WPSEO_Customizer {
 	 * Adds the breadcrumbs search prefix text field
 	 */
 	private function breadcrumbs_searchprefix_setting() {
-
 		$this->wp_customize->add_setting(
 			'wpseo_internallinks[breadcrumbs-searchprefix]', array(
 				'default'   => '',
@@ -281,23 +272,21 @@ class WPSEO_Customizer {
 		$this->wp_customize->add_control(
 			new WP_Customize_Control(
 				$this->wp_customize, 'wpseo-breadcrumbs-searchprefix', array(
-					'label'       => __( 'Prefix for Search Page breadcrumbs:', 'wordpress-seo' ),
-					'type'        => 'text',
-					'section'     => 'wpseo_breadcrumbs_customizer_section',
-					'settings'    => 'wpseo_internallinks[breadcrumbs-searchprefix]',
-					'context'     => '',
+					'label'           => __( 'Prefix for Search Page breadcrumbs:', 'wordpress-seo' ),
+					'type'            => 'text',
+					'section'         => 'wpseo_breadcrumbs_customizer_section',
+					'settings'        => 'wpseo_internallinks[breadcrumbs-searchprefix]',
+					'context'         => '',
 					'active_callback' => array( $this, 'breadcrumbs_active_callback' ),
 				)
 			)
 		);
-
 	}
 
 	/**
 	 * Adds the breadcrumb 404 prefix text field
 	 */
 	private function breadcrumbs_404_setting() {
-
 		$this->wp_customize->add_setting(
 			'wpseo_internallinks[breadcrumbs-404crumb]', array(
 				'default'   => '',
@@ -309,16 +298,14 @@ class WPSEO_Customizer {
 		$this->wp_customize->add_control(
 			new WP_Customize_Control(
 				$this->wp_customize, 'wpseo-breadcrumbs-404crumb', array(
-					'label'       => __( 'Breadcrumb for 404 Page:', 'wordpress-seo' ),
-					'type'        => 'text',
-					'section'     => 'wpseo_breadcrumbs_customizer_section',
-					'settings'    => 'wpseo_internallinks[breadcrumbs-404crumb]',
-					'context'     => '',
+					'label'           => __( 'Breadcrumb for 404 Page:', 'wordpress-seo' ),
+					'type'            => 'text',
+					'section'         => 'wpseo_breadcrumbs_customizer_section',
+					'settings'        => 'wpseo_internallinks[breadcrumbs-404crumb]',
+					'context'         => '',
 					'active_callback' => array( $this, 'breadcrumbs_active_callback' ),
 				)
 			)
 		);
-
 	}
-
 }
