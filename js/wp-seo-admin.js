@@ -245,3 +245,71 @@ function wpseo_add_fb_admin() {
 	);
 }
 
+function wpseo_recalculate_scores(current_page) {
+	var total_count    = parseInt( jQuery( '#wpseo_count_total').text() );
+	var count_element  = jQuery( '#wpseo_count' );
+	var progress_bar   = jQuery( '#wpseo_progressbar' );
+
+	// Reset the count element and the progressbar
+	count_element.text(0);
+	progress_bar.progressbar( { 'value' : 0 } );
+
+	var update_count = function( total_posts ) {
+		var current_value = count_element.text();
+		var new_value     = parseInt( current_value ) + total_posts;
+		var new_width     = new_value * (100 / total_count);
+
+		progress_bar.progressbar( 'value', new_width );
+
+		count_element.html( new_value );
+	};
+
+	var calculate_score = function( post ) {
+		// Something with calculating the score
+		var score = 0;
+
+		// Doing request to update the score
+		jQuery.post(
+			ajaxurl,
+			{
+				action: 'wpseo_update_score',
+				nonce   : jQuery( '#wpseo_recalculate_nonce' ).val(),
+				post_id : post.post_id,
+				score   : score
+			}
+		);
+	};
+
+	var parse_response = function (response) {
+		if (response !== '') {
+			var resp = jQuery.parseJSON(response);
+
+			if ( resp.total_posts !== undefined ) {
+				for( var i = 0; i < resp.total_posts; i++) {
+					calculate_score( resp.posts[i] );
+				}
+
+				update_count(resp.total_posts);
+			}
+
+			if ( resp.next_page !== undefined ) {
+				calculate_scores( resp.next_page );
+			}
+		}
+	};
+
+	var calculate_scores = function ( current_page ) {
+		jQuery.post(
+			ajaxurl,
+			{
+				action: 'wpseo_recalculate_scores',
+				nonce   : jQuery( '#wpseo_recalculate_nonce' ).val(),
+				paged : current_page
+			},
+			parse_response
+		);
+	};
+
+	calculate_scores( current_page );
+}
+
