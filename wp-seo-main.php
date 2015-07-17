@@ -241,6 +241,11 @@ function wpseo_init() {
 	if ( ! defined( 'DOING_AJAX' ) || ! DOING_AJAX ) {
 		require_once( WPSEO_PATH . 'inc/wpseo-non-ajax-functions.php' );
 	}
+
+	// Init it here because the filter must be present on the frontend as well or it won't work in the customizer.
+	if ( current_user_can( 'manage_options' ) ) {
+		new WPSEO_Customizer();
+	}
 }
 
 /**
