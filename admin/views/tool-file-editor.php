@@ -67,7 +67,12 @@ if ( isset( $msg ) && ! empty( $msg ) ) {
 	echo '<div id="message" style="width:94%;" class="updated fade"><p>', esc_html( $msg ), '</p></div>';
 }
 
-$action_url = network_admin_url( 'admin.php?page=wpseo_tools&tool=file-editor' ); // Auto-falls back on admin_url for non-multisite.
+if ( is_multisite() ) {
+	$action_url = network_admin_url( 'admin.php?page=wpseo_files' );
+}
+else {
+	$action_url = admin_url( 'admin.php?page=wpseo_tools&tool=file-editor' );
+}
 
 echo '<h2>', __( 'Robots.txt', 'wordpress-seo' ), '</h2>';
 

@@ -6,7 +6,7 @@
 /**
  * Modified (Reduced) TextStatistics Class
  *
- * Mostly removed functionality that isn't needed within the WordPress SEO plugin.
+ * Mostly removed functionality that isn't needed within the Yoast SEO plugin.
  *
  * @link    http://code.google.com/p/php-text-statistics/
  * @link    https://github.com/DaveChild/Text-Statistics (new repo location)

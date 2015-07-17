@@ -27,12 +27,18 @@ function wpseo_display_contributors( $contributors ) {
 
 <div class="wrap about-wrap">
 
-	<h1><?php _e( 'Thank you for updating WordPress SEO by Yoast!', 'wordpress-seo' ); ?></h1>
+	<h1><?php
+		/* translators: %1$s expands to Yoast SEO */
+		printf( __( 'Thank you for updating %1$s!', 'wordpress-seo' ), 'Yoast SEO' );
+		?></h1>
 
 	<div class="about-text">
 		<?php _e( 'On your way to better search rankings!', 'wordpress-seo' ); ?><br/>
 		<br/>
-		<?php _e( 'WordPress SEO by Yoast 2.0 helps you optimize your site by making you ready for Google\'s Knowledge Graph and simplifying the WordPress SEO by Yoast admin.', 'wordpress-seo' ); ?>
+		<?php
+		/* translators: %1$s expands to Yoast SEO */
+		printf( __( '%1$s 2.0 helps you optimize your site by making you ready for Google\'s Knowledge Graph and simplifying the %1$s admin.', 'wordpress-seo' ), 'Yoast SEO' );
+		?>
 	</div>
 
 	<h2 class="nav-tab-wrapper" id="wpseo-tabs">
@@ -97,7 +103,7 @@ function wpseo_display_contributors( $contributors ) {
 				<div>
 					<span class="dashicons dashicons-twitter"></span>
 					<h4><?php _e( 'Twitter Galleries', 'wordpress-seo' ); ?></h4>
-					<h2>WordPress SEO 2.0.1</h2>
+					<h2>Yoast SEO 2.0.1</h2>
 					<p><small>Release date: April 1st, 2015</small></p>
 					<p>This update fixes a few small bugs:</p>
 					<ul class="ul-disc">
@@ -115,7 +121,7 @@ function wpseo_display_contributors( $contributors ) {
 					<h4><?php _e( 'Performance Improvements', 'wordpress-seo' ); ?></h4>
 
 					<p>
-						<?php _e( 'This release has made the code of WordPress SEO by Yoast that runs on the frontend of your site approximately 30% faster.', 'wordpress-seo' ); ?>
+						<?php sprintf( __( 'This release has made the code of %1$s that runs on the frontend of your site approximately 30% faster.', 'wordpress-seo' ), 'Yoast SEO' ); ?>
 					</p>
 				</div>
 
@@ -133,7 +139,10 @@ function wpseo_display_contributors( $contributors ) {
 					<h4><?php _e( 'More Translations', 'wordpress-seo' ); ?></h4>
 
 					<p>
-						<?php printf( __( 'WordPress SEO by Yoast ships, at time of release, with 26 translations, of which 10 are complete. That\'s a huge improvement from last time, and we\'re improving every week. Join us at %1$stranslate.yoast.com%2$s!', 'wordpress-seo' ), '<a target="_blank" href="https://translate.yoast.com/projects/wordpress-seo">', '</a>' ); ?>
+						<?php
+						/* translators: %1$s expands to Yoast SEO, %2$s and %3$s to the anchor tags to the translate.yoast.com link */
+						printf( __( '%1$s ships, at time of release, with 26 translations, of which 10 are complete. That\'s a huge improvement from last time, and we\'re improving every week. Join us at %2$stranslate.yoast.com%3$s!', 'wordpress-seo' ), 'Yoast SEO', '<a target="_blank" href="https://translate.yoast.com/projects/wordpress-seo">', '</a>' );
+						?>
 					</p>
 				</div>
 			</div>
@@ -149,14 +158,14 @@ function wpseo_display_contributors( $contributors ) {
 
 	<div id="v221" class="wpseotab">
 
-		<h2>WordPress SEO 2.2.1</h2>
+		<h2>Yoast SEO 2.2.1</h2>
 		<p><small>Release Date: June 11th, 2015</small></p>
 
 		<ul class="ul-disc">
 			<li>Makes sure users can close the tour by circumventing possible JavaScript caching issues that might occur.</li>
 		</ul>
 
-		<h2>WordPress SEO 2.2</h2>
+		<h2>Yoast SEO 2.2</h2>
 		<p><small>Release Date: June 10th, 2015</small></p>
 
 		<h4>Enhancements:</h4>
@@ -178,7 +187,7 @@ function wpseo_display_contributors( $contributors ) {
 			<li>Adds Twitter profile to JSON LD output.</li>
 			<li>Twitter profile input field now also accepts full url and automatically strips it down to just the username.</li>
 			<li>Only adds the JSON LD output to the frontpage, since it's not needed on other pages.</li>
-			<li>Makes all WordPress SEO by Yoast notices dismissible.</li>
+			<li>Makes all Yoast SEO notices dismissible.</li>
 		</ul>
 
 		<h4>Bugfixes:</h4>
@@ -194,7 +203,7 @@ function wpseo_display_contributors( $contributors ) {
 			<li>Fixes a bug where the sitemap could contain datetimes in the wrong timezone.</li>
 			<li>Fixes a bug where the wrong Facebook user ID was added to the fb:admins meta tag. Adding FB admin user id is now a manual process.</li>
 			<li>Fixed Open Graph and Twitter cards on static posts pages</li>
-			<li>Fixes a bug where sitemap cache was not always cleared after saving the WordPress SEO by Yoast settings.</li>
+			<li>Fixes a bug where sitemap cache was not always cleared after saving the Yoast SEO settings.</li>
 		</ul>
 
 		<h4>Security:</h4>
@@ -203,16 +212,16 @@ function wpseo_display_contributors( $contributors ) {
 			<li>Fixes a possible XSS vulnerability in the snippet preview. Thanks <a href="https://twitter.com/ccneill" target="_blank">Charles Neill</a> and <a href="https://twitter.com/mazengamal" target="_blank">Mazen Gamal</a> for discovering and responsibly disclosing this issue.</li>
 		</ul>
 
-		<h2>WordPress SEO 2.1</h2>
+		<h2>Yoast SEO 2.1</h2>
 		<p><small>Release date: April 20th, 2015</small></p>
-		<p>WordPress SEO 2.1 adds some more features on top of this release. Read the release notes for more info.</p>
+		<p>Yoast SEO 2.1 adds some more features on top of this release. Read the release notes for more info.</p>
 		<ul class="ul-disc">
 			<li>See the <a href="https://wordpress.org/plugins/wordpress-seo/changelog/" target="_blank">changelog</a> for a complete list of changes.</li>
 			<li>Read our <a href="https://yoast.com/wordpress-seo-2-1-release-notes" target="_blank">release blogpost</a> for a more detailed explanation of the important changes in this release.</li>
 			<li>Read our <a href="https://yoast.com/coordinated-security-release/" target="_blank">security blogpost</a> for the backstory about a security fix that was included in this release, in coordination with a significant part of the WordPress community.</li>
 			<li>We've added support for Google's new URL representation in mobile search results. You can read more about it in <a href="https://yoast.com/changing-urls-in-search-results/" target="_blank">this blogpost</a>.</li>
 		</ul>
-		<h2>WordPress SEO 2.0.1</h2>
+		<h2>Yoast SEO 2.0.1</h2>
 		<p><small>Release date: April 1st, 2015</small></p>
 		<p>This update fixes a few small bugs:</p>
 		<ul class="ul-disc">
@@ -225,7 +234,8 @@ function wpseo_display_contributors( $contributors ) {
 	<div id="credits" class="wpseotab">
 		<p class="about-description">
 			<?php
-				printf( __( 'While most of the development team is at %1$sYoast%2$s in the Netherlands, WordPress SEO by Yoast is created by a worldwide team.', 'wordpress-seo' ), '<a target="_blank" href="https://yoast.com/">', '</a>' );
+				/* translators: %1$s and %2$s expands to anchor tags, %3$s expands to Yoast SEO */
+				printf( __( 'While most of the development team is at %1$sYoast%2$s in the Netherlands, %3$s is created by a worldwide team.', 'wordpress-seo' ), '<a target="_blank" href="https://yoast.com/">', '</a>', 'Yoast SEO' );
 				echo ' ';
 				printf( __( 'Want to help us develop? Read our %1$scontribution guidelines%2$s!', 'wordpress-seo' ), '<a target="_blank" href="http://yoa.st/wpseocontributionguidelines">', '</a>' );
 			?>

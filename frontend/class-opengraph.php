@@ -131,7 +131,7 @@ class WPSEO_OpenGraph {
 		}
 
 		/**
-		 * Filter: 'wpseo_opengraph_author_facebook' - Allow developers to filter the WP SEO post authors facebook profile URL
+		 * Filter: 'wpseo_opengraph_author_facebook' - Allow developers to filter the Yoast SEO post authors facebook profile URL
 		 *
 		 * @api bool|string $unsigned The Facebook author URL, return false to disable
 		 */
@@ -179,7 +179,7 @@ class WPSEO_OpenGraph {
 		else if ( isset( $this->options['fb_admins'] ) && is_array( $this->options['fb_admins'] ) && $this->options['fb_admins'] !== array() ) {
 			$adminstr = implode( ',', array_keys( $this->options['fb_admins'] ) );
 			/**
-			 * Filter: 'wpseo_opengraph_admin' - Allow developer to filter the fb:admins string put out by WP SEO
+			 * Filter: 'wpseo_opengraph_admin' - Allow developer to filter the fb:admins string put out by Yoast SEO
 			 *
 			 * @api string $adminstr The admin string
 			 */
@@ -218,7 +218,7 @@ class WPSEO_OpenGraph {
 				$title = $frontend->title( '' );
 			}
 			else {
-				// Replace WP SEO Variables.
+				// Replace Yoast SEO Variables.
 				$title = wpseo_replace_vars( $title, $post );
 			}
 		}
@@ -522,7 +522,7 @@ class WPSEO_OpenGraph {
 			$post    = get_post( $post_id );
 			$ogdesc  = WPSEO_Meta::get_value( 'opengraph-description', $post_id );
 
-			// Replace WP SEO Variables.
+			// Replace Yoast SEO Variables.
 			$ogdesc = wpseo_replace_vars( $ogdesc, $post );
 
 			// Use metadesc if $ogdesc is empty.

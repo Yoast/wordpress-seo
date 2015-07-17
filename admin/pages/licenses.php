@@ -13,32 +13,34 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 $extensions = array(
 	'seo-premium'     => (object) array(
 		'url'       => 'https://yoast.com/wordpress/plugins/seo-premium/',
-		'title'     => __( 'WordPress SEO Premium', 'wordpress-seo' ),
-		'desc'      => __( 'The premium version of WordPress SEO with more features & support.', 'wordpress-seo' ),
+		'title'     => 'Yoast SEO Premium',
+		/* translators: %1$s expands to Yoast SEO */
+		'desc'      => sprintf( __( 'The premium version of %1$s with more features & support.', 'wordpress-seo' ), 'Yoast SEO' ),
 		'installed' => false,
 	),
 	'video-seo'       => (object) array(
 		'url'       => 'https://yoast.com/wordpress/plugins/video-seo/',
-		'title'     => __( 'Video SEO', 'wordpress-seo' ),
+		'title'     => 'Video SEO',
 		'desc'      => __( 'Optimize your videos to show them off in search results and get more clicks!', 'wordpress-seo' ),
 		'installed' => false,
 	),
 	'news-seo'        => (object) array(
 		'url'       => 'https://yoast.com/wordpress/plugins/news-seo/',
-		'title'     => __( 'News SEO', 'wordpress-seo' ),
+		'title'     => 'News SEO',
 		'desc'      => __( 'Are you in Google News? Increase your traffic from Google News by optimizing for it!', 'wordpress-seo' ),
 		'installed' => false,
 	),
 	'local-seo'       => (object) array(
 		'url'       => 'https://yoast.com/wordpress/plugins/local-seo/',
-		'title'     => __( 'Local SEO', 'wordpress-seo' ),
+		'title'     => 'Local SEO',
 		'desc'      => __( 'Rank better locally and in Google Maps, without breaking a sweat!', 'wordpress-seo' ),
 		'installed' => false,
 	),
 	'woocommerce-seo' => (object) array(
 		'url'       => 'https://yoast.com/wordpress/plugins/yoast-woocommerce-seo/',
-		'title'     => __( 'Yoast WooCommerce SEO', 'wordpress-seo' ),
-		'desc'      => __( 'Seamlessly integrate WooCommerce with WordPress SEO and get extra features!', 'wordpress-seo' ),
+		'title'     => 'Yoast WooCommerce SEO',
+		/* translators: %1$s expands to Yoast SEO */
+		'desc'      => sprintf( __( 'Seamlessly integrate WooCommerce with %1$s and get extra features!', 'wordpress-seo' ), 'Yoast SEO' ),
 		'installed' => false,
 	),
 );
@@ -66,7 +68,10 @@ elseif ( class_exists( 'Yoast_WooCommerce_SEO' ) ) {
 
 <div class="wrap wpseo_table_page">
 
-	<h2 id="wpseo-title"><?php _e( 'WordPress SEO Extensions', 'wordpress-seo' ); ?></h2>
+	<h2 id="wpseo-title"><?php
+		/* translators: %1$s expands to Yoast SEO */
+		printf( __( '%1$s Extensions', 'wordpress-seo' ), 'Yoast SEO' );
+		?></h2>
 
 	<h2 class="nav-tab-wrapper" id="wpseo-tabs">
 		<a class="nav-tab" id="extensions-tab" href="#top#extensions"><?php _e( 'Extensions', 'wordpress-seo' ); ?></a>
