@@ -167,10 +167,10 @@ function wpseo_ajax_replace_vars() {
 	check_ajax_referer( 'wpseo-replace-vars' );
 
 	$post = get_post( intval( filter_input( INPUT_POST, 'post_id' ) ) );
-    global $wp_query;
-    $wp_query->queried_object = $post;
-    $wp_query->queried_object_id = $post->ID;
-    $omit = array( 'excerpt', 'excerpt_only', 'title' );
+	global $wp_query;
+	$wp_query->queried_object = $post;
+	$wp_query->queried_object_id = $post->ID;
+	$omit = array( 'excerpt', 'excerpt_only', 'title' );
 	echo wpseo_replace_vars( stripslashes( filter_input( INPUT_POST, 'string' ) ), $post, $omit );
 	die;
 }

@@ -135,11 +135,11 @@ class WPSEO_Meta {
 				'class'         => 'metakeywords',
 				'description'   => '', // Translation added later.
 			),
-            'pageanalysis' => array(
-                    'type'  => 'pageanalysis',
-                    'title' => '', // Translation added later.
-                    'help'  => '', // Translation added later.
-            ),
+			'pageanalysis' => array(
+				'type'  => 'pageanalysis',
+				'title' => '', // Translation added later.
+				'help'  => '', // Translation added later.
+			),
 		),
 		'advanced' => array(
 			'meta-robots-noindex'  => array(
@@ -1019,10 +1019,9 @@ class WPSEO_Meta {
 				'exclude'     => $post_id,
 				'fields'      => 'ids',
 				'post_type'   => 'any',
-				'numberposts' => - 1,
+				'numberposts' => -1,
 			)
 		);
 	}
-
 
 } /* End of class */
