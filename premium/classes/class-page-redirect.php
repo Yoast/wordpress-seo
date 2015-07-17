@@ -225,7 +225,9 @@ class WPSEO_Page_Redirect {
 					}
 					else {
 						echo Yoast_Form::get_instance()->checkbox( 'disable_php_redirect', __( 'Disable PHP redirects', 'wordpress-seo-premium' ) );
-						echo '<p class="desc">' . __( 'WordPress SEO will generate redirect files that can be included in your website configuration. You can disable PHP redirect if this is done correctly. Only check this option if you know what you are doing!', 'wordpress-seo-premium' ) . '</p>';
+
+						/* translators: %s: 'Yoast SEO Premium' */
+						echo '<p class="desc">' . sprintf( __( '%s will generate redirect files that can be included in your website configuration. You can disable PHP redirect if this is done correctly. Only check this option if you know what you are doing!', 'wordpress-seo-premium' ), 'Yoast SEO Premium' ) . '</p>';
 					}
 
 					?>

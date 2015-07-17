@@ -27,7 +27,7 @@ class WPSEO_Premium {
 	const PLUGIN_VERSION_CODE = '16';
 	const PLUGIN_AUTHOR = 'Yoast';
 	const EDD_STORE_URL = 'https://yoast.com';
-	const EDD_PLUGIN_NAME = 'WordPress SEO Premium';
+	const EDD_PLUGIN_NAME = 'Yoast SEO Premium';
 
 	/**
 	 * Function that will be executed when plugin is activated
@@ -49,7 +49,7 @@ class WPSEO_Premium {
 	}
 
 	/**
-	 * Setup the premium WordPress SEO plugin
+	 * Setup the Yoast SEO premium plugin
 	 */
 	private function setup() {
 
@@ -64,7 +64,7 @@ class WPSEO_Premium {
 
 		if ( is_admin() ) {
 
-			// Disable WordPress SEO.
+			// Disable Yoast SEO
 			add_action( 'admin_init', array( $this, 'disable_wordpress_seo' ), 1 );
 
 			// Add Sub Menu page and add redirect page to admin page array.
@@ -273,7 +273,7 @@ class WPSEO_Premium {
 	}
 
 	/**
-	 * Disable WordPress SEO
+	 * Disable Yoast SEO
 	 */
 	public function disable_wordpress_seo() {
 		if ( is_plugin_active( 'wordpress-seo/wp-seo.php' ) ) {
@@ -393,7 +393,7 @@ class WPSEO_Premium {
 	}
 
 	/**
-	 * Function adds the premium pages to the WordPress SEO menu
+	 * Function adds the premium pages to the Yoast SEO menu
 	 *
 	 * @param array $submenu_pages
 	 *

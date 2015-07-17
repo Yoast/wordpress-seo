@@ -25,7 +25,7 @@ class WPSEO_Nginx_Redirect_File extends WPSEO_Redirect_File {
 	 * @return string
 	 */
 	public function format_url_redirect( $old_url, $new_url, $type ) {
-		return 'location ' . $old_url . ' { add_header X-Redirect-By \"WordPress SEO by Yoast Premium\"; return ' . $type . ' ' . $new_url . '; }';
+		return 'location ' . $old_url . ' { add_header X-Redirect-By \"Yoast SEO Premium\"; return ' . $type . ' ' . $new_url . '; }';
 	}
 
 	/**
