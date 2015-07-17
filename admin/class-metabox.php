@@ -902,7 +902,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
             wp_enqueue_script( 'js-seo-preprocessor.js', plugins_url( 'js-seo/js/preprocessor.js'), null, '2.2.1', true );
             wp_enqueue_script( 'js-seo-stringhelper.js', plugins_url( 'js-seo/js/stringhelper.js'), null, '2.2.1', true );
             wp_enqueue_script( 'js-seo-scoreformatter.js', plugins_url( 'js-seo/js/scoreFormatter.js'), null, '2.2.1', true );
-            wp_enqueue_script( 'js-seo-outputter.js', plugins_url( 'js-seo/js/outputter.js'), null, '2.2.1', true );
+            wp_enqueue_script( 'js-seo-YoastSEO.js', plugins_url( 'js-seo/js/YoastSEO.js'), null, '2.2.1', true );
             wp_enqueue_script( 'js-seo-wp-config.js', plugins_url( 'js-seo/js/config/wp-config.js'), null, '2.2.1', true );
 
 			if ( post_type_supports( get_post_type(), 'thumbnail' ) ) {
@@ -2280,5 +2280,24 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		return $this->localize_script();
 	}
+
+
+    /**
+     * Counting the number of given keyword used for other posts than given post_id
+     *
+     * @param integer $post_id
+     *
+     * @return int
+     */
+    public static function get_focus_keyword_usage( $post_id ) {
+        $keyword = WPSEO_Meta::get_value( 'focuskw', $post_id );
+
+        return json_encode(
+            array(
+                $keyword => WPSEO_Meta::keyword_usage( $keyword, $post_id )
+            )
+        );
+    }
+
 
 } /* End of class */

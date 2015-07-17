@@ -1003,28 +1003,28 @@ class WPSEO_Meta {
 		return ( array_key_exists( $key, $_POST ) ) ? $_POST[ $key ] : '';
 	}
 
-	/**
-	 * Counts the total of all the keywords being used for posts except the given one
-	 *
-	 * @param string  $keyword
-	 * @param integer $post_id
-	 *
-	 * @return int
-	 */
-	public static function keyword_usage( $keyword, $post_id ) {
-		$posts = get_posts(
-			array(
-				'meta_key'    => '_yoast_wpseo_focuskw',
-				'meta_value'  => $keyword,
-				'exclude'     => $post_id,
-				'fields'      => 'ids',
-				'post_type'   => 'any',
-				'numberposts' => - 1,
-			)
-		);
+    /**
+     * Counts the total of all the keywords being used for posts except the given one
+     *
+     * @param string  $keyword
+     * @param integer $post_id
+     *
+     * @return int
+     */
+    public static function keyword_usage( $keyword, $post_id ) {
+        $posts = get_posts(
+            array(
+                'meta_key'    => '_yoast_wpseo_focuskw',
+                'meta_value'  => $keyword,
+                'exclude'     => $post_id,
+                'fields'      => 'ids',
+                'post_type'   => 'any',
+                'numberposts' => - 1,
+            )
+        );
 
-		return count( $posts );
-	}
+        return count( $posts );
+    }
 
 
 } /* End of class */
