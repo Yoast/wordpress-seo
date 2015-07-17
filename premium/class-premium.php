@@ -393,7 +393,7 @@ class WPSEO_Premium {
 	}
 
 	/**
-	 * Function adds the premium pages to the WordPress SEO menu
+	 * Function adds the premium pages to the Yoast SEO menu
 	 *
 	 * @param array $submenu_pages
 	 *
