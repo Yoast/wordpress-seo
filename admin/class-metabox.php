@@ -666,7 +666,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				break;
 
 			case 'hidden':
-				$content .= '<input type="hidden"' . '" id="' . $esc_form_key . '" ' . $esc_form_key . '" value="' . esc_attr( $meta_value ) . '"/><br />';
+				$content .= '<input type="hidden" id="' . $esc_form_key . '" name="' . $esc_form_key . '" value="' . esc_attr( $meta_value ) . '"/><br />';
 				break;
 			case 'select':
 				if ( isset( $meta_field_def['options'] ) && is_array( $meta_field_def['options'] ) && $meta_field_def['options'] !== array() ) {
