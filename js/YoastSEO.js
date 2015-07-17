@@ -16,7 +16,7 @@ YoastSEO = function( args ) {
 };
 
 /**
- * inits YoastSEO, calls eleement definer and snippet preview creater
+ * inits YoastSEO, calls element definer and snippet preview creater
  */
 YoastSEO.prototype.init = function(){
     this.defineElements();
@@ -209,7 +209,7 @@ YoastSEO.prototype.runAnalyzer = function() {
     if( this.config.dynamicDelay ){
         this.startTime();
     }
-    this.pageAnalyzer = new YoastSEO_Analyzer( this.source.analyzerData );
+    this.pageAnalyzer = new YoastSEO_Analyzer( this.source.formattedData );
     this.pageAnalyzer.runQueue();
 
     this.scoreFormatter = new YoastSEO_ScoreFormatter( this.pageAnalyzer, this.config.targets );
