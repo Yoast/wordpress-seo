@@ -91,6 +91,71 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests that column_hidden returns the columns to hide so that WordPress hides them
+	 *
+	 * @covers WPSEO_Metabox::column_hidden()
+	 */
+	public function test_column_hidden_HIDE_COLUMNS() {
+		$user = $this->getMockBuilder( 'WP_User' )
+		             ->getMock();
+
+		// Option may be filled if the user has not set it.
+		$user->expects( $this->any() )
+		     ->method( 'has_prop' )
+		     ->will( $this->returnValue( false ) );
+
+		$expected = array( 'wpseo-title', 'wpseo-metadesc', 'wpseo-focuskw' );
+		$received = self::$class_instance->column_hidden( array(), 'option-name', $user );
+
+		$this->assertEquals( $expected, $received );
+	}
+
+	/**
+	 * Tests that column_hidden returns the value WordPress has saved in the database
+	 *
+	 * This is so the user can still set the columns they want to hide.
+	 *
+	 * @covers WPSEO_Metabox::column_hidden()
+	 */
+	public function test_column_hidden_KEEP_OPTION() {
+
+		// Option shouldn't be touched if the user has set it already.
+		$user = $this->getMockBuilder( 'WP_User' )
+					 ->getMock();
+
+		$user->expects( $this->any() )
+			 ->method( 'has_prop' )
+			 ->will( $this->returnValue( true ) );
+
+		$expected = array( 'wpseo-title' );
+		$received = self::$class_instance->column_hidden( $expected, 'option-name', $user );
+
+		$this->assertEquals( $expected, $received );
+	}
+
+	/**
+	 * Tests if column_hidden can deal with non array values returned from WordPress
+	 *
+	 * @covers WPSEO_Metabox::column_hidden()
+	 */
+	public function test_column_hidden_UNEXPECTED_VALUE() {
+		$user = $this->getMockBuilder( 'WP_User' )
+					 ->getMock();
+
+		$user->expects( $this->any() )
+			 ->method( 'has_prop' )
+			 ->will( $this->returnValue( false ) );
+
+		$expected = array( 'wpseo-title', 'wpseo-metadesc', 'wpseo-focuskw' );
+
+		$received = self::$class_instance->column_hidden( false, 'option-name', $user );
+		$this->assertEquals( $expected, $received );
+
+		$received = self::$class_instance->column_hidden( 'bad-value', 'option-name', $user );
+		$this->assertEquals( $expected, $received );
+	}
+
+	/**
 	 * @covers WPSEO_Metabox::strtolower_utf8()
 	 */
 	public function test_strtolower_utf8() {

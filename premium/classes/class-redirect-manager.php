@@ -171,7 +171,7 @@ abstract class WPSEO_Redirect_Manager {
 			$wp_filesystem->put_contents(
 				WPSEO_Redirect_File_Manager::get_htaccess_file_path(),
 				$htaccess,
-				FS_CHMOD_FILE // predefined mode settings for WP files.
+				FS_CHMOD_FILE // Predefined mode settings for WP files.
 			);
 
 		}
@@ -363,7 +363,10 @@ abstract class WPSEO_Redirect_Manager {
 	public static function format_url( $url ) {
 		$parsed_url = parse_url( $url );
 
-		$formatted_url = $parsed_url['path'];
+		$formatted_url = '';
+		if ( ! empty( $parsed_url['path'] ) ) {
+			$formatted_url = $parsed_url['path'];
+		}
 
 		// Prepend a slash if first char != slash.
 		if ( stripos( $formatted_url, '/' ) !== 0 ) {

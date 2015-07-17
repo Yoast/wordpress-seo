@@ -79,15 +79,15 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 			return;
 		}
 
-		// Get the new URL
+		// Get the new URL.
 		$new_url = $this->get_target_url( $term_id, $taxonomy );
 
-		// Check if we should create a redirect
+		// Check if we should create a redirect.
 		if ( $this->should_create_redirect( $old_url, $new_url ) ) {
-			// Create redirect
+			// Create redirect.
 			$this->create_redirect( $old_url, $new_url );
 
-			// Set notification
+			// Set notification.
 			$this->set_notification( $old_url, $new_url );
 		}
 	}
@@ -103,7 +103,6 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 		$id = 'wpseo_create_redirect_' . md5( $old_url );
 
 		// Format the message.
-
 		/* translators %1$s expands to Yoast SEO Premium, %2$s: <a href='{admin_redirect_url}'>, %3$s: <a href='{undo_redirect_url}'> and %4$s: </a> */
 		$message = sprintf(
 			__( '%1$s created a %2$sredirect%4$s from the old term URL to the new term URL. %3$sClick here to undo this%4$s.', 'wordpress-seo-premium' ),
