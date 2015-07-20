@@ -336,3 +336,7 @@ img.yoast_help {
 	font-size: 14px !important;
 	line-height: 18px !important;
 }
+
+.wpseo_content_wrapper p.search-box {
+	margin: 10px 0 5px 0;
+}
