@@ -37,7 +37,8 @@ class Yoast_Dashboard_Widget {
 	public function add_dashboard_widget() {
 		wp_add_dashboard_widget(
 			'wpseo-dashboard-overview',
-			__( 'Yoast SEO Posts Overview', 'wordpress-seo' ),
+			/* translators: %s is the plugin name */
+			sprintf( __( '%s Posts Overview', 'wordpress-seo' ), 'Yoast SEO' ),
 			array( $this, 'display_dashboard_widget' )
 		);
 	}
@@ -111,7 +112,8 @@ class Yoast_Dashboard_Widget {
 			),
 			array(
 				'seo_rank' => 'noindex',
-				'title'    => __( 'Posts that are set to <code>noindex</code>', 'wordpress-seo' ),
+				/* translators: %s expands to <code>noindex</code> */
+				'title'    => sprintf( __( 'Posts that are set to %s', 'wordpress-seo' ), '<code>noindex</code>' ),
 				'class'    => 'wpseo-glance-noindex',
 				'count'    => $this->statistics->get_no_index_post_count(),
 			),
