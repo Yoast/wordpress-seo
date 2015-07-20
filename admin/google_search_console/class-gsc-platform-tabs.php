@@ -44,7 +44,7 @@ class WPSEO_GSC_Platform_Tabs {
 			'settings'        => __( 'Settings', 'wordpress-seo' ),
 		);
 
-		$admin_link = admin_url( 'admin.php?page=wpseo_webmaster_tools&tab=' );
+		$admin_link = admin_url( 'admin.php?page=wpseo_search_console&tab=' );
 
 		$this->set_current_tab( $platforms );
 
