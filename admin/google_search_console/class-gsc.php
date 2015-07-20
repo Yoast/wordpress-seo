@@ -46,7 +46,7 @@ class WPSEO_GSC {
 		add_action( 'admin_init', array( $this, 'register_settings' ) );
 
 		// Setting the screen option.
-		if ( filter_input( INPUT_GET, 'page' ) === 'wpseo_webmaster_tools' ) {
+		if ( filter_input( INPUT_GET, 'page' ) === 'wpseo_search_console' ) {
 			$this->set_hooks();
 			$this->set_dependencies();
 			$this->request_handler();
