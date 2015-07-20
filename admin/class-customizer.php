@@ -31,7 +31,6 @@ class WPSEO_Customizer {
 		$this->breadcrumbs_section();
 		$this->breadcrumbs_enable_setting();
 		$this->breadcrumbs_enable_setting();
-		$this->breadcrumbs_boldlast_setting();
 		$this->breadcrumbs_blog_remove_setting();
 		$this->breadcrumbs_separator_setting();
 		$this->breadcrumbs_home_setting();
@@ -90,32 +89,6 @@ class WPSEO_Customizer {
 		$options = WPSEO_Options::get_all();
 
 		return true === $options['breadcrumbs-enable'];
-	}
-
-	/**
-	 * Adds the breadcrumbs bold last checkbox
-	 */
-	private function breadcrumbs_boldlast_setting() {
-		$this->wp_customize->add_setting(
-			'wpseo_internallinks[breadcrumbs-boldlast]', array(
-				'default'   => '',
-				'type'      => 'option',
-				'transport' => 'refresh',
-			)
-		);
-
-		$this->wp_customize->add_control(
-			new WP_Customize_Control(
-				$this->wp_customize, 'wpseo-breadcrumbs-boldlast', array(
-					'label'           => __( 'Bold the last page in the breadcrumb', 'wordpress-seo' ),
-					'type'            => 'checkbox',
-					'section'         => 'wpseo_breadcrumbs_customizer_section',
-					'settings'        => 'wpseo_internallinks[breadcrumbs-boldlast]',
-					'context'         => '',
-					'active_callback' => array( $this, 'breadcrumbs_active_callback' ),
-				)
-			)
-		);
 	}
 
 	/**
