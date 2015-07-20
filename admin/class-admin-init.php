@@ -99,6 +99,11 @@ class WPSEO_Admin_Init {
 	public function tagline_notice() {
 		if ( current_user_can( 'manage_options' ) && $this->has_default_tagline() && ! $this->seen_tagline_notice() ) {
 
+			// Only add the notice on GET requests and not in the customizer to prevent faulty return url.
+			if ( 'GET' !== filter_input( INPUT_SERVER, 'REQUEST_METHOD' ) || is_customize_preview() ) {
+				return;
+			}
+
 			$current_url = ( is_ssl() ? 'https://' : 'http://' );
 			$current_url .= sanitize_text_field( $_SERVER['SERVER_NAME'] ) . sanitize_text_field( $_SERVER['REQUEST_URI'] );
 			$customize_url = add_query_arg( array(
