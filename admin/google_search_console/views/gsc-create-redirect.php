@@ -14,8 +14,8 @@
 ?>
 <div id='redirect-<?php echo md5( $url ); ?>' style='display: none;'>
 	<form>
-		<div class='form-wrap wpseo-redirect-form'>
-			<?php
+		<div class='form-wrap wpseo_content_wrapper'>
+		<?php
 			switch ( $view_type ) {
 				case 'create' :
 					echo '<h3>', __( 'Redirect this broken URL and fix the error', 'wordpress-seo' ), '</h3>';
