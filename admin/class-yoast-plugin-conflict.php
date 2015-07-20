@@ -95,9 +95,8 @@ class Yoast_Plugin_Conflict {
 
 			return $has_conflicts;
 		}
-		else {
-			return false;
-		}
+
+		return false;
 	}
 
 	/**
