@@ -99,17 +99,10 @@ class WPSEO_Admin_Init {
 	public function tagline_notice() {
 		if ( current_user_can( 'manage_options' ) && $this->has_default_tagline() && ! $this->seen_tagline_notice() ) {
 
-			if ( filter_input( INPUT_GET, 'dismiss_tagline_notice' ) === '1' ) {
-				update_user_meta( get_current_user_id(), 'wpseo_seen_tagline_notice', 'seen' );
-
-				return;
-			}
-
 			$current_url = ( is_ssl() ? 'https://' : 'http://' );
 			$current_url .= sanitize_text_field( $_SERVER['SERVER_NAME'] ) . sanitize_text_field( $_SERVER['REQUEST_URI'] );
 			$customize_url = add_query_arg( array(
 				'url' => urlencode( $current_url ),
-				'dismiss_tagline_notice' => '1',
 			), wp_customize_url() );
 
 			$info_message = sprintf(
