@@ -267,6 +267,9 @@ function wpseo_recalculate_scores(current_page) {
 	var calculate_score = function( post ) {
 		// Something with calculating the score
 		var score = 0;
+		var tmpAnalyzer = new YoastSEO_Analyzer( post );
+		tmpAnalyzer.runQueue();
+		score = tmpAnalyzer.analyzeScorer.__totalScore;
 
 		// Doing request to update the score
 		jQuery.post(
