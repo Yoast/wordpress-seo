@@ -8,7 +8,7 @@
 ?>
 	<h2 class="nav-tab-wrapper" id="wpseo-tabs">
 <?php
-if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+if ( defined( 'WP_DEBUG' ) && WP_DEBUG && WPSEO_GSC_Settings::get_profile() !== '' ) {
 	?>
 		<form action="" method="post">
 			<input type='hidden' name='reload-crawl-issues-nonce' value='<?php echo wp_create_nonce( 'reload-crawl-issues' ); ?>' />

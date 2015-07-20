@@ -47,6 +47,12 @@ class WPSEO_GSC {
 
 		// Setting the screen option.
 		if ( filter_input( INPUT_GET, 'page' ) === 'wpseo_search_console' ) {
+
+			if ( filter_input( INPUT_GET, 'tab' ) !== 'settings' && WPSEO_GSC_Settings::get_profile() === '' ) {
+				wp_redirect( add_query_arg( 'tab', 'settings' ) );
+				exit;
+			}
+
 			$this->set_hooks();
 			$this->set_dependencies();
 			$this->request_handler();

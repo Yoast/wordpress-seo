@@ -37,20 +37,25 @@ class WPSEO_GSC_Platform_Tabs {
 	 * @return string
 	 */
 	private function platform_tabs() {
+		$tabs = array( 'settings' => __( 'Settings', 'wordpress-seo' ) );
+
 		$platforms = array(
 			'web'             => __( 'Desktop', 'wordpress-seo' ),
 			'smartphone_only' => __( 'Smartphone', 'wordpress-seo' ),
 			'mobile'          => __( 'Feature phone', 'wordpress-seo' ),
-			'settings'        => __( 'Settings', 'wordpress-seo' ),
 		);
+
+		if ( WPSEO_GSC_Settings::get_profile() !== '' ) {
+			$tabs = array_merge( $platforms, $tabs );
+		}
 
 		$admin_link = admin_url( 'admin.php?page=wpseo_search_console&tab=' );
 
-		$this->set_current_tab( $platforms );
+		$this->set_current_tab( $tabs );
 
 		$return = '';
 
-		foreach ( $platforms as $platform_target => $platform_value ) {
+		foreach ( $tabs as $platform_target => $platform_value ) {
 			$return .= $this->platform_tab( $platform_target, $platform_value, $admin_link );
 		}
 
