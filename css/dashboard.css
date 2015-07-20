@@ -33,8 +33,8 @@
 }
 
 #wpseo-dashboard-overview th {
-	text-align: left;
 	font-weight: 400;
+	text-align: left;
 }
 
 #wpseo-dashboard-overview th:after {
