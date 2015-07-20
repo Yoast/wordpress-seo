@@ -4,7 +4,7 @@
  * @constructor
  */
 YoastSEO = function( args ) {
-    window.analyzeLoader = this;
+    window.YoastSEO_loader = this;
     this.config = args;
     this.inputs = {};
     this.stringHelper = new YoastSEO_StringHelper();
@@ -16,7 +16,7 @@ YoastSEO = function( args ) {
 };
 
 /**
- * inits YoastSEO, calls element definer and snippet preview creater
+ * inits YoastSEO, calls eleement definer and snippet preview creater
  */
 YoastSEO.prototype.init = function(){
     this.defineElements();
@@ -30,10 +30,11 @@ YoastSEO.prototype.createSnippetPreview = function() {
     var targetElement = document.getElementById( this.config.targets.snippet );
     var div = document.createElement( "div" );
     div.id = "snippet_preview";
+	targetElement.appendChild( div );
     this.createSnippetPreviewTitle( div );
     this.createSnippetPreviewUrl ( div );
     this.createSnippetPreviewMeta ( div );
-    targetElement.appendChild( div );
+
     this.snippetPreview = new YoastSEO_SnippetPreview( this );
     this.bindEvent();
     this.bindSnippetEvents();
@@ -75,7 +76,7 @@ YoastSEO.prototype.createSnippetPreviewMeta = function ( target ){
     meta.className = "desc";
     meta.id = "snippet_meta";
     meta.contentEditable = true;
-    meta.innerText = this.config.sampleText[ "meta" ];
+    meta.textContent = this.config.sampleText[ "meta" ];
     target.appendChild( meta );
 };
 
@@ -85,10 +86,12 @@ YoastSEO.prototype.createSnippetPreviewMeta = function ( target ){
 YoastSEO.prototype.defineElements = function() {
     this.target = document.getElementById( this.config.targets.output );
     for ( var i = 0; i < this.config.elementTarget.length; i++ ){
-		var elem = document.getElementById( this.config.elementTarget[i]);
+		var elem = document.getElementById(this.config.elementTarget[i]);
 		if(elem !== null) {
-			document.getElementById(this.config.elementTarget[i]).__refObj = this;
+			//document.getElementById(this.config.elementTarget[i]).__refObj = this;
+			elem.__refObj = this;
 		}
+
     }
 };
 
@@ -162,12 +165,12 @@ YoastSEO.prototype.analyzeTimer = function() {
  * calls the getInput function to retrieve values from inputs. If the keyword is empty calls message, if keyword is filled, runs the analyzer
  */
 YoastSEO.prototype.checkInputs = function() {
-    var refObj = window.analyzeLoader;
+    var refObj = window.YoastSEO_loader;
     refObj.getAnalyzerInput();
 };
 
 YoastSEO.prototype.runAnalyzerCallback = function() {
-    var refObj = window.analyzeLoader;
+    var refObj = window.YoastSEO_loader;
     if( refObj.source.analyzerData.keyword === "" ) {
         refObj.showMessage();
     }else{
@@ -212,7 +215,7 @@ YoastSEO.prototype.runAnalyzer = function() {
     if( this.config.dynamicDelay ){
         this.startTime();
     }
-    this.pageAnalyzer = new YoastSEO_Analyzer( this.source.formattedData );
+    this.pageAnalyzer = new YoastSEO_Analyzer( this.source.analyzerData );
     this.pageAnalyzer.runQueue();
 
     this.scoreFormatter = new YoastSEO_ScoreFormatter( this.pageAnalyzer, this.config.targets );
@@ -227,7 +230,7 @@ YoastSEO.prototype.runAnalyzer = function() {
  */
 YoastSEO_loadEvents = function() {
     if( document.readyState === "complete" ){
-        YoastSEO_loader = new YoastSEO( YoastSEO_args );
+        var YoastSEO_loader = new YoastSEO( YoastSEO_args );
     }else{
         setTimeout( YoastSEO_loadEvents, 50 );
     }

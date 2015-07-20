@@ -330,7 +330,6 @@ YoastSEO_WordPressScraper.prototype.ajaxReplaceVariables = function( srcObj ) {
 /**
  * calls the eventbinders.
  */
-//todo check if elements need to be rebound
 YoastSEO_WordPressScraper.prototype.bindElementEvents = function() {
     this.snippetPreviewEventBinder();
     this.inputElementEventBinder();
@@ -352,7 +351,7 @@ YoastSEO_WordPressScraper.prototype.snippetPreviewEventBinder = function() {
 YoastSEO_WordPressScraper.prototype.inputElementEventBinder = function() {
     var elems = ["excerpt", "content", "editable-post-name", "yoast_wpseo_focuskw"];
     for (var i = 0; i < elems.length; i++){
-		elem = document.getElementById(elems[i]);
+		var elem = document.getElementById(elems[i]);
 		if(elem !== null) {
 			document.getElementById(elems[i]).addEventListener("change", this.renewData);
 		}
