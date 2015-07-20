@@ -220,7 +220,7 @@ class Yoast_Form {
 			if ( $i == 2 ) {
 				break;
 			}
-			echo '<a target="_blank" href="' . esc_url( $banner['url'] ) . '"><img width="261" src="' . plugins_url( 'images/' . $banner['img'], WPSEO_FILE ) . '" alt="' . esc_attr( $banner['alt'] ) . '"/></a><br/><br/>';
+			echo '<a target="_blank" href="' . esc_url( $banner['url'] ) . '"><img width="261" height="130" src="' . plugins_url( 'images/' . $banner['img'], WPSEO_FILE ) . '" alt="' . esc_attr( $banner['alt'] ) . '"/></a><br/><br/>';
 			$i ++;
 		}
 		?>
