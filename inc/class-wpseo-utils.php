@@ -778,4 +778,22 @@ class WPSEO_Utils {
 		return apply_filters( 'wpseo_format_admin_url', $formatted_url );
 	}
 
+
+	/**
+	 * Get plugin name from file
+	 *
+	 * @param string $plugin
+	 *
+	 * @return bool
+	 */
+	public static function get_plugin_name( $plugin ) {
+		$plugin_details = get_plugin_data( ABSPATH . '/wp-content/plugins/' . $plugin );
+
+		if ( $plugin_details['Name'] != '' ) {
+			return $plugin_details['Name'];
+		}
+
+		return false;
+	}
+
 } /* End of class WPSEO_Utils */
