@@ -18,7 +18,7 @@
 			<?php
 			switch ( $view_type ) {
 				case 'create' :
-					echo '<h3>', __( 'Redirect this broken URL and fix the error' ), '</h3>';
+					echo '<h3>', __( 'Redirect this broken URL and fix the error', 'wordpress-seo' ), '</h3>';
 					?>
 					<div class='form-field form-required'>
 						<label for='wpseo-current-url'><?php _e( 'Current URL:', 'wordpress-seo' ); ?></label>
@@ -43,7 +43,7 @@
 					break;
 
 				case 'already_exists' :
-					echo '<h3>', __( 'Error: a redirect for this URL already exists' ), '</h3>';
+					echo '<h3>', __( 'Error: a redirect for this URL already exists', 'wordpress-seo' ), '</h3>';
 					echo '<p>';
 
 					/* Translators: %1$s: expands to the current url and %2$s expands to url the redirects points to. */
@@ -56,7 +56,7 @@
 					break;
 
 				case 'no_premium' :
-					echo '<h3>', __( 'Creating redirects is a Yoast SEO Premium feature' ), '</h3>';
+					echo '<h3>', __( 'Creating redirects is a Yoast SEO Premium feature', 'wordpress-seo' ), '</h3>';
 					echo '<p>';
 					/* Translators: %1$s: expands to 'Yoast SEO Premium', %2$s: links to Yoast SEO Premium plugin page. */
 					echo sprintf(
