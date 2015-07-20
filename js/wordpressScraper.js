@@ -58,22 +58,14 @@ YoastSEO_WordPressScraper.prototype.getDataFromInput = function( inputType ) {
             val = this.getContentTinyMCE();
             break;
         case "url":
-        case "editable-post-name":
-			var elem = document.getElementById("sample-permalink");
-			val = "";
-			if(elem !== null) {
-				val = document.getElementById("sample-permalink").textContent;
-				var postSlug = document.getElementById("new-post-slug");
-				if (postSlug !== null) {
-					val += postSlug.value + "/";
-				}
-			}
-            break;
+			val = document.getElementById("sample-permalink").innerHTML.split("<span")[0];
+			break;
         case "cite":
-			var elem = document.getElementById("sample-permalink");
-			val = "";
-			if(elem !== null) {
-				val = document.getElementById("sample-permalink").textContent.replace(/https?:\/\//i, "");
+		case "editable-post-name":
+			val = document.getElementById("editable-post-name").textContent;
+			var elem = document.getElementById("new-post-slug");
+			if(elem !== null && val === "") {
+				val = document.getElementById("new-post-slug").value;
 			}
             break;
         case "meta":
@@ -171,11 +163,11 @@ YoastSEO_WordPressScraper.prototype.getInputFieldsData = function ( ev ) {
             document.getElementById( "snippet_meta" ).textContent = document.getElementById( "yoast_wpseo_metadesc" ).value;
             break;
         case "url":
-            var urlBase = document.getElementById("sample-permalink").textContent.replace(/https?:\/\//i, "").split("/")[0]+"/";
+            //var urlBase = document.getElementById("sample-permalink").textContent.replace(/https?:\/\//i, "").split("/")[0]+"/";
             var newUrl = document.getElementById( "snippet_cite" ).textContent;
-            newUrl = newUrl.replace(urlBase, "");
+            //newUrl = newUrl.replace(urlBase, "");
             document.getElementById("editable-post-name").textContent = newUrl;
-            document.getElementById("editable-post-name-full").textContent = newUrl;
+            //document.getElementById("editable-post-name-full").textContent = newUrl;
             break;
         default:
             break;

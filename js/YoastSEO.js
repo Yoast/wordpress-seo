@@ -48,7 +48,7 @@ YoastSEO.prototype.createSnippetPreviewTitle = function( target ) {
     var title;
     title = document.createElement( "span" );
     title.contentEditable = true;
-    title.innerText = this.config.sampleText[ "title" ];
+    title.textContent = this.config.sampleText.title;
     title.className = "title";
     title.id = "snippet_title";
     target.appendChild( title );
@@ -59,10 +59,14 @@ YoastSEO.prototype.createSnippetPreviewTitle = function( target ) {
  * @param target
  */
 YoastSEO.prototype.createSnippetPreviewUrl = function( target ){
-    var cite = document.createElement( "cite" );
-    cite.className = "url";
-    cite.id = "snippet_cite";
-    cite.innerText = this.config.sampleText[ "url" ];
+    var baseUrl = document.createElement( "cite" );
+    baseUrl.className = "url urlBase";
+	baseUrl.id = "snippet_citeBase";
+	target.appendChild( baseUrl );
+	var cite = document.createElement( "cite" );
+	cite.className = "url";
+	cite.id = "snippet_cite";
+    cite.textContent = this.config.sampleText.url;
     cite.contentEditable = true;
     target.appendChild( cite );
 };

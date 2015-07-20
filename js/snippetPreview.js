@@ -31,6 +31,8 @@ YoastSEO_SnippetPreview.prototype.htmlOutput = function() {
     html.title = this.formatTitle();
     html.cite = this.formatCite();
     html.meta = this.formatMeta();
+	//get value directly, since it doesn't require formatting.
+	html.url = this.refObj.source.formattedData.url;
     return html;
 };
 
@@ -183,8 +185,8 @@ YoastSEO_SnippetPreview.prototype.formatKeywordUrl = function ( textString ) {
  */
 YoastSEO_SnippetPreview.prototype.renderOutput = function() {
     document.getElementById( "snippet_title" ).innerHTML = this.output.title;
-
-    document.getElementById( "snippet_cite" ).innerHTML = this.output.cite.replace(/https?:\/\//i, "").replace(/\/\//g, "/");
+    document.getElementById( "snippet_cite" ).innerHTML = this.output.cite;
+	document.getElementById( "snippet_citeBase").innerHTML = this.output.url;
     document.getElementById( "snippet_meta" ).innerHTML = this.output.meta;
 };
 
