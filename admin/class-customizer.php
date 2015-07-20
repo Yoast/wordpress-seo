@@ -47,7 +47,7 @@ class WPSEO_Customizer {
 				/* translators: %s is the name of the plugin */
 				'title'           => sprintf( __( '%s Breadcrumbs', 'wordpress-seo' ), 'Yoast SEO' ),
 				'priority'        => 999,
-				'active_callback' => array( $this, 'breadcrumbs_active_callback' )
+				'active_callback' => array( $this, 'breadcrumbs_active_callback' ),
 			)
 		);
 
