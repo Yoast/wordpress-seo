@@ -37,6 +37,7 @@ class Yoast_Dashboard_Widget {
 	public function add_dashboard_widget() {
 		wp_add_dashboard_widget(
 			'wpseo-dashboard-overview',
+			/* translators: %s is the plugin name */
 			sprintf( __( '%s Posts Overview', 'wordpress-seo' ), 'Yoast SEO' ),
 			array( $this, 'display_dashboard_widget' )
 		);
