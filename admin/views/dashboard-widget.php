@@ -25,7 +25,7 @@
 				</a>
 			</th>
 			<td class="post-count">
-				<?php echo intval( $statistic['count'] ); ?>
+				<?php echo absint( $statistic['count'] ); ?>
 			</td>
 		</tr>
 	<?php endforeach; ?>
