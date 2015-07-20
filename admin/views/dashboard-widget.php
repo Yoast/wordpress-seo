@@ -19,7 +19,7 @@
 		<tr>
 			<th>
 				<div class="wpseo-score-icon <?php echo esc_attr( $statistic['seo_rank'] ); ?>"></div>
-				<a href="<?php echo esc_attr( admin_url( 'edit.php?post_status=publish&post_type=post&seo_filter=' . $statistic['seo_rank'] ) ); ?>"
+				<a href="<?php echo esc_url( admin_url( 'edit.php?post_status=publish&post_type=post&seo_filter=' . $statistic['seo_rank'] ) ); ?>"
 				   class="wpseo-glance <?php echo esc_attr( $statistic['class'] ); ?>">
 					<?php printf( $statistic['title'], intval( $statistic['count'] ) ); ?>
 				</a>
