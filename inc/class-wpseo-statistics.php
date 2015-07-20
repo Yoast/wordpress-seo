@@ -94,28 +94,8 @@ class WPSEO_Statistics {
 			);
 		}
 		else {
-			switch ( $seo_ranking ) {
-
-				case 'bad':
-					$start = 1;
-					$end   = 34;
-					break;
-
-				case 'poor':
-					$start = 35;
-					$end   = 54;
-					break;
-
-				case 'ok':
-					$start = 55;
-					$end   = 74;
-					break;
-
-				case 'good':
-					$start = 75;
-					$end   = 100;
-					break;
-			}
+			$start = WPSEO_Utils::$seo_scores[ $seo_ranking ]['start'];
+			$end   = WPSEO_Utils::$seo_scores[ $seo_ranking ]['end'];
 
 			$posts = array(
 				'meta_key'     => WPSEO_Meta::$meta_prefix . 'linkdex',

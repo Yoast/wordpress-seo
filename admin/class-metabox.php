@@ -1008,10 +1008,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				self::set_value( 'linkdex', 0, $post_id );
 			}
 			elseif ( $score !== '' ) {
-				$nr          = WPSEO_Utils::calc( $score, '/', 10, true );
-				$score_label = WPSEO_Utils::translate_score( $nr );
-				$title       = WPSEO_Utils::translate_score( $nr, false );
-				unset( $nr );
+				$score_label = WPSEO_Utils::translate_score( $score );
+				$title       = WPSEO_Utils::translate_score( $score, false );
 			}
 			else {
 				$this->calculate_results( get_post( $post_id ) );
@@ -1071,7 +1069,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$na      = false;
 			$noindex = false;
 			$high    = false;
-			switch ( $_GET['seo_filter'] ) {
+			$seo_filter = filter_input( INPUT_GET, 'seo_filter' );
+
+			switch ( $seo_filter ) {
 				case 'noindex':
 					$low     = false;
 					$noindex = true;
@@ -1081,20 +1081,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 					$na  = true;
 					break;
 				case 'bad':
-					$low  = 1;
-					$high = 34;
-					break;
 				case 'poor':
-					$low  = 35;
-					$high = 54;
-					break;
 				case 'ok':
-					$low  = 55;
-					$high = 74;
-					break;
 				case 'good':
-					$low  = 75;
-					$high = 100;
+					$low  = WPSEO_Utils::$seo_scores[ $seo_filter ]['start'];
+					$high = WPSEO_Utils::$seo_scores[ $seo_filter ]['end'];
 					break;
 				default:
 					$low     = false;
