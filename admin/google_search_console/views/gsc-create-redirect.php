@@ -14,31 +14,32 @@
 ?>
 <div id='redirect-<?php echo md5( $url ); ?>' style='display: none;'>
 	<form>
-		<div class='form-wrap'>
+		<div class='form-wrap wpseo-redirect-form'>
 			<?php
 			switch ( $view_type ) {
 				case 'create' :
-				?>
+					echo '<h3>', __( 'Redirect this broken URL and fix the error' ), '</h3>';
+					?>
 					<div class='form-field form-required'>
-						<label><?php _e( 'Current URL:', 'wordpress-seo' ); ?></label>
-						<input type='text' name='current_url' value='<?php echo $url; ?>' disabled='disabled' />
+						<label for='wpseo-current-url'><?php _e( 'Current URL:', 'wordpress-seo' ); ?></label>
+						<input type='text' id='wpseo-current-url' name='current_url' value='<?php echo $url; ?>' disabled='disabled'>
 					</div>
 					<div class='form-field form-required'>
-						<label><?php _e( 'New URL:', 'wordpress-seo' ); ?></label>
-						<input type='text' name='new_url' value='' />
+						<label for='wpseo-new-url'><?php _e( 'New URL:', 'wordpress-seo' ); ?></label>
+						<input type='text' id='wpseo-new-url' name='new_url' autofocus value=''>
 					</div>
 					<div class='form-field form-required'>
-						<label class='clear'><?php _e( 'Mark as fixed:', 'wordpress-seo' ); ?></label>
-						<input type='checkbox' value='1' name="mark_as_fixed" class='clear'  />
+						<label for='wpseo-mark-as-fixed' class='clear'><?php _e( 'Mark as fixed:', 'wordpress-seo' ); ?></label>
+						<input type='checkbox' checked value='1' id='wpseo-mark-as-fixed' name='mark_as_fixed' class='clear' >
 						<p><?php
 							/* Translators: %1$s: expands to 'Google Search Console'. */
 							echo sprintf( __( 'Mark this issue as fixed in %1$s.', 'wordpress-seo' ), 'Google Search Console' );
 							?></p>
 					</div>
 					<p class='submit'>
-						<input type='button' name='submit' id='submit' class='button button-primary' value='<?php _e( 'Save redirect', 'wordpress-seo' ); ?>' onclick='javascript:wpseo_gsc_post_redirect( jQuery( this ) );' />
+						<input type='button' name='submit' id='submit' class='button button-primary' value='<?php _e( 'Create redirect', 'wordpress-seo' ); ?>' onclick='wpseo_gsc_post_redirect( jQuery( this ) );' />
 					</p>
-			<?php
+					<?php
 					break;
 
 				case 'already_exists' :
