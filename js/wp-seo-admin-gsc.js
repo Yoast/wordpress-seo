@@ -35,8 +35,10 @@ function wpseo_gsc_post_redirect( ) {
 			type: '301'
 		},
 		function() {
-			// Remove the row with old url
-			jQuery('span:contains(' + old_url + ')').closest('tr').remove();
+			if( jQuery( target_form ).find('input[name=mark_as_fixed]').prop('checked') === true ) {
+				// Remove the row with old url
+				jQuery('span:contains(' + old_url + ')').closest('tr').remove();
+			}
 
 			// Remove the thickbox
 			tb_remove();
