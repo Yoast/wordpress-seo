@@ -14,7 +14,7 @@
 ?>
 <div id='redirect-<?php echo md5( $url ); ?>' style='display: none;'>
 	<form>
-		<div class='form-wrap wpseo_content_wrapper'>
+		<div class='form-wrap wpseo-redirect-form'>
 			<?php
 			switch ( $view_type ) {
 				case 'create' :
