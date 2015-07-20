@@ -15,8 +15,6 @@
 <div id='redirect-<?php echo md5( $url ); ?>' style='display: none;'>
 	<form>
 		<div class='form-wrap'>
-			<h3><?php _e( 'Create a redirect', 'wordpress-seo' ); ?></h3>
-
 			<?php
 			switch ( $view_type ) {
 				case 'create' :
@@ -44,6 +42,7 @@
 					break;
 
 				case 'already_exists' :
+					echo '<h3>', __( 'Error: a redirect for this URL already exists' ), '</h3>';
 					echo '<p>';
 
 					/* Translators: %1$s: expands to the current url and %2$s expands to url the redirects points to. */
@@ -56,6 +55,7 @@
 					break;
 
 				case 'no_premium' :
+					echo '<h3>', __( 'Creating redirects is a Yoast SEO Premium feature' ), '</h3>';
 					echo '<p>';
 					/* Translators: %1$s: expands to 'Yoast SEO Premium', %2$s: links to Yoast SEO Premium plugin page. */
 					echo sprintf(
