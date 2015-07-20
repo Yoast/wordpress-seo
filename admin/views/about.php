@@ -63,7 +63,7 @@ function wpseo_display_contributors( $contributors ) {
 
 					<p>
 						If you have <a target="_blank" href="https://yoast.com/wordpress/plugins/seo-premium/#utm_source=wordpress-seo-config&utm_medium=textlink&utm_campaign=about-page">Yoast SEO Premium</a>, you'll even be able to fix those errors by redirecting the broken
-						URLs!
+						URLs. Through the integration, we'll mark them as fixed in Google Search Console too!
 					</p>
 				</div>
 				<div class="col">
@@ -89,7 +89,7 @@ function wpseo_display_contributors( $contributors ) {
 						need work. The new dashboard widget we've added points you at exactly those post that need work.
 					</p>
 					<p>
-						Don't know how to optimize your posts? Read our <a target="_blank" href="https://yoast.com/ebooks/content-seo/#utm_source=wordpress-seo-config&utm_medium=textlink&utm_campaign=about-page">Content SEO book</a>!
+						Don't know how to optimize your posts? Read our <a target="_blank" href="https://yoast.com/ebooks/content-seo/#utm_source=wordpress-seo-config&utm_medium=textlink&utm_campaign=about-page">Content SEO eBook</a>!
 					</p>
 				</div>
 			</div>
@@ -107,7 +107,7 @@ function wpseo_display_contributors( $contributors ) {
 					</p>
 
 					<p>
-						Are you a developer? <a href='http://kb.yoast.com/article/274-add-theme-support-for-yoast-seo-breadcrumbs'>Read how
+						Are you a developer? Learn <a href='http://kb.yoast.com/article/274-add-theme-support-for-yoast-seo-breadcrumbs'>how
 							to implement this feature</a> for your theme(s).
 					</p>
 				</div>
