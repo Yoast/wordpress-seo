@@ -80,37 +80,37 @@ class Yoast_Dashboard_Widget {
 
 		$items = array(
 			array(
-				'seo_rank' => 'good',
+				'seo_rank' => WPSEO_Rank::GOOD,
 				'title'    => __( 'Posts with good SEO score', 'wordpress-seo' ),
 				'class'    => 'wpseo-glance-good',
 				'count'    => $this->statistics->get_good_seo_post_count(),
 			),
 			array(
-				'seo_rank' => 'ok',
+				'seo_rank' => WPSEO_Rank::OK,
 				'title'    => __( 'Posts with OK SEO score', 'wordpress-seo' ),
 				'class'    => 'wpseo-glance-ok',
 				'count'    => $this->statistics->get_ok_seo_post_count(),
 			),
 			array(
-				'seo_rank' => 'poor',
+				'seo_rank' => WPSEO_Rank::POOR,
 				'title'    => __( 'Posts with poor SEO score', 'wordpress-seo' ),
 				'class'    => 'wpseo-glance-poor',
 				'count'    => $this->statistics->get_poor_seo_post_count(),
 			),
 			array(
-				'seo_rank' => 'bad',
+				'seo_rank' => WPSEO_Rank::BAD,
 				'title'    => __( 'Posts with bad SEO score', 'wordpress-seo' ),
 				'class'    => 'wpseo-glance-bad',
 				'count'    => $this->statistics->get_bad_seo_post_count(),
 			),
 			array(
-				'seo_rank' => 'na',
+				'seo_rank' => WPSEO_Rank::NO_FOCUS,
 				'title'    => __( 'Posts without focus keyword', 'wordpress-seo' ),
 				'class'    => 'wpseo-glance-na',
 				'count'    => $this->statistics->get_no_focus_post_count(),
 			),
 			array(
-				'seo_rank' => 'noindex',
+				'seo_rank' => WPSEO_Rank::NO_INDEX,
 				'title'    => __( 'Posts that are set to <code>noindex</code>', 'wordpress-seo' ),
 				'class'    => 'wpseo-glance-noindex',
 				'count'    => $this->statistics->get_no_index_post_count(),

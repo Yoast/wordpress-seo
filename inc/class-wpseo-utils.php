@@ -24,30 +24,6 @@ class WPSEO_Utils {
 	private static $cache_clear = array();
 
 	/**
-	 * Holds the translation from seo score slug to actual score range
-	 *
-	 * @var array
-	 */
-	public static $seo_scores = array(
-		'bad'  => array(
-			'start' => 1,
-			'end'   => 34,
-		),
-		'poor' => array(
-			'start' => 35,
-			'end'   => 54,
-		),
-		'ok'   => array(
-			'start' => 55,
-			'end'   => 74,
-		),
-		'good' => array(
-			'start' => 75,
-			'end' => 100,
-		),
-	);
-
-	/**
 	 * Check whether the current user is allowed to access the configuration.
 	 *
 	 * @static
@@ -224,28 +200,28 @@ class WPSEO_Utils {
 
 			case 0 === $val:
 				$score = __( 'N/A', 'wordpress-seo' );
-				$css   = 'na';
+				$css   = WPSEO_Rank::NO_FOCUS;
 				break;
 
 			default:
-			case self::$seo_scores['bad']['start'] <= $val && $val <= self::$seo_scores['bad']['end']:
+			case WPSEO_Rank::$range[ WPSEO_Rank::BAD ]['start'] <= $val && $val <= WPSEO_Rank::$range[ WPSEO_Rank::BAD ]['end']:
 				$score = __( 'Bad', 'wordpress-seo' );
-				$css   = 'bad';
+				$css   = WPSEO_Rank::BAD;
 				break;
 
-			case self::$seo_scores['poor']['start'] <= $val && $val <= self::$seo_scores['poor']['end']:
+			case WPSEO_Rank::$range[ WPSEO_Rank::POOR ]['start'] <= $val && $val <= WPSEO_Rank::$range[ WPSEO_Rank::POOR ]['end']:
 				$score = __( 'Poor', 'wordpress-seo' );
-				$css   = 'poor';
+				$css   = WPSEO_Rank::POOR;
 				break;
 
-			case self::$seo_scores['ok']['start'] <= $val && $val <= self::$seo_scores['ok']['end']:
+			case WPSEO_Rank::$range[ WPSEO_Rank::OK ]['start'] <= $val && $val <= WPSEO_Rank::$range[ WPSEO_Rank::OK ]['end']:
 				$score = __( 'OK', 'wordpress-seo' );
-				$css   = 'ok';
+				$css   = WPSEO_Rank::OK;
 				break;
 
-			case self::$seo_scores['good']['start'] <= $val && $val <= self::$seo_scores['good']['end']:
+			case WPSEO_Rank::$range[ WPSEO_Rank::GOOD ]['start'] <= $val && $val <= WPSEO_Rank::$range[ WPSEO_Rank::GOOD ]['end']:
 				$score = __( 'Good', 'wordpress-seo' );
-				$css   = 'good';
+				$css   = WPSEO_Rank::GOOD;
 				break;
 
 		}

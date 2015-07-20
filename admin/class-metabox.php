@@ -946,12 +946,12 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 
 		$scores_array = array(
-			'na'      => __( 'SEO: No Focus Keyword', 'wordpress-seo' ),
-			'bad'     => __( 'SEO: Bad', 'wordpress-seo' ),
-			'poor'    => __( 'SEO: Poor', 'wordpress-seo' ),
-			'ok'      => __( 'SEO: OK', 'wordpress-seo' ),
-			'good'    => __( 'SEO: Good', 'wordpress-seo' ),
-			'noindex' => __( 'SEO: Post Noindexed', 'wordpress-seo' ),
+			WPSEO_Rank::NO_FOCUS => __( 'SEO: No Focus Keyword', 'wordpress-seo' ),
+			WPSEO_Rank::BAD      => __( 'SEO: Bad', 'wordpress-seo' ),
+			WPSEO_Rank::POOR     => __( 'SEO: Poor', 'wordpress-seo' ),
+			WPSEO_Rank::OK       => __( 'SEO: OK', 'wordpress-seo' ),
+			WPSEO_Rank::GOOD     => __( 'SEO: Good', 'wordpress-seo' ),
+			WPSEO_Rank::NO_INDEX => __( 'SEO: Post Noindexed', 'wordpress-seo' ),
 		);
 
 		echo '
@@ -1003,7 +1003,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		if ( $column_name === 'wpseo-score' ) {
 			$score = self::get_value( 'linkdex', $post_id );
 			if ( self::get_value( 'meta-robots-noindex', $post_id ) === '1' ) {
-				$score_label = 'noindex';
+				$score_label = WPSEO_Rank::NO_INDEX;
 				$title       = __( 'Post is set to noindex.', 'wordpress-seo' );
 				self::set_value( 'linkdex', 0, $post_id );
 			}
@@ -1015,7 +1015,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				$this->calculate_results( get_post( $post_id ) );
 				$score = self::get_value( 'linkdex', $post_id );
 				if ( $score === '' ) {
-					$score_label = 'na';
+					$score_label = WPSEO_Rank::NO_FOCUS;
 					$title       = __( 'Focus keyword not set.', 'wordpress-seo' );
 				}
 				else {
@@ -1072,20 +1072,20 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$seo_filter = filter_input( INPUT_GET, 'seo_filter' );
 
 			switch ( $seo_filter ) {
-				case 'noindex':
+				case WPSEO_Rank::NO_INDEX:
 					$low     = false;
 					$noindex = true;
 					break;
-				case 'na':
+				case WPSEO_Rank::NO_FOCUS:
 					$low = false;
 					$na  = true;
 					break;
-				case 'bad':
-				case 'poor':
-				case 'ok':
-				case 'good':
-					$low  = WPSEO_Utils::$seo_scores[ $seo_filter ]['start'];
-					$high = WPSEO_Utils::$seo_scores[ $seo_filter ]['end'];
+				case WPSEO_Rank::BAD:
+				case WPSEO_Rank::POOR:
+				case WPSEO_Rank::OK:
+				case WPSEO_Rank::GOOD:
+					$low  = WPSEO_Rank::$range[ $seo_filter ]['start'];
+					$high = WPSEO_Rank::$range[ $seo_filter ]['end'];
 					break;
 				default:
 					$low     = false;
