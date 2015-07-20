@@ -39,6 +39,7 @@ class Yoast_Notification_Center {
 		add_action( 'shutdown', array( $this, 'set_transient' ) );
 		add_action( 'wp_ajax_yoast_get_notifications', array( $this, 'ajax_get_notifications' ) );
 		add_action( 'admin_head', array( $this, 'enqueue' ) );
+		add_action( 'wpseo_deactivate', array( $this, 'deactivate_hook' ) );
 	}
 
 	/**
@@ -105,6 +106,13 @@ class Yoast_Notification_Center {
 	 */
 	private function clear_notifications() {
 		$this->notifications = array();
+	}
+
+	/**
+	 * Remove transient when the plugin is deactivated
+	 */
+	public function deactivate_hook() {
+		$this->clear_notifications();
 	}
 
 	/**
