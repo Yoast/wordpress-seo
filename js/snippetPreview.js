@@ -197,3 +197,37 @@ YoastSEO_SnippetPreview.prototype.reRender = function () {
     this.init();
 };
 
+/**
+ * used to disable enter as input. Returns false to prevent enter, and preventDefault and cancelBubble to prevent
+ * other elements from capturing this event.
+ * @param event
+ */
+YoastSEO_SnippetPreview.prototype.disableEnter = function( ev ) {
+	if(ev.keyCode === 13){
+		ev.returnValue = false;
+		ev.cancelBubble = true;
+		ev.preventDefault();
+	}
+};
+
+/**
+ * checks text length of the snippetmeta and snippettitle, shortens it if it is too long.
+ * @param event
+ */
+YoastSEO_SnippetPreview.prototype.checkTextLength = function( ev ) {
+	var text = ev.currentTarget.textContent;
+	switch(ev.currentTarget.id){
+		case "snippet_meta":
+			if(text.length > YoastSEO_config.analyzerConfig.maxMeta){
+				ev.currentTarget.textContent = text.substring(0, YoastSEO_config.analyzerConfig.maxMeta);
+			}
+			break;
+		case "snippet_title":
+			if(text.length > 40){
+				ev.currentTarget.textContent = text.substring(0, 40);
+			}
+			break;
+		default:
+			break;
+	}
+};

@@ -312,8 +312,8 @@ YoastSEO_WordPressScraper.prototype.ajaxReplaceVariables = function( srcObj ) {
             _wpnonce: wpseoMetaboxL10n.wpseo_replace_vars_nonce
         }, function( data ) {
             if ( data ) {
-                analyzeLoader.source.replacedVars[srcObj.replaceableVar] = data;
-                analyzeLoader.source.replaceVariables (srcObj.textString, srcObj.type, srcObj.object);
+				YoastSEO_loader.source.replacedVars[srcObj.replaceableVar] = data;
+				YoastSEO_loader.source.replaceVariables (srcObj.textString, srcObj.type, srcObj.object);
             }
         }
     );
@@ -325,6 +325,7 @@ YoastSEO_WordPressScraper.prototype.ajaxReplaceVariables = function( srcObj ) {
 YoastSEO_WordPressScraper.prototype.bindElementEvents = function() {
     this.snippetPreviewEventBinder();
     this.inputElementEventBinder();
+	document.getElementById("yoast_wpseo_focuskw").addEventListener("keydown", this.refObj.snippetPreview.disableEnter);
 };
 
 /**
@@ -334,7 +335,9 @@ YoastSEO_WordPressScraper.prototype.snippetPreviewEventBinder = function() {
     var elems = ["cite", "meta", "title"];
     for (var i = 0; i < elems.length; i++){
         document.getElementById("snippet_"+elems[i]).addEventListener("focus", this.getInputFieldsData);
-		document.getElementById("snippet_"+elems[i]).addEventListener("keydown", this.disableEnter);
+		document.getElementById("snippet_"+elems[i]).addEventListener("keydown", this.refObj.snippetPreview.disableEnter);
+		document.getElementById("snippet_"+elems[i]).addEventListener("blur", this.refObj.snippetPreview.checkTextLength);
+		
     }
 };
 
@@ -370,14 +373,3 @@ YoastSEO_WordPressScraper.prototype.updateSnippetValues = function( ev ) {
     ev.currentTarget.refObj.source.getAnalyzerInput();
 };
 
-/**
- * used to disable enter as input. Returns false to prevent enter, and preventDefault and cancelBubble to prevent
- * other elements from capturing this event.
- */
-YoastSEO_WordPressScraper.prototype.disableEnter = function( ev ) {
-	if(ev.keyCode === 13){
-		ev.returnValue = false;
-		ev.cancelBubble = true;
-		ev.preventDefault();
-	}
-};
