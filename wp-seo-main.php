@@ -317,6 +317,9 @@ if ( ( ! defined( 'WP_INSTALLING' ) || WP_INSTALLING === false ) && ( $spl_autol
 			// Crawl Issue Manager AJAX hooks.
 			new WPSEO_GSC_Ajax;
 
+			// Plugin conflict ajax hooks
+			new Yoast_Plugin_Conflict_Ajax();
+
 		}
 		else {
 			add_action( 'plugins_loaded', 'wpseo_admin_init', 15 );
