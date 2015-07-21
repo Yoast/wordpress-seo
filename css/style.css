@@ -171,6 +171,10 @@ li .score{
     font-style: normal;
 }
 
+.urlBase{
+    float: left;
+}
+
 .desc {
     color: #545454;
 }
