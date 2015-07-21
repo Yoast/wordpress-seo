@@ -150,7 +150,7 @@ Release Date: July 21st, 2015
 * Other notable changes:
 	* Removed the possibility to redirect a post in the advanced tab of the Yoast SEO metabox.
 	* Moved the option to include a post in sitemap from the advanced tab of the Yoast SEO metabox to the sitemap settings.
-	* Removed the possibility to configure sitemap priority in the advanced tab of the Yoast SEO metabox.
+	* Removed the option to configure sitemap priority in the advanced tab of the Yoast SEO metabox.
 	* Added multiple checks to prevent plugin compatibility issue between Yoast SEO and old versions of Google Analytics by Yoast.
 	* Updated the banners with new designs.
 
