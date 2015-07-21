@@ -131,7 +131,7 @@ Release Date: July 21st, 2015
 
 * Enhancements:
 	* Renames plugin from "WordPress SEO by Yoast" to "Yoast SEO".
-	* Adds a warning, advising to change the tagline, if a site still has the default WordPress tagline "just another WordPress site".
+	* Adds a warning advising to change the tagline, if a site still has the default WordPress tagline "just another WordPress site".
 	* Changes the default columns visibility for the edit posts overview page. Only the SEO score column is now visible by default.
 	* Contains several en_US string improvements, including a typo in the word "typos"... Thanks [Gary Jones](https://github.com/GaryJones) for redacting!
 	* Adds a filter to allow filtering the content before analysis in the Twitter class, props [Pete Nelson](https://github.com/petenelson).
