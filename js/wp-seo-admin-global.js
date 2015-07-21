@@ -79,5 +79,19 @@ jQuery( document ).ready( function() {
 
 	jQuery( '#wpseo-dismiss-tagline-notice > .notice-dismiss').click( function() {
 		wpseoDismissTaglineNotice( jQuery( '#wpseo-dismiss-tagline-notice').data( 'nonce' ) );
-	})
+	});
+
+	jQuery( '.yoast-dismissible > .notice-dismiss').click( function() {
+		var parent_div = jQuery( this ).parent('.yoast-dismissible');
+
+		jQuery.post(
+			ajaxurl,
+			{
+				action   : parent_div.attr( 'id').replace( /-/g, '_' ),
+				_wpnonce : parent_div.data( 'nonce' ),
+				data     : jQuery.parseJSON( parent_div.find( 'input[name=conflict_data]' ).val() )
+			}
+		);
+	});
 });
+
