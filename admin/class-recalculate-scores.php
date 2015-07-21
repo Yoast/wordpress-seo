@@ -35,17 +35,18 @@ class WPSEO_Recalculate_Scores {
 		// Adding the thickbox.
 		add_thickbox();
 
+		$progress = sprintf(
+			__( 'Currently %1$s of %2$s posts recalculated.', 'wordpress-seo' ),
+			'<span id="wpseo_count">0</span>',
+			'<strong id="wpseo_count_total">' . $this->calculate_posts() . '</strong>'
+		);
+
 		?>
 		<div id='wpseo_recalculate' style='display:none;'>
 			<p><?php _e( 'Recalculating the SEO scores of all the posts:', 'wordpress-seo' ); ?></p>
 
 			<div id='wpseo_progressbar'></div>
-			<p><?php printf(
-					__( 'Currently %1$s of %2$s posts recalculated.', 'wordpress-seo' ),
-					'<span id="wpseo_count">0</span>',
-					'<strong id="wpseo_count_total">' . $this->calculate_posts() . '</strong>'
-				);
-				?></p>
+			<p><?php echo $progress; ?></p>
 		</div>
 		<?php
 	}
