@@ -153,7 +153,6 @@ class WPSEO_Admin_Init {
 		if ( defined( 'GAWP_VERSION' ) && '5.4.3' === GAWP_VERSION ) {
 
 			$info_message = sprintf(
-
 				/* translators: %1$s expands to Yoast SEO, %2$s expands to 5.4.3, %3$s expands to Google Analytics by Yoast */
 				__( '%1$s detected you are using version %2$s of %3$s, please update to the latest version to prevent compatibility issues.', 'wordpress-seo' ),
 				'Yoast SEO',
