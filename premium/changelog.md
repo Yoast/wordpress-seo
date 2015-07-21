@@ -1,3 +1,8 @@
+### 2.3: July 21st, 2015
+* Renamed plugin to "Yoast SEO Premium"
+* Fixes compatibility issue with Post type order plugin.
+* Merge with Yoast SEO core 2.3
+
 ### 2.2.2: June 17th, 2015
 * Fixed a bug that would create unnecessary (and sometimes even faulty) redirects.
 * Added a Japanese translation and updated several other languages.

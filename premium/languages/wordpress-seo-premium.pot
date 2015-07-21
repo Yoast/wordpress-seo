@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo-premium/issues\n"
-"POT-Creation-Date: 2015-06-17 12:18:48+00:00\n"
+"POT-Creation-Date: 2015-07-21 12:46:30+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -24,156 +24,51 @@ msgstr ""
 "X-Poedit-Bookmarks: \n"
 "X-Textdomain-Support: yes\n"
 
-#: class-premium.php:346
+#: class-premium.php:325
 msgid "Create Redirect"
 msgstr ""
 
-#: class-premium.php:411
+#: class-premium.php:392
 msgid "Add custom fields to page analysis"
 msgstr ""
 
-#: class-premium.php:440 classes/class-page-redirect.php:27
+#: class-premium.php:411 classes/class-page-redirect.php:30
 msgid "Redirects"
 msgstr ""
 
-#: class-premium.php:456
-msgid "Webmaster Tools"
-msgstr ""
-
-#: class-premium.php:466
+#: class-premium.php:421
 msgid "Video Tutorials"
 msgstr ""
 
-#: classes/class-crawl-issue-table.php:70
-msgid "All"
-msgstr ""
-
-#: classes/class-crawl-issue-table.php:71
-msgid "Not redirected"
-msgstr ""
-
-#: classes/class-crawl-issue-table.php:72
-msgid "Ignored"
-msgstr ""
-
-#: classes/class-crawl-issue-table.php:123 classes/class-page-redirect.php:110
-msgid "URL"
-msgstr ""
-
-#: classes/class-crawl-issue-table.php:124
-msgid "Issue Type"
-msgstr ""
-
-#: classes/class-crawl-issue-table.php:125
-msgid "Date Detected"
-msgstr ""
-
-#: classes/class-crawl-issue-table.php:126
-msgid "Details"
-msgstr ""
-
-#: classes/class-crawl-issue-table.php:127
-msgid "Linked From"
-msgstr ""
-
-#: classes/class-crawl-issue-table.php:254
-msgid "Create redirect"
-msgstr ""
-
-#: classes/class-crawl-issue-table.php:255
-msgid "View"
-msgstr ""
-
-#: classes/class-crawl-issue-table.php:262
-msgid "Unignore"
-msgstr ""
-
-#: classes/class-crawl-issue-table.php:264
-msgid "Ignore"
-msgstr ""
-
-#: classes/class-crawl-issue-table.php:320
-msgid "Create Redirects"
-msgstr ""
-
-#: classes/class-crawl-issue-table.php:359
-msgid "Filter"
-msgstr ""
-
-#: classes/class-page-gwt.php:55
-msgid "Reload crawl issues"
-msgstr ""
-
-#: classes/class-page-gwt.php:58
-msgid "Crawl Issues"
-msgstr ""
-
-#: classes/class-page-gwt.php:60 classes/class-page-redirect.php:31
-msgid "Settings"
-msgstr ""
-
-#: classes/class-page-gwt.php:90 classes/class-page-redirect.php:89
-#: classes/class-page-redirect.php:152
-msgid "Search"
-msgstr ""
-
-#: classes/class-page-gwt.php:103
-msgid ""
-"To allow WordPress SEO Premium to fetch your Google Webmaster Tools "
-"information, please enter your Google Authorization Code."
-msgstr ""
-
-#: classes/class-page-gwt.php:104
-msgid "Click here to get a Google Authorization Code"
-msgstr ""
-
-#: classes/class-page-gwt.php:106
-msgid ""
-"Please enter the Authorization Code in the field below and press the "
-"Authenticate button."
-msgstr ""
-
-#: classes/class-page-gwt.php:110
-msgid "Authenticate"
-msgstr ""
-
-#: classes/class-page-gwt.php:128
-msgid "Profile"
-msgstr ""
-
-#: classes/class-page-gwt.php:134 classes/class-page-redirect.php:240
-msgid "Save Changes"
-msgstr ""
-
-#: classes/class-page-gwt.php:173
-msgid "Incorrect Google Authorization Code!"
-msgstr ""
-
-#: classes/class-page-gwt.php:186
-msgid "Crawl errors per page"
-msgstr ""
-
-#: classes/class-page-redirect.php:29
+#: classes/class-page-redirect.php:32
 msgid "Regex Redirects"
 msgstr ""
 
-#: classes/class-page-redirect.php:43
+#: classes/class-page-redirect.php:34
+msgid "Settings"
+msgstr ""
+
+#: classes/class-page-redirect.php:45
 msgid "Old URL"
 msgstr ""
 
-#: classes/class-page-redirect.php:47 classes/class-redirect-table.php:74
+#: classes/class-page-redirect.php:49 classes/class-redirect-table.php:85
 msgid "New URL"
 msgstr ""
 
-#: classes/class-page-redirect.php:69 classes/class-page-redirect.php:132
+#: classes/class-page-redirect.php:70 classes/class-page-redirect.php:130
 msgid ""
-"The redirect type is the HTTP response code send to the browser telling the "
+"The redirect type is the HTTP response code sent to the browser telling the "
 "browser what type of redirect is served.<br/><br/>Read <a href='%s' "
 "target='_blank'>this page</a> for more info."
 msgstr ""
 
-#: classes/class-page-redirect.php:73 classes/class-page-redirect.php:136
+#: classes/class-page-redirect.php:74 classes/class-page-redirect.php:134
 msgid "Add Redirect"
+msgstr ""
+
+#: classes/class-page-redirect.php:90 classes/class-page-redirect.php:150
+msgid "Search"
 msgstr ""
 
 #: classes/class-page-redirect.php:101
@@ -185,43 +80,47 @@ msgid ""
 "Expressions (regex) are, please refer to %2$sour knowledge base%3$s."
 msgstr ""
 
-#: classes/class-page-redirect.php:106
+#: classes/class-page-redirect.php:105
 msgid "Regular Expression"
 msgstr ""
 
-#: classes/class-page-redirect.php:175
+#: classes/class-page-redirect.php:109
+msgid "URL"
+msgstr ""
+
+#: classes/class-page-redirect.php:173
 msgid ""
 "As you're on Apache, you should add the following include to the website "
 "httpd config file:"
 msgstr ""
 
-#: classes/class-page-redirect.php:186
+#: classes/class-page-redirect.php:184
 #. translators: %s: '.htaccess' file name
 msgid ""
 "We're unable to save the redirects to your %s file. Please make the file "
 "writable."
 msgstr ""
 
-#: classes/class-page-redirect.php:194
+#: classes/class-page-redirect.php:191
 msgid ""
 "As you're on Nginx, you should add the following include to the NGINX "
 "config file:"
 msgstr ""
 
-#: classes/class-page-redirect.php:223 classes/class-page-redirect.php:233
+#: classes/class-page-redirect.php:216 classes/class-page-redirect.php:227
 msgid "Disable PHP redirects"
 msgstr ""
 
-#: classes/class-page-redirect.php:226
+#: classes/class-page-redirect.php:219
 #. translators: 1: '.htaccess' file name
 msgid "Write redirects to the %1$s file. Make sure the %1$s file is writable."
 msgstr ""
 
-#: classes/class-page-redirect.php:228
+#: classes/class-page-redirect.php:221
 msgid "Generate a separate redirect file"
 msgstr ""
 
-#: classes/class-page-redirect.php:231
+#: classes/class-page-redirect.php:224
 #. translators: %s: '.htaccess' file name
 msgid ""
 "By default we write the redirects to your %s file, check this if you want "
@@ -229,156 +128,164 @@ msgid ""
 "know what you are doing!"
 msgstr ""
 
-#: classes/class-page-redirect.php:234
+#: classes/class-page-redirect.php:230
+#. translators: %s: 'Yoast SEO Premium'
 msgid ""
-"WordPress SEO will generate redirect files that can be included in your "
-"website configuration. You can disable PHP redirect if this is done "
-"correctly. Only check this option if you know what you are doing!"
+"%s will generate redirect files that can be included in your website "
+"configuration. You can disable PHP redirect if this is done correctly. Only "
+"check this option if you know what you are doing!"
 msgstr ""
 
-#: classes/class-page-redirect.php:269
+#: classes/class-page-redirect.php:236
+msgid "Save Changes"
+msgstr ""
+
+#: classes/class-page-redirect.php:265
 msgid "Redirects per page"
 msgstr ""
 
 #: classes/class-post-watcher.php:134
 msgid ""
-"WordPress SEO Premium detected that you moved a post to the trash. "
-"%1$sClick here to create a redirect from the old post URL%2$s."
+"%1$s detected that you moved a post to the trash. %2$sClick here to create "
+"a redirect from the old post URL%3$s."
 msgstr ""
 
-#: classes/class-post-watcher.php:158
+#: classes/class-post-watcher.php:159
 msgid ""
-"WordPress SEO Premium detected that you restored a post from the trash. "
-"%1$sClick here to remove the redirect%2$s."
+"%1$s detected that you restored a post from the trash. %2$sClick here to "
+"remove the redirect%3$s."
 msgstr ""
 
-#: classes/class-post-watcher.php:188
+#: classes/class-post-watcher.php:190
 msgid ""
-"WordPress SEO Premium detected that you deleted a post. %1$sClick here to "
-"create a redirect from the old post URL%2$s."
+"%1$s detected that you deleted a post. %2$sClick here to create a redirect "
+"from the old post URL%3$s."
 msgstr ""
 
-#: classes/class-post-watcher.php:291
+#: classes/class-post-watcher.php:294
 msgid ""
-"WordPress SEO Premium created a %1$sredirect%3$s from the old post URL to "
-"the new post URL. %2$sClick here to undo this%3$s."
+"%1$s created a %2$sredirect%4$s from the old post URL to the new post URL. "
+"%3$sClick here to undo this%4$s."
 msgstr ""
 
-#: classes/class-premium-import-manager.php:13
+#: classes/class-premium-import-manager.php:19
 msgid "Redirection redirects have been imported."
 msgstr ""
 
-#: classes/class-premium-import-manager.php:24
+#: classes/class-premium-import-manager.php:30
 msgid "Redirection import failed: Redirection plugin not installed or activated."
 msgstr ""
 
-#: classes/class-premium-import-manager.php:35
+#: classes/class-premium-import-manager.php:41
 msgid "Redirection import failed: No redirects found."
 msgstr ""
 
-#: classes/class-premium-import-manager.php:47
+#: classes/class-premium-import-manager.php:53
 #. translators: %s: '.htaccess' file name
 msgid "%s redirects have been imported."
 msgstr ""
 
-#: classes/class-premium-import-manager.php:60
+#: classes/class-premium-import-manager.php:66
 #. translators: %s: '.htaccess' file name
 msgid "%s import failed: No redirects found."
 msgstr ""
 
-#: classes/class-premium-import-manager.php:227
+#: classes/class-premium-import-manager.php:232
 msgid "Import from Redirection?"
 msgstr ""
 
-#: classes/class-premium-import-manager.php:247
+#: classes/class-premium-import-manager.php:257
 #. translators: %s: '.htaccess' file name
 msgid "Import redirects from %s"
 msgstr ""
 
-#: classes/class-premium-import-manager.php:249
+#: classes/class-premium-import-manager.php:259
 msgid "Import .htaccess"
 msgstr ""
 
-#: classes/class-premium-javascript-strings.php:8
+#: classes/class-premium-javascript-strings.php:21
 msgid "You can't redirect a URL to itself."
 msgstr ""
 
-#: classes/class-premium-javascript-strings.php:9
+#: classes/class-premium-javascript-strings.php:22
 msgid "The old URL field can't be empty."
 msgstr ""
 
-#: classes/class-premium-javascript-strings.php:10
+#: classes/class-premium-javascript-strings.php:23
 msgid "The Regular Expression field can't be empty."
 msgstr ""
 
-#: classes/class-premium-javascript-strings.php:11
+#: classes/class-premium-javascript-strings.php:24
 msgid "The new URL field can't be empty."
 msgstr ""
 
-#: classes/class-premium-javascript-strings.php:12
+#: classes/class-premium-javascript-strings.php:25
 msgid "Error while saving this redirect"
 msgstr ""
 
-#: classes/class-premium-javascript-strings.php:13
+#: classes/class-premium-javascript-strings.php:26
 msgid "New type can't be empty."
 msgstr ""
 
-#: classes/class-premium-javascript-strings.php:14
+#: classes/class-premium-javascript-strings.php:27
 msgid "You have unsaved redirects, are you sure you want to leave?"
 msgstr ""
 
-#: classes/class-premium-javascript-strings.php:16
+#: classes/class-premium-javascript-strings.php:29
 msgid "Please enter the new URL for %s"
 msgstr ""
 
-#: classes/class-premium-javascript-strings.php:18
+#: classes/class-premium-javascript-strings.php:31
 msgid "Redirect created from %1$s to %2$s!"
 msgstr ""
 
-#: classes/class-premium-javascript-strings.php:19
+#: classes/class-premium-javascript-strings.php:32
 msgid "Possibly bad redirect."
 msgstr ""
 
-#: classes/class-premium-javascript-strings.php:20
+#: classes/class-premium-javascript-strings.php:33
 msgid "The URL you entered returned a HTTP code different than 200(OK)."
 msgstr ""
 
-#: classes/class-redirect-table.php:179
+#: classes/class-redirect-table.php:197
 msgid "Edit"
 msgstr ""
 
-#: classes/class-redirect-table.php:180 classes/class-redirect-table.php:232
+#: classes/class-redirect-table.php:198 classes/class-redirect-table.php:250
 msgid "Delete"
 msgstr ""
 
-#: classes/class-term-watcher.php:109
+#: classes/class-term-watcher.php:108
 msgid ""
-"WordPress SEO Premium created a %1$sredirect%3$s from the old term URL to "
-"the new term URL. %2$sClick here to undo this%3$s."
+"%1$s created a %2$sredirect%4$s from the old term URL to the new term URL. "
+"%3$sClick here to undo this%4$s."
 msgstr ""
 
 #: classes/class-term-watcher.php:140
 msgid ""
-"WordPress SEO Premium detected that you deleted a term. %1$sClick here to "
-"create a redirect from the old term URL%2$s."
+"%1$s detected that you deleted a term. %2$sClick here to create a redirect "
+"from the old term URL%3$s."
 msgstr ""
 
-#: classes/class-tutorial-videos.php:31
-msgid "WordPress SEO Premium is inactive."
+#: classes/class-tutorial-videos.php:36
+#. translators: %s: 'Yoast SEO Premium'
+msgid "%s is inactive."
 msgstr ""
 
-#: classes/class-tutorial-videos.php:33
-msgid "Please activate WordPress SEO Premium to be able to see the videos."
+#: classes/class-tutorial-videos.php:39
+#. translators: %s: 'Yoast SEO Premium'
+msgid "Please activate %s to be able to see the videos."
 msgstr ""
 
-#: classes/class-tutorial-videos.php:35
+#: classes/class-tutorial-videos.php:43
+#. translators: %s: 'Yoast SEO Premium'
 msgid ""
-"Please ask your site administrator to activate WordPress SEO Premium to be "
-"able to see the videos."
+"Please ask your site administrator to activate %s to be able to see the "
+"videos."
 msgstr ""
 
-#: classes/class-page-redirect.php:51 classes/class-page-redirect.php:115
-#: classes/class-redirect-table.php:75
+#: classes/class-page-redirect.php:53 classes/class-page-redirect.php:114
+#: classes/class-redirect-table.php:86
 msgctxt "noun"
 msgid "Type"
 msgstr ""
