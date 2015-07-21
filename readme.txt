@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: seo, SEO, Yoast SEO, google, meta, meta description, search engine optimization, xml sitemap, xml sitemaps, google sitemap, sitemap, sitemaps, robots meta, rss, rss footer, yahoo, bing, news sitemaps, XML News Sitemaps, WordPress SEO, WordPress SEO by Yoast, yoast, multisite, canonical, nofollow, noindex, keywords, meta keywords, description, webmaster tools, google webmaster tools, seo pack
 Requires at least: 3.9
 Tested up to: 4.2
-Stable tag: 2.2.1
+Stable tag: 2.3
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using Yoast's WordPress SEO plugin.
 
@@ -119,6 +119,40 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 7. The advanced section of the WordPress SEO meta box.
 
 == Changelog ==
+
+= 2.3 =
+
+Release Date: July 21st, 2015
+
+* Features:
+	* Adds full integration with Google Search Console (formerly: Google Webmaster Tools). It is now possible to see all errors from Google straight in your WordPress install. If you have [Yoast SEO Premium](https://yoast.com/wordpress/plugins/seo-premium/#utm_source=wordpress-seo-config&utm_medium=textlink&utm_campaign=changelog), you'll even be able to fix those errors by redirecting the broken urls.
+	* Adds a dashboard widget showing published posts' SEO scores. Thanks [Brandon Hubbard](https://github.com/bhubbard) for the idea!
+	* Adds a customizer panel for Yoast SEO Breadcrumbs if breadcrumbs are enabled or the active theme has declared theme support for it. Props again to [Brandon Hubbard](https://github.com/bhubbard) for his awesome contribution.
+
+* Enhancements:
+	* Renames plugin from "WordPress SEO by Yoast" to "Yoast SEO".
+	* Adds a warning, advising to change the tagline, if a site still has the default WordPress tagline "just another WordPress site".
+	* Changes the default columns visibility for the edit posts overview page. Only the SEO score column is now visible by default.
+	* Contains several en_US string improvements, including a typo in the word "typos"... Thanks [Gary Jones](https://github.com/GaryJones) for redacting!
+	* Adds a filter to allow filtering the content before analysis in the Twitter class, props [Pete Nelson](https://github.com/petenelson).
+	* Adds a link to our knowledge base on how to retrieve a Facebook admin user ID.
+
+* Bugfixes:
+	* Fixes a bug where sitemaps for taxonomies with no eligible terms were still included and responded with 404 errors when visited.
+	* Fixes a bug where breadcrumbs where wrongly nested on archive paginations, props [Filippo Buratti](https://github.com/fburatti).
+	* Fixes a bug where the wrong separator was used after import/export.
+	* Fixes a bug where XML Sitemaps query invalidation caused other queries to fail as well.
+	* Fixes a bug where the wrong placeholder was being used for the search term string in the JSON+LD Search markup.
+	* Fixes a bug where the link to the newsletter signup in the tour was broken by uncommunicated changes in Mailchimp.
+	* Fixes a bug where the Edit Files settings page in the network admin was broken, props [Ajay D'Souza](https://github.com/ajaydsouza).
+	* Fixes a broken link in the advanced tab of the Yoast SEO metabox to the titles and meta's settings.
+
+* Other notable changes:
+	* Removed the possibility to redirect a post in the advanced tab of the Yoast SEO metabox.
+	* Moved the option to include a post in sitemap from the advanced tab of the Yoast SEO metabox to the sitemap settings.
+	* Removed the possibility to configure sitemap priority in the advanced tab of the Yoast SEO metabox.
+	* Added multiple checks to prevent plugin compatibility issue between Yoast SEO and old versions of Google Analytics by Yoast.
+	* Updated the banners with new designs.
 
 = 2.2.1 =
 
