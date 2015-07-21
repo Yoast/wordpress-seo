@@ -42,8 +42,8 @@ class WPSEO_Recalculate_Scores {
 		);
 
 		?>
-		<div id='wpseo_recalculate' style='display:none;'>
-			<p><?php _e( 'Recalculating the SEO scores of all the posts:', 'wordpress-seo' ); ?></p>
+		<div id="wpseo_recalculate" style="display:none;">
+			<p><?php esc_html_e( 'Recalculating the SEO scores of all the posts:', 'wordpress-seo' ); ?></p>
 
 			<div id='wpseo_progressbar'></div>
 			<p><?php echo $progress; ?></p>
