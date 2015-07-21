@@ -247,7 +247,7 @@ function wpseo_display_contributors( $contributors ) {
 			<?php
 			$contributors = array(
 				'atimmer'       => (object) array(
-					'name'     => 'Anton Timmer',
+					'name'     => 'Anton Timmermans',
 					'role'     => __( 'Developer', 'wordpress-seo' ),
 					'gravatar' => 'b3acbabfdd208ecbf950d864b86fe968',
 				),
