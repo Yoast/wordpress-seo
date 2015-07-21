@@ -222,7 +222,7 @@ class Yoast_Plugin_Conflict {
 
 		if ( ! empty( $already_dismissed[ $plugin_section ] ) ) {
 			foreach ($plugins as $array_key => $plugin ) {
-				if( in_array( $plugin, $already_dismissed[ $plugin_section ] ) ) {
+				if ( in_array( $plugin, $already_dismissed[ $plugin_section ] ) ) {
 					unset( $plugins[ $array_key ] );
 				}
 			}

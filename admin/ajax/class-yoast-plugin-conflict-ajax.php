@@ -8,6 +8,9 @@
  */
 class Yoast_Plugin_Conflict_Ajax {
 
+	/**
+	 * @var string
+	 */
 	private $option_name = 'wpseo_dismissed_conflicts';
 
 	/**
@@ -26,7 +29,6 @@ class Yoast_Plugin_Conflict_Ajax {
 	 * Handles the dismiss notice request
 	 */
 	public function dismiss_notice() {
-		// Check if nonce is valid
 		check_ajax_referer( 'dismiss-plugin-conflict' );
 
 		$conflict_data = filter_input( INPUT_POST, 'data', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
@@ -83,8 +85,6 @@ class Yoast_Plugin_Conflict_Ajax {
 	 * Loop through the plugins to compare them with the already stored dismissed plugin conflicts
 	 *
 	 * @param array $posted_plugins
-	 *
-	 * @return array
 	 */
 	public function compare_plugins( array $posted_plugins ) {
 		foreach ( $posted_plugins as $posted_plugin ) {
