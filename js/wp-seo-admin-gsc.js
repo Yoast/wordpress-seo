@@ -29,7 +29,7 @@ function wpseo_gsc_post_redirect( ) {
 			ajax_nonce: jQuery('.wpseo-gsc-ajax-security').val(),
 			old_url: old_url,
 			new_url: jQuery( target_form ).find('input[name=new_url]').val(),
-			mark_as_fixed: jQuery( target_form ).find('input[name=mark_as_fixed]').val(),
+			mark_as_fixed: jQuery( target_form ).find('input[name=mark_as_fixed]').prop('checked'),
 			platform: jQuery('#field_platform').val(),
 			category: jQuery('#field_category').val(),
 			type: '301'
