@@ -18,14 +18,14 @@
 	<?php foreach ( $statistics as $statistic ) : ?>
 		<tr>
 			<th>
-				<div class="wpseo-score-icon <?php echo esc_attr( $statistic['seo_rank'] ); ?>"></div>
-				<a href="<?php echo esc_attr( admin_url( 'edit.php?post_status=publish&post_type=post&seo_filter=' . $statistic['seo_rank'] ) ); ?>"
+				<div class="wpseo-score-icon <?php echo sanitize_html_class( $statistic['seo_rank'] ); ?>"></div>
+				<a href="<?php echo esc_url( admin_url( 'edit.php?post_status=publish&post_type=post&seo_filter=' . $statistic['seo_rank'] ) ); ?>"
 				   class="wpseo-glance <?php echo esc_attr( $statistic['class'] ); ?>">
 					<?php printf( $statistic['title'], intval( $statistic['count'] ) ); ?>
 				</a>
 			</th>
 			<td class="post-count">
-				<?php echo intval( $statistic['count'] ); ?>
+				<?php echo absint( $statistic['count'] ); ?>
 			</td>
 		</tr>
 	<?php endforeach; ?>

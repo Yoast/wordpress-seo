@@ -23,17 +23,6 @@ if ( ! function_exists( 'yoast_breadcrumb' ) ) {
 	/**
 	 * Template tag for breadcrumbs.
 	 *
-	 * @todo [JRF => Yoast/whomever] We could probably get rid of the 'breadcrumbs-enable' option key
-	 * as the file is now only loaded when the template tag is encountered anyway.
-	 * Only issue with that would be the removal of the bbPress crumb from within wpseo_frontend_init()
-	 * in wpseo.php which is also based on this setting.
-	 * Whether or not to show the bctitle field within meta boxes is also based on this setting, but
-	 * showing these when someone hasn't implemented the template tag shouldn't really give cause for concern.
-	 * Other than that, leaving the setting is an easy way to enable/disable the bc without having to
-	 * edit the template files again, but having to manually enable when you've added the template tag
-	 * in your theme is kind of double, so I'm undecided about what to do.
-	 * I guess I'm leaning towards removing the option key.
-	 *
 	 * @param string $before  What to show before the breadcrumb.
 	 * @param string $after   What to show after the breadcrumb.
 	 * @param bool   $display Whether to display the breadcrumb (true) or return it (false).
@@ -41,9 +30,13 @@ if ( ! function_exists( 'yoast_breadcrumb' ) ) {
 	 * @return string
 	 */
 	function yoast_breadcrumb( $before = '', $after = '', $display = true ) {
-		$options = get_option( 'wpseo_internallinks' );
+		$breadcrumbs_enabled = current_theme_supports( 'yoast-seo-breadcrumbs' );
+		if ( ! $breadcrumbs_enabled ) {
+			$options             = get_option( 'wpseo_internallinks' );
+			$breadcrumbs_enabled = ( $options['breadcrumbs-enable'] === true );
+		}
 
-		if ( $options['breadcrumbs-enable'] === true ) {
+		if ( $breadcrumbs_enabled ) {
 			return WPSEO_Breadcrumbs::breadcrumb( $before, $after, $display );
 		}
 	}
