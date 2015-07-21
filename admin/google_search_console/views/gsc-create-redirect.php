@@ -56,7 +56,8 @@
 				break;
 
 			case 'no_premium' :
-				echo '<h3>', __( 'Creating redirects is a Yoast SEO Premium feature', 'wordpress-seo' ), '</h3>';
+				/* Translators: %s: expands to Yoast SEO Premium */
+				echo '<h3>', sprintf( __( 'Creating redirects is a %s feature', 'wordpress-seo' ), 'Yoast SEO Premium' ), '</h3>';
 				echo '<p>';
 				/* Translators: %1$s: expands to 'Yoast SEO Premium', %2$s: links to Yoast SEO Premium plugin page. */
 				echo sprintf(
