@@ -307,9 +307,9 @@ YoastSEO_Analyzer.prototype.linkFollow = function( url ){
  */
 YoastSEO_Analyzer.prototype.linkKeyword = function(url){
     var keywordFound = false;
-    //matches everything in the <a>-tag
-    var formatUrl = url.match( /<a(.*?)(?:[^>]+)?>/ );
-    if( formatUrl[0].match( this.keywordRegex ) !== null ){
+    //split on > to discard the data in the anchortag
+	var formatUrl = url.split(">");
+    if( formatUrl[1].match( this.keywordRegex ) !== null ){
         keywordFound = true;
     }
     return keywordFound;
