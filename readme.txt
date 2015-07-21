@@ -139,7 +139,7 @@ Release Date: July 21st, 2015
 
 * Bugfixes:
 	* Fixes a bug where sitemaps for taxonomies with no eligible terms were still included and responded with 404 errors when visited.
-	* Fixes a bug where breadcrumbs where wrongly nested on archive paginations, props [Filippo Buratti](https://github.com/fburatti).
+	* Fixes a bug where breadcrumbs were wrongly nested on archive paginations, props [Filippo Buratti](https://github.com/fburatti).
 	* Fixes a bug where the wrong separator was used after import/export.
 	* Fixes a bug where XML Sitemaps query invalidation caused other queries to fail as well.
 	* Fixes a bug where the wrong placeholder was being used for the search term string in the JSON+LD Search markup.
