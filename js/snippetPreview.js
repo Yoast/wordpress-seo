@@ -184,10 +184,10 @@ YoastSEO_SnippetPreview.prototype.formatKeywordUrl = function ( textString ) {
  * Renders the outputs to the elements on the page.
  */
 YoastSEO_SnippetPreview.prototype.renderOutput = function() {
-    document.getElementById( "snippet_title" ).innerHTML = this.output.title;
-    document.getElementById( "snippet_cite" ).innerHTML = this.output.cite;
-	document.getElementById( "snippet_citeBase").innerHTML = this.output.url;
-    document.getElementById( "snippet_meta" ).innerHTML = this.output.meta;
+    document.getElementById( "snippet_title" ).textContent = this.output.title;
+    document.getElementById( "snippet_cite" ).textContent = this.output.cite;
+	document.getElementById( "snippet_citeBase").textContent = this.output.url;
+    document.getElementById( "snippet_meta" ).textContent = this.output.meta;
 };
 
 /**
