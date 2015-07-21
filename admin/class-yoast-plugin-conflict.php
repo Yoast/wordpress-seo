@@ -168,7 +168,7 @@ class Yoast_Plugin_Conflict {
 			$error_message .= '<a target="_blank" class="button-primary" href="' . wp_nonce_url( 'plugins.php?action=deactivate&amp;plugin=' . $plugin_file . '&amp;plugin_status=all', 'deactivate-plugin_' . $plugin_file ) . '">' . sprintf( __( 'Deactivate %s', 'wordpress-seo' ), WPSEO_Utils::get_plugin_name( $plugin_file ) ) . '</a> ';
 		}
 
-		// The data which will be passed in the AJAX request
+		// The data which will be passed in the AJAX request.
 		$conflict_data = json_encode(
 			array( 'section' => $plugin_section, 'plugins' => $this->active_plugins[ $plugin_section ] )
 		);
@@ -221,7 +221,7 @@ class Yoast_Plugin_Conflict {
 		$already_dismissed = get_user_option( 'wpseo_dismissed_conflicts', get_current_user_id() );
 
 		if ( ! empty( $already_dismissed[ $plugin_section ] ) ) {
-			foreach ($plugins as $array_key => $plugin ) {
+			foreach ( $plugins as $array_key => $plugin ) {
 				if ( in_array( $plugin, $already_dismissed[ $plugin_section ] ) ) {
 					unset( $plugins[ $array_key ] );
 				}
