@@ -161,7 +161,7 @@ function wpseo_display_contributors( $contributors ) {
 					<p>
 						<?php
 						/* translators: %1$s expands to Yoast SEO, %2$s and %3$s to the anchor tags to the translate.yoast.com link, %4$d to the number of translations, %5$d to the number of translations, */
-						printf( __( '%1$s ships, at time of release, with %4$d translations, of which %5$d are complete. That\'s a huge improvement from last time, and we\'re improving every week. Join us at %2$stranslate.yoast.com%3$s!', 'wordpress-seo' ), 'Yoast SEO', '<a target="_blank" href="https://translate.yoast.com/projects/wordpress-seo">', '</a>', 27, 10 );
+						printf( __( '%1$s ships, at time of release, with %4$d translations, of which %5$d are complete. That\'s a huge improvement from last time, and we\'re improving every week. Join us at %2$stranslate.yoast.com%3$s!', 'wordpress-seo' ), 'Yoast SEO', '<a target="_blank" href="https://translate.yoast.com/projects/wordpress-seo">', '</a>', 32, 10 );
 						?>
 					</p>
 				</div>
