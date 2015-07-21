@@ -69,7 +69,7 @@ switch ( $platform_tabs->current_tab() ) {
 				else {
 					$show_save = false;
 					echo '<label class="select" for="profile">', __( 'Profile', 'wordpress-seo' ), '</label>';
-					echo __( 'There are no profiles found', 'wordpress-seo' );
+					echo __( 'There were no profiles found', 'wordpress-seo' );
 				}
 				echo '</p>';
 
