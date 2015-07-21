@@ -178,8 +178,9 @@ class WPSEO_Recalculate_Scores_Ajax {
 	 * @return bool|string
 	 */
 	private function default_from_options( $field, $post_type ) {
-		if ( isset( $this->options[ $field . '-' . $post_type ] ) && $this->options[ $field . '-' . $post_type ] !== '' ) {
-			return $this->options[ $field . '-' . $post_type ];
+		$target_option_field = $field . '-' . $post_type;
+		if ( ! empty( $target_option_field ) ) {
+			return $this->options[ $target_option_field ];
 		}
 
 		return false;
