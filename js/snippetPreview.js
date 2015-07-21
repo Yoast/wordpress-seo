@@ -196,3 +196,4 @@ YoastSEO_SnippetPreview.prototype.renderOutput = function() {
 YoastSEO_SnippetPreview.prototype.reRender = function () {
     this.init();
 };
+
