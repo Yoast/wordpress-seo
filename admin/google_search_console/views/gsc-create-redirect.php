@@ -54,7 +54,7 @@
 				);
 				echo '</p>';
 				break;
-			
+
 			case 'no_premium' :
 				echo '<h3>', __( 'Creating redirects is a Yoast SEO Premium feature', 'wordpress-seo' ), '</h3>';
 				echo '<p>';
@@ -62,7 +62,7 @@
 				echo sprintf(
 					__( 'To be able to create a redirect and fix this issue, you need %1$s. You can buy the plugin, including one year support and updates, on %2$s.', 'wordpress-seo' ),
 					'Yoast SEO Premium',
-				'<a href="https://yoast.com/wordpress/plugins/seo-premium/#utm_source=wordpress-seo-config&amp;utm_medium=textlink&amp;utm_campaign=redirect-popup" target="_blank">yoast.com</a>'
+					'<a href="https://yoast.com/wordpress/plugins/seo-premium/#utm_source=wordpress-seo-config&amp;utm_medium=textlink&amp;utm_campaign=redirect-popup" target="_blank">yoast.com</a>'
 				);
 				echo '</p>';
 				break;
