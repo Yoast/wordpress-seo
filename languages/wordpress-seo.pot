@@ -2,9 +2,9 @@
 # This file is distributed under the GPL v3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Yoast SEO 2.2.1\n"
+"Project-Id-Version: Yoast SEO 2.3\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo/issues\n"
-"POT-Creation-Date: 2015-07-20 15:08:24+00:00\n"
+"POT-Creation-Date: 2015-07-21 11:58:33+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -48,7 +48,7 @@ msgstr ""
 msgid "You have used HTML in your value which is not allowed."
 msgstr ""
 
-#: admin/class-admin-init.php:70
+#: admin/class-admin-init.php:71
 #. translators: %1$s expands to Yoast SEO, $2%s to the version number, %3$s and
 #. %4$s to anchor tags with link to intro page
 msgid ""
@@ -56,14 +56,22 @@ msgid ""
 "what's new!"
 msgstr ""
 
-#: admin/class-admin-init.php:114
+#: admin/class-admin-init.php:115
 msgid ""
 "You still have the default WordPress tagline, even an empty one is probably "
 "better. %1$sYou can fix this in the customizer%2$s."
 msgstr ""
 
-#: admin/class-admin-init.php:135
+#: admin/class-admin-init.php:136
 msgid "Just another WordPress site"
+msgstr ""
+
+#: admin/class-admin-init.php:157
+#. translators: %1$s expands to Yoast SEO, %2$s expands to 5.4.3, %3$s expands
+#. to Google Analytics by Yoast
+msgid ""
+"%1$s detected you are using version %2$s of %3$s, please update to the "
+"latest version to prevent compatibility issues."
 msgstr ""
 
 #: admin/class-admin.php:100
@@ -1078,7 +1086,7 @@ msgstr ""
 
 #: admin/class-plugin-conflict.php:132
 #. translators: %1$s expands to Yoast SEO
-msgid "Configure %1%s's OpenGraph settings"
+msgid "Configure %1$s's OpenGraph settings"
 msgstr ""
 
 #: admin/class-plugin-conflict.php:135
@@ -1406,32 +1414,28 @@ msgstr ""
 msgid "This Facebook user has already been added as an admin."
 msgstr ""
 
-#: admin/class-social-facebook.php:154
+#: admin/class-social-facebook.php:155
 msgid "Successfully removed admin %s"
 msgstr ""
 
-#: admin/class-social-facebook.php:177
+#: admin/class-social-facebook.php:178
 msgid "Successfully cleared all Facebook Data"
 msgstr ""
 
-#: admin/class-social-facebook.php:291
+#: admin/class-social-facebook.php:292
 msgid "Facebook Insights and Admins"
 msgstr ""
 
-#: admin/class-social-facebook.php:293
+#: admin/class-social-facebook.php:294
 msgid ""
 "To be able to access %sFacebook Insights%s for your site, you need to "
 "specify a Facebook Admin. This can be a user. If you have an app for your "
 "site, you could use that as well."
 msgstr ""
 
-#: admin/class-social-facebook.php:301
+#: admin/class-social-facebook.php:302
 #. translators: %1$s and %2$s expand to a link to the Yoast Knowledge Base
 msgid "More info can be found %1$son our knowledge base%2$s."
-msgstr ""
-
-#: admin/class-social-facebook.php:316
-msgid "Add Facebook admin"
 msgstr ""
 
 #: admin/class-social-facebook.php:319
@@ -1441,35 +1445,38 @@ msgid ""
 "here. The name is used for reference only, the ID is used for verification."
 msgstr ""
 
-#: admin/class-social-facebook.php:322
-msgid "Admin's name:"
+#: admin/class-social-facebook.php:323
+#. translators: %1$s and %2$s expand to a link to the Yoast Knowledge Base
+msgid ""
+"If you don't know where to find the needed ID, see %1$sthis knowledge base "
+"article%2$s."
 msgstr ""
 
 #: admin/class-social-facebook.php:326
+msgid "Admin's name:"
+msgstr ""
+
+#: admin/class-social-facebook.php:330
 msgid "Admin's Facebook user ID:"
 msgstr ""
 
-#: admin/class-social-facebook.php:331
-msgid "Add admin"
+#: admin/class-social-facebook.php:335 admin/class-social-facebook.php:349
+msgid "Add Facebook admin"
 msgstr ""
 
-#: admin/class-social-facebook.php:345
-msgid "Add Facebook Admin"
-msgstr ""
-
-#: admin/class-social-facebook.php:351
+#: admin/class-social-facebook.php:355
 msgid "Add Another Facebook Admin"
 msgstr ""
 
-#: admin/class-social-facebook.php:356
+#: admin/class-social-facebook.php:360
 msgid "Currently connected Facebook admins:"
 msgstr ""
 
-#: admin/class-social-facebook.php:381
+#: admin/class-social-facebook.php:387
 msgid "Facebook App ID"
 msgstr ""
 
-#: admin/class-social-facebook.php:436
+#: admin/class-social-facebook.php:455
 msgid "Clear all Facebook Data"
 msgstr ""
 
@@ -1708,12 +1715,20 @@ msgstr ""
 msgid "Feature phone"
 msgstr ""
 
-#: admin/google_search_console/class-gsc-service.php:138
+#: admin/google_search_console/class-gsc-service.php:137
 msgid ""
 "Yoast plugins share some code between them to make your site faster. As a "
 "result of that, we need all Yoast plugins to be up to date. We've detected "
 "this isn't the case, so please update the Yoast plugins that aren't up to "
 "date yet."
+msgstr ""
+
+#: admin/google_search_console/class-gsc-service.php:146
+#. translators: %1$s expands to Yoast SEO, %2$s expands to Google Analytics by
+#. Yoast
+msgid ""
+"%1$s detected you’re using a version of %2$s which is not compatible with "
+"%1$s. Please update %2$s to the latest version to use this feature."
 msgstr ""
 
 #: admin/google_search_console/class-gsc-table.php:107
@@ -1824,11 +1839,12 @@ msgid ""
 "change the target URL."
 msgstr ""
 
-#: admin/google_search_console/views/gsc-create-redirect.php:59
-msgid "Creating redirects is a Yoast SEO Premium feature"
+#: admin/google_search_console/views/gsc-create-redirect.php:60
+#. Translators: %s: expands to Yoast SEO Premium
+msgid "Creating redirects is a %s feature"
 msgstr ""
 
-#: admin/google_search_console/views/gsc-create-redirect.php:63
+#: admin/google_search_console/views/gsc-create-redirect.php:64
 #. Translators: %1$s: expands to 'Yoast SEO Premium', %2$s: links to Yoast SEO
 #. Premium plugin page.
 msgid ""
@@ -1877,7 +1893,7 @@ msgid "Profile"
 msgstr ""
 
 #: admin/google_search_console/views/gsc-display.php:72
-msgid "There are no profiles found"
+msgid "There were no profiles found"
 msgstr ""
 
 #: admin/google_search_console/views/gsc-display.php:80
@@ -2720,174 +2736,75 @@ msgstr ""
 msgid "Thank you for updating %1$s!"
 msgstr ""
 
-#: admin/views/about.php:36
-msgid "On your way to better search rankings!"
+#: admin/views/about.php:43
+#. translators: %s: '2.3' version number
+msgid "What’s new in %s"
 msgstr ""
 
-#: admin/views/about.php:40
-#. translators: %1$s expands to Yoast SEO
-msgid ""
-"%1$s 2.0 helps you optimize your site by making you ready for Google's "
-"Knowledge Graph and simplifying the %1$s admin."
-msgstr ""
-
-#: admin/views/about.php:48
-#. translators: %s: '2.0' version number
-msgid "What’s New In %s"
-msgstr ""
-
-#: admin/views/about.php:52
+#: admin/views/about.php:46
 msgid "Credits"
 msgstr ""
 
-#: admin/views/about.php:57
-msgid "Simplified Admin Menus"
-msgstr ""
-
-#: admin/views/about.php:61
-msgid ""
-"We’ve merged several menu items to make the most important settings stand "
-"out more."
-msgstr ""
-
-#: admin/views/about.php:63
-msgid ""
-"Not all settings are created equal. Some require their own admin page and "
-"really need your attention. Others are more advanced and don’t need "
-"changing by everyone. This release helps you by focusing on what’s "
-"important."
-msgstr ""
-
-#: admin/views/about.php:65
-msgid ""
-"Several settings were moved to the %1$sAdvanced page%2$s, the bulk editor, "
-"file editor and import & export tools were all moved to the %3$sTools "
-"page%2$s."
-msgstr ""
-
-#: admin/views/about.php:78
-msgid "Ready for Google’s Knowledge Graph"
-msgstr ""
-
-#: admin/views/about.php:84
-msgid "Knowledge Graph: We’ve got your back!"
-msgstr ""
-
-#: admin/views/about.php:87
-msgid ""
-"Google recently rolled out changes that let you specify you or your "
-"companies name, social profiles and logo<sup>*</sup>, to use in their "
-"%1$sKnowledge Graph%2$s boxes."
-msgstr ""
-
-#: admin/views/about.php:88
-msgid ""
-"Decide whether you’re a company or a person and add the required info in "
-"the %1$sgeneral settings%2$s, then add your %3$ssocial profiles%2$s. We’ll "
-"do the rest."
-msgstr ""
-
-#: admin/views/about.php:92
-msgid "Logo only works for companies."
-msgstr ""
-
-#: admin/views/about.php:100
-msgid "More in this release"
-msgstr ""
-
-#: admin/views/about.php:105
-msgid "Twitter Galleries"
-msgstr ""
-
-#: admin/views/about.php:115
-msgid ""
-"If you use galleries in your posts and have Twitter meta data enabled on "
-"%1$sSocial → Twitter%2$s, galleries will now be auto-detected and put out "
-"as Gallery Cards. All that’s left for your is to %3$sverify the cards with "
-"Twitter%2$s."
-msgstr ""
-
-#: admin/views/about.php:121
-msgid "Performance Improvements"
-msgstr ""
-
-#: admin/views/about.php:124
-msgid ""
-"This release has made the code of %1$s that runs on the frontend of your "
-"site approximately 30% faster."
-msgstr ""
-
-#: admin/views/about.php:130
-msgid "Improved Settings Screens"
-msgstr ""
-
-#: admin/views/about.php:133
-msgid ""
-"All the settings screens have been updated to use exactly the same, "
-"tab-based, styling, making them much more comprehensible."
-msgstr ""
-
-#: admin/views/about.php:139
+#: admin/views/about.php:159
 msgid "More Translations"
 msgstr ""
 
-#: admin/views/about.php:144
+#: admin/views/about.php:164
 #. translators: %1$s expands to Yoast SEO, %2$s and %3$s to the anchor tags to
-#. the translate.yoast.com link
+#. the translate.yoast.com link, %4$d to the number of translations, %5$d to
+#. the number of translations,
 msgid ""
-"%1$s ships, at time of release, with 26 translations, of which 10 are "
+"%1$s ships, at time of release, with %4$d translations, of which %5$d are "
 "complete. That's a huge improvement from last time, and we're improving "
 "every week. Join us at %2$stranslate.yoast.com%3$s!"
 msgstr ""
 
-#: admin/views/about.php:154
+#: admin/views/about.php:172
 msgid "Go to The General settings page →"
 msgstr ""
 
-#: admin/views/about.php:238
+#: admin/views/about.php:181
 #. translators: %1$s and %2$s expands to anchor tags, %3$s expands to Yoast SEO
 msgid ""
 "While most of the development team is at %1$sYoast%2$s in the Netherlands, "
 "%3$s is created by a worldwide team."
 msgstr ""
 
-#: admin/views/about.php:240
+#: admin/views/about.php:183
 msgid "Want to help us develop? Read our %1$scontribution guidelines%2$s!"
 msgstr ""
 
-#: admin/views/about.php:244
+#: admin/views/about.php:187
 msgid "Project Leaders"
 msgstr ""
 
-#: admin/views/about.php:250
+#: admin/views/about.php:193
 msgid "Project Lead"
 msgstr ""
 
-#: admin/views/about.php:255 admin/views/about.php:260
+#: admin/views/about.php:198 admin/views/about.php:203
 msgid "Lead Developer"
 msgstr ""
 
-#: admin/views/about.php:265
+#: admin/views/about.php:208
 msgid "QA & Translations Manager"
 msgstr ""
 
-#: admin/views/about.php:273
+#: admin/views/about.php:216
+msgid "Recent Rockstars"
+msgstr ""
+
+#: admin/views/about.php:245
 msgid "Contributing Developers"
 msgstr ""
 
-#: admin/views/about.php:279 admin/views/about.php:284
-#: admin/views/about.php:289 admin/views/about.php:294
+#: admin/views/about.php:251 admin/views/about.php:256
+#: admin/views/about.php:261
 msgid "Developer"
 msgstr ""
 
-#: admin/views/about.php:302
+#: admin/views/about.php:269
 msgid "Contributors to this release"
-msgstr ""
-
-#: admin/views/about.php:311
-msgid ""
-"We're always grateful for patches from non-regular contributors, this "
-"release, patches from the following people made it in:"
 msgstr ""
 
 #: admin/views/dashboard-widget.php:16
