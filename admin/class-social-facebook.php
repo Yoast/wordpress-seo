@@ -51,7 +51,8 @@ class Yoast_Social_Facebook {
 		// If one of the fields is empty.
 		if ( empty( $admin_name ) || empty( $admin_id ) ) {
 			$response_body = $this->get_response_body( 'not_present' );
-		} else {
+		}
+		else {
 			$admin_id = $this->parse_admin_id( $admin_id );
 
 			if ( ! isset( $this->options['fb_admins'][ $admin_id ] ) ) {
@@ -66,10 +67,12 @@ class Yoast_Social_Facebook {
 
 					$success       = 1;
 					$response_body = $this->form->get_admin_link( $admin_id, $this->options['fb_admins'][ $admin_id ] );
-				} else {
+				}
+				else {
 					$response_body = $this->get_response_body( 'invalid_format' );
 				}
-			} else {
+			}
+			else {
 				$response_body = $this->get_response_body( 'already_exists' );
 			}
 		}
@@ -129,7 +132,8 @@ class Yoast_Social_Facebook {
 	private function get_listener() {
 		if ( $delfbadmin = filter_input( INPUT_GET, 'delfbadmin' ) ) {
 			$this->delete_admin( $delfbadmin );
-		} elseif ( filter_input( INPUT_GET, 'fbclearall' ) ) {
+		}
+		elseif ( filter_input( INPUT_GET, 'fbclearall' ) ) {
 			$this->clear_all();
 		}
 	}
