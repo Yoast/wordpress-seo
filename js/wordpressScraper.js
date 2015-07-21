@@ -337,7 +337,7 @@ YoastSEO_WordPressScraper.prototype.snippetPreviewEventBinder = function() {
         document.getElementById("snippet_"+elems[i]).addEventListener("focus", this.getInputFieldsData);
 		document.getElementById("snippet_"+elems[i]).addEventListener("keydown", this.refObj.snippetPreview.disableEnter);
 		document.getElementById("snippet_"+elems[i]).addEventListener("blur", this.refObj.snippetPreview.checkTextLength);
-		
+		document.getElementById("snippet_"+elems[i]).addEventListener("input", this.refObj.snippetPreview.textFeedback);
     }
 };
 

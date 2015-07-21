@@ -220,14 +220,38 @@ YoastSEO_SnippetPreview.prototype.checkTextLength = function( ev ) {
 		case "snippet_meta":
 			if(text.length > YoastSEO_config.analyzerConfig.maxMeta){
 				ev.currentTarget.textContent = text.substring(0, YoastSEO_config.analyzerConfig.maxMeta);
+				ev.currentTarget.className = "desc";
 			}
 			break;
 		case "snippet_title":
 			if(text.length > 40){
 				ev.currentTarget.textContent = text.substring(0, 40);
+				ev.currentTarget.className = "title";
 			}
 			break;
 		default:
 			break;
 	}
 };
+
+YoastSEO_SnippetPreview.prototype.textFeedback = function( ev ) {
+	var text = ev.currentTarget.textContent;
+	switch(ev.currentTarget.id){
+		case "snippet_meta":
+			if(text.length > YoastSEO_config.analyzerConfig.maxMeta){
+				ev.currentTarget.className = "desc tooLong";
+			}else {
+				ev.currentTarget.className = "desc";
+			}
+			break;
+		case "snippet_title":
+			if(text.length > 40){
+				ev.currentTarget.className = "title tooLong";
+			}else{
+				ev.currentTarget.className = "title";
+			}
+			break;
+		default:
+			break;
+	}
+}
