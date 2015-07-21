@@ -193,11 +193,34 @@ class Yoast_Plugin_Conflict {
 	 * @param string $plugin_section
 	 */
 	protected function check_plugins_active( $plugins, $plugin_section ) {
+		$plugins = $this->filter_already_dismissed( $plugin_section, $plugins );
 		foreach ( $plugins as $plugin ) {
 			if ( $this->check_plugin_is_active( $plugin ) ) {
 				$this->add_active_plugin( $plugin_section, $plugin );
 			}
 		}
+	}
+
+	/**
+	 * Filter the already dismissed plugins
+	 *
+	 * @param string $plugin_section
+	 * @param array  $plugins
+	 *
+	 * @return array
+	 */
+	protected function filter_already_dismissed( $plugin_section, array $plugins ) {
+		$already_dismissed = get_user_option( 'wpseo_dismissed_conflicts', get_current_user_id() );
+
+		if ( ! empty( $already_dismissed[ $plugin_section ] ) ) {
+			foreach ($plugins as $array_key => $plugin ) {
+				if( in_array( $plugin, $already_dismissed[ $plugin_section ] ) ) {
+					unset( $plugins[ $array_key ] );
+				}
+			}
+		}
+
+		return $plugins;
 	}
 
 	/**
