@@ -21,6 +21,7 @@ function wpseo_gsc_post_redirect( ) {
 
 	var target_form = jQuery( '#TB_ajaxContent' );
 	var old_url     = jQuery( target_form ).find('input[name=current_url]').val();
+	var is_checked  = jQuery( target_form ).find('input[name=mark_as_fixed]').prop('checked');
 
 	jQuery.post(
 		ajaxurl,
@@ -29,13 +30,13 @@ function wpseo_gsc_post_redirect( ) {
 			ajax_nonce: jQuery('.wpseo-gsc-ajax-security').val(),
 			old_url: old_url,
 			new_url: jQuery( target_form ).find('input[name=new_url]').val(),
-			mark_as_fixed: jQuery( target_form ).find('input[name=mark_as_fixed]').prop('checked'),
+			mark_as_fixed: is_checked,
 			platform: jQuery('#field_platform').val(),
 			category: jQuery('#field_category').val(),
 			type: '301'
 		},
 		function() {
-			if( jQuery( target_form ).find('input[name=mark_as_fixed]').prop('checked') === true ) {
+			if( is_checked === true ) {
 				// Remove the row with old url
 				jQuery('span:contains(' + old_url + ')').closest('tr').remove();
 			}
