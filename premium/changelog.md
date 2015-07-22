@@ -1,3 +1,7 @@
+### 2.3.1: July 22nd, 2015
+* Fixes a bug where the .htaccess redirect import was no longer available.
+* Merge with Yoast SEO core 2.3.1
+
 ### 2.3: July 21st, 2015
 * Renamed plugin to "Yoast SEO Premium"
 * Fixes compatibility issue with Post type order plugin.
