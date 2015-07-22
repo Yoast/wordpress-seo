@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo-premium/issues\n"
-"POT-Creation-Date: 2015-07-21 12:46:30+00:00\n"
+"POT-Creation-Date: 2015-07-22 14:38:01+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -24,19 +24,19 @@ msgstr ""
 "X-Poedit-Bookmarks: \n"
 "X-Textdomain-Support: yes\n"
 
-#: class-premium.php:325
+#: class-premium.php:326
 msgid "Create Redirect"
 msgstr ""
 
-#: class-premium.php:392
+#: class-premium.php:393
 msgid "Add custom fields to page analysis"
 msgstr ""
 
-#: class-premium.php:411 classes/class-page-redirect.php:30
+#: class-premium.php:412 classes/class-page-redirect.php:30
 msgid "Redirects"
 msgstr ""
 
-#: class-premium.php:421
+#: class-premium.php:422
 msgid "Video Tutorials"
 msgstr ""
 
@@ -185,21 +185,33 @@ msgstr ""
 msgid "%s redirects have been imported."
 msgstr ""
 
-#: classes/class-premium-import-manager.php:66
+#: classes/class-premium-import-manager.php:65
 #. translators: %s: '.htaccess' file name
 msgid "%s import failed: No redirects found."
 msgstr ""
 
-#: classes/class-premium-import-manager.php:232
+#: classes/class-premium-import-manager.php:231
 msgid "Import from Redirection?"
 msgstr ""
 
-#: classes/class-premium-import-manager.php:257
+#: classes/class-premium-import-manager.php:241
+#. translators: %s: '.htaccess' file name
+msgid "%s import"
+msgstr ""
+
+#: classes/class-premium-import-manager.php:263
 #. translators: %s: '.htaccess' file name
 msgid "Import redirects from %s"
 msgstr ""
 
-#: classes/class-premium-import-manager.php:259
+#: classes/class-premium-import-manager.php:265
+#. translators: %1$s: '.htaccess' file name, %2$s plugin name
+msgid ""
+"You can copy the contents of any %1$s file in here, and it will import the "
+"redirects into %2$s."
+msgstr ""
+
+#: classes/class-premium-import-manager.php:270
 msgid "Import .htaccess"
 msgstr ""
 
