@@ -135,6 +135,7 @@ class WPSEO_Upgrade {
 	 */
 	private function upgrade_23() {
 		add_action( 'wp', array( $this, 'upgrade_23_query' ), 90 );
+		add_action( 'admin_head', array( $this, 'upgrade_23_query' ), 90 );
 	}
 
 	/**
