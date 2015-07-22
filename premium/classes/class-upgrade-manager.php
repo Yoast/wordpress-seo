@@ -29,8 +29,9 @@ class WPSEO_Upgrade_Manager {
 
 		}
 
-		if ( version_compare( $version_number, WPSEO_VERSION, '<' ) ) {
+		if ( version_compare( $version_number, '2.3', '<' ) ) {
 			add_action( 'wp', array( $this, 'import_redirects_2_3' ), 11 );
+			add_action( 'admin_head', array( $this, 'import_redirects_2_3' ), 11 );
 		}
 	}
 
