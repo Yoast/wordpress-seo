@@ -1,3 +1,8 @@
+### 2.3.1: July 22nd, 2015
+* Fixes a bug where the .htaccess redirect import was no longer available.
+* Fixes a bug where upgrading to version 2.3 would occasionally cause WSOD's on both admin and frontend. We were unable to pinpoint the exact conflicting plugins and themes, but we are quite confident it was caused by us using, and others hooking into, WP_Query too early.
+* Merge with Yoast SEO core 2.3.1
+
 ### 2.3: July 21st, 2015
 * Renamed plugin to "Yoast SEO Premium"
 * Fixes compatibility issue with Post type order plugin.
