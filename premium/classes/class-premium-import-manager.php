@@ -261,8 +261,8 @@ class WPSEO_Premium_Import_Manager {
 		echo '<div id="import-htaccess" class="wpseotab">' . PHP_EOL;
 		/* translators: %s: '.htaccess' file name */
 		echo '<h2>' . sprintf( __( 'Import redirects from %s', 'wordpress-seo-premium' ), '<code>.htaccess</code>' ). '</h2>' . PHP_EOL;
-		/* translators: %s: '.htaccess' file name */
-		echo '<p>' . sprintf( __( 'You can copy the contents of any %s file in here, and it will import the redirects in it.', 'wordpress-seo-premium' ), '<code>.htaccess</code>' ) . '</p>' . PHP_EOL;
+		/* translators: %1$s: '.htaccess' file name, %2$s plugin name */
+		echo '<p>' . sprintf( __( 'You can copy the contents of any %1$s file in here, and it will import the redirects into %2$s.', 'wordpress-seo-premium' ), '<code>.htaccess</code>', 'Yoast SEO Premium' ) . '</p>' . PHP_EOL;
 		echo '<form action="" method="post" accept-charset="' . esc_attr( get_bloginfo( 'charset' ) ) . '">' . PHP_EOL;
 		echo wp_nonce_field( 'wpseo-import', '_wpnonce', true, false );
 
