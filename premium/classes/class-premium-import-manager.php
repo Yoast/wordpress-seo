@@ -44,26 +44,25 @@ class WPSEO_Premium_Import_Manager {
 	/**
 	 * Apache import success message
 	 *
-	 * @param string $message
+	 * @param string $message Unused
 	 *
 	 * @return string
 	 */
 	public function message_htaccess_success( $message ) {
 		/* translators: %s: '.htaccess' file name */
-		return $message . sprintf( __( '%s redirects have been imported.', 'wordpress-seo-premium' ), '<code>.htaccess</code>' );
+		return sprintf( __( '%s redirects have been imported.', 'wordpress-seo-premium' ), '<code>.htaccess</code>' );
 	}
 
 	/**
 	 * Apache import no redirects found message
 	 *
-	 * @param string $message
+	 * @param string $message Unused
 	 *
 	 * @return string
 	 */
 	public function message_htaccess_no_redirects( $message ) {
-
 		/* translators: %s: '.htaccess' file name */
-		return $message . sprintf( __( '%s import failed: No redirects found.', 'wordpress-seo-premium' ), '<code>.htaccess</code>' );
+		return sprintf( __( '%s import failed: No redirects found.', 'wordpress-seo-premium' ), '<code>.htaccess</code>' );
 	}
 
 	/**
@@ -258,6 +257,7 @@ class WPSEO_Premium_Import_Manager {
 
 		// Display the form.
 		echo '<div id="import-htaccess" class="wpseotab">' . PHP_EOL;
+		echo '<p>' . __( 'You can copy the contents of any .htaccess file in here, and it will import the redirects in it.', 'wordpress-seo-premium' ) . '</p>' . PHP_EOL;
 		echo '<form action="" method="post" accept-charset="' . esc_attr( get_bloginfo( 'charset' ) ) . '">' . PHP_EOL;
 		echo wp_nonce_field( 'wpseo-import', '_wpnonce', true, false );
 

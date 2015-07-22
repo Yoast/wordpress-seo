@@ -80,7 +80,7 @@ if ( isset( $import ) ) {
 		$msg .= ' ' . __( 'The old data of the imported plugin was deleted successfully.', 'wordpress-seo' );
 	}
 
-	if ( $msg != '' ) {
+	if ( $msg !== '' ) {
 		echo '<div id="message" class="message updated" style="width:94%;"><p>', $msg, '</p></div>';
 	}
 }
