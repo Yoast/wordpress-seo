@@ -44,26 +44,25 @@ class WPSEO_Premium_Import_Manager {
 	/**
 	 * Apache import success message
 	 *
-	 * @param string $message
+	 * @param string $message Unused
 	 *
 	 * @return string
 	 */
 	public function message_htaccess_success( $message ) {
 		/* translators: %s: '.htaccess' file name */
-		return $message . sprintf( __( '%s redirects have been imported.', 'wordpress-seo-premium' ), '<code>.htaccess</code>' );
+		return sprintf( __( '%s redirects have been imported.', 'wordpress-seo-premium' ), '<code>.htaccess</code>' );
 	}
 
 	/**
 	 * Apache import no redirects found message
 	 *
-	 * @param string $message
+	 * @param string $message Unused
 	 *
 	 * @return string
 	 */
 	public function message_htaccess_no_redirects( $message ) {
-
 		/* translators: %s: '.htaccess' file name */
-		return $message . sprintf( __( '%s import failed: No redirects found.', 'wordpress-seo-premium' ), '<code>.htaccess</code>' );
+		return sprintf( __( '%s import failed: No redirects found.', 'wordpress-seo-premium' ), '<code>.htaccess</code>' );
 	}
 
 	/**
@@ -235,6 +234,14 @@ class WPSEO_Premium_Import_Manager {
 	}
 
 	/**
+	 * Outputs a tab header for the htaccess import block
+	 */
+	public function htaccess_import_header() {
+		/* translators: %s: '.htaccess' file name */
+		echo '<a class="nav-tab" id="import-htaccess-tab" href="#top#import-htaccess">' . sprintf( __( '%s import', 'wordpress-seo-premium' ), '.htaccess' ) . '</a>';
+	}
+
+	/**
 	 * Adding the import block for htaccess. Makes it able to import redirects from htaccess
 	 *
 	 * @param array $admin_object
@@ -250,14 +257,19 @@ class WPSEO_Premium_Import_Manager {
 		}
 
 		// Display the form.
+
+		echo '<div id="import-htaccess" class="wpseotab">' . PHP_EOL;
+		/* translators: %s: '.htaccess' file name */
+		echo '<h2>' . sprintf( __( 'Import redirects from %s', 'wordpress-seo-premium' ), '<code>.htaccess</code>' ). '</h2>' . PHP_EOL;
+		/* translators: %1$s: '.htaccess' file name, %2$s plugin name */
+		echo '<p>' . sprintf( __( 'You can copy the contents of any %1$s file in here, and it will import the redirects into %2$s.', 'wordpress-seo-premium' ), '<code>.htaccess</code>', 'Yoast SEO Premium' ) . '</p>' . PHP_EOL;
 		echo '<form action="" method="post" accept-charset="' . esc_attr( get_bloginfo( 'charset' ) ) . '">' . PHP_EOL;
 		echo wp_nonce_field( 'wpseo-import', '_wpnonce', true, false );
 
-		/* translators: %s: '.htaccess' file name */
-		echo '<h2>' . sprintf( __( 'Import redirects from %s', 'wordpress-seo-premium' ), '<code>.htaccess</code>' ). '</h2>' . PHP_EOL;
 		echo '<textarea name="htaccess" rows="4" cols="50" style="width:70%; height: 200px;">' . $textarea_value . '</textarea><br/>' . PHP_EOL;
 		echo '<input type="submit" class="button-primary" name="import" value="' . __( 'Import .htaccess', 'wordpress-seo-premium' ) . '"/>' . PHP_EOL;
 		echo '</form>' . PHP_EOL;
+		echo '</div>' . PHP_EOL;
 	}
 
 }
