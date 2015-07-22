@@ -230,12 +230,14 @@ YoastSEO_SnippetPreview.prototype.checkTextLength = function( ev ) {
 	switch(ev.currentTarget.id){
 		case "snippet_meta":
 			if(text.length > YoastSEO_config.analyzerConfig.maxMeta){
+				ev.currentTarget.__unformattedText = ev.currentTarget.textContent;
 				ev.currentTarget.textContent = text.substring(0, YoastSEO_config.analyzerConfig.maxMeta);
 				ev.currentTarget.className = "desc";
 			}
 			break;
 		case "snippet_title":
 			if(text.length > 40){
+				ev.currentTarget.__unformattedText = ev.currentTarget.textContent;
 				ev.currentTarget.textContent = text.substring(0, 40);
 				ev.currentTarget.className = "title";
 			}

@@ -337,8 +337,14 @@ YoastSEO_WordPressScraper.prototype.snippetPreviewEventBinder = function() {
         document.getElementById("snippet_"+elems[i]).addEventListener("focus", this.getInputFieldsData);
 		document.getElementById("snippet_"+elems[i]).addEventListener("keydown", this.refObj.snippetPreview.disableEnter);
 		document.getElementById("snippet_"+elems[i]).addEventListener("blur", this.refObj.snippetPreview.checkTextLength);
+		//textFeedback is given on input (when user types or pastests), but also on focus. If a string that is too long is being recalled
+		//from the saved values, it gets the correct classname right away.
 		document.getElementById("snippet_"+elems[i]).addEventListener("input", this.refObj.snippetPreview.textFeedback);
+		document.getElementById("snippet_"+elems[i]).addEventListener("focus", this.refObj.snippetPreview.textFeedback);
+		//shows edit icon by hovering over element
 		document.getElementById("snippet_"+elems[i]).addEventListener("mouseover", this.refObj.snippetPreview.showEditIcon);
+		//hides the edit icon onmouseout, on focus and on keyup. If user clicks or types AND moves his mouse, the edit icon could return while editting
+		//by binding to these 3 events
 		document.getElementById("snippet_"+elems[i]).addEventListener("mouseout", this.refObj.snippetPreview.hideEditIcon);
 		document.getElementById("snippet_"+elems[i]).addEventListener("focus", this.refObj.snippetPreview.hideEditIcon);
 		document.getElementById("snippet_"+elems[i]).addEventListener("keyup", this.refObj.snippetPreview.hideEditIcon);
@@ -369,10 +375,19 @@ YoastSEO_WordPressScraper.prototype.renewData = function ( ev ) {
 
 /**
  * Updates the snippet values, is bound by the loader when generating the elements for the snippet.
+ * Uses the __unformattedText if the textFeedback function has put a string there (if text was too long).
+ * clears this after use. 
  * @param ev
  */
 YoastSEO_WordPressScraper.prototype.updateSnippetValues = function( ev ) {
-    ev.currentTarget.refObj.source.setDataFromSnippet( ev.currentTarget.textContent, ev.currentTarget.id);
+	var dataFromSnippet = ev.currentTarget.textContent;
+	if(typeof ev.currentTarget.__unformattedText !== "undefined"){
+		if(ev.currentTarget.__unformattedText !== ""){
+			dataFromSnippet = ev.currentTarget.__unformattedText;
+			ev.currentTarget.__unformattedText = "";
+		}
+	}
+    ev.currentTarget.refObj.source.setDataFromSnippet( dataFromSnippet, ev.currentTarget.id);
     ev.currentTarget.refObj.source.getData();
     ev.currentTarget.refObj.source.getAnalyzerInput();
 };
