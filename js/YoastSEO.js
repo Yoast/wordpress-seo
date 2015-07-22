@@ -16,7 +16,7 @@ YoastSEO = function( args ) {
 };
 
 /**
- * inits YoastSEO, calls eleement definer and snippet preview creater
+ * inits YoastSEO, calls element definer and snippet preview creater
  */
 YoastSEO.prototype.init = function(){
     this.defineElements();
@@ -34,7 +34,7 @@ YoastSEO.prototype.createSnippetPreview = function() {
     this.createSnippetPreviewTitle( div );
     this.createSnippetPreviewUrl ( div );
     this.createSnippetPreviewMeta ( div );
-
+	//this.createEditIcons( div );
     this.snippetPreview = new YoastSEO_SnippetPreview( this );
     this.bindEvent();
     this.bindSnippetEvents();
@@ -45,13 +45,18 @@ YoastSEO.prototype.createSnippetPreview = function() {
  * @param target
  */
 YoastSEO.prototype.createSnippetPreviewTitle = function( target ) {
+	var elem = document.createElement( "div" );
+	elem.className = "snippet_container";
+	elem.id = "title_container";
+	target.appendChild( elem );
     var title;
     title = document.createElement( "span" );
     title.contentEditable = true;
     title.textContent = this.config.sampleText.title;
     title.className = "title";
     title.id = "snippet_title";
-    target.appendChild( title );
+    elem.appendChild( title );
+	this.createEditIcon( elem, "title");
 };
 
 /**
@@ -59,16 +64,21 @@ YoastSEO.prototype.createSnippetPreviewTitle = function( target ) {
  * @param target
  */
 YoastSEO.prototype.createSnippetPreviewUrl = function( target ){
+	var elem = document.createElement( "div" );
+	elem.className = "snippet_container";
+	elem.id = "url_container";
+	target.appendChild( elem );
     var baseUrl = document.createElement( "cite" );
     baseUrl.className = "url urlBase";
 	baseUrl.id = "snippet_citeBase";
-	target.appendChild( baseUrl );
+	elem.appendChild( baseUrl );
 	var cite = document.createElement( "cite" );
 	cite.className = "url";
 	cite.id = "snippet_cite";
     cite.textContent = this.config.sampleText.url;
     cite.contentEditable = true;
-    target.appendChild( cite );
+    elem.appendChild( cite );
+	this.createEditIcon( elem, "url" );
 };
 
 /**
@@ -76,12 +86,17 @@ YoastSEO.prototype.createSnippetPreviewUrl = function( target ){
  * @param target
  */
 YoastSEO.prototype.createSnippetPreviewMeta = function ( target ){
+	var elem = document.createElement( "div" );
+	elem.className = "snippet_container";
+	elem.id = "meta_container";
+	target.appendChild( elem );
     var meta = document.createElement( "span" );
     meta.className = "desc";
     meta.id = "snippet_meta";
     meta.contentEditable = true;
-    meta.textContent = this.config.sampleText[ "meta" ];
-    target.appendChild( meta );
+    meta.textContent = this.config.sampleText.meta;
+    elem.appendChild( meta );
+	this.createEditIcon( elem, "desc" );
 };
 
 /**
@@ -92,11 +107,19 @@ YoastSEO.prototype.defineElements = function() {
     for ( var i = 0; i < this.config.elementTarget.length; i++ ){
 		var elem = document.getElementById(this.config.elementTarget[i]);
 		if(elem !== null) {
-			//document.getElementById(this.config.elementTarget[i]).__refObj = this;
 			elem.__refObj = this;
 		}
 
     }
+};
+
+
+YoastSEO.prototype.createEditIcon = function( elem, id ) {
+	var div = document.createElement( "div" );
+	div.className = "editIcon";
+	div.id = "editIcon_"+id;
+	elem.appendChild( div );
+
 };
 
 /**

@@ -338,6 +338,10 @@ YoastSEO_WordPressScraper.prototype.snippetPreviewEventBinder = function() {
 		document.getElementById("snippet_"+elems[i]).addEventListener("keydown", this.refObj.snippetPreview.disableEnter);
 		document.getElementById("snippet_"+elems[i]).addEventListener("blur", this.refObj.snippetPreview.checkTextLength);
 		document.getElementById("snippet_"+elems[i]).addEventListener("input", this.refObj.snippetPreview.textFeedback);
+		document.getElementById("snippet_"+elems[i]).addEventListener("mouseover", this.refObj.snippetPreview.showEditIcon);
+		document.getElementById("snippet_"+elems[i]).addEventListener("mouseout", this.refObj.snippetPreview.hideEditIcon);
+		document.getElementById("snippet_"+elems[i]).addEventListener("focus", this.refObj.snippetPreview.hideEditIcon);
+		document.getElementById("snippet_"+elems[i]).addEventListener("keyup", this.refObj.snippetPreview.hideEditIcon);
     }
 };
 

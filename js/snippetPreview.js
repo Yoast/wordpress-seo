@@ -31,8 +31,7 @@ YoastSEO_SnippetPreview.prototype.htmlOutput = function() {
     html.title = this.formatTitle();
     html.cite = this.formatCite();
     html.meta = this.formatMeta();
-	//get value directly, since it doesn't require formatting.
-	html.url = this.refObj.source.formattedData.url;
+	html.url = this.formatUrl();
     return html;
 };
 
@@ -54,6 +53,18 @@ YoastSEO_SnippetPreview.prototype.formatTitle = function() {
 	}
 	return title;
 };
+
+/**
+ * removes the protocol name from the urlstring.
+ * @returns formatted url
+ */
+YoastSEO_SnippetPreview.prototype.formatUrl = function() {
+	var url = this.refObj.source.formattedData.url;
+	//removes the http(s) part of the url
+	url.replace(/https?:\/\//ig, "");
+	return url;
+};
+
 
 /**
  * formats the url for the snippet preview
@@ -234,6 +245,10 @@ YoastSEO_SnippetPreview.prototype.checkTextLength = function( ev ) {
 	}
 };
 
+/**
+ * adds and remove the tooLong class when a text is too long.
+ * @param ev
+ */
 YoastSEO_SnippetPreview.prototype.textFeedback = function( ev ) {
 	var text = ev.currentTarget.textContent;
 	switch(ev.currentTarget.id){
@@ -254,4 +269,12 @@ YoastSEO_SnippetPreview.prototype.textFeedback = function( ev ) {
 		default:
 			break;
 	}
+};
+
+YoastSEO_SnippetPreview.prototype.showEditIcon = function( ev ){
+	document.getElementById("editIcon_"+ev.currentTarget.className).style.display = "block";
+}
+
+YoastSEO_SnippetPreview.prototype.hideEditIcon = function( ev ){
+	document.getElementById("editIcon_"+ev.currentTarget.className).style.display = "none";
 }

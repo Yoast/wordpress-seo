@@ -4,7 +4,7 @@
 }
 
 #snippet_preview *[contenteditable="true"]:hover {
-    background: url("edit.png") #bbdefb no-repeat right center;
+    background: #bbdefb;
 
     cursor: pointer;
 }
@@ -14,6 +14,15 @@
     cursor: text;
 }
 
+.snippet_container{
+    line-height: 16px;
+}
+/*
+.snippet_container span,
+.snippet_container cite{
+    display: inline-block;
+}
+*/
 .title{
     color:#1e0fbe;
     display:block;
@@ -21,31 +30,29 @@
     text-overflow:ellipsis;
     text-decoration:none;
     white-space:nowrap;
-    width:512px;
     font-size: 18px;
     line-height: 1.2;
     font-weight:normal;
     margin:0;
 }
-.title:visited{
-    color:#609
+
+#title_container .editIcon {
+    margin-top: -18px;
 }
 
 .title br{
     display: none;
 }
 
-.url,.desc{
-    font-size:13px;
-    line-height: 1.4;
-    display: block;
-
-}
 .url{
     font-size: 14px;
     line-height: 16px;
     color:#006621;
     font-style:normal;
+    display: inline-block;
+}
+#meta_container .editIcon{
+    margin-top: -13px;
 }
 
 .url br{
@@ -58,6 +65,9 @@
 
 .desc{
     color:#545454;
+    font-size:13px;
+    line-height: 1.4;
+    display: block;
 }
 
 desc br{
@@ -66,4 +76,12 @@ desc br{
 
 .tooLong{
     color: #ff0000 !important;
+}
+
+.editIcon{
+    display: none;
+    float: right;
+    background: url("edit.png") no-repeat;
+    width: 12px;
+    height: 12px;
 }
