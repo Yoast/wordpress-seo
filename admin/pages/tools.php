@@ -21,6 +21,10 @@ if ( '' === $tool_page ) {
 			'title' => __( 'Bulk editor', 'wordpress-seo' ),
 			'desc' => __( 'This tool allows you to quickly change titles and descriptions of your posts and pages without having to go into the editor for each page.', 'wordpress-seo' ),
 		),
+		'image-alt-check' => array(
+			'title' => __( 'Image Alt Check', 'wordpress-seo' ),
+			'desc' => __( 'This tool allows you to quickly find all images that are missing the alt attribute.', 'wordpress-seo' ),
+		),
 		'import-export' => array(
 			'title' => __( 'Import and Export', 'wordpress-seo' ),
 			'desc' => __( 'Import settings from other SEO plugins and export your settings for re-use on (another) blog.', 'wordpress-seo' ),
@@ -48,6 +52,7 @@ if ( '' === $tool_page ) {
 	echo '</ul>';
 
 }
+
 else {
 	echo '<a href="', admin_url( 'admin.php?page=wpseo_tools' ), '">', __( '&laquo; Back to Tools page', 'wordpress-seo' ), '</a>';
 	require_once WPSEO_PATH . 'admin/views/tool-' . $tool_page . '.php';

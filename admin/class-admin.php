@@ -39,6 +39,10 @@ class WPSEO_Admin {
 			add_action( 'delete_category', array( $this, 'schedule_rewrite_flush' ) );
 		}
 
+		// Image Alt Check Page
+		include_once('class-image-alt-check.php');
+		$WPSEO_Alt_Image_Check = new WPSEO_Alt_Image_Check();
+
 		$this->page_gsc = new WPSEO_GSC();
 		$this->dashboard_widget = new Yoast_Dashboard_Widget();
 
