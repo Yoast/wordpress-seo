@@ -271,10 +271,21 @@ YoastSEO_SnippetPreview.prototype.textFeedback = function( ev ) {
 	}
 };
 
-YoastSEO_SnippetPreview.prototype.showEditIcon = function( ev ){
-	document.getElementById("editIcon_"+ev.currentTarget.className).style.display = "block";
-}
+/**
+ * shows the edit icon corresponding to the hovered element
+ * @param ev
+ */
+YoastSEO_SnippetPreview.prototype.showEditIcon = function( ev ) {
+	ev.currentTarget.parentElement.className = "editIcon snippet_container";
+};
 
+/**
+ * removes all editIcon-classes, sets to snippet_container
+ * @param ev
+ */
 YoastSEO_SnippetPreview.prototype.hideEditIcon = function( ev ){
-	document.getElementById("editIcon_"+ev.currentTarget.className).style.display = "none";
-}
+	var elems = document.getElementsByClassName( "editIcon ");
+	for (var i = 0; i < elems.length; i++){
+		elems[i].className = "snippet_container";
+	}
+};

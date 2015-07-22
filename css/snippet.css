@@ -17,12 +17,11 @@
 .snippet_container{
     line-height: 16px;
 }
-/*
-.snippet_container span,
-.snippet_container cite{
-    display: inline-block;
+
+.snippet_container span{
+    width: 410px;
 }
-*/
+
 .title{
     color:#1e0fbe;
     display:block;
@@ -79,9 +78,5 @@ desc br{
 }
 
 .editIcon{
-    display: none;
-    float: right;
-    background: url("edit.png") no-repeat;
-    width: 12px;
-    height: 12px;
+    background: url("editicon.png") no-repeat right top;
 }

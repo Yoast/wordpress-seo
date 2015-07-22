@@ -34,7 +34,6 @@ YoastSEO.prototype.createSnippetPreview = function() {
     this.createSnippetPreviewTitle( div );
     this.createSnippetPreviewUrl ( div );
     this.createSnippetPreviewMeta ( div );
-	//this.createEditIcons( div );
     this.snippetPreview = new YoastSEO_SnippetPreview( this );
     this.bindEvent();
     this.bindSnippetEvents();
@@ -56,7 +55,7 @@ YoastSEO.prototype.createSnippetPreviewTitle = function( target ) {
     title.className = "title";
     title.id = "snippet_title";
     elem.appendChild( title );
-	this.createEditIcon( elem, "title");
+	//this.createEditIcon( elem, "title");
 };
 
 /**
@@ -78,7 +77,7 @@ YoastSEO.prototype.createSnippetPreviewUrl = function( target ){
     cite.textContent = this.config.sampleText.url;
     cite.contentEditable = true;
     elem.appendChild( cite );
-	this.createEditIcon( elem, "url" );
+	//this.createEditIcon( elem, "url" );
 };
 
 /**
@@ -96,7 +95,7 @@ YoastSEO.prototype.createSnippetPreviewMeta = function ( target ){
     meta.contentEditable = true;
     meta.textContent = this.config.sampleText.meta;
     elem.appendChild( meta );
-	this.createEditIcon( elem, "desc" );
+	//this.createEditIcon( elem, "desc" );
 };
 
 /**
