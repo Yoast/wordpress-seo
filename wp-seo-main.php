@@ -223,12 +223,8 @@ function wpseo_init() {
 	WPSEO_Options::get_instance();
 	WPSEO_Meta::init();
 
+	add_action( 'wp', 'wpseo_check_upgrade' );
 	$options = WPSEO_Options::get_all();
-	if ( version_compare( $options['version'], WPSEO_VERSION, '<' ) ) {
-		new WPSEO_Upgrade();
-		// Get a cleaned up version of the $options.
-		$options = WPSEO_Options::get_all();
-	}
 
 	if ( $options['stripcategorybase'] === true ) {
 		$GLOBALS['wpseo_rewrite'] = new WPSEO_Rewrite;
@@ -245,6 +241,16 @@ function wpseo_init() {
 	// Init it here because the filter must be present on the frontend as well or it won't work in the customizer.
 	if ( current_user_can( 'manage_options' ) ) {
 		new WPSEO_Customizer();
+	}
+}
+
+/**
+ * Checks whether or not an update is needed and executes it if needed
+ */
+function wpseo_check_upgrade() {
+	$options = WPSEO_Options::get_all();
+	if ( version_compare( $options['version'], WPSEO_VERSION, '<' ) ) {
+		new WPSEO_Upgrade();
 	}
 }
 
