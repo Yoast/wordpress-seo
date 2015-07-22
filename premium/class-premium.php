@@ -142,7 +142,8 @@ class WPSEO_Premium {
 			add_action( 'wpseo_handle_import', array( $premium_import_manager, 'do_premium_imports' ) );
 
 			// Add htaccess import block.
-			add_action( 'wpseo_import', array( $premium_import_manager, 'add_htaccess_import_block' ) );
+			add_action( 'wpseo_import_tab_content', array( $premium_import_manager, 'add_htaccess_import_block' ) );
+			add_action( 'wpseo_import_tab_header', array( $premium_import_manager, 'htaccess_import_header' ) );
 
 			// Only activate post and term watcher if permalink structure is enabled.
 			if ( get_option( 'permalink_structure' ) ) {

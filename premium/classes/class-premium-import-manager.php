@@ -235,6 +235,13 @@ class WPSEO_Premium_Import_Manager {
 	}
 
 	/**
+	 * Outputs a tab header for the htaccess import block
+	 */
+	public function htaccess_import_header() {
+		echo '<a class="nav-tab" id="import-htaccess-tab" href="#top#import-htaccess">' . __( 'htaccess import', 'wordpress-seo-premium' ) . '</a>';
+	}
+
+	/**
 	 * Adding the import block for htaccess. Makes it able to import redirects from htaccess
 	 *
 	 * @param array $admin_object
@@ -250,6 +257,7 @@ class WPSEO_Premium_Import_Manager {
 		}
 
 		// Display the form.
+		echo '<div id="import-htaccess" class="wpseotab">' . PHP_EOL;
 		echo '<form action="" method="post" accept-charset="' . esc_attr( get_bloginfo( 'charset' ) ) . '">' . PHP_EOL;
 		echo wp_nonce_field( 'wpseo-import', '_wpnonce', true, false );
 
@@ -258,6 +266,7 @@ class WPSEO_Premium_Import_Manager {
 		echo '<textarea name="htaccess" rows="4" cols="50" style="width:70%; height: 200px;">' . $textarea_value . '</textarea><br/>' . PHP_EOL;
 		echo '<input type="submit" class="button-primary" name="import" value="' . __( 'Import .htaccess', 'wordpress-seo-premium' ) . '"/>' . PHP_EOL;
 		echo '</form>' . PHP_EOL;
+		echo '</div>' . PHP_EOL;
 	}
 
 }
