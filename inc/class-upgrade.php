@@ -131,9 +131,16 @@ class WPSEO_Upgrade {
 	}
 
 	/**
-	 * Performs upgrade function to Yoast SEO 2.3
+	 * Schedules upgrade function to Yoast SEO 2.3
 	 */
 	private function upgrade_23() {
+		add_action( 'wp', array( $this, 'upgrade_23_query' ), 90 );
+	}
+
+	/**
+	 * Performs upgrade query to Yoast SEO 2.3
+	 */
+	public function upgrade_23_query() {
 		$wp_query = new WP_Query( 'post_type=any&meta_key=_yoast_wpseo_sitemap-include&meta_value=never&order=ASC' );
 
 		if ( ! empty( $wp_query->posts ) ) {
