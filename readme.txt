@@ -125,8 +125,8 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 Release Date: July 22nd, 2015
 
 * Bugfixes:
-	* Makes sure authors and editors cannot submit advanced metadata on a post when the advanced tab in the metabox has been disabled for them.
-	* Fixes a bug where upgrading to version 2.3 would occasionally cause WSOD's on both admin and frontend. We were unable to pinpoint the exact cause for this but we are quite confident it was caused by us using WP_Query too early, leading to different possible plugin/theme conflicts.
+	* Makes sure authors and editors cannot submit advanced metadata on a post when the advanced tab in the metabox has been disabled for them. Thanks [Peter Allor](http://securityintelligence.com/author/peter-allor/) from IBM for finding and reporting this issue.
+	* Fixes a bug where upgrading to version 2.3 would occasionally cause WSOD's on both admin and frontend. We were unable to pinpoint the exact conflicting plugins and themes, but we are quite confident it was caused by us using, and others hooking into, WP_Query too early.
 
 = 2.3 =
 
