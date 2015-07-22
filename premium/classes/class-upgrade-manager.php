@@ -29,8 +29,9 @@ class WPSEO_Upgrade_Manager {
 
 		}
 
-		if ( version_compare( $version_number, WPSEO_VERSION, '<' ) ) {
-			add_action( 'admin_init', array( $this, 'import_redirects' ), 11 );
+		if ( version_compare( $version_number, '2.3', '<' ) ) {
+			add_action( 'wp', array( $this, 'import_redirects_2_3' ), 11 );
+			add_action( 'admin_head', array( $this, 'import_redirects_2_3' ), 11 );
 		}
 	}
 
@@ -111,8 +112,10 @@ class WPSEO_Upgrade_Manager {
 
 	/**
 	 * Check if redirects should be imported from the free version
+	 *
+	 * @since 2.3
 	 */
-	public function import_redirects() {
+	public function import_redirects_2_3() {
 		$wp_query  = new WP_Query( 'post_type=any&meta_key=_yoast_wpseo_redirect&order=ASC' );
 
 		if ( ! empty( $wp_query->posts) ) {
