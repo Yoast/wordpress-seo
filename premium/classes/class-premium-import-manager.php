@@ -237,7 +237,8 @@ class WPSEO_Premium_Import_Manager {
 	 * Outputs a tab header for the htaccess import block
 	 */
 	public function htaccess_import_header() {
-		echo '<a class="nav-tab" id="import-htaccess-tab" href="#top#import-htaccess">' . __( 'htaccess import', 'wordpress-seo-premium' ) . '</a>';
+		/* translators: %s: '.htaccess' file name */
+		echo '<a class="nav-tab" id="import-htaccess-tab" href="#top#import-htaccess">' . sprintf( __( '%s import', 'wordpress-seo-premium' ), '.htaccess' ) . '</a>';
 	}
 
 	/**
@@ -256,13 +257,15 @@ class WPSEO_Premium_Import_Manager {
 		}
 
 		// Display the form.
+
 		echo '<div id="import-htaccess" class="wpseotab">' . PHP_EOL;
-		echo '<p>' . __( 'You can copy the contents of any .htaccess file in here, and it will import the redirects in it.', 'wordpress-seo-premium' ) . '</p>' . PHP_EOL;
+		/* translators: %s: '.htaccess' file name */
+		echo '<h2>' . sprintf( __( 'Import redirects from %s', 'wordpress-seo-premium' ), '<code>.htaccess</code>' ). '</h2>' . PHP_EOL;
+		/* translators: %s: '.htaccess' file name */
+		echo '<p>' . sprintf( __( 'You can copy the contents of any %s file in here, and it will import the redirects in it.', 'wordpress-seo-premium' ), '<code>.htaccess</code>' ) . '</p>' . PHP_EOL;
 		echo '<form action="" method="post" accept-charset="' . esc_attr( get_bloginfo( 'charset' ) ) . '">' . PHP_EOL;
 		echo wp_nonce_field( 'wpseo-import', '_wpnonce', true, false );
 
-		/* translators: %s: '.htaccess' file name */
-		echo '<h2>' . sprintf( __( 'Import redirects from %s', 'wordpress-seo-premium' ), '<code>.htaccess</code>' ). '</h2>' . PHP_EOL;
 		echo '<textarea name="htaccess" rows="4" cols="50" style="width:70%; height: 200px;">' . $textarea_value . '</textarea><br/>' . PHP_EOL;
 		echo '<input type="submit" class="button-primary" name="import" value="' . __( 'Import .htaccess', 'wordpress-seo-premium' ) . '"/>' . PHP_EOL;
 		echo '</form>' . PHP_EOL;
