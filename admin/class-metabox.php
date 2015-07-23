@@ -894,8 +894,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				'jquery-ui-core',
 				'jquery-ui-autocomplete',
 			), WPSEO_VERSION, true );
-
-			wp_enqueue_script( 'js-seo-wordpressScraper.js', plugins_url( 'js-seo/js/wordpressScraper.js' ), null, '2.2.1', true );
+//temporary includes from js-seo
+			wp_enqueue_script( 'wp-seo-wordpress-scraper', plugins_url( 'js/wp-seo-wordpress-scraper' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), null, '2.2.1', true );
 			wp_enqueue_script( 'js-seo-snippetPreview.js', plugins_url( 'js-seo/js/snippetPreview.js' ), null, '2.2.1', true );
 
 			wp_enqueue_script( 'js-seo-config.js', plugins_url( 'js-seo/js/config/config.js' ), null, '2.2.1', true );
@@ -908,6 +908,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			wp_enqueue_script( 'js-seo-scoreformatter.js', plugins_url( 'js-seo/js/scoreFormatter.js' ), null, '2.2.1', true );
 			wp_enqueue_script( 'js-seo-YoastSEO.js', plugins_url( 'js-seo/js/YoastSEO.js' ), null, '2.2.1', true );
 			wp_enqueue_script( 'js-seo-wp-config.js', plugins_url( 'js-seo/js/config/wp-config.js' ), null, '2.2.1', true );
+            wp_enqueue_style( 'js-seo-style', plugins_url( 'js-seo/css/snippet.css' ), null, '2.2.1' );
 
 			if ( post_type_supports( get_post_type(), 'thumbnail' ) ) {
 				wp_enqueue_script( 'wp-seo-featured-image', plugins_url( 'js/wp-seo-featured-image' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'jquery' ), WPSEO_VERSION, true );
