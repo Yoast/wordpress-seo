@@ -8,8 +8,6 @@
  */
 class WPSEO_Metabox extends WPSEO_Meta {
 
-	private $post;
-
 	/**
 	 * Class constructor
 	 */
@@ -112,8 +110,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * Sets up all the functionality related to the prominence of the page analysis functionality.
 	 */
 	public function setup_page_analysis() {
-		$this->post = $this->get_metabox_post();
-
 		if ( apply_filters( 'wpseo_use_page_analysis', true ) === true ) {
 			add_action( 'post_submitbox_misc_actions', array( $this, 'publish_box' ) );
 		}
@@ -127,13 +123,14 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			return;
 		}
 
-		if ( self::get_value( 'meta-robots-noindex', $this->post->ID ) === '1' ) {
+		$post = $this->get_metabox_post();
+		if ( self::get_value( 'meta-robots-noindex', $post->ID ) === '1' ) {
 			$score_label = 'noindex';
 			$title       = __( 'Post is set to noindex.', 'wordpress-seo' );
 			$score_title = $title;
 		}
 		else {
-			$score = self::get_value( 'linkdex', $this->post->ID );
+			$score = self::get_value( 'linkdex', $post->ID );
 			if ( $score === '' ) {
 				$score_label = 'na';
 				$title       = __( 'No focus keyword set.', 'wordpress-seo' );
@@ -184,7 +181,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return  array
 	 */
 	public function localize_script() {
-		$post = $this->post;
+		$post = $this->get_metabox_post();
 
 		if ( ( ! is_object( $post ) || ! isset( $post->post_type ) ) || $this->is_metabox_hidden( $post->post_type ) === true ) {
 			return array();
@@ -194,7 +191,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		$date = '';
 		if ( isset( $options[ 'showdate-' . $post->post_type ] ) && $options[ 'showdate-' . $post->post_type ] === true ) {
-			$date = $this->get_post_date( );
+			$date = $this->get_post_date( $post );
 
 			self::$meta_length        = ( self::$meta_length - ( strlen( $date ) + 5 ) );
 			self::$meta_length_reason = __( ' (because of date display)', 'wordpress-seo' );
@@ -287,7 +284,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * Output the meta box
 	 */
 	public function meta_box() {
-		$post    = $this->post;
+		$post    = $this->get_metabox_post();
 		$options = WPSEO_Options::get_all();
 
 		?>
@@ -589,7 +586,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				'jquery-ui-autocomplete',
 			), WPSEO_VERSION, true );
 
-			wp_enqueue_script( 'wp-seo-wordpressScraper.js', plugins_url( 'js/wp-seo-wordpress-scraper' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), null, '2.2.1', true );
+//			wp_enqueue_script( 'wp-seo-wordpressScraper.js', plugins_url( 'js/wp-seo-wordpress-scraper' . '.js', WPSEO_FILE ), null, '2.2.1', true );
 			wp_enqueue_script( 'js-seo-snippetPreview.js', plugins_url( 'js-seo/js/snippetPreview.js' ), null, '2.2.1', true );
 
 			wp_enqueue_script( 'js-seo-config.js', plugins_url( 'js-seo/js/config/config.js' ), null, '2.2.1', true );
@@ -635,9 +632,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 **
 	 * @return string
 	 */
-	private function get_post_date(  ) {
-		if ( isset( $this->post->post_date ) && $this->post->post_status == 'publish' ) {
-			$date = date_i18n( 'j M Y', strtotime( $this->post->post_date ) );
+	private function get_post_date( $post ) {
+		if ( isset( $post->post_date ) && $post->post_status == 'publish' ) {
+			$date = date_i18n( 'j M Y', strtotime( $post->post_date ) );
 		}
 		else {
 			$date = date_i18n( 'j M Y' );

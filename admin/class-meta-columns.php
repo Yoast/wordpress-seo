@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package WPSEO\Admin
+ */
 
 class WPSEO_Meta_Columns {
 
@@ -30,101 +33,50 @@ class WPSEO_Meta_Columns {
 	 */
 	public function column_sort_orderby( $vars ) {
 		if ( $seo_filter = filter_input( INPUT_GET, 'seo_filter' ) ) {
-			$na      = false;
-			$noindex = false;
-			$high    = false;
-			switch ( $seo_filter ) {
-				case 'noindex':
-					$low     = false;
-					$noindex = true;
-					break;
-				case 'na':
-					$low = false;
-					$na  = true;
-					break;
-				case 'bad':
-					$low  = 1;
-					$high = 34;
-					break;
-				case 'poor':
-					$low  = 35;
-					$high = 54;
-					break;
-				case 'ok':
-					$low  = 55;
-					$high = 74;
-					break;
-				case 'good':
-					$low  = 75;
-					$high = 100;
-					break;
-				default:
-					$low     = false;
-					$high    = false;
-					$noindex = false;
-					break;
-			}
-			if ( $low !== false ) {
-				/**
-				 * @internal DON'T touch the order of these without double-checking/adjusting the seo_score_posts_where() method below!
-				 */
-				$vars = array_merge(
-					$vars,
-					array(
-						'meta_query' => array(
-							'relation' => 'AND',
-							array(
-								'key'     => WPSEO_Meta::$meta_prefix . 'linkdex',
-								'value'   => array( $low, $high ),
-								'type'    => 'numeric',
-								'compare' => 'BETWEEN',
-							),
-							array(
-								'key'     => WPSEO_Meta::$meta_prefix . 'meta-robots-noindex',
-								'value'   => 'needs-a-value-anyway',
-								'compare' => 'NOT EXISTS',
-							),
-							array(
-								'key'     => WPSEO_Meta::$meta_prefix . 'meta-robots-noindex',
-								'value'   => '1',
-								'compare' => '!=',
-							),
-						),
-					)
-				);
+			$scores = array(
+				'bad'  => array( 'low' => 1, 'high' => 34 ),
+				'poor' => array( 'low' => 35, 'high' => 54 ),
+				'ok'   => array( 'low' => 55, 'high' => 74 ),
+				'good' => array( 'low' => 75, 'high' => 100 ),
+			);
+
+			if ( array_key_exists( $seo_filter, $scores ) ) {
+				$vars = array_merge( $vars, $this->filter_scored( $scores[ $seo_filter ]['low'], $scores[ $seo_filter ]['high'] ) );
 
 				add_filter( 'posts_where', array( $this, 'seo_score_posts_where' ) );
-
 			}
-			elseif ( $na ) {
-				$vars = array_merge(
-					$vars,
-					array(
-						'meta_query' => array(
-							'relation' => 'OR',
+			else {
+				switch ( $seo_filter ) {
+					case 'noindex':
+						$vars = array_merge(
+							$vars,
 							array(
-								'key'     => WPSEO_Meta::$meta_prefix . 'linkdex',
-								'value'   => 'needs-a-value-anyway',
-								'compare' => 'NOT EXISTS',
+								'meta_query' => array(
+									array(
+										'key'     => WPSEO_Meta::$meta_prefix . 'meta-robots-noindex',
+										'value'   => '1',
+										'compare' => '=',
+									),
+								),
 							)
-						),
-					)
-				);
-
-			}
-			elseif ( $noindex ) {
-				$vars = array_merge(
-					$vars,
-					array(
-						'meta_query' => array(
+						);
+						break;
+					case 'na':
+						$vars = array_merge(
+							$vars,
 							array(
-								'key'     => WPSEO_Meta::$meta_prefix . 'meta-robots-noindex',
-								'value'   => '1',
-								'compare' => '=',
-							),
-						),
-					)
-				);
+								'meta_query' => array(
+									'relation' => 'OR',
+									array(
+										'key'     => WPSEO_Meta::$meta_prefix . 'linkdex',
+										'value'   => 'needs-a-value-anyway',
+										'compare' => 'NOT EXISTS',
+									)
+								),
+							)
+						);
+						break;
+				}
 			}
 		}
 		if ( $seo_kw_filter = filter_input( INPUT_GET, 'seo_kw_filter' ) ) {
@@ -432,6 +384,41 @@ class WPSEO_Meta_Columns {
 			return $new_where;
 		}
 		return $where;
+	}
+
+	/**
+	 * When there is a score just return this meta query array
+	 *
+	 * @param string $low
+	 * @param stromg $high
+	 *
+	 * @return array
+	 */
+	private function filter_scored( $low, $high ) {
+		/**
+		 * @internal DON'T touch the order of these without double-checking/adjusting the seo_score_posts_where() method below!
+		 */
+		return array(
+			'meta_query' => array(
+				'relation' => 'AND',
+				array(
+					'key'     => WPSEO_Meta::$meta_prefix . 'linkdex',
+					'value'   => array( $low, $high ),
+					'type'    => 'numeric',
+					'compare' => 'BETWEEN',
+				),
+				array(
+					'key'     => WPSEO_Meta::$meta_prefix . 'meta-robots-noindex',
+					'value'   => 'needs-a-value-anyway',
+					'compare' => 'NOT EXISTS',
+				),
+				array(
+					'key'     => WPSEO_Meta::$meta_prefix . 'meta-robots-noindex',
+					'value'   => '1',
+					'compare' => '!=',
+				),
+			),
+		);
 	}
 
 
