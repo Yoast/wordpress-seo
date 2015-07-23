@@ -23,7 +23,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		add_action( 'admin_init', array( $this, 'setup_page_analysis' ) );
 		add_action( 'admin_init', array( $this, 'translate_meta_boxes' ) );
 
-		$this->post = $this->get_metabox_post();
 	}
 
 	/**
@@ -113,6 +112,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * Sets up all the functionality related to the prominence of the page analysis functionality.
 	 */
 	public function setup_page_analysis() {
+		$this->post = $this->get_metabox_post();
+
 		if ( apply_filters( 'wpseo_use_page_analysis', true ) === true ) {
 			add_action( 'post_submitbox_misc_actions', array( $this, 'publish_box' ) );
 		}
@@ -339,7 +340,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	function do_meta_box( $meta_field_def, $key = '' ) {
 		$content      = '';
 		$esc_form_key = esc_attr( self::$form_prefix . $key );
-		$meta_value   = self::get_value( $key, $this->post->ID );
+		$meta_value   = self::get_value( $key, $this->get_metabox_post()->ID );
 
 		$class = '';
 		if ( isset( $meta_field_def['class'] ) && $meta_field_def['class'] !== '' ) {
