@@ -126,6 +126,7 @@ Release Date: July 23rd, 2015
 
 * Bugfixes:
 	* Fixes a bug where non-admin users were no longer able to update their profile with Yoast SEO active.
+	* Fixes a bug where all labels in the Yoast SEO admin were bold.
 
 = 2.3.1 =
 
