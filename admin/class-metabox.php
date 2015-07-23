@@ -8,10 +8,7 @@
  */
 class WPSEO_Metabox extends WPSEO_Meta {
 
-	/**
-	 * @var object Holds the Text statistics object
-	 */
-	public $statistics;
+	private $post;
 
 	/**
 	 * Class constructor
@@ -25,6 +22,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		add_action( 'post_submitbox_misc_actions', array( $this, 'publish_box' ) );
 		add_action( 'admin_init', array( $this, 'setup_page_analysis' ) );
 		add_action( 'admin_init', array( $this, 'translate_meta_boxes' ) );
+
+		$this->post = $this->get_metabox_post();
 	}
 
 	/**
@@ -96,13 +95,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return  bool        Whether or not the meta box (and associated columns etc) should be hidden
 	 */
 	function is_metabox_hidden( $post_type = null ) {
-		if ( ! isset( $post_type ) ) {
-			if ( isset( $GLOBALS['post'] ) && ( is_object( $GLOBALS['post'] ) && isset( $GLOBALS['post']->post_type ) ) ) {
-				$post_type = $GLOBALS['post']->post_type;
-			}
-			elseif ( isset( $_GET['post_type'] ) && $_GET['post_type'] !== '' ) {
-				$post_type = sanitize_text_field( $_GET['post_type'] );
-			}
+		if ( ! isset( $post_type ) && ( isset( $GLOBALS['post'] ) && ( is_object( $GLOBALS['post'] ) && isset( $GLOBALS['post']->post_type ) ) ) ) {
+			$post_type = $GLOBALS['post']->post_type;
 		}
 
 		if ( isset( $post_type ) ) {
@@ -119,27 +113,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * Sets up all the functionality related to the prominence of the page analysis functionality.
 	 */
 	public function setup_page_analysis() {
-
 		if ( apply_filters( 'wpseo_use_page_analysis', true ) === true ) {
 			add_action( 'post_submitbox_misc_actions', array( $this, 'publish_box' ) );
 		}
-	}
-
-	/**
-	 * Returns post in metabox context
-	 *
-	 * @returns WP_Post
-	 */
-	private function get_metabox_post() {
-		if ( isset( $_GET['post'] ) ) {
-			$post_id = (int) WPSEO_Utils::validate_int( $_GET['post'] );
-			$post    = get_post( $post_id );
-		}
-		else {
-			$post = $GLOBALS['post'];
-		}
-
-		return $post;
 	}
 
 	/**
@@ -150,16 +126,13 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			return;
 		}
 
-
-		$post = $this->get_metabox_post();
-
-		if ( self::get_value( 'meta-robots-noindex', $post->ID ) === '1' ) {
+		if ( self::get_value( 'meta-robots-noindex', $this->post->ID ) === '1' ) {
 			$score_label = 'noindex';
 			$title       = __( 'Post is set to noindex.', 'wordpress-seo' );
 			$score_title = $title;
 		}
 		else {
-			$score = self::get_value( 'linkdex', $post->ID );
+			$score = self::get_value( 'linkdex', $this->post->ID );
 			if ( $score === '' ) {
 				$score_label = 'na';
 				$title       = __( 'No focus keyword set.', 'wordpress-seo' );
@@ -210,7 +183,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return  array
 	 */
 	public function localize_script() {
-		$post = $this->get_metabox_post();
+		$post = $this->post;
 
 		if ( ( ! is_object( $post ) || ! isset( $post->post_type ) ) || $this->is_metabox_hidden( $post->post_type ) === true ) {
 			return array();
@@ -220,7 +193,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		$date = '';
 		if ( isset( $options[ 'showdate-' . $post->post_type ] ) && $options[ 'showdate-' . $post->post_type ] === true ) {
-			$date = $this->get_post_date( $post );
+			$date = $this->get_post_date( );
 
 			self::$meta_length        = ( self::$meta_length - ( strlen( $date ) + 5 ) );
 			self::$meta_length_reason = __( ' (because of date display)', 'wordpress-seo' );
@@ -312,8 +285,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	/**
 	 * Output the meta box
 	 */
-	function meta_box() {
-		$post    = $this->get_metabox_post();
+	public function meta_box() {
+		$post    = $this->post;
 		$options = WPSEO_Options::get_all();
 
 		?>
@@ -366,8 +339,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	function do_meta_box( $meta_field_def, $key = '' ) {
 		$content      = '';
 		$esc_form_key = esc_attr( self::$form_prefix . $key );
-		$post         = $this->get_metabox_post();
-		$meta_value   = self::get_value( $key, $post->ID );
+		$meta_value   = self::get_value( $key, $this->post->ID );
 
 		$class = '';
 		if ( isset( $meta_field_def['class'] ) && $meta_field_def['class'] !== '' ) {
@@ -524,24 +496,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	}
 
 	/**
-	 * Retrieve a post date when post is published, or return current date when it's not.
-	 *
-	 * @param object $post Post to retrieve the date for.
-	 *
-	 * @return string
-	 */
-	function get_post_date( $post ) {
-		if ( isset( $post->post_date ) && $post->post_status == 'publish' ) {
-			$date = date_i18n( 'j M Y', strtotime( $post->post_date ) );
-		}
-		else {
-			$date = date_i18n( 'j M Y' );
-		}
-
-		return (string) $date;
-	}
-
-	/**
 	 * Save the WP SEO metadata for posts.
 	 *
 	 * @internal $_POST parameters are validated via sanitize_post_meta()
@@ -606,12 +560,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			return;
 		}
 
-
 		$color = get_user_meta( get_current_user_id(), 'admin_color', true );
 		if ( '' == $color || in_array( $color, array( 'classic', 'fresh' ), true ) === false ) {
 			$color = 'fresh';
 		}
-
 
 		if ( $pagenow == 'edit.php' ) {
 			wp_enqueue_style( 'edit-page', plugins_url( 'css/edit-page' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
@@ -678,23 +630,34 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	}
 
 	/**
-	 * Sort an array by a given key.
-	 *
-	 * @param array  $array Array to sort, array is returned sorted.
-	 * @param string $key   Key to sort array by.
+	 * Retrieve a post date when post is published, or return current date when it's not.
+	 **
+	 * @return string
 	 */
-	function aasort( &$array, $key ) {
-		$sorter = array();
-		$ret    = array();
-		reset( $array );
-		foreach ( $array as $ii => $va ) {
-			$sorter[ $ii ] = $va[ $key ];
+	private function get_post_date(  ) {
+		if ( isset( $this->post->post_date ) && $this->post->post_status == 'publish' ) {
+			$date = date_i18n( 'j M Y', strtotime( $this->post->post_date ) );
 		}
-		asort( $sorter );
-		foreach ( $sorter as $ii => $va ) {
-			$ret[ $ii ] = $array[ $ii ];
+		else {
+			$date = date_i18n( 'j M Y' );
 		}
-		$array = $ret;
+
+		return (string) $date;
+	}
+
+	/**
+	 * Returns post in metabox context
+	 *
+	 * @returns WP_Post
+	 */
+	private function get_metabox_post() {
+		if ( $post = filter_input( INPUT_GET, 'post' ) ) {
+			$post_id = (int) WPSEO_Utils::validate_int( $post );
+
+			return get_post( $post_id );
+		}
+
+		return $GLOBALS['post'];
 	}
 
 	/**

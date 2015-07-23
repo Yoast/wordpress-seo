@@ -171,7 +171,7 @@ class WPSEO_Meta_Columns {
 	 *
 	 * @return array
 	 */
-	function column_heading( $columns ) {
+	public function column_heading( $columns ) {
 		if ( $this->is_metabox_hidden() === true ) {
 			return $columns;
 		}
@@ -190,7 +190,7 @@ class WPSEO_Meta_Columns {
 	 * @param string $column_name Column to display the content for.
 	 * @param int    $post_id     Post to display the column content for.
 	 */
-	function column_content( $column_name, $post_id ) {
+	public function column_content( $column_name, $post_id ) {
 		if ( $this->is_metabox_hidden() === true ) {
 			return;
 		}
@@ -355,13 +355,8 @@ class WPSEO_Meta_Columns {
 	 * @return  bool        Whether or not the meta box (and associated columns etc) should be hidden
 	 */
 	private function is_metabox_hidden( $post_type = null ) {
-		if ( ! isset( $post_type ) ) {
-			if ( isset( $GLOBALS['post'] ) && ( is_object( $GLOBALS['post'] ) && isset( $GLOBALS['post']->post_type ) ) ) {
-				$post_type = $GLOBALS['post']->post_type;
-			}
-			elseif ( $get_post_type = filter_input( INPUT_GET, 'post_type' ) ) {
-				$post_type = sanitize_text_field( $get_post_type );
-			}
+		if ( ! isset( $post_type ) &&  $get_post_type = filter_input( INPUT_GET, 'post_type' ) ) {
+			$post_type = sanitize_text_field( $get_post_type );
 		}
 
 		if ( isset( $post_type ) ) {
