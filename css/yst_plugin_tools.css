@@ -431,16 +431,13 @@ div#separator input.radio:checked + label {
 	line-height: 24px;
 }
 
-.wpseo_content_wrapper p {
+#TB_window .wpseo_content_wrapper p {
 	font-size: 14px;
 	font-style: normal;
 }
 
-.wpseo_content_wrapper label {
+#TB_window .wpseo_content_wrapper label {
 	margin: 0 10px 0 0;
 	font-size: 14px;
-}
-
-#TB_window .wpseo_content_wrapper label {
 	font-weight: bold;
 }
