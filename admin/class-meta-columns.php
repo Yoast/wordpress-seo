@@ -195,42 +195,21 @@ class WPSEO_Meta_Columns {
 			return;
 		}
 
-		if ( $column_name === 'wpseo-score' ) {
-			$score = WPSEO_Meta::get_value( 'linkdex', $post_id );
-			if ( WPSEO_Meta::get_value( 'meta-robots-noindex', $post_id ) === '1' ) {
-				$score_label = 'noindex';
-				$title       = __( 'Post is set to noindex.', 'wordpress-seo' );
-				WPSEO_Meta::set_value( 'linkdex', 0, $post_id );
-			}
-			elseif ( $score !== '' ) {
-				$nr          = WPSEO_Utils::calc( $score, '/', 10, true );
-				$score_label = WPSEO_Utils::translate_score( $nr );
-				$title       = WPSEO_Utils::translate_score( $nr, false );
-				unset( $nr );
-			}
-			else {
-				$score = WPSEO_Meta::get_value( 'linkdex', $post_id );
-				if ( $score === '' ) {
-					$score_label = 'na';
-					$title       = __( 'Focus keyword not set.', 'wordpress-seo' );
-				}
-				else {
-					$score_label = WPSEO_Utils::translate_score( $score );
-					$title       = WPSEO_Utils::translate_score( $score, false );
-				}
-			}
+		switch( $column_name ) {
+			case 'wpseo-score' :
+				echo $this->parse_column_score( $post_id );
+				break;
+			case 'wpseo-title' :
+				echo esc_html( apply_filters( 'wpseo_title', wpseo_replace_vars( $this->page_title( $post_id ), get_post( $post_id, ARRAY_A ) ) ) );
+				break;
+			case 'wpseo-metadesc' :
+				echo esc_html( apply_filters( 'wpseo_metadesc', wpseo_replace_vars( WPSEO_Meta::get_value( 'metadesc', $post_id ), get_post( $post_id, ARRAY_A ) ) ) );
 
-			echo '<div title="', esc_attr( $title ), '" id="wpseo-score-icon" class="wpseo-score-icon ', esc_attr( $score_label ), '"></div>';
-		}
-		if ( $column_name === 'wpseo-title' ) {
-			echo esc_html( apply_filters( 'wpseo_title', wpseo_replace_vars( $this->page_title( $post_id ), get_post( $post_id, ARRAY_A ) ) ) );
-		}
-		if ( $column_name === 'wpseo-metadesc' ) {
-			echo esc_html( apply_filters( 'wpseo_metadesc', wpseo_replace_vars( WPSEO_Meta::get_value( 'metadesc', $post_id ), get_post( $post_id, ARRAY_A ) ) ) );
-		}
-		if ( $column_name === 'wpseo-focuskw' ) {
-			$focuskw = WPSEO_Meta::get_value( 'focuskw', $post_id );
-			echo esc_html( $focuskw );
+				break;
+			case 'wpseo-focuskw' :
+				$focuskw = WPSEO_Meta::get_value( 'focuskw', $post_id );
+				echo esc_html( $focuskw );
+				break;
 		}
 	}
 
@@ -310,6 +289,41 @@ class WPSEO_Meta_Columns {
 		}
 		echo '
 			</select>';
+	}
+
+	/**
+	 * Parsing the score column
+	 *
+	 * @param integer $post_id
+	 *
+	 * @return string
+	 */
+	private function parse_column_score( $post_id ) {
+		$score = WPSEO_Meta::get_value( 'linkdex', $post_id );
+		if ( WPSEO_Meta::get_value( 'meta-robots-noindex', $post_id ) === '1' ) {
+			$score_label = 'noindex';
+			$title       = __( 'Post is set to noindex.', 'wordpress-seo' );
+			WPSEO_Meta::set_value( 'linkdex', 0, $post_id );
+		}
+		elseif ( $score !== '' ) {
+			$nr          = WPSEO_Utils::calc( $score, '/', 10, true );
+			$score_label = WPSEO_Utils::translate_score( $nr );
+			$title       = WPSEO_Utils::translate_score( $nr, false );
+			unset( $nr );
+		}
+		else {
+			$score = WPSEO_Meta::get_value( 'linkdex', $post_id );
+			if ( $score === '' ) {
+				$score_label = 'na';
+				$title       = __( 'Focus keyword not set.', 'wordpress-seo' );
+			}
+			else {
+				$score_label = WPSEO_Utils::translate_score( $score );
+				$title       = WPSEO_Utils::translate_score( $score, false );
+			}
+		}
+
+		return '<div title="'. esc_attr( $title ) . '" id="wpseo-score-icon" class="wpseo-score-icon ' . esc_attr( $score_label ) . '"></div>';
 	}
 
 	/**
