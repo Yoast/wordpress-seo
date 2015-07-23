@@ -52,7 +52,7 @@ class WPSEO_Admin_User_Profile {
 		update_user_meta( $user_id, 'wpseo_metadesc', $this->filter_input_post( 'wpseo_author_metadesc' ) );
 		update_user_meta( $user_id, 'wpseo_metakey', $this->filter_input_post( 'wpseo_author_metakey' ) );
 		update_user_meta( $user_id, 'wpseo_excludeauthorsitemap', $this->filter_input_post( 'wpseo_author_exclude' ) );
-}
+	}
 
 	/**
 	 * Add the inputs needed for SEO values to the User Profile page
