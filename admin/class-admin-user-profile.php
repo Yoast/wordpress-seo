@@ -39,11 +39,6 @@ class WPSEO_Admin_User_Profile {
 	 * @param    int $user_id of the updated user.
 	 */
 	public function process_user_option_update( $user_id ) {
-
-		if ( ! current_user_can( 'edit_user', $user_id ) ) {
-			return;
-		}
-
 		update_user_meta( $user_id, '_yoast_wpseo_profile_updated', time() );
 
 		check_admin_referer( 'wpseo_user_profile_update', 'wpseo_nonce' );
@@ -60,11 +55,6 @@ class WPSEO_Admin_User_Profile {
 	 * @param    object $user
 	 */
 	public function user_profile( $user ) {
-
-		if ( ! current_user_can( 'edit_users' ) ) {
-			return;
-		}
-
 		$options = WPSEO_Options::get_all();
 
 		wp_nonce_field( 'wpseo_user_profile_update', 'wpseo_nonce' );
