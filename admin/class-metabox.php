@@ -632,7 +632,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 **
 	 * @return string
 	 */
-	private function get_post_date( $post ) {
+	public function get_post_date( $post ) {
 		if ( isset( $post->post_date ) && $post->post_status == 'publish' ) {
 			$date = date_i18n( 'j M Y', strtotime( $post->post_date ) );
 		}

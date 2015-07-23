@@ -156,7 +156,6 @@ class WPSEO_Meta_Columns {
 				break;
 			case 'wpseo-metadesc' :
 				echo esc_html( apply_filters( 'wpseo_metadesc', wpseo_replace_vars( WPSEO_Meta::get_value( 'metadesc', $post_id ), get_post( $post_id, ARRAY_A ) ) ) );
-
 				break;
 			case 'wpseo-focuskw' :
 				$focuskw = WPSEO_Meta::get_value( 'focuskw', $post_id );
