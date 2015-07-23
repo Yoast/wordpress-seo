@@ -200,7 +200,7 @@ if ( get_option( 'page_comments' ) && $options['ignore_page_comments'] === false
 		</p>
 		<p>
 			<input type='hidden' id='wpseo_recalculate_nonce' name='wpseo_recalculate_nonce' value='<?php echo wp_create_nonce( 'wpseo_recalculate' ); ?>' />
-			<a class='button-secondary thickbox' href='#TB_inline?width=300&height=150&inlineId=wpseo_recalculate' onclick='javascript:wpseo_recalculate_scores(1);'><?php _e( 'Recalculate SEO scores', 'wordpress-seo' ); ?></a>
+			<a class='button-secondary thickbox' href='#TB_inline?width=300&amp;height=150&amp;inlineId=wpseo_recalculate' onclick='javascript:wpseo_recalculate_scores(1);'><?php _e( 'Recalculate SEO scores', 'wordpress-seo' ); ?></a>
 		</p>
 
 

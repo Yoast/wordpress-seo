@@ -251,7 +251,7 @@ function wpseo_recalculate_scores(current_page) {
 	var progress_bar   = jQuery( '#wpseo_progressbar' );
 
 	// Reset the count element and the progressbar
-	count_element.text(0);
+	count_element.text( 0 );
 	progress_bar.progressbar( { 'value' : 0 } );
 
 	var update_count = function( total_posts ) {
@@ -265,7 +265,6 @@ function wpseo_recalculate_scores(current_page) {
 	};
 
 	var calculate_score = function( post ) {
-		// Something with calculating the score
 		var tmpAnalyzer = new YoastSEO_Analyzer( post );
 		tmpAnalyzer.runQueue();
 		var score = tmpAnalyzer.analyzeScorer.__totalScore;
@@ -282,16 +281,16 @@ function wpseo_recalculate_scores(current_page) {
 		);
 	};
 
-	var parse_response = function (response) {
+	var parse_response = function( response ) {
 		if (response !== '') {
-			var resp = jQuery.parseJSON(response);
+			var resp = jQuery.parseJSON( response );
 
 			if ( resp.total_posts !== undefined ) {
 				for( var i = 0; i < resp.total_posts; i++) {
 					calculate_score( resp.posts[i] );
 				}
 
-				update_count(resp.total_posts);
+				update_count( resp.total_posts );
 			}
 
 			if ( resp.next_page !== undefined ) {

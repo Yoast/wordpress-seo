@@ -32,23 +32,23 @@ class WPSEO_Recalculate_Scores {
 	 * Initializing the
 	 */
 	private function modal_box() {
-
 		// Adding the thickbox.
 		add_thickbox();
 
-		echo '<div id="wpseo_recalculate" style="display:none;">';
-		echo '<p>';
-		echo __( 'Recalculating the SEO scores of all the posts:', 'wordpress-seo' );
-		echo '</p>';
-		echo '<div id="wpseo_progressbar"></div>';
-		echo '<p>';
-		printf(
+		$progress = sprintf(
 			__( 'Currently %1$s of %2$s posts recalculated.', 'wordpress-seo' ),
 			'<span id="wpseo_count">0</span>',
 			'<strong id="wpseo_count_total">' . $this->calculate_posts() . '</strong>'
 		);
-		echo '</p>';
-		echo '</div>';
+
+		?>
+		<div id="wpseo_recalculate" style="display:none;">
+			<p><?php esc_html_e( 'Recalculating the SEO scores of all the posts:', 'wordpress-seo' ); ?></p>
+
+			<div id='wpseo_progressbar'></div>
+			<p><?php echo $progress; ?></p>
+		</div>
+		<?php
 	}
 
 	/**

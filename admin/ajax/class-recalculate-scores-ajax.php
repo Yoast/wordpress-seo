@@ -13,7 +13,7 @@ class WPSEO_Recalculate_Scores_Ajax {
 	/**
 	 * @var int
 	 */
-	private $posts_per_page = 1;
+	private $posts_per_page = 20;
 
 	/**
 	 * @var array The fields which should be always queries, can be extended by array_merge
@@ -52,7 +52,7 @@ class WPSEO_Recalculate_Scores_Ajax {
 	 */
 	public function save_score() {
 		if ( $this->verify_nonce() ) {
-			// WPSEO_Meta::set_value( 'linkdex', $linkdex, $post_id );
+			 WPSEO_Meta::set_value( 'linkdex', filter_input( INPUT_POST, 'score' ), filter_input( INPUT_POST, 'post_id' ) );
 		}
 	}
 
@@ -178,8 +178,9 @@ class WPSEO_Recalculate_Scores_Ajax {
 	 * @return bool|string
 	 */
 	private function default_from_options( $field, $post_type ) {
-		if ( isset( $this->options[ $field . '-' . $post_type ] ) && $this->options[ $field . '-' . $post_type ] !== '' ) {
-			return $this->options[ $field . '-' . $post_type ];
+		$target_option_field = $field . '-' . $post_type;
+		if ( ! empty( $this->options[ $target_option_field ] ) ) {
+			return $this->options[ $target_option_field ];
 		}
 
 		return false;
