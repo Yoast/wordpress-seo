@@ -3,6 +3,9 @@
  * @package WPSEO\Admin
  */
 
+/**
+ * Class WPSEO_Meta_Columns
+ */
 class WPSEO_Meta_Columns {
 
 	/**
@@ -147,7 +150,7 @@ class WPSEO_Meta_Columns {
 			return;
 		}
 
-		switch( $column_name ) {
+		switch ( $column_name ) {
 			case 'wpseo-score' :
 				echo $this->parse_column_score( $post_id );
 				break;
@@ -419,6 +422,5 @@ class WPSEO_Meta_Columns {
 			),
 		);
 	}
-
 
 }

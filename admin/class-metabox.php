@@ -586,7 +586,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				'jquery-ui-autocomplete',
 			), WPSEO_VERSION, true );
 
-//			wp_enqueue_script( 'wp-seo-wordpressScraper.js', plugins_url( 'js/wp-seo-wordpress-scraper' . '.js', WPSEO_FILE ), null, '2.2.1', true );
+			wp_enqueue_script( 'wp-seo-wordpressScraper.js', plugins_url( 'js/wp-seo-wordpress-scraper' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), null, '2.2.1', true );
 			wp_enqueue_script( 'js-seo-snippetPreview.js', plugins_url( 'js-seo/js/snippetPreview.js' ), null, '2.2.1', true );
 
 			wp_enqueue_script( 'js-seo-config.js', plugins_url( 'js-seo/js/config/config.js' ), null, '2.2.1', true );
@@ -629,7 +629,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 	/**
 	 * Retrieve a post date when post is published, or return current date when it's not.
-	 **
+	 *
+	 * @param WP_Post $post
+	 *
 	 * @return string
 	 */
 	public function get_post_date( $post ) {
