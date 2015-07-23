@@ -195,6 +195,7 @@ class WPSEO_Admin_Init {
 			) ) || apply_filters( 'wpseo_always_register_metaboxes_on_admin', false )
 		) {
 			$GLOBALS['wpseo_metabox'] = new WPSEO_Metabox;
+			new WPSEO_Meta_Columns();
 			if ( $this->options['opengraph'] === true || $this->options['twitter'] === true || $this->options['googleplus'] === true ) {
 				new WPSEO_Social_Admin;
 			}
