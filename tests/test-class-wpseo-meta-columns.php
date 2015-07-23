@@ -14,15 +14,6 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 		self::$class_instance = new WPSEO_Meta_Columns;
 	}
 
-	public function test_column_heading_is_hooked() {
-
-		self::$class_instance->setup_page_analysis();
-		// @todo -> is this double ! correct ?
-		$hooked = ! ! has_filter( 'manage_post_posts_columns', array( self::$class_instance, 'column_heading' ) );
-
-		$this->assertTrue( $hooked );
-	}
-
 	/**
 	 * @covers WPSEO_Metabox::column_heading()
 	 */
