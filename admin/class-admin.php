@@ -14,6 +14,11 @@ class WPSEO_Admin {
 	private $options;
 
 	/**
+	 * @var Yoast_Dashboard_Widget
+	 */
+	public $dashboard_widget;
+
+	/**
 	 * @var WPSEO_GSC
 	 */
 	private $page_gsc;
@@ -35,6 +40,7 @@ class WPSEO_Admin {
 		}
 
 		$this->page_gsc = new WPSEO_GSC();
+		$this->dashboard_widget = new Yoast_Dashboard_Widget();
 
 		// Needs the lower than default priority so other plugins can hook underneath it without issue.
 		add_action( 'admin_menu', array( $this, 'register_settings_page' ), 5 );
@@ -153,9 +159,9 @@ class WPSEO_Admin {
 			array(
 				'wpseo_dashboard',
 				'',
-				__( 'Webmaster Tools', 'wordpress-seo' ),
+				__( 'Search Console', 'wordpress-seo' ),
 				$manage_options_cap,
-				'wpseo_webmaster_tools',
+				'wpseo_search_console',
 				array( $this->page_gsc, 'display' ),
 				array( array( $this->page_gsc, 'set_help' ) ),
 			),
@@ -294,6 +300,10 @@ class WPSEO_Admin {
 				require_once( WPSEO_PATH . 'admin/pages/licenses.php' );
 				break;
 
+			case 'wpseo_files':
+				require_once( WPSEO_PATH . 'admin/views/tool-file-editor.php' );
+				break;
+
 			case 'wpseo_dashboard':
 			default:
 				require_once( WPSEO_PATH . 'admin/pages/dashboard.php' );
@@ -426,7 +436,7 @@ class WPSEO_Admin {
 		}
 
 		// Add link to premium support landing page.
-		$premium_link = '<a href="https://yoast.com/wordpress/plugins/seo-premium/support/#utm_source=wordpress-seo-settings-link&utm_medium=text-link&utm_campaign=support-link">' . __( 'Premium Support', 'wordpress-seo' ) . '</a>';
+		$premium_link = '<a href="https://yoast.com/wordpress/plugins/seo-premium/support/#utm_source=wordpress-seo-settings-link&amp;utm_medium=textlink&amp;utm_campaign=support-link">' . __( 'Premium Support', 'wordpress-seo' ) . '</a>';
 		array_unshift( $links, $premium_link );
 
 		// Add link to docs.

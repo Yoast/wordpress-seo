@@ -135,6 +135,14 @@ class WPSEO_Metabox extends WPSEO_Meta {
 							$this,
 							'column_sort',
 						), 10, 2 );
+
+						/*
+						 * Use the `get_user_option_{$option}` filter to change the output of the get_user_option
+						 * function for the `manage{$screen}columnshidden` option, which is based on the current
+						 * admin screen. The admin screen we want to target is the `edit-{$post_type}` screen.
+						 */
+						$filter = sprintf( 'get_user_option_%s', sprintf( 'manage%scolumnshidden', 'edit-' . $pt ) );
+						add_filter( $filter, array( $this, 'column_hidden' ), 10, 3 );
 					}
 				}
 				unset( $pt );
@@ -1201,6 +1209,31 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 
 		return $vars;
+	}
+
+	/**
+	 * Hide the SEO Title, Meta Desc and Focus KW columns if the user hasn't chosen which columns to hide
+	 *
+	 * @param array|false $result
+	 * @param string      $option
+	 * @param WP_User     $user
+	 *
+	 * @return array|false $result
+	 */
+	public function column_hidden( $result, $option, $user ) {
+		global $wpdb;
+
+		$prefix = $wpdb->get_blog_prefix();
+		if ( ! $user->has_prop( $prefix . $option ) && ! $user->has_prop( $option ) ) {
+
+			if ( ! is_array( $result ) ) {
+				$result = array();
+			}
+
+			array_push( $result, 'wpseo-title', 'wpseo-metadesc', 'wpseo-focuskw' );
+		}
+
+		return $result;
 	}
 
 	/**

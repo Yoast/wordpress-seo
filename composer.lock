@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "0debdc021709a036eb98688d31699ae2",
+    "hash": "701d241ab6ff8c6d5729755bb8af9c8a",
     "packages": [
         {
             "name": "composer/installers",
@@ -135,16 +135,16 @@
         },
         {
             "name": "yoast/api-libs",
-            "version": "dev-trunk",
+            "version": "2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Yoast/api-libs.git",
-                "reference": "23ba204ea02f08302599e03040712e9eb738355e"
+                "reference": "e7361081a1d6ae79c0b96c8363379435ea736ef8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Yoast/api-libs/zipball/23ba204ea02f08302599e03040712e9eb738355e",
-                "reference": "23ba204ea02f08302599e03040712e9eb738355e",
+                "url": "https://api.github.com/repos/Yoast/api-libs/zipball/e7361081a1d6ae79c0b96c8363379435ea736ef8",
+                "reference": "e7361081a1d6ae79c0b96c8363379435ea736ef8",
                 "shasum": ""
             },
             "type": "library",
@@ -169,7 +169,7 @@
             "keywords": [
                 "wordpress"
             ],
-            "time": "2015-07-07 09:34:36"
+            "time": "2015-07-14 10:25:59"
         },
         {
             "name": "yoast/i18n-module",
@@ -672,7 +672,6 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "yoast/api-libs": 20,
         "yoast/yoastcs": 20
     },
     "prefer-stable": true,

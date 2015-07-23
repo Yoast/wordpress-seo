@@ -42,7 +42,7 @@ class WPSEO_GSC_Ajax {
 
 			// Creates the redirect.
 			if ( $redirect_manager->create_redirect( $old_url, filter_input( INPUT_POST, 'new_url' ), filter_input( INPUT_POST, 'type' ) ) ) {
-				if ( filter_input( INPUT_POST, 'mark_as_fixed' ) === '1' ) {
+				if ( filter_input( INPUT_POST, 'mark_as_fixed' ) === 'true' ) {
 					new WPSEO_GSC_Marker( $old_url );
 				}
 
