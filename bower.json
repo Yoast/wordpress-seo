@@ -5,7 +5,10 @@
   "authors": [
     "Yoast.com"
   ],
-  "main": ["js/dist/yoast-seo-content-analysis.min.js"],
+  "main": [
+    "js/dist/yoast-seo-content-analysis.min.js",
+    "css/dist/yoast-seo-content-analysis.min.css"
+  ],
   "description": "Yoast text analysis tool",
   "keywords": [
     "SEO",

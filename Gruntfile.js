@@ -8,6 +8,7 @@ module.exports = function(grunt) {
         paths: {
             grunt: 'grunt/',
             js: 'js/',
+			css: 'css/',
 			get config() {
 				return this.grunt + 'config/';
 			}
