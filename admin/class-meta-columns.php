@@ -307,7 +307,7 @@ class WPSEO_Meta_Columns {
 	 * @return array
 	 */
 	private function filter_order_by( $order_by ) {
-		switch( $order_by ) {
+		switch ( $order_by ) {
 			case 'wpseo-score' :
 				return array(
 					'meta_key' => WPSEO_Meta::$meta_prefix . 'linkdex',
