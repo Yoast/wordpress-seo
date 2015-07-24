@@ -206,7 +206,7 @@ class WPSEO_Meta_Columns {
 		if ( $seo_kw_filter = filter_input( INPUT_GET, 'seo_kw_filter' ) ) {
 			$vars = array_merge(
 				$vars, array(
-					'post_type'  => 'any',
+					'post_type'  => get_query_var( 'post_type', 'post' ),
 					'meta_key'   => WPSEO_Meta::$meta_prefix . 'focuskw',
 					'meta_value' => sanitize_text_field( $seo_kw_filter ),
 				)
