@@ -9,11 +9,6 @@
 class WPSEO_Metabox extends WPSEO_Meta {
 
 	/**
-	 * @var object Holds the Text statistics object
-	 */
-	public $statistics;
-
-	/**
 	 * Class constructor
 	 */
 	public function __construct() {
@@ -25,6 +20,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		add_action( 'post_submitbox_misc_actions', array( $this, 'publish_box' ) );
 		add_action( 'admin_init', array( $this, 'setup_page_analysis' ) );
 		add_action( 'admin_init', array( $this, 'translate_meta_boxes' ) );
+
 	}
 
 	/**
@@ -96,13 +92,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return  bool        Whether or not the meta box (and associated columns etc) should be hidden
 	 */
 	function is_metabox_hidden( $post_type = null ) {
-		if ( ! isset( $post_type ) ) {
-			if ( isset( $GLOBALS['post'] ) && ( is_object( $GLOBALS['post'] ) && isset( $GLOBALS['post']->post_type ) ) ) {
-				$post_type = $GLOBALS['post']->post_type;
-			}
-			elseif ( isset( $_GET['post_type'] ) && $_GET['post_type'] !== '' ) {
-				$post_type = sanitize_text_field( $_GET['post_type'] );
-			}
+		if ( ! isset( $post_type ) && ( isset( $GLOBALS['post'] ) && ( is_object( $GLOBALS['post'] ) && isset( $GLOBALS['post']->post_type ) ) ) ) {
+			$post_type = $GLOBALS['post']->post_type;
 		}
 
 		if ( isset( $post_type ) ) {
@@ -119,57 +110,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * Sets up all the functionality related to the prominence of the page analysis functionality.
 	 */
 	public function setup_page_analysis() {
-
 		if ( apply_filters( 'wpseo_use_page_analysis', true ) === true ) {
-
-			$post_types = get_post_types( array( 'public' => true ), 'names' );
-
-			if ( is_array( $post_types ) && $post_types !== array() ) {
-				foreach ( $post_types as $pt ) {
-					if ( $this->is_metabox_hidden( $pt ) === false ) {
-						add_filter( 'manage_' . $pt . '_posts_columns', array( $this, 'column_heading' ), 10, 1 );
-						add_action( 'manage_' . $pt . '_posts_custom_column', array(
-							$this,
-							'column_content',
-						), 10, 2 );
-						add_action( 'manage_edit-' . $pt . '_sortable_columns', array(
-							$this,
-							'column_sort',
-						), 10, 2 );
-
-						/*
-						 * Use the `get_user_option_{$option}` filter to change the output of the get_user_option
-						 * function for the `manage{$screen}columnshidden` option, which is based on the current
-						 * admin screen. The admin screen we want to target is the `edit-{$post_type}` screen.
-						 */
-						$filter = sprintf( 'get_user_option_%s', sprintf( 'manage%scolumnshidden', 'edit-' . $pt ) );
-						add_filter( $filter, array( $this, 'column_hidden' ), 10, 3 );
-					}
-				}
-				unset( $pt );
-			}
-			add_action( 'restrict_manage_posts', array( $this, 'posts_filter_dropdown' ) );
-			add_filter( 'request', array( $this, 'column_sort_orderby' ) );
-
 			add_action( 'post_submitbox_misc_actions', array( $this, 'publish_box' ) );
 		}
-	}
-
-	/**
-	 * Returns post in metabox context
-	 *
-	 * @returns WP_Post
-	 */
-	private function get_metabox_post() {
-		if ( isset( $_GET['post'] ) ) {
-			$post_id = (int) WPSEO_Utils::validate_int( $_GET['post'] );
-			$post    = get_post( $post_id );
-		}
-		else {
-			$post = $GLOBALS['post'];
-		}
-
-		return $post;
 	}
 
 	/**
@@ -180,9 +123,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			return;
 		}
 
-
 		$post = $this->get_metabox_post();
-
 		if ( self::get_value( 'meta-robots-noindex', $post->ID ) === '1' ) {
 			$score_label = 'noindex';
 			$title       = __( 'Post is set to noindex.', 'wordpress-seo' );
@@ -342,7 +283,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	/**
 	 * Output the meta box
 	 */
-	function meta_box() {
+	public function meta_box() {
 		$post    = $this->get_metabox_post();
 		$options = WPSEO_Options::get_all();
 
@@ -396,8 +337,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	function do_meta_box( $meta_field_def, $key = '' ) {
 		$content      = '';
 		$esc_form_key = esc_attr( self::$form_prefix . $key );
-		$post         = $this->get_metabox_post();
-		$meta_value   = self::get_value( $key, $post->ID );
+		$meta_value   = self::get_value( $key, $this->get_metabox_post()->ID );
 
 		$class = '';
 		if ( isset( $meta_field_def['class'] ) && $meta_field_def['class'] !== '' ) {
@@ -554,24 +494,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	}
 
 	/**
-	 * Retrieve a post date when post is published, or return current date when it's not.
-	 *
-	 * @param object $post Post to retrieve the date for.
-	 *
-	 * @return string
-	 */
-	function get_post_date( $post ) {
-		if ( isset( $post->post_date ) && $post->post_status == 'publish' ) {
-			$date = date_i18n( 'j M Y', strtotime( $post->post_date ) );
-		}
-		else {
-			$date = date_i18n( 'j M Y' );
-		}
-
-		return (string) $date;
-	}
-
-	/**
 	 * Save the WP SEO metadata for posts.
 	 *
 	 * @internal $_POST parameters are validated via sanitize_post_meta()
@@ -636,12 +558,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			return;
 		}
 
-
 		$color = get_user_meta( get_current_user_id(), 'admin_color', true );
 		if ( '' == $color || in_array( $color, array( 'classic', 'fresh' ), true ) === false ) {
 			$color = 'fresh';
 		}
-
 
 		if ( $pagenow == 'edit.php' ) {
 			wp_enqueue_style( 'edit-page', plugins_url( 'css/edit-page' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
@@ -708,365 +628,36 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	}
 
 	/**
-	 * Adds a dropdown that allows filtering on the posts SEO Quality.
+	 * Retrieve a post date when post is published, or return current date when it's not.
 	 *
-	 * @return void
-	 */
-	function posts_filter_dropdown() {
-		if ( $GLOBALS['pagenow'] === 'upload.php' || $this->is_metabox_hidden() === true ) {
-			return;
-		}
-
-		$scores_array = array(
-			'na'      => __( 'SEO: No Focus Keyword', 'wordpress-seo' ),
-			'bad'     => __( 'SEO: Bad', 'wordpress-seo' ),
-			'poor'    => __( 'SEO: Poor', 'wordpress-seo' ),
-			'ok'      => __( 'SEO: OK', 'wordpress-seo' ),
-			'good'    => __( 'SEO: Good', 'wordpress-seo' ),
-			'noindex' => __( 'SEO: Post Noindexed', 'wordpress-seo' ),
-		);
-
-		echo '
-			<select name="seo_filter">
-				<option value="">', __( 'All SEO Scores', 'wordpress-seo' ), '</option>';
-		foreach ( $scores_array as $val => $text ) {
-			$sel = '';
-			if ( isset( $_GET['seo_filter'] ) ) {
-				$sel = selected( $_GET['seo_filter'], $val, false );
-			}
-			echo '
-				<option ', $sel, 'value="', $val, '">', $text. '</option>';
-		}
-		echo '
-			</select>';
-	}
-
-	/**
-	 * Adds the column headings for the SEO plugin for edit posts / pages overview
-	 *
-	 * @param array $columns Already existing columns.
-	 *
-	 * @return array
-	 */
-	function column_heading( $columns ) {
-		if ( $this->is_metabox_hidden() === true ) {
-			return $columns;
-		}
-
-		return array_merge( $columns, array(
-			'wpseo-score'    => __( 'SEO', 'wordpress-seo' ),
-			'wpseo-title'    => __( 'SEO Title', 'wordpress-seo' ),
-			'wpseo-metadesc' => __( 'Meta Desc.', 'wordpress-seo' ),
-			'wpseo-focuskw'  => __( 'Focus KW', 'wordpress-seo' ),
-		) );
-	}
-
-	/**
-	 * Display the column content for the given column
-	 *
-	 * @param string $column_name Column to display the content for.
-	 * @param int    $post_id     Post to display the column content for.
-	 */
-	function column_content( $column_name, $post_id ) {
-		if ( $this->is_metabox_hidden() === true ) {
-			return;
-		}
-
-		if ( $column_name === 'wpseo-score' ) {
-			$score = self::get_value( 'linkdex', $post_id );
-			if ( self::get_value( 'meta-robots-noindex', $post_id ) === '1' ) {
-				$score_label = 'noindex';
-				$title       = __( 'Post is set to noindex.', 'wordpress-seo' );
-				self::set_value( 'linkdex', 0, $post_id );
-			}
-			elseif ( $score !== '' ) {
-				$nr          = WPSEO_Utils::calc( $score, '/', 10, true );
-				$score_label = WPSEO_Utils::translate_score( $nr );
-				$title       = WPSEO_Utils::translate_score( $nr, false );
-				unset( $nr );
-			}
-			else {
-				$score = self::get_value( 'linkdex', $post_id );
-				if ( $score === '' ) {
-					$score_label = 'na';
-					$title       = __( 'Focus keyword not set.', 'wordpress-seo' );
-				}
-				else {
-					$score_label = WPSEO_Utils::translate_score( $score );
-					$title       = WPSEO_Utils::translate_score( $score, false );
-				}
-			}
-
-			echo '<div title="', esc_attr( $title ), '" id="wpseo-score-icon" class="wpseo-score-icon ', esc_attr( $score_label ), '"></div>';
-		}
-		if ( $column_name === 'wpseo-title' ) {
-			echo esc_html( apply_filters( 'wpseo_title', wpseo_replace_vars( $this->page_title( $post_id ), get_post( $post_id, ARRAY_A ) ) ) );
-		}
-		if ( $column_name === 'wpseo-metadesc' ) {
-			echo esc_html( apply_filters( 'wpseo_metadesc', wpseo_replace_vars( self::get_value( 'metadesc', $post_id ), get_post( $post_id, ARRAY_A ) ) ) );
-		}
-		if ( $column_name === 'wpseo-focuskw' ) {
-			$focuskw = self::get_value( 'focuskw', $post_id );
-			echo esc_html( $focuskw );
-		}
-	}
-
-	/**
-	 * Indicate which of the SEO columns are sortable.
-	 *
-	 * @param array $columns appended with their orderby variable.
-	 *
-	 * @return array
-	 */
-	function column_sort( $columns ) {
-		if ( $this->is_metabox_hidden() === true ) {
-			return $columns;
-		}
-
-		$columns['wpseo-score']    = 'wpseo-score';
-		$columns['wpseo-metadesc'] = 'wpseo-metadesc';
-		$columns['wpseo-focuskw']  = 'wpseo-focuskw';
-
-		return $columns;
-	}
-
-	/**
-	 * Modify the query based on the seo_filter variable in $_GET
-	 *
-	 * @param array $vars Query variables.
-	 *
-	 * @return array
-	 */
-	function column_sort_orderby( $vars ) {
-		if ( isset( $_GET['seo_filter'] ) ) {
-			$na      = false;
-			$noindex = false;
-			$high    = false;
-			switch ( $_GET['seo_filter'] ) {
-				case 'noindex':
-					$low     = false;
-					$noindex = true;
-					break;
-				case 'na':
-					$low = false;
-					$na  = true;
-					break;
-				case 'bad':
-					$low  = 1;
-					$high = 34;
-					break;
-				case 'poor':
-					$low  = 35;
-					$high = 54;
-					break;
-				case 'ok':
-					$low  = 55;
-					$high = 74;
-					break;
-				case 'good':
-					$low  = 75;
-					$high = 100;
-					break;
-				default:
-					$low     = false;
-					$high    = false;
-					$noindex = false;
-					break;
-			}
-			if ( $low !== false ) {
-				/**
-				 * @internal DON'T touch the order of these without double-checking/adjusting the seo_score_posts_where() method below!
-				 */
-				$vars = array_merge(
-					$vars,
-					array(
-						'meta_query' => array(
-							'relation' => 'AND',
-							array(
-								'key'     => self::$meta_prefix . 'linkdex',
-								'value'   => array( $low, $high ),
-								'type'    => 'numeric',
-								'compare' => 'BETWEEN',
-							),
-							array(
-								'key'     => self::$meta_prefix . 'meta-robots-noindex',
-								'value'   => 'needs-a-value-anyway',
-								'compare' => 'NOT EXISTS',
-							),
-							array(
-								'key'     => self::$meta_prefix . 'meta-robots-noindex',
-								'value'   => '1',
-								'compare' => '!=',
-							),
-						),
-					)
-				);
-
-				add_filter( 'posts_where', array( $this, 'seo_score_posts_where' ) );
-
-			}
-			elseif ( $na ) {
-				$vars = array_merge(
-					$vars,
-					array(
-						'meta_query' => array(
-							'relation' => 'OR',
-							array(
-								'key'     => self::$meta_prefix . 'linkdex',
-								'value'   => 'needs-a-value-anyway',
-								'compare' => 'NOT EXISTS',
-							)
-						),
-					)
-				);
-
-			}
-			elseif ( $noindex ) {
-				$vars = array_merge(
-					$vars,
-					array(
-						'meta_query' => array(
-							array(
-								'key'     => self::$meta_prefix . 'meta-robots-noindex',
-								'value'   => '1',
-								'compare' => '=',
-							),
-						),
-					)
-				);
-			}
-		}
-		if ( isset( $_GET['seo_kw_filter'] ) && $_GET['seo_kw_filter'] !== '' ) {
-			$vars = array_merge(
-				$vars, array(
-					'post_type'  => 'any',
-					'meta_key'   => self::$meta_prefix . 'focuskw',
-					'meta_value' => sanitize_text_field( $_GET['seo_kw_filter'] ),
-				)
-			);
-		}
-		if ( isset( $vars['orderby'] ) && 'wpseo-score' === $vars['orderby'] ) {
-			$vars = array_merge(
-				$vars, array(
-					'meta_key' => self::$meta_prefix . 'linkdex',
-					'orderby'  => 'meta_value_num',
-				)
-			);
-		}
-		if ( isset( $vars['orderby'] ) && 'wpseo-metadesc' === $vars['orderby'] ) {
-			$vars = array_merge(
-				$vars, array(
-					'meta_key' => self::$meta_prefix . 'metadesc',
-					'orderby'  => 'meta_value',
-				)
-			);
-		}
-		if ( isset( $vars['orderby'] ) && 'wpseo-focuskw' === $vars['orderby'] ) {
-			$vars = array_merge(
-				$vars, array(
-					'meta_key' => self::$meta_prefix . 'focuskw',
-					'orderby'  => 'meta_value',
-				)
-			);
-		}
-
-		return $vars;
-	}
-
-	/**
-	 * Hide the SEO Title, Meta Desc and Focus KW columns if the user hasn't chosen which columns to hide
-	 *
-	 * @param array|false $result
-	 * @param string      $option
-	 * @param WP_User     $user
-	 *
-	 * @return array|false $result
-	 */
-	public function column_hidden( $result, $option, $user ) {
-		global $wpdb;
-
-		$prefix = $wpdb->get_blog_prefix();
-		if ( ! $user->has_prop( $prefix . $option ) && ! $user->has_prop( $option ) ) {
-
-			if ( ! is_array( $result ) ) {
-				$result = array();
-			}
-
-			array_push( $result, 'wpseo-title', 'wpseo-metadesc', 'wpseo-focuskw' );
-		}
-
-		return $result;
-	}
-
-	/**
-	 * Hacky way to get round the limitation that you can only have AND *or* OR relationship between
-	 * meta key clauses and not a combination - which is what we need.
-	 *
-	 * @param    string $where
-	 *
-	 * @return    string
-	 */
-	function seo_score_posts_where( $where ) {
-		global $wpdb;
-
-		/* Find the two mutually exclusive noindex clauses which should be changed from AND to OR relation */
-		$find = '`([\s]+AND[\s]+)((?:' . $wpdb->prefix . 'postmeta|mt[0-9]|mt1)\.post_id IS NULL[\s]+)AND([\s]+\([\s]*(?:' . $wpdb->prefix . 'postmeta|mt[0-9])\.meta_key = \'' . self::$meta_prefix . 'meta-robots-noindex\' AND CAST\([^\)]+\)[^\)]+\))`';
-
-		$replace = '$1( $2OR$3 )';
-
-		$new_where = preg_replace( $find, $replace, $where );
-
-		if ( $new_where ) {
-			return $new_where;
-		}
-		return $where;
-	}
-
-	/**
-	 * Retrieve the page title.
-	 *
-	 * @param int $post_id Post to retrieve the title for.
+	 * @param WP_Post $post
 	 *
 	 * @return string
 	 */
-	function page_title( $post_id ) {
-		$fixed_title = self::get_value( 'title', $post_id );
-		if ( $fixed_title !== '' ) {
-			return $fixed_title;
+	public function get_post_date( $post ) {
+		if ( isset( $post->post_date ) && $post->post_status == 'publish' ) {
+			$date = date_i18n( 'j M Y', strtotime( $post->post_date ) );
 		}
 		else {
-			$post    = get_post( $post_id );
-			$options = WPSEO_Options::get_all();
-			if ( is_object( $post ) && ( isset( $options[ 'title-' . $post->post_type ] ) && $options[ 'title-' . $post->post_type ] !== '' ) ) {
-				$title_template = $options[ 'title-' . $post->post_type ];
-				$title_template = str_replace( ' %%page%% ', ' ', $title_template );
-
-				return wpseo_replace_vars( $title_template, $post );
-			}
-			else {
-				return wpseo_replace_vars( '%%title%%', $post );
-			}
+			$date = date_i18n( 'j M Y' );
 		}
+
+		return (string) $date;
 	}
 
 	/**
-	 * Sort an array by a given key.
+	 * Returns post in metabox context
 	 *
-	 * @param array  $array Array to sort, array is returned sorted.
-	 * @param string $key   Key to sort array by.
+	 * @returns WP_Post
 	 */
-	function aasort( &$array, $key ) {
-		$sorter = array();
-		$ret    = array();
-		reset( $array );
-		foreach ( $array as $ii => $va ) {
-			$sorter[ $ii ] = $va[ $key ];
+	private function get_metabox_post() {
+		if ( $post = filter_input( INPUT_GET, 'post' ) ) {
+			$post_id = (int) WPSEO_Utils::validate_int( $post );
+
+			return get_post( $post_id );
 		}
-		asort( $sorter );
-		foreach ( $sorter as $ii => $va ) {
-			$ret[ $ii ] = $array[ $ii ];
-		}
-		$array = $ret;
+
+		return $GLOBALS['post'];
 	}
 
 	/**
