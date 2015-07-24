@@ -56,7 +56,9 @@ class Yoast_Dashboard_Widget {
 	 * Enqueue's stylesheet for the dashboard if the current page is the dashboard
 	 */
 	public function enqueue_dashboard_stylesheet() {
-		if ( get_current_screen() instanceof WP_Screen && 'dashboard' === get_current_screen()->id ) {
+		$current_screen = get_current_screen();
+
+		if ( $current_screen instanceof WP_Screen && 'dashboard' === $current_screen->id ) {
 			wp_enqueue_style( 'wpseo-wp-dashboard', plugins_url( 'css/dashboard' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
 		}
 	}
