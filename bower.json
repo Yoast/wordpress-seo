@@ -1,0 +1,30 @@
+{
+  "name": "yoast-wordpress-seo",
+  "version": "2.3.2",
+  "homepage": "https://github.com/Yoast/wordpress-seo",
+  "authors": [
+    "Yoast.com"
+  ],
+  "dependencies" : {
+    "js-text-analysis" : "https://github.com/Yoast/js-text-analysis.git"
+  },
+  "install": {
+    "path" : {
+      "css": "css/dist",
+      "js": "js/dist"
+    },
+    "sources" : {
+      "js-text-analysis" : [
+        "bower_components/js-text-analysis/css/dist/yoast-seo-content-analysis.min.css",
+        "bower_components/js-text-analysis/js/dist/yoast-seo-content-analysis.min.js"
+        ]
+    }
+  },
+  "description": "Yoast SEO for WordPress",
+  "keywords": [
+    "SEO",
+    "WordPress",
+    "Text analysis"
+  ],
+  "license": "GPLv3"
+}
