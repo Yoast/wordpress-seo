@@ -28,98 +28,6 @@ class WPSEO_Meta_Columns {
 	}
 
 	/**
-	 * Modify the query based on the seo_filter variable in $_GET
-	 *
-	 * @param array $vars Query variables.
-	 *
-	 * @return array
-	 */
-	public function column_sort_orderby( $vars ) {
-		if ( $seo_filter = filter_input( INPUT_GET, 'seo_filter' ) ) {
-			$scores = array(
-				'bad'  => array( 'low' => 1, 'high' => 34 ),
-				'poor' => array( 'low' => 35, 'high' => 54 ),
-				'ok'   => array( 'low' => 55, 'high' => 74 ),
-				'good' => array( 'low' => 75, 'high' => 100 ),
-			);
-
-			if ( array_key_exists( $seo_filter, $scores ) ) {
-				$vars = array_merge( $vars, $this->filter_scored( $scores[ $seo_filter ]['low'], $scores[ $seo_filter ]['high'] ) );
-
-				add_filter( 'posts_where', array( $this, 'seo_score_posts_where' ) );
-			}
-			else {
-				switch ( $seo_filter ) {
-					case 'noindex':
-						$vars = array_merge(
-							$vars,
-							array(
-								'meta_query' => array(
-									array(
-										'key'     => WPSEO_Meta::$meta_prefix . 'meta-robots-noindex',
-										'value'   => '1',
-										'compare' => '=',
-									),
-								),
-							)
-						);
-						break;
-					case 'na':
-						$vars = array_merge(
-							$vars,
-							array(
-								'meta_query' => array(
-									'relation' => 'OR',
-									array(
-										'key'     => WPSEO_Meta::$meta_prefix . 'linkdex',
-										'value'   => 'needs-a-value-anyway',
-										'compare' => 'NOT EXISTS',
-									)
-								),
-							)
-						);
-						break;
-				}
-			}
-		}
-		if ( $seo_kw_filter = filter_input( INPUT_GET, 'seo_kw_filter' ) ) {
-			$vars = array_merge(
-				$vars, array(
-					'post_type'  => 'any',
-					'meta_key'   => WPSEO_Meta::$meta_prefix . 'focuskw',
-					'meta_value' => sanitize_text_field( $seo_kw_filter ),
-				)
-			);
-		}
-		if ( isset( $vars['orderby'] ) && 'wpseo-score' === $vars['orderby'] ) {
-			$vars = array_merge(
-				$vars, array(
-					'meta_key' => WPSEO_Meta::$meta_prefix . 'linkdex',
-					'orderby'  => 'meta_value_num',
-				)
-			);
-		}
-		if ( isset( $vars['orderby'] ) && 'wpseo-metadesc' === $vars['orderby'] ) {
-			$vars = array_merge(
-				$vars, array(
-					'meta_key' => WPSEO_Meta::$meta_prefix . 'metadesc',
-					'orderby'  => 'meta_value',
-				)
-			);
-		}
-		if ( isset( $vars['orderby'] ) && 'wpseo-focuskw' === $vars['orderby'] ) {
-			$vars = array_merge(
-				$vars, array(
-					'meta_key' => WPSEO_Meta::$meta_prefix . 'focuskw',
-					'orderby'  => 'meta_value',
-				)
-			);
-		}
-
-		return $vars;
-	}
-
-	/**
 	 * Adds the column headings for the SEO plugin for edit posts / pages overview
 	 *
 	 * @param array $columns Already existing columns.
@@ -174,7 +82,7 @@ class WPSEO_Meta_Columns {
 	 *
 	 * @return array
 	 */
-	function column_sort( $columns ) {
+	public function column_sort( $columns ) {
 		if ( $this->is_metabox_hidden() === true ) {
 			return $columns;
 		}
@@ -243,6 +151,184 @@ class WPSEO_Meta_Columns {
 		}
 		echo '
 			</select>';
+	}
+
+	/**
+	 * Hacky way to get round the limitation that you can only have AND *or* OR relationship between
+	 * meta key clauses and not a combination - which is what we need.
+	 *
+	 * @param    string $where
+	 *
+	 * @return    string
+	 */
+	public function seo_score_posts_where( $where ) {
+		global $wpdb;
+
+		/* Find the two mutually exclusive noindex clauses which should be changed from AND to OR relation */
+		$find = '`([\s]+AND[\s]+)((?:' . $wpdb->prefix . 'postmeta|mt[0-9]|mt1)\.post_id IS NULL[\s]+)AND([\s]+\([\s]*(?:' . $wpdb->prefix . 'postmeta|mt[0-9])\.meta_key = \'' . WPSEO_Meta::$meta_prefix . 'meta-robots-noindex\' AND CAST\([^\)]+\)[^\)]+\))`';
+
+		$replace = '$1( $2OR$3 )';
+
+		$new_where = preg_replace( $find, $replace, $where );
+
+		if ( $new_where ) {
+			return $new_where;
+		}
+		return $where;
+	}
+
+	/**
+	 * Modify the query based on the seo_filter variable in $_GET
+	 *
+	 * @param array $vars Query variables.
+	 *
+	 * @return array
+	 */
+	public function column_sort_orderby( $vars ) {
+		if ( $seo_filter = filter_input( INPUT_GET, 'seo_filter' ) ) {
+			$scores = array(
+				'bad'  => array( 'low' => 1, 'high' => 34 ),
+				'poor' => array( 'low' => 35, 'high' => 54 ),
+				'ok'   => array( 'low' => 55, 'high' => 74 ),
+				'good' => array( 'low' => 75, 'high' => 100 ),
+			);
+
+			if ( array_key_exists( $seo_filter, $scores ) ) {
+				$vars = array_merge( $vars, $this->filter_scored( $scores[ $seo_filter ]['low'], $scores[ $seo_filter ]['high'] ) );
+
+				add_filter( 'posts_where', array( $this, 'seo_score_posts_where' ) );
+			}
+			else {
+				$vars = $this->filter_other( $vars, $seo_filter );
+			}
+		}
+
+		if ( $seo_kw_filter = filter_input( INPUT_GET, 'seo_kw_filter' ) ) {
+			$vars = array_merge(
+				$vars, array(
+					'post_type'  => 'any',
+					'meta_key'   => WPSEO_Meta::$meta_prefix . 'focuskw',
+					'meta_value' => sanitize_text_field( $seo_kw_filter ),
+				)
+			);
+		}
+
+		if ( isset( $vars['orderby'] ) ) {
+			$vars = array_merge( $vars,  $this->filter_order_by( $vars['orderby'] ) );
+		}
+
+		return $vars;
+	}
+
+	/**
+	 * When there is a score just return this meta query array
+	 *
+	 * @param string $low
+	 * @param stromg $high
+	 *
+	 * @return array
+	 */
+	private function filter_scored( $low, $high ) {
+		/**
+		 * @internal DON'T touch the order of these without double-checking/adjusting the seo_score_posts_where() method below!
+		 */
+		return array(
+			'meta_query' => array(
+				'relation' => 'AND',
+				array(
+					'key'     => WPSEO_Meta::$meta_prefix . 'linkdex',
+					'value'   => array( $low, $high ),
+					'type'    => 'numeric',
+					'compare' => 'BETWEEN',
+				),
+				array(
+					'key'     => WPSEO_Meta::$meta_prefix . 'meta-robots-noindex',
+					'value'   => 'needs-a-value-anyway',
+					'compare' => 'NOT EXISTS',
+				),
+				array(
+					'key'     => WPSEO_Meta::$meta_prefix . 'meta-robots-noindex',
+					'value'   => '1',
+					'compare' => '!=',
+				),
+			),
+		);
+	}
+
+	/**
+	 * Get vars for noindex or na filters
+	 *
+	 * @param array  $vars
+	 * @param string $seo_filter
+	 *
+	 * @return array
+	 */
+	private function filter_other( $vars, $seo_filter ) {
+		switch ( $seo_filter ) {
+			case 'noindex':
+				$vars = array_merge(
+					$vars,
+					array(
+						'meta_query' => array(
+							array(
+								'key'     => WPSEO_Meta::$meta_prefix . 'meta-robots-noindex',
+								'value'   => '1',
+								'compare' => '=',
+							),
+						),
+					)
+				);
+				break;
+			case 'na':
+				$vars = array_merge(
+					$vars,
+					array(
+						'meta_query' => array(
+							'relation' => 'OR',
+							array(
+								'key'     => WPSEO_Meta::$meta_prefix . 'linkdex',
+								'value'   => 'needs-a-value-anyway',
+								'compare' => 'NOT EXISTS',
+							)
+						),
+					)
+				);
+				break;
+		}
+
+		return $vars;
+	}
+
+	/**
+	 * Returning filters when $order_by is matched in the if-statement
+	 *
+	 * @param string $order_by
+	 *
+	 * @return array
+	 */
+	private function filter_order_by( $order_by ) {
+		switch( $order_by ) {
+			case 'wpseo-score' :
+				return array(
+					'meta_key' => WPSEO_Meta::$meta_prefix . 'linkdex',
+					'orderby'  => 'meta_value_num',
+				);
+				break;
+			case 'wpseo-metadesc' :
+				return  array(
+					'meta_key' => WPSEO_Meta::$meta_prefix . 'metadesc',
+					'orderby'  => 'meta_value',
+				);
+				break;
+			case 'wpseo-focuskw' :
+				return array(
+					'meta_key' => WPSEO_Meta::$meta_prefix . 'focuskw',
+					'orderby'  => 'meta_value',
+				);
+				break;
+		}
+
+		return array();
 	}
 
 	/**
@@ -361,66 +447,6 @@ class WPSEO_Meta_Columns {
 		}
 
 		return wpseo_replace_vars( '%%title%%', $post );
-
-	}
-
-	/**
-	 * Hacky way to get round the limitation that you can only have AND *or* OR relationship between
-	 * meta key clauses and not a combination - which is what we need.
-	 *
-	 * @param    string $where
-	 *
-	 * @return    string
-	 */
-	public function seo_score_posts_where( $where ) {
-		global $wpdb;
-
-		/* Find the two mutually exclusive noindex clauses which should be changed from AND to OR relation */
-		$find = '`([\s]+AND[\s]+)((?:' . $wpdb->prefix . 'postmeta|mt[0-9]|mt1)\.post_id IS NULL[\s]+)AND([\s]+\([\s]*(?:' . $wpdb->prefix . 'postmeta|mt[0-9])\.meta_key = \'' . WPSEO_Meta::$meta_prefix . 'meta-robots-noindex\' AND CAST\([^\)]+\)[^\)]+\))`';
-
-		$replace = '$1( $2OR$3 )';
-
-		$new_where = preg_replace( $find, $replace, $where );
-
-		if ( $new_where ) {
-			return $new_where;
-		}
-		return $where;
-	}
-
-	/**
-	 * When there is a score just return this meta query array
-	 *
-	 * @param string $low
-	 * @param stromg $high
-	 *
-	 * @return array
-	 */
-	private function filter_scored( $low, $high ) {
-		/**
-		 * @internal DON'T touch the order of these without double-checking/adjusting the seo_score_posts_where() method below!
-		 */
-		return array(
-			'meta_query' => array(
-				'relation' => 'AND',
-				array(
-					'key'     => WPSEO_Meta::$meta_prefix . 'linkdex',
-					'value'   => array( $low, $high ),
-					'type'    => 'numeric',
-					'compare' => 'BETWEEN',
-				),
-				array(
-					'key'     => WPSEO_Meta::$meta_prefix . 'meta-robots-noindex',
-					'value'   => 'needs-a-value-anyway',
-					'compare' => 'NOT EXISTS',
-				),
-				array(
-					'key'     => WPSEO_Meta::$meta_prefix . 'meta-robots-noindex',
-					'value'   => '1',
-					'compare' => '!=',
-				),
-			),
-		);
 	}
 
 }
