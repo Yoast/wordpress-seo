@@ -164,7 +164,13 @@ function _wpseo_activate() {
 function _wpseo_deactivate() {
 	require_once( WPSEO_PATH . 'inc/wpseo-functions.php' );
 
-	add_action( 'shutdown', 'flush_rewrite_rules' );
+	if ( is_multisite() ) {
+		if ( ! ms_is_switched() ) {
+			add_action( 'shutdown', 'flush_rewrite_rules' );
+		} else {
+			delete_option( 'rewrite_rules' );
+		}
+	}
 
 	wpseo_remove_capabilities();
 
