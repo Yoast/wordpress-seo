@@ -143,7 +143,9 @@ function _wpseo_activate() {
 	}
 	WPSEO_Options::ensure_options_exist();
 
-	add_action( 'shutdown', 'flush_rewrite_rules' );
+	if ( ! ms_is_switched() ) {
+		add_action( 'shutdown', 'flush_rewrite_rules' );
+	}
 
 	wpseo_add_capabilities();
 
