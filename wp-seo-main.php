@@ -108,7 +108,6 @@ function wpseo_deactivate( $networkwide = false ) {
 function wpseo_network_activate_deactivate( $activate = true ) {
 	global $wpdb;
 
-	$original_blog_id = get_current_blog_id(); // Alternatively use: $wpdb->blogid.
 	$all_blogs        = $wpdb->get_col( "SELECT blog_id FROM $wpdb->blogs" );
 
 	if ( is_array( $all_blogs ) && $all_blogs !== array() ) {
@@ -121,9 +120,9 @@ function wpseo_network_activate_deactivate( $activate = true ) {
 			else {
 				_wpseo_deactivate();
 			}
+
+			restore_current_blog();
 		}
-		// Restore back to original blog.
-		switch_to_blog( $original_blog_id );
 	}
 }
 
