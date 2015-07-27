@@ -138,7 +138,7 @@
 			}
 
 			updatePrimaryTermSelectors( taxonomyName );
-		}
+		};
 	}
 
 	/**
@@ -150,7 +150,7 @@
 	function termListAddHandler( taxonomyName ) {
 		return function() {
 			updatePrimaryTermSelectors( taxonomyName );
-		}
+		};
 	}
 
 	/**
@@ -171,7 +171,7 @@
 			setPrimaryTerm( taxonomyName, checkbox.val() );
 
 			updatePrimaryTermSelectors( taxonomyName );
-		}
+		};
 	}
 
 	$.fn.initYstSEOPrimaryCategory = function() {
