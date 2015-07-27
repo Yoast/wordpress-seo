@@ -213,7 +213,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	public function test_type() {
 		$this->assertEquals( 'website', self::$class_instance->type( false ) );
 
-		$category_id = wp_create_category( 'WordPress SEO' );
+		$category_id = wp_create_category( 'Yoast SEO' );
 		$this->go_to( get_category_link( $category_id ) );
 		$this->assertEquals( 'object', self::$class_instance->type( false ) );
 
@@ -528,7 +528,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 
 		$expected_meta_description = '';
 
-		$category_id = wp_create_category( 'WordPress SEO' );
+		$category_id = wp_create_category( 'Yoast SEO' );
 		$this->go_to( get_category_link( $category_id ) );
 
 		// Checking meta-description and after obtaining its value, reset the meta value for it
