@@ -3,6 +3,11 @@
  * @package WPSEO\Admin
  */
 
+if ( ! defined( 'WPSEO_VERSION' ) ) {
+	header( 'Status: 403 Forbidden' );
+	header( 'HTTP/1.1 403 Forbidden' );
+	exit();
+}
 ?>
 
 <script type="text/html" id="tmpl-primary-term-input">
@@ -16,24 +21,23 @@
 
 <script type="text/html" id="tmpl-primary-term-ui">
 	<a href="#" class="wpseo-make-primary-term"><?php
-		/* Text between %1$s and %2$s is only shown to screen readers. %3$s expands to the term title, %4$s expands to the taxonomy name */
 		printf(
-			__( 'Make %1$s %3$s the %2$s primary %1$s %4$s %2$s', 'wordpress-seo' ),
-			'<span class="screen-reader-text">',
-			'</span>',
-			'{{data.term}}',
-			'{{data.taxonomy.title}}'
+			/* translators: %1$s expands to the term title, %2$s to the taxonomy title. Both are only shown to screenreaders. */
+			__( 'Make %1$s primary %2$s', 'wordpress-seo' ),
+			'<span class="screen-reader-text">{{data.term}}</span>',
+			'<span class="screen-reader-text">{{data.taxonomy.title}}</span>'
 		);
-	?></a>
+		?></a>
 
-	<span class="wpseo-is-primary-term"><?php
+	<span class="wpseo-is-primary-term"><?php _e( 'Primary', 'wordpress-seo' ); ?></span>
+</script>
+
+<script type="text/html" id="tmpl-primary-term-screen-reader">
+	<span class="screen-reader-text wpseo-primary-category-label"><?php
 		printf(
-			/* Text between %1$s and %2$s is only shown to screen readers. %3$s expands to the term title, %4$s expands to the taxonomy name */
-			__( '%1$s%3$s is the %2$sPrimary%1$s%4$s%2$s', 'wordpress-seo' ),
-			'<span class="screen-reader-text">',
-			'</span>',
-			'{{data.term}}',
+			/* translators: %s is the taxonomy title. */
+			'(' . _x( 'Primary %s', 'taxonomy title', 'wordpress-seo' ) . ')',
 			'{{data.taxonomy.title}}'
 		);
-	?></span>
+		?></span>
 </script>

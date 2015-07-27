@@ -2,7 +2,7 @@
 (function( $ ) {
 	'use strict';
 
-	var primaryTermInputTemplate, primaryTermUITemplate;
+	var primaryTermInputTemplate, primaryTermUITemplate, primaryTermScreenReaderTemplate;
 	var taxonomies = wpseoPrimaryCategoryL10n.taxonomies;
 
 	/**
@@ -62,7 +62,7 @@
 	 */
 	function updatePrimaryTermSelectors( taxonomyName ) {
 		var checkedTerms, uncheckedTerms;
-		var listItem;
+		var listItem, label;
 
 		checkedTerms = $( '#' + taxonomyName + 'checklist input[type="checkbox"]:checked' );
 		uncheckedTerms = $( '#' + taxonomyName + 'checklist input[type="checkbox"]:not(:checked)' );
@@ -72,6 +72,8 @@
 			.removeClass( 'wpseo-term-unchecked' )
 			.removeClass( 'wpseo-primary-term' )
 			.removeClass( 'wpseo-non-primary-term' );
+
+		$( '.wpseo-primary-category-label' ).remove();
 
 		// If there is only one term selected we don't want to show our interface.
 		if ( checkedTerms.length <= 1 ) {
@@ -90,6 +92,12 @@
 
 			if ( term.val() === getPrimaryTerm( taxonomyName ) ) {
 				listItem.addClass( 'wpseo-primary-term' );
+
+				label = term.closest( 'label' );
+				label.find( '.wpseo-primary-category-label' ).remove();
+				label.append( primaryTermScreenReaderTemplate({
+					"taxonomy": taxonomies[ taxonomyName ]
+				}) );
 			}
 			else {
 				listItem.addClass( 'wpseo-non-primary-term' );
@@ -171,6 +179,9 @@
 			setPrimaryTerm( taxonomyName, checkbox.val() );
 
 			updatePrimaryTermSelectors( taxonomyName );
+
+			// The clicked link will be hidden so we need to focus something different.
+			checkbox.focus();
 		};
 	}
 
@@ -198,6 +209,7 @@
 		// Initialize our templates
 		primaryTermInputTemplate = wp.template( 'primary-term-input' );
 		primaryTermUITemplate = wp.template( 'primary-term-ui' );
+		primaryTermScreenReaderTemplate = wp.template( 'primary-term-screen-reader' );
 
 		$( _.values( taxonomies ) ).initYstSEOPrimaryCategory();
 	});
