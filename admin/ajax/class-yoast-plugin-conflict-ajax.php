@@ -48,7 +48,7 @@ class Yoast_Plugin_Conflict_Ajax {
 	 * @return bool|array
 	 */
 	private function get_dismissed_option() {
-		return get_user_meta( get_current_user_id(), $this->option_name, false );
+		return get_user_meta( get_current_user_id(), $this->option_name, true );
 	}
 
 	/**
@@ -61,7 +61,7 @@ class Yoast_Plugin_Conflict_Ajax {
 	private function get_dismissed_conflicts( $plugin_section ) {
 		$dismissed_conflicts = $this->get_dismissed_option();
 
-		if ( array_key_exists( $plugin_section, $dismissed_conflicts ) ) {
+		if ( is_array( $dismissed_conflicts ) && array_key_exists( $plugin_section, $dismissed_conflicts ) ) {
 			return $dismissed_conflicts[ $plugin_section ];
 		}
 
