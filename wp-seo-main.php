@@ -313,6 +313,13 @@ if ( ( ! defined( 'WP_INSTALLING' ) || WP_INSTALLING === false ) && ( $spl_autol
 	if ( is_admin() ) {
 		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
 			require_once( WPSEO_PATH . 'admin/ajax.php' );
+
+			// Crawl Issue Manager AJAX hooks.
+			new WPSEO_GSC_Ajax;
+
+			// Plugin conflict ajax hooks.
+			new Yoast_Plugin_Conflict_Ajax();
+
 		}
 		else {
 			add_action( 'plugins_loaded', 'wpseo_admin_init', 15 );
