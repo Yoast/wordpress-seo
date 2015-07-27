@@ -46,24 +46,7 @@ class WPSEO_Primary_Term_Admin {
 
 		wp_enqueue_script( 'wpseo-primary-category', plugins_url( 'js/wp-seo-metabox-category' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'jquery' ), WPSEO_VERSION, true );
 
-		$taxonomies = array_map( function ( $taxonomy ) {
-
-			$terms = get_terms( $taxonomy->name );
-
-			$primary_term = new WPSEO_Primary_Term( $taxonomy->name, get_the_ID() );
-
-			return array(
-				'title'   => $taxonomy->labels->singular_name,
-				'name'    => $taxonomy->name,
-				'primary' => $primary_term->get_primary_term(),
-				'terms'   => array_map( function ( $term ) {
-					return array(
-						'id'   => $term->term_id,
-						'name' => $term->name,
-					);
-				}, $terms ),
-			);
-		}, $taxonomies );
+		$taxonomies = array_map( array( $this, 'map_taxonomies_for_js' ), $taxonomies );
 
 		$data = array(
 			'taxonomies' => $taxonomies,
@@ -100,6 +83,39 @@ class WPSEO_Primary_Term_Admin {
 		}
 
 		return $category;
+	}
+
+	/**
+	 * Returns an array suitable for use in the javascript
+	 *
+	 * @param stdClass $taxonomy
+	 * @return array
+	 */
+	private function map_taxonomies_for_js( $taxonomy ) {
+		$terms = get_terms( $taxonomy->name );
+
+		$primary_term = new WPSEO_Primary_Term( $taxonomy->name, get_the_ID() );
+
+		return array(
+			'title'   => $taxonomy->labels->singular_name,
+			'name'    => $taxonomy->name,
+			'primary' => $primary_term->get_primary_term(),
+			'terms'   => array_map( array( $this, 'map_terms_for_js' ), $terms ),
+		);
+	}
+
+	/**
+	 * Returns an array suitable for use in the javascript
+	 *
+	 * @param stdClass $term
+	 *
+	 * @return array
+	 */
+	private function map_terms_for_js( $term ) {
+		return array(
+			'id'   => $term->term_id,
+			'name' => $term->name,
+		);
 	}
 
 	/**
