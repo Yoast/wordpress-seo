@@ -787,7 +787,7 @@ class WPSEO_Utils {
 	 * @return bool
 	 */
 	public static function get_plugin_name( $plugin ) {
-		$plugin_details = get_plugin_data( ABSPATH . '/wp-content/plugins/' . $plugin );
+		$plugin_details = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin );
 
 		if ( $plugin_details['Name'] != '' ) {
 			return $plugin_details['Name'];
