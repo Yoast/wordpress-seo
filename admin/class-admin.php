@@ -585,6 +585,9 @@ class WPSEO_Admin {
 		}
 	}
 
+	/**
+	 * If the Google Search Console has no credentials, add a notification for the user to give him a heads up. This message is dismissable.
+	 */
 	private function register_gsc_notification() {
 		Yoast_Notification_Center::get()->add_notification(
 			new Yoast_Notification( __( 'Please set the Google Search Console authentication code.', 'wordpress-seo' ), array( 'type' => 'error' ) )
