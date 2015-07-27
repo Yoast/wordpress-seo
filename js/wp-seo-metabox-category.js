@@ -2,7 +2,7 @@
 (function( $ ) {
 	'use strict';
 
-	var primaryTermInputTemplate;
+	var primaryTermInputTemplate, primaryTermUITemplate;
 
 	/**
 	 * Checks if the elements to make a term the primary term and the display for a primary term exist
@@ -106,27 +106,13 @@
 	 * @param checkbox
 	 */
 	function createPrimaryTermElements( taxonomyName, checkbox ) {
-		var makePrimaryLink, primaryStatus;
-		var label;
+		var label, html;
 
-		checkbox = $( checkbox );
-		label = checkbox.closest( 'label' );
+		label = $( checkbox ).closest( 'label' );
 
-		makePrimaryLink = $( '<a href="#" class="wpseo-make-primary-term">Make primary</a>' );
-		label.after( ' ', makePrimaryLink );
+		html = primaryTermUITemplate();
 
-		primaryStatus = $( '<span class="wpseo-is-primary-term">Primary</span>' );
-		label.after( ' ', primaryStatus );
-
-		makePrimaryLink.on( 'click', function( e ) {
-			e.preventDefault();
-
-			var term = $( e.currentTarget );
-
-			setPrimaryTerm( taxonomyName, checkbox.val() );
-
-			updatePrimaryTermSelectors( taxonomyName );
-		});
+		label.after( html );
 	}
 
 	/**
@@ -163,6 +149,27 @@
 		}
 	}
 
+	/**
+	 * Returns the make primary event handler for a certain taxonomy name
+	 *
+	 * @param taxonomyName
+	 * @return {Function}
+	 */
+	function makePrimaryHandler( taxonomyName ) {
+		return function( e ) {
+			var term, checkbox;
+
+			e.preventDefault();
+
+			term = $( e.currentTarget );
+			checkbox = term.siblings( 'label' ).find( 'input' );
+
+			setPrimaryTerm( taxonomyName, checkbox.val() );
+
+			updatePrimaryTermSelectors( taxonomyName );
+		}
+	}
+
 	$.fn.initYstSEOPrimaryCategory = function() {
 		return this.each(function( i, taxonomy ) {
 			var metaboxTaxonomy, html;
@@ -179,12 +186,14 @@
 
 			metaboxTaxonomy.on( 'click', 'input[type="checkbox"]', termCheckboxHandler( taxonomy.name ) );
 			metaboxTaxonomy.on( 'wpListAddEnd', '#' + taxonomy.name + 'checklist', termListAddHandler( taxonomy.name ) );
+			metaboxTaxonomy.on( 'click', '.wpseo-make-primary-term', makePrimaryHandler( taxonomy.name ) );
 		});
 	};
 
 	$( function() {
 		// Initialize our templates
 		primaryTermInputTemplate = wp.template( 'primary-term-input' );
+		primaryTermUITemplate = wp.template( 'primary-term-ui' );
 
 		$( wpseoPrimaryCategoryL10n.taxonomies ).initYstSEOPrimaryCategory();
 	});

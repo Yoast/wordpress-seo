@@ -13,3 +13,9 @@
 
 	<?php wp_nonce_field( 'save-primary-term', WPSEO_Meta::$form_prefix . 'primary_{{data.taxonomy.name}}_nonce' ); ?>
 </script>
+
+<script type="text/html" id="tmpl-primary-term-ui">
+	<a href="#" class="wpseo-make-primary-term"><?php _e( 'Make primary', 'wordpress-seo' ); ?></a>
+
+	<span class="wpseo-is-primary-term"><?php _e( 'Primary', 'wordpress-seo' ); ?></span>
+</script>
