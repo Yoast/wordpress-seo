@@ -2,9 +2,9 @@
 # This file is distributed under the GPL v3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Yoast SEO 2.3\n"
+"Project-Id-Version: Yoast SEO 2.3.1\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo/issues\n"
-"POT-Creation-Date: 2015-07-21 11:58:33+00:00\n"
+"POT-Creation-Date: 2015-07-22 14:14:50+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -561,7 +561,7 @@ msgstr ""
 
 #: admin/class-metabox.php:69 admin/pages/network.php:53
 #: admin/views/tab-breadcrumbs.php:40 admin/views/tab-breadcrumbs.php:57
-#: inc/class-wpseo-meta.php:393
+#: inc/class-wpseo-meta.php:397
 msgid "None"
 msgstr ""
 

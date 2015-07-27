@@ -366,6 +366,10 @@ class WPSEO_Meta {
 
 				$options = WPSEO_Options::get_all();
 
+				if ( ! current_user_can( 'manage_options' ) && $options['disableadvanced_meta'] ) {
+					return array();
+				}
+
 				$post_type = '';
 				if ( isset( $post->post_type ) ) {
 					$post_type = $post->post_type;
