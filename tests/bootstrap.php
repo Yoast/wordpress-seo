@@ -8,7 +8,7 @@ if ( function_exists( 'xdebug_disable' ) ) {
 	xdebug_disable();
 }
 
-echo 'Welcome to the WordPress SEO Test Suite' . PHP_EOL;
+echo 'Welcome to the Yoast SEO Test Suite' . PHP_EOL;
 echo 'Version: 1.0' . PHP_EOL . PHP_EOL;
 
 if ( false !== getenv( 'WP_PLUGIN_DIR' ) ) {

@@ -13,7 +13,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * @internal Nobody should be able to overrule the real version number as this can cause serious issues
  * with the options, so no if ( ! defined() )
  */
-define( 'WPSEO_VERSION', '2.2.1' );
+define( 'WPSEO_VERSION', '2.3.2' );
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
 	define( 'WPSEO_PATH', plugin_dir_path( WPSEO_FILE ) );
@@ -241,6 +241,11 @@ function wpseo_init() {
 	if ( ! defined( 'DOING_AJAX' ) || ! DOING_AJAX ) {
 		require_once( WPSEO_PATH . 'inc/wpseo-non-ajax-functions.php' );
 	}
+
+	// Init it here because the filter must be present on the frontend as well or it won't work in the customizer.
+	if ( current_user_can( 'manage_options' ) ) {
+		new WPSEO_Customizer();
+	}
 }
 
 /**
@@ -376,9 +381,9 @@ function yoast_wpseo_missing_autoload() {
  * Returns the notice in case of missing Composer autoload
  */
 function yoast_wpseo_missing_autoload_notice() {
-	/* translators: %1$s / %2$s: links to the installation manual in the Readme for the WordPress SEO by Yoast code repository on GitHub */
-	$message = esc_html__( 'The WordPress SEO plugin installation is incomplete. Please refer to %1$sinstallation instructions%2$s.', 'wordpress-seo' );
-	$message = sprintf( $message, '<a href="https://github.com/Yoast/wordpress-seo#installation">', '</a>' );
+	/* translators: %1$s expands to Yoast SEO, %2$s / %3$s: links to the installation manual in the Readme for the Yoast SEO code repository on GitHub */
+	$message = esc_html__( 'The %1$s plugin installation is incomplete. Please refer to %2$sinstallation instructions%3$s.', 'wordpress-seo' );
+	$message = sprintf( $message, 'Yoast SEO', '<a href="https://github.com/Yoast/wordpress-seo#installation">', '</a>' );
 	yoast_wpseo_activation_failed_notice( $message );
 }
 

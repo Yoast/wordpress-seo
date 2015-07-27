@@ -430,3 +430,14 @@ div#separator input.radio:checked + label {
 	font-size: 18px;
 	line-height: 24px;
 }
+
+#TB_window .wpseo_content_wrapper p {
+	font-size: 14px;
+	font-style: normal;
+}
+
+#TB_window .wpseo_content_wrapper label {
+	margin: 0 10px 0 0;
+	font-size: 14px;
+	font-weight: bold;
+}

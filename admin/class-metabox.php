@@ -136,6 +136,14 @@ class WPSEO_Metabox extends WPSEO_Meta {
 							$this,
 							'column_sort',
 						), 10, 2 );
+
+						/*
+						 * Use the `get_user_option_{$option}` filter to change the output of the get_user_option
+						 * function for the `manage{$screen}columnshidden` option, which is based on the current
+						 * admin screen. The admin screen we want to target is the `edit-{$post_type}` screen.
+						 */
+						$filter = sprintf( 'get_user_option_%s', sprintf( 'manage%scolumnshidden', 'edit-' . $pt ) );
+						add_filter( $filter, array( $this, 'column_hidden' ), 10, 3 );
 					}
 				}
 				unset( $pt );
@@ -447,7 +455,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	}
 
 	/**
-	 * Adds the WordPress SEO meta box to the edit boxes in the edit post / page  / cpt pages.
+	 * Adds the Yoast SEO meta box to the edit boxes in the edit post / page  / cpt pages.
 	 */
 	public function add_meta_box() {
 		$post_types = get_post_types( array( 'public' => true ) );
@@ -455,7 +463,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		if ( is_array( $post_types ) && $post_types !== array() ) {
 			foreach ( $post_types as $post_type ) {
 				if ( $this->is_metabox_hidden( $post_type ) === false ) {
-					add_meta_box( 'wpseo_meta', __( 'WordPress SEO by Yoast', 'wordpress-seo' ), array(
+					add_meta_box( 'wpseo_meta', 'Yoast SEO', array(
 						$this,
 						'meta_box',
 					), $post_type, 'normal', apply_filters( 'wpseo_metabox_prio', 'high' ) );
@@ -549,7 +557,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	}
 
 	/**
-	 * Output a tab in the WP SEO Metabox
+	 * Output a tab in the Yoast SEO Metabox
 	 *
 	 * @param string $id      CSS ID of the tab.
 	 * @param string $heading Heading for the tab.
@@ -806,7 +814,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	}
 
 	/**
-	 * Save the WP SEO metadata for posts.
+	 * Save the Yoast SEO metadata for posts.
 	 *
 	 * @internal $_POST parameters are validated via sanitize_post_meta()
 	 *
@@ -1192,6 +1200,31 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 
 		return $vars;
+	}
+
+	/**
+	 * Hide the SEO Title, Meta Desc and Focus KW columns if the user hasn't chosen which columns to hide
+	 *
+	 * @param array|false $result
+	 * @param string      $option
+	 * @param WP_User     $user
+	 *
+	 * @return array|false $result
+	 */
+	public function column_hidden( $result, $option, $user ) {
+		global $wpdb;
+
+		$prefix = $wpdb->get_blog_prefix();
+		if ( ! $user->has_prop( $prefix . $option ) && ! $user->has_prop( $option ) ) {
+
+			if ( ! is_array( $result ) ) {
+				$result = array();
+			}
+
+			array_push( $result, 'wpseo-title', 'wpseo-metadesc', 'wpseo-focuskw' );
+		}
+
+		return $result;
 	}
 
 	/**
@@ -2220,7 +2253,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	/********************** DEPRECATED METHODS **********************/
 
 	/**
-	 * Adds the WordPress SEO box
+	 * Adds the Yoast SEO box
 	 *
 	 * @deprecated 1.4.24
 	 * @deprecated use WPSEO_Metabox::add_meta_box()

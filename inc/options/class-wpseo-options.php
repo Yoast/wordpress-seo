@@ -270,7 +270,7 @@ class WPSEO_Options {
 		// Commented out? wpseo_title_test(); R.
 		wpseo_description_test();
 
-		/* Force WooThemes to use WordPress SEO data. */
+		/* Force WooThemes to use Yoast SEO data. */
 		if ( function_exists( 'woo_version_init' ) ) {
 			update_option( 'seo_woo_use_third_party_data', 'true' );
 		}

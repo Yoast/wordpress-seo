@@ -23,17 +23,6 @@ if ( ! function_exists( 'yoast_breadcrumb' ) ) {
 	/**
 	 * Template tag for breadcrumbs.
 	 *
-	 * @todo [JRF => Yoast/whomever] We could probably get rid of the 'breadcrumbs-enable' option key
-	 * as the file is now only loaded when the template tag is encountered anyway.
-	 * Only issue with that would be the removal of the bbPress crumb from within wpseo_frontend_init()
-	 * in wpseo.php which is also based on this setting.
-	 * Whether or not to show the bctitle field within meta boxes is also based on this setting, but
-	 * showing these when someone hasn't implemented the template tag shouldn't really give cause for concern.
-	 * Other than that, leaving the setting is an easy way to enable/disable the bc without having to
-	 * edit the template files again, but having to manually enable when you've added the template tag
-	 * in your theme is kind of double, so I'm undecided about what to do.
-	 * I guess I'm leaning towards removing the option key.
-	 *
 	 * @param string $before  What to show before the breadcrumb.
 	 * @param string $after   What to show after the breadcrumb.
 	 * @param bool   $display Whether to display the breadcrumb (true) or return it (false).
@@ -41,9 +30,13 @@ if ( ! function_exists( 'yoast_breadcrumb' ) ) {
 	 * @return string
 	 */
 	function yoast_breadcrumb( $before = '', $after = '', $display = true ) {
-		$options = get_option( 'wpseo_internallinks' );
+		$breadcrumbs_enabled = current_theme_supports( 'yoast-seo-breadcrumbs' );
+		if ( ! $breadcrumbs_enabled ) {
+			$options             = get_option( 'wpseo_internallinks' );
+			$breadcrumbs_enabled = ( $options['breadcrumbs-enable'] === true );
+		}
 
-		if ( $options['breadcrumbs-enable'] === true ) {
+		if ( $breadcrumbs_enabled ) {
 			return WPSEO_Breadcrumbs::breadcrumb( $before, $after, $display );
 		}
 	}
@@ -289,7 +282,7 @@ function wpseo_wpml_config( $config ) {
 add_filter( 'icl_wpml_config_array', 'wpseo_wpml_config' );
 
 /**
- * WordPress SEO breadcrumb shortcode
+ * Yoast SEO breadcrumb shortcode
  * [wpseo_breadcrumb]
  *
  * @return string
@@ -455,7 +448,7 @@ function get_wpseo_options() {
  * @see        WPSEO_Meta::replace_meta()
  *
  * @param string $old_metakey The old name of the meta value.
- * @param string $new_metakey The new name of the meta value, usually the WP SEO name.
+ * @param string $new_metakey The new name of the meta value, usually the Yoast SEO name.
  * @param bool   $replace     Whether to replace or to copy the values.
  */
 function replace_meta( $old_metakey, $new_metakey, $replace = false ) {
@@ -516,15 +509,15 @@ function wpseo_get_terms( $id, $taxonomy, $return_single = false ) {
  * Generate an HTML sitemap
  *
  * @deprecated 1.5.5.4
- * @deprecated use plugin WordPress SEO Premium
- * @see        WordPress SEO Premium
+ * @deprecated use plugin Yoast SEO Premium
+ * @see        Yoast SEO Premium
  *
  * @param array $atts The attributes passed to the shortcode.
  *
  * @return string
  */
 function wpseo_sitemap_handler( $atts ) {
-	_deprecated_function( __FUNCTION__, 'WPSEO 1.5.5.4', 'Functionality has been discontinued after being in beta, it\'ll be available in the WordPress SEO Premium plugin soon.' );
+	_deprecated_function( __FUNCTION__, 'WPSEO 1.5.5.4', 'Functionality has been discontinued after being in beta, it\'ll be available in the Yoast SEO Premium plugin soon.' );
 
 	return '';
 }

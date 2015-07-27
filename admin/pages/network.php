@@ -90,7 +90,8 @@ wp_nonce_field( 'wpseo-network-settings', '_wpnonce', true, true );
 /* @internal Important: Make sure the options added to the array here are in line with the options set in the WPSEO_Option_MS::$allowed_access_options property */
 $yform->select(
 	'access',
-	__( 'Who should have access to the WordPress SEO settings', 'wordpress-seo' ),
+	/* translators: %1$s expands to Yoast SEO */
+	sprintf( __( 'Who should have access to the %1$s settings', 'wordpress-seo' ), 'Yoast SEO' ),
 	array(
 		'admin'      => __( 'Site Admins (default)', 'wordpress-seo' ),
 		'superadmin' => __( 'Super Admins only', 'wordpress-seo' ),

@@ -168,7 +168,7 @@ class Yoast_Form {
 			array(
 				'url' => 'https://yoast.com/wordpress/plugins/seo-premium/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=premium-seo-banner',
 				'img' => 'banner-premium-seo.png',
-				'alt' => 'Banner WordPress SEO Premium',
+				'alt' => 'Banner Yoast SEO Premium',
 			),
 		);
 
@@ -176,7 +176,7 @@ class Yoast_Form {
 			$plugin_banners[] = array(
 				'url' => 'https://yoast.com/wordpress/plugins/video-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=video-seo-banner',
 				'img' => 'banner-video-seo.png',
-				'alt' => 'Banner WordPress SEO Video SEO extension',
+				'alt' => 'Banner Yoast Video SEO plugin',
 			);
 		}
 
@@ -184,7 +184,7 @@ class Yoast_Form {
 			$plugin_banners[] = array(
 				'url' => 'https://yoast.com/wordpress/plugins/yoast-woocommerce-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=woocommerce-seo-banner',
 				'img' => 'banner-woocommerce-seo.png',
-				'alt' => 'Banner WooCommerce SEO plugin',
+				'alt' => 'Banner Yoast WooCommerce SEO plugin',
 			);
 		}
 
@@ -192,7 +192,7 @@ class Yoast_Form {
 			$plugin_banners[] = array(
 				'url' => 'https://yoast.com/wordpress/plugins/local-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=local-seo-banner',
 				'img' => 'banner-local-seo.png',
-				'alt' => 'Banner Local SEO plugin',
+				'alt' => 'Banner Yoast Local SEO plugin',
 			);
 		}
 
@@ -200,7 +200,7 @@ class Yoast_Form {
 			$plugin_banners[] = array(
 				'url' => 'https://yoast.com/wordpress/plugins/news-seo/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=news-seo-banner',
 				'img' => 'banner-news-seo.png',
-				'alt' => 'Banner News SEO',
+				'alt' => 'Banner Yoast News SEO plugin',
 			);
 		}
 
@@ -220,12 +220,14 @@ class Yoast_Form {
 			if ( $i == 2 ) {
 				break;
 			}
-			echo '<a target="_blank" href="' . esc_url( $banner['url'] ) . '"><img width="261" src="' . plugins_url( 'images/' . $banner['img'], WPSEO_FILE ) . '" alt="' . esc_attr( $banner['alt'] ) . '"/></a><br/><br/>';
+			echo '<a target="_blank" href="' . esc_url( $banner['url'] ) . '"><img width="261" height="130" src="' . plugins_url( 'images/' . $banner['img'], WPSEO_FILE ) . '" alt="' . esc_attr( $banner['alt'] ) . '"/></a><br/><br/>';
 			$i ++;
 		}
 		?>
 				<strong><?php _e( 'Remove these ads?', 'wordpress-seo' ); ?></strong><br/>
-				<a target="_blank" href="https://yoast.com/wordpress/plugins/seo-premium/#utm_source=wordpress-seo-config&utm_medium=textlink&utm_campaign=remove-ads-link"><?php _e( 'Upgrade to WordPress SEO Premium &raquo;', 'wordpress-seo' ); ?></a><br/><br/>
+				<a target="_blank" href="https://yoast.com/wordpress/plugins/seo-premium/#utm_source=wordpress-seo-config&amp;utm_medium=textlink&amp;utm_campaign=remove-ads-link"><?php
+				 /* translators: %1$s expands to Yoast SEO Premium */
+				printf( __( 'Upgrade to %1$s &raquo;', 'wordpress-seo' ), 'Yoast SEO Premium' ); ?></a><br/><br/>
 			</div>
 		</div>
 	<?php
