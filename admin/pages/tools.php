@@ -26,7 +26,7 @@ if ( '' === $tool_page ) {
 			'desc' => __( 'Import settings from other SEO plugins and export your settings for re-use on (another) blog.', 'wordpress-seo' ),
 		),
 	);
-	if ( WPSEO_Utils::allow_system_file_edit() === true && ! is_multisite() ) {
+	if ( WPSEO_Utils::allow_system_file_edit() === true && ( ! is_multisite() || is_multisite() && is_network_admin() ) ) {
 		$tools['file-editor'] = array(
 			'title' => __( 'File editor', 'wordpress-seo' ),
 			'desc' => __( 'This tool allows you to quickly change important files for your SEO, like your robots.txt and, if you have one, your .htaccess file.', 'wordpress-seo' ),
@@ -34,7 +34,7 @@ if ( '' === $tool_page ) {
 	}
 
 	/* translators: %1$s expands to Yoast SEO */
-	echo '<p>', sprintf( __( '%1$s comes with some very powerful built-in tools:', 'wordpress-seo' ), 'Yoast SEO' ), '</p>';
+	echo '<p>', __( 'WordPress SEO by Yoast comes with some very powerful built-in tools:', 'wordpress-seo' ), '</p>';
 
 	asort( $tools );
 
