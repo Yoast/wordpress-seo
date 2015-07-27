@@ -89,7 +89,7 @@ jQuery( document ).ready( function() {
 			{
 				action   : parent_div.attr( 'id').replace( /-/g, '_' ),
 				_wpnonce : parent_div.data( 'nonce' ),
-				data     : jQuery.parseJSON( parent_div.find( 'input[name=notice_data]' ).val() )
+				data     : parent_div.data( 'json' )
 			}
 		);
 	});
