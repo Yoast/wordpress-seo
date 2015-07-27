@@ -1162,7 +1162,7 @@ class WPSEO_Sitemaps {
 		if ( ! headers_sent() ) {
 			header( $this->http_protocol() . ' 200 OK', true, 200 );
 			// Prevent the search engines from indexing the XML Sitemap.
-			header( 'X-Robots-Tag: noindex,follow', true );
+			header( 'X-Robots-Tag: noindex, follow', true );
 			header( 'Content-Type: text/xml' );
 		}
 		echo '<?xml version="1.0" encoding="', esc_attr( $this->charset ), '"?>';
