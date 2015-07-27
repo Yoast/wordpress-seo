@@ -70,6 +70,10 @@ class Yoast_Plugin_Conflict {
 		// Set active plugins.
 		$this->all_active_plugins = get_option( 'active_plugins' );
 
+		if ( filter_input( INPUT_GET, 'action' ) === 'deactivate' ) {
+			$this->remove_deactivated_plugin();
+		}
+
 		// Search for active plugins.
 		$this->search_active_plugins();
 	}
@@ -281,6 +285,18 @@ class Yoast_Plugin_Conflict {
 			}
 		}
 
+	}
+
+	/**
+	 * When being in the deactivation process the currently deactivated plugin has to be removed.
+	 */
+	private function remove_deactivated_plugin() {
+		$deactivated_plugin = filter_input( INPUT_GET, 'plugin' );
+		$key_to_remove      = array_search( $deactivated_plugin, $this->all_active_plugins );
+
+		if ( $key_to_remove !== false ) {
+			unset( $this->all_active_plugins[ $key_to_remove ] );
+		}
 	}
 
 }
