@@ -48,7 +48,7 @@ class Yoast_Plugin_Conflict_Ajax {
 	 * @return bool|array
 	 */
 	private function get_dismissed_option() {
-		return get_user_option( $this->option_name, get_current_user_id() );
+		return get_user_meta( get_current_user_id(), $this->option_name, false );
 	}
 
 	/**
@@ -78,7 +78,7 @@ class Yoast_Plugin_Conflict_Ajax {
 
 		$dismissed_conflicts[ $plugin_section ] = $this->dismissed_conflicts;
 
-		update_user_option( get_current_user_id(), $this->option_name, $dismissed_conflicts );
+		update_user_meta( get_current_user_id(), $this->option_name, $dismissed_conflicts );
 	}
 
 	/**
