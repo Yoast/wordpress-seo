@@ -89,7 +89,7 @@ class Yoast_Plugin_Conflict {
 
 		static $sections_checked;
 
-		if ( $sections_checked == null ) {
+		if ( $sections_checked === null ) {
 			$sections_checked = array();
 		}
 
