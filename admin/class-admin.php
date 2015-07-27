@@ -73,6 +73,10 @@ class WPSEO_Admin {
 
 		add_action( 'activated_plugin', array( 'WPSEO_Plugin_Conflict', 'hook_check_for_plugin_conflicts' ), 10, 1 );
 
+		if ( current_user_can( 'manage_options' ) && WPSEO_GSC_Settings::get_profile() === '' ) {
+			$this->register_gsc_notification();
+		}
+
 		WPSEO_Utils::register_cache_clear_option( 'wpseo',  '' );
 	}
 
@@ -579,6 +583,12 @@ class WPSEO_Admin {
 				update_user_meta( $user->ID, '_yoast_wpseo_profile_updated', time() );
 			}
 		}
+	}
+
+	private function register_gsc_notification() {
+		Yoast_Notification_Center::get()->add_notification(
+			new Yoast_Notification( __( 'Please set the Google Search Console authentication code.', 'wordpress-seo' ), array( 'type' => 'error' ) )
+		);
 	}
 
 	/********************** DEPRECATED METHODS **********************/
