@@ -15,7 +15,25 @@
 </script>
 
 <script type="text/html" id="tmpl-primary-term-ui">
-	<a href="#" class="wpseo-make-primary-term"><?php _e( 'Make primary', 'wordpress-seo' ); ?></a>
+	<a href="#" class="wpseo-make-primary-term"><?php
+		/* Text between %1$s and %2$s is only shown to screen readers. %3$s expands to the term title, %4$s expands to the taxonomy name */
+		printf(
+			__( 'Make %1$s %3$s the %2$s primary %1$s %4$s %2$s', 'wordpress-seo' ),
+			'<span class="screen-reader-text">',
+			'</span>',
+			'{{data.term}}',
+			'{{data.taxonomy.title}}'
+		);
+	?></a>
 
-	<span class="wpseo-is-primary-term"><?php _e( 'Primary', 'wordpress-seo' ); ?></span>
+	<span class="wpseo-is-primary-term"><?php
+		printf(
+			/* Text between %1$s and %2$s is only shown to screen readers. %3$s expands to the term title, %4$s expands to the taxonomy name */
+			__( '%1$s%3$s is the %2$sPrimary%1$s%4$s%2$s', 'wordpress-seo' ),
+			'<span class="screen-reader-text">',
+			'</span>',
+			'{{data.term}}',
+			'{{data.taxonomy.title}}'
+		);
+	?></span>
 </script>

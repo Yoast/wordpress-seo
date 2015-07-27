@@ -59,7 +59,6 @@ class WPSEO_Primary_Category_Admin {
 				}, $terms ),
 			);
 		}, $taxonomies );
-		$taxonomies = array_values( $taxonomies );
 
 		$primary_category = get_post_meta( get_the_ID(), '_yoast_seo_primary_category', true );
 

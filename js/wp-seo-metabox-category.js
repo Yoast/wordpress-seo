@@ -3,6 +3,7 @@
 	'use strict';
 
 	var primaryTermInputTemplate, primaryTermUITemplate;
+	var taxonomies = wpseoPrimaryCategoryL10n.taxonomies;
 
 	/**
 	 * Checks if the elements to make a term the primary term and the display for a primary term exist
@@ -110,7 +111,10 @@
 
 		label = $( checkbox ).closest( 'label' );
 
-		html = primaryTermUITemplate();
+		html = primaryTermUITemplate({
+			taxonomy: taxonomies[ taxonomyName ],
+			term: label.text()
+		});
 
 		label.after( html );
 	}
@@ -195,7 +199,7 @@
 		primaryTermInputTemplate = wp.template( 'primary-term-input' );
 		primaryTermUITemplate = wp.template( 'primary-term-ui' );
 
-		$( wpseoPrimaryCategoryL10n.taxonomies ).initYstSEOPrimaryCategory();
+		$( _.values( taxonomies ) ).initYstSEOPrimaryCategory();
 	});
 
 }( jQuery ));
