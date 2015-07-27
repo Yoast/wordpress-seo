@@ -298,4 +298,5 @@ YoastSEO_loadEvents = function() {
         setTimeout( YoastSEO_loadEvents, 50 );
     }
 };
+
 YoastSEO_loadEvents();

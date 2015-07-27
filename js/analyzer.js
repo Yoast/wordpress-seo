@@ -534,8 +534,3 @@ YoastSEO_Analyzer.prototype.keywordDoubles = function () {
 YoastSEO_Analyzer.prototype.score = function () {
 	this.analyzeScorer.score(this.__output);
 };
-
-//testing only
-YoastSEO_Analyzer.prototype.alert = function () {
-	alert(this.config.keyword);
-}

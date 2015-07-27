@@ -285,7 +285,7 @@ YoastSEO_SnippetPreview.prototype.showEditIcon = function( ev ) {
  * removes all editIcon-classes, sets to snippet_container
  * @param ev
  */
-YoastSEO_SnippetPreview.prototype.hideEditIcon = function( ev ){
+YoastSEO_SnippetPreview.prototype.hideEditIcon = function(){
 	var elems = document.getElementsByClassName( "editIcon ");
 	for (var i = 0; i < elems.length; i++){
 		elems[i].className = "snippet_container";

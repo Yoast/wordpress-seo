@@ -73,7 +73,7 @@ YoastSEO_StringHelper.prototype.stripSpaces = function( textString ) {
  * @returns textString
  */
 YoastSEO_StringHelper.prototype.addEscapeChars = function ( textString ) {
-    return textString.replace( /[\-\[\]\/\{}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&' );
+    return textString.replace( /[\-\[\]\/\{}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&" );
 };
 
 /**
