@@ -60,7 +60,16 @@ class Yoast_Notification {
 	 * @return string
 	 */
 	public function __toString() {
-		return '<div class="yoast-notice notice is-dismissible ' . esc_attr( $this->options['type'] ) . '" id="' . esc_attr( $this->options['id'] ) . '"' . $this->parse_nonce_attribute() . '' . $this->parse_data_json_attribute().'>' . wpautop( $this->message ) . '</div>' . PHP_EOL;
+		return '<div class="yoast-notice notice is-dismissible ' . esc_attr( $this->options['type'] ) . '" id="' . esc_attr( $this->options['id'] ) . '"' . $this->parse_data_attributes() . '>' . wpautop( $this->message ) . '</div>' . PHP_EOL;
+	}
+
+	/**
+	 * Parsing the data attributes
+	 *
+	 * @return string
+	 */
+	private function parse_data_attributes() {
+		return $this->parse_nonce_attribute() . '' . $this->parse_data_json_attribute();
 	}
 
 	/**
