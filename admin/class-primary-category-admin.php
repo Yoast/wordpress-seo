@@ -95,11 +95,16 @@ class WPSEO_Primary_Category_Admin {
 	 * @param stdClass $taxonomy
 	 */
 	private function save_primary_term( $post_ID, $taxonomy ) {
+		$primary_term = filter_input( INPUT_POST, WPSEO_Meta::$form_prefix . 'primary_' . $taxonomy->name . '_term', FILTER_SANITIZE_NUMBER_INT );
+
+		if ( null === $primary_term ) {
+			return;
+		}
+
 		if ( ! check_admin_referer( 'save-primary-term', WPSEO_Meta::$form_prefix . 'primary_' . $taxonomy->name . '_nonce' ) ) {
 			return;
 		}
 
-		$primary_term = filter_input( INPUT_POST, WPSEO_Meta::$form_prefix . 'primary_' . $taxonomy->name . '_term', FILTER_SANITIZE_NUMBER_INT );
 
 		$this->set_primary_term_id( $taxonomy->name, $post_ID, $primary_term );
 	}
