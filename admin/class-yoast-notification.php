@@ -28,7 +28,7 @@ class Yoast_Notification {
 		'type'      => 'updated',
 		'id'        => '',
 		'nonce'     => null,
-		'data_json' => array()
+		'data_json' => array(),
 	);
 
 	/**
@@ -91,7 +91,7 @@ class Yoast_Notification {
 			return '';
 		}
 
-		$data = ( function_exists( 'wp_json_encode' ) )  ? wp_json_encode( $this->options['data_json'] ) : json_encode( $this->options['data_json'] );
+		$data = ( function_exists( 'wp_json_encode' ) ) ? wp_json_encode( $this->options['data_json'] ) : json_encode( $this->options['data_json'] );
 
 		return " data-json='" . $data . "'";
 	}
