@@ -441,12 +441,12 @@ div#separator input.radio:checked + label {
 	background: #006691;
 }
 
-.wpseo_content_wrapper p {
+#TB_window .wpseo_content_wrapper p {
 	font-size: 14px;
 	font-style: normal;
 }
 
-.wpseo_content_wrapper label {
+#TB_window .wpseo_content_wrapper label {
 	margin: 0 10px 0 0;
 	font-size: 14px;
 	font-weight: bold;
