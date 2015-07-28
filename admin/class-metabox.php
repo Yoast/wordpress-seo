@@ -586,19 +586,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				'jquery-ui-autocomplete',
 			), WPSEO_VERSION, true );
 
-			wp_enqueue_script( 'wp-seo-wordpressScraper.js', plugins_url( 'js/wp-seo-wordpress-scraper' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), null, '2.2.1', true );
-			wp_enqueue_script( 'js-seo-snippetPreview.js', plugins_url( 'js-seo/js/snippetPreview.js' ), null, '2.2.1', true );
-
-			wp_enqueue_script( 'js-seo-config.js', plugins_url( 'js-seo/js/config/config.js' ), null, '2.2.1', true );
-			wp_enqueue_script( 'js-seo-scoring.js', plugins_url( 'js-seo/js/config/scoring.js' ), null, '2.2.1', true );
-			wp_enqueue_script( 'js-seo-analyzer.js', plugins_url( 'js-seo/js/analyzer.js' ), null, '2.2.1', true );
-			wp_enqueue_script( 'js-seo-analyzescorer.js', plugins_url( 'js-seo/js/analyzescorer.js' ), null, '2.2.1', true );
-			wp_enqueue_script( 'js-seo-preprocessor.js', plugins_url( 'js-seo/js/preprocessor.js' ), null, '2.2.1', true );
-			wp_enqueue_script( 'js-seo-preprocessor.js', plugins_url( 'js-seo/js/preprocessor.js' ), null, '2.2.1', true );
-			wp_enqueue_script( 'js-seo-stringhelper.js', plugins_url( 'js-seo/js/stringhelper.js' ), null, '2.2.1', true );
-			wp_enqueue_script( 'js-seo-scoreformatter.js', plugins_url( 'js-seo/js/scoreFormatter.js' ), null, '2.2.1', true );
-			wp_enqueue_script( 'js-seo-YoastSEO.js', plugins_url( 'js-seo/js/YoastSEO.js' ), null, '2.2.1', true );
-			wp_enqueue_script( 'js-seo-wp-config.js', plugins_url( 'js-seo/js/config/wp-config.js' ), null, '2.2.1', true );
+			wp_enqueue_script( 'wp-seo-wordpressScraper.js', plugins_url( 'js/wp-seo-wordpress-scraper' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), null, WPSEO_VERSION, true );
+			wp_enqueue_script( 'yoast-seo-content-analysis', plugins_url( 'js/dist/yoast-seo-content-analysis.min.js', WPSEO_FILE ), null, WPSEO_VERSION, true );
 
 			if ( post_type_supports( get_post_type(), 'thumbnail' ) ) {
 				wp_enqueue_script( 'wp-seo-featured-image', plugins_url( 'js/wp-seo-featured-image' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'jquery' ), WPSEO_VERSION, true );
