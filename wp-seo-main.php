@@ -142,12 +142,11 @@ function _wpseo_activate() {
 	}
 	WPSEO_Options::ensure_options_exist();
 
-	if ( is_multisite() ) {
-		if ( ! ms_is_switched() ) {
-			add_action( 'shutdown', 'flush_rewrite_rules' );
-		} else {
-			delete_option( 'rewrite_rules' );
-		}
+	if ( is_multisite() && ms_is_switched() ) {
+		delete_option( 'rewrite_rules' );
+	}
+	else {
+		add_action( 'shutdown', 'flush_rewrite_rules' );
 	}
 
 	wpseo_add_capabilities();
@@ -164,12 +163,11 @@ function _wpseo_activate() {
 function _wpseo_deactivate() {
 	require_once( WPSEO_PATH . 'inc/wpseo-functions.php' );
 
-	if ( is_multisite() ) {
-		if ( ! ms_is_switched() ) {
-			add_action( 'shutdown', 'flush_rewrite_rules' );
-		} else {
-			delete_option( 'rewrite_rules' );
-		}
+	if ( is_multisite() && ms_is_switched() ) {
+		delete_option( 'rewrite_rules' );
+	}
+	else {
+		add_action( 'shutdown', 'flush_rewrite_rules' );
 	}
 
 	wpseo_remove_capabilities();
