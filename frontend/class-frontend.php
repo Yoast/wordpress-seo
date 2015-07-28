@@ -1390,7 +1390,7 @@ class WPSEO_Frontend {
 	public function noindex_feed() {
 
 		if ( ( is_feed() || is_robots() ) && headers_sent() === false ) {
-			header( 'X-Robots-Tag: noindex,follow', true );
+			header( 'X-Robots-Tag: noindex, follow', true );
 
 			return true;
 		}
