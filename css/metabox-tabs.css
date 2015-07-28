@@ -110,7 +110,6 @@ ul.wpseo-metabox-tabs li {
 #wpseosnippet .title {
 	display: block;
 	overflow: hidden;
-	width: 512px;
 	color: #1e0fbe;
 	font-size: 18px !important;
 	line-height: 1.2;
@@ -335,4 +334,8 @@ img.yoast_help {
 .yoast-qtip {
 	font-size: 14px !important;
 	line-height: 18px !important;
+}
+
+.wpseo_content_wrapper p.search-box {
+	margin: 10px 0 5px 0;
 }

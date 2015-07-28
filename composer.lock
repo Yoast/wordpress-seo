@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "0debdc021709a036eb98688d31699ae2",
+    "hash": "701d241ab6ff8c6d5729755bb8af9c8a",
     "packages": [
         {
             "name": "composer/installers",
@@ -135,7 +135,7 @@
         },
         {
             "name": "yoast/api-libs",
-            "version": "dev-trunk",
+            "version": "2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Yoast/api-libs.git",
@@ -672,7 +672,6 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "yoast/api-libs": 20,
         "yoast/yoastcs": 20
     },
     "prefer-stable": true,

@@ -36,7 +36,7 @@ $yform->admin_header( true, 'wpseo_titles' );
 						<?php
 						$yform->checkbox( 'forcerewritetitle', __( 'Enable force rewrite titles', 'wordpress-seo' ) );
 						/* translators: %1$s expands to Yoast SEO */
-						echo '<p class="description">', sprintf( __( '%1$S has auto-detected whether it needs to force rewrite the titles for your pages, if you think it\'s wrong and you know what you\'re doing, you can change the setting here.', 'wordpress-seo' ), 'Yoast SEO' ) . '</p>';
+						echo '<p class="description">', sprintf( __( '%1$s has auto-detected whether it needs to force rewrite the titles for your pages, if you think it\'s wrong and you know what you\'re doing, you can change the setting here.', 'wordpress-seo' ), 'Yoast SEO' ) . '</p>';
 						?>
 					</td>
 				</tr>

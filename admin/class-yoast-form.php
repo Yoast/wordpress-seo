@@ -220,12 +220,12 @@ class Yoast_Form {
 			if ( $i == 2 ) {
 				break;
 			}
-			echo '<a target="_blank" href="' . esc_url( $banner['url'] ) . '"><img width="261" src="' . plugins_url( 'images/' . $banner['img'], WPSEO_FILE ) . '" alt="' . esc_attr( $banner['alt'] ) . '"/></a><br/><br/>';
+			echo '<a target="_blank" href="' . esc_url( $banner['url'] ) . '"><img width="261" height="130" src="' . plugins_url( 'images/' . $banner['img'], WPSEO_FILE ) . '" alt="' . esc_attr( $banner['alt'] ) . '"/></a><br/><br/>';
 			$i ++;
 		}
 		?>
 				<strong><?php _e( 'Remove these ads?', 'wordpress-seo' ); ?></strong><br/>
-				<a target="_blank" href="https://yoast.com/wordpress/plugins/seo-premium/#utm_source=wordpress-seo-config&utm_medium=textlink&utm_campaign=remove-ads-link"><?php
+				<a target="_blank" href="https://yoast.com/wordpress/plugins/seo-premium/#utm_source=wordpress-seo-config&amp;utm_medium=textlink&amp;utm_campaign=remove-ads-link"><?php
 				 /* translators: %1$s expands to Yoast SEO Premium */
 				printf( __( 'Upgrade to %1$s &raquo;', 'wordpress-seo' ), 'Yoast SEO Premium' ); ?></a><br/><br/>
 			</div>

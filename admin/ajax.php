@@ -379,3 +379,5 @@ new WPSEO_GSC_Ajax;
 
 // SEO Score Recalculations.
 new WPSEO_Recalculate_Scores_Ajax;
+
+new Yoast_Dashboard_Widget();
