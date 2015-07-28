@@ -285,9 +285,49 @@ YoastSEO_SnippetPreview.prototype.showEditIcon = function( ev ) {
  * removes all editIcon-classes, sets to snippet_container
  * @param ev
  */
-YoastSEO_SnippetPreview.prototype.hideEditIcon = function( ev ){
+YoastSEO_SnippetPreview.prototype.hideEditIcon = function(){
 	var elems = document.getElementsByClassName( "editIcon ");
 	for (var i = 0; i < elems.length; i++){
 		elems[i].className = "snippet_container";
+	}
+};
+
+/**
+ * sets focus on child element of the snippet_container that is clicked. Hides the editicon.
+ * @param ev
+ */
+YoastSEO_SnippetPreview.prototype.setFocus = function( ev ){
+	var targetElem = ev.currentTarget.firstChild;
+	while(targetElem !== null)
+	{
+		if (targetElem.contentEditable === "true") {
+			targetElem.focus();
+			targetElem.refObj.snippetPreview.hideEditIcon();
+			break;
+		} else {
+			targetElem = targetElem.nextSibling;
+		}
+	}
+	targetElem.refObj.snippetPreview.setFocusToEnd( targetElem );
+};
+
+/**
+ * this function is needed for placing the caret at the end of the input when the text is changed at focus.
+ * Otherwise the cursor could end at the beginning of the text.
+ * @param elem
+ */
+YoastSEO_SnippetPreview.prototype.setFocusToEnd = function( elem ){
+	if (typeof window.getSelection !== "undefined" && typeof document.createRange !== "undefined") {
+		var range = document.createRange();
+		range.selectNodeContents( elem );
+		range.collapse( false );
+		var selection = window.getSelection();
+		selection.removeAllRanges();
+		selection.addRange( range );
+	} else if (typeof document.body.createTextRange !== "undefined"){
+		var textRange = document.body.createTextRange();
+		textRange.moveToElementText( elem );
+		textRange.collapse(false);
+		textRange.select();
 	}
 };
