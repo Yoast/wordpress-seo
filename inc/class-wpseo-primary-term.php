@@ -53,7 +53,7 @@ class WPSEO_Primary_Term {
 	}
 
 	/**
-	 * Set's the new primary term ID
+	 * Sets the new primary term ID
 	 *
 	 * @param int $new_primary_term
 	 */
