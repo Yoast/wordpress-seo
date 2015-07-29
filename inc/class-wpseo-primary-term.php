@@ -48,7 +48,8 @@ class WPSEO_Primary_Term {
 			}
 		}
 
-		return ( (int) $primary_term ) ? ( (int) $primary_term ) : false;
+		$primary_term = (int) $primary_term;
+		return ( $primary_term ) ? ( $primary_term ) : false;
 	}
 
 	/**
