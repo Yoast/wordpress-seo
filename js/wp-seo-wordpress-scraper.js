@@ -51,38 +51,42 @@ YoastSEO_WordPressScraper.prototype.getData = function() {
  * @returns value
  */
 YoastSEO_WordPressScraper.prototype.getDataFromInput = function( inputType ) {
-	var val;
+	var val = "";
 	switch( inputType){
 		case "text":
 		case "content":
 			val = this.getContentTinyMCE();
 			break;
 		case "url":
-			val = document.getElementById("sample-permalink").innerHTML.split("<span")[0];
+			if(document.getElementById( "sample-permalink" ) !== null) {
+				val = document.getElementById( "sample-permalink" ).innerHTML.split("<span")[0];
+			}
 			break;
 		case "cite":
 		case "editable-post-name":
-			val = document.getElementById("editable-post-name").textContent;
-			var elem = document.getElementById("new-post-slug");
-			if(elem !== null && val === "") {
-				val = document.getElementById("new-post-slug").value;
+			if(document.getElementById( "editable-post-name") !== null) {
+				val = document.getElementById( "editable-post-name" ).textContent;
+				var elem = document.getElementById( "new-post-slug" );
+				if (elem !== null && val === "") {
+					val = document.getElementById( "new-post-slug" ).value;
+				}
 			}
 			break;
 		case "meta":
-			val = document.getElementById("yoast_wpseo_metadesc").value;
+			val = document.getElementById( "yoast_wpseo_metadesc" ).value;
 			break;
 		case "keyword":
-			val = document.getElementById("yoast_wpseo_focuskw").value;
+			val = document.getElementById( "yoast_wpseo_focuskw" ).value;
 			break;
 		case "title":
 		case "snippetTitle":
-			val = document.getElementById("yoast_wpseo_title").value;
+			val = document.getElementById( "yoast_wpseo_title" ).value;
 			break;
 		case "pageTitle":
-			val = document.getElementById("title").value;
+			val = document.getElementById( "title" ).value;
 			break;
 		case "excerpt":
-			val = document.getElementById("excerpt").value;
+			val = document.getElementById( "excerpt" ).value;
 			break;
 		default:
 			break;
@@ -101,7 +105,10 @@ YoastSEO_WordPressScraper.prototype.setDataFromSnippet = function( value, type) 
 			document.getElementById("yoast_wpseo_metadesc").value = value;
 			break;
 		case "snippet_cite":
-			document.getElementById("editable-post-name").textContent = value;
+			if( document.getElementById( "editable-post-name" )  !== null ) {
+				document.getElementById( "editable-post-name" ).textContent = value;
+				document.getElementById( "editable-post-name-full").textContent = value;
+			}
 			break;
 		case "snippet_title":
 			document.getElementById("yoast_wpseo_title").value = value;
@@ -409,3 +416,15 @@ YoastSEO_WordPressScraper.prototype.saveScores = function( score ) {
 	document.getElementById(this.config.targets.overall).textContent = score;
 	document.getElementById("yoast_wpseo_linkdex").value = score;
 };
+
+/**
+ * binds to the WordPress jQuery function to put the permalink on the page.
+ * If the response matches with permalinkstring, the snippet can be rerendered.
+ */
+jQuery(document).on("ajaxComplete", function(ev,response){
+	if(response.responseText.match("Permalink:") !== null){
+		YoastSEO_loader.source.getData();
+		YoastSEO_loader.source.getAnalyzerInput();
+		YoastSEO_loader.snippetPreview.reRender();
+	}
+})
