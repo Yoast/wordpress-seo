@@ -281,7 +281,7 @@ YoastSEO.prototype.runAnalyzer = function() {
 		this.pageAnalyzer.init();
 	}
     this.pageAnalyzer.runQueue();
-    this.scoreFormatter = new YoastSEO_ScoreFormatter( this.pageAnalyzer, this.config.targets );
+    this.scoreFormatter = new YoastSEO_ScoreFormatter( this );
     if( this.config.dynamicDelay ){
         this.endTime();
     }
