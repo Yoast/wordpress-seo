@@ -18,7 +18,7 @@ class WPSEO_Admin {
 	 *
 	 * @var array
 	 */
-	public $admin_features;
+	protected $admin_features;
 
 	/**
 	 * Class constructor
@@ -81,6 +81,15 @@ class WPSEO_Admin {
 	 */
 	function schedule_rewrite_flush() {
 		add_action( 'shutdown', 'flush_rewrite_rules' );
+	}
+
+	/**
+	 * Returns all the classes for the admin features
+	 *
+	 * @return array
+	 */
+	public function get_admin_features() {
+		return $this->admin_features;
 	}
 
 	/**
