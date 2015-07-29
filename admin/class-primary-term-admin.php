@@ -38,20 +38,18 @@ class WPSEO_Primary_Term_Admin {
 		$taxonomies = $this->get_primary_term_taxonomies();
 
 		// Only enqueue if there are taxonomies that need a primary term.
-		if ( empty( $taxonomies ) ) {
-			return;
+		if ( ! empty( $taxonomies ) ) {
+			wp_enqueue_style( 'wpseo-primary-category', plugins_url( 'css/metabox-primary-category' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
+
+			wp_enqueue_script( 'wpseo-primary-category', plugins_url( 'js/wp-seo-metabox-category' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'jquery' ), WPSEO_VERSION, true );
+
+			$taxonomies = array_map( array( $this, 'map_taxonomies_for_js' ), $taxonomies );
+
+			$data = array(
+				'taxonomies' => $taxonomies,
+			);
+			wp_localize_script( 'wpseo-primary-category', 'wpseoPrimaryCategoryL10n', $data );
 		}
-
-		wp_enqueue_style( 'wpseo-primary-category', plugins_url( 'css/metabox-primary-category' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
-
-		wp_enqueue_script( 'wpseo-primary-category', plugins_url( 'js/wp-seo-metabox-category' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'jquery' ), WPSEO_VERSION, true );
-
-		$taxonomies = array_map( array( $this, 'map_taxonomies_for_js' ), $taxonomies );
-
-		$data = array(
-			'taxonomies' => $taxonomies,
-		);
-		wp_localize_script( 'wpseo-primary-category', 'wpseoPrimaryCategoryL10n', $data );
 	}
 
 	/**
