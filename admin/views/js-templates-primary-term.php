@@ -36,7 +36,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	<span class="screen-reader-text wpseo-primary-category-label"><?php
 		printf(
 			/* translators: %s is the taxonomy title. */
-			'(' . _x( 'Primary %s', 'taxonomy title', 'wordpress-seo' ) . ')',
+			'(' . __( 'Primary %s', 'wordpress-seo' ) . ')',
 			'{{data.taxonomy.title}}'
 		);
 		?></span>
