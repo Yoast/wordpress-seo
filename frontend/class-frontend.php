@@ -1858,4 +1858,13 @@ class WPSEO_Frontend {
 		}
 	}
 
+	/**
+	 * Check if this plugin is the premium version of WPSEO
+	 *
+	 * @return bool
+	 */
+	private function is_premium() {
+		return file_exists( WPSEO_PATH . 'premium/' );
+	}
+
 } /* End of class */
