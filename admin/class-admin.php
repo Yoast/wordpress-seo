@@ -37,6 +37,7 @@ class WPSEO_Admin {
 		}
 
 		$this->admin_features = array(
+			// Google Search Console.
 			'gsc'              => new WPSEO_GSC(),
 			'primary_category' => new WPSEO_Primary_Term_Admin(),
 			'dashboard_widget' => new Yoast_Dashboard_Widget(),
