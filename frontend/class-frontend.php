@@ -1854,7 +1854,7 @@ class WPSEO_Frontend {
 	 * @return string
 	 */
 	private function head_product_name() {
-		if ( file_exists( WPSEO_PATH . 'premium/' ) ) {
+		if ( $this->is_premium() ) {
 			return 'Yoast SEO Premium plugin';
 		}
 		else {
