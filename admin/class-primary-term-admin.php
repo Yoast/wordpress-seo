@@ -87,6 +87,7 @@ class WPSEO_Primary_Term_Admin {
 	 * Returns an array suitable for use in the javascript
 	 *
 	 * @param stdClass $taxonomy
+	 *
 	 * @return array
 	 */
 	private function map_taxonomies_for_js( $taxonomy ) {
@@ -118,10 +119,13 @@ class WPSEO_Primary_Term_Admin {
 	 * Save the primary term for a specific taxonomy
 	 *
 	 * @param int      $post_ID
+	 *
 	 * @param stdClass $taxonomy
 	 */
 	private function save_primary_term( $post_ID, $taxonomy ) {
 		$primary_term = filter_input( INPUT_POST, WPSEO_Meta::$form_prefix . 'primary_' . $taxonomy->name . '_term', FILTER_SANITIZE_NUMBER_INT );
+
+		filter_var( '', FILTER_SANITIZE_NUMBER_INT );
 
 		if ( null !== $primary_term && check_admin_referer( 'save-primary-term', WPSEO_Meta::$form_prefix . 'primary_' . $taxonomy->name . '_nonce' ) ) {
 			$primary_term_object = new WPSEO_Primary_Term( $taxonomy->name, $post_ID );
@@ -153,9 +157,9 @@ class WPSEO_Primary_Term_Admin {
 		/**
 		 * Filters which taxonomies for which the user can choose the primary term. Only category is enabled by default.
 		 *
-		 * @api array $taxonomies An array of taxonomy objects that are primary_term enabled.
+		 * @api array    $taxonomies An array of taxonomy objects that are primary_term enabled.
 		 * @param string $post_type The post type for which to filter the taxonomies.
-		 * @param array $all_taxonomies All taxonomies for this post types, even ones that don't have primary term
+		 * @param array  $all_taxonomies All taxonomies for this post types, even ones that don't have primary term
 		 *                              enabled.
 		 */
 		$taxonomies = apply_filters( 'wpseo_primary_term_taxonomies', $taxonomies, $post_type, $all_taxonomies );
