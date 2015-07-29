@@ -92,7 +92,7 @@ YoastSEO_SnippetPreview.prototype.formatMeta = function() {
     }
     meta = this.refObj.stringHelper.stripAllTags( meta );
     meta = meta.substring(0,YoastSEO_config.analyzerConfig.maxMeta);
-	if(this.refObj.source.formattedData.keyword !== "") {
+	if(this.refObj.source.formattedData.keyword !== "" && meta !== "") {
 		return this.formatKeyword(meta);
 	}
 	return meta;
@@ -127,10 +127,13 @@ YoastSEO_SnippetPreview.prototype.getMetaText = function() {
 						break;
 					}
 				}
-				metaText = this.refObj.source.formattedData.text.substring(curStart, curStart + YoastSEO_config.analyzerConfig.maxMeta);
+				metaText = this.refObj.stringHelper.stripAllTags(this.refObj.source.formattedData.text.substring(curStart, curStart + YoastSEO_config.analyzerConfig.maxMeta));
 			}
 		}
     }
+	if(this.refObj.stringHelper.stripAllTags(metaText) === ""){
+		return this.refObj.config.sampleText.meta;
+	}
     return metaText;
 };
 
