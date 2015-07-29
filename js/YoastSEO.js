@@ -7,6 +7,7 @@ YoastSEO = function( args ) {
     window.YoastSEO_loader = this;
     this.config = args;
     this.inputs = {};
+	this.loadQueue();
     this.stringHelper = new YoastSEO_StringHelper();
     this.source = new this.config.source(args, this);
     this.checkInputs();
@@ -22,6 +23,37 @@ YoastSEO.prototype.init = function(){
     this.defineElements();
     this.createSnippetPreview();
 };
+
+/**
+* loads the queue from the analyzer if no queue is defined.
+*/
+YoastSEO.prototype.loadQueue = function() {
+	if(typeof this.queue === "undefined"){
+		this.queue = YoastSEO_config.analyzerConfig.queue;
+	}
+};
+
+/**
+ * Adds function to the analyzer queue. Function must be in the Analyzer prototype to be added.
+ * @param func
+ */
+YoastSEO.prototype.addToQueue = function( func ) {
+	if(typeof YoastSEO_Analyzer.prototype[func] === "function"){
+		this.queue.push( func );
+	}
+};
+
+/**
+ * Removes function from queue if it is currently in the queue.
+ * @param func
+ */
+YoastSEO.prototype.removeFromQueue = function( func ) {
+	var funcIndex = this.queue.indexOf( func );
+	if(funcIndex > -1) {
+		this.queue.splice(funcIndex, 1);
+	}
+};
+
 
 /**
  * creates the elements for the snippetPreview
@@ -202,7 +234,7 @@ YoastSEO.prototype.runAnalyzerCallback = function() {
     }else{
         refObj.runAnalyzer();
     }
-}
+};
 
 /**
  * used when no keyword is filled in, it will display a message in the target element
@@ -241,9 +273,14 @@ YoastSEO.prototype.runAnalyzer = function() {
     if( this.config.dynamicDelay ){
         this.startTime();
     }
-    this.pageAnalyzer = new YoastSEO_Analyzer( this.source.analyzerData );
+	if( typeof this.pageAnalyzer === "undefined") {
+		var args = this.source.analyzerData;
+		args.queue = this.queue;
+		this.pageAnalyzer = new YoastSEO_Analyzer(args);
+	}else{
+		this.pageAnalyzer.init();
+	}
     this.pageAnalyzer.runQueue();
-
     this.scoreFormatter = new YoastSEO_ScoreFormatter( this.pageAnalyzer, this.config.targets );
     if( this.config.dynamicDelay ){
         this.endTime();
@@ -261,4 +298,5 @@ YoastSEO_loadEvents = function() {
         setTimeout( YoastSEO_loadEvents, 50 );
     }
 };
+
 YoastSEO_loadEvents();

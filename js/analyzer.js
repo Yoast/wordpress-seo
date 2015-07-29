@@ -54,32 +54,14 @@ YoastSEO_Analyzer.prototype.initDependencies = function () {
 };
 
 /**
- * initializes the function queue.
+ * initializes the function queue. Uses slice for assignment so it duplicates array in stead of referencing it.
  */
 YoastSEO_Analyzer.prototype.initQueue = function () {
-	//if no available function queues, make new queue
-	if (typeof this.queue !== "object") {
-		this.queue = [];
-	}
 	//if custom queue available load queue, otherwise load default queue.
 	if (typeof this.config.queue !== "undefined" && this.config.queue.length !== 0) {
-		this.queue = this.config.queue;
+		this.queue = this.config.queue.slice();
 	} else {
-		this.queue = [
-			"wordCount",
-			"keywordDensity",
-			"subHeadings",
-			"stopwords",
-			"fleschReading",
-			"linkCount",
-			"imageCount",
-			"urlKeyword",
-			"urlLength",
-			"metaDescription",
-			"pageTitleKeyword",
-			"pageTitleLength",
-			"firstParagraph"
-		];
+		this.queue = YoastSEO_config.analyzerConfig.queue.slice();
 	}
 };
 
