@@ -614,7 +614,11 @@ class WPSEO_Frontend {
 	 * @return string
 	 */
 	public function debug_marker( $echo = true ) {
-		$marker = '<!-- This site is optimized with the ' . $this->head_product_name() . ' v' . WPSEO_VERSION . ' - https://yoast.com/wordpress/plugins/seo/ -->';
+		$marker = sprintf(
+			'<!-- This site is optimized with the ' . $this->head_product_name() . '%1$s - https://yoast.com/wordpress/plugins/seo/ -->',
+			( ( apply_filters( 'wpseo_hide_version', false ) && $this->is_premium() ) ? '' : ' v' . WPSEO_VERSION  )
+		);
+
 		if ( $echo === false ) {
 			return $marker;
 		}
