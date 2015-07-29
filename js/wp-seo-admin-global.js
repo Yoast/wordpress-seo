@@ -25,7 +25,7 @@ function wpseoDismissTaglineNotice( nonce ) {
 			action: 'wpseo_dismiss_tagline_notice',
 			_wpnonce: nonce
 		}
-	)
+	);
 }
 
 /**

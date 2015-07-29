@@ -14,7 +14,7 @@ jQuery( function() {
 			return window.open(auth_url, 'wpseogscauthcode', 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=no, copyhistory=no, width=' + w + ', height=' + h + ', top=' + top + ', left=' + left);
 		}
 	);
-})
+});
 
 function wpseo_gsc_post_redirect( ) {
 	'use strict';
