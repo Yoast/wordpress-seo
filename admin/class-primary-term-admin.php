@@ -161,7 +161,7 @@ class WPSEO_Primary_Term_Admin {
 		 * @param array  $all_taxonomies All taxonomies for this post types, even ones that don't have primary term
 		 *                              enabled.
 		 */
-		$taxonomies = apply_filters( 'wpseo_primary_term_taxonomies', $taxonomies, $post_type, $all_taxonomies );
+		$taxonomies = (array) apply_filters( 'wpseo_primary_term_taxonomies', $taxonomies, $post_type, $all_taxonomies );
 
 		wp_cache_set( 'primary_term_taxonomies_' . $post_ID, $taxonomies, 'wpseo' );
 
