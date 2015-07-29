@@ -147,6 +147,10 @@ class WPSEO_Primary_Term_Admin {
 	 */
 	private function get_primary_term_taxonomies( $post_ID = null ) {
 
+		if ( null === $post_ID ) {
+			$post_ID = get_the_ID();
+		}
+
 		if ( false !== ( $taxonomies = wp_cache_get( 'primary_term_taxonomies_' . $post_ID, 'wpseo' ) ) ) {
 			return $taxonomies;
 		}
