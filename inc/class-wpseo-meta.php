@@ -128,6 +128,12 @@ class WPSEO_Meta {
 				'description'   => '', // Translation added later.
 				'help'          => '', // Translation added later.
 			),
+            'linkdex'       => array(
+                'type'          => 'hidden',
+                'title'         => 'linkdex',
+                'default_value' => '',
+                'description'   => '',
+            ),
 			'metakeywords'   => array(
 				'type'          => 'text',
 				'title'         => '', // Translation added later.

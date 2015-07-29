@@ -600,6 +600,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			wp_enqueue_script( 'js-seo-YoastSEO.js', plugins_url( 'js-seo/js/YoastSEO.js' ), null, '2.2.1', true );
 			wp_enqueue_script( 'js-seo-wp-config.js', plugins_url( 'js-seo/js/config/wp-config.js' ), null, '2.2.1', true );
 
+
 			if ( post_type_supports( get_post_type(), 'thumbnail' ) ) {
 				wp_enqueue_script( 'wp-seo-featured-image', plugins_url( 'js/wp-seo-featured-image' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'jquery' ), WPSEO_VERSION, true );
 			}
