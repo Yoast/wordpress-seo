@@ -125,8 +125,7 @@ class WPSEO_Primary_Term_Admin {
 	private function save_primary_term( $post_ID, $taxonomy ) {
 		$primary_term = filter_input( INPUT_POST, WPSEO_Meta::$form_prefix . 'primary_' . $taxonomy->name . '_term', FILTER_SANITIZE_NUMBER_INT );
 
-		filter_var( '', FILTER_SANITIZE_NUMBER_INT );
-
+		// We accept an empty string here because we need to save that if no terms are selected.
 		if ( null !== $primary_term && check_admin_referer( 'save-primary-term', WPSEO_Meta::$form_prefix . 'primary_' . $taxonomy->name . '_nonce' ) ) {
 			$primary_term_object = new WPSEO_Primary_Term( $taxonomy->name, $post_ID );
 			$primary_term_object->set_primary_term( $primary_term );
