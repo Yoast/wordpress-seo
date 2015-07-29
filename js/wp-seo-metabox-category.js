@@ -10,7 +10,7 @@
 	 *
 	 * @param checkbox
 	 *
-	 * @return {bool}
+	 * @returns {bool}
 	 */
 	function hasPrimaryTermElements( checkbox ) {
 		return 1 === $( checkbox ).closest( 'li' ).children( '.wpseo-make-primary-term' ).length;
@@ -165,7 +165,7 @@
 	 * Returns the make primary event handler for a certain taxonomy name
 	 *
 	 * @param taxonomyName
-	 * @return {Function}
+	 * @returns {Function}
 	 */
 	function makePrimaryHandler( taxonomyName ) {
 		return function( e ) {
