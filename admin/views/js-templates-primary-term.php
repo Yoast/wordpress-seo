@@ -20,14 +20,14 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 </script>
 
 <script type="text/html" id="tmpl-primary-term-ui">
-	<a href="#" class="wpseo-make-primary-term"><?php
+	<button class="wpseo-make-primary-term"><?php
 		printf(
 			/* translators: %1$s expands to the term title, %2$s to the taxonomy title. Both are only shown to screenreaders. */
 			__( 'Make %1$s primary %2$s', 'wordpress-seo' ),
 			'<span class="screen-reader-text">{{data.term}}</span>',
 			'<span class="screen-reader-text">{{data.taxonomy.title}}</span>'
 		);
-		?></a>
+		?></button>
 
 	<span class="wpseo-is-primary-term"><?php _e( 'Primary', 'wordpress-seo' ); ?></span>
 </script>

@@ -30,3 +30,18 @@
 .wpseo-non-primary-term:after {
 	clear: both;
 }
+
+/* It is a button, style it like a link */
+.wpseo-make-primary-term {
+	margin: 4px 0 0 0;
+	padding: 0;
+	border: none;
+	color: #0073aa;
+	background: none;
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+.wpseo-make-primary-term:hover {
+	color: #00a0d2;
+}

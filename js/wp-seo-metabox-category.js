@@ -171,8 +171,6 @@
 		return function( e ) {
 			var term, checkbox;
 
-			e.preventDefault();
-
 			term = $( e.currentTarget );
 			checkbox = term.siblings( 'label' ).find( 'input' );
 
