@@ -31,6 +31,10 @@ YoastSEO_ScoreFormatter.prototype.outputScore = function() {
             var scoreSpan = document.createElement( "span" );
             scoreSpan.className = "wpseo-score-icon " + this.scoreRating( this.scores[i].score );
             newLI.appendChild( scoreSpan );
+			var screenReaderDiv = document.createElement( "span" );
+			screenReaderDiv.className = "screen-reader-text";
+			screenReaderDiv.textContent = "seo score "+ this.scoreRating( this.scores[i].score );
+			newLI.appendChild( screenReaderDiv );
             var textSpan = document.createElement( "span" );
             textSpan.className = "wpseo-score-text";
             textSpan.innerHTML = this.scores[i].text;

@@ -305,14 +305,14 @@ YoastSEO_Analyzer.prototype.linkFollow = function (url) {
  * @param url
  * @returns {boolean}
  */
-YoastSEO_Analyzer.prototype.linkKeyword = function (url) {
-	var keywordFound = false;
-	//matches everything in the <a>-tag
-	var formatUrl = url.match(/<a(.*?)(?:[^>]+)?>/);
-	if (formatUrl[0].match(this.keywordRegex) !== null) {
-		keywordFound = true;
-	}
-	return keywordFound;
+YoastSEO_Analyzer.prototype.linkKeyword = function(url){
+    var keywordFound = false;
+    //split on > to discard the data in the anchortag
+	var formatUrl = url.split(">");
+    if( formatUrl[1].match( this.keywordRegex ) !== null ){
+        keywordFound = true;
+    }
+    return keywordFound;
 };
 
 /**

@@ -1,21 +1,12 @@
 // https://github.com/gruntjs/grunt-contrib-uglify
 module.exports = {
     'js-text-analysis': {
-        options: {
-            preserveComments: 'some',
-            report: 'gzip'
-        },
-        files: [{
-            expand: true,
-            cwd: 'js',
-            src: [
-                '*.js',
-                '!*.min.js'
-            ],
-            dest: 'js/dist',
-            ext: '.min.js',
-            extDot: 'first',
-            isFile: true
-        }]
-    }
+		options: {
+			preserveComments: 'some',
+			report: 'gzip'
+		},
+		files: {
+			'<%= paths.js %>/dist/yoast-seo-content-analysis.min.js': ['<%= paths.js %>/*.js', '<%= paths.js %>/config/*.js']
+		}
+	}
 };
