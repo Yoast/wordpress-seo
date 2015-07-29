@@ -79,7 +79,7 @@ class WPSEO_GSC_Issue {
 	 * @return string
 	 */
 	private function to_timestamp( DateTime $date_to_convert ) {
-		return $date_to_convert->getTimestamp();
+		return $date_to_convert->format( 'U' );
 	}
 
 }
