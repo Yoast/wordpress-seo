@@ -94,5 +94,6 @@ jQuery( document ).ready( function() {
 
             }
         );
+		YoastSEO_loadEvents();
     }
 );

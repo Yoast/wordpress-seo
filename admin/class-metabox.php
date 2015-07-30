@@ -587,6 +587,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			), WPSEO_VERSION, true );
 
 			wp_enqueue_script( 'wp-seo-wordpressScraper.js', plugins_url( 'js/wp-seo-wordpress-scraper' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), null, WPSEO_VERSION, true );
+            wp_enqueue_script( 'wp-seo-wordpressScraper.js', plugins_url( 'js/wp-seo-wordpress-scraper-config' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), null, WPSEO_VERSION, true );
 			wp_enqueue_script( 'yoast-seo-content-analysis', plugins_url( 'js/dist/js-text-analysis/yoast-seo-content-analysis.min.js', WPSEO_FILE ), null, WPSEO_VERSION, true );
 
 			if ( post_type_supports( get_post_type(), 'thumbnail' ) ) {
