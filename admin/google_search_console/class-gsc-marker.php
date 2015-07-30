@@ -118,4 +118,22 @@ class WPSEO_GSC_Marker {
 		return $this->crawl_issues->delete_issue( $this->url );
 	}
 
+	/**
+	 * Getting the counts for current platform - category combination and update the score of it.
+	 *
+	 * @param WPSEO_GSC_Service $service
+	 */
+	private function update_issue_count( WPSEO_GSC_Service $service ) {
+		$counts  = new WPSEO_GSC_Count( $service );
+
+		// Get the issues.
+		$total_issues = $counts->get_issue_count( $this->platform, $this->category );
+
+		// Lower the current count with 1.
+		$total_issues = ( $total_issues - 1 );
+
+		// And update the count.
+		$counts->update_issue_count( $this->platform, $this->category, $total_issues );
+	}
+
 }
