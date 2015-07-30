@@ -33,6 +33,8 @@ class WPSEO_Primary_Term_Admin {
 
 	/**
 	 * Enqueues all the assets needed for the primary term interface
+	 *
+	 * @return void
 	 */
 	public function enqueue_assets() {
 		$taxonomies = $this->get_primary_term_taxonomies();
