@@ -13,7 +13,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * @internal Nobody should be able to overrule the real version number as this can cause serious issues
  * with the options, so no if ( ! defined() )
  */
-define( 'WPSEO_VERSION', '2.2.1' );
+define( 'WPSEO_VERSION', '2.3.2' );
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
 	define( 'WPSEO_PATH', plugin_dir_path( WPSEO_FILE ) );
@@ -240,6 +240,11 @@ function wpseo_init() {
 
 	if ( ! defined( 'DOING_AJAX' ) || ! DOING_AJAX ) {
 		require_once( WPSEO_PATH . 'inc/wpseo-non-ajax-functions.php' );
+	}
+
+	// Init it here because the filter must be present on the frontend as well or it won't work in the customizer.
+	if ( current_user_can( 'manage_options' ) ) {
+		new WPSEO_Customizer();
 	}
 }
 

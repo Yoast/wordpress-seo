@@ -68,7 +68,7 @@ class WPSEO_Export {
 		else {
 			$results['status'] = 'failure';
 			/* translators: %1$s expands to Yoast SEO */
-			$results['msg']    = sprintf( __( 'Error creating %1$S export: ', 'wordpress-seo' ), 'Yoast SEO' ) . $this->error;
+			$results['msg']    = sprintf( __( 'Error creating %1$s export: ', 'wordpress-seo' ), 'Yoast SEO' ) . $this->error;
 		}
 
 		return $results;

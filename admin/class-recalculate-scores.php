@@ -11,7 +11,7 @@
 class WPSEO_Recalculate_Scores {
 
 	/**
-	 * @var array The fields which should be always queries, can be extended by array_merge
+	 * @var array The fields which should be always queried, can be extended by array_merge
 	 */
 	private $query_fields   = array(
 		'post_type'      => 'any',
@@ -29,7 +29,7 @@ class WPSEO_Recalculate_Scores {
 	}
 
 	/**
-	 * Initializing the
+	 * Initializing the modal box to be displayed when needed.
 	 */
 	private function modal_box() {
 		// Adding the thickbox.
@@ -45,7 +45,7 @@ class WPSEO_Recalculate_Scores {
 		<div id="wpseo_recalculate" style="display:none;">
 			<p><?php esc_html_e( 'Recalculating the SEO scores of all the posts:', 'wordpress-seo' ); ?></p>
 
-			<div id='wpseo_progressbar'></div>
+			<div id="wpseo_progressbar"></div>
 			<p><?php echo $progress; ?></p>
 		</div>
 		<?php
@@ -61,7 +61,5 @@ class WPSEO_Recalculate_Scores {
 
 		return $count_posts_query->found_posts;
 	}
-
-
 
 }

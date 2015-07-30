@@ -128,6 +128,12 @@ class WPSEO_Meta {
 				'description'   => '', // Translation added later.
 				'help'          => '', // Translation added later.
 			),
+			'linkdex'        => array(
+				'type'          => 'hidden',
+				'title'         => 'linkdex',
+				'default_value' => '',
+				'description'   => '',
+			),
 			'metakeywords'   => array(
 				'type'          => 'text',
 				'title'         => '', // Translation added later.
@@ -135,7 +141,7 @@ class WPSEO_Meta {
 				'class'         => 'metakeywords',
 				'description'   => '', // Translation added later.
 			),
-			'pageanalysis' => array(
+			'pageanalysis'   => array(
 				'type'  => 'pageanalysis',
 				'title' => '', // Translation added later.
 				'help'  => '', // Translation added later.
@@ -345,7 +351,7 @@ class WPSEO_Meta {
 				$options = get_option( 'wpseo_titles' );
 				if ( $options['usemetakeywords'] === true ) {
 					/* Adjust the link in the keywords description text string based on the post type */
-					$field_defs['metakeywords']['description'] = sprintf( $field_defs['metakeywords']['description'], '<a target="_blank" href="' . esc_url( admin_url( 'admin.php?page=wpseo_titles#' . urlencode( $post_type ) ) ) . '">', '</a>' );
+					$field_defs['metakeywords']['description'] = sprintf( $field_defs['metakeywords']['description'], '<a target="_blank" href="' . esc_url( admin_url( 'admin.php?page=wpseo_titles#top#post_types' ) ) . '">', '</a>' );
 				}
 				else {
 					/* Don't show the keywords field if keywords aren't enabled */
@@ -370,6 +376,10 @@ class WPSEO_Meta {
 				global $post;
 
 				$options = WPSEO_Options::get_all();
+
+				if ( ! current_user_can( 'manage_options' ) && $options['disableadvanced_meta'] ) {
+					return array();
+				}
 
 				$post_type = '';
 				if ( isset( $post->post_type ) ) {
@@ -1012,7 +1022,7 @@ class WPSEO_Meta {
 	 * @return array
 	 */
 	public static function keyword_usage( $keyword, $post_id ) {
-		return get_posts(
+		$get_posts = new WP_Query(
 			array(
 				'meta_key'    => '_yoast_wpseo_focuskw',
 				'meta_value'  => $keyword,
@@ -1022,6 +1032,8 @@ class WPSEO_Meta {
 				'numberposts' => -1,
 			)
 		);
+
+		return $get_posts->posts;
 	}
 
 } /* End of class */

@@ -128,9 +128,46 @@ class WPSEO_GSC_Service {
 	 * Setting the GSC client
 	 */
 	private function set_client() {
-		Yoast_Api_Libs::load_api_libraries( array( 'google' ) );
+		try {
+			new Yoast_Api_Libs( '2.0' );
+		}
+		catch ( Exception $exception ) {
+			if ( $exception->getMessage() === 'required_version' ) {
+				$this->incompatible_api_libs(
+					__( 'Yoast plugins share some code between them to make your site faster. As a result of that, we need all Yoast plugins to be up to date. We\'ve detected this isn\'t the case, so please update the Yoast plugins that aren\'t up to date yet.', 'wordpress-seo' )
+				);
+			}
+		}
+
+		if ( class_exists( 'Yoast_Api_Google_Client' ) === false ) {
+			$this->incompatible_api_libs(
+				/* translators: %1$s expands to Yoast SEO, %2$s expands to Google Analytics by Yoast */
+				sprintf(
+					__(
+						'%1$s detected you’re using a version of %2$s which is not compatible with %1$s. Please update %2$s to the latest version to use this feature.',
+						'wordpress-seo'
+					),
+					'Yoast SEO',
+					'Google Analytics by Yoast'
+				)
+			);
+
+			wp_redirect( admin_url( 'admin.php?page=wpseo_dashboard' ) );
+			exit;
+		}
 
 		$this->client = new Yoast_Api_Google_Client( WPSEO_GSC_Config::$gsc, 'wpseo-gsc', 'https://www.googleapis.com/webmasters/v3/' );
+	}
+
+	/**
+	 * Adding notice that the api libs has the wrong version
+	 *
+	 * @param string $notice
+	 */
+	private function incompatible_api_libs( $notice ) {
+		Yoast_Notification_Center::get()->add_notification(
+			new Yoast_Notification( $notice, array( 'type' => 'error' ) )
+		);
 	}
 
 	/**

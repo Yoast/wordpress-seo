@@ -57,48 +57,6 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 		$this->assertTrue( $enqueued );
 	}
 
-	public function test_column_heading_is_hooked() {
-
-		self::$class_instance->setup_page_analysis();
-		// @todo -> is this double ! correct ?
-		$hooked = ! ! has_filter( 'manage_post_posts_columns', array( self::$class_instance, 'column_heading' ) );
-
-		$this->assertTrue( $hooked );
-	}
-
-	/**
-	 * @covers WPSEO_Metabox::column_heading()
-	 */
-	public function test_column_heading_has_score() {
-		$columns = self::$class_instance->column_heading( array() );
-		$this->assertArrayHasKey( 'wpseo-score', $columns );
-	}
-
-	/**
-	 * @covers WPSEO_Metabox::column_heading()
-	 */
-	public function test_column_heading_has_focuskw() {
-		$columns = self::$class_instance->column_heading( array() );
-		$this->assertArrayHasKey( 'wpseo-focuskw', $columns );
-	}
-
-	/**
-	 * @covers WPSEO_Metabox::column_heading()
-	 */
-	public function test_column_heading_has_metadesc() {
-		$columns = self::$class_instance->column_heading( array() );
-		$this->assertArrayHasKey( 'wpseo-metadesc', $columns );
-	}
-
-	/**
-	 * @covers WPSEO_Metabox::strtolower_utf8()
-	 */
-	public function test_strtolower_utf8() {
-		$input = 'ABCDEFGHIJKLMNOPQRSTUVWXYZÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЪЬЭЮЯĄĆĘŁŃÓŚŹŻ';
-		$expected_output = 'abcdefghijklmnopqrstuvwxyzàáâãäåæçèéêëìíîïðñòóôõöøùúûüýабвгдеёжзийклмнопрстуфхцчшщъъьэюяąćęłńóśźż';
-		$this->assertEquals( $expected_output, self::$class_instance->strtolower_utf8( $input ) );
-	}
-
 	public function test_add_metabox() {
 		global $wp_meta_boxes;
 

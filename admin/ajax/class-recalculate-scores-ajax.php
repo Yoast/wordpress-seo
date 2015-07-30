@@ -40,20 +40,18 @@ class WPSEO_Recalculate_Scores_Ajax {
 	 * Start recalculation
 	 */
 	public function recalculate_scores() {
-		if ( $this->verify_nonce() ) {
-			wp_die(
-				$this->get_posts( filter_input( INPUT_POST, 'paged', FILTER_VALIDATE_INT ) )
-			);
-		}
+		check_ajax_referrer( 'wpseo_recalculate', 'nonce' );
+		wp_die(
+			$this->get_posts( filter_input( INPUT_POST, 'paged', FILTER_VALIDATE_INT ) )
+		);
 	}
 
 	/**
 	 * Saving the new linkdex score for given post
 	 */
 	public function save_score() {
-		if ( $this->verify_nonce() ) {
-			 WPSEO_Meta::set_value( 'linkdex', filter_input( INPUT_POST, 'score' ), filter_input( INPUT_POST, 'post_id' ) );
-		}
+		check_ajax_referrer( 'wpseo_recalculate', 'nonce' );
+		WPSEO_Meta::set_value( 'linkdex', filter_input( INPUT_POST, 'score' ), filter_input( INPUT_POST, 'post_id' ) );
 	}
 
 	/**
@@ -184,15 +182,6 @@ class WPSEO_Recalculate_Scores_Ajax {
 		}
 
 		return false;
-	}
-
-	/**
-	 * Returns the value of the nonce verification
-	 *
-	 * @return false|int
-	 */
-	private function verify_nonce() {
-		return wp_verify_nonce( filter_input( INPUT_POST, 'nonce' ), 'wpseo_recalculate' );
 	}
 
 }

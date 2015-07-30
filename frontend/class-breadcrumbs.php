@@ -774,7 +774,7 @@ class WPSEO_Breadcrumbs {
 			}
 
 			if ( ( isset( $link['url'] ) && ( is_string( $link['url'] ) && $link['url'] !== '' ) ) &&
-			     ( $i < ( $this->crumb_count - 1 ) || $GLOBALS['paged'] )
+			     ( $i < ( $this->crumb_count - 1 ) )
 			) {
 				if ( $i === 0 ) {
 					$link_output .= '<' . $this->element . ' typeof="v:Breadcrumb">';
