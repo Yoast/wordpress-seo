@@ -255,81 +255,88 @@ function wpseo_recalculate_scores(current_page) {
 	progress_bar.progressbar( { 'value' : 0 } );
 
 	/**
-	 * Updates the progressbar and the sum of the posts below it.
-	 *
-	 * @param total_posts
+	 * Objects to do the recalculate stuff
+	 * @type {{update_progressbar: Function, calculate_score: Function, parse_response: Function, get_posts_to_recalculate: Function}}
 	 */
-	var update_progressbar = function( total_posts ) {
-		var current_value = count_element.text();
-		var new_value     = parseInt( current_value ) + total_posts;
-		var new_width     = new_value * (100 / total_count);
+	var wpseo_recalculate = {
 
-		progress_bar.progressbar( 'value', new_width );
+		/**
+		 * Updates the progressbar and the sum of the posts below it.
+		 *
+		 * @param total_posts
+		 */
+		update_progressbar : function( total_posts ) {
+			var current_value = count_element.text();
+			var new_value     = parseInt( current_value ) + total_posts;
+			var new_width     = new_value * (100 / total_count);
 
-		count_element.html( new_value );
-	};
+			progress_bar.progressbar( 'value', new_width );
 
-	/**
-	 * Passing the post to the analyzer to calculates its core
-	 *
-	 * @param post
-	 */
-	var calculate_score = function( post ) {
-		var tmpAnalyzer = new YoastSEO_Analyzer( post );
-		tmpAnalyzer.runQueue();
-		var score = tmpAnalyzer.analyzeScorer.__totalScore;
+			count_element.html( new_value );
+		},
 
-		// Doing request to update the score
-		jQuery.post(
-			ajaxurl,
-			{
-				action: 'wpseo_update_score',
-				nonce   : jQuery( '#wpseo_recalculate_nonce' ).val(),
-				post_id : post.post_id,
-				score   : score
-			}
-		);
-	};
+		/**
+		 * Passing the post to the analyzer to calculates its core
+		 *
+		 * @param post
+		 */
+		calculate_score : function( post ) {
+			var tmpAnalyzer = new YoastSEO_Analyzer( post );
+			tmpAnalyzer.runQueue();
+			var score = tmpAnalyzer.analyzeScorer.__totalScore;
 
-	/**
-	 * Parse the response given by request in get_posts_to_recalculate.
-	 *
-	 * @param response
-	 */
-	var parse_response = function( response ) {
-		if (response !== '') {
-			if ( response.total_posts !== undefined ) {
-				for( var i = 0; i < response.total_posts; i++) {
-					calculate_score( resp.posts[i] );
+			// Doing request to update the score
+			jQuery.post(
+				ajaxurl,
+				{
+					action: 'wpseo_update_score',
+					nonce   : jQuery( '#wpseo_recalculate_nonce' ).val(),
+					post_id : post.post_id,
+					score   : score
+				}
+			);
+		},
+
+		/**
+		 * Parse the response given by request in get_posts_to_recalculate.
+		 *
+		 * @param response
+		 */
+		parse_response : function( response ) {
+			if (response !== '') {
+				if ( response.total_posts !== undefined ) {
+					for( var i = 0; i < response.total_posts; i++) {
+						wpseo_recalculate.calculate_score( resp.posts[i] );
+					}
+
+					wpseo_recalculate.update_progressbar( response.total_posts );
 				}
 
-				update_progressbar( response.total_posts );
+				if ( response.next_page !== undefined ) {
+					wpseo_recalculate.get_posts_to_recalculate( response.next_page );
+				}
 			}
+		},
 
-			if ( response.next_page !== undefined ) {
-				get_posts_to_recalculate( response.next_page );
-			}
+		/**
+		 * Getting the posts which has to be recalculated.
+		 *
+		 * @param current_page
+		 */
+		get_posts_to_recalculate : function ( current_page ) {
+			jQuery.post(
+				ajaxurl,
+				{
+					action: 'wpseo_recalculate_scores',
+					nonce   : jQuery( '#wpseo_recalculate_nonce' ).val(),
+					paged : current_page
+				},
+				wpseo_recalculate.parse_response,
+				'json'
+			);
 		}
 	};
 
-	/**
-	 * Getting the posts which has to be recalculated.
-	 *
-	 * @param current_page
-	 */
-	var get_posts_to_recalculate = function ( current_page ) {
-		jQuery.post(
-			ajaxurl,
-			{
-				action: 'wpseo_recalculate_scores',
-				nonce   : jQuery( '#wpseo_recalculate_nonce' ).val(),
-				paged : current_page
-			},
-			parse_response,
-			'json'
-		);
-	};
-
-	get_posts_to_recalculate( current_page );
+	wwpseo_recalculate.get_posts_to_recalculate( current_page );
 }
 
