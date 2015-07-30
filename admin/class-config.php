@@ -65,7 +65,7 @@ class WPSEO_Admin_Pages {
 		wp_enqueue_script( 'dashboard' );
 		wp_enqueue_script( 'thickbox' );
 
-		wp_enqueue_script( 'yoast-seo-content-analysis', plugins_url( 'js/dist/yoast-seo-content-analysis.min.js', WPSEO_FILE ), null, WPSEO_VERSION, true );
+		wp_enqueue_script( 'yoast-seo-content-analysis', plugins_url( 'js/dist/js-text-analysis/yoast-seo-content-analysis.min.js', WPSEO_FILE ), null, WPSEO_VERSION, true );
 
 		$page = filter_input( INPUT_GET, 'page' );
 		$tool = filter_input( INPUT_GET, 'tool' );

@@ -337,6 +337,6 @@ function wpseo_recalculate_scores(current_page) {
 		}
 	};
 
-	wwpseo_recalculate.get_posts_to_recalculate( current_page );
+	wpseo_recalculate.get_posts_to_recalculate( current_page );
 }
 
