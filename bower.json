@@ -7,8 +7,7 @@
   ],
   "main": [
     "css/dist/yoast-seo-content-analysis.min.css",
-    "js/dist/yoast-seo-content-analysis.min.js",
-    "js/dist/yoast-seo-content-analyzer.min.js"
+    "js/dist/yoast-seo-content-analysis.min.js"
   ],
   "description": "Yoast text analysis tool",
   "keywords": [

@@ -296,10 +296,8 @@ YoastSEO.prototype.runAnalyzer = function() {
  */
 YoastSEO_loadEvents = function() {
     if( document.readyState === "complete" ){
-        var YoastSEO_loader = new YoastSEO( YoastSEO_args );
+        YoastSEO_loader = new YoastSEO( YoastSEO_args );
     }else{
         setTimeout( YoastSEO_loadEvents, 50 );
     }
 };
-
-YoastSEO_loadEvents();
