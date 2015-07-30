@@ -29,7 +29,7 @@ class WPSEO_Recalculate_Scores {
 	}
 
 	/**
-	 * Initializing the
+	 * Initializing the modal box to be displayed when needed.
 	 */
 	private function modal_box() {
 		// Adding the thickbox.
