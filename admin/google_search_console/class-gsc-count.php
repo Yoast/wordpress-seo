@@ -78,6 +78,41 @@ class WPSEO_GSC_Count {
 	}
 
 	/**
+	 * Getting the counts for given platform and category.
+	 *
+	 * @param string $platform
+	 * @param string $category
+	 *
+	 * @return integer
+	 */
+	public function get_issue_count( $platform, $category ) {
+		$counts = $this->get_counts();
+
+		if ( ! empty( $counts[ $platform ][ $category ]['count'] ) ) {
+			return $counts[ $platform ][ $category ]['count'];
+		}
+
+		return 0;
+	}
+
+	/**
+	 * Update the count of the issues
+	 *
+	 * @param string  $platform
+	 * @param string  $category
+	 * @param integer $new_count
+	 */
+	public function update_issue_count( $platform, $category, $new_count ) {
+		$counts = $this->get_counts();
+
+		if ( ! empty( $counts[ $platform ][ $category ] ) && is_array( $counts[ $platform ][ $category ] ) ) {
+			$counts[ $platform ][ $category ]['count'] = $new_count;
+		}
+
+		$this->set_counts( $counts );
+	}
+
+	/**
 	 * Fetching the counts from the GSC API
 	 */
 	public function fetch_counts() {
