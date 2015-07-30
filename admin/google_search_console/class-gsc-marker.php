@@ -60,7 +60,11 @@ class WPSEO_GSC_Marker {
 	 */
 	private function get_result() {
 		if ( $this->can_be_marked_as_fixed() ) {
-			if ( $this->set_crawl_issues() && $this->send_mark_as_fixed() && $this->delete_crawl_issue() ) {
+			$service = new WPSEO_GSC_Service( WPSEO_GSC_Settings::get_profile() );
+
+			if ( $this->set_crawl_issues() && $this->send_mark_as_fixed( $service ) && $this->delete_crawl_issue() ) {
+				$this->update_issue_count( $service );
+
 				return 'true';
 			}
 		}
@@ -101,11 +105,11 @@ class WPSEO_GSC_Marker {
 	/**
 	 * Sending a request to the Google Search Console API to let them know we marked an issue as fixed.
 	 *
+	 * @param WPSEO_GSC_Service $service
+	 *
 	 * @return bool
 	 */
-	private function send_mark_as_fixed( ) {
-		$service = new WPSEO_GSC_Service( WPSEO_GSC_Settings::get_profile() );
-
+	private function send_mark_as_fixed( WPSEO_GSC_Service $service ) {
 		return $service->mark_as_fixed( $this->url, $this->platform, $this->category );
 	}
 
