@@ -1,0 +1,17 @@
+language: js
+
+sudo: false
+
+cache:
+  directories:
+    - node_modules
+
+before_script:
+- npm install
+
+script:
+- npm test
+
+notifications:
+  slack:
+    secure: W3StABr+AdcdQawTObK4nbsnn5nLrTTtZfVpD/GEN6gvSOQcykbGEC5+ceYg0jn5b4StDyCiTo5blEsrpVICFpYKc44+ogah+qaGRUfVRS/rpOvn4AueXTWn4JxhZzuxqKMiTmyW+MQG0uYM7sk7Q5S+15jj6ilkj4QATaBVNbY=

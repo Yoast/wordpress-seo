@@ -8,6 +8,7 @@ module.exports = function(grunt) {
         paths: {
             grunt: 'grunt/',
             js: 'js/',
+			css: 'css/',
 			get config() {
 				return this.grunt + 'config/';
 			}
@@ -19,7 +20,6 @@ module.exports = function(grunt) {
                 'spec/*.js',
                 '!spec/*.min.js'
             ],
-
             get config() {
                 return project.paths.config + '*.js';
             },

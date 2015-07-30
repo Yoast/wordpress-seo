@@ -3,11 +3,13 @@
 # Build everything
 build:
   - 'build:js'
+  - 'build:ccs'
 # Build JavaScript from assets to production
 'build:js':
-  - 'clean'
   - 'uglify'
-  - 'concat'
+# Build CSS
+'build:css':
+  - 'cssmin'
 # Check health of the project
 check:
   - 'jshint'
