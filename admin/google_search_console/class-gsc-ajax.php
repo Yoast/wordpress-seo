@@ -54,6 +54,9 @@ class WPSEO_GSC_Ajax {
 		wp_die( 'false' );
 	}
 
+	/**
+	 * Handle the AJAX request and dismiss the GSC notice
+	 */
 	public function dismiss_notice() {
 		check_ajax_referer( 'dismiss-gsc-notice' );
 
