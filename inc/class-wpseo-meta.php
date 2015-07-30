@@ -128,12 +128,12 @@ class WPSEO_Meta {
 				'description'   => '', // Translation added later.
 				'help'          => '', // Translation added later.
 			),
-            'linkdex'       => array(
-                'type'          => 'hidden',
-                'title'         => 'linkdex',
-                'default_value' => '',
-                'description'   => '',
-            ),
+			'linkdex'        => array(
+				'type'          => 'hidden',
+				'title'         => 'linkdex',
+				'default_value' => '',
+				'description'   => '',
+			),
 			'metakeywords'   => array(
 				'type'          => 'text',
 				'title'         => '', // Translation added later.
@@ -141,7 +141,7 @@ class WPSEO_Meta {
 				'class'         => 'metakeywords',
 				'description'   => '', // Translation added later.
 			),
-			'pageanalysis' => array(
+			'pageanalysis'   => array(
 				'type'  => 'pageanalysis',
 				'title' => '', // Translation added later.
 				'help'  => '', // Translation added later.
