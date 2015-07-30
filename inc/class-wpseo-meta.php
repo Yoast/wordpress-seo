@@ -1022,7 +1022,7 @@ class WPSEO_Meta {
 	 * @return array
 	 */
 	public static function keyword_usage( $keyword, $post_id ) {
-		return get_posts(
+		$get_posts = new WP_Query(
 			array(
 				'meta_key'    => '_yoast_wpseo_focuskw',
 				'meta_value'  => $keyword,
@@ -1032,6 +1032,8 @@ class WPSEO_Meta {
 				'numberposts' => -1,
 			)
 		);
+
+		return $get_posts->posts;
 	}
 
 } /* End of class */
