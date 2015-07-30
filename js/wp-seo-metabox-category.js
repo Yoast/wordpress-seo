@@ -8,7 +8,7 @@
 	/**
 	 * Checks if the elements to make a term the primary term and the display for a primary term exist
 	 *
-	 * @param checkbox
+	 * @param {Object} checkbox
 	 *
 	 * @returns {bool}
 	 */
@@ -19,7 +19,7 @@
 	/**
 	 * Retrieves the primary term for a taxonomy
 	 *
-	 * @param taxonomyName
+	 * @param {string} taxonomyName
 	 * @returns {string}
 	 */
 	function getPrimaryTerm( taxonomyName ) {
@@ -32,8 +32,8 @@
 	/**
 	 * Sets the primary term for a taxonomy
 	 *
-	 * @param taxonomyName
-	 * @param termId
+	 * @param {string} taxonomyName
+	 * @param {string} termId
 	 */
 	function setPrimaryTerm( taxonomyName, termId ) {
 		var primaryTermInput;
@@ -46,7 +46,7 @@
 	/**
 	 * Makes the first term primary for a certain taxonomy
 	 *
-	 * @param taxonomyName
+	 * @param {string} taxonomyName
 	 */
 	function makeFirstTermPrimary( taxonomyName ) {
 		var firstTerm = $( '#' + taxonomyName + 'checklist input[type="checkbox"]:checked:first' );
@@ -58,7 +58,7 @@
 	/**
 	 * Updates the primary term selectors/indicators for a certain taxonomy
 	 *
-	 * @param taxonomyName
+	 * @param {string} taxonomyName
 	 */
 	function updatePrimaryTermSelectors( taxonomyName ) {
 		var checkedTerms, uncheckedTerms;
@@ -81,7 +81,7 @@
 			return;
 		}
 
-		checkedTerms.each( function ( i, term ) {
+		checkedTerms.each(function( i, term ) {
 			term = $( term );
 			listItem = term.closest( 'li' );
 
@@ -96,7 +96,7 @@
 				label = term.closest( 'label' );
 				label.find( '.wpseo-primary-category-label' ).remove();
 				label.append( primaryTermScreenReaderTemplate({
-					"taxonomy": taxonomies[ taxonomyName ]
+					taxonomy: taxonomies[ taxonomyName ]
 				}) );
 			}
 			else {
@@ -111,8 +111,8 @@
 	/**
 	 * Creates the elements necessary to show something is a primary term or to make it the primary term
 	 *
-	 * @param taxonomyName
-	 * @param checkbox
+	 * @param {string} taxonomyName
+	 * @param {Object} checkbox
 	 */
 	function createPrimaryTermElements( taxonomyName, checkbox ) {
 		var label, html;
@@ -130,7 +130,7 @@
 	/**
 	 * Returns the term checkbox handler for a certain taxonomy name
 	 *
-	 * @param taxonomyName
+	 * @param {string} taxonomyName
 	 * @returns {Function}
 	 */
 	function termCheckboxHandler( taxonomyName ) {
@@ -152,7 +152,7 @@
 	/**
 	 * Returns the term list add handler for a certain taxonomy name
 	 *
-	 * @param taxonomyName
+	 * @param {string} taxonomyName
 	 * @returns {Function}
 	 */
 	function termListAddHandler( taxonomyName ) {
@@ -164,7 +164,7 @@
 	/**
 	 * Returns the make primary event handler for a certain taxonomy name
 	 *
-	 * @param taxonomyName
+	 * @param {string} taxonomyName
 	 * @returns {Function}
 	 */
 	function makePrimaryHandler( taxonomyName ) {
@@ -190,7 +190,7 @@
 			metaboxTaxonomy = $( '#' + taxonomy.name + 'div' );
 
 			html = primaryTermInputTemplate({
-				'taxonomy': taxonomy
+				taxonomy: taxonomy
 			});
 
 			metaboxTaxonomy.append( html );
@@ -211,5 +211,4 @@
 
 		$( _.values( taxonomies ) ).initYstSEOPrimaryCategory();
 	});
-
 }( jQuery ));
