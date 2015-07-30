@@ -616,6 +616,11 @@ class WPSEO_Frontend {
 	public function debug_marker( $echo = true ) {
 		$marker = sprintf(
 			'<!-- This site is optimized with the ' . $this->head_product_name() . '%1$s - https://yoast.com/wordpress/plugins/seo/ -->',
+			/**
+			 * Filter: 'wpseo_hide_version' - Should the version being hidden?
+			 *
+			 * @api bool
+			 */
 			( ( apply_filters( 'wpseo_hide_version', false ) && $this->is_premium() ) ? '' : ' v' . WPSEO_VERSION  )
 		);
 
