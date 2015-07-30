@@ -11,7 +11,7 @@
 class WPSEO_Recalculate_Scores {
 
 	/**
-	 * @var array The fields which should be always queries, can be extended by array_merge
+	 * @var array The fields which should be always queried, can be extended by array_merge
 	 */
 	private $query_fields   = array(
 		'post_type'      => 'any',
