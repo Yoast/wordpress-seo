@@ -69,7 +69,7 @@ class WPSEO_GSC {
 	public function register_gsc_notification() {
 		Yoast_Notification_Center::get()->add_notification(
 			new Yoast_Notification(
-				__( 'Please set the Google Search Console authentication code.', 'wordpress-seo' ),
+				__( 'Warning: You didn\'t setup your Google Search Console. Please fill in your authorization code to activate this feature.', 'wordpress-seo' ),
 				array(
 					'type'      => 'error yoast-dismissible',
 					'id'        => 'wpseo-dismiss-gsc',
