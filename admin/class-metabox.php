@@ -587,7 +587,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			), WPSEO_VERSION, true );
 
 			wp_enqueue_script( 'wp-seo-wordpressScraper.js', plugins_url( 'js/wp-seo-wordpress-scraper' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), null, WPSEO_VERSION, true );
-            wp_enqueue_script( 'wp-seo-wordpressScraper.js', plugins_url( 'js/wp-seo-wordpress-scraper-config' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), null, WPSEO_VERSION, true );
+			wp_enqueue_script( 'wp-seo-wordpressScraper-Config.js', plugins_url( 'js/wp-seo-wordpress-scraper-config' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), null, WPSEO_VERSION, true );
 			wp_enqueue_script( 'yoast-seo-content-analysis', plugins_url( 'js/dist/js-text-analysis/yoast-seo-content-analysis.min.js', WPSEO_FILE ), null, WPSEO_VERSION, true );
 
 			if ( post_type_supports( get_post_type(), 'thumbnail' ) ) {
@@ -625,7 +625,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return string
 	 */
 	public function get_post_date( $post ) {
-		if ( isset( $post->post_date ) && $post->post_status == 'publish' ) {
+		if ( isset( $post->post_date ) && $post->post_status === 'publish' ) {
 			$date = date_i18n( 'j M Y', strtotime( $post->post_date ) );
 		}
 		else {
