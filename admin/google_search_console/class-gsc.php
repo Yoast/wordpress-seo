@@ -223,6 +223,7 @@ class WPSEO_GSC {
 
 		// Loading the issue counter.
 		$issue_count           = new WPSEO_GSC_Count( $this->service );
+		$issue_count->fetch_counts();
 
 		// Loading the category filters.
 		$this->category_filter = new WPSEO_GSC_Category_Filters( $issue_count->get_platform_counts( $this->platform ) );

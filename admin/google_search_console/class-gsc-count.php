@@ -33,8 +33,6 @@ class WPSEO_GSC_Count {
 	 */
 	public function __construct( WPSEO_GSC_Service $service ) {
 		$this->service = $service;
-
-		$this->fetch_counts();
 	}
 
 	/**
@@ -82,7 +80,7 @@ class WPSEO_GSC_Count {
 	/**
 	 * Fetching the counts from the GSC API
 	 */
-	private function fetch_counts() {
+	public function fetch_counts() {
 		if ( WPSEO_GSC_Settings::get_profile() && $this->get_last_fetch() <= strtotime( '-12 hours' ) ) {
 			// Remove the timestamp.
 			$this->remove_last_fetch();
