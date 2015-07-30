@@ -58,7 +58,7 @@ class WPSEO_GSC {
 			$this->request_handler();
 		}
 
-		if ( current_user_can( 'manage_options' ) && WPSEO_GSC_Settings::get_profile() === '' && get_user_option( 'wpseo_dismissed_gsc_notice', get_current_user_id() ) != 1 ) {
+		if ( current_user_can( 'manage_options' ) && WPSEO_GSC_Settings::get_profile() === '' && get_user_option( 'wpseo_dismissed_gsc_notice', get_current_user_id() ) !== '1' ) {
 			add_action( 'admin_init', array( $this, 'register_gsc_notification' ) );
 		}
 	}
