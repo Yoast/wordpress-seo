@@ -791,6 +791,8 @@ class WPSEO_OpenGraph_Image {
 				return $this->add_image( $thumb[0] );
 			}
 		}
+
+		return false;
 	}
 
 	/**
