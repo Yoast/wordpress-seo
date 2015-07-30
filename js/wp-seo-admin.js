@@ -267,7 +267,7 @@ function wpseo_recalculate_scores(current_page) {
 		 */
 		update_progressbar : function( total_posts ) {
 			var current_value = count_element.text();
-			var new_value     = parseInt( current_value ) + total_posts;
+			var new_value     = parseInt( current_value, 10 ) + total_posts;
 			var new_width     = new_value * (100 / total_count);
 
 			progress_bar.progressbar( 'value', new_width );
@@ -276,7 +276,7 @@ function wpseo_recalculate_scores(current_page) {
 		},
 
 		/**
-		 * Passing the post to the analyzer to calculates its core
+		 * Passing the post to the analyzer to calculates it's core
 		 *
 		 * @param post
 		 */
@@ -303,7 +303,7 @@ function wpseo_recalculate_scores(current_page) {
 		 * @param response
 		 */
 		parse_response : function( response ) {
-			if (response !== '') {
+			if ( response !== '' ) {
 				if ( response.total_posts !== undefined ) {
 					for( var i = 0; i < response.total_posts; i++) {
 						wpseo_recalculate.calculate_score( resp.posts[i] );
@@ -319,7 +319,7 @@ function wpseo_recalculate_scores(current_page) {
 		},
 
 		/**
-		 * Getting the posts which has to be recalculated.
+		 * Getting the posts which have to be recalculated.
 		 *
 		 * @param current_page
 		 */
