@@ -303,10 +303,10 @@ function wpseo_recalculate_scores(current_page) {
 		 * @param response
 		 */
 		parse_response : function( response ) {
-			if ( response !== '' ) {
+			if ( response !== '' && response !== null ) {
 				if ( response.total_posts !== undefined ) {
 					for( var i = 0; i < response.total_posts; i++) {
-						wpseo_recalculate.calculate_score( resp.posts[i] );
+						wpseo_recalculate.calculate_score( response.posts[i] );
 					}
 
 					wpseo_recalculate.update_progressbar( response.total_posts );

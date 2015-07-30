@@ -40,7 +40,7 @@ class WPSEO_Recalculate_Scores_Ajax {
 	 * Start recalculation
 	 */
 	public function recalculate_scores() {
-		check_ajax_referrer( 'wpseo_recalculate', 'nonce' );
+		check_ajax_referer( 'wpseo_recalculate', 'nonce' );
 		wp_die(
 			$this->get_posts( filter_input( INPUT_POST, 'paged', FILTER_VALIDATE_INT ) )
 		);
@@ -50,7 +50,7 @@ class WPSEO_Recalculate_Scores_Ajax {
 	 * Saving the new linkdex score for given post
 	 */
 	public function save_score() {
-		check_ajax_referrer( 'wpseo_recalculate', 'nonce' );
+		check_ajax_referer( 'wpseo_recalculate', 'nonce' );
 		WPSEO_Meta::set_value( 'linkdex', filter_input( INPUT_POST, 'score' ), filter_input( INPUT_POST, 'post_id' ) );
 	}
 
