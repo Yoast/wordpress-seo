@@ -820,6 +820,11 @@ class WPSEO_OpenGraph_Image {
 	 * @return bool
 	 */
 	private function check_featured_image_size( $img_data ) {
+
+		if ( ! is_array( $img_data ) ) {
+			return false;
+		}
+
 		// Get the width and height of the image.
 		if ( $img_data[1] < 200 || $img_data[2] < 200 ) {
 			return false;
