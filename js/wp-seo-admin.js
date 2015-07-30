@@ -254,7 +254,12 @@ function wpseo_recalculate_scores(current_page) {
 	count_element.text( 0 );
 	progress_bar.progressbar( { 'value' : 0 } );
 
-	var update_count = function( total_posts ) {
+	/**
+	 * Updates the progressbar and the sum of the posts below it.
+	 *
+	 * @param total_posts
+	 */
+	var update_progressbar = function( total_posts ) {
 		var current_value = count_element.text();
 		var new_value     = parseInt( current_value ) + total_posts;
 		var new_width     = new_value * (100 / total_count);
@@ -264,6 +269,11 @@ function wpseo_recalculate_scores(current_page) {
 		count_element.html( new_value );
 	};
 
+	/**
+	 * Passing the post to the analyzer to calculates its core
+	 *
+	 * @param post
+	 */
 	var calculate_score = function( post ) {
 		var tmpAnalyzer = new YoastSEO_Analyzer( post );
 		tmpAnalyzer.runQueue();
@@ -281,25 +291,33 @@ function wpseo_recalculate_scores(current_page) {
 		);
 	};
 
+	/**
+	 * Parse the response given by request in get_posts_to_recalculate.
+	 *
+	 * @param response
+	 */
 	var parse_response = function( response ) {
 		if (response !== '') {
-			var resp = jQuery.parseJSON( response );
-
-			if ( resp.total_posts !== undefined ) {
-				for( var i = 0; i < resp.total_posts; i++) {
+			if ( response.total_posts !== undefined ) {
+				for( var i = 0; i < response.total_posts; i++) {
 					calculate_score( resp.posts[i] );
 				}
 
-				update_count( resp.total_posts );
+				update_progressbar( response.total_posts );
 			}
 
-			if ( resp.next_page !== undefined ) {
-				calculate_scores( resp.next_page );
+			if ( response.next_page !== undefined ) {
+				get_posts_to_recalculate( response.next_page );
 			}
 		}
 	};
 
-	var calculate_scores = function ( current_page ) {
+	/**
+	 * Getting the posts which has to be recalculated.
+	 *
+	 * @param current_page
+	 */
+	var get_posts_to_recalculate = function ( current_page ) {
 		jQuery.post(
 			ajaxurl,
 			{
@@ -307,10 +325,11 @@ function wpseo_recalculate_scores(current_page) {
 				nonce   : jQuery( '#wpseo_recalculate_nonce' ).val(),
 				paged : current_page
 			},
-			parse_response
+			parse_response,
+			'json'
 		);
 	};
 
-	calculate_scores( current_page );
+	get_posts_to_recalculate( current_page );
 }
 
