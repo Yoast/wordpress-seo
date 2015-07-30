@@ -79,6 +79,7 @@ YoastSEO.prototype.createSnippetPreviewTitle = function( target ) {
 	var elem = document.createElement( "div" );
 	elem.className = "snippet_container";
 	elem.id = "title_container";
+	elem.__refObj = this;
 	target.appendChild( elem );
     var title;
     title = document.createElement( "span" );
@@ -98,6 +99,7 @@ YoastSEO.prototype.createSnippetPreviewUrl = function( target ){
 	var elem = document.createElement( "div" );
 	elem.className = "snippet_container";
 	elem.id = "url_container";
+	elem.__refObj = this;
 	target.appendChild( elem );
     var baseUrl = document.createElement( "cite" );
     baseUrl.className = "url urlBase";
@@ -120,6 +122,7 @@ YoastSEO.prototype.createSnippetPreviewMeta = function ( target ){
 	var elem = document.createElement( "div" );
 	elem.className = "snippet_container";
 	elem.id = "meta_container";
+	elem.__refObj = this;
 	target.appendChild( elem );
     var meta = document.createElement( "span" );
     meta.className = "desc";
