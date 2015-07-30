@@ -1,14 +1,42 @@
-#snippet_preview {
-	width: 512px;
-	padding: 20px;
-	border: 1px solid #ddd;
-	font-family: Arial, sans-serif;
+#wpseosnippet {
+	width: auto;
+	margin: 0 0 10px;
+	padding: 0 5px;
+	font-family: Arial, Helvetica, sans-serif;
+	font-style: normal;
+}
+
+#snippet_preview:hover {
+	background-color: #f5f5f5;
+}
+
+#snippet_preview *[contenteditable="true"]:hover {
+	background: #bbdefb;
+	cursor: pointer;
+}
+
+#snippet_preview *[contenteditable="true"]:focus {
+	background-color: #bbdefb;
+	cursor: text;
+}
+
+.snippet_container {
+	display: block;
+	line-height: 16px;
+}
+
+.snippet_container span {
+	width: 95%;
+}
+
+.snippet_container:hover {
+	background: url("../images/editicon.png") no-repeat right top;
+	cursor: pointer;
 }
 
 .title {
 	display: block;
 	overflow: hidden;
-	width: 512px;
 	margin: 0;
 	color: #1e0fbe;
 	font-size: 18px;
@@ -19,22 +47,12 @@
 	text-overflow: ellipsis;
 }
 
-.title:visited {
-	color: #609;
-}
-
 .title br {
 	display: none;
 }
 
-.url,
-.desc {
-	display: block;
-	font-size: 13px;
-	line-height: 1.4;
-}
-
 .url {
+	display: inline-block;
 	color: #006621;
 	font-size: 14px;
 	font-style: normal;
@@ -50,7 +68,10 @@
 }
 
 .desc {
+	display: block;
 	color: #545454;
+	font-size: 13px;
+	line-height: 1.4;
 }
 
 desc br {
@@ -58,5 +79,9 @@ desc br {
 }
 
 .tooLong {
-	color: #f00;
+	color: #f00 !important;
+}
+
+.editIcon {
+	background: url("../images/editicon.png") no-repeat right top;
 }
