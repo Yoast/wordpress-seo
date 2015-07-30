@@ -168,6 +168,9 @@ class WPSEO_GSC_Count {
 				$this->issues = $issues;
 			}
 
+			// Be sure the total count is correct.
+			$counts[ $category ]['count'] = count( $this->issues );
+
 			// Set last fetch.
 			$counts[ $category ]['last_fetch'] = time();
 		}
