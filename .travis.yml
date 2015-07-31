@@ -55,12 +55,11 @@ before_script:
 - mysql -e "CREATE DATABASE wordpress_tests;" -uroot
 - cd "/tmp/wordpress/src/wp-content/plugins/$PLUGIN_SLUG"
 - phpenv rehash
-- npm install -g grunt-cli
 
 script:
 - if [[ "$PHPLINT" == "1" ]]; then find -L .  -path ./vendor -prune -o -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l; fi
 - if [[ "$PHPLINT" == "1" ]]; then vendor/bin/phpcs -v; fi
-- if [[ "$CHECKS" == "1" ]]; then npm install; grunt check:js; grunt check:i18n; fi
+- if [[ "$CHECKS" == "1" ]]; then npm install -g grunt-cli && npm install && grunt check:js && grunt check:i18n; fi
 - phpunit -c phpunit.xml
 
 notifications:
