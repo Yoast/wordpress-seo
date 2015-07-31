@@ -74,9 +74,10 @@ class Yoast_Dashboard_Widget {
 	 * @return array
 	 */
 	private function statistic_items() {
+		$transient = get_transient( self::CACHE_TRANSIENT_KEY );
 
-		if ( false !== ( $items = get_transient( self::CACHE_TRANSIENT_KEY ) ) ) {
-			return $items;
+		if ( isset( $transient[get_current_user_id()] ) ) {
+			return $transient[get_current_user_id()];
 		}
 
 		$items = array(
@@ -119,11 +120,15 @@ class Yoast_Dashboard_Widget {
 			),
 		);
 
-		$items = array_filter( $items, array( $this, 'filter_items' ) );
+		if ( $transient === false ) {
+			$transient = array();
+		}
+
+		$items[get_current_user_id()] = array_filter( $items, array( $this, 'filter_items' ) );
 
 		set_transient( self::CACHE_TRANSIENT_KEY, $items, DAY_IN_SECONDS );
 
-		return $items;
+		return $items[get_current_user_id()];
 	}
 
 	/**

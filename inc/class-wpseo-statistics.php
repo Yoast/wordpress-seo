@@ -127,6 +127,11 @@ class WPSEO_Statistics {
 
 		$posts['fields']      = 'ids';
 		$posts['post_status'] = 'publish';
+
+		if( current_user_can( 'moderate_comments' ) === false ) {
+			$posts['author'] = get_current_user_id();
+		}
+
 		$posts = new WP_Query( $posts );
 
 		return $posts->found_posts;
