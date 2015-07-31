@@ -717,7 +717,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 					$options_count = count( $meta_field_def['options'] );
 
 					// @todo [JRF => whomever] verify height calculation for older WP versions, was 16x, for WP3.8 20x is more appropriate.
-					$content .= '<select multiple="multiple" size="' . esc_attr( $options_count ) . '" style="height: ' . esc_attr( ( $options_count * 20 ) + 4 ) . 'px;" name="' . $esc_form_key . '[]" id="' . $esc_form_key . '" class="yoast' . $class . '">';
+					$content .= '<select multiple="multiple" size="' . esc_attr( $options_count ) . '" style="height: ' . esc_attr( ( $options_count * 20 ) + 4 ) . 'px;" name="' . $esc_form_key . '[]" id="' . $esc_form_key . '" class="yoast' . $class . '"' . $placeholder . '>';
 					foreach ( $meta_field_def['options'] as $val => $option ) {
 						$selected = '';
 						if ( in_array( $val, $selected_arr ) ) {
