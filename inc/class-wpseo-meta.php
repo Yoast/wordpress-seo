@@ -161,6 +161,8 @@ class WPSEO_Meta {
 				'title'         => '', // Translation added later.
 				'default_value' => '-', // = site-wide default.
 				'description'   => '', // Translation added later.
+				'chosen'        => true,
+				'placeholder'   => '-',
 				'options'       => array(
 					'-'            => '', // Site-wide default - translation added later.
 					'none'         => '', // Translation added later.

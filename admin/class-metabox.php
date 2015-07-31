@@ -900,7 +900,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 
 
-		if ( $pagenow == 'edit.php' ) {
+		if ( $pagenow === 'edit.php' ) {
 			wp_enqueue_style( 'edit-page', plugins_url( 'css/edit-page' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
 		}
 		else {
