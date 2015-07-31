@@ -648,6 +648,21 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$placeholder = $meta_field_def['placeholder'];
 		}
 
+		// When choosen key is set add chosen class and determine which placeholder should shown.
+		if ( ! empty( $meta_field_def['chosen'] ) ) {
+			$class .= ' yoast-chosen';
+
+			if ( ! empty( $placeholder ) ) {
+				if ( array_key_exists( $placeholder, $meta_field_def['options'] ) ) {
+					$key_to_remove = $placeholder;
+					$placeholder   = $meta_field_def['options'][ $placeholder ];
+					unset( $meta_field_def['options'][ $key_to_remove ] );
+				}
+
+				$placeholder = ' data-placeholder="' .$placeholder. '"';
+			}
+		}
+
 		switch ( $meta_field_def['type'] ) {
 			case 'snippetpreview':
 				$content .= $this->snippet();
