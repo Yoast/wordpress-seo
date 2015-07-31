@@ -140,7 +140,13 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		// set option
 		self::$class_instance->options['facebook_site'] = 'http://facebook.com/mysite/';
 
-		// test output
+		// test home output
+		$this->go_to_home();
+		$this->assertFalse( self::$class_instance->website_facebook() );
+
+		// test singular output
+		$post_id = $this->factory->post->create();
+		$this->go_to( get_permalink( $post_id ) );
 		$this->assertTrue( self::$class_instance->website_facebook() );
 		$this->expectOutput( '<meta property="article:publisher" content="http://facebook.com/mysite/" />' . "\n" );
 	}
