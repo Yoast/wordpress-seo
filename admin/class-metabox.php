@@ -902,6 +902,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			// Always enqueue minified as it's not our code.
 			wp_enqueue_script( 'jquery-qtip', plugins_url( 'js/jquery.qtip.min.js', WPSEO_FILE ), array( 'jquery' ), '2.2.1', true );
 
+			// Enable chosen.
+			wp_enqueue_style( 'chosen', plugins_url( 'js/dependencies/chosen/chosen' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
+			wp_enqueue_script( 'chosen', plugins_url( 'js/dependencies/chosen/chosen.jquery' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'jquery' ), WPSEO_VERSION, true );
+
 			wp_enqueue_script( 'wp-seo-metabox', plugins_url( 'js/wp-seo-metabox' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array(
 				'jquery',
 				'jquery-ui-core',
