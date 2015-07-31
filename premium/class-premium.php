@@ -69,7 +69,7 @@ class WPSEO_Premium {
 
 			// Add Sub Menu page and add redirect page to admin page array.
 			// This should be possible in one method in the future, see #535.
-			add_filter( 'wpseo_submenu_pages', array( $this, 'add_submenu_pages' ) );
+			add_filter( 'wpseo_submenu_pages', array( $this, 'add_submenu_pages' ), 9 );
 
 			// Add Redirect page as admin page.
 			add_filter( 'wpseo_admin_pages', array( $this, 'add_admin_pages' ) );
