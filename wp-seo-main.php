@@ -243,9 +243,7 @@ function wpseo_init() {
 	}
 
 	// Init it here because the filter must be present on the frontend as well or it won't work in the customizer.
-	if ( current_user_can( 'manage_options' ) ) {
-		new WPSEO_Customizer();
-	}
+	new WPSEO_Customizer();
 }
 
 /**
