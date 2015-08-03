@@ -181,7 +181,7 @@ function wpseo_xml_sitemaps_base_url( $page ) {
 	 */
 	$base = apply_filters( 'wpseo_sitemaps_base_url', $base );
 
-	return home_url( $base . $page, WPSEO_Utils::get_real_scheme() );
+	return home_url( $base . $page, parse_url( get_option( 'home' ), PHP_URL_SCHEME ) );
 }
 
 /**

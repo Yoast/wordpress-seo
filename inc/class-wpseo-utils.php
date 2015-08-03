@@ -796,14 +796,4 @@ class WPSEO_Utils {
 		return false;
 	}
 
-	/**
-	 * When no scheme is given to for example home_url, WordPress is trying to find this out himself. This method gives the scheme
-	 * based on the configured home url.
-	 *
-	 * @return string
-	 */
-	public static function get_real_scheme() {
-		return parse_url( get_option( 'home' ), PHP_URL_SCHEME );
-	}
-
 } /* End of class WPSEO_Utils */
