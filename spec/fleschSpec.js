@@ -6,7 +6,7 @@ require("../js/analyzescorer.js");
 require("../js/stringhelper.js");
 
 var fleschArgs = {
-    textString: "This is the year that Yoast turns 5 years old. A natural time to reflect upon how the company is doing and what it should and should not be doing and what we want for the future. Today we’re proud to announce that we’ve been acquired by CrowdFavorite",
+    text: "This is the year that Yoast turns 5 years old. A natural time to reflect upon how the company is doing and what it should and should not be doing and what we want for the future. Today we’re proud to announce that we’ve been acquired by CrowdFavorite",
     queue: ["fleschReading"]
 };
 
@@ -19,7 +19,7 @@ describe("Test for the flesch kincaid reading", function(){
 });
 
 var fleschArgs2 = {
-    textString: "One question we get quite often in our website reviews is whether we can help people recover from the drop they noticed in their rankings or traffic. A lot of the times, this is a legitimate drop and people were actually in a bit of trouble.",
+    text: "One question we get quite often in our website reviews is whether we can help people recover from the drop they noticed in their rankings or traffic. A lot of the times, this is a legitimate drop and people were actually in a bit of trouble.",
     queue: ["fleschReading"]
 };
 

@@ -16,7 +16,7 @@ YoastSEO_SnippetPreview = function( refObj ) {
  *  checks if title and url are set so they can be rendered in the snippetPreview
  */
 YoastSEO_SnippetPreview.prototype.init = function() {
-    if( this.refObj.inputs.pageTitle !== null && this.refObj.inputs.url !== null ) {
+    if( this.refObj.source.formattedData.pageTitle !== null && this.refObj.source.formattedData.cite !== null ) {
         this.output = this.htmlOutput();
         this.renderOutput();
     }
@@ -31,27 +31,54 @@ YoastSEO_SnippetPreview.prototype.htmlOutput = function() {
     html.title = this.formatTitle();
     html.cite = this.formatCite();
     html.meta = this.formatMeta();
+	html.url = this.formatUrl();
     return html;
 };
 
 /**
- * formats the title for the snippet preview
+ * formats the title for the snippet preview. If title and pageTitle are empty, sampletext is used
  * @returns {formatted page title}
  */
 YoastSEO_SnippetPreview.prototype.formatTitle = function() {
-    var title = this.refObj.inputs.pageTitle;
-    title = this.refObj.pageAnalyzer.YoastSEO_preProcessor.stripAllTags( title );
-    return this.formatKeyword( title );
+    var title = this.refObj.source.formattedData.snippetTitle;
+    if(title === ""){
+        title = this.refObj.source.formattedData.pageTitle;
+    }
+	if(title === ""){
+		title = this.refObj.config.sampleText.title;
+	}
+    title = this.refObj.stringHelper.stripAllTags( title );
+	if(this.refObj.source.formattedData.keyword !== ""){
+    	return this.formatKeyword( title );
+	}
+	return title;
 };
+
+/**
+ * removes the protocol name from the urlstring.
+ * @returns formatted url
+ */
+YoastSEO_SnippetPreview.prototype.formatUrl = function() {
+	var url = this.refObj.source.formattedData.url;
+	//removes the http(s) part of the url
+	url.replace(/https?:\/\//ig, "");
+	return url;
+};
+
 
 /**
  * formats the url for the snippet preview
  * @returns formatted url
  */
 YoastSEO_SnippetPreview.prototype.formatCite = function() {
-    var cite = this.refObj.inputs.url;
-    cite = this.refObj.pageAnalyzer.YoastSEO_preProcessor.stripAllTags( cite );
-    return this.formatKeywordUrl( cite );
+    var cite = this.refObj.source.formattedData.snippetCite;
+    cite = this.refObj.stringHelper.stripAllTags( cite );
+	if(cite === ""){
+		cite = this.refObj.config.sampleText.url;
+		return cite;
+	}else {
+		return this.formatKeywordUrl(cite);
+	}
 };
 
 /**
@@ -59,38 +86,54 @@ YoastSEO_SnippetPreview.prototype.formatCite = function() {
  * @returns formatted metatext
  */
 YoastSEO_SnippetPreview.prototype.formatMeta = function() {
-    var meta = this.refObj.inputs.meta;
+    var meta = this.refObj.source.formattedData.snippetMeta;
     if(meta === ""){
         meta = this.getMetaText();
     }
-    meta = this.refObj.pageAnalyzer.YoastSEO_preProcessor.stripAllTags( meta );
-    meta = meta.substring(0,analyzerConfig.maxMeta);
-    return this.formatKeyword( meta );
+    meta = this.refObj.stringHelper.stripAllTags( meta );
+    meta = meta.substring(0,YoastSEO_config.analyzerConfig.maxMeta);
+	if(this.refObj.source.formattedData.keyword !== "" && meta !== "") {
+		return this.formatKeyword(meta);
+	}
+	return meta;
 };
 
 /**
  * formats the metatext, based on the keyword to select a part of the text.
- * If no keyword matches, takes the first 156chars (depending on the config)
+ * If no keyword matches, takes the first 156chars (depending on the config).
+ * If keyword and/or text is empty, it uses the sampletext.
  * @returns metatext
  */
 YoastSEO_SnippetPreview.prototype.getMetaText = function() {
-    var indexMatches = this.getIndexMatches();
-    var periodMatches = this.getPeriodMatches();
-    var metaText = this.refObj.inputs.textString.substring(0, analyzerConfig.maxMeta);
-    var curStart = 0;
-    if(indexMatches.length > 0) {
-        for (var i = 0; i < periodMatches.length; ) {
-            if (periodMatches[0] < indexMatches[0] ) {
-                curStart = periodMatches.shift();
-            } else {
-                if( curStart > 0 ){
-                    curStart += 2;
-                }
-                break;
-            }
-        }
-        metaText = this.refObj.inputs.textString.substring( curStart, curStart + analyzerConfig.maxMeta );
+    var metaText;
+    if(typeof this.refObj.source.formattedData.excerpt !== "undefined"){
+        metaText = this.refObj.source.formattedData.excerpt.substring(0, YoastSEO_config.analyzerConfig.maxMeta);
     }
+    if(metaText === ""){
+		metaText = this.refObj.config.sampleText.meta;
+		if(this.refObj.source.formattedData.keyword !== "" && this.refObj.source.formattedData.text !== "") {
+			var indexMatches = this.getIndexMatches();
+			var periodMatches = this.getPeriodMatches();
+			metaText = this.refObj.source.formattedData.text.substring(0, YoastSEO_config.analyzerConfig.maxMeta);
+			var curStart = 0;
+			if (indexMatches.length > 0) {
+				for (var j = 0; j < periodMatches.length;) {
+					if (periodMatches[0] < indexMatches[0]) {
+						curStart = periodMatches.shift();
+					} else {
+						if (curStart > 0) {
+							curStart += 2;
+						}
+						break;
+					}
+				}
+				metaText = this.refObj.stringHelper.stripAllTags(this.refObj.source.formattedData.text.substring(curStart, curStart + YoastSEO_config.analyzerConfig.maxMeta));
+			}
+		}
+    }
+	if(this.refObj.stringHelper.stripAllTags(metaText) === ""){
+		return this.refObj.config.sampleText.meta;
+	}
     return metaText;
 };
 
@@ -102,12 +145,13 @@ YoastSEO_SnippetPreview.prototype.getIndexMatches = function() {
     var indexMatches = [];
     var i = 0;
     //starts at 0, locates first match of the keyword.
-    var match = this.refObj.inputs.textString.indexOf( this.refObj.inputs.keyword, i );
+    var match = this.refObj.source.formattedData.text.indexOf( this.refObj.source.formattedData.keyword, i );
     //runs the loop untill no more indexes are found, and match returns -1.
-    while ( ( match  ) > -1 ) {
+    while ( match > -1 ) {
         indexMatches.push( match );
         //pushes location to indexMatches and increase i with the length of keyword.
-        i = match + this.refObj.inputs.keyword.length;
+        i = match + this.refObj.source.formattedData.keyword.length;
+		match = this.refObj.source.formattedData.text.indexOf( this.refObj.source.formattedData.keyword, i );
     }
     return indexMatches;
 };
@@ -120,7 +164,7 @@ YoastSEO_SnippetPreview.prototype.getPeriodMatches = function() {
     var periodMatches = [0];
     var match;
     var i = 0;
-    while( ( match = this.refObj.inputs.textString.indexOf( ".", i ) ) > -1 ){
+    while( ( match = this.refObj.source.formattedData.text.indexOf( ".", i ) ) > -1 ){
         periodMatches.push( match );
         i = match + 1;
     }
@@ -134,7 +178,7 @@ YoastSEO_SnippetPreview.prototype.getPeriodMatches = function() {
  */
 YoastSEO_SnippetPreview.prototype.formatKeyword = function( textString ) {
     //matches case insensitive and global
-    var replacer = new RegExp( this.refObj.inputs.keyword, "ig" );
+    var replacer = new RegExp( this.refObj.source.formattedData.keyword, "ig" );
     return textString.replace( replacer, function(str){return "<strong>"+str+"</strong>"; } );
 };
 
@@ -144,7 +188,7 @@ YoastSEO_SnippetPreview.prototype.formatKeyword = function( textString ) {
  * @returns {XML|string|void}
  */
 YoastSEO_SnippetPreview.prototype.formatKeywordUrl = function ( textString ) {
-    var replacer = this.refObj.inputs.keyword.replace(" ", "[-_]");
+    var replacer = this.refObj.source.formattedData.keyword.replace(" ", "[-_]");
     //matches case insensitive and global
     replacer = new RegExp( replacer, "ig" );
     return textString.replace( replacer, function(str){return "<strong>"+str+"</strong>"; } );
@@ -155,7 +199,8 @@ YoastSEO_SnippetPreview.prototype.formatKeywordUrl = function ( textString ) {
  */
 YoastSEO_SnippetPreview.prototype.renderOutput = function() {
     document.getElementById( "snippet_title" ).innerHTML = this.output.title;
-    document.getElementById( "snippet_cite" ).innerHTML = this.output.cite.replace(/https?:\/\//i, "").replace(/\/\//g, "/");
+    document.getElementById( "snippet_cite" ).innerHTML = this.output.cite;
+	document.getElementById( "snippet_citeBase").innerHTML = this.output.url;
     document.getElementById( "snippet_meta" ).innerHTML = this.output.meta;
 };
 
@@ -164,4 +209,127 @@ YoastSEO_SnippetPreview.prototype.renderOutput = function() {
  */
 YoastSEO_SnippetPreview.prototype.reRender = function () {
     this.init();
+};
+
+/**
+ * used to disable enter as input. Returns false to prevent enter, and preventDefault and cancelBubble to prevent
+ * other elements from capturing this event.
+ * @param event
+ */
+YoastSEO_SnippetPreview.prototype.disableEnter = function( ev ) {
+	if(ev.keyCode === 13){
+		ev.returnValue = false;
+		ev.cancelBubble = true;
+		ev.preventDefault();
+	}
+};
+
+/**
+ * checks text length of the snippetmeta and snippettitle, shortens it if it is too long.
+ * @param event
+ */
+YoastSEO_SnippetPreview.prototype.checkTextLength = function( ev ) {
+	var text = ev.currentTarget.textContent;
+	switch(ev.currentTarget.id){
+		case "snippet_meta":
+			if(text.length > YoastSEO_config.analyzerConfig.maxMeta){
+				ev.currentTarget.__unformattedText = ev.currentTarget.textContent;
+				ev.currentTarget.textContent = text.substring(0, YoastSEO_config.analyzerConfig.maxMeta);
+				ev.currentTarget.className = "desc";
+			}
+			break;
+		case "snippet_title":
+			if(text.length > 40){
+				ev.currentTarget.__unformattedText = ev.currentTarget.textContent;
+				ev.currentTarget.textContent = text.substring(0, 40);
+				ev.currentTarget.className = "title";
+			}
+			break;
+		default:
+			break;
+	}
+};
+
+/**
+ * adds and remove the tooLong class when a text is too long.
+ * @param ev
+ */
+YoastSEO_SnippetPreview.prototype.textFeedback = function( ev ) {
+	var text = ev.currentTarget.textContent;
+	switch(ev.currentTarget.id){
+		case "snippet_meta":
+			if(text.length > YoastSEO_config.analyzerConfig.maxMeta){
+				ev.currentTarget.className = "desc tooLong";
+			}else {
+				ev.currentTarget.className = "desc";
+			}
+			break;
+		case "snippet_title":
+			if(text.length > 40){
+				ev.currentTarget.className = "title tooLong";
+			}else{
+				ev.currentTarget.className = "title";
+			}
+			break;
+		default:
+			break;
+	}
+};
+
+/**
+ * shows the edit icon corresponding to the hovered element
+ * @param ev
+ */
+YoastSEO_SnippetPreview.prototype.showEditIcon = function( ev ) {
+	ev.currentTarget.parentElement.className = "editIcon snippet_container";
+};
+
+/**
+ * removes all editIcon-classes, sets to snippet_container
+ */
+YoastSEO_SnippetPreview.prototype.hideEditIcon = function(){
+	var elems = document.getElementsByClassName( "editIcon ");
+	for (var i = 0; i < elems.length; i++){
+		elems[i].className = "snippet_container";
+	}
+};
+
+/**
+ * sets focus on child element of the snippet_container that is clicked. Hides the editicon.
+ * @param ev
+ */
+YoastSEO_SnippetPreview.prototype.setFocus = function( ev ){
+	var targetElem = ev.currentTarget.firstChild;
+	while(targetElem !== null)
+	{
+		if (targetElem.contentEditable === "true") {
+			targetElem.focus();
+			targetElem.refObj.snippetPreview.hideEditIcon();
+			break;
+		} else {
+			targetElem = targetElem.nextSibling;
+		}
+	}
+	targetElem.refObj.snippetPreview.setFocusToEnd( targetElem );
+};
+
+/**
+ * this function is needed for placing the caret at the end of the input when the text is changed at focus.
+ * Otherwise the cursor could end at the beginning of the text.
+ * @param elem
+ */
+YoastSEO_SnippetPreview.prototype.setFocusToEnd = function( elem ){
+	if (typeof window.getSelection !== "undefined" && typeof document.createRange !== "undefined") {
+		var range = document.createRange();
+		range.selectNodeContents( elem );
+		range.collapse( false );
+		var selection = window.getSelection();
+		selection.removeAllRanges();
+		selection.addRange( range );
+	} else if (typeof document.body.createTextRange !== "undefined"){
+		var textRange = document.body.createTextRange();
+		textRange.moveToElementText( elem );
+		textRange.collapse(false);
+		textRange.select();
+	}
 };

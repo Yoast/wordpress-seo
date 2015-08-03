@@ -26,8 +26,8 @@ describe("Test for the syllablecount", function(){
         expect(preproc4.__store.syllablecount).toBe(57);
     });
     preproc5 = new YoastSEO_PreProcessor(preprocArgs2.testString4);
-    preprocessorConfig.syllables.exclusionWords.push({word: "exclusionwords", syllables: 5});
-    preprocessorConfig.syllables.exclusionWords.push({word: "syllablecount", syllables: 4});
+    YoastSEO_config.preprocessorConfig.syllables.exclusionWords.push({word: "exclusionwords", syllables: 5});
+    YoastSEO_config.preprocessorConfig.syllables.exclusionWords.push({word: "syllablecount", syllables: 4});
     it("returns syllable count of 4th string by using exclusionwords", function(){
         expect(preproc5.__store.syllablecount).toBe(14);
     });

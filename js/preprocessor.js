@@ -26,8 +26,8 @@ YoastSEO_PreProcessor.prototype.init = function() {
  */
 YoastSEO_PreProcessor.prototype.textFormat = function() {
     this.__store.cleanText = this.cleanText( this.__store.originalText );
-    this.__store.cleanTextSomeTags = this.stripSomeTags( this.__store.cleanText );
-    this.__store.cleanTextNoTags = this.stripAllTags( this.__store.cleanTextSomeTags );
+    this.__store.cleanTextSomeTags = this.stringHelper.stripSomeTags( this.__store.cleanText );
+    this.__store.cleanTextNoTags = this.stringHelper.stripAllTags( this.__store.cleanTextSomeTags );
 };
 
 /**
@@ -69,8 +69,8 @@ YoastSEO_PreProcessor.prototype.syllableCount = function( textString ) {
     textString = textString.replace( /[.]/g, " " );
     textString = this.removeWords( textString );
     var words = textString.split( " " );
-    var subtractSyllablesRegexp = this.stringHelper.stringToRegex( preprocessorConfig.syllables.subtractSyllables, true );
-    var addSyllablesRegexp = this.stringHelper.stringToRegex( preprocessorConfig.syllables.addSyllables, true );
+    var subtractSyllablesRegexp = this.stringHelper.stringToRegex( YoastSEO_config.preprocessorConfig.syllables.subtractSyllables, true );
+    var addSyllablesRegexp = this.stringHelper.stringToRegex( YoastSEO_config.preprocessorConfig.syllables.addSyllables, true );
     for ( var i = 0; i < words.length; i++ ){
         this.basicSyllableCount( words[i].split( /[^aeiouy]/g ) );
         this.advancedSyllableCount( words[i], subtractSyllablesRegexp, "subtract" );
@@ -115,11 +115,11 @@ YoastSEO_PreProcessor.prototype.advancedSyllableCount = function( inputString, r
  * @returns textString with exclusionwords removed
  */
 YoastSEO_PreProcessor.prototype.removeWords = function( textString ) {
-    for ( var i = 0; i < preprocessorConfig.syllables.exclusionWords.length; i++ ){
-        var exclusionRegex = new RegExp( preprocessorConfig.syllables.exclusionWords[i].word, "g" );
+    for ( var i = 0; i < YoastSEO_config.preprocessorConfig.syllables.exclusionWords.length; i++ ){
+        var exclusionRegex = new RegExp( YoastSEO_config.preprocessorConfig.syllables.exclusionWords[i].word, "g" );
         var matches = textString.match( exclusionRegex );
         if( matches !== null ){
-            this.syllableCount += preprocessorConfig.syllables.exclusionWords[i].syllables;
+            this.syllableCount += YoastSEO_config.preprocessorConfig.syllables.exclusionWords[i].syllables;
             textString = textString.replace( exclusionRegex, "" );
         }
     }
@@ -154,39 +154,13 @@ YoastSEO_PreProcessor.prototype.cleanText = function( textString ) {
 };
 
 /**
- * removes all HTMLtags from input string, except h1-6, li, p and dd
- * @param textString
- * @returns textString
- */
-YoastSEO_PreProcessor.prototype.stripSomeTags = function( textString ) {
-    //remove tags, except li, p, h1-6, dd
-    textString = textString.replace( /<(?!li|\/li|p|\/p|h1|\/h1|h2|\/h2|h3|\/h3|h4|\/h4|h5|\/h5|h6|\/h6|dd).*?\>/g, " " );
-    textString = this.stringHelper.stripSpaces( textString );
-    return textString;
-};
-
-/**
- * remove all HTMLtags from input string.
- * @param textString
- * @returns textString
- */
-YoastSEO_PreProcessor.prototype.stripAllTags = function( textString ) {
-    //remove all tags
-    textString = textString.replace( /(<([^>]+)>)/ig," " );
-    //remove < and > if any are used
-    textString = textString.replace( /[<>]/g, "");
-    textString = this.stringHelper.stripSpaces( textString );
-    return textString;
-};
-
-/**
  * replaces all diacritics with standard characters following the diacritics removal map from the config.
  * @param textString
  * @returns textString
  */
 YoastSEO_PreProcessor.prototype.replaceDiacritics = function( textString ) {
-    for ( var i = 0; i < preprocessorConfig.diacriticsRemovalMap.length; i++ ) {
-        textString = textString.replace( preprocessorConfig.diacriticsRemovalMap[ i ].letters, preprocessorConfig.diacriticsRemovalMap[ i ].base );
+    for ( var i = 0; i < YoastSEO_config.preprocessorConfig.diacriticsRemovalMap.length; i++ ) {
+        textString = textString.replace( YoastSEO_config.preprocessorConfig.diacriticsRemovalMap[ i ].letters, YoastSEO_config.preprocessorConfig.diacriticsRemovalMap[ i ].base );
     }
     return textString;
 };
