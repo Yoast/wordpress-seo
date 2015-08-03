@@ -5,12 +5,13 @@
  * @param target
  * @constructor
  */
-YoastSEO_ScoreFormatter = function ( scores, target ) {
-    this.scores = scores.analyzeScorer.__score;
-    this.overallScore = scores.analyzeScorer.__totalScore;
-    this.outputTarget = target.output;
-    this.overallTarget = target.overall;
+YoastSEO_ScoreFormatter = function ( args ) {
+    this.scores = args.pageAnalyzer.analyzeScorer.__score;
+    this.overallScore = args.pageAnalyzer.analyzeScorer.__totalScore;
+    this.outputTarget = args.config.targets.output;
+    this.overallTarget = args.config.targets.overall;
     this.totalScore = 0;
+	this.refObj = args;
     this.outputScore();
     this.outputOverallScore();
 };
@@ -31,6 +32,10 @@ YoastSEO_ScoreFormatter.prototype.outputScore = function() {
             var scoreSpan = document.createElement( "span" );
             scoreSpan.className = "wpseo-score-icon " + this.scoreRating( this.scores[i].score );
             newLI.appendChild( scoreSpan );
+			var screenReaderDiv = document.createElement( "span" );
+			screenReaderDiv.className = "screen-reader-text";
+			screenReaderDiv.textContent = "seo score "+ this.scoreRating( this.scores[i].score );
+			newLI.appendChild( screenReaderDiv );
             var textSpan = document.createElement( "span" );
             textSpan.className = "wpseo-score-text";
             textSpan.innerHTML = this.scores[i].text;
@@ -56,6 +61,7 @@ YoastSEO_ScoreFormatter.prototype.sortScores = function() {
 YoastSEO_ScoreFormatter.prototype.outputOverallScore = function() {
     var overallTarget = document.getElementById( this.overallTarget );
     overallTarget.className = "overallScore "+this.scoreRating(Math.round(this.overallScore));
+	this.refObj.source.saveScores( this.overallScore );
 };
 
 /**

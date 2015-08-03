@@ -31,6 +31,7 @@ YoastSEO_SnippetPreview.prototype.htmlOutput = function() {
     html.title = this.formatTitle();
     html.cite = this.formatCite();
     html.meta = this.formatMeta();
+	html.url = this.formatUrl();
     return html;
 };
 
@@ -52,6 +53,18 @@ YoastSEO_SnippetPreview.prototype.formatTitle = function() {
 	}
 	return title;
 };
+
+/**
+ * removes the protocol name from the urlstring.
+ * @returns formatted url
+ */
+YoastSEO_SnippetPreview.prototype.formatUrl = function() {
+	var url = this.refObj.source.formattedData.url;
+	//removes the http(s) part of the url
+	url.replace(/https?:\/\//ig, "");
+	return url;
+};
+
 
 /**
  * formats the url for the snippet preview
@@ -79,7 +92,7 @@ YoastSEO_SnippetPreview.prototype.formatMeta = function() {
     }
     meta = this.refObj.stringHelper.stripAllTags( meta );
     meta = meta.substring(0,YoastSEO_config.analyzerConfig.maxMeta);
-	if(this.refObj.source.formattedData.keyword !== "") {
+	if(this.refObj.source.formattedData.keyword !== "" && meta !== "") {
 		return this.formatKeyword(meta);
 	}
 	return meta;
@@ -114,10 +127,13 @@ YoastSEO_SnippetPreview.prototype.getMetaText = function() {
 						break;
 					}
 				}
-				metaText = this.refObj.source.formattedData.text.substring(curStart, curStart + YoastSEO_config.analyzerConfig.maxMeta);
+				metaText = this.refObj.stringHelper.stripAllTags(this.refObj.source.formattedData.text.substring(curStart, curStart + YoastSEO_config.analyzerConfig.maxMeta));
 			}
 		}
     }
+	if(this.refObj.stringHelper.stripAllTags(metaText) === ""){
+		return this.refObj.config.sampleText.meta;
+	}
     return metaText;
 };
 
@@ -183,8 +199,8 @@ YoastSEO_SnippetPreview.prototype.formatKeywordUrl = function ( textString ) {
  */
 YoastSEO_SnippetPreview.prototype.renderOutput = function() {
     document.getElementById( "snippet_title" ).innerHTML = this.output.title;
-
-    document.getElementById( "snippet_cite" ).innerHTML = this.output.cite.replace(/https?:\/\//i, "").replace(/\/\//g, "/");
+    document.getElementById( "snippet_cite" ).innerHTML = this.output.cite;
+	document.getElementById( "snippet_citeBase").innerHTML = this.output.url;
     document.getElementById( "snippet_meta" ).innerHTML = this.output.meta;
 };
 
@@ -193,4 +209,127 @@ YoastSEO_SnippetPreview.prototype.renderOutput = function() {
  */
 YoastSEO_SnippetPreview.prototype.reRender = function () {
     this.init();
+};
+
+/**
+ * used to disable enter as input. Returns false to prevent enter, and preventDefault and cancelBubble to prevent
+ * other elements from capturing this event.
+ * @param event
+ */
+YoastSEO_SnippetPreview.prototype.disableEnter = function( ev ) {
+	if(ev.keyCode === 13){
+		ev.returnValue = false;
+		ev.cancelBubble = true;
+		ev.preventDefault();
+	}
+};
+
+/**
+ * checks text length of the snippetmeta and snippettitle, shortens it if it is too long.
+ * @param event
+ */
+YoastSEO_SnippetPreview.prototype.checkTextLength = function( ev ) {
+	var text = ev.currentTarget.textContent;
+	switch(ev.currentTarget.id){
+		case "snippet_meta":
+			if(text.length > YoastSEO_config.analyzerConfig.maxMeta){
+				ev.currentTarget.__unformattedText = ev.currentTarget.textContent;
+				ev.currentTarget.textContent = text.substring(0, YoastSEO_config.analyzerConfig.maxMeta);
+				ev.currentTarget.className = "desc";
+			}
+			break;
+		case "snippet_title":
+			if(text.length > 40){
+				ev.currentTarget.__unformattedText = ev.currentTarget.textContent;
+				ev.currentTarget.textContent = text.substring(0, 40);
+				ev.currentTarget.className = "title";
+			}
+			break;
+		default:
+			break;
+	}
+};
+
+/**
+ * adds and remove the tooLong class when a text is too long.
+ * @param ev
+ */
+YoastSEO_SnippetPreview.prototype.textFeedback = function( ev ) {
+	var text = ev.currentTarget.textContent;
+	switch(ev.currentTarget.id){
+		case "snippet_meta":
+			if(text.length > YoastSEO_config.analyzerConfig.maxMeta){
+				ev.currentTarget.className = "desc tooLong";
+			}else {
+				ev.currentTarget.className = "desc";
+			}
+			break;
+		case "snippet_title":
+			if(text.length > 40){
+				ev.currentTarget.className = "title tooLong";
+			}else{
+				ev.currentTarget.className = "title";
+			}
+			break;
+		default:
+			break;
+	}
+};
+
+/**
+ * shows the edit icon corresponding to the hovered element
+ * @param ev
+ */
+YoastSEO_SnippetPreview.prototype.showEditIcon = function( ev ) {
+	ev.currentTarget.parentElement.className = "editIcon snippet_container";
+};
+
+/**
+ * removes all editIcon-classes, sets to snippet_container
+ */
+YoastSEO_SnippetPreview.prototype.hideEditIcon = function(){
+	var elems = document.getElementsByClassName( "editIcon ");
+	for (var i = 0; i < elems.length; i++){
+		elems[i].className = "snippet_container";
+	}
+};
+
+/**
+ * sets focus on child element of the snippet_container that is clicked. Hides the editicon.
+ * @param ev
+ */
+YoastSEO_SnippetPreview.prototype.setFocus = function( ev ){
+	var targetElem = ev.currentTarget.firstChild;
+	while(targetElem !== null)
+	{
+		if (targetElem.contentEditable === "true") {
+			targetElem.focus();
+			targetElem.refObj.snippetPreview.hideEditIcon();
+			break;
+		} else {
+			targetElem = targetElem.nextSibling;
+		}
+	}
+	targetElem.refObj.snippetPreview.setFocusToEnd( targetElem );
+};
+
+/**
+ * this function is needed for placing the caret at the end of the input when the text is changed at focus.
+ * Otherwise the cursor could end at the beginning of the text.
+ * @param elem
+ */
+YoastSEO_SnippetPreview.prototype.setFocusToEnd = function( elem ){
+	if (typeof window.getSelection !== "undefined" && typeof document.createRange !== "undefined") {
+		var range = document.createRange();
+		range.selectNodeContents( elem );
+		range.collapse( false );
+		var selection = window.getSelection();
+		selection.removeAllRanges();
+		selection.addRange( range );
+	} else if (typeof document.body.createTextRange !== "undefined"){
+		var textRange = document.body.createTextRange();
+		textRange.moveToElementText( elem );
+		textRange.collapse(false);
+		textRange.select();
+	}
 };

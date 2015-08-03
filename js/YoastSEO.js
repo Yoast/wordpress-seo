@@ -7,6 +7,7 @@ YoastSEO = function( args ) {
     window.YoastSEO_loader = this;
     this.config = args;
     this.inputs = {};
+	this.loadQueue();
     this.stringHelper = new YoastSEO_StringHelper();
     this.source = new this.config.source(args, this);
     this.checkInputs();
@@ -16,12 +17,43 @@ YoastSEO = function( args ) {
 };
 
 /**
- * inits YoastSEO, calls eleement definer and snippet preview creater
+ * inits YoastSEO, calls element definer and snippet preview creater
  */
 YoastSEO.prototype.init = function(){
     this.defineElements();
     this.createSnippetPreview();
 };
+
+/**
+* loads the queue from the analyzer if no queue is defined.
+*/
+YoastSEO.prototype.loadQueue = function() {
+	if(typeof this.queue === "undefined"){
+		this.queue = YoastSEO_config.analyzerConfig.queue;
+	}
+};
+
+/**
+ * Adds function to the analyzer queue. Function must be in the Analyzer prototype to be added.
+ * @param func
+ */
+YoastSEO.prototype.addToQueue = function( func ) {
+	if(typeof YoastSEO_Analyzer.prototype[func] === "function"){
+		this.queue.push( func );
+	}
+};
+
+/**
+ * Removes function from queue if it is currently in the queue.
+ * @param func
+ */
+YoastSEO.prototype.removeFromQueue = function( func ) {
+	var funcIndex = this.queue.indexOf( func );
+	if(funcIndex > -1) {
+		this.queue.splice(funcIndex, 1);
+	}
+};
+
 
 /**
  * creates the elements for the snippetPreview
@@ -34,7 +66,6 @@ YoastSEO.prototype.createSnippetPreview = function() {
     this.createSnippetPreviewTitle( div );
     this.createSnippetPreviewUrl ( div );
     this.createSnippetPreviewMeta ( div );
-
     this.snippetPreview = new YoastSEO_SnippetPreview( this );
     this.bindEvent();
     this.bindSnippetEvents();
@@ -45,13 +76,19 @@ YoastSEO.prototype.createSnippetPreview = function() {
  * @param target
  */
 YoastSEO.prototype.createSnippetPreviewTitle = function( target ) {
+	var elem = document.createElement( "div" );
+	elem.className = "snippet_container";
+	elem.id = "title_container";
+	elem.__refObj = this;
+	target.appendChild( elem );
     var title;
     title = document.createElement( "span" );
     title.contentEditable = true;
-    title.innerText = this.config.sampleText[ "title" ];
+    title.textContent = this.config.sampleText.title;
     title.className = "title";
     title.id = "snippet_title";
-    target.appendChild( title );
+    elem.appendChild( title );
+	//this.createEditIcon( elem, "title");
 };
 
 /**
@@ -59,12 +96,22 @@ YoastSEO.prototype.createSnippetPreviewTitle = function( target ) {
  * @param target
  */
 YoastSEO.prototype.createSnippetPreviewUrl = function( target ){
-    var cite = document.createElement( "cite" );
-    cite.className = "url";
-    cite.id = "snippet_cite";
-    cite.innerText = this.config.sampleText[ "url" ];
+	var elem = document.createElement( "div" );
+	elem.className = "snippet_container";
+	elem.id = "url_container";
+	elem.__refObj = this;
+	target.appendChild( elem );
+    var baseUrl = document.createElement( "cite" );
+    baseUrl.className = "url urlBase";
+	baseUrl.id = "snippet_citeBase";
+	elem.appendChild( baseUrl );
+	var cite = document.createElement( "cite" );
+	cite.className = "url";
+	cite.id = "snippet_cite";
+    cite.textContent = this.config.sampleText.url;
     cite.contentEditable = true;
-    target.appendChild( cite );
+    elem.appendChild( cite );
+	//this.createEditIcon( elem, "url" );
 };
 
 /**
@@ -72,12 +119,18 @@ YoastSEO.prototype.createSnippetPreviewUrl = function( target ){
  * @param target
  */
 YoastSEO.prototype.createSnippetPreviewMeta = function ( target ){
+	var elem = document.createElement( "div" );
+	elem.className = "snippet_container";
+	elem.id = "meta_container";
+	elem.__refObj = this;
+	target.appendChild( elem );
     var meta = document.createElement( "span" );
     meta.className = "desc";
     meta.id = "snippet_meta";
     meta.contentEditable = true;
-    meta.textContent = this.config.sampleText[ "meta" ];
-    target.appendChild( meta );
+    meta.textContent = this.config.sampleText.meta;
+    elem.appendChild( meta );
+	//this.createEditIcon( elem, "desc" );
 };
 
 /**
@@ -88,11 +141,19 @@ YoastSEO.prototype.defineElements = function() {
     for ( var i = 0; i < this.config.elementTarget.length; i++ ){
 		var elem = document.getElementById(this.config.elementTarget[i]);
 		if(elem !== null) {
-			//document.getElementById(this.config.elementTarget[i]).__refObj = this;
 			elem.__refObj = this;
 		}
 
     }
+};
+
+
+YoastSEO.prototype.createEditIcon = function( elem, id ) {
+	var div = document.createElement( "div" );
+	div.className = "editIcon";
+	div.id = "editIcon_"+id;
+	elem.appendChild( div );
+
 };
 
 /**
@@ -176,7 +237,7 @@ YoastSEO.prototype.runAnalyzerCallback = function() {
     }else{
         refObj.runAnalyzer();
     }
-}
+};
 
 /**
  * used when no keyword is filled in, it will display a message in the target element
@@ -215,10 +276,15 @@ YoastSEO.prototype.runAnalyzer = function() {
     if( this.config.dynamicDelay ){
         this.startTime();
     }
-    this.pageAnalyzer = new YoastSEO_Analyzer( this.source.analyzerData );
+	if( typeof this.pageAnalyzer === "undefined") {
+		var args = this.source.analyzerData;
+		args.queue = this.queue;
+		this.pageAnalyzer = new YoastSEO_Analyzer(args);
+	}else{
+		this.pageAnalyzer.init();
+	}
     this.pageAnalyzer.runQueue();
-
-    this.scoreFormatter = new YoastSEO_ScoreFormatter( this.pageAnalyzer, this.config.targets );
+    this.scoreFormatter = new YoastSEO_ScoreFormatter( this );
     if( this.config.dynamicDelay ){
         this.endTime();
     }
@@ -230,9 +296,8 @@ YoastSEO.prototype.runAnalyzer = function() {
  */
 YoastSEO_loadEvents = function() {
     if( document.readyState === "complete" ){
-        var YoastSEO_loader = new YoastSEO( YoastSEO_args );
+        YoastSEO_loader = new YoastSEO( YoastSEO_args );
     }else{
         setTimeout( YoastSEO_loadEvents, 50 );
     }
 };
-YoastSEO_loadEvents();

@@ -1,0 +1,82 @@
+
+#snippet_preview:hover {
+    background-color: #f5f5f5;
+}
+
+#snippet_preview *[contenteditable="true"]:hover {
+    background: #bbdefb;
+
+    cursor: pointer;
+}
+
+#snippet_preview *[contenteditable="true"]:focus {
+    background-color: #bbdefb;
+    cursor: text;
+}
+
+.snippet_container{
+    line-height: 16px;
+}
+
+.snippet_container span{
+    width: 450px;
+}
+
+.title{
+    color:#1e0fbe;
+    display:block;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    text-decoration:none;
+    white-space:nowrap;
+    font-size: 18px;
+    line-height: 1.2;
+    font-weight:normal;
+    margin:0;
+}
+
+#title_container .editIcon {
+    margin-top: -18px;
+}
+
+.title br{
+    display: none;
+}
+
+.url{
+    font-size: 14px;
+    line-height: 16px;
+    color:#006621;
+    font-style:normal;
+    display: inline-block;
+}
+#meta_container .editIcon{
+    margin-top: -13px;
+}
+
+.url br{
+    display: none;
+}
+
+.urlBase{
+    float: left;
+}
+
+.desc{
+    color:#545454;
+    font-size:13px;
+    line-height: 1.4;
+    display: block;
+}
+
+desc br{
+    display: none;
+}
+
+.tooLong{
+    color: #ff0000 !important;
+}
+
+.editIcon{
+    background: url("editicon.png") no-repeat right top;
+}
