@@ -87,7 +87,7 @@ class Yoast_Dashboard_Widget {
 	/**
 	 * Set the cache for a specific user
 	 *
-	 * @param $transient string
+	 * @param array|boolean $transient The current stored transient with the cached data
 	 *
 	 * @return mixed
 	 */
