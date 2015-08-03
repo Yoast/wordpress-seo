@@ -5,12 +5,13 @@
  * @param target
  * @constructor
  */
-YoastSEO_ScoreFormatter = function ( scores, target ) {
-    this.scores = scores.analyzeScorer.__score;
-    this.overallScore = scores.analyzeScorer.__totalScore;
-    this.outputTarget = target.output;
-    this.overallTarget = target.overall;
+YoastSEO_ScoreFormatter = function ( args ) {
+    this.scores = args.pageAnalyzer.analyzeScorer.__score;
+    this.overallScore = args.pageAnalyzer.analyzeScorer.__totalScore;
+    this.outputTarget = args.config.targets.output;
+    this.overallTarget = args.config.targets.overall;
     this.totalScore = 0;
+	this.refObj = args;
     this.outputScore();
     this.outputOverallScore();
 };
@@ -60,6 +61,7 @@ YoastSEO_ScoreFormatter.prototype.sortScores = function() {
 YoastSEO_ScoreFormatter.prototype.outputOverallScore = function() {
     var overallTarget = document.getElementById( this.overallTarget );
     overallTarget.className = "overallScore "+this.scoreRating(Math.round(this.overallScore));
+	this.refObj.source.saveScores( this.overallScore );
 };
 
 /**

@@ -112,7 +112,7 @@ YoastSEO_Analyzer.prototype.abortQueue = function () {
  * @returns {{test: string, result: (Function|YoastSEO_PreProcessor.wordcount|Number)}[]}
  */
 YoastSEO_Analyzer.prototype.wordCount = function () {
-	return [{test: "wordCount", result: this.YoastSEO_preProcessor.__store.wordcount}];
+	return [{test: "wordCount", result: this.YoastSEO_preProcessor.__store.wordcountNoTags}];
 };
 
 

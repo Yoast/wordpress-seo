@@ -79,6 +79,7 @@ YoastSEO.prototype.createSnippetPreviewTitle = function( target ) {
 	var elem = document.createElement( "div" );
 	elem.className = "snippet_container";
 	elem.id = "title_container";
+	elem.__refObj = this;
 	target.appendChild( elem );
     var title;
     title = document.createElement( "span" );
@@ -98,6 +99,7 @@ YoastSEO.prototype.createSnippetPreviewUrl = function( target ){
 	var elem = document.createElement( "div" );
 	elem.className = "snippet_container";
 	elem.id = "url_container";
+	elem.__refObj = this;
 	target.appendChild( elem );
     var baseUrl = document.createElement( "cite" );
     baseUrl.className = "url urlBase";
@@ -120,6 +122,7 @@ YoastSEO.prototype.createSnippetPreviewMeta = function ( target ){
 	var elem = document.createElement( "div" );
 	elem.className = "snippet_container";
 	elem.id = "meta_container";
+	elem.__refObj = this;
 	target.appendChild( elem );
     var meta = document.createElement( "span" );
     meta.className = "desc";
@@ -281,7 +284,7 @@ YoastSEO.prototype.runAnalyzer = function() {
 		this.pageAnalyzer.init();
 	}
     this.pageAnalyzer.runQueue();
-    this.scoreFormatter = new YoastSEO_ScoreFormatter( this.pageAnalyzer, this.config.targets );
+    this.scoreFormatter = new YoastSEO_ScoreFormatter( this );
     if( this.config.dynamicDelay ){
         this.endTime();
     }
@@ -293,10 +296,8 @@ YoastSEO.prototype.runAnalyzer = function() {
  */
 YoastSEO_loadEvents = function() {
     if( document.readyState === "complete" ){
-        var YoastSEO_loader = new YoastSEO( YoastSEO_args );
+        YoastSEO_loader = new YoastSEO( YoastSEO_args );
     }else{
         setTimeout( YoastSEO_loadEvents, 50 );
     }
 };
-
-YoastSEO_loadEvents();
