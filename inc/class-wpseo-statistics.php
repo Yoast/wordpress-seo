@@ -126,7 +126,7 @@ class WPSEO_Statistics {
 		$posts['fields']      = 'ids';
 		$posts['post_status'] = 'publish';
 
-		if ( current_user_can( 'moderate_comments' ) === false ) {
+		if ( current_user_can( 'edit_others_posts' ) === false ) {
 			$posts['author'] = get_current_user_id();
 		}
 
