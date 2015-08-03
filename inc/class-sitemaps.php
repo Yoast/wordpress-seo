@@ -105,7 +105,7 @@ class WPSEO_Sitemaps {
 
 		$this->options     = WPSEO_Options::get_all();
 		$this->max_entries = $this->options['entries-per-page'];
-		$this->home_url    = home_url( null, parse_url( get_option( 'home' ), PHP_URL_SCHEME ) );
+		$this->home_url    = home_url();
 		$this->charset     = get_bloginfo( 'charset' );
 
 		$this->timezone    = new WPSEO_Sitemap_Timezone();
