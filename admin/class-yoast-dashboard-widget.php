@@ -76,11 +76,39 @@ class Yoast_Dashboard_Widget {
 	private function statistic_items() {
 		$transient = get_transient( self::CACHE_TRANSIENT_KEY );
 
-		if ( isset( $transient[get_current_user_id()] ) ) {
-			return $transient[get_current_user_id()];
+		if ( isset( $transient[$this->get_user_id()][1] ) ) {
+			return $transient[$this->get_user_id()];
 		}
 
-		$items = array(
+		return $this->set_statistic_items_for_this_user( $transient );
+	}
+
+	/**
+	 * Set the cache for a specific user
+	 *
+	 * @param $transient
+	 *
+	 * @return mixed
+	 */
+	private function set_statistic_items_for_this_user( $transient ) {
+		if ( $transient === false ) {
+			$transient = array();
+		}
+
+		$filtered_items[$this->get_user_id()] = array_filter( $this->get_seo_scores_with_post_count(), array( $this, 'filter_items' ) );
+
+		set_transient( self::CACHE_TRANSIENT_KEY, array_merge( $filtered_items, $transient ), DAY_IN_SECONDS );
+
+		return $filtered_items[$this->get_user_id()];
+	}
+
+	/**
+	 * Set the SEO scores belonging to their SEO score result
+	 *
+	 * @return array
+	 */
+	private function get_seo_scores_with_post_count() {
+		return array(
 			array(
 				'seo_rank' => 'good',
 				'title'    => __( 'Posts with good SEO score', 'wordpress-seo' ),
@@ -119,16 +147,6 @@ class Yoast_Dashboard_Widget {
 				'count'    => $this->statistics->get_no_index_post_count(),
 			),
 		);
-
-		if ( $transient === false ) {
-			$transient = array();
-		}
-
-		$items[get_current_user_id()] = array_filter( $items, array( $this, 'filter_items' ) );
-
-		set_transient( self::CACHE_TRANSIENT_KEY, $items, DAY_IN_SECONDS );
-
-		return $items[get_current_user_id()];
 	}
 
 	/**
@@ -140,5 +158,14 @@ class Yoast_Dashboard_Widget {
 	 */
 	private function filter_items( $item ) {
 		return 0 !== $item['count'];
+	}
+
+	/**
+	 * Get the user ID
+	 *
+	 * @return integer
+	 */
+	private function get_user_id() {
+		return get_current_user_id();
 	}
 }
