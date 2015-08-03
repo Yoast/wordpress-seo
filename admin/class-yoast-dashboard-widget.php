@@ -76,8 +76,8 @@ class Yoast_Dashboard_Widget {
 	private function statistic_items() {
 		$transient = get_transient( self::CACHE_TRANSIENT_KEY );
 
-		if ( isset( $transient[$this->get_user_id()][1] ) ) {
-			return $transient[$this->get_user_id()];
+		if ( isset( $transient[ $this->get_user_id() ][1] ) ) {
+			return $transient[ $this->get_user_id() ];
 		}
 
 		return $this->set_statistic_items_for_this_user( $transient );
@@ -86,7 +86,7 @@ class Yoast_Dashboard_Widget {
 	/**
 	 * Set the cache for a specific user
 	 *
-	 * @param $transient
+	 * @param $transient string
 	 *
 	 * @return mixed
 	 */
@@ -95,11 +95,11 @@ class Yoast_Dashboard_Widget {
 			$transient = array();
 		}
 
-		$filtered_items[$this->get_user_id()] = array_filter( $this->get_seo_scores_with_post_count(), array( $this, 'filter_items' ) );
+		$filtered_items[ $this->get_user_id() ] = array_filter( $this->get_seo_scores_with_post_count(), array( $this, 'filter_items' ) );
 
 		set_transient( self::CACHE_TRANSIENT_KEY, array_merge( $filtered_items, $transient ), DAY_IN_SECONDS );
 
-		return $filtered_items[$this->get_user_id()];
+		return $filtered_items[ $this->get_user_id() ];
 	}
 
 	/**
