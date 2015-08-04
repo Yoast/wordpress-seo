@@ -4,7 +4,7 @@ analyzerScoreRating = 9;
  * @param {Jed} i18n
  * @constructor
  */
-var YoastSEOScoring = function( i18n ) {
+YoastSEOScoring = function( i18n ) {
     this.analyzerScoring = [
         {
             scoreName: "wordCount",
