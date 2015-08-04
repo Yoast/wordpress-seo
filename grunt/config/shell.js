@@ -1,6 +1,6 @@
 // https://github.com/sindresorhus/grunt-shell
 module.exports = function( grunt ) {
-    "use strit"
+    "use strict";
 
     return {
         makepot: {

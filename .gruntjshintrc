@@ -8,7 +8,7 @@
     "latedef": true,
     "newcap": true,
     "noarg": true,
-    "quotmark": "single",
+    "quotmark": "double",
     "sub": true,
     "strict": true,
     "undef": true,

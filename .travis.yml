@@ -12,8 +12,7 @@ before_script:
 
 script:
 - npm test
-- grunt jshint
-- grunt jscs
+- grunt check
 
 notifications:
   slack:

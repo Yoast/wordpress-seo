@@ -15,6 +15,7 @@ check:
   - 'jshint'
   - 'jsonlint'
   - 'jsvalidate'
+  - 'jscs'
 # Default task
 default:
   - check
