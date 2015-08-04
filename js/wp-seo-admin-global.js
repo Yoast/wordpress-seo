@@ -25,7 +25,7 @@ function wpseoDismissTaglineNotice( nonce ) {
 			action: 'wpseo_dismiss_tagline_notice',
 			_wpnonce: nonce
 		}
-	)
+	);
 }
 
 /**
@@ -87,11 +87,10 @@ jQuery( document ).ready( function() {
 		jQuery.post(
 			ajaxurl,
 			{
-				action   : parent_div.attr( 'id').replace( /-/g, '_' ),
-				_wpnonce : parent_div.data( 'nonce' ),
-				data     : parent_div.data( 'json' )
+				action: parent_div.attr( 'id').replace( /-/g, '_' ),
+				_wpnonce: parent_div.data( 'nonce' ),
+				data: parent_div.data( 'json' )
 			}
 		);
 	});
 });
-
