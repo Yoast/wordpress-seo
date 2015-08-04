@@ -26,6 +26,10 @@ class WPSEO_Customizer {
 	 * @param WP_Customize_Manager $wp_customize
 	 */
 	public function wpseo_customize_register( $wp_customize ) {
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+
 		$this->wp_customize = $wp_customize;
 
 		$this->breadcrumbs_section();
