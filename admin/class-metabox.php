@@ -1620,7 +1620,16 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				), admin_url( 'post.php' ) ) ) . '">', '</a>' ), 'keyword_overused' );
 		}
 		else {
-			$this->save_score_result( $results, 1, sprintf( __( 'You\'ve used this focus keyword %3$s%4$d times before%2$s, it\'s probably a good idea to read %1$sthis post on cornerstone content%2$s and improve your keyword strategy.', 'wordpress-seo' ), '<a href="https://yoast.com/cornerstone-content-rank/">', '</a>', '<a href="' . esc_url( add_query_arg( array( 'seo_kw_filter' => $job['keyword'] ), admin_url( 'edit.php' ) ) ) . '">', count( $posts ) ), 'keyword_overused' );
+			$keyword = str_replace( ' ', '%20', $job['keyword'] );
+			$url     = add_query_arg( array( 'seo_kw_filter' => $keyword ), admin_url( 'edit.php' ) );
+			$message = sprintf(
+				__( 'You\'ve used this focus keyword %3$s%4$d times before%2$s, it\'s probably a good idea to read %1$sthis post on cornerstone content%2$s and improve your keyword strategy.', 'wordpress-seo' ),
+				'<a href="https://yoast.com/cornerstone-content-rank/">',
+				'</a>',
+				'<a href="' . esc_url( $url ) . '">',
+				count( $posts )
+			);
+			$this->save_score_result( $results, 1, $message, 'keyword_overused' );
 		}
 	}
 
