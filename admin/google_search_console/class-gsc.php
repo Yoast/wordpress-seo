@@ -75,7 +75,7 @@ class WPSEO_GSC {
 					'</a>'
 				),
 				array(
-					'type'      => 'yoast-dismissible',
+					'type'      => 'updated yoast-dismissible',
 					'id'        => 'wpseo-dismiss-gsc',
 					'nonce'     => wp_create_nonce( 'dismiss-gsc-notice' ),
 				)
