@@ -16,7 +16,7 @@
 <p><?php _e( 'Below are your published posts&#8217; SEO scores. Now is as good a time as any to start improving some of your posts!', 'wordpress-seo' ); ?></p>
 <table>
 	<?php foreach ( $statistics as $statistic ) :
-		if ( current_user_can( 'moderate_comments' ) === false ) {
+		if ( current_user_can( 'edit_others_posts' ) === false ) {
 			$url = esc_url( admin_url( 'edit.php?post_status=publish&post_type=post&seo_filter=' . $statistic['seo_rank'] . '&author=' . get_current_user_id() ) );
 		}
 		else{
