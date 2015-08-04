@@ -678,6 +678,9 @@ jQuery( document ).ready( function() {
 			}
 		);
 
+		// Initialize chosen
+		jQuery(".yoast-chosen").chosen( { width: "350px" } );
+
 		jQuery( '.yoast_help' ).qtip(
 			{
 				content: {

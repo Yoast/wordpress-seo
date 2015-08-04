@@ -648,6 +648,21 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$placeholder = $meta_field_def['placeholder'];
 		}
 
+		// When choosen key is set add chosen class and determine which placeholder should shown.
+		if ( ! empty( $meta_field_def['chosen'] ) ) {
+			$class .= ' yoast-chosen';
+
+			if ( ! empty( $placeholder ) ) {
+				if ( array_key_exists( $placeholder, $meta_field_def['options'] ) ) {
+					$key_to_remove = $placeholder;
+					$placeholder   = $meta_field_def['options'][ $placeholder ];
+					unset( $meta_field_def['options'][ $key_to_remove ] );
+				}
+
+				$placeholder = ' data-placeholder="' .$placeholder. '"';
+			}
+		}
+
 		switch ( $meta_field_def['type'] ) {
 			case 'snippetpreview':
 				$content .= $this->snippet();
@@ -702,7 +717,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 					$options_count = count( $meta_field_def['options'] );
 
 					// @todo [JRF => whomever] verify height calculation for older WP versions, was 16x, for WP3.8 20x is more appropriate.
-					$content .= '<select multiple="multiple" size="' . esc_attr( $options_count ) . '" style="height: ' . esc_attr( ( $options_count * 20 ) + 4 ) . 'px;" name="' . $esc_form_key . '[]" id="' . $esc_form_key . '" class="yoast' . $class . '">';
+					$content .= '<select multiple="multiple" size="' . esc_attr( $options_count ) . '" style="height: ' . esc_attr( ( $options_count * 20 ) + 4 ) . 'px;" name="' . $esc_form_key . '[]" id="' . $esc_form_key . '" class="yoast' . $class . '"' . $placeholder . '>';
 					foreach ( $meta_field_def['options'] as $val => $option ) {
 						$selected = '';
 						if ( in_array( $val, $selected_arr ) ) {
@@ -885,7 +900,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 
 
-		if ( $pagenow == 'edit.php' ) {
+		if ( $pagenow === 'edit.php' ) {
 			wp_enqueue_style( 'edit-page', plugins_url( 'css/edit-page' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
 		}
 		else {
@@ -901,6 +916,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 			// Always enqueue minified as it's not our code.
 			wp_enqueue_script( 'jquery-qtip', plugins_url( 'js/jquery.qtip.min.js', WPSEO_FILE ), array( 'jquery' ), '2.2.1', true );
+
+			// Enable chosen.
+			wp_enqueue_style( 'chosen', plugins_url( 'js/dependencies/chosen/chosen' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
+			wp_enqueue_script( 'chosen', plugins_url( 'js/dependencies/chosen/chosen.jquery' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'jquery' ), WPSEO_VERSION, true );
 
 			wp_enqueue_script( 'wp-seo-metabox', plugins_url( 'js/wp-seo-metabox' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array(
 				'jquery',
