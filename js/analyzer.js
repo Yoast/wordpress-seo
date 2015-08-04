@@ -1,3 +1,4 @@
+/* global YoastSEO_Analyzer: true, Jed, YoastSEO_preProcessor, stringHelper, YoastSEO_AnalyzeScorer, YoastSEO_config */
 /**
  * Text Analyzer, accepts args for config and calls init for initialization
  * @param args

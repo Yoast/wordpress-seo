@@ -1,3 +1,4 @@
+/* global YoastSEO_StringHelper: true, stringHelper: true, yst_stringHelper: true */
 /**helper functions*/
 YoastSEO_StringHelper = function() {};
 /**

@@ -16,9 +16,7 @@ module.exports = function(grunt) {
         files: {
             js: [
                 'js/*.js',
-                '!js/*.min.js',
-                'spec/*.js',
-                '!spec/*.min.js'
+                '!js/*.min.js'
             ],
             get config() {
                 return project.paths.config + '*.js';

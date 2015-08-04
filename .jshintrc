@@ -13,10 +13,9 @@
     "sub": true,
     "strict": false,
 
-    "undef": false,
+    "undef": true,
     "unused": true,
     "funcscope": false,
-    "browser": true,
     "jquery": false,
     
     "globals": {

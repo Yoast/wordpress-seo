@@ -1,4 +1,4 @@
-
+/* global YoastSEO_PreProcessor: true, YoastSEO_preProcessor: true, yst_preProcessor: true, stringHelper, YoastSEO_config */
 /**
  * YoastSEO_PreProcessor object definition. Creates __store object and calls init.
  * @params textString
@@ -50,7 +50,7 @@ YoastSEO_PreProcessor.prototype.countStore = function() {
  */
 YoastSEO_PreProcessor.prototype.sentenceCount = function( textString ){
     var sentences = textString.split( "." );
-    sentenceCount = 0;
+    var sentenceCount = 0;
     for ( var i = 0; i < sentences.length; i++ ){
         if( sentences[i] !== "" && sentences[i] !== " " ){
             sentenceCount++;

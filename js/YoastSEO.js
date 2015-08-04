@@ -1,3 +1,6 @@
+/* jshint browser: true */
+/* global YoastSEO: true, YoastSEO_loadEvents: true, YoastSEO_loader: true, YoastSEO_StringHelper, Jed, YoastSEO_config */
+/* global YoastSEO_ScoreFormatter, YoastSEO_Analyzer, YoastSEO_SnippetPreview, YoastSEO_args */
 /**
  * Loader for the analyzer, loads the eventbinder and the elementdefiner
  * @param {Object} args

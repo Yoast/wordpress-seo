@@ -1,3 +1,5 @@
+/* jshint browser: true */
+/* global YoastSEO_InputGenerator: true */
 /**
  * Inputgenerator generates a form for use as input.
  * @param args

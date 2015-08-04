@@ -1,3 +1,5 @@
+/* jshint browser: true */
+/* global YoastSEO_SnippetPreview: true, YoastSEO_config */
 /**
  * snippetpreview
  */

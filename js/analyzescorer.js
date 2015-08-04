@@ -1,3 +1,4 @@
+/* global YoastSEO_AnalyzeScorer: true, YoastSEOScoring, analyzerScoreRating */
 /**
  * inits the analyzerscorer used for scoring of the output from the textanalyzer
  *

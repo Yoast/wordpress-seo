@@ -1,4 +1,5 @@
-
+/* jshint browser: true */
+/* global YoastSEO_ScoreFormatter: true */
 /**
  * defines the variables used for the scoreformatter, runs the outputScore en overallScore functions.
  * @param scores
