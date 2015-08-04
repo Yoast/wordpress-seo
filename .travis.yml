@@ -7,10 +7,13 @@ cache:
     - node_modules
 
 before_script:
+- npm install -g grunt
 - npm install
 
 script:
 - npm test
+- grunt jshint
+- grunt jscs
 
 notifications:
   slack:
