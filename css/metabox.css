@@ -1,4 +1,6 @@
 /**
+ * Lines below came from metabox-tabs.css
+ *
  * Metabox Tabs
  */
 
@@ -339,4 +341,38 @@ img.yoast_help {
 
 .wpseo_content_wrapper p.search-box {
 	margin: 10px 0 5px 0;
+}
+
+/**
+ * The lines below came from metabox-fresh.css
+ *
+ * Metabox Tabs
+ */
+ul.wpseo-metabox-tabs li.active {
+	background-color: #f1f1f1;
+}
+
+ul.wpseo-metabox-tabs li.active,
+div.wpseo-tab-content {
+	border-color: #dfdfdf;
+	background-color: #fff;
+}
+
+.wpseo-metabox-tabs .active a {
+	color: #333;
+}
+
+#wpseotab .ui-widget-content .ui-state-hover {
+	border: 1px solid #dfdfdf;
+	color: #333;
+	background: #f1f1f1;
+}
+
+/**
+ * Lines below came from taxonomy-meta.css
+ */
+.wpseo-taxonomy-form tr,
+.wpseo-taxonomy-form th,
+.wpseo-taxonomy-form td {
+	vertical-align: top;
 }
