@@ -376,3 +376,7 @@ div.wpseo-tab-content {
 .wpseo-taxonomy-form td {
 	vertical-align: top;
 }
+
+.inside .wpseotab .form-table.wpseo-taxonomy-form th {
+	width: 200px !important;
+}
