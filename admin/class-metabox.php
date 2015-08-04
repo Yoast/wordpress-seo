@@ -659,7 +659,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 					unset( $meta_field_def['options'][ $key_to_remove ] );
 				}
 
-				$placeholder = ' data-placeholder="' .$placeholder. '"';
+				$placeholder = ' data-placeholder="' . $placeholder . '"';
 			}
 		}
 
