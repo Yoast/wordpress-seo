@@ -19,17 +19,6 @@ YoastSEO_Analyzer.prototype.checkConfig = function() {
 	if ( typeof this.config.text === "undefined" ) {
 		this.config.text = "";
 	}
-
-	if ( typeof this.config.i18n === "undefined" ) {
-		this.config.i18n = new Jed( {
-			"domain": "js-text-analysis",
-			"locale_data": {
-				"js-text-analysis": {
-					"": {}
-				}
-			}
-		} );
-	}
 };
 
 /**

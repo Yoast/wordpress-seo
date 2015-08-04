@@ -12,7 +12,7 @@ titleArg = {
 
 describe("a test counting the number of characters in the pagetitle", function(){
    it("returns the number of characters", function(){
-       pagetitleAnalyzer = new YoastSEO_Analyzer(titleArg);
+       pagetitleAnalyzer = Factory.buildAnalyzer(titleArg);
        result = pagetitleAnalyzer.pageTitleLength();
        expect(result[0].result).toBe(19);
    });
@@ -25,7 +25,7 @@ titleArg2 = {
 
 describe("a test counting the number of characters in the pagetitle", function(){
     it("returns the number of characters", function(){
-        pagetitleAnalyzer = new YoastSEO_Analyzer(titleArg2);
+        pagetitleAnalyzer = Factory.buildAnalyzer(titleArg2);
         result = pagetitleAnalyzer.pageTitleLength();
         expect(result[0].result).toBe(31);
     });
@@ -38,7 +38,7 @@ titleArg3 = {
 
 describe("a test counting the number of characters in an empty pagetitle", function(){
    it("returns null", function(){
-      pagetitleAnalyzer = new YoastSEO_Analyzer(titleArg3);
+      pagetitleAnalyzer = Factory.buildAnalyzer(titleArg3);
       result = pagetitleAnalyzer.pageTitleLength();
       expect(result[0].result).toBe(0);
    });

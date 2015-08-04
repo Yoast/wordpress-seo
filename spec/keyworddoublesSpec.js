@@ -14,7 +14,7 @@ var doubleArgs = {
 
 describe("Test for the focus keyword doubles", function(){
     it("returns no double keywords", function(){
-        var analyzer = new YoastSEO_Analyzer(doubleArgs);
+        var analyzer = Factory.buildAnalyzer(doubleArgs);
         var result = analyzer.keywordDoubles();
         expect(result[0].result.count).toBe(0);
         expect(result[0].result.id).toBe(0);
@@ -30,7 +30,7 @@ var doubleArgs2 = {
 
 describe("Test for the focus keyword doubles", function(){
     it("returns a keyword double", function(){
-        var analyzer = new YoastSEO_Analyzer(doubleArgs2);
+        var analyzer = Factory.buildAnalyzer(doubleArgs2);
         var result = analyzer.keywordDoubles();
         expect(result[0].result.count).toBe(1);
         expect(result[0].result.id).toBe(16);
@@ -46,7 +46,7 @@ var doubleArgs3 = {
 
 describe("Test for the focus keyword doubles", function(){
     it("returns 3 keyword doubles", function(){
-        var analyzer = new YoastSEO_Analyzer(doubleArgs3);
+        var analyzer = Factory.buildAnalyzer(doubleArgs3);
         var result = analyzer.keywordDoubles();
         expect(result[0].result.count).toBe(3);
         expect(result[0].result.id).toBe(0);

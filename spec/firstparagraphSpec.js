@@ -12,7 +12,7 @@ var firstParagraphArg = {
 
 describe("a test for checking the first paragraph for keyword(s)", function() {
     it("returns the count of keywords", function() {
-        firstParagraphAnalyzer = new YoastSEO_Analyzer(firstParagraphArg);
+        firstParagraphAnalyzer = Factory.buildAnalyzer(firstParagraphArg);
         result = firstParagraphAnalyzer.firstParagraph();
         expect(result[0].result).toBe(1);
     });
@@ -26,7 +26,7 @@ var firstParagraphArg2 = {
 
 describe("a test for checking the first paragraph for keywords, when no paragraph is defined", function(){
     it("returns 0, since no paragraphs are in text", function(){
-        firstParagraphAnalyzer2 = new YoastSEO_Analyzer(firstParagraphArg2);
+        firstParagraphAnalyzer2 = Factory.buildAnalyzer(firstParagraphArg2);
         result = firstParagraphAnalyzer2.firstParagraph();
         expect(result[0].result).toBe(0);
     });
@@ -40,7 +40,7 @@ var firstParagraphArg3 =  {
 
 describe("a test for checking the first paragraph for keywords, when no paragraph is defined", function(){
     it("returns 0, since there are 2 paragraphs and 2nd matches keyword", function(){
-        firstParagraphAnalyzer3 = new YoastSEO_Analyzer(firstParagraphArg3);
+        firstParagraphAnalyzer3 = Factory.buildAnalyzer(firstParagraphArg3);
         result = firstParagraphAnalyzer3.firstParagraph();
         expect(result[0].result).toBe(0);
     });
@@ -54,7 +54,7 @@ var firstParagraphArg4 = {
 
 describe("a test for checking the firstparagraph with newlines in stead of <p>-tags", function(){
     it("returns 1, the keyword is used before the double linebreak", function(){
-        firstParagraphAnalyzer4 = new YoastSEO_Analyzer(firstParagraphArg4);
+        firstParagraphAnalyzer4 = Factory.buildAnalyzer(firstParagraphArg4);
         result = firstParagraphAnalyzer4.firstParagraph();
         expect(result[0].result).toBe(1);
     });

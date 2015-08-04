@@ -12,7 +12,7 @@ var linkArgs = {
 
 describe("A test to count links in a given text", function(){
     it("link counter for first string", function(){
-        var linkAnalyzer = new YoastSEO_Analyzer(linkArgs);
+        var linkAnalyzer = new Factory.buildAnalyzer(linkArgs);
         var result = linkAnalyzer.linkCount();
         expect(result[0].result.total).toBe(2);
     });
@@ -32,13 +32,13 @@ var linkArgs3 = {
 
 describe("A test to determine the type of links in a given text", function(){
    it("link types from first string", function(){
-       var linkAnalyzer2 = new YoastSEO_Analyzer(linkArgs2);
+       var linkAnalyzer2 = new Factory.buildAnalyzer(linkArgs2);
        var result = linkAnalyzer2.linkCount();
        expect(result[0].result.internalNofollow).toBe(1);
        expect(result[0].result.externalDofollow).toBe(1);
    });
    it("link types from text with different types of links", function(){
-       var linkAnalyzer3 = new YoastSEO_Analyzer(linkArgs3);
+       var linkAnalyzer3 = new Factory.buildAnalyzer(linkArgs3);
        var result = linkAnalyzer3.linkCount();
        expect(result[0].result.total).toBe(6);
        expect(result[0].result.internalNofollow).toBe(1);
@@ -58,7 +58,7 @@ var linkArgs4 = {
 
 describe("A test to check links in a given text, without an URL in the config", function(){
     it("returns only external links", function(){
-       var linkAnalyzer4 = new YoastSEO_Analyzer(linkArgs4);
+       var linkAnalyzer4 = new Factory.buildAnalyzer(linkArgs4);
        var result = linkAnalyzer4.linkCount();
        expect(result[0].result.total).toBe(2);
        expect(result[0].result.externalTotal).toBe(2);
