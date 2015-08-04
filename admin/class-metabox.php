@@ -1624,12 +1624,12 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 		else {
 			$keyword = str_replace( ' ', '%20', $job['keyword'] );
-			$url     = esc_url( add_query_arg( array( 'seo_kw_filter' => $keyword ), admin_url( 'edit.php' ) ) );
+			$url     = add_query_arg( array( 'seo_kw_filter' => $keyword ), admin_url( 'edit.php' ) );
 			$message = sprintf(
 				__( 'You\'ve used this focus keyword %3$s%4$d times before%2$s, it\'s probably a good idea to read %1$sthis post on cornerstone content%2$s and improve your keyword strategy.', 'wordpress-seo' ),
 				'<a href="https://yoast.com/cornerstone-content-rank/">',
 				'</a>',
-				'<a href="' . $url . '">',
+				'<a href="' . esc_url( $url ) . '">',
 				count( $posts )
 			);
 			$this->save_score_result( $results, 1, $message, 'keyword_overused' );
