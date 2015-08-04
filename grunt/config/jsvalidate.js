@@ -5,14 +5,14 @@ module.exports = {
 	},
 	plugin: {
 		files: {
-			src: 'js/analyzer.js'
+			src: "js/analyzer.js"
 		}
 	},
 	grunt: {
 		files: {
 			src: [
-				'<%= files.grunt %>',
-				'<%= files.config %>'
+				"<%= files.grunt %>",
+				"<%= files.config %>"
 			]
 		}
 	}

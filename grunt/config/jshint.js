@@ -2,17 +2,17 @@
 module.exports = {
 	plugin: {
 		options: {
-			jshintrc: '.jshintrc'
+			jshintrc: ".jshintrc"
 		},
-		src: '<%= files.js %>'
+		src: "<%= files.js %>"
 	},
 	grunt: {
 		options: {
-			jshintrc: '.gruntjshintrc'
+			jshintrc: ".gruntjshintrc"
 		},
 		src: [
-			'<%= files.grunt %>',
-			'<%= files.config %>'
+			"<%= files.grunt %>",
+			"<%= files.config %>"
 		]
 	}
 };

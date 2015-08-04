@@ -2,11 +2,11 @@
 module.exports = {
     all: {
         src: [
-            '.gruntjshintrc',
-            '.jscsrc',
-            '.jshintrc',
-            'composer.json',
-            'package.json'
+            ".gruntjshintrc",
+            ".jscsrc",
+            ".jshintrc",
+            "composer.json",
+            "package.json"
         ]
     }
 };
