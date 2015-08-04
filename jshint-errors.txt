@@ -1,7 +1,0 @@
-Running "jshint:plugin" (jshint) task
->> 8 files lint free.
-
-Running "jshint:grunt" (jshint) task
->> 9 files lint free.
-
-Done, without errors.
