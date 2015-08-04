@@ -6,7 +6,7 @@
     "Yoast.com"
   ],
   "dependencies" : {
-    "js-text-analysis" : "https://github.com/Yoast/js-text-analysis.git#stories/DT/AnalyzerFixes"
+    "js-text-analysis" : "https://github.com/Yoast/js-text-analysis.git"
   },
   "install": {
     "path" : {
