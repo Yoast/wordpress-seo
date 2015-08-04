@@ -28,6 +28,8 @@
     "grunt-jscs": "^1.6.0",
     "grunt-jsonlint": "^1.0.4",
     "grunt-jsvalidate": "^0.2.2",
+    "grunt-po2json": "^0.3.0",
+    "grunt-shell": "^1.1.2",
     "io.js": "0.0.0",
     "jasmine": "~2.2.1",
     "jsdom": "^5.4.3",
@@ -36,5 +38,8 @@
   },
   "bugs": {
     "url": "https://github.com/Yoast/js-text-analysis/issues"
+  },
+  "dependencies": {
+    "jed": "^1.1.0"
   }
 }
