@@ -1,4 +1,4 @@
-/* global YoastSEO_Analyzer: true, Jed, YoastSEO_preProcessor, stringHelper */
+/* global YoastSEO_Analyzer: true, YoastSEO_preProcessor, stringHelper */
 /* global YoastSEO_AnalyzeScorer, YoastSEO_config */
 /**
  * Text Analyzer, accepts args for config and calls init for initialization
