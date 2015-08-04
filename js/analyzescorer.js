@@ -1,10 +1,13 @@
 /**
  * inits the analyzerscorer used for scoring of the output from the textanalyzer
+ *
+ * @param {YoastSEO_Analyzer} refObj
  * @constructor
  */
 YoastSEO_AnalyzeScorer = function( refObj ) {
     this.__score = [];
-    this.refObj = refObj;
+    this.refObj= refObj;
+    this.i18n = refObj.config.i18n;
     this.init();
 };
 
@@ -12,7 +15,8 @@ YoastSEO_AnalyzeScorer = function( refObj ) {
  * loads the analyzerScoring from the config file.
  */
 YoastSEO_AnalyzeScorer.prototype.init = function() {
-    this.scoring = analyzerScoring;
+    var scoringConfig = new YoastSEOScoring( this.i18n );
+    this.scoring = scoringConfig.analyzerScoring;
 };
 
 /**

@@ -1,19 +1,42 @@
 /**
  * Loader for the analyzer, loads the eventbinder and the elementdefiner
- * @param args
+ * @param {Object} args
  * @constructor
  */
-YoastSEO = function( args ) {
+YoastSEO = function(args) {
     window.YoastSEO_loader = this;
     this.config = args;
     this.inputs = {};
-	this.loadQueue();
+    this.constructI18n(args.translations);
+    this.loadQueue();
     this.stringHelper = new YoastSEO_StringHelper();
     this.source = new this.config.source(args, this);
     this.checkInputs();
     if(!this.config.ajax){
         this.defineElements();
     }
+};
+
+/**
+ * Initializes i18n object based on passed configuration
+ *
+ * @param {Object} translations
+ */
+YoastSEO.prototype.constructI18n = function( translations ) {
+
+    var defaultTranslations = {
+        "domain": "js-text-analysis",
+        "locale_data": {
+            "js-text-analysis": {
+                "": {}
+            }
+        }
+    };
+
+    // Use default object to prevent Jed from erroring out.
+    translations = translations || defaultTranslations;
+
+    this.i18n = new Jed(translations);
 };
 
 /**
@@ -279,6 +302,7 @@ YoastSEO.prototype.runAnalyzer = function() {
 	if( typeof this.pageAnalyzer === "undefined") {
 		var args = this.source.analyzerData;
 		args.queue = this.queue;
+        args.i18n = this.i18n;
 		this.pageAnalyzer = new YoastSEO_Analyzer(args);
 	}else{
 		this.pageAnalyzer.init();
