@@ -157,7 +157,7 @@ class WPSEO_GSC_Category_Filters {
 		}
 
 		return sprintf(
-			'<a href="%1$s" class="%2$s" %3$s>%4$s</a> (<span id="gsc_count_%5$s">%6$s<span>)',
+			'<a href="%1$s" class="%2$s" %3$s>%4$s</a> (<span id="gsc_count_%5$s">%6$s</span>)',
 			esc_attr( $href ),
 			$class,
 			$title,
