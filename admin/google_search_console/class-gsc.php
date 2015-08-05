@@ -69,7 +69,7 @@ class WPSEO_GSC {
 		Yoast_Notification_Center::get()->add_notification(
 			new Yoast_Notification(
 				sprintf(
-					__( 'Don\'t miss your crawl errors: connect with Google Search Console %1$shere%2$s.', 'wordpress-seo' ),
+					__( 'Don\'t miss your crawl errors: %1$sconnect with Google Search Console here%2$s.', 'wordpress-seo' ),
 					'<a href="' . admin_url( 'admin.php?page=wpseo_search_console&tab=settings' ) . '">',
 					'</a>'
 				),
