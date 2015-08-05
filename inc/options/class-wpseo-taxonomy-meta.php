@@ -47,6 +47,18 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 		'wpseo_bctitle'         => '',
 		'wpseo_noindex'         => 'default',
 		'wpseo_sitemap_include' => '-',
+
+		// Social fields.
+		'wpseo_opengraph-title'         => '',
+		'wpseo_opengraph-description'   => '',
+		'wpseo_opengraph-image'         => '',
+		'wpseo_twitter-title'           => '',
+		'wpseo_twitter-description'     => '',
+		'wpseo_twitter-image'           => '',
+		'wpseo_google-plus-title'       => '',
+		'wpseo_google-plus-description' => '',
+		'wpseo_google-plus-image'       => '',
+
 	);
 
 	/**
