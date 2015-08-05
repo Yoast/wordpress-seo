@@ -128,7 +128,8 @@ Release Date: August 5th, 2015
 
 * Enhancements:
 	* Introduces a dismissible notice encouraging users to connect with Google Search Console.
-	* Improved the dashboard widget to only show posts which are actually editable by the current user.
+	* Improves the dashboard widget to only show posts which are actually editable by the current user.
+	* Makes the plugin conflict notices persistent and dismissible. Once dismissed, it will no longer be shown for the specific set of conflicting plugins the notice has been dismissed for.
 	* Contains a few textual improvements.
 	* Makes sure the counts are updated correctly and intuitively when marking a Search Console issue as fixed.
 
