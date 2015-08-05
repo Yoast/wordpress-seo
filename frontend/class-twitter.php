@@ -208,8 +208,7 @@ class WPSEO_Twitter {
 	 * @return bool|mixed|string
 	 */
 	private function taxonomy_description() {
-		$term      = $GLOBALS['wp_query']->get_queried_object();
-		$meta_desc = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'twitter-description' );
+		$meta_desc = WPSEO_Taxonomy_Meta::get_meta_without_term( 'twitter-description' );
 
 		if ( ! is_string( $meta_desc ) || '' === $meta_desc ) {
 			$meta_desc = $this->fallback_description();
@@ -284,8 +283,7 @@ class WPSEO_Twitter {
 	 * @return bool|mixed|string
 	 */
 	private function taxonomy_title() {
-		$term  = $GLOBALS['wp_query']->get_queried_object();
-		$title = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'twitter-title' );
+		$title = WPSEO_Taxonomy_Meta::get_meta_without_term( 'twitter-title' );
 
 		if ( ! is_string( $title ) || '' === $title ) {
 			return $this->fallback_title();
@@ -393,10 +391,8 @@ class WPSEO_Twitter {
 	 * @return bool
 	 */
 	private function taxonomy_image_output() {
-
-		$term   = $GLOBALS['wp_query']->get_queried_object();
 		foreach ( array( 'twitter-image', 'opengraph-image' ) as $tag ) {
-			$img = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, $tag );
+			$img = WPSEO_Taxonomy_Meta::get_meta_without_term( $tag );
 			if ( $img !== '' ) {
 				$this->image_output( $img );
 
