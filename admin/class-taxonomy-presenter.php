@@ -314,5 +314,4 @@ class WPSEO_Taxonomy_Presenter {
 		);
 	}
 
-
 }
