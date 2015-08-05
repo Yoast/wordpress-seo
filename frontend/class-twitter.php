@@ -161,6 +161,9 @@ class WPSEO_Twitter {
 		elseif ( WPSEO_Frontend::get_instance()->is_posts_page() ) {
 			$meta_desc = $this->single_description( get_option( 'page_for_posts' ) );
 		}
+		elseif ( is_category() || is_tax() || is_tag() ) {
+			$meta_desc = $this->taxonomy_description();
+		}
 		else {
 			$meta_desc = $this->fallback_description();
 		}
@@ -198,6 +201,28 @@ class WPSEO_Twitter {
 		return strip_tags( get_the_excerpt() );
 	}
 
+
+	/**
+	 * Getting the description for the taxonomy
+	 *
+	 * @return bool|mixed|string
+	 */
+	private function taxonomy_description() {
+		$term      = $GLOBALS['wp_query']->get_queried_object();
+		$meta_desc = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'twitter-description' );
+
+		if ( ! is_string( $meta_desc ) || '' === $meta_desc ) {
+			$meta_desc = $this->fallback_description();
+		}
+
+		if ( is_string( $meta_desc ) || '' !== $meta_desc ) {
+			return $meta_desc;
+		}
+
+		return trim( strip_tags( term_description() ) );
+
+	}
+
 	/**
 	 * Returns a fallback description
 	 *
@@ -218,6 +243,9 @@ class WPSEO_Twitter {
 		}
 		elseif ( WPSEO_Frontend::get_instance()->is_posts_page() ) {
 			$title = $this->single_title( get_option( 'page_for_posts' ) );
+		}
+		elseif ( is_category() || is_tax() || is_tag() ) {
+			$title = $this->taxonomy_title();
 		}
 		else {
 			$title = $this->fallback_title();
@@ -246,9 +274,24 @@ class WPSEO_Twitter {
 		if ( ! is_string( $title ) || '' === $title ) {
 			return $this->fallback_title();
 		}
-		else {
-			return $title;
+
+		return $title;
+	}
+
+	/**
+	 * Getting the title for the taxonomy
+	 *
+	 * @return bool|mixed|string
+	 */
+	private function taxonomy_title() {
+		$term  = $GLOBALS['wp_query']->get_queried_object();
+		$title = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'twitter-title' );
+
+		if ( ! is_string( $title ) || '' === $title ) {
+			return $this->fallback_title();
 		}
+
+		return $title;
 	}
 
 	/**
@@ -320,11 +363,14 @@ class WPSEO_Twitter {
 		if ( 'gallery' === $this->type ) {
 			$this->gallery_images_output();
 		}
+		elseif ( is_category() || is_tax() || is_tag() ) {
+			$this->taxonomy_image_output();
+		}
 		else {
 			$this->single_image_output();
 		}
 
-		if ( count( $this->shown_images ) == 0 && $this->options['og_default_image'] !== '' ) {
+		if ( count( $this->shown_images ) === 0 && $this->options['og_default_image'] !== '' ) {
 			$this->image_output( $this->options['og_default_image'] );
 		}
 	}
@@ -341,6 +387,24 @@ class WPSEO_Twitter {
 			$this->image_output( $image, 'image' . $image_counter );
 			$image_counter ++;
 		}
+	}
+
+	/**
+	 * @return bool
+	 */
+	private function taxonomy_image_output() {
+
+		$term   = $GLOBALS['wp_query']->get_queried_object();
+		foreach ( array( 'twitter-image', 'opengraph-image' ) as $tag ) {
+			$img = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, $tag );
+			if ( $img !== '' ) {
+				$this->image_output( $img );
+
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**
