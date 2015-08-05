@@ -442,4 +442,18 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 			}
 		}
 	}
+
+	/**
+	 * Get the current queried object and return the meta value
+	 *
+	 * @param string $meta
+	 *
+	 * @return bool|mixed
+	 */
+	public static function get_meta_without_term( $meta ) {
+		$term = $GLOBALS['wp_query']->get_queried_object();
+
+		return self::get_term_meta( $term, $term->taxonomy, $meta );
+
+	}
 }
