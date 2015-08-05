@@ -16,7 +16,7 @@ jQuery( function() {
 	);
 });
 
-function wpseo_gsc_post_redirect( ) {
+function wpseo_gsc_post_redirect() {
 	'use strict';
 
 	var target_form = jQuery( '#TB_ajaxContent' );
@@ -49,11 +49,6 @@ function wpseo_gsc_post_redirect( ) {
 	return false;
 }
 
-/**
- * Updates the count after the category name
- *
- * @param category string
- */
 function wpseo_update_category_count(category) {
 	'use strict';
 
@@ -63,7 +58,7 @@ function wpseo_update_category_count(category) {
 		new_count = 0;
 	}
 
-	count_element.html(new_count);
+	count_element.text(new_count);
 }
 
 function wpseo_mark_as_fixed(url) {
@@ -91,25 +86,24 @@ jQuery( document ).ready( function() {
 	'use strict';
 	jQuery('a.gsc_category').qtip(
 		{
-			content : {
+			content: {
 				attr: 'title'
 			},
 			position: {
 				my: 'bottom left',
 				at: 'top center'
 			},
-			style   : {
-				tip    : {
+			style: {
+				tip: {
 					corner: true
 				},
 				classes: 'yoast-qtip qtip-rounded qtip-blue'
 			},
-			show    : 'mouseenter',
-			hide    : {
+			show: 'mouseenter',
+			hide: {
 				fixed: true,
 				delay: 500
 			}
-
 		}
 	);
 });
