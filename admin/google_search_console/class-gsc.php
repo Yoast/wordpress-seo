@@ -57,6 +57,29 @@ class WPSEO_GSC {
 			$this->set_dependencies();
 			$this->request_handler();
 		}
+		elseif ( current_user_can( 'manage_options' ) && WPSEO_GSC_Settings::get_profile() === '' && get_user_option( 'wpseo_dismissed_gsc_notice', get_current_user_id() ) !== '1' ) {
+			add_action( 'admin_init', array( $this, 'register_gsc_notification' ) );
+		}
+	}
+
+	/**
+	 * If the Google Search Console has no credentials, add a notification for the user to give him a heads up. This message is dismissable.
+	 */
+	public function register_gsc_notification() {
+		Yoast_Notification_Center::get()->add_notification(
+			new Yoast_Notification(
+				sprintf(
+					__( 'Don\'t miss your crawl errors: connect with Google Search Console %1$shere%2$s.', 'wordpress-seo' ),
+					'<a href="' . admin_url( 'admin.php?page=wpseo_search_console&tab=settings' ) . '">',
+					'</a>'
+				),
+				array(
+					'type'      => 'updated yoast-dismissible',
+					'id'        => 'wpseo-dismiss-gsc',
+					'nonce'     => wp_create_nonce( 'dismiss-gsc-notice' ),
+				)
+			)
+		);
 	}
 
 	/**

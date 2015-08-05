@@ -614,7 +614,16 @@ class WPSEO_Frontend {
 	 * @return string
 	 */
 	public function debug_marker( $echo = true ) {
-		$marker = '<!-- This site is optimized with the ' . $this->head_product_name() . ' v' . WPSEO_VERSION . ' - https://yoast.com/wordpress/plugins/seo/ -->';
+		$marker = sprintf(
+			'<!-- This site is optimized with the ' . $this->head_product_name() . '%1$s - https://yoast.com/wordpress/plugins/seo/ -->',
+			/**
+			 * Filter: 'wpseo_hide_version' - can be used to hide the Yoast SEO version in the debug marker (only available in Yoast SEO Premium)
+			 *
+			 * @api bool
+			 */
+			( ( apply_filters( 'wpseo_hide_version', false ) && $this->is_premium() ) ? '' : ' v' . WPSEO_VERSION  )
+		);
+
 		if ( $echo === false ) {
 			return $marker;
 		}
@@ -1390,7 +1399,7 @@ class WPSEO_Frontend {
 	public function noindex_feed() {
 
 		if ( ( is_feed() || is_robots() ) && headers_sent() === false ) {
-			header( 'X-Robots-Tag: noindex,follow', true );
+			header( 'X-Robots-Tag: noindex, follow', true );
 
 			return true;
 		}
@@ -1850,12 +1859,21 @@ class WPSEO_Frontend {
 	 * @return string
 	 */
 	private function head_product_name() {
-		if ( file_exists( WPSEO_PATH . 'premium/' ) ) {
+		if ( $this->is_premium() ) {
 			return 'Yoast SEO Premium plugin';
 		}
 		else {
 			return 'Yoast SEO plugin';
 		}
+	}
+
+	/**
+	 * Check if this plugin is the premium version of WPSEO
+	 *
+	 * @return bool
+	 */
+	private function is_premium() {
+		return file_exists( WPSEO_PATH . 'premium/' );
 	}
 
 } /* End of class */

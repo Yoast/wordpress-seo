@@ -551,13 +551,13 @@ class WPSEO_Utils {
 					$query .= ' OR ';
 				}
 
-				$query .= " option_name LIKE '_transient_timeout_wpseo_sitemap_cache_" . $sitemap_type . "_%'";
+				$query .= " option_name LIKE '_transient_wpseo_sitemap_cache_" . $sitemap_type . "_%' OR option_name LIKE '_transient_timeout_wpseo_sitemap_cache_" . $sitemap_type . "_%'";
 
 				$first = false;
 			}
 		}
 		else {
-			$query .= " option_name LIKE '_transient_timeout_wpseo_sitemap_%'";
+			$query .= " option_name LIKE '_transient_wpseo_sitemap_%' OR option_name LIKE '_transient_timeout_wpseo_sitemap_%'";
 		}
 
 		$wpdb->query( $query );
@@ -776,6 +776,24 @@ class WPSEO_Utils {
 		}
 
 		return apply_filters( 'wpseo_format_admin_url', $formatted_url );
+	}
+
+
+	/**
+	 * Get plugin name from file
+	 *
+	 * @param string $plugin
+	 *
+	 * @return bool
+	 */
+	public static function get_plugin_name( $plugin ) {
+		$plugin_details = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin );
+
+		if ( $plugin_details['Name'] != '' ) {
+			return $plugin_details['Name'];
+		}
+
+		return false;
 	}
 
 } /* End of class WPSEO_Utils */

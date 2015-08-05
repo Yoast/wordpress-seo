@@ -110,7 +110,7 @@ class WPSEO_Meta {
 				'default_value' => '',
 				'autocomplete'  => false,
 				'help'          => '', // Translation added later.
-				'description'   => '<div id="focuskwresults"></div>',
+				'description'   => '',
 			),
 			'title'          => array(
 				'type'          => 'text',

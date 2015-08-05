@@ -14,7 +14,7 @@ jQuery( function() {
 			return window.open(auth_url, 'wpseogscauthcode', 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=no, copyhistory=no, width=' + w + ', height=' + h + ', top=' + top + ', left=' + left);
 		}
 	);
-})
+});
 
 function wpseo_gsc_post_redirect( ) {
 	'use strict';
@@ -73,21 +73,21 @@ jQuery( document ).ready( function() {
 	'use strict';
 	jQuery('a.gsc_category').qtip(
 		{
-			content : {
+			content: {
 				attr: 'title'
 			},
 			position: {
 				my: 'bottom left',
 				at: 'top center'
 			},
-			style   : {
-				tip    : {
+			style: {
+				tip: {
 					corner: true
 				},
 				classes: 'yoast-qtip qtip-rounded qtip-blue'
 			},
-			show    : 'mouseenter',
-			hide    : {
+			show: 'mouseenter',
+			hide: {
 				fixed: true,
 				delay: 500
 			}
