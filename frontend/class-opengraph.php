@@ -226,15 +226,13 @@ class WPSEO_OpenGraph {
 			$title = ( isset( $this->options['og_frontpage_title'] ) && $this->options['og_frontpage_title'] !== '' ) ? $this->options['og_frontpage_title'] : $frontend->title( '' );
 		}
 		elseif ( is_category() || is_tax() || is_tag() ) {
-			$object = $GLOBALS['wp_query']->get_queried_object();
-
-			$title = WPSEO_Taxonomy_Meta::get_term_meta( $object, $object->taxonomy, 'opengraph-title' );
+			$title = WPSEO_Taxonomy_Meta::get_meta_without_term( 'opengraph-title' );
 			if ( $title === '' ) {
 				$title = $frontend->get_taxonomy_title( '' );
 			}
 			else {
 				// Replace Yoast SEO Variables.
-				$title = wpseo_replace_vars( $title, $object );
+				$title = wpseo_replace_vars( $title, $GLOBALS['wp_query']->get_queried_object() );
 			}
 		}
 		else {
@@ -549,9 +547,7 @@ class WPSEO_OpenGraph {
 		}
 
 		if ( is_category() || is_tag() || is_tax() ) {
-			$term   = $GLOBALS['wp_query']->get_queried_object();
-
-			$ogdesc = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'opengraph-description' );
+			$ogdesc = WPSEO_Taxonomy_Meta::get_meta_without_term( 'opengraph-description' );
 			if ( $ogdesc === '' ) {
 				$ogdesc = $frontend->metadesc( false );
 			}
@@ -561,8 +557,7 @@ class WPSEO_OpenGraph {
 			}
 
 			if ( '' === $ogdesc ) {
-				$term   = $GLOBALS['wp_query']->get_queried_object();
-				$ogdesc = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'desc' );
+				$ogdesc = WPSEO_Taxonomy_Meta::get_meta_without_term( 'desc' );
 			}
 		}
 
@@ -797,9 +792,7 @@ class WPSEO_OpenGraph_Image {
 	 * @return bool
 	 */
 	private function get_opengraph_image_taxonomy() {
-		$term = $GLOBALS['wp_query']->get_queried_object();
-
-		if ( ( $ogimg = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'opengraph-image' ) ) !== '' ) {
+		if ( ( $ogimg = WPSEO_Taxonomy_Meta::get_meta_without_term( 'opengraph-image' ) ) !== '' ) {
 			$this->add_image( $ogimg );
 
 			return true;
