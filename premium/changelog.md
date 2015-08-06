@@ -1,4 +1,7 @@
-### 2.3.3: August 5th, 2015
+### 2.3.4: August 6th, 2015
+* Merge with Yoast SEO core 2.3.4
+
+### 2.3.3: August 6th, 2015
 * Added a filter `wpseo_hide_version` that allows webmasters to hide the Yoast SEO Premium version number in the debug marker.
 * Merge with Yoast SEO core 2.3.3
 
