@@ -137,31 +137,32 @@ class WPSEO_GSC_Category_Filters {
 	/**
 	 * Creates a filter link
 	 *
-	 * @param string  $key
+	 * @param string  $category
 	 * @param integer $count
 	 *
 	 * @return string
 	 */
-	private function create_view_link( $key, $count ) {
-		$href  = add_query_arg( array( 'category' => $key, 'paged' => 1 ) );
+	private function create_view_link( $category, $count ) {
+		$href  = add_query_arg( array( 'category' => $category, 'paged' => 1 ) );
 
 		$class = 'gsc_category';
 
-		if ( $this->category == $key ) {
+		if ( $this->category === $category ) {
 			$class .= ' current';
 		}
 
 		$title = '';
-		if ( $this->filter_values[ $key ]['description'] !== '' ) {
-			$title = " title='" . esc_attr( $this->filter_values[ $key ]['description'] ) . "'";
+		if ( $this->filter_values[ $category ]['description'] !== '' ) {
+			$title = " title='" . esc_attr( $this->filter_values[ $category ]['description'] ) . "'";
 		}
 
 		return sprintf(
-			'<a href="%1$s" class="%2$s" %3$s>%4$s</a> (%5$s)',
+			'<a href="%1$s" class="%2$s" %3$s>%4$s</a> (<span id="gsc_count_%5$s">%6$s</span>)',
 			esc_attr( $href ),
 			$class,
 			$title,
-			$this->filter_values[ $key ]['value'],
+			$this->filter_values[ $category ]['value'],
+			$category,
 			$count
 		);
 	}

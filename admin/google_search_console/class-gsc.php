@@ -69,7 +69,7 @@ class WPSEO_GSC {
 		Yoast_Notification_Center::get()->add_notification(
 			new Yoast_Notification(
 				sprintf(
-					__( 'Don\'t miss your crawl errors: connect with Google Search Console %1$shere%2$s.', 'wordpress-seo' ),
+					__( 'Don\'t miss your crawl errors: %1$sconnect with Google Search Console here%2$s.', 'wordpress-seo' ),
 					'<a href="' . admin_url( 'admin.php?page=wpseo_search_console&tab=settings' ) . '">',
 					'</a>'
 				),
@@ -246,6 +246,7 @@ class WPSEO_GSC {
 
 		// Loading the issue counter.
 		$issue_count           = new WPSEO_GSC_Count( $this->service );
+		$issue_count->fetch_counts();
 
 		// Loading the category filters.
 		$this->category_filter = new WPSEO_GSC_Category_Filters( $issue_count->get_platform_counts( $this->platform ) );
