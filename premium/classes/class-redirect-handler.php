@@ -214,6 +214,13 @@ class WPSEO_Redirect_Handler {
 			exit;
 		}
 
+		$this->do_410();
+	}
+
+	/**
+	 * Handle the 410 status codes
+	 */
+	private function do_410() {
 		header( 'HTTP/1.1 410 Gone' );
 		global $wp_query;
 		$wp_query->is_404 = true;
