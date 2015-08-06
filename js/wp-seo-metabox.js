@@ -7,6 +7,12 @@
 /* jshint -W003 */
 'use strict';
 
+/*
+ * Used for caching the replaced vars so we only do an AJAX request for each var once
+ * Ignore for JSHint as it is used but JSHint doesn't properly reflect that
+ */
+var replacedVars = [];  // jshint ignore:line
+
 /**
  * Cleans up a string, removing script tags etc.
  *
@@ -260,7 +266,7 @@ function ystReplaceVariables( str, callback ) {
 		var regex = /%%[a-z0-9_-]+%%/gi;
 		var matches = str.match( regex );
 		for ( var i = 0; i < matches.length; i++ ) {
-			if ( typeof( replacedVars[ matches[ i ] ] ) === 'undefined' ) {
+			if ( typeof( replacedVars[ matches[ i ] ] ) !== 'undefined' ) {
 				str = str.replace( matches[ i ], replacedVars[ matches[ i ] ] );
 			}
 			else {
@@ -268,7 +274,8 @@ function ystReplaceVariables( str, callback ) {
 
 				// create the cache already, so we don't do the request twice.
 				replacedVars[ replaceableVar ] = '';
-				ystAjaxReplaceVariables( replaceableVar, callback );
+				ystAjaxReplaceVariables( replaceableVar, callback, str );
+				return false;
 			}
 		}
 	}
@@ -281,7 +288,7 @@ function ystReplaceVariables( str, callback ) {
  * @param {string} replaceableVar
  * @param {replaceVariablesCallback} callback
  */
-function ystAjaxReplaceVariables( replaceableVar, callback ) {
+function ystAjaxReplaceVariables( replaceableVar, callback, str ) {
 	jQuery.post( ajaxurl, {
 			action: 'wpseo_replace_vars',
 			string: replaceableVar,
@@ -291,8 +298,8 @@ function ystAjaxReplaceVariables( replaceableVar, callback ) {
 			if ( data ) {
 				replacedVars[ replaceableVar ] = data;
 			}
-
-			ystReplaceVariables( replaceableVar, callback );
+            
+			ystReplaceVariables( str, callback );
 		}
 	);
 }
@@ -555,11 +562,6 @@ function ystEscapeFocusKw( str ) {
 })();
 
 jQuery( document ).ready( function() {
-		/*
-		 * Used for caching the replaced vars so we only do an AJAX request for each var once
-		 * Ignore for JSHint as it is used but JSHint doesn't properly reflect that
-		 */
-		var replacedVars = [];  // jshint ignore:line
 
 		if ( jQuery( '.wpseo-metabox-tabs-div' ).length > 0 ) {
 			var active_tab = window.location.hash;
