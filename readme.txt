@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: seo, SEO, Yoast SEO, google, meta, meta description, search engine optimization, xml sitemap, xml sitemaps, google sitemap, sitemap, sitemaps, robots meta, rss, rss footer, yahoo, bing, news sitemaps, XML News Sitemaps, WordPress SEO, WordPress SEO by Yoast, yoast, multisite, canonical, nofollow, noindex, keywords, meta keywords, description, webmaster tools, google webmaster tools, seo pack
 Requires at least: 3.9
 Tested up to: 4.3
-Stable tag: 2.3.3
+Stable tag: 2.3.4
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using Yoast SEO plugin.
 
@@ -120,9 +120,16 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 
 == Changelog ==
 
+= 2.3.4 =
+
+Release Date: August 6th, 2015
+
+* Bugfixes:
+	* Fixes a bug where the focus keyword test in the Yoast SEO metabox was broken as a regression of removing the autocomplete functionality.
+
 = 2.3.3 =
 
-Release Date: August 5th, 2015
+Release Date: August 6th, 2015
 
 * Removes the autocomplete functionality from the focus keyword field in the Yoast SEO metabox because Google is shutting down its autocomplete API [as of August 10th](http://googlewebmastercentral.blogspot.nl/2015/07/update-on-autocomplete-api.html).
 
