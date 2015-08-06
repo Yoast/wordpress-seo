@@ -298,7 +298,6 @@ function ystAjaxReplaceVariables( replaceableVar, callback, str ) {
 			if ( data ) {
 				replacedVars[ replaceableVar ] = data;
 			}
-            
 			ystReplaceVariables( str, callback );
 		}
 	);
@@ -562,7 +561,6 @@ function ystEscapeFocusKw( str ) {
 })();
 
 jQuery( document ).ready( function() {
-
 		if ( jQuery( '.wpseo-metabox-tabs-div' ).length > 0 ) {
 			var active_tab = window.location.hash;
 			if ( active_tab === '' || active_tab.search( 'wpseo' ) === -1 ) {
