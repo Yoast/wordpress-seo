@@ -3,11 +3,6 @@
  * @package WPSEO\Premium\Classes
  */
 
-if ( ! defined( 'WPSEO_VERSION' ) ) {
-	header( 'HTTP/1.0 403 Forbidden' );
-	die;
-}
-
 /**
  * Interface iWPSEO_Redirect_File
  */
@@ -80,7 +75,7 @@ abstract class WPSEO_Redirect_File implements IWPSEO_Redirect_File {
 		$file_content = $this->generate_file_content();
 
 		// Check if the file content isset.
-		if ( null == $file_content ) {
+		if ( '' === $file_content ) {
 			return false;
 		}
 

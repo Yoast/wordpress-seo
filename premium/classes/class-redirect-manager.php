@@ -65,7 +65,7 @@ abstract class WPSEO_Redirect_Manager {
 
 		// Skip redirect if the 'disable_php_redirect' is set to 'on'.
 		$options = self::get_options();
-		if ( $options['disable_php_redirect'] == 'on' ) {
+		if ( $options['disable_php_redirect'] === 'on' ) {
 			return false;
 		}
 
@@ -229,7 +229,6 @@ abstract class WPSEO_Redirect_Manager {
 		return apply_filters( 'wpseo_premium_format_admin_url', $formatted_url );
 	}
 
-
 	/**
 	 * Getting the object which will save the redirects file
 	 *
@@ -246,7 +245,8 @@ abstract class WPSEO_Redirect_Manager {
 
 			return new WPSEO_Htaccess_Redirect_File();
 		}
-		elseif ( WPSEO_Utils::is_nginx() ) {
+
+		if ( WPSEO_Utils::is_nginx() ) {
 			return new WPSEO_Nginx_Redirect_File();
 		}
 
