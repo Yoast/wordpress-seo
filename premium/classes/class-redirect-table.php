@@ -35,14 +35,14 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	/**
 	 * WPSEO_Redirect_Table constructor
 	 *
-	 * @param string $type
+	 * @param string                 $type
+	 * @param WPSEO_Redirect_Manager $redirect_manager
 	 */
-	public function __construct( $type ) {
+	public function __construct( $type, WPSEO_Redirect_Manager $redirect_manager ) {
 		parent::__construct( array( 'plural' => $type ) );
 
 		$this->type             = $type;
-		$class_name             = 'WPSEO_' . strtoupper( $this->type ) . '_Redirect_Manager';
-		$this->redirect_manager = new $class_name();
+		$this->redirect_manager = $redirect_manager;
 
 		$this->handle_bulk_action();
 
