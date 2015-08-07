@@ -63,7 +63,7 @@ class WPSEO_Page_Redirect {
 				}
 			}
 			else {
-				if ( ! is_writable( WPSEO_Redirect_File_Manager::get_htaccess_file_path() ) ) {
+				if ( ! is_writable( WPSEO_Redirect_Htaccess::get_htaccess_file_path() ) ) {
 					/* translators: %s: '.htaccess' file name */
 					return "<div class='error'><p><strong>" . sprintf( __( 'We\'re unable to save the redirects to your %s file. Please make the file writable.', 'wordpress-seo-premium' ), '<code>.htaccess</code>' ) . "</strong></p></div>\n";
 				}

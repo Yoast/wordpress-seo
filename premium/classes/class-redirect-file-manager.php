@@ -29,15 +29,6 @@ class WPSEO_Redirect_File_Manager {
 	}
 
 	/**
-	 * Get the full path to the .htaccess file
-	 *
-	 * @return bool
-	 */
-	public static function get_htaccess_file_path() {
-		return get_home_path() . '.htaccess';
-	}
-
-	/**
 	 * Function that creates the WPSEO redirect directory
 	 */
 	public static function create_upload_dir() {
@@ -60,27 +51,6 @@ class WPSEO_Redirect_File_Manager {
 		}
 	}
 
-	/**
-	 * Initiate and returns the $wp_filesystem object
-	 *
-	 * @return $wp_filesystem
-	 */
-	public static function get_wp_filesystem_object() {
-		global $wp_filesystem;
 
-		// Set the filesystem URL.
-		$url = wp_nonce_url( 'admin.php?page=wpseo_redirects#top#settings', 'update-htaccess' );
-
-		// Get the credentials.
-		$credentials = request_filesystem_credentials( $url, '', false, self::get_htaccess_file_path() );
-
-		// Return $wp_filesystem if everything is working.
-		if ( WP_Filesystem( $credentials, self::get_htaccess_file_path() ) ) {
-			return $wp_filesystem;
-		}
-
-		// Return null if the WP_Filesystem() check failed.
-		return null;
-	}
 
 }

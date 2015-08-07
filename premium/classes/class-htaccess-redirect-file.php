@@ -27,7 +27,7 @@ class WPSEO_Htaccess_Redirect_File extends WPSEO_Apache_Redirect_File {
 			return false;
 		}
 
-		$file_path = WPSEO_Redirect_File_Manager::get_htaccess_file_path();
+		$file_path = WPSEO_Redirect_Htaccess::get_htaccess_file_path();
 
 		// Read current htaccess.
 		$htaccess = '';
