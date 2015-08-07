@@ -69,7 +69,7 @@ class WPSEO_Premium {
 
 		if ( is_admin() ) {
 
-			// Disable Yoast SEO
+			// Disable Yoast SEO.
 			add_action( 'admin_init', array( $this, 'disable_wordpress_seo' ), 1 );
 
 			// Add Sub Menu page and add redirect page to admin page array.
@@ -136,10 +136,10 @@ class WPSEO_Premium {
 			if ( get_option( 'permalink_structure' ) ) {
 				add_action( 'admin_init', array( $this, 'init_watchers' ) );
 
-				// Check if we need to display an admin message
+				// Check if we need to display an admin message.
 				if ( $redirect_created = filter_input( INPUT_GET, 'yoast-redirect-created' ) ) {
 
-					// Message object
+					// Message object.
 					$message = new WPSEO_Message_Redirect_Created( $redirect_created );
 					add_action( 'all_admin_notices', array( $message, 'display' ) );
 				}

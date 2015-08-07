@@ -164,9 +164,7 @@ abstract class WPSEO_Redirect_Manager {
 
 		// Remove old redirect.
 		if ( isset( $redirects[ $old_redirect_arr['key'] ] ) ) {
-
 			unset( $redirects[ $old_redirect_arr['key'] ] );
-
 		}
 
 		// Format the URL is it's an URL.
@@ -199,7 +197,7 @@ abstract class WPSEO_Redirect_Manager {
 		$redirects = $this->get_redirects();
 
 		// Don't add redirect if already exists.
-		if ( isset ( $redirects[ $old_value ] ) ) {
+		if ( isset( $redirects[ $old_value ] ) ) {
 			return false;
 		}
 
@@ -255,7 +253,7 @@ abstract class WPSEO_Redirect_Manager {
 		}
 
 		// Append 'query' string if it exists.
-		if ( isset( $parsed_url['query'] ) && '' != $parsed_url['query'] ) {
+		if ( isset( $parsed_url['query'] ) && '' !== $parsed_url['query'] ) {
 			$formatted_url .= '?' . $parsed_url['query'];
 		}
 

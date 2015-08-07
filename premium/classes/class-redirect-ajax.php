@@ -1,12 +1,17 @@
 <?php
+/**
+ * @package WPSEO\Premium\Classes
+ */
 
+/**
+ * Class WPSEO_Redirect_Ajax
+ */
 class WPSEO_Redirect_Ajax {
 
 	/**
 	 * @var WPSEO_Redirect_Manager
 	 */
 	private $redirect_manager;
-
 
 	/**
 	 * @param WPSEO_Redirect_Manager $redirect_manager

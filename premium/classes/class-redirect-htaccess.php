@@ -1,5 +1,11 @@
 <?php
+/**
+ * @package WPSEO\Premium\Classes
+ */
 
+/**
+ * Class WPSEO_Redirect_Htaccess
+ */
 class WPSEO_Redirect_Htaccess {
 
 	/**
@@ -18,8 +24,7 @@ class WPSEO_Redirect_Htaccess {
 		$wp_filesystem = self::get_wp_filesystem_object();
 
 		// Check if the $wp_filesystem is correct.
-		if ( null != $wp_filesystem ) {
-
+		if ( null !== $wp_filesystem ) {
 			// Update the .htaccess file.
 			$wp_filesystem->put_contents(
 				self::get_htaccess_file_path(),
@@ -31,7 +36,6 @@ class WPSEO_Redirect_Htaccess {
 
 	}
 
-
 	/**
 	 * Get the full path to the .htaccess file
 	 *
@@ -40,8 +44,6 @@ class WPSEO_Redirect_Htaccess {
 	public static function get_htaccess_file_path() {
 		return get_home_path() . '.htaccess';
 	}
-
-
 
 	/**
 	 * Initiate and returns the $wp_filesystem object

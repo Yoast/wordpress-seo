@@ -3,7 +3,6 @@
  * @package WPSEO\Premium\Classes
  */
 
-
 /**
  * Class WPSEO_REGEX_Redirect_Manager
  */

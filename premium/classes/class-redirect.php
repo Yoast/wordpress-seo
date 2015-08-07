@@ -19,7 +19,7 @@ class WPSEO_Redirect {
 	private $regex_redirect_manager;
 
 	/**
-	 *
+	 * Constructing redirect module
 	 */
 	public function __construct() {
 		$this->normal_redirect_manager = new WPSEO_URL_Redirect_Manager();
@@ -180,7 +180,7 @@ class WPSEO_Redirect {
 		// Catch option save.
 		add_action( 'admin_init', array( $this, 'catch_option_redirect_save' ) );
 
-		// Loading the page scripts
+		// Loading the page scripts.
 		if ( filter_input( INPUT_GET, 'page' ) === 'wpseo_redirects' ) {
 			add_action( 'admin_enqueue_scripts', array( $this, 'page_scripts' ) );
 			add_filter( 'set-screen-option', array( $this, 'set_screen_option' ), 11, 3 );
