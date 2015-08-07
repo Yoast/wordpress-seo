@@ -94,31 +94,12 @@ class WPSEO_Redirect {
 	 * Catch the redirects search post and redirect it to a search get
 	 */
 	public function list_table_search_post_to_get() {
-		if ( filter_input( INPUT_GET, 'page' ) === 'wpseo_redirects' && ( $search_string = trim( filter_input( INPUT_POST, 's' ) ) ) ) {
-
-			// Check if there isn't a bulk action post, bulk action post > search post.
-			if ( filter_input( INPUT_POST, 'create_redirects' ) || filter_input( INPUT_POST, 'wpseo_redirects_bulk_delete' ) ) {
-				return;
-			}
-
-			// Base URL.
-			$url = get_admin_url() . 'admin.php?page=wpseo_redirects';
-
-			// Add search or reset it.
-			$url .= '&s=' . $search_string;
-
-			// Orderby.
-			if ( $orderby = filter_input( INPUT_GET, 'orderby' ) ) {
-				$url .= '&orderby=' . $orderby;
-			}
-
-			// Order.
-			if ( $order = filter_input( INPUT_GET, 'order' ) ) {
-				$url .= '&order=' . $order;
-			}
+		if ( ( $search_string = filter_input( INPUT_POST, 's' ) ) !== null ) {
+			$url = ( $search_string !== '' ) ? add_query_arg( 's', $search_string ) : remove_query_arg( 's' );
 
 			// Do the redirect.
 			wp_redirect( $url );
+
 			exit;
 		}
 	}
@@ -172,7 +153,9 @@ class WPSEO_Redirect {
 		}
 
 		// Post to Get on search.
-		add_action( 'admin_init', array( $this, 'list_table_search_post_to_get' ) );
+		if ( filter_input( INPUT_GET, 'page' ) === 'wpseo_redirects' ) {
+			add_action( 'admin_init', array( $this, 'list_table_search_post_to_get' ) );
+		}
 
 		// Check if we need to save files after updating options.
 		add_action( 'update_option_wpseo_redirect', array( $this, 'save_redirect_files' ), 10, 2 );
