@@ -96,4 +96,20 @@ class WPSEO_Redirect_Presenter {
 		return '';
 	}
 
+	/**
+	 * Getting array with the available redirect types
+	 *
+	 * @return array|void
+	 */
+	private function get_redirect_types() {
+		$redirect_types = array(
+			'301' => '301 Moved Permanently',
+			'302' => '302 Found',
+			'307' => '307 Temporary Redirect',
+			'410' => '410 Content Deleted',
+		);
+
+		return apply_filters( 'wpseo_premium_redirect_types', $redirect_types );
+	}
+
 }
