@@ -4,9 +4,9 @@
  */
 
 /**
- * Class WPSEO_Page_Redirect
+ * Class WPSEO_Redirect_Presenter
  */
-class WPSEO_Page_Redirect {
+class WPSEO_Redirect_Presenter {
 
 	/**
 	 * Function that outputs the redirect page
