@@ -25,12 +25,12 @@ class WPSEO_Redirect_Presenter {
 	 *
 	 * @return array
 	 */
-	private static function get_view_vars() {
+	private function get_view_vars() {
 		return array(
-			'redirect_types'  => WPSEO_Redirect_Manager::get_redirect_types(),
+			'redirect_types'  => $this->get_redirect_types(),
 			'nonce'           => wp_create_nonce( 'wpseo-redirects-ajax-security' ),
-			'old_url'         => self::get_old_url(),
-			'pre_settings'    => self::writable_redirect_file(),
+			'old_url'         => $this->get_old_url(),
+			'pre_settings'    => $this->writable_redirect_file(),
 		);
 	}
 
@@ -39,7 +39,7 @@ class WPSEO_Redirect_Presenter {
 	 *
 	 * @return string
 	 */
-	private static function writable_redirect_file() {
+	private function writable_redirect_file() {
 		// Get redirect options.
 		$redirect_options = WPSEO_Redirect_Manager::get_options();
 
@@ -87,7 +87,7 @@ class WPSEO_Redirect_Presenter {
 	 *
 	 * @return string
 	 */
-	private static function get_old_url() {
+	private function get_old_url() {
 		// Check if there's an old URL set.
 		if ( ( $old_url = filter_input( INPUT_GET, 'old_url', FILTER_DEFAULT, array( 'default' => '' ) ) ) !== '' ) {
 			return esc_attr( urldecode( $old_url ) );
