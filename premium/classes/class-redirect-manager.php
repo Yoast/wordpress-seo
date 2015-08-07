@@ -124,29 +124,16 @@ abstract class WPSEO_Redirect_Manager {
 		// Options.
 		$options = self::get_options();
 
-		if ( 'on' == $options['disable_php_redirect'] ) {
-
-			// Create the correct file object.
-			$file = null;
-			if ( WPSEO_Utils::is_apache() ) {
-
-				if ( 'on' == $options['separate_file'] ) {
-					$file = new WPSEO_Apache_Redirect_File();
-				}
-				else {
-					$file = new WPSEO_Htaccess_Redirect_File();
-				}
-			}
-			elseif ( WPSEO_Utils::is_nginx() ) {
-				$file = new WPSEO_Nginx_Redirect_File();
-			}
-
-			// Save the file.
-			if ( null !== $file ) {
-				$file->save_file();
-			}
+		if ( 'on' !== $options['disable_php_redirect'] ) {
+			return false;
 		}
 
+		$file = $this->get_file_object( $options['separate_file'] );
+
+		// Save the file.
+		if ( null !== $file ) {
+			$file->save_file();
+		}
 	}
 
 	/**
@@ -231,7 +218,6 @@ abstract class WPSEO_Redirect_Manager {
 		$this->save_redirects( $redirects );
 	}
 
-
 	/**
 	 * Format the redirect url
 	 *
@@ -258,6 +244,30 @@ abstract class WPSEO_Redirect_Manager {
 		}
 
 		return apply_filters( 'wpseo_premium_format_admin_url', $formatted_url );
+	}
+
+
+	/**
+	 * Getting the object which will save the redirects file
+	 *
+	 * @param string $separate_file
+	 *
+	 * @return null|WPSEO_Apache_Redirect_File|WPSEO_Htaccess_Redirect_File|WPSEO_Nginx_Redirect_File
+	 */
+	private function get_file_object( $separate_file ) {
+		// Create the correct file object.
+		if ( WPSEO_Utils::is_apache() ) {
+			if ( 'on' === $separate_file ) {
+				return new WPSEO_Apache_Redirect_File();
+			}
+
+			return new WPSEO_Htaccess_Redirect_File();
+		}
+		elseif ( WPSEO_Utils::is_nginx() ) {
+			return new WPSEO_Nginx_Redirect_File();
+		}
+
+		return null;
 	}
 
 }
