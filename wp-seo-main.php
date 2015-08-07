@@ -27,6 +27,24 @@ if ( ! defined( 'WPSEO_CSSJS_SUFFIX' ) ) {
 	define( 'WPSEO_CSSJS_SUFFIX', ( ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min' ) );
 }
 
+if( is_admin() ) {
+	add_action( 'admin_init', 'yoast_seo_register_deactivate_listener' );
+}
+
+function yoast_seo_register_deactivate_listener() {
+	 //  && is_plugin_active( WPSEO_FILE )
+	if ( ( $listener_plugin = filter_input( INPUT_GET, 'plugin' ) ) && $listener_plugin === 'wordpress-seo-premium/wp-seo-premium.php' ) {
+		wp_redirect( admin_url( 'plugins.php?yoast_seo_disable=free&_yoast_disable_nonce=' . wp_create_nonce( 'yoast-seo-disable-nonce' ) ), 301 );
+		exit;
+	}
+
+	if ( ( $listener_plugin = filter_input( INPUT_GET, 'yoast_seo_disable' ) ) && $listener_plugin === 'free' && ( $listener_nonce = filter_input( INPUT_GET, '_yoast_disable_nonce' ) ) && wp_verify_nonce( $listener_nonce, 'yoast-seo-disable-nonce' ) ) {
+		deactivate_plugins( 'wordpress-seo/wp-seo.php' );
+
+		wp_redirect( 'plugins.php?action=activate&plugin=wordpress-seo-premium%2Fwp-seo-premium.php&plugin_status=all&paged=1&s&_wpnonce=' . wp_create_nonce('activate-plugin_wordpress-seo-premium/wp-seo-premium.php') );
+		exit;
+	}
+}
 
 /* ***************************** CLASS AUTOLOADING *************************** */
 
