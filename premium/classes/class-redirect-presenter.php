@@ -10,11 +10,13 @@ class WPSEO_Redirect_Presenter {
 
 	/**
 	 * Function that outputs the redirect page
+	 *
+	 * @param array $view_vars
 	 */
-	public static function display() {
+	public function display( $view_vars = array() ) {
 		// Extracting the vars
 		// @codingStandardsIgnoreStart
-		extract( self::get_view_vars() );
+		extract( array_merge( $view_vars, $this->get_view_vars() ) );
 		// @codingStandardsIgnoreEnd
 
 		require_once( WPSEO_PATH . 'premium/views/redirects.php' );

@@ -39,7 +39,12 @@ class WPSEO_Redirect {
 	 */
 	public function display() {
 		$redirect_presenter = new WPSEO_Redirect_Presenter();
-		$redirect_presenter->display();
+		$redirect_presenter->display(
+			array(
+				'normal_redirect_table' => new WPSEO_Redirect_Table( 'url', $this->normal_redirect_manager ),
+				'regex_redirect_table'  => new WPSEO_Redirect_Table( 'REGEX', $this->regex_redirect_manager ),
+			)
+		);
 	}
 
 	/**
@@ -75,7 +80,6 @@ class WPSEO_Redirect {
 			// Remove the .htaccess redirect entries.
 			WPSEO_Redirect_Htaccess::clear_htaccess_entries();
 		}
-
 	}
 
 	/**
