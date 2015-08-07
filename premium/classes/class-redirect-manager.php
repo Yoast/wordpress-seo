@@ -207,15 +207,13 @@ abstract class WPSEO_Redirect_Manager {
 
 		$redirects = $this->get_redirects();
 
-		if ( count( $redirects ) > 0 ) {
-			if ( is_array( $delete_redirects ) && count( $delete_redirects ) > 0 ) {
-				foreach ( $delete_redirects as $delete_redirect ) {
-					unset( $redirects[ $delete_redirect ] );
-				}
+		if ( count( $redirects ) > 0 && is_array( $delete_redirects ) && count( $delete_redirects ) > 0 ) {
+			foreach ( $delete_redirects as $delete_redirect ) {
+				unset( $redirects[ $delete_redirect ] );
 			}
-		}
 
-		$this->save_redirects( $redirects );
+			$this->save_redirects( $redirects );
+		}
 	}
 
 	/**
