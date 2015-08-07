@@ -13,47 +13,11 @@ class WPSEO_Page_Redirect {
 	 */
 	public static function display() {
 		// Extracting the vars
+		// @codingStandardsIgnoreStart
 		extract( self::get_view_vars() );
+		// @codingStandardsIgnoreEnd
 
 		require_once( WPSEO_PATH . 'premium/views/redirects.php' );
-	}
-
-	/**
-	 * Function that is triggered when the redirect page loads
-	 */
-	public static function page_load() {
-		add_action( 'admin_enqueue_scripts', array( 'WPSEO_Page_Redirect', 'page_scripts' ) );
-	}
-
-	/**
-	 * Load the admin redirects scripts
-	 */
-	public static function page_scripts() {
-		wp_enqueue_script( 'jquery-qtip', plugins_url( 'js/jquery.qtip.min.js', WPSEO_FILE ), array( 'jquery' ), '1.0.0-RC3', true );
-		wp_enqueue_script( 'wpseo-premium-yoast-overlay', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/js/wpseo-premium-yoast-overlay' . WPSEO_CSSJS_SUFFIX . '.js', array( 'jquery' ), WPSEO_VERSION );
-		wp_enqueue_script( 'wp-seo-premium-admin-redirects', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/js/wp-seo-premium-admin-redirects' . WPSEO_CSSJS_SUFFIX . '.js', array( 'jquery' ), WPSEO_VERSION );
-		wp_localize_script( 'wp-seo-premium-admin-redirects', 'wpseo_premium_strings', WPSEO_Premium_Javascript_Strings::strings() );
-
-		add_screen_option( 'per_page', array(
-			'label'   => __( 'Redirects per page', 'wordpress-seo-premium' ),
-			'default' => 25,
-			'option'  => 'redirects_per_page',
-		) );
-	}
-
-	/**
-	 * Catch redirects_per_page
-	 *
-	 * @param string $status
-	 * @param string $option
-	 * @param string $value
-	 *
-	 * @return string|void
-	 */
-	public static function set_screen_option( $status, $option, $value ) {
-		if ( 'redirects_per_page' === $option ) {
-			return $value;
-		}
 	}
 
 	/**
