@@ -24,7 +24,7 @@
 				<input type='text' class='textinput' name='wpseo_redirects_new_new' id='wpseo_redirects_new_new' value='' />
 				<br class='clear'/>
 
-				<label class='textinput' for='wpseo_redirects_new_type'><?php echo _x( 'Type', 'noun', 'wordpress-seo-premium' ); ?></label>
+				<label class='textinput' for='wpseo_redirects_new_type'><?php _ex( 'Type', 'noun', 'wordpress-seo-premium' ); ?></label>
 				<select name='wpseo_redirects_new_type' id='wpseo_redirects_new_type' class='select'>
 				<?php
 				// Loop through the redirect types.
@@ -56,10 +56,9 @@
 			<input type='hidden' class='wpseo_redirects_ajax_nonce' value='<?php echo $nonce; ?>' />
 			<?php
 				// The list table.
-				$list_table = new WPSEO_Redirect_Table( 'URL' );
-				$list_table->prepare_items();
-				$list_table->search_box( __( 'Search', 'wordpress-seo-premium' ), 'wpseo-redirect-search' );
-				$list_table->display();
+				$normal_redirect_table->prepare_items();
+				$normal_redirect_table->search_box( __( 'Search', 'wordpress-seo-premium' ), 'wpseo-redirect-search' );
+				$normal_redirect_table->display();
 			?>
 		</form>
 	</div>
@@ -114,10 +113,9 @@
 			<input type='hidden' class='wpseo_redirects_ajax_nonce' value='<?php echo $nonce; ?>' />
 			<?php
 				// The list table.
-				$list_table = new WPSEO_Redirect_Table( 'REGEX' );
-				$list_table->prepare_items();
-				$list_table->search_box( __( 'Search', 'wordpress-seo-premium' ), 'wpseo-redirect-search' );
-				$list_table->display();
+				$regex_redirect_table->prepare_items();
+				$regex_redirect_table->search_box( __( 'Search', 'wordpress-seo-premium' ), 'wpseo-redirect-search' );
+				$regex_redirect_table->display();
 			?>
 		</form>
 	</div>
