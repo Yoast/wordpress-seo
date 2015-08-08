@@ -305,7 +305,8 @@ class WPSEO_Twitter {
 		 *
 		 * @api string $unsigned Name string
 		 */
-		$domain = apply_filters( 'wpseo_twitter_domain', get_bloginfo( 'name' ) );
+		$url    = parse_url( get_bloginfo( 'url', 'display' ) );
+		$domain = apply_filters( 'wpseo_twitter_domain', $url['host'] );
 		if ( is_string( $domain ) && $domain !== '' ) {
 			$this->output_metatag( 'domain', $domain );
 		}
