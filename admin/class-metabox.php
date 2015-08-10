@@ -586,9 +586,20 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				'jquery-ui-autocomplete',
 			), WPSEO_VERSION, true );
 
-			wp_enqueue_script( 'wp-seo-wordpressScraper.js', plugins_url( 'js/wp-seo-wordpress-scraper' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), null, WPSEO_VERSION, true );
+			wp_register_script( 'wp-seo-jed', plugins_url( 'js/dist/jed/jed' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), null, '1.1.0', true );
+			wp_enqueue_script( 'wp-seo-wordpressScraper.js', plugins_url( 'js/wp-seo-wordpress-scraper' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'wp-seo-jed' ), WPSEO_VERSION, true );
 			wp_enqueue_script( 'wp-seo-wordpressScraper-Config.js', plugins_url( 'js/wp-seo-wordpress-scraper-config' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), null, WPSEO_VERSION, true );
 			wp_enqueue_script( 'yoast-seo-content-analysis', plugins_url( 'js/dist/js-text-analysis/yoast-seo-content-analysis.min.js', WPSEO_FILE ), null, WPSEO_VERSION, true );
+
+			$file = plugin_dir_path( WPSEO_FILE ) . 'languages/wordpress-seo-' . get_locale() . '.json';
+			if ( file_exists( $file ) ) {
+				$file = file_get_contents( $file );
+				$json = json_decode( $file, true );
+			}
+			else {
+				$json = array();
+			}
+			wp_localize_script( 'wp-seo-wordpressScraper.js', 'wpseoL10n', $json );
 
 			if ( post_type_supports( get_post_type(), 'thumbnail' ) ) {
 				wp_enqueue_script( 'wp-seo-featured-image', plugins_url( 'js/wp-seo-featured-image' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'jquery' ), WPSEO_VERSION, true );

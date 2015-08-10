@@ -53,8 +53,7 @@ module.exports = function(grunt) {
 				addtextdomain: 'grunt-wp-i18n',
 				makepot: 'grunt-wp-i18n',
 				glotpress_download: 'grunt-glotpress',
-				wpcss: 'grunt-wp-css',
-				build_analyzer_translations: 'grunt/custom/build_analyzer_translations.js'
+				wpcss: 'grunt-wp-css'
 			}
 		}
 	});

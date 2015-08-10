@@ -1,3 +1,4 @@
+/* global wpseoL10n */
 var YoastSEO_args = {
     //source to use as feeder for the analyzer and snippetPreview
     source: YoastSEO_WordPressScraper,
@@ -34,5 +35,22 @@ var YoastSEO_args = {
         keyword: "Choose a focus keyword",
         meta: "Modify your meta description by editing it right here",
         text: "Start writing your text!"
-    }
+    },
+    translations: wpseoL10n
 };
+
+(function() {
+    // If there are no translations let the analyzer fallback onto the english translations.
+    if ( 0 === wpseoL10n.length ) {
+        delete( YoastSEO_args.translations );
+        return;
+    }
+
+    // Make sure the correct text domain is set for analyzer.
+    var translations = wpseoL10n;
+    translations.domain = 'js-text-analysis';
+    translations.locale_data["js-text-analysis"] = translations.locale_data["wordpress-seo"];
+    delete( translations.locale_data["wordpress-seo"] );
+
+    YoastSEO_args.translations = translations;
+}());
