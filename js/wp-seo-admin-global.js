@@ -25,7 +25,7 @@ function wpseoDismissTaglineNotice( nonce ) {
 			action: 'wpseo_dismiss_tagline_notice',
 			_wpnonce: nonce
 		}
-	)
+	);
 }
 
 /**
@@ -79,5 +79,18 @@ jQuery( document ).ready( function() {
 
 	jQuery( '#wpseo-dismiss-tagline-notice > .notice-dismiss').click( function() {
 		wpseoDismissTaglineNotice( jQuery( '#wpseo-dismiss-tagline-notice').data( 'nonce' ) );
-	})
+	});
+
+	jQuery( '.yoast-dismissible > .notice-dismiss').click( function() {
+		var parent_div = jQuery( this ).parent('.yoast-dismissible');
+
+		jQuery.post(
+			ajaxurl,
+			{
+				action: parent_div.attr( 'id').replace( /-/g, '_' ),
+				_wpnonce: parent_div.data( 'nonce' ),
+				data: parent_div.data( 'json' )
+			}
+		);
+	});
 });

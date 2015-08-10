@@ -583,7 +583,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			wp_enqueue_script( 'wp-seo-metabox', plugins_url( 'js/wp-seo-metabox' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array(
 				'jquery',
 				'jquery-ui-core',
-				'jquery-ui-autocomplete',
 			), WPSEO_VERSION, true );
 
 			wp_register_script( 'wp-seo-jed', plugins_url( 'js/dist/jed/jed' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), null, '1.1.0', true );

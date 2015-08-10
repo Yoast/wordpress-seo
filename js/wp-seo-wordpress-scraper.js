@@ -23,7 +23,7 @@ YoastSEO_WordPressScraper = function(args, refObj) {
 		"pageTitleKeyword",
 		"pageTitleLength",
 		"firstParagraph",
-		"keywordDoubles"];
+		"keywordDoubles"]; 
 	this.replacedVars = {};
 	this.getData();
 };
