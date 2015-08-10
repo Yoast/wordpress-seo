@@ -42,13 +42,14 @@ class WPSEO_GSC {
 	 * Constructor for the page class. This will initialize all GSC related stuff
 	 */
 	public function __construct() {
-		add_action( 'admin_init', array( $this, 'admin_init' ) );
+		add_action( 'init', array( $this, 'init' ) );
 	}
 
 	/**
-	 * Run admin init logic.
+	 * Run init logic.
 	 */
-	public function admin_init() {
+	public function init() {
+
 		// Setting the screen option.
 		if ( filter_input( INPUT_GET, 'page' ) === 'wpseo_search_console' ) {
 
@@ -65,7 +66,7 @@ class WPSEO_GSC {
 			add_action( 'admin_init', array( $this, 'register_gsc_notification' ) );
 		}
 
-		$this->register_settings();
+		add_action( 'admin_init', array( $this, 'register_settings' ) );
 	}
 
 	/**
