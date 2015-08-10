@@ -42,9 +42,13 @@ class WPSEO_GSC {
 	 * Constructor for the page class. This will initialize all GSC related stuff
 	 */
 	public function __construct() {
-		// Settings.
-		add_action( 'admin_init', array( $this, 'register_settings' ) );
+		add_action( 'admin_init', array( $this, 'admin_init' ) );
+	}
 
+	/**
+	 * Run admin init logic.
+	 */
+	public function admin_init() {
 		// Setting the screen option.
 		if ( filter_input( INPUT_GET, 'page' ) === 'wpseo_search_console' ) {
 
@@ -60,6 +64,8 @@ class WPSEO_GSC {
 		elseif ( current_user_can( 'manage_options' ) && WPSEO_GSC_Settings::get_profile() === '' && get_user_option( 'wpseo_dismissed_gsc_notice', get_current_user_id() ) !== '1' ) {
 			add_action( 'admin_init', array( $this, 'register_gsc_notification' ) );
 		}
+
+		$this->register_settings();
 	}
 
 	/**
