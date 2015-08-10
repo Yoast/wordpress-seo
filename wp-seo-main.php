@@ -41,6 +41,10 @@ function yoast_seo_register_deactivate_listener() {
 	if ( ( $listener_plugin = filter_input( INPUT_GET, 'yoast_seo_disable' ) ) && $listener_plugin === 'free' && ( $listener_nonce = filter_input( INPUT_GET, '_yoast_disable_nonce' ) ) && wp_verify_nonce( $listener_nonce, 'yoast-seo-disable-nonce' ) ) {
 		deactivate_plugins( 'wordpress-seo/wp-seo.php' );
 
+		Yoast_Notification_Center::get()->add_notification(
+			new Yoast_Notification( __( 'We\'ve disabled the free Yoast SEO plugin and activated the Yoast Premium SEO plugin.', 'wordpress-seo' ), array( 'type' => 'updated' ) )
+		);
+
 		wp_redirect( 'plugins.php?action=activate&plugin=wordpress-seo-premium%2Fwp-seo-premium.php&plugin_status=all&paged=1&s&_wpnonce=' . wp_create_nonce('activate-plugin_wordpress-seo-premium/wp-seo-premium.php') );
 		exit;
 	}
