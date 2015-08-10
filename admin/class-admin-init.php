@@ -36,13 +36,13 @@ class WPSEO_Admin_Init {
 		add_action( 'admin_init', array( $this, 'after_update_notice' ), 15 );
 		add_action( 'admin_init', array( $this, 'tagline_notice' ), 15 );
 		add_action( 'admin_init', array( $this, 'ga_compatibility_notice' ), 15 );
+		add_action( 'admin_init', array( $this, 'ignore_tour' ) );
+		add_action( 'admin_init', array( $this, 'load_tour' ) );
 
 		$this->load_meta_boxes();
 		$this->load_taxonomy_class();
 		$this->load_admin_page_class();
 		$this->load_admin_user_class();
-		$this->ignore_tour();
-		$this->load_tour();
 		$this->load_xml_sitemaps_admin();
 	}
 
