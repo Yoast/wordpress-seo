@@ -3,11 +3,6 @@
  * @package WPSEO\Premium\Classes
  */
 
-if ( ! defined( 'WPSEO_VERSION' ) ) {
-	header( 'HTTP/1.0 403 Forbidden' );
-	die;
-}
-
 /**
  * Class WPSEO_Htaccess_Redirect_File
  */
