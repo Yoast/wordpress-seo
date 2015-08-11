@@ -12,7 +12,7 @@ stopwordArgs = {
 };
 
 describe("a test for matching the keyword with ", function(){
-    var stopwordMatcher = new YoastSEO_Analyzer(stopwordArgs);
+    var stopwordMatcher = Factory.buildAnalyzer(stopwordArgs);
     var result = stopwordMatcher.stopwords();
     it("matches a keyword", function(){
         expect(result[0].test).toBe("stopwordKeywordCount");

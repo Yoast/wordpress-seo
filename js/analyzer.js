@@ -1,4 +1,4 @@
-/* global YoastSEO_Analyzer: true, Jed, YoastSEO_preProcessor, stringHelper */
+/* global YoastSEO_Analyzer: true, YoastSEO_preProcessor, stringHelper */
 /* global YoastSEO_AnalyzeScorer, YoastSEO_config */
 /**
  * Text Analyzer, accepts args for config and calls init for initialization
@@ -18,17 +18,6 @@ YoastSEO_Analyzer = function( args ) {
 YoastSEO_Analyzer.prototype.checkConfig = function() {
 	if ( typeof this.config.text === "undefined" ) {
 		this.config.text = "";
-	}
-
-	if ( typeof this.config.i18n === "undefined" ) {
-		this.config.i18n = new Jed( {
-			"domain": "js-text-analysis",
-			"locale_data": {
-				"js-text-analysis": {
-					"": {}
-				}
-			}
-		} );
 	}
 };
 
