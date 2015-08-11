@@ -1,24 +1,28 @@
 // https://github.com/jscs-dev/grunt-jscs
 module.exports = {
 	options: {
-		config: '.jscsrc'
+		config: ".jscsrc"
 	},
 	plugin: {
+		options: {
+
+			// We already have non camel case variables names that we cannot change easily
+			requireCamelCaseOrUpperCaseIdentifiers: null
+		},
 		files: {
-			src: [
-				'js/analyzer.js'
-			]
+			src: "<%= files.js %>"
 		}
 	},
 	grunt: {
 		options: {
+
 			// We have no control over task names that use underscores
-			requireCamelCaseOrUpperCaseIdentifiers: 'ignoreProperties'
+			requireCamelCaseOrUpperCaseIdentifiers: "ignoreProperties"
 		},
 		files: {
 			src: [
-				'<%= files.grunt %>',
-				'<%= files.config %>'
+				"<%= files.grunt %>",
+				"<%= files.config %>"
 			]
 		}
 	}

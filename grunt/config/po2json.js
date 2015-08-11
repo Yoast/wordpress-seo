@@ -2,10 +2,10 @@
 module.exports = {
     all: {
         options: {
-            format: 'jed1.x',
-            domain: 'js-text-analysis'
+            format: "jed1.x",
+            domain: "js-text-analysis"
         },
-        src: [ 'languages/*.po' ],
-        dest: 'languages'
+        src: [ "languages/*.po" ],
+        dest: "languages"
     }
 };
