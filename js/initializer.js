@@ -1,6 +1,8 @@
 /* jshint browser: true */
 /* global YoastSEO: true, YoastSEO_loader: true */
 /* global Jed */
+YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
+
 /**
  * Loader for the analyzer, loads the eventbinder and the elementdefiner
  *
