@@ -173,10 +173,10 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	 */
 	public function do_reorder( $a, $b ) {
 		// If no sort, default to title.
-		$orderby = ( ( $orderby = filter_input( INPUT_GET, 'orderby' ) ) != '' ) ? $orderby : 'old';
+		$orderby = filter_input( INPUT_GET, 'orderby', FILTER_VALIDATE_REGEXP, array( 'options' => array( 'default' => 'old', 'regexp' => '/^(old|new){1}$/' ) ) );
 
 		// If no order, default to asc.
-		$order = ( ( $order = filter_input( INPUT_GET, 'order' ) ) != '' ) ? $order : 'asc';
+		$order   = filter_input( INPUT_GET, 'order', FILTER_VALIDATE_REGEXP, array( 'options' => array( 'default' => 'asc', 'regexp' => '/^(asc|desc){1}$/' ) ) );
 
 		// Determine sort order.
 		$result = strcmp( $a[ $orderby ], $b[ $orderby ] );
