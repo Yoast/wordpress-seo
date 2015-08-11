@@ -1,5 +1,4 @@
-/* global YoastSEO: true, yst_preProcessor: true */
-/* global stringHelper */
+/* global YoastSEO: true */
 YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 
 /**
@@ -11,7 +10,7 @@ YoastSEO.PreProcessor = function( text ) {
 	//create __store object to store data
 	this.__store = {};
 	this.__store.originalText = text;
-	this.stringHelper = stringHelper();
+	this.stringHelper = YoastSEO.getStringHelper();
 	this.init();
 };
 
@@ -215,7 +214,10 @@ YoastSEO.PreProcessor.prototype.replaceDiacritics = function( textString ) {
  * @returns {YoastSEO.PreProcessor}
  */
 YoastSEO.getPreProcessor = function( inputString ) {
-	if ( typeof YoastSEO.cachedPreProcessor !== "object" || YoastSEO.cachedPreProcessor.inputText !== inputString ) {
+	if (
+		typeof YoastSEO.cachedPreProcessor !== "object" ||
+		YoastSEO.cachedPreProcessor.inputText !== inputString
+	) {
 		YoastSEO.cachedPreProcessor = new YoastSEO.PreProcessor( inputString );
 	}
 	return YoastSEO.cachedPreProcessor;

@@ -1,4 +1,3 @@
-/* global stringHelper */
 /* global YoastSEO: true */
 YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 
@@ -55,7 +54,7 @@ YoastSEO.Analyzer.prototype.initDependencies = function() {
 	this.YoastSEO_preProcessor = new YoastSEO.createPreProcessor( this.config.text );
 
 	//init helper
-	this.stringHelper = stringHelper();
+	this.stringHelper = YoastSEO.getStringHelper();
 
 	//init scorer
 	this.analyzeScorer = new YoastSEO.AnalyzeScorer( this );

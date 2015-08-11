@@ -1,4 +1,4 @@
-/* global YoastSEO: true, stringHelper: true, yst_stringHelper: true */
+/* global YoastSEO: true */
 YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 
 /**helper functions*/
@@ -122,11 +122,12 @@ YoastSEO.StringHelper.prototype.stripAllTags = function( textString ) {
 
 /**
  * Checks if the stringhelper is already initialized. Returns stringHelper.
+ *
  * @returns {YoastSEO.StringHelper}
  */
-stringHelper = function() {
-	if ( typeof yst_stringHelper !== "object" ) {
-		yst_stringHelper = new YoastSEO.StringHelper();
+YoastSEO.getStringHelper = function() {
+	if ( typeof YoastSEO.cachedStringHelper !== "object" ) {
+		YoastSEO.cachedStringHelper = new YoastSEO.StringHelper();
 	}
-	return yst_stringHelper;
+	return YoastSEO.cachedStringHelper;
 };
