@@ -214,9 +214,9 @@ YoastSEO.PreProcessor.prototype.replaceDiacritics = function( textString ) {
  * @param inputString
  * @returns {YoastSEO.PreProcessor}
  */
-YoastSEO.createPreProcessor = function( inputString ) {
-	if ( typeof yst_preProcessor !== "object" || yst_preProcessor.inputText !== inputString ) {
-		yst_preProcessor = new YoastSEO.PreProcessor( inputString );
+YoastSEO.getPreProcessor = function( inputString ) {
+	if ( typeof YoastSEO.cachedPreProcessor !== "object" || YoastSEO.cachedPreProcessor.inputText !== inputString ) {
+		YoastSEO.cachedPreProcessor = new YoastSEO.PreProcessor( inputString );
 	}
-	return yst_preProcessor;
+	return YoastSEO.cachedPreProcessor;
 };
