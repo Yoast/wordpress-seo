@@ -1,4 +1,4 @@
-/* global YoastSEO: true, YoastSEOScoring, analyzerScoreRating */
+/* global YoastSEO: true */
 YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 
 /**
@@ -18,7 +18,7 @@ YoastSEO.AnalyzeScorer = function( refObj ) {
  * loads the analyzerScoring from the config file.
  */
 YoastSEO.AnalyzeScorer.prototype.init = function() {
-	var scoringConfig = new YoastSEOScoring( this.i18n );
+	var scoringConfig = new YoastSEO.AnalyzerScoring( this.i18n );
 	this.scoring = scoringConfig.analyzerScoring;
 };
 
@@ -218,6 +218,6 @@ YoastSEO.AnalyzeScorer.prototype.totalScore = function() {
 			scoreAmount--;
 		}
 	}
-	var totalAmount = scoreAmount * analyzerScoreRating;
+	var totalAmount = scoreAmount * YoastSEO.analyzerScoreRating;
 	return Math.round( ( totalScore / totalAmount ) * 10 );
 };

@@ -1,10 +1,12 @@
 /* jshint browser: true */
 /* global YoastSEO: true, YoastSEO_loader: true */
-/* global Jed, YoastSEO_config */
-/* global YoastSEO_args */
+/* global Jed */
 /**
  * Loader for the analyzer, loads the eventbinder and the elementdefiner
+ *
  * @param {Object} args
+ * @param {Object} args.translations Jed compatible translations
+ *
  * @constructor
  */
 YoastSEO.Initializer = function( args ) {
@@ -56,7 +58,7 @@ YoastSEO.Initializer.prototype.init = function() {
  */
 YoastSEO.Initializer.prototype.loadQueue = function() {
 	if ( typeof this.queue === "undefined" ) {
-		this.queue = YoastSEO_config.analyzerConfig.queue;
+		this.queue = YoastSEO.analyzerConfig.analyzerConfig.queue;
 	}
 };
 
@@ -325,7 +327,7 @@ YoastSEO.Initializer.prototype.runAnalyzer = function() {
  */
 YoastSEO.loadAnalyzerEvents = function() {
 	if ( document.readyState === "complete" ) {
-		YoastSEO_loader = new YoastSEO.Initializer( YoastSEO_args );
+		YoastSEO_loader = new YoastSEO.Initializer( YoastSEO.analyzerArgs );
 	} else {
 		setTimeout( YoastSEO.loadAnalyzerEvents, 50 );
 	}

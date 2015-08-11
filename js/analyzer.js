@@ -1,5 +1,5 @@
 /* global stringHelper */
-/* global YoastSEO: true, YoastSEO_config */
+/* global YoastSEO: true */
 YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 
 /**
@@ -71,7 +71,7 @@ YoastSEO.Analyzer.prototype.initQueue = function() {
 	if ( typeof this.config.queue !== "undefined" && this.config.queue.length !== 0 ) {
 		this.queue = this.config.queue.slice();
 	} else {
-		this.queue = YoastSEO_config.analyzerConfig.queue.slice();
+		this.queue = YoastSEO.analyzerConfig.analyzerConfig.queue.slice();
 	}
 };
 
@@ -82,10 +82,10 @@ YoastSEO.Analyzer.prototype.loadWordlists = function() {
 
 	//if no available keywords, load default array
 	if ( typeof this.config.wordsToRemove === "undefined" ) {
-		this.config.wordsToRemove = YoastSEO_config.analyzerConfig.wordsToRemove;
+		this.config.wordsToRemove = YoastSEO.analyzerConfig.analyzerConfig.wordsToRemove;
 	}
 	if ( typeof this.config.stopWords === "undefined" ) {
-		this.config.stopWords = YoastSEO_config.analyzerConfig.stopWords;
+		this.config.stopWords = YoastSEO.analyzerConfig.analyzerConfig.stopWords;
 	}
 };
 

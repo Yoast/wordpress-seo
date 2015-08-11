@@ -24,7 +24,9 @@
             <script type="text/javascript" src="js/YoastSEO.js"></script>
             <script type="text/javascript" src="js/scoreFormatter.js"></script>
     <script>
-        var YoastSEO_args = {
+        YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
+
+        YoastSEO.analyzerArgs = {
             source: YoastSEO.InputGenerator,
             analyzer: true,
             snippetPreview: true,
