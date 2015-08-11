@@ -14,7 +14,7 @@ class WPSEO_Redirect_Presenter {
 	 * @param array $view_vars
 	 */
 	public function display( $view_vars = array() ) {
-		// Extracting the vars
+		// Extracting the vars.
 		// @codingStandardsIgnoreStart
 		extract( array_merge( $view_vars, $this->get_view_vars() ) );
 		// @codingStandardsIgnoreEnd
@@ -105,10 +105,10 @@ class WPSEO_Redirect_Presenter {
 	 */
 	private function get_redirect_types() {
 		$redirect_types = array(
-			'301' => '301 Moved Permanently',
-			'302' => '302 Found',
-			'307' => '307 Temporary Redirect',
-			'410' => '410 Content Deleted',
+			'301' => __( '301 Moved Permanently', 'wordpress-seo-premium' ),
+			'302' => __( '302 Found', 'wordpress-seo-premium' ),
+			'307' => __( '307 Temporary Redirect', 'wordpress-seo-premium' ),
+			'410' => __( '410 Content Deleted', 'wordpress-seo-premium' ),
 		);
 
 		return apply_filters( 'wpseo_premium_redirect_types', $redirect_types );
