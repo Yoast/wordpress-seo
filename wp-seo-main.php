@@ -28,11 +28,14 @@ if ( ! defined( 'WPSEO_CSSJS_SUFFIX' ) ) {
 }
 
 global $pagenow;
-if( is_admin() && $pagenow === 'plugins.php'  ) {
+if ( is_admin() && $pagenow === 'plugins.php' ) {
 	add_action( 'admin_init', 'yoast_seo_free_register_deactivate_listener' );
 	add_action( 'admin_init', 'yoast_seo_premium_register_deactivate_listener' );
 }
 
+/**
+ * Listener for Yoast SEO free. Disable Free when someone is trying to activate Premium.
+ */
 function yoast_seo_free_register_deactivate_listener() {
 	if ( ( $listener_plugin = filter_input( INPUT_GET, 'plugin' ) ) && $listener_plugin === 'wordpress-seo-premium/wp-seo-premium.php' ) {
 		wp_redirect( admin_url( 'plugins.php?yoast_seo_disable=free&_yoast_disable_nonce=' . wp_create_nonce( 'yoast-seo-disable-nonce' ) ), 301 );
@@ -46,11 +49,14 @@ function yoast_seo_free_register_deactivate_listener() {
 			new Yoast_Notification( __( 'We\'ve disabled the free Yoast SEO plugin and activated the Yoast Premium SEO plugin.', 'wordpress-seo' ), array( 'type' => 'updated' ) )
 		);
 
-		wp_redirect( admin_url( 'plugins.php?action=activate&plugin=wordpress-seo-premium%2Fwp-seo-premium.php&plugin_status=all&paged=1&s&_wpnonce=' . wp_create_nonce('activate-plugin_wordpress-seo-premium/wp-seo-premium.php') ) );
+		wp_redirect( admin_url( 'plugins.php?action=activate&plugin=wordpress-seo-premium%2Fwp-seo-premium.php&plugin_status=all&paged=1&s&_wpnonce=' . wp_create_nonce( 'activate-plugin_wordpress-seo-premium/wp-seo-premium.php' ) ) );
 		exit;
 	}
 }
 
+/**
+ * Listener for Yoast SEO premium. Disable premium when someone is trying to activate free.
+ */
 function yoast_seo_premium_register_deactivate_listener() {
 	if ( ( $listener_plugin = filter_input( INPUT_GET, 'plugin' ) ) && $listener_plugin === 'wordpress-seo/wp-seo.php' ) {
 		wp_redirect( admin_url( 'plugins.php?yoast_seo_disable=premium&_yoast_disable_nonce=' . wp_create_nonce( 'yoast-seo-disable-nonce' ) ), 301 );
@@ -64,7 +70,7 @@ function yoast_seo_premium_register_deactivate_listener() {
 			new Yoast_Notification( __( 'We\'ve disabled the Yoast SEO Premium plugin and activated the free Yoast SEO plugin.', 'wordpress-seo' ), array( 'type' => 'updated' ) )
 		);
 
-		wp_redirect( admin_url( 'plugins.php?action=activate&plugin=wordpress-seo%2Fwp-seo.php&plugin_status=all&paged=1&s&_wpnonce=' . wp_create_nonce('activate-plugin_wordpress-seo/wp-seo.php') ) );
+		wp_redirect( admin_url( 'plugins.php?action=activate&plugin=wordpress-seo%2Fwp-seo.php&plugin_status=all&paged=1&s&_wpnonce=' . wp_create_nonce( 'activate-plugin_wordpress-seo/wp-seo.php' ) ) );
 		exit;
 	}
 }
