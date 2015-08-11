@@ -37,18 +37,10 @@ class WPSEO_Redirect_Ajax {
 		if ( $old_redirect_post = filter_input( INPUT_POST, 'old_redirect', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY )  && $new_redirect_post = filter_input( INPUT_POST, 'new_redirect', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY ) ) {
 
 			// Decode old redirect.
-			$old_redirect = array(
-				'key'   => trim( htmlspecialchars_decode( urldecode( $old_redirect_post['key'] ) ) ),
-				'value' => trim( htmlspecialchars_decode( urldecode( $old_redirect_post['value'] ) ) ),
-				'type'  => urldecode( $old_redirect_post['type'] ),
-			);
+			$old_redirect = $this->decode_redirect( $old_redirect_post );
 
 			// Decode new redirect.
-			$new_redirect = array(
-				'key'   => trim( htmlspecialchars_decode( urldecode( $new_redirect_post['key'] ) ) ),
-				'value' => trim( htmlspecialchars_decode( urldecode( $new_redirect_post['value'] ) ) ),
-				'type'  => urldecode( $new_redirect_post['type'] ),
-			);
+			$new_redirect = $this->decode_redirect( $new_redirect_post );
 
 			// Save redirects in database.
 			$this->redirect_manager->save_redirect( $old_redirect, $new_redirect );
@@ -126,6 +118,21 @@ class WPSEO_Redirect_Ajax {
 			echo '0';
 			exit;
 		}
+	}
+
+	/**
+	 * Decode the redirect data.
+	 *
+	 * @param array $redirect
+	 *
+	 * @return array
+	 */
+	private function decode_redirect( array $redirect ) {
+		return array(
+			'key'   => trim( htmlspecialchars_decode( urldecode( $redirect['key'] ) ) ),
+			'value' => trim( htmlspecialchars_decode( urldecode( $redirect['value'] ) ) ),
+			'type'  => urldecode( $redirect['type'] ),
+		);
 	}
 
 }
