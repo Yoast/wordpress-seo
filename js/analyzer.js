@@ -51,7 +51,7 @@ YoastSEO.Analyzer.prototype.toLowCase = function() {
 YoastSEO.Analyzer.prototype.initDependencies = function() {
 
 	//init preprocessor
-	this.YoastSEO_preProcessor = new YoastSEO.createPreProcessor( this.config.text );
+	this.YoastSEO_preProcessor = new YoastSEO.getPreProcessor( this.config.text );
 
 	//init helper
 	this.stringHelper = YoastSEO.getStringHelper();
