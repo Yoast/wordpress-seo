@@ -98,7 +98,7 @@ YoastSEO.SnippetPreview.prototype.formatMeta = function() {
 		meta = this.getMetaText();
 	}
 	meta = this.refObj.stringHelper.stripAllTags( meta );
-	meta = meta.substring( 0, YoastSEO.analyzerConfig.analyzerConfig.maxMeta );
+	meta = meta.substring( 0, YoastSEO.analyzerConfig.maxMeta );
 	if ( this.refObj.source.formattedData.keyword !== "" && meta !== "" ) {
 		return this.formatKeyword( meta );
 	}
@@ -116,7 +116,7 @@ YoastSEO.SnippetPreview.prototype.getMetaText = function() {
 	if ( typeof this.refObj.source.formattedData.excerpt !== "undefined" ) {
 		metaText = this.refObj.source.formattedData.excerpt.substring(
 			0,
-			YoastSEO.analyzerConfig.analyzerConfig.maxMeta
+			YoastSEO.analyzerConfig.maxMeta
 		);
 	}
 	if ( metaText === "" ) {
@@ -129,7 +129,7 @@ YoastSEO.SnippetPreview.prototype.getMetaText = function() {
 			var periodMatches = this.getPeriodMatches();
 			metaText = this.refObj.source.formattedData.text.substring(
 				0,
-				YoastSEO.analyzerConfig.analyzerConfig.maxMeta
+				YoastSEO.analyzerConfig.maxMeta
 			);
 			var curStart = 0;
 			if ( indexMatches.length > 0 ) {
@@ -146,7 +146,7 @@ YoastSEO.SnippetPreview.prototype.getMetaText = function() {
 				metaText = this.refObj.stringHelper.stripAllTags(
 					this.refObj.source.formattedData.text.substring(
 						curStart,
-						curStart + YoastSEO.analyzerConfig.analyzerConfig.maxMeta
+						curStart + YoastSEO.analyzerConfig.maxMeta
 					)
 				);
 			}
@@ -271,11 +271,11 @@ YoastSEO.SnippetPreview.prototype.checkTextLength = function( ev ) {
 	var text = ev.currentTarget.textContent;
 	switch ( ev.currentTarget.id ) {
 		case "snippet_meta":
-			if ( text.length > YoastSEO.analyzerConfig.analyzerConfig.maxMeta ) {
+			if ( text.length > YoastSEO.analyzerConfig.maxMeta ) {
 				ev.currentTarget.__unformattedText = ev.currentTarget.textContent;
 				ev.currentTarget.textContent = text.substring(
 					0,
-					YoastSEO.analyzerConfig.analyzerConfig.maxMeta
+					YoastSEO.analyzerConfig.maxMeta
 				);
 				ev.currentTarget.className = "desc";
 			}
@@ -300,7 +300,7 @@ YoastSEO.SnippetPreview.prototype.textFeedback = function( ev ) {
 	var text = ev.currentTarget.textContent;
 	switch ( ev.currentTarget.id ) {
 		case "snippet_meta":
-			if ( text.length > YoastSEO.analyzerConfig.analyzerConfig.maxMeta ) {
+			if ( text.length > YoastSEO.analyzerConfig.maxMeta ) {
 				ev.currentTarget.className = "desc tooLong";
 			} else {
 				ev.currentTarget.className = "desc";

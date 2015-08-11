@@ -85,11 +85,11 @@ YoastSEO.PreProcessor.prototype.syllableCount = function( textString ) {
 	textString = this.removeWords( textString );
 	var words = textString.split( " " );
 	var subtractSyllablesRegexp = this.stringHelper.stringToRegex(
-		YoastSEO.analyzerConfig.preprocessorConfig.syllables.subtractSyllables,
+		YoastSEO.preprocessorConfig.syllables.subtractSyllables,
 		true
 	);
 	var addSyllablesRegexp = this.stringHelper.stringToRegex(
-		YoastSEO.analyzerConfig.preprocessorConfig.syllables.addSyllables,
+		YoastSEO.preprocessorConfig.syllables.addSyllables,
 		true
 	);
 	for ( var i = 0; i < words.length; i++ ) {
@@ -137,7 +137,7 @@ YoastSEO.PreProcessor.prototype.advancedSyllableCount = function( inputString, r
  * @returns textString with exclusionwords removed
  */
 YoastSEO.PreProcessor.prototype.removeWords = function( textString ) {
-	var config = YoastSEO.analyzerConfig.preprocessorConfig;
+	var config = YoastSEO.preprocessorConfig;
 
 	for ( var i = 0; i < config.syllables.exclusionWords.length; i++ ) {
 		var exclusionRegex = new RegExp(
@@ -196,7 +196,7 @@ YoastSEO.PreProcessor.prototype.cleanText = function( textString ) {
  * @returns textString
  */
 YoastSEO.PreProcessor.prototype.replaceDiacritics = function( textString ) {
-	var config = YoastSEO.analyzerConfig.preprocessorConfig;
+	var config = YoastSEO.preprocessorConfig;
 
 	for ( var i = 0; i < config.diacriticsRemovalMap.length; i++ ) {
 		textString = textString.replace(

@@ -58,7 +58,7 @@ YoastSEO.Initializer.prototype.init = function() {
  */
 YoastSEO.Initializer.prototype.loadQueue = function() {
 	if ( typeof this.queue === "undefined" ) {
-		this.queue = YoastSEO.analyzerConfig.analyzerConfig.queue;
+		this.queue = YoastSEO.analyzerConfig.queue;
 	}
 };
 
