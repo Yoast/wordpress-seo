@@ -1,7 +1,9 @@
-/* global YoastSEO_StringHelper: true, stringHelper: true, yst_stringHelper: true */
+/* global YoastSEO: true, stringHelper: true, yst_stringHelper: true */
+YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
+
 /**helper functions*/
-YoastSEO_StringHelper = function() {
-};
+YoastSEO.StringHelper = function() {};
+
 /**
  * removes strings from array and replaces them with keyword.
  * @param textString
@@ -9,7 +11,7 @@ YoastSEO_StringHelper = function() {
  * @param replacement (default == space)
  * @returns {textString}
  */
-YoastSEO_StringHelper.prototype.replaceString = function(
+YoastSEO.StringHelper.prototype.replaceString = function(
 	textString,
 	stringsToRemove,
 	replacement
@@ -27,7 +29,7 @@ YoastSEO_StringHelper.prototype.replaceString = function(
  * @param stringsToMatch
  * @returns {matches}
  */
-YoastSEO_StringHelper.prototype.matchString = function( textString, stringsToMatch ) {
+YoastSEO.StringHelper.prototype.matchString = function( textString, stringsToMatch ) {
 	return textString.match( this.stringToRegex( stringsToMatch, false ) );
 };
 
@@ -38,7 +40,7 @@ YoastSEO_StringHelper.prototype.matchString = function( textString, stringsToMat
  * @param regex
  * @returns {number}
  */
-YoastSEO_StringHelper.prototype.countMatches = function( textString, regex ) {
+YoastSEO.StringHelper.prototype.countMatches = function( textString, regex ) {
 	return textString.match( regex ) !== null ? textString.match.length : 0;
 };
 
@@ -47,7 +49,7 @@ YoastSEO_StringHelper.prototype.countMatches = function( textString, regex ) {
  * @param stringArray
  * @returns {RegExp}
  */
-YoastSEO_StringHelper.prototype.stringToRegex = function( stringArray, disableWordBoundary ) {
+YoastSEO.StringHelper.prototype.stringToRegex = function( stringArray, disableWordBoundary ) {
 	var regexString = "";
 	var wordBoundary = "\\b";
 	if ( disableWordBoundary ) {
@@ -67,7 +69,7 @@ YoastSEO_StringHelper.prototype.stringToRegex = function( stringArray, disableWo
  * @param textString
  * @returns textString
  */
-YoastSEO_StringHelper.prototype.stripSpaces = function( textString ) {
+YoastSEO.StringHelper.prototype.stripSpaces = function( textString ) {
 
 	//replace multiple spaces with single space
 	textString = textString.replace( / {2,}/g, " " );
@@ -82,7 +84,7 @@ YoastSEO_StringHelper.prototype.stripSpaces = function( textString ) {
  * @param textString
  * @returns textString
  */
-YoastSEO_StringHelper.prototype.addEscapeChars = function( textString ) {
+YoastSEO.StringHelper.prototype.addEscapeChars = function( textString ) {
 	return textString.replace( /[\-\[\]\/\{}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&" );
 };
 
@@ -91,7 +93,7 @@ YoastSEO_StringHelper.prototype.addEscapeChars = function( textString ) {
  * @param textString
  * @returns textString
  */
-YoastSEO_StringHelper.prototype.stripSomeTags = function( textString ) {
+YoastSEO.StringHelper.prototype.stripSomeTags = function( textString ) {
 
 	//remove tags, except li, p, h1-6, dd
 	textString = textString.replace(
@@ -107,7 +109,7 @@ YoastSEO_StringHelper.prototype.stripSomeTags = function( textString ) {
  * @param textString
  * @returns textString
  */
-YoastSEO_StringHelper.prototype.stripAllTags = function( textString ) {
+YoastSEO.StringHelper.prototype.stripAllTags = function( textString ) {
 
 	//remove all tags
 	textString = textString.replace( /(<([^>]+)>)/ig, " " );
@@ -120,11 +122,11 @@ YoastSEO_StringHelper.prototype.stripAllTags = function( textString ) {
 
 /**
  * Checks if the stringhelper is already initialized. Returns stringHelper.
- * @returns {YoastSEO_StringHelper}
+ * @returns {YoastSEO.StringHelper}
  */
 stringHelper = function() {
 	if ( typeof yst_stringHelper !== "object" ) {
-		yst_stringHelper = new YoastSEO_StringHelper();
+		yst_stringHelper = new YoastSEO.StringHelper();
 	}
 	return yst_stringHelper;
 };

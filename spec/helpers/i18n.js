@@ -7,7 +7,7 @@ Factory = {
 	 *
 	 * @param {Object} args
 	 *
-	 * @returns {YoastSEO_Analyzer}
+	 * @returns {YoastSEO.Analyzer}
 	 */
 	buildAnalyzer: function ( args ) {
 
@@ -22,6 +22,6 @@ Factory = {
 			} );
 		}
 
-		return new YoastSEO_Analyzer( args );
+		return new YoastSEO.Analyzer( args );
 	}
 };
