@@ -66,7 +66,8 @@ class WPSEO_Redirect_Option {
 	}
 
 	/**
-	 * Check if the server is apache and the htaccess entries should be removed;
+	 * The server should always be apache. And the php redirects have to be enabled or in case of a separate
+	 * file it should be disabled.
 	 *
 	 * @param boolean $disable_php_redirect
 	 * @param boolean $separate_file
