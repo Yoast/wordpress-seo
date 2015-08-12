@@ -4,7 +4,7 @@
  */
 
 /**
- * Class WPSEO_Redirect_Table_Presenter
+ * Class WPSEO_Redirect_Tab_Presenter
  */
 class WPSEO_Redirect_Tab_Presenter {
 

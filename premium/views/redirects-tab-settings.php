@@ -10,6 +10,7 @@
 	}
 	?>
 
+<div id="table-settings" class="tab-url redirect-table-tab">
 	<form action="<?php echo admin_url( 'options.php' ); ?>" method="post">
 		<?php
 		settings_fields( 'yoast_wpseo_redirect_options' );
@@ -37,3 +38,4 @@
 			<input type="submit" name="submit" id="submit" class="button button-primary" value="<?php _e( 'Save Changes', 'wordpress-seo-premium' ); ?>" />
 		</p>
 	</form>
+</div>
