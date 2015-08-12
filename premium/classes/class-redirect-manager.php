@@ -229,28 +229,4 @@ abstract class WPSEO_Redirect_Manager {
 		return apply_filters( 'wpseo_premium_format_admin_url', $formatted_url );
 	}
 
-	/**
-	 * Getting the object which will save the redirects file
-	 *
-	 * @param string $separate_file
-	 *
-	 * @return null|WPSEO_Apache_Redirect_File|WPSEO_Htaccess_Redirect_File|WPSEO_Nginx_Redirect_File
-	 */
-	private function get_file_object( $separate_file ) {
-		// Create the correct file object.
-		if ( WPSEO_Utils::is_apache() ) {
-			if ( 'on' === $separate_file ) {
-				return new WPSEO_Apache_Redirect_File();
-			}
-
-			return new WPSEO_Htaccess_Redirect_File();
-		}
-
-		if ( WPSEO_Utils::is_nginx() ) {
-			return new WPSEO_Nginx_Redirect_File();
-		}
-
-		return null;
-	}
-
 }
