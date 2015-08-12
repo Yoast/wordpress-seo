@@ -34,8 +34,9 @@ class WPSEO_Redirect_Ajax {
 		$this->permission_check();
 
 		// Save the redirect.
-		if ( $old_redirect_post = filter_input( INPUT_POST, 'old_redirect', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY )  && $new_redirect_post = filter_input( INPUT_POST, 'new_redirect', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY ) ) {
-
+		$old_redirect_post = filter_input( INPUT_POST, 'old_redirect', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
+		$new_redirect_post = filter_input( INPUT_POST, 'new_redirect', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
+		if ( $old_redirect_post && $new_redirect_post  ) {
 			// Decode old redirect.
 			$old_redirect = $this->decode_redirect( $old_redirect_post );
 
@@ -82,7 +83,11 @@ class WPSEO_Redirect_Ajax {
 		$this->permission_check();
 
 		// Save the redirect.
-		if ( ( $old_url_post = filter_input( INPUT_POST, 'old_url' ) ) != '' && ( $new_url_post = filter_input( INPUT_POST, 'new_url' ) ) != '' && ( $type = filter_input( INPUT_POST, 'type' ) ) != '' ) {
+		$old_url_post = filter_input( INPUT_POST, 'old_url', FILTER_DEFAULT, array( 'options' => array( 'default' => '' ) ) );
+		$new_url_post = filter_input( INPUT_POST, 'new_url', FILTER_DEFAULT, array( 'options' => array( 'default' => '' ) ) );
+		$type         = filter_input( INPUT_POST, 'type', FILTER_DEFAULT, array( 'options' => array( 'default' => '' ) ) );
+
+		if ( $old_url_post !== '' && $new_url_post !== '' && $type !== '' ) {
 			$old_url = htmlspecialchars_decode( urldecode( $old_url_post ) );
 			$new_url = htmlspecialchars_decode( urldecode( $new_url_post ) );
 
