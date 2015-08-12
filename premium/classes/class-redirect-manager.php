@@ -19,57 +19,22 @@ abstract class WPSEO_Redirect_Manager {
 	 * @return array
 	 */
 	public static function get_options() {
-		return apply_filters( 'wpseo_premium_redirect_options', wp_parse_args( get_option( 'wpseo_redirect', array() ), array(
-			'disable_php_redirect' => 'off',
-			'separate_file'        => 'off',
-		) ) );
-	}
+		static $options;
 
-	/**
-	 * Change if the redirect option is autoloaded
-	 *
-	 * @param bool $enabled
-	 */
-	public function redirects_change_autoload( $enabled ) {
-		global $wpdb;
-
-		// Default autoload value.
-		$autoload = 'yes';
-
-		// Disable auto loading.
-		if ( false === $enabled ) {
-			$autoload = 'no';
+		if ( $options === null ) {
+			$options = apply_filters(
+				'wpseo_premium_redirect_options',
+				wp_parse_args(
+					get_option( 'wpseo_redirect', array() ),
+					array(
+						'disable_php_redirect' => 'off',
+						'separate_file'        => 'off',
+					)
+				)
+			);
 		}
 
-		// Do update query.
-		$wpdb->update(
-			$wpdb->options,
-			array( 'autoload' => $autoload ),
-			array( 'option_name' => $this->option_redirects ),
-			array( '%s' ),
-			array( '%s' )
-		);
-	}
-
-	/**
-	 * Do the PHP redirect
-	 *
-	 * @return array
-	 */
-	protected function is_php_redirects_enabled() {
-
-		// Skip redirect if WPSEO_DISABLE_PHP_REDIRECTS is true.
-		if ( defined( 'WPSEO_DISABLE_PHP_REDIRECTS' ) && WPSEO_DISABLE_PHP_REDIRECTS ) {
-			return false;
-		}
-
-		// Skip redirect if the 'disable_php_redirect' is set to 'on'.
-		$options = self::get_options();
-		if ( $options['disable_php_redirect'] === 'on' ) {
-			return false;
-		}
-
-		return true;
+		return $options;
 	}
 
 	/**
@@ -98,26 +63,29 @@ abstract class WPSEO_Redirect_Manager {
 
 		// Save the redirect file.
 		$this->save_redirect_file();
-
 	}
 
 	/**
-	 * Create the redirect file
+	 * Saving the redirect file
 	 */
-	public function save_redirect_file() {
-
-		// Options.
+	public function save_redirect_file(  ) {
 		$options = self::get_options();
 
 		if ( 'on' !== $options['disable_php_redirect'] ) {
-			return false;
+			$file_handler = new WPSEO_Redirect_File_Handler( $options['separate_file'] );
+			$file_handler->save( $this->get_redirect_managers() );
 		}
+	}
 
-		$file = $this->get_file_object( $options['separate_file'] );
+	/**
+	 *
+	 * @param bool $autoload_value
+	 */
+	public function change_autoload( $autoload_value ) {
+		$redirect_managers = $this->get_redirect_managers();
 
-		// Save the file.
-		if ( null !== $file ) {
-			$file->save_file();
+		foreach ( $redirect_managers as $redirect_manager ) {
+			$redirect_manager->redirects_change_autoload( $autoload_value );
 		}
 	}
 
@@ -227,6 +195,44 @@ abstract class WPSEO_Redirect_Manager {
 		}
 
 		return apply_filters( 'wpseo_premium_format_admin_url', $formatted_url );
+	}
+
+	/**
+	 * Getting the redirect managers
+	 *
+	 * @return WPSEO_Redirect_Manager[]
+	 */
+	protected function get_redirect_managers() {
+		return array(
+			'url'   => new WPSEO_URL_Redirect_Manager(),
+			'regex' => new WPSEO_REGEX_Redirect_Manager(),
+		);
+	}
+
+	/**
+	 * Change if the redirect option is autoloaded
+	 *
+	 * @param bool $enabled
+	 */
+	private function redirects_change_autoload( $enabled ) {
+		global $wpdb;
+
+		// Default autoload value.
+		$autoload = 'yes';
+
+		// Disable auto loading.
+		if ( false === $enabled ) {
+			$autoload = 'no';
+		}
+
+		// Do update query.
+		$wpdb->update(
+			$wpdb->options,
+			array( 'autoload' => $autoload ),
+			array( 'option_name' => $this->option_redirects ),
+			array( '%s' ),
+			array( '%s' )
+		);
 	}
 
 }
