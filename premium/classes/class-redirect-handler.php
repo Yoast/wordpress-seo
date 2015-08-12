@@ -210,7 +210,6 @@ class WPSEO_Redirect_Handler {
 
 			header( 'X-Redirect-By: Yoast SEO Premium' );
 			wp_redirect( $redirect_url, $redirect_type );
-
 			exit;
 		}
 

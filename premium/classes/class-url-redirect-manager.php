@@ -26,17 +26,23 @@ class WPSEO_URL_Redirect_Manager extends WPSEO_Redirect_Manager {
 	 * @return mixed
 	 */
 	public function search_url( $url ) {
-		$this->load_redirects();
+		$this->redirects = $this->get_redirects();
 
 		if ( isset( $this->redirects[ $url ] ) ) {
 			return $this->redirects[ $url ]['url'];
 		}
 	}
 
+
 	/**
-	 * Loads the redirects by getting the values and storing them into a property
+	 * Getting the redirect managers
+	 *
+	 * @return array
 	 */
-	private function load_redirects() {
-		$this->redirects = $this->get_redirects();
+	protected function get_redirect_managers() {
+		return array(
+			'url'   => $this,
+			'regex' => new WPSEO_REGEX_Redirect_Manager(),
+		);
 	}
 }

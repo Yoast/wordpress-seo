@@ -25,9 +25,9 @@ class WPSEO_Redirect_File_Handler {
 	/**
 	 * Saving the redirects to the file.
 	 *
-	 * @param array $redirect_managers
+	 * @param WPSEO_Redirect_Manager[] $redirect_managers
 	 */
-	public function save( array $redirect_managers ) {
+	public function save( $redirect_managers ) {
 		// Save the file.
 		if ( null !== $this->file_writer ) {
 			$this->file_writer->save_file( $redirect_managers['url']->get_redirects(), $redirect_managers['regex']->get_redirects() );
