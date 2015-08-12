@@ -1,11 +1,12 @@
-/* global YoastSEO_Analyzer: true, YoastSEO_preProcessor, stringHelper */
-/* global YoastSEO_AnalyzeScorer, YoastSEO_config */
+/* global YoastSEO: true */
+YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
+
 /**
  * Text Analyzer, accepts args for config and calls init for initialization
  * @param args
  * @constructor
  */
-YoastSEO_Analyzer = function( args ) {
+YoastSEO.Analyzer = function( args ) {
 	this.config = args;
 	this.checkConfig();
 	this.init();
@@ -15,16 +16,16 @@ YoastSEO_Analyzer = function( args ) {
  * sets value to "" of text if it is undefined to make sure it doesn' break the preprocessor and
  * analyzer
  */
-YoastSEO_Analyzer.prototype.checkConfig = function() {
+YoastSEO.Analyzer.prototype.checkConfig = function() {
 	if ( typeof this.config.text === "undefined" ) {
 		this.config.text = "";
 	}
 };
 
 /**
- * YoastSEO_Analyzer initialization. Loads defaults and overloads custom settings.
+ * YoastSEO.Analyzer initialization. Loads defaults and overloads custom settings.
  */
-YoastSEO_Analyzer.prototype.init = function() {
+YoastSEO.Analyzer.prototype.init = function() {
 	this.toLowCase();
 	this.initDependencies();
 	this.initQueue();
@@ -37,7 +38,7 @@ YoastSEO_Analyzer.prototype.init = function() {
 /**
  * converts the keyword to lowercase
  */
-YoastSEO_Analyzer.prototype.toLowCase = function() {
+YoastSEO.Analyzer.prototype.toLowCase = function() {
 	if ( typeof this.config.keyword !== "undefined" && this.config.keyword !== "" ) {
 		this.config.keywordLowerCase = this.config.keyword.toLocaleLowerCase();
 	}
@@ -47,50 +48,50 @@ YoastSEO_Analyzer.prototype.toLowCase = function() {
  * initializes required objects.
  * For the analyzeScorer a new object is always defined, to make sure there are no duplicate scores
  */
-YoastSEO_Analyzer.prototype.initDependencies = function() {
+YoastSEO.Analyzer.prototype.initDependencies = function() {
 
 	//init preprocessor
-	this.YoastSEO_preProcessor = new YoastSEO_preProcessor( this.config.text );
+	this.YoastSEO_preProcessor = new YoastSEO.getPreProcessor( this.config.text );
 
 	//init helper
-	this.stringHelper = stringHelper();
+	this.stringHelper = YoastSEO.getStringHelper();
 
 	//init scorer
-	this.analyzeScorer = new YoastSEO_AnalyzeScorer( this );
+	this.analyzeScorer = new YoastSEO.AnalyzeScorer( this );
 };
 
 /**
  * initializes the function queue. Uses slice for assignment so it duplicates array in stead of
  * referencing it.
  */
-YoastSEO_Analyzer.prototype.initQueue = function() {
+YoastSEO.Analyzer.prototype.initQueue = function() {
 
 	//if custom queue available load queue, otherwise load default queue.
 	if ( typeof this.config.queue !== "undefined" && this.config.queue.length !== 0 ) {
 		this.queue = this.config.queue.slice();
 	} else {
-		this.queue = YoastSEO_config.analyzerConfig.queue.slice();
+		this.queue = YoastSEO.analyzerConfig.queue.slice();
 	}
 };
 
 /**
  * load wordlists.
  */
-YoastSEO_Analyzer.prototype.loadWordlists = function() {
+YoastSEO.Analyzer.prototype.loadWordlists = function() {
 
 	//if no available keywords, load default array
 	if ( typeof this.config.wordsToRemove === "undefined" ) {
-		this.config.wordsToRemove = YoastSEO_config.analyzerConfig.wordsToRemove;
+		this.config.wordsToRemove = YoastSEO.analyzerConfig.wordsToRemove;
 	}
 	if ( typeof this.config.stopWords === "undefined" ) {
-		this.config.stopWords = YoastSEO_config.analyzerConfig.stopWords;
+		this.config.stopWords = YoastSEO.analyzerConfig.stopWords;
 	}
 };
 
 /**
  * set default variables.
  */
-YoastSEO_Analyzer.prototype.setDefaults = function() {
+YoastSEO.Analyzer.prototype.setDefaults = function() {
 
 	//creates new regex from keyword with global and caseinsensitive option
 	this.keywordRegex = new RegExp( this.config.keywordLowerCase, "ig" );
@@ -99,7 +100,7 @@ YoastSEO_Analyzer.prototype.setDefaults = function() {
 /**
  * starts queue of functions executing the analyzer functions untill queue is empty.
  */
-YoastSEO_Analyzer.prototype.runQueue = function() {
+YoastSEO.Analyzer.prototype.runQueue = function() {
 
 	//remove first function from queue and execute it.
 	if ( this.queue.length > 0 ) {
@@ -113,7 +114,7 @@ YoastSEO_Analyzer.prototype.runQueue = function() {
 /**
  * clears current queue of functions, effectively stopping execution of the analyzer.
  */
-YoastSEO_Analyzer.prototype.abortQueue = function() {
+YoastSEO.Analyzer.prototype.abortQueue = function() {
 
 	//empty current Queue
 	this.queue = [];
@@ -123,7 +124,7 @@ YoastSEO_Analyzer.prototype.abortQueue = function() {
  * returns wordcount from the preprocessor storage to include them in the results.
  * @returns {{test: string, result: (Function|YoastSEO_PreProcessor.wordcount|Number)}[]}
  */
-YoastSEO_Analyzer.prototype.wordCount = function() {
+YoastSEO.Analyzer.prototype.wordCount = function() {
 	return [ { test: "wordCount", result: this.YoastSEO_preProcessor.__store.wordcountNoTags } ];
 };
 
@@ -131,7 +132,7 @@ YoastSEO_Analyzer.prototype.wordCount = function() {
  * checks the keyword density of given keyword against the cleantext stored in __store.
  * @returns resultObject
  */
-YoastSEO_Analyzer.prototype.keywordDensity = function() {
+YoastSEO.Analyzer.prototype.keywordDensity = function() {
 	var result = [ { test: "keywordDensity", result: 0 } ];
 	if ( this.YoastSEO_preProcessor.__store.wordcount > 100 ) {
 		var keywordDensity = this.keywordDensityCheck();
@@ -145,7 +146,7 @@ YoastSEO_Analyzer.prototype.keywordDensity = function() {
  * checks and returns the keyword density
  * @returns {number}
  */
-YoastSEO_Analyzer.prototype.keywordDensityCheck = function() {
+YoastSEO.Analyzer.prototype.keywordDensityCheck = function() {
 	var keywordCount = this.keywordCount();
 	var keywordDensity = 0;
 	if ( keywordCount !== 0 ) {
@@ -163,7 +164,7 @@ YoastSEO_Analyzer.prototype.keywordDensityCheck = function() {
  * it.
  * @returns keywordCount
  */
-YoastSEO_Analyzer.prototype.keywordCount = function() {
+YoastSEO.Analyzer.prototype.keywordCount = function() {
 	var keywordMatches = this.stringHelper.matchString(
 		this.YoastSEO_preProcessor.__store.cleanText,
 		[ this.config.keywordLowerCase ]
@@ -180,7 +181,7 @@ YoastSEO_Analyzer.prototype.keywordCount = function() {
  * checks if keywords appear in subheaders of stored cleanTextSomeTags text.
  * @returns resultObject
  */
-YoastSEO_Analyzer.prototype.subHeadings = function() {
+YoastSEO.Analyzer.prototype.subHeadings = function() {
 	var result = [ { test: "subHeadings", result: { count: 0, matches: 0 } } ];
 
 	//matches everything from H1-H6 openingtags untill the closingtags.
@@ -197,7 +198,7 @@ YoastSEO_Analyzer.prototype.subHeadings = function() {
  * @param matches
  * @returns {number}
  */
-YoastSEO_Analyzer.prototype.subHeadingsCheck = function( matches ) {
+YoastSEO.Analyzer.prototype.subHeadingsCheck = function( matches ) {
 	var foundInHeader;
 	if ( matches === null ) {
 		foundInHeader = -1;
@@ -223,7 +224,7 @@ YoastSEO_Analyzer.prototype.subHeadingsCheck = function( matches ) {
  * check if the keyword contains stopwords.
  * @returns {result object}
  */
-YoastSEO_Analyzer.prototype.stopwords = function() {
+YoastSEO.Analyzer.prototype.stopwords = function() {
 
 	//prefix space to the keyword to make sure it matches if the keyword starts with a stopword.
 	var keyword = this.config.keyword;
@@ -248,7 +249,7 @@ YoastSEO_Analyzer.prototype.stopwords = function() {
  * calculate Flesch Reading score
  * @returns {result object}
  */
-YoastSEO_Analyzer.prototype.fleschReading = function() {
+YoastSEO.Analyzer.prototype.fleschReading = function() {
 	var score = (
 			206.835 -
 			(
@@ -295,7 +296,7 @@ YoastSEO_Analyzer.prototype.fleschReading = function() {
  * 		}
  * 	}
  */
-YoastSEO_Analyzer.prototype.linkCount = function() {
+YoastSEO.Analyzer.prototype.linkCount = function() {
 
 	//regex matches everything between <a> and </a>
 	var linkMatches = this.YoastSEO_preProcessor.__store.originalText.match(
@@ -336,7 +337,7 @@ YoastSEO_Analyzer.prototype.linkCount = function() {
  * @param url
  * @returns {string}
  */
-YoastSEO_Analyzer.prototype.linkType = function( url ) {
+YoastSEO.Analyzer.prototype.linkType = function( url ) {
 	var linkType = "other";
 
 	//matches all links that start with http:// and https://, case insensitive and global
@@ -355,7 +356,7 @@ YoastSEO_Analyzer.prototype.linkType = function( url ) {
  * @param url
  * @returns {string}
  */
-YoastSEO_Analyzer.prototype.linkFollow = function( url ) {
+YoastSEO.Analyzer.prototype.linkFollow = function( url ) {
 	var linkFollow = "Dofollow";
 
 	//matches all nofollow links, case insensitive and global
@@ -370,7 +371,7 @@ YoastSEO_Analyzer.prototype.linkFollow = function( url ) {
  * @param url
  * @returns {boolean}
  */
-YoastSEO_Analyzer.prototype.linkKeyword = function( url ) {
+YoastSEO.Analyzer.prototype.linkKeyword = function( url ) {
 	var keywordFound = false;
 
 	//split on > to discard the data in the anchortag
@@ -385,7 +386,7 @@ YoastSEO_Analyzer.prototype.linkKeyword = function( url ) {
  * checks if the links are all followed or not, and saves this in the resultobject, to be used for
  * scoring
  */
-YoastSEO_Analyzer.prototype.linkResult = function( obj ) {
+YoastSEO.Analyzer.prototype.linkResult = function( obj ) {
 	var result = obj;
 	result.externalHasNofollow = false;
 	result.externalAllNofollow = false;
@@ -410,7 +411,7 @@ YoastSEO_Analyzer.prototype.linkResult = function( obj ) {
  *
  * @returns {{name: string, result: {total: number, alt: number, noAlt: number}}}
  */
-YoastSEO_Analyzer.prototype.imageCount = function() {
+YoastSEO.Analyzer.prototype.imageCount = function() {
 	var imageCount = { total: 0, alt: 0, noAlt: 0, altKeyword: 0 };
 
 	//matches everything in the <img>-tag, case insensitive and global
@@ -441,7 +442,7 @@ YoastSEO_Analyzer.prototype.imageCount = function() {
  * @param image
  * @returns {boolean}
  */
-YoastSEO_Analyzer.prototype.imageAlttag = function( image ) {
+YoastSEO.Analyzer.prototype.imageAlttag = function( image ) {
 	var hasAlttag = false;
 	if ( image !== null ) {
 
@@ -458,7 +459,7 @@ YoastSEO_Analyzer.prototype.imageAlttag = function( image ) {
  * @param image
  * @returns {boolean}
  */
-YoastSEO_Analyzer.prototype.imageAlttagKeyword = function( image ) {
+YoastSEO.Analyzer.prototype.imageAlttagKeyword = function( image ) {
 	var hasKeyword = false;
 	if ( image !== null ) {
 		if ( image[ 0 ].match( this.keywordRegex ) !== null ) {
@@ -473,7 +474,7 @@ YoastSEO_Analyzer.prototype.imageAlttagKeyword = function( image ) {
  * @returns {{name: string, count: *}}
  */
 
-YoastSEO_Analyzer.prototype.pageTitleLength = function() {
+YoastSEO.Analyzer.prototype.pageTitleLength = function() {
 	var count = 0;
 	if ( typeof this.config.pageTitle !== "undefined" ) {
 		count = this.config.pageTitle.length;
@@ -487,7 +488,7 @@ YoastSEO_Analyzer.prototype.pageTitleLength = function() {
  *
  * @returns {{name: string, count: number}}
  */
-YoastSEO_Analyzer.prototype.pageTitleKeyword = function() {
+YoastSEO.Analyzer.prototype.pageTitleKeyword = function() {
 	var result = [ { test: "pageTitleKeyword", result: { matches: 0, position: 0 } } ];
 	if ( typeof this.config.pageTitle !== "undefined" ) {
 		result[ 0 ].result.matches = this.stringHelper.countMatches(
@@ -504,7 +505,7 @@ YoastSEO_Analyzer.prototype.pageTitleKeyword = function() {
  * if there is no paragraph tag or 0 hits, it checks for 2 newlines
  * @returns {{name: string, count: number}}
  */
-YoastSEO_Analyzer.prototype.firstParagraph = function() {
+YoastSEO.Analyzer.prototype.firstParagraph = function() {
 	var result = [ { test: "firstParagraph", result: 0 } ];
 
 	//matches everything between the <p> and </p> tags.
@@ -530,7 +531,7 @@ YoastSEO_Analyzer.prototype.firstParagraph = function() {
  * @param regexp
  * @returns count
  */
-YoastSEO_Analyzer.prototype.paragraphChecker = function( textString, regexp ) {
+YoastSEO.Analyzer.prototype.paragraphChecker = function( textString, regexp ) {
 	var matches = textString.match( regexp );
 	var count = 0;
 	if ( matches !== null ) {
@@ -544,7 +545,7 @@ YoastSEO_Analyzer.prototype.paragraphChecker = function( textString, regexp ) {
  * empty or not set.
  * @returns {{name: string, count: number}}
  */
-YoastSEO_Analyzer.prototype.metaDescription = function() {
+YoastSEO.Analyzer.prototype.metaDescription = function() {
 	var result = [ { test: "metaDescriptionLength", result: 0 }, {
 		test: "metaDescriptionKeyword",
 		result: 0
@@ -560,7 +561,7 @@ YoastSEO_Analyzer.prototype.metaDescription = function() {
  * counts the occurences of the keyword in the URL, returns 0 if no URL is set or is empty.
  * @returns {{name: string, count: number}}
  */
-YoastSEO_Analyzer.prototype.urlKeyword = function() {
+YoastSEO.Analyzer.prototype.urlKeyword = function() {
 	var result = [ { test: "urlKeyword", result: 0 } ];
 	var regex = this.config.keywordLowerCase.replace( " ", "[-_]" );
 	regex = new RegExp( regex );
@@ -574,7 +575,7 @@ YoastSEO_Analyzer.prototype.urlKeyword = function() {
  * returns the length of the URL
  * @returns {{test: string, result: number}[]}
  */
-YoastSEO_Analyzer.prototype.urlLength = function() {
+YoastSEO.Analyzer.prototype.urlLength = function() {
 	var result = [ { test: "urlLength", result: { urlTooLong: false } } ];
 	if ( typeof this.config.url !== "undefined" ) {
 		var length = this.config.url.length;
@@ -592,7 +593,7 @@ YoastSEO_Analyzer.prototype.urlLength = function() {
  * checks if there are stopwords used in the URL.
  * @returns {{test: string, result: number}[]}
  */
-YoastSEO_Analyzer.prototype.urlStopwords = function() {
+YoastSEO.Analyzer.prototype.urlStopwords = function() {
 	var result = [ { test: "urlStopwords", result: 0 } ];
 	if ( typeof this.config.url !== "undefined" ) {
 		var stopwords = this.stringHelper.matchString( this.config.url, this.config.stopWords );
@@ -607,7 +608,7 @@ YoastSEO_Analyzer.prototype.urlStopwords = function() {
  * checks if the keyword has been used before. Uses usedkeywords array. If empty, returns 0.
  * @returns {{test: string, result: number}[]}
  */
-YoastSEO_Analyzer.prototype.keywordDoubles = function() {
+YoastSEO.Analyzer.prototype.keywordDoubles = function() {
 	var result = [ { test: "keywordDoubles", result: { count: 0, id: 0 } } ];
 	if ( typeof this.config.keyword !== "undefined" ) {
 		if ( typeof this.config.usedKeywords[ this.config.keyword ] !== "undefined" ) {
@@ -623,6 +624,6 @@ YoastSEO_Analyzer.prototype.keywordDoubles = function() {
 /**
  * runs the scorefunction of the analyzeScorer with the generated output that is used as a queue.
  */
-YoastSEO_Analyzer.prototype.score = function() {
+YoastSEO.Analyzer.prototype.score = function() {
 	this.analyzeScorer.score( this.__output );
 };

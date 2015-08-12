@@ -1,15 +1,17 @@
 /* jshint browser: true */
-/* global YoastSEO_SnippetPreview: true, YoastSEO_config */
+/* global YoastSEO: true */
+YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
+
 /**
  * snippetpreview
  */
 
 /**
- * defines the config and outputTarget for the YoastSEO_SnippetPreview
+ * defines the config and outputTarget for the YoastSEO.SnippetPreview
  * @param refObj
  * @constructor
  */
-YoastSEO_SnippetPreview = function( refObj ) {
+YoastSEO.SnippetPreview = function( refObj ) {
 	this.refObj = refObj;
 	this.init();
 };
@@ -17,7 +19,7 @@ YoastSEO_SnippetPreview = function( refObj ) {
 /**
  *  checks if title and url are set so they can be rendered in the snippetPreview
  */
-YoastSEO_SnippetPreview.prototype.init = function() {
+YoastSEO.SnippetPreview.prototype.init = function() {
 	if (
 		this.refObj.source.formattedData.pageTitle !== null &&
 		this.refObj.source.formattedData.cite !== null
@@ -31,7 +33,7 @@ YoastSEO_SnippetPreview.prototype.init = function() {
  * creates html object to contain the strings for the snippetpreview
  * @returns {html object with html-strings}
  */
-YoastSEO_SnippetPreview.prototype.htmlOutput = function() {
+YoastSEO.SnippetPreview.prototype.htmlOutput = function() {
 	var html = {};
 	html.title = this.formatTitle();
 	html.cite = this.formatCite();
@@ -44,7 +46,7 @@ YoastSEO_SnippetPreview.prototype.htmlOutput = function() {
  * formats the title for the snippet preview. If title and pageTitle are empty, sampletext is used
  * @returns {formatted page title}
  */
-YoastSEO_SnippetPreview.prototype.formatTitle = function() {
+YoastSEO.SnippetPreview.prototype.formatTitle = function() {
 	var title = this.refObj.source.formattedData.snippetTitle;
 	if ( title === "" ) {
 		title = this.refObj.source.formattedData.pageTitle;
@@ -63,7 +65,7 @@ YoastSEO_SnippetPreview.prototype.formatTitle = function() {
  * removes the protocol name from the urlstring.
  * @returns formatted url
  */
-YoastSEO_SnippetPreview.prototype.formatUrl = function() {
+YoastSEO.SnippetPreview.prototype.formatUrl = function() {
 	var url = this.refObj.source.formattedData.url;
 
 	//removes the http(s) part of the url
@@ -75,7 +77,7 @@ YoastSEO_SnippetPreview.prototype.formatUrl = function() {
  * formats the url for the snippet preview
  * @returns formatted url
  */
-YoastSEO_SnippetPreview.prototype.formatCite = function() {
+YoastSEO.SnippetPreview.prototype.formatCite = function() {
 	var cite = this.refObj.source.formattedData.snippetCite;
 	cite = this.refObj.stringHelper.stripAllTags( cite );
 	if ( cite === "" ) {
@@ -90,13 +92,13 @@ YoastSEO_SnippetPreview.prototype.formatCite = function() {
  * formats the metatext for the snippet preview, if empty runs getMetaText
  * @returns formatted metatext
  */
-YoastSEO_SnippetPreview.prototype.formatMeta = function() {
+YoastSEO.SnippetPreview.prototype.formatMeta = function() {
 	var meta = this.refObj.source.formattedData.snippetMeta;
 	if ( meta === "" ) {
 		meta = this.getMetaText();
 	}
 	meta = this.refObj.stringHelper.stripAllTags( meta );
-	meta = meta.substring( 0, YoastSEO_config.analyzerConfig.maxMeta );
+	meta = meta.substring( 0, YoastSEO.analyzerConfig.maxMeta );
 	if ( this.refObj.source.formattedData.keyword !== "" && meta !== "" ) {
 		return this.formatKeyword( meta );
 	}
@@ -109,12 +111,12 @@ YoastSEO_SnippetPreview.prototype.formatMeta = function() {
  * If keyword and/or text is empty, it uses the sampletext.
  * @returns metatext
  */
-YoastSEO_SnippetPreview.prototype.getMetaText = function() {
+YoastSEO.SnippetPreview.prototype.getMetaText = function() {
 	var metaText;
 	if ( typeof this.refObj.source.formattedData.excerpt !== "undefined" ) {
 		metaText = this.refObj.source.formattedData.excerpt.substring(
 			0,
-			YoastSEO_config.analyzerConfig.maxMeta
+			YoastSEO.analyzerConfig.maxMeta
 		);
 	}
 	if ( metaText === "" ) {
@@ -127,7 +129,7 @@ YoastSEO_SnippetPreview.prototype.getMetaText = function() {
 			var periodMatches = this.getPeriodMatches();
 			metaText = this.refObj.source.formattedData.text.substring(
 				0,
-				YoastSEO_config.analyzerConfig.maxMeta
+				YoastSEO.analyzerConfig.maxMeta
 			);
 			var curStart = 0;
 			if ( indexMatches.length > 0 ) {
@@ -144,7 +146,7 @@ YoastSEO_SnippetPreview.prototype.getMetaText = function() {
 				metaText = this.refObj.stringHelper.stripAllTags(
 					this.refObj.source.formattedData.text.substring(
 						curStart,
-						curStart + YoastSEO_config.analyzerConfig.maxMeta
+						curStart + YoastSEO.analyzerConfig.maxMeta
 					)
 				);
 			}
@@ -160,7 +162,7 @@ YoastSEO_SnippetPreview.prototype.getMetaText = function() {
  * Builds an array with all indexes of the keyword
  * @returns Array with matches
  */
-YoastSEO_SnippetPreview.prototype.getIndexMatches = function() {
+YoastSEO.SnippetPreview.prototype.getIndexMatches = function() {
 	var indexMatches = [];
 	var i = 0;
 
@@ -188,7 +190,7 @@ YoastSEO_SnippetPreview.prototype.getIndexMatches = function() {
  * Builds an array with indexes of all sentence ends (select on .)
  * @returns array with sentences
  */
-YoastSEO_SnippetPreview.prototype.getPeriodMatches = function() {
+YoastSEO.SnippetPreview.prototype.getPeriodMatches = function() {
 	var periodMatches = [ 0 ];
 	var match;
 	var i = 0;
@@ -204,7 +206,7 @@ YoastSEO_SnippetPreview.prototype.getPeriodMatches = function() {
  * @param textString
  * @returns textString
  */
-YoastSEO_SnippetPreview.prototype.formatKeyword = function( textString ) {
+YoastSEO.SnippetPreview.prototype.formatKeyword = function( textString ) {
 
 	//matches case insensitive and global
 	var replacer = new RegExp( this.refObj.source.formattedData.keyword, "ig" );
@@ -220,7 +222,7 @@ YoastSEO_SnippetPreview.prototype.formatKeyword = function( textString ) {
  * @param textString
  * @returns {XML|string|void}
  */
-YoastSEO_SnippetPreview.prototype.formatKeywordUrl = function( textString ) {
+YoastSEO.SnippetPreview.prototype.formatKeywordUrl = function( textString ) {
 	var replacer = this.refObj.source.formattedData.keyword.replace( " ", "[-_]" );
 
 	//matches case insensitive and global
@@ -233,7 +235,7 @@ YoastSEO_SnippetPreview.prototype.formatKeywordUrl = function( textString ) {
 /**
  * Renders the outputs to the elements on the page.
  */
-YoastSEO_SnippetPreview.prototype.renderOutput = function() {
+YoastSEO.SnippetPreview.prototype.renderOutput = function() {
 	document.getElementById( "snippet_title" ).innerHTML = this.output.title;
 	document.getElementById( "snippet_cite" ).innerHTML = this.output.cite;
 	document.getElementById( "snippet_citeBase" ).innerHTML = this.output.url;
@@ -243,7 +245,7 @@ YoastSEO_SnippetPreview.prototype.renderOutput = function() {
 /**
  * function to call init, to rerender the snippetpreview
  */
-YoastSEO_SnippetPreview.prototype.reRender = function() {
+YoastSEO.SnippetPreview.prototype.reRender = function() {
 	this.init();
 };
 
@@ -253,7 +255,7 @@ YoastSEO_SnippetPreview.prototype.reRender = function() {
  * other elements from capturing this event.
  * @param event
  */
-YoastSEO_SnippetPreview.prototype.disableEnter = function( ev ) {
+YoastSEO.SnippetPreview.prototype.disableEnter = function( ev ) {
 	if ( ev.keyCode === 13 ) {
 		ev.returnValue = false;
 		ev.cancelBubble = true;
@@ -265,15 +267,15 @@ YoastSEO_SnippetPreview.prototype.disableEnter = function( ev ) {
  * checks text length of the snippetmeta and snippettitle, shortens it if it is too long.
  * @param event
  */
-YoastSEO_SnippetPreview.prototype.checkTextLength = function( ev ) {
+YoastSEO.SnippetPreview.prototype.checkTextLength = function( ev ) {
 	var text = ev.currentTarget.textContent;
 	switch ( ev.currentTarget.id ) {
 		case "snippet_meta":
-			if ( text.length > YoastSEO_config.analyzerConfig.maxMeta ) {
+			if ( text.length > YoastSEO.analyzerConfig.maxMeta ) {
 				ev.currentTarget.__unformattedText = ev.currentTarget.textContent;
 				ev.currentTarget.textContent = text.substring(
 					0,
-					YoastSEO_config.analyzerConfig.maxMeta
+					YoastSEO.analyzerConfig.maxMeta
 				);
 				ev.currentTarget.className = "desc";
 			}
@@ -294,11 +296,11 @@ YoastSEO_SnippetPreview.prototype.checkTextLength = function( ev ) {
  * adds and remove the tooLong class when a text is too long.
  * @param ev
  */
-YoastSEO_SnippetPreview.prototype.textFeedback = function( ev ) {
+YoastSEO.SnippetPreview.prototype.textFeedback = function( ev ) {
 	var text = ev.currentTarget.textContent;
 	switch ( ev.currentTarget.id ) {
 		case "snippet_meta":
-			if ( text.length > YoastSEO_config.analyzerConfig.maxMeta ) {
+			if ( text.length > YoastSEO.analyzerConfig.maxMeta ) {
 				ev.currentTarget.className = "desc tooLong";
 			} else {
 				ev.currentTarget.className = "desc";
@@ -320,14 +322,14 @@ YoastSEO_SnippetPreview.prototype.textFeedback = function( ev ) {
  * shows the edit icon corresponding to the hovered element
  * @param ev
  */
-YoastSEO_SnippetPreview.prototype.showEditIcon = function( ev ) {
+YoastSEO.SnippetPreview.prototype.showEditIcon = function( ev ) {
 	ev.currentTarget.parentElement.className = "editIcon snippet_container";
 };
 
 /**
  * removes all editIcon-classes, sets to snippet_container
  */
-YoastSEO_SnippetPreview.prototype.hideEditIcon = function() {
+YoastSEO.SnippetPreview.prototype.hideEditIcon = function() {
 	var elems = document.getElementsByClassName( "editIcon " );
 	for ( var i = 0; i < elems.length; i++ ) {
 		elems[ i ].className = "snippet_container";
@@ -338,7 +340,7 @@ YoastSEO_SnippetPreview.prototype.hideEditIcon = function() {
  * sets focus on child element of the snippet_container that is clicked. Hides the editicon.
  * @param ev
  */
-YoastSEO_SnippetPreview.prototype.setFocus = function( ev ) {
+YoastSEO.SnippetPreview.prototype.setFocus = function( ev ) {
 	var targetElem = ev.currentTarget.firstChild;
 	while ( targetElem !== null ) {
 		if ( targetElem.contentEditable === "true" ) {
@@ -358,7 +360,7 @@ YoastSEO_SnippetPreview.prototype.setFocus = function( ev ) {
  * Otherwise the cursor could end at the beginning of the text.
  * @param elem
  */
-YoastSEO_SnippetPreview.prototype.setFocusToEnd = function( elem ) {
+YoastSEO.SnippetPreview.prototype.setFocusToEnd = function( elem ) {
 	if (
 		typeof window.getSelection !== "undefined" &&
 		typeof document.createRange !== "undefined"

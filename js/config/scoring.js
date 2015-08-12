@@ -1,10 +1,12 @@
-analyzerScoreRating = 9;
+YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
+
+YoastSEO.analyzerScoreRating = 9;
 /**
  *
  * @param {Jed} i18n
  * @constructor
  */
-YoastSEOScoring = function( i18n ) {
+YoastSEO.AnalyzerScoring = function( i18n ) {
     this.analyzerScoring = [
         {
             scoreName: "wordCount",

@@ -21,11 +21,13 @@
             <script type="text/javascript" src="js/analyzescorer.js"></script>
             <script type="text/javascript" src="js/preprocessor.js"></script>
             <script type="text/javascript" src="js/stringhelper.js"></script>
-            <script type="text/javascript" src="js/YoastSEO.js"></script>
+            <script type="text/javascript" src="js/initializer.js"></script>
             <script type="text/javascript" src="js/scoreFormatter.js"></script>
     <script>
-        var YoastSEO_args = {
-            source: YoastSEO_InputGenerator,
+        YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
+
+        YoastSEO.analyzerArgs = {
+            source: YoastSEO.InputGenerator,
             analyzer: true,
             snippetPreview: true,
             elementTarget: ["inputForm"],
@@ -48,7 +50,7 @@
             }
         };
 
-        YoastSEO_loadEvents();
+        YoastSEO.loadAnalyzerEvents();
     </script>
 </head>
 <body class="purple seo">

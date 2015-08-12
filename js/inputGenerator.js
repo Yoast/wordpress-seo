@@ -1,12 +1,14 @@
 /* jshint browser: true */
-/* global YoastSEO_InputGenerator: true */
+/* global YoastSEO: true */
+YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
+
 /**
  * Inputgenerator generates a form for use as input.
  * @param args
  * @param refObj
  * @constructor
  */
-YoastSEO_InputGenerator = function( args, refObj ) {
+YoastSEO.InputGenerator = function( args, refObj ) {
 	this.config = args;
 	this.refObj = refObj;
 	this.analyzerData = {};
@@ -17,14 +19,14 @@ YoastSEO_InputGenerator = function( args, refObj ) {
 /**
  * creates input elements in the DOM
  */
-YoastSEO_InputGenerator.prototype.createElements = function() {
+YoastSEO.InputGenerator.prototype.createElements = function() {
 	var targetElement = document.getElementById( this.config.elementTarget );
 	this.createText( "text", targetElement, "text" );
 	this.createInput( "keyword", targetElement, "Focus keyword" );
 
 };
 
-YoastSEO_InputGenerator.prototype.getData = function() {
+YoastSEO.InputGenerator.prototype.getData = function() {
 	this.analyzerData.keyword = this.refObj.config.sampleText.keyword;
 	this.analyzerData.meta = this.refObj.config.sampleText.meta;
 	this.analyzerData.snippetMeta = this.refObj.config.sampleText.meta;
@@ -44,7 +46,7 @@ YoastSEO_InputGenerator.prototype.getData = function() {
  * @param targetElement
  * @param text
  */
-YoastSEO_InputGenerator.prototype.createInput = function( type, targetElement, text ) {
+YoastSEO.InputGenerator.prototype.createInput = function( type, targetElement, text ) {
 	this.createLabel( type, targetElement, text );
 	var input = document.createElement( "input" );
 	input.type = "text";
@@ -61,7 +63,7 @@ YoastSEO_InputGenerator.prototype.createInput = function( type, targetElement, t
  * @param targetElement
  * @param text
  */
-YoastSEO_InputGenerator.prototype.createText = function( type, targetElement, text ) {
+YoastSEO.InputGenerator.prototype.createText = function( type, targetElement, text ) {
 	this.createLabel( type, targetElement, text );
 	var textarea = document.createElement( "textarea" );
 	textarea.placeholder = this.config.sampleText[ type ];
@@ -75,7 +77,7 @@ YoastSEO_InputGenerator.prototype.createText = function( type, targetElement, te
  * @param targetElement
  * @param text
  */
-YoastSEO_InputGenerator.prototype.createLabel = function( type, targetElement, text ) {
+YoastSEO.InputGenerator.prototype.createLabel = function( type, targetElement, text ) {
 	var label = document.createElement( "label" );
 	label.textContent = text;
 	label.htmlFor = type + "Input";
@@ -86,7 +88,7 @@ YoastSEO_InputGenerator.prototype.createLabel = function( type, targetElement, t
  * initializes the snippetPreview if it isn't there.
  * If it is already initialized, it get's new values from the inputs and rerenders snippet.
  */
-YoastSEO_InputGenerator.prototype.getAnalyzerInput = function() {
+YoastSEO.InputGenerator.prototype.getAnalyzerInput = function() {
 	if ( typeof this.refObj.snippetPreview === "undefined" ) {
 		this.refObj.init();
 	} else {
@@ -103,14 +105,14 @@ YoastSEO_InputGenerator.prototype.getAnalyzerInput = function() {
 /**
  * calls the eventbinders.
  */
-YoastSEO_InputGenerator.prototype.bindElementEvents = function() {
+YoastSEO.InputGenerator.prototype.bindElementEvents = function() {
 	this.inputElementEventBinder();
 };
 
 /**
  * binds the getinputfieldsdata to the snippetelements.
  */
-YoastSEO_InputGenerator.prototype.snippetPreviewEventBinder = function() {
+YoastSEO.InputGenerator.prototype.snippetPreviewEventBinder = function() {
 	var elems = [ "cite", "meta", "title" ];
 	for ( var i = 0; i < elems.length; i++ ) {
 		document.getElementById( "snippet_" + elems[ i ] ).addEventListener(
@@ -123,7 +125,7 @@ YoastSEO_InputGenerator.prototype.snippetPreviewEventBinder = function() {
 /**
  * bins the renewData function on the change of inputelements.
  */
-YoastSEO_InputGenerator.prototype.inputElementEventBinder = function() {
+YoastSEO.InputGenerator.prototype.inputElementEventBinder = function() {
 	var elems = [ "textInput", "keywordInput", "snippet_cite", "snippet_meta", "snippet_title" ];
 	for ( var i = 0; i < elems.length; i++ ) {
 		document.getElementById( elems[ i ] ).__refObj = this;
@@ -135,7 +137,7 @@ YoastSEO_InputGenerator.prototype.inputElementEventBinder = function() {
  * calls getAnalyzerinput function on change event from element
  * @param event
  */
-YoastSEO_InputGenerator.prototype.renewData = function( ev ) {
+YoastSEO.InputGenerator.prototype.renewData = function( ev ) {
 	ev.currentTarget.__refObj.getAnalyzerInput();
 };
 
@@ -143,6 +145,6 @@ YoastSEO_InputGenerator.prototype.renewData = function( ev ) {
  * calles getAnalyzerinput function on focus of the snippet elements;
  * @param event
  */
-YoastSEO_InputGenerator.prototype.snippetCallback = function( ev ) {
+YoastSEO.InputGenerator.prototype.snippetCallback = function( ev ) {
 	ev.currentTarget.__refObj.getAnalyzerInput();
 };

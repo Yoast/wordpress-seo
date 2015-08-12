@@ -1,22 +1,23 @@
-/* global YoastSEO_PreProcessor: true, YoastSEO_preProcessor: true, yst_preProcessor: true */
-/* global stringHelper, YoastSEO_config */
+/* global YoastSEO: true */
+YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
+
 /**
- * YoastSEO_PreProcessor object definition. Creates __store object and calls init.
+ * YoastSEO.PreProcessor object definition. Creates __store object and calls init.
  * @params textString
  */
-YoastSEO_PreProcessor = function( text ) {
+YoastSEO.PreProcessor = function( text ) {
 
 	//create __store object to store data
 	this.__store = {};
 	this.__store.originalText = text;
-	this.stringHelper = stringHelper();
+	this.stringHelper = YoastSEO.getStringHelper();
 	this.init();
 };
 
 /**
  * init function calling all necessary PreProcessorfunctions
  */
-YoastSEO_PreProcessor.prototype.init = function() {
+YoastSEO.PreProcessor.prototype.init = function() {
 
 	//call function to clean text
 	this.textFormat();
@@ -29,7 +30,7 @@ YoastSEO_PreProcessor.prototype.init = function() {
  * formats the original text from __store and save as cleantext, cleantextSomeTags en
  * cleanTextNoTags
  */
-YoastSEO_PreProcessor.prototype.textFormat = function() {
+YoastSEO.PreProcessor.prototype.textFormat = function() {
 	this.__store.cleanText = this.cleanText( this.__store.originalText );
 	this.__store.cleanTextSomeTags = this.stringHelper.stripSomeTags( this.__store.cleanText );
 	this.__store.cleanTextNoTags = this.stringHelper.stripAllTags( this.__store.cleanTextSomeTags );
@@ -39,7 +40,7 @@ YoastSEO_PreProcessor.prototype.textFormat = function() {
  * saves wordcount (all words) and wordcountNoTags (all words except those in tags) in the __store
  * object
  */
-YoastSEO_PreProcessor.prototype.countStore = function() {
+YoastSEO.PreProcessor.prototype.countStore = function() {
 
 	/*wordcounters*/
 	this.__store.wordcount = this.__store.cleanText === "." ?
@@ -60,7 +61,7 @@ YoastSEO_PreProcessor.prototype.countStore = function() {
  * are empty or have only a space.
  * @param textString
  */
-YoastSEO_PreProcessor.prototype.sentenceCount = function( textString ) {
+YoastSEO.PreProcessor.prototype.sentenceCount = function( textString ) {
 	var sentences = textString.split( "." );
 	var sentenceCount = 0;
 	for ( var i = 0; i < sentences.length; i++ ) {
@@ -77,17 +78,17 @@ YoastSEO_PreProcessor.prototype.sentenceCount = function( textString ) {
  * @param textString
  * @returns syllable count
  */
-YoastSEO_PreProcessor.prototype.syllableCount = function( textString ) {
+YoastSEO.PreProcessor.prototype.syllableCount = function( textString ) {
 	this.syllableCount = 0;
 	textString = textString.replace( /[.]/g, " " );
 	textString = this.removeWords( textString );
 	var words = textString.split( " " );
 	var subtractSyllablesRegexp = this.stringHelper.stringToRegex(
-		YoastSEO_config.preprocessorConfig.syllables.subtractSyllables,
+		YoastSEO.preprocessorConfig.syllables.subtractSyllables,
 		true
 	);
 	var addSyllablesRegexp = this.stringHelper.stringToRegex(
-		YoastSEO_config.preprocessorConfig.syllables.addSyllables,
+		YoastSEO.preprocessorConfig.syllables.addSyllables,
 		true
 	);
 	for ( var i = 0; i < words.length; i++ ) {
@@ -103,7 +104,7 @@ YoastSEO_PreProcessor.prototype.syllableCount = function( textString ) {
  * @param splitWordArray
  */
 
-YoastSEO_PreProcessor.prototype.basicSyllableCount = function( splitWordArray ) {
+YoastSEO.PreProcessor.prototype.basicSyllableCount = function( splitWordArray ) {
 	for ( var j = 0; j < splitWordArray.length; j++ ) {
 		if ( splitWordArray[ j ].length > 0 ) {
 			this.syllableCount++;
@@ -118,7 +119,7 @@ YoastSEO_PreProcessor.prototype.basicSyllableCount = function( splitWordArray ) 
  * @param regex
  * @param operator
  */
-YoastSEO_PreProcessor.prototype.advancedSyllableCount = function( inputString, regex, operator ) {
+YoastSEO.PreProcessor.prototype.advancedSyllableCount = function( inputString, regex, operator ) {
 	var match = inputString.match( regex );
 	if ( match !== null ) {
 		if ( operator === "subtract" ) {
@@ -134,16 +135,17 @@ YoastSEO_PreProcessor.prototype.advancedSyllableCount = function( inputString, r
  * @param textString
  * @returns textString with exclusionwords removed
  */
-YoastSEO_PreProcessor.prototype.removeWords = function( textString ) {
-	for ( var i = 0; i < YoastSEO_config.preprocessorConfig.syllables.exclusionWords.length; i++ ) {
+YoastSEO.PreProcessor.prototype.removeWords = function( textString ) {
+	var config = YoastSEO.preprocessorConfig;
+
+	for ( var i = 0; i < config.syllables.exclusionWords.length; i++ ) {
 		var exclusionRegex = new RegExp(
-			YoastSEO_config.preprocessorConfig.syllables.exclusionWords[ i ].word,
+			config.syllables.exclusionWords[ i ].word,
 			"g"
 		);
 		var matches = textString.match( exclusionRegex );
 		if ( matches !== null ) {
-			this.syllableCount += YoastSEO_config
-				.preprocessorConfig.syllables.exclusionWords[ i ].syllables;
+			this.syllableCount += config.syllables.exclusionWords[ i ].syllables;
 			textString = textString.replace( exclusionRegex, "" );
 		}
 	}
@@ -156,7 +158,7 @@ YoastSEO_PreProcessor.prototype.removeWords = function( textString ) {
  * @param textString
  * @returns textString
  */
-YoastSEO_PreProcessor.prototype.cleanText = function( textString ) {
+YoastSEO.PreProcessor.prototype.cleanText = function( textString ) {
 	textString = this.replaceDiacritics( textString );
 	textString = textString.toLocaleLowerCase();
 
@@ -192,11 +194,13 @@ YoastSEO_PreProcessor.prototype.cleanText = function( textString ) {
  * @param textString
  * @returns textString
  */
-YoastSEO_PreProcessor.prototype.replaceDiacritics = function( textString ) {
-	for ( var i = 0; i < YoastSEO_config.preprocessorConfig.diacriticsRemovalMap.length; i++ ) {
+YoastSEO.PreProcessor.prototype.replaceDiacritics = function( textString ) {
+	var config = YoastSEO.preprocessorConfig;
+
+	for ( var i = 0; i < config.diacriticsRemovalMap.length; i++ ) {
 		textString = textString.replace(
-			YoastSEO_config.preprocessorConfig.diacriticsRemovalMap[ i ].letters,
-			YoastSEO_config.preprocessorConfig.diacriticsRemovalMap[ i ].base
+			config.diacriticsRemovalMap[ i ].letters,
+			config.diacriticsRemovalMap[ i ].base
 		);
 	}
 	return textString;
@@ -207,11 +211,14 @@ YoastSEO_PreProcessor.prototype.replaceDiacritics = function( textString ) {
  * input.
  *
  * @param inputString
- * @returns {yst_preProcessor}
+ * @returns {YoastSEO.PreProcessor}
  */
-YoastSEO_preProcessor = function( inputString ) {
-	if ( typeof yst_preProcessor !== "object" || yst_preProcessor.inputText !== inputString ) {
-		yst_preProcessor = new YoastSEO_PreProcessor( inputString );
+YoastSEO.getPreProcessor = function( inputString ) {
+	if (
+		typeof YoastSEO.cachedPreProcessor !== "object" ||
+		YoastSEO.cachedPreProcessor.inputText !== inputString
+	) {
+		YoastSEO.cachedPreProcessor = new YoastSEO.PreProcessor( inputString );
 	}
-	return yst_preProcessor;
+	return YoastSEO.cachedPreProcessor;
 };
