@@ -35,28 +35,19 @@ class WPSEO_Redirect_Option {
 	 * @param array $value
 	 */
 	public function save_redirect_files( $old_value, $value ) {
-		// Check if we need to remove the WPSEO redirect entries from the .htacccess file.
-		$remove_htaccess_entries = false;
+
+		$disable_php_redirect = ( ! empty( $value['disable_php_redirect'] ) && 'on' === $value['disable_php_redirect'] );
+		$separate_file        = ( ! empty( $value['separate_file'] ) && 'on' === $value['separate_file'] );
 
 		// Check if the 'disable_php_redirect' option set to true/on.
-		if ( ! empty( $value['disable_php_redirect'] ) && 'on' === $value['disable_php_redirect'] ) {
-
-			// Remove .htaccess entries if the 'separate_file' option is set to true.
-			if ( WPSEO_Utils::is_apache() && ! empty( $value['separate_file'] ) && 'on' === $value['separate_file'] ) {
-				$remove_htaccess_entries = true;
-			}
-
+		if ( $disable_php_redirect ) {
 			// The 'disable_php_redirect' option is set to true(on) so we need to generate a file.
 			// The Redirect Manager will figure out what file needs to be created.
 			$this->redirect_manager->save_redirect_file();
 		}
-		else if ( WPSEO_Utils::is_apache() ) {
-			// No settings are set so we should also strip the .htaccess redirect entries in this case.
-			$remove_htaccess_entries = true;
-		}
 
 		// Check if we need to remove the .htaccess redirect entries.
-		if ( $remove_htaccess_entries ) {
+		if ( $this->remove_htaccess_entries( $disable_php_redirect, $separate_file ) ) {
 			// Remove the .htaccess redirect entries.
 			WPSEO_Redirect_Htaccess::clear_htaccess_entries();
 		}
@@ -72,6 +63,18 @@ class WPSEO_Redirect_Option {
 
 			$this->redirect_manager->change_autoload( $enable_autoload );
 		}
+	}
+
+	/**
+	 * Check if the server is apache and the htaccess entries should be removed;
+	 *
+	 * @param boolean $disable_php_redirect
+	 * @param boolean $separate_file
+	 *
+	 * @return bool
+	 */
+	private function remove_htaccess_entries( $disable_php_redirect, $separate_file ) {
+		return ( WPSEO_Utils::is_apache() && ( ! $disable_php_redirect || ( $disable_php_redirect && $separate_file ) ) );
 	}
 
 }
