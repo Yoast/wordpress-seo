@@ -37,7 +37,7 @@ class WPSEO_URL_Redirect_Manager extends WPSEO_Redirect_Manager {
 	/**
 	 * Getting the redirect managers
 	 *
-	 * @return array
+	 * @return WPSEO_Redirect_Manager[]
 	 */
 	protected function get_redirect_managers() {
 		return array(
