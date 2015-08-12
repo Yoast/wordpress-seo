@@ -8,13 +8,21 @@
  */
 class WPSEO_Redirect_Presenter {
 
+	/**
+	 * @var array
+	 */
 	private $view_vars = array();
 
+	/**
+	 * @var string
+	 */
 	private $current_tab = '';
 
 	/**
-	 * @param       $current_tab
-	 * @param array $view_vars
+	 * Constructor
+	 *
+	 * @param string $current_tab
+	 * @param array  $view_vars
 	 */
 	public function __construct( $current_tab, $view_vars = array() ) {
 		$this->current_tab = $current_tab;

@@ -3,11 +3,6 @@
  * @package WPSEO\Premium\Classes
  */
 
-if ( ! defined( 'WPSEO_VERSION' ) ) {
-	header( 'HTTP/1.0 403 Forbidden' );
-	die;
-}
-
 if ( ! class_exists( 'WP_List_Table' ) ) {
 	require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
 }
@@ -46,7 +41,7 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 
 		$this->handle_bulk_action();
 
-		if ( ( $search_string = filter_input( INPUT_GET, 's' ) ) != '' ) {
+		if ( ( $search_string = filter_input( INPUT_GET, 's', FILTER_DEFAULT, array( 'options' => '' ) ) ) !== '' ) {
 			$this->search_string = $search_string;
 		}
 	}
@@ -62,7 +57,6 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 		$results = array();
 
 		if ( is_array( $items ) ) {
-
 			foreach ( $items as $old => $redirect ) {
 				if ( false !== stripos( $old, $this->search_string ) || false !== stripos( $redirect['url'], $this->search_string ) ) {
 					$results[ $old ] = $redirect;
@@ -96,16 +90,13 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	public function prepare_items() {
 
 		// Setup the columns.
-		$columns               = $this->get_columns();
-		$hidden                = array();
-		$sortable              = $this->get_sortable_columns();
-		$this->_column_headers = array( $columns, $hidden, $sortable );
+		$this->_column_headers = array( $this->get_columns(), array(), $this->get_sortable_columns() );
 
 		// Get the items.
 		$redirect_items = $this->redirect_manager->get_redirects();
 
 		// Handle the search.
-		if ( null != $this->search_string ) {
+		if ( null !== $this->search_string ) {
 			$redirect_items = $this->do_search( $redirect_items );
 		}
 
@@ -148,6 +139,7 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 		$this->items = $formatted_items;
 	}
 
+
 	/**
 	 * Return the columns that are sortable
 	 *
@@ -173,13 +165,13 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	 */
 	public function do_reorder( $a, $b ) {
 		// If no sort, default to title.
-		$orderby = filter_input( INPUT_GET, 'orderby', FILTER_VALIDATE_REGEXP, array( 'options' => array( 'default' => 'old', 'regexp' => '/^(old|new){1}$/' ) ) );
+		$orderby = filter_input( INPUT_GET, 'orderby', FILTER_VALIDATE_REGEXP, array( 'options' => array( 'default' => 'old', 'regexp' => '/^(old|new|type){1}$/' ) ) );
 
 		// If no order, default to asc.
 		$order   = filter_input( INPUT_GET, 'order', FILTER_VALIDATE_REGEXP, array( 'options' => array( 'default' => 'asc', 'regexp' => '/^(asc|desc){1}$/' ) ) );
 
 		// Determine sort order.
-		$result = strcmp( $a[ $orderby ], $b[ $orderby ] );
+		$result   = strcmp( $a[ $orderby ], $b[ $orderby ] );
 
 		// Send final sort direction to usort.
 		return ( $order === 'asc' ) ? $result : ( - $result );

@@ -9,26 +9,20 @@
 class WPSEO_Redirect {
 
 	/**
-	 * @var WPSEO_URL_Redirect_Manager
+	 * @var WPSEO_Redirect_Manager
 	 */
-	private $normal_redirect_manager;
-
-	/**
-	 * @var WPSEO_REGEX_Redirect_Manager
-	 */
-	private $regex_redirect_manager;
+	private $redirect_manager;
 
 	/**
 	 * Constructing redirect module
 	 */
 	public function __construct() {
-		$this->normal_redirect_manager = new WPSEO_URL_Redirect_Manager();
-		$this->regex_redirect_manager  = new WPSEO_REGEX_Redirect_Manager();
 
 		if ( is_admin() ) {
 			$this->initialize_admin();
 		}
 
+		// Only initialize the ajax for all tabs except settings.
 		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
 			$this->initialize_ajax();
 		}
@@ -38,13 +32,15 @@ class WPSEO_Redirect {
 	 * Display the presenter
 	 */
 	public function display() {
-		$redirect_presenter = new WPSEO_Redirect_Presenter();
-		$redirect_presenter->display(
-			array(
-				'normal_redirect_table' => new WPSEO_Redirect_Table( 'url', $this->normal_redirect_manager ),
-				'regex_redirect_table'  => new WPSEO_Redirect_Table( 'REGEX', $this->regex_redirect_manager ),
-			)
-		);
+		$display_params = array();
+		if ( in_array( $this->get_current_tab(), array( 'url', 'regex' ) ) ) {
+			$display_params = array(
+				'redirect_table' => new WPSEO_Redirect_Table( $this->get_current_tab(), $this->redirect_manager ),
+			);
+		}
+
+		$redirect_presenter = new WPSEO_Redirect_Presenter( $this->get_current_tab(), $display_params );
+		$redirect_presenter->display();
 	}
 
 	/**
@@ -67,8 +63,7 @@ class WPSEO_Redirect {
 
 			// The 'disable_php_redirect' option is set to true(on) so we need to generate a file.
 			// The Redirect Manager will figure out what file needs to be created.
-			$this->normal_redirect_manager->save_redirect_file();
-
+			$this->redirect_manager->save_redirect_file();
 		}
 		else if ( WPSEO_Utils::is_apache() ) {
 			// No settings are set so we should also strip the .htaccess redirect entries in this case.
@@ -90,7 +85,7 @@ class WPSEO_Redirect {
 			$wpseo_redirect  = filter_input( INPUT_POST, 'wpseo_redirect', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
 			$enable_autoload = empty( $wpseo_redirect['disable_php_redirect'] );
 
-			$this->redirects_change_autoload( $enable_autoload );
+			$this->redirect_manager->change_autoload( $enable_autoload );
 		}
 	}
 
@@ -114,7 +109,8 @@ class WPSEO_Redirect {
 	public function page_scripts() {
 		wp_enqueue_script( 'jquery-qtip', plugins_url( 'js/jquery.qtip.min.js', WPSEO_FILE ), array( 'jquery' ), '1.0.0-RC3', true );
 		wp_enqueue_script( 'wpseo-premium-yoast-overlay', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/js/wpseo-premium-yoast-overlay' . WPSEO_CSSJS_SUFFIX . '.js', array( 'jquery' ), WPSEO_VERSION );
-		wp_enqueue_script( 'wp-seo-premium-admin-redirects', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/js/wp-seo-premium-admin-redirects' . WPSEO_CSSJS_SUFFIX . '.js', array( 'jquery' ), WPSEO_VERSION );
+//		wp_enqueue_script( 'wp-seo-premium-admin-redirects', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/js/wp-seo-premium-admin-redirects' . WPSEO_CSSJS_SUFFIX . '.js', array( 'jquery' ), WPSEO_VERSION );
+		wp_enqueue_script( 'wp-seo-premium-admin-redirects', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/js/wp-seo-premium-admin-redirects.js', array( 'jquery' ), WPSEO_VERSION );
 		wp_localize_script( 'wp-seo-premium-admin-redirects', 'wpseo_premium_strings', WPSEO_Premium_Javascript_Strings::strings() );
 
 		add_screen_option( 'per_page', array(
@@ -143,16 +139,19 @@ class WPSEO_Redirect {
 	 * Initialize admin hooks.
 	 */
 	private function initialize_admin() {
+		// Setting the redirect manager.
+		$this->set_redirect_manager();
+
 		// Check if WPSEO_DISABLE_PHP_REDIRECTS is defined.
 		if ( defined( 'WPSEO_DISABLE_PHP_REDIRECTS' ) && true === WPSEO_DISABLE_PHP_REDIRECTS ) {
-			$this->redirects_change_autoload( false );
+			$this->redirect_manager->change_autoload( false );
 		}
 		else {
 			$options = WPSEO_Redirect_Manager::get_options();
 
 			// If the disable_php_redirect option is not enabled we should enable auto loading redirects.
 			if ( 'off' === $options['disable_php_redirect'] ) {
-				$this->redirects_change_autoload( true );
+				$this->redirect_manager->change_autoload( true );
 			}
 		}
 
@@ -180,26 +179,43 @@ class WPSEO_Redirect {
 	 */
 	private function initialize_ajax() {
 		// Normal Redirect AJAX.
-		$normal_redirect_manager_ajax = new WPSEO_Redirect_Ajax( $this->normal_redirect_manager, 'url' );
+		new WPSEO_Redirect_Ajax( new WPSEO_URL_Redirect_Manager(), 'url' );
 
 		// Regex Redirect AJAX.
-		$regex_redirect_manager_ajax = new WPSEO_Redirect_Ajax( $this->regex_redirect_manager, 'regex' );
+		new WPSEO_Redirect_Ajax( new WPSEO_REGEX_Redirect_Manager(), 'regex' );
 
 		// Add URL reponse code check AJAX.
 		add_action( 'wp_ajax_wpseo_check_url', array( 'WPSEO_Url_Checker', 'check_url' ) );
 	}
 
 	/**
-	 * Changing the autoload value for the redirect managers
+	 * Getting the current active tab
 	 *
-	 * @param bool $autoload_value
+	 * @return string
 	 */
-	private function redirects_change_autoload( $autoload_value ) {
-		// Change the normal redirect autoload option.
-		$this->normal_redirect_manager->redirects_change_autoload( $autoload_value );
+	private function get_current_tab() {
+		static $current_tab;
 
-		// Change the regex redirect autoload option.
-		$this->regex_redirect_manager->redirects_change_autoload( $autoload_value );
+		if ( $current_tab === null ) {
+			$current_tab = filter_input( INPUT_GET, 'tab', FILTER_DEFAULT, array( 'options' => array( 'default' => 'url' ) ) );
+		}
+
+		return $current_tab;
+	}
+
+	/**
+	 * Setting redirect manager, based on the current active tab
+	 */
+	private function set_redirect_manager() {
+		switch ( $this->get_current_tab() ) {
+			case 'regex' :
+				$this->redirect_manager = new WPSEO_REGEX_Redirect_Manager();
+				break;
+
+			default :
+				$this->redirect_manager = new WPSEO_URL_Redirect_Manager();
+				break;
+		}
 	}
 
 }
