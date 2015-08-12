@@ -4,33 +4,6 @@
  */
 
 /**
- * Interface iWPSEO_Redirect_File
- */
-interface IWPSEO_Redirect_File {
-	/**
-	 * Formatting the URL redirect
-	 *
-	 * @param string $old_url
-	 * @param string $new_url
-	 * @param int    $type
-	 *
-	 * @return mixed
-	 */
-	public function format_url_redirect( $old_url, $new_url, $type );
-
-	/**
-	 * Formating the regex redirect
-	 *
-	 * @param string $old_url
-	 * @param string $new_url
-	 * @param int    $type
-	 *
-	 * @return mixed
-	 */
-	public function format_regex_redirect( $old_url, $new_url, $type );
-}
-
-/**
  * Class WPSEO_Redirect_File
  */
 abstract class WPSEO_Redirect_File {
