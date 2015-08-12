@@ -1,5 +1,5 @@
 /* jshint browser: true */
-/* global YoastSEO: true, YoastSEO.app: true */
+/* global YoastSEO: true */
 /* global Jed */
 YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 
@@ -325,7 +325,7 @@ YoastSEO.App.prototype.runAnalyzer = function() {
 };
 
 /**
- * run at pageload to init the analyzeLoader for pageAnalysis.
+ * run at pageload to init the App for pageAnalysis.
  */
 YoastSEO.initialize = function() {
 	if ( document.readyState === "complete" ) {
