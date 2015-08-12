@@ -33,46 +33,35 @@ interface IWPSEO_Redirect_File {
 /**
  * Class WPSEO_Redirect_File
  */
-abstract class WPSEO_Redirect_File implements IWPSEO_Redirect_File {
+abstract class WPSEO_Redirect_File {
 
 	/**
-	 * Generate file content
-	 *
-	 * @return string
+	 * @var string
 	 */
-	protected function generate_file_content() {
-		$file_content = '';
+	protected $url_redirect_format = '';
 
-		// Generate URL redirects.
-		$url_redirect_manager = new WPSEO_URL_Redirect_Manager();
-		$url_redirects        = $url_redirect_manager->get_redirects();
-		if ( count( $url_redirects ) > 0 ) {
-			foreach ( $url_redirects as $old_url => $redirect ) {
-				$file_content .= $this->format_url_redirect( $old_url, $redirect['url'], $redirect['type'] ) . "\n";
-			}
-		}
+	/**
+	 * @var string
+	 */
+	protected $regex_redirect_format = '';
 
-		// Generate REGEX redirects.
-		$regex_redirect_manager = new WPSEO_REGEX_Redirect_Manager();
-		$regex_redirects        = $regex_redirect_manager->get_redirects();
-		if ( count( $regex_redirects ) > 0 ) {
-			foreach ( $regex_redirects as $regex => $redirect ) {
-				$file_content .= $this->format_regex_redirect( $regex, $redirect['url'], $redirect['type'] ) . "\n";
-			}
-		}
-
-		return $file_content;
-	}
+	/**
+	 * @var
+	 */
+	protected $current_redirect_type;
 
 	/**
 	 * Save the redirect file
 	 *
+	 * @param array $url_redirects
+	 * @param array $regex_redirects
+	 *
 	 * @return bool
 	 */
-	public function save_file() {
+	public function save_file( array $url_redirects, array $regex_redirects ) {
 
 		// Generate file content.
-		$file_content = $this->generate_file_content();
+		$file_content = $this->generate_file_content( $url_redirects, $regex_redirects );
 
 		// Check if the file content isset.
 		if ( '' === $file_content ) {
@@ -80,7 +69,95 @@ abstract class WPSEO_Redirect_File implements IWPSEO_Redirect_File {
 		}
 
 		// Save the actual file.
-		@file_put_contents( WPSEO_Redirect_File_Manager::get_file_path(), $file_content );
+		if ( is_writable( WPSEO_Redirect_File_Manager::get_file_path() ) ) {
+			try {
+				file_put_contents( WPSEO_Redirect_File_Manager::get_file_path(), $file_content );
+			}
+			catch ( Exception $e ) {
+				// Do nothing.
+			}
+		}
+
+
+		return true;
+	}
+
+	/**
+	 * Generate file content
+	 *
+	 * @param array $url_redirects
+	 * @param array $regex_redirects
+	 *
+	 * @return string
+	 */
+	protected function generate_file_content( array $url_redirects, array $regex_redirects ) {
+		$file_content = '';
+
+		// Formatting the url_redirects.
+		$this->format_url_redirects( $file_content, $url_redirects );
+
+		// Formatting the regex_redirects.
+		$this->format_regex_redirects( $file_content, $regex_redirects );
+
+		return $file_content;
+	}
+
+	/**
+	 * Formatting the URL redirects
+	 *
+	 * @param string $file_content
+	 * @param array  $redirects
+	 *
+	 * @return bool
+	 */
+	protected function format_url_redirects( &$file_content, $redirects ) {
+		$this->current_redirect_type = 'url';
+
+		return $this->format_redirects( $file_content, $redirects, $this->url_redirect_format );
+	}
+
+	/**
+	 * Formatting the regex redirects
+	 *
+	 * @param string $file_content
+	 * @param array  $redirects
+	 *
+	 * @return bool
+	 */
+	protected function format_regex_redirects( &$file_content, $redirects ) {
+		$this->current_redirect_type = 'regex';
+
+		return $this->format_redirects( $file_content, $redirects, $this->regex_redirect_format );
+	}
+
+	/**
+	 * @param string $file_content
+	 * @param array  $redirects
+	 * @param string $redirect_format
+	 *
+	 * @return bool
+	 */
+	protected function format_redirects( &$file_content, array $redirects, $redirect_format ) {
+		if ( count( $redirects ) === 0 ) {
+			return false;
+		}
+
+		foreach ( $redirects as $redirect_key => $redirect ) {
+			$file_content .= $this->format_redirect( $redirect_format, $redirect_key, $redirect ) . PHP_EOL;
+		}
+
+		return true;
+	}
+
+	/**
+	 * @param string $redirect_format
+	 * @param string $redirect_key
+	 * @param array  $redirect
+	 *
+	 * @return string
+	 */
+	protected function format_redirect( $redirect_format, $redirect_key, array $redirect ) {
+		return sprintf( $redirect_format, $redirect_key, $redirect['url'], $redirect['type'] );
 	}
 
 }

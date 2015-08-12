@@ -9,29 +9,37 @@
 class WPSEO_Apache_Redirect_File extends WPSEO_Redirect_File {
 
 	/**
-	 * Format URL redirect
+	 * %1$s is the redirect type
+	 * %2$s is the old url
+	 * %3$s is the new url
 	 *
-	 * @param string $old_url
-	 * @param string $new_url
-	 * @param int    $type
-	 *
-	 * @return string
+	 * @var string
 	 */
-	public function format_url_redirect( $old_url, $new_url, $type ) {
-		return 'Redirect ' . $type . ' ' . $this->add_url_slash( $old_url ) . ' ' . $this->add_url_slash( $new_url ) . PHP_EOL;
-	}
+	protected $url_redirect_format   = 'Redirect %1$s %2$s %3$s';
 
 	/**
-	 * Format REGEX redirect
+	 * %1$s is the redirect type
+	 * %2$s is the regex
+	 * %3$s is the new url
 	 *
-	 * @param string $regex
-	 * @param string $url
-	 * @param int    $type
+	 * @var string
+	 */
+	protected $regex_redirect_format = 'RedirectMatch %1$s %2$s %3$s';
+
+	/**
+	 * @param string $redirect_format
+	 * @param string $redirect_key
+	 * @param array  $redirect
 	 *
 	 * @return string
 	 */
-	public function format_regex_redirect( $regex, $url, $type ) {
-		return 'RedirectMatch ' . $type . ' ' . $regex . ' ' . $url . PHP_EOL;
+	protected function format_redirect( $redirect_format, $redirect_key, array $redirect ) {
+		if ( $this->current_redirect_type === 'url' ) {
+			$redirect_key    = $this->add_url_slash( $redirect_key );
+			$redirect['url'] = $this->add_url_slash( $redirect['url'] );
+		}
+
+		return parent::format_redirect( $redirect_format, $redirect_key, $redirect );
 	}
 
 	/**

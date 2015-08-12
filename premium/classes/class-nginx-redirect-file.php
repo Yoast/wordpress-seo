@@ -11,29 +11,20 @@
 class WPSEO_Nginx_Redirect_File extends WPSEO_Redirect_File {
 
 	/**
-	 * Format URL redirect
-	 *
-	 * @param string $old_url
-	 * @param string $new_url
-	 * @param int    $type
-	 *
-	 * @return string
+	 * %1$s is the redirect type
+	 * %2$s is the old url
+	 * %3$s is the new url
+	 * @var string
 	 */
-	public function format_url_redirect( $old_url, $new_url, $type ) {
-		return 'location ' . $old_url . ' { add_header X-Redirect-By \"Yoast SEO Premium\"; return ' . $type . ' ' . $new_url . '; }';
-	}
+	protected $url_redirect_format   = 'location %2$s { add_header X-Redirect-By \"Yoast SEO Premium\"; return %1$s %3$s; }';
 
 	/**
-	 * Format REGEX redirect
+	 * %1$s is the redirect type
+	 * %2$s is the regex
+	 * %3$s is the new url
 	 *
-	 * @param string $regex
-	 * @param string $url
-	 * @param int    $type
-	 *
-	 * @return string
+	 * @var string
 	 */
-	public function format_regex_redirect( $regex, $url, $type ) {
-		return 'location ~ ' . $regex . ' { return ' . $type . ' ' . $url . '; }';
-	}
+	protected $regex_redirect_format = 'location ~ %2$s { return %1$s %3$s; }';
 
 }
