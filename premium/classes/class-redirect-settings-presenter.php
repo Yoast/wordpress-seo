@@ -6,7 +6,7 @@
 /**
  * Class WPSEO_Redirect_Settings_Presenter
  */
-class WPSEO_Redirect_Settings_Presenter extends WPSEO_Redirects_Tab_Presenter {
+class WPSEO_Redirect_Settings_Presenter extends WPSEO_Redirect_Tab_Presenter {
 
 	/**
 	 * Extending the view vars with pre settings key

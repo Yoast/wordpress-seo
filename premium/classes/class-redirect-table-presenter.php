@@ -6,7 +6,7 @@
 /**
  * Class WPSEO_Redirect_Table_Presenter
  */
-class WPSEO_Redirect_Table_Presenter extends WPSEO_Redirects_Tab_Presenter {
+class WPSEO_Redirect_Table_Presenter extends WPSEO_Redirect_Tab_Presenter {
 
 	/**
 	 * Getting the variables for the view

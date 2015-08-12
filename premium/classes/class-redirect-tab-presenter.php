@@ -6,7 +6,7 @@
 /**
  * Class WPSEO_Redirect_Table_Presenter
  */
-class WPSEO_Redirects_Tab_Presenter {
+class WPSEO_Redirect_Tab_Presenter {
 
 	/**
 	 * @var string

@@ -46,7 +46,7 @@ abstract class WPSEO_Redirect_File {
 	protected $regex_redirect_format = '';
 
 	/**
-	 * @var
+	 * @var string
 	 */
 	protected $current_redirect_type;
 
