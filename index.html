@@ -21,7 +21,7 @@
             <script type="text/javascript" src="js/analyzescorer.js"></script>
             <script type="text/javascript" src="js/preprocessor.js"></script>
             <script type="text/javascript" src="js/stringhelper.js"></script>
-            <script type="text/javascript" src="js/initializer.js"></script>
+            <script type="text/javascript" src="js/app.js"></script>
             <script type="text/javascript" src="js/scoreFormatter.js"></script>
     <script>
         YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
@@ -50,7 +50,7 @@
             }
         };
 
-        YoastSEO.loadAnalyzerEvents();
+        YoastSEO.initialize();
     </script>
 </head>
 <body class="purple seo">
@@ -97,12 +97,12 @@
                     <div class="breadcrumb" itemprop="breadcrumb">
 								<span xmlns:v="http://rdf.data-vocabulary.org/#">
 									<span typeof="v:Breadcrumb">
-										<a href="https://yoast.com" rel="v:url" property="v:title">Home</a> 
-										<span class="sep">▸</span> 
+										<a href="https://yoast.com" rel="v:url" property="v:title">Home</a>
+										<span class="sep">▸</span>
 										<span rel="v:child" typeof="v:Breadcrumb">
 											<a href="https://yoast.com/wordpress/plugins/seo/" rel="v:url"
                                                property="v:title">Yoast SEO plugin</a>
-											<span class="sep">▸</span> 
+											<span class="sep">▸</span>
 											<span class="breadcrumb_last">Real Time Content Analysis</span>
 										</span>
 									</span>
