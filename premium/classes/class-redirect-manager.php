@@ -97,7 +97,7 @@ abstract class WPSEO_Redirect_Manager {
 	 * @param array $old_redirect_arr
 	 * @param array $new_redirect_arr
 	 */
-	public function save_redirect( $old_redirect_arr, $new_redirect_arr ) {
+	public function save_redirect( array $old_redirect_arr, array $new_redirect_arr ) {
 
 		// Get redirects.
 		$redirects = $this->get_redirects();
