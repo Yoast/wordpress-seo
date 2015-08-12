@@ -17,7 +17,7 @@
 		<div class='wpseo_redirects_new'>
 
 			<label class='textinput' for='wpseo_redirects_new_old'><?php _e( 'Regular Expression', 'wordpress-seo-premium' ); ?></label>
-			<input type='text' class='textinput' name='wpseo_redirects_new_old' id='wpseo_redirects_new_old' value='<?php echo $old_url; ?> ' />
+			<input type='text' class='textinput' name='wpseo_redirects_new_old' id='wpseo_redirects_new_old' value='<?php echo $old_url; ?>' />
 			<br class='clear'/>
 
 			<label class='textinput' for='wpseo_redirects_new_new'><?php _e( 'URL', 'wordpress-seo-premium' ); ?></label>
