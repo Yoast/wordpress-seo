@@ -33,6 +33,18 @@ class WPSEO_URL_Redirect_Manager extends WPSEO_Redirect_Manager {
 		}
 	}
 
+	/**
+	 * Save the redirect
+	 *
+	 * @param array $old_redirect_arr
+	 * @param array $new_redirect_arr
+	 */
+	public function save_redirect( array $old_redirect_arr, array $new_redirect_arr ) {
+		// Format the URL if it's an URL.
+		$new_redirect_arr['key'] = WPSEO_Utils::format_url( $new_redirect_arr['key'] );
+
+		parent::save_redirect( $old_redirect_arr, $new_redirect_arr );
+	}
 
 	/**
 	 * Getting the redirect managers

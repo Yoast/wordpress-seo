@@ -107,11 +107,6 @@ abstract class WPSEO_Redirect_Manager {
 			unset( $redirects[ $old_redirect_arr['key'] ] );
 		}
 
-		// Format the URL is it's an URL.
-		if ( $this instanceof WPSEO_URL_Redirect_Manager ) {
-			$new_redirect_arr['key'] = self::format_url( $new_redirect_arr['key'] );
-		}
-
 		// Add new redirect.
 		$redirects[ $new_redirect_arr['key'] ] = array(
 			'url'  => $new_redirect_arr['value'],
