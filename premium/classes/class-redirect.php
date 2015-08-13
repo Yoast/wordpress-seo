@@ -86,7 +86,7 @@ class WPSEO_Redirect {
 	 */
 	private function initialize_admin() {
 		// Setting the redirect manager.
-		$this->set_redirect_manager();
+		$this->redirect_manager = $this->get_redirect_manager();
 
 		// Check if WPSEO_DISABLE_PHP_REDIRECTS is defined.
 		if ( defined( 'WPSEO_DISABLE_PHP_REDIRECTS' ) && true === WPSEO_DISABLE_PHP_REDIRECTS ) {
@@ -147,17 +147,16 @@ class WPSEO_Redirect {
 
 	/**
 	 * Setting redirect manager, based on the current active tab
+	 *
+	 * @return WPSEO_Redirect_Manager
 	 */
-	private function set_redirect_manager() {
-		switch ( $this->get_current_tab() ) {
-			case 'regex' :
-				$this->redirect_manager = new WPSEO_REGEX_Redirect_Manager();
-				break;
+	private function get_redirect_manager() {
 
-			default :
-				$this->redirect_manager = new WPSEO_URL_Redirect_Manager();
-				break;
+		if ( $this->get_current_tab() === 'regex' ) {
+			return new WPSEO_REGEX_Redirect_Manager();
 		}
+
+		return new WPSEO_URL_Redirect_Manager();
 	}
 
 }
