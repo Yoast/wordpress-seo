@@ -18,6 +18,7 @@ module.exports = function( grunt ) {
 				"js/*.js",
 				"!js/*.min.js"
 			],
+			jed: "node_modules/jed/jed.js",
 			get config() {
 				return project.paths.config + "*.js";
 			},
