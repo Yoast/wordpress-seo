@@ -95,7 +95,9 @@ YoastSEO.WordPressScraper.prototype.getDataFromInput = function( inputType ) {
 			val = document.getElementById( 'title' ).value;
 			break;
 		case 'excerpt':
-			val = document.getElementById( 'excerpt' ).value;
+			if ( document.getElementById( 'excerpt' ) !== null ) {
+				val = document.getElementById('excerpt').value;
+			}
 			break;
 		default:
 			break;
