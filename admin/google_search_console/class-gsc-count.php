@@ -33,8 +33,6 @@ class WPSEO_GSC_Count {
 	 */
 	public function __construct( WPSEO_GSC_Service $service ) {
 		$this->service = $service;
-
-		$this->fetch_counts();
 	}
 
 	/**
@@ -80,9 +78,44 @@ class WPSEO_GSC_Count {
 	}
 
 	/**
+	 * Getting the counts for given platform and category.
+	 *
+	 * @param string $platform
+	 * @param string $category
+	 *
+	 * @return integer
+	 */
+	public function get_issue_count( $platform, $category ) {
+		$counts = $this->get_counts();
+
+		if ( ! empty( $counts[ $platform ][ $category ]['count'] ) ) {
+			return $counts[ $platform ][ $category ]['count'];
+		}
+
+		return 0;
+	}
+
+	/**
+	 * Update the count of the issues
+	 *
+	 * @param string  $platform
+	 * @param string  $category
+	 * @param integer $new_count
+	 */
+	public function update_issue_count( $platform, $category, $new_count ) {
+		$counts = $this->get_counts();
+
+		if ( ! empty( $counts[ $platform ][ $category ] ) && is_array( $counts[ $platform ][ $category ] ) ) {
+			$counts[ $platform ][ $category ]['count'] = $new_count;
+		}
+
+		$this->set_counts( $counts );
+	}
+
+	/**
 	 * Fetching the counts from the GSC API
 	 */
-	private function fetch_counts() {
+	public function fetch_counts() {
 		if ( WPSEO_GSC_Settings::get_profile() && $this->get_last_fetch() <= strtotime( '-12 hours' ) ) {
 			// Remove the timestamp.
 			$this->remove_last_fetch();
@@ -134,6 +167,9 @@ class WPSEO_GSC_Count {
 			if ( $issues = $this->service->fetch_category_issues( WPSEO_GSC_Mapper::platform_to_api( $platform ), WPSEO_GSC_Mapper::category_to_api( $category ) ) ) {
 				$this->issues = $issues;
 			}
+
+			// Be sure the total count is correct.
+			$counts[ $category ]['count'] = count( $this->issues );
 
 			// Set last fetch.
 			$counts[ $category ]['last_fetch'] = time();
