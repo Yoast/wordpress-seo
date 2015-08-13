@@ -31,7 +31,6 @@ class WPSEO_Redirect_Htaccess_Util {
 				$htaccess,
 				FS_CHMOD_FILE // Predefined mode settings for WP files.
 			);
-
 		}
 
 	}

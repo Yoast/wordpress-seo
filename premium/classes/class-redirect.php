@@ -109,7 +109,7 @@ class WPSEO_Redirect {
 		}
 
 		// Setting the handling of the redirect option.
-		$redirect_option = new WPSEO_Redirect_Option( $this->redirect_manager );
+		$redirect_option = new WPSEO_Redirect_Settings( $this->redirect_manager );
 
 		// Post to Get on search.
 		if ( filter_input( INPUT_GET, 'page' ) === 'wpseo_redirects' ) {
