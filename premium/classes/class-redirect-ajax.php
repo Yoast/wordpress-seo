@@ -120,8 +120,7 @@ class WPSEO_Redirect_Ajax {
 	 */
 	private function permission_check() {
 		if ( ! current_user_can( 'edit_posts' ) ) {
-			echo '0';
-			exit;
+			wp_die( '0' );
 		}
 	}
 
