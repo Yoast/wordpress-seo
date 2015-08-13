@@ -91,9 +91,10 @@ YoastSEO_Analyzer.prototype.loadWordlists = function() {
  * set default variables.
  */
 YoastSEO_Analyzer.prototype.setDefaults = function() {
+
 	//creates new regex from keyword with global and caseinsensitive option
-	if( typeof this.config.keywordLowerCase !== "undefined") {
-		this.keywordRegex = new RegExp(this.YoastSEO_preProcessor.replaceDiacritics(this.config.keywordLowerCase), "ig");
+	if( typeof this.config.keywordLowerCase !== "undefined" ) {
+		this.keywordRegex = new RegExp( this.YoastSEO_preProcessor.replaceDiacritics( this.config.keywordLowerCase ), "ig" );
 	}
 };
 
