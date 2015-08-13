@@ -37,20 +37,40 @@ class WPSEO_Redirect_File_Util {
 
 		// Create the .htaccess file.
 		if ( ! file_exists( self::get_dir() . '/.htaccess' ) ) {
-			@file_put_contents( self::get_dir() . '/.htaccess', "Options -Indexes\ndeny from all" );
+			self::write_file( self::get_dir() . '/.htaccess', "Options -Indexes\ndeny from all" );
 		}
 
 		// Create an empty index.php file.
 		if ( ! file_exists( self::get_dir() . '/index.php' ) ) {
-			@file_put_contents( self::get_dir() . '/index.php', '<?php' . PHP_EOL . '// Silence is golden.' );
+			self::write_file( self::get_dir() . '/index.php', '<?php' . PHP_EOL . '// Silence is golden.' );
 		}
 
 		// Create an empty redirect file.
 		if ( ! file_exists( self::get_file_path() ) ) {
-			@file_put_contents( self::get_file_path(), '' );
+			self::write_file( self::get_file_path(), '' );
 		}
 	}
 
+	/**
+	 * Wrapper method for file_put_contents. Catches the result, if result is false add notification.
+	 *
+	 * @param string $file_path
+	 * @param string $file_content
+	 *
+	 * @return int
+	 */
+	public static function write_file( $file_path, $file_content ) {
+		$has_written = (bool) file_put_contents( $file_path, $file_content );
+		if ( $has_written !== false ) {
+			Yoast_Notification_Center::get()->add_notification(
+				new Yoast_Notification(
+					sprintf( __( "We're unable to write data to the file %s", 'wordpress-seo-premium' ), $file_path ),
+					array( 'type' => 'error', 'id' => md5( $file_path ) )
+				)
+			);
+		}
 
+		return $has_written;
+	}
 
 }

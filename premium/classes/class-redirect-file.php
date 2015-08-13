@@ -43,12 +43,7 @@ abstract class WPSEO_Redirect_File {
 
 		// Save the actual file.
 		if ( is_writable( WPSEO_Redirect_File_Util::get_file_path() ) ) {
-			try {
-				file_put_contents( WPSEO_Redirect_File_Util::get_file_path(), $file_content );
-			}
-			catch ( Exception $e ) {
-				// @todo catch it.
-			}
+			WPSEO_Redirect_File_Util::write_file( WPSEO_Redirect_File_Util::get_file_path(), $file_content );
 		}
 
 
