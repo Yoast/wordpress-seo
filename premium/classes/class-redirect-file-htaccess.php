@@ -35,7 +35,7 @@ class WPSEO_Htaccess_Redirect_File extends WPSEO_Apache_Redirect_File {
 	 * @return bool
 	 */
 	private function write_htaccess_content( $file_content ) {
-		$file_path = WPSEO_Redirect_Htaccess::get_htaccess_file_path();
+		$file_path = WPSEO_Redirect_Htaccess_Util::get_htaccess_file_path();
 
 		// Update the .htaccess file.
 		if ( is_writable( $file_path ) ) {

@@ -6,7 +6,7 @@
 /**
  * Class WPSEO_Redirect_File_Manager
  */
-class WPSEO_Redirect_File_Manager {
+class WPSEO_Redirect_File_Util {
 
 	/**
 	 * Get the full path to the WPSEO redirect directory

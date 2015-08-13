@@ -6,7 +6,7 @@
 /**
  * Class WPSEO_Redirect_Htaccess
  */
-class WPSEO_Redirect_Htaccess {
+class WPSEO_Redirect_Htaccess_Util {
 
 	/**
 	 * Clear the WPSEO added entries added in the .htaccess file

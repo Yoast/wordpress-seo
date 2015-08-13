@@ -6,7 +6,7 @@
 /**
  * Class WPSEO_Redirect_Option
  */
-class WPSEO_Redirect_Option {
+class WPSEO_Redirect_Settings {
 
 	/**
 	 * @var WPSEO_Redirect_Manager
@@ -49,7 +49,7 @@ class WPSEO_Redirect_Option {
 		// Check if we need to remove the .htaccess redirect entries.
 		if ( $this->remove_htaccess_entries( $disable_php_redirect, $separate_file ) ) {
 			// Remove the .htaccess redirect entries.
-			WPSEO_Redirect_Htaccess::clear_htaccess_entries();
+			WPSEO_Redirect_Htaccess_Util::clear_htaccess_entries();
 		}
 	}
 
