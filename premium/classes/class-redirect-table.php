@@ -145,7 +145,17 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 		);
 	}
 
-	/*
+	/**
+	 * Checkbox columns
+	 *
+	 * @param array $item
+	 * @return string
+	 */
+	public function column_cb( $item ) {
+		return sprintf( '<input type="checkbox" name="wpseo_redirects_bulk_delete[]" value="%s" />', $item['old'] );
+	}
+
+	/**
 	 * Default method to display a column
 	 *
 	 * @param array  $item
@@ -153,7 +163,6 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	 *
 	 * @return string
 	 */
-
 	public function column_default( $item, $column_name ) {
 
 		switch ( $column_name ) {
@@ -162,9 +171,6 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 				break;
 			case 'type':
 				return "<div class='val type'>" . $item[ $column_name ] . '</div>';
-				break;
-			case 'cb' :
-				return sprintf( '<input type="checkbox" name="wpseo_redirects_bulk_delete[]" value="%s" />', $item[ $column_name ] );
 				break;
 			default:
 				return $item[ $column_name ];
@@ -195,13 +201,16 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 
 	}
 
-
 	/**
 	 * Setting the items
 	 */
 	private function set_items() {
 		// Getting the items.
 		$this->items = $this->redirect_manager->get_redirects();
+
+		if ( ! is_array( $this->items ) ) {
+			$this->items = array();
+		}
 
 		if ( ( $search_string = filter_input( INPUT_GET, 's', FILTER_DEFAULT, array( 'options' => array( 'default' => '' ) ) ) ) !== '' ) {
 			$this->do_search( $search_string );
@@ -221,10 +230,8 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	private function format_items() {
 		// Format the data.
 		$formatted_items = array();
-		if ( is_array( $this->items ) ) {
-			foreach ( $this->items as $old => $redirect ) {
-				$formatted_items[] = array( 'old' => $old, 'new' => $redirect['url'], 'type' => $redirect['type'] );
-			}
+		foreach ( $this->items as $old => $redirect ) {
+			$formatted_items[] = array( 'old' => $old, 'new' => $redirect['url'], 'type' => $redirect['type'] );
 		}
 
 		$this->items = $formatted_items;
@@ -238,11 +245,9 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	private function do_search( $search_string ) {
 		$results = array();
 
-		if ( is_array( $this->items ) ) {
-			foreach ( $this->items as $old => $redirect ) {
-				if ( false !== stripos( $old, $search_string ) || false !== stripos( $redirect['url'], $search_string ) ) {
-					$results[ $old ] = $redirect;
-				}
+		foreach ( $this->items as $old => $redirect ) {
+			if ( false !== stripos( $old, $search_string ) || false !== stripos( $redirect['url'], $search_string ) ) {
+				$results[ $old ] = $redirect;
 			}
 		}
 
