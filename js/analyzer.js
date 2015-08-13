@@ -91,9 +91,10 @@ YoastSEO_Analyzer.prototype.loadWordlists = function() {
  * set default variables.
  */
 YoastSEO_Analyzer.prototype.setDefaults = function() {
-
 	//creates new regex from keyword with global and caseinsensitive option
-	this.keywordRegex = new RegExp( this.config.keywordLowerCase, "ig" );
+	if( typeof this.config.keywordLowerCase !== "undefined") {
+		this.keywordRegex = new RegExp(this.YoastSEO_preProcessor.replaceDiacritics(this.config.keywordLowerCase), "ig");
+	}
 };
 
 /**
@@ -164,10 +165,7 @@ YoastSEO_Analyzer.prototype.keywordDensityCheck = function() {
  * @returns keywordCount
  */
 YoastSEO_Analyzer.prototype.keywordCount = function() {
-	var keywordMatches = this.stringHelper.matchString(
-		this.YoastSEO_preProcessor.__store.cleanText,
-		[ this.config.keywordLowerCase ]
-	);
+	var keywordMatches = this.YoastSEO_preProcessor.__store.cleanText.match( this.keywordRegex );
 	var keywordCount = 0;
 	if ( keywordMatches !== null ) {
 		keywordCount = keywordMatches.length;
