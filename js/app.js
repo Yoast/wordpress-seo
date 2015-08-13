@@ -1,19 +1,23 @@
 /* jshint browser: true */
-/* global YoastSEO: true, YoastSEO_loadEvents: true, YoastSEO_loader: true, YoastSEO_StringHelper */
-/* global Jed, YoastSEO_config, YoastSEO_ScoreFormatter, YoastSEO_Analyzer */
-/* global YoastSEO_SnippetPreview, YoastSEO_args */
+/* global YoastSEO: true */
+/* global Jed */
+YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
+
 /**
  * Loader for the analyzer, loads the eventbinder and the elementdefiner
+ *
  * @param {Object} args
+ * @param {Object} args.translations Jed compatible translations
+ *
  * @constructor
  */
-YoastSEO = function( args ) {
-	window.YoastSEO_loader = this;
+YoastSEO.App = function( args ) {
+	window.YoastSEO.app = this;
 	this.config = args;
 	this.inputs = {};
 	this.constructI18n( args.translations );
 	this.loadQueue();
-	this.stringHelper = new YoastSEO_StringHelper();
+	this.stringHelper = new YoastSEO.StringHelper();
 	this.source = new this.config.source( args, this );
 	this.checkInputs();
 	if ( !this.config.ajax ) {
@@ -26,7 +30,7 @@ YoastSEO = function( args ) {
  *
  * @param {Object} translations
  */
-YoastSEO.prototype.constructI18n = function( translations ) {
+YoastSEO.App.prototype.constructI18n = function( translations ) {
 
 	var defaultTranslations = {
 		"domain": "js-text-analysis",
@@ -46,7 +50,7 @@ YoastSEO.prototype.constructI18n = function( translations ) {
 /**
  * inits YoastSEO, calls element definer and snippet preview creater
  */
-YoastSEO.prototype.init = function() {
+YoastSEO.App.prototype.init = function() {
 	this.defineElements();
 	this.createSnippetPreview();
 };
@@ -54,9 +58,9 @@ YoastSEO.prototype.init = function() {
 /**
  * loads the queue from the analyzer if no queue is defined.
  */
-YoastSEO.prototype.loadQueue = function() {
+YoastSEO.App.prototype.loadQueue = function() {
 	if ( typeof this.queue === "undefined" ) {
-		this.queue = YoastSEO_config.analyzerConfig.queue;
+		this.queue = YoastSEO.analyzerConfig.queue;
 	}
 };
 
@@ -64,8 +68,8 @@ YoastSEO.prototype.loadQueue = function() {
  * Adds function to the analyzer queue. Function must be in the Analyzer prototype to be added.
  * @param func
  */
-YoastSEO.prototype.addToQueue = function( func ) {
-	if ( typeof YoastSEO_Analyzer.prototype[ func ] === "function" ) {
+YoastSEO.App.prototype.addToQueue = function( func ) {
+	if ( typeof YoastSEO.Analyzer.prototype[ func ] === "function" ) {
 		this.queue.push( func );
 	}
 };
@@ -74,7 +78,7 @@ YoastSEO.prototype.addToQueue = function( func ) {
  * Removes function from queue if it is currently in the queue.
  * @param func
  */
-YoastSEO.prototype.removeFromQueue = function( func ) {
+YoastSEO.App.prototype.removeFromQueue = function( func ) {
 	var funcIndex = this.queue.indexOf( func );
 	if ( funcIndex > -1 ) {
 		this.queue.splice( funcIndex, 1 );
@@ -84,7 +88,7 @@ YoastSEO.prototype.removeFromQueue = function( func ) {
 /**
  * creates the elements for the snippetPreview
  */
-YoastSEO.prototype.createSnippetPreview = function() {
+YoastSEO.App.prototype.createSnippetPreview = function() {
 	var targetElement = document.getElementById( this.config.targets.snippet );
 	var div = document.createElement( "div" );
 	div.id = "snippet_preview";
@@ -92,7 +96,7 @@ YoastSEO.prototype.createSnippetPreview = function() {
 	this.createSnippetPreviewTitle( div );
 	this.createSnippetPreviewUrl( div );
 	this.createSnippetPreviewMeta( div );
-	this.snippetPreview = new YoastSEO_SnippetPreview( this );
+	this.snippetPreview = new YoastSEO.SnippetPreview( this );
 	this.bindEvent();
 	this.bindSnippetEvents();
 };
@@ -101,7 +105,7 @@ YoastSEO.prototype.createSnippetPreview = function() {
  * creates the title elements in the snippetPreview and appends to target
  * @param target
  */
-YoastSEO.prototype.createSnippetPreviewTitle = function( target ) {
+YoastSEO.App.prototype.createSnippetPreviewTitle = function( target ) {
 	var elem = document.createElement( "div" );
 	elem.className = "snippet_container";
 	elem.id = "title_container";
@@ -120,7 +124,7 @@ YoastSEO.prototype.createSnippetPreviewTitle = function( target ) {
  * creates the URL elements in the snippetPreview and appends to target
  * @param target
  */
-YoastSEO.prototype.createSnippetPreviewUrl = function( target ) {
+YoastSEO.App.prototype.createSnippetPreviewUrl = function( target ) {
 	var elem = document.createElement( "div" );
 	elem.className = "snippet_container";
 	elem.id = "url_container";
@@ -142,7 +146,7 @@ YoastSEO.prototype.createSnippetPreviewUrl = function( target ) {
  * creates the meta description elements in the snippetPreview and appends to target
  * @param target
  */
-YoastSEO.prototype.createSnippetPreviewMeta = function( target ) {
+YoastSEO.App.prototype.createSnippetPreviewMeta = function( target ) {
 	var elem = document.createElement( "div" );
 	elem.className = "snippet_container";
 	elem.id = "meta_container";
@@ -159,7 +163,7 @@ YoastSEO.prototype.createSnippetPreviewMeta = function( target ) {
 /**
  * defines the target element to be used for the output on the page
  */
-YoastSEO.prototype.defineElements = function() {
+YoastSEO.App.prototype.defineElements = function() {
 	this.target = document.getElementById( this.config.targets.output );
 	for ( var i = 0; i < this.config.elementTarget.length; i++ ) {
 		var elem = document.getElementById( this.config.elementTarget[ i ] );
@@ -170,7 +174,7 @@ YoastSEO.prototype.defineElements = function() {
 	}
 };
 
-YoastSEO.prototype.createEditIcon = function( elem, id ) {
+YoastSEO.App.prototype.createEditIcon = function( elem, id ) {
 	var div = document.createElement( "div" );
 	div.className = "editIcon";
 	div.id = "editIcon_" + id;
@@ -182,21 +186,21 @@ YoastSEO.prototype.createEditIcon = function( elem, id ) {
  * gets the values from the inputfields. The values from these fields are used as input for the
  * analyzer.
  */
-YoastSEO.prototype.getAnalyzerInput = function() {
+YoastSEO.App.prototype.getAnalyzerInput = function() {
 	this.inputs = this.source.getAnalyzerInput();
 };
 
 /**
  * binds the events to the generated inputs. Binds events on the snippetinputs if editable
  */
-YoastSEO.prototype.bindEvent = function() {
+YoastSEO.App.prototype.bindEvent = function() {
 	this.source.bindElementEvents();
 };
 
 /**
  * binds the analyzeTimer function to the input of the targetElement on the page.
  */
-YoastSEO.prototype.bindInputEvent = function() {
+YoastSEO.App.prototype.bindInputEvent = function() {
 	for ( var i = 0; i < this.config.elementTarget.length; i++ ) {
 		var elem = document.getElementById( this.config.elementTarget[ i ] );
 		elem.addEventListener( "input", this.analyzeTimer );
@@ -206,7 +210,7 @@ YoastSEO.prototype.bindInputEvent = function() {
 /**
  * binds the reloadSnippetText function to the blur of the snippet inputs.
  */
-YoastSEO.prototype.bindSnippetEvents = function() {
+YoastSEO.App.prototype.bindSnippetEvents = function() {
 	var snippetElem = document.getElementById( this.config.targets.snippet );
 	snippetElem.refObj = this;
 	var elems = [ "meta", "cite", "title" ];
@@ -221,7 +225,7 @@ YoastSEO.prototype.bindSnippetEvents = function() {
 /**
  * runs the rerender function of the snippetPreview if that object is defined.
  */
-YoastSEO.prototype.reloadSnippetText = function() {
+YoastSEO.App.prototype.reloadSnippetText = function() {
 	if ( typeof this.snippetPreview !== "undefined" ) {
 		this.snippetPreview.reRender();
 	}
@@ -232,7 +236,7 @@ YoastSEO.prototype.reloadSnippetText = function() {
  * at every keystroke checks the reference object, so this function can be called from anywhere,
  * without problems with different scopes.
  */
-YoastSEO.prototype.analyzeTimer = function() {
+YoastSEO.App.prototype.analyzeTimer = function() {
 	var refObj = this.__refObj;
 
 	//if __refObj is not found (used on elements), use refObj
@@ -252,13 +256,13 @@ YoastSEO.prototype.analyzeTimer = function() {
  * calls the getInput function to retrieve values from inputs. If the keyword is empty calls
  * message, if keyword is filled, runs the analyzer
  */
-YoastSEO.prototype.checkInputs = function() {
-	var refObj = window.YoastSEO_loader;
+YoastSEO.App.prototype.checkInputs = function() {
+	var refObj = window.YoastSEO.app;
 	refObj.getAnalyzerInput();
 };
 
-YoastSEO.prototype.runAnalyzerCallback = function() {
-	var refObj = window.YoastSEO_loader;
+YoastSEO.App.prototype.runAnalyzerCallback = function() {
+	var refObj = window.YoastSEO.app;
 	if ( refObj.source.analyzerData.keyword === "" ) {
 		refObj.showMessage();
 	} else {
@@ -269,7 +273,7 @@ YoastSEO.prototype.runAnalyzerCallback = function() {
 /**
  * used when no keyword is filled in, it will display a message in the target element
  */
-YoastSEO.prototype.showMessage = function() {
+YoastSEO.App.prototype.showMessage = function() {
 	this.target.innerHTML = "";
 	var messageDiv = document.createElement( "div" );
 	messageDiv.className = "wpseo_msg";
@@ -281,14 +285,14 @@ YoastSEO.prototype.showMessage = function() {
 /**
  * sets the startTime timestamp
  */
-YoastSEO.prototype.startTime = function() {
+YoastSEO.App.prototype.startTime = function() {
 	this.startTimestamp = new Date().getTime();
 };
 
 /**
  * sets the endTime timestamp and compares with startTime to determine typeDelayincrease.
  */
-YoastSEO.prototype.endTime = function() {
+YoastSEO.App.prototype.endTime = function() {
 	this.endTimestamp = new Date().getTime();
 	if ( this.endTimestamp - this.startTimestamp > this.config.typeDelay ) {
 		if ( this.config.typeDelay < ( this.config.maxTypeDelay - this.config.typeDelayStep ) ) {
@@ -301,7 +305,7 @@ YoastSEO.prototype.endTime = function() {
  * inits a new pageAnalyzer with the inputs from the getInput function and calls the scoreFormatter
  * to format outputs.
  */
-YoastSEO.prototype.runAnalyzer = function() {
+YoastSEO.App.prototype.runAnalyzer = function() {
 	if ( this.config.dynamicDelay ) {
 		this.startTime();
 	}
@@ -309,24 +313,24 @@ YoastSEO.prototype.runAnalyzer = function() {
 		var args = this.source.analyzerData;
 		args.queue = this.queue;
 		args.i18n = this.i18n;
-		this.pageAnalyzer = new YoastSEO_Analyzer( args );
+		this.pageAnalyzer = new YoastSEO.Analyzer( args );
 	} else {
 		this.pageAnalyzer.init();
 	}
 	this.pageAnalyzer.runQueue();
-	this.scoreFormatter = new YoastSEO_ScoreFormatter( this );
+	this.scoreFormatter = new YoastSEO.ScoreFormatter( this );
 	if ( this.config.dynamicDelay ) {
 		this.endTime();
 	}
 };
 
 /**
- * run at pageload to init the analyzeLoader for pageAnalysis.
+ * run at pageload to init the App for pageAnalysis.
  */
-YoastSEO_loadEvents = function() {
+YoastSEO.initialize = function() {
 	if ( document.readyState === "complete" ) {
-		YoastSEO_loader = new YoastSEO( YoastSEO_args );
+		YoastSEO.app = new YoastSEO.App( YoastSEO.analyzerArgs );
 	} else {
-		setTimeout( YoastSEO_loadEvents, 50 );
+		setTimeout( YoastSEO.initialize, 50 );
 	}
 };

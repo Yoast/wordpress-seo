@@ -1,5 +1,7 @@
 /* jshint browser: true */
-/* global YoastSEO_ScoreFormatter: true */
+/* global YoastSEO: true */
+YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
+
 /**
  * defines the variables used for the scoreformatter, runs the outputScore en overallScore
  * functions.
@@ -8,7 +10,7 @@
  * @param target
  * @constructor
  */
-YoastSEO_ScoreFormatter = function( args ) {
+YoastSEO.ScoreFormatter = function( args ) {
 	this.scores = args.pageAnalyzer.analyzeScorer.__score;
 	this.overallScore = args.pageAnalyzer.analyzeScorer.__totalScore;
 	this.outputTarget = args.config.targets.output;
@@ -22,7 +24,7 @@ YoastSEO_ScoreFormatter = function( args ) {
 /**
  * creates the list for showing the results from the analyzerscorer
  */
-YoastSEO_ScoreFormatter.prototype.outputScore = function() {
+YoastSEO.ScoreFormatter.prototype.outputScore = function() {
 	this.sortScores();
 	var outputTarget = document.getElementById( this.outputTarget );
 	outputTarget.innerHTML = "";
@@ -52,7 +54,7 @@ YoastSEO_ScoreFormatter.prototype.outputScore = function() {
 /**
  * sorts the scores array on ascending scores
  */
-YoastSEO_ScoreFormatter.prototype.sortScores = function() {
+YoastSEO.ScoreFormatter.prototype.sortScores = function() {
 	this.scores = this.scores.sort( function( a, b ) {
 		return a.score - b.score;
 	} );
@@ -61,7 +63,7 @@ YoastSEO_ScoreFormatter.prototype.sortScores = function() {
 /**
  * outputs the overallScore in the overallTarget element.
  */
-YoastSEO_ScoreFormatter.prototype.outputOverallScore = function() {
+YoastSEO.ScoreFormatter.prototype.outputOverallScore = function() {
 	var overallTarget = document.getElementById( this.overallTarget );
 	overallTarget.className = "overallScore " + this.scoreRating( Math.round( this.overallScore ) );
 	this.refObj.source.saveScores( this.overallScore );
@@ -72,7 +74,7 @@ YoastSEO_ScoreFormatter.prototype.outputOverallScore = function() {
  * @param score
  * @returns scoreRate
  */
-YoastSEO_ScoreFormatter.prototype.scoreRating = function( score ) {
+YoastSEO.ScoreFormatter.prototype.scoreRating = function( score ) {
 	var scoreRate;
 	switch ( score ) {
 		case 0:
