@@ -6,8 +6,7 @@
     "Yoast.com"
   ],
   "dependencies": {
-    "js-text-analysis": "https://github.com/Yoast/js-text-analysis.git",
-    "jed": "~1.1.0"
+    "js-text-analysis": "https://github.com/Yoast/js-text-analysis.git"
   },
   "install": {
     "path": {
@@ -18,8 +17,7 @@
       "js-text-analysis": [
         "bower_components/js-text-analysis/css/dist/yoast-seo-content-analysis.min.css",
         "bower_components/js-text-analysis/js/dist/yoast-seo-content-analysis.min.js"
-      ],
-      "jed": "bower_components/jed/jed.js"
+      ]
     }
   },
   "description": "Yoast SEO for WordPress",
