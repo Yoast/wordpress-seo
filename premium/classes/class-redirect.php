@@ -32,14 +32,7 @@ class WPSEO_Redirect {
 	 * Display the presenter
 	 */
 	public function display() {
-		$display_params = array();
-		if ( in_array( $this->get_current_tab(), array( 'url', 'regex' ) ) ) {
-			$display_params = array(
-				'redirect_table' => new WPSEO_Redirect_Table( $this->get_current_tab(), $this->redirect_manager ),
-			);
-		}
-
-		$redirect_presenter = new WPSEO_Redirect_Presenter( $this->get_current_tab(), $display_params );
+		$redirect_presenter = new WPSEO_Redirect_Presenter( $this->get_current_tab(), $this->redirect_manager );
 		$redirect_presenter->display();
 	}
 

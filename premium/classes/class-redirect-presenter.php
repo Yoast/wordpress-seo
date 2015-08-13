@@ -9,24 +9,24 @@
 class WPSEO_Redirect_Presenter {
 
 	/**
-	 * @var array
-	 */
-	private $view_vars = array();
-
-	/**
 	 * @var string
 	 */
 	private $current_tab = '';
 
 	/**
+	 * @var WPSEO_Redirect_Manager
+	 */
+	private $redirect_manager;
+
+	/**
 	 * Constructor
 	 *
-	 * @param string $current_tab
-	 * @param array  $view_vars
+	 * @param string                 $current_tab
+	 * @param WPSEO_Redirect_Manager $redirect_manager
 	 */
-	public function __construct( $current_tab, $view_vars = array() ) {
-		$this->current_tab = $current_tab;
-		$this->view_vars   = $view_vars;
+	public function __construct( $current_tab, WPSEO_Redirect_Manager $redirect_manager ) {
+		$this->current_tab      = $current_tab;
+		$this->redirect_manager = $redirect_manager;
 	}
 
 	/**
@@ -36,8 +36,10 @@ class WPSEO_Redirect_Presenter {
 		switch ( $this->current_tab ) {
 			case 'url' :
 			case 'regex' :
-				$tab_presenter = new WPSEO_Redirect_Table_Presenter( $this->current_tab, $this->get_view_vars() );
+				$view_vars                   = $this->get_view_vars();
+				$view_vars['redirect_table'] = new WPSEO_Redirect_Table( $this->current_tab, $this->redirect_manager );
 
+				$tab_presenter = new WPSEO_Redirect_Table_Presenter( $this->current_tab, $view_vars );
 				break;
 			case 'settings' :
 				$tab_presenter = new WPSEO_Redirect_Settings_Presenter( $this->current_tab, $this->get_view_vars() );
@@ -55,11 +57,8 @@ class WPSEO_Redirect_Presenter {
 	 * @return array
 	 */
 	private function get_view_vars() {
-		return array_merge(
-			$this->view_vars,
-			array(
-				'nonce' => wp_create_nonce( 'wpseo-redirects-ajax-security' ),
-			)
+		return array(
+			'nonce' => wp_create_nonce( 'wpseo-redirects-ajax-security' ),
 		);
 	}
 
