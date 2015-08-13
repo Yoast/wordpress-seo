@@ -45,14 +45,14 @@ class WPSEO_Redirect_File_Handler {
 		// Create the correct file object.
 		if ( WPSEO_Utils::is_apache() ) {
 			if ( 'on' === $separate_file ) {
-				return new WPSEO_Apache_Redirect_File();
+				return new WPSEO_Redirect_File_Apache();
 			}
 
-			return new WPSEO_Htaccess_Redirect_File();
+			return new WPSEO_Redirect_File_Htaccess();
 		}
 
 		if ( WPSEO_Utils::is_nginx() ) {
-			return new WPSEO_Nginx_Redirect_File();
+			return new WPSEO_Redirect_File_Nginx();
 		}
 
 		return null;

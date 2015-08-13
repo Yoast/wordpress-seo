@@ -6,7 +6,7 @@
 /**
  * Class WPSEO_Apache_Redirect_File
  */
-class WPSEO_Apache_Redirect_File extends WPSEO_Redirect_File {
+class WPSEO_Redirect_File_Apache extends WPSEO_Redirect_File {
 
 	/**
 	 * %1$s is the redirect type
