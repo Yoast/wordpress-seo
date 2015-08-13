@@ -1,9 +1,11 @@
-/* global YoastSEO_WordPressScraper: true, YoastSEO_loader, wpseoMetaboxL10n, ajaxurl, tinyMCE */
+/* global YoastSEO: true, wpseoMetaboxL10n, ajaxurl, tinyMCE */
+YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
+
 /**
  * wordpress scraper to gather inputfields.
  * @constructor
  */
-YoastSEO_WordPressScraper = function( args, refObj ) {
+YoastSEO.WordPressScraper = function( args, refObj ) {
 	'use strict';
 
 	this.config = args;
@@ -35,7 +37,7 @@ YoastSEO_WordPressScraper = function( args, refObj ) {
  * Get data from inputfields and store them in an analyzerData object. This object will be used to fill
  * the analyzer and the snippetpreview
  */
-YoastSEO_WordPressScraper.prototype.getData = function() {
+YoastSEO.WordPressScraper.prototype.getData = function() {
 	'use strict';
 
 	this.analyzerData.keyword = this.getDataFromInput( 'keyword' );
@@ -55,7 +57,7 @@ YoastSEO_WordPressScraper.prototype.getData = function() {
  * @param {String} inputType
  * @returns {String}
  */
-YoastSEO_WordPressScraper.prototype.getDataFromInput = function( inputType ) {
+YoastSEO.WordPressScraper.prototype.getDataFromInput = function( inputType ) {
 	'use strict';
 
 	var val = '';
@@ -106,7 +108,7 @@ YoastSEO_WordPressScraper.prototype.getDataFromInput = function( inputType ) {
  * @param {Object} value
  * @param {String} type
  */
-YoastSEO_WordPressScraper.prototype.setDataFromSnippet = function( value, type ) {
+YoastSEO.WordPressScraper.prototype.setDataFromSnippet = function( value, type ) {
 	'use strict';
 
 	switch ( type ) {
@@ -130,7 +132,7 @@ YoastSEO_WordPressScraper.prototype.setDataFromSnippet = function( value, type )
 /**
  * feeds data to the loader that is required for the analyzer
  */
-YoastSEO_WordPressScraper.prototype.getAnalyzerInput = function() {
+YoastSEO.WordPressScraper.prototype.getAnalyzerInput = function() {
 	'use strict';
 
 	this.analyzerDataQueue = [ 'text', 'keyword', 'meta', 'url', 'title', 'pageTitle', 'snippetTitle', 'snippetMeta', 'snippetCite', 'excerpt' ];
@@ -140,7 +142,7 @@ YoastSEO_WordPressScraper.prototype.getAnalyzerInput = function() {
 /**
  * Queue for the analyzer data. Runs a queue to prevent timing issues with the replace variable callback
  */
-YoastSEO_WordPressScraper.prototype.runDataQueue = function() {
+YoastSEO.WordPressScraper.prototype.runDataQueue = function() {
 	'use strict';
 
 	if ( this.analyzerDataQueue.length > 0 ) {
@@ -160,7 +162,7 @@ YoastSEO_WordPressScraper.prototype.runDataQueue = function() {
  * gets content from the content field, if tinyMCE is initialized, use the getContent function to get the data from tinyMCE
  * @returns {String}
  */
-YoastSEO_WordPressScraper.prototype.getContentTinyMCE = function() {
+YoastSEO.WordPressScraper.prototype.getContentTinyMCE = function() {
 	'use strict';
 
 	var val = document.getElementById( 'content' ).value;
@@ -174,7 +176,7 @@ YoastSEO_WordPressScraper.prototype.getContentTinyMCE = function() {
  * gets data from hidden input fields. Is triggered on click in the snippet preview. Fetches data and inserts into snippetPreview
  * @param {Object} ev
  */
-YoastSEO_WordPressScraper.prototype.getInputFieldsData = function( ev ) {
+YoastSEO.WordPressScraper.prototype.getInputFieldsData = function( ev ) {
 	'use strict';
 
 	var inputType = ev.currentTarget.id.replace( /snippet_/i, '' );
@@ -204,7 +206,7 @@ YoastSEO_WordPressScraper.prototype.getInputFieldsData = function( ev ) {
  * @param {String} type
  * @param {Object} object
  */
-YoastSEO_WordPressScraper.prototype.replaceVariables = function( textString, type, object ) {
+YoastSEO.WordPressScraper.prototype.replaceVariables = function( textString, type, object ) {
 	'use strict';
 
 	if ( typeof textString === 'undefined' ) {
@@ -253,7 +255,7 @@ YoastSEO_WordPressScraper.prototype.replaceVariables = function( textString, typ
  * @param {String} textString
  * @returns {String}
  */
-YoastSEO_WordPressScraper.prototype.titleReplace = function( textString ) {
+YoastSEO.WordPressScraper.prototype.titleReplace = function( textString ) {
 	'use strict';
 
 	var title = this.analyzerData.title;
@@ -272,7 +274,7 @@ YoastSEO_WordPressScraper.prototype.titleReplace = function( textString ) {
  * @param {String} textString
  * @returns {String}
  */
-YoastSEO_WordPressScraper.prototype.parentReplace = function( textString ) {
+YoastSEO.WordPressScraper.prototype.parentReplace = function( textString ) {
 	'use strict';
 
 	var parentId = document.getElementById( 'parent_id' );
@@ -289,7 +291,7 @@ YoastSEO_WordPressScraper.prototype.parentReplace = function( textString ) {
  * @param {String} textString
  * @returns {String}
  */
-YoastSEO_WordPressScraper.prototype.doubleSepReplace = function( textString ) {
+YoastSEO.WordPressScraper.prototype.doubleSepReplace = function( textString ) {
 	'use strict';
 
 	var escaped_seperator = this.refObj.stringHelper.addEscapeChars( wpseoMetaboxL10n.sep );
@@ -304,7 +306,7 @@ YoastSEO_WordPressScraper.prototype.doubleSepReplace = function( textString ) {
  * @param {String} textString
  * @returns {String}
  */
-YoastSEO_WordPressScraper.prototype.excerptReplace = function( textString ) {
+YoastSEO.WordPressScraper.prototype.excerptReplace = function( textString ) {
 	'use strict';
 
 	if ( this.analyzerData.excerpt.length > 0 ) {
@@ -320,7 +322,7 @@ YoastSEO_WordPressScraper.prototype.excerptReplace = function( textString ) {
  * @param {String} textString
  * @return {String}
  */
-YoastSEO_WordPressScraper.prototype.defaultReplace = function( textString ) {
+YoastSEO.WordPressScraper.prototype.defaultReplace = function( textString ) {
 	'use strict';
 
 	return textString.replace( /%%sitedesc%%/g, wpseoMetaboxL10n.sitedesc )
@@ -343,7 +345,7 @@ YoastSEO_WordPressScraper.prototype.defaultReplace = function( textString ) {
  *
  * @param {Object} srcObj
  */
-YoastSEO_WordPressScraper.prototype.ajaxReplaceVariables = function( srcObj ) {
+YoastSEO.WordPressScraper.prototype.ajaxReplaceVariables = function( srcObj ) {
 	'use strict';
 
 	jQuery.post( ajaxurl, {
@@ -353,8 +355,8 @@ YoastSEO_WordPressScraper.prototype.ajaxReplaceVariables = function( srcObj ) {
 			_wpnonce: wpseoMetaboxL10n.wpseo_replace_vars_nonce
 		}, function( data ) {
 			if ( data ) {
-				YoastSEO_loader.source.replacedVars[ srcObj.replaceableVar ] = data;
-				YoastSEO_loader.source.replaceVariables( srcObj.textString, srcObj.type, srcObj.object );
+				YoastSEO.app.source.replacedVars[ srcObj.replaceableVar ] = data;
+				YoastSEO.app.source.replaceVariables( srcObj.textString, srcObj.type, srcObj.object );
 			}
 		}
 	);
@@ -363,7 +365,7 @@ YoastSEO_WordPressScraper.prototype.ajaxReplaceVariables = function( srcObj ) {
 /**
  * Calls the eventbinders.
  */
-YoastSEO_WordPressScraper.prototype.bindElementEvents = function() {
+YoastSEO.WordPressScraper.prototype.bindElementEvents = function() {
 	'use strict';
 
 	this.snippetPreviewEventBinder();
@@ -374,7 +376,7 @@ YoastSEO_WordPressScraper.prototype.bindElementEvents = function() {
 /**
  * binds the getinputfieldsdata to the snippetelements.
  */
-YoastSEO_WordPressScraper.prototype.snippetPreviewEventBinder = function() {
+YoastSEO.WordPressScraper.prototype.snippetPreviewEventBinder = function() {
 	'use strict';
 
 	var elems = [ 'snippet_cite', 'snippet_meta', 'snippet_title' ];
@@ -404,7 +406,7 @@ YoastSEO_WordPressScraper.prototype.snippetPreviewEventBinder = function() {
 /**
  * bins the renewData function on the change of inputelements.
  */
-YoastSEO_WordPressScraper.prototype.inputElementEventBinder = function() {
+YoastSEO.WordPressScraper.prototype.inputElementEventBinder = function() {
 	'use strict';
 
 	var elems = [ 'excerpt', 'content', 'editable-post-name', 'yoast_wpseo_focuskw' ];
@@ -421,7 +423,7 @@ YoastSEO_WordPressScraper.prototype.inputElementEventBinder = function() {
  *
  * @param {Object} ev
  */
-YoastSEO_WordPressScraper.prototype.renewData = function( ev ) {
+YoastSEO.WordPressScraper.prototype.renewData = function( ev ) {
 	'use strict';
 
 	ev.currentTarget.__refObj.source.getData();
@@ -435,7 +437,7 @@ YoastSEO_WordPressScraper.prototype.renewData = function( ev ) {
  *
  * @param {Object} ev
  */
-YoastSEO_WordPressScraper.prototype.updateSnippetValues = function( ev ) {
+YoastSEO.WordPressScraper.prototype.updateSnippetValues = function( ev ) {
 	'use strict';
 
 	var dataFromSnippet = ev.currentTarget.textContent;
@@ -456,7 +458,7 @@ YoastSEO_WordPressScraper.prototype.updateSnippetValues = function( ev ) {
  *
  * @param {String} score
  */
-YoastSEO_WordPressScraper.prototype.saveScores = function( score ) {
+YoastSEO.WordPressScraper.prototype.saveScores = function( score ) {
 	'use strict';
 
 	//fancy SVG needs to go here.
@@ -472,8 +474,8 @@ jQuery( document ).on( 'ajaxComplete', function( ev, response ) {
 	'use strict';
 
 	if ( response.responseText.match( 'Permalink:' ) !== null ) {
-		YoastSEO_loader.source.getData();
-		YoastSEO_loader.source.getAnalyzerInput();
-		YoastSEO_loader.snippetPreview.reRender();
+		YoastSEO.app.source.getData();
+		YoastSEO.app.source.getAnalyzerInput();
+		YoastSEO.app.snippetPreview.reRender();
 	}
 } );

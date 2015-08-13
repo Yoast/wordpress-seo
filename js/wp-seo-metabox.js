@@ -1,7 +1,7 @@
 /* browser:true */
 /* global wpseoMetaboxL10n */
 /* global ajaxurl */
-/* global YoastSEO_loadEvents */
+/* global YoastSEO */
 /* jshint -W097 */
 /* jshint -W003 */
 'use strict';
@@ -89,6 +89,7 @@ jQuery( document ).ready(function() {
 
 			}
 		);
-		YoastSEO_loadEvents(); // jshint ignore:line
+
+		YoastSEO.initialize();
 	}
 );

@@ -1,7 +1,9 @@
-/* global wpseoL10n, YoastSEO_WordPressScraper */
-var YoastSEO_args = {
+/* global YoastSEO: true, wpseoL10n */
+YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
+
+YoastSEO.analyzerArgs = {
 	//source to use as feeder for the analyzer and snippetPreview
-	source: YoastSEO_WordPressScraper,
+	source: YoastSEO.WordPressScraper,
 	//if it must run the anlayzer
 	analyzer: true,
 	//if it uses ajax to get data.
@@ -44,7 +46,7 @@ var YoastSEO_args = {
 
 	// If there are no translations let the analyzer fallback onto the english translations.
 	if (0 === wpseoL10n.length) {
-		delete( YoastSEO_args.translations );
+		delete( YoastSEO.analyzerArgs.translations );
 		return;
 	}
 
@@ -54,5 +56,5 @@ var YoastSEO_args = {
 	translations.locale_data['js-text-analysis'] = translations.locale_data['wordpress-seo'];
 	delete( translations.locale_data['wordpress-seo'] );
 
-	YoastSEO_args.translations = translations;
+	YoastSEO.analyzerArgs.translations = translations;
 }());
