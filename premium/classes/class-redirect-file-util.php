@@ -61,7 +61,7 @@ class WPSEO_Redirect_File_Util {
 	 */
 	public static function write_file( $file_path, $file_content ) {
 		$has_written = (bool) file_put_contents( $file_path, $file_content );
-		if ( $has_written !== false ) {
+		if ( $has_written === false ) {
 			Yoast_Notification_Center::get()->add_notification(
 				new Yoast_Notification(
 					sprintf( __( "We're unable to write data to the file %s", 'wordpress-seo-premium' ), $file_path ),
