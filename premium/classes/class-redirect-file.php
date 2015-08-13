@@ -11,17 +11,17 @@ abstract class WPSEO_Redirect_File {
 	/**
 	 * @var string
 	 */
-	protected $url_redirect_format = '';
+	protected $url_format = '';
 
 	/**
 	 * @var string
 	 */
-	protected $regex_redirect_format = '';
+	protected $regex_format = '';
 
 	/**
 	 * @var string
 	 */
-	protected $current_redirect_type;
+	protected $current_type;
 
 	/**
 	 * Save the redirect file
@@ -31,10 +31,10 @@ abstract class WPSEO_Redirect_File {
 	 *
 	 * @return bool
 	 */
-	public function save_file( array $url_redirects, array $regex_redirects ) {
+	public function save( array $url_redirects, array $regex_redirects ) {
 
 		// Generate file content.
-		$file_content = $this->generate_file_content( $url_redirects, $regex_redirects );
+		$file_content = $this->generate_content( $url_redirects, $regex_redirects );
 
 		// Check if the file content isset.
 		if ( '' === $file_content ) {
@@ -47,7 +47,7 @@ abstract class WPSEO_Redirect_File {
 				file_put_contents( WPSEO_Redirect_File_Util::get_file_path(), $file_content );
 			}
 			catch ( Exception $e ) {
-				// Do nothing.
+				// @todo catch it.
 			}
 		}
 
@@ -63,7 +63,7 @@ abstract class WPSEO_Redirect_File {
 	 *
 	 * @return string
 	 */
-	protected function generate_file_content( array $url_redirects, array $regex_redirects ) {
+	protected function generate_content( array $url_redirects, array $regex_redirects ) {
 		$file_content = '';
 
 		// Formatting the url_redirects.
@@ -84,9 +84,9 @@ abstract class WPSEO_Redirect_File {
 	 * @return bool
 	 */
 	protected function format_url_redirects( &$file_content, $redirects ) {
-		$this->current_redirect_type = 'url';
+		$this->current_type = 'url';
 
-		return $this->format_redirects( $file_content, $redirects, $this->url_redirect_format );
+		return $this->format_redirects( $file_content, $redirects, $this->url_format );
 	}
 
 	/**
@@ -98,9 +98,9 @@ abstract class WPSEO_Redirect_File {
 	 * @return bool
 	 */
 	protected function format_regex_redirects( &$file_content, $redirects ) {
-		$this->current_redirect_type = 'regex';
+		$this->current_type = 'regex';
 
-		return $this->format_redirects( $file_content, $redirects, $this->regex_redirect_format );
+		return $this->format_redirects( $file_content, $redirects, $this->regex_format );
 	}
 
 	/**

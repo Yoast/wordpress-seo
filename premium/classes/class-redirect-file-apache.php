@@ -15,7 +15,7 @@ class WPSEO_Redirect_File_Apache extends WPSEO_Redirect_File {
 	 *
 	 * @var string
 	 */
-	protected $url_redirect_format   = 'Redirect %1$s %2$s %3$s';
+	protected $url_format   = 'Redirect %1$s %2$s %3$s';
 
 	/**
 	 * %1$s is the redirect type
@@ -24,7 +24,7 @@ class WPSEO_Redirect_File_Apache extends WPSEO_Redirect_File {
 	 *
 	 * @var string
 	 */
-	protected $regex_redirect_format = 'RedirectMatch %1$s %2$s %3$s';
+	protected $regex_format = 'RedirectMatch %1$s %2$s %3$s';
 
 	/**
 	 * @param string $redirect_format
@@ -34,7 +34,7 @@ class WPSEO_Redirect_File_Apache extends WPSEO_Redirect_File {
 	 * @return string
 	 */
 	protected function format_redirect( $redirect_format, $redirect_key, array $redirect ) {
-		if ( $this->current_redirect_type === 'url' ) {
+		if ( $this->current_type === 'url' ) {
 			$redirect_key    = $this->add_url_slash( $redirect_key );
 			$redirect['url'] = $this->add_url_slash( $redirect['url'] );
 		}

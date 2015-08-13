@@ -16,9 +16,9 @@ class WPSEO_Redirect_File_Htaccess extends WPSEO_Redirect_File_Apache {
 	 *
 	 * @return bool
 	 */
-	public function save_file( array $url_redirects, array $regex_redirects ) {
+	public function save( array $url_redirects, array $regex_redirects ) {
 		// Generate file content.
-		$file_content = $this->generate_file_content( $url_redirects, $regex_redirects );
+		$file_content = $this->generate_content( $url_redirects, $regex_redirects );
 
 		if ( null === $file_content ) {
 			return false;

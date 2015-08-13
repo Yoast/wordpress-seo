@@ -30,7 +30,7 @@ class WPSEO_Redirect_File_Handler {
 	public function save( $redirect_managers ) {
 		// Save the file.
 		if ( null !== $this->file_writer ) {
-			$this->file_writer->save_file( $redirect_managers['url']->get_redirects(), $redirect_managers['regex']->get_redirects() );
+			$this->file_writer->save( $redirect_managers['url']->get_redirects(), $redirect_managers['regex']->get_redirects() );
 		}
 	}
 
