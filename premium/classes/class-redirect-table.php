@@ -18,7 +18,7 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	private $type;
 
 	/**
-	 * @var mixed
+	 * @var WPSEO_Redirect_Manager
 	 */
 	private $redirect_manager;
 
@@ -102,7 +102,6 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 		return $sortable_columns;
 	}
 
-
 	/**
 	 * Reorder the items based on user input
 	 *
@@ -113,10 +112,10 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	 */
 	public function do_reorder( $a, $b ) {
 		// If no sort, default to title.
-		$orderby = filter_input( INPUT_GET, 'orderby', FILTER_VALIDATE_REGEXP, array( 'options' => array( 'default' => 'old', 'regexp' => '/^(old|new|type){1}$/' ) ) );
+		$orderby = filter_input( INPUT_GET, 'orderby', FILTER_VALIDATE_REGEXP, array( 'options' => array( 'default' => 'old', 'regexp' => '/^(old|new|type)$/' ) ) );
 
 		// If no order, default to asc.
-		$order   = filter_input( INPUT_GET, 'order', FILTER_VALIDATE_REGEXP, array( 'options' => array( 'default' => 'asc', 'regexp' => '/^(asc|desc){1}$/' ) ) );
+		$order   = filter_input( INPUT_GET, 'order', FILTER_VALIDATE_REGEXP, array( 'options' => array( 'default' => 'asc', 'regexp' => '/^(asc|desc)$/' ) ) );
 
 		// Determine sort order.
 		$result   = strcmp( $a[ $orderby ], $b[ $orderby ] );
