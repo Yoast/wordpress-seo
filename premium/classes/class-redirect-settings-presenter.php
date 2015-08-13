@@ -17,7 +17,8 @@ class WPSEO_Redirect_Settings_Presenter extends WPSEO_Redirect_Tab_Presenter {
 		return array_merge(
 			$this->view_vars,
 			array(
-				'pre_settings' => $this->writable_redirect_file(),
+				'file_path'     => WPSEO_Redirect_File_Util::get_file_path(),
+				'redirect_file' => $this->writable_redirect_file(),
 			)
 		);
 	}
@@ -25,49 +26,36 @@ class WPSEO_Redirect_Settings_Presenter extends WPSEO_Redirect_Tab_Presenter {
 	/**
 	 * Check if it is possible to write to the files
 	 *
-	 * @return string
+	 * @return false|string
 	 */
 	private function writable_redirect_file() {
 		// Get redirect options.
 		$redirect_options = WPSEO_Redirect_Manager::get_options();
 
 		if ( 'on' !== $redirect_options['disable_php_redirect'] ) {
-			return '';
+			return false;
 		}
 
 		// Do file checks.
-		$file_path      = WPSEO_Redirect_File_Manager::get_file_path();
-		$file_can_write = file_exists( $file_path );
+		$file_exists = file_exists( WPSEO_Redirect_File_Util::get_file_path() );
 
 		if ( WPSEO_Utils::is_apache() ) {
-			if ( 'on' === $redirect_options['separate_file'] ) {
-				if ( $file_can_write ) {
-					$return  = '<div style="margin: 5px 0; padding: 3px 10px; background-color: #ffffe0; border: 1px solid #E6DB55; border-radius: 3px">';
-					$return .= '<p>' . __( "As you're on Apache, you should add the following include to the website httpd config file:", 'wordpress-seo-premium' ) . '</p>';
-					$return .= '<pre>Include ' . $file_path . '</pre>';
-					$return .= '</div>';
+			$separate_file = ( 'on' === $redirect_options['separate_file'] );
 
-					return $return;
-				}
+			if ( $separate_file && $file_exists ) {
+				return 'apache_include_file';
 			}
-			else {
-				if ( ! is_writable( WPSEO_Redirect_Htaccess::get_htaccess_file_path() ) ) {
-					/* translators: %s: '.htaccess' file name */
-					return "<div class='error'><p><strong>" . sprintf( __( 'We\'re unable to save the redirects to your %s file. Please make the file writable.', 'wordpress-seo-premium' ), '<code>.htaccess</code>' ) . "</strong></p></div>\n";
-				}
+
+			if ( ! $separate_file && ! is_writable( WPSEO_Redirect_Htaccess_Util::get_htaccess_file_path() ) ) {
+				return 'cannot_write_htaccess';
 			}
 		}
 
-		if ( WPSEO_Utils::is_nginx() && $file_can_write ) {
-			$return  = '<div style="margin: 5px 0; padding: 3px 10px; background-color: #ffffe0; border: 1px solid #E6DB55; border-radius: 3px">';
-			$return .= '<p>' . __( 'As you\'re on Nginx, you should add the following include to the NGINX config file:', 'wordpress-seo-premium' ) . '</p>';
-			$return .= '<pre>include ' . $file_path . ';</pre>';
-			$return .= '</div>';
-
-			return $return;
+		if ( WPSEO_Utils::is_nginx() && $file_exists ) {
+			return 'ngnix_include_file';
 		}
 
-		return "<div class='error'><p><strong>" . __( sprintf( "We're unable to save the redirect file to %s", $file_path ), 'wordpress-seo-premium' ) . "</strong></p></div>\n";
+		return 'cannot_write_file';
 	}
 
 }

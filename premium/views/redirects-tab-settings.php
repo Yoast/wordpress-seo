@@ -3,11 +3,55 @@
  * @package WPSEO\Premium\Views
  */
 
-?>
-	<?php
-	if ( ! empty( $pre_settings ) ) {
-		echo $pre_settings;
+if ( ! empty( $redirect_file ) ) {
+	switch ( $redirect_file ) {
+		case 'apache_include_file' :
+			?>
+			<div style="margin: 5px 0; padding: 3px 10px; background-color: #ffffe0; border: 1px solid #E6DB55; border-radius: 3px">
+				<p><?php _e( "As you're on Apache, you should add the following include to the website httpd config file:", 'wordpress-seo-premium' ); ?></p>
+				<pre>Include <?php echo $file_path; ?></pre>
+			</div>
+			<?php
+			break;
+		case 'cannot_write_htaccess' :
+			?>
+			<div class='error'>
+				<p>
+					<strong>
+						<?php
+						/* translators: %s: '.htaccess' file name */
+						printf( __( 'We\'re unable to save the redirects to your %s file. Please make the file writable.', 'wordpress-seo-premium' ), '<code>.htaccess</code>' );
+						?>
+					</strong>
+				</p>
+			</div>
+
+			<?php
+			break;
+		case 'nginx_include_file' :
+			?>
+			<div style="margin: 5px 0; padding: 3px 10px; background-color: #ffffe0; border: 1px solid #E6DB55; border-radius: 3px">
+				<p><?php _e( 'As you\'re on Nginx, you should add the following include to the NGINX config file:', 'wordpress-seo-premium' ); ?></p>
+				<pre>include <?php $file_path; ?></pre>
+			</div>
+			<?php
+			break;
+		case 'cannot_write_file' :
+			?>
+			<div class='error'>
+				<p>
+					<strong>
+						<?php
+							/* translators: %s expands to the folder location where the redirects fill will be saved. */
+							printf( __( "We're unable to save the redirect file to %s", 'wordpress-seo-premium' ), $file_path );
+						?>
+					</strong>
+				</p>
+			</div>
+			<?php
+			break;
 	}
+}
 	?>
 
 <div id="table-settings" class="tab-url redirect-table-tab">
@@ -32,7 +76,6 @@
 			/* translators: %s: 'Yoast SEO Premium' */
 			echo '<p class="desc">' . sprintf( __( '%s will generate redirect files that can be included in your website configuration. You can disable PHP redirect if this is done correctly. Only check this option if you know what you are doing!', 'wordpress-seo-premium' ), 'Yoast SEO Premium' ) . '</p>';
 		}
-
 		?>
 		<p class="submit">
 			<input type="submit" name="submit" id="submit" class="button button-primary" value="<?php _e( 'Save Changes', 'wordpress-seo-premium' ); ?>" />
