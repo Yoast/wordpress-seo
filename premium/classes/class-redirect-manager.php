@@ -78,6 +78,7 @@ abstract class WPSEO_Redirect_Manager {
 	}
 
 	/**
+	 * Changing the autoload value for the option
 	 *
 	 * @param bool $autoload_value
 	 */

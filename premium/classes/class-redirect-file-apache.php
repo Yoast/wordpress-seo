@@ -27,6 +27,8 @@ class WPSEO_Redirect_File_Apache extends WPSEO_Redirect_File {
 	protected $regex_format = 'RedirectMatch %1$s %2$s %3$s';
 
 	/**
+	 * Overrides the parent method. This method will in case of url redirects add slashes to the url.
+	 *
 	 * @param string $redirect_format
 	 * @param string $redirect_key
 	 * @param array  $redirect

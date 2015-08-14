@@ -5,8 +5,6 @@
 
 /**
  * Class WPSEO_Nginx_Redirect_File
- *
- * @todo Add redirect type to NGINX redirects
  */
 class WPSEO_Redirect_File_Nginx extends WPSEO_Redirect_File {
 

@@ -32,13 +32,12 @@ class WPSEO_Redirect_Htaccess_Util {
 				FS_CHMOD_FILE // Predefined mode settings for WP files.
 			);
 		}
-
 	}
 
 	/**
 	 * Get the full path to the .htaccess file
 	 *
-	 * @return bool
+	 * @return string
 	 */
 	public static function get_htaccess_file_path() {
 		return get_home_path() . '.htaccess';

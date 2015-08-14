@@ -45,7 +45,6 @@ class WPSEO_Redirect {
 
 			// Do the redirect.
 			wp_redirect( $url );
-
 			exit;
 		}
 	}

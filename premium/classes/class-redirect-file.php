@@ -99,6 +99,8 @@ abstract class WPSEO_Redirect_File {
 	}
 
 	/**
+	 * Format the redirects based on given params
+	 *
 	 * @param string $file_content
 	 * @param array  $redirects
 	 * @param string $redirect_format
@@ -118,6 +120,8 @@ abstract class WPSEO_Redirect_File {
 	}
 
 	/**
+	 * Formatting the redirect by given redirect format. The right values will placed in the format by sprintf.
+	 *
 	 * @param string $redirect_format
 	 * @param string $redirect_key
 	 * @param array  $redirect

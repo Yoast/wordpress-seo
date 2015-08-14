@@ -11,15 +11,15 @@ class WPSEO_Redirect_File_Handler {
 	/**
 	 * @var WPSEO_Redirect_File|null
 	 */
-	private $file_writer;
+	private $file;
 
 	/**
-	 * Setup the file_write object
+	 * Setup the file object
 	 *
 	 * @param string $separate_file
 	 */
 	public function __construct( $separate_file ) {
-		$this->file_writer = $this->get_file_object( $separate_file );
+		$this->file = $this->get_file( $separate_file );
 	}
 
 	/**
@@ -29,8 +29,8 @@ class WPSEO_Redirect_File_Handler {
 	 */
 	public function save( $redirect_managers ) {
 		// Save the file.
-		if ( null !== $this->file_writer ) {
-			$this->file_writer->save( $redirect_managers['url']->get_redirects(), $redirect_managers['regex']->get_redirects() );
+		if ( null !== $this->file ) {
+			$this->file->save( $redirect_managers['url']->get_redirects(), $redirect_managers['regex']->get_redirects() );
 		}
 	}
 
@@ -41,7 +41,7 @@ class WPSEO_Redirect_File_Handler {
 	 *
 	 * @return null|WPSEO_Redirect_File
 	 */
-	private function get_file_object( $separate_file ) {
+	private function get_file( $separate_file ) {
 		// Create the correct file object.
 		if ( WPSEO_Utils::is_apache() ) {
 			if ( 'on' === $separate_file ) {

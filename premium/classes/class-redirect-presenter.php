@@ -63,6 +63,8 @@ class WPSEO_Redirect_Presenter {
 	}
 
 	/**
+	 * Returning the anchors html for the tabs
+	 *
 	 * @return string
 	 */
 	private function navigation_tabs() {
