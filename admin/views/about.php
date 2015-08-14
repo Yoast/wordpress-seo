@@ -12,7 +12,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 /**
  * Display a list of contributors
  *
- * @param array $contributors
+ * @param array $contributors Contributors' data, associative by GitHub username.
  */
 function wpseo_display_contributors( $contributors ) {
 	foreach ( $contributors as $username => $dev ) {

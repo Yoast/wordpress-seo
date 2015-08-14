@@ -129,7 +129,7 @@ class Yoast_Notification_Center {
 	/**
 	 * Add notification to the cookie
 	 *
-	 * @param Yoast_Notification $notification
+	 * @param Yoast_Notification $notification Notification object instance.
 	 */
 	public function add_notification( Yoast_Notification $notification ) {
 		$this->notifications[] = $notification;

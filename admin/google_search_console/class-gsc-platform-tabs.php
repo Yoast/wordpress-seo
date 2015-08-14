@@ -65,7 +65,7 @@ class WPSEO_GSC_Platform_Tabs {
 	/**
 	 * Setting the current tab
 	 *
-	 * @param array $platforms
+	 * @param array $platforms Set of platforms (desktop, mobile, feature phone).
 	 */
 	private function set_current_tab( array $platforms ) {
 		$this->current_tab = key( $platforms );
@@ -77,9 +77,9 @@ class WPSEO_GSC_Platform_Tabs {
 	/**
 	 * Parses the tab
 	 *
-	 * @param string $platform_target
-	 * @param string $platform_value
-	 * @param string $admin_link
+	 * @param string $platform_target Platform (desktop, mobile, feature phone).
+	 * @param string $platform_value  Link anchor.
+	 * @param string $admin_link      Link URL admin base.
 	 *
 	 * @return string
 	 */

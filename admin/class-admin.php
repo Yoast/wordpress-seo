@@ -337,9 +337,9 @@ class WPSEO_Admin {
 	/**
 	 * Saves the posts per page limit for bulk edit pages.
 	 *
-	 * @param int    $status
-	 * @param string $option
-	 * @param int    $value
+	 * @param int    $status Status value to pass through.
+	 * @param string $option Option name.
+	 * @param int    $value  Count value to check.
 	 *
 	 * @return int
 	 */

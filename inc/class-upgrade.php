@@ -72,7 +72,7 @@ class WPSEO_Upgrade {
 	/**
 	 * Run the Yoast SEO 1.5 upgrade routine
 	 *
-	 * @param string $version
+	 * @param string $version Current plugin version.
 	 */
 	private function upgrade_15( $version ) {
 		// Clean up options and meta.

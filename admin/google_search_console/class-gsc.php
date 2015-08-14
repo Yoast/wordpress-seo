@@ -131,9 +131,9 @@ class WPSEO_GSC {
 	/**
 	 * Set the screen options
 	 *
-	 * @param string $status
-	 * @param string $option
-	 * @param string $value
+	 * @param string $status Status string.
+	 * @param string $option Option key.
+	 * @param string $value  Value to return.
 	 *
 	 * @return mixed
 	 */
@@ -225,8 +225,8 @@ class WPSEO_GSC {
 	/**
 	 * Adding notification to the yoast notification center
 	 *
-	 * @param string $message
-	 * @param string $type
+	 * @param string $message Message string.
+	 * @param string $type    Message type.
 	 */
 	private function add_notification( $message, $type ) {
 		Yoast_Notification_Center::get()->add_notification(
