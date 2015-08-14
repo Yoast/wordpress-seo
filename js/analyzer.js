@@ -557,8 +557,10 @@ YoastSEO.Analyzer.prototype.metaDescription = function() {
 
 		//if the meta length is 0, the returned result is -1 for the matches.
 		result[ 1 ].result = -1;
-		if ( this.config.meta.length > 0 ){
-			result[ 1 ].result = this.stringHelper.countMatches( this.config.meta, this.keywordRegex );
+		if ( this.config.meta.length > 0 ) {
+			result[ 1 ].result = this.stringHelper.countMatches(
+				this.config.meta, this.keywordRegex
+			);
 		}
 	}
 	return result;
