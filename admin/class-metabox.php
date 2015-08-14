@@ -2207,7 +2207,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		// Strip shortcodes, for obvious reasons, if plugins think their content should be in the analysis, they should
 		// hook into the above filter.
-		$post_content = WPSEO_Utils::trim_nbsp_from_string( WPSEO_Utils::strip_shortcode( $post_content ) );
+		$post_content = WPSEO_Utils::trim_nbsp_from_string( strip_shortcodes( $post_content ) );
 
 		if ( trim( $post_content ) == '' ) {
 			return '';
