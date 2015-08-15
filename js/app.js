@@ -19,6 +19,7 @@ YoastSEO.App = function( args ) {
 	this.loadQueue();
 	this.stringHelper = new YoastSEO.StringHelper();
 	this.source = new this.config.source( args, this );
+	this.plugins = new YoastSEO.Plugins;
 	this.checkInputs();
 	if ( !this.config.ajax ) {
 		this.defineElements();
