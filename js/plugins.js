@@ -129,14 +129,14 @@ YoastSEO.Plugins.prototype.registerModification = function( modification, callab
 		return false;
 	}
 
-	// Default priority to 10
-	var prio = typeof priority === "number" ?  priority : 10;
-
 	// Validate origin
 	if ( this._validateOrigin( pluginName ) === false ) {
 		console.error( "Failed to register modification for plugin " + pluginName + ". The integration has not finished loading yet." );
 		return false;
 	}
+
+	// Default priority to 10
+	var prio = typeof priority === "number" ?  priority : 10;
 
 	var callableObject = {
 		callable: callable,
