@@ -119,7 +119,7 @@ YoastSEO.Plugins.prototype.registerModification = function( modification, callab
 		return false;
 	}
 
-	if ( typeof callable !== "string" ) {
+	if ( typeof callable !== "function" ) {
 		console.error( "Failed to register modification for plugin " + pluginName + ". Expected parameter `callable` to be a function." );
 		return false;
 	}
