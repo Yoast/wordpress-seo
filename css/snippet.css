@@ -1,5 +1,6 @@
 #wpseosnippet {
 	width: auto;
+	max-width: 512px;
 	margin: 0 0 10px;
 	padding: 0 5px;
 	font-family: Arial, Helvetica, sans-serif;
