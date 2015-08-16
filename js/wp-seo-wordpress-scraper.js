@@ -68,7 +68,7 @@ YoastSEO.WordPressScraper.prototype.getDataFromInput = function( inputType ) {
 			break;
 		case 'url':
 			if ( document.getElementById( 'sample-permalink' ) !== null ) {
-				val = document.getElementById( 'sample-permalink' ).innerHTML.split( '<span' )[ 0 ];
+				val = document.getElementById( 'sample-permalink' ).textContent;
 			}
 			break;
 		case 'cite':
