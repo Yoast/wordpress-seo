@@ -194,6 +194,11 @@ YoastSEO.Plugins.prototype._allReady = function() {
 	return true;
 };
 
+/**
+ * Removes the plugins that were not loaded within time and calls `pluginsLoaded` on the app.
+ *
+ * @private
+ */
 YoastSEO.Plugins.prototype._pollTimeExceeded = function() {
 	for ( var plugin in this.plugins ) {
 		if ( this.plugins[plugin].options !== undefined && this.plugins[plugin].options.status !== "ready" ) {
