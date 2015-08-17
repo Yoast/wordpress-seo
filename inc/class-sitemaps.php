@@ -86,23 +86,6 @@ class WPSEO_Sitemaps {
 	}
 
 	/**
-	 * This query invalidates the main query on purpose so it returns nice and quickly
-	 *
-	 * @param string $where SQL strong for WHERE part.
-	 *
-	 * @deprecated The relevant sitemap code now hijacks main query before this filter can act on it.
-	 *
-	 * @todo Should be safe to drop now. R.
-	 *
-	 * @return string
-	 */
-	function invalidate_main_query( $where ) {
-
-		return $where;
-	}
-
-
-	/**
 	 * Returns the server HTTP protocol to use for output, if it's set.
 	 *
 	 * @return string
