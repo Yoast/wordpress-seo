@@ -239,7 +239,7 @@ class WPSEO_Sitemaps {
 
 		$type = apply_filters( 'wpseo_build_sitemap_post_type', $type );
 
-		if ( $type == 1 ) {
+		if ( intval( $type ) === 1 ) {
 			$this->build_root_map();
 		}
 		elseif ( post_type_exists( $type ) ) {
@@ -248,7 +248,7 @@ class WPSEO_Sitemaps {
 		elseif ( $tax = get_taxonomy( $type ) ) {
 			$this->build_tax_map( $tax );
 		}
-		elseif ( $type == 'author' ) {
+		elseif ( $type === 'author' ) {
 			$this->build_user_map();
 		}
 		elseif ( has_action( 'wpseo_do_sitemap_' . $type ) ) {
