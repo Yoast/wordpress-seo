@@ -180,9 +180,10 @@ YoastSEO.InputGenerator.prototype.snippetCallback = function( ev ) {
 };
 
 /**
- * Called by the app to save scores
+ * Called by the app to save scores. Currently only returns score since
+ * there is no further score implementation
  * @param score
  */
 YoastSEO.InputGenerator.prototype.saveScores = function( score ) {
-	return;
+	return score;
 };
