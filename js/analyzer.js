@@ -26,11 +26,10 @@ YoastSEO.Analyzer.prototype.checkConfig = function() {
  * YoastSEO.Analyzer initialization. Loads defaults and overloads custom settings.
  */
 YoastSEO.Analyzer.prototype.init = function() {
-	this.toLowCase();
 	this.initDependencies();
+	this.formatKeyword();
 	this.initQueue();
 	this.loadWordlists();
-	this.setDefaults();
 	this.__output = [];
 	this.__store = {};
 };
@@ -38,9 +37,21 @@ YoastSEO.Analyzer.prototype.init = function() {
 /**
  * converts the keyword to lowercase
  */
-YoastSEO.Analyzer.prototype.toLowCase = function() {
+YoastSEO.Analyzer.prototype.formatKeyword = function() {
 	if ( typeof this.config.keyword !== "undefined" && this.config.keyword !== "" ) {
-		this.config.keywordLowerCase = this.config.keyword.toLocaleLowerCase();
+
+		//creates new regex from keyword with global and caseinsensitive option, replaces - and _ with space
+		this.keywordRegex = new RegExp(
+			this.preProcessor.replaceDiacritics( this.config.keyword.replace( /[-_]/, " " ) ),
+			"ig"
+		);
+
+		// Creates new regex from keyword with global and caseinsensitive option, replaces space with -. Used for URL matching
+		this.keywordRegexInverse = new RegExp(
+			this.preProcessor.replaceDiacritics( this.config.keyword.replace( " ", "-" ) ),
+			"ig"
+		);
+
 	}
 };
 
@@ -85,20 +96,6 @@ YoastSEO.Analyzer.prototype.loadWordlists = function() {
 	}
 	if ( typeof this.config.stopWords === "undefined" ) {
 		this.config.stopWords = YoastSEO.analyzerConfig.stopWords;
-	}
-};
-
-/**
- * set default variables.
- */
-YoastSEO.Analyzer.prototype.setDefaults = function() {
-
-	//creates new regex from keyword with global and caseinsensitive option
-	if ( typeof this.config.keywordLowerCase !== "undefined" ) {
-		this.keywordRegex = new RegExp(
-			this.preProcessor.replaceDiacritics( this.config.keywordLowerCase ),
-			"ig"
-		);
 	}
 };
 
@@ -572,10 +569,8 @@ YoastSEO.Analyzer.prototype.metaDescription = function() {
  */
 YoastSEO.Analyzer.prototype.urlKeyword = function() {
 	var result = [ { test: "urlKeyword", result: 0 } ];
-	var regex = this.config.keywordLowerCase.replace( " ", "[-_]" );
-	regex = new RegExp( regex );
 	if ( typeof this.config.url !== "undefined" ) {
-		result[ 0 ].result = this.stringHelper.countMatches( this.config.url, regex );
+		result[ 0 ].result = this.stringHelper.countMatches( this.config.url, this.keywordRegexInverse );
 	}
 	return result;
 };

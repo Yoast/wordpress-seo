@@ -32,6 +32,13 @@ var textStrings = [
 		meta: "no meta",
 		queue: ["keywordDensity"]
 
+	},{
+		text:"Lorem ipsum dolor sit amet, key word consectetur key-word adipiscing elit. Sed key word dictum malesuada tellus vitae ultrices. Sed iaculis faucibus nunc, sit amet condimentum libero elementum ut. Ut interdum mi in velit vulputate, a feugiat sem aliquet. Proin key-word non quam convallis mauris pretium vulputate. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Cras vel eros quis velit posuere euismod. Donec facilisis venenatis justo a dignissim. Nunc commodo nisl ante. Suspendisse fermentum arcu quis finibus suscipit. In consectetur vestibulum ligula. Maecenas tristique aliquet diam, nec luctus dolor viverra non. Proin luctus nisl nec ipsum congue, id aliquam mi lobortis. Donec vel consequat ex. In euismod lectus ex, at congue ante suscipit id. Cras posuere, mauris vel ultricies blandit, urna lectus eleifend ante, eget venenatis dolor massa et lorem. Mauris lacinia faucibus nulla, nec congue orci molestie eget. Maecenas ac tristique arcu, eu iaculis arcu. Nunc sollicitudin blandit est, ultricies congue eros semper sit amet. Praesent non scelerisque est. Donec tristique sollicitudin enim, sit amet semper tortor posuere vitae. Quisque eget imperdiet ligula. Nullam tincidunt eleifend sodales.",
+		pageTitle: "pageTitle",
+		keyword: "key-word",
+		url: "url",
+		meta: "",
+		queue: ["keywordDensity"]
 	}
 ];
 
@@ -52,6 +59,12 @@ describe("a test running multiple textstrings", function(){
 		var keywordAnalyzer = Factory.buildAnalyzer( textStrings[2] );
 		var result = keywordAnalyzer.keywordDensity();
 		expect(result[0].result).toBe("1.9");
+	});
+
+	it("checks for keywords with hyphens - should return 4 matches = keywordDensity = 2.2", function(){
+		var keywordAnalyzer = Factory.buildAnalyzer( textStrings[3] );
+		var result = keywordAnalyzer.keywordDensity();
+		expect(result[0].result).toBe("2.2");
 	});
 });
 
