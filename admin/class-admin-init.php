@@ -105,8 +105,7 @@ class WPSEO_Admin_Init {
 				return;
 			}
 
-			$current_url = ( is_ssl() ? 'https://' : 'http://' );
-			$current_url .= sanitize_text_field( $_SERVER['SERVER_NAME'] ) . sanitize_text_field( $_SERVER['REQUEST_URI'] );
+			$current_url = admin_url(sanitize_text_field( $_SERVER['REQUEST_URI']));
 			$customize_url = add_query_arg( array(
 				'url' => urlencode( $current_url ),
 			), wp_customize_url() );
