@@ -141,8 +141,7 @@ class WPSEO_Sitemaps {
 	}
 
 	/**
-	 * Set a custom stylesheet for this sitemap. Set to empty to just remove
-	 * the default stylesheet.
+	 * Set a custom stylesheet for this sitemap. Set to empty to just remove the default stylesheet.
 	 *
 	 * @param string $stylesheet Full xml-stylesheet declaration.
 	 */
@@ -151,8 +150,7 @@ class WPSEO_Sitemaps {
 	}
 
 	/**
-	 * Set as true to make the request 404. Used stop the display of empty sitemaps or
-	 * invalid requests.
+	 * Set as true to make the request 404. Used stop the display of empty sitemaps or invalid requests.
 	 *
 	 * @param bool $bool Is this a bad request. True or false.
 	 */
@@ -230,8 +228,9 @@ class WPSEO_Sitemaps {
 	}
 
 	/**
-	 * Attempt to build the requested sitemap. Sets $bad_sitemap if this isn't
-	 * for the root sitemap, a post type or taxonomy.
+	 * Attempts to build the requested sitemap.
+	 *
+	 * Sets $bad_sitemap if this isn't for the root sitemap, a post type or taxonomy.
 	 *
 	 * @param string $type The requested sitemap's identifier.
 	 */
@@ -260,8 +259,7 @@ class WPSEO_Sitemaps {
 	}
 
 	/**
-	 * Build the root sitemap -- example.com/sitemap_index.xml -- which lists sub-sitemaps
-	 * for other content types.
+	 * Build the root sitemap (example.com/sitemap_index.xml) which lists sub-sitemaps for other content types.
 	 */
 	public function build_root_map() {
 
@@ -475,7 +473,7 @@ class WPSEO_Sitemaps {
 	}
 
 	/**
-	 * Function to dynamically filter the change frequency
+	 * Function to dynamically filter the change frequency.
 	 *
 	 * @param string $filter  Expands to wpseo_sitemap_$filter_change_freq, allowing for a change of the frequency for numerous specific URLs.
 	 * @param string $default The default value for the frequency.
@@ -1128,7 +1126,7 @@ class WPSEO_Sitemaps {
 	}
 
 	/**
-	 * Build the <url> tag for a given URL.
+	 * Build the `<url>` tag for a given URL.
 	 *
 	 * @param array $url Array of parts that make up this entry.
 	 *
@@ -1182,7 +1180,7 @@ class WPSEO_Sitemaps {
 	}
 
 	/**
-	 * Hook into redirect_canonical to stop trailing slashes on sitemap.xml URLs
+	 * Hook into redirect_canonical to stop trailing slashes on sitemap.xml URLs.
 	 *
 	 * @param string $redirect The redirect URL currently determined.
 	 *
@@ -1203,7 +1201,7 @@ class WPSEO_Sitemaps {
 	}
 
 	/**
-	 * Get the modification date for the last modified post in the post type:
+	 * Get the modification date for the last modified post in the post type.
 	 *
 	 * @param array $post_types Post types to get the last modification date for.
 	 *
@@ -1245,7 +1243,7 @@ class WPSEO_Sitemaps {
 
 
 	/**
-	 * Sorts an array of WP_User by the _yoast_wpseo_profile_updated meta field
+	 * Sorts an array of WP_User by the _yoast_wpseo_profile_updated meta field.
 	 *
 	 * @since 1.6
 	 *
@@ -1312,7 +1310,9 @@ class WPSEO_Sitemaps {
 	}
 
 	/**
-	 * Get attached image URL - Adapted from core for speed
+	 * Get attached image URL.
+	 *
+	 * Adapted from core for speed.
 	 *
 	 * @param int $post_id ID of the post.
 	 *
@@ -1351,7 +1351,7 @@ class WPSEO_Sitemaps {
 
 
 	/**
-	 * Getting the attachments from database
+	 * Getting the attachments from database.
 	 *
 	 * @param string $post_ids Set of post IDs.
 	 *
@@ -1367,7 +1367,7 @@ class WPSEO_Sitemaps {
 	}
 
 	/**
-	 * Getting thumbnails
+	 * Getting thumbnails.
 	 *
 	 * @param array $post_ids Set of post IDs.
 	 *
@@ -1384,7 +1384,7 @@ class WPSEO_Sitemaps {
 	}
 
 	/**
-	 * Parsing attachment_ids and do the caching
+	 * Parsing attachment_ids and do the caching.
 	 *
 	 * Function will pluck ID from attachments and meta_value from thumbnails and marge them into one array. This
 	 * array will be used to do the caching
@@ -1403,7 +1403,7 @@ class WPSEO_Sitemaps {
 	}
 
 	/**
-	 * Parses the given attachments
+	 * Parses the given attachments.
 	 *
 	 * @param array   $attachments Set of attachments.
 	 * @param WP_Post $post        Post object.
@@ -1441,7 +1441,7 @@ class WPSEO_Sitemaps {
 	}
 
 	/**
-	 * Calculate the priority of the post
+	 * Calculate the priority of the post.
 	 *
 	 * @param WP_Post $post Post object.
 	 *
