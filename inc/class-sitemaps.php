@@ -442,61 +442,60 @@ class WPSEO_Sitemaps {
 	 */
 	protected function build_author_map_index() {
 
-		if ( $this->options['disable-author'] === false && $this->options['disable_author_sitemap'] === false ) {
+		if ( $this->options['disable-author'] || $this->options['disable_author_sitemap'] ) {
+			return;
+		}
 
-			// Reference user profile specific sitemaps.
-			$users = get_users( array( 'who' => 'authors' ) );
-			$users = apply_filters( 'wpseo_sitemap_exclude_author', $users );
-			$users = wp_list_pluck( $users, 'ID' );
+		$users = get_users( array( 'who' => 'authors' ) );
+		$users = apply_filters( 'wpseo_sitemap_exclude_author', $users );
+		$users = wp_list_pluck( $users, 'ID' );
 
-			$count = count( $users );
-			$n     = ( $count > 0 ) ? 1 : 0;
+		$count = count( $users );
+		$n     = ( $count > 0 ) ? 1 : 0;
 
-			if ( $count > $this->max_entries ) {
-				$n = (int) ceil( $count / $this->max_entries );
-			};
+		if ( $count > $this->max_entries ) {
+			$n = (int) ceil( $count / $this->max_entries );
+		};
 
-			for ( $i = 0; $i < $n; $i ++ ) {
-				$count = ( $n > 1 ) ? ( $i + 1 ) : '';
+		for ( $i = 0; $i < $n; $i ++ ) {
+			$count = ( $n > 1 ) ? ( $i + 1 ) : '';
 
-				// Must use custom raw query because WP User Query does not support ordering by usermeta.
-				// Retrieve the newest updated profile timestamp overall.
-				// TODO order by usermeta supported since WP 3.7, update implementation? R.
-				$date_query = "
-						SELECT mt1.meta_value FROM $wpdb->users
-						INNER JOIN $wpdb->usermeta ON ($wpdb->users.ID = $wpdb->usermeta.user_id)
-						INNER JOIN $wpdb->usermeta AS mt1 ON ($wpdb->users.ID = mt1.user_id) WHERE 1=1
-						AND ( ($wpdb->usermeta.meta_key = %s AND CAST($wpdb->usermeta.meta_value AS CHAR) != '0')
-						AND mt1.meta_key = '_yoast_wpseo_profile_updated' ) ORDER BY mt1.meta_value
-					";
+			// Must use custom raw query because WP User Query does not support ordering by usermeta.
+			// Retrieve the newest updated profile timestamp overall.
+			// TODO order by usermeta supported since WP 3.7, update implementation? R.
+			$date_query = "
+					SELECT mt1.meta_value FROM $wpdb->users
+					INNER JOIN $wpdb->usermeta ON ($wpdb->users.ID = $wpdb->usermeta.user_id)
+					INNER JOIN $wpdb->usermeta AS mt1 ON ($wpdb->users.ID = mt1.user_id) WHERE 1=1
+					AND ( ($wpdb->usermeta.meta_key = %s AND CAST($wpdb->usermeta.meta_value AS CHAR) != '0')
+					AND mt1.meta_key = '_yoast_wpseo_profile_updated' ) ORDER BY mt1.meta_value
+				";
 
-				if ( empty( $count ) || $count == $n ) {
-					$date = $wpdb->get_var(
-						$wpdb->prepare(
-							$date_query . ' ASC LIMIT 1',
-							$wpdb->get_blog_prefix() . 'user_level'
-						)
-					);
+			if ( empty( $count ) || $count == $n ) {
+				$date = $wpdb->get_var(
+					$wpdb->prepare(
+						$date_query . ' ASC LIMIT 1',
+						$wpdb->get_blog_prefix() . 'user_level'
+					)
+				);
 
-					// Retrieve the newest updated profile timestamp by an offset.
-				}
-				else {
-					$date = $wpdb->get_var(
-						$wpdb->prepare(
-							$date_query . ' DESC LIMIT 1 OFFSET %d',
-							$wpdb->get_blog_prefix() . 'user_level',
-							( ( $this->max_entries * ( $i + 1 ) ) - 1 )
-						)
-					);
-				}
-				$date = $this->timezone->get_datetime_with_timezone( '@' . $date );
-
-				$this->sitemap .= '<sitemap>' . "\n";
-				$this->sitemap .= '<loc>' . wpseo_xml_sitemaps_base_url( 'author-sitemap' . $count . '.xml' ) . '</loc>' . "\n";
-				$this->sitemap .= '<lastmod>' . htmlspecialchars( $date ) . '</lastmod>' . "\n";
-				$this->sitemap .= '</sitemap>' . "\n";
+				// Retrieve the newest updated profile timestamp by an offset.
 			}
-			unset( $users, $count, $n, $i, $date_query, $date );
+			else {
+				$date = $wpdb->get_var(
+					$wpdb->prepare(
+						$date_query . ' DESC LIMIT 1 OFFSET %d',
+						$wpdb->get_blog_prefix() . 'user_level',
+						( ( $this->max_entries * ( $i + 1 ) ) - 1 )
+					)
+				);
+			}
+			$date = $this->timezone->get_datetime_with_timezone( '@' . $date );
+
+			$this->sitemap .= '<sitemap>' . "\n";
+			$this->sitemap .= '<loc>' . wpseo_xml_sitemaps_base_url( 'author-sitemap' . $count . '.xml' ) . '</loc>' . "\n";
+			$this->sitemap .= '<lastmod>' . htmlspecialchars( $date ) . '</lastmod>' . "\n";
+			$this->sitemap .= '</sitemap>' . "\n";
 		}
 	}
 
