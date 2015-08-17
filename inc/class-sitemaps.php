@@ -180,12 +180,16 @@ class WPSEO_Sitemaps {
 		}
 
 		$xsl = get_query_var( 'xsl' );
+
 		if ( ! empty( $xsl ) ) {
 			$this->xsl_output( $xsl );
 			$this->sitemap_close();
+
+			return;
 		}
 
 		$type = get_query_var( 'sitemap' );
+
 		if ( empty( $type ) ) {
 			return;
 		}
@@ -201,26 +205,23 @@ class WPSEO_Sitemaps {
 
 		if ( $caching ) {
 			do_action( 'wpseo_sitemap_stylesheet_cache_' . $type, $this );
-			$this->sitemap = get_transient( 'wpseo_sitemap_cache_' . $type . '_' . $this->n );
+			$this->sitemap   = get_transient( 'wpseo_sitemap_cache_' . $type . '_' . $this->n );
+			$this->transient = ! empty( $this->sitemap );
 		}
 
-		if ( ! $this->sitemap || '' == $this->sitemap ) {
+		if ( empty( $this->sitemap ) ) {
 			$this->build_sitemap( $type );
-
-			// 404 for invalid or emtpy sitemaps.
-			if ( $this->bad_sitemap ) {
-				$GLOBALS['wp_query']->set_404();
-				status_header( 404 );
-
-				return;
-			}
-
-			if ( $caching ) {
-				set_transient( 'wpseo_sitemap_cache_' . $type . '_' . $this->n, $this->sitemap, DAY_IN_SECONDS );
-			}
 		}
-		else {
-			$this->transient = true;
+
+		if ( $this->bad_sitemap ) {
+			$query->set_404();
+			status_header( 404 );
+
+			return;
+		}
+
+		if ( $caching && ! $this->transient ) {
+			set_transient( 'wpseo_sitemap_cache_' . $type . '_' . $this->n, $this->sitemap, DAY_IN_SECONDS );
 		}
 
 		$this->output();
