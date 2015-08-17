@@ -88,7 +88,7 @@ class WPSEO_Sitemaps {
 	 * @return string
 	 */
 	private function http_protocol() {
-		return ( isset( $_SERVER['SERVER_PROTOCOL'] ) && $_SERVER['SERVER_PROTOCOL'] !== '' ) ? sanitize_text_field( $_SERVER['SERVER_PROTOCOL'] ) : 'HTTP/1.1';
+		return empty( $_SERVER['SERVER_PROTOCOL'] ) ? 'HTTP/1.1' : sanitize_text_field( $_SERVER['SERVER_PROTOCOL'] );
 	}
 
 	/**
