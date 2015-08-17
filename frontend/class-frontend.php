@@ -4,7 +4,7 @@
  */
 
 /**
- * Main frontend class for WordPress SEO, responsible for the SEO output as well as removing
+ * Main frontend class for Yoast SEO, responsible for the SEO output as well as removing
  * default WordPress output.
  */
 class WPSEO_Frontend {
@@ -574,7 +574,7 @@ class WPSEO_Frontend {
 		}
 
 		/**
-		 * Filter: 'wpseo_title' - Allow changing the WP SEO <title> output
+		 * Filter: 'wpseo_title' - Allow changing the Yoast SEO <title> output
 		 *
 		 * @api string $title The page title being put out.
 		 */
@@ -614,7 +614,16 @@ class WPSEO_Frontend {
 	 * @return string
 	 */
 	public function debug_marker( $echo = true ) {
-		$marker = '<!-- This site is optimized with the ' . $this->head_product_name() . ' v' . WPSEO_VERSION . ' - https://yoast.com/wordpress/plugins/seo/ -->';
+		$marker = sprintf(
+			'<!-- This site is optimized with the ' . $this->head_product_name() . '%1$s - https://yoast.com/wordpress/plugins/seo/ -->',
+			/**
+			 * Filter: 'wpseo_hide_version' - can be used to hide the Yoast SEO version in the debug marker (only available in Yoast SEO Premium)
+			 *
+			 * @api bool
+			 */
+			( ( apply_filters( 'wpseo_hide_version', false ) && $this->is_premium() ) ? '' : ' v' . WPSEO_VERSION  )
+		);
+
 		if ( $echo === false ) {
 			return $marker;
 		}
@@ -654,7 +663,7 @@ class WPSEO_Frontend {
 	}
 
 	/**
-	 * Main wrapper function attached to wp_head. This combines all the output on the frontend of the WP SEO plugin.
+	 * Main wrapper function attached to wp_head. This combines all the output on the frontend of the Yoast SEO plugin.
 	 */
 	public function head() {
 		global $wp_query;
@@ -667,7 +676,7 @@ class WPSEO_Frontend {
 		}
 
 		/**
-		 * Action: 'wpseo_head' - Allow other plugins to output inside the WP SEO section of the head section.
+		 * Action: 'wpseo_head' - Allow other plugins to output inside the Yoast SEO section of the head section.
 		 */
 		do_action( 'wpseo_head' );
 
@@ -784,7 +793,7 @@ class WPSEO_Frontend {
 		$robotsstr = preg_replace( '`^index,follow,?`', '', $robotsstr );
 
 		/**
-		 * Filter: 'wpseo_robots' - Allows filtering of the meta robots output of WP SEO
+		 * Filter: 'wpseo_robots' - Allows filtering of the meta robots output of Yoast SEO
 		 *
 		 * @api string $robotsstr The meta robots directives to be echoed.
 		 */
@@ -975,7 +984,7 @@ class WPSEO_Frontend {
 		}
 
 		/**
-		 * Filter: 'wpseo_canonical' - Allow filtering of the canonical URL put out by WP SEO
+		 * Filter: 'wpseo_canonical' - Allow filtering of the canonical URL put out by Yoast SEO
 		 *
 		 * @api string $canonical The canonical URL
 		 */
@@ -1019,7 +1028,7 @@ class WPSEO_Frontend {
 	public function adjacent_rel_links() {
 		// Don't do this for Genesis, as the way Genesis handles homepage functionality is different and causes issues sometimes.
 		/**
-		 * Filter 'wpseo_genesis_force_adjacent_rel_home' - Allows devs to allow echoing rel="next" / rel="prev" by WP SEO on Genesis installs
+		 * Filter 'wpseo_genesis_force_adjacent_rel_home' - Allows devs to allow echoing rel="next" / rel="prev" by Yoast SEO on Genesis installs
 		 *
 		 * @api bool $unsigned Whether or not to rel=next / rel=prev
 		 */
@@ -1117,7 +1126,7 @@ class WPSEO_Frontend {
 			}
 		}
 		/**
-		 * Filter: 'wpseo_' . $rel . '_rel_link' - Allow changing link rel output by WP SEO
+		 * Filter: 'wpseo_' . $rel . '_rel_link' - Allow changing link rel output by Yoast SEO
 		 *
 		 * @api string $unsigned The full `<link` element.
 		 */
@@ -1205,7 +1214,7 @@ class WPSEO_Frontend {
 		$keywords = apply_filters( 'wpseo_metakey', trim( $keywords ) ); // TODO Make deprecated.
 
 		/**
-		 * Filter: 'wpseo_metakeywords' - Allow changing the WP SEO meta keywords
+		 * Filter: 'wpseo_metakeywords' - Allow changing the Yoast SEO meta keywords
 		 *
 		 * @api string $keywords The meta keywords to be echoed.
 		 */
@@ -1344,7 +1353,7 @@ class WPSEO_Frontend {
 		$metadesc = wpseo_replace_vars( $metadesc, $post_data );
 
 		/**
-		 * Filter: 'wpseo_metadesc' - Allow changing the WP SEO meta description sentence.
+		 * Filter: 'wpseo_metadesc' - Allow changing the Yoast SEO meta description sentence.
 		 *
 		 * @api string $metadesc The description sentence.
 		 */
@@ -1390,7 +1399,7 @@ class WPSEO_Frontend {
 	public function noindex_feed() {
 
 		if ( ( is_feed() || is_robots() ) && headers_sent() === false ) {
-			header( 'X-Robots-Tag: noindex,follow', true );
+			header( 'X-Robots-Tag: noindex, follow', true );
 
 			return true;
 		}
@@ -1668,7 +1677,7 @@ class WPSEO_Frontend {
 		global $post;
 
 		/**
-		 * Allow the developer to determine whether or not to follow the links in the bits WP SEO adds to the RSS feed, defaults to true.
+		 * Allow the developer to determine whether or not to follow the links in the bits Yoast SEO adds to the RSS feed, defaults to true.
 		 *
 		 * @api   bool $unsigned Whether or not to follow the links in RSS feed, defaults to true.
 		 *
@@ -1850,12 +1859,21 @@ class WPSEO_Frontend {
 	 * @return string
 	 */
 	private function head_product_name() {
-		if ( file_exists( WPSEO_PATH . 'premium/' ) ) {
-			return 'Yoast WordPress SEO Premium plugin';
+		if ( $this->is_premium() ) {
+			return 'Yoast SEO Premium plugin';
 		}
 		else {
-			return 'Yoast WordPress SEO plugin';
+			return 'Yoast SEO plugin';
 		}
+	}
+
+	/**
+	 * Check if this plugin is the premium version of WPSEO
+	 *
+	 * @return bool
+	 */
+	private function is_premium() {
+		return file_exists( WPSEO_PATH . 'premium/' );
 	}
 
 } /* End of class */

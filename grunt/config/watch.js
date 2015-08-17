@@ -40,7 +40,8 @@ module.exports = {
 	},
 	css: {
 		files: [
-			'css/*css'
+			'css/*css',
+			'!css/*.min.css'
 		],
 		tasks: [
 			'build:css'

@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <phpdoc>
-	<title>WordPress SEO API Documentation</title>
+	<title>Yoast SEO API Documentation</title>
 	<parser>
 		<target>/Users/jdevalk/Code/docs/wordpress-seo</target>
 		<encoding>utf8</encoding>
 		<markers>
 			<item>TODO</item>
 			<item>FIXME</item>
-		</markers>	
+		</markers>
 	</parser>
 	<transformer>
 		<target>/Users/jdevalk/Code/docs/wordpress-seo</target>
 	</transformer>
 	<transformations>
 		<template name="responsive"/>
-	</transformations>	
+	</transformations>
 	<files>
 		<directory>.</directory>
 		<ignore>tests/*</ignore>

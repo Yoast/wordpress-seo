@@ -523,7 +523,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_adjacent_rel_links_canonical_category() {
 		// create a category, add 26 posts to it, go to page 2 of its archives
-		$category_id = wp_create_category( 'WordPress SEO Plugins' );
+		$category_id = wp_create_category( 'Yoast SEO Plugins' );
 		$this->factory->post->create_many( 22, array( 'post_category' => array( $category_id ) ) );
 
 		// This shouldn't be necessary but apparently multisite's rewrites are borked when you create a category and you don't flush (on 4.0 only).

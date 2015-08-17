@@ -38,6 +38,7 @@ $yform->checkbox( 'enablexmlsitemap', __( 'Check this box to enable XML sitemap 
 			   href="#top#user-sitemap"><?php _e( 'User sitemap', 'wordpress-seo' ); ?></a>
 			<a class="nav-tab" id="post-types-tab"
 			   href="#top#post-types"><?php _e( 'Post Types', 'wordpress-seo' ); ?></a>
+			<a class="nav-tab" id="exclude-post-tab" href="#top#exclude-post"><?php _e( 'Excluded Posts', 'wordpress-seo' ); ?></a>
 			<a class="nav-tab" id="taxonomies-tab"
 			   href="#top#taxonomies"><?php _e( 'Taxonomies', 'wordpress-seo' ); ?></a>
 		</h2>
@@ -100,6 +101,14 @@ $yform->checkbox( 'enablexmlsitemap', __( 'Check this box to enable XML sitemap 
 
 			?>
 
+		</div>
+
+		<div id="exclude-post" class="wpseotab">
+			<?php
+			/* Translators: %1$s: expands to '<code>1,2,99,100</code>' */
+			echo '<p>' , sprintf( __( 'You can exclude posts from the sitemap by entering a comma separated string with the Post ID\'s. The format will become something like: %1$s.', 'wordpress-seo' ), '<code>1,2,99,100</code>' ) , '</p>';
+			$yform->textinput( 'excluded-posts', __( 'Posts to exclude', 'wordpress-seo' ) );
+			?>
 		</div>
 
 		<div id="taxonomies" class="wpseotab">

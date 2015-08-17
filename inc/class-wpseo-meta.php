@@ -177,36 +177,6 @@ class WPSEO_Meta {
 				'default_value' => '',
 				'description'   => '', // Translation added later.
 			),
-			'sitemap-include'      => array(
-				'type'          => 'select',
-				'title'         => '', // Translation added later.
-				'default_value' => '-',
-				'description'   => '', // Translation added later.
-				'options'       => array(
-					'-'      => '', // Translation added later.
-					'always' => '', // Translation added later.
-					'never'  => '', // Translation added later.
-				),
-			),
-			'sitemap-prio'         => array(
-				'type'          => 'select',
-				'title'         => '', // Translation added later.
-				'default_value' => '-',
-				'description'   => '', // Translation added later.
-				'options'       => array(
-					'-'   => '', // Translation added later.
-					'1'   => '', // Translation added later.
-					'0.9' => '0.9',
-					'0.8' => '0.8 - ', // Translation added later.
-					'0.7' => '0.7',
-					'0.6' => '0.6 - ', // Translation added later.
-					'0.5' => '0.5 - ', // Translation added later.
-					'0.4' => '0.4',
-					'0.3' => '0.3',
-					'0.2' => '0.2',
-					'0.1' => '0.1 - ', // Translation added later.
-				),
-			),
 			'canonical'            => array(
 				'type'          => 'text',
 				'title'         => '', // Translation added later.
@@ -370,7 +340,7 @@ class WPSEO_Meta {
 				$options = get_option( 'wpseo_titles' );
 				if ( $options['usemetakeywords'] === true ) {
 					/* Adjust the link in the keywords description text string based on the post type */
-					$field_defs['metakeywords']['description'] = sprintf( $field_defs['metakeywords']['description'], '<a target="_blank" href="' . esc_url( admin_url( 'admin.php?page=wpseo_titles#' . urlencode( $post_type ) ) ) . '">', '</a>' );
+					$field_defs['metakeywords']['description'] = sprintf( $field_defs['metakeywords']['description'], '<a target="_blank" href="' . esc_url( admin_url( 'admin.php?page=wpseo_titles#top#post_types' ) ) . '">', '</a>' );
 				}
 				else {
 					/* Don't show the keywords field if keywords aren't enabled */
@@ -395,6 +365,10 @@ class WPSEO_Meta {
 				global $post;
 
 				$options = WPSEO_Options::get_all();
+
+				if ( ! current_user_can( 'manage_options' ) && $options['disableadvanced_meta'] ) {
+					return array();
+				}
 
 				$post_type = '';
 				if ( isset( $post->post_type ) ) {
@@ -431,12 +405,10 @@ class WPSEO_Meta {
 					unset( $field_defs['bctitle'] );
 				}
 
-				/* Don't show the xml sitemap fields, if xml sitemaps aren't enabled */
-				if ( $options['enablexmlsitemap'] !== true ) {
-					unset(
-						$field_defs['sitemap-include'],
-						$field_defs['sitemap-prio']
-					);
+				global $post;
+
+				if ( empty( $post->ID ) || ( ! empty( $post->ID ) && self::get_value( 'redirect', $post->ID ) === '' ) ) {
+					unset( $field_defs['redirect'] );
 				}
 				break;
 		}

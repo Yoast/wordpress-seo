@@ -551,13 +551,13 @@ class WPSEO_Utils {
 					$query .= ' OR ';
 				}
 
-				$query .= " option_name LIKE '_transient_timeout_wpseo_sitemap_cache_" . $sitemap_type . "_%'";
+				$query .= " option_name LIKE '_transient_wpseo_sitemap_cache_" . $sitemap_type . "_%' OR option_name LIKE '_transient_timeout_wpseo_sitemap_cache_" . $sitemap_type . "_%'";
 
 				$first = false;
 			}
 		}
 		else {
-			$query .= " option_name LIKE '_transient_timeout_wpseo_sitemap_%'";
+			$query .= " option_name LIKE '_transient_wpseo_sitemap_%' OR option_name LIKE '_transient_timeout_wpseo_sitemap_%'";
 		}
 
 		$wpdb->query( $query );
@@ -743,6 +743,54 @@ class WPSEO_Utils {
 			catch ( Exception $exc ) {
 				return false;
 			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Format the URL to be sure it is okay for using as a redirect url.
+	 *
+	 * This method will parse the URL and combine them in one string.
+	 *
+	 * @param string $url
+	 *
+	 * @return mixed
+	 */
+	public static function format_url( $url ) {
+		$parsed_url = parse_url( $url );
+
+		$formatted_url = '';
+		if ( ! empty( $parsed_url['path'] ) ) {
+			$formatted_url = $parsed_url['path'];
+		}
+
+		// Prepend a slash if first char != slash.
+		if ( stripos( $formatted_url, '/' ) !== 0 ) {
+			$formatted_url = '/' . $formatted_url;
+		}
+
+		// Append 'query' string if it exists.
+		if ( isset( $parsed_url['query'] ) && '' != $parsed_url['query'] ) {
+			$formatted_url .= '?' . $parsed_url['query'];
+		}
+
+		return apply_filters( 'wpseo_format_admin_url', $formatted_url );
+	}
+
+
+	/**
+	 * Get plugin name from file
+	 *
+	 * @param string $plugin
+	 *
+	 * @return bool
+	 */
+	public static function get_plugin_name( $plugin ) {
+		$plugin_details = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin );
+
+		if ( $plugin_details['Name'] != '' ) {
+			return $plugin_details['Name'];
 		}
 
 		return false;

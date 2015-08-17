@@ -582,7 +582,7 @@ jQuery( document ).ready( function() {
 
 					var id = jQuery( this ).attr( 'href' ).replace( '#wpseo_', '' );
 					jQuery( '.' + id ).addClass( 'active' );
-					jQuery( this ).parent.addClass( 'active' );
+					jQuery( this ).parent('li').addClass( 'active' );
 
 					if ( jQuery( this ).hasClass( 'scroll' ) ) {
 						var scrollto = jQuery( this ).attr( 'href' ).replace( 'wpseo_', '' );
@@ -599,32 +599,7 @@ jQuery( document ).ready( function() {
 		jQuery( '.wpseo-metabox-tabs' ).show();
 		// End Tabs code
 
-		var cache = {}, lastXhr, focuskwHelpTriggered = false;
-
-		jQuery( '#' + wpseoMetaboxL10n.field_prefix + 'focuskw' ).autocomplete( {
-				minLength: 3,
-				formatResult: function( row ) {
-					return jQuery( '<div/>' ).html( row ).html();
-				},
-				source: function( request, response ) {
-					var term = request.term;
-					if ( term in cache ) {
-						response( cache[ term ] );
-						return;
-					}
-					request._ajax_nonce = wpseoMetaboxL10n.wpseo_keyword_suggest_nonce;
-					request.action = 'wpseo_get_suggest';
-
-					lastXhr = jQuery.getJSON( ajaxurl, request, function( data, status, xhr ) {
-							cache[ term ] = data;
-							if ( xhr === lastXhr ) {
-								response( data );
-							}
-						}
-					);
-				}
-			}
-		);
+		var focuskwHelpTriggered = false;
 
 		jQuery( '#' + wpseoMetaboxL10n.field_prefix + 'title' ).keyup( function() {
 				ystUpdateTitle();

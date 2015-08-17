@@ -6,7 +6,7 @@
 /**
  * Class WPSEO_Import_WooThemes_SEO
  *
- * Class with functionality to import WP SEO settings from WooThemes SEO
+ * Class with functionality to import Yoast SEO settings from WooThemes SEO
  */
 class WPSEO_Import_AIOSEO extends WPSEO_Import_External {
 

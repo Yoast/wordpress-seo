@@ -76,21 +76,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		self::$meta_fields['advanced']['bctitle']['title']       = __( 'Breadcrumbs Title', 'wordpress-seo' );
 		self::$meta_fields['advanced']['bctitle']['description'] = __( 'Title to use for this page in breadcrumb paths', 'wordpress-seo' );
 
-		self::$meta_fields['advanced']['sitemap-include']['title']             = __( 'Include in Sitemap', 'wordpress-seo' );
-		self::$meta_fields['advanced']['sitemap-include']['description']       = __( 'Should this page be in the XML Sitemap at all times, regardless of Robots Meta settings?', 'wordpress-seo' );
-		self::$meta_fields['advanced']['sitemap-include']['options']['-']      = __( 'Auto detect', 'wordpress-seo' );
-		self::$meta_fields['advanced']['sitemap-include']['options']['always'] = __( 'Always include', 'wordpress-seo' );
-		self::$meta_fields['advanced']['sitemap-include']['options']['never']  = __( 'Never include', 'wordpress-seo' );
-
-		self::$meta_fields['advanced']['sitemap-prio']['title']        = __( 'Sitemap Priority', 'wordpress-seo' );
-		self::$meta_fields['advanced']['sitemap-prio']['description']  = __( 'The priority given to this page in the XML sitemap.', 'wordpress-seo' );
-		self::$meta_fields['advanced']['sitemap-prio']['options']['-'] = __( 'Automatic prioritization', 'wordpress-seo' );
-		self::$meta_fields['advanced']['sitemap-prio']['options']['1'] = __( '1 - Highest priority', 'wordpress-seo' );
-		self::$meta_fields['advanced']['sitemap-prio']['options']['0.8'] .= __( 'Default for first tier pages', 'wordpress-seo' );
-		self::$meta_fields['advanced']['sitemap-prio']['options']['0.6'] .= __( 'Default for second tier pages and posts', 'wordpress-seo' );
-		self::$meta_fields['advanced']['sitemap-prio']['options']['0.5'] .= __( 'Medium priority', 'wordpress-seo' );
-		self::$meta_fields['advanced']['sitemap-prio']['options']['0.1'] .= __( 'Lowest priority', 'wordpress-seo' );
-
 		self::$meta_fields['advanced']['canonical']['title']       = __( 'Canonical URL', 'wordpress-seo' );
 		self::$meta_fields['advanced']['canonical']['description'] = sprintf( __( 'The canonical URL that this page should point to, leave empty to default to permalink. %sCross domain canonical%s supported too.', 'wordpress-seo' ), '<a target="_blank" href="http://googlewebmastercentral.blogspot.com/2009/12/handling-legitimate-cross-domain.html">', '</a>' );
 
@@ -151,6 +136,14 @@ class WPSEO_Metabox extends WPSEO_Meta {
 							$this,
 							'column_sort',
 						), 10, 2 );
+
+						/*
+						 * Use the `get_user_option_{$option}` filter to change the output of the get_user_option
+						 * function for the `manage{$screen}columnshidden` option, which is based on the current
+						 * admin screen. The admin screen we want to target is the `edit-{$post_type}` screen.
+						 */
+						$filter = sprintf( 'get_user_option_%s', sprintf( 'manage%scolumnshidden', 'edit-' . $pt ) );
+						add_filter( $filter, array( $this, 'column_hidden' ), 10, 3 );
 					}
 				}
 				unset( $pt );
@@ -462,7 +455,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	}
 
 	/**
-	 * Adds the WordPress SEO meta box to the edit boxes in the edit post / page  / cpt pages.
+	 * Adds the Yoast SEO meta box to the edit boxes in the edit post / page  / cpt pages.
 	 */
 	public function add_meta_box() {
 		$post_types = get_post_types( array( 'public' => true ) );
@@ -470,7 +463,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		if ( is_array( $post_types ) && $post_types !== array() ) {
 			foreach ( $post_types as $post_type ) {
 				if ( $this->is_metabox_hidden( $post_type ) === false ) {
-					add_meta_box( 'wpseo_meta', __( 'WordPress SEO by Yoast', 'wordpress-seo' ), array(
+					add_meta_box( 'wpseo_meta', 'Yoast SEO', array(
 						$this,
 						'meta_box',
 					), $post_type, 'normal', apply_filters( 'wpseo_metabox_prio', 'high' ) );
@@ -564,7 +557,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	}
 
 	/**
-	 * Output a tab in the WP SEO Metabox
+	 * Output a tab in the Yoast SEO Metabox
 	 *
 	 * @param string $id      CSS ID of the tab.
 	 * @param string $heading Heading for the tab.
@@ -821,7 +814,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	}
 
 	/**
-	 * Save the WP SEO metadata for posts.
+	 * Save the Yoast SEO metadata for posts.
 	 *
 	 * @internal $_POST parameters are validated via sanitize_post_meta()
 	 *
@@ -904,15 +897,12 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			wp_enqueue_style( 'featured-image', plugins_url( 'css/featured-image' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
 			wp_enqueue_style( 'jquery-qtip.js', plugins_url( 'css/jquery.qtip' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), '2.2.1' );
 
-			wp_enqueue_script( 'jquery-ui-autocomplete' );
-
 			// Always enqueue minified as it's not our code.
 			wp_enqueue_script( 'jquery-qtip', plugins_url( 'js/jquery.qtip.min.js', WPSEO_FILE ), array( 'jquery' ), '2.2.1', true );
 
 			wp_enqueue_script( 'wp-seo-metabox', plugins_url( 'js/wp-seo-metabox' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array(
 				'jquery',
 				'jquery-ui-core',
-				'jquery-ui-autocomplete',
 			), WPSEO_VERSION, true );
 
 			if ( post_type_supports( get_post_type(), 'thumbnail' ) ) {
@@ -1207,6 +1197,31 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 
 		return $vars;
+	}
+
+	/**
+	 * Hide the SEO Title, Meta Desc and Focus KW columns if the user hasn't chosen which columns to hide
+	 *
+	 * @param array|false $result
+	 * @param string      $option
+	 * @param WP_User     $user
+	 *
+	 * @return array|false $result
+	 */
+	public function column_hidden( $result, $option, $user ) {
+		global $wpdb;
+
+		$prefix = $wpdb->get_blog_prefix();
+		if ( ! $user->has_prop( $prefix . $option ) && ! $user->has_prop( $option ) ) {
+
+			if ( ! is_array( $result ) ) {
+				$result = array();
+			}
+
+			array_push( $result, 'wpseo-title', 'wpseo-metadesc', 'wpseo-focuskw' );
+		}
+
+		return $result;
 	}
 
 	/**
@@ -1605,7 +1620,16 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				), admin_url( 'post.php' ) ) ) . '">', '</a>' ), 'keyword_overused' );
 		}
 		else {
-			$this->save_score_result( $results, 1, sprintf( __( 'You\'ve used this focus keyword %3$s%4$d times before%2$s, it\'s probably a good idea to read %1$sthis post on cornerstone content%2$s and improve your keyword strategy.', 'wordpress-seo' ), '<a href="https://yoast.com/cornerstone-content-rank/">', '</a>', '<a href="' . esc_url( add_query_arg( array( 'seo_kw_filter' => $job['keyword'] ), admin_url( 'edit.php' ) ) ) . '">', count( $posts ) ), 'keyword_overused' );
+			$keyword = str_replace( ' ', '%20', $job['keyword'] );
+			$url     = add_query_arg( array( 'seo_kw_filter' => $keyword ), admin_url( 'edit.php' ) );
+			$message = sprintf(
+				__( 'You\'ve used this focus keyword %3$s%4$d times before%2$s, it\'s probably a good idea to read %1$sthis post on cornerstone content%2$s and improve your keyword strategy.', 'wordpress-seo' ),
+				'<a href="https://yoast.com/cornerstone-content-rank/">',
+				'</a>',
+				'<a href="' . esc_url( $url ) . '">',
+				count( $posts )
+			);
+			$this->save_score_result( $results, 1, $message, 'keyword_overused' );
 		}
 	}
 
@@ -2235,7 +2259,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	/********************** DEPRECATED METHODS **********************/
 
 	/**
-	 * Adds the WordPress SEO box
+	 * Adds the Yoast SEO box
 	 *
 	 * @deprecated 1.4.24
 	 * @deprecated use WPSEO_Metabox::add_meta_box()

@@ -76,7 +76,8 @@ class WPSEO_Sitemaps_Admin {
 		}
 
 		// Allow the pinging to happen slightly after the hit sitemap index so the sitemap is fully regenerated when the ping happens.
-		if ( WPSEO_Meta::get_value( 'sitemap-include', $post->ID ) !== 'never' ) {
+		$excluded_posts = explode( ',', $options['excluded-posts'] );
+		if ( ! in_array( $post->ID, $excluded_posts ) ) {
 			if ( defined( 'YOAST_SEO_PING_IMMEDIATELY' ) && YOAST_SEO_PING_IMMEDIATELY ) {
 				wpseo_ping_search_engines();
 			}

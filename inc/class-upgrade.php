@@ -10,7 +10,7 @@
 class WPSEO_Upgrade {
 
 	/**
-	 * Holds the WP SEO options
+	 * Holds the Yoast SEO options
 	 *
 	 * @var array
 	 */
@@ -42,11 +42,22 @@ class WPSEO_Upgrade {
 			$this->upgrade_22();
 		}
 
+		if ( version_compare( $this->options['version'], '2.3', '<' ) ) {
+			$this->upgrade_23();
+		}
+
+		/**
+		 * Filter: 'wpseo_run_upgrade' - Runs the upgrade hook which are dependent on Yoast SEO
+		 *
+		 * @api string - The current version of Yoast SEO
+		 */
+		do_action( 'wpseo_run_upgrade', $this->options['version'] );
+
 		$this->finish_up();
 	}
 
 	/**
-	 * Run some functions that run when we first run or when we upgrade WP SEO from < 1.4.13
+	 * Run some functions that run when we first run or when we upgrade Yoast SEO from < 1.4.13
 	 */
 	private function init() {
 		if ( $this->options['version'] === '' || version_compare( $this->options['version'], '1.4.13', '<' ) ) {
@@ -59,7 +70,7 @@ class WPSEO_Upgrade {
 	}
 
 	/**
-	 * Run the WP SEO 1.5 upgrade routine
+	 * Run the Yoast SEO 1.5 upgrade routine
 	 *
 	 * @param string $version
 	 */
@@ -78,7 +89,7 @@ class WPSEO_Upgrade {
 	private function upgrade_20() {
 		/**
 		 * Clean up stray wpseo_ms options from the options table, option should only exist in the sitemeta table.
-		 * This could have been caused in many version of WP SEO, so deleting it for everything below 2.0
+		 * This could have been caused in many version of Yoast SEO, so deleting it for everything below 2.0
 		 */
 		delete_option( 'wpseo_ms' );
 
@@ -107,7 +118,7 @@ class WPSEO_Upgrade {
 	}
 
 	/**
-	 * Performs upgrade functions to WP SEO 2.2
+	 * Performs upgrade functions to Yoast SEO 2.2
 	 */
 	private function upgrade_22() {
 		// Unschedule our tracking.
@@ -117,6 +128,45 @@ class WPSEO_Upgrade {
 		$options = get_option( 'wpseo' );
 		unset( $options['tracking_popup_done'], $options['yoast_tracking'], $options['seen_about'], $options['ignore_tour'] );
 		update_option( 'wpseo', $options );
+	}
+
+	/**
+	 * Schedules upgrade function to Yoast SEO 2.3
+	 */
+	private function upgrade_23() {
+		add_action( 'wp', array( $this, 'upgrade_23_query' ), 90 );
+		add_action( 'admin_head', array( $this, 'upgrade_23_query' ), 90 );
+	}
+
+	/**
+	 * Performs upgrade query to Yoast SEO 2.3
+	 */
+	public function upgrade_23_query() {
+		$wp_query = new WP_Query( 'post_type=any&meta_key=_yoast_wpseo_sitemap-include&meta_value=never&order=ASC' );
+
+		if ( ! empty( $wp_query->posts ) ) {
+			$options = get_option( 'wpseo_xml' );
+
+			$excluded_posts = array();
+			if ( $options['excluded-posts'] !== '' ) {
+				$excluded_posts = explode( ',', $options['excluded-posts'] );
+			}
+
+			foreach ( $wp_query->posts as $post ) {
+				if ( ! in_array( $post->ID, $excluded_posts ) ) {
+					$excluded_posts[] = $post->ID;
+				}
+			}
+
+			// Updates the meta value.
+			$options['excluded-posts'] = implode( ',', $excluded_posts );
+
+			// Update the option.
+			update_option( 'wpseo_xml', $options );
+		}
+
+		// Remove the meta fields.
+		delete_post_meta_by_key( '_yoast_wpseo_sitemap-include' );
 	}
 
 	/**

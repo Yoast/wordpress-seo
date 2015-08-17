@@ -5,7 +5,10 @@
 
 ?>
 
-<h3 id="wordpress-seo"><?php _e( 'WordPress SEO settings', 'wordpress-seo' ); ?></h3>
+<h3 id="wordpress-seo"><?php
+	/* translators: %1$s expands to Yoast SEO */
+	printf( __( '%1$s settings', 'wordpress-seo' ), 'Yoast SEO' );
+	?></h3>
 <table class="form-table">
 	<tr>
 		<th>
@@ -47,7 +50,7 @@
 		<td>
 			<input class="checkbox double" type="checkbox" id="wpseo_author_exclude"
 			       name="wpseo_author_exclude"
-			       value="on" <?php echo ( get_the_author_meta( 'wpseo_excludeauthorsitemap', $user->ID ) == 'on' ) ? 'checked' : ''; ?> />
+			       value="on" <?php echo ( get_the_author_meta( 'wpseo_excludeauthorsitemap', $user->ID ) === 'on' ) ? 'checked' : ''; ?> />
 		</td>
 	</tr>
 </table>

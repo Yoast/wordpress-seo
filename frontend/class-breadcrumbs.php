@@ -51,12 +51,12 @@ class WPSEO_Breadcrumbs {
 	private $element = 'span';
 
 	/**
-	 * @var string    WP SEO breadcrumb separator
+	 * @var string    Yoast SEO breadcrumb separator
 	 */
 	private $separator = '';
 
 	/**
-	 * @var string    HTML wrapper element for the WP SEO breadcrumbs output
+	 * @var string    HTML wrapper element for the Yoast SEO breadcrumbs output
 	 */
 	private $wrapper = 'span';
 
@@ -156,7 +156,7 @@ class WPSEO_Breadcrumbs {
 	}
 
 	/**
-	 * Filter: 'wpseo_breadcrumb_separator' - Allow (theme) developer to change the WP SEO breadcrumb separator.
+	 * Filter: 'wpseo_breadcrumb_separator' - Allow (theme) developer to change the Yoast SEO breadcrumb separator.
 	 *
 	 * @api string $breadcrumbs_sep Breadcrumbs separator
 	 */
@@ -166,7 +166,7 @@ class WPSEO_Breadcrumbs {
 	}
 
 	/**
-	 * Filter: 'wpseo_breadcrumb_output_wrapper' - Allow changing the HTML wrapper element for the WP SEO breadcrumbs output
+	 * Filter: 'wpseo_breadcrumb_output_wrapper' - Allow changing the HTML wrapper element for the Yoast SEO breadcrumbs output
 	 *
 	 * @api string $wrapper The wrapper element
 	 */
@@ -278,7 +278,7 @@ class WPSEO_Breadcrumbs {
 		}
 
 		/**
-		 * Filter: Allow changing the ancestors for the WP SEO breadcrumbs output
+		 * Filter: Allow changing the ancestors for the Yoast SEO breadcrumbs output
 		 *
 		 * @api array $ancestors Ancestors
 		 */
@@ -396,7 +396,7 @@ class WPSEO_Breadcrumbs {
 		}
 
 		/**
-		 * Filter: 'wpseo_breadcrumb_links' - Allow the developer to filter the WP SEO breadcrumb links, add to them, change order, etc.
+		 * Filter: 'wpseo_breadcrumb_links' - Allow the developer to filter the Yoast SEO breadcrumb links, add to them, change order, etc.
 		 *
 		 * @api array $crumbs The crumbs array
 		 */
@@ -673,7 +673,7 @@ class WPSEO_Breadcrumbs {
 		}
 
 		/**
-		 * Filter: 'wp_seo_get_bc_title' - Allow developer to filter the WP SEO Breadcrumb title.
+		 * Filter: 'wp_seo_get_bc_title' - Allow developer to filter the Yoast SEO Breadcrumb title.
 		 *
 		 * @api string $link_text The Breadcrumb title text
 		 *
@@ -774,7 +774,7 @@ class WPSEO_Breadcrumbs {
 			}
 
 			if ( ( isset( $link['url'] ) && ( is_string( $link['url'] ) && $link['url'] !== '' ) ) &&
-			     ( $i < ( $this->crumb_count - 1 ) || $GLOBALS['paged'] )
+			     ( $i < ( $this->crumb_count - 1 ) )
 			) {
 				if ( $i === 0 ) {
 					$link_output .= '<' . $this->element . ' typeof="v:Breadcrumb">';
@@ -795,7 +795,7 @@ class WPSEO_Breadcrumbs {
 		}
 
 		/**
-		 * Filter: 'wpseo_breadcrumb_single_link' - Allow changing of each link being put out by the WP SEO breadcrumbs class
+		 * Filter: 'wpseo_breadcrumb_single_link' - Allow changing of each link being put out by the Yoast SEO breadcrumbs class
 		 *
 		 * @api string $link_output The output string
 		 *
@@ -827,7 +827,7 @@ class WPSEO_Breadcrumbs {
 			$output = '<' . $this->wrapper . $this->get_output_id() . $this->get_output_class() . ' xmlns:v="http://rdf.data-vocabulary.org/#">' . $this->output . '</' . $this->wrapper . '>';
 
 			/**
-			 * Filter: 'wpseo_breadcrumb_output' - Allow changing the HTML output of the WP SEO breadcrumbs class
+			 * Filter: 'wpseo_breadcrumb_output' - Allow changing the HTML output of the Yoast SEO breadcrumbs class
 			 *
 			 * @api string $unsigned HTML output
 			 */
@@ -843,7 +843,7 @@ class WPSEO_Breadcrumbs {
 
 
 	/**
-	 * Filter: 'wpseo_breadcrumb_output_id' - Allow changing the HTML ID on the WP SEO breadcrumbs wrapper element
+	 * Filter: 'wpseo_breadcrumb_output_id' - Allow changing the HTML ID on the Yoast SEO breadcrumbs wrapper element
 	 *
 	 * @api string $unsigned ID to add to the wrapper element
 	 */
@@ -857,7 +857,7 @@ class WPSEO_Breadcrumbs {
 	}
 
 	/**
-	 * Filter: 'wpseo_breadcrumb_output_class' - Allow changing the HTML class on the WP SEO breadcrumbs wrapper element
+	 * Filter: 'wpseo_breadcrumb_output_class' - Allow changing the HTML class on the Yoast SEO breadcrumbs wrapper element
 	 *
 	 * @api string $unsigned class to add to the wrapper element
 	 */

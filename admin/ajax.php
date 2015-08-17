@@ -83,6 +83,23 @@ function wpseo_dismiss_about() {
 add_action( 'wp_ajax_wpseo_dismiss_about', 'wpseo_dismiss_about' );
 
 /**
+ * Hides the default tagline notice for a specific user.
+ */
+function wpseo_dismiss_tagline_notice() {
+	if ( ! current_user_can( 'manage_options' ) ) {
+		die( '-1' );
+	}
+
+	check_ajax_referer( 'wpseo-dismiss-tagline-notice' );
+
+	update_user_meta( get_current_user_id(), 'wpseo_seen_tagline_notice', 'seen' );
+
+	die( '1' );
+}
+
+add_action( 'wp_ajax_wpseo_dismiss_tagline_notice', 'wpseo_dismiss_tagline_notice' );
+
+/**
  * Function used to delete blocking files, dies on exit.
  */
 function wpseo_kill_blocking_files() {
@@ -115,32 +132,6 @@ function wpseo_kill_blocking_files() {
 }
 
 add_action( 'wp_ajax_wpseo_kill_blocking_files', 'wpseo_kill_blocking_files' );
-
-/**
- * Retrieve the suggestions from the Google Suggest API and return them to be
- * used in the suggest box within the plugin. Dies on exit.
- */
-function wpseo_get_suggest() {
-	check_ajax_referer( 'wpseo-get-suggest' );
-
-	$term   = urlencode( filter_input( INPUT_GET, 'term' ) );
-	$result = wp_remote_get( 'https://www.google.com/complete/search?output=toolbar&q=' . $term );
-
-	$return_arr = array();
-
-	if ( ! is_wp_error( $result ) ) {
-		preg_match_all( '`suggestion data="([^"]+)"/>`u', $result['body'], $matches );
-
-		if ( isset( $matches[1] ) && ( is_array( $matches[1] ) && $matches[1] !== array() ) ) {
-			foreach ( $matches[1] as $match ) {
-				$return_arr[] = html_entity_decode( $match, ENT_COMPAT, 'UTF-8' );
-			}
-		}
-	}
-	wpseo_ajax_json_echo_die( $return_arr );
-}
-
-add_action( 'wp_ajax_wpseo_get_suggest', 'wpseo_get_suggest' );
 
 /**
  * Used in the editor to replace vars for the snippet preview
@@ -338,7 +329,7 @@ function wpseo_get_export() {
 add_action( 'wp_ajax_wpseo_export', 'wpseo_get_export' );
 
 /**
- * Handles the posting of a new FB admin
+ * Handles the posting of a new FB admin.
  */
 function wpseo_add_fb_admin() {
 	check_ajax_referer( 'wpseo_fb_admin_nonce' );
@@ -353,3 +344,5 @@ function wpseo_add_fb_admin() {
 }
 
 add_action( 'wp_ajax_wpseo_add_fb_admin', 'wpseo_add_fb_admin' );
+
+new Yoast_Dashboard_Widget();
