@@ -854,7 +854,7 @@ class WPSEO_Sitemaps {
 	/**
 	 * Build a sub-sitemap for a specific taxonomy -- example.com/tax-sitemap.xml
 	 *
-	 * @param string $taxonomy Registered taxonomy's slug.
+	 * @param object $taxonomy Taxonomy data object.
 	 */
 	public function build_tax_map( $taxonomy ) {
 		if (
