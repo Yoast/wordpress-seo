@@ -435,13 +435,13 @@ class WPSEO_Sitemaps {
 
 		foreach ( $post_types as $post_type ) {
 
-			if ( isset( $this->options[ 'post_types-' . $post_type . '-not_in_sitemap' ] ) && $this->options[ 'post_types-' . $post_type . '-not_in_sitemap' ] === true ) {
+			if ( ! empty( $this->options[ "post_types-{$post_type}-not_in_sitemap" ] ) ) {
 				continue;
 			}
-			else {
-				if ( apply_filters( 'wpseo_sitemap_exclude_post_type', false, $post_type ) ) {
-					continue;
-				}
+
+			// TODO document filter. R.
+			if ( apply_filters( 'wpseo_sitemap_exclude_post_type', false, $post_type ) ) {
+				continue;
 			}
 
 			// Using same filters for filtering join and where parts of the query.
