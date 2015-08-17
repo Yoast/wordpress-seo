@@ -5,9 +5,6 @@
 
 /**
  * Class WPSEO_Sitemaps
- *
- * @todo: [JRF => whomever] If at all possible, move the adding of rewrite rules, actions and filters
- * elsewhere and only load this file when an actual sitemap is being requested.
  */
 class WPSEO_Sitemaps {
 
