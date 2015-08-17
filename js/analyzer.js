@@ -40,13 +40,15 @@ YoastSEO.Analyzer.prototype.init = function() {
 YoastSEO.Analyzer.prototype.formatKeyword = function() {
 	if ( typeof this.config.keyword !== "undefined" && this.config.keyword !== "" ) {
 
-		//creates new regex from keyword with global and caseinsensitive option, replaces - and _ with space
+		// Creates new regex from keyword with global and caseinsensitive option,
+		// replaces - and _ with space
 		this.keywordRegex = new RegExp(
 			this.preProcessor.replaceDiacritics( this.config.keyword.replace( /[-_]/, " " ) ),
 			"ig"
 		);
 
-		// Creates new regex from keyword with global and caseinsensitive option, replaces space with -. Used for URL matching
+		// Creates new regex from keyword with global and caseinsensitive option,
+		// replaces space with -. Used for URL matching
 		this.keywordRegexInverse = new RegExp(
 			this.preProcessor.replaceDiacritics( this.config.keyword.replace( " ", "-" ) ),
 			"ig"
@@ -570,7 +572,9 @@ YoastSEO.Analyzer.prototype.metaDescription = function() {
 YoastSEO.Analyzer.prototype.urlKeyword = function() {
 	var result = [ { test: "urlKeyword", result: 0 } ];
 	if ( typeof this.config.url !== "undefined" ) {
-		result[ 0 ].result = this.stringHelper.countMatches( this.config.url, this.keywordRegexInverse );
+		result[ 0 ].result = this.stringHelper.countMatches(
+			this.config.url, this.keywordRegexInverse
+		);
 	}
 	return result;
 };
