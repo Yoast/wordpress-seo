@@ -45,27 +45,24 @@ class WPSEO_Sitemaps {
 	 * Class constructor
 	 */
 	public function __construct() {
+
 		if ( ! defined( 'ENT_XML1' ) ) {
 			define( 'ENT_XML1', 16 );
 		}
 
 		add_action( 'after_setup_theme', array( $this, 'reduce_query_load' ), 99 );
-
 		add_action( 'pre_get_posts', array( $this, 'redirect' ), 1 );
 		add_filter( 'redirect_canonical', array( $this, 'canonical' ) );
 		add_action( 'wpseo_hit_sitemap_index', array( $this, 'hit_sitemap_index' ) );
 		add_filter( 'wpseo_sitemap_exclude_author', array( $this, 'user_sitemap_remove_excluded_authors' ), 8 );
 
-		// Default stylesheet.
-		$this->stylesheet = '<?xml-stylesheet type="text/xsl" href="' . preg_replace( '/(^http[s]?:)/', '', esc_url( home_url( 'main-sitemap.xsl' ) ) ) . '"?>';
-
+		$stylesheet_url    = preg_replace( '/(^http[s]?:)/', '', esc_url( home_url( 'main-sitemap.xsl' ) ) );
+		$this->stylesheet  = '<?xml-stylesheet type="text/xsl" href="' . $stylesheet_url . '"?>';
 		$this->options     = WPSEO_Options::get_all();
 		$this->max_entries = $this->options['entries-per-page'];
 		$this->home_url    = home_url();
 		$this->charset     = get_bloginfo( 'charset' );
-
 		$this->timezone    = new WPSEO_Sitemap_Timezone();
-
 	}
 
 	/**
