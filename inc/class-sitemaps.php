@@ -10,79 +10,38 @@
  * elsewhere and only load this file when an actual sitemap is being requested.
  */
 class WPSEO_Sitemaps {
-	/**
-	 * Content of the sitemap to output.
-	 *
-	 * @var string $sitemap
-	 */
+
+	/** @var string $sitemap Content of the sitemap to output. */
 	protected $sitemap = '';
 
-	/**
-	 * XSL stylesheet for styling a sitemap for web browsers
-	 *
-	 * @var string $stylesheet
-	 */
+	/** @var string $stylesheet XSL stylesheet for styling a sitemap for web browsers. */
 	private $stylesheet = '';
 
-	/**
-	 * Flag to indicate if this is an invalid or empty sitemap.
-	 *
-	 * @var bool $bad_sitemap
-	 */
+	/** @var bool $bad_sitemap Flag to indicate if this is an invalid or empty sitemap. */
 	public $bad_sitemap = false;
 
-	/**
-	 * Whether or not the XML sitemap was served from a transient or not.
-	 *
-	 * @var bool $transient
-	 */
+	/** @var bool $transient Whether or not the XML sitemap was served from a transient or not. */
 	private $transient = false;
 
-	/**
-	 * The maximum number of entries per sitemap page
-	 *
-	 * @var int $max_entries
-	 */
+	/** @var int $max_entries The maximum number of entries per sitemap page. */
 	private $max_entries;
 
-	/**
-	 * Holds the post type's newest publish dates
-	 *
-	 * @var array $post_type_dates
-	 */
+	/** @var array $post_type_dates Holds the post type's newest publish dates. */
 	private $post_type_dates;
 
-	/**
-	 * Holds the Yoast SEO options
-	 *
-	 * @var array $options
-	 */
+	/** @var array $options Holds the Yoast SEO options. */
 	private $options = array();
 
-	/**
-	 * Holds the n variable
-	 *
-	 * @var int $n
-	 */
+	/** @var int $n Holds the n variable. */
 	private $n = 1;
 
-	/**
-	 * Holds the home_url() value to speed up loops
-	 *
-	 * @var string $home_url
-	 */
+	/** @var string $home_url Holds the home_url() value to speed up loops. */
 	private $home_url = '';
 
-	/**
-	 * Holds the get_bloginfo( 'charset' ) value to reuse for performance
-	 *
-	 * @var string $charset
-	 */
+	/** @var string $charset Holds the get_bloginfo( 'charset' ) value to reuse for performance. */
 	private $charset = '';
 
-	/**
-	 * @var WPSEO_Sitemap_Timezone
-	 */
+	/** @var WPSEO_Sitemap_Timezone $timezone */
 	private $timezone;
 
 	/**
