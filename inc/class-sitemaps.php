@@ -44,7 +44,7 @@ class WPSEO_Sitemaps {
 	/**
 	 * Class constructor
 	 */
-	function __construct() {
+	public function __construct() {
 		if ( ! defined( 'ENT_XML1' ) ) {
 			define( 'ENT_XML1', 16 );
 		}
@@ -101,7 +101,7 @@ class WPSEO_Sitemaps {
 	 * @param callback $function Function to build your sitemap.
 	 * @param string   $rewrite  Optional. Regular expression to match your sitemap with.
 	 */
-	function register_sitemap( $name, $function, $rewrite = '' ) {
+	public function register_sitemap( $name, $function, $rewrite = '' ) {
 		add_action( 'wpseo_do_sitemap_' . $name, $function );
 		if ( ! empty( $rewrite ) ) {
 			add_rewrite_rule( $rewrite, 'index.php?sitemap=' . $name, 'top' );
@@ -115,7 +115,7 @@ class WPSEO_Sitemaps {
 	 * @param callback $function Function to build your XSL file.
 	 * @param string   $rewrite  Optional. Regular expression to match your sitemap with.
 	 */
-	function register_xsl( $name, $function, $rewrite = '' ) {
+	public function register_xsl( $name, $function, $rewrite = '' ) {
 		add_action( 'wpseo_xsl_' . $name, $function );
 		if ( ! empty( $rewrite ) ) {
 			add_rewrite_rule( $rewrite, 'index.php?xsl=' . $name, 'top' );
@@ -139,7 +139,7 @@ class WPSEO_Sitemaps {
 	 *
 	 * @param string $sitemap The generated sitemap to output.
 	 */
-	function set_sitemap( $sitemap ) {
+	public function set_sitemap( $sitemap ) {
 		$this->sitemap = $sitemap;
 	}
 
@@ -159,7 +159,7 @@ class WPSEO_Sitemaps {
 	 *
 	 * @param bool $bool Is this a bad request. True or false.
 	 */
-	function set_bad_sitemap( $bool ) {
+	public function set_bad_sitemap( $bool ) {
 		$this->bad_sitemap = (bool) $bool;
 	}
 
@@ -168,7 +168,7 @@ class WPSEO_Sitemaps {
 	 *
 	 * @since 1.4.16
 	 */
-	function sitemap_close() {
+	public function sitemap_close() {
 		remove_all_actions( 'wp_footer' );
 		die();
 	}
@@ -178,7 +178,7 @@ class WPSEO_Sitemaps {
 	 *
 	 * @param \WP_Query $query Main query instance.
 	 */
-	function redirect( $query ) {
+	public function redirect( $query ) {
 
 		if ( ! $query->is_main_query() ) {
 			return;
@@ -238,7 +238,7 @@ class WPSEO_Sitemaps {
 	 *
 	 * @param string $type The requested sitemap's identifier.
 	 */
-	function build_sitemap( $type ) {
+	public function build_sitemap( $type ) {
 
 		$type = apply_filters( 'wpseo_build_sitemap_post_type', $type );
 
@@ -266,7 +266,7 @@ class WPSEO_Sitemaps {
 	 * Build the root sitemap -- example.com/sitemap_index.xml -- which lists sub-sitemaps
 	 * for other content types.
 	 */
-	function build_root_map() {
+	public function build_root_map() {
 
 		global $wpdb;
 
@@ -515,7 +515,7 @@ class WPSEO_Sitemaps {
 	 *
 	 * @param string $post_type Registered post type's slug.
 	 */
-	function build_post_type_map( $post_type ) {
+	public function build_post_type_map( $post_type ) {
 		global $wpdb;
 
 		if (
@@ -860,7 +860,7 @@ class WPSEO_Sitemaps {
 	 *
 	 * @param string $taxonomy Registered taxonomy's slug.
 	 */
-	function build_tax_map( $taxonomy ) {
+	public function build_tax_map( $taxonomy ) {
 		if (
 			( isset( $this->options[ 'taxonomies-' . $taxonomy->name . '-not_in_sitemap' ] ) && $this->options[ 'taxonomies-' . $taxonomy->name . '-not_in_sitemap' ] === true )
 			|| in_array( $taxonomy, array( 'link_category', 'nav_menu', 'post_format' ) )
@@ -978,7 +978,7 @@ class WPSEO_Sitemaps {
 	 *
 	 * @since 1.4.8
 	 */
-	function build_user_map() {
+	public function build_user_map() {
 		if ( $this->options['disable-author'] === true || $this->options['disable_author_sitemap'] === true ) {
 			$this->bad_sitemap = true;
 
@@ -1076,7 +1076,7 @@ class WPSEO_Sitemaps {
 	 *
 	 * @since 1.4.13
 	 */
-	function xsl_output( $type ) {
+	public function xsl_output( $type ) {
 		if ( $type == 'main' ) {
 			header( $this->http_protocol() . ' 200 OK', true, 200 );
 			// Prevent the search engines from indexing the XML Sitemap.
@@ -1099,7 +1099,7 @@ class WPSEO_Sitemaps {
 	/**
 	 * Spit out the generated sitemap and relevant headers and encoding information.
 	 */
-	function output() {
+	public function output() {
 		if ( ! headers_sent() ) {
 			header( $this->http_protocol() . ' 200 OK', true, 200 );
 			// Prevent the search engines from indexing the XML Sitemap.
@@ -1137,7 +1137,7 @@ class WPSEO_Sitemaps {
 	 *
 	 * @return string
 	 */
-	function sitemap_url( $url ) {
+	public function sitemap_url( $url ) {
 
 		$date = null;
 
@@ -1179,7 +1179,7 @@ class WPSEO_Sitemaps {
 	/**
 	 * Make a request for the sitemap index so as to cache it before the arrival of the search engines.
 	 */
-	function hit_sitemap_index() {
+	public function hit_sitemap_index() {
 		$url = wpseo_xml_sitemaps_base_url( 'sitemap_index.xml' );
 		wp_remote_get( $url );
 	}
@@ -1212,7 +1212,7 @@ class WPSEO_Sitemaps {
 	 *
 	 * @return string
 	 */
-	function get_last_modified( $post_types ) {
+	public function get_last_modified( $post_types ) {
 		global $wpdb;
 
 		if ( ! is_array( $post_types ) ) {
