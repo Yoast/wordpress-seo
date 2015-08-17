@@ -264,8 +264,6 @@ class WPSEO_Sitemaps {
 	 */
 	public function build_root_map() {
 
-		global $wpdb;
-
 		$this->sitemap = '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
 
 		$this->build_post_type_map_index();
@@ -441,6 +439,8 @@ class WPSEO_Sitemaps {
 	 * Build author sitemaps index.
 	 */
 	protected function build_author_map_index() {
+
+		global $wpdb;
 
 		if ( $this->options['disable-author'] || $this->options['disable_author_sitemap'] ) {
 			return;
