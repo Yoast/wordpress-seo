@@ -396,94 +396,99 @@ class WPSEO_Sitemaps {
 
 		global $wpdb;
 
-		$taxonomies     = get_taxonomies( array( 'public' => true ), 'objects' );
+		$taxonomies = get_taxonomies( array( 'public' => true ), 'objects' );
+
+		if ( empty( $taxonomies ) ) {
+			return;
+		}
+
 		$taxonomy_names = array_keys( $taxonomies );
 
-		if ( is_array( $taxonomy_names ) && $taxonomy_names !== array() ) {
-			foreach ( $taxonomy_names as $tax ) {
-				if ( in_array( $tax, array( 'link_category', 'nav_menu', 'post_format' ) ) ) {
-					unset( $taxonomy_names[ $tax ], $taxonomies[ $tax ] );
-					continue;
-				}
+		foreach ( $taxonomy_names as $tax ) {
 
-				if ( apply_filters( 'wpseo_sitemap_exclude_taxonomy', false, $tax ) ) {
-					unset( $taxonomy_names[ $tax ], $taxonomies[ $tax ] );
-					continue;
-				}
-
-				if ( isset( $this->options[ 'taxonomies-' . $tax . '-not_in_sitemap' ] ) && $this->options[ 'taxonomies-' . $tax . '-not_in_sitemap' ] === true ) {
-					unset( $taxonomy_names[ $tax ], $taxonomies[ $tax ] );
-					continue;
-				}
+			if ( in_array( $tax, array( 'link_category', 'nav_menu', 'post_format' ) ) ) {
+				unset( $taxonomy_names[ $tax ], $taxonomies[ $tax ] );
+				continue;
 			}
-			unset( $tax );
 
-			// Retrieve all the taxonomies and their terms so we can do a proper count on them.
-			$hide_empty         = ( apply_filters( 'wpseo_sitemap_exclude_empty_terms', true, $taxonomy_names ) ) ? 'count != 0 AND' : '';
-			$query              = "SELECT taxonomy, term_id FROM $wpdb->term_taxonomy WHERE $hide_empty taxonomy IN ('" . implode( "','", $taxonomy_names ) . "');";
-			$all_taxonomy_terms = $wpdb->get_results( $query );
-			$all_taxonomies     = array();
-			foreach ( $all_taxonomy_terms as $obj ) {
-				$all_taxonomies[ $obj->taxonomy ][] = $obj->term_id;
+			if ( apply_filters( 'wpseo_sitemap_exclude_taxonomy', false, $tax ) ) {
+				unset( $taxonomy_names[ $tax ], $taxonomies[ $tax ] );
+				continue;
 			}
-			unset( $hide_empty, $query, $all_taxonomy_terms, $obj );
 
-			foreach ( $taxonomies as $tax_name => $tax ) {
+			if ( isset( $this->options[ 'taxonomies-' . $tax . '-not_in_sitemap' ] ) && $this->options[ 'taxonomies-' . $tax . '-not_in_sitemap' ] === true ) {
+				unset( $taxonomy_names[ $tax ], $taxonomies[ $tax ] );
+				continue;
+			}
+		}
+		unset( $tax );
 
-				if ( ! isset( $all_taxonomies[ $tax_name ] ) ) { // No eligible terms found.
+		// Retrieve all the taxonomies and their terms so we can do a proper count on them.
+		$hide_empty         = ( apply_filters( 'wpseo_sitemap_exclude_empty_terms', true, $taxonomy_names ) ) ? 'count != 0 AND' : '';
+		$query              = "SELECT taxonomy, term_id FROM $wpdb->term_taxonomy WHERE $hide_empty taxonomy IN ('" . implode( "','", $taxonomy_names ) . "');";
+		$all_taxonomy_terms = $wpdb->get_results( $query );
+		$all_taxonomies     = array();
+
+		foreach ( $all_taxonomy_terms as $obj ) {
+			$all_taxonomies[ $obj->taxonomy ][] = $obj->term_id;
+		}
+		unset( $hide_empty, $query, $all_taxonomy_terms, $obj );
+
+		foreach ( $taxonomies as $tax_name => $tax ) {
+
+			if ( ! isset( $all_taxonomies[ $tax_name ] ) ) { // No eligible terms found.
+				continue;
+			}
+
+			$steps = $this->max_entries;
+			$count = ( isset( $all_taxonomies[ $tax_name ] ) ) ? count( $all_taxonomies[ $tax_name ] ) : 1;
+			$n     = ( $count > $this->max_entries ) ? (int) ceil( $count / $this->max_entries ) : 1;
+
+			for ( $i = 0; $i < $n; $i ++ ) {
+				$count = ( $n > 1 ) ? ( $i + 1 ) : '';
+
+				if ( ! is_array( $tax->object_type ) || count( $tax->object_type ) == 0 ) {
 					continue;
 				}
 
-				$steps = $this->max_entries;
-				$count = ( isset( $all_taxonomies[ $tax_name ] ) ) ? count( $all_taxonomies[ $tax_name ] ) : 1;
-				$n     = ( $count > $this->max_entries ) ? (int) ceil( $count / $this->max_entries ) : 1;
-
-				for ( $i = 0; $i < $n; $i ++ ) {
-					$count = ( $n > 1 ) ? ( $i + 1 ) : '';
-
-					if ( ! is_array( $tax->object_type ) || count( $tax->object_type ) == 0 ) {
+				if ( ( empty( $count ) || $count == $n ) ) {
+					$date = $this->get_last_modified( $tax->object_type );
+				}
+				else {
+					$terms = array_splice( $all_taxonomies[ $tax_name ], 0, $steps );
+					if ( ! $terms ) {
 						continue;
 					}
 
-					if ( ( empty( $count ) || $count == $n ) ) {
-						$date = $this->get_last_modified( $tax->object_type );
+					$args  = array(
+						'post_type' => $tax->object_type,
+						'tax_query' => array(
+							array(
+								'taxonomy' => $tax_name,
+								'terms'    => $terms,
+							),
+						),
+						'orderby'   => 'modified',
+						'order'     => 'DESC',
+					);
+					$query = new WP_Query( $args );
+
+					$date = '';
+					if ( $query->have_posts() ) {
+						$date = $this->timezone->get_datetime_with_timezone( $query->posts[0]->post_modified_gmt );
 					}
 					else {
-						$terms = array_splice( $all_taxonomies[ $tax_name ], 0, $steps );
-						if ( ! $terms ) {
-							continue;
-						}
-
-						$args  = array(
-							'post_type' => $tax->object_type,
-							'tax_query' => array(
-								array(
-									'taxonomy' => $tax_name,
-									'terms'    => $terms,
-								),
-							),
-							'orderby'   => 'modified',
-							'order'     => 'DESC',
-						);
-						$query = new WP_Query( $args );
-
-						$date = '';
-						if ( $query->have_posts() ) {
-							$date = $this->timezone->get_datetime_with_timezone( $query->posts[0]->post_modified_gmt );
-						}
-						else {
-							$date = $this->get_last_modified( $tax->object_type );
-						}
-						unset( $terms, $args, $query );
+						$date = $this->get_last_modified( $tax->object_type );
 					}
-
-					$this->sitemap .= '<sitemap>' . "\n";
-					$this->sitemap .= '<loc>' . wpseo_xml_sitemaps_base_url( $tax_name . '-sitemap' . $count . '.xml' ) . '</loc>' . "\n";
-					$this->sitemap .= '<lastmod>' . htmlspecialchars( $date ) . '</lastmod>' . "\n";
-					$this->sitemap .= '</sitemap>' . "\n";
+					unset( $terms, $args, $query );
 				}
-				unset( $steps, $count, $n, $i, $date );
+
+				$this->sitemap .= '<sitemap>' . "\n";
+				$this->sitemap .= '<loc>' . wpseo_xml_sitemaps_base_url( $tax_name . '-sitemap' . $count . '.xml' ) . '</loc>' . "\n";
+				$this->sitemap .= '<lastmod>' . htmlspecialchars( $date ) . '</lastmod>' . "\n";
+				$this->sitemap .= '</sitemap>' . "\n";
 			}
+			unset( $steps, $count, $n, $i, $date );
 		}
 	}
 
