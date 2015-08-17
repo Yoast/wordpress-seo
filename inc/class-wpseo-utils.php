@@ -151,7 +151,8 @@ class WPSEO_Utils {
 	}
 
 	/**
-	 * Strip out the shortcodes with a filthy regex, because people don't properly register their shortcodes.
+	 * First strip out registered and enclosing shortcodes using native WordPress strip_shortcodes function.
+	 * Then strip out the shortcodes with a filthy regex, because people don't properly register their shortcodes.
 	 *
 	 * @static
 	 *
@@ -160,7 +161,7 @@ class WPSEO_Utils {
 	 * @return string $text string without shortcodes
 	 */
 	public static function strip_shortcode( $text ) {
-		return preg_replace( '`\[[^\]]+\]`s', '', $text );
+		return preg_replace( '`\[[^\]]+\]`s', '', strip_shortcodes( $text ) );
 	}
 
 	/**
