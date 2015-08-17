@@ -270,52 +270,50 @@ class WPSEO_Sitemaps {
 
 		// Reference post type specific sitemaps.
 		$post_types = get_post_types( array( 'public' => true ) );
-		if ( is_array( $post_types ) && $post_types !== array() ) {
 
-			foreach ( $post_types as $post_type ) {
-				if ( isset( $this->options[ 'post_types-' . $post_type . '-not_in_sitemap' ] ) && $this->options[ 'post_types-' . $post_type . '-not_in_sitemap' ] === true ) {
+		foreach ( $post_types as $post_type ) {
+			if ( isset( $this->options[ 'post_types-' . $post_type . '-not_in_sitemap' ] ) && $this->options[ 'post_types-' . $post_type . '-not_in_sitemap' ] === true ) {
+				continue;
+			}
+			else {
+				if ( apply_filters( 'wpseo_sitemap_exclude_post_type', false, $post_type ) ) {
 					continue;
+				}
+			}
+
+			// Using same filters for filtering join and where parts of the query.
+			$join_filter  = apply_filters( 'wpseo_typecount_join', '', $post_type );
+			$where_filter = apply_filters( 'wpseo_typecount_where', '', $post_type );
+
+			// Using the same query with build_post_type_map($post_type) function to count number of posts.
+			$query = $wpdb->prepare( "SELECT COUNT(ID) FROM $wpdb->posts {$join_filter} WHERE post_status IN ('publish','inherit') AND post_password = '' AND post_date != '0000-00-00 00:00:00' AND post_type = %s " . $where_filter, $post_type );
+
+			$count = $wpdb->get_var( $query );
+			if ( $count == 0  ) {
+				continue;
+			}
+
+			$n = ( $count > $this->max_entries ) ? (int) ceil( $count / $this->max_entries ) : 1;
+			for ( $i = 0; $i < $n; $i ++ ) {
+				$count = ( $n > 1 ) ? ( $i + 1 ) : '';
+
+				if ( empty( $count ) || $count == $n ) {
+					$date = $this->get_last_modified( $post_type );
 				}
 				else {
-					if ( apply_filters( 'wpseo_sitemap_exclude_post_type', false, $post_type ) ) {
-						continue;
+					if ( ! isset( $all_dates ) ) {
+						$all_dates = $wpdb->get_col( $wpdb->prepare( "SELECT post_modified_gmt FROM (SELECT @rownum:=@rownum+1 rownum, $wpdb->posts.post_modified_gmt FROM (SELECT @rownum:=0) r, $wpdb->posts WHERE post_status IN ('publish','inherit') AND post_type = %s ORDER BY post_modified_gmt ASC) x WHERE rownum %%%d=0", $post_type, $this->max_entries ) );
 					}
+					$date = $this->timezone->get_datetime_with_timezone( $all_dates[ $i ] );
+					unset( $all_dates );
 				}
 
-				// Using same filters for filtering join and where parts of the query.
-				$join_filter  = apply_filters( 'wpseo_typecount_join', '', $post_type );
-				$where_filter = apply_filters( 'wpseo_typecount_where', '', $post_type );
-
-				// Using the same query with build_post_type_map($post_type) function to count number of posts.
-				$query = $wpdb->prepare( "SELECT COUNT(ID) FROM $wpdb->posts {$join_filter} WHERE post_status IN ('publish','inherit') AND post_password = '' AND post_date != '0000-00-00 00:00:00' AND post_type = %s " . $where_filter, $post_type );
-
-				$count = $wpdb->get_var( $query );
-				if ( $count == 0  ) {
-					continue;
-				}
-
-				$n = ( $count > $this->max_entries ) ? (int) ceil( $count / $this->max_entries ) : 1;
-				for ( $i = 0; $i < $n; $i ++ ) {
-					$count = ( $n > 1 ) ? ( $i + 1 ) : '';
-
-					if ( empty( $count ) || $count == $n ) {
-						$date = $this->get_last_modified( $post_type );
-					}
-					else {
-						if ( ! isset( $all_dates ) ) {
-							$all_dates = $wpdb->get_col( $wpdb->prepare( "SELECT post_modified_gmt FROM (SELECT @rownum:=@rownum+1 rownum, $wpdb->posts.post_modified_gmt FROM (SELECT @rownum:=0) r, $wpdb->posts WHERE post_status IN ('publish','inherit') AND post_type = %s ORDER BY post_modified_gmt ASC) x WHERE rownum %%%d=0", $post_type, $this->max_entries ) );
-						}
-						$date = $this->timezone->get_datetime_with_timezone( $all_dates[ $i ] );
-						unset( $all_dates );
-					}
-
-					$this->sitemap .= '<sitemap>' . "\n";
-					$this->sitemap .= '<loc>' . wpseo_xml_sitemaps_base_url( $post_type . '-sitemap' . $count . '.xml' ) . '</loc>' . "\n";
-					$this->sitemap .= '<lastmod>' . htmlspecialchars( $date ) . '</lastmod>' . "\n";
-					$this->sitemap .= '</sitemap>' . "\n";
-				}
-				unset( $count, $n, $i, $date );
+				$this->sitemap .= '<sitemap>' . "\n";
+				$this->sitemap .= '<loc>' . wpseo_xml_sitemaps_base_url( $post_type . '-sitemap' . $count . '.xml' ) . '</loc>' . "\n";
+				$this->sitemap .= '<lastmod>' . htmlspecialchars( $date ) . '</lastmod>' . "\n";
+				$this->sitemap .= '</sitemap>' . "\n";
 			}
+			unset( $count, $n, $i, $date );
 		}
 		unset( $post_types, $post_type, $join_filter, $where_filter, $query );
 
