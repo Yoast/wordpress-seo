@@ -239,7 +239,7 @@ class WPSEO_Sitemaps {
 
 		$type = apply_filters( 'wpseo_build_sitemap_post_type', $type );
 
-		if ( intval( $type ) === 1 ) {
+		if ( $type === '1' ) {
 			$this->build_root_map();
 		}
 		elseif ( post_type_exists( $type ) ) {
