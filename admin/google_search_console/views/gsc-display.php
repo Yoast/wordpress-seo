@@ -4,11 +4,11 @@
  */
 
 	// Admin header.
-	Yoast_Form::get_instance()->admin_header( false, 'wpseo_webmaster_tools', false, 'yoast_wpseo_webmaster_tools_options' );
+	Yoast_Form::get_instance()->admin_header( false, 'wpseo-gsc', false, 'yoast_wpseo_gsc_options' );
 ?>
 	<h2 class="nav-tab-wrapper" id="wpseo-tabs">
 <?php
-if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+if ( defined( 'WP_DEBUG' ) && WP_DEBUG && WPSEO_GSC_Settings::get_profile() !== '' ) {
 	?>
 		<form action="" method="post">
 			<input type='hidden' name='reload-crawl-issues-nonce' value='<?php echo wp_create_nonce( 'reload-crawl-issues' ); ?>' />
@@ -34,7 +34,7 @@ switch ( $platform_tabs->current_tab() ) {
 			echo "<button id='gsc_auth_code' class='button-secondary'>" , __( 'Get Google Authorization Code', 'wordpress-seo' ) ,"</button>\n";
 
 			echo '<p>' . __( 'Please enter the Google Authorization Code in the field below and press the Authenticate button.', 'wordpress-seo' ) . "</p>\n";
-			echo "<form action='" . admin_url( 'admin.php?page=wpseo_webmaster_tools&tab=settings' ) . "' method='post'>\n";
+			echo "<form action='" . admin_url( 'admin.php?page=wpseo_search_console&tab=settings' ) . "' method='post'>\n";
 			echo "<input type='text' name='gsc[authorization_code]' value='' />";
 			echo "<input type='hidden' name='gsc[gsc_nonce]' value='" . wp_create_nonce( 'wpseo-gsc_nonce' ) . "' />";
 			echo "<input type='submit' name='gsc[Submit]' value='" . __( 'Authenticate', 'wordpress-seo' ) . "' class='button-primary' />";
@@ -69,7 +69,7 @@ switch ( $platform_tabs->current_tab() ) {
 				else {
 					$show_save = false;
 					echo '<label class="select" for="profile">', __( 'Profile', 'wordpress-seo' ), '</label>';
-					echo __( 'There are no profiles found', 'wordpress-seo' );
+					echo __( 'There were no profiles found', 'wordpress-seo' );
 				}
 				echo '</p>';
 

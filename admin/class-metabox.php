@@ -818,7 +818,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 *
 	 * @internal $_POST parameters are validated via sanitize_post_meta()
 	 *
-	 * @param  int $post_id
+	 * @param int $post_id Post ID.
 	 *
 	 * @return  bool|void   Boolean false if invalid save post request
 	 */
@@ -897,15 +897,12 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			wp_enqueue_style( 'featured-image', plugins_url( 'css/featured-image' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
 			wp_enqueue_style( 'jquery-qtip.js', plugins_url( 'css/jquery.qtip' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), '2.2.1' );
 
-			wp_enqueue_script( 'jquery-ui-autocomplete' );
-
 			// Always enqueue minified as it's not our code.
 			wp_enqueue_script( 'jquery-qtip', plugins_url( 'js/jquery.qtip.min.js', WPSEO_FILE ), array( 'jquery' ), '2.2.1', true );
 
 			wp_enqueue_script( 'wp-seo-metabox', plugins_url( 'js/wp-seo-metabox' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array(
 				'jquery',
 				'jquery-ui-core',
-				'jquery-ui-autocomplete',
 			), WPSEO_VERSION, true );
 
 			if ( post_type_supports( get_post_type(), 'thumbnail' ) ) {
@@ -1196,9 +1193,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	/**
 	 * Hide the SEO Title, Meta Desc and Focus KW columns if the user hasn't chosen which columns to hide
 	 *
-	 * @param array|false $result
-	 * @param string      $option
-	 * @param WP_User     $user
+	 * @param array|false $result Result data set or false.
+	 * @param string      $option Option name string.
+	 * @param WP_User     $user   User object instance.
 	 *
 	 * @return array|false $result
 	 */
@@ -1222,7 +1219,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * Hacky way to get round the limitation that you can only have AND *or* OR relationship between
 	 * meta key clauses and not a combination - which is what we need.
 	 *
-	 * @param    string $where
+	 * @param string $where SQL for WHERE part.
 	 *
 	 * @return    string
 	 */
@@ -1516,7 +1513,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	/**
 	 * Get sample permalink
 	 *
-	 * @param    object $post
+	 * @param WP_Post $post Post object instance.
 	 *
 	 * @return    array
 	 */
@@ -1589,8 +1586,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	/**
 	 * Check whether this focus keyword has been used for other posts before.
 	 *
-	 * @param array $job
-	 * @param array $results
+	 * @param array $job     Job data array.
+	 * @param array $results Results set by reference.
 	 */
 	function check_double_focus_keyword( $job, &$results ) {
 		$posts = get_posts(
@@ -1614,7 +1611,16 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				), admin_url( 'post.php' ) ) ) . '">', '</a>' ), 'keyword_overused' );
 		}
 		else {
-			$this->save_score_result( $results, 1, sprintf( __( 'You\'ve used this focus keyword %3$s%4$d times before%2$s, it\'s probably a good idea to read %1$sthis post on cornerstone content%2$s and improve your keyword strategy.', 'wordpress-seo' ), '<a href="https://yoast.com/cornerstone-content-rank/">', '</a>', '<a href="' . esc_url( add_query_arg( array( 'seo_kw_filter' => $job['keyword'] ), admin_url( 'edit.php' ) ) ) . '">', count( $posts ) ), 'keyword_overused' );
+			$keyword = str_replace( ' ', '%20', $job['keyword'] );
+			$url     = add_query_arg( array( 'seo_kw_filter' => $keyword ), admin_url( 'edit.php' ) );
+			$message = sprintf(
+				__( 'You\'ve used this focus keyword %3$s%4$d times before%2$s, it\'s probably a good idea to read %1$sthis post on cornerstone content%2$s and improve your keyword strategy.', 'wordpress-seo' ),
+				'<a href="https://yoast.com/cornerstone-content-rank/">',
+				'</a>',
+				'<a href="' . esc_url( $url ) . '">',
+				count( $posts )
+			);
+			$this->save_score_result( $results, 1, $message, 'keyword_overused' );
 		}
 	}
 
@@ -2262,7 +2268,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @deprecated use WPSEO_Meta::get_meta_field_defs()
 	 * @see        WPSEO_Meta::get_meta_field_defs()
 	 *
-	 * @param  string $post_type
+	 * @param string $post_type Optional post type, defaults to post.
 	 *
 	 * @return  array
 	 */

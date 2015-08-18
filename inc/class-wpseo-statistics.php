@@ -73,7 +73,6 @@ class WPSEO_Statistics {
 	 * @return int
 	 */
 	private function get_post_count( $seo_ranking ) {
-
 		if ( WPSEO_Rank::NO_FOCUS === $seo_ranking ) {
 			$posts = array(
 				'meta_query' => array(
@@ -107,6 +106,11 @@ class WPSEO_Statistics {
 
 		$posts['fields']      = 'ids';
 		$posts['post_status'] = 'publish';
+
+		if ( current_user_can( 'edit_others_posts' ) === false ) {
+			$posts['author'] = get_current_user_id();
+		}
+
 		$posts = new WP_Query( $posts );
 
 		return $posts->found_posts;

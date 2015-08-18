@@ -136,9 +136,9 @@ else {
  *
  * @since    1.4.14
  *
- * @param   object $upgrader_object
- * @param   array  $context_array
- * @param   mixed  $themes
+ * @param WP_Upgrader $upgrader_object Upgrader object instance.
+ * @param array       $context_array   Context data array.
+ * @param mixed       $themes          Optional themes set.
  *
  * @return  void
  */
@@ -187,8 +187,8 @@ function wpseo_upgrader_process_complete( $upgrader_object, $context_array, $the
  *
  * @since 1.4.14
  *
- * @param   array $update_actions
- * @param   mixed $updated_theme
+ * @param   array           $update_actions Updated actions set.
+ * @param   WP_Theme|string $updated_theme  Theme object instance or stylesheet name.
  *
  * @return  array  $update_actions    Unchanged array
  */

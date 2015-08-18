@@ -46,11 +46,40 @@ class WPSEO_GSC {
 		add_action( 'admin_init', array( $this, 'register_settings' ) );
 
 		// Setting the screen option.
-		if ( filter_input( INPUT_GET, 'page' ) === 'wpseo_webmaster_tools' ) {
+		if ( filter_input( INPUT_GET, 'page' ) === 'wpseo_search_console' ) {
+
+			if ( filter_input( INPUT_GET, 'tab' ) !== 'settings' && WPSEO_GSC_Settings::get_profile() === '' ) {
+				wp_redirect( add_query_arg( 'tab', 'settings' ) );
+				exit;
+			}
+
 			$this->set_hooks();
 			$this->set_dependencies();
 			$this->request_handler();
 		}
+		elseif ( current_user_can( 'manage_options' ) && WPSEO_GSC_Settings::get_profile() === '' && get_user_option( 'wpseo_dismissed_gsc_notice', get_current_user_id() ) !== '1' ) {
+			add_action( 'admin_init', array( $this, 'register_gsc_notification' ) );
+		}
+	}
+
+	/**
+	 * If the Google Search Console has no credentials, add a notification for the user to give him a heads up. This message is dismissable.
+	 */
+	public function register_gsc_notification() {
+		Yoast_Notification_Center::get()->add_notification(
+			new Yoast_Notification(
+				sprintf(
+					__( 'Don\'t miss your crawl errors: %1$sconnect with Google Search Console here%2$s.', 'wordpress-seo' ),
+					'<a href="' . admin_url( 'admin.php?page=wpseo_search_console&tab=settings' ) . '">',
+					'</a>'
+				),
+				array(
+					'type'      => 'updated yoast-dismissible',
+					'id'        => 'wpseo-dismiss-gsc',
+					'nonce'     => wp_create_nonce( 'dismiss-gsc-notice' ),
+				)
+			)
+		);
 	}
 
 	/**
@@ -102,9 +131,9 @@ class WPSEO_GSC {
 	/**
 	 * Set the screen options
 	 *
-	 * @param string $status
-	 * @param string $option
-	 * @param string $value
+	 * @param string $status Status string.
+	 * @param string $option Option key.
+	 * @param string $value  Value to return.
 	 *
 	 * @return mixed
 	 */
@@ -196,8 +225,8 @@ class WPSEO_GSC {
 	/**
 	 * Adding notification to the yoast notification center
 	 *
-	 * @param string $message
-	 * @param string $type
+	 * @param string $message Message string.
+	 * @param string $type    Message type.
 	 */
 	private function add_notification( $message, $type ) {
 		Yoast_Notification_Center::get()->add_notification(
@@ -217,6 +246,7 @@ class WPSEO_GSC {
 
 		// Loading the issue counter.
 		$issue_count           = new WPSEO_GSC_Count( $this->service );
+		$issue_count->fetch_counts();
 
 		// Loading the category filters.
 		$this->category_filter = new WPSEO_GSC_Category_Filters( $issue_count->get_platform_counts( $this->platform ) );
@@ -242,7 +272,7 @@ class WPSEO_GSC {
 				'id'      => 'basic-help',
 				'title'   => __( 'Issue categories', 'wordpress-seo' ),
 				'content' => '<p><strong>' .__( 'Desktop', 'wordpress-seo' ) . '</strong><br />' . __( 'Errors that occurred when your site was crawled by Googlebot.', 'wordpress-seo' ) . '</p>'
-							. '<p><strong>' .__( 'Smartphone', 'wordpress-seo' ) . '</strong><br />' . __( 'Errors that occurred only when your site was crawled by Googlebot (errors didn\'t appear for desktop).', 'wordpress-seo' ) . '</p>'
+							. '<p><strong>' .__( 'Smartphone', 'wordpress-seo' ) . '</strong><br />' . __( 'Errors that occurred only when your site was crawled by Googlebot-Mobile (errors didn\'t appear for desktop).', 'wordpress-seo' ) . '</p>'
 							. '<p><strong>' .__( 'Feature phone', 'wordpress-seo' ) . '</strong><br />' . __( 'Errors that only occurred when your site was crawled by Googlebot for feature phones (errors didn\'t appear for desktop).', 'wordpress-seo' ) . '</p>',
 			)
 		);

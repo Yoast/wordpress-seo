@@ -37,20 +37,25 @@ class WPSEO_GSC_Platform_Tabs {
 	 * @return string
 	 */
 	private function platform_tabs() {
+		$tabs = array( 'settings' => __( 'Settings', 'wordpress-seo' ) );
+
 		$platforms = array(
 			'web'             => __( 'Desktop', 'wordpress-seo' ),
 			'smartphone_only' => __( 'Smartphone', 'wordpress-seo' ),
 			'mobile'          => __( 'Feature phone', 'wordpress-seo' ),
-			'settings'        => __( 'Settings', 'wordpress-seo' ),
 		);
 
-		$admin_link = admin_url( 'admin.php?page=wpseo_webmaster_tools&tab=' );
+		if ( WPSEO_GSC_Settings::get_profile() !== '' ) {
+			$tabs = array_merge( $platforms, $tabs );
+		}
 
-		$this->set_current_tab( $platforms );
+		$admin_link = admin_url( 'admin.php?page=wpseo_search_console&tab=' );
+
+		$this->set_current_tab( $tabs );
 
 		$return = '';
 
-		foreach ( $platforms as $platform_target => $platform_value ) {
+		foreach ( $tabs as $platform_target => $platform_value ) {
 			$return .= $this->platform_tab( $platform_target, $platform_value, $admin_link );
 		}
 
@@ -60,7 +65,7 @@ class WPSEO_GSC_Platform_Tabs {
 	/**
 	 * Setting the current tab
 	 *
-	 * @param array $platforms
+	 * @param array $platforms Set of platforms (desktop, mobile, feature phone).
 	 */
 	private function set_current_tab( array $platforms ) {
 		$this->current_tab = key( $platforms );
@@ -72,9 +77,9 @@ class WPSEO_GSC_Platform_Tabs {
 	/**
 	 * Parses the tab
 	 *
-	 * @param string $platform_target
-	 * @param string $platform_value
-	 * @param string $admin_link
+	 * @param string $platform_target Platform (desktop, mobile, feature phone).
+	 * @param string $platform_value  Link anchor.
+	 * @param string $admin_link      Link URL admin base.
 	 *
 	 * @return string
 	 */

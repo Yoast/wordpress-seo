@@ -127,9 +127,9 @@ class WPSEO_Twitter {
 	/**
 	 * Output the metatag
 	 *
-	 * @param string $name
-	 * @param string $value
-	 * @param bool   $escaped
+	 * @param string $name    Tag name string.
+	 * @param string $value   Tag value string.
+	 * @param bool   $escaped Force escape flag.
 	 */
 	private function output_metatag( $name, $value, $escaped = false ) {
 
@@ -179,7 +179,7 @@ class WPSEO_Twitter {
 	/**
 	 * Returns the description for a singular page
 	 *
-	 * @param int $post_id
+	 * @param int $post_id Post ID.
 	 *
 	 * @return string
 	 */
@@ -237,7 +237,7 @@ class WPSEO_Twitter {
 	/**
 	 * Returns the Twitter title for a single post
 	 *
-	 * @param int $post_id
+	 * @param int $post_id Post ID.
 	 *
 	 * @return string
 	 */

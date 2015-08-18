@@ -19,9 +19,9 @@ class WPSEO_GSC_Service {
 	private $profile;
 
 	/**
-	 * Constructor
+	 * Search Console service constructor.
 	 *
-	 * @param string $profile
+	 * @param string $profile Profile name.
 	 */
 	public function __construct( $profile = '' ) {
 		$this->profile = $profile;
@@ -94,9 +94,9 @@ class WPSEO_GSC_Service {
 	/**
 	 * Sending request to mark issue as fixed
 	 *
-	 * @param string $url
-	 * @param string $platform
-	 * @param string $category
+	 * @param string $url      Issue URL.
+	 * @param string $platform Platform (desktop, mobile, feature phone).
+	 * @param string $category Issue type.
 	 *
 	 * @return bool
 	 */
@@ -108,8 +108,8 @@ class WPSEO_GSC_Service {
 	/**
 	 * Fetching the issues from the GSC API
 	 *
-	 * @param string $platform
-	 * @param string $category
+	 * @param string $platform Platform (desktop, mobile, feature phone).
+	 * @param string $category Issue type.
 	 *
 	 * @return mixed
 	 */
@@ -133,21 +133,47 @@ class WPSEO_GSC_Service {
 		}
 		catch ( Exception $exception ) {
 			if ( $exception->getMessage() === 'required_version' ) {
-				Yoast_Notification_Center::get()->add_notification(
-					new Yoast_Notification(
-						__( 'Yoast plugins share some code between them to make your site faster. As a result of that, we need all Yoast plugins to be up to date. We\'ve detected this isn\'t the case, so please update the Yoast plugins that aren\'t up to date yet.', 'wordpress-seo' ), array( 'type' => 'error' )
-					)
+				$this->incompatible_api_libs(
+					__( 'Yoast plugins share some code between them to make your site faster. As a result of that, we need all Yoast plugins to be up to date. We\'ve detected this isn\'t the case, so please update the Yoast plugins that aren\'t up to date yet.', 'wordpress-seo' )
 				);
 			}
+		}
+
+		if ( class_exists( 'Yoast_Api_Google_Client' ) === false ) {
+			$this->incompatible_api_libs(
+				/* translators: %1$s expands to Yoast SEO, %2$s expands to Google Analytics by Yoast */
+				sprintf(
+					__(
+						'%1$s detected you’re using a version of %2$s which is not compatible with %1$s. Please update %2$s to the latest version to use this feature.',
+						'wordpress-seo'
+					),
+					'Yoast SEO',
+					'Google Analytics by Yoast'
+				)
+			);
+
+			wp_redirect( admin_url( 'admin.php?page=wpseo_dashboard' ) );
+			exit;
 		}
 
 		$this->client = new Yoast_Api_Google_Client( WPSEO_GSC_Config::$gsc, 'wpseo-gsc', 'https://www.googleapis.com/webmasters/v3/' );
 	}
 
 	/**
+	 * Adding notice that the api libs has the wrong version
+	 *
+	 * @param string $notice Message string.
+	 */
+	private function incompatible_api_libs( $notice ) {
+		Yoast_Notification_Center::get()->add_notification(
+			new Yoast_Notification( $notice, array( 'type' => 'error' ) )
+		);
+	}
+
+	/**
 	 * Getting the crawl error counts
 	 *
-	 * @param string $profile
+	 * @param string $profile Profile name string.
 	 *
 	 * @return object|bool
 	 */

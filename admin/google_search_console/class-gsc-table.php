@@ -32,7 +32,7 @@ class WPSEO_GSC_Table extends WP_List_Table {
 	/**
 	 * @var integer
 	 */
-	private $per_page     = 50;
+	private $per_page = 50;
 
 	/**
 	 * @var integer
@@ -49,11 +49,11 @@ class WPSEO_GSC_Table extends WP_List_Table {
 	);
 
 	/**
-	 * The constructor
+	 * Search Console table class constructor (subclasses list table).
 	 *
-	 * @param string $platform
-	 * @param string $category
-	 * @param array  $items
+	 * @param string $platform Platform (desktop, mobile, feature phone).
+	 * @param string $category Type of the issues.
+	 * @param array  $items    Set of the issues to display.
 	 */
 	public function __construct( $platform, $category, array $items ) {
 		parent::__construct();
@@ -86,7 +86,7 @@ class WPSEO_GSC_Table extends WP_List_Table {
 	/**
 	 * Setup the table variables, fetch the items from the database, search, sort and format the items.
 	 */
-	public function prepare_items( ) {
+	public function prepare_items() {
 		// Get variables needed for pagination.
 		$this->per_page     = $this->get_items_per_page( 'errors_per_page', $this->per_page );
 		$this->current_page = intval( ( $paged = filter_input( INPUT_GET, 'paged' ) ) ? $paged : 1 );
@@ -143,8 +143,8 @@ class WPSEO_GSC_Table extends WP_List_Table {
 	/**
 	 * Default method to display a column
 	 *
-	 * @param array  $item
-	 * @param string $column_name
+	 * @param array  $item        Data array.
+	 * @param string $column_name Column name key.
 	 *
 	 * @return mixed
 	 */
@@ -155,7 +155,7 @@ class WPSEO_GSC_Table extends WP_List_Table {
 	/**
 	 * Checkbox column
 	 *
-	 * @param array $item
+	 * @param array $item Item data array.
 	 *
 	 * @return string
 	 */
@@ -168,7 +168,7 @@ class WPSEO_GSC_Table extends WP_List_Table {
 	/**
 	 * Formatting the output of the column last crawled into a dateformat
 	 *
-	 * @param array $item
+	 * @param array $item Item data array.
 	 *
 	 * @return string
 	 */
@@ -179,7 +179,7 @@ class WPSEO_GSC_Table extends WP_List_Table {
 	/**
 	 * Formatting the output of the column first detected into a dateformat
 	 *
-	 * @param array $item
+	 * @param array $item Item data array.
 	 *
 	 * @return string
 	 */
@@ -190,20 +190,20 @@ class WPSEO_GSC_Table extends WP_List_Table {
 	/**
 	 * URL column
 	 *
-	 * @param array $item
+	 * @param array $item Item data array.
 	 *
 	 * @return string
 	 */
 	protected function column_url( $item ) {
 		$actions = array();
 
-		if (  $this->can_create_redirect( ) ) {
+		if ( $this->can_create_redirect() ) {
 			/**
 			 * Modal box
 			 */
 			$modal_height = $this->modal_box( $item['url'] );
 
-			$actions['create_redirect'] = '<a href="#TB_inline?width=600&height=' . $this->modal_heights[ $modal_height ] . '&inlineId=redirect-' . md5( $item['url'] )  . '" class="thickbox">' . __( 'Create redirect', 'wordpress-seo' ) . '</a>';
+			$actions['create_redirect'] = '<a title="' . __( 'Create a redirect', 'wordpress-seo' ) . '" href="#TB_inline?width=600&height=' . $this->modal_heights[ $modal_height ] . '&inlineId=redirect-' . md5( $item['url'] ) . '" class="thickbox">' . __( 'Create redirect', 'wordpress-seo' ) . '</a>';
 		}
 
 		$actions['view']        = '<a href="' . $item['url'] . '" target="_blank">' . __( 'View', 'wordpress-seo' ) . '</a>';
@@ -227,15 +227,15 @@ class WPSEO_GSC_Table extends WP_List_Table {
 	 * Check if the current category allow creating redirects
 	 * @return bool
 	 */
-	private function can_create_redirect(  ) {
+	private function can_create_redirect() {
 		return in_array( $this->current_view, array( 'soft_404', 'not_found', 'access_denied' ) );
 	}
 
 	/**
 	 * Setting the table navigation
 	 *
-	 * @param int $total_items
-	 * @param int $posts_per_page
+	 * @param int $total_items    Total number of items.
+	 * @param int $posts_per_page Number of items per page.
 	 */
 	private function set_pagination( $total_items, $posts_per_page ) {
 		$this->set_pagination_args( array(
@@ -248,7 +248,7 @@ class WPSEO_GSC_Table extends WP_List_Table {
 	/**
 	 * Setting the items
 	 */
-	private function parse_items( ) {
+	private function parse_items() {
 		if ( is_array( $this->items ) && count( $this->items ) > 0 ) {
 			if ( ! empty( $this->search_string ) ) {
 				$this->do_search();
@@ -264,7 +264,7 @@ class WPSEO_GSC_Table extends WP_List_Table {
 	/**
 	 * Search through the items
 	 */
-	private function do_search( ) {
+	private function do_search() {
 		$results = array();
 
 		foreach ( $this->items as $item ) {
@@ -300,15 +300,16 @@ class WPSEO_GSC_Table extends WP_List_Table {
 		// Sort the results.
 		usort( $this->items, array( $this, 'do_reorder' ) );
 	}
+
 	/**
 	 * Doing the sorting of the issues
 	 *
-	 * @param array $a
-	 * @param array $b
+	 * @param array $a First data set for comparison.
+	 * @param array $b Second data set for comparison.
 	 *
 	 * @return int
 	 */
-	private function do_reorder($a, $b) {
+	private function do_reorder( $a, $b ) {
 		// If no sort, default to title.
 		$orderby = ( $orderby = filter_input( INPUT_GET, 'orderby' ) ) ? $orderby : 'url';
 
@@ -324,13 +325,13 @@ class WPSEO_GSC_Table extends WP_List_Table {
 		$result = strcmp( $a[ $orderby ], $b[ $orderby ] );
 
 		// Send final sort direction to usort.
-		return ( $order === 'asc' ) ? $result : ( -$result );
+		return ( $order === 'asc' ) ? $result : ( - $result );
 	}
 
 	/**
 	 * Modal box
 	 *
-	 * @param string $url
+	 * @param string $url URL string.
 	 *
 	 * @return string
 	 */
@@ -346,12 +347,12 @@ class WPSEO_GSC_Table extends WP_List_Table {
 	/**
 	 * Determine which model box type should be rendered
 	 *
-	 * @param string $url
-	 * @param string $current_redirect
+	 * @param string $url              URL string.
+	 * @param string $current_redirect Current redirect by reference.
 	 *
 	 * @return string
 	 */
-	private function modal_box_type( $url, &$current_redirect) {
+	private function modal_box_type( $url, &$current_redirect ) {
 		if ( defined( 'WPSEO_PREMIUM_FILE' ) && class_exists( 'WPSEO_URL_Redirect_Manager' ) ) {
 			static $redirect_manager;
 
@@ -373,7 +374,7 @@ class WPSEO_GSC_Table extends WP_List_Table {
 	/**
 	 * Showing the hidden fields used by the AJAX requests
 	 *
-	 * @param string $platform
+	 * @param string $platform Platform (desktop, mobile, feature phone).
 	 */
 	private function show_fields( $platform ) {
 		echo "<input type='hidden' name='wpseo_gsc_nonce' value='" . wp_create_nonce( 'wpseo_gsc_nonce' ) . "' />";

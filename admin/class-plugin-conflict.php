@@ -98,7 +98,7 @@ class WPSEO_Plugin_Conflict extends Yoast_Plugin_Conflict {
 	/**
 	 * Overrides instance to set with this class as class
 	 *
-	 * @param string $class_name
+	 * @param string $class_name Optional class name.
 	 *
 	 * @return Yoast_Plugin_Conflict
 	 */
@@ -111,7 +111,7 @@ class WPSEO_Plugin_Conflict extends Yoast_Plugin_Conflict {
 	 *
 	 * If the activated plugin is conflicting with ours a notice will be shown.
 	 *
-	 * @param string|bool $plugin
+	 * @param string|bool $plugin Optional plugin basename to check.
 	 */
 	public static function hook_check_for_plugin_conflicts( $plugin = false ) {
 		// The instance of itself.
@@ -129,7 +129,7 @@ class WPSEO_Plugin_Conflict extends Yoast_Plugin_Conflict {
 				. '<br/><br/>'
 				. '<a target="_blank" class="button" href="' . admin_url( 'admin.php?page=wpseo_social#top#facebook' ) . '">'
 				/* translators: %1$s expands to Yoast SEO */
-				. sprintf( __( 'Configure %1%s\'s OpenGraph settings', 'wordpress-seo' ), 'Yoast SEO' )
+				. sprintf( __( 'Configure %1$s\'s OpenGraph settings', 'wordpress-seo' ), 'Yoast SEO' )
 				. '</a>',
 			/* translators: %1$s expands to Yoast SEO, %2$s: 'Google XML Sitemaps' plugin name of possibly conflicting plugin with regard to the creation of sitemaps*/
 			'xml_sitemaps' => __( 'Both %1$s and %2$s can create XML sitemaps. Having two XML sitemaps is not beneficial for search engines, yet might slow down your site.', 'wordpress-seo' )

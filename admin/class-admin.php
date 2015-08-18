@@ -71,7 +71,7 @@ class WPSEO_Admin {
 
 		add_filter( 'set-screen-option', array( $this, 'save_bulk_edit_options' ), 10, 3 );
 
-		add_action( 'activated_plugin', array( 'WPSEO_Plugin_Conflict', 'hook_check_for_plugin_conflicts' ), 10, 1 );
+		add_action( 'admin_init', array( 'WPSEO_Plugin_Conflict', 'hook_check_for_plugin_conflicts' ), 10, 1 );
 
 		WPSEO_Utils::register_cache_clear_option( 'wpseo',  '' );
 	}
@@ -159,9 +159,9 @@ class WPSEO_Admin {
 			array(
 				'wpseo_dashboard',
 				'',
-				__( 'Webmaster Tools', 'wordpress-seo' ),
+				__( 'Search Console', 'wordpress-seo' ),
 				$manage_options_cap,
-				'wpseo_webmaster_tools',
+				'wpseo_search_console',
 				array( $this->page_gsc, 'display' ),
 				array( array( $this->page_gsc, 'set_help' ) ),
 			),
@@ -337,9 +337,9 @@ class WPSEO_Admin {
 	/**
 	 * Saves the posts per page limit for bulk edit pages.
 	 *
-	 * @param int    $status
-	 * @param string $option
-	 * @param int    $value
+	 * @param int    $status Status value to pass through.
+	 * @param string $option Option name.
+	 * @param int    $value  Count value to check.
 	 *
 	 * @return int
 	 */
@@ -436,7 +436,7 @@ class WPSEO_Admin {
 		}
 
 		// Add link to premium support landing page.
-		$premium_link = '<a href="https://yoast.com/wordpress/plugins/seo-premium/support/#utm_source=wordpress-seo-settings-link&utm_medium=text-link&utm_campaign=support-link">' . __( 'Premium Support', 'wordpress-seo' ) . '</a>';
+		$premium_link = '<a href="https://yoast.com/wordpress/plugins/seo-premium/support/#utm_source=wordpress-seo-settings-link&amp;utm_medium=textlink&amp;utm_campaign=support-link">' . __( 'Premium Support', 'wordpress-seo' ) . '</a>';
 		array_unshift( $links, $premium_link );
 
 		// Add link to docs.

@@ -38,6 +38,7 @@ class Yoast_Notification_Center {
 		add_action( 'all_admin_notices', array( $this, 'display_notifications' ) );
 		add_action( 'shutdown', array( $this, 'set_transient' ) );
 		add_action( 'wp_ajax_yoast_get_notifications', array( $this, 'ajax_get_notifications' ) );
+		add_action( 'wpseo_deactivate', array( $this, 'deactivate_hook' ) );
 	}
 
 	/**
@@ -98,6 +99,13 @@ class Yoast_Notification_Center {
 	}
 
 	/**
+	 * Remove transient when the plugin is deactivated
+	 */
+	public function deactivate_hook() {
+		$this->clear_notifications();
+	}
+
+	/**
 	 * Write the notifications to a cookie (hooked on shutdown)
 	 */
 	public function set_transient() {
@@ -121,7 +129,7 @@ class Yoast_Notification_Center {
 	/**
 	 * Add notification to the cookie
 	 *
-	 * @param Yoast_Notification $notification
+	 * @param Yoast_Notification $notification Notification object instance.
 	 */
 	public function add_notification( Yoast_Notification $notification ) {
 		$this->notifications[] = $notification;

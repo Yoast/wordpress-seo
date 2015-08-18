@@ -23,17 +23,6 @@ if ( ! function_exists( 'yoast_breadcrumb' ) ) {
 	/**
 	 * Template tag for breadcrumbs.
 	 *
-	 * @todo [JRF => Yoast/whomever] We could probably get rid of the 'breadcrumbs-enable' option key
-	 * as the file is now only loaded when the template tag is encountered anyway.
-	 * Only issue with that would be the removal of the bbPress crumb from within wpseo_frontend_init()
-	 * in wpseo.php which is also based on this setting.
-	 * Whether or not to show the bctitle field within meta boxes is also based on this setting, but
-	 * showing these when someone hasn't implemented the template tag shouldn't really give cause for concern.
-	 * Other than that, leaving the setting is an easy way to enable/disable the bc without having to
-	 * edit the template files again, but having to manually enable when you've added the template tag
-	 * in your theme is kind of double, so I'm undecided about what to do.
-	 * I guess I'm leaning towards removing the option key.
-	 *
 	 * @param string $before  What to show before the breadcrumb.
 	 * @param string $after   What to show after the breadcrumb.
 	 * @param bool   $display Whether to display the breadcrumb (true) or return it (false).
@@ -41,9 +30,13 @@ if ( ! function_exists( 'yoast_breadcrumb' ) ) {
 	 * @return string
 	 */
 	function yoast_breadcrumb( $before = '', $after = '', $display = true ) {
-		$options = get_option( 'wpseo_internallinks' );
+		$breadcrumbs_enabled = current_theme_supports( 'yoast-seo-breadcrumbs' );
+		if ( ! $breadcrumbs_enabled ) {
+			$options             = get_option( 'wpseo_internallinks' );
+			$breadcrumbs_enabled = ( $options['breadcrumbs-enable'] === true );
+		}
 
-		if ( $options['breadcrumbs-enable'] === true ) {
+		if ( $breadcrumbs_enabled ) {
 			return WPSEO_Breadcrumbs::breadcrumb( $before, $after, $display );
 		}
 	}
@@ -220,7 +213,7 @@ add_action( 'init', 'wpseo_xml_sitemaps_init', 1 );
 /**
  * Notify search engines of the updated sitemap.
  *
- * @param string|null $sitemapurl
+ * @param string|null $sitemapurl Optional URL to make the ping for.
  */
 function wpseo_ping_search_engines( $sitemapurl = null ) {
 	// Don't ping if blog is not public.
@@ -246,7 +239,7 @@ add_action( 'wpseo_ping_search_engines', 'wpseo_ping_search_engines' );
  *
  * @global      $sitepress
  *
- * @param array $config
+ * @param array $config WPML configuration data to filter.
  *
  * @return array
  */
@@ -304,7 +297,7 @@ add_shortcode( 'wpseo_breadcrumb', 'wpseo_shortcode_yoast_breadcrumb' );
 /**
  * This invalidates our XML Sitemaps cache.
  *
- * @param string $type
+ * @param string $type Type of sitemap to invalidate.
  */
 function wpseo_invalidate_sitemap_cache( $type ) {
 	// Always delete the main index sitemaps cache, as that's always invalidated by any other change.
@@ -319,8 +312,8 @@ add_action( 'deleted_term_relationships', 'wpseo_invalidate_sitemap_cache' );
 /**
  * Invalidate XML sitemap cache for taxonomy / term actions
  *
- * @param unsigned $unused
- * @param string   $type
+ * @param int    $unused Unused term ID value.
+ * @param string $type   Taxonomy to invalidate.
  */
 function wpseo_invalidate_sitemap_cache_terms( $unused, $type ) {
 	wpseo_invalidate_sitemap_cache( $type );
@@ -333,7 +326,7 @@ add_action( 'clean_object_term_cache', 'wpseo_invalidate_sitemap_cache_terms', 1
 /**
  * Invalidate the XML sitemap cache for a post type when publishing or updating a post
  *
- * @param int $post_id
+ * @param int $post_id Post ID to determine post type for invalidation.
  */
 function wpseo_invalidate_sitemap_cache_on_save_post( $post_id ) {
 
@@ -358,7 +351,7 @@ add_action( 'save_post', 'wpseo_invalidate_sitemap_cache_on_save_post' );
 if ( ! extension_loaded( 'ctype' ) || ! function_exists( 'ctype_digit' ) ) {
 
 	/**
-	 * @param string $string
+	 * @param string $string String input to validate.
 	 *
 	 * @return bool
 	 */
@@ -630,7 +623,7 @@ function wpseo_get_roles() {
  * @deprecated use WPSEO_Utils::is_url_relative()
  * @see        WPSEO_Utils::is_url_relative()
  *
- * @param string $url
+ * @param string $url URL input to check.
  *
  * @return bool
  */
@@ -649,7 +642,7 @@ function wpseo_is_url_relative( $url ) {
  *
  * @since      1.6.0
  *
- * @param string $string
+ * @param string $string String input to standardize.
  *
  * @return string
  */

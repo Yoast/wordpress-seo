@@ -106,9 +106,7 @@ class WPSEO_Utils {
 	/**
 	 * Check whether a url is relative
 	 *
-	 * @static
-	 *
-	 * @param string $url
+	 * @param string $url URL string to check.
 	 *
 	 * @return bool
 	 */
@@ -140,9 +138,7 @@ class WPSEO_Utils {
 	 *
 	 * Replace line breaks, carriage returns, tabs with a space, then remove double spaces.
 	 *
-	 * @static
-	 *
-	 * @param string $string
+	 * @param string $string String input to standardize.
 	 *
 	 * @return string
 	 */
@@ -247,9 +243,7 @@ class WPSEO_Utils {
 	 * remove line breaks, tabs and extra white space,
 	 * strip octets - BUT DO NOT REMOVE (part of) VARIABLES WHICH WILL BE REPLACED.
 	 *
-	 * @static
-	 *
-	 * @param string $value
+	 * @param string $value String value to sanitize.
 	 *
 	 * @return string
 	 */
@@ -295,10 +289,8 @@ class WPSEO_Utils {
 	 *
 	 * @todo [JRF => whomever] check/improve url verification
 	 *
-	 * @static
-	 *
-	 * @param string $value
-	 * @param array  $allowed_protocols
+	 * @param string $value             String URL value to sanitize.
+	 * @param array  $allowed_protocols Optional set of allowed protocols.
 	 *
 	 * @return string
 	 */
@@ -311,7 +303,7 @@ class WPSEO_Utils {
 	 *
 	 * @static
 	 *
-	 * @param mixed $value
+	 * @param mixed $value Value to validate.
 	 *
 	 * @return bool
 	 */
@@ -398,7 +390,7 @@ class WPSEO_Utils {
 	 *
 	 * @static
 	 *
-	 * @param mixed $value
+	 * @param mixed $value Value to validate.
 	 *
 	 * @return int|bool int or false in case of failure to convert to int
 	 */
@@ -495,8 +487,8 @@ class WPSEO_Utils {
 	/**
 	 * Adds a hook that when given option is updated, the XML sitemap transient cache is cleared
 	 *
-	 * @param string $option
-	 * @param string $type
+	 * @param string $option Option name.
+	 * @param string $type   Sitemap type.
 	 */
 	public static function register_cache_clear_option( $option, $type = '' ) {
 		self::$cache_clear[ $option ] = $type;
@@ -522,7 +514,7 @@ class WPSEO_Utils {
 	/**
 	 * Clear entire XML sitemap cache
 	 *
-	 * @param array $types
+	 * @param array $types Set of sitemap types to invalidate cache for.
 	 */
 	public static function clear_sitemap_cache( $types = array() ) {
 		global $wpdb;
@@ -552,13 +544,13 @@ class WPSEO_Utils {
 					$query .= ' OR ';
 				}
 
-				$query .= " option_name LIKE '_transient_timeout_wpseo_sitemap_cache_" . $sitemap_type . "_%'";
+				$query .= " option_name LIKE '_transient_wpseo_sitemap_cache_" . $sitemap_type . "_%' OR option_name LIKE '_transient_timeout_wpseo_sitemap_cache_" . $sitemap_type . "_%'";
 
 				$first = false;
 			}
 		}
 		else {
-			$query .= " option_name LIKE '_transient_timeout_wpseo_sitemap_%'";
+			$query .= " option_name LIKE '_transient_wpseo_sitemap_%' OR option_name LIKE '_transient_timeout_wpseo_sitemap_%'";
 		}
 
 		$wpdb->query( $query );
@@ -701,9 +693,11 @@ class WPSEO_Utils {
 	 *
 	 * This is used because stupidly enough, the `filter_input` function is not available on all hosts...
 	 *
-	 * @param int    $type
-	 * @param string $variable_name
-	 * @param int    $filter
+	 * @deprecated Passes through to PHP call, no longer used in code.
+	 *
+	 * @param int    $type          Input type constant.
+	 * @param string $variable_name Variable name to get.
+	 * @param int    $filter        Filter to apply.
 	 *
 	 * @return mixed
 	 */
@@ -714,7 +708,7 @@ class WPSEO_Utils {
 	/**
 	 * Trim whitespace and NBSP (Non-breaking space) from string
 	 *
-	 * @param string $string
+	 * @param string $string String input to trim.
 	 *
 	 * @return string
 	 */
@@ -729,7 +723,7 @@ class WPSEO_Utils {
 	/**
 	 * Check if a string is a valid datetime
 	 *
-	 * @param string $datetime
+	 * @param string $datetime String input to check as valid input for DateTime class.
 	 *
 	 * @return bool
 	 */
@@ -754,7 +748,7 @@ class WPSEO_Utils {
 	 *
 	 * This method will parse the URL and combine them in one string.
 	 *
-	 * @param string $url
+	 * @param string $url URL string.
 	 *
 	 * @return mixed
 	 */
@@ -777,6 +771,24 @@ class WPSEO_Utils {
 		}
 
 		return apply_filters( 'wpseo_format_admin_url', $formatted_url );
+	}
+
+
+	/**
+	 * Get plugin name from file
+	 *
+	 * @param string $plugin Plugin path relative to plugins directory.
+	 *
+	 * @return string|bool
+	 */
+	public static function get_plugin_name( $plugin ) {
+		$plugin_details = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin );
+
+		if ( $plugin_details['Name'] != '' ) {
+			return $plugin_details['Name'];
+		}
+
+		return false;
 	}
 
 } /* End of class WPSEO_Utils */
