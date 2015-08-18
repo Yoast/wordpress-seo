@@ -15,7 +15,7 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
                     min: 300,
                     score: 9,
 
-                    /* translators: %1$d expands to the amount of words in the text, %2$s to the recommended minimum of words */
+                    /* translators: %1$d expands to the number of words in the text, %2$s to the recommended minimum of words */
                     text: i18n.dgettext('js-text-analysis', "The text contains %1$d words, this is more than the %2$d word recommended minimum.")
                 },
                 {
@@ -23,7 +23,7 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
                     max: 299,
                     score: 7,
 
-                    /* translators: %1$d expands to the amount of words in the text, %2$s to the recommended minimum of words */
+                    /* translators: %1$d expands to the number of words in the text, %2$s to the recommended minimum of words */
                     text: i18n.dgettext('js-text-analysis', "The text contains %1$d words, this is slightly below the %2$d word recommended minimum, add a bit more copy.")
                 },
                 {
@@ -31,7 +31,7 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
                     max: 249,
                     score: 5,
 
-                    /* translators: %1$d expands to the amount of words in the text, %2$d to the recommended minimum of words */
+                    /* translators: %1$d expands to the number of words in the text, %2$d to the recommended minimum of words */
                     text: i18n.dgettext('js-text-analysis', "The text contains %1$d words, this is below the %2$d word recommended minimum. Add more useful content on this topic for readers.")
                 },
                 {
@@ -39,7 +39,7 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
                     max: 199,
                     score: -10,
 
-                    /* translators: %1$d expands to the amount of words in the text, %2$d to the recommended minimum of words */
+                    /* translators: %1$d expands to the number of words in the text, %2$d to the recommended minimum of words */
                     text: i18n.dgettext('js-text-analysis', "The text contains %1$d words, this is below the %2$d word recommended minimum. Add more useful content on this topic for readers.")
                 },
                 {
@@ -47,7 +47,7 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
                     max: 99,
                     score: -20,
 
-                    /* translators: %1$d expands to the amount of words in the text */
+                    /* translators: %1$d expands to the number of words in the text */
                     text: i18n.dgettext('js-text-analysis', "The text contains %1$d words. This is far too low and should be increased.")
                 }
             ],
@@ -64,7 +64,7 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
                     min: 3.5,
                     score: -50,
 
-                    /* translators: %1$f expands to the keyword density percentage, %2$d is the amount of times the keyword is present */
+                    /* translators: %1$f expands to the keyword density percentage, %2$d expands to the number of times the keyword is found */
                     text: i18n.dgettext('js-text-analysis', "The keyword density is %1$f%, which is way over the advised 2.5% maximum, the focus keyword was found %2$d times.")
                 },
                 {
@@ -72,7 +72,7 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
                     max: 3.49,
                     score: -10,
 
-                    /* translators: %1$f expands to the keyword density percentage, %2$d is the amount of times the keyword is present */
+                    /* translators: %1$f expands to the keyword density percentage, %2$d expands to the number of times the keyword is found */
                     text: i18n.dgettext('js-text-analysis', "The keyword density is %1$f%, which is over the advised 2.5% maximum, the focus keyword was found %2$d times.")
                 },
                 {
@@ -80,7 +80,7 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
                     max: 2.49,
                     score: 9,
 
-                    /* translators: %1$f expands to the keyword density percentage, %2$d is the amount of times the keyword is present */
+                    /* translators: %1$f expands to the keyword density percentage, %2$d expands to the number of times the keyword is found */
                     text: i18n.dgettext('js-text-analysis', "The keyword density is %1$f%, which is great, the focus keyword was found %2$d times.")
                 },
                 {
@@ -88,7 +88,7 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
                     max: 0.49,
                     score: 4,
 
-                    /* translators: %1$f expands to the keyword density percentage, %2$d is the amount of times the keyword is present */
+                    /* translators: %1$f expands to the keyword density percentage, %2$d expands to the number of times the keyword is found */
                     text: i18n.dgettext('js-text-analysis', "The keyword density is %1$f%, which is a bit low, the focus keyword was found %2$d times.")
                 }
             ],
@@ -114,17 +114,17 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
                     text: i18n.dgettext('js-text-analysis', "You\'re linking to another page with the focus keyword you want this page to rank for, consider changing that if you truly want this page to rank.")
                 },
 
-                /* translators: %2$s expand the amount of outbound links */
+                /* translators: %2$s expands the number of outbound links */
                 {type: "externalAllNofollow", score: 7, text: i18n.dgettext('js-text-analysis', "This page has %2$s outbound link(s), all nofollowed.")},
                 {
                     type: "externalHasNofollow",
                     score: 8,
 
-                    /* translators: %2$s expands to the amount of nofollow links, %3$s to the amount of outbound links */
+                    /* translators: %2$s expands to the number of nofollow links, %3$s to the number of outbound links */
                     text: i18n.dgettext('js-text-analysis', "This page has %2$s nofollowed link(s) and %3$s normal outbound link(s).")
                 },
 
-                /* translators: %1$s expands to the amount of outbound links */
+                /* translators: %1$s expands to the number of outbound links */
                 {type: "externalAllDofollow", score: 9, text: i18n.dgettext('js-text-analysis', "This page has %1$s outbound link(s).")}
             ],
             replaceArray: [
@@ -170,7 +170,7 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
                     name: "scoreText",
                     position: "<%text%>",
 
-                    /* translators: %1$s expands the numeric flesh reading ease score, %2$s to a link to the wikipedia article about Flesh ease reading score, %3$s to the easyness of reading, %4$s expands to a note about the flesh reading score. */
+                    /* translators: %1$s expands to the numeric flesh reading ease score, %2$s to a link to the wikipedia article about Flesh ease reading score, %3$s to the easyness of reading, %4$s expands to a note about the flesh reading score. */
                     value: i18n.dgettext('js-text-analysis', "The copy scores %1$s in the %2$s test, which is considered %3$s to read. %4$s")
                 },
                 {name: "text", position: "%1$s", sourceObj: ".result"},
@@ -197,7 +197,7 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
                     max: 120,
                     score: 6,
 
-                    /* translators: %1$d expands to the minimum length for the meta description, %2$d is the maximum length for the meta description */
+                    /* translators: %1$d expands to the minimum length for the meta description, %2$d to the maximum length for the meta description */
                     text: i18n.dgettext('js-text-analysis', "The meta description is under %1$d characters, however up to %2$d characters are available.")
                 },
                 {
@@ -275,7 +275,7 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
                     min: 1,
                     score: 9,
 
-                    /* translators: %1$d expands to the amount of subheadings, %2$d to the amount of subheadings with the focus keyword */
+                    /* translators: %1$d expands to the number of subheadings, %2$d to the number of subheadings containing the focus keyword */
                     text: i18n.dgettext('js-text-analysis', "The focus keyword appears in %2$d (out of %1$d) subheadings in the copy. While not a major ranking factor, this is beneficial.")
                 }
             ],
@@ -291,14 +291,14 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
                     max: 40,
                     score: 6,
 
-                    /* translators: %3$d expands to the amount of characters in the page title, %1$d to the minimum for the title */
+                    /* translators: %3$d expands to the number of characters in the page title, %1$d to the minimum number of characters for the title */
                     text: i18n.dgettext('js-text-analysis', "The page title contains %3$d characters, which is less than the recommended minimum of %1$d characters. Use the space to add keyword variations or create compelling call-to-action copy.")
                 },
                 {
                     min: 70,
                     score: 6,
 
-                    /* translators: %3$d expands to the amount of characters in the page title, %2$d to the maximum for the title */
+                    /* translators: %3$d expands to the number of characters in the page title, %2$d to the maximum number of characters for the title */
                     text: i18n.dgettext('js-text-analysis', "The page title contains %3$d characters, which is more than the viewable limit of %2$d characters; some words will not be visible to users in your listing.")
                 },
                 {
@@ -306,7 +306,7 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
                     max: 70,
                     score: 9,
 
-                    /* translators: %1$d expands to the minimum amount of characters in the page title, %2$d to the minimum amount */
+                    /* translators: %1$d expands to the minimum number of characters in the page title, %2$d to the minimum number of characters */
                     text: i18n.dgettext('js-text-analysis', "The page title is more than %1$d characters and less than the recommended %2$d character limit.")
                 }
             ],
@@ -407,7 +407,7 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
                     min: 1,
                     score: 1,
 
-                    /* translators: %3$s and $2$s expand to the admin search page for the focus keyword, %4$d expands to the amount of times this focus keyword has been used before, %5$s and %6$s expand to a link to an article on yoast.com about cornerstone content */
+                    /* translators: %3$s and $2$s expand to the admin search page for the focus keyword, %4$d expands to the number of times this focus keyword has been used before, %5$s and %6$s expand to a link to an article on yoast.com about cornerstone content */
                     text: i18n.dgettext('js-text-analysis', "You've used this focus keyword %3$s%4$d times before%2$s, it's probably a good idea to read %6$sthis post on cornerstone content%5$s and improve your keyword strategy.")
                 }
             ],
