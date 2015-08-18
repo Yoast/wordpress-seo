@@ -302,7 +302,16 @@ class WPSEO_Sitemaps {
 			$where_filter = apply_filters( 'wpseo_typecount_where', '', $post_type );
 
 			// Using the same query with build_post_type_map($post_type) function to count number of posts.
-			$sql   = "SELECT COUNT(ID) FROM $wpdb->posts {$join_filter} WHERE post_status IN ('publish','inherit') AND post_password = '' AND post_date != '0000-00-00 00:00:00' AND post_type = %s " . $where_filter;
+			$sql = "
+				SELECT COUNT(ID)
+				FROM $wpdb->posts
+				{$join_filter}
+				WHERE post_status IN ('publish','inherit')
+					AND post_password = ''
+					AND post_date != '0000-00-00 00:00:00'
+					AND post_type = %s
+					{$where_filter}
+			";
 			$count = $wpdb->get_var( $wpdb->prepare( $sql, $post_type ) );
 
 			if ( $count === 0  ) {
@@ -318,7 +327,17 @@ class WPSEO_Sitemaps {
 					$date = $this->get_last_modified( $post_type );
 				}
 				else {
-					$sql       = "SELECT post_modified_gmt FROM (SELECT @rownum:=@rownum+1 rownum, $wpdb->posts.post_modified_gmt FROM (SELECT @rownum:=0) r, $wpdb->posts WHERE post_status IN ('publish','inherit') AND post_type = %s ORDER BY post_modified_gmt ASC) x WHERE rownum %%%d=0";
+					$sql = "
+						SELECT post_modified_gmt
+						FROM (
+							SELECT @rownum:=@rownum+1 rownum, $wpdb->posts.post_modified_gmt
+							FROM (SELECT @rownum:=0) r, $wpdb->posts
+							WHERE post_status IN ('publish','inherit')
+								AND post_type = %s
+							ORDER BY post_modified_gmt ASC
+						) x
+						WHERE rownum %%%d=0
+					";
 					$all_dates = $wpdb->get_col( $wpdb->prepare( $sql, $post_type, $this->max_entries ) );
 					$date = $this->timezone->get_datetime_with_timezone( $all_dates[ $i ] );
 				}
@@ -368,14 +387,18 @@ class WPSEO_Sitemaps {
 
 		// Retrieve all the taxonomies and their terms so we can do a proper count on them.
 		$hide_empty         = ( apply_filters( 'wpseo_sitemap_exclude_empty_terms', true, $taxonomy_names ) ) ? 'count != 0 AND' : '';
-		$query              = "SELECT taxonomy, term_id FROM $wpdb->term_taxonomy WHERE $hide_empty taxonomy IN ('" . implode( "','", $taxonomy_names ) . "');";
-		$all_taxonomy_terms = $wpdb->get_results( $query );
+		$sql                = "
+			SELECT taxonomy, term_id
+			FROM $wpdb->term_taxonomy
+			WHERE $hide_empty taxonomy IN ('" . implode( "','", $taxonomy_names ) . "');
+		";
+		$all_taxonomy_terms = $wpdb->get_results( $sql );
 		$all_taxonomies     = array();
 
 		foreach ( $all_taxonomy_terms as $obj ) {
 			$all_taxonomies[ $obj->taxonomy ][] = $obj->term_id;
 		}
-		unset( $hide_empty, $query, $all_taxonomy_terms, $obj );
+		unset( $hide_empty, $sql, $all_taxonomy_terms, $obj );
 
 		foreach ( $taxonomies as $tax_name => $tax ) {
 
@@ -464,32 +487,34 @@ class WPSEO_Sitemaps {
 			// Retrieve the newest updated profile timestamp overall.
 			// TODO order by usermeta supported since WP 3.7, update implementation? R.
 			$date_query = "
-					SELECT mt1.meta_value FROM $wpdb->users
+				SELECT mt1.meta_value
+				FROM $wpdb->users
 					INNER JOIN $wpdb->usermeta ON ($wpdb->users.ID = $wpdb->usermeta.user_id)
-					INNER JOIN $wpdb->usermeta AS mt1 ON ($wpdb->users.ID = mt1.user_id) WHERE 1=1
-					AND ( ($wpdb->usermeta.meta_key = %s AND CAST($wpdb->usermeta.meta_value AS CHAR) != '0')
-					AND mt1.meta_key = '_yoast_wpseo_profile_updated' ) ORDER BY mt1.meta_value
-				";
+					INNER JOIN $wpdb->usermeta AS mt1 ON ($wpdb->users.ID = mt1.user_id)
+				WHERE 1=1
+					AND (
+						($wpdb->usermeta.meta_key = %s AND CAST($wpdb->usermeta.meta_value AS CHAR) != '0')
+						AND mt1.meta_key = '_yoast_wpseo_profile_updated'
+					)
+				ORDER BY mt1.meta_value
+			";
 
 			if ( empty( $count ) || $count == $n ) {
-				$date = $wpdb->get_var(
-					$wpdb->prepare(
-						$date_query . ' ASC LIMIT 1',
-						$wpdb->get_blog_prefix() . 'user_level'
-					)
+				$sql = $wpdb->prepare(
+					$date_query . ' ASC LIMIT 1',
+					$wpdb->get_blog_prefix() . 'user_level'
 				);
-
 				// Retrieve the newest updated profile timestamp by an offset.
 			}
 			else {
-				$date = $wpdb->get_var(
-					$wpdb->prepare(
-						$date_query . ' DESC LIMIT 1 OFFSET %d',
-						$wpdb->get_blog_prefix() . 'user_level',
-						( ( $this->max_entries * ( $i + 1 ) ) - 1 )
-					)
+				$sql = $wpdb->prepare(
+					$date_query . ' DESC LIMIT 1 OFFSET %d',
+					$wpdb->get_blog_prefix() . 'user_level',
+					( ( $this->max_entries * ( $i + 1 ) ) - 1 )
 				);
 			}
+
+			$date = $wpdb->get_var( $sql );
 			$date = $this->timezone->get_datetime_with_timezone( '@' . $date );
 
 			$this->sitemap .= '<sitemap>' . "\n";
@@ -560,9 +585,18 @@ class WPSEO_Sitemaps {
 		$join_filter  = apply_filters( 'wpseo_typecount_join', '', $post_type );
 		$where_filter = apply_filters( 'wpseo_typecount_where', '', $post_type );
 
-		$query = $wpdb->prepare( "SELECT COUNT(ID) FROM $wpdb->posts {$join_filter} WHERE post_status IN ('publish','inherit') AND post_password = '' AND post_date != '0000-00-00 00:00:00' AND post_type = %s " . $where_filter, $post_type );
+		$sql = "
+			SELECT COUNT(ID)
+			FROM $wpdb->posts
+			{$join_filter}
+			WHERE post_status IN ('publish','inherit')
+				AND post_password = ''
+				AND post_date != '0000-00-00 00:00:00'
+				AND post_type = %s
+			{$where_filter}
+		";
 
-		$typecount = $wpdb->get_var( $query );
+		$typecount = $wpdb->get_var( $wpdb->prepare( $sql, $post_type ) );
 
 		if ( $total > $typecount ) {
 			$total = $typecount;
@@ -656,11 +690,22 @@ class WPSEO_Sitemaps {
 
 			// Optimized query per this thread: http://wordpress.org/support/topic/plugin-wordpress-seo-by-yoast-performance-suggestion.
 			// Also see http://explainextended.com/2009/10/23/mysql-order-by-limit-performance-late-row-lookups/.
-			$query = $wpdb->prepare( "SELECT l.ID, post_title, post_content, post_name, post_parent, post_modified_gmt, post_date, post_date_gmt FROM ( SELECT ID FROM $wpdb->posts {$join_filter} WHERE post_status = '%s' AND post_password = '' AND post_type = '%s' AND post_date != '0000-00-00 00:00:00' {$where_filter} ORDER BY post_modified ASC LIMIT %d OFFSET %d ) o JOIN $wpdb->posts l ON l.ID = o.ID ORDER BY l.ID",
-				$status, $post_type, $steps, $offset
-			);
-
-			$posts = $wpdb->get_results( $query );
+			$sql = "
+				SELECT l.ID, post_title, post_content, post_name, post_parent, post_modified_gmt, post_date, post_date_gmt
+				FROM (
+					SELECT ID
+					FROM $wpdb->posts
+					{$join_filter}
+					WHERE post_status = '%s'
+						AND post_password = ''
+						AND post_type = '%s'
+						AND post_date != '0000-00-00 00:00:00'
+						{$where_filter}
+					ORDER BY post_modified ASC LIMIT %d OFFSET %d
+				)
+				o JOIN $wpdb->posts l ON l.ID = o.ID ORDER BY l.ID
+			";
+			$posts = $wpdb->get_results( $wpdb->prepare( $sql, $status, $post_type, $steps, $offset ) );
 
 			$post_ids = array();
 			foreach ( $posts as $p ) {
@@ -947,22 +992,20 @@ class WPSEO_Sitemaps {
 				}
 
 				// Grab last modified date.
-				$sql        = $wpdb->prepare(
-					"
-						SELECT MAX(p.post_modified_gmt) AS lastmod
-						FROM	$wpdb->posts AS p
-						INNER JOIN $wpdb->term_relationships AS term_rel
-							ON		term_rel.object_id = p.ID
-						INNER JOIN $wpdb->term_taxonomy AS term_tax
-							ON		term_tax.term_taxonomy_id = term_rel.term_taxonomy_id
-							AND		term_tax.taxonomy = %s
-							AND		term_tax.term_id = %d
-						WHERE	p.post_status IN ('publish','inherit')
-							AND		p.post_password = ''",
-					$c->taxonomy,
-					$c->term_id
-				);
-				$url['mod'] = $wpdb->get_var( $sql );
+				$sql = "
+					SELECT MAX(p.post_modified_gmt) AS lastmod
+					FROM	$wpdb->posts AS p
+					INNER JOIN $wpdb->term_relationships AS term_rel
+						ON		term_rel.object_id = p.ID
+					INNER JOIN $wpdb->term_taxonomy AS term_tax
+						ON		term_tax.term_taxonomy_id = term_rel.term_taxonomy_id
+						AND		term_tax.taxonomy = %s
+						AND		term_tax.term_id = %d
+					WHERE	p.post_status IN ('publish','inherit')
+						AND		p.post_password = ''
+				";
+
+				$url['mod'] = $wpdb->get_var( $wpdb->prepare( $sql, $c->taxonomy, $c->term_id ) );
 				$url['chf'] = $this->filter_frequency( $c->taxonomy . '_term', 'weekly', $url['loc'] );
 
 				// Use this filter to adjust the entry before it gets added to the sitemap.
@@ -1244,12 +1287,19 @@ class WPSEO_Sitemaps {
 		// We need to do this only once, as otherwise we'd be doing a query for each post type.
 		if ( ! is_array( $this->post_type_dates ) ) {
 			$this->post_type_dates = array();
-			$query                 = "SELECT post_type, MAX(post_modified_gmt) AS date FROM $wpdb->posts WHERE post_status IN ('publish','inherit') AND post_type IN ('" . implode( "','", get_post_types( array( 'public' => true ) ) ) . "') GROUP BY post_type ORDER BY post_modified_gmt DESC";
-			$results               = $wpdb->get_results( $query );
+			$sql                   = "
+				SELECT post_type, MAX(post_modified_gmt) AS date
+				FROM $wpdb->posts
+				WHERE post_status IN ('publish','inherit')
+					AND post_type IN ('" . implode( "','", get_post_types( array( 'public' => true ) ) ) . "')
+				GROUP BY post_type
+				ORDER BY post_modified_gmt DESC
+			";
+			$results               = $wpdb->get_results( $sql );
 			foreach ( $results as $obj ) {
 				$this->post_type_dates[ $obj->post_type ] = $obj->date;
 			}
-			unset( $query, $results, $obj );
+			unset( $sql, $results, $obj );
 		}
 
 		if ( count( $post_types ) === 1 && isset( $this->post_type_dates[ $post_types[0] ] ) ) {
@@ -1386,7 +1436,12 @@ class WPSEO_Sitemaps {
 	 */
 	private function get_attachments( $post_ids ) {
 		global $wpdb;
-		$child_query = "SELECT ID, post_title, post_parent FROM $wpdb->posts WHERE post_status = 'inherit' AND post_type = 'attachment' AND post_parent IN (" . $post_ids . ')';
+		$child_query = "
+			SELECT ID, post_title, post_parent
+			FROM $wpdb->posts
+			WHERE post_status = 'inherit'
+				AND post_type = 'attachment'
+				AND post_parent IN (" . $post_ids . ')';
 		$wpdb->query( $child_query );
 		$attachments = $wpdb->get_results( $child_query );
 
@@ -1403,7 +1458,11 @@ class WPSEO_Sitemaps {
 	private function get_thumbnails( $post_ids ) {
 		global $wpdb;
 
-		$thumbnail_query = "SELECT meta_value FROM $wpdb->postmeta WHERE meta_key = '_thumbnail_id' AND post_id IN (" . $post_ids . ')';
+		$thumbnail_query = "
+			SELECT meta_value
+			FROM $wpdb->postmeta
+			WHERE meta_key = '_thumbnail_id'
+				AND post_id IN (" . $post_ids . ')';
 		$wpdb->query( $thumbnail_query );
 		$thumbnails = $wpdb->get_results( $thumbnail_query );
 
