@@ -59,7 +59,7 @@ class WPSEO_Primary_Term_Admin {
 	/**
 	 * Saves all selected primary terms
 	 *
-	 * @param int $post_ID
+	 * @param int $post_ID Post ID to save primary terms for.
 	 */
 	public function save_primary_terms( $post_ID ) {
 		$taxonomies = $this->get_primary_term_taxonomies( $post_ID );
@@ -90,7 +90,7 @@ class WPSEO_Primary_Term_Admin {
 	/**
 	 * Returns an array suitable for use in the javascript
 	 *
-	 * @param stdClass $taxonomy
+	 * @param stdClass $taxonomy The taxonomy to map.
 	 *
 	 * @return array
 	 */
@@ -108,7 +108,7 @@ class WPSEO_Primary_Term_Admin {
 	/**
 	 * Returns an array suitable for use in the javascript
 	 *
-	 * @param stdClass $term
+	 * @param stdClass $term The term to map.
 	 *
 	 * @return array
 	 */
@@ -122,9 +122,8 @@ class WPSEO_Primary_Term_Admin {
 	/**
 	 * Save the primary term for a specific taxonomy
 	 *
-	 * @param int      $post_ID
-	 *
-	 * @param stdClass $taxonomy
+	 * @param int      $post_ID  Post ID to save primary term for.
+	 * @param stdClass $taxonomy Taxonomy to save primary term for.
 	 */
 	private function save_primary_term( $post_ID, $taxonomy ) {
 		$primary_term = filter_input( INPUT_POST, WPSEO_Meta::$form_prefix . 'primary_' . $taxonomy->name . '_term', FILTER_SANITIZE_NUMBER_INT );
@@ -175,7 +174,7 @@ class WPSEO_Primary_Term_Admin {
 	/**
 	 * Returns whether or not a taxonomy is hierarchical
 	 *
-	 * @param stdClass $taxonomy
+	 * @param stdClass $taxonomy Taxonomy object.
 	 *
 	 * @return bool
 	 */
@@ -186,7 +185,7 @@ class WPSEO_Primary_Term_Admin {
 	/**
 	 * Returns whether or not the taxonomy is the category taxonomy
 	 *
-	 * @param stdClass $taxonomy
+	 * @param stdClass $taxonomy Taxonomy object.
 	 *
 	 * @return bool
 	 */

@@ -21,8 +21,8 @@ class WPSEO_Primary_Term {
 	/**
 	 * The taxonomy this term is part of
 	 *
-	 * @param string $taxonomy_name
-	 * @param int    $post_ID
+	 * @param string $taxonomy_name Taxonomy name for the term.
+	 * @param int    $post_ID       Post ID for the term.
 	 */
 	public function __construct( $taxonomy_name, $post_ID ) {
 		$this->taxonomy_name = $taxonomy_name;
@@ -55,7 +55,7 @@ class WPSEO_Primary_Term {
 	/**
 	 * Sets the new primary term ID
 	 *
-	 * @param int $new_primary_term
+	 * @param int $new_primary_term New primary term ID.
 	 */
 	public function set_primary_term( $new_primary_term ) {
 		update_post_meta( $this->post_ID, WPSEO_Meta::$meta_prefix . 'primary_' . $this->taxonomy_name, $new_primary_term );
