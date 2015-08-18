@@ -818,7 +818,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 *
 	 * @internal $_POST parameters are validated via sanitize_post_meta()
 	 *
-	 * @param  int $post_id
+	 * @param int $post_id Post ID.
 	 *
 	 * @return  bool|void   Boolean false if invalid save post request
 	 */
@@ -1202,9 +1202,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	/**
 	 * Hide the SEO Title, Meta Desc and Focus KW columns if the user hasn't chosen which columns to hide
 	 *
-	 * @param array|false $result
-	 * @param string      $option
-	 * @param WP_User     $user
+	 * @param array|false $result Result data set or false.
+	 * @param string      $option Option name string.
+	 * @param WP_User     $user   User object instance.
 	 *
 	 * @return array|false $result
 	 */
@@ -1228,7 +1228,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * Hacky way to get round the limitation that you can only have AND *or* OR relationship between
 	 * meta key clauses and not a combination - which is what we need.
 	 *
-	 * @param    string $where
+	 * @param string $where SQL for WHERE part.
 	 *
 	 * @return    string
 	 */
@@ -1522,7 +1522,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	/**
 	 * Get sample permalink
 	 *
-	 * @param    object $post
+	 * @param WP_Post $post Post object instance.
 	 *
 	 * @return    array
 	 */
@@ -1595,8 +1595,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	/**
 	 * Check whether this focus keyword has been used for other posts before.
 	 *
-	 * @param array $job
-	 * @param array $results
+	 * @param array $job     Job data array.
+	 * @param array $results Results set by reference.
 	 */
 	function check_double_focus_keyword( $job, &$results ) {
 		$posts = get_posts(
@@ -2277,7 +2277,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @deprecated use WPSEO_Meta::get_meta_field_defs()
 	 * @see        WPSEO_Meta::get_meta_field_defs()
 	 *
-	 * @param  string $post_type
+	 * @param string $post_type Optional post type, defaults to post.
 	 *
 	 * @return  array
 	 */

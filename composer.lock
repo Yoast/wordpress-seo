@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "701d241ab6ff8c6d5729755bb8af9c8a",
+    "hash": "a3db4e6fb1bf79814788e1d8879e3c39",
     "packages": [
         {
             "name": "composer/installers",
@@ -592,16 +592,16 @@
         },
         {
             "name": "wp-coding-standards/wpcs",
-            "version": "dev-develop",
+            "version": "0.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards.git",
-                "reference": "a9a032ef2ce775bd5c45b52db98fda45efa87148"
+                "reference": "2e27757829cde21bca916b11cfcfa867c42b255e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/WordPress-Coding-Standards/WordPress-Coding-Standards/zipball/a9a032ef2ce775bd5c45b52db98fda45efa87148",
-                "reference": "a9a032ef2ce775bd5c45b52db98fda45efa87148",
+                "url": "https://api.github.com/repos/WordPress-Coding-Standards/WordPress-Coding-Standards/zipball/2e27757829cde21bca916b11cfcfa867c42b255e",
+                "reference": "2e27757829cde21bca916b11cfcfa867c42b255e",
                 "shasum": ""
             },
             "require": {
@@ -624,7 +624,7 @@
                 "standards",
                 "wordpress"
             ],
-            "time": "2015-06-30 21:30:08"
+            "time": "2015-06-30 21:54:21"
         },
         {
             "name": "yoast/yoastcs",
@@ -632,18 +632,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Yoast/yoastcs.git",
-                "reference": "aad75dc7d0a297dd4b8bc094529caea40d555e61"
+                "reference": "625f4ad392e947f4073f54dba55fa3310f5a9275"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Yoast/yoastcs/zipball/aad75dc7d0a297dd4b8bc094529caea40d555e61",
-                "reference": "aad75dc7d0a297dd4b8bc094529caea40d555e61",
+                "url": "https://api.github.com/repos/Yoast/yoastcs/zipball/625f4ad392e947f4073f54dba55fa3310f5a9275",
+                "reference": "625f4ad392e947f4073f54dba55fa3310f5a9275",
                 "shasum": ""
             },
             "require": {
                 "phpmd/phpmd": "^2.2.3",
                 "squizlabs/php_codesniffer": "^2.2.0",
-                "wp-coding-standards/wpcs": "dev-develop"
+                "wp-coding-standards/wpcs": "~0.6"
             },
             "conflict": {
                 "squizlabs/php_codesniffer": "2.3.1"
@@ -666,7 +666,7 @@
                 "standards",
                 "wordpress"
             ],
-            "time": "2015-06-13 13:53:30"
+            "time": "2015-08-14 18:29:23"
         }
     ],
     "aliases": [],

@@ -21,7 +21,7 @@ class WPSEO_Admin_User_Profile {
 	/**
 	 * Filter POST variables.
 	 *
-	 * @param string $var_name
+	 * @param string $var_name Name of the variable to filter.
 	 *
 	 * @return mixed
 	 */
@@ -52,7 +52,7 @@ class WPSEO_Admin_User_Profile {
 	/**
 	 * Add the inputs needed for SEO values to the User Profile page
 	 *
-	 * @param    object $user
+	 * @param WP_User $user User instance to output for.
 	 */
 	public function user_profile( $user ) {
 		$options = WPSEO_Options::get_all();

@@ -178,7 +178,7 @@ function _wpseo_deactivate() {
  * @internal Unfortunately will fail if the plugin is in the must-use directory
  * @see      https://core.trac.wordpress.org/ticket/24205
  *
- * @param int $blog_id
+ * @param int $blog_id Blog ID.
  */
 function wpseo_on_activate_blog( $blog_id ) {
 	if ( ! function_exists( 'is_plugin_active_for_network' ) ) {
@@ -418,7 +418,7 @@ function yoast_wpseo_missing_filter_notice() {
 /**
  * Echo's the Activation failed notice with any given message.
  *
- * @param string $message
+ * @param string $message Message string.
  */
 function yoast_wpseo_activation_failed_notice( $message ) {
 	echo '<div class="error"><p>' . __( 'Activation failed:', 'wordpress-seo' ) . ' ' . $message . '</p></div>';

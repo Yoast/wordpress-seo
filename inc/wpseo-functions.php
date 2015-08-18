@@ -213,7 +213,7 @@ add_action( 'init', 'wpseo_xml_sitemaps_init', 1 );
 /**
  * Notify search engines of the updated sitemap.
  *
- * @param string|null $sitemapurl
+ * @param string|null $sitemapurl Optional URL to make the ping for.
  */
 function wpseo_ping_search_engines( $sitemapurl = null ) {
 	// Don't ping if blog is not public.
@@ -239,7 +239,7 @@ add_action( 'wpseo_ping_search_engines', 'wpseo_ping_search_engines' );
  *
  * @global      $sitepress
  *
- * @param array $config
+ * @param array $config WPML configuration data to filter.
  *
  * @return array
  */
@@ -297,7 +297,7 @@ add_shortcode( 'wpseo_breadcrumb', 'wpseo_shortcode_yoast_breadcrumb' );
 /**
  * This invalidates our XML Sitemaps cache.
  *
- * @param string $type
+ * @param string $type Type of sitemap to invalidate.
  */
 function wpseo_invalidate_sitemap_cache( $type ) {
 	// Always delete the main index sitemaps cache, as that's always invalidated by any other change.
@@ -312,8 +312,8 @@ add_action( 'deleted_term_relationships', 'wpseo_invalidate_sitemap_cache' );
 /**
  * Invalidate XML sitemap cache for taxonomy / term actions
  *
- * @param unsigned $unused
- * @param string   $type
+ * @param int    $unused Unused term ID value.
+ * @param string $type   Taxonomy to invalidate.
  */
 function wpseo_invalidate_sitemap_cache_terms( $unused, $type ) {
 	wpseo_invalidate_sitemap_cache( $type );
@@ -326,7 +326,7 @@ add_action( 'clean_object_term_cache', 'wpseo_invalidate_sitemap_cache_terms', 1
 /**
  * Invalidate the XML sitemap cache for a post type when publishing or updating a post
  *
- * @param int $post_id
+ * @param int $post_id Post ID to determine post type for invalidation.
  */
 function wpseo_invalidate_sitemap_cache_on_save_post( $post_id ) {
 
@@ -351,7 +351,7 @@ add_action( 'save_post', 'wpseo_invalidate_sitemap_cache_on_save_post' );
 if ( ! extension_loaded( 'ctype' ) || ! function_exists( 'ctype_digit' ) ) {
 
 	/**
-	 * @param string $string
+	 * @param string $string String input to validate.
 	 *
 	 * @return bool
 	 */
@@ -623,7 +623,7 @@ function wpseo_get_roles() {
  * @deprecated use WPSEO_Utils::is_url_relative()
  * @see        WPSEO_Utils::is_url_relative()
  *
- * @param string $url
+ * @param string $url URL input to check.
  *
  * @return bool
  */
@@ -642,7 +642,7 @@ function wpseo_is_url_relative( $url ) {
  *
  * @since      1.6.0
  *
- * @param string $string
+ * @param string $string String input to standardize.
  *
  * @return string
  */
