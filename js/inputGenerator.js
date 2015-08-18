@@ -113,7 +113,7 @@ YoastSEO.InputGenerator.prototype.getAnalyzerInput = function() {
  */
 YoastSEO.InputGenerator.prototype.getDataFromInput = function( inputType ) {
 	var val;
-	switch ( inputType ){
+	switch ( inputType ) {
 		case "text":
 			val = document.getElementById( "textInput" ).value;
 			break;
