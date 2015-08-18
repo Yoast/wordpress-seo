@@ -4,10 +4,69 @@
 YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 
 /**
+ * This should return an object with the given properties
+ *
+ * @callback YoastSEO.App~getData
+ * @returns {Object} data
+ * @returns {String} data.keyword The keyword that should be used
+ * @returns {String} data.meta
+ * @returns {String} data.text The text to analyze
+ * @returns {String} data.pageTitle The text in the HTML title tag
+ * @returns {String} data.title The title to analyze
+ * @returns {String} data.url The URL for the given page
+ * @returns {String} data.excerpt Excerpt for the pages
+ */
+
+/**
+ * @callback YoastSEO.App~getAnalyzerInput
+ *
+ * @returns {Array} An array containing the analyzer queue
+ */
+
+/**
+ * @callback YoastSEO.App~bindElementEvents
+ *
+ * @param {YoastSEO.App} app A reference to the YoastSEO.App from where this is called.
+ */
+
+/**
+ * @callback YoastSEO.App~updateSnippetValues
+ *
+ * @param {Object} ev The event emitted from the DOM
+ */
+
+/**
+ * @callback YoastSEO.App~saveScores
+ *
+ * @param {int} overalScore The overal score as determined by the analyzer.
+ */
+
+/**
  * Loader for the analyzer, loads the eventbinder and the elementdefiner
  *
  * @param {Object} args
- * @param {Object} args.translations Jed compatible translations
+ * @param {Object} args.translations Jed compatible translations.
+ * @param {Object} args.targets Targets to retrieve or set on.
+ * @param {String} args.targets.snippet ID for the snippet preview element.
+ * @param {String} args.targets.output ID for the element to put the output of the analyzer in.
+ * @param {int} args.typeDelay Number of milliseconds to wait between typing to refresh the
+ *        analyzer output.
+ * @param {boolean} args.dynamicDelay Whether to enable dynamic delay, will ignore type delay if the
+ *        analyzer takes a long time. Applicable on slow devices.
+ * @param {int} args.maxTypeDelay The maximum amount of type delay even if dynamic delay is on.
+ * @param {int} args.typeDelayStep The amount with which to increase the typeDelay on each step when
+ *        dynamic delay is enabled.
+ * @param {Object} args.callbacks The callbacks that the app requires.
+ * @param {YoastSEO.App~getData} args.callbacks.getData Called to retrieve input data
+ * @param {YoastSEO.App~getAnalyzerInput} args.callbacks.getAnalyzerInput Called to retrieve input
+ *        for the analyzer.
+ * @param {YoastSEO.App~bindElementEvents} args.callbacks.bindElementEvents Called to bind events to
+ *        the DOM elements.
+ * @param {YoastSEO.App~updateSnippetValues} args.callbacks.updateSnippetValues Called when the
+ *        snippet values need to be updated.
+ * @param {YoastSEO.App~saveScores} args.callbacks.saveScores Called when the score has been
+ *        determined by the analyzer.
+ *
  *
  * @constructor
  */
@@ -15,11 +74,13 @@ YoastSEO.App = function( args ) {
 	window.YoastSEO.app = this;
 	this.config = args;
 	this.inputs = {};
+	this.analyzerData = args.callbacks.getData();
 	this.constructI18n( args.translations );
 	this.loadQueue();
 	this.stringHelper = new YoastSEO.StringHelper();
-	this.source = new this.config.source( args, this );
-	this.checkInputs();
+	this.source = this.config.source;
+	this.callbacks = this.config.callbacks;
+	//this.checkInputs();
 	if ( !this.config.ajax ) {
 		this.defineElements();
 	}
@@ -56,6 +117,14 @@ YoastSEO.App.prototype.init = function() {
 };
 
 /**
+ * Refreshes the analyzer and output of the analyzer
+ */
+YoastSEO.App.prototype.refresh = function() {
+	this.analyzerData = this.callbacks.getData();
+	this.inputs = this.callbacks.getAnalyzerInput();
+};
+
+/**
  * loads the queue from the analyzer if no queue is defined.
  */
 YoastSEO.App.prototype.loadQueue = function() {
@@ -66,7 +135,8 @@ YoastSEO.App.prototype.loadQueue = function() {
 
 /**
  * Adds function to the analyzer queue. Function must be in the Analyzer prototype to be added.
- * @param func
+ *
+ * @param {String} func Name of the function to add to the queue.
  */
 YoastSEO.App.prototype.addToQueue = function( func ) {
 	if ( typeof YoastSEO.Analyzer.prototype[ func ] === "function" ) {
@@ -76,7 +146,8 @@ YoastSEO.App.prototype.addToQueue = function( func ) {
 
 /**
  * Removes function from queue if it is currently in the queue.
- * @param func
+ *
+ * @param {String} func Name of the function to remove from the queue.
  */
 YoastSEO.App.prototype.removeFromQueue = function( func ) {
 	var funcIndex = this.queue.indexOf( func );
@@ -103,7 +174,8 @@ YoastSEO.App.prototype.createSnippetPreview = function() {
 
 /**
  * creates the title elements in the snippetPreview and appends to target
- * @param target
+ *
+ * @param {HTMLElement} target The HTML element for the snippet preview
  */
 YoastSEO.App.prototype.createSnippetPreviewTitle = function( target ) {
 	var elem = document.createElement( "div" );
@@ -122,7 +194,8 @@ YoastSEO.App.prototype.createSnippetPreviewTitle = function( target ) {
 
 /**
  * creates the URL elements in the snippetPreview and appends to target
- * @param target
+ *
+ * @param {HTMLElement} target The HTML element for the snippet preview
  */
 YoastSEO.App.prototype.createSnippetPreviewUrl = function( target ) {
 	var elem = document.createElement( "div" );
@@ -144,7 +217,8 @@ YoastSEO.App.prototype.createSnippetPreviewUrl = function( target ) {
 
 /**
  * creates the meta description elements in the snippetPreview and appends to target
- * @param target
+ *
+ * @param {HTMLElement} target The HTML element for the snippet preview
  */
 YoastSEO.App.prototype.createSnippetPreviewMeta = function( target ) {
 	var elem = document.createElement( "div" );
@@ -174,6 +248,12 @@ YoastSEO.App.prototype.defineElements = function() {
 	}
 };
 
+/**
+ * Creates an edit icon in a element with a certain ID
+ *
+ * @param {HTMLElement} elem The element to append the edit icon to.
+ * @param {String} id The ID to give this edit icon.
+ */
 YoastSEO.App.prototype.createEditIcon = function( elem, id ) {
 	var div = document.createElement( "div" );
 	div.className = "editIcon";
@@ -187,14 +267,14 @@ YoastSEO.App.prototype.createEditIcon = function( elem, id ) {
  * analyzer.
  */
 YoastSEO.App.prototype.getAnalyzerInput = function() {
-	this.inputs = this.source.getAnalyzerInput();
+	this.inputs = this.callbacks.getAnalyzerInput();
 };
 
 /**
  * binds the events to the generated inputs. Binds events on the snippetinputs if editable
  */
 YoastSEO.App.prototype.bindEvent = function() {
-	this.source.bindElementEvents();
+	this.callbacks.bindElementEvents();
 };
 
 /**
@@ -263,7 +343,7 @@ YoastSEO.App.prototype.checkInputs = function() {
 
 YoastSEO.App.prototype.runAnalyzerCallback = function() {
 	var refObj = window.YoastSEO.app;
-	if ( refObj.source.analyzerData.keyword === "" ) {
+	if ( refObj.formattedData.keyword === "" ) {
 		refObj.showMessage();
 	} else {
 		refObj.runAnalyzer();
@@ -310,7 +390,7 @@ YoastSEO.App.prototype.runAnalyzer = function() {
 		this.startTime();
 	}
 	if ( typeof this.pageAnalyzer === "undefined" ) {
-		var args = this.source.analyzerData;
+		var args = this.formattedData;
 		args.queue = this.queue;
 		args.i18n = this.i18n;
 		this.pageAnalyzer = new YoastSEO.Analyzer( args );
