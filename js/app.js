@@ -297,7 +297,7 @@ YoastSEO.App.prototype.bindSnippetEvents = function() {
 	for ( var i = 0; i < elems.length; i++ ) {
 		var targetElement = document.getElementById( "snippet_" + elems[ i ] );
 		targetElement.refObj = this;
-		targetElement.addEventListener( "blur", this.source.updateSnippetValues );
+		targetElement.addEventListener( "blur", this.callbacks.updateSnippetValues );
 
 	}
 };

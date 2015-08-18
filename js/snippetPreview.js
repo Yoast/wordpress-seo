@@ -33,7 +33,8 @@ YoastSEO.SnippetPreview.prototype.init = function() {
 
 /**
  * creates html object to contain the strings for the snippetpreview
- * @returns {html object with html-strings}
+ *
+ * @returns {Object}
  */
 YoastSEO.SnippetPreview.prototype.htmlOutput = function() {
 	var html = {};
@@ -46,7 +47,8 @@ YoastSEO.SnippetPreview.prototype.htmlOutput = function() {
 
 /**
  * formats the title for the snippet preview. If title and pageTitle are empty, sampletext is used
- * @returns {formatted page title}
+ *
+ * @returns {String}
  */
 YoastSEO.SnippetPreview.prototype.formatTitle = function() {
 	var title = this.refObj.formattedData.snippetTitle;
