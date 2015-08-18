@@ -29,12 +29,12 @@ class WPSEO_GSC_Issue {
 	private $response_code;
 
 	/**
-	 * Constructor
+	 * Search Console issue class constructor.
 	 *
-	 * @param string   $url
-	 * @param DateTime $first_detected
-	 * @param DateTime $last_crawled
-	 * @param string   $response_code
+	 * @param string   $url            URL of the issue.
+	 * @param DateTime $first_detected Time of first discovery.
+	 * @param DateTime $last_crawled   Time of last crawl.
+	 * @param string   $response_code  HTTP response code.
 	 */
 	public function __construct( $url, DateTime $first_detected, DateTime $last_crawled, $response_code ) {
 		$this->url            = $url;
@@ -62,8 +62,10 @@ class WPSEO_GSC_Issue {
 	/**
 	 * Converting the date to a date format
 	 *
-	 * @param DateTime $date_to_convert
-	 * @param string   $format
+	 * @todo Should use WP locale functionality, PHP one is unreliable in WP environment. R.
+	 *
+	 * @param DateTime $date_to_convert Date instance.
+	 * @param string   $format          Format string.
 	 *
 	 * @return string
 	 */
@@ -74,12 +76,12 @@ class WPSEO_GSC_Issue {
 	/**
 	 * Converting the date to a timestamp
 	 *
-	 * @param DateTime $date_to_convert
+	 * @param DateTime $date_to_convert Date object instance.
 	 *
 	 * @return string
 	 */
 	private function to_timestamp( DateTime $date_to_convert ) {
-		return $date_to_convert->getTimestamp();
+		return $date_to_convert->format( 'U' );
 	}
 
 }

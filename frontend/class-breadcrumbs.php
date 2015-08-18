@@ -110,9 +110,9 @@ class WPSEO_Breadcrumbs {
 	/**
 	 * Get breadcrumb string using the singleton instance of this class
 	 *
-	 * @param string $before
-	 * @param string $after
-	 * @param bool   $display Echo or return.
+	 * @param string $before  Optional string to prepend.
+	 * @param string $after   Optional string to append.
+	 * @param bool   $display Echo or return flag.
 	 *
 	 * @return object
 	 */
@@ -200,7 +200,7 @@ class WPSEO_Breadcrumbs {
 	/**
 	 * Find the deepest term in an array of term objects
 	 *
-	 * @param  array $terms
+	 * @param array $terms Terms set.
 	 *
 	 * @return object
 	 */
@@ -409,7 +409,7 @@ class WPSEO_Breadcrumbs {
 	/**
 	 * Add a single id based crumb to the crumbs property
 	 *
-	 * @param int $id
+	 * @param int $id Post ID.
 	 */
 	private function add_single_post_crumb( $id ) {
 		$this->crumbs[] = array(
@@ -420,7 +420,7 @@ class WPSEO_Breadcrumbs {
 	/**
 	 * Add a term based crumb to the crumbs property
 	 *
-	 * @param object $term
+	 * @param object $term Term data object.
 	 */
 	private function add_term_crumb( $term ) {
 		$this->crumbs[] = array(
@@ -442,9 +442,9 @@ class WPSEO_Breadcrumbs {
 	/**
 	 * Add a predefined crumb to the crumbs property
 	 *
-	 * @param string $text
-	 * @param string $url
-	 * @param bool   $allow_html
+	 * @param string $text       Text string.
+	 * @param string $url        URL string.
+	 * @param bool   $allow_html Flag to allow HTML.
 	 */
 	private function add_predefined_crumb( $text, $url = '', $allow_html = false ) {
 		$this->crumbs[] = array(
@@ -547,7 +547,7 @@ class WPSEO_Breadcrumbs {
 	/**
 	 * Add parent taxonomy crumb based on user defined preference
 	 *
-	 * @param object $term
+	 * @param object $term Term data object.
 	 */
 	private function maybe_add_preferred_term_parent_crumb( $term ) {
 		if ( isset( $this->options[ 'taxonomy-' . $term->taxonomy . '-ptparent' ] ) && $this->options[ 'taxonomy-' . $term->taxonomy . '-ptparent' ] != '0' ) {
@@ -565,7 +565,7 @@ class WPSEO_Breadcrumbs {
 	/**
 	 * Add parent taxonomy crumbs to the crumb property for hierachical taxonomy
 	 *
-	 * @param object $term
+	 * @param object $term Term data object.
 	 */
 	private function maybe_add_term_parent_crumbs( $term ) {
 		if ( is_taxonomy_hierarchical( $term->taxonomy ) && $term->parent != 0 ) {
@@ -610,7 +610,7 @@ class WPSEO_Breadcrumbs {
 	/**
 	 * Add (non-link) date crumb to crumbs property
 	 *
-	 * @param string $date
+	 * @param string $date Optional date string, defaults to post's date.
 	 */
 	private function add_date_crumb( $date = null ) {
 		if ( is_null( $date ) ) {
@@ -888,9 +888,9 @@ class WPSEO_Breadcrumbs {
 	 *
 	 * @deprecated 1.5.2.3
 	 *
-	 * @param string $links
-	 * @param string $wrapper
-	 * @param string $element
+	 * @param string $links   Unused.
+	 * @param string $wrapper Unused.
+	 * @param string $element Unused.
 	 *
 	 * @return void
 	 */

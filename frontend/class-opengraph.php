@@ -60,8 +60,8 @@ class WPSEO_OpenGraph {
 	/**
 	 * Internal function to output FB tags. This also adds an output filter to each bit of output based on the property.
 	 *
-	 * @param string $property
-	 * @param string $content
+	 * @param string $property Property attribute value.
+	 * @param string $content  Content attribute value.
 	 *
 	 * @return boolean
 	 */
@@ -155,7 +155,7 @@ class WPSEO_OpenGraph {
 	 */
 	public function website_facebook() {
 
-		if ( isset( $this->options['facebook_site'] ) && $this->options['facebook_site'] !== '' ) {
+		if ( 'article' === $this->type( false ) && ! empty( $this->options['facebook_site'] ) ) {
 			$this->og_tag( 'article:publisher', $this->options['facebook_site'] );
 
 			return true;
@@ -476,7 +476,7 @@ class WPSEO_OpenGraph {
 	/**
 	 * Create new WPSEO_OpenGraph_Image class and get the images to set the og:image
 	 *
-	 * @param mixed $image
+	 * @param string|boolean $image Optional image URL.
 	 */
 	public function image( $image = false ) {
 		$opengraph_images = new WPSEO_OpenGraph_Image( $this->options, $image );
@@ -489,7 +489,7 @@ class WPSEO_OpenGraph {
 	/**
 	 * Fallback method for plugins using image_output
 	 *
-	 * @param string $image
+	 * @param string $image Image URL.
 	 */
 	public function image_output( $image ) {
 		$this->image( $image );
@@ -686,8 +686,8 @@ class WPSEO_OpenGraph_Image {
 	/**
 	 * Constructor
 	 *
-	 * @param array      $options
-	 * @param bool|mixed $image
+	 * @param array          $options Options set.
+	 * @param string|boolean $image   Optional image URL.
 	 */
 	public function __construct( $options, $image = false ) {
 		$this->options = $options;
@@ -858,7 +858,7 @@ class WPSEO_OpenGraph_Image {
 	/**
 	 * Get the relative path of the image
 	 *
-	 * @param array $img
+	 * @param array $img Image data array.
 	 *
 	 * @return bool|string
 	 */

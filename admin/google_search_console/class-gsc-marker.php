@@ -38,7 +38,7 @@ class WPSEO_GSC_Marker {
 	 *
 	 * If param URL is given, the request is performed by a bulk action
 	 *
-	 * @param string $url
+	 * @param string $url Optional URL.
 	 */
 	public function __construct( $url = '' ) {
 		$this->url    = $url;
@@ -60,7 +60,11 @@ class WPSEO_GSC_Marker {
 	 */
 	private function get_result() {
 		if ( $this->can_be_marked_as_fixed() ) {
-			if ( $this->set_crawl_issues() && $this->send_mark_as_fixed() && $this->delete_crawl_issue() ) {
+			$service = new WPSEO_GSC_Service( WPSEO_GSC_Settings::get_profile() );
+
+			if ( $this->set_crawl_issues() && $this->send_mark_as_fixed( $service ) && $this->delete_crawl_issue() ) {
+				$this->update_issue_count( $service );
+
 				return 'true';
 			}
 		}
@@ -101,11 +105,11 @@ class WPSEO_GSC_Marker {
 	/**
 	 * Sending a request to the Google Search Console API to let them know we marked an issue as fixed.
 	 *
+	 * @param WPSEO_GSC_Service $service Service object instance.
+	 *
 	 * @return bool
 	 */
-	private function send_mark_as_fixed( ) {
-		$service = new WPSEO_GSC_Service( WPSEO_GSC_Settings::get_profile() );
-
+	private function send_mark_as_fixed( WPSEO_GSC_Service $service ) {
 		return $service->mark_as_fixed( $this->url, $this->platform, $this->category );
 	}
 
@@ -116,6 +120,24 @@ class WPSEO_GSC_Marker {
 	 */
 	private function delete_crawl_issue() {
 		return $this->crawl_issues->delete_issue( $this->url );
+	}
+
+	/**
+	 * Getting the counts for current platform - category combination and update the score of it.
+	 *
+	 * @param WPSEO_GSC_Service $service Service object instance.
+	 */
+	private function update_issue_count( WPSEO_GSC_Service $service ) {
+		$counts  = new WPSEO_GSC_Count( $service );
+
+		// Get the issues.
+		$total_issues = $counts->get_issue_count( $this->platform, $this->category );
+
+		// Lower the current count with 1.
+		$total_issues = ( $total_issues - 1 );
+
+		// And update the count.
+		$counts->update_issue_count( $this->platform, $this->category, $total_issues );
 	}
 
 }

@@ -13,7 +13,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * @internal Nobody should be able to overrule the real version number as this can cause serious issues
  * with the options, so no if ( ! defined() )
  */
-define( 'WPSEO_VERSION', '2.3.2' );
+define( 'WPSEO_VERSION', '2.3.4' );
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
 	define( 'WPSEO_PATH', plugin_dir_path( WPSEO_FILE ) );
@@ -178,7 +178,7 @@ function _wpseo_deactivate() {
  * @internal Unfortunately will fail if the plugin is in the must-use directory
  * @see      https://core.trac.wordpress.org/ticket/24205
  *
- * @param int $blog_id
+ * @param int $blog_id Blog ID.
  */
 function wpseo_on_activate_blog( $blog_id ) {
 	if ( ! function_exists( 'is_plugin_active_for_network' ) ) {
@@ -243,9 +243,7 @@ function wpseo_init() {
 	}
 
 	// Init it here because the filter must be present on the frontend as well or it won't work in the customizer.
-	if ( current_user_can( 'manage_options' ) ) {
-		new WPSEO_Customizer();
-	}
+	new WPSEO_Customizer();
 }
 
 /**
@@ -313,6 +311,13 @@ if ( ( ! defined( 'WP_INSTALLING' ) || WP_INSTALLING === false ) && ( $spl_autol
 	if ( is_admin() ) {
 		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
 			require_once( WPSEO_PATH . 'admin/ajax.php' );
+
+			// Crawl Issue Manager AJAX hooks.
+			new WPSEO_GSC_Ajax;
+
+			// Plugin conflict ajax hooks.
+			new Yoast_Plugin_Conflict_Ajax();
+
 		}
 		else {
 			add_action( 'plugins_loaded', 'wpseo_admin_init', 15 );
@@ -413,7 +418,7 @@ function yoast_wpseo_missing_filter_notice() {
 /**
  * Echo's the Activation failed notice with any given message.
  *
- * @param string $message
+ * @param string $message Message string.
  */
 function yoast_wpseo_activation_failed_notice( $message ) {
 	echo '<div class="error"><p>' . __( 'Activation failed:', 'wordpress-seo' ) . ' ' . $message . '</p></div>';

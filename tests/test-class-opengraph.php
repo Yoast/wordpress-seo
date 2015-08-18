@@ -134,13 +134,19 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_OpenGraph::website_facebook
 	 */
 	public function test_website_facebook() {
-		// option not set
+		// Option not set.
 		$this->assertFalse( self::$class_instance->website_facebook() );
 
-		// set option
+		// Set option.
 		self::$class_instance->options['facebook_site'] = 'http://facebook.com/mysite/';
 
-		// test output
+		// Test home output.
+		$this->go_to_home();
+		$this->assertFalse( self::$class_instance->website_facebook() );
+
+		// Test singular output.
+		$post_id = $this->factory->post->create();
+		$this->go_to( get_permalink( $post_id ) );
 		$this->assertTrue( self::$class_instance->website_facebook() );
 		$this->expectOutput( '<meta property="article:publisher" content="http://facebook.com/mysite/" />' . "\n" );
 	}
@@ -213,7 +219,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	public function test_type() {
 		$this->assertEquals( 'website', self::$class_instance->type( false ) );
 
-		$category_id = wp_create_category( 'WordPress SEO' );
+		$category_id = wp_create_category( 'Yoast SEO' );
 		$this->go_to( get_category_link( $category_id ) );
 		$this->assertEquals( 'object', self::$class_instance->type( false ) );
 
@@ -528,7 +534,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 
 		$expected_meta_description = '';
 
-		$category_id = wp_create_category( 'WordPress SEO' );
+		$category_id = wp_create_category( 'Yoast SEO' );
 		$this->go_to( get_category_link( $category_id ) );
 
 		// Checking meta-description and after obtaining its value, reset the meta value for it

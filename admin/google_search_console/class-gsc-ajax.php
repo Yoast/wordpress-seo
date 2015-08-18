@@ -14,6 +14,7 @@ class WPSEO_GSC_Ajax {
 	public function __construct() {
 		add_action( 'wp_ajax_wpseo_mark_fixed_crawl_issue',  array( $this, 'ajax_mark_as_fixed' ) );
 		add_action( 'wp_ajax_wpseo_gsc_create_redirect_url', array( $this, 'ajax_create_redirect' ) );
+		add_action( 'wp_ajax_wpseo_dismiss_gsc', array( $this, 'dismiss_notice' ) );
 	}
 
 	/**
@@ -51,6 +52,17 @@ class WPSEO_GSC_Ajax {
 		}
 
 		wp_die( 'false' );
+	}
+
+	/**
+	 * Handle the AJAX request and dismiss the GSC notice
+	 */
+	public function dismiss_notice() {
+		check_ajax_referer( 'dismiss-gsc-notice' );
+
+		update_user_meta( get_current_user_id(), 'wpseo_dismissed_gsc_notice', true );
+
+		wp_die( 'true' );
 	}
 
 	/**
