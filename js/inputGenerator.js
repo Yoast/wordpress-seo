@@ -103,6 +103,36 @@ YoastSEO.InputGenerator.prototype.getAnalyzerInput = function() {
 };
 
 /**
+ * get values from generated inputfields.
+ * @param inputType
+ * @returns {*}
+ */
+YoastSEO.InputGenerator.prototype.getDataFromInput = function( inputType ) {
+	var val;
+	switch( inputType){
+		case "text":
+			val = document.getElementById( "textInput" ).value;
+			break;
+		case "url":
+			val = document.getElementById("snippet_cite").innerText;
+			break;
+		case "meta":
+			val = document.getElementById("snippet_meta").innerText;
+			break;
+		case "keyword":
+			val = document.getElementById("keywordInput").value;
+			break;
+		case "title":
+			val = document.getElementById("snippet_title").innerText;
+			break;
+		default:
+			break;
+	}
+	return val;
+};
+
+
+/**
  * calls the eventbinders.
  */
 YoastSEO.InputGenerator.prototype.bindElementEvents = function() {
@@ -142,9 +172,18 @@ YoastSEO.InputGenerator.prototype.renewData = function( ev ) {
 };
 
 /**
- * calles getAnalyzerinput function on focus of the snippet elements;
+ * calls getAnalyzerinput function on focus of the snippet elements;
  * @param event
  */
 YoastSEO.InputGenerator.prototype.snippetCallback = function( ev ) {
 	ev.currentTarget.__refObj.getAnalyzerInput();
+};
+
+/**
+ * Called by the app to save scores. Currently only returns score since
+ * there is no further score implementation
+ * @param score
+ */
+YoastSEO.InputGenerator.prototype.saveScores = function( score ) {
+	return score;
 };
