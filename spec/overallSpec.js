@@ -46,6 +46,13 @@ var textStrings = [
 		url: "url",
 		meta: "",
 		queue: ["keywordDensity"]
+	},{
+		text:"<table><tr><td><p>Lorem ipsum dolor sit amet, keyword consectetur keyword adipiscing elit. </p></td></tr></table>Sed keyword dictum malesuada tellus vitae ultrices. Sed iaculis faucibus nunc, sit amet condimentum libero elementum ut. Ut interdum mi in velit vulputate, a feugiat sem aliquet. Proin keyword non quam convallis mauris pretium vulputate. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Cras vel eros quis velit posuere euismod. Donec facilisis venenatis justo a dignissim. Nunc commodo nisl ante. Suspendisse fermentum arcu quis finibus suscipit. In consectetur vestibulum ligula. Maecenas tristique aliquet diam, nec luctus dolor viverra non. Proin luctus nisl nec ipsum congue, id aliquam mi lobortis. Donec vel consequat ex. In euismod lectus ex, at congue ante suscipit id. Cras posuere, mauris vel ultricies blandit, urna lectus eleifend ante, eget venenatis dolor massa et lorem. Mauris lacinia faucibus nulla, nec congue orci molestie eget. Maecenas ac tristique arcu, eu iaculis arcu. Nunc sollicitudin blandit est, ultricies congue eros semper sit amet. Praesent non scelerisque est. Donec tristique sollicitudin enim, sit amet semper tortor posuere vitae. Quisque eget imperdiet ligula. Nullam tincidunt eleifend sodales.",
+		pageTitle: "pageTitle",
+		keyword: "keyword",
+		url: "url",
+		meta: "",
+		queue: ["firstParagraph"]
 	}
 ];
 
@@ -78,6 +85,12 @@ describe("a test running multiple textstrings", function(){
 		var keywordAnalyzer = Factory.buildAnalyzer( textStrings[4] );
 		var result = keywordAnalyzer.keywordDensity();
 		expect(result[0].result).toBe("2.2");
+	});
+
+	it("checks for keywords with tables - keyword should be found in first paragraph", function(){
+		var keywordAnalyzer = Factory.buildAnalyzer( textStrings[5] );
+		var result = keywordAnalyzer.firstParagraph();
+		expect(result[0].result).toBe(1);
 	});
 });
 
