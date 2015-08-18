@@ -109,28 +109,27 @@ YoastSEO.InputGenerator.prototype.getAnalyzerInput = function() {
  */
 YoastSEO.InputGenerator.prototype.getDataFromInput = function( inputType ) {
 	var val;
-	switch( inputType){
+	switch ( inputType ) {
 		case "text":
 			val = document.getElementById( "textInput" ).value;
 			break;
 		case "url":
-			val = document.getElementById("snippet_cite").innerText;
+			val = document.getElementById( "snippet_cite" ).innerText;
 			break;
 		case "meta":
-			val = document.getElementById("snippet_meta").innerText;
+			val = document.getElementById( "snippet_meta" ).innerText;
 			break;
 		case "keyword":
-			val = document.getElementById("keywordInput").value;
+			val = document.getElementById( "keywordInput" ).value;
 			break;
 		case "title":
-			val = document.getElementById("snippet_title").innerText;
+			val = document.getElementById( "snippet_title" ).innerText;
 			break;
 		default:
 			break;
 	}
 	return val;
 };
-
 
 /**
  * calls the eventbinders.
