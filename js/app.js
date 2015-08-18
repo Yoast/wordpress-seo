@@ -80,7 +80,7 @@ YoastSEO.App = function( args ) {
 	this.stringHelper = new YoastSEO.StringHelper();
 	this.source = this.config.source;
 	this.callbacks = this.config.callbacks;
-	//this.checkInputs();
+
 	if ( !this.config.ajax ) {
 		this.defineElements();
 	}
