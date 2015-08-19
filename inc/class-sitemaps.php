@@ -733,35 +733,35 @@ class WPSEO_Sitemaps {
 
 			$posts_to_exclude = explode( ',', $this->options['excluded-posts'] );
 
-			foreach ( $posts as $p ) {
+			foreach ( $posts as $post ) {
 
-				$p->post_type   = $post_type;
-				$p->post_status = 'publish';
-				$p->filter      = 'sample';
+				$post->post_type   = $post_type;
+				$post->post_status = 'publish';
+				$post->filter      = 'sample';
 
-				if ( WPSEO_Meta::get_value( 'meta-robots-noindex', $p->ID ) === '1' ) {
+				if ( WPSEO_Meta::get_value( 'meta-robots-noindex', $post->ID ) === '1' ) {
 					continue;
 				}
 
-				if ( in_array( $p->ID, $posts_to_exclude ) ) {
+				if ( in_array( $post->ID, $posts_to_exclude ) ) {
 					continue;
 				}
 
 				$url = array();
 
-				if ( isset( $p->post_modified_gmt ) && $p->post_modified_gmt != '0000-00-00 00:00:00' && $p->post_modified_gmt > $p->post_date_gmt ) {
-					$url['mod'] = $p->post_modified_gmt;
+				if ( isset( $post->post_modified_gmt ) && $post->post_modified_gmt != '0000-00-00 00:00:00' && $post->post_modified_gmt > $post->post_date_gmt ) {
+					$url['mod'] = $post->post_modified_gmt;
 				}
 				else {
-					if ( '0000-00-00 00:00:00' != $p->post_date_gmt ) {
-						$url['mod'] = $p->post_date_gmt;
+					if ( '0000-00-00 00:00:00' != $post->post_date_gmt ) {
+						$url['mod'] = $post->post_date_gmt;
 					}
 					else {
-						$url['mod'] = $p->post_date; // TODO does this ever happen? will wreck timezone later R.
+						$url['mod'] = $post->post_date; // TODO does this ever happen? will wreck timezone later R.
 					}
 				}
 
-				$url['loc'] = get_permalink( $p );
+				$url['loc'] = get_permalink( $post );
 
 				/**
 				 * Filter: 'wpseo_xml_sitemap_post_url' - Allow changing the URL Yoast SEO uses in the XML sitemap.
@@ -770,9 +770,9 @@ class WPSEO_Sitemaps {
 				 *
 				 * @api string $url URL to use in the XML sitemap
 				 *
-				 * @param object $p Post object for the URL.
+				 * @param object $post Post object for the URL.
 				 */
-				$url['loc'] = apply_filters( 'wpseo_xml_sitemap_post_url', $url['loc'], $p );
+				$url['loc'] = apply_filters( 'wpseo_xml_sitemap_post_url', $url['loc'], $post );
 
 				$url['chf'] = $this->filter_frequency( $post_type . '_single', 'weekly', $url['loc'] );
 
@@ -784,7 +784,7 @@ class WPSEO_Sitemaps {
 					continue;
 				}
 
-				$canonical = WPSEO_Meta::get_value( 'canonical', $p->ID );
+				$canonical = WPSEO_Meta::get_value( 'canonical', $post->ID );
 
 				if ( $canonical !== '' && $canonical !== $url['loc'] ) {
 					/*
@@ -795,36 +795,36 @@ class WPSEO_Sitemaps {
 					continue;
 				}
 				else {
-					if ( $this->options['trailingslash'] === true && $p->post_type != 'post' ) {
+					if ( $this->options['trailingslash'] === true && $post->post_type != 'post' ) {
 						$url['loc'] = trailingslashit( $url['loc'] );
 					}
 				}
 				unset( $canonical );
 
-				$url['pri'] = $this->calculate_priority( $p );
+				$url['pri'] = $this->calculate_priority( $post );
 
 				$url['images'] = array();
 
-				$content = $p->post_content;
-				$content = '<p><img src="' . $this->image_url( get_post_thumbnail_id( $p->ID ) ) . '" alt="' . $p->post_title . '" /></p>' . $content;
+				$content = $post->post_content;
+				$content = '<p><img src="' . $this->image_url( get_post_thumbnail_id( $post->ID ) ) . '" alt="' . $post->post_title . '" /></p>' . $content;
 
 				if ( preg_match_all( '`<img [^>]+>`', $content, $matches ) ) {
-					$url['images'] = $this->parse_matched_images( $matches, $p, $scheme, $host );
+					$url['images'] = $this->parse_matched_images( $matches, $post, $scheme, $host );
 				}
 				unset( $content, $matches, $img );
 
-				if ( strpos( $p->post_content, '[gallery' ) !== false ) {
+				if ( strpos( $post->post_content, '[gallery' ) !== false ) {
 					if ( is_array( $attachments ) && $attachments !== array() ) {
-						$url['images'] = $this->parse_attachments( $attachments, $p );
+						$url['images'] = $this->parse_attachments( $attachments, $post );
 					}
 					unset( $attachment, $src, $image, $alt );
 				}
 
-				$url['images'] = apply_filters( 'wpseo_sitemap_urlimages', $url['images'], $p->ID );
+				$url['images'] = apply_filters( 'wpseo_sitemap_urlimages', $url['images'], $post->ID );
 
 				if ( ! in_array( $url['loc'], $stackedurls ) ) {
 					// Use this filter to adjust the entry before it gets added to the sitemap.
-					$url = apply_filters( 'wpseo_sitemap_entry', $url, 'post', $p );
+					$url = apply_filters( 'wpseo_sitemap_entry', $url, 'post', $post );
 					if ( is_array( $url ) && $url !== array() ) {
 						$output       .= $this->sitemap_url( $url );
 						$stackedurls[] = $url['loc'];
@@ -836,7 +836,7 @@ class WPSEO_Sitemaps {
 				// clean_object_term_cache( $p->ID, $post_type );
 				// as we no longer need it now.
 			}
-			unset( $p, $url );
+			unset( $post, $url );
 		}
 
 		if ( empty( $output ) ) {
