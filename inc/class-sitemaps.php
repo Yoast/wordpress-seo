@@ -875,21 +875,23 @@ class WPSEO_Sitemaps {
 		$return = array();
 
 		foreach ( $matches[0] as $img ) {
+
 			if ( preg_match( '`src=["\']([^"\']+)["\']`', $img, $match ) ) {
+
 				$src = $match[1];
+
 				if ( WPSEO_Utils::is_url_relative( $src ) === true ) {
+
 					if ( $src[0] !== '/' ) {
 						continue;
 					}
-					else {
-						// The URL is relative, we'll have to make it absolute.
-						$src = $this->home_url . $src;
-					}
+
+					// The URL is relative, we'll have to make it absolute.
+					$src = $this->home_url . $src;
 				}
 				elseif ( strpos( $src, 'http' ) !== 0 ) {
 					// Protocol relative url, we add the scheme as the standard requires a protocol.
 					$src = $scheme . ':' . $src;
-
 				}
 
 				if ( strpos( $src, $host ) === false ) {
