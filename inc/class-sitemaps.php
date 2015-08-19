@@ -971,6 +971,20 @@ class WPSEO_Sitemaps {
 			$terms = array();
 		}
 
+		// Grab last modified date.
+		$sql = "
+			SELECT MAX(p.post_modified_gmt) AS lastmod
+			FROM	$wpdb->posts AS p
+			INNER JOIN $wpdb->term_relationships AS term_rel
+				ON		term_rel.object_id = p.ID
+			INNER JOIN $wpdb->term_taxonomy AS term_tax
+				ON		term_tax.term_taxonomy_id = term_rel.term_taxonomy_id
+				AND		term_tax.taxonomy = %s
+				AND		term_tax.term_id = %d
+			WHERE	p.post_status IN ('publish','inherit')
+				AND		p.post_password = ''
+		";
+
 		foreach ( $terms as $term ) {
 
 			$url = array();
@@ -1008,20 +1022,6 @@ class WPSEO_Sitemaps {
 				$url['pri'] = 0.2;
 			}
 
-			// Grab last modified date.
-			$sql = "
-				SELECT MAX(p.post_modified_gmt) AS lastmod
-				FROM	$wpdb->posts AS p
-				INNER JOIN $wpdb->term_relationships AS term_rel
-					ON		term_rel.object_id = p.ID
-				INNER JOIN $wpdb->term_taxonomy AS term_tax
-					ON		term_tax.term_taxonomy_id = term_rel.term_taxonomy_id
-					AND		term_tax.taxonomy = %s
-					AND		term_tax.term_id = %d
-				WHERE	p.post_status IN ('publish','inherit')
-					AND		p.post_password = ''
-			";
-
 			$url['mod'] = $wpdb->get_var( $wpdb->prepare( $sql, $term->taxonomy, $term->term_id ) );
 			$url['chf'] = $this->filter_frequency( $term->taxonomy . '_term', 'weekly', $url['loc'] );
 
@@ -1032,7 +1032,7 @@ class WPSEO_Sitemaps {
 				$output .= $this->sitemap_url( $url );
 			}
 		}
-		unset( $term, $url, $tax_noindex, $tax_sitemap_inc, $sql );
+		unset( $term, $url, $tax_noindex, $tax_sitemap_inc );
 
 		if ( empty( $output ) ) {
 			$this->bad_sitemap = true;
