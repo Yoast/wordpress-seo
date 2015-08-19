@@ -952,9 +952,9 @@ class WPSEO_Sitemaps {
 
 		$output = '';
 
-		$steps  = $this->max_entries;
-		$n      = (int) $this->n;
-		$offset = ( $n > 1 ) ? ( ( $n - 1 ) * $this->max_entries ) : 0;
+		$steps        = $this->max_entries;
+		$current_page = (int) $this->n;
+		$offset       = ( $current_page > 1 ) ? ( ( $current_page - 1 ) * $this->max_entries ) : 0;
 
 		/**
 		 * Filter: 'wpseo_sitemap_exclude_empty_terms' - Allow people to include empty terms in sitemap
