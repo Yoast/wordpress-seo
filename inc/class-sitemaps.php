@@ -937,10 +937,11 @@ class WPSEO_Sitemaps {
 	 * @param object $taxonomy Taxonomy data object.
 	 */
 	public function build_tax_map( $taxonomy ) {
+
 		if (
-			( isset( $this->options[ 'taxonomies-' . $taxonomy->name . '-not_in_sitemap' ] ) && $this->options[ 'taxonomies-' . $taxonomy->name . '-not_in_sitemap' ] === true )
+			! empty( $this->options[ "taxonomies-{$taxonomy->name}-not_in_sitemap" ] )
 			|| in_array( $taxonomy, array( 'link_category', 'nav_menu', 'post_format' ) )
-			|| apply_filters( 'wpseo_sitemap_exclude_taxonomy', false, $taxonomy->name )
+			|| apply_filters( 'wpseo_sitemap_exclude_taxonomy', false, $taxonomy->name ) // TODO document filter. R.
 		) {
 			$this->bad_sitemap = true;
 
