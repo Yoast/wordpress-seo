@@ -725,7 +725,7 @@ class WPSEO_Sitemaps {
 			}
 			unset( $post_ids );
 
-			$offset = ( $offset + $steps );
+			$offset += $steps;
 
 			$posts_to_exclude = explode( ',', $this->options['excluded-posts'] );
 
