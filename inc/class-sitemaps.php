@@ -1085,10 +1085,8 @@ class WPSEO_Sitemaps {
 			),
 		) );
 
-		if ( is_array( $users ) && $users !== array() ) {
-			foreach ( $users as $user ) {
-				update_user_meta( $user->ID, '_yoast_wpseo_profile_updated', time() );
-			}
+		foreach ( $users as $user ) {
+			update_user_meta( $user->ID, '_yoast_wpseo_profile_updated', time() );
 		}
 		unset( $users, $user );
 
@@ -1102,31 +1100,39 @@ class WPSEO_Sitemaps {
 			'order'    => 'ASC',
 		) );
 
-		$users = apply_filters( 'wpseo_sitemap_exclude_author', $users );
+		$users = apply_filters( 'wpseo_sitemap_exclude_author', $users ); // TODO document filter. R.
+
+		if ( empty( $users ) ) {
+			$users = array();
+		}
 
 		// Ascending sort.
 		usort( $users, array( $this, 'user_map_sorter' ) );
 
-		if ( is_array( $users ) && $users !== array() ) {
-			foreach ( $users as $user ) {
-				$author_link = get_author_posts_url( $user->ID );
-				if ( $author_link !== '' ) {
-					$url = array(
-						'loc' => $author_link,
-						'pri' => 0.8,
-						'chf' => $this->filter_frequency( 'author_archive', 'daily', $author_link ),
-						'mod' => date( 'c', isset( $user->_yoast_wpseo_profile_updated ) ? $user->_yoast_wpseo_profile_updated : time() ),
-					);
-					// Use this filter to adjust the entry before it gets added to the sitemap.
-					$url = apply_filters( 'wpseo_sitemap_entry', $url, 'user', $user );
+		foreach ( $users as $user ) {
 
-					if ( is_array( $url ) && $url !== array() ) {
-						$output .= $this->sitemap_url( $url );
-					}
-				}
+			$author_link = get_author_posts_url( $user->ID );
+
+			if ( empty( $author_link ) ) {
+				continue;
 			}
-			unset( $user, $author_link, $url );
+
+			$url = array(
+				'loc' => $author_link,
+				'pri' => 0.8,
+				'chf' => $this->filter_frequency( 'author_archive', 'daily', $author_link ),
+				'mod' => date( 'c', isset( $user->_yoast_wpseo_profile_updated ) ? $user->_yoast_wpseo_profile_updated : time() ),
+			);
+
+			// Use this filter to adjust the entry before it gets added to the sitemap.
+			// TODO document filter. R.
+			$url = apply_filters( 'wpseo_sitemap_entry', $url, 'user', $user );
+
+			if ( ! empty( $url ) ) {
+				$output .= $this->sitemap_url( $url );
+			}
 		}
+		unset( $user, $author_link, $url );
 
 		if ( empty( $output ) ) {
 			$this->bad_sitemap = true;
