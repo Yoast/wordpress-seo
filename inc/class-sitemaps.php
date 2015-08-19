@@ -473,15 +473,15 @@ class WPSEO_Sitemaps {
 		$users = apply_filters( 'wpseo_sitemap_exclude_author', $users );
 		$users = wp_list_pluck( $users, 'ID' );
 
-		$count = count( $users );
-		$n     = ( $count > 0 ) ? 1 : 0;
+		$count     = count( $users );
+		$max_pages = ( $count > 0 ) ? 1 : 0;
 
 		if ( $count > $this->max_entries ) {
-			$n = (int) ceil( $count / $this->max_entries );
+			$max_pages = (int) ceil( $count / $this->max_entries );
 		};
 
-		for ( $i = 0; $i < $n; $i ++ ) {
-			$count = ( $n > 1 ) ? ( $i + 1 ) : '';
+		for ( $i = 0; $i < $max_pages; $i ++ ) {
+			$count = ( $max_pages > 1 ) ? ( $i + 1 ) : '';
 
 			// Must use custom raw query because WP User Query does not support ordering by usermeta.
 			// Retrieve the newest updated profile timestamp overall.
@@ -499,7 +499,7 @@ class WPSEO_Sitemaps {
 				ORDER BY mt1.meta_value
 			";
 
-			if ( empty( $count ) || $count == $n ) {
+			if ( empty( $count ) || $count == $max_pages ) {
 				$sql = $wpdb->prepare(
 					$date_query . ' ASC LIMIT 1',
 					$wpdb->get_blog_prefix() . 'user_level'
