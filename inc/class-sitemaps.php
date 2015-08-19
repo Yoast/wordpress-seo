@@ -709,11 +709,7 @@ class WPSEO_Sitemaps {
 			";
 			$posts = $wpdb->get_results( $wpdb->prepare( $sql, $status, $post_type, $steps, $offset ) );
 
-			$post_ids = array();
-			foreach ( $posts as $p ) {
-				$post_ids[] = $p->ID;
-			}
-			unset( $p );
+			$post_ids = wp_list_pluck( $posts, 'ID' );
 
 			if ( count( $post_ids ) > 0 ) {
 				update_meta_cache( 'post', $post_ids );
