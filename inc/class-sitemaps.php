@@ -480,24 +480,25 @@ class WPSEO_Sitemaps {
 			$max_pages = (int) ceil( $count / $this->max_entries );
 		};
 
-		for ( $i = 0; $i < $max_pages; $i ++ ) {
-			$count = ( $max_pages > 1 ) ? ( $i + 1 ) : '';
+		// Must use custom raw query because WP User Query does not support ordering by usermeta.
+		// Retrieve the newest updated profile timestamp overall.
+		// TODO order by usermeta supported since WP 3.7, update implementation? R.
+		$date_query = "
+			SELECT mt1.meta_value
+			FROM $wpdb->users
+				INNER JOIN $wpdb->usermeta ON ($wpdb->users.ID = $wpdb->usermeta.user_id)
+				INNER JOIN $wpdb->usermeta AS mt1 ON ($wpdb->users.ID = mt1.user_id)
+			WHERE 1=1
+				AND (
+					($wpdb->usermeta.meta_key = %s AND CAST($wpdb->usermeta.meta_value AS CHAR) != '0')
+					AND mt1.meta_key = '_yoast_wpseo_profile_updated'
+				)
+			ORDER BY mt1.meta_value
+		";
 
-			// Must use custom raw query because WP User Query does not support ordering by usermeta.
-			// Retrieve the newest updated profile timestamp overall.
-			// TODO order by usermeta supported since WP 3.7, update implementation? R.
-			$date_query = "
-				SELECT mt1.meta_value
-				FROM $wpdb->users
-					INNER JOIN $wpdb->usermeta ON ($wpdb->users.ID = $wpdb->usermeta.user_id)
-					INNER JOIN $wpdb->usermeta AS mt1 ON ($wpdb->users.ID = mt1.user_id)
-				WHERE 1=1
-					AND (
-						($wpdb->usermeta.meta_key = %s AND CAST($wpdb->usermeta.meta_value AS CHAR) != '0')
-						AND mt1.meta_key = '_yoast_wpseo_profile_updated'
-					)
-				ORDER BY mt1.meta_value
-			";
+		for ( $i = 0; $i < $max_pages; $i ++ ) {
+
+			$count = ( $max_pages > 1 ) ? ( $i + 1 ) : '';
 
 			if ( empty( $count ) || $count == $max_pages ) {
 				$sql = $wpdb->prepare(
