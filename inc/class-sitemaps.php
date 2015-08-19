@@ -709,6 +709,12 @@ class WPSEO_Sitemaps {
 			";
 			$posts = $wpdb->get_results( $wpdb->prepare( $sql, $status, $post_type, $steps, $offset ) );
 
+			$offset += $steps;
+
+			if ( empty( $posts ) ) {
+				continue;
+			}
+
 			$post_ids = wp_list_pluck( $posts, 'ID' );
 
 			if ( count( $post_ids ) > 0 ) {
@@ -725,113 +731,112 @@ class WPSEO_Sitemaps {
 			}
 			unset( $post_ids );
 
-			$offset += $steps;
-
 			$posts_to_exclude = explode( ',', $this->options['excluded-posts'] );
 
-			if ( is_array( $posts ) && $posts !== array() ) {
-				foreach ( $posts as $p ) {
-					$p->post_type   = $post_type;
-					$p->post_status = 'publish';
-					$p->filter      = 'sample';
+			foreach ( $posts as $p ) {
 
-					if ( WPSEO_Meta::get_value( 'meta-robots-noindex', $p->ID ) === '1' ) {
-						continue;
-					}
-					if ( in_array( $p->ID, $posts_to_exclude ) ) {
-						continue;
-					}
+				$p->post_type   = $post_type;
+				$p->post_status = 'publish';
+				$p->filter      = 'sample';
 
-					$url = array();
-
-					if ( isset( $p->post_modified_gmt ) && $p->post_modified_gmt != '0000-00-00 00:00:00' && $p->post_modified_gmt > $p->post_date_gmt ) {
-						$url['mod'] = $p->post_modified_gmt;
-					}
-					else {
-						if ( '0000-00-00 00:00:00' != $p->post_date_gmt ) {
-							$url['mod'] = $p->post_date_gmt;
-						}
-						else {
-							$url['mod'] = $p->post_date; // TODO does this ever happen? will wreck timezone later R.
-						}
-					}
-
-					$url['loc'] = get_permalink( $p );
-
-					/**
-					 * Filter: 'wpseo_xml_sitemap_post_url' - Allow changing the URL Yoast SEO uses in the XML sitemap.
-					 *
-					 * Note that only absolute local URLs are allowed as the check after this removes external URLs.
-					 *
-					 * @api string $url URL to use in the XML sitemap
-					 *
-					 * @param object $p Post object for the URL.
-					 */
-					$url['loc'] = apply_filters( 'wpseo_xml_sitemap_post_url', $url['loc'], $p );
-
-					$url['chf'] = $this->filter_frequency( $post_type . '_single', 'weekly', $url['loc'] );
-
-					/**
-					 * Do not include external URLs.
-					 * @see https://wordpress.org/plugins/page-links-to/ can rewrite permalinks to external URLs.
-					 */
-					if ( false === strpos( $url['loc'], $this->home_url ) ) {
-						continue;
-					}
-
-					$canonical = WPSEO_Meta::get_value( 'canonical', $p->ID );
-					if ( $canonical !== '' && $canonical !== $url['loc'] ) {
-						/*
-						Let's assume that if a canonical is set for this page and it's different from
-						   the URL of this post, that page is either already in the XML sitemap OR is on
-						   an external site, either way, we shouldn't include it here.
-						*/
-						continue;
-					}
-					else {
-						if ( $this->options['trailingslash'] === true && $p->post_type != 'post' ) {
-							$url['loc'] = trailingslashit( $url['loc'] );
-						}
-					}
-					unset( $canonical );
-
-					$url['pri'] = $this->calculate_priority( $p );
-
-					$url['images'] = array();
-
-					$content = $p->post_content;
-					$content = '<p><img src="' . $this->image_url( get_post_thumbnail_id( $p->ID ) ) . '" alt="' . $p->post_title . '" /></p>' . $content;
-
-					if ( preg_match_all( '`<img [^>]+>`', $content, $matches ) ) {
-						$url['images'] = $this->parse_matched_images( $matches, $p, $scheme, $host );
-					}
-					unset( $content, $matches, $img );
-
-					if ( strpos( $p->post_content, '[gallery' ) !== false ) {
-						if ( is_array( $attachments ) && $attachments !== array() ) {
-							$url['images'] = $this->parse_attachments( $attachments, $p );
-						}
-						unset( $attachment, $src, $image, $alt );
-					}
-
-					$url['images'] = apply_filters( 'wpseo_sitemap_urlimages', $url['images'], $p->ID );
-
-					if ( ! in_array( $url['loc'], $stackedurls ) ) {
-						// Use this filter to adjust the entry before it gets added to the sitemap.
-						$url = apply_filters( 'wpseo_sitemap_entry', $url, 'post', $p );
-						if ( is_array( $url ) && $url !== array() ) {
-							$output       .= $this->sitemap_url( $url );
-							$stackedurls[] = $url['loc'];
-						}
-					}
-
-					// Clear the post_meta and the term cache for the post
-					// wp_cache_delete( $p->ID, 'post_meta' );
-					// clean_object_term_cache( $p->ID, $post_type );
-					// as we no longer need it now.
+				if ( WPSEO_Meta::get_value( 'meta-robots-noindex', $p->ID ) === '1' ) {
+					continue;
 				}
-				unset( $p, $url );
+
+				if ( in_array( $p->ID, $posts_to_exclude ) ) {
+					continue;
+				}
+
+				$url = array();
+
+				if ( isset( $p->post_modified_gmt ) && $p->post_modified_gmt != '0000-00-00 00:00:00' && $p->post_modified_gmt > $p->post_date_gmt ) {
+					$url['mod'] = $p->post_modified_gmt;
+				}
+				else {
+					if ( '0000-00-00 00:00:00' != $p->post_date_gmt ) {
+						$url['mod'] = $p->post_date_gmt;
+					}
+					else {
+						$url['mod'] = $p->post_date; // TODO does this ever happen? will wreck timezone later R.
+					}
+				}
+
+				$url['loc'] = get_permalink( $p );
+
+				/**
+				 * Filter: 'wpseo_xml_sitemap_post_url' - Allow changing the URL Yoast SEO uses in the XML sitemap.
+				 *
+				 * Note that only absolute local URLs are allowed as the check after this removes external URLs.
+				 *
+				 * @api string $url URL to use in the XML sitemap
+				 *
+				 * @param object $p Post object for the URL.
+				 */
+				$url['loc'] = apply_filters( 'wpseo_xml_sitemap_post_url', $url['loc'], $p );
+
+				$url['chf'] = $this->filter_frequency( $post_type . '_single', 'weekly', $url['loc'] );
+
+				/**
+				 * Do not include external URLs.
+				 * @see https://wordpress.org/plugins/page-links-to/ can rewrite permalinks to external URLs.
+				 */
+				if ( false === strpos( $url['loc'], $this->home_url ) ) {
+					continue;
+				}
+
+				$canonical = WPSEO_Meta::get_value( 'canonical', $p->ID );
+
+				if ( $canonical !== '' && $canonical !== $url['loc'] ) {
+					/*
+					Let's assume that if a canonical is set for this page and it's different from
+					   the URL of this post, that page is either already in the XML sitemap OR is on
+					   an external site, either way, we shouldn't include it here.
+					*/
+					continue;
+				}
+				else {
+					if ( $this->options['trailingslash'] === true && $p->post_type != 'post' ) {
+						$url['loc'] = trailingslashit( $url['loc'] );
+					}
+				}
+				unset( $canonical );
+
+				$url['pri'] = $this->calculate_priority( $p );
+
+				$url['images'] = array();
+
+				$content = $p->post_content;
+				$content = '<p><img src="' . $this->image_url( get_post_thumbnail_id( $p->ID ) ) . '" alt="' . $p->post_title . '" /></p>' . $content;
+
+				if ( preg_match_all( '`<img [^>]+>`', $content, $matches ) ) {
+					$url['images'] = $this->parse_matched_images( $matches, $p, $scheme, $host );
+				}
+				unset( $content, $matches, $img );
+
+				if ( strpos( $p->post_content, '[gallery' ) !== false ) {
+					if ( is_array( $attachments ) && $attachments !== array() ) {
+						$url['images'] = $this->parse_attachments( $attachments, $p );
+					}
+					unset( $attachment, $src, $image, $alt );
+				}
+
+				$url['images'] = apply_filters( 'wpseo_sitemap_urlimages', $url['images'], $p->ID );
+
+				if ( ! in_array( $url['loc'], $stackedurls ) ) {
+					// Use this filter to adjust the entry before it gets added to the sitemap.
+					$url = apply_filters( 'wpseo_sitemap_entry', $url, 'post', $p );
+					if ( is_array( $url ) && $url !== array() ) {
+						$output       .= $this->sitemap_url( $url );
+						$stackedurls[] = $url['loc'];
+					}
+				}
+
+				// Clear the post_meta and the term cache for the post
+				// wp_cache_delete( $p->ID, 'post_meta' );
+				// clean_object_term_cache( $p->ID, $post_type );
+				// as we no longer need it now.
 			}
+			unset( $p, $url );
 		}
 
 		if ( empty( $output ) ) {
