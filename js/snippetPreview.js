@@ -114,48 +114,43 @@ YoastSEO.SnippetPreview.prototype.formatMeta = function() {
 YoastSEO.SnippetPreview.prototype.getMetaText = function() {
 	var metaText;
 	if ( typeof this.refObj.source.formattedData.excerpt !== "undefined" ) {
-		metaText = this.refObj.source.formattedData.excerpt.substring(
-			0,
-			YoastSEO.analyzerConfig.maxMeta
-		);
+		metaText = this.refObj.source.formattedData.excerpt;
 	}
 	if ( metaText === "" ) {
 		metaText = this.refObj.config.sampleText.meta;
-		if (
-			this.refObj.source.formattedData.keyword !== "" &&
-			this.refObj.source.formattedData.text !== ""
-		) {
-			var indexMatches = this.getIndexMatches();
-			var periodMatches = this.getPeriodMatches();
-			metaText = this.refObj.source.formattedData.text.substring(
-				0,
-				YoastSEO.analyzerConfig.maxMeta
-			);
-			var curStart = 0;
-			if ( indexMatches.length > 0 ) {
-				for ( var j = 0; j < periodMatches.length; ) {
-					if ( periodMatches[ 0 ] < indexMatches[ 0 ] ) {
-						curStart = periodMatches.shift();
-					} else {
-						if ( curStart > 0 ) {
-							curStart += 2;
-						}
-						break;
+	}
+
+	metaText = this.refObj.stringHelper.stripAllTags(metaText);
+	if (
+		this.refObj.source.formattedData.keyword !== "" &&
+		this.refObj.source.formattedData.text !== ""
+	) {
+		var indexMatches = this.getIndexMatches();
+		var periodMatches = this.getPeriodMatches();
+		metaText = metaText.substring(
+			0,
+			YoastSEO.analyzerConfig.maxMeta
+		);
+		var curStart = 0;
+		if ( indexMatches.length > 0 ) {
+
+			for ( var j = 0; j < periodMatches.length; ) {
+				if ( periodMatches[ 0 ] < indexMatches[ 0 ] ) {
+					curStart = periodMatches.shift();
+				} else {
+					if ( curStart > 0 ) {
+						curStart += 2;
 					}
+					break;
 				}
-				metaText = this.refObj.stringHelper.stripAllTags(
-					this.refObj.source.formattedData.text.substring(
-						curStart,
-						curStart + YoastSEO.analyzerConfig.maxMeta
-					)
-				);
 			}
+
 		}
 	}
 	if ( this.refObj.stringHelper.stripAllTags( metaText ) === "" ) {
 		return this.refObj.config.sampleText.meta;
 	}
-	return metaText;
+	return metaText.substring(0,YoastSEO.analyzerConfig.maxMeta);
 };
 
 /**
