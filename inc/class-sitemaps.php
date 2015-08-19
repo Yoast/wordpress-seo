@@ -978,7 +978,7 @@ class WPSEO_Sitemaps {
 			$tax_noindex     = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'noindex' );
 			$tax_sitemap_inc = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'sitemap_include' );
 
-			if ( ( is_string( $tax_noindex ) && $tax_noindex === 'noindex' ) && ( ! is_string( $tax_sitemap_inc ) || $tax_sitemap_inc !== 'always' ) ) {
+			if ( $tax_noindex === 'noindex' && $tax_sitemap_inc !== 'always' ) {
 				continue;
 			}
 
