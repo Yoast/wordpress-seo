@@ -1161,23 +1161,26 @@ class WPSEO_Sitemaps {
 	 * @since 1.4.13
 	 */
 	public function xsl_output( $type ) {
-		if ( $type == 'main' ) {
-			header( $this->http_protocol() . ' 200 OK', true, 200 );
-			// Prevent the search engines from indexing the XML Sitemap.
-			header( 'X-Robots-Tag: noindex, follow', true );
-			header( 'Content-Type: text/xml' );
 
-			// Make the browser cache this file properly.
-			$expires = YEAR_IN_SECONDS;
-			header( 'Pragma: public' );
-			header( 'Cache-Control: maxage=' . $expires );
-			header( 'Expires: ' . gmdate( 'D, d M Y H:i:s', ( time() + $expires ) ) . ' GMT' );
+		if ( $type !== 'main' ) {
 
-			require_once( WPSEO_PATH . 'css/xml-sitemap-xsl.php' );
+			do_action( 'wpseo_xsl_' . $type ); // TODO document action. R.
+
+			return;
 		}
-		else {
-			do_action( 'wpseo_xsl_' . $type );
-		}
+
+		header( $this->http_protocol() . ' 200 OK', true, 200 );
+		// Prevent the search engines from indexing the XML Sitemap.
+		header( 'X-Robots-Tag: noindex, follow', true );
+		header( 'Content-Type: text/xml' );
+
+		// Make the browser cache this file properly.
+		$expires = YEAR_IN_SECONDS;
+		header( 'Pragma: public' );
+		header( 'Cache-Control: maxage=' . $expires );
+		header( 'Expires: ' . gmdate( 'D, d M Y H:i:s', ( time() + $expires ) ) . ' GMT' );
+
+		require_once( WPSEO_PATH . 'css/xml-sitemap-xsl.php' );
 	}
 
 	/**
