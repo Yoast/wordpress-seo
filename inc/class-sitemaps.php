@@ -1060,6 +1060,7 @@ class WPSEO_Sitemaps {
 	 * @since 1.4.8
 	 */
 	public function build_user_map() {
+
 		if ( $this->options['disable-author'] === true || $this->options['disable_author_sitemap'] === true ) {
 			$this->bad_sitemap = true;
 
@@ -1068,9 +1069,9 @@ class WPSEO_Sitemaps {
 
 		$output = '';
 
-		$steps  = $this->max_entries;
-		$n      = (int) $this->n;
-		$offset = ( $n > 1 ) ? ( ( $n - 1 ) * $this->max_entries ) : 0;
+		$steps        = $this->max_entries;
+		$current_page = (int) $this->n;
+		$offset       = ( $current_page > 1 ) ? ( ( $current_page - 1 ) * $this->max_entries ) : 0;
 
 		// Initial query to fill in missing usermeta with the current timestamp.
 		$users = get_users(
@@ -1143,7 +1144,7 @@ class WPSEO_Sitemaps {
 		$this->sitemap .= $output;
 
 		// Filter to allow adding extra URLs, only do this on the first XML sitemap, not on all.
-		if ( $n === 1 ) {
+		if ( $current_page === 1 ) {
 			$this->sitemap .= apply_filters( 'wpseo_sitemap_author_content', '' );
 		}
 
