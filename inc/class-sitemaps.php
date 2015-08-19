@@ -579,10 +579,10 @@ class WPSEO_Sitemaps {
 
 		$output = '';
 
-		$steps  = ( 100 > $this->max_entries ) ? $this->max_entries : 100;
-		$n      = (int) $this->n;
-		$offset = ( $n > 1 ) ? ( ( $n - 1 ) * $this->max_entries ) : 0;
-		$total  = ( $offset + $this->max_entries );
+		$steps        = ( 100 > $this->max_entries ) ? $this->max_entries : 100;
+		$current_page = (int) $this->n;
+		$offset       = ( $current_page > 1 ) ? ( ( $current_page - 1 ) * $this->max_entries ) : 0;
+		$total        = ( $offset + $this->max_entries );
 
 		$join_filter  = apply_filters( 'wpseo_typecount_join', '', $post_type );
 		$where_filter = apply_filters( 'wpseo_typecount_where', '', $post_type );
@@ -604,7 +604,7 @@ class WPSEO_Sitemaps {
 			$total = $typecount;
 		}
 
-		if ( $n === 1 ) {
+		if ( $current_page === 1 ) {
 			$front_id = get_option( 'page_on_front' );
 			if ( ! $front_id && ( $post_type == 'post' || $post_type == 'page' ) ) {
 				$output .= $this->sitemap_url(
@@ -850,7 +850,7 @@ class WPSEO_Sitemaps {
 		$this->sitemap .= $output;
 
 		// Filter to allow adding extra URLs, only do this on the first XML sitemap, not on all.
-		if ( $n === 1 ) {
+		if ( $current_page === 1 ) {
 			$this->sitemap .= apply_filters( 'wpseo_sitemap_' . $post_type . '_content', '' );
 		}
 
