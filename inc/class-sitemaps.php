@@ -864,13 +864,13 @@ class WPSEO_Sitemaps {
 	 * Parsing the matched images
 	 *
 	 * @param array  $matches Set of matches.
-	 * @param object $p       Post object.
+	 * @param object $post    Post object.
 	 * @param string $scheme  URL scheme.
 	 * @param string $host    URL host.
 	 *
 	 * @return array
 	 */
-	private function parse_matched_images( $matches, $p, $scheme, $host ) {
+	private function parse_matched_images( $matches, $post, $scheme, $host ) {
 
 		$return = array();
 
@@ -905,7 +905,7 @@ class WPSEO_Sitemaps {
 				}
 
 				$image = array(
-					'src' => apply_filters( 'wpseo_xml_sitemap_img_src', $src, $p ),
+					'src' => apply_filters( 'wpseo_xml_sitemap_img_src', $src, $post ),
 				);
 
 				if ( preg_match( '`title=["\']([^"\']+)["\']`', $img, $title_match ) ) {
@@ -918,7 +918,7 @@ class WPSEO_Sitemaps {
 				}
 				unset( $alt_match );
 
-				$image    = apply_filters( 'wpseo_xml_sitemap_img', $image, $p );
+				$image    = apply_filters( 'wpseo_xml_sitemap_img', $image, $post ); // TODO document filter. R.
 				$return[] = $image;
 			}
 			unset( $match, $src );
