@@ -796,12 +796,11 @@ class WPSEO_Sitemaps {
 					*/
 					continue;
 				}
-				else {
-					if ( $this->options['trailingslash'] === true && $post->post_type != 'post' ) {
-						$url['loc'] = trailingslashit( $url['loc'] );
-					}
-				}
 				unset( $canonical );
+
+				if ( $this->options['trailingslash'] === true && $post->post_type != 'post' ) {
+					$url['loc'] = trailingslashit( $url['loc'] );
+				}
 
 				$url['pri'] = $this->calculate_priority( $post );
 
