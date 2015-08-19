@@ -876,53 +876,55 @@ class WPSEO_Sitemaps {
 
 		foreach ( $matches[0] as $img ) {
 
-			if ( preg_match( '`src=["\']([^"\']+)["\']`', $img, $match ) ) {
-
-				$src = $match[1];
-
-				if ( WPSEO_Utils::is_url_relative( $src ) === true ) {
-
-					if ( $src[0] !== '/' ) {
-						continue;
-					}
-
-					// The URL is relative, we'll have to make it absolute.
-					$src = $this->home_url . $src;
-				}
-				elseif ( strpos( $src, 'http' ) !== 0 ) {
-					// Protocol relative url, we add the scheme as the standard requires a protocol.
-					$src = $scheme . ':' . $src;
-				}
-
-				if ( strpos( $src, $host ) === false ) {
-					continue;
-				}
-
-				if ( $src != esc_url( $src ) ) {
-					continue;
-				}
-
-				if ( isset( $return[ $src ] ) ) {
-					continue;
-				}
-
-				$image = array(
-					'src' => apply_filters( 'wpseo_xml_sitemap_img_src', $src, $post ),
-				);
-
-				if ( preg_match( '`title=["\']([^"\']+)["\']`', $img, $title_match ) ) {
-					$image['title'] = str_replace( array( '-', '_' ), ' ', $title_match[1] );
-				}
-				unset( $title_match );
-
-				if ( preg_match( '`alt=["\']([^"\']+)["\']`', $img, $alt_match ) ) {
-					$image['alt'] = str_replace( array( '-', '_' ), ' ', $alt_match[1] );
-				}
-				unset( $alt_match );
-
-				$image    = apply_filters( 'wpseo_xml_sitemap_img', $image, $post ); // TODO document filter. R.
-				$return[] = $image;
+			if ( ! preg_match( '`src=["\']([^"\']+)["\']`', $img, $match ) ) {
+				continue;
 			}
+
+			$src = $match[1];
+
+			if ( WPSEO_Utils::is_url_relative( $src ) === true ) {
+
+				if ( $src[0] !== '/' ) {
+					continue;
+				}
+
+				// The URL is relative, we'll have to make it absolute.
+				$src = $this->home_url . $src;
+			}
+			elseif ( strpos( $src, 'http' ) !== 0 ) {
+				// Protocol relative url, we add the scheme as the standard requires a protocol.
+				$src = $scheme . ':' . $src;
+			}
+
+			if ( strpos( $src, $host ) === false ) {
+				continue;
+			}
+
+			if ( $src != esc_url( $src ) ) {
+				continue;
+			}
+
+			if ( isset( $return[ $src ] ) ) {
+				continue;
+			}
+
+			$image = array(
+				'src' => apply_filters( 'wpseo_xml_sitemap_img_src', $src, $post ),
+			);
+
+			if ( preg_match( '`title=["\']([^"\']+)["\']`', $img, $title_match ) ) {
+				$image['title'] = str_replace( array( '-', '_' ), ' ', $title_match[1] );
+			}
+			unset( $title_match );
+
+			if ( preg_match( '`alt=["\']([^"\']+)["\']`', $img, $alt_match ) ) {
+				$image['alt'] = str_replace( array( '-', '_' ), ' ', $alt_match[1] );
+			}
+			unset( $alt_match );
+
+			$image    = apply_filters( 'wpseo_xml_sitemap_img', $image, $post ); // TODO document filter. R.
+			$return[] = $image;
+
 			unset( $match, $src );
 		}
 
