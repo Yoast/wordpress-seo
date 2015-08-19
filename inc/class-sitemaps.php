@@ -814,17 +814,17 @@ class WPSEO_Sitemaps {
 				}
 				unset( $content, $matches, $img );
 
-				if ( strpos( $post->post_content, '[gallery' ) !== false ) {
-					if ( is_array( $attachments ) && $attachments !== array() ) {
-						$url['images'] = $this->parse_attachments( $attachments, $post );
-					}
-					unset( $attachment, $src, $image, $alt );
+				if ( ! empty( $attachments ) && strpos( $post->post_content, '[gallery' ) !== false ) {
+
+					$url['images'] = $this->parse_attachments( $attachments, $post );
 				}
 
+				// TODO document filter. R.
 				$url['images'] = apply_filters( 'wpseo_sitemap_urlimages', $url['images'], $post->ID );
 
 				if ( ! in_array( $url['loc'], $stackedurls ) ) {
 					// Use this filter to adjust the entry before it gets added to the sitemap.
+					// TODO document filter. R.
 					$url = apply_filters( 'wpseo_sitemap_entry', $url, 'post', $post );
 					if ( is_array( $url ) && $url !== array() ) {
 						$output       .= $this->sitemap_url( $url );
@@ -836,6 +836,7 @@ class WPSEO_Sitemaps {
 				// wp_cache_delete( $p->ID, 'post_meta' );
 				// clean_object_term_cache( $p->ID, $post_type );
 				// as we no longer need it now.
+				// TODO commented out? obsolete?.. R.
 			}
 			unset( $post, $url );
 		}
