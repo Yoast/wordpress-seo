@@ -749,16 +749,18 @@ class WPSEO_Sitemaps {
 
 				$url = array();
 
-				if ( isset( $post->post_modified_gmt ) && $post->post_modified_gmt != '0000-00-00 00:00:00' && $post->post_modified_gmt > $post->post_date_gmt ) {
+				if (
+					isset( $post->post_modified_gmt )
+					&& $post->post_modified_gmt !== '0000-00-00 00:00:00'
+					&& $post->post_modified_gmt > $post->post_date_gmt
+				) {
 					$url['mod'] = $post->post_modified_gmt;
 				}
+				elseif ( $post->post_date_gmt !== '0000-00-00 00:00:00' ) {
+					$url['mod'] = $post->post_date_gmt;
+				}
 				else {
-					if ( '0000-00-00 00:00:00' != $post->post_date_gmt ) {
-						$url['mod'] = $post->post_date_gmt;
-					}
-					else {
-						$url['mod'] = $post->post_date; // TODO does this ever happen? will wreck timezone later R.
-					}
+					$url['mod'] = $post->post_date; // TODO does this ever happen? will wreck timezone later R.
 				}
 
 				$url['loc'] = get_permalink( $post );
