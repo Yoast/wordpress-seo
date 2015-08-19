@@ -564,12 +564,13 @@ class WPSEO_Sitemaps {
 	 * @param string $post_type Registered post type's slug.
 	 */
 	public function build_post_type_map( $post_type ) {
+
 		global $wpdb;
 
 		if (
-			( isset( $this->options[ 'post_types-' . $post_type . '-not_in_sitemap' ] ) && $this->options[ 'post_types-' . $post_type . '-not_in_sitemap' ] === true )
+			! empty( $this->options[ "post_types-{$post_type}-not_in_sitemap" ] )
 			|| in_array( $post_type, array( 'revision', 'nav_menu_item' ) )
-			|| apply_filters( 'wpseo_sitemap_exclude_post_type', false, $post_type )
+			|| apply_filters( 'wpseo_sitemap_exclude_post_type', false, $post_type ) // TODO document filter. R.
 		) {
 			$this->bad_sitemap = true;
 
