@@ -967,66 +967,69 @@ class WPSEO_Sitemaps {
 		$terms      = get_terms( $taxonomy->name, array( 'hide_empty' => $hide_empty ) );
 		$terms      = array_splice( $terms, $offset, $steps );
 
-		if ( is_array( $terms ) && $terms !== array() ) {
-			foreach ( $terms as $c ) {
-				$url = array();
+		if ( empty( $terms ) ) {
+			$terms = array();
+		}
 
-				$tax_noindex     = WPSEO_Taxonomy_Meta::get_term_meta( $c, $c->taxonomy, 'noindex' );
-				$tax_sitemap_inc = WPSEO_Taxonomy_Meta::get_term_meta( $c, $c->taxonomy, 'sitemap_include' );
+		foreach ( $terms as $term ) {
 
-				if ( ( is_string( $tax_noindex ) && $tax_noindex === 'noindex' ) && ( ! is_string( $tax_sitemap_inc ) || $tax_sitemap_inc !== 'always' ) ) {
-					continue;
-				}
+			$url = array();
 
-				if ( $tax_sitemap_inc === 'never' ) {
-					continue;
-				}
+			$tax_noindex     = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'noindex' );
+			$tax_sitemap_inc = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'sitemap_include' );
 
-				$url['loc'] = WPSEO_Taxonomy_Meta::get_term_meta( $c, $c->taxonomy, 'canonical' );
-				if ( ! is_string( $url['loc'] ) || $url['loc'] === '' ) {
-					$url['loc'] = get_term_link( $c, $c->taxonomy );
-					if ( $this->options['trailingslash'] === true ) {
-						$url['loc'] = trailingslashit( $url['loc'] );
-					}
-				}
-				if ( $c->count > 10 ) {
-					$url['pri'] = 0.6;
-				}
-				else {
-					if ( $c->count > 3 ) {
-						$url['pri'] = 0.4;
-					}
-					else {
-						$url['pri'] = 0.2;
-					}
-				}
+			if ( ( is_string( $tax_noindex ) && $tax_noindex === 'noindex' ) && ( ! is_string( $tax_sitemap_inc ) || $tax_sitemap_inc !== 'always' ) ) {
+				continue;
+			}
 
-				// Grab last modified date.
-				$sql = "
-					SELECT MAX(p.post_modified_gmt) AS lastmod
-					FROM	$wpdb->posts AS p
-					INNER JOIN $wpdb->term_relationships AS term_rel
-						ON		term_rel.object_id = p.ID
-					INNER JOIN $wpdb->term_taxonomy AS term_tax
-						ON		term_tax.term_taxonomy_id = term_rel.term_taxonomy_id
-						AND		term_tax.taxonomy = %s
-						AND		term_tax.term_id = %d
-					WHERE	p.post_status IN ('publish','inherit')
-						AND		p.post_password = ''
-				";
+			if ( $tax_sitemap_inc === 'never' ) {
+				continue;
+			}
 
-				$url['mod'] = $wpdb->get_var( $wpdb->prepare( $sql, $c->taxonomy, $c->term_id ) );
-				$url['chf'] = $this->filter_frequency( $c->taxonomy . '_term', 'weekly', $url['loc'] );
-
-				// Use this filter to adjust the entry before it gets added to the sitemap.
-				$url = apply_filters( 'wpseo_sitemap_entry', $url, 'term', $c );
-
-				if ( is_array( $url ) && $url !== array() ) {
-					$output .= $this->sitemap_url( $url );
+			$url['loc'] = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'canonical' );
+			if ( ! is_string( $url['loc'] ) || $url['loc'] === '' ) {
+				$url['loc'] = get_term_link( $term, $term->taxonomy );
+				if ( $this->options['trailingslash'] === true ) {
+					$url['loc'] = trailingslashit( $url['loc'] );
 				}
 			}
-			unset( $c, $url, $tax_noindex, $tax_sitemap_inc, $sql );
+			if ( $term->count > 10 ) {
+				$url['pri'] = 0.6;
+			}
+			else {
+				if ( $term->count > 3 ) {
+					$url['pri'] = 0.4;
+				}
+				else {
+					$url['pri'] = 0.2;
+				}
+			}
+
+			// Grab last modified date.
+			$sql = "
+				SELECT MAX(p.post_modified_gmt) AS lastmod
+				FROM	$wpdb->posts AS p
+				INNER JOIN $wpdb->term_relationships AS term_rel
+					ON		term_rel.object_id = p.ID
+				INNER JOIN $wpdb->term_taxonomy AS term_tax
+					ON		term_tax.term_taxonomy_id = term_rel.term_taxonomy_id
+					AND		term_tax.taxonomy = %s
+					AND		term_tax.term_id = %d
+				WHERE	p.post_status IN ('publish','inherit')
+					AND		p.post_password = ''
+			";
+
+			$url['mod'] = $wpdb->get_var( $wpdb->prepare( $sql, $term->taxonomy, $term->term_id ) );
+			$url['chf'] = $this->filter_frequency( $term->taxonomy . '_term', 'weekly', $url['loc'] );
+
+			// Use this filter to adjust the entry before it gets added to the sitemap.
+			$url = apply_filters( 'wpseo_sitemap_entry', $url, 'term', $term );
+
+			if ( is_array( $url ) && $url !== array() ) {
+				$output .= $this->sitemap_url( $url );
+			}
 		}
+		unset( $term, $url, $tax_noindex, $tax_sitemap_inc, $sql );
 
 		if ( empty( $output ) ) {
 			$this->bad_sitemap = true;
