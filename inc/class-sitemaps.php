@@ -1074,18 +1074,16 @@ class WPSEO_Sitemaps {
 		$offset       = ( $current_page > 1 ) ? ( ( $current_page - 1 ) * $this->max_entries ) : 0;
 
 		// Initial query to fill in missing usermeta with the current timestamp.
-		$users = get_users(
-			array(
-				'who'        => 'authors',
-				'meta_query' => array(
-					array(
-						'key'     => '_yoast_wpseo_profile_updated',
-						'value'   => 'needs-a-value-anyway', // This is ignored, but is necessary...
-						'compare' => 'NOT EXISTS',
-					),
+		$users = get_users( array(
+			'who'        => 'authors',
+			'meta_query' => array(
+				array(
+					'key'     => '_yoast_wpseo_profile_updated',
+					'value'   => 'needs-a-value-anyway', // This is ignored, but is necessary...
+					'compare' => 'NOT EXISTS',
 				),
-			)
-		);
+			),
+		) );
 
 		if ( is_array( $users ) && $users !== array() ) {
 			foreach ( $users as $user ) {
@@ -1095,16 +1093,14 @@ class WPSEO_Sitemaps {
 		unset( $users, $user );
 
 		// Query for users with this meta.
-		$users = get_users(
-			array(
-				'who'      => 'authors',
-				'offset'   => $offset,
-				'number'   => $steps,
-				'meta_key' => '_yoast_wpseo_profile_updated',
-				'orderby'  => 'meta_value_num',
-				'order'    => 'ASC',
-			)
-		);
+		$users = get_users( array(
+			'who'      => 'authors',
+			'offset'   => $offset,
+			'number'   => $steps,
+			'meta_key' => '_yoast_wpseo_profile_updated',
+			'orderby'  => 'meta_value_num',
+			'order'    => 'ASC',
+		) );
 
 		$users = apply_filters( 'wpseo_sitemap_exclude_author', $users );
 
