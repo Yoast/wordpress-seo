@@ -987,22 +987,25 @@ class WPSEO_Sitemaps {
 			}
 
 			$url['loc'] = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'canonical' );
+
 			if ( ! is_string( $url['loc'] ) || $url['loc'] === '' ) {
+
 				$url['loc'] = get_term_link( $term, $term->taxonomy );
+
 				if ( $this->options['trailingslash'] === true ) {
+
 					$url['loc'] = trailingslashit( $url['loc'] );
 				}
 			}
+
 			if ( $term->count > 10 ) {
 				$url['pri'] = 0.6;
 			}
+			elseif ( $term->count > 3 ) {
+				$url['pri'] = 0.4;
+			}
 			else {
-				if ( $term->count > 3 ) {
-					$url['pri'] = 0.4;
-				}
-				else {
-					$url['pri'] = 0.2;
-				}
+				$url['pri'] = 0.2;
 			}
 
 			// Grab last modified date.
