@@ -5,33 +5,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
  * wordpress scraper to gather inputfields.
  * @constructor
  */
-YoastSEO.WordPressScraper = function( args, refObj ) {
-	'use strict';
-
-	this.config = args;
-	this.refObj = refObj;
-	this.analyzerData = {};
-	this.formattedData = {};
-	this.formattedData.usedKeywords = wpseoMetaboxL10n.keyword_usage;
-	this.formattedData.searchUrl = '<a target="new" href=' + wpseoMetaboxL10n.search_url + '>';
-	this.formattedData.postUrl = '<a target="new" href=' + wpseoMetaboxL10n.post_edit_url + '>';
-	this.formattedData.queue = [ 'wordCount',
-		'keywordDensity',
-		'subHeadings',
-		'stopwords',
-		'fleschReading',
-		'linkCount',
-		'imageCount',
-		'urlKeyword',
-		'urlLength',
-		'metaDescription',
-		'pageTitleKeyword',
-		'pageTitleLength',
-		'firstParagraph',
-		'keywordDoubles' ];
-	this.replacedVars = {};
-	this.getData();
-};
+YoastSEO.WordPressScraper = function() {};
 
 /**
  * Get data from inputfields and store them in an analyzerData object. This object will be used to fill
@@ -40,16 +14,18 @@ YoastSEO.WordPressScraper = function( args, refObj ) {
 YoastSEO.WordPressScraper.prototype.getData = function() {
 	'use strict';
 
-	this.analyzerData.keyword = this.getDataFromInput( 'keyword' );
-	this.analyzerData.meta = this.getDataFromInput( 'meta' );
-	this.analyzerData.text = this.getDataFromInput( 'text' );
-	this.analyzerData.pageTitle = this.getDataFromInput( 'pageTitle' );
-	this.analyzerData.title = this.getDataFromInput( 'title' );
-	this.analyzerData.url = this.getDataFromInput( 'url' );
-	this.analyzerData.excerpt = this.getDataFromInput( 'excerpt' );
-	this.analyzerData.snippetTitle = this.getDataFromInput( 'snippetTitle' );
-	this.analyzerData.snippetMeta = this.getDataFromInput( 'meta' );
-	this.analyzerData.snippetCite = this.getDataFromInput( 'cite' );
+	return {
+		keyword: this.getDataFromInput( 'keyword' ),
+		meta: this.getDataFromInput( 'meta' ),
+		text: this.getDataFromInput( 'text' ),
+		pageTitle: this.getDataFromInput( 'pageTitle' ),
+		title: this.getDataFromInput( 'title' ),
+		url: this.getDataFromInput( 'url' ),
+		excerpt: this.getDataFromInput( 'excerpt' ),
+		snippetTitle: this.getDataFromInput( 'snippetTitle' ),
+		snippetMeta: this.getDataFromInput( 'meta' ),
+		snippetCite: this.getDataFromInput( 'cite' )
+	};
 };
 
 /**
@@ -135,7 +111,7 @@ YoastSEO.WordPressScraper.prototype.setDataFromSnippet = function( value, type )
 YoastSEO.WordPressScraper.prototype.getAnalyzerInput = function() {
 	'use strict';
 
-	this.analyzerDataQueue = [ 'text', 'keyword', 'meta', 'url', 'title', 'pageTitle', 'snippetTitle', 'snippetMeta', 'snippetCite', 'excerpt' ];
+	YoastSEO.app.analyzerDataQueue = [ 'text', 'keyword', 'meta', 'url', 'title', 'pageTitle', 'snippetTitle', 'snippetMeta', 'snippetCite', 'excerpt' ];
 	this.runDataQueue();
 };
 
@@ -145,16 +121,16 @@ YoastSEO.WordPressScraper.prototype.getAnalyzerInput = function() {
 YoastSEO.WordPressScraper.prototype.runDataQueue = function() {
 	'use strict';
 
-	if ( this.analyzerDataQueue.length > 0 ) {
-		var currentData = this.analyzerDataQueue.shift();
-		this.replaceVariables( this.analyzerData[ currentData ], currentData, this.formattedData );
+	if ( YoastSEO.app.analyzerDataQueue.length > 0 ) {
+		var currentData = YoastSEO.app.analyzerDataQueue.shift();
+		this.replaceVariables( YoastSEO.app.analyzerData[ currentData ], currentData, YoastSEO.app.formattedData );
 	} else {
-		if ( typeof this.refObj.snippetPreview === 'undefined' ) {
-			this.refObj.init();
+		if ( typeof YoastSEO.app.snippetPreview === 'undefined' ) {
+			YoastSEO.app.init();
 		} else {
-			this.refObj.reloadSnippetText();
+			YoastSEO.app.reloadSnippetText();
 		}
-		this.refObj.runAnalyzerCallback();
+		YoastSEO.app.runAnalyzerCallback();
 	}
 };
 
@@ -258,9 +234,9 @@ YoastSEO.WordPressScraper.prototype.replaceVariables = function( textString, typ
 YoastSEO.WordPressScraper.prototype.titleReplace = function( textString ) {
 	'use strict';
 
-	var title = this.analyzerData.title;
+	var title = YoastSEO.app.analyzerData.title;
 	if ( typeof title === 'undefined' ) {
-		title = this.analyzerData.pageTitle;
+		title = YoastSEO.app.analyzerData.pageTitle;
 	}
 	if ( title.length > 0 ) {
 		textString = textString.replace( /%%title%%/g, title );
@@ -294,7 +270,7 @@ YoastSEO.WordPressScraper.prototype.parentReplace = function( textString ) {
 YoastSEO.WordPressScraper.prototype.doubleSepReplace = function( textString ) {
 	'use strict';
 
-	var escaped_seperator = this.refObj.stringHelper.addEscapeChars( wpseoMetaboxL10n.sep );
+	var escaped_seperator = YoastSEO.app.stringHelper.addEscapeChars( wpseoMetaboxL10n.sep );
 	var pattern = new RegExp( escaped_seperator + ' ' + escaped_seperator, 'g' );
 	textString = textString.replace( pattern, wpseoMetaboxL10n.sep );
 	return textString;
@@ -309,9 +285,9 @@ YoastSEO.WordPressScraper.prototype.doubleSepReplace = function( textString ) {
 YoastSEO.WordPressScraper.prototype.excerptReplace = function( textString ) {
 	'use strict';
 
-	if ( this.analyzerData.excerpt.length > 0 ) {
-		textString.replace( /%%excerpt_only%%/, this.analyzerData.excerpt );
-		textString.replace( /%%excerpt%%/, this.analyzerData.excerpt );
+	if ( YoastSEO.app.analyzerData.excerpt.length > 0 ) {
+		textString.replace( /%%excerpt_only%%/, YoastSEO.app.analyzerData.excerpt );
+		textString.replace( /%%excerpt%%/, YoastSEO.app.analyzerData.excerpt );
 	}
 	return textString;
 };
@@ -336,7 +312,7 @@ YoastSEO.WordPressScraper.prototype.defaultReplace = function( textString ) {
 		.replace( /%%currentday%%/g, wpseoMetaboxL10n.currentday )
 		.replace( /%%currentmonth%%/g, wpseoMetaboxL10n.currentmonth )
 		.replace( /%%currentyear%%/g, wpseoMetaboxL10n.currentyear )
-		.replace( /%%focuskw%%/g, this.refObj.stringHelper.stripAllTags( this.analyzerData.keyword ) );
+		.replace( /%%focuskw%%/g, YoastSEO.app.stringHelper.stripAllTags( YoastSEO.app.analyzerData.keyword ) );
 };
 
 /**
@@ -368,38 +344,40 @@ YoastSEO.WordPressScraper.prototype.ajaxReplaceVariables = function( srcObj ) {
 YoastSEO.WordPressScraper.prototype.bindElementEvents = function() {
 	'use strict';
 
-	this.snippetPreviewEventBinder();
+	this.snippetPreviewEventBinder( YoastSEO.app.snippetPreview );
 	this.inputElementEventBinder();
-	document.getElementById( 'yoast_wpseo_focuskw' ).addEventListener( 'keydown', this.refObj.snippetPreview.disableEnter );
+	document.getElementById( 'yoast_wpseo_focuskw' ).addEventListener( 'keydown', YoastSEO.app.snippetPreview.disableEnter );
 };
 
 /**
  * binds the getinputfieldsdata to the snippetelements.
+ *
+ * @param {YoastSEO.SnippetPreview} snippetPreview The snippet preview object to bind the events on.
  */
-YoastSEO.WordPressScraper.prototype.snippetPreviewEventBinder = function() {
+YoastSEO.WordPressScraper.prototype.snippetPreviewEventBinder = function( snippetPreview ) {
 	'use strict';
 
 	var elems = [ 'snippet_cite', 'snippet_meta', 'snippet_title' ];
 	for ( var i = 0; i < elems.length; i++ ) {
 		document.getElementById( elems[ i ] ).addEventListener( 'focus', this.getInputFieldsData );
-		document.getElementById( elems[ i ] ).addEventListener( 'keydown', this.refObj.snippetPreview.disableEnter );
-		document.getElementById( elems[ i ] ).addEventListener( 'blur', this.refObj.snippetPreview.checkTextLength );
+		document.getElementById( elems[ i ] ).addEventListener( 'keydown', snippetPreview.disableEnter );
+		document.getElementById( elems[ i ] ).addEventListener( 'blur', snippetPreview.checkTextLength );
 		//textFeedback is given on input (when user types or pastests), but also on focus. If a string that is too long is being recalled
 		//from the saved values, it gets the correct classname right away.
-		document.getElementById( elems[ i ] ).addEventListener( 'input', this.refObj.snippetPreview.textFeedback );
-		document.getElementById( elems[ i ] ).addEventListener( 'focus', this.refObj.snippetPreview.textFeedback );
+		document.getElementById( elems[ i ] ).addEventListener( 'input', snippetPreview.textFeedback );
+		document.getElementById( elems[ i ] ).addEventListener( 'focus', snippetPreview.textFeedback );
 		//shows edit icon by hovering over element
-		document.getElementById( elems[ i ] ).addEventListener( 'mouseover', this.refObj.snippetPreview.showEditIcon );
+		document.getElementById( elems[ i ] ).addEventListener( 'mouseover', snippetPreview.showEditIcon );
 		//hides the edit icon onmouseout, on focus and on keyup. If user clicks or types AND moves his mouse, the edit icon could return while editting
 		//by binding to these 3 events
-		document.getElementById( elems[ i ] ).addEventListener( 'mouseout', this.refObj.snippetPreview.hideEditIcon );
-		document.getElementById( elems[ i ] ).addEventListener( 'focus', this.refObj.snippetPreview.hideEditIcon );
-		document.getElementById( elems[ i ] ).addEventListener( 'keyup', this.refObj.snippetPreview.hideEditIcon );
+		document.getElementById( elems[ i ] ).addEventListener( 'mouseout', snippetPreview.hideEditIcon );
+		document.getElementById( elems[ i ] ).addEventListener( 'focus', snippetPreview.hideEditIcon );
+		document.getElementById( elems[ i ] ).addEventListener( 'keyup', snippetPreview.hideEditIcon );
 	}
 	elems = [ 'title_container', 'url_container', 'meta_container' ];
 	//when clicked on the
 	for ( i = 0; i < elems.length; i++ ) {
-		document.getElementById( elems[ i ] ).addEventListener( 'click', this.refObj.snippetPreview.setFocus );
+		document.getElementById( elems[ i ] ).addEventListener( 'click', snippetPreview.setFocus );
 	}
 };
 
@@ -413,21 +391,9 @@ YoastSEO.WordPressScraper.prototype.inputElementEventBinder = function() {
 	for ( var i = 0; i < elems.length; i++ ) {
 		var elem = document.getElementById( elems[ i ] );
 		if ( elem !== null ) {
-			document.getElementById( elems[ i ] ).addEventListener( 'change', this.renewData );
+			document.getElementById( elems[ i ] ).addEventListener( 'change', YoastSEO.app.refresh.bind( YoastSEO.app ) );
 		}
 	}
-};
-
-/**
- * renews Data in the analyzerData object and reruns the getAnalyzerInput to keep data up to date.
- *
- * @param {Object} ev
- */
-YoastSEO.WordPressScraper.prototype.renewData = function( ev ) {
-	'use strict';
-
-	ev.currentTarget.__refObj.source.getData();
-	ev.currentTarget.__refObj.source.getAnalyzerInput();
 };
 
 /**
@@ -462,7 +428,7 @@ YoastSEO.WordPressScraper.prototype.saveScores = function( score ) {
 	'use strict';
 
 	//fancy SVG needs to go here.
-	document.getElementById( this.config.targets.overall ).textContent = score;
+	document.getElementById( YoastSEO.analyzerArgs.targets.overall ).textContent = score;
 	document.getElementById( 'yoast_wpseo_linkdex' ).value = score;
 };
 
