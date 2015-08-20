@@ -1250,24 +1250,26 @@ class WPSEO_Sitemaps {
 
 		foreach ( $url['images'] as $img ) {
 
-			if ( ! isset( $img['src'] ) || empty( $img['src'] ) ) {
+			if ( empty( $img['src'] ) ) {
 				continue;
 			}
 
 			$output .= "\t\t<image:image>\n";
 			$output .= "\t\t\t<image:loc>" . esc_html( $img['src'] ) . "</image:loc>\n";
 
-			if ( isset( $img['title'] ) && ! empty( $img['title'] ) ) {
-				$output .= "\t\t\t<image:title><![CDATA[" . _wp_specialchars( html_entity_decode( $img['title'], ENT_QUOTES, $this->charset ) ) . "]]></image:title>\n";
+			if ( ! empty( $img['title'] ) ) {
+				$title = _wp_specialchars( html_entity_decode( $img['title'], ENT_QUOTES, $this->charset ) );
+				$output .= "\t\t\t<image:title><![CDATA[{$title}]]></image:title>\n";
 			}
 
-			if ( isset( $img['alt'] ) && ! empty( $img['alt'] ) ) {
-				$output .= "\t\t\t<image:caption><![CDATA[" . _wp_specialchars( html_entity_decode( $img['alt'], ENT_QUOTES, $this->charset ) ) . "]]></image:caption>\n";
+			if ( ! empty( $img['alt'] ) ) {
+				$alt = _wp_specialchars( html_entity_decode( $img['alt'], ENT_QUOTES, $this->charset ) );
+				$output .= "\t\t\t<image:caption><![CDATA[{$alt}]]></image:caption>\n";
 			}
 
 			$output .= "\t\t</image:image>\n";
 		}
-		unset( $img );
+		unset( $img, $title, $alt );
 
 		$output .= "\t</url>\n";
 
