@@ -6,8 +6,7 @@ YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
  * defines the variables used for the scoreformatter, runs the outputScore en overallScore
  * functions.
  *
- * @param scores
- * @param target
+ * @param {YoastSEO.App} args
  * @constructor
  */
 YoastSEO.ScoreFormatter = function( args ) {
@@ -66,7 +65,7 @@ YoastSEO.ScoreFormatter.prototype.sortScores = function() {
 YoastSEO.ScoreFormatter.prototype.outputOverallScore = function() {
 	var overallTarget = document.getElementById( this.overallTarget );
 	overallTarget.className = "overallScore " + this.scoreRating( Math.round( this.overallScore ) );
-	this.refObj.source.saveScores( this.overallScore );
+	this.refObj.callbacks.saveScores( this.overallScore );
 };
 
 /**

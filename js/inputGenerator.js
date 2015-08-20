@@ -5,7 +5,7 @@ YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 /**
  * Inputgenerator generates a form for use as input.
  * @param args
- * @param refObj
+ * @param {YoastSEO.App} refObj
  * @constructor
  */
 YoastSEO.InputGenerator = function( args, refObj ) {
@@ -13,8 +13,6 @@ YoastSEO.InputGenerator = function( args, refObj ) {
 	this.refObj = refObj;
 	this.analyzerData = {};
 	this.formattedData = {};
-	this.createElements();
-	this.getData();
 };
 /**
  * creates input elements in the DOM
@@ -37,6 +35,11 @@ YoastSEO.InputGenerator.prototype.getData = function() {
 	this.analyzerData.url = this.refObj.config.sampleText.url;
 	this.analyzerData.snippetCite = this.refObj.config.sampleText.url;
 	this.formattedData = this.analyzerData;
+
+	this.refObj.analyzerData = this.analyzerData;
+	this.refObj.formattedData = this.formattedData;
+
+	return this.analyzerData;
 };
 
 /**
@@ -97,6 +100,7 @@ YoastSEO.InputGenerator.prototype.getAnalyzerInput = function() {
 		this.formattedData.pageTitle = this.getDataFromInput( "title" );
 		this.formattedData.snippetMeta = this.getDataFromInput( "meta" );
 		this.formattedData.snippetCite = this.getDataFromInput( "url" );
+		this.refObj.formattedData = this.formattedData;
 		this.refObj.reloadSnippetText();
 	}
 	this.refObj.runAnalyzerCallback();
@@ -109,7 +113,7 @@ YoastSEO.InputGenerator.prototype.getAnalyzerInput = function() {
  */
 YoastSEO.InputGenerator.prototype.getDataFromInput = function( inputType ) {
 	var val;
-	switch ( inputType ){
+	switch ( inputType ) {
 		case "text":
 			val = document.getElementById( "textInput" ).value;
 			break;
