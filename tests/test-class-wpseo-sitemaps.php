@@ -99,7 +99,7 @@ class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 	public function test_main_sitemap() {
 		self::$class_instance->reset();
 
-		set_query_var( 'sitemap', 1 );
+		set_query_var( 'sitemap', '1' );
 
 		$this->factory->post->create();
 
