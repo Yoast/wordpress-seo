@@ -23,11 +23,17 @@ class WPSEO_Sitemap_Timezone {
 	 *
 	 * @return string
 	 */
+
 	public function format_date( $datetime_string, $format = 'c' ) {
 
-		return $this->get_datetime_with_timezone( $datetime_string )->format( $format );
-	}
+		$date_time = $this->get_datetime_with_timezone( $datetime_string );
 
+		if ( is_null( $date_time ) ) {
+			return '';
+		}
+
+		return $date_time->format( $format );
+	}
 	/**
 	 * Get the datetime object, in site's time zone, if the datetime string was valid
 	 *
