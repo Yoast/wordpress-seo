@@ -1280,8 +1280,7 @@ class WPSEO_Sitemaps {
 	 * Make a request for the sitemap index so as to cache it before the arrival of the search engines.
 	 */
 	public function hit_sitemap_index() {
-		$url = wpseo_xml_sitemaps_base_url( 'sitemap_index.xml' );
-		wp_remote_get( $url );
+		wp_remote_get( wpseo_xml_sitemaps_base_url( 'sitemap_index.xml' ) );
 	}
 
 	/**
