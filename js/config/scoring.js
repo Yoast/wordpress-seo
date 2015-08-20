@@ -225,6 +225,7 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
                 {min: 1, score: 9, text: i18n.dgettext('js-text-analysis', "The meta description contains the focus keyword.")},
                 {
                     max: 0,
+					min: 0,
                     score: 3,
                     text: i18n.dgettext('js-text-analysis', "A meta description has been specified, but it does not contain the focus keyword.")
                 }

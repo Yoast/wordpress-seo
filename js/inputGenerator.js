@@ -97,7 +97,7 @@ YoastSEO.InputGenerator.prototype.getAnalyzerInput = function() {
 	} else {
 		this.formattedData.text = this.getDataFromInput( "text" );
 		this.formattedData.keyword = this.getDataFromInput( "keyword" );
-		this.formattedData.snippetTitle = this.getDataFromInput( "title" );
+		this.formattedData.pageTitle = this.getDataFromInput( "title" );
 		this.formattedData.snippetMeta = this.getDataFromInput( "meta" );
 		this.formattedData.snippetCite = this.getDataFromInput( "url" );
 		this.refObj.formattedData = this.formattedData;
@@ -140,6 +140,7 @@ YoastSEO.InputGenerator.prototype.getDataFromInput = function( inputType ) {
  */
 YoastSEO.InputGenerator.prototype.bindElementEvents = function() {
 	this.inputElementEventBinder();
+	this.snippetPreviewEventBinder();
 };
 
 /**
@@ -149,7 +150,7 @@ YoastSEO.InputGenerator.prototype.snippetPreviewEventBinder = function() {
 	var elems = [ "cite", "meta", "title" ];
 	for ( var i = 0; i < elems.length; i++ ) {
 		document.getElementById( "snippet_" + elems[ i ] ).addEventListener(
-			"focus",
+			"blur",
 			this.snippetCallback
 		);
 	}

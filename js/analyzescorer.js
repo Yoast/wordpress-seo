@@ -4,7 +4,7 @@ YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 /**
  * inits the analyzerscorer used for scoring of the output from the textanalyzer
  *
- * @param {YoastSEO_Analyzer} refObj
+ * @param {YoastSEO.Analyzer} refObj
  * @constructor
  */
 YoastSEO.AnalyzeScorer = function( refObj ) {
