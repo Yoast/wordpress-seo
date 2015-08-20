@@ -1438,20 +1438,23 @@ class WPSEO_Sitemaps {
 			return '';
 		}
 
-		$url = '';
+		$file = get_post_meta( $post_id, '_wp_attached_file', true );
 
-		if ( $file = get_post_meta( $post_id, '_wp_attached_file', true ) ) { // Get attached file.
-			if ( 0 === strpos( $file, $uploads['basedir'] ) ) { // Check that the upload base exists in the file location.
-				$url = str_replace( $uploads['basedir'], $uploads['baseurl'], $file );
-			}
-			// Replace file location with url location.
-			elseif ( false !== strpos( $file, 'wp-content/uploads' ) ) {
-				$url = $uploads['baseurl'] . substr( $file, ( strpos( $file, 'wp-content/uploads' ) + 18 ) );
-			}
-			// It's a newly uploaded file, therefore $file is relative to the baseurl.
-			else {
-				$url = $uploads['baseurl'] . "/$file";
-			}
+		if ( empty( $file ) ) {
+			return '';
+		}
+
+		// TODO check all this logic, looks messy. R.
+		if ( 0 === strpos( $file, $uploads['basedir'] ) ) { // Check that the upload base exists in the file location.
+			$url = str_replace( $uploads['basedir'], $uploads['baseurl'], $file );
+		}
+		// Replace file location with url location.
+		elseif ( false !== strpos( $file, 'wp-content/uploads' ) ) {
+			$url = $uploads['baseurl'] . substr( $file, ( strpos( $file, 'wp-content/uploads' ) + 18 ) );
+		}
+		// It's a newly uploaded file, therefore $file is relative to the baseurl.
+		else {
+			$url = $uploads['baseurl'] . "/$file";
 		}
 
 		return $url;
