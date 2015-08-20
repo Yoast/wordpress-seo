@@ -16,16 +16,26 @@ class WPSEO_Sitemap_Timezone {
 	private $timezone_string = '';
 
 	/**
+	 * Format arbitrary UTC datetime string to desired form in site's time zone.
+	 *
+	 * @param string $datetime_string The input datetime string in UTC time zone.
+	 * @param string $format          Date format to use.
+	 *
+	 * @return string
+	 */
+	public function format_date( $datetime_string, $format = 'c' ) {
+
+		return $this->get_datetime_with_timezone( $datetime_string )->format( $format );
+	}
+
+	/**
 	 * Get the datetime object, in site's time zone, if the datetime string was valid
 	 *
-	 * @todo This is messed up, output type changed, doc wrong. Revert, add new method for formatted. R.
-	 *
 	 * @param string $datetime_string The datetime string in UTC time zone, that needs to be converted to a DateTime object.
-	 * @param string $format          Date format to use.
 	 *
 	 * @return DateTime|null in site's time zone
 	 */
-	public function get_datetime_with_timezone( $datetime_string, $format = 'c' ) {
+	public function get_datetime_with_timezone( $datetime_string ) {
 
 		static $utc_timezone, $local_timezone;
 
@@ -38,7 +48,7 @@ class WPSEO_Sitemap_Timezone {
 			$datetime = new DateTime( $datetime_string, $utc_timezone );
 			$datetime->setTimezone( $local_timezone );
 
-			return $datetime->format( $format );
+			return $datetime;
 		}
 
 		return null;

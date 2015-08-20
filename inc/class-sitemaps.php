@@ -339,7 +339,7 @@ class WPSEO_Sitemaps {
 						WHERE rownum %%%d=0
 					";
 					$all_dates = $wpdb->get_col( $wpdb->prepare( $sql, $post_type, $this->max_entries ) );
-					$date = $this->timezone->get_datetime_with_timezone( $all_dates[ $i ] );
+					$date = $this->timezone->format_date( $all_dates[ $i ] );
 				}
 
 				$this->sitemap .= '<sitemap>' . "\n";
@@ -441,7 +441,7 @@ class WPSEO_Sitemaps {
 
 					$date = '';
 					if ( $query->have_posts() ) {
-						$date = $this->timezone->get_datetime_with_timezone( $query->posts[0]->post_modified_gmt );
+						$date = $this->timezone->format_date( $query->posts[0]->post_modified_gmt );
 					}
 					else {
 						$date = $this->get_last_modified( $tax->object_type );
@@ -516,7 +516,7 @@ class WPSEO_Sitemaps {
 			}
 
 			$date = $wpdb->get_var( $sql );
-			$date = $this->timezone->get_datetime_with_timezone( '@' . $date );
+			$date = $this->timezone->format_date( '@' . $date );
 
 			$this->sitemap .= '<sitemap>' . "\n";
 			$this->sitemap .= '<loc>' . wpseo_xml_sitemaps_base_url( 'author-sitemap' . $count . '.xml' ) . '</loc>' . "\n";
@@ -1233,7 +1233,7 @@ class WPSEO_Sitemaps {
 
 		if ( ! empty( $url['mod'] ) ) {
 			// Create a DateTime object date in the correct timezone.
-			$date = $this->timezone->get_datetime_with_timezone( $url['mod'] );
+			$date = $this->timezone->format_date( $url['mod'] );
 		}
 
 		$url['loc'] = htmlspecialchars( $url['loc'] );
@@ -1344,7 +1344,7 @@ class WPSEO_Sitemaps {
 			unset( $post_type );
 		}
 
-		return $this->timezone->get_datetime_with_timezone( $result );
+		return $this->timezone->format_date( $result );
 	}
 
 
