@@ -94,7 +94,7 @@ YoastSEO.InputGenerator.prototype.getAnalyzerInput = function() {
 	} else {
 		this.formattedData.text = this.getDataFromInput( "text" );
 		this.formattedData.keyword = this.getDataFromInput( "keyword" );
-		this.formattedData.snippetTitle = this.getDataFromInput( "title" );
+		this.formattedData.pageTitle = this.getDataFromInput( "title" );
 		this.formattedData.snippetMeta = this.getDataFromInput( "meta" );
 		this.formattedData.snippetCite = this.getDataFromInput( "url" );
 		this.refObj.reloadSnippetText();
@@ -109,21 +109,21 @@ YoastSEO.InputGenerator.prototype.getAnalyzerInput = function() {
  */
 YoastSEO.InputGenerator.prototype.getDataFromInput = function( inputType ) {
 	var val;
-	switch( inputType){
+	switch ( inputType ){
 		case "text":
 			val = document.getElementById( "textInput" ).value;
 			break;
 		case "url":
-			val = document.getElementById("snippet_cite").innerText;
+			val = document.getElementById( "snippet_cite" ).innerText;
 			break;
 		case "meta":
-			val = document.getElementById("snippet_meta").innerText;
+			val = document.getElementById( "snippet_meta" ).innerText;
 			break;
 		case "keyword":
-			val = document.getElementById("keywordInput").value;
+			val = document.getElementById( "keywordInput" ).value;
 			break;
 		case "title":
-			val = document.getElementById("snippet_title").innerText;
+			val = document.getElementById( "snippet_title" ).innerText;
 			break;
 		default:
 			break;
@@ -131,12 +131,12 @@ YoastSEO.InputGenerator.prototype.getDataFromInput = function( inputType ) {
 	return val;
 };
 
-
 /**
  * calls the eventbinders.
  */
 YoastSEO.InputGenerator.prototype.bindElementEvents = function() {
 	this.inputElementEventBinder();
+	this.snippetPreviewEventBinder();
 };
 
 /**
@@ -146,7 +146,7 @@ YoastSEO.InputGenerator.prototype.snippetPreviewEventBinder = function() {
 	var elems = [ "cite", "meta", "title" ];
 	for ( var i = 0; i < elems.length; i++ ) {
 		document.getElementById( "snippet_" + elems[ i ] ).addEventListener(
-			"focus",
+			"blur",
 			this.snippetCallback
 		);
 	}
