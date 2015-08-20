@@ -1244,23 +1244,31 @@ class WPSEO_Sitemaps {
 		$output .= "\t\t<changefreq>" . $url['chf'] . "</changefreq>\n";
 		$output .= "\t\t<priority>" . str_replace( ',', '.', $url['pri'] ) . "</priority>\n";
 
-		if ( isset( $url['images'] ) && ( is_array( $url['images'] ) && $url['images'] !== array() ) ) {
-			foreach ( $url['images'] as $img ) {
-				if ( ! isset( $img['src'] ) || empty( $img['src'] ) ) {
-					continue;
-				}
-				$output .= "\t\t<image:image>\n";
-				$output .= "\t\t\t<image:loc>" . esc_html( $img['src'] ) . "</image:loc>\n";
-				if ( isset( $img['title'] ) && ! empty( $img['title'] ) ) {
-					$output .= "\t\t\t<image:title><![CDATA[" . _wp_specialchars( html_entity_decode( $img['title'], ENT_QUOTES, $this->charset ) ) . "]]></image:title>\n";
-				}
-				if ( isset( $img['alt'] ) && ! empty( $img['alt'] ) ) {
-					$output .= "\t\t\t<image:caption><![CDATA[" . _wp_specialchars( html_entity_decode( $img['alt'], ENT_QUOTES, $this->charset ) ) . "]]></image:caption>\n";
-				}
-				$output .= "\t\t</image:image>\n";
-			}
-			unset( $img );
+		if ( empty( $url['images'] ) ) {
+			$url['images'] = array();
 		}
+
+		foreach ( $url['images'] as $img ) {
+
+			if ( ! isset( $img['src'] ) || empty( $img['src'] ) ) {
+				continue;
+			}
+
+			$output .= "\t\t<image:image>\n";
+			$output .= "\t\t\t<image:loc>" . esc_html( $img['src'] ) . "</image:loc>\n";
+
+			if ( isset( $img['title'] ) && ! empty( $img['title'] ) ) {
+				$output .= "\t\t\t<image:title><![CDATA[" . _wp_specialchars( html_entity_decode( $img['title'], ENT_QUOTES, $this->charset ) ) . "]]></image:title>\n";
+			}
+
+			if ( isset( $img['alt'] ) && ! empty( $img['alt'] ) ) {
+				$output .= "\t\t\t<image:caption><![CDATA[" . _wp_specialchars( html_entity_decode( $img['alt'], ENT_QUOTES, $this->charset ) ) . "]]></image:caption>\n";
+			}
+
+			$output .= "\t\t</image:image>\n";
+		}
+		unset( $img );
+
 		$output .= "\t</url>\n";
 
 		return $output;
