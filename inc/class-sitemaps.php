@@ -1291,13 +1291,8 @@ class WPSEO_Sitemaps {
 	 * @return bool|string $redirect
 	 */
 	public function canonical( $redirect ) {
-		$sitemap = get_query_var( 'sitemap' );
-		if ( ! empty( $sitemap ) ) {
-			return false;
-		}
 
-		$xsl = get_query_var( 'xsl' );
-		if ( ! empty( $xsl ) ) {
+		if ( get_query_var( 'sitemap' ) || get_query_var( 'xsl' ) ) {
 			return false;
 		}
 
