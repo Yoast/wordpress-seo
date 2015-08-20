@@ -3,7 +3,19 @@ YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 
 /**
  * Text Analyzer, accepts args for config and calls init for initialization
- * @param args
+ *
+ * @param {Object} args The analyzer arguments.
+ * @param {String} args.keyword The keyword to analyze the text with.
+ * @param {String} args.meta The meta description of the page.
+ * @param {String} args.text The text of the page.
+ * @param {String} args.pageTitle The title of the page as displayed in google.
+ * @param {String} args.title The actual title of the page.
+ * @param {String} args.url The full URL that the page will be displayed on.
+ * @param {String} args.excerpt The page excerpt.
+ * @param {String} args.snippetTitle The title as displayed in the snippet preview.
+ * @param {String} args.snippetMeta The meta description as displayed in the snippet preview.
+ * @param {String} args.snippetCite  The URL as displayed in the snippet preview.
+ *
  * @constructor
  */
 YoastSEO.Analyzer = function( args ) {

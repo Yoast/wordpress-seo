@@ -27,7 +27,6 @@
         YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 
         YoastSEO.analyzerArgs = {
-            source: YoastSEO.InputGenerator,
             analyzer: true,
             snippetPreview: true,
             elementTarget: ["inputForm"],
@@ -47,10 +46,24 @@
                 keyword: "Choose a focus keyword",
                 meta: "Modify your meta description by editing it right here",
                 text: "Start writing your text!"
+            },
+            callbacks: {
+                getData: function() { return {} }
             }
         };
 
-        YoastSEO.initialize();
+        YoastSEO.app = new YoastSEO.App( YoastSEO.analyzerArgs );
+        var inputGenerator = new YoastSEO.InputGenerator( YoastSEO.analyzerArgs, YoastSEO.app );
+
+        YoastSEO.analyzerArgs.callbacks = inputGenerator;
+
+        YoastSEO.app = new YoastSEO.App( YoastSEO.analyzerArgs );
+        inputGenerator.refObj = YoastSEO.app;
+
+        window.onload = function() {
+            inputGenerator.createElements();
+            YoastSEO.app.refresh();
+        };
     </script>
 </head>
 <body class="purple seo">
