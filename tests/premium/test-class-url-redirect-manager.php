@@ -123,7 +123,16 @@ class WPSEO_URL_Redirect_Manager_Test extends WPSEO_UnitTestCase {
 			array( 'key' => 'redirect_update', 'value' => 'updated_redirect', 'type' => 301 )
 		);
 
-		$this->assertArraySubset( array( '/redirect_update' => array( 'url' => 'updated_redirect', 'type' => 301 ) ), $this->class_instance->get_redirects() );
+		$redirects = $this->class_instance->get_redirects();
+
+		$this->assertEquals( 'updated_redirect', $redirects['/redirect_update']['url'] );
+		$this->assertEquals( '301', $redirects['/redirect_update']['type'] );
+
+		/*
+		 	When 5.2 support is dropped we can use this fancy testmethod:
+			$this->assertArraySubset( array( '/redirect_update' => array( 'url' => 'updated_redirect', 'type' => 301 ) ), $this->class_instance->get_redirects() );
+		 */
+
 	}
 
 	/**
