@@ -48,7 +48,7 @@ function yoast_seo_toggle_register_deactivate_listener() {
 /**
  * Catch the redirect before activating a plugin
  *
- * @param $listener_plugin
+ * @param string $listener_plugin The plugin name which is going to be toggled.
  */
 function yoast_seo_toggle_catch_redirect( $listener_plugin ) {
 	$disable_plugin = '';
@@ -69,7 +69,7 @@ function yoast_seo_toggle_catch_redirect( $listener_plugin ) {
 /**
  * Listener to toggle the plugin status
  *
- * @param $listener_plugin
+ * @param string $listener_plugin The plugin name which is going to be toggled.
  */
 function yoast_seo_toggle_plugin( $listener_plugin ) {
 	$notify = array();
@@ -82,7 +82,7 @@ function yoast_seo_toggle_plugin( $listener_plugin ) {
 				'activated'      => 'Yoast SEO',
 				'deactivated'    => 'Yoast SEO Premium',
 				'redirect_name'  => 'wordpress-seo%2Fwp-seo.php',
-				'redirect_nonce' => wp_create_nonce( 'activate-plugin_wordpress-seo/wp-seo.php' )
+				'redirect_nonce' => wp_create_nonce( 'activate-plugin_wordpress-seo/wp-seo.php' ),
 			);
 
 			break;
@@ -93,7 +93,7 @@ function yoast_seo_toggle_plugin( $listener_plugin ) {
 				'activated'      => 'Yoast SEO Premium',
 				'deactivated'    => 'Yoast SEO',
 				'redirect_name'  => 'wordpress-seo-premium%2Fwp-seo-premium.php',
-				'redirect_nonce' => wp_create_nonce( 'activate-plugin_wordpress-seo-premium/wp-seo-premium.php' )
+				'redirect_nonce' => wp_create_nonce( 'activate-plugin_wordpress-seo-premium/wp-seo-premium.php' ),
 			);
 
 			break;
