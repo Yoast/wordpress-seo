@@ -15,18 +15,6 @@ class WPSEO_Redirect_File_Htaccess_Test extends WPSEO_UnitTestCase {
 	 */
 	protected $class_instance;
 
-	/**
-	 * Setting up the class instance and fill it with some fake redirects
-	 */
-	public function setUp() {
-		$this->class_instance = $this->getMock( 'WPSEO_Redirect_File_Htaccess', array( 'write_htaccess_content' ) );
-
-		// Letting write htaccess_content always return true.
-		$this->class_instance
-			->method( 'write_htaccess_content' )
-			->will( $this->returnValue( true ) );
-	}
-
 
 	/**
 	 * Testing if the saving method will be called and returns true
@@ -34,7 +22,14 @@ class WPSEO_Redirect_File_Htaccess_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Redirect_File_Htaccess::generate_content
 	 */
 	public function test_save() {
-		$this->assertTrue( $this->class_instance->save( array( 'test' => array( 'url' => 'more-test', 'type' => 301 ) ), array() ) );
+		$class_instance = $this->getMock( 'WPSEO_Redirect_File_Htaccess', array( 'write_htaccess_content' ) );
+
+		// Letting write htaccess_content always return true.
+		$class_instance
+			->method( 'write_htaccess_content' )
+			->will( $this->returnValue( true ) );
+
+		$this->assertTrue( $class_instance->save( array( 'test' => array( 'url' => 'more-test', 'type' => 301 ) ), array() ) );
 	}
 
 	/**
@@ -43,10 +38,16 @@ class WPSEO_Redirect_File_Htaccess_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Redirect_File_Htaccess::generate_content
 	 */
 	public function test_generate_content() {
-		$class_instance = $this->getMock( 'WPSEO_Redirect_File_Htaccess', array( 'generate_content' ) );
+		$class_instance = $this->getMock( 'WPSEO_Redirect_File_Htaccess', array( 'generate_content', 'write_htaccess_content' ) );
 		$class_instance
 			->expects( $this->once() )
 			->method( 'generate_content' )
+			->will( $this->returnValue( true ) );
+
+		// Letting write htaccess_content always return true.
+		$class_instance
+			->expects( $this->once() )
+			->method( 'write_htaccess_content' )
 			->will( $this->returnValue( true ) );
 
 		$class_instance->save( array( 'test' => array( 'url' => 'more-test', 'type' => 301 ) ), array() );
