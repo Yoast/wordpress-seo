@@ -3,7 +3,19 @@ YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 
 /**
  * Text Analyzer, accepts args for config and calls init for initialization
- * @param args
+ *
+ * @param {Object} args The analyzer arguments.
+ * @param {String} args.keyword The keyword to analyze the text with.
+ * @param {String} args.meta The meta description of the page.
+ * @param {String} args.text The text of the page.
+ * @param {String} args.pageTitle The title of the page as displayed in google.
+ * @param {String} args.title The actual title of the page.
+ * @param {String} args.url The full URL that the page will be displayed on.
+ * @param {String} args.excerpt The page excerpt.
+ * @param {String} args.snippetTitle The title as displayed in the snippet preview.
+ * @param {String} args.snippetMeta The meta description as displayed in the snippet preview.
+ * @param {String} args.snippetCite  The URL as displayed in the snippet preview.
+ *
  * @constructor
  */
 YoastSEO.Analyzer = function( args ) {
@@ -26,11 +38,10 @@ YoastSEO.Analyzer.prototype.checkConfig = function() {
  * YoastSEO.Analyzer initialization. Loads defaults and overloads custom settings.
  */
 YoastSEO.Analyzer.prototype.init = function() {
-	this.toLowCase();
 	this.initDependencies();
+	this.formatKeyword();
 	this.initQueue();
 	this.loadWordlists();
-	this.setDefaults();
 	this.__output = [];
 	this.__store = {};
 };
@@ -38,9 +49,23 @@ YoastSEO.Analyzer.prototype.init = function() {
 /**
  * converts the keyword to lowercase
  */
-YoastSEO.Analyzer.prototype.toLowCase = function() {
+YoastSEO.Analyzer.prototype.formatKeyword = function() {
 	if ( typeof this.config.keyword !== "undefined" && this.config.keyword !== "" ) {
-		this.config.keywordLowerCase = this.config.keyword.toLocaleLowerCase();
+
+		// Creates new regex from keyword with global and caseinsensitive option,
+		// replaces - and _ with space
+		this.keywordRegex = new RegExp(
+			this.preProcessor.replaceDiacritics( this.config.keyword.replace( /[-_]/, " " ) ),
+			"ig"
+		);
+
+		// Creates new regex from keyword with global and caseinsensitive option,
+		// replaces space with -. Used for URL matching
+		this.keywordRegexInverse = new RegExp(
+			this.preProcessor.replaceDiacritics( this.config.keyword.replace( " ", "-" ) ),
+			"ig"
+		);
+
 	}
 };
 
@@ -51,7 +76,7 @@ YoastSEO.Analyzer.prototype.toLowCase = function() {
 YoastSEO.Analyzer.prototype.initDependencies = function() {
 
 	//init preprocessor
-	this.YoastSEO_preProcessor = new YoastSEO.getPreProcessor( this.config.text );
+	this.preProcessor = new YoastSEO.getPreProcessor( this.config.text );
 
 	//init helper
 	this.stringHelper = YoastSEO.getStringHelper();
@@ -89,15 +114,6 @@ YoastSEO.Analyzer.prototype.loadWordlists = function() {
 };
 
 /**
- * set default variables.
- */
-YoastSEO.Analyzer.prototype.setDefaults = function() {
-
-	//creates new regex from keyword with global and caseinsensitive option
-	this.keywordRegex = new RegExp( this.config.keywordLowerCase, "ig" );
-};
-
-/**
  * starts queue of functions executing the analyzer functions untill queue is empty.
  */
 YoastSEO.Analyzer.prototype.runQueue = function() {
@@ -122,10 +138,10 @@ YoastSEO.Analyzer.prototype.abortQueue = function() {
 
 /**
  * returns wordcount from the preprocessor storage to include them in the results.
- * @returns {{test: string, result: (Function|YoastSEO_PreProcessor.wordcount|Number)}[]}
+ * @returns {{test: string, result: (Function|YoastSEO.PreProcessor.wordcount|Number)}[]}
  */
 YoastSEO.Analyzer.prototype.wordCount = function() {
-	return [ { test: "wordCount", result: this.YoastSEO_preProcessor.__store.wordcountNoTags } ];
+	return [ { test: "wordCount", result: this.preProcessor.__store.wordcountNoTags } ];
 };
 
 /**
@@ -134,7 +150,7 @@ YoastSEO.Analyzer.prototype.wordCount = function() {
  */
 YoastSEO.Analyzer.prototype.keywordDensity = function() {
 	var result = [ { test: "keywordDensity", result: 0 } ];
-	if ( this.YoastSEO_preProcessor.__store.wordcount > 100 ) {
+	if ( this.preProcessor.__store.wordcount > 100 ) {
 		var keywordDensity = this.keywordDensityCheck();
 		result[ 0 ].result = keywordDensity.toFixed( 1 );
 		return result;
@@ -152,7 +168,7 @@ YoastSEO.Analyzer.prototype.keywordDensityCheck = function() {
 	if ( keywordCount !== 0 ) {
 		keywordDensity = (
 				keywordCount /
-				this.YoastSEO_preProcessor.__store.wordcount - ( keywordCount - 1 * keywordCount )
+				this.preProcessor.__store.wordcount - ( keywordCount - 1 * keywordCount )
 			) *
 			100;
 	}
@@ -165,10 +181,7 @@ YoastSEO.Analyzer.prototype.keywordDensityCheck = function() {
  * @returns keywordCount
  */
 YoastSEO.Analyzer.prototype.keywordCount = function() {
-	var keywordMatches = this.stringHelper.matchString(
-		this.YoastSEO_preProcessor.__store.cleanText,
-		[ this.config.keywordLowerCase ]
-	);
+	var keywordMatches = this.preProcessor.__store.cleanText.match( this.keywordRegex );
 	var keywordCount = 0;
 	if ( keywordMatches !== null ) {
 		keywordCount = keywordMatches.length;
@@ -185,7 +198,7 @@ YoastSEO.Analyzer.prototype.subHeadings = function() {
 	var result = [ { test: "subHeadings", result: { count: 0, matches: 0 } } ];
 
 	//matches everything from H1-H6 openingtags untill the closingtags.
-	var matches = this.YoastSEO_preProcessor.__store.cleanTextSomeTags.match( /<h([1-6])(?:[^>]+)?>(.*?)<\/h\1>/ig );
+	var matches = this.preProcessor.__store.cleanTextSomeTags.match( /<h([1-6])(?:[^>]+)?>(.*?)<\/h\1>/ig );
 	if ( matches !== null ) {
 		result[ 0 ].result.count = matches.length;
 		result[ 0 ].result.matches = this.subHeadingsCheck( matches );
@@ -255,15 +268,15 @@ YoastSEO.Analyzer.prototype.fleschReading = function() {
 			(
 				1.015 *
 				(
-					this.YoastSEO_preProcessor.__store.wordcountNoTags /
-					this.YoastSEO_preProcessor.__store.sentenceCountNoTags
+					this.preProcessor.__store.wordcountNoTags /
+					this.preProcessor.__store.sentenceCountNoTags
 				)
 			) -
 			(
 				84.6 *
 				(
-					this.YoastSEO_preProcessor.__store.syllablecount /
-					this.YoastSEO_preProcessor.__store.wordcountNoTags
+					this.preProcessor.__store.syllablecount /
+					this.preProcessor.__store.wordcountNoTags
 				)
 			)
 		)
@@ -299,7 +312,7 @@ YoastSEO.Analyzer.prototype.fleschReading = function() {
 YoastSEO.Analyzer.prototype.linkCount = function() {
 
 	//regex matches everything between <a> and </a>
-	var linkMatches = this.YoastSEO_preProcessor.__store.originalText.match(
+	var linkMatches = this.preProcessor.__store.originalText.match(
 		/<a(?:[^>]+)?>(.*?)<\/a>/ig
 	);
 	var linkCount = {
@@ -415,7 +428,7 @@ YoastSEO.Analyzer.prototype.imageCount = function() {
 	var imageCount = { total: 0, alt: 0, noAlt: 0, altKeyword: 0 };
 
 	//matches everything in the <img>-tag, case insensitive and global
-	var imageMatches = this.YoastSEO_preProcessor.__store.originalText.match( /<img(?:[^>]+)?>/ig );
+	var imageMatches = this.preProcessor.__store.originalText.match( /<img(?:[^>]+)?>/ig );
 	if ( imageMatches !== null ) {
 		imageCount.total = imageMatches.length;
 		for ( var i = 0; i < imageMatches.length; i++ ) {
@@ -510,14 +523,14 @@ YoastSEO.Analyzer.prototype.firstParagraph = function() {
 
 	//matches everything between the <p> and </p> tags.
 	var p = this.paragraphChecker(
-		this.YoastSEO_preProcessor.__store.cleanTextSomeTags,
+		this.preProcessor.__store.cleanTextSomeTags,
 		new RegExp( "<p(?:[^>]+)?>(.*?)<\/p>", "ig" )
 	);
 	if ( p === 0 ) {
 
 		//use a regex that matches [^], not nothing, so any character, including linebreaks
 		p = this.paragraphChecker(
-			this.YoastSEO_preProcessor.__store.originalText,
+			this.preProcessor.__store.originalText,
 			new RegExp( "[^]*?\n\n", "ig" )
 		);
 	}
@@ -552,7 +565,14 @@ YoastSEO.Analyzer.prototype.metaDescription = function() {
 	} ];
 	if ( typeof this.config.meta !== "undefined" ) {
 		result[ 0 ].result = this.config.meta.length;
-		result[ 1 ].result = this.stringHelper.countMatches( this.config.meta, this.keywordRegex );
+
+		//if the meta length is 0, the returned result is -1 for the matches.
+		result[ 1 ].result = -1;
+		if ( this.config.meta.length > 0 ) {
+			result[ 1 ].result = this.stringHelper.countMatches(
+				this.config.meta, this.keywordRegex
+			);
+		}
 	}
 	return result;
 };
@@ -563,10 +583,10 @@ YoastSEO.Analyzer.prototype.metaDescription = function() {
  */
 YoastSEO.Analyzer.prototype.urlKeyword = function() {
 	var result = [ { test: "urlKeyword", result: 0 } ];
-	var regex = this.config.keywordLowerCase.replace( " ", "[-_]" );
-	regex = new RegExp( regex );
 	if ( typeof this.config.url !== "undefined" ) {
-		result[ 0 ].result = this.stringHelper.countMatches( this.config.url, regex );
+		result[ 0 ].result = this.stringHelper.countMatches(
+			this.config.url, this.keywordRegexInverse
+		);
 	}
 	return result;
 };

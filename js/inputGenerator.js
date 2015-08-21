@@ -5,7 +5,7 @@ YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 /**
  * Inputgenerator generates a form for use as input.
  * @param args
- * @param refObj
+ * @param {YoastSEO.App} refObj
  * @constructor
  */
 YoastSEO.InputGenerator = function( args, refObj ) {
@@ -13,8 +13,6 @@ YoastSEO.InputGenerator = function( args, refObj ) {
 	this.refObj = refObj;
 	this.analyzerData = {};
 	this.formattedData = {};
-	this.createElements();
-	this.getData();
 };
 /**
  * creates input elements in the DOM
@@ -37,6 +35,11 @@ YoastSEO.InputGenerator.prototype.getData = function() {
 	this.analyzerData.url = this.refObj.config.sampleText.url;
 	this.analyzerData.snippetCite = this.refObj.config.sampleText.url;
 	this.formattedData = this.analyzerData;
+
+	this.refObj.analyzerData = this.analyzerData;
+	this.refObj.formattedData = this.formattedData;
+
+	return this.analyzerData;
 };
 
 /**
@@ -94,12 +97,42 @@ YoastSEO.InputGenerator.prototype.getAnalyzerInput = function() {
 	} else {
 		this.formattedData.text = this.getDataFromInput( "text" );
 		this.formattedData.keyword = this.getDataFromInput( "keyword" );
-		this.formattedData.snippetTitle = this.getDataFromInput( "title" );
+		this.formattedData.pageTitle = this.getDataFromInput( "title" );
 		this.formattedData.snippetMeta = this.getDataFromInput( "meta" );
 		this.formattedData.snippetCite = this.getDataFromInput( "url" );
+		this.refObj.formattedData = this.formattedData;
 		this.refObj.reloadSnippetText();
 	}
 	this.refObj.runAnalyzerCallback();
+};
+
+/**
+ * get values from generated inputfields.
+ * @param inputType
+ * @returns {*}
+ */
+YoastSEO.InputGenerator.prototype.getDataFromInput = function( inputType ) {
+	var val;
+	switch ( inputType ) {
+		case "text":
+			val = document.getElementById( "textInput" ).value;
+			break;
+		case "url":
+			val = document.getElementById( "snippet_cite" ).innerText;
+			break;
+		case "meta":
+			val = document.getElementById( "snippet_meta" ).innerText;
+			break;
+		case "keyword":
+			val = document.getElementById( "keywordInput" ).value;
+			break;
+		case "title":
+			val = document.getElementById( "snippet_title" ).innerText;
+			break;
+		default:
+			break;
+	}
+	return val;
 };
 
 /**
@@ -107,6 +140,7 @@ YoastSEO.InputGenerator.prototype.getAnalyzerInput = function() {
  */
 YoastSEO.InputGenerator.prototype.bindElementEvents = function() {
 	this.inputElementEventBinder();
+	this.snippetPreviewEventBinder();
 };
 
 /**
@@ -116,7 +150,7 @@ YoastSEO.InputGenerator.prototype.snippetPreviewEventBinder = function() {
 	var elems = [ "cite", "meta", "title" ];
 	for ( var i = 0; i < elems.length; i++ ) {
 		document.getElementById( "snippet_" + elems[ i ] ).addEventListener(
-			"focus",
+			"blur",
 			this.snippetCallback
 		);
 	}
@@ -142,9 +176,18 @@ YoastSEO.InputGenerator.prototype.renewData = function( ev ) {
 };
 
 /**
- * calles getAnalyzerinput function on focus of the snippet elements;
+ * calls getAnalyzerinput function on focus of the snippet elements;
  * @param event
  */
 YoastSEO.InputGenerator.prototype.snippetCallback = function( ev ) {
 	ev.currentTarget.__refObj.getAnalyzerInput();
+};
+
+/**
+ * Called by the app to save scores. Currently only returns score since
+ * there is no further score implementation
+ * @param score
+ */
+YoastSEO.InputGenerator.prototype.saveScores = function( score ) {
+	return score;
 };

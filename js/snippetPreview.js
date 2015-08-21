@@ -8,7 +8,9 @@ YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 
 /**
  * defines the config and outputTarget for the YoastSEO.SnippetPreview
- * @param refObj
+ *
+ * @param {YoastSEO.App} refObj
+ *
  * @constructor
  */
 YoastSEO.SnippetPreview = function( refObj ) {
@@ -21,8 +23,8 @@ YoastSEO.SnippetPreview = function( refObj ) {
  */
 YoastSEO.SnippetPreview.prototype.init = function() {
 	if (
-		this.refObj.source.formattedData.pageTitle !== null &&
-		this.refObj.source.formattedData.cite !== null
+		this.refObj.formattedData.pageTitle !== null &&
+		this.refObj.formattedData.cite !== null
 	) {
 		this.output = this.htmlOutput();
 		this.renderOutput();
@@ -31,7 +33,8 @@ YoastSEO.SnippetPreview.prototype.init = function() {
 
 /**
  * creates html object to contain the strings for the snippetpreview
- * @returns {html object with html-strings}
+ *
+ * @returns {Object}
  */
 YoastSEO.SnippetPreview.prototype.htmlOutput = function() {
 	var html = {};
@@ -44,18 +47,19 @@ YoastSEO.SnippetPreview.prototype.htmlOutput = function() {
 
 /**
  * formats the title for the snippet preview. If title and pageTitle are empty, sampletext is used
- * @returns {formatted page title}
+ *
+ * @returns {String}
  */
 YoastSEO.SnippetPreview.prototype.formatTitle = function() {
-	var title = this.refObj.source.formattedData.snippetTitle;
+	var title = this.refObj.formattedData.snippetTitle;
 	if ( title === "" ) {
-		title = this.refObj.source.formattedData.pageTitle;
+		title = this.refObj.formattedData.pageTitle;
 	}
 	if ( title === "" ) {
 		title = this.refObj.config.sampleText.title;
 	}
 	title = this.refObj.stringHelper.stripAllTags( title );
-	if ( this.refObj.source.formattedData.keyword !== "" ) {
+	if ( this.refObj.formattedData.keyword !== "" ) {
 		return this.formatKeyword( title );
 	}
 	return title;
@@ -66,7 +70,7 @@ YoastSEO.SnippetPreview.prototype.formatTitle = function() {
  * @returns formatted url
  */
 YoastSEO.SnippetPreview.prototype.formatUrl = function() {
-	var url = this.refObj.source.formattedData.url;
+	var url = this.refObj.formattedData.url;
 
 	//removes the http(s) part of the url
 	url.replace( /https?:\/\//ig, "" );
@@ -78,7 +82,7 @@ YoastSEO.SnippetPreview.prototype.formatUrl = function() {
  * @returns formatted url
  */
 YoastSEO.SnippetPreview.prototype.formatCite = function() {
-	var cite = this.refObj.source.formattedData.snippetCite;
+	var cite = this.refObj.formattedData.snippetCite;
 	cite = this.refObj.stringHelper.stripAllTags( cite );
 	if ( cite === "" ) {
 		cite = this.refObj.config.sampleText.url;
@@ -93,13 +97,13 @@ YoastSEO.SnippetPreview.prototype.formatCite = function() {
  * @returns formatted metatext
  */
 YoastSEO.SnippetPreview.prototype.formatMeta = function() {
-	var meta = this.refObj.source.formattedData.snippetMeta;
+	var meta = this.refObj.formattedData.snippetMeta;
 	if ( meta === "" ) {
 		meta = this.getMetaText();
 	}
 	meta = this.refObj.stringHelper.stripAllTags( meta );
 	meta = meta.substring( 0, YoastSEO.analyzerConfig.maxMeta );
-	if ( this.refObj.source.formattedData.keyword !== "" && meta !== "" ) {
+	if ( this.refObj.formattedData.keyword !== "" && meta !== "" ) {
 		return this.formatKeyword( meta );
 	}
 	return meta;
@@ -113,49 +117,41 @@ YoastSEO.SnippetPreview.prototype.formatMeta = function() {
  */
 YoastSEO.SnippetPreview.prototype.getMetaText = function() {
 	var metaText;
-	if ( typeof this.refObj.source.formattedData.excerpt !== "undefined" ) {
-		metaText = this.refObj.source.formattedData.excerpt.substring(
-			0,
-			YoastSEO.analyzerConfig.maxMeta
-		);
+	if ( typeof this.refObj.formattedData.excerpt !== "undefined" ) {
+		metaText = this.refObj.formattedData.excerpt;
 	}
 	if ( metaText === "" ) {
 		metaText = this.refObj.config.sampleText.meta;
-		if (
-			this.refObj.source.formattedData.keyword !== "" &&
-			this.refObj.source.formattedData.text !== ""
-		) {
-			var indexMatches = this.getIndexMatches();
-			var periodMatches = this.getPeriodMatches();
-			metaText = this.refObj.source.formattedData.text.substring(
-				0,
-				YoastSEO.analyzerConfig.maxMeta
-			);
-			var curStart = 0;
-			if ( indexMatches.length > 0 ) {
-				for ( var j = 0; j < periodMatches.length; ) {
-					if ( periodMatches[ 0 ] < indexMatches[ 0 ] ) {
-						curStart = periodMatches.shift();
-					} else {
-						if ( curStart > 0 ) {
-							curStart += 2;
-						}
-						break;
+	}
+	metaText = this.refObj.stringHelper.stripAllTags( metaText );
+	if (
+		this.refObj.formattedData.keyword !== "" &&
+		this.refObj.formattedData.text !== ""
+	) {
+		var indexMatches = this.getIndexMatches();
+		var periodMatches = this.getPeriodMatches();
+		metaText = metaText.substring(
+			0,
+			YoastSEO.analyzerConfig.maxMeta
+		);
+		var curStart = 0;
+		if ( indexMatches.length > 0 ) {
+			for ( var j = 0; j < periodMatches.length; ) {
+				if ( periodMatches[ 0 ] < indexMatches[ 0 ] ) {
+					curStart = periodMatches.shift();
+				} else {
+					if ( curStart > 0 ) {
+						curStart += 2;
 					}
+					break;
 				}
-				metaText = this.refObj.stringHelper.stripAllTags(
-					this.refObj.source.formattedData.text.substring(
-						curStart,
-						curStart + YoastSEO.analyzerConfig.maxMeta
-					)
-				);
 			}
 		}
 	}
 	if ( this.refObj.stringHelper.stripAllTags( metaText ) === "" ) {
 		return this.refObj.config.sampleText.meta;
 	}
-	return metaText;
+	return metaText.substring( 0, YoastSEO.analyzerConfig.maxMeta );
 };
 
 /**
@@ -167,8 +163,8 @@ YoastSEO.SnippetPreview.prototype.getIndexMatches = function() {
 	var i = 0;
 
 	//starts at 0, locates first match of the keyword.
-	var match = this.refObj.source.formattedData.text.indexOf(
-		this.refObj.source.formattedData.keyword,
+	var match = this.refObj.formattedData.text.indexOf(
+		this.refObj.formattedData.keyword,
 		i
 	);
 
@@ -177,9 +173,9 @@ YoastSEO.SnippetPreview.prototype.getIndexMatches = function() {
 		indexMatches.push( match );
 
 		//pushes location to indexMatches and increase i with the length of keyword.
-		i = match + this.refObj.source.formattedData.keyword.length;
-		match = this.refObj.source.formattedData.text.indexOf(
-			this.refObj.source.formattedData.keyword,
+		i = match + this.refObj.formattedData.keyword.length;
+		match = this.refObj.formattedData.text.indexOf(
+			this.refObj.formattedData.keyword,
 			i
 		);
 	}
@@ -194,7 +190,7 @@ YoastSEO.SnippetPreview.prototype.getPeriodMatches = function() {
 	var periodMatches = [ 0 ];
 	var match;
 	var i = 0;
-	while ( ( match = this.refObj.source.formattedData.text.indexOf( ".", i ) ) > -1 ) {
+	while ( ( match = this.refObj.formattedData.text.indexOf( ".", i ) ) > -1 ) {
 		periodMatches.push( match );
 		i = match + 1;
 	}
@@ -209,7 +205,7 @@ YoastSEO.SnippetPreview.prototype.getPeriodMatches = function() {
 YoastSEO.SnippetPreview.prototype.formatKeyword = function( textString ) {
 
 	//matches case insensitive and global
-	var replacer = new RegExp( this.refObj.source.formattedData.keyword, "ig" );
+	var replacer = new RegExp( this.refObj.formattedData.keyword, "ig" );
 	return textString.replace( replacer, function( str ) {
 		return "<strong>" + str + "</strong>";
 	} );
@@ -223,7 +219,7 @@ YoastSEO.SnippetPreview.prototype.formatKeyword = function( textString ) {
  * @returns {XML|string|void}
  */
 YoastSEO.SnippetPreview.prototype.formatKeywordUrl = function( textString ) {
-	var replacer = this.refObj.source.formattedData.keyword.replace( " ", "[-_]" );
+	var replacer = this.refObj.formattedData.keyword.replace( " ", "[-_]" );
 
 	//matches case insensitive and global
 	replacer = new RegExp( replacer, "ig" );
