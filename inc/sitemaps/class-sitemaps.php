@@ -41,6 +41,9 @@ class WPSEO_Sitemaps {
 	/** @var WPSEO_Sitemap_Timezone $timezone */
 	private $timezone;
 
+	/** @var WPSEO_Sitemaps_Router $router */
+	public $router;
+
 	/**
 	 * Class constructor
 	 */
@@ -63,6 +66,7 @@ class WPSEO_Sitemaps {
 		$this->home_url    = home_url();
 		$this->charset     = get_bloginfo( 'charset' );
 		$this->timezone    = new WPSEO_Sitemap_Timezone();
+		$this->router      = new WPSEO_Sitemaps_Router();
 	}
 
 	/**

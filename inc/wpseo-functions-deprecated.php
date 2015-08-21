@@ -281,3 +281,47 @@ function wpseo_standardize_whitespace( $string ) {
 
 	return WPSEO_Utils::standardize_whitespace( $string );
 }
+
+/**
+ * Initialize sitemaps. Add sitemap & XSL rewrite rules and query vars
+ *
+ * @deprecated 2.4
+ * @see WPSEO_Sitemaps_Router
+ */
+function wpseo_xml_sitemaps_init() {
+	$options = get_option( 'wpseo_xml' );
+	if ( $options['enablexmlsitemap'] !== true ) {
+		return;
+	}
+
+	// Redirects sitemap.xml to sitemap_index.xml.
+	add_action( 'template_redirect', 'wpseo_xml_redirect_sitemap', 0 );
+
+	if ( ! is_object( $GLOBALS['wp'] ) ) {
+		return;
+	}
+
+	$GLOBALS['wp']->add_query_var( 'sitemap' );
+	$GLOBALS['wp']->add_query_var( 'sitemap_n' );
+	$GLOBALS['wp']->add_query_var( 'xsl' );
+	add_rewrite_rule( 'sitemap_index\.xml$', 'index.php?sitemap=1', 'top' );
+	add_rewrite_rule( '([^/]+?)-sitemap([0-9]+)?\.xml$', 'index.php?sitemap=$matches[1]&sitemap_n=$matches[2]', 'top' );
+	add_rewrite_rule( '([a-z]+)?-?sitemap\.xsl$', 'index.php?xsl=$matches[1]', 'top' );
+}
+
+/**
+ * Redirect /sitemap.xml to /sitemap_index.xml
+ *
+ * @deprecated 2.4
+ * @see WPSEO_Sitemaps_Router
+ */
+function wpseo_xml_redirect_sitemap() {
+	$current_url = ( isset( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] == 'on' ) ? 'https://' : 'http://';
+	$current_url .= sanitize_text_field( $_SERVER['SERVER_NAME'] ) . sanitize_text_field( $_SERVER['REQUEST_URI'] );
+
+	// Must be 'sitemap.xml' and must be 404.
+	if ( home_url( '/sitemap.xml' ) == $current_url && $GLOBALS['wp_query']->is_404 ) {
+		wp_redirect( home_url( '/sitemap_index.xml' ), 301 );
+		exit;
+	}
+}
