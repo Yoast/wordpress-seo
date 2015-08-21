@@ -50,10 +50,18 @@ class WPSEO_URL_Redirect_Manager_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_URL_Redirect_Manager::get_options
 	 */
 	public function test_get_options() {
-		$this->assertArraySubset(
+		$options = WPSEO_Redirect_Manager::get_options();
+
+		$this->assertEquals( 'off', $options['disable_php_redirect'] );
+		$this->assertEquals( 'off', $options['separate_file'] );
+
+		/*
+		 Because of PHP 5.2, this can not be done
+	 	 $this->assertArraySubset(
 			array( 'disable_php_redirect' => 'off', 'separate_file' => 'off' ),
 			WPSEO_Redirect_Manager::get_options()
 		);
+		 */
 	}
 
 	/**
@@ -81,7 +89,14 @@ class WPSEO_URL_Redirect_Manager_Test extends WPSEO_UnitTestCase {
 
 		$this->assertTrue( $is_created );
 		$this->assertArrayHasKey( 'add_redirect', $redirects );
-		$this->assertArraySubset( array( 'add_redirect' => array( 'url' => 'added_redirect', 'type' => 301 ) ), $redirects );
+
+		$this->assertEquals( 'added_redirect', $redirects['add_redirect']['url'] );
+		$this->assertEquals( '301', $redirects['add_redirect']['type'] );
+
+		/*
+		 Because of PHP 5.2, this can not be done
+		 $this->assertArraySubset( array( 'add_redirect' => array( 'url' => 'added_redirect', 'type' => 301 ) ), $redirects );
+		 */
 	}
 
 	/**
