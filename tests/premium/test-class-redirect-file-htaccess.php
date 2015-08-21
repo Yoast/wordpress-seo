@@ -26,6 +26,7 @@ class WPSEO_Redirect_File_Htaccess_Test extends WPSEO_UnitTestCase {
 
 		// Letting write htaccess_content always return true.
 		$class_instance
+			->expects( $this->once() )
 			->method( 'write_htaccess_content' )
 			->will( $this->returnValue( true ) );
 
