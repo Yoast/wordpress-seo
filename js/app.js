@@ -79,9 +79,7 @@ YoastSEO.App = function( args ) {
 	this.loadQueue();
 	this.stringHelper = new YoastSEO.StringHelper();
 	this.plugins = new YoastSEO.Plugins();
-	this.checkInputs();
 	this.callbacks = this.config.callbacks;
-
 	if ( !this.config.ajax ) {
 		this.defineElements();
 	}
@@ -390,6 +388,7 @@ YoastSEO.App.prototype.runAnalyzer = function() {
 	if ( this.config.dynamicDelay ) {
 		this.startTime();
 	}
+	this.runPlugins();
 	if ( typeof this.pageAnalyzer === "undefined" ) {
 		var args = this.formattedData;
 		args.queue = this.queue;
@@ -405,6 +404,16 @@ YoastSEO.App.prototype.runAnalyzer = function() {
 	}
 };
 
+/**
+ *
+ */
+YoastSEO.App.prototype.runPlugins = function() {
+	for ( var plugin in this.plugins.plugins ) {
+		for (var  i = 0; i < this.plugins.plugins[plugin].strings.length; i++){
+			this.analyzerData[ this.plugins.plugins[ plugin ].strings[ 0 ] ] = this.plugins.plugins[ plugin ].func( this.analyzerData[ this.plugins.plugins[ plugin ].strings[ 0 ] ] );
+		}
+	}
+};
 /**
  * run at pageload to init the App for pageAnalysis.
  */

@@ -25,10 +25,16 @@ YoastSEO.Plugins = function() {
 	this.preloadThreshold = 4000;
 	this.plugins = {};
 	this.modifications = {};
+	this.init();
 
 	// Allow plugins 500 ms to register before we start polling their
-	setTimeout( this._pollLoadingPlugins(), 500 );
+	setTimeout( "YoastSEO.app.plugins._pollLoadingPlugins()", 500 );
 };
+
+
+YoastSEO.Plugins.prototype.init = function() {
+
+}
 
 /**************** PUBLIC DSL ****************/
 
@@ -39,7 +45,7 @@ YoastSEO.Plugins = function() {
  * @param options 		{{status: "ready"|"loading"}}
  * @returns 			{boolean}
  */
-YoastSEO.Plugins.prototype.register = function( pluginName, options ) {
+YoastSEO.Plugins.prototype.register = function( pluginName, options, func ) {
 	if ( typeof pluginName !== "string" ) {
 		console.error( "Failed to register plugin. Expected parameter `pluginName` to be a string." );
 		return false;
@@ -51,11 +57,12 @@ YoastSEO.Plugins.prototype.register = function( pluginName, options ) {
 	}
 
 	if ( this._validateUniqueness( pluginName ) === false ) {
-		console.error( "Failed to register plugin. Plugin with name ." + pluginName + " already exists" );
+		console.error( "Failed to register plugin. Plugin with name " + pluginName + " already exists" );
 		return false;
 	}
 
 	this.plugins[pluginName] = options;
+	this.plugins[pluginName].func = func;
 	return true;
 };
 
@@ -168,14 +175,14 @@ YoastSEO.Plugins.prototype._pollLoadingPlugins = function( pollTime ) {
 	pollTime = pollTime === undefined ? 0 : pollTime;
 
 	if ( this._allReady() === true ) {
-
+console.log("ready");
 		// @todo: YoastSEO.app.pluginsLoaded();
 	} else if ( pollTime >= this.preloadThreshold ) {
 		this._pollTimeExceeded();
 	} else {
-		YoastSEO.app.updateIntegrations();
+		//YoastSEO.app.updateIntegrations();
 		pollTime += 50;
-		setTimeout( this._pollRegistrations( pollTime ), 50 );
+		setTimeout( "YoastSEO.app.plugins._pollLoadingPlugins( " + pollTime + " )", 50 );
 	}
 };
 
