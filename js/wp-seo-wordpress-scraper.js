@@ -125,7 +125,6 @@ YoastSEO.WordPressScraper.prototype.runDataQueue = function() {
 
 	if ( YoastSEO.app.analyzerDataQueue.length > 0 ) {
 		var currentData = YoastSEO.app.analyzerDataQueue.shift();
-		this.replaceVariables( YoastSEO.app.analyzerData[ currentData ], currentData, YoastSEO.app.formattedData );
 	} else {
 		if ( typeof YoastSEO.app.snippetPreview === 'undefined' ) {
 			YoastSEO.app.init();
@@ -178,167 +177,6 @@ YoastSEO.WordPressScraper.prototype.getInputFieldsData = function( ev ) {
 	}
 };
 
-/**
- * Replaces %% strings with WordPress variables
- * @param {String} textString
- * @param {String} type
- * @param {Object} object
- */
-YoastSEO.WordPressScraper.prototype.replaceVariables = function( textString, type, object ) {
-	'use strict';
-
-	if ( typeof textString === 'undefined' ) {
-		object[ type ] = '';
-		this.runDataQueue();
-	} else {
-		textString = this.titleReplace( textString );
-		textString = this.defaultReplace( textString );
-		textString = this.parentReplace( textString );
-		textString = this.doubleSepReplace( textString );
-		textString = this.excerptReplace( textString );
-
-		if ( textString.indexOf( '%%' ) !== -1 && textString.match( /%%[a-z0-9_-]+%%/i ) !== null && typeof this.replacedVars !== 'undefined' ) {
-			var regex = /%%[a-z0-9_-]+%%/gi;
-			var matches = textString.match( regex );
-			for ( var i = 0; i < matches.length; i++ ) {
-				if ( typeof( this.replacedVars[ matches[ i ] ] ) !== 'undefined' ) {
-					textString = textString.replace( matches[ i ], this.replacedVars[ matches[ i ] ] );
-				}
-				else {
-					var replaceableVar = matches[ i ];
-					// create the cache already, so we don't do the request twice.
-					this.replacedVars[ replaceableVar ] = '';
-					var srcObj = {};
-					srcObj.replaceableVar = replaceableVar;
-					srcObj.textString = textString;
-					srcObj.type = type;
-					srcObj.object = object;
-					this.ajaxReplaceVariables( srcObj );
-				}
-			}
-			if ( textString.match( /%%[a-z0-9_-]+%%/i ) === null ) {
-				object[ type ] = textString;
-				this.runDataQueue();
-			}
-		} else {
-			object[ type ] = textString;
-			this.runDataQueue();
-		}
-	}
-};
-
-/**
- * Replaces %%title%% with the title
- *
- * @param {String} textString
- * @returns {String}
- */
-YoastSEO.WordPressScraper.prototype.titleReplace = function( textString ) {
-	'use strict';
-
-	var title = YoastSEO.app.analyzerData.title;
-	if ( typeof title === 'undefined' ) {
-		title = YoastSEO.app.analyzerData.pageTitle;
-	}
-	if ( title.length > 0 ) {
-		textString = textString.replace( /%%title%%/g, title );
-	}
-	return textString;
-};
-
-/**
- * Replaces %%parent_title%% with the selected value from selectbox (if available on page).
- *
- * @param {String} textString
- * @returns {String}
- */
-YoastSEO.WordPressScraper.prototype.parentReplace = function( textString ) {
-	'use strict';
-
-	var parentId = document.getElementById( 'parent_id' );
-
-	if ( parentId !== null && parentId.options[ parentId.selectedIndex ].text !== wpseoMetaboxL10n.no_parent_text ) {
-		textString = textString.replace( /%%parent_title%%/, parentId.options[ parentId.selectedIndex ].text );
-	}
-	return textString;
-};
-
-/**
- * removes double seperators and replaces them with a single seperator
- *
- * @param {String} textString
- * @returns {String}
- */
-YoastSEO.WordPressScraper.prototype.doubleSepReplace = function( textString ) {
-	'use strict';
-
-	var escaped_seperator = YoastSEO.app.stringHelper.addEscapeChars( wpseoMetaboxL10n.sep );
-	var pattern = new RegExp( escaped_seperator + ' ' + escaped_seperator, 'g' );
-	textString = textString.replace( pattern, wpseoMetaboxL10n.sep );
-	return textString;
-};
-
-/**
- * replaces the excerpts strings with strings for the excerpts, if not empty.
- *
- * @param {String} textString
- * @returns {String}
- */
-YoastSEO.WordPressScraper.prototype.excerptReplace = function( textString ) {
-	'use strict';
-
-	if ( YoastSEO.app.analyzerData.excerpt.length > 0 ) {
-		textString.replace( /%%excerpt_only%%/, YoastSEO.app.analyzerData.excerpt );
-		textString.replace( /%%excerpt%%/, YoastSEO.app.analyzerData.excerpt );
-	}
-	return textString;
-};
-
-/**
- * replaces default variables with the values stored in the wpseoMetaboxL10n object.
- *
- * @param {String} textString
- * @return {String}
- */
-YoastSEO.WordPressScraper.prototype.defaultReplace = function( textString ) {
-	'use strict';
-
-	return textString.replace( /%%sitedesc%%/g, wpseoMetaboxL10n.sitedesc )
-		.replace( /%%sitename%%/g, wpseoMetaboxL10n.sitename )
-		.replace( /%%sep%%/g, wpseoMetaboxL10n.sep )
-		.replace( /%%date%%/g, wpseoMetaboxL10n.date )
-		.replace( /%%id%%/g, wpseoMetaboxL10n.id )
-		.replace( /%%page%%/g, wpseoMetaboxL10n.page )
-		.replace( /%%currenttime%%/g, wpseoMetaboxL10n.currenttime )
-		.replace( /%%currentdate%%/g, wpseoMetaboxL10n.currentdate )
-		.replace( /%%currentday%%/g, wpseoMetaboxL10n.currentday )
-		.replace( /%%currentmonth%%/g, wpseoMetaboxL10n.currentmonth )
-		.replace( /%%currentyear%%/g, wpseoMetaboxL10n.currentyear )
-		.replace( /%%focuskw%%/g, YoastSEO.app.stringHelper.stripAllTags( YoastSEO.app.analyzerData.keyword ) );
-};
-
-/**
- * Variable replacer. Gets the replaceable var from an Ajaxcall, saves this in the replacedVars object and runs the
- * replace function again to replace the new found values.
- *
- * @param {Object} srcObj
- */
-YoastSEO.WordPressScraper.prototype.ajaxReplaceVariables = function( srcObj ) {
-	'use strict';
-
-	jQuery.post( ajaxurl, {
-			action: 'wpseo_replace_vars',
-			string: srcObj.replaceableVar,
-			post_id: jQuery( '#post_ID' ).val(),
-			_wpnonce: wpseoMetaboxL10n.wpseo_replace_vars_nonce
-		}, function( data ) {
-			if ( data ) {
-				YoastSEO.app.source.replacedVars[ srcObj.replaceableVar ] = data;
-				YoastSEO.app.source.replaceVariables( srcObj.textString, srcObj.type, srcObj.object );
-			}
-		}
-	);
-};
 
 /**
  * Calls the eventbinders.
@@ -447,3 +285,4 @@ jQuery( document ).on( 'ajaxComplete', function( ev, response ) {
 		YoastSEO.app.snippetPreview.reRender();
 	}
 } );
+
