@@ -24,7 +24,7 @@ To keep our content analysis fast, we don't allow asynchronous modifications. Th
 If plugins need to preload data, they can first register, then preload using AJAX and call `ready` once preloaded.
 
 ```JS
-YoastSEO.app.plugins.register( 'examplePlugin', {status: 'loading' );
+YoastSEO.app.plugins.register( 'examplePlugin', {status: 'loading'} );
 // Load whatever data you need through AJAX.
 YoastSEO.app.plugins.ready( 'examplePlugin' );
 ```
