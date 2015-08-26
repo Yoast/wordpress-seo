@@ -38,48 +38,43 @@ To minimize client side memory usage, we request plugins to preload as little da
 YoastSEO.app.plugins.reloaded( 'examplePlugin' );
 ```
 
-### Registering modifications
+### Modifications
 
-YoasSEO.js has a synchronous modification mechanism that operates much like the filtering mechanism in WordPress (`add_filter|apply_filters`). The modifications that are supported by us are applyed in the following way:
+YoasSEO.js has a synchronous modification mechanism that operates much like the filtering mechanism in WordPress (`add_filter|apply_filters`). We currently have support for the following modifications (more might follow):
+* `content`
+* `title`
+
+The modifications that are supported by us are applyed in the following way:
 
 ```JS
-var modifiedData = YoastSEO.app.plugins._applyModifications( 'exampleModification', 'Data of some type to modify' );
+var modifiedData = YoastSEO.app.plugins._applyModifications( 'content', 'The content to modify' );
 ```
 
-A modification is basically a callback function which is registered with YoastSEO.js The callback function should accept a `data` parameter and optionally also a `context` parameter. Only the `data` can be modified and is expected to be returned by the callback function. Registering a modification looks like this:
+### Example implementation
+
+A modification is basically a callback function which is registered with YoastSEO.js The callback function should accept a `data` parameter and optionally also a `context` parameter. Only the `data` can be modified and is expected to be returned by the callback function. A complete plugin looks like this:
 
 ```JS
+ExamplePlugin = function() {
+  YoastSEO.app.plugins.register( 'examplePlugin', {status: 'ready'} );
+  
+  /**
+   * @param modification 	{string} 	The name of the filter
+   * @param callable 		{function} 	The callable
+   * @param pluginName 	{string} 	The plugin that is registering the modification.
+   * @param priority 		{number} 	(optional) Used to specify the order in which the callables 
+   * 									associated with a particular filter are called. Lower numbers
+   * 									correspond with earlier execution.
+   */
+  YoastSEO.app.plugins.registerModification( 'content', this.myContentModification, 'examplePlugin', 5 );
+}
+
 /**
  * Adds some text to the data...
  *
  * @param data The data to modify
  */
-ExamplePlugin.prototype.myCustomModification = function(data) {
-  return data + ' some text to add';
-};
-
-/**
- * @param modification 	{string} 	The name of the filter
- * @param callable 		{function} 	The callable
- * @param pluginName 	{string} 	The plugin that is registering the modification.
- * @param priority 		{number} 	(optional) Used to specify the order in which the callables 
- * 									associated with a particular filter are called. Lower numbers
- * 									correspond with earlier execution.
- */
-YoastSEO.app.plugins.registerModification( 'exampleModification', myCustomModification, 'examplePlugin', 5 );
-```
-
-### Example plugin
-
-So if you do everything as described above, you get a plugin that looks like this:
-
-```JS
-ExamplePlugin = function() {
-  YoastSEO.app.plugins.register( 'examplePlugin', {status: 'ready'} );
-  YoastSEO.app.plugins.registerModification( 'exampleModification', this.myCustomModification, 'examplePlugin', 5 );
-}
-
-ExamplePlugin.prototype.myCustomModification = function(data) {
+ExamplePlugin.prototype.myContentModification = function(data) {
   return data + ' some text to add';
 };
 
