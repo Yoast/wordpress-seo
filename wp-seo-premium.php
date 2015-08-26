@@ -46,7 +46,7 @@ if ( is_admin() ) {
 	add_action( 'wpseo_run_upgrade', array( new WPSEO_Upgrade_Manager, 'check_update' ) );
 }
 else {
-	require_once( $wpseo_premium_dir . 'classes/class-redirect-handler.php' );
+	require_once( $wpseo_premium_dir . 'classes/redirect/class-redirect-handler.php' );
 
 	new WPSEO_Redirect_Handler();
 }
