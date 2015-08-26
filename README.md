@@ -54,7 +54,7 @@ A modification is basically a callback function which is registered with YoastSE
  *
  * @param data The data to modify
  */
-myCustomModification = function(data) {
+MyPlugin.prototype.myCustomModification = function(data) {
   return data + ' some text to add';
 };
 
@@ -67,4 +67,21 @@ myCustomModification = function(data) {
  * 									correspond with earlier execution.
  */
 YoastSEO.app.plugins.registerModification( 'exampleModification', myCustomModification, 'examplePlugin', 5 );
+```
+
+### Example plugin
+
+So if you do everything as described above, you get a plugin that looks like this:
+
+```JS
+MyPlugin = function() {
+  YoastSEO.app.plugins.register( 'examplePlugin', {status: 'ready'} );
+  YoastSEO.app.plugins.registerModification( 'exampleModification', this.myCustomModification, 'examplePlugin', 5 );
+}
+
+MyPlugin.prototype.myCustomModification = function(data) {
+  return data + ' some text to add';
+};
+
+new MyPlugin();
 ```
