@@ -44,7 +44,12 @@ function wpseo_show_notification() {
 				return;
 			}
 
-			var wpseo_post_id = jQuery(this).closest('tr').attr('id').replace('edit-', '');
+			if ( jQuery(this).closest('tr').length > 0 ) {
+				var wpseo_post_id = jQuery(this).closest('tr').attr('id').replace('edit-', '');
+			}
+			else {
+				return;
+			}
 
 			var wpseo_current_slug;
 
