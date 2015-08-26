@@ -65,7 +65,7 @@ ExamplePlugin = function() {
   /**
    * @param modification 	{string} 	The name of the filter
    * @param callable 		{function} 	The callable
-   * @param pluginName 	{string} 	The plugin that is registering the modification.
+   * @param pluginName 	    {string} 	The plugin that is registering the modification.
    * @param priority 		{number} 	(optional) Used to specify the order in which the callables 
    * 									associated with a particular filter are called. Lower numbers
    * 									correspond with earlier execution.
