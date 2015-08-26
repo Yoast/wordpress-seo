@@ -1,4 +1,4 @@
-# js-text-analysis
+# YoastSEO.js
 
 [![Build Status](https://travis-ci.org/Yoast/js-text-analysis.svg?branch=master)](https://travis-ci.org/Yoast/js-text-analysis)
 [![Code Climate](https://codeclimate.com/repos/5524f75d69568028f6000fda/badges/f503961401819f93c64c/gpa.svg)](https://codeclimate.com/repos/5524f75d69568028f6000fda/feed)
@@ -40,4 +40,30 @@ YoastSEO.app.plugins.reloaded( 'examplePlugin' );
 
 ### Registering modifications
 
-YoasSEO.js has a synchronous modification mechanism. 
+YoasSEO.js has a synchronous modification mechanism that operates much like the filtering mechanism in WordPress (`add_filter|apply_filters`). The modifications that are supported by us are applyed in the following way:
+
+```JS
+var modifiedData = YoastSEO.app.plugins._applyModifications( 'exampleModification', 'Data of some type to modify' );
+```
+
+A modification is basically a callback function which is registered with YoastSEO.js The callback function should accept a `data` parameter and optionally also a `context` parameter. Only the `data` can be modified and is expected to be returned by the callback function. Registering a modification looks like this:
+
+```JS
+/**
+ * Adds some text to the data...
+ *
+ * @param data The data to modify
+ */
+myCustomModification = function(data) {
+  return data + ' some text to add';
+};
+
+/**
+ * @param modification 	{string} 	The name of the filter
+ * @param callable 		{function} 	The callable
+ * @param pluginName 	{string} 	The plugin that is registering the modification.
+ * @param priority 		{number} 	(optional) Used to specify the order in which the callables associated with a particular filter are called.
+ * 									Lower numbers correspond with earlier execution.
+ */
+YoastSEO.app.plugins.registerModification( 'exampleModification', myCustomModification, 'examplePlugin', 5 );
+```
