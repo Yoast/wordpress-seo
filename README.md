@@ -9,6 +9,8 @@ Project bringing the Yoast text analysis functionality to the client side
 
 A plugin for YoastSEO.js is basically a piece of JavaScript that hooks into YoastSEO.js by registering modifications. In order to do so, it must first register itself as a plugin with YoastSEO.js. 
 
+### Registering a plugin
+
 If plugins don't need to preload data, they can declare `ready` straight on registration of the plugin:
 
 ```JS
