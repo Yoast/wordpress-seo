@@ -47,7 +47,7 @@ class WPSEO_Premium_Autoloader {
 	 */
 	public function load( $class ) {
 		// Check & load file.
-		if ( $found_file = $this->find_file( $class, $this->directory ) ) {
+		if ( $found_file = $this->find_file( $class ) ) {
 			require_once( $found_file );
 		}
 	}
@@ -56,11 +56,10 @@ class WPSEO_Premium_Autoloader {
 	 * Searching for the file in the given directory
 	 *
 	 * @param string $class
-	 * @param string $target_directory
 	 *
 	 * @return bool|string
 	 */
-	private function find_file( $class, $target_directory = '' ) {
+	private function find_file( $class ) {
 		if ( 0 === strpos( $class, $this->search_pattern ) ) {
 			// String to lower.
 			$class = strtolower( $class );
@@ -72,7 +71,7 @@ class WPSEO_Premium_Autoloader {
 			$class_path = dirname( __FILE__ ) . '/';
 
 			// Append file name to clas path.
-			$full_path = $class_path . $target_directory . $file_name;
+			$full_path = $class_path . $this->directory . $file_name;
 
 			// Check & load file.
 			if ( file_exists( $full_path ) ) {
