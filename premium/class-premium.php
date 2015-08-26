@@ -40,7 +40,7 @@ class WPSEO_Premium {
 	public static function install() {
 
 		// Load the Redirect File Manager.
-		require_once( WPSEO_PREMIUM_PATH . 'classes/class-redirect-file-manager.php' );
+		require_once( WPSEO_PREMIUM_PATH . 'classes/class-redirect-file-util.php' );
 
 		// Create the upload directory.
 		WPSEO_Redirect_File_Util::create_upload_dir();
