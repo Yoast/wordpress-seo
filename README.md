@@ -40,6 +40,8 @@ YoastSEO.app.plugins.reloaded( 'examplePlugin' );
 
 ### Modifications
 
+#### Supported modifications
+
 YoasSEO.js has a synchronous modification mechanism that operates much like the filtering mechanism in WordPress (`add_filter|apply_filters`). We currently have support for the following modifications (more might follow):
 * `content`
 * `title`
@@ -50,7 +52,9 @@ The modifications that are supported by us are applyed in the following way:
 var modifiedData = YoastSEO.app.plugins._applyModifications( 'content', 'The content to modify' );
 ```
 
-### Example implementation
+Modifications can be added by using `YoastSEO.app.plugins.registerModification`. Please see the example implementation below:
+
+#### Example implementation
 
 A modification is basically a callback function which is registered with YoastSEO.js The callback function should accept a `data` parameter and optionally also a `context` parameter. Only the `data` can be modified and is expected to be returned by the callback function. A complete plugin looks like this:
 
