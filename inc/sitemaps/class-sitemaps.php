@@ -55,7 +55,6 @@ class WPSEO_Sitemaps {
 
 		add_action( 'after_setup_theme', array( $this, 'reduce_query_load' ), 99 );
 		add_action( 'pre_get_posts', array( $this, 'redirect' ), 1 );
-		add_filter( 'redirect_canonical', array( $this, 'canonical' ) );
 		add_action( 'wpseo_hit_sitemap_index', array( $this, 'hit_sitemap_index' ) );
 		add_filter( 'wpseo_sitemap_exclude_author', array( $this, 'user_sitemap_remove_excluded_authors' ), 8 );
 
@@ -1285,22 +1284,6 @@ class WPSEO_Sitemaps {
 	 */
 	public function hit_sitemap_index() {
 		wp_remote_get( wpseo_xml_sitemaps_base_url( 'sitemap_index.xml' ) );
-	}
-
-	/**
-	 * Hook into redirect_canonical to stop trailing slashes on sitemap.xml URLs.
-	 *
-	 * @param string $redirect The redirect URL currently determined.
-	 *
-	 * @return bool|string $redirect
-	 */
-	public function canonical( $redirect ) {
-
-		if ( get_query_var( 'sitemap' ) || get_query_var( 'xsl' ) ) {
-			return false;
-		}
-
-		return $redirect;
 	}
 
 	/**

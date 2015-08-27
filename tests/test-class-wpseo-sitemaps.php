@@ -43,20 +43,6 @@ class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Sitemaps::canonical
-	 */
-	public function test_canonical() {
-		$url = site_url();
-		$this->assertNotEmpty( self::$class_instance->canonical( $url ) );
-
-		set_query_var( 'sitemap', 'sitemap_value' );
-		$this->assertFalse( self::$class_instance->canonical( $url ) );
-
-		set_query_var( 'xsl', 'xsl_value' );
-		$this->assertFalse( self::$class_instance->canonical( $url ) );
-	}
-
-	/**
 	 * @covers WPSEO_Sitemaps::get_last_modified
 	 */
 	public function test_get_last_modified() {

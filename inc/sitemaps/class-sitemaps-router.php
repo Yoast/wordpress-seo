@@ -14,6 +14,7 @@ class WPSEO_Sitemaps_Router {
 	public function __construct() {
 
 		add_action( 'init', array( $this, 'init' ), 1 );
+		add_filter( 'redirect_canonical', array( $this, 'redirect_canonical' ) );
 		add_action( 'template_redirect', array( $this, 'template_redirect' ), 0 );
 	}
 
@@ -31,6 +32,22 @@ class WPSEO_Sitemaps_Router {
 		add_rewrite_rule( 'sitemap_index\.xml$', 'index.php?sitemap=1', 'top' );
 		add_rewrite_rule( '([^/]+?)-sitemap([0-9]+)?\.xml$', 'index.php?sitemap=$matches[1]&sitemap_n=$matches[2]', 'top' );
 		add_rewrite_rule( '([a-z]+)?-?sitemap\.xsl$', 'index.php?xsl=$matches[1]', 'top' );
+	}
+
+	/**
+	 * Stop trailing slashes on sitemap.xml URLs.
+	 *
+	 * @param string $redirect The redirect URL currently determined.
+	 *
+	 * @return bool|string $redirect
+	 */
+	public function redirect_canonical( $redirect ) {
+
+		if ( get_query_var( 'sitemap' ) || get_query_var( 'xsl' ) ) {
+			return false;
+		}
+
+		return $redirect;
 	}
 
 	/**
