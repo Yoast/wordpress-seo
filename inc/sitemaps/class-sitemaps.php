@@ -23,9 +23,6 @@ class WPSEO_Sitemaps {
 	/** @var int $max_entries The maximum number of entries per sitemap page. */
 	private $max_entries;
 
-	/** @var array $post_type_dates Holds the post type's newest publish dates. */
-	private $post_type_dates;
-
 	/** @var array $options Holds the Yoast SEO options. */
 	private $options = array();
 
@@ -1312,23 +1309,26 @@ class WPSEO_Sitemaps {
 	}
 
 	/**
-	 * Get the modification date for the last modified post in the post type.
+	 * Get the GMT modification date for the last modified post in the post type.
 	 *
-	 * @param array $post_types Post types to get the last modification date for.
+	 * @param string|array $post_types Post type or array of types.
 	 *
 	 * @return string
 	 */
-	public function get_last_modified( $post_types ) {
+	static public function get_last_modified_gmt( $post_types ) {
+
 		global $wpdb;
+
+		static $post_type_dates = array();
 
 		if ( ! is_array( $post_types ) ) {
 			$post_types = array( $post_types );
 		}
 
-		// We need to do this only once, as otherwise we'd be doing a query for each post type.
-		if ( ! is_array( $this->post_type_dates ) ) {
-			$this->post_type_dates = array();
-			$sql                   = "
+		if ( empty( $post_type_dates ) ) {
+
+			$post_type_dates = array();
+			$sql             = "
 				SELECT post_type, MAX(post_modified_gmt) AS date
 				FROM $wpdb->posts
 				WHERE post_status IN ('publish','inherit')
@@ -1336,29 +1336,44 @@ class WPSEO_Sitemaps {
 				GROUP BY post_type
 				ORDER BY post_modified_gmt DESC
 			";
-			$results               = $wpdb->get_results( $sql );
+			$results         = $wpdb->get_results( $sql );
+
 			foreach ( $results as $obj ) {
-				$this->post_type_dates[ $obj->post_type ] = $obj->date;
+				$post_type_dates[ $obj->post_type ] = $obj->date;
 			}
 			unset( $sql, $results, $obj );
 		}
 
-		if ( count( $post_types ) === 1 && isset( $this->post_type_dates[ $post_types[0] ] ) ) {
-			$result = $this->post_type_dates[ $post_types[0] ];
+		if ( count( $post_types ) === 1 && isset( $post_type_dates[ $post_types[0] ] ) ) {
+			$result = $post_type_dates[ $post_types[0] ];
 		}
 		else {
+
 			$result = null;
+
 			foreach ( $post_types as $post_type ) {
-				if ( isset( $this->post_type_dates[ $post_type ] ) && strtotime( $this->post_type_dates[ $post_type ] ) > $result ) {
-					$result = $this->post_type_dates[ $post_type ];
+
+				if ( isset( $post_type_dates[ $post_type ] ) && strtotime( $post_type_dates[ $post_type ] ) > $result ) {
+					$result = $post_type_dates[ $post_type ];
 				}
 			}
 			unset( $post_type );
 		}
 
-		return $this->timezone->format_date( $result );
+		return $result;
 	}
 
+	/**
+	 * Get the modification date for the last modified post in the post type.
+	 *
+	 * @param array $post_types Post types to get the last modification date for.
+	 *
+	 * @return string
+	 */
+	public function get_last_modified( $post_types ) {
+
+		return $this->timezone->format_date( self::get_last_modified_gmt( $post_types ) );
+	}
 
 	/**
 	 * Sorts an array of WP_User by the _yoast_wpseo_profile_updated meta field.
