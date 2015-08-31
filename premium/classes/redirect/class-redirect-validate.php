@@ -1,5 +1,11 @@
 <?php
+/**
+ * @package WPSEO\Premium\Classes\Redirect
+ */
 
+/**
+ * Class WPSEO_Redirect_Validate
+ */
 class WPSEO_Redirect_Validate {
 
 	/**
