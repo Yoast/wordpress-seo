@@ -41,6 +41,9 @@ class WPSEO_Sitemaps {
 	/** @var WPSEO_Sitemaps_Router $router */
 	public $router;
 
+	/** @var WPSEO_Sitemap_Provider[] $providers */
+	public $providers;
+
 	/**
 	 * Class constructor
 	 */
@@ -63,6 +66,11 @@ class WPSEO_Sitemaps {
 		$this->charset     = get_bloginfo( 'charset' );
 		$this->timezone    = new WPSEO_Sitemap_Timezone();
 		$this->router      = new WPSEO_Sitemaps_Router();
+		$this->providers   = array( // TODO API for add/remove. R.
+			new WPSEO_Post_Type_Sitemap_Provider(),
+			new WPSEO_Taxonomy_Sitemap_Provider(),
+			new WPSEO_Author_Sitemap_Provider(),
+		);
 	}
 
 	/**
@@ -266,263 +274,15 @@ class WPSEO_Sitemaps {
 
 		$this->sitemap = '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
 
-		$this->build_post_type_map_index();
-
-		$this->build_taxonomy_map_index();
-
-		$this->build_author_map_index();
+		foreach ( $this->providers as $provider ) {
+			foreach ( $provider->get_index_links( $this->max_entries ) as $link ) {
+				$this->sitemap .= $this->sitemap_index_url( $link );
+			}
+		}
 
 		// Allow other plugins to add their sitemaps to the index.
 		$this->sitemap .= apply_filters( 'wpseo_sitemap_index', '' );
 		$this->sitemap .= '</sitemapindex>';
-	}
-
-	/**
-	 * Build post type sitemaps index.
-	 */
-	protected function build_post_type_map_index() {
-
-		global $wpdb;
-
-		$post_types = get_post_types( array( 'public' => true ) );
-
-		foreach ( $post_types as $post_type ) {
-
-			if ( ! empty( $this->options[ "post_types-{$post_type}-not_in_sitemap" ] ) ) {
-				continue;
-			}
-
-			// TODO document filter. R.
-			if ( apply_filters( 'wpseo_sitemap_exclude_post_type', false, $post_type ) ) {
-				continue;
-			}
-
-			// Using same filters for filtering join and where parts of the query.
-			$join_filter  = apply_filters( 'wpseo_typecount_join', '', $post_type );
-			$where_filter = apply_filters( 'wpseo_typecount_where', '', $post_type );
-
-			// Using the same query with build_post_type_map($post_type) function to count number of posts.
-			$sql = "
-				SELECT COUNT(ID)
-				FROM $wpdb->posts
-				{$join_filter}
-				WHERE post_status IN ('publish','inherit')
-					AND post_password = ''
-					AND post_date != '0000-00-00 00:00:00'
-					AND post_type = %s
-					{$where_filter}
-			";
-			$count = $wpdb->get_var( $wpdb->prepare( $sql, $post_type ) );
-
-			if ( $count === 0  ) {
-				continue;
-			}
-
-			$max_pages = ( $count > $this->max_entries ) ? (int) ceil( $count / $this->max_entries ) : 1;
-
-			for ( $i = 0; $i < $max_pages; $i ++ ) {
-				$count = ( $max_pages > 1 ) ? ( $i + 1 ) : '';
-
-				if ( empty( $count ) || $count === $max_pages ) {
-					$date = $this->get_last_modified( $post_type );
-				}
-				else {
-					$sql = "
-						SELECT post_modified_gmt
-						FROM (
-							SELECT @rownum:=@rownum+1 rownum, $wpdb->posts.post_modified_gmt
-							FROM (SELECT @rownum:=0) r, $wpdb->posts
-							WHERE post_status IN ('publish','inherit')
-								AND post_type = %s
-							ORDER BY post_modified_gmt ASC
-						) x
-						WHERE rownum %%%d=0
-					";
-					$all_dates = $wpdb->get_col( $wpdb->prepare( $sql, $post_type, $this->max_entries ) );
-					$date = $this->timezone->format_date( $all_dates[ $i ] );
-				}
-
-				$this->sitemap .= '<sitemap>' . "\n";
-				$this->sitemap .= '<loc>' . wpseo_xml_sitemaps_base_url( $post_type . '-sitemap' . $count . '.xml' ) . '</loc>' . "\n";
-				$this->sitemap .= '<lastmod>' . htmlspecialchars( $date ) . '</lastmod>' . "\n";
-				$this->sitemap .= '</sitemap>' . "\n";
-			}
-			unset( $count, $max_pages, $i, $date );
-		}
-	}
-
-	/**
-	 * Build taxonomies sitemaps index.
-	 */
-	protected function build_taxonomy_map_index() {
-
-		global $wpdb;
-
-		$taxonomies = get_taxonomies( array( 'public' => true ), 'objects' );
-
-		if ( empty( $taxonomies ) ) {
-			return;
-		}
-
-		$taxonomy_names = array_keys( $taxonomies );
-
-		foreach ( $taxonomy_names as $tax ) {
-
-			if ( in_array( $tax, array( 'link_category', 'nav_menu', 'post_format' ) ) ) {
-				unset( $taxonomy_names[ $tax ], $taxonomies[ $tax ] );
-				continue;
-			}
-
-			if ( apply_filters( 'wpseo_sitemap_exclude_taxonomy', false, $tax ) ) {
-				unset( $taxonomy_names[ $tax ], $taxonomies[ $tax ] );
-				continue;
-			}
-
-			if ( isset( $this->options[ 'taxonomies-' . $tax . '-not_in_sitemap' ] ) && $this->options[ 'taxonomies-' . $tax . '-not_in_sitemap' ] === true ) {
-				unset( $taxonomy_names[ $tax ], $taxonomies[ $tax ] );
-				continue;
-			}
-		}
-		unset( $tax );
-
-		// Retrieve all the taxonomies and their terms so we can do a proper count on them.
-		$hide_empty         = ( apply_filters( 'wpseo_sitemap_exclude_empty_terms', true, $taxonomy_names ) ) ? 'count != 0 AND' : '';
-		$sql                = "
-			SELECT taxonomy, term_id
-			FROM $wpdb->term_taxonomy
-			WHERE $hide_empty taxonomy IN ('" . implode( "','", $taxonomy_names ) . "');
-		";
-		$all_taxonomy_terms = $wpdb->get_results( $sql );
-		$all_taxonomies     = array();
-
-		foreach ( $all_taxonomy_terms as $obj ) {
-			$all_taxonomies[ $obj->taxonomy ][] = $obj->term_id;
-		}
-		unset( $hide_empty, $sql, $all_taxonomy_terms, $obj );
-
-		foreach ( $taxonomies as $tax_name => $tax ) {
-
-			if ( ! isset( $all_taxonomies[ $tax_name ] ) ) { // No eligible terms found.
-				continue;
-			}
-
-			$steps = $this->max_entries;
-			$count = ( isset( $all_taxonomies[ $tax_name ] ) ) ? count( $all_taxonomies[ $tax_name ] ) : 1;
-			$n     = ( $count > $this->max_entries ) ? (int) ceil( $count / $this->max_entries ) : 1;
-
-			for ( $i = 0; $i < $n; $i ++ ) {
-				$count = ( $n > 1 ) ? ( $i + 1 ) : '';
-
-				if ( ! is_array( $tax->object_type ) || count( $tax->object_type ) == 0 ) {
-					continue;
-				}
-
-				if ( ( empty( $count ) || $count == $n ) ) {
-					$date = $this->get_last_modified( $tax->object_type );
-				}
-				else {
-					$terms = array_splice( $all_taxonomies[ $tax_name ], 0, $steps );
-					if ( ! $terms ) {
-						continue;
-					}
-
-					$args  = array(
-						'post_type' => $tax->object_type,
-						'tax_query' => array(
-							array(
-								'taxonomy' => $tax_name,
-								'terms'    => $terms,
-							),
-						),
-						'orderby'   => 'modified',
-						'order'     => 'DESC',
-					);
-					$query = new WP_Query( $args );
-
-					$date = '';
-					if ( $query->have_posts() ) {
-						$date = $this->timezone->format_date( $query->posts[0]->post_modified_gmt );
-					}
-					else {
-						$date = $this->get_last_modified( $tax->object_type );
-					}
-					unset( $terms, $args, $query );
-				}
-
-				$this->sitemap .= '<sitemap>' . "\n";
-				$this->sitemap .= '<loc>' . wpseo_xml_sitemaps_base_url( $tax_name . '-sitemap' . $count . '.xml' ) . '</loc>' . "\n";
-				$this->sitemap .= '<lastmod>' . htmlspecialchars( $date ) . '</lastmod>' . "\n";
-				$this->sitemap .= '</sitemap>' . "\n";
-			}
-			unset( $steps, $count, $n, $i, $date );
-		}
-	}
-
-	/**
-	 * Build author sitemaps index.
-	 */
-	protected function build_author_map_index() {
-
-		global $wpdb;
-
-		if ( $this->options['disable-author'] || $this->options['disable_author_sitemap'] ) {
-			return;
-		}
-
-		$users = get_users( array( 'who' => 'authors' ) );
-		$users = apply_filters( 'wpseo_sitemap_exclude_author', $users );
-		$users = wp_list_pluck( $users, 'ID' );
-
-		$count     = count( $users );
-		$max_pages = ( $count > 0 ) ? 1 : 0;
-
-		if ( $count > $this->max_entries ) {
-			$max_pages = (int) ceil( $count / $this->max_entries );
-		};
-
-		// Must use custom raw query because WP User Query does not support ordering by usermeta.
-		// Retrieve the newest updated profile timestamp overall.
-		// TODO order by usermeta supported since WP 3.7, update implementation? R.
-		$date_query = "
-			SELECT mt1.meta_value
-			FROM $wpdb->users
-				INNER JOIN $wpdb->usermeta ON ($wpdb->users.ID = $wpdb->usermeta.user_id)
-				INNER JOIN $wpdb->usermeta AS mt1 ON ($wpdb->users.ID = mt1.user_id)
-			WHERE 1=1
-				AND (
-					($wpdb->usermeta.meta_key = %s AND CAST($wpdb->usermeta.meta_value AS CHAR) != '0')
-					AND mt1.meta_key = '_yoast_wpseo_profile_updated'
-				)
-			ORDER BY mt1.meta_value
-		";
-
-		for ( $i = 0; $i < $max_pages; $i ++ ) {
-
-			$count = ( $max_pages > 1 ) ? ( $i + 1 ) : '';
-
-			if ( empty( $count ) || $count == $max_pages ) {
-				$sql = $wpdb->prepare(
-					$date_query . ' ASC LIMIT 1',
-					$wpdb->get_blog_prefix() . 'user_level'
-				);
-				// Retrieve the newest updated profile timestamp by an offset.
-			}
-			else {
-				$sql = $wpdb->prepare(
-					$date_query . ' DESC LIMIT 1 OFFSET %d',
-					$wpdb->get_blog_prefix() . 'user_level',
-					( ( $this->max_entries * ( $i + 1 ) ) - 1 )
-				);
-			}
-
-			$date = $wpdb->get_var( $sql );
-			$date = $this->timezone->format_date( '@' . $date );
-
-			$this->sitemap .= '<sitemap>' . "\n";
-			$this->sitemap .= '<loc>' . wpseo_xml_sitemaps_base_url( 'author-sitemap' . $count . '.xml' ) . '</loc>' . "\n";
-			$this->sitemap .= '<lastmod>' . htmlspecialchars( $date ) . '</lastmod>' . "\n";
-			$this->sitemap .= '</sitemap>' . "\n";
-		}
 	}
 
 	/**
