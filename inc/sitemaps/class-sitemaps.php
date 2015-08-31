@@ -1224,6 +1224,31 @@ class WPSEO_Sitemaps {
 	}
 
 	/**
+	 * Build the `<sitemap>` tag for a given URL.
+	 *
+	 * @param array $url Array of parts that make up this entry.
+	 *
+	 * @return string
+	 */
+	public function sitemap_index_url( $url ) {
+
+		$date = null;
+
+		if ( ! empty( $url['lastmod'] ) ) {
+			$date = $this->timezone->format_date( $url['lastmod'] );
+		}
+
+		$url['loc'] = htmlspecialchars( $url['loc'] );
+
+		$output = "\t<sitemap>\n";
+		$output .= "\t\t<loc>" . $url['loc'] . "</loc>\n";
+		$output .= empty( $date ) ? '' : "\t\t<lastmod>" . htmlspecialchars( $date ) . "</lastmod>\n";
+		$output .= "\t</sitemap>\n";
+
+		return $output;
+	}
+
+	/**
 	 * Build the `<url>` tag for a given URL.
 	 *
 	 * @param array $url Array of parts that make up this entry.
@@ -1243,7 +1268,7 @@ class WPSEO_Sitemaps {
 
 		$output = "\t<url>\n";
 		$output .= "\t\t<loc>" . $url['loc'] . "</loc>\n";
-		$output .= empty( $date ) ? '' : "\t\t<lastmod>" . $date . "</lastmod>\n";
+		$output .= empty( $date ) ? '' : "\t\t<lastmod>" . htmlspecialchars( $date ) . "</lastmod>\n";
 		$output .= "\t\t<changefreq>" . $url['chf'] . "</changefreq>\n";
 		$output .= "\t\t<priority>" . str_replace( ',', '.', $url['pri'] ) . "</priority>\n";
 
