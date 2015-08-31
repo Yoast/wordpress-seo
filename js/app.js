@@ -388,7 +388,6 @@ YoastSEO.App.prototype.runAnalyzer = function() {
 	if ( this.config.dynamicDelay ) {
 		this.startTime();
 	}
-	this.runPlugins();
 	if ( typeof this.pageAnalyzer === "undefined" ) {
 		var args = this.formattedData;
 		args.queue = this.queue;
@@ -397,6 +396,7 @@ YoastSEO.App.prototype.runAnalyzer = function() {
 	} else {
 		this.pageAnalyzer.init();
 	}
+	this.formattedData = this.modifyData( this.formattedData );
 	this.pageAnalyzer.runQueue();
 	this.scoreFormatter = new YoastSEO.ScoreFormatter( this );
 	if ( this.config.dynamicDelay ) {
@@ -404,16 +404,11 @@ YoastSEO.App.prototype.runAnalyzer = function() {
 	}
 };
 
-/**
- *
- */
-YoastSEO.App.prototype.runPlugins = function() {
-	for ( var plugin in this.plugins.plugins ) {
-		for (var  i = 0; i < this.plugins.plugins[plugin].strings.length; i++){
-			this.analyzerData[ this.plugins.plugins[ plugin ].strings[ 0 ] ] = this.plugins.plugins[ plugin ].func( this.analyzerData[ this.plugins.plugins[ plugin ].strings[ 0 ] ] );
-		}
-	}
+YoastSEO.App.prototype.modifyData = function( data ) {
+	data.text = this.plugins._applyModifications( "replaceTextVariables", data.text );
+	return data;
 };
+
 /**
  * run at pageload to init the App for pageAnalysis.
  */

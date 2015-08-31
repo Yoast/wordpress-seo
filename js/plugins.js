@@ -16,6 +16,8 @@ YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
  * fetch more data in the process of content creation, you can reload your data set and let YoastSEO.js know you've reloaded
  * by calling `reloaded`.
  *
+ * @todo: add list of supported modifications and compare on registration of modification
+ *
  * @constructor
  * @property preloadThreshold	{number} The maximum time plugins are allowed to preload before we load our content analysis.
  * @property plugins			{object} The plugins that have been registered.
@@ -45,7 +47,7 @@ YoastSEO.Plugins.prototype.init = function() {
  * @param options 		{{status: "ready"|"loading"}}
  * @returns 			{boolean}
  */
-YoastSEO.Plugins.prototype.register = function( pluginName, options, func ) {
+YoastSEO.Plugins.prototype.register = function( pluginName, options ) {
 	if ( typeof pluginName !== "string" ) {
 		console.error( "Failed to register plugin. Expected parameter `pluginName` to be a string." );
 		return false;
@@ -62,7 +64,6 @@ YoastSEO.Plugins.prototype.register = function( pluginName, options, func ) {
 	}
 
 	this.plugins[pluginName] = options;
-	this.plugins[pluginName].func = func;
 	return true;
 };
 
@@ -175,7 +176,6 @@ YoastSEO.Plugins.prototype._pollLoadingPlugins = function( pollTime ) {
 	pollTime = pollTime === undefined ? 0 : pollTime;
 
 	if ( this._allReady() === true ) {
-console.log("ready");
 		// @todo: YoastSEO.app.pluginsLoaded();
 	} else if ( pollTime >= this.preloadThreshold ) {
 		this._pollTimeExceeded();
@@ -238,11 +238,12 @@ YoastSEO.Plugins.prototype._applyModifications = function( modification, data, c
 
 		for ( var callableObject in callChain ) {
 			var callable = callChain[callableObject].callable;
-
+			//@todo: check if the modification actually returns data before updating the data
 			data = callable( data, context );
 		}
-		return data;
 	}
+	return data;
+
 };
 
 /**
@@ -270,7 +271,7 @@ YoastSEO.Plugins.prototype._stripIllegalModifications = function( callChain ) {
  * @private
  */
 YoastSEO.Plugins.prototype._validateOrigin = function( pluginName ) {
-	if ( this.plugins[pluginName] !== "ready" ) {
+	if ( this.plugins[pluginName].status !== "ready" ) {
 		return false;
 	}
 	return true;
