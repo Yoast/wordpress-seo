@@ -56,22 +56,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 				continue;
 			}
 
-			// Using same filters for filtering join and where parts of the query.
-			$join_filter  = apply_filters( 'wpseo_typecount_join', '', $post_type );
-			$where_filter = apply_filters( 'wpseo_typecount_where', '', $post_type );
-
-			// Using the same query with build_post_type_map($post_type) function to count number of posts.
-			$sql   = "
-				SELECT COUNT(ID)
-				FROM $wpdb->posts
-				{$join_filter}
-				WHERE post_status IN ('publish','inherit')
-					AND post_password = ''
-					AND post_date != '0000-00-00 00:00:00'
-					AND post_type = %s
-					{$where_filter}
-			";
-			$count = $wpdb->get_var( $wpdb->prepare( $sql, $post_type ) );
+			$count = $this->get_post_type_count( $post_type );
 
 			if ( $count === 0 ) {
 				continue;
@@ -140,21 +125,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		$offset = ( $current_page > 1 ) ? ( ( $current_page - 1 ) * $max_entries ) : 0;
 		$total  = ( $offset + $max_entries );
 
-		$join_filter  = apply_filters( 'wpseo_typecount_join', '', $post_type );
-		$where_filter = apply_filters( 'wpseo_typecount_where', '', $post_type );
-
-		$sql = "
-			SELECT COUNT(ID)
-			FROM $wpdb->posts
-			{$join_filter}
-			WHERE post_status IN ('publish','inherit')
-				AND post_password = ''
-				AND post_date != '0000-00-00 00:00:00'
-				AND post_type = %s
-			{$where_filter}
-		";
-
-		$typecount = $wpdb->get_var( $wpdb->prepare( $sql, $post_type ) );
+		$typecount = $this->get_post_type_count( $post_type );
 
 		if ( $total > $typecount ) {
 			$total = $typecount;
@@ -393,6 +364,35 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		}
 
 		return $links;
+	}
+
+	/**
+	 * Get count of posts for post type.
+	 *
+	 * @param string $post_type Post type to retrieve count for.
+	 *
+	 * @return int
+	 */
+	protected function get_post_type_count( $post_type ) {
+
+		global $wpdb;
+
+		// TODO document filters. R.
+		$join_filter  = apply_filters( 'wpseo_typecount_join', '', $post_type );
+		$where_filter = apply_filters( 'wpseo_typecount_where', '', $post_type );
+
+		$sql   = "
+			SELECT COUNT(ID)
+			FROM {$wpdb->posts}
+			{$join_filter}
+			WHERE post_status IN ('publish','inherit')
+				AND post_password = ''
+				AND post_date != '0000-00-00 00:00:00'
+				AND post_type = %s
+				{$where_filter}
+		";
+
+		return (int) $wpdb->get_var( $wpdb->prepare( $sql, $post_type ) );
 	}
 
 	/**
