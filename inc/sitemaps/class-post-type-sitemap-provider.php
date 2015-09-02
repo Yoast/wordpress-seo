@@ -132,61 +132,10 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		}
 
 		if ( $current_page === 1 ) {
-
-			$front_id = get_option( 'page_on_front' );
-
-			if ( ! $front_id && ( $post_type == 'post' || $post_type == 'page' ) ) {
-
-				$links[] = array(
-					'loc' => $this->home_url,
-					'pri' => 1,
-					'chf' => WPSEO_Sitemaps::filter_frequency( 'homepage', 'daily', $this->home_url ),
-				);
-			}
-			elseif ( $front_id && $post_type == 'post' ) {
-
-				$page_for_posts = get_option( 'page_for_posts' );
-
-				if ( $page_for_posts ) {
-
-					$page_for_posts_url = get_permalink( $page_for_posts );
-
-					$links[] = array(
-						'loc' => $page_for_posts_url,
-						'pri' => 1,
-						'chf' => WPSEO_Sitemaps::filter_frequency( 'blogpage', 'daily', $page_for_posts_url ),
-					);
-					unset( $page_for_posts_url );
-				}
-			}
-
-			$archive_url = get_post_type_archive_link( $post_type );
-			/**
-			 * Filter: 'wpseo_sitemap_post_type_archive_link' - Allow changing the URL Yoast SEO uses in the XML sitemap for this post type archive.
-			 *
-			 * @api float $archive_url The URL of this archive
-			 *
-			 * @param string $post_type The post type this archive is for.
-			 */
-			$archive_url = apply_filters( 'wpseo_sitemap_post_type_archive_link', $archive_url, $post_type );
-			if ( $archive_url ) {
-				/**
-				 * Filter: 'wpseo_xml_post_type_archive_priority' - Allow changing the priority of the URL Yoast SEO uses in the XML sitemap.
-				 *
-				 * @api float $priority The priority for this URL, ranging from 0 to 1
-				 *
-				 * @param string $post_type The post type this archive is for.
-				 */
-				$links[] = array(
-					'loc' => $archive_url,
-					'pri' => apply_filters( 'wpseo_xml_post_type_archive_priority', 0.8, $post_type ),
-					'chf' => WPSEO_Sitemaps::filter_frequency( $post_type . '_archive', 'weekly', $archive_url ),
-					'mod' => WPSEO_Sitemaps::get_last_modified_gmt( $post_type ),
-				);
-			}
+			$links = array_merge( $links, $this->get_first_links( $post_type ) );
 		}
 
-		if ( $typecount == 0 && empty( $archive ) ) {
+		if ( $typecount === 0 ) {
 
 			return $links;
 		}
@@ -383,6 +332,74 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		";
 
 		return (int) $wpdb->get_var( $wpdb->prepare( $sql, $post_type ) );
+	}
+
+	/**
+	 * Produces set of links to prepend at start of first sitemap page.
+	 *
+	 * @param string $post_type Post type to produce links for.
+	 *
+	 * @return array
+	 */
+	protected function get_first_links( $post_type ) {
+
+		$links = array();
+
+		$front_id = get_option( 'page_on_front' );
+
+		if ( ! $front_id && ( $post_type == 'post' || $post_type == 'page' ) ) {
+
+			$links[] = array(
+				'loc' => $this->home_url,
+				'pri' => 1,
+				'chf' => WPSEO_Sitemaps::filter_frequency( 'homepage', 'daily', $this->home_url ),
+			);
+		}
+		elseif ( $front_id && $post_type == 'post' ) {
+
+			$page_for_posts = get_option( 'page_for_posts' );
+
+			if ( $page_for_posts ) {
+
+				$page_for_posts_url = get_permalink( $page_for_posts );
+
+				$links[] = array(
+					'loc' => $page_for_posts_url,
+					'pri' => 1,
+					'chf' => WPSEO_Sitemaps::filter_frequency( 'blogpage', 'daily', $page_for_posts_url ),
+				);
+				unset( $page_for_posts_url );
+			}
+		}
+
+		$archive_url = get_post_type_archive_link( $post_type );
+
+		/**
+		 * Filter: 'wpseo_sitemap_post_type_archive_link' - Allow changing the URL Yoast SEO uses in the XML sitemap for this post type archive.
+		 *
+		 * @api float $archive_url The URL of this archive
+		 *
+		 * @param string $post_type The post type this archive is for.
+		 */
+		$archive_url = apply_filters( 'wpseo_sitemap_post_type_archive_link', $archive_url, $post_type );
+
+		if ( $archive_url ) {
+			/**
+			 * Filter: 'wpseo_xml_post_type_archive_priority' - Allow changing the priority of the URL Yoast SEO uses in the XML sitemap.
+			 *
+			 * @api float $priority The priority for this URL, ranging from 0 to 1
+			 *
+			 * @param string $post_type The post type this archive is for.
+			 */
+			$links[] = array(
+				'loc' => $archive_url,
+				'pri' => apply_filters( 'wpseo_xml_post_type_archive_priority', 0.8, $post_type ),
+				'chf' => WPSEO_Sitemaps::filter_frequency( $post_type . '_archive', 'weekly', $archive_url ),
+				'mod' => WPSEO_Sitemaps::get_last_modified_gmt( $post_type ),
+			);
+		}
+
+		return $links;
 	}
 
 	/**
