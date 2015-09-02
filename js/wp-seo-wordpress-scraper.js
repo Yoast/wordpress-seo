@@ -107,24 +107,39 @@ YoastSEO.WordPressScraper.prototype.setDataFromSnippet = function( value, type )
 	}
 };
 
+YoastSEO.WordPressScraper.prototype.runPlugins = function(){
+	YoastSEO.app.analyzerData.text = YoastSEO.app.plugins._applyModifications( "replaceTextVariables", YoastSEO.app.analyzerData.text );
+};
+
 /**
  * feeds data to the loader that is required for the analyzer
  */
 YoastSEO.WordPressScraper.prototype.getAnalyzerInput = function() {
-	'use strict';
+	this.runPlugins();
 
-	YoastSEO.app.analyzerDataQueue = [ 'text', 'keyword', 'meta', 'url', 'title', 'pageTitle', 'snippetTitle', 'snippetMeta', 'snippetCite', 'excerpt' ];
-	this.runDataQueue();
+	//YoastSEO.app.analyzerDataQueue = [ 'text', 'keyword', 'meta', 'url', 'title', 'pageTitle', 'snippetTitle', 'snippetMeta', 'snippetCite', 'excerpt' ];
+	//this.runDataQueue();
+
+	if ( typeof YoastSEO.app.snippetPreview === 'undefined' ) {
+		YoastSEO.app.init();
+	} else {
+		YoastSEO.app.reloadSnippetText();
+	}
+	YoastSEO.app.runAnalyzerCallback();
 };
+
+
 
 /**
  * Queue for the analyzer data. Runs a queue to prevent timing issues with the replace variable callback
  */
+/*
 YoastSEO.WordPressScraper.prototype.runDataQueue = function() {
 	'use strict';
 
 	if ( YoastSEO.app.analyzerDataQueue.length > 0 ) {
 		var currentData = YoastSEO.app.analyzerDataQueue.shift();
+		this.replaceVariables( YoastSEO.app.analyzerData[ currentData ], currentData, YoastSEO.app.formattedData );
 	} else {
 		if ( typeof YoastSEO.app.snippetPreview === 'undefined' ) {
 			YoastSEO.app.init();
@@ -133,7 +148,7 @@ YoastSEO.WordPressScraper.prototype.runDataQueue = function() {
 		}
 		YoastSEO.app.runAnalyzerCallback();
 	}
-};
+};*/
 
 /**
  * gets content from the content field, if tinyMCE is initialized, use the getContent function to get the data from tinyMCE
@@ -176,7 +191,6 @@ YoastSEO.WordPressScraper.prototype.getInputFieldsData = function( ev ) {
 			break;
 	}
 };
-
 
 /**
  * Calls the eventbinders.
@@ -285,4 +299,3 @@ jQuery( document ).on( 'ajaxComplete', function( ev, response ) {
 		YoastSEO.app.snippetPreview.reRender();
 	}
 } );
-
