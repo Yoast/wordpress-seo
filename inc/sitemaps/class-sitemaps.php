@@ -249,22 +249,47 @@ class WPSEO_Sitemaps {
 
 		if ( $type === '1' ) {
 			$this->build_root_map();
+			return;
 		}
-		elseif ( post_type_exists( $type ) ) {
-			$this->build_post_type_map( $type );
+
+		foreach ( $this->providers as $provider ) {
+			if ( ! $provider->handles_type( $type ) ) {
+				continue;
+			}
+
+			$links = $provider->get_sitemap_links( $type, $this->max_entries, $this->current_page );
+
+			if ( empty( $links ) ) {
+				$this->bad_sitemap = true;
+
+				return;
+			}
+
+			$this->sitemap =
+				'<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" '
+				. 'xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" '
+				. 'xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
+
+			foreach ( $links as $url ) {
+				$this->sitemap .= $this->sitemap_url( $url );
+			}
+
+			// Filter to allow adding extra URLs, only do this on the first XML sitemap, not on all.
+			if ( $this->current_page === 1 ) {
+				$this->sitemap .= apply_filters( "wpseo_sitemap_{$type}_content", '' ); // TODO document filter. R.
+			}
+
+			$this->sitemap .= '</urlset>';
+
+			return;
 		}
-		elseif ( $tax = get_taxonomy( $type ) ) {
-			$this->build_tax_map( $tax );
-		}
-		elseif ( $type === 'author' ) {
-			$this->build_user_map();
-		}
-		elseif ( has_action( 'wpseo_do_sitemap_' . $type ) ) {
+
+		if ( has_action( 'wpseo_do_sitemap_' . $type ) ) {
 			do_action( 'wpseo_do_sitemap_' . $type );
+			return;
 		}
-		else {
-			$this->bad_sitemap = true;
-		}
+
+		$this->bad_sitemap = true;
 	}
 
 	/**
@@ -281,6 +306,7 @@ class WPSEO_Sitemaps {
 		}
 
 		// Allow other plugins to add their sitemaps to the index.
+		// TODO document filter. R.
 		$this->sitemap .= apply_filters( 'wpseo_sitemap_index', '' );
 		$this->sitemap .= '</sitemapindex>';
 	}
