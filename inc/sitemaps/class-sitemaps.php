@@ -26,11 +26,11 @@ class WPSEO_Sitemaps {
 	/** @var array $options Holds the Yoast SEO options. */
 	private $options = array();
 
-	/** @var int $n Holds the n variable. */
-	private $n = 1;
 
 	/** @var string $home_url Holds the home_url() value to speed up loops. */
 	private $home_url = '';
+	/** @var int $current_page Holds the n variable. */
+	private $current_page = 1;
 
 	/** @var string $charset Holds the get_bloginfo( 'charset' ) value to reuse for performance. */
 	private $charset = '';
@@ -128,14 +128,14 @@ class WPSEO_Sitemaps {
 	}
 
 	/**
-	 * Set the sitemap n to allow creating partial sitemaps with wp-cli
+	 * Set the sitemap current page to allow creating partial sitemaps with wp-cli
 	 * in an one-off process.
 	 *
-	 * @param integer $n The part that should be generated.
+	 * @param integer $current_page The part that should be generated.
 	 */
-	public function set_n( $n ) {
-		if ( is_scalar( $n ) && intval( $n ) > 0 ) {
-			$this->n = intval( $n );
+	public function set_n( $current_page ) {
+		if ( is_scalar( $current_page ) && intval( $current_page ) > 0 ) {
+			$this->current_page = intval( $current_page );
 		}
 	}
 
@@ -213,7 +213,7 @@ class WPSEO_Sitemaps {
 
 		if ( $caching ) {
 			do_action( 'wpseo_sitemap_stylesheet_cache_' . $type, $this );
-			$this->sitemap   = get_transient( 'wpseo_sitemap_cache_' . $type . '_' . $this->n );
+			$this->sitemap   = get_transient( 'wpseo_sitemap_cache_' . $type . '_' . $this->current_page );
 			$this->transient = ! empty( $this->sitemap );
 		}
 
@@ -229,7 +229,7 @@ class WPSEO_Sitemaps {
 		}
 
 		if ( $caching && ! $this->transient ) {
-			set_transient( 'wpseo_sitemap_cache_' . $type . '_' . $this->n, $this->sitemap, DAY_IN_SECONDS );
+			set_transient( 'wpseo_sitemap_cache_' . $type . '_' . $this->current_page, $this->sitemap, DAY_IN_SECONDS );
 		}
 
 		$this->output();
