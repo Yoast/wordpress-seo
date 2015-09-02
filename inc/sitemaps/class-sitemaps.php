@@ -294,7 +294,7 @@ class WPSEO_Sitemaps {
 	 *
 	 * @return mixed|void
 	 */
-	private function filter_frequency( $filter, $default, $url ) {
+	static public function filter_frequency( $filter, $default, $url ) {
 		/**
 		 * Filter: 'wpseo_sitemap_' . $filter . '_change_freq' - Allow filtering of the specific change frequency
 		 *
