@@ -135,4 +135,118 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 		return $index;
 	}
+
+	/**
+	 * Get set of sitemap link data.
+	 *
+	 * @param string $type         Sitemap type.
+	 * @param int    $max_entries  Entries per sitemap.
+	 * @param int    $current_page Current page of the sitemap.
+	 *
+	 * @return array
+	 */
+	public function get_sitemap_links( $type, $max_entries, $current_page ) {
+
+		global $wpdb;
+
+		$links    = array();
+		$taxonomy = get_taxonomy( $type );
+
+		if ( $taxonomy === false ) {
+			return $links;
+		}
+
+		$options = WPSEO_Options::get_all();
+
+		if (
+			! empty( $options[ "taxonomies-{$taxonomy->name}-not_in_sitemap" ] )
+			|| in_array( $taxonomy, array( 'link_category', 'nav_menu', 'post_format' ) )
+			|| apply_filters( 'wpseo_sitemap_exclude_taxonomy', false, $taxonomy->name ) // TODO document filter. R.
+		) {
+			return $links;
+		}
+
+		$steps  = $max_entries;
+		$offset = ( $current_page > 1 ) ? ( ( $current_page - 1 ) * $max_entries ) : 0;
+
+		/**
+		 * Filter: 'wpseo_sitemap_exclude_empty_terms' - Allow people to include empty terms in sitemap
+		 *
+		 * @api bool $hide_empty Whether or not to hide empty terms, defaults to true.
+		 *
+		 * @param object $taxonomy The taxonomy we're getting terms for.
+		 */
+		$hide_empty = apply_filters( 'wpseo_sitemap_exclude_empty_terms', true, $taxonomy );
+		$terms      = get_terms( $taxonomy->name, array( 'hide_empty' => $hide_empty ) );
+		$terms      = array_splice( $terms, $offset, $steps );
+
+		if ( empty( $terms ) ) {
+			$terms = array();
+		}
+
+		// Grab last modified date.
+		$sql = "
+			SELECT MAX(p.post_modified_gmt) AS lastmod
+			FROM	$wpdb->posts AS p
+			INNER JOIN $wpdb->term_relationships AS term_rel
+				ON		term_rel.object_id = p.ID
+			INNER JOIN $wpdb->term_taxonomy AS term_tax
+				ON		term_tax.term_taxonomy_id = term_rel.term_taxonomy_id
+				AND		term_tax.taxonomy = %s
+				AND		term_tax.term_id = %d
+			WHERE	p.post_status IN ('publish','inherit')
+				AND		p.post_password = ''
+		";
+
+		foreach ( $terms as $term ) {
+
+			$url = array();
+
+			$tax_noindex     = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'noindex' );
+			$tax_sitemap_inc = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'sitemap_include' );
+
+			if ( $tax_noindex === 'noindex' && $tax_sitemap_inc !== 'always' ) {
+				continue;
+			}
+
+			if ( $tax_sitemap_inc === 'never' ) {
+				continue;
+			}
+
+			$url['loc'] = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'canonical' );
+
+			if ( ! is_string( $url['loc'] ) || $url['loc'] === '' ) {
+
+				$url['loc'] = get_term_link( $term, $term->taxonomy );
+
+				if ( $options['trailingslash'] === true ) {
+
+					$url['loc'] = trailingslashit( $url['loc'] );
+				}
+			}
+
+			if ( $term->count > 10 ) {
+				$url['pri'] = 0.6;
+			}
+			elseif ( $term->count > 3 ) {
+				$url['pri'] = 0.4;
+			}
+			else {
+				$url['pri'] = 0.2;
+			}
+
+			$url['mod'] = $wpdb->get_var( $wpdb->prepare( $sql, $term->taxonomy, $term->term_id ) );
+			$url['chf'] = WPSEO_Sitemaps::filter_frequency( $term->taxonomy . '_term', 'weekly', $url['loc'] );
+
+			// Use this filter to adjust the entry before it gets added to the sitemap.
+			// TODO document filter. R.
+			$url = apply_filters( 'wpseo_sitemap_entry', $url, 'term', $term );
+
+			if ( ! empty( $url ) ) {
+				$links[] = $url;
+			}
+		}
+
+		return $links;
+	}
 }
