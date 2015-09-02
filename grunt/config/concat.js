@@ -1,9 +1,9 @@
 module.exports = {
 	options: {
-		separator: ';'
+		separator: ";"
 	},
 	dist: {
-		src: ["<%= paths.js %>/*.js","node_modules/jed/jed.js","<%= paths.js %>/config/*.js"],
-		dest: 'dist/yoast-seo-content-analysis.min.js'
+		src: [ "<%= paths.js %>/*.js", "node_modules/jed/jed.js", "<%= paths.js %>/config/*.js" ],
+		dest: "dist/yoast-seo-content-analysis.min.js"
 	}
 };

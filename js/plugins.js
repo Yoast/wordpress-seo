@@ -27,16 +27,10 @@ YoastSEO.Plugins = function() {
 	this.preloadThreshold = 4000;
 	this.plugins = {};
 	this.modifications = {};
-	this.init();
 
 	// Allow plugins 500 ms to register before we start polling their
-	setTimeout( "YoastSEO.app.plugins._pollLoadingPlugins()", 500 );
+	setTimeout( YoastSEO.app.plugins._pollLoadingPlugins, 500 );
 };
-
-
-YoastSEO.Plugins.prototype.init = function() {
-
-}
 
 /**************** PUBLIC DSL ****************/
 
@@ -174,13 +168,12 @@ YoastSEO.Plugins.prototype.registerModification = function( modification, callab
  */
 YoastSEO.Plugins.prototype._pollLoadingPlugins = function( pollTime ) {
 	pollTime = pollTime === undefined ? 0 : pollTime;
-
 	if ( this._allReady() === true ) {
+
 		// @todo: YoastSEO.app.pluginsLoaded();
 	} else if ( pollTime >= this.preloadThreshold ) {
 		this._pollTimeExceeded();
 	} else {
-		//YoastSEO.app.updateIntegrations();
 		pollTime += 50;
 		setTimeout( "YoastSEO.app.plugins._pollLoadingPlugins( " + pollTime + " )", 50 );
 	}
@@ -235,11 +228,12 @@ YoastSEO.Plugins.prototype._applyModifications = function( modification, data, c
 		callChain.sort( function( a, b ) {
 			return a.priority - b.priority;
 		} );
-
 		for ( var callableObject in callChain ) {
 			var callable = callChain[callableObject].callable;
-			//@todo: check if the modification actually returns data before updating the data
-			data = callable( data, context );
+			var newData = callable( data, context );
+			if ( typeof newData !== "undefined" && newData !== "" ) {
+				data = newData;
+			}
 		}
 	}
 	return data;
