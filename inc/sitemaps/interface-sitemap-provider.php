@@ -22,4 +22,15 @@ interface WPSEO_Sitemap_Provider {
 	 * @return array
 	 */
 	public function get_index_links( $max_entries);
+
+	/**
+	 * Get set of sitemap link data.
+	 *
+	 * @param string $type         Sitemap type.
+	 * @param int    $max_entries  Entries per sitemap.
+	 * @param int    $current_page Current page of the sitemap.
+	 *
+	 * @return array
+	 */
+	public function get_sitemap_links( $type, $max_entries, $current_page );
 }
