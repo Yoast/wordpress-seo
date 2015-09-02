@@ -107,8 +107,6 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 */
 	public function get_sitemap_links( $type, $max_entries, $current_page ) {
 
-		global $wpdb;
-
 		$links     = array();
 		$post_type = $type;
 		$options   = WPSEO_Options::get_all();
@@ -142,12 +140,6 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 		$stackedurls = array();
 
-		// Make sure you're wpdb->preparing everything you throw into this!!
-		$join_filter  = apply_filters( 'wpseo_posts_join', false, $post_type );
-		$where_filter = apply_filters( 'wpseo_posts_where', false, $post_type );
-
-		$status = ( $post_type == 'attachment' ) ? 'inherit' : 'publish';
-
 		$parsed_home = parse_url( $this->home_url );
 		$host        = '';
 		$scheme      = 'http';
@@ -160,31 +152,9 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			$scheme = $parsed_home['scheme'];
 		}
 
-
-		/**
-		 * We grab post_date, post_name and post_status too so we can throw these objects
-		 * into get_permalink, which saves a get_post call for each permalink.
-		 */
 		while ( $total > $offset ) {
 
-			// Optimized query per this thread: http://wordpress.org/support/topic/plugin-wordpress-seo-by-yoast-performance-suggestion.
-			// Also see http://explainextended.com/2009/10/23/mysql-order-by-limit-performance-late-row-lookups/.
-			$sql = "
-				SELECT l.ID, post_title, post_content, post_name, post_parent, post_modified_gmt, post_date, post_date_gmt
-				FROM (
-					SELECT ID
-					FROM $wpdb->posts
-					{$join_filter}
-					WHERE post_status = '%s'
-						AND post_password = ''
-						AND post_type = '%s'
-						AND post_date != '0000-00-00 00:00:00'
-						{$where_filter}
-					ORDER BY post_modified ASC LIMIT %d OFFSET %d
-				)
-				o JOIN $wpdb->posts l ON l.ID = o.ID ORDER BY l.ID
-			";
-			$posts = $wpdb->get_results( $wpdb->prepare( $sql, $status, $post_type, $steps, $offset ) );
+			$posts = $this->get_posts( $post_type, $steps, $offset );
 
 			$offset += $steps;
 
@@ -211,10 +181,6 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			$posts_to_exclude = explode( ',', $options['excluded-posts'] );
 
 			foreach ( $posts as $post ) {
-
-				$post->post_type   = $post_type;
-				$post->post_status = 'publish';
-				$post->filter      = 'sample';
 
 				if ( WPSEO_Meta::get_value( 'meta-robots-noindex', $post->ID ) === '1' ) {
 					continue;
@@ -400,6 +366,63 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		}
 
 		return $links;
+	}
+
+	/**
+	 * Retrieve set of posts with optimized query routine.
+	 *
+	 * @param string $post_type Post type to retrieve.
+	 * @param int    $count     Count of posts to retrieve.
+	 * @param int    $offset    Starting offset.
+	 *
+	 * @return object[]
+	 */
+	protected function get_posts( $post_type, $count, $offset ) {
+
+		global $wpdb;
+
+		static $filters = array();
+
+		if ( ! isset( $filters[ $post_type ] ) ) {
+			// Make sure you're wpdb->preparing everything you throw into this!!
+			// TODO document filters. R.
+			$filters[ $post_type ] = array(
+				'join'  => apply_filters( 'wpseo_posts_join', false, $post_type ),
+				'where' => apply_filters( 'wpseo_posts_where', false, $post_type ),
+			);
+		}
+
+		$join_filter  = $filters[ $post_type ]['join'];
+		$where_filter = $filters[ $post_type ]['where'];
+		$status       = ( $post_type === 'attachment' ) ? 'inherit' : 'publish';
+
+		// Optimized query per this thread: http://wordpress.org/support/topic/plugin-wordpress-seo-by-yoast-performance-suggestion.
+		// Also see http://explainextended.com/2009/10/23/mysql-order-by-limit-performance-late-row-lookups/.
+		$sql = "
+			SELECT l.ID, post_title, post_content, post_name, post_parent, post_modified_gmt, post_date, post_date_gmt
+			FROM (
+				SELECT ID
+				FROM {$wpdb->posts}
+				{$join_filter}
+				WHERE post_status = '%s'
+					AND post_password = ''
+					AND post_type = '%s'
+					AND post_date != '0000-00-00 00:00:00'
+					{$where_filter}
+				ORDER BY post_modified ASC LIMIT %d OFFSET %d
+			)
+			o JOIN {$wpdb->posts} l ON l.ID = o.ID ORDER BY l.ID
+		";
+
+		$posts = $wpdb->get_results( $wpdb->prepare( $sql, $status, $post_type, $count, $offset ) );
+
+		foreach ( $posts as $post ) {
+			$post->post_type   = $post_type;
+			$post->post_status = 'publish';
+			$post->filter      = 'sample';
+		}
+
+		return $posts;
 	}
 
 	/**
