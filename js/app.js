@@ -75,6 +75,7 @@ YoastSEO.App = function( args ) {
 	this.config = args;
 	this.inputs = {};
 	this.analyzerData = args.callbacks.getData();
+	this.formattedData = args.callbacks.getData();
 	this.constructI18n( args.translations );
 	this.loadQueue();
 	this.stringHelper = new YoastSEO.StringHelper();
@@ -83,6 +84,7 @@ YoastSEO.App = function( args ) {
 	if ( !this.config.ajax ) {
 		this.defineElements();
 	}
+	this.init();
 };
 
 /**
@@ -120,6 +122,7 @@ YoastSEO.App.prototype.init = function() {
  */
 YoastSEO.App.prototype.refresh = function() {
 	this.analyzerData = this.callbacks.getData();
+	this.formattedData = this.callbacks.getData();
 	this.inputs = this.callbacks.getAnalyzerInput();
 };
 
@@ -342,7 +345,7 @@ YoastSEO.App.prototype.checkInputs = function() {
 
 YoastSEO.App.prototype.runAnalyzerCallback = function() {
 	var refObj = window.YoastSEO.app;
-	if ( refObj.formattedData.keyword === "" ) {
+	if ( refObj.analyzerData.keyword === "" ) {
 		refObj.showMessage();
 	} else {
 		refObj.runAnalyzer();
@@ -388,15 +391,16 @@ YoastSEO.App.prototype.runAnalyzer = function() {
 	if ( this.config.dynamicDelay ) {
 		this.startTime();
 	}
+	this.analyzerData = this.modifyData( this.analyzerData );
 	if ( typeof this.pageAnalyzer === "undefined" ) {
-		var args = this.formattedData;
+		var args = this.analyzerData;
 		args.queue = this.queue;
 		args.i18n = this.i18n;
 		this.pageAnalyzer = new YoastSEO.Analyzer( args );
 	} else {
 		this.pageAnalyzer.init();
 	}
-	this.formattedData = this.modifyData( this.formattedData );
+
 	this.pageAnalyzer.runQueue();
 	this.scoreFormatter = new YoastSEO.ScoreFormatter( this );
 	if ( this.config.dynamicDelay ) {
