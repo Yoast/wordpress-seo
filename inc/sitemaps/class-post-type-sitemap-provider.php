@@ -121,7 +121,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			return $links;
 		}
 
-		$steps  = ( 100 > $max_entries ) ? $max_entries : 100;
+		$steps  = min( 100, $max_entries );
 		$offset = ( $current_page > 1 ) ? ( ( $current_page - 1 ) * $max_entries ) : 0;
 		$total  = ( $offset + $max_entries );
 
@@ -277,22 +277,6 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 				$url = array();
 
-				if (
-					isset( $post->post_modified_gmt )
-					&& $post->post_modified_gmt !== '0000-00-00 00:00:00'
-					&& $post->post_modified_gmt > $post->post_date_gmt
-				) {
-					$url['mod'] = $post->post_modified_gmt;
-				}
-				elseif ( $post->post_date_gmt !== '0000-00-00 00:00:00' ) {
-					$url['mod'] = $post->post_date_gmt;
-				}
-				else {
-					$url['mod'] = $post->post_date; // TODO does this ever happen? will wreck timezone later R.
-				}
-
-				$url['loc'] = get_permalink( $post );
-
 				/**
 				 * Filter: 'wpseo_xml_sitemap_post_url' - Allow changing the URL Yoast SEO uses in the XML sitemap.
 				 *
@@ -302,9 +286,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 				 *
 				 * @param object $post Post object for the URL.
 				 */
-				$url['loc'] = apply_filters( 'wpseo_xml_sitemap_post_url', $url['loc'], $post );
-
-				$url['chf'] = WPSEO_Sitemaps::filter_frequency( $post_type . '_single', 'weekly', $url['loc'] );
+				$url['loc'] = apply_filters( 'wpseo_xml_sitemap_post_url', get_permalink( $post ), $post );
 
 				/**
 				 * Do not include external URLs.
@@ -313,6 +295,14 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 				if ( false === strpos( $url['loc'], $this->home_url ) ) {
 					continue;
 				}
+
+				$modified = max( $post->post_modified_gmt, $post->post_date_gmt );
+
+				if ( $modified !== '0000-00-00 00:00:00' ) {
+					$url['mod'] = $modified;
+				}
+
+				$url['chf'] = WPSEO_Sitemaps::filter_frequency( $post_type . '_single', 'weekly', $url['loc'] );
 
 				$canonical = WPSEO_Meta::get_value( 'canonical', $post->ID );
 
