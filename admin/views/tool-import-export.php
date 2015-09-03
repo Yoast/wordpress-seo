@@ -42,6 +42,12 @@ if ( isset( $_POST['import'] ) || isset( $_GET['import'] ) ) {
 		$import->import_headspace();
 	}
 
+	$post_wpseo = filter_input( INPUT_POST, 'wpseo', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
+
+	if ( ! empty( $post_wpseo['importwpseo'] ) || filter_input( INPUT_GET, 'importwpseo' ) ) {
+		$import = new WPSEO_Import_WPSEO( $replace );
+	}
+
 	if ( isset( $_POST['wpseo']['importrobotsmeta'] ) || isset( $_GET['importrobotsmeta'] ) ) {
 		$import = new WPSEO_Import_External( $replace );
 		$import->import_robots_meta();
@@ -146,6 +152,7 @@ if ( isset( $import ) ) {
 		$yform->checkbox( 'importheadspace', __( 'Import from HeadSpace2?', 'wordpress-seo' ) );
 		$yform->checkbox( 'importaioseo', __( 'Import from All-in-One SEO?', 'wordpress-seo' ) );
 		$yform->checkbox( 'importwoo', __( 'Import from WooThemes SEO framework?', 'wordpress-seo' ) );
+		$yform->checkbox( 'importwpseo', __( 'Import from wpSEO', 'wordpress-seo' ) );
 		?>
 		<br/>
 		<?php
