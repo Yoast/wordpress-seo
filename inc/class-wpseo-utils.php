@@ -790,4 +790,23 @@ class WPSEO_Utils {
 		return false;
 	}
 
+	/**
+	 * Wrapper for encoding the array as a json string. Includes a fallback if wp_json_encode doesn't exists
+	 *
+	 * @param array $array_to_encode
+	 * @param int   $options
+	 * @param int   $depth
+	 *
+	 * @return false|string
+	 */
+	public static function json_encode( array $array_to_encode, $options = 0, $depth = 512 ) {
+		if ( function_exists( 'wp_json_encode' ) ) {
+			return wp_json_encode( $array_to_encode, $options, $depth );
+		}
+
+		// @codingStandardsIgnoreStart
+		return json_encode( $array_to_encode, $options, $depth );
+		// @codingStandardsIgnoreEnd
+	}
+
 } /* End of class WPSEO_Utils */
