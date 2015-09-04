@@ -96,15 +96,7 @@ class WPSEO_Pointers {
 		);
 		$this->button_array          = wp_parse_args( $this->button_array, $button_array_defaults );
 
-		if ( function_exists( 'wp_json_encode' ) ) {
-			$json_options = wp_json_encode( $options );
-		}
-		else {
-			// @codingStandardsIgnoreStart
-			$json_options = json_encode( $options );
-			// @codingStandardsIgnoreEnd
-		}
-
+		$json_options = WPSEO_Utils::json_encode( $options );
 		?>
 		<script type="text/javascript">
 			//<![CDATA[

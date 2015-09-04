@@ -175,7 +175,7 @@ class WPSEO_Export {
 			$taxonomy_meta = get_option( 'wpseo_taxonomy_meta' );
 			if ( is_array( $taxonomy_meta ) ) {
 				$this->write_line( '[wpseo_taxonomy_meta]', true );
-				$this->write_setting( 'wpseo_taxonomy_meta', urlencode( json_encode( $taxonomy_meta ) ) );
+				$this->write_setting( 'wpseo_taxonomy_meta', urlencode( WPSEO_Util::json_encode( $taxonomy_meta ) ) );
 			}
 			else {
 				$this->write_line( '; ' . __( 'No taxonomy metadata found', 'wordpress-seo' ), true );
