@@ -793,9 +793,9 @@ class WPSEO_Utils {
 	/**
 	 * Wrapper for encoding the array as a json string. Includes a fallback if wp_json_encode doesn't exists
 	 *
-	 * @param array $array_to_encode
-	 * @param int   $options
-	 * @param int   $depth
+	 * @param array $array_to_encode The array which will be encoded.
+	 * @param int   $options		 Optional. Array with options which will be passed in to the encoding methods.
+	 * @param int   $depth    		 Optional. Maximum depth to walk through $data. Must be greater than 0. Default 512.
 	 *
 	 * @return false|string
 	 */
