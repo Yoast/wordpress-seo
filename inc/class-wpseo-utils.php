@@ -805,7 +805,7 @@ class WPSEO_Utils {
 		}
 
 		// @codingStandardsIgnoreStart
-		return json_encode( $array_to_encode, $options, $depth );
+		return json_encode( $array_to_encode, $options );
 		// @codingStandardsIgnoreEnd
 	}
 
