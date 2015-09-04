@@ -28,7 +28,7 @@ class WPSEO_JSON_LD_Test extends WPSEO_UnitTestCase {
 
 		$home_url   = trailingslashit( home_url() );
 		$search_url = $home_url . '?s={search_term_string}';
-		$json       = json_encode( array(
+		$json       = WPSEO_Utils::json_encode( array(
 			'@context'        => 'http://schema.org',
 			'@type'           => 'WebSite',
 			'url'             => $home_url,
@@ -37,7 +37,7 @@ class WPSEO_JSON_LD_Test extends WPSEO_UnitTestCase {
 				'@type'       => 'SearchAction',
 				'target'      => $search_url,
 				'query-input' => 'required name=search_term_string',
-			)
+			),
 		) );
 		$expected   = '<script type=\'application/ld+json\'>' . $json . '</script>' . "\n";
 		$this->expectOutput( $expected, self::$class_instance->website() );
@@ -58,7 +58,7 @@ class WPSEO_JSON_LD_Test extends WPSEO_UnitTestCase {
 		$this->go_to_home();
 
 		$home_url = home_url();
-		$json     = json_encode( array(
+		$json     = WPSEO_Utils::json_encode( array(
 			'@context' => 'http://schema.org',
 			'@type'    => 'Person',
 			'url'      => $home_url,
@@ -86,7 +86,7 @@ class WPSEO_JSON_LD_Test extends WPSEO_UnitTestCase {
 		$this->go_to_home();
 
 		$home_url = home_url();
-		$json     = json_encode( array(
+		$json     = WPSEO_Utils::json_encode( array(
 			'@context' => 'http://schema.org',
 			'@type'    => 'Organization',
 			'url'      => $home_url,
