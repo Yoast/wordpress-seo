@@ -92,16 +92,14 @@ class WPSEO_Sitemap_Image_Parser {
 
 		global $wpdb;
 
-		$child_query = "
+		$sql = "
 			SELECT ID, post_title, post_parent
 			FROM {$wpdb->posts}
 			WHERE post_status = 'inherit'
 				AND post_type = 'attachment'
 				AND post_parent IN (" . $post_ids . ')';
-		$wpdb->query( $child_query );
-		$attachments = $wpdb->get_results( $child_query );
 
-		return $attachments;
+		return $wpdb->get_results( $sql );
 	}
 
 	/**
@@ -115,15 +113,13 @@ class WPSEO_Sitemap_Image_Parser {
 
 		global $wpdb;
 
-		$thumbnail_query = "
+		$sql = "
 			SELECT meta_value
 			FROM {$wpdb->postmeta}
 			WHERE meta_key = '_thumbnail_id'
 				AND post_id IN (" . $post_ids . ')';
-		$wpdb->query( $thumbnail_query );
-		$thumbnails = $wpdb->get_results( $thumbnail_query );
 
-		return $thumbnails;
+		return $wpdb->get_results( $sql );
 	}
 
 	/**
