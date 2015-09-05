@@ -9,14 +9,18 @@
 class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 	/** @var string $home_url Holds the home_url() value to speed up loops. */
-	private $home_url = '';
+	protected $home_url = '';
+
+	/** @var WPSEO_Sitemap_Image_Parser $image_parser Holds image parser instance. */
+	protected $image_parser;
 
 	/**
 	 * Set up object properties for data reuse.
 	 */
 	public function __construct() {
 
-		$this->home_url = home_url();
+		$this->home_url     = home_url();
+		$this->image_parser = new WPSEO_Sitemap_Image_Parser();
 	}
 
 	/**
@@ -140,18 +144,6 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 		$stackedurls = array();
 
-		$parsed_home = parse_url( $this->home_url );
-		$host        = '';
-		$scheme      = 'http';
-
-		if ( isset( $parsed_home['host'] ) && ! empty( $parsed_home['host'] ) ) {
-			$host = str_replace( 'www.', '', $parsed_home['host'] );
-		}
-
-		if ( isset( $parsed_home['scheme'] ) && ! empty( $parsed_home['scheme'] ) ) {
-			$scheme = $parsed_home['scheme'];
-		}
-
 		while ( $total > $offset ) {
 
 			$posts = $this->get_posts( $post_type, $steps, $offset );
@@ -163,20 +155,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			}
 
 			$post_ids = wp_list_pluck( $posts, 'ID' );
-
-			if ( count( $post_ids ) > 0 ) {
-				update_meta_cache( 'post', $post_ids );
-
-				$imploded_post_ids = implode( $post_ids, ',' );
-
-				$attachments = $this->get_attachments( $imploded_post_ids );
-				$thumbnails  = $this->get_thumbnails( $imploded_post_ids );
-
-				$this->do_attachment_ids_caching( $attachments, $thumbnails );
-
-				unset( $imploded_post_ids );
-			}
-			unset( $post_ids );
+			$this->image_parser->cache_attachments( $post_ids );
 
 			$posts_to_exclude = explode( ',', $options['excluded-posts'] );
 
@@ -237,23 +216,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 				$url['pri'] = $this->calculate_priority( $post );
 
-				$url['images'] = array();
-
-				$content = $post->post_content;
-				$content = '<p><img src="' . $this->image_url( get_post_thumbnail_id( $post->ID ) ) . '" alt="' . $post->post_title . '" /></p>' . $content;
-
-				if ( preg_match_all( '`<img [^>]+>`', $content, $matches ) ) {
-					$url['images'] = $this->parse_matched_images( $matches, $post, $scheme, $host );
-				}
-				unset( $content, $matches, $img );
-
-				if ( ! empty( $attachments ) && strpos( $post->post_content, '[gallery' ) !== false ) {
-
-					$url['images'] = $this->parse_attachments( $attachments, $post );
-				}
-
-				// TODO document filter. R.
-				$url['images'] = apply_filters( 'wpseo_sitemap_urlimages', $url['images'], $post->ID );
+				$url['images'] = $this->image_parser->get_images( $post );
 
 				if ( ! in_array( $url['loc'], $stackedurls ) ) {
 					// Use this filter to adjust the entry before it gets added to the sitemap.
@@ -422,220 +385,10 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			$post->filter      = 'sample';
 		}
 
+		$post_ids = wp_list_pluck( $posts, 'ID' );
+		update_meta_cache( 'post', $post_ids );
+
 		return $posts;
-	}
-
-	/**
-	 * Getting the attachments from database.
-	 *
-	 * @param string $post_ids Set of post IDs.
-	 *
-	 * @return mixed
-	 */
-	private function get_attachments( $post_ids ) {
-		global $wpdb;
-		$child_query = "
-			SELECT ID, post_title, post_parent
-			FROM $wpdb->posts
-			WHERE post_status = 'inherit'
-				AND post_type = 'attachment'
-				AND post_parent IN (" . $post_ids . ')';
-		$wpdb->query( $child_query );
-		$attachments = $wpdb->get_results( $child_query );
-
-		return $attachments;
-	}
-
-	/**
-	 * Getting thumbnails.
-	 *
-	 * @param array $post_ids Set of post IDs.
-	 *
-	 * @return mixed
-	 */
-	private function get_thumbnails( $post_ids ) {
-		global $wpdb;
-
-		$thumbnail_query = "
-			SELECT meta_value
-			FROM $wpdb->postmeta
-			WHERE meta_key = '_thumbnail_id'
-				AND post_id IN (" . $post_ids . ')';
-		$wpdb->query( $thumbnail_query );
-		$thumbnails = $wpdb->get_results( $thumbnail_query );
-
-		return $thumbnails;
-	}
-
-	/**
-	 * Parsing attachment_ids and do the caching.
-	 *
-	 * Function will pluck ID from attachments and meta_value from thumbnails and marge them into one array. This
-	 * array will be used to do the caching
-	 *
-	 * @param array $attachments Set of attachments data.
-	 * @param array $thumbnails  Set of thumbnail IDs.
-	 */
-	private function do_attachment_ids_caching( $attachments, $thumbnails ) {
-		$attachment_ids = wp_list_pluck( $attachments, 'ID' );
-		$thumbnail_ids  = wp_list_pluck( $thumbnails, 'meta_value' );
-
-		$attachment_ids = array_unique( array_merge( $thumbnail_ids, $attachment_ids ) );
-
-		_prime_post_caches( $attachment_ids );
-		update_meta_cache( 'post', $attachment_ids );
-	}
-
-	/**
-	 * Parsing the matched images
-	 *
-	 * @param array  $matches Set of matches.
-	 * @param object $post    Post object.
-	 * @param string $scheme  URL scheme.
-	 * @param string $host    URL host.
-	 *
-	 * @return array
-	 */
-	private function parse_matched_images( $matches, $post, $scheme, $host ) {
-
-		$return = array();
-
-		foreach ( $matches[0] as $img ) {
-
-			if ( ! preg_match( '`src=["\']([^"\']+)["\']`', $img, $match ) ) {
-				continue;
-			}
-
-			$src = $match[1];
-
-			if ( WPSEO_Utils::is_url_relative( $src ) === true ) {
-
-				if ( $src[0] !== '/' ) {
-					continue;
-				}
-
-				// The URL is relative, we'll have to make it absolute.
-				$src = $this->home_url . $src;
-			}
-			elseif ( strpos( $src, 'http' ) !== 0 ) {
-				// Protocol relative url, we add the scheme as the standard requires a protocol.
-				$src = $scheme . ':' . $src;
-			}
-
-			if ( strpos( $src, $host ) === false ) {
-				continue;
-			}
-
-			if ( $src != esc_url( $src ) ) {
-				continue;
-			}
-
-			if ( isset( $return[ $src ] ) ) {
-				continue;
-			}
-
-			$image = array(
-				'src' => apply_filters( 'wpseo_xml_sitemap_img_src', $src, $post ),
-			);
-
-			if ( preg_match( '`title=["\']([^"\']+)["\']`', $img, $title_match ) ) {
-				$image['title'] = str_replace( array( '-', '_' ), ' ', $title_match[1] );
-			}
-			unset( $title_match );
-
-			if ( preg_match( '`alt=["\']([^"\']+)["\']`', $img, $alt_match ) ) {
-				$image['alt'] = str_replace( array( '-', '_' ), ' ', $alt_match[1] );
-			}
-			unset( $alt_match );
-
-			$image    = apply_filters( 'wpseo_xml_sitemap_img', $image, $post ); // TODO document filter. R.
-			$return[] = $image;
-
-			unset( $match, $src );
-		}
-
-		return $return;
-	}
-
-	/**
-	 * Parses the given attachments.
-	 *
-	 * @param array   $attachments Set of attachments.
-	 * @param WP_Post $post        Post object.
-	 *
-	 * @return array
-	 */
-	private function parse_attachments( $attachments, $post ) {
-
-		$return = array();
-
-		foreach ( $attachments as $attachment ) {
-			if ( $attachment->post_parent !== $post->ID ) {
-				continue;
-			}
-
-			$src   = $this->image_url( $attachment->ID );
-			$image = array(
-				'src' => apply_filters( 'wpseo_xml_sitemap_img_src', $src, $post ),
-			);
-
-			$alt = get_post_meta( $attachment->ID, '_wp_attachment_image_alt', true );
-			if ( $alt !== '' ) {
-				$image['alt'] = $alt;
-			}
-			unset( $alt );
-
-			$image['title'] = $attachment->post_title;
-
-			$image = apply_filters( 'wpseo_xml_sitemap_img', $image, $post );
-
-			$return[] = $image;
-		}
-
-		return $return;
-	}
-
-	/**
-	 * Get attached image URL.
-	 *
-	 * Adapted from core for speed.
-	 *
-	 * @param int $post_id ID of the post.
-	 *
-	 * @return string
-	 */
-	private function image_url( $post_id ) {
-
-		static $uploads;
-
-		if ( empty( $uploads ) ) {
-			$uploads = wp_upload_dir();
-		}
-
-		if ( false !== $uploads['error'] ) {
-			return '';
-		}
-
-		$file = get_post_meta( $post_id, '_wp_attached_file', true );
-
-		if ( empty( $file ) ) {
-			return '';
-		}
-
-		// TODO check all this logic, looks messy. R.
-		if ( 0 === strpos( $file, $uploads['basedir'] ) ) { // Check that the upload base exists in the file location.
-			$url = str_replace( $uploads['basedir'], $uploads['baseurl'], $file );
-		}
-		// Replace file location with url location.
-		elseif ( false !== strpos( $file, 'wp-content/uploads' ) ) {
-			$url = $uploads['baseurl'] . substr( $file, ( strpos( $file, 'wp-content/uploads' ) + 18 ) );
-		}
-		// It's a newly uploaded file, therefore $file is relative to the baseurl.
-		else {
-			$url = $uploads['baseurl'] . "/$file";
-		}
-
-		return $url;
 	}
 
 	/**
