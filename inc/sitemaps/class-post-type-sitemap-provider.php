@@ -11,6 +11,9 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	/** @var string $home_url Holds the home_url() value to speed up loops. */
 	protected $home_url = '';
 
+	/** @var array $options All of plugin options. */
+	protected $options = array();
+
 	/** @var WPSEO_Sitemap_Image_Parser $image_parser Holds image parser instance. */
 	protected $image_parser;
 
@@ -20,6 +23,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	public function __construct() {
 
 		$this->home_url     = home_url();
+		$this->options      = WPSEO_Options::get_all();
 		$this->image_parser = new WPSEO_Sitemap_Image_Parser();
 	}
 
@@ -44,7 +48,6 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 		global $wpdb;
 
-		$options    = WPSEO_Options::get_all();
 		$post_types = get_post_types( array( 'public' => true ) );
 
 		$index = array();
@@ -113,7 +116,6 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 		$links     = array();
 		$post_type = $type;
-		$options   = WPSEO_Options::get_all();
 
 		if (
 			! empty( $options[ "post_types-{$post_type}-not_in_sitemap" ] )
@@ -157,7 +159,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			$post_ids = wp_list_pluck( $posts, 'ID' );
 			$this->image_parser->cache_attachments( $post_ids );
 
-			$posts_to_exclude = explode( ',', $options['excluded-posts'] );
+			$posts_to_exclude = explode( ',', $this->options['excluded-posts'] );
 
 			foreach ( $posts as $post ) {
 
@@ -210,7 +212,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 				}
 				unset( $canonical );
 
-				if ( $options['trailingslash'] === true && $post->post_type != 'post' ) {
+				if ( $this->options['trailingslash'] === true && $post->post_type != 'post' ) {
 					$url['loc'] = trailingslashit( $url['loc'] );
 				}
 
