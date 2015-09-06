@@ -158,63 +158,19 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 					continue;
 				}
 
-				$url = array();
+				$url = $this->get_url( $post );
 
-				/**
-				 * Filter: 'wpseo_xml_sitemap_post_url' - Allow changing the URL Yoast SEO uses in the XML sitemap.
-				 *
-				 * Note that only absolute local URLs are allowed as the check after this removes external URLs.
-				 *
-				 * @api string $url URL to use in the XML sitemap
-				 *
-				 * @param object $post Post object for the URL.
-				 */
-				$url['loc'] = apply_filters( 'wpseo_xml_sitemap_post_url', get_permalink( $post ), $post );
-
-				/**
-				 * Do not include external URLs.
-				 * @see https://wordpress.org/plugins/page-links-to/ can rewrite permalinks to external URLs.
-				 */
-				if ( false === strpos( $url['loc'], $this->home_url ) ) {
+				if ( ! isset( $url['loc'] ) || in_array( $url['loc'], $stackedurls ) ) {
 					continue;
 				}
 
-				$modified = max( $post->post_modified_gmt, $post->post_date_gmt );
+				// Use this filter to adjust the entry before it gets added to the sitemap.
+				// TODO document filter. R.
+				$url = apply_filters( 'wpseo_sitemap_entry', $url, 'post', $post );
 
-				if ( $modified !== '0000-00-00 00:00:00' ) {
-					$url['mod'] = $modified;
-				}
-
-				$url['chf'] = WPSEO_Sitemaps::filter_frequency( $post_type . '_single', 'weekly', $url['loc'] );
-
-				$canonical = WPSEO_Meta::get_value( 'canonical', $post->ID );
-
-				if ( $canonical !== '' && $canonical !== $url['loc'] ) {
-					/*
-					Let's assume that if a canonical is set for this page and it's different from
-					   the URL of this post, that page is either already in the XML sitemap OR is on
-					   an external site, either way, we shouldn't include it here.
-					*/
-					continue;
-				}
-				unset( $canonical );
-
-				if ( $this->options['trailingslash'] === true && $post->post_type != 'post' ) {
-					$url['loc'] = trailingslashit( $url['loc'] );
-				}
-
-				$url['pri'] = $this->calculate_priority( $post );
-
-				$url['images'] = $this->image_parser->get_images( $post );
-
-				if ( ! in_array( $url['loc'], $stackedurls ) ) {
-					// Use this filter to adjust the entry before it gets added to the sitemap.
-					// TODO document filter. R.
-					$url = apply_filters( 'wpseo_sitemap_entry', $url, 'post', $post );
-					if ( is_array( $url ) && $url !== array() ) {
-						$links[]       = $url;
-						$stackedurls[] = $url['loc'];
-					}
+				if ( ! empty( $url ) ) {
+					$links[]       = $url;
+					$stackedurls[] = $url['loc'];
 				}
 			}
 			unset( $post, $url );
@@ -403,6 +359,66 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		update_meta_cache( 'post', $post_ids );
 
 		return $posts;
+	}
+
+	/**
+	 * Produce array of URL parts for given post object.
+	 *
+	 * @param object $post Post object to get URL parts for.
+	 *
+	 * @return array|bool
+	 */
+	protected function get_url( $post ) {
+
+		$url = array();
+
+		/**
+		 * Filter: 'wpseo_xml_sitemap_post_url' - Allow changing the URL Yoast SEO uses in the XML sitemap.
+		 *
+		 * Note that only absolute local URLs are allowed as the check after this removes external URLs.
+		 *
+		 * @api string $url URL to use in the XML sitemap
+		 *
+		 * @param object $post Post object for the URL.
+		 */
+		$url['loc'] = apply_filters( 'wpseo_xml_sitemap_post_url', get_permalink( $post ), $post );
+
+		/**
+		 * Do not include external URLs.
+		 * @see https://wordpress.org/plugins/page-links-to/ can rewrite permalinks to external URLs.
+		 */
+		if ( false === strpos( $url['loc'], $this->home_url ) ) {
+			return false;
+		}
+
+		$modified = max( $post->post_modified_gmt, $post->post_date_gmt );
+
+		if ( $modified !== '0000-00-00 00:00:00' ) {
+			$url['mod'] = $modified;
+		}
+
+		$url['chf'] = WPSEO_Sitemaps::filter_frequency( $post->post_type . '_single', 'weekly', $url['loc'] );
+
+		$canonical = WPSEO_Meta::get_value( 'canonical', $post->ID );
+
+		if ( $canonical !== '' && $canonical !== $url['loc'] ) {
+			/*
+			Let's assume that if a canonical is set for this page and it's different from
+			   the URL of this post, that page is either already in the XML sitemap OR is on
+			   an external site, either way, we shouldn't include it here.
+			*/
+			return false;
+		}
+		unset( $canonical );
+
+		if ( $this->options['trailingslash'] === true && $post->post_type != 'post' ) {
+			$url['loc'] = trailingslashit( $url['loc'] );
+		}
+
+		$url['pri']    = $this->calculate_priority( $post );
+		$url['images'] = $this->image_parser->get_images( $post );
+
+		return $url;
 	}
 
 	/**
