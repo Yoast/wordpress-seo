@@ -386,7 +386,7 @@ class WPSEO_Sitemaps {
 	 *
 	 * @param string|array $post_types Post type or array of types.
 	 *
-	 * @return string
+	 * @return string|false
 	 */
 	static public function get_last_modified_gmt( $post_types ) {
 
@@ -417,23 +417,9 @@ class WPSEO_Sitemaps {
 			unset( $sql, $results, $obj );
 		}
 
-		if ( count( $post_types ) === 1 && isset( $post_type_dates[ $post_types[0] ] ) ) {
-			$result = $post_type_dates[ $post_types[0] ];
-		}
-		else {
+		$dates = array_intersect_key( $post_type_dates, array_flip( $post_types ) );
 
-			$result = null;
-
-			foreach ( $post_types as $post_type ) {
-
-				if ( isset( $post_type_dates[ $post_type ] ) && strtotime( $post_type_dates[ $post_type ] ) > $result ) {
-					$result = $post_type_dates[ $post_type ];
-				}
-			}
-			unset( $post_type );
-		}
-
-		return $result;
+		return max( $dates );
 	}
 
 	/**
