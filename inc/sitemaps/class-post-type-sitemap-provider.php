@@ -49,19 +49,10 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		global $wpdb;
 
 		$post_types = get_post_types( array( 'public' => true ) );
-
-		$index = array();
+		$post_types = array_filter( $post_types, array( $this, 'is_valid_post_type' ) );
+		$index      = array();
 
 		foreach ( $post_types as $post_type ) {
-
-			if ( ! empty( $options[ "post_types-{$post_type}-not_in_sitemap" ] ) ) {
-				continue;
-			}
-
-			// TODO document filter. R.
-			if ( apply_filters( 'wpseo_sitemap_exclude_post_type', false, $post_type ) ) {
-				continue;
-			}
 
 			$count = $this->get_post_type_count( $post_type );
 
@@ -117,11 +108,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		$links     = array();
 		$post_type = $type;
 
-		if (
-			! empty( $options[ "post_types-{$post_type}-not_in_sitemap" ] )
-			|| in_array( $post_type, array( 'revision', 'nav_menu_item' ) )
-			|| apply_filters( 'wpseo_sitemap_exclude_post_type', false, $post_type ) // TODO document filter. R.
-		) {
+		if ( ! $this->is_valid_post_type( $post_type ) ) {
 			return $links;
 		}
 
@@ -234,6 +221,31 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		}
 
 		return $links;
+	}
+
+	/**
+	 * Check if post type should be present in sitemaps.
+	 *
+	 * @param string $post_type Post type string to check for.
+	 *
+	 * @return bool
+	 */
+	public function is_valid_post_type( $post_type ) {
+
+		if ( ! empty( $this->options[ "post_types-{$post_type}-not_in_sitemap" ] ) ) {
+			return false;
+		}
+
+		if ( in_array( $post_type, array( 'revision', 'nav_menu_item' ) ) ) {
+			return false;
+		}
+
+		// TODO document filter. R.
+		if ( apply_filters( 'wpseo_sitemap_exclude_post_type', false, $post_type ) ) {
+			return false;
+		}
+
+		return true;
 	}
 
 	/**
