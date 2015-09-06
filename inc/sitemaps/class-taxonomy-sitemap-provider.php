@@ -40,35 +40,17 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 		global $wpdb;
 
-		$options    = WPSEO_Options::get_all();
 		$taxonomies = get_taxonomies( array( 'public' => true ), 'objects' );
 
 		if ( empty( $taxonomies ) ) {
 			return array();
 		}
 
-		$taxonomy_names = array_keys( $taxonomies );
-
-		foreach ( $taxonomy_names as $tax ) {
-
-			if ( in_array( $tax, array( 'link_category', 'nav_menu', 'post_format' ) ) ) {
-				unset( $taxonomy_names[ $tax ], $taxonomies[ $tax ] );
-				continue;
-			}
-
-			if ( apply_filters( 'wpseo_sitemap_exclude_taxonomy', false, $tax ) ) {
-				unset( $taxonomy_names[ $tax ], $taxonomies[ $tax ] );
-				continue;
-			}
-
-			if ( isset( $options[ 'taxonomies-' . $tax . '-not_in_sitemap' ] ) && $options[ 'taxonomies-' . $tax . '-not_in_sitemap' ] === true ) {
-				unset( $taxonomy_names[ $tax ], $taxonomies[ $tax ] );
-				continue;
-			}
-		}
-		unset( $tax );
+		$taxonomy_names = array_filter( array_keys( $taxonomies ), array( $this, 'is_valid_taxonomy' ) );
+		$taxonomies     = array_intersect_key( $taxonomies, array_flip( $taxonomy_names ) );
 
 		// Retrieve all the taxonomies and their terms so we can do a proper count on them.
+		// TODO document filter. R.
 		$hide_empty         = ( apply_filters( 'wpseo_sitemap_exclude_empty_terms', true, $taxonomy_names ) ) ? 'count != 0 AND' : '';
 		$sql                = "
 			SELECT taxonomy, term_id
@@ -167,13 +149,7 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			return $links;
 		}
 
-		$options = WPSEO_Options::get_all();
-
-		if (
-			! empty( $options[ "taxonomies-{$taxonomy->name}-not_in_sitemap" ] )
-			|| in_array( $taxonomy, array( 'link_category', 'nav_menu', 'post_format' ) )
-			|| apply_filters( 'wpseo_sitemap_exclude_taxonomy', false, $taxonomy->name ) // TODO document filter. R.
-		) {
+		if ( ! $this->is_valid_taxonomy( $taxonomy->name ) ) {
 			return $links;
 		}
 
@@ -259,5 +235,29 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		}
 
 		return $links;
+	}
+
+	/**
+	 * Check if taxonomy by name is valid to appear in sitemaps.
+	 *
+	 * @param string $taxonomy_name Taxonomy name to check.
+	 *
+	 * @return bool
+	 */
+	public function is_valid_taxonomy( $taxonomy_name ) {
+
+		if ( ! empty( $this->options[ "taxonomies-{$taxonomy_name}-not_in_sitemap" ] ) ) {
+			return false;
+		}
+
+		if ( in_array( $taxonomy_name, array( 'link_category', 'nav_menu', 'post_format' ) ) ) {
+			return false;
+		}
+
+		if ( apply_filters( 'wpseo_sitemap_exclude_taxonomy', false, $taxonomy_name ) ) { // TODO document filter. R.
+			return false;
+		}
+
+		return true;
 	}
 }
