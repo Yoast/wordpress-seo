@@ -8,6 +8,17 @@
  */
 class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
+	/** @var array $options All of plugin options. */
+	protected $options;
+
+	/**
+	 * Set up object properties for data reuse.
+	 */
+	public function __construct(  ) {
+
+		$this->options = WPSEO_Options::get_all();
+	}
+
 	/**
 	 * Check if provider supports given item type.
 	 *
@@ -219,7 +230,7 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 				$url['loc'] = get_term_link( $term, $term->taxonomy );
 
-				if ( $options['trailingslash'] === true ) {
+				if ( $this->options['trailingslash'] === true ) {
 
 					$url['loc'] = trailingslashit( $url['loc'] );
 				}
