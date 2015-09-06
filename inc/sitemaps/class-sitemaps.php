@@ -23,6 +23,9 @@ class WPSEO_Sitemaps {
 	/** @var int $max_entries The maximum number of entries per sitemap page. */
 	private $max_entries;
 
+	/** @var string $http_protocol HTTP protocol to use in headers. */
+	protected $http_protocol = 'HTTP/1.1';
+
 	/** @var int $current_page Holds the n variable. */
 	private $current_page = 1;
 
@@ -63,6 +66,10 @@ class WPSEO_Sitemaps {
 			new WPSEO_Taxonomy_Sitemap_Provider(),
 			new WPSEO_Author_Sitemap_Provider(),
 		);
+
+		if ( ! empty( $_SERVER['SERVER_PROTOCOL'] ) ) {
+			$this->http_protocol = sanitize_text_field( $_SERVER['SERVER_PROTOCOL'] );
+		}
 	}
 
 	/**
@@ -80,15 +87,6 @@ class WPSEO_Sitemaps {
 		if ( false !== stripos( $request_uri, 'sitemap' ) && in_array( $extension, array( '.xml', '.xsl' ) ) ) {
 			remove_all_actions( 'widgets_init' );
 		}
-	}
-
-	/**
-	 * Returns the server HTTP protocol to use for output, if it's set.
-	 *
-	 * @return string
-	 */
-	private function http_protocol() {
-		return empty( $_SERVER['SERVER_PROTOCOL'] ) ? 'HTTP/1.1' : sanitize_text_field( $_SERVER['SERVER_PROTOCOL'] );
 	}
 
 	/**
@@ -333,7 +331,7 @@ class WPSEO_Sitemaps {
 			return;
 		}
 
-		header( $this->http_protocol() . ' 200 OK', true, 200 );
+		header( $this->http_protocol . ' 200 OK', true, 200 );
 		// Prevent the search engines from indexing the XML Sitemap.
 		header( 'X-Robots-Tag: noindex, follow', true );
 		header( 'Content-Type: text/xml' );
@@ -353,7 +351,7 @@ class WPSEO_Sitemaps {
 	public function output() {
 
 		if ( ! headers_sent() ) {
-			header( $this->http_protocol() . ' 200 OK', true, 200 );
+			header( $this->http_protocol . ' 200 OK', true, 200 );
 			// Prevent the search engines from indexing the XML Sitemap.
 			header( 'X-Robots-Tag: noindex, follow', true );
 			header( 'Content-Type: text/xml' );
