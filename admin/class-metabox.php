@@ -240,25 +240,27 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 
 		return array_merge( $cached_replacement_vars, array(
-			'field_prefix'                => self::$form_prefix,
-			'keyword_header'              => '<strong>' . __( 'Focus keyword usage', 'wordpress-seo' ) . '</strong><br>' . __( 'Your focus keyword was found in:', 'wordpress-seo' ),
-			'article_header_text'         => __( 'Article Heading: ', 'wordpress-seo' ),
-			'page_title_text'             => __( 'Page title: ', 'wordpress-seo' ),
-			'page_url_text'               => __( 'Page URL: ', 'wordpress-seo' ),
-			'content_text'                => __( 'Content: ', 'wordpress-seo' ),
-			'meta_description_text'       => __( 'Meta description: ', 'wordpress-seo' ),
-			'choose_image'                => __( 'Use Image', 'wordpress-seo' ),
-			'wpseo_meta_desc_length'      => self::$meta_length,
-			'wpseo_title_template'        => $title_template,
-			'wpseo_metadesc_template'     => $metadesc_template,
-			'wpseo_permalink_template'    => $sample_permalink,
-			'wpseo_keyword_suggest_nonce' => wp_create_nonce( 'wpseo-get-suggest' ),
-			'wpseo_replace_vars_nonce'    => wp_create_nonce( 'wpseo-replace-vars' ),
-			'no_parent_text'              => __( '(no parent)', 'wordpress-seo' ),
-			'featured_image_notice'       => __( 'The featured image should be at least 200x200 pixels to be picked up by Facebook and other social media sites.', 'wordpress-seo' ),
-			'keyword_usage'               => $this->get_focus_keyword_usage( $post->ID ),
-			'search_url'                  => admin_url( 'edit.php?seo_kw_filter={keyword}' ),
-			'post_edit_url'               => admin_url( 'post.php?post={id}&action=edit' ),
+			'field_prefix'                  => self::$form_prefix,
+			'keyword_header'                => '<strong>' . __( 'Focus keyword usage', 'wordpress-seo' ) . '</strong><br>' . __( 'Your focus keyword was found in:', 'wordpress-seo' ),
+			'article_header_text'           => __( 'Article Heading: ', 'wordpress-seo' ),
+			'page_title_text'               => __( 'Page title: ', 'wordpress-seo' ),
+			'page_url_text'                 => __( 'Page URL: ', 'wordpress-seo' ),
+			'content_text'                  => __( 'Content: ', 'wordpress-seo' ),
+			'meta_description_text'         => __( 'Meta description: ', 'wordpress-seo' ),
+			'choose_image'                  => __( 'Use Image', 'wordpress-seo' ),
+			'wpseo_meta_desc_length'        => self::$meta_length,
+			'wpseo_title_template'          => $title_template,
+			'wpseo_metadesc_template'       => $metadesc_template,
+			'wpseo_permalink_template'      => $sample_permalink,
+			'wpseo_keyword_suggest_nonce'   => wp_create_nonce( 'wpseo-get-suggest' ),
+			'wpseo_replace_vars_nonce'      => wp_create_nonce( 'wpseo-replace-vars' ),
+			'wpseo_filter_shortcodes_nonce' => wp_create_nonce( 'wpseo-filter-shortcodes' ),
+			'wpseo_shortcode_tags'          => $this->get_valid_shortcode_tags(),
+			'no_parent_text'                => __( '(no parent)', 'wordpress-seo' ),
+			'featured_image_notice'         => __( 'The featured image should be at least 200x200 pixels to be picked up by Facebook and other social media sites.', 'wordpress-seo' ),
+			'keyword_usage'                 => $this->get_focus_keyword_usage( $post->ID ),
+			'search_url'                    => admin_url( 'edit.php?seo_kw_filter={keyword}' ),
+			'post_edit_url'                 => admin_url( 'post.php?post={id}&action=edit' ),
 		) );
 	}
 
@@ -717,6 +719,15 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Meta::localize_script()' );
 
 		return $this->localize_script();
+	}
+
+	private function get_valid_shortcode_tags() {
+		$shortcode_tags = array();
+
+		foreach( $GLOBALS[ 'shortcode_tags' ] as $tag => $description) {
+			array_push( $shortcode_tags, $tag );
+		}
+		return $shortcode_tags;
 	}
 
 } /* End of class */
