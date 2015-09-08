@@ -74,7 +74,7 @@ YoastSEO.App = function( args ) {
 	window.YoastSEO.app = this;
 	this.config = args;
 	this.inputs = {};
-	this.analyzerData = args.callbacks.getData();
+	this.rawData = args.callbacks.getData();
 	this.formattedData = args.callbacks.getData();
 	this.constructI18n( args.translations );
 	this.loadQueue();
@@ -121,7 +121,7 @@ YoastSEO.App.prototype.init = function() {
  * Refreshes the analyzer and output of the analyzer
  */
 YoastSEO.App.prototype.refresh = function() {
-	this.analyzerData = this.callbacks.getData();
+	this.rawData = this.callbacks.getData();
 	this.formattedData = this.callbacks.getData();
 	this.inputs = this.callbacks.getAnalyzerInput();
 };
@@ -345,7 +345,7 @@ YoastSEO.App.prototype.checkInputs = function() {
 
 YoastSEO.App.prototype.runAnalyzerCallback = function() {
 	var refObj = window.YoastSEO.app;
-	if ( refObj.analyzerData.keyword === "" ) {
+	if ( refObj.rawData.keyword === "" ) {
 		refObj.showMessage();
 	} else {
 		refObj.runAnalyzer();
@@ -362,6 +362,7 @@ YoastSEO.App.prototype.showMessage = function() {
 	messageDiv.innerHTML = "<p><strong>No focus keyword was set for this page. If you do not set" +
 		" a focus keyword, no score can be calculated.</strong></p>";
 	this.target.appendChild( messageDiv );
+	//todo run custom queue for no keyword
 };
 
 /**
@@ -391,7 +392,7 @@ YoastSEO.App.prototype.runAnalyzer = function() {
 	if ( this.config.dynamicDelay ) {
 		this.startTime();
 	}
-	this.analyzerData = this.modifyData( this.analyzerData );
+	this.analyzerData = this.modifyData( this.rawData );
 	if ( typeof this.pageAnalyzer === "undefined" ) {
 		var args = this.analyzerData;
 		args.queue = this.queue;
@@ -409,8 +410,10 @@ YoastSEO.App.prototype.runAnalyzer = function() {
 };
 
 YoastSEO.App.prototype.modifyData = function( data ) {
-	data.text = this.plugins._applyModifications( "replaceTextVariables", data.text );
-	return data;
+	var modifiedData = data;
+	modifiedData.text = this.plugins._applyModifications( "content", data.text );
+	modifiedData.title = this.plugins._applyModifications( "title", data.title );
+	return modifiedData;
 };
 
 /**

@@ -23,8 +23,8 @@ YoastSEO.SnippetPreview = function( refObj ) {
  */
 YoastSEO.SnippetPreview.prototype.init = function() {
 	if (
-		this.refObj.formattedData.pageTitle !== null &&
-		this.refObj.formattedData.cite !== null
+		this.refObj.rawData.pageTitle !== null &&
+		this.refObj.rawData.cite !== null
 	) {
 		this.output = this.htmlOutput();
 		this.renderOutput();
@@ -51,15 +51,15 @@ YoastSEO.SnippetPreview.prototype.htmlOutput = function() {
  * @returns {String}
  */
 YoastSEO.SnippetPreview.prototype.formatTitle = function() {
-	var title = this.refObj.formattedData.snippetTitle;
+	var title = this.refObj.rawData.snippetTitle;
 	if ( title === "" ) {
-		title = this.refObj.formattedData.pageTitle;
+		title = this.refObj.rawData.pageTitle;
 	}
 	if ( title === "" ) {
 		title = this.refObj.config.sampleText.title;
 	}
 	title = this.refObj.stringHelper.stripAllTags( title );
-	if ( this.refObj.formattedData.keyword !== "" ) {
+	if ( this.refObj.rawData.keyword !== "" ) {
 		return this.formatKeyword( title );
 	}
 	return title;
@@ -70,7 +70,7 @@ YoastSEO.SnippetPreview.prototype.formatTitle = function() {
  * @returns formatted url
  */
 YoastSEO.SnippetPreview.prototype.formatUrl = function() {
-	var url = this.refObj.formattedData.url;
+	var url = this.refObj.rawData.url;
 
 	//removes the http(s) part of the url
 	url.replace( /https?:\/\//ig, "" );
@@ -82,7 +82,7 @@ YoastSEO.SnippetPreview.prototype.formatUrl = function() {
  * @returns formatted url
  */
 YoastSEO.SnippetPreview.prototype.formatCite = function() {
-	var cite = this.refObj.formattedData.snippetCite;
+	var cite = this.refObj.rawData.snippetCite;
 	cite = this.refObj.stringHelper.stripAllTags( cite );
 	if ( cite === "" ) {
 		cite = this.refObj.config.sampleText.url;
@@ -97,13 +97,13 @@ YoastSEO.SnippetPreview.prototype.formatCite = function() {
  * @returns formatted metatext
  */
 YoastSEO.SnippetPreview.prototype.formatMeta = function() {
-	var meta = this.refObj.formattedData.snippetMeta;
+	var meta = this.refObj.rawData.snippetMeta;
 	if ( meta === "" ) {
 		meta = this.getMetaText();
 	}
 	meta = this.refObj.stringHelper.stripAllTags( meta );
 	meta = meta.substring( 0, YoastSEO.analyzerConfig.maxMeta );
-	if ( this.refObj.formattedData.keyword !== "" && meta !== "" ) {
+	if ( this.refObj.rawData.keyword !== "" && meta !== "" ) {
 		return this.formatKeyword( meta );
 	}
 	return meta;
@@ -117,16 +117,16 @@ YoastSEO.SnippetPreview.prototype.formatMeta = function() {
  */
 YoastSEO.SnippetPreview.prototype.getMetaText = function() {
 	var metaText;
-	if ( typeof this.refObj.formattedData.excerpt !== "undefined" ) {
-		metaText = this.refObj.formattedData.excerpt;
+	if ( typeof this.refObj.rawData.excerpt !== "undefined" ) {
+		metaText = this.refObj.rawData.excerpt;
 	}
 	if ( metaText === "" ) {
 		metaText = this.refObj.config.sampleText.meta;
 	}
 	metaText = this.refObj.stringHelper.stripAllTags( metaText );
 	if (
-		this.refObj.formattedData.keyword !== "" &&
-		this.refObj.formattedData.text !== ""
+		this.refObj.rawData.keyword !== "" &&
+		this.refObj.rawData.text !== ""
 	) {
 		var indexMatches = this.getIndexMatches();
 		var periodMatches = this.getPeriodMatches();
@@ -163,8 +163,8 @@ YoastSEO.SnippetPreview.prototype.getIndexMatches = function() {
 	var i = 0;
 
 	//starts at 0, locates first match of the keyword.
-	var match = this.refObj.formattedData.text.indexOf(
-		this.refObj.formattedData.keyword,
+	var match = this.refObj.rawData.text.indexOf(
+		this.refObj.rawData.keyword,
 		i
 	);
 
@@ -173,9 +173,9 @@ YoastSEO.SnippetPreview.prototype.getIndexMatches = function() {
 		indexMatches.push( match );
 
 		//pushes location to indexMatches and increase i with the length of keyword.
-		i = match + this.refObj.formattedData.keyword.length;
-		match = this.refObj.formattedData.text.indexOf(
-			this.refObj.formattedData.keyword,
+		i = match + this.refObj.rawData.keyword.length;
+		match = this.refObj.rawData.text.indexOf(
+			this.refObj.rawData.keyword,
 			i
 		);
 	}
@@ -190,7 +190,7 @@ YoastSEO.SnippetPreview.prototype.getPeriodMatches = function() {
 	var periodMatches = [ 0 ];
 	var match;
 	var i = 0;
-	while ( ( match = this.refObj.formattedData.text.indexOf( ".", i ) ) > -1 ) {
+	while ( ( match = this.refObj.rawData.text.indexOf( ".", i ) ) > -1 ) {
 		periodMatches.push( match );
 		i = match + 1;
 	}
@@ -205,7 +205,7 @@ YoastSEO.SnippetPreview.prototype.getPeriodMatches = function() {
 YoastSEO.SnippetPreview.prototype.formatKeyword = function( textString ) {
 
 	//matches case insensitive and global
-	var replacer = new RegExp( this.refObj.formattedData.keyword, "ig" );
+	var replacer = new RegExp( this.refObj.rawData.keyword, "ig" );
 	return textString.replace( replacer, function( str ) {
 		return "<strong>" + str + "</strong>";
 	} );
@@ -219,7 +219,7 @@ YoastSEO.SnippetPreview.prototype.formatKeyword = function( textString ) {
  * @returns {XML|string|void}
  */
 YoastSEO.SnippetPreview.prototype.formatKeywordUrl = function( textString ) {
-	var replacer = this.refObj.formattedData.keyword.replace( " ", "[-_]" );
+	var replacer = this.refObj.rawData.keyword.replace( " ", "[-_]" );
 
 	//matches case insensitive and global
 	replacer = new RegExp( replacer, "ig" );

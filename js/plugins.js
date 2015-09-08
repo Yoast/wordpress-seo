@@ -29,7 +29,7 @@ YoastSEO.Plugins = function() {
 	this.modifications = {};
 
 	// Allow plugins 500 ms to register before we start polling their
-	setTimeout( YoastSEO.app.plugins._pollLoadingPlugins, 500 );
+	setTimeout( "YoastSEO.app.plugins._pollLoadingPlugins()", 500 );
 };
 
 /**************** PUBLIC DSL ****************/
@@ -101,7 +101,7 @@ YoastSEO.Plugins.prototype.reloaded = function( pluginName ) {
 		return false;
 	}
 
-	// @todo: YoastSEO.app.reloadAnalyzer;
+	//YoastSEO.app.runAnalyzer( YoastSEO.app.analyzerData );
 	return true;
 };
 
