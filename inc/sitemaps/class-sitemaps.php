@@ -46,10 +46,6 @@ class WPSEO_Sitemaps {
 	 */
 	public function __construct() {
 
-		if ( ! defined( 'ENT_XML1' ) ) {
-			define( 'ENT_XML1', 16 );
-		}
-
 		add_action( 'after_setup_theme', array( $this, 'reduce_query_load' ), 99 );
 		add_action( 'pre_get_posts', array( $this, 'redirect' ), 1 );
 		add_action( 'wpseo_hit_sitemap_index', array( $this, 'hit_sitemap_index' ) );
