@@ -119,7 +119,7 @@ class WPSEO_Sitemaps {
 
 	/**
 	 * Set the sitemap current page to allow creating partial sitemaps with wp-cli
-	 * in an one-off process.
+	 * in a one-off process.
 	 *
 	 * @param integer $current_page The part that should be generated.
 	 */
