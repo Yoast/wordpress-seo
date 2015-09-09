@@ -253,8 +253,10 @@ YoastSEO.Plugins.prototype._applyModifications = function( modification, data, c
 		for ( var callableObject in callChain ) {
 			var callable = callChain[callableObject].callable;
 			var newData = callable( data, context );
-			if ( typeof newData !== "undefined" && newData !== "" ) {
+			if ( typeof newData === typeof data ) {
 				data = newData;
+			} else {
+				console.error( "Modification with name " + modification + " performed by plugin with name " +  + " was ignored because the data that was returned by it was of a different type than the data we had passed it." );
 			}
 		}
 	}
