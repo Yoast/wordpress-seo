@@ -27,7 +27,7 @@ YoastSEO.Plugins = function() {
 	this.preloadThreshold = 4000;
 	this.plugins = {};
 	this.modifications = {};
-
+	this._showLoadingDialog();
 	// Allow plugins 500 ms to register before we start polling their
 	setTimeout( "YoastSEO.app.plugins._pollLoadingPlugins()", 500 );
 };
@@ -58,6 +58,8 @@ YoastSEO.Plugins.prototype.register = function( pluginName, options ) {
 	}
 
 	this.plugins[pluginName] = options;
+	this._updateLoadingDialog();
+
 	return true;
 };
 
@@ -101,7 +103,7 @@ YoastSEO.Plugins.prototype.reloaded = function( pluginName ) {
 		return false;
 	}
 
-	//YoastSEO.app.runAnalyzer( YoastSEO.app.analyzerData );
+	YoastSEO.app.runAnalyzer( YoastSEO.app.analyzerData );
 	return true;
 };
 
@@ -169,8 +171,8 @@ YoastSEO.Plugins.prototype.registerModification = function( modification, callab
 YoastSEO.Plugins.prototype._pollLoadingPlugins = function( pollTime ) {
 	pollTime = pollTime === undefined ? 0 : pollTime;
 	if ( this._allReady() === true ) {
-
-		// @todo: YoastSEO.app.pluginsLoaded();
+		this._removeLoadingDialog();
+		YoastSEO.app.pluginsLoaded();
 	} else if ( pollTime >= this.preloadThreshold ) {
 		this._pollTimeExceeded();
 	} else {
@@ -194,6 +196,26 @@ YoastSEO.Plugins.prototype._allReady = function() {
 	return true;
 };
 
+YoastSEO.Plugins.prototype._showLoadingDialog = function() {
+	var dialogDiv = document.createElement( "div" );
+	dialogDiv.className = "wpseo_msg";
+	dialogDiv.id = "wpseo-plugin-loading";
+	document.getElementById( "wpseo_meta" ).appendChild( dialogDiv );
+	this._updateLoadingDialog();
+};
+
+YoastSEO.Plugins.prototype._updateLoadingDialog = function(){
+	var dialog = document.getElementById( "wpseo-plugin-loading" );
+	dialog.textContent = "";
+	for ( var plugin in this.plugins ) {
+		dialog.textContent += plugin + this.plugins[plugin].status;
+	}
+};
+
+YoastSEO.Plugins.prototype._removeLoadingDialog = function(){
+	document.getElementById("wpseo_meta").removeChild(document.getElementById("wpseo-plugin-loading"));
+};
+
 /**
  * Removes the plugins that were not loaded within time and calls `pluginsLoaded` on the app.
  *
@@ -206,8 +228,8 @@ YoastSEO.Plugins.prototype._pollTimeExceeded = function() {
 			delete this.plugins[plugin];
 		}
 	}
-
-	// @todo: YoastSEO.app.pluginsLoaded();
+	this._removeLoadingDialog();
+	YoastSEO.app.pluginsLoaded();
 };
 
 /**

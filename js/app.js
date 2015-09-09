@@ -416,6 +416,10 @@ YoastSEO.App.prototype.modifyData = function( data ) {
 	return modifiedData;
 };
 
+YoastSEO.App.prototype.pluginsLoaded = function() {
+	this.runAnalyzer( this.rawData );
+}
+
 /**
  * run at pageload to init the App for pageAnalysis.
  */
