@@ -13,9 +13,6 @@ class WPSEO_Sitemaps {
 	/** @var string $sitemap Content of the sitemap to output. */
 	protected $sitemap = '';
 
-	/** @var string $stylesheet XSL stylesheet for styling a sitemap for web browsers. */
-	private $stylesheet = '';
-
 	/** @var bool $bad_sitemap Flag to indicate if this is an invalid or empty sitemap. */
 	public $bad_sitemap = false;
 
@@ -48,17 +45,10 @@ class WPSEO_Sitemaps {
 	 */
 	public function __construct() {
 
-		// TODO this constant needs inline documentation. OR.
-		if ( ! defined( 'ENT_XML1' ) ) {
-			define( 'ENT_XML1', 16 );
-		}
-
 		add_action( 'after_setup_theme', array( $this, 'reduce_query_load' ), 99 );
 		add_action( 'pre_get_posts', array( $this, 'redirect' ), 1 );
 		add_action( 'wpseo_hit_sitemap_index', array( $this, 'hit_sitemap_index' ) );
 
-		$stylesheet_url    = preg_replace( '/(^http[s]?:)/', '', esc_url( home_url( 'main-sitemap.xsl' ) ) );
-		$this->stylesheet  = '<?xml-stylesheet type="text/xsl" href="' . $stylesheet_url . '"?>';
 		$options           = WPSEO_Options::get_all();
 		$this->max_entries = $options['entries-per-page'];
 		$this->timezone    = new WPSEO_Sitemap_Timezone();
@@ -144,10 +134,12 @@ class WPSEO_Sitemaps {
 	/**
 	 * Set a custom stylesheet for this sitemap. Set to empty to just remove the default stylesheet.
 	 *
+	 * @deprecated
+	 *
 	 * @param string $stylesheet Full xml-stylesheet declaration.
 	 */
 	public function set_stylesheet( $stylesheet ) {
-		$this->stylesheet = $stylesheet;
+		$this->renderer->set_stylesheet( $stylesheet );
 	}
 
 	/**
@@ -361,7 +353,7 @@ class WPSEO_Sitemaps {
 			header( 'Content-Type: text/xml' );
 		}
 
-		echo $this->renderer->get_output( $this->sitemap, $this->stylesheet, $this->transient );
+		echo $this->renderer->get_output( $this->sitemap, $this->transient );
 	}
 
 	/**

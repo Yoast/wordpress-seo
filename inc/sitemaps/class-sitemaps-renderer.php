@@ -8,6 +8,9 @@
  */
 class WPSEO_Sitemaps_Renderer {
 
+	/** @var string $stylesheet XSL stylesheet for styling a sitemap for web browsers. */
+	protected $stylesheet = '';
+
 	/** @var string $charset Holds the get_bloginfo( 'charset' ) value to reuse for performance. */
 	protected $charset = 'UTF-8';
 
@@ -19,8 +22,10 @@ class WPSEO_Sitemaps_Renderer {
 	 */
 	public function __construct(  ) {
 
-		$this->charset  = get_bloginfo( 'charset' );
-		$this->timezone = new WPSEO_Sitemap_Timezone();
+		$stylesheet_url   = preg_replace( '/(^http[s]?:)/', '', esc_url( home_url( 'main-sitemap.xsl' ) ) );
+		$this->stylesheet = '<?xml-stylesheet type="text/xsl" href="' . $stylesheet_url . '"?>';
+		$this->charset    = get_bloginfo( 'charset' );
+		$this->timezone   = new WPSEO_Sitemap_Timezone();
 	}
 
 	/**
@@ -76,17 +81,16 @@ class WPSEO_Sitemaps_Renderer {
 	 * Produce final XML output with debug information.
 	 *
 	 * @param string  $sitemap    Sitemap XML.
-	 * @param string  $stylesheet Stylesheet XML.
 	 * @param boolean $transient  Transient cache flag.
 	 *
 	 * @return string
 	 */
-	public function get_output( $sitemap, $stylesheet, $transient ) {
+	public function get_output( $sitemap, $transient ) {
 
 		$output = '<?xml version="1.0" encoding="' . esc_attr( $this->charset ) . '"?>';
 
-		if ( $stylesheet ) {
-			$output .= apply_filters( 'wpseo_stylesheet_url', $stylesheet ) . "\n";
+		if ( $this->stylesheet ) {
+			$output .= apply_filters( 'wpseo_stylesheet_url', $this->stylesheet ) . "\n";
 		}
 
 		$output .= $sitemap;
@@ -110,6 +114,15 @@ class WPSEO_Sitemaps_Renderer {
 		}
 
 		return $output;
+	}
+
+	/**
+	 * Set a custom stylesheet for this sitemap. Set to empty to just remove the default stylesheet.
+	 *
+	 * @param string $stylesheet Full xml-stylesheet declaration.
+	 */
+	public function set_stylesheet( $stylesheet ) {
+		$this->stylesheet = $stylesheet;
 	}
 
 	/**
