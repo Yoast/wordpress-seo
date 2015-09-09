@@ -5,6 +5,8 @@
 
 /**
  * Class WPSEO_Sitemaps
+ *
+ * TODO This class could use a general description with some explanation on sitemaps. OR.
  */
 class WPSEO_Sitemaps {
 
@@ -46,6 +48,7 @@ class WPSEO_Sitemaps {
 	 */
 	public function __construct() {
 
+		// TODO this constant needs inline documentation. OR.
 		if ( ! defined( 'ENT_XML1' ) ) {
 			define( 'ENT_XML1', 16 );
 		}
@@ -235,6 +238,7 @@ class WPSEO_Sitemaps {
 	 */
 	public function build_sitemap( $type ) {
 
+		// TODO document filter. OR.
 		$type = apply_filters( 'wpseo_build_sitemap_post_type', $type );
 
 		if ( $type === '1' ) {
