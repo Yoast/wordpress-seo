@@ -346,7 +346,7 @@ YoastSEO.App.prototype.checkInputs = function() {
 YoastSEO.App.prototype.runAnalyzerCallback = function() {
 	var refObj = window.YoastSEO.app;
 	if ( refObj.rawData.keyword === "" ) {
-		refObj.showMessage();
+		refObj.noKeywordQueue();
 	} else {
 		refObj.runAnalyzer();
 	}
@@ -362,6 +362,7 @@ YoastSEO.App.prototype.showMessage = function() {
 	messageDiv.innerHTML = "<p><strong>No focus keyword was set for this page. If you do not set" +
 		" a focus keyword, no score can be calculated.</strong></p>";
 	this.target.appendChild( messageDiv );
+
 	//todo run custom queue for no keyword
 };
 
@@ -417,8 +418,40 @@ YoastSEO.App.prototype.modifyData = function( data ) {
 };
 
 YoastSEO.App.prototype.pluginsLoaded = function() {
+	this.removeLoadingDialog();
+	if( typeof this.rawData.keyword !== "undefined" && this.rawData.keyword !== "") {
+		this.runAnalyzer(this.rawData);
+	} else {
+		this.noKeywordQueue();
+	}
+};
+
+YoastSEO.App.prototype.noKeywordQueue = function() {
+	this.showMessage();
+	this.rawData.queue = ["wordCount","fleschReading","pageTitleLength","urlStopwords"];
 	this.runAnalyzer( this.rawData );
-}
+};
+
+YoastSEO.App.prototype.showLoadingDialog = function() {
+	var dialogDiv = document.createElement( "div" );
+	dialogDiv.className = "wpseo_msg";
+	dialogDiv.id = "wpseo-plugin-loading";
+	document.getElementById( "wpseo_meta" ).appendChild( dialogDiv );
+	//this.updateLoadingDialog();
+};
+
+YoastSEO.App.prototype.updateLoadingDialog = function( plugins ){
+	var dialog = document.getElementById( "wpseo-plugin-loading" );
+	dialog.textContent = "";
+	for ( var plugin in this.plugins.plugins ) {
+		dialog.textContent += plugin + plugins[plugin].status;
+	}
+};
+
+YoastSEO.App.prototype.removeLoadingDialog = function(){
+	document.getElementById("wpseo_meta").removeChild(document.getElementById("wpseo-plugin-loading"));
+};
+
 
 /**
  * run at pageload to init the App for pageAnalysis.
