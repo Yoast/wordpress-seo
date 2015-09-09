@@ -452,7 +452,6 @@ YoastSEO.App.prototype.removeLoadingDialog = function(){
 	document.getElementById("wpseo_meta").removeChild(document.getElementById("wpseo-plugin-loading"));
 };
 
-
 /**
  * run at pageload to init the App for pageAnalysis.
  */
