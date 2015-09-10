@@ -50,8 +50,11 @@ YoastSEO.PreProcessor.prototype.countStore = function() {
 		0 :
 		this.__store.cleanText.split( " " ).length;
 	}
-	this.__store.wordcountNoTags = this.__store.cleanTextNoTags.split( " " ).length;
-
+	if ( this.__store.cleanTextNoTags === "." ){
+		this.__store.wordcountNoTags = 0;
+	} else {
+		this.__store.wordcountNoTags = this.__store.cleanTextNoTags.split(" ").length;
+	}
 	/*sentencecounters*/
 	this.__store.sentenceCount = this.sentenceCount( this.__store.cleanText );
 	this.__store.sentenceCountNoTags = this.sentenceCount( this.__store.cleanTextNoTags );
