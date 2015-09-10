@@ -145,6 +145,16 @@ YoastSEO.Analyzer.prototype.wordCount = function() {
 };
 
 /**
+ * Checks if keyword is present, if not returns 0
+ * @returns {{test: string, result: number}[]}
+ */
+YoastSEO.Analyzer.prototype.keyWordCheck = function() {
+	if ( this.config.keyword === "" ) {
+		return [ { test: "keywordCheck", result: 0 } ];
+	}
+};
+
+/**
  * checks the keyword density of given keyword against the cleantext stored in __store.
  * @returns resultObject
  */
@@ -155,7 +165,6 @@ YoastSEO.Analyzer.prototype.keywordDensity = function() {
 		result[ 0 ].result = keywordDensity.toFixed( 1 );
 		return result;
 	}
-
 };
 
 /**

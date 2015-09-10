@@ -43,9 +43,13 @@ YoastSEO.PreProcessor.prototype.textFormat = function() {
 YoastSEO.PreProcessor.prototype.countStore = function() {
 
 	/*wordcounters*/
-	this.__store.wordcount = this.__store.cleanText === "." ?
+	if ( this.__store.cleanText === "." ) {
+		this.__store.wordcount = 0;
+	} else {
+		this.__store.wordcount = this.__store.cleanText === "." ?
 		0 :
 		this.__store.cleanText.split( " " ).length;
+	}
 	this.__store.wordcountNoTags = this.__store.cleanTextNoTags.split( " " ).length;
 
 	/*sentencecounters*/

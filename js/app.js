@@ -343,6 +343,9 @@ YoastSEO.App.prototype.checkInputs = function() {
 	refObj.getAnalyzerInput();
 };
 
+/**
+ * Callback function to trigger the analyzer.
+ */
 YoastSEO.App.prototype.runAnalyzerCallback = function() {
 	var refObj = window.YoastSEO.app;
 	if ( refObj.rawData.keyword === "" ) {
@@ -362,8 +365,6 @@ YoastSEO.App.prototype.showMessage = function() {
 	messageDiv.innerHTML = "<p><strong>No focus keyword was set for this page. If you do not set" +
 		" a focus keyword, no score can be calculated.</strong></p>";
 	this.target.appendChild( messageDiv );
-
-	//todo run custom queue for no keyword
 };
 
 /**
@@ -390,26 +391,31 @@ YoastSEO.App.prototype.endTime = function() {
  * to format outputs.
  */
 YoastSEO.App.prototype.runAnalyzer = function() {
-	if ( this.config.dynamicDelay ) {
-		this.startTime();
-	}
-	this.analyzerData = this.modifyData( this.rawData );
-	if ( typeof this.pageAnalyzer === "undefined" ) {
-		var args = this.analyzerData;
-		args.queue = this.queue;
-		args.i18n = this.i18n;
-		this.pageAnalyzer = new YoastSEO.Analyzer( args );
-	} else {
-		this.pageAnalyzer.init();
-	}
-
-	this.pageAnalyzer.runQueue();
-	this.scoreFormatter = new YoastSEO.ScoreFormatter( this );
-	if ( this.config.dynamicDelay ) {
-		this.endTime();
+	if ( !this.pluginLoading ) {
+		if ( this.config.dynamicDelay ) {
+			this.startTime();
+		}
+		this.analyzerData = this.modifyData( this.rawData );
+		if ( typeof this.pageAnalyzer === "undefined" ) {
+			var args = this.analyzerData;
+			args.i18n = this.i18n;
+			this.pageAnalyzer = new YoastSEO.Analyzer( args );
+		} else {
+			this.pageAnalyzer.init();
+		}
+		this.pageAnalyzer.runQueue();
+		this.scoreFormatter = new YoastSEO.ScoreFormatter( this );
+		if ( this.config.dynamicDelay ) {
+			this.endTime();
+		}
 	}
 };
 
+/**
+ * Modifies the data with plugins before it is sent to the analyzer.
+ * @param data
+ * @returns {*}
+ */
 YoastSEO.App.prototype.modifyData = function( data ) {
 	var modifiedData = data;
 	modifiedData.text = this.plugins._applyModifications( "content", data.text );
@@ -417,39 +423,68 @@ YoastSEO.App.prototype.modifyData = function( data ) {
 	return modifiedData;
 };
 
+/**
+ * Function to fire the analyzer when all plugins are loaded, removes the loading dialog.
+ */
 YoastSEO.App.prototype.pluginsLoaded = function() {
 	this.removeLoadingDialog();
-	if( typeof this.rawData.keyword !== "undefined" && this.rawData.keyword !== "") {
-		this.runAnalyzer(this.rawData);
+	if ( typeof this.rawData.keyword !== "undefined" && this.rawData.keyword !== "" ) {
+		this.runAnalyzer( this.rawData );
 	} else {
 		this.noKeywordQueue();
 	}
 };
 
+/**
+ * Runs a queue with tests where no keyword is required.
+ */
 YoastSEO.App.prototype.noKeywordQueue = function() {
-	this.showMessage();
-	this.rawData.queue = ["wordCount","fleschReading","pageTitleLength","urlStopwords"];
+	this.rawData.queue = [ "keyWordCheck", "wordCount", "fleschReading", "pageTitleLength", "urlStopwords" ];
 	this.runAnalyzer( this.rawData );
 };
 
+/**
+ * Resets and aborts the current queue to default. This is used to make sure the analyzer can run with the
+ * default queue.
+ */
+YoastSEO.App.prototype.resetQueue = function() {
+	if ( this.__refObj.rawData.keyword !== "" ) {
+		this.__refObj.pageAnalyzer.config.queue = "";
+		this.__refObj.rawData.queue = YoastSEO.analyzerConfig.queue.slice();
+		this.__refObj.pageAnalyzer.abortQueue();
+		this.__refObj.runAnalyzer( this.__refObj.rawData );
+	}
+};
+
+/**
+ * Shows the loading dialog which shows the loading of the plugins.
+ */
 YoastSEO.App.prototype.showLoadingDialog = function() {
+	this.pluginLoading = true;
 	var dialogDiv = document.createElement( "div" );
 	dialogDiv.className = "wpseo_msg";
 	dialogDiv.id = "wpseo-plugin-loading";
 	document.getElementById( "wpseo_meta" ).appendChild( dialogDiv );
-	//this.updateLoadingDialog();
 };
 
-YoastSEO.App.prototype.updateLoadingDialog = function( plugins ){
+/**
+ * Updates the loading plugins. Uses the plugins as arguments to show which plugins are loading
+ * @param plugins
+ */
+YoastSEO.App.prototype.updateLoadingDialog = function( plugins ) {
 	var dialog = document.getElementById( "wpseo-plugin-loading" );
 	dialog.textContent = "";
 	for ( var plugin in this.plugins.plugins ) {
-		dialog.textContent += plugin + plugins[plugin].status;
+		dialog.innerHTML += plugin + plugins[ plugin ].status + "<br />";
 	}
 };
 
-YoastSEO.App.prototype.removeLoadingDialog = function(){
-	document.getElementById("wpseo_meta").removeChild(document.getElementById("wpseo-plugin-loading"));
+/**
+ * removes the pluging load dialog.
+ */
+YoastSEO.App.prototype.removeLoadingDialog = function() {
+	this.pluginLoading = false;
+	document.getElementById( "wpseo_meta" ).removeChild( document.getElementById( "wpseo-plugin-loading" ) );
 };
 
 /**

@@ -28,8 +28,9 @@ YoastSEO.Plugins = function() {
 	this.plugins = {};
 	this.modifications = {};
 	YoastSEO.app.showLoadingDialog();
+
 	// Allow plugins 500 ms to register before we start polling their
-	setTimeout( "YoastSEO.app.plugins._pollLoadingPlugins()", 1500 );
+	setTimeout( this.loaderTimerout, 1500 );
 };
 
 /**************** PUBLIC DSL ****************/
@@ -79,14 +80,13 @@ YoastSEO.Plugins.prototype.ready = function( pluginName ) {
 		return false;
 	}
 
-	this.plugins[pluginName] = "ready";
+	this.plugins[pluginName].status = "ready";
+	YoastSEO.app.updateLoadingDialog( this.plugins );
 	return true;
 };
 
 /**
  * Used to declare a plugin has been reloaded. If an analysis is currently running. We will reset it to ensure running the latest modifications.
- *
- * @todo: Make sure the analyzer (or the app) has full control over its own run. (Data and execution)
  *
  * @param pluginName	{string}
  * @returns 			{boolean}
@@ -102,7 +102,7 @@ YoastSEO.Plugins.prototype.reloaded = function( pluginName ) {
 		return false;
 	}
 
-	YoastSEO.app.runAnalyzer( YoastSEO.app.analyzerData );
+	YoastSEO.app.runAnalyzer( YoastSEO.app.rawData );
 	return true;
 };
 
@@ -170,7 +170,6 @@ YoastSEO.Plugins.prototype.registerModification = function( modification, callab
 YoastSEO.Plugins.prototype._pollLoadingPlugins = function( pollTime ) {
 	pollTime = pollTime === undefined ? 0 : pollTime;
 	if ( this._allReady() === true ) {
-		YoastSEO.app.__defineGetter__();
 		YoastSEO.app.pluginsLoaded();
 	} else if ( pollTime >= this.preloadThreshold ) {
 		this._pollTimeExceeded();
@@ -188,13 +187,12 @@ YoastSEO.Plugins.prototype._pollLoadingPlugins = function( pollTime ) {
  */
 YoastSEO.Plugins.prototype._allReady = function() {
 	for ( var plugin in this.plugins ) {
-		if ( this.plugins[plugin] !== "ready" ) {
+		if ( this.plugins[plugin].status !== "ready" ) {
 			return false;
 		}
 	}
 	return true;
 };
-
 
 /**
  * Removes the plugins that were not loaded within time and calls `pluginsLoaded` on the app.
@@ -235,7 +233,9 @@ YoastSEO.Plugins.prototype._applyModifications = function( modification, data, c
 			if ( typeof newData === typeof data ) {
 				data = newData;
 			} else {
-				console.error( "Modification with name " + modification + " performed by plugin with name " + callChain[callableObject].origin + " was ignored because the data that was returned by it was of a different type than the data we had passed it." );
+				console.error( "Modification with name " + modification + " performed by plugin with name " +
+				callChain[callableObject].origin +
+				" was ignored because the data that was returned by it was of a different type than the data we had passed it." );
 			}
 		}
 	}
@@ -286,4 +286,11 @@ YoastSEO.Plugins.prototype._validateUniqueness = function( pluginName ) {
 		return false;
 	}
 	return true;
+};
+
+/**
+ * Triggers the _pollLoadingPlugins. Is defined in seperate function to prevent timingissues with undefined functions
+ */
+YoastSEO.Plugins.prototype.loaderTimerout = function( ) {
+	YoastSEO.app.plugins._pollLoadingPlugins();
 };
