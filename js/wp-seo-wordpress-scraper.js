@@ -1,4 +1,4 @@
-/* global YoastSEO: true, wpseoMetaboxL10n, ajaxurl, tinyMCE */
+/* global YoastSEO: true, tinyMCE */
 YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 
 /**
@@ -111,8 +111,7 @@ YoastSEO.WordPressScraper.prototype.setDataFromSnippet = function( value, type )
  * feeds data to the loader that is required for the analyzer
  */
 YoastSEO.WordPressScraper.prototype.getAnalyzerInput = function() {
-	//YoastSEO.app.analyzerDataQueue = [ 'text', 'keyword', 'meta', 'url', 'title', 'pageTitle', 'snippetTitle', 'snippetMeta', 'snippetCite', 'excerpt' ];
-	//this.runDataQueue();
+	'use strict';
 
 	if ( typeof YoastSEO.app.snippetPreview === 'undefined' ) {
 		YoastSEO.app.init();
@@ -239,7 +238,7 @@ YoastSEO.WordPressScraper.prototype.inputElementEventBinder = function() {
 			document.getElementById( elems[ i ] ).addEventListener( 'change', YoastSEO.app.refresh.bind( YoastSEO.app ) );
 		}
 	}
-	document.getElementById( "yoast_wpseo_focuskw").addEventListener( 'blur', YoastSEO.app.resetQueue );
+	document.getElementById( 'yoast_wpseo_focuskw' ).addEventListener( 'blur', YoastSEO.app.resetQueue );
 };
 
 /**

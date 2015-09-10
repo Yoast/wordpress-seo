@@ -1,5 +1,6 @@
 /* browser:true */
 /* global wpseoMetaboxL10n */
+/* global ReplaceVarPlugin */
 /* global ajaxurl */
 /* global YoastSEO */
 /* jshint -W097 */
@@ -7,6 +8,7 @@
 'use strict';
 
 jQuery( document ).ready(function() {
+
 		if ( jQuery( '.wpseo-metabox-tabs-div' ).length > 0 ) {
 			var active_tab = window.location.hash;
 			if ( active_tab === '' || active_tab.search( 'wpseo' ) === -1 ) {
@@ -137,7 +139,7 @@ jQuery( document ).ready(function() {
 				'keywordDoubles' ];
 
 			YoastSEO.app.replacedVars = {};
-			new replaceVarPlugin();
+			new ReplaceVarPlugin();
 			YoastSEO.app.refresh();
 		}
 

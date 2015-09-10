@@ -1,18 +1,25 @@
+/* global wpseoMetaboxL10n */
+/* global ReplaceVarPlugin:true */
+/* global YoastSEO */
+/* global YoastReplaceVarPlugin */
+
 /**
  * variable replacement plugin for wordpress.
  */
-replaceVarPlugin = function (){
+ReplaceVarPlugin = function (){
+	'use strict';
 	this.init();
 };
 
 /**
- * inits the replaceVarPlugin.
+ * inits the ReplaceVarPlugin.
  */
-replaceVarPlugin.prototype.init = function(){
+ReplaceVarPlugin.prototype.init = function(){
+	'use strict';
 	window.YoastReplaceVarPlugin = this;
-	if( typeof YoastSEO.app !== "undefined" ) {
-		YoastSEO.app.plugins.register( "replaceVariablePlugin", {status: "ready"} );
-		YoastSEO.app.plugins.registerModification( "content", this.replaceVariablesPlugin, "replaceVariablePlugin", 10 );
+	if( typeof YoastSEO.app !== 'undefined' ) {
+		YoastSEO.app.plugins.register( 'replaceVariablePlugin', {status: 'ready'} );
+		YoastSEO.app.plugins.registerModification( 'content', this.replaceVariablesPlugin, 'replaceVariablePlugin', 10 );
 	}else{
 		setTimeout(this.init, 50);
 	}
@@ -23,9 +30,10 @@ replaceVarPlugin.prototype.init = function(){
  * @param data
  * @returns {string}
  */
-replaceVarPlugin.prototype.replaceVariablesPlugin = function( data ){
+ReplaceVarPlugin.prototype.replaceVariablesPlugin = function( data ){
+	'use strict';
 	var refObj = YoastReplaceVarPlugin;
-	if( typeof data !== "undefined"  && data !== ""){
+	if( typeof data !== 'undefined'  && data !== ''){
 		data = refObj.titleReplace( data );
 		data = refObj.defaultReplace( data );
 		data = refObj.parentReplace( data );
@@ -40,9 +48,8 @@ replaceVarPlugin.prototype.replaceVariablesPlugin = function( data ){
  * @param data
  * @returns {string}
  */
-replaceVarPlugin.prototype.titleReplace = function( data ){
+ReplaceVarPlugin.prototype.titleReplace = function( data ){
 	'use strict';
-
 	var title = YoastSEO.app.rawData.title;
 	if ( typeof title === 'undefined' ) {
 		title = YoastSEO.app.rawData.pageTitle;
@@ -51,7 +58,7 @@ replaceVarPlugin.prototype.titleReplace = function( data ){
 		data = data.replace( /%%title%%/g, title );
 	}
 	return data;
-}
+};
 
 /**
  * Replaces %%parent_title%% with the selected value from selectbox (if available on page).
@@ -59,9 +66,8 @@ replaceVarPlugin.prototype.titleReplace = function( data ){
  * @param {String} textString
  * @returns {String}
  */
-replaceVarPlugin.prototype.parentReplace = function( data ) {
+ReplaceVarPlugin.prototype.parentReplace = function( data ) {
 	'use strict';
-
 	var parentId = document.getElementById( 'parent_id' );
 
 	if ( parentId !== null && parentId.options[ parentId.selectedIndex ].text !== wpseoMetaboxL10n.no_parent_text ) {
@@ -76,9 +82,8 @@ replaceVarPlugin.prototype.parentReplace = function( data ) {
  * @param {String} textString
  * @returns {String}
  */
-replaceVarPlugin.prototype.doubleSepReplace = function( data ) {
+ReplaceVarPlugin.prototype.doubleSepReplace = function( data ) {
 	'use strict';
-
 	var escaped_seperator = YoastSEO.app.stringHelper.addEscapeChars( wpseoMetaboxL10n.sep );
 	var pattern = new RegExp( escaped_seperator + ' ' + escaped_seperator, 'g' );
 	data = data.replace( pattern, wpseoMetaboxL10n.sep );
@@ -91,9 +96,8 @@ replaceVarPlugin.prototype.doubleSepReplace = function( data ) {
  * @param {String} textString
  * @returns {String}
  */
-replaceVarPlugin.prototype.excerptReplace = function( data ) {
+ReplaceVarPlugin.prototype.excerptReplace = function( data ) {
 	'use strict';
-
 	if ( YoastSEO.app.rawData.excerpt.length > 0 ) {
 		data.replace( /%%excerpt_only%%/, YoastSEO.app.rawData.excerpt );
 		data.replace( /%%excerpt%%/, YoastSEO.app.rawData.excerpt );
@@ -107,9 +111,8 @@ replaceVarPlugin.prototype.excerptReplace = function( data ) {
  * @param {String} textString
  * @return {String}
  */
-replaceVarPlugin.prototype.defaultReplace = function( textString ) {
+ReplaceVarPlugin.prototype.defaultReplace = function( textString ) {
 	'use strict';
-
 	return textString.replace( /%%sitedesc%%/g, wpseoMetaboxL10n.sitedesc )
 		.replace( /%%sitename%%/g, wpseoMetaboxL10n.sitename )
 		.replace( /%%sep%%/g, wpseoMetaboxL10n.sep )
