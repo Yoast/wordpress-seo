@@ -107,16 +107,10 @@ YoastSEO.WordPressScraper.prototype.setDataFromSnippet = function( value, type )
 	}
 };
 
-YoastSEO.WordPressScraper.prototype.runPlugins = function(){
-	YoastSEO.app.analyzerData.text = YoastSEO.app.plugins._applyModifications( "replaceTextVariables", YoastSEO.app.analyzerData.text );
-};
-
 /**
  * feeds data to the loader that is required for the analyzer
  */
 YoastSEO.WordPressScraper.prototype.getAnalyzerInput = function() {
-	this.runPlugins();
-
 	//YoastSEO.app.analyzerDataQueue = [ 'text', 'keyword', 'meta', 'url', 'title', 'pageTitle', 'snippetTitle', 'snippetMeta', 'snippetCite', 'excerpt' ];
 	//this.runDataQueue();
 
@@ -128,12 +122,9 @@ YoastSEO.WordPressScraper.prototype.getAnalyzerInput = function() {
 	YoastSEO.app.runAnalyzerCallback();
 };
 
-
-
 /**
  * Queue for the analyzer data. Runs a queue to prevent timing issues with the replace variable callback
  */
-/*
 YoastSEO.WordPressScraper.prototype.runDataQueue = function() {
 	'use strict';
 
@@ -148,7 +139,7 @@ YoastSEO.WordPressScraper.prototype.runDataQueue = function() {
 		}
 		YoastSEO.app.runAnalyzerCallback();
 	}
-};*/
+};
 
 /**
  * gets content from the content field, if tinyMCE is initialized, use the getContent function to get the data from tinyMCE
@@ -248,6 +239,7 @@ YoastSEO.WordPressScraper.prototype.inputElementEventBinder = function() {
 			document.getElementById( elems[ i ] ).addEventListener( 'change', YoastSEO.app.refresh.bind( YoastSEO.app ) );
 		}
 	}
+	document.getElementById( "yoast_wpseo_focuskw").addEventListener( 'blur', YoastSEO.app.resetQueue );
 };
 
 /**

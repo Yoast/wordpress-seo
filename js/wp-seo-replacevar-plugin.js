@@ -9,11 +9,12 @@ replaceVarPlugin = function (){
  * inits the replaceVarPlugin.
  */
 replaceVarPlugin.prototype.init = function(){
+	window.YoastReplaceVarPlugin = this;
 	if( typeof YoastSEO.app !== "undefined" ) {
 		YoastSEO.app.plugins.register( "replaceVariablePlugin", {status: "ready"} );
-		YoastSEO.app.plugins.registerModification( "replaceTextVariables", this.replaceVariablesPlugin, "replaceVariablePlugin", 10 );
+		YoastSEO.app.plugins.registerModification( "content", this.replaceVariablesPlugin, "replaceVariablePlugin", 10 );
 	}else{
-		setTimeout(this.init, 100);
+		setTimeout(this.init, 50);
 	}
 };
 
@@ -23,12 +24,13 @@ replaceVarPlugin.prototype.init = function(){
  * @returns {string}
  */
 replaceVarPlugin.prototype.replaceVariablesPlugin = function( data ){
-	if( typeof data !== "undefined" ){
-		data = this.titleReplace( data );
-		data = this.defaultReplace( data );
-		data = this.parentReplace( data );
-		data = this.doubleSepReplace( data );
-		data = this.excerptReplace( data );
+	var refObj = YoastReplaceVarPlugin;
+	if( typeof data !== "undefined"  && data !== ""){
+		data = refObj.titleReplace( data );
+		data = refObj.defaultReplace( data );
+		data = refObj.parentReplace( data );
+		data = refObj.doubleSepReplace( data );
+		data = refObj.excerptReplace( data );
 	}
 	return data;
 };
@@ -41,9 +43,9 @@ replaceVarPlugin.prototype.replaceVariablesPlugin = function( data ){
 replaceVarPlugin.prototype.titleReplace = function( data ){
 	'use strict';
 
-	var title = YoastSEO.app.analyzerData.title;
+	var title = YoastSEO.app.rawData.title;
 	if ( typeof title === 'undefined' ) {
-		title = YoastSEO.app.analyzerData.pageTitle;
+		title = YoastSEO.app.rawData.pageTitle;
 	}
 	if ( title.length > 0 ) {
 		data = data.replace( /%%title%%/g, title );
@@ -92,9 +94,9 @@ replaceVarPlugin.prototype.doubleSepReplace = function( data ) {
 replaceVarPlugin.prototype.excerptReplace = function( data ) {
 	'use strict';
 
-	if ( YoastSEO.app.analyzerData.excerpt.length > 0 ) {
-		data.replace( /%%excerpt_only%%/, YoastSEO.app.analyzerData.excerpt );
-		data.replace( /%%excerpt%%/, YoastSEO.app.analyzerData.excerpt );
+	if ( YoastSEO.app.rawData.excerpt.length > 0 ) {
+		data.replace( /%%excerpt_only%%/, YoastSEO.app.rawData.excerpt );
+		data.replace( /%%excerpt%%/, YoastSEO.app.rawData.excerpt );
 	}
 	return data;
 };
@@ -119,7 +121,6 @@ replaceVarPlugin.prototype.defaultReplace = function( textString ) {
 		.replace( /%%currentday%%/g, wpseoMetaboxL10n.currentday )
 		.replace( /%%currentmonth%%/g, wpseoMetaboxL10n.currentmonth )
 		.replace( /%%currentyear%%/g, wpseoMetaboxL10n.currentyear )
-		.replace( /%%focuskw%%/g, YoastSEO.app.stringHelper.stripAllTags( YoastSEO.app.analyzerData.keyword ) );
+		.replace( /%%focuskw%%/g, YoastSEO.app.stringHelper.stripAllTags( YoastSEO.app.rawData.keyword ) );
 };
 
-new replaceVarPlugin();

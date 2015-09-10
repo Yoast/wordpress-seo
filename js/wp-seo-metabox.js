@@ -112,8 +112,7 @@ jQuery( document ).ready(function() {
 				parentReplace: wordpressScraper.parentReplace,
 				doubleSepReplace: wordpressScraper.doubleSepReplace,
 				excerptReplace: wordpressScraper.excerptReplace,
-				setDataFromSnippet: wordpressScraper.setDataFromSnippet,
-				runPlugins: wordpressScraper.runPlugins
+				setDataFromSnippet: wordpressScraper.setDataFromSnippet
 			};
 
 			YoastSEO.app = new YoastSEO.App( YoastSEO.analyzerArgs );
@@ -138,7 +137,7 @@ jQuery( document ).ready(function() {
 				'keywordDoubles' ];
 
 			YoastSEO.app.replacedVars = {};
-
+			new replaceVarPlugin();
 			YoastSEO.app.refresh();
 		}
 
