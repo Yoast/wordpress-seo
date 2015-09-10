@@ -6,7 +6,7 @@
 /**
  * variable replacement plugin for wordpress.
  */
-ReplaceVarPlugin = function (){
+ReplaceVarPlugin = function() {
 	'use strict';
 	this.init();
 };
@@ -14,11 +14,11 @@ ReplaceVarPlugin = function (){
 /**
  * inits the ReplaceVarPlugin.
  */
-ReplaceVarPlugin.prototype.init = function(){
+ReplaceVarPlugin.prototype.init = function() {
 	'use strict';
 	window.YoastReplaceVarPlugin = this;
 	if( typeof YoastSEO.app !== 'undefined' ) {
-		YoastSEO.app.plugins.register( 'replaceVariablePlugin', {status: 'ready'} );
+		YoastSEO.app.plugins.register( 'replaceVariablePlugin', { status: 'ready' } );
 		YoastSEO.app.plugins.registerModification( 'content', this.replaceVariablesPlugin, 'replaceVariablePlugin', 10 );
 	}else{
 		setTimeout(this.init, 50);
@@ -27,13 +27,13 @@ ReplaceVarPlugin.prototype.init = function(){
 
 /**
  * runs the different replacements on the data-string
- * @param data
+ * @param {String} data
  * @returns {string}
  */
-ReplaceVarPlugin.prototype.replaceVariablesPlugin = function( data ){
+ReplaceVarPlugin.prototype.replaceVariablesPlugin = function( data ) {
 	'use strict';
 	var refObj = YoastReplaceVarPlugin;
-	if( typeof data !== 'undefined'  && data !== ''){
+	if( typeof data !== 'undefined'  && data !== '') {
 		data = refObj.titleReplace( data );
 		data = refObj.defaultReplace( data );
 		data = refObj.parentReplace( data );
@@ -45,10 +45,10 @@ ReplaceVarPlugin.prototype.replaceVariablesPlugin = function( data ){
 
 /**
  * Replaces %%title%% with the title
- * @param data
+ * @param {String} data
  * @returns {string}
  */
-ReplaceVarPlugin.prototype.titleReplace = function( data ){
+ReplaceVarPlugin.prototype.titleReplace = function( data ) {
 	'use strict';
 	var title = YoastSEO.app.rawData.title;
 	if ( typeof title === 'undefined' ) {
@@ -63,7 +63,7 @@ ReplaceVarPlugin.prototype.titleReplace = function( data ){
 /**
  * Replaces %%parent_title%% with the selected value from selectbox (if available on page).
  *
- * @param {String} textString
+ * @param {String} data
  * @returns {String}
  */
 ReplaceVarPlugin.prototype.parentReplace = function( data ) {
@@ -79,7 +79,7 @@ ReplaceVarPlugin.prototype.parentReplace = function( data ) {
 /**
  * removes double seperators and replaces them with a single seperator
  *
- * @param {String} textString
+ * @param {String} data
  * @returns {String}
  */
 ReplaceVarPlugin.prototype.doubleSepReplace = function( data ) {
@@ -93,7 +93,7 @@ ReplaceVarPlugin.prototype.doubleSepReplace = function( data ) {
 /**
  * replaces the excerpts strings with strings for the excerpts, if not empty.
  *
- * @param {String} textString
+ * @param {String} data
  * @returns {String}
  */
 ReplaceVarPlugin.prototype.excerptReplace = function( data ) {
@@ -126,4 +126,3 @@ ReplaceVarPlugin.prototype.defaultReplace = function( textString ) {
 		.replace( /%%currentyear%%/g, wpseoMetaboxL10n.currentyear )
 		.replace( /%%focuskw%%/g, YoastSEO.app.stringHelper.stripAllTags( YoastSEO.app.rawData.keyword ) );
 };
-
