@@ -396,12 +396,12 @@ YoastSEO.App.prototype.runAnalyzer = function() {
 			this.startTime();
 		}
 		this.analyzerData = this.modifyData( this.rawData );
+		var args = this.analyzerData;
+		args.i18n = this.i18n;
 		if ( typeof this.pageAnalyzer === "undefined" ) {
-			var args = this.analyzerData;
-			args.i18n = this.i18n;
 			this.pageAnalyzer = new YoastSEO.Analyzer( args );
 		} else {
-			this.pageAnalyzer.init();
+			this.pageAnalyzer.init( args );
 		}
 		this.pageAnalyzer.runQueue();
 		this.scoreFormatter = new YoastSEO.ScoreFormatter( this );

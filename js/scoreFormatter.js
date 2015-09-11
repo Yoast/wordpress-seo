@@ -68,7 +68,6 @@ YoastSEO.ScoreFormatter.prototype.outputOverallScore = function() {
 	if ( this.refObj.rawData.keyword === "" ) {
 		overallTarget.className = "overallScore " + this.scoreRating( 0 );
 	}
-
 	this.refObj.callbacks.saveScores( this.overallScore );
 };
 

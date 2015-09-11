@@ -21,7 +21,7 @@ YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 YoastSEO.Analyzer = function( args ) {
 	this.config = args;
 	this.checkConfig();
-	this.init();
+	this.init( args );
 };
 
 /**
@@ -37,7 +37,8 @@ YoastSEO.Analyzer.prototype.checkConfig = function() {
 /**
  * YoastSEO.Analyzer initialization. Loads defaults and overloads custom settings.
  */
-YoastSEO.Analyzer.prototype.init = function() {
+YoastSEO.Analyzer.prototype.init = function( args ) {
+	this.config = args;
 	this.initDependencies();
 	this.formatKeyword();
 	this.initQueue();
