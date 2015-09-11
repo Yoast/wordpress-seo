@@ -258,9 +258,9 @@ YoastSEO.WordPressScraper.prototype.updateSnippetValues = function( ev ) {
 			ev.currentTarget.__unformattedText = '';
 		}
 	}
-	ev.currentTarget.refObj.source.setDataFromSnippet( dataFromSnippet, ev.currentTarget.id );
-	ev.currentTarget.refObj.source.getData();
-	ev.currentTarget.refObj.source.getAnalyzerInput();
+	ev.currentTarget.refObj.callbacks.setDataFromSnippet( dataFromSnippet, ev.currentTarget.id );
+	ev.currentTarget.refObj.callbacks.getData();
+	ev.currentTarget.refObj.callbacks.getAnalyzerInput();
 };
 
 /**
@@ -285,8 +285,8 @@ jQuery( document ).on( 'ajaxComplete', function( ev, response ) {
 	'use strict';
 
 	if ( response.responseText.match( 'Permalink:' ) !== null ) {
-		YoastSEO.app.source.getData();
-		YoastSEO.app.source.getAnalyzerInput();
+		YoastSEO.app.callbacks.getData();
+		YoastSEO.app.callbacks.getAnalyzerInput();
 		YoastSEO.app.snippetPreview.reRender();
 	}
 } );
