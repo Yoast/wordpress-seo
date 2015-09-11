@@ -41,7 +41,9 @@ class WPSEO_Admin_User_Profile {
 	public function process_user_option_update( $user_id ) {
 		update_user_meta( $user_id, '_yoast_wpseo_profile_updated', time() );
 
-		if ( empty( $_REQUEST['wpseo_nonce'] ) ) { // Submit from alternate forms.
+		$nonce_value = $this->filter_input_post( 'wpseo_nonce' );
+
+		if ( empty( $nonce_value ) ) { // Submit from alternate forms.
 			return;
 		}
 
