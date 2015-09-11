@@ -5,6 +5,8 @@
 
 /**
  * Class WPSEO_Sitemaps
+ *
+ * TODO This class could use a general description with some explanation on sitemaps. OR.
  */
 class WPSEO_Sitemaps {
 
@@ -110,7 +112,7 @@ class WPSEO_Sitemaps {
 
 	/**
 	 * Set the sitemap current page to allow creating partial sitemaps with wp-cli
-	 * in an one-off process.
+	 * in a one-off process.
 	 *
 	 * @param integer $current_page The part that should be generated.
 	 */
@@ -228,6 +230,7 @@ class WPSEO_Sitemaps {
 	 */
 	public function build_sitemap( $type ) {
 
+		// TODO document filter. OR.
 		$type = apply_filters( 'wpseo_build_sitemap_post_type', $type );
 
 		if ( $type === '1' ) {
