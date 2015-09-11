@@ -1029,7 +1029,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			echo esc_html( apply_filters( 'wpseo_title', wpseo_replace_vars( $this->page_title( $post_id ), get_post( $post_id, ARRAY_A ) ) ) );
 		}
 		if ( $column_name === 'wpseo-metadesc' ) {
-			echo esc_html( apply_filters( 'wpseo_metadesc', wpseo_replace_vars( self::get_value( 'metadesc', $post_id ), get_post( $post_id, ARRAY_A ) ) ) );
+			echo esc_html( apply_filters( 'wpseo_metadesc', wpseo_replace_vars( $this->page_description( $post_id ), get_post( $post_id, ARRAY_A ) ) ) );
 		}
 		if ( $column_name === 'wpseo-focuskw' ) {
 			$focuskw = self::get_value( 'focuskw', $post_id );
@@ -1273,6 +1273,35 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				return wpseo_replace_vars( '%%title%%', $post );
 			}
 		}
+	}
+
+	/**
+	 * Retrieve the page description.
+	 *
+	 * @param int $post_id Post ID to retrieve the description for.
+	 *
+	 * @return string
+	 */
+	protected function page_description( $post_id ) {
+
+		$fixed_description = self::get_value( 'metadesc', $post_id );
+
+		if ( ! empty( $fixed_description ) ) {
+			return $fixed_description;
+		}
+
+		$post    = get_post( $post_id );
+		$options = WPSEO_Options::get_all();
+
+		if ( is_object( $post ) && ! empty( $options[ 'metadesc-' . $post->post_type ] ) ) {
+
+			$description_template = $options[ 'metadesc-' . $post->post_type ];
+			$description_template = str_replace( ' %%page%% ', ' ', $description_template );
+
+			return wpseo_replace_vars( $description_template, $post );
+		}
+
+		return wpseo_replace_vars( '%%description%%', $post );
 	}
 
 	/**
