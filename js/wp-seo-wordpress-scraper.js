@@ -108,6 +108,30 @@ YoastSEO.WordPressScraper.prototype.setDataFromSnippet = function( value, type )
 };
 
 /**
+ * when the snippet is updated, set this data in rawData.
+ * @param value
+ * @param type
+ */
+YoastSEO.WordPressScraper.prototype.setRawData = function( value, type ) {
+	'use strict';
+
+	switch ( type ) {
+		case 'snippet_meta':
+			YoastSEO.app.rawData.snippetMeta = value;
+			break;
+		case 'snippet_cite':
+			YoastSEO.app.rawData.snippetCite = value;
+			break;
+		case 'snippet_title':
+			YoastSEO.app.rawData.snippetTitle = value;
+			break;
+		default:
+			break;
+	}
+};
+
+
+/**
  * feeds data to the loader that is required for the analyzer
  */
 YoastSEO.WordPressScraper.prototype.getAnalyzerInput = function() {
@@ -258,6 +282,7 @@ YoastSEO.WordPressScraper.prototype.updateSnippetValues = function( ev ) {
 			ev.currentTarget.__unformattedText = '';
 		}
 	}
+	ev.currentTarget.refObj.callbacks.setRawData( dataFromSnippet, ev.currentTarget.id);
 	ev.currentTarget.refObj.callbacks.setDataFromSnippet( dataFromSnippet, ev.currentTarget.id );
 	ev.currentTarget.refObj.callbacks.getData();
 	ev.currentTarget.refObj.callbacks.getAnalyzerInput();
