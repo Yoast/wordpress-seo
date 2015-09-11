@@ -41,6 +41,10 @@ class WPSEO_Admin_User_Profile {
 	public function process_user_option_update( $user_id ) {
 		update_user_meta( $user_id, '_yoast_wpseo_profile_updated', time() );
 
+		if ( empty( $_REQUEST['wpseo_nonce'] ) ) { // Submit from alternate forms.
+			return;
+		}
+
 		check_admin_referer( 'wpseo_user_profile_update', 'wpseo_nonce' );
 
 		update_user_meta( $user_id, 'wpseo_title', $this->filter_input_post( 'wpseo_author_title' ) );
