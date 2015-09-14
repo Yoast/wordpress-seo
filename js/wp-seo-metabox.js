@@ -7,13 +7,27 @@
 'use strict';
 
 var YoastShortcodePlugin = function() {
+	this.registerTime = 0;
+	this.register();
+
 	this.unparsedShortcodes = [];
-	this.parsedShortcodes = {};
+	this.parsedShortcodes = [];
 
 	// The regex for matching shortcodes based on the available shortcode keywords.
 	this.keywordRegex = '(' + wpseoMetaboxL10n.wpseo_shortcode_tags.join('|') + ')';
 
-	//this.loadShortcodes();
+	this.loadShortcodes();
+};
+
+YoastShortcodePlugin.prototype.register = function() {
+	if ( typeof YoastSEO !== "undefined" && typeof YoastSEO.app !== "undefined" && typeof YoastSEO.app.plugins !== "undefined" ) {
+		YoastSEO.app.plugins.register("YoastShortcodePlugin");
+	} else if ( this.registerTime < 1001 ) {
+		this.registerTime += 100;
+		setTimeout( this.register, 100 );
+	} else {
+		console.error("Failed to register shortcode plugin with YoastSEO. YoastSEO is not available.");
+	}
 };
 
 /**
@@ -42,11 +56,10 @@ YoastShortcodePlugin.prototype.checkUnparsedShortcodes = function ( text ) {
 	}
 
 	var shortcodes = this.matchShortcodes( text );
-
 	for (var i in shortcodes) {
 		var shortcode = shortcodes[ i ];
 
-		if ( this.parsedShortcodes[ shortcode ] === undefined && this.unparsedShortcodes.indexOf( shortcode ) !== -1 ) {
+		if ( this.parsedShortcodes[ shortcode ] === undefined && this.unparsedShortcodes.indexOf( shortcode ) === -1 ) {
 			this.unparsedShortcodes.push( shortcode );
 		}
 	}
@@ -61,12 +74,12 @@ YoastShortcodePlugin.prototype.checkUnparsedShortcodes = function ( text ) {
 YoastShortcodePlugin.prototype.matchShortcodes = function( text ) {
 	var shortcodes = [];
 
-	//var text = "[embed][wp_caption]because I think we need some text with [caption id='1'] and [gallery id='24' value='something']which also encapsulates stuff[/gallery]How cool is this right? We could use shorcodes like hasthags [playlist][audio][video]Now let's put in some self [wpseo_breadcrumb /] stuff like [wpseo_sitemap/] and we should have [wpseo_sitemap] of the same. I mean [wpseo_sitemap] of the same. That should only be included once right?"
+	//var text = "[embed][wp_caption]because I think we need some text with [caption id='1'] and [gallery id='24' value='something']which also encapsulates stuff[/gallery]How cool is this right? We could use shorcodes like hasthags [playlist][audio][video]Now let's put in some self [wpseo_breadcrumb /] stuff like [wpseo_breadcrumb/] and we should have [wpseo_breadcrumb] of the same. I mean of the same. That should only be included once right?"
 	//var shortcodeTags = ["embed", "wp_caption", "caption", "gallery", "playlist", "audio", "video", "wpseo_breadcrumb", "wpseo_sitemap"];
 
 	// First identify which tags are being used in a capturing shortcode by looking for closing tags.
 	var closingTagRegex = "\\[\\/" + this.keywordRegex + "\\]";
-	var captureKeywords = text.match( new RegExp(closingTagRegex, "g") ).join(" ").match(new RegExp( this.keywordRegex, 'g') );
+	var captureKeywords = ( text.match( new RegExp(closingTagRegex, "g") ) || [] ).join(" ").match(new RegExp( this.keywordRegex, 'g') );
 
 	// Fetch the capturing shortcodes and strip them from the text so we can easily match the non capturing shortcodes.
 	for ( var i in captureKeywords ) {
@@ -94,18 +107,19 @@ YoastShortcodePlugin.prototype.matchShortcodes = function( text ) {
  * Parses the unparsed shortcodes through AJAX and clears them.
  */
 YoastShortcodePlugin.prototype.parseShortcodes = function() {
-	if ( typeof this.unparsedShortcodes === 'array' && this.unparsedShortcodes.length > 0 ) {
+	if ( typeof this.unparsedShortcodes === 'object' && this.unparsedShortcodes.length > 0 ) {
 		var shortcodes = this.unparsedShortcodes;
 		this.unparsedShortcodes = [];
-
+		var self = this;
 		jQuery.get( ajaxurl, {
 				action: 'wpseo_filter_shortcodes',
 				_wpnonce: wpseoMetaboxL10n.wpseo_filter_shortcodes_nonce,
 				data: shortcodes
 			},
 			function( shortcodeResults ) {
-				for ( var shortcode in shortcodeResults ) {
-					this.parsedShortcodes[shortcode] = shortcodeResults[shortcode];
+				shortcodeResults = JSON.parse( shortcodeResults);
+				for ( var i in shortcodeResults ) {
+					self.parsedShortcodes.push( shortcodeResults[ i ] );
 				}
 			}
 		);
@@ -127,24 +141,18 @@ YoastShortcodePlugin.prototype.getContentTinyMCE = function() {
 /* MODIFICATIONS */
 
 YoastShortcodePlugin.prototype.registerModifications = function() {
-	YoastSEO.app.plugins.registerModification( 'title', this.replaceTitleShortcodes, 'YoastShortcodePlugin' );
-	YoastSEO.app.plugins.registerModification( 'content', this.replaceContentShortcodes, 'YoastShortcodePlugin' );
+	YoastSEO.app.plugins.registerModification( 'title', this.replaceShortcodes, 'YoastShortcodePlugin' );
+	YoastSEO.app.plugins.registerModification( 'content', this.replaceShortcodes, 'YoastShortcodePlugin' );
 };
 
-YoastShortcodePlugin.prototype.replaceTitleShortcodes = function( data ) {
-	this.replaceShortcodes( data, this.titleShortcodes );
-};
-
-YoastShortcodePlugin.prototype.replaceContentShortcodes = function( data ) {
-	this.replaceShortcodes( data, this.contentShortcodes );
-};
-
-YoastShortcodePlugin.prototype.replaceShortcodes = function( data, shortcodes ) {
-	if ( typeof data === 'string' && shortcodes.length > 0 ) {
-		for ( var shortcode in shortcodes ) {
-			data = data.replace( new RegExp( shortcode, 'g' ), shortcodes[shortcode] );
+YoastShortcodePlugin.prototype.replaceShortcodes = function( data ) {
+	if ( typeof data === 'string' && this.parsedShortcodes.length > 0 ) {
+		console.log(data);
+		for ( var i in this.parsedShortcodes ) {
+			data = data.replace( this.parsedShortcodes[ i ].shortcode, this.parsedShortcodes[ i ].output );
 		}
 	}
+	return data;
 };
 
 jQuery( document ).ready(function() {
