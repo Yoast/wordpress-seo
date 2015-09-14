@@ -12,7 +12,6 @@ class WPSEO_Shortcode_Filter {
 
 	/**
 	 * Initialize the AJAX hooks
-	 * @todo [OR]: make sure we are not parsing the shortcodes too early.
 	 */
 	public function __construct() {
 		add_action( 'wp_ajax_wpseo_filter_shortcodes', array( $this, 'do_filter' ) );
@@ -29,9 +28,12 @@ class WPSEO_Shortcode_Filter {
 		$parsed_shortcodes = array();
 
 		foreach( $shortcodes as $shortcode ) {
-			$parsed_shortcodes[$shortcode] = do_shortcode( $shortcode ) );
+			$parsed_shortcodes[] = array(
+				'shortcode' => $shortcode,
+				'output' => do_shortcode( $shortcode )
+			);
 		}
 
-		wp_die( $parsed_shortcodes );
+		wp_die( wp_json_encode( $parsed_shortcodes ) );
 	}
 }
