@@ -254,14 +254,24 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'wpseo_permalink_template'      => $sample_permalink,
 			'wpseo_keyword_suggest_nonce'   => wp_create_nonce( 'wpseo-get-suggest' ),
 			'wpseo_replace_vars_nonce'      => wp_create_nonce( 'wpseo-replace-vars' ),
-			'wpseo_filter_shortcodes_nonce' => wp_create_nonce( 'wpseo-filter-shortcodes' ),
-			'wpseo_shortcode_tags'          => $this->get_valid_shortcode_tags(),
 			'no_parent_text'                => __( '(no parent)', 'wordpress-seo' ),
 			'featured_image_notice'         => __( 'The featured image should be at least 200x200 pixels to be picked up by Facebook and other social media sites.', 'wordpress-seo' ),
 			'keyword_usage'                 => $this->get_focus_keyword_usage( $post->ID ),
 			'search_url'                    => admin_url( 'edit.php?seo_kw_filter={keyword}' ),
 			'post_edit_url'                 => admin_url( 'post.php?post={id}&action=edit' ),
 		) );
+	}
+
+	/**
+	 * Pass some variables to js for the edit / post page overview, snippet preview, etc.
+	 *
+	 * @return  array
+	 */
+	public function localize_shortcode_plugin_script() {
+		return array(
+			'wpseo_filter_shortcodes_nonce' => wp_create_nonce( 'wpseo-filter-shortcodes' ),
+			'wpseo_shortcode_tags'          => $this->get_valid_shortcode_tags(),
+		);
 	}
 
 	/**
@@ -587,6 +597,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				'jquery-ui-core',
 			), WPSEO_VERSION, true );
 
+			wp_enqueue_script( 'wp-seo-shortcode-plugin.js', plugins_url( 'js/wp-seo-shortcode-plugin' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), null, WPSEO_VERSION, true );
 			wp_enqueue_script( 'wp-seo-wordpressScraper.js', plugins_url( 'js/wp-seo-wordpress-scraper' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), null, WPSEO_VERSION, true );
 			wp_enqueue_script( 'wp-seo-wordpressScraper-Config.js', plugins_url( 'js/wp-seo-wordpress-scraper-config' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), null, WPSEO_VERSION, true );
 			wp_enqueue_script( 'yoast-seo-content-analysis', plugins_url( 'js/dist/js-text-analysis/yoast-seo-content-analysis.min.js', WPSEO_FILE ), null, WPSEO_VERSION, true );
@@ -600,6 +611,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				$json = array();
 			}
 			wp_localize_script( 'wp-seo-wordpressScraper.js', 'wpseoL10n', $json );
+
+			// Text strings to pass to shortcode plugin for keyword analysis.
+			wp_localize_script( 'wp-seo-shortcode-plugin.js', 'wpseoShortcodePluginL10n', $this->localize_shortcode_plugin_script() );
 
 			if ( post_type_supports( get_post_type(), 'thumbnail' ) ) {
 				wp_enqueue_script( 'wp-seo-featured-image', plugins_url( 'js/wp-seo-featured-image' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'jquery' ), WPSEO_VERSION, true );
