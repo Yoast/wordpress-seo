@@ -258,7 +258,7 @@ class WPSEO_Admin_Init {
 	/**
 	 * See if we should start our tour.
 	 */
-	private function load_tour() {
+	public function load_tour() {
 		$restart_tour = filter_input( INPUT_GET, 'wpseo_restart_tour' );
 		if ( $restart_tour ) {
 			delete_user_meta( get_current_user_id(), 'wpseo_ignore_tour' );
@@ -281,7 +281,7 @@ class WPSEO_Admin_Init {
 	/**
 	 * Listener for the ignore tour GET value. If this one is set, just set the user meta to true.
 	 */
-	private function ignore_tour() {
+	public function ignore_tour() {
 		if ( filter_input( INPUT_GET, 'wpseo_ignore_tour' ) && wp_verify_nonce( filter_input( INPUT_GET, 'nonce' ), 'wpseo-ignore-tour' ) ) {
 			update_user_meta( get_current_user_id(), 'wpseo_ignore_tour', true );
 		}
