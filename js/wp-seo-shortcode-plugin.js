@@ -70,7 +70,6 @@ YoastShortcodePlugin.prototype.declareReloaded = function() {
  * Registers the modifications for the content in which we want to replace shortcodes.
  */
 YoastShortcodePlugin.prototype.registerModifications = function() {
-	YoastSEO.app.plugins.registerModification( 'title', this.replaceShortcodes, 'YoastShortcodePlugin' );
 	YoastSEO.app.plugins.registerModification( 'content', this.replaceShortcodes, 'YoastShortcodePlugin' );
 };
 
@@ -98,16 +97,7 @@ YoastShortcodePlugin.prototype.replaceShortcodes = function( data ) {
  * the analyzer and the snippetpreview
  */
 YoastShortcodePlugin.prototype.loadShortcodes = function() {
-	var title = document.getElementById( 'title' ).value;
-	var SEOTitle = document.getElementById( 'yoast_wpseo_title' ).value;
-	var content = this.getContentTinyMCE();
-	var meta = document.getElementById( 'yoast_wpseo_metadesc' ).value;
-
-	this.checkShortcodes( title );
-	this.checkShortcodes( SEOTitle );
-	this.checkShortcodes( content );
-	this.checkShortcodes( meta );
-
+	this.checkShortcodes( this.getContentTinyMCE() );
 	this.parseShortcodes( this.declareReady );
 };
 
@@ -115,12 +105,8 @@ YoastShortcodePlugin.prototype.loadShortcodes = function() {
  * Bind elements to be able to reload the dataset if shortcodes get added.
  */
 YoastShortcodePlugin.prototype.bindElementEvents = function() {
-	var elems = [ 'title', 'snippet_title', 'snippet_meta', 'content' ];
-
-	for ( var i = 0; i < elems.length; i++ ) {
-		document.getElementById( elems[ i ] ).addEventListener( 'keydown', yoastShortcodePlugin.inputEventCallback );
-		document.getElementById( elems[ i ] ).addEventListener( 'input', yoastShortcodePlugin.inputEventCallback );
-	}
+	document.getElementById( 'content' ).addEventListener( 'keydown', yoastShortcodePlugin.inputEventCallback );
+	document.getElementById( 'content' ).addEventListener( 'input', yoastShortcodePlugin.inputEventCallback );
 };
 
 /**
@@ -128,20 +114,8 @@ YoastShortcodePlugin.prototype.bindElementEvents = function() {
  *
  * @param {object} ev The event object
  */
-YoastShortcodePlugin.prototype.inputEventCallback = function( ev ) {
-	var text;
-
-	if ( ev.currentTarget.id === 'content' ) {
-		text = yoastShortcodePlugin.getContentTinyMCE();
-	}
-	else if ( ev.currentTarget.tagName === 'SPAN' ) {
-		text = ev.currentTarget.textContent;
-	}
-	else {
-		text = ev.currentTarget.value;
-	}
-
-	yoastShortcodePlugin.checkShortcodes( text );
+YoastShortcodePlugin.prototype.inputEventCallback = function() {
+	yoastShortcodePlugin.checkShortcodes( yoastShortcodePlugin.getContentTinyMCE() );
 	yoastShortcodePlugin.parseShortcodes( yoastShortcodePlugin.declareReloaded );
 };
 
