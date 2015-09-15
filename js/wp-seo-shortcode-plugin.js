@@ -3,7 +3,6 @@
 /* global wpseoShortcodePluginL10n */
 /* global ajaxurl */
 /* global YoastSEO */
-/* global yoastShortcodePlugin */
 /* jshint -W097 */
 /* jshint -W003 */
 'use strict';
@@ -42,9 +41,7 @@ YoastShortcodePlugin.prototype.register = function( callback ) {
 	}
 	else if ( this.registerTime < 1001 ) {
 		this.registerTime += 100;
-		setTimeout( function() {
-			yoastShortcodePlugin.register( callback );
-		}, 100 );
+		setTimeout( this.register.bind( this, callback ), 100 );
 	}
 	else {
 		console.error('Failed to register shortcode plugin with YoastSEO. YoastSEO is not available.');
@@ -56,7 +53,7 @@ YoastShortcodePlugin.prototype.register = function( callback ) {
  */
 YoastShortcodePlugin.prototype.declareReady = function() {
 	YoastSEO.app.plugins.ready( 'YoastShortcodePlugin' );
-	yoastShortcodePlugin.registerModifications();
+	this.registerModifications();
 };
 
 /**
@@ -70,7 +67,7 @@ YoastShortcodePlugin.prototype.declareReloaded = function() {
  * Registers the modifications for the content in which we want to replace shortcodes.
  */
 YoastShortcodePlugin.prototype.registerModifications = function() {
-	YoastSEO.app.plugins.registerModification( 'content', this.replaceShortcodes, 'YoastShortcodePlugin' );
+	YoastSEO.app.plugins.registerModification( 'content', this.replaceShortcodes.bind( this ), 'YoastShortcodePlugin' );
 };
 
 /**
@@ -80,7 +77,7 @@ YoastShortcodePlugin.prototype.registerModifications = function() {
  * @returns {string}
  */
 YoastShortcodePlugin.prototype.replaceShortcodes = function( data ) {
-	var parsedShortcodes = yoastShortcodePlugin.parsedShortcodes;
+	var parsedShortcodes = this.parsedShortcodes;
 
 	if ( typeof data === 'string' && parsedShortcodes.length > 0 ) {
 		for ( var i in parsedShortcodes ) {
@@ -105,8 +102,8 @@ YoastShortcodePlugin.prototype.loadShortcodes = function() {
  * Bind elements to be able to reload the dataset if shortcodes get added.
  */
 YoastShortcodePlugin.prototype.bindElementEvents = function() {
-	document.getElementById( 'content' ).addEventListener( 'keydown', yoastShortcodePlugin.inputEventCallback );
-	document.getElementById( 'content' ).addEventListener( 'input', yoastShortcodePlugin.inputEventCallback );
+	document.getElementById( 'content' ).addEventListener( 'keydown', this.inputEventCallback.bind( this ) );
+	document.getElementById( 'content' ).addEventListener( 'input', this.inputEventCallback.bind( this ) );
 };
 
 /**
@@ -115,8 +112,8 @@ YoastShortcodePlugin.prototype.bindElementEvents = function() {
  * @param {object} ev The event object
  */
 YoastShortcodePlugin.prototype.inputEventCallback = function() {
-	yoastShortcodePlugin.checkShortcodes( yoastShortcodePlugin.getContentTinyMCE() );
-	yoastShortcodePlugin.parseShortcodes( yoastShortcodePlugin.declareReloaded );
+	this.checkShortcodes( this.getContentTinyMCE() );
+	this.parseShortcodes( this.declareReloaded.bind( this ) );
 };
 
 /**
