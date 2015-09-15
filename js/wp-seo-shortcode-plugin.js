@@ -36,7 +36,7 @@ var YoastShortcodePlugin = function() {
 /**
  * Register the plugin with YoastSEO, retry for one second.
  *
- * @param {time} The amount of time we have tried to register (Max 1000 ms)
+ * @param {number} time The amount of time we have tried to register (Max 1000 ms)
  * @param {function} callback (optional) function to call when the plugin has been registered. This is useful for event bindings which rely on YoastSEO to be there.
  */
 YoastShortcodePlugin.prototype.register = function( time, callback ) {
@@ -227,13 +227,14 @@ YoastShortcodePlugin.prototype.matchCapturingShortcodes = function( text ) {
  * @param {string} text
  * @returns {Array}
  */
-YoastShortcodePlugin.prototype.matchNonCapturingShortcodes = function( text ){
+YoastShortcodePlugin.prototype.matchNonCapturingShortcodes = function( text ) {
 	return text.match( this.nonCaptureRegex ) || [];
 };
 
 /**
  * Parses the unparsed shortcodes through AJAX and clears them.
  *
+ * @param {Array} shortcodes shortcodes to be parsed.
  * @param {function} callback function to be called in the context of the AJAX callback.
  */
 YoastShortcodePlugin.prototype.parseShortcodes = function( shortcodes, callback ) {
@@ -248,7 +249,7 @@ YoastShortcodePlugin.prototype.parseShortcodes = function( shortcodes, callback 
 				_wpnonce: wpseoShortcodePluginL10n.wpseo_filter_shortcodes_nonce,
 				data: shortcodes
 			},
-			function( shortcodeResults ){
+			function( shortcodeResults ) {
 				this.saveParsedShortcodes( shortcodeResults, callback );
 			}.bind( this )
 		);
