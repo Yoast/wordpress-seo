@@ -1,10 +1,8 @@
-/* global console */
 /* global tinyMCE */
 /* global wpseoShortcodePluginL10n */
 /* global ajaxurl */
 /* global YoastSEO */
 /* jshint -W097 */
-/* jshint -W003 */
 'use strict';
 
 /**
@@ -51,7 +49,7 @@ YoastShortcodePlugin.prototype.register = function( time, callback ) {
 		setTimeout( this.register.bind( this, time, callback ), 100 );
 	}
 	else {
-		console.error('Failed to register shortcode plugin with YoastSEO. YoastSEO is not available.');
+		console.error('Failed to register shortcode plugin with YoastSEO. YoastSEO is not available.'); // jshint ignore:line
 	}
 };
 
@@ -140,7 +138,7 @@ YoastShortcodePlugin.prototype.getContentTinyMCE = function() {
  */
 YoastShortcodePlugin.prototype.getUnparsedShortcodes = function( shortcodes ) {
 	if ( typeof shortcodes !== 'object') {
-		console.error( 'Failed to get unparsed shortcodes. Expected parameter to be an array, instead received ' + typeof shortcodes );
+		console.error( 'Failed to get unparsed shortcodes. Expected parameter to be an array, instead received ' + typeof shortcodes ); // jshint ignore:line
 		return false;
 	}
 
@@ -182,7 +180,7 @@ YoastShortcodePlugin.prototype.isUnparsedShortcode = function( shortcode ) {
  */
 YoastShortcodePlugin.prototype.getShortcodes = function( text ) {
 	if ( typeof text !== 'string') {
-		console.error( 'Failed to get shortcodes. Expected parameter to be a string, instead received' + typeof text );
+		console.error( 'Failed to get shortcodes. Expected parameter to be a string, instead received' + typeof text ); // jshint ignore:line
 		return false;
 	}
 
@@ -239,7 +237,7 @@ YoastShortcodePlugin.prototype.matchNonCapturingShortcodes = function( text ) {
  */
 YoastShortcodePlugin.prototype.parseShortcodes = function( shortcodes, callback ) {
 	if ( typeof callback !== 'function' ) {
-		console.error( 'Failed to parse shortcodes. Expected parameter to be a function, instead received ' + typeof callback );
+		console.error( 'Failed to parse shortcodes. Expected parameter to be a function, instead received ' + typeof callback ); // jshint ignore:line
 		return false;
 	}
 
