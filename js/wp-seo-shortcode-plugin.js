@@ -11,10 +11,13 @@
  * The Yoast Shortcode plugin parses the shortcodes in a given piece of text. It analyzes multiple input fields for shortcodes which it will preload using AJAX.
  *
  * @constructor
+ * @property {RegExp} keywordRegex Used to match a given string for valid shortcode keywords.
+ * @property {RegExp} closingTagRegex Used to match a given string for shortcode closing tags.
+ * @property {RegExp} nonCaptureRegex Used to match a given string for non capturing shortcodes.
+ * @property {Array} parsedShortcodes Used to store parsed shortcodes.
  */
 var YoastShortcodePlugin = function() {
-	this.registerTime = 0;
-	this.register( this.bindElementEvents );
+	this.register( 0, this.bindElementEvents.bind( this ) );
 
 	var keywordRegexString = '(' + wpseoShortcodePluginL10n.wpseo_shortcode_tags.join('|') + ')';
 
