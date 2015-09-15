@@ -41,3 +41,7 @@
 .overallScore.na #score_circle_shadow {
 	fill: #999;
 }
+
+.overallScore svg {
+    margin: 10px;
+}
