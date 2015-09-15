@@ -16,10 +16,6 @@ class Expose_WPSEO_Twitter extends WPSEO_Twitter {
 		return parent::site_twitter();
 	}
 
-	public function site_domain() {
-		return parent::site_domain();
-	}
-
 	public function author() {
 		return parent::author();
 	}

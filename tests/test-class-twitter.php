@@ -49,7 +49,6 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 		$expected = '<meta name="twitter:card" content="summary"/>
 <meta name="twitter:description" content="Twitter Test Excerpt"/>
 <meta name="twitter:title" content="Twitter Test Post - Test Blog"/>
-<meta name="twitter:domain" content="Test Blog"/>
 ';
 		$this->expectOutput( $expected );
 	}
@@ -99,18 +98,7 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Twitter::site_domain
-	 */
-	public function test_site_domain() {
-		// test valid option
-		$expected = $this->metatag( 'domain', get_bloginfo( 'name' ) );
-
-		self::$class_instance->site_domain();
-		$this->expectOutput( $expected );
-	}
-
-	/**
-	 * @covers WPSEO_Twitter::site_domain
+	 * @covers WPSEO_Twitter::author
 	 */
 	public function test_author_twitter() {
 		// create user, create post, attach user as author

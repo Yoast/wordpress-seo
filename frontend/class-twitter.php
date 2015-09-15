@@ -55,7 +55,6 @@ class WPSEO_Twitter {
 		$this->description();
 		$this->title();
 		$this->site_twitter();
-		$this->site_domain();
 		$this->image();
 		if ( is_singular() ) {
 			$this->author();
@@ -297,21 +296,6 @@ class WPSEO_Twitter {
 	}
 
 	/**
-	 * Displays the domain tag for the site.
-	 */
-	protected function site_domain() {
-		/**
-		 * Filter: 'wpseo_twitter_domain' - Allow changing the Twitter domain as output in the Twitter card by Yoast SEO
-		 *
-		 * @api string $unsigned Name string
-		 */
-		$domain = apply_filters( 'wpseo_twitter_domain', get_bloginfo( 'name' ) );
-		if ( is_string( $domain ) && $domain !== '' ) {
-			$this->output_metatag( 'domain', $domain );
-		}
-	}
-
-	/**
 	 * Displays the image for Twitter
 	 *
 	 * Only used when OpenGraph is inactive or Summary Large Image card is chosen.
@@ -519,4 +503,13 @@ class WPSEO_Twitter {
 		return self::$instance;
 	}
 
+	/**
+	 * Displays the domain tag for the site.
+	 *
+	 * @deprecated 2.4
+	 */
+	protected function site_domain() {
+
+		_deprecated_function( __METHOD__, 'WPSEO 2.4' );
+	}
 } /* End of class */
