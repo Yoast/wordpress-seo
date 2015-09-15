@@ -1,13 +1,13 @@
-/* global wpseoMetaboxL10n */
-/* global ReplaceVarPlugin:true */
-/* global YoastSEO */
-/* global YoastReplaceVarPlugin */
+/* global wpseoMetaboxL10n, ReplaceVarPlugin:true, YoastSEO, YoastReplaceVarPlugin, console */
 
 /**
  * variable replacement plugin for wordpress.
  */
 ReplaceVarPlugin = function() {
 	'use strict';
+
+	window.YoastReplaceVarPlugin = this;
+	this.registerTime = 0;
 	this.init();
 };
 
@@ -16,13 +16,25 @@ ReplaceVarPlugin = function() {
  */
 ReplaceVarPlugin.prototype.init = function() {
 	'use strict';
-	window.YoastReplaceVarPlugin = this;
-	if( typeof YoastSEO.app !== 'undefined' ) {
+
+	if ( typeof YoastSEO !== 'undefined' && typeof YoastSEO.app !== 'undefined' && typeof YoastSEO.app.plugins !== 'undefined' ) {
 		YoastSEO.app.plugins.register( 'replaceVariablePlugin', { status: 'ready' } );
-		YoastSEO.app.plugins.registerModification( 'content', this.replaceVariablesPlugin, 'replaceVariablePlugin', 10 );
-	}else{
-		setTimeout(this.init, 50);
+		this.registerModifications();
+	} else if ( this.registerTime < 1001 ) {
+		setTimeout( this.init, 100 );
+	} else {
+		console.error('Failed to register replace variables plugin with YoastSEO. YoastSEO is not available.');
 	}
+};
+
+/**
+ * Registers the modifications for the plugin.
+ */
+ReplaceVarPlugin.prototype.registerModifications = function() {
+	'use strict';
+
+	YoastSEO.app.plugins.registerModification( 'content', this.replaceVariablesPlugin, 'replaceVariablePlugin', 10 );
+	YoastSEO.app.plugins.registerModification( 'title', this.replaceVariablesPlugin, 'replaceVariablePlugin', 10 );
 };
 
 /**

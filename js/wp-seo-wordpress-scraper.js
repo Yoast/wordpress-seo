@@ -1,4 +1,4 @@
-/* global YoastSEO: true, tinyMCE */
+/* global YoastSEO: true, tinyMCE, wp */
 YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 
 /**
@@ -109,8 +109,8 @@ YoastSEO.WordPressScraper.prototype.setDataFromSnippet = function( value, type )
 
 /**
  * when the snippet is updated, set this data in rawData.
- * @param value
- * @param type
+ * @param {string} value
+ * @param {string} type
  */
 YoastSEO.WordPressScraper.prototype.setRawData = function( value, type ) {
 	'use strict';
@@ -129,7 +129,6 @@ YoastSEO.WordPressScraper.prototype.setRawData = function( value, type ) {
 			break;
 	}
 };
-
 
 /**
  * feeds data to the loader that is required for the analyzer
