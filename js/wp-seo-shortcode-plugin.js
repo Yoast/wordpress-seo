@@ -16,11 +16,15 @@ var YoastShortcodePlugin = function() {
 	this.registerTime = 0;
 	this.register( this.bindElementEvents );
 
-	this.unparsedShortcodes = [];
-	this.parsedShortcodes = [];
+	var keywordRegexString = '(' + wpseoShortcodePluginL10n.wpseo_shortcode_tags.join('|') + ')';
 
 	// The regex for matching shortcodes based on the available shortcode keywords.
-	this.keywordRegex = '(' + wpseoShortcodePluginL10n.wpseo_shortcode_tags.join('|') + ')';
+	this.keywordRegex = new RegExp( keywordRegexString, 'g');
+	this.closingTagRegex = new RegExp( '\\[\\/' + keywordRegexString + '\\]', 'g' );
+	this.nonCaptureRegex = new RegExp('\\[' + keywordRegexString + '[^\\]]*?\\]', 'g');
+
+	this.unparsedShortcodes = [];
+	this.parsedShortcodes = [];
 
 	this.loadShortcodes();
 };
@@ -186,8 +190,7 @@ YoastShortcodePlugin.prototype.matchShortcodes = function( text ) {
 		text = text.replace(captures[ i ], '');
 	}
 	// Fetch the non capturing shortcodes from the text.
-	var nonCaptureRegex = '\\[' + this.keywordRegex + '[^\\]]*?\\]';
-	var nonCaptures = text.match(new RegExp(nonCaptureRegex, 'g')) || [];
+	var nonCaptures = text.match( this.nonCaptureRegex ) || [];
 
 	return captures.concat( nonCaptures );
 };
@@ -202,8 +205,7 @@ YoastShortcodePlugin.prototype.getCapturesFromText = function( text ) {
 	var captures = [];
 
 	// First identify which tags are being used in a capturing shortcode by looking for closing tags.
-	var closingTagRegex = '\\[\\/' + this.keywordRegex + '\\]';
-	var captureKeywords = ( text.match( new RegExp(closingTagRegex, 'g') ) || [] ).join(' ').match(new RegExp( this.keywordRegex, 'g') );
+	var captureKeywords = ( text.match( this.closingTagRegex ) || [] ).join(' ').match( this.keywordRegex ) || [];
 
 	// Fetch the capturing shortcodes and strip them from the text so we can easily match the non capturing shortcodes.
 	for ( var i in captureKeywords ) {
