@@ -26,10 +26,9 @@ var YoastShortcodePlugin = function() {
 	this.closingTagRegex = new RegExp( '\\[\\/' + keywordRegexString + '\\]', 'g' );
 	this.nonCaptureRegex = new RegExp('\\[' + keywordRegexString + '[^\\]]*?\\]', 'g');
 
-	this.unparsedShortcodes = [];
 	this.parsedShortcodes = [];
 
-	this.loadShortcodes();
+	this.loadShortcodes( this.declareReloaded.bind( this ) );
 };
 
 /* YOAST SEO CLIENT */
@@ -37,18 +36,19 @@ var YoastShortcodePlugin = function() {
 /**
  * Register the plugin with YoastSEO, retry for one second.
  *
+ * @param {time} The amount of time we have tried to register (Max 1000 ms)
  * @param {function} callback (optional) function to call when the plugin has been registered. This is useful for event bindings which rely on YoastSEO to be there.
  */
-YoastShortcodePlugin.prototype.register = function( callback ) {
+YoastShortcodePlugin.prototype.register = function( time, callback ) {
 	if ( typeof YoastSEO !== 'undefined' && typeof YoastSEO.app !== 'undefined' && typeof YoastSEO.app.plugins !== 'undefined' ) {
 		YoastSEO.app.plugins.register( 'YoastShortcodePlugin', { status: 'loading' } );
 		if ( typeof callback === 'function' ) {
 			callback();
 		}
 	}
-	else if ( this.registerTime < 1001 ) {
-		this.registerTime += 100;
-		setTimeout( this.register.bind( this, callback ), 100 );
+	else if ( time < 1001 ) {
+		time += 100;
+		setTimeout( this.register.bind( this, time, callback ), 100 );
 	}
 	else {
 		console.error('Failed to register shortcode plugin with YoastSEO. YoastSEO is not available.');
@@ -99,28 +99,22 @@ YoastShortcodePlugin.prototype.replaceShortcodes = function( data ) {
 /**
  * Get data from inputfields and store them in an analyzerData object. This object will be used to fill
  * the analyzer and the snippetpreview
+ *
+ * @param {function} callback To declare either ready or reloaded after parsing.
  */
-YoastShortcodePlugin.prototype.loadShortcodes = function() {
-	this.checkShortcodes( this.getContentTinyMCE() );
-	this.parseShortcodes( this.declareReady );
+YoastShortcodePlugin.prototype.loadShortcodes = function( callback ) {
+	var unparsedShortcodes = this.getUnparsedShortcodes( this.getShortcodes( this.getContentTinyMCE() ) );
+	if ( unparsedShortcodes.length > 0 ) {
+		this.parseShortcodes( unparsedShortcodes, callback );
+	}
 };
 
 /**
  * Bind elements to be able to reload the dataset if shortcodes get added.
  */
 YoastShortcodePlugin.prototype.bindElementEvents = function() {
-	document.getElementById( 'content' ).addEventListener( 'keydown', this.inputEventCallback.bind( this ) );
-	document.getElementById( 'content' ).addEventListener( 'input', this.inputEventCallback.bind( this ) );
-};
-
-/**
- * Callback function for events on input elements. Beware! This function is always called within the scope of the element!
- *
- * @param {object} ev The event object
- */
-YoastShortcodePlugin.prototype.inputEventCallback = function() {
-	this.checkShortcodes( this.getContentTinyMCE() );
-	this.parseShortcodes( this.declareReloaded.bind( this ) );
+	document.getElementById( 'content' ).addEventListener( 'keydown', this.loadShortcodes.bind( this, this.declareReloaded.bind( this ) ) );
+	document.getElementById( 'content' ).addEventListener( 'input', this.loadShortcodes.bind( this, this.declareReloaded.bind( this ) ) );
 };
 
 /**
@@ -139,72 +133,78 @@ YoastShortcodePlugin.prototype.getContentTinyMCE = function() {
 /* SHORTCODE PARSING */
 
 /**
- * Add a shortcode to the unparsed shortcodes unless was already parsed.
+ * Returns the unparsed shortcodes out of a collection of shortcodes.
+ *
+ * @param {Array} shortcodes
+ * @returns {Array}
+ */
+YoastShortcodePlugin.prototype.getUnparsedShortcodes = function( shortcodes ) {
+	if ( typeof shortcodes !== 'object') {
+		console.error( 'Failed to get unparsed shortcodes. Expected parameter to be an array, instead received ' + typeof shortcodes );
+		return false;
+	}
+
+	var unparsedShortcodes = [];
+
+	for ( var i in shortcodes ) {
+		var shortcode = shortcodes[ i ];
+		if ( unparsedShortcodes.indexOf( shortcode ) === -1 && this.isUnparsedShortcode( shortcode ) ) {
+			unparsedShortcodes.push( shortcode );
+		}
+	}
+
+	return unparsedShortcodes;
+};
+
+/**
+ * Checks if a given shortcode was already parsed.
  *
  * @param {string} shortcode
+ * @returns {boolean}
  */
-YoastShortcodePlugin.prototype.checkShortcode = function( shortcode ) {
+YoastShortcodePlugin.prototype.isUnparsedShortcode = function( shortcode ) {
 	var already_exists = false;
 
 	for ( var i in this.parsedShortcodes ) {
-		if (this.parsedShortcodes[ i ].shortcode === shortcode) {
+		if ( this.parsedShortcodes[ i ].shortcode === shortcode ) {
 			already_exists = true;
 		}
 	}
 
-	if ( already_exists === false ) {
-		this.unparsedShortcodes.push( shortcode );
-	}
+	return already_exists === false;
 };
 
 /**
- * Checks a piece of text for shortcodes and adds them to the unparsed shortcodes if they haven't been parsed yet.
- *
- * @param {string} text
- * @returns {boolean}
- */
-YoastShortcodePlugin.prototype.checkShortcodes = function( text ) {
-	if ( typeof text !== 'string') {
-		console.error( 'Failed to get unparsed shortcodes. Expected parameter to be a string, instead received' + typeof text );
-		return false;
-	}
-
-	var shortcodes = this.matchShortcodes( text );
-
-	for ( var i in shortcodes ) {
-		var shortcode = shortcodes[ i ];
-		if ( this.unparsedShortcodes.indexOf( shortcode ) === -1 ) {
-			this.checkShortcode( shortcode );
-		}
-	}
-
-	return true;
-};
-
-/**
- * Matches a text for shortcodes.
+ * Gets the shortcodes from a given piece of text.
  *
  * @param {string} text
  * @returns {array} The matched shortcodes
  */
-YoastShortcodePlugin.prototype.matchShortcodes = function( text ) {
-	var captures = this.getCapturesFromText( text );
+YoastShortcodePlugin.prototype.getShortcodes = function( text ) {
+	if ( typeof text !== 'string') {
+		console.error( 'Failed to get shortcodes. Expected parameter to be a string, instead received' + typeof text );
+		return false;
+	}
+
+	var captures = this.matchCapturingShortcodes( text );
+
+	// Remove the capturing shortcodes from the text before trying to match the capturing shortcodes.
 	for ( var i in captures ) {
 		text = text.replace(captures[ i ], '');
 	}
-	// Fetch the non capturing shortcodes from the text.
-	var nonCaptures = text.match( this.nonCaptureRegex ) || [];
+
+	var nonCaptures = this.matchNonCapturingShortcodes( text );
 
 	return captures.concat( nonCaptures );
 };
 
 /**
- * Matches the capturing shortcodes from a given piece of text, based on valid shortcode tags.
+ * Matches the capturing shortcodes from a given piece of text.
  *
  * @param {string} text
  * @returns {Array}
  */
-YoastShortcodePlugin.prototype.getCapturesFromText = function( text ) {
+YoastShortcodePlugin.prototype.matchCapturingShortcodes = function( text ) {
 	var captures = [];
 
 	// First identify which tags are being used in a capturing shortcode by looking for closing tags.
@@ -222,36 +222,53 @@ YoastShortcodePlugin.prototype.getCapturesFromText = function( text ) {
 };
 
 /**
+ * Matches the non capturing shortcodes from a given piece of text.
+ *
+ * @param {string} text
+ * @returns {Array}
+ */
+YoastShortcodePlugin.prototype.matchNonCapturingShortcodes = function( text ){
+	return text.match( this.nonCaptureRegex ) || [];
+};
+
+/**
  * Parses the unparsed shortcodes through AJAX and clears them.
  *
  * @param {function} callback function to be called in the context of the AJAX callback.
  */
-YoastShortcodePlugin.prototype.parseShortcodes = function( callback ) {
+YoastShortcodePlugin.prototype.parseShortcodes = function( shortcodes, callback ) {
 	if ( typeof callback !== 'function' ) {
 		console.error( 'Failed to parse shortcodes. Expected parameter to be a function, instead received ' + typeof callback );
 		return false;
 	}
 
-	if ( typeof this.unparsedShortcodes === 'object' && this.unparsedShortcodes.length > 0 ) {
-		var shortcodes = this.unparsedShortcodes;
-		this.unparsedShortcodes = [];
-		var that = this;
+	if ( typeof shortcodes === 'object' && shortcodes.length > 0 ) {
 		jQuery.get( ajaxurl, {
 				action: 'wpseo_filter_shortcodes',
 				_wpnonce: wpseoShortcodePluginL10n.wpseo_filter_shortcodes_nonce,
 				data: shortcodes
 			},
-			function( shortcodeResults ) {
-				shortcodeResults = JSON.parse( shortcodeResults);
-				for ( var i in shortcodeResults ) {
-					that.parsedShortcodes.push( shortcodeResults[ i ] );
-				}
-
-				callback();
-			}
+			function( shortcodeResults ){
+				this.saveParsedShortcodes( shortcodeResults, callback );
+			}.bind( this )
 		);
 	}
 	else {
 		callback();
 	}
+};
+
+/**
+ * Saves the shortcodes that were parsed with AJAX to `this.parsedShortcodes`
+ *
+ * @param {Array} shortcodeResults
+ * @param {function} callback
+ */
+YoastShortcodePlugin.prototype.saveParsedShortcodes = function( shortcodeResults, callback ) {
+	shortcodeResults = JSON.parse( shortcodeResults);
+	for ( var i in shortcodeResults ) {
+		this.parsedShortcodes.push( shortcodeResults[ i ] );
+	}
+
+	callback();
 };
