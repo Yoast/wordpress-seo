@@ -37,7 +37,6 @@ function wpseo_gsc_post_redirect() {
 		},
 		function() {
 			if( is_checked === true ) {
-
 				// Remove the row with old url
 				jQuery('"span:contains("' + old_url + '")').closest('tr').remove();
 			}
