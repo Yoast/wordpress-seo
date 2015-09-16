@@ -596,7 +596,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			wp_enqueue_style( 'featured-image', plugins_url( 'css/featured-image' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
 			wp_enqueue_style( 'jquery-qtip.js', plugins_url( 'css/jquery.qtip' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), '2.2.1' );
 			wp_enqueue_style( 'snippet', plugins_url( 'css/snippet' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), '2.2.1' );
-			wp_enqueue_style( 'scoring', plugins_url( 'css/yst_seo_score' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE), array(), '2.2.1' );
+			wp_enqueue_style( 'scoring', plugins_url( 'css/yst_seo_score' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), '2.2.1' );
 			wp_enqueue_script( 'jquery-ui-autocomplete' );
 
 			// Always enqueue minified as it's not our code.
@@ -742,7 +742,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		return $this->localize_script();
 	}
 
-    public function scoring_svg() {
+	/**
+	 * SVG for the general SEO score.
+	 */
+	public function scoring_svg() {
 		echo '<script type="text/html" id="tmpl-score_svg">
 				<svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 500 500" enable-background="new 0 0 500 500" xml:space="preserve" width="50" height="50">
 					<g id="BG"></g>
