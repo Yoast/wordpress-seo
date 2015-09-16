@@ -393,16 +393,20 @@ YoastSEO.App.prototype.runAnalyzer = function() {
 		if ( this.config.dynamicDelay ) {
 			this.startTime();
 		}
+
 		this.analyzerData = this.modifyData( this.rawData );
-		var args = this.analyzerData;
-		args.i18n = this.i18n;
+		this.analyzerData.i18n = this.i18n;
+
 		if ( typeof this.pageAnalyzer === "undefined" ) {
-			this.pageAnalyzer = new YoastSEO.Analyzer( args );
-		} else {
-			this.pageAnalyzer.init( args );
+			this.pageAnalyzer = new YoastSEO.Analyzer( this.analyzerData );
 		}
+		else {
+			this.pageAnalyzer.init( this.analyzerData );
+		}
+
 		this.pageAnalyzer.runQueue();
 		this.scoreFormatter = new YoastSEO.ScoreFormatter( this );
+
 		if ( this.config.dynamicDelay ) {
 			this.endTime();
 		}
