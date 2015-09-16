@@ -223,7 +223,7 @@ YoastSEO.Pluggable.prototype._pollLoadingPlugins = function( pollTime ) {
 		this._pollTimeExceeded();
 	} else {
 		pollTime += 50;
-		setTimeout( "YoastSEO.app.plugins._pollLoadingPlugins( " + pollTime + " )", 50 );
+		setTimeout( this._pollLoadingPlugins.bind( this, pollTime ), 50 );
 	}
 };
 
