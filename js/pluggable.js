@@ -23,7 +23,7 @@ YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
  * @property plugins			{object} The plugins that have been registered.
  * @property modifications 		{object} The modifications that have been registered. Every modification contains an array with callables.
  */
-YoastSEO.Plugins = function() {
+YoastSEO.Pluggable = function() {
 	this.preloadThreshold = 3000;
 	this.plugins = {};
 	this.modifications = {};
@@ -34,6 +34,22 @@ YoastSEO.Plugins = function() {
 
 /**************** PUBLIC DSL ****************/
 
+
+YoastSEO.App.prototype.registerPlugin = function ( pluginName, options ) {
+	this.pluggable._registerPlugin( pluginName, options );
+};
+YoastSEO.App.prototype.ready = function( pluginName ) {
+	this.pluggable._ready( pluginName );
+};
+YoastSEO.App.prototype.reloaded = function( pluginName ) {
+	this.pluggable._reloaded( pluginName );
+};
+YoastSEO.App.prototype.registerModification = function( modification, callable, pluginName, priority ) {
+	this.pluggable._registerModification( modification, callable, pluginName, priority );
+};
+
+/**************** DSL IMPLEMENTATION ****************/
+
 /**
  * Register a plugin with YoastSEO. A plugin can be declared "ready" right at registration or later using `this.ready`.
  *
@@ -41,7 +57,7 @@ YoastSEO.Plugins = function() {
  * @param options 		{{status: "ready"|"loading"}}
  * @returns 			{boolean}
  */
-YoastSEO.Plugins.prototype.register = function( pluginName, options ) {
+YoastSEO.Pluggable.prototype._registerPlugin = function( pluginName, options ) {
 	if ( typeof pluginName !== "string" ) {
 		console.error( "Failed to register plugin. Expected parameter `pluginName` to be a string." );
 		return false;
@@ -68,7 +84,7 @@ YoastSEO.Plugins.prototype.register = function( pluginName, options ) {
  * @param pluginName	{string}
  * @returns 			{boolean}
  */
-YoastSEO.Plugins.prototype.ready = function( pluginName ) {
+YoastSEO.Pluggable.prototype._ready = function( pluginName ) {
 	if ( typeof pluginName !== "string" ) {
 		console.error( "Failed to modify status for plugin " + pluginName + ". Expected parameter `pluginName` to be a string." );
 		return false;
@@ -90,7 +106,7 @@ YoastSEO.Plugins.prototype.ready = function( pluginName ) {
  * @param pluginName	{string}
  * @returns 			{boolean}
  */
-YoastSEO.Plugins.prototype.reloaded = function( pluginName ) {
+YoastSEO.Pluggable.prototype._reloaded = function( pluginName ) {
 	if ( typeof pluginName !== "string" ) {
 		console.error( "Failed to reload Content Analysis for " + pluginName + ". Expected parameter `pluginName` to be a string." );
 		return false;
@@ -115,7 +131,7 @@ YoastSEO.Plugins.prototype.reloaded = function( pluginName ) {
  * 									Lower numbers correspond with earlier execution.
  * @returns 			{boolean}
  */
-YoastSEO.Plugins.prototype.registerModification = function( modification, callable, pluginName, priority ) {
+YoastSEO.Pluggable.prototype._registerModification = function( modification, callable, pluginName, priority ) {
 	if ( typeof modification !== "string" ) {
 		console.error( "Failed to register modification for plugin " + pluginName + ". Expected parameter `modification` to be a string." );
 		return false;
@@ -166,7 +182,7 @@ YoastSEO.Plugins.prototype.registerModification = function( modification, callab
  * @param pollTime {number} (optional) The accumulated time to compare with the pre-load threshold.
  * @private
  */
-YoastSEO.Plugins.prototype._pollLoadingPlugins = function( pollTime ) {
+YoastSEO.Pluggable.prototype._pollLoadingPlugins = function( pollTime ) {
 	pollTime = pollTime === undefined ? 0 : pollTime;
 	if ( this._allReady() === true ) {
 		YoastSEO.app.pluginsLoaded();
@@ -184,7 +200,7 @@ YoastSEO.Plugins.prototype._pollLoadingPlugins = function( pollTime ) {
  * @returns {boolean}
  * @private
  */
-YoastSEO.Plugins.prototype._allReady = function() {
+YoastSEO.Pluggable.prototype._allReady = function() {
 	for ( var plugin in this.plugins ) {
 		if ( this.plugins[plugin].status !== "ready" ) {
 			return false;
@@ -198,7 +214,7 @@ YoastSEO.Plugins.prototype._allReady = function() {
  *
  * @private
  */
-YoastSEO.Plugins.prototype._pollTimeExceeded = function() {
+YoastSEO.Pluggable.prototype._pollTimeExceeded = function() {
 	for ( var plugin in this.plugins ) {
 		if ( this.plugins[plugin].options !== undefined && this.plugins[plugin].options.status !== "ready" ) {
 			console.error( "Error: Plugin " + plugin + ". did not finish loading in time." );
@@ -217,7 +233,7 @@ YoastSEO.Plugins.prototype._pollTimeExceeded = function() {
  * @returns 			{*} 		The filtered data
  * @private
  */
-YoastSEO.Plugins.prototype._applyModifications = function( modification, data, context ) {
+YoastSEO.Pluggable.prototype._applyModifications = function( modification, data, context ) {
 	var callChain = this.modifications[modification];
 
 	if ( callChain instanceof Array && callChain.length > 0 ) {
@@ -249,7 +265,7 @@ YoastSEO.Plugins.prototype._applyModifications = function( modification, data, c
  * @returns callChain 	{Array}
  * @private
  */
-YoastSEO.Plugins.prototype._stripIllegalModifications = function( callChain ) {
+YoastSEO.Pluggable.prototype._stripIllegalModifications = function( callChain ) {
 	for ( var callableObject in callChain ) {
 		if ( this._validateOrigin( callChain[callableObject].origin ) === false ) {
 			delete callChain[callableObject];
@@ -266,7 +282,7 @@ YoastSEO.Plugins.prototype._stripIllegalModifications = function( callChain ) {
  * @returns 			{boolean}
  * @private
  */
-YoastSEO.Plugins.prototype._validateOrigin = function( pluginName ) {
+YoastSEO.Pluggable.prototype._validateOrigin = function( pluginName ) {
 	if ( this.plugins[pluginName].status !== "ready" ) {
 		return false;
 	}
@@ -280,7 +296,7 @@ YoastSEO.Plugins.prototype._validateOrigin = function( pluginName ) {
  * @returns 			{boolean}
  * @private
  */
-YoastSEO.Plugins.prototype._validateUniqueness = function( pluginName ) {
+YoastSEO.Pluggable.prototype._validateUniqueness = function( pluginName ) {
 	if ( this.plugins[pluginName] !== undefined ) {
 		return false;
 	}
@@ -290,6 +306,6 @@ YoastSEO.Plugins.prototype._validateUniqueness = function( pluginName ) {
 /**
  * Triggers the _pollLoadingPlugins. Is defined in seperate function to prevent timingissues with undefined functions
  */
-YoastSEO.Plugins.prototype.loaderTimerout = function( ) {
+YoastSEO.Pluggable.prototype.loaderTimerout = function( ) {
 	YoastSEO.app.plugins._pollLoadingPlugins();
 };

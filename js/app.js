@@ -406,8 +406,7 @@ YoastSEO.App.prototype.runAnalyzer = function() {
 
 	if ( typeof this.pageAnalyzer === "undefined" ) {
 		this.pageAnalyzer = new YoastSEO.Analyzer( this.analyzerData );
-	}
-	else {
+	} else {
 		this.pageAnalyzer.init( this.analyzerData );
 	}
 

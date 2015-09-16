@@ -158,34 +158,33 @@ YoastSEO.PreProcessor.prototype.removeWords = function( textString ) {
  */
 YoastSEO.PreProcessor.prototype.cleanText = function( textString ) {
 	if ( textString !== "" ) {
-		textString = this.replaceDiacritics(textString);
+		textString = this.replaceDiacritics( textString );
 		textString = textString.toLocaleLowerCase();
 
-		//replace comma', hyphens etc with spaces
-		textString = textString.replace(/[\-\;\:\,\(\)\"\'\|\“\”]/g, " ");
+		// replace comma', hyphens etc with spaces
+		textString = textString.replace( /[\-\;\:\,\(\)\"\'\|\“\”]/g, " " );
 
-		//remove apostrophe
-		textString = textString.replace(/[\’]/g, "");
+		// remove apostrophe
+		textString = textString.replace( /[\’]/g, "" );
 
-		//unify all terminators
-		textString = textString.replace(/[.?!]/g, ".");
+		// unify all terminators
+		textString = textString.replace( /[.?!]/g, "." );
 
-		//add period in case it is missing
+		// add period in case it is missing
 		textString += ".";
 
+		// replace newlines with spaces
+		textString = textString.replace( /[ ]*(\n|\r\n|\r)[ ]*/g, " " );
 
-		//replace newlines with spaces
-		textString = textString.replace(/[ ]*(\n|\r\n|\r)[ ]*/g, " ");
+		// remove duplicate terminators
+		textString = textString.replace( /([\.])[\. ]+/g, "$1" );
 
-		//remove duplicate terminators
-		textString = textString.replace(/([\.])[\. ]+/g, "$1");
+		// pad sentence terminators
+		textString = textString.replace( /[ ]*([\.])+/g, "$1 " );
 
-		//pad sentence terminators
-		textString = textString.replace(/[ ]*([\.])+/g, "$1 ");
-
-		//Remove "words" comprised only of numbers
-		textString = textString.replace(/[0-9]+[ ]/g, "");
-		textString = this.stringHelper.stripSpaces(textString);
+		// Remove "words" comprised only of numbers
+		textString = textString.replace( /[0-9]+[ ]/g, "" );
+		textString = this.stringHelper.stripSpaces( textString );
 	}
 
 	return textString;
