@@ -24,6 +24,7 @@ YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
  * @property modifications 		{object} The modifications that have been registered. Every modification contains an array with callables.
  */
 YoastSEO.Pluggable = function() {
+	this.loading = true;
 	this.preloadThreshold = 3000;
 	this.plugins = {};
 	this.modifications = {};
@@ -34,16 +35,47 @@ YoastSEO.Pluggable = function() {
 
 /**************** PUBLIC DSL ****************/
 
-
-YoastSEO.App.prototype.registerPlugin = function ( pluginName, options ) {
+/**
+ * Delegates to `YoastSEO.app.pluggable.registerPlugin`
+ *
+ * @param pluginName	{string}
+ * @param options 		{{status: "ready"|"loading"}}
+ * @returns 			{boolean}
+ */
+YoastSEO.App.prototype.registerPlugin = function( pluginName, options ) {
 	this.pluggable._registerPlugin( pluginName, options );
 };
+
+/**
+ * Delegates to `YoastSEO.app.pluggable.ready`
+ *
+ * @param pluginName	{string}
+ * @returns 			{boolean}
+ */
 YoastSEO.App.prototype.ready = function( pluginName ) {
 	this.pluggable._ready( pluginName );
 };
+
+/**
+ * Delegates to `YoastSEO.app.pluggable.reloaded`
+ *
+ * @param pluginName	{string}
+ * @returns 			{boolean}
+ */
 YoastSEO.App.prototype.reloaded = function( pluginName ) {
 	this.pluggable._reloaded( pluginName );
 };
+
+/**
+ * Delegates to `YoastSEO.app.pluggable.registerModification`
+ *
+ * @param modification 	{string} 	The name of the filter
+ * @param callable 		{function} 	The callable
+ * @param pluginName 	{string} 	The plugin that is registering the modification.
+ * @param priority 		{number} 	(optional) Used to specify the order in which the callables associated with a particular filter are called.
+ * 									Lower numbers correspond with earlier execution.
+ * @returns 			{boolean}
+ */
 YoastSEO.App.prototype.registerModification = function( modification, callable, pluginName, priority ) {
 	this.pluggable._registerModification( modification, callable, pluginName, priority );
 };
@@ -221,6 +253,7 @@ YoastSEO.Pluggable.prototype._pollTimeExceeded = function() {
 			delete this.plugins[plugin];
 		}
 	}
+	this.loading = false;
 	YoastSEO.app.pluginsLoaded();
 };
 

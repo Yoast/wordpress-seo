@@ -79,8 +79,7 @@ YoastSEO.App = function( args ) {
 	this.loadQueue();
 	this.stringHelper = new YoastSEO.StringHelper();
 
-	this.plugins = new YoastSEO.Plugins();
-	this.pluginsLoading = true;
+	this.pluggable = new YoastSEO.Pluggable();
 	this.showLoadingDialog();
 
 	this.callbacks = this.config.callbacks;
@@ -393,7 +392,7 @@ YoastSEO.App.prototype.endTime = function() {
  * to format outputs.
  */
 YoastSEO.App.prototype.runAnalyzer = function() {
-	if ( this.pluginsLoading ) {
+	if ( this.pluggable.loading ) {
 		return;
 	}
 
@@ -424,8 +423,8 @@ YoastSEO.App.prototype.runAnalyzer = function() {
  * @returns {*}
  */
 YoastSEO.App.prototype.modifyData = function( data ) {
-	data.text = this.plugins._applyModifications( "content", data.text );
-	data.title = this.plugins._applyModifications( "title", data.title );
+	data.text = this.pluggable._applyModifications( "content", data.text );
+	data.title = this.pluggable._applyModifications( "title", data.title );
 	return data;
 };
 
@@ -433,7 +432,6 @@ YoastSEO.App.prototype.modifyData = function( data ) {
  * Function to fire the analyzer when all plugins are loaded, removes the loading dialog.
  */
 YoastSEO.App.prototype.pluginsLoaded = function() {
-	this.pluginsLoading = false;
 	this.removeLoadingDialog();
 	if ( typeof this.rawData.keyword !== "undefined" && this.rawData.keyword !== "" ) {
 		this.runAnalyzer( this.rawData );
@@ -468,7 +466,7 @@ YoastSEO.App.prototype.showLoadingDialog = function() {
 YoastSEO.App.prototype.updateLoadingDialog = function( plugins ) {
 	var dialog = document.getElementById( "wpseo-plugin-loading" );
 	dialog.textContent = "";
-	for ( var plugin in this.plugins.plugins ) {
+	for ( var plugin in this.pluggable.plugins ) {
 		dialog.innerHTML += plugin + plugins[ plugin ].status + "<br />";
 	}
 };
