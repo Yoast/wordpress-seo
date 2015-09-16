@@ -392,7 +392,7 @@ YoastSEO.App.prototype.endTime = function() {
  * to format outputs.
  */
 YoastSEO.App.prototype.runAnalyzer = function() {
-	if ( this.pluggable.loading ) {
+	if ( this.pluggable.loaded === false ) {
 		return;
 	}
 

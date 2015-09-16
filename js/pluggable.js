@@ -24,7 +24,7 @@ YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
  * @property modifications 		{object} The modifications that have been registered. Every modification contains an array with callables.
  */
 YoastSEO.Pluggable = function() {
-	this.loading = true;
+	this.loaded = false;
 	this.preloadThreshold = 3000;
 	this.plugins = {};
 	this.modifications = {};
@@ -217,6 +217,7 @@ YoastSEO.Pluggable.prototype._registerModification = function( modification, cal
 YoastSEO.Pluggable.prototype._pollLoadingPlugins = function( pollTime ) {
 	pollTime = pollTime === undefined ? 0 : pollTime;
 	if ( this._allReady() === true ) {
+		this.loaded = true;
 		YoastSEO.app.pluginsLoaded();
 	} else if ( pollTime >= this.preloadThreshold ) {
 		this._pollTimeExceeded();
@@ -253,7 +254,7 @@ YoastSEO.Pluggable.prototype._pollTimeExceeded = function() {
 			delete this.plugins[plugin];
 		}
 	}
-	this.loading = false;
+	this.loaded = true;
 	YoastSEO.app.pluginsLoaded();
 };
 
