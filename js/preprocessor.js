@@ -43,18 +43,9 @@ YoastSEO.PreProcessor.prototype.textFormat = function() {
 YoastSEO.PreProcessor.prototype.countStore = function() {
 
 	/*wordcounters*/
-	if ( this.__store.cleanText === "." ) {
-		this.__store.wordcount = 0;
-	} else {
-		this.__store.wordcount = this.__store.cleanText === "." ?
-		0 :
-		this.__store.cleanText.split( " " ).length;
-	}
-	if ( this.__store.cleanTextNoTags === "." ) {
-		this.__store.wordcountNoTags = 0;
-	} else {
-		this.__store.wordcountNoTags = this.__store.cleanTextNoTags.split( " " ).length;
-	}
+	this.__store.wordcount = this.__store.cleanText.split( " " ).length;
+	this.__store.wordcountNoTags = this.__store.cleanTextNoTags.split( " " ).length;
+
 	/*sentencecounters*/
 	this.__store.sentenceCount = this.sentenceCount( this.__store.cleanText );
 	this.__store.sentenceCountNoTags = this.sentenceCount( this.__store.cleanTextNoTags );
@@ -166,33 +157,38 @@ YoastSEO.PreProcessor.prototype.removeWords = function( textString ) {
  * @returns textString
  */
 YoastSEO.PreProcessor.prototype.cleanText = function( textString ) {
-	textString = this.replaceDiacritics( textString );
-	textString = textString.toLocaleLowerCase();
+	if ( textString !== "" ) {
+		textString = this.replaceDiacritics(textString);
+		textString = textString.toLocaleLowerCase();
 
-	//replace comma', hyphens etc with spaces
-	textString = textString.replace( /[\-\;\:\,\(\)\"\'\|\“\”]/g, " " );
+		//replace comma', hyphens etc with spaces
+		textString = textString.replace(/[\-\;\:\,\(\)\"\'\|\“\”]/g, " ");
 
-	//remove apostrophe
-	textString = textString.replace( /[\’]/g, "" );
+		//remove apostrophe
+		textString = textString.replace(/[\’]/g, "");
 
-	//unify all terminators
-	textString = textString.replace( /[.?!]/g, "." );
+		//unify all terminators
+		textString = textString.replace(/[.?!]/g, ".");
 
-	//add period in case it is missing
-	textString += ".";
+		//add period in case it is missing
+		textString += ".";
 
-	//replace newlines with spaces
-	textString = textString.replace( /[ ]*(\n|\r\n|\r)[ ]*/g, " " );
 
-	//remove duplicate terminators
-	textString = textString.replace( /([\.])[\. ]+/g, "$1" );
+		//replace newlines with spaces
+		textString = textString.replace(/[ ]*(\n|\r\n|\r)[ ]*/g, " ");
 
-	//pad sentence terminators
-	textString = textString.replace( /[ ]*([\.])+/g, "$1 " );
+		//remove duplicate terminators
+		textString = textString.replace(/([\.])[\. ]+/g, "$1");
 
-	//Remove "words" comprised only of numbers
-	textString = textString.replace( /[0-9]+[ ]/g, "" );
-	return this.stringHelper.stripSpaces( textString );
+		//pad sentence terminators
+		textString = textString.replace(/[ ]*([\.])+/g, "$1 ");
+
+		//Remove "words" comprised only of numbers
+		textString = textString.replace(/[0-9]+[ ]/g, "");
+		textString = this.stringHelper.stripSpaces(textString);
+	}
+
+	return textString;
 };
 
 /**
