@@ -30,7 +30,7 @@ YoastSEO.Pluggable = function() {
 	this.modifications = {};
 
 	// Allow plugins 500 ms to register before we start polling their
-	setTimeout( this._pollLoadingPlugins, 1500 );
+	setTimeout( this._pollLoadingPlugins.bind( this ), 1500 );
 };
 
 /**************** PUBLIC DSL ****************/
