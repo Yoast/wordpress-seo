@@ -221,25 +221,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$sample_permalink = get_sample_permalink( $post->ID );
 		$sample_permalink = str_replace( '%page', '%post', $sample_permalink[0] );
 
-		$cached_replacement_vars = array();
-
-		$vars_to_cache = array(
-				'date',
-				'id',
-				'sitename',
-				'sitedesc',
-				'sep',
-				'page',
-				'currenttime',
-				'currentdate',
-				'currentday',
-				'currentmonth',
-				'currentyear',
-		);
-		foreach ( $vars_to_cache as $var ) {
-			$cached_replacement_vars[ $var ] = wpseo_replace_vars( '%%' . $var . '%%', $post );
-		}
-
 		return array_merge( $cached_replacement_vars, array(
 			'field_prefix'                => self::$form_prefix,
 			'keyword_header'              => '<strong>' . __( 'Focus keyword usage', 'wordpress-seo' ) . '</strong><br>' . __( 'Your focus keyword was found in:', 'wordpress-seo' ),
@@ -254,13 +235,49 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'wpseo_metadesc_template'     => $metadesc_template,
 			'wpseo_permalink_template'    => $sample_permalink,
 			'wpseo_keyword_suggest_nonce' => wp_create_nonce( 'wpseo-get-suggest' ),
-			'wpseo_replace_vars_nonce'    => wp_create_nonce( 'wpseo-replace-vars' ),
-			'no_parent_text'              => __( '(no parent)', 'wordpress-seo' ),
 			'featured_image_notice'       => __( 'The featured image should be at least 200x200 pixels to be picked up by Facebook and other social media sites.', 'wordpress-seo' ),
 			'keyword_usage'               => $this->get_focus_keyword_usage( $post->ID ),
 			'search_url'                  => admin_url( 'edit.php?seo_kw_filter={keyword}' ),
 			'post_edit_url'               => admin_url( 'post.php?post={id}&action=edit' ),
 		) );
+	}
+
+	/**
+	 * Pass some variables to js for replacing variables.
+	 */
+	public function localize_replace_vars_script() {
+		return array(
+			'no_parent_text' => __( '(no parent)', 'wordpress-seo' ),
+			'replace_vars'   => $this->get_replace_vars(),
+		);
+	}
+
+	/**
+	 * Prepares the replace vars for localization.
+	 *
+	 * @return array replace vars
+	 */
+	private function get_replace_vars() {
+		$cached_replacement_vars = array();
+
+		$vars_to_cache = array(
+			'date',
+			'id',
+			'sitename',
+			'sitedesc',
+			'sep',
+			'page',
+			'currenttime',
+			'currentdate',
+			'currentday',
+			'currentmonth',
+			'currentyear',
+		);
+		foreach ( $vars_to_cache as $var ) {
+			$cached_replacement_vars[ $var ] = wpseo_replace_vars( '%%' . $var . '%%', $post );
+		}
+
+		return $cached_replacement_vars;
 	}
 
 	/**
@@ -601,6 +618,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				$json = array();
 			}
 			wp_localize_script( 'wp-seo-wordpressScraper.js', 'wpseoL10n', $json );
+			wp_localize_script( 'wp-seo-shortcode-plugin.js', 'wpseoReplaceVarsL10n', $this->localize_replace_vars_script() );
 
 			if ( post_type_supports( get_post_type(), 'thumbnail' ) ) {
 				wp_enqueue_script( 'wp-seo-featured-image', plugins_url( 'js/wp-seo-featured-image' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'jquery' ), WPSEO_VERSION, true );
