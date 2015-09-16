@@ -446,19 +446,6 @@ YoastSEO.App.prototype.noKeywordQueue = function() {
 };
 
 /**
- * Resets and aborts the current queue to default. This is used to make sure the analyzer can run with the
- * default queue.
- */
-YoastSEO.App.prototype.resetQueue = function() {
-	if ( this.__refObj.rawData.keyword !== "" ) {
-		this.__refObj.pageAnalyzer.config.queue = "";
-		this.__refObj.rawData.queue = YoastSEO.analyzerConfig.queue.slice();
-		this.__refObj.pageAnalyzer.abortQueue();
-		this.__refObj.runAnalyzer( this.__refObj.rawData );
-	}
-};
-
-/**
  * Shows the loading dialog which shows the loading of the plugins.
  */
 YoastSEO.App.prototype.showLoadingDialog = function() {

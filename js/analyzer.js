@@ -129,15 +129,6 @@ YoastSEO.Analyzer.prototype.runQueue = function() {
 };
 
 /**
- * clears current queue of functions, effectively stopping execution of the analyzer.
- */
-YoastSEO.Analyzer.prototype.abortQueue = function() {
-
-	//empty current Queue
-	this.queue = [];
-};
-
-/**
  * returns wordcount from the preprocessor storage to include them in the results.
  * @returns {{test: string, result: (Function|YoastSEO.PreProcessor.wordcount|Number)}[]}
  */
