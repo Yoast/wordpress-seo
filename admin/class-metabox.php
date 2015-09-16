@@ -221,7 +221,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$sample_permalink = get_sample_permalink( $post->ID );
 		$sample_permalink = str_replace( '%page', '%post', $sample_permalink[0] );
 
-		return array_merge( $cached_replacement_vars, array(
+		return array(
 			'field_prefix'                => self::$form_prefix,
 			'keyword_header'              => '<strong>' . __( 'Focus keyword usage', 'wordpress-seo' ) . '</strong><br>' . __( 'Your focus keyword was found in:', 'wordpress-seo' ),
 			'article_header_text'         => __( 'Article Heading: ', 'wordpress-seo' ),
@@ -239,7 +239,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'keyword_usage'               => $this->get_focus_keyword_usage( $post->ID ),
 			'search_url'                  => admin_url( 'edit.php?seo_kw_filter={keyword}' ),
 			'post_edit_url'               => admin_url( 'post.php?post={id}&action=edit' ),
-		) );
+		);
 	}
 
 	/**
@@ -258,6 +258,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return array replace vars
 	 */
 	private function get_replace_vars() {
+		$post = $this->get_metabox_post();
+
 		$cached_replacement_vars = array();
 
 		$vars_to_cache = array(
@@ -273,6 +275,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'currentmonth',
 			'currentyear',
 		);
+
 		foreach ( $vars_to_cache as $var ) {
 			$cached_replacement_vars[ $var ] = wpseo_replace_vars( '%%' . $var . '%%', $post );
 		}
@@ -618,7 +621,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				$json = array();
 			}
 			wp_localize_script( 'wp-seo-wordpressScraper.js', 'wpseoL10n', $json );
-			wp_localize_script( 'wp-seo-shortcode-plugin.js', 'wpseoReplaceVarsL10n', $this->localize_replace_vars_script() );
+			wp_localize_script( 'wp-seo-replacevar-plugin.js', 'wpseoReplaceVarsL10n', $this->localize_replace_vars_script() );
 
 			if ( post_type_supports( get_post_type(), 'thumbnail' ) ) {
 				wp_enqueue_script( 'wp-seo-featured-image', plugins_url( 'js/wp-seo-featured-image' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'jquery' ), WPSEO_VERSION, true );
