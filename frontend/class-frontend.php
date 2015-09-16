@@ -1887,9 +1887,11 @@ class WPSEO_Frontend {
 	 * @return string
 	 */
 	private function get_keywords( $post )  {
-		$keywords = WPSEO_Meta::get_value( 'metakeywords', $post->ID );
-		if ( $keywords === '' && ( is_object( $post ) && ( isset( $this->options[ 'metakey-' . $post->post_type ] ) && $this->options[ 'metakey-' . $post->post_type ] !== '' ) ) ) {
-			$keywords = wpseo_replace_vars( $this->options[ 'metakey-' . $post->post_type ], $post );
+		$keywords        = WPSEO_Meta::get_value( 'metakeywords', $post->ID );
+		$option_meta_key = 'metakey-' . $post->post_type;
+
+		if ( $keywords === '' && ( is_object( $post ) && ( isset( $this->options[ $option_meta_key ] ) && $this->options[ $option_meta_key ] !== '' ) ) ) {
+			$keywords = wpseo_replace_vars( $this->options[ $option_meta_key ], $post );
 		}
 
 		return $keywords;
