@@ -78,7 +78,11 @@ YoastSEO.App = function( args ) {
 	this.constructI18n( args.translations );
 	this.loadQueue();
 	this.stringHelper = new YoastSEO.StringHelper();
+
 	this.plugins = new YoastSEO.Plugins();
+	this.pluginsLoading = true;
+	this.showLoadingDialog();
+
 	this.callbacks = this.config.callbacks;
 	if ( !this.config.ajax ) {
 		this.defineElements();
@@ -389,7 +393,7 @@ YoastSEO.App.prototype.endTime = function() {
  * to format outputs.
  */
 YoastSEO.App.prototype.runAnalyzer = function() {
-	if ( this.pluginLoading ) {
+	if ( this.pluginsLoading ) {
 		return;
 	}
 
@@ -430,6 +434,7 @@ YoastSEO.App.prototype.modifyData = function( data ) {
  * Function to fire the analyzer when all plugins are loaded, removes the loading dialog.
  */
 YoastSEO.App.prototype.pluginsLoaded = function() {
+	this.pluginsLoading = false;
 	this.removeLoadingDialog();
 	if ( typeof this.rawData.keyword !== "undefined" && this.rawData.keyword !== "" ) {
 		this.runAnalyzer( this.rawData );
@@ -451,7 +456,6 @@ YoastSEO.App.prototype.noKeywordQueue = function() {
  * Shows the loading dialog which shows the loading of the plugins.
  */
 YoastSEO.App.prototype.showLoadingDialog = function() {
-	this.pluginLoading = true;
 	var dialogDiv = document.createElement( "div" );
 	dialogDiv.className = "wpseo_msg";
 	dialogDiv.id = "wpseo-plugin-loading";
@@ -474,7 +478,6 @@ YoastSEO.App.prototype.updateLoadingDialog = function( plugins ) {
  * removes the pluging load dialog.
  */
 YoastSEO.App.prototype.removeLoadingDialog = function() {
-	this.pluginLoading = false;
 	document.getElementById( "wpseo_meta" ).removeChild( document.getElementById( "wpseo-plugin-loading" ) );
 };
 

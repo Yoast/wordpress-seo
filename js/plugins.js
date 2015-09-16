@@ -27,7 +27,6 @@ YoastSEO.Plugins = function() {
 	this.preloadThreshold = 3000;
 	this.plugins = {};
 	this.modifications = {};
-	YoastSEO.app.showLoadingDialog();
 
 	// Allow plugins 500 ms to register before we start polling their
 	setTimeout( this.loaderTimerout, 1500 );
