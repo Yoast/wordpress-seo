@@ -56,7 +56,16 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
                 {name: "recommendedWordcount", position: "%2$d", value: 300}
 
             ]
-        },
+        },{
+			scoreName: "keywordCheck",
+			scoreArray: [
+				{
+					max: 0,
+					score: -999,
+					text: i18n.dgettext('js-text-analysis', "No focus keyword was set for this page. If you do not set a focus keyword, no score can be calculated.")
+				}
+			]
+		},
         {
             scoreName: "keywordDensity",
             scoreArray: [

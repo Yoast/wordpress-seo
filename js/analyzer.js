@@ -21,7 +21,7 @@ YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 YoastSEO.Analyzer = function( args ) {
 	this.config = args;
 	this.checkConfig();
-	this.init();
+	this.init( args );
 };
 
 /**
@@ -37,7 +37,8 @@ YoastSEO.Analyzer.prototype.checkConfig = function() {
 /**
  * YoastSEO.Analyzer initialization. Loads defaults and overloads custom settings.
  */
-YoastSEO.Analyzer.prototype.init = function() {
+YoastSEO.Analyzer.prototype.init = function( args ) {
+	this.config = args;
 	this.initDependencies();
 	this.formatKeyword();
 	this.initQueue();
@@ -128,20 +129,21 @@ YoastSEO.Analyzer.prototype.runQueue = function() {
 };
 
 /**
- * clears current queue of functions, effectively stopping execution of the analyzer.
- */
-YoastSEO.Analyzer.prototype.abortQueue = function() {
-
-	//empty current Queue
-	this.queue = [];
-};
-
-/**
  * returns wordcount from the preprocessor storage to include them in the results.
  * @returns {{test: string, result: (Function|YoastSEO.PreProcessor.wordcount|Number)}[]}
  */
 YoastSEO.Analyzer.prototype.wordCount = function() {
 	return [ { test: "wordCount", result: this.preProcessor.__store.wordcountNoTags } ];
+};
+
+/**
+ * Checks if keyword is present, if not returns 0
+ * @returns {{test: string, result: number}[]}
+ */
+YoastSEO.Analyzer.prototype.keyWordCheck = function() {
+	if ( this.config.keyword === "" ) {
+		return [ { test: "keywordCheck", result: 0 } ];
+	}
 };
 
 /**
@@ -155,7 +157,6 @@ YoastSEO.Analyzer.prototype.keywordDensity = function() {
 		result[ 0 ].result = keywordDensity.toFixed( 1 );
 		return result;
 	}
-
 };
 
 /**

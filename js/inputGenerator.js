@@ -95,12 +95,12 @@ YoastSEO.InputGenerator.prototype.getAnalyzerInput = function() {
 	if ( typeof this.refObj.snippetPreview === "undefined" ) {
 		this.refObj.init();
 	} else {
-		this.formattedData.text = this.getDataFromInput( "text" );
-		this.formattedData.keyword = this.getDataFromInput( "keyword" );
-		this.formattedData.pageTitle = this.getDataFromInput( "title" );
-		this.formattedData.snippetMeta = this.getDataFromInput( "meta" );
-		this.formattedData.snippetCite = this.getDataFromInput( "url" );
-		this.refObj.formattedData = this.formattedData;
+		this.rawData.text = this.getDataFromInput( "text" );
+		this.rawData.keyword = this.getDataFromInput( "keyword" );
+		this.rawData.pageTitle = this.getDataFromInput( "title" );
+		this.rawData.snippetMeta = this.getDataFromInput( "meta" );
+		this.rawData.snippetCite = this.getDataFromInput( "url" );
+		this.refObj.rawData = this.formattedData;
 		this.refObj.reloadSnippetText();
 	}
 	this.refObj.runAnalyzerCallback();

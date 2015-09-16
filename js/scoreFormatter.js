@@ -65,6 +65,9 @@ YoastSEO.ScoreFormatter.prototype.sortScores = function() {
 YoastSEO.ScoreFormatter.prototype.outputOverallScore = function() {
 	var overallTarget = document.getElementById( this.overallTarget );
 	overallTarget.className = "overallScore " + this.scoreRating( Math.round( this.overallScore ) );
+	if ( this.refObj.rawData.keyword === "" ) {
+		overallTarget.className = "overallScore " + this.scoreRating( 0 );
+	}
 	this.refObj.callbacks.saveScores( this.overallScore );
 };
 

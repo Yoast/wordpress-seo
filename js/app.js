@@ -74,16 +74,19 @@ YoastSEO.App = function( args ) {
 	window.YoastSEO.app = this;
 	this.config = args;
 	this.inputs = {};
-	this.analyzerData = args.callbacks.getData();
+	this.rawData = args.callbacks.getData();
 	this.constructI18n( args.translations );
 	this.loadQueue();
 	this.stringHelper = new YoastSEO.StringHelper();
-	this.source = this.config.source;
-	this.callbacks = this.config.callbacks;
 
+	this.pluggable = new YoastSEO.Pluggable();
+	this.showLoadingDialog();
+
+	this.callbacks = this.config.callbacks;
 	if ( !this.config.ajax ) {
 		this.defineElements();
 	}
+	this.init();
 };
 
 /**
@@ -120,7 +123,7 @@ YoastSEO.App.prototype.init = function() {
  * Refreshes the analyzer and output of the analyzer
  */
 YoastSEO.App.prototype.refresh = function() {
-	this.analyzerData = this.callbacks.getData();
+	this.rawData = this.callbacks.getData();
 	this.inputs = this.callbacks.getAnalyzerInput();
 };
 
@@ -341,10 +344,13 @@ YoastSEO.App.prototype.checkInputs = function() {
 	refObj.getAnalyzerInput();
 };
 
+/**
+ * Callback function to trigger the analyzer.
+ */
 YoastSEO.App.prototype.runAnalyzerCallback = function() {
 	var refObj = window.YoastSEO.app;
-	if ( refObj.formattedData.keyword === "" ) {
-		refObj.showMessage();
+	if ( refObj.rawData.keyword === "" ) {
+		refObj.noKeywordQueue();
 	} else {
 		refObj.runAnalyzer();
 	}
@@ -386,22 +392,90 @@ YoastSEO.App.prototype.endTime = function() {
  * to format outputs.
  */
 YoastSEO.App.prototype.runAnalyzer = function() {
+	if ( this.pluggable.loaded === false ) {
+		return;
+	}
+
 	if ( this.config.dynamicDelay ) {
 		this.startTime();
 	}
+
+	this.analyzerData = this.modifyData( this.rawData );
+	this.analyzerData.i18n = this.i18n;
+
 	if ( typeof this.pageAnalyzer === "undefined" ) {
-		var args = this.formattedData;
-		args.queue = this.queue;
-		args.i18n = this.i18n;
-		this.pageAnalyzer = new YoastSEO.Analyzer( args );
+		this.pageAnalyzer = new YoastSEO.Analyzer( this.analyzerData );
 	} else {
-		this.pageAnalyzer.init();
+		this.pageAnalyzer.init( this.analyzerData );
 	}
+
 	this.pageAnalyzer.runQueue();
 	this.scoreFormatter = new YoastSEO.ScoreFormatter( this );
+
 	if ( this.config.dynamicDelay ) {
 		this.endTime();
 	}
+};
+
+/**
+ * Modifies the data with plugins before it is sent to the analyzer.
+ * @param data
+ * @returns {*}
+ */
+YoastSEO.App.prototype.modifyData = function( data ) {
+	data.text = this.pluggable._applyModifications( "content", data.text );
+	data.title = this.pluggable._applyModifications( "title", data.title );
+	return data;
+};
+
+/**
+ * Function to fire the analyzer when all plugins are loaded, removes the loading dialog.
+ */
+YoastSEO.App.prototype.pluginsLoaded = function() {
+	this.removeLoadingDialog();
+	if ( typeof this.rawData.keyword !== "undefined" && this.rawData.keyword !== "" ) {
+		this.runAnalyzer( this.rawData );
+	} else {
+		this.noKeywordQueue();
+	}
+};
+
+/**
+ * Runs a queue with tests where no keyword is required.
+ */
+YoastSEO.App.prototype.noKeywordQueue = function() {
+	var data = this.rawData;
+	data.queue = [ "keyWordCheck", "wordCount", "fleschReading", "pageTitleLength", "urlStopwords" ];
+	this.runAnalyzer( data );
+};
+
+/**
+ * Shows the loading dialog which shows the loading of the plugins.
+ */
+YoastSEO.App.prototype.showLoadingDialog = function() {
+	var dialogDiv = document.createElement( "div" );
+	dialogDiv.className = "wpseo_msg";
+	dialogDiv.id = "wpseo-plugin-loading";
+	document.getElementById( "wpseo_meta" ).appendChild( dialogDiv );
+};
+
+/**
+ * Updates the loading plugins. Uses the plugins as arguments to show which plugins are loading
+ * @param plugins
+ */
+YoastSEO.App.prototype.updateLoadingDialog = function( plugins ) {
+	var dialog = document.getElementById( "wpseo-plugin-loading" );
+	dialog.textContent = "";
+	for ( var plugin in this.pluggable.plugins ) {
+		dialog.innerHTML += plugin + plugins[ plugin ].status + "<br />";
+	}
+};
+
+/**
+ * removes the pluging load dialog.
+ */
+YoastSEO.App.prototype.removeLoadingDialog = function() {
+	document.getElementById( "wpseo_meta" ).removeChild( document.getElementById( "wpseo-plugin-loading" ) );
 };
 
 /**
