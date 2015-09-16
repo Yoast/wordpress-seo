@@ -105,7 +105,6 @@ jQuery( document ).ready(function() {
 				replaceVariables: wordpressScraper.replaceVariables,
 				getDataFromInput: wordpressScraper.getDataFromInput,
 				getContentTinyMCE: wordpressScraper.getContentTinyMCE,
-				runDataQueue: wordpressScraper.runDataQueue,
 				snippetPreviewEventBinder: wordpressScraper.snippetPreviewEventBinder,
 				inputElementEventBinder: wordpressScraper.inputElementEventBinder,
 				titleReplace: wordpressScraper.titleReplace,

@@ -145,25 +145,6 @@ YoastSEO.WordPressScraper.prototype.getAnalyzerInput = function() {
 };
 
 /**
- * Queue for the analyzer data. Runs a queue to prevent timing issues with the replace variable callback
- */
-YoastSEO.WordPressScraper.prototype.runDataQueue = function() {
-	'use strict';
-
-	if ( YoastSEO.app.analyzerDataQueue.length > 0 ) {
-		var currentData = YoastSEO.app.analyzerDataQueue.shift();
-		this.replaceVariables( YoastSEO.app.analyzerData[ currentData ], currentData, YoastSEO.app.formattedData );
-	} else {
-		if ( typeof YoastSEO.app.snippetPreview === 'undefined' ) {
-			YoastSEO.app.init();
-		} else {
-			YoastSEO.app.reloadSnippetText();
-		}
-		YoastSEO.app.runAnalyzerCallback();
-	}
-};
-
-/**
  * gets content from the content field, if tinyMCE is initialized, use the getContent function to get the data from tinyMCE
  * @returns {String}
  */
