@@ -30,7 +30,7 @@ YoastSEO.Pluggable = function() {
 	this.modifications = {};
 
 	// Allow plugins 500 ms to register before we start polling their
-	setTimeout( this.loaderTimerout, 1500 );
+	setTimeout( this._pollLoadingPlugins, 1500 );
 };
 
 /**************** PUBLIC DSL ****************/
@@ -335,11 +335,4 @@ YoastSEO.Pluggable.prototype._validateUniqueness = function( pluginName ) {
 		return false;
 	}
 	return true;
-};
-
-/**
- * Triggers the _pollLoadingPlugins. Is defined in seperate function to prevent timingissues with undefined functions
- */
-YoastSEO.Pluggable.prototype.loaderTimerout = function( ) {
-	YoastSEO.app.plugins._pollLoadingPlugins();
 };
