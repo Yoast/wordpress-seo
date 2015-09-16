@@ -389,27 +389,29 @@ YoastSEO.App.prototype.endTime = function() {
  * to format outputs.
  */
 YoastSEO.App.prototype.runAnalyzer = function() {
-	if ( !this.pluginLoading ) {
-		if ( this.config.dynamicDelay ) {
-			this.startTime();
-		}
+	if ( this.pluginLoading ) {
+		return;
+	}
 
-		this.analyzerData = this.modifyData( this.rawData );
-		this.analyzerData.i18n = this.i18n;
+	if ( this.config.dynamicDelay ) {
+		this.startTime();
+	}
 
-		if ( typeof this.pageAnalyzer === "undefined" ) {
-			this.pageAnalyzer = new YoastSEO.Analyzer( this.analyzerData );
-		}
-		else {
-			this.pageAnalyzer.init( this.analyzerData );
-		}
+	this.analyzerData = this.modifyData( this.rawData );
+	this.analyzerData.i18n = this.i18n;
 
-		this.pageAnalyzer.runQueue();
-		this.scoreFormatter = new YoastSEO.ScoreFormatter( this );
+	if ( typeof this.pageAnalyzer === "undefined" ) {
+		this.pageAnalyzer = new YoastSEO.Analyzer( this.analyzerData );
+	}
+	else {
+		this.pageAnalyzer.init( this.analyzerData );
+	}
 
-		if ( this.config.dynamicDelay ) {
-			this.endTime();
-		}
+	this.pageAnalyzer.runQueue();
+	this.scoreFormatter = new YoastSEO.ScoreFormatter( this );
+
+	if ( this.config.dynamicDelay ) {
+		this.endTime();
 	}
 };
 
