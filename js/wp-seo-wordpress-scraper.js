@@ -249,7 +249,9 @@ YoastSEO.WordPressScraper.prototype.inputElementEventBinder = function() {
  * Resets the current queue if focus keyword is changed and not empty.
  */
 YoastSEO.WordPressScraper.prototype.resetQueue = function() {
-	if ( YoastSEO.app.rawData.keyword !== "" ) {
+	'use strict';
+
+	if ( YoastSEO.app.rawData.keyword !== '' ) {
 		YoastSEO.app.runAnalyzer( this.rawData );
 	}
 };

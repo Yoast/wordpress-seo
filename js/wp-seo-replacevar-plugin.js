@@ -17,8 +17,8 @@ ReplaceVarPlugin = function() {
 ReplaceVarPlugin.prototype.init = function() {
 	'use strict';
 
-	if ( typeof YoastSEO !== 'undefined' && typeof YoastSEO.app !== 'undefined' && typeof YoastSEO.app.plugins !== 'undefined' ) {
-		YoastSEO.app.plugins.register( 'replaceVariablePlugin', { status: 'ready' } );
+	if ( typeof YoastSEO !== 'undefined' && typeof YoastSEO.app !== 'undefined' && typeof YoastSEO.app.registerPlugin !== 'undefined' ) {
+		YoastSEO.app.registerPlugin( 'replaceVariablePlugin', { status: 'ready' } );
 		this.registerModifications();
 	} else if ( this.registerTime < 1001 ) {
 		setTimeout( this.init, 100 );
@@ -33,8 +33,8 @@ ReplaceVarPlugin.prototype.init = function() {
 ReplaceVarPlugin.prototype.registerModifications = function() {
 	'use strict';
 
-	YoastSEO.app.plugins.registerModification( 'content', this.replaceVariablesPlugin, 'replaceVariablePlugin', 10 );
-	YoastSEO.app.plugins.registerModification( 'title', this.replaceVariablesPlugin, 'replaceVariablePlugin', 10 );
+	YoastSEO.app.registerModification( 'content', this.replaceVariablesPlugin, 'replaceVariablePlugin', 10 );
+	YoastSEO.app.registerModification( 'title', this.replaceVariablesPlugin, 'replaceVariablePlugin', 10 );
 };
 
 /**
