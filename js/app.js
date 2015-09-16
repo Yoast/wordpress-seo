@@ -75,7 +75,6 @@ YoastSEO.App = function( args ) {
 	this.config = args;
 	this.inputs = {};
 	this.rawData = args.callbacks.getData();
-	this.formattedData = args.callbacks.getData();
 	this.constructI18n( args.translations );
 	this.loadQueue();
 	this.stringHelper = new YoastSEO.StringHelper();
@@ -122,7 +121,6 @@ YoastSEO.App.prototype.init = function() {
  */
 YoastSEO.App.prototype.refresh = function() {
 	this.rawData = this.callbacks.getData();
-	this.formattedData = this.callbacks.getData();
 	this.inputs = this.callbacks.getAnalyzerInput();
 };
 
