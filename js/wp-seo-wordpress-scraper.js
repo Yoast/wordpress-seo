@@ -242,7 +242,16 @@ YoastSEO.WordPressScraper.prototype.inputElementEventBinder = function() {
 			document.getElementById( elems[ i ] ).addEventListener( 'change', YoastSEO.app.refresh.bind( YoastSEO.app ) );
 		}
 	}
-	document.getElementById( 'yoast_wpseo_focuskw' ).addEventListener( 'blur', YoastSEO.app.resetQueue );
+	document.getElementById( 'yoast_wpseo_focuskw' ).addEventListener( 'blur', this.resetQueue );
+};
+
+/**
+ * Resets the current queue if focus keyword is changed and not empty.
+ */
+YoastSEO.WordPressScraper.prototype.resetQueue = function() {
+	if ( YoastSEO.app.rawData.keyword !== "" ) {
+		YoastSEO.app.runAnalyzer( this.rawData );
+	}
 };
 
 /**
