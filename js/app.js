@@ -419,10 +419,9 @@ YoastSEO.App.prototype.runAnalyzer = function() {
  * @returns {*}
  */
 YoastSEO.App.prototype.modifyData = function( data ) {
-	var modifiedData = data;
-	modifiedData.text = this.plugins._applyModifications( "content", data.text );
-	modifiedData.title = this.plugins._applyModifications( "title", data.title );
-	return modifiedData;
+	data.text = this.plugins._applyModifications( "content", data.text );
+	data.title = this.plugins._applyModifications( "title", data.title );
+	return data;
 };
 
 /**
