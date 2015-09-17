@@ -92,9 +92,6 @@ jQuery( document ).ready(function() {
 		);
 
 		function init() {
-			//INIT Plugins
-			window.yoastShortcodePlugin = new YoastShortcodePlugin();
-
 			var wordpressScraper = new YoastSEO.WordPressScraper( YoastSEO.analyzerArgs );
 
 			YoastSEO.analyzerArgs.callbacks = {
@@ -142,6 +139,9 @@ jQuery( document ).ready(function() {
 			YoastSEO.app.replacedVars = {};
 
 			YoastSEO.app.refresh();
+
+			//Init Plugins
+			window.yoastShortcodePlugin = new YoastShortcodePlugin();
 		}
 
 		jQuery( init );

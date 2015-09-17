@@ -15,7 +15,8 @@
 	 * @property {Array} parsedShortcodes Used to store parsed shortcodes.
 	 */
 	var YoastShortcodePlugin = function() {
-		this.register( 0, this.bindElementEvents.bind( this ) );
+		YoastSEO.app.register( 'YoastShortcodePlugin', { status: 'loading' } );
+		this.bindElementEvents();
 
 		var keywordRegexString = '(' + wpseoShortcodePluginL10n.wpseo_shortcode_tags.join('|') + ')';
 
@@ -32,32 +33,10 @@
 	/* YOAST SEO CLIENT */
 
 	/**
-	 * Register the plugin with YoastSEO, retry for one second.
-	 *
-	 * @param {number} time The amount of time we have tried to register (Max 1000 ms)
-	 * @param {function} callback (optional) function to call when the plugin has been registered. This is useful for event bindings which rely on YoastSEO to be there.
-	 */
-	YoastShortcodePlugin.prototype.register = function( time, callback ) {
-		if ( typeof YoastSEO !== 'undefined' && typeof YoastSEO.app !== 'undefined' && typeof YoastSEO.app.plugins !== 'undefined' ) {
-			YoastSEO.app.plugins.register( 'YoastShortcodePlugin', { status: 'loading' } );
-			if ( typeof callback === 'function' ) {
-				callback();
-			}
-		}
-		else if ( time < 1001 ) {
-			time += 100;
-			setTimeout( this.register.bind( this, time, callback ), 100 );
-		}
-		else {
-			console.error('Failed to register shortcode plugin with YoastSEO. YoastSEO is not available.'); // jshint ignore:line
-		}
-	};
-
-	/**
 	 * Declares ready with YoastSEO.
 	 */
 	YoastShortcodePlugin.prototype.declareReady = function() {
-		YoastSEO.app.plugins.ready( 'YoastShortcodePlugin' );
+		YoastSEO.app.ready( 'YoastShortcodePlugin' );
 		this.registerModifications();
 	};
 
@@ -65,14 +44,14 @@
 	 * Declares reloaded with YoastSEO.
 	 */
 	YoastShortcodePlugin.prototype.declareReloaded = function() {
-		YoastSEO.app.plugins.reloaded( 'YoastShortcodePlugin' );
+		YoastSEO.app.reloaded( 'YoastShortcodePlugin' );
 	};
 
 	/**
 	 * Registers the modifications for the content in which we want to replace shortcodes.
 	 */
 	YoastShortcodePlugin.prototype.registerModifications = function() {
-		YoastSEO.app.plugins.registerModification( 'content', this.replaceShortcodes.bind( this ), 'YoastShortcodePlugin' );
+		YoastSEO.app.registerModification( 'content', this.replaceShortcodes.bind( this ), 'YoastShortcodePlugin' );
 	};
 
 	/**
