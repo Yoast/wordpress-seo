@@ -1183,7 +1183,7 @@ class WPSEO_Frontend {
 					$keywords = wpseo_replace_vars( $this->options[ 'metakey-' . $post->post_type ], $post );
 				}
 			}
-			elseif( $this->is_posts_page() ) {
+			elseif ( $this->is_posts_page() ) {
 				$keywords = $this->get_keywords( get_post( get_option( 'page_for_posts' ) ) );
 			}
 			elseif ( is_category() || is_tag() || is_tax() ) {
@@ -1882,11 +1882,11 @@ class WPSEO_Frontend {
 	/**
 	 * Getting the keywords
 	 *
-	 * @param array|WP_Post $post
+	 * @param WP_Post $post The post object with the values.
 	 *
 	 * @return string
 	 */
-	private function get_keywords( $post )  {
+	private function get_keywords( $post ) {
 		$keywords        = WPSEO_Meta::get_value( 'metakeywords', $post->ID );
 		$option_meta_key = 'metakey-' . $post->post_type;
 
