@@ -768,6 +768,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 					</g>
 				</svg>
 			</script>';
-    }
+	}
 
 } /* End of class */
