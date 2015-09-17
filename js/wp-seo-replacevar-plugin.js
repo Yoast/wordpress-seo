@@ -36,6 +36,8 @@ ReplaceVarPlugin.prototype.registerModifications = function() {
 
 	YoastSEO.app.registerModification( 'content', this.replaceVariablesPlugin, 'replaceVariablePlugin', 10 );
 	YoastSEO.app.registerModification( 'title', this.replaceVariablesPlugin, 'replaceVariablePlugin', 10 );
+	YoastSEO.app.registerModification( 'snippet_title', this.replaceVariablesPlugin, 'replaceVariablePlugin', 10 );
+	YoastSEO.app.registerModification( 'snippet_meta', this.replaceVariablesPlugin, 'replaceVariablePlugin', 10 );
 };
 
 /**
