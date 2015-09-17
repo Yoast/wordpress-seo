@@ -20,6 +20,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		add_action( 'post_submitbox_misc_actions', array( $this, 'publish_box' ) );
 		add_action( 'admin_init', array( $this, 'setup_page_analysis' ) );
 		add_action( 'admin_init', array( $this, 'translate_meta_boxes' ) );
+		add_action( 'admin_footer', array( $this, 'scoring_svg' ) );
 
 	}
 
@@ -220,26 +221,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$sample_permalink = get_sample_permalink( $post->ID );
 		$sample_permalink = str_replace( '%page', '%post', $sample_permalink[0] );
 
-		$cached_replacement_vars = array();
-
-		$vars_to_cache = array(
-				'date',
-				'id',
-				'sitename',
-				'sitedesc',
-				'sep',
-				'page',
-				'currenttime',
-				'currentdate',
-				'currentday',
-				'currentmonth',
-				'currentyear',
-		);
-		foreach ( $vars_to_cache as $var ) {
-			$cached_replacement_vars[ $var ] = wpseo_replace_vars( '%%' . $var . '%%', $post );
-		}
-
-		return array_merge( $cached_replacement_vars, array(
+		return array(
 			'field_prefix'                => self::$form_prefix,
 			'keyword_header'              => '<strong>' . __( 'Focus keyword usage', 'wordpress-seo' ) . '</strong><br>' . __( 'Your focus keyword was found in:', 'wordpress-seo' ),
 			'article_header_text'         => __( 'Article Heading: ', 'wordpress-seo' ),
@@ -253,13 +235,52 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'wpseo_metadesc_template'     => $metadesc_template,
 			'wpseo_permalink_template'    => $sample_permalink,
 			'wpseo_keyword_suggest_nonce' => wp_create_nonce( 'wpseo-get-suggest' ),
-			'wpseo_replace_vars_nonce'    => wp_create_nonce( 'wpseo-replace-vars' ),
-			'no_parent_text'              => __( '(no parent)', 'wordpress-seo' ),
 			'featured_image_notice'       => __( 'The featured image should be at least 200x200 pixels to be picked up by Facebook and other social media sites.', 'wordpress-seo' ),
 			'keyword_usage'               => $this->get_focus_keyword_usage( $post->ID ),
 			'search_url'                  => admin_url( 'edit.php?seo_kw_filter={keyword}' ),
 			'post_edit_url'               => admin_url( 'post.php?post={id}&action=edit' ),
-		) );
+		);
+	}
+
+	/**
+	 * Pass some variables to js for replacing variables.
+	 */
+	public function localize_replace_vars_script() {
+		return array(
+			'no_parent_text' => __( '(no parent)', 'wordpress-seo' ),
+			'replace_vars'   => $this->get_replace_vars(),
+		);
+	}
+
+	/**
+	 * Prepares the replace vars for localization.
+	 *
+	 * @return array replace vars
+	 */
+	private function get_replace_vars() {
+		$post = $this->get_metabox_post();
+
+		$cached_replacement_vars = array();
+
+		$vars_to_cache = array(
+			'date',
+			'id',
+			'sitename',
+			'sitedesc',
+			'sep',
+			'page',
+			'currenttime',
+			'currentdate',
+			'currentday',
+			'currentmonth',
+			'currentyear',
+		);
+
+		foreach ( $vars_to_cache as $var ) {
+			$cached_replacement_vars[ $var ] = wpseo_replace_vars( '%%' . $var . '%%', $post );
+		}
+
+		return $cached_replacement_vars;
 	}
 
 	/**
@@ -575,6 +596,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			wp_enqueue_style( 'featured-image', plugins_url( 'css/featured-image' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
 			wp_enqueue_style( 'jquery-qtip.js', plugins_url( 'css/jquery.qtip' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), '2.2.1' );
 			wp_enqueue_style( 'snippet', plugins_url( 'css/snippet' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), '2.2.1' );
+			wp_enqueue_style( 'scoring', plugins_url( 'css/yst_seo_score' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), '2.2.1' );
 			wp_enqueue_script( 'jquery-ui-autocomplete' );
 
 			// Always enqueue minified as it's not our code.
@@ -587,6 +609,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 			wp_enqueue_script( 'wp-seo-wordpressScraper.js', plugins_url( 'js/wp-seo-wordpress-scraper' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), null, WPSEO_VERSION, true );
 			wp_enqueue_script( 'wp-seo-wordpressScraper-Config.js', plugins_url( 'js/wp-seo-wordpress-scraper-config' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), null, WPSEO_VERSION, true );
+			wp_enqueue_script( 'wp-seo-replacevar-plugin.js', plugins_url( 'js/wp-seo-replacevar-plugin' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), null, WPSEO_VERSION, true );
 			wp_enqueue_script( 'yoast-seo-content-analysis', plugins_url( 'js/dist/js-text-analysis/yoast-seo-content-analysis.min.js', WPSEO_FILE ), null, WPSEO_VERSION, true );
 
 			$file = plugin_dir_path( WPSEO_FILE ) . 'languages/wordpress-seo-' . get_locale() . '.json';
@@ -598,6 +621,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				$json = array();
 			}
 			wp_localize_script( 'wp-seo-wordpressScraper.js', 'wpseoL10n', $json );
+			wp_localize_script( 'wp-seo-replacevar-plugin.js', 'wpseoReplaceVarsL10n', $this->localize_replace_vars_script() );
 
 			if ( post_type_supports( get_post_type(), 'thumbnail' ) ) {
 				wp_enqueue_script( 'wp-seo-featured-image', plugins_url( 'js/wp-seo-featured-image' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'jquery' ), WPSEO_VERSION, true );
@@ -716,6 +740,34 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Meta::localize_script()' );
 
 		return $this->localize_script();
+	}
+
+	/**
+	 * SVG for the general SEO score.
+	 */
+	public function scoring_svg() {
+		echo '<script type="text/html" id="tmpl-score_svg">
+				<svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 500 500" enable-background="new 0 0 500 500" xml:space="preserve" width="50" height="50">
+					<g id="BG"></g>
+					<g id="BG_dark"></g>
+					<g id="bg_light"><path fill="#5B2942" d="M415,500H85c-46.8,0-85-38.2-85-85V85C0,38.2,38.2,0,85,0h330c46.8,0,85,38.2,85,85v330	C500,461.8,461.8,500,415,500z"/>
+						<path fill="none" stroke="#7EADB9" stroke-width="17" stroke-miterlimit="10" d="M404.6,467H95.4C61.1,467,33,438.9,33,404.6V95.4	C33,61.1,61.1,33,95.4,33h309.2c34.3,0,62.4,28.1,62.4,62.4v309.2C467,438.9,438.9,467,404.6,467z"/>
+					</g>
+					<g id="Layer_2">
+						<circle id="score_circle_shadow" fill="#77B227" cx="250" cy="250" r="155"/>
+						<path id="score_circle" fill="#9FDA4F" d="M172.5,384.2C98.4,341.4,73,246.6,115.8,172.5S253.4,73,327.5,115.8"/>
+						<g>
+							<g>
+								<g display="none">
+									<path display="inline" fill="#FEC228" d="M668,338.4c-30.4,0-55-24.6-55-55s24.6-55,55-55"/>
+									<path display="inline" fill="#8BDA53" d="M668,215.1c-30.4,0-55-24.6-55-55s24.6-55,55-55"/>
+									<path display="inline" fill="#FF443D" d="M668,461.7c-30.4,0-55-24.6-55-55s24.6-55,55-55"/>
+								</g>
+							</g>
+						</g>
+					</g>
+				</svg>
+			</script>';
 	}
 
 } /* End of class */

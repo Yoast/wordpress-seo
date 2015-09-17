@@ -1,5 +1,6 @@
 /* browser:true */
 /* global wpseoMetaboxL10n */
+/* global ReplaceVarPlugin */
 /* global ajaxurl */
 /* global YoastSEO */
 /* jshint -W097 */
@@ -104,14 +105,15 @@ jQuery( document ).ready(function() {
 				replaceVariables: wordpressScraper.replaceVariables,
 				getDataFromInput: wordpressScraper.getDataFromInput,
 				getContentTinyMCE: wordpressScraper.getContentTinyMCE,
-				runDataQueue: wordpressScraper.runDataQueue,
 				snippetPreviewEventBinder: wordpressScraper.snippetPreviewEventBinder,
 				inputElementEventBinder: wordpressScraper.inputElementEventBinder,
 				titleReplace: wordpressScraper.titleReplace,
 				defaultReplace: wordpressScraper.defaultReplace,
 				parentReplace: wordpressScraper.parentReplace,
 				doubleSepReplace: wordpressScraper.doubleSepReplace,
-				excerptReplace: wordpressScraper.excerptReplace
+				excerptReplace: wordpressScraper.excerptReplace,
+				setDataFromSnippet: wordpressScraper.setDataFromSnippet,
+				setRawData: wordpressScraper.setRawData
 			};
 
 			YoastSEO.app = new YoastSEO.App( YoastSEO.analyzerArgs );
@@ -136,7 +138,7 @@ jQuery( document ).ready(function() {
 				'keywordDoubles' ];
 
 			YoastSEO.app.replacedVars = {};
-
+			new ReplaceVarPlugin();
 			YoastSEO.app.refresh();
 		}
 
