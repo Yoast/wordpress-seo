@@ -355,3 +355,5 @@ new WPSEO_GSC_Ajax;
 new WPSEO_Recalculate_Scores_Ajax;
 
 new Yoast_Dashboard_Widget();
+
+new WPSEO_Shortcode_Filter();

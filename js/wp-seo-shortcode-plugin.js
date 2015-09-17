@@ -15,7 +15,7 @@
 	 * @property {Array} parsedShortcodes Used to store parsed shortcodes.
 	 */
 	var YoastShortcodePlugin = function() {
-		YoastSEO.app.register( 'YoastShortcodePlugin', { status: 'loading' } );
+		YoastSEO.app.registerPlugin( 'YoastShortcodePlugin', { status: 'loading' } );
 		this.bindElementEvents();
 
 		var keywordRegexString = '(' + wpseoShortcodePluginL10n.wpseo_shortcode_tags.join('|') + ')';
