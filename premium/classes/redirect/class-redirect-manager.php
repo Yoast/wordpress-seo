@@ -14,30 +14,6 @@ abstract class WPSEO_Redirect_Manager {
 	protected $option_redirects = null;
 
 	/**
-	 * Get the Yoast SEO options
-	 *
-	 * @return array
-	 */
-	public static function get_options() {
-		static $options;
-
-		if ( $options === null ) {
-			$options = apply_filters(
-				'wpseo_premium_redirect_options',
-				wp_parse_args(
-					get_option( 'wpseo_redirect', array() ),
-					array(
-						'disable_php_redirect' => 'off',
-						'separate_file'        => 'off',
-					)
-				)
-			);
-		}
-
-		return $options;
-	}
-
-	/**
 	 * Get the redirects
 	 *
 	 * @return array
@@ -68,8 +44,8 @@ abstract class WPSEO_Redirect_Manager {
 	/**
 	 * Saving the redirect file
 	 */
-	public function save_redirect_file(  ) {
-		$options = self::get_options();
+	public function save_redirect_file() {
+		$options = WPSEO_Redirect::get_options();
 
 		if ( 'on' !== $options['disable_php_redirect'] ) {
 			$file_handler = new WPSEO_Redirect_File_Handler( $options['separate_file'] );

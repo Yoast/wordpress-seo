@@ -83,6 +83,30 @@ class WPSEO_Redirect {
 	}
 
 	/**
+	 * Get the Yoast SEO options
+	 **
+	 * @return array
+	 */
+	public static function get_options() {
+		static $options;
+
+		if ( $options === null ) {
+			$options = apply_filters(
+				'wpseo_premium_redirect_options',
+				wp_parse_args(
+					get_option( 'wpseo_redirect', array() ),
+					array(
+						'disable_php_redirect' => 'off',
+						'separate_file'        => 'off',
+					)
+				)
+			);
+		}
+
+		return $options;
+	}
+
+	/**
 	 * Initialize admin hooks.
 	 */
 	private function initialize_admin() {

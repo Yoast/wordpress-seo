@@ -30,7 +30,7 @@ class WPSEO_Redirect_Settings_Presenter extends WPSEO_Redirect_Tab_Presenter {
 	 */
 	private function writable_redirect_file() {
 		// Get redirect options.
-		$redirect_options = WPSEO_Redirect_Manager::get_options();
+		$redirect_options = WPSEO_Redirect::get_options();
 
 		if ( 'on' !== $redirect_options['disable_php_redirect'] ) {
 			return false;
