@@ -7,9 +7,7 @@ module.exports = {
 		},
 		files: {
 			"<%= paths.js %>/dist/yoast-seo-content-analysis.min.js": [
-				"<%= files.jed %>",
-				"<%= paths.js %>/*.js",
-				"<%= paths.js %>/config/*.js"
+				"dist/yoast-seo-content-analysis.min.js"
 			],
 			"<%= paths.js %>/dist/yoast-seo-content-analyzer.min.js": [
 				"<%= files.jed %>",

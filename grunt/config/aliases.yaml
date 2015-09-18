@@ -6,6 +6,7 @@ build:
   - 'build:ccs'
 # Build JavaScript from assets to production
 'build:js':
+  - 'concat'
   - 'uglify'
 # Build CSS
 'build:css':
