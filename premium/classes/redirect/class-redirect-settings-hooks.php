@@ -4,9 +4,11 @@
  */
 
 /**
- * Class WPSEO_Redirect_Option
+ * Class WPSEO_Redirect_Settings_Hooks
+ *
+ * This class will set hooks fired from the settings tab. The hooks will also be handled within this class.
  */
-class WPSEO_Redirect_Settings {
+class WPSEO_Redirect_Settings_Hooks {
 
 	/**
 	 * @var WPSEO_Redirect_Manager
@@ -61,7 +63,7 @@ class WPSEO_Redirect_Settings {
 			$wpseo_redirect  = filter_input( INPUT_POST, 'wpseo_redirect', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
 			$enable_autoload = empty( $wpseo_redirect['disable_php_redirect'] );
 
-			$this->redirect_manager->change_autoload( $enable_autoload );
+			$this->redirect_manager->change_option_autoload( $enable_autoload );
 		}
 	}
 
