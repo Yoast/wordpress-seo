@@ -113,18 +113,7 @@ class WPSEO_Redirect {
 		// Setting the redirect manager.
 		$this->redirect_manager = $this->get_redirect_manager();
 
-		// Check if WPSEO_DISABLE_PHP_REDIRECTS is defined.
-		if ( defined( 'WPSEO_DISABLE_PHP_REDIRECTS' ) && true === WPSEO_DISABLE_PHP_REDIRECTS ) {
-			$this->redirect_manager->change_autoload( false );
-		}
-		else {
-			$options = WPSEO_Redirect_Manager::get_options();
 
-			// If the disable_php_redirect option is not enabled we should enable auto loading redirects.
-			if ( 'off' === $options['disable_php_redirect'] ) {
-				$this->redirect_manager->change_autoload( true );
-			}
-		}
 
 		// Setting the handling of the redirect option.
 		$redirect_option = new WPSEO_Redirect_Settings( $this->redirect_manager );
@@ -176,6 +165,29 @@ class WPSEO_Redirect {
 		}
 
 		return new WPSEO_URL_Redirect_Manager();
+	}
+
+	/**
+	 * Check if the autoload for the redirect option have to be reloaded
+	 *
+	 * @return bool
+	 */
+	private function change_option_autoload() {
+		// Check if WPSEO_DISABLE_PHP_REDIRECTS is defined.
+		if ( defined( 'WPSEO_DISABLE_PHP_REDIRECTS' ) && true === WPSEO_DISABLE_PHP_REDIRECTS ) {
+			$this->redirect_manager->change_option_autoload( false );
+
+			return true;
+		}
+
+		$options = WPSEO_Redirect::get_options( 'disable_php_redirect' );
+
+		// If the disable_php_redirect option is not enabled we should enable auto loading redirects.
+		if ( 'off' === $options['disable_php_redirect'] ) {
+			$this->redirect_manager->change_option_autoload( true );
+		}
+
+		return true;
 	}
 
 }
