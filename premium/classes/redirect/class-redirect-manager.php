@@ -58,7 +58,7 @@ abstract class WPSEO_Redirect_Manager {
 	 *
 	 * @param bool $autoload_value
 	 */
-	public function change_autoload( $autoload_value ) {
+	public function change_option_autoload( $autoload_value ) {
 		$redirect_managers = $this->get_redirect_managers();
 
 		foreach ( $redirect_managers as $redirect_manager ) {
