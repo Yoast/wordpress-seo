@@ -48,7 +48,7 @@ class WPSEO_Redirect_Presenter {
 
 		$redirect_tabs = $this->navigation_tabs();
 
-		require_once( WPSEO_PATH . 'premium/views/redirects.php' );
+		require_once( WPSEO_PATH . 'premium/classes/redirect/views/redirects.php' );
 	}
 
 	/**

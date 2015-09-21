@@ -35,7 +35,7 @@ class WPSEO_Redirect_Tab_Presenter {
 		extract( $this->get_view_vars() );
 		// @codingStandardsIgnoreEnd
 
-		require_once( WPSEO_PATH . 'premium/views/redirects-tab-' . $this->view . '.php' );
+		require_once( WPSEO_PATH . 'premium/classes/redirect/views/redirects-tab-' . $this->view . '.php' );
 	}
 
 }
