@@ -1,14 +1,13 @@
 {
-  "name": "yoast-js-text-analysis",
+  "name": "yoast-seo",
   "version": "0.1",
-  "homepage": "https://github.com/Yoast/js-text-analysis",
+  "homepage": "https://github.com/Yoast/yoast-seo",
   "authors": [
     "Yoast.com"
   ],
   "main": [
-    "css/dist/yoast-seo-content-analysis.min.css",
-    "js/dist/yoast-seo-content-analysis.min.js",
-    "js/dist/yoast-seo-content-analyzer.min.js"
+    "dist/yoast-seo.min.css",
+    "dist/yoast-seo.min.js"
   ],
   "description": "Yoast text analysis tool",
   "keywords": [
