@@ -3,7 +3,7 @@ module.exports = {
 		separator: ";",
 		process: function(src, filepath) {
 			if ( filepath === "node_modules/jed/jed.js" ) {
-				return "(function() {var this = {};" + src + "window.YoastI18n = this.Jed;}())";
+				return "(function() {" + src + "window.YoastI18n = this.Jed;}.call({}))";
 			}
 			return src;
 		}
