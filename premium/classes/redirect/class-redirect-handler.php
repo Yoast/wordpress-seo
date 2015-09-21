@@ -11,12 +11,12 @@ class WPSEO_Redirect_Handler {
 	/**
 	 * @var string
 	 */
-	private $normal_option = 'wpseo-premium-redirects';
+	private $normal_option_name = 'wpseo-premium-redirects';
 
 	/**
 	 * @var string
 	 */
-	private $regex_option  = 'wpseo-premium-redirects-regex';
+	private $regex_option_name  = 'wpseo-premium-redirects-regex';
 
 	/**
 	 * @var string
@@ -69,7 +69,7 @@ class WPSEO_Redirect_Handler {
 	 */
 	private function handle_normal_redirects() {
 		// Setting the redirects.
-		$this->redirects = $this->get_redirects( $this->normal_option );
+		$this->redirects = $this->get_redirects( $this->normal_option_name );
 
 		// Get the URL and doing the redirect.
 		if ( $redirect_url = $this->find_url( $this->request_url ) ) {
@@ -82,7 +82,7 @@ class WPSEO_Redirect_Handler {
 	 */
 	private function handle_regex_redirects() {
 		// Setting the redirects.
-		$this->redirects = $this->get_redirects( $this->regex_option );
+		$this->redirects = $this->get_redirects( $this->regex_option_name );
 
 		foreach ( $this->redirects as $regex => $redirect ) {
 			// Check if the URL matches the $regex.

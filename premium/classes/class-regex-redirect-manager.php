@@ -13,7 +13,6 @@ class WPSEO_REGEX_Redirect_Manager extends WPSEO_Redirect_Manager {
 	 */
 	protected $option_redirects = 'wpseo-premium-redirects-regex';
 
-
 	/**
 	 * Getting the redirect managers
 	 *

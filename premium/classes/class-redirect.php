@@ -17,7 +17,7 @@ class WPSEO_Redirect {
 	 * Constructing redirect module
 	 */
 	public function __construct() {
-		// Setting the autoloader
+		// Setting the autoloader.
 		$autoloader = new WPSEO_Premium_Autoloader( 'WPSEO_Redirect_', 'redirect/', 'WPSEO_' );
 
 		if ( is_admin() ) {

@@ -46,7 +46,7 @@ class WPSEO_Redirect_Htaccess_Util {
 	/**
 	 * Initiate and returns the $wp_filesystem object
 	 *
-	 * @return $wp_filesystem
+	 * @return WP_Filesystem_Base|null
 	 */
 	public static function get_wp_filesystem_object() {
 		global $wp_filesystem;
