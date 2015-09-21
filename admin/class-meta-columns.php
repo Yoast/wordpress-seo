@@ -223,8 +223,8 @@ class WPSEO_Meta_Columns {
 	/**
 	 * When there is a score just return this meta query array
 	 *
-	 * @param string $low
-	 * @param string $high
+	 * @param string $low The lowest number in the score range.
+	 * @param string $high The highest number in the score range.
 	 *
 	 * @return array
 	 */
