@@ -588,11 +588,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				'jquery-ui-core',
 			), WPSEO_VERSION, true );
 
-			wp_enqueue_script( 'yoast-seo-content-analysis', plugins_url( 'js/dist/js-text-analysis/yoast-seo-content-analysis.min.js', WPSEO_FILE ), null, WPSEO_VERSION, true );
-			wp_enqueue_script( 'wp-seo-wordpressScraper-Config.js', plugins_url( 'js/wp-seo-wordpress-scraper-config' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), null, WPSEO_VERSION, true );
-			wp_enqueue_script( 'wp-seo-wordpressScraper.js', plugins_url( 'js/wp-seo-wordpress-scraper' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), null, WPSEO_VERSION, true );
-			wp_enqueue_script( 'wp-seo-replacevar-plugin.js', plugins_url( 'js/wp-seo-replacevar-plugin' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'yoast-seo-content-analysis', 'wp-seo-metabox' ), WPSEO_VERSION, true );
-			wp_enqueue_script( 'wp-seo-shortcode-plugin.js', plugins_url( 'js/wp-seo-shortcode-plugin' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'yoast-seo-content-analysis', 'wp-seo-metabox' ), WPSEO_VERSION, true );
+			wp_enqueue_script( 'yoast-seo', plugins_url( 'js/dist/yoast-seo/yoast-seo.min.js', WPSEO_FILE ), null, WPSEO_VERSION, true );
+			wp_enqueue_script( 'wp-seo-wordpressScraper-Config.js', plugins_url( 'js/wp-seo-wordpress-scraper-config' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'yoast-seo' ), WPSEO_VERSION, true );
+			wp_enqueue_script( 'wp-seo-wordpressScraper.js', plugins_url( 'js/wp-seo-wordpress-scraper' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'yoast-seo' ), WPSEO_VERSION, true );
+			wp_enqueue_script( 'wp-seo-replacevar-plugin.js', plugins_url( 'js/wp-seo-replacevar-plugin' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'yoast-seo', 'wp-seo-metabox' ), WPSEO_VERSION, true );
+			wp_enqueue_script( 'wp-seo-shortcode-plugin.js', plugins_url( 'js/wp-seo-shortcode-plugin' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'yoast-seo', 'wp-seo-metabox' ), WPSEO_VERSION, true );
 
 			$file = plugin_dir_path( WPSEO_FILE ) . 'languages/wordpress-seo-' . get_locale() . '.json';
 			if ( file_exists( $file ) ) {

@@ -6,7 +6,7 @@
     "Yoast.com"
   ],
   "dependencies": {
-    "js-text-analysis": "https://github.com/Yoast/YoastSEO.js.git"
+    "yoast-seo": "https://github.com/Yoast/YoastSEO.js.git"
   },
   "install": {
     "path": {
@@ -14,9 +14,9 @@
       "js": "js/dist"
     },
     "sources": {
-      "js-text-analysis": [
-        "bower_components/js-text-analysis/css/dist/yoast-seo-content-analysis.min.css",
-        "bower_components/js-text-analysis/js/dist/yoast-seo-content-analysis.min.js"
+      "yoast-seo": [
+        "bower_components/yoast-seo/dist/yoast-seo.min.css",
+        "bower_components/yoast-seo/dist/yoast-seo.min.js"
       ]
     }
   },

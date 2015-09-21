@@ -36,7 +36,7 @@
 	 * Declares ready with YoastSEO.
 	 */
 	YoastShortcodePlugin.prototype.declareReady = function() {
-		YoastSEO.app.ready( 'YoastShortcodePlugin' );
+		YoastSEO.app.pluginReady( 'YoastShortcodePlugin' );
 		this.registerModifications();
 	};
 
@@ -44,7 +44,7 @@
 	 * Declares reloaded with YoastSEO.
 	 */
 	YoastShortcodePlugin.prototype.declareReloaded = function() {
-		YoastSEO.app.reloaded( 'YoastShortcodePlugin' );
+		YoastSEO.app.pluginReloaded( 'YoastShortcodePlugin' );
 	};
 
 	/**
