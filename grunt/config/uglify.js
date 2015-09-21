@@ -6,15 +6,8 @@ module.exports = {
 			report: "gzip"
 		},
 		files: {
-			"<%= paths.js %>/dist/yoast-seo-content-analysis.min.js": [
-				"<%= files.jed %>",
-				"<%= paths.js %>/*.js",
-				"<%= paths.js %>/config/*.js"
-			],
-			"<%= paths.js %>/dist/yoast-seo-content-analyzer.min.js": [
-				"<%= files.jed %>",
-				"<%= paths.js %>/analyzer.js",
-				"<%= paths.js %>/config/scoring.js"
+			"dist/yoast-seo.min.js": [
+				"dist/yoast-seo.js"
 			]
 		}
 	}
