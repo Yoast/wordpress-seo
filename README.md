@@ -21,21 +21,21 @@ YoastSEO.app.registerPlugin( 'examplePlugin', {status: 'ready'} );
 
 To keep our content analysis fast, we don't allow asynchronous modifications. That's why we require plugins to preload all data they need in order to modify the content. 
 
-If plugins need to preload data, they can first register, then preload using AJAX and call `ready` once preloaded.
+If plugins need to preload data, they can first register, then preload using AJAX and call `pluginReady` once preloaded.
 
 ```JS
 YoastSEO.app.registerPlugin( 'examplePlugin', {status: 'loading'} );
 // Load whatever data you need through AJAX.
-YoastSEO.app.ready( 'examplePlugin' );
+YoastSEO.app.pluginReady( 'examplePlugin' );
 ```
 
 ### Loading more data
 
-To minimize client side memory usage, we request plugins to preload as little data as possible. If you need to dynamically fetch more data in the process of content creation, you can reload your data set and let YoastSEO.js know you've reloaded by calling `reloaded`. This will trigger a new analysis to be run. If an analysis is currently running. We will reset it to ensure the latest modifications are applied.
+To minimize client side memory usage, we request plugins to preload as little data as possible. If you need to dynamically fetch more data in the process of content creation, you can reload your data set and let YoastSEO.js know you've reloaded by calling `pluginReloaded`. This will trigger a new analysis to be run. If an analysis is currently running. We will reset it to ensure the latest modifications are applied.
 
 ```JS
 // Fetch more data in the background and then declare yourself reloaded:
-YoastSEO.app.reloaded( 'examplePlugin' );
+YoastSEO.app.pluginReloaded( 'examplePlugin' );
 ```
 
 ### Modifications

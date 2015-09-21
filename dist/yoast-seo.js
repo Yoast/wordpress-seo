@@ -1598,7 +1598,7 @@ YoastSEO.Pluggable = function() {
  * @returns 			{boolean}
  */
 YoastSEO.App.prototype.registerPlugin = function( pluginName, options ) {
-	this.pluggable._registerPlugin( pluginName, options );
+	return this.pluggable._registerPlugin( pluginName, options );
 };
 
 /**
@@ -1607,8 +1607,8 @@ YoastSEO.App.prototype.registerPlugin = function( pluginName, options ) {
  * @param pluginName	{string}
  * @returns 			{boolean}
  */
-YoastSEO.App.prototype.ready = function( pluginName ) {
-	this.pluggable._ready( pluginName );
+YoastSEO.App.prototype.pluginReady = function( pluginName ) {
+	return this.pluggable._ready( pluginName );
 };
 
 /**
@@ -1617,8 +1617,8 @@ YoastSEO.App.prototype.ready = function( pluginName ) {
  * @param pluginName	{string}
  * @returns 			{boolean}
  */
-YoastSEO.App.prototype.reloaded = function( pluginName ) {
-	this.pluggable._reloaded( pluginName );
+YoastSEO.App.prototype.pluginReloaded = function( pluginName ) {
+	return this.pluggable._reloaded( pluginName );
 };
 
 /**
@@ -1632,7 +1632,7 @@ YoastSEO.App.prototype.reloaded = function( pluginName ) {
  * @returns 			{boolean}
  */
 YoastSEO.App.prototype.registerModification = function( modification, callable, pluginName, priority ) {
-	this.pluggable._registerModification( modification, callable, pluginName, priority );
+	return this.pluggable._registerModification( modification, callable, pluginName, priority );
 };
 
 /**************** DSL IMPLEMENTATION ****************/
