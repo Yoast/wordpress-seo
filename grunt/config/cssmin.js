@@ -2,7 +2,7 @@
 module.exports = {
 	target: {
 		files: {
-			"<%= paths.css %>dist/yoast-seo-content-analysis.min.css": [ "<%= paths.css %>*.css" ]
+			"dist/yoast-seo.min.css": [ "<%= paths.css %>*.css" ]
 		}
 	}
 };

@@ -873,7 +873,6 @@ YoastSEO.AnalyzeScorer.prototype.totalScore = function() {
 };
 ;/* jshint browser: true */
 /* global YoastSEO: true */
-/* global YoastI18n */
 YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 
 /**
