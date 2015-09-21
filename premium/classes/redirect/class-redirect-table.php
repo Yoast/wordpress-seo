@@ -36,6 +36,8 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 
 		$this->handle_bulk_action();
 		$this->set_items();
+
+		add_filter( 'list_table_primary_column', array( $this, 'redirect_list_table_primary_column' ) , 10, 2 );
 	}
 
 	/**
@@ -53,6 +55,23 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 
 		return $columns;
 	}
+
+	/**
+	 * Filter for setting the primary table column
+	 *
+	 * @param string $column
+	 * @param string $screen
+	 *
+	 * @return string
+	 */
+	public function redirect_list_table_primary_column( $column, $screen ) {
+		if ( 'seo_page_wpseo_redirects' === $screen ) {
+			$column = 'old';
+		}
+
+		return $column;
+	}
+
 	/**
 	 * Setup the table variables, fetch the items from the database, search, sort and format the items.
 	 * Set the items as the WPSEO_Redirect_Table items variable.

@@ -17,6 +17,8 @@ class WPSEO_Redirect {
 	 * Constructing redirect module
 	 */
 	public function __construct() {
+		// Setting the autoloader.
+		$autoloader = new WPSEO_Premium_Autoloader( 'WPSEO_Redirect_', 'redirect/', 'WPSEO_' );
 
 		if ( is_admin() ) {
 			$this->initialize_admin();
@@ -121,9 +123,6 @@ class WPSEO_Redirect {
 
 		// Regex Redirect AJAX.
 		new WPSEO_Redirect_Ajax( new WPSEO_REGEX_Redirect_Manager(), 'regex' );
-
-		// Add URL reponse code check AJAX.
-		add_action( 'wp_ajax_wpseo_check_url', array( 'WPSEO_Url_Checker', 'check_url' ) );
 	}
 
 	/**

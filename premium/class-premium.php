@@ -60,8 +60,7 @@ class WPSEO_Premium {
 
 		// Setup autoloader.
 		require_once( dirname( __FILE__ ) . '/classes/class-premium-autoloader.php' );
-		$autoloader = new WPSEO_Premium_Autoloader();
-		spl_autoload_register( array( $autoloader, 'load' ) );
+		$autoloader = new WPSEO_Premium_Autoloader( 'WPSEO_', '' );
 
 		$this->load_textdomain();
 

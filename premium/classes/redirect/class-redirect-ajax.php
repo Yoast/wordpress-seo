@@ -105,6 +105,31 @@ class WPSEO_Redirect_Ajax {
 	}
 
 	/**
+	 * Method that returns the HTTP response code of URL
+	 */
+	public static function ajax_check_url() {
+
+		// Check AJAX nonce.
+		check_ajax_referer( 'wpseo-redirects-ajax-security', 'ajax_nonce' );
+
+		$url = filter_input( INPUT_POST, 'url' );
+
+		// URL must be set.
+		if ( $url === '' ) {
+			exit;
+		}
+
+		// The URL.
+		$url = urldecode( $url );
+
+		// Do the request.
+		$response = wp_remote_get( $url );
+
+		// Echo the response code.
+		wp_die( json_encode( array( 'reponse_code' => wp_remote_retrieve_response_code( $response ) ) ) );
+	}
+
+	/**
 	 * Setting the AJAX hooks
 	 *
 	 * @param string $hook_suffix
@@ -113,6 +138,11 @@ class WPSEO_Redirect_Ajax {
 		add_action( 'wp_ajax_wpseo_save_redirect_' . $hook_suffix, array( $this, 'ajax_handle_redirect_save' ) );
 		add_action( 'wp_ajax_wpseo_delete_redirect_' . $hook_suffix, array( $this, 'ajax_handle_redirect_delete' ) );
 		add_action( 'wp_ajax_wpseo_create_redirect_' . $hook_suffix, array( $this, 'ajax_handle_redirect_create' ) );
+
+		// Add URL response code check AJAX.
+		if ( ! has_action( 'wp_ajax_wpseo_check_url' ) ) {
+			add_action( 'wp_ajax_wpseo_check_url', array( $this, 'ajax_check_url' ) );
+		}
 	}
 
 	/**
