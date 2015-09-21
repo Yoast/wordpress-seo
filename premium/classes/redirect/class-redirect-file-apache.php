@@ -15,7 +15,7 @@ class WPSEO_Redirect_File_Apache extends WPSEO_Redirect_File {
 	 *
 	 * @var string
 	 */
-	protected $url_format   = 'Redirect %1$s %2$s %3$s';
+	protected $url_format   = 'Redirect "%1$s" "%2$s" %3$s';
 
 	/**
 	 * %1$s is the redirect type
