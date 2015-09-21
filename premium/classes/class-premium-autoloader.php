@@ -47,9 +47,20 @@ class WPSEO_Premium_Autoloader {
 	 */
 	public function load( $class ) {
 		// Check & load file.
-		if ( $found_file = $this->find_file( $class ) ) {
+		if ( $this->contains_search_pattern( $class ) && $found_file = $this->find_file( $class ) ) {
 			require_once( $found_file );
 		}
+	}
+
+	/**
+	 * Does the filename contains the search pattern
+	 *
+	 * @param string $class
+	 *
+	 * @return bool
+	 */
+	private function contains_search_pattern( $class ) {
+		return 0 === strpos( $class, $this->search_pattern );
 	}
 
 	/**
@@ -60,27 +71,25 @@ class WPSEO_Premium_Autoloader {
 	 * @return bool|string
 	 */
 	private function find_file( $class ) {
-		if ( 0 === strpos( $class, $this->search_pattern ) ) {
-			// String to lower.
-			$class = strtolower( $class );
+		// String to lower.
+		$class = strtolower( $class );
 
-			// Format file name.
-			$file_name = $this->get_file_name( $class );
+		// Format file name.
+		$file_name = $this->get_file_name( $class );
 
-			// Full file path.
-			$class_path = dirname( __FILE__ ) . '/';
+		// Full file path.
+		$class_path = dirname( __FILE__ ) . '/';
 
-			// Append file name to clas path.
-			$full_path = $class_path . $this->directory . $file_name;
+		// Append file name to clas path.
+		$full_path = $class_path . $this->directory . $file_name;
 
-			// Check & load file.
-			if ( file_exists( $full_path ) ) {
-
-				return $full_path;
-			}
-
-			return false;
+		// Check & load file.
+		if ( file_exists( $full_path ) ) {
+			return $full_path;
 		}
+
+		return false;
+
 	}
 
 	/**
