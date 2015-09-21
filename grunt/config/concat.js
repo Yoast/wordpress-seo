@@ -1,7 +1,8 @@
 module.exports = {
 	options: {
 		separator: ";",
-		process: function(src, filepath) {
+		process: function( src, filepath ) {
+			"use strict";
 			if ( filepath === "node_modules/jed/jed.js" ) {
 				return "YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;(function() {" + src + "}.call(YoastSEO))";
 			}
