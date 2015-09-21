@@ -14,7 +14,7 @@ A plugin for YoastSEO.js is basically a piece of JavaScript that hooks into Yoas
 If plugins don't need to preload data, they can declare `ready` straight on registration of the plugin:
 
 ```JS
-YoastSEO.app.plugins.register( 'examplePlugin', {status: 'ready'} );
+YoastSEO.app.registerPlugin( 'examplePlugin', {status: 'ready'} );
 ```
 
 ### Preloading data
@@ -24,9 +24,9 @@ To keep our content analysis fast, we don't allow asynchronous modifications. Th
 If plugins need to preload data, they can first register, then preload using AJAX and call `ready` once preloaded.
 
 ```JS
-YoastSEO.app.plugins.register( 'examplePlugin', {status: 'loading'} );
+YoastSEO.app.registerPlugin( 'examplePlugin', {status: 'loading'} );
 // Load whatever data you need through AJAX.
-YoastSEO.app.plugins.ready( 'examplePlugin' );
+YoastSEO.app.ready( 'examplePlugin' );
 ```
 
 ### Loading more data
@@ -35,7 +35,7 @@ To minimize client side memory usage, we request plugins to preload as little da
 
 ```JS
 // Fetch more data in the background and then declare yourself reloaded:
-YoastSEO.app.plugins.reloaded( 'examplePlugin' );
+YoastSEO.app.reloaded( 'examplePlugin' );
 ```
 
 ### Modifications
@@ -49,10 +49,10 @@ YoasSEO.js has a synchronous modification mechanism that operates much like the 
 The modifications that are supported by us are applyed in the following way:
 
 ```JS
-var modifiedData = YoastSEO.app.plugins._applyModifications( 'content', 'The content to modify' );
+var modifiedData = YoastSEO.app.pluggable._applyModifications( 'content', 'The content to modify' );
 ```
 
-Modifications can be added by using `YoastSEO.app.plugins.registerModification`. Please see the example implementation below:
+Modifications can be added by using `YoastSEO.app.registerModification`. Please see the example implementation below:
 
 #### Example implementation
 
@@ -60,7 +60,7 @@ A modification is basically a callback function which is registered with YoastSE
 
 ```JS
 ExamplePlugin = function() {
-  YoastSEO.app.plugins.register( 'examplePlugin', {status: 'ready'} );
+  YoastSEO.app.registerPlugin( 'examplePlugin', {status: 'ready'} );
   
   /**
    * @param modification 	{string} 	The name of the filter
@@ -70,7 +70,7 @@ ExamplePlugin = function() {
    * 									associated with a particular filter are called. Lower numbers
    * 									correspond with earlier execution.
    */
-  YoastSEO.app.plugins.registerModification( 'content', this.myContentModification, 'examplePlugin', 5 );
+  YoastSEO.app.registerModification( 'content', this.myContentModification, 'examplePlugin', 5 );
 }
 
 /**
