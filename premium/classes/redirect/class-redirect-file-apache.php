@@ -52,7 +52,8 @@ class WPSEO_Redirect_File_Apache extends WPSEO_Redirect_File {
 	 * @return string mixed
 	 */
 	private function add_url_slash( $url ) {
-		if ( $url[0] !== '/' ) {
+
+		if ( $url[0] !== '/' && empty( parse_url( $url, PHP_URL_SCHEME ) ) ) {
 			$url = '/' . $url;
 		}
 
