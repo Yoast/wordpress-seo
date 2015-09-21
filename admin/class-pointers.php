@@ -130,6 +130,7 @@ class WPSEO_Pointers {
 
 				setup = function () {
 					$('<?php echo $selector; ?>').pointer(wpseo_pointer_options).pointer('open');
+					var lastOpenedPointer = jQuery( '.wp-pointer').slice( -1 );
 					<?php
 					$this->button2();
 					$this->button3();
@@ -152,9 +153,9 @@ class WPSEO_Pointers {
 	private function button2() {
 		if ( $this->button_array['button2']['text'] ) {
 			?>
-			jQuery('#pointer-close').after('<a id="pointer-primary" class="button-primary">' +
+			lastOpenedPointer.find( '#pointer-close' ).after('<a id="pointer-primary" class="button-primary">' +
 				'<?php echo $this->button_array['button2']['text']; ?>' + '</a>');
-			jQuery('#pointer-primary').click(function () {
+			lastOpenedPointer.find('#pointer-primary').click(function () {
 			<?php echo $this->button_array['button2']['function']; ?>
 			});
 		<?php
@@ -167,9 +168,9 @@ class WPSEO_Pointers {
 	private function button3() {
 		if ( $this->button_array['button3']['text'] ) {
 			?>
-			jQuery('#pointer-primary').after('<a id="pointer-ternary" style="float: left;" class="button-secondary">' +
+			lastOpenedPointer.find('#pointer-primary').after('<a id="pointer-ternary" style="float: left;" class="button-secondary">' +
 				'<?php echo $this->button_array['button3']['text']; ?>' + '</a>');
-			jQuery('#pointer-ternary').click(function () {
+			lastOpenedPointer.find('#pointer-ternary').click(function () {
 			<?php echo $this->button_array['button3']['function']; ?>
 			});
 		<?php }
