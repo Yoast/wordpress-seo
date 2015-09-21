@@ -27,10 +27,10 @@ class WPSEO_Shortcode_Filter {
 
 		$parsed_shortcodes = array();
 
-		foreach( $shortcodes as $shortcode ) {
+		foreach ( $shortcodes as $shortcode ) {
 			$parsed_shortcodes[] = array(
 				'shortcode' => $shortcode,
-				'output' => do_shortcode( $shortcode )
+				'output' => do_shortcode( $shortcode ),
 			);
 		}
 

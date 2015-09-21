@@ -643,7 +643,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	/**
 	 * Retrieve a post date when post is published, or return current date when it's not.
 	 *
-	 * @param WP_Post $post
+	 * @param WP_Post $post The post for which to retrieve the post date.
 	 *
 	 * @return string
 	 */
@@ -676,7 +676,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	/**
 	 * Counting the number of given keyword used for other posts than given post_id
 	 *
-	 * @param integer $post_id
+	 * @param integer $post_id The ID of the post for which to get the focus keyword usage.
 	 *
 	 * @return int
 	 */
@@ -709,7 +709,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @deprecated use WPSEO_Meta::get_meta_field_defs()
 	 * @see        WPSEO_Meta::get_meta_field_defs()
 	 *
-	 * @param  string $post_type
+	 * @param  string $post_type The post type for which to get the meta fields.
 	 *
 	 * @return  array
 	 */

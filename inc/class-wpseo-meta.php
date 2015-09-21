@@ -1016,8 +1016,8 @@ class WPSEO_Meta {
 	/**
 	 * Counts the total of all the keywords being used for posts except the given one
 	 *
-	 * @param string  $keyword
-	 * @param integer $post_id
+	 * @param string  $keyword The keyword to be counted.
+	 * @param integer $post_id The is of the post to which the keyword belongs.
 	 *
 	 * @return array
 	 */
