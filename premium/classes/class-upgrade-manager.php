@@ -71,34 +71,11 @@ class WPSEO_Upgrade_Manager {
 
 			// URL Redirects.
 			$url_redirect_manager = new WPSEO_URL_Redirect_Manager();
-			$url_redirects        = $url_redirect_manager->get_redirects();
-
-			// Loop through the redirects.
-			foreach ( $url_redirects as $old_url => $redirect ) {
-				// Check if the redirect is not an array yet.
-				if ( ! is_array( $redirect ) ) {
-					$url_redirects[ $old_url ] = array( 'url' => $redirect, 'type' => '301' );
-				}
-			}
-
-			// Save the URL redirects.
-			$url_redirect_manager->save_redirects( $url_redirects );
+			$url_redirect_manager->upgrade_1_2_0();
 
 			// Regex Redirects.
 			$regex_redirect_manager = new WPSEO_REGEX_Redirect_Manager();
-			$regex_redirects        = $regex_redirect_manager->get_redirects();
-
-			// Loop through the redirects.
-			foreach ( $regex_redirects as $old_url => $redirect ) {
-				// Check if the redirect is not an array yet.
-				if ( ! is_array( $redirect ) ) {
-					$regex_redirects[ $old_url ] = array( 'url' => $redirect, 'type' => '301' );
-				}
-			}
-
-			// Save the URL redirects.
-			$regex_redirect_manager->save_redirects( $regex_redirects );
-
+			$regex_redirect_manager->upgrade_1_2_0();
 		}
 
 	}
