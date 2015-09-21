@@ -2,6 +2,5 @@ languages:
   JavaScript: true
 exclude_paths:
 - "js/config/*"
-- "js/dist/*"
-- "css/dist"
+- "dist/**/*"
 - "grunt/**/*"
