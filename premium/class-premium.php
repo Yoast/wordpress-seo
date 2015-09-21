@@ -240,13 +240,6 @@ class WPSEO_Premium {
 			// Add URL reponse code check AJAX.
 			add_action( 'wp_ajax_wpseo_check_url', array( 'WPSEO_Url_Checker', 'check_url' ) );
 		}
-		else {
-			// Catch redirect.
-			add_action( 'template_redirect', array( $normal_redirect_manager, 'do_redirects' ), - 999 );
-
-			// Catch regex redirects.
-			add_action( 'template_redirect', array( $regex_redirect_manager, 'do_redirects' ), - 999 );
-		}
 	}
 
 	/**

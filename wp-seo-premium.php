@@ -37,10 +37,18 @@ if ( ! defined( 'WPSEO_FILE' ) ) {
 	define( 'WPSEO_FILE', __FILE__ );
 }
 
+$wpseo_premium_dir = plugin_dir_path( WPSEO_FILE ) . 'premium/';
+
+// If the user is admin, check for the upgrade manager.
 if ( is_admin() ) {
 	// Add the hook to upgrade premium.
-	require_once( plugin_dir_path( WPSEO_FILE ) . 'premium/classes/class-upgrade-manager.php' );
+	require_once( $wpseo_premium_dir . 'classes/class-upgrade-manager.php' );
 	add_action( 'wpseo_run_upgrade', array( new WPSEO_Upgrade_Manager, 'check_update' ) );
+}
+else {
+	require_once( $wpseo_premium_dir . 'classes/class-redirect-handler.php' );
+
+	new WPSEO_Redirect_Handler();
 }
 
 // Load the WordPress SEO plugin.
