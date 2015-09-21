@@ -32,10 +32,10 @@ class Yoast_Notification {
 	);
 
 	/**
-	 * The Constructor
+	 * Notification class constructor.
 	 *
-	 * @param string $message
-	 * @param array  $options
+	 * @param string $message Message string.
+	 * @param array  $options Set of options.
 	 */
 	public function __construct( $message, $options = array() ) {
 		$this->options         = wp_parse_args( $options, $this->defaults );

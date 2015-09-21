@@ -5,7 +5,7 @@ module.exports = {
 	},
 	plugin: {
 		options: {
-			standard: 'ruleset.xml',
+			standard: 'phpcs.xml',
 			reportFile: '<%= paths.logs %>phpcs.log',
 			extensions: 'php'
 		},

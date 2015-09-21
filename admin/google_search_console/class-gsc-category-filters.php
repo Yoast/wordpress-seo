@@ -37,7 +37,7 @@ class WPSEO_GSC_Category_Filters {
 	 *
 	 * Setting the hook to create the issues categories as the links
 	 *
-	 * @param array $platform_counts
+	 * @param array $platform_counts Set of issue counts by platform.
 	 */
 	public function __construct( array $platform_counts ) {
 		if ( ! empty( $platform_counts ) ) {
@@ -100,7 +100,7 @@ class WPSEO_GSC_Category_Filters {
 	/**
 	 * Setting the view counts based on the saved data. The info will be used to display the category filters
 	 *
-	 * @param array $platform_counts
+	 * @param array $platform_counts Set of counts by platform.
 	 */
 	private function set_counts( array $platform_counts ) {
 		$this->category_counts = $this->parse_counts( $platform_counts );
@@ -123,9 +123,10 @@ class WPSEO_GSC_Category_Filters {
 
 	/**
 	 * Add new filter value to the filter_values
-	 * @param string $key
-	 * @param string $value
-	 * @param string $description
+	 *
+	 * @param string $key         Filter key.
+	 * @param string $value       Filter value.
+	 * @param string $description Optional description string.
 	 */
 	private function set_filter_value( $key, $value, $description = '' ) {
 		$this->filter_values[ $key ] = array(
@@ -137,8 +138,8 @@ class WPSEO_GSC_Category_Filters {
 	/**
 	 * Creates a filter link
 	 *
-	 * @param string  $category
-	 * @param integer $count
+	 * @param string  $category Issue type.
+	 * @param integer $count    Count for the type.
 	 *
 	 * @return string
 	 */
@@ -170,7 +171,7 @@ class WPSEO_GSC_Category_Filters {
 	/**
 	 * Parsing the category counts. When there are 0 issues for a specific category, just remove that one from the array
 	 *
-	 * @param array $category_counts
+	 * @param array $category_counts Set of counts for categories.
 	 *
 	 * @return mixed
 	 */

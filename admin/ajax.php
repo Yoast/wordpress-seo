@@ -14,9 +14,9 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
  */
 
 /**
- * Convenience function to JSON encode and echo resuls and then die
+ * Convenience function to JSON encode and echo results and then die
  *
- * @param array $results
+ * @param array $results Results array for encoding.
  */
 function wpseo_ajax_json_echo_die( $results ) {
 	echo json_encode( $results );
@@ -172,7 +172,7 @@ add_action( 'wp_ajax_wpseo_save_metadesc', 'wpseo_save_description' );
 /**
  * Save titles & descriptions
  *
- * @param string $what
+ * @param string $what Type of item to save (title, description).
  */
 function wpseo_save_what( $what ) {
 	check_ajax_referer( 'wpseo-bulk-editor' );
@@ -190,11 +190,11 @@ function wpseo_save_what( $what ) {
  * Helper function to update a post's meta data, returning relevant information
  * about the information updated and the results or the meta update.
  *
- * @param int    $post_id
- * @param string $new_meta_value
- * @param string $orig_meta_value
- * @param string $meta_key
- * @param string $return_key
+ * @param int    $post_id         Post ID.
+ * @param string $new_meta_value  New meta value to record.
+ * @param string $orig_meta_value Original meta value.
+ * @param string $meta_key        Meta key string.
+ * @param string $return_key      Return key string to use in results.
  *
  * @return string
  */
@@ -282,7 +282,7 @@ add_action( 'wp_ajax_wpseo_save_all_descriptions', 'wpseo_save_all_descriptions'
 /**
  * Utility function to save values
  *
- * @param string $what
+ * @param string $what Type of item so save.
  */
 function wpseo_save_all( $what ) {
 	check_ajax_referer( 'wpseo-bulk-editor' );
@@ -305,10 +305,10 @@ function wpseo_save_all( $what ) {
 /**
  * Insert a new value
  *
- * @param string $what
- * @param int    $post_id
- * @param string $new
- * @param string $original
+ * @param string $what     Item type (such as title).
+ * @param int    $post_id  Post ID.
+ * @param string $new      New value to record.
+ * @param string $original Original value.
  *
  * @return string
  */
