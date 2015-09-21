@@ -31,6 +31,8 @@ class WPSEO_URL_Redirect_Manager extends WPSEO_Redirect_Manager {
 		if ( isset( $this->redirects[ $url ] ) ) {
 			return $this->redirects[ $url ]['url'];
 		}
+
+		return false;
 	}
 
 	/**
