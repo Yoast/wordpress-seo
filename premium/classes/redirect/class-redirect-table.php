@@ -18,11 +18,6 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	private $type;
 
 	/**
-	 * @var WPSEO_Redirect_Manager
-	 */
-	private $redirect_manager;
-
-	/**
 	 * WPSEO_Redirect_Table constructor
 	 *
 	 * @param string                 $type
@@ -31,11 +26,10 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	public function __construct( $type, WPSEO_Redirect_Manager $redirect_manager ) {
 		parent::__construct( array( 'plural' => $type ) );
 
-		$this->type             = $type;
-		$this->redirect_manager = $redirect_manager;
+		$this->type = $type;
 
-		$this->handle_bulk_action();
-		$this->set_items();
+		$this->handle_bulk_action( $redirect_manager );
+		$this->set_items( $redirect_manager->get_redirects() );
 
 		add_filter( 'list_table_primary_column', array( $this, 'redirect_list_table_primary_column' ) , 10, 2 );
 	}
@@ -209,11 +203,13 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 
 	/**
 	 * Function that handles bulk action
+	 *
+	 * @param WPSEO_Redirect_Manager $redirect_manager
 	 */
-	private function handle_bulk_action() {
+	private function handle_bulk_action( WPSEO_Redirect_Manager $redirect_manager ) {
 		if ( filter_input( INPUT_POST, 'action' ) === 'delete' || filter_input( INPUT_POST, 'action2' ) === 'delete' ) {
 			if ( ( $bulk_delete = filter_input( INPUT_POST, 'wpseo_redirects_bulk_delete', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY ) ) && count( $bulk_delete ) > 0 ) {
-				$this->redirect_manager->delete_redirect( $bulk_delete );
+				$redirect_manager->delete_redirects( $bulk_delete );
 			}
 		}
 
@@ -221,14 +217,12 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 
 	/**
 	 * Setting the items
+	 *
+	 * @param array $items
 	 */
-	private function set_items() {
+	private function set_items( $items ) {
 		// Getting the items.
-		$this->items = $this->redirect_manager->get_redirects();
-
-		if ( ! is_array( $this->items ) ) {
-			$this->items = array();
-		}
+		$this->items = $items;
 
 		if ( ( $search_string = filter_input( INPUT_GET, 's', FILTER_DEFAULT, array( 'options' => array( 'default' => '' ) ) ) ) !== '' ) {
 			$this->do_search( $search_string );
