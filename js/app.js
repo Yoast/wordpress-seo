@@ -108,7 +108,7 @@ YoastSEO.App.prototype.constructI18n = function( translations ) {
 	// Use default object to prevent Jed from erroring out.
 	translations = translations || defaultTranslations;
 
-	this.i18n = new YoastI18n( translations );
+	this.i18n = new YoastSEO.Jed( translations );
 };
 
 /**
