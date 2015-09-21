@@ -1,8 +1,9 @@
 /* browser:true */
 /* global wpseoMetaboxL10n */
-/* global ReplaceVarPlugin */
+/* global YoastReplaceVarPlugin */
 /* global ajaxurl */
 /* global YoastSEO */
+/* global YoastShortcodePlugin */
 /* jshint -W097 */
 /* jshint -W003 */
 'use strict';
@@ -138,8 +139,11 @@ jQuery( document ).ready(function() {
 				'keywordDoubles' ];
 
 			YoastSEO.app.replacedVars = {};
-			new ReplaceVarPlugin();
 			YoastSEO.app.refresh();
+
+			//Init Plugins
+			window.yoastReplaceVarPlugin = new YoastReplaceVarPlugin();
+			window.yoastShortcodePlugin = new YoastShortcodePlugin();
 		}
 
 		jQuery( init );

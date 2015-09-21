@@ -258,34 +258,15 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	}
 
 	/**
-	 * Prepares the replace vars for localization.
+	 * Pass some variables to js for the edit / post page overview, snippet preview, etc.
 	 *
-	 * @return array replace vars
+	 * @return  array
 	 */
-	private function get_replace_vars() {
-		$post = $this->get_metabox_post();
-
-		$cached_replacement_vars = array();
-
-		$vars_to_cache = array(
-			'date',
-			'id',
-			'sitename',
-			'sitedesc',
-			'sep',
-			'page',
-			'currenttime',
-			'currentdate',
-			'currentday',
-			'currentmonth',
-			'currentyear',
+	public function localize_shortcode_plugin_script() {
+		return array(
+			'wpseo_filter_shortcodes_nonce' => wp_create_nonce( 'wpseo-filter-shortcodes' ),
+			'wpseo_shortcode_tags'          => $this->get_valid_shortcode_tags(),
 		);
-
-		foreach ( $vars_to_cache as $var ) {
-			$cached_replacement_vars[ $var ] = wpseo_replace_vars( '%%' . $var . '%%', $post );
-		}
-
-		return $cached_replacement_vars;
 	}
 
 	/**
@@ -612,10 +593,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				'jquery-ui-core',
 			), WPSEO_VERSION, true );
 
-			wp_enqueue_script( 'wp-seo-wordpressScraper.js', plugins_url( 'js/wp-seo-wordpress-scraper' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), null, WPSEO_VERSION, true );
-			wp_enqueue_script( 'wp-seo-wordpressScraper-Config.js', plugins_url( 'js/wp-seo-wordpress-scraper-config' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), null, WPSEO_VERSION, true );
-			wp_enqueue_script( 'wp-seo-replacevar-plugin.js', plugins_url( 'js/wp-seo-replacevar-plugin' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), null, WPSEO_VERSION, true );
-			wp_enqueue_script( 'yoast-seo-content-analysis', plugins_url( 'js/dist/js-text-analysis/yoast-seo-content-analysis.min.js', WPSEO_FILE ), null, WPSEO_VERSION, true );
+			wp_enqueue_script( 'yoast-seo', plugins_url( 'js/dist/yoast-seo/yoast-seo.min.js', WPSEO_FILE ), null, WPSEO_VERSION, true );
+			wp_enqueue_script( 'wp-seo-wordpressScraper-Config.js', plugins_url( 'js/wp-seo-wordpress-scraper-config' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'yoast-seo' ), WPSEO_VERSION, true );
+			wp_enqueue_script( 'wp-seo-wordpressScraper.js', plugins_url( 'js/wp-seo-wordpress-scraper' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'yoast-seo' ), WPSEO_VERSION, true );
+			wp_enqueue_script( 'wp-seo-replacevar-plugin.js', plugins_url( 'js/wp-seo-replacevar-plugin' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'yoast-seo', 'wp-seo-metabox' ), WPSEO_VERSION, true );
+			wp_enqueue_script( 'wp-seo-shortcode-plugin.js', plugins_url( 'js/wp-seo-shortcode-plugin' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'yoast-seo', 'wp-seo-metabox' ), WPSEO_VERSION, true );
 
 			$file = plugin_dir_path( WPSEO_FILE ) . 'languages/wordpress-seo-' . get_locale() . '.json';
 			if ( file_exists( $file ) ) {
@@ -627,6 +609,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			}
 			wp_localize_script( 'wp-seo-wordpressScraper.js', 'wpseoL10n', $json );
 			wp_localize_script( 'wp-seo-replacevar-plugin.js', 'wpseoReplaceVarsL10n', $this->localize_replace_vars_script() );
+
+			// Text strings to pass to shortcode plugin for keyword analysis.
+			wp_localize_script( 'wp-seo-shortcode-plugin.js', 'wpseoShortcodePluginL10n', $this->localize_shortcode_plugin_script() );
 
 			if ( post_type_supports( get_post_type(), 'thumbnail' ) ) {
 				wp_enqueue_script( 'wp-seo-featured-image', plugins_url( 'js/wp-seo-featured-image' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'jquery' ), WPSEO_VERSION, true );
@@ -658,7 +643,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	/**
 	 * Retrieve a post date when post is published, or return current date when it's not.
 	 *
-	 * @param WP_Post $post
+	 * @param WP_Post $post The post for which to retrieve the post date.
 	 *
 	 * @return string
 	 */
@@ -691,7 +676,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	/**
 	 * Counting the number of given keyword used for other posts than given post_id
 	 *
-	 * @param integer $post_id
+	 * @param integer $post_id The ID of the post for which to get the focus keyword usage.
 	 *
 	 * @return int
 	 */
@@ -724,7 +709,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @deprecated use WPSEO_Meta::get_meta_field_defs()
 	 * @see        WPSEO_Meta::get_meta_field_defs()
 	 *
-	 * @param  string $post_type
+	 * @param  string $post_type The post type for which to get the meta fields.
 	 *
 	 * @return  array
 	 */
@@ -745,6 +730,52 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Meta::localize_script()' );
 
 		return $this->localize_script();
+	}
+
+	/**
+	 * Returns an array with shortcode tags for all registered shortcodes.
+	 *
+	 * @return array
+	 */
+	private function get_valid_shortcode_tags() {
+		$shortcode_tags = array();
+
+		foreach ( $GLOBALS['shortcode_tags'] as $tag => $description ) {
+			array_push( $shortcode_tags, $tag );
+		}
+
+		return $shortcode_tags;
+	}
+
+	/**
+	 * Prepares the replace vars for localization.
+	 *
+	 * @return array replace vars
+	 */
+	private function get_replace_vars() {
+		$post = $this->get_metabox_post();
+
+		$cached_replacement_vars = array();
+
+		$vars_to_cache = array(
+			'date',
+			'id',
+			'sitename',
+			'sitedesc',
+			'sep',
+			'page',
+			'currenttime',
+			'currentdate',
+			'currentday',
+			'currentmonth',
+			'currentyear',
+		);
+
+		foreach ( $vars_to_cache as $var ) {
+			$cached_replacement_vars[ $var ] = wpseo_replace_vars( '%%' . $var . '%%', $post );
+		}
+
+		return $cached_replacement_vars;
 	}
 
 	/**
@@ -774,5 +805,4 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				</svg>
 			</script>';
 	}
-
 } /* End of class */

@@ -57,7 +57,7 @@ class WPSEO_Recalculate_Scores_Ajax {
 	/**
 	 * Getting the posts from the database by doing a WP_Query.
 	 *
-	 * @param integer $paged
+	 * @param integer $paged The page.
 	 *
 	 * @return string
 	 */
@@ -93,7 +93,7 @@ class WPSEO_Recalculate_Scores_Ajax {
 	/**
 	 * Parsing the posts with the value we need
 	 *
-	 * @param array $posts
+	 * @param array $posts The posts to parse.
 	 *
 	 * @return array
 	 */
@@ -107,7 +107,7 @@ class WPSEO_Recalculate_Scores_Ajax {
 	}
 
 	/**
-	 * @param WP_Post $post
+	 * @param WP_Post $post The post for which to build the analyzer data.
 	 *
 	 * @return array
 	 */
@@ -130,8 +130,8 @@ class WPSEO_Recalculate_Scores_Ajax {
 	/**
 	 * Getting the title for given post
 	 *
-	 * @param integer $post_id
-	 * @param string  $post_type
+	 * @param integer $post_id The ID of the post for which to get the title.
+	 * @param string  $post_type The post type.
 	 *
 	 * @return mixed|string
 	 */
@@ -150,8 +150,8 @@ class WPSEO_Recalculate_Scores_Ajax {
 	/**
 	 * Getting the meta description for given post
 	 *
-	 * @param integer $post_id
-	 * @param string  $post_type
+	 * @param integer $post_id The ID of the post for which to get the meta description.
+	 * @param string  $post_type The post type.
 	 *
 	 * @return bool|string
 	 */
@@ -170,8 +170,8 @@ class WPSEO_Recalculate_Scores_Ajax {
 	/**
 	 * Getting default from the options for given field
 	 *
-	 * @param string $field
-	 * @param string $post_type
+	 * @param string $field The field for which to get the default options.
+	 * @param string $post_type The post type.
 	 *
 	 * @return bool|string
 	 */
