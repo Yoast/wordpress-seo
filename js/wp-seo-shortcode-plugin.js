@@ -27,7 +27,7 @@
 
 		this.parsedShortcodes = [];
 
-		this.loadShortcodes( this.declareReloaded.bind( this ) );
+		this.loadShortcodes( this.declareReady.bind( this ) );
 	};
 
 	/* YOAST SEO CLIENT */
